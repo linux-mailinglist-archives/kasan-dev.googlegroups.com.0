@@ -1,120 +1,123 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBBMZRPTQKGQEVTKHSDI@googlegroups.com>
+Return-Path: <kasan-dev+bncBC5L5P75YUERBLFZSDTQKGQEGE2IZMI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qk1-x739.google.com (mail-qk1-x739.google.com [IPv6:2607:f8b0:4864:20::739])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46F8623C85
-	for <lists+kasan-dev@lfdr.de>; Mon, 20 May 2019 17:49:27 +0200 (CEST)
-Received: by mail-qk1-x739.google.com with SMTP id q72sf3689112qke.19
-        for <lists+kasan-dev@lfdr.de>; Mon, 20 May 2019 08:49:27 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1558367366; cv=pass;
+Received: from mail-wr1-x43c.google.com (mail-wr1-x43c.google.com [IPv6:2a00:1450:4864:20::43c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2717825442
+	for <lists+kasan-dev@lfdr.de>; Tue, 21 May 2019 17:43:41 +0200 (CEST)
+Received: by mail-wr1-x43c.google.com with SMTP id z13sf8252121wrn.14
+        for <lists+kasan-dev@lfdr.de>; Tue, 21 May 2019 08:43:41 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1558453420; cv=pass;
         d=google.com; s=arc-20160816;
-        b=YC4cBmkyq4qK9XeOnKsWVFx62lBgHpME2B5j97BP0lmPfWVIZYrRctsNwQgd5lsKZ7
-         BvmjhEG8vZL/CXtV0otBxQCXDwN7V/oqlAPqBUOJW4mCLiMlp7fvE7jhAGV8WYh55gJF
-         VP+Wn+tJTSvDg03oiWUBAF/cr4ayY4KnWP48BmygvzpE4vvndCMDF8b3YEboxJdDzkaB
-         NPxfFg8LNkyp3U6z8HyJQn1CH7cQzS17DIimDkcuhqUA2ajel6n9kj8kblkwuIWh5edN
-         kWbq376GoF9esgCD0SoOma6yilyPdFxP8Gkwl0FiAOiea0OHZupoLf1BME8HPZ8ri+jg
-         F9WA==
+        b=sV1Zqs4hto+Q4EXLY/Us3wZhE0c5PwrCykp5HLtXJGhueAbFJnkzXlkHRjxL8LZ4Mb
+         d6Z9A6fmaH85m+ydS13oYp85cp2lGZzx8GpKTx3oeQ8+SETw/TVMvkhdvr9nvOVn6Vbu
+         OK5iDD/x3FC37ZjZKa6qrE2bzIrnPf6r3qT5F2Idn5R6Q6qIzo3nKrTAhTL2ggIYC13X
+         a8KtR7NQwVCFCimjA2cxRIpf1REvDwunq2T3cjo1n1IMztZGOyRbg0d6GRhysSK6kNVn
+         NRKijcFBOY/NKXshHQaSfBpYuu8ajXznJOPajRPoPAfKb7WkWPYE3TkYdzH/V+DNaJ+C
+         yq7g==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
-         :mime-version:message-id:date:dkim-signature;
-        bh=kSMbrgV8cROlMfgxj9LgcnmWzWPgfwqy7yJ3m/cBtgI=;
-        b=PGjj6I3tydDfEf3nL7yk6kchKkWNJkQ+Hx/UQ/cJ91sPIdre/WhtG3RrylQCqhgAG5
-         O4Kw4mYivr4+YctbBlUZG3c9ttkF9E7R3Bpzjw4X+OJ0gLzf28B4LzvYFG/BDMP1skaj
-         4Rt7eG3/mJw6EdqlnrxIpJFDRLFxjVyWTmGmFoGDsxocd/gZWy2CdUUuF+CG13DXbXkZ
-         ibxJX5HzZuBwXDvCCKqUeuoDXsMQTELN78jSzcZN77OTDDbM6L7E3gaz0kAT3o6t3VoQ
-         5TBPoG4/bbpVYYuDiCzdmN+tEw4S09rF7Xz5O2vErqrwg6SYqhnZjMgYo8FkoWbPMeGU
-         dVLg==
+         :list-id:mailing-list:precedence:content-language:in-reply-to
+         :mime-version:user-agent:date:message-id:from:references:cc:to
+         :subject:sender:dkim-signature;
+        bh=BuDWwxA3Q77h46QA9oILlmdf4GLHX2DALVpGWE8Vc7E=;
+        b=w6ztBUfPQ+YTy5BptGHLwVDgu/ccO6krPSZVkrw+TJLr5sdhuPOsvbElvRV2T4Jy1m
+         lrtNDHFV5cxzKJHz2hPWjeS2RdCsfGKnccMjwaKwfixZ0prqUc34ZDxPcJbGrGmjRTx4
+         U0Z346gIKPfcBYkm5jkyWKSwNWvogvp4fd60W/hIa8Hb+SlazoS8kzFre9qbYnzQwmkz
+         VM7wrrlbKRN0OWfm+hcmkb3+QKbnTPNoizYgTkyz1OFdYb4fH9y/t7XOTBlQ8H1BsmEd
+         Nn+0oz57hQ6wDlWOoGR+gscvA9xbEFV7DpD/hgPKXQjQczcSjLMETHySBSozpdUtLMoE
+         HzMw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=iNzQ2eWV;
-       spf=pass (google.com: domain of 3hmzixaukczu3ak3g5dd5a3.1db9zhzc-23k5dd5a35gdjeh.1db@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::949 as permitted sender) smtp.mailfrom=3hMziXAUKCZU3AK3G5DD5A3.1DB9zHzC-23K5DD5A35GDJEH.1DB@flex--elver.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       spf=pass (google.com: domain of aryabinin@virtuozzo.com designates 185.231.240.75 as permitted sender) smtp.mailfrom=aryabinin@virtuozzo.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=virtuozzo.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=date:message-id:mime-version:subject:from:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:list-post:list-help:list-archive:list-subscribe
-         :list-unsubscribe;
-        bh=kSMbrgV8cROlMfgxj9LgcnmWzWPgfwqy7yJ3m/cBtgI=;
-        b=DaM/WShDApCIfFOt7Tzlag80kCqagqezExoNqW/x6sW+SpGPcKxwpjxdv3R2DSjJF/
-         /UuzbWPbmICe9NVFP2RUUWOk8OrXJaTS3k0428HPeoddkGrvbqSGhb3/DXEDfc8lmLa6
-         iAiunhucDoZymvyj7qkCtRP3Z9lMVe7tZPCNluIYTuHFOuMGQyVSGvFQ0CnioPo82HU3
-         THFE/02TdBZ4EWvqgFXZpdUIiW1zJ6LyzOrdMPfygGvaiW/FzV2g1Qe7Um+fLVRp+Zy9
-         moKh7p9BT1N/faZq1eXwdGrmk9DB432pYkU2kciEbE5onbZDURkb3G4dLUw85L3OEH6N
-         6f+Q==
+        h=sender:subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=BuDWwxA3Q77h46QA9oILlmdf4GLHX2DALVpGWE8Vc7E=;
+        b=JDKOz4+4BM06chha/YlMiHrwZHrhoEYLPJC9JVcYv0g4RuU+AwyHtfE5OjtU+99Lwy
+         aI7/leIDAlKKb15PkiMSvbrg3PQLSyz3e42nAjbhzNdt3cs1IiAD40HS1sG1in6Jz95Q
+         6FFRRbAJfh8CfLAd2EJzS2ulQhbnu2dExymUkXw4fBGIVS7azyq737iw8aPsi/xWXT4b
+         ra8Mgwf2FcG0MTnnJfjCsnXucc84Uo3jd2dWy4kVgFqViEBUHhPCg4Ye2gucbEK41cqz
+         ISVr3OGcuPa/vFXPmq1I2miOfpUIUCSH4zHgsfmA9AdzILeM96FI7wDTR8x0k4HdHidA
+         o3+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc
-         :x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=kSMbrgV8cROlMfgxj9LgcnmWzWPgfwqy7yJ3m/cBtgI=;
-        b=P9JgsGX1qemgLj5itCPTgcePeh7Ejt8HqrLr+HwtuDkrXFXunRGhZuFM+q/lIkdlUX
-         gVy1U/tTVm5GDgxEIGFBOrTtyUvO7ohtWm+0vMBfp7Bls6fUWmq5NUfG7TLpQ+kzz/E4
-         8vV1TRXGp4j7IQOECDCk1nlNJU0SSMRWGckuILxQ4siJEmJDVGZSVFYS7mFvdLgeP6SH
-         QBqd0wI6h7TUouuUs72bjkcSDrqML3iq34YZwuuYvVqSWdMu7umBKhSpfo31tX41Hp9i
-         gOa3axvx4MYi1vM+ubKbEWC0YFomoWIfu+Xd/aGqeHHN2YxHqOXdv8U0QEQw0B1GTbup
-         5rog==
-X-Gm-Message-State: APjAAAVXdQIB8W18zoZEjbZ7f1aOoglZZmCZ8GD2IcoB790nOiWBEalE
-	JBtQu7/fQo+LihrZoeMYD/w=
-X-Google-Smtp-Source: APXvYqwbJ/sybYR6UhWIcSxZTkYTs8kLQxGbucPL3h/obd1z95k2Fj+owaBuz3c9wOCCPYIqvmXe4w==
-X-Received: by 2002:a37:ae03:: with SMTP id x3mr5679938qke.355.1558367365181;
-        Mon, 20 May 2019 08:49:25 -0700 (PDT)
+        h=sender:x-gm-message-state:subject:to:cc:references:from:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=BuDWwxA3Q77h46QA9oILlmdf4GLHX2DALVpGWE8Vc7E=;
+        b=AZ/MX6lWcI6BLiImgrWIEUygPVat8D9lp9vCC1JBW1Y/TaVXr5CpK1+f/vwbgx63rs
+         nGE8fkM1KhGJ2eBna4B0qQ08Kx5NO2jFvQVh4h5NkAik8mRg43DIOL5TYUn595d0WRik
+         s6eT9bR+eb7/D3z2g+47119k99YSQ+wYgxdLQSkmtQ1IAj+8SS/mYNV2ouSnhbf1CovL
+         c4RUS1Ad3GIek2En9CIR6zFbThKn+deZOO4SSUpkfYNNNJxDesocEBolKY26u95qs1Ja
+         qlYkqut4kKoF9M/JE9XbjrE2mducNC54ZKVHpKr4EIrLuf4a1TL5YU2C64V3ODKm7PeF
+         2Sqg==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: APjAAAX3/5/E7WqG3ShDCNNMzRKnpsGXZCzA4gVVMVfRjn5M8r+2zBLD
+	631MbjaBffLkw2gWAONN1hI=
+X-Google-Smtp-Source: APXvYqw7ZgQLCq80NFoqI75vbFLTIiRdc5/MldJRuMttuqRr04l0bisy0r2yWmUuQuHf/gDA6+gK7Q==
+X-Received: by 2002:a7b:c4d1:: with SMTP id g17mr4073942wmk.103.1558453420889;
+        Tue, 21 May 2019 08:43:40 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a0c:e611:: with SMTP id z17ls3361976qvm.5.gmail; Mon, 20 May
- 2019 08:49:24 -0700 (PDT)
-X-Received: by 2002:a0c:c91b:: with SMTP id r27mr61760168qvj.101.1558367364923;
-        Mon, 20 May 2019 08:49:24 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1558367364; cv=none;
+Received: by 2002:a7b:ca45:: with SMTP id m5ls1105503wml.1.canary-gmail; Tue,
+ 21 May 2019 08:43:40 -0700 (PDT)
+X-Received: by 2002:a7b:c4d1:: with SMTP id g17mr4073915wmk.103.1558453420507;
+        Tue, 21 May 2019 08:43:40 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1558453420; cv=none;
         d=google.com; s=arc-20160816;
-        b=LACGg6b8vp5sFUTHkSoVyZe/cQCF/NeDKh+bPKgO5OQDDPTXCxs3phg4FKdM828D7d
-         9R1CMw7F5tfNYQsbSNT4bLKRXEAUaSGSm6FS+SXjGTIFVYI2y39zgAbbDMlCu6IYjiSM
-         f6h++qsXZW9GH94sk1QNIwxIu/ugvheU/GJfxp7bH4yC0qp5P/Y20CejcCdTOesQembN
-         ESxWgrsef117Z173jDmfNt8+Lrbv/l3j+DbYPtGszAqr+RNx1ag/TwmhZDpFkKYoHRbv
-         BeBJHUDIG9NoBI5Pcd30SFgZf15LR8fPaKA40bbM/ifNWHuQ/rFgK+DP9bMP7WUpLxm8
-         DqSg==
+        b=oDaCCT5iTKiJeA81bZQXVwCoPzt6GBVzYh1WPuTEFNZIE2fclgNh5T7bQyvT9HPBYK
+         MPbsZCSd9X/yEJxzSjKZxVCM5JrhlVg+75Wsh9dfvpUlRxTmT0dDdaZqf3wAQJcHdhbY
+         eOUtRg94V44BvXXfwO57ROk29iiCrL7cXf4KkNWHKTxSjH5lUGhP6oE9vHPlMwPX5EBj
+         jVIGArujLt9reVCEBO8UtX87tfJhaFq28jvsMX8Af1vRgY59c1D46HY9yP/rx9939iXw
+         9GgvYG8lZjyksR7g6kzjdOOJaVfI4Kj44YPwTVXdmE4eqooo4fb3fxdY+ylst2tEXkyo
+         czpQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:from:subject:mime-version:message-id:date:dkim-signature;
-        bh=DI/Egqa/t8z7Z3O4/V5tG0j/kPqJakDGU2aHEa8JEWE=;
-        b=NzHRwdjfBm4aEA0v1rKa9rd5X9qovY91FY+M6qVommEx2/RHrYrTcxt/LYVe0yECR4
-         B2ysbwYzZUy4O6UPSHP+/1DjqDLPkz4E8LrFlLV00Bor62YvECRq5Oh61I4hxEW6IkMb
-         R6Lv+ESkSLp/Vgp8oe8Uqq3Ykv0khy6obgQjTBSlkFvvY/A4oXwDIKXSBYYpKPogsw59
-         7j4uMx4AIb8ufUPqqSAhCZVdKdYLDyDsjhyaYvYWJjMMt+G3b9PbaUFco0B0JEa3VlFu
-         0TW3qnY7Sxz8r0Ntr/dbvlEgDGrdGWf0zKsQx6xNsjsEj/AQSHPNAacG7oUOr5MFax9z
-         sbBA==
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject;
+        bh=We2uypiPNmCU7rL3l9J/wgnfVgJk7qbDKDVJyLe1/Pk=;
+        b=NjfoPzx9aJxTrJthkqbP7Rg4ktTLK0SVeqpCG+Md94Srv4Ga5zckxbiVTMIu7ZgxFd
+         apSgEt4gbny/xJ+iHFPgMz3FOqTM55N9UB0DczeBFkkOpr8+reudbuy4sVhk9vf9AFAC
+         l0y2Ws5JE0Ed8qIonanqGc+V8YhMwxwY2fzNfrso+eFymTbabyTTdLVkj/WjjzNTYMcw
+         7R9PtFwxAM8/7iuo4VNw9CS6ZYGhP3O6BHGlaXTnw6envoUnq2mSDQ47nfjQrTWUg/2Z
+         1j2+me8wahEltUGHkuc6tI+ChKyOGlAbM+wp062sRY9q/a3avmokmXtfJdJu7Li26XrL
+         K+8w==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=iNzQ2eWV;
-       spf=pass (google.com: domain of 3hmzixaukczu3ak3g5dd5a3.1db9zhzc-23k5dd5a35gdjeh.1db@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::949 as permitted sender) smtp.mailfrom=3hMziXAUKCZU3AK3G5DD5A3.1DB9zHzC-23K5DD5A35GDJEH.1DB@flex--elver.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-ua1-x949.google.com (mail-ua1-x949.google.com. [2607:f8b0:4864:20::949])
-        by gmr-mx.google.com with ESMTPS id j35si977157qta.3.2019.05.20.08.49.24
+       spf=pass (google.com: domain of aryabinin@virtuozzo.com designates 185.231.240.75 as permitted sender) smtp.mailfrom=aryabinin@virtuozzo.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=virtuozzo.com
+Received: from relay.sw.ru (relay.sw.ru. [185.231.240.75])
+        by gmr-mx.google.com with ESMTPS id p18si177335wmh.1.2019.05.21.08.43.40
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-        Mon, 20 May 2019 08:49:24 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 3hmzixaukczu3ak3g5dd5a3.1db9zhzc-23k5dd5a35gdjeh.1db@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::949 as permitted sender) client-ip=2607:f8b0:4864:20::949;
-Received: by mail-ua1-x949.google.com with SMTP id c24so2101496uan.5
-        for <kasan-dev@googlegroups.com>; Mon, 20 May 2019 08:49:24 -0700 (PDT)
-X-Received: by 2002:a05:6102:c3:: with SMTP id u3mr35250624vsp.0.1558367364526;
- Mon, 20 May 2019 08:49:24 -0700 (PDT)
-Date: Mon, 20 May 2019 17:47:52 +0200
-Message-Id: <20190520154751.84763-1-elver@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.21.0.1020.gf2820cf01a-goog
-Subject: [PATCH v2] mm/kasan: Print frame description for stack bugs
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-To: aryabinin@virtuozzo.com, dvyukov@google.com, glider@google.com, 
-	andreyknvl@google.com, akpm@linux-foundation.org
-Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	kasan-dev@googlegroups.com, Marco Elver <elver@google.com>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 21 May 2019 08:43:40 -0700 (PDT)
+Received-SPF: pass (google.com: domain of aryabinin@virtuozzo.com designates 185.231.240.75 as permitted sender) client-ip=185.231.240.75;
+Received: from [172.16.25.12]
+	by relay.sw.ru with esmtp (Exim 4.91)
+	(envelope-from <aryabinin@virtuozzo.com>)
+	id 1hT6vS-00073c-UC; Tue, 21 May 2019 18:43:39 +0300
+Subject: Re: [PATCH v2] mm/kasan: Print frame description for stack bugs
+To: Marco Elver <elver@google.com>, dvyukov@google.com, glider@google.com,
+ andreyknvl@google.com, akpm@linux-foundation.org
+Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ kasan-dev@googlegroups.com
+References: <20190520154751.84763-1-elver@google.com>
+From: Andrey Ryabinin <aryabinin@virtuozzo.com>
+Message-ID: <ebec4325-f91b-b392-55ed-95dbd36bbb8e@virtuozzo.com>
+Date: Tue, 21 May 2019 18:43:54 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
+MIME-Version: 1.0
+In-Reply-To: <20190520154751.84763-1-elver@google.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=iNzQ2eWV;       spf=pass
- (google.com: domain of 3hmzixaukczu3ak3g5dd5a3.1db9zhzc-23k5dd5a35gdjeh.1db@flex--elver.bounces.google.com
- designates 2607:f8b0:4864:20::949 as permitted sender) smtp.mailfrom=3hMziXAUKCZU3AK3G5DD5A3.1DB9zHzC-23K5DD5A35GDJEH.1DB@flex--elver.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+Content-Language: en-US
+X-Original-Sender: aryabinin@virtuozzo.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of aryabinin@virtuozzo.com designates 185.231.240.75 as
+ permitted sender) smtp.mailfrom=aryabinin@virtuozzo.com;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=virtuozzo.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -127,251 +130,84 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-This adds support for printing stack frame description on invalid stack
-accesses. The frame description is embedded by the compiler, which is
-parsed and then pretty-printed.
 
-Currently, we can only print the stack frame info for accesses to the
-task's own stack, but not accesses to other tasks' stacks.
 
-Example of what it looks like:
+On 5/20/19 6:47 PM, Marco Elver wrote:
 
-[   17.924050] page dumped because: kasan: bad access detected
-[   17.924908]
-[   17.925153] addr ffff8880673ef98a is located in stack of task insmod/2008 at offset 106 in frame:
-[   17.926542]  kasan_stack_oob+0x0/0xf5 [test_kasan]
-[   17.927932]
-[   17.928206] this frame has 2 objects:
-[   17.928783]  [32, 36) 'i'
-[   17.928784]  [96, 106) 'stack_array'
-[   17.929216]
-[   17.930031] Memory state around the buggy address:
+> +static void print_decoded_frame_descr(const char *frame_descr)
+> +{
+> +	/*
+> +	 * We need to parse the following string:
+> +	 *    "n alloc_1 alloc_2 ... alloc_n"
+> +	 * where alloc_i looks like
+> +	 *    "offset size len name"
+> +	 * or "offset size len name:line".
+> +	 */
+> +
+> +	char token[64];
+> +	unsigned long num_objects;
+> +
+> +	if (!tokenize_frame_descr(&frame_descr, token, sizeof(token),
+> +				  &num_objects))
+> +		return;
+> +
+> +	pr_err("\n");
+> +	pr_err("this frame has %lu %s:\n", num_objects,
+> +	       num_objects == 1 ? "object" : "objects");
+> +
+> +	while (num_objects--) {
+> +		unsigned long offset;
+> +		unsigned long size;
+> +
+> +		/* access offset */
+> +		if (!tokenize_frame_descr(&frame_descr, token, sizeof(token),
+> +					  &offset))
+> +			return;
+> +		/* access size */
+> +		if (!tokenize_frame_descr(&frame_descr, token, sizeof(token),
+> +					  &size))
+> +			return;
+> +		/* name length (unused) */
+> +		if (!tokenize_frame_descr(&frame_descr, NULL, 0, NULL))
+> +			return;
+> +		/* object name */
+> +		if (!tokenize_frame_descr(&frame_descr, token, sizeof(token),
+> +					  NULL))
+> +			return;
+> +
+> +		/* Strip line number, if it exists. */
 
-Bugzilla: https://bugzilla.kernel.org/show_bug.cgi?id=198435
-Signed-off-by: Marco Elver <elver@google.com>
----
+   Why?
 
-Changes since V1:
-- Fix types in printf (%zu -> %lu).
-- Prefer 'unsigned long', to ensure offsets/addrs are pointer sized, as
-  emitted by ASAN instrumentation.
+> +		strreplace(token, ':', '\0');
+> +
 
-Change-Id: I4836cde103052991ac8871796a45b4c977c9e2e7
----
- mm/kasan/kasan.h  |   5 ++
- mm/kasan/report.c | 163 ++++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 168 insertions(+)
+...
 
-diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
-index 3ce956efa0cb..1979db4763e2 100644
---- a/mm/kasan/kasan.h
-+++ b/mm/kasan/kasan.h
-@@ -43,6 +43,11 @@
- 
- #define KASAN_ALLOCA_REDZONE_SIZE	32
- 
-+/*
-+ * Stack frame marker (compiler ABI).
-+ */
-+#define KASAN_CURRENT_STACK_FRAME_MAGIC 0x41B58AB3
-+
- /* Don't break randconfig/all*config builds */
- #ifndef KASAN_ABI_VERSION
- #define KASAN_ABI_VERSION 1
-diff --git a/mm/kasan/report.c b/mm/kasan/report.c
-index 03a443579386..36e55956acaf 100644
---- a/mm/kasan/report.c
-+++ b/mm/kasan/report.c
-@@ -28,6 +28,7 @@
- #include <linux/types.h>
- #include <linux/kasan.h>
- #include <linux/module.h>
-+#include <linux/sched/task_stack.h>
- 
- #include <asm/sections.h>
- 
-@@ -181,6 +182,166 @@ static inline bool init_task_stack_addr(const void *addr)
- 			sizeof(init_thread_union.stack));
- }
- 
-+static bool __must_check tokenize_frame_descr(const char **frame_descr,
-+					      char *token, size_t max_tok_len,
-+					      unsigned long *value)
-+{
-+	const char *sep = strchr(*frame_descr, ' ');
-+
-+	if (sep == NULL)
-+		sep = *frame_descr + strlen(*frame_descr);
-+
-+	if (token != NULL) {
-+		const size_t tok_len = sep - *frame_descr;
-+
-+		if (tok_len + 1 > max_tok_len) {
-+			pr_err("KASAN internal error: frame description too long: %s\n",
-+			       *frame_descr);
-+			return false;
-+		}
-+
-+		/* Copy token (+ 1 byte for '\0'). */
-+		strlcpy(token, *frame_descr, tok_len + 1);
-+	}
-+
-+	/* Advance frame_descr past separator. */
-+	*frame_descr = sep + 1;
-+
-+	if (value != NULL && kstrtoul(token, 10, value)) {
-+		pr_err("KASAN internal error: not a valid number: %s\n", token);
-+		return false;
-+	}
-+
-+	return true;
-+}
-+
-+static void print_decoded_frame_descr(const char *frame_descr)
-+{
-+	/*
-+	 * We need to parse the following string:
-+	 *    "n alloc_1 alloc_2 ... alloc_n"
-+	 * where alloc_i looks like
-+	 *    "offset size len name"
-+	 * or "offset size len name:line".
-+	 */
-+
-+	char token[64];
-+	unsigned long num_objects;
-+
-+	if (!tokenize_frame_descr(&frame_descr, token, sizeof(token),
-+				  &num_objects))
-+		return;
-+
-+	pr_err("\n");
-+	pr_err("this frame has %lu %s:\n", num_objects,
-+	       num_objects == 1 ? "object" : "objects");
-+
-+	while (num_objects--) {
-+		unsigned long offset;
-+		unsigned long size;
-+
-+		/* access offset */
-+		if (!tokenize_frame_descr(&frame_descr, token, sizeof(token),
-+					  &offset))
-+			return;
-+		/* access size */
-+		if (!tokenize_frame_descr(&frame_descr, token, sizeof(token),
-+					  &size))
-+			return;
-+		/* name length (unused) */
-+		if (!tokenize_frame_descr(&frame_descr, NULL, 0, NULL))
-+			return;
-+		/* object name */
-+		if (!tokenize_frame_descr(&frame_descr, token, sizeof(token),
-+					  NULL))
-+			return;
-+
-+		/* Strip line number, if it exists. */
-+		strreplace(token, ':', '\0');
-+
-+		/* Finally, print object information. */
-+		pr_err(" [%lu, %lu) '%s'", offset, offset + size, token);
-+	}
-+}
-+
-+static bool __must_check get_address_stack_frame_info(const void *addr,
-+						      unsigned long *offset,
-+						      const char **frame_descr,
-+						      const void **frame_pc)
-+{
-+	unsigned long aligned_addr;
-+	unsigned long mem_ptr;
-+	const u8 *shadow_bottom;
-+	const u8 *shadow_ptr;
-+	const unsigned long *frame;
-+
-+	/*
-+	 * NOTE: We currently only support printing frame information for
-+	 * accesses to the task's own stack.
-+	 */
-+	if (!object_is_on_stack(addr))
-+		return false;
-+
-+	aligned_addr = round_down((unsigned long)addr, sizeof(long));
-+	mem_ptr = round_down(aligned_addr, KASAN_SHADOW_SCALE_SIZE);
-+	shadow_ptr = kasan_mem_to_shadow((void *)aligned_addr);
-+	shadow_bottom = kasan_mem_to_shadow(end_of_stack(current));
-+
-+	while (shadow_ptr >= shadow_bottom && *shadow_ptr != KASAN_STACK_LEFT) {
-+		shadow_ptr--;
-+		mem_ptr -= KASAN_SHADOW_SCALE_SIZE;
-+	}
-+
-+	while (shadow_ptr >= shadow_bottom && *shadow_ptr == KASAN_STACK_LEFT) {
-+		shadow_ptr--;
-+		mem_ptr -= KASAN_SHADOW_SCALE_SIZE;
-+	}
-+
-+	if (shadow_ptr < shadow_bottom)
-+		return false;
-+
-+	frame = (const unsigned long *)(mem_ptr + KASAN_SHADOW_SCALE_SIZE);
-+	if (frame[0] != KASAN_CURRENT_STACK_FRAME_MAGIC) {
-+		pr_err("KASAN internal error: frame info validation failed; invalid marker: %lu\n",
-+		       frame[0]);
-+		return false;
-+	}
-+
-+	*offset = (unsigned long)addr - (unsigned long)frame;
-+	*frame_descr = (const char *)frame[1];
-+	*frame_pc = (void *)frame[2];
-+
-+	return true;
-+}
-+
-+static void print_address_stack_frame(const void *addr)
-+{
-+	unsigned long offset;
-+	const char *frame_descr;
-+	const void *frame_pc;
-+
-+	if (IS_ENABLED(CONFIG_KASAN_SW_TAGS))
-+		return;
-+
-+	if (!get_address_stack_frame_info(addr, &offset, &frame_descr,
-+					  &frame_pc))
-+		return;
-+
-+	/*
-+	 * get_address_stack_frame_info only returns true if the given addr is
-+	 * on the current task's stack.
-+	 */
-+	pr_err("\n");
-+	pr_err("addr %px is located in stack of task %s/%d at offset %lu in frame:\n",
-+	       addr, current->comm, task_pid_nr(current), offset);
-+	pr_err(" %pS\n", frame_pc);
-+
-+	if (!frame_descr)
-+		return;
-+
-+	print_decoded_frame_descr(frame_descr);
-+}
-+
- static void print_address_description(void *addr)
- {
- 	struct page *page = addr_to_page(addr);
-@@ -204,6 +365,8 @@ static void print_address_description(void *addr)
- 		pr_err("The buggy address belongs to the page:\n");
- 		dump_page(page, "kasan: bad access detected");
- 	}
-+
-+	print_address_stack_frame(addr);
- }
- 
- static bool row_is_guilty(const void *row, const void *guilty)
--- 
-2.21.0.1020.gf2820cf01a-goog
+> +
+> +	aligned_addr = round_down((unsigned long)addr, sizeof(long));
+> +	mem_ptr = round_down(aligned_addr, KASAN_SHADOW_SCALE_SIZE);
+> +	shadow_ptr = kasan_mem_to_shadow((void *)aligned_addr);
+> +	shadow_bottom = kasan_mem_to_shadow(end_of_stack(current));
+> +
+> +	while (shadow_ptr >= shadow_bottom && *shadow_ptr != KASAN_STACK_LEFT) {
+> +		shadow_ptr--;
+> +		mem_ptr -= KASAN_SHADOW_SCALE_SIZE;
+> +	}
+> +
+> +	while (shadow_ptr >= shadow_bottom && *shadow_ptr == KASAN_STACK_LEFT) {
+> +		shadow_ptr--;
+> +		mem_ptr -= KASAN_SHADOW_SCALE_SIZE;
+> +	}
+> +
+
+I suppose this won't work if stack grows up, which is fine because it grows up only on parisc arch.
+But "BUILD_BUG_ON(IS_ENABLED(CONFIG_STACK_GROUWSUP))" somewhere wouldn't hurt.
+
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
 To post to this group, send email to kasan-dev@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20190520154751.84763-1-elver%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/ebec4325-f91b-b392-55ed-95dbd36bbb8e%40virtuozzo.com.
 For more options, visit https://groups.google.com/d/optout.
