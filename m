@@ -1,144 +1,123 @@
-Return-Path: <kasan-dev+bncBCXLBLOA7IGBB47UTDTQKGQEIVG4YSI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDQ27FVWWUFRBMXWTDTQKGQEGJAIXZQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x239.google.com (mail-lj1-x239.google.com [IPv6:2a00:1450:4864:20::239])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10F65275EC
-	for <lists+kasan-dev@lfdr.de>; Thu, 23 May 2019 08:15:16 +0200 (CEST)
-Received: by mail-lj1-x239.google.com with SMTP id m2sf958658ljj.13
-        for <lists+kasan-dev@lfdr.de>; Wed, 22 May 2019 23:15:16 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1558592115; cv=pass;
+Received: from mail-vk1-xa3e.google.com (mail-vk1-xa3e.google.com [IPv6:2607:f8b0:4864:20::a3e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BAE5275F5
+	for <lists+kasan-dev@lfdr.de>; Thu, 23 May 2019 08:18:27 +0200 (CEST)
+Received: by mail-vk1-xa3e.google.com with SMTP id p83sf1943395vkd.7
+        for <lists+kasan-dev@lfdr.de>; Wed, 22 May 2019 23:18:27 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1558592306; cv=pass;
         d=google.com; s=arc-20160816;
-        b=ndR39n6uIdvVo+65Jgh1FQ0ItgbA1RfWDqDq8jgiGL8gWL47R8hAij8Lyuz8mm2koL
-         6LqIOFSqmEW+nK4Y4pv+rYig2FqurxaOTYaZp1mrts19aYzsz8idggHfhLL3n/ULF5k0
-         vcjJ29y1xXHLs/UTq7rJZvNab/e0WeJxpf821Go8g5R8YymhCTgzFqRo1QA3YEE226c/
-         cVsBztz0zhHK0FAQbi02bE2aqN94uwdI4TktPk6bhsBH3B4rlkKu4VLVQGKHncH95b9E
-         61KjPLn0UZa9fK+B6RTBmudXNHQnHD3YwIj17timgS/XrsGfaOb6FrSKeCy8ziAOW89h
-         FP8A==
+        b=lGha3QpprHLOC4xx9qS4++AdT6CxuNk8VF0QiYL7IiPMRYuxZoPyIPUSiki//I+VuY
+         5S+1weVKkJ897FxCyRW1XFdaiMSp48IM6FGTTCHULmbVolcpUdFpfJ5MUPS8Ii1NTzKQ
+         //vf7H49QH87DRe73cX37Galoa4pYoexjrmhjKjvNIwRDHwVSF9L0aKc8oiYkSYdtzVZ
+         qFv8TLoXbshdDef4yqbf/VJhBD8Ncdh2xsfDomVD04NBrVmgrltgefOsdiClYcW+wCGI
+         996KiAvnPbARlNAJ2Jfsds6PUZ9LiEs85atsJfixBlygA/DjTyMwJtLtvJCvnEPyjwP2
+         0RYQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:content-transfer-encoding
-         :content-language:in-reply-to:mime-version:user-agent:date
-         :message-id:from:references:cc:to:subject:sender:dkim-signature;
-        bh=Jgogtynkck0foDvPyBVDchhJxI3AZKEScGwEkopnyoQ=;
-        b=UkKFwg/i2qUeE7RMWdjuyHSfgPML3dSKKmhNGrNhD8os2J1t1QLtU2JEZ1orpTNI0/
-         mZXApKXN020TZ/iu9oiu4g+1jFxbIvKAdO+8ixomsIbZekdUCdI8QYXKrCBQVRV4Bo7W
-         Ogj2Nh+tnffjmYSoBvvmPI9UZG2/1n8TwnF18L65V9nLHXjlQ+cWNbS0/0p90G3qM0Ko
-         HKPQ8sjLAD96A1rPMu/s0qVKT8tyPt2e/7766ybXefOhlJAXFlmaycFJCkEQYpof3f/1
-         05gz+/R6R131dmTULHHb2zoeyS+849DpAom2/OCs7gwtPEAJXuUd9V13JqlwFGTQkgl7
-         joqw==
+         :mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:sender:dkim-signature;
+        bh=ws+o8kwMbIHTmWep/5flg90eruzCkHmJ04AZjhfpJZk=;
+        b=lThzudhf3EaviplldA/omrfTzfMhRC8pYW3MX7vV8DXYat+K/6v9xQnmGZ5ScXwYdL
+         gF6K0Opw5SKr6U1TAoDnfvmJujqO1Ulxx9qHcAjZFL7uY95+ReXsR7jBZCDsG6ja0g4D
+         /xH12TlMInZoJp4CpcR/hkmE+CXEuNDRZa491PE2cKGGwxOlEn1y7maqskC8aqKEDiXG
+         qEMTAt7OUkE40Gq+R5yuKq7Sdu3wuGkQetx2j7CtPt9yDFlNmitzoZzmfzFbiq9kFcJw
+         Q1cQd3ie8Dk8meUpRWcJXZiHJxF7y4u8vYKlVq4jdDPI/RXYUD535tn0mDPkktDaFDK4
+         rqWg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@c-s.fr header.s=mail header.b=AAAP5YCZ;
-       spf=pass (google.com: domain of christophe.leroy@c-s.fr designates 93.17.236.30 as permitted sender) smtp.mailfrom=christophe.leroy@c-s.fr
+       dkim=pass header.i=@axtens.net header.s=google header.b=CVE170U4;
+       spf=pass (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::442 as permitted sender) smtp.mailfrom=dja@axtens.net
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=Jgogtynkck0foDvPyBVDchhJxI3AZKEScGwEkopnyoQ=;
-        b=o6V6u7+TIITjFehRAxAH7bZIppJl+BagIrjC97BTQSsRFgaslWQfGRL3lzymg8tJPc
-         roRhkwV5nLrdsnXzg41vvEv0pD1CcFb1WZ4iF6h6Xm4GHt/cqRK6UXBKtt6dv0DFx8EA
-         KojdWk6YYitPBWwaaXteFZZgc/NgVXwdKcC6qrohO3IS6MBjxAsaGahJIqav/hTUoypI
-         sdKLgou6jL2pDcr+Hb/H/5c2BFeKQUB7ad1TT+wh1ji8FmmTrqFdvLP8UfX1N3aTzfdl
-         hc7vCPdY0tSmHfRCw5j4ArIMLIeE8Ssyx2xaK/59SQuuHiqsO6WSjsiNmyfOiorrtxrP
-         uFrA==
+        h=sender:from:to:cc:subject:in-reply-to:references:date:message-id
+         :mime-version:content-transfer-encoding:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=ws+o8kwMbIHTmWep/5flg90eruzCkHmJ04AZjhfpJZk=;
+        b=KqdkMtntsrNcOGSaulMmAdG5DqCRgWNG542HlICQzyN+X6GyFDPBerbT/NeRSdT6VD
+         fuo+JlZlLsVEE9W3DupCxf6G63XZq+7dweZPcFzFU4rb/TBAsszulO3ESdNbSBu/1RUR
+         lc7yU3u/K6phemwi4mntSavlZYXiMvH/U6TS6VswvWxND8z8TXvYJowr37JFdTdpSr1x
+         5VqfxdRv5KWhjLu0d/nqKMIPBZ60nArchaept7Ts4aMRve0nRL0csGoxGTHdk5kWP0ys
+         1ivQ0wWr4QuOSHAxu8Z2OKumgRHuvA6hbh3HOdsbiTX3/zeRPczg9RAhhUYeMHjFSYS4
+         yguQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=Jgogtynkck0foDvPyBVDchhJxI3AZKEScGwEkopnyoQ=;
-        b=nf2IsGMeZ0XGSwEGYD35GtUbpVy1Q6n/RJxXjY9Lvqwjm7EEtdGXsOuDQC7YOgzLgi
-         OLuaWV6WaRbc4QsPDFZPEORnUZm9PTcVB1wt+f91OYzo6RkK+u9n/Q0wRLpyhTZWjXRE
-         OmIFdqQgnEw1MCq4UU051IqAv40tSdOENBU9okmpfXm6013aGqx9agfNDkGAHdw1T5aE
-         2vx3cGl/KOXafKcB+a9qlhtuJFDrRckABTSHYVYa1mujAtLZVcBzGy00LpRPzCPJboG9
-         ANA1lFNWNboXpfGLSyiqKUY4Bb5TH8H4+gYMRJkAeP9T8PYeNw77ViTJUu9C+S+XphQ8
-         9QvA==
+        h=sender:x-gm-message-state:from:to:cc:subject:in-reply-to:references
+         :date:message-id:mime-version:content-transfer-encoding
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=ws+o8kwMbIHTmWep/5flg90eruzCkHmJ04AZjhfpJZk=;
+        b=EbwlGeHHhEvt5d9KP6cxmo/I+Q5g51tRcEWGESE5Ky0+hbCZMWEr1ibp9hibetcbKA
+         ZkLxtPeqRRf0v6+602/KZ6k0BHewvYx4aB4g3oMp+ONqR/2C3AG4xsIKEAemnyJUhfUF
+         K8bdL8/4l2ApiF3QSHumSMmOC2+GECMaTOoGFDpxl+1qBfl80/ZC72RdQYzqi6HPXxoX
+         1PE2482buEC55Vgr3DfAEa89qfio14nii/uEWJo6v4fMigiFWAE8DnxcUOO4CEQrx9sS
+         eULYDVvtNyMVIQvGF2IY+wvcLufdLiP4qKY5lfPJCTECRDf4/JCbflzQqOFUkP6OidEe
+         2UAg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAWx5DyBZcBA0gEDxwmAE7oUDNrV96Q6++REMwyhaTQeT2DvEoYw
-	9rJTTeiI+0igJaQeh9PvFz0=
-X-Google-Smtp-Source: APXvYqwMIcJcHspddVark4Af4Rz+R08Wgy+Q0Wii0YvXf/daJo/nbFSNmVJ+gMCGR3CO9CmGlju5OA==
-X-Received: by 2002:ac2:434c:: with SMTP id o12mr3673811lfl.128.1558592115595;
-        Wed, 22 May 2019 23:15:15 -0700 (PDT)
+X-Gm-Message-State: APjAAAU8KWRGw14xB3ZnvUpria3Y/rnptaVGeGI3HwrzW5woF+81gEWT
+	BTRRoL6VKMJ+KrLo3k1yng8=
+X-Google-Smtp-Source: APXvYqzzry6BmVD0hpN+C2gHWXDUFdpd2fSWEH1Zec4HS/+eojhFwQCeGemB6ToklnhOTeO3q1CNZA==
+X-Received: by 2002:a67:774f:: with SMTP id s76mr42587868vsc.131.1558592306342;
+        Wed, 22 May 2019 23:18:26 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a2e:9f4a:: with SMTP id v10ls505538ljk.9.gmail; Wed, 22 May
- 2019 23:15:15 -0700 (PDT)
-X-Received: by 2002:a2e:90d0:: with SMTP id o16mr20671444ljg.200.1558592115078;
-        Wed, 22 May 2019 23:15:15 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1558592115; cv=none;
+Received: by 2002:a9f:2d91:: with SMTP id v17ls290773uaj.2.gmail; Wed, 22 May
+ 2019 23:18:26 -0700 (PDT)
+X-Received: by 2002:ab0:4a14:: with SMTP id q20mr22799331uae.67.1558592306041;
+        Wed, 22 May 2019 23:18:26 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1558592306; cv=none;
         d=google.com; s=arc-20160816;
-        b=BxQjcbMv0R/r3XHtZK2X70XYeBmpxS0R5q/YAhVByBTlU069ou9l3f+YQn8jclY3Zf
-         qtTyZlqccpqG5GEUGEg+HsN/0Iqi3evH/piRxL9qOLYP5xBrwZEn+d++yGeVfvTKqt59
-         w03M7ytR3EiSr3b8yece/jvDkCrZziiXGjXFDtctWw7DFPtIPgadBEt9KcBbMrhOz9Sv
-         0BSp2a6yavgot2qzkKPQC7Tj35zHk3oHaNO+DiC7EVMxn4Ja9TieR6amp7B9vJXN/hYZ
-         StoyD6DgFU/SpcXkeV+G7enF1M/GRYthI8Fc+cMy3WF899fFcBV4WuI2Flh7z+S45mZG
-         rJNw==
+        b=nrhQehjRLTYZ4vgcd3RR0wAPYVwMfWt0KRIHKShG4pSnRr/k93R/KljI7upqFDtRgB
+         /namGrzImxD7Tum9VBH+Mfd9fSvFgohQWXzVv+SvMkp/VsPnBlB7ryIJEThTEDPM4QNe
+         L/30OG+dRToKm5La3BlCUzLA/uNMTFdUsMvhaPsicuzDXCCCII4ZEsNyy53ATObTvSSt
+         xusO5s48dqwJPr+kcZVMHLikGp6uYxrHyQD7VJLBWxrcX+EbrhV1PT6pUYmx7tFT7RZV
+         rx8YyvaI0zc1cY4Uu3rxvU1eZjF85K8SuTYn2X/PHwKVNBGORLo0mFGyI2mCGvYPxx1D
+         9rtQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject
-         :dkim-signature;
-        bh=Jlz88m5HjbbbihdN5bCiI9iVmTNf3S1GrBwNBWdxKZo=;
-        b=VcbOEJFvGCmSgjuouapZfH66XDRajCOi50VWFzTknXVyk7DjLk9FD2H8h9rL7xEhe6
-         sC3a0dykF2LKdvN+cF0uTff96XuOXgWIYHpoICsgjoNmSwIrLEEN5lwxZ2HGJcon1csC
-         sNI8oP9UnPMQl1HF5i0vR528xsEeZAvAjutHUQUrpMWwIKfm0jh1t50LEstukt6k7tQV
-         Dj0CN6r/CeIaiKaAJ3cbOaW9BGqFODZqDCjRCd6n5NqT68wbcXTtSmMDIVKz1iN+zLHh
-         nfgKYjS+0ucDbwgAB8TV4BAuVnfk3jK2k768FLZQFUfgJ5fUCdW+NjdvaQWPMU+s20Bl
-         AYLA==
+        h=content-transfer-encoding:mime-version:message-id:date:references
+         :in-reply-to:subject:cc:to:from:dkim-signature;
+        bh=R2DcKDY8hNYt3eHiRg3vn/4L/iz0wQN/kPiNKVfWds4=;
+        b=UVCq36/p5Z2p+UuQtgK4hLc4t+Xf6l3uEFd9X6yOdhVyaKD66vM+7xBbTL0gYWnfHO
+         3sxlypLYI7GLfmuDMYNLTq1BUcdXqvm7dCYeOyJHLcBhmImIyMbItMhrHT1UvTryZzh+
+         8fCXqn7A4t1VJUkTUKD+GIGVEbqPcrx+9cTKBD6P7dbyKnzuYCYjHj4qZWPYyt9lkDS0
+         GZVcyvwJaOI/BtxGB/gLz6MxZ7M9NVwQ50MPserKlhYlsXN+Dp5JH3pTGuHtAUTbdfE6
+         8WWr4IYYtnS6dSN+VI0rQ4kw6nnno4UbOI4hAnvrNHPCXqOKqqkQvsEZUg6Stf/nqlZX
+         Q07Q==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@c-s.fr header.s=mail header.b=AAAP5YCZ;
-       spf=pass (google.com: domain of christophe.leroy@c-s.fr designates 93.17.236.30 as permitted sender) smtp.mailfrom=christophe.leroy@c-s.fr
-Received: from pegase1.c-s.fr (pegase1.c-s.fr. [93.17.236.30])
-        by gmr-mx.google.com with ESMTPS id z22si1796447lfe.1.2019.05.22.23.15.14
+       dkim=pass header.i=@axtens.net header.s=google header.b=CVE170U4;
+       spf=pass (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::442 as permitted sender) smtp.mailfrom=dja@axtens.net
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com. [2607:f8b0:4864:20::442])
+        by gmr-mx.google.com with ESMTPS id 92si2021103uaw.0.2019.05.22.23.18.25
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 22 May 2019 23:15:14 -0700 (PDT)
-Received-SPF: pass (google.com: domain of christophe.leroy@c-s.fr designates 93.17.236.30 as permitted sender) client-ip=93.17.236.30;
-Received: from localhost (mailhub1-int [192.168.12.234])
-	by localhost (Postfix) with ESMTP id 458fPC2ydfz9v1Qb;
-	Thu, 23 May 2019 08:15:11 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at c-s.fr
-Received: from pegase1.c-s.fr ([192.168.12.234])
-	by localhost (pegase1.c-s.fr [192.168.12.234]) (amavisd-new, port 10024)
-	with ESMTP id A52yZXVVQ62A; Thu, 23 May 2019 08:15:11 +0200 (CEST)
-Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
-	by pegase1.c-s.fr (Postfix) with ESMTP id 458fPC0ZHTz9v1QZ;
-	Thu, 23 May 2019 08:15:11 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by messagerie.si.c-s.fr (Postfix) with ESMTP id EF2438B77D;
-	Thu, 23 May 2019 08:15:11 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from messagerie.si.c-s.fr ([127.0.0.1])
-	by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
-	with ESMTP id kPF6yfx94bkP; Thu, 23 May 2019 08:15:11 +0200 (CEST)
-Received: from PO15451 (unknown [192.168.4.90])
-	by messagerie.si.c-s.fr (Postfix) with ESMTP id 69A7D8B75A;
-	Thu, 23 May 2019 08:15:11 +0200 (CEST)
-Subject: Re: [RFC PATCH 4/7] powerpc: KASAN for 64bit Book3E
-To: Daniel Axtens <dja@axtens.net>, aneesh.kumar@linux.ibm.com,
- bsingharora@gmail.com
-Cc: linuxppc-dev@lists.ozlabs.org, kasan-dev@googlegroups.com,
- "Aneesh Kumar K . V" <aneesh.kumar@linux.vnet.ibm.com>
-References: <20190523052120.18459-1-dja@axtens.net>
- <20190523052120.18459-5-dja@axtens.net>
-From: Christophe Leroy <christophe.leroy@c-s.fr>
-Message-ID: <8046c75a-6b05-3c6a-2520-3b9b48d3cdc8@c-s.fr>
-Date: Thu, 23 May 2019 08:15:11 +0200
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Wed, 22 May 2019 23:18:25 -0700 (PDT)
+Received-SPF: pass (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::442 as permitted sender) client-ip=2607:f8b0:4864:20::442;
+Received: by mail-pf1-x442.google.com with SMTP id d126so450983pfd.2
+        for <kasan-dev@googlegroups.com>; Wed, 22 May 2019 23:18:25 -0700 (PDT)
+X-Received: by 2002:a65:5647:: with SMTP id m7mr94371900pgs.348.1558592305053;
+        Wed, 22 May 2019 23:18:25 -0700 (PDT)
+Received: from localhost (ppp167-251-205.static.internode.on.net. [59.167.251.205])
+        by smtp.gmail.com with ESMTPSA id 4sm9920517pfj.111.2019.05.22.23.18.23
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 22 May 2019 23:18:24 -0700 (PDT)
+From: Daniel Axtens <dja@axtens.net>
+To: Christophe Leroy <christophe.leroy@c-s.fr>, aneesh.kumar@linux.ibm.com, bsingharora@gmail.com
+Cc: linuxppc-dev@lists.ozlabs.org, kasan-dev@googlegroups.com
+Subject: Re: [RFC PATCH 0/7] powerpc: KASAN for 64-bit 3s radix
+In-Reply-To: <584b6b5b-7051-e2de-ca4e-a686c5491aad@c-s.fr>
+References: <20190523052120.18459-1-dja@axtens.net> <584b6b5b-7051-e2de-ca4e-a686c5491aad@c-s.fr>
+Date: Thu, 23 May 2019 16:18:20 +1000
+Message-ID: <87k1ehzob7.fsf@dja-thinkpad.axtens.net>
 MIME-Version: 1.0
-In-Reply-To: <20190523052120.18459-5-dja@axtens.net>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Language: fr
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: christophe.leroy@c-s.fr
+X-Original-Sender: dja@axtens.net
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@c-s.fr header.s=mail header.b=AAAP5YCZ;       spf=pass (google.com:
- domain of christophe.leroy@c-s.fr designates 93.17.236.30 as permitted
- sender) smtp.mailfrom=christophe.leroy@c-s.fr
+ header.i=@axtens.net header.s=google header.b=CVE170U4;       spf=pass
+ (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::442 as
+ permitted sender) smtp.mailfrom=dja@axtens.net
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -151,285 +130,73 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
+Christophe Leroy <christophe.leroy@c-s.fr> writes:
 
+> Hi Daniel,
+>
+> Le 23/05/2019 =C3=A0 07:21, Daniel Axtens a =C3=A9crit=C2=A0:
+>> Building on the work of Christophe, Aneesh and Balbir, I've ported
+>> KASAN to Book3S radix.
+>>=20
+>> It builds on top Christophe's work on 32bit, and includes my work for
+>> 64-bit Book3E (3S doesn't really depend on 3E, but it was handy to
+>> have around when developing and debugging).
+>>=20
+>> This provides full inline instrumentation on radix, but does require
+>> that you be able to specify the amount of memory on the system at
+>> compile time. More details in patch 7.
+>>=20
+>> Regards,
+>> Daniel
+>>=20
+>> Daniel Axtens (7):
+>>    kasan: do not open-code addr_has_shadow
+>>    kasan: allow architectures to manage the memory-to-shadow mapping
+>>    kasan: allow architectures to provide an outline readiness check
+>>    powerpc: KASAN for 64bit Book3E
+>
+> I see you are still hacking the core part of KASAN.
+>
+> Did you have a look at my RFC patch=20
+> (https://patchwork.ozlabs.org/patch/1068260/) which demonstrate that=20
+> full KASAN can be implemented on book3E/64 without those hacks ?
 
-Le 23/05/2019 =C3=A0 07:21, Daniel Axtens a =C3=A9crit=C2=A0:
-> Wire up KASAN. Only outline instrumentation is supported.
->=20
-> The KASAN shadow area is mapped into vmemmap space:
-> 0x8000 0400 0000 0000 to 0x8000 0600 0000 0000.
-> To do this we require that vmemmap be disabled. (This is the default
-> in the kernel config that QorIQ provides for the machine in their
-> SDK anyway - they use flat memory.)
->=20
-> Only the kernel linear mapping (0xc000...) is checked. The vmalloc and
-> ioremap areas (also in 0x800...) are all mapped to the zero page. As
-> with the Book3S hash series, this requires overriding the memory <->
-> shadow mapping.
->=20
-> Also, as with both previous 64-bit series, early instrumentation is not
-> supported.  It would allow us to drop the check_return_arch_not_ready()
-> hook in the KASAN core, but it's tricky to get it set up early enough:
-> we need it setup before the first call to instrumented code like printk()=
-.
-> Perhaps in the future.
->=20
-> Only KASAN_MINIMAL works.
+I haven't gone back and looked at the book3e patches as I've just been
+working on the 3s stuff. I will have a look at that for the next version
+for sure. I just wanted to get the 3s stuff out into the world sooner
+rather than later! I don't think 3s uses those hacks so we can probably
+drop them entirely.
 
-See https://patchwork.ozlabs.org/patch/1068260/ for a full implementation
+Regards,
+Daniel
 
-Christophe
-
->=20
-> Tested on e6500. KVM, kexec and xmon have not been tested.
->=20
-> The test_kasan module fires warnings as expected, except for the
-> following tests:
->=20
->   - Expected/by design:
-> kasan test: memcg_accounted_kmem_cache allocate memcg accounted object
->=20
->   - Due to only supporting KASAN_MINIMAL:
-> kasan test: kasan_stack_oob out-of-bounds on stack
-> kasan test: kasan_global_oob out-of-bounds global variable
-> kasan test: kasan_alloca_oob_left out-of-bounds to left on alloca
-> kasan test: kasan_alloca_oob_right out-of-bounds to right on alloca
-> kasan test: use_after_scope_test use-after-scope on int
-> kasan test: use_after_scope_test use-after-scope on array
->=20
-> Thanks to those who have done the heavy lifting over the past several
-> years:
->   - Christophe's 32 bit series: https://lists.ozlabs.org/pipermail/linuxp=
-pc-dev/2019-February/185379.html
->   - Aneesh's Book3S hash series: https://lwn.net/Articles/655642/
->   - Balbir's Book3S radix series: https://patchwork.ozlabs.org/patch/7952=
-11/
->=20
-> Cc: Christophe Leroy <christophe.leroy@c-s.fr>
-> Cc: Aneesh Kumar K.V <aneesh.kumar@linux.vnet.ibm.com>
-> Cc: Balbir Singh <bsingharora@gmail.com>
-> Signed-off-by: Daniel Axtens <dja@axtens.net>
-> [- Removed EXPORT_SYMBOL of the static key
->   - Fixed most checkpatch problems
->   - Replaced kasan_zero_page[] by kasan_early_shadow_page[]
->   - Reduced casting mess by using intermediate locals
->   - Fixed build failure on pmac32_defconfig]
-> Signed-off-by: Christophe Leroy <christophe.leroy@c-s.fr>
-> ---
->   arch/powerpc/Kconfig                         |  1 +
->   arch/powerpc/Kconfig.debug                   |  2 +-
->   arch/powerpc/include/asm/kasan.h             | 71 ++++++++++++++++++++
->   arch/powerpc/mm/kasan/Makefile               |  1 +
->   arch/powerpc/mm/kasan/kasan_init_book3e_64.c | 50 ++++++++++++++
->   arch/powerpc/mm/nohash/Makefile              |  5 ++
->   6 files changed, 129 insertions(+), 1 deletion(-)
->   create mode 100644 arch/powerpc/mm/kasan/kasan_init_book3e_64.c
->=20
-> diff --git a/arch/powerpc/Kconfig b/arch/powerpc/Kconfig
-> index 6a66a2da5b1a..4e266b019dd7 100644
-> --- a/arch/powerpc/Kconfig
-> +++ b/arch/powerpc/Kconfig
-> @@ -170,6 +170,7 @@ config PPC
->   	select HAVE_ARCH_AUDITSYSCALL
->   	select HAVE_ARCH_JUMP_LABEL
->   	select HAVE_ARCH_KASAN			if PPC32
-> +	select HAVE_ARCH_KASAN			if PPC_BOOK3E_64 && !SPARSEMEM_VMEMMAP
->   	select HAVE_ARCH_KGDB
->   	select HAVE_ARCH_MMAP_RND_BITS
->   	select HAVE_ARCH_MMAP_RND_COMPAT_BITS	if COMPAT
-> diff --git a/arch/powerpc/Kconfig.debug b/arch/powerpc/Kconfig.debug
-> index c59920920ddc..23a37facc854 100644
-> --- a/arch/powerpc/Kconfig.debug
-> +++ b/arch/powerpc/Kconfig.debug
-> @@ -396,5 +396,5 @@ config PPC_FAST_ENDIAN_SWITCH
->  =20
->   config KASAN_SHADOW_OFFSET
->   	hex
-> -	depends on KASAN
-> +	depends on KASAN && PPC32
->   	default 0xe0000000
-> diff --git a/arch/powerpc/include/asm/kasan.h b/arch/powerpc/include/asm/=
-kasan.h
-> index 296e51c2f066..ae410f0e060d 100644
-> --- a/arch/powerpc/include/asm/kasan.h
-> +++ b/arch/powerpc/include/asm/kasan.h
-> @@ -21,12 +21,15 @@
->   #define KASAN_SHADOW_START	(KASAN_SHADOW_OFFSET + \
->   				 (PAGE_OFFSET >> KASAN_SHADOW_SCALE_SHIFT))
->  =20
-> +#ifdef CONFIG_PPC32
->   #define KASAN_SHADOW_OFFSET	ASM_CONST(CONFIG_KASAN_SHADOW_OFFSET)
->  =20
->   #define KASAN_SHADOW_END	0UL
->  =20
->   #define KASAN_SHADOW_SIZE	(KASAN_SHADOW_END - KASAN_SHADOW_START)
->  =20
-> +#endif /* CONFIG_PPC32 */
-> +
->   #ifdef CONFIG_KASAN
->   void kasan_early_init(void);
->   void kasan_mmu_init(void);
-> @@ -36,5 +39,73 @@ static inline void kasan_init(void) { }
->   static inline void kasan_mmu_init(void) { }
->   #endif
->  =20
-> +#ifdef CONFIG_PPC_BOOK3E_64
-> +#include <asm/pgtable.h>
-> +#include <linux/jump_label.h>
-> +
-> +/*
-> + * We don't put this in Kconfig as we only support KASAN_MINIMAL, and
-> + * that will be disabled if the symbol is available in Kconfig
-> + */
-> +#define KASAN_SHADOW_OFFSET	ASM_CONST(0x6800040000000000)
-> +
-> +#define KASAN_SHADOW_SIZE	(KERN_VIRT_SIZE >> KASAN_SHADOW_SCALE_SHIFT)
-> +
-> +extern struct static_key_false powerpc_kasan_enabled_key;
-> +extern unsigned char kasan_early_shadow_page[];
-> +
-> +static inline bool kasan_arch_is_ready_book3e(void)
-> +{
-> +	if (static_branch_likely(&powerpc_kasan_enabled_key))
-> +		return true;
-> +	return false;
-> +}
-> +#define kasan_arch_is_ready kasan_arch_is_ready_book3e
-> +
-> +static inline void *kasan_mem_to_shadow_book3e(const void *ptr)
-> +{
-> +	unsigned long addr =3D (unsigned long)ptr;
-> +
-> +	if (addr >=3D KERN_VIRT_START && addr < KERN_VIRT_START + KERN_VIRT_SIZ=
-E)
-> +		return kasan_early_shadow_page;
-> +
-> +	return (void *)(addr >> KASAN_SHADOW_SCALE_SHIFT) + KASAN_SHADOW_OFFSET=
-;
-> +}
-> +#define kasan_mem_to_shadow kasan_mem_to_shadow_book3e
-> +
-> +static inline void *kasan_shadow_to_mem_book3e(const void *shadow_addr)
-> +{
-> +	/*
-> +	 * We map the entire non-linear virtual mapping onto the zero page so i=
-f
-> +	 * we are asked to map the zero page back just pick the beginning of th=
-at
-> +	 * area.
-> +	 */
-> +	if (shadow_addr >=3D (void *)kasan_early_shadow_page &&
-> +	    shadow_addr < (void *)(kasan_early_shadow_page + PAGE_SIZE))
-> +		return (void *)KERN_VIRT_START;
-> +
-> +	return (void *)(((unsigned long)shadow_addr - KASAN_SHADOW_OFFSET) <<
-> +			KASAN_SHADOW_SCALE_SHIFT);
-> +}
-> +#define kasan_shadow_to_mem kasan_shadow_to_mem_book3e
-> +
-> +static inline bool kasan_addr_has_shadow_book3e(const void *ptr)
-> +{
-> +	unsigned long addr =3D (unsigned long)ptr;
-> +
-> +	/*
-> +	 * We want to specifically assert that the addresses in the 0x8000...
-> +	 * region have a shadow, otherwise they are considered by the kasan
-> +	 * core to be wild pointers
-> +	 */
-> +	if (addr >=3D KERN_VIRT_START && addr < (KERN_VIRT_START + KERN_VIRT_SI=
-ZE))
-> +		return true;
-> +
-> +	return (ptr >=3D kasan_shadow_to_mem((void *)KASAN_SHADOW_START));
-> +}
-> +#define kasan_addr_has_shadow kasan_addr_has_shadow_book3e
-> +
-> +#endif /* CONFIG_PPC_BOOK3E_64 */
-> +
->   #endif /* __ASSEMBLY */
->   #endif
-> diff --git a/arch/powerpc/mm/kasan/Makefile b/arch/powerpc/mm/kasan/Makef=
-ile
-> index 6577897673dd..f8f164ad8ade 100644
-> --- a/arch/powerpc/mm/kasan/Makefile
-> +++ b/arch/powerpc/mm/kasan/Makefile
-> @@ -3,3 +3,4 @@
->   KASAN_SANITIZE :=3D n
->  =20
->   obj-$(CONFIG_PPC32)           +=3D kasan_init_32.o
-> +obj-$(CONFIG_PPC_BOOK3E_64)   +=3D kasan_init_book3e_64.o
-> diff --git a/arch/powerpc/mm/kasan/kasan_init_book3e_64.c b/arch/powerpc/=
-mm/kasan/kasan_init_book3e_64.c
-> new file mode 100644
-> index 000000000000..f116c211d83c
-> --- /dev/null
-> +++ b/arch/powerpc/mm/kasan/kasan_init_book3e_64.c
-> @@ -0,0 +1,50 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +
-> +#define DISABLE_BRANCH_PROFILING
-> +
-> +#include <linux/kasan.h>
-> +#include <linux/printk.h>
-> +#include <linux/memblock.h>
-> +#include <linux/sched/task.h>
-> +#include <asm/pgalloc.h>
-> +
-> +DEFINE_STATIC_KEY_FALSE(powerpc_kasan_enabled_key);
-> +
-> +static void __init kasan_init_region(struct memblock_region *reg)
-> +{
-> +	void *start =3D __va(reg->base);
-> +	void *end =3D __va(reg->base + reg->size);
-> +	unsigned long k_start, k_end, k_cur;
-> +
-> +	if (start >=3D end)
-> +		return;
-> +
-> +	k_start =3D (unsigned long)kasan_mem_to_shadow(start);
-> +	k_end =3D (unsigned long)kasan_mem_to_shadow(end);
-> +
-> +	for (k_cur =3D k_start; k_cur < k_end; k_cur +=3D PAGE_SIZE) {
-> +		void *va =3D memblock_alloc(PAGE_SIZE, PAGE_SIZE);
-> +
-> +		map_kernel_page(k_cur, __pa(va), PAGE_KERNEL);
-> +	}
-> +	flush_tlb_kernel_range(k_start, k_end);
-> +}
-> +
-> +void __init kasan_init(void)
-> +{
-> +	struct memblock_region *reg;
-> +
-> +	for_each_memblock(memory, reg)
-> +		kasan_init_region(reg);
-> +
-> +	/* map the zero page RO */
-> +	map_kernel_page((unsigned long)kasan_early_shadow_page,
-> +			__pa(kasan_early_shadow_page), PAGE_KERNEL_RO);
-> +
-> +	/* Turn on checking */
-> +	static_branch_inc(&powerpc_kasan_enabled_key);
-> +
-> +	/* Enable error messages */
-> +	init_task.kasan_depth =3D 0;
-> +	pr_info("KASAN init done (64-bit Book3E)\n");
-> +}
-> diff --git a/arch/powerpc/mm/nohash/Makefile b/arch/powerpc/mm/nohash/Mak=
-efile
-> index 33b6f6f29d3f..310149f217d7 100644
-> --- a/arch/powerpc/mm/nohash/Makefile
-> +++ b/arch/powerpc/mm/nohash/Makefile
-> @@ -16,3 +16,8 @@ endif
->   # This is necessary for booting with kcov enabled on book3e machines
->   KCOV_INSTRUMENT_tlb.o :=3D n
->   KCOV_INSTRUMENT_fsl_booke.o :=3D n
-> +
-> +ifdef CONFIG_KASAN
-> +CFLAGS_fsl_booke_mmu.o		+=3D -DDISABLE_BRANCH_PROFILING
-> +CFLAGS_tlb.o			+=3D -DDISABLE_BRANCH_PROFILING
-> +endif
->=20
+>
+> Christophe
+>
+>>    kasan: allow arches to provide their own early shadow setup
+>>    kasan: allow arches to hook into global registration
+>>    powerpc: Book3S 64-bit "heavyweight" KASAN support
+>>=20
+>>   arch/powerpc/Kconfig                         |   2 +
+>>   arch/powerpc/Kconfig.debug                   |  17 ++-
+>>   arch/powerpc/Makefile                        |   7 ++
+>>   arch/powerpc/include/asm/kasan.h             | 116 +++++++++++++++++++
+>>   arch/powerpc/kernel/prom.c                   |  40 +++++++
+>>   arch/powerpc/mm/kasan/Makefile               |   2 +
+>>   arch/powerpc/mm/kasan/kasan_init_book3e_64.c |  50 ++++++++
+>>   arch/powerpc/mm/kasan/kasan_init_book3s_64.c |  67 +++++++++++
+>>   arch/powerpc/mm/nohash/Makefile              |   5 +
+>>   include/linux/kasan.h                        |  13 +++
+>>   mm/kasan/generic.c                           |   9 +-
+>>   mm/kasan/generic_report.c                    |   2 +-
+>>   mm/kasan/init.c                              |  10 ++
+>>   mm/kasan/kasan.h                             |   6 +-
+>>   mm/kasan/report.c                            |   6 +-
+>>   mm/kasan/tags.c                              |   3 +-
+>>   16 files changed, 345 insertions(+), 10 deletions(-)
+>>   create mode 100644 arch/powerpc/mm/kasan/kasan_init_book3e_64.c
+>>   create mode 100644 arch/powerpc/mm/kasan/kasan_init_book3s_64.c
+>>=20
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
@@ -438,5 +205,5 @@ To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To post to this group, send email to kasan-dev@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/8046c75a-6b05-3c6a-2520-3b9b48d3cdc8%40c-s.fr.
+kasan-dev/87k1ehzob7.fsf%40dja-thinkpad.axtens.net.
 For more options, visit https://groups.google.com/d/optout.
