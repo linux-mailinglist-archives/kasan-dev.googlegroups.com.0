@@ -1,130 +1,124 @@
-Return-Path: <kasan-dev+bncBCVLJ7OQWEPBBQVOXLTQKGQESG6YTEI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDV37XP3XYDRBBGEXLTQKGQEAV4I3XQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pl1-x63a.google.com (mail-pl1-x63a.google.com [IPv6:2607:f8b0:4864:20::63a])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1F7B2DFB7
-	for <lists+kasan-dev@lfdr.de>; Wed, 29 May 2019 16:29:23 +0200 (CEST)
-Received: by mail-pl1-x63a.google.com with SMTP id d19sf1685946pls.1
-        for <lists+kasan-dev@lfdr.de>; Wed, 29 May 2019 07:29:23 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1559140162; cv=pass;
+Received: from mail-lj1-x23c.google.com (mail-lj1-x23c.google.com [IPv6:2a00:1450:4864:20::23c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 294AB2E0CA
+	for <lists+kasan-dev@lfdr.de>; Wed, 29 May 2019 17:15:17 +0200 (CEST)
+Received: by mail-lj1-x23c.google.com with SMTP id 25sf284510ljs.16
+        for <lists+kasan-dev@lfdr.de>; Wed, 29 May 2019 08:15:17 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1559142916; cv=pass;
         d=google.com; s=arc-20160816;
-        b=SFpmIIWd36aykEIz6G7Dgmvb1faEedr2482GsHJ5RJQ9yBWgBPLm+Ae7L8bVCJQefq
-         DoOGAZAYn8Y7LQ3QTGh/bwYkQc2Z87x9Se/Tbk+Cqwob0awJQWIf0HZOy7nPdnRaOihN
-         v/o0U3uPXbm1oKq2I77MYqoj6bDsJNsLAA8SobD275JPTqRGJAa6ZrSPUo7rzRQ171dI
-         ltSUDX24NksnCxwAkc8NvkQboz+COAqC4X3/fhZnxbLvGbMSH/cusfME6hhcG3QRm4F8
-         FnBAD6yPAScbdZL0an45dy7mkgehZCODb75OA8pzD/wRsc6BSA796uaiCdnNVFBE7MXD
-         9U0A==
+        b=BOr8utN4aAOkmb5/EHVQybwRG9GuQ8XCauwUlwWiJkyY23xMyL6s9jnn91wETORaye
+         BM9on9pVQXggUQHMcpNKkBeWtVW/ZoaTokhD8iD4UWSBa1laQwxakwBFU8rLVg/UvH3Z
+         9Z60Ri/gnVlKDvjZ7aQQmby6oZ7g/gt4hw2cUL7jsOZGaDye5LaTU2uGcyHbUoIKeVDT
+         1TPaar8XYBh9qiPtlaXR5YVq+2+fd8PEDhifDu4VZvSt0c+/ZJTXH/5XgtFyOo+NWf6D
+         Tw1n0v3SJr2ZCmxEJXPfX5zt8CsqoWYtMQmHjiQUeWqxXP9YBkEv3uuM2QpOQEMVJ6S8
+         a/5g==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:message-id:from:cc:to:subject
-         :mime-version:references:in-reply-to:user-agent:date:dkim-filter
-         :sender:dkim-signature;
-        bh=6PzWCa6YdwDs3uBNpX6kb3HLoBW26+hQVA3D6+XdNhI=;
-        b=clE4d/vs6XEogLeEtozSZaMkrqj23+ZxM348kBTCDumTP6ggmxWlKdrPUxtOdA6FXX
-         qv4+ni9ogON6nNQpxXfP4ra+P0GDVXFY1GEBiWlZtiSiOriY/1hCqQGivakFm+vO8O6z
-         N1yiXE1cfnlqubOpqS8w39t7btXQLd5bdF8gcPX/0ywXmCTwBjCHT6tomrTcttxpFAw/
-         UpKJhBaWPSBTqW3F/aTc37qL0/olh/2ecL7U2XUw1CjVw8opSxKUz7lNfrD1Tm5rI9TJ
-         vFdhv1dVDGVvHjQKVoUeRBplogXs40EIXzporXhF4jUdE90xAfiCg983G4NdyR6Uh+nc
-         L/xQ==
+         :list-id:mailing-list:precedence:user-agent:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:sender:dkim-signature;
+        bh=/41SwZGVz9ZCrpi6JEV5EutPbQYaSPe1Sp5taNAL4sk=;
+        b=d456N5ikmBROryOBfCih6UHp06vouhB+dLwKrL430ycRmvEkobn/Eti8ntBzpsDeTw
+         T1OUuiQPU9PThm/PnnLFqH1pFeNU7vz8xKMicU6JnT19r1xdjd5T9pYdnKy8wAzzu1ty
+         vjlHamvW+nu8BSRSBjpfCt0NuGy3KhswPhMADFIJNyb9qWKYMlr1oWrEwP/YU+jtHLK6
+         ACxE8IhO5fT4ddyygC19sp33rJR6fyORk+P3fM8EIsFQ8bYviQnbjB8plgc8SoE7xDF6
+         8asdvjHL9O3WtV26ir/83u+jFppev/dq9OGnSO8a8QM+eAR7xND8XHHzLXIw+wfHUHb3
+         4PkQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=fail header.i=@zytor.com header.s=2019051801 header.b=JzlSyO5e;
-       spf=pass (google.com: domain of hpa@zytor.com designates 198.137.202.136 as permitted sender) smtp.mailfrom=hpa@zytor.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=zytor.com
+       spf=pass (google.com: best guess record for domain of mark.rutland@arm.com designates 217.140.101.70 as permitted sender) smtp.mailfrom=mark.rutland@arm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:dkim-filter:date:user-agent:in-reply-to:references
-         :mime-version:subject:to:cc:from:message-id:x-original-sender
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=6PzWCa6YdwDs3uBNpX6kb3HLoBW26+hQVA3D6+XdNhI=;
-        b=jUP51b9I+AahSx7a3mN+fS9audWlCbnATxgSm62PNd/nAndCHO4IZTMOApIHONv156
-         uH9u06IUhHWaRk3BisqXDk/3b58cMErAtRErKsgwcekIX2CuOg7Kzx5sKfp7Rp1Ihhq9
-         ZXMbn07Ybtktr+g4BBUceuTOZ6KpvJmmLfuc33g8tea1FbWTey32uRjz7p+IPg8iS1Js
-         rYbl1DU0n2Mq4EIQFFC5M19SW0beA4kPLCG6DRKACKY+yPvvgpm7OHHeyWVptwLUwi4L
-         uwtflH6gEjQd7JDbbRQ6eYlWw6c0iBlR2dTSb+BcspFs93TVZH8tNj6omtH8RAMSM0hx
-         5ZNA==
+        bh=/41SwZGVz9ZCrpi6JEV5EutPbQYaSPe1Sp5taNAL4sk=;
+        b=d9a1jxnKmNlqcEfTvq81BluGr4cAzNvzn0GHWbnN3JKrs5SekpfFZK4StNF2FmOWK5
+         clt/NxGtmbUmxj8vlr3jjPKA3/lhmBiGyPsYD0QE1KhHawjJlKyZEn1w6etI8XXu9fvN
+         z4wpX3NvgkUjNMti4QQQagTGG0JNLwKmWxLTfTEpdHAKk8Hn2T+ayg6OasXqVd2pOKKh
+         fLwjSS/TpAbJtwnwGUaKK90qKhLpc5ltKrVDjl2yYAwc9D3SZoUNfhZWNNUr26rRz2cz
+         ilG2ykTWM3VDZWxJ9QSba6pBRLtWwsdGAj2dm8pSzC2C3fzXEeX5tb11oUNFhsaxm8j/
+         tONQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:dkim-filter:date:user-agent:in-reply-to
-         :references:mime-version:subject:to:cc:from:message-id
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=6PzWCa6YdwDs3uBNpX6kb3HLoBW26+hQVA3D6+XdNhI=;
-        b=Sz3AQsfTwDPuoP0VI1wx/QjjcrhIzB8yyASc3jRE7AAuSJvqi4rm4ib1LtlrD1pGAo
-         S7t6JW2bMQzVSLE4++2DH2YTutK1/8zQyrIKNM+x0tm20fYQbTp+47LaEjoPeBo82XoY
-         0piA2tga/9B/EZTUQgLIvKAVcJ7c98HqnF7SCdhREEkVMy9fw6JgCdmtRRDcgcCLSMaX
-         JCKLlOUyR4rlwcoMdlZxlSDp/mSPETTieg0V2SbMH06XvhVMjCAG9QIRiIT6uh5ztGTA
-         VTvAE9GR84t1YCmSLsZ/KXMQ+GGpsQGH25k23R/EWinHr787YU7XK5WGGS7Qk/UmL6C1
-         ZcCg==
+        bh=/41SwZGVz9ZCrpi6JEV5EutPbQYaSPe1Sp5taNAL4sk=;
+        b=KqzaNhWPZ+ynPOyArHhIIwjH/yCCpqD/niNUh4Ixq3+rPsnRiBxKAcOp2XgfA4Fia/
+         By3to4bNLGxkL+GwrQuU7LOeW3FHO1BNiXs02A+MsuRSfl6zMPqAVuyKBvm1GTNqBpYX
+         vVSwZteoYrJFTPRb3wER/rrFhgLdZi69vmaybIUFi+Eco9RtFS7/XTz3Vizp/IVbtF0U
+         U+p+VKKZI+BSZRyL0N3VN/+Q9b9dAaRYW/YmydbE8+f4UxHijbzoqcP02KBn/9bvBny0
+         Hzkkq5gnocmyMCgNWa+FwfqaIUqkRNHCSKVGLNGAjaVRdk+f9GlxiVjGQvMf2DoBh5VJ
+         C7rA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAV7WFODgXfEAcEXxdQN4Jo2/TilStHGu4fGoQVBJBYkx0/w5yd9
-	Kp1QWgYTgEaTM4yjfUn7Mv8=
-X-Google-Smtp-Source: APXvYqy4mQWQBb4oIehLo6xuq9YQ2iNN3hu4Ei123TRPGkmhGrir4MgHLp05v9lsmH/lTRkn8OOsTQ==
-X-Received: by 2002:a65:620a:: with SMTP id d10mr14543284pgv.42.1559140162577;
-        Wed, 29 May 2019 07:29:22 -0700 (PDT)
+X-Gm-Message-State: APjAAAU401si0LLWc8t0aXsajTYnpDEgxCUixTztEaXhXWotgWIndeIP
+	U5UU0pueguSwc2QmgDpuk1E=
+X-Google-Smtp-Source: APXvYqyUj8eK4VhwN81therXD+JqiGKf9NKLgLbI/fU16/TEsW5yLKxcszCy7McxwmCuiCOtHPA/ow==
+X-Received: by 2002:ac2:5337:: with SMTP id f23mr12920162lfh.15.1559142916657;
+        Wed, 29 May 2019 08:15:16 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:90a:1b4d:: with SMTP id q71ls715160pjq.3.canary-gmail;
- Wed, 29 May 2019 07:29:22 -0700 (PDT)
-X-Received: by 2002:a17:90a:e0f:: with SMTP id v15mr12493006pje.140.1559140162306;
-        Wed, 29 May 2019 07:29:22 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1559140162; cv=none;
+Received: by 2002:a2e:2b4a:: with SMTP id q71ls324750lje.13.gmail; Wed, 29 May
+ 2019 08:15:16 -0700 (PDT)
+X-Received: by 2002:a2e:2c17:: with SMTP id s23mr15865927ljs.214.1559142915993;
+        Wed, 29 May 2019 08:15:15 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1559142915; cv=none;
         d=google.com; s=arc-20160816;
-        b=TIj0t85UMDrAIxIwDbJRxWPjl1/XJyS+qXKTl1+1NFN79PtxcGP1UEaIUYGRHQTOau
-         hgtfx4hRkQPMMiI7TZEhMCZ8kw+KYZTJnOPgM2pDw2seKsh/P6FAGTswP+waqGHo02TP
-         aFb79PkcNGnUHT8NnxWfXn5pQDoOgZcOC0mNGQqLvUVdq1O2/OQf6ERBcZfX66w4aaaK
-         B95oMIYhV1QiwHnFLAYvZTup3F0JDDw8FZi64dJUqfcS0udgLqpDcgtiEtH5VUYc8pSI
-         jUCkD/Ct7wfwEdeKnyJQap9lAY7ZLNx4uQ+tTiO8+SO+Y2rCqMuxgeVgGKIkMkVxdrKQ
-         jUEg==
+        b=LA3qAM9nCisd29Po1AWJSIB6pfWiPSrWvDKGhhbtcN2jWwPpL/U3hzbOR+r+RV7Uqu
+         tfCKcT6rM8pu0nkxIt7m7XDfhgsF3UBGuz+kM7I3aBGUnbn2ec63q+T+bGPF3ReO7GWV
+         WRLsdKDRzBU3kHuPKeLXRhfFNdLg06gZ7RmI+TqZ/QtVPodXLXTWS1xWsSQp5dSIU4va
+         wqLuyydY/A7HNMc+Aizdl23AwxHG0uRNXXg1bbIu1LPuyykxx2ysq1kdGsSyiwm1bJJB
+         6JMfxC7wLyVcl9mjE6z7yRFRXu+BrqdYjAd9tZtMMX3c2NtVWINfmB8AZToTuWj/7p+8
+         xdvw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=message-id:from:cc:to:subject:content-transfer-encoding
-         :mime-version:references:in-reply-to:user-agent:date:dkim-signature
-         :dkim-filter;
-        bh=0QBCMhL0UtNfpa1/nHPwY54RLtb1R1cG9r3yArQfJtw=;
-        b=Epf+3scViykDus/DRXyejmlhoBpr7SA0OU48rbtfH0ed2z/gLuerqQG9XOFok7VKab
-         r11jkQ2nr5XVAs59hnziDIucfDHiI65cnIaQMxWHsHORXgZ7QgxTmZL5mu7MASebMUQx
-         XHQpYRz2pOYEuAuD0FJbpmYasuUZyJN7Wv8TQWa2jjTZ9Nk4O6JTiex9GDQip3XNvvMb
-         O1jEaBdoyKc4tfH95+R76cifxq9p4cYJ5a0OC+/yVd7Wqz6fZZ2FOlN1ASs9y2NDcY0W
-         bhEjyE1OJ2e7R6CFt7ZCErTrf652kpTVuuzpkuBaPVGjClxI+ltCw7E3oz+6tTEEau0B
-         MUlw==
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date;
+        bh=HZkrRc/HiXxNBOObYKoeQgd+L+tdRSc3/FsW3MGr9So=;
+        b=QFjmKVV3NPwi+kg8X12+uHRMzrMpLuqm0JYtP3HVAkjzf4D3uwUbv0nsFu+vd+4bem
+         ynIe01mWryydOtXM52cHNnkyNMxQCLwrCDvMMvVILgZ/dSIGY0XzfSDukcd28ktAQ4ZU
+         KYVsN+mXmcCOLXfFptKpXcKdF4+Q/kOBaCUvpQ/r3b/TDJvGgc2+yAfO5WiAM9C3B0cm
+         hfBhZYN38Rip5BeMbbX6XAEIgpTfLnvhDKhgOV9w0gbDzMAyfeXTrg7KNLHj5wnIqz5p
+         RcoaMmBlqJOJsYuC8HQs6tVE+2f1Y6whCzZz6ZtLtB4+tXtlMwvznTLi9uZT8BYIARDq
+         VJiA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=fail header.i=@zytor.com header.s=2019051801 header.b=JzlSyO5e;
-       spf=pass (google.com: domain of hpa@zytor.com designates 198.137.202.136 as permitted sender) smtp.mailfrom=hpa@zytor.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=zytor.com
-Received: from mail.zytor.com (terminus.zytor.com. [198.137.202.136])
-        by gmr-mx.google.com with ESMTPS id s3si206551pjb.1.2019.05.29.07.29.21
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 29 May 2019 07:29:22 -0700 (PDT)
-Received-SPF: pass (google.com: domain of hpa@zytor.com designates 198.137.202.136 as permitted sender) client-ip=198.137.202.136;
-Received: from [172.20.5.109] (207-225-69-115.dia.static.qwest.net [207.225.69.115] (may be forged))
-	(authenticated bits=0)
-	by mail.zytor.com (8.15.2/8.15.2) with ESMTPSA id x4TET5Ip2561081
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
-	Wed, 29 May 2019 07:29:05 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com x4TET5Ip2561081
-Date: Wed, 29 May 2019 07:29:01 -0700
-User-Agent: K-9 Mail for Android
-In-Reply-To: <20190529141500.193390-3-elver@google.com>
-References: <20190529141500.193390-1-elver@google.com> <20190529141500.193390-3-elver@google.com>
+       spf=pass (google.com: best guess record for domain of mark.rutland@arm.com designates 217.140.101.70 as permitted sender) smtp.mailfrom=mark.rutland@arm.com
+Received: from foss.arm.com (usa-sjc-mx-foss1.foss.arm.com. [217.140.101.70])
+        by gmr-mx.google.com with ESMTP id s187si740345lfe.4.2019.05.29.08.15.14
+        for <kasan-dev@googlegroups.com>;
+        Wed, 29 May 2019 08:15:14 -0700 (PDT)
+Received-SPF: pass (google.com: best guess record for domain of mark.rutland@arm.com designates 217.140.101.70 as permitted sender) client-ip=217.140.101.70;
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D7737341;
+	Wed, 29 May 2019 08:15:12 -0700 (PDT)
+Received: from lakrids.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.72.51.249])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E0F0A3F5AF;
+	Wed, 29 May 2019 08:15:09 -0700 (PDT)
+Date: Wed, 29 May 2019 16:15:07 +0100
+From: Mark Rutland <mark.rutland@arm.com>
+To: Marco Elver <elver@google.com>
+Cc: peterz@infradead.org, aryabinin@virtuozzo.com, dvyukov@google.com,
+	glider@google.com, andreyknvl@google.com, corbet@lwn.net,
+	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
+	x86@kernel.org, arnd@arndb.de, jpoimboe@redhat.com,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arch@vger.kernel.org, kasan-dev@googlegroups.com
+Subject: Re: [PATCH v2 1/3] lib/test_kasan: Add bitops tests
+Message-ID: <20190529151507.GI31777@lakrids.cambridge.arm.com>
+References: <20190529141500.193390-1-elver@google.com>
+ <20190529141500.193390-2-elver@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Subject: Re: [PATCH 2/3] x86: Move CPU feature test out of uaccess region
-To: Marco Elver <elver@google.com>, peterz@infradead.org,
-        aryabinin@virtuozzo.com, dvyukov@google.com, glider@google.com,
-        andreyknvl@google.com, mark.rutland@arm.com
-CC: corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        x86@kernel.org, arnd@arndb.de, jpoimboe@redhat.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arch@vger.kernel.org, kasan-dev@googlegroups.com
-From: hpa@zytor.com
-Message-ID: <EE911EC6-344B-4EB2-90A4-B11E8D96BEDC@zytor.com>
-X-Original-Sender: hpa@zytor.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=fail
- header.i=@zytor.com header.s=2019051801 header.b=JzlSyO5e;       spf=pass
- (google.com: domain of hpa@zytor.com designates 198.137.202.136 as permitted
- sender) smtp.mailfrom=hpa@zytor.com;       dmarc=pass (p=NONE sp=NONE
- dis=NONE) header.from=zytor.com
+Content-Disposition: inline
+In-Reply-To: <20190529141500.193390-2-elver@google.com>
+User-Agent: Mutt/1.11.1+11 (2f07cb52) (2018-12-01)
+X-Original-Sender: mark.rutland@arm.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: best guess record for domain of mark.rutland@arm.com designates
+ 217.140.101.70 as permitted sender) smtp.mailfrom=mark.rutland@arm.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -137,70 +131,146 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On May 29, 2019 7:15:00 AM PDT, Marco Elver <elver@google.com> wrote:
->This patch is a pre-requisite for enabling KASAN bitops
->instrumentation:
->moves boot_cpu_has feature test out of the uaccess region, as
->boot_cpu_has uses test_bit. With instrumentation, the KASAN check would
->otherwise be flagged by objtool.
->
->This approach is preferred over adding the explicit kasan_check_*
->functions to the uaccess whitelist of objtool, as the case here appears
->to be the only one.
->
->Signed-off-by: Marco Elver <elver@google.com>
->---
->v1:
->* This patch replaces patch: 'tools/objtool: add kasan_check_* to
->  uaccess whitelist'
->---
-> arch/x86/ia32/ia32_signal.c | 9 ++++++++-
-> 1 file changed, 8 insertions(+), 1 deletion(-)
->
->diff --git a/arch/x86/ia32/ia32_signal.c b/arch/x86/ia32/ia32_signal.c
->index 629d1ee05599..12264e3c9c43 100644
->--- a/arch/x86/ia32/ia32_signal.c
->+++ b/arch/x86/ia32/ia32_signal.c
->@@ -333,6 +333,7 @@ int ia32_setup_rt_frame(int sig, struct ksignal
->*ksig,
-> 	void __user *restorer;
-> 	int err = 0;
-> 	void __user *fpstate = NULL;
->+	bool has_xsave;
+On Wed, May 29, 2019 at 04:14:59PM +0200, Marco Elver wrote:
+> This adds bitops tests to the test_kasan module. In a follow-up patch,
+> support for bitops instrumentation will be added.
 > 
-> 	/* __copy_to_user optimizes that into a single 8 byte store */
-> 	static const struct {
->@@ -352,13 +353,19 @@ int ia32_setup_rt_frame(int sig, struct ksignal
->*ksig,
-> 	if (!access_ok(frame, sizeof(*frame)))
-> 		return -EFAULT;
+> Signed-off-by: Marco Elver <elver@google.com>
+> ---
+> Changes in v2:
+> * Use BITS_PER_LONG.
+> * Use heap allocated memory for test, as newer compilers (correctly)
+>   warn on OOB stack access.
+> ---
+>  lib/test_kasan.c | 75 ++++++++++++++++++++++++++++++++++++++++++++++--
+>  1 file changed, 72 insertions(+), 3 deletions(-)
 > 
->+	/*
->+	 * Move non-uaccess accesses out of uaccess region if not strictly
->+	 * required; this also helps avoid objtool flagging these accesses
->with
->+	 * instrumentation enabled.
->+	 */
->+	has_xsave = boot_cpu_has(X86_FEATURE_XSAVE);
-> 	put_user_try {
-> 		put_user_ex(sig, &frame->sig);
-> 		put_user_ex(ptr_to_compat(&frame->info), &frame->pinfo);
-> 		put_user_ex(ptr_to_compat(&frame->uc), &frame->puc);
-> 
-> 		/* Create the ucontext.  */
->-		if (boot_cpu_has(X86_FEATURE_XSAVE))
->+		if (has_xsave)
-> 			put_user_ex(UC_FP_XSTATE, &frame->uc.uc_flags);
-> 		else
-> 			put_user_ex(0, &frame->uc.uc_flags);
+> diff --git a/lib/test_kasan.c b/lib/test_kasan.c
+> index 7de2702621dc..6562df0ca30d 100644
+> --- a/lib/test_kasan.c
+> +++ b/lib/test_kasan.c
+> @@ -11,16 +11,17 @@
+>  
+>  #define pr_fmt(fmt) "kasan test: %s " fmt, __func__
+>  
+> +#include <linux/bitops.h>
+>  #include <linux/delay.h>
+> +#include <linux/kasan.h>
+>  #include <linux/kernel.h>
+> -#include <linux/mman.h>
+>  #include <linux/mm.h>
+> +#include <linux/mman.h>
+> +#include <linux/module.h>
+>  #include <linux/printk.h>
+>  #include <linux/slab.h>
+>  #include <linux/string.h>
+>  #include <linux/uaccess.h>
+> -#include <linux/module.h>
+> -#include <linux/kasan.h>
+>  
+>  /*
+>   * Note: test functions are marked noinline so that their names appear in
+> @@ -623,6 +624,73 @@ static noinline void __init kasan_strings(void)
+>  	strnlen(ptr, 1);
+>  }
+>  
+> +static noinline void __init kasan_bitops(void)
+> +{
+> +	long *bits = kmalloc(sizeof(long), GFP_KERNEL | __GFP_ZERO);
 
-This was meant to use static_cpu_has(). Why did that get dropped?
--- 
-Sent from my Android device with K-9 Mail. Please excuse my brevity.
+Trivial nit, but this can/should be:
+
+	long *bits = kzalloc(sizeof(*bits), GFP_KERNEL);
+
+
+... which is the usual style for sizeof() to keep the LHS and RHS types
+the same, and using kzalloc avoids the need to explicitly pass
+__GFP_ZERO.
+
+Otherwise, this looks good to me.
+
+> +	if (!bits)
+> +		return;
+> +
+> +	pr_info("within-bounds in set_bit");
+> +	set_bit(0, bits);
+> +
+> +	pr_info("within-bounds in set_bit");
+> +	set_bit(BITS_PER_LONG - 1, bits);
+> +
+> +	pr_info("out-of-bounds in set_bit\n");
+> +	set_bit(BITS_PER_LONG, bits);
+> +
+> +	pr_info("out-of-bounds in __set_bit\n");
+> +	__set_bit(BITS_PER_LONG, bits);
+> +
+> +	pr_info("out-of-bounds in clear_bit\n");
+> +	clear_bit(BITS_PER_LONG, bits);
+> +
+> +	pr_info("out-of-bounds in __clear_bit\n");
+> +	__clear_bit(BITS_PER_LONG, bits);
+> +
+> +	pr_info("out-of-bounds in clear_bit_unlock\n");
+> +	clear_bit_unlock(BITS_PER_LONG, bits);
+> +
+> +	pr_info("out-of-bounds in __clear_bit_unlock\n");
+> +	__clear_bit_unlock(BITS_PER_LONG, bits);
+> +
+> +	pr_info("out-of-bounds in change_bit\n");
+> +	change_bit(BITS_PER_LONG, bits);
+> +
+> +	pr_info("out-of-bounds in __change_bit\n");
+> +	__change_bit(BITS_PER_LONG, bits);
+> +
+> +	pr_info("out-of-bounds in test_and_set_bit\n");
+> +	test_and_set_bit(BITS_PER_LONG, bits);
+> +
+> +	pr_info("out-of-bounds in __test_and_set_bit\n");
+> +	__test_and_set_bit(BITS_PER_LONG, bits);
+> +
+> +	pr_info("out-of-bounds in test_and_set_bit_lock\n");
+> +	test_and_set_bit_lock(BITS_PER_LONG, bits);
+> +
+> +	pr_info("out-of-bounds in test_and_clear_bit\n");
+> +	test_and_clear_bit(BITS_PER_LONG, bits);
+> +
+> +	pr_info("out-of-bounds in __test_and_clear_bit\n");
+> +	__test_and_clear_bit(BITS_PER_LONG, bits);
+> +
+> +	pr_info("out-of-bounds in test_and_change_bit\n");
+> +	test_and_change_bit(BITS_PER_LONG, bits);
+> +
+> +	pr_info("out-of-bounds in __test_and_change_bit\n");
+> +	__test_and_change_bit(BITS_PER_LONG, bits);
+> +
+> +	pr_info("out-of-bounds in test_bit\n");
+> +	(void)test_bit(BITS_PER_LONG, bits);
+> +
+> +#if defined(clear_bit_unlock_is_negative_byte)
+> +	pr_info("out-of-bounds in clear_bit_unlock_is_negative_byte\n");
+> +	clear_bit_unlock_is_negative_byte(BITS_PER_LONG, bits);
+> +#endif
+> +	kfree(bits);
+> +}
+> +
+>  static int __init kmalloc_tests_init(void)
+>  {
+>  	/*
+> @@ -664,6 +732,7 @@ static int __init kmalloc_tests_init(void)
+>  	kasan_memchr();
+>  	kasan_memcmp();
+>  	kasan_strings();
+> +	kasan_bitops();
+>  
+>  	kasan_restore_multi_shot(multishot);
+>  
+> -- 
+> 2.22.0.rc1.257.g3120a18244-goog
+> 
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
 To post to this group, send email to kasan-dev@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/EE911EC6-344B-4EB2-90A4-B11E8D96BEDC%40zytor.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20190529151507.GI31777%40lakrids.cambridge.arm.com.
 For more options, visit https://groups.google.com/d/optout.
