@@ -1,135 +1,122 @@
-Return-Path: <kasan-dev+bncBAABBNPRXTTQKGQEQJFXS3Q@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABB6HCXXTQKGQEGTN454I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-io1-xd40.google.com (mail-io1-xd40.google.com [IPv6:2607:f8b0:4864:20::d40])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44BD82EA6B
-	for <lists+kasan-dev@lfdr.de>; Thu, 30 May 2019 03:58:14 +0200 (CEST)
-Received: by mail-io1-xd40.google.com with SMTP id n4sf2269200ioc.0
-        for <lists+kasan-dev@lfdr.de>; Wed, 29 May 2019 18:58:14 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1559181493; cv=pass;
+Received: from mail-it1-x13f.google.com (mail-it1-x13f.google.com [IPv6:2607:f8b0:4864:20::13f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 54D5D2F756
+	for <lists+kasan-dev@lfdr.de>; Thu, 30 May 2019 08:00:26 +0200 (CEST)
+Received: by mail-it1-x13f.google.com with SMTP id p19sf4174432itp.6
+        for <lists+kasan-dev@lfdr.de>; Wed, 29 May 2019 23:00:26 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1559196025; cv=pass;
         d=google.com; s=arc-20160816;
-        b=tv1VLxkDrrRL5HJ2NQ/Q3vRyez4nL1V7r99Jum9NIvAXjtIzj4LJE1xc3zVJNB9Vi3
-         H0r56ORDyavMZm0HXamE0L71PjsMDWsii9rVFHpwUAYqII/vqK62RJ0P1eGwqWmj+Jo2
-         iHLjMw4mFoX4rHj2Ys4GWmQ/98yTtCvl9vUXYFKhABtA5MIUe4OOUZd+13m14dhzUVPb
-         QiXvu72E68c2UYVipziQ8ZNSNaBLZPSoAjBKn/EUOeqGhvUM2JJId8xGK6IauGbM2+AP
-         Ab33ugOKRZBYWWlv7Rv7dft0s33Rw977FHA6Dcz4vUjxobt88kJlhQouN+XibzWuHr0u
-         89kw==
+        b=wYtw41wfRqmxqw27reIgGSSrW4BOKmkYdptTzYBUa9EljIi+CEBF8kE86s6hxG2dCW
+         WZRQjqQ2J5xDXCqp/JTxbiL4LpVUmbbmhSkxT87mxzZMs1IANAKi3K713wrdmLTxP/vx
+         Bs/M/yLq5QjnQUQIfj9xiQmopRayp+Hh48GS7hgQUjbKtKY4vlEWtUNgAWjDxp/W85Nj
+         02UNe54AnETSsc/50AkpTUmAh4bjpEIAVkr0l5GN756UGPykuZGWjq5SUOWq2FNyH+JJ
+         Og0PT7fx75QAPHC8z45IYYg5jz2GhiAnlG38NwNXvxS2eUhFPTmojomGlc4l1pnbyXVB
+         yMYw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
-         :date:cc:to:from:subject:message-id:sender:dkim-signature;
-        bh=U0MZKS1jmo/IE2gNIiZaiPxHBZOrS4aoNj6C0567euM=;
-        b=qZBUNdiDPTtA+5S44U8LPCX6CuSKNCDbC38Vd823nB6CfDGTiGTzn1KOY1OvM1p9Nl
-         sOmFl9yGKzL0IWjvvNv593W/N8Hxaymf4fiRLJCMAgQ7ah+gcEVKLd1PnAwEG9rOAXVj
-         PdArvvKdEXwms2MFft4c+TTK5VE+vE4zW1105+wky1S/ZT4pZHPtj0CmcngA7Af2xxfB
-         WpzNIOJ8WeL70VOWFm93oH6HgZ2y6XTRG45bhf1zXyuMS9fB63Ut9/RLRMSXDKRJ/OKD
-         hPKBhzik/bGvDIKkB4lKzRA5H8eStmnTRgOB3iw4Le/HiqHGebB3THzZ3YlqzuWOsH1A
-         ezJw==
+         :list-id:mailing-list:precedence:message-id:mime-version:subject:to
+         :from:date:sender:dkim-signature;
+        bh=Zm2uzJv/ifnneBi1E8z6l3HPxVMwOmDC3px/6xcNZSo=;
+        b=RnLsY1Mna+HOXPNwwqeHiYeEL9BACccM+gAOMrKYHprIYMrk+G5cmQrLN6HYa581+s
+         ul9WCR5783YQtNgUabwaVcvvOPGF250vU2tRPm5AhlfWq10HoNnoTQ+dylfKOlE3u0nc
+         QBLKY/CrD3BKzsUYVhexH0uD6wgbyjFa/l/oWs4klxMIOr5VaWw6Qix0649BPdMJ3qf3
+         r94Zfljb62uI60fj5Soip4Qs1OgwZr1v0O9wbGZi36z+gEVcKRfAQhYlNS9uS3sBJXKG
+         3ygw4ESygzAXxMhLjcbFKzV49Nim/29RS6Nt1+/VM3HnoYmlgcLA1T8ltZ3y8iLPgo6+
+         Ctbw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.184 as permitted sender) smtp.mailfrom=walter-zh.wu@mediatek.com
+       dkim=pass header.i=@163.com header.s=s110527 header.b=OqfwmqMO;
+       spf=pass (google.com: domain of gjs_vb2@163.com designates 220.181.13.79 as permitted sender) smtp.mailfrom=gjs_vb2@163.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=163.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:message-id:subject:from:to:cc:date:in-reply-to:references
-         :mime-version:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+        h=sender:date:from:to:subject:mime-version:message-id
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=U0MZKS1jmo/IE2gNIiZaiPxHBZOrS4aoNj6C0567euM=;
-        b=YyP2rwnUDLRZ04bvZA24V8DYx6LFeVux5t1PzIqz0+UA8X2/NRo9oNw+2mhJTz2lON
-         quSmEfUBHWbU/YWzPoyoC7CWbRMw66sM50co4cbQVJfo3OwlX0Zt0VvUNfQyXi5NCZZx
-         bpJ5cwwQk0TtUQB3hoRTiOtNSUdz21B8zgKMccCr4Kdx+EFCRhIIEwJ/WKhmLLVqixNn
-         4KCFZQKUnwW6PL1vNYpJMw7RcTgYoRGGzR3Vr91M7tuSkkscydR0EV94SkH22glTQpaU
-         kaLGFCzS+wAT6LRXb1jVbFGHiXV4EB/Ri3G/3ckwi7hf5tP1tAfdsFVdidyECCaxDf2V
-         svLQ==
+        bh=Zm2uzJv/ifnneBi1E8z6l3HPxVMwOmDC3px/6xcNZSo=;
+        b=ZJVo5xJwP7bvK0XesqVl3fsA9FuXQ1Y7+XxalfJ2Y9SU2ylw4W58hTen1hW2vZg5bc
+         UhRb1at6VrlSRFtLelZ27RIhXceO9v3CSlSiKf67gJotOkKRNQqU12Q8FFiX26l+q4yc
+         iH3pfYdSUWYG/CrL1VJITqj4aypeu33tgaaipp2YKdtrAa2/VSQ8TkoMc8dTH5Svd2t+
+         +lI/RsrSwqCeL0ZJICjS4mLbSGVcSVpkNeRT+cHbMuhWkZrAN2X2zYjdzY+VzP0U6POi
+         3kpfwwMgSbKy2Hkn9zTzBUBbVF1KVoLEcyVTGVPkdiOFvENwzv1aVWIj3kMZ8LUNwMNT
+         S+nQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:message-id:subject:from:to:cc:date
-         :in-reply-to:references:mime-version:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=U0MZKS1jmo/IE2gNIiZaiPxHBZOrS4aoNj6C0567euM=;
-        b=Pi9LtGWjgE/bI16ghMHsW5nCeMGt48VnJjSdWJb2sfePpHVidGFZwy0yewlFYCfs+x
-         qxm1WgKVclXehWB3OFqL0yhed0rSkrRINVSQjTtwKNFxOaNmd+64aRNbC156Y22nqZ55
-         rG1q3LTTPc4dLNPsJe5jC9F3C+ulEmuTtaM+fQihC1gUXXrOff73kLvcQKdxs7ayYskN
-         iFYD8wrB8ZeVVCHn69fB7RcWCV7gm/nD4xqHiaHTRUdDDAx1lpE5adgvxFVejX9CcCHf
-         8Axdnbvh2pE7RmqaPH0rZlS4Np4zOuiCY/bpNWifz13NBzNjCghpqAavejNT7NDat81+
-         tbLQ==
+        h=sender:x-gm-message-state:date:from:to:subject:mime-version
+         :message-id:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=Zm2uzJv/ifnneBi1E8z6l3HPxVMwOmDC3px/6xcNZSo=;
+        b=t+K00PhJTRPx3izAgrvr2Tos3x9ijsabiHvF7gg59FD35TC6199U1VoIM1BUQKsTkv
+         vQFB0uyrd6xHHA23+qFn+pbu2sDTr8LwLMCsjE6YAMXHZ+1nX7/Ptm2t1fJDDfi8dzYI
+         iw//AOZh7m5B+JwNLSAzdEPGCz7n8/bq50tTKRCbyUT+qGvNJIQd7KwdJkp/n/1w7pi4
+         kXCBDZiq+cTKa7VGnGiSjtnZfPxkWbVl6wigXPX2lWl4PduYUKQ+7EEsoCVv0g/tLYJc
+         9LztkgEzr+PweArbAt5cxQCzQzjsEogmy7O36gviKl8gDOON/X6R1dmISaVzx7jqifsw
+         XAHg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAWhP61dVQ3QbEiHcfD1JR5muLlgXDXhbEVoEQTbtSd5EZqYaoHa
-	II3ybiNcHFhFn2UsgHF/Sks=
-X-Google-Smtp-Source: APXvYqwucI9SlhXrr23yaHM0fUUnMFIsgZzxG2xD88DbpgjcnZLrO2jl1E0ZKEjYPzOqgUGA+zGtGg==
-X-Received: by 2002:a5d:8181:: with SMTP id u1mr864531ion.303.1559181493074;
-        Wed, 29 May 2019 18:58:13 -0700 (PDT)
+X-Gm-Message-State: APjAAAUdwRBaG6tELinNqpWiEy/39g2623ooN0UPbPaPeBFKhtdOPfQZ
+	yRmfAjFpDCK8x5DkuOxsnPI=
+X-Google-Smtp-Source: APXvYqxwaTZE1jekSR5o3hERVhVz/0tYEXnGG63UerxOOl8umiJCV62QpQLV9SV2yf0RUxNpHQ09Wg==
+X-Received: by 2002:a6b:bc02:: with SMTP id m2mr1569670iof.25.1559196025051;
+        Wed, 29 May 2019 23:00:25 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a6b:f613:: with SMTP id n19ls719062ioh.5.gmail; Wed, 29 May
- 2019 18:58:12 -0700 (PDT)
-X-Received: by 2002:a5d:9518:: with SMTP id d24mr874619iom.21.1559181492860;
-        Wed, 29 May 2019 18:58:12 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1559181492; cv=none;
+Received: by 2002:a05:6638:2b7:: with SMTP id d23ls392686jaq.16.gmail; Wed, 29
+ May 2019 23:00:24 -0700 (PDT)
+X-Received: by 2002:a02:ccb8:: with SMTP id t24mr1092771jap.59.1559196024809;
+        Wed, 29 May 2019 23:00:24 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1559196024; cv=none;
         d=google.com; s=arc-20160816;
-        b=bpH5zGICQLuA4cBKFBZ6xtUMnZGxUIsfeR3mwEQkILZpinY9MNLYpVFnQyh/QktMVt
-         KXA/XdqM7MFx6sZzilQ1Lq5XvK/Jw1sQ8WvuoR00GyxCfUT2G+7o9585ck8HFgRnWkmk
-         Etf7oSTm1S0Nj/0PC1fzKjlo7ojd53RqAxp8tBKKT98EdGEHndRwJn1cR/VuGk15T3aT
-         2AmxkZUhRA7R64F7Vc5vAu6QceQ/s7Qh9m6B5/e4B1DOrukZGe945tnMlnQn3NJX1Ekb
-         nmsXS5JHmjQ86c6qcK/Z+DoEVQ9YhVqli+jE4xXHeYO2r9Vedy2NQLKd/7CszMSA1n6H
-         uO8g==
+        b=ltutqRvDQ+CdW+PhVOx2zSve3rUebg1Z7AOhq9QPxT9MyBxE/iLT+AwYgAv0b3W0Uq
+         DZOCFkzBY+P8l369jaIY8gumyPeLAdXw77/Iqb8XV2es4wrT79c/lJq4bwuWIf334nF2
+         j2dCbDd80dgbzMNas25pug5lbxBYrpVp+2sX/5BJsDMpZMr8gehyM2a8/73i4I72BSDJ
+         HmHOtrSlVOhxcBBRKDnTrnSwsp3rkOW4v+9Y9Izft+Hg3nPvGGJE2986iAaNjGkyvuWo
+         DJ5a2RlvKkFT5k9PAoY0/gxp4qx7hudOYvLRJBd+JsGPJUjlXBjFvbR5VNAYuqyICy29
+         Z3UA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=mime-version:content-transfer-encoding:references:in-reply-to:date
-         :cc:to:from:subject:message-id;
-        bh=XXsLOZQadxBhSzd1txFxmx/ksVLxTCP4p3VJFs76yBk=;
-        b=MTN/sOXAuolbLKM6M3EXthHkwIPwtUXfL+NlHuIJIjZqabCvJm0GEH9IKXU/3WNsHr
-         KTdSAna/KzWbFOjDYNjqQ3rvNHjXYoNvE2lLcKUv0FYq3hmPnDNYaTHyV67sAfXzEREd
-         3NEF56O0+wanXVYAur6ZOqJ0LrFiHsSg4eHmKF4YdHfryBthZ2eSTE+0O+1Pn45Kiu+I
-         NaV0uhds4rKeSkMNYXCWEjY33nMsmBwSirNGNN7soHKLGkd/z1E/B3nUnr9x1vwNX8oO
-         atjiBee374v8AYxCEQcKFXlVkpdlIqKo8WrTHtb38CVflwfH9Cap0uIKaLEoi5UEFIqW
-         25/g==
+        h=message-id:mime-version:subject:to:from:date:dkim-signature;
+        bh=mWkdTOn7RjCvrhmNC6snmrXlzwlidci3AMmwF9Wl0YA=;
+        b=cksZoM9t/NjkjfpC2sbwhv//oZBNNRmVReHz0xoS4JXR9oREJODvz5eCKmXJj9ZV5/
+         +EUUw6FCSvFURYFC8D7m2HHJqcbzNoX1rcLzyr6+AkVJQdIYPKUl9hvl0G+vzXbF2tNa
+         9uJAb1kddzPy7GXvODSleBBB7AkhTHvllSpPLiqWdEeKUwO+63oSOFr5QkWKjGUsnZAr
+         0CpcSauUX0jU5R+mExMRFRgo1ylVHwdA+P+E8KHQ4/q9hNdp8BhiPcJq0QIdmJMO3bMu
+         fRv2IMPavP1fbIs06u/I/bqqb23JyFWi6rtmX0F0cMjdwjMrB/mD70awMKnF/5YR8PAE
+         6vtQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.184 as permitted sender) smtp.mailfrom=walter-zh.wu@mediatek.com
-Received: from mailgw02.mediatek.com ([210.61.82.184])
-        by gmr-mx.google.com with ESMTPS id y3si50341ioy.2.2019.05.29.18.58.11
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 29 May 2019 18:58:12 -0700 (PDT)
-Received-SPF: pass (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.184 as permitted sender) client-ip=210.61.82.184;
-X-UUID: 06101ce5e0844a43a15a98856ac9e508-20190530
-X-UUID: 06101ce5e0844a43a15a98856ac9e508-20190530
-Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw02.mediatek.com
-	(envelope-from <walter-zh.wu@mediatek.com>)
-	(mhqrelay.mediatek.com ESMTP with TLS)
-	with ESMTP id 117967436; Thu, 30 May 2019 09:58:03 +0800
-Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
- mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Thu, 30 May 2019 09:58:02 +0800
-Received: from [172.21.84.99] (172.21.84.99) by MTKCAS06.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Thu, 30 May 2019 09:58:02 +0800
-Message-ID: <1559181482.24427.18.camel@mtksdccf07>
-Subject: Re: [PATCH] kasan: add memory corruption identification for
- software tag-based mode
-From: Walter Wu <walter-zh.wu@mediatek.com>
-To: Dmitry Vyukov <dvyukov@google.com>
-CC: Andrey Ryabinin <aryabinin@virtuozzo.com>, Alexander Potapenko
-	<glider@google.com>, Christoph Lameter <cl@linux.com>, Pekka Enberg
-	<penberg@kernel.org>, David Rientjes <rientjes@google.com>, Joonsoo Kim
-	<iamjoonsoo.kim@lge.com>, Matthias Brugger <matthias.bgg@gmail.com>, "Miles
- Chen" <miles.chen@mediatek.com>, kasan-dev <kasan-dev@googlegroups.com>, LKML
-	<linux-kernel@vger.kernel.org>, Linux-MM <linux-mm@kvack.org>, "Linux ARM"
-	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>,
-	<wsd_upstream@mediatek.com>, "Catalin Marinas" <catalin.marinas@arm.com>
-Date: Thu, 30 May 2019 09:58:02 +0800
-In-Reply-To: <CACT4Y+ZwXsBk8VqvDOJGMqrbVjuZ-HfC9RG4LpgRC-9WqmQJVw@mail.gmail.com>
-References: <1559027797-30303-1-git-send-email-walter-zh.wu@mediatek.com>
-	 <CACT4Y+aCnODuffR7PafyYispp_U+ZdY1Dr0XQYvmghkogLJzSw@mail.gmail.com>
-	 <1559122529.17186.24.camel@mtksdccf07>
-	 <CACT4Y+ZwXsBk8VqvDOJGMqrbVjuZ-HfC9RG4LpgRC-9WqmQJVw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.2.3-0ubuntu6
+       dkim=pass header.i=@163.com header.s=s110527 header.b=OqfwmqMO;
+       spf=pass (google.com: domain of gjs_vb2@163.com designates 220.181.13.79 as permitted sender) smtp.mailfrom=gjs_vb2@163.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=163.com
+Received: from m13-79.163.com (m13-79.163.com. [220.181.13.79])
+        by gmr-mx.google.com with ESMTP id y3si71628ioy.2.2019.05.29.23.00.24
+        for <kasan-dev@googlegroups.com>;
+        Wed, 29 May 2019 23:00:24 -0700 (PDT)
+Received-SPF: pass (google.com: domain of gjs_vb2@163.com designates 220.181.13.79 as permitted sender) client-ip=220.181.13.79;
+Received: from gjs_vb2$163.com ( [120.230.93.150] ) by ajax-webmail-wmsvr79
+ (Coremail) ; Thu, 30 May 2019 13:59:14 +0800 (CST)
+X-Originating-IP: [120.230.93.150]
+Date: Thu, 30 May 2019 13:59:14 +0800 (CST)
+From: Brant <gjs_vb2@163.com>
+To: kasan-dev@googlegroups.com
+Subject: =?GBK?B?xOO7ucrWuaTU2kdPT0dMRcnPy9HL97/Nu6ejvw==?=
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version SP_ntes V3.5 build
+ 20180927(cd7136b6) Copyright (c) 2002-2019 www.mailtech.cn 163com
+X-CM-CTRLDATA: RM8rPWZvb3Rlcl9odG09Njc1OjU2
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_147650_544665910.1559195954677"
 MIME-Version: 1.0
-X-MTK: N
-X-Original-Sender: walter-zh.wu@mediatek.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.184 as
- permitted sender) smtp.mailfrom=walter-zh.wu@mediatek.com
+Message-ID: <64b945c0.950a.16b07522df5.Coremail.gjs_vb2@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: T8GowACHZ6oyce9cFch3AA--.65296W
+X-CM-SenderInfo: pjmvs4jes6il2tof0z/1tbiJQvE4FUMRsVVcgAAs3
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+X-Original-Sender: gjs_vb2@163.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@163.com header.s=s110527 header.b=OqfwmqMO;       spf=pass
+ (google.com: domain of gjs_vb2@163.com designates 220.181.13.79 as permitted
+ sender) smtp.mailfrom=gjs_vb2@163.com;       dmarc=pass (p=NONE sp=NONE
+ dis=NONE) header.from=163.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -142,87 +129,64 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, 2019-05-29 at 12:00 +0200, Dmitry Vyukov wrote:
-> > > There can be multiple qobjects in the quarantine associated with the
-> > > address, right? If so, we need to find the last one rather then a
-> > > random one.
-> > >
-> > The qobject includes the address which has tag and range, corruption
-> > address must be satisfied with the same tag and within object address
-> > range, then it is found in the quarantine.
-> > It should not easy to get multiple qobjects have the same tag and within
-> > object address range.
-> 
-> Yes, using the tag for matching (which I missed) makes the match less likely.
-> 
-> But I think we should at least try to find the newest object in
-> best-effort manner.
-We hope it, too.
+------=_Part_147650_544665910.1559195954677
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 
-> Consider, both slab and slub reallocate objects in LIFO manner and we
-> don't have a quarantine for objects themselves. So if we have a loop
-> that allocates and frees an object of same size a dozen of times.
-> That's enough to get a duplicate pointer+tag qobject.
-> This includes:
-> 1. walking the global quarantine from quarantine_tail backwards.
-It is ok.
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIOi0uOWwj+S4gy0tICAg5Li75Yqo
+5byP6JCl6ZSA57O757ufCgox77yJ5pON5L2c566A5Y2V77ya5pmu6YCa5Lia5Yqh5ZGY57uP6L+H
+566A5Y2V5Z+56K6t5Y2z5Y+v5LiK5omL5pON5L2c44CCCgoy77yJ5aSa57u05bqm6YKu566x5oyW
+5o6Y77ya6YCa6L+H5aSa56eN5pa55byP5rex5YWl5oyW5o6Y55uu5qCHIOWuouaIt+iBlOezu+mC
+rueuseOAggoKM++8iUFJ5rex572R6K+G5Yir77yaIOiHquWKqOivhuWIq+mCrueuseiBjOS9je+8
+jOW4ruaCqOaJvuWIsOiAgeadv+OAgemHh+i0remCrueuseOAggoKNO+8ieaZuuiDveWuouaIt+aO
+qOiNkO+8muagueaNrueUqOaIt+WFs+azqOWuouaIt+iHquWKqOaOqOiNkOWFqOeQg+ebuOS8vOWu
+ouaIt++8jAogICAgICDnlKjmiLflj6rpnIDopoHngrnlh7vlhbPms6jljbPlj6/ml6DpmZDojrfl
+vpfmlrDlrqLmiLfjgIIKCgoxMjYwODE4ODE5LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLVEN
+Cg0KLS0gCllvdSByZWNlaXZlZCB0aGlzIG1lc3NhZ2UgYmVjYXVzZSB5b3UgYXJlIHN1YnNjcmli
+ZWQgdG8gdGhlIEdvb2dsZSBHcm91cHMgImthc2FuLWRldiIgZ3JvdXAuClRvIHVuc3Vic2NyaWJl
+IGZyb20gdGhpcyBncm91cCBhbmQgc3RvcCByZWNlaXZpbmcgZW1haWxzIGZyb20gaXQsIHNlbmQg
+YW4gZW1haWwgdG8ga2FzYW4tZGV2K3Vuc3Vic2NyaWJlQGdvb2dsZWdyb3Vwcy5jb20uClRvIHBv
+c3QgdG8gdGhpcyBncm91cCwgc2VuZCBlbWFpbCB0byBrYXNhbi1kZXZAZ29vZ2xlZ3JvdXBzLmNv
+bS4KVG8gdmlldyB0aGlzIGRpc2N1c3Npb24gb24gdGhlIHdlYiB2aXNpdCBodHRwczovL2dyb3Vw
+cy5nb29nbGUuY29tL2QvbXNnaWQva2FzYW4tZGV2LzY0Yjk0NWMwLjk1MGEuMTZiMDc1MjJkZjUu
+Q29yZW1haWwuZ2pzX3ZiMiU0MDE2My5jb20uCkZvciBtb3JlIG9wdGlvbnMsIHZpc2l0IGh0dHBz
+Oi8vZ3JvdXBzLmdvb2dsZS5jb20vZC9vcHRvdXQuCg==
+------=_Part_147650_544665910.1559195954677
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: base64
 
-> 2. walking per-cpu lists in the opposite direction: from tail rather
-> then from head. I guess we don't have links, so we could change the
-> order and prepend new objects from head.
-> This way we significantly increase chances of finding the right
-> object. This also deserves a comment mentioning that we can find a
-> wrong objects.
-> 
-The current walking per-cpu list direction is from head to trail. we
-will modify the direction and find the newest object.
+PGRpdiBzdHlsZT0ibGluZS1oZWlnaHQ6MS43O2NvbG9yOiMwMDAwMDA7Zm9udC1zaXplOjE0cHg7
+Zm9udC1mYW1pbHk6QXJpYWwiPjxkaXY+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZTogMThweCI+PHN0
+cm9uZz4mbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDvo
+tLjlsI/kuIMtLSZuYnNwOyZuYnNwOyDkuLvliqjlvI/okKXplIDns7vnu588YnI+Cjxicj4KMe+8
+ieaTjeS9nOeugOWNle+8muaZrumAmuS4muWKoeWRmOe7j+i/h+eugOWNleWfueiureWNs+WPr+S4
+iuaJi+aTjeS9nOOAgjxicj4KPGJyPgoy77yJ5aSa57u05bqm6YKu566x5oyW5o6Y77ya6YCa6L+H
+5aSa56eN5pa55byP5rex5YWl5oyW5o6Y55uu5qCHIOWuouaIt+iBlOezu+mCrueuseOAgjxicj4K
+PGJyPgoz77yJQUnmt7HnvZHor4bliKvvvJog6Ieq5Yqo6K+G5Yir6YKu566x6IGM5L2N77yM5biu
+5oKo5om+5Yiw6ICB5p2/44CB6YeH6LSt6YKu566x44CCPC9zdHJvbmc+PGJyPgo8YnI+CjxzdHJv
+bmc+NO+8ieaZuuiDveWuouaIt+aOqOiNkO+8muagueaNrueUqOaIt+WFs+azqOWuouaIt+iHquWK
+qOaOqOiNkOWFqOeQg+ebuOS8vOWuouaIt++8jDxicj4KJm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7IOeUqOaIt+WPqumcgOimgeeCueWHu+WFs+azqOWNs+WPr+aXoOmZkOiOt+W+l+aWsOWu
+ouaIt+OAgjxicj4KPGJyPgo8YnI+CjEyNjA4MTg4MTktLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tUTwvc3Ryb25nPjwvc3Bhbj48L2Rpdj4KPC9kaXY+PGJyPjxicj48c3BhbiB0aXRsZT0ibmV0
+ZWFzZWZvb3RlciI+PHA+Jm5ic3A7PC9wPjwvc3Bhbj4NCg0KPHA+PC9wPgoKLS0gPGJyIC8+Cllv
+dSByZWNlaXZlZCB0aGlzIG1lc3NhZ2UgYmVjYXVzZSB5b3UgYXJlIHN1YnNjcmliZWQgdG8gdGhl
+IEdvb2dsZSBHcm91cHMgJnF1b3Q7a2FzYW4tZGV2JnF1b3Q7IGdyb3VwLjxiciAvPgpUbyB1bnN1
+YnNjcmliZSBmcm9tIHRoaXMgZ3JvdXAgYW5kIHN0b3AgcmVjZWl2aW5nIGVtYWlscyBmcm9tIGl0
+LCBzZW5kIGFuIGVtYWlsIHRvIDxhIGhyZWY9Im1haWx0bzprYXNhbi1kZXYrdW5zdWJzY3JpYmVA
+Z29vZ2xlZ3JvdXBzLmNvbSI+a2FzYW4tZGV2K3Vuc3Vic2NyaWJlQGdvb2dsZWdyb3Vwcy5jb208
+L2E+LjxiciAvPgpUbyBwb3N0IHRvIHRoaXMgZ3JvdXAsIHNlbmQgZW1haWwgdG8gPGEgaHJlZj0i
+bWFpbHRvOmthc2FuLWRldkBnb29nbGVncm91cHMuY29tIj5rYXNhbi1kZXZAZ29vZ2xlZ3JvdXBz
+LmNvbTwvYT4uPGJyIC8+ClRvIHZpZXcgdGhpcyBkaXNjdXNzaW9uIG9uIHRoZSB3ZWIgdmlzaXQg
+PGEgaHJlZj0iaHR0cHM6Ly9ncm91cHMuZ29vZ2xlLmNvbS9kL21zZ2lkL2thc2FuLWRldi82NGI5
+NDVjMC45NTBhLjE2YjA3NTIyZGY1LkNvcmVtYWlsLmdqc192YjIlNDAxNjMuY29tP3V0bV9tZWRp
+dW09ZW1haWwmdXRtX3NvdXJjZT1mb290ZXIiPmh0dHBzOi8vZ3JvdXBzLmdvb2dsZS5jb20vZC9t
+c2dpZC9rYXNhbi1kZXYvNjRiOTQ1YzAuOTUwYS4xNmIwNzUyMmRmNS5Db3JlbWFpbC5nanNfdmIy
+JTQwMTYzLmNvbTwvYT4uPGJyIC8+CkZvciBtb3JlIG9wdGlvbnMsIHZpc2l0IDxhIGhyZWY9Imh0
+dHBzOi8vZ3JvdXBzLmdvb2dsZS5jb20vZC9vcHRvdXQiPmh0dHBzOi8vZ3JvdXBzLmdvb2dsZS5j
+b20vZC9vcHRvdXQ8L2E+LjxiciAvPgo=
+------=_Part_147650_544665910.1559195954677--
 
-
-> > > Why don't we allocate qlist_object and qlist_node in a single
-> > > allocation? Doing 2 allocations is both unnecessary slow and leads to
-> > > more complex code. We need to allocate them with a single allocations.
-> > > Also I think they should be allocated from a dedicated cache that opts
-> > > out of quarantine?
-> > >
-> > Single allocation is good suggestion, if we only has one allocation.
-> > then we need to move all member of qlist_object to qlist_node?
-> >
-> > struct qlist_object {
-> >     unsigned long addr;
-> >     unsigned int size;
-> >     struct kasan_alloc_meta free_track;
-> > };
-> > struct qlist_node {
-> >     struct qlist_object *qobject;
-> >     struct qlist_node *next;
-> > };
-> 
-> I see 2 options:
-> 1. add addr/size/free_track to qlist_node under ifdef CONFIG_KASAN_SW_TAGS
-> 2. or probably better would be to include qlist_node into qlist_object
-> as first field, then allocate qlist_object and cast it to qlist_node
-> when adding to quarantine, and then as we iterate quarantine, we cast
-> qlist_node back to qlist_object and can access size/addr.
-> 
-Choice 2 looks better, We first try it.
-
-> 
-> > We call call ___cache_free() to free the qobject and qnode, it should be
-> > out of quarantine?
-> 
-> This should work.
-
-Thanks your good suggestion.
-We will implement those solution which you suggested to the second
-edition.
-
-
-Thanks,
-Walter
-
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To post to this group, send email to kasan-dev@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/1559181482.24427.18.camel%40mtksdccf07.
-For more options, visit https://groups.google.com/d/optout.
