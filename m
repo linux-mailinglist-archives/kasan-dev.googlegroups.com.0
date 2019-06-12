@@ -1,144 +1,128 @@
-Return-Path: <kasan-dev+bncBAABBXF373TQKGQEETTTIOQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCMIZB7QWENRBZUQQTUAKGQEPA7QM6A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-vk1-xa3f.google.com (mail-vk1-xa3f.google.com [IPv6:2607:f8b0:4864:20::a3f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B98E3CB3E
-	for <lists+kasan-dev@lfdr.de>; Tue, 11 Jun 2019 14:26:05 +0200 (CEST)
-Received: by mail-vk1-xa3f.google.com with SMTP id u202sf3249750vku.5
-        for <lists+kasan-dev@lfdr.de>; Tue, 11 Jun 2019 05:26:05 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1560255964; cv=pass;
+Received: from mail-pg1-x540.google.com (mail-pg1-x540.google.com [IPv6:2607:f8b0:4864:20::540])
+	by mail.lfdr.de (Postfix) with ESMTPS id 83D1D4287D
+	for <lists+kasan-dev@lfdr.de>; Wed, 12 Jun 2019 16:12:56 +0200 (CEST)
+Received: by mail-pg1-x540.google.com with SMTP id b10sf7179954pgb.22
+        for <lists+kasan-dev@lfdr.de>; Wed, 12 Jun 2019 07:12:56 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1560348774; cv=pass;
         d=google.com; s=arc-20160816;
-        b=hO1EwzbeXRKe6SkVQjMcz/kedfk6Qi0yT4OM6IzNVCC9key+IFPumN6Y9trYxpXovW
-         nrjI2+cAMUdYsCIaB5bNMlFkogW/ZDDzAiOQ8VYXRLpvMqiwlGBM3LxBOU7bMRSgxeQW
-         ylS/+l0b4T9Z19/xUdQGWugB/TB3cXdFQR5eDcyXJgJ5E6Mbxj1yEM8eTKae8aJXvVrK
-         uXDxafOwbJ39XWctlipbl6LhQdNFH4QeC9gVbzVg1ZILuu974iFet8aJjCkv6OajhYxR
-         CtS0suxo6mVkHc/aFKFl248EMNj5tehfbT/Zz+Cdy/zURSessc0+0krlg6bzjXN2tiYq
-         BgRg==
+        b=NM5LfLU9KddHtS/pilxoOiaxhnqp+aixO/Rdspa1naaDl6xorvWrSxJKFQzW2vinXG
+         rPikG4diWdbfrC72ocow7S4PfD4moeafDcr3HrqshXbV9ZZ0OXWQBEGr0n+/h6KKLheX
+         fxrL9afn0uHtdpDZ0WLX+tpn6Lh33xaYPJq1uhkbNlM4i1q3jVz63K5X05CdP1s5TSNz
+         bZX/eo8vn9HJIChDG/UT8DoST5/AKlJ6G8KB7U+3PuXyL3u8TQNVScybBsHVFMpVw8kq
+         U6cWUm9vAMCd8VamQpgrhJiiztx4d9YTbK22tu7w+ENHKpjU6I8R/Hdt+FmzQ/CAxS/q
+         /Tjw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
-         :date:cc:to:from:subject:message-id:sender:dkim-signature;
-        bh=kgGceuI/v7e9mMk2fbNFgBrJMi0Lnd04qbdrPUAcWDU=;
-        b=nSeKor7bylN6c+PD+FwiQ+VEaInVzMKju/HoYM3RdsZUy+JrHJMj45Owq6iKvA8Uzs
-         4u42G9qPbULvb/LFy434maupIL8qUZNIiBkUJ1c1PDAd6jA1YJw8ZTyVUTh/epESpc7d
-         I99sz+9g16Rski0cE93azoyBlzRv+ehjNdLnIgFRtVnJxe0Fr0HWoYGwbJK3iJSZFbQS
-         v+MQXhMe/caTBgVmXbPNOyOWx7U/OCa+HvcRhuMLGBCQJ4hQdemvGRC/pUAn0d8b9UsB
-         tVGS0sRGlJ3cO2wTmN++Pt8B81AWIXtOm3M0a2MgyVmkV5GSevWX+3P/Vt1ew9AiFznL
-         HrkQ==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=HfWGqV+V41CACK0maUkh26XTYE23M3WgFnlgxtdsuD8=;
+        b=cnosUXzHZRtt1qjydKbzg2CqE4OWM9/ynF9zvo/G2tNCDY62nG6l9U4jEsHeQ23wDE
+         RylOVawE29cyFOcs975LzkKhAxFacX1eSpuVE1OdzsXG+37aoPB63aW1BL//TI82K16V
+         11KH3fk4f4a4DEM/0TaORaDlxrF9ACMbo+33l1fLhL4JxFD7UPxz/C0XOGRT5AXW1YyH
+         PeuCalVyj92aspwFt8tjD8GVRwuwZHztjjp1CfyTvfWXCeOFpJyy/IzThrLF+1kDSK1f
+         80Q1lOdFMFhf82SHfcmXHgxDw0Qp38603K2ROZhXNMD/nV+pOMUr/S5kG5sj7az7DlKv
+         9HlA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.183 as permitted sender) smtp.mailfrom=walter-zh.wu@mediatek.com
+       dkim=pass header.i=@google.com header.s=20161025 header.b=RqyGGNem;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::d44 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:message-id:subject:from:to:cc:date:in-reply-to:references
-         :mime-version:x-original-sender:x-original-authentication-results
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=kgGceuI/v7e9mMk2fbNFgBrJMi0Lnd04qbdrPUAcWDU=;
-        b=T13KoevVNvq11UqMo4t+NYhj4zl7DvwTzu40W/8kxxBDMhTgu8CMfRVjH68ekyLF4p
-         dmP+yXVAzniUabFo4jkTlQW+Og4BUGXC0XfGRqlJCv6OOvGOnof3aAggsNf+B9m/zh/1
-         PrdG8n1vE/VVdP6OZy6wxdfuSBmPUNZo+t3vmzzvwL2J/5fiP4/Lj/FO0rn+zCVgBsAw
-         5rCOBfJY/72AiN3Ub32iClEb7bbWRu3IYyZzE/3PrQ//YxD4IgZ3BYNh8eqs3HyNb6xK
-         mi4+g7u9R8C2A9NQCcbNwt+Ry4GruA1RpN/9QeBnjjVYijH3giDpyFdivZNPnGbqFjrx
-         0UaA==
+        bh=HfWGqV+V41CACK0maUkh26XTYE23M3WgFnlgxtdsuD8=;
+        b=TR6U3HdUj3TkHZ4tIvhzC1MQ0nnmboIGj07E8hF17fKSs6tK1QDVo7COXWUbG1mubo
+         61gLSIwJulT+xmsLN1aYTVXkSBTPUn1mTs2jIr82d/nFEiJjpqkMdNu6MR6pNPq8kKlj
+         ISv9uLxnHDgRZlFpapxikgYPATZkhKR9joAqGyfZNumg/HEwQRSptejv4AnRolekP0h+
+         4RZuQ4a5lMxabOI+tk+spR7rwyIWbpVxTGj1zdqMBpv3bcCyOSw87WF/FkrGKN3lByPe
+         TDposB83EOuJeTbpHm+sw67t+0iLdjtgZofvhe1afBB5+yuZYwCfihGdwjVfqI5cpXrE
+         3m4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:message-id:subject:from:to:cc:date
-         :in-reply-to:references:mime-version:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=kgGceuI/v7e9mMk2fbNFgBrJMi0Lnd04qbdrPUAcWDU=;
-        b=uMHT943cosoa4aQ5ONJaVGvbrApoHBzMBOS/VycIrgqaTYaJTgSKDuIwz5IGqEQ93c
-         mWIKZ+dpbHzNHmoh/gDLWCvHeVDQ29exu6VhVJb9spGdKW9snAF/n5WZDlJCPD8cRAtE
-         aFNs+NFqZ1pQ5DqlRjoCqjuYJ17V4lCFFJg/xVudi57qpgxkg/OgfkUafotENCfrx5co
-         cGKle+DYrMY3pvjBYibVb0IMcDAIObFRfGnmiFOEsLgnb/rAs/PCtimm2W89LPysLdoS
-         dEI58UjU2ejM2m7apFFIH9LkzZpeLQ6+526GEBgVMUvGC0CMfQ0jsAY4gG/wGFbAoi2E
-         yHKw==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAU7YNsMtwMeTopXno637C11s51QXEEJ42haa8AnWilxqyKIM1mD
-	p77xmobRKi+bl5RPwRO5M04=
-X-Google-Smtp-Source: APXvYqx0Gd0481CbB7DUhW49Xf02ZojHPYZQBRYrSoz3qgqldDLaC0FbLMpIRRkbB4XiIRqQ/7qPRg==
-X-Received: by 2002:ab0:2395:: with SMTP id b21mr37903588uan.108.1560255964384;
-        Tue, 11 Jun 2019 05:26:04 -0700 (PDT)
+        bh=HfWGqV+V41CACK0maUkh26XTYE23M3WgFnlgxtdsuD8=;
+        b=ZpaGZY2K8WIIgfm6vSR45WK5D0wTve0FtJFzf6MeCW1yhp305R/CnoUBKdbL/vxZPO
+         tAkdopsnxixLFH8j5G5dpL7Jm4HjMPx85djuePszKrslDdIigRZWeVMM+lRMZD63q5X9
+         KPHfh/dLs7R4Bv9rc6b1JJleLXkwsBOPwvCZh7+DpOBKILfxNVFCie4cXAtdOdnUdJAx
+         LJIBHSJwhF2vjd5+r/+eGg69LK8RD67H1ZnTByYfgcipxDgog6ulJTCyTqj7pmeuz9NN
+         PeYrAg5MbrD/SUH69xSCz+FqCa2r8AbCBGBQzQZNa486Guj1FOeX5N1rEHbdoSnZVs0u
+         eXbA==
+X-Gm-Message-State: APjAAAX1InpCLTG0FP3r1CeRxPmifyt7+aWBDalIDHT+ToLQXJ0wQId7
+	DxM0FuwQMlsPRuka66iQebw=
+X-Google-Smtp-Source: APXvYqwsItUMOmVFPETznI8KM9mkyZ875ReI6vRbcFL0EdN0mRuOCvUwPMKfsdzm3eWl3eFtxkOxhw==
+X-Received: by 2002:a17:90a:26ef:: with SMTP id m102mr32306846pje.50.1560348774745;
+        Wed, 12 Jun 2019 07:12:54 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ab0:185f:: with SMTP id j31ls1228215uag.8.gmail; Tue, 11 Jun
- 2019 05:26:04 -0700 (PDT)
-X-Received: by 2002:ab0:69c8:: with SMTP id u8mr225945uaq.132.1560255964173;
-        Tue, 11 Jun 2019 05:26:04 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1560255964; cv=none;
+Received: by 2002:a62:1b8a:: with SMTP id b132ls558685pfb.9.gmail; Wed, 12 Jun
+ 2019 07:12:54 -0700 (PDT)
+X-Received: by 2002:a63:3710:: with SMTP id e16mr24999766pga.391.1560348774329;
+        Wed, 12 Jun 2019 07:12:54 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1560348774; cv=none;
         d=google.com; s=arc-20160816;
-        b=UQqYj19SE6kA2R0LjC5PGX2ND++dcyP3Ttdpkmk0hWJaO/0pWsTRfIG6aEDf2s/wxZ
-         nq3GZ/tnNUPtyBDwgetxkfu/j6foSmjrZXyBggPIX2OYTuvHcDH0fJzvZvmCVnAep9N7
-         16XomThACUQ8y160MTIGjL3L+znsNwA4BGaQ+Z40VAleDKxfu7OtpxvRGkbJOJK0liRx
-         6j6NrOEal3ILnfFSiNrp+3u7/yElUrnITY/4Hgo3HcKIF5aB2KFia4aG6Ot5QP3MWGTJ
-         RPExy9UTERuAbOlDN5x/TKvTb10tPLX0vXXSSDrGzYQ3DVZTfeFZqh1DVI+f48bb0yuM
-         +tEQ==
+        b=CUF/6Ejk0BfM/VVUVsT60+ris9EEZcfYVQQK+PjSDesr7XNUF6pQobUJyJ0WVNradV
+         avyk+h8pp+3DuYSBuU7mVz1F0WY2+ZopSBmNN2iv6sXMU6/9X6gsAyi9QqGIaOJ+PPlf
+         iptK+x6O0ydk9SSvlW1pRjZwak+UEC90VZmdeFH0d2rOiXwFsz2FTtIZSUwa2sBXdcpd
+         vHNhWNWVD71NMS//dtOMJrwRixYqKufo58lzPZohqyoYlxP65HLGCMX+fgTIrAGBYxwK
+         cn8RVbRScpUhSETUMflFOgsaq9RA094KFTiuYfTsp4APSAVpZqGgqw4SXs/c2U9utqnZ
+         0OvA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=mime-version:content-transfer-encoding:references:in-reply-to:date
-         :cc:to:from:subject:message-id;
-        bh=Jyb8YM8lArG+/Y8fk24IqbWjw81Z+P7IptrzCzYSy4Y=;
-        b=MX8cdusbWc7qByl6sK3WekUobiRtyipl6Tz7wKg+Uk6Cio93USBhqbU9dKcshjpvGN
-         IGaaZZ62QP9tg6rGH8C6mWniP+o1fdwkkqBnyvLDWiFYzGRWcOwhUv375M2sjoThXE6B
-         vD7KZb2n8xeVxBp0QBzab8i7G6qIvJJ9AFeHLnxNZ0K8GxAqVXttHq0ndKEgQrPX8xIW
-         95ZQXkJsNVQfXlxVgSviXOPcr8UGlrAKoD8Kyebqmqzrg00uHODkox3/i55jZnvf38Dj
-         q7yWrxAeJ4lTJvD1fPWzNIOuZjOSw1VfeHtY6W4dle5ZaAkd/vfqKrHSVhcv+Xzi2Y5D
-         xnWg==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=/fXeSKZUU3yYcblyjjUr+PT/LFbKmVa2WZrUUbFVZZ0=;
+        b=D48uKMOCcfnoTvAjxyl2f8ETYLGbCTG18auNUlbi330XrwO10b/6CkX1m/TwQ1XqNE
+         6LuE/qyHL2KcfahKyuMxsyNhHjCgIKYo5Z3pU2yNNoav0dr5dQccREMAIkJqMF4fE8P7
+         GQWb6wKTXpM5D3tM1pFoUGpOwSzMWWj1VeAIWeyTbJd+GsKapKEOeCdwYm8Ytm3LIRbi
+         vZ9LTstU9MXGi3P5UvVsTVK5xFB1O/WAadeX1Uz0RlY2WjXByy920v1lR8sgBEbAYIWd
+         1KeAP8VEL7mB4R5hdeg4EPP3kWDIlSTrS3tSU7sj9I5y6DPhQV4ItctTMQi+GOsKfkIx
+         4F5A==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.183 as permitted sender) smtp.mailfrom=walter-zh.wu@mediatek.com
-Received: from mailgw01.mediatek.com ([210.61.82.183])
-        by gmr-mx.google.com with ESMTPS id w4si537499vkd.1.2019.06.11.05.26.02
+       dkim=pass header.i=@google.com header.s=20161025 header.b=RqyGGNem;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::d44 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-io1-xd44.google.com (mail-io1-xd44.google.com. [2607:f8b0:4864:20::d44])
+        by gmr-mx.google.com with ESMTPS id o91si2491pje.0.2019.06.12.07.12.54
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 11 Jun 2019 05:26:03 -0700 (PDT)
-Received-SPF: pass (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.183 as permitted sender) client-ip=210.61.82.183;
-X-UUID: 8fc4afafc8034cc59a92651ab0d17e0e-20190611
-X-UUID: 8fc4afafc8034cc59a92651ab0d17e0e-20190611
-Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by mailgw01.mediatek.com
-	(envelope-from <walter-zh.wu@mediatek.com>)
-	(mhqrelay.mediatek.com ESMTP with TLS)
-	with ESMTP id 1205233393; Tue, 11 Jun 2019 20:25:56 +0800
-Received: from mtkcas07.mediatek.inc (172.21.101.84) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Tue, 11 Jun 2019 20:25:55 +0800
-Received: from [172.21.84.99] (172.21.84.99) by mtkcas07.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Tue, 11 Jun 2019 20:25:55 +0800
-Message-ID: <1560255955.29153.20.camel@mtksdccf07>
-Subject: Re: [PATCH v2] kasan: add memory corruption identification for
- software tag-based mode
-From: Walter Wu <walter-zh.wu@mediatek.com>
-To: Dmitry Vyukov <dvyukov@google.com>
-CC: Andrey Ryabinin <aryabinin@virtuozzo.com>, Alexander Potapenko
-	<glider@google.com>, Christoph Lameter <cl@linux.com>, Pekka Enberg
-	<penberg@kernel.org>, David Rientjes <rientjes@google.com>, Joonsoo Kim
-	<iamjoonsoo.kim@lge.com>, Matthias Brugger <matthias.bgg@gmail.com>, "Martin
- Schwidefsky" <schwidefsky@de.ibm.com>, Arnd Bergmann <arnd@arndb.de>, "Vasily
- Gorbik" <gor@linux.ibm.com>, Andrey Konovalov <andreyknvl@google.com>, "Jason
- A. Donenfeld" <Jason@zx2c4.com>, Miles Chen
- =?UTF-8?Q?=28=E9=99=B3=E6=B0=91=E6=A8=BA=29?= <Miles.Chen@mediatek.com>,
-	kasan-dev <kasan-dev@googlegroups.com>, LKML <linux-kernel@vger.kernel.org>,
-	Linux-MM <linux-mm@kvack.org>, Linux ARM
-	<linux-arm-kernel@lists.infradead.org>, "linux-mediatek@lists.infradead.org"
-	<linux-mediatek@lists.infradead.org>, wsd_upstream
-	<wsd_upstream@mediatek.com>
-Date: Tue, 11 Jun 2019 20:25:55 +0800
-In-Reply-To: <CACT4Y+aXqjCMaJego3yeSG1eR1+vkJkx5GB+xsy5cpGvAtTnDA@mail.gmail.com>
-References: <1559651172-28989-1-git-send-email-walter-zh.wu@mediatek.com>
-	 <CACT4Y+Y9_85YB8CCwmKerDWc45Z00hMd6Pc-STEbr0cmYSqnoA@mail.gmail.com>
-	 <1560151690.20384.3.camel@mtksdccf07>
-	 <CACT4Y+aetKEM9UkfSoVf8EaDNTD40mEF0xyaRiuw=DPEaGpTkQ@mail.gmail.com>
-	 <1560236742.4832.34.camel@mtksdccf07>
-	 <CACT4Y+YNG0OGT+mCEms+=SYWA=9R3MmBzr8e3QsNNdQvHNt9Fg@mail.gmail.com>
-	 <1560249891.29153.4.camel@mtksdccf07>
-	 <CACT4Y+aXqjCMaJego3yeSG1eR1+vkJkx5GB+xsy5cpGvAtTnDA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.2.3-0ubuntu6
+        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+        Wed, 12 Jun 2019 07:12:54 -0700 (PDT)
+Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::d44 as permitted sender) client-ip=2607:f8b0:4864:20::d44;
+Received: by mail-io1-xd44.google.com with SMTP id e5so13063907iok.4
+        for <kasan-dev@googlegroups.com>; Wed, 12 Jun 2019 07:12:54 -0700 (PDT)
+X-Received: by 2002:a6b:641a:: with SMTP id t26mr7794304iog.3.1560348773474;
+ Wed, 12 Jun 2019 07:12:53 -0700 (PDT)
 MIME-Version: 1.0
-X-MTK: N
-X-Original-Sender: walter-zh.wu@mediatek.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.183 as
- permitted sender) smtp.mailfrom=walter-zh.wu@mediatek.com
+References: <20190531150828.157832-1-elver@google.com> <20190531150828.157832-3-elver@google.com>
+ <CANpmjNP_-J5dZVtDeHUeDk2TBBkOgoPvGKq42Qd7rezbnFWNGg@mail.gmail.com>
+In-Reply-To: <CANpmjNP_-J5dZVtDeHUeDk2TBBkOgoPvGKq42Qd7rezbnFWNGg@mail.gmail.com>
+From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Wed, 12 Jun 2019 16:12:29 +0200
+Message-ID: <CACT4Y+a0H0NiMmydmw1qOA=zUXDmBZXHmh6-fp9nU0UtAPZvxQ@mail.gmail.com>
+Subject: Re: [PATCH v3 2/3] x86: Use static_cpu_has in uaccess region to avoid instrumentation
+To: Marco Elver <elver@google.com>
+Cc: Peter Zijlstra <peterz@infradead.org>, Andrey Ryabinin <aryabinin@virtuozzo.com>, 
+	Alexander Potapenko <glider@google.com>, Andrey Konovalov <andreyknvl@google.com>, 
+	Mark Rutland <mark.rutland@arm.com>, "H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	"the arch/x86 maintainers" <x86@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Josh Poimboeuf <jpoimboe@redhat.com>, 
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
+	linux-arch <linux-arch@vger.kernel.org>, kasan-dev <kasan-dev@googlegroups.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: dvyukov@google.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@google.com header.s=20161025 header.b=RqyGGNem;       spf=pass
+ (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::d44
+ as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
+ (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Dmitry Vyukov <dvyukov@google.com>
+Reply-To: Dmitry Vyukov <dvyukov@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -151,120 +135,80 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, 2019-06-11 at 13:32 +0200, Dmitry Vyukov wrote:
-> On Tue, Jun 11, 2019 at 12:44 PM Walter Wu <walter-zh.wu@mediatek.com> wrote:
+On Fri, Jun 7, 2019 at 11:44 AM Marco Elver <elver@google.com> wrote:
+>
+> Gentle ping.  I would appreciate quick feedback if this approach is reasonable.
+>
+> Peter: since you suggested that we should not change objtool, did you
+> have a particular approach in mind that is maybe different from v2 and
+> v3? Or is this what you were thinking of?
+>
+> Many thanks!
+>
+> On Fri, 31 May 2019 at 17:11, Marco Elver <elver@google.com> wrote:
 > >
-> > On Tue, 2019-06-11 at 10:47 +0200, Dmitry Vyukov wrote:
-> > > On Tue, Jun 11, 2019 at 9:05 AM Walter Wu <walter-zh.wu@mediatek.com> wrote:
-> > > >
-> > > > On Mon, 2019-06-10 at 13:46 +0200, Dmitry Vyukov wrote:
-> > > > > On Mon, Jun 10, 2019 at 9:28 AM Walter Wu <walter-zh.wu@mediatek.com> wrote:
-> > > > > >
-> > > > > > On Fri, 2019-06-07 at 21:18 +0800, Dmitry Vyukov wrote:
-> > > > > > > > diff --git a/include/linux/kasan.h b/include/linux/kasan.h
-> > > > > > > > index b40ea104dd36..be0667225b58 100644
-> > > > > > > > --- a/include/linux/kasan.h
-> > > > > > > > +++ b/include/linux/kasan.h
-> > > > > > > > @@ -164,7 +164,11 @@ void kasan_cache_shutdown(struct kmem_cache *cache);
-> > > > > > > >
-> > > > > > > >  #else /* CONFIG_KASAN_GENERIC */
-> > > > > > > >
-> > > > > > > > +#ifdef CONFIG_KASAN_SW_TAGS_IDENTIFY
-> > > > > > > > +void kasan_cache_shrink(struct kmem_cache *cache);
-> > > > > > > > +#else
-> > > > > > >
-> > > > > > > Please restructure the code so that we don't duplicate this function
-> > > > > > > name 3 times in this header.
-> > > > > > >
-> > > > > > We have fixed it, Thank you for your reminder.
-> > > > > >
-> > > > > >
-> > > > > > > >  static inline void kasan_cache_shrink(struct kmem_cache *cache) {}
-> > > > > > > > +#endif
-> > > > > > > >  static inline void kasan_cache_shutdown(struct kmem_cache *cache) {}
-> > > > > > > >
-> > > > > > > >  #endif /* CONFIG_KASAN_GENERIC */
-> > > > > > > > diff --git a/lib/Kconfig.kasan b/lib/Kconfig.kasan
-> > > > > > > > index 9950b660e62d..17a4952c5eee 100644
-> > > > > > > > --- a/lib/Kconfig.kasan
-> > > > > > > > +++ b/lib/Kconfig.kasan
-> > > > > > > > @@ -134,6 +134,15 @@ config KASAN_S390_4_LEVEL_PAGING
-> > > > > > > >           to 3TB of RAM with KASan enabled). This options allows to force
-> > > > > > > >           4-level paging instead.
-> > > > > > > >
-> > > > > > > > +config KASAN_SW_TAGS_IDENTIFY
-> > > > > > > > +       bool "Enable memory corruption idenitfication"
-> > > > > > >
-> > > > > > > s/idenitfication/identification/
-> > > > > > >
-> > > > > > I should replace my glasses.
-> > > > > >
-> > > > > >
-> > > > > > > > +       depends on KASAN_SW_TAGS
-> > > > > > > > +       help
-> > > > > > > > +         Now tag-based KASAN bug report always shows invalid-access error, This
-> > > > > > > > +         options can identify it whether it is use-after-free or out-of-bound.
-> > > > > > > > +         This will make it easier for programmers to see the memory corruption
-> > > > > > > > +         problem.
-> > > > > > >
-> > > > > > > This description looks like a change description, i.e. it describes
-> > > > > > > the current behavior and how it changes. I think code comments should
-> > > > > > > not have such, they should describe the current state of the things.
-> > > > > > > It should also mention the trade-off, otherwise it raises reasonable
-> > > > > > > questions like "why it's not enabled by default?" and "why do I ever
-> > > > > > > want to not enable it?".
-> > > > > > > I would do something like:
-> > > > > > >
-> > > > > > > This option enables best-effort identification of bug type
-> > > > > > > (use-after-free or out-of-bounds)
-> > > > > > > at the cost of increased memory consumption for object quarantine.
-> > > > > > >
-> > > > > > I totally agree with your comments. Would you think we should try to add the cost?
-> > > > > > It may be that it consumes about 1/128th of available memory at full quarantine usage rate.
-> > > > >
-> > > > > Hi,
-> > > > >
-> > > > > I don't understand the question. We should not add costs if not
-> > > > > necessary. Or you mean why we should add _docs_ regarding the cost? Or
-> > > > > what?
-> > > > >
-> > > > I mean the description of option. Should it add the description for
-> > > > memory costs. I see KASAN_SW_TAGS and KASAN_GENERIC options to show the
-> > > > memory costs. So We originally think it is possible to add the
-> > > > description, if users want to enable it, maybe they want to know its
-> > > > memory costs.
-> > > >
-> > > > If you think it is not necessary, we will not add it.
-> > >
-> > > Full description of memory costs for normal KASAN mode and
-> > > KASAN_SW_TAGS should probably go into
-> > > Documentation/dev-tools/kasan.rst rather then into config description
-> > > because it may be too lengthy.
-> > >
-> > Thanks your reminder.
+> > This patch is a pre-requisite for enabling KASAN bitops instrumentation;
+> > using static_cpu_has instead of boot_cpu_has avoids instrumentation of
+> > test_bit inside the uaccess region. With instrumentation, the KASAN
+> > check would otherwise be flagged by objtool.
 > >
-> > > I mentioned memory costs for this config because otherwise it's
-> > > unclear why would one ever want to _not_ enable this option. If it
-> > > would only have positive effects, then it should be enabled all the
-> > > time and should not be a config option at all.
+> > For consistency, kernel/signal.c was changed to mirror this change,
+> > however, is never instrumented with KASAN (currently unsupported under
+> > x86 32bit).
 > >
-> > Sorry, I don't get your full meaning.
-> > You think not to add the memory costs into the description of config ?
-> > or need to add it? or make it not be a config option(default enabled)?
-> 
-> Yes, I think we need to include mention of additional cost into _this_
-> new config.
+> > Signed-off-by: Marco Elver <elver@google.com>
+> > Suggested-by: H. Peter Anvin <hpa@zytor.com>
+> > ---
+> > Changes in v3:
+> > * Use static_cpu_has instead of moving boot_cpu_has outside uaccess
+> >   region.
+> >
+> > Changes in v2:
+> > * Replaces patch: 'tools/objtool: add kasan_check_* to uaccess
+> >   whitelist'
+> > ---
+> >  arch/x86/ia32/ia32_signal.c | 2 +-
+> >  arch/x86/kernel/signal.c    | 2 +-
+> >  2 files changed, 2 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/arch/x86/ia32/ia32_signal.c b/arch/x86/ia32/ia32_signal.c
+> > index 629d1ee05599..1cee10091b9f 100644
+> > --- a/arch/x86/ia32/ia32_signal.c
+> > +++ b/arch/x86/ia32/ia32_signal.c
+> > @@ -358,7 +358,7 @@ int ia32_setup_rt_frame(int sig, struct ksignal *ksig,
+> >                 put_user_ex(ptr_to_compat(&frame->uc), &frame->puc);
+> >
+> >                 /* Create the ucontext.  */
+> > -               if (boot_cpu_has(X86_FEATURE_XSAVE))
+> > +               if (static_cpu_has(X86_FEATURE_XSAVE))
 
-Thanks your response.
-We will fix v2 patch into next version.
 
-Thanks.
-Walter
+Peter Z or A, does it look good to you? Could you please Ack this?
 
+
+> >                         put_user_ex(UC_FP_XSTATE, &frame->uc.uc_flags);
+> >                 else
+> >                         put_user_ex(0, &frame->uc.uc_flags);
+> > diff --git a/arch/x86/kernel/signal.c b/arch/x86/kernel/signal.c
+> > index 364813cea647..52eb1d551aed 100644
+> > --- a/arch/x86/kernel/signal.c
+> > +++ b/arch/x86/kernel/signal.c
+> > @@ -391,7 +391,7 @@ static int __setup_rt_frame(int sig, struct ksignal *ksig,
+> >                 put_user_ex(&frame->uc, &frame->puc);
+> >
+> >                 /* Create the ucontext.  */
+> > -               if (boot_cpu_has(X86_FEATURE_XSAVE))
+> > +               if (static_cpu_has(X86_FEATURE_XSAVE))
+> >                         put_user_ex(UC_FP_XSTATE, &frame->uc.uc_flags);
+> >                 else
+> >                         put_user_ex(0, &frame->uc.uc_flags);
+> > --
+> > 2.22.0.rc1.257.g3120a18244-goog
+> >
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
 To post to this group, send email to kasan-dev@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/1560255955.29153.20.camel%40mtksdccf07.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2Ba0H0NiMmydmw1qOA%3DzUXDmBZXHmh6-fp9nU0UtAPZvxQ%40mail.gmail.com.
 For more options, visit https://groups.google.com/d/optout.
