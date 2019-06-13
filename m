@@ -1,128 +1,126 @@
-Return-Path: <kasan-dev+bncBCV5TUXXRUIBBHNLRDUAKGQEZBB3VSA@googlegroups.com>
+Return-Path: <kasan-dev+bncBC5L5P75YUERBLWURDUAKGQEDGFSBCQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ot1-x340.google.com (mail-ot1-x340.google.com [IPv6:2607:f8b0:4864:20::340])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52F184349B
-	for <lists+kasan-dev@lfdr.de>; Thu, 13 Jun 2019 11:21:35 +0200 (CEST)
-Received: by mail-ot1-x340.google.com with SMTP id v1sf8970523otj.23
-        for <lists+kasan-dev@lfdr.de>; Thu, 13 Jun 2019 02:21:35 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1560417694; cv=pass;
+Received: from mail-wr1-x43b.google.com (mail-wr1-x43b.google.com [IPv6:2a00:1450:4864:20::43b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 75AEA4354E
+	for <lists+kasan-dev@lfdr.de>; Thu, 13 Jun 2019 12:49:18 +0200 (CEST)
+Received: by mail-wr1-x43b.google.com with SMTP id b4sf6977823wrw.4
+        for <lists+kasan-dev@lfdr.de>; Thu, 13 Jun 2019 03:49:18 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1560422958; cv=pass;
         d=google.com; s=arc-20160816;
-        b=amUGSNYtmFOpOZwl1/PwbyCS6MdWF2fs0piQahu/v9amVf4N/uziSeHjr5Yr0j8k60
-         jnVK9FMlXpdfTB3pbQsLa04nT3S1Iek107F+z9m0okrVi1pVEv3YRoym73BU1Smznnam
-         X4h2MXJxfRsyqCNF+Po3zYqNZ1laADD6GDKeGNpFs/ESHcgRxByQXYQlb5Ej5R35ziX+
-         3bzODgOpGJIPByu2G8X9V/J6BxQyGBHLfrF9bGE97L7dU5sVRseBzBkVXDPIc0U9MVwa
-         //UrVpOCvaUZX/q5iMIpXGV0RgoTW/PCESSY7qV7ngDZErrNn6Oaa+Ex8/kT4KGVBjbh
-         aFSQ==
+        b=urX8AtSxMX4csX+dzmcPlW7kC5MQCBe82gwZYrhCne2MkBiIUUZA++6teI5cyxivfg
+         /HThjeGhEsEeFuwt1oxA5s4OgQgV94shlkWslY4TA2FNVYl2EmHgmWyFL6Uwp4NdPZLM
+         VCr8vIUHTTZAXSt3lZIZePcxILLaipDhGLMJLoWlTIA7uKMzPXB8P1TuqItmn29Z5f3S
+         X+dDFbajly3RMoSyx/j/3MPs2+gmhJ8ixkVRnC04P3tCKG7o8QoRqHTrZxorTFUwT89r
+         nR9IHRMOKNBbuJWx/nkEhZDp0EJT/q72JEwGlaGCmyXVKcOP/x0Lg03p2BceQm+sDBWd
+         95kA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:user-agent:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:sender:dkim-signature;
-        bh=rrhqyk1oxoGxcZpUL+UywUj2g5EonVQm3Gvfl+EaPuE=;
-        b=av3srDqmRGRImFAuEopF7qcay80mbTr7Pvw2iceQ3RUFNTX13UkvcTsJUtr4QatReK
-         21UUFbSbE5zTPGrepbyYSp5pLbPC1A+eTh99mhiy2U3i6Y6Jw0hNF8eHJnoCLSxDbZjX
-         UJyOWAtMRH4QjxgeO4ZDij+gde5Xc9gBAwJaTvpTuBE46q52/Zlgf5XNQ/L5NePkO+Dl
-         Va3U3u3eOt+cKIln5myFMfABp+jcseALquI0bT3mYYPJ9J2Gm0W5EYDh3D3oZTS9F6EQ
-         JA76o93Ir2I5Mi2UfPlM1p89nZlgy3zP3afue2SiBGcDCCUZFHfdc0/cb9IKH7YCf/m0
-         0zMQ==
+         :list-id:mailing-list:precedence:content-language:in-reply-to
+         :mime-version:user-agent:date:message-id:from:references:cc:to
+         :subject:sender:dkim-signature;
+        bh=Fa/IE/PLonx+UQa8DJ2r3bLDTNuJF8PtiLkAmXuun3o=;
+        b=u20nfkBc1ZpkzaOUpaTFcQgD0ORZO5tPQzOmlIgId7TxVOkKU8MEkXVFj3qR+bo6P2
+         tlWWBaIcVfCjYY+RS/+hj0qWVVMmNeTpyVO0xFY/6ZY1blkeCAfkGdQRKskkwb2cKivO
+         gTh5hKolFcelRx49ZqqxAZDORJyEugC5/oZ+9SWO0WuwqC8DCTsOhdD6J8MfFaJ6/hYg
+         hKfiGpdG13Jkfgy+/eq76kAJ1gUyLx56niwNoIMY3tkBAaoi3QKVbSQbiK86+Zxan40O
+         eFo9NFH2VmIgi193oK51oC7jcB+CaN5l+2ro1tYXxvtp43WUj94RLrMSDuIwDkHH7kkR
+         kLaQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=bombadil.20170209 header.b=RvVfgl22;
-       spf=pass (google.com: best guess record for domain of peterz@infradead.org designates 2607:7c80:54:e::133 as permitted sender) smtp.mailfrom=peterz@infradead.org
+       spf=pass (google.com: domain of aryabinin@virtuozzo.com designates 185.231.240.75 as permitted sender) smtp.mailfrom=aryabinin@virtuozzo.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=virtuozzo.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent:x-original-sender
+        h=sender:subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=rrhqyk1oxoGxcZpUL+UywUj2g5EonVQm3Gvfl+EaPuE=;
-        b=facCbcn8LZ6All4xM9L/7eNaT+d8b4HV35loi95SqRKH108Oewsf60Q8vA70OYpCNJ
-         oR+Hk7FsnoHn0BtV8uoNwUMrAbxTaChvwxQXktqgxYnxoT0WvXdLlfgACGR+fEP7I5z2
-         zxphycxib00KuGElR9FHG5XDDDsBMO40fe20wQtd5sCWO/g6m01AlsFtrDTH76fZi+gq
-         Zzl726l7F6qCbk+UUxBDL94F1d9Vp/Jcdths+U4ou+YqoHOhnwaJ4mSvvuQYbQFkC4n5
-         sHZBqv4yXmwxe6aR083K1OMwBbBLcD3165J7NcBD6uYsxo9Ihmw12yv4UH86NrgtMKdA
-         N46w==
+        bh=Fa/IE/PLonx+UQa8DJ2r3bLDTNuJF8PtiLkAmXuun3o=;
+        b=Yq1gfn3FNu7k7BDvG7VROGFOzeKg4DhTryTQtdX3ZxWXrQw1mlQnT16CtEgB/CaIW3
+         2z0I10pyHTgUwFopJSd25tN0HIjVkz2PZMr12cI8HtokQDbi6xsJhBYXoEW4lonbRNC+
+         m5SnlCXALfeW/0TMjHQ5Vxlkuh6PNuY8aDDi5+zsNYghzPpPSrisp5D5Z6mTm/fxM0oR
+         EDyP1EJWsIg0UrRl4sy2aypbBAepnPeryzF+b+bQMZJXA8tznc0rYJ6lmIh4MOUKJXZR
+         zHqkzSC9n9B9+2V7w5nvCxTmeDDjdXlGjt5bI6Enk+xI11LH2zfXC7kAfwLYwUd+tqup
+         LbOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent
+        h=sender:x-gm-message-state:subject:to:cc:references:from:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=rrhqyk1oxoGxcZpUL+UywUj2g5EonVQm3Gvfl+EaPuE=;
-        b=t14FJUEGLeFJWmeUk/Tkl3I7Pez0zIKLQdZnqmt0FtzT2wivOuD/isAls976WXpFBC
-         bBfVdJNv7u3IuC8Zhgkb0SnNX3YG2n4+ttjSuEILttcr5cTf6tq37xd9cehFtp0RQm8b
-         ci274JLG4PnZznHYmlx8r4Hw8os09lfvl3e56o8WMK6140GK/mVtr5TCGWrKUC2piv6t
-         kpSJ7n1UuRUpa+AzrsOioK/l2N1sz44LpccgEoe+REfL8Cl/apJH/bESVWSz1rumh4LS
-         SceMKhJwQpGceJXYSyt0Qp8AtevZAxfr1k6CXMlKmYmVk/k0ojz6FFU3FtSBe1068Z2B
-         VGcQ==
+        bh=Fa/IE/PLonx+UQa8DJ2r3bLDTNuJF8PtiLkAmXuun3o=;
+        b=TgtmCfBLYe7Fk7vyI/fdrNPmwcvHaz53oKppoedbEJcNMVQjEVigOcediknTfXqiWB
+         oF6Tl51gOsvZyRPjixhp/rpWiJOFv9nA6GvUFxZFdbq0xK1cmCPVo1zx50U7mI2z8FQd
+         /q6MAFzlJ+agXRndBiFUK3f0R9hVY/hEFF+DlHSdbf1mlP210teOUAiTmeS4mMfoGiTt
+         jqe2N9CVn43/Jz/wet94vRaMdqMcIPJsSSLkxPJOeosnKUyrcxWT2Ubh/HiZIetOehuL
+         DKrZYSsT90W4/uNsoiXlrfKauwMYdvO4Srn5QokN4y2IY4znrQ+FhHaLBMREQZ9HXRAr
+         73Jw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAWvg0UftnQwaxW2MyHgV52tYP55oPwbJfBtKqdEo6pDE8Zu4j/X
-	vmHyaHa5dHTHxrjhazrTjl4=
-X-Google-Smtp-Source: APXvYqwmI8P2hglYxzQxCllc/arF3HfCpvcJ3Etv0357urmNctP9oNnbz46am0mX8tMokt2dyhtD5A==
-X-Received: by 2002:aca:4f43:: with SMTP id d64mr2372940oib.81.1560417693861;
-        Thu, 13 Jun 2019 02:21:33 -0700 (PDT)
+X-Gm-Message-State: APjAAAV9zIFpoxUWoDJpOnB4eN2iD1l6MjGfUUChc4oodjxlf3fNBziK
+	suD5dLM0lY/ZAvo1ij2gpFk=
+X-Google-Smtp-Source: APXvYqyZ/cGWeESQjT79BNjlHJjO7nrnLvQRFYXm+VcQJYDfC5RxD5Qdyuvu6mk2xWjIyRcIWUk8lA==
+X-Received: by 2002:a5d:53d2:: with SMTP id a18mr9524801wrw.98.1560422958089;
+        Thu, 13 Jun 2019 03:49:18 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a9d:60d7:: with SMTP id b23ls941331otk.14.gmail; Thu, 13 Jun
- 2019 02:21:33 -0700 (PDT)
-X-Received: by 2002:a9d:51cf:: with SMTP id d15mr9072047oth.206.1560417693462;
-        Thu, 13 Jun 2019 02:21:33 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1560417693; cv=none;
+Received: by 2002:a1c:2d11:: with SMTP id t17ls1614231wmt.0.gmail; Thu, 13 Jun
+ 2019 03:49:17 -0700 (PDT)
+X-Received: by 2002:a1c:f712:: with SMTP id v18mr3503996wmh.0.1560422957647;
+        Thu, 13 Jun 2019 03:49:17 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1560422957; cv=none;
         d=google.com; s=arc-20160816;
-        b=h7+xrcMpfarKeIMinh/oxuKAXkbJJa88TKrhKyuoORcchtmtWDj0+etRtI5CUQFL93
-         Gapxf7PQ/hgszH+sR2SRhhIErs0XAIRXy3Yw6JigToMqLOrkJ/h3kZvbHJjPjILWiTV1
-         NVWc+WqikzhkABRI3RZC5lKVuRSdFf8nlLfVXAp8nhSPOqZYUmkg0cgk4tVyJtCdHo5m
-         nh3dYJ/rnfZJb1QdQq4DrUuC7GybMW/3Op4Vi0eA50xUyNDMbYSedDi2oMCWhdcoOWHN
-         a6P3kt9KOgl/c90r0LUBhV/x8XHzDMWz/wTuE4iSr3R0LV3lGJ/5KJr1MuhfVCsZnUar
-         ROEw==
+        b=M5k7Z7Ors87ul1ji9lwJ2rXDMNyG6KgGwTks4Dvh9H2HDbSLGXpQsPGPUtetsG7gwM
+         lJYIhJDWsH1L8vpS2ARyZ9bULglvaXdq+sKYUAX+/QTjWDKvQ0Ye0P6EL3X3wLednBxV
+         E0reJutL3UVtJFCCN8dF5juKYBnoDb87pppJzfk9JSeBGzqCUnD4KrLwkrp0X2IsSuuT
+         WtRc0YvXFU+iDlpetYXqZ/4ruymvKXX7phFITgK1JVsjQnjzK4zT63Kuj4YKtGt4uaQq
+         cByTwVyTzFnZx4qEj8kQc9mB7lYi0nL4dUeORdlKHiRXgfWSaSbglRgXxA1sSAMMZj9B
+         mCRA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:dkim-signature;
-        bh=KNxPWlWuxnDwYXMMhXWadjBNeF5Uv67xMzgxslH4spI=;
-        b=LISgDiq/eZnkuEAsl/QvRLUFX10NY4lCUswynnQRZPvgfnQSaj02TAgZurMJRBJb6m
-         BRtuql8fVhInNNfB1Kv6XMzGVoAQsWETrBfeniZQaYwULF//kVYtZ2jTKrvLczgAkSPj
-         qylau53x5UVfSJP9/G+GeY7kODBdNnIwgQnVMjFWxtvgijwXdBNiC8P2oEJJELKijbeH
-         5ibrwuSHu1QzWI1CW7mofTkw86/gnnf/ObfRcd5c5TDZiKUFxErMTtxuq66xm9VsN80P
-         q6ISlKK3KEq1Q8gcf5Aiz9HyweeTZms9138WM+bFYfgw5coPnGQQgguSKX+Nbdes8Zc4
-         s0WQ==
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject;
+        bh=a6Gh3I2YeGZuFCvmgk6STQ7mUGuO1wt1FSU+nPj3SAw=;
+        b=jVYSDtuSoGY4IvMssVdIT8YtjDp4pgzSSjBPiOfpDDiUkURqbg5+sKBKX0PCuGhAAS
+         EGLYjAW6eJt4vIItWf2dVsnatD4fB3+0mR/SmKscITyL4XJ9RhVkEiq6GwXpU9lFpKN5
+         kjpToZ4YSEnAJP+LKLVupvnS6XHZ9sRwuQ6flRqZtHgHfJ0xsvoolW0PpKNUU6QJJ02A
+         Sx0sWJxUAI0yYRrYHJPGJN2CDy0DIFUnlk/I85R3YCizRU+1wYOV4e5+YuG9t9b4FPp4
+         xw1XNh82q+95ngHnfKfIvqbVmkXgwIO9blbC5a/l2N1cj8joxFh+PcvfjJrga9JwSJa0
+         gt8A==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=bombadil.20170209 header.b=RvVfgl22;
-       spf=pass (google.com: best guess record for domain of peterz@infradead.org designates 2607:7c80:54:e::133 as permitted sender) smtp.mailfrom=peterz@infradead.org
-Received: from bombadil.infradead.org (bombadil.infradead.org. [2607:7c80:54:e::133])
-        by gmr-mx.google.com with ESMTPS id m81si181930oig.0.2019.06.13.02.21.32
+       spf=pass (google.com: domain of aryabinin@virtuozzo.com designates 185.231.240.75 as permitted sender) smtp.mailfrom=aryabinin@virtuozzo.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=virtuozzo.com
+Received: from relay.sw.ru (relay.sw.ru. [185.231.240.75])
+        by gmr-mx.google.com with ESMTPS id h10si140108wrv.3.2019.06.13.03.49.17
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Thu, 13 Jun 2019 02:21:32 -0700 (PDT)
-Received-SPF: pass (google.com: best guess record for domain of peterz@infradead.org designates 2607:7c80:54:e::133 as permitted sender) client-ip=2607:7c80:54:e::133;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
-	by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-	id 1hbLvA-0000K1-OV; Thu, 13 Jun 2019 09:21:24 +0000
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 33A9D209C844F; Thu, 13 Jun 2019 11:21:23 +0200 (CEST)
-Date: Thu, 13 Jun 2019 11:21:23 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: Marco Elver <elver@google.com>
-Cc: aryabinin@virtuozzo.com, dvyukov@google.com, glider@google.com,
-	andreyknvl@google.com, mark.rutland@arm.com, hpa@zytor.com,
-	corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-	x86@kernel.org, arnd@arndb.de, jpoimboe@redhat.com,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arch@vger.kernel.org, kasan-dev@googlegroups.com
-Subject: Re: [PATCH v3 2/3] x86: Use static_cpu_has in uaccess region to
- avoid instrumentation
-Message-ID: <20190613092123.GO3402@hirez.programming.kicks-ass.net>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 13 Jun 2019 03:49:17 -0700 (PDT)
+Received-SPF: pass (google.com: domain of aryabinin@virtuozzo.com designates 185.231.240.75 as permitted sender) client-ip=185.231.240.75;
+Received: from [172.16.25.12]
+	by relay.sw.ru with esmtp (Exim 4.92)
+	(envelope-from <aryabinin@virtuozzo.com>)
+	id 1hbNI7-0000bh-9J; Thu, 13 Jun 2019 13:49:11 +0300
+Subject: Re: [PATCH v3 1/3] lib/test_kasan: Add bitops tests
+To: Marco Elver <elver@google.com>, peterz@infradead.org, dvyukov@google.com,
+ glider@google.com, andreyknvl@google.com, mark.rutland@arm.com, hpa@zytor.com
+Cc: corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+ x86@kernel.org, arnd@arndb.de, jpoimboe@redhat.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arch@vger.kernel.org, kasan-dev@googlegroups.com
 References: <20190531150828.157832-1-elver@google.com>
- <20190531150828.157832-3-elver@google.com>
+ <20190531150828.157832-2-elver@google.com>
+From: Andrey Ryabinin <aryabinin@virtuozzo.com>
+Message-ID: <5c35bc08-749f-dbc4-09d0-fcf14b1da1b3@virtuozzo.com>
+Date: Thu, 13 Jun 2019 13:49:23 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
+In-Reply-To: <20190531150828.157832-2-elver@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <20190531150828.157832-3-elver@google.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Original-Sender: peterz@infradead.org
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@infradead.org header.s=bombadil.20170209 header.b=RvVfgl22;
-       spf=pass (google.com: best guess record for domain of
- peterz@infradead.org designates 2607:7c80:54:e::133 as permitted sender) smtp.mailfrom=peterz@infradead.org
+Content-Language: en-US
+X-Original-Sender: aryabinin@virtuozzo.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of aryabinin@virtuozzo.com designates 185.231.240.75 as
+ permitted sender) smtp.mailfrom=aryabinin@virtuozzo.com;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=virtuozzo.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -135,69 +133,78 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, May 31, 2019 at 05:08:30PM +0200, Marco Elver wrote:
-> This patch is a pre-requisite for enabling KASAN bitops instrumentation;
-> using static_cpu_has instead of boot_cpu_has avoids instrumentation of
-> test_bit inside the uaccess region. With instrumentation, the KASAN
-> check would otherwise be flagged by objtool.
-> 
-> For consistency, kernel/signal.c was changed to mirror this change,
-> however, is never instrumented with KASAN (currently unsupported under
-> x86 32bit).
 
-Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 
-Thanks!
-
+On 5/31/19 6:08 PM, Marco Elver wrote:
+> This adds bitops tests to the test_kasan module. In a follow-up patch,
+> support for bitops instrumentation will be added.
 > 
 > Signed-off-by: Marco Elver <elver@google.com>
-> Suggested-by: H. Peter Anvin <hpa@zytor.com>
 > ---
 > Changes in v3:
-> * Use static_cpu_has instead of moving boot_cpu_has outside uaccess
->   region.
+> * Use kzalloc instead of kmalloc.
+> * Use sizeof(*bits).
 > 
 > Changes in v2:
-> * Replaces patch: 'tools/objtool: add kasan_check_* to uaccess
->   whitelist'
+> * Use BITS_PER_LONG.
+> * Use heap allocated memory for test, as newer compilers (correctly)
+>   warn on OOB stack access.
 > ---
->  arch/x86/ia32/ia32_signal.c | 2 +-
->  arch/x86/kernel/signal.c    | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
+>  lib/test_kasan.c | 75 ++++++++++++++++++++++++++++++++++++++++++++++--
+>  1 file changed, 72 insertions(+), 3 deletions(-)
 > 
-> diff --git a/arch/x86/ia32/ia32_signal.c b/arch/x86/ia32/ia32_signal.c
-> index 629d1ee05599..1cee10091b9f 100644
-> --- a/arch/x86/ia32/ia32_signal.c
-> +++ b/arch/x86/ia32/ia32_signal.c
-> @@ -358,7 +358,7 @@ int ia32_setup_rt_frame(int sig, struct ksignal *ksig,
->  		put_user_ex(ptr_to_compat(&frame->uc), &frame->puc);
+> diff --git a/lib/test_kasan.c b/lib/test_kasan.c
+> index 7de2702621dc..1ef9702327d2 100644
+> --- a/lib/test_kasan.c
+> +++ b/lib/test_kasan.c
+> @@ -11,16 +11,17 @@
 >  
->  		/* Create the ucontext.  */
-> -		if (boot_cpu_has(X86_FEATURE_XSAVE))
-> +		if (static_cpu_has(X86_FEATURE_XSAVE))
->  			put_user_ex(UC_FP_XSTATE, &frame->uc.uc_flags);
->  		else
->  			put_user_ex(0, &frame->uc.uc_flags);
-> diff --git a/arch/x86/kernel/signal.c b/arch/x86/kernel/signal.c
-> index 364813cea647..52eb1d551aed 100644
-> --- a/arch/x86/kernel/signal.c
-> +++ b/arch/x86/kernel/signal.c
-> @@ -391,7 +391,7 @@ static int __setup_rt_frame(int sig, struct ksignal *ksig,
->  		put_user_ex(&frame->uc, &frame->puc);
+>  #define pr_fmt(fmt) "kasan test: %s " fmt, __func__
 >  
->  		/* Create the ucontext.  */
-> -		if (boot_cpu_has(X86_FEATURE_XSAVE))
-> +		if (static_cpu_has(X86_FEATURE_XSAVE))
->  			put_user_ex(UC_FP_XSTATE, &frame->uc.uc_flags);
->  		else
->  			put_user_ex(0, &frame->uc.uc_flags);
-> -- 
-> 2.22.0.rc1.257.g3120a18244-goog
-> 
+> +#include <linux/bitops.h>
+>  #include <linux/delay.h>
+> +#include <linux/kasan.h>
+>  #include <linux/kernel.h>
+> -#include <linux/mman.h>
+>  #include <linux/mm.h>
+> +#include <linux/mman.h>
+> +#include <linux/module.h>
+>  #include <linux/printk.h>
+>  #include <linux/slab.h>
+>  #include <linux/string.h>
+>  #include <linux/uaccess.h>
+> -#include <linux/module.h>
+> -#include <linux/kasan.h>
+>  
+>  /*
+>   * Note: test functions are marked noinline so that their names appear in
+> @@ -623,6 +624,73 @@ static noinline void __init kasan_strings(void)
+>  	strnlen(ptr, 1);
+>  }
+>  
+> +static noinline void __init kasan_bitops(void)
+> +{
+> +	long *bits = kzalloc(sizeof(*bits), GFP_KERNEL);
+
+It would be safer to do kzalloc(sizeof(*bits) + 1, GFP_KERNEL) and change tests accordingly to: set_bit(BITS_PER_LONG + 1, bits) ...
+kmalloc will internally round up allocation to 16-bytes, so we won't be actually corrupting someone elses memory.
+
+
+> +	if (!bits)
+> +		return;
+> +
+> +	pr_info("within-bounds in set_bit");
+> +	set_bit(0, bits);
+> +
+> +	pr_info("within-bounds in set_bit");
+> +	set_bit(BITS_PER_LONG - 1, bits);
+
+
+I'd remove these two. There are plenty of within bounds set_bit() in the kernel so they are well tested already.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
 To post to this group, send email to kasan-dev@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20190613092123.GO3402%40hirez.programming.kicks-ass.net.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/5c35bc08-749f-dbc4-09d0-fcf14b1da1b3%40virtuozzo.com.
 For more options, visit https://groups.google.com/d/optout.
