@@ -1,129 +1,128 @@
-Return-Path: <kasan-dev+bncBAABBWELRDUAKGQEDV4DKAI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCV5TUXXRUIBBHNLRDUAKGQEZBB3VSA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oi1-x23c.google.com (mail-oi1-x23c.google.com [IPv6:2607:f8b0:4864:20::23c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02CEE433FD
-	for <lists+kasan-dev@lfdr.de>; Thu, 13 Jun 2019 10:14:18 +0200 (CEST)
-Received: by mail-oi1-x23c.google.com with SMTP id w123sf1622536oie.21
-        for <lists+kasan-dev@lfdr.de>; Thu, 13 Jun 2019 01:14:17 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1560413656; cv=pass;
+Received: from mail-ot1-x340.google.com (mail-ot1-x340.google.com [IPv6:2607:f8b0:4864:20::340])
+	by mail.lfdr.de (Postfix) with ESMTPS id 52F184349B
+	for <lists+kasan-dev@lfdr.de>; Thu, 13 Jun 2019 11:21:35 +0200 (CEST)
+Received: by mail-ot1-x340.google.com with SMTP id v1sf8970523otj.23
+        for <lists+kasan-dev@lfdr.de>; Thu, 13 Jun 2019 02:21:35 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1560417694; cv=pass;
         d=google.com; s=arc-20160816;
-        b=XmjMz1e9rzDn/R7OWbMsd/TzvOo8VyPdW62nnuHtjLdEYWDefTbMuKjABEnNp/dqXq
-         bM8G0QxgnilrvVn+vyZQzt74tEj8wP3atPVuKP1YCmIlymhqDIhXdv5HVW6QIZGz6us/
-         Jgo/WWuGj/dRa0D7t0xX3mdjBMjPsjeOt38Hr5jLk9Hl9zzK5E/7oKYmjc8CtEwXEwln
-         ZZE/etM9Df61qBbZ6EG9ARUy7jQmLNFlQdKDsc+vN9b7T3+sMsDWPrSMjT8KUbgis6gC
-         FXVB3lbHKUjwgfIP89YL7MKzPIWpfQLlqjzM18Zhg/vjAMq6vKJjlliV24CM9XsST3MW
-         +TQw==
+        b=amUGSNYtmFOpOZwl1/PwbyCS6MdWF2fs0piQahu/v9amVf4N/uziSeHjr5Yr0j8k60
+         jnVK9FMlXpdfTB3pbQsLa04nT3S1Iek107F+z9m0okrVi1pVEv3YRoym73BU1Smznnam
+         X4h2MXJxfRsyqCNF+Po3zYqNZ1laADD6GDKeGNpFs/ESHcgRxByQXYQlb5Ej5R35ziX+
+         3bzODgOpGJIPByu2G8X9V/J6BxQyGBHLfrF9bGE97L7dU5sVRseBzBkVXDPIc0U9MVwa
+         //UrVpOCvaUZX/q5iMIpXGV0RgoTW/PCESSY7qV7ngDZErrNn6Oaa+Ex8/kT4KGVBjbh
+         aFSQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:message-id:date
-         :subject:cc:to:from:sender:dkim-signature;
-        bh=YLj9AO+cJUzzvAkf6XW1WFiiVpbG2JydDOyr1iumWNg=;
-        b=LRYvgbfNhXvUb5w3ltGno8PGEi1x/s7zn1utE0gqUGLTj/6MksmeBWcLzaU8j2PvHR
-         uQdAxU3SZ7XxTrO0yYcurRxsV9G/IU2pDPkZXzXDdeBvDNMrqNMvXElLto9vY31bEy2X
-         LBOtwtzDkYhmb0kbNNOwQe1XUwRLybHmsD6mZNRcdoKTaUWWdK3fE5WKl816j2jpx0kk
-         OMpBYkqTQZEGfHr7F6hJ1jEg4yxGmQd7Nz/KuhCN/8pWdIWRPdki40/uJ1w8fBhFf3B7
-         AFOOMG0IQY5T1s5zmy5WJoYUDc8GRzL0yIrezRbFs4L/dnQWVM5HECL2c4mSBpBWagEz
-         Wxqw==
+         :list-id:mailing-list:precedence:user-agent:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:sender:dkim-signature;
+        bh=rrhqyk1oxoGxcZpUL+UywUj2g5EonVQm3Gvfl+EaPuE=;
+        b=av3srDqmRGRImFAuEopF7qcay80mbTr7Pvw2iceQ3RUFNTX13UkvcTsJUtr4QatReK
+         21UUFbSbE5zTPGrepbyYSp5pLbPC1A+eTh99mhiy2U3i6Y6Jw0hNF8eHJnoCLSxDbZjX
+         UJyOWAtMRH4QjxgeO4ZDij+gde5Xc9gBAwJaTvpTuBE46q52/Zlgf5XNQ/L5NePkO+Dl
+         Va3U3u3eOt+cKIln5myFMfABp+jcseALquI0bT3mYYPJ9J2Gm0W5EYDh3D3oZTS9F6EQ
+         JA76o93Ir2I5Mi2UfPlM1p89nZlgy3zP3afue2SiBGcDCCUZFHfdc0/cb9IKH7YCf/m0
+         0zMQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.184 as permitted sender) smtp.mailfrom=walter-zh.wu@mediatek.com
+       dkim=pass header.i=@infradead.org header.s=bombadil.20170209 header.b=RvVfgl22;
+       spf=pass (google.com: best guess record for domain of peterz@infradead.org designates 2607:7c80:54:e::133 as permitted sender) smtp.mailfrom=peterz@infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id:mime-version
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=YLj9AO+cJUzzvAkf6XW1WFiiVpbG2JydDOyr1iumWNg=;
-        b=CmwhmtBtVOB7/vTc1H/5tus3YiFo0ueuk3S2wmC+7ClJRD9PdTNpzj7G9oZH4TFdgW
-         ThPYgvf351Y1BmLnHFuQexZlr7kxeBx0HGYm+F+Vamt2krOzQUPGtoDv8kgIwBRZlskN
-         xBkEn3w2WFo6PxeKeG3O5c3X9/3drlIW79yjlpd+9+kpbmLKYyj1sVQvvSwbbdNvCG9J
-         6rTVX3SEudZQyr9yLHnk5NVS1rfYV8D52AgCaMj6e+P05BqQpeolaaZEofFooSpOSab9
-         RAMfyEdQsuriAF1jRADesvcNbMxnKvxk0olmypMsbgwLasyFExt6rVjYV4C/uQDWVkbF
-         4/HQ==
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=rrhqyk1oxoGxcZpUL+UywUj2g5EonVQm3Gvfl+EaPuE=;
+        b=facCbcn8LZ6All4xM9L/7eNaT+d8b4HV35loi95SqRKH108Oewsf60Q8vA70OYpCNJ
+         oR+Hk7FsnoHn0BtV8uoNwUMrAbxTaChvwxQXktqgxYnxoT0WvXdLlfgACGR+fEP7I5z2
+         zxphycxib00KuGElR9FHG5XDDDsBMO40fe20wQtd5sCWO/g6m01AlsFtrDTH76fZi+gq
+         Zzl726l7F6qCbk+UUxBDL94F1d9Vp/Jcdths+U4ou+YqoHOhnwaJ4mSvvuQYbQFkC4n5
+         sHZBqv4yXmwxe6aR083K1OMwBbBLcD3165J7NcBD6uYsxo9Ihmw12yv4UH86NrgtMKdA
+         N46w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :mime-version:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=YLj9AO+cJUzzvAkf6XW1WFiiVpbG2JydDOyr1iumWNg=;
-        b=pamlP/F2OzL2svEJenViURVUGIQYKfbb//CDd6qa1aoZwPaz0oRjsLEYRl0uKIljHA
-         NHR9ePwUQxO9MDayi48/W4HAJHFHi8jAATxt/44YEzyG8qMM3QAAbGALGSBXHKK2wjMc
-         S7+rdSInXkrbkQykDUAnw8pfFuAumUNmEmxkv1F1aGitXDmnXjm5e0bVX6uZrLTaSlXi
-         qMGpst2LsYB3bFjmDpaKNDLDqMvUiXhhWH+keqcvmNw8PHN9Qpw1IuJnv9GgcKSh3CBg
-         LEoPICrgjXchCh81C7mF7qg0wO/bMXqxUzEznO7CjLgg7oFqux6u92KmENE/r7WaLSbv
-         8jqg==
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=rrhqyk1oxoGxcZpUL+UywUj2g5EonVQm3Gvfl+EaPuE=;
+        b=t14FJUEGLeFJWmeUk/Tkl3I7Pez0zIKLQdZnqmt0FtzT2wivOuD/isAls976WXpFBC
+         bBfVdJNv7u3IuC8Zhgkb0SnNX3YG2n4+ttjSuEILttcr5cTf6tq37xd9cehFtp0RQm8b
+         ci274JLG4PnZznHYmlx8r4Hw8os09lfvl3e56o8WMK6140GK/mVtr5TCGWrKUC2piv6t
+         kpSJ7n1UuRUpa+AzrsOioK/l2N1sz44LpccgEoe+REfL8Cl/apJH/bESVWSz1rumh4LS
+         SceMKhJwQpGceJXYSyt0Qp8AtevZAxfr1k6CXMlKmYmVk/k0ojz6FFU3FtSBe1068Z2B
+         VGcQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAVGcH7Q+0YbRxenNA0t7p18cCHeR2h0e7hTS58Xsllwsz93HMHf
-	rf1eViyV8OZ4Wk8/YmKd0BM=
-X-Google-Smtp-Source: APXvYqxpkLpua2cqXs6lMfFmWlV/Q4bO4BIYszsjaaGhk6Un5mVqyRPdU+eGCVYpT47Xw8EMGJqA4g==
-X-Received: by 2002:aca:37d6:: with SMTP id e205mr2072606oia.165.1560413656430;
-        Thu, 13 Jun 2019 01:14:16 -0700 (PDT)
+X-Gm-Message-State: APjAAAWvg0UftnQwaxW2MyHgV52tYP55oPwbJfBtKqdEo6pDE8Zu4j/X
+	vmHyaHa5dHTHxrjhazrTjl4=
+X-Google-Smtp-Source: APXvYqwmI8P2hglYxzQxCllc/arF3HfCpvcJ3Etv0357urmNctP9oNnbz46am0mX8tMokt2dyhtD5A==
+X-Received: by 2002:aca:4f43:: with SMTP id d64mr2372940oib.81.1560417693861;
+        Thu, 13 Jun 2019 02:21:33 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:aca:afd2:: with SMTP id y201ls723019oie.7.gmail; Thu, 13 Jun
- 2019 01:14:16 -0700 (PDT)
-X-Received: by 2002:aca:5e57:: with SMTP id s84mr2188041oib.139.1560413656082;
-        Thu, 13 Jun 2019 01:14:16 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1560413656; cv=none;
+Received: by 2002:a9d:60d7:: with SMTP id b23ls941331otk.14.gmail; Thu, 13 Jun
+ 2019 02:21:33 -0700 (PDT)
+X-Received: by 2002:a9d:51cf:: with SMTP id d15mr9072047oth.206.1560417693462;
+        Thu, 13 Jun 2019 02:21:33 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1560417693; cv=none;
         d=google.com; s=arc-20160816;
-        b=pOfiZPI1kbiAt0sfYFErmzp+UowYXxKSG34LVlko+gDpkk71xIEW+r01groiBX1+3y
-         s/V2vFysr2No42hFnLSrr3YSE0uY9URPS9DwbHU7ODEFrpEnV/l4BoA22Qa0/BvrswPM
-         VvV2tg8k1vl1MLFWHALbfFctDaSNMbERRBg1TNX13AaiAG1ZLRxXIVJOSdQN10uDPnDh
-         gEbUIvqihRVJ9Fak/CxIfdNJ7VppCMrO9wx4hxfsmbAfh0nggRCJPdqH2piGnIcvcZ5K
-         QCAqouG71vQbqKhJDMn3aM0lfbx47Gu9njrcZU0gklEDb3B7jI/Pcs2I5yx7RI3yj+pN
-         uuQQ==
+        b=h7+xrcMpfarKeIMinh/oxuKAXkbJJa88TKrhKyuoORcchtmtWDj0+etRtI5CUQFL93
+         Gapxf7PQ/hgszH+sR2SRhhIErs0XAIRXy3Yw6JigToMqLOrkJ/h3kZvbHJjPjILWiTV1
+         NVWc+WqikzhkABRI3RZC5lKVuRSdFf8nlLfVXAp8nhSPOqZYUmkg0cgk4tVyJtCdHo5m
+         nh3dYJ/rnfZJb1QdQq4DrUuC7GybMW/3Op4Vi0eA50xUyNDMbYSedDi2oMCWhdcoOWHN
+         a6P3kt9KOgl/c90r0LUBhV/x8XHzDMWz/wTuE4iSr3R0LV3lGJ/5KJr1MuhfVCsZnUar
+         ROEw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=mime-version:message-id:date:subject:cc:to:from;
-        bh=PjwpKMSvyqymmJclCY5/3R0WJb0RbMS45F6wM9MWbVQ=;
-        b=BhcsDZkFUUsNjHvlcF/VKmyCPjlK0WDm3Vx6EGOa2pi12NQYHQ38kLkrn3vDT9Goqn
-         WHIQpb5bhRBe9+35bwNtOa9HB/A94RmJXKWEXSsPiWcihVcBWsVewfIXaHaq95uIoz9p
-         yiuFq03+6lVMpfxq30wmj1hL43bcGXLvKfqwH/nv++/XXX+JDtt+acWelF3fZ1gQGFx0
-         EFR1j7XnkOfw157QOtqq3mcOrgVeNlc9f2VA5eymozOPTh+eGpPFc0ze25yIG4iPRt7F
-         h5/pL/zXejK9yHBmClenwbbKoLA2hKOfp6lLwKHZQkhHloZrb7LlWXY4OJj8tHogdTzg
-         a3kQ==
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:dkim-signature;
+        bh=KNxPWlWuxnDwYXMMhXWadjBNeF5Uv67xMzgxslH4spI=;
+        b=LISgDiq/eZnkuEAsl/QvRLUFX10NY4lCUswynnQRZPvgfnQSaj02TAgZurMJRBJb6m
+         BRtuql8fVhInNNfB1Kv6XMzGVoAQsWETrBfeniZQaYwULF//kVYtZ2jTKrvLczgAkSPj
+         qylau53x5UVfSJP9/G+GeY7kODBdNnIwgQnVMjFWxtvgijwXdBNiC8P2oEJJELKijbeH
+         5ibrwuSHu1QzWI1CW7mofTkw86/gnnf/ObfRcd5c5TDZiKUFxErMTtxuq66xm9VsN80P
+         q6ISlKK3KEq1Q8gcf5Aiz9HyweeTZms9138WM+bFYfgw5coPnGQQgguSKX+Nbdes8Zc4
+         s0WQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.184 as permitted sender) smtp.mailfrom=walter-zh.wu@mediatek.com
-Received: from mailgw02.mediatek.com ([210.61.82.184])
-        by gmr-mx.google.com with ESMTPS id m81si172836oig.0.2019.06.13.01.14.15
+       dkim=pass header.i=@infradead.org header.s=bombadil.20170209 header.b=RvVfgl22;
+       spf=pass (google.com: best guess record for domain of peterz@infradead.org designates 2607:7c80:54:e::133 as permitted sender) smtp.mailfrom=peterz@infradead.org
+Received: from bombadil.infradead.org (bombadil.infradead.org. [2607:7c80:54:e::133])
+        by gmr-mx.google.com with ESMTPS id m81si181930oig.0.2019.06.13.02.21.32
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 13 Jun 2019 01:14:15 -0700 (PDT)
-Received-SPF: pass (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.184 as permitted sender) client-ip=210.61.82.184;
-X-UUID: 2ad63aae6c7a4eecae24f2c5d8ebf831-20190613
-X-UUID: 2ad63aae6c7a4eecae24f2c5d8ebf831-20190613
-Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw02.mediatek.com
-	(envelope-from <walter-zh.wu@mediatek.com>)
-	(mhqrelay.mediatek.com ESMTP with TLS)
-	with ESMTP id 333036920; Thu, 13 Jun 2019 16:14:10 +0800
-Received: from mtkcas08.mediatek.inc (172.21.101.126) by
- mtkmbs08n1.mediatek.inc (172.21.101.55) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Thu, 13 Jun 2019 16:14:08 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas08.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Thu, 13 Jun 2019 16:14:08 +0800
-From: Walter Wu <walter-zh.wu@mediatek.com>
-To: Andrey Ryabinin <aryabinin@virtuozzo.com>, Alexander Potapenko
-	<glider@google.com>, Dmitry Vyukov <dvyukov@google.com>, Christoph Lameter
-	<cl@linux.com>, Pekka Enberg <penberg@kernel.org>, David Rientjes
-	<rientjes@google.com>, Joonsoo Kim <iamjoonsoo.kim@lge.com>, Matthias Brugger
-	<matthias.bgg@gmail.com>, Martin Schwidefsky <schwidefsky@de.ibm.com>, Arnd
- Bergmann <arnd@arndb.de>, Vasily Gorbik <gor@linux.ibm.com>, Andrey Konovalov
-	<andreyknvl@google.com>, "Jason A . Donenfeld" <Jason@zx2c4.com>, Miles Chen
-	<miles.chen@mediatek.com>, Walter Wu <walter-zh.wu@mediatek.com>
-CC: <kasan-dev@googlegroups.com>, <linux-kernel@vger.kernel.org>,
-	<linux-mm@kvack.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-mediatek@lists.infradead.org>, <wsd_upstream@mediatek.com>
-Subject: [PATCH v3] kasan: add memory corruption identification for software tag-based mode
-Date: Thu, 13 Jun 2019 16:13:57 +0800
-Message-ID: <20190613081357.1360-1-walter-zh.wu@mediatek.com>
-X-Mailer: git-send-email 2.18.0
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Thu, 13 Jun 2019 02:21:32 -0700 (PDT)
+Received-SPF: pass (google.com: best guess record for domain of peterz@infradead.org designates 2607:7c80:54:e::133 as permitted sender) client-ip=2607:7c80:54:e::133;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
+	by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+	id 1hbLvA-0000K1-OV; Thu, 13 Jun 2019 09:21:24 +0000
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 33A9D209C844F; Thu, 13 Jun 2019 11:21:23 +0200 (CEST)
+Date: Thu, 13 Jun 2019 11:21:23 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: Marco Elver <elver@google.com>
+Cc: aryabinin@virtuozzo.com, dvyukov@google.com, glider@google.com,
+	andreyknvl@google.com, mark.rutland@arm.com, hpa@zytor.com,
+	corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+	x86@kernel.org, arnd@arndb.de, jpoimboe@redhat.com,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arch@vger.kernel.org, kasan-dev@googlegroups.com
+Subject: Re: [PATCH v3 2/3] x86: Use static_cpu_has in uaccess region to
+ avoid instrumentation
+Message-ID: <20190613092123.GO3402@hirez.programming.kicks-ass.net>
+References: <20190531150828.157832-1-elver@google.com>
+ <20190531150828.157832-3-elver@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-MTK: N
-X-Original-Sender: walter-zh.wu@mediatek.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.184 as
- permitted sender) smtp.mailfrom=walter-zh.wu@mediatek.com
+Content-Disposition: inline
+In-Reply-To: <20190531150828.157832-3-elver@google.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Original-Sender: peterz@infradead.org
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@infradead.org header.s=bombadil.20170209 header.b=RvVfgl22;
+       spf=pass (google.com: best guess record for domain of
+ peterz@infradead.org designates 2607:7c80:54:e::133 as permitted sender) smtp.mailfrom=peterz@infradead.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -136,563 +135,69 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-This patch adds memory corruption identification at bug report for
-software tag-based mode, the report show whether it is "use-after-free"
-or "out-of-bound" error instead of "invalid-access" error.This will make
-it easier for programmers to see the memory corruption problem.
+On Fri, May 31, 2019 at 05:08:30PM +0200, Marco Elver wrote:
+> This patch is a pre-requisite for enabling KASAN bitops instrumentation;
+> using static_cpu_has instead of boot_cpu_has avoids instrumentation of
+> test_bit inside the uaccess region. With instrumentation, the KASAN
+> check would otherwise be flagged by objtool.
+> 
+> For consistency, kernel/signal.c was changed to mirror this change,
+> however, is never instrumented with KASAN (currently unsupported under
+> x86 32bit).
 
-Now we extend the quarantine to support both generic and tag-based kasan.
-For tag-based kasan, the quarantine stores only freed object information
-to check if an object is freed recently. When tag-based kasan reports an
-error, we can check if the tagged addr is in the quarantine and make a
-good guess if the object is more like "use-after-free" or "out-of-bound".
+Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 
-Due to tag-based kasan, the tag values are stored in the shadow memory,
-all tag comparison failures are memory corruption. Even if those freed
-object have been deallocated, we still can get the memory corruption.
-So the freed object doesn't need to be kept in quarantine, it can be
-immediately released after calling kfree(). We only need the freed object
-information in quarantine, the error handler is able to use object
-information to know if it has been allocated or deallocated, therefore
-every slab memory corruption can be identified whether it's
-"use-after-free" or "out-of-bound".
+Thanks!
 
-The difference between generic kasan and tag-based kasan quarantine is
-slab memory usage. Tag-based kasan only stores freed object information
-rather than the object itself. So tag-based kasan quarantine memory usage
-is smaller than generic kasan.
-
-====== Benchmarks
-
-The following numbers were collected in QEMU.
-Both generic and tag-based KASAN were used in inline instrumentation mode
-and no stack checking.
-
-Boot time :
-* ~1.5 sec for clean kernel
-* ~3 sec for generic KASAN
-* ~3.5  sec for tag-based KASAN
-* ~3.5 sec for tag-based KASAN + corruption identification
-
-Slab memory usage after boot :
-* ~10500 kb  for clean kernel
-* ~30500 kb  for generic KASAN
-* ~12300 kb  for tag-based KASAN
-* ~17100 kb  for tag-based KASAN + corruption identification
-
-====== Changes
-
-Change since v1:
-- add feature option CONFIG_KASAN_SW_TAGS_IDENTIFY.
-- change QUARANTINE_FRACTION to reduce quarantine size.
-- change the qlist order in order to find the newest object in quarantine
-- reduce the number of calling kmalloc() from 2 to 1 time.
-- remove global variable to use argument to pass it.
-- correct the amount of qobject cache->size into the byes of qlist_head.
-- only use kasan_cache_shrink() to shink memory.
-
-Change since v2:
-- remove the shinking memory function kasan_cache_shrink()
-- modify the description of the CONFIG_KASAN_SW_TAGS_IDENTIFY 
-- optimize the quarantine_find_object() and qobject_free()
-- fix the duplicating function name 3 times in the header.
-- modify the function name set_track() to kasan_set_track()
-
-Cc: Dmitry Vyukov <dvyukov@google.com>
-Signed-off-by: Walter Wu <walter-zh.wu@mediatek.com>
----
- lib/Kconfig.kasan      |   8 +++
- mm/kasan/Makefile      |   1 +
- mm/kasan/common.c      |   9 +--
- mm/kasan/kasan.h       |  36 ++++++++++-
- mm/kasan/quarantine.c  | 137 +++++++++++++++++++++++++++++++++++++----
- mm/kasan/report.c      |  37 +++++++----
- mm/kasan/tags.c        |  40 ++++++++++++
- mm/kasan/tags_report.c |   8 ++-
- mm/slub.c              |   2 +-
- 9 files changed, 244 insertions(+), 34 deletions(-)
-
-diff --git a/lib/Kconfig.kasan b/lib/Kconfig.kasan
-index 9950b660e62d..f612326f63f0 100644
---- a/lib/Kconfig.kasan
-+++ b/lib/Kconfig.kasan
-@@ -134,6 +134,14 @@ config KASAN_S390_4_LEVEL_PAGING
- 	  to 3TB of RAM with KASan enabled). This options allows to force
- 	  4-level paging instead.
- 
-+config KASAN_SW_TAGS_IDENTIFY
-+	bool "Enable memory corruption identification"
-+	depends on KASAN_SW_TAGS
-+	help
-+	  This option enables best-effort identification of bug type
-+	  (use-after-free or out-of-bounds) at the cost of increased
-+	  memory consumption for object quarantine.
-+
- config TEST_KASAN
- 	tristate "Module for testing KASAN for bug detection"
- 	depends on m && KASAN
-diff --git a/mm/kasan/Makefile b/mm/kasan/Makefile
-index 5d1065efbd47..d8540e5070cb 100644
---- a/mm/kasan/Makefile
-+++ b/mm/kasan/Makefile
-@@ -19,3 +19,4 @@ CFLAGS_tags.o := $(call cc-option, -fno-conserve-stack -fno-stack-protector)
- obj-$(CONFIG_KASAN) := common.o init.o report.o
- obj-$(CONFIG_KASAN_GENERIC) += generic.o generic_report.o quarantine.o
- obj-$(CONFIG_KASAN_SW_TAGS) += tags.o tags_report.o
-+obj-$(CONFIG_KASAN_SW_TAGS_IDENTIFY) += quarantine.o
-diff --git a/mm/kasan/common.c b/mm/kasan/common.c
-index 80bbe62b16cd..0375a37d36cb 100644
---- a/mm/kasan/common.c
-+++ b/mm/kasan/common.c
-@@ -81,7 +81,7 @@ static inline depot_stack_handle_t save_stack(gfp_t flags)
- 	return depot_save_stack(&trace, flags);
- }
- 
--static inline void set_track(struct kasan_track *track, gfp_t flags)
-+void kasan_set_track(struct kasan_track *track, gfp_t flags)
- {
- 	track->pid = current->pid;
- 	track->stack = save_stack(flags);
-@@ -456,8 +456,8 @@ static bool __kasan_slab_free(struct kmem_cache *cache, void *object,
- 			unlikely(!(cache->flags & SLAB_KASAN)))
- 		return false;
- 
--	set_track(&get_alloc_info(cache, object)->free_track, GFP_NOWAIT);
--	quarantine_put(get_free_info(cache, object), cache);
-+	kasan_set_track(&get_alloc_info(cache, object)->free_track, GFP_NOWAIT);
-+	quarantine_put(get_free_info(cache, tagged_object), cache);
- 
- 	return IS_ENABLED(CONFIG_KASAN_GENERIC);
- }
-@@ -494,7 +494,8 @@ static void *__kasan_kmalloc(struct kmem_cache *cache, const void *object,
- 		KASAN_KMALLOC_REDZONE);
- 
- 	if (cache->flags & SLAB_KASAN)
--		set_track(&get_alloc_info(cache, object)->alloc_track, flags);
-+		kasan_set_track(&get_alloc_info(cache, object)->alloc_track,
-+						flags);
- 
- 	return set_tag(object, tag);
- }
-diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
-index 3e0c11f7d7a1..0ff9fb5afb91 100644
---- a/mm/kasan/kasan.h
-+++ b/mm/kasan/kasan.h
-@@ -98,6 +98,12 @@ struct kasan_alloc_meta {
- struct qlist_node {
- 	struct qlist_node *next;
- };
-+struct qlist_object {
-+	unsigned long addr;
-+	unsigned int size;
-+	struct kasan_track free_track;
-+	struct qlist_node qnode;
-+};
- struct kasan_free_meta {
- 	/* This field is used while the object is in the quarantine.
- 	 * Otherwise it might be used for the allocator freelist.
-@@ -133,11 +139,13 @@ void kasan_report(unsigned long addr, size_t size,
- 		bool is_write, unsigned long ip);
- void kasan_report_invalid_free(void *object, unsigned long ip);
- 
--#if defined(CONFIG_KASAN_GENERIC) && \
--	(defined(CONFIG_SLAB) || defined(CONFIG_SLUB))
-+#if (defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS_IDENTIFY)) \
-+	&& (defined(CONFIG_SLAB) || defined(CONFIG_SLUB))
- void quarantine_put(struct kasan_free_meta *info, struct kmem_cache *cache);
- void quarantine_reduce(void);
- void quarantine_remove_cache(struct kmem_cache *cache);
-+void kasan_set_track(struct kasan_track *track, gfp_t flags);
-+struct kmem_cache *qlink_to_cache(struct qlist_node *qlink);
- #else
- static inline void quarantine_put(struct kasan_free_meta *info,
- 				struct kmem_cache *cache) { }
-@@ -162,6 +170,30 @@ static inline u8 random_tag(void)
- 
- #endif
- 
-+#ifdef CONFIG_KASAN_SW_TAGS_IDENTIFY
-+bool quarantine_find_object(void *object,
-+		struct kasan_track *free_track);
-+
-+struct qlist_object *qobject_create(struct kasan_free_meta *info,
-+		struct kmem_cache *cache);
-+
-+void qobject_free(struct qlist_node *qlink);
-+#else
-+static inline bool quarantine_find_object(void *object,
-+		struct kasan_track *free_track)
-+{
-+	return false;
-+}
-+
-+static inline struct qlist_object *qobject_create(struct kasan_free_meta *info,
-+		struct kmem_cache *cache)
-+{
-+	return NULL;
-+}
-+
-+static inline void qobject_free(struct qlist_node *qlink) {}
-+#endif
-+
- #ifndef arch_kasan_set_tag
- #define arch_kasan_set_tag(addr, tag)	((void *)(addr))
- #endif
-diff --git a/mm/kasan/quarantine.c b/mm/kasan/quarantine.c
-index 978bc4a3eb51..495507a71a77 100644
---- a/mm/kasan/quarantine.c
-+++ b/mm/kasan/quarantine.c
-@@ -61,12 +61,16 @@ static void qlist_init(struct qlist_head *q)
- static void qlist_put(struct qlist_head *q, struct qlist_node *qlink,
- 		size_t size)
- {
--	if (unlikely(qlist_empty(q)))
-+	struct qlist_node *prev_qlink = q->head;
-+
-+	if (unlikely(qlist_empty(q))) {
-+		q->head = qlink;
-+		q->tail = qlink;
-+		qlink->next = NULL;
-+	} else {
- 		q->head = qlink;
--	else
--		q->tail->next = qlink;
--	q->tail = qlink;
--	qlink->next = NULL;
-+		qlink->next = prev_qlink;
-+	}
- 	q->bytes += size;
- }
- 
-@@ -121,9 +125,19 @@ static unsigned long quarantine_batch_size;
-  * Quarantine doesn't support memory shrinker with SLAB allocator, so we keep
-  * the ratio low to avoid OOM.
-  */
-+#ifdef CONFIG_KASAN_SW_TAGS_IDENTIFY
-+/*
-+ * Tag-based KASAN only stores freed object information rather than the
-+ * object itself. The quarantine in tag-based KASAN only needs less usage
-+ * to achieve the same effect as generic KASAN. So We modify the
-+ * QUARANTINE_FRACTION to slim the quarantine.
-+ */
-+#define QUARANTINE_FRACTION 128
-+#else
- #define QUARANTINE_FRACTION 32
-+#endif
- 
--static struct kmem_cache *qlink_to_cache(struct qlist_node *qlink)
-+struct kmem_cache *qlink_to_cache(struct qlist_node *qlink)
- {
- 	return virt_to_head_page(qlink)->slab_cache;
- }
-@@ -139,16 +153,22 @@ static void *qlink_to_object(struct qlist_node *qlink, struct kmem_cache *cache)
- 
- static void qlink_free(struct qlist_node *qlink, struct kmem_cache *cache)
- {
--	void *object = qlink_to_object(qlink, cache);
-+	void *object;
- 	unsigned long flags;
- 
--	if (IS_ENABLED(CONFIG_SLAB))
--		local_irq_save(flags);
-+	if (IS_ENABLED(CONFIG_KASAN_SW_TAGS_IDENTIFY)) {
-+		qobject_free(qlink);
-+	} else {
-+		object = qlink_to_object(qlink, cache);
- 
--	___cache_free(cache, object, _THIS_IP_);
-+		if (IS_ENABLED(CONFIG_SLAB))
-+			local_irq_save(flags);
- 
--	if (IS_ENABLED(CONFIG_SLAB))
--		local_irq_restore(flags);
-+		___cache_free(cache, object, _THIS_IP_);
-+
-+		if (IS_ENABLED(CONFIG_SLAB))
-+			local_irq_restore(flags);
-+	}
- }
- 
- static void qlist_free_all(struct qlist_head *q, struct kmem_cache *cache)
-@@ -175,6 +195,8 @@ void quarantine_put(struct kasan_free_meta *info, struct kmem_cache *cache)
- 	unsigned long flags;
- 	struct qlist_head *q;
- 	struct qlist_head temp = QLIST_INIT;
-+	struct kmem_cache *qobject_cache;
-+	struct qlist_object *free_obj_info;
- 
- 	/*
- 	 * Note: irq must be disabled until after we move the batch to the
-@@ -187,7 +209,18 @@ void quarantine_put(struct kasan_free_meta *info, struct kmem_cache *cache)
- 	local_irq_save(flags);
- 
- 	q = this_cpu_ptr(&cpu_quarantine);
--	qlist_put(q, &info->quarantine_link, cache->size);
-+	if (IS_ENABLED(CONFIG_KASAN_SW_TAGS_IDENTIFY)) {
-+		free_obj_info = qobject_create(info, cache);
-+		if (!free_obj_info) {
-+			local_irq_restore(flags);
-+			return;
-+		}
-+		qobject_cache = qlink_to_cache(&free_obj_info->qnode);
-+		qlist_put(q, &free_obj_info->qnode, qobject_cache->size);
-+	} else {
-+		qlist_put(q, &info->quarantine_link, cache->size);
-+	}
-+
- 	if (unlikely(q->bytes > QUARANTINE_PERCPU_SIZE)) {
- 		qlist_move_all(q, &temp);
- 
-@@ -327,3 +360,81 @@ void quarantine_remove_cache(struct kmem_cache *cache)
- 
- 	synchronize_srcu(&remove_cache_srcu);
- }
-+
-+#ifdef CONFIG_KASAN_SW_TAGS_IDENTIFY
-+static bool qlist_find_object(struct qlist_head *from, void *arg)
-+{
-+	struct qlist_node *curr;
-+	struct qlist_object *curr_obj;
-+	struct qlist_object *target = (struct qlist_object *)arg;
-+
-+	if (unlikely(qlist_empty(from)))
-+		return false;
-+
-+	curr = from->head;
-+	while (curr) {
-+		struct qlist_node *next = curr->next;
-+
-+		curr_obj = container_of(curr, struct qlist_object, qnode);
-+		if (unlikely((target->addr >= curr_obj->addr) &&
-+			(target->addr < (curr_obj->addr + curr_obj->size)))) {
-+			target->free_track = curr_obj->free_track;
-+			return true;
-+		}
-+
-+		curr = next;
-+	}
-+	return false;
-+}
-+
-+static int per_cpu_find_object(void *arg)
-+{
-+	struct qlist_head *q;
-+
-+	q = this_cpu_ptr(&cpu_quarantine);
-+	return qlist_find_object(q, arg);
-+}
-+
-+struct cpumask cpu_allowed_mask __read_mostly;
-+
-+bool quarantine_find_object(void *addr, struct kasan_track *free_track)
-+{
-+	unsigned long flags;
-+	bool find = false;
-+	int cpu, i, idx;
-+	struct qlist_object target;
-+
-+	target.addr = (unsigned long)addr;
-+
-+	cpumask_copy(&cpu_allowed_mask, cpu_online_mask);
-+	for_each_cpu(cpu, &cpu_allowed_mask) {
-+		find = smp_call_on_cpu(cpu, per_cpu_find_object,
-+				(void *)&target, true);
-+		if (find) {
-+			if (free_track)
-+				*free_track = target.free_track;
-+			return true;
-+		}
-+	}
-+
-+	raw_spin_lock_irqsave(&quarantine_lock, flags);
-+	for (i = 0; i < QUARANTINE_BATCHES; i++) {
-+		idx = quarantine_tail - i;
-+		if (idx < 0)
-+			idx += QUARANTINE_BATCHES;
-+		if (qlist_empty(&global_quarantine[idx]))
-+			continue;
-+		find = qlist_find_object(&global_quarantine[idx],
-+				(void *)&target);
-+		if (find) {
-+			if (free_track)
-+				*free_track = target.free_track;
-+			raw_spin_unlock_irqrestore(&quarantine_lock, flags);
-+			return true;
-+		}
-+	}
-+	raw_spin_unlock_irqrestore(&quarantine_lock, flags);
-+
-+	return false;
-+}
-+#endif
-diff --git a/mm/kasan/report.c b/mm/kasan/report.c
-index ca9418fe9232..3cbc24cd3d43 100644
---- a/mm/kasan/report.c
-+++ b/mm/kasan/report.c
-@@ -150,18 +150,27 @@ static void describe_object_addr(struct kmem_cache *cache, void *object,
- }
- 
- static void describe_object(struct kmem_cache *cache, void *object,
--				const void *addr)
-+				const void *tagged_addr)
- {
-+	void *untagged_addr = reset_tag(tagged_addr);
- 	struct kasan_alloc_meta *alloc_info = get_alloc_info(cache, object);
-+	struct kasan_track free_track;
- 
- 	if (cache->flags & SLAB_KASAN) {
--		print_track(&alloc_info->alloc_track, "Allocated");
--		pr_err("\n");
--		print_track(&alloc_info->free_track, "Freed");
--		pr_err("\n");
-+		if (IS_ENABLED(CONFIG_KASAN_SW_TAGS_IDENTIFY) &&
-+			quarantine_find_object((void *)tagged_addr,
-+				&free_track)) {
-+			print_track(&free_track, "Freed");
-+			pr_err("\n");
-+		} else {
-+			print_track(&alloc_info->alloc_track, "Allocated");
-+			pr_err("\n");
-+			print_track(&alloc_info->free_track, "Freed");
-+			pr_err("\n");
-+		}
- 	}
- 
--	describe_object_addr(cache, object, addr);
-+	describe_object_addr(cache, object, untagged_addr);
- }
- 
- static inline bool kernel_or_module_addr(const void *addr)
-@@ -180,23 +189,25 @@ static inline bool init_task_stack_addr(const void *addr)
- 			sizeof(init_thread_union.stack));
- }
- 
--static void print_address_description(void *addr)
-+static void print_address_description(void *tagged_addr)
- {
--	struct page *page = addr_to_page(addr);
-+	void *untagged_addr = reset_tag(tagged_addr);
-+	struct page *page = addr_to_page(untagged_addr);
- 
- 	dump_stack();
- 	pr_err("\n");
- 
- 	if (page && PageSlab(page)) {
- 		struct kmem_cache *cache = page->slab_cache;
--		void *object = nearest_obj(cache, page,	addr);
-+		void *object = nearest_obj(cache, page,	untagged_addr);
- 
--		describe_object(cache, object, addr);
-+		describe_object(cache, object, tagged_addr);
- 	}
- 
--	if (kernel_or_module_addr(addr) && !init_task_stack_addr(addr)) {
-+	if (kernel_or_module_addr(untagged_addr) &&
-+			!init_task_stack_addr(untagged_addr)) {
- 		pr_err("The buggy address belongs to the variable:\n");
--		pr_err(" %pS\n", addr);
-+		pr_err(" %pS\n", untagged_addr);
- 	}
- 
- 	if (page) {
-@@ -314,7 +325,7 @@ void kasan_report(unsigned long addr, size_t size,
- 	pr_err("\n");
- 
- 	if (addr_has_shadow(untagged_addr)) {
--		print_address_description(untagged_addr);
-+		print_address_description(tagged_addr);
- 		pr_err("\n");
- 		print_shadow_for_address(info.first_bad_addr);
- 	} else {
-diff --git a/mm/kasan/tags.c b/mm/kasan/tags.c
-index 63fca3172659..68de6e44f74e 100644
---- a/mm/kasan/tags.c
-+++ b/mm/kasan/tags.c
-@@ -124,6 +124,46 @@ void check_memory_region(unsigned long addr, size_t size, bool write,
- 	}
- }
- 
-+#ifdef CONFIG_KASAN_SW_TAGS_IDENTIFY
-+struct qlist_object *qobject_create(struct kasan_free_meta *info,
-+				struct kmem_cache *cache)
-+{
-+	struct qlist_object *qobject_info;
-+	void *object;
-+
-+	object = ((void *)info) - cache->kasan_info.free_meta_offset;
-+	qobject_info = kmalloc(sizeof(struct qlist_object), GFP_NOWAIT);
-+	if (!qobject_info)
-+		return NULL;
-+	qobject_info->addr = (unsigned long) object;
-+	qobject_info->size = cache->object_size;
-+	kasan_set_track(&qobject_info->free_track, GFP_NOWAIT);
-+
-+	return qobject_info;
-+}
-+
-+void qobject_free(struct qlist_node *qlink)
-+{
-+	struct qlist_object *qobject = container_of(qlink,
-+			struct qlist_object, qnode);
-+	unsigned long flags;
-+
-+	struct kmem_cache *qobject_cache = qlink_to_cache(qlink);
-+
-+	if (IS_ENABLED(CONFIG_SLAB))
-+		local_irq_save(flags);
-+
-+	/*
-+	 * ___cache_free() free the qobject instead of kfree()
-+	 * in order to be out of quarantine.
-+	 */
-+	___cache_free(qobject_cache, (void *)qobject, _THIS_IP_);
-+
-+	if (IS_ENABLED(CONFIG_SLAB))
-+		local_irq_restore(flags);
-+}
-+#endif
-+
- #define DEFINE_HWASAN_LOAD_STORE(size)					\
- 	void __hwasan_load##size##_noabort(unsigned long addr)		\
- 	{								\
-diff --git a/mm/kasan/tags_report.c b/mm/kasan/tags_report.c
-index 8eaf5f722271..63b0b1f381ff 100644
---- a/mm/kasan/tags_report.c
-+++ b/mm/kasan/tags_report.c
-@@ -36,7 +36,13 @@
- 
- const char *get_bug_type(struct kasan_access_info *info)
- {
--	return "invalid-access";
-+	if (IS_ENABLED(CONFIG_KASAN_SW_TAGS_IDENTIFY)) {
-+		if (quarantine_find_object((void *)info->access_addr, NULL))
-+			return "use-after-free";
-+		else
-+			return "out-of-bounds";
-+	} else
-+		return "invalid-access";
- }
- 
- void *find_first_bad_addr(void *addr, size_t size)
-diff --git a/mm/slub.c b/mm/slub.c
-index 1b08fbcb7e61..751429d02846 100644
---- a/mm/slub.c
-+++ b/mm/slub.c
-@@ -3004,7 +3004,7 @@ static __always_inline void slab_free(struct kmem_cache *s, struct page *page,
- 		do_slab_free(s, page, head, tail, cnt, addr);
- }
- 
--#ifdef CONFIG_KASAN_GENERIC
-+#if defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS_IDENTIFY)
- void ___cache_free(struct kmem_cache *cache, void *x, unsigned long addr)
- {
- 	do_slab_free(cache, virt_to_head_page(x), x, NULL, 1, addr);
--- 
-2.18.0
+> 
+> Signed-off-by: Marco Elver <elver@google.com>
+> Suggested-by: H. Peter Anvin <hpa@zytor.com>
+> ---
+> Changes in v3:
+> * Use static_cpu_has instead of moving boot_cpu_has outside uaccess
+>   region.
+> 
+> Changes in v2:
+> * Replaces patch: 'tools/objtool: add kasan_check_* to uaccess
+>   whitelist'
+> ---
+>  arch/x86/ia32/ia32_signal.c | 2 +-
+>  arch/x86/kernel/signal.c    | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/arch/x86/ia32/ia32_signal.c b/arch/x86/ia32/ia32_signal.c
+> index 629d1ee05599..1cee10091b9f 100644
+> --- a/arch/x86/ia32/ia32_signal.c
+> +++ b/arch/x86/ia32/ia32_signal.c
+> @@ -358,7 +358,7 @@ int ia32_setup_rt_frame(int sig, struct ksignal *ksig,
+>  		put_user_ex(ptr_to_compat(&frame->uc), &frame->puc);
+>  
+>  		/* Create the ucontext.  */
+> -		if (boot_cpu_has(X86_FEATURE_XSAVE))
+> +		if (static_cpu_has(X86_FEATURE_XSAVE))
+>  			put_user_ex(UC_FP_XSTATE, &frame->uc.uc_flags);
+>  		else
+>  			put_user_ex(0, &frame->uc.uc_flags);
+> diff --git a/arch/x86/kernel/signal.c b/arch/x86/kernel/signal.c
+> index 364813cea647..52eb1d551aed 100644
+> --- a/arch/x86/kernel/signal.c
+> +++ b/arch/x86/kernel/signal.c
+> @@ -391,7 +391,7 @@ static int __setup_rt_frame(int sig, struct ksignal *ksig,
+>  		put_user_ex(&frame->uc, &frame->puc);
+>  
+>  		/* Create the ucontext.  */
+> -		if (boot_cpu_has(X86_FEATURE_XSAVE))
+> +		if (static_cpu_has(X86_FEATURE_XSAVE))
+>  			put_user_ex(UC_FP_XSTATE, &frame->uc.uc_flags);
+>  		else
+>  			put_user_ex(0, &frame->uc.uc_flags);
+> -- 
+> 2.22.0.rc1.257.g3120a18244-goog
+> 
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
 To post to this group, send email to kasan-dev@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20190613081357.1360-1-walter-zh.wu%40mediatek.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20190613092123.GO3402%40hirez.programming.kicks-ass.net.
 For more options, visit https://groups.google.com/d/optout.
