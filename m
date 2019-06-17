@@ -1,137 +1,117 @@
-Return-Path: <kasan-dev+bncBAABBWNATTUAKGQEZPT2WKQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCUJ7YGL3QFBB5OCTXUAKGQEXO7VIMA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yw1-xc38.google.com (mail-yw1-xc38.google.com [IPv6:2607:f8b0:4864:20::c38])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59A94478DF
-	for <lists+kasan-dev@lfdr.de>; Mon, 17 Jun 2019 06:00:27 +0200 (CEST)
-Received: by mail-yw1-xc38.google.com with SMTP id b188sf10928766ywb.10
-        for <lists+kasan-dev@lfdr.de>; Sun, 16 Jun 2019 21:00:27 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1560744026; cv=pass;
+Received: from mail-pf1-x440.google.com (mail-pf1-x440.google.com [IPv6:2607:f8b0:4864:20::440])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB5AB47EB9
+	for <lists+kasan-dev@lfdr.de>; Mon, 17 Jun 2019 11:46:30 +0200 (CEST)
+Received: by mail-pf1-x440.google.com with SMTP id j7sf6748717pfn.10
+        for <lists+kasan-dev@lfdr.de>; Mon, 17 Jun 2019 02:46:30 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1560764789; cv=pass;
         d=google.com; s=arc-20160816;
-        b=VmjVJQvbJDUXoPEema1AAnd9TREzbWpHy3r+EU29BXlDhDGXLtZ9zoWwELKzzXQpk1
-         JB7c9ohkMo00Q7lMiaHY66aby49nsL9K/ypV7P06idNJnHEiBAZp+LVs8XgtR8kyHJKJ
-         Ez9NCZ4+oBSlH6nnfcrN92JKiy2wjw1eIFoJ7/r8P3F4jgi3YlsKzy/S76tG4Glnk+Mf
-         UCMAH3YHDMfdoYOWXJ870Pz3nxnWYZcskR7MQzUdPSGw156XXjcfUjCWIRc8Od8Eoy8a
-         k9kMaLISo7Jd1ediggqikUQy7A+/6nvdFw0+wJVKShZ9sXlYWe9P1AxcuKqIYzOwc34F
-         sweA==
+        b=PrIdxkG/l8Rt10M7ro6tC4tyqmB5TiiL2XKds5feyQPLlnsnV42DlwI0Ut0Wd67NCG
+         acqD4tEo2A+twat4yJXheCyQM77EvFfN9en3Ifp6QKaXudTtjPMWB0+BFiyCtkWrj+3X
+         hg6GKbuYdh9SF9LJA7hcZtisjg7+/YKf6S/LOByCqZlGilUBgGnYfDIFdx899uXnsxla
+         +ZeGq45K76s0T3zkELKJ+RMKFheuCi62BuO1PdTau9cdNTIIovGLz901IC3cEFjtth6n
+         PGMvrB/samjXc8MZnUlSWw9G4TrqANHj04uDdLClo2NyLq0G/9SgTFdAsGDIm28u1XiZ
+         8XpQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
-         :date:cc:to:from:subject:message-id:sender:dkim-signature;
-        bh=6z6p1MENFLGyEpsv/kxgASlxNVw2YAUK/oka6IASTDw=;
-        b=kWu0D1V5Yd9Htz/JyppFgD8X7rfjjcwjAs4XiLiOOAOSA9LYi1k8sp/uhWcBImoYUu
-         BxDD0ms5cCMxAEPMdMgOifwq+XJ1+VXNaaSD1fOzEH9073XIQCWTDyo6FTClCadT3E9e
-         nKWrVVh2FrwQFcHYsKTx+iOPGTXasm4lWs22n+qqej+m7VELx2qsrEl3ot4IzDkzAppH
-         WORihtLVJWqi/agn/TfNVkKcgt9ohdYLmPEa2yXYMh/1yAw+XY6JGPz+/H3wlarYBcE/
-         HCNYC1Uc08e2r2DStar6qkxIf04ofnETshjWuQlcQ/kj/3+Fk7law+naNYVgxcYgWDMG
-         5fJw==
+         :list-id:mailing-list:precedence:mime-version:message-id:date:from
+         :cc:to:subject:sender:dkim-signature;
+        bh=C0EnvO5SvxPgxcLRwGELJewwfENr5Nb91LfLxySiQtU=;
+        b=YiZw4IduO22v8gcZsFfbrQNd7j2/G9q+k342xFDG85iUrjuBPUvNTqbqkVZ5sQqyeP
+         DqWlesrgOriOdL5nXZCcOTr8a66gmxc9jDVLYzuYOj/E7sabc6iDQFsEgseObp1kwo/D
+         DIN6K3mMPlxHYGN8gzCHLS/w5olrygyYfVSJw9JC/cK8+OuKsLTXg5Gj1oD7EhIcNL60
+         aYqjm6HuaBKwPh1QjFa8Six01esY7jW9endtW+QxDaeTC4mu8NgunxNxdYOexEwgP2Tz
+         yBC7tQAdp4vKuCbLunAntNTDspjA+Mri+GOOMcwgUHcFYEaP9XNRNuwefdXkyLwVHhoV
+         6NbQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.183 as permitted sender) smtp.mailfrom=walter-zh.wu@mediatek.com
+       dkim=pass header.i=@kernel.org header.s=default header.b="zk/6T1FE";
+       spf=pass (google.com: domain of gregkh@linuxfoundation.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=gregkh@linuxfoundation.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:message-id:subject:from:to:cc:date:in-reply-to:references
-         :mime-version:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+        h=sender:subject:to:cc:from:date:message-id:mime-version
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=6z6p1MENFLGyEpsv/kxgASlxNVw2YAUK/oka6IASTDw=;
-        b=IyOol8XzBWHpNz27a8/RKlt4FvielvZ03KDrdMBL4AdtmpIwKbMddgZQ5P+JKg7vrd
-         sbxmXKmOlydAy5mpKejGl8hJ6PwBDw5BDe3c7WQkcK2FYCnYaRDxTLqkTuE42XIe1DnF
-         8E0iLy4zP+1ymwjbUyu158XTQBdtOkPK/+159ueSU/KicaHwEkeM4e4O0z0zX9WofEit
-         APBBixzzteX9huox9/aOvcu2xcjptLsPdO9X08Cca+f1SvphcGZusCcHep9bzTO2uYSC
-         H731ePlsHjCP77kD5uqWUKSFz4a26RxvsJP7JwKy5t/XZDV68J9k0bDnpy2GmXQhvaVB
-         MrTQ==
+        bh=C0EnvO5SvxPgxcLRwGELJewwfENr5Nb91LfLxySiQtU=;
+        b=TuIjO+zZwSG9hMBWLd2kmbiHMVpReE57biRmiF4kJ9TMonYzncCPtWvS72r/z+PfCw
+         U6NuLi+NZ87YOAyBnJA/2t4sWaW5w07i3J2OWZGxD3QT4zsH1utqOoLs92Jv7EjoxC9z
+         KGMKicVnNa93D4T7V+jwtyZ9Qm60xrkOOqAPkwv3HZwveJoiiBGEsBFWQcgCFtsvqBrJ
+         imbMjSqiCHMnxFznLYsAQKUKy9s+9tZIOklvqVGP8CfYkIVZiKg3uiQ3EzdCGnyMrdgN
+         RADnUmQ0gikWKHwteSOkdoWGSwJFibr/+v098xyhUVJREYafC1nLVQBJcmjtjz4YUJSZ
+         skww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:message-id:subject:from:to:cc:date
-         :in-reply-to:references:mime-version:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=6z6p1MENFLGyEpsv/kxgASlxNVw2YAUK/oka6IASTDw=;
-        b=hVowqWWlPe63XvBprce5CROXS64/BOOFVVktkYBZZaoOjViWDAYNtYomGdn6tGS0LM
-         fC5OU0fWbXJjL3bpU2C5DO+Yn/4JzZ6hFJuY2uQwasAiKG0Hv6zzJFNSwx1VEyOuyH4a
-         v35NvsP5WgROQwfOliH/RsW3IRpFRf+05OPTzCBpMkdcztuoTbRvF6wQzC2psp4ry+NT
-         2OGX9VqG5pyamdPDehxDoMuT4yo7Qg6HMfh8xRvb3QNqnQxSclac+V0JGzmYQKgr65S8
-         32EI3w/pFex0eIsgoEM5Wms1BWUk26piuJsJ9VAbZY7VxpYXgKZaIT9OOppwZMmZMEBM
-         mXrw==
+        h=sender:x-gm-message-state:subject:to:cc:from:date:message-id
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=C0EnvO5SvxPgxcLRwGELJewwfENr5Nb91LfLxySiQtU=;
+        b=Rz14axlZ0TloX1dkycfglXdGeBPJayhck6B1zNeouXYAbmcDWXerlEOP6mwCjDxAmk
+         CTwoYS3oxOLatxE4akYB+6G0IZqN93Nawc9FvetoXUEqUnTDNAQFwoX9QTkDodMRW0py
+         l5i78YPb4idNEpsJX4x/5JkxY7TaejgZk3fVecrm1r2VXB0h9ntPEqg3RvOKwfSKlisS
+         Z03092JvMDytyKy5FMHXW9XzCUuf3A2Rz2tUkVbe6WIDexCpyXb70NZh/aT7KLzSRWNF
+         FuXNgFL5e7yhOnkVcb/UakES2Ji5Qh81C0ipHKYHE5FJo3HfBAZujnWIE5Cz9s52ciGt
+         re1w==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAV6EI+BH2YzdDh2R5z9RenKAPspWHu+xErFhI40OaCokw5tzTCs
-	dOMnxiGlbMlUIwhTC4/OGME=
-X-Google-Smtp-Source: APXvYqyPUfuaU+KYb0kPlzyzQtou2enBCiOEzQzJX7UCBLzBka8LOhO03G9W1wA2w8hzEpo4NiVGnQ==
-X-Received: by 2002:a81:2845:: with SMTP id o66mr46331418ywo.477.1560744025821;
-        Sun, 16 Jun 2019 21:00:25 -0700 (PDT)
+X-Gm-Message-State: APjAAAXE5cX5wgZ4O9wFC0OPNzmBdNxMDB2Is93VsJ7JzMhA072MtX8A
+	qKtS2H8vBhIB5Lxk1LYW+Xw=
+X-Google-Smtp-Source: APXvYqwTST/gm29TSUcHrhMYGyhdvgbsgZwbQlRO0S6ZF92DnFT+oDbexZfdof8Od6iLEGapo8osFA==
+X-Received: by 2002:a17:90a:350c:: with SMTP id q12mr15886145pjb.46.1560764789100;
+        Mon, 17 Jun 2019 02:46:29 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a25:6ac3:: with SMTP id f186ls1775886ybc.11.gmail; Sun, 16
- Jun 2019 21:00:25 -0700 (PDT)
-X-Received: by 2002:a25:3214:: with SMTP id y20mr12512711yby.181.1560744025225;
-        Sun, 16 Jun 2019 21:00:25 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1560744025; cv=none;
+Received: by 2002:a62:e509:: with SMTP id n9ls3456400pff.2.gmail; Mon, 17 Jun
+ 2019 02:46:28 -0700 (PDT)
+X-Received: by 2002:a62:3543:: with SMTP id c64mr30069174pfa.242.1560764788121;
+        Mon, 17 Jun 2019 02:46:28 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1560764788; cv=none;
         d=google.com; s=arc-20160816;
-        b=n9zThdZgy+vy+/5C15r4oIONeOyVXSUYCzDPf64OjKqqlESuYUtGWAvKKFj2O0Dpka
-         IbftTjLTAab0GFk7XaJ5FYOJg2MGTcmOhlD06nLnTTCeFxTq+tIG82bxsG2d7A3eHocY
-         UtA2JGolPasczo1OxSkmW/urzlYQYxoTXn0bTvImtc552iWpt46dLG6aboL54AQw2pSX
-         S0X7Ovl5Q+Ny7p6aIU0EamhLGx9c/l1YwGz/QDoOGFMmPENtsfd0iOENYSx9CVRO4MHi
-         YuJzOv10uCzfMPl+QxaldEDYr8DZF9C9uX330c61RxM9APh4myetrak80+jsa7AZXJ2A
-         ecrA==
+        b=rd9Jb6gWdPrmX2yuzoO69DNWkrdOuG/XxvikXHL5jz52WtMTOH9xvC73CGkv0wPJKK
+         rc9/Px1ffK7GGPkzpN6zoLKQNyenpHwH3qtUOR0bFyXbabnnkX80CzRZtikPd0iuKFbV
+         SLoEfFb5qBBEeXN0hT7+ui42uSxuVEJHQ5Il1ZDAwuoFGcQtZTBkkXPC0243r5yLUMOi
+         kI0pMsDaLpoysNFlG3s8T421epgMQNEteeNKW8PwDriG9HTPd/et6+vKfl98a6nUIB5O
+         AG7hm2q6/tLU9rTNPQGRRl+dBX1jLZlBMCjGQG5H8WyNhbZ2RP96dpNszLAiqlKn0Elr
+         1tHw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=mime-version:content-transfer-encoding:references:in-reply-to:date
-         :cc:to:from:subject:message-id;
-        bh=XnEdrBkKM7udA2kzVesWGzGVoOtWxKegmT2E9+/IH6Q=;
-        b=s/akx6mUlMkGLvi1/WRaxei5OmzxW7a4C5miJv6shrO08JaDzOzxtCLNXeq6oTXhVt
-         KTDyt4nBvY4i/RPNzoI5GU0kx4x44FPyrZ36pEkYe3LrBxy1fp0m0FcO+SYisiqXKpGC
-         HHA/TRRyP8nV+6YV4yvQ1pXH+q3/H5t1g7PL6eItuzrUWKAV+LgLfYrwKmGunkT4OKaE
-         Ov05lqMWXyYDQPikkgv4NcDt1iQzaQUovoIsHwsqerDGvt0U2SAP7jCdgpT/zV2B6+2v
-         RxtrZjNekAbn3Iqj82uCfgiemNq9obkP3x6dFQsqECi4lQiFwgk+4r3ZnMHCB8WWSlZ1
-         2ung==
+        h=content-transfer-encoding:mime-version:message-id:date:from:cc:to
+         :subject:dkim-signature;
+        bh=dlV80nCQd6TUqGT8x/+IbRrskatxSj/+3HZkhGCDRdc=;
+        b=fj6difqwgIBbxuif++/H49PdVX95rf65ylZo9tq2x2KLAKS64mkWavrYq1WIW9Tbd7
+         +/JNcuI+hg3sg2Rr+qsAAuTxsg2gHyZHGQkpYK7Pd0hQ6gieoe76KBRN+UkcAB1beBAQ
+         y40fsLEUYcKP/sN0FVbeZfM6ksCFxI7Nc5jyzSkgbxyeFz+BUfwu3pOrnQnXt4yLeIa2
+         2BgCbrkCO86XULAVaoTa1F69k3OtP8ryoV961osI8nRahpuwYc/t+alJgyvvwfPAWPI1
+         MkDMTs4rdQpqTL1Pfw+vofwEZznNlAB4yWH42QC/l37CW22merltvbfLyNb0fe995YeB
+         0J6g==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.183 as permitted sender) smtp.mailfrom=walter-zh.wu@mediatek.com
-Received: from mailgw01.mediatek.com ([210.61.82.183])
-        by gmr-mx.google.com with ESMTP id n193si473677yba.3.2019.06.16.21.00.24
-        for <kasan-dev@googlegroups.com>;
-        Sun, 16 Jun 2019 21:00:24 -0700 (PDT)
-Received-SPF: pass (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.183 as permitted sender) client-ip=210.61.82.183;
-X-UUID: 4f8413c5163f45fab280b7f808ef34f4-20190617
-X-UUID: 4f8413c5163f45fab280b7f808ef34f4-20190617
-Received: from mtkmrs01.mediatek.inc [(172.21.131.159)] by mailgw01.mediatek.com
-	(envelope-from <walter-zh.wu@mediatek.com>)
-	(mhqrelay.mediatek.com ESMTP with TLS)
-	with ESMTP id 1298173636; Mon, 17 Jun 2019 12:00:19 +0800
-Received: from mtkcas08.mediatek.inc (172.21.101.126) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Mon, 17 Jun 2019 12:00:18 +0800
-Received: from [172.21.84.99] (172.21.84.99) by mtkcas08.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Mon, 17 Jun 2019 12:00:17 +0800
-Message-ID: <1560744017.15814.49.camel@mtksdccf07>
-Subject: Re: [PATCH v3] kasan: add memory corruption identification for
- software tag-based mode
-From: Walter Wu <walter-zh.wu@mediatek.com>
-To: Dmitry Vyukov <dvyukov@google.com>, Andrey Ryabinin
-	<aryabinin@virtuozzo.com>
-CC: Alexander Potapenko <glider@google.com>, Dmitry Vyukov
-	<dvyukov@google.com>, Christoph Lameter <cl@linux.com>, Pekka Enberg
-	<penberg@kernel.org>, David Rientjes <rientjes@google.com>, Joonsoo Kim
-	<iamjoonsoo.kim@lge.com>, Matthias Brugger <matthias.bgg@gmail.com>, "Martin
- Schwidefsky" <schwidefsky@de.ibm.com>, Arnd Bergmann <arnd@arndb.de>, "Vasily
- Gorbik" <gor@linux.ibm.com>, Andrey Konovalov <andreyknvl@google.com>, "Jason
- A . Donenfeld" <Jason@zx2c4.com>, Miles Chen <miles.chen@mediatek.com>,
-	<kasan-dev@googlegroups.com>, <linux-kernel@vger.kernel.org>,
-	<linux-mm@kvack.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-mediatek@lists.infradead.org>, <wsd_upstream@mediatek.com>
-Date: Mon, 17 Jun 2019 12:00:17 +0800
-In-Reply-To: <1560479520.15814.34.camel@mtksdccf07>
-References: <20190613081357.1360-1-walter-zh.wu@mediatek.com>
-	 <da7591c9-660d-d380-d59e-6d70b39eaa6b@virtuozzo.com>
-	 <1560447999.15814.15.camel@mtksdccf07>
-	 <1560479520.15814.34.camel@mtksdccf07>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.2.3-0ubuntu6
+       dkim=pass header.i=@kernel.org header.s=default header.b="zk/6T1FE";
+       spf=pass (google.com: domain of gregkh@linuxfoundation.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=gregkh@linuxfoundation.org
+Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
+        by gmr-mx.google.com with ESMTPS id n16si100819pgv.4.2019.06.17.02.46.28
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 17 Jun 2019 02:46:28 -0700 (PDT)
+Received-SPF: pass (google.com: domain of gregkh@linuxfoundation.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPSA id 497A62087F;
+	Mon, 17 Jun 2019 09:46:27 +0000 (UTC)
+Subject: Patch "x86/kasan: Fix boot with 5-level paging and KASAN" has been added to the 4.14-stable tree
+To: 20190614143149.2227-1-aryabinin@virtuozzo.com,aryabinin@virtuozzo.com,bp@alien8.de,dvyukov@google.com,glider@google.com,gregkh@linuxfoundation.org,hpa@zytor.com,kasan-dev@googlegroups.com,kirill@shutemov.name,tglx@linutronix.de
+Cc: <stable-commits@vger.kernel.org>
+From: <gregkh@linuxfoundation.org>
+Date: Mon, 17 Jun 2019 11:46:25 +0200
+Message-ID: <156076478530254@kroah.com>
 MIME-Version: 1.0
-X-MTK: N
-X-Original-Sender: walter-zh.wu@mediatek.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.183 as
- permitted sender) smtp.mailfrom=walter-zh.wu@mediatek.com
+Content-Type: text/plain; charset="UTF-8"
+X-stable: commit
+X-Patchwork-Hint: ignore
+X-Original-Sender: gregkh@linuxfoundation.org
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@kernel.org header.s=default header.b="zk/6T1FE";       spf=pass
+ (google.com: domain of gregkh@linuxfoundation.org designates 198.145.29.99 as
+ permitted sender) smtp.mailfrom=gregkh@linuxfoundation.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -144,92 +124,91 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, 2019-06-14 at 10:32 +0800, Walter Wu wrote:
-> On Fri, 2019-06-14 at 01:46 +0800, Walter Wu wrote:
-> > On Thu, 2019-06-13 at 15:27 +0300, Andrey Ryabinin wrote:
-> > > 
-> > > On 6/13/19 11:13 AM, Walter Wu wrote:
-> > > > This patch adds memory corruption identification at bug report for
-> > > > software tag-based mode, the report show whether it is "use-after-free"
-> > > > or "out-of-bound" error instead of "invalid-access" error.This will make
-> > > > it easier for programmers to see the memory corruption problem.
-> > > > 
-> > > > Now we extend the quarantine to support both generic and tag-based kasan.
-> > > > For tag-based kasan, the quarantine stores only freed object information
-> > > > to check if an object is freed recently. When tag-based kasan reports an
-> > > > error, we can check if the tagged addr is in the quarantine and make a
-> > > > good guess if the object is more like "use-after-free" or "out-of-bound".
-> > > > 
-> > > 
-> > > 
-> > > We already have all the information and don't need the quarantine to make such guess.
-> > > Basically if shadow of the first byte of object has the same tag as tag in pointer than it's out-of-bounds,
-> > > otherwise it's use-after-free.
-> > > 
-> > > In pseudo-code it's something like this:
-> > > 
-> > > u8 object_tag = *(u8 *)kasan_mem_to_shadow(nearest_object(cacche, page, access_addr));
-> > > 
-> > > if (access_addr_tag == object_tag && object_tag != KASAN_TAG_INVALID)
-> > > 	// out-of-bounds
-> > > else
-> > > 	// use-after-free
-> > 
-> > Thanks your explanation.
-> > I see, we can use it to decide corruption type.
-> > But some use-after-free issues, it may not have accurate free-backtrace.
-> > Unfortunately in that situation, free-backtrace is the most important.
-> > please see below example
-> > 
-> > In generic KASAN, it gets accurate free-backrace(ptr1).
-> > In tag-based KASAN, it gets wrong free-backtrace(ptr2). It will make
-> > programmer misjudge, so they may not believe tag-based KASAN.
-> > So We provide this patch, we hope tag-based KASAN bug report is the same
-> > accurate with generic KASAN.
-> > 
-> > ---
-> >     ptr1 = kmalloc(size, GFP_KERNEL);
-> >     ptr1_free(ptr1);
-> > 
-> >     ptr2 = kmalloc(size, GFP_KERNEL);
-> >     ptr2_free(ptr2);
-> > 
-> >     ptr1[size] = 'x';  //corruption here
-> > 
-> > 
-> > static noinline void ptr1_free(char* ptr)
-> > {
-> >     kfree(ptr);
-> > }
-> > static noinline void ptr2_free(char* ptr)
-> > {
-> >     kfree(ptr);
-> > }
-> > ---
-> > 
-> We think of another question about deciding by that shadow of the first
-> byte.
-> In tag-based KASAN, it is immediately released after calling kfree(), so
-> the slub is easy to be used by another pointer, then it will change
-> shadow memory to the tag of new pointer, it will not be the
-> KASAN_TAG_INVALID, so there are many false negative cases, especially in
-> small size allocation.
-> 
-> Our patch is to solve those problems. so please consider it, thanks.
-> 
-Hi, Andrey and Dmitry,
 
-I am sorry to bother you.
-Would you tell me what you think about this patch?
-We want to use tag-based KASAN, so we hope its bug report is clear and
-correct as generic KASAN.
+This is a note to let you know that I've just added the patch titled
 
-Thanks your review.
-Walter
+    x86/kasan: Fix boot with 5-level paging and KASAN
+
+to the 4.14-stable tree which can be found at:
+    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
+
+The filename of the patch is:
+     x86-kasan-fix-boot-with-5-level-paging-and-kasan.patch
+and it can be found in the queue-4.14 subdirectory.
+
+If you, or anyone else, feels it should not be added to the stable tree,
+please let <stable@vger.kernel.org> know about it.
+
+
+From f3176ec9420de0c385023afa3e4970129444ac2f Mon Sep 17 00:00:00 2001
+From: Andrey Ryabinin <aryabinin@virtuozzo.com>
+Date: Fri, 14 Jun 2019 17:31:49 +0300
+Subject: x86/kasan: Fix boot with 5-level paging and KASAN
+
+From: Andrey Ryabinin <aryabinin@virtuozzo.com>
+
+commit f3176ec9420de0c385023afa3e4970129444ac2f upstream.
+
+Since commit d52888aa2753 ("x86/mm: Move LDT remap out of KASLR region on
+5-level paging") kernel doesn't boot with KASAN on 5-level paging machines.
+The bug is actually in early_p4d_offset() and introduced by commit
+12a8cc7fcf54 ("x86/kasan: Use the same shadow offset for 4- and 5-level paging")
+
+early_p4d_offset() tries to convert pgd_val(*pgd) value to a physical
+address. This doesn't make sense because pgd_val() already contains the
+physical address.
+
+It did work prior to commit d52888aa2753 because the result of
+"__pa_nodebug(pgd_val(*pgd)) & PTE_PFN_MASK" was the same as "pgd_val(*pgd)
+& PTE_PFN_MASK". __pa_nodebug() just set some high bits which were masked
+out by applying PTE_PFN_MASK.
+
+After the change of the PAGE_OFFSET offset in commit d52888aa2753
+__pa_nodebug(pgd_val(*pgd)) started to return a value with more high bits
+set and PTE_PFN_MASK wasn't enough to mask out all of them. So it returns a
+wrong not even canonical address and crashes on the attempt to dereference
+it.
+
+Switch back to pgd_val() & PTE_PFN_MASK to cure the issue.
+
+Fixes: 12a8cc7fcf54 ("x86/kasan: Use the same shadow offset for 4- and 5-level paging")
+Reported-by: Kirill A. Shutemov <kirill@shutemov.name>
+Signed-off-by: Andrey Ryabinin <aryabinin@virtuozzo.com>
+Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+Cc: Borislav Petkov <bp@alien8.de>
+Cc: "H. Peter Anvin" <hpa@zytor.com>
+Cc: Alexander Potapenko <glider@google.com>
+Cc: Dmitry Vyukov <dvyukov@google.com>
+Cc: kasan-dev@googlegroups.com
+Cc: stable@vger.kernel.org
+Cc: <stable@vger.kernel.org>
+Link: https://lkml.kernel.org/r/20190614143149.2227-1-aryabinin@virtuozzo.com
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+---
+ arch/x86/mm/kasan_init_64.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+--- a/arch/x86/mm/kasan_init_64.c
++++ b/arch/x86/mm/kasan_init_64.c
+@@ -194,7 +194,7 @@ static inline p4d_t *early_p4d_offset(pg
+ 	if (!IS_ENABLED(CONFIG_X86_5LEVEL))
+ 		return (p4d_t *)pgd;
+ 
+-	p4d = __pa_nodebug(pgd_val(*pgd)) & PTE_PFN_MASK;
++	p4d = pgd_val(*pgd) & PTE_PFN_MASK;
+ 	p4d += __START_KERNEL_map - phys_base;
+ 	return (p4d_t *)p4d + p4d_index(addr);
+ }
+
+
+Patches currently in stable-queue which might be from aryabinin@virtuozzo.com are
+
+queue-4.14/x86-kasan-fix-boot-with-5-level-paging-and-kasan.patch
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
 To post to this group, send email to kasan-dev@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/1560744017.15814.49.camel%40mtksdccf07.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/156076478530254%40kroah.com.
 For more options, visit https://groups.google.com/d/optout.
