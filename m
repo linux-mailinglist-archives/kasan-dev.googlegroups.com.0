@@ -1,137 +1,137 @@
-Return-Path: <kasan-dev+bncBDEKVJM7XAHRBO7GULUAKGQEAPFVI2A@googlegroups.com>
+Return-Path: <kasan-dev+bncBDEKVJM7XAHRBP7JULUAKGQEHFZUHFI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x23e.google.com (mail-lj1-x23e.google.com [IPv6:2a00:1450:4864:20::23e])
-	by mail.lfdr.de (Postfix) with ESMTPS id D79BC49DBE
-	for <lists+kasan-dev@lfdr.de>; Tue, 18 Jun 2019 11:47:39 +0200 (CEST)
-Received: by mail-lj1-x23e.google.com with SMTP id 77sf2522641ljf.0
-        for <lists+kasan-dev@lfdr.de>; Tue, 18 Jun 2019 02:47:39 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1560851259; cv=pass;
+Received: from mail-lf1-x13f.google.com (mail-lf1-x13f.google.com [IPv6:2a00:1450:4864:20::13f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 338E049DD1
+	for <lists+kasan-dev@lfdr.de>; Tue, 18 Jun 2019 11:54:08 +0200 (CEST)
+Received: by mail-lf1-x13f.google.com with SMTP id m2sf1506255lfj.1
+        for <lists+kasan-dev@lfdr.de>; Tue, 18 Jun 2019 02:54:08 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1560851647; cv=pass;
         d=google.com; s=arc-20160816;
-        b=urfpYM5SnqogF/RJTLRMVawO2+kzqwFxMei5xjA9sADSAPbTT7lVgzEaAqkfU5Puv9
-         CWm05rn+Vj16DwIqgViIPmBMa+dVVNbW4TY3g1xeHGwBu1HofGKt0ZqpQZou1NJ6OeC5
-         2tKSxdFkaBOIFerXjT0CeIm/iwZsICvsLiONQeiPqJ7f0fqlN4LH3tSrpq78ivU9v5yH
-         xedhPRqESdpX4dssw8EwjVnsyzxjDDwr88/8ObFM9hTvGjCByl2vT3JI+9uR+C8f+NdM
-         V0QTZLxVCQKYPhK+mLp7wbMmmQffHUA81/C0V6upOTenGDHO9mji4Ifsfi2FkR41LpKb
-         iqRA==
+        b=Pu/SY+lypAV6nYV/0OKb3XL0h6vrs4Ixf/U05zWyGIEBH2L7y+KIBReJYY99dpp/cc
+         TgxWSV6iEPEbr0tqHs3zxZcL68LJGc59ZflOhYqlSg3VCtosaYkoSBEC33TZgzNLssCz
+         zAWVGVoUBhQ7/uNzp2d0E3Ea/JF8LLWe6zj39WdBg16NKU4NH9R/WwISPX+IvhL3w6Uo
+         omOyq6oV5npMamuUNIe/tp6ud/+ovxJlWpInFoQ/fD4FP5J2A+v6sV78vgUA+2wLLf9T
+         lnKPUHemCCSAce1n5Fgt8dHxtqmf4KUhqau9nzJcHA5MFCWzwfoURI9M9/nogjFjfplp
+         +mAQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:message-id:date
          :subject:cc:to:from:sender:dkim-signature;
-        bh=VOc1QqTCpZoWhcn+qNWI44h1p1oeJu6lukDjCVjpyas=;
-        b=x3XagPurN+eM9OTz5lTZzBxLSluDFccuolpfYRnBQNv+3DX2F/8WfvIiUDO0wxgc+u
-         l1PbMxHxdsu3pNYXplBXhGKc/AkVpd2Qx5FFB7OHRBYl1T+fEPjJ/bsSBX0G6tj+dR3n
-         mF0mwCtaKkuVCMhm2EbJGG9vU0/okDr+djQZ58TlZglvJXeYJ6GJ4pKa1zv/12PuA/0y
-         /YlmBn4YxdMFcC3jxJv7GS2Sr0W0Z95CfOLiSM00uMuAkHAY1V/hvVMkCIVXAtfopQDC
-         NpgBzm4TL5043iaUvrWNXCiJ8VdwToqJ7UfzWdtwtKeZyMQvz9gNN50/xa5dFuLFPWjC
-         rwdw==
+        bh=fxTsa2ahNuQD9+V6SMheiKlAzHEZLsZyrKZsrIxUjv4=;
+        b=rdtflcY+0KrdycpGoZw/WgjmnwLFR+WhWXjI5I2+aO5MJ38kJV7aRdPDXnlgLsF252
+         X+++CfbQsy6iEugHbd/GGKILJDF0vKz09i2z7Qaft57W/ZYnDWf3RR9N9hllp2MF5VeH
+         wMe9ktuXrFUAfyvwIpkJqRdrOHRc9Huj3uwH1XzPZNh2SwE4iUfRoY3I8Qoy3JHuRPo8
+         T64Yhi6qo32BB/nH9X+k6drhTj/jPFS7/6pLsiHZDJ+I3RtYYY/iq9EGH8kcB1bxu7wH
+         vslYddEoptkpDGrurxQxD9jZtfa1exxmBZnjk/R3fP3SpN9QMg4IRH0Q+kqMR+Tppt9u
+         sRVg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=neutral (google.com: 212.227.126.135 is neither permitted nor denied by best guess record for domain of arnd@arndb.de) smtp.mailfrom=arnd@arndb.de
+       spf=neutral (google.com: 212.227.126.131 is neither permitted nor denied by best guess record for domain of arnd@arndb.de) smtp.mailfrom=arnd@arndb.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
         h=sender:from:to:cc:subject:date:message-id:mime-version
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=VOc1QqTCpZoWhcn+qNWI44h1p1oeJu6lukDjCVjpyas=;
-        b=dI5hSQzKi2zuByIl9HSS4Vf25rHn7XReptQlZCHt5AZKS0Ytfi7UfEurgwaUr1Yrpt
-         Umlz89KtnTv4yYKAd2mVZCPy2LR5WUvfcw0Mb5PvZbpkgNI0B/DEUd+0k+eQ1dNCRsgV
-         oGzM6NY1IwlHdTLFHt1mJHz9NcwAKql4SgfSDXHaL7AkTMZ3u+TjWSEtTJd93doBt7Fk
-         meApGlpYt+29SnhvPv/rlZ0pKKQBQN7DwLgkKYIJuckAtb+xN28LEzHQ78rUGrWKGxHz
-         IvgaLRB3WLZ/nUFmJh0cZza/Zh3hmV8cu57Ai6ZFRsKduyLz5mxG9bnfmPSXNDoYHAPF
-         RthQ==
+        bh=fxTsa2ahNuQD9+V6SMheiKlAzHEZLsZyrKZsrIxUjv4=;
+        b=bO8A3vDrAkFb1UmI5JjkZnSjbsok8nIX52yucEIjl/7Z0cHYyxaEm1F7llopRbrINe
+         pl6GvHx9FPEWGq6UXbVgQ+SPGhaKC3louEgMO8ypwlgfDWDXy3/qfsdO+yvjRjmEtOg4
+         76lhYMsIJq8W/TvFqfsDXMQj5nw+HtDNUT99ybeurF50wFtZ8Rynmf04zRo9CVdBsEv7
+         v292rAuE8GGaFlLI82dtC7GrzLydcXM65Fh8x/8IPnpuHIzh//30gmK+ykjWM5c+gBa9
+         ciimD5/0XS49vkJMzhf1O+wkYVYdB/Kwt4Fn2ab53+woYXMt0vmKLlmpXR7d7jffbLkP
+         wWhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
          :mime-version:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
          :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=VOc1QqTCpZoWhcn+qNWI44h1p1oeJu6lukDjCVjpyas=;
-        b=JYKN6dzx7BAO9ngY49rNWnTDipyH/Ujt/V+4XpyqGiKFNUcPuQNcKApA+2akR1d/xO
-         8AZLafc79vwOhr7t/4tukOKbYfUS5Zr9qfYIFwV2BvooBwtk/cT9o/KihjfyeNogt2hR
-         oIaVOJh5duo7ZPoJnyfKPfS3nfvDJznOAqcLEJn6ctKxGkAzzPy0xVuLCGrn38+RrwbM
-         89fkSttzCY9Vs+UJpLyjBi6H7Q+t9MPh3k5llg8o7hUuetPVjuUWf6gv/9p7UZGLakW+
-         2Vg0zUfpxGFZCWM9ypi8PWIjsYS9SDSDfvU0anzkcnTuxO2zKiFr2GNqbOE7mZ2kOrpd
-         NjEQ==
+        bh=fxTsa2ahNuQD9+V6SMheiKlAzHEZLsZyrKZsrIxUjv4=;
+        b=c9Fsk9IejSAUYTy+zxoYh9rj3xR1ulGrRoJh8GDeyPk2m3UMeZnTFfcYoXD/3AH4W/
+         MQbZ/5INJhcyvuJtiJN4Zn4l1qshlLqQ9+DQ1teSyssGywk6Vr/H4HthVLy53lNRk59Y
+         jcpqOCIQ7NP+aublrXNVOB2XIdKDnQYvWIpqijTGczdS8k8SSd/zMCkRNiuZ0CeOwhL4
+         nnXL+t2xl2RT5cT4U6VrkaTk1wzDrDdV7GUbBUtLJ3gZujPEF3Y/YKJuQXEwXIPynJ5n
+         lCCKxbRxhVLGAT6+3YorZhdlErnVKMn8BDxW6v5j96gfu+4E+KqsEoFDZpo8UaJeOQRH
+         v+SQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAVwwnCMbjsXVPyQXxXeIUmw/2rFVjB80y0LaWKuP3rh0UkK9/e1
-	oRUAe6snQYUYlu7dN8+8kg0=
-X-Google-Smtp-Source: APXvYqyjjtODOltYs4hvcV7pwWWgdvkXkEbR88oyZq4l2/CwGClgMtKDjcJEbrnQ3OaY29ZPIhOoZw==
-X-Received: by 2002:a2e:9213:: with SMTP id k19mr7372197ljg.237.1560851259456;
-        Tue, 18 Jun 2019 02:47:39 -0700 (PDT)
+X-Gm-Message-State: APjAAAWtJgR4eyPBR1QWchz9dOZveq6oQkaFHH1FL+HFnKnK72NBg9rs
+	FkO43yo8+I82QlfKUucEbdY=
+X-Google-Smtp-Source: APXvYqwRKx345ewywl51mzfeExA6SD5aTXaaDLe/K0Ykv6UjJg8JHchuFB7S20VrdvY6GcrVp3JgzA==
+X-Received: by 2002:a2e:8e90:: with SMTP id z16mr25291472ljk.4.1560851647726;
+        Tue, 18 Jun 2019 02:54:07 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ac2:5189:: with SMTP id u9ls627852lfi.0.gmail; Tue, 18 Jun
- 2019 02:47:38 -0700 (PDT)
-X-Received: by 2002:ac2:596c:: with SMTP id h12mr41043924lfp.101.1560851258970;
-        Tue, 18 Jun 2019 02:47:38 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1560851258; cv=none;
+Received: by 2002:a2e:8198:: with SMTP id e24ls2244609ljg.15.gmail; Tue, 18
+ Jun 2019 02:54:07 -0700 (PDT)
+X-Received: by 2002:a2e:8e90:: with SMTP id z16mr25291450ljk.4.1560851647283;
+        Tue, 18 Jun 2019 02:54:07 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1560851647; cv=none;
         d=google.com; s=arc-20160816;
-        b=K9oj2YCHUOuq4Eil65V1lPRvMAQby5NARz+m9g7qiS6GkPHCRTUja5vSaE5m+TldTb
-         3ms/SPUz8f4VguCN9n8gYjxg8RlMoQk5X6pJnMPUe3xa79xIwlExGR72lS9Oct5bPQ50
-         fbu3QQnj7wejSxV+O5HxzIS6Ql3FLyAyGjdKYE2agJEkSWYR4WjJ6g+GGkxVXvNFOSNj
-         Xr2dc38sPnRYB+7PCmuAnNTuxqPp1YMIf/F9OQXAJii3mRDYTW77z5Z/08WcdgwsGz+V
-         PJkewzx8o3Sl4SOfz04Af3y/pCEOoh5aCqZsR7CTb4r1qbMEDKEcHc01+gNC2+A1llbh
-         0OCQ==
+        b=xXUSq6fS+3ptWG9a6r8XGlwZy62WbQ1fDJe16snylUmjtkn7xaqyBvMKlBEG3wbg9Z
+         kElofb8g6u1YvwZ7SW6fLEnns0goEqA1vvH9wyCyWrD82ov6WFVml994CcUbAr89Qf1x
+         LjT8EX1CFiazOFa/1mXEesKiw4gw0gp+sliDwhakk4ORoUhUZnq4Q5lNovrC+PKl21tT
+         QRgbJ+0HBEWlxU/87JyhNz7LUU87EPGfsOgJD/B/9AIQs3CRZOHex+vRdUo9ubewsXQU
+         713jxG0YP4gNXqPgiIlWlT0DJujb1p5F1R5qqIOe8hgWynvd5rLSDXzQHENgUTAL4eTX
+         1rOg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from;
-        bh=TQQO3m3N6l0+b3sPp3z1oMliABczEQWG1VIaOqrDRHY=;
-        b=sK2LVOuhsnuAH9huXHcfzlXQXBahYhYEV2/uvk7T+6nEdNZqLZk0jxwsuqWkkKlD5j
-         8VKuou4XCLFYaHTNp6vbJsbDP9eovY/KH+rZNG/L2LqATdqcxHf9E9VS2B5aLQ9mxw9B
-         22Y8np196833cf0LWLlgM0G2O2WK8lBI8/rCpp88whFoug2Da7XNvMV8KmpIUI/WOrXQ
-         2QcuVaQYKhYopfOW83tmbnaaW/5qdO05nS/SEdi/h20R7Msm3RtWpJc6kjn/+F2M2t4x
-         4BrqR58yLNswd7GTEaZIQW5r85HpWJRD659TqNYmN0hIqXzv29SG/vIQSrDBx+cCY8o4
-         02UQ==
+        bh=SgnmHDwEv21XaHv/ypCvWtdlqKd3kLHEL/ZSPKbCoWM=;
+        b=vrp44MAf1elt+dZ2e+F8PEhD6naVT14RhCPeir7ZRa02H5LnxpS+qdhKiQvjhZP4D1
+         MixkbSx/rcEXg9lAUOTxvo8syMlsK7UZnDgelhRGd7MxxPkRuUMO2rEsH9bBJAlRcPhl
+         ifl48OxbBFcMDqb1viIvWtsDxVjg2LwKZzI9NettOppQ42MAVIdanYpzmqZB67d/+Ftg
+         UvkotWd4VJnnz9wTJq1UzeVHHjUPjmZVNL7jU57AHucMgqhwPA8b9vuFUXdz/cEkjVzu
+         PVroyfvAmOBu3GkYTdd8i5VJMHD0l2J+h4J+6/eSZHUnNMTdMBBkEZQSO3Xy7BMBOzU/
+         ml7A==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=neutral (google.com: 212.227.126.135 is neither permitted nor denied by best guess record for domain of arnd@arndb.de) smtp.mailfrom=arnd@arndb.de
-Received: from mout.kundenserver.de (mout.kundenserver.de. [212.227.126.135])
-        by gmr-mx.google.com with ESMTPS id c15si551925lfi.5.2019.06.18.02.47.38
+       spf=neutral (google.com: 212.227.126.131 is neither permitted nor denied by best guess record for domain of arnd@arndb.de) smtp.mailfrom=arnd@arndb.de
+Received: from mout.kundenserver.de (mout.kundenserver.de. [212.227.126.131])
+        by gmr-mx.google.com with ESMTPS id z18si708110lfh.1.2019.06.18.02.54.07
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 18 Jun 2019 02:47:38 -0700 (PDT)
-Received-SPF: neutral (google.com: 212.227.126.135 is neither permitted nor denied by best guess record for domain of arnd@arndb.de) client-ip=212.227.126.135;
+        Tue, 18 Jun 2019 02:54:07 -0700 (PDT)
+Received-SPF: neutral (google.com: 212.227.126.131 is neither permitted nor denied by best guess record for domain of arnd@arndb.de) client-ip=212.227.126.131;
 Received: from threadripper.lan ([149.172.19.189]) by mrelayeu.kundenserver.de
- (mreue011 [212.227.15.129]) with ESMTPA (Nemesis) id
- 1MvazO-1iVYJd1CNC-00sfaV; Tue, 18 Jun 2019 11:47:35 +0200
+ (mreue010 [212.227.15.129]) with ESMTPA (Nemesis) id
+ 1Ma1kC-1i95I60lue-00W10Y; Tue, 18 Jun 2019 11:54:02 +0200
 From: Arnd Bergmann <arnd@arndb.de>
-To: Kees Cook <keescook@chromium.org>
+To: Andrew Morton <akpm@linux-foundation.org>
 Cc: Andrey Ryabinin <aryabinin@virtuozzo.com>,
 	Alexander Potapenko <glider@google.com>,
 	Dmitry Vyukov <dvyukov@google.com>,
 	kasan-dev@googlegroups.com,
-	Alexander Popov <alex.popov@linux.com>,
+	linux-mm@kvack.org,
 	Arnd Bergmann <arnd@arndb.de>,
-	Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-	James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	Masahiro Yamada <yamada.masahiro@socionext.com>,
-	linux-security-module@vger.kernel.org,
+	Andrey Konovalov <andreyknvl@google.com>,
+	Will Deacon <will.deacon@arm.com>,
+	Christoph Lameter <cl@linux.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] structleak: disable BYREF_ALL in combination with KASAN_STACK
-Date: Tue, 18 Jun 2019 11:47:13 +0200
-Message-Id: <20190618094731.3677294-1-arnd@arndb.de>
+Subject: [PATCH] [v2] page flags: prioritize kasan bits over last-cpuid
+Date: Tue, 18 Jun 2019 11:53:27 +0200
+Message-Id: <20190618095347.3850490-1-arnd@arndb.de>
 X-Mailer: git-send-email 2.20.0
 MIME-Version: 1.0
-X-Provags-ID: V03:K1:peaZfmlkgECAGz9riypsIjV4ic/JP7FXX72Osd9/Mq+xyvBdsCS
- QBR6nMT1ohGbRCit/XsDuRwE9m62UtxQb8P0hVuaqx/phcvYootks744nTD7mnuahBKuDRd
- nlFPtsir0LRT4s7DskzMEeyJxjArgwMxWUyRsgRPXJRek+d2c5rWM1qoz78m39pnj+BpCM6
- +yskDQBig2i7wcwA6yOBg==
+X-Provags-ID: V03:K1:bUJwQclvqm/katzhhzycV3+/zOxa7NbjGOKFIqH4EXPNW02vwyN
+ lRoCJ9pDU+WbEFJZSH5TpY8rP8VBIOStIKLRBqcBtosxCv5LlrE/rA1pQcShjiptjGdXGMx
+ y9Yby5nkzWG9VqIi84t+aokD+Qbu9EaMbAUpG7WpjvuQIBC7Yyl1HNU0eFDofbbcqLY2YTW
+ O5MFfR4770dZqo2qlu0aQ==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:mt0pBl9Irk8=:bYl9+u5Pgnw4rI3NpDMYHT
- i53Q/NuCg7Ndw7pN9sP3ZPFD5oeob8tWcVRjg+sNsM7RJ5b9tSeQixOT4O5MYt/D3k3OxKKFR
- CsMMgCj6iveTYDoMsmni/ibnZEv82LWgLycDF/VppP+KZDUEtaLbGUL1zO2KSr9QbWPN8aFc+
- lRLUI9FmI141/v+985lLmm3oOfEgVbmyl/+U0etuXukfVHrJ2YAISq96Nax93pejvbGmN/R6E
- gMxHU1tztk8Bz8A9z+LMq1SuiZ+fCaWyUv7cz//JBCwF0A7R3amDs1oofWWmGIhZ2woS7knzk
- s2PUnpiym4S4dWsQXv4Nm1q7zRzXDtGcHuwqhdfls7EcfffVnoBSejJk958zKoe9Usl3xWCK1
- /VC9gy9fE8Lu+nU5LxlteBelIwC5h1mcq3slnIylUnNW+FfZ01OCbNerLhuiMZrsRfuOG3j9R
- oySFqVKdqDDE77EVHlxUtZAKaY7H5C/Y74EzN7nfv/c3E2mHSdN7IZHpEbZztPDEqa72lY1Ko
- 8jW/nWO+ZzsizP7A//X5ToG2yMsjuCd3Bx4XEbTmCGpgAREI2JI637qz53t4QPAkoNsjSDSKs
- GVIY8zbeF2JUvFkqt5Xx1omS8tFFZKlzcdalZOoMjwUo0ntoXLnDbOtPirWOLhizc1pqZri7Z
- ZnGvPtxhuCnVqCQk9ESm64GpMnDxt0gfXVzKqAu1fYwaMqXdZQAOAw2Jq18zIJuTgzkyl+5Vm
- qNG0l247NeNjdJmxBsYCKJm7kUZFWaEYg7MCEg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:iIwUq5FcHw4=:EB3SY0U94Oo+TOTWQB9G2D
+ PP+nddwoiOQnZ5tkbYk2Lh2TJIc6E+ObTe4LhKccCu1IcrQZOlkZn7KXdl6ZxelHoT4M9EZml
+ IDZINoYBhyPor35Ghp0KLV9mzYSYx3vcijpLUUfWcw29jPzNpEVGfaOBKG2VYtAIqvyNA7n95
+ nd/aMvU71fn6g9czQwP46IEaIpNTliHYKbqzxuMg/s7U8XTi0LVY56wnsQ0562+KqvoBroqfn
+ LwUrik8VyfQ7qcg9vU9KSSKdUaaB744scxeMfp2X/LmyqDsQFb31u0xxf9MkgE9x4sseIEgdY
+ tkUDn3azX/IOlZqJOenTjDAc6LyPGbJhgje5/4VyU2M/tgniMR/nivygYSXnAa5FGC3TQr9CK
+ mFh7hpTVejfntAP3mziLcPtwJzxx+gF6nhf8Dqeqpv8vcApz51ybXO/JAl8Jjb5YYQA09oXIL
+ M4NIcymsuiB6gGIYAGZgiQYFz4wZFfpUl9tnGaYECOUnnDo2MIMdMSPsASgkJ+7/ykwTsm4CK
+ PNMcnQvhY/4r0oVL7obwyKN6+N07+L8fmRFkggm8Q6KHWFhHqjjIczLtP05jjiLJzVihadbZz
+ QRxQa3jPCD2YHzmIS5qtobDTEM1ixuOl5ENcbORlp06BlPucfyOBj+m+6gGMXlvmMOo1L/LPF
+ pwAZsa4fYFeY5Wjj6AYkesP8CdrFlMuQ9Jt1lgOI6adRwOldxtK/0CiT3LI8dPOJp1Be5giSt
+ hNB6ySTYYupaUPbKZG3WZvwGdnRbzjmbIetlKQ==
 X-Original-Sender: arnd@arndb.de
 X-Original-Authentication-Results: gmr-mx.google.com;       spf=neutral
- (google.com: 212.227.126.135 is neither permitted nor denied by best guess
+ (google.com: 212.227.126.131 is neither permitted nor denied by best guess
  record for domain of arnd@arndb.de) smtp.mailfrom=arnd@arndb.de
 Content-Type: text/plain; charset="UTF-8"
 Precedence: list
@@ -146,73 +146,82 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-The combination of KASAN_STACK and GCC_PLUGIN_STRUCTLEAK_BYREF_ALL
-leads to much larger kernel stack usage, as seen from the warnings
-about functions that now exceed the 2048 byte limit:
+ARM64 randdconfig builds regularly run into a build error, especially
+when NUMA_BALANCING and SPARSEMEM are enabled but not SPARSEMEM_VMEMMAP:
 
-drivers/media/i2c/tvp5150.c:253:1: error: the frame size of 3936 bytes is larger than 2048 bytes
-fs/ocfs2/dlm/dlmrecovery.c:737:1: error: the frame size of 2088 bytes is larger than 2048 bytes
-fs/ocfs2/aops.c:1892:1: error: the frame size of 2088 bytes is larger than 2048 bytes
-fs/ocfs2/namei.c:1677:1: error: the frame size of 2584 bytes is larger than 2048 bytes
-fs/ocfs2/super.c:1186:1: error: the frame size of 2640 bytes is larger than 2048 bytes
-fs/ocfs2/xattr.c:3678:1: error: the frame size of 2176 bytes is larger than 2048 bytes
-net/bridge/br_netlink.c:1505:1: error: the frame size of 2448 bytes is larger than 2048 bytes
-net/ieee802154/nl802154.c:548:1: error: the frame size of 2232 bytes is larger than 2048 bytes
-net/wireless/nl80211.c:1726:1: error: the frame size of 2224 bytes is larger than 2048 bytes
-net/wireless/nl80211.c:6472:1: error: the frame size of 2112 bytes is larger than 2048 bytes
-net/wireless/nl80211.c:2357:1: error: the frame size of 4584 bytes is larger than 2048 bytes
-net/wireless/nl80211.c:5108:1: error: the frame size of 2760 bytes is larger than 2048 bytes
-drivers/media/tuners/r820t.c:1327:1: error: the frame size of 2816 bytes is larger than 2048 bytes
+ #error "KASAN: not enough bits in page flags for tag"
 
-The warnings are distracting, and risking a kernel stack overflow is
-generally not beneficial to performance, so it may be best to disallow
-that particular combination. This can be done by turning off either
-one. I picked the dependency in GCC_PLUGIN_STRUCTLEAK_BYREF_ALL, as
-this option is designed to make uninitialized stack usage less harmful
-when enabled on its own, but it also prevents KASAN from detecting those
-cases in which it was in fact needed.
+The last-cpuid bits are already contitional on the available space,
+so the result of the calculation is a bit random on whether they
+were already left out or not.
 
-KASAN_STACK is currently implied by KASAN on gcc, but could be made a
-user selectable option if we want to allow combining (non-stack) KASAN
-wtih GCC_PLUGIN_STRUCTLEAK_BYREF_ALL.
+Adding the kasan tag bits before last-cpuid makes it much more likely
+to end up with a successful build here, and should be reliable for
+randconfig at least, as long as that does not randomize NR_CPUS
+or NODES_SHIFT but uses the defaults.
 
-Note that it woult be possible to specifically address the files that
-print the warning, but presumably the overall stack usage is still
-significantly higher than in other configurations, so this would not
-address the full problem.
+In order for the modified check to not trigger in the x86 vdso32 code
+where all constants are wrong (building with -m32), enclose all the
+definitions with an #ifdef.
 
-I could not test this with CONFIG_INIT_STACK_ALL, which may or may not
-suffer from a similar problem.
-
-Fixes: 81a56f6dcd20 ("gcc-plugins: structleak: Generalize to all variable types")
+Fixes: 2813b9c02962 ("kasan, mm, arm64: tag non slab memory allocated via pagealloc")
+Reviewed-by: Andrey Konovalov <andreyknvl@google.com>
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- security/Kconfig.hardening | 5 +++++
- 1 file changed, 5 insertions(+)
+Submitted v1 in March and never followed up on the build regression,
+which is fixed in this version.
+---
+ include/linux/page-flags-layout.h | 16 ++++++++++------
+ 1 file changed, 10 insertions(+), 6 deletions(-)
 
-diff --git a/security/Kconfig.hardening b/security/Kconfig.hardening
-index c6cb2d9b2905..e742d1006a4b 100644
---- a/security/Kconfig.hardening
-+++ b/security/Kconfig.hardening
-@@ -73,6 +73,7 @@ choice
- 	config GCC_PLUGIN_STRUCTLEAK_BYREF_ALL
- 		bool "zero-init anything passed by reference (very strong)"
- 		depends on GCC_PLUGINS
-+		depends on !(KASAN && KASAN_STACK=1)
- 		select GCC_PLUGIN_STRUCTLEAK
- 		help
- 		  Zero-initialize any stack variables that may be passed
-@@ -80,6 +81,10 @@ choice
- 		  initialized. This is intended to eliminate all classes
- 		  of uninitialized stack variable exploits and information
- 		  exposures.
-+		  As a side-effect, this keeps a lot of variables on the
-+		  stack that can otherwise be optimized out, so combining
-+		  this with CONFIG_KASAN_STACK can lead to a stack overflow
-+		  and is disallowed.
+diff --git a/include/linux/page-flags-layout.h b/include/linux/page-flags-layout.h
+index 1dda31825ec4..7d794a629822 100644
+--- a/include/linux/page-flags-layout.h
++++ b/include/linux/page-flags-layout.h
+@@ -32,6 +32,7 @@
  
- 	config INIT_STACK_ALL
- 		bool "0xAA-init everything on the stack (strongest)"
+ #endif /* CONFIG_SPARSEMEM */
+ 
++#ifndef BUILD_VDSO32_64
+ /*
+  * page->flags layout:
+  *
+@@ -76,21 +77,23 @@
+ #define LAST_CPUPID_SHIFT 0
+ #endif
+ 
+-#if SECTIONS_WIDTH+ZONES_WIDTH+NODES_SHIFT+LAST_CPUPID_SHIFT <= BITS_PER_LONG - NR_PAGEFLAGS
++#ifdef CONFIG_KASAN_SW_TAGS
++#define KASAN_TAG_WIDTH 8
++#else
++#define KASAN_TAG_WIDTH 0
++#endif
++
++#if SECTIONS_WIDTH+ZONES_WIDTH+NODES_SHIFT+LAST_CPUPID_SHIFT+KASAN_TAG_WIDTH \
++	<= BITS_PER_LONG - NR_PAGEFLAGS
+ #define LAST_CPUPID_WIDTH LAST_CPUPID_SHIFT
+ #else
+ #define LAST_CPUPID_WIDTH 0
+ #endif
+ 
+-#ifdef CONFIG_KASAN_SW_TAGS
+-#define KASAN_TAG_WIDTH 8
+ #if SECTIONS_WIDTH+NODES_WIDTH+ZONES_WIDTH+LAST_CPUPID_WIDTH+KASAN_TAG_WIDTH \
+ 	> BITS_PER_LONG - NR_PAGEFLAGS
+ #error "KASAN: not enough bits in page flags for tag"
+ #endif
+-#else
+-#define KASAN_TAG_WIDTH 0
+-#endif
+ 
+ /*
+  * We are going to use the flags for the page to node mapping if its in
+@@ -104,4 +107,5 @@
+ #define LAST_CPUPID_NOT_IN_PAGE_FLAGS
+ #endif
+ 
++#endif
+ #endif /* _LINUX_PAGE_FLAGS_LAYOUT */
 -- 
 2.20.0
 
@@ -220,5 +229,5 @@ index c6cb2d9b2905..e742d1006a4b 100644
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
 To post to this group, send email to kasan-dev@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20190618094731.3677294-1-arnd%40arndb.de.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20190618095347.3850490-1-arnd%40arndb.de.
 For more options, visit https://groups.google.com/d/optout.
