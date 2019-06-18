@@ -1,177 +1,138 @@
-Return-Path: <kasan-dev+bncBCH67JWTV4DBBLFAUDUAKGQERSUI44A@googlegroups.com>
+Return-Path: <kasan-dev+bncBDEKVJM7XAHRBO7GULUAKGQEAPFVI2A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qk1-x739.google.com (mail-qk1-x739.google.com [IPv6:2607:f8b0:4864:20::739])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5C6A494D9
-	for <lists+kasan-dev@lfdr.de>; Tue, 18 Jun 2019 00:11:57 +0200 (CEST)
-Received: by mail-qk1-x739.google.com with SMTP id t196sf10492492qke.0
-        for <lists+kasan-dev@lfdr.de>; Mon, 17 Jun 2019 15:11:57 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1560809516; cv=pass;
+Received: from mail-lj1-x23e.google.com (mail-lj1-x23e.google.com [IPv6:2a00:1450:4864:20::23e])
+	by mail.lfdr.de (Postfix) with ESMTPS id D79BC49DBE
+	for <lists+kasan-dev@lfdr.de>; Tue, 18 Jun 2019 11:47:39 +0200 (CEST)
+Received: by mail-lj1-x23e.google.com with SMTP id 77sf2522641ljf.0
+        for <lists+kasan-dev@lfdr.de>; Tue, 18 Jun 2019 02:47:39 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1560851259; cv=pass;
         d=google.com; s=arc-20160816;
-        b=wxj40zArAdJroMr7qyZUJrxSCmP/UxZkHxXKFKmIZG9qkyI0lz/xu+afLqB6Ms1rI8
-         BS+MZJ78Tojhs8Pw5rzfpzuFr7bvD6x3RXGpWHwMSI+gQJ0GxDl9V22V3UKcPahTFzz4
-         5Eb6wnb5lXlZf/pco7rH66SKxN8lLGMYNZ8UCozFZ7BCP7nvvOMEqX98JT7hvWk5+iIh
-         c9YRAHu7fjFf3+eLEG85UI5MTF4YV67ScxGP96qeX4l7yojCYMSCWZz2JxXN7laz7Vdd
-         LVTkuX+u1AGM4YXkJr5ECMdBhTAKnfxJ1WRfsGCaUyS9ijMU3MswfNncQM1hJs38f99l
-         1aiw==
+        b=urfpYM5SnqogF/RJTLRMVawO2+kzqwFxMei5xjA9sADSAPbTT7lVgzEaAqkfU5Puv9
+         CWm05rn+Vj16DwIqgViIPmBMa+dVVNbW4TY3g1xeHGwBu1HofGKt0ZqpQZou1NJ6OeC5
+         2tKSxdFkaBOIFerXjT0CeIm/iwZsICvsLiONQeiPqJ7f0fqlN4LH3tSrpq78ivU9v5yH
+         xedhPRqESdpX4dssw8EwjVnsyzxjDDwr88/8ObFM9hTvGjCByl2vT3JI+9uR+C8f+NdM
+         V0QTZLxVCQKYPhK+mLp7wbMmmQffHUA81/C0V6upOTenGDHO9mji4Ifsfi2FkR41LpKb
+         iqRA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:references:in-reply-to:message-id
-         :date:subject:cc:to:from:mime-version:sender:dkim-signature
-         :dkim-signature;
-        bh=gP9TSCpvxHomMGEHNsfw2c+FA6yYbKYFvTHvA4DFjNs=;
-        b=ZCFgmEQM7nBQLyW0KDk++JR9Zsrkz2v+ixFz5IzwcvBR2ftNr6WrjbXsCZN2mCk8GN
-         AUv/nC//4OOoqrL9EBnh6JuLI6UMmiW+l8wsJoKJGEPpW32nnN6/mDvmntr2KYbqWq2N
-         YaCSWXwoDBKgKvnfKreDxpxliDUIZXPPixD3fNXurx/mTNuARxOWjkxY2uklxg/EMfMg
-         mRgffO6Cm1bvFgKG8DxUj2KqzWzUJJMyx9famOHgBhUI/uW9vqkAL+Dh5ZpboiX5+WEk
-         uT4/PIYfF8zvL2UW5a6YEdd1p9MOzsgt3QwapuSYSgLbf5y8EnyqKALuDgPe0TMGpHMw
-         7caw==
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :subject:cc:to:from:sender:dkim-signature;
+        bh=VOc1QqTCpZoWhcn+qNWI44h1p1oeJu6lukDjCVjpyas=;
+        b=x3XagPurN+eM9OTz5lTZzBxLSluDFccuolpfYRnBQNv+3DX2F/8WfvIiUDO0wxgc+u
+         l1PbMxHxdsu3pNYXplBXhGKc/AkVpd2Qx5FFB7OHRBYl1T+fEPjJ/bsSBX0G6tj+dR3n
+         mF0mwCtaKkuVCMhm2EbJGG9vU0/okDr+djQZ58TlZglvJXeYJ6GJ4pKa1zv/12PuA/0y
+         /YlmBn4YxdMFcC3jxJv7GS2Sr0W0Z95CfOLiSM00uMuAkHAY1V/hvVMkCIVXAtfopQDC
+         NpgBzm4TL5043iaUvrWNXCiJ8VdwToqJ7UfzWdtwtKeZyMQvz9gNN50/xa5dFuLFPWjC
+         rwdw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20161025 header.b=HsMQvlLI;
-       spf=pass (google.com: domain of f.fainelli@gmail.com designates 2607:f8b0:4864:20::643 as permitted sender) smtp.mailfrom=f.fainelli@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+       spf=neutral (google.com: 212.227.126.135 is neither permitted nor denied by best guess record for domain of arnd@arndb.de) smtp.mailfrom=arnd@arndb.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:mime-version:from:to:cc:subject:date:message-id:in-reply-to
-         :references:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=gP9TSCpvxHomMGEHNsfw2c+FA6yYbKYFvTHvA4DFjNs=;
-        b=jG/dcSowNP6+7F83SioQ+UozgLCAbv07PBGK2J446dJC5cONAGxmQVWNi1LqipfbCJ
-         hQ8jFcN6ohgzMcuszl2fipRGW3EKUOm+PFdzpNklkSUeCEYWxCRPCCpmaQ5BZgNDup3s
-         zXImaC8fHIPj7AWU2oitQA+FefwHserTlmLzThfe7OjXuzeL3Md5455Gb/+lKHIPDbDh
-         OirTagQEjb5Au2Wf0N0YbzUsTQP7zCtlg0NGl6RWJRESgbwvlUrCgS7MSI7x81RR4qpG
-         hF8OZNu3jbSsxXe+Ny6gx4pXa+GNnXSlDvQ3gZ2a3UKwhLB4xVRl5/LX3Z2qfG5zix/Q
-         Zd+A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:to:cc:subject:date:message-id:in-reply-to
-         :references:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=gP9TSCpvxHomMGEHNsfw2c+FA6yYbKYFvTHvA4DFjNs=;
-        b=Xo+E1++ktINCPVPIQGekqADjZhQplTc7NaTTK51h7Bx7PSx5q+WA6fejKapyipKXFE
-         em/IajlIkRifkm35n2sOlr11WzJdadlw7nhuiGNx9iooT4NZ/3N+EUSErHiLSgx17r+P
-         6AIFjP8RhAbprY51++C1zXi1iKnS7O0rFmjyQLo6dL2UjFUajWVp7bH5D9jSaz8b6S0q
-         8O0QooTdJfJI7ZxNHp+u8wLDB09IsnWR0FGii+96O8du7O/nOtUpNkYMDLPUrMxkOj1l
-         jutskTmFvv8PccCiMiBAJo4SUo5nL+nYf8qXv63cvsB3OaPpSa4ir853yPwoKEb75jPW
-         VlCg==
+        bh=VOc1QqTCpZoWhcn+qNWI44h1p1oeJu6lukDjCVjpyas=;
+        b=dI5hSQzKi2zuByIl9HSS4Vf25rHn7XReptQlZCHt5AZKS0Ytfi7UfEurgwaUr1Yrpt
+         Umlz89KtnTv4yYKAd2mVZCPy2LR5WUvfcw0Mb5PvZbpkgNI0B/DEUd+0k+eQ1dNCRsgV
+         oGzM6NY1IwlHdTLFHt1mJHz9NcwAKql4SgfSDXHaL7AkTMZ3u+TjWSEtTJd93doBt7Fk
+         meApGlpYt+29SnhvPv/rlZ0pKKQBQN7DwLgkKYIJuckAtb+xN28LEzHQ78rUGrWKGxHz
+         IvgaLRB3WLZ/nUFmJh0cZza/Zh3hmV8cu57Ai6ZFRsKduyLz5mxG9bnfmPSXNDoYHAPF
+         RthQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:mime-version:from:to:cc:subject:date
-         :message-id:in-reply-to:references:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=gP9TSCpvxHomMGEHNsfw2c+FA6yYbKYFvTHvA4DFjNs=;
-        b=gejuhtwIbXh/XKkdm/Z4J+fAoj8Eo3xTPnthFGcHVLA0Deo2FSH2/x1GJqykLY72rQ
-         9vJ+c6oKGYhqFQUILqUYYvj/9ctXhJoFHNLTD4T+XFojQe13mvO4sw/SDoLMdnoFKj7Q
-         oUhd4VOO/MvpkHzDBOlwRzbxRgx9HfMW9X7CIHfa+29rI2TSExfj8QEVTdBRb7WeJC/W
-         d25oNckJixivBY7/24mmoZNnuGHdVHNApSY+JAYCKBr0ltoJJ8y+mxikwpAiEuWmTcMk
-         rmouHPB+HR/XsIVB++FZ4ML4QbNptIquB/sUKxwZl+23LHSi73G1DRPUDdG9PsF2CDSs
-         J9sw==
+        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=VOc1QqTCpZoWhcn+qNWI44h1p1oeJu6lukDjCVjpyas=;
+        b=JYKN6dzx7BAO9ngY49rNWnTDipyH/Ujt/V+4XpyqGiKFNUcPuQNcKApA+2akR1d/xO
+         8AZLafc79vwOhr7t/4tukOKbYfUS5Zr9qfYIFwV2BvooBwtk/cT9o/KihjfyeNogt2hR
+         oIaVOJh5duo7ZPoJnyfKPfS3nfvDJznOAqcLEJn6ctKxGkAzzPy0xVuLCGrn38+RrwbM
+         89fkSttzCY9Vs+UJpLyjBi6H7Q+t9MPh3k5llg8o7hUuetPVjuUWf6gv/9p7UZGLakW+
+         2Vg0zUfpxGFZCWM9ypi8PWIjsYS9SDSDfvU0anzkcnTuxO2zKiFr2GNqbOE7mZ2kOrpd
+         NjEQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAXO6xxr2DcT0XYFkm1kO3UumDaeIgK3y9jlM/sbolrv1NdWnUi+
-	40CtkF7k5oHro2aGZJfAOxo=
-X-Google-Smtp-Source: APXvYqzPsWOwI588CKRdwYuupLTMpVd+4CHHWMvtx2KAQnzzC0inmBJiC0k960LW08BOxyLvQSXUvQ==
-X-Received: by 2002:ac8:1a3c:: with SMTP id v57mr96361899qtj.339.1560809516770;
-        Mon, 17 Jun 2019 15:11:56 -0700 (PDT)
-MIME-Version: 1.0
+X-Gm-Message-State: APjAAAVwwnCMbjsXVPyQXxXeIUmw/2rFVjB80y0LaWKuP3rh0UkK9/e1
+	oRUAe6snQYUYlu7dN8+8kg0=
+X-Google-Smtp-Source: APXvYqyjjtODOltYs4hvcV7pwWWgdvkXkEbR88oyZq4l2/CwGClgMtKDjcJEbrnQ3OaY29ZPIhOoZw==
+X-Received: by 2002:a2e:9213:: with SMTP id k19mr7372197ljg.237.1560851259456;
+        Tue, 18 Jun 2019 02:47:39 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a37:2d07:: with SMTP id t7ls4624373qkh.11.gmail; Mon, 17 Jun
- 2019 15:11:56 -0700 (PDT)
-X-Received: by 2002:a05:620a:124c:: with SMTP id a12mr91746912qkl.336.1560809516359;
-        Mon, 17 Jun 2019 15:11:56 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1560809516; cv=none;
+Received: by 2002:ac2:5189:: with SMTP id u9ls627852lfi.0.gmail; Tue, 18 Jun
+ 2019 02:47:38 -0700 (PDT)
+X-Received: by 2002:ac2:596c:: with SMTP id h12mr41043924lfp.101.1560851258970;
+        Tue, 18 Jun 2019 02:47:38 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1560851258; cv=none;
         d=google.com; s=arc-20160816;
-        b=oFgsS/TS/C6rp5vIR3TUrqbbnAP0jtvXLJvl2Kv+B2S53SpzGCeg+PzZ5XQxA2ju1e
-         /6xCJVSzs6cn8GDal2LXgZgYPNoh9ytBz0Hy4W0uDJgXxS6UapCCsAWaKre8qRkDwBTP
-         DOyDAiZI/ex8r/VAiBL16y3MoFiEkpSuWWvc76spokq4S01cG+wXhHjSCWppjCAsFB5V
-         fUR7Az5/eWXblmmuuxpyKtCDLLnujLk3GaTNXCJQgugwtivq6FzClhsTfMwPJZj7Hmvv
-         ITmU1hUUXpHDGcC2uo/QWXufj20lmyjqB4p7jEwvrh00dHPcxOnohwrlqLTKyoCrMr6O
-         t01g==
+        b=K9oj2YCHUOuq4Eil65V1lPRvMAQby5NARz+m9g7qiS6GkPHCRTUja5vSaE5m+TldTb
+         3ms/SPUz8f4VguCN9n8gYjxg8RlMoQk5X6pJnMPUe3xa79xIwlExGR72lS9Oct5bPQ50
+         fbu3QQnj7wejSxV+O5HxzIS6Ql3FLyAyGjdKYE2agJEkSWYR4WjJ6g+GGkxVXvNFOSNj
+         Xr2dc38sPnRYB+7PCmuAnNTuxqPp1YMIf/F9OQXAJii3mRDYTW77z5Z/08WcdgwsGz+V
+         PJkewzx8o3Sl4SOfz04Af3y/pCEOoh5aCqZsR7CTb4r1qbMEDKEcHc01+gNC2+A1llbh
+         0OCQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=references:in-reply-to:message-id:date:subject:cc:to:from
-         :dkim-signature;
-        bh=/VaXSLpZ75ORCB1zbl4hdNQEjbM9Qsyda80h69PRSPA=;
-        b=g9qVe9dX9uHL9JTk7zLBVpoY6SDndoSZ1ByCcG5YEF4RDnoRB5ey/MszAKrchi+dmj
-         CmZ2MjHH39UqSACe64keFQbfZkXM7xCpRl/n8BW1FtXvgsJ8olOT8wkJYCCKqL+3LUAt
-         VlK/SjMxo/AfYiOj3NPCyfug2ckIWhCCEWUrey01mHEDV9plSs/kWfPmTZyYSuEqytS/
-         /Zq+P/4hi2hZgfKTRRvhiVCvOQIMA/CqGL25iQMDiHxaMf0tKdGmybVC9Tqp9kXin5OX
-         DwvHTjzUyyxjm2+OLkXjWdW/Cb/P8Z49vQyGLHJ0NHCXbiIcbBF42BDrXmvxnXOcnMuU
-         5y+w==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from;
+        bh=TQQO3m3N6l0+b3sPp3z1oMliABczEQWG1VIaOqrDRHY=;
+        b=sK2LVOuhsnuAH9huXHcfzlXQXBahYhYEV2/uvk7T+6nEdNZqLZk0jxwsuqWkkKlD5j
+         8VKuou4XCLFYaHTNp6vbJsbDP9eovY/KH+rZNG/L2LqATdqcxHf9E9VS2B5aLQ9mxw9B
+         22Y8np196833cf0LWLlgM0G2O2WK8lBI8/rCpp88whFoug2Da7XNvMV8KmpIUI/WOrXQ
+         2QcuVaQYKhYopfOW83tmbnaaW/5qdO05nS/SEdi/h20R7Msm3RtWpJc6kjn/+F2M2t4x
+         4BrqR58yLNswd7GTEaZIQW5r85HpWJRD659TqNYmN0hIqXzv29SG/vIQSrDBx+cCY8o4
+         02UQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20161025 header.b=HsMQvlLI;
-       spf=pass (google.com: domain of f.fainelli@gmail.com designates 2607:f8b0:4864:20::643 as permitted sender) smtp.mailfrom=f.fainelli@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com. [2607:f8b0:4864:20::643])
-        by gmr-mx.google.com with ESMTPS id g41si766387qte.4.2019.06.17.15.11.56
+       spf=neutral (google.com: 212.227.126.135 is neither permitted nor denied by best guess record for domain of arnd@arndb.de) smtp.mailfrom=arnd@arndb.de
+Received: from mout.kundenserver.de (mout.kundenserver.de. [212.227.126.135])
+        by gmr-mx.google.com with ESMTPS id c15si551925lfi.5.2019.06.18.02.47.38
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-        Mon, 17 Jun 2019 15:11:56 -0700 (PDT)
-Received-SPF: pass (google.com: domain of f.fainelli@gmail.com designates 2607:f8b0:4864:20::643 as permitted sender) client-ip=2607:f8b0:4864:20::643;
-Received: by mail-pl1-x643.google.com with SMTP id bi6so4735015plb.12
-        for <kasan-dev@googlegroups.com>; Mon, 17 Jun 2019 15:11:56 -0700 (PDT)
-X-Received: by 2002:a17:902:8696:: with SMTP id g22mr84220867plo.249.1560809515479;
-        Mon, 17 Jun 2019 15:11:55 -0700 (PDT)
-Received: from fainelli-desktop.igp.broadcom.net ([192.19.223.252])
-        by smtp.gmail.com with ESMTPSA id s129sm12551020pfb.186.2019.06.17.15.11.53
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Mon, 17 Jun 2019 15:11:54 -0700 (PDT)
-From: Florian Fainelli <f.fainelli@gmail.com>
-To: linux-arm-kernel@lists.infradead.org
-Cc: bcm-kernel-feedback-list@broadcom.com,
-	Andrey Ryabinin <ryabinin@virtuozzo.com>,
-	Abbott Liu <liuwenliang@huawei.com>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	glider@google.com,
-	dvyukov@google.com,
-	corbet@lwn.net,
-	linux@armlinux.org.uk,
-	christoffer.dall@arm.com,
-	marc.zyngier@arm.com,
-	arnd@arndb.de,
-	nico@fluxnic.net,
-	vladimir.murzin@arm.com,
-	keescook@chromium.org,
-	jinb.park7@gmail.com,
-	alexandre.belloni@bootlin.com,
-	ard.biesheuvel@linaro.org,
-	daniel.lezcano@linaro.org,
-	pombredanne@nexb.com,
-	rob@landley.net,
-	gregkh@linuxfoundation.org,
-	akpm@linux-foundation.org,
-	mark.rutland@arm.com,
-	catalin.marinas@arm.com,
-	yamada.masahiro@socionext.com,
-	tglx@linutronix.de,
-	thgarnie@google.com,
-	dhowells@redhat.com,
-	geert@linux-m68k.org,
-	andre.przywara@arm.com,
-	julien.thierry@arm.com,
-	drjones@redhat.com,
-	philip@cog.systems,
-	mhocko@suse.com,
-	kirill.shutemov@linux.intel.com,
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 18 Jun 2019 02:47:38 -0700 (PDT)
+Received-SPF: neutral (google.com: 212.227.126.135 is neither permitted nor denied by best guess record for domain of arnd@arndb.de) client-ip=212.227.126.135;
+Received: from threadripper.lan ([149.172.19.189]) by mrelayeu.kundenserver.de
+ (mreue011 [212.227.15.129]) with ESMTPA (Nemesis) id
+ 1MvazO-1iVYJd1CNC-00sfaV; Tue, 18 Jun 2019 11:47:35 +0200
+From: Arnd Bergmann <arnd@arndb.de>
+To: Kees Cook <keescook@chromium.org>
+Cc: Andrey Ryabinin <aryabinin@virtuozzo.com>,
+	Alexander Potapenko <glider@google.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
 	kasan-dev@googlegroups.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	kvmarm@lists.cs.columbia.edu,
-	ryabinin.a.a@gmail.com
-Subject: [PATCH v6 6/6] ARM: Enable KASan for arm
-Date: Mon, 17 Jun 2019 15:11:34 -0700
-Message-Id: <20190617221134.9930-7-f.fainelli@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190617221134.9930-1-f.fainelli@gmail.com>
-References: <20190617221134.9930-1-f.fainelli@gmail.com>
-X-Original-Sender: f.fainelli@gmail.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20161025 header.b=HsMQvlLI;       spf=pass
- (google.com: domain of f.fainelli@gmail.com designates 2607:f8b0:4864:20::643
- as permitted sender) smtp.mailfrom=f.fainelli@gmail.com;       dmarc=pass
- (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+	Alexander Popov <alex.popov@linux.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+	James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Masahiro Yamada <yamada.masahiro@socionext.com>,
+	linux-security-module@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] structleak: disable BYREF_ALL in combination with KASAN_STACK
+Date: Tue, 18 Jun 2019 11:47:13 +0200
+Message-Id: <20190618094731.3677294-1-arnd@arndb.de>
+X-Mailer: git-send-email 2.20.0
+MIME-Version: 1.0
+X-Provags-ID: V03:K1:peaZfmlkgECAGz9riypsIjV4ic/JP7FXX72Osd9/Mq+xyvBdsCS
+ QBR6nMT1ohGbRCit/XsDuRwE9m62UtxQb8P0hVuaqx/phcvYootks744nTD7mnuahBKuDRd
+ nlFPtsir0LRT4s7DskzMEeyJxjArgwMxWUyRsgRPXJRek+d2c5rWM1qoz78m39pnj+BpCM6
+ +yskDQBig2i7wcwA6yOBg==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:mt0pBl9Irk8=:bYl9+u5Pgnw4rI3NpDMYHT
+ i53Q/NuCg7Ndw7pN9sP3ZPFD5oeob8tWcVRjg+sNsM7RJ5b9tSeQixOT4O5MYt/D3k3OxKKFR
+ CsMMgCj6iveTYDoMsmni/ibnZEv82LWgLycDF/VppP+KZDUEtaLbGUL1zO2KSr9QbWPN8aFc+
+ lRLUI9FmI141/v+985lLmm3oOfEgVbmyl/+U0etuXukfVHrJ2YAISq96Nax93pejvbGmN/R6E
+ gMxHU1tztk8Bz8A9z+LMq1SuiZ+fCaWyUv7cz//JBCwF0A7R3amDs1oofWWmGIhZ2woS7knzk
+ s2PUnpiym4S4dWsQXv4Nm1q7zRzXDtGcHuwqhdfls7EcfffVnoBSejJk958zKoe9Usl3xWCK1
+ /VC9gy9fE8Lu+nU5LxlteBelIwC5h1mcq3slnIylUnNW+FfZ01OCbNerLhuiMZrsRfuOG3j9R
+ oySFqVKdqDDE77EVHlxUtZAKaY7H5C/Y74EzN7nfv/c3E2mHSdN7IZHpEbZztPDEqa72lY1Ko
+ 8jW/nWO+ZzsizP7A//X5ToG2yMsjuCd3Bx4XEbTmCGpgAREI2JI637qz53t4QPAkoNsjSDSKs
+ GVIY8zbeF2JUvFkqt5Xx1omS8tFFZKlzcdalZOoMjwUo0ntoXLnDbOtPirWOLhizc1pqZri7Z
+ ZnGvPtxhuCnVqCQk9ESm64GpMnDxt0gfXVzKqAu1fYwaMqXdZQAOAw2Jq18zIJuTgzkyl+5Vm
+ qNG0l247NeNjdJmxBsYCKJm7kUZFWaEYg7MCEg==
+X-Original-Sender: arnd@arndb.de
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=neutral
+ (google.com: 212.227.126.135 is neither permitted nor denied by best guess
+ record for domain of arnd@arndb.de) smtp.mailfrom=arnd@arndb.de
 Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
@@ -185,51 +146,79 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-From: Andrey Ryabinin <ryabinin@virtuozzo.com>
+The combination of KASAN_STACK and GCC_PLUGIN_STRUCTLEAK_BYREF_ALL
+leads to much larger kernel stack usage, as seen from the warnings
+about functions that now exceed the 2048 byte limit:
 
-This patch enable kernel address sanitizer for ARM.
+drivers/media/i2c/tvp5150.c:253:1: error: the frame size of 3936 bytes is larger than 2048 bytes
+fs/ocfs2/dlm/dlmrecovery.c:737:1: error: the frame size of 2088 bytes is larger than 2048 bytes
+fs/ocfs2/aops.c:1892:1: error: the frame size of 2088 bytes is larger than 2048 bytes
+fs/ocfs2/namei.c:1677:1: error: the frame size of 2584 bytes is larger than 2048 bytes
+fs/ocfs2/super.c:1186:1: error: the frame size of 2640 bytes is larger than 2048 bytes
+fs/ocfs2/xattr.c:3678:1: error: the frame size of 2176 bytes is larger than 2048 bytes
+net/bridge/br_netlink.c:1505:1: error: the frame size of 2448 bytes is larger than 2048 bytes
+net/ieee802154/nl802154.c:548:1: error: the frame size of 2232 bytes is larger than 2048 bytes
+net/wireless/nl80211.c:1726:1: error: the frame size of 2224 bytes is larger than 2048 bytes
+net/wireless/nl80211.c:6472:1: error: the frame size of 2112 bytes is larger than 2048 bytes
+net/wireless/nl80211.c:2357:1: error: the frame size of 4584 bytes is larger than 2048 bytes
+net/wireless/nl80211.c:5108:1: error: the frame size of 2760 bytes is larger than 2048 bytes
+drivers/media/tuners/r820t.c:1327:1: error: the frame size of 2816 bytes is larger than 2048 bytes
 
-Acked-by: Dmitry Vyukov <dvyukov@google.com>
-Signed-off-by: Abbott Liu <liuwenliang@huawei.com>
-Signed-off-by: Florian Fainelli <f.fainelli@gmail.com>
+The warnings are distracting, and risking a kernel stack overflow is
+generally not beneficial to performance, so it may be best to disallow
+that particular combination. This can be done by turning off either
+one. I picked the dependency in GCC_PLUGIN_STRUCTLEAK_BYREF_ALL, as
+this option is designed to make uninitialized stack usage less harmful
+when enabled on its own, but it also prevents KASAN from detecting those
+cases in which it was in fact needed.
+
+KASAN_STACK is currently implied by KASAN on gcc, but could be made a
+user selectable option if we want to allow combining (non-stack) KASAN
+wtih GCC_PLUGIN_STRUCTLEAK_BYREF_ALL.
+
+Note that it woult be possible to specifically address the files that
+print the warning, but presumably the overall stack usage is still
+significantly higher than in other configurations, so this would not
+address the full problem.
+
+I could not test this with CONFIG_INIT_STACK_ALL, which may or may not
+suffer from a similar problem.
+
+Fixes: 81a56f6dcd20 ("gcc-plugins: structleak: Generalize to all variable types")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- Documentation/dev-tools/kasan.rst | 4 ++--
- arch/arm/Kconfig                  | 1 +
- 2 files changed, 3 insertions(+), 2 deletions(-)
+ security/Kconfig.hardening | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/Documentation/dev-tools/kasan.rst b/Documentation/dev-tools/kasan.rst
-index b72d07d70239..a9cb1feec0c1 100644
---- a/Documentation/dev-tools/kasan.rst
-+++ b/Documentation/dev-tools/kasan.rst
-@@ -21,8 +21,8 @@ global variables yet.
+diff --git a/security/Kconfig.hardening b/security/Kconfig.hardening
+index c6cb2d9b2905..e742d1006a4b 100644
+--- a/security/Kconfig.hardening
++++ b/security/Kconfig.hardening
+@@ -73,6 +73,7 @@ choice
+ 	config GCC_PLUGIN_STRUCTLEAK_BYREF_ALL
+ 		bool "zero-init anything passed by reference (very strong)"
+ 		depends on GCC_PLUGINS
++		depends on !(KASAN && KASAN_STACK=1)
+ 		select GCC_PLUGIN_STRUCTLEAK
+ 		help
+ 		  Zero-initialize any stack variables that may be passed
+@@ -80,6 +81,10 @@ choice
+ 		  initialized. This is intended to eliminate all classes
+ 		  of uninitialized stack variable exploits and information
+ 		  exposures.
++		  As a side-effect, this keeps a lot of variables on the
++		  stack that can otherwise be optimized out, so combining
++		  this with CONFIG_KASAN_STACK can lead to a stack overflow
++		  and is disallowed.
  
- Tag-based KASAN is only supported in Clang and requires version 7.0.0 or later.
- 
--Currently generic KASAN is supported for the x86_64, arm64, xtensa and s390
--architectures, and tag-based KASAN is supported only for arm64.
-+Currently generic KASAN is supported for the x86_64, arm, arm64, xtensa and
-+s390 architectures, and tag-based KASAN is supported only for arm64.
- 
- Usage
- -----
-diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
-index 8869742a85df..5c98431ddaea 100644
---- a/arch/arm/Kconfig
-+++ b/arch/arm/Kconfig
-@@ -59,6 +59,7 @@ config ARM
- 	select HAVE_ARCH_BITREVERSE if (CPU_32v7M || CPU_32v7) && !CPU_32v6
- 	select HAVE_ARCH_JUMP_LABEL if !XIP_KERNEL && !CPU_ENDIAN_BE32 && MMU
- 	select HAVE_ARCH_KGDB if !CPU_ENDIAN_BE32 && MMU
-+	select HAVE_ARCH_KASAN if MMU
- 	select HAVE_ARCH_MMAP_RND_BITS if MMU
- 	select HAVE_ARCH_SECCOMP_FILTER if AEABI && !OABI_COMPAT
- 	select HAVE_ARCH_THREAD_STRUCT_WHITELIST
+ 	config INIT_STACK_ALL
+ 		bool "0xAA-init everything on the stack (strongest)"
 -- 
-2.17.1
+2.20.0
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
 To post to this group, send email to kasan-dev@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20190617221134.9930-7-f.fainelli%40gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20190618094731.3677294-1-arnd%40arndb.de.
 For more options, visit https://groups.google.com/d/optout.
