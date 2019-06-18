@@ -1,126 +1,119 @@
-Return-Path: <kasan-dev+bncBC5L5P75YUERB2PKUPUAKGQEC6PSN2I@googlegroups.com>
+Return-Path: <kasan-dev+bncBDEKVJM7XAHRBQMHUTUAKGQERVGDAJQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ed1-x537.google.com (mail-ed1-x537.google.com [IPv6:2a00:1450:4864:20::537])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED6564A3FF
-	for <lists+kasan-dev@lfdr.de>; Tue, 18 Jun 2019 16:30:01 +0200 (CEST)
-Received: by mail-ed1-x537.google.com with SMTP id k15sf21562550eda.6
-        for <lists+kasan-dev@lfdr.de>; Tue, 18 Jun 2019 07:30:01 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1560868201; cv=pass;
+Received: from mail-oi1-x23d.google.com (mail-oi1-x23d.google.com [IPv6:2607:f8b0:4864:20::23d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FB034A569
+	for <lists+kasan-dev@lfdr.de>; Tue, 18 Jun 2019 17:31:15 +0200 (CEST)
+Received: by mail-oi1-x23d.google.com with SMTP id l5sf5019450oih.3
+        for <lists+kasan-dev@lfdr.de>; Tue, 18 Jun 2019 08:31:15 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1560871874; cv=pass;
         d=google.com; s=arc-20160816;
-        b=NUYltJQG1kwUT/+bmL3dg5+JbtfzZN7SMtGRh7N3nLJ39Gg60nbWswnFq0dOy8zCRt
-         LtFoC2bSSZlLPmdidOukULdDbn8pl+rFCXrhoUvJ4O+39g7wIZSJ0y+Z6dTIlfjsfo66
-         ZeN6Tz8Ix8gGh338bkWTPJLvfurLhZn5ZWU7xcFgjrXeqWcJ0NOvDWlqR5P+t1EfZ7dG
-         33j/7uJmmZbOa2tXYiQTGmEgku2vtx3K4lJapPqYyd+rIo5dV91vxXxJSPnYT8RP05os
-         jAI90zkgq67E4+86GAtREHY6/pMenlQ/fBaOVI25aNDPSiyqkHA4io0ijQgfIUFvLkyT
-         AIHw==
+        b=A4gP58FFE7ofLtL7gsfIF1neHz2JSl5neQP045dvprnEDQngJ8GlDx1lghucKvG3YA
+         v2qhnjUnabu4y8OEW9OKMbsZ5QDGt6EFMez1muqQGMseARrnE9MDQB/3SkBuDN5QRaZw
+         P26+P4EGzWWUMnrKVcVn4TUN2n3KAWnKlhsnecjAMT63o/7ZtW8w0pfK7Ghgd1qgxt+W
+         e2+ehIT7aKyXAG6DGZjsh0yP1dL9GdK6JwnFAwA6gtVHBBQy2fmlFuz9xtlX6cGR3w3d
+         RGpeHP1E0a3rb2BqzIPPzJRdD7dw1otkI0oESDcL8DmKG0w+mrmKQS6S7jkX+PU/PxoE
+         tw1g==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-language:in-reply-to
-         :mime-version:user-agent:date:message-id:from:references:cc:to
-         :subject:sender:dkim-signature;
-        bh=ncS0KKOOmx3nxPLoLoq6mQR8t4pEnvYjRL33udA7IU4=;
-        b=O5neFlDj6NaDIk/yfzary48e5gmNKMFyqXsR/ZT6HnBF9S6qbLVg+mpex5E8SQibqn
-         8hMe81Nm2vOXeaTjcjwy8/y/DhERwfP1d/BtTcrkH+U7HUGQd4njKNrWE2qrZWYxW4wb
-         9ojAn74k06wEn4CKLD+akACqT8sEo1NmNImTO/swpi0fATq3Lzybci+wVWqpw9BWe3LB
-         XJn80B4ovzDuDX5Cc7e0O3rjszkAxDYfZsh1jVyBOqeEfbEeJWMAZwe999DVe7XhamZz
-         /x9icbUhxlIHpzUCFhULdt1XwEWynEFvUU2KHyPNmSwLQNuP8uUuoquHu1Uc2bEmjyuz
-         TlRQ==
+         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:sender:dkim-signature;
+        bh=HMz1UoBobzofrwLuXFCLUAhIwZqc8SOfBOspQmet/Rk=;
+        b=uGzlRnjQjgD+hHOCnCCs1DCbvYR0c4xjAkZzFW8T6JJxxjCSjsU9kkrsydQ5rnQtMZ
+         C0yDjQsN9LkNxAyW/KUq8stbFqAJLbBWpalUs65S8aIvUgV74Axh9n3aCKnHA9GjedYe
+         /qMubcFehnYvWALD2wSZIyJ6x1bINyUA5pNLlCAEYExJmsMDVi8GFw7x8x2O4bCkWWx0
+         iS8NGWWTi+fEWCoekK7p5brZPX0gkZX55rXUfem8kORtaO6o9+ZyxtO4GMDtudVLoQEr
+         ZVa6XhfZc75XyC/6lD3ALbBdkjpWls/V58EPOQ/jJMlPYXyHEip3LA1HK7x7UM0+law0
+         ITOg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of aryabinin@virtuozzo.com designates 185.231.240.75 as permitted sender) smtp.mailfrom=aryabinin@virtuozzo.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=virtuozzo.com
+       spf=pass (google.com: domain of arndbergmann@gmail.com designates 209.85.160.181 as permitted sender) smtp.mailfrom=arndbergmann@gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=ncS0KKOOmx3nxPLoLoq6mQR8t4pEnvYjRL33udA7IU4=;
-        b=WxVqE4O9AmhFfU10AOC8JJPLNCX+0Q31DvRzd1zYTkvdzpwoSD84tU34O+miYqjlCJ
-         tKFLbKPMAlf1Mu8i0stnRqPjhyDRyGcJFer9/dMX5we4Zgew2YOVyz0ZLbfjaKw77XUM
-         BC5p//aGjl4zdkj6oCbK5WaTFddoWjngdbtn5qBVsD2EnCVTNxCPZ2cDB7K1P02Hp8r3
-         eiXQ2qY2lCL3zNeLEyp0Dryf3VehafUccirUNawk3HGvNDKnMcjMY+v8nrhkLI7hmpgk
-         A95CqFddBtt+mMhYy50/IUqRSwkzYuyaOlNqJVtY4B4NBcqLog//8enTnmEb73bNKyMW
-         6/iA==
+        h=sender:mime-version:references:in-reply-to:from:date:message-id
+         :subject:to:cc:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=HMz1UoBobzofrwLuXFCLUAhIwZqc8SOfBOspQmet/Rk=;
+        b=p/ghLjlu4s7WPNsiYDx77ZpMxw7cH6uZMAr8WE/fnsOb3X1Bck8dK0v5U8He+O3G8n
+         v+Kk9xDp3DntKlyBa2Xx7TRTDPFxvG7GrOXz8OnwK5x/5idwyCZ+I3jD6Vnh8C5fMk4x
+         jGZ3aXkaexbkiYOL8YLuiPSBVU5Ehy/JDaEggn8T8VKXbpBbPpPBQc6k9pg1vExpxIJy
+         fGjEKm48w8eEB/T0fpuOq5C6Bp4k5OtA3K2DTGpvhljBU1XRv0/JNvz0mU/95OFKrab0
+         bNq6r+Nzi0YIxi1CPwMpCYM6fidHZPRQZqvKB7GCQbwa5DiJ4l60uqIXACAzXCX6ikl0
+         ZYCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=ncS0KKOOmx3nxPLoLoq6mQR8t4pEnvYjRL33udA7IU4=;
-        b=jengu+uYYfLrtiTiO6q8bYbbu5SXWvdJGSd61qg+dfaff9K7WXhQLOXvTn95VoqAW3
-         PMMkEi/TASXKO32sHKkLsD3UXoiM8LcCYr87i1nq2DFX3EUo5BtvWXdpExi0jY+S050d
-         K8c+UwYV5AEdXSOA68lRZJLbADeE6ciqpu+jgRMGgCl1dyOdWi/wcidE9ccCr0F8db4M
-         Azozf4kN4Z/DcyQFib0w0FYEOtfSk9bJGrylGr6ZuAvhllxKza0g2sS6MkzXBH1irQiU
-         EKjcbpptRnLmPjEtHwMzMnLFHExX2IHJC8hbNaPq86k1dfMRCNpzVh93huNPyMCMASKk
-         wlZg==
+        h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
+         :date:message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=HMz1UoBobzofrwLuXFCLUAhIwZqc8SOfBOspQmet/Rk=;
+        b=RSB5ZN/3E9/Y+8ooPoSQSJsqjQ6sqYyDdD7gvhGi3SYCIV2xEuP+og4P5/5FIBM5Gl
+         gc32nf75jYJTHggA/3b7/VFQfSuBq4Yypxj8gF1RpLLdFvAlKd5Jf4O4GJ3v+Mns/vVw
+         Z2hVz/jK3ps/fEOzViNv5AoyLExv4jO9A3X+YfF66Fa/D/saEsT4GsIHPDYFbUYLXyPR
+         NMnanHlLh2GJhzDZ5NT4NdkJWX4bb2XzgY640gZEEfKV2pWV2E73WIWysUzEA7Wu3z/5
+         MCwiqKxFQUO4kwE7VAMK8L/CmHZj97ZqLpEk1b1d5VJJhZUcHaC0lheGre3QQdCJusPF
+         rOBA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAX2OEwSHZfazWaPIncvAAZsJIhboOLsp+sHw0R2CQwqM8HvmgvC
-	byNCbjavS41kPzrYDCELs7I=
-X-Google-Smtp-Source: APXvYqzWov9pRpAy9b5lP6KOZL/YbXCRdH/Abnz+LKSf/fe8LSjfaHi3revkCXAH+o3RTRxXVGHi2g==
-X-Received: by 2002:aa7:d30d:: with SMTP id p13mr43638344edq.292.1560868201721;
-        Tue, 18 Jun 2019 07:30:01 -0700 (PDT)
+X-Gm-Message-State: APjAAAXurO68bbkU/4AihI77pWFZ4FyW75XrTCLC3KbD9XSF7izQoB1Y
+	yx6gLhFjj+ZToJzJ3paaClI=
+X-Google-Smtp-Source: APXvYqzWVGEM9J4gw0yXwJyv7NGAmEHDtGIEkI/x47pbqRTNGOa06iDhY9NSffjcCwwMtH1tc+plWg==
+X-Received: by 2002:a9d:6499:: with SMTP id g25mr1178142otl.184.1560871873781;
+        Tue, 18 Jun 2019 08:31:13 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a50:8975:: with SMTP id f50ls3210120edf.0.gmail; Tue, 18 Jun
- 2019 07:30:01 -0700 (PDT)
-X-Received: by 2002:a05:6402:782:: with SMTP id d2mr4754880edy.80.1560868201274;
-        Tue, 18 Jun 2019 07:30:01 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1560868201; cv=none;
+Received: by 2002:a9d:764a:: with SMTP id o10ls1580514otl.13.gmail; Tue, 18
+ Jun 2019 08:31:13 -0700 (PDT)
+X-Received: by 2002:a9d:6644:: with SMTP id q4mr51626462otm.308.1560871873403;
+        Tue, 18 Jun 2019 08:31:13 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1560871873; cv=none;
         d=google.com; s=arc-20160816;
-        b=rVJ8SJhBb7zOTnM39tYeUELuDNoNE1Zoh4ArLIzr9it8aVIDWKjdqTKJ4diklUf15O
-         O5XnlsG3PLsvJYBSVPr9O/aeW5DewKApo7wjOpKB5O72PhGMBdtMXBr+ZuMu0VLWws8l
-         VEzgIf7TaoPz8ZANuxmSC60ZoOZB5uGtP/+QCWs25WNSI1MkDrdtHvckzIjZo7CZvfhv
-         fIdSUnHskqf9maRNp+qdo624b3ODg2VtdrN/X7B6b5lBRkHZGEFoJ+Nfg/Usfh4+YUvm
-         xRAI+wJxDz2BrGXjbsLierN9Qmd+PhvME2EcfWqrG5h7JKGSzty5QxWDyLAdyqcMyXVM
-         tktg==
+        b=E+DriShuh1U3d8aV53tUX9sPbMRn7krqgZ0mIt4FwDxhsZ2aFA1SNQBGCc4j76ngAB
+         KUv+EP9W36kAsVRDk5aPax7now7SXoE+5Qvw2oGElq0PQvVbhdlajCY2cO7+BA/xnTEg
+         VUrI8ZMxVCer1qX7dOJCvmZZmnDR/2SweS62A7zs1EZFxLC6EMoVWXfLyWgQp/cexE2I
+         3K0SONCVGgkrpuFPDA5oBeRwL7VjNgUGefeF9MHdfIr0J1h1+yFhQTUEFCoSFmGUZaEN
+         qltmIqfJ6qdN/l3G5tNt4yIqzvQXTo6yjMvLgb6KRbdtOG2viFBlUgp0AVoPwjLooYKB
+         T03A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject;
-        bh=hBJ+NpZhxOYKRrCNDnK4rIykmHUYap4lZr8Y18iy/+0=;
-        b=Ko4c2prVn7tX3z4CfloeNeIJAGBsHGDY99avta1gZ+iUZrTeBBxEgOZ4QOwkYAA9MO
-         cACCnBykMLBY09HxoL0bBZIfrKvzVdJgZWYNjSpH5ZzUNgMGUs23Yx30HOiLBieVFbuX
-         +1TNpxFz6R3rZwzOsd5kP3DEzhKmoVLxGe7NVz7LLfA765jxf1k+GQdhtOFtPdcLW39x
-         hLpqgrAj5qpViqW1SzGKRuhFI3Hob9KkisGDPZ7W/HPvqW1AzpwIm07Z/Tz23hyQHTQ/
-         UdqZacGlQVGV6859Ce65W3LodoMweSKVyEbOGaiXDr6f2RA2T43JgU5cS+qbMKwhPNKv
-         ch+A==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version;
+        bh=enVeaDd9KA1FhkBFIcyRHmn1gPk9Dn42G5cz03oOzOw=;
+        b=0xOMTMsnI9PYK0Xq80ZSQpvSqA0YzfoZjJUOZGAWjsnOim8njH0fhiyIn8RcjtOE9Q
+         r98DVvUcdD+51iF8SfLTKAa7aqImMv/gZvCvJ2g8IBgDClFknhwm/gThLghWhJFOzWrH
+         eJ85EEucP9kihwfhKOlrS0GMB04tdID2/+56uf2ebOQrU8uO9/r6DaEVUlTQf2oRfMoL
+         HvrpGfoObMzNeybRLH0ed9YOwR4jAJWAAO5cXZqUzBmjKPf2gAnmR9YEzNkXuvpwFts8
+         GasXMS/Bs0ugHlQI3xi1T7KN+YNsii+0FukiQxwrWjt4LUlPY9+7lscMDzm8qWqxAYQw
+         yMnQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of aryabinin@virtuozzo.com designates 185.231.240.75 as permitted sender) smtp.mailfrom=aryabinin@virtuozzo.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=virtuozzo.com
-Received: from relay.sw.ru (relay.sw.ru. [185.231.240.75])
-        by gmr-mx.google.com with ESMTPS id e8si601441ejk.1.2019.06.18.07.30.01
+       spf=pass (google.com: domain of arndbergmann@gmail.com designates 209.85.160.181 as permitted sender) smtp.mailfrom=arndbergmann@gmail.com
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com. [209.85.160.181])
+        by gmr-mx.google.com with ESMTPS id v141si629488oif.2.2019.06.18.08.31.13
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 18 Jun 2019 07:30:01 -0700 (PDT)
-Received-SPF: pass (google.com: domain of aryabinin@virtuozzo.com designates 185.231.240.75 as permitted sender) client-ip=185.231.240.75;
-Received: from [172.16.25.12]
-	by relay.sw.ru with esmtp (Exim 4.92)
-	(envelope-from <aryabinin@virtuozzo.com>)
-	id 1hdF7P-00025K-Kt; Tue, 18 Jun 2019 17:29:51 +0300
-Subject: Re: [PATCH] [v2] page flags: prioritize kasan bits over last-cpuid
-To: Arnd Bergmann <arnd@arndb.de>, Andrew Morton <akpm@linux-foundation.org>
-Cc: Alexander Potapenko <glider@google.com>,
- Dmitry Vyukov <dvyukov@google.com>, kasan-dev@googlegroups.com,
- linux-mm@kvack.org, Andrey Konovalov <andreyknvl@google.com>,
- Will Deacon <will.deacon@arm.com>, Christoph Lameter <cl@linux.com>,
- Mark Rutland <mark.rutland@arm.com>,
- Linus Torvalds <torvalds@linux-foundation.org>, linux-kernel@vger.kernel.org
-References: <20190618095347.3850490-1-arnd@arndb.de>
-From: Andrey Ryabinin <aryabinin@virtuozzo.com>
-Message-ID: <5ac26e68-8b75-1b06-eecd-950987550451@virtuozzo.com>
-Date: Tue, 18 Jun 2019 17:30:02 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+        Tue, 18 Jun 2019 08:31:13 -0700 (PDT)
+Received-SPF: pass (google.com: domain of arndbergmann@gmail.com designates 209.85.160.181 as permitted sender) client-ip=209.85.160.181;
+Received: by mail-qt1-f181.google.com with SMTP id p15so15848741qtl.3
+        for <kasan-dev@googlegroups.com>; Tue, 18 Jun 2019 08:31:13 -0700 (PDT)
+X-Received: by 2002:aed:33a4:: with SMTP id v33mr66076417qtd.18.1560871872815;
+ Tue, 18 Jun 2019 08:31:12 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190618095347.3850490-1-arnd@arndb.de>
+References: <20190618095347.3850490-1-arnd@arndb.de> <5ac26e68-8b75-1b06-eecd-950987550451@virtuozzo.com>
+In-Reply-To: <5ac26e68-8b75-1b06-eecd-950987550451@virtuozzo.com>
+From: Arnd Bergmann <arnd@arndb.de>
+Date: Tue, 18 Jun 2019 17:30:55 +0200
+Message-ID: <CAK8P3a1CAKecyinhzG9Mc7UzZ9U15o6nacbcfSvb4EBSaWvCTw@mail.gmail.com>
+Subject: Re: [PATCH] [v2] page flags: prioritize kasan bits over last-cpuid
+To: Andrey Ryabinin <aryabinin@virtuozzo.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Alexander Potapenko <glider@google.com>, 
+	Dmitry Vyukov <dvyukov@google.com>, kasan-dev <kasan-dev@googlegroups.com>, 
+	Linux-MM <linux-mm@kvack.org>, Andrey Konovalov <andreyknvl@google.com>, 
+	Will Deacon <will.deacon@arm.com>, Christoph Lameter <cl@linux.com>, Mark Rutland <mark.rutland@arm.com>, 
+	Linus Torvalds <torvalds@linux-foundation.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Language: en-US
-X-Original-Sender: aryabinin@virtuozzo.com
+X-Original-Sender: arnd@arndb.de
 X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of aryabinin@virtuozzo.com designates 185.231.240.75 as
- permitted sender) smtp.mailfrom=aryabinin@virtuozzo.com;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=virtuozzo.com
+ (google.com: domain of arndbergmann@gmail.com designates 209.85.160.181 as
+ permitted sender) smtp.mailfrom=arndbergmann@gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -133,33 +126,40 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
+On Tue, Jun 18, 2019 at 4:30 PM Andrey Ryabinin <aryabinin@virtuozzo.com> wrote:
+> On 6/18/19 12:53 PM, Arnd Bergmann wrote:
+> > ARM64 randdconfig builds regularly run into a build error, especially
+> > when NUMA_BALANCING and SPARSEMEM are enabled but not SPARSEMEM_VMEMMAP:
+> >
+> >  #error "KASAN: not enough bits in page flags for tag"
+> >
+> > The last-cpuid bits are already contitional on the available space,
+> > so the result of the calculation is a bit random on whether they
+> > were already left out or not.
+> >
+> > Adding the kasan tag bits before last-cpuid makes it much more likely
+> > to end up with a successful build here, and should be reliable for
+> > randconfig at least, as long as that does not randomize NR_CPUS
+> > or NODES_SHIFT but uses the defaults.
+> >
+> > In order for the modified check to not trigger in the x86 vdso32 code
+> > where all constants are wrong (building with -m32), enclose all the
+> > definitions with an #ifdef.
+> >
+>
+> Why not keep "#error "KASAN: not enough bits in page flags for tag"" under "#ifdef CONFIG_KASAN_SW_TAGS" ?
 
+I think I had meant the #error to leave out the mention of KASAN, as there
+might be other reasons for using up all the bits, but then I did not change
+it in the end.
 
-On 6/18/19 12:53 PM, Arnd Bergmann wrote:
-> ARM64 randdconfig builds regularly run into a build error, especially
-> when NUMA_BALANCING and SPARSEMEM are enabled but not SPARSEMEM_VMEMMAP:
-> 
->  #error "KASAN: not enough bits in page flags for tag"
-> 
-> The last-cpuid bits are already contitional on the available space,
-> so the result of the calculation is a bit random on whether they
-> were already left out or not.
-> 
-> Adding the kasan tag bits before last-cpuid makes it much more likely
-> to end up with a successful build here, and should be reliable for
-> randconfig at least, as long as that does not randomize NR_CPUS
-> or NODES_SHIFT but uses the defaults.
-> 
-> In order for the modified check to not trigger in the x86 vdso32 code
-> where all constants are wrong (building with -m32), enclose all the
-> definitions with an #ifdef.
-> 
+Should I remove the "KASAN" word or add the #ifdef when resending?
 
-Why not keep "#error "KASAN: not enough bits in page flags for tag"" under "#ifdef CONFIG_KASAN_SW_TAGS" ?
+     Arnd
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
 To post to this group, send email to kasan-dev@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/5ac26e68-8b75-1b06-eecd-950987550451%40virtuozzo.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAK8P3a1CAKecyinhzG9Mc7UzZ9U15o6nacbcfSvb4EBSaWvCTw%40mail.gmail.com.
 For more options, visit https://groups.google.com/d/optout.
