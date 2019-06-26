@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBNWHZXUAKGQE6J5ANXI@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBOWHZXUAKGQE3ZFPOBQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pl1-x63b.google.com (mail-pl1-x63b.google.com [IPv6:2607:f8b0:4864:20::63b])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFE305689D
-	for <lists+kasan-dev@lfdr.de>; Wed, 26 Jun 2019 14:23:19 +0200 (CEST)
-Received: by mail-pl1-x63b.google.com with SMTP id i3sf1359918plb.8
-        for <lists+kasan-dev@lfdr.de>; Wed, 26 Jun 2019 05:23:19 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1561551798; cv=pass;
+Received: from mail-yb1-xb3f.google.com (mail-yb1-xb3f.google.com [IPv6:2607:f8b0:4864:20::b3f])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE79B568A1
+	for <lists+kasan-dev@lfdr.de>; Wed, 26 Jun 2019 14:23:23 +0200 (CEST)
+Received: by mail-yb1-xb3f.google.com with SMTP id t14sf5330686ybt.5
+        for <lists+kasan-dev@lfdr.de>; Wed, 26 Jun 2019 05:23:23 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1561551802; cv=pass;
         d=google.com; s=arc-20160816;
-        b=zYpETcZsTkDRSoOtQQ4JyTZ80kRK2QKI1Dz3K8gM09zyypNHP3Tfycz77CpXb4/4hB
-         6FwnfkkuVEEAx/DnvOzv3wMAtm5sdmp4mAa/3qHbk00oi9zeH09cYztG/SULpp/CLetX
-         G3pg7Ioyh+obGQOQOtch+4pMzlnlKETguvM3T22PimUoilNVKC3gQ1N9xcZZeriXPYY0
-         k1cBpPufDVkocIsPhiRSKN3Rv8W1NrIWweym5y3+59NLaRmLLtAlvd6xbSXqempMz2SH
-         r5vJWCB5drjSd/TSNan3JsZ09g60dMwmSoQlMKoI3y9fJO25i/qqZlEh5pU4XnUgZpR/
-         CTxQ==
+        b=m9rgMvSCfvtJEdlYRcQHU5S37+wwz5/Z9bbE3VjnxDIxlXiLauV3pJf4HhYXrqxkK7
+         YvEY8wuJRyNV7EFbotFCqPz8OST5EuaNup/tLGCuPLjYB2g+ECVDLDsa6KlUFnDngwrN
+         WiFBpKGIWO2sHL3kd3JIiZcVU7J8rxiCsdWfMcp4rhEFvN0gCsglf1UT4CJ5mbwYC07s
+         iTmH9+avRLfDe/TsvNQ5bVkKAdjULObHi/ttfMhb+6LIF1xoyD3aBObzPK/q0cq3aBzT
+         KZoVVZdjdF9f+VL9teCklcEc5uSyl3pBmcN6fTw8S8ZGsQIynEzvZ0PttED/Ghc32I2l
+         8/6g==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
          :references:mime-version:message-id:in-reply-to:date:dkim-signature;
-        bh=ZFwTuyitWpcMAiBXvPdSNoWB0HCS8R0GGpthpoFKDDU=;
-        b=x90BBO8Rv2jKOIhjbF6a5BGZnXNOHbpF3bMC5M07vLXfbaKGIC7IArBxpA4Rky7vUB
-         KY48vcFbB3/1tvR3e1Yr2R1Uyn4iwJ4qVo39pqKvku+0rwsucQTrrOzp+oG9jzZJUvpf
-         lKfGOIqYARQNQxjdwHEZVzCZ+jBlo7d+ara78lz/GsNd4Xqofz/rWIDzfUk90hIrYqpn
-         91dAFsfpa7B8fPKkOeTh076RpY3FCMZ3jTa1qwAtZvoBu33GwmZgOhX1lbYeic/sXIM5
-         e1DMOZ5QCEU0UqOzZgf7eolCepE8jXk50CvsMyfUlA+UOSPOekFd+/Fs58JrIRpPJvkU
-         O01A==
+        bh=dR87/D1PVb3+rd96+KPlxFHc25Y1ccbZNgLa2d0dFzc=;
+        b=tfW5D8QqapDswTu23bPsU8tszOv6sTu5WF/wy7l4xcDF9+7HSSSIPIKJx1N962JA4v
+         /9jyH3a5eb3dWZYjdKbOBL8+qp9GMIUylZy79+Gby+vF2OVd1IEejjPVOwHADjUmMKac
+         WYO0mJkPiNpo18Ogr2r1VCBZjVspEHeluU2KPNnChZqEyXAProzpJGcjOLI7QXtsUgXE
+         CSDbhkNYV69TBmdtJ6A9cWqruUp6WzQPefGLlco+T3EAcIFXl9YcC9ByHUqsvUkRHsEN
+         ex29aSCWk0xg3cFPJq+zBTvSlkRnaP7UpDTpV1fIyAjtfGe7QdOaUZTD3UorTpJxAalM
+         I4gA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=bEoviPlE;
-       spf=pass (google.com: domain of 3tgmtxqukcbcbisbodlldib.zljhxpxk-absdlldibdolrmp.zlj@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::74a as permitted sender) smtp.mailfrom=3tGMTXQUKCbcbisbodlldib.ZljhXpXk-absdlldibdolrmp.Zlj@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=WjjQYoJW;
+       spf=pass (google.com: domain of 3uwmtxqukcbwgnxgtiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::e49 as permitted sender) smtp.mailfrom=3uWMTXQUKCbwgnxgtiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=ZFwTuyitWpcMAiBXvPdSNoWB0HCS8R0GGpthpoFKDDU=;
-        b=cOUgVa8SDzZArpltd0uoP25Zy51O2mLEgikzHAG0Q1wugXK9NSWeCLGbl0IFEU0kh1
-         7//1RIWTNn6/FUQOSH0SP9+/JdVOvRhECqHF4hx1ywlst7YEm6Iw4XP1iVNqMUtpCaR6
-         vZoYDLdVTbzfM/pYc1bfFqk8/JqRyUBhhO5fID8HR4idrg92GvLb40o9Prn+SuNZOAvh
-         GvTeWMvb024xJGYQGSmHBQPFp6+ef78q2LQHmNPMOZMUK7v8MidEVjHdzq24dHqSFytD
-         bD90xzfLMPbrg2mJB52Rq+KCmIPqRJGjVZVHama2uq+jWlN9cXyBHRmDArn+DSbS+8cv
-         BqRg==
+        bh=dR87/D1PVb3+rd96+KPlxFHc25Y1ccbZNgLa2d0dFzc=;
+        b=FlUmc+JPZORnl+6V0s8NIJ6w/7e4UZE1jLoCK0vN8iW8hFv4SaOWURnHs3Ipc1zBaQ
+         4WTZJf61MWZVAhNyTONqGUM9Z7G1IfIwfDXqADBpJhdSIRR9+ii6UMFl4WpQJ+Uy02GW
+         kmrJhSKhiGXjzwqIvpIYPosD9ojezy+u1w7/991b0xDvkP8/TsEJcuN/4LUs+9mv/4HG
+         cLwCwhvsG4Ud9znAkq2LJbKBJ5/IUbfMm9Xfxnnd6EZ0KEt8jXbkpgn0rBgMCANqiqUS
+         hn6pK7xcdAbcHJQ0BOpTqFMv6dBP41uma8s7+zIZP61Xos3agRWprRRvwA8pVGJAa/ey
+         iIXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
@@ -49,62 +49,62 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=ZFwTuyitWpcMAiBXvPdSNoWB0HCS8R0GGpthpoFKDDU=;
-        b=sLIsoOxWIX0wNsD0WvuXmwKEqVO94PmuQShsvF1J1HkU4/NrFPQL3OmWBnIE9/5LUF
-         r4OurGyzbj3Bi8Dj5S6fAThk7wYVw+rRdXl42s/TbI2MmioibA42codQZZFoumukMw7j
-         Qzi5UiS1X4vXvg9MXNp+mmsa9YBARMaPKnOM9bG43hsOYpDu0sMbOz0bqHXekFtXA0SG
-         CNJWEKz0IcyZN9yr7N4/PdA9TXBkRBzgNvNDKSNX3g42NiTo6eQggxG2v5IgYd/xQttU
-         ywDUJp/Mi/VhwHKTWspgfwGsmbapxcAap4TotD8YLcK1L0ALU7vqM6+Ip7fVNdDObt05
-         T4Nw==
-X-Gm-Message-State: APjAAAXSMDOQvNHAnTZVASzh9DUTPbEBpUT/nnIPj11WV9wZN0aASePI
-	TKOI8oPNMpNqc+IQE4Jq6us=
-X-Google-Smtp-Source: APXvYqzYtMy1IycOVbVr5wjJr0cvQYYd8tuMhuuuHrS1nCsLPhuAWGgQTxCeG/Yrzz/NmYYM601OIw==
-X-Received: by 2002:a63:6dc5:: with SMTP id i188mr2688827pgc.188.1561551798260;
-        Wed, 26 Jun 2019 05:23:18 -0700 (PDT)
+        bh=dR87/D1PVb3+rd96+KPlxFHc25Y1ccbZNgLa2d0dFzc=;
+        b=GmabXiMEEFsS/aWPCiOuhduaGC8YA1H4DyWxDcAyunReILmllgL1Bwtk3Dr9jc0/v2
+         jX9C4idsgYCwE47H6jfvB4sOBe5JMVhHADe28UafgU6Iqf8OFHCW0c/oR3HoNSMRmDrh
+         XGu2ExSZ9M8KKfBOMmeS0gSr7Pemk+h4TK2xN2O/2bSfjf5zqpGtvB98QOlql76h1Kio
+         1llzCYCPPwX6d59flg0s0pV2LsRjLJUGNX1Tmkgrb7lt51PfO45MzTMIrkz2xOkLienO
+         s6krnN/sZgqPebIQOXXBjY3PrcWlrZ/82akDbUDXs7s+zLtWcmTzrJGuf5wNXQ1x55k2
+         CEFw==
+X-Gm-Message-State: APjAAAVsdmvXknf9SLFSlLvF7Bpv9gUozQ54S3GQAhtA80OdpRcarI0h
+	OQokUFiVIhxo8fve8HtWY+8=
+X-Google-Smtp-Source: APXvYqwX/SxH5eM0lzuBzPwT3LWSiIbVtkOZ2JEZ6Q4sA22FXpic/U6tE8uzlb8AAEr5k4iWvRtJ6w==
+X-Received: by 2002:a0d:cc47:: with SMTP id o68mr2612032ywd.62.1561551802520;
+        Wed, 26 Jun 2019 05:23:22 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:902:bd8b:: with SMTP id q11ls676994pls.4.gmail; Wed, 26
- Jun 2019 05:23:17 -0700 (PDT)
-X-Received: by 2002:a17:902:9307:: with SMTP id bc7mr5020231plb.183.1561551797880;
-        Wed, 26 Jun 2019 05:23:17 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1561551797; cv=none;
+Received: by 2002:a25:5f10:: with SMTP id t16ls265360ybb.8.gmail; Wed, 26 Jun
+ 2019 05:23:22 -0700 (PDT)
+X-Received: by 2002:a25:da42:: with SMTP id n63mr2694935ybf.16.1561551802207;
+        Wed, 26 Jun 2019 05:23:22 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1561551802; cv=none;
         d=google.com; s=arc-20160816;
-        b=LAkxsPBfkmZCWyLDv5fuvoBckZr5VXQTRcFCkdFtGUM4tlZGxBgsFGixIHrmWC0iUD
-         RlpdqfYl0/MI+O7gPeZ66JehXRSBwrFiB6nO8YhgiBRB5FbUmo/7N+ICbTYb8ynVZDai
-         aT/4s1OnQxy1wTJuy0BIW0fGHNVbm8orQ06eBlHAFpNE2PT4vgxrWeZh27cSg+Ce8QEB
-         /YniXReCblfn7dRLgFJGZCG2zpFqdVlxIhfnUm0Qq3rDlL6z+A3usVGpkHn4RJCauaaW
-         lWARFVxWBBRGznVU9QuTL0+8+euzk3JlTNQqmfXT/ksjStU6oG4rvhkjAv9yYSAJkJB9
-         rSZg==
+        b=rf5K74klL0wWVv7TmXRJy6X8TPPIM5cYiryySqHR1E58ScjkY8LF6jopsmcXB22hW4
+         hpYQ6BncFPL3tSvSKHwbwOX0Tlr/MoRVIZFbwY2lZHLQs+kWgst8+o/kmLbNT4TBnWtD
+         fOcwQYGIv1mgP9JVmvt+ru3Io0lnrpOdzSwjzQAQleR5SMAoRADUW1gdR5ndSWugLk+N
+         5j6MbeqIdj0/LfL8eEtQjgvjyeALPYsJCH9z6M5Ru+Y7c8+HdzLc9f+RUXPsT/kLkAhz
+         dTVx1P8EkSp69Y7oqI32Fa9fcVRNlr15Cs7iZ8NnBrCxJYWUvT2oFLq54cD5gT9G1gu9
+         wGaA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
          :date:dkim-signature;
-        bh=XRvnKModUVHTmFHrHwuo1MwyIF32UbSI8S8OvJKLAFg=;
-        b=Yt0DDaLXE3Q9v10G3YL2v0En3kDVhZ2DLAu8OB0vqGkNZ0vG/z11aPfucV6D4QFeT0
-         yQNWlx3QlAxiaFnUTQn31V51lglxWw23Y7OUp9m5AqzpJ/Ht3Tb3qT3Axlk8YmiFoHaR
-         c/mYUBZfTeYfRohF5XZnBPeWiVVnRA41uJoBvRvfLNQKZtSneGHUsXdX3xhbRgh1ZV9E
-         jEijp10XMGe5kksCKERO2I/NEi7V8Ztn+ocsg0heEMU45+GHUKbKpj+DuL1NDDFKdbe6
-         /goSxTvO6juCZJcEVuccFzT4KrVFa7sq/Lbbth5it2Zy/2Hfh1Xs0JX30MAY02Nl88Xj
-         rbnw==
+        bh=kb82UguIVlhbKp5QqiDOlo6WFZGIh55p/2yvAOGPdkY=;
+        b=av9W3zNmTu7Y96Qk2KyoyP0FQLLZJhpur3/P0OP8HMblmAKgbIbUh4a0LpZ4SSAFIE
+         0W3vVvUUJ4LAgeCoQkcZAITErka6Iar4ixUlutXc5z96s+yhHYzKwPNqwNVifCKmLaOX
+         bYgadyhlbn3GQ+o6s1/SaYVOxPk1lbiWUJl5ubXiLPxGwouYLn2td7S39bCKtyuJq0r+
+         XKDwCQS4VQspcQS9AiIQXHlpgOF9Y55jOJMlxU4j+Hw400hNOzkvrTzoM1yaam24iufk
+         2CsMHgK4mWu+e/eR04IdU5VXP0r9mhXiMlrzb0s9WEYUMvlah5kuaLrXB4qqrzyNNQC6
+         DaOQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=bEoviPlE;
-       spf=pass (google.com: domain of 3tgmtxqukcbcbisbodlldib.zljhxpxk-absdlldibdolrmp.zlj@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::74a as permitted sender) smtp.mailfrom=3tGMTXQUKCbcbisbodlldib.ZljhXpXk-absdlldibdolrmp.Zlj@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=WjjQYoJW;
+       spf=pass (google.com: domain of 3uwmtxqukcbwgnxgtiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::e49 as permitted sender) smtp.mailfrom=3uWMTXQUKCbwgnxgtiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-qk1-x74a.google.com (mail-qk1-x74a.google.com. [2607:f8b0:4864:20::74a])
-        by gmr-mx.google.com with ESMTPS id 69si760351pgc.3.2019.06.26.05.23.17
+Received: from mail-vs1-xe49.google.com (mail-vs1-xe49.google.com. [2607:f8b0:4864:20::e49])
+        by gmr-mx.google.com with ESMTPS id d16si1070272ywg.5.2019.06.26.05.23.22
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-        Wed, 26 Jun 2019 05:23:17 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 3tgmtxqukcbcbisbodlldib.zljhxpxk-absdlldibdolrmp.zlj@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::74a as permitted sender) client-ip=2607:f8b0:4864:20::74a;
-Received: by mail-qk1-x74a.google.com with SMTP id v80so2322286qkb.19
-        for <kasan-dev@googlegroups.com>; Wed, 26 Jun 2019 05:23:17 -0700 (PDT)
-X-Received: by 2002:a0c:d604:: with SMTP id c4mr3199153qvj.27.1561551796862;
- Wed, 26 Jun 2019 05:23:16 -0700 (PDT)
-Date: Wed, 26 Jun 2019 14:20:17 +0200
+        Wed, 26 Jun 2019 05:23:22 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 3uwmtxqukcbwgnxgtiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::e49 as permitted sender) client-ip=2607:f8b0:4864:20::e49;
+Received: by mail-vs1-xe49.google.com with SMTP id i6so410204vsp.15
+        for <kasan-dev@googlegroups.com>; Wed, 26 Jun 2019 05:23:22 -0700 (PDT)
+X-Received: by 2002:a67:f2d3:: with SMTP id a19mr2676462vsn.240.1561551801607;
+ Wed, 26 Jun 2019 05:23:21 -0700 (PDT)
+Date: Wed, 26 Jun 2019 14:20:18 +0200
 In-Reply-To: <20190626122018.171606-1-elver@google.com>
-Message-Id: <20190626122018.171606-3-elver@google.com>
+Message-Id: <20190626122018.171606-4-elver@google.com>
 Mime-Version: 1.0
 References: <20190626122018.171606-1-elver@google.com>
 X-Mailer: git-send-email 2.22.0.410.gd8fdbe21b5-goog
-Subject: [PATCH v2 2/4] lib/test_kasan: Add test for double-kzfree detection
+Subject: [PATCH v2 3/4] mm/slab: Refactor common ksize KASAN logic into slab_common.c
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
 To: aryabinin@virtuozzo.com, dvyukov@google.com, glider@google.com, 
 	andreyknvl@google.com
@@ -115,9 +115,9 @@ Cc: linux-kernel@vger.kernel.org, Marco Elver <elver@google.com>,
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=bEoviPlE;       spf=pass
- (google.com: domain of 3tgmtxqukcbcbisbodlldib.zljhxpxk-absdlldibdolrmp.zlj@flex--elver.bounces.google.com
- designates 2607:f8b0:4864:20::74a as permitted sender) smtp.mailfrom=3tGMTXQUKCbcbisbodlldib.ZljhXpXk-absdlldibdolrmp.Zlj@flex--elver.bounces.google.com;
+ header.i=@google.com header.s=20161025 header.b=WjjQYoJW;       spf=pass
+ (google.com: domain of 3uwmtxqukcbwgnxgtiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--elver.bounces.google.com
+ designates 2607:f8b0:4864:20::e49 as permitted sender) smtp.mailfrom=3uWMTXQUKCbwgnxgtiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Marco Elver <elver@google.com>
 Reply-To: Marco Elver <elver@google.com>
@@ -133,8 +133,10 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Adds a simple test that checks if double-kzfree is being detected
-correctly.
+This refactors common code of ksize() between the various allocators
+into slab_common.c: __ksize() is the allocator-specific implementation
+without instrumentation, whereas ksize() includes the required KASAN
+logic.
 
 Signed-off-by: Marco Elver <elver@google.com>
 Cc: Andrey Ryabinin <aryabinin@virtuozzo.com>
@@ -150,44 +152,160 @@ Cc: kasan-dev@googlegroups.com
 Cc: linux-kernel@vger.kernel.org
 Cc: linux-mm@kvack.org
 ---
- lib/test_kasan.c | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+ include/linux/slab.h |  1 +
+ mm/slab.c            | 28 ++++++----------------------
+ mm/slab_common.c     | 26 ++++++++++++++++++++++++++
+ mm/slob.c            |  4 ++--
+ mm/slub.c            | 14 ++------------
+ 5 files changed, 37 insertions(+), 36 deletions(-)
 
-diff --git a/lib/test_kasan.c b/lib/test_kasan.c
-index e3c593c38eff..dda5da9f5bd4 100644
---- a/lib/test_kasan.c
-+++ b/lib/test_kasan.c
-@@ -619,6 +619,22 @@ static noinline void __init kasan_strings(void)
- 	strnlen(ptr, 1);
- }
+diff --git a/include/linux/slab.h b/include/linux/slab.h
+index 9449b19c5f10..98c3d12b7275 100644
+--- a/include/linux/slab.h
++++ b/include/linux/slab.h
+@@ -184,6 +184,7 @@ void * __must_check __krealloc(const void *, size_t, gfp_t);
+ void * __must_check krealloc(const void *, size_t, gfp_t);
+ void kfree(const void *);
+ void kzfree(const void *);
++size_t __ksize(const void *);
+ size_t ksize(const void *);
  
-+static noinline void __init kmalloc_double_kzfree(void)
-+{
-+	char *ptr;
-+	size_t size = 16;
-+
-+	pr_info("double-free (kzfree)\n");
-+	ptr = kmalloc(size, GFP_KERNEL);
-+	if (!ptr) {
-+		pr_err("Allocation failed\n");
-+		return;
-+	}
-+
-+	kzfree(ptr);
-+	kzfree(ptr);
-+}
-+
- static int __init kmalloc_tests_init(void)
+ #ifdef CONFIG_HAVE_HARDENED_USERCOPY_ALLOCATOR
+diff --git a/mm/slab.c b/mm/slab.c
+index f7117ad9b3a3..394e7c7a285e 100644
+--- a/mm/slab.c
++++ b/mm/slab.c
+@@ -4204,33 +4204,17 @@ void __check_heap_object(const void *ptr, unsigned long n, struct page *page,
+ #endif /* CONFIG_HARDENED_USERCOPY */
+ 
+ /**
+- * ksize - get the actual amount of memory allocated for a given object
+- * @objp: Pointer to the object
++ * __ksize -- Uninstrumented ksize.
+  *
+- * kmalloc may internally round up allocations and return more memory
+- * than requested. ksize() can be used to determine the actual amount of
+- * memory allocated. The caller may use this additional memory, even though
+- * a smaller amount of memory was initially specified with the kmalloc call.
+- * The caller must guarantee that objp points to a valid object previously
+- * allocated with either kmalloc() or kmem_cache_alloc(). The object
+- * must not be freed during the duration of the call.
+- *
+- * Return: size of the actual memory used by @objp in bytes
++ * Unlike ksize(), __ksize() is uninstrumented, and does not provide the same
++ * safety checks as ksize() with KASAN instrumentation enabled.
+  */
+-size_t ksize(const void *objp)
++size_t __ksize(const void *objp)
  {
- 	/*
-@@ -660,6 +676,7 @@ static int __init kmalloc_tests_init(void)
- 	kasan_memchr();
- 	kasan_memcmp();
- 	kasan_strings();
-+	kmalloc_double_kzfree();
+-	size_t size;
+-
+ 	BUG_ON(!objp);
+ 	if (unlikely(objp == ZERO_SIZE_PTR))
+ 		return 0;
  
- 	kasan_restore_multi_shot(multishot);
+-	size = virt_to_cache(objp)->object_size;
+-	/* We assume that ksize callers could use the whole allocated area,
+-	 * so we need to unpoison this area.
+-	 */
+-	kasan_unpoison_shadow(objp, size);
+-
+-	return size;
++	return virt_to_cache(objp)->object_size;
+ }
+-EXPORT_SYMBOL(ksize);
++EXPORT_SYMBOL(__ksize);
+diff --git a/mm/slab_common.c b/mm/slab_common.c
+index 58251ba63e4a..b7c6a40e436a 100644
+--- a/mm/slab_common.c
++++ b/mm/slab_common.c
+@@ -1597,6 +1597,32 @@ void kzfree(const void *p)
+ }
+ EXPORT_SYMBOL(kzfree);
  
++/**
++ * ksize - get the actual amount of memory allocated for a given object
++ * @objp: Pointer to the object
++ *
++ * kmalloc may internally round up allocations and return more memory
++ * than requested. ksize() can be used to determine the actual amount of
++ * memory allocated. The caller may use this additional memory, even though
++ * a smaller amount of memory was initially specified with the kmalloc call.
++ * The caller must guarantee that objp points to a valid object previously
++ * allocated with either kmalloc() or kmem_cache_alloc(). The object
++ * must not be freed during the duration of the call.
++ *
++ * Return: size of the actual memory used by @objp in bytes
++ */
++size_t ksize(const void *objp)
++{
++	size_t size = __ksize(objp);
++	/*
++	 * We assume that ksize callers could use whole allocated area,
++	 * so we need to unpoison this area.
++	 */
++	kasan_unpoison_shadow(objp, size);
++	return size;
++}
++EXPORT_SYMBOL(ksize);
++
+ /* Tracepoints definitions. */
+ EXPORT_TRACEPOINT_SYMBOL(kmalloc);
+ EXPORT_TRACEPOINT_SYMBOL(kmem_cache_alloc);
+diff --git a/mm/slob.c b/mm/slob.c
+index 84aefd9b91ee..7f421d0ca9ab 100644
+--- a/mm/slob.c
++++ b/mm/slob.c
+@@ -527,7 +527,7 @@ void kfree(const void *block)
+ EXPORT_SYMBOL(kfree);
+ 
+ /* can't use ksize for kmem_cache_alloc memory, only kmalloc */
+-size_t ksize(const void *block)
++size_t __ksize(const void *block)
+ {
+ 	struct page *sp;
+ 	int align;
+@@ -545,7 +545,7 @@ size_t ksize(const void *block)
+ 	m = (unsigned int *)(block - align);
+ 	return SLOB_UNITS(*m) * SLOB_UNIT;
+ }
+-EXPORT_SYMBOL(ksize);
++EXPORT_SYMBOL(__ksize);
+ 
+ int __kmem_cache_create(struct kmem_cache *c, slab_flags_t flags)
+ {
+diff --git a/mm/slub.c b/mm/slub.c
+index cd04dbd2b5d0..05a8d17dd9b2 100644
+--- a/mm/slub.c
++++ b/mm/slub.c
+@@ -3901,7 +3901,7 @@ void __check_heap_object(const void *ptr, unsigned long n, struct page *page,
+ }
+ #endif /* CONFIG_HARDENED_USERCOPY */
+ 
+-static size_t __ksize(const void *object)
++size_t __ksize(const void *object)
+ {
+ 	struct page *page;
+ 
+@@ -3917,17 +3917,7 @@ static size_t __ksize(const void *object)
+ 
+ 	return slab_ksize(page->slab_cache);
+ }
+-
+-size_t ksize(const void *object)
+-{
+-	size_t size = __ksize(object);
+-	/* We assume that ksize callers could use whole allocated area,
+-	 * so we need to unpoison this area.
+-	 */
+-	kasan_unpoison_shadow(object, size);
+-	return size;
+-}
+-EXPORT_SYMBOL(ksize);
++EXPORT_SYMBOL(__ksize);
+ 
+ void kfree(const void *x)
+ {
 -- 
 2.22.0.410.gd8fdbe21b5-goog
 
@@ -195,5 +313,5 @@ index e3c593c38eff..dda5da9f5bd4 100644
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
 To post to this group, send email to kasan-dev@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20190626122018.171606-3-elver%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20190626122018.171606-4-elver%40google.com.
 For more options, visit https://groups.google.com/d/optout.
