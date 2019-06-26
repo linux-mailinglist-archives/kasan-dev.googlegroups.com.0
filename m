@@ -1,127 +1,127 @@
-Return-Path: <kasan-dev+bncBDV37XP3XYDRBMNVZ3UAKGQEAX33D6Y@googlegroups.com>
+Return-Path: <kasan-dev+bncBCT4XGV33UIBBNHQZ7UAKGQEUY2SZAA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wr1-x43d.google.com (mail-wr1-x43d.google.com [IPv6:2a00:1450:4864:20::43d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38B3B56E8F
-	for <lists+kasan-dev@lfdr.de>; Wed, 26 Jun 2019 18:17:54 +0200 (CEST)
-Received: by mail-wr1-x43d.google.com with SMTP id l9sf1281370wrr.0
-        for <lists+kasan-dev@lfdr.de>; Wed, 26 Jun 2019 09:17:54 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1561565874; cv=pass;
+Received: from mail-pf1-x439.google.com (mail-pf1-x439.google.com [IPv6:2607:f8b0:4864:20::439])
+	by mail.lfdr.de (Postfix) with ESMTPS id B4F3857497
+	for <lists+kasan-dev@lfdr.de>; Thu, 27 Jun 2019 00:56:54 +0200 (CEST)
+Received: by mail-pf1-x439.google.com with SMTP id r142sf199675pfc.2
+        for <lists+kasan-dev@lfdr.de>; Wed, 26 Jun 2019 15:56:54 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1561589813; cv=pass;
         d=google.com; s=arc-20160816;
-        b=Ddnzgdjb5VisqFlTyZGroGT++Vc7CR5QmC5wa8z40CwlEtrlkwP0+anjLsD2GFXuHQ
-         g7FuqRKK4mGn9L5BHj4XW2zZPTwom7PCC4e7qTi8x+y0hEnmSbqAV8SCWxwIeS6YkVpU
-         RTBItwCpZzwE//CzUBw6UzezwuWoR+OGSYGXfpc0vQ9U0prxnXkiCA/S26S7Y61zbYpu
-         /mRMlMB2P4yPt20LFBGd2Rhbo4GbdcblFwP8TtPRrLo3dfYkhPBVoFwcK27VS/PwHmXc
-         pFma1RWb3CEvXFRRJ0woMt7u8FjUIuKBOvF4hyo5Xlqq5iTOle9VK2p6kRNYZtDXgutN
-         +8Sg==
+        b=aJ3o8XHbe7t4gokXSNS2UYsMUGq4mXEdsgRde/Q3LQ9WqnUx/ksP5hvnPyc/BkpWbK
+         CNt7unbGimApPL8nMA3mXDbynNco1KvoAGvM1m8C+vtuJL6UNDxSj7k0JSTj3zzc6+Th
+         qJrk8y+zKdQfpOAw18hvD9fNoZHUYhuADQQJipgTmiJP5iR6GT+ZHgf+CHASjvOzMFwh
+         1Ba9Gs14WK8ZIJbvOgzdW+fbwccRbaVPoL8Z7CEm3ToxnobzKLo9GrCSLqNNnZKlsBYE
+         NCnO9Wlx7/6C/WpiWr5qt0XU5CF1AaKJh666PtOFBiyi5NLTOJV5q3MmLZMRQCiiDSIL
+         UP0g==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:user-agent:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:sender:dkim-signature;
-        bh=6AHTMAo6kHv4zGZWB0gm5kT7lPqNHXrdpKDSVVQMXKo=;
-        b=eXPlhDWITX9g8kD2RVdpZ59gn/iGm3/XYABbnShl7C3gBlMncM/z/K8/zm6Cn/rrSX
-         9U4ahODFknbLbrbk6NJMNLoWFCOk+eAQr+JdgBxNj2geZu361lFg/bMbjyB0cZ/HXBra
-         Ll4QDoJOfGGOqrQeCmrVW7iSFZTQuNUHSBSLayrjl/qVJhWshRRPKvBEpupygBWmOPEc
-         FiUjwoePNH9SIL+4NgExSvmVGx26mRFCFifATP9nfxqf5iy2hztx6/zOPKuSJYdZUZ2E
-         OSPaYUE3xwRZ3COOx4p2DJCOWZglv0GAptJ76IbgwHCZPXLya9uRBIcZ7EOzrNzE87YB
-         OVMQ==
+         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:sender:dkim-signature;
+        bh=KDRjddbOcaFIjhLYDIxtbCnVVt1EO9i5B+ETV2S7Ta8=;
+        b=gxCRqNA/suVwCdPS2Bkt1ajnTvQxHr4DfFtAi0HJdR/SJuNeVjhQ6HdWae+ZtAGBcz
+         ksXP/9tvv/WIWw/e/j/I4s7zvDbMYOWjRndN7Km1OLkoDWC3gj0eyWBOf+awHUcXz4ay
+         THzDTTiEHp6H6NSijqXD/Q0MgAQxHiJ7Om8yFDnP4ciYtH1GOQKpmLs2fP10FeBxieJD
+         dr32CRKgn7PdiiFeXZhAFDAmbK9tSHv5yWqqn1q5wx1s9EeGyUbtGljLSszQ1dv1bdyR
+         KEB3SL4W3gJpupeDZCfr1ksd+gnfKMVyXEoV4s8AKq2MOYiTcBUggiozFQw1WXwhvhA7
+         8E1A==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=mark.rutland@arm.com
+       dkim=pass header.i=@kernel.org header.s=default header.b=U8i1ubLZ;
+       spf=pass (google.com: domain of akpm@linux-foundation.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=6AHTMAo6kHv4zGZWB0gm5kT7lPqNHXrdpKDSVVQMXKo=;
-        b=VY5KyTvFRFma0BZEoN0rYrLil2m9lnk5SrAOdPnn9fGiHN33yKmLdHLOil8IkQOXac
-         odBVyBaFliJXyWKgPEYPUjLW+pbAdyoexVgYjuhsAVnu9uxxpv48P64x7QAKhgZ1paEY
-         dIrN75JnWMmf9c08Fs3ohF1MoHmyBGzfdOisLxciIxU9WVdKDMY2a4JiWt/Ll0ks5b8N
-         q9KFMn94nyib24O6eb+bZbGp1NsOx5kYr9qq0K/dZxcjQybZz4DmXlRfRmUKEw+YRUt4
-         urYIWYRdlIE6U3EWkNw1ffTxP+GQ/3I1j3jG2m+mHq1ogNI1RXlPdW/SSa7mLfnD0AqB
-         nQGQ==
+        h=sender:date:from:to:cc:subject:message-id:in-reply-to:references
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=KDRjddbOcaFIjhLYDIxtbCnVVt1EO9i5B+ETV2S7Ta8=;
+        b=JIgUqGCFttxiOMRj6hCGfQtRXWHEd+JgTq9Rg4VcnWU6vkW/p+fFrs8zBrBScV600l
+         2VJhVnR0av4D5tZKC+rF501NTw816+WpUYPBF8SyfPwt53Dq4eBH/fKQO4IWMegsh9E0
+         NmNGDPNT1+kNSmzUq3kmdcN+uLC4zSMyXUdDJCsMxeMCnEHWi8TPOcv30bRotMAYIbqk
+         TwjB36EeZggYalWIz7NKcVqeICxG7+sgGIlE0XiZnBe9GfJAtIkmtS3XvgSchs8AC5Hs
+         Pz3X/rdyYWl20/RuBPK3xyDU4m1BuP8WTqE0IRW0ll1o2LVMv3loHaUDf/Om6Da7foX3
+         /r2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=6AHTMAo6kHv4zGZWB0gm5kT7lPqNHXrdpKDSVVQMXKo=;
-        b=sc75IvKr8gZkjhEXBgnEPaoXEwzCsjHb26dBmNuKdpo3UG/yp1t8AlBPvCvSH04ocG
-         xlNJ8oivsiykducqFm0LNrFuOoDjPTuMQ6/HjDag0THWewr50rcxf+7nyzVZE1oJxlq/
-         fptFU7hYFRrWjefF2LnwKxHFz2dJUDTEjURLbFP/j6HVDkPhWSGx7XsuYGjJGlw/bZ+2
-         yvcZ2NT02EX/8W8KdW9Tno7p8rZB71bPjunSk+QGsABMP5h1X2AlXI60Io1b4SkwhqeV
-         AT5RZqzTh2kbdoBz+AQ1MOnUyEMur6amajRVwhnM+99Bzt6pQC5QBgy8jfAyUUpqoliJ
-         mPug==
+         :in-reply-to:references:mime-version:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=KDRjddbOcaFIjhLYDIxtbCnVVt1EO9i5B+ETV2S7Ta8=;
+        b=tNjOAxO50lNcLfLgsDehhyI+f88COw3mYi/Ip/gTUgaLdkkGF9hUlwWpn/SpIwaLC9
+         RIlMZVyRVZDpK68OUwPMAG152zs0BtjKcAR3Q1gyQYAn4wANp65U+LKRjoG341vjiLHa
+         u7lcW1QFTm0JiVWRnqA+ZofLcvSVH5QpDKfS/4ZBQvNx0QMb8gUVfPh4HfLWTgBCke7b
+         SRfbZ5kTqLf51Mt6+UcufbTk3Chl8bjyr95Xuectg9YfmcQwtyuqrsbOxYocas1iYXh+
+         NpohQCx8ZRHICUQUdZXKgr2yKiTWxJhDeAkul2jCHkGNtY/0fvzZMQ+iTv4Kefb86fsM
+         Lz8g==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAU4n8itoukfJXuul3XIH7akl2JpYu0mgqblnNIX8f4tpCC24MvF
-	2EFRTB11+2B8bk0hzHJYZdw=
-X-Google-Smtp-Source: APXvYqxTihMc55N2awrKXZ5znYRDjPTVVUN45LEy/ORcspJpXtVkxRXalAesg6vlCmoWZGp5wDuXRQ==
-X-Received: by 2002:adf:dc4b:: with SMTP id m11mr4691590wrj.51.1561565873952;
-        Wed, 26 Jun 2019 09:17:53 -0700 (PDT)
+X-Gm-Message-State: APjAAAVIEuhgIoIz/3kTi7r40banjyQwUV5bjy8Y8uXl9J3B8/S2lHLl
+	ZsnPGfq3gLgcspfttPpJ3J8=
+X-Google-Smtp-Source: APXvYqxbP8PnH0DnL+jhEyzZl1V4MVmdqxhyrNLY2Ux8lr4HTMP3RoSwh7wP7XYHBoe6GikNlxOvlA==
+X-Received: by 2002:a17:90a:246f:: with SMTP id h102mr1841065pje.126.1561589812927;
+        Wed, 26 Jun 2019 15:56:52 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a1c:2d11:: with SMTP id t17ls1735354wmt.0.gmail; Wed, 26 Jun
- 2019 09:17:53 -0700 (PDT)
-X-Received: by 2002:a1c:20cf:: with SMTP id g198mr3377951wmg.88.1561565873142;
-        Wed, 26 Jun 2019 09:17:53 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1561565873; cv=none;
+Received: by 2002:a17:902:bb8c:: with SMTP id m12ls1101369pls.0.gmail; Wed, 26
+ Jun 2019 15:56:52 -0700 (PDT)
+X-Received: by 2002:a17:902:b594:: with SMTP id a20mr613509pls.259.1561589812446;
+        Wed, 26 Jun 2019 15:56:52 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1561589812; cv=none;
         d=google.com; s=arc-20160816;
-        b=qwTJ89EibyIuBeGCKEDdahG0clBJNrzvrcM0dO018CO7GDhPqCInjDO0yehr9MBxa7
-         dx3hSmtrTqxDV77cqsyIOpL84Ai89cvh8XszHjkru7SKb/QpXeTxuBB/QKjr1y3sV10j
-         wwmx2AfEtRkOuS+2eOmkv5BMIsVV4CXJL3e/mn66OkCFGIXB6cDRQkqDrm1y9ZPgJaza
-         rslQFjOmJMGmYVv91l1D9NCCz4GE229UKxvEmopYYDyu0dyFKYIlhU2x0E43aQ3BkSyp
-         Y3leASm6ro+GMwDsTnx+C544oywOifDPN+br6kRwihZzukd5k+DSCzVTQBNAG4lZTVTe
-         Q3ow==
+        b=O5iznmwXuimEbCPE9mRPw1dVLqBQyLNbrGYIpTvV/7vKfeAO1ltAWMMnOxrADa/cXh
+         kToD0o3SqLF2h9TCpK6pwMouD5qn301/vTC/Kemm2PInEgAmm4wdOUyqatvN6bgpp3+S
+         qEflM8xbaC/a/ByJQqW3lF+e1olXmG0KNk1T+5LXw+QHBOKQzNQZB5e9x2Lms+Cj+HLD
+         np4E3AR0X4yOVZhx9TGBkCmk0is9r7ohtfpSA2kZVVv9CSNKY5Cvvligk8bLHvsTld5b
+         CR2H1sPVWpsgKzHWklcLTbH+HGf71uYN5ucOclI0TxgzSlAX6A8aHwlQf1YP0jlb+oAx
+         lGVw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date;
-        bh=QcBn4cqu94i8F4ufUBZvWRMGOwZ2fc5S8X3LYrAGys8=;
-        b=CcgsLIM8nwjXbbUsveKgAVif5CNIB7A64MYq6iyNf3YsLo3i/eo5d/V54VkTjOaZMa
-         ASkpp9P+DYv8Q6ajIXyARvD/W7bXncthmyazpS2J99MI8HbVUn4uyj5XcyGsFVNMpChc
-         rgGetQ3CqHbLj9JQmxuuA8KPThrDnJRIiCJcCiCfEve+fJsyWyT3pGCViyFM+aUXFdxq
-         DSPZwxkSFiWw1INjyUPJV86PQsETWtOJ6pEQNNmFmulO5Gd3kxBs8vUYFzneNDPl1s+p
-         h6P6+KT6Pe0SiAWw5tk6Xc2ILfwKSeknHgUzMOhl4qruaAe5yTk6yA2xFHHEvdLqvaep
-         SxIQ==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:dkim-signature;
+        bh=lYpkZPTX74T2ffIw2Dsub+OKE0abvghKdi68DMjPsYA=;
+        b=vxgFiYNrJSrP1JaAV9/3fY9AGT0elyqQDDl2X18tdBI+RhygeFrHFUoGdg6emnS8Zr
+         lLiw2n9hnUfOG8Nx+HESZ7Q0ipB2dbrcLHk2l0JlZ7PDMx3zMLXz2mZ01CzC4jsRstlD
+         rurYGltkhUoRTntkC39En8NJ7/UlQoqdQzg7mUPP0o+cXuRHFYlB9Zsmesg8y0I15ueU
+         ks7Vt3fRXXBsB1IC+ZUKIVYcHV3Vp6aA+/LJjJf0pfOo8i0ABuRwempTeuI4iKbe5Ijr
+         NKKMlfxO0l/2wH6HFXhU9wYjyINlcGRYmPpKqJqiaDxfG7Qswkvb3G8vqf5spuLWUBan
+         jpOw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=mark.rutland@arm.com
-Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
-        by gmr-mx.google.com with ESMTP id v3si1423139wrg.3.2019.06.26.09.17.52
-        for <kasan-dev@googlegroups.com>;
-        Wed, 26 Jun 2019 09:17:53 -0700 (PDT)
-Received-SPF: pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 458BE2B;
-	Wed, 26 Jun 2019 09:17:52 -0700 (PDT)
-Received: from lakrids.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 93CED3F706;
-	Wed, 26 Jun 2019 09:17:50 -0700 (PDT)
-Date: Wed, 26 Jun 2019 17:17:48 +0100
-From: Mark Rutland <mark.rutland@arm.com>
+       dkim=pass header.i=@kernel.org header.s=default header.b=U8i1ubLZ;
+       spf=pass (google.com: domain of akpm@linux-foundation.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
+Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
+        by gmr-mx.google.com with ESMTPS id m93si126451pje.2.2019.06.26.15.56.52
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 26 Jun 2019 15:56:52 -0700 (PDT)
+Received-SPF: pass (google.com: domain of akpm@linux-foundation.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
+Received: from localhost.localdomain (c-73-223-200-170.hsd1.ca.comcast.net [73.223.200.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPSA id 5E37B20665;
+	Wed, 26 Jun 2019 22:56:51 +0000 (UTC)
+Date: Wed, 26 Jun 2019 15:56:50 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
 To: Marco Elver <elver@google.com>
 Cc: linux-kernel@vger.kernel.org, Andrey Ryabinin <aryabinin@virtuozzo.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Alexander Potapenko <glider@google.com>,
-	Andrey Konovalov <andreyknvl@google.com>,
-	Christoph Lameter <cl@linux.com>, Pekka Enberg <penberg@kernel.org>,
-	David Rientjes <rientjes@google.com>,
-	Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	kasan-dev@googlegroups.com, linux-mm@kvack.org
-Subject: Re: [PATCH v3 1/5] mm/kasan: Introduce __kasan_check_{read,write}
-Message-ID: <20190626161748.GH20635@lakrids.cambridge.arm.com>
+ Dmitry Vyukov <dvyukov@google.com>, Alexander Potapenko
+ <glider@google.com>, Andrey Konovalov <andreyknvl@google.com>, Christoph
+ Lameter <cl@linux.com>, Pekka Enberg <penberg@kernel.org>, David Rientjes
+ <rientjes@google.com>, Joonsoo Kim <iamjoonsoo.kim@lge.com>, Mark Rutland
+ <mark.rutland@arm.com>, kasan-dev@googlegroups.com, linux-mm@kvack.org,
+ Kees Cook <keescook@chromium.org>
+Subject: Re: [PATCH v3 4/5] mm/slab: Refactor common ksize KASAN logic into
+ slab_common.c
+Message-Id: <20190626155650.c525aa7fad387e32be290b50@linux-foundation.org>
+In-Reply-To: <20190626142014.141844-5-elver@google.com>
 References: <20190626142014.141844-1-elver@google.com>
- <20190626142014.141844-2-elver@google.com>
-MIME-Version: 1.0
+	<20190626142014.141844-5-elver@google.com>
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <20190626142014.141844-2-elver@google.com>
-User-Agent: Mutt/1.11.1+11 (2f07cb52) (2018-12-01)
-X-Original-Sender: mark.rutland@arm.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as
- permitted sender) smtp.mailfrom=mark.rutland@arm.com
+X-Original-Sender: akpm@linux-foundation.org
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@kernel.org header.s=default header.b=U8i1ubLZ;       spf=pass
+ (google.com: domain of akpm@linux-foundation.org designates 198.145.29.99 as
+ permitted sender) smtp.mailfrom=akpm@linux-foundation.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -134,128 +134,116 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Jun 26, 2019 at 04:20:10PM +0200, Marco Elver wrote:
-> This introduces __kasan_check_{read,write}. __kasan_check functions may
-> be used from anywhere, even compilation units that disable
-> instrumentation selectively.
+On Wed, 26 Jun 2019 16:20:13 +0200 Marco Elver <elver@google.com> wrote:
+
+> This refactors common code of ksize() between the various allocators
+> into slab_common.c: __ksize() is the allocator-specific implementation
+> without instrumentation, whereas ksize() includes the required KASAN
+> logic.
 > 
-> This change eliminates the need for the __KASAN_INTERNAL definition.
-> 
-> Signed-off-by: Marco Elver <elver@google.com>
-> Cc: Andrey Ryabinin <aryabinin@virtuozzo.com>
-> Cc: Dmitry Vyukov <dvyukov@google.com>
-> Cc: Alexander Potapenko <glider@google.com>
-> Cc: Andrey Konovalov <andreyknvl@google.com>
-> Cc: Christoph Lameter <cl@linux.com>
-> Cc: Pekka Enberg <penberg@kernel.org>
-> Cc: David Rientjes <rientjes@google.com>
-> Cc: Joonsoo Kim <iamjoonsoo.kim@lge.com>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Mark Rutland <mark.rutland@arm.com>
-> Cc: kasan-dev@googlegroups.com
-> Cc: linux-kernel@vger.kernel.org
-> Cc: linux-mm@kvack.org
-
-Logically this makes sense to me, so FWIW:
-
-Acked-by: Mark Rutland <mark.rutland@arm.com>
-
-Thanks,
-Mark.
-
-> ---
-> v3:
-> * Fix Formatting and split introduction of __kasan_check_* and returning
->   bool into 2 patches.
-> ---
->  include/linux/kasan-checks.h | 31 ++++++++++++++++++++++++++++---
->  mm/kasan/common.c            | 10 ++++------
->  2 files changed, 32 insertions(+), 9 deletions(-)
-> 
-> diff --git a/include/linux/kasan-checks.h b/include/linux/kasan-checks.h
-> index a61dc075e2ce..19a0175d2452 100644
-> --- a/include/linux/kasan-checks.h
-> +++ b/include/linux/kasan-checks.h
-> @@ -2,9 +2,34 @@
->  #ifndef _LINUX_KASAN_CHECKS_H
->  #define _LINUX_KASAN_CHECKS_H
->  
-> -#if defined(__SANITIZE_ADDRESS__) || defined(__KASAN_INTERNAL)
-> -void kasan_check_read(const volatile void *p, unsigned int size);
-> -void kasan_check_write(const volatile void *p, unsigned int size);
-> +/*
-> + * __kasan_check_*: Always available when KASAN is enabled. This may be used
-> + * even in compilation units that selectively disable KASAN, but must use KASAN
-> + * to validate access to an address.   Never use these in header files!
-> + */
-> +#ifdef CONFIG_KASAN
-> +void __kasan_check_read(const volatile void *p, unsigned int size);
-> +void __kasan_check_write(const volatile void *p, unsigned int size);
-> +#else
-> +static inline void __kasan_check_read(const volatile void *p, unsigned int size)
-> +{ }
-> +static inline void __kasan_check_write(const volatile void *p, unsigned int size)
-> +{ }
-> +#endif
-> +
-> +/*
-> + * kasan_check_*: Only available when the particular compilation unit has KASAN
-> + * instrumentation enabled. May be used in header files.
-> + */
-> +#ifdef __SANITIZE_ADDRESS__
-> +static inline void kasan_check_read(const volatile void *p, unsigned int size)
-> +{
-> +	__kasan_check_read(p, size);
-> +}
-> +static inline void kasan_check_write(const volatile void *p, unsigned int size)
-> +{
-> +	__kasan_check_read(p, size);
-> +}
->  #else
->  static inline void kasan_check_read(const volatile void *p, unsigned int size)
->  { }
-> diff --git a/mm/kasan/common.c b/mm/kasan/common.c
-> index 242fdc01aaa9..6bada42cc152 100644
-> --- a/mm/kasan/common.c
-> +++ b/mm/kasan/common.c
-> @@ -14,8 +14,6 @@
+> ...
+>
+>  /**
+> - * ksize - get the actual amount of memory allocated for a given object
+> - * @objp: Pointer to the object
+> + * __ksize -- Uninstrumented ksize.
 >   *
+> - * kmalloc may internally round up allocations and return more memory
+> - * than requested. ksize() can be used to determine the actual amount of
+> - * memory allocated. The caller may use this additional memory, even though
+> - * a smaller amount of memory was initially specified with the kmalloc call.
+> - * The caller must guarantee that objp points to a valid object previously
+> - * allocated with either kmalloc() or kmem_cache_alloc(). The object
+> - * must not be freed during the duration of the call.
+> - *
+> - * Return: size of the actual memory used by @objp in bytes
+> + * Unlike ksize(), __ksize() is uninstrumented, and does not provide the same
+> + * safety checks as ksize() with KASAN instrumentation enabled.
 >   */
->  
-> -#define __KASAN_INTERNAL
+> -size_t ksize(const void *objp)
+> +size_t __ksize(const void *objp)
+>  {
+> -	size_t size;
 > -
->  #include <linux/export.h>
->  #include <linux/interrupt.h>
->  #include <linux/init.h>
-> @@ -89,17 +87,17 @@ void kasan_disable_current(void)
->  	current->kasan_depth--;
->  }
+>  	BUG_ON(!objp);
+>  	if (unlikely(objp == ZERO_SIZE_PTR))
+>  		return 0;
 >  
-> -void kasan_check_read(const volatile void *p, unsigned int size)
-> +void __kasan_check_read(const volatile void *p, unsigned int size)
->  {
->  	check_memory_region((unsigned long)p, size, false, _RET_IP_);
+> -	size = virt_to_cache(objp)->object_size;
+> -	/* We assume that ksize callers could use the whole allocated area,
+> -	 * so we need to unpoison this area.
+> -	 */
+> -	kasan_unpoison_shadow(objp, size);
+> -
+> -	return size;
+> +	return virt_to_cache(objp)->object_size;
 >  }
-> -EXPORT_SYMBOL(kasan_check_read);
-> +EXPORT_SYMBOL(__kasan_check_read);
->  
-> -void kasan_check_write(const volatile void *p, unsigned int size)
-> +void __kasan_check_write(const volatile void *p, unsigned int size)
->  {
->  	check_memory_region((unsigned long)p, size, true, _RET_IP_);
+
+This conflicts with Kees's "mm/slab: sanity-check page type when
+looking up cache". 
+https://ozlabs.org/~akpm/mmots/broken-out/mm-slab-sanity-check-page-type-when-looking-up-cache.patch
+
+Here's what I ended up with:
+
+/**
+ * __ksize -- Uninstrumented ksize.
+ *
+ * Unlike ksize(), __ksize() is uninstrumented, and does not provide the same
+ * safety checks as ksize() with KASAN instrumentation enabled.
+ */
+size_t __ksize(const void *objp)
+{
+	size_t size;
+	struct kmem_cache *c;
+
+	BUG_ON(!objp);
+	if (unlikely(objp == ZERO_SIZE_PTR))
+		return 0;
+
+	c = virt_to_cache(objp);
+	size = c ? c->object_size : 0;
+
+	return size;
+}
+EXPORT_SYMBOL(__ksize);
+
+> --- a/mm/slab_common.c
+> +++ b/mm/slab_common.c
+> @@ -1597,6 +1597,32 @@ void kzfree(const void *p)
 >  }
-> -EXPORT_SYMBOL(kasan_check_write);
-> +EXPORT_SYMBOL(__kasan_check_write);
+>  EXPORT_SYMBOL(kzfree);
 >  
->  #undef memset
->  void *memset(void *addr, int c, size_t len)
-> -- 
-> 2.22.0.410.gd8fdbe21b5-goog
-> 
+> +/**
+> + * ksize - get the actual amount of memory allocated for a given object
+> + * @objp: Pointer to the object
+> + *
+> + * kmalloc may internally round up allocations and return more memory
+> + * than requested. ksize() can be used to determine the actual amount of
+> + * memory allocated. The caller may use this additional memory, even though
+> + * a smaller amount of memory was initially specified with the kmalloc call.
+> + * The caller must guarantee that objp points to a valid object previously
+> + * allocated with either kmalloc() or kmem_cache_alloc(). The object
+> + * must not be freed during the duration of the call.
+> + *
+> + * Return: size of the actual memory used by @objp in bytes
+> + */
+> +size_t ksize(const void *objp)
+> +{
+> +	size_t size = __ksize(objp);
+> +	/*
+> +	 * We assume that ksize callers could use whole allocated area,
+> +	 * so we need to unpoison this area.
+> +	 */
+> +	kasan_unpoison_shadow(objp, size);
+> +	return size;
+> +}
+> +EXPORT_SYMBOL(ksize);
+
+That looks OK still.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
 To post to this group, send email to kasan-dev@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20190626161748.GH20635%40lakrids.cambridge.arm.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20190626155650.c525aa7fad387e32be290b50%40linux-foundation.org.
 For more options, visit https://groups.google.com/d/optout.
