@@ -1,136 +1,140 @@
-Return-Path: <kasan-dev+bncBCAKHU6U2ENBB7U26PUAKGQEARJXIBI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDEKVJM7XAHRBS5M6TUAKGQEJ4QKSWY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33a.google.com (mail-wm1-x33a.google.com [IPv6:2a00:1450:4864:20::33a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A3B05E80A
-	for <lists+kasan-dev@lfdr.de>; Wed,  3 Jul 2019 17:45:02 +0200 (CEST)
-Received: by mail-wm1-x33a.google.com with SMTP id 21sf680845wmj.4
-        for <lists+kasan-dev@lfdr.de>; Wed, 03 Jul 2019 08:45:02 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1562168702; cv=pass;
+Received: from mail-lj1-x239.google.com (mail-lj1-x239.google.com [IPv6:2a00:1450:4864:20::239])
+	by mail.lfdr.de (Postfix) with ESMTPS id 726535EDED
+	for <lists+kasan-dev@lfdr.de>; Wed,  3 Jul 2019 22:55:40 +0200 (CEST)
+Received: by mail-lj1-x239.google.com with SMTP id a19sf868024ljk.18
+        for <lists+kasan-dev@lfdr.de>; Wed, 03 Jul 2019 13:55:40 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1562187340; cv=pass;
         d=google.com; s=arc-20160816;
-        b=RzepcuPbiWNfsRx1cF5kM/NowAJoQ4SRpe2qZE0Hsr7WE8K/JUPtVQlNtZPXhxj/y4
-         qMgSZ2h6TVcbLWAZacPl0tH96Uf32MKomU+/DE3H13J1un3yNoKio0h2S34luJpbyruT
-         d5csdY5Dnl2G5b2iemsG+C0pv9i0nkZpSYB4nYtmAW4TZ7XdBSBBNObupnJc7LrX6s0E
-         ZrFtCCcLDmdknWfNNv5AXEZ3HBjUxG6/29Ffn+oS6R2a3jhNluPeJy67adP6841S/uJ1
-         BaBJ7AbIBDHa8MwAkSc0HhMEdv3JY14WNpeR2rCX9Bl8A+i7Y4MKZsqTe0e9Xie+QsZZ
-         ng6w==
+        b=kxam6Cq5U0JwS4566qPd/Vax3j+IgKPqknBBQON38pW5//3XECMgUAI7J3rqN6T7LG
+         zCpSoAKg9HuaUKG3K9TtZBKoio818J5/wD3URsZWfzlj0HQ0SwC9DcIWssLEreFfRFmp
+         SdXLvyJS9wiIpzXKK2ttMlSEZV2l+T7yTZPVfl4b45G99enDmHGJqee38z4xk4OTxn9S
+         2f9AlslRXMILKf3ZYJu1NUoXqdIXSamfOTy2NrNlE82S+J0Dh6pJsoyhb5EZnC513wc7
+         +iot3iu0gsRq+IpT44ryehZIhUeHh9AghaL4r4P/Wp9UkP07uzgij0x02/Wpg4nsCcsu
+         u/xQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:sender:dkim-signature
-         :dkim-signature;
-        bh=1WBkd9VJbfy0wC1dTGqt+0v3zmKOnKgVnwz6GBDhfzo=;
-        b=WKQeFE8jQH+bzhV6cYIYZHcorO4hhk7VWk2f4AISaqWb4/UfMy3VOUzBFXzCorWJbS
-         GHmo32mehzL68hlsYMt+lrpjfrObsUmDXXQLeJkN2X/KVc6oaTe6mTb5CHqRBrLrTd5e
-         X8plPn0JtI5iQldPe4h6jnpBSM7fQqJFkKkSfYSpfLwVlNNYZgynQkLxjgeI6pGpedzK
-         0s1QPEuTDxWF4LtaWKpYstHD4XeHpv/eMdrHRWbkVrB1Wjs8BBvMi2oGmNv5fbA86tub
-         Zb2kc6Eijrc/9x9QENlBrW0cLA3pitIbTEJGj7L4SHyDvKrEB2v6oaQ6/gPRja+IcrXP
-         GmNw==
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :subject:cc:to:from:sender:dkim-signature;
+        bh=tCwRO/5iMBvoDzK8aNBPL+PX3qGT/tq6AI6Se0m0w9o=;
+        b=XngSzTkGyzyW6Em1alGBQf7SB5WwddXQPulJiPBhNi7q4ssX93ztlUTiFDbD7oF0+v
+         5jV0WWQm+syYUmJGM8rgeWNw7qSWMZfQp++5/6R4nQatKdAJGZ+wJrasEsf+zn1C1nvB
+         xakP8XzyGDNtvyDIwugLAfVOmaaye5wLc0xGZt0tAEkKhb1J3DdJ3iLH6FzG6cJfilYx
+         rpOMmeic/281wAwFeEyxXQEZGVqMFJampZ1XzFIreoCdhk4kEZi2p+rm+1CGwdewiP3M
+         /D8ztBIS3luAIxW+nDMOSJxe2QQT7yKf6IdQXEa5KvwgF/P3dP8fLH3s+FgSR9sQi7Sb
+         0I1g==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20161025 header.b=gmFKCxY1;
-       spf=pass (google.com: domain of anatol.pomozov@gmail.com designates 2a00:1450:4864:20::142 as permitted sender) smtp.mailfrom=anatol.pomozov@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+       spf=neutral (google.com: 212.227.126.134 is neither permitted nor denied by best guess record for domain of arnd@arndb.de) smtp.mailfrom=arnd@arndb.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:mime-version:references:in-reply-to:from:date:message-id
-         :subject:to:cc:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=1WBkd9VJbfy0wC1dTGqt+0v3zmKOnKgVnwz6GBDhfzo=;
-        b=rrBLK80WYNGIY1SKCRsT3XgIVrFEwmWt1CKsYpVHbrAhGbJHNcSSJ3/MgaSsz9hm0a
-         ti/Gn+yCDvfv4KgaGTvGsqo8QLkWnot0MlZq23+7kg/Cfkw4W/bbOc/SKkSeozpuQhnM
-         3o7et7mIWExWvqIESVDRdtULnnrid7lldrDTOIC7JXgrFywYlBdh9hRlMRZ377WmMGYL
-         NYfwH8mfUa9Q96mRSo19+LmDt3atCp3cr3SR8tK8FZ2K9zFeVRSKybe2N7ZjtAvzvF9W
-         LaFaEiwSm/r2RiwT6QRRq4EIH5rYvu1aTg9Lpm6rF0qX/NDZIvAZM5nJgvq7efy8gS/B
-         Ct0w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:precedence
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=1WBkd9VJbfy0wC1dTGqt+0v3zmKOnKgVnwz6GBDhfzo=;
-        b=Bs77VxCayXwEH2v1NPvYGsI+ZiNlkm3wwKaBMRSvQhXyLjsjajerra9Ma4gPrin0+D
-         hJC49nx2o/+nhSmQbrgVRY/ktbsgCJuXxBrJpF77JkZ9Z57Prvr1k+KMrbS1WaUOEbg/
-         NgQiZRLDZarzVD4uB7mXEL1fFR9cCchl5RepGBWNyNv3pgyKfAb6NWkAmdJC6yklxc6m
-         Bzc+3MZWLzJ1WA90idRDBS9PSWj7gxy0pArprXfo8YUoDrJcJVJVIH2zSYFvNTx4D1gC
-         4G/lB2i2S+ff5jFiDHab7UvVkL2nfg1FAYjxSHmTNOvzTZorP6CAkAJJNZZELMDEQmaf
-         1maw==
+        bh=tCwRO/5iMBvoDzK8aNBPL+PX3qGT/tq6AI6Se0m0w9o=;
+        b=huPyXf/OBk6uB6qqhkDOYMJM3zwyDlmzo0xMEGjdAcBJwZfsbkdRveDWZjO9861/bT
+         ksfX106UMuqowWMCh4jQ94y2yx3zcEjnLIkvz4rNFG9Ef8p9uOB3P1w2WKiVrkJ5rTIe
+         9Z0KdIt+p1fRl8D372P0EoQoySyrPEO4Bhh7I/6aK1QbDUXYCHbCpQVgkB0hlewQBjBf
+         55qyVanJen9dfvlFvpFUws/h5L/pL9u5K59Tbu3V3dPX+5C1gSlxFwE4EeNfHCpmrals
+         4LFtc7b9dsJahy+s3tJuazFXTCmU4zVs1P2yIpO87MDpwWI2nAPgQ+jSGJ9i8FLrqmbr
+         GE/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
-         :date:message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=1WBkd9VJbfy0wC1dTGqt+0v3zmKOnKgVnwz6GBDhfzo=;
-        b=k3KvCnfb7PshX2wRsrNaAhIhZ4cVtyi0sD5ndLo2fSryaV5jJi1RnrHAt0jAab6clw
-         9ouVoBwKFIP8D1hOUCkdtI+s1oDGCqEVjalof4nQ5NVyniAXsX116cuSf3VnD85GABYK
-         677y1OJXRb7tyl4gtoEAcprJztfygCdLSpuCJrxTpBiLqM9rpb2vZsDhq1ko2u5LDJ5U
-         PYTEAIDZY2AKixsaOHipHsO2wNu6L7twopP/muhSZWHli2+nHKbf41fEWdCeerdOj2Ac
-         XmkcwWlCqvH5v6RMm4M94SYeEYAmA38Ae8YoVz5I3L/qnl8HxNFKy+G1GGd0b5XkSSaa
-         3gmw==
+        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=tCwRO/5iMBvoDzK8aNBPL+PX3qGT/tq6AI6Se0m0w9o=;
+        b=muMCvc5YCyUlsEeNruDFCiwlkW2dvUEHaOOKqmyj14arNBol5NB5MuW+zvqk6GT17E
+         g2oM04sDff0VM7g+8V4E9FWJCM0LBSpIlpTMMTvFnYfbBcXP2t3f2wJG3sFym4z6en5G
+         /+/lZq8m7A5+BbUqwv1qSCPnBORjRdsv6C5fF+CIF1gC6HBNv1xW46p2Ob1Q1Q7/sfdb
+         rTVWFqdNweCE2Lg/QqFBua/MzLfxAf9FVsCN2/5DdyrG9C62ql2dUL15IOcAhV9YDLkG
+         MwTto8x0bi5WEpa3jAW5VnWIJWhycU5eWblLBxa7mwy+OOGDT/JdbuK66CSun9n3ID//
+         IzZA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAUOQgCpHOQSfDqcr74wK7vIp64mt/6f5Qd2iu/xd28FculpjIdE
-	C/Johxhhc/Z6PyiZax2vKGw=
-X-Google-Smtp-Source: APXvYqyoEyn+adPt7GBXSxHSI0B/aoU+LJ1KTbbax3PjQ/RSg6VdJrdHsTnhMv3hX1zA2PbFxJzP4Q==
-X-Received: by 2002:a5d:474b:: with SMTP id o11mr2339041wrs.4.1562168702048;
-        Wed, 03 Jul 2019 08:45:02 -0700 (PDT)
+X-Gm-Message-State: APjAAAUDfke7hzF0SMTMzGCxtojtEWNjQSpwtn1zv3m60DJhv45/ZSH0
+	pi72f/pEOVML5TfSAmXSnA8=
+X-Google-Smtp-Source: APXvYqwMMPOjc5FaLoJLUgCa2raTszBkblJYi7R9j0z5DkJ7tPr59h4IvwOUd94232LMZLqY1H1Nqw==
+X-Received: by 2002:a2e:3602:: with SMTP id d2mr22898047lja.112.1562187340049;
+        Wed, 03 Jul 2019 13:55:40 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a1c:96cf:: with SMTP id y198ls844079wmd.5.canary-gmail; Wed,
- 03 Jul 2019 08:45:01 -0700 (PDT)
-X-Received: by 2002:a7b:cc09:: with SMTP id f9mr8921624wmh.68.1562168701508;
-        Wed, 03 Jul 2019 08:45:01 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1562168701; cv=none;
+Received: by 2002:a2e:9dc8:: with SMTP id x8ls465538ljj.2.gmail; Wed, 03 Jul
+ 2019 13:55:39 -0700 (PDT)
+X-Received: by 2002:a2e:8ecb:: with SMTP id e11mr22403410ljl.218.1562187339525;
+        Wed, 03 Jul 2019 13:55:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1562187339; cv=none;
         d=google.com; s=arc-20160816;
-        b=aZn2CvYRgzUmNXJMD5cR7bGC6cMb5ohaJawqVcYVnJniZwt3l1PZ2lsg2PQuX1lxQG
-         QQZpKxgJL12Smt5NvdSzVNdzg2LX6KCbCVpHvWtHmivy4w333chDjnE1auwX5MDivZQ0
-         E39Nvp369OtMPmxa0N+hLx0wNUI3FtaiNcBwTN0o9NKdUh55iQ3TUfwlQuitv6msQEpM
-         6h6UrT8XI9Gr/9+YOiG9ZtjWfy3eSlgsLceEB4OG+VLT4OfkMZRj2+dDbYkEmp1Tj0Pz
-         DbK56/Jot1TEtRGASzmASPYILfhvFpVp5l2dQ2YygkpgydpScvKPEfEQNPYJD4gzoFwY
-         1AgQ==
+        b=RQtbfHMzQ173BkqDv4EDPXvkJSFAZ0IGJQNtSZrZWudfhY9wlgIpYzDdlPIJiuNeM4
+         3eqQGL+gQtjA4ikfHPidjMN9i1xaC1wCh1/br2XBCou6QFXzHJMli1rJz4WH28tvNhN/
+         Hc0CqeDVu/fvPtsVAVmiUw8+IHGKztqzNwEVxK9SL036ptQ/RvyI+vP/dVRO2WCGLZT4
+         oqsJ6u7LFbzsgVbqX7bawtL9N51HOOuYM1uS35deURFUPiVhLZCc0zX2+AAOoL9uVMak
+         OQt2aEE3jp8BlKpTVqIddKxDPsBwX3DIe3YU1MgbUbINuDz1n7BLN1dwqVSTsoQ9prTY
+         o8VA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=YHEPbnshpXHKTpPy68IGOJokxNwoulf7A3Gqon9WAXo=;
-        b=0MSxqceQDv+XSm45gNqwERYlS5LtASmSnCY9n3X908KftRf3QMHzfgJEouRKIsDf8h
-         dypG69nScIJpszkHxj2fTIyL1anTxRTT9ezQ2wxYgdpL6sJg2CCshD9MzkAjIS1uj6t2
-         bOD0uP/U85DBrMeDr2chQjJ9vlT+2z//PE/fJPmJUVuK8pd3v91Jx4Tfc/vZ5oZpre7J
-         iMcXmEeEAo7Nnilnl8B4KqeJimZxZ+AMOAPl6iqwsSdbdZR+Xtp74pbMSrtwv3Ad78DG
-         57o2LrFeRQeLsyrlSGd9ijRaWOkCTaM75Bk7bNvG2Wv7eOaHcSL7p3oRNivrCEZbS8yi
-         jOiA==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from;
+        bh=+lBsDcmXIwNnGE4dmbLJ1M4DqByzAQLGIGP4+KM9A7Q=;
+        b=bNX8zG76T9guWfJrSpyEuTVsxrgaMMMpBiX7vzGiP9JPpgs3vkB10R962qSECKclir
+         HZr1UJM53LMMQC4slOMdryCAuJL7mNxXjiV1CBtngpb89Ag47YqrQ/1ljYYA7LDzMWwg
+         A+7h85vIWIkuXgo2CkmY3dvK7lzUw6bLDxraOlpzZ9WD3ABI9DtOSBVXeMr4GMOHJ65C
+         gIgZi6Ydv/3zDpCReEhF8RTZpUj/zeBq4n6YnjwFkGDNwnJxxUD+nRtg4156wVJ1znWg
+         4+XTblucaToynNw8v3W2ubIHiSLXwkFDDuLiRx0jmDlFrlA9PcOBz3DSfkGcaJkku3t1
+         995g==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20161025 header.b=gmFKCxY1;
-       spf=pass (google.com: domain of anatol.pomozov@gmail.com designates 2a00:1450:4864:20::142 as permitted sender) smtp.mailfrom=anatol.pomozov@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com. [2a00:1450:4864:20::142])
-        by gmr-mx.google.com with ESMTPS id t25si145295wmj.2.2019.07.03.08.45.01
+       spf=neutral (google.com: 212.227.126.134 is neither permitted nor denied by best guess record for domain of arnd@arndb.de) smtp.mailfrom=arnd@arndb.de
+Received: from mout.kundenserver.de (mout.kundenserver.de. [212.227.126.134])
+        by gmr-mx.google.com with ESMTPS id q7si214387lji.5.2019.07.03.13.55.39
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-        Wed, 03 Jul 2019 08:45:01 -0700 (PDT)
-Received-SPF: pass (google.com: domain of anatol.pomozov@gmail.com designates 2a00:1450:4864:20::142 as permitted sender) client-ip=2a00:1450:4864:20::142;
-Received: by mail-lf1-x142.google.com with SMTP id b11so2128380lfa.5
-        for <kasan-dev@googlegroups.com>; Wed, 03 Jul 2019 08:45:01 -0700 (PDT)
-X-Received: by 2002:a19:7616:: with SMTP id c22mr18845054lff.115.1562168700688;
- Wed, 03 Jul 2019 08:45:00 -0700 (PDT)
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 03 Jul 2019 13:55:39 -0700 (PDT)
+Received-SPF: neutral (google.com: 212.227.126.134 is neither permitted nor denied by best guess record for domain of arnd@arndb.de) client-ip=212.227.126.134;
+Received: from threadripper.lan ([149.172.19.189]) by mrelayeu.kundenserver.de
+ (mreue010 [212.227.15.129]) with ESMTPA (Nemesis) id
+ 1M27Bp-1hgJRq2Gin-002TZ9; Wed, 03 Jul 2019 22:55:31 +0200
+From: Arnd Bergmann <arnd@arndb.de>
+To: Florian Fainelli <f.fainelli@gmail.com>
+Cc: Andrey Ryabinin <aryabinin@virtuozzo.com>,
+	Abbott Liu <liuwenliang@huawei.com>,
+	linux-arm-kernel@lists.infradead.org,
+	kasan-dev@googlegroups.com,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+	Nicolas Pitre <nico@fluxnic.net>,
+	Stefan Agner <stefan@agner.ch>,
+	Nathan Chancellor <natechancellor@gmail.com>,
+	Masahiro Yamada <yamada.masahiro@socionext.com>,
+	linux-kernel@vger.kernel.org,
+	linux-efi@vger.kernel.org
+Subject: [PATCH 1/3] ARM: fix kasan link failures
+Date: Wed,  3 Jul 2019 22:54:36 +0200
+Message-Id: <20190703205527.955320-1-arnd@arndb.de>
+X-Mailer: git-send-email 2.20.0
 MIME-Version: 1.0
-References: <CAOMFOmWDTkJ05U6HFqgH2GKABrx-sOxjSvumZSRrfceGyGsjXw@mail.gmail.com>
- <CACT4Y+bNm9jhttwVtvntVnyVqJ0jw5i-s6VQfCYVyga=BnkscQ@mail.gmail.com>
- <CAOMFOmWrBT8z8ngZOFDR2d4ssPB5=t-hTwump6tF+=7A4YhvBA@mail.gmail.com> <CACT4Y+ZJcp9fTsnvc+S3mG5qUJwvdPfgyi3O5=u_+=LGrbTzdg@mail.gmail.com>
-In-Reply-To: <CACT4Y+ZJcp9fTsnvc+S3mG5qUJwvdPfgyi3O5=u_+=LGrbTzdg@mail.gmail.com>
-From: Anatol Pomozov <anatol.pomozov@gmail.com>
-Date: Wed, 3 Jul 2019 08:44:49 -0700
-Message-ID: <CAOMFOmW3td2MYdDEAY1ivjW7fLdtgdk_E_J1VTqNj5ZWNYenaA@mail.gmail.com>
-Subject: Re: KTSAN and Linux semaphores
-To: Dmitry Vyukov <dvyukov@google.com>
-Cc: kasan-dev <kasan-dev@googlegroups.com>, Marco Elver <elver@google.com>
+X-Provags-ID: V03:K1:N0nhNH56c4bAPUvE+lb81hmqvGKzvYovB1gWPnLR0wVZb6l2Cus
+ VlcxdC8pK77LU32vdSY3Hh7JVCF2Dn86C7mE5dWcn3mW4hOXnlPLCso1Cp9anA4gdrDrzo5
+ Ut7QKtxvDcquKr7d9Bv/USwELBGTW65u6iuQdfFdQsgx+VYAxaDSI2S8DskzTjruoWUa2ES
+ iWji7SQpVNS6kv9tSkXzg==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:kkc3pKM7JBI=:7SfM19cEIrMeD+akm/v6F2
+ a7GlFineaNLRR0bDHAg64d4H8VDDp7Z9+1z0wPu6ycgl2veXYMIYLK3ymKqKG4KsWypouYG9r
+ mtCXBQ4VLnNmtTGxxFuxJdpI3h2zw4v1U8tAUn4YrVtxSPTXfdIvp75IvfpBXX/UvFQyZ1dp3
+ U/VKYT/72+IpBEt1wioAoWf3LlbQGf9SBTdADJK+a4xjGSe3fKWyWBteSoLXu6ryzobEgrfT/
+ H00WLhhVLscWXXo5mo/pjrrFTjO/7XZo+uTlJcuSiqSfdPcxYtMHz12+C9S/Z+2HGLOq5uVEg
+ DQhJ/O0i8wws7dtN346JYXJBuU/miXvgasyL26bSAp6kAWdEvGPuQv4kdmfMsj2Rw9lg5Y0t7
+ R3R01XUVVi1aq89YlWjRoLzbt5hAlFIAd9ilTc+/+QVxtDzzPpenqcaqMjFQubTYDYkRT5SOm
+ 2tnPirJJacaRkDbQ5bTGJ3Ul32o6ej09+cOCaH0aWrQYPlKKbkU5SGLBNU7s4LARIsVt2Hw4s
+ Ii7qWkUVDiwx+d52CbaSbjqmAtNjS+r0w7ri4LGuUhZvHPf08gKYO/WCR80f/kRyUbqfwxENo
+ IhhjA/hQkMP7YWhi+VCHHS49JyodFnSForBRio4snDdEmhFwCJpwTHCqNH15yPzgwWJt5lz3z
+ AZS6ncqMjqWtz5QOMSnp3u12Dp15VIpniGDr/zVGGmfL/6EJFRba+9xAe2ivD9P0FL/W7RCuG
+ awSwZR/Uu8glWMOfQlXU3FQt8a2h94oDitdTGg==
+X-Original-Sender: arnd@arndb.de
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=neutral
+ (google.com: 212.227.126.134 is neither permitted nor denied by best guess
+ record for domain of arnd@arndb.de) smtp.mailfrom=arnd@arndb.de
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: anatol.pomozov@gmail.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20161025 header.b=gmFKCxY1;       spf=pass
- (google.com: domain of anatol.pomozov@gmail.com designates
- 2a00:1450:4864:20::142 as permitted sender) smtp.mailfrom=anatol.pomozov@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -143,89 +147,110 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hello folks
+Getting the redirects for memcpy/memmove/memset functions right
+in the decompressor and the efi stub is a bit tricky. Originally
+these were meant to prevent the kasan code from calling itself
+recursively. The decompressor is built without kasan but uses
+the same redirects when CONFIG_KASAN is enabled, except in a few
+cases that now cause link failures:
 
-Alright, I pushed the rebased code to
-https://github.com/google/ktsan/commits/ktsan-master
+arch/arm/boot/compressed/fdt_rw.o: In function `fdt_set_name':
+fdt_rw.c:(.text+0x3d4): undefined reference to `memcpy'
+arch/arm/boot/compressed/fdt_rw.o: In function `fdt_add_property_':
+fdt_rw.c:(.text+0x121c): undefined reference to `memmove'
+arch/arm/boot/compressed/fdt_rw.o: In function `fdt_splice_':
+fdt_rw.c:(.text+0x1460): undefined reference to `memmove'
+arch/arm/boot/compressed/fdt_ro.o: In function `fdt_get_path':
+fdt_ro.c:(.text+0x1384): undefined reference to `memcpy'
+arch/arm/boot/compressed/fdt_wip.o: In function `fdt_setprop_inplace_namelen_partial':
+fdt_wip.c:(.text+0x48): undefined reference to `memcpy'
+arch/arm/boot/compressed/fdt_wip.o: In function `fdt_setprop_inplace':
+fdt_wip.c:(.text+0x100): undefined reference to `memcpy'
+arch/arm/boot/compressed/fdt.o: In function `fdt_move':
+fdt.c:(.text+0xa04): undefined reference to `memmove'
+arch/arm/boot/compressed/atags_to_fdt.o: In function `atags_to_fdt':
+atags_to_fdt.c:(.text+0x404): undefined reference to `memcpy'
+atags_to_fdt.c:(.text+0x450): undefined reference to `memcpy'
 
-Besides rebasing to Torvald's tree it also fixes a number of issues
-and crashes in KTSAN code itself. It boots fine with Debian stable
-guest at a beefy workstation. At my home coputer with 32GB and Arch
-guest OS it works mostly fine but sometimes (like ~5% of all cases) I
-see it hangs without any WARN messages. It might be related to a
-memory pressure or something else, had no time to debug it.
+I tried to make everything use them, but ran into other problems:
 
-On Tue, Jul 2, 2019 at 11:16 PM Dmitry Vyukov <dvyukov@google.com> wrote:
->
-> On Wed, Jul 3, 2019 at 7:56 AM Anatol Pomozov <anatol.pomozov@gmail.com> wrote:
-> >
-> > Hello
-> >
-> > On Tue, Jul 2, 2019 at 10:15 PM Dmitry Vyukov <dvyukov@google.com> wrote:
-> > >
-> > > On Wed, Jul 3, 2019 at 7:01 AM Anatol Pomozov <anatol.pomozov@gmail.com> wrote:
-> > > >
-> > > > Hi
-> > > >
-> > > > I am working on getting KernelThreadSanitizer into better shape.
-> > > > Trying to make it more stable and to report racy accesses a bit more
-> > > > accurately.
-> > > >
-> > > > The issue with Linux kernel is that it has a plenty of synchronization
-> > > > primitives. And KTSAN needs to take care of them.
-> > > >
-> > > > One such interesting primitive is semaphore
-> > > > (kernel/locking/semaphore.c). I am not sure what is the use-case for
-> > > > semaphores and why other primitives do not work instead. I checked
-> > > > some examples (e.g. console case -
-> > > > console_trylock/down_console_sem/up_console_sem) and it looks like a
-> > > > typical mutex to me.
-> > > >
-> > > > So I tried to add KTSAN interceptors to semaphore implementation and
-> > > > found that down() and up() for semaphores can be called by different
-> > > > threads. It confuses KTSAN that expects mutex ownership.
-> > > >
-> > > > So now I wonder what would be the best way for KTSAN to handle semaphores.
-> > >
-> > > Yes, that is the official meaning of a semaphore -- it can be "locked"
-> > > and "unlocked" in different threads, it does not have a notion of
-> > > ownership and critical sections, only the counter. The counter for a
-> > > non-binary semaphore can also go above 1, i.e. can be "locked" several
-> > > times.
-> > >
-> > > For such primitive I think we should just add release annotation in up
-> > > and acquire in down.
-> > > But how did it work before? Did we already have these annotations? Or
-> > > it's a new primitive? Or it is used rarely enough that we never
-> > > noticed? Or maybe it is already indirectly annotated via the
-> > > implementation primitives (e.g. atomics)?
-> >
-> > Semaphores has never been annotated with KTSAN. I guess they are rare
-> > and problems never been noticed. Currently ~30 of semaphore uses in
-> > the whole Linux tree.
-> >
-> > And btw semaphores do not use atomics. It is a non-atomic counter
-> > guared by a spinlock.
->
->
-> Ah, ok, then I guess spinlocks provided the necessary synchronization
-> for tsan (consider semaphores as applied code that uses spinlocks,
-> such code should not need any explicit annotations). And that may be
-> the right way to handle it, esp. taking into account that it's rarely
-> used.
+drivers/firmware/efi/libstub/lib-fdt_sw.stub.o: In function `fdt_create_with_flags':
+fdt_sw.c:(.text+0x34): undefined reference to `__memset'
+arch/arm/boot/compressed/decompress.o: In function `lzo1x_decompress_safe':
+decompress.c:(.text+0x290): undefined reference to `__memset'
 
-The spinlock provides a critical section for the internal counter only
+This makes all the early boot code not use the redirects, which
+works because we don't sanitize that code.
 
-https://github.com/google/ktsan/blob/ktsan-master/kernel/locking/semaphore.c#L61
+Setting -D__SANITIZE_ADDRESS__ is a bit confusing here, but it
+does the trick.
 
-If we want to add KTSAN support to semaphores then interceptors need
-to be added to semaphore.c. But it requires introducing idea of
-non-owned mutexes.
-Also how KTSAN suppose to handle non-1 based semaphores?
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ arch/arm/boot/compressed/Makefile     | 1 +
+ arch/arm/boot/compressed/decompress.c | 2 --
+ arch/arm/boot/compressed/libfdt_env.h | 2 --
+ drivers/firmware/efi/libstub/Makefile | 3 ++-
+ 4 files changed, 3 insertions(+), 5 deletions(-)
+
+diff --git a/arch/arm/boot/compressed/Makefile b/arch/arm/boot/compressed/Makefile
+index dcc27fb24fbb..d91c2ded0e3d 100644
+--- a/arch/arm/boot/compressed/Makefile
++++ b/arch/arm/boot/compressed/Makefile
+@@ -25,6 +25,7 @@ endif
+ 
+ GCOV_PROFILE		:= n
+ KASAN_SANITIZE		:= n
++CFLAGS_KERNEL += -D__SANITIZE_ADDRESS__
+ 
+ # Prevents link failures: __sanitizer_cov_trace_pc() is not linked in.
+ KCOV_INSTRUMENT		:= n
+diff --git a/arch/arm/boot/compressed/decompress.c b/arch/arm/boot/compressed/decompress.c
+index 3794fae5f818..aa075d8372ea 100644
+--- a/arch/arm/boot/compressed/decompress.c
++++ b/arch/arm/boot/compressed/decompress.c
+@@ -47,10 +47,8 @@ extern char * strchrnul(const char *, int);
+ #endif
+ 
+ #ifdef CONFIG_KERNEL_XZ
+-#ifndef CONFIG_KASAN
+ #define memmove memmove
+ #define memcpy memcpy
+-#endif
+ #include "../../../../lib/decompress_unxz.c"
+ #endif
+ 
+diff --git a/arch/arm/boot/compressed/libfdt_env.h b/arch/arm/boot/compressed/libfdt_env.h
+index 8091efc21407..b36c0289a308 100644
+--- a/arch/arm/boot/compressed/libfdt_env.h
++++ b/arch/arm/boot/compressed/libfdt_env.h
+@@ -19,6 +19,4 @@ typedef __be64 fdt64_t;
+ #define fdt64_to_cpu(x)		be64_to_cpu(x)
+ #define cpu_to_fdt64(x)		cpu_to_be64(x)
+ 
+-#undef memset
+-
+ #endif
+diff --git a/drivers/firmware/efi/libstub/Makefile b/drivers/firmware/efi/libstub/Makefile
+index 0460c7581220..fd1d72ea04dd 100644
+--- a/drivers/firmware/efi/libstub/Makefile
++++ b/drivers/firmware/efi/libstub/Makefile
+@@ -20,7 +20,8 @@ cflags-$(CONFIG_ARM64)		:= $(subst $(CC_FLAGS_FTRACE),,$(KBUILD_CFLAGS)) \
+ 				   -fpie $(DISABLE_STACKLEAK_PLUGIN)
+ cflags-$(CONFIG_ARM)		:= $(subst $(CC_FLAGS_FTRACE),,$(KBUILD_CFLAGS)) \
+ 				   -fno-builtin -fpic \
+-				   $(call cc-option,-mno-single-pic-base)
++				   $(call cc-option,-mno-single-pic-base) \
++				   -D__SANITIZE_ADDRESS__
+ 
+ cflags-$(CONFIG_EFI_ARMSTUB)	+= -I$(srctree)/scripts/dtc/libfdt
+ 
+-- 
+2.20.0
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
 To post to this group, send email to kasan-dev@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAOMFOmW3td2MYdDEAY1ivjW7fLdtgdk_E_J1VTqNj5ZWNYenaA%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20190703205527.955320-1-arnd%40arndb.de.
 For more options, visit https://groups.google.com/d/optout.
