@@ -1,124 +1,129 @@
-Return-Path: <kasan-dev+bncBCMIZB7QWENRBPWGRTUQKGQEO3KEDEI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCV5TUXXRUIBBZUNRXUQKGQEEKIO73A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pl1-x63f.google.com (mail-pl1-x63f.google.com [IPv6:2607:f8b0:4864:20::63f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58D4A61D7E
-	for <lists+kasan-dev@lfdr.de>; Mon,  8 Jul 2019 13:04:32 +0200 (CEST)
-Received: by mail-pl1-x63f.google.com with SMTP id d6sf5278922pls.17
-        for <lists+kasan-dev@lfdr.de>; Mon, 08 Jul 2019 04:04:32 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1562583870; cv=pass;
+Received: from mail-yb1-xb3f.google.com (mail-yb1-xb3f.google.com [IPv6:2607:f8b0:4864:20::b3f])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC63B61FA0
+	for <lists+kasan-dev@lfdr.de>; Mon,  8 Jul 2019 15:36:39 +0200 (CEST)
+Received: by mail-yb1-xb3f.google.com with SMTP id u14sf9710198ybu.19
+        for <lists+kasan-dev@lfdr.de>; Mon, 08 Jul 2019 06:36:39 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1562592998; cv=pass;
         d=google.com; s=arc-20160816;
-        b=AaRk4NFk2I225dTBFMAmJQxjyqQ+0t700H2FRG2Ne8/N5dSnqdrtXaQabkorOklr23
-         7jvCY+zDelU2N374CDu5ky3IeSsKNFlK8vfztyPo7MoMs9QaH2gG1MJUEzxYTtyYuFU7
-         C8C9shqiZ86gF89cUdp6x5hIoZFMYsmaepoPl66J+lkY1vQJC3MnruPrCwNizIdxp0bK
-         kcndOBbUCC6esEiTV5n08XXzXI7atxpG/34Kt0B8Z54dL6a5LUBJToYpZuPXG5bT/3q8
-         s7WRXrVGfZeYBhZiWTzSTkBE+4CbGWMXrheUlnPjG9mrUkitYowqXAI+4xIWYeM2HHXW
-         3WkQ==
+        b=tVPykQXlbKzlscxXf/prnXCKnxN0QpIXNmyBqC3Y1oX7hQdSAJjOVPmjPDFw963K6A
+         iFpKMVgqEzDi3AXrziyjnBg31QvZ6btw6NAZ8Ckeu8O8BnIod8bTiVMMLm38CdgMTwZq
+         sKbsF+8GdkZJyimuCSWqd76pAeQ8DAUEr7IMg4RNt9Tj7o+RJbs/ulFFynIvNuHF/tSz
+         MEls8X+2TXUipkSnK+vD4YZxk4voAB7a444advS0JI5c/4BFufc+N4l4Lcg0JDvyNh+x
+         TuxoLqbAkKqtk/lZMO/vXNZpdHcdk/TklW5zgV+XIN8NL6QnMo/64I83zJzOO7Y+0xM/
+         mLyw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=IZC4P6g/t8aKl1jPPQST4FfFVZ0Pv5lHRkCJNJK44Kc=;
-        b=YoPO63Ly37bZReyQzn7YhFzuOhAStShDicvjyGhtM1lokgli/ez0GYlmZGMovmDMz5
-         J5guTj/Nj/rd9YaLKmwzx4cLo6EyPcMHQn/18ZjNCz9h3C6MF5w4+PBjcHz95A8/EE0b
-         jCnivZ1Nb6DrAuCJLqGB5b5I4+T7OfuWb8ybKoAbzdcqE6DqHfiphTnuRPt3iUZH1Qqz
-         M5PrHZK12bu81uaBSJPZ/g31SXVOg9ljYgTXjiBL08jbsOtApBs0pb2u1T2EkCZQ8EJb
-         0IFmFzkE+VxHOgXaoGGoMy4RA3d3OrYhs36yuK4bhVnEzPz9uT6AI3Qgi7xoceaYF5Rr
-         fFbw==
+         :list-id:mailing-list:precedence:user-agent:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:sender:dkim-signature;
+        bh=AZSJjfXjPv7lQeRruYK73MqsIc0A4qHPf8ITMs32yD8=;
+        b=OnirRgjlwbs0oy7MDflaIna9RLEhYUdYFUBsRKN0+s/WVHyn1e50my6N6lZl2n/Wdq
+         9si1gpHgLK6tJr21gXVnYU5NFuzaKpZPdAhMXQcCkTDQFYF4fi4AZSMlHcQ68DD6jtw1
+         ThwKkHAQn2uUEKCsCHC+pnSzCqK7j0c6w/YP0pkbSCYU5kDhGD9bj0JPmo5lpzXP5qaR
+         ZSYc+ArBL6/67SdzTex0S8YbPekMUZHQ057x1EVe3Ek1d5gBoWGGUU64zH6Eenm22wR9
+         lpGHNqGkrnAeHiWzYmqdjFG6u68QHnIpKyaQ541T77bYUlQ2rq7e2cMKNKNcHIbyfXJz
+         Ck7w==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=dpins7gF;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::d43 as permitted sender) smtp.mailfrom=dvyukov@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@infradead.org header.s=merlin.20170209 header.b=tCo6CNCg;
+       spf=pass (google.com: best guess record for domain of peterz@infradead.org designates 2001:8b0:10b:1231::1 as permitted sender) smtp.mailfrom=peterz@infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=IZC4P6g/t8aKl1jPPQST4FfFVZ0Pv5lHRkCJNJK44Kc=;
-        b=FZPbE/h5wmf9JNpn/gplzjA3ejek/84JBAJlje8+Bqc0AwN/wazq0z3H8MgrZNYog7
-         KkcngNlIPuQcC11s4lQSJJCAIjmxxzK3MNgXa3RY0+PUoBL/MVLdCVFsJjgrrQHp0DNw
-         PKEde/EPYCiCw//YAZoXctp6E/byE2dlRKX/WK2VpsJ1no/c7s6VwyzZutBNGK6DS7Bc
-         Ukjf6P+Y5FECsl7Wv6hLahlMrPh2NncceYLJ1M3eFq18zWlPiDDea0ACRnq8bcQxtq4D
-         ONElCC5W+MXALmZeJ5fePGPjdL3T8aXpngtZGosCn8/ojmKDdM7JtjgHKlVlKpwd+Bq3
-         cFaQ==
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=AZSJjfXjPv7lQeRruYK73MqsIc0A4qHPf8ITMs32yD8=;
+        b=PnYES5Sm0A6SsITXtIBubBXIlb8yc+RJM3/9X5uB95cjQGkAe/mPjNhn0u3qcZojKU
+         B5t9OyEycP+55gGfU7mExizELuuEZ/DPgS6dkSboopn8uq9iA/8ku73gu+5sJSb01s7M
+         n57eOaPC9Ness3T5SwfdSZhp0UuFDGqoOqx6JeNi6RrCTPLMUWsV2KV/0mNDBihHPmQa
+         x7nNrHbvV5Gaqz6Fi+1Ubl27HaT3xqpRY/iIxb3BQ2Q1SMNPZinzOhNHrd2SI4w8nfao
+         O20kUp58+iFN5ct7qnlkWVTvV1Hb4rCyeooVJg0mvh90EwNsH9/S6jnnhD3p74vcSVN4
+         SusQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=IZC4P6g/t8aKl1jPPQST4FfFVZ0Pv5lHRkCJNJK44Kc=;
-        b=LoCyHA3fS0lBjDWqb/uYfcAHPYRs6S2HcHflbzSHYOaeydLjd7YhEooTBvN0mhkrVr
-         HPWo8jG2yWg4o5Jbjqes5CqnxNbO+jbn7fYNTe7pnqRX6wxwoJFEnGrYBc5y3XCFVYFp
-         WC11ReUZ+vnX6l1iOhU31PfZIDTdTntn1hdrvHSAdQbOk1uf3ET8fiIJY/pJ2LumqtBc
-         m3C2Lrbbv8nD6xhwHEBB7trom3tZz3UUue8Ib9lqT6HwfDGJ10W/d71Q3xdFBP4tRxO7
-         WrIljp5TMAor1sodH906XzBsL9mMvlZEe45a+XXhFUlh/b0hHJMwi8UR1n6LamLn8EhH
-         vElg==
-X-Gm-Message-State: APjAAAUSBMZIb8hLVJBs2EbF2/T2oBgtTh76uadg++6myi/moiknwNTy
-	xtjRJ57ZG8BTK8V7qweZtoE=
-X-Google-Smtp-Source: APXvYqzX1XPFYDJmTTy7JXo0DEHD2zyKNK1AiOvI8fojSoLywJ+5GFlilCzZeY2gyasrZ5IF2sJ+uQ==
-X-Received: by 2002:a17:90a:b00b:: with SMTP id x11mr24782129pjq.120.1562583870679;
-        Mon, 08 Jul 2019 04:04:30 -0700 (PDT)
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=AZSJjfXjPv7lQeRruYK73MqsIc0A4qHPf8ITMs32yD8=;
+        b=FBUImjwo5/rLJYG/eN4lORT6+3AE1g7hyL6NsBH0WNYtZy36+q+lvuptXwsGwOGMQi
+         oa+ZLVTwpLyOu0Z56t/olIczaYobjFEXQsZeEE1EZx355ycVovBxIv0Fb+wLWTosa68T
+         WsfctwcEXu0caGqvqHhosytsxEj3vBgH+uDveGkv+HwnCl5aq4w3Bs/0Cwm2mdXZumt2
+         xN/f099W5gkSnh8TohTkhxNvhh8byIxj60FuR6ixIHNffzo/DyGj+v3pxVWCjMwo0tTa
+         yzCZbMklGkgs8W93gU4Pm9WT04YGvhc7Q4g/WOy4mUQDr4eSfdeo54NjZamEgTOkKjnW
+         n/5Q==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: APjAAAXqIBtnGfQ3nFAweVf0LQs08Y8HPhyUCkkBFduz+XpcB8ruy8bQ
+	8N257PKz4y8LWnaBOvUedc0=
+X-Google-Smtp-Source: APXvYqxG5fBeOHfW3eKUJLISoGYux8bvhWldl4Besxqy/RagEoDeuNZ/I1FRy+vVLJEtAFORhOZgSQ==
+X-Received: by 2002:a25:804d:: with SMTP id a13mr10786712ybn.55.1562592998645;
+        Mon, 08 Jul 2019 06:36:38 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:90a:db53:: with SMTP id u19ls2226122pjx.3.gmail; Mon, 08
- Jul 2019 04:04:30 -0700 (PDT)
-X-Received: by 2002:a17:90a:cb8e:: with SMTP id a14mr24195978pju.124.1562583870354;
-        Mon, 08 Jul 2019 04:04:30 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1562583870; cv=none;
+Received: by 2002:a25:8405:: with SMTP id u5ls1488864ybk.6.gmail; Mon, 08 Jul
+ 2019 06:36:38 -0700 (PDT)
+X-Received: by 2002:a25:9d82:: with SMTP id v2mr10322527ybp.226.1562592998304;
+        Mon, 08 Jul 2019 06:36:38 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1562592998; cv=none;
         d=google.com; s=arc-20160816;
-        b=BV03/PL4LGQZ6fcB6we5J//70Ad7tw7gv+kKPCBHcJEoCybEyyBrMq9KD3W6E13Xns
-         PEnZwQe2uzwau9qVVojAv4Y7BStwZZE5Ho2mI9HJQd19KrBrMFhB21OiSi2O1EPO9DAc
-         oSHuLPnBooMLAoj0d78PyH8ptVT+YdvmjDS0/y7ydg+iNULpcMFzMje3VCPRjzXYRFx9
-         T3a8ayzs8MtdRhDMOBfF5aP2MIsITKN5ozTlNq1VDIXrQrttpMq+a8Dvqki+GgTj8mp7
-         N5vaCEw+noAikWEML6GZyoTYDvTmLcVP4MpAetHSs+x5TWmijlZEBHGcpXItAAT3YtqC
-         YL/A==
+        b=cDmpCKER8GeQBKvMW7a/Y1k6vCAUcDqQEnSD4ngp2PCeC6jR1YUas0mz/WPEM/XwuF
+         rYz80tdz8rFq6uut9A1+0Yp9dMwi/IT20O39u+xP4nEhb6k0mcm8BqtK/Zjsmrpy41z+
+         zOztLYLPdps9hdBjOK89VP0PuBSWOgIViY//7q9b1T8tlK261anhExk/8cnjf8woVaaS
+         tBVzvZTNaA7FoL03TOqk7ZDnGFitbHA/j7ZWrsKsSdj5G8OqLBLCagR/xky5udVBTQdx
+         /s5xvcsba7ZdLmwor6Zf5QfKyqQix42ueAeJt47gtlgtKXla4nDSu9oDFmWy5EuAZdGh
+         EHTw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=/2IlxMV/t0jFtVN83AfBtLyDts03NQaXCeGrr0PWXu8=;
-        b=FX62DUy/z87WalV4t8CwYrfRBJ3lfU3GgtfeGpAU3CLuakNSQxN3+j8hIJaoT4ACM/
-         +vqXZM/bDYKE2YR7+J44dmawkAV1Px8BfucTtOErauKObPanVyI1Lcaqf62M4DwbutiY
-         joKTh5WP3iJzpfqaQh5YRJaFQQgZWHr8rDHUugBSgitiX2Q+l+c1YCyrnSq3XhHeT93q
-         K5K4QvfKTbHEOVP3pdlTRN+/TbgKf/sndRMkVmUTcjkUnB+0b6V8ukRvg+1yzWapdLkI
-         QS+dWrYCxuiwa+VmBk2LZEFBbaObzLwZJAF9YnM8daRcN/NCyLGuahNjQffAF1S7Aho9
-         wKfQ==
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:dkim-signature;
+        bh=05F80iXfXNpAi1oVvhB3ub6LRHCm34VoFGBmreAiqfU=;
+        b=HJvlquh9A3uGJDvA8ROjL/sU3lw/tD0V3I31nyxc1UNceS3U4UeJPw6cxSPsQE+IL9
+         2AtzWqfJ9faLjsRu8GLapnGSOwTBYttdslTTt545Nrtd54pHizKzGnKi5FW+1QYzuGPd
+         D6NZWQn53TDbx8pUWJQGGaSfR2fZNaD/CPjw1rPmeqFZKNlIT6pZR47SsOqY2rfcpJ68
+         BcDO5DLVf/L22dcs4MsXaCb7m/PmcRYdvPd4R11LrH4jXe8YFV9nDSquv1C6RDmNw2rN
+         mLlWYHuDL2k1XiWi8CtCYiP4Bl+jIxB4w1JffcP9Mq29FejUCa9nX7IIUKtZ7X5Au+3V
+         YeWg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=dpins7gF;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::d43 as permitted sender) smtp.mailfrom=dvyukov@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-io1-xd43.google.com (mail-io1-xd43.google.com. [2607:f8b0:4864:20::d43])
-        by gmr-mx.google.com with ESMTPS id e7si236033pfh.5.2019.07.08.04.04.30
+       dkim=pass header.i=@infradead.org header.s=merlin.20170209 header.b=tCo6CNCg;
+       spf=pass (google.com: best guess record for domain of peterz@infradead.org designates 2001:8b0:10b:1231::1 as permitted sender) smtp.mailfrom=peterz@infradead.org
+Received: from merlin.infradead.org (merlin.infradead.org. [2001:8b0:10b:1231::1])
+        by gmr-mx.google.com with ESMTPS id z14si799009ybj.3.2019.07.08.06.36.34
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-        Mon, 08 Jul 2019 04:04:30 -0700 (PDT)
-Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::d43 as permitted sender) client-ip=2607:f8b0:4864:20::d43;
-Received: by mail-io1-xd43.google.com with SMTP id m24so24736175ioo.2
-        for <kasan-dev@googlegroups.com>; Mon, 08 Jul 2019 04:04:30 -0700 (PDT)
-X-Received: by 2002:a5e:c241:: with SMTP id w1mr12333851iop.58.1562583869283;
- Mon, 08 Jul 2019 04:04:29 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190708004729.GL17490@shao2-debian> <20190708105533.GH3402@hirez.programming.kicks-ass.net>
-In-Reply-To: <20190708105533.GH3402@hirez.programming.kicks-ass.net>
-From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Mon, 8 Jul 2019 13:04:18 +0200
-Message-ID: <CACT4Y+aJYy-aRCAArTEsTKSz1NPE2JONk68P67qPb=7iun3uwQ@mail.gmail.com>
-Subject: Re: 7457c0da02 [ 0.733186] BUG: KASAN: unknown-crash in unwind_next_frame
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: kernel test robot <rong.a.chen@intel.com>, Ingo Molnar <mingo@kernel.org>, 
-	Josh Poimboeuf <jpoimboe@redhat.com>, LKP <lkp@01.org>, 
-	Andrey Ryabinin <aryabinin@virtuozzo.com>, Alexander Potapenko <glider@google.com>, 
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Mon, 08 Jul 2019 06:36:34 -0700 (PDT)
+Received-SPF: pass (google.com: best guess record for domain of peterz@infradead.org designates 2001:8b0:10b:1231::1 as permitted sender) client-ip=2001:8b0:10b:1231::1;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
+	by merlin.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+	id 1hkToe-0007TQ-52; Mon, 08 Jul 2019 13:36:24 +0000
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 3534A20B28AD7; Mon,  8 Jul 2019 15:36:21 +0200 (CEST)
+Date: Mon, 8 Jul 2019 15:36:21 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: Dmitry Vyukov <dvyukov@google.com>
+Cc: kernel test robot <rong.a.chen@intel.com>,
+	Ingo Molnar <mingo@kernel.org>,
+	Josh Poimboeuf <jpoimboe@redhat.com>, LKP <lkp@01.org>,
+	Andrey Ryabinin <aryabinin@virtuozzo.com>,
+	Alexander Potapenko <glider@google.com>,
 	kasan-dev <kasan-dev@googlegroups.com>
+Subject: Re: 7457c0da02 [ 0.733186] BUG: KASAN: unknown-crash in
+ unwind_next_frame
+Message-ID: <20190708133621.GJ3402@hirez.programming.kicks-ass.net>
+References: <20190708004729.GL17490@shao2-debian>
+ <20190708105533.GH3402@hirez.programming.kicks-ass.net>
+ <CACT4Y+aJYy-aRCAArTEsTKSz1NPE2JONk68P67qPb=7iun3uwQ@mail.gmail.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: dvyukov@google.com
+Content-Disposition: inline
+In-Reply-To: <CACT4Y+aJYy-aRCAArTEsTKSz1NPE2JONk68P67qPb=7iun3uwQ@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Original-Sender: peterz@infradead.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=dpins7gF;       spf=pass
- (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::d43
- as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
- (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Dmitry Vyukov <dvyukov@google.com>
-Reply-To: Dmitry Vyukov <dvyukov@google.com>
+ header.i=@infradead.org header.s=merlin.20170209 header.b=tCo6CNCg;
+       spf=pass (google.com: best guess record for domain of
+ peterz@infradead.org designates 2001:8b0:10b:1231::1 as permitted sender) smtp.mailfrom=peterz@infradead.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -131,139 +136,66 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, Jul 8, 2019 at 12:55 PM Peter Zijlstra <peterz@infradead.org> wrote:
->
-> On Mon, Jul 08, 2019 at 08:47:29AM +0800, kernel test robot wrote:
-> > Greetings,
-> >
-> > 0day kernel testing robot got the below dmesg and the first bad commit is
-> >
-> > https://kernel.googlesource.com/pub/scm/linux/kernel/git/next/linux-next.git master
-> >
-> > commit 7457c0da024b181a9143988d740001f9bc98698d
-> > Author:     Peter Zijlstra <peterz@infradead.org>
-> > AuthorDate: Fri May 3 12:22:47 2019 +0200
-> > Commit:     Ingo Molnar <mingo@kernel.org>
-> > CommitDate: Tue Jun 25 10:23:50 2019 +0200
-> >
-> >     x86/alternatives: Add int3_emulate_call() selftest
-> >
-> >     Given that the entry_*.S changes for this functionality are somewhat
-> >     tricky, make sure the paths are tested every boot, instead of on the
-> >     rare occasion when we trip an INT3 while rewriting text.
-> >
-> >     Requested-by: Andy Lutomirski <luto@kernel.org>
-> >     Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-> >     Reviewed-by: Josh Poimboeuf <jpoimboe@redhat.com>
-> >     Acked-by: Andy Lutomirski <luto@kernel.org>
-> >     Cc: Linus Torvalds <torvalds@linux-foundation.org>
-> >     Cc: Peter Zijlstra <peterz@infradead.org>
-> >     Cc: Thomas Gleixner <tglx@linutronix.de>
-> >     Signed-off-by: Ingo Molnar <mingo@kernel.org>
-> >
-> > faeedb0679  x86/stackframe/32: Allow int3_emulate_push()
-> > 7457c0da02  x86/alternatives: Add int3_emulate_call() selftest
-> > +-------------------------------------------------------+------------+------------+
-> > |                                                       | faeedb0679 | 7457c0da02 |
-> > +-------------------------------------------------------+------------+------------+
-> > | boot_successes                                        | 33         | 8          |
-> > | boot_failures                                         | 2          | 4          |
-> > | WARNING:possible_circular_locking_dependency_detected | 2          |            |
-> > | BUG:KASAN:unknown-crash_in_u                          | 0          | 4          |
-> > +-------------------------------------------------------+------------+------------+
-> >
-> > If you fix the issue, kindly add following tag
-> > Reported-by: kernel test robot <rong.a.chen@intel.com>
-> >
-> > [    0.726834] CPU: GenuineIntel Intel Core Processor (Haswell) (family: 0x6, model: 0x3c, stepping: 0x1)
-> > [    0.728007] Spectre V2 : Spectre mitigation: kernel not compiled with retpoline; no mitigation available!
-> > [    0.728009] Speculative Store Bypass: Vulnerable
-> > [    0.729969] MDS: Vulnerable: Clear CPU buffers attempted, no microcode
-> > [    0.732269] ==================================================================
-> > [    0.733186] BUG: KASAN: unknown-crash in unwind_next_frame+0x3f6/0x490
->
-> This is a bit of a puzzle; I'm not sure what KASAN is trying to tell us
-> here, also isn't the unwinder expected to go off into the weeds at times
-> and 'expected' to cope with that? I'm also very much unsure how the
-> fingered commit would lead to this, the below splat is in a lockdep
-> unwind from completely unrealted code (pageattr).
->
-> Josh, Andrey, any clues?
+On Mon, Jul 08, 2019 at 01:04:18PM +0200, Dmitry Vyukov wrote:
+> On Mon, Jul 8, 2019 at 12:55 PM Peter Zijlstra <peterz@infradead.org> wrote:
+> > On Mon, Jul 08, 2019 at 08:47:29AM +0800, kernel test robot wrote:
 
-+kasan-dev@googlegroups.com
+> > >     x86/alternatives: Add int3_emulate_call() selftest
 
-Frame pointer unwinder is supposed to be precise for the current task,
-it should not touch random memory. This is thoroughly tested. If we
-start giving up on this property, we will open door for lots of bugs.
-Don't know about ORC, I guess it also meant to be precise, but we just
-never stressed it.
-I don't see what unwinder is involved here.
+> > > [    0.726834] CPU: GenuineIntel Intel Core Processor (Haswell) (family: 0x6, model: 0x3c, stepping: 0x1)
+> > > [    0.728007] Spectre V2 : Spectre mitigation: kernel not compiled with retpoline; no mitigation available!
+> > > [    0.728009] Speculative Store Bypass: Vulnerable
+> > > [    0.729969] MDS: Vulnerable: Clear CPU buffers attempted, no microcode
+> > > [    0.732269] ==================================================================
+> > > [    0.733186] BUG: KASAN: unknown-crash in unwind_next_frame+0x3f6/0x490
+> >
+> > This is a bit of a puzzle; I'm not sure what KASAN is trying to tell us
+> > here, also isn't the unwinder expected to go off into the weeds at times
+> > and 'expected' to cope with that? I'm also very much unsure how the
+> > fingered commit would lead to this, the below splat is in a lockdep
+> > unwind from completely unrealted code (pageattr).
+> >
+> > Josh, Andrey, any clues?
+> 
+> +kasan-dev@googlegroups.com
+> 
+> Frame pointer unwinder is supposed to be precise for the current task,
+> it should not touch random memory. This is thoroughly tested. If we
+> start giving up on this property, we will open door for lots of bugs.
+> Don't know about ORC, I guess it also meant to be precise, but we just
+> never stressed it.
+> I don't see what unwinder is involved here.
 
+The config that came with had:
 
-> > [    0.734146] Read of size 8 at addr ffffffff84007db0 by task swapper/0
-> > [    0.734963]
-> > [    0.735168] CPU: 0 PID: 0 Comm: swapper Tainted: G                T 5.2.0-rc6-00013-g7457c0d #1
-> > [    0.736266] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.10.2-1 04/01/2014
-> > [    0.737374] Call Trace:
-> > [    0.737697]  dump_stack+0x19/0x1b
-> > [    0.738129]  print_address_description+0x1b0/0x2b2
-> > [    0.738745]  ? unwind_next_frame+0x3f6/0x490
-> > [    0.739370]  __kasan_report+0x10f/0x171
-> > [    0.739959]  ? unwind_next_frame+0x3f6/0x490
-> > [    0.739959]  kasan_report+0x12/0x1c
-> > [    0.739959]  __asan_load8+0x54/0x81
-> > [    0.739959]  unwind_next_frame+0x3f6/0x490
-> > [    0.739959]  ? unwind_dump+0x24e/0x24e
-> > [    0.739959]  unwind_next_frame+0x1b/0x23
-> > [    0.739959]  ? create_prof_cpu_mask+0x20/0x20
-> > [    0.739959]  arch_stack_walk+0x68/0xa5
-> > [    0.739959]  ? set_memory_4k+0x2a/0x2c
-> > [    0.739959]  stack_trace_save+0x7b/0xa0
-> > [    0.739959]  ? stack_trace_consume_entry+0x89/0x89
-> > [    0.739959]  save_trace+0x3c/0x93
-> > [    0.739959]  mark_lock+0x1ef/0x9b1
-> > [    0.739959]  ? sched_clock_local+0x86/0xa6
-> > [    0.739959]  __lock_acquire+0x3ba/0x1bea
-> > [    0.739959]  ? __asan_loadN+0xf/0x11
-> > [    0.739959]  ? mark_held_locks+0x8e/0x8e
-> > [    0.739959]  ? mark_lock+0xb4/0x9b1
-> > [    0.739959]  ? sched_clock_local+0x86/0xa6
-> > [    0.739959]  lock_acquire+0x122/0x221
-> > [    0.739959]  ? _vm_unmap_aliases+0x141/0x183
-> > [    0.739959]  __mutex_lock+0xb6/0x731
-> > [    0.739959]  ? _vm_unmap_aliases+0x141/0x183
-> > [    0.739959]  ? sched_clock_cpu+0xac/0xb1
-> > [    0.739959]  ? __mutex_add_waiter+0xae/0xae
-> > [    0.739959]  ? lock_downgrade+0x368/0x368
-> > [    0.739959]  ? _vm_unmap_aliases+0x40/0x183
-> > [    0.739959]  mutex_lock_nested+0x16/0x18
-> > [    0.739959]  _vm_unmap_aliases+0x141/0x183
-> > [    0.739959]  ? _vm_unmap_aliases+0x40/0x183
-> > [    0.739959]  vm_unmap_aliases+0x14/0x16
-> > [    0.739959]  change_page_attr_set_clr+0x15e/0x2f2
-> > [    0.739959]  ? __set_pages_p+0x111/0x111
-> > [    0.739959]  ? alternative_instructions+0xd8/0x118
-> > [    0.739959]  ? arch_init_ideal_nops+0x181/0x181
-> > [    0.739959]  set_memory_4k+0x2a/0x2c
-> > [    0.739959]  check_bugs+0x11fd/0x1298
-> > [    0.739959]  ? l1tf_cmdline+0x1dc/0x1dc
-> > [    0.739959]  ? proc_create_single_data+0x5f/0x6e
-> > [    0.739959]  ? cgroup_init+0x2b1/0x2f6
-> > [    0.739959]  start_kernel+0x793/0x7eb
-> > [    0.739959]  ? thread_stack_cache_init+0x2e/0x2e
-> > [    0.739959]  ? idt_setup_early_handler+0x70/0xb1
-> > [    0.739959]  x86_64_start_reservations+0x55/0x76
-> > [    0.739959]  x86_64_start_kernel+0x87/0xaa
-> > [    0.739959]  secondary_startup_64+0xa4/0xb0
-> > [    0.739959]
-> > [    0.739959] Memory state around the buggy address:
-> > [    0.739959]  ffffffff84007c80: 00 00 00 00 00 00 00 00 00 00 00 00 00 f1 f1 f1
-> > [    0.739959]  ffffffff84007d00: f1 00 00 00 00 00 00 00 00 00 f2 f2 f2 f3 f3 f3
-> > [    0.739959] >ffffffff84007d80: f3 79 be 52 49 79 be 00 00 00 00 00 00 00 00 f1
+  CONFIG_UNWINDER_FRAME_POINTER=y
+
+So that should, according to what you say, be solid.
+
+Now, the fingered commit will unconditionally trigger the idtentry
+create_gap logic; and since this splat is *right* after
+alternative_instructions(), which does the int3_selftest(), this could
+maybe indicate some stack corruption.
+
+	check_bugs()
+	  alternative_instructions()
+	    int3_selftest();
+	    stop_nmi()
+	    apply_aternatives()
+	    ...
+	    restart_nmi()
+	  set_memory_4k()
+	    ...
+	      *SPLAT*
+
+Still, what does KASAN want to tell us here? AFAICT there's 2 separate
+conditions under which it states "unknown-crash", and I'm not sure I
+understand either one of them. In one case the memory has shadow memory,
+the other not.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
 To post to this group, send email to kasan-dev@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BaJYy-aRCAArTEsTKSz1NPE2JONk68P67qPb%3D7iun3uwQ%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20190708133621.GJ3402%40hirez.programming.kicks-ass.net.
 For more options, visit https://groups.google.com/d/optout.
