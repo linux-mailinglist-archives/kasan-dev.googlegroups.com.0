@@ -1,135 +1,124 @@
-Return-Path: <kasan-dev+bncBDEKVJM7XAHRB5WJYDUQKGQE3YH6MFY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCMIZB7QWENRBF5LYLUQKGQEIVNF3MY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ot1-x338.google.com (mail-ot1-x338.google.com [IPv6:2607:f8b0:4864:20::338])
-	by mail.lfdr.de (Postfix) with ESMTPS id 377B86CA4E
-	for <lists+kasan-dev@lfdr.de>; Thu, 18 Jul 2019 09:51:20 +0200 (CEST)
-Received: by mail-ot1-x338.google.com with SMTP id x5sf14867809otb.4
-        for <lists+kasan-dev@lfdr.de>; Thu, 18 Jul 2019 00:51:20 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1563436279; cv=pass;
+Received: from mail-wr1-x43c.google.com (mail-wr1-x43c.google.com [IPv6:2a00:1450:4864:20::43c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 669946D166
+	for <lists+kasan-dev@lfdr.de>; Thu, 18 Jul 2019 17:51:51 +0200 (CEST)
+Received: by mail-wr1-x43c.google.com with SMTP id g2sf13890404wrq.19
+        for <lists+kasan-dev@lfdr.de>; Thu, 18 Jul 2019 08:51:51 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1563465111; cv=pass;
         d=google.com; s=arc-20160816;
-        b=ot8+jmq9JPc11KQNWVC1pykXDwNBPVwDAT2maNyEe4WEn5kVqgP7KAuoKBMOS/J1G2
-         +gQh5s5H51XfYrRRCbMydvwrstBvVrZDp1a8Tmgo3a/rX45X3CrLyXsbUtagI3u4RnL6
-         Ubv6iHo22CvYSyWcaTy/0nuiJ9qiFt/WQl12Y7ei8wBRteSVPpWu2j14wSkAiIpR4yPv
-         sOsVemJb/A7PDuYG6JVdHNJ8G+ZBFcJPHhTMGrLRs3WEYaYZVpC5K7PqgeniqcYKUm5H
-         NiBFRSdtB9BOXGKcGFaS5H6PcFWKQ5a+o972SBAQHWX3shegO3OFBmINTwtvzjfoJaou
-         ENpA==
+        b=LJwa484LCEcifgmYkU7b37H0otmvIZDO4QrdZK+9rYflYtFwcD8eMNf9w4+nYTDHPe
+         txyLHcjJng9NUf2iJ22V+21OK4tMUgIL26qaaOy+nXsSeRzaT+f0jj6NQSyHpAyoZ1xM
+         Dg6wfumCX1894Dy9H5VbngQxQAGV1FWDHGSCNv6fa3ugDVhJZN04PeqNLseY9c8S2HOC
+         F7z/qngxgApzEQtSoemvaqE+6XAJSnEiNi4QSV3pTOC+WP9ftn8ZVXpoSPvyv//8ws4S
+         q89GFZW4cLXTAKblfjil0G+OOzKWThQrXs9JJ+pg8d8FSU8LLLpm8pWnW1uXqTfMVqPU
+         Fwlw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:sender:dkim-signature;
-        bh=ILdOdmL1ihCeGCkrESuTIApD9gZjgVpA45lD2PWqFSE=;
-        b=BWeeIW5WE7iVagLgZ52jG7fopGLg99x3xHHeGZRZaYuDvOxGe5XBG9Zq9TlmwuFTmL
-         Co1wZY4SaKxfTd9J7g90zkHiqpqIs6SyXRt478S48zqyPULNRg/CvmKjRdQl60+7E7jr
-         rUmPCykeBoC2HWQi4hIY1pElfuqsz1neX8DLor4TSXlKUW4tevO59ous7lpFjzisIpFO
-         w1cB5y+/EB3k4RSrJjwftUc8u8zPYmCkAr5f0TlVeJfFrO9+M9XRLQebFnv2ua3lak8f
-         AciSF2ZgESMNiOjAuVehNJavPbqjfdkwI5V7mUxNgnFXngbmLjcXsd2vPfdScQn7okHO
-         coMQ==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=xoUo+/ppExpvhDBUJ0M5CWAOw222ospU7INETPI7QR4=;
+        b=qIzZKrJzl0W0As5r2gXTPb5YVtsHruH/vjEDauMXx/zfOmhjDRte0GL+/qv0YgLTwY
+         UOBBOlVjiiukKjQWKUWGG1MqaG781K8tioNaptEEEPu50iV2CuTaSxSEPGYvl2yaifFH
+         7cb6Nmm1X4+cSh/J6b3IreenkGkuelPFcQSZdf25p/IfI5QOCOjRHEDSXy/zijYy8xsb
+         L0v4Arcdud7tak6YiTkpt23++iNRV3K6ch4Mx9jM5ktaqB1VDdLykU9KPUqibxqK1jLe
+         ggSJ6ebt1+Gs14vA2urJCYKRonsim6v+zb6+Uxqa0S7YEBaJymP/CQQ+A5bifCiebNw/
+         F67Q==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of arndbergmann@gmail.com designates 209.85.160.194 as permitted sender) smtp.mailfrom=arndbergmann@gmail.com
+       dkim=pass header.i=@google.com header.s=20161025 header.b=rrnpLwV7;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::544 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:mime-version:references:in-reply-to:from:date:message-id
-         :subject:to:cc:x-original-sender:x-original-authentication-results
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=ILdOdmL1ihCeGCkrESuTIApD9gZjgVpA45lD2PWqFSE=;
-        b=Cou3SwdE4hE1kDH77duhWlAjt5/WswdvDt9h0tzKqz75u5goB1loS5X+JjT31pEdQY
-         DJHc6JlRMwY/Y3s+uWgezE4xjO02VBT4+GNi7l7BpQsL2R3+4BpCY2VGY9/jfFV1SjlD
-         eRfLxl7gCwIY6AsaS4v91EBFutWCwFTN4GssNrGt7FD7n6Pbl5wcmjb+DaFwVESoaDGd
-         twiX0m5R4ERXdu0Ehjg5N1ypo9xBgAo2w2o53gv6POLNyZfWByAY+Wf2nsgpO0dL+AyU
-         qZRd/egk4pb9dJ5pkh2SfL+oKQQPV08HScizhEfbjO57hRaM922Au0pTvnPBl7MEJM7A
-         1jrA==
+        bh=xoUo+/ppExpvhDBUJ0M5CWAOw222ospU7INETPI7QR4=;
+        b=fHjcy4hq/Jcnq4yB19mc7I2BgYRupuHeKJn2JVk5LONxPj+jc9aotSj46mm7LP8Ps4
+         cCi+KktoHO9TMao4ZVu4MxYgNhpKOPRukM4ssgoA5T3RFvTeWfLR5EiJ/3dhHyRurnkA
+         1NVz3IkU/vV8rnpHyv4scIjs4jD5DAw1vIohuw0JyAUiGbjDhl45ezVRE4tOfDclchW5
+         erBGeFGWg8u5r73Csi2CAT+YWReUn1PHc+eCUkpOJ+DbomZW/OgXN8j83RyXVCoPPmin
+         bKee6MunYAMlOtwq2E5k5TONtfhpJJWDv8KN3hz1zls8ssYVwRcbLevs36FV8aj0A1p+
+         CGqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
-         :date:message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=ILdOdmL1ihCeGCkrESuTIApD9gZjgVpA45lD2PWqFSE=;
-        b=kuTjDpRKpD6v4wV9APexhq/eANAnm5uRdPy3VhyjM1bfWnifmS7jNkFLP3GCs6Ulg7
-         Aot2uig5EfTd/lKhRxWcabXo+iWDtrE7aXxfupCvd/xk22U59deht0Yi7w5kilrDBOP2
-         DSneYeBRam05SKpjXhaLRV5F9842YYjcS6PZ/CG/cIXtjsH/6OqapBRcUaAecsw7x4bT
-         nAUcEWozqQR3M/owrc2SyUeUb+TwmIOp1tdksaQMASEUuEKXibNfyJ2/CSp5qJ3kZ2K1
-         VF3gf0yg8h9zsMdMaDhOk72Q+u5EiN/+wdGUvR4x1GG8/JEyKGZGyywgBltQt3DMyfrg
-         nD6A==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAULPZ5ML2Y1qvQQJQkl9a+woSJpO2IdG+KqkWmMSoKSf8L8t+ET
-	XbZZ1speDW4AU4xuLn3iSA0=
-X-Google-Smtp-Source: APXvYqwE1JlDmM7oCAgmF71o5y9LK0w3JH2HAeT5R0aIDFxK2olQkXnUrZSVPpFxLtEyWkV8OSohFg==
-X-Received: by 2002:a9d:27c3:: with SMTP id c61mr31721896otb.291.1563436279021;
-        Thu, 18 Jul 2019 00:51:19 -0700 (PDT)
+        bh=xoUo+/ppExpvhDBUJ0M5CWAOw222ospU7INETPI7QR4=;
+        b=dhFlRqNAcnslgY0HsoyLikEHuDkbWPwK/hl3Pur7e5+CzjYXTZVcJy1jIzixDiyWi2
+         k5RFj4AmmvcJUSxFnhg8z3r+IyYsL0S9z1ynE4EywOwyc/5mr5xX5ID1kzyAsLHJWhPV
+         7LrjaekI2339fvva/30K1togt87AJANPg+q7Zf9+Pa+sVHOtxGRTr9J7ZtZJz1cmhxF4
+         hwH7TXEhwWj8xNpV4SYFqWhnOBhBKCW6GfswjtxEcXO6OmX05A3LaDubMxl5eOutHRF5
+         0c5wBKbH9siCG8JnIC/ZP/+5SxHszyCHIQKLcVFKUdSHvFKdwem9ImVxv5/TpgXePv7T
+         TaPg==
+X-Gm-Message-State: APjAAAWsVH1kraqQoILJb0nYN3RQDB2TRbCamfxd3+S6D9Ax3RVyuCHW
+	u922EP5PKhmKK9CQ2fPe3hA=
+X-Google-Smtp-Source: APXvYqxM8UaYMPX0iJeK8F13O7OqJVoXlkrqNLtITf/OaqexeaQ4AFD3kq7jv4oSB2yIIRJb7qooVA==
+X-Received: by 2002:adf:d081:: with SMTP id y1mr52814497wrh.34.1563465111097;
+        Thu, 18 Jul 2019 08:51:51 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6808:5d4:: with SMTP id d20ls3529201oij.14.gmail; Thu,
- 18 Jul 2019 00:51:18 -0700 (PDT)
-X-Received: by 2002:aca:1b10:: with SMTP id b16mr21711745oib.13.1563436278665;
-        Thu, 18 Jul 2019 00:51:18 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1563436278; cv=none;
+Received: by 2002:a1c:2d11:: with SMTP id t17ls10663340wmt.0.gmail; Thu, 18
+ Jul 2019 08:51:50 -0700 (PDT)
+X-Received: by 2002:a1c:a7ca:: with SMTP id q193mr45994303wme.150.1563465110683;
+        Thu, 18 Jul 2019 08:51:50 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1563465110; cv=none;
         d=google.com; s=arc-20160816;
-        b=JdcuYkgQn0yzWBcsfX7EHHjwxcWiaueqbrXrKJlT3fPf0zkq1TQFQxYfsP3AXUbn5Y
-         wupWgAGFqUXGlnXcCvsVdWa4/S5mO0cSbf+e0UPTQyo3Luh7AKGeNGkn5WJXJgb6lc6E
-         7X/Fs1LHBaBkuT9JRsK4lJb8K/XNI5RmAadl7N211z8EnLj4gwvkgepAE8Dibk4f5fLq
-         yy30Mv6JlOY4xJJveFnOP/+j9vVmFqqxQteKmCPjnubtNKLihPO5m57oEd8NtVs9KDKq
-         Q0LFkFKAFiF/snIpjgxq/RoZimIgCxmNn45DqY/6Kn3w7v/24dgfqDgdEYUSrFlCuQkA
-         +Ctw==
+        b=xQ3bVNvYjnGmMePQXtJadD403dliY2/S4rUdYlOL1okFp1Apf+DTWE6o6BieyxOHP7
+         IwfjmdNP+MQ+3AJRkIkKu4nzzw9pXtNc2cnEgRexSKcRJ8RXi1abZwSo6EgbcQv0kg5A
+         a8UPJMRQ+kEhdJmwyTICKcnWsl58a3z2gvgC0BklHKJYztbDnwAJIsRu904to9++Tge2
+         WEutvLsHMIBso3BXdYJMIXgz8UOr0xmHuXL4RcyWU3VOlxZKy2ETnE2r7b4foSkB8EzJ
+         M9GA+BTV2947/0k73DBuBoU8szIExUyzDSlc34h2WvR43/t0KpX2cuo/3vRsjeBSWIpI
+         RnmQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version;
-        bh=AMIbdcIyPjXgBsFnQdrxIvDXu584wusUv2Znj2VCflY=;
-        b=VZo3pVZYoJZfWvuYfG+R5verqBw8TVr9WVc69trb1ve6sHnElGcl/+lzlw138ZyOwi
-         VGA0Yf8x91IRA8mSqg6FQKpEzNeFw8EztmILbXZtLQsbqe/3zMeBhEYVILZ0TMjzalvR
-         WidjbzQ/vJz5THG14HeU2tx/rSNfFqOPC+gtfydMmBOPk+cuspwpl5H5AF7o4n4OJ93q
-         gxW32rWgoWGsaDszXiDmtMefV9sakYth0JlapCeKQUUuuRXNLwld2SarbIs6h8iXK9Ug
-         GOim1ZWpktss0MVUeuFeILV0Xds6U+lwI/iHuJzL+hTPZDjGF9mwaQCWRuNsb6HDppIO
-         4V3A==
+         :mime-version:dkim-signature;
+        bh=o1/2Vj7xsNu11SnVwjU6bjgxspYgWkQ65EmdfVPZ5+g=;
+        b=E13c5yFvSuchFRdCAm8KzUkuYbu/WIfD3FZ1CLABkVyke5aGQz8Sm0RHeLwHmGVKkI
+         abxvVXjaw1xuYysEUrEyGDoAoSZS7bGeyq5Iao1Y7sRSW/wQ+4JjlwZw+UXxvz8poZVb
+         NHtBcmTgNXw03c6kWDQq1MhoPR3VZ3rMgkUUYY7Tq2XKlUjfezvHYoAO88MCrwbLZrGz
+         fldrDsV9PINzbhlblgJQalyIpSziJM6GyUnszJaFmTme7LwxAuTpBtot4ZFA4Tjlp3WY
+         C6YJgoS0mB2F/MWlhgXMCFpjG7fAS4Cz00hV02d/h6Dlr7ytznOqZE7YWCcw5kMbxnvo
+         ZhlQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of arndbergmann@gmail.com designates 209.85.160.194 as permitted sender) smtp.mailfrom=arndbergmann@gmail.com
-Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com. [209.85.160.194])
-        by gmr-mx.google.com with ESMTPS id n27si1314467otj.1.2019.07.18.00.51.18
+       dkim=pass header.i=@google.com header.s=20161025 header.b=rrnpLwV7;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::544 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com. [2a00:1450:4864:20::544])
+        by gmr-mx.google.com with ESMTPS id p23si1218794wma.1.2019.07.18.08.51.50
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-        Thu, 18 Jul 2019 00:51:18 -0700 (PDT)
-Received-SPF: pass (google.com: domain of arndbergmann@gmail.com designates 209.85.160.194 as permitted sender) client-ip=209.85.160.194;
-Received: by mail-qt1-f194.google.com with SMTP id r6so22007977qtt.0
-        for <kasan-dev@googlegroups.com>; Thu, 18 Jul 2019 00:51:18 -0700 (PDT)
-X-Received: by 2002:ac8:5311:: with SMTP id t17mr30079223qtn.304.1563436278053;
- Thu, 18 Jul 2019 00:51:18 -0700 (PDT)
+        Thu, 18 Jul 2019 08:51:50 -0700 (PDT)
+Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::544 as permitted sender) client-ip=2a00:1450:4864:20::544;
+Received: by mail-ed1-x544.google.com with SMTP id v15so30778501eds.9
+        for <kasan-dev@googlegroups.com>; Thu, 18 Jul 2019 08:51:50 -0700 (PDT)
+X-Received: by 2002:a17:906:4bcb:: with SMTP id x11mr36854194ejv.1.1563465110036;
+ Thu, 18 Jul 2019 08:51:50 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190617221134.9930-1-f.fainelli@gmail.com> <CACRpkdbqW2kJNdPi6JPupaHA_qRTWG-MsUxeCz0c38MRujOSSA@mail.gmail.com>
- <0ba50ae2-be09-f633-ab1f-860e8b053882@broadcom.com>
-In-Reply-To: <0ba50ae2-be09-f633-ab1f-860e8b053882@broadcom.com>
-From: Arnd Bergmann <arnd@arndb.de>
-Date: Thu, 18 Jul 2019 09:51:01 +0200
-Message-ID: <CAK8P3a2QBQrBU+bBBL20kR+qJfmspCNjiw05jHTa-q6EDfodMg@mail.gmail.com>
-Subject: Re: [PATCH v6 0/6] KASan for arm
-To: Florian Fainelli <florian.fainelli@broadcom.com>
-Cc: Linus Walleij <linus.walleij@linaro.org>, Florian Fainelli <f.fainelli@gmail.com>, 
-	Mark Rutland <mark.rutland@arm.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	Michal Hocko <mhocko@suse.com>, Julien Thierry <julien.thierry@arm.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, David Howells <dhowells@redhat.com>, 
-	Masahiro Yamada <yamada.masahiro@socionext.com>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, 
-	Alexander Potapenko <glider@google.com>, kvmarm@lists.cs.columbia.edu, 
-	Jonathan Corbet <corbet@lwn.net>, Abbott Liu <liuwenliang@huawei.com>, 
-	Daniel Lezcano <daniel.lezcano@linaro.org>, Russell King <linux@armlinux.org.uk>, 
-	kasan-dev <kasan-dev@googlegroups.com>, 
-	bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>, Dmitry Vyukov <dvyukov@google.com>, 
-	Geert Uytterhoeven <geert@linux-m68k.org>, drjones@redhat.com, 
-	Vladimir Murzin <vladimir.murzin@arm.com>, Kees Cook <keescook@chromium.org>, 
-	Marc Zyngier <marc.zyngier@arm.com>, Andre Przywara <andre.przywara@arm.com>, philip@cog.systems, 
-	Jinbum Park <jinb.park7@gmail.com>, Thomas Gleixner <tglx@linutronix.de>, 
-	Linux ARM <linux-arm-kernel@lists.infradead.org>, Nicolas Pitre <nico@fluxnic.net>, 
-	Greg KH <gregkh@linuxfoundation.org>, Ard Biesheuvel <ard.biesheuvel@linaro.org>, 
-	Linux Doc Mailing List <linux-doc@vger.kernel.org>, Christoffer Dall <christoffer.dall@arm.com>, 
-	Rob Landley <rob@landley.net>, Philippe Ombredanne <pombredanne@nexb.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Thomas Garnier <thgarnie@google.com>, 
-	"Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+References: <20190708150532.GB17098@dennisz-mbp>
+In-Reply-To: <20190708150532.GB17098@dennisz-mbp>
+From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Thu, 18 Jul 2019 17:51:37 +0200
+Message-ID: <CACT4Y+YevDd-y4Au33=mr-0-UQPy8NR0vmG8zSiCfmzx6gTB-w@mail.gmail.com>
+Subject: Re: kasan: paging percpu + kasan causes a double fault
+To: Dennis Zhou <dennis@kernel.org>
+Cc: Andrey Ryabinin <aryabinin@virtuozzo.com>, Alexander Potapenko <glider@google.com>, 
+	Tejun Heo <tj@kernel.org>, Kefeng Wang <wangkefeng.wang@huawei.com>, 
+	kasan-dev <kasan-dev@googlegroups.com>, Linux-MM <linux-mm@kvack.org>, 
+	LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: arnd@arndb.de
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of arndbergmann@gmail.com designates 209.85.160.194 as
- permitted sender) smtp.mailfrom=arndbergmann@gmail.com
+X-Original-Sender: dvyukov@google.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@google.com header.s=20161025 header.b=rrnpLwV7;       spf=pass
+ (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::544
+ as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
+ (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Dmitry Vyukov <dvyukov@google.com>
+Reply-To: Dmitry Vyukov <dvyukov@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -142,34 +131,81 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Jul 11, 2019 at 7:00 PM Florian Fainelli
-<florian.fainelli@broadcom.com> wrote:
-> On 7/2/19 2:06 PM, Linus Walleij wrote:
-
+On Mon, Jul 8, 2019 at 5:05 PM Dennis Zhou <dennis@kernel.org> wrote:
 >
-> Great, thanks a lot for taking a look. FYI, I will be on holiday from
-> July 19th till August 12th, if you think you have more feedback between
-> now and then, I can try to pick it up and submit a v7 with that feedback
-> addressed, or it will happen when I return, or you can pick it up if you
-> refer, all options are possible!
+> Hi Andrey, Alexander, and Dmitry,
 >
-> @Arnd, should we squash your patches in as well?
+> It was reported to me that when percpu is ran with param
+> percpu_alloc=page or the embed allocation scheme fails and falls back to
+> page that a double fault occurs.
+>
+> I don't know much about how kasan works, but a difference between the
+> two is that we manually reserve vm area via vm_area_register_early().
+> I guessed it had something to do with the stack canary or the irq_stack,
+> and manually mapped the shadow vm area with kasan_add_zero_shadow(), but
+> that didn't seem to do the trick.
+>
+> RIP resolves to the fixed_percpu_data declaration.
+>
+> Double fault below:
+> [    0.000000] PANIC: double fault, error_code: 0x0
+> [    0.000000] CPU: 0 PID: 0 Comm: swapper/0 Not tainted 5.2.0-rc7-00007-ge0afe6d4d12c-dirty #299
+> [    0.000000] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.11.0-2.el7 04/01/2014
+> [    0.000000] RIP: 0010:no_context+0x38/0x4b0
+> [    0.000000] Code: df 41 57 41 56 4c 8d bf 88 00 00 00 41 55 49 89 d5 41 54 49 89 f4 55 48 89 fd 4c8
+> [    0.000000] RSP: 0000:ffffc8ffffffff28 EFLAGS: 00010096
+> [    0.000000] RAX: dffffc0000000000 RBX: ffffc8ffffffff50 RCX: 000000000000000b
+> [    0.000000] RDX: fffff52000000030 RSI: 0000000000000003 RDI: ffffc90000000130
+> [    0.000000] RBP: ffffc900000000a8 R08: 0000000000000001 R09: 0000000000000000
+> [    0.000000] R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000003
+> [    0.000000] R13: fffff52000000030 R14: 0000000000000000 R15: ffffc90000000130
+> [    0.000000] FS:  0000000000000000(0000) GS:ffffc90000000000(0000) knlGS:0000000000000000
+> [    0.000000] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> [    0.000000] CR2: ffffc8ffffffff18 CR3: 0000000002e0d001 CR4: 00000000000606b0
+> [    0.000000] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+> [    0.000000] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+> [    0.000000] Call Trace:
+> [    0.000000] Kernel panic - not syncing: Machine halted.
+> [    0.000000] CPU: 0 PID: 0 Comm: swapper/0 Not tainted 5.2.0-rc7-00007-ge0afe6d4d12c-dirty #299
+> [    0.000000] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.11.0-2.el7 04/01/2014
+> [    0.000000] Call Trace:
+> [    0.000000]  <#DF>
+> [    0.000000]  dump_stack+0x5b/0x90
+> [    0.000000]  panic+0x17e/0x36e
+> [    0.000000]  ? __warn_printk+0xdb/0xdb
+> [    0.000000]  ? spurious_kernel_fault_check+0x1a/0x60
+> [    0.000000]  df_debug+0x2e/0x39
+> [    0.000000]  do_double_fault+0x89/0xb0
+> [    0.000000]  double_fault+0x1e/0x30
+> [    0.000000] RIP: 0010:no_context+0x38/0x4b0
+> [    0.000000] Code: df 41 57 41 56 4c 8d bf 88 00 00 00 41 55 49 89 d5 41 54 49 89 f4 55 48 89 fd 4c8
+> [    0.000000] RSP: 0000:ffffc8ffffffff28 EFLAGS: 00010096
+> [    0.000000] RAX: dffffc0000000000 RBX: ffffc8ffffffff50 RCX: 000000000000000b
+> [    0.000000] RDX: fffff52000000030 RSI: 0000000000000003 RDI: ffffc90000000130
+> [    0.000000] RBP: ffffc900000000a8 R08: 0000000000000001 R09: 0000000000000000
+> [    0.000000] R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000003
+> [ 0.000000] R13: fffff52000000030 R14: 0000000000000000 R15: ffffc90000000130
 
-Yes, please do. I don't remember if I sent you all of them already,
-here is the list of patches that I have applied locally on top of your
-series to get a clean randconfig build:
 
-123c3262f872 KASAN: push back KASAN_STACK to clang-10
-d63dd9e2afd9 [HACK] ARM: disable KASAN+XIP_KERNEL
-879eb3c22240 kasan: increase 32-bit stack frame warning limit
-053555034bdf kasan: disable CONFIG_KASAN_STACK with clang on arm32
-6c1a78a448c2 ARM: fix kasan link failures
+Hi Dennis,
 
-      Arnd
+I don't have lots of useful info, but a naive question: could you stop
+using percpu_alloc=page with KASAN? That should resolve the problem :)
+We could even add a runtime check that will clearly say that this
+combintation does not work.
+
+I see that setup_per_cpu_areas is called after kasan_init which is
+called from setup_arch. So KASAN should already map final shadow at
+that point.
+The only potential reason that I see is that setup_per_cpu_areas maps
+the percpu region at address that is not covered/expected by
+kasan_init. Where is page-based percpu is mapped? Is that covered by
+kasan_init?
+Otherwise, seeing the full stack trace of the fault may shed some light.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
 To post to this group, send email to kasan-dev@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAK8P3a2QBQrBU%2BbBBL20kR%2BqJfmspCNjiw05jHTa-q6EDfodMg%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BYevDd-y4Au33%3Dmr-0-UQPy8NR0vmG8zSiCfmzx6gTB-w%40mail.gmail.com.
 For more options, visit https://groups.google.com/d/optout.
