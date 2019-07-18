@@ -1,130 +1,135 @@
-Return-Path: <kasan-dev+bncBAABBMGGXPUQKGQESH44TII@googlegroups.com>
+Return-Path: <kasan-dev+bncBDEKVJM7XAHRB5WJYDUQKGQE3YH6MFY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oi1-x23b.google.com (mail-oi1-x23b.google.com [IPv6:2607:f8b0:4864:20::23b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 581EF6B8B3
-	for <lists+kasan-dev@lfdr.de>; Wed, 17 Jul 2019 10:58:26 +0200 (CEST)
-Received: by mail-oi1-x23b.google.com with SMTP id h184sf9095983oif.16
-        for <lists+kasan-dev@lfdr.de>; Wed, 17 Jul 2019 01:58:26 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1563353905; cv=pass;
+Received: from mail-ot1-x338.google.com (mail-ot1-x338.google.com [IPv6:2607:f8b0:4864:20::338])
+	by mail.lfdr.de (Postfix) with ESMTPS id 377B86CA4E
+	for <lists+kasan-dev@lfdr.de>; Thu, 18 Jul 2019 09:51:20 +0200 (CEST)
+Received: by mail-ot1-x338.google.com with SMTP id x5sf14867809otb.4
+        for <lists+kasan-dev@lfdr.de>; Thu, 18 Jul 2019 00:51:20 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1563436279; cv=pass;
         d=google.com; s=arc-20160816;
-        b=P2PlCuUZfKiGhWuPRx6FxUsd9ZPkJr1LH6M8XYB+xknP4R8FBcjya8u0EEJmBqCIPN
-         XRCY80X97+8JdLfsyep5+xWD1MciBMKP8wX6BxVYaO0uo7DU30fMYwzi1h3y76ztgf3W
-         olF9pg9aD/NrOIpdKS7eG3tQNP9iIctcIpF2qcVAQpBX0fLdnwSCr0JtWZiox5dvbBCO
-         ZnEn/mLjxPP3y6JuKI3qE8xQ7yNerJKVPGGSD3TtosN0AW4Roa2aZOVZivxuj7aFpJt1
-         78fn38zbAn+TFyY2xV7MDg8ZI37mOQGsHUG8xbg/1ctMimBBc+4N4wBq32ouqjHKDtOI
-         Cvqw==
+        b=ot8+jmq9JPc11KQNWVC1pykXDwNBPVwDAT2maNyEe4WEn5kVqgP7KAuoKBMOS/J1G2
+         +gQh5s5H51XfYrRRCbMydvwrstBvVrZDp1a8Tmgo3a/rX45X3CrLyXsbUtagI3u4RnL6
+         Ubv6iHo22CvYSyWcaTy/0nuiJ9qiFt/WQl12Y7ei8wBRteSVPpWu2j14wSkAiIpR4yPv
+         sOsVemJb/A7PDuYG6JVdHNJ8G+ZBFcJPHhTMGrLRs3WEYaYZVpC5K7PqgeniqcYKUm5H
+         NiBFRSdtB9BOXGKcGFaS5H6PcFWKQ5a+o972SBAQHWX3shegO3OFBmINTwtvzjfoJaou
+         ENpA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding
-         :content-language:in-reply-to:mime-version:user-agent:date
-         :message-id:from:references:cc:to:subject:sender:dkim-signature;
-        bh=51x/ZvLEEIBOUJzNtR0/sOw9rmD7xfG4EP32qROjDbQ=;
-        b=midZIPI2wYyO+zHY+/Q6eDPfLWf2nPZWCxnGFcMe//TuEzA7rpSzi9CkKbT3iNUs9r
-         IoifQevVTLMWL6xJhjdy5EhD+4kcRzZ4lbNzo03tdVj9PZ8aDJfjMTl+aqnbRhDb4Rl5
-         P2nHDWeHFGjS61EOgjk4RleT6zryfKkYTAtUmoCQZjMG489PUpZkfzLoCHMwoBJj6Jm0
-         mRAP19h8fmLV4N4YrNBqcG3l2inhzPfbZN/8wB+/JCldJmpZqPCqmqEV/AEfwCVSxutz
-         ATQ5QhxdUiXoG63Pb9wCLHc2KD01tg0JerwsrQBIq9h71QQTs8jsFtcb0xrKd0VRZN85
-         8vCg==
+         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:sender:dkim-signature;
+        bh=ILdOdmL1ihCeGCkrESuTIApD9gZjgVpA45lD2PWqFSE=;
+        b=BWeeIW5WE7iVagLgZ52jG7fopGLg99x3xHHeGZRZaYuDvOxGe5XBG9Zq9TlmwuFTmL
+         Co1wZY4SaKxfTd9J7g90zkHiqpqIs6SyXRt478S48zqyPULNRg/CvmKjRdQl60+7E7jr
+         rUmPCykeBoC2HWQi4hIY1pElfuqsz1neX8DLor4TSXlKUW4tevO59ous7lpFjzisIpFO
+         w1cB5y+/EB3k4RSrJjwftUc8u8zPYmCkAr5f0TlVeJfFrO9+M9XRLQebFnv2ua3lak8f
+         AciSF2ZgESMNiOjAuVehNJavPbqjfdkwI5V7mUxNgnFXngbmLjcXsd2vPfdScQn7okHO
+         coMQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of yuzenghui@huawei.com designates 45.249.212.35 as permitted sender) smtp.mailfrom=yuzenghui@huawei.com
+       spf=pass (google.com: domain of arndbergmann@gmail.com designates 209.85.160.194 as permitted sender) smtp.mailfrom=arndbergmann@gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
+        h=sender:mime-version:references:in-reply-to:from:date:message-id
+         :subject:to:cc:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=51x/ZvLEEIBOUJzNtR0/sOw9rmD7xfG4EP32qROjDbQ=;
-        b=pWSbRPW2MAifaVc893UrhGw8J7oULHat+abQLMkVyAntrhFxE9qMhyw/nmsslWvNqL
-         khBstSkKtTJIJRx2C2e6XFmGEyQfGula5TUdsewgAAIrhDqlo61EO/Ze/cDWwgLtyc61
-         RCHIssWnbnjO+SF1ATz3vvxsaMQz3ayJQdyyYCDIU54Yk7HEoCXEUi15DkB3HIr1eOM/
-         FylnVBoKZk83iVVhuXoF0zAc+jeKK3hEVXs27SaPu+5qGGGPDkGCfEOcKMjTeeMQb7U3
-         mjNviAu/bjdtbHNjreVCnmuBEDNHzKAIqv/k/FTvBuBKczLbIFFFIAw2TdqdVF8S48nv
-         xoQg==
+        bh=ILdOdmL1ihCeGCkrESuTIApD9gZjgVpA45lD2PWqFSE=;
+        b=Cou3SwdE4hE1kDH77duhWlAjt5/WswdvDt9h0tzKqz75u5goB1loS5X+JjT31pEdQY
+         DJHc6JlRMwY/Y3s+uWgezE4xjO02VBT4+GNi7l7BpQsL2R3+4BpCY2VGY9/jfFV1SjlD
+         eRfLxl7gCwIY6AsaS4v91EBFutWCwFTN4GssNrGt7FD7n6Pbl5wcmjb+DaFwVESoaDGd
+         twiX0m5R4ERXdu0Ehjg5N1ypo9xBgAo2w2o53gv6POLNyZfWByAY+Wf2nsgpO0dL+AyU
+         qZRd/egk4pb9dJ5pkh2SfL+oKQQPV08HScizhEfbjO57hRaM922Au0pTvnPBl7MEJM7A
+         1jrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding:x-original-sender
+        h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
+         :date:message-id:subject:to:cc:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=51x/ZvLEEIBOUJzNtR0/sOw9rmD7xfG4EP32qROjDbQ=;
-        b=ZL5wjD1ww+F3NvU8MnySJ9QRiaAgqCagnR6a9Cd82LwJntMdf9RrVbYGw1xBQQF08a
-         ySWi1nEykDD5zXHElET2dxG1SBAYqk1/lmLYhSYBAXJ/5hETHk24nFHml2f+eIrJl387
-         RNfKrxLAhZGgLjizh7Rg9+yYktu7bUvnzGdFXIEVChuUGvd3/idSjBb6kMebeOE33Jsr
-         U3dyXrKzEOPPqgPYM6DKLbQkeU9iJ0Ika8/12J8auPTM3XduYRfXWMeCVCApPecj2fmD
-         SE2CFvyY8AF3Y+QaV7GxIdKa58LG/6pvrEbC+srjPPDBm3qFnDOxUWcgA5+lY0sBQBvX
-         b4/A==
+        bh=ILdOdmL1ihCeGCkrESuTIApD9gZjgVpA45lD2PWqFSE=;
+        b=kuTjDpRKpD6v4wV9APexhq/eANAnm5uRdPy3VhyjM1bfWnifmS7jNkFLP3GCs6Ulg7
+         Aot2uig5EfTd/lKhRxWcabXo+iWDtrE7aXxfupCvd/xk22U59deht0Yi7w5kilrDBOP2
+         DSneYeBRam05SKpjXhaLRV5F9842YYjcS6PZ/CG/cIXtjsH/6OqapBRcUaAecsw7x4bT
+         nAUcEWozqQR3M/owrc2SyUeUb+TwmIOp1tdksaQMASEUuEKXibNfyJ2/CSp5qJ3kZ2K1
+         VF3gf0yg8h9zsMdMaDhOk72Q+u5EiN/+wdGUvR4x1GG8/JEyKGZGyywgBltQt3DMyfrg
+         nD6A==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAXFa5YFfKhR8qbVTOinIAR4OQ8yvmJaiPJRcrgxd75KgGJ9Cp4k
-	Qx1bNaLGLmLST5FlTLVG81I=
-X-Google-Smtp-Source: APXvYqwJiQ2dmQVTjb+ev3Gv+Lyh+hiyqkymQgVJCZlOHdq7EmOuoHPfU26WXv9QJJA0bD2YJnlXjw==
-X-Received: by 2002:a9d:5182:: with SMTP id y2mr7482729otg.271.1563353904810;
-        Wed, 17 Jul 2019 01:58:24 -0700 (PDT)
+X-Gm-Message-State: APjAAAULPZ5ML2Y1qvQQJQkl9a+woSJpO2IdG+KqkWmMSoKSf8L8t+ET
+	XbZZ1speDW4AU4xuLn3iSA0=
+X-Google-Smtp-Source: APXvYqwE1JlDmM7oCAgmF71o5y9LK0w3JH2HAeT5R0aIDFxK2olQkXnUrZSVPpFxLtEyWkV8OSohFg==
+X-Received: by 2002:a9d:27c3:: with SMTP id c61mr31721896otb.291.1563436279021;
+        Thu, 18 Jul 2019 00:51:19 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a9d:6ac9:: with SMTP id m9ls4425665otq.6.gmail; Wed, 17 Jul
- 2019 01:58:24 -0700 (PDT)
-X-Received: by 2002:a05:6830:128e:: with SMTP id z14mr23756142otp.172.1563353904551;
-        Wed, 17 Jul 2019 01:58:24 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1563353904; cv=none;
+Received: by 2002:a05:6808:5d4:: with SMTP id d20ls3529201oij.14.gmail; Thu,
+ 18 Jul 2019 00:51:18 -0700 (PDT)
+X-Received: by 2002:aca:1b10:: with SMTP id b16mr21711745oib.13.1563436278665;
+        Thu, 18 Jul 2019 00:51:18 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1563436278; cv=none;
         d=google.com; s=arc-20160816;
-        b=Xao12D9DAJH6C4WXRJVd5qptiZe/7wn7PJVZ5Xyd6G4c9X76HyxfrR21XiTRAefLho
-         FaTwr3dNfsOpimKWJof5l8doKq3TjFdUxLfXuZSKz3cGjNRBbZiSJMKJFZSamFidI12V
-         I4rFrhkm6E2eCHiVZ5ZAyW3RlbWcdpFOQhuvuyMYOdl7oo2nL56CXtjxr92umWSeMqjK
-         BTu26dow/McJi/WA34OrMjBDP7f78K4Aacz/q4ODD9O/BVY/hvBap1vlTwZg7f+FkInb
-         X+SSWLqbwyOAwhdt4TXrpQOWznJPYNtLTJNWkbpqYP36GWWIDRsX6AH+FDIon6Rnt+3O
-         mUEw==
+        b=JdcuYkgQn0yzWBcsfX7EHHjwxcWiaueqbrXrKJlT3fPf0zkq1TQFQxYfsP3AXUbn5Y
+         wupWgAGFqUXGlnXcCvsVdWa4/S5mO0cSbf+e0UPTQyo3Luh7AKGeNGkn5WJXJgb6lc6E
+         7X/Fs1LHBaBkuT9JRsK4lJb8K/XNI5RmAadl7N211z8EnLj4gwvkgepAE8Dibk4f5fLq
+         yy30Mv6JlOY4xJJveFnOP/+j9vVmFqqxQteKmCPjnubtNKLihPO5m57oEd8NtVs9KDKq
+         Q0LFkFKAFiF/snIpjgxq/RoZimIgCxmNn45DqY/6Kn3w7v/24dgfqDgdEYUSrFlCuQkA
+         +Ctw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject;
-        bh=415qB4FhAUqdpSO7ppvBoOYajGv1FBnkCGqD6qoKYCo=;
-        b=fF2EBbOfpJkqWQDZORbYujNSaUhKxpjYon/kYhIoQJzj7PS8B6LAduRCi3y0bC7ZDN
-         eqw43KUHNsmA8S1sxVGxvG8KGLnd2ghZkAYTebcMCB801O6zgEpPeNZUqyuUDBI0A2BU
-         Vj9Ibd3wyn4vz3TuU8Mv+hhDAGrsIkdwGIp2majmvOJNs1SzMOEflsn5JFpywp/DepRn
-         3MRyObNEY9kxkn91KfIjR0V6QzMZjnoSvYyJPa32vYGs49g3/zA1UhSsYE/aA8GuUd7v
-         LI3Perxv7fKNu4apiCJet/N/ALRV7uzAn5HSMLbmwGYPYCSBHBISPeqKLQGCxYeJ4VPi
-         ShtA==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version;
+        bh=AMIbdcIyPjXgBsFnQdrxIvDXu584wusUv2Znj2VCflY=;
+        b=VZo3pVZYoJZfWvuYfG+R5verqBw8TVr9WVc69trb1ve6sHnElGcl/+lzlw138ZyOwi
+         VGA0Yf8x91IRA8mSqg6FQKpEzNeFw8EztmILbXZtLQsbqe/3zMeBhEYVILZ0TMjzalvR
+         WidjbzQ/vJz5THG14HeU2tx/rSNfFqOPC+gtfydMmBOPk+cuspwpl5H5AF7o4n4OJ93q
+         gxW32rWgoWGsaDszXiDmtMefV9sakYth0JlapCeKQUUuuRXNLwld2SarbIs6h8iXK9Ug
+         GOim1ZWpktss0MVUeuFeILV0Xds6U+lwI/iHuJzL+hTPZDjGF9mwaQCWRuNsb6HDppIO
+         4V3A==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of yuzenghui@huawei.com designates 45.249.212.35 as permitted sender) smtp.mailfrom=yuzenghui@huawei.com
-Received: from huawei.com (szxga07-in.huawei.com. [45.249.212.35])
-        by gmr-mx.google.com with ESMTPS id q82si1307969oic.1.2019.07.17.01.58.24
+       spf=pass (google.com: domain of arndbergmann@gmail.com designates 209.85.160.194 as permitted sender) smtp.mailfrom=arndbergmann@gmail.com
+Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com. [209.85.160.194])
+        by gmr-mx.google.com with ESMTPS id n27si1314467otj.1.2019.07.18.00.51.18
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 17 Jul 2019 01:58:24 -0700 (PDT)
-Received-SPF: pass (google.com: domain of yuzenghui@huawei.com designates 45.249.212.35 as permitted sender) client-ip=45.249.212.35;
-Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.58])
-	by Forcepoint Email with ESMTP id 3FE53B411F28E99262E4;
-	Wed, 17 Jul 2019 16:58:22 +0800 (CST)
-Received: from [127.0.0.1] (10.184.12.158) by DGGEMS414-HUB.china.huawei.com
- (10.3.19.214) with Microsoft SMTP Server id 14.3.439.0; Wed, 17 Jul 2019
- 16:58:13 +0800
-Subject: Re: BUG: KASAN: slab-out-of-bounds in
- kvm_pmu_get_canonical_pmc+0x48/0x78
-To: Andrew Murray <andrew.murray@arm.com>
-CC: <kvmarm@lists.cs.columbia.edu>, Marc Zyngier <marc.zyngier@arm.com>,
-	<kasan-dev@googlegroups.com>, <kvm@vger.kernel.org>, "Wanghaibin (D)"
-	<wanghaibin.wang@huawei.com>
-References: <644e3455-ea6d-697a-e452-b58961341381@huawei.com>
- <f9d5d18a-7631-f3e2-d73a-21d8eee183f1@huawei.com>
- <20190716185043.GV7227@e119886-lin.cambridge.arm.com>
-From: Zenghui Yu <yuzenghui@huawei.com>
-Message-ID: <3b128267-7879-0205-3571-e219fc7b8d42@huawei.com>
-Date: Wed, 17 Jul 2019 16:54:34 +0800
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:64.0) Gecko/20100101
- Thunderbird/64.0
+        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+        Thu, 18 Jul 2019 00:51:18 -0700 (PDT)
+Received-SPF: pass (google.com: domain of arndbergmann@gmail.com designates 209.85.160.194 as permitted sender) client-ip=209.85.160.194;
+Received: by mail-qt1-f194.google.com with SMTP id r6so22007977qtt.0
+        for <kasan-dev@googlegroups.com>; Thu, 18 Jul 2019 00:51:18 -0700 (PDT)
+X-Received: by 2002:ac8:5311:: with SMTP id t17mr30079223qtn.304.1563436278053;
+ Thu, 18 Jul 2019 00:51:18 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190716185043.GV7227@e119886-lin.cambridge.arm.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [10.184.12.158]
-X-CFilter-Loop: Reflected
-X-Original-Sender: yuzenghui@huawei.com
+References: <20190617221134.9930-1-f.fainelli@gmail.com> <CACRpkdbqW2kJNdPi6JPupaHA_qRTWG-MsUxeCz0c38MRujOSSA@mail.gmail.com>
+ <0ba50ae2-be09-f633-ab1f-860e8b053882@broadcom.com>
+In-Reply-To: <0ba50ae2-be09-f633-ab1f-860e8b053882@broadcom.com>
+From: Arnd Bergmann <arnd@arndb.de>
+Date: Thu, 18 Jul 2019 09:51:01 +0200
+Message-ID: <CAK8P3a2QBQrBU+bBBL20kR+qJfmspCNjiw05jHTa-q6EDfodMg@mail.gmail.com>
+Subject: Re: [PATCH v6 0/6] KASan for arm
+To: Florian Fainelli <florian.fainelli@broadcom.com>
+Cc: Linus Walleij <linus.walleij@linaro.org>, Florian Fainelli <f.fainelli@gmail.com>, 
+	Mark Rutland <mark.rutland@arm.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+	Michal Hocko <mhocko@suse.com>, Julien Thierry <julien.thierry@arm.com>, 
+	Catalin Marinas <catalin.marinas@arm.com>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, David Howells <dhowells@redhat.com>, 
+	Masahiro Yamada <yamada.masahiro@socionext.com>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, 
+	Alexander Potapenko <glider@google.com>, kvmarm@lists.cs.columbia.edu, 
+	Jonathan Corbet <corbet@lwn.net>, Abbott Liu <liuwenliang@huawei.com>, 
+	Daniel Lezcano <daniel.lezcano@linaro.org>, Russell King <linux@armlinux.org.uk>, 
+	kasan-dev <kasan-dev@googlegroups.com>, 
+	bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>, Dmitry Vyukov <dvyukov@google.com>, 
+	Geert Uytterhoeven <geert@linux-m68k.org>, drjones@redhat.com, 
+	Vladimir Murzin <vladimir.murzin@arm.com>, Kees Cook <keescook@chromium.org>, 
+	Marc Zyngier <marc.zyngier@arm.com>, Andre Przywara <andre.przywara@arm.com>, philip@cog.systems, 
+	Jinbum Park <jinb.park7@gmail.com>, Thomas Gleixner <tglx@linutronix.de>, 
+	Linux ARM <linux-arm-kernel@lists.infradead.org>, Nicolas Pitre <nico@fluxnic.net>, 
+	Greg KH <gregkh@linuxfoundation.org>, Ard Biesheuvel <ard.biesheuvel@linaro.org>, 
+	Linux Doc Mailing List <linux-doc@vger.kernel.org>, Christoffer Dall <christoffer.dall@arm.com>, 
+	Rob Landley <rob@landley.net>, Philippe Ombredanne <pombredanne@nexb.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Thomas Garnier <thgarnie@google.com>, 
+	"Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: arnd@arndb.de
 X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of yuzenghui@huawei.com designates 45.249.212.35 as
- permitted sender) smtp.mailfrom=yuzenghui@huawei.com
+ (google.com: domain of arndbergmann@gmail.com designates 209.85.160.194 as
+ permitted sender) smtp.mailfrom=arndbergmann@gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -137,116 +142,34 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hi Andrew,
+On Thu, Jul 11, 2019 at 7:00 PM Florian Fainelli
+<florian.fainelli@broadcom.com> wrote:
+> On 7/2/19 2:06 PM, Linus Walleij wrote:
 
-On 2019/7/17 2:50, Andrew Murray wrote:
-> On Tue, Jul 16, 2019 at 11:14:37PM +0800, Zenghui Yu wrote:
->>
->> On 2019/7/16 23:05, Zenghui Yu wrote:
->>> Hi folks,
->>>
->>> Running the latest kernel with KASAN enabled, we will hit the following
->>> KASAN BUG during guest's boot process.
->>>
->>> I'm in commit 9637d517347e80ee2fe1c5d8ce45ba1b88d8b5cd.
->>>
->>> Any problems in the chained PMU code? Or just a false positive?
->>>
->>> ---8<---
->>>
->>> [=C2=A0 654.706268]
->>> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->>> [=C2=A0 654.706280] BUG: KASAN: slab-out-of-bounds in
->>> kvm_pmu_get_canonical_pmc+0x48/0x78
->>> [=C2=A0 654.706286] Read of size 8 at addr ffff801d6c8fea38 by task
->>> qemu-kvm/23268
->>>
->>> [=C2=A0 654.706296] CPU: 2 PID: 23268 Comm: qemu-kvm Not tainted 5.2.0+=
- #178
->>> [=C2=A0 654.706301] Hardware name: Huawei TaiShan 2280 /BC11SPCD, BIOS =
-1.58
->>> 10/24/2018
->>> [=C2=A0 654.706305] Call trace:
->>> [=C2=A0 654.706311]=C2=A0 dump_backtrace+0x0/0x238
->>> [=C2=A0 654.706317]=C2=A0 show_stack+0x24/0x30
->>> [=C2=A0 654.706325]=C2=A0 dump_stack+0xe0/0x134
->>> [=C2=A0 654.706332]=C2=A0 print_address_description+0x80/0x408
->>> [=C2=A0 654.706338]=C2=A0 __kasan_report+0x164/0x1a0
->>> [=C2=A0 654.706343]=C2=A0 kasan_report+0xc/0x18
->>> [=C2=A0 654.706348]=C2=A0 __asan_load8+0x88/0xb0
->>> [=C2=A0 654.706353]=C2=A0 kvm_pmu_get_canonical_pmc+0x48/0x78
->>
->> I noticed that we will use "pmc->idx" and the "chained" bitmap to
->> determine if the pmc is chained, in kvm_pmu_pmc_is_chained().
->>
->> Should we initialize the idx and the bitmap appropriately before
->> doing kvm_pmu_stop_counter()?  Like:
->=20
-> Hi Zenghui,
->=20
-> Thanks for spotting this and investigating - I'll make sure to use KASAN
-> in the future when testing...
->=20
->>
->>
->> diff --git a/virt/kvm/arm/pmu.c b/virt/kvm/arm/pmu.c
->> index 3dd8238..cf3119a 100644
->> --- a/virt/kvm/arm/pmu.c
->> +++ b/virt/kvm/arm/pmu.c
->> @@ -224,12 +224,12 @@ void kvm_pmu_vcpu_reset(struct kvm_vcpu *vcpu)
->>   	int i;
->>   	struct kvm_pmu *pmu =3D &vcpu->arch.pmu;
->>
->> +	bitmap_zero(vcpu->arch.pmu.chained, ARMV8_PMU_MAX_COUNTER_PAIRS);
->> +
->>   	for (i =3D 0; i < ARMV8_PMU_MAX_COUNTERS; i++) {
->> -		kvm_pmu_stop_counter(vcpu, &pmu->pmc[i]);
->>   		pmu->pmc[i].idx =3D i;
->> +		kvm_pmu_stop_counter(vcpu, &pmu->pmc[i]);
->>   	}
->> -
->> -	bitmap_zero(vcpu->arch.pmu.chained, ARMV8_PMU_MAX_COUNTER_PAIRS);
->>   }
->=20
-> We have to be a little careful here, as the vcpu may be reset after use.
-> Upon resetting we must ensure that any existing perf_events are released =
--
-> this is why kvm_pmu_stop_counter is called before bitmap_zero (as
-> kvm_pmu_stop_counter relies on kvm_pmu_pmc_is_chained).
->=20
-> (For example, by clearing the bitmap before stopping the counters, we wil=
-l
-> attempt to release the perf event for both pmc's in a chained pair. Where=
-as
-> we should only release the canonical pmc. It's actually OK right now as w=
-e
-> set the non-canonical pmc perf_event will be NULL - but who knows that th=
-is
-> will hold true in the future. The code makes the assumption that the
-> non-canonical perf event isn't touched on a chained pair).
+>
+> Great, thanks a lot for taking a look. FYI, I will be on holiday from
+> July 19th till August 12th, if you think you have more feedback between
+> now and then, I can try to pick it up and submit a v7 with that feedback
+> addressed, or it will happen when I return, or you can pick it up if you
+> refer, all options are possible!
+>
+> @Arnd, should we squash your patches in as well?
 
-Indeed!
+Yes, please do. I don't remember if I sent you all of them already,
+here is the list of patches that I have applied locally on top of your
+series to get a clean randconfig build:
 
-> The KASAN bug gets fixed by moving the assignment of idx before
-> kvm_pmu_stop_counter. Therefore I'd suggest you drop the bitmap_zero hunk=
-s.
->=20
-> Can you send a patch with just the idx assignment hunk please?
+123c3262f872 KASAN: push back KASAN_STACK to clang-10
+d63dd9e2afd9 [HACK] ARM: disable KASAN+XIP_KERNEL
+879eb3c22240 kasan: increase 32-bit stack frame warning limit
+053555034bdf kasan: disable CONFIG_KASAN_STACK with clang on arm32
+6c1a78a448c2 ARM: fix kasan link failures
 
-Sure. I will send a patch with your Suggested-by, after some tests.
+      Arnd
 
-
-Thanks,
-zenghui
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
 To post to this group, send email to kasan-dev@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/3b128267-7879-0205-3571-e219fc7b8d42%40huawei.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAK8P3a2QBQrBU%2BbBBL20kR%2BqJfmspCNjiw05jHTa-q6EDfodMg%40mail.gmail.com.
 For more options, visit https://groups.google.com/d/optout.
