@@ -1,31 +1,31 @@
-Return-Path: <kasan-dev+bncBDV37XP3XYDRBK7J3TUQKGQER5S5ZNY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDV37XP3XYDRBM7R3TUQKGQEWKKJIGI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33f.google.com (mail-wm1-x33f.google.com [IPv6:2a00:1450:4864:20::33f])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA32C71CD5
-	for <lists+kasan-dev@lfdr.de>; Tue, 23 Jul 2019 18:24:11 +0200 (CEST)
-Received: by mail-wm1-x33f.google.com with SMTP id l16sf10049709wmg.2
-        for <lists+kasan-dev@lfdr.de>; Tue, 23 Jul 2019 09:24:11 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1563899051; cv=pass;
+Received: from mail-lf1-x13d.google.com (mail-lf1-x13d.google.com [IPv6:2a00:1450:4864:20::13d])
+	by mail.lfdr.de (Postfix) with ESMTPS id E21D571D08
+	for <lists+kasan-dev@lfdr.de>; Tue, 23 Jul 2019 18:41:23 +0200 (CEST)
+Received: by mail-lf1-x13d.google.com with SMTP id f24sf4142814lfj.17
+        for <lists+kasan-dev@lfdr.de>; Tue, 23 Jul 2019 09:41:23 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1563900083; cv=pass;
         d=google.com; s=arc-20160816;
-        b=OAqXD2U96j1tGnZgz6pUzwmqsTHwTXoCowDmTFt8HQAZDTOFG2VERZUWlmoJS/sF/x
-         uDSif0fldkNiNH/Dq5x9FBgOkDX9mXIvGfhNKpnfxR/OOpLE/vyfa4X2xvpueDDdFFjp
-         3/eC4gVJ78yj3hX9ZHi66lS16AT9WltBzz28ZQa49JOI8MUoq/ayUdj2cWaPRQYagR+/
-         2ZZnvlQVN5NmqdXzhuN0gNs0i6T74fN5JI+iDNWEN/8LwIH7gev6ryKT16rW8KnuAoKa
-         S7qVHccD+qvo/Mre7PKplUt8AbOktLJ4xng8xEoocHP2B5kO61NtqWwq6EQJ1117aafk
-         2BZg==
+        b=RUKKo4UX19a9guqTDeHzyPrW/t3P0FgdCdd38Hr44tNP4Uw946i6p29tbpI9vBI2kd
+         abYNotGMkQsbui9Iz0luNuxblEDLnrp1i6lG0z/cFG/8kBbCVX8dmpiBtR8gJasVMEhT
+         aVPkbnvaPyjonWnnAeY0S3fFR8Xo6SVGEHD2yRPi02R9h74O/s36TPPIwV0wMB0U5FsG
+         GwvsxKy+pah8iESONbxWf1EERkDEdSm4iuNGXmO/PDxncWZqEfKhS8UDbNLjc5GGYJ3g
+         e8Ozckk0VFwwc68LVED06ppwlpqhPJxaVvDwKE2J8JLQa51FQ8yG6ugkgzJk66JmIS7O
+         KueA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:user-agent:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:sender:dkim-signature;
-        bh=YTz/d6RgJw7vG8dlI9dMr9qb45edQKOrafBdBPJ53DY=;
-        b=jxqfzRHaeftsTseUre4K2BuVGXj9AixWHBILxgzce1z5ZekU0gwwXHPo3U58uajfGt
-         p5B3ooq7Q/MqOOdvMOA4pip94lUNF9fAe/fnJpBx4GNgwa/qW1ySElo4qYPZipNj9zYU
-         U6AMeI3/6cC/sidfezYqQwy2Neo25/z5abPtyGMpdPwXtqFSEqvsb/rZ2dq5LI2mhD/P
-         hHhj6oM7RRqS6HSfiUk6NYw1bDYeuRtKHe7tRH7BEU9qOlEGr3o/1ZWvIhKxIYElqchr
-         3EgE1pUbVinUMVdxhHV7U11+qVf7rZCfOGFdUDnFPZ31CX9SbBLC9bmK9pWi035jl3GN
-         cKZQ==
+        bh=qF99ZmJf2szn/rrpCy3l0KsokeSIMyIMQiKiK9b9Omc=;
+        b=Q4ia+RCGQBxp7ijaWLozmum+g38LwleyCENEjhoOgs+7HDces33iy/qeqkGH28u7Mg
+         DOhz5PKut16thldWeXpZX3/Bsrz3zzqdDEkERWnakxiclbHH8ydHKqdlckVsZTJaRoHp
+         ZiISdOu/udgkrwpAIPswydI37so66slTUZvwRpZOWaE8UrCZwW+EFHgBQyBq+oCjJUwF
+         2Nd6QUtp3xnz0Fpwh15evUr6ErsXreFYlPrlRZHMLPq5DVHWcAeuAGXhneQcTRcWytEj
+         oSfBj5VVAjncyJ57f7p0j7/sCw9kPIZ2lzfbQbDQ7BleF2kJ5zYDfqOB+IdIUL95p4Wy
+         TJ8w==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
        spf=pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=mark.rutland@arm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
@@ -34,13 +34,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :content-disposition:in-reply-to:user-agent:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=YTz/d6RgJw7vG8dlI9dMr9qb45edQKOrafBdBPJ53DY=;
-        b=j/iQFpedZHnetY3W8a0J/TnxLrtVXaCkc6IjKgOzafBE0p4x5I0aKzeu+vVdfClRL2
-         HZtEszV42PI7MylIFbVCLIOMqZoCUJx0YqNNsb0IDjkWfbnoaTCiHSFHWVltsPPT00HY
-         O2nIFk6GxSHS/OOjvD4aMivr1yHYrtmicyAUN04EUpf00d7M2BLHAVyFG5QZkW/AkhhW
-         6EVmJXxHPbpYLtP+r6Gg9wsVJUj3o9U/aVJjXsENgoJkIebUTBddGdcjPmjlP67c2QEn
-         aIVeVpeeWwmHWhvH8WF4xoljmO5JlP0NYebMxyOiC4x1JdCDx7yezjQfNbTJcoKzlqwO
-         D3dw==
+        bh=qF99ZmJf2szn/rrpCy3l0KsokeSIMyIMQiKiK9b9Omc=;
+        b=EoeIGHRilNrcne25s/GczXr+igD12n1TtrTbyCrMSCOI88xYRFPn1x+nuXeZGfZx+I
+         h17yGDAWDJo4uHtNb8N6B43DAKYMe2x9fGJJ/Nrrf12z7O6i16rbfcQWCvcxwFCWlaqj
+         U6ZCqcY41q+i5uLP7uvGe8b52EVXApXDllJ2aJi8Uafj994webU/K7S1kUGJhegEe54m
+         oaSjgw7vQiWU5itPl4FqAv+28u+vFvgDAnEZLjyoeP/8q66BRe9v4w4WPRHel1PK6xDE
+         tfkTjJPmiXlq9R3sPlMDIXFEz6V1C2ujTg/Jv3Aojr9DoJh11mGYn9aGns2pUrzSqnOZ
+         3vFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
@@ -48,56 +48,56 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=YTz/d6RgJw7vG8dlI9dMr9qb45edQKOrafBdBPJ53DY=;
-        b=pzhfsoqXw97t8dgypXs4lcs78SXy1F7o7WQCR+4Z2NSEv+f9pJ4dxmKQ8MzdrSUrHL
-         je1cxm+AvyBvPBjWjYHblju/tIGAejLbBa07uhSVNhvDsScVnB2ZrNVqn6IqGe7o2KbZ
-         H9aOu9t0pMOFT5Ax6ledRRMJhCkvQGQ7G22Yk2FEXuts+8fEY9f2V0pT3uaJuDsd9zzp
-         jeDK2y9p2zpu7kwFm4N00/c3sa/w5xuUYK65LpGoODFCdB5XTD6OfcHjFX6IDiDuMt4G
-         z2khuEvIQ0SH1/ebWXHkjsE6u6IQZgaN8fxwMew1E0nB6w92cYn113STIR+ILx92w7Cz
-         nlfQ==
+        bh=qF99ZmJf2szn/rrpCy3l0KsokeSIMyIMQiKiK9b9Omc=;
+        b=mVWTgx+3Fiw1rvRQw424f+2gXg33+LP8hgeVWEvotWqVtPR1t4nVFKG4L6CM3UplsS
+         m2LGTNPTwiUL7RX9uc8fADocXPXDkh95FDmHaTnd6MptA0zOcMmTdAg1rK1NP52FD3LG
+         GuwOCoilKJ3iLgBB3kqdVnx/+pdNkxNXWf49+oEZdESv4Evn6xVs4ZhEq+QOhyWk2IUJ
+         NMbLgJKOv8Sy8iukPiJqbHz0NFpK0E5e+bTYN5XJQ3Smw5iSrpY1lMZh3oF+CSSTMZ6c
+         oYq16YvNOJ9p8BP2ocCgtJVnDy0QmhrW+hiwjUijL7jqNkQGI0rE61S17d4QTEFsvUf7
+         lrvg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAUI9RP+KdIaOxPSZ0lGIPNVdt54avN/NbOdHDYkaC4NqDkeDfda
-	GLVgQlO7+itwnO6W7YELLSA=
-X-Google-Smtp-Source: APXvYqwMTnusoQKftZ9/UUHnYZ1x1cdYDfINVyl+71FvyU1CzYp83cl9BGM0gEnqcxNyovGLmlWsAA==
-X-Received: by 2002:a05:6000:1189:: with SMTP id g9mr44313776wrx.51.1563899051591;
-        Tue, 23 Jul 2019 09:24:11 -0700 (PDT)
+X-Gm-Message-State: APjAAAUFPHC1Catt0HGiFjme0XnyqFmXuF8njY0ETgLuiIOZg9iLY0+0
+	JNKecdpN2XXv5U8FJSGNweY=
+X-Google-Smtp-Source: APXvYqy4ILiDRDQThsMGAcyC7GDMeUhWBcy6tJr23LOsma9Kfk6LBnIxcJ1cLnszudb0NR7l6p1Y4A==
+X-Received: by 2002:a19:c514:: with SMTP id w20mr36009433lfe.182.1563900083460;
+        Tue, 23 Jul 2019 09:41:23 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a5d:4907:: with SMTP id x7ls11878959wrq.0.gmail; Tue, 23 Jul
- 2019 09:24:11 -0700 (PDT)
-X-Received: by 2002:adf:dd03:: with SMTP id a3mr35999842wrm.87.1563899051059;
-        Tue, 23 Jul 2019 09:24:11 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1563899051; cv=none;
+Received: by 2002:a2e:96d5:: with SMTP id d21ls4941635ljj.16.gmail; Tue, 23
+ Jul 2019 09:41:22 -0700 (PDT)
+X-Received: by 2002:a2e:8816:: with SMTP id x22mr41877835ljh.131.1563900082798;
+        Tue, 23 Jul 2019 09:41:22 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1563900082; cv=none;
         d=google.com; s=arc-20160816;
-        b=FHvyFb1kszqytqq1aDQK3g0Rp2FE4kF513Dxo/HfUArsoiPKCEEiLZcZ0+z7axXpJg
-         ITk40O3ixuNddENAoWume1OKbP1f+jtBvqEVqX6+a4KGNRxz66fMK+XvKdaRqoHdw0gM
-         95nyLQOlmYUx6pzBAAClrV7PaAufopyBbH9FPDM1Wbf5KfK2z3I7E/JdboCWc+WvLgNh
-         BheR0kK7KqtKGI3rYRkhGFLN7DIN4EZtr6OUTaP2jEMASolIYNU893ZoVMzonN0ltrjA
-         KpDffpLMa5ru/B3N8h/qV1NN6oKHq5ePfPc2Fkp/W+N1FMpgUYmwKmjBbs6KskaJbAoj
-         Z8FQ==
+        b=hnDOq1RD0Ax9kJw98W2MDknbSSzbsgAph8OSaqcDuiqh34SWGiJAemUL+eHpIzvxTv
+         dmcIM7QI4UvY87df/5XR7jXmNED95Yb4B93lnqjtCFISR9+xEr1ljV5jjm8SKmkIaavm
+         2iB7yrkLx03/jjrHckwsjpksMC/XTL5G/WeFIF2Se+sMstr+AVb9ZuYW6IQx77kJLdbp
+         73BVarMqc9oF7XJ6UkBCbh87oDkWb/8q+PpERNQ6MJ7D0FbAAJUgyiDuK81aPfeuU91v
+         CnWkTzcOSLT6yJIkVCXm/f4oxMli8rkUhZPNGblY0cJv5N3QgfCGXlrXt+5P0mNSW8Dr
+         v9dw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=user-agent:in-reply-to:content-disposition:mime-version:references
          :message-id:subject:cc:to:from:date;
-        bh=MMJBYXKZKq/K0xhBsKvlfCTzpFlBz/mgOHrf5z8HQi0=;
-        b=jhLT/qvm9M/eWqf1tu77xfXV7+VQSi0/TLZBUN1ODEoS57wbdhGlZt3PQTP9SMte/L
-         +C1/G0D31RYSWHgAVC/q2rPGwTYkqQ7Pz+MwMxoMmCw32kKThMGMKwc9Dy+OyjEKI2pT
-         RBu3ubwsYWHG9qxHIElygiTeU95Dqwx1Qz3KCuRgXaXWfAsZW77FMyXrA7ZVJwHrRwT3
-         Qep2Yx84DxkQl5BwkFIMEkZiWqswu879eAFYi+4BMA8LK0O6OQeePy57EScFwZBX93o4
-         zKlXYY/gGFgK3LoUeldQyK6Rpk2STVozQgqGp+DNDat5OnwA/v2RdG1oMXvHpDDasTWI
-         R1pg==
+        bh=CWX87h+Ok9E97o55gY6nn+kgeIPA0nmVYXdmyOIRyCY=;
+        b=RWzJKY4Muh7BAJql9c2IPZ9t/uuFmCkMEZzIOHJ4mu71envY64taIG5+RvFPcKtWoL
+         2PcgwK+xVgUGy+WZqAYtP/XXVe1baMYaRIXWbY2JM6nSZCKy2XY4Hsjlj5S4udP6ig0i
+         PPiT6Ugg0Ou2tOQPqL/AT9HSVlD87W1AFJm8DVoK+Ioyr5Fkyn2Ung97YbDNIN4naK+R
+         EP9nGEgBTXeNMZyf/Poz6oNBBiBRsKLMifSW5bVhHxJcKcCulBHVTNl2cGmn4/+zgVNl
+         KeV2urg4MakRo0WrVizOjcAE7VzsPJdQddLkobUCL96RWhlGGZXfcI27i4/imxdzv7gL
+         V65w==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
        spf=pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=mark.rutland@arm.com
 Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
-        by gmr-mx.google.com with ESMTP id s13si2706664wra.1.2019.07.23.09.24.10
+        by gmr-mx.google.com with ESMTP id s14si2497080ljg.4.2019.07.23.09.41.21
         for <kasan-dev@googlegroups.com>;
-        Tue, 23 Jul 2019 09:24:11 -0700 (PDT)
+        Tue, 23 Jul 2019 09:41:21 -0700 (PDT)
 Received-SPF: pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 25DE3337;
-	Tue, 23 Jul 2019 09:24:10 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E3C0B337;
+	Tue, 23 Jul 2019 09:41:19 -0700 (PDT)
 Received: from lakrids.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 736473F71A;
-	Tue, 23 Jul 2019 09:24:08 -0700 (PDT)
-Date: Tue, 23 Jul 2019 17:24:03 +0100
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3A13E3F71A;
+	Tue, 23 Jul 2019 09:41:18 -0700 (PDT)
+Date: Tue, 23 Jul 2019 17:41:16 +0100
 From: Mark Rutland <mark.rutland@arm.com>
 To: Marco Elver <elver@google.com>
 Cc: linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
@@ -109,14 +109,13 @@ Cc: linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
 	Andrey Konovalov <andreyknvl@google.com>,
 	Peter Zijlstra <peterz@infradead.org>, x86@kernel.org,
 	kasan-dev@googlegroups.com
-Subject: Re: [PATCH 2/2] lib/test_kasan: Add stack overflow test
-Message-ID: <20190723162403.GA56959@lakrids.cambridge.arm.com>
+Subject: Re: [PATCH 1/2] kernel/fork: Add support for stack-end guard page
+Message-ID: <20190723164115.GB56959@lakrids.cambridge.arm.com>
 References: <20190719132818.40258-1-elver@google.com>
- <20190719132818.40258-2-elver@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <20190719132818.40258-2-elver@google.com>
+In-Reply-To: <20190719132818.40258-1-elver@google.com>
 User-Agent: Mutt/1.11.1+11 (2f07cb52) (2018-12-01)
 X-Original-Sender: mark.rutland@arm.com
 X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
@@ -134,22 +133,35 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, Jul 19, 2019 at 03:28:18PM +0200, Marco Elver wrote:
-> Adds a simple stack overflow test, to check the error being reported on
-> an overflow. Without CONFIG_STACK_GUARD_PAGE, the result is typically
-> some seemingly unrelated KASAN error message due to accessing random
-> other memory.
+On Fri, Jul 19, 2019 at 03:28:17PM +0200, Marco Elver wrote:
+> Enabling STACK_GUARD_PAGE helps catching kernel stack overflows immediately
+> rather than causing difficult-to-diagnose corruption. Note that, unlike
+> virtually-mapped kernel stacks, this will effectively waste an entire page of
+> memory; however, this feature may provide extra protection in cases that cannot
+> use virtually-mapped kernel stacks, at the cost of a page.
+> 
+> The motivation for this patch is that KASAN cannot use virtually-mapped kernel
+> stacks to detect stack overflows. An alternative would be implementing support
+> for vmapped stacks in KASAN, but would add significant extra complexity.
 
-Can't we use the LKDTM_EXHAUST_STACK case to check this?
+Do we have an idea as to how much additional complexity?
 
-I was also under the impression that the other KASAN self-tests weren't
-fatal, and IIUC this will kill the kernel.
+> While the stack-end guard page approach here wastes a page, it is
+> significantly simpler than the alternative.  We assume that the extra
+> cost of a page can be justified in the cases where STACK_GUARD_PAGE
+> would be enabled.
+> 
+> Note that in an earlier prototype of this patch, we used
+> 'set_memory_{ro,rw}' functions, which flush the TLBs. This, however,
+> turned out to be unacceptably expensive, especially when run with
+> fuzzers such as Syzkaller, as the kernel would encounter frequent RCU
+> timeouts. The current approach of not flushing the TLB is therefore
+> best-effort, but works in the test cases considered -- any comments on
+> better alternatives or improvements are welcome.
 
-Given that, and given this is testing non-KASAN functionality, I'm not
-sure it makes sense to bundle this with the KASAN tests.
-
-Thanks,
-Mark.
+Ouch. I don't think that necessarily applies to other architectures, and
+from my PoV it would be nicer if we could rely on regular vmap'd stacks.
+That way we have one code path, and we can rely on the fault.
 
 > 
 > Signed-off-by: Marco Elver <elver@google.com>
@@ -167,70 +179,181 @@ Mark.
 > Cc: linux-kernel@vger.kernel.org
 > Cc: kasan-dev@googlegroups.com
 > ---
->  lib/test_kasan.c | 36 ++++++++++++++++++++++++++++++++++++
->  1 file changed, 36 insertions(+)
+>  arch/Kconfig                         | 15 +++++++++++++++
+>  arch/x86/include/asm/page_64_types.h |  8 +++++++-
+>  include/linux/sched/task_stack.h     | 11 +++++++++--
+>  kernel/fork.c                        | 22 +++++++++++++++++++++-
+>  4 files changed, 52 insertions(+), 4 deletions(-)
 > 
-> diff --git a/lib/test_kasan.c b/lib/test_kasan.c
-> index b63b367a94e8..3092ec01189d 100644
-> --- a/lib/test_kasan.c
-> +++ b/lib/test_kasan.c
-> @@ -15,6 +15,7 @@
->  #include <linux/mman.h>
->  #include <linux/module.h>
->  #include <linux/printk.h>
-> +#include <linux/sched/task_stack.h>
->  #include <linux/slab.h>
->  #include <linux/string.h>
->  #include <linux/uaccess.h>
-> @@ -709,6 +710,32 @@ static noinline void __init kmalloc_double_kzfree(void)
->  	kzfree(ptr);
+> diff --git a/arch/Kconfig b/arch/Kconfig
+> index e8d19c3cb91f..cca3258fff1f 100644
+> --- a/arch/Kconfig
+> +++ b/arch/Kconfig
+> @@ -935,6 +935,21 @@ config LOCK_EVENT_COUNTS
+>  	  the chance of application behavior change because of timing
+>  	  differences. The counts are reported via debugfs.
+>  
+> +config STACK_GUARD_PAGE
+> +	default n
+> +	bool "Use stack-end page as guard page"
+> +	depends on !VMAP_STACK && ARCH_HAS_SET_DIRECT_MAP && THREAD_INFO_IN_TASK && !STACK_GROWSUP
+> +	help
+> +	  Enable this if you want to use the stack-end page as a guard page.
+> +	  This causes kernel stack overflows to be caught immediately rather
+> +	  than causing difficult-to-diagnose corruption. Note that, unlike
+> +	  virtually-mapped kernel stacks, this will effectively waste an entire
+> +	  page of memory; however, this feature may provide extra protection in
+> +	  cases that cannot use virtually-mapped kernel stacks, at the cost of
+> +	  a page. Note that, this option does not implicitly increase the
+> +	  default stack size. The main use-case is for KASAN to avoid reporting
+> +	  misleading bugs due to stack overflow.
+
+These dependencies can also be satisfied on arm64, but I don't believe
+this will work correctly there, and we'll need something like a
+ARCH_HAS_STACK_GUARD_PAGE symbol so that x86 can opt-in.
+
+On arm64 our exception vectors don't specify an alternative stack, so we
+don't have a direct equivalent to x86 double-fault handler. Our kernel
+stack overflow handling requires explicit tests in the entry assembly
+that are only built (or valid) when VMAP_STACK is selected.
+
+> +
+>  source "kernel/gcov/Kconfig"
+>  
+>  source "scripts/gcc-plugins/Kconfig"
+> diff --git a/arch/x86/include/asm/page_64_types.h b/arch/x86/include/asm/page_64_types.h
+> index 288b065955b7..b218b5713c02 100644
+> --- a/arch/x86/include/asm/page_64_types.h
+> +++ b/arch/x86/include/asm/page_64_types.h
+> @@ -12,8 +12,14 @@
+>  #define KASAN_STACK_ORDER 0
+>  #endif
+>  
+> +#ifdef CONFIG_STACK_GUARD_PAGE
+> +#define STACK_GUARD_SIZE PAGE_SIZE
+> +#else
+> +#define STACK_GUARD_SIZE 0
+> +#endif
+> +
+>  #define THREAD_SIZE_ORDER	(2 + KASAN_STACK_ORDER)
+> -#define THREAD_SIZE  (PAGE_SIZE << THREAD_SIZE_ORDER)
+> +#define THREAD_SIZE  ((PAGE_SIZE << THREAD_SIZE_ORDER) - STACK_GUARD_SIZE)
+
+I'm pretty sure that common code relies on THREAD_SIZE being a
+power-of-two. I also know that if we wanted to enable this on arm64 that
+would very likely be a requirement.
+
+For example, in kernel/trace/trace_stack.c we have:
+
+| this_size = ((unsigned long)stack) & (THREAD_SIZE-1);
+
+... and INIT_TASK_DATA() allocates the initial task stack using
+THREAD_SIZE, so that may require special care, as it might not be sized
+or aligned as you expect.
+
+>  
+>  #define EXCEPTION_STACK_ORDER (0 + KASAN_STACK_ORDER)
+>  #define EXCEPTION_STKSZ (PAGE_SIZE << EXCEPTION_STACK_ORDER)
+> diff --git a/include/linux/sched/task_stack.h b/include/linux/sched/task_stack.h
+> index 2413427e439c..7ee86ad0a282 100644
+> --- a/include/linux/sched/task_stack.h
+> +++ b/include/linux/sched/task_stack.h
+> @@ -11,6 +11,13 @@
+>  
+>  #ifdef CONFIG_THREAD_INFO_IN_TASK
+>  
+> +#ifndef STACK_GUARD_SIZE
+> +#ifdef CONFIG_STACK_GUARD_PAGE
+> +#error "Architecture not compatible with STACK_GUARD_PAGE"
+> +#endif
+> +#define STACK_GUARD_SIZE 0
+> +#endif
+
+The core code you add assumes that when enabled, this is PAGE_SIZE, so
+I think the definition should live in a common header.
+
+As above, it should not be possible to select CONFIG_STACK_GUARD_PAGE
+unless the architecture supports it. If nothing else, this avoids
+getting bug reports on randconfigs.
+
+Thanks,
+Mark.
+
+> +
+>  /*
+>   * When accessing the stack of a non-current task that might exit, use
+>   * try_get_task_stack() instead.  task_stack_page will return a pointer
+> @@ -18,14 +25,14 @@
+>   */
+>  static inline void *task_stack_page(const struct task_struct *task)
+>  {
+> -	return task->stack;
+> +	return task->stack + STACK_GUARD_SIZE;
 >  }
 >  
-> +#ifdef CONFIG_STACK_GUARD_PAGE
-> +static noinline void __init stack_overflow_via_recursion(void)
-> +{
-> +	volatile int n = 512;
+>  #define setup_thread_stack(new,old)	do { } while(0)
+>  
+>  static inline unsigned long *end_of_stack(const struct task_struct *task)
+>  {
+> -	return task->stack;
+> +	return task->stack + STACK_GUARD_SIZE;
+>  }
+>  
+>  #elif !defined(__HAVE_THREAD_FUNCTIONS)
+> diff --git a/kernel/fork.c b/kernel/fork.c
+> index d8ae0f1b4148..22033b03f7da 100644
+> --- a/kernel/fork.c
+> +++ b/kernel/fork.c
+> @@ -94,6 +94,7 @@
+>  #include <linux/livepatch.h>
+>  #include <linux/thread_info.h>
+>  #include <linux/stackleak.h>
+> +#include <linux/set_memory.h>
+>  
+>  #include <asm/pgtable.h>
+>  #include <asm/pgalloc.h>
+> @@ -249,6 +250,14 @@ static unsigned long *alloc_thread_stack_node(struct task_struct *tsk, int node)
+>  					     THREAD_SIZE_ORDER);
+>  
+>  	if (likely(page)) {
+> +		if (IS_ENABLED(CONFIG_STACK_GUARD_PAGE)) {
+> +			/*
+> +			 * Best effort: do not flush TLB to avoid the overhead
+> +			 * of flushing all TLBs.
+> +			 */
+> +			set_direct_map_invalid_noflush(page);
+> +		}
 > +
-> +	BUILD_BUG_ON(IS_ENABLED(CONFIG_STACK_GROWSUP));
+>  		tsk->stack = page_address(page);
+>  		return tsk->stack;
+>  	}
+> @@ -258,6 +267,7 @@ static unsigned long *alloc_thread_stack_node(struct task_struct *tsk, int node)
+>  
+>  static inline void free_thread_stack(struct task_struct *tsk)
+>  {
+> +	struct page* stack_page;
+>  #ifdef CONFIG_VMAP_STACK
+>  	struct vm_struct *vm = task_stack_vm_area(tsk);
+>  
+> @@ -285,7 +295,17 @@ static inline void free_thread_stack(struct task_struct *tsk)
+>  	}
+>  #endif
+>  
+> -	__free_pages(virt_to_page(tsk->stack), THREAD_SIZE_ORDER);
+> +	stack_page = virt_to_page(tsk->stack);
 > +
-> +	/* About to overflow: overflow via alloca'd array and try to write. */
-> +	if (!object_is_on_stack((void *)&n - n)) {
-> +		volatile char overflow[n];
-> +
-> +		overflow[0] = overflow[0];
-> +		return;
+> +	if (IS_ENABLED(CONFIG_STACK_GUARD_PAGE)) {
+> +		/*
+> +		 * Avoid flushing TLBs, and instead rely on spurious fault
+> +		 * detection of stale TLBs.
+> +		 */
+> +		set_direct_map_default_noflush(stack_page);
 > +	}
 > +
-> +	stack_overflow_via_recursion();
-> +}
-> +
-> +static noinline void __init kasan_stack_overflow(void)
-> +{
-> +	pr_info("stack overflow begin\n");
-> +	stack_overflow_via_recursion();
-> +	pr_info("stack overflow end\n");
-> +}
-> +#endif
-> +
->  static int __init kmalloc_tests_init(void)
->  {
->  	/*
-> @@ -753,6 +780,15 @@ static int __init kmalloc_tests_init(void)
->  	kasan_bitops();
->  	kmalloc_double_kzfree();
->  
-> +#ifdef CONFIG_STACK_GUARD_PAGE
-> +	/*
-> +	 * Only test with CONFIG_STACK_GUARD_PAGE, as without we get other
-> +	 * random KASAN violations, due to accessing other random memory (we
-> +	 * want to avoid actually corrupting memory in these tests).
-> +	 */
-> +	kasan_stack_overflow();
-> +#endif
-> +
->  	kasan_restore_multi_shot(multishot);
->  
->  	return -EAGAIN;
+> +	__free_pages(stack_page, THREAD_SIZE_ORDER);
+>  }
+>  # else
+>  static struct kmem_cache *thread_stack_cache;
 > -- 
 > 2.22.0.657.g960e92d24f-goog
 > 
@@ -238,4 +361,4 @@ Mark.
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20190723162403.GA56959%40lakrids.cambridge.arm.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20190723164115.GB56959%40lakrids.cambridge.arm.com.
