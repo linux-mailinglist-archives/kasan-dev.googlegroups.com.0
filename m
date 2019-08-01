@@ -1,151 +1,127 @@
-Return-Path: <kasan-dev+bncBC5L5P75YUERBQ4UQ7VAKGQEVWTOK6Q@googlegroups.com>
+Return-Path: <kasan-dev+bncBCD3NZ4T2IKRBC7XRPVAKGQEQCJV2EA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ed1-x539.google.com (mail-ed1-x539.google.com [IPv6:2a00:1450:4864:20::539])
-	by mail.lfdr.de (Postfix) with ESMTPS id F01F37C9D9
-	for <lists+kasan-dev@lfdr.de>; Wed, 31 Jul 2019 19:05:07 +0200 (CEST)
-Received: by mail-ed1-x539.google.com with SMTP id n3sf42791083edr.8
-        for <lists+kasan-dev@lfdr.de>; Wed, 31 Jul 2019 10:05:07 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1564592707; cv=pass;
+Received: from mail-io1-xd3f.google.com (mail-io1-xd3f.google.com [IPv6:2607:f8b0:4864:20::d3f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 046247DE32
+	for <lists+kasan-dev@lfdr.de>; Thu,  1 Aug 2019 16:47:41 +0200 (CEST)
+Received: by mail-io1-xd3f.google.com with SMTP id q26sf79347873ioi.10
+        for <lists+kasan-dev@lfdr.de>; Thu, 01 Aug 2019 07:47:40 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1564670860; cv=pass;
         d=google.com; s=arc-20160816;
-        b=J0TGqrqvBf0KeRFHc58wN8NTyweNMyl1O95a2DWF53fLX4hzQ2p7Z279FrS1aYpSbd
-         A0PoRREaTem+UYmdGZziGBfRSsvVCjCbgRkuePBZcLnnHZALFyDoJlGpqG4YtiVWAEnA
-         k5ndOhy4s/rolEJN2Z8VXjizGfD9QV+IROGOF2RSYI2Tq6qiObXRrBo1P1UWk5678eNc
-         tiwN/NNRNptc+ExiU1T68WscawxWCIBosxBK3QUSawaWircFQ9XveQhv1SL9RYoRuJDK
-         cE/sXQGlcn8YjKpisw9T3Edd9wpJczFW2ONo/6jVUE522NtvOtyKPUYtjzpMQ0iyOLE+
-         0e4A==
+        b=EWtAltPrOW3Ei4MQywwv2KF+rl4iplD5QLDSKSPOSofieRlemFUPBAqHoxTemQmbZP
+         PmM6D1Eadb1qS/VV3pgNZhjYdB0jGggzA3Hh2rdGiai3Pj1SGqH6Er+zKWdA3ZcoDGE5
+         5K+8NpF2LID15WOknW3zAxLj0e/VK6X7hzjy1EOn4g35j4U9VqozCbbc4kAfCPaT97WF
+         j0pbKk0jxg4Ol2+BwlJrvAPPj9sl6QAh6xrJs/km6LmT6Cks9LAYf4mWjIX1Wms2yTTD
+         m2S8ILNKGTHjbU1yqTzbOfLqoMK0qYD3EWlR4HCCQgI8QseSJEuEJr6zIBH/0pwjvpwD
+         GJDQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-language:in-reply-to
-         :mime-version:user-agent:date:message-id:from:references:cc:to
-         :subject:sender:dkim-signature;
-        bh=r86Eu2abhHxvxy3QwjKe7uOHIDS6btRA96/HCojAd2c=;
-        b=C/DYcxYO396Bs9ERuj96/H126hWM334AiDlfVnbE94Q8tz39qNKvxCXF3KlfR+E6sn
-         TBUV1NWrqgG1PYxQEpH0iiJOu1Qn3OYm4g2XXsPBDZbQc8wBV9licoVZqDnPAHfrTV2s
-         J1S0maAPgXKV/xiLkmcfLINg3jwjZ7rHsAGv7a8Jd38CS3EgunD20h4wEklajUXqK6Fx
-         227pwh2lfGWkwV290uRJMaDk4piWm3XsvUpPkmyB7y7T/sCf8nikuH9c9BGys9h2bYoF
-         r/wxntHKDuVfp7eOeUb/HlQk+EraAduniyNkCH7clo6IE2vtuVOoktk+XVAbSjhJSK2Q
-         qfEA==
+         :list-id:mailing-list:precedence:message-id:date:subject:cc:to:from
+         :mime-version:sender:dkim-signature;
+        bh=AQ1niTeAg13z5PkNdpsrPdpjk689nG64H8qgkfPJr6U=;
+        b=jnnD4MatzvOuihocX448/5FJ1ssmgS1WL3SCWQtYwX6waYsUoBCASJRZtXJukZOzCg
+         5O7H22spjDTALsU6NPBMvBMozLjTYk8i/JmBq+HbWWaNXV4zllMNpxsa/3drb4FtAjH6
+         IefVCJPxHrJgR2eb7gjHP21HkuJAweoxJoZi0usFgvRqYTMWayob66gBJwRWk37lZX4B
+         ixI2T7O04OBok8aRApQR2PnxpQXPZrG8nA2VPFv8OROzFhsxP3vk32QhRMfweP6KTlgp
+         zK00vi63gj4sLS2pFkczv6XOzk2/zAvZTnfqYTUeNzEG7AOWGLmxtCUKGfL+AGIb7noe
+         yExw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of aryabinin@virtuozzo.com designates 185.231.240.75 as permitted sender) smtp.mailfrom=aryabinin@virtuozzo.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=virtuozzo.com
+       dkim=pass header.i=@lca.pw header.s=google header.b=LejEUzoE;
+       spf=pass (google.com: domain of cai@lca.pw designates 2607:f8b0:4864:20::744 as permitted sender) smtp.mailfrom=cai@lca.pw
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=r86Eu2abhHxvxy3QwjKe7uOHIDS6btRA96/HCojAd2c=;
-        b=UfimxC5jBumKv3Ql4mZialOAFBhNXLT4vsFxEE0oQ3x0P3pcwjWW8YSDtLcFkfSMvM
-         Ed6qoxEQ9o1fWKhdgT0GmMTnvviJejRSa4mTEs7jzMp1sR8YZxCoVwnkXTbcidfdtrm0
-         0zC7uf4V9GONb+chVT2yqy3EHa3P4FJIlgSycw98Kz7EmCyt/+56sgNfF0c23HzKzCnZ
-         fmoQ73Z0/VgxQtteMhHwMdJzvzX7PdmOqCC8rky+tJbhB5PlCXXFJdFGNAWjFSrnYw/f
-         t6D0P8dDF9mhkQF7A0SOwswnUmBKPSa1HG3D/cuc/7RSs7XvLFXzjLrOub2Y2clfgosh
-         CYKg==
+        h=sender:mime-version:from:to:cc:subject:date:message-id
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=AQ1niTeAg13z5PkNdpsrPdpjk689nG64H8qgkfPJr6U=;
+        b=RuN/YpfTuZLDC+oF2myvzo1RcIMNlXFhl+ruWEXukfwcE2tsF6fuJCoCX4nXXsPRU4
+         0dw/umC46MhRI+KjPcYpnIprqUHMQiH32/xxgArfqLGSeyXojxtOo6j3f1vph9TKaANy
+         9/QNFLTZ4clifWiAyPMK1/QNlbCORCQkm5xFNC4E7NFBMoUcK6AkfB/qFOTq5XR9x/mt
+         h3r+PitYX6FxMzdRBHRsLyU/SPl5odSnysg0hW9XTsZqG/WxVxF744sX2t6+afxlkMAq
+         JvcxkDq0ysvd59tXlOcL4WZpZuElG9qCWYssdo2EuGMPDmsEkrHhN1ojV+Hj0B6lE1SO
+         QU9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=r86Eu2abhHxvxy3QwjKe7uOHIDS6btRA96/HCojAd2c=;
-        b=sCqgzwf/DC0dP0XSD3pVpYE6zpW/rSOvo17/kveAqd2CKFtqPSzX4TpiK7ZSjFuCcG
-         q5eWfJre1F0p38LVVY62pM6PlRDSqXj5fzTVszXXLd3PdAo7LXbVgXSDq1LzpVeM/Tn2
-         GEzcLoa/hEUJACRAMp/5i99D/wc7D376zXyRU5TBdbldoeUwuUYf/5LADuZxbZfPncRX
-         p/4T4ettouCiUrwN7Mm3P4aM2G8lcWPreotDVOquzFIQLwUQy09BnkzIiVE8T7VXLZvH
-         dYFSl2Cn7Shg30Nk1kGIiCJE/YFmIrCiprkPZBNQO2jmDfPPy4UMQV7WZupLOMnKuS37
-         lPqQ==
+        h=sender:x-gm-message-state:mime-version:from:to:cc:subject:date
+         :message-id:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=AQ1niTeAg13z5PkNdpsrPdpjk689nG64H8qgkfPJr6U=;
+        b=PJD7uP8RY4fdFFnwINhl4ObnWr2ACG4GTfQjQmq1dTzhsrvw7WP0mV8hdFQ9vzo1Qj
+         DO7DG7Km5LPghyjzDh2AboicDTd1D5k/y7XAcBxO6JIxL3jqhK9o/RZhxsjH4xfkGYD2
+         qNfdX55XO2kCcFXQ5oUhMVMjcm/X6HxSYhJsziM9dECOoC/1DjtPudx6W7NTMr5bRZVQ
+         7MJS7NsnJE5MWUDZqPreJZYl1q4Zbr0nO/FlRV7nvyqQHnXN89ttIm4rskMUNg6rsRgB
+         MsVfWdd/URMssDtIjoIbUSVJ0Xf3iVEm9zM58BcAH8jmuchP1ykvU3u5T9lhHeTR8QlH
+         28ew==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAVLqFjnmXo6OFDd8RiXSsifyWCmgpCQYSYzhQfxhNudoP+by6ld
-	E6hXjgZ44hv49j8pc7bbXcM=
-X-Google-Smtp-Source: APXvYqz4kFCeIMf9cyQj4LqfjQnH1qu2RyS92YzeKfl0OwWwvkeAD7LB1PMLTL0u7Os9r9dDHbDDpQ==
-X-Received: by 2002:a50:f98a:: with SMTP id q10mr108336969edn.267.1564592707722;
-        Wed, 31 Jul 2019 10:05:07 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a50:ac62:: with SMTP id w31ls16249490edc.10.gmail; Wed, 31
- Jul 2019 10:05:07 -0700 (PDT)
-X-Received: by 2002:aa7:c3d8:: with SMTP id l24mr110946831edr.58.1564592707211;
-        Wed, 31 Jul 2019 10:05:07 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1564592707; cv=none;
-        d=google.com; s=arc-20160816;
-        b=rd0XBjgf4r/k4XlumHYvYtIHfyN+BF8upF7hXSSlJlJSGFVNGWu3+mWNAEZ/UYJvC+
-         bFs/d0kNf8xvPAb27lvLCg9XCJbchkohUodJwQL96i0t1HXh6AY+sDU5G+weWLv6oaZp
-         K00bU0ceSe8qZTXJu2yvrHrA/d1g9OATg427X3p12ZFvsA8xLBg0s86QJTpiQncyNrF/
-         AkOGPdaefYzp92zaBD13WL162cf5yeejf96RxDSX1+V6Oq/0YlpX7ucyqLZhsRzF4JL8
-         Nc1YoWn5BDLBLwDqz5khEZUtF6fqQ8d2+B33hPdw4eFC9nx84WB8uFSjpVY8kVWMUi5m
-         PGwg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject;
-        bh=gLsZksY+gBpgTVjGj1ZFUu3CK/yOt5FqgBnNEXrwvKg=;
-        b=MtZMLttdgg4LiyZg3qYMGZgzaBdDq6IGmrRBsGMptvTgTPLJkKZjanX5zMIYCUSOD0
-         CQW9cn7nhG07V3PQTJicBeVwmjg6PBOGWMtRbzIhza8oWmxR3txGwlDBneNcWgA4/Oo4
-         9a+zQnfKjGP7aEwaxXTweANs4ykf/15TO/efs4ZlWU+xvZNna10cU2P0UNgnYccKeQMB
-         1ZRtiEMbbnOyHMihY8yQYdjHiU/jGPKa630MIjlVCtJV9OSpRaDjr7dtwnyDA1iRC6U8
-         ON+10r7Kr9RRjTnf1hPLT4P43sIYfOPtRbbOADTgx8TKBkapKwXdTl9S0hwgxMHH46i1
-         y73A==
-ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of aryabinin@virtuozzo.com designates 185.231.240.75 as permitted sender) smtp.mailfrom=aryabinin@virtuozzo.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=virtuozzo.com
-Received: from relay.sw.ru (relay.sw.ru. [185.231.240.75])
-        by gmr-mx.google.com with ESMTPS id h23si574602edb.2.2019.07.31.10.05.07
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 31 Jul 2019 10:05:07 -0700 (PDT)
-Received-SPF: pass (google.com: domain of aryabinin@virtuozzo.com designates 185.231.240.75 as permitted sender) client-ip=185.231.240.75;
-Received: from [172.16.25.12]
-	by relay.sw.ru with esmtp (Exim 4.92)
-	(envelope-from <aryabinin@virtuozzo.com>)
-	id 1hss1z-0001ux-M2; Wed, 31 Jul 2019 20:04:51 +0300
-Subject: Re: [PATCH v3] kasan: add memory corruption identification for
- software tag-based mode
-To: Walter Wu <walter-zh.wu@mediatek.com>
-Cc: Dmitry Vyukov <dvyukov@google.com>,
- Alexander Potapenko <glider@google.com>, Christoph Lameter <cl@linux.com>,
- Pekka Enberg <penberg@kernel.org>, David Rientjes <rientjes@google.com>,
- Joonsoo Kim <iamjoonsoo.kim@lge.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Martin Schwidefsky <schwidefsky@de.ibm.com>, Arnd Bergmann <arnd@arndb.de>,
- Vasily Gorbik <gor@linux.ibm.com>, Andrey Konovalov <andreyknvl@google.com>,
- "Jason A . Donenfeld" <Jason@zx2c4.com>, Miles Chen
- <miles.chen@mediatek.com>, kasan-dev <kasan-dev@googlegroups.com>,
- LKML <linux-kernel@vger.kernel.org>, Linux-MM <linux-mm@kvack.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- linux-mediatek@lists.infradead.org, wsd_upstream <wsd_upstream@mediatek.com>
-References: <20190613081357.1360-1-walter-zh.wu@mediatek.com>
- <da7591c9-660d-d380-d59e-6d70b39eaa6b@virtuozzo.com>
- <1560447999.15814.15.camel@mtksdccf07> <1560479520.15814.34.camel@mtksdccf07>
- <1560744017.15814.49.camel@mtksdccf07>
- <CACT4Y+Y3uS59rXf92ByQuFK_G4v0H8NNnCY1tCbr4V+PaZF3ag@mail.gmail.com>
- <1560774735.15814.54.camel@mtksdccf07> <1561974995.18866.1.camel@mtksdccf07>
- <CACT4Y+aMXTBE0uVkeZz+MuPx3X1nESSBncgkScWvAkciAxP1RA@mail.gmail.com>
- <ebc99ee1-716b-0b18-66ab-4e93de02ce50@virtuozzo.com>
- <1562640832.9077.32.camel@mtksdccf07>
- <d9fd1d5b-9516-b9b9-0670-a1885e79f278@virtuozzo.com>
- <1562839579.5846.12.camel@mtksdccf07>
- <37897fb7-88c1-859a-dfcc-0a5e89a642e0@virtuozzo.com>
- <1563160001.4793.4.camel@mtksdccf07>
- <9ab1871a-2605-ab34-3fd3-4b44a0e17ab7@virtuozzo.com>
- <1563789162.31223.3.camel@mtksdccf07>
- <e62da62a-2a63-3a1c-faeb-9c5561a5170c@virtuozzo.com>
- <1564144097.515.3.camel@mtksdccf07>
- <71df2bd5-7bc8-2c82-ee31-3f68c3b6296d@virtuozzo.com>
- <1564147164.515.10.camel@mtksdccf07>
-From: Andrey Ryabinin <aryabinin@virtuozzo.com>
-Message-ID: <f29ee964-cf12-1b5d-e570-1d5baa49a580@virtuozzo.com>
-Date: Wed, 31 Jul 2019 20:04:59 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+X-Gm-Message-State: APjAAAXtVi1V03by8q9qb61Oye0/0Y6OuR1W9pYZk+oBitUKu1qQasUk
+	QviUkTZA/kmtBMpqPEj6tTM=
+X-Google-Smtp-Source: APXvYqxMtyGGEl70MwQ1fUQv7RPXSzPCf+n934ZLNrM3GGFh2zZ12+ySmYQS7W23P6W6hEYLNeti/Q==
+X-Received: by 2002:a6b:5103:: with SMTP id f3mr114355316iob.142.1564670859918;
+        Thu, 01 Aug 2019 07:47:39 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1564147164.515.10.camel@mtksdccf07>
+X-BeenThere: kasan-dev@googlegroups.com
+Received: by 2002:a05:6602:18d:: with SMTP id m13ls18659002ioo.7.gmail; Thu,
+ 01 Aug 2019 07:47:39 -0700 (PDT)
+X-Received: by 2002:a6b:f906:: with SMTP id j6mr35821684iog.26.1564670859646;
+        Thu, 01 Aug 2019 07:47:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1564670859; cv=none;
+        d=google.com; s=arc-20160816;
+        b=RGMDDiKlbNNe1Lwa2UOmjXgcM2EST3sYxhGJM6SZd4lBs/fMBvZcVWmdC/jTgqkkYp
+         omwaNtJ5uAPsDKAfWFcoY9v5OQiAC/Dx1QmTf8k2Xj++Wa9PylsKCrWJl45GXr0Ga5Pt
+         2zIbRMVlcW4f0pfK8pTRy7yHUpEyTMb4g3lsaFo1SKL8CXbK8yqnnZZi7gGI//y1KlRT
+         +lXWW3FOxqMvNoVYhmV06eO8QGnm2YtOd2csiZOrRmANALeuc1m019apN9A1bs0yMOtB
+         PG6g9hO0jumtTHGvHYkB9jpu7g8SgCF267z4FZ65RMgAEg9danYwvLtFo9OZieYV2kO7
+         tQZw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=message-id:date:subject:cc:to:from:dkim-signature;
+        bh=230s3ChFPRc4aRDJM4ggG97b31ayoZtf71ejiTiSkjo=;
+        b=i77fImvCUdxY4LG+fs1kFz+M1C0sTHXkEovhyLJSumeGDZvY7bzg/LNJnHwGFAB34C
+         vBL0G3XkhhYeThbrCnP1m7rnz4JLDxFmOac+qqQdma3bc1GsnJMNkcAucp9ff2R9NHfg
+         zrujzt5ZKtn0OK1nYc4w5OxWh73QG2f7g3W4SxDwkbY9bcs3Px3scDKOzl8P0BVChofG
+         bbu4FQakpj6KzmUCSaF5sdoGAPbXoFfkIxo+lVHEb2rKroafJhJ4i21X4M3naf/+pKwm
+         cTntdQvPqJNCs2WsVadj4rzDtLhZpqXNenHSkRFnyzIywHG+7KOLerB3KB7t990Y1XVK
+         Xknw==
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       dkim=pass header.i=@lca.pw header.s=google header.b=LejEUzoE;
+       spf=pass (google.com: domain of cai@lca.pw designates 2607:f8b0:4864:20::744 as permitted sender) smtp.mailfrom=cai@lca.pw
+Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com. [2607:f8b0:4864:20::744])
+        by gmr-mx.google.com with ESMTPS id m190si2903763iof.3.2019.08.01.07.47.39
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+        Thu, 01 Aug 2019 07:47:39 -0700 (PDT)
+Received-SPF: pass (google.com: domain of cai@lca.pw designates 2607:f8b0:4864:20::744 as permitted sender) client-ip=2607:f8b0:4864:20::744;
+Received: by mail-qk1-x744.google.com with SMTP id r21so52274985qke.2
+        for <kasan-dev@googlegroups.com>; Thu, 01 Aug 2019 07:47:39 -0700 (PDT)
+X-Received: by 2002:ae9:e30d:: with SMTP id v13mr83907407qkf.148.1564670859058;
+        Thu, 01 Aug 2019 07:47:39 -0700 (PDT)
+Received: from qcai.nay.com (nat-pool-bos-t.redhat.com. [66.187.233.206])
+        by smtp.gmail.com with ESMTPSA id s11sm29605818qkm.51.2019.08.01.07.47.37
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 01 Aug 2019 07:47:38 -0700 (PDT)
+From: Qian Cai <cai@lca.pw>
+To: catalin.marinas@arm.com,
+	will@kernel.org
+Cc: andreyknvl@google.com,
+	aryabinin@virtuozzo.com,
+	glider@google.com,
+	dvyukov@google.com,
+	linux-arm-kernel@lists.infradead.org,
+	kasan-dev@googlegroups.com,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	Qian Cai <cai@lca.pw>
+Subject: [PATCH v2] arm64/mm: fix variable 'tag' set but not used
+Date: Thu,  1 Aug 2019 10:47:05 -0400
+Message-Id: <1564670825-4050-1-git-send-email-cai@lca.pw>
+X-Mailer: git-send-email 1.8.3.1
+X-Original-Sender: cai@lca.pw
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@lca.pw header.s=google header.b=LejEUzoE;       spf=pass
+ (google.com: domain of cai@lca.pw designates 2607:f8b0:4864:20::744 as
+ permitted sender) smtp.mailfrom=cai@lca.pw
 Content-Type: text/plain; charset="UTF-8"
-Content-Language: en-US
-X-Original-Sender: aryabinin@virtuozzo.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of aryabinin@virtuozzo.com designates 185.231.240.75 as
- permitted sender) smtp.mailfrom=aryabinin@virtuozzo.com;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=virtuozzo.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -158,49 +134,67 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
+When CONFIG_KASAN_SW_TAGS=n, set_tag() is compiled away. GCC throws a
+warning,
 
+mm/kasan/common.c: In function '__kasan_kmalloc':
+mm/kasan/common.c:464:5: warning: variable 'tag' set but not used
+[-Wunused-but-set-variable]
+  u8 tag = 0xff;
+     ^~~
 
-On 7/26/19 4:19 PM, Walter Wu wrote:
-> On Fri, 2019-07-26 at 15:52 +0300, Andrey Ryabinin wrote:
->>
->> On 7/26/19 3:28 PM, Walter Wu wrote:
->>> On Fri, 2019-07-26 at 15:00 +0300, Andrey Ryabinin wrote:
->>>>
->>>
->>>>>
->>>>>
->>>>> I remember that there are already the lists which you concern. Maybe we
->>>>> can try to solve those problems one by one.
->>>>>
->>>>> 1. deadlock issue? cause by kmalloc() after kfree()?
->>>>
->>>> smp_call_on_cpu()
->>>
->>>>> 2. decrease allocation fail, to modify GFP_NOWAIT flag to GFP_KERNEL?
->>>>
->>>> No, this is not gonna work. Ideally we shouldn't have any allocations there.
->>>> It's not reliable and it hurts performance.
->>>>
->>> I dont know this meaning, we need create a qobject and put into
->>> quarantine, so may need to call kmem_cache_alloc(), would you agree this
->>> action?
->>>
->>
->> How is this any different from what you have now?
-> 
-> I originally thought you already agreed the free-list(tag-based
-> quarantine) after fix those issue. If no allocation there,
+Fix it by making __tag_set() a static inline function the same as
+arch_kasan_set_tag() in mm/kasan/kasan.h for consistency because there
+is a macro in arch/arm64/include/asm/kasan.h,
 
-If no allocation there, than it must be somewhere else.
-We known exactly the amount of memory we need, so it's possible to preallocate it in advance.
+ #define arch_kasan_set_tag(addr, tag) __tag_set(addr, tag)
 
+However, when CONFIG_DEBUG_VIRTUAL=n and CONFIG_SPARSEMEM_VMEMMAP=y,
+page_to_virt() will call __tag_set() with incorrect type of a
+parameter, so fix that as well. Also, still let page_to_virt() return
+"void *" instead of "const void *", so will not need to add a similar
+cast in lowmem_page_address().
 
-> i think maybe
-> only move generic quarantine into tag-based kasan, but its memory
-> consumption is more bigger our patch. what do you think?
-> 
+Signed-off-by: Qian Cai <cai@lca.pw>
+---
+
+v2: Fix compilation warnings of CONFIG_DEBUG_VIRTUAL=n spotted by Will.
+
+ arch/arm64/include/asm/memory.h | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
+
+diff --git a/arch/arm64/include/asm/memory.h b/arch/arm64/include/asm/memory.h
+index b7ba75809751..fb04f10a78ab 100644
+--- a/arch/arm64/include/asm/memory.h
++++ b/arch/arm64/include/asm/memory.h
+@@ -210,7 +210,11 @@ static inline unsigned long kaslr_offset(void)
+ #define __tag_reset(addr)	untagged_addr(addr)
+ #define __tag_get(addr)		(__u8)((u64)(addr) >> 56)
+ #else
+-#define __tag_set(addr, tag)	(addr)
++static inline const void *__tag_set(const void *addr, u8 tag)
++{
++	return addr;
++}
++
+ #define __tag_reset(addr)	(addr)
+ #define __tag_get(addr)		0
+ #endif
+@@ -301,8 +305,8 @@ static inline void *phys_to_virt(phys_addr_t x)
+ #define page_to_virt(page)	({					\
+ 	unsigned long __addr =						\
+ 		((__page_to_voff(page)) | PAGE_OFFSET);			\
+-	unsigned long __addr_tag =					\
+-		 __tag_set(__addr, page_kasan_tag(page));		\
++	const void *__addr_tag =					\
++		__tag_set((void *)__addr, page_kasan_tag(page));	\
+ 	((void *)__addr_tag);						\
+ })
+ 
+-- 
+1.8.3.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/f29ee964-cf12-1b5d-e570-1d5baa49a580%40virtuozzo.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/1564670825-4050-1-git-send-email-cai%40lca.pw.
