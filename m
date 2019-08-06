@@ -1,71 +1,123 @@
-Return-Path: <kasan-dev+bncBCOZZYH3S4DRBDHKUXVAKGQE6BTVSRY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDX4HWEMTEBRBPXNUXVAKGQEO4WSDGQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oi1-x23e.google.com (mail-oi1-x23e.google.com [IPv6:2607:f8b0:4864:20::23e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CB1383188
-	for <lists+kasan-dev@lfdr.de>; Tue,  6 Aug 2019 14:39:41 +0200 (CEST)
-Received: by mail-oi1-x23e.google.com with SMTP id d204sf34684015oib.9
-        for <lists+kasan-dev@lfdr.de>; Tue, 06 Aug 2019 05:39:41 -0700 (PDT)
+Received: from mail-pl1-x63d.google.com (mail-pl1-x63d.google.com [IPv6:2607:f8b0:4864:20::63d])
+	by mail.lfdr.de (Postfix) with ESMTPS id C288C831B6
+	for <lists+kasan-dev@lfdr.de>; Tue,  6 Aug 2019 14:46:55 +0200 (CEST)
+Received: by mail-pl1-x63d.google.com with SMTP id d6sf48233269pls.17
+        for <lists+kasan-dev@lfdr.de>; Tue, 06 Aug 2019 05:46:55 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1565095614; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=pVyTuQ37/TVzBesyvvRMFkCS32O8vjdC5hGnmGJuf02EvKdfBO2rolPLiGt/hG6Kcm
+         ChXUUarcFCig5dzPtbFrnl/NvJ5g6zpnx1PlFo0g+rNY3iLxrwH7eykFLh6g/Aasc2SP
+         lbjZR7uoAd2plKLwZpyjbs8GMdkexbzDJQi2q50rkqdREpQ82TOPL2beuLOKBepT6jLN
+         svMGKImcoYA/UosmC45BgKcPCESyPF7NQhnKQCVt+GrNinSzMsP/5W+JtsQa7f2nb4ih
+         cGuTUXW4u+r48UCPHdb8YCzAyDsMQVzhGkhRpPTYdUzR3HB7OZXN3eNLXTO60E/R5qJn
+         4TKw==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=ay2vUhcK/QLei69s0MbjMxn/m5cfRk/TByb7PvJ6OR4=;
+        b=xPlqW0zKeQNiajhFLgJIxDvHVkWoMmYjJnk93tDOlMCc2oK1ZCf5khp+zZgoWBIHwu
+         n4nJ1234I1N1tTvCEcucaoQMhgqMQH3FiXpej0eq9H3Ew73ag4sOTl2V/mZvklF+x0Cz
+         VICqdnoahlKMQnPVZvXkuc61fLHL+LmIUXypY6kVmNEAXypN02XOV7Z6PVJyWQVyaEmJ
+         MxU+ibGMrjPpyXpCnxnPGtK4Lml2vCWGVpiKVel6vjYzyb4FvHmQxM+aTijllXXpnpXy
+         0DPg7OBjKiSW/J+eZyPIPnuraJ9TrH/VxE8pyrxxCeWHLAtY+ulw2RM2my2pPHom86sT
+         EqRw==
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=YxWuhVVP;
+       spf=pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::530 as permitted sender) smtp.mailfrom=andreyknvl@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:date:from:to:message-id:in-reply-to:references:subject
-         :mime-version:x-original-sender:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=FW9fvSN6PbJkGH+hIEBIVTNiPF488Wj6+MGmVydqGtQ=;
-        b=kfIc2JFAI28VznstH0+gVf3l4pE1WnZJeyXq7fSGcJIqJcaV93sBfCYwLKzBOtlw8p
-         C9HVj/cag0ZDO2MD80WcrGmH6W3E68om67rffU5gojAiN5KDuGIRKOBaJ35rlz7SFtg9
-         Iv3IbdBCffgem5vNUT/MdwY/Z80JHT3aWSrehidlNlHJtY52/rquTi/jl3yeerqhHUsM
-         cTyOM2KofpnfFQP5+uRtV4RbqRqtI0hGQfX7ZeddL4s4aRry8LDXK923U+lvIP/ucigG
-         6dLamkPMD8IpngZUS/xaAkwvfORy5H1OIqNKJ02n/x6khusv+IHVX1w5Idr/EoTiP+Yw
-         lcUA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:message-id:in-reply-to:references:subject:mime-version
-         :x-original-sender:precedence:mailing-list:list-id:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=FW9fvSN6PbJkGH+hIEBIVTNiPF488Wj6+MGmVydqGtQ=;
-        b=gZrQnBOJhdaxryB8n3pLHcIFkgUcn6r0fqfNNCMYHG5N2attUCn1UqJFIJpulY0hDY
-         sJFEoIdyAI1ioBTWYN1EbokvFzifP+y9eIwzxU2gPhi/XGaCKHhnsASU6qYCzfcT2Sro
-         IYHW5cTlRIBL7omvfM/f/QDZe0AX/61sNUuu6TzzvvG8s4TtWRHccMbNixbXfONTqV3Q
-         AG1JsLA5G4oNz0Bw/bsp2ZkJxogYrmNE61uVbjg/gBaA3ahYzmSfVbA6s6FvHWgh5sVO
-         nmB6ccfrXgdw9YjSOuyxwtpa38GwBFa5gdIXY/Y76Bj5bwJZow3u+yydIp7weQomCkOS
-         qJTQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=ay2vUhcK/QLei69s0MbjMxn/m5cfRk/TByb7PvJ6OR4=;
+        b=B1ocwv2m4Q5y/8F1TLIL7CMyIaIPX6AFDsx09DfsOnrJYgW8HcbKLOw0V7yOWruwBc
+         kje//bKL9SQ0Nn7meMml1RkBcN79AcCDQ+gkugA+oxCVsNKx5eWYEfRkYYu3YS2uo8wx
+         iItm1RUhQUFHdaj5s+DixBoQn+UwgX1zHsiAXvJnazUhj71TQ1jsBub3HN2evFGZ5h0A
+         gw4zAGdaguJt3xmJlbb/YKfgLxYlPQynavw8dpwK7+Xmg9EZitOCqtXMHl5LqWG3RtrQ
+         DOXkPq0IVVGT2v+hyHxEN/UGsNNl3p5zrFzvO4USpOBrPigon3n/8vyjVCEZGFfZk662
+         88hQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:date:from:to:message-id:in-reply-to
-         :references:subject:mime-version:x-original-sender:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=FW9fvSN6PbJkGH+hIEBIVTNiPF488Wj6+MGmVydqGtQ=;
-        b=MyNfmlqoBGZlq52edBBy+ZvH123A61QOPH6jtphKd0vIc1Zs6e/FyGaQ8XCCjuQLdi
-         Z8JSpg+F4AihP42zQuRt6g6lIhBhE7+3uvk05PtDx0Ode24q5EAvY9QGauJ/xdeiFzPK
-         llZJXCdzIFmhLXLIJi2hlnNpOtfua6M+1FyBk7zN+fgKWQhmDiUyfB3eTU7o5nzTzL2O
-         3wCT17tfOq0tF9k4A9bs0sDquMFTL6vwytZVWQnf4mEmkaYumCn+LSkOIxzGTUtOwKLJ
-         GknfNu34uQSOGNsbMICsdsOA0OheD0u/byhY3zPiAZYhfWRuJ0aJ2le5rOx+93GLT+it
-         3A3w==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAXaM7fWhShF01T3jsPB7bcrjclRET2Gw/W6ZAG0nm3hHAxMLzVj
-	kqMbpz1ClvakpXOZX6LV0VY=
-X-Google-Smtp-Source: APXvYqzfcZ1DrFIrASZVSzhwJfh3z9Q5lVRe2JHeicchT9sSGNoLI3liIZTXf8gWCR2IJqTPxtfMMw==
-X-Received: by 2002:a05:6830:1206:: with SMTP id r6mr3140213otp.37.1565095180167;
-        Tue, 06 Aug 2019 05:39:40 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=ay2vUhcK/QLei69s0MbjMxn/m5cfRk/TByb7PvJ6OR4=;
+        b=do1HONqEb0YoHC3gWh5qTnlvo60R5lIHNMOIVRdMeKUD++XME2sqNc37gzzgRkSksI
+         Q0ghCcsbycI/7lqjd2/Ua1MtUpU0/AAbNbW6K2wlGZ/QmrUICsmQ6W+CMw+w+k9W+nZ+
+         sdGJ0Vk3Q3lxjX2lt6AT4w85Kz3BCN2ZSuhlmx1pjqmpuDogNqFlFEjAMPPM7M4gYoZp
+         NQtikr96dSO0XO4faLxul+X39URcRww7igAp1Sv4/fORwGHML5C2I8bbyzrzQNpIsKTQ
+         YztJ7l8hj/EcfhyLZR0iQFppKlZOBTZ+/0pOJT5lNLuG6SvISGFqW+p6iJ6d9aUcBhU+
+         Ncxg==
+X-Gm-Message-State: APjAAAWKQ24ANfDmFu338NKfd5JQhMDM90jWRt9yib99ViRBQykvhEoz
+	OrlwPTKD7C86dq4zK+FraPc=
+X-Google-Smtp-Source: APXvYqzb+UBzuUVXy7Q8QEG1bjnpa7yAC6y6B7vwGtfPVDXRVCO5NkHbimKimlhwGsgCB2KHvjGndg==
+X-Received: by 2002:a17:90a:2305:: with SMTP id f5mr3205695pje.128.1565095614242;
+        Tue, 06 Aug 2019 05:46:54 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:aca:c78e:: with SMTP id x136ls770068oif.5.gmail; Tue, 06 Aug
- 2019 05:39:39 -0700 (PDT)
-X-Received: by 2002:aca:4e84:: with SMTP id c126mr2166257oib.153.1565095179686;
-        Tue, 06 Aug 2019 05:39:39 -0700 (PDT)
-Date: Tue, 6 Aug 2019 05:39:39 -0700 (PDT)
-From: "Hvanyou 42@gmail.con" <hvanhvan10@gmail.com>
-To: kasan-dev <kasan-dev@googlegroups.com>
-Message-Id: <ce375d66-143b-41a0-9e86-6144d0249993@googlegroups.com>
-In-Reply-To: <CAOE+jABoFq5K=s7JvuJSkC4PgocZSytUPcsniYT6gYUcgOVjdA@mail.gmail.com>
-References: <CAOE+jABoFq5K=s7JvuJSkC4PgocZSytUPcsniYT6gYUcgOVjdA@mail.gmail.com>
-Subject: Re: I have already sent you Money Gram payment of $5000.00 today,
- MTCN 10288059
+Received: by 2002:a65:47ca:: with SMTP id f10ls6779097pgs.13.gmail; Tue, 06
+ Aug 2019 05:46:53 -0700 (PDT)
+X-Received: by 2002:a65:6081:: with SMTP id t1mr2948943pgu.9.1565095613806;
+        Tue, 06 Aug 2019 05:46:53 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1565095613; cv=none;
+        d=google.com; s=arc-20160816;
+        b=kW3R4+kIUuJkOJLqV+LNL9fDtSUZ/eP8/rTY023uOwqeAqWtc1HjL5Cj0RFlOYRWAc
+         QA62JNgozERRy1kA9VcWHZoPPQOenALsCBIHaMA7UgJQUDxQn+r09CeJAUFAdMJl+DJL
+         Ob5MvtPQZ7FOwdW4oZc519rKSamJdVfLrVW+Xp1UYW75rO5G2JOnea2DC612BL70w/Kn
+         9mQfkeNdZjKfQHj9uwQe531ymg0N4Puwx3dbZyxrhPpDw+Mewe88+P53zp9BcY0neUbl
+         ayYck7vbxcNBrGnjAnFhyHc0IF52lD7qtS3TcGn1lH9qkBWx53H51B4tiAPHKGB+7ovl
+         qOCg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=OhYpeipAM1cJGk0zRufUu2W1ATcxkpvyxvScspZ2YDU=;
+        b=i3XQuT7+NFo9ebWUMRB7ckONlmy2Naizd8kMX3iQUrOxtUtk/ib6JfDczTl9ZAzVWJ
+         uTb3VcheQDZsEKwETU20aGjELAYQ0dgQzWjXshcXN+e76AultBs7RFpoO/qlWwEl9GzS
+         /Y7Xkcolmv2RAZOrk9E2WolwaL+0OrjHNcl4Ye3U2brQm4O8BGHb2yNKWHl97P2r4r98
+         w9QEg7CFJbX9gb7aGQesSGfMRL65Cy5QO2JFMpiTuK/RQvlTOEqxrAhZPoq1VzWuJxtl
+         0R/ZI3uTpNeGnG/nUXElyAx2C94wR5/2KfGTn6jkTPTE3yL4FsSZABjI8bsiFLkRxES1
+         XZ1A==
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=YxWuhVVP;
+       spf=pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::530 as permitted sender) smtp.mailfrom=andreyknvl@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com. [2607:f8b0:4864:20::530])
+        by gmr-mx.google.com with ESMTPS id q2si3043254pgq.3.2019.08.06.05.46.53
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+        Tue, 06 Aug 2019 05:46:53 -0700 (PDT)
+Received-SPF: pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::530 as permitted sender) client-ip=2607:f8b0:4864:20::530;
+Received: by mail-pg1-x530.google.com with SMTP id n9so35327861pgc.1
+        for <kasan-dev@googlegroups.com>; Tue, 06 Aug 2019 05:46:53 -0700 (PDT)
+X-Received: by 2002:a17:90a:2488:: with SMTP id i8mr2976904pje.123.1565095613100;
+ Tue, 06 Aug 2019 05:46:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/mixed; 
-	boundary="----=_Part_2071_1282188162.1565095179120"
-X-Original-Sender: hvanhvan10@gmail.com
+References: <96b2546a-3540-4c08-9817-0468c3146fab@googlegroups.com>
+ <CAAeHK+wp7BduMoNQEOLgwB28pYLoKrp=cHiAzRW1ysu27UBn2A@mail.gmail.com> <CADVap6u4DtVVr5SRw6Qw=GZDWvuVO3wTLDzFdC+P-m4pGYBjBA@mail.gmail.com>
+In-Reply-To: <CADVap6u4DtVVr5SRw6Qw=GZDWvuVO3wTLDzFdC+P-m4pGYBjBA@mail.gmail.com>
+From: "'Andrey Konovalov' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Tue, 6 Aug 2019 14:46:42 +0200
+Message-ID: <CAAeHK+wLm4e5mzbVzOiz6c+SiXFwZUJPFesgn2GjkJmUO=uhCg@mail.gmail.com>
+Subject: Re: I'm trying to build kasan for pixel 2 xl ( PQ3A.190705.001 ), But
+ touch is not working.
+To: sai manikanta <manikantavstk@gmail.com>
+Cc: kasan-dev <kasan-dev@googlegroups.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: andreyknvl@google.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@google.com header.s=20161025 header.b=YxWuhVVP;       spf=pass
+ (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::530
+ as permitted sender) smtp.mailfrom=andreyknvl@google.com;       dmarc=pass
+ (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Andrey Konovalov <andreyknvl@google.com>
+Reply-To: Andrey Konovalov <andreyknvl@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -78,118 +130,50 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-------=_Part_2071_1282188162.1565095179120
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Tue, Aug 6, 2019 at 6:50 AM sai manikanta <manikantavstk@gmail.com> wrote:
+>
+> Hi Andrey,
+>
+> Thanks for the reply. I have 2 qsns:
+> 1. What is the driver for pixel 2 xl or if you don't know, can you tell us how to find it?
 
-=E0=B9=80=E0=B8=A1=E0=B8=B7=E0=B9=88=E0=B8=AD =E0=B8=A7=E0=B8=B1=E0=B8=99=
-=E0=B8=A8=E0=B8=B8=E0=B8=81=E0=B8=A3=E0=B9=8C=E0=B8=97=E0=B8=B5=E0=B9=88 2 =
-=E0=B8=AA=E0=B8=B4=E0=B8=87=E0=B8=AB=E0=B8=B2=E0=B8=84=E0=B8=A1 =E0=B8=84.=
-=E0=B8=A8. 2019 21 =E0=B8=99=E0=B8=B2=E0=B8=AC=E0=B8=B4=E0=B8=81=E0=B8=B2 3=
-2 =E0=B8=99=E0=B8=B2=E0=B8=97=E0=B8=B5 55 =E0=B8=A7=E0=B8=B4=E0=B8=99=E0=B8=
-=B2=E0=B8=97=E0=B8=B5 UTC+7, MR. Goodluck Jonathan Former President of Nige=
-ria, =E0=B9=80=E0=B8=82=E0=B8=B5=E0=B8=A2=E0=B8=99=E0=B8=A7=E0=B9=88=E0=B8=
-=B2:
-> Attn Beneficiary,
->=20
-> GoodNews
-> I have already sent you Money Gram payment of $5000.00 today, MTCN 102880=
-59
-> because we have finally concluded to effect your transfer
-> funds of $4.8,000.000usd
-> through MONEY GRAM International Fund transfer Service
-> Each payment will be sending to you by $5000.00 daily until the
-> ($4.8,000.000usd) is completely transferred
-> we have this morning sent=C2=A0 MONEY GRAM payment of $5,000.00=20
-> ready to pick up by you, Money Gram payment of $5000.00 sent today, MTCN =
-10288059
-> So contact the MONEY GRAM Agent to pick up this first payment of $5000 no=
-w
->=20
-> Contact person Dr. Don James
-> Direector MONEY GRAM Service,Benin
-> Phone number: +229 98856728
-> E-mail: moneyg...@outlook.fr
->=20
-> Ask him to give you the complete, sender name, question and
-> answer to enable you pick up the $5.000.00 sent today, Also you are instr=
-ucted to re-confirm to him your information's as listed below to avoid wron=
-g transactions
->=20
-> (1) Receiver Name--------------
-> (2) Contact address--------------
-> (3) Country---------------------
-> (4) Telephone numbers-------------
->=20
-> Contact Dr. Don James for your MONEY GRAM payment of $4.8,000.000usd
-> Note: I have paid the deposit and insurrance fees for you but the only mo=
-ney you are required to send to them is just $19.00 dollars only for transf=
-er fee
-> You must make sure that you send this required transfer to office before =
-you can be avle to pick up your first $5000.00 at your addrss today.
-> We need your urgent reply
->=20
-> Best Regards
-> Mrs,Mary J. Anold
+Look for .ko files. I remember something about having to run "fastboot
+flashall" to flash driver modules, instead of some other fastboot
+command, but I don't remember exactly and can't find any references to
+what I did.
 
+> 2. The touch screen isn't working, so I was unable to do "adb shell" due to unable to set VENDOR KEYS as touch is not working.
+>
+> On Mon, Aug 5, 2019 at 5:04 PM Andrey Konovalov <andreyknvl@google.com> wrote:
+>>
+>> Most likely the issue is caused by a mismatching touchscreen driver
+>> module. You need to flash/copy a KASAN-built one to the device as
+>> well. I don't know any details on how to do it though.
+>>
+>> On Mon, Aug 5, 2019 at 1:22 PM <manikantavstk@gmail.com> wrote:
+>> >
+>> > Without kasan same build works fine. But after enabling kasan, compilation is successful but after flashing the images device touchscreen is not working.
+>> >
+>> > Applied this patch:
+>> >
+>> > +CONFIG_INPUT_TOUCHSCREEN=y
+>> > +CONFIG_LGE_TOUCH_CORE=y
+>> > +CONFIG_LGE_TOUCH_LGSIC_SW49408=m
+>> > +CONFIG_TOUCHSCREEN_FTM4=y
+>> > +CONFIG_TOUCHSCREEN_SYNAPTICS_DSX_HTC=y
+>> > +CONFIG_TOUCHSCREEN_SYNAPTICS_DSX_CORE_HTC=y
+>> > +CONFIG_TOUCHSCREEN_SYNAPTICS_DSX_RMI_DEV_HTC=y
+>> > +CONFIG_TOUCHSCREEN_SYNAPTICS_DSX_FW_UPDATE_HTC=y
+>> >
+>> > Still no luck and touch isn't working.
+>> > Can you provide any patch/ any inputs to resolve this touch problem?
+>> >
+>> > --
+>> > You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+>> > To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+>> > To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/96b2546a-3540-4c08-9817-0468c3146fab%40googlegroups.com.
 
-
-=E0=B9=80=E0=B8=A1=E0=B8=B7=E0=B9=88=E0=B8=AD =E0=B8=A7=E0=B8=B1=E0=B8=99=
-=E0=B8=A8=E0=B8=B8=E0=B8=81=E0=B8=A3=E0=B9=8C=E0=B8=97=E0=B8=B5=E0=B9=88 2 =
-=E0=B8=AA=E0=B8=B4=E0=B8=87=E0=B8=AB=E0=B8=B2=E0=B8=84=E0=B8=A1 =E0=B8=84.=
-=E0=B8=A8. 2019 21 =E0=B8=99=E0=B8=B2=E0=B8=AC=E0=B8=B4=E0=B8=81=E0=B8=B2 3=
-2 =E0=B8=99=E0=B8=B2=E0=B8=97=E0=B8=B5 55 =E0=B8=A7=E0=B8=B4=E0=B8=99=E0=B8=
-=B2=E0=B8=97=E0=B8=B5 UTC+7, MR. Goodluck Jonathan Former President of Nige=
-ria, =E0=B9=80=E0=B8=82=E0=B8=B5=E0=B8=A2=E0=B8=99=E0=B8=A7=E0=B9=88=E0=B8=
-=B2:
-> Attn Beneficiary,
->=20
-> GoodNews
-> I have already sent you Money Gram payment of $5000.00 today, MTCN 102880=
-59
-> because we have finally concluded to effect your transfer
-> funds of $4.8,000.000usd
-> through MONEY GRAM International Fund transfer Service
-> Each payment will be sending to you by $5000.00 daily until the
-> ($4.8,000.000usd) is completely transferred
-> we have this morning sent=C2=A0 MONEY GRAM payment of $5,000.00=20
-> ready to pick up by you, Money Gram payment of $5000.00 sent today, MTCN =
-10288059
-> So contact the MONEY GRAM Agent to pick up this first payment of $5000 no=
-w
->=20
-> Contact person Dr. Don James
-> Direector MONEY GRAM Service,Benin
-> Phone number: +229 98856728
-> E-mail: moneyg...@outlook.fr
->=20
-> Ask him to give you the complete, sender name, question and
-> answer to enable you pick up the $5.000.00 sent today, Also you are instr=
-ucted to re-confirm to him your information's as listed below to avoid wron=
-g transactions
->=20
-> (1) Receiver Name--------------
-> (2) Contact address--------------
-> (3) Country---------------------
-> (4) Telephone numbers-------------
->=20
-> Contact Dr. Don James for your MONEY GRAM payment of $4.8,000.000usd
-> Note: I have paid the deposit and insurrance fees for you but the only mo=
-ney you are required to send to them is just $19.00 dollars only for transf=
-er fee
-> You must make sure that you send this required transfer to office before =
-you can be avle to pick up your first $5000.00 at your addrss today.
-> We need your urgent reply
->=20
-> Best Regards
-> Mrs,Mary J. Anold
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/ce375d66-143b-41a0-9e86-6144d0249993%40googlegroups.com.
-
-------=_Part_2071_1282188162.1565095179120--
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAAeHK%2BwLm4e5mzbVzOiz6c%2BSiXFwZUJPFesgn2GjkJmUO%3DuhCg%40mail.gmail.com.
