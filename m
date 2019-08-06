@@ -1,125 +1,135 @@
-Return-Path: <kasan-dev+bncBDX4HWEMTEBRBL42UHVAKGQEOTHLK4Y@googlegroups.com>
+Return-Path: <kasan-dev+bncBCTM5HN3U4ORBGMOUTVAKGQE2OVMN7Q@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pg1-x540.google.com (mail-pg1-x540.google.com [IPv6:2607:f8b0:4864:20::540])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E68182065
-	for <lists+kasan-dev@lfdr.de>; Mon,  5 Aug 2019 17:37:20 +0200 (CEST)
-Received: by mail-pg1-x540.google.com with SMTP id w5sf52944360pgs.5
-        for <lists+kasan-dev@lfdr.de>; Mon, 05 Aug 2019 08:37:20 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1565019439; cv=pass;
+Received: from mail-ed1-x539.google.com (mail-ed1-x539.google.com [IPv6:2a00:1450:4864:20::539])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D2FB82A8F
+	for <lists+kasan-dev@lfdr.de>; Tue,  6 Aug 2019 06:50:34 +0200 (CEST)
+Received: by mail-ed1-x539.google.com with SMTP id y15sf52967050edu.19
+        for <lists+kasan-dev@lfdr.de>; Mon, 05 Aug 2019 21:50:34 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1565067033; cv=pass;
         d=google.com; s=arc-20160816;
-        b=wCWRoctCXhYN6Psnl91rHWeFLajseUf7v1Ddt1CdUGN9DjBY6NCrNe2zO/4QAHAxHW
-         juxZv+KJ/MlOea1LNImPcs5X/68+pUZjmLgTVQHZndhx9z6b0oYA+DqOfmWj3UgRoxGY
-         36Xfr220PkmasKP2tybHOsJxidTFCThprJmGIx0Fg5RbCsa+uIukeD879lBWVV/8dVfT
-         3+Zl6cfVqkzR02NMueMmX2FbI6D9Ndta17O5u6jybxLyyWB8JVDDLE2ePQh7g0uduYep
-         LEARg02Ah63ew61iWwtzJLwfycRcr1M2Py0V4wwfIS7IIXUC3119YQvlkL/d8CMV8J7v
-         b3Pg==
+        b=iI0z6Tr82074u/1YhdeO5Puss80/LS/zhhXQgwYrytiX3cmyV2445ixZkp752dTAKj
+         N0wIZwkTw2wFw/hwfGRvu6IQXewKgOwUr+b3e7zWAcndp+MuWWmx0nR17FHhI66Mbmyn
+         q9CE2erTV+t9oO1iP5LzCvlAPlYluSWhXJ7zsSz6NDoSR2mCRZYYjmbRAJTH0Hrt10ZZ
+         ZbgbOsrVmvokAVfiuPzM0LRCVKpf2pHn78QrvATj1W2MTHvTV69gWgBmndGXqpdIaPie
+         L5Au0FDHGhSrFrJ8UwgODaCaabDBoVCD+T/Ymhnl6SqA6QuWIlSiT4VpfrQ9sZPW3I/x
+         ZEjA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=k3GzryoHbgbfC1GszkqfpxgEsplkhZXvKRjyDdSjPLg=;
-        b=FJ5A4hd+EK1P6whnJn8qCKGIhB1lGzacEbu97sFsU3AU5HLkSTXQwD7XUKOgKIr/s+
-         kQ0h2iKna56AvvVu/WXU2nTEJCyuTmwbY9KSYb/0a/xOiP26HU9GBWJ8teuqwyPqktlB
-         4GcWTDw901lkJh9ybIc//sELdMoGOE/7YYWZRAePU+QJOnwNeBBtTOGuevXaG+EC7NDi
-         lCr5bTMbQF5a0qmkTa/ocGcuB6Jcw5/J/2RVgzecSxAUUk+CpcIWkAs1caq7Bg3b3mu0
-         G8fNN1INetjvrlNdqveIIUKHc9IFId+E42LOSUvNWEbL0rxUQDBcwkxo0GZq+RKg/trn
-         aSCw==
+         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:sender:dkim-signature
+         :dkim-signature;
+        bh=w2Eb/lel/tUedM1V7Jbnr+5N+WH39gSklpEv+lUnqEo=;
+        b=ZyumcHHqx3IzpE1T4doePEzjjjvtvLyKOGj0mOQOAjo/J3UDfQLpg4dlfivd0TACjz
+         t0ZVAfB8CO2jNgukTOQ3TxGy8EoXnwuEhvtdefO9oVMZAcqrouVQPptc9ODRDxLmaY69
+         SlahNQr1358HtmNo0c5abhUOGZZRpOds27CCvEoeS52F7QzV9+IJ5YFq+rEg4WI6MbQt
+         AUfZk+a+SvO4mix4gUNcYHLuYXvDZYlgWNYr6KBrbglKoNOA+PKheOXrFaVw6loglOvh
+         MxhE8np4VtJGr9Ekf5uqDWcuXiVTWJQj7sCIsdLgKLvUxUG9dVQScx5+1k0k9XPkFgV3
+         GGtQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=aZHdw82y;
-       spf=pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::441 as permitted sender) smtp.mailfrom=andreyknvl@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@gmail.com header.s=20161025 header.b=IvL0rWiL;
+       spf=pass (google.com: domain of manikantavstk@gmail.com designates 2a00:1450:4864:20::142 as permitted sender) smtp.mailfrom=manikantavstk@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
+        h=sender:mime-version:references:in-reply-to:from:date:message-id
+         :subject:to:cc:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=k3GzryoHbgbfC1GszkqfpxgEsplkhZXvKRjyDdSjPLg=;
-        b=YydyR28VcPJX9Nbeq2Ond0dzEm3zaVYv2aPwUz4/pkn5togxx4eFmgUUu5+24+YmDJ
-         9QBUHS4GSizDyFbWPSFoxUgYllbz2jzfnhYW6wTH6N1vyCfHu+/iOFy/PHrMEdXkIlDJ
-         7c2fON4Fcvyf4AqaTdSZHq4NsWyql3y597wfpEFAKSQdJnX+cDQFi8y1mzdvMR/xxF3Y
-         ewU/uTmNlGACiuKVmLNz4NH17tK/hAWa8eAys+A3cDlr1jcVVR/wQZCT0iAoeLLwbxFx
-         S5msfhMb0Pr3Juaxu4NP6rHPuK6KLRt+B1eApz5V7vJYBfhbCPe06RZMDw8WopCE3H6v
-         UAUg==
+        bh=w2Eb/lel/tUedM1V7Jbnr+5N+WH39gSklpEv+lUnqEo=;
+        b=IgPWyUu+cLMzM1B6XH8vxQ1Qgsfg9uh8PAgByr/8puaP+B755ED816YvM4X0MWCSsV
+         DHlqF3whtHl8pSgHrIv/Vqa1xVxWfWObqDUCHDIUJRI+bHO5QGDmgsGmsAzxzu3dkK06
+         c1Cn4scPVH7TvedaoO6GDpZMbM1ZRFVSmy0Pa/VYsC1Iq9GfSXXQFzEbc0aaT7X8mJUX
+         nvUw+fBKw5mGP/lS7cxo7yFGydjH0R4QFF/F+1A4FhjZEVhtEQk2OJ0gLu6Q0/iC2j0l
+         cMmFL1nQfM+r+HoTKMARvVT98BljdbmggjgDYRJZNq3RXYvOqa767mOtsHV+2HcfpA20
+         rs5g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=w2Eb/lel/tUedM1V7Jbnr+5N+WH39gSklpEv+lUnqEo=;
+        b=PLrYVo+XaTLBW78LHHx2fY9ibZA+oK/2R8FQEUjdGDrGlVq41ZbJQvULawuyo0Etkc
+         MMUWUoZNrUxpaiGrvzKcUAfZW+AA/bxEL4PFIW24umku3Jl2xDVLKEvvDzYymWl+y4RF
+         3FvILs56z8uuH7CPX4anaXMeBBn1mjp5fUSNuBc5hz80KuHDbMcaX0va/ozGdtkrUkus
+         ktlWp3EPtVmPSX5lYATjWw4Qf0oXBt+gFfOnlfFwILPBZ0PnYlzgCaXol4oto9KfL/0o
+         B3x4T+dGFA3oca2O2XDBUXTFKMZmQrXoJT4RKwKPrBoFOW/nbBBvAgwHvMVNv1/NUDCV
+         z90g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+        h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
+         :date:message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=k3GzryoHbgbfC1GszkqfpxgEsplkhZXvKRjyDdSjPLg=;
-        b=URnnUSq/Ro19blyYysQVKuUp8N6eC7EDUuYEobEjWzHkNvT87X2B9L89+irSbMmqZL
-         oor02WL3C/bZhoON2jr0UK18r/mSYgj4dauFfqP3/HYhBpBp1ovlhzIsk4PQbr1Kp+Ta
-         bKHJJnwUdwLuvyCf20HLzJp0h0QWo1hVQ3F4bqPSLsDVobLzjFeJUW7k5ELwNCx57PxF
-         KHxp+pYJpdErK2N2/3QZpkn81/uhRB/OkAROx7naOIMpYgowjRSByzKiidaGBPvXBEFq
-         L3VUkL1LMryM2iPukR3RqawGpYhnPSKv12sF8f8wOyz4+4/CmK3xIcZiMM0BsTwYX8aL
-         dXgg==
-X-Gm-Message-State: APjAAAUbZ33O/lQf878KL0Bin/rpfKCGdn1YWA5rihX8bxa7GBKYlOXg
-	wyPvKd33DkxRHzCb/eobop8=
-X-Google-Smtp-Source: APXvYqxwlFRbtjaI8P+6Rnq2h6uwjiJ77B+HTwdKQimFMj09auFtI6hrpYOvzkeK1PFdY4Zl4QFL9w==
-X-Received: by 2002:a62:5252:: with SMTP id g79mr72405863pfb.18.1565019439043;
-        Mon, 05 Aug 2019 08:37:19 -0700 (PDT)
+        bh=w2Eb/lel/tUedM1V7Jbnr+5N+WH39gSklpEv+lUnqEo=;
+        b=JvNcfB1tbxvj1SfYCKVOfsBLkI+v2Ah26BV/ZGXgfmWiK/VXQH1khNOyBbBQPx9E3j
+         M7ACJSvWOBeOc5DGwggg0uYpTz5T+kc3lAPwkyApCW4fpHYUwss4A8x61r3QrrFeFZ91
+         R5BWOh9AwwXUXng+tN8Os83Zc5FWOLWnx0S5JLHjGPDLFgyw0IGuOzpK4B/ZiR3nbAuS
+         5k33OsGmHHwIXmTfBBGzYO9FbdBYfpw5pwTyVmTBLTZa2wqy6Tlag+/t+nSNKTACosC9
+         9yKejSjqasSfX1v37Hr1LUjGmhkb0soQQPhEA+PslKNCl8XIsYA35uIqAO7k+Dzzbliy
+         A1Pg==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: APjAAAUYhmlWYQkd1g3aHEMXMTKjbeZojzQl12yYhvlmzB7H/ic6kdXc
+	jEIW6LAtiUEACcjD1YPr8nk=
+X-Google-Smtp-Source: APXvYqyu6fO7BecjHbH2oftEcZmW4TNIkHBb86LPGM7ClMQvwBaZlpBgxkbkoHY3PIAhkFfl0yPG5g==
+X-Received: by 2002:a17:906:4911:: with SMTP id b17mr1287569ejq.158.1565067033801;
+        Mon, 05 Aug 2019 21:50:33 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:902:1021:: with SMTP id b30ls23660549pla.1.gmail; Mon,
- 05 Aug 2019 08:37:18 -0700 (PDT)
-X-Received: by 2002:a17:902:a413:: with SMTP id p19mr146041819plq.134.1565019438769;
-        Mon, 05 Aug 2019 08:37:18 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1565019438; cv=none;
+Received: by 2002:a50:8efb:: with SMTP id x56ls22263044edx.9.gmail; Mon, 05
+ Aug 2019 21:50:33 -0700 (PDT)
+X-Received: by 2002:a50:9177:: with SMTP id f52mr1808553eda.294.1565067033393;
+        Mon, 05 Aug 2019 21:50:33 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1565067033; cv=none;
         d=google.com; s=arc-20160816;
-        b=ocJSYwfuXyQYOEtvx/Say48Q633xlk94m9mInjAc/VkJUCpF/Bfb5kEbpbH5TI2Dz0
-         WHTUg96QqO/0PSPNyrlN/Ec6mGlbVt5XzroQD9WI/HZQiWK/NTxXS+kCK/SXmsQS+RbV
-         vbXoOisHVzaNfkXOhtXAtb7bEQ39OdG6yevbSmeHk3CRkOQcpX9s1rOuPTo1SeEJDa3N
-         DuxqzKzh5ByfONkPoQX0uFjBhztq8USZ8vzQCeW7VMvi8RHHiiP5D7zA/RNHq3yvsF7O
-         9xTsyRhaLZzW+Fc80RcDl8RTiUBQ9uxfNt0iZPkw7xPx4e3AbqdeCXuWzk4x6g8U8PqZ
-         2QHQ==
+        b=uGdeMUGRmh9I9Zb8NC1rJoqwDhhoipbMu9+R7EVN/olF8dLOFE8sItjhMc/4zl+Yqf
+         FIyJ63wxvKZvKjtdmJd5N33sTE/PzkRPToGPGpJiGycx7oQvo3qA7xj04giLyeCPVOXx
+         +xKxS0ooJqUAXEbkyY0xoLmE5DBzIFgHxYraA+fMegGJnCzMHvHZVKG/OM14jP6tlNOF
+         OSXp6K8UXD56GozZO+yDHrBgXmfs36+WkTxJ4bXyQXY9AZHQskDhnaU2feG4SLhYPQ/T
+         u5xucxcQRBjmCfYu2Bzi5iXWdPjQa1HJ/3GuJSk3roVVxU5uonfC+iV4yIoZ4AEKeIi3
+         RxYg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=BRP6laDcYsaagqowX6PM5vV1ql9YojC3f98ieQbfibw=;
-        b=bTDeiXNpUAp63GJditQ9gm+mBIcIU1Xad6IqYFzPQUransldqQG16UvFbH2E1LaC0V
-         1f43qGSVfHfayCsIJvCkXiiALpd/r+jddz1cH1+OTB0qzClhrkWUxPEU+oGopB/7EJWl
-         5gkwshsobe7SZS8kcW4BtXI8aDqs8CCrJEUAs7veeYB3V5RLTL9iIvzebE3tslbwGNTZ
-         lVH0kgByzsn2PK+hxgbxoSRGj2/iYa6/3QXzvv8ekIiF0sCVQ6trquiIU6gSS+9wrK3P
-         UGXVINbJEUw46t5IlhTjxAYVMXOp3/C5jI1DCEoXQ33f763Op3n8UlxvaOo5IyZ6o9hP
-         42Rw==
+        bh=mPh33fKndWKdFBa17e3Es+KRuqVonpNKFWFjNCtKoVI=;
+        b=BD/40D/gOcxinRyyM42aB5vktb0sG5s/vR6ohlZ0b7ZjmSIfx99FUKHiipL8Ti6Txs
+         Hj/qYlG3sFdsE0eKprgIN2r7aXph6d8+JtD0jdkNIybyZqH0D1uX2sjUmQ94zULyrG0l
+         EJbUgJXnxZWHpiEm14CLZJEnpPGBLz+aUx0FphdMCz6j1wka3gTuBlHfnnG68O0OF/XI
+         0Oja4WvQs5PRB/Gh0YmtJG6OQ6BlqKp0Ni5uQNTbAjKatflkOLnOEwV4/imHC6/U8D/6
+         ItZa1gQuYnmVl75OlKdLxbAzgR9KoxY31KvUhqclk1D7X+jZX8kvF0dCX2FF3DoaOIoL
+         9mDg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=aZHdw82y;
-       spf=pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::441 as permitted sender) smtp.mailfrom=andreyknvl@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com. [2607:f8b0:4864:20::441])
-        by gmr-mx.google.com with ESMTPS id m23si3059231pls.5.2019.08.05.08.37.18
+       dkim=pass header.i=@gmail.com header.s=20161025 header.b=IvL0rWiL;
+       spf=pass (google.com: domain of manikantavstk@gmail.com designates 2a00:1450:4864:20::142 as permitted sender) smtp.mailfrom=manikantavstk@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com. [2a00:1450:4864:20::142])
+        by gmr-mx.google.com with ESMTPS id s30si1630293eda.4.2019.08.05.21.50.33
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-        Mon, 05 Aug 2019 08:37:18 -0700 (PDT)
-Received-SPF: pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::441 as permitted sender) client-ip=2607:f8b0:4864:20::441;
-Received: by mail-pf1-x441.google.com with SMTP id c3so16704343pfa.13
-        for <kasan-dev@googlegroups.com>; Mon, 05 Aug 2019 08:37:18 -0700 (PDT)
-X-Received: by 2002:aa7:97bb:: with SMTP id d27mr73075178pfq.93.1565019438226;
- Mon, 05 Aug 2019 08:37:18 -0700 (PDT)
+        Mon, 05 Aug 2019 21:50:33 -0700 (PDT)
+Received-SPF: pass (google.com: domain of manikantavstk@gmail.com designates 2a00:1450:4864:20::142 as permitted sender) client-ip=2a00:1450:4864:20::142;
+Received: by mail-lf1-x142.google.com with SMTP id u10so21109367lfm.12
+        for <kasan-dev@googlegroups.com>; Mon, 05 Aug 2019 21:50:33 -0700 (PDT)
+X-Received: by 2002:ac2:5a01:: with SMTP id q1mr922196lfn.20.1565067032917;
+ Mon, 05 Aug 2019 21:50:32 -0700 (PDT)
 MIME-Version: 1.0
-References: <1564670825-4050-1-git-send-email-cai@lca.pw>
-In-Reply-To: <1564670825-4050-1-git-send-email-cai@lca.pw>
-From: "'Andrey Konovalov' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Mon, 5 Aug 2019 17:37:06 +0200
-Message-ID: <CAAeHK+xMQ5m-_eeQUPM2DoN=6OV-1uC6NX3dVnSKcmEqwSM5ZA@mail.gmail.com>
-Subject: Re: [PATCH v2] arm64/mm: fix variable 'tag' set but not used
-To: Qian Cai <cai@lca.pw>
-Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Andrey Ryabinin <aryabinin@virtuozzo.com>, Alexander Potapenko <glider@google.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, Linux ARM <linux-arm-kernel@lists.infradead.org>, 
-	kasan-dev <kasan-dev@googlegroups.com>, 
-	Linux Memory Management List <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: andreyknvl@google.com
+References: <96b2546a-3540-4c08-9817-0468c3146fab@googlegroups.com> <CAAeHK+wp7BduMoNQEOLgwB28pYLoKrp=cHiAzRW1ysu27UBn2A@mail.gmail.com>
+In-Reply-To: <CAAeHK+wp7BduMoNQEOLgwB28pYLoKrp=cHiAzRW1ysu27UBn2A@mail.gmail.com>
+From: sai manikanta <manikantavstk@gmail.com>
+Date: Tue, 6 Aug 2019 10:20:20 +0530
+Message-ID: <CADVap6u4DtVVr5SRw6Qw=GZDWvuVO3wTLDzFdC+P-m4pGYBjBA@mail.gmail.com>
+Subject: Re: I'm trying to build kasan for pixel 2 xl ( PQ3A.190705.001 ), But
+ touch is not working.
+To: Andrey Konovalov <andreyknvl@google.com>
+Cc: kasan-dev <kasan-dev@googlegroups.com>
+Content-Type: multipart/alternative; boundary="0000000000008bfb82058f6b90ac"
+X-Original-Sender: manikantavstk@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=aZHdw82y;       spf=pass
- (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::441
- as permitted sender) smtp.mailfrom=andreyknvl@google.com;       dmarc=pass
- (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Andrey Konovalov <andreyknvl@google.com>
-Reply-To: Andrey Konovalov <andreyknvl@google.com>
+ header.i=@gmail.com header.s=20161025 header.b=IvL0rWiL;       spf=pass
+ (google.com: domain of manikantavstk@gmail.com designates 2a00:1450:4864:20::142
+ as permitted sender) smtp.mailfrom=manikantavstk@gmail.com;       dmarc=pass
+ (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -132,72 +142,124 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Aug 1, 2019 at 4:47 PM Qian Cai <cai@lca.pw> wrote:
->
-> When CONFIG_KASAN_SW_TAGS=n, set_tag() is compiled away. GCC throws a
-> warning,
->
-> mm/kasan/common.c: In function '__kasan_kmalloc':
-> mm/kasan/common.c:464:5: warning: variable 'tag' set but not used
-> [-Wunused-but-set-variable]
->   u8 tag = 0xff;
->      ^~~
->
-> Fix it by making __tag_set() a static inline function the same as
-> arch_kasan_set_tag() in mm/kasan/kasan.h for consistency because there
-> is a macro in arch/arm64/include/asm/kasan.h,
->
->  #define arch_kasan_set_tag(addr, tag) __tag_set(addr, tag)
->
-> However, when CONFIG_DEBUG_VIRTUAL=n and CONFIG_SPARSEMEM_VMEMMAP=y,
-> page_to_virt() will call __tag_set() with incorrect type of a
-> parameter, so fix that as well. Also, still let page_to_virt() return
-> "void *" instead of "const void *", so will not need to add a similar
-> cast in lowmem_page_address().
->
-> Signed-off-by: Qian Cai <cai@lca.pw>
-> ---
->
-> v2: Fix compilation warnings of CONFIG_DEBUG_VIRTUAL=n spotted by Will.
->
->  arch/arm64/include/asm/memory.h | 10 +++++++---
->  1 file changed, 7 insertions(+), 3 deletions(-)
->
-> diff --git a/arch/arm64/include/asm/memory.h b/arch/arm64/include/asm/memory.h
-> index b7ba75809751..fb04f10a78ab 100644
-> --- a/arch/arm64/include/asm/memory.h
-> +++ b/arch/arm64/include/asm/memory.h
-> @@ -210,7 +210,11 @@ static inline unsigned long kaslr_offset(void)
->  #define __tag_reset(addr)      untagged_addr(addr)
->  #define __tag_get(addr)                (__u8)((u64)(addr) >> 56)
->  #else
-> -#define __tag_set(addr, tag)   (addr)
-> +static inline const void *__tag_set(const void *addr, u8 tag)
-> +{
-> +       return addr;
-> +}
-> +
->  #define __tag_reset(addr)      (addr)
->  #define __tag_get(addr)                0
->  #endif
-> @@ -301,8 +305,8 @@ static inline void *phys_to_virt(phys_addr_t x)
->  #define page_to_virt(page)     ({                                      \
->         unsigned long __addr =                                          \
->                 ((__page_to_voff(page)) | PAGE_OFFSET);                 \
-> -       unsigned long __addr_tag =                                      \
-> -                __tag_set(__addr, page_kasan_tag(page));               \
-> +       const void *__addr_tag =                                        \
-> +               __tag_set((void *)__addr, page_kasan_tag(page));        \
->         ((void *)__addr_tag);                                           \
->  })
->
-> --
-> 1.8.3.1
->
+--0000000000008bfb82058f6b90ac
+Content-Type: text/plain; charset="UTF-8"
 
-Reviewed-by: Andrey Konovalov <andreyknvl@google.com>
+Hi Andrey,
+
+Thanks for the reply. I have 2 qsns:
+1. What is the driver for pixel 2 xl or if you don't know, can you tell us
+how to find it?
+2. The touch screen isn't working, so I was unable to do "adb shell" due to
+unable to set VENDOR KEYS as touch is not working.
+
+On Mon, Aug 5, 2019 at 5:04 PM Andrey Konovalov <andreyknvl@google.com>
+wrote:
+
+> Most likely the issue is caused by a mismatching touchscreen driver
+> module. You need to flash/copy a KASAN-built one to the device as
+> well. I don't know any details on how to do it though.
+>
+> On Mon, Aug 5, 2019 at 1:22 PM <manikantavstk@gmail.com> wrote:
+> >
+> > Without kasan same build works fine. But after enabling kasan,
+> compilation is successful but after flashing the images device touchscreen
+> is not working.
+> >
+> > Applied this patch:
+> >
+> > +CONFIG_INPUT_TOUCHSCREEN=y
+> > +CONFIG_LGE_TOUCH_CORE=y
+> > +CONFIG_LGE_TOUCH_LGSIC_SW49408=m
+> > +CONFIG_TOUCHSCREEN_FTM4=y
+> > +CONFIG_TOUCHSCREEN_SYNAPTICS_DSX_HTC=y
+> > +CONFIG_TOUCHSCREEN_SYNAPTICS_DSX_CORE_HTC=y
+> > +CONFIG_TOUCHSCREEN_SYNAPTICS_DSX_RMI_DEV_HTC=y
+> > +CONFIG_TOUCHSCREEN_SYNAPTICS_DSX_FW_UPDATE_HTC=y
+> >
+> > Still no luck and touch isn't working.
+> > Can you provide any patch/ any inputs to resolve this touch problem?
+> >
+> > --
+> > You received this message because you are subscribed to the Google
+> Groups "kasan-dev" group.
+> > To unsubscribe from this group and stop receiving emails from it, send
+> an email to kasan-dev+unsubscribe@googlegroups.com.
+> > To view this discussion on the web visit
+> https://groups.google.com/d/msgid/kasan-dev/96b2546a-3540-4c08-9817-0468c3146fab%40googlegroups.com
+> .
+>
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAAeHK%2BxMQ5m-_eeQUPM2DoN%3D6OV-1uC6NX3dVnSKcmEqwSM5ZA%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CADVap6u4DtVVr5SRw6Qw%3DGZDWvuVO3wTLDzFdC%2BP-m4pGYBjBA%40mail.gmail.com.
+
+--0000000000008bfb82058f6b90ac
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hi Andrey,<div><br></div><div>Thanks for the reply. I have=
+ 2 qsns:</div><div>1. What is the driver for pixel 2 xl or if you don&#39;t=
+ know, can you tell us how to find it?</div><div>2. The touch screen isn&#3=
+9;t=C2=A0working, so I was unable to do &quot;adb shell&quot; due to unable=
+ to set VENDOR KEYS as touch is not working.</div></div><br><div class=3D"g=
+mail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Aug 5, 2019 at 5:=
+04 PM Andrey Konovalov &lt;<a href=3D"mailto:andreyknvl@google.com">andreyk=
+nvl@google.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" st=
+yle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padd=
+ing-left:1ex">Most likely the issue is caused by a mismatching touchscreen =
+driver<br>
+module. You need to flash/copy a KASAN-built one to the device as<br>
+well. I don&#39;t know any details on how to do it though.<br>
+<br>
+On Mon, Aug 5, 2019 at 1:22 PM &lt;<a href=3D"mailto:manikantavstk@gmail.co=
+m" target=3D"_blank">manikantavstk@gmail.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; Without kasan same build works fine. But after enabling kasan, compila=
+tion is successful but after flashing the images device touchscreen is not =
+working.<br>
+&gt;<br>
+&gt; Applied this patch:<br>
+&gt;<br>
+&gt; +CONFIG_INPUT_TOUCHSCREEN=3Dy<br>
+&gt; +CONFIG_LGE_TOUCH_CORE=3Dy<br>
+&gt; +CONFIG_LGE_TOUCH_LGSIC_SW49408=3Dm<br>
+&gt; +CONFIG_TOUCHSCREEN_FTM4=3Dy<br>
+&gt; +CONFIG_TOUCHSCREEN_SYNAPTICS_DSX_HTC=3Dy<br>
+&gt; +CONFIG_TOUCHSCREEN_SYNAPTICS_DSX_CORE_HTC=3Dy<br>
+&gt; +CONFIG_TOUCHSCREEN_SYNAPTICS_DSX_RMI_DEV_HTC=3Dy<br>
+&gt; +CONFIG_TOUCHSCREEN_SYNAPTICS_DSX_FW_UPDATE_HTC=3Dy<br>
+&gt;<br>
+&gt; Still no luck and touch isn&#39;t working.<br>
+&gt; Can you provide any patch/ any inputs to resolve this touch problem?<b=
+r>
+&gt;<br>
+&gt; --<br>
+&gt; You received this message because you are subscribed to the Google Gro=
+ups &quot;kasan-dev&quot; group.<br>
+&gt; To unsubscribe from this group and stop receiving emails from it, send=
+ an email to <a href=3D"mailto:kasan-dev%2Bunsubscribe@googlegroups.com" ta=
+rget=3D"_blank">kasan-dev+unsubscribe@googlegroups.com</a>.<br>
+&gt; To view this discussion on the web visit <a href=3D"https://groups.goo=
+gle.com/d/msgid/kasan-dev/96b2546a-3540-4c08-9817-0468c3146fab%40googlegrou=
+ps.com" rel=3D"noreferrer" target=3D"_blank">https://groups.google.com/d/ms=
+gid/kasan-dev/96b2546a-3540-4c08-9817-0468c3146fab%40googlegroups.com</a>.<=
+br>
+</blockquote></div>
+
+<p></p>
+
+-- <br />
+You received this message because you are subscribed to the Google Groups &=
+quot;kasan-dev&quot; group.<br />
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
++unsubscribe@googlegroups.com</a>.<br />
+To view this discussion on the web visit <a href=3D"https://groups.google.c=
+om/d/msgid/kasan-dev/CADVap6u4DtVVr5SRw6Qw%3DGZDWvuVO3wTLDzFdC%2BP-m4pGYBjB=
+A%40mail.gmail.com?utm_medium=3Demail&utm_source=3Dfooter">https://groups.g=
+oogle.com/d/msgid/kasan-dev/CADVap6u4DtVVr5SRw6Qw%3DGZDWvuVO3wTLDzFdC%2BP-m=
+4pGYBjBA%40mail.gmail.com</a>.<br />
+
+--0000000000008bfb82058f6b90ac--
