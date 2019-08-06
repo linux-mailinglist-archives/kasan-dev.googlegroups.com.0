@@ -1,135 +1,130 @@
-Return-Path: <kasan-dev+bncBCTM5HN3U4ORBGMOUTVAKGQE2OVMN7Q@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBE5HUTVAKGQEJXPEFLQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ed1-x539.google.com (mail-ed1-x539.google.com [IPv6:2a00:1450:4864:20::539])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D2FB82A8F
-	for <lists+kasan-dev@lfdr.de>; Tue,  6 Aug 2019 06:50:34 +0200 (CEST)
-Received: by mail-ed1-x539.google.com with SMTP id y15sf52967050edu.19
-        for <lists+kasan-dev@lfdr.de>; Mon, 05 Aug 2019 21:50:34 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1565067033; cv=pass;
+Received: from mail-pf1-x43f.google.com (mail-pf1-x43f.google.com [IPv6:2607:f8b0:4864:20::43f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 965DC82B2C
+	for <lists+kasan-dev@lfdr.de>; Tue,  6 Aug 2019 07:43:49 +0200 (CEST)
+Received: by mail-pf1-x43f.google.com with SMTP id 145sf55113201pfw.16
+        for <lists+kasan-dev@lfdr.de>; Mon, 05 Aug 2019 22:43:49 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1565070228; cv=pass;
         d=google.com; s=arc-20160816;
-        b=iI0z6Tr82074u/1YhdeO5Puss80/LS/zhhXQgwYrytiX3cmyV2445ixZkp752dTAKj
-         N0wIZwkTw2wFw/hwfGRvu6IQXewKgOwUr+b3e7zWAcndp+MuWWmx0nR17FHhI66Mbmyn
-         q9CE2erTV+t9oO1iP5LzCvlAPlYluSWhXJ7zsSz6NDoSR2mCRZYYjmbRAJTH0Hrt10ZZ
-         ZbgbOsrVmvokAVfiuPzM0LRCVKpf2pHn78QrvATj1W2MTHvTV69gWgBmndGXqpdIaPie
-         L5Au0FDHGhSrFrJ8UwgODaCaabDBoVCD+T/Ymhnl6SqA6QuWIlSiT4VpfrQ9sZPW3I/x
-         ZEjA==
+        b=mlx2RYFCFJ3lxuqB6pHEZGZctu1m/2tOjFRzp3lCl1MOMIPyT7VsHqPHiFh9fv3Lj4
+         uIMyKarsAP0nbLMkoERE8oT6Ck0f0Ecf9owS+Oj/+bwMtKzl2SDhQ+5maMAofchWQYZ5
+         KwJF9antzZnnJm0RkxKo1peAg0EJeuvBQZOPju349t9pUlkmBhGdfsTkhJVjUZqh9csg
+         H3ZPfA+iT34Fa68UCGi4CqSQZ8LyRpV3EdzbavorE6vhQgKMPXN9GqKFS4XN8rCpz6nw
+         EhN13naE10rf1guhS6CSvybpS0/SLqXjWz16YWbvGBq7GkZhg4/QE4C4TScauS/wgQ8n
+         3aKA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:sender:dkim-signature
-         :dkim-signature;
-        bh=w2Eb/lel/tUedM1V7Jbnr+5N+WH39gSklpEv+lUnqEo=;
-        b=ZyumcHHqx3IzpE1T4doePEzjjjvtvLyKOGj0mOQOAjo/J3UDfQLpg4dlfivd0TACjz
-         t0ZVAfB8CO2jNgukTOQ3TxGy8EoXnwuEhvtdefO9oVMZAcqrouVQPptc9ODRDxLmaY69
-         SlahNQr1358HtmNo0c5abhUOGZZRpOds27CCvEoeS52F7QzV9+IJ5YFq+rEg4WI6MbQt
-         AUfZk+a+SvO4mix4gUNcYHLuYXvDZYlgWNYr6KBrbglKoNOA+PKheOXrFaVw6loglOvh
-         MxhE8np4VtJGr9Ekf5uqDWcuXiVTWJQj7sCIsdLgKLvUxUG9dVQScx5+1k0k9XPkFgV3
-         GGtQ==
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :subject:cc:to:from:sender:dkim-signature;
+        bh=lwm7WBtmOkAIzO+0TAeW39XzxLsCib2Ft5mewOIixqA=;
+        b=xQtg8xhceyliEyVf55M6DcjokNQxidyC9TaqebZ02H3OB44GlpHZ8GD8fPo5z3xgAn
+         4qyNNN0gm+71OdqItVR3knhU26PO0ptCOrXf37BGsPM2l3PK5UPDLpgPsg0hRaczT39E
+         tX09F79pPzwZ5No1gXsa0dTy/NffpsHzrTjYX56pdVRMkaLcYow7JbexL2W9pigjeRql
+         gXuygWyfYBlpoUBpt4a3/ZIvCqOM7bFej5tdLW44AQzUBucrhByLZ/pmIPeZCOjGHZsf
+         XQZyAPWPqcrYOVkic3EXy0seaAX5eNqanAFmlquGB6rWX788rTa6cm6WGOAbMGq/EMmS
+         C+wg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20161025 header.b=IvL0rWiL;
-       spf=pass (google.com: domain of manikantavstk@gmail.com designates 2a00:1450:4864:20::142 as permitted sender) smtp.mailfrom=manikantavstk@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+       spf=pass (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.184 as permitted sender) smtp.mailfrom=walter-zh.wu@mediatek.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:mime-version:references:in-reply-to:from:date:message-id
-         :subject:to:cc:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=w2Eb/lel/tUedM1V7Jbnr+5N+WH39gSklpEv+lUnqEo=;
-        b=IgPWyUu+cLMzM1B6XH8vxQ1Qgsfg9uh8PAgByr/8puaP+B755ED816YvM4X0MWCSsV
-         DHlqF3whtHl8pSgHrIv/Vqa1xVxWfWObqDUCHDIUJRI+bHO5QGDmgsGmsAzxzu3dkK06
-         c1Cn4scPVH7TvedaoO6GDpZMbM1ZRFVSmy0Pa/VYsC1Iq9GfSXXQFzEbc0aaT7X8mJUX
-         nvUw+fBKw5mGP/lS7cxo7yFGydjH0R4QFF/F+1A4FhjZEVhtEQk2OJ0gLu6Q0/iC2j0l
-         cMmFL1nQfM+r+HoTKMARvVT98BljdbmggjgDYRJZNq3RXYvOqa767mOtsHV+2HcfpA20
-         rs5g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:precedence
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=w2Eb/lel/tUedM1V7Jbnr+5N+WH39gSklpEv+lUnqEo=;
-        b=PLrYVo+XaTLBW78LHHx2fY9ibZA+oK/2R8FQEUjdGDrGlVq41ZbJQvULawuyo0Etkc
-         MMUWUoZNrUxpaiGrvzKcUAfZW+AA/bxEL4PFIW24umku3Jl2xDVLKEvvDzYymWl+y4RF
-         3FvILs56z8uuH7CPX4anaXMeBBn1mjp5fUSNuBc5hz80KuHDbMcaX0va/ozGdtkrUkus
-         ktlWp3EPtVmPSX5lYATjWw4Qf0oXBt+gFfOnlfFwILPBZ0PnYlzgCaXol4oto9KfL/0o
-         B3x4T+dGFA3oca2O2XDBUXTFKMZmQrXoJT4RKwKPrBoFOW/nbBBvAgwHvMVNv1/NUDCV
-         z90g==
+        bh=lwm7WBtmOkAIzO+0TAeW39XzxLsCib2Ft5mewOIixqA=;
+        b=c4xXMtegpnPBYbSGhdrqMXB2Wgd3x7zESEPM3Duv3k7IfZcjcRBoIxAE4fL9v+dcOJ
+         8W4j3CpJIZ6L9u8uI7LIBj/ntPh+5b0vsRCiDrOGPHHDbGVEg8rgmwoh3ENFPzwiPYr0
+         VvpW4hbkUi3DayBHdZ23icbEaRbZQ3T5uU6tY9PkX7mWP6a+c0Qf/k2hR4epZPZwR6Qr
+         DU3Liy8MIt4wRcNHi1+z5tZtID0eI69QcLbrAf7C0sINOXXQxQRicSIUFmH2K29D8DaG
+         v361rRKilBRJafjxVjYu5pWIED8aM9qk3yeuAfZB+nIyr5Th4oe+zSFnCPcWrtVMC/ww
+         9Zxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
-         :date:message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=w2Eb/lel/tUedM1V7Jbnr+5N+WH39gSklpEv+lUnqEo=;
-        b=JvNcfB1tbxvj1SfYCKVOfsBLkI+v2Ah26BV/ZGXgfmWiK/VXQH1khNOyBbBQPx9E3j
-         M7ACJSvWOBeOc5DGwggg0uYpTz5T+kc3lAPwkyApCW4fpHYUwss4A8x61r3QrrFeFZ91
-         R5BWOh9AwwXUXng+tN8Os83Zc5FWOLWnx0S5JLHjGPDLFgyw0IGuOzpK4B/ZiR3nbAuS
-         5k33OsGmHHwIXmTfBBGzYO9FbdBYfpw5pwTyVmTBLTZa2wqy6Tlag+/t+nSNKTACosC9
-         9yKejSjqasSfX1v37Hr1LUjGmhkb0soQQPhEA+PslKNCl8XIsYA35uIqAO7k+Dzzbliy
-         A1Pg==
+        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=lwm7WBtmOkAIzO+0TAeW39XzxLsCib2Ft5mewOIixqA=;
+        b=OrMiah8+DxD1LCCAN1WDCV1ik23yWXgZwzknkp1Ob3BT1QTnIQV/yv9WbxQ9VJzaxv
+         oiMrikuaG3kQ9cPgg8NQI5EMG5VsX02M9rUMW8KcOOjKLmNG8qdDZvOSRcKu61b4fRiz
+         giYflhNV3Wx+/7BZwCw/rG87HS3nMI/oDnyOhHpW4q0ppLLnTP++X9341U47ZYMZYDUQ
+         ctdJYAOyf46XvUd907FJNtMsTP3/KdugQwJ3Vf/QctOTGlQgHxLhTlYTcqGrMAs3AGvc
+         7q7ySS+8QzOrWmkIIS+bq8CEYlg/nzt8BuG1X3y+a22wFMwxrTk9+cGCQ6r0gZA5XAsz
+         zxnw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAUYhmlWYQkd1g3aHEMXMTKjbeZojzQl12yYhvlmzB7H/ic6kdXc
-	jEIW6LAtiUEACcjD1YPr8nk=
-X-Google-Smtp-Source: APXvYqyu6fO7BecjHbH2oftEcZmW4TNIkHBb86LPGM7ClMQvwBaZlpBgxkbkoHY3PIAhkFfl0yPG5g==
-X-Received: by 2002:a17:906:4911:: with SMTP id b17mr1287569ejq.158.1565067033801;
-        Mon, 05 Aug 2019 21:50:33 -0700 (PDT)
+X-Gm-Message-State: APjAAAW9ulGR6JKaoxyUoDHeRewEnEIa0R45vZ9zXgPrJ9pzZS56F78E
+	8GsHsNsz+Ti0mDoF0cf6yOs=
+X-Google-Smtp-Source: APXvYqyCDjinC6ukwV4sysXnbYgR7tGzsvFlN/0U63CrRZZ9PIf1yzXsSeuMZRHelvM84ipRJZ2mGw==
+X-Received: by 2002:a17:90a:9b08:: with SMTP id f8mr1375784pjp.103.1565070227869;
+        Mon, 05 Aug 2019 22:43:47 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a50:8efb:: with SMTP id x56ls22263044edx.9.gmail; Mon, 05
- Aug 2019 21:50:33 -0700 (PDT)
-X-Received: by 2002:a50:9177:: with SMTP id f52mr1808553eda.294.1565067033393;
-        Mon, 05 Aug 2019 21:50:33 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1565067033; cv=none;
+Received: by 2002:a63:3fcf:: with SMTP id m198ls15369996pga.10.gmail; Mon, 05
+ Aug 2019 22:43:47 -0700 (PDT)
+X-Received: by 2002:aa7:8f24:: with SMTP id y4mr1871588pfr.36.1565070227635;
+        Mon, 05 Aug 2019 22:43:47 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1565070227; cv=none;
         d=google.com; s=arc-20160816;
-        b=uGdeMUGRmh9I9Zb8NC1rJoqwDhhoipbMu9+R7EVN/olF8dLOFE8sItjhMc/4zl+Yqf
-         FIyJ63wxvKZvKjtdmJd5N33sTE/PzkRPToGPGpJiGycx7oQvo3qA7xj04giLyeCPVOXx
-         +xKxS0ooJqUAXEbkyY0xoLmE5DBzIFgHxYraA+fMegGJnCzMHvHZVKG/OM14jP6tlNOF
-         OSXp6K8UXD56GozZO+yDHrBgXmfs36+WkTxJ4bXyQXY9AZHQskDhnaU2feG4SLhYPQ/T
-         u5xucxcQRBjmCfYu2Bzi5iXWdPjQa1HJ/3GuJSk3roVVxU5uonfC+iV4yIoZ4AEKeIi3
-         RxYg==
+        b=XtGi2nLHsi7bB6KDxJBAvURNq9QwsUl6Po5YisFz2tnMALVv+3dvBVzH/cxZEL+l3o
+         l1mCmAoF/oZ+0sYrdDtSyrFTE4nFncZy35NcTztJvQNZrVKfVnQkKZgQg6N74BJCMgc2
+         u647CsoNnKokwfMmOYKPXEcBn/gJ6/ikx/dcC+MzZhV3J7u42Mf0lavz0jBf/O1jnO6v
+         TX6NeYZNFdV5skht5BtQCnzndnUzE6yIMijCjhhRi0EFzQeaN6zaED1woSBVAeRMNmjf
+         jxP4MJ8tq5VAlTpD00kqHD4RbqaHl2kM5BKfxxQErXkUnf89OcN1wVTkfC4yFW5gn82x
+         8K1A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=mPh33fKndWKdFBa17e3Es+KRuqVonpNKFWFjNCtKoVI=;
-        b=BD/40D/gOcxinRyyM42aB5vktb0sG5s/vR6ohlZ0b7ZjmSIfx99FUKHiipL8Ti6Txs
-         Hj/qYlG3sFdsE0eKprgIN2r7aXph6d8+JtD0jdkNIybyZqH0D1uX2sjUmQ94zULyrG0l
-         EJbUgJXnxZWHpiEm14CLZJEnpPGBLz+aUx0FphdMCz6j1wka3gTuBlHfnnG68O0OF/XI
-         0Oja4WvQs5PRB/Gh0YmtJG6OQ6BlqKp0Ni5uQNTbAjKatflkOLnOEwV4/imHC6/U8D/6
-         ItZa1gQuYnmVl75OlKdLxbAzgR9KoxY31KvUhqclk1D7X+jZX8kvF0dCX2FF3DoaOIoL
-         9mDg==
+        h=mime-version:message-id:date:subject:cc:to:from;
+        bh=OBiOHBJNA0EwPzUOLk1WXfMlqfDylmUiZp52wqeeYGk=;
+        b=BBi7XU5iqLP/soB+GDVqolW6dbDwokdn/yJ2T57odiAyb0Bf1nJ2Lu7e18vtLr0807
+         0FBotGlm4a6KmcqqGb/2Jwv5f/FjBpQvDB2ta6qScEZVpsnEfzT8vtWDLHSHjBbEqh1S
+         DTbvrWg3ofyYhq/YREjvUNosy1/4IRg2SJZXRspCbcXRCyZljdek8fbYx5I56zn4mE9L
+         wvpfls8fmTwzukRtlvrjST9VDJU0IecHEPgguYv6uzuJsZs6DyPDWuyMD2qdUoy2Rx/0
+         Kf6iasyL64NpcnvmZePecDrX3i03UObZIgXqvhKeBEfHG8pl9uva5MMePF7noFCJ2rqu
+         6Onw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20161025 header.b=IvL0rWiL;
-       spf=pass (google.com: domain of manikantavstk@gmail.com designates 2a00:1450:4864:20::142 as permitted sender) smtp.mailfrom=manikantavstk@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com. [2a00:1450:4864:20::142])
-        by gmr-mx.google.com with ESMTPS id s30si1630293eda.4.2019.08.05.21.50.33
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-        Mon, 05 Aug 2019 21:50:33 -0700 (PDT)
-Received-SPF: pass (google.com: domain of manikantavstk@gmail.com designates 2a00:1450:4864:20::142 as permitted sender) client-ip=2a00:1450:4864:20::142;
-Received: by mail-lf1-x142.google.com with SMTP id u10so21109367lfm.12
-        for <kasan-dev@googlegroups.com>; Mon, 05 Aug 2019 21:50:33 -0700 (PDT)
-X-Received: by 2002:ac2:5a01:: with SMTP id q1mr922196lfn.20.1565067032917;
- Mon, 05 Aug 2019 21:50:32 -0700 (PDT)
+       spf=pass (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.184 as permitted sender) smtp.mailfrom=walter-zh.wu@mediatek.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
+Received: from mailgw02.mediatek.com ([210.61.82.184])
+        by gmr-mx.google.com with ESMTP id j6si862626pjt.0.2019.08.05.22.43.47
+        for <kasan-dev@googlegroups.com>;
+        Mon, 05 Aug 2019 22:43:47 -0700 (PDT)
+Received-SPF: pass (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.184 as permitted sender) client-ip=210.61.82.184;
+X-UUID: 7723729e524f4c1085823b1379389ab4-20190806
+X-UUID: 7723729e524f4c1085823b1379389ab4-20190806
+Received: from mtkmrs01.mediatek.inc [(172.21.131.159)] by mailgw02.mediatek.com
+	(envelope-from <walter-zh.wu@mediatek.com>)
+	(Cellopoint E-mail Firewall v4.1.10 Build 0707 with TLS)
+	with ESMTP id 1263771809; Tue, 06 Aug 2019 13:43:43 +0800
+Received: from mtkcas07.mediatek.inc (172.21.101.84) by
+ mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Tue, 6 Aug 2019 13:43:42 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas07.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Tue, 6 Aug 2019 13:43:42 +0800
+From: Walter Wu <walter-zh.wu@mediatek.com>
+To: Andrey Ryabinin <aryabinin@virtuozzo.com>, Alexander Potapenko
+	<glider@google.com>, Dmitry Vyukov <dvyukov@google.com>, Matthias Brugger
+	<matthias.bgg@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, Martin
+ Schwidefsky <schwidefsky@de.ibm.com>, Arnd Bergmann <arnd@arndb.de>, Thomas
+ Gleixner <tglx@linutronix.de>, Vasily Gorbik <gor@linux.ibm.com>, Andrey
+ Konovalov <andreyknvl@google.com>, Miles Chen <miles.chen@mediatek.com>,
+	Walter Wu <walter-zh.wu@mediatek.com>
+CC: <linux-kernel@vger.kernel.org>, <kasan-dev@googlegroups.com>,
+	<linux-mm@kvack.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-mediatek@lists.infradead.org>, <wsd_upstream@mediatek.com>
+Subject: [PATCH v4] kasan: add memory corruption identification for software tag-based mode
+Date: Tue, 6 Aug 2019 13:43:40 +0800
+Message-ID: <20190806054340.16305-1-walter-zh.wu@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-References: <96b2546a-3540-4c08-9817-0468c3146fab@googlegroups.com> <CAAeHK+wp7BduMoNQEOLgwB28pYLoKrp=cHiAzRW1ysu27UBn2A@mail.gmail.com>
-In-Reply-To: <CAAeHK+wp7BduMoNQEOLgwB28pYLoKrp=cHiAzRW1ysu27UBn2A@mail.gmail.com>
-From: sai manikanta <manikantavstk@gmail.com>
-Date: Tue, 6 Aug 2019 10:20:20 +0530
-Message-ID: <CADVap6u4DtVVr5SRw6Qw=GZDWvuVO3wTLDzFdC+P-m4pGYBjBA@mail.gmail.com>
-Subject: Re: I'm trying to build kasan for pixel 2 xl ( PQ3A.190705.001 ), But
- touch is not working.
-To: Andrey Konovalov <andreyknvl@google.com>
-Cc: kasan-dev <kasan-dev@googlegroups.com>
-Content-Type: multipart/alternative; boundary="0000000000008bfb82058f6b90ac"
-X-Original-Sender: manikantavstk@gmail.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20161025 header.b=IvL0rWiL;       spf=pass
- (google.com: domain of manikantavstk@gmail.com designates 2a00:1450:4864:20::142
- as permitted sender) smtp.mailfrom=manikantavstk@gmail.com;       dmarc=pass
- (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Content-Type: text/plain; charset="UTF-8"
+X-MTK: N
+X-Original-Sender: walter-zh.wu@mediatek.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.184 as
+ permitted sender) smtp.mailfrom=walter-zh.wu@mediatek.com;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -142,124 +137,414 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
---0000000000008bfb82058f6b90ac
-Content-Type: text/plain; charset="UTF-8"
+This patch adds memory corruption identification at bug report for
+software tag-based mode, the report show whether it is "use-after-free"
+or "out-of-bound" error instead of "invalid-access" error. This will make
+it easier for programmers to see the memory corruption problem.
 
-Hi Andrey,
+We extend the slab to store five old free pointer tag and free backtrace,
+we can check if the tagged address is in the slab record and make a
+good guess if the object is more like "use-after-free" or "out-of-bound".
+therefore every slab memory corruption can be identified whether it's
+"use-after-free" or "out-of-bound".
 
-Thanks for the reply. I have 2 qsns:
-1. What is the driver for pixel 2 xl or if you don't know, can you tell us
-how to find it?
-2. The touch screen isn't working, so I was unable to do "adb shell" due to
-unable to set VENDOR KEYS as touch is not working.
+====== Changes
+Change since v1:
+- add feature option CONFIG_KASAN_SW_TAGS_IDENTIFY.
+- change QUARANTINE_FRACTION to reduce quarantine size.
+- change the qlist order in order to find the newest object in quarantine
+- reduce the number of calling kmalloc() from 2 to 1 time.
+- remove global variable to use argument to pass it.
+- correct the amount of qobject cache->size into the byes of qlist_head.
+- only use kasan_cache_shrink() to shink memory.
 
-On Mon, Aug 5, 2019 at 5:04 PM Andrey Konovalov <andreyknvl@google.com>
-wrote:
+Change since v2:
+- remove the shinking memory function kasan_cache_shrink()
+- modify the description of the CONFIG_KASAN_SW_TAGS_IDENTIFY
+- optimize the quarantine_find_object() and qobject_free()
+- fix the duplicating function name 3 times in the header.
+- modify the function name set_track() to kasan_set_track()
 
-> Most likely the issue is caused by a mismatching touchscreen driver
-> module. You need to flash/copy a KASAN-built one to the device as
-> well. I don't know any details on how to do it though.
->
-> On Mon, Aug 5, 2019 at 1:22 PM <manikantavstk@gmail.com> wrote:
-> >
-> > Without kasan same build works fine. But after enabling kasan,
-> compilation is successful but after flashing the images device touchscreen
-> is not working.
-> >
-> > Applied this patch:
-> >
-> > +CONFIG_INPUT_TOUCHSCREEN=y
-> > +CONFIG_LGE_TOUCH_CORE=y
-> > +CONFIG_LGE_TOUCH_LGSIC_SW49408=m
-> > +CONFIG_TOUCHSCREEN_FTM4=y
-> > +CONFIG_TOUCHSCREEN_SYNAPTICS_DSX_HTC=y
-> > +CONFIG_TOUCHSCREEN_SYNAPTICS_DSX_CORE_HTC=y
-> > +CONFIG_TOUCHSCREEN_SYNAPTICS_DSX_RMI_DEV_HTC=y
-> > +CONFIG_TOUCHSCREEN_SYNAPTICS_DSX_FW_UPDATE_HTC=y
-> >
-> > Still no luck and touch isn't working.
-> > Can you provide any patch/ any inputs to resolve this touch problem?
-> >
-> > --
-> > You received this message because you are subscribed to the Google
-> Groups "kasan-dev" group.
-> > To unsubscribe from this group and stop receiving emails from it, send
-> an email to kasan-dev+unsubscribe@googlegroups.com.
-> > To view this discussion on the web visit
-> https://groups.google.com/d/msgid/kasan-dev/96b2546a-3540-4c08-9817-0468c3146fab%40googlegroups.com
-> .
->
+Change since v3:
+- change tag-based quarantine to extend slab to identify memory corruption
+
+Cc: Andrey Ryabinin <aryabinin@virtuozzo.com>
+Cc: Dmitry Vyukov <dvyukov@google.com>
+Signed-off-by: Walter Wu <walter-zh.wu@mediatek.com>
+---
+ lib/Kconfig.kasan      |  8 ++++
+ mm/kasan/common.c      | 14 +++++--
+ mm/kasan/kasan.h       | 37 ++++++++++++++++++
+ mm/kasan/report.c      | 53 +++++++++++++++-----------
+ mm/kasan/tags.c        | 86 ++++++++++++++++++++++++++++++++++++++++++
+ mm/kasan/tags_report.c |  5 ++-
+ 6 files changed, 177 insertions(+), 26 deletions(-)
+
+diff --git a/lib/Kconfig.kasan b/lib/Kconfig.kasan
+index 4fafba1a923b..70b55e1c4834 100644
+--- a/lib/Kconfig.kasan
++++ b/lib/Kconfig.kasan
+@@ -135,6 +135,14 @@ config KASAN_S390_4_LEVEL_PAGING
+ 	  to 3TB of RAM with KASan enabled). This options allows to force
+ 	  4-level paging instead.
+ 
++config KASAN_SW_TAGS_IDENTIFY
++	bool "Enable memory corruption identification"
++	depends on KASAN_SW_TAGS
++	help
++	  This option enables best-effort identification of bug type
++	  (use-after-free or out-of-bounds) at the cost of increased
++	  memory consumption for slab extending.
++
+ config TEST_KASAN
+ 	tristate "Module for testing KASAN for bug detection"
+ 	depends on m && KASAN
+diff --git a/mm/kasan/common.c b/mm/kasan/common.c
+index 2277b82902d8..6bbb044708e6 100644
+--- a/mm/kasan/common.c
++++ b/mm/kasan/common.c
+@@ -71,7 +71,7 @@ static inline depot_stack_handle_t save_stack(gfp_t flags)
+ 	return stack_depot_save(entries, nr_entries, flags);
+ }
+ 
+-static inline void set_track(struct kasan_track *track, gfp_t flags)
++void kasan_set_track(struct kasan_track *track, gfp_t flags)
+ {
+ 	track->pid = current->pid;
+ 	track->stack = save_stack(flags);
+@@ -304,7 +304,8 @@ size_t kasan_metadata_size(struct kmem_cache *cache)
+ struct kasan_alloc_meta *get_alloc_info(struct kmem_cache *cache,
+ 					const void *object)
+ {
+-	BUILD_BUG_ON(sizeof(struct kasan_alloc_meta) > 32);
++	if (!IS_ENABLED(CONFIG_KASAN_SW_TAGS_IDENTIFY))
++		BUILD_BUG_ON(sizeof(struct kasan_alloc_meta) > 32);
+ 	return (void *)object + cache->kasan_info.alloc_meta_offset;
+ }
+ 
+@@ -446,7 +447,11 @@ static bool __kasan_slab_free(struct kmem_cache *cache, void *object,
+ 			unlikely(!(cache->flags & SLAB_KASAN)))
+ 		return false;
+ 
+-	set_track(&get_alloc_info(cache, object)->free_track, GFP_NOWAIT);
++	if (IS_ENABLED(CONFIG_KASAN_SW_TAGS_IDENTIFY))
++		kasan_set_free_info(cache, object, tag);
++	else
++		kasan_set_track(&get_alloc_info(cache, object)->free_track,
++						GFP_NOWAIT);
+ 	quarantine_put(get_free_info(cache, object), cache);
+ 
+ 	return IS_ENABLED(CONFIG_KASAN_GENERIC);
+@@ -484,7 +489,8 @@ static void *__kasan_kmalloc(struct kmem_cache *cache, const void *object,
+ 		KASAN_KMALLOC_REDZONE);
+ 
+ 	if (cache->flags & SLAB_KASAN)
+-		set_track(&get_alloc_info(cache, object)->alloc_track, flags);
++		kasan_set_track(&get_alloc_info(cache, object)->alloc_track,
++						flags);
+ 
+ 	return set_tag(object, tag);
+ }
+diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
+index 014f19e76247..531a5823e8c6 100644
+--- a/mm/kasan/kasan.h
++++ b/mm/kasan/kasan.h
+@@ -95,9 +95,23 @@ struct kasan_track {
+ 	depot_stack_handle_t stack;
+ };
+ 
++#ifdef CONFIG_KASAN_SW_TAGS_IDENTIFY
++#define KASAN_EXTRA_FREE_INFO_COUNT 4
++#define KASAN_TOTAL_FREE_INFO_COUNT  (KASAN_EXTRA_FREE_INFO_COUNT + 1)
++struct extra_free_info {
++	/* Round-robin FIFO array. */
++	struct kasan_track free_track[KASAN_EXTRA_FREE_INFO_COUNT];
++	u8 free_pointer_tag[KASAN_TOTAL_FREE_INFO_COUNT];
++	u8 free_track_tail;
++};
++#endif
++
+ struct kasan_alloc_meta {
+ 	struct kasan_track alloc_track;
+ 	struct kasan_track free_track;
++#ifdef CONFIG_KASAN_SW_TAGS_IDENTIFY
++	struct extra_free_info free_info;
++#endif
+ };
+ 
+ struct qlist_node {
+@@ -146,6 +160,29 @@ void kasan_report(unsigned long addr, size_t size,
+ 		bool is_write, unsigned long ip);
+ void kasan_report_invalid_free(void *object, unsigned long ip);
+ 
++struct page *addr_to_page(const void *addr);
++
++void kasan_set_track(struct kasan_track *track, gfp_t flags);
++
++#ifdef CONFIG_KASAN_SW_TAGS_IDENTIFY
++void kasan_set_free_info(struct kmem_cache *cache, void *object, u8 tag);
++struct kasan_track *kasan_get_free_track(struct kmem_cache *cache,
++		void *object, u8 tag);
++char *kasan_get_corruption_type(void *addr);
++#else
++static inline void kasan_set_free_info(struct kmem_cache *cache,
++		void *object, u8 tag) { }
++static inline struct kasan_track *kasan_get_free_track(
++		struct kmem_cache *cache, void *object, u8 tag)
++{
++	return NULL;
++}
++static inline char *kasan_get_corruption_type(void *addr)
++{
++	return NULL;
++}
++#endif
++
+ #if defined(CONFIG_KASAN_GENERIC) && \
+ 	(defined(CONFIG_SLAB) || defined(CONFIG_SLUB))
+ void quarantine_put(struct kasan_free_meta *info, struct kmem_cache *cache);
+diff --git a/mm/kasan/report.c b/mm/kasan/report.c
+index 0e5f965f1882..9ea7a4265b42 100644
+--- a/mm/kasan/report.c
++++ b/mm/kasan/report.c
+@@ -111,14 +111,6 @@ static void print_track(struct kasan_track *track, const char *prefix)
+ 	}
+ }
+ 
+-static struct page *addr_to_page(const void *addr)
+-{
+-	if ((addr >= (void *)PAGE_OFFSET) &&
+-			(addr < high_memory))
+-		return virt_to_head_page(addr);
+-	return NULL;
+-}
+-
+ static void describe_object_addr(struct kmem_cache *cache, void *object,
+ 				const void *addr)
+ {
+@@ -152,18 +144,27 @@ static void describe_object_addr(struct kmem_cache *cache, void *object,
+ }
+ 
+ static void describe_object(struct kmem_cache *cache, void *object,
+-				const void *addr)
++				const void *tagged_addr)
+ {
++	void *untagged_addr = reset_tag(tagged_addr);
+ 	struct kasan_alloc_meta *alloc_info = get_alloc_info(cache, object);
+ 
+ 	if (cache->flags & SLAB_KASAN) {
+ 		print_track(&alloc_info->alloc_track, "Allocated");
+ 		pr_err("\n");
+-		print_track(&alloc_info->free_track, "Freed");
+-		pr_err("\n");
++		if (IS_ENABLED(CONFIG_KASAN_SW_TAGS_IDENTIFY)) {
++			struct kasan_track *free_track;
++			u8 tag = get_tag(tagged_addr);
++
++			free_track = kasan_get_free_track(cache, object, tag);
++			print_track(free_track, "Freed");
++		} else {
++			print_track(&alloc_info->free_track, "Freed");
++			pr_err("\n");
++		}
+ 	}
+ 
+-	describe_object_addr(cache, object, addr);
++	describe_object_addr(cache, object, untagged_addr);
+ }
+ 
+ static inline bool kernel_or_module_addr(const void *addr)
+@@ -344,23 +345,25 @@ static void print_address_stack_frame(const void *addr)
+ 	print_decoded_frame_descr(frame_descr);
+ }
+ 
+-static void print_address_description(void *addr)
++static void print_address_description(void *tagged_addr)
+ {
+-	struct page *page = addr_to_page(addr);
++	void *untagged_addr = reset_tag(tagged_addr);
++	struct page *page = addr_to_page(untagged_addr);
+ 
+ 	dump_stack();
+ 	pr_err("\n");
+ 
+ 	if (page && PageSlab(page)) {
+ 		struct kmem_cache *cache = page->slab_cache;
+-		void *object = nearest_obj(cache, page,	addr);
++		void *object = nearest_obj(cache, page,	untagged_addr);
+ 
+-		describe_object(cache, object, addr);
++		describe_object(cache, object, tagged_addr);
+ 	}
+ 
+-	if (kernel_or_module_addr(addr) && !init_task_stack_addr(addr)) {
++	if (kernel_or_module_addr(untagged_addr) &&
++			!init_task_stack_addr(untagged_addr)) {
+ 		pr_err("The buggy address belongs to the variable:\n");
+-		pr_err(" %pS\n", addr);
++		pr_err(" %pS\n", tagged_addr);
+ 	}
+ 
+ 	if (page) {
+@@ -368,7 +371,7 @@ static void print_address_description(void *addr)
+ 		dump_page(page, "kasan: bad access detected");
+ 	}
+ 
+-	print_address_stack_frame(addr);
++	print_address_stack_frame(untagged_addr);
+ }
+ 
+ static bool row_is_guilty(const void *row, const void *guilty)
+@@ -432,6 +435,14 @@ static bool report_enabled(void)
+ 	return !test_and_set_bit(KASAN_BIT_REPORTED, &kasan_flags);
+ }
+ 
++struct page *addr_to_page(const void *addr)
++{
++	if ((addr >= (void *)PAGE_OFFSET) &&
++			(addr < high_memory))
++		return virt_to_head_page(addr);
++	return NULL;
++}
++
+ void kasan_report_invalid_free(void *object, unsigned long ip)
+ {
+ 	unsigned long flags;
+@@ -439,10 +450,10 @@ void kasan_report_invalid_free(void *object, unsigned long ip)
+ 	start_report(&flags);
+ 	pr_err("BUG: KASAN: double-free or invalid-free in %pS\n", (void *)ip);
+ 	print_tags(get_tag(object), reset_tag(object));
+-	object = reset_tag(object);
+ 	pr_err("\n");
+ 	print_address_description(object);
+ 	pr_err("\n");
++	object = reset_tag(object);
+ 	print_shadow_for_address(object);
+ 	end_report(&flags);
+ }
+@@ -479,7 +490,7 @@ void __kasan_report(unsigned long addr, size_t size, bool is_write, unsigned lon
+ 	pr_err("\n");
+ 
+ 	if (addr_has_shadow(untagged_addr)) {
+-		print_address_description(untagged_addr);
++		print_address_description(tagged_addr);
+ 		pr_err("\n");
+ 		print_shadow_for_address(info.first_bad_addr);
+ 	} else {
+diff --git a/mm/kasan/tags.c b/mm/kasan/tags.c
+index 0e987c9ca052..05a11f1cfff7 100644
+--- a/mm/kasan/tags.c
++++ b/mm/kasan/tags.c
+@@ -161,3 +161,89 @@ void __hwasan_tag_memory(unsigned long addr, u8 tag, unsigned long size)
+ 	kasan_poison_shadow((void *)addr, size, tag);
+ }
+ EXPORT_SYMBOL(__hwasan_tag_memory);
++
++#ifdef CONFIG_KASAN_SW_TAGS_IDENTIFY
++void kasan_set_free_info(struct kmem_cache *cache,
++		void *object, u8 tag)
++{
++	struct kasan_alloc_meta *alloc_meta;
++	struct extra_free_info *free_info;
++	u8 idx;
++
++	alloc_meta = get_alloc_info(cache, object);
++	free_info = &alloc_meta->free_info;
++
++	if (free_info->free_track_tail == 0)
++		free_info->free_track_tail = KASAN_EXTRA_FREE_INFO_COUNT;
++	else
++		free_info->free_track_tail -= 1;
++
++	idx = free_info->free_track_tail;
++	free_info->free_pointer_tag[idx] = tag;
++
++	if (idx == KASAN_EXTRA_FREE_INFO_COUNT)
++		kasan_set_track(&alloc_meta->free_track, GFP_NOWAIT);
++	else
++		kasan_set_track(&free_info->free_track[idx], GFP_NOWAIT);
++}
++
++struct kasan_track *kasan_get_free_track(struct kmem_cache *cache,
++		void *object, u8 tag)
++{
++	struct kasan_alloc_meta *alloc_meta;
++	struct extra_free_info *free_info;
++	int idx, i;
++
++	alloc_meta = get_alloc_info(cache, object);
++	free_info = &alloc_meta->free_info;
++
++	for (i = 0; i < KASAN_TOTAL_FREE_INFO_COUNT; i++) {
++		idx = free_info->free_track_tail + i;
++		if (idx >= KASAN_TOTAL_FREE_INFO_COUNT)
++			idx -= KASAN_TOTAL_FREE_INFO_COUNT;
++
++		if (free_info->free_pointer_tag[idx] == tag) {
++			if (idx == KASAN_EXTRA_FREE_INFO_COUNT)
++				return &alloc_meta->free_track;
++			else
++				return &free_info->free_track[idx];
++		}
++	}
++	if (free_info->free_track_tail == KASAN_EXTRA_FREE_INFO_COUNT)
++		return &alloc_meta->free_track;
++	else
++		return &free_info->free_track[free_info->free_track_tail];
++}
++
++char *kasan_get_corruption_type(void *addr)
++{
++	struct kasan_alloc_meta *alloc_meta;
++	struct extra_free_info *free_info;
++	struct page *page;
++	struct kmem_cache *cache;
++	void *object;
++	u8 tag;
++	int idx, i;
++
++	tag = get_tag(addr);
++	addr = reset_tag(addr);
++	page = addr_to_page(addr);
++	if (page && PageSlab(page)) {
++		cache = page->slab_cache;
++		object = nearest_obj(cache, page, addr);
++		alloc_meta = get_alloc_info(cache, object);
++		free_info = &alloc_meta->free_info;
++
++		for (i = 0; i < KASAN_TOTAL_FREE_INFO_COUNT; i++) {
++			idx = free_info->free_track_tail + i;
++			if (idx >= KASAN_TOTAL_FREE_INFO_COUNT)
++				idx -= KASAN_TOTAL_FREE_INFO_COUNT;
++
++			if (free_info->free_pointer_tag[idx] == tag)
++				return "use-after-free";
++		}
++		return "out-of-bounds";
++	}
++	return "invalid-access";
++}
++#endif
+diff --git a/mm/kasan/tags_report.c b/mm/kasan/tags_report.c
+index 8eaf5f722271..6d8cdb91c4b6 100644
+--- a/mm/kasan/tags_report.c
++++ b/mm/kasan/tags_report.c
+@@ -36,7 +36,10 @@
+ 
+ const char *get_bug_type(struct kasan_access_info *info)
+ {
+-	return "invalid-access";
++	if (IS_ENABLED(CONFIG_KASAN_SW_TAGS_IDENTIFY))
++		return(kasan_get_corruption_type((void *)info->access_addr));
++	else
++		return "invalid-access";
+ }
+ 
+ void *find_first_bad_addr(void *addr, size_t size)
+-- 
+2.18.0
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CADVap6u4DtVVr5SRw6Qw%3DGZDWvuVO3wTLDzFdC%2BP-m4pGYBjBA%40mail.gmail.com.
-
---0000000000008bfb82058f6b90ac
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hi Andrey,<div><br></div><div>Thanks for the reply. I have=
- 2 qsns:</div><div>1. What is the driver for pixel 2 xl or if you don&#39;t=
- know, can you tell us how to find it?</div><div>2. The touch screen isn&#3=
-9;t=C2=A0working, so I was unable to do &quot;adb shell&quot; due to unable=
- to set VENDOR KEYS as touch is not working.</div></div><br><div class=3D"g=
-mail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Aug 5, 2019 at 5:=
-04 PM Andrey Konovalov &lt;<a href=3D"mailto:andreyknvl@google.com">andreyk=
-nvl@google.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" st=
-yle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padd=
-ing-left:1ex">Most likely the issue is caused by a mismatching touchscreen =
-driver<br>
-module. You need to flash/copy a KASAN-built one to the device as<br>
-well. I don&#39;t know any details on how to do it though.<br>
-<br>
-On Mon, Aug 5, 2019 at 1:22 PM &lt;<a href=3D"mailto:manikantavstk@gmail.co=
-m" target=3D"_blank">manikantavstk@gmail.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; Without kasan same build works fine. But after enabling kasan, compila=
-tion is successful but after flashing the images device touchscreen is not =
-working.<br>
-&gt;<br>
-&gt; Applied this patch:<br>
-&gt;<br>
-&gt; +CONFIG_INPUT_TOUCHSCREEN=3Dy<br>
-&gt; +CONFIG_LGE_TOUCH_CORE=3Dy<br>
-&gt; +CONFIG_LGE_TOUCH_LGSIC_SW49408=3Dm<br>
-&gt; +CONFIG_TOUCHSCREEN_FTM4=3Dy<br>
-&gt; +CONFIG_TOUCHSCREEN_SYNAPTICS_DSX_HTC=3Dy<br>
-&gt; +CONFIG_TOUCHSCREEN_SYNAPTICS_DSX_CORE_HTC=3Dy<br>
-&gt; +CONFIG_TOUCHSCREEN_SYNAPTICS_DSX_RMI_DEV_HTC=3Dy<br>
-&gt; +CONFIG_TOUCHSCREEN_SYNAPTICS_DSX_FW_UPDATE_HTC=3Dy<br>
-&gt;<br>
-&gt; Still no luck and touch isn&#39;t working.<br>
-&gt; Can you provide any patch/ any inputs to resolve this touch problem?<b=
-r>
-&gt;<br>
-&gt; --<br>
-&gt; You received this message because you are subscribed to the Google Gro=
-ups &quot;kasan-dev&quot; group.<br>
-&gt; To unsubscribe from this group and stop receiving emails from it, send=
- an email to <a href=3D"mailto:kasan-dev%2Bunsubscribe@googlegroups.com" ta=
-rget=3D"_blank">kasan-dev+unsubscribe@googlegroups.com</a>.<br>
-&gt; To view this discussion on the web visit <a href=3D"https://groups.goo=
-gle.com/d/msgid/kasan-dev/96b2546a-3540-4c08-9817-0468c3146fab%40googlegrou=
-ps.com" rel=3D"noreferrer" target=3D"_blank">https://groups.google.com/d/ms=
-gid/kasan-dev/96b2546a-3540-4c08-9817-0468c3146fab%40googlegroups.com</a>.<=
-br>
-</blockquote></div>
-
-<p></p>
-
--- <br />
-You received this message because you are subscribed to the Google Groups &=
-quot;kasan-dev&quot; group.<br />
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
-+unsubscribe@googlegroups.com</a>.<br />
-To view this discussion on the web visit <a href=3D"https://groups.google.c=
-om/d/msgid/kasan-dev/CADVap6u4DtVVr5SRw6Qw%3DGZDWvuVO3wTLDzFdC%2BP-m4pGYBjB=
-A%40mail.gmail.com?utm_medium=3Demail&utm_source=3Dfooter">https://groups.g=
-oogle.com/d/msgid/kasan-dev/CADVap6u4DtVVr5SRw6Qw%3DGZDWvuVO3wTLDzFdC%2BP-m=
-4pGYBjBA%40mail.gmail.com</a>.<br />
-
---0000000000008bfb82058f6b90ac--
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20190806054340.16305-1-walter-zh.wu%40mediatek.com.
