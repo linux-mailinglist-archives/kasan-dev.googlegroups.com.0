@@ -1,128 +1,144 @@
-Return-Path: <kasan-dev+bncBAABBMHXVHVAKGQER3JYI5Y@googlegroups.com>
+Return-Path: <kasan-dev+bncBCXLBLOA7IGBB76NVPVAKGQETRAVSFY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qt1-x839.google.com (mail-qt1-x839.google.com [IPv6:2607:f8b0:4864:20::839])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF13D8458F
-	for <lists+kasan-dev@lfdr.de>; Wed,  7 Aug 2019 09:20:17 +0200 (CEST)
-Received: by mail-qt1-x839.google.com with SMTP id g30sf81228498qtm.17
-        for <lists+kasan-dev@lfdr.de>; Wed, 07 Aug 2019 00:20:17 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1565162416; cv=pass;
+Received: from mail-wr1-x440.google.com (mail-wr1-x440.google.com [IPv6:2a00:1450:4864:20::440])
+	by mail.lfdr.de (Postfix) with ESMTPS id A1B6384F4A
+	for <lists+kasan-dev@lfdr.de>; Wed,  7 Aug 2019 16:58:07 +0200 (CEST)
+Received: by mail-wr1-x440.google.com with SMTP id s18sf2218689wrt.21
+        for <lists+kasan-dev@lfdr.de>; Wed, 07 Aug 2019 07:58:07 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1565189887; cv=pass;
         d=google.com; s=arc-20160816;
-        b=eVclz10CNSIaYWSjahcEgYViIzjcG7Fv+LCuYa5txQlZL340i21UZ8hFJj4US0Z5UT
-         ar3jd2vDyekChYgGQH356j9nPSWQcyQDgQQO/TBF2zmFWwzDd2z7BCJJTozC7aHPVcr7
-         /vuonjpZqifDADrIHJBC8Ky3pwEyfU760C7aTZQt6UdYerL5MA6R2D3r/hWEKSbvA/ui
-         IsxidCIqRD+8s+u6NVwxinoK9upRYMztRRfSqVT/GKFIsvHcRc1SChptpIJNegPj6GBQ
-         FqAyvETMJdT4aBvKvBmB+lpGwAY7o38L8Vjk5oHZGLaOM+iUa/ZRPWGweq6WhDY65z2s
-         vlaQ==
+        b=pvmhyxiMJt32eAxxMr80q8sMi/ir8CTytCxeGWsC5ocQVkO4esVeaSwSAxRjh4DzWL
+         JLyzl1CKMEqU3ncwQ+UquV02v66aMr1Sb8GGMchIO9iVozzILGB7/GLPaSoHErKksy9Y
+         dHti/SLDM1V8kLk4A6V7kw6v6wPrnHEVXNxlvQE4dmxZrquER5NPEFY5JRmyKzcJ4BdI
+         UuiE/bxQHa9ATgP9QRRTG9alrlugxYAUto3N1PfKurvpkDrjEh3MdaM0yyDM7aY+xTYR
+         z5gbO27ky6D20Mqvm/7MVxZjjE/LlJXd5+rh591s9vaXUwpNpVySftgPPoVWuuWUUonr
+         auJQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=rbGjkt7u6a94cwJoLXRacXqQpMzdNgLhn6fQsyxnlE4=;
-        b=ik3EdrfT/Gbyt60cgrAjyz4MfEDFQnV50/7vx4oWLOsgCcRykRRtKwZc0XmZJWuBay
-         kNJJI6gTTvbdF1obY0QsG1fFhNz1EVrD1joWVPYtbFnjZkT4IqNNE9+kiJwWWhnfxokB
-         a2H9rESJSrfprQKvHSXHdY2t6I+3SSmkR1IDqsoudC4opkoNFGIZaH2LLCBJbe7AkgX6
-         LvH66hRNjheLEkcBZf0uC8VHAuqBgB+gi2EvkAMqYjvKgpt1El+p/UD2iDuIkcVFAZpu
-         p+ylfQPibHh58RJcdTV5MtKZD6jYM6iW7SRFaa/bGPZIOfHdF3MaczN6NJ7qZyeUV+zK
-         IjsQ==
+         :list-id:mailing-list:precedence:content-transfer-encoding
+         :content-language:in-reply-to:mime-version:user-agent:date
+         :message-id:from:references:cc:to:subject:sender:dkim-signature;
+        bh=rGBqrfoje+hoxlqbUqHG0BgeCAPvxrHQnRsyPN6U2ro=;
+        b=epsHRdU4AkwBe7h+0HSp/HWIUH1Uvk5B/3pxTmdopqBi1WBMwFJPZb0q5ZmrW5jGS2
+         0EmX1PMviOOF6h+i4RdYwgNPogMk/KmQ6N7DTb8TZ0DKDfjNzDrxuu0FzWxlgfA8aLHB
+         Dy5T3tNvBYFMbDpsjlDSesBJEGa027/jZjsghgCcAQ0Ghfdtd3VUSsmDtxpD1SRorfAe
+         5IpsrMdqBt1ucfoLdEYrC0zHz8CXREHy++Q4nX/MlW75LM+WaEiQ0TjmMIgEMWXIzPWa
+         QWPyJurZFn/6yLhNp96iGeHzpZLqLj6H4JZvs9da1c+j5BPpnk1HkwLAJlZ8MdDTRv18
+         1CyQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of nickhu@andestech.com designates 59.120.53.16 as permitted sender) smtp.mailfrom=nickhu@andestech.com
+       dkim=pass header.i=@c-s.fr header.s=mail header.b=OnboGd7K;
+       spf=pass (google.com: domain of christophe.leroy@c-s.fr designates 93.17.236.30 as permitted sender) smtp.mailfrom=christophe.leroy@c-s.fr
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+        h=sender:subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=rbGjkt7u6a94cwJoLXRacXqQpMzdNgLhn6fQsyxnlE4=;
-        b=bvCKzEB+iX2XC/w90IeURCbQyunsF+uLJ6xTymE0NRJ6tI56ANP4fDXZrCE0N7XJfz
-         rrqoGJ4Wcio40xPqI+0f1WIv8yR/PfpdH/NTjjDmY24Q6ppYT1btMqI7RUlFeZpx5XDx
-         fatJ7OdNgcsmn/09iLmgKEjs1pGcWyBHn9TycGrr0N0D4CYkoLJU5uJZMTvBp1DeEuLd
-         +n0OkB4cQAtpnX4m++Wy5AScq8XbxjY5h3gljcSRg5owUN+p9KPfSLHxowsnZbYvR232
-         +I87MFvQl5kmlVHBeaqJgGPjBKOtRkn3LIAETGa/Pqc/SoqTq6Q6uu2BTrZTt8VezZjV
-         PFLQ==
+        bh=rGBqrfoje+hoxlqbUqHG0BgeCAPvxrHQnRsyPN6U2ro=;
+        b=GAq9SjBUi9By8aGxvwRZIO4pZEt4Mk3tXOGaS0Ge0QqswRf6MpOSdSYlMKRqHyvQT/
+         G9LI5FWSewjVwbk8mWJnXSodSmsz4goHCNCvA8ZFMZvLn9liM+rbiXCrTzi/26haahsQ
+         fSsxbIwViz+peoiJoPRXZfteVTSOoQAeczjRpBeTUxEDb3R9lbI5l0fZCA3jl0wlqZwi
+         HteFAUUi0/zDdOEzEiM7RjqqoiJypXI5TyK+hLzeyfVIb4SMSjjZ5uh8gwdRBOkJw53v
+         DuU7IXDraywk4M7JwRRpVg8I9urODMwwi/L8tAcOu1dpUAJYsSc35+Iuu7/NqKzZ8vXs
+         /EQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :in-reply-to:references:mime-version:x-original-sender
+        h=sender:x-gm-message-state:subject:to:cc:references:from:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=rbGjkt7u6a94cwJoLXRacXqQpMzdNgLhn6fQsyxnlE4=;
-        b=pOQpNc9EWJOTTnjiX8du7bRZFXVSTxobZung2SmyDF40gpN9a36nEYe016qWZdWzDX
-         hJzZxX+kvzsQk0ElSx8I08m33QV1IAerwr7Ujm32SdiQ1iHIWsmQv9DnnJOnnzvB0+H2
-         voJSSBxy7KQpOWCttO5iTWdVBpBmI0O25YRJU2D9rDz6NXZJ53yhTFSrKbjPl7cju8pT
-         a/6Fs3c2WqZVomal1+lEcshDNf93cNZGY3p3001Ebo0fGOshRizf64NY352wQs7f3scL
-         p3lX27fCqCrDKtbVKOGkmOEhRsUQp+9x0Wtw/2c3no5j48G2IK7ib9YlgFyAEImiO1Ua
-         Ae0w==
+        bh=rGBqrfoje+hoxlqbUqHG0BgeCAPvxrHQnRsyPN6U2ro=;
+        b=PhHRMfNZGfFq4h7GUuJMDd8edHYMkNxIPcp3FsNbObR32+bha9Tupf5r/TnA4TYdWN
+         jHhg574c5iHGTES8qQwlNdTqcX65z25LH+uBQgCehjdIZw+ztzAVk7nebopk8NQQfP5S
+         ItdZUiHDP7F3wedONdK9PUUT7wkZl8i/ZQTyzD/Ux1ZYTDVSKqz6oUCxdlj72xdOrxQv
+         5emspZEUWQOUmqGPC2AqRKCDAaz0xIrEwD8CxD+YHZtZVvHCUqNQ5wVkNLfZWbKln+UU
+         c2eWgXc0xx4jbDahpGKR6KBBpKRXaxHBL665PUJHw0PGbAHA3IQbmu2HnM75Q7j/9LvD
+         wRdg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAV/3qsQuOjweHxcAh4gCMZSm0H/ohUESllFqnpOISE5DHRztox1
-	+eypnrS4oisOQEBVKyUirws=
-X-Google-Smtp-Source: APXvYqyXPhSt+GoIeNsDm16YIpltJHBmR+eVhYugZnwI4yn2CvqMCgJo1eNqzQ+2+jRBytdGyoidvA==
-X-Received: by 2002:a05:620a:1187:: with SMTP id b7mr6738305qkk.218.1565162416728;
-        Wed, 07 Aug 2019 00:20:16 -0700 (PDT)
+X-Gm-Message-State: APjAAAUvDRSWLzxQpCCS+DgIKGqKE4ni92UvdRkTD8QdvNmpsxJrUIxe
+	vMNrsoxzAvs+xXDILfVO/Ps=
+X-Google-Smtp-Source: APXvYqxA+xZl1JrpI0k+p+fd1x2q/70+Ce9kBz6Fh7081gUdKnFMGKueNsgBjJH8QU+Z6OtckP5AlQ==
+X-Received: by 2002:a7b:c0d0:: with SMTP id s16mr348641wmh.141.1565189887402;
+        Wed, 07 Aug 2019 07:58:07 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ad4:540b:: with SMTP id f11ls3295591qvt.0.gmail; Wed, 07 Aug
- 2019 00:20:16 -0700 (PDT)
-X-Received: by 2002:a05:6214:1c3:: with SMTP id c3mr6615983qvt.144.1565162416265;
-        Wed, 07 Aug 2019 00:20:16 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1565162416; cv=none;
+Received: by 2002:a5d:448b:: with SMTP id j11ls26638524wrq.3.gmail; Wed, 07
+ Aug 2019 07:58:06 -0700 (PDT)
+X-Received: by 2002:a5d:4602:: with SMTP id t2mr11460891wrq.340.1565189886968;
+        Wed, 07 Aug 2019 07:58:06 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1565189886; cv=none;
         d=google.com; s=arc-20160816;
-        b=WnOz6Q5xPjqC+45fgJHKrq3A6dvQ1SeJRF3VPGoImR6qV3PXpSKz40XfRqlWSV3kUT
-         lHs8iNmr68HxVHaJYv5cYA2xzGzS5yQ7UnvN/REJrVAWRKgQt0FnpOwUuITzupZ7lj/Q
-         NwcVJ29qCr7rJ+G5H4+2ciOlZwhAh5hkVv0D/6pbKq5g/kGKL37+3l8CljUbK1dErUth
-         jfSFdPaDFqlN4F08KvlkdmNTBMQ8Ob8BHiIEWCG3yV5FtZe1Up2sNCPnTtec20RcB6wm
-         jfH7onUNK03DzjTdu9G4XbYzONUm6NwbrBrebICsHoNwaDXxv8ON/zpAcYu3pPLjMVnM
-         irRg==
+        b=yGWWg3TBq+ClUVhPBOs7oxb0Uiii6fhUNfx4L/m4UANjLM9lb+AezakmvP2b57Ga6/
+         q6/VvgB+K447VFcEbFMZhxQJOwPYIfdL50gN2DmuEJj6qGSUaaBNsi1pQUW05goH36CX
+         QHoqEy1i6nhzg2mgpSGlW7ZsjF+V71q8+Uub4mcxLr346nZbVDSuN4i9qnqIEdYTtO7b
+         aEkVYkBzjfUc+cq4/+ZV8P0sIF/1nHI5nSvVr2VYb7UJY3Y7DQM6q9p5layrhZAmHOBT
+         ImLILnfKUrHQLqasHHsJc3N330kwcHdYiJGLpZFLP9Lv/8F515aWCoHTmttzOYQbhMcQ
+         qfDA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=mime-version:references:in-reply-to:message-id:date:subject:cc:to
-         :from;
-        bh=BwV6xPCYzQvqFAoI5XMBUXs7i1lg+fVNCG86quPUC14=;
-        b=wNgHQHmjGTfo3WAC7rNdGcSEDX77gCYAODNZWxbcfaJhK3mpD2OdVRrAqwFva2OCi4
-         qMUIaEs2JE0gE7lDfchDrWfoZrVN0I4M3s9FmARAXTZ5eB0u+EeQJfYQcrax65O1cWJo
-         bD1y+cFkIOMSTW69P0BZpAki08ibGRvo9ZVcLd9pOTqJHfwhu4W8mwxOOSqtpqKoIUAA
-         l2Xd2MtTOfaTH/74WsmOEbtCZSXQGNs9U5dtG2KDUqrAYVcWRUC2YcuLQjpjSx2xJ16X
-         GbXTRpTg+Lez4FrMWbZHz67ha3ehF/5Rufigr2+wC0/HxXU7TG08oDWJsd6Xmi/Idhqi
-         3FWA==
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject
+         :dkim-signature;
+        bh=ZXMwBhMnE2fxHI+Z/uLlnfh3kEwMCmIcy0QbJ9cqoeM=;
+        b=jNgim5Uh6LC/2e0szEkbY3jEGt35ab5vRHwFOeZwpWT3HKMBFV5OvvlpcmD2iUfPDZ
+         OnaxmWKAzGN/ixaubUikvnFvBzP0HocFnvnlGwPcxK/rxG0vQSY0fCtXnCqNAW3u23ag
+         THxCHJ57V/9k9P2OGT8NC+T5g4mAbYIPh+6eIkur3URLbcgCnzMDKlOTpivZkRfjL4Iu
+         KHYfJjdyG/57z6zowRWPy8JR0hKs0VyzfpuV6k9syZTeyECZx1umqnLQVwGDmeGSidEl
+         eXky7EPT21Cam59rirZqBsE1bcnYeyW2CJFQHmzgqM+Vg5++raB1sq9oYo3r+tninhMq
+         A62w==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of nickhu@andestech.com designates 59.120.53.16 as permitted sender) smtp.mailfrom=nickhu@andestech.com
-Received: from ATCSQR.andestech.com (59-120-53-16.HINET-IP.hinet.net. [59.120.53.16])
-        by gmr-mx.google.com with ESMTPS id o56si1279320qtf.0.2019.08.07.00.20.15
+       dkim=pass header.i=@c-s.fr header.s=mail header.b=OnboGd7K;
+       spf=pass (google.com: domain of christophe.leroy@c-s.fr designates 93.17.236.30 as permitted sender) smtp.mailfrom=christophe.leroy@c-s.fr
+Received: from pegase1.c-s.fr (pegase1.c-s.fr. [93.17.236.30])
+        by gmr-mx.google.com with ESMTPS id j18si11896wmk.0.2019.08.07.07.58.06
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 07 Aug 2019 00:20:15 -0700 (PDT)
-Received-SPF: pass (google.com: domain of nickhu@andestech.com designates 59.120.53.16 as permitted sender) client-ip=59.120.53.16;
-Received: from mail.andestech.com (atcpcs16.andestech.com [10.0.1.222])
-	by ATCSQR.andestech.com with ESMTP id x7778r0S027078;
-	Wed, 7 Aug 2019 15:08:53 +0800 (GMT-8)
-	(envelope-from nickhu@andestech.com)
-Received: from atcsqa06.andestech.com (10.0.15.65) by ATCPCS16.andestech.com
- (10.0.1.222) with Microsoft SMTP Server id 14.3.123.3; Wed, 7 Aug 2019
- 15:19:50 +0800
-From: Nick Hu <nickhu@andestech.com>
-To: <alankao@andestech.com>, <paul.walmsley@sifive.com>, <palmer@sifive.com>,
-        <aou@eecs.berkeley.edu>, <green.hu@gmail.com>, <deanbo422@gmail.com>,
-        <tglx@linutronix.de>, <linux-riscv@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <aryabinin@virtuozzo.com>,
-        <glider@google.com>, <dvyukov@google.com>, <Anup.Patel@wdc.com>,
-        <gregkh@linuxfoundation.org>, <alexios.zavras@intel.com>,
-        <atish.patra@wdc.com>, <zong@andestech.com>,
-        <kasan-dev@googlegroups.com>
-CC: Nick Hu <nickhu@andestech.com>
-Subject: [PATCH 2/2] riscv: Add KASAN support
-Date: Wed, 7 Aug 2019 15:19:15 +0800
-Message-ID: <88358ef8f7cfcb7fd01b6b989eccaddbe00a1e57.1565161957.git.nickhu@andestech.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1565161957.git.nickhu@andestech.com>
-References: <cover.1565161957.git.nickhu@andestech.com>
+        Wed, 07 Aug 2019 07:58:06 -0700 (PDT)
+Received-SPF: pass (google.com: domain of christophe.leroy@c-s.fr designates 93.17.236.30 as permitted sender) client-ip=93.17.236.30;
+Received: from localhost (mailhub1-int [192.168.12.234])
+	by localhost (Postfix) with ESMTP id 463ZPS6L3Xz9vBmt;
+	Wed,  7 Aug 2019 16:58:04 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at c-s.fr
+Received: from pegase1.c-s.fr ([192.168.12.234])
+	by localhost (pegase1.c-s.fr [192.168.12.234]) (amavisd-new, port 10024)
+	with ESMTP id KfhgThT8rrv3; Wed,  7 Aug 2019 16:58:04 +0200 (CEST)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+	by pegase1.c-s.fr (Postfix) with ESMTP id 463ZPS56BXz9vBmK;
+	Wed,  7 Aug 2019 16:58:04 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id 625DD8B832;
+	Wed,  7 Aug 2019 16:58:06 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+	by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+	with ESMTP id 89Fy8lsRt1wx; Wed,  7 Aug 2019 16:58:06 +0200 (CEST)
+Received: from [172.25.230.101] (po15451.idsi0.si.c-s.fr [172.25.230.101])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id 374988B81F;
+	Wed,  7 Aug 2019 16:58:06 +0200 (CEST)
+Subject: Re: [PATCH 2/4] kasan: support instrumented bitops with generic
+ non-atomic bitops
+To: Daniel Axtens <dja@axtens.net>, aneesh.kumar@linux.ibm.com,
+ bsingharora@gmail.com
+Cc: linuxppc-dev@lists.ozlabs.org, kasan-dev@googlegroups.com
+References: <20190806233827.16454-1-dja@axtens.net>
+ <20190806233827.16454-3-dja@axtens.net>
+From: Christophe Leroy <christophe.leroy@c-s.fr>
+Message-ID: <107dda59-45ce-98f4-4959-187f35514728@c-s.fr>
+Date: Wed, 7 Aug 2019 16:58:06 +0200
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-X-Originating-IP: [10.0.15.65]
-X-DNSRBL: 
-X-MAIL: ATCSQR.andestech.com x7778r0S027078
-X-Original-Sender: nickhu@andestech.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of nickhu@andestech.com designates 59.120.53.16 as
- permitted sender) smtp.mailfrom=nickhu@andestech.com
+In-Reply-To: <20190806233827.16454-3-dja@axtens.net>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Language: fr
+Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: christophe.leroy@c-s.fr
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@c-s.fr header.s=mail header.b=OnboGd7K;       spf=pass (google.com:
+ domain of christophe.leroy@c-s.fr designates 93.17.236.30 as permitted
+ sender) smtp.mailfrom=christophe.leroy@c-s.fr
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -135,382 +151,278 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-This patch ports the feature Kernel Address SANitizer (KASAN).
 
-Note: The start address of shadow memory is at the beginning of kernel
-space, which is 2^64 - (2^39 / 2) in SV39. The size of the kernel space
-is 2^38 bytes so the size of shadow memory should be 2^38 / 8. Thus, the
-shadow memory would not overlap with the fixmap area.
 
-There are currently two limitations in this port,
+Le 07/08/2019 =C3=A0 01:38, Daniel Axtens a =C3=A9crit=C2=A0:
+> Currently bitops-instrumented.h assumes that the architecture provides
+> both the atomic and non-atomic versions of the bitops (e.g. both
+> set_bit and __set_bit). This is true on x86, but is not always true:
+> there is a generic bitops/non-atomic.h header that provides generic
+> non-atomic versions. powerpc uses this generic version, so it does
+> not have it's own e.g. __set_bit that could be renamed arch___set_bit.
+>=20
+> Rearrange bitops-instrumented.h. As operations in bitops/non-atomic.h
+> will already be instrumented (they use regular memory accesses), put
+> the instrumenting wrappers for them behind an ifdef. Only include
+> these instrumentation wrappers if non-atomic.h has not been included.
 
-1. RV64 only: KASAN need large address space for extra shadow memory
-region.
+What about moving and splitting bitops-instrumented.h into:
+bitops/atomic-instrumented.h
+bitops/non-atomic-instrumented.h
+bitops/lock-instrumented.h
 
-2. KASAN can't debug the modules since the modules are allocated in VMALLOC
-area. We mapped the shadow memory, which corresponding to VMALLOC area,
-to the kasan_early_shadow_page because we don't have enough physical space
-for all the shadow memory corresponding to VMALLOC area.
+I think that would be cleaner than hacking the file with the _GUARDS_ of=20
+another header file (is that method used anywhere else in header files ?)
 
-Signed-off-by: Nick Hu <nickhu@andestech.com>
----
- arch/riscv/Kconfig                  |    2 +
- arch/riscv/include/asm/kasan.h      |   26 +++++++++
- arch/riscv/include/asm/pgtable-64.h |    5 ++
- arch/riscv/include/asm/string.h     |    7 +++
- arch/riscv/kernel/head.S            |    3 +
- arch/riscv/kernel/riscv_ksyms.c     |    3 +
- arch/riscv/kernel/setup.c           |    9 +++
- arch/riscv/kernel/vmlinux.lds.S     |    1 +
- arch/riscv/lib/memcpy.S             |    5 +-
- arch/riscv/lib/memmove.S            |    5 +-
- arch/riscv/lib/memset.S             |    5 +-
- arch/riscv/mm/Makefile              |    6 ++
- arch/riscv/mm/kasan_init.c          |  102 +++++++++++++++++++++++++++++++++++
- 13 files changed, 173 insertions(+), 6 deletions(-)
- create mode 100644 arch/riscv/include/asm/kasan.h
- create mode 100644 arch/riscv/mm/kasan_init.c
+Christophe
 
-diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
-index 59a4727..4878b7a 100644
---- a/arch/riscv/Kconfig
-+++ b/arch/riscv/Kconfig
-@@ -54,6 +54,8 @@ config RISCV
- 	select EDAC_SUPPORT
- 	select ARCH_HAS_GIGANTIC_PAGE
- 	select ARCH_WANT_HUGE_PMD_SHARE if 64BIT
-+	select GENERIC_STRNCPY_FROM_USER if KASAN
-+	select HAVE_ARCH_KASAN if MMU
- 
- config MMU
- 	def_bool y
-diff --git a/arch/riscv/include/asm/kasan.h b/arch/riscv/include/asm/kasan.h
-new file mode 100644
-index 0000000..e0c1f27
---- /dev/null
-+++ b/arch/riscv/include/asm/kasan.h
-@@ -0,0 +1,26 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+
-+#ifndef __ASM_KASAN_H
-+#define __ASM_KASAN_H
-+
-+#ifndef __ASSEMBLY__
-+
-+#ifdef CONFIG_KASAN
-+
-+#include <asm/pgtable.h>
-+
-+#define KASAN_SHADOW_SCALE_SHIFT	3
-+
-+#define KASAN_SHADOW_SIZE	(UL(1) << (38 - KASAN_SHADOW_SCALE_SHIFT))
-+#define KASAN_SHADOW_START	0xffffffc000000000 // 2^64 - 2^38
-+#define KASAN_SHADOW_END	(KASAN_SHADOW_START + KASAN_SHADOW_SIZE)
-+
-+#define KASAN_SHADOW_OFFSET	(KASAN_SHADOW_END - (1ULL << \
-+					(64 - KASAN_SHADOW_SCALE_SHIFT)))
-+
-+void kasan_init(void);
-+asmlinkage void kasan_early_init(void);
-+
-+#endif
-+#endif
-+#endif
-diff --git a/arch/riscv/include/asm/pgtable-64.h b/arch/riscv/include/asm/pgtable-64.h
-index 7df8daa..777a1dd 100644
---- a/arch/riscv/include/asm/pgtable-64.h
-+++ b/arch/riscv/include/asm/pgtable-64.h
-@@ -59,6 +59,11 @@ static inline unsigned long pud_page_vaddr(pud_t pud)
- 	return (unsigned long)pfn_to_virt(pud_val(pud) >> _PAGE_PFN_SHIFT);
- }
- 
-+static inline struct page *pud_page(pud_t pud)
-+{
-+	return pfn_to_page(pud_val(pud) >> _PAGE_PFN_SHIFT);
-+}
-+
- #define pmd_index(addr) (((addr) >> PMD_SHIFT) & (PTRS_PER_PMD - 1))
- 
- static inline pmd_t *pmd_offset(pud_t *pud, unsigned long addr)
-diff --git a/arch/riscv/include/asm/string.h b/arch/riscv/include/asm/string.h
-index 11210f1..ab90f44 100644
---- a/arch/riscv/include/asm/string.h
-+++ b/arch/riscv/include/asm/string.h
-@@ -11,11 +11,18 @@
- 
- #define __HAVE_ARCH_MEMSET
- extern asmlinkage void *memset(void *, int, size_t);
-+extern asmlinkage void *__memset(void *, int, size_t);
- 
- #define __HAVE_ARCH_MEMCPY
- extern asmlinkage void *memcpy(void *, const void *, size_t);
-+extern asmlinkage void *__memcpy(void *, const void *, size_t);
- 
- #define __HAVE_ARCH_MEMMOVE
- extern asmlinkage void *memmove(void *, const void *, size_t);
-+extern asmlinkage void *__memmove(void *, const void *, size_t);
-+
-+#define memcpy(dst, src, len) __memcpy(dst, src, len)
-+#define memmove(dst, src, len) __memmove(dst, src, len)
-+#define memset(s, c, n) __memset(s, c, n)
- 
- #endif /* _ASM_RISCV_STRING_H */
-diff --git a/arch/riscv/kernel/head.S b/arch/riscv/kernel/head.S
-index 0f1ba17..2f7bc8b 100644
---- a/arch/riscv/kernel/head.S
-+++ b/arch/riscv/kernel/head.S
-@@ -97,6 +97,9 @@ clear_bss_done:
- 	sw zero, TASK_TI_CPU(tp)
- 	la sp, init_thread_union + THREAD_SIZE
- 
-+#ifdef CONFIG_KASAN
-+	call kasan_early_init
-+#endif
- 	/* Start the kernel */
- 	call parse_dtb
- 	tail start_kernel
-diff --git a/arch/riscv/kernel/riscv_ksyms.c b/arch/riscv/kernel/riscv_ksyms.c
-index ffabaf1..ad9f007 100644
---- a/arch/riscv/kernel/riscv_ksyms.c
-+++ b/arch/riscv/kernel/riscv_ksyms.c
-@@ -15,3 +15,6 @@
- EXPORT_SYMBOL(memset);
- EXPORT_SYMBOL(memcpy);
- EXPORT_SYMBOL(memmove);
-+EXPORT_SYMBOL(__memset);
-+EXPORT_SYMBOL(__memcpy);
-+EXPORT_SYMBOL(__memmove);
-diff --git a/arch/riscv/kernel/setup.c b/arch/riscv/kernel/setup.c
-index a990a6c..9954c0b 100644
---- a/arch/riscv/kernel/setup.c
-+++ b/arch/riscv/kernel/setup.c
-@@ -24,6 +24,10 @@
- #include <asm/tlbflush.h>
- #include <asm/thread_info.h>
- 
-+#ifdef CONFIG_KASAN
-+#include <asm/kasan.h>
-+#endif
-+
- #ifdef CONFIG_DUMMY_CONSOLE
- struct screen_info screen_info = {
- 	.orig_video_lines	= 30,
-@@ -64,12 +68,17 @@ void __init setup_arch(char **cmdline_p)
- 
- 	setup_bootmem();
- 	paging_init();
-+
- 	unflatten_device_tree();
- 
- #ifdef CONFIG_SWIOTLB
- 	swiotlb_init(1);
- #endif
- 
-+#ifdef CONFIG_KASAN
-+	kasan_init();
-+#endif
-+
- #ifdef CONFIG_SMP
- 	setup_smp();
- #endif
-diff --git a/arch/riscv/kernel/vmlinux.lds.S b/arch/riscv/kernel/vmlinux.lds.S
-index 23cd1a9..9700980 100644
---- a/arch/riscv/kernel/vmlinux.lds.S
-+++ b/arch/riscv/kernel/vmlinux.lds.S
-@@ -46,6 +46,7 @@ SECTIONS
- 		KPROBES_TEXT
- 		ENTRY_TEXT
- 		IRQENTRY_TEXT
-+		SOFTIRQENTRY_TEXT
- 		*(.fixup)
- 		_etext = .;
- 	}
-diff --git a/arch/riscv/lib/memcpy.S b/arch/riscv/lib/memcpy.S
-index b4c4778..51ab716 100644
---- a/arch/riscv/lib/memcpy.S
-+++ b/arch/riscv/lib/memcpy.S
-@@ -7,7 +7,8 @@
- #include <asm/asm.h>
- 
- /* void *memcpy(void *, const void *, size_t) */
--ENTRY(memcpy)
-+ENTRY(__memcpy)
-+WEAK(memcpy)
- 	move t6, a0  /* Preserve return value */
- 
- 	/* Defer to byte-oriented copy for small sizes */
-@@ -104,4 +105,4 @@ ENTRY(memcpy)
- 	bltu a1, a3, 5b
- 6:
- 	ret
--END(memcpy)
-+END(__memcpy)
-diff --git a/arch/riscv/lib/memmove.S b/arch/riscv/lib/memmove.S
-index 3657a06..ef8ba3c 100644
---- a/arch/riscv/lib/memmove.S
-+++ b/arch/riscv/lib/memmove.S
-@@ -3,7 +3,8 @@
- #include <linux/linkage.h>
- #include <asm/asm.h>
- 
--ENTRY(memmove)
-+ENTRY(__memmove)
-+WEAK(memmove)
- 	move	t0, a0
- 	move	t1, a1
- 
-@@ -60,4 +61,4 @@ exit_memcpy:
- 	move a1, t1
- 	ret
- 
--END(memmove)
-+END(__memmove)
-diff --git a/arch/riscv/lib/memset.S b/arch/riscv/lib/memset.S
-index 5a7386b..34c5360 100644
---- a/arch/riscv/lib/memset.S
-+++ b/arch/riscv/lib/memset.S
-@@ -8,7 +8,8 @@
- #include <asm/asm.h>
- 
- /* void *memset(void *, int, size_t) */
--ENTRY(memset)
-+ENTRY(__memset)
-+WEAK(memset)
- 	move t0, a0  /* Preserve return value */
- 
- 	/* Defer to byte-oriented fill for small sizes */
-@@ -109,4 +110,4 @@ ENTRY(memset)
- 	bltu t0, a3, 5b
- 6:
- 	ret
--END(memset)
-+END(__memset)
-diff --git a/arch/riscv/mm/Makefile b/arch/riscv/mm/Makefile
-index 74055e1..cabe179 100644
---- a/arch/riscv/mm/Makefile
-+++ b/arch/riscv/mm/Makefile
-@@ -14,3 +14,9 @@ obj-y += context.o
- obj-y += sifive_l2_cache.o
- 
- obj-$(CONFIG_HUGETLB_PAGE) += hugetlbpage.o
-+obj-$(CONFIG_KASAN)   += kasan_init.o
-+
-+ifdef CONFIG_KASAN
-+KASAN_SANITIZE_kasan_init.o := n
-+KASAN_SANITIZE_init.o := n
-+endif
-diff --git a/arch/riscv/mm/kasan_init.c b/arch/riscv/mm/kasan_init.c
-new file mode 100644
-index 0000000..4b7830e
---- /dev/null
-+++ b/arch/riscv/mm/kasan_init.c
-@@ -0,0 +1,102 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+#include <linux/pfn.h>
-+#include <linux/init_task.h>
-+#include <linux/kasan.h>
-+#include <linux/kernel.h>
-+#include <linux/memblock.h>
-+#include <asm/tlbflush.h>
-+#include <asm/pgtable.h>
-+#include <asm/fixmap.h>
-+
-+extern pgd_t early_pg_dir[PTRS_PER_PGD];
-+asmlinkage void __init kasan_early_init(void)
-+{
-+	uintptr_t i;
-+	pgd_t *pgd = early_pg_dir + pgd_index(KASAN_SHADOW_START);
-+
-+	for (i = 0; i < PTRS_PER_PTE; ++i)
-+		set_pte(kasan_early_shadow_pte + i,
-+			mk_pte(virt_to_page(kasan_early_shadow_page),
-+			PAGE_KERNEL));
-+
-+	for (i = 0; i < PTRS_PER_PMD; ++i)
-+		set_pmd(kasan_early_shadow_pmd + i,
-+		 pfn_pmd(PFN_DOWN(__pa((uintptr_t)kasan_early_shadow_pte)),
-+			__pgprot(_PAGE_TABLE)));
-+
-+	for (i = KASAN_SHADOW_START; i < KASAN_SHADOW_END;
-+	     i += PGDIR_SIZE, ++pgd)
-+		set_pgd(pgd,
-+		 pfn_pgd(PFN_DOWN(__pa(((uintptr_t)kasan_early_shadow_pmd))),
-+			__pgprot(_PAGE_TABLE)));
-+
-+	// init for swapper_pg_dir
-+	pgd = pgd_offset_k(KASAN_SHADOW_START);
-+
-+	for (i = KASAN_SHADOW_START; i < KASAN_SHADOW_END;
-+	     i += PGDIR_SIZE, ++pgd)
-+		set_pgd(pgd,
-+		 pfn_pgd(PFN_DOWN(__pa(((uintptr_t)kasan_early_shadow_pmd))),
-+			__pgprot(_PAGE_TABLE)));
-+}
-+
-+static void __init populate(void *start, void *end)
-+{
-+	unsigned long i;
-+	unsigned long vaddr = (unsigned long)start & PAGE_MASK;
-+	unsigned long vend = PAGE_ALIGN((unsigned long)end);
-+	unsigned long n_pages = (vend - vaddr) / PAGE_SIZE;
-+	unsigned long n_pmds =
-+		(n_pages % PTRS_PER_PTE) ? n_pages / PTRS_PER_PTE + 1 :
-+						n_pages / PTRS_PER_PTE;
-+	pgd_t *pgd = pgd_offset_k(vaddr);
-+	pmd_t *pmd = memblock_alloc(n_pmds * sizeof(pmd_t), PAGE_SIZE);
-+	pte_t *pte = memblock_alloc(n_pages * sizeof(pte_t), PAGE_SIZE);
-+
-+	for (i = 0; i < n_pages; i++) {
-+		phys_addr_t phys = memblock_phys_alloc(PAGE_SIZE, PAGE_SIZE);
-+
-+		set_pte(pte + i, pfn_pte(PHYS_PFN(phys), PAGE_KERNEL));
-+	}
-+
-+	for (i = 0; i < n_pages; ++pmd, i += PTRS_PER_PTE)
-+		set_pmd(pmd, pfn_pmd(PFN_DOWN(__pa((uintptr_t)(pte + i))),
-+				__pgprot(_PAGE_TABLE)));
-+
-+	for (i = vaddr; i < vend; i += PGDIR_SIZE, ++pgd)
-+		set_pgd(pgd, pfn_pgd(PFN_DOWN(__pa(((uintptr_t)pmd))),
-+				__pgprot(_PAGE_TABLE)));
-+
-+	flush_tlb_all();
-+	memset(start, 0, end - start);
-+}
-+
-+void __init kasan_init(void)
-+{
-+	struct memblock_region *reg;
-+	unsigned long i;
-+
-+	kasan_populate_early_shadow((void *)KASAN_SHADOW_START,
-+			(void *)kasan_mem_to_shadow((void *)VMALLOC_END));
-+
-+	for_each_memblock(memory, reg) {
-+		void *start = (void *)__va(reg->base);
-+		void *end = (void *)__va(reg->base + reg->size);
-+
-+		if (start >= end)
-+			break;
-+
-+		populate(kasan_mem_to_shadow(start),
-+			 kasan_mem_to_shadow(end));
-+	};
-+
-+	for (i = 0; i < PTRS_PER_PTE; i++)
-+		set_pte(&kasan_early_shadow_pte[i],
-+			mk_pte(virt_to_page(kasan_early_shadow_page),
-+			__pgprot(_PAGE_PRESENT | _PAGE_READ | _PAGE_ACCESSED)));
-+
-+	memset(kasan_early_shadow_page, 0, PAGE_SIZE);
-+
-+	init_task.kasan_depth = 0;
-+}
--- 
-1.7.1
+>=20
+> Signed-off-by: Daniel Axtens <dja@axtens.net>
+> ---
+>   include/asm-generic/bitops-instrumented.h | 144 ++++++++++++----------
+>   1 file changed, 76 insertions(+), 68 deletions(-)
+>=20
+> diff --git a/include/asm-generic/bitops-instrumented.h b/include/asm-gene=
+ric/bitops-instrumented.h
+> index ddd1c6d9d8db..2fe8f7e12a11 100644
+> --- a/include/asm-generic/bitops-instrumented.h
+> +++ b/include/asm-generic/bitops-instrumented.h
+> @@ -29,21 +29,6 @@ static inline void set_bit(long nr, volatile unsigned =
+long *addr)
+>   	arch_set_bit(nr, addr);
+>   }
+>  =20
+> -/**
+> - * __set_bit - Set a bit in memory
+> - * @nr: the bit to set
+> - * @addr: the address to start counting from
+> - *
+> - * Unlike set_bit(), this function is non-atomic. If it is called on the=
+ same
+> - * region of memory concurrently, the effect may be that only one operat=
+ion
+> - * succeeds.
+> - */
+> -static inline void __set_bit(long nr, volatile unsigned long *addr)
+> -{
+> -	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
+> -	arch___set_bit(nr, addr);
+> -}
+> -
+>   /**
+>    * clear_bit - Clears a bit in memory
+>    * @nr: Bit to clear
+> @@ -57,21 +42,6 @@ static inline void clear_bit(long nr, volatile unsigne=
+d long *addr)
+>   	arch_clear_bit(nr, addr);
+>   }
+>  =20
+> -/**
+> - * __clear_bit - Clears a bit in memory
+> - * @nr: the bit to clear
+> - * @addr: the address to start counting from
+> - *
+> - * Unlike clear_bit(), this function is non-atomic. If it is called on t=
+he same
+> - * region of memory concurrently, the effect may be that only one operat=
+ion
+> - * succeeds.
+> - */
+> -static inline void __clear_bit(long nr, volatile unsigned long *addr)
+> -{
+> -	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
+> -	arch___clear_bit(nr, addr);
+> -}
+> -
+>   /**
+>    * clear_bit_unlock - Clear a bit in memory, for unlock
+>    * @nr: the bit to set
+> @@ -116,21 +86,6 @@ static inline void change_bit(long nr, volatile unsig=
+ned long *addr)
+>   	arch_change_bit(nr, addr);
+>   }
+>  =20
+> -/**
+> - * __change_bit - Toggle a bit in memory
+> - * @nr: the bit to change
+> - * @addr: the address to start counting from
+> - *
+> - * Unlike change_bit(), this function is non-atomic. If it is called on =
+the same
+> - * region of memory concurrently, the effect may be that only one operat=
+ion
+> - * succeeds.
+> - */
+> -static inline void __change_bit(long nr, volatile unsigned long *addr)
+> -{
+> -	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
+> -	arch___change_bit(nr, addr);
+> -}
+> -
+>   /**
+>    * test_and_set_bit - Set a bit and return its old value
+>    * @nr: Bit to set
+> @@ -144,20 +99,6 @@ static inline bool test_and_set_bit(long nr, volatile=
+ unsigned long *addr)
+>   	return arch_test_and_set_bit(nr, addr);
+>   }
+>  =20
+> -/**
+> - * __test_and_set_bit - Set a bit and return its old value
+> - * @nr: Bit to set
+> - * @addr: Address to count from
+> - *
+> - * This operation is non-atomic. If two instances of this operation race=
+, one
+> - * can appear to succeed but actually fail.
+> - */
+> -static inline bool __test_and_set_bit(long nr, volatile unsigned long *a=
+ddr)
+> -{
+> -	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
+> -	return arch___test_and_set_bit(nr, addr);
+> -}
+> -
+>   /**
+>    * test_and_set_bit_lock - Set a bit and return its old value, for lock
+>    * @nr: Bit to set
+> @@ -187,30 +128,96 @@ static inline bool test_and_clear_bit(long nr, vola=
+tile unsigned long *addr)
+>   }
+>  =20
+>   /**
+> - * __test_and_clear_bit - Clear a bit and return its old value
+> - * @nr: Bit to clear
+> + * test_and_change_bit - Change a bit and return its old value
+> + * @nr: Bit to change
+> + * @addr: Address to count from
+> + *
+> + * This is an atomic fully-ordered operation (implied full memory barrie=
+r).
+> + */
+> +static inline bool test_and_change_bit(long nr, volatile unsigned long *=
+addr)
+> +{
+> +	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
+> +	return arch_test_and_change_bit(nr, addr);
+> +}
+> +
+> +/*
+> + * If the arch is using the generic non-atomic bit ops, they are already
+> + * instrumented, and we don't need to create wrappers. Only wrap if we
+> + * haven't included that header.
+> + */
+> +#ifndef _ASM_GENERIC_BITOPS_NON_ATOMIC_H_
+> +
+> +/**
+> + * __set_bit - Set a bit in memory
+> + * @nr: the bit to set
+> + * @addr: the address to start counting from
+> + *
+> + * Unlike set_bit(), this function is non-atomic. If it is called on the=
+ same
+> + * region of memory concurrently, the effect may be that only one operat=
+ion
+> + * succeeds.
+> + */
+> +static inline void __set_bit(long nr, volatile unsigned long *addr)
+> +{
+> +	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
+> +	arch___set_bit(nr, addr);
+> +}
+> +
+> +/**
+> + * __clear_bit - Clears a bit in memory
+> + * @nr: the bit to clear
+> + * @addr: the address to start counting from
+> + *
+> + * Unlike clear_bit(), this function is non-atomic. If it is called on t=
+he same
+> + * region of memory concurrently, the effect may be that only one operat=
+ion
+> + * succeeds.
+> + */
+> +static inline void __clear_bit(long nr, volatile unsigned long *addr)
+> +{
+> +	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
+> +	arch___clear_bit(nr, addr);
+> +}
+> +
+> +/**
+> + * __change_bit - Toggle a bit in memory
+> + * @nr: the bit to change
+> + * @addr: the address to start counting from
+> + *
+> + * Unlike change_bit(), this function is non-atomic. If it is called on =
+the same
+> + * region of memory concurrently, the effect may be that only one operat=
+ion
+> + * succeeds.
+> + */
+> +static inline void __change_bit(long nr, volatile unsigned long *addr)
+> +{
+> +	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
+> +	arch___change_bit(nr, addr);
+> +}
+> +
+> +/**
+> + * __test_and_set_bit - Set a bit and return its old value
+> + * @nr: Bit to set
+>    * @addr: Address to count from
+>    *
+>    * This operation is non-atomic. If two instances of this operation rac=
+e, one
+>    * can appear to succeed but actually fail.
+>    */
+> -static inline bool __test_and_clear_bit(long nr, volatile unsigned long =
+*addr)
+> +static inline bool __test_and_set_bit(long nr, volatile unsigned long *a=
+ddr)
+>   {
+>   	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
+> -	return arch___test_and_clear_bit(nr, addr);
+> +	return arch___test_and_set_bit(nr, addr);
+>   }
+>  =20
+>   /**
+> - * test_and_change_bit - Change a bit and return its old value
+> - * @nr: Bit to change
+> + * __test_and_clear_bit - Clear a bit and return its old value
+> + * @nr: Bit to clear
+>    * @addr: Address to count from
+>    *
+> - * This is an atomic fully-ordered operation (implied full memory barrie=
+r).
+> + * This operation is non-atomic. If two instances of this operation race=
+, one
+> + * can appear to succeed but actually fail.
+>    */
+> -static inline bool test_and_change_bit(long nr, volatile unsigned long *=
+addr)
+> +static inline bool __test_and_clear_bit(long nr, volatile unsigned long =
+*addr)
+>   {
+>   	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
+> -	return arch_test_and_change_bit(nr, addr);
+> +	return arch___test_and_clear_bit(nr, addr);
+>   }
+>  =20
+>   /**
+> @@ -237,6 +244,7 @@ static inline bool test_bit(long nr, const volatile u=
+nsigned long *addr)
+>   	kasan_check_read(addr + BIT_WORD(nr), sizeof(long));
+>   	return arch_test_bit(nr, addr);
+>   }
+> +#endif /* _ASM_GENERIC_BITOPS_NON_ATOMIC_H_ */
+>  =20
+>   #if defined(arch_clear_bit_unlock_is_negative_byte)
+>   /**
+>=20
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/88358ef8f7cfcb7fd01b6b989eccaddbe00a1e57.1565161957.git.nickhu%40andestech.com.
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/107dda59-45ce-98f4-4959-187f35514728%40c-s.fr.
