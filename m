@@ -1,140 +1,125 @@
-Return-Path: <kasan-dev+bncBCW677UNRICRB3P52DVAKGQE66CABMI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDTN7QVI5AKBB2VH2HVAKGQE3MKQ5XQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pg1-x53c.google.com (mail-pg1-x53c.google.com [IPv6:2607:f8b0:4864:20::53c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 366DC8D8DE
-	for <lists+kasan-dev@lfdr.de>; Wed, 14 Aug 2019 19:03:43 +0200 (CEST)
-Received: by mail-pg1-x53c.google.com with SMTP id l11sf47235934pgc.14
-        for <lists+kasan-dev@lfdr.de>; Wed, 14 Aug 2019 10:03:43 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1565802221; cv=pass;
+Received: from mail-pg1-x53e.google.com (mail-pg1-x53e.google.com [IPv6:2607:f8b0:4864:20::53e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 293658DD04
+	for <lists+kasan-dev@lfdr.de>; Wed, 14 Aug 2019 20:33:16 +0200 (CEST)
+Received: by mail-pg1-x53e.google.com with SMTP id w5sf68796963pgs.5
+        for <lists+kasan-dev@lfdr.de>; Wed, 14 Aug 2019 11:33:16 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1565807595; cv=pass;
         d=google.com; s=arc-20160816;
-        b=gotidsUa7ftZ55M3X3f1IVf8x9LNP5H7iqV3ATpsgfLbUfw6COtllOqtOjiJKV/dn/
-         9ISHpIGCOc+t2iCYOnmkVq0oXueTN7X6T6CS/vXNIY/UdSPV9dBzHAcRT+2c324bp6W3
-         Yv/f3ku1LuJvEm5qTqpWh768IlhsiA7Bt+c6mXI3P73vqVaeGnIH9xgJHzbp9Vp55S+n
-         VqjF7JWuZCWWVwAb4TsxdtN4xqJbRf1i+Rff4IeWbl0cCqbxnu2jTNlbLNg12AcI5sYo
-         y99q4LVShO53/mL2fWlZxEZV4PxY5E5GaWajLvkVkJBbB44hQlubMz5M0rHfcENEDBQI
-         cxtw==
+        b=fLLcNNK0DICo/iEwtTNwIlNfQdzwdnsdHlDmVjavdV8R3dgu1saydQ8Ce95s83qx4b
+         lFqQYAX/0PkpVewgJ6Ni8jFv9O4ZzQ1rPtkmfzH40ANlwL09nDUepMkSDn49vD0ZLH/D
+         WRxNhwAvW5UmUc3bRMJKPT50Ij+gAnH7Iw9qJ5jGVbV4/hrLjzDRbnPO1XOCPfDMgYf9
+         HKecKsvXbjeXThrzWmQyL3CQolUON3Z7o3OLlEbsqBjWGra1VigqIHFgrHLvqgMKNIF1
+         vkGbvnh61A/oXsl9xw5uimZ9ObpW+fJisEM/0dbAAMphoVpPwWu3dnS6lxyaRk3MD7RF
+         ApNw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:user-agent:references
-         :message-id:in-reply-to:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=9vsuLoSObgSojPLAyFCzdUF+g9CtNNDY+7uKk5SdOC8=;
-        b=VH/Ncd/kfo3Q2FSNha7tbySwwkWFN5R/shqt9Agv5AzEST6CJRLSCni0EgZZYj7kqb
-         MbSR/U/CX0qdg6XndF/+4QqmNUOVUvCZXVoAqIHJjGZQrBinytYRKiT30P+VL9fY2ZUp
-         E4YNQmNFva4uT7wb5efKql9YfpceTH3RJcl05ah99ubkqi3jDtfQwGGTL9vtd7K4yRk4
-         aDXqpkwF0sYSyt6QzpPD//Yd8VWImDj5hXO0YLSPXIIKxXILCU+P7W7E9dlH8EYfNoOF
-         vJ8ezDHo0bd4aR/vyNu2IrkQ+SoVzdI4JsnTBL4BYZJkQATqyVp2HVoMZx3Un1HlQFOk
-         W0lg==
+         :list-id:mailing-list:precedence:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:sender:dkim-signature;
+        bh=XmpnthaEvEiWQgzVdZ5K9y2VGwddsOuPMGwTfnh/Yl8=;
+        b=bOTVC4myjYiUdtxpvai7ASrlcFEDmBrpaE3AoyvX4xmQQdYWMbLaR78RZeh/giE2n+
+         FFbxWts02uIyvHeq0pI77ce0D2XI4vVLy29rO2FRnkom8TzLsAcjS39VfpeH9IoCrS2P
+         4LwmYFWG5TffieGcIcra162mSjS1AzMKSzpCbSBCAd6acIWCImh7M85IJXHTxAy3jHzN
+         bvTZYVy4Kzv855pnOJhvq/1KHS3z5R5sTSe8FQfGyZjgkJrn5Vjrokz5aIcJQOyXXp7x
+         wTZqjvbREROEr4B3ikjWJmX/31uBbdrj2GgX5hehP9XElUSaCIS1CiXwOc9WNquUnzc5
+         6aPQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@sifive.com header.s=google header.b=KqQ8A8lx;
-       spf=pass (google.com: domain of paul.walmsley@sifive.com designates 2607:f8b0:4864:20::343 as permitted sender) smtp.mailfrom=paul.walmsley@sifive.com
+       dkim=pass header.i=@sifive.com header.s=google header.b=OdbU6Wp7;
+       spf=pass (google.com: domain of palmer@sifive.com designates 2607:f8b0:4864:20::641 as permitted sender) smtp.mailfrom=palmer@sifive.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:date:from:to:cc:subject:in-reply-to:message-id:references
-         :user-agent:mime-version:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=9vsuLoSObgSojPLAyFCzdUF+g9CtNNDY+7uKk5SdOC8=;
-        b=kmb7W3mTKiODwrpQ+t8M5bvnFjm8AKcKjuMtQXWbIEMAaGh0Qu7uuB67CMzqr8c+5W
-         fo3YJEYrF/kyrmLRjZYbxWtx91W5CUt20Sv1g2Qs5coxCP/FQUEc33oGWph8v4r66NPI
-         /DR2U4F0XvkhkfNYs5QHeaGcexW539LEUMY3Ngm1cW6EyhioshZ5To3z92aKzCDwqCmL
-         EvjTIEiZfzcJXlQvS4hVO9E2ZNk52hT3MpK+2YmlmPf22agnM0Tk2MXSw9G1vMzwNQ0W
-         9SoyxT4PQ3qlvlQiUGrkZ8T/g+rJv7/zE9JbmSq1lm4Ha17eRaU5BadsOfINQLcSj9G2
-         3I7Q==
+        h=sender:date:subject:in-reply-to:cc:from:to:message-id:mime-version
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=XmpnthaEvEiWQgzVdZ5K9y2VGwddsOuPMGwTfnh/Yl8=;
+        b=Big9Op+Jsx87Ms2c0BnyfMMi6Sr+xWD3Jeu74iHA7NQfuYkFGaxKIcrnPiyVglq8sR
+         K4UIBfP57CSv7gqcydrdn+x2prAc+Qd62XJMhDfyF7XK2Q6c2rBDgKQqxY04vHzG5d6D
+         umaPSUHP9pZIIUMxonk7TnPQuc0G23PmFMMLQRUMnF0WWi4espaCd8fsLyByIhNjzD1B
+         Zt9ROcgqRB7bDuxPGK/cyE1+2JE9OSYmmX2VzEo0Fk6AR5oIjQduGeFCj2AJCS0HVLNB
+         TTlGJzMbMfiYs+tRqvycw879B08MONyh8RBcnipcPaMRIk597GPdRWJXjonhnx4KDEFi
+         Bi6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:in-reply-to
-         :message-id:references:user-agent:mime-version:x-original-sender
+        h=sender:x-gm-message-state:date:subject:in-reply-to:cc:from:to
+         :message-id:mime-version:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=9vsuLoSObgSojPLAyFCzdUF+g9CtNNDY+7uKk5SdOC8=;
-        b=Ak5biWaaiawCQF8LtevhLLL3sxD3QWwkwR24CkoDfFi51CKG2jtRHB1hodSWwKdWP5
-         UYNxs+9rzAhljniZfvkO5vfjVzE55KyAkpvPT3SQ6VujTdeXO8k++ZXyMlVPEGB4cMpJ
-         x8c69+CECHX8xrBDwPILj97H0KbChvGk8c7q3vJaNZWSYD7wTBLhMV+9ke7Rp/PvzhXA
-         j/ZRM2ZzIuLSg22p6LOlaPpbdyWezGFtjPm1zvj7UbGxfMbqLgYrHe7gh+HRocfSWJ4L
-         1P8nlyLdZs1jOB6b037YkO3xvXZS/7fzaZ4rvOO8u5tiHX3je5rlR1m90JacONBNXFKx
-         oRUQ==
+        bh=XmpnthaEvEiWQgzVdZ5K9y2VGwddsOuPMGwTfnh/Yl8=;
+        b=M1lVgvRyAYbLGyaE20PKQ6Cm9iM/7wbzvRodidiT48HtQPzkN2lHtz73BkR4LeT3bS
+         CMwCl++HClg0dUX3KuSYvGU5oXv76SSVFcCUFIQ+7fu+3J0iO5SvntKRIX672ljZ9PdV
+         bMALL3zsTVdCm8h0nX5EHmnXuT3/x3mmfVCubOPpG0zXiIP+cTG00hx7H3NGrvtz05IZ
+         JWb8G14RymHZ9nbrZ23D4oQ7SKk/YlAsMoSB8faV9Xk2bvCfol7ZptlVzzq+r649MT45
+         Ag2++sfXHi521rUWYmyk8EC6ZYRWylUo6ZQbeKKcN5HZOHWFQQOPMw2F+AeA5Hjnf+/Y
+         0kbg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAVLF2lfi7HYGrkOlNAlTy5iytjRuCjLe+dPgROlHQ4eC3vXckz3
-	pqE2VzYIbSCCgZVf4xMOnXo=
-X-Google-Smtp-Source: APXvYqzgohi+xMVkLRU3QrX+r6BLwc1WdceaabJq4QBWLhbyDzw2Rzq760UhcKbgT8NTlqDvDNKQPQ==
-X-Received: by 2002:a63:c64b:: with SMTP id x11mr134177pgg.319.1565802221406;
-        Wed, 14 Aug 2019 10:03:41 -0700 (PDT)
+X-Gm-Message-State: APjAAAVJN6IwgWiaPlFZc+i89gvS51QUgPjmLSDazoeEzd430vALvT1e
+	u1etYbv9SVC4WoE6AZJS3GM=
+X-Google-Smtp-Source: APXvYqxnMWRMV4Rd2SuhTFLErGnuBpbNMTfsu+lg6Zljashphwo+Mq4o+YLGO2f5GEi4GAMa66LkLw==
+X-Received: by 2002:a62:174a:: with SMTP id 71mr1411516pfx.140.1565807594913;
+        Wed, 14 Aug 2019 11:33:14 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a63:3fcf:: with SMTP id m198ls587139pga.10.gmail; Wed, 14
- Aug 2019 10:03:41 -0700 (PDT)
-X-Received: by 2002:aa7:8c4c:: with SMTP id e12mr961303pfd.258.1565802221082;
-        Wed, 14 Aug 2019 10:03:41 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1565802221; cv=none;
+Received: by 2002:a62:b518:: with SMTP id y24ls680630pfe.14.gmail; Wed, 14 Aug
+ 2019 11:33:14 -0700 (PDT)
+X-Received: by 2002:aa7:83c7:: with SMTP id j7mr1380313pfn.59.1565807594593;
+        Wed, 14 Aug 2019 11:33:14 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1565807594; cv=none;
         d=google.com; s=arc-20160816;
-        b=DhJ0WNzIU3AvP5xLEiwEzautz/7Gs/PwXQCYBLLPKV0UGeRmqZXxiDhV6ANignaFef
-         9xgGwOpQw0hYbk4OjvEfLc6t5LzufdzbbGXFx9PPRqC/plsBeTm/LIbc0vlICWtHr85/
-         t0qkPS283iDLPhFvCqzrm7kISrvr/lMHS2rJ4GED9gObuOdj/7i/lyZYOfnCK2olexIR
-         dc93JelhCozgYquPJ7D+HxME6JSyLclASBbgV9lziMBymV0mQP/L0yFbUTok6AaF9PJw
-         e4rF6kwxPqUDBn3dp6UUJ5uCePiWrI/q+q0hskqHGWYuOJwpZMwtzudu2c19mbdmFr8/
-         BzTw==
+        b=h+l6Sj0CjjZuAOmKxtmhBUjeMKtLMWh1K/JJMgtT880raPb6n3WoEMBkYjXRSgFmKw
+         wlVXllEtNyDAMvSMKic54edEVBwJJkqgs2WYaiYEFzkScBJL+6skSg34jAdC6eNzFZhf
+         71AM71ZD66gXXxrW1NxyRY5uhaDziBgGzTwoZqZ36DsZGuShWC91jFALNKz64r7U/S+k
+         VyG0eVOeHCjB0cYtoDQlBbPIpcJsGoPsFpInUFwN5DfbJStPEdcx0yjLIIVbywZN5Vim
+         JOGR0S5eO8q7HCl/O+EYpfyqrZ0QjFxZC3DSyKqdZJdw6eeI9+o9XVy2ojnIK2sa5a3/
+         mTcQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=mime-version:user-agent:references:message-id:in-reply-to:subject
-         :cc:to:from:date:dkim-signature;
-        bh=VPLCSa9Mg0xoV570EQzBhdB+yL6SWWFzgzVz0WEOMmM=;
-        b=xhMacYwp/kjF2FpsUSTyawrmi8TdEMMrdeCcIL1zj7sfj3LKwrb1Z5rdrIo/9OnRlV
-         zpGLMV58TK2NDwkQUhp+gDhzJJJxKle8yEBfT2N29zazLbZfuS9QOt1YxWYtN6KwNqUC
-         ORJgrNmqU4bvnc3hXtJG2ZHOi6SJAZpf+ZVlwmcySwpvM69YU+49odD2PP9wfGEfomfU
-         cK+o6kKgjkJ5wYXNi0lSkaQYvq+ESwad3veYpYke36uXEKnS4HVRf8jYk+cDNrBh7c/6
-         Mzkp4Z+V3aAV9AggNZuKhTrjYv/hECNFS+iPjW9esjUSJhmal1alCE53obMxM9q57o09
-         mJOA==
+        h=content-transfer-encoding:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:dkim-signature;
+        bh=FHbaVzjuuoyrLYUA3STjtrTGQSVNOY2GYHCncQDOa8Y=;
+        b=Jw7g8byR/9voCRsCZZfph1xgOKV9EJWzqnWGI3P++EH2fjptDpeTR2XObYhhmKHlD5
+         5nmtH9IPthqU7W6sW/R/T43iDvYJwBGCsVhEV/H+h5YpH6tdWMy8uSuN+Il7SFOA6qKb
+         rFd7Nc109qkYaBBXbSzdhBshFNTxvtdkKjayGw/FzQX+i++tOU4egapE/bABQ7yU3zop
+         GGYygRdMYDYy4F8qFWQOuAg+TwADeo/XXr0WRPTmvmujj1qJYp71t2SyCbWlE1gD+B7r
+         sM67BqBijzF+1G18P8RiivTMYfze1s6owSpFgRIIBjalvs7Kn6bomo5Q1lN9nGFoLpEC
+         Kwpg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@sifive.com header.s=google header.b=KqQ8A8lx;
-       spf=pass (google.com: domain of paul.walmsley@sifive.com designates 2607:f8b0:4864:20::343 as permitted sender) smtp.mailfrom=paul.walmsley@sifive.com
-Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com. [2607:f8b0:4864:20::343])
-        by gmr-mx.google.com with ESMTPS id j6si14249pjt.0.2019.08.14.10.03.41
+       dkim=pass header.i=@sifive.com header.s=google header.b=OdbU6Wp7;
+       spf=pass (google.com: domain of palmer@sifive.com designates 2607:f8b0:4864:20::641 as permitted sender) smtp.mailfrom=palmer@sifive.com
+Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com. [2607:f8b0:4864:20::641])
+        by gmr-mx.google.com with ESMTPS id l72si38217pge.0.2019.08.14.11.33.14
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-        Wed, 14 Aug 2019 10:03:41 -0700 (PDT)
-Received-SPF: pass (google.com: domain of paul.walmsley@sifive.com designates 2607:f8b0:4864:20::343 as permitted sender) client-ip=2607:f8b0:4864:20::343;
-Received: by mail-ot1-x343.google.com with SMTP id q20so31175533otl.0
-        for <kasan-dev@googlegroups.com>; Wed, 14 Aug 2019 10:03:41 -0700 (PDT)
-X-Received: by 2002:a6b:8f82:: with SMTP id r124mr1023322iod.6.1565802220297;
-        Wed, 14 Aug 2019 10:03:40 -0700 (PDT)
-Received: from localhost (c-73-95-159-87.hsd1.co.comcast.net. [73.95.159.87])
-        by smtp.gmail.com with ESMTPSA id x23sm428250iob.36.2019.08.14.10.03.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 14 Aug 2019 11:33:14 -0700 (PDT)
+Received-SPF: pass (google.com: domain of palmer@sifive.com designates 2607:f8b0:4864:20::641 as permitted sender) client-ip=2607:f8b0:4864:20::641;
+Received: by mail-pl1-x641.google.com with SMTP id 4so44049713pld.10
+        for <kasan-dev@googlegroups.com>; Wed, 14 Aug 2019 11:33:14 -0700 (PDT)
+X-Received: by 2002:a17:902:8f93:: with SMTP id z19mr682659plo.97.1565807594175;
+        Wed, 14 Aug 2019 11:33:14 -0700 (PDT)
+Received: from localhost ([12.206.222.5])
+        by smtp.gmail.com with ESMTPSA id r4sm580533pfl.127.2019.08.14.11.33.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Aug 2019 10:03:39 -0700 (PDT)
-Date: Wed, 14 Aug 2019 10:03:39 -0700 (PDT)
-From: Paul Walmsley <paul.walmsley@sifive.com>
-X-X-Sender: paulw@viisi.sifive.com
-To: Nick Hu <nickhu@andestech.com>
-cc: Palmer Dabbelt <palmer@sifive.com>, Christoph Hellwig <hch@infradead.org>, 
-    =?ISO-2022-JP?Q?Alan_Quey-Liang_Kao=28=1B$B9b3!NI=1B=28J=29?= <alankao@andestech.com>, 
-    "aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>, 
-    "green.hu@gmail.com" <green.hu@gmail.com>, 
-    "deanbo422@gmail.com" <deanbo422@gmail.com>, 
-    "tglx@linutronix.de" <tglx@linutronix.de>, 
-    "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>, 
-    "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-    "aryabinin@virtuozzo.com" <aryabinin@virtuozzo.com>, 
-    "glider@google.com" <glider@google.com>, 
-    "dvyukov@google.com" <dvyukov@google.com>, Anup Patel <Anup.Patel@wdc.com>, 
-    Greg KH <gregkh@linuxfoundation.org>, 
-    "alexios.zavras@intel.com" <alexios.zavras@intel.com>, 
-    Atish Patra <Atish.Patra@wdc.com>, 
-    "=?ISO-2022-JP?Q?=1B$BN%=3F&=1B=28JZong_Zong-Xian_Li=28=1B$BM{=3D!7{?=
- =?ISO-2022-JP?Q?=1B=28J=29?=" <zong@andestech.com>, 
-    "kasan-dev@googlegroups.com" <kasan-dev@googlegroups.com>
+        Wed, 14 Aug 2019 11:33:13 -0700 (PDT)
+Date: Wed, 14 Aug 2019 11:33:13 -0700 (PDT)
 Subject: Re: [PATCH 1/2] riscv: Add memmove string operation.
-In-Reply-To: <20190814032732.GA8989@andestech.com>
-Message-ID: <alpine.DEB.2.21.9999.1908141002500.18249@viisi.sifive.com>
-References: <mhng-ba92c635-7087-4783-baa5-2a111e0e2710@palmer-si-x1e> <alpine.DEB.2.21.9999.1908131921180.19217@viisi.sifive.com> <20190814032732.GA8989@andestech.com>
-User-Agent: Alpine 2.21.9999 (DEB 301 2018-08-15)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: paul.walmsley@sifive.com
+In-Reply-To: <alpine.DEB.2.21.9999.1908131921180.19217@viisi.sifive.com>
+CC: Christoph Hellwig <hch@infradead.org>, nickhu@andestech.com,
+  alankao@andestech.com, aou@eecs.berkeley.edu, green.hu@gmail.com, deanbo422@gmail.com,
+  tglx@linutronix.de, linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+  aryabinin@virtuozzo.com, glider@google.com, dvyukov@google.com, Anup Patel <Anup.Patel@wdc.com>,
+  Greg KH <gregkh@linuxfoundation.org>, alexios.zavras@intel.com, Atish Patra <Atish.Patra@wdc.com>,
+  zong@andestech.com, kasan-dev@googlegroups.com
+From: Palmer Dabbelt <palmer@sifive.com>
+To: Paul Walmsley <paul.walmsley@sifive.com>
+Message-ID: <mhng-22db5681-9fed-4bf6-83fe-180b3599c654@palmer-si-x1c4>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-Original-Sender: palmer@sifive.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@sifive.com header.s=google header.b=KqQ8A8lx;       spf=pass
- (google.com: domain of paul.walmsley@sifive.com designates
- 2607:f8b0:4864:20::343 as permitted sender) smtp.mailfrom=paul.walmsley@sifive.com
+ header.i=@sifive.com header.s=google header.b=OdbU6Wp7;       spf=pass
+ (google.com: domain of palmer@sifive.com designates 2607:f8b0:4864:20::641 as
+ permitted sender) smtp.mailfrom=palmer@sifive.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -147,61 +132,53 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hi Nick,
+On Tue, 13 Aug 2019 19:22:15 PDT (-0700), Paul Walmsley wrote:
+> On Tue, 13 Aug 2019, Palmer Dabbelt wrote:
+>
+>> On Mon, 12 Aug 2019 08:04:46 PDT (-0700), Christoph Hellwig wrote:
+>> > On Wed, Aug 07, 2019 at 03:19:14PM +0800, Nick Hu wrote:
+>> > > There are some features which need this string operation for compilation,
+>> > > like KASAN. So the purpose of this porting is for the features like KASAN
+>> > > which cannot be compiled without it.
+>> > >
+>> > > KASAN's string operations would replace the original string operations and
+>> > > call for the architecture defined string operations. Since we don't have
+>> > > this in current kernel, this patch provides the implementation.
+>> > >
+>> > > This porting refers to the 'arch/nds32/lib/memmove.S'.
+>> >
+>> > This looks sensible to me, although my stringop asm is rather rusty,
+>> > so just an ack and not a real review-by:
+>> >
+>> > Acked-by: Christoph Hellwig <hch@lst.de>
+>>
+>> FWIW, we just write this in C everywhere else and rely on the compiler to
+>> unroll the loops.  I always prefer C to assembly when possible, so I'd prefer
+>> if we just adopt the string code from newlib.  We have a RISC-V-specific
+>> memcpy in there, but just use the generic memmove.
+>>
+>> Maybe the best bet here would be to adopt the newlib memcpy/memmove as generic
+>> Linux functions?  They're both in C so they should be fine, and they both look
+>> faster than what's in lib/string.c.  Then everyone would benefit and we don't
+>> need this tricky RISC-V assembly.  Also, from the look of it the newlib code
+>> is faster because the inner loop is unrolled.
+>
+> There's a generic memmove implementation in the kernel already:
+>
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/include/linux/string.h#n362
 
-On Wed, 14 Aug 2019, Nick Hu wrote:
+That ends up at __builtin_memcpy(), which ends up looking for memcpy() for 
+large copies, which is in lib/string.c.  The code in there is just byte at a 
+time memcpy()/memmove(), which is way slower than the newlib stuff.
 
-> On Wed, Aug 14, 2019 at 10:22:15AM +0800, Paul Walmsley wrote:
-> > On Tue, 13 Aug 2019, Palmer Dabbelt wrote:
-> > 
-> > > On Mon, 12 Aug 2019 08:04:46 PDT (-0700), Christoph Hellwig wrote:
-> > > > On Wed, Aug 07, 2019 at 03:19:14PM +0800, Nick Hu wrote:
-> > > > > There are some features which need this string operation for compilation,
-> > > > > like KASAN. So the purpose of this porting is for the features like KASAN
-> > > > > which cannot be compiled without it.
-> > > > > 
-> > > > > KASAN's string operations would replace the original string operations and
-> > > > > call for the architecture defined string operations. Since we don't have
-> > > > > this in current kernel, this patch provides the implementation.
-> > > > > 
-> > > > > This porting refers to the 'arch/nds32/lib/memmove.S'.
-> > > > 
-> > > > This looks sensible to me, although my stringop asm is rather rusty,
-> > > > so just an ack and not a real review-by:
-> > > 
-> > > FWIW, we just write this in C everywhere else and rely on the compiler to
-> > > unroll the loops.  I always prefer C to assembly when possible, so I'd prefer
-> > > if we just adopt the string code from newlib.  We have a RISC-V-specific
-> > > memcpy in there, but just use the generic memmove.
-> > > 
-> > > Maybe the best bet here would be to adopt the newlib memcpy/memmove as generic
-> > > Linux functions?  They're both in C so they should be fine, and they both look
-> > > faster than what's in lib/string.c.  Then everyone would benefit and we don't
-> > > need this tricky RISC-V assembly.  Also, from the look of it the newlib code
-> > > is faster because the inner loop is unrolled.
-> > 
-> > There's a generic memmove implementation in the kernel already:
-> > 
-> > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/include/linux/string.h#n362
-> > 
-> > Nick, could you tell us more about why the generic memmove() isn't 
-> > suitable?
-> 
-> KASAN has its own string operations(memcpy/memmove/memset) because it needs to
-> hook some code to check memory region. It would undefined the original string
-> operations and called the string operations with the prefix '__'. But the
-> generic string operations didn't declare with the prefix. Other archs with
-> KASAN support like arm64 and xtensa all have their own string operations and
-> defined with the prefix.
-
-Thanks for the explanation.  What do you think about Palmer's idea to 
-define a generic C set of KASAN string operations, derived from the newlib 
-code?
-
-
-- Paul
+>
+> Nick, could you tell us more about why the generic memmove() isn't
+> suitable?
+>
+>
+> - Paul
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/alpine.DEB.2.21.9999.1908141002500.18249%40viisi.sifive.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/mhng-22db5681-9fed-4bf6-83fe-180b3599c654%40palmer-si-x1c4.
