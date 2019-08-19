@@ -1,143 +1,128 @@
-Return-Path: <kasan-dev+bncBCXLBLOA7IGBB6MT5LVAKGQEHLOE4II@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBNEX5LVAKGQEMXIDG6A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13a.google.com (mail-lf1-x13a.google.com [IPv6:2a00:1450:4864:20::13a])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD43892282
-	for <lists+kasan-dev@lfdr.de>; Mon, 19 Aug 2019 13:37:29 +0200 (CEST)
-Received: by mail-lf1-x13a.google.com with SMTP id w17sf511284lff.15
-        for <lists+kasan-dev@lfdr.de>; Mon, 19 Aug 2019 04:37:29 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1566214649; cv=pass;
+Received: from mail-io1-xd39.google.com (mail-io1-xd39.google.com [IPv6:2607:f8b0:4864:20::d39])
+	by mail.lfdr.de (Postfix) with ESMTPS id 10A46922A9
+	for <lists+kasan-dev@lfdr.de>; Mon, 19 Aug 2019 13:44:54 +0200 (CEST)
+Received: by mail-io1-xd39.google.com with SMTP id k13sf3804242ioh.16
+        for <lists+kasan-dev@lfdr.de>; Mon, 19 Aug 2019 04:44:54 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1566215093; cv=pass;
         d=google.com; s=arc-20160816;
-        b=jk8uitgKEJ1YkWDOTCCWra9iPgvbzka/QLMSthiTO7pUlMqLEC0acUnJTlp1F7Q+NS
-         YkaeriCRabXjsnKyMp4uVoyM9z35fxAyxeAOICUrNWKlZ9EiObGS7KKkTschtZBvREfz
-         9YPeOGgCbmBl16CCRDgeSqQYxNV7NzWYwpY2yAL81w96h6/GMVzGvoxRHPqQEOjcQvCT
-         oyNL2Gp/oYOiHcRCN/7QOYzDWeUudkW97hzDGsJ55mFXidW7B43rpC8qq/rOc5Y9M87L
-         m5Yo5A13kJnvZaP7VhQA+cXb3tG6JWk4ffeRoUTvUENHHetb5frSOqkUPn+zg2cZb3KV
-         WWkw==
+        b=U2LPgS6aa6CiDjmBBCKGtVd35Olcz9IZ2ASIpdLxLEZ0kBcWFWdIqNtCWzhKv7f8Y1
+         wQ6VuHnFdUCoMrq0Znlu6WhYb24bulLEI98fbFouT/U7EsbF5pPAciovFB7kEocZkAkV
+         y8M52gVl/BwCRjDOQfE4Z1rjgvu5CSp1IcCqwbg6Bj5oFuZhTtfDoMgOwoDUMGlirdSX
+         aviKvwHezpl6QSnKFv6a+1grB1vU3+wbH8deN9ZbHJV1fIM/wFMRqbPNqmzsD1GOfvzf
+         jkC9PHzw602/FgrTGWUTEEFoOKKVSkAnHjyfqCQNRNuQfBm0TN1iQKRJLfjW0Ze3Ox2E
+         prBw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding
-         :content-language:in-reply-to:mime-version:user-agent:date
-         :message-id:from:references:cc:to:subject:sender:dkim-signature;
-        bh=Y/PQ8a9nAzxisRWpHjPBMxgYjPpfYvoQSK8EoAaY6iU=;
-        b=wxYoCaEVZMF0WJpKyjVqAR6y3UtlxpP/EqDX6S9N/4jmdN+hmHpG+Bs6kxe5AM2vSj
-         ur+96Dl3ewKn3Gzj0YLZCPzhL0B2kzzvWuPu2ISdFT9mQ4EmchwQwDED6yCMhazskoa4
-         /CDPcYabNTZ4oTYaCOJqRdbfyaqyBWv3x0dSO9etC79TQWnLG1zbqeIwPFfDN45COw2k
-         5i1QpDHA5OTI5kepctQIvxb0H67deQAHLh+U67E6bSzYT6f+4qLFqI80mSVE7kh4mDPi
-         LXQFdwhKJ92QWcB7QqhzppKslt5Hlbx1hDUC73t2DbGBgWGvhzicttsFpOPgkjMgIIzP
-         2wIg==
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :subject:cc:to:from:sender:dkim-signature;
+        bh=7rrtbtWYOSCgWNfaEEEoqQG4ybmuhby2uodRvKydTgk=;
+        b=rg9JAhPMEr9H71BzgJNCjY3KPMqB6gBqK0Yj5lsATRK/omS16ay9Okxukv5VXtSUXc
+         2M2rJCpPS09qGoQC9H5tvUpsmOaX/Sim+AHRHbB9dbiOmMQnuqlI95A2hqSuR6250kOD
+         5/jUDRpy3yylOuX1dlq9iOqpbGNiZ+Dt9GJwZ0cafl1cAid9zvDj9XHuuUlMVxtciZKY
+         GYnOXwx+Bsd7sLEfPqYtfk/U1uB9rsLH/1vglhlbwosS1zMF9wE5AWFR7FOzcCm57a9G
+         DRE9aq5VnDzye9Wn7ai46B8Bv+n+ASrb45BAAjg5UkwY61NgY6bMTYjdpslr8ZDVNIuM
+         W9/Q==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@c-s.fr header.s=mail header.b=IHsOl9a7;
-       spf=pass (google.com: domain of christophe.leroy@c-s.fr designates 93.17.236.30 as permitted sender) smtp.mailfrom=christophe.leroy@c-s.fr
+       spf=pass (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.183 as permitted sender) smtp.mailfrom=walter-zh.wu@mediatek.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding
+        h=sender:from:to:cc:subject:date:message-id:mime-version
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=Y/PQ8a9nAzxisRWpHjPBMxgYjPpfYvoQSK8EoAaY6iU=;
-        b=qyNKabi+bhF51/ku5MhRvxJL+FcCVhK0Wxu46Y59KVYfCS4xb/gGJUMd3DtRX03JI/
-         tizFLyDtKM5m7xcInI+BzcptDBxhNdPHa4SpecTGgr+BytAIkwiV4/fDtHHm3dDwe5Bf
-         bPOK8X1ILWoRj31i7O5yZgDemqiDg54hITJ57hYoL8MfRKtf6eYE3UAiLNsi5kJLGAM/
-         Il31gB5dTntCb/g2QIkg+UnJA0ZGFTkMMj3bKbXh/vj0bC4Cgw6e4+MNtuZyzz7Qa3ZR
-         qPMz7FnPxqlqyI0Cj5JuSGga5JI6HTP3duxx8fAGO+GPeYg7SgAyR8R+/UK8YuwfSIos
-         51Sw==
+        bh=7rrtbtWYOSCgWNfaEEEoqQG4ybmuhby2uodRvKydTgk=;
+        b=Sa0QRJSgN8eU0tdpYis0QX1s5N1NNiWzEDMIGbsCXBQSSXxuoMShG/IJrOwJXy30M1
+         0zRsyIrySucbwDttTEkMGTuVvVKTJcCgsiXDICkktwsnajnmt08sD6JwDFIXC3j9o2IA
+         Qf8K02YVZrPq6LMT55EykBGrJ2ruLct/FrmU0pbIRPeB/vzBOgnIOppQ+M1TRK9zT2qY
+         93BphvVQ1n49bEvdp5u25ake2VCm2GQnvjIUMuBCR9Ib2yyL3rXXoD+GHMntCX2gwgqp
+         NunZ7uBcwbCH5DaEfhGrHa4GT2+zyt3uPgTjHuXhRM/KD21/2AL1PGwtebe+j6VshW3P
+         rxcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=Y/PQ8a9nAzxisRWpHjPBMxgYjPpfYvoQSK8EoAaY6iU=;
-        b=U9Xl4XdpuoovoJaYAW3/tFIAPDtQNlBQerU7bzPRcdcWFIA3Y0U3FP7REZyAioQPqA
-         p7F0SGSwPQf98peNWJbiJmYCJ4ttzgzEKGNS1ZHxzV7JlTYMTClnQWPkabKy4/MTCAXC
-         xZdVY+yV8BloDwmcs8XD/2wc1AukCP+N6c/+7CMqR/t0p9Wzk1DjmBH4DfMS6vZtIkOx
-         zdwxtFCD8bmX1zOldGO4Z/ewcX0MEXDyVqa3SykBm/oOEL1wKAfdo1kExX/zOrBHwcdA
-         LRyzbhmSB+V8tz/uDDd176VFP3LOnJ1xy92Tjn/7en5qX5la/jEdSEw4iFAbvvQKmZ8E
-         mkFg==
+        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=7rrtbtWYOSCgWNfaEEEoqQG4ybmuhby2uodRvKydTgk=;
+        b=At28+6VhY+I/ZzO6HuyXo+D6Q/88m/RNKWPh6VyEsnEc3ODMsuI1OBgnsqYrRWMc9l
+         f5su63khiY+u4vqBjp7z/M/MA2yDPC/KBiNGboZV+TjXgCkPuYXV5fgSkIjC+u9n8ZB+
+         bjKQTott3onNFMZwvidFM72SyljQKZj3c8eQucecRARWk1hp8b7KXVeoPF7hDQ5Kn//p
+         uCIzbFbq1Y+EOO7pBkMsEsO9D1lacnUeOXrjMcXDadVED0/wOfV+/iCR7/8VU32CoL9F
+         lxn/339H9tstQxxuXC90VJPkxfVfdjqH6cfIfnTxMwzApWcEY9VZY92nIqblkVrzslcZ
+         /Pgg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAViVda4iFSSuTI8D22moLYGhfcxYcXDBrOYoOGj7B0NKMHElbir
-	aBeSuVlPQKPF/CQFSK79F2A=
-X-Google-Smtp-Source: APXvYqxPoUEDGS0BZjyArebtfsaRYZxZk3ZYOoOsg4x7wV/CTi9z3D3Z3Z/ekEw6zrmrRK0QL3gDgg==
-X-Received: by 2002:a05:6512:244:: with SMTP id b4mr12760777lfo.114.1566214649261;
-        Mon, 19 Aug 2019 04:37:29 -0700 (PDT)
+X-Gm-Message-State: APjAAAVN25njas7vc7lfqJuFzqnm/fe29GXvCxRXlNwxIatKBpKPkfbW
+	hwd3mYyMHdTDHTwF5AOELdA=
+X-Google-Smtp-Source: APXvYqzAB0xPp8sMq8f4m/U2+bWPiytmTwe7Fp8Tiq3OzxrCnaqmCsANOk9ZeGF4CiIWu2Lt9M0BGg==
+X-Received: by 2002:a6b:dd18:: with SMTP id f24mr2152887ioc.97.1566215092856;
+        Mon, 19 Aug 2019 04:44:52 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a2e:87d5:: with SMTP id v21ls1679482ljj.5.gmail; Mon, 19 Aug
- 2019 04:37:28 -0700 (PDT)
-X-Received: by 2002:a2e:7c0b:: with SMTP id x11mr12240428ljc.85.1566214648715;
-        Mon, 19 Aug 2019 04:37:28 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1566214648; cv=none;
+Received: by 2002:a6b:d018:: with SMTP id x24ls3876546ioa.6.gmail; Mon, 19 Aug
+ 2019 04:44:52 -0700 (PDT)
+X-Received: by 2002:a5d:8885:: with SMTP id d5mr15124491ioo.181.1566215092649;
+        Mon, 19 Aug 2019 04:44:52 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1566215092; cv=none;
         d=google.com; s=arc-20160816;
-        b=ol2L4O1kXns4dFXVixoI6VWWgFhUXXXCy0gMb1n/XxutSuz/p4eCb6kaXBW8AaGiFx
-         FpAqMWpY+ma9yVIkONiMtN0C66iPuDnx5X0wsz+tvt7Y4rgQsHsSwebaXNkMqN7EHvqw
-         4kPSt1H9qq7JOU7NJwcjA5g7VqM+edQCj9SY+fvTJKChO5m6Fr9fXJ7bEZyPwwuBImrU
-         hjx72oaUz+wJWzlVeKYK+icqBlnxqXk0PwV0HbduT6ZSO0AnYRpIHr4vey8DQX4H+a04
-         /NPq+29ZaDU7Tjw/2OcK0A0lSMjxAffv5KtXqugGjDLRooIp9Iejnig8Ns4TC6A/cdAn
-         uS9w==
+        b=efbcbfa6TiEN04urSheeaFS3rKetUije16pMycmmt+YwfvixTSn6yA1CpQw9zB8Te7
+         ZHWqwbvyicpxeTnG+XymY0d9UM+8M7roV0p3rU+M18YoZSXf+uObyysUys3kXP1cv4EQ
+         3j2xKnkMI7h9xkzH5nLZ1m4EyHmCFbpV+WW/WBijy93XQxwdW2rnlsXZ/7V12eLN7ebK
+         iN1pemMTbm2DYEVyMqJPz8xy/jPSOhCAT11z0q/luuOfZNSgJAo5sNQuk+fIlTT12NsF
+         4gx26qfHRqNLFWYTivtk4445nru8pZtHE9BhigOXmXgFhhouf/Ipcpey0WRMhENnm36A
+         AAJw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject
-         :dkim-signature;
-        bh=DGGXu4mqnMWHUmNbB5+ROy/HiaG54r+RC+Wcdt0Sf00=;
-        b=nVCrlaBkAeGzAAVm7lgRC5W/xIakYIyvda9Y7EHMDPlZu/M2/ykHWfmdTqQxW6PaW6
-         MIpjk8s/wDQ0nYwxHTTZoKHiEnyRxouBYwmegtSJOGNQmWaBjyOaEtszWTWSlCGA7Pix
-         K60NF0FbNaloLqnZo7LzJKlz3B+W+83ptAsXXQnB8Qyon8h+V7GYQNgRxAAVVXKeKmYi
-         GGpWkz4B+rwBQKAoV6XGDHn476FVFbSzdtKgkl3bPeKJcdl9GMU2WRzEkMJkqhe1SvOa
-         5xKMcKLRcQXwW7TpCPoVG6M0IzGY+9aDPJAexTiFrNG7KD+76jmpI9YEVTBWSkPV5jqm
-         WltA==
+        h=mime-version:message-id:date:subject:cc:to:from;
+        bh=r+ZYVTBc0GCOEYs5DW8XZF5fLl5SZrJ/bAuhiY6pKME=;
+        b=uenn0JmmxxH4iRz4ctiDqnn7D09b2JH3DY6aAFS5/0124775jW8oAHiQEFmIi2GmRu
+         Vtj5AJcsWvvDK0kw2apBySVKxRZLb3wZ4wzExB8Hy0nB1JWT+Z17ZX3EZzP8P6MhZXVy
+         TckaozQ9zp5jM3vhn9fC5hfmB2J12pcWZDqueFOmfhNr4gKZ0U8B6FEm00wASdMD7T4v
+         okUILpQDV9Os6nLs8j5GBA/WGXZKZdjQPPl3TNcUnxPuzKO3fhkGbaxJ7fet2cXyCaEK
+         ImBk+OhDqW2QGaRwk1soN3f19gQjGfIN12ZjTmBn6yEZhZQTtMpTNWdZf9fwbdb0YrYL
+         7z1Q==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@c-s.fr header.s=mail header.b=IHsOl9a7;
-       spf=pass (google.com: domain of christophe.leroy@c-s.fr designates 93.17.236.30 as permitted sender) smtp.mailfrom=christophe.leroy@c-s.fr
-Received: from pegase1.c-s.fr (pegase1.c-s.fr. [93.17.236.30])
-        by gmr-mx.google.com with ESMTPS id u10si777593lfk.0.2019.08.19.04.37.28
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 19 Aug 2019 04:37:28 -0700 (PDT)
-Received-SPF: pass (google.com: domain of christophe.leroy@c-s.fr designates 93.17.236.30 as permitted sender) client-ip=93.17.236.30;
-Received: from localhost (mailhub1-int [192.168.12.234])
-	by localhost (Postfix) with ESMTP id 46BsNL3FQnz9txwK;
-	Mon, 19 Aug 2019 13:37:22 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at c-s.fr
-Received: from pegase1.c-s.fr ([192.168.12.234])
-	by localhost (pegase1.c-s.fr [192.168.12.234]) (amavisd-new, port 10024)
-	with ESMTP id oFKXEToytF74; Mon, 19 Aug 2019 13:37:22 +0200 (CEST)
-Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
-	by pegase1.c-s.fr (Postfix) with ESMTP id 46BsNL28mZz9txwM;
-	Mon, 19 Aug 2019 13:37:22 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by messagerie.si.c-s.fr (Postfix) with ESMTP id 9E5778B7B3;
-	Mon, 19 Aug 2019 13:37:27 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from messagerie.si.c-s.fr ([127.0.0.1])
-	by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
-	with ESMTP id equtsE-UlxDy; Mon, 19 Aug 2019 13:37:27 +0200 (CEST)
-Received: from [172.25.230.101] (po15451.idsi0.si.c-s.fr [172.25.230.101])
-	by messagerie.si.c-s.fr (Postfix) with ESMTP id 585EE8B7B1;
-	Mon, 19 Aug 2019 13:37:27 +0200 (CEST)
-Subject: Re: [PATCH 2/2] powerpc: support KASAN instrumentation of bitops
-To: Daniel Axtens <dja@axtens.net>, linux-s390@vger.kernel.org,
- linux-arch@vger.kernel.org, x86@kernel.org, linuxppc-dev@lists.ozlabs.org
-Cc: kasan-dev@googlegroups.com, Nicholas Piggin <npiggin@gmail.com>
-References: <20190819062814.5315-1-dja@axtens.net>
- <20190819062814.5315-2-dja@axtens.net>
-From: Christophe Leroy <christophe.leroy@c-s.fr>
-Message-ID: <a1932e9e-3697-b8a0-c936-098b390b817f@c-s.fr>
-Date: Mon, 19 Aug 2019 13:37:11 +0200
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+       spf=pass (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.183 as permitted sender) smtp.mailfrom=walter-zh.wu@mediatek.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
+Received: from mailgw01.mediatek.com ([210.61.82.183])
+        by gmr-mx.google.com with ESMTP id e23si686982ioe.5.2019.08.19.04.44.51
+        for <kasan-dev@googlegroups.com>;
+        Mon, 19 Aug 2019 04:44:51 -0700 (PDT)
+Received-SPF: pass (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.183 as permitted sender) client-ip=210.61.82.183;
+X-UUID: 5c5b18c1eaff4ff3965997d79be92ffe-20190819
+X-UUID: 5c5b18c1eaff4ff3965997d79be92ffe-20190819
+Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw01.mediatek.com
+	(envelope-from <walter-zh.wu@mediatek.com>)
+	(Cellopoint E-mail Firewall v4.1.10 Build 0707 with TLS)
+	with ESMTP id 1040434438; Mon, 19 Aug 2019 19:44:45 +0800
+Received: from mtkcas07.mediatek.inc (172.21.101.84) by
+ mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Mon, 19 Aug 2019 19:44:46 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas07.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Mon, 19 Aug 2019 19:44:47 +0800
+From: Walter Wu <walter-zh.wu@mediatek.com>
+To: Andrey Ryabinin <aryabinin@virtuozzo.com>, Alexander Potapenko
+	<glider@google.com>, Dmitry Vyukov <dvyukov@google.com>, Catalin Marinas
+	<catalin.marinas@arm.com>, Will Deacon <will.deacon@arm.com>, Matthias
+ Brugger <matthias.bgg@gmail.com>, Andrew Morton <akpm@linux-foundation.org>,
+	Andrey Konovalov <andreyknvl@google.com>
+CC: <kasan-dev@googlegroups.com>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-kernel@vger.kernel.org>, <linux-mediatek@lists.infradead.org>,
+	<wsd_upstream@mediatek.com>, Walter Wu <walter-zh.wu@mediatek.com>
+Subject: [PATCH] arm64: kasan: fix phys_to_virt() false positive on tag-based kasan
+Date: Mon, 19 Aug 2019 19:44:20 +0800
+Message-ID: <20190819114420.2535-1-walter-zh.wu@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-In-Reply-To: <20190819062814.5315-2-dja@axtens.net>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Language: fr
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: christophe.leroy@c-s.fr
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@c-s.fr header.s=mail header.b=IHsOl9a7;       spf=pass (google.com:
- domain of christophe.leroy@c-s.fr designates 93.17.236.30 as permitted
- sender) smtp.mailfrom=christophe.leroy@c-s.fr
+Content-Type: text/plain; charset="UTF-8"
+X-MTK: N
+X-Original-Sender: walter-zh.wu@mediatek.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.183 as
+ permitted sender) smtp.mailfrom=walter-zh.wu@mediatek.com;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -150,161 +135,95 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
+__arm_v7s_unmap() call iopte_deref() to translate pyh_to_virt address,
+but it will modify pointer tag into 0xff, so there is a false positive.
 
+When enable tag-based kasan, phys_to_virt() function need to rewrite
+its original pointer tag in order to avoid kasan report an incorrect
+memory corruption.
 
-Le 19/08/2019 =C3=A0 08:28, Daniel Axtens a =C3=A9crit=C2=A0:
-> In KASAN development I noticed that the powerpc-specific bitops
-> were not being picked up by the KASAN test suite.
+BUG: KASAN: double-free or invalid-free in __arm_v7s_unmap+0x720/0xda4
+Pointer tag: [ff], memory tag: [c1]
 
-I'm not sure anybody cares about who noticed the problem. This sentence=20
-could be rephrased as:
+Call trace:
+ dump_backtrace+0x0/0x1d4
+ show_stack+0x14/0x1c
+ dump_stack+0xe8/0x140
+ print_address_description+0x80/0x2f0
+ kasan_report_invalid_free+0x58/0x74
+ __kasan_slab_free+0x1e4/0x220
+ kasan_slab_free+0xc/0x18
+ kmem_cache_free+0xfc/0x884
+ __arm_v7s_unmap+0x720/0xda4
+ __arm_v7s_map+0xc8/0x774
+ arm_v7s_map+0x80/0x158
+ mtk_iommu_map+0xb4/0xe0
+ iommu_map+0x154/0x450
+ iommu_map_sg+0xe4/0x150
+ iommu_dma_map_sg+0x214/0x4ec
+ __iommu_map_sg_attrs+0xf0/0x110
+ ion_map_dma_buf+0xe8/0x114
+ dma_buf_map_attachment+0x4c/0x80
+ disp_sync_prepare_buf+0x378/0x820
+ _ioctl_prepare_buffer+0x130/0x870
+ mtk_disp_mgr_ioctl+0x5c4/0xab0
+ do_vfs_ioctl+0x8e0/0x15a4
+ __arm64_sys_ioctl+0x8c/0xb4
+ el0_svc_common+0xe4/0x1e0
+ el0_svc_handler+0x30/0x3c
+ el0_svc+0x8/0xc
 
-The powerpc-specific bitops are not being picked up by the KASAN test suite=
-.
+Signed-off-by: Walter Wu <walter-zh.wu@mediatek.com>
+---
+ arch/arm64/include/asm/kasan.h  |  1 -
+ arch/arm64/include/asm/memory.h | 10 ++++++++++
+ 2 files changed, 10 insertions(+), 1 deletion(-)
 
->=20
-> Instrumentation is done via the bitops/instrumented-{atomic,lock}.h
-> headers. They require that arch-specific versions of bitop functions
-> are renamed to arch_*. Do this renaming.
->=20
-> For clear_bit_unlock_is_negative_byte, the current implementation
-> uses the PG_waiters constant. This works because it's a preprocessor
-> macro - so it's only actually evaluated in contexts where PG_waiters
-> is defined. With instrumentation however, it becomes a static inline
-> function, and all of a sudden we need the actual value of PG_waiters.
-> Because of the order of header includes, it's not available and we
-> fail to compile. Instead, manually specify that we care about bit 7.
-> This is still correct: bit 7 is the bit that would mark a negative
-> byte.
->=20
-> Cc: Nicholas Piggin <npiggin@gmail.com> # clear_bit_unlock_negative_byte
-> Signed-off-by: Daniel Axtens <dja@axtens.net>
+diff --git a/arch/arm64/include/asm/kasan.h b/arch/arm64/include/asm/kasan.h
+index b52aacd2c526..59894cafad60 100644
+--- a/arch/arm64/include/asm/kasan.h
++++ b/arch/arm64/include/asm/kasan.h
+@@ -5,7 +5,6 @@
+ #ifndef __ASSEMBLY__
+ 
+ #include <linux/linkage.h>
+-#include <asm/memory.h>
+ #include <asm/pgtable-types.h>
+ 
+ #define arch_kasan_set_tag(addr, tag)	__tag_set(addr, tag)
+diff --git a/arch/arm64/include/asm/memory.h b/arch/arm64/include/asm/memory.h
+index 8ffcf5a512bb..75af5ba9ff22 100644
+--- a/arch/arm64/include/asm/memory.h
++++ b/arch/arm64/include/asm/memory.h
+@@ -171,6 +171,7 @@
+ 
+ #include <linux/bitops.h>
+ #include <linux/mmdebug.h>
++#include <asm/kasan.h>
+ 
+ extern s64			memstart_addr;
+ /* PHYS_OFFSET - the physical address of the start of memory. */
+@@ -282,7 +283,16 @@ static inline phys_addr_t virt_to_phys(const volatile void *x)
+ #define phys_to_virt phys_to_virt
+ static inline void *phys_to_virt(phys_addr_t x)
+ {
++#ifdef CONFIG_KASAN_SW_TAGS
++	unsigned long addr = __phys_to_virt(x);
++	u8 *tag = (void *)(addr >> KASAN_SHADOW_SCALE_SHIFT)
++				+ KASAN_SHADOW_OFFSET;
++
++	addr = __tag_set(addr, *tag);
++	return (void *)addr;
++#else
+ 	return (void *)(__phys_to_virt(x));
++#endif
+ }
+ 
+ /*
+-- 
+2.18.0
 
-Reviewed-by: Christophe Leroy <christophe.leroy@c-s.fr>
-
-Note that this patch might be an opportunity to replace all the=20
-'__inline__' by the standard 'inline' keyword.
-
-Some () alignment to be fixes as well, see checkpatch warnings/checks at=20
-https://openpower.xyz/job/snowpatch/job/snowpatch-linux-checkpatch/8601//ar=
-tifact/linux/checkpatch.log
-
-> ---
->   arch/powerpc/include/asm/bitops.h | 31 +++++++++++++++++++------------
->   1 file changed, 19 insertions(+), 12 deletions(-)
->=20
-> diff --git a/arch/powerpc/include/asm/bitops.h b/arch/powerpc/include/asm=
-/bitops.h
-> index 603aed229af7..8615b2bc35fe 100644
-> --- a/arch/powerpc/include/asm/bitops.h
-> +++ b/arch/powerpc/include/asm/bitops.h
-> @@ -86,22 +86,22 @@ DEFINE_BITOP(clear_bits, andc, "")
->   DEFINE_BITOP(clear_bits_unlock, andc, PPC_RELEASE_BARRIER)
->   DEFINE_BITOP(change_bits, xor, "")
->  =20
-> -static __inline__ void set_bit(int nr, volatile unsigned long *addr)
-> +static __inline__ void arch_set_bit(int nr, volatile unsigned long *addr=
-)
->   {
->   	set_bits(BIT_MASK(nr), addr + BIT_WORD(nr));
->   }
->  =20
-> -static __inline__ void clear_bit(int nr, volatile unsigned long *addr)
-> +static __inline__ void arch_clear_bit(int nr, volatile unsigned long *ad=
-dr)
->   {
->   	clear_bits(BIT_MASK(nr), addr + BIT_WORD(nr));
->   }
->  =20
-> -static __inline__ void clear_bit_unlock(int nr, volatile unsigned long *=
-addr)
-> +static __inline__ void arch_clear_bit_unlock(int nr, volatile unsigned l=
-ong *addr)
->   {
->   	clear_bits_unlock(BIT_MASK(nr), addr + BIT_WORD(nr));
->   }
->  =20
-> -static __inline__ void change_bit(int nr, volatile unsigned long *addr)
-> +static __inline__ void arch_change_bit(int nr, volatile unsigned long *a=
-ddr)
->   {
->   	change_bits(BIT_MASK(nr), addr + BIT_WORD(nr));
->   }
-> @@ -138,26 +138,26 @@ DEFINE_TESTOP(test_and_clear_bits, andc, PPC_ATOMIC=
-_ENTRY_BARRIER,
->   DEFINE_TESTOP(test_and_change_bits, xor, PPC_ATOMIC_ENTRY_BARRIER,
->   	      PPC_ATOMIC_EXIT_BARRIER, 0)
->  =20
-> -static __inline__ int test_and_set_bit(unsigned long nr,
-> +static __inline__ int arch_test_and_set_bit(unsigned long nr,
->   				       volatile unsigned long *addr)
->   {
->   	return test_and_set_bits(BIT_MASK(nr), addr + BIT_WORD(nr)) !=3D 0;
->   }
->  =20
-> -static __inline__ int test_and_set_bit_lock(unsigned long nr,
-> +static __inline__ int arch_test_and_set_bit_lock(unsigned long nr,
->   				       volatile unsigned long *addr)
->   {
->   	return test_and_set_bits_lock(BIT_MASK(nr),
->   				addr + BIT_WORD(nr)) !=3D 0;
->   }
->  =20
-> -static __inline__ int test_and_clear_bit(unsigned long nr,
-> +static __inline__ int arch_test_and_clear_bit(unsigned long nr,
->   					 volatile unsigned long *addr)
->   {
->   	return test_and_clear_bits(BIT_MASK(nr), addr + BIT_WORD(nr)) !=3D 0;
->   }
->  =20
-> -static __inline__ int test_and_change_bit(unsigned long nr,
-> +static __inline__ int arch_test_and_change_bit(unsigned long nr,
->   					  volatile unsigned long *addr)
->   {
->   	return test_and_change_bits(BIT_MASK(nr), addr + BIT_WORD(nr)) !=3D 0;
-> @@ -185,15 +185,18 @@ static __inline__ unsigned long clear_bit_unlock_re=
-turn_word(int nr,
->   	return old;
->   }
->  =20
-> -/* This is a special function for mm/filemap.c */
-> -#define clear_bit_unlock_is_negative_byte(nr, addr)			\
-> -	(clear_bit_unlock_return_word(nr, addr) & BIT_MASK(PG_waiters))
-> +/*
-> + * This is a special function for mm/filemap.c
-> + * Bit 7 corresponds to PG_waiters.
-> + */
-> +#define arch_clear_bit_unlock_is_negative_byte(nr, addr)		\
-> +	(clear_bit_unlock_return_word(nr, addr) & BIT_MASK(7))
->  =20
->   #endif /* CONFIG_PPC64 */
->  =20
->   #include <asm-generic/bitops/non-atomic.h>
->  =20
-> -static __inline__ void __clear_bit_unlock(int nr, volatile unsigned long=
- *addr)
-> +static __inline__ void arch___clear_bit_unlock(int nr, volatile unsigned=
- long *addr)
->   {
->   	__asm__ __volatile__(PPC_RELEASE_BARRIER "" ::: "memory");
->   	__clear_bit(nr, addr);
-> @@ -239,6 +242,10 @@ unsigned long __arch_hweight64(__u64 w);
->  =20
->   #include <asm-generic/bitops/find.h>
->  =20
-> +/* wrappers that deal with KASAN instrumentation */
-> +#include <asm-generic/bitops/instrumented-atomic.h>
-> +#include <asm-generic/bitops/instrumented-lock.h>
-> +
->   /* Little-endian versions */
->   #include <asm-generic/bitops/le.h>
->  =20
->=20
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/a1932e9e-3697-b8a0-c936-098b390b817f%40c-s.fr.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20190819114420.2535-1-walter-zh.wu%40mediatek.com.
