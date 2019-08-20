@@ -1,134 +1,124 @@
-Return-Path: <kasan-dev+bncBDEPT3NHSUCBBTWB5TVAKGQE7YSDR6A@googlegroups.com>
+Return-Path: <kasan-dev+bncBDQ27FVWWUFRBV575XVAKGQE6HHXE6A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x438.google.com (mail-pf1-x438.google.com [IPv6:2607:f8b0:4864:20::438])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC6F2950A5
-	for <lists+kasan-dev@lfdr.de>; Tue, 20 Aug 2019 00:21:03 +0200 (CEST)
-Received: by mail-pf1-x438.google.com with SMTP id v134sf3337005pfc.18
-        for <lists+kasan-dev@lfdr.de>; Mon, 19 Aug 2019 15:21:03 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1566253262; cv=pass;
+Received: from mail-pg1-x53e.google.com (mail-pg1-x53e.google.com [IPv6:2607:f8b0:4864:20::53e])
+	by mail.lfdr.de (Postfix) with ESMTPS id C2FFB95497
+	for <lists+kasan-dev@lfdr.de>; Tue, 20 Aug 2019 04:50:00 +0200 (CEST)
+Received: by mail-pg1-x53e.google.com with SMTP id h3sf3669943pgc.19
+        for <lists+kasan-dev@lfdr.de>; Mon, 19 Aug 2019 19:50:00 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1566269399; cv=pass;
         d=google.com; s=arc-20160816;
-        b=KqzY1jRVoaFqKcUXPcSg4R6Nv5Y89rSsppjbw73sIZboS6Q6xWF3ee7MjoTZFF+O7B
-         0D1pEoUmENaWl48Zjfg5FyRSaqbEnql6X3yWtkiV31XwwUxKgmLBp4e/mCXf5qSRg/ua
-         8ogg5lAn3tf9/+s6JzycLuujH4ZTFnsHPdnNMtHn0MWt1DZsTNM9M/zQE+Pm2Or28Yn+
-         UhKYxOIzsvBDeOcNKIFeS6I85ByNX4lo5oRhJc7hs1qTkHQqxQZ3I2ULIBwVe1+nWMXH
-         CEJztjGncC67oxPSpIwgChPbjxnhUJr0zbzQpkbU92Jqzwsz60GjHCGczkdUWQqdoaIr
-         0i+g==
+        b=uQX1/AQ8lBqyQA21U+o8/Mw/ndqVrpuDA7j2KYdnoQnq3f583k1gaWbnayvTJQEVuo
+         TYUzJIFkysa/8IbuBbKQKaf1IbzCt3VT+xGyFQXmWdpWB+6Ids8wszHEdhS4J7R8qeHC
+         HdgjuMogQ4ZO1VWpZcBMAlE2j5W91IrDdDqZeXlvilKrr4jhHTxPTOtW52DlQp9sOEQm
+         sguEdbVtN/0heNrKIdNQhjdpjib6au6vzS2EGjhzCAjNqFPwzO29gAijVA7DWjicGk7x
+         LwI9Ofw5f6YEc8NYV7BAWtV+9Cqi5js2bzv7S9h2K8UcJWySr02yqxBpVyMtyhwIVvqN
+         kRng==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:sender:dkim-signature;
-        bh=k8DMD/TZVqibYjP6+tfCb/UOWk/nK1XGniYIb8Z2y+g=;
-        b=CHuoPpTD8CmOes/cB+H43ZHoTUQ9JuyUWdJTV3Y7cJWiTJ8cq1b7RagWn+ok93Zcz0
-         qnoBIJHkTsVDpmDv6vF3K+4+wMUuKNApv/5i636DSWfad2D0oVc711OAPYefGjS+USuN
-         qwjwJvP5uDFNZlIH0zi6x0vKvwxO5eEpJbb8rZX4aV2341ne5aKubuLj0XZzmhObmlp4
-         b0V/nkYmhw3zVtDOmDrW4fINUzZaKUl2W3eRRa6X35fZVLS1ynjaCqzWP3aiotRg7VRD
-         l/1uNj8FwUZuq1TVkrpF0E6b9cEq+fJUbJ9z3fs+jxR5PCLlV9dt1l/nhuVgrPyDT4lR
-         96dw==
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :subject:cc:to:from:sender:dkim-signature;
+        bh=E5qV5hV3VNuD0C2f+HIIn5UsIGaY7eYzj5t0N2dWZV8=;
+        b=q5RcvouDGSr9HLlhgpBi2/dd0BOmUX81h+Kl9NG+pzo/NxXoCuUkxnYKzAPxlTTVz0
+         pFTu9R498DuEtu7vqZkF99cN1UB19AXRgc+TMKTdRIdwMg3fX1j2v8/W+It2TEnBprr8
+         Uixa4f7GhIeDnZq9hkqc7WywtKccztOOQtoG7HtvRMJfxd44p8JfFTYV23Nn5Z5BrhRb
+         k9qVgMBK/Ia1CviwKEK8eb/JAvWVex41BmZ/atcNjojDRivhXYQEY6DUUFgIKgzk++rq
+         fxUrN/o+RTNiBUnSXF0c7cHa1L7C5G130WIOC93tYj981pbbHj5EqjJtCxk6JZSb6d8W
+         UCDg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=default header.b="XGcvD/0M";
-       spf=pass (google.com: domain of luto@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=luto@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       dkim=pass header.i=@axtens.net header.s=google header.b=BeBnmjO7;
+       spf=pass (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::543 as permitted sender) smtp.mailfrom=dja@axtens.net
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:mime-version:references:in-reply-to:from:date:message-id
-         :subject:to:cc:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=k8DMD/TZVqibYjP6+tfCb/UOWk/nK1XGniYIb8Z2y+g=;
-        b=B6ajxbNzyHoShmYUbKnsigu9WFesa+L0dUM2vkfhetEvAMBaE5X9u5R9WUI9T4KiWy
-         8meOhKmbOyWf5eetXnO6zFejzWkFrBhFZw4XHmJy59nKuWt0idvcY1TbyEKRdWuGKCdB
-         cptp+Na1Ie2x6O0eRc2o/0WpHjme8pWXf0frpOSU6UAmZ6BTCrES1CoHipT+DyqQD4kC
-         J8fJiYgdBHaOK5Sdq4bjhdyGrhBWx7MBQ/Dryia+aKBcrIRB+n9zcT+SXvEpJTIxd7+J
-         MbPFk34VLiEGfUY+YzLfY5mgyH955q/nkSAz99bAzo3XHhwIE9lPq3FNym7wQgoTln4f
-         8mAg==
+        bh=E5qV5hV3VNuD0C2f+HIIn5UsIGaY7eYzj5t0N2dWZV8=;
+        b=erTN+Qq+4MgX0ewmDQp+ClKrZnB6Fwa3Xu9wPMjoUPqlpxHq10ZM/6/E56oJlGVsjk
+         FqMoGGTP9XpLw9MLGYqiJdICa7ZwsfNiDGDSEcgfuY6KHnA/07Ul5ZR+9KnIUbniYnLF
+         5Kp6lKDZ3avsZsI13tOn1+yQqDb9rBK/z/PvUI1Rn83h9JOqNE2i7xjkyYqchmMX/o+I
+         2fwyLnJTU+OixYLpugAqxViuNMCXJyPlMnitzYyfIHBJbNqu9bf5oSY1OpguuUn2weZe
+         xdxUdXfeP4d2RiIpilJ47hbNVfFKzskiv5OPp9DItqCJyTHLK1oL5G6XiSYxLGIivrq2
+         isnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
-         :date:message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=k8DMD/TZVqibYjP6+tfCb/UOWk/nK1XGniYIb8Z2y+g=;
-        b=Y0nbhN0Ax/Im4N9Mruuv3zH+vOv0bJghsR9SKhWQMbg+ZttPyFQhfU5P6FBeaJqnMT
-         YU1F5mP6xVv3mslBQppdk1MYeoWKkMHZVBu5wYXtnVBpjz4hWZR0347m17OqDUQbY+L0
-         jzXLYacL/iEDgBZUIQvOZ+auLHwph2ZFusX3lEaA/1NoyzsM9zmtuiS/XVAxLh81pp2I
-         Pef/zKC3xk73h/d8Vi6OUfiBG4xBb7LBWDo2arDQ/XNNeA4JcVbdozfKFqUre6bRO0DT
-         OTbbnUiF8QnKcBkUXpTXQVCoPzm1cZjEfjRUfQGYFpjr6NZ5fghuS6ll4JgKST8eOLD9
-         ONGg==
+        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=E5qV5hV3VNuD0C2f+HIIn5UsIGaY7eYzj5t0N2dWZV8=;
+        b=HCbzrnraaTb9yoy9x9mrzaD/K+gsPzbKcv9l6N7zsievB2HvYVwTZ6KXXU88PadIrQ
+         OtO74bk6GsmIdHoCRU/zcVTDlo1JICOiwttupLqO7zlt4Hp+8UdAmc3SG4NChFbysGGU
+         XbHOjNh7DS8BSAJmtI8cL1OY7wZ0MK4L03N2TtFQ1AlzX1TSzO1ci7gUzEPa8BB9hzoc
+         h7Hm5xqrM7WshilBllY5QQhtoc7Kun06rWhK9BASe4VQwRu0VJek308FfBXKFfCxHXrC
+         IrJ34aM0LymbfyjWvmzqfIbUEPUg4cUn5jLntf82IlQfbbDFwQJNLBOMqicWwT7cWhjU
+         RnKw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAV421dAU8Rp1sg8/k3N7P5cRmYXo0xWHNpxN30fn9vwsDQGyGvL
-	ezVHZtuiAC17NKINU2DoMPw=
-X-Google-Smtp-Source: APXvYqz+dntkiuGg6SlaoKnTf2X/RTaudoiyaFULog2PjyVpocH64ccXUZ+GGnecvzwrbrkcr+C0jg==
-X-Received: by 2002:aa7:9483:: with SMTP id z3mr26730306pfk.104.1566253262222;
-        Mon, 19 Aug 2019 15:21:02 -0700 (PDT)
+X-Gm-Message-State: APjAAAXbRptc8UomSgPPKrI6siJFJ2p3BG9jkZrPwCU/LDrxh3NncJ8G
+	DFIe8sCuxtiOcV4YZ+kSGlA=
+X-Google-Smtp-Source: APXvYqwUXvF/afIuDRv6tYgE3qvIajpLPyqKRerlX0ZbYONbGSCNS2pkg6X+J2n9RVKTWBeyBtpmhw==
+X-Received: by 2002:a62:c584:: with SMTP id j126mr27640380pfg.21.1566269399119;
+        Mon, 19 Aug 2019 19:49:59 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:aa7:9e81:: with SMTP id p1ls4298129pfq.2.gmail; Mon, 19 Aug
- 2019 15:21:01 -0700 (PDT)
-X-Received: by 2002:a62:8344:: with SMTP id h65mr26636008pfe.85.1566253261930;
-        Mon, 19 Aug 2019 15:21:01 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1566253261; cv=none;
+Received: by 2002:a17:90a:334f:: with SMTP id m73ls430511pjb.5.canary-gmail;
+ Mon, 19 Aug 2019 19:49:58 -0700 (PDT)
+X-Received: by 2002:a17:902:bb81:: with SMTP id m1mr26183524pls.125.1566269398695;
+        Mon, 19 Aug 2019 19:49:58 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1566269398; cv=none;
         d=google.com; s=arc-20160816;
-        b=VhVYbxYRgNwWO/FUji/ROfnsZV3xg42vV6jtZvQT+tPx63zX84WW77s0HnBfktObAO
-         vJymNC9u8XHk7VB/0cYqX1QvVyZHLAHKTCtHBUQxDKKZpRR/7g9rqaW76+vB5UtkzKDS
-         qi9LeXT5CEaZEUEkS7J7ZzAg48gGpODnz5XhW78NrGInjE7UtnP8OsltrMsem3BQ4N6e
-         A79atAdUeY+11aPfKP8XF2ld3kMmGACfG5DL9yvXjrK8fCIsuqg9necCzPqL1uE7Ujci
-         Cc2VRzyBqil+j1oF93Qcg7Bp0ZcYniZb6LInGooMEOjP36M5lV3wGygFuMToBnkKQ+5l
-         GzVg==
+        b=zm7WzpPaTMrD1PyTIfMwioP/agGpLjqs1VXxY0aBCtVxLF0HT7zaJ7lX6jP61Qm8UU
+         807q7Falac4AcimCBsBlJzIIOaaCDz7x6ZrWuUAUvOfb4aCAflUNcd0ZlhFmHfvWLMKL
+         mYEo8sL7pmhMAwzzQZn2/9ryZCDFzT7A1on7muMu6+n4zP/FKcmlJNcpBg/5VzjdlVcM
+         zB1setjf5HfYnIhMsrbQo6IJoXkP9X3Aa2A9HuZFSAML2jaSqrCZpJ4FfFAuIlk6m0qS
+         fzGJIIAa2tFLr3ESTVapXeOD/udUk3lpJHBERq36UcXo+25OTUMI4rk0lpdQibsmyZrl
+         XEJA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=KR93Nh2pEVTQXskRCcRNJG5EoMuJxb1LL9zdGmo9ev8=;
-        b=P1ntQRvh00sZJQ5SX7apKm9pi25ONTwxoCsWXZgT5GCmn7zn+1nyoRZq4vpCzzmBmq
-         Xm8wqoubDBPo0GBy+BvsmxZMqxqXq1UwkvSWzs0OYqx/b3hvmka9FbfC56/+OdGeTUxH
-         aKPKoyJ7F5CEyR2EwdFQ5GXZnZ40IgDl+5fNtUmGYQz8ErzfSY5j2xC968LXYVik8icI
-         Y62gngQRvNh5ZPx0eaQAm4EKT2VT/p781F2EbLHLwDvyInCywMeddNuuf7eJKt9izTQN
-         902FGzAVJPanv8v2OqemlFqHk4F6wYXxZ4yuMBpyCJS2lG6IzwJLMv2h0TbfKqF4x3Ye
-         bWfg==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:dkim-signature;
+        bh=vxgmNxuTZeoSTH1hR3AySpOGIla0OX2TTxWnwSuTK0U=;
+        b=mFPZFhm1/zyhuRuVjpU0IWkm3KN+1R0sfb71H5qpSHe8mebxi1CeQa2rcbj0q5nSld
+         7Lj4CyT+yt5GRGsXq2bqTejpc2NObvEdyQbL8y5Jbx8Oodips3V3+LJP80YOhSLEE4Y3
+         FuAOafLpXU/QC2/eOSeScZ3hjYqIyjhyB9RbK3JwDBmP/+fkGl4O67r7UdyDZpLlLAtZ
+         USoq4yf6ZgjVK31Q3P2A8aQ0rpMGF/2KMe0qxNNhFXNXB7k2pMt1OBDLBjA2jyUv2jvm
+         LTtTfA4M9beQHd3iwvXtsLo76ND9H7a3zBPufEiT/YelCCrgg9EdDelYzTFxrENQIxj7
+         8A5Q==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=default header.b="XGcvD/0M";
-       spf=pass (google.com: domain of luto@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=luto@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id 85si717595pgb.2.2019.08.19.15.21.01
+       dkim=pass header.i=@axtens.net header.s=google header.b=BeBnmjO7;
+       spf=pass (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::543 as permitted sender) smtp.mailfrom=dja@axtens.net
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com. [2607:f8b0:4864:20::543])
+        by gmr-mx.google.com with ESMTPS id d9si627865plj.5.2019.08.19.19.49.58
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 19 Aug 2019 15:21:01 -0700 (PDT)
-Received-SPF: pass (google.com: domain of luto@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id 51EE122D37
-	for <kasan-dev@googlegroups.com>; Mon, 19 Aug 2019 22:21:01 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id g17so10305952wrr.5
-        for <kasan-dev@googlegroups.com>; Mon, 19 Aug 2019 15:21:01 -0700 (PDT)
-X-Received: by 2002:adf:eec5:: with SMTP id a5mr29877043wrp.352.1566253259728;
- Mon, 19 Aug 2019 15:20:59 -0700 (PDT)
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 19 Aug 2019 19:49:58 -0700 (PDT)
+Received-SPF: pass (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::543 as permitted sender) client-ip=2607:f8b0:4864:20::543;
+Received: by mail-pg1-x543.google.com with SMTP id d1so2311953pgp.4
+        for <kasan-dev@googlegroups.com>; Mon, 19 Aug 2019 19:49:58 -0700 (PDT)
+X-Received: by 2002:a62:e401:: with SMTP id r1mr28514131pfh.193.1566269397968;
+        Mon, 19 Aug 2019 19:49:57 -0700 (PDT)
+Received: from localhost (ppp167-251-205.static.internode.on.net. [59.167.251.205])
+        by smtp.gmail.com with ESMTPSA id z68sm15059447pgz.88.2019.08.19.19.49.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Aug 2019 19:49:57 -0700 (PDT)
+From: Daniel Axtens <dja@axtens.net>
+To: christophe.leroy@c-s.fr,
+	linux-s390@vger.kernel.org,
+	linux-arch@vger.kernel.org,
+	x86@kernel.org,
+	linuxppc-dev@lists.ozlabs.org
+Cc: kasan-dev@googlegroups.com,
+	Daniel Axtens <dja@axtens.net>
+Subject: [PATCH v2 1/2] kasan: support instrumented bitops combined with generic bitops
+Date: Tue, 20 Aug 2019 12:49:40 +1000
+Message-Id: <20190820024941.12640-1-dja@axtens.net>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20190815001636.12235-1-dja@axtens.net> <20190815001636.12235-2-dja@axtens.net>
- <15c6110a-9e6e-495c-122e-acbde6e698d9@c-s.fr> <20190816170813.GA7417@lakrids.cambridge.arm.com>
- <87imqtu7pc.fsf@dja-thinkpad.axtens.net>
-In-Reply-To: <87imqtu7pc.fsf@dja-thinkpad.axtens.net>
-From: Andy Lutomirski <luto@kernel.org>
-Date: Mon, 19 Aug 2019 15:20:47 -0700
-X-Gmail-Original-Message-ID: <CALCETrXnvofB_2KciRL6gZBemtjwTVg4-EKSJx-nz-BULF5aMg@mail.gmail.com>
-Message-ID: <CALCETrXnvofB_2KciRL6gZBemtjwTVg4-EKSJx-nz-BULF5aMg@mail.gmail.com>
-Subject: Re: [PATCH v4 1/3] kasan: support backing vmalloc space with real
- shadow memory
-To: Daniel Axtens <dja@axtens.net>
-Cc: Mark Rutland <mark.rutland@arm.com>, Christophe Leroy <christophe.leroy@c-s.fr>, 
-	kasan-dev <kasan-dev@googlegroups.com>, Linux-MM <linux-mm@kvack.org>, X86 ML <x86@kernel.org>, 
-	Andrey Ryabinin <aryabinin@virtuozzo.com>, Alexander Potapenko <glider@google.com>, 
-	Andrew Lutomirski <luto@kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
-	Dmitry Vyukov <dvyukov@google.com>, linuxppc-dev <linuxppc-dev@lists.ozlabs.org>, 
-	Vasily Gorbik <gor@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: luto@kernel.org
+X-Original-Sender: dja@axtens.net
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=default header.b="XGcvD/0M";       spf=pass
- (google.com: domain of luto@kernel.org designates 198.145.29.99 as permitted
- sender) smtp.mailfrom=luto@kernel.org;       dmarc=pass (p=NONE sp=NONE
- dis=NONE) header.from=kernel.org
+ header.i=@axtens.net header.s=google header.b=BeBnmjO7;       spf=pass
+ (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::543 as
+ permitted sender) smtp.mailfrom=dja@axtens.net
+Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -141,24 +131,683 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-> On Aug 18, 2019, at 8:58 PM, Daniel Axtens <dja@axtens.net> wrote:
->
+Currently bitops-instrumented.h assumes that the architecture provides
+atomic, non-atomic and locking bitops (e.g. both set_bit and __set_bit).
+This is true on x86 and s390, but is not always true: there is a
+generic bitops/non-atomic.h header that provides generic non-atomic
+operations, and also a generic bitops/lock.h for locking operations.
 
->>> Each page of shadow memory represent 8 pages of real memory. Could we use
->>> page_ref to count how many pieces of a shadow page are used so that we can
->>> free it when the ref count decreases to 0.
->
-> I'm not sure how much of a difference it will make, but I'll have a look.
->
+powerpc uses the generic non-atomic version, so it does not have it's
+own e.g. __set_bit that could be renamed arch___set_bit.
 
-There are a grand total of eight possible pages that could require a
-given shadow page. I would suggest that, instead of reference
-counting, you just check all eight pages.
+Split up bitops-instrumented.h to mirror the atomic/non-atomic/lock
+split. This allows arches to only include the headers where they
+have arch-specific versions to rename. Update x86 and s390.
 
-Or, better yet, look at the actual vm_area_struct and are where prev
-and next point. That should tell you exactly which range can be freed.
+(The generic operations are automatically instrumented because they're
+written in C, not asm.)
+
+Suggested-by: Christophe Leroy <christophe.leroy@c-s.fr>
+Reviewed-by: Christophe Leroy <christophe.leroy@c-s.fr>
+Signed-off-by: Daniel Axtens <dja@axtens.net>
+---
+ Documentation/core-api/kernel-api.rst         |  17 +-
+ arch/s390/include/asm/bitops.h                |   4 +-
+ arch/x86/include/asm/bitops.h                 |   4 +-
+ include/asm-generic/bitops-instrumented.h     | 263 ------------------
+ .../asm-generic/bitops/instrumented-atomic.h  | 100 +++++++
+ .../asm-generic/bitops/instrumented-lock.h    |  81 ++++++
+ .../bitops/instrumented-non-atomic.h          | 114 ++++++++
+ 7 files changed, 317 insertions(+), 266 deletions(-)
+ delete mode 100644 include/asm-generic/bitops-instrumented.h
+ create mode 100644 include/asm-generic/bitops/instrumented-atomic.h
+ create mode 100644 include/asm-generic/bitops/instrumented-lock.h
+ create mode 100644 include/asm-generic/bitops/instrumented-non-atomic.h
+
+diff --git a/Documentation/core-api/kernel-api.rst b/Documentation/core-api/kernel-api.rst
+index 08af5caf036d..2e21248277e3 100644
+--- a/Documentation/core-api/kernel-api.rst
++++ b/Documentation/core-api/kernel-api.rst
+@@ -54,7 +54,22 @@ The Linux kernel provides more basic utility functions.
+ Bit Operations
+ --------------
+ 
+-.. kernel-doc:: include/asm-generic/bitops-instrumented.h
++Atomic Operations
++~~~~~~~~~~~~~~~~~
++
++.. kernel-doc:: include/asm-generic/bitops/instrumented-atomic.h
++   :internal:
++
++Non-atomic Operations
++~~~~~~~~~~~~~~~~~~~~~
++
++.. kernel-doc:: include/asm-generic/bitops/instrumented-non-atomic.h
++   :internal:
++
++Locking Operations
++~~~~~~~~~~~~~~~~~~
++
++.. kernel-doc:: include/asm-generic/bitops/instrumented-lock.h
+    :internal:
+ 
+ Bitmap Operations
+diff --git a/arch/s390/include/asm/bitops.h b/arch/s390/include/asm/bitops.h
+index b8833ac983fa..0ceb12593a68 100644
+--- a/arch/s390/include/asm/bitops.h
++++ b/arch/s390/include/asm/bitops.h
+@@ -241,7 +241,9 @@ static inline void arch___clear_bit_unlock(unsigned long nr,
+ 	arch___clear_bit(nr, ptr);
+ }
+ 
+-#include <asm-generic/bitops-instrumented.h>
++#include <asm-generic/bitops/instrumented-atomic.h>
++#include <asm-generic/bitops/instrumented-non-atomic.h>
++#include <asm-generic/bitops/instrumented-lock.h>
+ 
+ /*
+  * Functions which use MSB0 bit numbering.
+diff --git a/arch/x86/include/asm/bitops.h b/arch/x86/include/asm/bitops.h
+index ba15d53c1ca7..4a2e2432238f 100644
+--- a/arch/x86/include/asm/bitops.h
++++ b/arch/x86/include/asm/bitops.h
+@@ -389,7 +389,9 @@ static __always_inline int fls64(__u64 x)
+ 
+ #include <asm-generic/bitops/const_hweight.h>
+ 
+-#include <asm-generic/bitops-instrumented.h>
++#include <asm-generic/bitops/instrumented-atomic.h>
++#include <asm-generic/bitops/instrumented-non-atomic.h>
++#include <asm-generic/bitops/instrumented-lock.h>
+ 
+ #include <asm-generic/bitops/le.h>
+ 
+diff --git a/include/asm-generic/bitops-instrumented.h b/include/asm-generic/bitops-instrumented.h
+deleted file mode 100644
+index ddd1c6d9d8db..000000000000
+--- a/include/asm-generic/bitops-instrumented.h
++++ /dev/null
+@@ -1,263 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0 */
+-
+-/*
+- * This file provides wrappers with sanitizer instrumentation for bit
+- * operations.
+- *
+- * To use this functionality, an arch's bitops.h file needs to define each of
+- * the below bit operations with an arch_ prefix (e.g. arch_set_bit(),
+- * arch___set_bit(), etc.).
+- */
+-#ifndef _ASM_GENERIC_BITOPS_INSTRUMENTED_H
+-#define _ASM_GENERIC_BITOPS_INSTRUMENTED_H
+-
+-#include <linux/kasan-checks.h>
+-
+-/**
+- * set_bit - Atomically set a bit in memory
+- * @nr: the bit to set
+- * @addr: the address to start counting from
+- *
+- * This is a relaxed atomic operation (no implied memory barriers).
+- *
+- * Note that @nr may be almost arbitrarily large; this function is not
+- * restricted to acting on a single-word quantity.
+- */
+-static inline void set_bit(long nr, volatile unsigned long *addr)
+-{
+-	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
+-	arch_set_bit(nr, addr);
+-}
+-
+-/**
+- * __set_bit - Set a bit in memory
+- * @nr: the bit to set
+- * @addr: the address to start counting from
+- *
+- * Unlike set_bit(), this function is non-atomic. If it is called on the same
+- * region of memory concurrently, the effect may be that only one operation
+- * succeeds.
+- */
+-static inline void __set_bit(long nr, volatile unsigned long *addr)
+-{
+-	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
+-	arch___set_bit(nr, addr);
+-}
+-
+-/**
+- * clear_bit - Clears a bit in memory
+- * @nr: Bit to clear
+- * @addr: Address to start counting from
+- *
+- * This is a relaxed atomic operation (no implied memory barriers).
+- */
+-static inline void clear_bit(long nr, volatile unsigned long *addr)
+-{
+-	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
+-	arch_clear_bit(nr, addr);
+-}
+-
+-/**
+- * __clear_bit - Clears a bit in memory
+- * @nr: the bit to clear
+- * @addr: the address to start counting from
+- *
+- * Unlike clear_bit(), this function is non-atomic. If it is called on the same
+- * region of memory concurrently, the effect may be that only one operation
+- * succeeds.
+- */
+-static inline void __clear_bit(long nr, volatile unsigned long *addr)
+-{
+-	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
+-	arch___clear_bit(nr, addr);
+-}
+-
+-/**
+- * clear_bit_unlock - Clear a bit in memory, for unlock
+- * @nr: the bit to set
+- * @addr: the address to start counting from
+- *
+- * This operation is atomic and provides release barrier semantics.
+- */
+-static inline void clear_bit_unlock(long nr, volatile unsigned long *addr)
+-{
+-	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
+-	arch_clear_bit_unlock(nr, addr);
+-}
+-
+-/**
+- * __clear_bit_unlock - Clears a bit in memory
+- * @nr: Bit to clear
+- * @addr: Address to start counting from
+- *
+- * This is a non-atomic operation but implies a release barrier before the
+- * memory operation. It can be used for an unlock if no other CPUs can
+- * concurrently modify other bits in the word.
+- */
+-static inline void __clear_bit_unlock(long nr, volatile unsigned long *addr)
+-{
+-	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
+-	arch___clear_bit_unlock(nr, addr);
+-}
+-
+-/**
+- * change_bit - Toggle a bit in memory
+- * @nr: Bit to change
+- * @addr: Address to start counting from
+- *
+- * This is a relaxed atomic operation (no implied memory barriers).
+- *
+- * Note that @nr may be almost arbitrarily large; this function is not
+- * restricted to acting on a single-word quantity.
+- */
+-static inline void change_bit(long nr, volatile unsigned long *addr)
+-{
+-	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
+-	arch_change_bit(nr, addr);
+-}
+-
+-/**
+- * __change_bit - Toggle a bit in memory
+- * @nr: the bit to change
+- * @addr: the address to start counting from
+- *
+- * Unlike change_bit(), this function is non-atomic. If it is called on the same
+- * region of memory concurrently, the effect may be that only one operation
+- * succeeds.
+- */
+-static inline void __change_bit(long nr, volatile unsigned long *addr)
+-{
+-	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
+-	arch___change_bit(nr, addr);
+-}
+-
+-/**
+- * test_and_set_bit - Set a bit and return its old value
+- * @nr: Bit to set
+- * @addr: Address to count from
+- *
+- * This is an atomic fully-ordered operation (implied full memory barrier).
+- */
+-static inline bool test_and_set_bit(long nr, volatile unsigned long *addr)
+-{
+-	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
+-	return arch_test_and_set_bit(nr, addr);
+-}
+-
+-/**
+- * __test_and_set_bit - Set a bit and return its old value
+- * @nr: Bit to set
+- * @addr: Address to count from
+- *
+- * This operation is non-atomic. If two instances of this operation race, one
+- * can appear to succeed but actually fail.
+- */
+-static inline bool __test_and_set_bit(long nr, volatile unsigned long *addr)
+-{
+-	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
+-	return arch___test_and_set_bit(nr, addr);
+-}
+-
+-/**
+- * test_and_set_bit_lock - Set a bit and return its old value, for lock
+- * @nr: Bit to set
+- * @addr: Address to count from
+- *
+- * This operation is atomic and provides acquire barrier semantics if
+- * the returned value is 0.
+- * It can be used to implement bit locks.
+- */
+-static inline bool test_and_set_bit_lock(long nr, volatile unsigned long *addr)
+-{
+-	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
+-	return arch_test_and_set_bit_lock(nr, addr);
+-}
+-
+-/**
+- * test_and_clear_bit - Clear a bit and return its old value
+- * @nr: Bit to clear
+- * @addr: Address to count from
+- *
+- * This is an atomic fully-ordered operation (implied full memory barrier).
+- */
+-static inline bool test_and_clear_bit(long nr, volatile unsigned long *addr)
+-{
+-	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
+-	return arch_test_and_clear_bit(nr, addr);
+-}
+-
+-/**
+- * __test_and_clear_bit - Clear a bit and return its old value
+- * @nr: Bit to clear
+- * @addr: Address to count from
+- *
+- * This operation is non-atomic. If two instances of this operation race, one
+- * can appear to succeed but actually fail.
+- */
+-static inline bool __test_and_clear_bit(long nr, volatile unsigned long *addr)
+-{
+-	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
+-	return arch___test_and_clear_bit(nr, addr);
+-}
+-
+-/**
+- * test_and_change_bit - Change a bit and return its old value
+- * @nr: Bit to change
+- * @addr: Address to count from
+- *
+- * This is an atomic fully-ordered operation (implied full memory barrier).
+- */
+-static inline bool test_and_change_bit(long nr, volatile unsigned long *addr)
+-{
+-	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
+-	return arch_test_and_change_bit(nr, addr);
+-}
+-
+-/**
+- * __test_and_change_bit - Change a bit and return its old value
+- * @nr: Bit to change
+- * @addr: Address to count from
+- *
+- * This operation is non-atomic. If two instances of this operation race, one
+- * can appear to succeed but actually fail.
+- */
+-static inline bool __test_and_change_bit(long nr, volatile unsigned long *addr)
+-{
+-	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
+-	return arch___test_and_change_bit(nr, addr);
+-}
+-
+-/**
+- * test_bit - Determine whether a bit is set
+- * @nr: bit number to test
+- * @addr: Address to start counting from
+- */
+-static inline bool test_bit(long nr, const volatile unsigned long *addr)
+-{
+-	kasan_check_read(addr + BIT_WORD(nr), sizeof(long));
+-	return arch_test_bit(nr, addr);
+-}
+-
+-#if defined(arch_clear_bit_unlock_is_negative_byte)
+-/**
+- * clear_bit_unlock_is_negative_byte - Clear a bit in memory and test if bottom
+- *                                     byte is negative, for unlock.
+- * @nr: the bit to clear
+- * @addr: the address to start counting from
+- *
+- * This operation is atomic and provides release barrier semantics.
+- *
+- * This is a bit of a one-trick-pony for the filemap code, which clears
+- * PG_locked and tests PG_waiters,
+- */
+-static inline bool
+-clear_bit_unlock_is_negative_byte(long nr, volatile unsigned long *addr)
+-{
+-	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
+-	return arch_clear_bit_unlock_is_negative_byte(nr, addr);
+-}
+-/* Let everybody know we have it. */
+-#define clear_bit_unlock_is_negative_byte clear_bit_unlock_is_negative_byte
+-#endif
+-
+-#endif /* _ASM_GENERIC_BITOPS_INSTRUMENTED_H */
+diff --git a/include/asm-generic/bitops/instrumented-atomic.h b/include/asm-generic/bitops/instrumented-atomic.h
+new file mode 100644
+index 000000000000..18ce3c9e8eec
+--- /dev/null
++++ b/include/asm-generic/bitops/instrumented-atomic.h
+@@ -0,0 +1,100 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++
++/*
++ * This file provides wrappers with sanitizer instrumentation for atomic bit
++ * operations.
++ *
++ * To use this functionality, an arch's bitops.h file needs to define each of
++ * the below bit operations with an arch_ prefix (e.g. arch_set_bit(),
++ * arch___set_bit(), etc.).
++ */
++#ifndef _ASM_GENERIC_BITOPS_INSTRUMENTED_ATOMIC_H
++#define _ASM_GENERIC_BITOPS_INSTRUMENTED_ATOMIC_H
++
++#include <linux/kasan-checks.h>
++
++/**
++ * set_bit - Atomically set a bit in memory
++ * @nr: the bit to set
++ * @addr: the address to start counting from
++ *
++ * This is a relaxed atomic operation (no implied memory barriers).
++ *
++ * Note that @nr may be almost arbitrarily large; this function is not
++ * restricted to acting on a single-word quantity.
++ */
++static inline void set_bit(long nr, volatile unsigned long *addr)
++{
++	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
++	arch_set_bit(nr, addr);
++}
++
++/**
++ * clear_bit - Clears a bit in memory
++ * @nr: Bit to clear
++ * @addr: Address to start counting from
++ *
++ * This is a relaxed atomic operation (no implied memory barriers).
++ */
++static inline void clear_bit(long nr, volatile unsigned long *addr)
++{
++	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
++	arch_clear_bit(nr, addr);
++}
++
++/**
++ * change_bit - Toggle a bit in memory
++ * @nr: Bit to change
++ * @addr: Address to start counting from
++ *
++ * This is a relaxed atomic operation (no implied memory barriers).
++ *
++ * Note that @nr may be almost arbitrarily large; this function is not
++ * restricted to acting on a single-word quantity.
++ */
++static inline void change_bit(long nr, volatile unsigned long *addr)
++{
++	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
++	arch_change_bit(nr, addr);
++}
++
++/**
++ * test_and_set_bit - Set a bit and return its old value
++ * @nr: Bit to set
++ * @addr: Address to count from
++ *
++ * This is an atomic fully-ordered operation (implied full memory barrier).
++ */
++static inline bool test_and_set_bit(long nr, volatile unsigned long *addr)
++{
++	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
++	return arch_test_and_set_bit(nr, addr);
++}
++
++/**
++ * test_and_clear_bit - Clear a bit and return its old value
++ * @nr: Bit to clear
++ * @addr: Address to count from
++ *
++ * This is an atomic fully-ordered operation (implied full memory barrier).
++ */
++static inline bool test_and_clear_bit(long nr, volatile unsigned long *addr)
++{
++	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
++	return arch_test_and_clear_bit(nr, addr);
++}
++
++/**
++ * test_and_change_bit - Change a bit and return its old value
++ * @nr: Bit to change
++ * @addr: Address to count from
++ *
++ * This is an atomic fully-ordered operation (implied full memory barrier).
++ */
++static inline bool test_and_change_bit(long nr, volatile unsigned long *addr)
++{
++	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
++	return arch_test_and_change_bit(nr, addr);
++}
++
++#endif /* _ASM_GENERIC_BITOPS_INSTRUMENTED_NON_ATOMIC_H */
+diff --git a/include/asm-generic/bitops/instrumented-lock.h b/include/asm-generic/bitops/instrumented-lock.h
+new file mode 100644
+index 000000000000..ec53fdeea9ec
+--- /dev/null
++++ b/include/asm-generic/bitops/instrumented-lock.h
+@@ -0,0 +1,81 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++
++/*
++ * This file provides wrappers with sanitizer instrumentation for bit
++ * locking operations.
++ *
++ * To use this functionality, an arch's bitops.h file needs to define each of
++ * the below bit operations with an arch_ prefix (e.g. arch_set_bit(),
++ * arch___set_bit(), etc.).
++ */
++#ifndef _ASM_GENERIC_BITOPS_INSTRUMENTED_LOCK_H
++#define _ASM_GENERIC_BITOPS_INSTRUMENTED_LOCK_H
++
++#include <linux/kasan-checks.h>
++
++/**
++ * clear_bit_unlock - Clear a bit in memory, for unlock
++ * @nr: the bit to set
++ * @addr: the address to start counting from
++ *
++ * This operation is atomic and provides release barrier semantics.
++ */
++static inline void clear_bit_unlock(long nr, volatile unsigned long *addr)
++{
++	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
++	arch_clear_bit_unlock(nr, addr);
++}
++
++/**
++ * __clear_bit_unlock - Clears a bit in memory
++ * @nr: Bit to clear
++ * @addr: Address to start counting from
++ *
++ * This is a non-atomic operation but implies a release barrier before the
++ * memory operation. It can be used for an unlock if no other CPUs can
++ * concurrently modify other bits in the word.
++ */
++static inline void __clear_bit_unlock(long nr, volatile unsigned long *addr)
++{
++	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
++	arch___clear_bit_unlock(nr, addr);
++}
++
++/**
++ * test_and_set_bit_lock - Set a bit and return its old value, for lock
++ * @nr: Bit to set
++ * @addr: Address to count from
++ *
++ * This operation is atomic and provides acquire barrier semantics if
++ * the returned value is 0.
++ * It can be used to implement bit locks.
++ */
++static inline bool test_and_set_bit_lock(long nr, volatile unsigned long *addr)
++{
++	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
++	return arch_test_and_set_bit_lock(nr, addr);
++}
++
++#if defined(arch_clear_bit_unlock_is_negative_byte)
++/**
++ * clear_bit_unlock_is_negative_byte - Clear a bit in memory and test if bottom
++ *                                     byte is negative, for unlock.
++ * @nr: the bit to clear
++ * @addr: the address to start counting from
++ *
++ * This operation is atomic and provides release barrier semantics.
++ *
++ * This is a bit of a one-trick-pony for the filemap code, which clears
++ * PG_locked and tests PG_waiters,
++ */
++static inline bool
++clear_bit_unlock_is_negative_byte(long nr, volatile unsigned long *addr)
++{
++	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
++	return arch_clear_bit_unlock_is_negative_byte(nr, addr);
++}
++/* Let everybody know we have it. */
++#define clear_bit_unlock_is_negative_byte clear_bit_unlock_is_negative_byte
++#endif
++
++#endif /* _ASM_GENERIC_BITOPS_INSTRUMENTED_LOCK_H */
+diff --git a/include/asm-generic/bitops/instrumented-non-atomic.h b/include/asm-generic/bitops/instrumented-non-atomic.h
+new file mode 100644
+index 000000000000..95ff28d128a1
+--- /dev/null
++++ b/include/asm-generic/bitops/instrumented-non-atomic.h
+@@ -0,0 +1,114 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++
++/*
++ * This file provides wrappers with sanitizer instrumentation for non-atomic
++ * bit operations.
++ *
++ * To use this functionality, an arch's bitops.h file needs to define each of
++ * the below bit operations with an arch_ prefix (e.g. arch_set_bit(),
++ * arch___set_bit(), etc.).
++ */
++#ifndef _ASM_GENERIC_BITOPS_INSTRUMENTED_NON_ATOMIC_H
++#define _ASM_GENERIC_BITOPS_INSTRUMENTED_NON_ATOMIC_H
++
++#include <linux/kasan-checks.h>
++
++/**
++ * __set_bit - Set a bit in memory
++ * @nr: the bit to set
++ * @addr: the address to start counting from
++ *
++ * Unlike set_bit(), this function is non-atomic. If it is called on the same
++ * region of memory concurrently, the effect may be that only one operation
++ * succeeds.
++ */
++static inline void __set_bit(long nr, volatile unsigned long *addr)
++{
++	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
++	arch___set_bit(nr, addr);
++}
++
++/**
++ * __clear_bit - Clears a bit in memory
++ * @nr: the bit to clear
++ * @addr: the address to start counting from
++ *
++ * Unlike clear_bit(), this function is non-atomic. If it is called on the same
++ * region of memory concurrently, the effect may be that only one operation
++ * succeeds.
++ */
++static inline void __clear_bit(long nr, volatile unsigned long *addr)
++{
++	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
++	arch___clear_bit(nr, addr);
++}
++
++/**
++ * __change_bit - Toggle a bit in memory
++ * @nr: the bit to change
++ * @addr: the address to start counting from
++ *
++ * Unlike change_bit(), this function is non-atomic. If it is called on the same
++ * region of memory concurrently, the effect may be that only one operation
++ * succeeds.
++ */
++static inline void __change_bit(long nr, volatile unsigned long *addr)
++{
++	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
++	arch___change_bit(nr, addr);
++}
++
++/**
++ * __test_and_set_bit - Set a bit and return its old value
++ * @nr: Bit to set
++ * @addr: Address to count from
++ *
++ * This operation is non-atomic. If two instances of this operation race, one
++ * can appear to succeed but actually fail.
++ */
++static inline bool __test_and_set_bit(long nr, volatile unsigned long *addr)
++{
++	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
++	return arch___test_and_set_bit(nr, addr);
++}
++
++/**
++ * __test_and_clear_bit - Clear a bit and return its old value
++ * @nr: Bit to clear
++ * @addr: Address to count from
++ *
++ * This operation is non-atomic. If two instances of this operation race, one
++ * can appear to succeed but actually fail.
++ */
++static inline bool __test_and_clear_bit(long nr, volatile unsigned long *addr)
++{
++	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
++	return arch___test_and_clear_bit(nr, addr);
++}
++
++/**
++ * __test_and_change_bit - Change a bit and return its old value
++ * @nr: Bit to change
++ * @addr: Address to count from
++ *
++ * This operation is non-atomic. If two instances of this operation race, one
++ * can appear to succeed but actually fail.
++ */
++static inline bool __test_and_change_bit(long nr, volatile unsigned long *addr)
++{
++	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
++	return arch___test_and_change_bit(nr, addr);
++}
++
++/**
++ * test_bit - Determine whether a bit is set
++ * @nr: bit number to test
++ * @addr: Address to start counting from
++ */
++static inline bool test_bit(long nr, const volatile unsigned long *addr)
++{
++	kasan_check_read(addr + BIT_WORD(nr), sizeof(long));
++	return arch_test_bit(nr, addr);
++}
++
++#endif /* _ASM_GENERIC_BITOPS_INSTRUMENTED_NON_ATOMIC_H */
+-- 
+2.20.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CALCETrXnvofB_2KciRL6gZBemtjwTVg4-EKSJx-nz-BULF5aMg%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20190820024941.12640-1-dja%40axtens.net.
