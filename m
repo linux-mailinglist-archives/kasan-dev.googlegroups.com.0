@@ -1,122 +1,134 @@
-Return-Path: <kasan-dev+bncBC5L5P75YUERB4EO63VAKGQEMQZ53NA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCD3NZ4T2IKRBKXH63VAKGQENCGX6KQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13c.google.com (mail-lf1-x13c.google.com [IPv6:2a00:1450:4864:20::13c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AFA89823E
-	for <lists+kasan-dev@lfdr.de>; Wed, 21 Aug 2019 20:03:29 +0200 (CEST)
-Received: by mail-lf1-x13c.google.com with SMTP id h13sf553303lfm.0
-        for <lists+kasan-dev@lfdr.de>; Wed, 21 Aug 2019 11:03:29 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1566410608; cv=pass;
+Received: from mail-qk1-x73b.google.com (mail-qk1-x73b.google.com [IPv6:2607:f8b0:4864:20::73b])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE15F9864F
+	for <lists+kasan-dev@lfdr.de>; Wed, 21 Aug 2019 23:12:11 +0200 (CEST)
+Received: by mail-qk1-x73b.google.com with SMTP id x28sf3553976qki.21
+        for <lists+kasan-dev@lfdr.de>; Wed, 21 Aug 2019 14:12:11 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1566421931; cv=pass;
         d=google.com; s=arc-20160816;
-        b=ITYxh7yVoM9IqrO4dOstlUKMaeHzes5WPkjSSWmx7o4vNU8cfNPfVWiao7ba0oHIyr
-         QSc3jQaickBxR4FFqavo9+kdJj6QxbEIb3Ct438hqSiW+ZREXVU4aJen/cXDjgOK3uiQ
-         H18o2TnlzZdClVGQdy5MggCvJ6Aw7IHPFC5p0A3Np0EoSUi0xw+qYPw0Q0L2ZIT/5oPf
-         ZG06oBxWooUN4VaCdiK1CyasKBlio5JwvNBxh/S2WtzTbRdywXh3uG6ydEJY7ifUmGWN
-         XmA9iMTTEzDOwBX7uFSBdNhHTaAgprOuRAJVyI7yIK05Bbo1j37KDFStg3k72zPMW0mu
-         1sEA==
+        b=sugY6oE8zvPzbVbdWvgAu8CbzHaGo1yHn0EyoRAMjTXpFzmjPvmYPjddCqhCm1y6Ak
+         m6uRciElIZYpMfT4/A57zFZLRFkpGKKNR8Uqw8AAGND7xu3dlEcqvWjpUtHxRidXi1sE
+         ZVvLhhjSI6pZ52Quk+fkGqAe4SoSki8Kj2Iam7LAMAp8MuBvOF61ladB8lTpqM6FRj4s
+         VQTvENd1B2mX4DFIZjVaunB0V9tdZstT1WjIPuDI/fr/PuTtjggNRnncDoaT9sArxZrz
+         /+c3PZ7i8hncHBMZ4dY3GLp9u4dRc0XMrEeGTfidty7j+qGxJDHtqz9w6liXBsk2UPYR
+         BAyw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:message-id:date
-         :subject:cc:to:from:sender:dkim-signature;
-        bh=UlFZ3Kad8PvDaU4agL3KUbkwC6ijZvpfInKijCF+OPg=;
-        b=OBedrZXq7nV0ZE/ILQy8U5Mf9o6hEDPTq34E7bhRVB93UBUvBrOPRZnG9fKDj9Y2JP
-         tDUPEJI26yTTt9ytO2RuxHSkU/0gzyJ9jMGFtmgonVB86h0sAciskolSoSZz+dOH5Bk0
-         gJQVembPffmmag4KLkbzVq1jGDAnDNvbBBqCy+H/GMk7VsJqK36kfPXMkLM+qb+x77P1
-         TK1m/V3iAgYmTjV8o2BlMudkIpGfZthNZUN52E3+4BctcSP25hS6BZ8qU5RD/3rYLcyZ
-         h2DXQ8C/3Qd/kmKoxkz2sDXIjBn3bTAQCf56wPwUVSPKolk6u8cOr2pHB5cPFWGJrAim
-         CEdw==
+         :list-id:mailing-list:precedence:content-transfer-encoding
+         :mime-version:references:in-reply-to:date:cc:to:from:subject
+         :message-id:sender:dkim-signature;
+        bh=AKChQNIgoEurGw6afTqmCq+EC/tLagbkyQNia2yRyrE=;
+        b=WFpsEUbvx7OW5kJs8yLP+TGGIYS1HCZ9xh53c0eOufXDz8JWcBfAmViubKlDN1qTv/
+         yn4c54U665ADwmF+mC3Wq4BzkGuJQGkqwX14tkI4p6JAE1/0Ecv+A+hC9e1rvDYvzSgS
+         jHtQxKLmFs2QtciXlXROCq0wACaw9bA0gg/LN2HYwqBuXZZejBkBcQco0KDtI9zPnbyy
+         V4HWBBMmxojbeoiacXdyFlGRLu8DSb0UVWq5D52p4Ko6TrfjGxg7OhcClFUtfj3s1cl5
+         yJr6HMa0BOy+0p6Ggpsek20iSAZHk4WHX6HX89BqohV/V6SHFge0akwSjAFNodEnJff+
+         QVcQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of aryabinin@virtuozzo.com designates 185.231.240.75 as permitted sender) smtp.mailfrom=aryabinin@virtuozzo.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=virtuozzo.com
+       dkim=pass header.i=@lca.pw header.s=google header.b=jWiovE0W;
+       spf=pass (google.com: domain of cai@lca.pw designates 2607:f8b0:4864:20::742 as permitted sender) smtp.mailfrom=cai@lca.pw
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id:mime-version
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=UlFZ3Kad8PvDaU4agL3KUbkwC6ijZvpfInKijCF+OPg=;
-        b=KEm0anjRAQvOn5hC0zZ027/oDYcRKY9Db52kV6REByx2QM6jgr7ADGSrPNdtzyOQMu
-         yddMAv9I++MEfZ/hed25TLQsA57bcrjFR+th9ozwrmrOB6AHbpc8iQNMI8JfYyyv3oYm
-         XgLvK6pMTSQjBdw4viGSsekUF8DJ29Y1eScfkaKVDxgm/E/2PWEzGk0y+vYtdzeIK5N+
-         wqmsFacenjYTI+fvrFEZi2+nyrPL6NsWJlnm9dGWYlQ2De9au3IkGPckKFtLXsotcXX+
-         7VKwHmq/0X/xWy4V5Fbpcrq+Jbcoq7ty1N35JnEXDl7fkD1n9wkF+CL25uI0NXnAgZ8h
-         F5QQ==
+        h=sender:message-id:subject:from:to:cc:date:in-reply-to:references
+         :mime-version:content-transfer-encoding:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=AKChQNIgoEurGw6afTqmCq+EC/tLagbkyQNia2yRyrE=;
+        b=jbUeTwFcOv3CAPymaQusy8HvebX+BWf0ERNcAfqDCucsbtOPATm8umgWHh8pTE0/yH
+         rbKMoB9m4g64gkOznlJj0BePap3ANK1PyV91d+hpRqVL3LO+xAZV3BXxqFLPmSSXbCxd
+         tpPhX9LUpmqWsVvUV7ckB2bfog8jSYhl7iMlYqViBGPSqvYbBRheCfxneIWrPf0wAB/7
+         xR31qPhWKaimFPOiCzxmNV98DkoWQbdVvqEiNmjnsm6f4JwWLwsIKiT6ngx9rbKimOdw
+         eOF0g+ZGnm6qqJkFa3eN3+Waih+QTzce2VCICJjbLnWxPsWALNRGgAxE8uZZyKd6RkKQ
+         KOvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :mime-version:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=UlFZ3Kad8PvDaU4agL3KUbkwC6ijZvpfInKijCF+OPg=;
-        b=c52wHM0IBrcwUIdtjiOSsXdA0HBuiSI1/PVZgmXMT/v8H/mFgWC87n0YhKRiinTXf5
-         X5tnjgKwXRAyYYcQfUhVwEfF1ifgTNg1aceoQZxjdHJxGYUiAUu36xvamnxW0TUMn+tG
-         oBsn60MYx0IXWrEglOHrcmgtXwrg0Rh5ccQedmDkbhwqhAj20t3NU2Z8ZOv9MHSFR0qF
-         qtdA7V93XxQCJW3GG2fYuCc0RymHIxp3XvxyKKBr50wrUDMG/GVMfcBsttKeMCjfsh7D
-         qPqcRM4XGLN7wG4fRgB0I+APMSLptPm5yN8W5VOE0W/tvkzucP5saFP9gG6RcOF082s2
-         RYlg==
+        h=sender:x-gm-message-state:message-id:subject:from:to:cc:date
+         :in-reply-to:references:mime-version:content-transfer-encoding
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=AKChQNIgoEurGw6afTqmCq+EC/tLagbkyQNia2yRyrE=;
+        b=DsUd5/gBFW10bo5hbEq9Wm3SVWSCuONegx4g4lKQmYnBrZ7R1n19lbYgzPvqfaWY5H
+         muJzx8YxoZge0zHCIDXp184tri8U/ZGKxZNltuCVWcfZRQh2mSEJedi/kJvtZes+xwEF
+         b2zSdY4iQISvHqHA/9IAbS/RnsA8qHZrhXBo7quILFEw7zGUF9DRcJDnsGt8LKKpwtbZ
+         gb9sq85GgudR+8HycXfOeocdo962JQlxgNBnPaY6MOGcXgqjeMAjDneoGs8gE+ZRQDbq
+         HSZdgwKZH2el716wqM1SgCmoY1PrH7lGywPJFVF/jTfrxegystye6jRymQU0PEaS9Tfb
+         KJqA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAVZSuP5dUf360JCViyoPqtlt83O2J7nFI1Ela/e/Y9mIvE9MFCZ
-	totffflUMMfiQcfwSAQoGcY=
-X-Google-Smtp-Source: APXvYqySkOzRFCE3HEiNOysgY1tNBJ6l3ckr1RTacqeK2giIfKOoNJfhKSCgYxYdgAbee3DM50eh8g==
-X-Received: by 2002:a19:ca4b:: with SMTP id h11mr18435252lfj.162.1566410608778;
-        Wed, 21 Aug 2019 11:03:28 -0700 (PDT)
+X-Gm-Message-State: APjAAAWWcR1YgyFNiyEKAm6gTwurW/bdkiItQTDZ2Wlpy5CSDseVlPnS
+	LoL0fsCbqcPa5ycNhcRghm4=
+X-Google-Smtp-Source: APXvYqyTCGx7gcpfQueg+l5ZCurR+ePS3g6wQU4x0sfu4LiPV1HlXh3U990pRdhHD+eRtugNdQEKPA==
+X-Received: by 2002:ae9:ec0d:: with SMTP id h13mr3815283qkg.407.1566421930932;
+        Wed, 21 Aug 2019 14:12:10 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a2e:b4ef:: with SMTP id s15ls385615ljm.14.gmail; Wed, 21 Aug
- 2019 11:03:28 -0700 (PDT)
-X-Received: by 2002:a2e:9889:: with SMTP id b9mr20043182ljj.230.1566410608000;
-        Wed, 21 Aug 2019 11:03:28 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1566410607; cv=none;
+Received: by 2002:a37:8b44:: with SMTP id n65ls1088988qkd.16.gmail; Wed, 21
+ Aug 2019 14:12:10 -0700 (PDT)
+X-Received: by 2002:a37:afc6:: with SMTP id y189mr34044943qke.7.1566421930638;
+        Wed, 21 Aug 2019 14:12:10 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1566421930; cv=none;
         d=google.com; s=arc-20160816;
-        b=VqHCX9lzFvMRFJ/Bpdt0x0nf2W/KvrytKwH4VlAT24q5z0Cirg9GJ6S1z5yzdboLff
-         TC0u8C5SOKocWDKHsAXpRdtH7MRk4NrHJjsE1KeiP/Hxl6Op3EnPEnOM+frEwyLxWjBy
-         7hZF0WUGrfqQR0lgFhhfcylVkuF2ETSJIVbZ/NrpQCv/Qvy/FY81sINJbvwj/cf3XRZ1
-         foOs8HGkolx+HL9GGizX+3QZ3L261afeBfnlZEm3+lFUWuC+QtQNaZpUE5UiqwIDJiKx
-         lk101WdMYWqLIyZITfxXrN5kBGLPVmMhYcOUimiI5Oq/loSgWRQuPmfl1woejO2yVFlR
-         LmaA==
+        b=cc6PAyHeHrj2lUEIkv2yzjS0ZHf/SLm76Yfgyo2k6LKOa7PMgD5UVudb9fcoxLU4KB
+         2l5ytWRAMCPApqtu4SdqJprmj3WP9kr6mJNln2+pXkw+I7AljdoJu8Wy7CST6Ardtvif
+         u/4CJ5xzFNUPE3n2K4BEF8b+5e8HlFo/TEI+OIFj+DkpZvjVFHcUXwrr0yeOAAzKNb0I
+         IgnflpiGJrlkiiM4RWlZz/lSFOKrGGIpTgPgUqB5gMxKBQj9lK/mEp2yEPjSXJvpwAFu
+         VSqkQnPdgrujA81XuWoaj0gIlgFKVfEfiZcK4GIszvCAUC7BTeGNiaBG41vcT0V3FUsZ
+         JeJQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from;
-        bh=i0P+tsgTlNjgXt3p7+gz/sRItTPBN6orllDLg+y3Fa0=;
-        b=p3tLBlvdfA03NQz43LxLCxlFMqLs8jPN76rCGNQFW9ssSaaf1u6UUetW5A0dwMXp8j
-         F/zIvj4qUlY3VzePQcFrFgtSJGAiHCDkHRE2B0hYmFQ8smU4TfBXAlhow0ErPz/6AvlD
-         GpiIPPa06pPV/vucrYZwN3NcKuDhgtzsrrTURbEYed0I5xZGgm55/+AXoPkOgwssSs5m
-         gQmduY/7UH5Cqf/PjSMEIG7sxmGZecEioTq1bex82jSDSgqvGONchVvBG2wzw9A0zh+f
-         rBslQ84JuT0LpZt9ItLSY1xANrnZ4S73ZXGsVEaRuBZtLIeblEHd9EkATFP1ECliTSZj
-         wN4w==
+        h=content-transfer-encoding:mime-version:references:in-reply-to:date
+         :cc:to:from:subject:message-id:dkim-signature;
+        bh=wKfoGD8n1EExPN/R416sVnt2YzIc0+Wi95CWXfv+Qwc=;
+        b=VUDlqIM1O2hB3yQ8uaUYXKRM+B+R0kL4KqAAIpEE70yTNOWJYmFllZPZZRyOpNp1af
+         I57ahAgMA6D8yqGL47XauOFetuukh7c4Vc1XuzOlKSAFg6rO0N/SyeuzNbQQrr2l8/Iz
+         fC9N9b5sddiRsYVw4bY/aOrAMq8gxW11ucf3pTM3/VOBd4b9WLq12BofN85EyXUDfmm8
+         OITyY1cDP9TnrBnoigH0pehgC3eOYz8q5ryqQqsHgOipwgyZJKAaGRN5G6Ba2gxRiDvD
+         b5s+CF2IcckIk3Eiu+f6+JTb8dJhpovd4A9JvPfHewa3EjsFgbxgomqgVyysScud/LNF
+         ZECQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of aryabinin@virtuozzo.com designates 185.231.240.75 as permitted sender) smtp.mailfrom=aryabinin@virtuozzo.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=virtuozzo.com
-Received: from relay.sw.ru (relay.sw.ru. [185.231.240.75])
-        by gmr-mx.google.com with ESMTPS id d23si414812ljo.5.2019.08.21.11.03.27
+       dkim=pass header.i=@lca.pw header.s=google header.b=jWiovE0W;
+       spf=pass (google.com: domain of cai@lca.pw designates 2607:f8b0:4864:20::742 as permitted sender) smtp.mailfrom=cai@lca.pw
+Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com. [2607:f8b0:4864:20::742])
+        by gmr-mx.google.com with ESMTPS id a26si743099qtp.3.2019.08.21.14.12.10
         for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 21 Aug 2019 14:12:10 -0700 (PDT)
+Received-SPF: pass (google.com: domain of cai@lca.pw designates 2607:f8b0:4864:20::742 as permitted sender) client-ip=2607:f8b0:4864:20::742;
+Received: by mail-qk1-x742.google.com with SMTP id m10so3200876qkk.1
+        for <kasan-dev@googlegroups.com>; Wed, 21 Aug 2019 14:12:10 -0700 (PDT)
+X-Received: by 2002:ae9:ef06:: with SMTP id d6mr33003385qkg.157.1566421930297;
+        Wed, 21 Aug 2019 14:12:10 -0700 (PDT)
+Received: from dhcp-41-57.bos.redhat.com (nat-pool-bos-t.redhat.com. [66.187.233.206])
+        by smtp.gmail.com with ESMTPSA id z22sm5710821qti.1.2019.08.21.14.12.08
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 21 Aug 2019 11:03:27 -0700 (PDT)
-Received-SPF: pass (google.com: domain of aryabinin@virtuozzo.com designates 185.231.240.75 as permitted sender) client-ip=185.231.240.75;
-Received: from [172.16.25.5] (helo=i7.sw.ru)
-	by relay.sw.ru with esmtp (Exim 4.92)
-	(envelope-from <aryabinin@virtuozzo.com>)
-	id 1i0UxB-0003dx-8Y; Wed, 21 Aug 2019 21:03:25 +0300
-From: Andrey Ryabinin <aryabinin@virtuozzo.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Dmitry Vyukov <dvyukov@google.com>,
-	Alexander Potapenko <glider@google.com>,
-	Andrey Konovalov <andreyknvl@google.com>,
-	kasan-dev@googlegroups.com,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	Walter Wu <walter-zh.wu@mediatek.com>,
-	Andrey Ryabinin <aryabinin@virtuozzo.com>
-Subject: [PATCH v5] kasan: add memory corruption identification for software tag-based mode
-Date: Wed, 21 Aug 2019 21:03:32 +0300
-Message-Id: <20190821180332.11450-1-aryabinin@virtuozzo.com>
-X-Mailer: git-send-email 2.21.0
-MIME-Version: 1.0
-X-Original-Sender: aryabinin@virtuozzo.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of aryabinin@virtuozzo.com designates 185.231.240.75 as
- permitted sender) smtp.mailfrom=aryabinin@virtuozzo.com;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=virtuozzo.com
+        Wed, 21 Aug 2019 14:12:09 -0700 (PDT)
+Message-ID: <1566421927.5576.3.camel@lca.pw>
+Subject: Re: devm_memremap_pages() triggers a kasan_add_zero_shadow() warning
+From: Qian Cai <cai@lca.pw>
+To: Dan Williams <dan.j.williams@intel.com>
+Cc: Linux MM <linux-mm@kvack.org>, linux-nvdimm <linux-nvdimm@lists.01.org>,
+  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Andrey Ryabinin
+ <aryabinin@virtuozzo.com>, kasan-dev@googlegroups.com,  Baoquan He
+ <bhe@redhat.com>, Dave Jiang <dave.jiang@intel.com>, Thomas Gleixner
+ <tglx@linutronix.de>
+Date: Wed, 21 Aug 2019 17:12:07 -0400
+In-Reply-To: <0AC959D7-5BCB-4A81-BBDC-990E9826EB45@lca.pw>
+References: <1565991345.8572.28.camel@lca.pw>
+	 <CAPcyv4i9VFLSrU75U0gQH6K2sz8AZttqvYidPdDcS7sU2SFaCA@mail.gmail.com>
+	 <0FB85A78-C2EE-4135-9E0F-D5623CE6EA47@lca.pw>
+	 <CAPcyv4h9Y7wSdF+jnNzLDRobnjzLfkGLpJsML2XYLUZZZUPsQA@mail.gmail.com>
+	 <E7A04694-504D-4FB3-9864-03C2CBA3898E@lca.pw>
+	 <CAPcyv4gofF-Xf0KTLH4EUkxuXdRO3ha-w+GoxgmiW7gOdS2nXQ@mail.gmail.com>
+	 <0AC959D7-5BCB-4A81-BBDC-990E9826EB45@lca.pw>
 Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.22.6 (3.22.6-10.el7)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: cai@lca.pw
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@lca.pw header.s=google header.b=jWiovE0W;       spf=pass
+ (google.com: domain of cai@lca.pw designates 2607:f8b0:4864:20::742 as
+ permitted sender) smtp.mailfrom=cai@lca.pw
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -129,296 +141,192 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-From: Walter Wu <walter-zh.wu@mediatek.com>
+On Sat, 2019-08-17 at 23:25 -0400, Qian Cai wrote:
+> > On Aug 17, 2019, at 12:59 PM, Dan Williams <dan.j.williams@intel.com> w=
+rote:
+> >=20
+> > On Sat, Aug 17, 2019 at 4:13 AM Qian Cai <cai@lca.pw> wrote:
+> > >=20
+> > >=20
+> > >=20
+> > > > On Aug 16, 2019, at 11:57 PM, Dan Williams <dan.j.williams@intel.co=
+m>
+> > > > wrote:
+> > > >=20
+> > > > On Fri, Aug 16, 2019 at 8:34 PM Qian Cai <cai@lca.pw> wrote:
+> > > > >=20
+> > > > >=20
+> > > > >=20
+> > > > > > On Aug 16, 2019, at 5:48 PM, Dan Williams <dan.j.williams@intel=
+.com>
+> > > > > > wrote:
+> > > > > >=20
+> > > > > > On Fri, Aug 16, 2019 at 2:36 PM Qian Cai <cai@lca.pw> wrote:
+> > > > > > >=20
+> > > > > > > Every so often recently, booting Intel CPU server on linux-ne=
+xt
+> > > > > > > triggers this
+> > > > > > > warning. Trying to figure out if=C2=A0=C2=A0the commit 7cc786=
+7fb061
+> > > > > > > ("mm/devm_memremap_pages: enable sub-section remap") is the
+> > > > > > > culprit here.
+> > > > > > >=20
+> > > > > > > # ./scripts/faddr2line vmlinux devm_memremap_pages+0x894/0xc7=
+0
+> > > > > > > devm_memremap_pages+0x894/0xc70:
+> > > > > > > devm_memremap_pages at mm/memremap.c:307
+> > > > > >=20
+> > > > > > Previously the forced section alignment in devm_memremap_pages(=
+)
+> > > > > > would
+> > > > > > cause the implementation to never violate the
+> > > > > > KASAN_SHADOW_SCALE_SIZE
+> > > > > > (12K on x86) constraint.
+> > > > > >=20
+> > > > > > Can you provide a dump of /proc/iomem? I'm curious what resourc=
+e is
+> > > > > > triggering such a small alignment granularity.
+> > > > >=20
+> > > > > This is with memmap=3D4G!4G ,
+> > > > >=20
+> > > > > # cat /proc/iomem
+> > > >=20
+> > > > [..]
+> > > > > 100000000-155dfffff : Persistent Memory (legacy)
+> > > > > 100000000-155dfffff : namespace0.0
+> > > > > 155e00000-15982bfff : System RAM
+> > > > > 155e00000-156a00fa0 : Kernel code
+> > > > > 156a00fa1-15765d67f : Kernel data
+> > > > > 157837000-1597fffff : Kernel bss
+> > > > > 15982c000-1ffffffff : Persistent Memory (legacy)
+> > > > > 200000000-87fffffff : System RAM
+> > > >=20
+> > > > Ok, looks like 4G is bad choice to land the pmem emulation on this
+> > > > system because it collides with where the kernel is deployed and ge=
+ts
+> > > > broken into tiny pieces that violate kasan's. This is a known probl=
+em
+> > > > with memmap=3D. You need to pick an memory range that does not coll=
+ide
+> > > > with anything else. See:
+> > > >=20
+> > > > =C2=A0 https://nvdimm.wiki.kernel.org/how_to_choose_the_correct_mem=
+map_kernel
+> > > > _parameter_for_pmem_on_your_system
+> > > >=20
+> > > > ...for more info.
+> > >=20
+> > > Well, it seems I did exactly follow the information in that link,
+> > >=20
+> > > [=C2=A0=C2=A0=C2=A0=C2=A00.000000] BIOS-provided physical RAM map:
+> > > [=C2=A0=C2=A0=C2=A0=C2=A00.000000] BIOS-e820: [mem 0x0000000000000000=
+-0x0000000000093fff]
+> > > usable
+> > > [=C2=A0=C2=A0=C2=A0=C2=A00.000000] BIOS-e820: [mem 0x0000000000094000=
+-0x000000000009ffff]
+> > > reserved
+> > > [=C2=A0=C2=A0=C2=A0=C2=A00.000000] BIOS-e820: [mem 0x00000000000e0000=
+-0x00000000000fffff]
+> > > reserved
+> > > [=C2=A0=C2=A0=C2=A0=C2=A00.000000] BIOS-e820: [mem 0x0000000000100000=
+-0x000000005a7a0fff]
+> > > usable
+> > > [=C2=A0=C2=A0=C2=A0=C2=A00.000000] BIOS-e820: [mem 0x000000005a7a1000=
+-0x000000005b5e0fff]
+> > > reserved
+> > > [=C2=A0=C2=A0=C2=A0=C2=A00.000000] BIOS-e820: [mem 0x000000005b5e1000=
+-0x00000000790fefff]
+> > > usable
+> > > [=C2=A0=C2=A0=C2=A0=C2=A00.000000] BIOS-e820: [mem 0x00000000790ff000=
+-0x00000000791fefff]
+> > > reserved
+> > > [=C2=A0=C2=A0=C2=A0=C2=A00.000000] BIOS-e820: [mem 0x00000000791ff000=
+-0x000000007b5fefff] ACPI
+> > > NVS
+> > > [=C2=A0=C2=A0=C2=A0=C2=A00.000000] BIOS-e820: [mem 0x000000007b5ff000=
+-0x000000007b7fefff] ACPI
+> > > data
+> > > [=C2=A0=C2=A0=C2=A0=C2=A00.000000] BIOS-e820: [mem 0x000000007b7ff000=
+-0x000000007b7fffff]
+> > > usable
+> > > [=C2=A0=C2=A0=C2=A0=C2=A00.000000] BIOS-e820: [mem 0x000000007b800000=
+-0x000000008fffffff]
+> > > reserved
+> > > [=C2=A0=C2=A0=C2=A0=C2=A00.000000] BIOS-e820: [mem 0x00000000ff800000=
+-0x00000000ffffffff]
+> > > reserved
+> > > [=C2=A0=C2=A0=C2=A0=C2=A00.000000] BIOS-e820: [mem 0x0000000100000000=
+-0x000000087fffffff]
+> > > usable
+> > >=20
+> > > Where 4G is good. Then,
+> > >=20
+> > > [=C2=A0=C2=A0=C2=A0=C2=A00.000000] user-defined physical RAM map:
+> > > [=C2=A0=C2=A0=C2=A0=C2=A00.000000] user: [mem 0x0000000000000000-0x00=
+00000000093fff] usable
+> > > [=C2=A0=C2=A0=C2=A0=C2=A00.000000] user: [mem 0x0000000000094000-0x00=
+0000000009ffff] reserved
+> > > [=C2=A0=C2=A0=C2=A0=C2=A00.000000] user: [mem 0x00000000000e0000-0x00=
+000000000fffff] reserved
+> > > [=C2=A0=C2=A0=C2=A0=C2=A00.000000] user: [mem 0x0000000000100000-0x00=
+0000005a7a0fff] usable
+> > > [=C2=A0=C2=A0=C2=A0=C2=A00.000000] user: [mem 0x000000005a7a1000-0x00=
+0000005b5e0fff] reserved
+> > > [=C2=A0=C2=A0=C2=A0=C2=A00.000000] user: [mem 0x000000005b5e1000-0x00=
+000000790fefff] usable
+> > > [=C2=A0=C2=A0=C2=A0=C2=A00.000000] user: [mem 0x00000000790ff000-0x00=
+000000791fefff] reserved
+> > > [=C2=A0=C2=A0=C2=A0=C2=A00.000000] user: [mem 0x00000000791ff000-0x00=
+0000007b5fefff] ACPI NVS
+> > > [=C2=A0=C2=A0=C2=A0=C2=A00.000000] user: [mem 0x000000007b5ff000-0x00=
+0000007b7fefff] ACPI data
+> > > [=C2=A0=C2=A0=C2=A0=C2=A00.000000] user: [mem 0x000000007b7ff000-0x00=
+0000007b7fffff] usable
+> > > [=C2=A0=C2=A0=C2=A0=C2=A00.000000] user: [mem 0x000000007b800000-0x00=
+0000008fffffff] reserved
+> > > [=C2=A0=C2=A0=C2=A0=C2=A00.000000] user: [mem 0x00000000ff800000-0x00=
+000000ffffffff] reserved
+> > > [=C2=A0=C2=A0=C2=A0=C2=A00.000000] user: [mem 0x0000000100000000-0x00=
+000001ffffffff]
+> > > persistent (type 12)
+> > > [=C2=A0=C2=A0=C2=A0=C2=A00.000000] user: [mem 0x0000000200000000-0x00=
+0000087fffffff] usable
+> > >=20
+> > > The doc did mention that =E2=80=9CThere seems to be an issue with CON=
+FIG_KSAN at
+> > > the moment however.=E2=80=9D
+> > > without more detail though.
+> >=20
+> > Does disabling CONFIG_RANDOMIZE_BASE help? Maybe that workaround has
+> > regressed. Effectively we need to find what is causing the kernel to
+> > sometimes be placed in the middle of a custom reserved memmap=3D range.
+>=20
+> Yes, disabling KASLR works good so far. Assuming the workaround, i.e.,
+> f28442497b5c
+> (=E2=80=9Cx86/boot: Fix KASLR and memmap=3D collision=E2=80=9D) is correc=
+t.
+>=20
+> The only other commit that might regress it from my research so far is,
+>=20
+> d52e7d5a952c ("x86/KASLR: Parse all 'memmap=3D' boot option entries=E2=80=
+=9D)
+>=20
 
-This patch adds memory corruption identification at bug report for
-software tag-based mode, the report show whether it is "use-after-free"
-or "out-of-bound" error instead of "invalid-access" error. This will make
-it easier for programmers to see the memory corruption problem.
+It turns out that the origin commit f28442497b5c (=E2=80=9Cx86/boot: Fix KA=
+SLR and
+memmap=3D collision=E2=80=9D) has a bug that is unable to handle "memmap=3D=
+" in
+CONFIG_CMDLINE instead of a parameter in bootloader because when it (as wel=
+l as
+the commit d52e7d5a952c) calls get_cmd_line_ptr() in order to run
+mem_avoid_memmap(), "boot_params" has no knowledge of CONFIG_CMDLINE. Only =
+later
+in setup_arch(), the kernel will deal with parameters over there.
 
-We extend the slab to store five old free pointer tag and free backtrace,
-we can check if the tagged address is in the slab record and make a
-good guess if the object is more like "use-after-free" or "out-of-bound".
-therefore every slab memory corruption can be identified whether it's
-"use-after-free" or "out-of-bound".
-
-[aryabinin@virtuozzo.com: simplify & clenup code:
-  https://lkml.kernel.org/r/3318f9d7-a760-3cc8-b700-f06108ae745f@virtuozzo.com]
-Signed-off-by: Walter Wu <walter-zh.wu@mediatek.com>
-Signed-off-by: Andrey Ryabinin <aryabinin@virtuozzo.com>
----
-
-====== Changes
-Change since v1:
-- add feature option CONFIG_KASAN_SW_TAGS_IDENTIFY.
-- change QUARANTINE_FRACTION to reduce quarantine size.
-- change the qlist order in order to find the newest object in quarantine
-- reduce the number of calling kmalloc() from 2 to 1 time.
-- remove global variable to use argument to pass it.
-- correct the amount of qobject cache->size into the byes of qlist_head.
-- only use kasan_cache_shrink() to shink memory.
-
-Change since v2:
-- remove the shinking memory function kasan_cache_shrink()
-- modify the description of the CONFIG_KASAN_SW_TAGS_IDENTIFY
-- optimize the quarantine_find_object() and qobject_free()
-- fix the duplicating function name 3 times in the header.
-- modify the function name set_track() to kasan_set_track()
-
-Change since v3:
-- change tag-based quarantine to extend slab to identify memory corruption
-
-Changes since v4:
- - Simplify and cleanup code.
-
- lib/Kconfig.kasan      |  8 ++++++++
- mm/kasan/common.c      | 22 +++++++++++++++++++--
- mm/kasan/kasan.h       | 14 +++++++++++++-
- mm/kasan/report.c      | 44 ++++++++++++++++++++++++++++++++----------
- mm/kasan/tags_report.c | 24 +++++++++++++++++++++++
- 5 files changed, 99 insertions(+), 13 deletions(-)
-
-diff --git a/lib/Kconfig.kasan b/lib/Kconfig.kasan
-index 7fa97a8b5717..6c9682ce0254 100644
---- a/lib/Kconfig.kasan
-+++ b/lib/Kconfig.kasan
-@@ -134,6 +134,14 @@ config KASAN_S390_4_LEVEL_PAGING
- 	  to 3TB of RAM with KASan enabled). This options allows to force
- 	  4-level paging instead.
- 
-+config KASAN_SW_TAGS_IDENTIFY
-+	bool "Enable memory corruption identification"
-+	depends on KASAN_SW_TAGS
-+	help
-+	  This option enables best-effort identification of bug type
-+	  (use-after-free or out-of-bounds) at the cost of increased
-+	  memory consumption.
-+
- config TEST_KASAN
- 	tristate "Module for testing KASAN for bug detection"
- 	depends on m && KASAN
-diff --git a/mm/kasan/common.c b/mm/kasan/common.c
-index 3b8cde0cb5b2..6814d6d6a023 100644
---- a/mm/kasan/common.c
-+++ b/mm/kasan/common.c
-@@ -304,7 +304,6 @@ size_t kasan_metadata_size(struct kmem_cache *cache)
- struct kasan_alloc_meta *get_alloc_info(struct kmem_cache *cache,
- 					const void *object)
- {
--	BUILD_BUG_ON(sizeof(struct kasan_alloc_meta) > 32);
- 	return (void *)object + cache->kasan_info.alloc_meta_offset;
- }
- 
-@@ -315,6 +314,24 @@ struct kasan_free_meta *get_free_info(struct kmem_cache *cache,
- 	return (void *)object + cache->kasan_info.free_meta_offset;
- }
- 
-+
-+static void kasan_set_free_info(struct kmem_cache *cache,
-+		void *object, u8 tag)
-+{
-+	struct kasan_alloc_meta *alloc_meta;
-+	u8 idx = 0;
-+
-+	alloc_meta = get_alloc_info(cache, object);
-+
-+#ifdef CONFIG_KASAN_SW_TAGS_IDENTIFY
-+	idx = alloc_meta->free_track_idx;
-+	alloc_meta->free_pointer_tag[idx] = tag;
-+	alloc_meta->free_track_idx = (idx + 1) % KASAN_NR_FREE_STACKS;
-+#endif
-+
-+	set_track(&alloc_meta->free_track[idx], GFP_NOWAIT);
-+}
-+
- void kasan_poison_slab(struct page *page)
- {
- 	unsigned long i;
-@@ -451,7 +468,8 @@ static bool __kasan_slab_free(struct kmem_cache *cache, void *object,
- 			unlikely(!(cache->flags & SLAB_KASAN)))
- 		return false;
- 
--	set_track(&get_alloc_info(cache, object)->free_track, GFP_NOWAIT);
-+	kasan_set_free_info(cache, object, tag);
-+
- 	quarantine_put(get_free_info(cache, object), cache);
- 
- 	return IS_ENABLED(CONFIG_KASAN_GENERIC);
-diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
-index 014f19e76247..35cff6bbb716 100644
---- a/mm/kasan/kasan.h
-+++ b/mm/kasan/kasan.h
-@@ -95,9 +95,19 @@ struct kasan_track {
- 	depot_stack_handle_t stack;
- };
- 
-+#ifdef CONFIG_KASAN_SW_TAGS_IDENTIFY
-+#define KASAN_NR_FREE_STACKS 5
-+#else
-+#define KASAN_NR_FREE_STACKS 1
-+#endif
-+
- struct kasan_alloc_meta {
- 	struct kasan_track alloc_track;
--	struct kasan_track free_track;
-+	struct kasan_track free_track[KASAN_NR_FREE_STACKS];
-+#ifdef CONFIG_KASAN_SW_TAGS_IDENTIFY
-+	u8 free_pointer_tag[KASAN_NR_FREE_STACKS];
-+	u8 free_track_idx;
-+#endif
- };
- 
- struct qlist_node {
-@@ -146,6 +156,8 @@ void kasan_report(unsigned long addr, size_t size,
- 		bool is_write, unsigned long ip);
- void kasan_report_invalid_free(void *object, unsigned long ip);
- 
-+struct page *kasan_addr_to_page(const void *addr);
-+
- #if defined(CONFIG_KASAN_GENERIC) && \
- 	(defined(CONFIG_SLAB) || defined(CONFIG_SLUB))
- void quarantine_put(struct kasan_free_meta *info, struct kmem_cache *cache);
-diff --git a/mm/kasan/report.c b/mm/kasan/report.c
-index 0e5f965f1882..621782100eaa 100644
---- a/mm/kasan/report.c
-+++ b/mm/kasan/report.c
-@@ -111,7 +111,7 @@ static void print_track(struct kasan_track *track, const char *prefix)
- 	}
- }
- 
--static struct page *addr_to_page(const void *addr)
-+struct page *kasan_addr_to_page(const void *addr)
- {
- 	if ((addr >= (void *)PAGE_OFFSET) &&
- 			(addr < high_memory))
-@@ -151,15 +151,38 @@ static void describe_object_addr(struct kmem_cache *cache, void *object,
- 		(void *)(object_addr + cache->object_size));
- }
- 
-+static struct kasan_track *kasan_get_free_track(struct kmem_cache *cache,
-+		void *object, u8 tag)
-+{
-+	struct kasan_alloc_meta *alloc_meta;
-+	int i = 0;
-+
-+	alloc_meta = get_alloc_info(cache, object);
-+
-+#ifdef CONFIG_KASAN_SW_TAGS_IDENTIFY
-+	for (i = 0; i < KASAN_NR_FREE_STACKS; i++) {
-+		if (alloc_meta->free_pointer_tag[i] == tag)
-+			break;
-+	}
-+	if (i == KASAN_NR_FREE_STACKS)
-+		i = alloc_meta->free_track_idx;
-+#endif
-+
-+	return &alloc_meta->free_track[i];
-+}
-+
- static void describe_object(struct kmem_cache *cache, void *object,
--				const void *addr)
-+				const void *addr, u8 tag)
- {
- 	struct kasan_alloc_meta *alloc_info = get_alloc_info(cache, object);
- 
- 	if (cache->flags & SLAB_KASAN) {
-+		struct kasan_track *free_track;
-+
- 		print_track(&alloc_info->alloc_track, "Allocated");
- 		pr_err("\n");
--		print_track(&alloc_info->free_track, "Freed");
-+		free_track = kasan_get_free_track(cache, object, tag);
-+		print_track(free_track, "Freed");
- 		pr_err("\n");
- 	}
- 
-@@ -344,9 +367,9 @@ static void print_address_stack_frame(const void *addr)
- 	print_decoded_frame_descr(frame_descr);
- }
- 
--static void print_address_description(void *addr)
-+static void print_address_description(void *addr, u8 tag)
- {
--	struct page *page = addr_to_page(addr);
-+	struct page *page = kasan_addr_to_page(addr);
- 
- 	dump_stack();
- 	pr_err("\n");
-@@ -355,7 +378,7 @@ static void print_address_description(void *addr)
- 		struct kmem_cache *cache = page->slab_cache;
- 		void *object = nearest_obj(cache, page,	addr);
- 
--		describe_object(cache, object, addr);
-+		describe_object(cache, object, addr, tag);
- 	}
- 
- 	if (kernel_or_module_addr(addr) && !init_task_stack_addr(addr)) {
-@@ -435,13 +458,14 @@ static bool report_enabled(void)
- void kasan_report_invalid_free(void *object, unsigned long ip)
- {
- 	unsigned long flags;
-+	u8 tag = get_tag(object);
- 
-+	object = reset_tag(object);
- 	start_report(&flags);
- 	pr_err("BUG: KASAN: double-free or invalid-free in %pS\n", (void *)ip);
--	print_tags(get_tag(object), reset_tag(object));
--	object = reset_tag(object);
-+	print_tags(tag, object);
- 	pr_err("\n");
--	print_address_description(object);
-+	print_address_description(object, tag);
- 	pr_err("\n");
- 	print_shadow_for_address(object);
- 	end_report(&flags);
-@@ -479,7 +503,7 @@ void __kasan_report(unsigned long addr, size_t size, bool is_write, unsigned lon
- 	pr_err("\n");
- 
- 	if (addr_has_shadow(untagged_addr)) {
--		print_address_description(untagged_addr);
-+		print_address_description(untagged_addr, get_tag(tagged_addr));
- 		pr_err("\n");
- 		print_shadow_for_address(info.first_bad_addr);
- 	} else {
-diff --git a/mm/kasan/tags_report.c b/mm/kasan/tags_report.c
-index 8eaf5f722271..969ae08f59d7 100644
---- a/mm/kasan/tags_report.c
-+++ b/mm/kasan/tags_report.c
-@@ -36,6 +36,30 @@
- 
- const char *get_bug_type(struct kasan_access_info *info)
- {
-+#ifdef CONFIG_KASAN_SW_TAGS_IDENTIFY
-+	struct kasan_alloc_meta *alloc_meta;
-+	struct kmem_cache *cache;
-+	struct page *page;
-+	const void *addr;
-+	void *object;
-+	u8 tag;
-+	int i;
-+
-+	tag = get_tag(info->access_addr);
-+	addr = reset_tag(info->access_addr);
-+	page = kasan_addr_to_page(addr);
-+	if (page && PageSlab(page)) {
-+		cache = page->slab_cache;
-+		object = nearest_obj(cache, page, (void *)addr);
-+		alloc_meta = get_alloc_info(cache, object);
-+
-+		for (i = 0; i < KASAN_NR_FREE_STACKS; i++)
-+			if (alloc_meta->free_pointer_tag[i] == tag)
-+				return "use-after-free";
-+		return "out-of-bounds";
-+	}
-+
-+#endif
- 	return "invalid-access";
- }
- 
--- 
-2.21.0
-
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20190821180332.11450-1-aryabinin%40virtuozzo.com.
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/1566421927.5576.3.camel%40lca.pw.
