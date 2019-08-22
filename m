@@ -1,134 +1,137 @@
-Return-Path: <kasan-dev+bncBCD3NZ4T2IKRBKXH63VAKGQENCGX6KQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBP6467VAKGQEERXK4EA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qk1-x73b.google.com (mail-qk1-x73b.google.com [IPv6:2607:f8b0:4864:20::73b])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE15F9864F
-	for <lists+kasan-dev@lfdr.de>; Wed, 21 Aug 2019 23:12:11 +0200 (CEST)
-Received: by mail-qk1-x73b.google.com with SMTP id x28sf3553976qki.21
-        for <lists+kasan-dev@lfdr.de>; Wed, 21 Aug 2019 14:12:11 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1566421931; cv=pass;
+Received: from mail-pf1-x437.google.com (mail-pf1-x437.google.com [IPv6:2607:f8b0:4864:20::437])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B853988E7
+	for <lists+kasan-dev@lfdr.de>; Thu, 22 Aug 2019 03:22:09 +0200 (CEST)
+Received: by mail-pf1-x437.google.com with SMTP id s10sf2851809pfd.16
+        for <lists+kasan-dev@lfdr.de>; Wed, 21 Aug 2019 18:22:09 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1566436927; cv=pass;
         d=google.com; s=arc-20160816;
-        b=sugY6oE8zvPzbVbdWvgAu8CbzHaGo1yHn0EyoRAMjTXpFzmjPvmYPjddCqhCm1y6Ak
-         m6uRciElIZYpMfT4/A57zFZLRFkpGKKNR8Uqw8AAGND7xu3dlEcqvWjpUtHxRidXi1sE
-         ZVvLhhjSI6pZ52Quk+fkGqAe4SoSki8Kj2Iam7LAMAp8MuBvOF61ladB8lTpqM6FRj4s
-         VQTvENd1B2mX4DFIZjVaunB0V9tdZstT1WjIPuDI/fr/PuTtjggNRnncDoaT9sArxZrz
-         /+c3PZ7i8hncHBMZ4dY3GLp9u4dRc0XMrEeGTfidty7j+qGxJDHtqz9w6liXBsk2UPYR
-         BAyw==
+        b=q6/URDnVMvWIV665pJmFLw5YblNxgxfiEq0hG7QpNbTTPw63tXXFitaoc2ZcjRV38x
+         yHyAep4Mm9fFQX1ssC2jwiTGzlQIDmn+zz/ymu9QxRnRb7BSPFoGhPzJ81Y79+gMspFQ
+         cy5rn0jjbuZd38URPqxWkJmdYb4dZpX4grECwctmgTnXmz0g4obIuuOW172gOIugN13o
+         CwX+CDneKUUNNHBi1e4b86uXVKy3t1C1LkSbttdX2FP1rwZMeOmhtBHTqYqXzfIsjxT8
+         13ukjIskAzSUHpm+WYa3TJuJaKRuMripbZwYET087ttkXnu12cwqXAG4vkvfcr8Llavv
+         RbcQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding
-         :mime-version:references:in-reply-to:date:cc:to:from:subject
-         :message-id:sender:dkim-signature;
-        bh=AKChQNIgoEurGw6afTqmCq+EC/tLagbkyQNia2yRyrE=;
-        b=WFpsEUbvx7OW5kJs8yLP+TGGIYS1HCZ9xh53c0eOufXDz8JWcBfAmViubKlDN1qTv/
-         yn4c54U665ADwmF+mC3Wq4BzkGuJQGkqwX14tkI4p6JAE1/0Ecv+A+hC9e1rvDYvzSgS
-         jHtQxKLmFs2QtciXlXROCq0wACaw9bA0gg/LN2HYwqBuXZZejBkBcQco0KDtI9zPnbyy
-         V4HWBBMmxojbeoiacXdyFlGRLu8DSb0UVWq5D52p4Ko6TrfjGxg7OhcClFUtfj3s1cl5
-         yJr6HMa0BOy+0p6Ggpsek20iSAZHk4WHX6HX89BqohV/V6SHFge0akwSjAFNodEnJff+
-         QVcQ==
+         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
+         :date:cc:to:from:subject:message-id:sender:dkim-signature;
+        bh=xUGx2192LsvLUAQXAu+pVh6La3PL+aN3ceXJ+eE6RwM=;
+        b=ZKKb/4iwtkwdOlzFDXxdotUsNpVQw2cBR79ODii6RifDj0LzM7Cn7ckjVfqnNZzZ9J
+         hoVjPBlrSXyxGfOQaayvQc3tjXao8Seoe9BwKvIzVgQCp2/yDg14MAlBwieKHaobad4/
+         bSI/A+f0wbIyeXPi3xFwz7qIOGHygLaODgiYai3/DppK0pgH4BoULrOggMRRmhKQpVpa
+         s4Q+zQYi4m8yuoZsw1PbBihob6nLZ/Pz9hK9e1BKdXLzr2Ccln5ufHdaVcyPRV9S87EJ
+         TGR5gnnFAkUA0ZIXrKrUdE6rsNyM6oP5SqepzhwwEIl2G6Bl5l8RJA6RrnVr2gJYSAnC
+         eHWQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@lca.pw header.s=google header.b=jWiovE0W;
-       spf=pass (google.com: domain of cai@lca.pw designates 2607:f8b0:4864:20::742 as permitted sender) smtp.mailfrom=cai@lca.pw
+       spf=pass (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.183 as permitted sender) smtp.mailfrom=walter-zh.wu@mediatek.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
         h=sender:message-id:subject:from:to:cc:date:in-reply-to:references
-         :mime-version:content-transfer-encoding:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=AKChQNIgoEurGw6afTqmCq+EC/tLagbkyQNia2yRyrE=;
-        b=jbUeTwFcOv3CAPymaQusy8HvebX+BWf0ERNcAfqDCucsbtOPATm8umgWHh8pTE0/yH
-         rbKMoB9m4g64gkOznlJj0BePap3ANK1PyV91d+hpRqVL3LO+xAZV3BXxqFLPmSSXbCxd
-         tpPhX9LUpmqWsVvUV7ckB2bfog8jSYhl7iMlYqViBGPSqvYbBRheCfxneIWrPf0wAB/7
-         xR31qPhWKaimFPOiCzxmNV98DkoWQbdVvqEiNmjnsm6f4JwWLwsIKiT6ngx9rbKimOdw
-         eOF0g+ZGnm6qqJkFa3eN3+Waih+QTzce2VCICJjbLnWxPsWALNRGgAxE8uZZyKd6RkKQ
-         KOvQ==
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=xUGx2192LsvLUAQXAu+pVh6La3PL+aN3ceXJ+eE6RwM=;
+        b=rxcYDiHN/1m/eEtMKPbxrEC+aUJ4KJ1cbDSDfj3c9pxNQN66SLuvihdFIdZdp7bPzF
+         A7ldoyYgrOnsWhQPX1UzmWSeFuJBgLrPtouPGoXCz9zaPGkVXh2syho9D+j8RPLKznA+
+         El4/Vw4BZZtYKI0iFNSj+0Bq4juMs7lv16ElYvAKO9lrI7Ja/xa4SS8TzOHpyynuZJ3+
+         kISS1UJAjwBGdBsSrfNXK6zAagsxVMwWp7BevNFYaQndEOTD4k6yYss9NNHWf1AO8mpu
+         UlqmwjJ7FYqC/qSLeiVq88bMBCDCq4JVphsd4GzA+JTsDpcNZzytiDRTHD5/LnwvjnWB
+         qUKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:message-id:subject:from:to:cc:date
-         :in-reply-to:references:mime-version:content-transfer-encoding
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=AKChQNIgoEurGw6afTqmCq+EC/tLagbkyQNia2yRyrE=;
-        b=DsUd5/gBFW10bo5hbEq9Wm3SVWSCuONegx4g4lKQmYnBrZ7R1n19lbYgzPvqfaWY5H
-         muJzx8YxoZge0zHCIDXp184tri8U/ZGKxZNltuCVWcfZRQh2mSEJedi/kJvtZes+xwEF
-         b2zSdY4iQISvHqHA/9IAbS/RnsA8qHZrhXBo7quILFEw7zGUF9DRcJDnsGt8LKKpwtbZ
-         gb9sq85GgudR+8HycXfOeocdo962JQlxgNBnPaY6MOGcXgqjeMAjDneoGs8gE+ZRQDbq
-         HSZdgwKZH2el716wqM1SgCmoY1PrH7lGywPJFVF/jTfrxegystye6jRymQU0PEaS9Tfb
-         KJqA==
+         :in-reply-to:references:mime-version:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=xUGx2192LsvLUAQXAu+pVh6La3PL+aN3ceXJ+eE6RwM=;
+        b=UThjJOjauhh4SAXfK0Jau988rhSRjncWv4VZ4tMOuMUIBgWgJAO6C2V8AfguE3TOhF
+         ngVhQGrbit0UP9SkOKZzx+qid4uLCmd6V1ck1uVG2pidHxzoz3ZizRxiIBu36e10+8sd
+         Ia++kg2WFZtuTuGei6VxPElgEiOv+DQ48V9XlHyCV05NScsYM00PUKx1+v9qRKzhuC1u
+         qbE6HAcm9n4K20tIMFNUYzDUxR9pSBz4I8QFNlxu+gDLLdbh+U+yERkkOJFc0yoGchSb
+         8TobRg5CPtzLJguWTZWCZKsif8yAeJKXgqzUpyPS6VZoJ13eZw8u7aAiVXXHj4dQmd0D
+         rJOw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAWWcR1YgyFNiyEKAm6gTwurW/bdkiItQTDZ2Wlpy5CSDseVlPnS
-	LoL0fsCbqcPa5ycNhcRghm4=
-X-Google-Smtp-Source: APXvYqyTCGx7gcpfQueg+l5ZCurR+ePS3g6wQU4x0sfu4LiPV1HlXh3U990pRdhHD+eRtugNdQEKPA==
-X-Received: by 2002:ae9:ec0d:: with SMTP id h13mr3815283qkg.407.1566421930932;
-        Wed, 21 Aug 2019 14:12:10 -0700 (PDT)
+X-Gm-Message-State: APjAAAWf+x3sRj3xX+iWmD9HAIDNc9SD1TV21sbXvZ+CS5Y9dqidH8fI
+	60Qpm8PkM0sGzP1+wlamNg0=
+X-Google-Smtp-Source: APXvYqyI8yj7M3wU0b81mIqbssarrgOkdTbWHRKo46kS/V0VfBJIWQcZXJO2Pm/clX2p05vMgRGL2A==
+X-Received: by 2002:a17:902:e493:: with SMTP id cj19mr36248002plb.292.1566436927815;
+        Wed, 21 Aug 2019 18:22:07 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a37:8b44:: with SMTP id n65ls1088988qkd.16.gmail; Wed, 21
- Aug 2019 14:12:10 -0700 (PDT)
-X-Received: by 2002:a37:afc6:: with SMTP id y189mr34044943qke.7.1566421930638;
-        Wed, 21 Aug 2019 14:12:10 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1566421930; cv=none;
+Received: by 2002:a62:ea10:: with SMTP id t16ls1048608pfh.5.gmail; Wed, 21 Aug
+ 2019 18:22:07 -0700 (PDT)
+X-Received: by 2002:a63:d002:: with SMTP id z2mr32196826pgf.364.1566436927532;
+        Wed, 21 Aug 2019 18:22:07 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1566436927; cv=none;
         d=google.com; s=arc-20160816;
-        b=cc6PAyHeHrj2lUEIkv2yzjS0ZHf/SLm76Yfgyo2k6LKOa7PMgD5UVudb9fcoxLU4KB
-         2l5ytWRAMCPApqtu4SdqJprmj3WP9kr6mJNln2+pXkw+I7AljdoJu8Wy7CST6Ardtvif
-         u/4CJ5xzFNUPE3n2K4BEF8b+5e8HlFo/TEI+OIFj+DkpZvjVFHcUXwrr0yeOAAzKNb0I
-         IgnflpiGJrlkiiM4RWlZz/lSFOKrGGIpTgPgUqB5gMxKBQj9lK/mEp2yEPjSXJvpwAFu
-         VSqkQnPdgrujA81XuWoaj0gIlgFKVfEfiZcK4GIszvCAUC7BTeGNiaBG41vcT0V3FUsZ
-         JeJQ==
+        b=JqHm7kInbQpSE1HTdc/inTSKmw5FGPC7GCeQr1hyv5hnH/Ew76luzFD3ZwsHFdhWpM
+         cHrOpU2VVsHs6pJMRr+q33PGri3XqZjIkaPEUjT1Gi6l/EnkC8pWKGx4I/B0beK/40Zb
+         XUvmSOy2tIrKZkWHjRCau9koa5zZlr6FAZg/fXMiT/3HX0Sy5blDswCb6kCnbGw4ak0e
+         iyQvXCe26+yrZghdnOezVsi7Cqb2oD+f+Ztkf3cLY2BcqblgJ7WqQ++Da0kNxNo8ykQ/
+         0Xrd5I0iKjbRd2JG5nO3eSM7FL2BJ6NrJ5xJP7Ro3XW9nbjDL2MDv0SOFcCBYI4y0BiJ
+         XE9g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:references:in-reply-to:date
-         :cc:to:from:subject:message-id:dkim-signature;
-        bh=wKfoGD8n1EExPN/R416sVnt2YzIc0+Wi95CWXfv+Qwc=;
-        b=VUDlqIM1O2hB3yQ8uaUYXKRM+B+R0kL4KqAAIpEE70yTNOWJYmFllZPZZRyOpNp1af
-         I57ahAgMA6D8yqGL47XauOFetuukh7c4Vc1XuzOlKSAFg6rO0N/SyeuzNbQQrr2l8/Iz
-         fC9N9b5sddiRsYVw4bY/aOrAMq8gxW11ucf3pTM3/VOBd4b9WLq12BofN85EyXUDfmm8
-         OITyY1cDP9TnrBnoigH0pehgC3eOYz8q5ryqQqsHgOipwgyZJKAaGRN5G6Ba2gxRiDvD
-         b5s+CF2IcckIk3Eiu+f6+JTb8dJhpovd4A9JvPfHewa3EjsFgbxgomqgVyysScud/LNF
-         ZECQ==
+        h=mime-version:content-transfer-encoding:references:in-reply-to:date
+         :cc:to:from:subject:message-id;
+        bh=4zTXT8np2oEv+GXqFGZA51ND/MraAhQ+aSBA7OKvwwk=;
+        b=rLVX8+NeDn4zVhI/P/sY7HduNM6xuv7b6t0oEmPYNiphJcrRgk0W4s8zqQv+qNkCjK
+         /k/j5aNclnne2MsAaoa6o6mUPrs/2lZDSnF8fqMWDM7t2I5Dz96oHCsA956ibj5YxgTn
+         xOImTEbHHgWMwVJpCVSSyObG0qQZqE5OeSVFfwaS4jq3KPcKM3JWMsgpdrGnQA+yA50G
+         tE9aXitK1QIlCnLaUJComd6ekof3CCOviSNah7lq923y0/EVsf8xEOU84sP/94dqd3cr
+         2/2RynCaly+oAAP2dXubkyjI3HO3IYBDltvoc/HmJ4dNqg0EgJ3Fb9UsuIhMD8PyhH5x
+         kjCg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@lca.pw header.s=google header.b=jWiovE0W;
-       spf=pass (google.com: domain of cai@lca.pw designates 2607:f8b0:4864:20::742 as permitted sender) smtp.mailfrom=cai@lca.pw
-Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com. [2607:f8b0:4864:20::742])
-        by gmr-mx.google.com with ESMTPS id a26si743099qtp.3.2019.08.21.14.12.10
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 21 Aug 2019 14:12:10 -0700 (PDT)
-Received-SPF: pass (google.com: domain of cai@lca.pw designates 2607:f8b0:4864:20::742 as permitted sender) client-ip=2607:f8b0:4864:20::742;
-Received: by mail-qk1-x742.google.com with SMTP id m10so3200876qkk.1
-        for <kasan-dev@googlegroups.com>; Wed, 21 Aug 2019 14:12:10 -0700 (PDT)
-X-Received: by 2002:ae9:ef06:: with SMTP id d6mr33003385qkg.157.1566421930297;
-        Wed, 21 Aug 2019 14:12:10 -0700 (PDT)
-Received: from dhcp-41-57.bos.redhat.com (nat-pool-bos-t.redhat.com. [66.187.233.206])
-        by smtp.gmail.com with ESMTPSA id z22sm5710821qti.1.2019.08.21.14.12.08
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 21 Aug 2019 14:12:09 -0700 (PDT)
-Message-ID: <1566421927.5576.3.camel@lca.pw>
-Subject: Re: devm_memremap_pages() triggers a kasan_add_zero_shadow() warning
-From: Qian Cai <cai@lca.pw>
-To: Dan Williams <dan.j.williams@intel.com>
-Cc: Linux MM <linux-mm@kvack.org>, linux-nvdimm <linux-nvdimm@lists.01.org>,
-  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Andrey Ryabinin
- <aryabinin@virtuozzo.com>, kasan-dev@googlegroups.com,  Baoquan He
- <bhe@redhat.com>, Dave Jiang <dave.jiang@intel.com>, Thomas Gleixner
- <tglx@linutronix.de>
-Date: Wed, 21 Aug 2019 17:12:07 -0400
-In-Reply-To: <0AC959D7-5BCB-4A81-BBDC-990E9826EB45@lca.pw>
-References: <1565991345.8572.28.camel@lca.pw>
-	 <CAPcyv4i9VFLSrU75U0gQH6K2sz8AZttqvYidPdDcS7sU2SFaCA@mail.gmail.com>
-	 <0FB85A78-C2EE-4135-9E0F-D5623CE6EA47@lca.pw>
-	 <CAPcyv4h9Y7wSdF+jnNzLDRobnjzLfkGLpJsML2XYLUZZZUPsQA@mail.gmail.com>
-	 <E7A04694-504D-4FB3-9864-03C2CBA3898E@lca.pw>
-	 <CAPcyv4gofF-Xf0KTLH4EUkxuXdRO3ha-w+GoxgmiW7gOdS2nXQ@mail.gmail.com>
-	 <0AC959D7-5BCB-4A81-BBDC-990E9826EB45@lca.pw>
+       spf=pass (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.183 as permitted sender) smtp.mailfrom=walter-zh.wu@mediatek.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
+Received: from mailgw01.mediatek.com ([210.61.82.183])
+        by gmr-mx.google.com with ESMTP id az14si15793pjb.0.2019.08.21.18.22.07
+        for <kasan-dev@googlegroups.com>;
+        Wed, 21 Aug 2019 18:22:07 -0700 (PDT)
+Received-SPF: pass (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.183 as permitted sender) client-ip=210.61.82.183;
+X-UUID: 2740e10b36dc499fa5282ce2d54ec53c-20190822
+X-UUID: 2740e10b36dc499fa5282ce2d54ec53c-20190822
+Received: from mtkmrs01.mediatek.inc [(172.21.131.159)] by mailgw01.mediatek.com
+	(envelope-from <walter-zh.wu@mediatek.com>)
+	(Cellopoint E-mail Firewall v4.1.10 Build 0707 with TLS)
+	with ESMTP id 1416285409; Thu, 22 Aug 2019 09:22:02 +0800
+Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
+ mtkmbs06n1.mediatek.inc (172.21.101.129) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Thu, 22 Aug 2019 09:22:02 +0800
+Received: from [172.21.84.99] (172.21.84.99) by MTKCAS06.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Thu, 22 Aug 2019 09:21:58 +0800
+Message-ID: <1566436922.27117.0.camel@mtksdccf07>
+Subject: Re: [PATCH v4] kasan: add memory corruption identification for
+ software tag-based mode
+From: Walter Wu <walter-zh.wu@mediatek.com>
+To: Andrey Ryabinin <aryabinin@virtuozzo.com>
+CC: Alexander Potapenko <glider@google.com>, Dmitry Vyukov
+	<dvyukov@google.com>, Matthias Brugger <matthias.bgg@gmail.com>, "Andrew
+ Morton" <akpm@linux-foundation.org>, Martin Schwidefsky
+	<schwidefsky@de.ibm.com>, Arnd Bergmann <arnd@arndb.de>, Thomas Gleixner
+	<tglx@linutronix.de>, Vasily Gorbik <gor@linux.ibm.com>, Andrey Konovalov
+	<andreyknvl@google.com>, Miles Chen <miles.chen@mediatek.com>,
+	<linux-kernel@vger.kernel.org>, <kasan-dev@googlegroups.com>,
+	<linux-mm@kvack.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-mediatek@lists.infradead.org>, <wsd_upstream@mediatek.com>
+Date: Thu, 22 Aug 2019 09:22:02 +0800
+In-Reply-To: <3318f9d7-a760-3cc8-b700-f06108ae745f@virtuozzo.com>
+References: <20190806054340.16305-1-walter-zh.wu@mediatek.com>
+	 <1566279478.9993.21.camel@mtksdccf07>
+	 <3318f9d7-a760-3cc8-b700-f06108ae745f@virtuozzo.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.22.6 (3.22.6-10.el7)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: cai@lca.pw
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@lca.pw header.s=google header.b=jWiovE0W;       spf=pass
- (google.com: domain of cai@lca.pw designates 2607:f8b0:4864:20::742 as
- permitted sender) smtp.mailfrom=cai@lca.pw
+X-Mailer: Evolution 3.2.3-0ubuntu6
+MIME-Version: 1.0
+X-MTK: N
+X-Original-Sender: walter-zh.wu@mediatek.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.183 as
+ permitted sender) smtp.mailfrom=walter-zh.wu@mediatek.com;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -141,192 +144,57 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Sat, 2019-08-17 at 23:25 -0400, Qian Cai wrote:
-> > On Aug 17, 2019, at 12:59 PM, Dan Williams <dan.j.williams@intel.com> w=
-rote:
-> >=20
-> > On Sat, Aug 17, 2019 at 4:13 AM Qian Cai <cai@lca.pw> wrote:
-> > >=20
-> > >=20
-> > >=20
-> > > > On Aug 16, 2019, at 11:57 PM, Dan Williams <dan.j.williams@intel.co=
-m>
-> > > > wrote:
-> > > >=20
-> > > > On Fri, Aug 16, 2019 at 8:34 PM Qian Cai <cai@lca.pw> wrote:
-> > > > >=20
-> > > > >=20
-> > > > >=20
-> > > > > > On Aug 16, 2019, at 5:48 PM, Dan Williams <dan.j.williams@intel=
-.com>
-> > > > > > wrote:
-> > > > > >=20
-> > > > > > On Fri, Aug 16, 2019 at 2:36 PM Qian Cai <cai@lca.pw> wrote:
-> > > > > > >=20
-> > > > > > > Every so often recently, booting Intel CPU server on linux-ne=
-xt
-> > > > > > > triggers this
-> > > > > > > warning. Trying to figure out if=C2=A0=C2=A0the commit 7cc786=
-7fb061
-> > > > > > > ("mm/devm_memremap_pages: enable sub-section remap") is the
-> > > > > > > culprit here.
-> > > > > > >=20
-> > > > > > > # ./scripts/faddr2line vmlinux devm_memremap_pages+0x894/0xc7=
-0
-> > > > > > > devm_memremap_pages+0x894/0xc70:
-> > > > > > > devm_memremap_pages at mm/memremap.c:307
-> > > > > >=20
-> > > > > > Previously the forced section alignment in devm_memremap_pages(=
-)
-> > > > > > would
-> > > > > > cause the implementation to never violate the
-> > > > > > KASAN_SHADOW_SCALE_SIZE
-> > > > > > (12K on x86) constraint.
-> > > > > >=20
-> > > > > > Can you provide a dump of /proc/iomem? I'm curious what resourc=
-e is
-> > > > > > triggering such a small alignment granularity.
-> > > > >=20
-> > > > > This is with memmap=3D4G!4G ,
-> > > > >=20
-> > > > > # cat /proc/iomem
-> > > >=20
-> > > > [..]
-> > > > > 100000000-155dfffff : Persistent Memory (legacy)
-> > > > > 100000000-155dfffff : namespace0.0
-> > > > > 155e00000-15982bfff : System RAM
-> > > > > 155e00000-156a00fa0 : Kernel code
-> > > > > 156a00fa1-15765d67f : Kernel data
-> > > > > 157837000-1597fffff : Kernel bss
-> > > > > 15982c000-1ffffffff : Persistent Memory (legacy)
-> > > > > 200000000-87fffffff : System RAM
-> > > >=20
-> > > > Ok, looks like 4G is bad choice to land the pmem emulation on this
-> > > > system because it collides with where the kernel is deployed and ge=
-ts
-> > > > broken into tiny pieces that violate kasan's. This is a known probl=
-em
-> > > > with memmap=3D. You need to pick an memory range that does not coll=
-ide
-> > > > with anything else. See:
-> > > >=20
-> > > > =C2=A0 https://nvdimm.wiki.kernel.org/how_to_choose_the_correct_mem=
-map_kernel
-> > > > _parameter_for_pmem_on_your_system
-> > > >=20
-> > > > ...for more info.
-> > >=20
-> > > Well, it seems I did exactly follow the information in that link,
-> > >=20
-> > > [=C2=A0=C2=A0=C2=A0=C2=A00.000000] BIOS-provided physical RAM map:
-> > > [=C2=A0=C2=A0=C2=A0=C2=A00.000000] BIOS-e820: [mem 0x0000000000000000=
--0x0000000000093fff]
-> > > usable
-> > > [=C2=A0=C2=A0=C2=A0=C2=A00.000000] BIOS-e820: [mem 0x0000000000094000=
--0x000000000009ffff]
-> > > reserved
-> > > [=C2=A0=C2=A0=C2=A0=C2=A00.000000] BIOS-e820: [mem 0x00000000000e0000=
--0x00000000000fffff]
-> > > reserved
-> > > [=C2=A0=C2=A0=C2=A0=C2=A00.000000] BIOS-e820: [mem 0x0000000000100000=
--0x000000005a7a0fff]
-> > > usable
-> > > [=C2=A0=C2=A0=C2=A0=C2=A00.000000] BIOS-e820: [mem 0x000000005a7a1000=
--0x000000005b5e0fff]
-> > > reserved
-> > > [=C2=A0=C2=A0=C2=A0=C2=A00.000000] BIOS-e820: [mem 0x000000005b5e1000=
--0x00000000790fefff]
-> > > usable
-> > > [=C2=A0=C2=A0=C2=A0=C2=A00.000000] BIOS-e820: [mem 0x00000000790ff000=
--0x00000000791fefff]
-> > > reserved
-> > > [=C2=A0=C2=A0=C2=A0=C2=A00.000000] BIOS-e820: [mem 0x00000000791ff000=
--0x000000007b5fefff] ACPI
-> > > NVS
-> > > [=C2=A0=C2=A0=C2=A0=C2=A00.000000] BIOS-e820: [mem 0x000000007b5ff000=
--0x000000007b7fefff] ACPI
-> > > data
-> > > [=C2=A0=C2=A0=C2=A0=C2=A00.000000] BIOS-e820: [mem 0x000000007b7ff000=
--0x000000007b7fffff]
-> > > usable
-> > > [=C2=A0=C2=A0=C2=A0=C2=A00.000000] BIOS-e820: [mem 0x000000007b800000=
--0x000000008fffffff]
-> > > reserved
-> > > [=C2=A0=C2=A0=C2=A0=C2=A00.000000] BIOS-e820: [mem 0x00000000ff800000=
--0x00000000ffffffff]
-> > > reserved
-> > > [=C2=A0=C2=A0=C2=A0=C2=A00.000000] BIOS-e820: [mem 0x0000000100000000=
--0x000000087fffffff]
-> > > usable
-> > >=20
-> > > Where 4G is good. Then,
-> > >=20
-> > > [=C2=A0=C2=A0=C2=A0=C2=A00.000000] user-defined physical RAM map:
-> > > [=C2=A0=C2=A0=C2=A0=C2=A00.000000] user: [mem 0x0000000000000000-0x00=
-00000000093fff] usable
-> > > [=C2=A0=C2=A0=C2=A0=C2=A00.000000] user: [mem 0x0000000000094000-0x00=
-0000000009ffff] reserved
-> > > [=C2=A0=C2=A0=C2=A0=C2=A00.000000] user: [mem 0x00000000000e0000-0x00=
-000000000fffff] reserved
-> > > [=C2=A0=C2=A0=C2=A0=C2=A00.000000] user: [mem 0x0000000000100000-0x00=
-0000005a7a0fff] usable
-> > > [=C2=A0=C2=A0=C2=A0=C2=A00.000000] user: [mem 0x000000005a7a1000-0x00=
-0000005b5e0fff] reserved
-> > > [=C2=A0=C2=A0=C2=A0=C2=A00.000000] user: [mem 0x000000005b5e1000-0x00=
-000000790fefff] usable
-> > > [=C2=A0=C2=A0=C2=A0=C2=A00.000000] user: [mem 0x00000000790ff000-0x00=
-000000791fefff] reserved
-> > > [=C2=A0=C2=A0=C2=A0=C2=A00.000000] user: [mem 0x00000000791ff000-0x00=
-0000007b5fefff] ACPI NVS
-> > > [=C2=A0=C2=A0=C2=A0=C2=A00.000000] user: [mem 0x000000007b5ff000-0x00=
-0000007b7fefff] ACPI data
-> > > [=C2=A0=C2=A0=C2=A0=C2=A00.000000] user: [mem 0x000000007b7ff000-0x00=
-0000007b7fffff] usable
-> > > [=C2=A0=C2=A0=C2=A0=C2=A00.000000] user: [mem 0x000000007b800000-0x00=
-0000008fffffff] reserved
-> > > [=C2=A0=C2=A0=C2=A0=C2=A00.000000] user: [mem 0x00000000ff800000-0x00=
-000000ffffffff] reserved
-> > > [=C2=A0=C2=A0=C2=A0=C2=A00.000000] user: [mem 0x0000000100000000-0x00=
-000001ffffffff]
-> > > persistent (type 12)
-> > > [=C2=A0=C2=A0=C2=A0=C2=A00.000000] user: [mem 0x0000000200000000-0x00=
-0000087fffffff] usable
-> > >=20
-> > > The doc did mention that =E2=80=9CThere seems to be an issue with CON=
-FIG_KSAN at
-> > > the moment however.=E2=80=9D
-> > > without more detail though.
-> >=20
-> > Does disabling CONFIG_RANDOMIZE_BASE help? Maybe that workaround has
-> > regressed. Effectively we need to find what is causing the kernel to
-> > sometimes be placed in the middle of a custom reserved memmap=3D range.
->=20
-> Yes, disabling KASLR works good so far. Assuming the workaround, i.e.,
-> f28442497b5c
-> (=E2=80=9Cx86/boot: Fix KASLR and memmap=3D collision=E2=80=9D) is correc=
-t.
->=20
-> The only other commit that might regress it from my research so far is,
->=20
-> d52e7d5a952c ("x86/KASLR: Parse all 'memmap=3D' boot option entries=E2=80=
-=9D)
->=20
+On Wed, 2019-08-21 at 20:52 +0300, Andrey Ryabinin wrote:
+> 
+> On 8/20/19 8:37 AM, Walter Wu wrote:
+> > On Tue, 2019-08-06 at 13:43 +0800, Walter Wu wrote:
+> >> This patch adds memory corruption identification at bug report for
+> >> software tag-based mode, the report show whether it is "use-after-free"
+> >> or "out-of-bound" error instead of "invalid-access" error. This will make
+> >> it easier for programmers to see the memory corruption problem.
+> >>
+> >> We extend the slab to store five old free pointer tag and free backtrace,
+> >> we can check if the tagged address is in the slab record and make a
+> >> good guess if the object is more like "use-after-free" or "out-of-bound".
+> >> therefore every slab memory corruption can be identified whether it's
+> >> "use-after-free" or "out-of-bound".
+> >>
+> >> ====== Changes
+> >> Change since v1:
+> >> - add feature option CONFIG_KASAN_SW_TAGS_IDENTIFY.
+> >> - change QUARANTINE_FRACTION to reduce quarantine size.
+> >> - change the qlist order in order to find the newest object in quarantine
+> >> - reduce the number of calling kmalloc() from 2 to 1 time.
+> >> - remove global variable to use argument to pass it.
+> >> - correct the amount of qobject cache->size into the byes of qlist_head.
+> >> - only use kasan_cache_shrink() to shink memory.
+> >>
+> >> Change since v2:
+> >> - remove the shinking memory function kasan_cache_shrink()
+> >> - modify the description of the CONFIG_KASAN_SW_TAGS_IDENTIFY
+> >> - optimize the quarantine_find_object() and qobject_free()
+> >> - fix the duplicating function name 3 times in the header.
+> >> - modify the function name set_track() to kasan_set_track()
+> >>
+> >> Change since v3:
+> >> - change tag-based quarantine to extend slab to identify memory corruption
+> > 
+> > Hi,Andrey,
+> > 
+> > Would you review the patch,please?
+> 
+> 
+> I didn't notice anything fundamentally wrong, but I find there are some
+> questionable implementation choices that makes code look weirder than necessary
+> and harder to understand. So I ended up with cleaning it up, see the diff bellow.
+> I'll send v5 with that diff folded.
+> 
 
-It turns out that the origin commit f28442497b5c (=E2=80=9Cx86/boot: Fix KA=
-SLR and
-memmap=3D collision=E2=80=9D) has a bug that is unable to handle "memmap=3D=
-" in
-CONFIG_CMDLINE instead of a parameter in bootloader because when it (as wel=
-l as
-the commit d52e7d5a952c) calls get_cmd_line_ptr() in order to run
-mem_avoid_memmap(), "boot_params" has no knowledge of CONFIG_CMDLINE. Only =
-later
-in setup_arch(), the kernel will deal with parameters over there.
+Thanks your review and suggestion.
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/1566421927.5576.3.camel%40lca.pw.
+Walter
+
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/1566436922.27117.0.camel%40mtksdccf07.
