@@ -1,121 +1,130 @@
-Return-Path: <kasan-dev+bncBDQ27FVWWUFRBTO6UTVQKGQEOFC4CBA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDQ27FVWWUFRBMPWWPVQKGQEWPIYFHI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pg1-x53b.google.com (mail-pg1-x53b.google.com [IPv6:2607:f8b0:4864:20::53b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64C5AA38DD
-	for <lists+kasan-dev@lfdr.de>; Fri, 30 Aug 2019 16:14:39 +0200 (CEST)
-Received: by mail-pg1-x53b.google.com with SMTP id q9sf4024056pgv.17
-        for <lists+kasan-dev@lfdr.de>; Fri, 30 Aug 2019 07:14:39 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1567174478; cv=pass;
+Received: from mail-yb1-xb3a.google.com (mail-yb1-xb3a.google.com [IPv6:2607:f8b0:4864:20::b3a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 78899A54B2
+	for <lists+kasan-dev@lfdr.de>; Mon,  2 Sep 2019 13:21:22 +0200 (CEST)
+Received: by mail-yb1-xb3a.google.com with SMTP id 16sf11429040ybn.10
+        for <lists+kasan-dev@lfdr.de>; Mon, 02 Sep 2019 04:21:22 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1567423281; cv=pass;
         d=google.com; s=arc-20160816;
-        b=ZYhI7Qpshji05rkWmN/MNUbDjSP4QjHHWZxETgE881Dxxf4u5pPsrYBetVniRlwYLZ
-         aAu43/Rfscl2YKyoP5obLUOPoH6AqPOUBR+Uqa8N1no5TwGxABVjMPU9S7vXoBllXZ9h
-         sEbnx1wMuEQF+HcBAdI1GDpLifPFGhuBqN3nQ9u/WU+idVKQP6rhe9gwnVys/JIA5c+T
-         lig3AlsrsP7YHz69A/1N+w+96VZO+I37rm9pUtbm7FPGP3UhTIMy8q+uhuo/4MDMxIx3
-         alquTC6liWsEcaPfm5vXomQcydAnMwA3JXIh4jQMAx8pdpESofiujBOqfEvGKr25s96O
-         VVbQ==
+        b=T1SFv8Q1TH1JBBwRejbElEWYGv4b2c9vQOL6RjUxGQ+VsQQ3KseuTZVqN+1dL8Iwvr
+         ZxiPxy5YtXGTzmyn1KwoLZ0vFJB7YYygYTDCfmLipNupydFtKb+rcqEsNQeuX64Ml6Ql
+         Jrl99AE13+47pGYijDYjRala3uDgy3LQY0jBqb5cG624gnyov8Dq/IlBwSfGppZdpt3M
+         Lm9FYIrz0uhhnO9apCaxerS5iYXXQttuubXaY1KkvT0jhg1Ir1WGY/NHZRXKeWUFpgMU
+         tVyL0XiL9UZOuLnHFeRc7nrbHZCoOou/vZ+/6SoLXI8yDJ2+YzcrMBP8wBcvuoON3R97
+         HeLQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:message-id:date
-         :references:in-reply-to:subject:cc:to:from:sender:dkim-signature;
-        bh=0wxmb2JEgjnpBCGiEqNyFVJihHSLT3qoF2IZhvWFI+0=;
-        b=ZR1ajZeys7teG9miArxyiDj2VUePNjOVA+BFgokeQQpEvdCslUnCxhE2LeLFMPVG//
-         0H9EVQU1pLj3Fn2FiYrn/DypWsSMzDnnWUIev31mWBWQL85cijsjBVVs58QFIBTn5Ct7
-         HVH7zAgEv+i+m8KzANjTn22+LEoi9wwDkI/1DKD/p2hllZ737xkxiriHjorQHCfmjqxl
-         Oq026I6PE9y76CIjKCPcgx1ZyoDUpNqYOwC9fA9QSKLbpk6x0FFtOJt/zUcot0I1mp3x
-         cSK8qDnbw+7tPRsOkKDQ3tBBiusZZxOVaWHLa/PBozh4815aHUBJHWCNN9U1vabgArTS
-         WIrw==
+         :subject:cc:to:from:sender:dkim-signature;
+        bh=GgaJ8Ti+eMe664e8jXtYP8GFJTtSC663zrnCeqDYZyU=;
+        b=YPTd8ECqohFYN8DyuLcxdzrsCI1N52JjxtXchUzNDDLQhVS985trJ92HDLJDY2rCf+
+         f6ssamGbJW6ENbNJNezD/cg7SJCHrOQqGMNKw07Su2+jcyZOtsSfSwOwk5kcobR/XCsr
+         BCgaQ0170/Yp/T2V/3VjhaokY6pBSXtKd7DkM33vCXiv3i2F8OpKEUQd5mxk83pfa9SJ
+         CUX+/7bz7UWd64Yds4P7WIRWu/DbrbxrV5aSzB/A3gH3OY8TlPue+8xCrLGt+z/yoqT/
+         Ph1UjW8Ztjt+HvKVyJNVqInoBSRkNiQ07w/pTSO0ZXo27GQSa8BkT3gRwqrCOgcsEn2E
+         FS8A==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@axtens.net header.s=google header.b=CO9IufDi;
-       spf=pass (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::443 as permitted sender) smtp.mailfrom=dja@axtens.net
+       dkim=pass header.i=@axtens.net header.s=google header.b=Rhhm4VfH;
+       spf=pass (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::543 as permitted sender) smtp.mailfrom=dja@axtens.net
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:from:to:cc:subject:in-reply-to:references:date:message-id
-         :mime-version:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=0wxmb2JEgjnpBCGiEqNyFVJihHSLT3qoF2IZhvWFI+0=;
-        b=A9jLXKU9L4qR5lLd4PMPvehWWX7fzEu8J4jW8iFeq2SabpOSsHYJSVOHlUQ2O3fGz8
-         M/ZnBsrYaT62xeqJaSKXpVbtOwqa4JsMc+RJWPbgtjsGpOZvRdQsmrtz2suKsgTy38yo
-         whcftmAhH3OLUUv3LhubAiWu8Vz+77kOm++OPJsZZhIRlJqV/IFYHiaFnY/SemZyAwlq
-         52HlxlUx0GruAjkrOl+WGAbjX8NOcIxodUL9zmR//FHRUlRpoBdWkIXe6S6z/lSqVyz7
-         gs2qB9QvRETdBUaUgRwsZ7bx1FHkAK/K/JD+72KZwLYflox67+mqFaQiJkG9UDZQHCIq
-         dzXA==
+        bh=GgaJ8Ti+eMe664e8jXtYP8GFJTtSC663zrnCeqDYZyU=;
+        b=Svo/jTF5NsSibu9s/p/RK9oZOOBOlU9EZr0qBSzl7tpZ8peL3gdGu4wml1p5yTiQMf
+         dN/Ac9bv8gFQol5AD2K3w7gyEFdaY8uek7eX5SKOhuMr7Gfu28iu2xz6rJThGwXWr72L
+         Uy9sj3X21iooYnUwEYnF0qwh8fYb3/rnD2uFUifXxURrpAuPvCw9Qe37gcWljQjmPUnt
+         Gv1T+986RcbmMSpSOmOdPfJr2Y7/sW+gxA1815oSl6QV3IbXZ32dwCH0dkgozydXSw4M
+         ZCSJCIm6YLlpO2WjpvczzhDSt4qGTdhkHJLTvpmHiEwfF7QBApfbF19VG4J2bgJQtLlF
+         nemw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:from:to:cc:subject:in-reply-to:references
-         :date:message-id:mime-version:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=0wxmb2JEgjnpBCGiEqNyFVJihHSLT3qoF2IZhvWFI+0=;
-        b=CfEYoaPKvcwU1C1O3E4rvEkP6AkTvLawyHI3zXbSDSkNTZW7RNToQXdxt2JPaJdJvK
-         hQm8HL6dOtSVZY2arBqc9IOwUR4Hio50pkr14Y4v9z19IK5OgQ9VQUVEieupts92uDvo
-         6vLZDkCE+nGhIheO/UzwaQVY/uLCHA2jpJlSN9jg0to3b7w+NGZ/wmrrE8Ep3gaSvAs9
-         OcHNuAQxdS8WwvQfiRD7aF/totlO3LjFmUzUntFLsA/wujgi++E5qpPOuHCZQ0r5t5Yx
-         dzPPL1dT9YQqP75eZHDX+XJgdZHkKC8PboqFmWJIwrJgRw83/H1zpZWg5odl9uAKiH8p
-         Q6bw==
+        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=GgaJ8Ti+eMe664e8jXtYP8GFJTtSC663zrnCeqDYZyU=;
+        b=H/5rN+70OBvNoz1+OSssxEsGdpmz2Fp1flVYUK/ICE0TQztMtjZJn6mB/4+kylbAaL
+         VOr72lFJodRjsXdCLRqvHCkyT2LJjxlyQqCXM0sjQ+wmDJBmjbUsDWFDGIwoctLeaSG9
+         mXIT65eAJDbEfexZ7OaPrfdRZ+0qNFhWtdgwu9jjgGdJsEQBGC9O1yDCmRRwTe7+pGJ5
+         vUqP3lCxOUDVvlIfo6iD4K4GwagA+q+Pf/SEVgrcdUJAAkBbdlN6tFbCwXJC4ktRmHW0
+         trhtPoU6oSClMpwfpD7O7yvFMRqM/mlYcGB5RIhNEprMoyH3G4d93B1OmbJ46dAXvVG6
+         cnEg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAXCXQsENT5mneD13DfCqrulmMhLUEobMbNpS7flCADgR3WzR2zo
-	xpSHZj3tTImU/vqdJHm6it0=
-X-Google-Smtp-Source: APXvYqySduOJfdatNUZDa62DtPKIgJRPH0VAmOfAQVZxCN6N9SJfk96mwQWuae55ho76WJBN8x2iFw==
-X-Received: by 2002:a17:90a:f995:: with SMTP id cq21mr16226804pjb.27.1567174477977;
-        Fri, 30 Aug 2019 07:14:37 -0700 (PDT)
+X-Gm-Message-State: APjAAAUZwDDJX7fl4gyETtg4B9fOPTX9SVmzxyrZSvxPQnY920YZ4UDr
+	I/EG4YjyOZHgPa9VVYyf8Fc=
+X-Google-Smtp-Source: APXvYqzEZhpZAEZvWYOeT7mTOtBZlVXeFaMR37HjmBWoM/nOPxE6EB5KtYfF/K4Az4Pe70O5z5QPMQ==
+X-Received: by 2002:a25:7087:: with SMTP id l129mr20563540ybc.420.1567423281377;
+        Mon, 02 Sep 2019 04:21:21 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:90a:e2c7:: with SMTP id fr7ls1824717pjb.3.canary-gmail;
- Fri, 30 Aug 2019 07:14:37 -0700 (PDT)
-X-Received: by 2002:a17:90a:b108:: with SMTP id z8mr15963862pjq.108.1567174477710;
-        Fri, 30 Aug 2019 07:14:37 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1567174477; cv=none;
+Received: by 2002:a25:77c5:: with SMTP id s188ls1744528ybc.6.gmail; Mon, 02
+ Sep 2019 04:21:20 -0700 (PDT)
+X-Received: by 2002:a25:d901:: with SMTP id q1mr20752641ybg.195.1567423280606;
+        Mon, 02 Sep 2019 04:21:20 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1567423280; cv=none;
         d=google.com; s=arc-20160816;
-        b=J+KU2H4VtZTreUPABpw/tSL31+odfG8e+93INQVukeaLs638ak62yZcZ/kkDePVeLw
-         V5cp7Ia/OxBnxzkzlKK5VvEG9Q2dy+Mveo90GN+wezoyF6CgYm8c7UReY5Syaxvrld3V
-         xXJ7MjJ9C9W5CoXD7y7N2Qm/+3/TtPsqVrJci759ocp98JCmhScYipKtP1OzmXpYa2fT
-         jNfw1b6UoixjfkSw6o1p9ky9ZTtWWHHel+KpaelF3FMi3f771+tv7S3Ashy7l/BW1NQ0
-         1AqewiFlT/HpFW194n21vd4sMEOu2G+kpyCeOsqNYX6LTBveX9FB+H4AttF6rcgktFln
-         5PsQ==
+        b=m3jAXwI4nCTssY/UeHY4mCizj6wv3tUDdAcDjAHJHOW16sjw8slYJ1LS8Bh6GYwf86
+         cNh8yiFZojR1hAyy9/qBDcWqU9zZjq9h8csq5yBUbEQk4czmrG867XfvX0g7rJOt/bMh
+         tRRf4R2oesqeQDbXhBQv5nKBa4Bux4/VvJ1yU49B2GEoTvoOWxDQPUrNW3OFyOhIa/A0
+         Jhzu/eZFw/UKcn7NCdXKML+yex6fYJstPlR9utyjedVbM3xonDvl0odTrnDp+ZDO4L9X
+         l/1Wuc0DTT//xb+73Y9Dal2Onm7afk8/XNzSAUk//f+lu9Ifc9E03847X6yAOhyLpXVc
+         4/Kw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:dkim-signature;
-        bh=GQjSOvbaapj7b1lMAgf5SR118C4E3gkJs2yq2l1Stv4=;
-        b=BxuxpiAnEzK2n9uUbuLnQtDBpsEZyv0ZPZ9Ffoe4o/Suwyj40bE3QnEfemNJj/H54c
-         vkivhUy2YkSgowsAduzk/ZBn199ytFgGrZbu8QtmXYU/tthnARa2QkG07C9qryJJjqBc
-         RWAxybaXiYxkqpPAp3DBJGJGaSLi1GZNr1vUBlKlTzbycj1RuV+bamYI7cOkqxs1Ib4N
-         y9jbaidbg2mkKmkR7FdrTzOiKfKT6x1a8bvo1UDntBBHiR8lDWY/lRYb2b8tP06HB1Lx
-         jF4InbD5U4PbVGYTN+9jfCAYdBjMn4qpMbkc0YhF3aI9ZZZ1/817QCgYojmOoEod3HHj
-         +paA==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:dkim-signature;
+        bh=73TlGEwK6oKiZ/rkmArAnsPJNae2N4hkEOloXefysjM=;
+        b=OJx4ejsZHjSGKiUwHWcbeXdhQiGS1rYkoqh4ljIEBvnQ7aE7yKD7qXz6lLs/kNFXDD
+         zQLcRDkqs7loIBjoUaafHQT6Q6+RklDjqYU0b4Kmmr2X6IgTjL7VAIzfEMtxIidOt2h7
+         ChOqhJnIlhasJHe6ZntKaDGVAH2S+krUL/mSOp+IrKn6z47zwsFElSJpEDXg5TrnL+dA
+         vYpCXvt2IZkWNKlxnQvg0WHuKTy7FsG0rjpLV4nuuTL5EWBRlnZlJQr4+2zKUp57QJ+w
+         f/ZGq3Gr2cXsXn93RCv2tEesKoaLSOGBKKle7eE8L0EFxCatMczZUYiqsnQFj5pYgw3D
+         Q1JA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@axtens.net header.s=google header.b=CO9IufDi;
-       spf=pass (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::443 as permitted sender) smtp.mailfrom=dja@axtens.net
-Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com. [2607:f8b0:4864:20::443])
-        by gmr-mx.google.com with ESMTPS id m12si692863pjs.2.2019.08.30.07.14.37
+       dkim=pass header.i=@axtens.net header.s=google header.b=Rhhm4VfH;
+       spf=pass (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::543 as permitted sender) smtp.mailfrom=dja@axtens.net
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com. [2607:f8b0:4864:20::543])
+        by gmr-mx.google.com with ESMTPS id f78si212136yba.1.2019.09.02.04.21.20
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 30 Aug 2019 07:14:37 -0700 (PDT)
-Received-SPF: pass (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::443 as permitted sender) client-ip=2607:f8b0:4864:20::443;
-Received: by mail-pf1-x443.google.com with SMTP id y9so4742850pfl.4
-        for <kasan-dev@googlegroups.com>; Fri, 30 Aug 2019 07:14:37 -0700 (PDT)
-X-Received: by 2002:aa7:8a48:: with SMTP id n8mr18631624pfa.143.1567174476689;
-        Fri, 30 Aug 2019 07:14:36 -0700 (PDT)
+        Mon, 02 Sep 2019 04:21:20 -0700 (PDT)
+Received-SPF: pass (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::543 as permitted sender) client-ip=2607:f8b0:4864:20::543;
+Received: by mail-pg1-x543.google.com with SMTP id d10so2783275pgo.5
+        for <kasan-dev@googlegroups.com>; Mon, 02 Sep 2019 04:21:20 -0700 (PDT)
+X-Received: by 2002:a62:80cb:: with SMTP id j194mr34723282pfd.183.1567423279444;
+        Mon, 02 Sep 2019 04:21:19 -0700 (PDT)
 Received: from localhost (ppp167-251-205.static.internode.on.net. [59.167.251.205])
-        by smtp.gmail.com with ESMTPSA id g2sm7247374pfm.32.2019.08.30.07.14.32
+        by smtp.gmail.com with ESMTPSA id x12sm1054597pff.49.2019.09.02.04.21.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Aug 2019 07:14:35 -0700 (PDT)
+        Mon, 02 Sep 2019 04:21:18 -0700 (PDT)
 From: Daniel Axtens <dja@axtens.net>
-To: kasan-dev@googlegroups.com, linux-mm@kvack.org, x86@kernel.org, aryabinin@virtuozzo.com, glider@google.com, luto@kernel.org, linux-kernel@vger.kernel.org, mark.rutland@arm.com, dvyukov@google.com, christophe.leroy@c-s.fr
-Cc: linuxppc-dev@lists.ozlabs.org, gor@linux.ibm.com
-Subject: Re: [PATCH v5 1/5] kasan: support backing vmalloc space with real shadow memory
-In-Reply-To: <20190830003821.10737-2-dja@axtens.net>
-References: <20190830003821.10737-1-dja@axtens.net> <20190830003821.10737-2-dja@axtens.net>
-Date: Sat, 31 Aug 2019 00:14:21 +1000
-Message-ID: <871rx2viyq.fsf@dja-thinkpad.axtens.net>
+To: kasan-dev@googlegroups.com,
+	linux-mm@kvack.org,
+	x86@kernel.org,
+	aryabinin@virtuozzo.com,
+	glider@google.com,
+	luto@kernel.org,
+	linux-kernel@vger.kernel.org,
+	mark.rutland@arm.com,
+	dvyukov@google.com,
+	christophe.leroy@c-s.fr
+Cc: linuxppc-dev@lists.ozlabs.org,
+	gor@linux.ibm.com,
+	Daniel Axtens <dja@axtens.net>
+Subject: [PATCH v6 0/5] kasan: support backing vmalloc space with real shadow memory
+Date: Mon,  2 Sep 2019 21:20:23 +1000
+Message-Id: <20190902112028.23773-1-dja@axtens.net>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: dja@axtens.net
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@axtens.net header.s=google header.b=CO9IufDi;       spf=pass
- (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::443 as
+ header.i=@axtens.net header.s=google header.b=Rhhm4VfH;       spf=pass
+ (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::543 as
  permitted sender) smtp.mailfrom=dja@axtens.net
+Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -128,224 +137,91 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hi all,
+Currently, vmalloc space is backed by the early shadow page. This
+means that kasan is incompatible with VMAP_STACK.
 
-> +static int kasan_depopulate_vmalloc_pte(pte_t *ptep, unsigned long addr,
-> +					void *unused)
-> +{
-> +	unsigned long page;
-> +
-> +	page = (unsigned long)__va(pte_pfn(*ptep) << PAGE_SHIFT);
-> +
-> +	spin_lock(&init_mm.page_table_lock);
-> +
-> +	/*
-> +	 * we want to catch bugs where we end up clearing a pte that wasn't
-> +	 * set. This will unfortunately also fire if we are releasing a region
-> +	 * where we had a failure allocating the shadow region.
-> +	 */
-> +	WARN_ON_ONCE(pte_none(*ptep));
-> +
-> +	pte_clear(&init_mm, addr, ptep);
-> +	free_page(page);
-> +	spin_unlock(&init_mm.page_table_lock);
+This series provides a mechanism to back vmalloc space with real,
+dynamically allocated memory. I have only wired up x86, because that's
+the only currently supported arch I can work with easily, but it's
+very easy to wire up other architectures, and it appears that there is
+some work-in-progress code to do this on arm64 and s390.
 
-It's just occurred to me that the free_page really needs to be guarded
-by an 'if (likely(!pte_none(*pte))) {' - there won't be a page to free
-if there's no pte.
+This has been discussed before in the context of VMAP_STACK:
+ - https://bugzilla.kernel.org/show_bug.cgi?id=202009
+ - https://lkml.org/lkml/2018/7/22/198
+ - https://lkml.org/lkml/2019/7/19/822
 
-I'll spin v6 on Monday.
+In terms of implementation details:
 
-Regards,
-Daniel
+Most mappings in vmalloc space are small, requiring less than a full
+page of shadow space. Allocating a full shadow page per mapping would
+therefore be wasteful. Furthermore, to ensure that different mappings
+use different shadow pages, mappings would have to be aligned to
+KASAN_SHADOW_SCALE_SIZE * PAGE_SIZE.
 
-> +
-> +	return 0;
-> +}
-> +
-> +/*
-> + * Release the backing for the vmalloc region [start, end), which
-> + * lies within the free region [free_region_start, free_region_end).
-> + *
-> + * This can be run lazily, long after the region was freed. It runs
-> + * under vmap_area_lock, so it's not safe to interact with the vmalloc/vmap
-> + * infrastructure.
-> + */
-> +void kasan_release_vmalloc(unsigned long start, unsigned long end,
-> +			   unsigned long free_region_start,
-> +			   unsigned long free_region_end)
-> +{
-> +	void *shadow_start, *shadow_end;
-> +	unsigned long region_start, region_end;
-> +
-> +	/* we start with shadow entirely covered by this region */
-> +	region_start = ALIGN(start, PAGE_SIZE * KASAN_SHADOW_SCALE_SIZE);
-> +	region_end = ALIGN_DOWN(end, PAGE_SIZE * KASAN_SHADOW_SCALE_SIZE);
-> +
-> +	/*
-> +	 * We don't want to extend the region we release to the entire free
-> +	 * region, as the free region might cover huge chunks of vmalloc space
-> +	 * where we never allocated anything. We just want to see if we can
-> +	 * extend the [start, end) range: if start or end fall part way through
-> +	 * a shadow page, we want to check if we can free that entire page.
-> +	 */
-> +
-> +	free_region_start = ALIGN(free_region_start,
-> +				  PAGE_SIZE * KASAN_SHADOW_SCALE_SIZE);
-> +
-> +	if (start != region_start &&
-> +	    free_region_start < region_start)
-> +		region_start -= PAGE_SIZE * KASAN_SHADOW_SCALE_SIZE;
-> +
-> +	free_region_end = ALIGN_DOWN(free_region_end,
-> +				     PAGE_SIZE * KASAN_SHADOW_SCALE_SIZE);
-> +
-> +	if (end != region_end &&
-> +	    free_region_end > region_end)
-> +		region_end += PAGE_SIZE * KASAN_SHADOW_SCALE_SIZE;
-> +
-> +	shadow_start = kasan_mem_to_shadow((void *)region_start);
-> +	shadow_end = kasan_mem_to_shadow((void *)region_end);
-> +
-> +	if (shadow_end > shadow_start)
-> +		apply_to_page_range(&init_mm, (unsigned long)shadow_start,
-> +				    (unsigned long)(shadow_end - shadow_start),
-> +				    kasan_depopulate_vmalloc_pte, NULL);
-> +}
-> +#endif
-> diff --git a/mm/kasan/generic_report.c b/mm/kasan/generic_report.c
-> index 36c645939bc9..2d97efd4954f 100644
-> --- a/mm/kasan/generic_report.c
-> +++ b/mm/kasan/generic_report.c
-> @@ -86,6 +86,9 @@ static const char *get_shadow_bug_type(struct kasan_access_info *info)
->  	case KASAN_ALLOCA_RIGHT:
->  		bug_type = "alloca-out-of-bounds";
->  		break;
-> +	case KASAN_VMALLOC_INVALID:
-> +		bug_type = "vmalloc-out-of-bounds";
-> +		break;
->  	}
->  
->  	return bug_type;
-> diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
-> index 35cff6bbb716..3a083274628e 100644
-> --- a/mm/kasan/kasan.h
-> +++ b/mm/kasan/kasan.h
-> @@ -25,6 +25,7 @@
->  #endif
->  
->  #define KASAN_GLOBAL_REDZONE    0xFA  /* redzone for global variable */
-> +#define KASAN_VMALLOC_INVALID   0xF9  /* unallocated space in vmapped page */
->  
->  /*
->   * Stack redzone shadow values
-> diff --git a/mm/vmalloc.c b/mm/vmalloc.c
-> index b8101030f79e..bf806566cad0 100644
-> --- a/mm/vmalloc.c
-> +++ b/mm/vmalloc.c
-> @@ -690,8 +690,19 @@ merge_or_add_vmap_area(struct vmap_area *va,
->  	struct list_head *next;
->  	struct rb_node **link;
->  	struct rb_node *parent;
-> +	unsigned long orig_start, orig_end;
->  	bool merged = false;
->  
-> +	/*
-> +	 * To manage KASAN vmalloc memory usage, we use this opportunity to
-> +	 * clean up the shadow memory allocated to back this allocation.
-> +	 * Because a vmalloc shadow page covers several pages, the start or end
-> +	 * of an allocation might not align with a shadow page. Use the merging
-> +	 * opportunities to try to extend the region we can release.
-> +	 */
-> +	orig_start = va->va_start;
-> +	orig_end = va->va_end;
-> +
->  	/*
->  	 * Find a place in the tree where VA potentially will be
->  	 * inserted, unless it is merged with its sibling/siblings.
-> @@ -741,6 +752,10 @@ merge_or_add_vmap_area(struct vmap_area *va,
->  		if (sibling->va_end == va->va_start) {
->  			sibling->va_end = va->va_end;
->  
-> +			kasan_release_vmalloc(orig_start, orig_end,
-> +					      sibling->va_start,
-> +					      sibling->va_end);
-> +
->  			/* Check and update the tree if needed. */
->  			augment_tree_propagate_from(sibling);
->  
-> @@ -754,6 +769,8 @@ merge_or_add_vmap_area(struct vmap_area *va,
->  	}
->  
->  insert:
-> +	kasan_release_vmalloc(orig_start, orig_end, va->va_start, va->va_end);
-> +
->  	if (!merged) {
->  		link_va(va, root, parent, link, head);
->  		augment_tree_propagate_from(va);
-> @@ -2068,6 +2085,22 @@ static struct vm_struct *__get_vm_area_node(unsigned long size,
->  
->  	setup_vmalloc_vm(area, va, flags, caller);
->  
-> +	/*
-> +	 * For KASAN, if we are in vmalloc space, we need to cover the shadow
-> +	 * area with real memory. If we come here through VM_ALLOC, this is
-> +	 * done by a higher level function that has access to the true size,
-> +	 * which might not be a full page.
-> +	 *
-> +	 * We assume module space comes via VM_ALLOC path.
-> +	 */
-> +	if (is_vmalloc_addr(area->addr) && !(area->flags & VM_ALLOC)) {
-> +		if (kasan_populate_vmalloc(area->size, area)) {
-> +			unmap_vmap_area(va);
-> +			kfree(area);
-> +			return NULL;
-> +		}
-> +	}
-> +
->  	return area;
->  }
->  
-> @@ -2245,6 +2278,9 @@ static void __vunmap(const void *addr, int deallocate_pages)
->  	debug_check_no_locks_freed(area->addr, get_vm_area_size(area));
->  	debug_check_no_obj_freed(area->addr, get_vm_area_size(area));
->  
-> +	if (area->flags & VM_KASAN)
-> +		kasan_poison_vmalloc(area->addr, area->size);
-> +
->  	vm_remove_mappings(area, deallocate_pages);
->  
->  	if (deallocate_pages) {
-> @@ -2495,6 +2531,9 @@ void *__vmalloc_node_range(unsigned long size, unsigned long align,
->  	if (!addr)
->  		return NULL;
->  
-> +	if (kasan_populate_vmalloc(real_size, area))
-> +		return NULL;
-> +
->  	/*
->  	 * In this function, newly allocated vm_struct has VM_UNINITIALIZED
->  	 * flag. It means that vm_struct is not fully initialized.
-> @@ -3349,10 +3388,14 @@ struct vm_struct **pcpu_get_vm_areas(const unsigned long *offsets,
->  	spin_unlock(&vmap_area_lock);
->  
->  	/* insert all vm's */
-> -	for (area = 0; area < nr_vms; area++)
-> +	for (area = 0; area < nr_vms; area++) {
->  		setup_vmalloc_vm(vms[area], vas[area], VM_ALLOC,
->  				 pcpu_get_vm_areas);
->  
-> +		/* assume success here */
-> +		kasan_populate_vmalloc(sizes[area], vms[area]);
-> +	}
-> +
->  	kfree(vas);
->  	return vms;
->  
-> -- 
-> 2.20.1
+Instead, share backing space across multiple mappings. Allocate a
+backing page when a mapping in vmalloc space uses a particular page of
+the shadow region. This page can be shared by other vmalloc mappings
+later on.
+
+We hook in to the vmap infrastructure to lazily clean up unused shadow
+memory.
+
+
+v1: https://lore.kernel.org/linux-mm/20190725055503.19507-1-dja@axtens.net/
+v2: https://lore.kernel.org/linux-mm/20190729142108.23343-1-dja@axtens.net/
+ Address review comments:
+ - Patch 1: use kasan_unpoison_shadow's built-in handling of
+            ranges that do not align to a full shadow byte
+ - Patch 3: prepopulate pgds rather than faulting things in
+v3: https://lore.kernel.org/linux-mm/20190731071550.31814-1-dja@axtens.net/
+ Address comments from Mark Rutland:
+ - kasan_populate_vmalloc is a better name
+ - handle concurrency correctly
+ - various nits and cleanups
+ - relax module alignment in KASAN_VMALLOC case
+v4: https://lore.kernel.org/linux-mm/20190815001636.12235-1-dja@axtens.net/
+ Changes to patch 1 only:
+ - Integrate Mark's rework, thanks Mark!
+ - handle the case where kasan_populate_shadow might fail
+ - poision shadow on free, allowing the alloc path to just
+     unpoision memory that it uses
+v5: https://lore.kernel.org/linux-mm/20190830003821.10737-1-dja@axtens.net/
+ Address comments from Christophe Leroy:
+ - Fix some issues with my descriptions in commit messages and docs
+ - Dynamically free unused shadow pages by hooking into the vmap book-keeping
+ - Split out the test into a separate patch
+ - Optional patch to track the number of pages allocated
+ - minor checkpatch cleanups
+v6: Properly guard freeing pages in patch 1, drop debugging code.
+
+Daniel Axtens (5):
+  kasan: support backing vmalloc space with real shadow memory
+  kasan: add test for vmalloc
+  fork: support VMAP_STACK with KASAN_VMALLOC
+  x86/kasan: support KASAN_VMALLOC
+  kasan debug: track pages allocated for vmalloc shadow
+
+ Documentation/dev-tools/kasan.rst |  63 ++++++++++++
+ arch/Kconfig                      |   9 +-
+ arch/x86/Kconfig                  |   1 +
+ arch/x86/mm/kasan_init_64.c       |  60 +++++++++++
+ include/linux/kasan.h             |  31 ++++++
+ include/linux/moduleloader.h      |   2 +-
+ include/linux/vmalloc.h           |  12 +++
+ kernel/fork.c                     |   4 +
+ lib/Kconfig.kasan                 |  16 +++
+ lib/test_kasan.c                  |  26 +++++
+ mm/kasan/common.c                 | 165 ++++++++++++++++++++++++++++++
+ mm/kasan/generic_report.c         |   3 +
+ mm/kasan/kasan.h                  |   1 +
+ mm/vmalloc.c                      |  45 +++++++-
+ 14 files changed, 432 insertions(+), 6 deletions(-)
+
+-- 
+2.20.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/871rx2viyq.fsf%40dja-thinkpad.axtens.net.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20190902112028.23773-1-dja%40axtens.net.
