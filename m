@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBC5DSTWAKGQEUTSVB4A@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBFNDSTWAKGQENVS5THI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oi1-x23b.google.com (mail-oi1-x23b.google.com [IPv6:2607:f8b0:4864:20::23b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BC1EB96BD
-	for <lists+kasan-dev@lfdr.de>; Fri, 20 Sep 2019 19:51:09 +0200 (CEST)
-Received: by mail-oi1-x23b.google.com with SMTP id b2sf1605235oie.21
-        for <lists+kasan-dev@lfdr.de>; Fri, 20 Sep 2019 10:51:09 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1569001868; cv=pass;
+Received: from mail-pf1-x437.google.com (mail-pf1-x437.google.com [IPv6:2607:f8b0:4864:20::437])
+	by mail.lfdr.de (Postfix) with ESMTPS id 694AEB96BF
+	for <lists+kasan-dev@lfdr.de>; Fri, 20 Sep 2019 19:51:18 +0200 (CEST)
+Received: by mail-pf1-x437.google.com with SMTP id z13sf5186221pfr.15
+        for <lists+kasan-dev@lfdr.de>; Fri, 20 Sep 2019 10:51:18 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1569001877; cv=pass;
         d=google.com; s=arc-20160816;
-        b=xU8H8oduVi1/sv8+WDq/t3EZoRUV5c44IdDn+mAmVotrRnB+I0ZIaOLS2cIcYBYaqE
-         zbozTIxLGSD2HIT9Wuxh3SM/p0OeHMV6ySNIJggqowHeJ0JTzDi/CGr9EmnqEdVzKnS9
-         GpvR7k7V5TxgA4eaFJbW6WY3JUFYbctxczoss77O3etVxaXIF5EzbZJw+QwcApPxGzeZ
-         ydW55DMdvsXssu9grKiDtkMEz8T1m2huFU6RXCZLeWC1nBppQh/PBgo+GTW4l+r/zF61
-         gn/qh4BPfn9YBWJ7N5DS3MKMB2+qSrgyU89xP2JDws7LLtLwWf8ZZtB+gqLT0XPkVIrT
-         UVcw==
+        b=0L3M6fU230dMW4+UH3aKyjBfStoMcgs0F/JsTFzrpqr8TBmwuQTJgKxUQjeh+ZhxBz
+         z3cn8gPgT5Z59usWK9ZpCugA3TFFsqPANn7w8CQR/m1uN7+MAsNj3bmrOnoyISZL+lkN
+         +NZE+CnIFLlYBQNi8bIO3zvCECrQwpSIDRPFeKpg6Tst65Mmb4Zr7gxN3imhBJs/u2cT
+         wmMsXip+zQDEt8PenkFkarePDMS8KdPMsby7Kf1V7PF4tPRvbRn7PiBELNiE3FtZ0lEH
+         hRTt+DK+cNNzay8KNXd5ykGGqDQb8O0+RJf3uGJGUmaMd5T/EOoq1jwuE5avpGSv4GPC
+         rwhg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=deCX1VTqJIKeCSvVZq97gmf3M8wdaVimb0YCzFlqwiA=;
-        b=BkpD1lnzvOEincrmnucNMmAvVRQDAQ2UBicSG4k+Tx6YHvyxzXLbHOtjrS6dhVjq5Y
-         FTCAZ7wGXKvZ66OCtcqt85EOP1s3MQLQtfzS4sL9u6AOihdiGX+9daLlO4octXqEOsLR
-         KN4ZJHmyZTz8JKTENthOE3OCiX6PNTImm20qukXuTX1DzwobsUQk1ITH13wMHviOI25O
-         SeyiQKZWZcNR+G6cnMVIP9DDJVczX4+a0Dyxm0iwNC0nenvNF5I/YxybXVl8YjH3IJrX
-         ltiBRwgH1mGCHDfj/5kCo1M5iHPFdBSASKC780/Lqs33CleaTaHaZHpo1W32xCk7P50e
-         dkMA==
+        bh=/5v4/0ZB3K0ANB77NYPSKsxuTurMgI8YQUNwfzzWKWE=;
+        b=JU2/0gwaSiNHVvwAUOBrfoA5WJe0nwy8WjlNyS4t32VOWPVNmsQRfNh8ej23GcvEFX
+         DP94O87ZcI1rxGaO4Csdf05VUiN4j/6U5kptp3aE3RTLMYELMFQbnt1RzQvX+ImDJhuH
+         gKTpmOJtXpUuruUG/zXjlxeITGBUaUhGgOLtJrjIOG1cqFfA11JWFWqRrAX5cQCyTs6U
+         pBvmkHuqBa1gEcVYjAjMs9/EyRG2mDxv01nPOyg7gagbVTnrn4bhBhQuf8Y3JhaeePwJ
+         3/wta4avgF2sSUEHwnoFLYp29PyU01xi7gg2p6ag/IAqoMAa1QMte6YVcanXaBYwkIxA
+         qywQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=GcxR+Hvz;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::343 as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=UEgIQlBP;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::241 as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=deCX1VTqJIKeCSvVZq97gmf3M8wdaVimb0YCzFlqwiA=;
-        b=b4LTYKBEoFOPYcQ45xMlVCv6diE2gaUeY5zlWiGGxxuPSkWqRrQqjiSjntedfR+3cF
-         3o88twhmHphM3zfr98ldJ6ewOAKPDTUi+mqiKa+Qo/sbpPzhhkDnPHK4VAYXOfBGxGDf
-         3wLZz4/02JY5yGfr7v1nt1SL5IHpT4nQ5wQnd2K1XyROozaY1DzTFoU/PRlGlrxgdONy
-         QKOHIkmZnD6EkPq0OjbuOL9K4uXdOv2t706zV25vRFDJ6580b9M8UGmeJLvMDJ9Fiswy
-         SkbKcHbnbr+ifhvADGVA4tQEVhUCnAEO4RCL9a0ASlqTTlDsg4Tqb8XJ1iXB6OnXjexS
-         vw3Q==
+        bh=/5v4/0ZB3K0ANB77NYPSKsxuTurMgI8YQUNwfzzWKWE=;
+        b=QNxgV3chmfrXMdwlNXYIiqPKNp1FyxmJLWWmIU5i47X8vcM0xiddJTNP8HFAg46ii/
+         98ScSUIJZ0h05fBoxHdM0n9sM9actzx94wIulH/mOCNzfVMk8u7hK2HURbNq31gmyDc5
+         grwJTYeLtqBsSydrSBwzXsFhWQsuzsdK0un0OrK7SRaxMuRpCY0QybMt6SjNmLi22NHA
+         KamOLGoeMo36M/XWy0r9OKuRa1VNQxsrkB+u7dCZnYwMsU7gn+uq7PTvK46XFMmzQ4v0
+         /HNYgtyxyclri+IlNvewBbsFDnlYOorUfrTRGHy7EGM/UOve2mLyG5W2yjTU7V/qnkQN
+         UgBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
@@ -49,76 +49,77 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=deCX1VTqJIKeCSvVZq97gmf3M8wdaVimb0YCzFlqwiA=;
-        b=NtlR6SkkYV2msxwvrMcTCXGQ6anfB+Dsh8BlHfOBpQ971XNw5QqAL9BoYhJIC41cH6
-         YiJM1PFAVAgZ2iaCBNXvdKN+o7ODr94nBsT46kzzr1//+1mMUWhg49J2EXsUwgZe1kpM
-         /0Me5wSBgVPOWLfjRT0YOlpBqljdZ4gZMo7qMBKTJzIgFGRDnI4jT002pasne5jae3f2
-         m71YapZm9KnRchxyQfQ4vnr8MOCJ3rSmiuFiSkWoLcCheM395c8D7a/jwJ+KH86Sw8rD
-         YJOtYw8PfTWgcnOQItIRb1gemHpt/D58iIhHgiDhHUSWuU6bOxTSj51EP+AMhEsFZQP9
-         dCOA==
-X-Gm-Message-State: APjAAAVSXz7HkSAPtzuggDG5M2U5xxl79BJrEpabtUfVY1fWxym/R6zc
-	C5tTLYYqzyTZ1mhVi7kSuAc=
-X-Google-Smtp-Source: APXvYqz2F42yf/Z/tj/BlLQgBuLzkqT+ynqOebn5nI03S1vyqQQ46AkTmhPMIzvHZ6GTm1zM2bWqLA==
-X-Received: by 2002:a05:6830:1bf2:: with SMTP id k18mr2410502otb.259.1569001867996;
-        Fri, 20 Sep 2019 10:51:07 -0700 (PDT)
+        bh=/5v4/0ZB3K0ANB77NYPSKsxuTurMgI8YQUNwfzzWKWE=;
+        b=eclzW7LLokmXcBD7oh5Bk++Gq8WBjczmncdG3Fnto21iRT7+QPz1Gem+XX0dm7+oMS
+         0BJreNyYuwOyAM5Dv4kUj+9HrsiQN7D9krHziJFHfv7WruACeXXFzbOtqUZM9+5cia+h
+         ZbUcUSBLn3rZldRq+nlmDQ0ihuXbSLMRsGfGElN9VoNU8ConTk0mxaTGdMxGfWao2rLo
+         vIWremEuTmHGmGtmeDspfatWM9rZOUpo3qf/hogw3eqqoqN4CcTJhkjeqgsUDgWyokHn
+         Ch3Rdov7SEp8hAQkTB4w1BZQcJDTJTkv/lrEej8UpYeFDBzCO33IFDtXivmm3Uv8IeRj
+         ovnw==
+X-Gm-Message-State: APjAAAWaJBdlT80SPkf9f533l0ymU5p9+EfSqmKQgoO2twmIERfNrg+1
+	s7q4WAt1no0B4r+XylZhnRs=
+X-Google-Smtp-Source: APXvYqwQrV0EhTd7MIsSKEC9qYyu+RVJXt8rl8kV1OAGd0m1oLnebLb7s3MIdqilT1glsaiyVn3FQQ==
+X-Received: by 2002:a62:32c5:: with SMTP id y188mr18400289pfy.97.1569001877093;
+        Fri, 20 Sep 2019 10:51:17 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:aca:4fcd:: with SMTP id d196ls593962oib.16.gmail; Fri, 20
- Sep 2019 10:51:07 -0700 (PDT)
-X-Received: by 2002:aca:ed0a:: with SMTP id l10mr4017948oih.83.1569001867724;
-        Fri, 20 Sep 2019 10:51:07 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1569001867; cv=none;
+Received: by 2002:a62:5107:: with SMTP id f7ls2190380pfb.2.gmail; Fri, 20 Sep
+ 2019 10:51:16 -0700 (PDT)
+X-Received: by 2002:a62:fb06:: with SMTP id x6mr11466738pfm.186.1569001876725;
+        Fri, 20 Sep 2019 10:51:16 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1569001876; cv=none;
         d=google.com; s=arc-20160816;
-        b=lAgi+0huv/q/pnWhkEvqZ2VTdZaxANxMfxLzGjUxVT7moJa9iT6j/CmQSjNS7MoX8/
-         ajudgflKS/aX/Lw7x6b6uX7g9AnwuVAcWkpVXvkdrURQFYQeEJwukeeBs8WQ7JSMm4Rc
-         eqEdYdbcdSWDZ0HBVmzm4GQSDDIkdz/+Fh9e4GumKIUdDtzXwqKOvK0hvwhEbQMur5D3
-         gCj9eC6BhfswKCTacSKzZ3MmawNR/LVM0z1cABHqaPsxg58vsZ0DD37yLmuatVc7nYCt
-         BgJOfeT6BMf1mdpHfiAF3+fP9eIjlA1mOXzeAnJaBBp6bXFuMOfMsE++klrD96ioVCl+
-         5ZUw==
+        b=g9gIgWS09a9PS4viUy6DXu2dYvrX/AUKh985eum66tS3V5zRLhSQcvNlSVIP++7n4/
+         29T7l3/a6f3+V6+HE+yIhr17C9OqRHnnHvv+Ddcoe9R2CCDIpta4DAP9vOxBLuGB+4nW
+         wsid96XMr+FFKUmdwwNYdLv7b4I9J8QCYp7bZ5wNjNBJ54oqQfcZOuNsvvyXrZcUBKtE
+         IdwALZymU85duH5vVCv6lmO+GssHb2WVohVXHFvolVM9QXSn/HHA8RlIWglJlKnH3ZG4
+         cGIzRcE5e/smRWfIPHp4riew1RmXYBtCiagUpepVg1fEZKKebLIoiI+RojxkXGbjk7u5
+         5vgg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=EvpPydj1iU8UnRZJqqbCnDu9C5EKJs0suXbTn88VB04=;
-        b=GCBzfIXPwaIXNvol/p8MiQnWRso0lXKvSE7SL+QpT2TKh+Oec3cO5fpTvY2IMqwIrz
-         GFUJDLdemK0lFHzZEWXkEb/aToAwCg8Xrf8J+frztaggPiPEk04t8cTDq36W/4qzSoWs
-         GVpdqSirvBVDjuNODjKS1ieizpAD2vl29l2u0L4wDPQfVeeQ2zay6YGZXPX02MIQvE73
-         ARTU30jsCy5oe5IswqdnFP8mBSl5W28njxBOc0E8sbHRJ8ZzcCwTENmmZIrz00PK5SWQ
-         KyC8dsTAuvzuUwj6HBi7MHB0IamH3A6or+MyKu6GLIEYMsQBy9qBviVW6be3+ODs6eE2
-         omYA==
+        bh=eTz6yzxiFyHtcxZo7L97GNHOGY6QY7O6TNCJQilZlzU=;
+        b=NqZkWoiyVZlaXJ8B2G+//yXhfYtfES+pQfNmsef0/ORQAu3lbDgqUPGoC6TGRKucif
+         LDDrqKr+ZtmWFC5xNnSnl6tiSjrFvZVEuyoMBOHfjB+zHNvB5d3ASb4Riow4FglaCfCa
+         DCY2ZWC7tk4wyeustV5SnJ+yOYXfZk4URBzMsfNbp10mT4BA9ygg5zxGNjo/FHxcgSp+
+         XFwDeEDfAvct65MTimgugxA6wk2uyFCAaURMxfEcd5yfTFJGbPmFzv8dPg13h4qNDeVL
+         Vj3NleBY2g9wT5wjDEy6yGULdD2zoDZ6J0kzcZTUL9EMQvUCsY7bKb5xFoqxJ6YMtfiN
+         B8KQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=GcxR+Hvz;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::343 as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=UEgIQlBP;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::241 as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com. [2607:f8b0:4864:20::343])
-        by gmr-mx.google.com with ESMTPS id a22si199953otf.3.2019.09.20.10.51.07
+Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com. [2607:f8b0:4864:20::241])
+        by gmr-mx.google.com with ESMTPS id d8si193724pjv.1.2019.09.20.10.51.16
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 20 Sep 2019 10:51:07 -0700 (PDT)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::343 as permitted sender) client-ip=2607:f8b0:4864:20::343;
-Received: by mail-ot1-x343.google.com with SMTP id k32so6912187otc.4
-        for <kasan-dev@googlegroups.com>; Fri, 20 Sep 2019 10:51:07 -0700 (PDT)
-X-Received: by 2002:a9d:68d7:: with SMTP id i23mr5023651oto.23.1569001867060;
- Fri, 20 Sep 2019 10:51:07 -0700 (PDT)
+        Fri, 20 Sep 2019 10:51:16 -0700 (PDT)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::241 as permitted sender) client-ip=2607:f8b0:4864:20::241;
+Received: by mail-oi1-x241.google.com with SMTP id w6so2456439oie.11
+        for <kasan-dev@googlegroups.com>; Fri, 20 Sep 2019 10:51:16 -0700 (PDT)
+X-Received: by 2002:aca:5510:: with SMTP id j16mr4095393oib.121.1569001876015;
+ Fri, 20 Sep 2019 10:51:16 -0700 (PDT)
 MIME-Version: 1.0
 References: <CANpmjNPJ_bHjfLZCAPV23AXFfiPiyXXqqu72n6TgWzb2Gnu1eA@mail.gmail.com>
- <20190920155420.rxiflqdrpzinncpy@willie-the-truck>
-In-Reply-To: <20190920155420.rxiflqdrpzinncpy@willie-the-truck>
+ <20190920163123.GC55224@lakrids.cambridge.arm.com> <CACT4Y+ZwyBhR8pB7jON8eVObCGbJ54L8Sbz6Wfmy3foHkPb_fA@mail.gmail.com>
+In-Reply-To: <CACT4Y+ZwyBhR8pB7jON8eVObCGbJ54L8Sbz6Wfmy3foHkPb_fA@mail.gmail.com>
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Fri, 20 Sep 2019 19:50:55 +0200
-Message-ID: <CANpmjNMfredJzrmjV7Vm_VAeL_O=_mWWKXAMoGoPH=U8VhkS=A@mail.gmail.com>
+Date: Fri, 20 Sep 2019 19:51:04 +0200
+Message-ID: <CANpmjNM+aEzySwuMDkEvsVaeTooxExuTRAv-nzjhp7npT8a3ag@mail.gmail.com>
 Subject: Re: Kernel Concurrency Sanitizer (KCSAN)
-To: Will Deacon <will@kernel.org>
-Cc: kasan-dev <kasan-dev@googlegroups.com>, LKML <linux-kernel@vger.kernel.org>, 
-	Dmitry Vyukov <dvyukov@google.com>, Andrey Konovalov <andreyknvl@google.com>, 
-	Alexander Potapenko <glider@google.com>, paulmck@linux.ibm.com, Paul Turner <pjt@google.com>, 
-	Daniel Axtens <dja@axtens.net>, Anatol Pomazau <anatol@google.com>, 
-	Andrea Parri <parri.andrea@gmail.com>, stern@rowland.harvard.edu, akiyks@gmail.com, 
-	npiggin@gmail.com, boqun.feng@gmail.com, dlustig@nvidia.com, 
-	j.alglave@ucl.ac.uk, luc.maranget@inria.fr
+To: Dmitry Vyukov <dvyukov@google.com>
+Cc: Mark Rutland <mark.rutland@arm.com>, kasan-dev <kasan-dev@googlegroups.com>, 
+	LKML <linux-kernel@vger.kernel.org>, Andrey Konovalov <andreyknvl@google.com>, 
+	Alexander Potapenko <glider@google.com>, "Paul E. McKenney" <paulmck@linux.ibm.com>, Paul Turner <pjt@google.com>, 
+	Daniel Axtens <dja@axtens.net>, Anatol Pomazau <anatol@google.com>, Will Deacon <willdeacon@google.com>, 
+	Andrea Parri <parri.andrea@gmail.com>, Alan Stern <stern@rowland.harvard.edu>, 
+	LKMM Maintainers -- Akira Yokosawa <akiyks@gmail.com>, Nicholas Piggin <npiggin@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
+	Daniel Lustig <dlustig@nvidia.com>, Jade Alglave <j.alglave@ucl.ac.uk>, 
+	Luc Maranget <luc.maranget@inria.fr>
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=GcxR+Hvz;       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::343 as
+ header.i=@google.com header.s=20161025 header.b=UEgIQlBP;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::241 as
  permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
  sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Marco Elver <elver@google.com>
@@ -135,73 +136,110 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, 20 Sep 2019 at 17:54, Will Deacon <will@kernel.org> wrote:
+On Fri, 20 Sep 2019 at 18:47, Dmitry Vyukov <dvyukov@google.com> wrote:
 >
-> Hi Marco,
->
-> On Fri, Sep 20, 2019 at 04:18:57PM +0200, Marco Elver wrote:
-> > We would like to share a new data-race detector for the Linux kernel:
-> > Kernel Concurrency Sanitizer (KCSAN) --
-> > https://github.com/google/ktsan/wiki/KCSAN  (Details:
-> > https://github.com/google/ktsan/blob/kcsan/Documentation/dev-tools/kcsan.rst)
+> On Fri, Sep 20, 2019 at 6:31 PM Mark Rutland <mark.rutland@arm.com> wrote:
 > >
-> > To those of you who we mentioned at LPC that we're working on a
-> > watchpoint-based KTSAN inspired by DataCollider [1], this is it (we
-> > renamed it to KCSAN to avoid confusion with KTSAN).
-> > [1] http://usenix.org/legacy/events/osdi10/tech/full_papers/Erickson.pdf
->
-> Oh, spiffy!
->
-> > In the coming weeks we're planning to:
-> > * Set up a syzkaller instance.
-> > * Share the dashboard so that you can see the races that are found.
-> > * Attempt to send fixes for some races upstream (if you find that the
-> > kcsan-with-fixes branch contains an important fix, please feel free to
-> > point it out and we'll prioritize that).
->
-> Curious: do you take into account things like alignment and/or access size
-> when looking at READ_ONCE/WRITE_ONCE? Perhaps you could initially prune
-> naturally aligned accesses for which __native_word() is true?
+> > On Fri, Sep 20, 2019 at 04:18:57PM +0200, Marco Elver wrote:
+> > > We would like to share a new data-race detector for the Linux kernel:
+> > > Kernel Concurrency Sanitizer (KCSAN) --
+> > > https://github.com/google/ktsan/wiki/KCSAN  (Details:
+> > > https://github.com/google/ktsan/blob/kcsan/Documentation/dev-tools/kcsan.rst)
+> >
+> > Nice!
+> >
+> > BTW kcsan_atomic_next() is missing a stub definition in <linux/kcsan.h>
+> > when !CONFIG_KCSAN:
+> >
+> > https://github.com/google/ktsan/commit/a22a093a0f0d0b582c82cdbac4f133a3f61d207c#diff-19d7c475b4b92aab8ba440415ab786ec
+> >
+> > ... and I think the kcsan_{begin,end}_atomic() stubs need to be static
+> > inline too.
 
-Nothing special (other than the normal check if accesses overlap) done
-with size in READ_ONCE/WRITE_ONCE.
+Thanks for catching, fixed and pushed. Feel free to rebase your arm64 branch.
 
-When you say prune naturally aligned && __native_word() accesses, I
-assume you mean _plain_ naturally aligned && __native_word(), right? I
-think this is a slippery slope, because if we start pretending that
-such plain accesses should be treated as atomics, then we will also
-miss e.g. races where the accesses should actually have been protected
-by a mutex.
+> > It looks like this is easy enough to enable on arm64, with the only real
+> > special case being secondary_start_kernel() which we might want to
+> > refactor to allow some portions to be instrumented.
+> >
+> > I pushed the trivial patches I needed to get arm64 booting to my arm64/kcsan
+> > branch:
+> >
+> >   git://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git arm64/kcsan
 
-> > There are a few open questions:
-> > * The big one: most of the reported races are due to unmarked
-> > accesses; prioritization or pruning of races to focus initial efforts
-> > to fix races might be required. Comments on how best to proceed are
-> > welcome. We're aware that these are issues that have recently received
-> > attention in the context of the LKMM
-> > (https://lwn.net/Articles/793253/).
+Cool, thanks for testing!
+
+> > We have some interesting splats at boot time in stop_machine, which
+> > don't seem to have been hit/fixed on x86 yet in the kcsan-with-fixes
+> > branch, e.g.
+> >
+> > [    0.237939] ==================================================================
+> > [    0.239431] BUG: KCSAN: data-race in multi_cpu_stop+0xa8/0x198 and set_state+0x80/0xb0
+> > [    0.241189]
+> > [    0.241606] write to 0xffff00001003bd00 of 4 bytes by task 24 on cpu 3:
+> > [    0.243435]  set_state+0x80/0xb0
+> > [    0.244328]  multi_cpu_stop+0x16c/0x198
+> > [    0.245406]  cpu_stopper_thread+0x170/0x298
+> > [    0.246565]  smpboot_thread_fn+0x40c/0x560
+> > [    0.247696]  kthread+0x1a8/0x1b0
+> > [    0.248586]  ret_from_fork+0x10/0x18
+> > [    0.249589]
+> > [    0.250006] read to 0xffff00001003bd00 of 4 bytes by task 14 on cpu 1:
+> > [    0.251804]  multi_cpu_stop+0xa8/0x198
+> > [    0.252851]  cpu_stopper_thread+0x170/0x298
+> > [    0.254008]  smpboot_thread_fn+0x40c/0x560
+> > [    0.255135]  kthread+0x1a8/0x1b0
+> > [    0.256027]  ret_from_fork+0x10/0x18
+> > [    0.257036]
+> > [    0.257449] Reported by Kernel Concurrency Sanitizer on:
+> > [    0.258918] CPU: 1 PID: 14 Comm: migration/1 Not tainted 5.3.0-00007-g67ab35a199f4-dirty #3
+> > [    0.261241] Hardware name: linux,dummy-virt (DT)
+> > [    0.262517] ==================================================================>
+
+Thanks, the fixes in -with-fixes were ones I only encountered with
+Syzkaller, where I disable KCSAN during boot. I've just added a fix
+for this race and pushed to kcsan-with-fixes.
+
+> > > To those of you who we mentioned at LPC that we're working on a
+> > > watchpoint-based KTSAN inspired by DataCollider [1], this is it (we
+> > > renamed it to KCSAN to avoid confusion with KTSAN).
+> > > [1] http://usenix.org/legacy/events/osdi10/tech/full_papers/Erickson.pdf
+> > >
+> > > In the coming weeks we're planning to:
+> > > * Set up a syzkaller instance.
+> > > * Share the dashboard so that you can see the races that are found.
+> > > * Attempt to send fixes for some races upstream (if you find that the
+> > > kcsan-with-fixes branch contains an important fix, please feel free to
+> > > point it out and we'll prioritize that).
+> > >
+> > > There are a few open questions:
+> > > * The big one: most of the reported races are due to unmarked
+> > > accesses; prioritization or pruning of races to focus initial efforts
+> > > to fix races might be required. Comments on how best to proceed are
+> > > welcome. We're aware that these are issues that have recently received
+> > > attention in the context of the LKMM
+> > > (https://lwn.net/Articles/793253/).
+> >
+> > I think the big risk here is drive-by "fixes" masking the warnings
+> > rather than fixing the actual issue. It's easy for people to suppress a
+> > warning with {READ,WRITE}_ONCE(), so they're liable to do that even the
+> > resulting race isn't benign.
+> >
+> > I don't have a clue how to prevent that, though.
 >
-> This one is tricky. What I think we need to avoid is an onslaught of
-> patches adding READ_ONCE/WRITE_ONCE without a concrete analysis of the
-> code being modified. My worry is that Joe Developer is eager to get their
-> first patch into the kernel, so runs this tool and starts spamming
-> maintainers with these things to the point that they start ignoring KCSAN
-> reports altogether because of the time they take up.
->
-> I suppose one thing we could do is to require each new READ_ONCE/WRITE_ONCE
-> to have a comment describing the racy access, a bit like we do for memory
-> barriers. Another possibility would be to use atomic_t more widely if
-> there is genuine concurrency involved.
-
-Our plan here is to use some of the options in Kconfig.kcsan to limit
-reported volume of races initially, at least for syzbot instances. But
-of course, this will not make the real issue go away, and eventually
-we'll have to deal with all reported races somehow.
-
-Thanks,
--- Marco
+> I think this is mostly orthogonal problem. E.g. for some syzbot bugs I
+> see fixes that also try to simply "shut up" the immediate
+> manifestation with whatever means, e.g. sprinkling some slinlocks. So
+> (1) it's not unique to atomics, (2) presence of READ/WRITE_ONCE will
+> make the reader aware of the fact that this runs concurrently with
+> something else, and then they may ask themselves why this runs
+> concurrently with something when the object is supposed to be private
+> to the thread, and then maybe they re-fix it properly. Whereas if it's
+> completely unmarked, nobody will even notice that this code accesses
+> the object concurrently with other code. So even if READ/WRITE_ONCE
+> was a wrong fix, it's still better to have it rather than not.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNMfredJzrmjV7Vm_VAeL_O%3D_mWWKXAMoGoPH%3DU8VhkS%3DA%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNM%2BaEzySwuMDkEvsVaeTooxExuTRAv-nzjhp7npT8a3ag%40mail.gmail.com.
