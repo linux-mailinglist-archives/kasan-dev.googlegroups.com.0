@@ -1,124 +1,159 @@
-Return-Path: <kasan-dev+bncBDWLZXP6ZEPRBOPUVXWAKGQETP7BRSI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDULZYNR2QMRBAEKV3WAKGQELUEGUMQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x239.google.com (mail-lj1-x239.google.com [IPv6:2a00:1450:4864:20::239])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4C32BE008
-	for <lists+kasan-dev@lfdr.de>; Wed, 25 Sep 2019 16:31:21 +0200 (CEST)
-Received: by mail-lj1-x239.google.com with SMTP id e3sf1722972ljj.16
-        for <lists+kasan-dev@lfdr.de>; Wed, 25 Sep 2019 07:31:21 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1569421881; cv=pass;
+Received: from mail-lf1-x13c.google.com (mail-lf1-x13c.google.com [IPv6:2a00:1450:4864:20::13c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 33B45BE106
+	for <lists+kasan-dev@lfdr.de>; Wed, 25 Sep 2019 17:17:21 +0200 (CEST)
+Received: by mail-lf1-x13c.google.com with SMTP id o9sf859875lfd.7
+        for <lists+kasan-dev@lfdr.de>; Wed, 25 Sep 2019 08:17:21 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1569424640; cv=pass;
         d=google.com; s=arc-20160816;
-        b=n4IXr4TzSH3ZuttQ5Gm6QezDrFpZP5H+tk9qfrUqzI3nzr90Izd1NZgWUp3sJDMHCc
-         BUsYOQKrQQzHluz8OTeuLHmSoNyMEX1JrxysNxX7VvKkEWCCpQqe7P85OcuyGIeMXlNh
-         JUjSxIfUCAoY5NaKSQFzNSq/xL5jcRPb3qzIMfZjiSBMSH6HqNFYNtTRIM7gRax/Nenf
-         88/HxvVYaUQ6nsfMTOWin5O2lK4qCzTBCmcmLpvvq7t+Fh2YFXNrdCCI3mNjimiDPa0A
-         XMPdIZ8sr3YSyYv+hqvyLf+viCiT3VUU6WFFse5KNv0MIgZFbUCGGIsFHX/NZ3WEnxju
-         40qQ==
+        b=zqbfM54r0GkRKY9plgKzgEbl/8btZBpGXFyqXM9lPJuwQzqn6HREHd9wSs2lYZtg+2
+         +lp+fiHIdwQhgKiLFzkqfaogNpZ4zatx4Pi9ZJKnlmPaib1O+N5a61sA9a62b8uoHIXX
+         g3qxOlQ279cm90WuBw6ICxfCOQHVup0xncE6vWAiX88cJqQWtY9wlTbp7pRgRpiqVTb3
+         /uEzsZxVYlF5LGzfYEF+rm9OwIPpjIs+UPO7GETOprZDn7dxgoz81eNwLKAdq9J8lMdb
+         P4NS9D1PiQNyhWm0NsDpbVcYm/bFRLgJvbAQ8Ckn/zMzExBeUim5eC+dPu+qlplC1k/5
+         Zh9Q==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=b+2Nhgv+VhlzfYQrKYemw8PG9HdJl21JE1rDBN0qNPI=;
-        b=QII5UAWUeDEj98PIUQJfl71J18S28pO4dFbb0EBMhyYpuDT28VkmLoWCXX/NTbP0DQ
-         kLkUkVSTv4v+MltkOraruqLciqsSKlnOir77nUKeePWq/qDy91f+PUxtV3w7TxiNnFyX
-         leCGhUc1vrIpfPzmb+o9b9EhvE4lfuWxAaT3QoiDnmCPajqKjRqth2hrViZ2j4z4BBex
-         sETMVfj+ngjid1UW4PAOu8Jw3fDEXr2Tf8kOTYMjx3nWPd4PswOtJGooEb7V0FozbNZH
-         gn+T7DCr2R4fM1jxlLsrhXTW/a1kSL9HabraKIm2rqQ5UeenjiCO+bpLYJDF25qOQKbo
-         sVtA==
+         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:sender:dkim-signature
+         :dkim-signature;
+        bh=KsgGmx67atj4s9HAgZyXPUwq5+mjxXAPc0ifsxoSvEY=;
+        b=qX3xczHRABdKjqu6CXuBRtlBFaDtckJiMoFqVko/yUnWxsIuCotOq+8dO/mFtRuVdf
+         GFbPkph/uSHgSIMOlxAmks7BHzjfkurEU51SONEcuuIAcGi3H8FEXvq/DGGQGilhBBF3
+         6S304v7GoPEAyEZBOaA9j5m0H68hLrdjBwBzcTZXJf3PQuwv1cob0395VTzZMeWlDibq
+         JJ4vH0P67Oe+GtV1OlSp752RPxrQbu88pebNkdU5pgJxMQm5Y/LE4Drx8huQQwxS98PF
+         MIRs61MzmjDZmcCK2JwxQmwsloQL3edFpwmAwYov1ZwGuIvJ35TYjfhAdn+rneZEhZPY
+         Dfnw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of vbabka@suse.cz designates 195.135.220.15 as permitted sender) smtp.mailfrom=vbabka@suse.cz
+       dkim=pass header.i=@gmail.com header.s=20161025 header.b=eghD7xF1;
+       spf=pass (google.com: domain of festevam@gmail.com designates 2a00:1450:4864:20::243 as permitted sender) smtp.mailfrom=festevam@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:x-original-sender:x-original-authentication-results
+        h=sender:mime-version:references:in-reply-to:from:date:message-id
+         :subject:to:cc:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=b+2Nhgv+VhlzfYQrKYemw8PG9HdJl21JE1rDBN0qNPI=;
-        b=Xx+Hzq240VKyQ6CbnyHc/PRLqEvyKeXM29L2v8jzqA8AahzuULM/IUqTbvDVp2h8fC
-         u9eZKamjgWhgbu5mgL8IJ0pkF0oMPSRptpd2o3MbD6J3QZ9W47oarFyZXuUdP7hn+VOI
-         cSrPoqgr830TJDCXDWbCJpLnbVqR6HBLUowg0yDSZgHfH/Y4UX3m8L9xq9SRgfhXW4pX
-         7QVpvuCKRFXt1EmVSoEeMF6zPwbeHgc2Hx/2DgDA10wNDY1b4dXhPsxyNK/Ef+Ma8RFX
-         1S6Zkec42WXgH1Wk9Hri8QB0z2e0oILIbKx5efahmboKs/CmPsSbKA7QOgIsuCIms0A/
-         NTZQ==
+        bh=KsgGmx67atj4s9HAgZyXPUwq5+mjxXAPc0ifsxoSvEY=;
+        b=Wfk0Di2CnqaQMA2YsAo+VHoqFxi2bKHDaWIKvD1sbuG0P81NKqeQhynkHeLrydmbfT
+         MnDHZ9S1esJtPZN+gRqPO/Mf/Kc9CrFhhA3U0MtonEomgPx0qpU+v045YpnsLopWJtcw
+         nJegjAtjPnrNFnrNa/+zOQdWd26rqjUjgetaBcx87h0pV6Rkfzb+1kBsKaaaAqhxDFak
+         4M1Iukxv1FcquZnlMUKEvpB+9wv+DBCslUfTnOoFD6Yr4CjcTz+Q+8gtUy8VzKqYsvL/
+         jw5kjmtbm0QY2+qnaE7Rxp72+kVttriOKWRsovv9y59FB2QzBWHpC4HoFexxq/+nqWsa
+         60sA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=KsgGmx67atj4s9HAgZyXPUwq5+mjxXAPc0ifsxoSvEY=;
+        b=OSQydYwG1IVESg4zVbutIAZkD2ddaakzmew+hJf71XAP3Oyk1HuZpgaHH3gnW8DNEi
+         Dn+B4YNYK26UT8+fiEQiY0ybuuzIZ3G7XBNXh+EFyn+WaWj0Xk73zfsRDSPinuOVyMBS
+         Jw85Pup2+tcAMDYdJCkxKjwBDe8YMPWb9MAWG9gQrgTafz3E1MNu6cvqhz55WhWA/Y16
+         eAm3ELMsNm4GxNGbwf/97bJCADlAONXc8Oabi9jLuDk5/k8qNXzO5lZUI5jaVDDqE+UL
+         1iZaUOLKVaqK8ubKPC3vFupR6OGGkRbxMVIRPJodjj0OFV/7Kj6Wswchons3F2yBHda9
+         CsAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :in-reply-to:references:mime-version:x-original-sender
+        h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
+         :date:message-id:subject:to:cc:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=b+2Nhgv+VhlzfYQrKYemw8PG9HdJl21JE1rDBN0qNPI=;
-        b=adka35hR1O51/LjEDH69Va+OLwPHcOsbUYjqeH6tQXB33VzOOIP8mEjjKhxMEX7ETw
-         PoODmMqhfGPXd84hBC+hcktE5HTvSMvVlby+NBQDyQULyu2vekG6VKAxci5WAE3O6jRJ
-         O+N1QMzJ3UOaeriHJlWMtdytcoMj4b3JrhDDFZaJVGz9LWl39b32SM+Yzz6bfY8goZDS
-         S2mRHD2GP63Ht6ZiG6NjNMgO+auRw1G0DADTvo6Gld4Y8N3DTm4of6rYwhBDLR5qodCF
-         XOORMy1VpYTH06rXirCYG0UjpLXVFSHyEDWSVX2ASuVX6puOytSWRBl0NQtqzwWa2n8s
-         HGTg==
+        bh=KsgGmx67atj4s9HAgZyXPUwq5+mjxXAPc0ifsxoSvEY=;
+        b=BAyiD7mNxShKB8BvVFUj0rNJMxd64jel/kyMxAnTy7I9hoiNox9H1g/sfi14gQsT9r
+         YtUvFYArLubThOFoQ9YJC6h80fX0P+Ik1124zYXIve8P3rl3ZOdw1BUDzjqewp4N/AFG
+         giNpQBUAmxvmVczngNwmQwNMyevOzE8Tm+3csy5t9nbpC+5Xg/blDFfWm8Xlom1NVbhV
+         oy3B/S402htbTxnrVN9sr9wr+DlQufiz9E/DmJ82oh3qrI08zGp5/xyBl54RkdTPMXuq
+         Bqfw66RAu8Sm/3oBptQ0019HyVdts2GcACQPeda/Gcq/eluxl51tuOczWvS2as8t72z1
+         ZfTQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAW83VtEM6n5XFyT92N6aUZVBab+/EVgY4JTXUQeDlYhvhdiV7yN
-	iK9pO9fgZ6KeOsxrUXAa70k=
-X-Google-Smtp-Source: APXvYqxSHKAJhsCmJGGBS7KobM4t4hSbgDpQ91JhQImRZUb7UWe4CMBkKkURpmwMfwAU0YWAMshKFw==
-X-Received: by 2002:a19:6556:: with SMTP id c22mr6306201lfj.90.1569421881463;
-        Wed, 25 Sep 2019 07:31:21 -0700 (PDT)
+X-Gm-Message-State: APjAAAWGHtOaQEaHwAPEOvNjX4vGPVboDB7C8KgUUV1DqqggHmVcrAym
+	1ZLHJFHMwRROHXedM7htviw=
+X-Google-Smtp-Source: APXvYqwQDMXuDZH5oWRSkWfgFTb46shufvU0AZSDXwyKM0F4LA1XoKx4IKZxlRIsdOGqy33lL5Yugw==
+X-Received: by 2002:a2e:4704:: with SMTP id u4mr6789441lja.203.1569424640758;
+        Wed, 25 Sep 2019 08:17:20 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ac2:559c:: with SMTP id v28ls696709lfg.10.gmail; Wed, 25 Sep
- 2019 07:31:20 -0700 (PDT)
-X-Received: by 2002:ac2:5203:: with SMTP id a3mr6243870lfl.151.1569421880847;
-        Wed, 25 Sep 2019 07:31:20 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1569421880; cv=none;
+Received: by 2002:a2e:3101:: with SMTP id x1ls952621ljx.1.gmail; Wed, 25 Sep
+ 2019 08:17:20 -0700 (PDT)
+X-Received: by 2002:a2e:810e:: with SMTP id d14mr7045043ljg.160.1569424640192;
+        Wed, 25 Sep 2019 08:17:20 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1569424640; cv=none;
         d=google.com; s=arc-20160816;
-        b=bbMKBXpHJKNw4QTiwBIRVzAYWZVM6amEe60X/MeH04kdWTgtDY5+hbPfVpgM/BNs0A
-         /FcXjB6GtTQZh1VQwTshhkP7bn78H4fQEvSZpB6v8wcAsncbiCpMmCAnAsKNmpeLEFhW
-         OEhwthGTw+CPcCTFRus4e1b9epIqkFFyYM0LVa5tMr580K9AvKChiv3NpF+HnvSm3juh
-         2cEo9+400Cwx8wQO1IbI/gtl2dfpPvX7XRWWD7ZUN6U5xati3aBHJye3wB4ol95xBhMU
-         crtezXDEf5DXXq/r+Qe1KxPzmn71BSOh6hRNT9VZFHFwzWxKDtf0+yjBx6D5y06HG9F8
-         Xipw==
+        b=I5sYxa645MParLDRVB1tGWq34FwQ28FJWl6P3EAZ5X9vyv8i692PKDtZJjO2xuIWPR
+         RB0QSlANRit7ar2pVMZTJ+KhXvSQWBDTFDo8L+mGG2gvnxXtdIxLolTZADY0Ip1s6Fy1
+         mOX9F7V44qa7U99y9gCIeIxjMByVrRa+gTB6sWLZlE4aMMAtFsb7gTyOdrJUJlJ4UZk3
+         3vElaiKhtT4HeajUre3WmdtMbQFGqG1fX4pnktHOIJn1P5lmMRF8izhmvraH85iQWoRZ
+         fCNkvXd74gKShOn1xctDuwWPs87fA807myhqEwjy8HQAP4QmhaZ76ElGtsM1jd8R7Cz5
+         ji4w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from;
-        bh=7JOt+tce8+sCCjUyiHcnZVbE/UxoVcf1EIbVfDqUa+o=;
-        b=WDH4RdRwWQ/1ix91HKUCFa9rISPJDkJSkmEZjsXOZfeTNXgYgv/3Zzo9ODe64dzIAE
-         /nfF6TEE7FRQRdn9K2rCq9BmpNbYe0cMmocqcHw/GL3xL5xlyDE0nTTSE4I54/pAhEf2
-         YVYqgf92O7cNNjMBTHlY1wmNdeo9gq2Dwte9pWBkrBZi5LO4+n7I30w8HvmymL1lUwWu
-         NnCjZkIymKTgq26I4enuql2eYSsFm1fAtPHaAhrjQB3g5BPi/hGnJ7DJEVsk5i9AgGIZ
-         FCCgqkwyqQF8WMXr5fCDDLWEzLyZvBi5xpon8pzvZusg8Zup63CRjG78Ofc+SCRN7Wnl
-         iPdA==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=rTBq6P5OxsGLjoGVhyAwZM8k0vklyHGTB2oJI82Er7M=;
+        b=dNEUe4d9b7Myf690MRscx1oLu9dkmORG8ZKA8ISS9O47bzSqJl4MoHLhe7trkGchs5
+         3h6hd1pTcOS0b1YV5k2S0ie5m0eWaYLUSzAyU4PARtOdws4c2tQ847AysYECSD+tXgtS
+         cnf7P+71LhutZ53pHqkBCC5wb4muGOHvYcsNEKyUvAC6eV/91Ogz8EnQDXpPRAWGl33x
+         0MDT80LKLgKXAf/BBqxpgH8JoiFoKDxVvnzfuYGAJ7gjvKkKFZSllrpOOb5vjuTpjwA2
+         TVcQ99HGM4W5fvLwXh5UbpwPAhe8vuBzMrfCdEbu1Uinq0Im+0mPbMUBkf8q/iZ1XF3X
+         H3tg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of vbabka@suse.cz designates 195.135.220.15 as permitted sender) smtp.mailfrom=vbabka@suse.cz
-Received: from mx1.suse.de (mx2.suse.de. [195.135.220.15])
-        by gmr-mx.google.com with ESMTPS id y6si314649lji.0.2019.09.25.07.31.20
+       dkim=pass header.i=@gmail.com header.s=20161025 header.b=eghD7xF1;
+       spf=pass (google.com: domain of festevam@gmail.com designates 2a00:1450:4864:20::243 as permitted sender) smtp.mailfrom=festevam@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com. [2a00:1450:4864:20::243])
+        by gmr-mx.google.com with ESMTPS id c8si382257lfm.4.2019.09.25.08.17.20
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 25 Sep 2019 07:31:20 -0700 (PDT)
-Received-SPF: pass (google.com: domain of vbabka@suse.cz designates 195.135.220.15 as permitted sender) client-ip=195.135.220.15;
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-	by mx1.suse.de (Postfix) with ESMTP id 610D9B60E;
-	Wed, 25 Sep 2019 14:31:19 +0000 (UTC)
-From: Vlastimil Babka <vbabka@suse.cz>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	kasan-dev@googlegroups.com,
-	Qian Cai <cai@lca.pw>,
-	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-	Matthew Wilcox <willy@infradead.org>,
-	Mel Gorman <mgorman@techsingularity.net>,
-	Michal Hocko <mhocko@kernel.org>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	"Kirill A . Shutemov" <kirill@shutemov.name>
-Subject: [PATCH 3/3] mm, page_owner: rename flag indicating that page is allocated
-Date: Wed, 25 Sep 2019 16:30:56 +0200
-Message-Id: <20190925143056.25853-8-vbabka@suse.cz>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20190925143056.25853-1-vbabka@suse.cz>
-References: <20190925143056.25853-1-vbabka@suse.cz>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 25 Sep 2019 08:17:20 -0700 (PDT)
+Received-SPF: pass (google.com: domain of festevam@gmail.com designates 2a00:1450:4864:20::243 as permitted sender) client-ip=2a00:1450:4864:20::243;
+Received: by mail-lj1-x243.google.com with SMTP id y23so6069553lje.9
+        for <kasan-dev@googlegroups.com>; Wed, 25 Sep 2019 08:17:20 -0700 (PDT)
+X-Received: by 2002:a2e:b0f4:: with SMTP id h20mr1893730ljl.10.1569424639817;
+ Wed, 25 Sep 2019 08:17:19 -0700 (PDT)
 MIME-Version: 1.0
-X-Original-Sender: vbabka@suse.cz
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of vbabka@suse.cz designates 195.135.220.15 as permitted
- sender) smtp.mailfrom=vbabka@suse.cz
+References: <1548057848-15136-1-git-send-email-rppt@linux.ibm.com>
+ <CAHCN7x+Jv7yGPoB0Gm=TJ30ObLJduw2XomHkd++KqFEURYQcGg@mail.gmail.com>
+ <CAOMZO5A_U4aYC4XZXK1r9JaLg-eRdXy8m6z4GatQp62rK4HZ6A@mail.gmail.com> <CAHCN7xJdzEppn8-74SvzACsA25bUHGdV7v=CfS08xzSi59Z2uw@mail.gmail.com>
+In-Reply-To: <CAHCN7xJdzEppn8-74SvzACsA25bUHGdV7v=CfS08xzSi59Z2uw@mail.gmail.com>
+From: Fabio Estevam <festevam@gmail.com>
+Date: Wed, 25 Sep 2019 12:17:28 -0300
+Message-ID: <CAOMZO5D2uzR6Sz1QnX3G-Ce_juxU-0PO_vBZX+nR1mpQB8s8-w@mail.gmail.com>
+Subject: Re: [PATCH v2 00/21] Refine memblock API
+To: Adam Ford <aford173@gmail.com>
+Cc: Mike Rapoport <rppt@linux.ibm.com>, Rich Felker <dalias@libc.org>, linux-ia64@vger.kernel.org, 
+	Petr Mladek <pmladek@suse.com>, linux-sh@vger.kernel.org, 
+	Catalin Marinas <catalin.marinas@arm.com>, Heiko Carstens <heiko.carstens@de.ibm.com>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Max Filippov <jcmvbkbc@gmail.com>, 
+	Guo Ren <guoren@kernel.org>, Michael Ellerman <mpe@ellerman.id.au>, sparclinux@vger.kernel.org, 
+	Christoph Hellwig <hch@lst.de>, linux-s390@vger.kernel.org, linux-c6x-dev@linux-c6x.org, 
+	Yoshinori Sato <ysato@users.sourceforge.jp>, Richard Weinberger <richard@nod.at>, x86@kernel.org, 
+	Russell King <linux@armlinux.org.uk>, kasan-dev <kasan-dev@googlegroups.com>, 
+	Geert Uytterhoeven <geert@linux-m68k.org>, Mark Salter <msalter@redhat.com>, 
+	Dennis Zhou <dennis@kernel.org>, Matt Turner <mattst88@gmail.com>, 
+	linux-snps-arc@lists.infradead.org, uclinux-h8-devel@lists.sourceforge.jp, 
+	devicetree <devicetree@vger.kernel.org>, linux-xtensa@linux-xtensa.org, 
+	linux-um@lists.infradead.org, 
+	The etnaviv authors <etnaviv@lists.freedesktop.org>, linux-m68k@lists.linux-m68k.org, 
+	Rob Herring <robh+dt@kernel.org>, Greentime Hu <green.hu@gmail.com>, xen-devel@lists.xenproject.org, 
+	Stafford Horne <shorne@gmail.com>, Guan Xuetao <gxt@pku.edu.cn>, 
+	arm-soc <linux-arm-kernel@lists.infradead.org>, Michal Simek <monstr@monstr.eu>, 
+	Tony Luck <tony.luck@intel.com>, Linux Memory Management List <linux-mm@kvack.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, USB list <linux-usb@vger.kernel.org>, 
+	linux-mips@vger.kernel.org, Paul Burton <paul.burton@mips.com>, 
+	Vineet Gupta <vgupta@synopsys.com>, linux-alpha@vger.kernel.org, 
+	Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org, 
+	"David S. Miller" <davem@davemloft.net>, openrisc@lists.librecores.org, 
+	Chris Healy <cphealy@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: festevam@gmail.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@gmail.com header.s=20161025 header.b=eghD7xF1;       spf=pass
+ (google.com: domain of festevam@gmail.com designates 2a00:1450:4864:20::243
+ as permitted sender) smtp.mailfrom=festevam@gmail.com;       dmarc=pass
+ (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -131,93 +166,17 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Commit 37389167a281 ("mm, page_owner: keep owner info when freeing the page")
-has introduced a flag PAGE_EXT_OWNER_ACTIVE to indicate that page is tracked as
-being allocated.  Kirril suggested naming it PAGE_EXT_OWNER_ALLOCED to make it
-more clear, as "active is somewhat loaded term for a page".
+On Wed, Sep 25, 2019 at 9:17 AM Adam Ford <aford173@gmail.com> wrote:
 
-Suggested-by: Kirill A. Shutemov <kirill@shutemov.name>
-Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
----
- include/linux/page_ext.h |  2 +-
- mm/page_owner.c          | 12 ++++++------
- 2 files changed, 7 insertions(+), 7 deletions(-)
+> I tried cma=256M and noticed the cma dump at the beginning didn't
+> change.  Do we need to setup a reserved-memory node like
+> imx6ul-ccimx6ulsom.dtsi did?
 
-diff --git a/include/linux/page_ext.h b/include/linux/page_ext.h
-index 5e856512bafb..4ca0e176433c 100644
---- a/include/linux/page_ext.h
-+++ b/include/linux/page_ext.h
-@@ -18,7 +18,7 @@ struct page_ext_operations {
- 
- enum page_ext_flags {
- 	PAGE_EXT_OWNER,
--	PAGE_EXT_OWNER_ACTIVE,
-+	PAGE_EXT_OWNER_ALLOCED,
- #if defined(CONFIG_IDLE_PAGE_TRACKING) && !defined(CONFIG_64BIT)
- 	PAGE_EXT_YOUNG,
- 	PAGE_EXT_IDLE,
-diff --git a/mm/page_owner.c b/mm/page_owner.c
-index f3aeec78822f..f16317e98fda 100644
---- a/mm/page_owner.c
-+++ b/mm/page_owner.c
-@@ -163,7 +163,7 @@ void __reset_page_owner(struct page *page, unsigned int order)
- 	if (unlikely(!page_ext))
- 		return;
- 	for (i = 0; i < (1 << order); i++) {
--		__clear_bit(PAGE_EXT_OWNER_ACTIVE, &page_ext->flags);
-+		__clear_bit(PAGE_EXT_OWNER_ALLOCED, &page_ext->flags);
- #ifdef CONFIG_PAGE_OWNER_FREE_STACK
- 		if (static_branch_unlikely(&page_owner_free_stack)) {
- 			page_owner = get_page_owner(page_ext);
-@@ -188,7 +188,7 @@ static inline void __set_page_owner_handle(struct page *page,
- 		page_owner->gfp_mask = gfp_mask;
- 		page_owner->last_migrate_reason = -1;
- 		__set_bit(PAGE_EXT_OWNER, &page_ext->flags);
--		__set_bit(PAGE_EXT_OWNER_ACTIVE, &page_ext->flags);
-+		__set_bit(PAGE_EXT_OWNER_ALLOCED, &page_ext->flags);
- 
- 		page_ext = page_ext_next(page_ext);
- 	}
-@@ -262,7 +262,7 @@ void __copy_page_owner(struct page *oldpage, struct page *newpage)
- 	 * the new page, which will be freed.
- 	 */
- 	__set_bit(PAGE_EXT_OWNER, &new_ext->flags);
--	__set_bit(PAGE_EXT_OWNER_ACTIVE, &new_ext->flags);
-+	__set_bit(PAGE_EXT_OWNER_ALLOCED, &new_ext->flags);
- }
- 
- void pagetypeinfo_showmixedcount_print(struct seq_file *m,
-@@ -322,7 +322,7 @@ void pagetypeinfo_showmixedcount_print(struct seq_file *m,
- 			if (unlikely(!page_ext))
- 				continue;
- 
--			if (!test_bit(PAGE_EXT_OWNER_ACTIVE, &page_ext->flags))
-+			if (!test_bit(PAGE_EXT_OWNER_ALLOCED, &page_ext->flags))
- 				continue;
- 
- 			page_owner = get_page_owner(page_ext);
-@@ -437,7 +437,7 @@ void __dump_page_owner(struct page *page)
- 		return;
- 	}
- 
--	if (test_bit(PAGE_EXT_OWNER_ACTIVE, &page_ext->flags))
-+	if (test_bit(PAGE_EXT_OWNER_ALLOCED, &page_ext->flags))
- 		pr_alert("page_owner tracks the page as allocated\n");
- 	else
- 		pr_alert("page_owner tracks the page as freed\n");
-@@ -531,7 +531,7 @@ read_page_owner(struct file *file, char __user *buf, size_t count, loff_t *ppos)
- 		 * Although we do have the info about past allocation of free
- 		 * pages, it's not relevant for current memory usage.
- 		 */
--		if (!test_bit(PAGE_EXT_OWNER_ACTIVE, &page_ext->flags))
-+		if (!test_bit(PAGE_EXT_OWNER_ALLOCED, &page_ext->flags))
- 			continue;
- 
- 		page_owner = get_page_owner(page_ext);
--- 
-2.23.0
+I don't think so.
+
+Were you able to identify what was the exact commit that caused such regression?
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20190925143056.25853-8-vbabka%40suse.cz.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAOMZO5D2uzR6Sz1QnX3G-Ce_juxU-0PO_vBZX%2BnR1mpQB8s8-w%40mail.gmail.com.
