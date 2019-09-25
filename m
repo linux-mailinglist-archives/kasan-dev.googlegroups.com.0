@@ -1,30 +1,30 @@
-Return-Path: <kasan-dev+bncBDWLZXP6ZEPRBOPUVXWAKGQETP7BRSI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDWLZXP6ZEPRBOHUVXWAKGQEAN7OIKA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x237.google.com (mail-lj1-x237.google.com [IPv6:2a00:1450:4864:20::237])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5122BE00A
-	for <lists+kasan-dev@lfdr.de>; Wed, 25 Sep 2019 16:31:22 +0200 (CEST)
-Received: by mail-lj1-x237.google.com with SMTP id j10sf1719257lja.21
-        for <lists+kasan-dev@lfdr.de>; Wed, 25 Sep 2019 07:31:22 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1569421882; cv=pass;
+Received: from mail-wr1-x43d.google.com (mail-wr1-x43d.google.com [IPv6:2a00:1450:4864:20::43d])
+	by mail.lfdr.de (Postfix) with ESMTPS id C9146BE005
+	for <lists+kasan-dev@lfdr.de>; Wed, 25 Sep 2019 16:31:20 +0200 (CEST)
+Received: by mail-wr1-x43d.google.com with SMTP id b6sf2487972wrx.0
+        for <lists+kasan-dev@lfdr.de>; Wed, 25 Sep 2019 07:31:20 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1569421880; cv=pass;
         d=google.com; s=arc-20160816;
-        b=TdjcLJvCw5rT+gRg/+ydLrPHV1y4d3OGtIoCSw3Tb5RlfS+/8FnlPAa6wYw1u+ZZmA
-         LUtDIc9/RZn3+n4WAOynlAeYlXtIx85ODMuuVaKGf5a1V7kCSZviMJRG69Jdrp1eD0Cd
-         1fC1qdvnZPxyJhw2V1oDjbiAaw+evmltGZEB8ojQ/cF71F+5qvMbohbrOveF3QN2Ii0T
-         DerbZM419JbCO44l9lkvLIqQqRK+EQKmDGm4aoXlzUsZv5+0UUYYSIcbir77yVDtiS/J
-         2m0fL7ll1G3wLMVGe+YJD1tCfaqEAu4EmU2cmQaIHKdAg6E7mY8htLJytz6+VOah5uSK
-         WMnA==
+        b=l5NvWkhKdl33SbjA+Qzo9rCJdcxs4lfLxDqWZvlENo9hgkuHBSMZzUP/+e2gbw7ucR
+         y2p5ePCPoOOT5wZSFJvn1o1jcHuazEKDNSnph8q1uE/vDKsGETmj3APr8nzyJKFIMSeN
+         n4gTMYmeLjG74iqgkvQ4q2Iyp3f/BAZB2U7xt5utsP0G1FlWX7PPqe8D/Wn+cbx3/ZR3
+         I2PYIgwhi7aSGaRTJLLylhm3ZT2E1vVcTeXGV8kDLViF6RS/+s9bcrXqxqNo5N9tcORu
+         esGa+HCd+6eMYmfbikj01kZiS/UMpzFsDcsm0oNcHrVjHffUp2xWuX32IaqAb07owv2W
+         qViQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=JhJbS0eUzcwEaKIFTq4ufqOx+I7W6RHl1YFczTZwOeM=;
-        b=Q69V0npfpplKiFylc+RUjq2BgDOfBTKesYWuPyt0xeCaDpA6mBHA2TpbXVU/xojVmE
-         nGXF+a313cy0IVhCKAq2RTJuzil6/axR/6CYuHqAroxCsOkWoRbpBLw06Pc5NLrv5NGl
-         HtbazwQsA27E3zfyezzXUPUw9YPh5n/T1bXoTr5so7cHaEZxyNV5AQlb8tGHFWcetbtO
-         59+TRv3VbP46wK6ys0pd0E7PiYuYxKkylkXYV8iYV5CXLCidr0vTAgQfjqdyEzg/7v0f
-         8E7LEbju0YExeWttA2YdCrbf1OuG1F0vPTiQD0hyz0AVgqcoSy0dVhLMfCz+10HjbhjC
-         Qvdg==
+        bh=J692rHgP2/AWPcXt5DeCuIDVFHHjrtuedQ0pg1O4iE8=;
+        b=bF9NUeq3hCp9PxY5WajSopcrexKLUxpC2EemQUf0RoZOgZ1rIc/yGZqjvov3Ms9lO4
+         OmjPuKe5PHCeBznsDMk1PQ+HfPMyasYt4NT2eP08UeaVJ7gp6v4UrAwbLFNhjN2h039p
+         mttRhICNdY0iMGL/ZEgCkD0bbir0LDXY/yPY+Rl+Gg0dnZCeKh8W3iMLSweBpAsSQ+oC
+         TdS5wVGUbJjy/tPJQ5pbpu6HQKOH8YTwVFKcM0U/0NxAZX3S5WmKSaUtydL8GN7UPawp
+         glY8sMBWSENZu89Y3NMVRjkSC8q7vb9IiBBHnTsZCt3+n6MpUnmV8BEc1NMoC1oVKNFG
+         d8HA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
        spf=pass (google.com: domain of vbabka@suse.cz designates 195.135.220.15 as permitted sender) smtp.mailfrom=vbabka@suse.cz
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
@@ -33,13 +33,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :mime-version:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=JhJbS0eUzcwEaKIFTq4ufqOx+I7W6RHl1YFczTZwOeM=;
-        b=r0/efjlzSsM6A8pZhXsF+30X8jKuKbmqnw+PoQX77Pj6Y0wvxIGdn5d2LX4vtKdbc5
-         9+d/Hi7MGHdJK+ZVXzE3rAXkeURubmh2DyHQuXUQu8xXdlXjVBV4/xO9qGD7621ReqQN
-         lY10A567G0h0aQ+CUQAT1l4tUbEsS8cvuSFKJ98rA4aQ2uZZd+n8c77P57gID/040uZN
-         y3J7hr7affP3SHUThjN0TOrASm91x8eZhjSv1fHfFspull1RTmGRnZJU6PB317/W8bpL
-         5fA88nP8MiFTI1KsV+dL8TmI3PXM38E6ghK5zeXFFYiJ6xQveRVWyf383BdQU4aaZadP
-         sfsQ==
+        bh=J692rHgP2/AWPcXt5DeCuIDVFHHjrtuedQ0pg1O4iE8=;
+        b=VlVdHNvgkQP9YYQ4fpRqm0bGJoLe0r7InzQKhHTlvsN0S35+JxFkCBUsIayZ9in4c+
+         QKv2OCApFp3z9g5s4hSYVAw0bXv13D6Ey5weN5bZ6blEhwWXzu+9zvmPsihkMkhwYGbG
+         1MZlsq/LGpiZdGTI8Id1DE1keO9SWS8Vihw6Zgc5yihJw7EpbKYp13R7oaMQTsLQvAQx
+         QaGM3BQu7Reb/g/rhbLKAw6Wa3MbjzYZ5lsgkb9wLu/FUrlHHDzD3nCZEwzSXO1oih7E
+         Hh+tjsdL+snAxYvub5WtM1/W3l1OQgwYfkjDCJgFs3MnbXTBPME2RyxnXin/2FGfqAxH
+         sNiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
@@ -47,53 +47,53 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=JhJbS0eUzcwEaKIFTq4ufqOx+I7W6RHl1YFczTZwOeM=;
-        b=cD61qYAoF/33ZfYHtMOcBfligvn15mTeWMrXl6+p5cq/E+SPePBfkeFGafTnKdAvSz
-         JnLMnG8pUT3a13iZ9XQyr7m8eOXzn0wHX2K4V+GhpbxlHD7SjN9sZWKL8MhY6lXbS1p6
-         m5928jUCP4f+pn0SEgJhcPAOKUzl/QsNE8n4eyQhzFbG3C/BC773Nz+q/CmBMBDedW/K
-         LgwbQUNuqIyLzT5wk4UX0wVcyeJWUFv4VSP7mh0iAH5AWi3AWyqncXRsdFv6kNjyBe1P
-         lj3/4Rb2sC1E4K0WczvxcPknuoTcciOHaRR5ssgOhhycH8AqrdjX3u6RP8EBqE3Fbq/5
-         UdmQ==
+        bh=J692rHgP2/AWPcXt5DeCuIDVFHHjrtuedQ0pg1O4iE8=;
+        b=m9awP6Q1bcM1hXyl8JeELX/G8v4fe4mz10bhbP7ll+dNZPD/NXB9+zlHlDc02w3AeW
+         HeiSDgHO6+cCzBj5F+NDCJq1LmCPzVsYcDdnI3uePPChQS0p+cXCX8X3vPoDGTWcQdsc
+         Gl5yFT8qPmUmSptJny2bKchaJw6FH/8uNfJttUT/l0JL0Ry+ZKX3yJMmDzwoRv/xvXS0
+         piZqLKB0VJsWdAdKGZUUwF3zi0tYEpXsdB8odIsQ/mmrgrwe4a+sgxk/hEZz4tCgo31j
+         dAra6MCykr97I/eD/q9DSfwgLZygZimLmcdh0S/JwJBJaOgJdjsBA58pqZ5T/8u3fu5j
+         ze3A==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAVtx+bvMMEAfGJ/7KoxHMHPlfTRSrRTQD6JdrSA92PskojiKNS5
-	C5skBp22PVullo9apOBF0hE=
-X-Google-Smtp-Source: APXvYqyHXZknkMsnQtRlhuxEd0WF7eilr7Gagvepr2j6RDXTruDhuO+SEZBLWXerK0576QvBC+lvYw==
-X-Received: by 2002:ac2:44c8:: with SMTP id d8mr6544548lfm.101.1569421882182;
-        Wed, 25 Sep 2019 07:31:22 -0700 (PDT)
+X-Gm-Message-State: APjAAAXA+jogZo9+hGOx4tRTEFDIUviy+t2U2HF0hr/GHrnMWrHtH+lY
+	5b2LCSD6fG+4VMqZYFdu8Q0=
+X-Google-Smtp-Source: APXvYqwB2jCOlhesWWJwhhzuHs3Pl5cYcBXGIk0vtwiEo6XyO6zDql8Ru5XQInV9cHKIK9N8l352nw==
+X-Received: by 2002:a1c:66c2:: with SMTP id a185mr8080182wmc.2.1569421880520;
+        Wed, 25 Sep 2019 07:31:20 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a2e:47d5:: with SMTP id u204ls919526lja.5.gmail; Wed, 25 Sep
- 2019 07:31:21 -0700 (PDT)
-X-Received: by 2002:a2e:8507:: with SMTP id j7mr6853371lji.151.1569421881206;
-        Wed, 25 Sep 2019 07:31:21 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1569421881; cv=none;
+Received: by 2002:adf:828e:: with SMTP id 14ls2301407wrc.7.gmail; Wed, 25 Sep
+ 2019 07:31:19 -0700 (PDT)
+X-Received: by 2002:a5d:4745:: with SMTP id o5mr9758857wrs.125.1569421879773;
+        Wed, 25 Sep 2019 07:31:19 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1569421879; cv=none;
         d=google.com; s=arc-20160816;
-        b=Z/yLfMQbtykfNAH965Wj2Rybtfr2eYLnbzaVe9C+ULxJL0fA4HbPAD5UZfThHS9muA
-         1P2dY80qPYImIU80WB3t/aNmf8U1itIoWovFvy1vyQ5wd+vYBLlytCKpLWKroKwv0SzW
-         IXV/4PhIlgoZ0qvN8LhfSk1GTlf1uPrAbLzyLXdNq9ANe6k+2H/TL9YXEgWLajA9GrJ3
-         yE0X6sqHVKppdoCVkNQtRLcO9FE4D//QXU52ZH6H3P2/6E+aF99q4X7CwLUBKOiTqdz+
-         0lUPkcJ8NE1a4UkVM/BohPxYSY3iyQNIMcaopH/Q2lhwiOTI5PlARf9/oooOmM67f8gp
-         KnVA==
+        b=r7sp7bx+A256S1eXFnBQuvX24MJYscHxB9oCe9fXefSeFvMeegrCMiMNC21hSQ9WDW
+         FHSXlAFH6UXQnSb8poN+/kRi2MsWriHps4bQPVG9yEKgVAafO09k0AEUhGB+248l5+o5
+         d+H2Zl5KAUJyCJztU8w3SLU/Ys/SfkKM9j2FwU4NnBUp3Szd7nn8SYbViiHBe9nfcwNa
+         y9ZNnbEopirA5nPGnVQJyJ8h+NPapIsHWalD5LfY9AavuZGWsXEKwUURFFt2heXMgBB8
+         iaTWzjd0gSHh3KqCmPX0gL3c1o4Lj85VeguGpxSdz9T1avPjZuyxs+WYJ2KmynDHGYO9
+         ipow==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from;
-        bh=35/hEpDAB6spA1URIfoULOYl2orrr8leQAkG/VWVeFw=;
-        b=iF7AgBTxkds3u5kr2Q5wbtg3WlX9wuvYI+O613FFG2+06RjMThohn49WezEao4VgQL
-         43iJGZokFA7ozGwnHzui6ki1rLmAGTiAt2VIGQASfWODC6DBmkjd8gJHaomCbaQ8HeO4
-         EuXK2M2/YBaN4QsO73P8eWdj7rG8Izg/FOOM6AAd2NFXZ52XpqXOxtkJaK36XMvp7RqB
-         uVGoSNx4A3jt7apXHnUugLDCXhQkBc8GpyKBN1E+1cX7ZU9WxZ8C54gqD1Redt3B7a5z
-         TThT1+7tRyeyEhZwvq2ZifrAVsYUgDwl2SMMbwbCeyXdpyubjdCHv7vQCR5COxLeBK+m
-         +few==
+        bh=7JOt+tce8+sCCjUyiHcnZVbE/UxoVcf1EIbVfDqUa+o=;
+        b=ocMiDbt8vvM94K+eUyaxPmxVk8sg9uizdzScYmcF//z7rO+q9nomL8wm4lW9d+MhX/
+         Ddmzl3qhyjXkmCIJIytzbFaHwo/DlI3WpxBoXKx0WRLOZ6F1V8kyTGCUt17rbhkGFUav
+         yLqaLcAPFah5hJUNVBrhVwYgZpfBQjZNyYh75HXwFHILaAEZtHUz9XH9dB1TjtnPmLXD
+         wrkzX3Y8/cBKyUzOhiYxz84qedMgxbPG7xasbmfjoKonbUSR+Cu4jwXJiimCSpCOea4b
+         3E2vE+zjib8PiU0Wfs+1KNC1LOirUYi3mv7K+e8jr0lvbsjR1zpMc2hxBJbk3Z4uw8O9
+         xPHQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
        spf=pass (google.com: domain of vbabka@suse.cz designates 195.135.220.15 as permitted sender) smtp.mailfrom=vbabka@suse.cz
 Received: from mx1.suse.de (mx2.suse.de. [195.135.220.15])
-        by gmr-mx.google.com with ESMTPS id k2si395451ljj.1.2019.09.25.07.31.20
+        by gmr-mx.google.com with ESMTPS id n16si263716wrs.4.2019.09.25.07.31.19
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 25 Sep 2019 07:31:20 -0700 (PDT)
+        Wed, 25 Sep 2019 07:31:19 -0700 (PDT)
 Received-SPF: pass (google.com: domain of vbabka@suse.cz designates 195.135.220.15 as permitted sender) client-ip=195.135.220.15;
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
-	by mx1.suse.de (Postfix) with ESMTP id F14A1B02E;
+	by mx1.suse.de (Postfix) with ESMTP id ECAC4AFC3;
 	Wed, 25 Sep 2019 14:31:18 +0000 (UTC)
 From: Vlastimil Babka <vbabka@suse.cz>
 To: Andrew Morton <akpm@linux-foundation.org>
@@ -106,12 +106,10 @@ Cc: linux-mm@kvack.org,
 	Mel Gorman <mgorman@techsingularity.net>,
 	Michal Hocko <mhocko@kernel.org>,
 	Vlastimil Babka <vbabka@suse.cz>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Walter Wu <walter-zh.wu@mediatek.com>,
-	Andrey Ryabinin <aryabinin@virtuozzo.com>
-Subject: [PATCH 2/3] mm, debug, kasan: save and dump freeing stack trace for kasan
-Date: Wed, 25 Sep 2019 16:30:51 +0200
-Message-Id: <20190925143056.25853-3-vbabka@suse.cz>
+	"Kirill A . Shutemov" <kirill@shutemov.name>
+Subject: [PATCH 3/3] mm, page_owner: rename flag indicating that page is allocated
+Date: Wed, 25 Sep 2019 16:30:52 +0200
+Message-Id: <20190925143056.25853-4-vbabka@suse.cz>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20190925143056.25853-1-vbabka@suse.cz>
 References: <20190925143056.25853-1-vbabka@suse.cz>
@@ -133,141 +131,93 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-The commit 8974558f49a6 ("mm, page_owner, debug_pagealloc: save and dump
-freeing stack trace") enhanced page_owner to also store freeing stack trace,
-when debug_pagealloc is also enabled. KASAN would also like to do this [1] to
-improve error reports to debug e.g. UAF issues. This patch therefore introduces
-a helper config option PAGE_OWNER_FREE_STACK, which is enabled when PAGE_OWNER
-and either of DEBUG_PAGEALLOC or KASAN is enabled. Boot-time, the free stack
-saving is enabled when booting a KASAN kernel with page_owner=on, or non-KASAN
-kernel with debug_pagealloc=on and page_owner=on.
+Commit 37389167a281 ("mm, page_owner: keep owner info when freeing the page")
+has introduced a flag PAGE_EXT_OWNER_ACTIVE to indicate that page is tracked as
+being allocated.  Kirril suggested naming it PAGE_EXT_OWNER_ALLOCED to make it
+more clear, as "active is somewhat loaded term for a page".
 
-[1] https://bugzilla.kernel.org/show_bug.cgi?id=203967
-
-Suggested-by: Dmitry Vyukov <dvyukov@google.com>
-Suggested-by: Walter Wu <walter-zh.wu@mediatek.com>
-Suggested-by: Andrey Ryabinin <aryabinin@virtuozzo.com>
+Suggested-by: Kirill A. Shutemov <kirill@shutemov.name>
 Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
-Reviewed-by: Andrey Ryabinin <aryabinin@virtuozzo.com>
 ---
- Documentation/dev-tools/kasan.rst |  4 ++++
- mm/Kconfig.debug                  |  4 ++++
- mm/page_owner.c                   | 31 ++++++++++++++++++-------------
- 3 files changed, 26 insertions(+), 13 deletions(-)
+ include/linux/page_ext.h |  2 +-
+ mm/page_owner.c          | 12 ++++++------
+ 2 files changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/Documentation/dev-tools/kasan.rst b/Documentation/dev-tools/kasan.rst
-index b72d07d70239..434e605030e9 100644
---- a/Documentation/dev-tools/kasan.rst
-+++ b/Documentation/dev-tools/kasan.rst
-@@ -41,6 +41,10 @@ smaller binary while the latter is 1.1 - 2 times faster.
- Both KASAN modes work with both SLUB and SLAB memory allocators.
- For better bug detection and nicer reporting, enable CONFIG_STACKTRACE.
+diff --git a/include/linux/page_ext.h b/include/linux/page_ext.h
+index 5e856512bafb..4ca0e176433c 100644
+--- a/include/linux/page_ext.h
++++ b/include/linux/page_ext.h
+@@ -18,7 +18,7 @@ struct page_ext_operations {
  
-+To augment reports with last allocation and freeing stack of the physical
-+page, it is recommended to configure kernel also with CONFIG_PAGE_OWNER = y
-+and boot with page_owner=on.
-+
- To disable instrumentation for specific files or directories, add a line
- similar to the following to the respective kernel Makefile:
- 
-diff --git a/mm/Kconfig.debug b/mm/Kconfig.debug
-index 327b3ebf23bf..1ea247da3322 100644
---- a/mm/Kconfig.debug
-+++ b/mm/Kconfig.debug
-@@ -62,6 +62,10 @@ config PAGE_OWNER
- 
- 	  If unsure, say N.
- 
-+config PAGE_OWNER_FREE_STACK
-+	def_bool KASAN || DEBUG_PAGEALLOC
-+	depends on PAGE_OWNER
-+
- config PAGE_POISONING
- 	bool "Poison pages after freeing"
- 	select PAGE_POISONING_NO_SANITY if HIBERNATION
+ enum page_ext_flags {
+ 	PAGE_EXT_OWNER,
+-	PAGE_EXT_OWNER_ACTIVE,
++	PAGE_EXT_OWNER_ALLOCED,
+ #if defined(CONFIG_IDLE_PAGE_TRACKING) && !defined(CONFIG_64BIT)
+ 	PAGE_EXT_YOUNG,
+ 	PAGE_EXT_IDLE,
 diff --git a/mm/page_owner.c b/mm/page_owner.c
-index d3cf5d336ccf..f3aeec78822f 100644
+index f3aeec78822f..f16317e98fda 100644
 --- a/mm/page_owner.c
 +++ b/mm/page_owner.c
-@@ -24,13 +24,14 @@ struct page_owner {
- 	short last_migrate_reason;
- 	gfp_t gfp_mask;
- 	depot_stack_handle_t handle;
--#ifdef CONFIG_DEBUG_PAGEALLOC
-+#ifdef CONFIG_PAGE_OWNER_FREE_STACK
- 	depot_stack_handle_t free_handle;
- #endif
- };
- 
- static bool page_owner_disabled = true;
- DEFINE_STATIC_KEY_FALSE(page_owner_inited);
-+static DEFINE_STATIC_KEY_FALSE(page_owner_free_stack);
- 
- static depot_stack_handle_t dummy_handle;
- static depot_stack_handle_t failure_handle;
-@@ -91,6 +92,8 @@ static void init_page_owner(void)
- 	register_failure_stack();
- 	register_early_stack();
- 	static_branch_enable(&page_owner_inited);
-+	if (IS_ENABLED(CONFIG_KASAN) || debug_pagealloc_enabled())
-+		static_branch_enable(&page_owner_free_stack);
- 	init_early_allocated_pages();
- }
- 
-@@ -148,11 +151,11 @@ void __reset_page_owner(struct page *page, unsigned int order)
- {
- 	int i;
- 	struct page_ext *page_ext;
--#ifdef CONFIG_DEBUG_PAGEALLOC
-+#ifdef CONFIG_PAGE_OWNER_FREE_STACK
- 	depot_stack_handle_t handle = 0;
- 	struct page_owner *page_owner;
- 
--	if (debug_pagealloc_enabled())
-+	if (static_branch_unlikely(&page_owner_free_stack))
- 		handle = save_stack(GFP_NOWAIT | __GFP_NOWARN);
- #endif
- 
-@@ -161,8 +164,8 @@ void __reset_page_owner(struct page *page, unsigned int order)
+@@ -163,7 +163,7 @@ void __reset_page_owner(struct page *page, unsigned int order)
+ 	if (unlikely(!page_ext))
  		return;
  	for (i = 0; i < (1 << order); i++) {
- 		__clear_bit(PAGE_EXT_OWNER_ACTIVE, &page_ext->flags);
--#ifdef CONFIG_DEBUG_PAGEALLOC
--		if (debug_pagealloc_enabled()) {
-+#ifdef CONFIG_PAGE_OWNER_FREE_STACK
-+		if (static_branch_unlikely(&page_owner_free_stack)) {
+-		__clear_bit(PAGE_EXT_OWNER_ACTIVE, &page_ext->flags);
++		__clear_bit(PAGE_EXT_OWNER_ALLOCED, &page_ext->flags);
+ #ifdef CONFIG_PAGE_OWNER_FREE_STACK
+ 		if (static_branch_unlikely(&page_owner_free_stack)) {
  			page_owner = get_page_owner(page_ext);
- 			page_owner->free_handle = handle;
- 		}
-@@ -450,14 +453,16 @@ void __dump_page_owner(struct page *page)
- 		stack_trace_print(entries, nr_entries, 0);
+@@ -188,7 +188,7 @@ static inline void __set_page_owner_handle(struct page *page,
+ 		page_owner->gfp_mask = gfp_mask;
+ 		page_owner->last_migrate_reason = -1;
+ 		__set_bit(PAGE_EXT_OWNER, &page_ext->flags);
+-		__set_bit(PAGE_EXT_OWNER_ACTIVE, &page_ext->flags);
++		__set_bit(PAGE_EXT_OWNER_ALLOCED, &page_ext->flags);
+ 
+ 		page_ext = page_ext_next(page_ext);
+ 	}
+@@ -262,7 +262,7 @@ void __copy_page_owner(struct page *oldpage, struct page *newpage)
+ 	 * the new page, which will be freed.
+ 	 */
+ 	__set_bit(PAGE_EXT_OWNER, &new_ext->flags);
+-	__set_bit(PAGE_EXT_OWNER_ACTIVE, &new_ext->flags);
++	__set_bit(PAGE_EXT_OWNER_ALLOCED, &new_ext->flags);
+ }
+ 
+ void pagetypeinfo_showmixedcount_print(struct seq_file *m,
+@@ -322,7 +322,7 @@ void pagetypeinfo_showmixedcount_print(struct seq_file *m,
+ 			if (unlikely(!page_ext))
+ 				continue;
+ 
+-			if (!test_bit(PAGE_EXT_OWNER_ACTIVE, &page_ext->flags))
++			if (!test_bit(PAGE_EXT_OWNER_ALLOCED, &page_ext->flags))
+ 				continue;
+ 
+ 			page_owner = get_page_owner(page_ext);
+@@ -437,7 +437,7 @@ void __dump_page_owner(struct page *page)
+ 		return;
  	}
  
--#ifdef CONFIG_DEBUG_PAGEALLOC
--	handle = READ_ONCE(page_owner->free_handle);
--	if (!handle) {
--		pr_alert("page_owner free stack trace missing\n");
--	} else {
--		nr_entries = stack_depot_fetch(handle, &entries);
--		pr_alert("page last free stack trace:\n");
--		stack_trace_print(entries, nr_entries, 0);
-+#ifdef CONFIG_PAGE_OWNER_FREE_STACK
-+	if (static_branch_unlikely(&page_owner_free_stack)) {
-+		handle = READ_ONCE(page_owner->free_handle);
-+		if (!handle) {
-+			pr_alert("page_owner free stack trace missing\n");
-+		} else {
-+			nr_entries = stack_depot_fetch(handle, &entries);
-+			pr_alert("page last free stack trace:\n");
-+			stack_trace_print(entries, nr_entries, 0);
-+		}
- 	}
- #endif
+-	if (test_bit(PAGE_EXT_OWNER_ACTIVE, &page_ext->flags))
++	if (test_bit(PAGE_EXT_OWNER_ALLOCED, &page_ext->flags))
+ 		pr_alert("page_owner tracks the page as allocated\n");
+ 	else
+ 		pr_alert("page_owner tracks the page as freed\n");
+@@ -531,7 +531,7 @@ read_page_owner(struct file *file, char __user *buf, size_t count, loff_t *ppos)
+ 		 * Although we do have the info about past allocation of free
+ 		 * pages, it's not relevant for current memory usage.
+ 		 */
+-		if (!test_bit(PAGE_EXT_OWNER_ACTIVE, &page_ext->flags))
++		if (!test_bit(PAGE_EXT_OWNER_ALLOCED, &page_ext->flags))
+ 			continue;
  
+ 		page_owner = get_page_owner(page_ext);
 -- 
 2.23.0
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20190925143056.25853-3-vbabka%40suse.cz.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20190925143056.25853-4-vbabka%40suse.cz.
