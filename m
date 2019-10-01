@@ -1,134 +1,145 @@
-Return-Path: <kasan-dev+bncBCD3NZ4T2IKRB54LZXWAKGQE4VVL3LY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDVIHK4E4ILBBOEOZXWAKGQEBX5TMPI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qk1-x738.google.com (mail-qk1-x738.google.com [IPv6:2607:f8b0:4864:20::738])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B050C342D
-	for <lists+kasan-dev@lfdr.de>; Tue,  1 Oct 2019 14:26:33 +0200 (CEST)
-Received: by mail-qk1-x738.google.com with SMTP id y189sf14427642qkb.14
-        for <lists+kasan-dev@lfdr.de>; Tue, 01 Oct 2019 05:26:33 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1569932792; cv=pass;
+Received: from mail-wm1-x339.google.com (mail-wm1-x339.google.com [IPv6:2a00:1450:4864:20::339])
+	by mail.lfdr.de (Postfix) with ESMTPS id 228B0C343B
+	for <lists+kasan-dev@lfdr.de>; Tue,  1 Oct 2019 14:31:53 +0200 (CEST)
+Received: by mail-wm1-x339.google.com with SMTP id z205sf1342256wmb.7
+        for <lists+kasan-dev@lfdr.de>; Tue, 01 Oct 2019 05:31:53 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1569933112; cv=pass;
         d=google.com; s=arc-20160816;
-        b=tftmlyhkNyxUdl7+mnEuPow2w9y1UpIANzZlBFuL7AuE0+KaK0Za5aoG8DzQgdOKZg
-         Bk5wupip7Bq7KWE7KIbu+KBqryATnvraSrba2psF7xvSE9hNtmFBLFJSK2Tr302Nn2WY
-         eAjBJ2xfdRIf1Emgbn0y2cgVjjDLj84zTCELopxRSQbMwASQ4G/uYVY4Wbdv1QgLBtek
-         vgSlrd4QcsDlCxScmBUL3j3X1MjbfJVXdWjTzY/6XCa6sq/eNn3uzN2ER+ZhIByJFTx2
-         A4AlRz4T2DqwZGLum5ja8+6wo9nsRTyOvlX2QGgb7g0QbUsSFt2PADSZBADyrOoYSc3R
-         HoMQ==
+        b=Zc4MzVv/YShFR5E499wK32V+q7i8ajs8eeexVjd94ZNH/19OXypMd6OOpECDCThrfD
+         kASeH7Bh2LvokoilJ3qjlK7bi1W4aspx3SS5+KB79Ouu9aavApxxDNj/XKv0IDtrqzMC
+         IwLJkT3C4nkXJuLcxrLvBkQGyaOyVFLMjuasP4dk6765s/WCf6eyOWRalFDbFdrAIfTB
+         hh1jMbP1USN5oZPSquXl89S8EvagKjLfas9tIBBbFM4Jmpx23b1C+8vPrtyYQdhw+7HQ
+         Uqpwz2OIc7UIrkDeF98yDLvn7HbJuvxXe2Ib8H/Twrt2QnjRYH4B2cFL123Xqr25iwKK
+         0Lxw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding
-         :mime-version:references:in-reply-to:date:cc:to:from:subject
-         :message-id:sender:dkim-signature;
-        bh=vdVtPL5eBlnMYZU/iVKN/SV6+Ga9P3mYS6nSlcFF7SQ=;
-        b=Nbp8oGuPsaQXH6eppPw4b1/qwvCevVZcpw3TUkx9fqKvmbV33/SB3jVxnwlzR010vE
-         5TUoKbCsNdOzCUVpcLmQawfmw7ugPpkrFWGyRt/Ua2aALxhoB9IVTSkc/Y2a7qjcJcE1
-         9V+qD7YPC59SVprC/QapLdnO2nURIodcEA2gd48Sx8yb4I3cVfrGTLBObbDxfNSrDjTX
-         BB78fIqyXZcUO12WCNJBU6+vfuiENDTE21wVH22YE2Pz3EKOEWFgiJ5iVWJlxt1lgIsj
-         GkIib+8Bn3LpvPOfEHWJ5PPY4LNKEIu95jjmD1cG/DgsjkNXTwUmbS5BxE8nt27nxMTe
-         pxpg==
+         :list-id:mailing-list:precedence:user-agent:in-reply-to
+         :content-transfer-encoding:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:dkim-signature;
+        bh=GMRx2YTxT/Tn1RHukQlrHiUmFmDO3o4R+1/Jf9vK1kU=;
+        b=jOZ8m/mFc0Z/ZdwPi0wLkTr0MJ7+Fz1KlJ/FARZmeWIgaDCcNZbnNNO6P6QUsyZB29
+         DyvJbk1GEvc/+kuztaoWli3AMx69nr3J+XvOCPdTl6W2dUpLBkp7uFux3WuXr6zcr476
+         dEyzlGL5ms2w2O0Ygm1g4nUzme+xQBgqs6PkrCoDOwlGuSb1MDdERh91DS6fZPQ2K89L
+         QbuF2+mizl7+hCIjIwP8CI7ao+toAUPH1Lqyk+yfgpPYDGf1yfHqpZYy3Dqn+C6b6uR+
+         w3QzkPVB8Fxng+Ebkcamywrrg3dd3cHg5xD6L74YJeUPKTHfcpNvmQW+L1Eo5vwPwwWt
+         pQLw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@lca.pw header.s=google header.b=ou1cPBP9;
-       spf=pass (google.com: domain of cai@lca.pw designates 2607:f8b0:4864:20::741 as permitted sender) smtp.mailfrom=cai@lca.pw
+       dkim=pass header.i=@shutemov-name.20150623.gappssmtp.com header.s=20150623 header.b=nTBOO2eh;
+       spf=neutral (google.com: 2a00:1450:4864:20::542 is neither permitted nor denied by best guess record for domain of kirill@shutemov.name) smtp.mailfrom=kirill@shutemov.name
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:message-id:subject:from:to:cc:date:in-reply-to:references
-         :mime-version:content-transfer-encoding:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=vdVtPL5eBlnMYZU/iVKN/SV6+Ga9P3mYS6nSlcFF7SQ=;
-        b=gDEmKwHKsW0Xgfy61ByvdTxkosDfjgSif8QebKBdrkU+jKziJYe6qdVB/zPORGiZT0
-         Cb/XN5XVww9KYqRXT/C/cYXinDEbfMRimKKJl5FHiwqbCPL5m25y9/XIwpxtsmB7NSST
-         d94xpSv9/sDmxJEj8KT7I5bc5GYKyDV86CVqeotKALBfPUFAGrhDDzNa7cdrSBuuDee3
-         TPaeoKyZLEnY6FnGdJza6W8gMW90mgRnt//TxW2qi4gobLJTQVz5khN+CZVKu24v4M5s
-         reljE+uKJ++mvp7AOzcV6EL8MhetlKjOHHbrUYl6yn1pR6h/FEkkoYZZEiuCTd77+7Tc
-         eZGg==
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=GMRx2YTxT/Tn1RHukQlrHiUmFmDO3o4R+1/Jf9vK1kU=;
+        b=JHV/S2wBzKoPwT0Eq6nXk8JvXpHtfP+7jZxQxnXjBqt6avh58q+3mhJ3Tw/BteNRwF
+         4zE1BZEnzLfKT320nul38HuaYYfpcii4cx2GpyXH8+bIJb4sBjEgALhweqjhuXr7HKGW
+         FeMePrtWUa1WQIZywggkMtO3I5iTDmHY5IgBe+OgBIzOI2mX319aZBhmeaiiUGqPSXu3
+         qsqURtnvevcKHyfbiSB8gDUm5XQWOl9M5qiABQDPH8io8ojyBfQxwkrvwv2xYCaTR3La
+         mO1SJMYnDqNNeTdn2nDGiTnfq0PClPUFPDYg/CgCH9c1gfSJoF2ZJahyAJrTJIRKwy32
+         RmPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:message-id:subject:from:to:cc:date
-         :in-reply-to:references:mime-version:content-transfer-encoding
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=vdVtPL5eBlnMYZU/iVKN/SV6+Ga9P3mYS6nSlcFF7SQ=;
-        b=Vg0U+Fw0f2qx2yIIaQpYkl14am88p9wPQE0NT8B5uZIC2H8kfXPhriY+wLKfXDHmhB
-         hXdf1WCiGz3JQhDwZ92Y8lz6fK+aScxPb8+PEPYueDbp8NfFRU7vYMDsA4/fCxoiCiB4
-         W/F4KFR/FHkndGbKHzoBCURXJvuZ5zBycrPdQkdwihSG8iaRfwzW7i3iwLDHdW+ALeXf
-         59B02fOGblsPcKFlky9n/mn+A7Dsa5IqPa1TTN7h49oZWhCODh0A6zuiPALI8I//7ujk
-         2Ne78RtZUd3Pf3xrUegtvbyfgWMaErfFFGv2gE6ite40+mK0F7L20pe/sE4SxZ2knvzU
-         A28Q==
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition
+         :content-transfer-encoding:in-reply-to:user-agent:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=GMRx2YTxT/Tn1RHukQlrHiUmFmDO3o4R+1/Jf9vK1kU=;
+        b=alp+S54+FFetfoBLMukOCiLou49chZJnp4JzMmNFPmJA78M0K+qKoGmr+b86BAcrqH
+         WVX0zQdu+r6fpOOhyxmcod2xrrGD1nRLmWfMt7+7uba6bUys5mMRCOXyWNEZ8x+OcaKb
+         6Vo9NpPkE2F3uUX02PHiivghYL0SRtZlyexBVMa+pcAgLLfipFikIuzdU4AlzlTHYfIX
+         sDLZNmdkaYcgctVgBJQ07pRCrXbMxzZ/ktBk6Xr7XV4tkBi6BmLTsJGhUVtulqctClGD
+         YqNbJ3YJtIscMHp4UJA+KGcA30Gls11JvOzlgaV9KftIT5bTAUdHm9OuJjdrxRq/4eCT
+         GOyw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAU4j/DXP3e39h3AEeCgQK/zl/7cMW5W33s+X2v/SouW6o4mX5Gf
-	F1HO6fkydMEPME7xqShpVgE=
-X-Google-Smtp-Source: APXvYqzLPvu9xCDRG/VYG9NxLbAjnkf+PX5MAY3RZjHc9jyMVR6y+olFX5qFfuKy46suhOp7FE0zKw==
-X-Received: by 2002:a05:620a:14af:: with SMTP id x15mr5550608qkj.170.1569932792038;
-        Tue, 01 Oct 2019 05:26:32 -0700 (PDT)
+X-Gm-Message-State: APjAAAWauSvbq5KuAYvpIPiiof8fPjfilz2e6xssuuoSo367AkZeT8ST
+	KJ7imaFoIisLN/SS8cJBlds=
+X-Google-Smtp-Source: APXvYqxvWZz03/OMFvHykf7H3YsEkpVMa5FiR7Q3dfw7l4QqutxtaJxbIefWLvko+TvbqG5H4JSFYQ==
+X-Received: by 2002:a5d:4803:: with SMTP id l3mr18888924wrq.301.1569933112728;
+        Tue, 01 Oct 2019 05:31:52 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a0c:aac8:: with SMTP id g8ls2964590qvb.10.gmail; Tue, 01 Oct
- 2019 05:26:31 -0700 (PDT)
-X-Received: by 2002:a0c:abcd:: with SMTP id k13mr25089062qvb.69.1569932791725;
-        Tue, 01 Oct 2019 05:26:31 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1569932791; cv=none;
+Received: by 2002:a1c:9dc8:: with SMTP id g191ls1120699wme.2.gmail; Tue, 01
+ Oct 2019 05:31:52 -0700 (PDT)
+X-Received: by 2002:a1c:cbcc:: with SMTP id b195mr3790055wmg.80.1569933112205;
+        Tue, 01 Oct 2019 05:31:52 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1569933112; cv=none;
         d=google.com; s=arc-20160816;
-        b=zQwdVN183JAGhgWnsDmoTFbG1z5oW9c7rEY6eWmBPQDr2Lc51QFXidqLyzhzjU+GZv
-         Nhis02/EBuMZrcTLq5Y5IBhgM3CabuLsVIuwmK2BPIkuUkLcCox4BpYAPPFjnLg3L1U3
-         WXW+o8BQIv0Nh348YNhqRpENaqEgSHv7/QyZ2Uub4VbCyzcd5i7UxCIlg99+vu4OIOF5
-         2CfewxbkkgqONthvllO6deIc/hV+zMZl/LPQWYJMFmH3mNyDrxwGHD/Oa7Fnxi8UC/YD
-         EUENfmsHukM4VM0/1OPiqZIy55HZ7LYg18swI0UmDx08ZHm4Bkv9kDcB3SD9GlW1V2Fi
-         IviQ==
+        b=alaQorQ3rfI7t8WiFemC5KvDDz381kCfVWWPT0jGLJkw+9z4fsejZ/gQ663J90J/qa
+         FeEPPrziYxFGzpn3A6JvJbM7WOHyuB4DjEPo0P/c6nYnYJhoZwAx/vPY77qiGcVSNKtR
+         BbY8GhVxecGRljWZcCipwLaqY0E2qld9+/XtSZEzGD2dELuwjS4MhnxELTUkqwq8YPVV
+         1z3mbfYFpj775YBUJX4pW1R/8XqO5IlG8hNNQ1z9eMttwuzUzFMFPXaF4hl7PN5Q63vu
+         5arO9OTduYJeDqZBh2Y+/IbxlxyFJqog9q9M1mripZYVsxIrrNMOKTp1s7g4k7+kEN2+
+         0Zkg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:references:in-reply-to:date
-         :cc:to:from:subject:message-id:dkim-signature;
-        bh=r9jiZXdMxIIkyZWDEljTg7/li1H7K2+Hf7E7i2HKYGc=;
-        b=wVuHk9y5zuiTp1ykS5MlYMe0A3Opv1uWDKj5P2JIAyQWPmlsWXCCrfZgRk9ltSdtpE
-         oSHbI28hni1b6ClvaWpUa3xB4h6APJMNeGuyv+Q3TJB37afL/CumTuHOqn+G0PLeEcHp
-         j3D8DuXiuiD3q0mxX6zYUkEoBf+qMnje5vE/wcK5aV0YUOBtMHE/rhjNYcwGO1owJ/ec
-         FwMer8L3lLCiwxf35Ak+k57jYFAzOdf4yfZ2FajRua7aNHLhRx2Gse7Q6PfLFbZ2rxzS
-         Z2nASrjG4HpUjeFFA1vIxJBlXPs6dxtRrFobigBqy/BAEgnG/E/4c2KTnOnJH2oE5tCc
-         QNxA==
+        h=user-agent:in-reply-to:content-transfer-encoding
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:dkim-signature;
+        bh=+oZPiXvOUSLu8pkEA5SDtoDi+xBvTxdx9cy3tZSs02c=;
+        b=lxuvwuGAF0rKBu6+pkDoLrJyVGFfCjdts7y0+FONzglKli2kZS1KCpAHP/jkY846mZ
+         NgIiI4TU0yfshi2z/xgt1V4DtA5crqDw+exYhggxNxl7iBGKrenXpTlUpqPXUfUFQjEc
+         HQn2xEJ8LsmEu9UDm7MnGZY/1vz8f2/ltWA9h5Q/EffOwp+UIGaKXqsM+jhuUZkQwkhE
+         7YAOFPbQGOl219IfN5VRBW1o23Vuv7btNzH+Qa70JFR36TicwanwdFAn6+uImgOzyp7u
+         k1IwUDCuoWMnnuEID8IqLZwI+ueSgafXyAP0lhRCu6HniIaSnC601RO5hLGF9Px0TA5v
+         WDqA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@lca.pw header.s=google header.b=ou1cPBP9;
-       spf=pass (google.com: domain of cai@lca.pw designates 2607:f8b0:4864:20::741 as permitted sender) smtp.mailfrom=cai@lca.pw
-Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com. [2607:f8b0:4864:20::741])
-        by gmr-mx.google.com with ESMTPS id o13si660081qkj.4.2019.10.01.05.26.31
+       dkim=pass header.i=@shutemov-name.20150623.gappssmtp.com header.s=20150623 header.b=nTBOO2eh;
+       spf=neutral (google.com: 2a00:1450:4864:20::542 is neither permitted nor denied by best guess record for domain of kirill@shutemov.name) smtp.mailfrom=kirill@shutemov.name
+Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com. [2a00:1450:4864:20::542])
+        by gmr-mx.google.com with ESMTPS id q185si215344wme.1.2019.10.01.05.31.52
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 01 Oct 2019 05:26:31 -0700 (PDT)
-Received-SPF: pass (google.com: domain of cai@lca.pw designates 2607:f8b0:4864:20::741 as permitted sender) client-ip=2607:f8b0:4864:20::741;
-Received: by mail-qk1-x741.google.com with SMTP id 201so10938343qkd.13
-        for <kasan-dev@googlegroups.com>; Tue, 01 Oct 2019 05:26:31 -0700 (PDT)
-X-Received: by 2002:a37:b184:: with SMTP id a126mr5748865qkf.105.1569932791327;
-        Tue, 01 Oct 2019 05:26:31 -0700 (PDT)
-Received: from dhcp-41-57.bos.redhat.com (nat-pool-bos-t.redhat.com. [66.187.233.206])
-        by smtp.gmail.com with ESMTPSA id z5sm7042642qkl.101.2019.10.01.05.26.29
+        Tue, 01 Oct 2019 05:31:52 -0700 (PDT)
+Received-SPF: neutral (google.com: 2a00:1450:4864:20::542 is neither permitted nor denied by best guess record for domain of kirill@shutemov.name) client-ip=2a00:1450:4864:20::542;
+Received: by mail-ed1-x542.google.com with SMTP id y91so11696563ede.9
+        for <kasan-dev@googlegroups.com>; Tue, 01 Oct 2019 05:31:52 -0700 (PDT)
+X-Received: by 2002:a17:907:20c4:: with SMTP id qq4mr24003067ejb.161.1569933111868;
+        Tue, 01 Oct 2019 05:31:51 -0700 (PDT)
+Received: from box.localdomain ([86.57.175.117])
+        by smtp.gmail.com with ESMTPSA id ot24sm1833844ejb.59.2019.10.01.05.31.51
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 01 Oct 2019 05:26:30 -0700 (PDT)
-Message-ID: <1569932788.5576.247.camel@lca.pw>
-Subject: Re: [PATCH v2 2/3] mm, page_owner: decouple freeing stack trace
- from debug_pagealloc
-From: Qian Cai <cai@lca.pw>
-To: "Kirill A. Shutemov" <kirill@shutemov.name>, Vlastimil Babka
-	 <vbabka@suse.cz>
-Cc: Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org, 
- linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com, "Kirill A.
- Shutemov" <kirill.shutemov@linux.intel.com>, Matthew Wilcox
- <willy@infradead.org>, Mel Gorman <mgorman@techsingularity.net>, Michal
- Hocko <mhocko@kernel.org>, Dmitry Vyukov <dvyukov@google.com>, Walter Wu
- <walter-zh.wu@mediatek.com>, Andrey Ryabinin <aryabinin@virtuozzo.com>
-Date: Tue, 01 Oct 2019 08:26:28 -0400
-In-Reply-To: <20191001115114.gnala74q3ydreuii@box>
+        Tue, 01 Oct 2019 05:31:51 -0700 (PDT)
+Received: by box.localdomain (Postfix, from userid 1000)
+	id BCA03102FB8; Tue,  1 Oct 2019 15:31:51 +0300 (+03)
+Date: Tue, 1 Oct 2019 15:31:51 +0300
+From: "Kirill A. Shutemov" <kirill@shutemov.name>
+To: Qian Cai <cai@lca.pw>
+Cc: Vlastimil Babka <vbabka@suse.cz>,
+	Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
+	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Mel Gorman <mgorman@techsingularity.net>,
+	Michal Hocko <mhocko@kernel.org>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Walter Wu <walter-zh.wu@mediatek.com>,
+	Andrey Ryabinin <aryabinin@virtuozzo.com>
+Subject: Re: [PATCH v2 2/3] mm, page_owner: decouple freeing stack trace from
+ debug_pagealloc
+Message-ID: <20191001123151.qmv4ist3enq65uha@box>
 References: <eccee04f-a56e-6f6f-01c6-e94d94bba4c5@suse.cz>
-	 <731C4866-DF28-4C96-8EEE-5F22359501FE@lca.pw>
-	 <218f6fa7-a91e-4630-12ea-52abb6762d55@suse.cz>
-	 <20191001115114.gnala74q3ydreuii@box>
+ <731C4866-DF28-4C96-8EEE-5F22359501FE@lca.pw>
+ <218f6fa7-a91e-4630-12ea-52abb6762d55@suse.cz>
+ <20191001115114.gnala74q3ydreuii@box>
+ <1569932788.5576.247.camel@lca.pw>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.22.6 (3.22.6-10.el7)
-Mime-Version: 1.0
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: cai@lca.pw
+In-Reply-To: <1569932788.5576.247.camel@lca.pw>
+User-Agent: NeoMutt/20180716
+X-Original-Sender: kirill@shutemov.name
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@lca.pw header.s=google header.b=ou1cPBP9;       spf=pass
- (google.com: domain of cai@lca.pw designates 2607:f8b0:4864:20::741 as
- permitted sender) smtp.mailfrom=cai@lca.pw
+ header.i=@shutemov-name.20150623.gappssmtp.com header.s=20150623
+ header.b=nTBOO2eh;       spf=neutral (google.com: 2a00:1450:4864:20::542 is
+ neither permitted nor denied by best guess record for domain of
+ kirill@shutemov.name) smtp.mailfrom=kirill@shutemov.name
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -141,47 +152,56 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, 2019-10-01 at 14:51 +0300, Kirill A. Shutemov wrote:
-> On Tue, Oct 01, 2019 at 10:07:44AM +0200, Vlastimil Babka wrote:
-> > On 10/1/19 1:49 AM, Qian Cai wrote:
-> > >=20
-> > >=20
-> > > > On Sep 30, 2019, at 5:43 PM, Vlastimil Babka <vbabka@suse.cz> wrote=
-:
+On Tue, Oct 01, 2019 at 08:26:28AM -0400, Qian Cai wrote:
+> On Tue, 2019-10-01 at 14:51 +0300, Kirill A. Shutemov wrote:
+> > On Tue, Oct 01, 2019 at 10:07:44AM +0200, Vlastimil Babka wrote:
+> > > On 10/1/19 1:49 AM, Qian Cai wrote:
 > > > >=20
-> > > > Well, my use case is shipping production kernels with CONFIG_PAGE_O=
-WNER
-> > > > and CONFIG_DEBUG_PAGEALLOC enabled, and instructing users to boot-t=
-ime
-> > > > enable only for troubleshooting a crash or memory leak, without a n=
-eed
-> > > > to install a debug kernel. Things like static keys and page_ext
-> > > > allocations makes this possible without CPU and memory overhead whe=
-n not
-> > > > boot-time enabled. I don't know too much about KASAN internals, but=
- I
-> > > > assume it's not possible to use it that way on production kernels y=
-et?
-> > >=20
-> > > In that case, why can=E2=80=99t users just simply enable page_owner=
+> > > >=20
+> > > > > On Sep 30, 2019, at 5:43 PM, Vlastimil Babka <vbabka@suse.cz> wro=
+te:
+> > > > >=20
+> > > > > Well, my use case is shipping production kernels with CONFIG_PAGE=
+_OWNER
+> > > > > and CONFIG_DEBUG_PAGEALLOC enabled, and instructing users to boot=
+-time
+> > > > > enable only for troubleshooting a crash or memory leak, without a=
+ need
+> > > > > to install a debug kernel. Things like static keys and page_ext
+> > > > > allocations makes this possible without CPU and memory overhead w=
+hen not
+> > > > > boot-time enabled. I don't know too much about KASAN internals, b=
+ut I
+> > > > > assume it's not possible to use it that way on production kernels=
+ yet?
+> > > >=20
+> > > > In that case, why can=E2=80=99t users just simply enable page_owner=
 =3Don and
-> > > debug_pagealloc=3Don for troubleshooting? The later makes the kernel
-> > > slower, but I am not sure if it is worth optimization by adding a new
-> > > parameter. There have already been quite a few MM-related kernel
-> > > parameters that could tidy up a bit in the future.
+> > > > debug_pagealloc=3Don for troubleshooting? The later makes the kerne=
+l
+> > > > slower, but I am not sure if it is worth optimization by adding a n=
+ew
+> > > > parameter. There have already been quite a few MM-related kernel
+> > > > parameters that could tidy up a bit in the future.
+> > >=20
+> > > They can do that and it was intention, yes. The extra parameter was
+> > > requested by Kirill, so I'll defer the answer to him :)
 > >=20
-> > They can do that and it was intention, yes. The extra parameter was
-> > requested by Kirill, so I'll defer the answer to him :)
+> > DEBUG_PAGEALLOC is much more intrusive debug option. Not all architectu=
+res
+> > support it in an efficient way. Some require hibernation.
+> >=20
+> > I don't see a reason to tie these two option together.
 >=20
-> DEBUG_PAGEALLOC is much more intrusive debug option. Not all architecture=
-s
-> support it in an efficient way. Some require hibernation.
->=20
-> I don't see a reason to tie these two option together.
+> Make sense. How about page_owner=3Don will have page_owner_free=3Don by d=
+efault?
+> That way we don't need the extra parameter.
 
-Make sense. How about page_owner=3Don will have page_owner_free=3Don by def=
-ault?
-That way we don't need the extra parameter.
+It's 0.1% of system memory. Does it matter for a debug option? I don't know=
+.
+
+--=20
+ Kirill A. Shutemov
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
@@ -189,4 +209,4 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/1569932788.5576.247.camel%40lca.pw.
+kasan-dev/20191001123151.qmv4ist3enq65uha%40box.
