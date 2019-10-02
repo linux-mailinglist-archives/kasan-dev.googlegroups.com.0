@@ -1,161 +1,129 @@
-Return-Path: <kasan-dev+bncBCSM5AFK2UKBBF6H2PWAKGQEAH7IKJQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBT732PWAKGQEV2DWWTI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ot1-x33b.google.com (mail-ot1-x33b.google.com [IPv6:2607:f8b0:4864:20::33b])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0EF5C903A
-	for <lists+kasan-dev@lfdr.de>; Wed,  2 Oct 2019 19:51:20 +0200 (CEST)
-Received: by mail-ot1-x33b.google.com with SMTP id l25sf10278569otp.10
-        for <lists+kasan-dev@lfdr.de>; Wed, 02 Oct 2019 10:51:20 -0700 (PDT)
-ARC-Seal: i=3; a=rsa-sha256; t=1570038679; cv=pass;
+Received: from mail-ua1-x93a.google.com (mail-ua1-x93a.google.com [IPv6:2607:f8b0:4864:20::93a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 86851C9290
+	for <lists+kasan-dev@lfdr.de>; Wed,  2 Oct 2019 21:43:12 +0200 (CEST)
+Received: by mail-ua1-x93a.google.com with SMTP id w5sf29156uan.19
+        for <lists+kasan-dev@lfdr.de>; Wed, 02 Oct 2019 12:43:12 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1570045391; cv=pass;
         d=google.com; s=arc-20160816;
-        b=XjA4aufyFBKwW2T97Qg5TfdtlFJ3RRf65CGfNWDd2tFjNQi7zw0enOowInuMUZBo7T
-         XntzHthrV8o0W0eONH7nNc1VIh4srLUAG1mB8E5RwSKh8lKs4SQGgh3BM4xg2grRR6+O
-         KendFuGYsV+gqxZ9EpMiNjW4Ud1kdaQUSd6wFLiYAqk2dHiHCCjdQ1QvuaHCGLH96dw2
-         Th9peFjvUIxlsvPpjXXlfm7YrUhKoBLKl1LUVCOGnMfyLbYJA7Skpq69AnbfjsF3lzEB
-         i4xujVjY3bEKey4XVXXjIdsE0JSEq7VlhpV7ej8Yf4bSRK2Ckcc/30cSWz62exJplnwf
-         kCpg==
-ARC-Message-Signature: i=3; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        b=gfoOhgdyqaU6dFZVJQkg6/ld0DfezxognsjDp5rcYkah0wlmtdfoMKOsLguKDWoTke
+         xdjPg5oXr44bSeIfRFILjQmJJ1WEAtyjloflcXul3AJNhYLKq6Ueelp5R8jGFCt1Ufub
+         oRCARRVauMr0wlizry8TUs2TmnyAf5UazCk18K48cTR/XDEv8BgIrUhUYKI+74IukeMw
+         aYUrC2oXsl97YcttTg2mE7ihV3UxgIPACaKwW9avOkhOtksxhC3/3JtTEPcsEf45kaQG
+         +gx/uWPPV9PBZK/Vybj5UGDl1ItJJx0vUGsmz1PaPptoM6FTbiPcpnalmFFNBe599h8q
+         PKzg==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:content-language
-         :accept-language:message-id:date:thread-index:thread-topic:subject
-         :from:sender:dkim-signature;
-        bh=p836EtKvp77HW3/Jz5DqT4qvi5mnWZPP/YyytfjeXHY=;
-        b=yDNr1IxX0q9Eouhj9At15GX8jFQAvNs0QLcOQ4oKk3dwho1k339kRroJxlM1bumkIH
-         kIFvcoNTB74LCtDvVRbEX/1QPjVMQXBwI0fmpNVKWaVYkC2vCnAL5Icss3t77L5Mw4xM
-         QIT7U80uqD9BW/98vgaQjv6+RRRQo1sSl3LwboAMaQADsTXlPlZjnOZP7SMrXL1/Evi2
-         zbteM9xy7CWOvTeFCKrRtfc9rYcUEB4b+d91e/Am9usCe8nVfdMJs1YYol206FsemWeS
-         g3V0SwZshfwTGN5oy1T3ss+jDlBj+d3ntKQFCxBP857nCDTNPYoAcLp5kysNj2XU90Tw
-         TBXQ==
-ARC-Authentication-Results: i=3; gmr-mx.google.com;
-       dkim=pass header.i=@hotmail.com header.s=selector1 header.b=FlABwyst;
-       arc=pass (i=1);
-       spf=pass (google.com: domain of patmikando@hotmail.com designates 40.92.10.51 as permitted sender) smtp.mailfrom=patmikando@hotmail.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=hotmail.com
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=mIaqpuUSiRFge1o/EuSrXMlwNit+SM2bKL/ymoGrADU=;
+        b=QFg0IoBd9jMfR3FM2/2Tm9TKMbf9xuiCCvgtgMyZGbP6t8Kt66DvWekMg/i3rcHm+5
+         PLRaWXRv9dToiWpSz4B9Oil1Svqq7Ptm3JOKZ3GdfFiVqEDYBOzmmLHWtwjrKy4UY2ak
+         V5K4yvbfqgOwYtMVYrKnQZmpzfjofi/1TqzJvDmiq9b1FKR287za44T1xn3E032Fdfo4
+         1+Y/Vku+Dl14kO7uc9YMhgQtkiBhWFxSZ8YUXcp+c50bBDZaj17K6Ox+xlJ4TSO8Yv54
+         2Fn/mUmsWQp5WFoioQLH0pnv5dzOwI4UDPZ6fGnbNkZh2j72hPYTZU0r4dsAgSzmIkIV
+         hODA==
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=f24UR+aS;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::333 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:from:subject:thread-topic:thread-index:date:message-id
-         :accept-language:content-language:mime-version:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=p836EtKvp77HW3/Jz5DqT4qvi5mnWZPP/YyytfjeXHY=;
-        b=MfCmz0seCS0f5odZB709Qt/BM3jQtvt9x9ZhEjWSuEccUvO5okKXeGC8JbVoLHxhrI
-         Bu+hpeHbJh6DzKrXLjnIxSR8scVP/F+Mc5h1iM2WCYEFKcIlO0tUTg6poa8mT5ZKb08t
-         4lcH+k9sKT8+ZA1Kj1t4309bItpL6iODLvJIRkhSglcHDMtt8DOgn9R82Vh+4t/UWHG2
-         Fxd7K348VZ5cjmdV5nyMM4KJTvKI56mRGvIaMfLkL1RXaG/NAdWfSxw9Ktp5gRJefjSI
-         bZiQFCfuZFeVrT7h4vF48XsJSRcbjGqXGwYuUmSeyI5ZlMqROsbaWNTI+OMjPt5gsbiM
-         /kWQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=mIaqpuUSiRFge1o/EuSrXMlwNit+SM2bKL/ymoGrADU=;
+        b=GBLQ8Vx3j9cI9ORo2rT4T6VdDPmXCFxozG2lT2D8FBAg/EJYGZdJVa8/6athyy3/YX
+         v+LmWjJqZ8wN5Lcky421Rit7H7ECu4I0Y1q3IZdaxHpxU2ghT9iNCnlp+0u7zYu/vN+P
+         EavY/EUa6LberbgWW/Qkeqq08aNaWUFuIpgkIJSoIMTcWX9cxaMrbmY8uj4sGty2rAKJ
+         Dc8tucUa32XyMxrK7mjsmskbA0t5wm/ODrsMDTIcGBBJ+fP/kcdv2f80oAlQV+DX4Jyc
+         SqIrFB8kEIWTQwN90L+PfNINsgPe1rFdD74fsj4Ooj3xjovSt2fNXNztyMhytf0/AbZq
+         enPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:from:subject:thread-topic:thread-index
-         :date:message-id:accept-language:content-language:mime-version
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=p836EtKvp77HW3/Jz5DqT4qvi5mnWZPP/YyytfjeXHY=;
-        b=e6Y8rv15wuc5OGKaWnlydvhc5C/r/1lzHBjM88fvLM5hnziR0vRZJ0qYCJzgeShFae
-         P5xgYROlC8HlVigyMqLxlBxTGjHK+43tBJ4EX3j6U1FTcvSoEbXpW9TF3u17v+FjkMM0
-         OwtBjCZNrEgr5W6jtprsz/yNrw96gGzgkKr7U36uBJwM30Bfs1vnXErfI0NFkH0V3SlZ
-         0CaI9oMS5k+3IVZy16ho1z2QPyLICE2wNDUoVxpPjMcPZCBQtgq5V0Dnb71MjoaWRCeE
-         Cga/qisNJy/DDv2GeQKnBX68YPYBMx+DjIBtyd4kTghL1HR+E1lB2EaK5i5kUEnvNUjU
-         NHVQ==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAUq2VH2cx+D1FWN+mtXNKLWPNEGwLOHUA3pVAXs9/+OHwCVve8o
-	yh7jwjEl4G9cX6XDz3JxB0s=
-X-Google-Smtp-Source: APXvYqyOG1XOcTbrAIRV0aQjDj5whBpWKh7kCAQzWUWbXom7Us/F4rTtW2kErRywJYJlbEn2RxHpMg==
-X-Received: by 2002:a9d:5544:: with SMTP id h4mr3515348oti.347.1570038679778;
-        Wed, 02 Oct 2019 10:51:19 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=mIaqpuUSiRFge1o/EuSrXMlwNit+SM2bKL/ymoGrADU=;
+        b=HIR8N1Pdlbgeag52B3t+uWg0Z711ZJa0Wko0WlHLqC2wdxzeUR6vnlLZu138Cz7Xl7
+         sJPvP+8AzVzTBQCr82XH/gsyA+RNiNBd1vo9RnZ0+N8PcKWxy0wXd7f5Xu+NVpmVDa5P
+         /YZBQDkR370cWJCymRgItYVt3RwtR3MPcQ3itA7FRiRjUwTlrC7lFNNVXAm0m/eR3aq4
+         RwVZxWM+2Ed+cgXekbIuIWCMwP3MG3lh/1iG9NuRwsp/fL2/l6eSW+YxOAXrDlDpayxK
+         dpOG1QhkCacrskloHxdEhKBSisGzxZjrpRE4awFYesjKPjRmIH8n/PkYGqK3KGGdHoF/
+         zzrA==
+X-Gm-Message-State: APjAAAUJdnnHVqHd0XXZtiwgEgD5qWyPGrZjblBABZnFwyxsw6UmRRbf
+	T7y9Wv5i6D1Qg8v0+LGTOww=
+X-Google-Smtp-Source: APXvYqxL4TLEQMqWq3M/EBYs0RcRGxpyYQUKhrhsWW6AU9dAab9y9uwSc3Ab0siAwhxgG4TqxYOxWA==
+X-Received: by 2002:a67:5f45:: with SMTP id t66mr2878157vsb.204.1570045391488;
+        Wed, 02 Oct 2019 12:43:11 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:aca:bd44:: with SMTP id n65ls635711oif.6.gmail; Wed, 02 Oct
- 2019 10:51:19 -0700 (PDT)
-X-Received: by 2002:aca:da87:: with SMTP id r129mr3863877oig.177.1570038679520;
-        Wed, 02 Oct 2019 10:51:19 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1570038679; cv=pass;
+Received: by 2002:a67:f68c:: with SMTP id n12ls368045vso.14.gmail; Wed, 02 Oct
+ 2019 12:43:11 -0700 (PDT)
+X-Received: by 2002:a67:d706:: with SMTP id p6mr2981654vsj.56.1570045391169;
+        Wed, 02 Oct 2019 12:43:11 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1570045391; cv=none;
         d=google.com; s=arc-20160816;
-        b=QeB1sPF/J1FxTVJZCDLHDgOLdn53G5h2MvGAiRBUM+TEYs9IpbIe3laN+fK23XBnU4
-         iqtto++JRcTAWkkYwN4jrP3cXyvZRao/QTPaLn0YlMCsbNDU3V6pVHv3BlXthqWRsmh+
-         nfqurbG8pqy6vyVxhaRJJAMF0w6gvrVvUzk3v0SbusdKHUPB/Me+ZMTiFd+wlzS3W9c7
-         w7SFRVkOwhs049UE1hIqgA9vJE692QcWOnbrECo3do0Ndbvj+qms/s+966peztUPssBK
-         xc1p49hdK1ckdAi7YSd2ic189RlxcC7k5Ay6Z+1lJoW93L54g2dgVsSWBuggE2Lz5g6l
-         NZQA==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=mime-version:content-language:accept-language:message-id:date
-         :thread-index:thread-topic:subject:from:dkim-signature;
-        bh=YZtYyvbx2rOAgGLhcsX0swMSOCJrlZlEXxET1LFiCTo=;
-        b=Q1WU3HKKzReepDLbXnILRpweEFj+HTXZOKeAhjEBn9z+Z76/jNMC6yoMIOmyMqG9Fw
-         G9+fg/ykewuv9bXzsVMSJiXY/BD5kmbn/sfh20PYl3YumEPXiyRxilAgey3XrfOUA9UV
-         0oONWtabSBu2oRfoKqLZrcnxBpKeyt6qa512bbDDxCAlzE5KQaDjT4hQlR2xse+HTGG8
-         4YGyfzp7o0xnqyiY4Lqm6kJPcic1LoAq223thOIbyREQAxid8VfiYr8omHRoQFdT6T20
-         3YemRuDUf01bnD3a6NKwtr2Ek1PPdinK1CgrrIehlcIpcYZ3Zx8/NgZWKPCWYUrfsItk
-         EWWw==
-ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@hotmail.com header.s=selector1 header.b=FlABwyst;
-       arc=pass (i=1);
-       spf=pass (google.com: domain of patmikando@hotmail.com designates 40.92.10.51 as permitted sender) smtp.mailfrom=patmikando@hotmail.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=hotmail.com
-Received: from NAM04-CO1-obe.outbound.protection.outlook.com (mail-oln040092010051.outbound.protection.outlook.com. [40.92.10.51])
-        by gmr-mx.google.com with ESMTPS id n63si1071484oib.3.2019.10.02.10.51.19
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 02 Oct 2019 10:51:19 -0700 (PDT)
-Received-SPF: pass (google.com: domain of patmikando@hotmail.com designates 40.92.10.51 as permitted sender) client-ip=40.92.10.51;
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eVbuEUTQw2NgKuGPjt2IL9VBrpyfDzqdgvdwB8KpT9QT25swbs5nmK/JofWQuhnsIoX28Tem1SD+cAksg734Nq6rjAWqcb0/eJT9iJZJg3JFQ5pTYukhUxXcZYYYTSB2jL8hDbWocgovhPj27dL8dj4YP+WrUW+FVgn6m9t+ELaksREOZaiREpXwuPp4ZRNGDZbeT1u1ta5d/CKut5g4xlOJTzYOVHIucssgTP1qA1+ipJ55p4LpcVamlVxvOwKL8EWgO8/GS+Qmy/8m6p3avzJWv1UMqMmWm9t4xgIa9orJg4Gz/9bqAT7vxzNzuVZBEJ2Hh5sIuG/1/AvQ0EiS2w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YZtYyvbx2rOAgGLhcsX0swMSOCJrlZlEXxET1LFiCTo=;
- b=RxXbPGkWZmmVqYNjC0dO1Jigi18mtpKdDRcMtluYI2e3XJYVDOz4OkcnNVrD3BdE3K36K7dLfcdsWUNcDtpJ8iDz1+WGmfTk7XVUyvPGRAo1h2+PAxbZsjZ3GfxcraAwxSV0XgD5bUKHQYy98eVgT4VFZsYv9ciNKYYn2Zg+qlG6ByzPbYqLmH/lS9jOPoMEZDiTR1CQtozw01TFH03n4AsZbfY4AucXu56+HT3haQzJs0o62Y10+UnruSn81/rFVt7Wtu7fUHN6ciDF/w8VFXQGOiBaxf1sdpa0Du5TmDdsyARCNoESb8A2iUjXjV+QIvOfeXgZ7hwFYDcFx0+gYg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-Received: from SN1NAM04FT048.eop-NAM04.prod.protection.outlook.com
- (10.152.88.60) by SN1NAM04HT187.eop-NAM04.prod.protection.outlook.com
- (10.152.89.14) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.2305.15; Wed, 2 Oct
- 2019 17:51:17 +0000
-Received: from SN6PR05MB3935.namprd05.prod.outlook.com (10.152.88.60) by
- SN1NAM04FT048.mail.protection.outlook.com (10.152.89.195) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.2327.20 via Frontend Transport; Wed, 2 Oct 2019 17:51:17 +0000
-Received: from SN6PR05MB3935.namprd05.prod.outlook.com
- ([fe80::d561:a657:2019:ed6c]) by SN6PR05MB3935.namprd05.prod.outlook.com
- ([fe80::d561:a657:2019:ed6c%5]) with mapi id 15.20.2327.021; Wed, 2 Oct 2019
- 17:51:17 +0000
-From: Patricia Mikando <patmikando@hotmail.com>
-Subject: =?iso-8859-1?Q?W=FCnsche_dir_das_Beste?=
-Thread-Topic: =?iso-8859-1?Q?W=FCnsche_dir_das_Beste?=
-Thread-Index: AQHVeDy35jrF9+1pJ02uUhWphcHJ2Q==
-Date: Wed, 2 Oct 2019 17:51:17 +0000
-Message-ID: <SN6PR05MB39355261EBAFA196DC5BCA6FC19D0@SN6PR05MB3935.namprd05.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-incomingtopheadermarker: OriginalChecksum:E17C9F5F241E9AB22BD0A8ABF92EB4D1252EA15460330A5E4F263FBC87F9A695;UpperCasedChecksum:98FCC33C2C822B132D06695EFDC1B220395A43560E59EA7C9BD6FB2DFDC365D6;SizeAsReceived:8049;Count:40
-x-tmn: [VuESFPfoIcyNHblNaSCFoT9/niMyv3Ie]
-x-ms-publictraffictype: Email
-x-incomingheadercount: 40
-x-eopattributedmessage: 0
-x-ms-traffictypediagnostic: SN1NAM04HT187:
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: ecXQYSqnNUyJbtTbaQDXiNxRcYKQFY1wsRNz8pnks6kHIB6zw0lIVd7QzF67TdNDSowT4ognG53dUMcNW3Bw+1BbOFt6dIxdVmfV+15uX0aViHs+cdTcORZ5MLOF1lEvBO3ssOKB1yrx8dk/0prCxX8yHd8sSWThZufZP1jeoEzTnwPcOWqCzQm7pMCpVWPC
-x-ms-exchange-transport-forked: True
-Content-Type: multipart/alternative;
-	boundary="_000_SN6PR05MB39355261EBAFA196DC5BCA6FC19D0SN6PR05MB3935namp_"
+        b=uZkBMTqAuA1ADt7fEZhm//k5TyXItsVxVRjDukhk3JXeDzG62Hut51ZXqyPDoOOx5K
+         CNhyGZVSKz4PI2vPiKBLLWtgSo80u8DMwvbf5HM7+z7VRHvpx7UrWZXSnMEwEkDz3qiS
+         3vwLUBl/OocREWyy/ZZ7nSsvrFMWVk/RnqspzW7DQDARQXs8ixPk5mNcPqYinG5HTQH5
+         3farYzpD4pFB3+lTYHYA7PQtnjKV1BoWrfUxVDJt8PhffrJpd+bEwoMPS7TIwGxf5OpW
+         ENQfMNaBBWRmtDUP0cphpMpcEK8+oadi4M2/35iIQ2Gwa6VORuafVpMWkSRD367FFMM9
+         aGSA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=OOyld7LsE/8SoNryaMxnr2dK1DwxpSS1XhCCKoKRX5s=;
+        b=DP1kEd3/4bqObWK2QAI+uEZUNhU98ozoEil49E7kTDwGzqp9BJE/MPtq3Q5BxIhltT
+         pvMFwdzh1OkhHSKu8DWl8uZtWGMvRZ2as3K/5FceEX4qQqbzmCBySjy/5IipK8rrRkUd
+         E4Fxqm0enlc0lG0J6Zo7WyutsKqQWv87tygobrsDdif8UC5ubu+g35rzIBY8TMt9L7+l
+         gmlx/OXB+jwLQJYauxLQwTfUzc2MVSc9bblIUTX5NNLNwEPSOOdmkhwtYJ1d9KFubuJf
+         vpZOZYSi1vC3VO+OljgElPls0B56jaEHgywZmIFjjRehwU6UvRbCarSB/cGqQHCwRVu4
+         UCUQ==
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=f24UR+aS;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::333 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-ot1-x333.google.com (mail-ot1-x333.google.com. [2607:f8b0:4864:20::333])
+        by gmr-mx.google.com with ESMTPS id h184si21954vka.3.2019.10.02.12.43.11
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 02 Oct 2019 12:43:11 -0700 (PDT)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::333 as permitted sender) client-ip=2607:f8b0:4864:20::333;
+Received: by mail-ot1-x333.google.com with SMTP id g13so220899otp.8
+        for <kasan-dev@googlegroups.com>; Wed, 02 Oct 2019 12:43:11 -0700 (PDT)
+X-Received: by 2002:a05:6830:101:: with SMTP id i1mr4042375otp.233.1570045390142;
+ Wed, 02 Oct 2019 12:43:10 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: hotmail.com
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 10b76b5a-ea92-4e9c-b7ea-08d747612029
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Oct 2019 17:51:17.2519
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Internet
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN1NAM04HT187
-X-Original-Sender: patmikando@hotmail.com
+References: <CANpmjNPJ_bHjfLZCAPV23AXFfiPiyXXqqu72n6TgWzb2Gnu1eA@mail.gmail.com>
+ <8736gc4j1g.fsf@dja-thinkpad.axtens.net>
+In-Reply-To: <8736gc4j1g.fsf@dja-thinkpad.axtens.net>
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Wed, 2 Oct 2019 21:42:58 +0200
+Message-ID: <CANpmjNPh656M2-1J6v5AO1eDL-SShjZwa-wvGOfEdKbKCh-ZJw@mail.gmail.com>
+Subject: Re: Kernel Concurrency Sanitizer (KCSAN)
+To: Daniel Axtens <dja@axtens.net>
+Cc: kasan-dev <kasan-dev@googlegroups.com>, LKML <linux-kernel@vger.kernel.org>, 
+	Dmitry Vyukov <dvyukov@google.com>, Andrey Konovalov <andreyknvl@google.com>, 
+	Alexander Potapenko <glider@google.com>, "Paul E. McKenney" <paulmck@linux.ibm.com>, Paul Turner <pjt@google.com>, 
+	Anatol Pomazau <anatol@google.com>, Will Deacon <willdeacon@google.com>, 
+	Andrea Parri <parri.andrea@gmail.com>, Alan Stern <stern@rowland.harvard.edu>, 
+	LKMM Maintainers -- Akira Yokosawa <akiyks@gmail.com>, Nicholas Piggin <npiggin@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
+	Daniel Lustig <dlustig@nvidia.com>, Jade Alglave <j.alglave@ucl.ac.uk>, 
+	Luc Maranget <luc.maranget@inria.fr>
+Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@hotmail.com header.s=selector1 header.b=FlABwyst;       arc=pass
- (i=1);       spf=pass (google.com: domain of patmikando@hotmail.com
- designates 40.92.10.51 as permitted sender) smtp.mailfrom=patmikando@hotmail.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=hotmail.com
+ header.i=@google.com header.s=20161025 header.b=f24UR+aS;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::333 as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -168,110 +136,127 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
---_000_SN6PR05MB39355261EBAFA196DC5BCA6FC19D0SN6PR05MB3935namp_
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi Daniel,
 
-Ich hoffe diese E-Mail findet dich.
-Ich m=C3=B6chte wissen, ob Sie die letzte Nachricht erhalten haben, die ich=
- Ihnen gesendet habe?
-Ich m=C3=B6chte wirklich von dir h=C3=B6ren.
-W=C3=BCnsche dir das Beste.
-Patricia Mikando.....
-Ich freue mich auf ihre Antwort.
+On Tue, 1 Oct 2019 at 16:50, Daniel Axtens <dja@axtens.net> wrote:
+>
+> Hi Marco,
+>
+> > We would like to share a new data-race detector for the Linux kernel:
+> > Kernel Concurrency Sanitizer (KCSAN) --
+> > https://github.com/google/ktsan/wiki/KCSAN  (Details:
+> > https://github.com/google/ktsan/blob/kcsan/Documentation/dev-tools/kcsan.rst)
+>
+> This builds and begins to boot on powerpc, which is fantastic.
+>
+> I'm seeing a lot of reports for locks are changed while being watched by
+> kcsan, so many that it floods the console and stalls the boot.
+>
+> I think, if I've understood correctly, that this is because powerpc
+> doesn't use the queued lock implementation for its spinlock but rather
+> its own assembler locking code. This means the writes aren't
+> instrumented by the compiler, while some reads are. (see
+> __arch_spin_trylock in e.g. arch/powerpc/include/asm/spinlock.h)
+>
+> Would the correct way to deal with this be for the powerpc code to call
+> out to __tsan_readN/__tsan_writeN before invoking the assembler that
+> reads and writes the lock?
 
-I hope this email finds you.
-I want to know if you received the last message I sent you?
-I really want to hear from you.
-wish you all the best.
-Patricia Mikando
-I look forward to your response.
+This should not be the issue, because with KCSAN, not instrumenting
+something does not lead to false positives. If two accesses are
+involved in a race, and neither of them are instrumented, KCSAN will
+not report a race; if however, 1 of them is instrumented (and the
+uninstrumented access is a write), KCSAN will infer a race due to the
+data value changed ("race at unknown origin").
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/SN6PR05MB39355261EBAFA196DC5BCA6FC19D0%40SN6PR05MB3935.namprd05.p=
-rod.outlook.com.
+Rather, if there is spinlock code causing data-races, then there are 2 options:
+1) Actually missing READ_ONCE/WRITE_ONCE somewhere.
+2) You need to disable instrumentation for an entire function with
+__no_sanitize_thread or __no_kcsan_or_inline (for inline functions).
+This should only be needed for arch-specific code (e.g. see the
+changes we made to arch/x86).
 
---_000_SN6PR05MB39355261EBAFA196DC5BCA6FC19D0SN6PR05MB3935namp_
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Note: you can explicitly add instrumentation to uninstrumented
+accesses with the API in <linux/kcsan-checks.h>, but this shouldn't be
+the issue here.
 
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
-1">
-<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
-ttom:0;} </style>
-</head>
-<body dir=3D"ltr">
-<div style=3D"font-family:Calibri,Helvetica,sans-serif; font-size:12pt; col=
-or:rgb(0,0,0)">
-</div>
-<div style=3D"font-family:Calibri,Helvetica,sans-serif; font-size:12pt; col=
-or:rgb(0,0,0)">
-<div style=3D"margin:0px; font-size:12pt; font-family:Calibri,Helvetica,san=
-s-serif; background-color:rgb(255,255,255)">
-<span style=3D"margin:0px"><span style=3D"margin:0px">Ich hoffe diese E-Mai=
-l findet dich.<br>
-</span></span></div>
-<div style=3D"margin:0px; font-size:12pt; font-family:Calibri,Helvetica,san=
-s-serif; background-color:rgb(255,255,255)">
-<span style=3D"margin:0px">
-<div style=3D"margin:0px">Ich m=C3=B6chte wissen, ob Sie die letzte Nachric=
-ht erhalten haben, die ich Ihnen gesendet habe?<br>
-</div>
-<div style=3D"margin:0px">Ich m=C3=B6chte wirklich von dir h=C3=B6ren.<br>
-</div>
-<div style=3D"margin:0px">W=C3=BCnsche dir das Beste.<br>
-</div>
-<div style=3D"margin:0px">Patricia Mikando.....<br>
-</div>
-<span style=3D"margin:0px">Ich freue mich auf ihre Antwort.</span><br>
-</span></div>
-<div style=3D"margin:0px; font-size:12pt; font-family:Calibri,Helvetica,san=
-s-serif; background-color:rgb(255,255,255)">
-<span style=3D"margin:0px"><br>
-</span></div>
-<div style=3D"margin:0px; font-size:12pt; font-family:Calibri,Helvetica,san=
-s-serif; background-color:rgb(255,255,255)">
-<span style=3D"margin:0px">I hope this email finds you.<br>
-</span></div>
-<div style=3D"margin:0px; font-size:12pt; font-family:Calibri,Helvetica,san=
-s-serif; background-color:rgb(255,255,255)">
-<span style=3D"margin:0px"></span></div>
-<div style=3D"margin:0px; font-size:12pt; font-family:Calibri,Helvetica,san=
-s-serif; background-color:rgb(255,255,255)">
-<div style=3D"margin:0px">I want to know if you received the last message I=
- sent you?<br>
-</div>
-<div style=3D"margin:0px">I really want to hear from you.<br>
-</div>
-<div style=3D"margin:0px">wish you all the best.<br>
-</div>
-<div style=3D"margin:0px">Patricia Mikando<br>
-</div>
-<span style=3D"margin:0px">I look forward to your response.</span></div>
-<br>
-</div>
-</body>
-</html>
+It would be good to symbolize the stack-traces, as otherwise it's hard
+to say exactly what needs to be done.
 
-<p></p>
+Best,
+-- Marco
 
--- <br />
-You received this message because you are subscribed to the Google Groups &=
-quot;kasan-dev&quot; group.<br />
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
-+unsubscribe@googlegroups.com</a>.<br />
-To view this discussion on the web visit <a href=3D"https://groups.google.c=
-om/d/msgid/kasan-dev/SN6PR05MB39355261EBAFA196DC5BCA6FC19D0%40SN6PR05MB3935=
-.namprd05.prod.outlook.com?utm_medium=3Demail&utm_source=3Dfooter">https://=
-groups.google.com/d/msgid/kasan-dev/SN6PR05MB39355261EBAFA196DC5BCA6FC19D0%=
-40SN6PR05MB3935.namprd05.prod.outlook.com</a>.<br />
+> Regards,
+> Daniel
+>
+>
+> [   24.612864] ==================================================================
+> [   24.614188] BUG: KCSAN: racing read in __spin_yield+0xa8/0x180
+> [   24.614669]
+> [   24.614799] race at unknown origin, with read to 0xc00000003fff9d00 of 4 bytes by task 449 on cpu 11:
+> [   24.616024]  __spin_yield+0xa8/0x180
+> [   24.616377]  _raw_spin_lock_irqsave+0x1a8/0x1b0
+> [   24.616850]  release_pages+0x3a0/0x880
+> [   24.617203]  free_pages_and_swap_cache+0x13c/0x220
+> [   24.622548]  tlb_flush_mmu+0x210/0x2f0
+> [   24.622979]  tlb_finish_mmu+0x12c/0x240
+> [   24.623286]  exit_mmap+0x138/0x2c0
+> [   24.623779]  mmput+0xe0/0x330
+> [   24.624504]  do_exit+0x65c/0x1050
+> [   24.624835]  do_group_exit+0xb4/0x210
+> [   24.625458]  __wake_up_parent+0x0/0x80
+> [   24.625985]  system_call+0x5c/0x70
+> [   24.626415]
+> [   24.626651] Reported by Kernel Concurrency Sanitizer on:
+> [   24.628329] CPU: 11 PID: 449 Comm: systemd-bless-b Not tainted 5.3.0-00007-gad29ff6c190d-dirty #9
+> [   24.629508] ==================================================================
+>
+> [   24.672860] ==================================================================
+> [   24.675901] BUG: KCSAN: data-race in _raw_spin_lock_irqsave+0x13c/0x1b0 and _raw_spin_unlock_irqrestore+0x94/0x100
+> [   24.680847]
+> [   24.682743] write to 0xc0000001ffeefe00 of 4 bytes by task 455 on cpu 5:
+> [   24.683402]  _raw_spin_unlock_irqrestore+0x94/0x100
+> [   24.684593]  release_pages+0x250/0x880
+> [   24.685148]  free_pages_and_swap_cache+0x13c/0x220
+> [   24.686068]  tlb_flush_mmu+0x210/0x2f0
+> [   24.690190]  tlb_finish_mmu+0x12c/0x240
+> [   24.691082]  exit_mmap+0x138/0x2c0
+> [   24.693216]  mmput+0xe0/0x330
+> [   24.693597]  do_exit+0x65c/0x1050
+> [   24.694170]  do_group_exit+0xb4/0x210
+> [   24.694658]  __wake_up_parent+0x0/0x80
+> [   24.696230]  system_call+0x5c/0x70
+> [   24.700414]
+> [   24.712991] read to 0xc0000001ffeefe00 of 4 bytes by task 454 on cpu 20:
+> [   24.714419]  _raw_spin_lock_irqsave+0x13c/0x1b0
+> [   24.715018]  pagevec_lru_move_fn+0xfc/0x1d0
+> [   24.715527]  __lru_cache_add+0x124/0x1a0
+> [   24.716072]  lru_cache_add+0x30/0x50
+> [   24.716411]  add_to_page_cache_lru+0x134/0x250
+> [   24.717938]  mpage_readpages+0x220/0x3f0
+> [   24.719737]  blkdev_readpages+0x50/0x80
+> [   24.721891]  read_pages+0xb4/0x340
+> [   24.722834]  __do_page_cache_readahead+0x318/0x350
+> [   24.723290]  force_page_cache_readahead+0x150/0x280
+> [   24.724391]  page_cache_sync_readahead+0xe4/0x110
+> [   24.725087]  generic_file_buffered_read+0xa20/0xdf0
+> [   24.727003]  generic_file_read_iter+0x220/0x310
+> [   24.728906]
+> [   24.730044] Reported by Kernel Concurrency Sanitizer on:
+> [   24.732185] CPU: 20 PID: 454 Comm: systemd-gpt-aut Not tainted 5.3.0-00007-gad29ff6c190d-dirty #9
+> [   24.734317] ==================================================================
+>
+>
+> >
+> > Thanks,
+> > -- Marco
+>
+> --
+> You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/8736gc4j1g.fsf%40dja-thinkpad.axtens.net.
 
---_000_SN6PR05MB39355261EBAFA196DC5BCA6FC19D0SN6PR05MB3935namp_--
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNPh656M2-1J6v5AO1eDL-SShjZwa-wvGOfEdKbKCh-ZJw%40mail.gmail.com.
