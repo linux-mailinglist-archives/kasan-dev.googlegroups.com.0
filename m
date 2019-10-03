@@ -1,133 +1,142 @@
-Return-Path: <kasan-dev+bncBCMIZB7QWENRBCVJ23WAKGQEN42YUKA@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBKUD27WAKGQEOGH4KMQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-vk1-xa37.google.com (mail-vk1-xa37.google.com [IPv6:2607:f8b0:4864:20::a37])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1ECFC9835
-	for <lists+kasan-dev@lfdr.de>; Thu,  3 Oct 2019 08:26:19 +0200 (CEST)
-Received: by mail-vk1-xa37.google.com with SMTP id k132sf632149vka.5
-        for <lists+kasan-dev@lfdr.de>; Wed, 02 Oct 2019 23:26:19 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1570083978; cv=pass;
+Received: from mail-yw1-xc3f.google.com (mail-yw1-xc3f.google.com [IPv6:2607:f8b0:4864:20::c3f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03448C9AEA
+	for <lists+kasan-dev@lfdr.de>; Thu,  3 Oct 2019 11:38:52 +0200 (CEST)
+Received: by mail-yw1-xc3f.google.com with SMTP id s39sf1623466ywa.19
+        for <lists+kasan-dev@lfdr.de>; Thu, 03 Oct 2019 02:38:51 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1570095530; cv=pass;
         d=google.com; s=arc-20160816;
-        b=IjqQ/TmBX8ePWOTdI1UxQjQaWH7szo1RsAIn5ChrbNEcGTsu/rvQz9uGghh/VRKxdR
-         hNI9rHk+R/qApp8Re6FfNcH3x0Ko4MOyTugr2xTxnh+22kbDYjzMILRLlAFTsXcTWh62
-         0Mkyhbdp7iYJLppyS092I0v3jFuYlnfe4Ik7+F7ei7//6muEVWDud6y0P5K93G84BNtQ
-         RawFBv/MOlW1pZVsddPaJSsuBq+VbZKb9GIy1oPA80eyyGVQzwiHR5CwtCDBg0TjCDa3
-         kCR2bpq6DYz1m6nct0uMQb34q3S2CAQFIryT1GviYoHbslVEjdHy+MPPKa4898PLlfWh
-         y5ag==
+        b=LUQ9M1ewiFBvsjjeOPVt7C8P0h3pD/6B4qR02CMv6dc13joPJXx9vto7wht7LRkHJK
+         T2+E6DaK42WhOHuZkfpQ1P9C6p5z5q76cFrQcxMPoaY1enFhG2x4hV14Ljwiac5JDGT+
+         YpHsWGw1IlnGP5uz5Yb4zTWx4BfkKNh6qcigLDHtE9WtG1ti5W1E4gJpJ67aU1ZnjJJG
+         y9j5dyscB/y/vjDANkXqRaXwUknjE/aqz1FGPmCIXqdeJZoXu6LaQBCjBbsiK9iR6MkX
+         k8UH3CyQLcAUqD/JjV9v5mFWquqD1TsILiMha9KcXEtZfpTWohnKdIHf/o8GDbk5QWGT
+         OPkA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
-         :cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=betyiOSHqWsGwkuY1NqLRsbQzF5bZE3H7lobXU+1MnY=;
-        b=GxjVfNVhg3DKH/OUFmL4dg+QlFHk5cVp+1i6VlqPPPwL4hpnLGDhx3vX71wijraAq8
-         MZXK6gwx+R66duLziRiXXp6z9r7QJ8TaDYbFdhgAirkYlgVxbSis3YfRYsZ8w4OLc3fj
-         DxWuxU6agL2wMgwAEVCA08RCgvoc3Y26EaddrkIC1ZII3pT3uNhp4VaN7SZljCGrNKQo
-         JoLYzSSapu4GL54ZQmgBxFCa/q0GLqI1r0VyVitEIkhroBZViD/TIXZ2dgt3Q2uBt8rA
-         p4fL78TcU3MK+FeszYXDXLL7g4uvmwYUSY5QFcj+tgUx1rNm/j3EkyDKWSnu4z8WX1h4
-         7wdw==
+         :list-id:mailing-list:precedence:mime-version
+         :content-transfer-encoding:references:in-reply-to:date:cc:to:from
+         :subject:message-id:sender:dkim-signature;
+        bh=YhQwx4V07ydNUUdADPMteWvEy2lLxDzB7qxge+cyen0=;
+        b=l311lJDdCiTRGVoz1JYUVPc36zXLwDwSTqD6d78XLKSceHKNOVrKhSZ8/Gub23AXcM
+         Mj0XsdqZKwGP/KyNupwuTYtpMmImaEj73mWa2W/HfN6VHiwQ/fMYgOW+rpDhSVUsU6N5
+         XQnq0fsuocrhxr11wj8CCLu70Ee6yCeZg6g8gON8/S91TAE5SdwctLNwAgkvu72Sr4/Y
+         fRBDKLE4aZrXR6CYheIrXorodep3kDsept9XAiOG8T5MxVnlFdCAm3sEX48jSWcpM4e1
+         7g5iR6sgyLKt8bSThiFWNCXLV0OLiGOw7AORPUxJF67/o7EgPC7Y5FgKDvBNxMeTQLRD
+         8iag==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=QqpipN7E;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::742 as permitted sender) smtp.mailfrom=dvyukov@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       spf=pass (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.184 as permitted sender) smtp.mailfrom=walter-zh.wu@mediatek.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:list-post:list-help:list-archive:list-subscribe
-         :list-unsubscribe;
-        bh=betyiOSHqWsGwkuY1NqLRsbQzF5bZE3H7lobXU+1MnY=;
-        b=QcgAyJHg0ej6Kz1GNI4/o6FwwmWQCuTSTmQeF5WCtqnuko1wBJDADRioV1VrIF+s3k
-         3cbX05dzBnyo3+VzQTGK2IW+Mi1U+g2AuR3KtkS5WTF4r1EEs1BqEOQvGEjOhOJAcAr5
-         asTggjITHUEmXwNMvn/aPJbfoVyI7Gugs2SgK1qV++ncU5Dy34D1RtRxqhb0UOUyctHV
-         rKoiTlATMxl5sXuArap6HcYAisxrRklodXAa233J+Omb5zfYdAV2KZlLNwqGcxTQ9E0T
-         7+swDM4hHQL/JxvAOOfDdQ/QViBMNI+3SzxVRiVMw+Uku5lupLRNC365pvq/Wy0gcTkL
-         VK+A==
+        h=sender:message-id:subject:from:to:cc:date:in-reply-to:references
+         :content-transfer-encoding:mime-version:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=YhQwx4V07ydNUUdADPMteWvEy2lLxDzB7qxge+cyen0=;
+        b=dlP7g/AMKf5k3Xm1istCBNq4QGQ5W9oK97VuNCz1IYIqRrAIfhyR9Y0J7TK/OpwVOU
+         8Nb8khFwWL4udwKHRxdkK62+tGPiNqRVF93mFfZG4XqKadPZBn0SPPOXAP7GbzwfX6QW
+         hxDH5hxdyoVjf2SWkCveBsskgqM1QP8FYGqRkZJdTHNNBtyIQFfcZYNXNkWj28MhS+e9
+         6V69F8G8AWI1219i61L2zTQR43XBbEtqDPvWia9JeI4exBZ/ZGOqe9fOAlW20DjPyhj7
+         qoZnuKqd69Mr30sDjbFGNYOohng17UwzuaiWK9A3lB7ZLL2q1qrKk2ILe50ZdnfkoaIy
+         NrKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding
-         :x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=betyiOSHqWsGwkuY1NqLRsbQzF5bZE3H7lobXU+1MnY=;
-        b=SUW+P+MGNCB1Sf+DvMdVebTVPXClMWgsT3ro8/8aTIwPKBzvEYVlOOZskOakPl64q1
-         b06uP48mCgfeXb68yyq6IbltOd1M4FQ9xyxdR4kewkjyl/vlB5n0l6JgERhuQfBPU0ha
-         Aycu61Xe2PYXJ4VnY6y1qr1fdKRkw8CQE6gX6HX6hISfrdJsZ2RfreCZf5oKvURTsvFS
-         L+8ZoAb5vDKCTxcssWb1+Ot4D/TQUtLZKCRazmt+NM2pTrgvznhVNdgr+6/RK/aGf9+H
-         EM2ONkZzekxgo59w8d7REkzGiz6SG8SJPF8Bt3zfOTiMbJ07P/W07uhDU0OHiNhK/muv
-         VkMQ==
-X-Gm-Message-State: APjAAAU025tj6O++S/vGf0omULj/EoT5t2kQp8iHerJ4zIR5HA+uSyMx
-	M4nN2VkVDn9c1oAOvaIQPZM=
-X-Google-Smtp-Source: APXvYqzQqwWxzXC6FpC3Bv4rXEmIgO/G3gVN52ZalQeBuDV9uVXTfjBGoj+aQVUS2JXRDoT7MwpkBg==
-X-Received: by 2002:ab0:7451:: with SMTP id p17mr3918471uaq.76.1570083978444;
-        Wed, 02 Oct 2019 23:26:18 -0700 (PDT)
+        h=sender:x-gm-message-state:message-id:subject:from:to:cc:date
+         :in-reply-to:references:content-transfer-encoding:mime-version
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=YhQwx4V07ydNUUdADPMteWvEy2lLxDzB7qxge+cyen0=;
+        b=Iv49cSoj6Wmi7zoDa4K07kJwpBibiId0bFPhR+RZ/oiR7T1obPY+vxsZOw9h4bN6bH
+         1V+4P4Vq5oTswtc8XJaFBJvNaABfJqSE2Uij9EBTNPVD4RILyOpbSgk4PHGP30zY2uw3
+         +6TU/AJ82JvCxhrz/QQrrksT53eIlhu/WL/BwVnUvR7W8FCh092fOPpxVIUg4Vlk4tuE
+         evxnOi1kY5qJUBnoYrjWzAefJl4pr0eWzwgBdw4DqDC465Q91mis4ybD6aFklheYsIFo
+         SQsMIvo9eAvvqr/GSJ6WTOtnBzzSxd/+M6O2/Jkn4Urfh76+9/MlCV9bxIw3JcEGx7PQ
+         dkvw==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: APjAAAUy09FgaFQ8H60IOgMPJtyfSop1Djh4/BcmOG3+vPwSLKwR0t/g
+	hX6RYMJfNQQGXH3Elk9x22c=
+X-Google-Smtp-Source: APXvYqwPE3med5j9E7B0BSILfvrG5mhjQPIWm0M0vEkJBP1JuzUjV9Ejj6o0oR/lzsobbPfAVffFXQ==
+X-Received: by 2002:a25:55c4:: with SMTP id j187mr5383645ybb.6.1570095530509;
+        Thu, 03 Oct 2019 02:38:50 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a67:2d8f:: with SMTP id t137ls521469vst.10.gmail; Wed, 02
- Oct 2019 23:26:18 -0700 (PDT)
-X-Received: by 2002:a67:f306:: with SMTP id p6mr4108112vsf.131.1570083978130;
-        Wed, 02 Oct 2019 23:26:18 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1570083978; cv=none;
+Received: by 2002:a81:48ca:: with SMTP id v193ls341247ywa.12.gmail; Thu, 03
+ Oct 2019 02:38:50 -0700 (PDT)
+X-Received: by 2002:a0d:d945:: with SMTP id b66mr5845930ywe.446.1570095530195;
+        Thu, 03 Oct 2019 02:38:50 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1570095530; cv=none;
         d=google.com; s=arc-20160816;
-        b=VhXX4w5rPAfcbH/okQHU6InYfih8azYednS3s+t480N9fwlUNmcU6Oo9phOB0bGc2t
-         7wcdic9F93MYRfdUbZNuw0fbqjKYYh2I+Edq+OiApgp9ACvjXiQdn1fMnQ8DQgAGGps8
-         ATj0Qj895nsIE9SJt9l9+20kl11xq+hDL8ivunYulidkK6qFa9I6rZ6DA9ilcebSJKmj
-         K/Y5b47T4MSceONVfejoML7okvIsIL8QaSpADTP6HbiRDei/Ymr00WaF6/uhE/CLaNcC
-         HQld/pgE7D7FD3YYVRcfSIqsJFqjOdAJlB9QeGBoV0grpe1H8RZdvFaygp7E7awGM9vd
-         E9rw==
+        b=DdpNupSkSLnjh8dVPnq8N3RbTyBFe+GNbCgUwvEhBUFBsPrOr9ong2E1WV4EUWwglj
+         jH6Gxauaq/TF0byJWMJw6wNNKXq8VKAsUcpZp7xtWXLit9zV0LEIzQKkQSlL7Wz/EdHN
+         M29RCMNZWSG1YL8bI4AZochTRr2/FDql11W+F6LP0st8ghfeDeU63Fem99qgJkRlbHeN
+         RnrVXa5a6Wg5vQOfdnasP4a6W+Ht5KYuwwfaXCuUa9kGVRtQ7RI1s14qYxR2ihNnbCjj
+         NZWKct+tAymBksHvJkbeolblIDQ4LhuQnStvc4ukwp6pUCgcbUyrbmYd5ip9M0+sgsf3
+         /rtQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=4nvCkkxF3tpM+x3xn7dqGTYCKi4uqYijHIaCGSNEFak=;
-        b=qwJlevxjI7M7rfJihJRE+Uu8Aic41YmE41Bv7fg7vaP8Tfkg5fG0UOc4qpZa9zvTaW
-         wqkMiRKcsUkj/gGMoevA3GhtEaF5VkvsLJjllO4fI/h2rVbizYQXLXLVultKWM48psw/
-         0etGR13lDlDfiOeo3m9DlreZAHJnllziOmjR7n3g71kdrwjd9VWbXn0gI3Y5UX3pmvI/
-         oYMPSmlxmufZ1AxSATKbEI+bYGifo6BGs8hpaBke6A1yGMkkN4G4KTC9lZ4BwXCjmrEt
-         DQ1u0m5INdLdXX27lreN11YEJFk5hzoP7DwFC4WTgBMA3Lx40iVU7+EKuDIss9CSrdHv
-         U+zw==
+        h=mime-version:content-transfer-encoding:references:in-reply-to:date
+         :cc:to:from:subject:message-id;
+        bh=esQ2nUrP0s+Gu6NevFsRIawxjviV4XHkWxO7TFApsBs=;
+        b=h9yuX5bQGg6EjLvacAyEKrbI++poPmGxf1IHUaNAUXRAai/gZElLVB/MP8RHQ3PbPo
+         62hkzgZCj1qGY/wNpiWpYe698RJl23eqe3lFX5zF0lMX/o4b6rNGTZ6Y9p3hiUfeTZuH
+         3tGcfPnPv/8hE43dfYPBC9kkNiNHsVFGuvLiqSw/k6Py9MdrMJP5TYFnFLtNl9Tp6dpi
+         JeozL7HHeM3lRdo3RbDlW376gvDMoOP0a+NgugWPFoyS6t+7N8SUnsv0oIJMBXkUbaAx
+         sRchssbdzdg+BipqjxqtXG4TwvEIcvlJlVwsPgJgo9xbupcbcu4K6MzshPZT/2C+M9KP
+         T/ZA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=QqpipN7E;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::742 as permitted sender) smtp.mailfrom=dvyukov@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com. [2607:f8b0:4864:20::742])
-        by gmr-mx.google.com with ESMTPS id y14si81621vsj.2.2019.10.02.23.26.18
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 02 Oct 2019 23:26:18 -0700 (PDT)
-Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::742 as permitted sender) client-ip=2607:f8b0:4864:20::742;
-Received: by mail-qk1-x742.google.com with SMTP id z67so1204046qkb.12
-        for <kasan-dev@googlegroups.com>; Wed, 02 Oct 2019 23:26:18 -0700 (PDT)
-X-Received: by 2002:a37:9202:: with SMTP id u2mr2854753qkd.8.1570083977128;
- Wed, 02 Oct 2019 23:26:17 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190927034338.15813-1-walter-zh.wu@mediatek.com>
- <CACT4Y+Zxz+R=qQxSMoipXoLjRqyApD3O0eYpK0nyrfGHE4NNPw@mail.gmail.com>
- <1569594142.9045.24.camel@mtksdccf07> <CACT4Y+YuAxhKtL7ho7jpVAPkjG-JcGyczMXmw8qae2iaZjTh_w@mail.gmail.com>
- <1569818173.17361.19.camel@mtksdccf07> <1570018513.19702.36.camel@mtksdccf07>
- <CACT4Y+bbZhvz9ZpHtgL8rCCsV=ybU5jA6zFnJBL7gY2cNXDLyQ@mail.gmail.com> <1570069078.19702.57.camel@mtksdccf07>
-In-Reply-To: <1570069078.19702.57.camel@mtksdccf07>
-From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Thu, 3 Oct 2019 08:26:05 +0200
-Message-ID: <CACT4Y+ZwNv2-QBrvuR2JvemovmKPQ9Ggrr=ZkdTg6xy_Ki6UAg@mail.gmail.com>
+       spf=pass (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.184 as permitted sender) smtp.mailfrom=walter-zh.wu@mediatek.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
+Received: from mailgw02.mediatek.com ([210.61.82.184])
+        by gmr-mx.google.com with ESMTP id t73si133558ybi.4.2019.10.03.02.38.49
+        for <kasan-dev@googlegroups.com>;
+        Thu, 03 Oct 2019 02:38:49 -0700 (PDT)
+Received-SPF: pass (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.184 as permitted sender) client-ip=210.61.82.184;
+X-UUID: 83d216c888f543e887d8043adfa60921-20191003
+X-UUID: 83d216c888f543e887d8043adfa60921-20191003
+Received: from mtkcas08.mediatek.inc [(172.21.101.126)] by mailgw02.mediatek.com
+	(envelope-from <walter-zh.wu@mediatek.com>)
+	(Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
+	with ESMTP id 1843083875; Thu, 03 Oct 2019 17:38:46 +0800
+Received: from mtkcas07.mediatek.inc (172.21.101.84) by
+ mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Thu, 3 Oct 2019 17:38:43 +0800
+Received: from [172.21.84.99] (172.21.84.99) by mtkcas07.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Thu, 3 Oct 2019 17:38:44 +0800
+Message-ID: <1570095525.19702.59.camel@mtksdccf07>
 Subject: Re: [PATCH] kasan: fix the missing underflow in memmove and memcpy
  with CONFIG_KASAN_GENERIC=y
-To: Walter Wu <walter-zh.wu@mediatek.com>
-Cc: Andrey Ryabinin <aryabinin@virtuozzo.com>, Alexander Potapenko <glider@google.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, LKML <linux-kernel@vger.kernel.org>, 
-	kasan-dev <kasan-dev@googlegroups.com>, Linux-MM <linux-mm@kvack.org>, 
-	Linux ARM <linux-arm-kernel@lists.infradead.org>, linux-mediatek@lists.infradead.org, 
+From: Walter Wu <walter-zh.wu@mediatek.com>
+To: Dmitry Vyukov <dvyukov@google.com>
+CC: Andrey Ryabinin <aryabinin@virtuozzo.com>, Alexander Potapenko
+	<glider@google.com>, Matthias Brugger <matthias.bgg@gmail.com>, LKML
+	<linux-kernel@vger.kernel.org>, kasan-dev <kasan-dev@googlegroups.com>,
+	Linux-MM <linux-mm@kvack.org>, Linux ARM
+	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>,
 	wsd_upstream <wsd_upstream@mediatek.com>
+Date: Thu, 3 Oct 2019 17:38:45 +0800
+In-Reply-To: <CACT4Y+ZwNv2-QBrvuR2JvemovmKPQ9Ggrr=ZkdTg6xy_Ki6UAg@mail.gmail.com>
+References: <20190927034338.15813-1-walter-zh.wu@mediatek.com>
+	 <CACT4Y+Zxz+R=qQxSMoipXoLjRqyApD3O0eYpK0nyrfGHE4NNPw@mail.gmail.com>
+	 <1569594142.9045.24.camel@mtksdccf07>
+	 <CACT4Y+YuAxhKtL7ho7jpVAPkjG-JcGyczMXmw8qae2iaZjTh_w@mail.gmail.com>
+	 <1569818173.17361.19.camel@mtksdccf07>
+	 <1570018513.19702.36.camel@mtksdccf07>
+	 <CACT4Y+bbZhvz9ZpHtgL8rCCsV=ybU5jA6zFnJBL7gY2cNXDLyQ@mail.gmail.com>
+	 <1570069078.19702.57.camel@mtksdccf07>
+	 <CACT4Y+ZwNv2-QBrvuR2JvemovmKPQ9Ggrr=ZkdTg6xy_Ki6UAg@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.2.3-0ubuntu6
 Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: dvyukov@google.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=QqpipN7E;       spf=pass
- (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::742
- as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
- (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Dmitry Vyukov <dvyukov@google.com>
-Reply-To: Dmitry Vyukov <dvyukov@google.com>
+MIME-Version: 1.0
+X-MTK: N
+X-Original-Sender: walter-zh.wu@mediatek.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.184 as
+ permitted sender) smtp.mailfrom=walter-zh.wu@mediatek.com;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -140,299 +149,309 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Oct 3, 2019 at 4:18 AM Walter Wu <walter-zh.wu@mediatek.com> wrote:
->
-> On Wed, 2019-10-02 at 15:57 +0200, Dmitry Vyukov wrote:
-> > On Wed, Oct 2, 2019 at 2:15 PM Walter Wu <walter-zh.wu@mediatek.com> wr=
-ote:
-> > >
-> > > On Mon, 2019-09-30 at 12:36 +0800, Walter Wu wrote:
-> > > > On Fri, 2019-09-27 at 21:41 +0200, Dmitry Vyukov wrote:
-> > > > > On Fri, Sep 27, 2019 at 4:22 PM Walter Wu <walter-zh.wu@mediatek.=
-com> wrote:
-> > > > > >
-> > > > > > On Fri, 2019-09-27 at 15:07 +0200, Dmitry Vyukov wrote:
-> > > > > > > On Fri, Sep 27, 2019 at 5:43 AM Walter Wu <walter-zh.wu@media=
-tek.com> wrote:
-> > > > > > > >
-> > > > > > > > memmove() and memcpy() have missing underflow issues.
-> > > > > > > > When -7 <=3D size < 0, then KASAN will miss to catch the un=
-derflow issue.
-> > > > > > > > It looks like shadow start address and shadow end address i=
-s the same,
-> > > > > > > > so it does not actually check anything.
-> > > > > > > >
-> > > > > > > > The following test is indeed not caught by KASAN:
-> > > > > > > >
-> > > > > > > >         char *p =3D kmalloc(64, GFP_KERNEL);
-> > > > > > > >         memset((char *)p, 0, 64);
-> > > > > > > >         memmove((char *)p, (char *)p + 4, -2);
-> > > > > > > >         kfree((char*)p);
-> > > > > > > >
-> > > > > > > > It should be checked here:
-> > > > > > > >
-> > > > > > > > void *memmove(void *dest, const void *src, size_t len)
-> > > > > > > > {
-> > > > > > > >         check_memory_region((unsigned long)src, len, false,=
- _RET_IP_);
-> > > > > > > >         check_memory_region((unsigned long)dest, len, true,=
- _RET_IP_);
-> > > > > > > >
-> > > > > > > >         return __memmove(dest, src, len);
-> > > > > > > > }
-> > > > > > > >
-> > > > > > > > We fix the shadow end address which is calculated, then gen=
-eric KASAN
-> > > > > > > > get the right shadow end address and detect this underflow =
-issue.
-> > > > > > > >
-> > > > > > > > [1] https://bugzilla.kernel.org/show_bug.cgi?id=3D199341
-> > > > > > > >
-> > > > > > > > Signed-off-by: Walter Wu <walter-zh.wu@mediatek.com>
-> > > > > > > > Reported-by: Dmitry Vyukov <dvyukov@google.com>
-> > > > > > > > ---
-> > > > > > > >  lib/test_kasan.c   | 36 ++++++++++++++++++++++++++++++++++=
-++
-> > > > > > > >  mm/kasan/generic.c |  8 ++++++--
-> > > > > > > >  2 files changed, 42 insertions(+), 2 deletions(-)
-> > > > > > > >
-> > > > > > > > diff --git a/lib/test_kasan.c b/lib/test_kasan.c
-> > > > > > > > index b63b367a94e8..8bd014852556 100644
-> > > > > > > > --- a/lib/test_kasan.c
-> > > > > > > > +++ b/lib/test_kasan.c
-> > > > > > > > @@ -280,6 +280,40 @@ static noinline void __init kmalloc_oo=
-b_in_memset(void)
-> > > > > > > >         kfree(ptr);
-> > > > > > > >  }
-> > > > > > > >
-> > > > > > > > +static noinline void __init kmalloc_oob_in_memmove_underfl=
-ow(void)
-> > > > > > > > +{
-> > > > > > > > +       char *ptr;
-> > > > > > > > +       size_t size =3D 64;
-> > > > > > > > +
-> > > > > > > > +       pr_info("underflow out-of-bounds in memmove\n");
-> > > > > > > > +       ptr =3D kmalloc(size, GFP_KERNEL);
-> > > > > > > > +       if (!ptr) {
-> > > > > > > > +               pr_err("Allocation failed\n");
-> > > > > > > > +               return;
-> > > > > > > > +       }
-> > > > > > > > +
-> > > > > > > > +       memset((char *)ptr, 0, 64);
-> > > > > > > > +       memmove((char *)ptr, (char *)ptr + 4, -2);
-> > > > > > > > +       kfree(ptr);
-> > > > > > > > +}
-> > > > > > > > +
-> > > > > > > > +static noinline void __init kmalloc_oob_in_memmove_overflo=
-w(void)
-> > > > > > > > +{
-> > > > > > > > +       char *ptr;
-> > > > > > > > +       size_t size =3D 64;
-> > > > > > > > +
-> > > > > > > > +       pr_info("overflow out-of-bounds in memmove\n");
-> > > > > > > > +       ptr =3D kmalloc(size, GFP_KERNEL);
-> > > > > > > > +       if (!ptr) {
-> > > > > > > > +               pr_err("Allocation failed\n");
-> > > > > > > > +               return;
-> > > > > > > > +       }
-> > > > > > > > +
-> > > > > > > > +       memset((char *)ptr, 0, 64);
-> > > > > > > > +       memmove((char *)ptr + size, (char *)ptr, 2);
-> > > > > > > > +       kfree(ptr);
-> > > > > > > > +}
-> > > > > > > > +
-> > > > > > > >  static noinline void __init kmalloc_uaf(void)
-> > > > > > > >  {
-> > > > > > > >         char *ptr;
-> > > > > > > > @@ -734,6 +768,8 @@ static int __init kmalloc_tests_init(vo=
-id)
-> > > > > > > >         kmalloc_oob_memset_4();
-> > > > > > > >         kmalloc_oob_memset_8();
-> > > > > > > >         kmalloc_oob_memset_16();
-> > > > > > > > +       kmalloc_oob_in_memmove_underflow();
-> > > > > > > > +       kmalloc_oob_in_memmove_overflow();
-> > > > > > > >         kmalloc_uaf();
-> > > > > > > >         kmalloc_uaf_memset();
-> > > > > > > >         kmalloc_uaf2();
-> > > > > > > > diff --git a/mm/kasan/generic.c b/mm/kasan/generic.c
-> > > > > > > > index 616f9dd82d12..34ca23d59e67 100644
-> > > > > > > > --- a/mm/kasan/generic.c
-> > > > > > > > +++ b/mm/kasan/generic.c
-> > > > > > > > @@ -131,9 +131,13 @@ static __always_inline bool memory_is_=
-poisoned_n(unsigned long addr,
-> > > > > > > >                                                 size_t size=
-)
-> > > > > > > >  {
-> > > > > > > >         unsigned long ret;
-> > > > > > > > +       void *shadow_start =3D kasan_mem_to_shadow((void *)=
-addr);
-> > > > > > > > +       void *shadow_end =3D kasan_mem_to_shadow((void *)ad=
-dr + size - 1) + 1;
-> > > > > > > >
-> > > > > > > > -       ret =3D memory_is_nonzero(kasan_mem_to_shadow((void=
- *)addr),
-> > > > > > > > -                       kasan_mem_to_shadow((void *)addr + =
-size - 1) + 1);
-> > > > > > > > +       if ((long)size < 0)
-> > > > > > > > +               shadow_end =3D kasan_mem_to_shadow((void *)=
-addr + size);
-> > > > > > >
-> > > > > > > Hi Walter,
-> > > > > > >
-> > > > > > > Thanks for working on this.
-> > > > > > >
-> > > > > > > If size<0, does it make sense to continue at all? We will sti=
-ll check
-> > > > > > > 1PB of shadow memory? What happens when we pass such huge ran=
-ge to
-> > > > > > > memory_is_nonzero?
-> > > > > > > Perhaps it's better to produce an error and bail out immediat=
-ely if size<0?
-> > > > > >
-> > > > > > I agree with what you said. when size<0, it is indeed an unreas=
-onable
-> > > > > > behavior, it should be blocked from continuing to do.
-> > > > > >
-> > > > > >
-> > > > > > > Also, what's the failure mode of the tests? Didn't they badly=
- corrupt
-> > > > > > > memory? We tried to keep tests such that they produce the KAS=
-AN
-> > > > > > > reports, but don't badly corrupt memory b/c/ we need to run a=
-ll of
-> > > > > > > them.
-> > > > > >
-> > > > > > Maybe we should first produce KASAN reports and then go to exec=
-ute
-> > > > > > memmove() or do nothing? It looks like it=E2=80=99s doing the f=
-ollowing.or?
-> > > > > >
-> > > > > > void *memmove(void *dest, const void *src, size_t len)
-> > > > > >  {
-> > > > > > +       if (long(len) <=3D 0)
-> > > > >
-> > > > > /\/\/\/\/\/\
-> > > > >
-> > > > > This check needs to be inside of check_memory_region, otherwise w=
-e
-> > > > > will have similar problems in all other places that use
-> > > > > check_memory_region.
-> > > > Thanks for your reminder.
+On Thu, 2019-10-03 at 08:26 +0200, Dmitry Vyukov wrote:
+> On Thu, Oct 3, 2019 at 4:18 AM Walter Wu <walter-zh.wu@mediatek.com> wrot=
+e:
+> >
+> > On Wed, 2019-10-02 at 15:57 +0200, Dmitry Vyukov wrote:
+> > > On Wed, Oct 2, 2019 at 2:15 PM Walter Wu <walter-zh.wu@mediatek.com> =
+wrote:
 > > > >
-> > > >  bool check_memory_region(unsigned long addr, size_t size, bool wri=
-te,
-> > > >                                 unsigned long ret_ip)
-> > > >  {
+> > > > On Mon, 2019-09-30 at 12:36 +0800, Walter Wu wrote:
+> > > > > On Fri, 2019-09-27 at 21:41 +0200, Dmitry Vyukov wrote:
+> > > > > > On Fri, Sep 27, 2019 at 4:22 PM Walter Wu <walter-zh.wu@mediate=
+k.com> wrote:
+> > > > > > >
+> > > > > > > On Fri, 2019-09-27 at 15:07 +0200, Dmitry Vyukov wrote:
+> > > > > > > > On Fri, Sep 27, 2019 at 5:43 AM Walter Wu <walter-zh.wu@med=
+iatek.com> wrote:
+> > > > > > > > >
+> > > > > > > > > memmove() and memcpy() have missing underflow issues.
+> > > > > > > > > When -7 <=3D size < 0, then KASAN will miss to catch the =
+underflow issue.
+> > > > > > > > > It looks like shadow start address and shadow end address=
+ is the same,
+> > > > > > > > > so it does not actually check anything.
+> > > > > > > > >
+> > > > > > > > > The following test is indeed not caught by KASAN:
+> > > > > > > > >
+> > > > > > > > >         char *p =3D kmalloc(64, GFP_KERNEL);
+> > > > > > > > >         memset((char *)p, 0, 64);
+> > > > > > > > >         memmove((char *)p, (char *)p + 4, -2);
+> > > > > > > > >         kfree((char*)p);
+> > > > > > > > >
+> > > > > > > > > It should be checked here:
+> > > > > > > > >
+> > > > > > > > > void *memmove(void *dest, const void *src, size_t len)
+> > > > > > > > > {
+> > > > > > > > >         check_memory_region((unsigned long)src, len, fals=
+e, _RET_IP_);
+> > > > > > > > >         check_memory_region((unsigned long)dest, len, tru=
+e, _RET_IP_);
+> > > > > > > > >
+> > > > > > > > >         return __memmove(dest, src, len);
+> > > > > > > > > }
+> > > > > > > > >
+> > > > > > > > > We fix the shadow end address which is calculated, then g=
+eneric KASAN
+> > > > > > > > > get the right shadow end address and detect this underflo=
+w issue.
+> > > > > > > > >
+> > > > > > > > > [1] https://bugzilla.kernel.org/show_bug.cgi?id=3D199341
+> > > > > > > > >
+> > > > > > > > > Signed-off-by: Walter Wu <walter-zh.wu@mediatek.com>
+> > > > > > > > > Reported-by: Dmitry Vyukov <dvyukov@google.com>
+> > > > > > > > > ---
+> > > > > > > > >  lib/test_kasan.c   | 36 ++++++++++++++++++++++++++++++++=
+++++
+> > > > > > > > >  mm/kasan/generic.c |  8 ++++++--
+> > > > > > > > >  2 files changed, 42 insertions(+), 2 deletions(-)
+> > > > > > > > >
+> > > > > > > > > diff --git a/lib/test_kasan.c b/lib/test_kasan.c
+> > > > > > > > > index b63b367a94e8..8bd014852556 100644
+> > > > > > > > > --- a/lib/test_kasan.c
+> > > > > > > > > +++ b/lib/test_kasan.c
+> > > > > > > > > @@ -280,6 +280,40 @@ static noinline void __init kmalloc_=
+oob_in_memset(void)
+> > > > > > > > >         kfree(ptr);
+> > > > > > > > >  }
+> > > > > > > > >
+> > > > > > > > > +static noinline void __init kmalloc_oob_in_memmove_under=
+flow(void)
+> > > > > > > > > +{
+> > > > > > > > > +       char *ptr;
+> > > > > > > > > +       size_t size =3D 64;
+> > > > > > > > > +
+> > > > > > > > > +       pr_info("underflow out-of-bounds in memmove\n");
+> > > > > > > > > +       ptr =3D kmalloc(size, GFP_KERNEL);
+> > > > > > > > > +       if (!ptr) {
+> > > > > > > > > +               pr_err("Allocation failed\n");
+> > > > > > > > > +               return;
+> > > > > > > > > +       }
+> > > > > > > > > +
+> > > > > > > > > +       memset((char *)ptr, 0, 64);
+> > > > > > > > > +       memmove((char *)ptr, (char *)ptr + 4, -2);
+> > > > > > > > > +       kfree(ptr);
+> > > > > > > > > +}
+> > > > > > > > > +
+> > > > > > > > > +static noinline void __init kmalloc_oob_in_memmove_overf=
+low(void)
+> > > > > > > > > +{
+> > > > > > > > > +       char *ptr;
+> > > > > > > > > +       size_t size =3D 64;
+> > > > > > > > > +
+> > > > > > > > > +       pr_info("overflow out-of-bounds in memmove\n");
+> > > > > > > > > +       ptr =3D kmalloc(size, GFP_KERNEL);
+> > > > > > > > > +       if (!ptr) {
+> > > > > > > > > +               pr_err("Allocation failed\n");
+> > > > > > > > > +               return;
+> > > > > > > > > +       }
+> > > > > > > > > +
+> > > > > > > > > +       memset((char *)ptr, 0, 64);
+> > > > > > > > > +       memmove((char *)ptr + size, (char *)ptr, 2);
+> > > > > > > > > +       kfree(ptr);
+> > > > > > > > > +}
+> > > > > > > > > +
+> > > > > > > > >  static noinline void __init kmalloc_uaf(void)
+> > > > > > > > >  {
+> > > > > > > > >         char *ptr;
+> > > > > > > > > @@ -734,6 +768,8 @@ static int __init kmalloc_tests_init(=
+void)
+> > > > > > > > >         kmalloc_oob_memset_4();
+> > > > > > > > >         kmalloc_oob_memset_8();
+> > > > > > > > >         kmalloc_oob_memset_16();
+> > > > > > > > > +       kmalloc_oob_in_memmove_underflow();
+> > > > > > > > > +       kmalloc_oob_in_memmove_overflow();
+> > > > > > > > >         kmalloc_uaf();
+> > > > > > > > >         kmalloc_uaf_memset();
+> > > > > > > > >         kmalloc_uaf2();
+> > > > > > > > > diff --git a/mm/kasan/generic.c b/mm/kasan/generic.c
+> > > > > > > > > index 616f9dd82d12..34ca23d59e67 100644
+> > > > > > > > > --- a/mm/kasan/generic.c
+> > > > > > > > > +++ b/mm/kasan/generic.c
+> > > > > > > > > @@ -131,9 +131,13 @@ static __always_inline bool memory_i=
+s_poisoned_n(unsigned long addr,
+> > > > > > > > >                                                 size_t si=
+ze)
+> > > > > > > > >  {
+> > > > > > > > >         unsigned long ret;
+> > > > > > > > > +       void *shadow_start =3D kasan_mem_to_shadow((void =
+*)addr);
+> > > > > > > > > +       void *shadow_end =3D kasan_mem_to_shadow((void *)=
+addr + size - 1) + 1;
+> > > > > > > > >
+> > > > > > > > > -       ret =3D memory_is_nonzero(kasan_mem_to_shadow((vo=
+id *)addr),
+> > > > > > > > > -                       kasan_mem_to_shadow((void *)addr =
++ size - 1) + 1);
+> > > > > > > > > +       if ((long)size < 0)
+> > > > > > > > > +               shadow_end =3D kasan_mem_to_shadow((void =
+*)addr + size);
+> > > > > > > >
+> > > > > > > > Hi Walter,
+> > > > > > > >
+> > > > > > > > Thanks for working on this.
+> > > > > > > >
+> > > > > > > > If size<0, does it make sense to continue at all? We will s=
+till check
+> > > > > > > > 1PB of shadow memory? What happens when we pass such huge r=
+ange to
+> > > > > > > > memory_is_nonzero?
+> > > > > > > > Perhaps it's better to produce an error and bail out immedi=
+ately if size<0?
+> > > > > > >
+> > > > > > > I agree with what you said. when size<0, it is indeed an unre=
+asonable
+> > > > > > > behavior, it should be blocked from continuing to do.
+> > > > > > >
+> > > > > > >
+> > > > > > > > Also, what's the failure mode of the tests? Didn't they bad=
+ly corrupt
+> > > > > > > > memory? We tried to keep tests such that they produce the K=
+ASAN
+> > > > > > > > reports, but don't badly corrupt memory b/c/ we need to run=
+ all of
+> > > > > > > > them.
+> > > > > > >
+> > > > > > > Maybe we should first produce KASAN reports and then go to ex=
+ecute
+> > > > > > > memmove() or do nothing? It looks like it=E2=80=99s doing the=
+ following.or?
+> > > > > > >
+> > > > > > > void *memmove(void *dest, const void *src, size_t len)
+> > > > > > >  {
+> > > > > > > +       if (long(len) <=3D 0)
+> > > > > >
+> > > > > > /\/\/\/\/\/\
+> > > > > >
+> > > > > > This check needs to be inside of check_memory_region, otherwise=
+ we
+> > > > > > will have similar problems in all other places that use
+> > > > > > check_memory_region.
+> > > > > Thanks for your reminder.
+> > > > >
+> > > > >  bool check_memory_region(unsigned long addr, size_t size, bool w=
+rite,
+> > > > >                                 unsigned long ret_ip)
+> > > > >  {
+> > > > > +       if (long(size) < 0) {
+> > > > > +               kasan_report_invalid_size(src, dest, len, _RET_IP=
+_);
+> > > > > +               return false;
+> > > > > +       }
+> > > > > +
+> > > > >         return check_memory_region_inline(addr, size, write, ret_=
+ip);
+> > > > >  }
+> > > > >
+> > > > > > But check_memory_region already returns a bool, so we could che=
+ck that
+> > > > > > bool and return early.
+> > > > >
+> > > > > When size<0, we should only show one KASAN report, and should we =
+only
+> > > > > limit to return when size<0 is true? If yse, then __memmove() wil=
+l do
+> > > > > nothing.
+> > > > >
+> > > > >
+> > > > >  void *memmove(void *dest, const void *src, size_t len)
+> > > > >  {
+> > > > > -       check_memory_region((unsigned long)src, len, false, _RET_=
+IP_);
+> > > > > +       if(!check_memory_region((unsigned long)src, len, false,
+> > > > > _RET_IP_)
+> > > > > +               && long(size) < 0)
+> > > > > +               return;
+> > > > > +
+> > > > >         check_memory_region((unsigned long)dest, len, true, _RET_=
+IP_);
+> > > > >
+> > > > >         return __memmove(dest, src, len);
+> > > > >
+> > > > > >
+> > > > Hi Dmitry,
+> > > >
+> > > > What do you think the following code is better than the above one.
+> > > > In memmmove/memset/memcpy, they need to determine whether size < 0 =
+is
+> > > > true. we directly determine whether size is negative in memmove and
+> > > > return early. it avoid to generate repeated KASAN report. Is it bet=
+ter?
+> > > >
+> > > > void *memmove(void *dest, const void *src, size_t len)
+> > > > {
 > > > > +       if (long(size) < 0) {
 > > > > +               kasan_report_invalid_size(src, dest, len, _RET_IP_)=
 ;
-> > > > +               return false;
+> > > > +               return;
 > > > > +       }
 > > > > +
-> > > >         return check_memory_region_inline(addr, size, write, ret_ip=
-);
-> > > >  }
-> > > >
-> > > > > But check_memory_region already returns a bool, so we could check=
- that
-> > > > > bool and return early.
-> > > >
-> > > > When size<0, we should only show one KASAN report, and should we on=
-ly
-> > > > limit to return when size<0 is true? If yse, then __memmove() will =
-do
-> > > > nothing.
-> > > >
-> > > >
-> > > >  void *memmove(void *dest, const void *src, size_t len)
-> > > >  {
-> > > > -       check_memory_region((unsigned long)src, len, false, _RET_IP=
+> > > >         check_memory_region((unsigned long)src, len, false, _RET_IP=
 _);
-> > > > +       if(!check_memory_region((unsigned long)src, len, false,
-> > > > _RET_IP_)
-> > > > +               && long(size) < 0)
-> > > > +               return;
-> > > > +
 > > > >         check_memory_region((unsigned long)dest, len, true, _RET_IP=
 _);
 > > > >
-> > > >         return __memmove(dest, src, len);
 > > > >
-> > > > >
-> > > Hi Dmitry,
+> > > > check_memory_region() still has to check whether the size is negati=
+ve.
+> > > > but memmove/memset/memcpy generate invalid size KASAN report will n=
+ot be
+> > > > there.
 > > >
-> > > What do you think the following code is better than the above one.
-> > > In memmmove/memset/memcpy, they need to determine whether size < 0 is
-> > > true. we directly determine whether size is negative in memmove and
-> > > return early. it avoid to generate repeated KASAN report. Is it bette=
-r?
+> > >
+> > > If check_memory_region() will do the check, why do we need to
+> > > duplicate it inside of memmove and all other range functions?
+> > >
+> > Yes, I know it has duplication, but if we don't have to determine size<=
+0
+> > in memmove, then all check_memory_region return false will do nothing,
+>=20
+> But they will produce a KASAN report, right? They are asked to check
+> if 18446744073709551614 bytes are good. 18446744073709551614 bytes
+> can't be good.
+>=20
+>=20
+> > it includes other memory corruption behaviors, this is my original
+> > concern.
+> >
+> > > I would do:
 > > >
 > > > void *memmove(void *dest, const void *src, size_t len)
 > > > {
-> > > +       if (long(size) < 0) {
-> > > +               kasan_report_invalid_size(src, dest, len, _RET_IP_);
-> > > +               return;
-> > > +       }
-> > > +
-> > >         check_memory_region((unsigned long)src, len, false, _RET_IP_)=
-;
-> > >         check_memory_region((unsigned long)dest, len, true, _RET_IP_)=
-;
-> > >
-> > >
-> > > check_memory_region() still has to check whether the size is negative=
-.
-> > > but memmove/memset/memcpy generate invalid size KASAN report will not=
- be
-> > > there.
+> > >         if (check_memory_region((unsigned long)src, len, false, _RET_=
+IP_))
+> > >                 return;
+> > if check_memory_region return TRUE is to do nothing, but it is no memor=
+y
+> > corruption? Should it return early when check_memory_region return a
+> > FALSE?
+>=20
+> Maybe. I just meant the overall idea: check_memory_region should
+> detect that 18446744073709551614 bytes are bad, print an error, return
+> an indication that bytes were bad, memmove should return early if the
+> range is bad.
+>=20
+ok, i will send new patch.
+Thanks for your review.
+
+>=20
+> > > This avoids duplicating the check, adds minimal amount of code to
+> > > range functions and avoids adding kasan_report_invalid_size.
+> > Thanks for your suggestion.
+> > We originally want to show complete information(destination address,
+> > source address, and its length), but add minimal amount of code into
+> > kasan_report(), it should be good.
 > >
 > >
-> > If check_memory_region() will do the check, why do we need to
-> > duplicate it inside of memmove and all other range functions?
-> >
-> Yes, I know it has duplication, but if we don't have to determine size<0
-> in memmove, then all check_memory_region return false will do nothing,
+> > --
+> > You received this message because you are subscribed to the Google Grou=
+ps "kasan-dev" group.
+> > To unsubscribe from this group and stop receiving emails from it, send =
+an email to kasan-dev+unsubscribe@googlegroups.com.
+> > To view this discussion on the web visit https://groups.google.com/d/ms=
+gid/kasan-dev/1570069078.19702.57.camel%40mtksdccf07.
 
-But they will produce a KASAN report, right? They are asked to check
-if 18446744073709551614 bytes are good. 18446744073709551614 bytes
-can't be good.
-
-
-> it includes other memory corruption behaviors, this is my original
-> concern.
->
-> > I would do:
-> >
-> > void *memmove(void *dest, const void *src, size_t len)
-> > {
-> >         if (check_memory_region((unsigned long)src, len, false, _RET_IP=
-_))
-> >                 return;
-> if check_memory_region return TRUE is to do nothing, but it is no memory
-> corruption? Should it return early when check_memory_region return a
-> FALSE?
-
-Maybe. I just meant the overall idea: check_memory_region should
-detect that 18446744073709551614 bytes are bad, print an error, return
-an indication that bytes were bad, memmove should return early if the
-range is bad.
-
-
-> > This avoids duplicating the check, adds minimal amount of code to
-> > range functions and avoids adding kasan_report_invalid_size.
-> Thanks for your suggestion.
-> We originally want to show complete information(destination address,
-> source address, and its length), but add minimal amount of code into
-> kasan_report(), it should be good.
->
->
-> --
-> You received this message because you are subscribed to the Google Groups=
- "kasan-dev" group.
-> To unsubscribe from this group and stop receiving emails from it, send an=
- email to kasan-dev+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgi=
-d/kasan-dev/1570069078.19702.57.camel%40mtksdccf07.
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
@@ -440,5 +459,4 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CACT4Y%2BZwNv2-QBrvuR2JvemovmKPQ9Ggrr%3DZkdTg6xy_Ki6UAg%40mail.gm=
-ail.com.
+kasan-dev/1570095525.19702.59.camel%40mtksdccf07.
