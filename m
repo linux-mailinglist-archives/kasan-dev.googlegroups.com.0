@@ -1,129 +1,140 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBB2772PWAKGQE7WMM2WY@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBW5U2XWAKGQEYLPTZMI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oi1-x23e.google.com (mail-oi1-x23e.google.com [IPv6:2607:f8b0:4864:20::23e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 578CFC92A3
-	for <lists+kasan-dev@lfdr.de>; Wed,  2 Oct 2019 21:52:12 +0200 (CEST)
-Received: by mail-oi1-x23e.google.com with SMTP id w14sf123190oih.19
-        for <lists+kasan-dev@lfdr.de>; Wed, 02 Oct 2019 12:52:12 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1570045931; cv=pass;
+Received: from mail-yb1-xb3e.google.com (mail-yb1-xb3e.google.com [IPv6:2607:f8b0:4864:20::b3e])
+	by mail.lfdr.de (Postfix) with ESMTPS id B4715C96A6
+	for <lists+kasan-dev@lfdr.de>; Thu,  3 Oct 2019 04:18:04 +0200 (CEST)
+Received: by mail-yb1-xb3e.google.com with SMTP id p66sf790346yba.0
+        for <lists+kasan-dev@lfdr.de>; Wed, 02 Oct 2019 19:18:04 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1570069083; cv=pass;
         d=google.com; s=arc-20160816;
-        b=CEGV5dbZPjh+1gBsNh9MXPFd7wsaD7GqiC+g69NgHuSXOQviV4k3whoJ1GtrYLVnzm
-         UMTChpPYx3l822XcasGCRopm/DhwUI/tjjVGoVUw5P8yUxa/e85pdD0LsPpZv7tp3aNP
-         QZnS6IvFNuU9xM25Grs1KQRV3ntt9OlwUV3t/Pl1U0gDy5wRr7RkaZX9rnN/F+hdiODw
-         xHOF9YephywgsWxXTwlArg1ppk+DaODQeLuOBxErO7d+X90R5NVriSCI7aR6v1ErVoNa
-         Z4hGogVeSf5oZKbFO9lGnRhTNUZODdDvvyp+mS/kqXtaoj9v9uViRwUr6IoMihHqMw1x
-         9W7g==
+        b=n8bYaTAMgtmzikKqk/9WZC/e+d3oO/qOnm4tD5wif0CBVYxGdYpkmYRD4qRgbskODV
+         Wh2l5A50bbuL7GOR3/ksFdUOUsDmvuA/tVsIDJFqI8OGPLaocZ2guE35wv9WLBmaquHV
+         Pvb7s2AWOfNRxj9NwAw+eqNeI/9UU3xAL9Iz/LB9hlyN6MTRC4YUG36VJCrjBqmqgFMl
+         FIq94cZ2Z6gL1m0VhILcGF7bTmTx1Fr8h6ujO78fhsela/TpNYTKMccYkheCUZo5VF5B
+         kuAAYjO99YU/LWAHrhtnR5yrNMZ3VYbqMWnhkysvHvY5BRKZVMNRdDEwlVDnpol4jBnY
+         qMYg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=sA3dNsAGaIYfKZ5U7Xpht+qTI97x7S8znwcIGJnkMXE=;
-        b=RYMK/nFMn7jTHj3CKRsRGylan/JJLqxnInBa+dk6iQrQvZ7OXM/7hOl49rY8AyCDtn
-         y2S5/i/+CAp/qLcySvQUpQ/U7EYvJ00gygUpyTCW+d7msGSvrlbGx/2HA/FppUfXRYJ5
-         qJrNoMTP2mk9YWedJ1C2ReE9YyvWrLUAB3AvBgn/FXgXpcqEED46A0EvE6oN0W5wCzFT
-         VNjJW+Bdv0XCqvwp5rRdo8KL/NHjPevcoBsfZYI9Y65nkbn0G6QyEi8NIVKeo4sAV1jJ
-         1mngcgzw2nlVn9w2YOQmhNJic7VS9+wKuud6qSsZyoUZfYg71yeFhUa+s0AfINtnrno4
-         DUQg==
+         :list-id:mailing-list:precedence:mime-version
+         :content-transfer-encoding:references:in-reply-to:date:cc:to:from
+         :subject:message-id:sender:dkim-signature;
+        bh=35J6ZAE+1TYdd1jd0NMPkJIB7UucgOubyPald1XTtlQ=;
+        b=sONd8nTD7kUr+FyX54/Sinh1eb4XWNuv14vePIyO+NcQeHGI/kKOJeUTsWaFwyAD+M
+         Zhcdjm8c0rydUBf/KULt6v24WrSJQMQQ9DQfV8m4j0SGJTqpp6Ed9gbG0OTQ5jelXUru
+         CaTC0EfC0goUiK71zi885lZCpSViIHv+AHEX7CWDHNrpEHJWd7Fb636dr4MrNwci3Kz3
+         EdpqcU7nAf9JM3HK3U2Wko2vI0QRDuBvqnnZD4iugEYrV4/6r/rUViL8SbBPW1EmNJwn
+         fPyNj8K1VEQLk5g5OjBZDn9Lge2UGiSreNe7RDiZ4nxO35cPrEhvihqlzhhIgHNoHBDG
+         QG8A==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=DbBnVOau;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::241 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       spf=pass (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.184 as permitted sender) smtp.mailfrom=walter-zh.wu@mediatek.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=sA3dNsAGaIYfKZ5U7Xpht+qTI97x7S8znwcIGJnkMXE=;
-        b=ah7lg7K5pJ/aRWr89czvDWFsE5WNHqBpGnviHF/q5XhxdA8+Lj307ek7USOUEIM3vk
-         4gXT1DsRh1TeTVhDHYpXLbHHpZ3lwVnwZWrDPn6yZwA2/NrfEBNPhMgmuFteDe3Do2Yv
-         nAxlDrbxmIoBgCwok+SC4bQ/Njh69n3PVsy/iRCxF1K5Gq1Y7ICrzT+i6hPuzkqX3lc7
-         FV9MNiOAG9NDdYX4+tbmAwAzOnBi6SA5zOMmWGjC+hKWDcJeQoUy0zIrpe3sxQIKlwQv
-         v5x5WI8YnAmE0xRJuJwA/IMhu+RB5SFFyze7Tm5O4NrVNJpRsVIT6XB7XaxbCdqJT968
-         36Lg==
+        h=sender:message-id:subject:from:to:cc:date:in-reply-to:references
+         :content-transfer-encoding:mime-version:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=35J6ZAE+1TYdd1jd0NMPkJIB7UucgOubyPald1XTtlQ=;
+        b=RyGwaF4SDI1VIRCYL0vzq6t0V00FEY5Q6hr9JTabczRv/MaKdVOO+mucA5HBb44A2F
+         OG375k/ZctdeAW7BZg0zO2GP2LLjtCh6ki7qeij11rRNQXYDe2bqKvP6McvWCXzy3ZdD
+         0zK3wTH3uIUqsffkYOTwsFxLYne5mhpbbMvmcHoCBn+YxrcGITS6y8PP6NmPbycNxSVZ
+         7qiSiyKRWltG2EdFwJhQFW31Gfy+9BTACcI/PqgIaN/H7GRH7uhPXlt0LI5uUQn3BTQz
+         8yX+kvC9PN/PW1+uHQmnFKFp9MlV/yul/GwFT4z0esuUT6aadfdpYlG5B0IvLhtTLF+r
+         a0Dg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=sA3dNsAGaIYfKZ5U7Xpht+qTI97x7S8znwcIGJnkMXE=;
-        b=F57uzdWEJuFIR7ALbVCxuLCz+g8d9ZR3Z0VsiXqLVUMxwkGcndwIy/qx3ABS9tC0FA
-         BBYGyWPS0Tbs2tVKzLDHcotzDQvwYdgbItkUwkovk0E883jtexc7gZ1UIrMFSnCYk2t9
-         6yysWgIJtkXUp18qvaeA1mVOG2v4ku7ra2KvO9BG93OKFvOoEbQaowUD2o1XCPc/rnIR
-         cOOA2WPVoMHlT0aJzsuo73PN817Wg8sKkfxYEo874lCp8HHypBXo/NTd2U0KwSumkRjF
-         xZ6NUH3NN9JNpiL70IPBomTsCWCo1+3RtM0hXkDNfHHxbs+0WXinL5Eh/hF+4lNqYDcm
-         ce9Q==
-X-Gm-Message-State: APjAAAXADrwH7yivDxwmIGQU3Mzj1P1kaf+exO5c9nXzaQF5kP1fQkyK
-	SWOSsOOUrbChZcE9vxmUe9o=
-X-Google-Smtp-Source: APXvYqx48e6E8uzShsNkSsGrIPX0O9oZux9HcZ8Yu8L9S7+cAacnuJ7WtKampuhjovVDqc547adkxA==
-X-Received: by 2002:a9d:7498:: with SMTP id t24mr4221057otk.0.1570045931045;
-        Wed, 02 Oct 2019 12:52:11 -0700 (PDT)
+        h=sender:x-gm-message-state:message-id:subject:from:to:cc:date
+         :in-reply-to:references:content-transfer-encoding:mime-version
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=35J6ZAE+1TYdd1jd0NMPkJIB7UucgOubyPald1XTtlQ=;
+        b=oQGYIuHswkLZYFY1Z/aCO5qQsV3U7h4AK94o8W1EEuE3r0BY5RmuX7LBsNIW9kh+YW
+         MOvb5NPpeJAPq0sZtDSvnMfY99lmV45B+L4pvCU3KxpjxLUU5xOksOqT5u9p63LT1MDw
+         uBA9mxwQbFTlR9JC/gGXPRzZRcP1MEAd8o2KuzKy+BTEqi+Tq+Jo1asd3ccEl6/pkb7J
+         W4yGRmkBO3/qDjxsCjhdI9Y1F46hUg/6lTMQrHmXwkW0zlpKwnDOIdDOqP3DTnr3tpdm
+         4nSmslzOY03QocCUnF0xenNVrDIMcF/WevFt9h+cSqkkN++o3KsNyssDAGyF7E3JtmXN
+         HvqQ==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: APjAAAUup6ZG14537dYXLiV8Gf8CgeI9EyEWRB4tEDHJOygt/xWwTvMC
+	r1VOGEKRjdyzNtgkzrr3/0U=
+X-Google-Smtp-Source: APXvYqw/rAD7e7U1lCjpNpWdtCZWwsl94ZcOlyMU94l4ARy/Q6cZ3RgU2vK5NsCAV7QrHpfub2b5bg==
+X-Received: by 2002:a0d:cc0c:: with SMTP id o12mr4634893ywd.390.1570069083562;
+        Wed, 02 Oct 2019 19:18:03 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:aca:cc88:: with SMTP id c130ls735513oig.4.gmail; Wed, 02 Oct
- 2019 12:52:10 -0700 (PDT)
-X-Received: by 2002:aca:3c55:: with SMTP id j82mr4265200oia.135.1570045930736;
-        Wed, 02 Oct 2019 12:52:10 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1570045930; cv=none;
+Received: by 2002:a0d:d611:: with SMTP id y17ls187731ywd.13.gmail; Wed, 02 Oct
+ 2019 19:18:03 -0700 (PDT)
+X-Received: by 2002:a0d:c3c6:: with SMTP id f189mr5008766ywd.397.1570069083024;
+        Wed, 02 Oct 2019 19:18:03 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1570069083; cv=none;
         d=google.com; s=arc-20160816;
-        b=xy5YofqSQxq4YWibRhtEjs+gIXhCO4Ji3hwInf3UBQk2yuqw/WFbLF3dymiIs+TxJo
-         6y+FC3Z35blKw+z2WhW+cR20o4nvC1Hx8vMY+0AXIGkH4pFSKEj4yx0bY76pjEvF97hO
-         /4O7hC9fkJc67PvmnrOrRYCckkW2s2Zqq164SpE97HjXKAFeQywED8pNoXFBtEp+kQGX
-         6V9We9kWqn6XQX6191FBykE18PxYApoScqG2rL+MtxCcOXAnAYxtD1XzT//GalWu4n81
-         IegNcJ/w7yknePEkiBFZD0ctNu126lGAHAibFHbAjNHx4RrfA2vhk99vwdNLA0AnZfSo
-         JNvg==
+        b=AwOMexYBLl4RPhra/T1BzvfCROL7aaxwVpTWuVCNtYyei3hOy32Qa4ZdzHWRaUHMpp
+         yBCgcyhsC/F6f7jsQfexXzciDbnVJobM7/+fYs3DHn+/KkygKv1jcemTO/Pw1yooYLnW
+         2QNxSF3sWXCOd4uq5ZpWnCsBxGxDrnXr6M74k1VHe3cbU6V6iXyoNbnYl9RImR9KFOcs
+         3o/IjliveZjIr9vg/oAa/DlNRqOJZJ4GrABlhbsHJcU6lfvwjYNkojZrIFJQYQLG3kHC
+         kxKBr77vtON/3W/KOW+LUsR5WPVlgVblRmyrEB9FByjIA2HjC9nPOdNPsRf+z3Fz4Cxm
+         ulfw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=8UdMjUT2pdLGE8ndpyA/9BXAvjXXhiUaO/cTeSeGp6c=;
-        b=pExpswYwfltnurm0jo4PV4dNKJB6r2Mp3MLxftJSyZj29JSkuspdA86/omTuj9aq0I
-         a3Ql7mFr+hhltsAt5Ex9yiNg+rt/zE+lsyg4GpzcKAbAu0EtikrPcCejWUH6el3lVJfu
-         vU8tsM/fWS+CiZKqHQJEBOC+AzeVTViNPXAwryP6fufvAYkcUY1PrEun/z/fyA/4Z5sm
-         uOG4WL7SDfuEF+Lu7mDWFQbj2FiKiuntFteA89ZeQhEh+1WrOt4rgL151z161PRZA4L4
-         gKOY4njqAwL+owwB+CpRm16/69DGJ9e/V/L9PKxI6/dvPNdLfx+LohfXjw+VqBgfeZFY
-         nuvQ==
+        h=mime-version:content-transfer-encoding:references:in-reply-to:date
+         :cc:to:from:subject:message-id;
+        bh=0VwpYvHVy59r2j4yReWVIOlIoRqTsF+54N/p2JZqFzM=;
+        b=YcP6VA4mo9wOnvalnw3Iym5o+g+rtrKZXmIpcE2uTOkh9gfTGpZuydS329Ln4CXcKe
+         YpREPwNu0YEfMWKFGr2aOjFZgXDdh4MaWxuxj1+va3Gyw2Td/fKnnWfJm1PS7VsVZpDo
+         B+PnmhW1uSC1zxZlkOOccxzocW+N9ij/FxC3igFo95IyCbhDl5hMHsq8wOnMj5gMKDZE
+         c0Ji+/xMivtNOQYw6P9YRVgmoYErPfK0PwlapLa6GUSGhVDy07cO/ariIvM18MZLtZQs
+         GNHc4EsTH5l2DhSY+Zqz2jux1gZtzz2SStlYirx2o+wp79/V3LTq28oqJ4PjghJ4MZ9O
+         Ub/w==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=DbBnVOau;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::241 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com. [2607:f8b0:4864:20::241])
-        by gmr-mx.google.com with ESMTPS id v3si19130oth.4.2019.10.02.12.52.10
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 02 Oct 2019 12:52:10 -0700 (PDT)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::241 as permitted sender) client-ip=2607:f8b0:4864:20::241;
-Received: by mail-oi1-x241.google.com with SMTP id k9so456782oib.7
-        for <kasan-dev@googlegroups.com>; Wed, 02 Oct 2019 12:52:10 -0700 (PDT)
-X-Received: by 2002:a05:6808:13:: with SMTP id u19mr4279200oic.83.1570045929963;
- Wed, 02 Oct 2019 12:52:09 -0700 (PDT)
-MIME-Version: 1.0
-References: <CANpmjNPJ_bHjfLZCAPV23AXFfiPiyXXqqu72n6TgWzb2Gnu1eA@mail.gmail.com>
- <20191001211948.GA42035@google.com>
-In-Reply-To: <20191001211948.GA42035@google.com>
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Wed, 2 Oct 2019 21:51:58 +0200
-Message-ID: <CANpmjNNp=zVzM2iGcQwVYxzNHYjBo==_2nito4Dw=kHopy=0Sg@mail.gmail.com>
-Subject: Re: Kernel Concurrency Sanitizer (KCSAN)
-To: Joel Fernandes <joel@joelfernandes.org>
-Cc: kasan-dev <kasan-dev@googlegroups.com>, LKML <linux-kernel@vger.kernel.org>, 
-	Dmitry Vyukov <dvyukov@google.com>, Andrey Konovalov <andreyknvl@google.com>, 
-	Alexander Potapenko <glider@google.com>, "Paul E. McKenney" <paulmck@linux.ibm.com>, Paul Turner <pjt@google.com>, 
-	Daniel Axtens <dja@axtens.net>, Anatol Pomazau <anatol@google.com>, Will Deacon <willdeacon@google.com>, 
-	Andrea Parri <parri.andrea@gmail.com>, Alan Stern <stern@rowland.harvard.edu>, 
-	LKMM Maintainers -- Akira Yokosawa <akiyks@gmail.com>, Nicholas Piggin <npiggin@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
-	Daniel Lustig <dlustig@nvidia.com>, Jade Alglave <j.alglave@ucl.ac.uk>, 
-	Luc Maranget <luc.maranget@inria.fr>
+       spf=pass (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.184 as permitted sender) smtp.mailfrom=walter-zh.wu@mediatek.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
+Received: from mailgw02.mediatek.com ([210.61.82.184])
+        by gmr-mx.google.com with ESMTP id a1si54480ywh.3.2019.10.02.19.18.02
+        for <kasan-dev@googlegroups.com>;
+        Wed, 02 Oct 2019 19:18:02 -0700 (PDT)
+Received-SPF: pass (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.184 as permitted sender) client-ip=210.61.82.184;
+X-UUID: 6a934931ebee47a7b59356e638e1e5f6-20191003
+X-UUID: 6a934931ebee47a7b59356e638e1e5f6-20191003
+Received: from mtkcas08.mediatek.inc [(172.21.101.126)] by mailgw02.mediatek.com
+	(envelope-from <walter-zh.wu@mediatek.com>)
+	(Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
+	with ESMTP id 356317875; Thu, 03 Oct 2019 10:18:00 +0800
+Received: from mtkcas09.mediatek.inc (172.21.101.178) by
+ mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Thu, 3 Oct 2019 10:17:59 +0800
+Received: from [172.21.84.99] (172.21.84.99) by mtkcas09.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Thu, 3 Oct 2019 10:17:58 +0800
+Message-ID: <1570069078.19702.57.camel@mtksdccf07>
+Subject: Re: [PATCH] kasan: fix the missing underflow in memmove and memcpy
+ with CONFIG_KASAN_GENERIC=y
+From: Walter Wu <walter-zh.wu@mediatek.com>
+To: Dmitry Vyukov <dvyukov@google.com>
+CC: Andrey Ryabinin <aryabinin@virtuozzo.com>, Alexander Potapenko
+	<glider@google.com>, Matthias Brugger <matthias.bgg@gmail.com>, LKML
+	<linux-kernel@vger.kernel.org>, kasan-dev <kasan-dev@googlegroups.com>,
+	Linux-MM <linux-mm@kvack.org>, Linux ARM
+	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>,
+	wsd_upstream <wsd_upstream@mediatek.com>
+Date: Thu, 3 Oct 2019 10:17:58 +0800
+In-Reply-To: <CACT4Y+bbZhvz9ZpHtgL8rCCsV=ybU5jA6zFnJBL7gY2cNXDLyQ@mail.gmail.com>
+References: <20190927034338.15813-1-walter-zh.wu@mediatek.com>
+	 <CACT4Y+Zxz+R=qQxSMoipXoLjRqyApD3O0eYpK0nyrfGHE4NNPw@mail.gmail.com>
+	 <1569594142.9045.24.camel@mtksdccf07>
+	 <CACT4Y+YuAxhKtL7ho7jpVAPkjG-JcGyczMXmw8qae2iaZjTh_w@mail.gmail.com>
+	 <1569818173.17361.19.camel@mtksdccf07>
+	 <1570018513.19702.36.camel@mtksdccf07>
+	 <CACT4Y+bbZhvz9ZpHtgL8rCCsV=ybU5jA6zFnJBL7gY2cNXDLyQ@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=DbBnVOau;       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::241 as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+X-Mailer: Evolution 3.2.3-0ubuntu6
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MTK: N
+X-Original-Sender: walter-zh.wu@mediatek.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.184 as
+ permitted sender) smtp.mailfrom=walter-zh.wu@mediatek.com;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -136,73 +147,271 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hi Joel,
+On Wed, 2019-10-02 at 15:57 +0200, Dmitry Vyukov wrote:
+> On Wed, Oct 2, 2019 at 2:15 PM Walter Wu <walter-zh.wu@mediatek.com> wrot=
+e:
+> >
+> > On Mon, 2019-09-30 at 12:36 +0800, Walter Wu wrote:
+> > > On Fri, 2019-09-27 at 21:41 +0200, Dmitry Vyukov wrote:
+> > > > On Fri, Sep 27, 2019 at 4:22 PM Walter Wu <walter-zh.wu@mediatek.co=
+m> wrote:
+> > > > >
+> > > > > On Fri, 2019-09-27 at 15:07 +0200, Dmitry Vyukov wrote:
+> > > > > > On Fri, Sep 27, 2019 at 5:43 AM Walter Wu <walter-zh.wu@mediate=
+k.com> wrote:
+> > > > > > >
+> > > > > > > memmove() and memcpy() have missing underflow issues.
+> > > > > > > When -7 <=3D size < 0, then KASAN will miss to catch the unde=
+rflow issue.
+> > > > > > > It looks like shadow start address and shadow end address is =
+the same,
+> > > > > > > so it does not actually check anything.
+> > > > > > >
+> > > > > > > The following test is indeed not caught by KASAN:
+> > > > > > >
+> > > > > > >         char *p =3D kmalloc(64, GFP_KERNEL);
+> > > > > > >         memset((char *)p, 0, 64);
+> > > > > > >         memmove((char *)p, (char *)p + 4, -2);
+> > > > > > >         kfree((char*)p);
+> > > > > > >
+> > > > > > > It should be checked here:
+> > > > > > >
+> > > > > > > void *memmove(void *dest, const void *src, size_t len)
+> > > > > > > {
+> > > > > > >         check_memory_region((unsigned long)src, len, false, _=
+RET_IP_);
+> > > > > > >         check_memory_region((unsigned long)dest, len, true, _=
+RET_IP_);
+> > > > > > >
+> > > > > > >         return __memmove(dest, src, len);
+> > > > > > > }
+> > > > > > >
+> > > > > > > We fix the shadow end address which is calculated, then gener=
+ic KASAN
+> > > > > > > get the right shadow end address and detect this underflow is=
+sue.
+> > > > > > >
+> > > > > > > [1] https://bugzilla.kernel.org/show_bug.cgi?id=3D199341
+> > > > > > >
+> > > > > > > Signed-off-by: Walter Wu <walter-zh.wu@mediatek.com>
+> > > > > > > Reported-by: Dmitry Vyukov <dvyukov@google.com>
+> > > > > > > ---
+> > > > > > >  lib/test_kasan.c   | 36 ++++++++++++++++++++++++++++++++++++
+> > > > > > >  mm/kasan/generic.c |  8 ++++++--
+> > > > > > >  2 files changed, 42 insertions(+), 2 deletions(-)
+> > > > > > >
+> > > > > > > diff --git a/lib/test_kasan.c b/lib/test_kasan.c
+> > > > > > > index b63b367a94e8..8bd014852556 100644
+> > > > > > > --- a/lib/test_kasan.c
+> > > > > > > +++ b/lib/test_kasan.c
+> > > > > > > @@ -280,6 +280,40 @@ static noinline void __init kmalloc_oob_=
+in_memset(void)
+> > > > > > >         kfree(ptr);
+> > > > > > >  }
+> > > > > > >
+> > > > > > > +static noinline void __init kmalloc_oob_in_memmove_underflow=
+(void)
+> > > > > > > +{
+> > > > > > > +       char *ptr;
+> > > > > > > +       size_t size =3D 64;
+> > > > > > > +
+> > > > > > > +       pr_info("underflow out-of-bounds in memmove\n");
+> > > > > > > +       ptr =3D kmalloc(size, GFP_KERNEL);
+> > > > > > > +       if (!ptr) {
+> > > > > > > +               pr_err("Allocation failed\n");
+> > > > > > > +               return;
+> > > > > > > +       }
+> > > > > > > +
+> > > > > > > +       memset((char *)ptr, 0, 64);
+> > > > > > > +       memmove((char *)ptr, (char *)ptr + 4, -2);
+> > > > > > > +       kfree(ptr);
+> > > > > > > +}
+> > > > > > > +
+> > > > > > > +static noinline void __init kmalloc_oob_in_memmove_overflow(=
+void)
+> > > > > > > +{
+> > > > > > > +       char *ptr;
+> > > > > > > +       size_t size =3D 64;
+> > > > > > > +
+> > > > > > > +       pr_info("overflow out-of-bounds in memmove\n");
+> > > > > > > +       ptr =3D kmalloc(size, GFP_KERNEL);
+> > > > > > > +       if (!ptr) {
+> > > > > > > +               pr_err("Allocation failed\n");
+> > > > > > > +               return;
+> > > > > > > +       }
+> > > > > > > +
+> > > > > > > +       memset((char *)ptr, 0, 64);
+> > > > > > > +       memmove((char *)ptr + size, (char *)ptr, 2);
+> > > > > > > +       kfree(ptr);
+> > > > > > > +}
+> > > > > > > +
+> > > > > > >  static noinline void __init kmalloc_uaf(void)
+> > > > > > >  {
+> > > > > > >         char *ptr;
+> > > > > > > @@ -734,6 +768,8 @@ static int __init kmalloc_tests_init(void=
+)
+> > > > > > >         kmalloc_oob_memset_4();
+> > > > > > >         kmalloc_oob_memset_8();
+> > > > > > >         kmalloc_oob_memset_16();
+> > > > > > > +       kmalloc_oob_in_memmove_underflow();
+> > > > > > > +       kmalloc_oob_in_memmove_overflow();
+> > > > > > >         kmalloc_uaf();
+> > > > > > >         kmalloc_uaf_memset();
+> > > > > > >         kmalloc_uaf2();
+> > > > > > > diff --git a/mm/kasan/generic.c b/mm/kasan/generic.c
+> > > > > > > index 616f9dd82d12..34ca23d59e67 100644
+> > > > > > > --- a/mm/kasan/generic.c
+> > > > > > > +++ b/mm/kasan/generic.c
+> > > > > > > @@ -131,9 +131,13 @@ static __always_inline bool memory_is_po=
+isoned_n(unsigned long addr,
+> > > > > > >                                                 size_t size)
+> > > > > > >  {
+> > > > > > >         unsigned long ret;
+> > > > > > > +       void *shadow_start =3D kasan_mem_to_shadow((void *)ad=
+dr);
+> > > > > > > +       void *shadow_end =3D kasan_mem_to_shadow((void *)addr=
+ + size - 1) + 1;
+> > > > > > >
+> > > > > > > -       ret =3D memory_is_nonzero(kasan_mem_to_shadow((void *=
+)addr),
+> > > > > > > -                       kasan_mem_to_shadow((void *)addr + si=
+ze - 1) + 1);
+> > > > > > > +       if ((long)size < 0)
+> > > > > > > +               shadow_end =3D kasan_mem_to_shadow((void *)ad=
+dr + size);
+> > > > > >
+> > > > > > Hi Walter,
+> > > > > >
+> > > > > > Thanks for working on this.
+> > > > > >
+> > > > > > If size<0, does it make sense to continue at all? We will still=
+ check
+> > > > > > 1PB of shadow memory? What happens when we pass such huge range=
+ to
+> > > > > > memory_is_nonzero?
+> > > > > > Perhaps it's better to produce an error and bail out immediatel=
+y if size<0?
+> > > > >
+> > > > > I agree with what you said. when size<0, it is indeed an unreason=
+able
+> > > > > behavior, it should be blocked from continuing to do.
+> > > > >
+> > > > >
+> > > > > > Also, what's the failure mode of the tests? Didn't they badly c=
+orrupt
+> > > > > > memory? We tried to keep tests such that they produce the KASAN
+> > > > > > reports, but don't badly corrupt memory b/c/ we need to run all=
+ of
+> > > > > > them.
+> > > > >
+> > > > > Maybe we should first produce KASAN reports and then go to execut=
+e
+> > > > > memmove() or do nothing? It looks like it=E2=80=99s doing the fol=
+lowing.or?
+> > > > >
+> > > > > void *memmove(void *dest, const void *src, size_t len)
+> > > > >  {
+> > > > > +       if (long(len) <=3D 0)
+> > > >
+> > > > /\/\/\/\/\/\
+> > > >
+> > > > This check needs to be inside of check_memory_region, otherwise we
+> > > > will have similar problems in all other places that use
+> > > > check_memory_region.
+> > > Thanks for your reminder.
+> > >
+> > >  bool check_memory_region(unsigned long addr, size_t size, bool write=
+,
+> > >                                 unsigned long ret_ip)
+> > >  {
+> > > +       if (long(size) < 0) {
+> > > +               kasan_report_invalid_size(src, dest, len, _RET_IP_);
+> > > +               return false;
+> > > +       }
+> > > +
+> > >         return check_memory_region_inline(addr, size, write, ret_ip);
+> > >  }
+> > >
+> > > > But check_memory_region already returns a bool, so we could check t=
+hat
+> > > > bool and return early.
+> > >
+> > > When size<0, we should only show one KASAN report, and should we only
+> > > limit to return when size<0 is true? If yse, then __memmove() will do
+> > > nothing.
+> > >
+> > >
+> > >  void *memmove(void *dest, const void *src, size_t len)
+> > >  {
+> > > -       check_memory_region((unsigned long)src, len, false, _RET_IP_)=
+;
+> > > +       if(!check_memory_region((unsigned long)src, len, false,
+> > > _RET_IP_)
+> > > +               && long(size) < 0)
+> > > +               return;
+> > > +
+> > >         check_memory_region((unsigned long)dest, len, true, _RET_IP_)=
+;
+> > >
+> > >         return __memmove(dest, src, len);
+> > >
+> > > >
+> > Hi Dmitry,
+> >
+> > What do you think the following code is better than the above one.
+> > In memmmove/memset/memcpy, they need to determine whether size < 0 is
+> > true. we directly determine whether size is negative in memmove and
+> > return early. it avoid to generate repeated KASAN report. Is it better?
+> >
+> > void *memmove(void *dest, const void *src, size_t len)
+> > {
+> > +       if (long(size) < 0) {
+> > +               kasan_report_invalid_size(src, dest, len, _RET_IP_);
+> > +               return;
+> > +       }
+> > +
+> >         check_memory_region((unsigned long)src, len, false, _RET_IP_);
+> >         check_memory_region((unsigned long)dest, len, true, _RET_IP_);
+> >
+> >
+> > check_memory_region() still has to check whether the size is negative.
+> > but memmove/memset/memcpy generate invalid size KASAN report will not b=
+e
+> > there.
+>=20
+>=20
+> If check_memory_region() will do the check, why do we need to
+> duplicate it inside of memmove and all other range functions?
+>=20
+Yes, I know it has duplication, but if we don't have to determine size<0
+in memmove, then all check_memory_region return false will do nothing,
+it includes other memory corruption behaviors, this is my original
+concern.=20
 
-On Tue, 1 Oct 2019 at 23:19, Joel Fernandes <joel@joelfernandes.org> wrote:
->
-> On Fri, Sep 20, 2019 at 04:18:57PM +0200, Marco Elver wrote:
-> > Hi all,
-> >
-> > We would like to share a new data-race detector for the Linux kernel:
-> > Kernel Concurrency Sanitizer (KCSAN) --
-> > https://github.com/google/ktsan/wiki/KCSAN  (Details:
-> > https://github.com/google/ktsan/blob/kcsan/Documentation/dev-tools/kcsan.rst)
-> >
-> > To those of you who we mentioned at LPC that we're working on a
-> > watchpoint-based KTSAN inspired by DataCollider [1], this is it (we
-> > renamed it to KCSAN to avoid confusion with KTSAN).
-> > [1] http://usenix.org/legacy/events/osdi10/tech/full_papers/Erickson.pdf
-> >
-> > In the coming weeks we're planning to:
-> > * Set up a syzkaller instance.
-> > * Share the dashboard so that you can see the races that are found.
-> > * Attempt to send fixes for some races upstream (if you find that the
-> > kcsan-with-fixes branch contains an important fix, please feel free to
-> > point it out and we'll prioritize that).
-> >
-> > There are a few open questions:
-> > * The big one: most of the reported races are due to unmarked
-> > accesses; prioritization or pruning of races to focus initial efforts
-> > to fix races might be required. Comments on how best to proceed are
-> > welcome. We're aware that these are issues that have recently received
-> > attention in the context of the LKMM
-> > (https://lwn.net/Articles/793253/).
-> > * How/when to upstream KCSAN?
->
-> Looks exciting. I think based on our discussion at LPC, you mentioned
-> one way of pruning is if the compiler generated different code with _ONCE
-> annotations than what would have otherwise been generated. Is that still on
-> the table, for the purposing of pruning the reports?
+> I would do:
+>=20
+> void *memmove(void *dest, const void *src, size_t len)
+> {
+>         if (check_memory_region((unsigned long)src, len, false, _RET_IP_)=
+)
+>                 return;
+if check_memory_region return TRUE is to do nothing, but it is no memory
+corruption? Should it return early when check_memory_region return a
+FALSE?
 
-This might be interesting at first, but it's not entirely clear how
-feasible it is. It's also dangerous, because the real issue would be
-ignored. It may be that one compiler version on a particular
-architecture generates the same code, but any change in compiler or
-architecture and this would no longer be true. Let me know if you have
-any more ideas.
+>=20
+> This avoids duplicating the check, adds minimal amount of code to
+> range functions and avoids adding kasan_report_invalid_size.
+Thanks for your suggestion.
+We originally want to show complete information(destination address,
+source address, and its length), but add minimal amount of code into
+kasan_report(), it should be good.
 
-Best,
--- Marco
 
-> Also appreciate a CC on future patches as well.
->
-> thanks,
->
->  - Joel
->
->
-> >
-> > Feel free to test and send feedback.
-> >
-> > Thanks,
-> > -- Marco
->
-> --
-> You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20191001211948.GA42035%40google.com.
-
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNNp%3DzVzM2iGcQwVYxzNHYjBo%3D%3D_2nito4Dw%3DkHopy%3D0Sg%40mail.gmail.com.
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/1570069078.19702.57.camel%40mtksdccf07.
