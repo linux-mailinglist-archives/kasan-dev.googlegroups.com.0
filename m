@@ -1,130 +1,150 @@
-Return-Path: <kasan-dev+bncBC24VNFHTMIBBC5I5HWAKGQEDX7LIZA@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBFO75LWAKGQEC7TEJSY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-io1-xd3f.google.com (mail-io1-xd3f.google.com [IPv6:2607:f8b0:4864:20::d3f])
-	by mail.lfdr.de (Postfix) with ESMTPS id C434BCD942
-	for <lists+kasan-dev@lfdr.de>; Sun,  6 Oct 2019 22:52:28 +0200 (CEST)
-Received: by mail-io1-xd3f.google.com with SMTP id g15sf23742476ioc.0
-        for <lists+kasan-dev@lfdr.de>; Sun, 06 Oct 2019 13:52:28 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1570395147; cv=pass;
+Received: from mail-pf1-x43e.google.com (mail-pf1-x43e.google.com [IPv6:2607:f8b0:4864:20::43e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EAD1CDA9D
+	for <lists+kasan-dev@lfdr.de>; Mon,  7 Oct 2019 05:23:03 +0200 (CEST)
+Received: by mail-pf1-x43e.google.com with SMTP id q127sf9965675pfc.17
+        for <lists+kasan-dev@lfdr.de>; Sun, 06 Oct 2019 20:23:03 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1570418582; cv=pass;
         d=google.com; s=arc-20160816;
-        b=CKWiAK6CLazNvaF7w8qHKOHBQKc5Z/LubjwBvuQwJ0SESQ4Ft8RAr5gWnl5ooZzKfK
-         2zgTmfqlwFPSem8uzeGRV3wo0MlV6B6oc8MlWYj3UGqvg0esYWyTa+hK2swB9BI9FVKl
-         20ubrwZN69mAgB3a9GVdZ/0OIqlkEJLfK+liPidoMGo7upU1N+nhwsHj9brH7kDeF0rh
-         MS/TCiUtlyzt/QNtvjnA90/wUzNHC55KQb18aA+DCp6FbTSPxhTqXl3B3x1mwiQKsUAl
-         3sXF3X8uvB9gqLvp8WwbYCeJYRa9UQ5pnIfB8CnWoUkU01rUACaSVhfhWyGCdwk4py5f
-         6AZg==
+        b=JHBdpSVm6VOAl+3y/+4DON4FCV7l1k8CPHWvKz+cx6TAKjCIUq9/aHOhW6ar32ya9V
+         oT4IkvZauhzlHYuE4n54yCP+0IgNaQig5AChnppCDCvdknwLYqM4o9Es4kgzRG2KS0/U
+         +Avub7V80A3yj2yHyFApN3fqXzts90KkDM/1CLVfq5cswYDBu+x0RbjHtU6XutWZuziS
+         8PfFLynQSiH3AEWMzClLDk4ey5WuUodcvJqXDSDsLl9u6dKrIz1vclixEbmSL7/rL3IW
+         uiEdyflObJ+SFX7PE5dVZzz0UfZ63JQFB4n5ePw2rFmH0FWvxphCQ2DKMO2a0SYHSdAJ
+         CTcg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:auto-submitted
-         :references:in-reply-to:message-id:date:subject:to:from:sender
-         :dkim-signature;
-        bh=AHRaBzNz4Gx7Q2nfd9c3iPOoN/vc+tGjIHndNtax16w=;
-        b=kHjqT71LovEptVyTK7mMckyF7WW666fztllLpKrkYRsr0HqQOQNFeZGl7zwQSrCvqZ
-         Up/hZrXG/V2laJRWQPROQBu/P3i5ywY4tqYm4Zrq7UfEZ3yEnRVGTJ9fI7gvaz0FKnss
-         2g5A8JYioG1QpSby9i4/5qqSoA1W1MTQwRtitiR9SNc3SjdByPNHtiIFxvl3rGM7iPVz
-         xtMnnkLwm/SzkZkFmmG11DHRoS85RSzSesgpzuQUPYhzPUfjqm9+Xvye2Dc1N/7K0beN
-         3Cx3Z+HUJ1HwhPbTcDfskp6i1jyQmKmDkCd7gpOrb4DUcsThVkZDoxHSE7af1qQygB5z
-         10NA==
+         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
+         :date:cc:to:from:subject:message-id:sender:dkim-signature;
+        bh=o8bP1RWQ1UmVkLPPcrOiGSR94L+RqRU8HXzoux7j4MU=;
+        b=k6EqBdqYAn3DlK3DtEfuKaPaPwYmC8dOSMZZMEvXn4IgVO7hDltAZiCH7it4Jb7RNj
+         JV5fK/tA0iUjmGnlPmGRHkSa/HC+4e4epeiJf2DYDMQBchY9hD2xG5AN2Y/Qz3m9K5Fe
+         I4SyjLZsME3qDsa0mPZMvqYx2500DEQJ43RqXwB0l2ck3mipiSntBZUYVHL2rE2t/zTB
+         dset1+aBle9WpAjEomwWF+DpasnSMA3ZaUojaU151WDna65sviRHoMEK1mV2xV+0tYKR
+         qlbfqrUD778cAnh7/G7bH5bG5DlhVYe40BrOpoeDZtZgMWWDzaNQsJ0uvEDOh0dwBfhs
+         kYag==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of srs0=26xn=x7=bugzilla.kernel.org=bugzilla-daemon@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=26xN=X7=bugzilla.kernel.org=bugzilla-daemon@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       spf=pass (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.183 as permitted sender) smtp.mailfrom=walter-zh.wu@mediatek.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:from:to:subject:date:message-id:in-reply-to:references
-         :auto-submitted:mime-version:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=AHRaBzNz4Gx7Q2nfd9c3iPOoN/vc+tGjIHndNtax16w=;
-        b=AeCDcmIoISXzngP6JeFsK73opyAbEfww1fLcyvXEXQQAeq8Nvz9svLCx/OH1MVOkdc
-         gmCZKGc2ujK7zu5WjxVx+FRsXudrmpzcdbz6Tsi61MYoOY2iOKshVYzpwwknTzyJfi2c
-         06Tx9dZRZW4opLSK+2iUxvhgWXWsGRYZeFTa1nSWpF4n+Mx/wprkbObi2u127X54XqzV
-         wTJedooz18Q5yGS4ixJLFuip0egbiCpyhsitso6UzyeZVq4D9mE5tphyTJ0FOk9pA7ca
-         4u2kMby+lyqtDQZdYTO+EtcJtEu3nhqJ2Cng7hDpue1Q3DmQjcvTTfrOIEQYJhFm7NLQ
-         sGjg==
+        h=sender:message-id:subject:from:to:cc:date:in-reply-to:references
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=o8bP1RWQ1UmVkLPPcrOiGSR94L+RqRU8HXzoux7j4MU=;
+        b=E1Mmqj/e28jTD5I6g10oUbMwgDCP+q2t8Rx+mReOtT64IMitQlvRsUv/sWNAZlGTst
+         sjqgSY0FtWorhkosUbqRZqLFU0yStbeaIGBFUNSw6PfwBYbu3TjYIsiUWQ8ANWn8I15W
+         z57vIL4YWLvTSahMOawyRRJxrOSB2UzL9SN5pXq9jMX+x7Fg0Mpk4w6qur5cZp9bg//A
+         rj1IboYJmQtVCkskR6xSkPWu/4VGXbQfUjZVt6xVgP+3vEJdUz1pYfGE4Thdh9LjDvWO
+         7OxaXc8y/cEa7SI4yUh7wherHwDPEW+i0PkZqTr1ClIbgeW5VaPPci96dXX+alKNH6dg
+         eLPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:from:to:subject:date:message-id
-         :in-reply-to:references:auto-submitted:mime-version
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=AHRaBzNz4Gx7Q2nfd9c3iPOoN/vc+tGjIHndNtax16w=;
-        b=SQe82jbcYqXIu0A1Yh7TGwk6LiLfMBlRQZ6q4b1bsj+fetoyQZ8c7ikkAKM+4Vc33c
-         dLhmNlkQL1bzHHancqdDLZd51pR2cnalVmvJH6lcEDhZHeI02cZJxVHzFj1eNQT8u7gI
-         zYevfdICkuB0gLSq4rmzv3z8G3FlG2SMFzvtEZTf9PTEolsCiqJNPYOkL2IKYv4A1GMg
-         jDaOBEmuWrbKZx2YgH0KH7zS/oa1kmniR9TCyidaWhJ6L6jDWeLm7Z+BqwmY6Sx/stNe
-         yvTS03PPvCojrtrCWIB4cQDRe4/1SLFMH3nc1JQsfJTPPmJ51FQ6srQqrcv3fVY8ZFLj
-         x5Dw==
+        h=sender:x-gm-message-state:message-id:subject:from:to:cc:date
+         :in-reply-to:references:mime-version:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=o8bP1RWQ1UmVkLPPcrOiGSR94L+RqRU8HXzoux7j4MU=;
+        b=JGpZj84Cc9vGTD7up1TtK0cSwmK1lj5b1yuwLb31rLcQ+d3NmBWK+6lEJi0rdJgPLI
+         6OBGUdltpX7sOcamz8sTU8NidUZ6XyZaR1UMXwnWwUVpPlFdbzYxbRd/9ybz2qdJLy1/
+         uqDXDvIwFMH8xAjlyJpqK57BiYwEuTI+dzJxWvoCkIyGVFXMc3zcf3lmB8tXIZPfaIKh
+         Sgbsejw8LtOlhzz1LIiRjzp7ajVgWBw+aHzczy4g4QtU4vCxBHLXfV+GVUF45/qJ6EkE
+         eMoVdI3I6B0hny0d5xKlYgMvX4K0+lIErqowurzvNEdmuEOXrSpjrpPBeXPtmRXVKumv
+         pFyg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAWAsWeB9LtaROrA03ONSYW4iWO1z/uWYsmUb7wsH6QjCQMY/wAu
-	+5Lgv2PF0oGycJ9eTaSebGQ=
-X-Google-Smtp-Source: APXvYqyybXJfOtI/jjcwIlwX/qHcBCEte19HbCBnmDJAkAlrFV0NPL02GlHBaiBHyLY01WKYj187sQ==
-X-Received: by 2002:a92:ba90:: with SMTP id t16mr27681648ill.19.1570395147783;
-        Sun, 06 Oct 2019 13:52:27 -0700 (PDT)
+X-Gm-Message-State: APjAAAVt8FRFuDsUvz3JKXZfotfzrqFh0zCEsEatqjZK0usoNeKwSRRr
+	9dEcNbebezW8X9PR11GRpKg=
+X-Google-Smtp-Source: APXvYqzl/KZ2bGJd8+qSzxoC9pDyncacmLrJPVvXeGdHeSKkYZ/W/UqmVm3r1k4SzCVrZBs1UFd9Rg==
+X-Received: by 2002:aa7:9494:: with SMTP id z20mr31068841pfk.112.1570418581787;
+        Sun, 06 Oct 2019 20:23:01 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a5d:9145:: with SMTP id y5ls3074488ioq.11.gmail; Sun, 06 Oct
- 2019 13:52:27 -0700 (PDT)
-X-Received: by 2002:a5e:de01:: with SMTP id e1mr21588360iok.195.1570395147470;
-        Sun, 06 Oct 2019 13:52:27 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1570395147; cv=none;
+Received: by 2002:a17:90a:24f:: with SMTP id t15ls2713000pje.1.canary-gmail;
+ Sun, 06 Oct 2019 20:23:01 -0700 (PDT)
+X-Received: by 2002:a17:902:2e:: with SMTP id 43mr27833469pla.268.1570418581542;
+        Sun, 06 Oct 2019 20:23:01 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1570418581; cv=none;
         d=google.com; s=arc-20160816;
-        b=X4/8D/8IiOicnTx4l2oYXDaz45cZRgfhFxZO5GmLa5oitwGlrb9G8luCfUBx6lz2Sy
-         k9AkDCaHJNt/rUjzDnrKzE5WP+DA6a6XLp6y3wJPfbVn7GLf2LTEJWpyqWjLg3lnf2Ws
-         YGffxqzf8M2H2uuo7iSz4IcfByBPm+5kkiTvwNF9pLDdEMtnjj82nfWf8nx237EYFuaL
-         Yp40Y5KWVxtJRY5iR5TQ8EBAoai0L63G98l/N897AAoTNo+H3XYx39w0eIns/7maZpf4
-         YWT7EXjaxCohEL55grl3wWDmnuc2MUBOH2LbZhtHDInKBe+sCk0tUBodmfYsGhyK77A6
-         o8Yg==
+        b=K4aoLioGIpQs7NH365Mnj8i7F390EC0T8SmLWCN60fcYDYoh1CgQoID4jfSSSmBEXM
+         crWUZllzrKpgi5w6NYxaLBioYvzIyCXAnMyABtZyf6l1LCGvKxmURYRGzBwu6E3fBsmo
+         rMDLqkMcM1tN59HqSiD0+xJXXcnEhOmhgq6HOlK642CJMWt17zc5hEexeeQY+958WNL1
+         77Zp8Vbr3uHgsPjROeH1o5q90bSymydE81nDBlLwBt02adO3INy41Jdv198+8CCzH541
+         TRj7FqXS0UlrMdcnHM72jfWt90jJNiC8jy72Hzc6xEvkwzAHFLU7QJc+MIIhDclf6GX1
+         2OOw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=mime-version:auto-submitted:content-transfer-encoding:references
-         :in-reply-to:message-id:date:subject:to:from;
-        bh=OpV2jCCn9+9EXsK0yjc9mXTtbYzvOEnzvXELPJVokgU=;
-        b=qQu0yIsArNREagws+5o115Oha4lzw71V2DKs1pmJm6uNA90BlNEbXeqKPf7O4kxW/8
-         Cuv/QhIbKxzh0WyqzTThXEZv4bqzxwoL/VfL3tT5GZwmKAoP6X/s9+lUYYlb7ra1Lstq
-         dcqEjrJP5filr51tOPUjMmKrJ1mDcye9nKeVdEBmjNt+W61FneW2Zbk81UO9JkLyizKM
-         qHfdLCWEgt8qRUUcMN5CnwNAzr4Scx0gGmRni3mv2LxTuFm3MWIpvNEFRzqbxoCTWXI6
-         yb2633TGosHiTWPtxKlTmmSBV6eJPDPGzAFlxUzF+NzDwqkuKqblkfDiMtC26SJmtDCz
-         D4SQ==
+        h=mime-version:content-transfer-encoding:references:in-reply-to:date
+         :cc:to:from:subject:message-id;
+        bh=vIf2IovS/4c8jXSBUnGMMP0P1hdH6afoW0yR14HC4kk=;
+        b=lbQbebMOOXYJXh9xsfsUOYmBrYSAr8xQiS2K1fJThhcfVzy3TBHVGq9SfeX3EloSRi
+         WrCL/sRtSlRlrdA3HSmyTo/c9EvcmhrJ1jxyFybFDV1QuRMiNjph3JjxVqTlz2+9NJJ5
+         GW5GmcObOkunWJP2Hj+biY01WvKEbA7P87pueei6dzhquEFz+UJD7LgNlKCtrhTLYghd
+         jv2Bnu1tH1XbqKOi+rUv/Xz3XGQWeJ2XiPC2bP3Zri+siaq+gdFRbc8sFqUhck9xG2kH
+         lewVngDYgU+yoiQpxA+mPC83isA7oV1VG+gdXXmUpOVDnaSx1H7LVj+GpVf6zgbIPNhV
+         g0KQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of srs0=26xn=x7=bugzilla.kernel.org=bugzilla-daemon@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=26xN=X7=bugzilla.kernel.org=bugzilla-daemon@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id b2si844797ilf.5.2019.10.06.13.52.27
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 06 Oct 2019 13:52:27 -0700 (PDT)
-Received-SPF: pass (google.com: domain of srs0=26xn=x7=bugzilla.kernel.org=bugzilla-daemon@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
-From: bugzilla-daemon@bugzilla.kernel.org
-To: kasan-dev@googlegroups.com
-Subject: [Bug 204479] KASAN hit at modprobe zram
-Date: Sun, 06 Oct 2019 20:52:26 +0000
-X-Bugzilla-Reason: CC
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Flash/Memory Technology Devices
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: erhard_f@mailbox.org
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: CODE_FIX
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: dwmw2@infradead.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-204479-199747-rm8vY4C547@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-204479-199747@https.bugzilla.kernel.org/>
-References: <bug-204479-199747@https.bugzilla.kernel.org/>
+       spf=pass (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.183 as permitted sender) smtp.mailfrom=walter-zh.wu@mediatek.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
+Received: from mailgw01.mediatek.com ([210.61.82.183])
+        by gmr-mx.google.com with ESMTP id p9si501821pjo.0.2019.10.06.20.23.01
+        for <kasan-dev@googlegroups.com>;
+        Sun, 06 Oct 2019 20:23:01 -0700 (PDT)
+Received-SPF: pass (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.183 as permitted sender) client-ip=210.61.82.183;
+X-UUID: db22c50fed0049b8908838c70e04a5d9-20191007
+X-UUID: db22c50fed0049b8908838c70e04a5d9-20191007
+Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by mailgw01.mediatek.com
+	(envelope-from <walter-zh.wu@mediatek.com>)
+	(Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
+	with ESMTP id 488879034; Mon, 07 Oct 2019 11:22:57 +0800
+Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
+ mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Mon, 7 Oct 2019 11:22:49 +0800
+Received: from [172.21.84.99] (172.21.84.99) by MTKCAS06.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Mon, 7 Oct 2019 11:22:55 +0800
+Message-ID: <1570418576.4686.30.camel@mtksdccf07>
+Subject: Re: [PATCH] kasan: fix the missing underflow in memmove and memcpy
+ with CONFIG_KASAN_GENERIC=y
+From: Walter Wu <walter-zh.wu@mediatek.com>
+To: Dmitry Vyukov <dvyukov@google.com>
+CC: Andrey Ryabinin <aryabinin@virtuozzo.com>, Alexander Potapenko
+	<glider@google.com>, Matthias Brugger <matthias.bgg@gmail.com>, LKML
+	<linux-kernel@vger.kernel.org>, kasan-dev <kasan-dev@googlegroups.com>,
+	Linux-MM <linux-mm@kvack.org>, Linux ARM
+	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>,
+	wsd_upstream <wsd_upstream@mediatek.com>
+Date: Mon, 7 Oct 2019 11:22:56 +0800
+In-Reply-To: <CACT4Y+YbkjuW3_WQJ4BB8YHWvxgHJyZYxFbDJpnPzfTMxYs60g@mail.gmail.com>
+References: <20190927034338.15813-1-walter-zh.wu@mediatek.com>
+	 <CACT4Y+Zxz+R=qQxSMoipXoLjRqyApD3O0eYpK0nyrfGHE4NNPw@mail.gmail.com>
+	 <1569594142.9045.24.camel@mtksdccf07>
+	 <CACT4Y+YuAxhKtL7ho7jpVAPkjG-JcGyczMXmw8qae2iaZjTh_w@mail.gmail.com>
+	 <1569818173.17361.19.camel@mtksdccf07>
+	 <1570018513.19702.36.camel@mtksdccf07>
+	 <CACT4Y+bbZhvz9ZpHtgL8rCCsV=ybU5jA6zFnJBL7gY2cNXDLyQ@mail.gmail.com>
+	 <1570069078.19702.57.camel@mtksdccf07>
+	 <CACT4Y+ZwNv2-QBrvuR2JvemovmKPQ9Ggrr=ZkdTg6xy_Ki6UAg@mail.gmail.com>
+	 <1570095525.19702.59.camel@mtksdccf07>
+	 <1570110681.19702.64.camel@mtksdccf07>
+	 <CACT4Y+aKrC8mtcDTVhM-So-TTLjOyFCD7r6jryWFH6i2he1WJA@mail.gmail.com>
+	 <1570164140.19702.97.camel@mtksdccf07>
+	 <1570176131.19702.105.camel@mtksdccf07>
+	 <CACT4Y+ZvhomaeXFKr4za6MJi=fW2SpPaCFP=fk06CMRhNcmFvQ@mail.gmail.com>
+	 <1570182257.19702.109.camel@mtksdccf07>
+	 <CACT4Y+ZnWPEO-9DkE6C3MX-Wo+8pdS6Gr6-2a8LzqBS=2fe84w@mail.gmail.com>
+	 <1570190718.19702.125.camel@mtksdccf07>
+	 <CACT4Y+YbkjuW3_WQJ4BB8YHWvxgHJyZYxFbDJpnPzfTMxYs60g@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+X-Mailer: Evolution 3.2.3-0ubuntu6
 MIME-Version: 1.0
-X-Original-Sender: bugzilla-daemon@bugzilla.kernel.org
+X-MTK: N
+X-Original-Sender: walter-zh.wu@mediatek.com
 X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of srs0=26xn=x7=bugzilla.kernel.org=bugzilla-daemon@kernel.org
- designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=26xN=X7=bugzilla.kernel.org=bugzilla-daemon@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+ (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.183 as
+ permitted sender) smtp.mailfrom=walter-zh.wu@mediatek.com;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -137,27 +157,279 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=204479
+On Fri, 2019-10-04 at 15:52 +0200, Dmitry Vyukov wrote:
+> On Fri, Oct 4, 2019 at 2:05 PM Walter Wu <walter-zh.wu@mediatek.com> wrote:
+> >
+> > On Fri, 2019-10-04 at 11:54 +0200, Dmitry Vyukov wrote:
+> > > > > "out-of-bounds" is the _least_ frequent KASAN bug type. So saying
+> > > > > "out-of-bounds" has downsides of both approaches and won't prevent
+> > > > > duplicate reports by syzbot...
+> > > > >
+> > > > maybe i should add your comment into the comment in get_bug_type?
+> > >
+> > > Yes, that's exactly what I meant above:
+> > >
+> > > "I would change get_bug_type() to return "slab-out-of-bounds" (as the
+> > > most common OOB) in such case (with a comment)."
+> > >
+> > >  ;)
+> >
+> >
+> > The patchset help to produce KASAN report when size is negative size in
+> > memory operation function. It is helpful for programmer to solve the
+> > undefined behavior issue. Patch 1 based on Dmitry's suggestion and
+> > review, patch 2 is a test in order to verify the patch 1.
+> >
+> > [1]https://bugzilla.kernel.org/show_bug.cgi?id=199341
+> > [2]https://lore.kernel.org/linux-arm-kernel/20190927034338.15813-1-walter-zh.wu@mediatek.com/
+> >
+> > Walter Wu (2):
+> > kasan: detect invalid size in memory operation function
+> > kasan: add test for invalid size in memmove
+> >
+> > lib/test_kasan.c          | 18 ++++++++++++++++++
+> > mm/kasan/common.c         | 13 ++++++++-----
+> > mm/kasan/generic.c        |  5 +++++
+> > mm/kasan/generic_report.c | 10 ++++++++++
+> > mm/kasan/tags.c           |  5 +++++
+> > mm/kasan/tags_report.c    | 10 ++++++++++
+> > 6 files changed, 56 insertions(+), 5 deletions(-)
+> >
+> >
+> >
+> >
+> > commit 0bc50c759a425fa0aafb7ef623aa1598b3542c67
+> > Author: Walter Wu <walter-zh.wu@mediatek.com>
+> > Date:   Fri Oct 4 18:38:31 2019 +0800
+> >
+> >     kasan: detect invalid size in memory operation function
+> >
+> >     It is an undefined behavior to pass a negative value to
+> > memset()/memcpy()/memmove()
+> >     , so need to be detected by KASAN.
+> >
+> >     If size is negative value, then it will be larger than ULONG_MAX/2,
+> >     so that we will qualify as out-of-bounds issue.
+> >
+> >     KASAN report:
+> >
+> >      BUG: KASAN: out-of-bounds in kmalloc_memmove_invalid_size+0x70/0xa0
+> >      Read of size 18446744073709551608 at addr ffffff8069660904 by task
+> > cat/72
+> >
+> >      CPU: 2 PID: 72 Comm: cat Not tainted
+> > 5.4.0-rc1-next-20191004ajb-00001-gdb8af2f372b2-dirty #1
+> >      Hardware name: linux,dummy-virt (DT)
+> >      Call trace:
+> >       dump_backtrace+0x0/0x288
+> >       show_stack+0x14/0x20
+> >       dump_stack+0x10c/0x164
+> >       print_address_description.isra.9+0x68/0x378
+> >       __kasan_report+0x164/0x1a0
+> >       kasan_report+0xc/0x18
+> >       check_memory_region+0x174/0x1d0
+> >       memmove+0x34/0x88
+> >       kmalloc_memmove_invalid_size+0x70/0xa0
+> >
+> >     [1] https://bugzilla.kernel.org/show_bug.cgi?id=199341
+> >
+> >     Signed-off-by: Walter Wu <walter-zh.wu@mediatek.com>
+> >     Reported -by: Dmitry Vyukov <dvyukov@google.com>
+> >     Suggested-by: Dmitry Vyukov <dvyukov@google.com>
+> >
+> > diff --git a/mm/kasan/common.c b/mm/kasan/common.c
+> > index 6814d6d6a023..6ef0abd27f06 100644
+> > --- a/mm/kasan/common.c
+> > +++ b/mm/kasan/common.c
+> > @@ -102,7 +102,8 @@ EXPORT_SYMBOL(__kasan_check_write);
+> >  #undef memset
+> >  void *memset(void *addr, int c, size_t len)
+> >  {
+> > -       check_memory_region((unsigned long)addr, len, true, _RET_IP_);
+> > +       if (!check_memory_region((unsigned long)addr, len, true, _RET_IP_))
+> > +               return NULL;
+> >
+> >         return __memset(addr, c, len);
+> >  }
+> > @@ -110,8 +111,9 @@ void *memset(void *addr, int c, size_t len)
+> >  #undef memmove
+> >  void *memmove(void *dest, const void *src, size_t len)
+> >  {
+> > -       check_memory_region((unsigned long)src, len, false, _RET_IP_);
+> > -       check_memory_region((unsigned long)dest, len, true, _RET_IP_);
+> > +       if (!check_memory_region((unsigned long)src, len, false, _RET_IP_) ||
+> > +       !check_memory_region((unsigned long)dest, len, true, _RET_IP_))
+> > +               return NULL;
+> >
+> >         return __memmove(dest, src, len);
+> >  }
+> > @@ -119,8 +121,9 @@ void *memmove(void *dest, const void *src, size_t
+> > len)
+> >  #undef memcpy
+> >  void *memcpy(void *dest, const void *src, size_t len)
+> >  {
+> > -       check_memory_region((unsigned long)src, len, false, _RET_IP_);
+> > -       check_memory_region((unsigned long)dest, len, true, _RET_IP_);
+> > +       if (!check_memory_region((unsigned long)src, len, false, _RET_IP_) ||
+> > +       !check_memory_region((unsigned long)dest, len, true, _RET_IP_))
+> > +               return NULL;
+> >
+> >         return __memcpy(dest, src, len);
+> >  }
+> > diff --git a/mm/kasan/generic.c b/mm/kasan/generic.c
+> > index 616f9dd82d12..02148a317d27 100644
+> > --- a/mm/kasan/generic.c
+> > +++ b/mm/kasan/generic.c
+> > @@ -173,6 +173,11 @@ static __always_inline bool
+> > check_memory_region_inline(unsigned long addr,
+> >         if (unlikely(size == 0))
+> >                 return true;
+> >
+> > +       if (unlikely((long)size < 0)) {
+> > +               kasan_report(addr, size, write, ret_ip);
+> > +               return false;
+> > +       }
+> > +
+> >         if (unlikely((void *)addr <
+> >                 kasan_shadow_to_mem((void *)KASAN_SHADOW_START))) {
+> >                 kasan_report(addr, size, write, ret_ip);
+> > diff --git a/mm/kasan/generic_report.c b/mm/kasan/generic_report.c
+> > index 36c645939bc9..23951a453681 100644
+> > --- a/mm/kasan/generic_report.c
+> > +++ b/mm/kasan/generic_report.c
+> > @@ -107,6 +107,16 @@ static const char *get_wild_bug_type(struct
+> > kasan_access_info *info)
+> >
+> >  const char *get_bug_type(struct kasan_access_info *info)
+> >  {
+> > +       /*
+> > +        * if access_size < 0, then it will be larger than ULONG_MAX/2,
+> > +        * so that this can qualify as out-of-bounds.
+> > +        * out-of-bounds is the _least_ frequent KASAN bug type. So saying
+> > +        * out-of-bounds has downsides of both approaches and won't prevent
+> > +        * duplicate reports by syzbot.
+> > +        */
+> > +       if ((long)info->access_size < 0)
+> > +               return "out-of-bounds";
+> > +
+> >         if (addr_has_shadow(info->access_addr))
+> >                 return get_shadow_bug_type(info);
+> >         return get_wild_bug_type(info);
+> > diff --git a/mm/kasan/tags.c b/mm/kasan/tags.c
+> > index 0e987c9ca052..b829535a3ad7 100644
+> > --- a/mm/kasan/tags.c
+> > +++ b/mm/kasan/tags.c
+> > @@ -86,6 +86,11 @@ bool check_memory_region(unsigned long addr, size_t
+> > size, bool write,
+> >         if (unlikely(size == 0))
+> >                 return true;
+> >
+> > +       if (unlikely((long)size < 0)) {
+> > +               kasan_report(addr, size, write, ret_ip);
+> > +               return false;
+> > +       }
+> > +
+> >         tag = get_tag((const void *)addr);
+> >
+> >         /*
+> > diff --git a/mm/kasan/tags_report.c b/mm/kasan/tags_report.c
+> > index 969ae08f59d7..19b9e364b397 100644
+> > --- a/mm/kasan/tags_report.c
+> > +++ b/mm/kasan/tags_report.c
+> > @@ -36,6 +36,16 @@
+> >
+> >  const char *get_bug_type(struct kasan_access_info *info)
+> >  {
+> > +       /*
+> > +        * if access_size < 0, then it will be larger than ULONG_MAX/2,
+> > +        * so that this can qualify as out-of-bounds.
+> > +        * out-of-bounds is the _least_ frequent KASAN bug type. So saying
+> > +        * out-of-bounds has downsides of both approaches and won't prevent
+> > +        * duplicate reports by syzbot.
+> > +        */
+> > +       if ((long)info->access_size < 0)
+> > +               return "out-of-bounds";
+> 
+> 
+> wait, no :)
+> I meant we change it to heap-out-of-bounds and explain why we are
+> saying this is a heap-out-of-bounds.
+> The current comment effectively says we are doing non useful thing for
+> no reason, it does not eliminate any of my questions as a reader of
+> this code :)
+> 
+Ok, the current comment may not enough to be understood why we use OOB
+to represent size<0 bug. We can modify it as below :)
 
-Erhard F. (erhard_f@mailbox.org) changed:
+If access_size < 0, then it has two reasons to be defined as
+out-of-bounds.
+1) Casting negative numbers to size_t would indeed turn up as a "large"
+size_t and its value will be larger than ULONG_MAX/2, so that this can
+qualify as out-of-bounds.
+2) Don't generate new bug type in order to prevent duplicate reports by
+some systems, e.g. syzbot."
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-         Resolution|---                         |CODE_FIX
+> 
+> 
+> 
+> > +
+> >  #ifdef CONFIG_KASAN_SW_TAGS_IDENTIFY
+> >         struct kasan_alloc_meta *alloc_meta;
+> >         struct kmem_cache *cache;
+> >
+> >
+> >
+> > commit fb5cf7bd16e939d1feef229af0211a8616c9ea03
+> > Author: Walter Wu <walter-zh.wu@mediatek.com>
+> > Date:   Fri Oct 4 18:32:03 2019 +0800
+> >
+> >     kasan: add test for invalid size in memmove
+> >
+> >     Test size is negative vaule in memmove in order to verify
+> >     if it correctly produce KASAN report.
+> >
+> >     Signed-off-by: Walter Wu <walter-zh.wu@mediatek.com>
+> >
+> > diff --git a/lib/test_kasan.c b/lib/test_kasan.c
+> > index 49cc4d570a40..06942cf585cc 100644
+> > --- a/lib/test_kasan.c
+> > +++ b/lib/test_kasan.c
+> > @@ -283,6 +283,23 @@ static noinline void __init
+> > kmalloc_oob_in_memset(void)
+> >         kfree(ptr);
+> >  }
+> >
+> > +static noinline void __init kmalloc_memmove_invalid_size(void)
+> > +{
+> > +       char *ptr;
+> > +       size_t size = 64;
+> > +
+> > +       pr_info("invalid size in memmove\n");
+> > +       ptr = kmalloc(size, GFP_KERNEL);
+> > +       if (!ptr) {
+> > +               pr_err("Allocation failed\n");
+> > +               return;
+> > +       }
+> > +
+> > +       memset((char *)ptr, 0, 64);
+> > +       memmove((char *)ptr, (char *)ptr + 4, -2);
+> > +       kfree(ptr);
+> > +}
+> > +
+> >  static noinline void __init kmalloc_uaf(void)
+> >  {
+> >         char *ptr;
+> > @@ -773,6 +790,7 @@ static int __init kmalloc_tests_init(void)
+> >         kmalloc_oob_memset_4();
+> >         kmalloc_oob_memset_8();
+> >         kmalloc_oob_memset_16();
+> > +       kmalloc_memmove_invalid_size();
+> >         kmalloc_uaf();
+> >         kmalloc_uaf_memset();
+> >         kmalloc_uaf2();
 
---- Comment #22 from Erhard F. (erhard_f@mailbox.org) ---
-On kernel 5.4-rc1 zram loads & runs fine without KASAN complaining.
-
-As the original issue is fixed now I will close this bug. For any other issues
-KASAN was complaining about here, I will open new bugs if they still happen
-(like bug #205099).
-
--- 
-You are receiving this mail because:
-You are on the CC list for the bug.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/bug-204479-199747-rm8vY4C547%40https.bugzilla.kernel.org/.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/1570418576.4686.30.camel%40mtksdccf07.
