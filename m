@@ -1,166 +1,132 @@
-Return-Path: <kasan-dev+bncBCW2HNMCXUPRB4E6SHWQKGQE4CK7SEQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBJE5SHWQKGQEWR45NGA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qt1-x839.google.com (mail-qt1-x839.google.com [IPv6:2607:f8b0:4864:20::839])
-	by mail.lfdr.de (Postfix) with ESMTPS id F36D9D6049
-	for <lists+kasan-dev@lfdr.de>; Mon, 14 Oct 2019 12:35:29 +0200 (CEST)
-Received: by mail-qt1-x839.google.com with SMTP id s14sf17517376qtn.4
-        for <lists+kasan-dev@lfdr.de>; Mon, 14 Oct 2019 03:35:29 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1571049328; cv=pass;
+Received: from mail-vk1-xa3b.google.com (mail-vk1-xa3b.google.com [IPv6:2607:f8b0:4864:20::a3b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49B77D6033
+	for <lists+kasan-dev@lfdr.de>; Mon, 14 Oct 2019 12:32:06 +0200 (CEST)
+Received: by mail-vk1-xa3b.google.com with SMTP id b11sf3783833vkn.1
+        for <lists+kasan-dev@lfdr.de>; Mon, 14 Oct 2019 03:32:06 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1571049125; cv=pass;
         d=google.com; s=arc-20160816;
-        b=N4CQsmKflcR2KRKpHgkby8YcRQDTFpelhWvp8Mi4fR+rtUsvasD+5C8SgLKBUEF66B
-         mdei9x/1udUn0/iyFyuVhzcPLVg9xc1uvTFPXTqzPOlyDxTQ+VINIjake38Ykglt/l8C
-         RrxpfcTi5UlM5cDwGB4zUDUOcN2P56d8XY5+Eg1vPCieUSJDA2OT8jkT1kLFCnkiacCS
-         MvTcaTDJxHv26n1by4HdX8/TU+qToVRVSuc7s062H/jJXOQ4AhlWyC63UfILIUpKymbq
-         lAhfXre7s3qiqltWDxOds9kqkLvrddNaUC5iQPfc+X5hJ47M/Hw11PPMV7SWkzPf0Lhs
-         /LzQ==
+        b=GOvSCaTzx32TQ78Q7sQQJF6xpQcD4izjfsQvJMmfSoF5wGUbXnDmQTh1N1pxLb3KZe
+         /iveJNSsh7yr+Nj0v8kADCAC6vinIjVaiXMhrWAHt0I1VPHDA+aWZ0A+sAlGLpNQqNmE
+         a+2qsBJnGYqSQvrhucTCM4e26eyVGuwjTOUPmKNAafFj6mzpBEkrbWPe8FpCBxKIflkz
+         w3agxnBbsyfRQ6GwEqxVajtRywi45KlywSx39wbsyiKGdqFvc5j/wFKAVXT6IH5Yg2ds
+         JVAcf1c4A5flFkfa8WhNfdXhgnaRZLkzpTpbD167rnTbq+XAe6qfV7+ORiElOz0Yno2w
+         imog==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:user-agent:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:sender:dkim-signature:dkim-signature;
-        bh=9xg6zDQ0PYkF/AUL/RFdi6KGBUmE5CWCTiLxdSJMB8s=;
-        b=ndiqwOWKWUY2nOtZMmH7yk6b3DdyRvrM/+N48nhJI/0htiddbkLiQ6FvMVe9FGJE4c
-         DAOS8qFzAd3tpezCJ3L48mXVCvHriAX36bCudndK/0GRrMyB9iXd3rdDPcCn18uTnzyD
-         PXs+4Ja1DMU1KDAgD3eIfcXzsyeNPmWkM5X2Rr7a0hJgE5IDKlNTdoFh3Rlx35TCBTMr
-         6yC8bhToBxMePXRC3pSx5JQPo+fLA741Y6Yfts1JHciqzbBf3zRAuLKINHp8Fu7gQMEA
-         lU9jzvfR2H1YHazFzc6ChsVrR70Yl5V+e04oiKJ0w4rui2RNU4450xBbuHnmfkKZgzvL
-         o3Iw==
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :subject:cc:to:from:sender:dkim-signature;
+        bh=5Af3+swHoKsTVhot1Y19Aor+9VXXa5GPx+pm/Kh1d6s=;
+        b=EYr9rZDlKIEPXNcxoWE0wNNd2rfvG4ZZXpwjtGPAXL4Uq/PPD1PXwTWVeCDtCq3R+t
+         K78Xn+iPNkYu1mbk2IMax5RPXBLViiQBlZXbOqD+bH8uJvt3PF4NT56A9Kar9oZwk3oL
+         Lhp1CIdQJaHpaYA0iSVLAgrAq+BKl8dAtO+0IxTD5Fvznw/8MLytCcyVY2x0N1rP0+X5
+         KmPxYvb/C1a7R3NCuGRXXuWOSEPnXDfsmwmzyIxdzHKLvIu+ChGm+FyZaCPQLQi11T7t
+         adv6NdR6YMIyZcGyARSRb9CyFJG7rWSXcFhBNbVaBrjXo/Xo1i8YVtfhu+4IW35M3mp0
+         e8UQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20161025 header.b=jBE2A2nj;
-       spf=pass (google.com: domain of parri.andrea@gmail.com designates 2a00:1450:4864:20::343 as permitted sender) smtp.mailfrom=parri.andrea@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+       spf=pass (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.183 as permitted sender) smtp.mailfrom=walter-zh.wu@mediatek.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=9xg6zDQ0PYkF/AUL/RFdi6KGBUmE5CWCTiLxdSJMB8s=;
-        b=VA6fDzIdA8BxhDPVqQ3y+oxt8Gba/UVsT/cCihcTVn4Emkv6fymf7ZJnm94aOmI/2A
-         JcD3dGjTqlukg6ZoAyNLa4qgF13bDjd9JEoe+mVT0xRiLHBFM649ZEJ/bvNsdkUPV5JH
-         /R/mc1hyMpqkPfef6zId6tQbCA6W7G2sQR6ZYUfVyF2X4yD7wr2mlJW1u9oNHEZyFCqs
-         5+7sELRMarkeK1omBcOlJkGjHzyCnsY9e7PQHlORa1y9I6NoQCA+a2XUTnCkNsQL8VQr
-         DywIIAkVfQya66hOaWCzuh37RHQ7K8EILwnkboEHR4vfpfmWTSbxlWH8ALDDJNY1izYx
-         uf4w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=9xg6zDQ0PYkF/AUL/RFdi6KGBUmE5CWCTiLxdSJMB8s=;
-        b=r4zpmVdjvgNcuKYSNYYQD+27GtNmLt0H3MV9yZC2U5iDclIVb6BEd6a56mpmtSmYzn
-         h0obZG/l6H2KA7uPOr5Y6Vn+3IbAmrojlhuzQSujd5TQVQkNHWPbijlBCJ9kqAoegJxh
-         i89A2CIDYHIIjd0AVY8ANI7axCTZHxn2PHje7Gr3NPzu/r3mBPSpJ1v3LYPdC383+TVm
-         j+A4IHwgOhYb6Pj/8f1TXakPZ1JwhF4+oNLbCIB6G6q+pIQxR5b3e31+h7/9PjQRrT9L
-         2oSPN4Civd8xxyBftDE82V0SETE88K4/4ldxdtw8GZH6UHjVlzsT9dV1WJlT88stj1ts
-         dFug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent
+        h=sender:from:to:cc:subject:date:message-id:mime-version
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=9xg6zDQ0PYkF/AUL/RFdi6KGBUmE5CWCTiLxdSJMB8s=;
-        b=uWojgpSOHLJBXaE8IL0YApZJBHSvHqf182rKC/5KWTYY1dZ3L5BBl3MV9XDeVHheQY
-         zOdYEA1U59M+mRVkKjyeIUx6ICXtZmjb2ma0f7XSDNhXJOt8YACmjce3poaFhtbTc9g5
-         uhv5J3wo88uw9UT3JMrpi/5wf/H/C9+V3odk3k8Bzb3R3MGgO/MSfSkRN4+WO+t/jDU7
-         13Udq9SktEQLMM3x2ErReJWtaGL/RyIZmJpGuW4mdQ5ZqlXsqC44XhBVCtEfKiaxJ6Hq
-         cjW7Oet4VTcf9T8pii3AeU12SfVdPzxgEnNHdlyOrpmFiVv//36pcR44gtFN6j8hzS+K
-         x1Sg==
+        bh=5Af3+swHoKsTVhot1Y19Aor+9VXXa5GPx+pm/Kh1d6s=;
+        b=estJ839/uhP+msDjGgySqtjqMXfdpYXOhQ/860nAp1/h+n9DuLPJwHZC6I75O+UMM0
+         m69HsoVGURvLTTgh+RiF6etjU6kbfd3xyxZPtNVMbm2I/0OjUUxX2L3YkJJ0ok4P4kfE
+         hliYvjcEEyIt71GIRUwRzRZpbpoFFi0/g68PRnlj7gG+gb6xuGS1xRZsZudiezPFpAnM
+         7bOxVYwHMR0gkgZSFyj3vifwb7FbrYF8btyfEHsTH1nsq9puH1pRLOF48iIY1RZhxPlu
+         5B11ByiDnugAmicamjAzBfBvUMlS+dJ2MfcJt+OFc5snUD1iZkcCO9UesaLmeL+d/Yob
+         FWWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=5Af3+swHoKsTVhot1Y19Aor+9VXXa5GPx+pm/Kh1d6s=;
+        b=lgn8ibT03LaVZqilkhHjbsnDo3Rv/HFNqYwjhPVAyDTgcPccJbUZYOikUUCWRGzoYr
+         P9HK7H1Q/zWwY/25bW1ifEqj3jY0m9XvzWV6/GStylS1hyVfmsTPf1+rbvvrAHin+nXu
+         rwolC/v2S3S5BVbvRrLI4YlW9LUzrNT0oyJ5F7+ef38gf+z9ZBfudQETEi7REZzYWgBA
+         WXVpKZZN7cEUOZupIWE9A0pw98iiAoX70HK1onPEMf+1XKNudiwdeURyWxXIAwM/GFyX
+         LJY/ScO/lrJED7yXiW4jeLRQzFROzQZ8hi7YFBRUmKDW0nDEbwKCNfSTRyuM2Fga1EnU
+         3Snw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAWWEocchz7RfbFV5SS5iRYv4KGD+Ukif+ZaMWut1fn7LuPg0iy4
-	O5Rs17PYmLMo0w36ZdqnI30=
-X-Google-Smtp-Source: APXvYqxKG6+aVicVBtR4hGjQKLODWzkzbbX0ozObgwTB+SQ8dFuwpSoWgtHxGpb7t1+JjV8aLe8LtA==
-X-Received: by 2002:ad4:4433:: with SMTP id e19mr30180856qvt.105.1571049328454;
-        Mon, 14 Oct 2019 03:35:28 -0700 (PDT)
+X-Gm-Message-State: APjAAAW8ClTGZmkeePHyOmKVAbsZAHHRuCP36g+yUAAILMmry//9hwwE
+	CoslQLmwKUdfpRuzEqGBA1w=
+X-Google-Smtp-Source: APXvYqxDzEgE+Hdg8n2th1JOTDeX+XZBmFaZNSSVz3fB9p3jcsGYwd++TSUqHLvjl50cZa0a4u+RIA==
+X-Received: by 2002:a1f:9e8e:: with SMTP id h136mr15424450vke.8.1571049124883;
+        Mon, 14 Oct 2019 03:32:04 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a37:a853:: with SMTP id r80ls4090612qke.0.gmail; Mon, 14 Oct
- 2019 03:35:28 -0700 (PDT)
-X-Received: by 2002:a05:620a:14b9:: with SMTP id x25mr29422509qkj.9.1571049328306;
-        Mon, 14 Oct 2019 03:35:28 -0700 (PDT)
-Received: by 2002:a37:6710:0:0:0:0:0 with SMTP id b16msqkc;
-        Wed, 9 Oct 2019 13:17:15 -0700 (PDT)
-X-Received: by 2002:a17:906:90d8:: with SMTP id v24mr4687038ejw.60.1570652234931;
-        Wed, 09 Oct 2019 13:17:14 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1570652234; cv=none;
+Received: by 2002:a67:1684:: with SMTP id 126ls1348710vsw.4.gmail; Mon, 14 Oct
+ 2019 03:32:04 -0700 (PDT)
+X-Received: by 2002:a67:6911:: with SMTP id e17mr16847379vsc.44.1571049124629;
+        Mon, 14 Oct 2019 03:32:04 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1571049124; cv=none;
         d=google.com; s=arc-20160816;
-        b=uqCreO06EpXqQhIzriqN5J8Tme0r4T3gIECGHZ3Ell7+THKPtArOeYczezTh/XhOXc
-         7q5Z4UsovpGQH/l5QSdlgfh7n0RfxS/HFhRDbzmXYnlJ2X7D/L5GqIpvjFLz1OowSi97
-         64yL+j1RS13kR1XnDhdy4RPKJ3NLTLl0AIDBTpSDKUaiExOeudLrfk3CL9kgvebCmNEd
-         hrPxgmYcQd09ydv+jMgjiP5Q5+JbRbzgDsrlJib1LrRgeCIUirgrMAieUgPbAN5bxjvo
-         z7JQz68o3myliOIAgwvyngZzsWqUj1nWZesETBSq8nKzmFn+w4qTCW4+70iLY2Uugi2B
-         u4jA==
+        b=L9ie1jXqySrzTzGLhudt0UB9ENLgveiv3NNcwt/fDs190GeN67bcUHCaWSO7rH4ncn
+         PGSFjuViNWKwSrF5hGXQAqKxzwoVFV/bqmqNgtPjxTXAXeW72z6HT0NpyY14x8YuVhim
+         hrmAeSPQaKHK5xC4Tn67Hca3YaOrt2HQxOvwNyTy3Wv3potIc+kCR9n7ddy6AUQIkmqc
+         YhAAUA4OZz37QPnmivjsE+Jthk9qCZFsdbkavVVcHpuw5Fabtt1E+Jea2tC23bKVWDX6
+         nlNcUQhJMoQjhGqG4iKBzlN+ytLG0T1ujl0UMc2CJE97g98UVkEfqB/9yAFSPein8TUk
+         gBfQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:dkim-signature;
-        bh=6AEE8so4vqanvMnabGRUAj1QDKzo4+4N4D1c+Rl4nYM=;
-        b=fLVwSL9a1EI2aUqHlbk+GYx0fyBWxDVbgqxyYbECoCH0NncI+sVo792iK9l0Anb3Zz
-         6YQdH9wb7mQmq9dTO9wKc+VNFf/DRqNn0RiwREKMwJNsIWaGpWk4YwwcUyGJG2Z706X5
-         se5jhcdtHzyfYIwt6kUuundsaMMgRoe23YCigLtdnMapla+udGcHmjibAGdvHH+/zpXV
-         0QKqz2w27bjBCKzz3lBjAS1Lj/QixBaB0hFSFDhZSfLFu4LAmKIH+q8cozAeKs2TKNnP
-         3KdYTgnsvvej5ambtvULx7In9RTx5ULYmPU3wDEO247DVr1rBwNHHL9zOHD7eOrz/cvL
-         5OLA==
+        h=mime-version:message-id:date:subject:cc:to:from;
+        bh=ekJNpESIgfQv5XYcvnni+dMzANptHYbcKQ4cfKW4hfI=;
+        b=FuICHHfVPx68bPzQjBcI/jXyd1pju9BPYWjGnR3uDtuQKaUGGRXVZrtvvNC+GYH/3I
+         gOxANfmZj/OrS0YiOey8GJdzxGmaj/bJ4sBGTwYu8yXByzOenWOKWy3Ps9WK6HKrV+oE
+         eGV912VcR+f2Rtx1Uz0QKGy1kxSKTLG1GKKR5knHxeW3b2/XfFtQHbwPj/Z8fWi2CJjk
+         Z7Rl8twC7+rG/bPwpk7rl+vttqvwQRCZu5mkGG2d/6Wfu31T/A0thTY5DalYV6xyZArK
+         fF/n3UFIAli3/TgLjCR57oXvk7+hykEtBH2xAuQYxiDYWnBGifASKei8k+uLGmRnQzhw
+         WcGg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20161025 header.b=jBE2A2nj;
-       spf=pass (google.com: domain of parri.andrea@gmail.com designates 2a00:1450:4864:20::343 as permitted sender) smtp.mailfrom=parri.andrea@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com. [2a00:1450:4864:20::343])
-        by gmr-mx.google.com with ESMTPS id c31si152695edb.0.2019.10.09.13.17.14
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 09 Oct 2019 13:17:14 -0700 (PDT)
-Received-SPF: pass (google.com: domain of parri.andrea@gmail.com designates 2a00:1450:4864:20::343 as permitted sender) client-ip=2a00:1450:4864:20::343;
-Received: by mail-wm1-x343.google.com with SMTP id m18so3985846wmc.1
-        for <kasan-dev@googlegroups.com>; Wed, 09 Oct 2019 13:17:14 -0700 (PDT)
-X-Received: by 2002:a05:600c:da:: with SMTP id u26mr3801909wmm.122.1570652234274;
-        Wed, 09 Oct 2019 13:17:14 -0700 (PDT)
-Received: from andrea (ip-213-220-200-127.net.upcbroadband.cz. [213.220.200.127])
-        by smtp.gmail.com with ESMTPSA id x5sm5190712wrg.69.2019.10.09.13.17.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Oct 2019 13:17:13 -0700 (PDT)
-Date: Wed, 9 Oct 2019 22:17:06 +0200
-From: Andrea Parri <parri.andrea@gmail.com>
-To: Dmitry Vyukov <dvyukov@google.com>
-Cc: Eric Dumazet <eric.dumazet@gmail.com>, Will Deacon <will@kernel.org>,
-	Marco Elver <elver@google.com>,
-	kasan-dev <kasan-dev@googlegroups.com>,
-	LKML <linux-kernel@vger.kernel.org>,
-	Andrey Konovalov <andreyknvl@google.com>,
-	Alexander Potapenko <glider@google.com>,
-	"Paul E. McKenney" <paulmck@linux.ibm.com>,
-	Paul Turner <pjt@google.com>, Daniel Axtens <dja@axtens.net>,
-	Anatol Pomazau <anatol@google.com>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	LKMM Maintainers -- Akira Yokosawa <akiyks@gmail.com>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	Daniel Lustig <dlustig@nvidia.com>,
-	Jade Alglave <j.alglave@ucl.ac.uk>,
-	Luc Maranget <luc.maranget@inria.fr>
-Subject: Re: Kernel Concurrency Sanitizer (KCSAN)
-Message-ID: <20191009201706.GA3755@andrea>
-References: <CANpmjNPJ_bHjfLZCAPV23AXFfiPiyXXqqu72n6TgWzb2Gnu1eA@mail.gmail.com>
- <20190920155420.rxiflqdrpzinncpy@willie-the-truck>
- <0715d98b-12e9-fd81-31d1-67bcb752b0a1@gmail.com>
- <CACT4Y+bdPKQDGag1rZG6mCj2EKwEsgWdMuHZq_um2KuWOrog6Q@mail.gmail.com>
- <CACT4Y+Z+rX_cvDLwkzCvmudR6brCNM-8yA+hx9V6nXe159tf6A@mail.gmail.com>
+       spf=pass (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.183 as permitted sender) smtp.mailfrom=walter-zh.wu@mediatek.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
+Received: from mailgw01.mediatek.com ([210.61.82.183])
+        by gmr-mx.google.com with ESMTP id i13si1068172uan.1.2019.10.14.03.32.03
+        for <kasan-dev@googlegroups.com>;
+        Mon, 14 Oct 2019 03:32:04 -0700 (PDT)
+Received-SPF: pass (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.183 as permitted sender) client-ip=210.61.82.183;
+X-UUID: 69246c0437ad43a995a203276ea7a8a6-20191014
+X-UUID: 69246c0437ad43a995a203276ea7a8a6-20191014
+Received: from mtkcas08.mediatek.inc [(172.21.101.126)] by mailgw01.mediatek.com
+	(envelope-from <walter-zh.wu@mediatek.com>)
+	(Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
+	with ESMTP id 653775818; Mon, 14 Oct 2019 18:31:59 +0800
+Received: from mtkcas08.mediatek.inc (172.21.101.126) by
+ mtkmbs08n2.mediatek.inc (172.21.101.56) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Mon, 14 Oct 2019 18:31:48 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas08.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Mon, 14 Oct 2019 18:31:48 +0800
+From: Walter Wu <walter-zh.wu@mediatek.com>
+To: Andrey Ryabinin <aryabinin@virtuozzo.com>, Alexander Potapenko
+	<glider@google.com>, Dmitry Vyukov <dvyukov@google.com>, Matthias Brugger
+	<matthias.bgg@gmail.com>
+CC: <kasan-dev@googlegroups.com>, <linux-mm@kvack.org>,
+	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-mediatek@lists.infradead.org>, <wsd_upstream@mediatek.com>, Walter Wu
+	<walter-zh.wu@mediatek.com>
+Subject: [PATCH 0/2] fix the missing underflow in memory operation function
+Date: Mon, 14 Oct 2019 18:31:48 +0800
+Message-ID: <20191014103148.17816-1-walter-zh.wu@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <CACT4Y+Z+rX_cvDLwkzCvmudR6brCNM-8yA+hx9V6nXe159tf6A@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Original-Sender: parri.andrea@gmail.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20161025 header.b=jBE2A2nj;       spf=pass
- (google.com: domain of parri.andrea@gmail.com designates 2a00:1450:4864:20::343
- as permitted sender) smtp.mailfrom=parri.andrea@gmail.com;       dmarc=pass
- (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+X-TM-SNTS-SMTP: B0FC585DE902AF415BBF2DF73DCE4769D5BBE65605E5E2F26222F2C9D0F93BC92000:8
+X-MTK: N
+X-Original-Sender: walter-zh.wu@mediatek.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.183 as
+ permitted sender) smtp.mailfrom=walter-zh.wu@mediatek.com;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
+X-Spam-Checked-In-Group: kasan-dev@googlegroups.com
 X-Google-Group-Id: 358814495539
 List-Post: <https://groups.google.com/group/kasan-dev/post>, <mailto:kasan-dev@googlegroups.com>
 List-Help: <https://groups.google.com/support/>, <mailto:kasan-dev+help@googlegroups.com>
@@ -169,77 +135,31 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Oct 09, 2019 at 09:45:50AM +0200, Dmitry Vyukov wrote:
-> On Sat, Oct 5, 2019 at 6:16 AM Dmitry Vyukov <dvyukov@google.com> wrote:
-> >
-> > On Sat, Oct 5, 2019 at 2:58 AM Eric Dumazet <eric.dumazet@gmail.com> wrote:
-> > > > This one is tricky. What I think we need to avoid is an onslaught of
-> > > > patches adding READ_ONCE/WRITE_ONCE without a concrete analysis of the
-> > > > code being modified. My worry is that Joe Developer is eager to get their
-> > > > first patch into the kernel, so runs this tool and starts spamming
-> > > > maintainers with these things to the point that they start ignoring KCSAN
-> > > > reports altogether because of the time they take up.
-> > > >
-> > > > I suppose one thing we could do is to require each new READ_ONCE/WRITE_ONCE
-> > > > to have a comment describing the racy access, a bit like we do for memory
-> > > > barriers. Another possibility would be to use atomic_t more widely if
-> > > > there is genuine concurrency involved.
-> > > >
-> > >
-> > > About READ_ONCE() and WRITE_ONCE(), we will probably need
-> > >
-> > > ADD_ONCE(var, value)  for arches that can implement the RMW in a single instruction.
-> > >
-> > > WRITE_ONCE(var, var + value) does not look pretty, and increases register pressure.
-> >
-> > FWIW modern compilers can handle this if we tell them what we are trying to do:
-> >
-> > void foo(int *p, int x)
-> > {
-> >     x += __atomic_load_n(p, __ATOMIC_RELAXED);
-> >     __atomic_store_n(p, x, __ATOMIC_RELAXED);
-> > }
-> >
-> > $ clang test.c -c -O2 && objdump -d test.o
-> >
-> > 0000000000000000 <foo>:
-> >    0: 01 37                add    %esi,(%rdi)
-> >    2: c3                    retq
-> >
-> > We can have syntactic sugar on top of this of course.
-> 
-> An interesting precedent come up in another KCSAN bug report. Namely,
-> it may be reasonable for a compiler to use different optimization
-> heuristics for concurrent and non-concurrent code. Consider there are
-> some legal code transformations, but it's unclear if they are
-> profitable or not. It may be the case that for non-concurrent code the
-> expectation is that it's a profitable transformation, but for
-> concurrent code it is not. So that may be another reason to
-> communicate to compiler what we want to do, rather than trying to
-> trick and play against each other. I've added the concrete example
-> here:
-> https://github.com/google/ktsan/wiki/READ_ONCE-and-WRITE_ONCE#it-may-improve-performance
+The patchsets help to produce KASAN report when size is negative numbers
+in memory operation function. It is helpful for programmer to solve the 
+undefined behavior issue. Patch 1 based on Dmitry's review and
+suggestion, patch 2 is a test in order to verify the patch 1. 
 
-Unrelated, but maybe worth pointing out/for reference: I think that
-the section discussing the LKMM,
+[1]https://bugzilla.kernel.org/show_bug.cgi?id=199341 
+[2]https://lore.kernel.org/linux-arm-kernel/20190927034338.15813-1-walter-zh.wu@mediatek.com/ 
 
-  https://github.com/google/ktsan/wiki/READ_ONCE-and-WRITE_ONCE#it-is-required-for-kernel-memory-model ,
+Walter Wu (2): 
+kasan: detect negative size in memory operation function 
+kasan: add test for invalid size in memmove
 
-might benefit from a revision/an update, in particular, the statement
-"The Kernel Memory Consistency Model requires marking of all shared
-accesses" seems now quite inaccurate to me, c.f., e.g.,
+---
+ lib/test_kasan.c          | 18 ++++++++++++++++++
+ mm/kasan/common.c         | 13 ++++++++-----
+ mm/kasan/generic.c        |  5 +++++
+ mm/kasan/generic_report.c | 18 ++++++++++++++++++
+ mm/kasan/tags.c           |  5 +++++
+ mm/kasan/tags_report.c    | 17 +++++++++++++++++
+ 6 files changed, 71 insertions(+), 5 deletions(-)
 
-  d1a84ab190137 ("tools/memory-model: Add definitions of plain and marked accesses")
-  0031e38adf387 ("tools/memory-model: Add data-race detection")
-
-and
-
-  https://lkml.kernel.org/r/Pine.LNX.4.44L0.1910011338240.1991-100000@iolanthe.rowland.org .
-
-Thanks,
-  Andrea
+-- 
+2.18.0
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20191009201706.GA3755%40andrea.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20191014103148.17816-1-walter-zh.wu%40mediatek.com.
