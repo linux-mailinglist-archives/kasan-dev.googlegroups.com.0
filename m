@@ -1,136 +1,186 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBFX2TTWQKGQEXWZH46I@googlegroups.com>
+Return-Path: <kasan-dev+bncBD22BAF5REGBBXEDTXWQKGQER2SUJ7I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qk1-x73e.google.com (mail-qk1-x73e.google.com [IPv6:2607:f8b0:4864:20::73e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F02ED9606
-	for <lists+kasan-dev@lfdr.de>; Wed, 16 Oct 2019 17:54:00 +0200 (CEST)
-Received: by mail-qk1-x73e.google.com with SMTP id x77sf24138814qka.11
-        for <lists+kasan-dev@lfdr.de>; Wed, 16 Oct 2019 08:54:00 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1571241239; cv=pass;
+Received: from mail-io1-xd3a.google.com (mail-io1-xd3a.google.com [IPv6:2607:f8b0:4864:20::d3a])
+	by mail.lfdr.de (Postfix) with ESMTPS id A4D45D96BA
+	for <lists+kasan-dev@lfdr.de>; Wed, 16 Oct 2019 18:14:21 +0200 (CEST)
+Received: by mail-io1-xd3a.google.com with SMTP id e14sf38507367iot.16
+        for <lists+kasan-dev@lfdr.de>; Wed, 16 Oct 2019 09:14:21 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1571242460; cv=pass;
         d=google.com; s=arc-20160816;
-        b=MqGRo/9d2QkvR0fJBNyhe9syRFr3+JSd9IKvgrz9NHNvqyaGyWSf2EpFp5eNbEWIjt
-         IsExLSUt2RmKwmbORO/KJ82vIN27XSufCHwpTIa5GMidrzaLdk/dwcWOC3aP6FJ4YAvG
-         KO9jaJNMehvlxuuzHIFDpluPYyhjlnd49gsxsvI83Dp5JTfca7VF4v9paMxd93kdOrCx
-         00qBJFs/j1FwQGOJSk2pL8rCfxK8hk922ndNKcugnBcdRdfhb9mbOXDOAk2nwtAEQ+KB
-         Kry7/Ea9Pne2E8w4mbkttGyu7NFYnV6mzu34fafJU6q9Jb5jDMVel26JPvurnJEqbFTf
-         99Cw==
+        b=JOVWWOyoPenTSIg/rgFfErOPlEy43ZgyRff70tqHIytPUajx4et2qiPeSMDZBdbBjE
+         O2eaFhMT5jT2nEgezqmhqGLl/CLp4cDXBmf8qp7RB3qC7GxfwpstC4BV629DuaBMFJJd
+         u/Ey6afHNqQGZcGDyT3sfXFQud9izxHJEUZFoFmYz4S0ygKFZbcyiEXI6VAoF2b8aeQw
+         ydJn1oB/USgbnYYXvLqKrdhTLh8W0NmvFSNma/iVY5vmk60B1DY6uZy7RLXjF5Ssf8+F
+         tdXlN7+wof118tmfy8hGK8vUouzkTYdhedxPZXyYEFnjWYrqkuEaEzZ18d+fBIX+AmFJ
+         5mbQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=wesOgvFSEyuP0lBdcp51C0O5xTgcB9Hl8ZzyToc/e3k=;
-        b=kkk4oR/S5JO/DUYZjcyiRh21sHf0KaJMFwWe0kOBSx1rk7qboVmHG9U1LDVtKUi5wQ
-         d/wKWwCTOyuiXpWKDrWa4eVElxjGdmZ68aD6kXLyZg/xmFiO3jRbaaXblVati3p0NoH3
-         Xd6vqVBoGTNrSHFTE2wyLVHOTO42qG5udP77RHZrg5qmBTC7O4iepCTDHbYc71YHKzHC
-         rlMXv7P134kV5wx8E9/RJR3bgaDhNWQzzVJ0b5rq6CXUIYNZtcAIJuJnzzqSilm+2Ry2
-         QezTRxwUCmzSM26SUYORWbhOZXeo2DsAThRTP3BZUTdParmhJ/4Q6kg8NR06Jqs4j6bi
-         v28Q==
+         :list-id:mailing-list:precedence:content-language:in-reply-to
+         :mime-version:user-agent:date:message-id:autocrypt:openpgp:from
+         :references:cc:to:subject:sender:dkim-signature;
+        bh=FVBNn0U647bwsztAlklIATiU7RBEhpE9yVLQ4kGWpTc=;
+        b=0hl9Kl7+4PphxUMnMWpn/TNrz5vKC0GvVFYWrcMVNR47bokL+XP+le0CsDDONsQsXj
+         Izn8ccl7wBdfKAZ65ph/ZUnctmpdUIldhWAK6VCLOKrBd6H9q/fL2HPlUK2pSbATW29a
+         NWoZCY1emHbhyha5MnZ6bKGqYE2GhjRQEjDV4FwVI8+DH+v1EzLTjqs5ALCSzVqm/fMH
+         dv9LbWt6lsgfXMGLr9louZ9tC1AD6MBl31rv/+Mf0axsDh+URYikMWs4cywbD82M10ip
+         cOIxO9BzhiaPM88oZ4AtY+o/aiDdVgsKaTFFasWMcMLBaZzYwu9epRA3zp7gKdQ7El5i
+         YKdA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=oO69GKlE;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::341 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       spf=pass (google.com: domain of dave.hansen@intel.com designates 134.134.136.126 as permitted sender) smtp.mailfrom=dave.hansen@intel.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+        h=sender:subject:to:cc:references:from:openpgp:autocrypt:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=wesOgvFSEyuP0lBdcp51C0O5xTgcB9Hl8ZzyToc/e3k=;
-        b=jt98FPnYChvHMW3ODOGknxoKzuUo83busmrkE3EH4ntThW3RmDHrqcmDarIKwD32Ow
-         kmiL8bKvnThTtwwsgCIZXQSE/Gi+DbheIyqdUr/D7Ltkp3snaqoHm10UQHkJLbxAD3C+
-         WKOUWb2xWSBrFOWke011ENEnn3PLCFV5jKgO8l8T1I8Bo0R+NW/cjVohPRRBn/KzT3B3
-         QwHlhiOxARqE9rAYFwQGxA3by4LCOivCkZwDbK2RtxpIHrRQbC4sSsVSy+8eXCUhkI+4
-         lQDVKBanlLRr4G2n64wpR4nwxV/0JXJZeokRLuUs0lQFHMcm7NUOWpfz0bx4Erq7eUNr
-         iQYQ==
+        bh=FVBNn0U647bwsztAlklIATiU7RBEhpE9yVLQ4kGWpTc=;
+        b=ESme7g9wCABEBjRiqRocbcr5DsfIINe2kTD0SlAcYpNbStcbzsHo3YN7/4TBvkS8lZ
+         sOO6uee/1YRSsDRIPldoFnx5fwBejQakLIVdpcGWThmIUmePx5792BwmQx8p1G0etlPw
+         gpRL63S7872ToXWIFRrzDwU/D1DygeREdN1RUYmOqaqHzmTE7sSo2wZdGyJ2iVTPq50i
+         DzN8ayw3Tj5wIB0pa62IiWvQpyWdojZYeJkPpaUAbjc7Jd0bjRk1uZIFMVw8I0lO9v3G
+         qa2WDKhTG8NR5tWS6bbXmL2thKf1OHJCXgzZ66a/dHeOkA4kwR+pnfnEoQ0UZ4GjPIPd
+         AurQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+        h=sender:x-gm-message-state:subject:to:cc:references:from:openpgp
+         :autocrypt:message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=wesOgvFSEyuP0lBdcp51C0O5xTgcB9Hl8ZzyToc/e3k=;
-        b=rK2ct/HGuuY0yUWCjREXmE28+cDZvB4uOlV/uPprnFrpluLxkSHxDkqua7ouNz9L/f
-         dq38mel0Br6fPh6e9kXV4T5hNmj/QHAg3YPFtPnjFaFyKP8CirMdhOV7+YLVQi8H+m6g
-         Mg6xbBx42ON6OxzGmp/wFDqQ8pjvU+Jya7W0i/DCY0MyzzSRDeK2OL/WlLxQA828r1og
-         vFwrN8bdSExyPGnIKU+pan9E3dQZmheokhEqFg1bp7fWbTmadHg9GksgZtBYJcKAgSis
-         /hHhft0+fhu5XQDsfwCHkUL0l60DXeRfD0meAKZE7/kazUm9nx6npfZYUEORu2SSdhkG
-         nKcQ==
-X-Gm-Message-State: APjAAAUL2NU14yDh8oi4ChUlfKlUrfigSgFEXO3HfArD5Z7nHUsA1RXo
-	K+VoHH0YwdD3XJDUdKXjyCg=
-X-Google-Smtp-Source: APXvYqwUPz5woSqkpofsKB7nJpislm1pN187KZ+jHhSmo9BSfxexHhJrV5iAX7af+ooHIHpjevKUKw==
-X-Received: by 2002:aed:29e7:: with SMTP id o94mr44562293qtd.161.1571241239071;
-        Wed, 16 Oct 2019 08:53:59 -0700 (PDT)
+        bh=FVBNn0U647bwsztAlklIATiU7RBEhpE9yVLQ4kGWpTc=;
+        b=RzAUHiWZhZrucwMeweG1PhC4g+guBgnzKa+JGsGwiek9autuIltZThmP/OsCowP/zw
+         Rm98zlfezBjovNXmL0wEvNmG5LcSfRPEwdJ7U3b0cZ9kOIHy1tuEDA351+eZ5LpPUk3n
+         cXmSdMgWnIlv/yjaTxnr8XHys0lLNE8Z/WyH28L2yurpy+POmxAsxqeKSE44TXLF5Uue
+         H3KJY+dmlIFgXBFjgQzUuYWGeRPjYvlw5HNdTsHDCTr+cBctaEoRNegAFli3l2We5oQU
+         gankNuZUqG4nnj+/8NPh0EceTlg5sfzW9hqBBR6REKu8SGWEvm1RikXdpqv4n8oDz6MJ
+         OU4w==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: APjAAAVXgGaA+LQIISlMzoG393O9Qw6zLcAidpYAYOV5ffugDz/G0XoW
+	5WlQNEAeHt1Y0CNjBOUwMKk=
+X-Google-Smtp-Source: APXvYqyXPmoZPHa3dhNn2009CF6pHRk4i2siZQwVZge5mDy82uKYZKSMG7lJEU6zZVIuouiSJrQo7w==
+X-Received: by 2002:a5d:974d:: with SMTP id c13mr1880014ioo.269.1571242460358;
+        Wed, 16 Oct 2019 09:14:20 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a0c:eb01:: with SMTP id j1ls3902461qvp.11.gmail; Wed, 16 Oct
- 2019 08:53:58 -0700 (PDT)
-X-Received: by 2002:a0c:91bd:: with SMTP id n58mr43853389qvn.62.1571241238499;
-        Wed, 16 Oct 2019 08:53:58 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1571241238; cv=none;
+Received: by 2002:a92:5edb:: with SMTP id f88ls2311182ilg.13.gmail; Wed, 16
+ Oct 2019 09:14:20 -0700 (PDT)
+X-Received: by 2002:a92:99c7:: with SMTP id t68mr3084026ilk.279.1571242460051;
+        Wed, 16 Oct 2019 09:14:20 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1571242460; cv=none;
         d=google.com; s=arc-20160816;
-        b=T1ZH8AO2MNKY7VUvWwELOwjB+eDigmG4G3AbIYUW0IzbYiHhhWNjiVjXGkFoiY8VGw
-         GZ1CO2E18mrzJCa303pmy1xJ6EX8kyokgfyzPiXzRTSfzV2roTjoyfCKKe+MLuitYYZK
-         J8JX8WKW0hoF2FIbaum+L+G5SP3he8BQhyj0Rbk7+vjX5nh8BQ6zEpnHf5fh/lUIXL8N
-         NLhZirShfnTSZOj44rSdan+zn8H//kucQUdQteGPqbaKUn82zrnuwFImI5blFMwII/Mx
-         N+wyC9LCJ/StOp0Lie+vBClIbek0uEg60a4nSFF+SoGla+rJkHcJI73W5gCZgcncsfdg
-         vKVw==
+        b=nR61jxsOJzLcOwkOfexRMo6D4B2iCpNm0ZOzDAeuybLooXWJtIZSrK4BnxLn6DFLIQ
+         tZduvg73d9BuZ1oZR7qmbY69b0DHqLUNx7F6atq7q0UJUMpuUMqspmOOUoQAWe0q5QME
+         P/2EdTY4qd53kuNReU9MnDK4clcX7uJlgng409f3Sd8djd4evmNq3VLT1Z7Qi1PE/+Ov
+         QnNde7GQ8qbLtZL6w0VFoYPnQ5m+90bOeLznO5+DE3TciX4hmamDzJuXok79kQeh5Oy7
+         9jDAEKPEGQP56KaKIzZUQkRxbIDRcoo+xAtHOhGeKaDbblUT95okF8iHetntl00Moa1t
+         CphQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=ES8PPxqISv6le2aU+Na1jJhECeSWLsXBsBUpCljFmNc=;
-        b=WOrv7MDp47SUlA1SL4Fo8vKaPbfGAIdwC/usD7iFWB7Ag7KXh2EQ3kHgA97pSIPk8E
-         XFpyjl2+d4QOWo0oMiQiRoi3ihEd8vnTcfxKC1IOeZpZ+PeYdsHsEt3oRFUlG5GYv0oo
-         a6koTQmXGL99NcOrIcVSWbjbQNGw+lg2ysbuz9cKat11fJ/2Z2ShrBwl8hCzC1eZr0Uy
-         YS0L4KGLLAwEocip+5GGvXrG8gObwgy9e2i0fC7g/p2qIcSuRKbCEOv/J34MIc+0mAyW
-         +ch47/2txpjBySKS8FVYyjaaybijjDAMAf4qRaHOQTTxLoX5VJ4zImnYQFr4YzaNujJe
-         +69Q==
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:autocrypt:openpgp:from:references:cc:to
+         :subject;
+        bh=Q4JcRRWn4WcDItz4b9+oLlmwAhx3Z97P3ebILAC+1kE=;
+        b=ypVlueL/mafCPRDoRNw2lMd/qrgNZyMFM2zIJPju31nDdOrZ0xC7ri0/WxLSJLpiDg
+         JmLe7Vb3sGX5Gz27xT2hz6I8PvWqdAEPHvJygwfEVJbg12TBuSfoKFbEI0CIkW38Llf9
+         CTD6xekfgNojzra0v7i02FB08ZPjcJukOsEOwHPTlo/SvIgZPYL2eTcDlJua3Gi7nGC5
+         SDhlcUARwMSqtHEJG9nVa/ccMN5BO+N1MSyxk01n1r0XduAKcGNbMKZW3AhAdy0g30Jw
+         8t9ok/pycUEpKrw89OfTpZWCtVAElz7XHfJqlSpiae+f113Oer5ou/2ga3s7Or3agMW6
+         s1cQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=oO69GKlE;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::341 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com. [2607:f8b0:4864:20::341])
-        by gmr-mx.google.com with ESMTPS id o13si1500397qkj.4.2019.10.16.08.53.58
+       spf=pass (google.com: domain of dave.hansen@intel.com designates 134.134.136.126 as permitted sender) smtp.mailfrom=dave.hansen@intel.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
+Received: from mga18.intel.com (mga18.intel.com. [134.134.136.126])
+        by gmr-mx.google.com with ESMTPS id s5si615093iol.1.2019.10.16.09.14.19
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 16 Oct 2019 08:53:58 -0700 (PDT)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::341 as permitted sender) client-ip=2607:f8b0:4864:20::341;
-Received: by mail-ot1-x341.google.com with SMTP id s22so20577787otr.6
-        for <kasan-dev@googlegroups.com>; Wed, 16 Oct 2019 08:53:58 -0700 (PDT)
-X-Received: by 2002:a9d:7590:: with SMTP id s16mr8514934otk.2.1571241237486;
- Wed, 16 Oct 2019 08:53:57 -0700 (PDT)
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 16 Oct 2019 09:14:20 -0700 (PDT)
+Received-SPF: pass (google.com: domain of dave.hansen@intel.com designates 134.134.136.126 as permitted sender) client-ip=134.134.136.126;
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 16 Oct 2019 09:14:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.67,304,1566889200"; 
+   d="scan'208";a="200106495"
+Received: from unknown (HELO [10.7.201.139]) ([10.7.201.139])
+  by orsmga006.jf.intel.com with ESMTP; 16 Oct 2019 09:14:18 -0700
+Subject: Re: [PATCH 8/8] x86, kcsan: Enable KCSAN for x86
+To: Marco Elver <elver@google.com>
+Cc: akiyks@gmail.com, stern@rowland.harvard.edu, glider@google.com,
+ parri.andrea@gmail.com, andreyknvl@google.com, luto@kernel.org,
+ ard.biesheuvel@linaro.org, arnd@arndb.de, boqun.feng@gmail.com,
+ bp@alien8.de, dja@axtens.net, dlustig@nvidia.com,
+ dave.hansen@linux.intel.com, dhowells@redhat.com, dvyukov@google.com,
+ hpa@zytor.com, mingo@redhat.com, j.alglave@ucl.ac.uk,
+ joel@joelfernandes.org, corbet@lwn.net, jpoimboe@redhat.com,
+ luc.maranget@inria.fr, mark.rutland@arm.com, npiggin@gmail.com,
+ paulmck@linux.ibm.com, peterz@infradead.org, tglx@linutronix.de,
+ will@kernel.org, kasan-dev@googlegroups.com, linux-arch@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-efi@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, x86@kernel.org
+References: <20191016083959.186860-1-elver@google.com>
+ <20191016083959.186860-9-elver@google.com>
+From: Dave Hansen <dave.hansen@intel.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+Message-ID: <ce0d1658-c000-be20-c997-34ca488e4406@intel.com>
+Date: Wed, 16 Oct 2019 09:14:18 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-References: <20191016083959.186860-1-elver@google.com> <20191016083959.186860-2-elver@google.com>
- <20191016151643.GC46264@lakrids.cambridge.arm.com>
-In-Reply-To: <20191016151643.GC46264@lakrids.cambridge.arm.com>
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Wed, 16 Oct 2019 17:53:45 +0200
-Message-ID: <CANpmjNNctoVsUc+VbJ_RAMgLxcbvjq55gK1NdE0G0muMdv1+Ng@mail.gmail.com>
-Subject: Re: [PATCH 1/8] kcsan: Add Kernel Concurrency Sanitizer infrastructure
-To: Mark Rutland <mark.rutland@arm.com>
-Cc: LKMM Maintainers -- Akira Yokosawa <akiyks@gmail.com>, Alan Stern <stern@rowland.harvard.edu>, 
-	Alexander Potapenko <glider@google.com>, Andrea Parri <parri.andrea@gmail.com>, 
-	Andrey Konovalov <andreyknvl@google.com>, Andy Lutomirski <luto@kernel.org>, ard.biesheuvel@linaro.org, 
-	Arnd Bergmann <arnd@arndb.de>, Boqun Feng <boqun.feng@gmail.com>, Borislav Petkov <bp@alien8.de>, 
-	Daniel Axtens <dja@axtens.net>, Daniel Lustig <dlustig@nvidia.com>, dave.hansen@linux.intel.com, 
-	dhowells@redhat.com, Dmitry Vyukov <dvyukov@google.com>, "H. Peter Anvin" <hpa@zytor.com>, 
-	Ingo Molnar <mingo@redhat.com>, Jade Alglave <j.alglave@ucl.ac.uk>, 
-	Joel Fernandes <joel@joelfernandes.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Josh Poimboeuf <jpoimboe@redhat.com>, Luc Maranget <luc.maranget@inria.fr>, 
-	Nicholas Piggin <npiggin@gmail.com>, "Paul E. McKenney" <paulmck@linux.ibm.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@linutronix.de>, Will Deacon <will@kernel.org>, 
-	kasan-dev <kasan-dev@googlegroups.com>, linux-arch <linux-arch@vger.kernel.org>, 
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, linux-efi@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, 
-	Linux Memory Management List <linux-mm@kvack.org>, "the arch/x86 maintainers" <x86@kernel.org>
+In-Reply-To: <20191016083959.186860-9-elver@google.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=oO69GKlE;       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::341 as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+Content-Language: en-US
+X-Original-Sender: dave.hansen@intel.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of dave.hansen@intel.com designates 134.134.136.126 as
+ permitted sender) smtp.mailfrom=dave.hansen@intel.com;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=intel.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -143,234 +193,19 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, 16 Oct 2019 at 17:16, Mark Rutland <mark.rutland@arm.com> wrote:
->
-> On Wed, Oct 16, 2019 at 10:39:52AM +0200, Marco Elver wrote:
-> > diff --git a/include/linux/sched.h b/include/linux/sched.h
-> > index 2c2e56bd8913..34a1d9310304 100644
-> > --- a/include/linux/sched.h
-> > +++ b/include/linux/sched.h
-> > @@ -1171,6 +1171,13 @@ struct task_struct {
-> >  #ifdef CONFIG_KASAN
-> >       unsigned int                    kasan_depth;
-> >  #endif
-> > +#ifdef CONFIG_KCSAN
-> > +     /* See comments at kernel/kcsan/core.c: struct cpu_state. */
-> > +     int                             kcsan_disable;
-> > +     int                             kcsan_atomic_next;
-> > +     int                             kcsan_atomic_region;
-> > +     bool                            kcsan_atomic_region_flat;
-> > +#endif
->
-> Should these be unsigned?
+On 10/16/19 1:39 AM, Marco Elver wrote:
+> This patch enables KCSAN for x86, with updates to build rules to not use
+> KCSAN for several incompatible compilation units.
 
-I prefer to keep them int, as they can become negative (rather than
-underflow with unsigned), if we e.g. have unbalanced
-kcsan_enable_current etc. Since we do not need the full unsigned range
-(these values should stay relatively small), int is more than enough.
+First of all KCSAN looks really interesting!
 
-> > +/*
-> > + * Per-CPU state that should be used instead of 'current' if we are not in a
-> > + * task.
-> > + */
-> > +struct cpu_state {
-> > +     int disable; /* disable counter */
-> > +     int atomic_next; /* number of following atomic ops */
-> > +
-> > +     /*
-> > +      * We use separate variables to store if we are in a nestable or flat
-> > +      * atomic region. This helps make sure that an atomic region with
-> > +      * nesting support is not suddenly aborted when a flat region is
-> > +      * contained within. Effectively this allows supporting nesting flat
-> > +      * atomic regions within an outer nestable atomic region. Support for
-> > +      * this is required as there are cases where a seqlock reader critical
-> > +      * section (flat atomic region) is contained within a seqlock writer
-> > +      * critical section (nestable atomic region), and the "mismatching
-> > +      * kcsan_end_atomic()" warning would trigger otherwise.
-> > +      */
-> > +     int atomic_region;
-> > +     bool atomic_region_flat;
-> > +};
-> > +static DEFINE_PER_CPU(struct cpu_state, this_state) = {
-> > +     .disable = 0,
-> > +     .atomic_next = 0,
-> > +     .atomic_region = 0,
-> > +     .atomic_region_flat = 0,
-> > +};
->
-> These are the same as in task_struct, so I think it probably makes sense
-> to have a common structure for these, e.g.
->
-> | struct kcsan_ctx {
-> |       int     disable;
-> |       int     atomic_next;
-> |       int     atomic_region;
-> |       bool    atomic_region_flat;
-> | };
->
-> ... which you then place within task_struct, e.g.
->
-> | #ifdef CONFIG_KCSAN
-> |       struct kcsan_ctx        kcsan_ctx;
-> | #endif
->
-> ... and here, e.g.
->
-> | static DEFINE_PER_CPU(struct kcsan_ctx, kcsan_cpu_ctx);
->
-> That would simplify a number of cases below where you have to choose one
-> or the other, as you can choose the pointer, then handle the rest in a
-> common way.
->
-> e.g. for:
->
-> > +static inline bool is_atomic(const volatile void *ptr)
-> > +{
-> > +     if (in_task()) {
-> > +             if (unlikely(current->kcsan_atomic_next > 0)) {
-> > +                     --current->kcsan_atomic_next;
-> > +                     return true;
-> > +             }
-> > +             if (unlikely(current->kcsan_atomic_region > 0 ||
-> > +                          current->kcsan_atomic_region_flat))
-> > +                     return true;
-> > +     } else { /* interrupt */
-> > +             if (unlikely(this_cpu_read(this_state.atomic_next) > 0)) {
-> > +                     this_cpu_dec(this_state.atomic_next);
-> > +                     return true;
-> > +             }
-> > +             if (unlikely(this_cpu_read(this_state.atomic_region) > 0 ||
-> > +                          this_cpu_read(this_state.atomic_region_flat)))
-> > +                     return true;
-> > +     }
-> > +
-> > +     return kcsan_is_atomic(ptr);
-> > +}
->
-> ... you could have something like:
->
-> | struct kcsan_ctx *kcsan_get_ctx(void)
-> | {
-> |       return in_task() ? &current->kcsan_ctx : this_cpu_ptr(kcsan_cpu_ctx);
-> | }
-> |
-> | static inline bool is_atomic(const volatile void *ptr)
-> | {
-> |       struct kcsan_ctx *ctx = kcsan_get_ctx();
-> |       if (unlikely(ctx->atomic_next > 0) {
-> |               --ctx->atomic_next;
-> |               return true;
-> |       }
-> |       if (unlikely(ctx->atomic_region > 0 || ctx->atomic_region_flat))
-> |               return true;
-> |
-> |       return kcsan_is_atomic(ptr);
-> | }
->
-> ... avoiding duplicating the checks for task/irq contexts.
->
-> It's not clear to me how either that or the original code works if a
-> softirq is interrupted by a hardirq. IIUC most of the fields should
-> remain stable over that window, since the hardirq should balance most
-> changes it makes before returning, but I don't think that's true for
-> atomic_next. Can't that be corrupted from the PoV of the softirq
-> handler?
-
-As you say, these fields should balance. So far I have not observed
-any issues. For atomic_next I'm not concerned as it is an
-approximation either way (see seqlock patch), and it's fine if there
-is a small error.
-
-> [...]
->
-> > +void kcsan_begin_atomic(bool nest)
-> > +{
-> > +     if (nest) {
-> > +             if (in_task())
-> > +                     ++current->kcsan_atomic_region;
-> > +             else
-> > +                     this_cpu_inc(this_state.atomic_region);
-> > +     } else {
-> > +             if (in_task())
-> > +                     current->kcsan_atomic_region_flat = true;
-> > +             else
-> > +                     this_cpu_write(this_state.atomic_region_flat, true);
-> > +     }
-> > +}
->
-> Assuming my suggestion above wasn't bogus, this can be:
->
-> | void kcsan_begin_atomic(boot nest)
-> | {
-> |       struct kcsan_ctx *ctx = kcsan_get_ctx();
-> |       if (nest)
-> |               ctx->atomic_region++;
-> |       else
-> |               ctx->atomic_region_flat = true;
-> | }
->
-> > +void kcsan_end_atomic(bool nest)
-> > +{
-> > +     if (nest) {
-> > +             int prev =
-> > +                     in_task() ?
-> > +                             current->kcsan_atomic_region-- :
-> > +                             (this_cpu_dec_return(this_state.atomic_region) +
-> > +                              1);
-> > +             if (prev == 0) {
-> > +                     kcsan_begin_atomic(true); /* restore to 0 */
-> > +                     kcsan_disable_current();
-> > +                     WARN(1, "mismatching %s", __func__);
-> > +                     kcsan_enable_current();
-> > +             }
-> > +     } else {
-> > +             if (in_task())
-> > +                     current->kcsan_atomic_region_flat = false;
-> > +             else
-> > +                     this_cpu_write(this_state.atomic_region_flat, false);
-> > +     }
-> > +}
->
-> ... similarly:
->
-> | void kcsan_end_atomic(bool nest)
-> | {
-> |       struct kcsan_ctx *ctx = kcsan_get_ctx();
-> |
-> |       if (nest)
-> |               if (ctx->kcsan_atomic_region--) {
-> |                       kcsan_begin_atomic(true); /* restore to 0 */
-> |                       kcsan_disable_current();
-> |                       WARN(1, "mismatching %s"\ __func__);
-> |                       kcsan_enable_current();
-> |               }
-> |       } else {
-> |               ctx->atomic_region_flat = true;
-> |       }
-> | }
->
-> > +void kcsan_atomic_next(int n)
-> > +{
-> > +     if (in_task())
-> > +             current->kcsan_atomic_next = n;
-> > +     else
-> > +             this_cpu_write(this_state.atomic_next, n);
-> > +}
->
-> ... and:
->
-> | void kcsan_atomic_nextint n)
-> | {
-> |       kcsan_get_ctx()->atomic_next = n;
-> | }
-
-Otherwise, yes, this makes much more sense and I will just introduce
-the struct and integrate the above suggestions for v2.
-
-Many thanks,
--- Marco
+For the x86 code, though, I'd really appreciate some specific notes on
+why individual compilation units are incompatible.  There might be some
+that were missed, and we have to figure out what we do for any future
+work.  Knowing the logic used on these would be really helpful in the
+future.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNNctoVsUc%2BVbJ_RAMgLxcbvjq55gK1NdE0G0muMdv1%2BNg%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/ce0d1658-c000-be20-c997-34ca488e4406%40intel.com.
