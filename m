@@ -1,137 +1,132 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBRWBTTWQKGQERM5YHLA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDV37XP3XYDRBZHITTWQKGQEUDB2H4A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pg1-x53f.google.com (mail-pg1-x53f.google.com [IPv6:2607:f8b0:4864:20::53f])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2874D9310
-	for <lists+kasan-dev@lfdr.de>; Wed, 16 Oct 2019 15:53:11 +0200 (CEST)
-Received: by mail-pg1-x53f.google.com with SMTP id 6sf17698595pgi.10
-        for <lists+kasan-dev@lfdr.de>; Wed, 16 Oct 2019 06:53:11 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1571233990; cv=pass;
+Received: from mail-lj1-x23f.google.com (mail-lj1-x23f.google.com [IPv6:2a00:1450:4864:20::23f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F003D9545
+	for <lists+kasan-dev@lfdr.de>; Wed, 16 Oct 2019 17:16:53 +0200 (CEST)
+Received: by mail-lj1-x23f.google.com with SMTP id 205sf4419128ljf.13
+        for <lists+kasan-dev@lfdr.de>; Wed, 16 Oct 2019 08:16:53 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1571239012; cv=pass;
         d=google.com; s=arc-20160816;
-        b=hktT+WOtmAsl761IxbZDFuMNqDY0OFD/3CpCR1rd3uF3cBQHlbStdcehxWrgVCQflQ
-         ncbFLHHSVKJcNRfT7F4ODkKQF1wSCtsQyj/LC12urHrHoUVEyv/LBdX7pUzu7fu80xsH
-         V/UMKorIdfttttebc4BIm3DRXUB3edOivxB0YleoOrw2/HuFNPwP9PDz30Vls8/nbAwU
-         OZ8DJTIRnsY0JS/sR2ud+WjZ9zg2lW1L9gIWOh3rog/xny6zm57c9gibFASaC6nDClct
-         NNKlBoaF5Tkgn0sjxux9WdIbM4inDJ7m6FQHiaZe17SktH2BLorcJOmq3LiRoanIAgDM
-         /8BQ==
+        b=EbjYyw/ss4SgnLP5K6UXsKm6LlfrtVGv0v8tlKl5kfl0r152KAjj58qEdgir+wI5yU
+         PKbPd11j4YPgpE+xxmwLNBDmvv69fjritkQbSoOKuYpDRELon122ZJYFs3dZJqzRUL2e
+         jP4iBzUym1P6ws4AcZjn/ggQuLnzK+pk1ISR4aMYyi4+lvwGbXXBORokoFNxJGTd3+S8
+         nBGY8PB+o3795yC4DU/lJCmijTlg39TFbjR22fe7nuzq0pAuaKI1UNPhzQG+84DYvtPM
+         g7kxN3waKPefHI8emqTZAdFA80OT1Wn5Yhr1z/dyWBSHy8Cp6tn+f3KFUCy5w0xlhc3w
+         jqcA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=GKkcXq6f8zGWuzHao/wEgSlibaZrEh6/LypUjS7IpMs=;
-        b=a7rSixHNkvYQ7HGm3irAn0+AQEJiJekgHlQ6TakQ0i6CVa9OF0TOv1Dj1Xc9JAeBgr
-         ZXOfkfK3gKG106sCqmaVgz/pE0YVRAWflxUgi+OAAzyI2LMDF+QAar/OdpGKPx+nNRAT
-         3iNkt5P8OTPCYQYFkBe/ZJPw/rjWUm7EzfFQq/UXObRDdQWC6baL+iuxnG9gF+sWlA6f
-         yaCkiXsU7SKJLH3rW1TKt3xGZiQhhiZjbLGGSvwjg9U4EBJqH2CpT6Se0qrLHSt4lw1I
-         EyMHu6x1GKgjOJmr+wX9Y4AW0ZUgdZuE7iUgnshNoi5rZFYziQAgK32bpjG7dHoCL7DQ
-         Yjig==
+         :list-id:mailing-list:precedence:user-agent:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:sender:dkim-signature;
+        bh=b8uv6Ys4s8lFABE8Cmhdnt/hcM9pINbB/xlgPm3Pmjc=;
+        b=X5p8vbxFv2bIKs/mYYalqcW0zRgvLe7DqRddqp7W9T8XoDb47ZwP7DWYvAiL6MVLT4
+         zIrJhmoS55/NK0XMN3jn7mHA3VuoOd13XWKGURv5/KZD8jKkRjbiP2ZC3miAov4CqZWB
+         ayWvMbh2FDJyHuhaJ3Ujny2/CulEFa7tfogi60r0fl18zjNQQoURXZhnNHX+fsyQsoD0
+         maYoTCRDrOE0pMmWEOwsE6MTMwejOUGFpu4ZnrpN4ryQpbXNGFnprNfoluB5ClXK1YNo
+         1VgEnymjDOjHgZILe39WM12EfYGsAmVYR78rahHj2k/xFdmusJwxQBXbiabNjZhL5t/o
+         q7WQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=C9UK7bh+;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::343 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       spf=pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=mark.rutland@arm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=GKkcXq6f8zGWuzHao/wEgSlibaZrEh6/LypUjS7IpMs=;
-        b=Wd6Hf+GeW5yTo+BLcUmVJPPdRpQvuKQBjXq+fHHUgOe/9ZfW1PM0ZuC/p7KAeqBGeO
-         LXjkfoUsvDR/UpCu4+M4txryWp5EKtkDkeIEyEmMaC2DJG17ZJ2fooT9OPnvUAqi24sg
-         s530pru47mf2EMIhmhSSwGvYX/YlN6m8vppKJB2vnOnQrg0/IufB21W/AFvXLRVo/cMl
-         somKCOdpJD9XoEKNTHrLA1o3SLfyyEQ8Xcu9z9PhL9zKvmzz3WG5F03m9FBp/88p4ceZ
-         RUOGdPvH16cGwseBiot5dSXB8ptZA/SmDAuYBTNAe/9Bb7XoiEzTWfkRjw6CqSL3PyBL
-         8njg==
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=b8uv6Ys4s8lFABE8Cmhdnt/hcM9pINbB/xlgPm3Pmjc=;
+        b=Heb25I5lp0okUEWMgmcYOb90e5Q3Xmkzchn1qODrSIvSqbhHIjhoD4i2YQe8HURmv3
+         yuqn7kM2QQGnc+f7ljXML2DCq2T87qKiY2j/0PIfN6RNH+6G6srU0/RQswAbMUK8VIxC
+         OnuB2YDb/QIt6Z17RPMFZdmnHzwtdUUfdgwAthpAH/bZI//oS/GlRCpIRCwWyfbxxF7N
+         NeQBpxArqDoSdTtJ1gm0hQSQRaeifW7lyt0NpCQtYrJCKD/9RVHIWIjw8g3hNenGxKoy
+         IgMr9R0uqMdmFiuWmNvuFwz+/47JPEJnFROIYE1G+yY4XyTMwNN1Hu8DujnkLhyQliST
+         Srfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=GKkcXq6f8zGWuzHao/wEgSlibaZrEh6/LypUjS7IpMs=;
-        b=ffaV4Z6ruxiTF8VijEnW9m8hkMw8Bnv3uN3xnSZm2xEXWmaH/AJjkveek2yL9OWydN
-         wkBYTOJp7ebMwEH18LKjfH/U5LXXWE+4/lXIlO0aIgtf/Blp0hUB36nruG9Vd2InC6GW
-         MtDAchrHZ6tdJ3hCk1ovMLGp7SBXmLPb5IQnQYo6UmfXczGfMgxdHy+M9WcZXR0T0s18
-         378oa2FGIO1Fy/KIAFS++N1a1FDPKULvK5w7bP2iUY5183KusnkVM9lfnMKFJ8JQ3JFl
-         KJ4HB5SWPYjnqtPXSJGW6HOdn4zAWtTSRnfKT09xl/lU0r/eWfU23TPmgTiRyUh82yKG
-         z3qg==
-X-Gm-Message-State: APjAAAWEQcfcPHhgFbb3NLwBoSZfeuWYGHE2G2OiE/0GGmG0BKfC2HwT
-	ar2h4KRrV/Ra1d4mDj6FPc0=
-X-Google-Smtp-Source: APXvYqweh0OUPeAp+E5LqayqT0Od/Ixx6DiqcyO4ORzYZRS71B5qpKsOtp7h3aL1IEP6LCBss4DdMQ==
-X-Received: by 2002:a17:90a:bd8e:: with SMTP id z14mr5067225pjr.40.1571233990295;
-        Wed, 16 Oct 2019 06:53:10 -0700 (PDT)
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=b8uv6Ys4s8lFABE8Cmhdnt/hcM9pINbB/xlgPm3Pmjc=;
+        b=WwuESCZSc3XKMt7Gytz7fM2j6XE/h+ZWjTWh4FBahasSZPzm9zgo5QG9m8rlQZJQCZ
+         0dskQ5mI5cbU0giQt1SURZEosWb7cBDmUtGvRUWV+8zMFDKd6UuIXNJBhBCWHm9cUdNK
+         WAEiYFcj0ABQ8r6NjL3aQGqtjpY2w0CxrEMiWuLxls/TSubdPPA5KL/SRxMaPS1+4JDD
+         S3aJpmsrucsjjkZS9EOWrjof7dfK3/neIKuNTkxaHz733uEtDm1QDKW1ecc8u5wuYOye
+         ba2uphDZlPvOZpBQrM4XaNuchiWrKsc7jm8Gd4iImbvtsTl/bJLpO3Tk09aPNy8Ovi4c
+         051w==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: APjAAAWYmSYSNyGE06hZACVDsXFXJWVNEC6cgxTGy+gHREyPPzPKGVY9
+	GY6tKDrx1LmI+qz6MCjvHmQ=
+X-Google-Smtp-Source: APXvYqyKs474rQQhoIwDBPPMq+pHNigWoxJjrfz7Ye8TJ4QArp0S5wM2btkRAqKbsMHRMtmflw+Eqw==
+X-Received: by 2002:ac2:54b3:: with SMTP id w19mr3165649lfk.66.1571239012798;
+        Wed, 16 Oct 2019 08:16:52 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a63:8849:: with SMTP id l70ls3222085pgd.13.gmail; Wed, 16
- Oct 2019 06:53:09 -0700 (PDT)
-X-Received: by 2002:a17:902:d691:: with SMTP id v17mr40004565ply.340.1571233989139;
-        Wed, 16 Oct 2019 06:53:09 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1571233989; cv=none;
+Received: by 2002:a19:8c4c:: with SMTP id i12ls2057203lfj.2.gmail; Wed, 16 Oct
+ 2019 08:16:52 -0700 (PDT)
+X-Received: by 2002:a19:c114:: with SMTP id r20mr24627389lff.7.1571239012040;
+        Wed, 16 Oct 2019 08:16:52 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1571239012; cv=none;
         d=google.com; s=arc-20160816;
-        b=wBSzK/nWl6Gy0kOCTJE2i+ugpLnbQYMviO2aUREiu2nolLljPtjf0qYO4Yh6Ebk6/N
-         FxcPiJeaWFU7muivXe4BNLSQ6Wzx+fUGa6k0XltYnHCsI/V9clzKHzAXOEX1CXlCUWve
-         EA+qrAne/2DWwTO/Z2+97N7eOyGSRq7K5NLL9iHb130jKeYhMCW5aAzDBZFwerOPMfhr
-         SAw6zFDbCzG9o6Q0MwB8CddKYED41JQOizoCqHR+QM/lkPgh1GBYRNzQ3ywhJjvgPZO4
-         UloZbzyvzqO0OLeLAUQ3PPWuH2Yx/UT3vvINfGv4gB/SHT4nzPSXitcW0gDax+s/fvnc
-         G7CA==
+        b=GsxZdHB0lWjYLZccFOuh3C0DleOC5zGSvrsB5+ttmAVEUVpItvrgmOJDC5DP8ybS5F
+         XFkybE6seQxZ/izQkn8nvTXx3q+yVaym9WFcXJiwY0+Z9gu0aYk/qqDTZX0uY6s9X67Y
+         ZzjdUA5ixfjHPCfecUuxV4HNkjUlY9MCiAmtmI1endNUIL0i7FLVL0F83XwlSYUjim22
+         GW94DKeBiXZ3WXiaKPkVlcErimGA9kwuG5cn1rzr2xZEqp5WWqXcvn4w2cvEOLcj2zAG
+         rfoijxtMq5D01myDwy5+8oTnXLAPNGq9Q5LLIbv8ilMgJ3DCQvb9z0shpMumEfVCxRe3
+         4pZQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=pXaUYTlHBDwej+JruJ2WTRxguQOYJLFuT4MqoWM48a4=;
-        b=tze5TZBV5T1opqLGASi5qcqjMzRgvGPnNaDAr1hfuPif3e2cDZZepzLxYnpyI+FB+E
-         CZk78Zz3tclzQgVH0qonkR2hnoAoZl8MI13cpVXiWaCen/SsWLrMnYospEkMjo+dEojV
-         AY65w1WfmBMBrITVo9m1xmY9BY9fZD8mzRo+52jramyOKx02BAEHDLEjyedcO8MwlP03
-         Ves0OEnC7GS3ZPc0kjXSF/jyg+wq8hg8phZPPHtAPTyQwfXLaayNqigVSq5Tc80Vcml+
-         iyJZ0cOuJfv2kSfjcfWW/Lv7gE2dXHkc0AkR+Uq4nBXLEnUeL5Ffi8XDtPxwo+exnox0
-         XvEQ==
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date;
+        bh=4+j9LnCYihVmRtZZZsViPejJ7e06mz+rSEUMV4JYnr8=;
+        b=MdPfZVwQ1wB9KjtP3M4F6wumMK2eDjzwYXB5rjqNX5coWYwZ4XLyUYX4DJ6g14f8Ij
+         52Y4VPwQoV6kz3qnyM0TSBLxmtfQoL147rpL+DFzvIY/JIllvw+GiN5TLk7/N1gUejXL
+         hCltiy+LtNxUDcySCztGNplf1Ou6kcv1xWuOY9WwPHFxmMxPM6qFlatxLcjDeRgnmh4q
+         WQlh/Ud1sBQJCczTHWTY8K3hfNYDGf2RpJqPhcOjnK0pbn1Cj0aVP9xUAG+FwOZo7q4p
+         5fwQbuZ7dwh4WnIopEe0Ue08o5My5zdxj5cXJ7vqR9c6HwY0YKAzVBM1he/n+JcEgHrs
+         Vtxw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=C9UK7bh+;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::343 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com. [2607:f8b0:4864:20::343])
-        by gmr-mx.google.com with ESMTPS id b64si723878pfg.0.2019.10.16.06.53.09
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 16 Oct 2019 06:53:09 -0700 (PDT)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::343 as permitted sender) client-ip=2607:f8b0:4864:20::343;
-Received: by mail-ot1-x343.google.com with SMTP id g13so20183501otp.8
-        for <kasan-dev@googlegroups.com>; Wed, 16 Oct 2019 06:53:09 -0700 (PDT)
-X-Received: by 2002:a9d:724e:: with SMTP id a14mr34578027otk.23.1571233986798;
- Wed, 16 Oct 2019 06:53:06 -0700 (PDT)
+       spf=pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=mark.rutland@arm.com
+Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
+        by gmr-mx.google.com with ESMTP id h6si1028438lfc.3.2019.10.16.08.16.51
+        for <kasan-dev@googlegroups.com>;
+        Wed, 16 Oct 2019 08:16:52 -0700 (PDT)
+Received-SPF: pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B25BA142F;
+	Wed, 16 Oct 2019 08:16:50 -0700 (PDT)
+Received: from lakrids.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F416A3F68E;
+	Wed, 16 Oct 2019 08:16:45 -0700 (PDT)
+Date: Wed, 16 Oct 2019 16:16:43 +0100
+From: Mark Rutland <mark.rutland@arm.com>
+To: Marco Elver <elver@google.com>
+Cc: akiyks@gmail.com, stern@rowland.harvard.edu, glider@google.com,
+	parri.andrea@gmail.com, andreyknvl@google.com, luto@kernel.org,
+	ard.biesheuvel@linaro.org, arnd@arndb.de, boqun.feng@gmail.com,
+	bp@alien8.de, dja@axtens.net, dlustig@nvidia.com,
+	dave.hansen@linux.intel.com, dhowells@redhat.com,
+	dvyukov@google.com, hpa@zytor.com, mingo@redhat.com,
+	j.alglave@ucl.ac.uk, joel@joelfernandes.org, corbet@lwn.net,
+	jpoimboe@redhat.com, luc.maranget@inria.fr, npiggin@gmail.com,
+	paulmck@linux.ibm.com, peterz@infradead.org, tglx@linutronix.de,
+	will@kernel.org, kasan-dev@googlegroups.com,
+	linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-efi@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org
+Subject: Re: [PATCH 1/8] kcsan: Add Kernel Concurrency Sanitizer
+ infrastructure
+Message-ID: <20191016151643.GC46264@lakrids.cambridge.arm.com>
+References: <20191016083959.186860-1-elver@google.com>
+ <20191016083959.186860-2-elver@google.com>
 MIME-Version: 1.0
-References: <20191016083959.186860-1-elver@google.com> <20191016083959.186860-2-elver@google.com>
- <CAAeHK+wO226yFsWw97wET_CY3aCiqX30JBYLtBspO5PbSV9FAA@mail.gmail.com>
-In-Reply-To: <CAAeHK+wO226yFsWw97wET_CY3aCiqX30JBYLtBspO5PbSV9FAA@mail.gmail.com>
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Wed, 16 Oct 2019 15:52:53 +0200
-Message-ID: <CANpmjNOcE=myHAC4xYOdssMUvJP2=1BeXmQ62O_tRQ-5cbiKMA@mail.gmail.com>
-Subject: Re: [PATCH 1/8] kcsan: Add Kernel Concurrency Sanitizer infrastructure
-To: Andrey Konovalov <andreyknvl@google.com>
-Cc: LKMM Maintainers -- Akira Yokosawa <akiyks@gmail.com>, Alan Stern <stern@rowland.harvard.edu>, 
-	Alexander Potapenko <glider@google.com>, Andrea Parri <parri.andrea@gmail.com>, 
-	Andy Lutomirski <luto@kernel.org>, Ard Biesheuvel <ard.biesheuvel@linaro.org>, 
-	Arnd Bergmann <arnd@arndb.de>, Boqun Feng <boqun.feng@gmail.com>, Borislav Petkov <bp@alien8.de>, 
-	Daniel Axtens <dja@axtens.net>, Daniel Lustig <dlustig@nvidia.com>, dave.hansen@linux.intel.com, 
-	David Howells <dhowells@redhat.com>, Dmitry Vyukov <dvyukov@google.com>, 
-	"H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>, Jade Alglave <j.alglave@ucl.ac.uk>, 
-	Joel Fernandes <joel@joelfernandes.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Josh Poimboeuf <jpoimboe@redhat.com>, Luc Maranget <luc.maranget@inria.fr>, 
-	Mark Rutland <mark.rutland@arm.com>, Nicholas Piggin <npiggin@gmail.com>, 
-	"Paul E. McKenney" <paulmck@linux.ibm.com>, Peter Zijlstra <peterz@infradead.org>, 
-	Thomas Gleixner <tglx@linutronix.de>, Will Deacon <will@kernel.org>, 
-	kasan-dev <kasan-dev@googlegroups.com>, linux-arch <linux-arch@vger.kernel.org>, 
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, linux-efi@vger.kernel.org, 
-	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
-	Linux Memory Management List <linux-mm@kvack.org>, "the arch/x86 maintainers" <x86@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=C9UK7bh+;       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::343 as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+Content-Disposition: inline
+In-Reply-To: <20191016083959.186860-2-elver@google.com>
+User-Agent: Mutt/1.11.1+11 (2f07cb52) (2018-12-01)
+X-Original-Sender: mark.rutland@arm.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as
+ permitted sender) smtp.mailfrom=mark.rutland@arm.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -144,246 +139,219 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-> > diff --git a/Documentation/dev-tools/kcsan.rst b/Documentation/dev-tools/kcsan.rst
-> > new file mode 100644
-> > index 000000000000..5b46cc5593c3
-> > --- /dev/null
-> > +++ b/Documentation/dev-tools/kcsan.rst
-> > @@ -0,0 +1,202 @@
-> > +The Kernel Concurrency Sanitizer (KCSAN)
-> > +========================================
-> > +
-> > +Overview
-> > +--------
-> > +
-> > +*Kernel Concurrency Sanitizer (KCSAN)* is a dynamic data-race detector for
-> > +kernel space. KCSAN is a sampling watchpoint-based data-race detector -- this
-> > +is unlike Kernel Thread Sanitizer (KTSAN), which is a happens-before data-race
-> > +detector. Key priorities in KCSAN's design are lack of false positives,
-> > +scalability, and simplicity. More details can be found in `Implementation
-> > +Details`_.
-> > +
-> > +KCSAN uses compile-time instrumentation to instrument memory accesses. KCSAN is
-> > +supported in both GCC and Clang. With GCC it requires version 7.3.0 or later.
-> > +With Clang it requires version 7.0.0 or later.
-> > +
-> > +Usage
-> > +-----
-> > +
-> > +To enable KCSAN configure kernel with::
-> > +
-> > +    CONFIG_KCSAN = y
-> > +
-> > +KCSAN provides several other configuration options to customize behaviour (see
-> > +their respective help text for more info).
-> > +
-> > +debugfs
-> > +~~~~~~~
-> > +
-> > +* The file ``/sys/kernel/debug/kcsan`` can be read to get stats.
-> > +
-> > +* KCSAN can be turned on or off by writing ``on`` or ``off`` to
-> > +  ``/sys/kernel/debug/kcsan``.
-> > +
-> > +* Writing ``!some_func_name`` to ``/sys/kernel/debug/kcsan`` adds
-> > +  ``some_func_name`` to the report filter list, which (by default) blacklists
-> > +  reporting data-races where either one of the top stackframes are a function
-> > +  in the list.
-> > +
-> > +* Writing either ``blacklist`` or ``whitelist`` to ``/sys/kernel/debug/kcsan``
-> > +  changes the report filtering behaviour. For example, the blacklist feature
-> > +  can be used to silence frequently occurring data-races; the whitelist feature
-> > +  can help with reproduction and testing of fixes.
-> > +
-> > +Error reports
-> > +~~~~~~~~~~~~~
-> > +
-> > +A typical data-race report looks like this::
-> > +
-> > +    ==================================================================
-> > +    BUG: KCSAN: data-race in generic_permission / kernfs_refresh_inode
-> > +
-> > +    write to 0xffff8fee4c40700c of 4 bytes by task 175 on cpu 4:
-> > +     kernfs_refresh_inode+0x70/0x170
-> > +     kernfs_iop_permission+0x4f/0x90
-> > +     inode_permission+0x190/0x200
-> > +     link_path_walk.part.0+0x503/0x8e0
-> > +     path_lookupat.isra.0+0x69/0x4d0
-> > +     filename_lookup+0x136/0x280
-> > +     user_path_at_empty+0x47/0x60
-> > +     vfs_statx+0x9b/0x130
-> > +     __do_sys_newlstat+0x50/0xb0
-> > +     __x64_sys_newlstat+0x37/0x50
-> > +     do_syscall_64+0x85/0x260
-> > +     entry_SYSCALL_64_after_hwframe+0x44/0xa9
-> > +
-> > +    read to 0xffff8fee4c40700c of 4 bytes by task 166 on cpu 6:
-> > +     generic_permission+0x5b/0x2a0
-> > +     kernfs_iop_permission+0x66/0x90
-> > +     inode_permission+0x190/0x200
-> > +     link_path_walk.part.0+0x503/0x8e0
-> > +     path_lookupat.isra.0+0x69/0x4d0
-> > +     filename_lookup+0x136/0x280
-> > +     user_path_at_empty+0x47/0x60
-> > +     do_faccessat+0x11a/0x390
-> > +     __x64_sys_access+0x3c/0x50
-> > +     do_syscall_64+0x85/0x260
-> > +     entry_SYSCALL_64_after_hwframe+0x44/0xa9
-> > +
-> > +    Reported by Kernel Concurrency Sanitizer on:
-> > +    CPU: 6 PID: 166 Comm: systemd-journal Not tainted 5.3.0-rc7+ #1
-> > +    Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.12.0-1 04/01/2014
-> > +    ==================================================================
-> > +
-> > +The header of the report provides a short summary of the functions involved in
-> > +the race. It is followed by the access types and stack traces of the 2 threads
-> > +involved in the data-race.
-> > +
-> > +The other less common type of data-race report looks like this::
-> > +
-> > +    ==================================================================
-> > +    BUG: KCSAN: racing read in e1000_clean_rx_irq+0x551/0xb10
->
-> Do we want to have a different bug title here? Can we also report this
-> as a data-race to simplify report parsing rules?
+On Wed, Oct 16, 2019 at 10:39:52AM +0200, Marco Elver wrote:
+> diff --git a/include/linux/sched.h b/include/linux/sched.h
+> index 2c2e56bd8913..34a1d9310304 100644
+> --- a/include/linux/sched.h
+> +++ b/include/linux/sched.h
+> @@ -1171,6 +1171,13 @@ struct task_struct {
+>  #ifdef CONFIG_KASAN
+>  	unsigned int			kasan_depth;
+>  #endif
+> +#ifdef CONFIG_KCSAN
+> +	/* See comments at kernel/kcsan/core.c: struct cpu_state. */
+> +	int				kcsan_disable;
+> +	int				kcsan_atomic_next;
+> +	int				kcsan_atomic_region;
+> +	bool				kcsan_atomic_region_flat;
+> +#endif
 
-Changed to just "data-race in" as well.
+Should these be unsigned?
 
-> > +
-> > +    race at unknown origin, with read to 0xffff933db8a2ae6c of 1 bytes by interrupt on cpu 0:
-> > +     e1000_clean_rx_irq+0x551/0xb10
-> > +     e1000_clean+0x533/0xda0
-> > +     net_rx_action+0x329/0x900
-> > +     __do_softirq+0xdb/0x2db
-> > +     irq_exit+0x9b/0xa0
-> > +     do_IRQ+0x9c/0xf0
-> > +     ret_from_intr+0x0/0x18
-> > +     default_idle+0x3f/0x220
-> > +     arch_cpu_idle+0x21/0x30
-> > +     do_idle+0x1df/0x230
-> > +     cpu_startup_entry+0x14/0x20
-> > +     rest_init+0xc5/0xcb
-> > +     arch_call_rest_init+0x13/0x2b
-> > +     start_kernel+0x6db/0x700
-> > +
-> > +    Reported by Kernel Concurrency Sanitizer on:
-> > +    CPU: 0 PID: 0 Comm: swapper/0 Not tainted 5.3.0-rc7+ #2
-> > +    Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.12.0-1 04/01/2014
-> > +    ==================================================================
-> > +
-> > +This report is generated where it was not possible to determine the other
-> > +racing thread, but a race was inferred due to the data-value of the watched
-> > +memory location having changed. These can occur either due to missing
-> > +instrumentation or e.g. DMA accesses.
-> > +
-> > +Data-Races
-> > +----------
-> > +
-> > +Informally, two operations *conflict* if they access the same memory location,
-> > +and at least one of them is a write operation. In an execution, two memory
-> > +operations from different threads form a **data-race** if they *conflict*, at
-> > +least one of them is a *plain access* (non-atomic), and they are *unordered* in
-> > +the "happens-before" order according to the `LKMM
-> > +<../../tools/memory-model/Documentation/explanation.txt>`_.
-> > +
-> > +Relationship with the Linux Kernel Memory Model (LKMM)
-> > +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > +
-> > +The LKMM defines the propagation and ordering rules of various memory
-> > +operations, which gives developers the ability to reason about concurrent code.
-> > +Ultimately this allows to determine the possible executions of concurrent code,
-> > +and if that code is free from data-races.
-> > +
-> > +KCSAN is aware of *atomic* accesses (``READ_ONCE``, ``WRITE_ONCE``,
-> > +``atomic_*``, etc.), but is oblivious of any ordering guarantees. In other
-> > +words, KCSAN assumes that as long as a plain access is not observed to race
-> > +with another conflicting access, memory operations are correctly ordered.
-> > +
-> > +This means that KCSAN will not report *potential* data-races due to missing
-> > +memory ordering. If, however, missing memory ordering (that is observable with
-> > +a particular compiler and architecture) leads to an observable data-race (e.g.
-> > +entering a critical section erroneously), KCSAN would report the resulting
-> > +data-race.
-> > +
-> > +Implementation Details
-> > +----------------------
-> > +
-> > +The general approach is inspired by `DataCollider
-> > +<http://usenix.org/legacy/events/osdi10/tech/full_papers/Erickson.pdf>`_.
-> > +Unlike DataCollider, KCSAN does not use hardware watchpoints, but instead
-> > +relies on compiler instrumentation. Watchpoints are implemented using an
-> > +efficient encoding that stores access type, size, and address in a long; the
-> > +benefits of using "soft watchpoints" are portability and greater flexibility in
-> > +limiting which accesses trigger a watchpoint.
-> > +
-> > +More specifically, KCSAN requires instrumenting plain (unmarked, non-atomic)
-> > +memory operations; for each instrumented plain access:
-> > +
-> > +1. Check if a matching watchpoint exists; if yes, and at least one access is a
-> > +   write, then we encountered a racing access.
-> > +
-> > +2. Periodically, if no matching watchpoint exists, set up a watchpoint and
-> > +   stall some delay.
-> > +
-> > +3. Also check the data value before the delay, and re-check the data value
-> > +   after delay; if the values mismatch, we infer a race of unknown origin.
-> > +
-> > +To detect data-races between plain and atomic memory operations, KCSAN also
-> > +annotates atomic accesses, but only to check if a watchpoint exists
-> > +(``kcsan_check_atomic(..)``); i.e.  KCSAN never sets up a watchpoint on atomic
-> > +accesses.
-> > +
-> > +Key Properties
-> > +~~~~~~~~~~~~~~
-> > +
-> > +1. **Performance Overhead:** KCSAN's runtime is minimal, and does not require
-> > +   locking shared state for each access. This results in significantly better
-> > +   performance in comparison with KTSAN.
-> > +
-> > +2. **Memory Overhead:** No shadow memory is required. The current
-> > +   implementation uses a small array of longs to encode watchpoint information,
-> > +   which is negligible.
-> > +
-> > +3. **Memory Ordering:** KCSAN is *not* aware of the LKMM's ordering rules. This
-> > +   may result in missed data-races (false negatives), compared to a
-> > +   happens-before data-race detector such as KTSAN.
-> > +
-> > +4. **Accuracy:** Imprecise, since it uses a sampling strategy.
-> > +
-> > +5. **Annotation Overheads:** Minimal annotation is required outside the KCSAN
-> > +   runtime. With a happens-before data-race detector, any omission leads to
-> > +   false positives, which is especially important in the context of the kernel
-> > +   which includes numerous custom synchronization mechanisms. With KCSAN, as a
-> > +   result, maintenance overheads are minimal as the kernel evolves.
-> > +
-> > +6. **Detects Racy Writes from Devices:** Due to checking data values upon
-> > +   setting up watchpoints, racy writes from devices can also be detected.
->
-> This part compares KCSAN with KTSAN, do we need it here? I think it
-> might be better to move this to the cover letter as a rationale as to
-> why we went with the watchpoint based approach, instead of the
-> happens-before one.
+> +/*
+> + * Per-CPU state that should be used instead of 'current' if we are not in a
+> + * task.
+> + */
+> +struct cpu_state {
+> +	int disable; /* disable counter */
+> +	int atomic_next; /* number of following atomic ops */
+> +
+> +	/*
+> +	 * We use separate variables to store if we are in a nestable or flat
+> +	 * atomic region. This helps make sure that an atomic region with
+> +	 * nesting support is not suddenly aborted when a flat region is
+> +	 * contained within. Effectively this allows supporting nesting flat
+> +	 * atomic regions within an outer nestable atomic region. Support for
+> +	 * this is required as there are cases where a seqlock reader critical
+> +	 * section (flat atomic region) is contained within a seqlock writer
+> +	 * critical section (nestable atomic region), and the "mismatching
+> +	 * kcsan_end_atomic()" warning would trigger otherwise.
+> +	 */
+> +	int atomic_region;
+> +	bool atomic_region_flat;
+> +};
+> +static DEFINE_PER_CPU(struct cpu_state, this_state) = {
+> +	.disable = 0,
+> +	.atomic_next = 0,
+> +	.atomic_region = 0,
+> +	.atomic_region_flat = 0,
+> +};
 
-Removed mentions of KTSAN where it doesn't add very much.
+These are the same as in task_struct, so I think it probably makes sense
+to have a common structure for these, e.g.
 
-These are properties of the design that, if not summarized here, would
-be lost and we'd have to look at the code. This is also for the
-benefit of developers using KCSAN to detect races, highlighting the
-pros and cons in the inherent design they should be aware of. I prefer
-keeping this information here, as otherwise it will get lost and we
-will have no central place to refer to.
+| struct kcsan_ctx {
+| 	int	disable;
+| 	int	atomic_next;
+| 	int	atomic_region;
+| 	bool	atomic_region_flat;
+| };
 
-> Some performance numbers comparing KCSAN with a non instrumented
-> kernel would be more useful here.
+... which you then place within task_struct, e.g.
 
-I've added a sentence with some empirical data.
+| #ifdef CONFIG_KCSAN
+| 	struct kcsan_ctx	kcsan_ctx;
+| #endif
 
-Changes queued for v2.
+... and here, e.g.
 
-Many thanks,
--- Marco
+| static DEFINE_PER_CPU(struct kcsan_ctx, kcsan_cpu_ctx);
+
+That would simplify a number of cases below where you have to choose one
+or the other, as you can choose the pointer, then handle the rest in a
+common way.
+
+e.g. for:
+
+> +static inline bool is_atomic(const volatile void *ptr)
+> +{
+> +	if (in_task()) {
+> +		if (unlikely(current->kcsan_atomic_next > 0)) {
+> +			--current->kcsan_atomic_next;
+> +			return true;
+> +		}
+> +		if (unlikely(current->kcsan_atomic_region > 0 ||
+> +			     current->kcsan_atomic_region_flat))
+> +			return true;
+> +	} else { /* interrupt */
+> +		if (unlikely(this_cpu_read(this_state.atomic_next) > 0)) {
+> +			this_cpu_dec(this_state.atomic_next);
+> +			return true;
+> +		}
+> +		if (unlikely(this_cpu_read(this_state.atomic_region) > 0 ||
+> +			     this_cpu_read(this_state.atomic_region_flat)))
+> +			return true;
+> +	}
+> +
+> +	return kcsan_is_atomic(ptr);
+> +}
+
+... you could have something like:
+
+| struct kcsan_ctx *kcsan_get_ctx(void)
+| {
+| 	return in_task() ? &current->kcsan_ctx : this_cpu_ptr(kcsan_cpu_ctx);
+| }
+|
+| static inline bool is_atomic(const volatile void *ptr)
+| {
+| 	struct kcsan_ctx *ctx = kcsan_get_ctx();
+|	if (unlikely(ctx->atomic_next > 0) {
+|		--ctx->atomic_next;
+| 		return true;
+| 	}
+| 	if (unlikely(ctx->atomic_region > 0 || ctx->atomic_region_flat))
+| 		return true;
+|
+| 	return kcsan_is_atomic(ptr);
+| }
+
+... avoiding duplicating the checks for task/irq contexts.
+
+It's not clear to me how either that or the original code works if a
+softirq is interrupted by a hardirq. IIUC most of the fields should
+remain stable over that window, since the hardirq should balance most
+changes it makes before returning, but I don't think that's true for
+atomic_next. Can't that be corrupted from the PoV of the softirq
+handler?
+
+[...]
+
+> +void kcsan_begin_atomic(bool nest)
+> +{
+> +	if (nest) {
+> +		if (in_task())
+> +			++current->kcsan_atomic_region;
+> +		else
+> +			this_cpu_inc(this_state.atomic_region);
+> +	} else {
+> +		if (in_task())
+> +			current->kcsan_atomic_region_flat = true;
+> +		else
+> +			this_cpu_write(this_state.atomic_region_flat, true);
+> +	}
+> +}
+
+Assuming my suggestion above wasn't bogus, this can be:
+
+| void kcsan_begin_atomic(boot nest)
+| {
+| 	struct kcsan_ctx *ctx = kcsan_get_ctx();
+| 	if (nest)
+| 		ctx->atomic_region++;
+| 	else
+| 		ctx->atomic_region_flat = true;
+| }
+
+> +void kcsan_end_atomic(bool nest)
+> +{
+> +	if (nest) {
+> +		int prev =
+> +			in_task() ?
+> +				current->kcsan_atomic_region-- :
+> +				(this_cpu_dec_return(this_state.atomic_region) +
+> +				 1);
+> +		if (prev == 0) {
+> +			kcsan_begin_atomic(true); /* restore to 0 */
+> +			kcsan_disable_current();
+> +			WARN(1, "mismatching %s", __func__);
+> +			kcsan_enable_current();
+> +		}
+> +	} else {
+> +		if (in_task())
+> +			current->kcsan_atomic_region_flat = false;
+> +		else
+> +			this_cpu_write(this_state.atomic_region_flat, false);
+> +	}
+> +}
+
+... similarly:
+
+| void kcsan_end_atomic(bool nest)
+| {
+| 	struct kcsan_ctx *ctx = kcsan_get_ctx();
+| 
+| 	if (nest)
+| 		if (ctx->kcsan_atomic_region--) {
+| 			kcsan_begin_atomic(true); /* restore to 0 */
+| 			kcsan_disable_current();
+| 			WARN(1, "mismatching %s"\ __func__);
+| 			kcsan_enable_current();
+| 		}
+| 	} else {
+| 		ctx->atomic_region_flat = true;
+| 	}
+| }
+
+> +void kcsan_atomic_next(int n)
+> +{
+> +	if (in_task())
+> +		current->kcsan_atomic_next = n;
+> +	else
+> +		this_cpu_write(this_state.atomic_next, n);
+> +}
+
+... and:
+
+| void kcsan_atomic_nextint n)
+| {
+| 	kcsan_get_ctx()->atomic_next = n;
+| }
+
+Thanks,
+Mark.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNOcE%3DmyHAC4xYOdssMUvJP2%3D1BeXmQ62O_tRQ-5cbiKMA%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20191016151643.GC46264%40lakrids.cambridge.arm.com.
