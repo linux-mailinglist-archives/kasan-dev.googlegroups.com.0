@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBCMIZB7QWENRBRGHYDWQKGQEMAGPX7I@googlegroups.com>
+Return-Path: <kasan-dev+bncBCMIZB7QWENRBGGLYDWQKGQEZYIPULY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x43b.google.com (mail-pf1-x43b.google.com [IPv6:2607:f8b0:4864:20::43b])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3F2EE16C4
-	for <lists+kasan-dev@lfdr.de>; Wed, 23 Oct 2019 11:56:21 +0200 (CEST)
-Received: by mail-pf1-x43b.google.com with SMTP id p2sf15739395pff.4
-        for <lists+kasan-dev@lfdr.de>; Wed, 23 Oct 2019 02:56:21 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1571824580; cv=pass;
+Received: from mail-il1-x13f.google.com (mail-il1-x13f.google.com [IPv6:2607:f8b0:4864:20::13f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D66EE1745
+	for <lists+kasan-dev@lfdr.de>; Wed, 23 Oct 2019 12:04:09 +0200 (CEST)
+Received: by mail-il1-x13f.google.com with SMTP id x17sf3367106ill.7
+        for <lists+kasan-dev@lfdr.de>; Wed, 23 Oct 2019 03:04:09 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1571825048; cv=pass;
         d=google.com; s=arc-20160816;
-        b=zE4xV+6/Z62T1OjfpZHXtvlWSVwHlMkWyG2U/EDpbPU41SFP7gSBO2NXeB1QQahsKt
-         2w/kD39V6pBJ2uokA6wRlII35l9Q5Wc9OqNbH5SP1fGG78l6oIq7rmC2KGDMLFzkHTKu
-         DD3HFjZ4vMluo7LtCgv1mykxFLrDto1G9qm6W1Caskr+e/8TOABObLIlcYsNGZpvoj9V
-         sbqCht9hl3KekqrHN6V2AZjiqFv7GlJM53y/nycyIYteC62334m8/cwlW/ZRH8Sqt8BA
-         VmfXh6Qnq4ljjl7CyyGmn7Vc3pLZIgqkoPjz22OXA+H3AM68JcTT4LltsiJxKVWDxRhK
-         UewA==
+        b=Iz7zDrKJ97y2uhOX0mGJAm6HXEL7Iw2yFdL5HUExgdMnLrO/aLq23CWu5Ihhg1vZFv
+         ILRgBx2zB0QwoC5xVU6ATiEb0njb3s7w9RtnorY2c+H1BxTDgKHGF0W2c6Hqw1957EXP
+         rGJc2rGotR+jg3hCG5GJNGSWsF0MMIUZjgeeibMlT4g38C7gL5Al+wwTRSyft1SyGWow
+         /MWy+o2GBNDa6gr1JQ7GTISmvwUMYB5HEWIqIdYhRFEX14pS8EK/dQkhNZ1uKk7hwrhZ
+         raZD2RkyrwaCWkTgi/9VIMT1JTeDH3w4zJ5W0S9174PAw/NYw10jnnxPjuRwYj/li+Lm
+         PHfQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=9mZBgkEDgJNiI97zEXS4Z+8c5DHl/I6K3i1VajaFhRQ=;
-        b=UWlMaym/yW6Qa9l/EOYk5N4W9BAaOmyLIDMq1Jk+79JPlztKTt5tht5izIXG/Cj2dI
-         U/ehuQPRewRs5XBRcVeoh7r0KyNJ9E8cn3F0Qw0fTAFe2Y8wn6ii0ZL0jYL4OCWGYPxM
-         QVk3EfsSrGvraj9HENPlPfYIMZ7Pfaq2yqrW1JPddOiPOYOuVC1xID8l1kDK0gR9a/C4
-         qgfHkWKzNEIALCQLTQX4UUW4D5Y5O+Aa0Ov26vYh8U6cBnE0mA3zYl2UOPjT9KUGxRe0
-         iFQswe0R4kTK7qoXvcfLSSYy+J2s5ua+Fvm0jaanEPwElL+lTYRwymcbqn+kX4NrvS1e
-         aJDg==
+        bh=wg3d3Z9YJCxC+mpKpizWLYQzqZtvlVRVvF+/H3f3QA0=;
+        b=gN43cUP4BwPr6PcClxDm2fk2VaI+NR53IIFAkaCrgXV7fTCZmo8CFcLn6MAm+bIujk
+         v1bl73AO+QZJOCylSc+yP9aUQLiugq3jxlYJTT5mB6HZadTMov/YWrdUzB8hn7gLk5xb
+         31sWcYP+hWYlzCcFV4E57WIMK2DSWPJpKYfQYLlWAWHZfrGtXFpxg+T1q23FIjKWDkZp
+         Ntj/+IuOMjXGn3FbbtT+QNTBwKcLa4f7lGjTlJW4H190En0BdSSoz3E2tlDyzDZdxg5z
+         EkNRBLVFHodS89+PaMNUjwQjnD8rNzwjSVBKO9UtS0j280D42PC+h22ijiopco6KiZxw
+         Ddjw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=U6AJscUY;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::841 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=XsWT2i98;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::744 as permitted sender) smtp.mailfrom=dvyukov@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=9mZBgkEDgJNiI97zEXS4Z+8c5DHl/I6K3i1VajaFhRQ=;
-        b=PlRja7uX1AipEj7Z/cSQT76c9axxCk4H3BnMaYx/rxu65gorgoqE4rA5u1pL9MNt+9
-         qjnb2AHKS0NneiGRHooAAZT7C1Y8pVOSTT+gKUstQKnCfeeOt+sBFpjsixvs9FjdqWsL
-         lA3Lxau8crF8Y/vwK58k8F+EDZ+dsDkg9pAINMfqPEOsIRIxJgBlpLHU9amgDMEW6r6A
-         9LNhpWOODBrSv4rUg3SavilTYNklPlHhWK+aqNQ66G8GPRuTzx4+vwPdXio9DOukN0il
-         L4q88m003WevpZ/KPNH992JXHH3fHx91JgtypKAq9zpJku5kkeWuWgWa/mO1teWGVCMx
-         nMfw==
+        bh=wg3d3Z9YJCxC+mpKpizWLYQzqZtvlVRVvF+/H3f3QA0=;
+        b=QJxyA7ARV7h1yDN9J0cgQqO+knC9z56sFaVLMQwrwA7nU06Zj7k7LGikzDJUuCR+lC
+         X0Iz/R9Q/8V0A99Ixgf2tNhwk69/KyhYsPcuUGUFhsNQONaezjopGjwYskq+Z/IV63cn
+         7ZcL2JKejfmQ0Xi088JESJXGwkP/fIU+oN6CUrl2sOaitrZerNCq6qadAyKitml0k388
+         3VANyuRp9tA9XmoBMEkPCFJVJZ0To3Pm9KwclOHrcrlx5HK20AcKjNukF/tK35o0bQux
+         hYFJpHCpNp+SaCZmn5GtX8gNZVopqdbHiADpv5UO1DtIVv7kMa5cF97p1CEQsTPNCYO6
+         JSdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
@@ -49,61 +49,61 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=9mZBgkEDgJNiI97zEXS4Z+8c5DHl/I6K3i1VajaFhRQ=;
-        b=Jwemg6QYkGRU1ZH8fCjzPgr7pZ3Ywy8Uai2a3wBuHse/XlEiqDonGn1x5ruBdS6oc+
-         nvF+vFH1y6lwK4m9iYjGn1fguzp4BEI7Ly998AYsEXnLdX/lc3s2zWUoRAKhwGqtPFP1
-         dHt29/gDpTUhFzV9/2PQFOlo7kBj54Bv+XkXOzmX7iCLPwWh5Eh+uSPSxhnUbai7tQPC
-         isTciHOOZMftxQ5JNl2Es2ZQZIdiNUh8z8tUL2uo6Kwp8i+qa50hHaFPUAtKZYrOCX3m
-         wKGsSpC/0lf2amnmOfqgqKYBFe+YCapYA9cbi4NZhC1mOGOF9SfVH5vCvolTQISqDTvd
-         ZgfA==
-X-Gm-Message-State: APjAAAX7KNL6ei9X7YtF9jigTTjPm9nSODeppdDvjnSLbvTsGyIX5J6t
-	4WZoiuiwTF2Nbco4NrYsEQQ=
-X-Google-Smtp-Source: APXvYqxn+y3N0UA6MW8W0uhZZBytYKQkis1vwRlt74zb6E6tSA0ByesOhtSQadc2MGtVLB0dhmVbNA==
-X-Received: by 2002:a17:90a:f001:: with SMTP id bt1mr10556609pjb.2.1571824580086;
-        Wed, 23 Oct 2019 02:56:20 -0700 (PDT)
+        bh=wg3d3Z9YJCxC+mpKpizWLYQzqZtvlVRVvF+/H3f3QA0=;
+        b=seZqkQE2KDqIquNLJhIAAJHFLF9enW5BytlSBczjvQlyJLnGCkWCUcg+P6n0g5lYg7
+         FyWWL5pHIUJ9qOxIM5gb0SdUFU2sOm7AUhJXpNWjeHaKe92E/Q0QhyepHCnPbILZEWeK
+         hy+iwc8N9aa7msrhSGk4nn0zOqOXnySqHMR3Trz9FsUA/gYJ/TN3tcs7m9CYfu6JXe11
+         lCMUL4yIykN5aiB15nTGfjMe68NOs2/cKQt8K9bnAEvVPDCs/H1AJjlZjfZ/qmLpPIVv
+         TiOChAav467INeqPZ70CkaudtEay8KPNRjTDqHL1aKQU4o1YwKfnu7EN8VIertCNumM7
+         CUcQ==
+X-Gm-Message-State: APjAAAXNbcDJu1zN9gIFHZ4Ie6MtUk5+UczMK2HRCqJW2SWINrBkVYTx
+	tkGwXlD92hV9XIKfNy/XyfE=
+X-Google-Smtp-Source: APXvYqzJ2JGwd/qtK9Vw0OiLfimHImqjiGB9Kgh0jZP21KW0zw/lPLDQ+UX0jF1D42uT6XzPO3b4LA==
+X-Received: by 2002:a92:9ecd:: with SMTP id s74mr35918412ilk.188.1571825048255;
+        Wed, 23 Oct 2019 03:04:08 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:902:ac93:: with SMTP id h19ls542524plr.6.gmail; Wed, 23
- Oct 2019 02:56:19 -0700 (PDT)
-X-Received: by 2002:a17:90a:2710:: with SMTP id o16mr10257667pje.98.1571824579567;
-        Wed, 23 Oct 2019 02:56:19 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1571824579; cv=none;
+Received: by 2002:a02:ce44:: with SMTP id y4ls123370jar.4.gmail; Wed, 23 Oct
+ 2019 03:04:07 -0700 (PDT)
+X-Received: by 2002:a02:bb85:: with SMTP id g5mr8676075jan.7.1571825047701;
+        Wed, 23 Oct 2019 03:04:07 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1571825047; cv=none;
         d=google.com; s=arc-20160816;
-        b=xOGNEthGJz0J+MiiaWaWOFxm/fXXK/If2zTA7qM4cBclfyfzqqw9Ntqx8IDg+cZXPr
-         nv37x8gQEEEl4yHt5aY60Ogz7Xr73JnShT8JXnlxC/Ao0lmaXq7OSmfA4t3KDZYzK8C8
-         4h69BZmPrl7HY1ujkjMHXtwf1fWCS3dIgHWwJHSJolvEY348bW9JYkGMNvCRaw7J74UL
-         g+oU2Vu8Okwryr+bIKmZ738deOx40OGlJSMUPxLRFVMk5HeM3krTl4wgn/VjhzbKQXLk
-         cNIRcHwNyFLVTGAoMgnK0BXgjwsh5XBFknpQvOlPbBd0LJDc8mhUCi7obMhLjL99FMQA
-         seRg==
+        b=HhdtcMlgzjJmZHKGOxxTcOSPWKc65KNsZC1leRRyRct8Iy2XCdYi7dkQgOL5y5rGYq
+         5Z1U1D3Je/rifUesIgSILVKf1v5aNiEJ2r4x5zSbhWdaE+haorqn4teIYLPrK4PQi4r6
+         zvN+dPqf0tCyDdpISur9xp0VDKtOxQM+jd93z9gjVxt/VZ9mvic56hiFKiYT73oLpHo8
+         85Av3Xt9sdPL5V9GNNmFVbwBF4lOZLKQe5ALj9SEAA3OjFTdIblED+HDNf3B8ZVJlAnU
+         mjQo6mGr+/3jdkUAmDuSkQqU/9RE+NU26BACoXHcaRMOX765Npn4gR1QTtG2g8YAgLww
+         hXxA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=K4djDL1u+JI5xzAKW04XI6cQAnUT+v0HwsOIqfQJB8s=;
-        b=0M8kaB9UU67ZURNPo+JAbSXNsrqcUZEv9IZqtfBF565z/U3T1pqznXu6g1PPRP9UHU
-         aP9fac6Jj4DwYZXj9nwxyWF78S1WvHrNqAWJrCMHeL8Poo3MepLYqLCPhuTpzZjoa2An
-         8efwmfvwoVD/I3+3f9dmtoLDHF0qZwaBLIT9S2q0Ri+MLxUBVKQXu/+vF9lQYryHC/jh
-         uIlxqqvxoky3xKhVrtj1LpchbdeuD28HA99sfQvfm263JRe080F89BDcVRckh092HzXw
-         gCzrPC1Uys/HDZz3fWvLJKnMLvEkzRv/YkmJd2i/XZbSJdradXcOx86//mywh/eFHc0k
-         todg==
+        bh=QqJ0ldaufIlp0tBsU24y0T/9/yH5Bcql27IM5W7jZoM=;
+        b=sqFtp1A/yD1bdP7CJ0QDCCD1tKIxVMKQlqQJjcx6JS1UgQxL5lh2SxCIrqqOT9TCZI
+         jD1ePFTGvefE+yGIpYh9CoKD+SQq8j8nz7KGIxb2w/IKgWDNFXEPMu5qWlFRGhl+0ywa
+         B4hPexdDUGLcN2xJNrQCM1Y8V0Hbvq1WArTOT3qrlgfJx/OGbEVaNGlk9cgO+8Y91g0o
+         QOd/UNajdpfUcW8+ifGz1vUxEMG6ZiLRBs6G1OtaNruO6S+g7YnShN6CEXxJqqapajCN
+         eaGlsuvu7InAbi1/ece48rbXEu6Ib0I8Oww6md+vV/fvBfArx9moeuVQ0xzNH/goNryM
+         xCLA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=U6AJscUY;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::841 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=XsWT2i98;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::744 as permitted sender) smtp.mailfrom=dvyukov@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-qt1-x841.google.com (mail-qt1-x841.google.com. [2607:f8b0:4864:20::841])
-        by gmr-mx.google.com with ESMTPS id b64si1101534pfg.0.2019.10.23.02.56.19
+Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com. [2607:f8b0:4864:20::744])
+        by gmr-mx.google.com with ESMTPS id f5si141513iof.4.2019.10.23.03.04.07
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 23 Oct 2019 02:56:19 -0700 (PDT)
-Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::841 as permitted sender) client-ip=2607:f8b0:4864:20::841;
-Received: by mail-qt1-x841.google.com with SMTP id m15so31464334qtq.2
-        for <kasan-dev@googlegroups.com>; Wed, 23 Oct 2019 02:56:19 -0700 (PDT)
-X-Received: by 2002:aed:24af:: with SMTP id t44mr7869747qtc.57.1571824576566;
- Wed, 23 Oct 2019 02:56:16 -0700 (PDT)
+        Wed, 23 Oct 2019 03:04:07 -0700 (PDT)
+Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::744 as permitted sender) client-ip=2607:f8b0:4864:20::744;
+Received: by mail-qk1-x744.google.com with SMTP id w2so19202090qkf.2
+        for <kasan-dev@googlegroups.com>; Wed, 23 Oct 2019 03:04:07 -0700 (PDT)
+X-Received: by 2002:a05:620a:16a6:: with SMTP id s6mr6839274qkj.407.1571825045656;
+ Wed, 23 Oct 2019 03:04:05 -0700 (PDT)
 MIME-Version: 1.0
 References: <20191017141305.146193-1-elver@google.com> <20191017141305.146193-2-elver@google.com>
 In-Reply-To: <20191017141305.146193-2-elver@google.com>
 From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Wed, 23 Oct 2019 11:56:05 +0200
-Message-ID: <CACT4Y+b6kx-mAbTQ_aNtxtex+MqOMAtSsVVPe4KykyOkWQSS-A@mail.gmail.com>
+Date: Wed, 23 Oct 2019 12:03:53 +0200
+Message-ID: <CACT4Y+bTY6EWhv3Q=BDee6Db=uxqxfNgifLDNRmOmpdH6=hUGQ@mail.gmail.com>
 Subject: Re: [PATCH v2 1/8] kcsan: Add Kernel Concurrency Sanitizer infrastructure
 To: Marco Elver <elver@google.com>
 Cc: LKMM Maintainers -- Akira Yokosawa <akiyks@gmail.com>, Alan Stern <stern@rowland.harvard.edu>, 
@@ -125,8 +125,8 @@ Cc: LKMM Maintainers -- Akira Yokosawa <akiyks@gmail.com>, Alan Stern <stern@row
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: dvyukov@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=U6AJscUY;       spf=pass
- (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::841
+ header.i=@google.com header.s=20161025 header.b=XsWT2i98;       spf=pass
+ (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::744
  as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
  (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Dmitry Vyukov <dvyukov@google.com>
@@ -143,428 +143,7 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-.On Thu, Oct 17, 2019 at 4:13 PM Marco Elver <elver@google.com> wrote:
-> --- a/include/linux/compiler-clang.h
-> +++ b/include/linux/compiler-clang.h
-> @@ -24,6 +24,15 @@
->  #define __no_sanitize_address
->  #endif
->
-> +#if __has_feature(thread_sanitizer)
-> +/* emulate gcc's __SANITIZE_THREAD__ flag */
-> +#define __SANITIZE_THREAD__
-> +#define __no_sanitize_thread \
-> +               __attribute__((no_sanitize("thread")))
-> +#else
-> +#define __no_sanitize_thread
-> +#endif
-> +
->  /*
->   * Not all versions of clang implement the the type-generic versions
->   * of the builtin overflow checkers. Fortunately, clang implements
-> diff --git a/include/linux/compiler-gcc.h b/include/linux/compiler-gcc.h
-> index d7ee4c6bad48..de105ca29282 100644
-> --- a/include/linux/compiler-gcc.h
-> +++ b/include/linux/compiler-gcc.h
-> @@ -145,6 +145,13 @@
->  #define __no_sanitize_address
->  #endif
->
-> +#if __has_attribute(__no_sanitize_thread__) && defined(__SANITIZE_THREAD__)
-> +#define __no_sanitize_thread                                                   \
-> +       __attribute__((__noinline__)) __attribute__((no_sanitize_thread))
-> +#else
-> +#define __no_sanitize_thread
-> +#endif
-> +
->  #if GCC_VERSION >= 50100
->  #define COMPILER_HAS_GENERIC_BUILTIN_OVERFLOW 1
->  #endif
-> diff --git a/include/linux/compiler.h b/include/linux/compiler.h
-> index 5e88e7e33abe..350d80dbee4d 100644
-> --- a/include/linux/compiler.h
-> +++ b/include/linux/compiler.h
-> @@ -178,6 +178,7 @@ void ftrace_likely_update(struct ftrace_likely_data *f, int val,
->  #endif
->
->  #include <uapi/linux/types.h>
-> +#include <linux/kcsan-checks.h>
->
->  #define __READ_ONCE_SIZE                                               \
->  ({                                                                     \
-> @@ -193,12 +194,6 @@ void ftrace_likely_update(struct ftrace_likely_data *f, int val,
->         }                                                               \
->  })
->
-> -static __always_inline
-> -void __read_once_size(const volatile void *p, void *res, int size)
-> -{
-> -       __READ_ONCE_SIZE;
-> -}
-> -
->  #ifdef CONFIG_KASAN
->  /*
->   * We can't declare function 'inline' because __no_sanitize_address confilcts
-> @@ -211,14 +206,38 @@ void __read_once_size(const volatile void *p, void *res, int size)
->  # define __no_kasan_or_inline __always_inline
->  #endif
->
-> -static __no_kasan_or_inline
-> +#ifdef CONFIG_KCSAN
-> +# define __no_kcsan_or_inline __no_sanitize_thread notrace __maybe_unused
-> +#else
-> +# define __no_kcsan_or_inline __always_inline
-> +#endif
-> +
-> +#if defined(CONFIG_KASAN) || defined(CONFIG_KCSAN)
-> +/* Avoid any instrumentation or inline. */
-> +#define __no_sanitize_or_inline                                                \
-> +       __no_sanitize_address __no_sanitize_thread notrace __maybe_unused
-> +#else
-> +#define __no_sanitize_or_inline __always_inline
-> +#endif
-> +
-> +static __no_kcsan_or_inline
-> +void __read_once_size(const volatile void *p, void *res, int size)
-> +{
-> +       kcsan_check_atomic_read((const void *)p, size);
-
-This cast should not be required, or we should fix kcsan_check_atomic_read.
-
-
-> +       __READ_ONCE_SIZE;
-> +}
-> +
-> +static __no_sanitize_or_inline
->  void __read_once_size_nocheck(const volatile void *p, void *res, int size)
->  {
->         __READ_ONCE_SIZE;
->  }
->
-> -static __always_inline void __write_once_size(volatile void *p, void *res, int size)
-> +static __no_kcsan_or_inline
-> +void __write_once_size(volatile void *p, void *res, int size)
->  {
-> +       kcsan_check_atomic_write((const void *)p, size);
-
-This cast should not be required, or we should fix kcsan_check_atomic_write.
-
->         switch (size) {
->         case 1: *(volatile __u8 *)p = *(__u8 *)res; break;
->         case 2: *(volatile __u16 *)p = *(__u16 *)res; break;
-> diff --git a/include/linux/kcsan-checks.h b/include/linux/kcsan-checks.h
-> new file mode 100644
-> index 000000000000..4203603ae852
-> --- /dev/null
-> +++ b/include/linux/kcsan-checks.h
-> @@ -0,0 +1,147 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +
-> +#ifndef _LINUX_KCSAN_CHECKS_H
-> +#define _LINUX_KCSAN_CHECKS_H
-> +
-> +#include <linux/types.h>
-> +
-> +/*
-> + * __kcsan_*: Always available when KCSAN is enabled. This may be used
-
-Aren't all functions in this file available always? They should be.
-
-> + * even in compilation units that selectively disable KCSAN, but must use KCSAN
-> + * to validate access to an address.   Never use these in header files!
-> + */
-> +#ifdef CONFIG_KCSAN
-> +/**
-> + * __kcsan_check_watchpoint - check if a watchpoint exists
-> + *
-> + * Returns true if no race was detected, and we may then proceed to set up a
-> + * watchpoint after. Returns false if either KCSAN is disabled or a race was
-> + * encountered, and we may not set up a watchpoint after.
-> + *
-> + * @ptr address of access
-> + * @size size of access
-> + * @is_write is access a write
-> + * @return true if no race was detected, false otherwise.
-> + */
-> +bool __kcsan_check_watchpoint(const volatile void *ptr, size_t size,
-> +                             bool is_write);
-> +
-> +/**
-> + * __kcsan_setup_watchpoint - set up watchpoint and report data-races
-> + *
-> + * Sets up a watchpoint (if sampled), and if a racing access was observed,
-> + * reports the data-race.
-> + *
-> + * @ptr address of access
-> + * @size size of access
-> + * @is_write is access a write
-> + */
-> +void __kcsan_setup_watchpoint(const volatile void *ptr, size_t size,
-> +                             bool is_write);
-> +#else
-> +static inline bool __kcsan_check_watchpoint(const volatile void *ptr,
-> +                                           size_t size, bool is_write)
-> +{
-> +       return true;
-> +}
-> +static inline void __kcsan_setup_watchpoint(const volatile void *ptr,
-> +                                           size_t size, bool is_write)
-> +{
-> +}
-> +#endif
-> +
-> +/*
-> + * kcsan_*: Only available when the particular compilation unit has KCSAN
-> + * instrumentation enabled. May be used in header files.
-> + */
-> +#ifdef __SANITIZE_THREAD__
-> +#define kcsan_check_watchpoint __kcsan_check_watchpoint
-> +#define kcsan_setup_watchpoint __kcsan_setup_watchpoint
-> +#else
-> +static inline bool kcsan_check_watchpoint(const volatile void *ptr, size_t size,
-> +                                         bool is_write)
-> +{
-> +       return true;
-> +}
-> +static inline void kcsan_setup_watchpoint(const volatile void *ptr, size_t size,
-> +                                         bool is_write)
-> +{
-> +}
-> +#endif
-> +
-> +/**
-> + * __kcsan_check_read - check regular read access for data-races
-> + *
-> + * Full read access that checks watchpoint and sets up a watchpoint if this
-> + * access is sampled. Note that, setting up watchpoints for plain reads is
-> + * required to also detect data-races with atomic accesses.
-> + *
-> + * @ptr address of access
-> + * @size size of access
-> + */
-> +#define __kcsan_check_read(ptr, size)                                          \
-> +       do {                                                                   \
-> +               if (__kcsan_check_watchpoint(ptr, size, false))                \
-> +                       __kcsan_setup_watchpoint(ptr, size, false);            \
-> +       } while (0)
-> +
-> +/**
-> + * __kcsan_check_write - check regular write access for data-races
-> + *
-> + * Full write access that checks watchpoint and sets up a watchpoint if this
-> + * access is sampled.
-> + *
-> + * @ptr address of access
-> + * @size size of access
-> + */
-> +#define __kcsan_check_write(ptr, size)                                         \
-> +       do {                                                                   \
-> +               if (__kcsan_check_watchpoint(ptr, size, true) &&               \
-> +                   !IS_ENABLED(CONFIG_KCSAN_PLAIN_WRITE_PRETEND_ONCE))        \
-> +                       __kcsan_setup_watchpoint(ptr, size, true);             \
-> +       } while (0)
-> +
-> +/**
-> + * kcsan_check_read - check regular read access for data-races
-> + *
-> + * @ptr address of access
-> + * @size size of access
-> + */
-> +#define kcsan_check_read(ptr, size)                                            \
-> +       do {                                                                   \
-> +               if (kcsan_check_watchpoint(ptr, size, false))                  \
-> +                       kcsan_setup_watchpoint(ptr, size, false);              \
-> +       } while (0)
-> +
-> +/**
-> + * kcsan_check_write - check regular write access for data-races
-> + *
-> + * @ptr address of access
-> + * @size size of access
-> + */
-> +#define kcsan_check_write(ptr, size)                                           \
-> +       do {                                                                   \
-> +               if (kcsan_check_watchpoint(ptr, size, true) &&                 \
-> +                   !IS_ENABLED(CONFIG_KCSAN_PLAIN_WRITE_PRETEND_ONCE))        \
-> +                       kcsan_setup_watchpoint(ptr, size, true);               \
-> +       } while (0)
-> +
-> +/*
-> + * Check for atomic accesses: if atomic access are not ignored, this simply
-> + * aliases to kcsan_check_watchpoint, otherwise becomes a no-op.
-> + */
-> +#ifdef CONFIG_KCSAN_IGNORE_ATOMICS
-> +#define kcsan_check_atomic_read(...)                                           \
-> +       do {                                                                   \
-> +       } while (0)
-> +#define kcsan_check_atomic_write(...)                                          \
-> +       do {                                                                   \
-> +       } while (0)
-> +#else
-> +#define kcsan_check_atomic_read(ptr, size)                                     \
-> +       kcsan_check_watchpoint(ptr, size, false)
-> +#define kcsan_check_atomic_write(ptr, size)                                    \
-> +       kcsan_check_watchpoint(ptr, size, true)
-> +#endif
-> +
-> +#endif /* _LINUX_KCSAN_CHECKS_H */
-> diff --git a/include/linux/kcsan.h b/include/linux/kcsan.h
-> new file mode 100644
-> index 000000000000..fd5de2ba3a16
-> --- /dev/null
-> +++ b/include/linux/kcsan.h
-> @@ -0,0 +1,108 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +
-> +#ifndef _LINUX_KCSAN_H
-> +#define _LINUX_KCSAN_H
-> +
-> +#include <linux/types.h>
-> +#include <linux/kcsan-checks.h>
-> +
-> +#ifdef CONFIG_KCSAN
-> +
-> +/*
-> + * Context for each thread of execution: for tasks, this is stored in
-> + * task_struct, and interrupts access internal per-CPU storage.
-> + */
-> +struct kcsan_ctx {
-> +       int disable; /* disable counter */
-> +       int atomic_next; /* number of following atomic ops */
-> +
-> +       /*
-> +        * We use separate variables to store if we are in a nestable or flat
-> +        * atomic region. This helps make sure that an atomic region with
-> +        * nesting support is not suddenly aborted when a flat region is
-> +        * contained within. Effectively this allows supporting nesting flat
-> +        * atomic regions within an outer nestable atomic region. Support for
-> +        * this is required as there are cases where a seqlock reader critical
-> +        * section (flat atomic region) is contained within a seqlock writer
-> +        * critical section (nestable atomic region), and the "mismatching
-> +        * kcsan_end_atomic()" warning would trigger otherwise.
-> +        */
-> +       int atomic_region;
-> +       bool atomic_region_flat;
-> +};
-> +
-> +/**
-> + * kcsan_init - initialize KCSAN runtime
-> + */
-> +void kcsan_init(void);
-> +
-> +/**
-> + * kcsan_disable_current - disable KCSAN for the current context
-> + *
-> + * Supports nesting.
-> + */
-> +void kcsan_disable_current(void);
-> +
-> +/**
-> + * kcsan_enable_current - re-enable KCSAN for the current context
-> + *
-> + * Supports nesting.
-> + */
-> +void kcsan_enable_current(void);
-> +
-> +/**
-> + * kcsan_begin_atomic - use to denote an atomic region
-> + *
-> + * Accesses within the atomic region may appear to race with other accesses but
-> + * should be considered atomic.
-> + *
-> + * @nest true if regions may be nested, or false for flat region
-> + */
-> +void kcsan_begin_atomic(bool nest);
-> +
-> +/**
-> + * kcsan_end_atomic - end atomic region
-> + *
-> + * @nest must match argument to kcsan_begin_atomic().
-> + */
-> +void kcsan_end_atomic(bool nest);
-> +
-> +/**
-> + * kcsan_atomic_next - consider following accesses as atomic
-> + *
-> + * Force treating the next n memory accesses for the current context as atomic
-> + * operations.
-> + *
-> + * @n number of following memory accesses to treat as atomic.
-> + */
-> +void kcsan_atomic_next(int n);
-> +
-> +#else /* CONFIG_KCSAN */
-> +
-> +static inline void kcsan_init(void)
-> +{
-> +}
-> +
-> +static inline void kcsan_disable_current(void)
-> +{
-> +}
-> +
-> +static inline void kcsan_enable_current(void)
-> +{
-> +}
-> +
-> +static inline void kcsan_begin_atomic(bool nest)
-> +{
-> +}
-> +
-> +static inline void kcsan_end_atomic(bool nest)
-> +{
-> +}
-> +
-> +static inline void kcsan_atomic_next(int n)
-> +{
-> +}
-> +
-> +#endif /* CONFIG_KCSAN */
-> +
-> +#endif /* _LINUX_KCSAN_H */
-> diff --git a/include/linux/sched.h b/include/linux/sched.h
-> index 2c2e56bd8913..9490e417bf4a 100644
-> --- a/include/linux/sched.h
-> +++ b/include/linux/sched.h
-> @@ -31,6 +31,7 @@
->  #include <linux/task_io_accounting.h>
->  #include <linux/posix-timers.h>
->  #include <linux/rseq.h>
-> +#include <linux/kcsan.h>
->
->  /* task_struct member predeclarations (sorted alphabetically): */
->  struct audit_context;
-> @@ -1171,6 +1172,9 @@ struct task_struct {
->  #ifdef CONFIG_KASAN
->         unsigned int                    kasan_depth;
->  #endif
-> +#ifdef CONFIG_KCSAN
-> +       struct kcsan_ctx                kcsan_ctx;
-> +#endif
->
->  #ifdef CONFIG_FUNCTION_GRAPH_TRACER
->         /* Index of current stored address in ret_stack: */
-> diff --git a/init/init_task.c b/init/init_task.c
-> index 9e5cbe5eab7b..e229416c3314 100644
-> --- a/init/init_task.c
-> +++ b/init/init_task.c
-> @@ -161,6 +161,14 @@ struct task_struct init_task
->  #ifdef CONFIG_KASAN
->         .kasan_depth    = 1,
->  #endif
-> +#ifdef CONFIG_KCSAN
-> +       .kcsan_ctx = {
-> +               .disable                = 1,
-> +               .atomic_next            = 0,
-> +               .atomic_region          = 0,
-> +               .atomic_region_flat     = 0,
-> +       },
-> +#endif
->  #ifdef CONFIG_TRACE_IRQFLAGS
->         .softirqs_enabled = 1,
->  #endif
-> diff --git a/init/main.c b/init/main.c
-> index 91f6ebb30ef0..4d814de017ee 100644
+On Thu, Oct 17, 2019 at 4:13 PM Marco Elver <elver@google.com> wrote:
 > --- a/init/main.c
 > +++ b/init/main.c
 > @@ -93,6 +93,7 @@
@@ -2111,11 +1690,17 @@ Aren't all functions in this file available always? They should be.
 > +       help
 > +         Kernel Concurrency Sanitizer is a dynamic data-race detector, which
 > +         uses a watchpoint-based sampling approach to detect races.
-> +
+
+It can make sense to provide a reference to the doc with full details here.
+
 > +if KCSAN
 > +
 > +config KCSAN_SELFTEST
 > +       bool "KCSAN: perform short selftests on boot"
+
+All of these configs are already inside of KCSAN submenu, so it's not
+necessary to prefix all of them with "KCSAN:".
+
 > +       default y
 > +       help
 > +         Run KCSAN selftests on boot. On test failure, causes kernel to panic.
@@ -2241,4 +1826,4 @@ Aren't all functions in this file available always? They should be.
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2Bb6kx-mAbTQ_aNtxtex%2BMqOMAtSsVVPe4KykyOkWQSS-A%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BbTY6EWhv3Q%3DBDee6Db%3DuxqxfNgifLDNRmOmpdH6%3DhUGQ%40mail.gmail.com.
