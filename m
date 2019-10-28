@@ -1,138 +1,121 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBRVVY7WQKGQECSJEYLI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDQ27FVWWUFRBRMH3HWQKGQEYXAT7NQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yw1-xc3e.google.com (mail-yw1-xc3e.google.com [IPv6:2607:f8b0:4864:20::c3e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CA9EE395D
-	for <lists+kasan-dev@lfdr.de>; Thu, 24 Oct 2019 19:09:27 +0200 (CEST)
-Received: by mail-yw1-xc3e.google.com with SMTP id u131sf18778573ywa.1
-        for <lists+kasan-dev@lfdr.de>; Thu, 24 Oct 2019 10:09:27 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1571936966; cv=pass;
+Received: from mail-il1-x13d.google.com (mail-il1-x13d.google.com [IPv6:2607:f8b0:4864:20::13d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 949A6E6A77
+	for <lists+kasan-dev@lfdr.de>; Mon, 28 Oct 2019 02:26:30 +0100 (CET)
+Received: by mail-il1-x13d.google.com with SMTP id j68sf8086770ili.15
+        for <lists+kasan-dev@lfdr.de>; Sun, 27 Oct 2019 18:26:30 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1572225989; cv=pass;
         d=google.com; s=arc-20160816;
-        b=A703vDSxIAVM2WaMc2TlGFNn4PhbolSc4w/33qHJmXteVHEe81deH6IW3l27CkRLc2
-         pUhQ6nrQ+hwrgVMdomvK55ZnL8DRIWBzxk+JX+45Y95C/CPvxxkMjA3NsKaqMjI8+v+4
-         XwBR6a8iZ2BkWD4qTfADPVlhFiIq0/1Bgnx1ycjW/8tlow1pkW24oCAZpYcH6ecdKJaq
-         D0WD09yfeeov5f4pJTAPzTJSnrQyFjQG1hGbTw1IaHxaOhiRro8cMOy+NPnWKKNrKkz2
-         H2JwaAcWXmFBY1tjtIYgghkHytGXH7Z2tzmS9ztkclvTA/E2itAWwROz5du6lAw5LP0e
-         Q9ZA==
+        b=wGK1b2JifZQ5TkgGUUM/Pay9x+Gq6eL4PZgzsGUyco04B25Kkp8BWjqhVE5QD7ivaj
+         kreQDvXJYVI9g85p0MMbI4UtpVTuJrB596JRDp3c760zcysZdh2VG7yY966zt+WlFHJo
+         BASgSDyKbp4IuUh6lAo/ufSoB5c24RQqLOk1cHomZFKIUzLd1zkEeR5XUCpQmpok/2WJ
+         ToFfiZi8IJCQKmR5h6cG3cg9eySJkT4vsB/4G2d/XgKSXsTmwIxMCbMFWpLLYvQ8UM6X
+         rMH3DfmlTRpRUCHDGRbntFfq97v4GNpjDaUDkaFcKTfos3Sg0G9Z+yS5pmwfYz3e4wOX
+         2PXg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=s25pUYdAuvc75ll98vlDHBRtIO425a95GSppQbXHfrM=;
-        b=Efdcl5cv9WLimLw6UQkhUCrWhVAn91mVa86lq5J2IGyAO7BxwqsEvaeM7U2VMGgJLJ
-         WnFIppXgywSNCcYh1mk8FoLSTUsSZmabqC/BWeoWl1ZxXkev7/h8X0R44FRPGhSYt658
-         YLn0nptKmJCm3Amazv9iyXHf3vpWM9r6ViX+gryo8Gi+fuGozjQJzUdCwfGwmEsg3Z5D
-         qzAWOoUPbJbh5T33hwlfIVRbDRvCAtGUO9UZ+WDr9oJD6bXMylChjWN9PzPvW6B1e3kN
-         Sknlj1+ZmJ58I32KHm1/WN49MOqNbJQ0ESZ+Bp44gh/qQ2lvLJOSOruBPP4UmUUYQ0ZE
-         95Bg==
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :references:in-reply-to:subject:cc:to:from:sender:dkim-signature;
+        bh=Z/3FT/DQEy0KOnSU2eXzF4W7stUM2t6xAiJwK5VU1XA=;
+        b=Un46gUABcUxkQo5BhuAWGYmtZvkAUPi41siooCxWx/5w3oj4wnfuPSAGKJAOmpZuB4
+         NdC9K2faPqqWfTMP6qpAs5pZXMamtLXFk7fvMPVU+TIabGRmMeZHaMNlQLg9hbV8HoyG
+         maKkNGNSzAXZOK41zcF840mcztAodiUPF9c5sU3bPnJAvVrHpikHQbVbKLBFpYBKrNga
+         vaW+ogrTohuQYnYsAJ8pjT2S8SgedewJD1ZpqwELiqkRC2eVKjxTUGZhTs6uyEi+OXLf
+         pWfP3L04gbthHMYI05LGoqkVSRuH1tW22m4QAd4Ueg87lTuemWF6Nf57+sCGL39HgtzN
+         xMgQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=NDkinmJa;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::341 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@axtens.net header.s=google header.b=G8EDPx8d;
+       spf=pass (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::441 as permitted sender) smtp.mailfrom=dja@axtens.net
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
+        h=sender:from:to:cc:subject:in-reply-to:references:date:message-id
+         :mime-version:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=s25pUYdAuvc75ll98vlDHBRtIO425a95GSppQbXHfrM=;
-        b=hsGCjN52/lesSStXf/36EA3NwUatP6Hk/8h9nSFdomBVEUk5XdqChSwoM9jCCyw/pY
-         dLyoogGl1X5/AVazxIRFKUYLfh9G1OzPdCv47H+ipcgSAJi6hzPHIdh1ewkUwPiU5hA5
-         VF5K8t0ZhOZEvg4DB0ad53FG5+i3AK5pQ88F8SPptPNgNbtPSXPVft8tcU3U2qlV71JH
-         01J/RKqj/DBSo8YH42TI265j1GLHKpSAphdHGqFir9BzKPvmJjPk7P8JMgTF4cQau4Be
-         ONGk68hFTHBAv+jkUKHRiiEQvdx/pxFamg6JxeoLcbEqFtCvPnUi/pebN7W4w99BMTlw
-         Hqig==
+        bh=Z/3FT/DQEy0KOnSU2eXzF4W7stUM2t6xAiJwK5VU1XA=;
+        b=STG1pXkvU0RaxT8oNAgL/l9XIh2KWYEttV8/uz3fm2ykNr0Dawq6yj+/bQwT+1xMwK
+         mx2TnCtwQp8DebjDmRbAd4gP3TZbp3pjJaHXEk2C/5qyyIlRIQt3XhE4S33Lxrn3y34Z
+         ODcqlCmwW24NN4VV/GXrX5ruq3WExaqriZ0QfBV32T2R3ZPYePB+cychrMYuHzzZcoHP
+         bK6T32soMQO+FIfWxQOoxsxVahjIuIFYAqeoWhjVp8MrOh2TayMY5JKFbt/TZzKw9x5V
+         8NOFajWDmGE1+jCbWRyMALo/cRE6RxRD1XqlBtI2JSabcFTVGEQIcItdq9xEUjVDk5Wi
+         uYww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+        h=sender:x-gm-message-state:from:to:cc:subject:in-reply-to:references
+         :date:message-id:mime-version:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=s25pUYdAuvc75ll98vlDHBRtIO425a95GSppQbXHfrM=;
-        b=HLDeF6Zdzhddt5TI6UbSjp2WIByJp5TXRl4s7ZKTrnnl3qwbDL6UcOWY7ep0vWrK+u
-         JciOXa4VB1mhRW0AC7bUwR2Mr+jmEI8KZKYnlagsWZX7NPoy4N6pwmoUfY/cz5+XQox1
-         jgVcygq+E7wcLAS9A1vFiPPQ4Okhn+fj8VtFx6n32/2hVhhm9LoR3OPx9lgjhOu8WpKR
-         gD3E0UK1T8PgjH1ast/LYzdXXZJbAVT4CAVdtrdT2i8Yhj7XH0kieZI2YFweAo0mc8MP
-         Oje+oIQLxqA5LiLoiG1QJ1G7uNwhtfphuKLOTGDiGDA6/36O6nJj9pzjp+x0s3NGTJ4z
-         97xQ==
-X-Gm-Message-State: APjAAAXzYVFWAsf2u12giOoNriOQefxAsqiuu7v6wsoPQswqnFOUzw2T
-	ztoxWBt7UXmWm2ihl+7Ka9w=
-X-Google-Smtp-Source: APXvYqzTJU0/hmkoyIdSpO/370sDuR9v/4KDzbA2jnupunCSAA2sTmVSH68FbTcrpZF2scelKaDnUA==
-X-Received: by 2002:a25:58d5:: with SMTP id m204mr11218473ybb.325.1571936966447;
-        Thu, 24 Oct 2019 10:09:26 -0700 (PDT)
+        bh=Z/3FT/DQEy0KOnSU2eXzF4W7stUM2t6xAiJwK5VU1XA=;
+        b=aLgCSIopP4v0GXKmw5Zj5qXHLCazKigAdMaHyZr+WjGDEzInqwR+XK758iGsDmZsxt
+         m3oH0pkGzPPDpwIiwVRWlANk+r8VXB3r9w02eYXGP7YlJ+xw/qCwZSZmd6SbcL+LIvHp
+         rs7PqHphvx87QQJBc+HQk3ex6EGlHo5/R+R1i7Ipdou5p2SO8c+2nQ2SbL9uumE+RfQj
+         0zHgw6y9LLiKGL6AHztvJIkJ0wGzjWBNPmZWTJORYtW2/W4xxMq4x2vGbXTNb0MX3ZQi
+         ro3ecS0GkS4RfvDqhaLIZWLN/lNTSyqWPEqs0gZLiz7gfD5kdG19aPIwBYunKaJ9U/Gh
+         HvYw==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: APjAAAVrG8hhMwvpl8p0VYjeliDyfrJaKonpk9DNvtXiqolIodsgYgfN
+	2uUsSEVURVLivdG69bFBvuc=
+X-Google-Smtp-Source: APXvYqx9rxMBqCrgkXZqzLkqs6sfqb44jCDqNRinfGyI+BEJEvuiwiLW4qgCRMJ6nwBTawzttPQ8ew==
+X-Received: by 2002:a92:b105:: with SMTP id t5mr17718764ilh.299.1572225989284;
+        Sun, 27 Oct 2019 18:26:29 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a25:9788:: with SMTP id i8ls1056494ybo.7.gmail; Thu, 24 Oct
- 2019 10:09:26 -0700 (PDT)
-X-Received: by 2002:a5b:c44:: with SMTP id d4mr11843620ybr.206.1571936966023;
-        Thu, 24 Oct 2019 10:09:26 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1571936966; cv=none;
+Received: by 2002:a92:c142:: with SMTP id b2ls1846348ilh.9.gmail; Sun, 27 Oct
+ 2019 18:26:28 -0700 (PDT)
+X-Received: by 2002:a92:d78f:: with SMTP id d15mr15877497iln.294.1572225988850;
+        Sun, 27 Oct 2019 18:26:28 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1572225988; cv=none;
         d=google.com; s=arc-20160816;
-        b=f2fyKpLsxjmz8VF88r/XiGK3UU5DHWZI43wMu8t8osGZ18aWCfbYOw7FD/Rw6lCtp7
-         FApECMdJKZA/xZ1RcAetBt8uhABo+vJdNJCum1gDtMK0OIR2RYM4RtbCDIBx5uk1TdIE
-         17eNF8vnNGlkGM+YqDeR1eU8bahcrb2zDQQMOZSWbMI+NYFyNJtYbbeel6fynYS2/OGc
-         PPtgsX2mz6R53cTu1qK7Md9cOAnpXC33xt9pW0XDx0x+Zo/QgkHHyF6w1oVsIc3fLSwe
-         ssoZ180f7oSpxCnNWRqhd8wLqtakWjK2vlwaVRJy2D+b+vidD6JkWFB8FAc8p0s0LRtm
-         L2rg==
+        b=j3P/2X4k7PNG3JtJ4N3JvOSagQiRSeYNZBD3OF6iK/9uyODBmM1fH3bXU4XEX7Aj8a
+         QUHVtsSLGi0lXh9zKX1RQm6UMJW8fljRmG/5u/JD5f+sGrJxNxrJ74et/tCC4/HeD62T
+         DgXLmpkFLJWZi+vjNsbGiiaWYekQPESjyzWiLDixBsFO0LZA/Gw4ImWqTv847Aayydgw
+         3yoPaK4G/XK2t0e/da+FoKZTvkRiBZiLk8AXHNrfHEOgbaCmphzmD2RBjt0MWjSlROH9
+         DySBTi1+e7EC6Tk48/wU9ckN69eUn6yueRwBnwLYKecXQJT+m1rWfD7DOjUq2BSWuUg3
+         jTDw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=LW4UeTeDzuNPqIV02zMQFN/K1Ur44NII9oOTDJRv/K0=;
-        b=qWsbxJvd4WP71zfeftSu/dEiQDAdxM8wOa6XHJnMmJHFDWtOAZEzPVfq0/yildeKy4
-         baC4+Gu+/uhRgQJtMKZwnyxuwjR0Y1jX0xvYciTbpLLLuHQysAxWt5YzRESwgZXhOK8o
-         5N8Wnc2YNt7vTebSnIHzY5nDVCtewO3WSXQGFTlcwH2ZCw1kT617xFJStddYAxVOBOc5
-         NbzYfYaN5miF+WN+Cdr9GoBBihjYYm2dkG7d9X8hreOmkzKNLOfLZQaY/lX4NtuswMTS
-         joWa6IqllBWIkZ5yZRNGAMB419UcI7Nn1ml6qsxzFzpPWnaRQVENcYaPuAlJqWlcSBCu
-         w7rQ==
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:dkim-signature;
+        bh=ritRVlb0ULtaryMtuft6JkNqY9ganMcK1V8vqfjCnBA=;
+        b=IdZAQV7JmonG7lMq6nmwut22moROc6RYLiaIe3CBTKvcp6uyzk+UuJm03q00z58LDH
+         fYDmDc+XiAefjpWzb7WRmKUXGlTj0lkGqhRxGWFB2NwRcEUho8mg/1iiWqhYstOTZ6Ea
+         GWn0RgOeZHuj0LW2Tzkcfzs3//1gxMJtJIKrHo46lg6Hjm+v3HXjDFoOmFQyXeAvJ9x5
+         2bKAwW88cBOTGOsXctTT5sZFxscD3bpmcHUkhEfJtgfYZkbcNVQHPpWfh0gcvw6nHnYx
+         Rd3JALrIh7B/sZsSZG1fgvK3y8lmLCqr1DrwNmeQMUCw4iHY2LztknrT+xV8BPFWCo+5
+         RH0A==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=NDkinmJa;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::341 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com. [2607:f8b0:4864:20::341])
-        by gmr-mx.google.com with ESMTPS id r9si1682727ybc.0.2019.10.24.10.09.26
+       dkim=pass header.i=@axtens.net header.s=google header.b=G8EDPx8d;
+       spf=pass (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::441 as permitted sender) smtp.mailfrom=dja@axtens.net
+Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com. [2607:f8b0:4864:20::441])
+        by gmr-mx.google.com with ESMTPS id f5si32543iof.4.2019.10.27.18.26.28
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 24 Oct 2019 10:09:26 -0700 (PDT)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::341 as permitted sender) client-ip=2607:f8b0:4864:20::341;
-Received: by mail-ot1-x341.google.com with SMTP id c7so10565426otm.3
-        for <kasan-dev@googlegroups.com>; Thu, 24 Oct 2019 10:09:25 -0700 (PDT)
-X-Received: by 2002:a05:6830:1693:: with SMTP id k19mr12897876otr.233.1571936964760;
- Thu, 24 Oct 2019 10:09:24 -0700 (PDT)
+        Sun, 27 Oct 2019 18:26:28 -0700 (PDT)
+Received-SPF: pass (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::441 as permitted sender) client-ip=2607:f8b0:4864:20::441;
+Received: by mail-pf1-x441.google.com with SMTP id q26so2052913pfn.11
+        for <kasan-dev@googlegroups.com>; Sun, 27 Oct 2019 18:26:28 -0700 (PDT)
+X-Received: by 2002:aa7:9f86:: with SMTP id z6mr17999776pfr.102.1572225988198;
+        Sun, 27 Oct 2019 18:26:28 -0700 (PDT)
+Received: from localhost (ppp167-251-205.static.internode.on.net. [59.167.251.205])
+        by smtp.gmail.com with ESMTPSA id w27sm6775067pgc.20.2019.10.27.18.26.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 27 Oct 2019 18:26:27 -0700 (PDT)
+From: Daniel Axtens <dja@axtens.net>
+To: Mark Rutland <mark.rutland@arm.com>, Andrey Ryabinin <aryabinin@virtuozzo.com>
+Cc: kasan-dev@googlegroups.com, linux-mm@kvack.org, x86@kernel.org, glider@google.com, luto@kernel.org, linux-kernel@vger.kernel.org, dvyukov@google.com, christophe.leroy@c-s.fr, linuxppc-dev@lists.ozlabs.org, gor@linux.ibm.com
+Subject: Re: [PATCH v8 1/5] kasan: support backing vmalloc space with real shadow memory
+In-Reply-To: <20191016132233.GA46264@lakrids.cambridge.arm.com>
+References: <20191001065834.8880-1-dja@axtens.net> <20191001065834.8880-2-dja@axtens.net> <352cb4fa-2e57-7e3b-23af-898e113bbe22@virtuozzo.com> <87ftjvtoo7.fsf@dja-thinkpad.axtens.net> <8f573b40-3a5a-ed36-dffb-4a54faf3c4e1@virtuozzo.com> <20191016132233.GA46264@lakrids.cambridge.arm.com>
+Date: Mon, 28 Oct 2019 12:26:23 +1100
+Message-ID: <87eeyx8xts.fsf@dja-thinkpad.axtens.net>
 MIME-Version: 1.0
-References: <20191017141305.146193-1-elver@google.com> <20191017141305.146193-5-elver@google.com>
- <20191024122801.GD4300@lakrids.cambridge.arm.com> <CANpmjNPFkqOSEcEP475-NeeJnY5pZ44m+bEhtOs8E_xkRKr-TQ@mail.gmail.com>
- <20191024163545.GI4300@lakrids.cambridge.arm.com>
-In-Reply-To: <20191024163545.GI4300@lakrids.cambridge.arm.com>
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Thu, 24 Oct 2019 19:09:12 +0200
-Message-ID: <CANpmjNOg8wK71_PnQ03UhsY0H212bXWj+4keT0dDK18F4UNPHw@mail.gmail.com>
-Subject: Re: [PATCH v2 4/8] seqlock, kcsan: Add annotations for KCSAN
-To: Mark Rutland <mark.rutland@arm.com>
-Cc: LKMM Maintainers -- Akira Yokosawa <akiyks@gmail.com>, Alan Stern <stern@rowland.harvard.edu>, 
-	Alexander Potapenko <glider@google.com>, Andrea Parri <parri.andrea@gmail.com>, 
-	Andrey Konovalov <andreyknvl@google.com>, Andy Lutomirski <luto@kernel.org>, 
-	Ard Biesheuvel <ard.biesheuvel@linaro.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Boqun Feng <boqun.feng@gmail.com>, Borislav Petkov <bp@alien8.de>, Daniel Axtens <dja@axtens.net>, 
-	Daniel Lustig <dlustig@nvidia.com>, Dave Hansen <dave.hansen@linux.intel.com>, 
-	David Howells <dhowells@redhat.com>, Dmitry Vyukov <dvyukov@google.com>, 
-	"H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>, Jade Alglave <j.alglave@ucl.ac.uk>, 
-	Joel Fernandes <joel@joelfernandes.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Josh Poimboeuf <jpoimboe@redhat.com>, Luc Maranget <luc.maranget@inria.fr>, 
-	Nicholas Piggin <npiggin@gmail.com>, "Paul E. McKenney" <paulmck@linux.ibm.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@linutronix.de>, Will Deacon <will@kernel.org>, 
-	kasan-dev <kasan-dev@googlegroups.com>, linux-arch <linux-arch@vger.kernel.org>, 
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, linux-efi@vger.kernel.org, 
-	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
-	Linux Memory Management List <linux-mm@kvack.org>, "the arch/x86 maintainers" <x86@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
+X-Original-Sender: dja@axtens.net
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=NDkinmJa;       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::341 as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+ header.i=@axtens.net header.s=google header.b=G8EDPx8d;       spf=pass
+ (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::441 as
+ permitted sender) smtp.mailfrom=dja@axtens.net
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -145,66 +128,130 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, 24 Oct 2019 at 18:35, Mark Rutland <mark.rutland@arm.com> wrote:
->
-> On Thu, Oct 24, 2019 at 04:17:11PM +0200, Marco Elver wrote:
-> > On Thu, 24 Oct 2019 at 14:28, Mark Rutland <mark.rutland@arm.com> wrote:
-> > >
-> > > On Thu, Oct 17, 2019 at 04:13:01PM +0200, Marco Elver wrote:
-> > > > Since seqlocks in the Linux kernel do not require the use of marked
-> > > > atomic accesses in critical sections, we teach KCSAN to assume such
-> > > > accesses are atomic. KCSAN currently also pretends that writes to
-> > > > `sequence` are atomic, although currently plain writes are used (their
-> > > > corresponding reads are READ_ONCE).
-> > > >
-> > > > Further, to avoid false positives in the absence of clear ending of a
-> > > > seqlock reader critical section (only when using the raw interface),
-> > > > KCSAN assumes a fixed number of accesses after start of a seqlock
-> > > > critical section are atomic.
-> > >
-> > > Do we have many examples where there's not a clear end to a seqlock
-> > > sequence? Or are there just a handful?
-> > >
-> > > If there aren't that many, I wonder if we can make it mandatory to have
-> > > an explicit end, or to add some helper for those patterns so that we can
-> > > reliably hook them.
-> >
-> > In an ideal world, all usage of seqlocks would be via seqlock_t, which
-> > follows a somewhat saner usage, where we already do normal begin/end
-> > markings -- with subtle exception to readers needing to be flat atomic
-> > regions, e.g. because usage like this:
-> > - fs/namespace.c:__legitimize_mnt - unbalanced read_seqretry
-> > - fs/dcache.c:d_walk - unbalanced need_seqretry
-> >
-> > But anything directly accessing seqcount_t seems to be unpredictable.
-> > Filtering for usage of read_seqcount_retry not following 'do { .. }
-> > while (read_seqcount_retry(..));' (although even the ones in while
-> > loops aren't necessarily predictable):
-> >
-> > $ git grep 'read_seqcount_retry' | grep -Ev 'seqlock.h|Doc|\* ' | grep
-> > -v 'while ('
-> > => about 1/3 of the total read_seqcount_retry usage.
-> >
-> > Just looking at fs/namei.c, I would conclude that it'd be a pretty
-> > daunting task to prescribe and migrate to an interface that forces
-> > clear begin/end.
-> >
-> > Which is why I concluded that for now, it is probably better to make
-> > KCSAN play well with the existing code.
->
-> Thanks for the detailed explanation, it's very helpful.
->
-> That all sounds reasonable to me -- could you fold some of that into the
-> commit message?
+Hi Mark and Andrey,
 
-Thanks, will do. (I hope to have v3 ready by some time next week.)
+I've spent some quality time with the barrier documentation and
+all of your emails.
 
--- Marco
+I'm still trying to puzzle out the barrier. The memory model
+documentation doesn't talk about how synchronisation works when a
+page-table walk is involved, so that's making things hard. However, I
+think I have something for the spurious fault case. Apologies for the
+length, and for any mistakes!
 
+I am assuming here that the poison and zeros and PTEs are correctly
+being stored and we're just concerned about whether an architecturally
+correct load can cause a spurious fault on x86.
+
+> There is the risk (as laid out in [1]) that CPU 1 attempts to hoist the
+> loads of the shadow memory above the load of the PTE, samples a stale
+> (faulting) status from the TLB, then performs the load of the PTE and
+> sees a valid value. In this case (on arm64) a spurious fault could be
+> taken when the access is architecturally performed.
+>
+> It is possible on arm64 to use a barrier here to prevent the spurious
+> fault, but this is not smp_read_barrier_depends(), as that does nothing
+> for everyone but alpha. On arm64 We have a spurious fault handler to fix
+> this up.
+
+Will's email has the following example:
+
+	CPU 0				CPU 1
+	-----				-----
+	spin_lock(&lock);		spin_lock(&lock);
+	set_fixmap(0, paddr, prot);	if (mapped)
+	mapped = true;				foo = *fix_to_virt(0);
+	spin_unlock(&lock);		spin_unlock(&lock);
+
+
+If I understand the following properly, it's because of a quirk in
+ARM, the translation of fix_to_virt(0) can escape outside the lock:
+
+>   DDI0487E_a, B2-125:
+> 
+>   | DMB and DSB instructions affect reads and writes to the memory system
+>   | generated by Load/Store instructions and data or unified cache maintenance
+>   | instructions being executed by the PE. Instruction fetches or accesses
+>   | caused by a hardware translation table access are not explicit accesses.
+> 
+> which appears to claim that the DSB alone is insufficient. Unfortunately,
+> some CPU designers have followed the second clause above, whereas in Linux
+> we've been relying on the first. This means that our mapping sequence:
+> 
+> 	MOV	X0, <valid pte> 
+> 	STR	X0, [Xptep]	// Store new PTE to page table
+> 	DSB	ISHST
+> 	LDR	X1, [X2]	// Translates using the new PTE
+> 
+> can actually raise a translation fault on the load instruction because the
+> translation can be performed speculatively before the page table update and
+> then marked as "faulting" by the CPU. For user PTEs, this is ok because we
+> can handle the spurious fault, but for kernel PTEs and intermediate table
+> entries this results in a panic().
+
+So the DSB isn't sufficient to stop the CPU speculating the
+_translation_ above the page table store - to do that you need an
+ISB. [I'm not an ARM person so apologies if I've butchered this!] Then
+the load then uses the speculated translation and faults.
+
+So, do we need to do something to protect ourselves against the case of
+these sorts of spurious faults on x86? I'm also not an x86 person, so
+again apologies in advance if I've butchered anything.
+
+Firstly, it's not trivial to get a fixed address from the vmalloc
+infrastructure - you have to do something like
+__vmalloc_node_range(size, align, fixed_start_address, fixed_start_address + size, ...)
+I don't see any callers doing that. But we press on just in case.
+
+Section 4.10.2.3 of Book 3 of the Intel Developers Manual says:
+
+ | The processor may cache translations required for prefetches and for
+ | accesses that are a result of speculative execution that would never
+ | actually occur in the executed code path.
+
+That's all it says, it doesn't say if it will cache a negative or
+faulting lookup in the speculative case. However, if you _could_ cache
+a negative result, you'd hope the documentation on when to invalidate
+would tell you. That's in 4.10.4.
+
+4.10.4.3 Optional Invalidations includes:
+
+ | The read of a paging-structure entry in translating an address being
+ | used to fetch an instruction may appear to execute before an earlier
+ | write to that paging-structure entry if there is no serializing
+ | instruction between the write and the instruction fetch. Note that
+ | the invalidating instructions identified in Section 4.10.4.1 are all
+ | serializing instructions.
+
+That only applies to _instruction fetch_, not data fetch. There's no
+corresponding dot point for data fetch, suggesting that data fetches
+aren't subject to this.
+
+Lastly, arch/x86's native_set_pte_at() performs none of the extra
+barriers that ARM does - this also suggests to me that this isn't a
+concern on x86. Perhaps page-table walking for data fetches is able to
+snoop the store queues, and that's how they get around it.
+
+Given that analysis, that x86 has generally strong memory ordering, and
+the lack of response to Will's email from x86ers, I think we probably do
+not need a spurious fault handler on x86. (Although I'd love to hear
+from any actual x86 experts on this!) Other architecture enablement will
+have to do their own analysis.
+
+As I said up top, I'm still puzzling through the smp_wmb() discussion
+and I hope to have something for that soon.
+
+Regards,
+Daniel
+
+>
 > Thanks,
 > Mark.
+>
+> [1] https://lore.kernel.org/linux-arm-kernel/20190827131818.14724-1-will@kernel.org/
+> [2] https://lore.kernel.org/linux-mm/20191014152717.GA20438@lakrids.cambridge.arm.com/
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNOg8wK71_PnQ03UhsY0H212bXWj%2B4keT0dDK18F4UNPHw%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/87eeyx8xts.fsf%40dja-thinkpad.axtens.net.
