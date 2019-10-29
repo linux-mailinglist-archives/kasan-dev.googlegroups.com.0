@@ -1,31 +1,31 @@
-Return-Path: <kasan-dev+bncBC5L5P75YUERBOGY4HWQKGQE5X5AEAY@googlegroups.com>
+Return-Path: <kasan-dev+bncBC5L5P75YUERBZGY4HWQKGQEAV672ZQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ed1-x538.google.com (mail-ed1-x538.google.com [IPv6:2a00:1450:4864:20::538])
-	by mail.lfdr.de (Postfix) with ESMTPS id 800D8E8CF3
-	for <lists+kasan-dev@lfdr.de>; Tue, 29 Oct 2019 17:43:36 +0100 (CET)
-Received: by mail-ed1-x538.google.com with SMTP id l9sf9136929edi.8
-        for <lists+kasan-dev@lfdr.de>; Tue, 29 Oct 2019 09:43:36 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1572367416; cv=pass;
+Received: from mail-lj1-x239.google.com (mail-lj1-x239.google.com [IPv6:2a00:1450:4864:20::239])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D767E8CF7
+	for <lists+kasan-dev@lfdr.de>; Tue, 29 Oct 2019 17:44:21 +0100 (CET)
+Received: by mail-lj1-x239.google.com with SMTP id d25sf306632ljg.13
+        for <lists+kasan-dev@lfdr.de>; Tue, 29 Oct 2019 09:44:21 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1572367460; cv=pass;
         d=google.com; s=arc-20160816;
-        b=TT8lyCc9KDkxcHXJKI3AHIR4RUZ9IcGKk0YFnoGjaIH982GXwpgVWCqbJZVxpq/6uq
-         ZNdzhHExone3ypBt7IZTn1bjxiO3pVDJZmu/JU+8yq8q6/J+zBNVYCqGxh2hq57BfUC0
-         90razp+Ayt2fUscfVJ2XrsssB1ST+/kBUshQNzU8GpOIN19fwzOSHOd9eNLfTQvqykDo
-         uxkLdFTgGP23MfDaVJauSRpD48Vd9jGSmbsTHkZAPxlT5rwB5afEA6PoV/ttL8C2Avkc
-         uVxhRleDzpDCthwjgPF3OzfPm3nl/DpdwsMpFdkhG+HP2afTTh3cC9J7tPOvuhPK03NW
-         RsRQ==
+        b=WPMSRcHW86cxhxH2xzS7gFInwrlt0A4TCPjEshErd1NK5QBTjH0XMyT6/Nh4U8GXUg
+         KT0lt8QbButwKylJO7b1oIr8wfZ57HkaD277pI7qy5a5iDwN95ATePVZXTlS20CK5hRA
+         0IUSdCvJ/+MrJ+QKdgjRNeMW2kNqbEw6pPIyVphNU5EqBjNiyZS4Hte0AzLSU8TivHBa
+         A2XUDfZ+/jDlvFnL1yrGH/XvzVCAqijLH4ocOZFcg21ZghPDHNtVWI6gUERPCCxm+7FA
+         +dnLlBKerKr5Dn04V4lwG+TxBXiR4QiEBpke29vjNevnKl7bjJ+1EIT9Gr6t1mzl2vrh
+         BqXQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:content-language:in-reply-to
          :mime-version:user-agent:date:message-id:from:references:cc:to
          :subject:sender:dkim-signature;
-        bh=IZsph4xm3sYG5Qbs1sTxC+KW+TN6OHsQu7w9DXXq3YU=;
-        b=laFVXI7DD3lLe+cRp6S83nRM+jQbNtY1cACk+PH9JYjvrl+7PNQKIteA4j6zXx6B7e
-         WCgTV4/m6B8Expu56eA8JMcJAZVbsJFJWpNNTjNMxAUIXYE34XL/U9izY4WJdxECeAKg
-         XjbskewvGHZ3phfGzszDpsnI4bEk3tu1+ZsncWx7YG7432MjOUhzfWO2D0HDCBxpsbsV
-         ZKWKh1ySdzt1RFRtYRFCRDzOKm9/PmZdvMOSeBqWtCTRDoTWyJwj85MmUasKHKm9FwtK
-         oDJf5Zduzxk3IwJ/C06uMLj/B058czaEK29KOHRNpUdmnD5hmjaOD7jt2rgaUjVYKuk/
-         NTcA==
+        bh=46JEHmzA0eK9orU1ZE4EkLd5YMHw/6GOZYUfGETMXWM=;
+        b=pAaqkerYRA8IvXQa8/i/88zk3rBM/oX25/aOVySOIyO0WUGPZKTpDY7f1s5Aqd4o2i
+         fLaLX5ZM7RWpfTVFKY7M7IliKb57ne6waU8P+unwslmJqtQW5QaXaBwBOWwpycoF6NTU
+         61p9qeL+hIfWoPk3V/7dxT+59Sh5b6sdA+db7XfuTOzdIrWKOONPC7sedPZE0Rh1CPi1
+         ExyRS9jLan5LvraeWb3ruFfXvTklNH+j/dym9e0hTdP20j/ymQEVmm0z4HS9u3EP2frs
+         7OWAAQ6YYqqG8OYSl9T9g56GBLKQ0I9jVLjaYCImbdRcvXGEaomWFUFCStoq37JIBPI/
+         563Q==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
        spf=pass (google.com: domain of aryabinin@virtuozzo.com designates 185.231.240.75 as permitted sender) smtp.mailfrom=aryabinin@virtuozzo.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=virtuozzo.com
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :mime-version:in-reply-to:content-language:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=IZsph4xm3sYG5Qbs1sTxC+KW+TN6OHsQu7w9DXXq3YU=;
-        b=nVeaiCXAG/ah5EbcULPFQHdbHo7xQ4WxL3ie0CuJmFmjm6d9OT5x4tqCHjh3kBubPA
-         NG/xO2TPdRCqQ0NZTWjmqAjNSWshYBw62BZDAucAAO0YsZ5+JMocRh1tjsh95OPunvCc
-         leYZ2RjuFfhkPdpqiG/+Fi0wXLZ73+2z4EvtIuDJEBvgx40gfjsiLbq2tFsVciizo0Hu
-         VcLjohqK8GRWmP4TvHKUONcrx6FndiZ2YCxbpPZvJMPkfVHdRjkl7tD9feTZkmfHdYKk
-         xYhTs1FI+YM91UiXLdajB5+2ko5bsIKzNBtnAG9QEm4NSDe7iTfSK5/LRMAZKZUnvJUC
-         DQtQ==
+        bh=46JEHmzA0eK9orU1ZE4EkLd5YMHw/6GOZYUfGETMXWM=;
+        b=LEMfkIBvgvwR5+JZwEP2CpIqpH+Cfw194ZbS7VDkvW5dYO5iS8fE9el2zxfXNJErMY
+         p8NiHVPYyNqOX/2hAM83kFgVcyM/c+8/hcRj365LMVMuUPXlnllqMgpvFRU1lctpoaYC
+         PB6v9I1kVzMroJNpNwc9LsLgFGVCnWWi8cEJmj5mth8ZZ6DwAZe5m6tWCH28ErH2mOb9
+         Ief6icHnGTu6U2R1/xPRWSpDZ02f2eMAbvYA4sPkySkByecxI6xkX9Rrk83T9XFJ44Bu
+         cL5dEIxdT5Ro6dp3jxfXNOo26yaqloA2vLgZeMzwp+OKi9BnN2/ujY1fr4olo8zOcIfq
+         2dZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:subject:to:cc:references:from:message-id
@@ -49,72 +49,70 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=IZsph4xm3sYG5Qbs1sTxC+KW+TN6OHsQu7w9DXXq3YU=;
-        b=F7m8RUXHLz1IqcJRDf8V5A9kMKLWPfMx5USLetjQ5xnw/auXoI1z9O3a8Fl96uOBn6
-         XqIsSQlsBTIX8d3nRtvvNlgv3lzm4c0vsRFRFBBJXw4ZgXHukjp0gh8eqDxQP55qjQ/v
-         HjbtGvsk1N5GFBzzscWyLEQUsaAXcn+f0kkLyjNKOwhz/JAXuP+zBfvi5eUxlcl5bFVz
-         5yxiZ6xe4Isml5G3wM6wiN8KZs2TTBRYfCR4BzfXN6XidKLIMBbqOMg6VB1vNbn/dRUW
-         j8DUV/6lSPzniNdBwO6q6S4npQAZagLZYzuK2B9xAM4eNNao8Flqy+5jgSHHugR3yJ/z
-         idZw==
+        bh=46JEHmzA0eK9orU1ZE4EkLd5YMHw/6GOZYUfGETMXWM=;
+        b=QguLuNp+a94FSGayW2KHzjrGQNIhpWFK/kHyYQNCElDTg1RP6+BfgA24/pBv3DL4Ov
+         j+XE2+DV6jOoaIQ0rSiOSW/KXHQDCuHMG+km/YbyHGMvvZ1davePFBnAvFvGpipmrLPi
+         ZQULSV69kdwA6CX9b9+FZEq/zVTGiffbyQLI83icSecHeSWJctv1f0/bxPwJB0UU4ZyF
+         2TUBtpo6mhbLEvLgTk+m5zPkmWQtRfVqy/Mv9Mee3ZgMUpDqH8ZB6VWkLiamt2T8riX2
+         UHEk2Oej7UmQylaAAG5SfcOHW+OCYDoLlhtZjh3fe+AlsrwLFlQZ2e67/UX3uhAkSBs8
+         FPxg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAUB39YcAcBhH+QxrD7JvPCWjsxvm1Zk41iGsJOBb1GQtbkV07zF
-	zMWOMbD1lPdKWj5ij9qa0V4=
-X-Google-Smtp-Source: APXvYqxAhronpbQrqeC25OOaKuqVnpLgJTWIvevIiO5WeuL062qbMr2rZ8nKrm8r1OuZscknIisdHA==
-X-Received: by 2002:a17:906:b347:: with SMTP id cd7mr4426521ejb.105.1572367416191;
-        Tue, 29 Oct 2019 09:43:36 -0700 (PDT)
+X-Gm-Message-State: APjAAAWxz+dK9DfiOp0jVwXXAXSBJD5TGpPLUQdCW9RIljdZAc9o5dwL
+	kG+TB8iTbvOgC/f2Lr3THU8=
+X-Google-Smtp-Source: APXvYqwdZj9e5/F3aVgB/Fx+igp5tlkiuCIhye1nRZib3M3Cr/iUPP8YClG/FK8fnwFYU3sVzTLaGQ==
+X-Received: by 2002:a19:c192:: with SMTP id r140mr3156740lff.48.1572367460684;
+        Tue, 29 Oct 2019 09:44:20 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:907:405d:: with SMTP id ns21ls1787379ejb.6.gmail; Tue,
- 29 Oct 2019 09:43:35 -0700 (PDT)
-X-Received: by 2002:a17:906:80c1:: with SMTP id a1mr4362024ejx.37.1572367415627;
-        Tue, 29 Oct 2019 09:43:35 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1572367415; cv=none;
+Received: by 2002:a19:4349:: with SMTP id m9ls2312416lfj.8.gmail; Tue, 29 Oct
+ 2019 09:44:20 -0700 (PDT)
+X-Received: by 2002:a19:ec02:: with SMTP id b2mr3023003lfa.121.1572367460203;
+        Tue, 29 Oct 2019 09:44:20 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1572367460; cv=none;
         d=google.com; s=arc-20160816;
-        b=eL8Bx8jM1qLkMu0H0OIir60PcgmYMBrd6vR9Acj4y0cp9dzi5tDd32tJNgjeynghwf
-         QZxmmNCVnCqPqFz1iaPP7Dbhbs+uZn5tJWGzl7wGooFo4brZIPITMvVap0Yna9BAOjmP
-         8p/r9g0fUDdK2NJuYpR3V21JYxF3nwyO+ol/Mw1HioOMBFBX1ilyDho/FMCs9Hs282ve
-         /uml5vq+RRisq0b6Vkk8w3uR0JakgfsY7gCwc4zXacWBAoCqaTwHsrWkxZogJTnKM3NY
-         5qH0GI9zObmJVjRKBTww1Tc2PXP8caR1rNtVVIUtLbOHnaJuCsKjTSYQi680Ah129n+I
-         EOPg==
+        b=QHujQMqg8pOxTXkIsL8NjQhXFTvJzk+huowFplHT5XT9w/oPuY9h1dw+lBuFJX6KnA
+         3+tEfMpIUxsP9f4wCTXMaLYhjtz394k6dPXXsDay6JcBAbZ1F+p769fDbWuR3Qen7fNL
+         3HJOHNhbD5cdsGK9EXiUy/T5jDKMYAmu07uOtrWH/emNdf+pJ8p2Qwy6HG+poDGBd+6j
+         NVBRFQLwZ91Z1sgbyhJJN7uTmhRVwb6B+cJF2WXZ/s0WJ481yabLFN8pY7OkqTCpD2vA
+         k/7nvtVRakX2UHxZDVxaDTD+o3Z3pD2Ym1nvK+YWbJvlCGXB060DTuZhFrxOw5zSijpk
+         uOFA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:content-language:in-reply-to:mime-version
          :user-agent:date:message-id:from:references:cc:to:subject;
-        bh=BoUS8sI2Y0PRHVkD+8sTGgihdSSm7C0ThXdZ4OWfLUA=;
-        b=m2OVLSIhJup/n4HOk417xGOpiIibIhvxW5SBSuks0UmXSVPyUyFacwHKoKx+t+RkBz
-         poPYUBiminePZ5wb0pB2GqPB8k7ljODmJ+Xdqs5JU8Yxn0RcvfvwauZPcWG+jplnfYdA
-         2rAPp+UuRquK08HEs2Tixg8HYgmPOSt8VNHCjxMB7/Se4lGWVwukIeflKb6ZEp2xnYZW
-         GpUz4jJkRPq5MpGmFGZa+uu3a+PTYie9YFLn8nKBSEsi824En+BLkZDcUwdLAhJVxGuU
-         O7HuFUq5KTK6loeLuh0Y8DoVEFj657ok3pxs3xsA1HJs9XH8KN6MeF1IQ7TfUcGe9DpY
-         QXyw==
+        bh=qhQrDa/HgUXOaFkyqYYJRMd9hElY+dd93yza8anbyW0=;
+        b=W719dnZTqyVrJd3unMnVfnkAeUnne3AYx0jdprqeoe5VCeCOFubnWRkTjQPpDZFl7K
+         Y5+26/U+9/xTCpO0tMlX6iGr/CX2M2B+tG0xbI7bU5lK4BEwohjNEvoKnIs3u0Lt4Wuq
+         4mnW5v/UBZ4inNJ/RTVcgGvcg2CQ6BInJCaotbGUaVUQKshWzK1bXftdbCI4KgVBTW4m
+         Vo1krARBkvGOn2zyxZ2owG2yIDdrm29ZChJE9xLh59JbDXhjTcwa6fSU3GrD4+RAbUbv
+         Qntmc/mzLx2EWQHuVKD2HnuqRUYlqAHnaslTbEH2hNsOCY+QkUWEjG8cjq/eM/upboU3
+         MmDg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
        spf=pass (google.com: domain of aryabinin@virtuozzo.com designates 185.231.240.75 as permitted sender) smtp.mailfrom=aryabinin@virtuozzo.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=virtuozzo.com
 Received: from relay.sw.ru (relay.sw.ru. [185.231.240.75])
-        by gmr-mx.google.com with ESMTPS id q17si1213766edi.1.2019.10.29.09.43.35
+        by gmr-mx.google.com with ESMTPS id s4si200921ljg.1.2019.10.29.09.44.20
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 29 Oct 2019 09:43:35 -0700 (PDT)
+        Tue, 29 Oct 2019 09:44:20 -0700 (PDT)
 Received-SPF: pass (google.com: domain of aryabinin@virtuozzo.com designates 185.231.240.75 as permitted sender) client-ip=185.231.240.75;
 Received: from [172.16.25.5]
 	by relay.sw.ru with esmtp (Exim 4.92.2)
 	(envelope-from <aryabinin@virtuozzo.com>)
-	id 1iPUaS-0006WW-BR; Tue, 29 Oct 2019 19:43:16 +0300
-Subject: Re: [PATCH v10 1/5] kasan: support backing vmalloc space with real
- shadow memory
+	id 1iPUbL-0006X9-ST; Tue, 29 Oct 2019 19:44:11 +0300
+Subject: Re: [PATCH v10 2/5] kasan: add test for vmalloc
 To: Daniel Axtens <dja@axtens.net>, kasan-dev@googlegroups.com,
  linux-mm@kvack.org, x86@kernel.org, glider@google.com, luto@kernel.org,
  linux-kernel@vger.kernel.org, mark.rutland@arm.com, dvyukov@google.com,
  christophe.leroy@c-s.fr
-Cc: linuxppc-dev@lists.ozlabs.org, gor@linux.ibm.com,
- Andrew Morton <akpm@linux-foundation.org>
+Cc: linuxppc-dev@lists.ozlabs.org, gor@linux.ibm.com
 References: <20191029042059.28541-1-dja@axtens.net>
- <20191029042059.28541-2-dja@axtens.net>
+ <20191029042059.28541-3-dja@axtens.net>
 From: Andrey Ryabinin <aryabinin@virtuozzo.com>
-Message-ID: <f847fc8c-f875-8d93-9d49-8f03d4c6303a@virtuozzo.com>
-Date: Tue, 29 Oct 2019 19:42:57 +0300
+Message-ID: <780d2085-5bfd-e206-b760-ea528844b68e@virtuozzo.com>
+Date: Tue, 29 Oct 2019 19:43:53 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20191029042059.28541-2-dja@axtens.net>
+In-Reply-To: <20191029042059.28541-3-dja@axtens.net>
 Content-Type: text/plain; charset="UTF-8"
 Content-Language: en-US
 X-Original-Sender: aryabinin@virtuozzo.com
@@ -137,77 +135,14 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 
 On 10/29/19 7:20 AM, Daniel Axtens wrote:
-> Hook into vmalloc and vmap, and dynamically allocate real shadow
-> memory to back the mappings.
+> Test kasan vmalloc support by adding a new test to the module.
 > 
-> Most mappings in vmalloc space are small, requiring less than a full
-> page of shadow space. Allocating a full shadow page per mapping would
-> therefore be wasteful. Furthermore, to ensure that different mappings
-> use different shadow pages, mappings would have to be aligned to
-> KASAN_SHADOW_SCALE_SIZE * PAGE_SIZE.
-> 
-> Instead, share backing space across multiple mappings. Allocate a
-> backing page when a mapping in vmalloc space uses a particular page of
-> the shadow region. This page can be shared by other vmalloc mappings
-> later on.
-> 
-> We hook in to the vmap infrastructure to lazily clean up unused shadow
-> memory.
-> 
-> To avoid the difficulties around swapping mappings around, this code
-> expects that the part of the shadow region that covers the vmalloc
-> space will not be covered by the early shadow page, but will be left
-> unmapped. This will require changes in arch-specific code.
-> 
-> This allows KASAN with VMAP_STACK, and may be helpful for architectures
-> that do not have a separate module space (e.g. powerpc64, which I am
-> currently working on). It also allows relaxing the module alignment
-> back to PAGE_SIZE.
-> 
-> Link: https://bugzilla.kernel.org/show_bug.cgi?id=202009
-> Acked-by: Vasily Gorbik <gor@linux.ibm.com>
-> Co-developed-by: Mark Rutland <mark.rutland@arm.com>
-> Signed-off-by: Mark Rutland <mark.rutland@arm.com> [shadow rework]
 > Signed-off-by: Daniel Axtens <dja@axtens.net>
-
-
-Small nit bellow, otherwise looks fine:
+> 
 
 Reviewed-by: Andrey Ryabinin <aryabinin@virtuozzo.com>
-
-
-
->  static __always_inline bool
-> @@ -1196,8 +1201,8 @@ static void free_vmap_area(struct vmap_area *va)
->  	 * Insert/Merge it back to the free tree/list.
->  	 */
->  	spin_lock(&free_vmap_area_lock);
-> -	merge_or_add_vmap_area(va,
-> -		&free_vmap_area_root, &free_vmap_area_list);
-> +	(void)merge_or_add_vmap_area(va, &free_vmap_area_root,
-> +				     &free_vmap_area_list);
->  	spin_unlock(&free_vmap_area_lock);
->  }
->  
-..
->  
-> @@ -3391,8 +3428,8 @@ struct vm_struct **pcpu_get_vm_areas(const unsigned long *offsets,
->  	 * and when pcpu_get_vm_areas() is success.
->  	 */
->  	while (area--) {
-> -		merge_or_add_vmap_area(vas[area],
-> -			&free_vmap_area_root, &free_vmap_area_list);
-> +		(void)merge_or_add_vmap_area(vas[area], &free_vmap_area_root,
-
-I don't think these (void) casts are necessary.
-
-> +					     &free_vmap_area_list);
->  		vas[area] = NULL;
->  	}
->  
-> 
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/f847fc8c-f875-8d93-9d49-8f03d4c6303a%40virtuozzo.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/780d2085-5bfd-e206-b760-ea528844b68e%40virtuozzo.com.
