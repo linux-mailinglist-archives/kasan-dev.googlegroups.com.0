@@ -1,227 +1,121 @@
-Return-Path: <kasan-dev+bncBAABB65A43WQKGQEPZXNCNQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDQ27FVWWUFRBEVK43WQKGQEPWMYRVI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ed1-x53a.google.com (mail-ed1-x53a.google.com [IPv6:2a00:1450:4864:20::53a])
-	by mail.lfdr.de (Postfix) with ESMTPS id C17A6E9C48
-	for <lists+kasan-dev@lfdr.de>; Wed, 30 Oct 2019 14:30:35 +0100 (CET)
-Received: by mail-ed1-x53a.google.com with SMTP id i18sf1645486edy.6
-        for <lists+kasan-dev@lfdr.de>; Wed, 30 Oct 2019 06:30:35 -0700 (PDT)
-ARC-Seal: i=3; a=rsa-sha256; t=1572442235; cv=pass;
+Received: from mail-pg1-x539.google.com (mail-pg1-x539.google.com [IPv6:2607:f8b0:4864:20::539])
+	by mail.lfdr.de (Postfix) with ESMTPS id 721A8E9CA2
+	for <lists+kasan-dev@lfdr.de>; Wed, 30 Oct 2019 14:50:12 +0100 (CET)
+Received: by mail-pg1-x539.google.com with SMTP id h12sf1660110pgd.3
+        for <lists+kasan-dev@lfdr.de>; Wed, 30 Oct 2019 06:50:12 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1572443411; cv=pass;
         d=google.com; s=arc-20160816;
-        b=xlKzEyFBMOf8uU/2yfs/SWXfHVIyAAh0uEHPkP3Mpp/tuzQ0NY3XQcGgwMKTDSYcez
-         y3l9aw439nb99rSG82tlBVAeRaMJz2QfV4vSc5Nvw9JyDpyNbCVJ0JV3I03ss88Se490
-         JIPifGcrJZ38LjhmO6JDjjilekzOBGyPUrLOnGxpaRA7FgDF5AxeDKdEVhj7Y/c85z7Q
-         2eDImK8A5kSBngJ0pLF/Rj7NctNVv7zjpRnjabi33FKuXwFHp2J7Y41OaH0k12dHOjOw
-         +r4idARVpCFkndsBUISyL8vkukpS1Pet5F6/RGIp5KLAImGOr80FTpxuh0ox0AgpXGV+
-         pZ1g==
-ARC-Message-Signature: i=3; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        b=h3UNePoMwpUHscBMSs/MSryAKn3OXyMJKv0AmGVDxPmOoobpR0aG0rRLqhVK75/3CR
+         vAd6azEjEo9S2vuh8MkwlyKguU/PfEcnLrd8rWYO1pIyPUXc+0vN8PI8f9XGvpFrN223
+         9xxu723teMpzxihxEpLxcQ5zt8dUCUsURP/iw0q4eGowNYB4AO4Ax4gGio/KrRnFfdfj
+         Ye40+wUPS/NLBBRrvpblyTt0E4xrqCrr0g+EmGOe507zhLiZ9H6Cp69alxtF6R1/lrwv
+         DcaoVM7j40wBPnt889RAbS6V2/8oFklBYZ2tJWyMBPj8abrLLkTED7YTkcXMIK0ie0it
+         CBAA==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:nodisclaimer
-         :original-authentication-results:mime-version:content-id
-         :content-language:accept-language:in-reply-to:references:message-id
-         :date:thread-index:thread-topic:subject:cc:to:from:sender
-         :dkim-signature;
-        bh=+99ogAEXTfmzz4OWDaKj1ilmXfOBrwM45sPfyDMWkUo=;
-        b=TzVKoGntlIhORyNjBKUWSUTfZusSOzsj1ZhjSWHv8ky6prZybkgIBYqI+sgSWbWYHb
-         kq3i6irKCwGwVowv15/8HevzRdToE0clpbm0vUFBjrnKn5Dw6yRKSr28Bqms4DwW8XXI
-         ZrYAk/kVxkI1CigQVjpcLT8JuViNleNDn3Dlzo8Ym2J+szVAc05D2arbDDZTYtX7satv
-         xtbaOkQD94RNvg9G3rrbEpytC3no8fdPKWuzLGWw6rvBvarQrs7IZXW1UzWHjbnhnORF
-         YfsfQNqDxmFB13OB0ZmPlTlq45i3Yzg/tWZQD+TUJi1uBhfZz4GoawL5Dgieo2ZUKKr4
-         qjPg==
-ARC-Authentication-Results: i=3; gmr-mx.google.com;
-       dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=IyqnrH5c;
-       dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=IyqnrH5c;
-       arc=pass (i=1 spf=pass spfdomain=arm.com dkim=pass dkdomain=arm.com dmarc=pass fromdomain=arm.com);
-       spf=pass (google.com: domain of matthew.malcomson@arm.com designates 40.107.7.85 as permitted sender) smtp.mailfrom=Matthew.Malcomson@arm.com
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :references:in-reply-to:subject:cc:to:from:sender:dkim-signature;
+        bh=4ZCZec7IJxER+EEGWWV5mIs/OegmWNm2BNT9D6xDkvU=;
+        b=ZFMKkjupTzvcU9RiBWg1hIQWxgyk/0kKmEwIJwEnuRkpp5dbpWWUMM/yBTyMuKhP/8
+         IPO2P1o6dEsCRMQeeScvQ4/DXGkQdf396ZIblY2upzrYNy9XRQcjJ0uV11VLDs2WEsgV
+         g/FROiQ611Iia7JKhkfNMwm7AD4uygcvntvEGrC8bztH0zNEGrevDK0P4zxI5zfZ0tBR
+         5rJVMeMfsLUKomM/uWtIW+A/34EedbhMCsBxWXyHhyiOd7cPckoUAdFghJor229Tcrb0
+         WVXftbObksQVlDO1vckBxUxiaK8qNr8ws9jPW6riNz6bvkz7izgAGFGO38osLKbIg24G
+         EE/Q==
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@axtens.net header.s=google header.b=NTwARt8G;
+       spf=pass (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::641 as permitted sender) smtp.mailfrom=dja@axtens.net
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:from:to:cc:subject:thread-topic:thread-index:date:message-id
-         :references:in-reply-to:accept-language:content-language:content-id
-         :mime-version:original-authentication-results:nodisclaimer
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
+        h=sender:from:to:cc:subject:in-reply-to:references:date:message-id
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=+99ogAEXTfmzz4OWDaKj1ilmXfOBrwM45sPfyDMWkUo=;
-        b=Q46bXbEMJ3fxTii4AsP9NuTHL9TP9RYywFHoY0Evv2f4MD+esBhvpGoPF3GhwDvnH6
-         9XjBGpKwjGHp25tCZHvGag5W+D5L3xi399jaKfa0uFuK6WNV46T5lngR7uLJPZlLZxIZ
-         AE2HlCLLuUOqKllXwkZSbCILE1IXmKFoYHb5PkzOLttKDjRU37IeCsZNoT9DpVRbZEhO
-         dYLHh2t4ezLznY5sCplEne+GzPWF3rZO5Q+h0caXuD0kYIXmCZINGBN8M1RE5kmMsLf7
-         M0Vp7PJdeKTfOVCcvvO7o+yFqth0EsVdB9tHCwhKHSnqQ+u0qmiYMVw9AQU3uf4CRzUz
-         RQeA==
+        bh=4ZCZec7IJxER+EEGWWV5mIs/OegmWNm2BNT9D6xDkvU=;
+        b=W+lbkPJBAADgSORpNRHubRNzrI8hA35JXpN9nCZ36PlHmUcftZzlpHybgBepZG89GJ
+         zPWSGumXKPzRHq1kt0nZHwhIZ5u6CyBXjkeoYIn/zDOmoIuCsLtLvFrjtZAAzDtp/n0s
+         VN5MCpsXx+7nCX3+jS5cWfST+Qa2pWYlwJ/i3y2Hlm8V8f+FfRYr42vy00QUmb6zV0Eb
+         2lJSARTuqS8iTRuJ9NEofXMbCU37OBxGBDgcHH0sOMsnyz7XaAqwityuuT0m+0v1EIeE
+         vDwvcHdM3TKw4vh7wvXbfRIP7HYwkBst3V6cp+ucQrK+dgYxsMSclCGBPHuFNRw4bYA8
+         mXzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:from:to:cc:subject:thread-topic
-         :thread-index:date:message-id:references:in-reply-to:accept-language
-         :content-language:content-id:mime-version
-         :original-authentication-results:nodisclaimer:x-original-sender
+        h=sender:x-gm-message-state:from:to:cc:subject:in-reply-to:references
+         :date:message-id:mime-version:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=+99ogAEXTfmzz4OWDaKj1ilmXfOBrwM45sPfyDMWkUo=;
-        b=VyvKuWhT9wBKcb68ZfHsTXm+p5RBZ3IlsssMtxhqO8IZmQoW8fgT04K2oFDMiGIYQ/
-         9V3+NNtNhJEIXXNhhWFVd+PzgNe2xsGOt/RMTnJSD8bk5EGdC4PB+KC8rR9OzoyumVkw
-         wfeTjhpiIUbSWp3M+xknruurnvEs+rwIkaaL2LhyAzZBEe1gPnMZyTrolpt9WpoDAVmV
-         64Al6ReZWXTtITiJ11nw87aTXe/4CgP3CEruVGpxh+lUQ0NQPBYRte9yXdUkkaN6h4Do
-         yH8B+shN9lCQtEcrJb9ik1ZmvdGwDGgh68FTL3qsUeYcvekVw83n76oOV1QcBLGO7PAH
-         W9/Q==
+        bh=4ZCZec7IJxER+EEGWWV5mIs/OegmWNm2BNT9D6xDkvU=;
+        b=TPtmlypqbB3yZGFBSb0UfnlDCpcIL2Jh/LJwycJwcWn34RemSdTzo9hx/xPNJeqzxE
+         Bh+IQqf1ILb9rCGSLahWiw8u3co+oQGD/YzA5cPZn5stdbyX5nmweBzT5aHUXrhk0roy
+         kcNRiUEFdMMKuTCluAwZqlwUAolvPfGiA5F+g8Dd3f2Jd7mUIfgxBkVBGeefYArywXmw
+         U5Rx36mUCCEy4MrL7LTUO09UUa0zV7I5T/Qz5TY9/QULp0nJZbuZ+EDBKcaLaFgoKC7b
+         gCy1FfRmyACWzEi6ckDY1s+6onTDnUcDlpAVRjd2C/N+wiLWomus9e7ENTRihZAx3ySz
+         UsQw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAXqZJLeJAkqZT9pZB9o/aNNHVqMr1xWpy2VVGjx2lWCL18hcaif
-	YLsX2aLlodAVVuR0z+shPyU=
-X-Google-Smtp-Source: APXvYqwdB2HSu1fH2+KHqnXkD77wSWifxF6vAd0xWnjzZo1KDL1kKMSSE3Tb9W4Ca0JReeF/Jo2l4g==
-X-Received: by 2002:a05:6402:1acd:: with SMTP id ba13mr31096235edb.141.1572442235462;
-        Wed, 30 Oct 2019 06:30:35 -0700 (PDT)
+X-Gm-Message-State: APjAAAXebyAHZJmUYenRHH2ocTooqv+NCvNDcNqbZS5do0V8Q/HmsHub
+	+H3Q7+TM0LOG1cBxrqIB2WM=
+X-Google-Smtp-Source: APXvYqzeix7ZFfJU5Fl6G+98S6Z8H6RVUyfk30I6UkXrgK9O1fRQ8jApQnOO0P37XbVDf6PowtGQBA==
+X-Received: by 2002:a17:902:1:: with SMTP id 1mr89694pla.338.1572443410561;
+        Wed, 30 Oct 2019 06:50:10 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:906:a0e:: with SMTP id w14ls3350007ejf.7.gmail; Wed, 30
- Oct 2019 06:30:35 -0700 (PDT)
-X-Received: by 2002:a17:906:4b57:: with SMTP id j23mr8908356ejv.7.1572442235063;
-        Wed, 30 Oct 2019 06:30:35 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1572442235; cv=pass;
+Received: by 2002:a65:4b87:: with SMTP id t7ls7695490pgq.5.gmail; Wed, 30 Oct
+ 2019 06:50:10 -0700 (PDT)
+X-Received: by 2002:a63:af1a:: with SMTP id w26mr34848446pge.251.1572443409886;
+        Wed, 30 Oct 2019 06:50:09 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1572443409; cv=none;
         d=google.com; s=arc-20160816;
-        b=SWKPf1UdBOoWoWuYGOiRUsIIf8j5yVx7Bz0OBMF3TWb2ioT1ZKLvEVXcuTIOJ4GUeG
-         fQ8ZzMagFmcMTiU5fHLcPHQWxCiT5+PrnxN9V4HKYJFR9MEFk7LHfjSceUCjBYy4t6sc
-         kRDgsAzCbYgIeqwuCf/hI0tyzE8tLqskQt6xeZV8hCL7JsdmQfeEA3qM1sAMXYCcIvGo
-         9u03HRSTBIZ2wavBW+wzjDwFIG2av9DAwAVhBJpdr/lxpfsw3AcMyix/81vXwxaDW8Ck
-         PLWNci8G5NYUd851QuchMhJZsKafHwyrmc9Y2bYq5v3EbsdEuEaj2OHLz943ZZXC/PSt
-         FsYA==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=nodisclaimer:original-authentication-results:mime-version
-         :content-transfer-encoding:content-id
-         :authentication-results-original:content-language:accept-language
-         :in-reply-to:references:message-id:date:thread-index:thread-topic
-         :subject:cc:to:from:dkim-signature:dkim-signature;
-        bh=YOlQJdpxvqJTdWGHUpQma/U0lGkPu5bZidooTum2tUM=;
-        b=cYx2xtKrgvtzqLqW3rCE3llUpZkUU1qIfdSMclWelv7eQckyLJAsAeORc0BHWrWy78
-         y9Bhg44jGh5Dv0AlNU+Yxfz8WBMlj31GYv5UzKpWDP5OJECclt0goSvP/8IMjz95a8tY
-         PS80Xy/XtIALa5ZttlNRcnQ5uCALlMBuv7SK2Kwnso54rtrtgepuBfWpQadhNW5F23c4
-         10zG9YRGW6VLNm3Zt5n9bcV3aAHY2rq8sJz3sW9DdvvE7AZv+cgbSQEtjlsHE9+lxThm
-         M6SEX2pJtThOeNAhtWO6KT42Kqc3TbzdggfxbHfi5oNo7SdKd1PHtrEh1fwRU1ALkvGq
-         8eMg==
-ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=IyqnrH5c;
-       dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=IyqnrH5c;
-       arc=pass (i=1 spf=pass spfdomain=arm.com dkim=pass dkdomain=arm.com dmarc=pass fromdomain=arm.com);
-       spf=pass (google.com: domain of matthew.malcomson@arm.com designates 40.107.7.85 as permitted sender) smtp.mailfrom=Matthew.Malcomson@arm.com
-Received: from EUR04-HE1-obe.outbound.protection.outlook.com (mail-eopbgr70085.outbound.protection.outlook.com. [40.107.7.85])
-        by gmr-mx.google.com with ESMTPS id c31si121273edb.0.2019.10.30.06.30.34
+        b=JEdZ/p+PsymRrUnTDYnfe2Q0FFiNZcpkFIoEegCnvqUJX86VuUHhOOLEKGJ25HyTTQ
+         EHkP5Kzs7aXUJrsVj/Oou1mH6DNcj59oTK03yjapZQobTpPr0xjDZcKVF79vzyIA1mG2
+         HxvTLVX3hGZbAe5r09KLjMg+M7WrrZZp2Lh8NpsDafSpumidHluwonIw71Pm4nRHCLbg
+         ovrqQB1qp+BxGRB7+AVPv93yohxVITVpTih8CtdSoqLOSIQ74L7GcRSZJ7RH5Dx394TL
+         EapBcTBPeo3vEJwWH5A5ZRwCkiiKqQaZSKrZe6GZnFuh8Y1rmkMGxbTx6pqWYlmsrT7v
+         c2kg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:dkim-signature;
+        bh=pb0XrKghyFZgq2oeDgc1vRiv8K2ZCa6MKROaXA8DqHQ=;
+        b=FQHj68NnmFGI//cZNMChLbwjMytIrD5FqRUKEpQa53UwKKT8dIESKAJpFDeuoCAozH
+         ZLC5ac1CncOo03iDpdrfy+Xpr36WVZlI2/x6FWyrv6afzaJTtb+oW3066bmH8vGrJZ2d
+         NEhxRnN6tEgt1Cpgaz7XvYiohJLQAnSODQY0+mHfBpAsyUElEH9dMYkx0OqYM2lgEWG2
+         HsTOOj5trTZwLyr78n4+0vwnqD9c/xVqmaH3h6GX9y9fcfuOuTTrg6yIuZQrsQKbgfS+
+         60pk9jVaLyGojlGI1exmxPeur7ozKaPoM2GK4CsFc0SW9ry9UtyHro5EO3ISXalEGbGF
+         P5NA==
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       dkim=pass header.i=@axtens.net header.s=google header.b=NTwARt8G;
+       spf=pass (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::641 as permitted sender) smtp.mailfrom=dja@axtens.net
+Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com. [2607:f8b0:4864:20::641])
+        by gmr-mx.google.com with ESMTPS id az24si391770pjb.0.2019.10.30.06.50.09
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 30 Oct 2019 06:30:35 -0700 (PDT)
-Received-SPF: pass (google.com: domain of matthew.malcomson@arm.com designates 40.107.7.85 as permitted sender) client-ip=40.107.7.85;
-Received: from DB7PR08CA0019.eurprd08.prod.outlook.com (2603:10a6:5:16::32) by
- HE1PR0802MB2507.eurprd08.prod.outlook.com (2603:10a6:3:e1::8) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2387.22; Wed, 30 Oct 2019 13:30:33 +0000
-Received: from DB5EUR03FT043.eop-EUR03.prod.protection.outlook.com
- (2a01:111:f400:7e0a::208) by DB7PR08CA0019.outlook.office365.com
- (2603:10a6:5:16::32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.2408.17 via Frontend
- Transport; Wed, 30 Oct 2019 13:30:33 +0000
-Received-SPF: Fail (protection.outlook.com: domain of arm.com does not
- designate 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- DB5EUR03FT043.mail.protection.outlook.com (10.152.20.236) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.2387.20 via Frontend Transport; Wed, 30 Oct 2019 13:30:33 +0000
-Received: ("Tessian outbound 081de437afc7:v33"); Wed, 30 Oct 2019 13:30:33 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: 9c4973174b14c2cc
-X-CR-MTA-TID: 64aa7808
-Received: from e3cb1f4e04b8.1 (cr-mta-lb-1.cr-mta-net [104.47.5.50])
-	by 64aa7808-outbound-1.mta.getcheckrecipient.com id 2054DE4A-5624-4EF6-863A-06BF4650E203.1;
-	Wed, 30 Oct 2019 13:30:27 +0000
-Received: from EUR02-HE1-obe.outbound.protection.outlook.com (mail-he1eur02lp2050.outbound.protection.outlook.com [104.47.5.50])
-    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id e3cb1f4e04b8.1
-    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384);
-    Wed, 30 Oct 2019 13:30:27 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jAj8xqbb8Vyohnh4S26skfmO6VpgTPbsLav/IVnOogUFOtTEKftroXh5cY3wJVUW15u5JFYiiSohM0lbdriYz83SMGHVF5aQZKYhAfq7kV0hq8aM5oYQR8S9XTrbTwCdqf3WK2hwXLGJNPW1HcGZVKo3Ym+wx4uqE7To48WLgd+wja42mpi10Aw22YkNlA14czbsjeMn55/9WAYh+Zj9FVUpBlP25NwJiCXOgJuEz5qT5ST37o/dQnNrG93VsOC+c5oDHfK0YTtvPWulG2J63j87ZjEBeZq89V76PqhSBzgE4v66VJsh+qKEi94TTWipHpvGCfGCHgMny5Mi6Xhcqg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YOlQJdpxvqJTdWGHUpQma/U0lGkPu5bZidooTum2tUM=;
- b=Egbpaw8lA/vEwqVfdlrvuPTKhPrA7sacwJcvBJddd7aPbhNKv88S8HhfZ+p5dOg7cIogrCDZAFSLuEYnZDfIbDYK9YwRRcrEEi0ecseNlFL4GVQslE2bN92edXmG6UjwC9t75P2C95T9oiG3No6mWfMTkZgOKC0dz/DS8Zce3aUNgNie58l/w37nWaVOOUhN0DE4aYUUCYlnt2vM3e56H647sdQLu33Y4W1ewZn6HR5W+33Ihr7C9KXywSmXCT5M7yyeBt/bxf5H0DhBVPfpQJntcnDtdPtRBOEt8GUBdZTxKpDch6t7amOnPi27PS0crEomIedzGNKCuhIfPaGrLw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-Received: from VI1PR08MB5471.eurprd08.prod.outlook.com (52.133.246.83) by
- VI1PR08MB3855.eurprd08.prod.outlook.com (20.178.80.139) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2387.24; Wed, 30 Oct 2019 13:30:26 +0000
-Received: from VI1PR08MB5471.eurprd08.prod.outlook.com
- ([fe80::6c84:4a3e:f1fd:3339]) by VI1PR08MB5471.eurprd08.prod.outlook.com
- ([fe80::6c84:4a3e:f1fd:3339%3]) with mapi id 15.20.2387.027; Wed, 30 Oct 2019
- 13:30:26 +0000
-From: Matthew Malcomson <Matthew.Malcomson@arm.com>
-To: Andrey Konovalov <andreyknvl@google.com>
-CC: "linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, kasan-dev
-	<kasan-dev@googlegroups.com>, nd <nd@arm.com>
-Subject: Re: Makefile kernel address tag sanitizer.
-Thread-Topic: Makefile kernel address tag sanitizer.
-Thread-Index: AQHVhCNNoOSr1ytgiEqSG00mmgt5mqddSDEAgBSwtgCAAAFugIABScIA
-Date: Wed, 30 Oct 2019 13:30:25 +0000
-Message-ID: <b135bdce-8fd3-c81b-72d1-6a162307f6be@arm.com>
-References: <15b7c818-1080-c093-1f41-abd5d78a8013@arm.com>
- <CAAeHK+zbMhErcEo66w6ZH45A3XUH_joUmimOa2RL1t1Q6AV_PQ@mail.gmail.com>
- <6f9fdf16-33fc-3423-555b-56059925c2b6@arm.com>
- <CAAeHK+yP2vK06tnx2p=NT8cD_qz_gV_xkuPZ40b2OAe+zxM-EA@mail.gmail.com>
-In-Reply-To: <CAAeHK+yP2vK06tnx2p=NT8cD_qz_gV_xkuPZ40b2OAe+zxM-EA@mail.gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: LO2P265CA0393.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:f::21) To VI1PR08MB5471.eurprd08.prod.outlook.com
- (2603:10a6:803:136::19)
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [217.140.106.49]
-x-ms-publictraffictype: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: d2a8f6c8-6103-4d49-5a39-08d75d3d5725
-X-MS-TrafficTypeDiagnostic: VI1PR08MB3855:|HE1PR0802MB2507:
-X-MS-Exchange-PUrlCount: 2
-X-Microsoft-Antispam-PRVS: <HE1PR0802MB25074966256A5BFF8F856F54E0600@HE1PR0802MB2507.eurprd08.prod.outlook.com>
-x-checkrecipientrouted: true
-x-ms-oob-tlc-oobclassifiers: OLM:10000;OLM:10000;
-x-forefront-prvs: 02065A9E77
-X-Forefront-Antispam-Report-Untrusted: SFV:NSPM;SFS:(10009020)(4636009)(39860400002)(346002)(136003)(376002)(396003)(366004)(51914003)(199004)(189003)(8936002)(71200400001)(53546011)(86362001)(6486002)(76176011)(26005)(486006)(71190400001)(52116002)(3846002)(6916009)(31686004)(386003)(229853002)(6116002)(44832011)(186003)(81156014)(81166006)(6436002)(8676002)(102836004)(99286004)(66946007)(66066001)(66476007)(66556008)(66446008)(6506007)(6306002)(25786009)(54906003)(14454004)(5660300002)(256004)(36756003)(966005)(7736002)(305945005)(2906002)(316002)(64756008)(478600001)(4326008)(14444005)(11346002)(446003)(476003)(6512007)(6246003)(31696002)(2616005);DIR:OUT;SFP:1101;SCL:1;SRVR:VI1PR08MB3855;H:VI1PR08MB5471.eurprd08.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: arm.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: JapaDIfTpVOJuHLKEj2PI/aRyCM0nG8EK+s8pgwZTcfFAGVObk7si3TiAM8DWCI+5X5S3GsGxan/4JuoQRmq1BIYZADSoJEDpX6sSHY8491INql3Rb8hfwroLeF7xVGefG8oBH95oOBnBHV3rLM9vMeoxAuhlkETHTunUe/RB8uCTPpKGNcB13bnNbsLJq+jjzi56g0IM68//IK7wDsqJxgueTw+emn4P3IoANHNoBR88u0P4luzsijvLSEQCgGV2ym2LFk8VayxojTFJzNv7btA/ra0rRJYn3fiFDQqa7qYkI8+M3Ni4rfFgEXEm4zNegoUegiuhV/ah9GSpf94M49gVBtlG1wbjx2YUF1bjLxp4BWqzV0M4srNFBMV5rmhVnq9MNdRsqcZuKY+vmooF1GxPkKOEXFypbiXEUAiAwPEOsmQSoPaDu8ziELQfisYXvVHaEmlJQKPKOizN6Tweunqj3g0vxsTLBuwuAnQ4kc=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="UTF-8"
-Content-ID: <FDF62D1FA8B6154F853004C22F2D525A@eurprd08.prod.outlook.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 30 Oct 2019 06:50:09 -0700 (PDT)
+Received-SPF: pass (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::641 as permitted sender) client-ip=2607:f8b0:4864:20::641;
+Received: by mail-pl1-x641.google.com with SMTP id k7so1033835pll.1
+        for <kasan-dev@googlegroups.com>; Wed, 30 Oct 2019 06:50:09 -0700 (PDT)
+X-Received: by 2002:a17:902:760c:: with SMTP id k12mr102582pll.256.1572443409483;
+        Wed, 30 Oct 2019 06:50:09 -0700 (PDT)
+Received: from localhost (2001-44b8-1113-6700-783a-2bb9-f7cb-7c3c.static.ipv6.internode.on.net. [2001:44b8:1113:6700:783a:2bb9:f7cb:7c3c])
+        by smtp.gmail.com with ESMTPSA id e198sm35049pfh.83.2019.10.30.06.50.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Oct 2019 06:50:08 -0700 (PDT)
+From: Daniel Axtens <dja@axtens.net>
+To: Andrey Ryabinin <aryabinin@virtuozzo.com>, kasan-dev@googlegroups.com, linux-mm@kvack.org, x86@kernel.org, glider@google.com, luto@kernel.org, linux-kernel@vger.kernel.org, mark.rutland@arm.com, dvyukov@google.com, christophe.leroy@c-s.fr
+Cc: linuxppc-dev@lists.ozlabs.org, gor@linux.ibm.com, Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [PATCH v10 4/5] x86/kasan: support KASAN_VMALLOC
+In-Reply-To: <a144eaca-d7e1-1a18-5975-bd0bfdb9450e@virtuozzo.com>
+References: <20191029042059.28541-1-dja@axtens.net> <20191029042059.28541-5-dja@axtens.net> <a144eaca-d7e1-1a18-5975-bd0bfdb9450e@virtuozzo.com>
+Date: Thu, 31 Oct 2019 00:50:05 +1100
+Message-ID: <87sgnamjg2.fsf@dja-thinkpad.axtens.net>
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB3855
-Original-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=Matthew.Malcomson@arm.com;
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: DB5EUR03FT043.eop-EUR03.prod.protection.outlook.com
-X-Forefront-Antispam-Report: CIP:63.35.35.123;IPV:CAL;SCL:-1;CTRY:IE;EFV:NLI;SFV:NSPM;SFS:(10009020)(4636009)(396003)(346002)(136003)(376002)(39860400002)(1110001)(339900001)(51914003)(189003)(199004)(14444005)(53546011)(6506007)(356004)(81156014)(81166006)(102836004)(4326008)(386003)(2906002)(6246003)(76176011)(23676004)(186003)(8676002)(8936002)(2486003)(66066001)(6862004)(47776003)(26005)(3846002)(229853002)(36756003)(6486002)(6306002)(54906003)(6116002)(105606002)(6512007)(99286004)(70206006)(486006)(70586007)(126002)(11346002)(25786009)(446003)(31686004)(7736002)(305945005)(14454004)(50466002)(26826003)(76130400001)(86362001)(2616005)(336012)(966005)(476003)(31696002)(316002)(22756006)(436003)(478600001)(5660300002);DIR:OUT;SFP:1101;SCL:1;SRVR:HE1PR0802MB2507;H:64aa7808-outbound-1.mta.getcheckrecipient.com;FPR:;SPF:Fail;LANG:en;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;MX:1;A:1;
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 8949a9c6-f3e4-4d9f-d05f-08d75d3d5289
-NoDisclaimer: True
-X-Forefront-PRVS: 02065A9E77
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: zr3eS2M+taTon333HqTe14svNIlFdc/ZNNFTJmt9CSKiE4AWlQFjDGqAIylSX7TUULtDVI9VLNEBFd5i3yZIhjdQj7uo92FjRbElRuV0zPTpI1VifTHArLWmb4KfYbZHCTCuSGRLK6GSHFazxhn91Ql6RVD+jhfhLkuPi85D7fNBfCaM67UJtgWs7qJNCqsYeIqBB1JCePT5WSVC9PeqCptZbcrt5vsq6FzSoKOWa5QD7AYOpBDAB9/1VDz9UCTQJcxKsnz7LW96QJ/oOpD2xfE7qHqiypkdtKIH+HC6+bTQH//N4tSdTxNbmlOmTkwEwah1gbnfOtMjWQ1mqfxt/GA7t0yFKYRN+okdFXD7/qtGFnIgnegvFBKWBZS49BdZ3mfc6jiInLOOxwnJIJ8OUgLkpxoIQqGSdwWxpXRHhbqD5onzgxIiMbovehCap8ntIN+emfnIAHFcXxSiblX0bLUrTk4dkGKlEeY/gt1inRA=
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Oct 2019 13:30:33.0907
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d2a8f6c8-6103-4d49-5a39-08d75d3d5725
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1PR0802MB2507
-X-Original-Sender: matthew.malcomson@arm.com
+Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: dja@axtens.net
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com
- header.b=IyqnrH5c;       dkim=pass header.i=@armh.onmicrosoft.com
- header.s=selector2-armh-onmicrosoft-com header.b=IyqnrH5c;       arc=pass
- (i=1 spf=pass spfdomain=arm.com dkim=pass dkdomain=arm.com dmarc=pass
- fromdomain=arm.com);       spf=pass (google.com: domain of
- matthew.malcomson@arm.com designates 40.107.7.85 as permitted sender) smtp.mailfrom=Matthew.Malcomson@arm.com
+ header.i=@axtens.net header.s=google header.b=NTwARt8G;       spf=pass
+ (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::641 as
+ permitted sender) smtp.mailfrom=dja@axtens.net
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -234,107 +128,52 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 29/10/19 17:50, Andrey Konovalov wrote:
-> On Tue, Oct 29, 2019 at 6:45 PM Matthew Malcomson
-> <Matthew.Malcomson@arm.com> wrote:
->>
->> Hi Andrey,
-> 
-> Hi Matthew,
-> 
->>
->> Thanks for the clarification on that bit, could I ask another question?
->>
->> I seem to have non-stack compiling with GCC running ok, but would like
->> to have some better testing than I've managed so far.
-> 
-> Great! =)
-> 
->>
->> I'm running on an instrumented kernel, but haven't seen a crash yet.
->>
->> Is there a KASAN testsuite to run somewhere so I can proove that bad
->> accesses would be caught?
-> 
-> Kind of. There's CONFIG_TEST_KASAN which produces lib/test_kasan.ko,
-> which you can insmod and it will do all kinds of bad accesses.
-> Unfortunately there's no automated checker for it, so you'll need to
-> look through the reports manually and check if they make sense.
+Andrey Ryabinin <aryabinin@virtuozzo.com> writes:
 
-Great, that was really useful!
+> On 10/29/19 7:20 AM, Daniel Axtens wrote:
+>> In the case where KASAN directly allocates memory to back vmalloc
+>> space, don't map the early shadow page over it.
+>> 
+>> We prepopulate pgds/p4ds for the range that would otherwise be empty.
+>> This is required to get it synced to hardware on boot, allowing the
+>> lower levels of the page tables to be filled dynamically.
+>> 
+>> Acked-by: Dmitry Vyukov <dvyukov@google.com>
+>> Signed-off-by: Daniel Axtens <dja@axtens.net>
+>> 
+>> ---
+>
+>> +static void __init kasan_shallow_populate_pgds(void *start, void *end)
+>> +{
+>> +	unsigned long addr, next;
+>> +	pgd_t *pgd;
+>> +	void *p;
+>> +	int nid = early_pfn_to_nid((unsigned long)start);
+>
+> This doesn't make sense. start is not even a pfn. With linear mapping 
+> we try to identify nid to have the shadow on the same node as memory. But 
+> in this case we don't have memory or the corresponding shadow (yet),
+> we only install pgd/p4d.
+> I guess we could just use NUMA_NO_NODE.
 
-I found one issue in my instrumentation through using these tests -- I 
-haven't defined `__SANITIZE_ADDRESS__` (which means memset calls aren't 
-sanitized here since a macro replaces them with __memset).
+Ah wow, that's quite the clanger on my part.
 
-Looking at the current kernel code it seems that for clang you use 
-`__SANITIZE_ADDRESS__`, for either hwasan or asan.  (commit 2bd926b4).
+There are a couple of other invocations of early_pfn_to_nid in that file
+that use an address directly, but at least they reference actual memory.
+I'll send a separate patch to fix those up.
 
-Do you (or anyone else) have any objections to using 
-`__SANITIZE_HWADDRESS__` to indicate tagging address sanitizer so they 
-can be distinguished?
+> The rest looks ok, so with that fixed:
+>
+> Reviewed-by: Andrey Ryabinin <aryabinin@virtuozzo.com>
 
-I can provide a patch to the kernel to account for the compiler 
-behaviour if it's acceptable.
+Thanks heaps! I've fixed up the nit you identifed in the first patch,
+and I agree that the last patch probably isn't needed. I'll respin the
+series shortly.
 
-
-
-Similarly, I'm thinking I'll add no_sanitize_hwaddress as the hwasan 
-equivalent of no_sanitize_address, which will require an update in the 
-kernel given it seems you want KASAN to be used the same whether using 
-tags or not.
-
-Cheers,
-Matthew
-
-> 
-> Thanks!
-> 
->>
->> Cheers,
->> Matthew
->>
->> On 16/10/19 14:47, Andrey Konovalov wrote:
->>> On Wed, Oct 16, 2019 at 3:12 PM Matthew Malcomson
->>> <Matthew.Malcomson@arm.com> wrote:
->>>>
->>>> Hello,
->>>>
->>>> If this is the wrong list & person to ask I'd appreciate being shown who
->>>> to ask.
->>>>
->>>> I'm working on implementing hwasan (software tagging address sanitizer)
->>>> for GCC (most recent upstream version here
->>>> https://gcc.gnu.org/ml/gcc-patches/2019-09/msg00387.html).
->>>>
->>>> I have a working implementation of hwasan for userspace and am now
->>>> looking at trying CONFIG_KASAN_SW_TAGS compiled with gcc (only with
->>>> CONFIG_KASAN_OUTLINE for now).
->>>>
->>>> I notice the current scripts/Makefile.kasan hard-codes the parameter
->>>> `-mllvm -hwasan-instrument-stack=0` to avoid instrumenting stack
->>>> variables, and found an email mentioning that stack instrumentation is
->>>> not yet supported.
->>>> https://lore.kernel.org/linux-arm-kernel/cover.1544099024.git.andreyknvl@google.com/
->>>>
->>>>
->>>> What is the support that to be added for stack instrumentation?
->>>
->>> Hi Matthew,
->>>
->>> The plan was to upstream tag-based KASAN without stack instrumentation
->>> first, and then enable stack instrumentation as a separate effort. I
->>> didn't yet get to this last part. I remember when I tried enabling
->>> stack instrumentation I was getting what looked like false-positive
->>> reports coming from the printk related code. I didn't investigate them
->>> though. It's possible that some tweaks to the runtime implementation
->>> will be required.
->>>
->>> Thanks!
->>>
->>
+Regards,
+Daniel
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/b135bdce-8fd3-c81b-72d1-6a162307f6be%40arm.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/87sgnamjg2.fsf%40dja-thinkpad.axtens.net.
