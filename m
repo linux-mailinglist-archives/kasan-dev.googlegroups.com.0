@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBNXLQDXAKGQEIQWQBTY@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBOPLQDXAKGQEHY7H7EY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-vs1-xe3a.google.com (mail-vs1-xe3a.google.com [IPv6:2607:f8b0:4864:20::e3a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DEA1EE260
-	for <lists+kasan-dev@lfdr.de>; Mon,  4 Nov 2019 15:29:11 +0100 (CET)
-Received: by mail-vs1-xe3a.google.com with SMTP id b3sf2797930vsh.0
-        for <lists+kasan-dev@lfdr.de>; Mon, 04 Nov 2019 06:29:11 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1572877750; cv=pass;
+Received: from mail-lj1-x23e.google.com (mail-lj1-x23e.google.com [IPv6:2a00:1450:4864:20::23e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 43857EE267
+	for <lists+kasan-dev@lfdr.de>; Mon,  4 Nov 2019 15:29:14 +0100 (CET)
+Received: by mail-lj1-x23e.google.com with SMTP id y12sf3289801ljc.8
+        for <lists+kasan-dev@lfdr.de>; Mon, 04 Nov 2019 06:29:14 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1572877753; cv=pass;
         d=google.com; s=arc-20160816;
-        b=qFYYrKGjTqG2ZxLQ+u3RRdPBKdYEuxsItmUnvruBj+hMK/NZTvBdxpFTS249SzjL8F
-         /XaZpZI05I9AWSqV9agYJSD+55/YZPXM5diUikBLv+Qk4WqsXrDFVbKxii+BErMRokby
-         TJI9TOQdhRorb/tikoTnaDkqpgxdVyree+iWEhmVN6j0EuZ1m+72GM9avxUau35+BBqL
-         zkMSroN0BTt42h4y7UjDbuGU2HekQtwUa9xYbKtKprbQVdagTak8/GCvIzDaxtPEqBes
-         /Xn0MFQRSuAw3bgueVpHLzYK+rTQZa8HBYuJx/eDrvzqZxERmuSXzMKWxsDo7rCaHX3z
-         kmLg==
+        b=oTY8TSSWxfCxXAiyBDPAJxnO6Wwf09b29l4hmSHpauITsCSm/8gLOxMr5pYxCJnH4N
+         BQ+WWwOZ7LWVR/t2Sx3lx/XcL8ubgyhkpfKkK/DN1Ye/M65srbMeUaJWLhGLLep7C2E1
+         nITvICT6Xf1tnAx1EqlqnCLv4vAmmJm219TdzJ6pcCrACmAS5FVcdk4FMIJTEaSbiL59
+         otaQIlmhUI8pBKWgfItxso4XB6GGJavFO6Bljl7S7rT7w9b77qkc26q9qRFJ24NiaHcA
+         nr7UZeou97U+XwBG9KEeh8assf6gSFmlbXSpdtsO53rbXHVaQHuz2+voDYyYVnZH8TsD
+         aBtw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
          :references:mime-version:message-id:in-reply-to:date:dkim-signature;
-        bh=A4PBEnaKXp0iTF1aGSNzrvNOsAtj3lB8iU6voRx8DwU=;
-        b=bN/jeLqkLKtlcrKDIFZyBPx8P5jG9T3xVEWXHvWcLYroSIM/5ETKXRQB9uj9O+Jqfw
-         uZFBhW+mWXU/szzCyd77MsIGyG1JoiJf4OjY1bRG63huWYe00xLbuQbe6RSgCg7JMCrc
-         eSCcG5kBjj0JOSfHcsVqcLcpBwt+4gyxDmr4EGrR/2xWuB8BVGuh3wMynsujO03mOIsk
-         HBoj5aRNMjvCsGDlwDkA2z63vrTIJblBAWLG7i3EgLhtt3ym62CQX5HokusaLNzf7gMu
-         h9sPbS/GYutuITdqF2t11TajNQANgMcCgzfVRe2ov6X/qDPdK+GDf5GciQ0oq5sURO0R
-         gNOw==
+        bh=SbS+4kwgDSCVdPu73gdLW7bxzi84jvxkjmoKGwbWWGE=;
+        b=o2sGIwwyOqWTBNl3/GKydOwN7RTxamCosVoVWzJ//hbvuf3UUPWUkEwHTEd85AGq4N
+         /09cxS3ckHGkbsNHll/QknM2ltqAyprKZJgav1L4+NVg/rel1NDHGrgPjEKqpJAlE3nN
+         jkw0LfNaMDMih9ODuy2ogbHE8hfOFUj/yzSVnHDMCX4hUpAjYN5iDf5AngAbnmTGRiHx
+         Y4ESDwAmy8CfVhIKbC2WZN3eL2Ota4OSu+Rlg2kCisjCT8xMlZ7gIal3wjVb7flh4iph
+         9qzDZYyY+EQh7n5jGkeoYqp0/k0gfgaPPLTOx5c9K2uahn7HD23K3tZxjGVOKYaDzlky
+         fRhA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=FhPDq8Y8;
-       spf=pass (google.com: domain of 3ttxaxqukcry07h0d2aa270.ya86wew9-z0h2aa2702dagbe.ya8@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::a49 as permitted sender) smtp.mailfrom=3tTXAXQUKCRY07H0D2AA270.yA86wEw9-z0H2AA2702DAGBE.yA8@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b="U/XYdcDe";
+       spf=pass (google.com: domain of 3udxaxqukcrk3ak3g5dd5a3.1db9zhzc-23k5dd5a35gdjeh.1db@flex--elver.bounces.google.com designates 2a00:1450:4864:20::34a as permitted sender) smtp.mailfrom=3uDXAXQUKCRk3AK3G5DD5A3.1DB9zHzC-23K5DD5A35GDJEH.1DB@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=A4PBEnaKXp0iTF1aGSNzrvNOsAtj3lB8iU6voRx8DwU=;
-        b=WX0XxFmEzSf67Rox218wVYJjwyprwk6xq/Ldjzrwe9RRIozQ2OfITYjgHBHDvt7hKE
-         bT6YdtJkUdAcZ/TT1glqXNtJGiyq0cvMC7BXSAYttG66mGCsJhAoe64H2ppAU8Y+K7Qe
-         125i0vO1pMWx/SRTUK4inhHspWpTWO8sicYUIDe5/7GgnpDkrM4GibzCP3/kBMj0CHbX
-         F6FRni6/Ks6SRrf5QPZidYgu63qF2FOCxHrJlM0l9QVybdQ/tLn2Ax8bE+LXHwvZrlwM
-         bKcfOJUxgDh9+PaajRLvq+2+aR+a1UVJGju0UHKYComfpYqanFoqk7nZx7wxNf7RVD6x
-         H2Fg==
+        bh=SbS+4kwgDSCVdPu73gdLW7bxzi84jvxkjmoKGwbWWGE=;
+        b=dT6i4YgwjnA0Ira9JMXvMS2kfUGQhi9lAHloCHfiKlcspb8si72b22tqOT0kSgTS0C
+         FZCrgZXrlFfl357Iq4dFvbnT+Ct6l7ZeWHey3SDq3d0hvT6CJwa1jP424uUEqT75lgzH
+         PdlS0xL3uEag/D6nvKnrCYEhnlK0j9GZTob6Z7X2f/HlH0bT8RKqNbE3rHMTtsh6Weos
+         IL+ZSMSt9t8z150DmHQxmk4ZVow5/pL8a2Zhkseg7Jxj+5rplNfvGWu0G/rVe2qSo7jt
+         jJBmS3nWyCcPvNPfmEPPjrrTSkWK77soPyzEBIwkgk10jZYGGnlBx6xEFrzNpQ0WSJxG
+         Ep+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
@@ -49,62 +49,62 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=A4PBEnaKXp0iTF1aGSNzrvNOsAtj3lB8iU6voRx8DwU=;
-        b=WKKRqjlHNFG9N7d0MWpSd/fseWQ34lSwqIknd2hkJ2ksxzxtbGN+QdRlHrqcxyTXN4
-         UH18dbPF7i+ewHZGi2yf9BukiQbYxdDG3leubfb4KK6XC2tAO+ASicvOwPwo5TMjamPY
-         PhWy9FwOhwHuRw7j5f5hC0MHbtqGPd16GkFTldc8gSEvUxzyyArpzBlEYmlNHXxEaDdO
-         09tr1uyjwyqbvbrjEMqbG/3Ky7YVSaOjaIuhcbb1dP6Pr7OqwRRX6IUX1FC+bwBjucL/
-         w4TpD5l1tpebWkQ+LiUlsYE8cbsd5kuHI9teUk7ZqTB6JQsDOhIfdLwp2WSoqNMwVryJ
-         8vCQ==
-X-Gm-Message-State: APjAAAVRvpJDbiNLdSN87X6nGu5Pl2Z86pEX+6pM5AJEUNon8qmbWgWZ
-	KsHXLe+U1zaKixGDxoTVGt4=
-X-Google-Smtp-Source: APXvYqzQ2SJO3BoUHPrEydmTWizGdjZnHeBOR8AvvMf+4CKeUcwUJUjEUID4+CvybyEq0jhU3HylWQ==
-X-Received: by 2002:a05:6102:2375:: with SMTP id o21mr12325793vsa.90.1572877750126;
-        Mon, 04 Nov 2019 06:29:10 -0800 (PST)
+        bh=SbS+4kwgDSCVdPu73gdLW7bxzi84jvxkjmoKGwbWWGE=;
+        b=m83aWHFPJAJjLD09kGIRelQESllyY6XhzrSkyNv/r7CVIHmCb+qVwVao2uDdE5IrYt
+         8ksJ/MlG4yxI2rytFVG1dEvvSFjzO/lRPBx/tHKkD7Ng5uTBVCXlEftiu3xe9hUgXkQq
+         7lFQzYhKlm+GTqsSQwku3s0gXslSAHZni9np3JzRWwPGNJ1+39oOkJuA9dtU0n422j72
+         Xh2HwPtzGL49DKGq19USZnIN2kdxGMeIXyMCzKcJq356JEY1EYvmhD4cD68SNQuq0tYs
+         azynQVqHDCuQ5R7rc/D+I9fnzLnsF/gBaexzRG/Ynt7SMKoOH61epfNh7UwRm27Gwzfy
+         q38A==
+X-Gm-Message-State: APjAAAX8YrNKb9AmDSwLls1xcuzVvB9l1JYqbC0dOjUJxQ/UYZJfDbyM
+	O67TLN7jjIUPw+1wqF7QsC8=
+X-Google-Smtp-Source: APXvYqwer/cdV3kBCD2DoUgBPzkysyOzAnAzevRSwM1C+Wv6/BgRgNOtlQu6fUZZmFedQR2REuJKmA==
+X-Received: by 2002:a2e:81d2:: with SMTP id s18mr4379333ljg.189.1572877753900;
+        Mon, 04 Nov 2019 06:29:13 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a67:fd08:: with SMTP id f8ls155536vsr.13.gmail; Mon, 04 Nov
- 2019 06:29:09 -0800 (PST)
-X-Received: by 2002:a05:6102:1010:: with SMTP id q16mr11984031vsp.183.1572877749742;
-        Mon, 04 Nov 2019 06:29:09 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1572877749; cv=none;
+Received: by 2002:a05:651c:c4:: with SMTP id 4ls785304ljr.6.gmail; Mon, 04 Nov
+ 2019 06:29:13 -0800 (PST)
+X-Received: by 2002:a2e:b007:: with SMTP id y7mr2082260ljk.69.1572877753256;
+        Mon, 04 Nov 2019 06:29:13 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1572877753; cv=none;
         d=google.com; s=arc-20160816;
-        b=F+kH1CYLGUenqTibofMKV7/x2grVS7GXF195pbX1r4+u8khBdEl/6HzB5+M+LfUlmO
-         y6tyvkRE6D8g+FbhBWLQguBOuTag9/jYlvg3kPRioa0SfFi7pK/BhPScbkSIe75sPQqM
-         losNfkU5DxYIXAN49sV8sTTUY5gQXGXDfZ0etU5ToeJ2djsHigAIdA8BonqRcLSACYRW
-         wljMXWwo729o2Cd++gGAfBotUUR2xhyd4uE/AQuSc/kv48cONemtK0zTWO5YqjO+YNfu
-         XV+9HcNPZkqIFdLn9167T2NR4DX23SJ9F0rIRj4TRSVaAvaS62yXS1cjkyKPWsCZ9/di
-         y+rA==
+        b=KdWSBjlDm4bSANKeJ/Q7o5b9JGXEvqOyAoqei6I9X0e8urWMX3OJYIXEnUqkLsHjLL
+         oZltuG3FtAq1RZLZ3rGZxoMXAbjjelCw8SBisMRs9tr7RfGagAXGmmrDAuZapcJVKdjJ
+         RJo/LemSYyle4jQwXntZCJqmFG0Vpq5Yyy00sGpbowsjfjrQQXEcNfZ1WftaistT+y8E
+         4LfUdNyjnr8WN8r98nARtkIkRJdoFsrZG163ZIr/aGcsMopVaeUqmcRGtFrLliEVVH7H
+         thsqAkqTYlc2JMVgE/Fw7L5QIOIvRfyvi4aKgIaLgExixtVAcx1KvZZnBBZb12wXp2O9
+         QwFw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
          :date:dkim-signature;
-        bh=sQU0jAVefneuTdQpIgbUF6GdSN4TcMOiQRxRVI16Vls=;
-        b=RsFcC2xWNRNUhC7CbCp54p4mBj59iYf9IrqAzzQXXNFYYiUi0W656TuHSyPA4DX0LK
-         CM6DATv3wRGm7p3OhNB4ocda1JApCbCivxLVSMr2WA1y4/lp+bkSnp98qLPg18AC+Vco
-         myf6lWH4OCes18QbWzcJ9fFQ97MR7mM+EY3kaEV1VOsCuqD+HYzV7spv1qv39PrDEbnN
-         tLKySW+byDu3Uoj8i08lpSr2CyzMQHBCC2RxC4pTKg1e1RADk8Dj7H/6Ivcp/cWB4JpH
-         FbQHWdhPSJQt8gD8I+fhg/6lk+4nEjRBH7bjnyqb2x2yY6VCUPay/9rfw0YgPck6Khbs
-         lolg==
+        bh=dwkrnZGKd1o82vLncnnMx5+hskPdjM10M9XkepioArw=;
+        b=Nv38dAmUawbmTKhsSOkSZKoJ5Em6e8fLTiDQfMeQoiyCfCb1K1K7Yrk+LALMjX3RU/
+         VOndj5apE4e4UHea9VWrfIfTGgrI18p05+UuCLxCV1ytPW91GSihwYgZHoHbRk8DDWkw
+         sKXTO8Pn9VzUwODpTUYsAHQxRHTLuCbMjR6iv9lF4+9mq1CRFHsxm8XYE8xU+PxOiE/9
+         w1NNXstl9l/76BzxRezqu3Aj7fgnWXaLrE0YXHd+QPGF5E4RAULjy7Ag7+8pk+yEAS7e
+         cyUUYu+b4z7bbon1lPhSZB4XD/C6w3tMZySBHFUL5Mz29wzn/3PLQzdbGdeKMZsxnKq+
+         RYhw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=FhPDq8Y8;
-       spf=pass (google.com: domain of 3ttxaxqukcry07h0d2aa270.ya86wew9-z0h2aa2702dagbe.ya8@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::a49 as permitted sender) smtp.mailfrom=3tTXAXQUKCRY07H0D2AA270.yA86wEw9-z0H2AA2702DAGBE.yA8@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b="U/XYdcDe";
+       spf=pass (google.com: domain of 3udxaxqukcrk3ak3g5dd5a3.1db9zhzc-23k5dd5a35gdjeh.1db@flex--elver.bounces.google.com designates 2a00:1450:4864:20::34a as permitted sender) smtp.mailfrom=3uDXAXQUKCRk3AK3G5DD5A3.1DB9zHzC-23K5DD5A35GDJEH.1DB@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-vk1-xa49.google.com (mail-vk1-xa49.google.com. [2607:f8b0:4864:20::a49])
-        by gmr-mx.google.com with ESMTPS id s197si742140vkd.5.2019.11.04.06.29.09
+Received: from mail-wm1-x34a.google.com (mail-wm1-x34a.google.com. [2a00:1450:4864:20::34a])
+        by gmr-mx.google.com with ESMTPS id b22si1056674ljo.3.2019.11.04.06.29.13
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 Nov 2019 06:29:09 -0800 (PST)
-Received-SPF: pass (google.com: domain of 3ttxaxqukcry07h0d2aa270.ya86wew9-z0h2aa2702dagbe.ya8@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::a49 as permitted sender) client-ip=2607:f8b0:4864:20::a49;
-Received: by mail-vk1-xa49.google.com with SMTP id z23so7965825vkb.3
-        for <kasan-dev@googlegroups.com>; Mon, 04 Nov 2019 06:29:09 -0800 (PST)
-X-Received: by 2002:a05:6122:2c7:: with SMTP id k7mr10982783vki.97.1572877749135;
- Mon, 04 Nov 2019 06:29:09 -0800 (PST)
-Date: Mon,  4 Nov 2019 15:27:42 +0100
+        Mon, 04 Nov 2019 06:29:13 -0800 (PST)
+Received-SPF: pass (google.com: domain of 3udxaxqukcrk3ak3g5dd5a3.1db9zhzc-23k5dd5a35gdjeh.1db@flex--elver.bounces.google.com designates 2a00:1450:4864:20::34a as permitted sender) client-ip=2a00:1450:4864:20::34a;
+Received: by mail-wm1-x34a.google.com with SMTP id c7so2850291wmb.0
+        for <kasan-dev@googlegroups.com>; Mon, 04 Nov 2019 06:29:13 -0800 (PST)
+X-Received: by 2002:a5d:5591:: with SMTP id i17mr22415611wrv.151.1572877752204;
+ Mon, 04 Nov 2019 06:29:12 -0800 (PST)
+Date: Mon,  4 Nov 2019 15:27:43 +0100
 In-Reply-To: <20191104142745.14722-1-elver@google.com>
-Message-Id: <20191104142745.14722-7-elver@google.com>
+Message-Id: <20191104142745.14722-8-elver@google.com>
 Mime-Version: 1.0
 References: <20191104142745.14722-1-elver@google.com>
 X-Mailer: git-send-email 2.24.0.rc1.363.gb1bccd3e3d-goog
-Subject: [PATCH v3 6/9] seqlock: Require WRITE_ONCE surrounding raw_seqcount_barrier
+Subject: [PATCH v3 7/9] asm-generic, kcsan: Add KCSAN instrumentation for bitops
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
 To: elver@google.com
 Cc: akiyks@gmail.com, stern@rowland.harvard.edu, glider@google.com, 
@@ -122,9 +122,9 @@ Cc: akiyks@gmail.com, stern@rowland.harvard.edu, glider@google.com,
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=FhPDq8Y8;       spf=pass
- (google.com: domain of 3ttxaxqukcry07h0d2aa270.ya86wew9-z0h2aa2702dagbe.ya8@flex--elver.bounces.google.com
- designates 2607:f8b0:4864:20::a49 as permitted sender) smtp.mailfrom=3tTXAXQUKCRY07H0D2AA270.yA86wEw9-z0H2AA2702DAGBE.yA8@flex--elver.bounces.google.com;
+ header.i=@google.com header.s=20161025 header.b="U/XYdcDe";       spf=pass
+ (google.com: domain of 3udxaxqukcrk3ak3g5dd5a3.1db9zhzc-23k5dd5a35gdjeh.1db@flex--elver.bounces.google.com
+ designates 2a00:1450:4864:20::34a as permitted sender) smtp.mailfrom=3uDXAXQUKCRk3AK3G5DD5A3.1DB9zHzC-23K5DD5A35GDJEH.1DB@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Marco Elver <elver@google.com>
 Reply-To: Marco Elver <elver@google.com>
@@ -140,65 +140,169 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-This patch proposes to require marked atomic accesses surrounding
-raw_write_seqcount_barrier. We reason that otherwise there is no way to
-guarantee propagation nor atomicity of writes before/after the barrier
-[1]. For example, consider the compiler tears stores either before or
-after the barrier; in this case, readers may observe a partial value,
-and because readers are unaware that writes are going on (writes are not
-in a seq-writer critical section), will complete the seq-reader critical
-section while having observed some partial state.
-[1] https://lwn.net/Articles/793253/
-
-This came up when designing and implementing KCSAN, because KCSAN would
-flag these accesses as data-races. After careful analysis, our reasoning
-as above led us to conclude that the best thing to do is to propose an
-amendment to the raw_seqcount_barrier usage.
+Add explicit KCSAN checks for bitops.
 
 Signed-off-by: Marco Elver <elver@google.com>
 ---
-v3:
-* Add missing comment that was in preceding seqlock patch.
+v2:
+* Use kcsan_check{,_atomic}_{read,write} instead of
+  kcsan_check_{access,atomic}.
 ---
- include/linux/seqlock.h | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ include/asm-generic/bitops-instrumented.h | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-diff --git a/include/linux/seqlock.h b/include/linux/seqlock.h
-index 61232bc223fd..f52c91be8939 100644
---- a/include/linux/seqlock.h
-+++ b/include/linux/seqlock.h
-@@ -265,6 +265,13 @@ static inline void raw_write_seqcount_end(seqcount_t *s)
-  * usual consistency guarantee. It is one wmb cheaper, because we can
-  * collapse the two back-to-back wmb()s.
-  *
-+ * Note that, writes surrounding the barrier should be declared atomic (e.g.
-+ * via WRITE_ONCE): a) to ensure the writes become visible to other threads
-+ * atomically, avoiding compiler optimizations; b) to document which writes are
-+ * meant to propagate to the reader critical section. This is necessary because
-+ * neither writes before and after the barrier are enclosed in a seq-writer
-+ * critical section that would ensure readers are aware of ongoing writes.
-+ *
-  *      seqcount_t seq;
-  *      bool X = true, Y = false;
-  *
-@@ -284,11 +291,11 @@ static inline void raw_write_seqcount_end(seqcount_t *s)
-  *
-  *      void write(void)
-  *      {
-- *              Y = true;
-+ *              WRITE_ONCE(Y, true);
-  *
-  *              raw_write_seqcount_barrier(seq);
-  *
-- *              X = false;
-+ *              WRITE_ONCE(X, false);
-  *      }
-  */
- static inline void raw_write_seqcount_barrier(seqcount_t *s)
+diff --git a/include/asm-generic/bitops-instrumented.h b/include/asm-generic/bitops-instrumented.h
+index ddd1c6d9d8db..864d707cdb87 100644
+--- a/include/asm-generic/bitops-instrumented.h
++++ b/include/asm-generic/bitops-instrumented.h
+@@ -12,6 +12,7 @@
+ #define _ASM_GENERIC_BITOPS_INSTRUMENTED_H
+ 
+ #include <linux/kasan-checks.h>
++#include <linux/kcsan-checks.h>
+ 
+ /**
+  * set_bit - Atomically set a bit in memory
+@@ -26,6 +27,7 @@
+ static inline void set_bit(long nr, volatile unsigned long *addr)
+ {
+ 	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
++	kcsan_check_atomic_write(addr + BIT_WORD(nr), sizeof(long));
+ 	arch_set_bit(nr, addr);
+ }
+ 
+@@ -41,6 +43,7 @@ static inline void set_bit(long nr, volatile unsigned long *addr)
+ static inline void __set_bit(long nr, volatile unsigned long *addr)
+ {
+ 	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
++	kcsan_check_write(addr + BIT_WORD(nr), sizeof(long));
+ 	arch___set_bit(nr, addr);
+ }
+ 
+@@ -54,6 +57,7 @@ static inline void __set_bit(long nr, volatile unsigned long *addr)
+ static inline void clear_bit(long nr, volatile unsigned long *addr)
+ {
+ 	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
++	kcsan_check_atomic_write(addr + BIT_WORD(nr), sizeof(long));
+ 	arch_clear_bit(nr, addr);
+ }
+ 
+@@ -69,6 +73,7 @@ static inline void clear_bit(long nr, volatile unsigned long *addr)
+ static inline void __clear_bit(long nr, volatile unsigned long *addr)
+ {
+ 	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
++	kcsan_check_write(addr + BIT_WORD(nr), sizeof(long));
+ 	arch___clear_bit(nr, addr);
+ }
+ 
+@@ -82,6 +87,7 @@ static inline void __clear_bit(long nr, volatile unsigned long *addr)
+ static inline void clear_bit_unlock(long nr, volatile unsigned long *addr)
+ {
+ 	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
++	kcsan_check_atomic_write(addr + BIT_WORD(nr), sizeof(long));
+ 	arch_clear_bit_unlock(nr, addr);
+ }
+ 
+@@ -97,6 +103,7 @@ static inline void clear_bit_unlock(long nr, volatile unsigned long *addr)
+ static inline void __clear_bit_unlock(long nr, volatile unsigned long *addr)
+ {
+ 	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
++	kcsan_check_write(addr + BIT_WORD(nr), sizeof(long));
+ 	arch___clear_bit_unlock(nr, addr);
+ }
+ 
+@@ -113,6 +120,7 @@ static inline void __clear_bit_unlock(long nr, volatile unsigned long *addr)
+ static inline void change_bit(long nr, volatile unsigned long *addr)
+ {
+ 	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
++	kcsan_check_atomic_write(addr + BIT_WORD(nr), sizeof(long));
+ 	arch_change_bit(nr, addr);
+ }
+ 
+@@ -128,6 +136,7 @@ static inline void change_bit(long nr, volatile unsigned long *addr)
+ static inline void __change_bit(long nr, volatile unsigned long *addr)
+ {
+ 	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
++	kcsan_check_write(addr + BIT_WORD(nr), sizeof(long));
+ 	arch___change_bit(nr, addr);
+ }
+ 
+@@ -141,6 +150,7 @@ static inline void __change_bit(long nr, volatile unsigned long *addr)
+ static inline bool test_and_set_bit(long nr, volatile unsigned long *addr)
+ {
+ 	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
++	kcsan_check_atomic_write(addr + BIT_WORD(nr), sizeof(long));
+ 	return arch_test_and_set_bit(nr, addr);
+ }
+ 
+@@ -155,6 +165,7 @@ static inline bool test_and_set_bit(long nr, volatile unsigned long *addr)
+ static inline bool __test_and_set_bit(long nr, volatile unsigned long *addr)
+ {
+ 	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
++	kcsan_check_write(addr + BIT_WORD(nr), sizeof(long));
+ 	return arch___test_and_set_bit(nr, addr);
+ }
+ 
+@@ -170,6 +181,7 @@ static inline bool __test_and_set_bit(long nr, volatile unsigned long *addr)
+ static inline bool test_and_set_bit_lock(long nr, volatile unsigned long *addr)
+ {
+ 	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
++	kcsan_check_atomic_write(addr + BIT_WORD(nr), sizeof(long));
+ 	return arch_test_and_set_bit_lock(nr, addr);
+ }
+ 
+@@ -183,6 +195,7 @@ static inline bool test_and_set_bit_lock(long nr, volatile unsigned long *addr)
+ static inline bool test_and_clear_bit(long nr, volatile unsigned long *addr)
+ {
+ 	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
++	kcsan_check_atomic_write(addr + BIT_WORD(nr), sizeof(long));
+ 	return arch_test_and_clear_bit(nr, addr);
+ }
+ 
+@@ -197,6 +210,7 @@ static inline bool test_and_clear_bit(long nr, volatile unsigned long *addr)
+ static inline bool __test_and_clear_bit(long nr, volatile unsigned long *addr)
+ {
+ 	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
++	kcsan_check_write(addr + BIT_WORD(nr), sizeof(long));
+ 	return arch___test_and_clear_bit(nr, addr);
+ }
+ 
+@@ -210,6 +224,7 @@ static inline bool __test_and_clear_bit(long nr, volatile unsigned long *addr)
+ static inline bool test_and_change_bit(long nr, volatile unsigned long *addr)
+ {
+ 	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
++	kcsan_check_atomic_write(addr + BIT_WORD(nr), sizeof(long));
+ 	return arch_test_and_change_bit(nr, addr);
+ }
+ 
+@@ -224,6 +239,7 @@ static inline bool test_and_change_bit(long nr, volatile unsigned long *addr)
+ static inline bool __test_and_change_bit(long nr, volatile unsigned long *addr)
+ {
+ 	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
++	kcsan_check_write(addr + BIT_WORD(nr), sizeof(long));
+ 	return arch___test_and_change_bit(nr, addr);
+ }
+ 
+@@ -235,6 +251,7 @@ static inline bool __test_and_change_bit(long nr, volatile unsigned long *addr)
+ static inline bool test_bit(long nr, const volatile unsigned long *addr)
+ {
+ 	kasan_check_read(addr + BIT_WORD(nr), sizeof(long));
++	kcsan_check_atomic_read(addr + BIT_WORD(nr), sizeof(long));
+ 	return arch_test_bit(nr, addr);
+ }
+ 
+@@ -254,6 +271,7 @@ static inline bool
+ clear_bit_unlock_is_negative_byte(long nr, volatile unsigned long *addr)
+ {
+ 	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
++	kcsan_check_atomic_write(addr + BIT_WORD(nr), sizeof(long));
+ 	return arch_clear_bit_unlock_is_negative_byte(nr, addr);
+ }
+ /* Let everybody know we have it. */
 -- 
 2.24.0.rc1.363.gb1bccd3e3d-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20191104142745.14722-7-elver%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20191104142745.14722-8-elver%40google.com.
