@@ -1,162 +1,138 @@
-Return-Path: <kasan-dev+bncBAABBN4KQ3XAKGQE7RAS5LQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBPFHQ3XAKGQEN763OYI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qk1-x73f.google.com (mail-qk1-x73f.google.com [IPv6:2607:f8b0:4864:20::73f])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4631EFF8C
-	for <lists+kasan-dev@lfdr.de>; Tue,  5 Nov 2019 15:20:40 +0100 (CET)
-Received: by mail-qk1-x73f.google.com with SMTP id m189sf21351874qkc.7
-        for <lists+kasan-dev@lfdr.de>; Tue, 05 Nov 2019 06:20:40 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1572963639; cv=pass;
+Received: from mail-io1-xd3c.google.com (mail-io1-xd3c.google.com [IPv6:2607:f8b0:4864:20::d3c])
+	by mail.lfdr.de (Postfix) with ESMTPS id D6C3BF012D
+	for <lists+kasan-dev@lfdr.de>; Tue,  5 Nov 2019 16:22:37 +0100 (CET)
+Received: by mail-io1-xd3c.google.com with SMTP id 125sf15780600iou.7
+        for <lists+kasan-dev@lfdr.de>; Tue, 05 Nov 2019 07:22:37 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1572967356; cv=pass;
         d=google.com; s=arc-20160816;
-        b=P4noCGitlC1FxHlbmUKYbIRPdjmvNOeLjjmgsvZF2aAKY0J0G94ESEoQRLeEbri6B3
-         DUHk0ors7TGl04sYawslHmMJbcyXJqk+PIb2A9Kw+aJLebtTNfqK0sx/yK92o5exxjbM
-         vuYPV19L55o+dh5t7JLHNrFKF5kbviLhmSIk63LSv7y1JTuoxoH87p7kFioZhaeBYIjM
-         qr+fqMZJuY+T+WbI7bNsaOsiLReNjgfHShGwb7DTIBxfhW1+y/n3+dxyN+UdSBnbiapk
-         Iid1/WfgXOaiXkArqct9olX9P4QSwIYzCIFzOGM/hY7jmF2SQi21ChOPR/Dj785M4sFK
-         H7Sw==
+        b=a4cX1PmYc5PiS9fShj2ng9tCkSDfwauSXMWNUwKU8XXxb0u6RNu8i9GycmrKBauFjn
+         zVwEEI854Kzt1TBjehKduH5wqvz+5saRRBHnrW4iMEypMwWprzziAIJRpJgfLmKQr1KR
+         kbFhFGMO5JiD8wp1bXYFOFITwGvUNO7PLA0FQjqiMBA4zZIHIz0Pnfz1DjMOX9uYe7U1
+         0Zyc5YqR3J1fd4cI02cEhx1fKrgSboOAZa0ZSRrfPIGGEo+s3RwC28Cm9LoUi4xU8XtO
+         P4msNl/am2//0gZf2mI4aZddYjxFtvOfe0u2IIiAUn0oydWXbG1AkeHjmq5SNuiKOzu0
+         r4cQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:user-agent:in-reply-to
-         :content-disposition:mime-version:references:reply-to:message-id
-         :subject:cc:to:from:date:sender:dkim-signature;
-        bh=sAWKOMQQWl+N0rHNyAUmBrapzy0NazOvQMnPwX/KB+U=;
-        b=D9kXWmlgMdsm14LJpzvRM4+EMMQr971J9Z45XG2mQxTamN1STZPHsjUoPVolVpY5ci
-         oGPrfZSuTpAX3brzrolAIlEc+e4OiFvA4ALDmaGT2xXaofqMH55qyl9d/KGDcV2/4oL4
-         f10305VGYCFXWJLvuv8a924XTybO9x66SecILRMCBjV1yaxsulTwUBwhYTR8tc53IM+U
-         PSv8Lh7aYtI61LfHBkz2QlVquQOI4ztJWaVl1KtzIz7hWBr/UM2O9d26LNuLZby9lcfN
-         rTbocVpWS27SzqETiLpX4BVdh2MZ5Wla4ewm9kfQbKTSpQggLUtnXn6c791Oodc486R9
-         qGyQ==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=vn8xPAol8uNiIRJDRN1rD4sszlEODY10+Eo9Mft+zPo=;
+        b=Woi4Rwm0zkCY+EdxrL6oc/fYoqCaPHRULstwp8kF2rWXVXHL10TUrT8ETLNXi5yTiH
+         r7nBeSgBRE0g+0eJ7OCx5Qg5UMPDaNS4Tvzb2OeFt2/c3gv23oLQWE0ytKNwY1PjBxel
+         AeI11rJ20ZtfDmK0Az0dSnNFpS/EDhB+LuXLpo/YCFffKZToSjZO5Z14oZav2ncgkzhE
+         kf3x/xQLNoR650T4IXDMnMsyS2akC+XX1j8J7hUUCz5rAz+4JOgGByHWbOevGqEU5feN
+         xm8AozWaHzYxEjrDWQ3rL8NLpn3RmZOCCkLymeXoU+S1dIQQPOtuocppSDciR9o1dgkF
+         2Evg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=default header.b=LVMEw0wD;
-       spf=pass (google.com: domain of srs0=4xi/=y5=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=4xI/=Y5=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       dkim=pass header.i=@google.com header.s=20161025 header.b=maXxEj94;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::344 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:reply-to:references
-         :mime-version:content-disposition:in-reply-to:user-agent
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=sAWKOMQQWl+N0rHNyAUmBrapzy0NazOvQMnPwX/KB+U=;
-        b=UhW6w796ob6ZhTkcmfjWIkBEC4vzZSutXw0i342076Cuw4V6s4ZXB2ok/pAwRqMF73
-         omzDFZWx0bs8dUSpncOKlSCdSkE7+F9fVAhOv0eitQt+PYtCqWS+fWaHWjMAY/OYwSqR
-         INLfYEtLUTaZXxj3WtB0rskK+km+eDEaXkvX4Aqc+w5QD2Bv73aqy+RYkdOq6bKfONPY
-         4HyAmg5I56ugD9NZVNnSVeUpyuGlMWN0Eb5JeSD4E96b2Do1/WhEQSqpoJMpXsgoGz9F
-         oGKni8DJJiyEcNX191V5mMEzdxlhWaTPGLcouSVpPR9BQ7EPr+xhftaR+dcsWaRjWFwT
-         zVkw==
+        bh=vn8xPAol8uNiIRJDRN1rD4sszlEODY10+Eo9Mft+zPo=;
+        b=LMohBP4CHz04LohHg4c2kiZS5m69aODjCV3LL0aFUuz7UTyAIKsy2oD5w0fk9kuYZG
+         NP7pTTA+nlO3YnYW2hWPaBvP2gOKegOTQ8XABCUfrAWKAJOiwurHCyi2brZrvRnAZ/Dg
+         1DMpxSHUFpYlNPX3vky7EMJVODaA6WcL93vyCrs9vdf47wawcnb5YkqsEhlwbY+vweoT
+         py7v/cVAGC3JPFEs5qsDOGPMpPP0jCynAyqTCK/tOACPa3000rIqH/UsZFououuWCsI0
+         orGYVfQuP8iDIcN53fWOHwuPSAA2psbCkYRixuBC3Ox7flbdZyg17L6kTwjTFBSjqExG
+         y6hQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :reply-to:references:mime-version:content-disposition:in-reply-to
-         :user-agent:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=sAWKOMQQWl+N0rHNyAUmBrapzy0NazOvQMnPwX/KB+U=;
-        b=FJen6b0ct8NHSxYcqfkvlvCGFcbnUWd6WF9My0lWuaQK6LKjhCHC70J5LorQkYBNl4
-         zJg5Pypp6QabsKqLlf4bdv9plmNEVh5wojUAGOOPoKvGoEyLLvbvFrUSxWObEluCidL0
-         X7kGlxF7JQVNP1jfMNGm8xcJbKHRnSbRt0wfX3K1c+pl3nXPchG0/sd1+BmVgnaDA/8a
-         CMrYzZQ1PWxzdxzEsRCx+zZeeL7w6YDHLcF/1+5DL97sjcEPZUhI15Br2IyiNEfxgpfJ
-         fHr8YgmtDUcpvh4/AVXu1h+vJhBRhqaN9lvdsj9GdJ6Kz+OsH9GefiD6m/AsBFReDH+U
-         8O0g==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAXpQeieMjhTTigETb5x6NqVz6ScWWVX9+SIHiN4ykPV+xGyWOsK
-	jw+pTkur2Rn66ZAoDEOKu0k=
-X-Google-Smtp-Source: APXvYqxRtmyTpvcvX6F0rgKiXnc+it/FrCBwU2iuTCnXXyDK251b584XetWltKC18hUAKbbFyGhxVg==
-X-Received: by 2002:a05:6214:12ac:: with SMTP id w12mr16327737qvu.44.1572963639424;
-        Tue, 05 Nov 2019 06:20:39 -0800 (PST)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=vn8xPAol8uNiIRJDRN1rD4sszlEODY10+Eo9Mft+zPo=;
+        b=B+prTZTK8iFpKay6wROM3lgph8nTmap0pNiiG990b+IPKGUXmmKKZeEeWjeUbQBeLm
+         UlKi1iT5qQipFEPZR1JrgEGBdmb40P2gw1QcR3PDln9++ZXR1wN1OabLs1R+pRj5ZzE7
+         /x/lLzgWJjr67yOHKMvOcIm71uOGuZaSGe9Gr3Dz2HXp8Mu4PbHXD6ploBBFO04fZthj
+         /pO1CLvenj0AisoaZVS+GFp0PIVQV4/eAo2HMSFf5TlwEfqfb4rCE5cyzbudrUvJh+bF
+         LFTRCLt5rWjti2sRxNijIAxQxfIg618+TriBeizivIXqQnGLXf6VrtvGb8ufvopQKp1g
+         aewQ==
+X-Gm-Message-State: APjAAAXdPjkwUzWZggZ3cNe0p8Wi9axDoE6kNmzcvscU7YcO+iF8MLFc
+	wJ40pP/pW5H7BDnNa8MmXWE=
+X-Google-Smtp-Source: APXvYqxAPvUQAOdzLVGaqhDlxNSZNqdSgcTL1+3mW2w88xdEqigtur2XnIn7voSYqw/9840HqZ/iSQ==
+X-Received: by 2002:a92:a308:: with SMTP id a8mr36186078ili.105.1572967356445;
+        Tue, 05 Nov 2019 07:22:36 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ac8:2f7a:: with SMTP id k55ls5348558qta.8.gmail; Tue, 05 Nov
- 2019 06:20:39 -0800 (PST)
-X-Received: by 2002:ac8:3968:: with SMTP id t37mr16321319qtb.37.1572963639117;
-        Tue, 05 Nov 2019 06:20:39 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1572963639; cv=none;
+Received: by 2002:a92:7309:: with SMTP id o9ls3774915ilc.14.gmail; Tue, 05 Nov
+ 2019 07:22:35 -0800 (PST)
+X-Received: by 2002:a92:8c1c:: with SMTP id o28mr33325670ild.34.1572967355917;
+        Tue, 05 Nov 2019 07:22:35 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1572967355; cv=none;
         d=google.com; s=arc-20160816;
-        b=fgMoDLMbDRTb3OVXrWb3bOnrGRdKu25f+QdN/WC5dfBzy8BpmiuOEeyUMg7kl0Q1hh
-         8sjyanr5NctsoVmDhzhqN6BCJSfNfhPhYS3qQzoSUY+y876Zdy1scEfs/q3EAfLdldNV
-         eho6B1vNyZQgs6Xkc54Wb8r01AoizCsdR/hepHvuxEge5SGYKfMUxrLHC6vK5I9cKl3f
-         VuYl5mTiZDS7IRwrqq36PAet/j6kK9c/jp0MazU/ziTkPrJxtzcHAP+dWyN1/4drOEN6
-         db9DL3/5g2zcbBvdSQ5htjAigB57Zamjv4Tydghk5ZXQC6a23uChn7WfWECLjEDwVSB0
-         0SxQ==
+        b=XVLflpC3iU54EGfziNMmCFON+xVjwQIa6z5i2OpQBjRLHqlkORTB0r+dMJt0sN6xA9
+         RmHdg/fENoMOuTQzbkWOztPuYUHnfBa9vBoQPLXXgRYCv5niBAhlNK6fnmXtIqoNZAdy
+         p5knu9ijsHQq+iTjJ4u39F+hsJHMXKQkLm1kGgbopjMMJdn+LgI7SKBhrECGfQaNnYea
+         8OlSQaL4k8eg+52h8czos+zP4M/nuC6ta9zPdNy8nyY0ZPgRk+pmD4cl6sBBve+/B8m5
+         g429QskvnVwtXXG+BT+YhdMf3i9IXYxdRi+cJfKZOaZ9R9Oz7KqnZ+7Q1CtiQIxJmsd2
+         +JUA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :reply-to:message-id:subject:cc:to:from:date:dkim-signature;
-        bh=s4h3DhGeqCZ2J0vWvSQCVApuqbxcyxkZ4MjAI3DXYLU=;
-        b=imOqKHNpmlTtGy7riA1kqCSY8i69jRrpLSTyesp66aTnAW/t4lt+si3AFS+og9CRTQ
-         f1i6IL2tu9p01g399TpOJf3AknQTCuyM+CyybNgbqwWMobkpsJ+uR668T7wBXdTXH5ol
-         43Su5C4LTLI694rY/henQx+/o043518cyd+L4bC+xkgTqWjJSBkrx6vI688cjVauxTm+
-         DGUqqIM2YcRnKMb+SEbZhd83qrms9graN9tY/N3twCpXjoDYGv6Upn+m5mBgjwtnQ2Tb
-         J0JcYS0AoR1sYmHfXFA95WzBXLUyCffIleRHX59SFlGeWrOCv0j0HYzxJvVFYEOBX9GV
-         Kk8Q==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=6n5lN3Fg3bcrd2szeJ48Ty9IGAr+TLatcqKpJTnbQ3g=;
+        b=K6jqXyAiZzIFIWK3t5JCATrTP2j/FE2/HIzorEG/rhXt+LXLciZ8lX/XomTodknOIm
+         LU97N6J/IdF+ioMH6ONEoP+sqmyx0uBPSPgYiEft5+501L03MHi1kF1KuBznP3pEqgOe
+         HbIIWpJS0EzCKJXzmT/xXkqmgmPlpYRxBOfyVCYm+kFd3w1N7iIVKl09QzMzpxnFAm9S
+         ag2YTM+GfCLCght+/27wv0sLrfbrkV9FvXqZdz4J2wEHdXii614PO6R//FHptMvpPimi
+         hWMxXsTbSbx7evChwtCRiHcqr5t4COzbbxpvQzJ2rhvQmIuPIlfzcVsk+g3FAO03n5Dy
+         UNcg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=default header.b=LVMEw0wD;
-       spf=pass (google.com: domain of srs0=4xi/=y5=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=4xI/=Y5=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id d189si1046745qkb.1.2019.11.05.06.20.38
+       dkim=pass header.i=@google.com header.s=20161025 header.b=maXxEj94;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::344 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com. [2607:f8b0:4864:20::344])
+        by gmr-mx.google.com with ESMTPS id y205si909971iof.2.2019.11.05.07.22.35
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 05 Nov 2019 06:20:39 -0800 (PST)
-Received-SPF: pass (google.com: domain of srs0=4xi/=y5=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
-Received: from paulmck-ThinkPad-P72.home (unknown [109.144.209.237])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id 92A83214D8;
-	Tue,  5 Nov 2019 14:20:37 +0000 (UTC)
-Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
-	id A450B35227C0; Tue,  5 Nov 2019 06:20:35 -0800 (PST)
-Date: Tue, 5 Nov 2019 06:20:35 -0800
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Marco Elver <elver@google.com>
-Cc: LKMM Maintainers -- Akira Yokosawa <akiyks@gmail.com>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Alexander Potapenko <glider@google.com>,
-	Andrea Parri <parri.andrea@gmail.com>,
-	Andrey Konovalov <andreyknvl@google.com>,
-	Andy Lutomirski <luto@kernel.org>,
-	Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-	Arnd Bergmann <arnd@arndb.de>, Boqun Feng <boqun.feng@gmail.com>,
-	Borislav Petkov <bp@alien8.de>, Daniel Axtens <dja@axtens.net>,
-	Daniel Lustig <dlustig@nvidia.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	David Howells <dhowells@redhat.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	"H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-	Jade Alglave <j.alglave@ucl.ac.uk>,
-	Joel Fernandes <joel@joelfernandes.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Josh Poimboeuf <jpoimboe@redhat.com>,
-	Luc Maranget <luc.maranget@inria.fr>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Thomas Gleixner <tglx@linutronix.de>, Will Deacon <will@kernel.org>,
-	kasan-dev <kasan-dev@googlegroups.com>,
-	linux-arch <linux-arch@vger.kernel.org>,
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-	linux-efi@vger.kernel.org,
-	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-	LKML <linux-kernel@vger.kernel.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	the arch/x86 maintainers <x86@kernel.org>
-Subject: Re: [PATCH v3 0/9] Add Kernel Concurrency Sanitizer (KCSAN)
-Message-ID: <20191105142035.GR20975@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
-References: <20191104142745.14722-1-elver@google.com>
- <20191104164717.GE20975@paulmck-ThinkPad-P72>
- <CANpmjNOtR6NEsXGo=M1o26d8vUyF7gwj=gew+LAeE_D+qfbEmQ@mail.gmail.com>
- <20191104194658.GK20975@paulmck-ThinkPad-P72>
- <CANpmjNPpVCRhgVgfaApZJCnMKHsGxVUno+o-Fe+7OYKmPvCboQ@mail.gmail.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 05 Nov 2019 07:22:35 -0800 (PST)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::344 as permitted sender) client-ip=2607:f8b0:4864:20::344;
+Received: by mail-ot1-x344.google.com with SMTP id v24so12644308otp.5
+        for <kasan-dev@googlegroups.com>; Tue, 05 Nov 2019 07:22:35 -0800 (PST)
+X-Received: by 2002:a05:6830:2308:: with SMTP id u8mr2369861ote.2.1572967354873;
+ Tue, 05 Nov 2019 07:22:34 -0800 (PST)
 MIME-Version: 1.0
+References: <20191104142745.14722-6-elver@google.com> <201911051950.7sv6Mqoe%lkp@intel.com>
+In-Reply-To: <201911051950.7sv6Mqoe%lkp@intel.com>
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Tue, 5 Nov 2019 16:22:23 +0100
+Message-ID: <CANpmjNM2d03K9yZP4OzuEoWZQz_FcDfLHJ1VhqiPA6+2F0qjPA@mail.gmail.com>
+Subject: Re: [PATCH v3 5/9] seqlock, kcsan: Add annotations for KCSAN
+To: kbuild test robot <lkp@intel.com>
+Cc: kbuild-all@lists.01.org, 
+	LKMM Maintainers -- Akira Yokosawa <akiyks@gmail.com>, Alan Stern <stern@rowland.harvard.edu>, 
+	Alexander Potapenko <glider@google.com>, Andrea Parri <parri.andrea@gmail.com>, 
+	Andrey Konovalov <andreyknvl@google.com>, Andy Lutomirski <luto@kernel.org>, 
+	Ard Biesheuvel <ard.biesheuvel@linaro.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Boqun Feng <boqun.feng@gmail.com>, Borislav Petkov <bp@alien8.de>, Daniel Axtens <dja@axtens.net>, 
+	Daniel Lustig <dlustig@nvidia.com>, Dave Hansen <dave.hansen@linux.intel.com>, 
+	David Howells <dhowells@redhat.com>, Dmitry Vyukov <dvyukov@google.com>, 
+	"H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>, Jade Alglave <j.alglave@ucl.ac.uk>, 
+	Joel Fernandes <joel@joelfernandes.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Josh Poimboeuf <jpoimboe@redhat.com>, Luc Maranget <luc.maranget@inria.fr>, 
+	Mark Rutland <mark.rutland@arm.com>, Nicholas Piggin <npiggin@gmail.com>, 
+	"Paul E. McKenney" <paulmck@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
+	Thomas Gleixner <tglx@linutronix.de>, Will Deacon <will@kernel.org>, 
+	kasan-dev <kasan-dev@googlegroups.com>, linux-arch <linux-arch@vger.kernel.org>, 
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, linux-efi@vger.kernel.org, 
+	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
+	Linux Memory Management List <linux-mm@kvack.org>, "the arch/x86 maintainers" <x86@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <CANpmjNPpVCRhgVgfaApZJCnMKHsGxVUno+o-Fe+7OYKmPvCboQ@mail.gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Original-Sender: paulmck@kernel.org
+X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=default header.b=LVMEw0wD;       spf=pass
- (google.com: domain of srs0=4xi/=y5=paulmck-thinkpad-p72.home=paulmck@kernel.org
- designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=4xI/=Y5=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+ header.i=@google.com header.s=20161025 header.b=maXxEj94;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::344 as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -169,177 +145,136 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Nov 05, 2019 at 12:10:56PM +0100, Marco Elver wrote:
-> On Mon, 4 Nov 2019 at 20:47, Paul E. McKenney <paulmck@kernel.org> wrote:
-> >
-> > On Mon, Nov 04, 2019 at 07:41:30PM +0100, Marco Elver wrote:
-> > > On Mon, 4 Nov 2019 at 17:47, Paul E. McKenney <paulmck@kernel.org> wrote:
-> > > >
-> > > > On Mon, Nov 04, 2019 at 03:27:36PM +0100, Marco Elver wrote:
-> > > > > This is the patch-series for the Kernel Concurrency Sanitizer (KCSAN).
-> > > > > KCSAN is a sampling watchpoint-based data-race detector. More details
-> > > > > are included in Documentation/dev-tools/kcsan.rst. This patch-series
-> > > > > only enables KCSAN for x86, but we expect adding support for other
-> > > > > architectures is relatively straightforward (we are aware of
-> > > > > experimental ARM64 and POWER support).
-> > > > >
-> > > > > To gather early feedback, we announced KCSAN back in September, and
-> > > > > have integrated the feedback where possible:
-> > > > > http://lkml.kernel.org/r/CANpmjNPJ_bHjfLZCAPV23AXFfiPiyXXqqu72n6TgWzb2Gnu1eA@mail.gmail.com
-> > > > >
-> > > > > We want to point out and acknowledge the work surrounding the LKMM,
-> > > > > including several articles that motivate why data-races are dangerous
-> > > > > [1, 2], justifying a data-race detector such as KCSAN.
-> > > > > [1] https://lwn.net/Articles/793253/
-> > > > > [2] https://lwn.net/Articles/799218/
-> > > > >
-> > > > > The current list of known upstream fixes for data-races found by KCSAN
-> > > > > can be found here:
-> > > > > https://github.com/google/ktsan/wiki/KCSAN#upstream-fixes-of-data-races-found-by-kcsan
-> > > >
-> > > > Making this more accessible to more people seems like a good thing.
-> > > > So, for the series:
-> > > >
-> > > > Acked-by: Paul E. McKenney <paulmck@kernel.org>
-> > >
-> > > Much appreciated. Thanks, Paul!
-> > >
-> > > Any suggestions which tree this could eventually land in?
-> >
-> > I would guess that Dmitry might have some suggestions.
-> 
-> I checked and we're both unclear what the most obvious tree to land in
-> is (the other sanitizers are mm related, which KCSAN is not).
-> 
-> One suggestion that comes to my mind is for KCSAN to go through the
-> same tree (rcu?) as the LKMM due to their inherent relationship. Would
-> that make most sense?
+On Tue, 5 Nov 2019 at 12:35, kbuild test robot <lkp@intel.com> wrote:
+>
+> Hi Marco,
+>
+> I love your patch! Perhaps something to improve:
+>
+> [auto build test WARNING on linus/master]
+> [also build test WARNING on v5.4-rc6]
+> [cannot apply to next-20191031]
+> [if your patch is applied to the wrong git tree, please drop us a note to help
+> improve the system. BTW, we also suggest to use '--base' option to specify the
+> base tree in git format-patch, please see https://stackoverflow.com/a/37406982]
+>
+> url:    https://github.com/0day-ci/linux/commits/Marco-Elver/Add-Kernel-Concurrency-Sanitizer-KCSAN/20191105-002542
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git a99d8080aaf358d5d23581244e5da23b35e340b9
+> reproduce:
+>         # apt-get install sparse
+>         # sparse version: v0.6.1-6-g57f8611-dirty
+>         make ARCH=x86_64 allmodconfig
+>         make C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__'
+>
+> If you fix the issue, kindly add following tag
+> Reported-by: kbuild test robot <lkp@intel.com>
+>
+>
+> sparse warnings: (new ones prefixed by >>)
+>
+> >> include/linux/rcupdate.h:651:9: sparse: sparse: context imbalance in 'thread_group_cputime' - different lock contexts for basic block
 
-It works for me, though you guys have to continue to be the main
-developers.  ;-)
+This is a problem with sparse.
 
-I will go through the patches more carefully, and please look into the
-kbuild test robot complaint.
+Without the patch series this warning is also generated, but sparse
+seems to attribute it to the right file:
+    kernel/sched/cputime.c:316:17: sparse: warning: context imbalance
+in 'thread_group_cputime' - different lock contexts for basic block
 
-							Thanx, Paul
+Without the patch series, I observe that sparse also generates 5
+warnings that it attributes to include/linux/rcupdate.h ("different
+lock contexts for basic block") but the actual function is in a
+different file.
 
-> Thanks,
-> -- Marco
-> 
-> > >
-> > > > > Changelog
-> > > > > ---------
-> > > > > v3:
-> > > > > * Major changes:
-> > > > >  - Add microbenchmark.
-> > > > >  - Add instruction watchpoint skip randomization.
-> > > > >  - Refactor API and core runtime fast-path and slow-path. Compared to
-> > > > >    the previous version, with a default config and benchmarked using the
-> > > > >    added microbenchmark, this version is 3.8x faster.
-> > > > >  - Make __tsan_unaligned __alias of generic accesses.
-> > > > >  - Rename kcsan_{begin,end}_atomic ->
-> > > > >    kcsan_{nestable,flat}_atomic_{begin,end}
-> > > > >  - For filter list in debugfs.c use kmalloc+krealloc instead of
-> > > > >    kvmalloc.
-> > > > >  - Split Documentation into separate patch.
-> > > > >
-> > > > > v2: http://lkml.kernel.org/r/20191017141305.146193-1-elver@google.com
-> > > > > * Major changes:
-> > > > >  - Replace kcsan_check_access(.., {true, false}) with
-> > > > >    kcsan_check_{read,write}.
-> > > > >  - Change atomic-instrumented.h to use __atomic_check_{read,write}.
-> > > > >  - Use common struct kcsan_ctx in task_struct and for per-CPU interrupt
-> > > > >    contexts.
-> > > > >
-> > > > > v1: http://lkml.kernel.org/r/20191016083959.186860-1-elver@google.com
-> > > > >
-> > > > > Marco Elver (9):
-> > > > >   kcsan: Add Kernel Concurrency Sanitizer infrastructure
-> > > > >   kcsan: Add Documentation entry in dev-tools
-> > > > >   objtool, kcsan: Add KCSAN runtime functions to whitelist
-> > > > >   build, kcsan: Add KCSAN build exceptions
-> > > > >   seqlock, kcsan: Add annotations for KCSAN
-> > > > >   seqlock: Require WRITE_ONCE surrounding raw_seqcount_barrier
-> > > > >   asm-generic, kcsan: Add KCSAN instrumentation for bitops
-> > > > >   locking/atomics, kcsan: Add KCSAN instrumentation
-> > > > >   x86, kcsan: Enable KCSAN for x86
-> > > > >
-> > > > >  Documentation/dev-tools/index.rst         |   1 +
-> > > > >  Documentation/dev-tools/kcsan.rst         | 217 +++++++++
-> > > > >  MAINTAINERS                               |  11 +
-> > > > >  Makefile                                  |   3 +-
-> > > > >  arch/x86/Kconfig                          |   1 +
-> > > > >  arch/x86/boot/Makefile                    |   2 +
-> > > > >  arch/x86/boot/compressed/Makefile         |   2 +
-> > > > >  arch/x86/entry/vdso/Makefile              |   3 +
-> > > > >  arch/x86/include/asm/bitops.h             |   6 +-
-> > > > >  arch/x86/kernel/Makefile                  |   7 +
-> > > > >  arch/x86/kernel/cpu/Makefile              |   3 +
-> > > > >  arch/x86/lib/Makefile                     |   4 +
-> > > > >  arch/x86/mm/Makefile                      |   3 +
-> > > > >  arch/x86/purgatory/Makefile               |   2 +
-> > > > >  arch/x86/realmode/Makefile                |   3 +
-> > > > >  arch/x86/realmode/rm/Makefile             |   3 +
-> > > > >  drivers/firmware/efi/libstub/Makefile     |   2 +
-> > > > >  include/asm-generic/atomic-instrumented.h | 393 +++++++--------
-> > > > >  include/asm-generic/bitops-instrumented.h |  18 +
-> > > > >  include/linux/compiler-clang.h            |   9 +
-> > > > >  include/linux/compiler-gcc.h              |   7 +
-> > > > >  include/linux/compiler.h                  |  35 +-
-> > > > >  include/linux/kcsan-checks.h              |  97 ++++
-> > > > >  include/linux/kcsan.h                     | 115 +++++
-> > > > >  include/linux/sched.h                     |   4 +
-> > > > >  include/linux/seqlock.h                   |  51 +-
-> > > > >  init/init_task.c                          |   8 +
-> > > > >  init/main.c                               |   2 +
-> > > > >  kernel/Makefile                           |   6 +
-> > > > >  kernel/kcsan/Makefile                     |  11 +
-> > > > >  kernel/kcsan/atomic.h                     |  27 ++
-> > > > >  kernel/kcsan/core.c                       | 560 ++++++++++++++++++++++
-> > > > >  kernel/kcsan/debugfs.c                    | 275 +++++++++++
-> > > > >  kernel/kcsan/encoding.h                   |  94 ++++
-> > > > >  kernel/kcsan/kcsan.h                      | 131 +++++
-> > > > >  kernel/kcsan/report.c                     | 306 ++++++++++++
-> > > > >  kernel/kcsan/test.c                       | 121 +++++
-> > > > >  kernel/sched/Makefile                     |   6 +
-> > > > >  lib/Kconfig.debug                         |   2 +
-> > > > >  lib/Kconfig.kcsan                         | 119 +++++
-> > > > >  lib/Makefile                              |   3 +
-> > > > >  mm/Makefile                               |   8 +
-> > > > >  scripts/Makefile.kcsan                    |   6 +
-> > > > >  scripts/Makefile.lib                      |  10 +
-> > > > >  scripts/atomic/gen-atomic-instrumented.sh |  17 +-
-> > > > >  tools/objtool/check.c                     |  18 +
-> > > > >  46 files changed, 2526 insertions(+), 206 deletions(-)
-> > > > >  create mode 100644 Documentation/dev-tools/kcsan.rst
-> > > > >  create mode 100644 include/linux/kcsan-checks.h
-> > > > >  create mode 100644 include/linux/kcsan.h
-> > > > >  create mode 100644 kernel/kcsan/Makefile
-> > > > >  create mode 100644 kernel/kcsan/atomic.h
-> > > > >  create mode 100644 kernel/kcsan/core.c
-> > > > >  create mode 100644 kernel/kcsan/debugfs.c
-> > > > >  create mode 100644 kernel/kcsan/encoding.h
-> > > > >  create mode 100644 kernel/kcsan/kcsan.h
-> > > > >  create mode 100644 kernel/kcsan/report.c
-> > > > >  create mode 100644 kernel/kcsan/test.c
-> > > > >  create mode 100644 lib/Kconfig.kcsan
-> > > > >  create mode 100644 scripts/Makefile.kcsan
-> > > > >
-> > > > > --
-> > > > > 2.24.0.rc1.363.gb1bccd3e3d-goog
-> > > > >
-> > > >
-> > > > --
-> > > > You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-> > > > To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-> > > > To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20191104164717.GE20975%40paulmck-ThinkPad-P72.
-> >
-> > --
-> > You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-> > To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-> > To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20191104194658.GK20975%40paulmck-ThinkPad-P72.
+In the function thread_group_cputime in kernel/sched/cputime.c, what
+seems to happen is that a seq-reader critical section is contained
+within an RCU reader critical section (sparse seems unhappy with this
+pattern to begin with). The KCSAN patches add annotations to seqlock.h
+which seems to somehow affect sparse to attribute the problem in
+thread_group_cputime to rcupdate.h. Note that, the config does not
+even enable KCSAN and all the annotations are no-ops (empty inline
+functions).
+
+So I do not think that I can change this patch to make sparse happy
+here, since this problem already existed, only sparse somehow decided
+to attribute the problem to rcupdate.h instead of cputime.c due to
+subtle changes in the code.
+
+Thanks,
+-- Marco
+
+> vim +/thread_group_cputime +651 include/linux/rcupdate.h
+>
+> ^1da177e4c3f41 Linus Torvalds      2005-04-16  603
+> ^1da177e4c3f41 Linus Torvalds      2005-04-16  604  /*
+> ^1da177e4c3f41 Linus Torvalds      2005-04-16  605   * So where is rcu_write_lock()?  It does not exist, as there is no
+> ^1da177e4c3f41 Linus Torvalds      2005-04-16  606   * way for writers to lock out RCU readers.  This is a feature, not
+> ^1da177e4c3f41 Linus Torvalds      2005-04-16  607   * a bug -- this property is what provides RCU's performance benefits.
+> ^1da177e4c3f41 Linus Torvalds      2005-04-16  608   * Of course, writers must coordinate with each other.  The normal
+> ^1da177e4c3f41 Linus Torvalds      2005-04-16  609   * spinlock primitives work well for this, but any other technique may be
+> ^1da177e4c3f41 Linus Torvalds      2005-04-16  610   * used as well.  RCU does not care how the writers keep out of each
+> ^1da177e4c3f41 Linus Torvalds      2005-04-16  611   * others' way, as long as they do so.
+> ^1da177e4c3f41 Linus Torvalds      2005-04-16  612   */
+> 3d76c082907e8f Paul E. McKenney    2009-09-28  613
+> 3d76c082907e8f Paul E. McKenney    2009-09-28  614  /**
+> ca5ecddfa8fcbd Paul E. McKenney    2010-04-28  615   * rcu_read_unlock() - marks the end of an RCU read-side critical section.
+> 3d76c082907e8f Paul E. McKenney    2009-09-28  616   *
+> f27bc4873fa8b7 Paul E. McKenney    2014-05-04  617   * In most situations, rcu_read_unlock() is immune from deadlock.
+> f27bc4873fa8b7 Paul E. McKenney    2014-05-04  618   * However, in kernels built with CONFIG_RCU_BOOST, rcu_read_unlock()
+> f27bc4873fa8b7 Paul E. McKenney    2014-05-04  619   * is responsible for deboosting, which it does via rt_mutex_unlock().
+> f27bc4873fa8b7 Paul E. McKenney    2014-05-04  620   * Unfortunately, this function acquires the scheduler's runqueue and
+> f27bc4873fa8b7 Paul E. McKenney    2014-05-04  621   * priority-inheritance spinlocks.  This means that deadlock could result
+> f27bc4873fa8b7 Paul E. McKenney    2014-05-04  622   * if the caller of rcu_read_unlock() already holds one of these locks or
+> ec84b27f9b3b56 Anna-Maria Gleixner 2018-05-25  623   * any lock that is ever acquired while holding them.
+> f27bc4873fa8b7 Paul E. McKenney    2014-05-04  624   *
+> f27bc4873fa8b7 Paul E. McKenney    2014-05-04  625   * That said, RCU readers are never priority boosted unless they were
+> f27bc4873fa8b7 Paul E. McKenney    2014-05-04  626   * preempted.  Therefore, one way to avoid deadlock is to make sure
+> f27bc4873fa8b7 Paul E. McKenney    2014-05-04  627   * that preemption never happens within any RCU read-side critical
+> f27bc4873fa8b7 Paul E. McKenney    2014-05-04  628   * section whose outermost rcu_read_unlock() is called with one of
+> f27bc4873fa8b7 Paul E. McKenney    2014-05-04  629   * rt_mutex_unlock()'s locks held.  Such preemption can be avoided in
+> f27bc4873fa8b7 Paul E. McKenney    2014-05-04  630   * a number of ways, for example, by invoking preempt_disable() before
+> f27bc4873fa8b7 Paul E. McKenney    2014-05-04  631   * critical section's outermost rcu_read_lock().
+> f27bc4873fa8b7 Paul E. McKenney    2014-05-04  632   *
+> f27bc4873fa8b7 Paul E. McKenney    2014-05-04  633   * Given that the set of locks acquired by rt_mutex_unlock() might change
+> f27bc4873fa8b7 Paul E. McKenney    2014-05-04  634   * at any time, a somewhat more future-proofed approach is to make sure
+> f27bc4873fa8b7 Paul E. McKenney    2014-05-04  635   * that that preemption never happens within any RCU read-side critical
+> f27bc4873fa8b7 Paul E. McKenney    2014-05-04  636   * section whose outermost rcu_read_unlock() is called with irqs disabled.
+> f27bc4873fa8b7 Paul E. McKenney    2014-05-04  637   * This approach relies on the fact that rt_mutex_unlock() currently only
+> f27bc4873fa8b7 Paul E. McKenney    2014-05-04  638   * acquires irq-disabled locks.
+> f27bc4873fa8b7 Paul E. McKenney    2014-05-04  639   *
+> f27bc4873fa8b7 Paul E. McKenney    2014-05-04  640   * The second of these two approaches is best in most situations,
+> f27bc4873fa8b7 Paul E. McKenney    2014-05-04  641   * however, the first approach can also be useful, at least to those
+> f27bc4873fa8b7 Paul E. McKenney    2014-05-04  642   * developers willing to keep abreast of the set of locks acquired by
+> f27bc4873fa8b7 Paul E. McKenney    2014-05-04  643   * rt_mutex_unlock().
+> f27bc4873fa8b7 Paul E. McKenney    2014-05-04  644   *
+> 3d76c082907e8f Paul E. McKenney    2009-09-28  645   * See rcu_read_lock() for more information.
+> 3d76c082907e8f Paul E. McKenney    2009-09-28  646   */
+> bc33f24bdca8b6 Paul E. McKenney    2009-08-22  647  static inline void rcu_read_unlock(void)
+> bc33f24bdca8b6 Paul E. McKenney    2009-08-22  648  {
+> f78f5b90c4ffa5 Paul E. McKenney    2015-06-18  649      RCU_LOCKDEP_WARN(!rcu_is_watching(),
+> bde23c6892878e Heiko Carstens      2012-02-01  650                       "rcu_read_unlock() used illegally while idle");
+> bc33f24bdca8b6 Paul E. McKenney    2009-08-22 @651      __release(RCU);
+> bc33f24bdca8b6 Paul E. McKenney    2009-08-22  652      __rcu_read_unlock();
+> d24209bb689e2c Paul E. McKenney    2015-01-21  653      rcu_lock_release(&rcu_lock_map); /* Keep acq info for rls diags. */
+> bc33f24bdca8b6 Paul E. McKenney    2009-08-22  654  }
+> ^1da177e4c3f41 Linus Torvalds      2005-04-16  655
+>
+> :::::: The code at line 651 was first introduced by commit
+> :::::: bc33f24bdca8b6e97376e3a182ab69e6cdefa989 rcu: Consolidate sparse and lockdep declarations in include/linux/rcupdate.h
+>
+> :::::: TO: Paul E. McKenney <paulmck@linux.vnet.ibm.com>
+> :::::: CC: Ingo Molnar <mingo@elte.hu>
+>
+> ---
+> 0-DAY kernel test infrastructure                Open Source Technology Center
+> https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
+>
+> --
+> You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/201911051950.7sv6Mqoe%25lkp%40intel.com.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20191105142035.GR20975%40paulmck-ThinkPad-P72.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNM2d03K9yZP4OzuEoWZQz_FcDfLHJ1VhqiPA6%2B2F0qjPA%40mail.gmail.com.
