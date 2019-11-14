@@ -1,133 +1,138 @@
-Return-Path: <kasan-dev+bncBDEPT3NHSUCBBUF7W3XAKGQEXFSEYXY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDN5FEVB5YIRBYGFW3XAKGQEYQXY67I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pg1-x537.google.com (mail-pg1-x537.google.com [IPv6:2607:f8b0:4864:20::537])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56367FCDF2
-	for <lists+kasan-dev@lfdr.de>; Thu, 14 Nov 2019 19:41:22 +0100 (CET)
-Received: by mail-pg1-x537.google.com with SMTP id k7sf5183659pgq.10
-        for <lists+kasan-dev@lfdr.de>; Thu, 14 Nov 2019 10:41:22 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1573756881; cv=pass;
+Received: from mail-yw1-xc3d.google.com (mail-yw1-xc3d.google.com [IPv6:2607:f8b0:4864:20::c3d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 97DA1FCE2C
+	for <lists+kasan-dev@lfdr.de>; Thu, 14 Nov 2019 19:54:25 +0100 (CET)
+Received: by mail-yw1-xc3d.google.com with SMTP id t19sf4863619ywf.1
+        for <lists+kasan-dev@lfdr.de>; Thu, 14 Nov 2019 10:54:25 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1573757664; cv=pass;
         d=google.com; s=arc-20160816;
-        b=dnbl1ad2wucC4+987jO+K5+p5xeVEpKBJ+nTbhimVRlIuKkOv33HQItgmFXXyAkm05
-         u5XGEDNv+jNRlMNHNILZJfBTYRdjomLyRvHFMPOGC7qjv/AA4F3tESRuhpkii9Ff6ldU
-         FVOLwJqRjzp0E9xwxxkcLDESwsj9DMdm2RbR3UmALOMOzZjn6qYOAb142mIQ5g9i3wGO
-         aDtudR3skSbLWvZ1nYSHeEBY9KyzAMM9hP0+gMOnN3/PdG6aryRDlQwaq3zuJ/hyG401
-         LenzYKpK82RqobaBupO09OcVH+y/O38cXF1UQOkjzqGXwLF5Y+tLs2COp5MkHl2LKD/9
-         7JYg==
+        b=ePKFq6mpE7YRFTyO/pZqkcKHYalEVirWa8nW+uj0qCgCQjumX48edIgnsioRX/Ol22
+         ZWfCMSvrB8qrSAU/I91tih8Zd1AmBDWlcHKM+tKV0462q+rocQnsF6sxkpGSVQ44ki+r
+         tSniffuI0LAo6j6vORsa8dv9PCc40ExHuNxT6/iQRtCwSOWWeDVyVUnHmm7wT8/HuT8d
+         r9/EYZjkDY0di4OVU8HRm1Sixi9A8goV30iNlZ6f+f//1+Z0V3Npi+IBIHn7BbsOnF6W
+         FYQOFTGYurP9McZVoPxsGqrQMzzJ208jrDryz4By6THMU/NPRUUcrUbrB9sAdULX6MRp
+         sBYw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:sender:dkim-signature;
-        bh=W3peracX3uX8SxwZSjZFBvwgCViGvp+SdHQsb4KDF/Q=;
-        b=iYY7IKX1CQB3SLxHNZrpiok4ikkiYTiKi1aC2PMp0/LxzCCRjQxie2qfePhtY57Ozg
-         4tT/wH3SCVxbc8/NzwTMZEGBqySVOyyGP0SwK9E0C0b0+Y9yikka0NTDnprXLPL+P+cP
-         Vfn0JJnRzjZOXGxpuMd/6udCRS93PLClEB3feULSxRWxmwLHSNkIH3jKWgWCzOay/o1M
-         nfqjnHG61EkIio/Sv7shAFU1YUN4lFmoydXbxb6ISU7DY1mhog2hPTElDmqF4aSJzgiO
-         MmjBsBNvbNsSG38VCPrMTCwrD7EcYuYk/mXVfRbe2TYkwYPLK7w/+dH/QYX4/DoYb5JF
-         J6+g==
+         :list-id:mailing-list:precedence:user-agent:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:sender:dkim-signature;
+        bh=2AQOjU3jZZKh5lDEgbX6piuMwD5PAGAnKsafl4nHFu4=;
+        b=qwIfYc4wrt/WhEFs9Wud1di0n3UuBK9jfHhPdm6odai/P6BL5N0wdI8e5cqzXkSYe0
+         v/5PXxmqSjv5unxYASuNHrmT31AvajQe9kiDWIZiYnDQA8oSSlHvQMjtlKAWzklULryH
+         /cZipeSHY9uhYxkvt2KOKD5kIiM4xnY8vmQkVkSk4Mr9HXOyDw/l3YpPfYAJn+smw9PI
+         2Qkg2wCuCPS9I55xPbplYbvfNhdkPiDGLST0tR1uIHGx2KqOpDoskc0YysVrloOzlxnt
+         GqnAGHIjWTdMi0iNuPJV2KXlKY2QILb24kz1pmS4GxWRFnuVDQYK9+YUf4RZbBNfcauy
+         Nq1A==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=default header.b=Aov+8BbS;
-       spf=pass (google.com: domain of luto@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=luto@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       spf=pass (google.com: domain of sean.j.christopherson@intel.com designates 134.134.136.126 as permitted sender) smtp.mailfrom=sean.j.christopherson@intel.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:mime-version:references:in-reply-to:from:date:message-id
-         :subject:to:cc:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=W3peracX3uX8SxwZSjZFBvwgCViGvp+SdHQsb4KDF/Q=;
-        b=MnTkGMt+kKt4riTJwEaKWNqVjbOslTKEQ1ZvJj1mCASozkJQBcvwI13s/Q56waqTkO
-         4qcRH6TQRQqy+7J5bioG6hyPLEYCEulCNItetcBdhJP5yspiZs/CC4qmMC2K7FVwc2LQ
-         gKWt5C1tJAyYIMbrrsB6A6sEySv7BON+X9qYp7cyxXa1qhuESn2lj/cHhHQiBag2cVxz
-         i/+juKT/ccQZtf01J73oC/dihgPrNsPqkE+L2Y2Z3R4FfxDY/XO6/3X+HGA3h/ZxPEjx
-         S6/C0IyYaFGExTkcDt+zETV00FxsjnYIYZm06kcwEC4at3MHEEGQuXZfiwXwZbzKG/Qa
-         4gYQ==
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=2AQOjU3jZZKh5lDEgbX6piuMwD5PAGAnKsafl4nHFu4=;
+        b=lnLkzST2fA0GHnG+EnEynKiRa6lCAiJzZbhIsT/a112u4LosEl3HNOXljq4C02Qi48
+         u2ELi3XtJQ0ErgMSI8Hn0u1LwLJvgca99TzBeninDWVSoPwgwlavCReV7d25DjVsA0yJ
+         ekQ1tHuRrYWcFlc5YST/s+FfPfXYf/X/uUnpufv6hZW0OqhGOj8IPv862FtAmdxeAFql
+         eUIZ3UetRSAz6hA2VaoK5CLCj6XI4GfuQEd1MhBT7eqxcDZjZJljboPwX64zT1WdMz2V
+         4+EnZ8vXAXh18fcVVv0Y5yngu0IN9MxYHyJqK0UCXppNXKDdlvJNb1I9JqLj+XV5FpnU
+         Al6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
-         :date:message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=W3peracX3uX8SxwZSjZFBvwgCViGvp+SdHQsb4KDF/Q=;
-        b=aTxnnP7Qx6ZZq+lszvhJirxarAEaAkpSeA2LCYyxBUlSiAh0fX1+HK8tCqn6vWW5k7
-         DUQqTeSqJHx9+A45ozdQKIw/mLZClGGzdnIW05M/goJGMu23HQUFLpAznlh7zdi4jZST
-         A3QreqJWXvoGwKvb4MRECTwwW33blTka/KSOBlNBbjXMUBPIMfZ0WWuHB4/5q5VG0HXu
-         Sc8Hfp1tJ2vknlg9TTq6DqSZPAZws0SEhbUfuh99XfVwZV50MW+2PNka9fhXjH2rSYN6
-         z5j6i73yUPRS9iy8MYNqDnbH0Fy2Zeyg/dgdQEUnrRh8N72REDgjEyx+fNJSB/C+c4Rk
-         xmhA==
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=2AQOjU3jZZKh5lDEgbX6piuMwD5PAGAnKsafl4nHFu4=;
+        b=BNm2dU4OAB33e0zeIFdHjCjzZZyGjERJdxJM8MmBPZZWSyv3UXSm1xfpz+K/yomKIu
+         U7a9tetIezdaeYV9IIFFDbb+jSSKA4v2Ke0CZwVk11RWcXmdECnG3nywWiE2rmavCW89
+         tJbLIjI35ztyzOhDUbwTcHTST4HZV0IAh/l/rsoj6XDR0V+wTfmhKONojC6TXAGR2NDS
+         ycPvFK5qCTTppj2yu6+3kGMl930S8nCF6oXyP5kpUyHqlrchxpPD3+qbnegom6phPS/7
+         xVz08D7BPUSDQjdB1ZogN4b/ugwGePqPLLdzI5WFVwJiufqq5qB1xVPQufsAjPgyz7na
+         lD2Q==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAXSnBSmJFwoDmDgWyfYSP04lnVh3PPgFXps59quroJ1olB7g63K
-	zVeONvgf5MNMDQJmhjsRuGU=
-X-Google-Smtp-Source: APXvYqzuOrmbYvygky6aF2r9CeawgWsPBb2TRuJf1sOJX7Hpys/P8BD+1BDtL7NdJvFee2Q1Su+d8w==
-X-Received: by 2002:a17:902:904c:: with SMTP id w12mr11119641plz.144.1573756880992;
-        Thu, 14 Nov 2019 10:41:20 -0800 (PST)
+X-Gm-Message-State: APjAAAUQM1a/m9i5NuWRnu+zmws5u5yajKpT9UBs5pD+PSDercMk3TtA
+	3DQnoVPdKnSt0NI8ZE4OHJA=
+X-Google-Smtp-Source: APXvYqyfgi8mD5n2B9h97wAMIssOoGXYM0ySAoSF02LUdcYybloUzR2NMY2r0x9kyZxCJljLGl3yMA==
+X-Received: by 2002:a25:ca17:: with SMTP id a23mr8559979ybg.385.1573757664559;
+        Thu, 14 Nov 2019 10:54:24 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a62:a50f:: with SMTP id v15ls919508pfm.14.gmail; Thu, 14 Nov
- 2019 10:41:20 -0800 (PST)
-X-Received: by 2002:a63:91c1:: with SMTP id l184mr9866631pge.57.1573756880589;
-        Thu, 14 Nov 2019 10:41:20 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1573756880; cv=none;
+Received: by 2002:a25:abb2:: with SMTP id v47ls591092ybi.0.gmail; Thu, 14 Nov
+ 2019 10:54:23 -0800 (PST)
+X-Received: by 2002:a25:cc91:: with SMTP id l139mr8842719ybf.271.1573757663068;
+        Thu, 14 Nov 2019 10:54:23 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1573757663; cv=none;
         d=google.com; s=arc-20160816;
-        b=R5RHjp8evx1hIyTxnoTNJ6sELKU5A/tkSHtz5a2lK7wdF2XeiuiuMVpx+9+54nEa2T
-         bkE0yvX8101ZlmDFdeRxtPqEsSCQbht++aJwnlWTLmgiFtQ4136tkhiy/e09qIPb/eOU
-         XQgVMfS08DMGRRXumuNPt5IsDecoqqrFY2jia6BjAIxiZb+tig3/PbSXiYMTGOMccLS3
-         YPZ0U1UBD118iaRjGU8zfmC3aMh73MqIUeJ0f3D4VsFPAherO2KO/syzMTZCrXfrax4P
-         kXtGewG+/o5cwnz++Ej5XijQrSLcyMTSDIaEVFAIvfclJnWFMWe19+uueIMloe126ZSm
-         hnaA==
+        b=fuzwEIcHDua3iVElAdckJWjvKsYCSeovs/gWHx2rmXiL/mP0XOs6Tk011PcSwDJsli
+         uSfkbGW+GJeVhk4fwz0509fK+7Sz92QUqOO4PI33pdK8juJjuHqplMWehWxR8YScDrW9
+         77MBw/qcOq6R5BZTQcVbRexmhD6yfzRM45K0Mcf0rKv7Nnxzz9i2QaVMMs7Ut8Qd+SyS
+         HyXp9T3wMDf8zQtslTSbHo97ldQfMr45yo7XbIL8JmpKKOmuHD29vjTohYBWnGSkZdf+
+         q7blTP7HQdz+li12ycvD2AzZ96LaA4UY2EtToQMIqUVFu89WpP7J2lMkr7CAwuIt6DMM
+         kUzQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=YlfxgaVenhSJAWAQse27vMQOL6nd8/BRzLqyo+P+J2g=;
-        b=U3HEhyetshmCLWOHkrKBzSZyadgVKnkK6gGJx+rH6QPiEf6lt0MBfrH3Xm8d2EEJKT
-         anXmmIfgCuA0B4l7hfsVkQUfQ33DVEe/IgKir5JaAUIwi082PiZlQB4W+cSsjp5Lc74+
-         66C9iEDcFK1NiMLq+H8Re102qlmHjoK4F1jTpGNGdSkFLjSL8dCwsse0TrL0Opjkr6e1
-         PQxPCaYyayUiunkJJTPltpxFtG1PHpG3tGMp8wNuoOXptGyUwe2xQuufvTCiAb6naAnR
-         vd59a/eyNdlvZslCStjQoEVEjkU05HUKQDb4tc4WsofxnNLxXUpE+7qkvSOhtsofUjIN
-         Y5JA==
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date;
+        bh=eYO66rByNyZQCoFnwXduHhLEo3im1GgOalqtyBXrTgQ=;
+        b=pkPKPU7s4e7y9mZPKvaXv+frl5Elo9c07G/eJruzTI2ITKpfcpJnOEx5IJKTZqYfMG
+         lJR9AghSq5fqj1Vb1cyOlIo8EsrKmWMYOLZlPmNrOm0YwCE8DQcKWINtBrcA1dFejXJC
+         IzRTbNwXpxQPNmyF0cI7+AWCSQNIH6ZvmSgSXlbL3rnA6CfIRb5ctwTT7lx3wxdd46d1
+         DwdPlUjm+FOFkNQ3xaiikDykoLLF2kLnY5L+Ae/KErEoyQ3cEXBgZ2S94IW7ibq+T2jh
+         LP+8aIsrfTB18dwNlkAm28icB2KkRTKSrkRSneyj55VdDxrkOFbeJmeJ72IDmbNGe2u3
+         Lw5g==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=default header.b=Aov+8BbS;
-       spf=pass (google.com: domain of luto@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=luto@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id g10si259741plp.4.2019.11.14.10.41.20
+       spf=pass (google.com: domain of sean.j.christopherson@intel.com designates 134.134.136.126 as permitted sender) smtp.mailfrom=sean.j.christopherson@intel.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
+Received: from mga18.intel.com (mga18.intel.com. [134.134.136.126])
+        by gmr-mx.google.com with ESMTPS id g82si177410ywc.0.2019.11.14.10.54.22
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 14 Nov 2019 10:41:20 -0800 (PST)
-Received-SPF: pass (google.com: domain of luto@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id 0ED6020727
-	for <kasan-dev@googlegroups.com>; Thu, 14 Nov 2019 18:41:20 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id t1so7722223wrv.4
-        for <kasan-dev@googlegroups.com>; Thu, 14 Nov 2019 10:41:19 -0800 (PST)
-X-Received: by 2002:a5d:640b:: with SMTP id z11mr9414430wru.195.1573756877389;
- Thu, 14 Nov 2019 10:41:17 -0800 (PST)
-MIME-Version: 1.0
-References: <20191112211002.128278-1-jannh@google.com> <20191112211002.128278-2-jannh@google.com>
- <20191114174630.GF24045@linux.intel.com> <CALCETrVmaN4BgvUdsuTJ8vdkaN1JrAfBzs+W7aS2cxxDYkqn_Q@mail.gmail.com>
- <20191114182043.GG24045@linux.intel.com>
-In-Reply-To: <20191114182043.GG24045@linux.intel.com>
-From: Andy Lutomirski <luto@kernel.org>
-Date: Thu, 14 Nov 2019 10:41:06 -0800
-X-Gmail-Original-Message-ID: <CALCETrVOPT5Np9=4ypEipu5YtXyTRZhiYBQ1XZoDd2=_Q4s=yw@mail.gmail.com>
-Message-ID: <CALCETrVOPT5Np9=4ypEipu5YtXyTRZhiYBQ1XZoDd2=_Q4s=yw@mail.gmail.com>
-Subject: Re: [PATCH 2/3] x86/traps: Print non-canonical address on #GP
-To: Sean Christopherson <sean.j.christopherson@intel.com>
-Cc: Andy Lutomirski <luto@kernel.org>, Jann Horn <jannh@google.com>, 
-	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	"H. Peter Anvin" <hpa@zytor.com>, X86 ML <x86@kernel.org>, 
-	Andrey Ryabinin <aryabinin@virtuozzo.com>, Alexander Potapenko <glider@google.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, kasan-dev <kasan-dev@googlegroups.com>, 
+        Thu, 14 Nov 2019 10:54:23 -0800 (PST)
+Received-SPF: pass (google.com: domain of sean.j.christopherson@intel.com designates 134.134.136.126 as permitted sender) client-ip=134.134.136.126;
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 14 Nov 2019 10:54:21 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.68,304,1569308400"; 
+   d="scan'208";a="203149189"
+Received: from sjchrist-coffee.jf.intel.com (HELO linux.intel.com) ([10.54.74.41])
+  by fmsmga008.fm.intel.com with ESMTP; 14 Nov 2019 10:54:20 -0800
+Date: Thu, 14 Nov 2019 10:54:20 -0800
+From: Sean Christopherson <sean.j.christopherson@intel.com>
+To: Andy Lutomirski <luto@kernel.org>
+Cc: Jann Horn <jannh@google.com>, Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	"H. Peter Anvin" <hpa@zytor.com>, X86 ML <x86@kernel.org>,
+	Andrey Ryabinin <aryabinin@virtuozzo.com>,
+	Alexander Potapenko <glider@google.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	kasan-dev <kasan-dev@googlegroups.com>,
 	LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 2/3] x86/traps: Print non-canonical address on #GP
+Message-ID: <20191114185420.GJ24045@linux.intel.com>
+References: <20191112211002.128278-1-jannh@google.com>
+ <20191112211002.128278-2-jannh@google.com>
+ <20191114174630.GF24045@linux.intel.com>
+ <CALCETrVmaN4BgvUdsuTJ8vdkaN1JrAfBzs+W7aS2cxxDYkqn_Q@mail.gmail.com>
+ <20191114182043.GG24045@linux.intel.com>
+ <CALCETrVOPT5Np9=4ypEipu5YtXyTRZhiYBQ1XZoDd2=_Q4s=yw@mail.gmail.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: luto@kernel.org
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=default header.b=Aov+8BbS;       spf=pass
- (google.com: domain of luto@kernel.org designates 198.145.29.99 as permitted
- sender) smtp.mailfrom=luto@kernel.org;       dmarc=pass (p=NONE sp=NONE
- dis=NONE) header.from=kernel.org
+Content-Disposition: inline
+In-Reply-To: <CALCETrVOPT5Np9=4ypEipu5YtXyTRZhiYBQ1XZoDd2=_Q4s=yw@mail.gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Original-Sender: sean.j.christopherson@intel.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of sean.j.christopherson@intel.com designates
+ 134.134.136.126 as permitted sender) smtp.mailfrom=sean.j.christopherson@intel.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -140,65 +145,69 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Nov 14, 2019 at 10:20 AM Sean Christopherson
-<sean.j.christopherson@intel.com> wrote:
->
-> On Thu, Nov 14, 2019 at 10:00:35AM -0800, Andy Lutomirski wrote:
-> > On Thu, Nov 14, 2019 at 9:46 AM Sean Christopherson
-> > <sean.j.christopherson@intel.com> wrote:
-> > > > +     /*
-> > > > +      * For the user half, check against TASK_SIZE_MAX; this way, if the
-> > > > +      * access crosses the canonical address boundary, we don't miss it.
-> > > > +      */
-> > > > +     if (addr_ref <= TASK_SIZE_MAX)
-> > >
-> > > Any objection to open coding the upper bound instead of using
-> > > TASK_SIZE_MASK to make the threshold more obvious?
-> > >
-> > > > +             return;
-> > > > +
-> > > > +     pr_alert("dereferencing non-canonical address 0x%016lx\n", addr_ref);
-> > >
-> > > Printing the raw address will confuse users in the case where the access
-> > > straddles the lower canonical boundary.  Maybe combine this with open
-> > > coding the straddle case?  With a rough heuristic to hedge a bit for
-> > > instructions whose operand size isn't accurately reflected in opnd_bytes.
-> > >
-> > >         if (addr_ref > __VIRTUAL_MASK)
-> > >                 pr_alert("dereferencing non-canonical address 0x%016lx\n", addr_ref);
-> > >         else if ((addr_ref + insn->opnd_bytes - 1) > __VIRTUAL_MASK)
-> > >                 pr_alert("straddling non-canonical boundary 0x%016lx - 0x%016lx\n",
-> > >                          addr_ref, addr_ref + insn->opnd_bytes - 1);
-> > >         else if ((addr_ref + PAGE_SIZE - 1) > __VIRTUAL_MASK)
-> > >                 pr_alert("potentially straddling non-canonical boundary 0x%016lx - 0x%016lx\n",
-> > >                          addr_ref, addr_ref + PAGE_SIZE - 1);
+On Thu, Nov 14, 2019 at 10:41:06AM -0800, Andy Lutomirski wrote:
+> On Thu, Nov 14, 2019 at 10:20 AM Sean Christopherson
+> <sean.j.christopherson@intel.com> wrote:
 > >
-> > This is unnecessarily complicated, and I suspect that Jann had the
-> > right idea but just didn't quite explain it enough.  The secret here
-> > is that TASK_SIZE_MAX is a full page below the canonical boundary
-> > (thanks, Intel, for screwing up SYSRET), so, if we get #GP for an
-> > address above TASK_SIZE_MAX,
->
-> Ya, I followed all that.  My point is that if "addr_ref + insn->opnd_bytes"
-> straddles the boundary then it's extremely likely the #GP is due to a
-> non-canonical access, i.e. the pr_alert() doesn't have to hedge (as much).
+> > On Thu, Nov 14, 2019 at 10:00:35AM -0800, Andy Lutomirski wrote:
+> > > On Thu, Nov 14, 2019 at 9:46 AM Sean Christopherson
+> > > <sean.j.christopherson@intel.com> wrote:
+> > > > > +     /*
+> > > > > +      * For the user half, check against TASK_SIZE_MAX; this way, if the
+> > > > > +      * access crosses the canonical address boundary, we don't miss it.
+> > > > > +      */
+> > > > > +     if (addr_ref <= TASK_SIZE_MAX)
+> > > >
+> > > > Any objection to open coding the upper bound instead of using
+> > > > TASK_SIZE_MASK to make the threshold more obvious?
+> > > >
+> > > > > +             return;
+> > > > > +
+> > > > > +     pr_alert("dereferencing non-canonical address 0x%016lx\n", addr_ref);
+> > > >
+> > > > Printing the raw address will confuse users in the case where the access
+> > > > straddles the lower canonical boundary.  Maybe combine this with open
+> > > > coding the straddle case?  With a rough heuristic to hedge a bit for
+> > > > instructions whose operand size isn't accurately reflected in opnd_bytes.
+> > > >
+> > > >         if (addr_ref > __VIRTUAL_MASK)
+> > > >                 pr_alert("dereferencing non-canonical address 0x%016lx\n", addr_ref);
+> > > >         else if ((addr_ref + insn->opnd_bytes - 1) > __VIRTUAL_MASK)
+> > > >                 pr_alert("straddling non-canonical boundary 0x%016lx - 0x%016lx\n",
+> > > >                          addr_ref, addr_ref + insn->opnd_bytes - 1);
+> > > >         else if ((addr_ref + PAGE_SIZE - 1) > __VIRTUAL_MASK)
+> > > >                 pr_alert("potentially straddling non-canonical boundary 0x%016lx - 0x%016lx\n",
+> > > >                          addr_ref, addr_ref + PAGE_SIZE - 1);
+> > >
+> > > This is unnecessarily complicated, and I suspect that Jann had the
+> > > right idea but just didn't quite explain it enough.  The secret here
+> > > is that TASK_SIZE_MAX is a full page below the canonical boundary
+> > > (thanks, Intel, for screwing up SYSRET), so, if we get #GP for an
+> > > address above TASK_SIZE_MAX,
+> >
+> > Ya, I followed all that.  My point is that if "addr_ref + insn->opnd_bytes"
+> > straddles the boundary then it's extremely likely the #GP is due to a
+> > non-canonical access, i.e. the pr_alert() doesn't have to hedge (as much).
+> 
+> I suppose.  But I don't think we have a real epidemic of failed
+> accesses to user memory between TASK_SIZE_MAX and the actual boundary
+> that get #GP instead of #PF but fail for a reason other than
+> non-canonicality :)
 
-I suppose.  But I don't think we have a real epidemic of failed
-accesses to user memory between TASK_SIZE_MAX and the actual boundary
-that get #GP instead of #PF but fail for a reason other than
-non-canonicality :)
+No argument there.
 
-I think we should just go back in time and fix x86_64 to either give
-#PF or at least give some useful page fault for a non-canonical
-address. The only difficulties I'm aware of is that Intel CPUs would
-either need to be redesigned better or would have slightly odd
-semantics for jumps to non-canonical addresses -- #PF in Intel's model
-of "RIP literally *can't* have a non-canonical value" would be a bit
-strange.  Also, my time machine is out of commission.
+> I think we should just go back in time and fix x86_64 to either give
+> #PF or at least give some useful page fault for a non-canonical
+> address. The only difficulties I'm aware of is that Intel CPUs would
+> either need to be redesigned better or would have slightly odd
+> semantics for jumps to non-canonical addresses -- #PF in Intel's model
+> of "RIP literally *can't* have a non-canonical value" would be a bit
+> strange.  Also, my time machine is out of commission.
 
---Andy
+If you happen to fix your time machine, just go back a bit further and
+change protected mode to push the faulting address onto the stack.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CALCETrVOPT5Np9%3D4ypEipu5YtXyTRZhiYBQ1XZoDd2%3D_Q4s%3Dyw%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20191114185420.GJ24045%40linux.intel.com.
