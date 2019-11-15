@@ -1,126 +1,165 @@
-Return-Path: <kasan-dev+bncBCQ2XPNX7EOBBXHTXPXAKGQEPSF52GI@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABB243XTXAKGQEN4XU5EI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ed1-x537.google.com (mail-ed1-x537.google.com [IPv6:2a00:1450:4864:20::537])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41BE8FE57A
-	for <lists+kasan-dev@lfdr.de>; Fri, 15 Nov 2019 20:17:49 +0100 (CET)
-Received: by mail-ed1-x537.google.com with SMTP id s26sf6662314edi.4
-        for <lists+kasan-dev@lfdr.de>; Fri, 15 Nov 2019 11:17:49 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1573845469; cv=pass;
+Received: from mail-ot1-x33e.google.com (mail-ot1-x33e.google.com [IPv6:2607:f8b0:4864:20::33e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 75999FE685
+	for <lists+kasan-dev@lfdr.de>; Fri, 15 Nov 2019 21:43:24 +0100 (CET)
+Received: by mail-ot1-x33e.google.com with SMTP id m15sf6082024otq.8
+        for <lists+kasan-dev@lfdr.de>; Fri, 15 Nov 2019 12:43:24 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1573850603; cv=pass;
         d=google.com; s=arc-20160816;
-        b=EVWfuOaJNGQwoUpNSYG3eyM9wRV5WEVj4HjIZMCyVNZZ6KX3u2u24hd8IZB4QJXp/T
-         7C3B6D//4M5HfaYRlTsf6F5OdRbAX0R6K4AxlFTnuyyTkgXnGPso29LoauqesC8KxqIo
-         GEl9LkDBTSwbl2jrLNX5yOD6fVG1+bEArE9pgpxZm6+Mcn2uaj/lHalcEPzO8tDxV/ni
-         PswXcaMkf2EJ7fDB3T0mnyqs7eix6g7Qck/2HM/4vmfe/oYjKhffG6zU26A5Tc86oQAw
-         KFEC2I1xB4t8B8NXV5QgdZh3IjbIM38LZAjbYhdTyJT3uEZOzCnD5flwpybafDiZGmXJ
-         a34A==
+        b=CLSqUWEMBMSLMnH/tcPCZit/+t+ZYc8OaYLn7a33xqRV60bJvb/VRp1HN7MlsMOMWr
+         L++HgUacA3JfEuvXoWK2932LJ8ncgGJa0fj5DqTGFt69F4jfSSCZ2r4RME0ngEr+aCFW
+         v1Gf/RJrqF364/3qHJ2rW9WwBbzn9aSLMkTLsPJNJz1R7nbeJWOu9OKDeScLcLjkm2qf
+         dL/44ilssT9aEl3QuveLkonmfND9+vLddROhunT/LROklv4SeewCDQSWyOGpRdcjutcy
+         gci5RJriveMkTK6R8Pauf3jpMKW08cDpZyJAgH2J3HtUr5Ghc5C96SXCcwAg6wqTrHTS
+         2PXw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
-         :references:mime-version:message-id:in-reply-to:date:dkim-signature;
-        bh=mhFHNSfPortnosyfgWkvcF+BgMVAm+YaYCj5zeZcpns=;
-        b=Zdms2LggBA/V54k8IAZkb7m9qZvvZvoqJG45PFTwfDA2I/rgplwXvy6sh1CPftpMik
-         JFd+BqRLhPb2XWM+K7Y459Sw5fE0y0sb9HVGN4TKg2h8DPwVSqNyhwviiC8ARutesO9p
-         xM8I0ZzVNcW7NmBz2bJd/49jbforkVA6qJdEGc06ta40OkzQqxPhLHkEXg4Llu9O3jqP
-         oCogZLh2ayiMRwtLhJAaLsl/JSh8k8uqRJZdCl5J8ok1xxZdb3GD9blR9FEdFZPEwXYx
-         T36Af1F63RuX+97kNRzeUH25fNheUKKvHV/ocv+dJeF3d+6CjFaYKE3rp7GRxkSNtwb6
-         bIeQ==
+         :list-id:mailing-list:precedence:user-agent:in-reply-to
+         :content-disposition:mime-version:references:reply-to:message-id
+         :subject:cc:to:from:date:sender:dkim-signature;
+        bh=QZfgW058fw1Ib7W4hXqBtcwaNjOzZZTYIB5D5UB3jkU=;
+        b=EooNzM4h9/Iox8CAPxpUii0n+EfUSMdyZuLWI5a37jEGkvo0Sr65uNSTIDLmxksOIi
+         +oY1L6vwl5QI5VoCuK4T8BFfMO/1akaumM32qPJ4zDqu5+D8Qq+OPBsLbie9KGLHeUWX
+         rIdubI8kEfaYHZNHSHKWXfKEl1XpB/+b9YZrXhcYHpGfETYSyzvrLhvrw+TMhIcyLxEs
+         r5khlcxqb6PlC3vjH/OCmxiKqnAwmkRdBIwktxlsqidBbzrwGxbvJ7ljK0cdRhb02H7h
+         tJOVNI48ZeMjPGPaFTtSYyNQ8XH/1/+qisVYC0gBBNglhCz8FpqHKOFmvKVDnEqx/5h/
+         i8Dw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=iRv1X1m5;
-       spf=pass (google.com: domain of 32_noxqukcf4pgttnmuumrk.iusqgygt-jk1muumrkmxu0vy.ius@flex--jannh.bounces.google.com designates 2a00:1450:4864:20::44a as permitted sender) smtp.mailfrom=32_nOXQUKCf4pgttnmuumrk.iusqgygt-jk1muumrkmxu0vy.ius@flex--jannh.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@kernel.org header.s=default header.b=0DyWlLJk;
+       spf=pass (google.com: domain of srs0=ospd=zh=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=oSPD=ZH=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+        h=sender:date:from:to:cc:subject:message-id:reply-to:references
+         :mime-version:content-disposition:in-reply-to:user-agent
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=mhFHNSfPortnosyfgWkvcF+BgMVAm+YaYCj5zeZcpns=;
-        b=LsXkRDT+lBdYkxd/+l1qN7sto/q0L0tyofNzV/2mMCr/GA+s8jJ/v6Se2WWbq2YIZ+
-         n5K7/BSlAfYJfl0UBpHQOnrf6DdNxr3pYBPYnpHLDKzJczvv9NqVnFjJR1o/c+G1ECND
-         Y/EIu+RA2Nll+GgxxpIAsvO5YY4VmpqHnZXpdcJLSUjBaP2qSq/K0jj0l8LbeZy+mzox
-         NHli46m8cLuZQJmQsamUokmgehvS/lfYMzA+4xYyAWrKIstwGfJ7pJeOOjl0SGZMvrz/
-         WYH2J7DpyPPgBQnfqDiUEWP0fsuMQQR/nCtAyQGu9k8bBI3zNJwE5GkTFaJJfJFC4hH9
-         jc4w==
+        bh=QZfgW058fw1Ib7W4hXqBtcwaNjOzZZTYIB5D5UB3jkU=;
+        b=cY0Dafdf6GICtGkqx1xBliEcoSOLaAc86afZqga8AWOC2dZvmqJipKNJQXVnF+nNi5
+         Dev0+5Q3joZGxRHjokbyCsBocEe4sEuoAnYw1dZtJMkj5bq2jYgShFLiiDeS6ECi3wPJ
+         C9Xg+hr82xclJWMzoXcvQiKVvyaB6zP2n5z5vWuokJdemuS0lzJqhvBV2xh5NRN1vNxj
+         WvVEq7rteN89uNNdhRw7gvWs3SDyVMOvf2KQLiPBODyNW+qbhN68wD50ffZTm3Mlw3a+
+         Tr3MevzwIy9qrYNlGclfdDMuoE6TWs8hlU7drZiCY6ctEMjUzzOOE6STw4fMEQ6a4wew
+         zCkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=mhFHNSfPortnosyfgWkvcF+BgMVAm+YaYCj5zeZcpns=;
-        b=lffYdCR9+dNq7qP6IP5Wp4MX2xsoiDt594ru7Zb17nso5ta+mxSntpvH8cFeTGupEK
-         t0P20zNgxcDw494yt8gf8Mn4mrM1LELMnfL0YuBcHQ5c15q0WLCLC9VHlNqfr4/Lox+1
-         JsO/Ch4KHFs3gaUOe65jGcJ2Pml2Iqv+P061T0RZGdep5EElr/aqorFM/zORxPFk/Lr2
-         WAOffzmY9kyrbVMII+Z5KX48QAgUY9dLdnqSNVmOnnDlrhR0GJIoNSvp7nggC9wn13eK
-         rGcm8TxCjR5xsmbcQBPXFySUZ0JWGw08HqFK45j8xpXTg4dkgeNoH8AuupnLOR6hTojG
-         dwEQ==
-X-Gm-Message-State: APjAAAWpWRKKhUTVBpy/z+FmP08poiEeWEj0DCUvE3+h+dL1PUOcRnZ9
-	mqsw8zSyQs6PuiMltzUqHjU=
-X-Google-Smtp-Source: APXvYqwFQzLO713Ih2e1o3+7pc8ATIaAMggUhgQDDttFbO925RSgm5ceah2IG1wjjEZ2dRZqFqhDjQ==
-X-Received: by 2002:a17:906:cb93:: with SMTP id mf19mr3067663ejb.87.1573845468933;
-        Fri, 15 Nov 2019 11:17:48 -0800 (PST)
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :reply-to:references:mime-version:content-disposition:in-reply-to
+         :user-agent:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=QZfgW058fw1Ib7W4hXqBtcwaNjOzZZTYIB5D5UB3jkU=;
+        b=cxXuRwXzb4vjHPWWjwcp2Ken0/OuUNixU9uPmzMf89F0uSDQWEj8C7J7xlJmUMOv6M
+         QNtlde+bVqZb2RV6yN5FTaVTUYvTHkQlCkR69LayP1LCODBvPpDpYdfZHEVRIb0/s7mF
+         rLCY8SdAE/Up+bSD1bKit3LCZnmqBMlzxv/OOfNSj7RIjZnJeM2ka2K1KoHyuuo9BHU/
+         08HKQ/niDrL0dBX0avsPRR+a9ZPAoE9aFXX7mYediD+Chn67we9D4Cuhf2hjGda1hB0t
+         mGP/lBq4qVvqnZm9CpwprGfOW4H703Cyly9+Wj+MF3yP6b9r2oFXB5pDBoal6t+UMSsw
+         z6Zg==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: APjAAAWA3Lyt5a+5Ewuwk3NRFu0WkkaFAaKJsA5SDURvnVzIsSU62aMl
+	7SqD9rxlFLQ3HX4QZ0EfM6U=
+X-Google-Smtp-Source: APXvYqyR2hseAn9SjjpX2xD17hFe+NhjPwEkRnlx+piw8XJ8TWTuqZejtlGorLgdWS6bRiVsvCM7ow==
+X-Received: by 2002:a9d:3675:: with SMTP id w108mr12952914otb.81.1573850603187;
+        Fri, 15 Nov 2019 12:43:23 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:906:2493:: with SMTP id e19ls650140ejb.4.gmail; Fri, 15
- Nov 2019 11:17:48 -0800 (PST)
-X-Received: by 2002:a17:906:fad4:: with SMTP id lu20mr3132201ejb.9.1573845468331;
-        Fri, 15 Nov 2019 11:17:48 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1573845468; cv=none;
+Received: by 2002:aca:c490:: with SMTP id u138ls3258205oif.6.gmail; Fri, 15
+ Nov 2019 12:43:22 -0800 (PST)
+X-Received: by 2002:aca:f408:: with SMTP id s8mr9782630oih.69.1573850602824;
+        Fri, 15 Nov 2019 12:43:22 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1573850602; cv=none;
         d=google.com; s=arc-20160816;
-        b=Gt1B2Oi4STRFvSNEmnlgPrrZ2jBbCCCm2kBtJrd3+p1aDdwAM1P/k/HH1ofPgx597W
-         c2lZUehWmUd8zwl8ZdtVj8rf6NSGQs/L411aJhsnFc2yJOFfsFTCzUb2lobzlG8Sp92q
-         i+vundUhPnlRPGXJuUyOFlBOBMk8q1owJIkajmNtaXdor3qXJf+yeJg7dJ32faBT/2qR
-         OQWiXwZ+h23NRkyBT754B1TMcqZl6qs8jBPktghaRQtj94UQArPR4xZ+yHj9qoGKkg+g
-         rZk0o+MWPo5Y+sSxk81YqBapt/Ps87FgZJCBBfxnWVtf45ik/ABMvKngt2HFgYOQypVP
-         vYow==
+        b=I2Aql0lLP7iUN2nWXM2QPy98Ym07GRD2doqjgqCpr1ImZ+i+4mVDCOSK+mGEo6riZB
+         BWAKsiodhsgKXtFug/6g73odq7ZGkOT9rmBQ2RvJIXAekiRriu3KiZg3vMYIuz4U24uf
+         e9Z98BzcOboQOH8GPISsOjY35L9HqGz3WDmClQEEUU2u7hEL1Ro3DuDXG3niBqjYA5vM
+         roCcI9bh8I5gbg1oxqaRUpz12x54nQiIP4s3W5+4TkrFArjBSrf5YQRL49ryUXRM7fJS
+         BRJCX+Ud7ZahDe7K03rtPvX5NvFW4NO8Soa3eOKVEzK03x0iqwRrwXuf3wZLhNE9kPYh
+         tN3A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
-         :date:dkim-signature;
-        bh=N4fpC1TodnEcSewYt+/yvmv22slBXtQvqNTPw4dor7g=;
-        b=rpdOkGyN8BwCfBV2m6pjTdfVu7/NoeRc6WYRJkoVu2TB+gNZrr1C7XtIR9oeCrGxAI
-         L3T2+DahBUu7eeUckbMi7EKtrnMvejoW7pmD7ZsKBUY2Eher1o/Qeoi2Nn2DFOxc2cyu
-         T2EJM2WlkhuEQcgs1i92LPDEKbh2fl3kJ7wnxb+fgariG2aoY2s4qreLqS9YlxtBCAEd
-         UpkpYcRzGgHKA9cgTNZXul/ky+0fCGXVvxhHND/xZi5laB6s31xEXHLg61ZvnbsCYWwk
-         sy3QEEs4BnPqq3sk2ygIznWH/dLMw7iqjcXj+75FKVrjuRTjpBCsfNPnDRVBt5CsYhiB
-         qknw==
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :reply-to:message-id:subject:cc:to:from:date:dkim-signature;
+        bh=EhkF6eijMNCpVBpOM/9XbCrRso1VArafA73l7GGvBeI=;
+        b=OWikyqRzJV4Du6tPM9nkXxC7fXf7ddxRNqSFYLmPZ8Ya+QPkz1LBMbUbVnHikFDGSE
+         KOpj2UdI80NPfR8M2Q8gGkdGgayWhxXe4dQ6tEK501xHYH4QNVbyzkod4d8BW+0Yuff2
+         biaPJGPV4zDvSC8/w/SsG9JslGR1MAQvOj3lE4w0eBdntpeB/Xf0wsWGfDQppB182lqO
+         Ln8xGiga+cxFa0jzis5QXVziT3OpyZLveIFUlOwh5Bc48X1u32o4ULm4PUD1nKZyYW7y
+         ENF9OpLB+QADMhNfSPIsiy2eeS7VcRomxsPD05HzqWta5H/Z+A6ANY9gJlHFmYp+K1g9
+         LHQA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=iRv1X1m5;
-       spf=pass (google.com: domain of 32_noxqukcf4pgttnmuumrk.iusqgygt-jk1muumrkmxu0vy.ius@flex--jannh.bounces.google.com designates 2a00:1450:4864:20::44a as permitted sender) smtp.mailfrom=32_nOXQUKCf4pgttnmuumrk.iusqgygt-jk1muumrkmxu0vy.ius@flex--jannh.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-wr1-x44a.google.com (mail-wr1-x44a.google.com. [2a00:1450:4864:20::44a])
-        by gmr-mx.google.com with ESMTPS id v57si950988edc.3.2019.11.15.11.17.48
+       dkim=pass header.i=@kernel.org header.s=default header.b=0DyWlLJk;
+       spf=pass (google.com: domain of srs0=ospd=zh=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=oSPD=ZH=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
+        by gmr-mx.google.com with ESMTPS id g5si313854oti.4.2019.11.15.12.43.22
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 15 Nov 2019 11:17:48 -0800 (PST)
-Received-SPF: pass (google.com: domain of 32_noxqukcf4pgttnmuumrk.iusqgygt-jk1muumrkmxu0vy.ius@flex--jannh.bounces.google.com designates 2a00:1450:4864:20::44a as permitted sender) client-ip=2a00:1450:4864:20::44a;
-Received: by mail-wr1-x44a.google.com with SMTP id m17so8301877wrn.23
-        for <kasan-dev@googlegroups.com>; Fri, 15 Nov 2019 11:17:48 -0800 (PST)
-X-Received: by 2002:adf:f40c:: with SMTP id g12mr7644150wro.356.1573845467801;
- Fri, 15 Nov 2019 11:17:47 -0800 (PST)
-Date: Fri, 15 Nov 2019 20:17:28 +0100
-In-Reply-To: <20191115191728.87338-1-jannh@google.com>
-Message-Id: <20191115191728.87338-3-jannh@google.com>
-Mime-Version: 1.0
-References: <20191115191728.87338-1-jannh@google.com>
-X-Mailer: git-send-email 2.24.0.432.g9d3f5f5b63-goog
-Subject: [PATCH v2 3/3] x86/kasan: Print original address on #GP
-From: "'Jann Horn' via kasan-dev" <kasan-dev@googlegroups.com>
-To: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	"H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org, Andrey Ryabinin <aryabinin@virtuozzo.com>, 
-	Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>, kasan-dev@googlegroups.com, 
-	jannh@google.com
-Cc: linux-kernel@vger.kernel.org, Andrey Konovalov <andreyknvl@google.com>, 
-	Andy Lutomirski <luto@kernel.org>, Sean Christopherson <sean.j.christopherson@intel.com>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 15 Nov 2019 12:43:22 -0800 (PST)
+Received-SPF: pass (google.com: domain of srs0=ospd=zh=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
+Received: from paulmck-ThinkPad-P72.home (unknown [199.201.64.141])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPSA id E23C720733;
+	Fri, 15 Nov 2019 20:43:21 +0000 (UTC)
+Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
+	id 47B2A35207BD; Fri, 15 Nov 2019 12:43:21 -0800 (PST)
+Date: Fri, 15 Nov 2019 12:43:21 -0800
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Marco Elver <elver@google.com>
+Cc: LKMM Maintainers -- Akira Yokosawa <akiyks@gmail.com>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Alexander Potapenko <glider@google.com>,
+	Andrea Parri <parri.andrea@gmail.com>,
+	Andrey Konovalov <andreyknvl@google.com>,
+	Andy Lutomirski <luto@kernel.org>,
+	Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+	Arnd Bergmann <arnd@arndb.de>, Boqun Feng <boqun.feng@gmail.com>,
+	Borislav Petkov <bp@alien8.de>, Daniel Axtens <dja@axtens.net>,
+	Daniel Lustig <dlustig@nvidia.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	David Howells <dhowells@redhat.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	"H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+	Jade Alglave <j.alglave@ucl.ac.uk>,
+	Joel Fernandes <joel@joelfernandes.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Josh Poimboeuf <jpoimboe@redhat.com>,
+	Luc Maranget <luc.maranget@inria.fr>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Thomas Gleixner <tglx@linutronix.de>, Will Deacon <will@kernel.org>,
+	Eric Dumazet <edumazet@google.com>,
+	kasan-dev <kasan-dev@googlegroups.com>,
+	linux-arch <linux-arch@vger.kernel.org>,
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+	linux-efi@vger.kernel.org,
+	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+	LKML <linux-kernel@vger.kernel.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	the arch/x86 maintainers <x86@kernel.org>
+Subject: Re: [PATCH v4 00/10] Add Kernel Concurrency Sanitizer (KCSAN)
+Message-ID: <20191115204321.GX2865@paulmck-ThinkPad-P72>
+Reply-To: paulmck@kernel.org
+References: <20191114180303.66955-1-elver@google.com>
+ <20191114195046.GP2865@paulmck-ThinkPad-P72>
+ <20191114213303.GA237245@google.com>
+ <20191114221559.GS2865@paulmck-ThinkPad-P72>
+ <CANpmjNPxAOUAxXHd9tka5gCjR_rNKmBk+k5UzRsXT0a0CtNorw@mail.gmail.com>
+ <20191115164159.GU2865@paulmck-ThinkPad-P72>
+ <CANpmjNPy2RDBUhV-j-APzwYr-_x2V9QwgPTYZph36rCpEVqZSQ@mail.gmail.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: jannh@google.com
+Content-Disposition: inline
+In-Reply-To: <CANpmjNPy2RDBUhV-j-APzwYr-_x2V9QwgPTYZph36rCpEVqZSQ@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Original-Sender: paulmck@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=iRv1X1m5;       spf=pass
- (google.com: domain of 32_noxqukcf4pgttnmuumrk.iusqgygt-jk1muumrkmxu0vy.ius@flex--jannh.bounces.google.com
- designates 2a00:1450:4864:20::44a as permitted sender) smtp.mailfrom=32_nOXQUKCf4pgttnmuumrk.iusqgygt-jk1muumrkmxu0vy.ius@flex--jannh.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Jann Horn <jannh@google.com>
-Reply-To: Jann Horn <jannh@google.com>
+ header.i=@kernel.org header.s=default header.b=0DyWlLJk;       spf=pass
+ (google.com: domain of srs0=ospd=zh=paulmck-thinkpad-p72.home=paulmck@kernel.org
+ designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=oSPD=ZH=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -133,174 +172,126 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Make #GP exceptions caused by out-of-bounds KASAN shadow accesses easier
-to understand by computing the address of the original access and
-printing that. More details are in the comments in the patch.
+On Fri, Nov 15, 2019 at 06:14:46PM +0100, Marco Elver wrote:
+> On Fri, 15 Nov 2019 at 17:42, Paul E. McKenney <paulmck@kernel.org> wrote:
+> >
+> > On Fri, Nov 15, 2019 at 01:02:08PM +0100, Marco Elver wrote:
+> > > On Thu, 14 Nov 2019 at 23:16, Paul E. McKenney <paulmck@kernel.org> wrote:
+> > > >
+> > > > On Thu, Nov 14, 2019 at 10:33:03PM +0100, Marco Elver wrote:
+> > > > > On Thu, 14 Nov 2019, Paul E. McKenney wrote:
+> > > > >
+> > > > > > On Thu, Nov 14, 2019 at 07:02:53PM +0100, Marco Elver wrote:
+> > > > > > > This is the patch-series for the Kernel Concurrency Sanitizer (KCSAN).
+> > > > > > > KCSAN is a sampling watchpoint-based *data race detector*. More details
+> > > > > > > are included in **Documentation/dev-tools/kcsan.rst**. This patch-series
+> > > > > > > only enables KCSAN for x86, but we expect adding support for other
+> > > > > > > architectures is relatively straightforward (we are aware of
+> > > > > > > experimental ARM64 and POWER support).
+> > > > > > >
+> > > > > > > To gather early feedback, we announced KCSAN back in September, and have
+> > > > > > > integrated the feedback where possible:
+> > > > > > > http://lkml.kernel.org/r/CANpmjNPJ_bHjfLZCAPV23AXFfiPiyXXqqu72n6TgWzb2Gnu1eA@mail.gmail.com
+> > > > > > >
+> > > > > > > The current list of known upstream fixes for data races found by KCSAN
+> > > > > > > can be found here:
+> > > > > > > https://github.com/google/ktsan/wiki/KCSAN#upstream-fixes-of-data-races-found-by-kcsan
+> > > > > > >
+> > > > > > > We want to point out and acknowledge the work surrounding the LKMM,
+> > > > > > > including several articles that motivate why data races are dangerous
+> > > > > > > [1, 2], justifying a data race detector such as KCSAN.
+> > > > > > >
+> > > > > > > [1] https://lwn.net/Articles/793253/
+> > > > > > > [2] https://lwn.net/Articles/799218/
+> > > > > >
+> > > > > > I queued this and ran a quick rcutorture on it, which completed
+> > > > > > successfully with quite a few reports.
+> > > > >
+> > > > > Great. Many thanks for queuing this in -rcu. And regarding merge window
+> > > > > you mentioned, we're fine with your assumption to targeting the next
+> > > > > (v5.6) merge window.
+> > > > >
+> > > > > I've just had a look at linux-next to check what a future rebase
+> > > > > requires:
+> > > > >
+> > > > > - There is a change in lib/Kconfig.debug and moving KCSAN to the
+> > > > >   "Generic Kernel Debugging Instruments" section seems appropriate.
+> > > > > - bitops-instrumented.h was removed and split into 3 files, and needs
+> > > > >   re-inserting the instrumentation into the right places.
+> > > > >
+> > > > > Otherwise there are no issues. Let me know what you recommend.
+> > > >
+> > > > Sounds good!
+> > > >
+> > > > I will be rebasing onto v5.5-rc1 shortly after it comes out.  My usual
+> > > > approach is to fix any conflicts during that rebasing operation.
+> > > > Does that make sense, or would you prefer to send me a rebased stack at
+> > > > that point?  Either way is fine for me.
+> > >
+> > > That's fine with me, thanks!  To avoid too much additional churn on
+> > > your end, I just replied to the bitops patch with a version that will
+> > > apply with the change to bitops-instrumented infrastructure.
+> >
+> > My first thought was to replace 8/10 of the previous version of your
+> > patch in -rcu (047ca266cfab "asm-generic, kcsan: Add KCSAN instrumentation
+> > for bitops"), but this does not apply.  So I am guessing that I instead
+> > do this substitution when a rebase onto -rc1..
+> >
+> > Except...
+> >
+> > > Also considering the merge window, we had a discussion and there are
+> > > some arguments for targeting the v5.5 merge window:
+> > > - we'd unblock ARM and POWER ports;
+> > > - we'd unblock people wanting to use the data_race macro;
+> > > - we'd unblock syzbot just tracking upstream;
+> > > Unless there are strong reasons to not target v5.5, I leave it to you
+> > > if you think it's appropriate.
+> >
+> > My normal process is to send the pull request shortly after -rc5 comes
+> > out, but you do call out some benefits of getting it in sooner, so...
+> >
+> > What I will do is to rebase your series onto (say) -rc7, test it, and
+> > see about an RFC pull request.
+> >
+> > One possible complication is the new 8/10 patch.  But maybe it will
+> > apply against -rc7?
+> >
+> > Another possible complication is this:
+> >
+> > scripts/kconfig/conf  --syncconfig Kconfig
+> > *
+> > * Restart config...
+> > *
+> > *
+> > * KCSAN: watchpoint-based dynamic data race detector
+> > *
+> > KCSAN: watchpoint-based dynamic data race detector (KCSAN) [N/y/?] (NEW)
+> >
+> > Might be OK in this case because it is quite obvious what it is doing.
+> > (Avoiding pain from this is the reason that CONFIG_RCU_EXPERT exists.)
+> >
+> > But I will just mention this in the pull request.
+> >
+> > If there is a -rc8, there is of course a higher probability of making it
+> > into the next merge window.
+> >
+> > Fair enough?
+> 
+> Totally fine with that, sounds like a good plan, thanks!
+> 
+> If it helps, in theory we can also drop and delay the bitops
+> instrumentation patch until the new bitops instrumentation
+> infrastructure is in 5.5-rc1. There won't be any false positives if
+> this is missing, we might just miss a few data races until we have it.
 
-This turns an error like this:
+That sounds advisable for an attempt to hit this coming merge window.
 
-    kasan: CONFIG_KASAN_INLINE enabled
-    kasan: GPF could be caused by NULL-ptr deref or user memory access
-    traps: probably dereferencing non-canonical address 0xe017577ddf75b7dd
-    general protection fault: 0000 [#1] PREEMPT SMP KASAN PTI
+So just to make sure I understand, I drop 8/10 and keep the rest during
+a rebase to 5.4-rc7, correct?
 
-into this:
-
-    traps: dereferencing non-canonical address 0xe017577ddf75b7dd
-    traps: probably dereferencing non-canonical address 0xe017577ddf75b7dd
-    KASAN: maybe wild-memory-access in range
-            [0x00badbeefbadbee8-0x00badbeefbadbeef]
-    general protection fault: 0000 [#1] PREEMPT SMP KASAN PTI
-
-The hook is placed in architecture-independent code, but is currently
-only wired up to the X86 exception handler because I'm not sufficiently
-familiar with the address space layout and exception handling mechanisms
-on other architectures.
-
-Signed-off-by: Jann Horn <jannh@google.com>
----
-
-Notes:
-    v2:
-     - move to mm/kasan/report.c (Dmitry)
-     - change hook name to be more generic
-     - use TASK_SIZE instead of TASK_SIZE_MAX for compiling on non-x86
-     - don't open-code KASAN_SHADOW_MASK (Dmitry)
-     - add "KASAN: " prefix, but not "BUG: " (Andrey, Dmitry)
-     - use same naming scheme as get_wild_bug_type (Andrey)
-
- arch/x86/kernel/traps.c     |  2 ++
- arch/x86/mm/kasan_init_64.c | 21 -------------------
- include/linux/kasan.h       |  6 ++++++
- mm/kasan/report.c           | 40 +++++++++++++++++++++++++++++++++++++
- 4 files changed, 48 insertions(+), 21 deletions(-)
-
-diff --git a/arch/x86/kernel/traps.c b/arch/x86/kernel/traps.c
-index 12d42697a18e..87b52682a37a 100644
---- a/arch/x86/kernel/traps.c
-+++ b/arch/x86/kernel/traps.c
-@@ -37,6 +37,7 @@
- #include <linux/mm.h>
- #include <linux/smp.h>
- #include <linux/io.h>
-+#include <linux/kasan.h>
- #include <asm/stacktrace.h>
- #include <asm/processor.h>
- #include <asm/debugreg.h>
-@@ -540,6 +541,7 @@ static void print_kernel_gp_address(struct pt_regs *regs)
- 
- 	pr_alert("probably dereferencing non-canonical address 0x%016lx\n",
- 		 addr_ref);
-+	kasan_non_canonical_hook(addr_ref);
- #endif
- }
- 
-diff --git a/arch/x86/mm/kasan_init_64.c b/arch/x86/mm/kasan_init_64.c
-index 296da58f3013..69c437fb21cc 100644
---- a/arch/x86/mm/kasan_init_64.c
-+++ b/arch/x86/mm/kasan_init_64.c
-@@ -245,23 +245,6 @@ static void __init kasan_map_early_shadow(pgd_t *pgd)
- 	} while (pgd++, addr = next, addr != end);
- }
- 
--#ifdef CONFIG_KASAN_INLINE
--static int kasan_die_handler(struct notifier_block *self,
--			     unsigned long val,
--			     void *data)
--{
--	if (val == DIE_GPF) {
--		pr_emerg("CONFIG_KASAN_INLINE enabled\n");
--		pr_emerg("GPF could be caused by NULL-ptr deref or user memory access\n");
--	}
--	return NOTIFY_OK;
--}
--
--static struct notifier_block kasan_die_notifier = {
--	.notifier_call = kasan_die_handler,
--};
--#endif
--
- void __init kasan_early_init(void)
- {
- 	int i;
-@@ -298,10 +281,6 @@ void __init kasan_init(void)
- 	int i;
- 	void *shadow_cpu_entry_begin, *shadow_cpu_entry_end;
- 
--#ifdef CONFIG_KASAN_INLINE
--	register_die_notifier(&kasan_die_notifier);
--#endif
--
- 	memcpy(early_top_pgt, init_top_pgt, sizeof(early_top_pgt));
- 
- 	/*
-diff --git a/include/linux/kasan.h b/include/linux/kasan.h
-index cc8a03cc9674..7305024b44e3 100644
---- a/include/linux/kasan.h
-+++ b/include/linux/kasan.h
-@@ -194,4 +194,10 @@ static inline void *kasan_reset_tag(const void *addr)
- 
- #endif /* CONFIG_KASAN_SW_TAGS */
- 
-+#ifdef CONFIG_KASAN_INLINE
-+void kasan_non_canonical_hook(unsigned long addr);
-+#else /* CONFIG_KASAN_INLINE */
-+static inline void kasan_non_canonical_hook(unsigned long addr) { }
-+#endif /* CONFIG_KASAN_INLINE */
-+
- #endif /* LINUX_KASAN_H */
-diff --git a/mm/kasan/report.c b/mm/kasan/report.c
-index 621782100eaa..5ef9f24f566b 100644
---- a/mm/kasan/report.c
-+++ b/mm/kasan/report.c
-@@ -512,3 +512,43 @@ void __kasan_report(unsigned long addr, size_t size, bool is_write, unsigned lon
- 
- 	end_report(&flags);
- }
-+
-+#ifdef CONFIG_KASAN_INLINE
-+/*
-+ * With CONFIG_KASAN_INLINE, accesses to bogus pointers (outside the high
-+ * canonical half of the address space) cause out-of-bounds shadow memory reads
-+ * before the actual access. For addresses in the low canonical half of the
-+ * address space, as well as most non-canonical addresses, that out-of-bounds
-+ * shadow memory access lands in the non-canonical part of the address space.
-+ * Help the user figure out what the original bogus pointer was.
-+ */
-+void kasan_non_canonical_hook(unsigned long addr)
-+{
-+	unsigned long orig_addr;
-+	const char *bug_type;
-+
-+	if (addr < KASAN_SHADOW_OFFSET)
-+		return;
-+
-+	orig_addr = (addr - KASAN_SHADOW_OFFSET) << KASAN_SHADOW_SCALE_SHIFT;
-+	/*
-+	 * For faults near the shadow address for NULL, we can be fairly certain
-+	 * that this is a KASAN shadow memory access.
-+	 * For faults that correspond to shadow for low canonical addresses, we
-+	 * can still be pretty sure - that shadow region is a fairly narrow
-+	 * chunk of the non-canonical address space.
-+	 * But faults that look like shadow for non-canonical addresses are a
-+	 * really large chunk of the address space. In that case, we still
-+	 * print the decoded address, but make it clear that this is not
-+	 * necessarily what's actually going on.
-+	 */
-+	if (orig_addr < PAGE_SIZE)
-+		bug_type = "null-ptr-deref";
-+	else if (orig_addr < TASK_SIZE)
-+		bug_type = "probably user-memory-access";
-+	else
-+		bug_type = "maybe wild-memory-access";
-+	pr_alert("KASAN: %s in range [0x%016lx-0x%016lx]\n", bug_type,
-+		 orig_addr, orig_addr + KASAN_SHADOW_MASK);
-+}
-+#endif
--- 
-2.24.0.432.g9d3f5f5b63-goog
+							Thanx, Paul
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20191115191728.87338-3-jannh%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20191115204321.GX2865%40paulmck-ThinkPad-P72.
