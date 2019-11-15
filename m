@@ -1,138 +1,121 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBTNHXLXAKGQEP6XOWCQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDQ27FVWWUFRB3WHXLXAKGQEZWLLPNQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qk1-x738.google.com (mail-qk1-x738.google.com [IPv6:2607:f8b0:4864:20::738])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE61CFDCE2
-	for <lists+kasan-dev@lfdr.de>; Fri, 15 Nov 2019 13:02:22 +0100 (CET)
-Received: by mail-qk1-x738.google.com with SMTP id 6sf6220451qkc.4
-        for <lists+kasan-dev@lfdr.de>; Fri, 15 Nov 2019 04:02:22 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1573819341; cv=pass;
+Received: from mail-ua1-x940.google.com (mail-ua1-x940.google.com [IPv6:2607:f8b0:4864:20::940])
+	by mail.lfdr.de (Postfix) with ESMTPS id BCEE9FDE9B
+	for <lists+kasan-dev@lfdr.de>; Fri, 15 Nov 2019 14:11:11 +0100 (CET)
+Received: by mail-ua1-x940.google.com with SMTP id d8sf2259204uan.4
+        for <lists+kasan-dev@lfdr.de>; Fri, 15 Nov 2019 05:11:11 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1573823470; cv=pass;
         d=google.com; s=arc-20160816;
-        b=LNSJmzuEiwRRw9Q3TYUa95AL9lYoaD1Fdo5cPgkcFbqQwj/jHcPOTLZ+Td4qZj4P/u
-         ZmR9eFhX+ZX1XiZisE8OryvWHBOZZoCt8PiXQFxV5zvNru5JLqePB7OL+4a0jjnIA7Sj
-         T35O/Q4PwNgtsjhEN4Gf9ozfTIwjBoW4TfJTyVkFq1EX8CJwML2XDTTgSEh3OlIynxxH
-         JjvMm5ikklXJfSitxIKnlVzpB0geqQoxsZhJ/PuNwz5FEF0108Pe2VIt3QfCvlJ3oOyu
-         W8/CUBA/UDB2JJnlDN17bNds03W/NTfgdGP9QN2FXpr8BHran5WolXuox3wMrNgh8MNL
-         9cCw==
+        b=YHFlSBC0geoERi+eoZhY5gRtfAbdnVzfuhfk3RgRrilJhLcz1vB6ErWFCZBO4Cfq8T
+         OzN9/D561UrKF3292WqoMXvrhSMZhXlK7oA4CMFbDql8FjW5aFDVz18bypcdOXpnHOvU
+         Bl6kYRYEY+NMLzUke6ztX89P2onhi7sPiJUQXtAxO3CyOXAQZ6TrBb0R1RfPdporLM7g
+         0md6EtU6g1aI1S8LWYq/ok7wSRjENysyQPn+uKpmlQxvj3di+gKi6vpNmF0alw/LB9uh
+         vHi+0tIK9dVd3+zjmLymIR+gN5X+wt8l5Q4Ng5VtvRWlPtt/PjJiw2W93nBPihvcherD
+         sxgQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=YbfT+L/ZY/hAeh+kx8mlU/hNG06LddnZjD3iP5Da0hI=;
-        b=RD88fckn3vDxwL0R/ECTpOcFq9vKgJTO0PIDy3Vv846B6m+/6Agimt8NhEEY6Cey4Z
-         87iIlezCvOJsqr99mCmoea0a3+ahO8Ijc9gM2zrmL28oIe33sQtQGAQVp9sxUKqKG9Xo
-         R5XClHSyk/OdCZlGB7VWPxqSPwww/BpFjwN6dxGYP5Sj29gmBhBdE6fcBdRxRC6klMBF
-         iRITG2lPFxFdWG4GrrS4pAtTJhFAS2ppCZTxkxc2Rc4Lk7sGpiSBbB8n5FbY1Vz4X3gc
-         dHQybrI4bO1vnixxYMIBfHhYdlrHBeYLdNGh6fc/jIBiq7korG/Yul/vPAmNHe8n986r
-         qWOQ==
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :references:in-reply-to:subject:cc:to:from:sender:dkim-signature;
+        bh=5JPpCIOo0KfIW6s5GUq0LGhvnFMJ6iLHXBkASMLrtt0=;
+        b=RjZv95AvBgbHwnLgOBvZNDilMRL5xCZ+lxf3c1ezv+6zGscd37b5LZSzav1WOM3SQ5
+         A1HAe7ivzDfS6GTPxpTBqTKPTqmDO+yDpCYOFEtDmHd0YghBQRbvR4KjIhpCDGZgyysU
+         y0MWg24UXJKHEHUKmZyOXgZVr0t9vFnq5AhBhXjvXWQPSBTucxeNJVgR18VUnJmPyu8n
+         3zwBwnMmj5+a4gC+hFwm3l7o0179TW8yf7kUT9Jubs9fH6QS3vBfoBZoPbgLcfeB3w3t
+         7Bc5TbMXpP15KLK8nS2llmtV6KspoATMO6cpJNId/hfuSFyU3AoJ5bskb4iodCPz/j6j
+         5+6w==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=nVJwYDJC;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::242 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@axtens.net header.s=google header.b="Jn5lFI/f";
+       spf=pass (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::542 as permitted sender) smtp.mailfrom=dja@axtens.net
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
+        h=sender:from:to:cc:subject:in-reply-to:references:date:message-id
+         :mime-version:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=YbfT+L/ZY/hAeh+kx8mlU/hNG06LddnZjD3iP5Da0hI=;
-        b=of4r29t0iKlkFPn12BCT1FbJp0UiIDEZqLkr7HKGc/HgB6JSDIFOEAn0AwWMK6NIX+
-         f12sKoDdU09/jsb/kwI5Dw5S/rA218DZoApxlSulBbWvr+xQ0Lfe1HKwt9zn/7NYnWOI
-         Aye9g3u3+soe7r7XGogQeOkVnwytdkKV/aD3U3Z4+d31nFAsaHLQgQOLWXTkYtO+WFtW
-         RvBToCV33E/qX7XdHDzW858XKJInTuYvlPAkAoqJKV+MPHa3bVXoTkY0hx5+fY3BLa7T
-         +nD6JJ7fZRNLOiRaogQuejV9n4WsprrLBDcsM94BM7Vk3KYREtuVCK4ewRdAcfdLnNOB
-         tQww==
+        bh=5JPpCIOo0KfIW6s5GUq0LGhvnFMJ6iLHXBkASMLrtt0=;
+        b=DJN/jpQKWd+UAAgZ5NFRHZRJJMcrryhJeDSkjYeqcQuLJTAJRAi9AG3e8e2RjNgcFH
+         ujBHBSW7kFV99Y0KjUodOTpfTkfBReWHKRQ69hlyzn5t2fsYrPE1SmaShHOwXNPEzPxD
+         /E4gL65c3fu6BUcJd66TsTRyvIXJr929uya2Oe19VJBsaevG/Db2OQmCCeoME6XsKlGk
+         Cy/HS/PQzTHhC+1dj9oDXW0mklnJqABkfsNIKJIgTViC5K2XNYRiSnHbh2NUtXGuCPD/
+         KnR0Xp1Atz2kVTRVZWg01f2YjT5fZ2QFs3JUZYG4iHh+9IK5kDGgxsuBvV7blgL+SAsa
+         QUbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+        h=sender:x-gm-message-state:from:to:cc:subject:in-reply-to:references
+         :date:message-id:mime-version:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=YbfT+L/ZY/hAeh+kx8mlU/hNG06LddnZjD3iP5Da0hI=;
-        b=QaLMTzFql2o7xhcr7E4hVksCAMubpkvOFpLEF6UdwG1LnHRNRQ4Qs4ha0syWJfpqLh
-         Q/mwL7bC5O2p0s+kPgOC6AjjLmXRFWd+9Imd3rRRFefBzX+Mo7ljrHq+LQ2EyPBqY3No
-         ArhMMdtjV9vGvrsaBNUBXFtiuB8dCkzw+XQ70zK/2NJdC7E3DFXrKbQPaLO+MNnitLwg
-         4pPvxt7J0jHLVkFFrRulLEkDso8QGS47wokNmD+GeZhHHmiKEpqyHtis08Kd0FbMBikk
-         LB3eLzqunq3HTJJJPD1jviKfZ0+6NFKq6HiBVfofazlZtCSMLm2kuQ1UvCqIA7TVpqMC
-         hfiw==
-X-Gm-Message-State: APjAAAWWqcGneCqJqTqgyRBNG7cbeVt358GnDrn8+/z04BGGEqt55wWy
-	7Mc4YYh4o6TyLBKorZkhStE=
-X-Google-Smtp-Source: APXvYqwqjrU1psqQVJV+PTkYTv5uRA80Cad4nKJyOfQuoVB9Qjjqv2qfrX5YP03JsUEb62WVj4O5SQ==
-X-Received: by 2002:ad4:4770:: with SMTP id d16mr13010516qvx.92.1573819341601;
-        Fri, 15 Nov 2019 04:02:21 -0800 (PST)
+        bh=5JPpCIOo0KfIW6s5GUq0LGhvnFMJ6iLHXBkASMLrtt0=;
+        b=lY2B8uf/7eAdtUe7klpxOdEw44yWbgrRY1PRzTc1jY+pi0eQVFu6bFDtcH9T5ZPxXy
+         ggQvEvCTBA5CuImQRMqXvtJKuzApVVBsgo4BsfSy2ABjDaHFKgyVVeOUoNAdfHvmlMzI
+         5Ded6rWd5ZTXuPOVfle8Oj9SVrRRcXAM85MJ0YJf6zBnQ4ep/17FGzFEzA4x8Vku7lVi
+         nSfRplEyO6/jvLJXw4Q9AE0pa0Q5xLNqD2WS9uQJbh+cIlGp9XG0BhNVDQPeSQHeBIOC
+         L+9sozhGSGcnL1J5XxCe/zfVoHTA7tJA+2px3CJTYTy3+eksHK7eIuopA8wIz6Kck4K2
+         16/A==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: APjAAAWCA64rxXebQYc7FUdBp5htxOr6eXpBizZ4U/ar7UKHVwDrtvdF
+	CXSapqCgkB79Rm5yPfSCEEM=
+X-Google-Smtp-Source: APXvYqzbEPJUXZdvZolfzkarK5PL+z9kQ0+zEQfeEwxwF1D2J/1Z0JQqoruIEqo9bfObGgZ1EaXkJQ==
+X-Received: by 2002:ab0:314a:: with SMTP id e10mr8728429uam.98.1573823470499;
+        Fri, 15 Nov 2019 05:11:10 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ac8:341d:: with SMTP id u29ls2091393qtb.2.gmail; Fri, 15 Nov
- 2019 04:02:21 -0800 (PST)
-X-Received: by 2002:ac8:5445:: with SMTP id d5mr13136004qtq.19.1573819341240;
-        Fri, 15 Nov 2019 04:02:21 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1573819341; cv=none;
+Received: by 2002:ab0:54d6:: with SMTP id q22ls321174uaa.1.gmail; Fri, 15 Nov
+ 2019 05:11:10 -0800 (PST)
+X-Received: by 2002:ab0:598a:: with SMTP id g10mr8909243uad.74.1573823469998;
+        Fri, 15 Nov 2019 05:11:09 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1573823469; cv=none;
         d=google.com; s=arc-20160816;
-        b=Ff6Yssx3EWhl+dsgD/lbzH0hvw7BzeLPJJgmS3VPvG19KA8JndgRrfrid5+S4lfify
-         546cdkdRNBTzRgmY8qP4EMhIlgTK44j/SKIxpoejM7GnGIC3aAx1ShB5L5K1ftSKRdvG
-         FS99WyJ0kBB3udlaTKmbWBh0iUYRUYT91EYFURyryX1r4raUnVrqDbUncQuzt+JlgKfD
-         cr/tj5aV4TtjiMFfvTQOc2WK8x0A6UVkA1u61Fk0nvSC0OYBpzonJccaQCIjDbobm1IC
-         0F2ktMjO2mT5xDIjQQGRN7Juybo072hVzWPSKyUrurYb3oIAZJJghSqcP2f+4I1UfVNb
-         WOFA==
+        b=egSH4K3H0WMYzlMpi3brcN83CZzMSFo3hoX0knYxNXPiWE6wHGWVl7aRXPfwi4GNX2
+         L2SXnmtVHT+OWq2BAI+8/xkjb292XuIwErb2ccjalYWVezFVjY8wBh+YTBS8e1F++OBt
+         Z0TpZKqtHuIqrCdNFxpyXyaYbuDWizdqsBLyrdWt3NIsb5M2VRkFq5Pm4DmKCNO6UkJD
+         ljfY2UoofiKczjXEQAGSEJutDZP4it+V1oDG11hL/i2Uayw40xGWJjFQn+ko9iZb3lKM
+         VMCK+0mVUpVEFfS1NbMxcl9keiyBjTI0a1d8XajLwo6ttvaxtbaXdQafvwPibqunQ+pJ
+         vlxw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=RRytg93FU7f6sfBrcqBa/NI8/4Q9Vec4eDf1e8YsiLA=;
-        b=MjOsiJUuxBFCHvPXPtYOFknxGGMqAZivmhLnIHW5miJam+05aM2pbT/GPmJ/gUo+LE
-         v2+GoRk9LKR3hQo02/zE+cGZmkxFRCqsDXoT6739S4uckLzJkPkUAnKKCE5/X5oVVhC/
-         xmQQujSGioiR84xe3M0p4PFBPURUbNKVyOjQdLXpbRhNYIIvZsoOGbmX+zSGULQUgL+6
-         ppoLctQamJNFzdLKEo7rT3bvFP0tXi5Ips0Cl6mv8frB8Wy7PhvEhDWyHUFEXKipa+2P
-         B9Nw0rSnZ5DqcaRqaxHA3yW6RyxSBxbMq/YtQu+StrwESb4mcIXHCQrEp5zUHFpIxeyC
-         T+lQ==
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:dkim-signature;
+        bh=VdF8MMu+bP4e0rsVfdQpCfgpPGQbFW5Ll/rpGu4Pq10=;
+        b=pESL1YAY+OByxGeyGN3H4LgxcPRYWmamxJ7rwbO4+wywDpAQNBw5p5ePMTbpAz5MmS
+         Yjma05IJF+rbQPhKvHFjV/rJykvI2PI58JGLYRZKMzsBHKRw8R++yHVrSjePuMcPMvxK
+         2Ahj2dxks9wJTqDKlpPZuW5n/hEYZGZWGOF8uAN5tpUgsOfKkWQNwNM6sjgPPLO0Uw/g
+         M7vJW3Nna+B9X/eQUrntSA3fu2j9nkmqB4TJCSpTYijh55yAgxRMn9asXo/Uwmlig1dZ
+         PyEX90AXaWbGjByEQac7l1dNfTvCUYmzm9OD+4Nkb+VCpuvulF+7hIF7f1NL6paiv8gE
+         cl4g==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=nVJwYDJC;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::242 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com. [2607:f8b0:4864:20::242])
-        by gmr-mx.google.com with ESMTPS id v189si566300qka.2.2019.11.15.04.02.21
+       dkim=pass header.i=@axtens.net header.s=google header.b="Jn5lFI/f";
+       spf=pass (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::542 as permitted sender) smtp.mailfrom=dja@axtens.net
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com. [2607:f8b0:4864:20::542])
+        by gmr-mx.google.com with ESMTPS id p195si610721vkp.1.2019.11.15.05.11.09
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 15 Nov 2019 04:02:21 -0800 (PST)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::242 as permitted sender) client-ip=2607:f8b0:4864:20::242;
-Received: by mail-oi1-x242.google.com with SMTP id l202so8430705oig.1
-        for <kasan-dev@googlegroups.com>; Fri, 15 Nov 2019 04:02:21 -0800 (PST)
-X-Received: by 2002:aca:5413:: with SMTP id i19mr7842386oib.121.1573819340279;
- Fri, 15 Nov 2019 04:02:20 -0800 (PST)
+        Fri, 15 Nov 2019 05:11:09 -0800 (PST)
+Received-SPF: pass (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::542 as permitted sender) client-ip=2607:f8b0:4864:20::542;
+Received: by mail-pg1-x542.google.com with SMTP id f19so5990016pgk.11
+        for <kasan-dev@googlegroups.com>; Fri, 15 Nov 2019 05:11:09 -0800 (PST)
+X-Received: by 2002:a62:6044:: with SMTP id u65mr17331024pfb.227.1573823468977;
+        Fri, 15 Nov 2019 05:11:08 -0800 (PST)
+Received: from localhost (2001-44b8-1113-6700-f1d8-c2a6-5354-14d8.static.ipv6.internode.on.net. [2001:44b8:1113:6700:f1d8:c2a6:5354:14d8])
+        by smtp.gmail.com with ESMTPSA id y16sm11164122pfo.62.2019.11.15.05.11.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 Nov 2019 05:11:07 -0800 (PST)
+From: Daniel Axtens <dja@axtens.net>
+To: Marco Elver <elver@google.com>
+Cc: christophe.leroy@c-s.fr, linux-s390@vger.kernel.org, linux-arch <linux-arch@vger.kernel.org>, the arch/x86 maintainers <x86@kernel.org>, linuxppc-dev@lists.ozlabs.org, kasan-dev <kasan-dev@googlegroups.com>
+Subject: Re: [PATCH v2 1/2] kasan: support instrumented bitops combined with generic bitops
+In-Reply-To: <CANpmjNOCxTxTpbB_LwUQS5jzfQ_2zbZVAc4nKf0FRXmrwO-7sA@mail.gmail.com>
+References: <20190820024941.12640-1-dja@axtens.net> <877e6vutiu.fsf@dja-thinkpad.axtens.net> <878sp57z44.fsf@dja-thinkpad.axtens.net> <CANpmjNOCxTxTpbB_LwUQS5jzfQ_2zbZVAc4nKf0FRXmrwO-7sA@mail.gmail.com>
+Date: Sat, 16 Nov 2019 00:11:03 +1100
+Message-ID: <87a78xgu8o.fsf@dja-thinkpad.axtens.net>
 MIME-Version: 1.0
-References: <20191114180303.66955-1-elver@google.com> <20191114195046.GP2865@paulmck-ThinkPad-P72>
- <20191114213303.GA237245@google.com> <20191114221559.GS2865@paulmck-ThinkPad-P72>
-In-Reply-To: <20191114221559.GS2865@paulmck-ThinkPad-P72>
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Fri, 15 Nov 2019 13:02:08 +0100
-Message-ID: <CANpmjNPxAOUAxXHd9tka5gCjR_rNKmBk+k5UzRsXT0a0CtNorw@mail.gmail.com>
-Subject: Re: [PATCH v4 00/10] Add Kernel Concurrency Sanitizer (KCSAN)
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: LKMM Maintainers -- Akira Yokosawa <akiyks@gmail.com>, Alan Stern <stern@rowland.harvard.edu>, 
-	Alexander Potapenko <glider@google.com>, Andrea Parri <parri.andrea@gmail.com>, 
-	Andrey Konovalov <andreyknvl@google.com>, Andy Lutomirski <luto@kernel.org>, 
-	Ard Biesheuvel <ard.biesheuvel@linaro.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Boqun Feng <boqun.feng@gmail.com>, Borislav Petkov <bp@alien8.de>, Daniel Axtens <dja@axtens.net>, 
-	Daniel Lustig <dlustig@nvidia.com>, Dave Hansen <dave.hansen@linux.intel.com>, 
-	David Howells <dhowells@redhat.com>, Dmitry Vyukov <dvyukov@google.com>, 
-	"H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>, Jade Alglave <j.alglave@ucl.ac.uk>, 
-	Joel Fernandes <joel@joelfernandes.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Josh Poimboeuf <jpoimboe@redhat.com>, Luc Maranget <luc.maranget@inria.fr>, 
-	Mark Rutland <mark.rutland@arm.com>, Nicholas Piggin <npiggin@gmail.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@linutronix.de>, Will Deacon <will@kernel.org>, 
-	Eric Dumazet <edumazet@google.com>, kasan-dev <kasan-dev@googlegroups.com>, 
-	linux-arch <linux-arch@vger.kernel.org>, 
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, linux-efi@vger.kernel.org, 
-	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
-	Linux Memory Management List <linux-mm@kvack.org>, "the arch/x86 maintainers" <x86@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
+X-Original-Sender: dja@axtens.net
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=nVJwYDJC;       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::242 as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+ header.i=@axtens.net header.s=google header.b="Jn5lFI/f";       spf=pass
+ (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::542 as
+ permitted sender) smtp.mailfrom=dja@axtens.net
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -145,74 +128,53 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, 14 Nov 2019 at 23:16, Paul E. McKenney <paulmck@kernel.org> wrote:
->
-> On Thu, Nov 14, 2019 at 10:33:03PM +0100, Marco Elver wrote:
-> > On Thu, 14 Nov 2019, Paul E. McKenney wrote:
-> >
-> > > On Thu, Nov 14, 2019 at 07:02:53PM +0100, Marco Elver wrote:
-> > > > This is the patch-series for the Kernel Concurrency Sanitizer (KCSAN).
-> > > > KCSAN is a sampling watchpoint-based *data race detector*. More details
-> > > > are included in **Documentation/dev-tools/kcsan.rst**. This patch-series
-> > > > only enables KCSAN for x86, but we expect adding support for other
-> > > > architectures is relatively straightforward (we are aware of
-> > > > experimental ARM64 and POWER support).
-> > > >
-> > > > To gather early feedback, we announced KCSAN back in September, and have
-> > > > integrated the feedback where possible:
-> > > > http://lkml.kernel.org/r/CANpmjNPJ_bHjfLZCAPV23AXFfiPiyXXqqu72n6TgWzb2Gnu1eA@mail.gmail.com
-> > > >
-> > > > The current list of known upstream fixes for data races found by KCSAN
-> > > > can be found here:
-> > > > https://github.com/google/ktsan/wiki/KCSAN#upstream-fixes-of-data-races-found-by-kcsan
-> > > >
-> > > > We want to point out and acknowledge the work surrounding the LKMM,
-> > > > including several articles that motivate why data races are dangerous
-> > > > [1, 2], justifying a data race detector such as KCSAN.
-> > > >
-> > > > [1] https://lwn.net/Articles/793253/
-> > > > [2] https://lwn.net/Articles/799218/
-> > >
-> > > I queued this and ran a quick rcutorture on it, which completed
-> > > successfully with quite a few reports.
-> >
-> > Great. Many thanks for queuing this in -rcu. And regarding merge window
-> > you mentioned, we're fine with your assumption to targeting the next
-> > (v5.6) merge window.
-> >
-> > I've just had a look at linux-next to check what a future rebase
-> > requires:
-> >
-> > - There is a change in lib/Kconfig.debug and moving KCSAN to the
-> >   "Generic Kernel Debugging Instruments" section seems appropriate.
-> > - bitops-instrumented.h was removed and split into 3 files, and needs
-> >   re-inserting the instrumentation into the right places.
-> >
-> > Otherwise there are no issues. Let me know what you recommend.
->
-> Sounds good!
->
-> I will be rebasing onto v5.5-rc1 shortly after it comes out.  My usual
-> approach is to fix any conflicts during that rebasing operation.
-> Does that make sense, or would you prefer to send me a rebased stack at
-> that point?  Either way is fine for me.
+> test_bit() is an atomic bitop. I assume it was meant to be in
+> instrumented-atomic.h?
 
-That's fine with me, thanks!  To avoid too much additional churn on
-your end, I just replied to the bitops patch with a version that will
-apply with the change to bitops-instrumented infrastructure.
+Hmm, interesting.
 
-Also considering the merge window, we had a discussion and there are
-some arguments for targeting the v5.5 merge window:
-- we'd unblock ARM and POWER ports;
-- we'd unblock people wanting to use the data_race macro;
-- we'd unblock syzbot just tracking upstream;
-Unless there are strong reasons to not target v5.5, I leave it to you
-if you think it's appropriate.
+I was tricked by the generic version doing just a simple read, with only
+a volatile attribute to ensure the read occurs more-or-less as written:
 
-Thanks,
--- Marco
+/**
+ * test_bit - Determine whether a bit is set
+ * @nr: bit number to test
+ * @addr: Address to start counting from
+ */
+static inline int test_bit(int nr, const volatile unsigned long *addr)
+{
+        return 1UL & (addr[BIT_WORD(nr)] >> (nr & (BITS_PER_LONG-1)));
+}
+
+But the docs do seem to indicate that it's atomic (for whatever that
+means for a single read operation?), so you are right, it should live in
+instrumented-atomic.h.
+
+Sadly, only x86 and s390 specify an arch_test_bit, which will make moving it
+into instumented-atomic.h break powerpc :(
+
+I'll have a crack at something next week, probably with a similar trick
+to arch_clear_bit_unlock_is_negative_byte.
+
+Regards,
+Daniel
+
+
+>
+> Thanks,
+> -- Marco
+>
+>> >> +
+>> >> +#endif /* _ASM_GENERIC_BITOPS_INSTRUMENTED_NON_ATOMIC_H */
+>> >> --
+>> >> 2.20.1
+>>
+>> --
+>> You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+>> To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+>> To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/878sp57z44.fsf%40dja-thinkpad.axtens.net.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNPxAOUAxXHd9tka5gCjR_rNKmBk%2Bk5UzRsXT0a0CtNorw%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/87a78xgu8o.fsf%40dja-thinkpad.axtens.net.
