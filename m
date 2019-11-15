@@ -1,136 +1,150 @@
-Return-Path: <kasan-dev+bncBAABBTUUXDXAKGQE7MMOKZI@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBLE6XHXAKGQEYE2VRDY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oi1-x238.google.com (mail-oi1-x238.google.com [IPv6:2607:f8b0:4864:20::238])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73C0EFD2DC
-	for <lists+kasan-dev@lfdr.de>; Fri, 15 Nov 2019 03:15:43 +0100 (CET)
-Received: by mail-oi1-x238.google.com with SMTP id r206sf4218029oih.6
-        for <lists+kasan-dev@lfdr.de>; Thu, 14 Nov 2019 18:15:43 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1573784142; cv=pass;
+Received: from mail-lj1-x238.google.com (mail-lj1-x238.google.com [IPv6:2a00:1450:4864:20::238])
+	by mail.lfdr.de (Postfix) with ESMTPS id B4456FD6C1
+	for <lists+kasan-dev@lfdr.de>; Fri, 15 Nov 2019 08:09:33 +0100 (CET)
+Received: by mail-lj1-x238.google.com with SMTP id d16sf1294421ljo.11
+        for <lists+kasan-dev@lfdr.de>; Thu, 14 Nov 2019 23:09:33 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1573801773; cv=pass;
         d=google.com; s=arc-20160816;
-        b=wKjf76GecRVsVKO7xGn/ez8XSBJMfONOPmCXhcomtYHI727sXA8/whJZeBb1jkxE4y
-         B42hTETkm4Pi3lmYGXY75siw8jsIFWLgD+KdJksI6Y3U/3NZxI0A3CMuo+1hiNrFyu1K
-         But3+9g+wQQgevkgngp2QMFuBpmKfKGFjS85M6ubuLtelSSwtiLWbPMSYuVTXF5ANiff
-         fccnALgOMGF7b7Q4mzfvYn1zLrjZlojZ8QdoY5DNMTFzFXkadyg/Cm8EzhqPTpVEDZEe
-         D6rmkGziizOfgqGzdOPdC3c+yg+RmhB0j4Fl/M5tySrbyXhMyfOMs06BSKaW/gFLau8u
-         3g0A==
+        b=diSdaD7h6DKqNynPS3lnNN7ZK+oa8GVdjMi6X5pMhe3Df+k/SvkD7608ZC+irBCE+1
+         J39OdhZ74Dp9LA6+LpCLsYVUfJEPAuoPGouplMwsTQUnP/AZvJA74x4pXb74RhthGJvV
+         +MaGYbZ7adTKimjrKCtK8wBHEhI/f7Hnh1DNWvKaJBhFAOjSFiio/WEiAoXx01vl/9XN
+         DlJJJHalofSFDzyZDS9oPZ2Dxhp389gmgAkhdW8PbwEjzhi3lEyQN3NT4yjJrAcJVPrk
+         TyFMibApYuLG9ggBfOzn95hj8KufEu+FMq71xtJ1dizhY6LS2QKDquRKm66prIhTRtnQ
+         QnCw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:mime-version:subject
-         :references:in-reply-to:message-id:cc:to:from:date:dkim-signature;
-        bh=J7QFHDx5eHqgaK3Bp3o0nfTgNrmR3U5axdmyRu+jifA=;
-        b=xapXW5GHn9N88ZtXOyMmOf5Jin+Ho/yZdll+homaefj261iBML3W4DuHm7kejGXhwN
-         c6okQUt7LsvyiPBeBK+9mSBSKdzFBbdxi23oY5PLCvSzG8qlxT59v4toew21cG/r9nJy
-         eNWHbuIAvhF723+CgHnDgN/2X+KhI+FyAkQypP7hWb99Hh9ruLKYSLAXVg2RRnMppUk+
-         5n6dTeiHlw/63IP4nqEgmqEL/JDTfSAHZzO79+3QIudbnfV9XN5H0n6IBpMbJ/U+e8wm
-         psj4XtGMU0fH60qeiyqM3ExftQwyD868OJfw3XiBysLvUfnCOTNsH9o5Ztw+cENffEj7
-         q1og==
+         :list-id:mailing-list:precedence:user-agent:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:sender:dkim-signature;
+        bh=2qUCPrvzWwZrvH8swYQ9wkDzi43xyECGgwSBOMifHhY=;
+        b=S/n1uSLViKTnSsFgjYZdMInoj7ZapiX5aaBiH7Ik4W986GlYhVyYkZ053wAFihHeu6
+         VWiZ/TN1ba2Y/S5kcx9QZM/ZFdGNlw+bUMvZUH8O5PHmK+f113CICnjdzeSOyK41De2r
+         4u9BNy7Kkk35BcFbNo2tik+3hRdlrzvYqFF/qSIlClg50BiH/ZkTl3Iy3DrFCMaP1g9y
+         THN+hZyHUph7Tf1wzDpWX+6Ma1ZkQ8SrzKnhXxPl0N5q8z916MIcIKvDSxH+749kvfUt
+         x+iZaoG+k5ngEVWkq4L0kYF3AixG4zfaJi75f8aG5w8v8KvRAuNYkfdOOk2sIDQ8hmWF
+         oJxg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@yahoo.com header.s=s2048 header.b=UyS9Ofi5;
-       spf=pass (google.com: domain of matyaz@yahoo.com designates 74.6.129.218 as permitted sender) smtp.mailfrom=matyaz@yahoo.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=yahoo.com
+       spf=pass (google.com: domain of mfe@pengutronix.de designates 2001:67c:670:201:290:27ff:fe1d:cc33 as permitted sender) smtp.mailfrom=mfe@pengutronix.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=date:from:to:cc:message-id:in-reply-to:references:subject
-         :mime-version:x-original-sender:x-original-authentication-results
-         :reply-to:precedence:mailing-list:list-id:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=J7QFHDx5eHqgaK3Bp3o0nfTgNrmR3U5axdmyRu+jifA=;
-        b=qI67FksaN0QH9TlObMl0Zmh6zexm6GKu7JvWhcsES8uBal2/WK3xon1+d1jdIvSySc
-         PRGRHxscqFmcYsRcmvTmxL9OfpLLRdv2Z137jcCzPYY3P/f0dso4rUcYjiHywsXVUxqs
-         5N1k5EOPaJkjxldff2EMJHc1IMN4beZTIUVqj1eqnh790+i5Z9SOtg0Pp8ieIn44V7de
-         KWy7ffXRlAKQGaxciZKbuZ7GXWwMFxdLQiV5mXqEUy6C6i+7UtY6ZZRTKYqmXyevAAhm
-         Rj77XPyJ56peAuQh8422+EkkbnDWLCj6huYZComiqtGMZSv2Q6kQo8RalVE/doo7fbMj
-         fb5g==
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=2qUCPrvzWwZrvH8swYQ9wkDzi43xyECGgwSBOMifHhY=;
+        b=RNAAqap4xKZNSi3ZD6RKd3EQAoCKEWRK9HFnXBuQE6AOGVJLNX8wi9+K4F8mHWJ437
+         7nQf2KBAr4EMHMJrOEWk8g0tMbtMlqqHFJYmYgCglfidSO9dSj8L69+Mk+bKsUtHuScZ
+         Gyk785w94n+wMUH5SoET619GtdZcteBXK3LLCpT47a2d79stsNcsDUTc6bH5BNVfgeL/
+         YwhZHYpcO2gb+IJRukAmo74d4k0pkpZpGkV3tJuz3Lb9GtYYgmeLwZrEXW4SjTAYDzK9
+         ftV7dFvzxqSavCIviK8Gzs9CMSMyRdz0DdiPDdy22HOUAo0qNUplnEjrxsyPVPV2fjnC
+         Mf+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:message-id:in-reply-to
-         :references:subject:mime-version:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=J7QFHDx5eHqgaK3Bp3o0nfTgNrmR3U5axdmyRu+jifA=;
-        b=NJ5ZLcTCKYYIHULI1h6iTqVJD+vYTqDZZ2DSn1GEhzxV4naNaFCVxl7BGLjrYWbwOw
-         IG6f/HLxR8sO6XQfbnyDjArezjHDug6AuIFp9GTiu3+cMK9OEIEM0hse7sA2ZO1P+WEV
-         PU7Qaot4RPQwB12ocRpdWciMmHTbgvjLHBjfUED6kHw/jO8pxO/lkEv2eV6wZ1qEsKOJ
-         VMOfzsGiJWp9QCu6c+e/Y9RTCfKBbnyOz25hUM59kG0h56Im8XkjPIFuKJvZBINpXkDt
-         P0Eg3COA+3BYcEL5YITxdRXHoWJ3ne39Uxrex2C9alQ2xjWRJcVhzFX9v6Cc7q7hZpCt
-         b76A==
-X-Gm-Message-State: APjAAAVjL5Wr3V823HqUykCHu7HyTwHkQVhugz3lA6iJst8x9WXoGuaB
-	uNEIGVkYao3xjEJO7rmD4E4=
-X-Google-Smtp-Source: APXvYqxcBrQ4otwNFhcHwoJhZevnikHBEPLm0i6PLAq/m3QgPt856HBjueMBYWFX/IjeMLPg6LbxRg==
-X-Received: by 2002:aca:b909:: with SMTP id j9mr6142787oif.121.1573784142099;
-        Thu, 14 Nov 2019 18:15:42 -0800 (PST)
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=2qUCPrvzWwZrvH8swYQ9wkDzi43xyECGgwSBOMifHhY=;
+        b=IDZycMYAshBfRfWwxH8gM0OtQQd8o2Fo6kJ47TxANRS9bl+Dh2fpCbBIJhzXxYS4J1
+         n+eWTmgflE8Fx/hbYhVob44hGmBn43DbU+zri5CTbXI70qpG9dNaH6Rq1ny2EbAVX+uO
+         +8p5WQlSQucYbzfOFtKYzh07dIEp9+1xHIgXxEm38LgkNwXT1nYTLZNN/yGPeLyAN5H3
+         n4WKYZiCBOOpXidzCyQU7dfUlNksySGk2oL3nuTZRSZxukt66x5MVI/IqCsOcJGsl5uX
+         DYBpfVo7pngW8fvubveBRsE2Mwbk+xM47mEVR0qRmZGaQGSW93j3kQcmmuw3cPC0EPar
+         yeaw==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: APjAAAVPiddN83qSxKjf8Npo/rKLAz5EI68PuZX/9ajDlP8ybSPQxHsM
+	HT8YztMbUUuRPe7N3vOcnAA=
+X-Google-Smtp-Source: APXvYqwKsO2tbky350iMj5K704hiMuPVKOLXkvpotB87jwpQUmj/j+YVTseXriRnPYYp6KqcNw2lpw==
+X-Received: by 2002:ac2:46d7:: with SMTP id p23mr9973901lfo.104.1573801773163;
+        Thu, 14 Nov 2019 23:09:33 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:aca:d410:: with SMTP id l16ls2159996oig.2.gmail; Thu, 14 Nov
- 2019 18:15:39 -0800 (PST)
-X-Received: by 2002:aca:b286:: with SMTP id b128mr6141875oif.1.1573784139027;
-        Thu, 14 Nov 2019 18:15:39 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1573784139; cv=none;
+Received: by 2002:a2e:8584:: with SMTP id b4ls2048720lji.14.gmail; Thu, 14 Nov
+ 2019 23:09:32 -0800 (PST)
+X-Received: by 2002:a2e:300d:: with SMTP id w13mr10189882ljw.117.1573801772680;
+        Thu, 14 Nov 2019 23:09:32 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1573801772; cv=none;
         d=google.com; s=arc-20160816;
-        b=WiSMVflviPWrlaP6SZJ5V8/MC4MR7y60H5Fh8dq6tt0JaNBgoTL0Ncp2zLMVgC0FEb
-         V0vb8/lIuS6829iXLBLB+tzB/LN87fy+g74ecBNTOuygVdLIQS0vS2jf4O++obMS49oA
-         jsMfgx8/8Mqn8RO0e9gGeIndviMDfzYkKhhyfg+DNnp03UqUTlEwRBcIDKCyrt65zLEv
-         njMrJQcayzI0Se/3n0Zdbq3Jwmz9lhSaKO/U2XkREXcyI/b0SKJ33Z4MLBl8+hhJqGGr
-         +eOGVd8IkHrn1Gn8FKd2FZJi28EjE+3V7Nyj6wTIdbysCnpjg6+w9SclH5w7W5tXuxEJ
-         +02A==
+        b=hAbHD5nXJcm7KIHx+jCFGGYYZWXnJaV2MFyKUFk9Z5zuXJyj47fEcZ5tFj0b1w8+kz
+         hyQckhgqjGvXJBg9yeLWYvtbY6D/dO3f1PFzPwT/Eh9DPkWUADUG0Kjn2HFyKBb9U/Mf
+         texp1M4dwdiGUhrAAtxJdE4Lr90mdRCx1O4CS5ZcVqK5GwIyVnXaf4PlFya2vvyRfnlb
+         /UCf55cJmr2un4i98zyrWiBbpnVZ4NMndGgBeUiM91N7LsL9tSGExaIreIuIIZ+/EQ1b
+         ltusZIC70IoneUq6d7F33wnvearQ4yTmS5bEocJZGpuamtb/qu+ZxC093Vsvj7gUOWYM
+         Alig==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=mime-version:subject:references:in-reply-to:message-id:cc:to:from
-         :date:dkim-signature;
-        bh=C+s/pcKUAh6zBlVje3f241DL958jTrffFEhgECkKcwg=;
-        b=qhjOYZwSfKYyFnhLqragrPWvhdCzTyPlSPjncu5WEVlj1eaEH9EuIOCPaT71Mq3WbP
-         GHJyhNrhSDPVv5kAIyexRuffM/q3upaCDeiCI6L28MzeppeAJmpSh0GIJ05fdvx4rW3Y
-         8ZJs63eFqmqd8Ya/I3wfM7Igmva+Sr5SqCim54u1Xr+izmtssYhCSqGdE6MlPrLPUWqq
-         NWd8Q84XXlMF2vQNYWuhU4+GSIu/OT2MCtaxUbm2DAPwrcIovIq8GY/wGlGcdmpmwg5n
-         Xs76cYifdTklYaDtamqh/hFxyxBD4yoKIF0hZu64LkiDP1vDu0GzqyrB2cHutXifp2RY
-         4vmA==
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date;
+        bh=si7doS+8+HaqDyRJyxAQRRxZLilJCzb4wG4YUdbal9c=;
+        b=yiUcv/vAZWR9YDiqaD0DCE8C1BXEe/ujmXHm3EyegJnk2QSiKX2CMacdYPfdJtMMDf
+         TuQQbMbsEeEUq3vPuziyGweTKi3aIJhy+y55xhyO5unYevJ9OwQS2qCFSftt6mxnfkCr
+         wiVsRA3xoHRkaaAzMPUgc29DJeAZ3qngIeryALqqRu4iI35qrzFPmTlRUEqReMBHanfl
+         RhHCGbRkHbkcGfz8xQRPQKmmWak8GKXYri5g+HDW/UY2B8TPNKCYg+nDJTVZ3xaiQhKy
+         VLwIC72Eabp4awS9tX9fbuNj19qQnrhffg0aMVniinEvjco81v5LgURH3lYwx8GzLwDG
+         Tumg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@yahoo.com header.s=s2048 header.b=UyS9Ofi5;
-       spf=pass (google.com: domain of matyaz@yahoo.com designates 74.6.129.218 as permitted sender) smtp.mailfrom=matyaz@yahoo.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=yahoo.com
-Received: from sonic309-44.consmr.mail.bf2.yahoo.com (sonic309-44.consmr.mail.bf2.yahoo.com. [74.6.129.218])
-        by gmr-mx.google.com with ESMTPS id g5si183423oti.4.2019.11.14.18.15.38
+       spf=pass (google.com: domain of mfe@pengutronix.de designates 2001:67c:670:201:290:27ff:fe1d:cc33 as permitted sender) smtp.mailfrom=mfe@pengutronix.de
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de. [2001:67c:670:201:290:27ff:fe1d:cc33])
+        by gmr-mx.google.com with ESMTPS id j14si538507lfm.2.2019.11.14.23.09.32
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 14 Nov 2019 18:15:39 -0800 (PST)
-Received-SPF: pass (google.com: domain of matyaz@yahoo.com designates 74.6.129.218 as permitted sender) client-ip=74.6.129.218;
-X-YMail-OSG: N_6BpMEVRDvd.miR6A7lED5GPdAEx7ojsA--
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic309.consmr.mail.bf2.yahoo.com with HTTP; Fri, 15 Nov 2019 02:15:38 +0000
-Date: Fri, 15 Nov 2019 02:13:37 +0000 (UTC)
-From: "'Matjaz Matjaz' via kasan-dev" <kasan-dev@googlegroups.com>
-To: Marco Felsch <m.felsch@pengutronix.de>, 
-	Florian Fainelli <f.fainelli@gmail.com>
-Cc: alexandre.belloni@bootlin.com, mhocko@suse.com, catalin.marinas@arm.com, 
-	dhowells@redhat.com, yamada.masahiro@socionext.com, 
-	ryabinin.a.a@gmail.com, glider@google.com, 
-	kvmarm@lists.cs.columbia.edu, corbet@lwn.net, liuwenliang@huawei.com, 
-	daniel.lezcano@linaro.org, linux@armlinux.org.uk, 
-	kasan-dev@googlegroups.com, geert@linux-m68k.org, dvyukov@google.com, 
-	bcm-kernel-feedback-list@broadcom.com, keescook@chromium.org, 
-	arnd@arndb.de, marc.zyngier@arm.com, andre.przywara@arm.com, 
-	pombredanne@nexb.com, jinb.park7@gmail.com, tglx@linutronix.de, 
-	kernel@pengutronix.de, linux-arm-kernel@lists.infradead.org, 
-	nico@fluxnic.net, gregkh@linuxfoundation.org, 
-	ard.biesheuvel@linaro.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, rob@landley.net, philip@cog.systems, 
-	akpm@linux-foundation.org, thgarnie@google.com, 
-	kirill.shutemov@linux.intel.com
-Message-ID: <231794607.364474.1573784017752@mail.yahoo.com>
-In-Reply-To: <7322163f-e08e-a6b7-b143-e9d59917ee5b@gmail.com>
-References: <20190617221134.9930-1-f.fainelli@gmail.com> <20191114181243.q37rxoo3seds6oxy@pengutronix.de> <7322163f-e08e-a6b7-b143-e9d59917ee5b@gmail.com>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Nov 2019 23:09:32 -0800 (PST)
+Received-SPF: pass (google.com: domain of mfe@pengutronix.de designates 2001:67c:670:201:290:27ff:fe1d:cc33 as permitted sender) client-ip=2001:67c:670:201:290:27ff:fe1d:cc33;
+Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
+	by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <mfe@pengutronix.de>)
+	id 1iVViy-0003Na-GI; Fri, 15 Nov 2019 08:08:56 +0100
+Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
+	(envelope-from <mfe@pengutronix.de>)
+	id 1iVVik-0008Gw-CK; Fri, 15 Nov 2019 08:08:42 +0100
+Date: Fri, 15 Nov 2019 08:08:42 +0100
+From: Marco Felsch <m.felsch@pengutronix.de>
+To: Florian Fainelli <f.fainelli@gmail.com>
+Cc: linux-arm-kernel@lists.infradead.org, mark.rutland@arm.com,
+	alexandre.belloni@bootlin.com, mhocko@suse.com,
+	julien.thierry@arm.com, catalin.marinas@arm.com,
+	linux-kernel@vger.kernel.org, dhowells@redhat.com,
+	yamada.masahiro@socionext.com, ryabinin.a.a@gmail.com,
+	glider@google.com, kvmarm@lists.cs.columbia.edu, corbet@lwn.net,
+	liuwenliang@huawei.com, daniel.lezcano@linaro.org,
+	linux@armlinux.org.uk, kasan-dev@googlegroups.com,
+	bcm-kernel-feedback-list@broadcom.com, geert@linux-m68k.org,
+	drjones@redhat.com, vladimir.murzin@arm.com, keescook@chromium.org,
+	arnd@arndb.de, marc.zyngier@arm.com, andre.przywara@arm.com,
+	philip@cog.systems, jinb.park7@gmail.com, tglx@linutronix.de,
+	dvyukov@google.com, nico@fluxnic.net, gregkh@linuxfoundation.org,
+	ard.biesheuvel@linaro.org, linux-doc@vger.kernel.org,
+	christoffer.dall@arm.com, rob@landley.net, pombredanne@nexb.com,
+	akpm@linux-foundation.org, thgarnie@google.com,
+	kirill.shutemov@linux.intel.com, kernel@pengutronix.de
 Subject: Re: [PATCH v6 0/6] KASan for arm
+Message-ID: <20191115070842.2x7psp243nfo76co@pengutronix.de>
+References: <20190617221134.9930-1-f.fainelli@gmail.com>
+ <20191114181243.q37rxoo3seds6oxy@pengutronix.de>
+ <7322163f-e08e-a6b7-b143-e9d59917ee5b@gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/alternative; 
-	boundary="----=_Part_364473_1006591184.1573784017750"
-X-Mailer: WebService/1.1.14728 YMailNorrin Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36
-X-Original-Sender: matyaz@yahoo.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@yahoo.com header.s=s2048 header.b=UyS9Ofi5;       spf=pass
- (google.com: domain of matyaz@yahoo.com designates 74.6.129.218 as permitted
- sender) smtp.mailfrom=matyaz@yahoo.com;       dmarc=pass (p=REJECT sp=REJECT
- dis=NONE) header.from=yahoo.com
-X-Original-From: Matjaz Matjaz <matyaz@yahoo.com>
-Reply-To: Matjaz Matjaz <matyaz@yahoo.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+In-Reply-To: <7322163f-e08e-a6b7-b143-e9d59917ee5b@gmail.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-IRC: #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 07:52:54 up 181 days, 13:11, 128 users,  load average: 0.02, 0.03,
+ 0.00
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: kasan-dev@googlegroups.com
+X-Original-Sender: m.felsch@pengutronix.de
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of mfe@pengutronix.de designates 2001:67c:670:201:290:27ff:fe1d:cc33
+ as permitted sender) smtp.mailfrom=mfe@pengutronix.de
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -143,160 +157,89 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-------=_Part_364473_1006591184.1573784017750
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi Florian,
 
- [::1]:2869=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0hp-PC:53166=C2=
-=A0 =C2=A0=C2=A0ios 2.1.2 I sign on it
-    Dne petek, 15. november 2019 00:01:38 GMT+1 je uporabnik Florian Fainel=
-li <f.fainelli@gmail.com> napisal: =20
-=20
- Hello Marco,
+On 19-11-14 15:01, Florian Fainelli wrote:
+> Hello Marco,
+> 
+> On 11/14/19 10:12 AM, Marco Felsch wrote:
+> > Hi Florian,
+> > 
+> > first of all, many thanks for your work on this series =) I picked your
+> > and Arnd patches to make it compilable. Now it's compiling but my imx6q
+> > board didn't boot anymore. I debugged the code and found that the branch
+> > to 'start_kernel' won't be reached
+> > 
+> > 8<------- arch/arm/kernel/head-common.S -------
+> > ....
+> > 
+> > #ifdef CONFIG_KASAN
+> >         bl      kasan_early_init
+> > #endif
+> > 	mov     lr, #0
+> > 	b       start_kernel
+> > ENDPROC(__mmap_switched)
+> > 
+> > ....
+> > 8<----------------------------------------------
+> > 
+> > Now, I found also that 'KASAN_SHADOW_OFFSET' isn't set due to missing
+> > 'CONFIG_KASAN_SHADOW_OFFSET' and so no '-fasan-shadow-offset=xxxxx' is
+> > added. Can that be the reason why my board isn't booted anymore?
+> 
+> The latest that I have is here, though not yet submitted since I needed
+> to solve one issue on a specific platform with a lot of memory:
+> 
+> https://github.com/ffainelli/linux/pull/new/kasan-v7
 
-On 11/14/19 10:12 AM, Marco Felsch wrote:
-> Hi Florian,
->=20
-> first of all, many thanks for your work on this series =3D) I picked your
-> and Arnd patches to make it compilable. Now it's compiling but my imx6q
-> board didn't boot anymore. I debugged the code and found that the branch
-> to 'start_kernel' won't be reached
->=20
-> 8<------- arch/arm/kernel/head-common.S -------
-> ....
->=20
-> #ifdef CONFIG_KASAN
->=C2=A0 =C2=A0 =C2=A0 =C2=A0 bl=C2=A0 =C2=A0 =C2=A0 kasan_early_init
-> #endif
-> =C2=A0=C2=A0=C2=A0 mov=C2=A0 =C2=A0 lr, #0
-> =C2=A0=C2=A0=C2=A0 b=C2=A0 =C2=A0 =C2=A0 start_kernel
-> ENDPROC(__mmap_switched)
->=20
-> ....
-> 8<----------------------------------------------
->=20
-> Now, I found also that 'KASAN_SHADOW_OFFSET' isn't set due to missing
-> 'CONFIG_KASAN_SHADOW_OFFSET' and so no '-fasan-shadow-offset=3Dxxxxx' is
-> added. Can that be the reason why my board isn't booted anymore?
+Thanks for that hint, I will try this series too :) I read that you
+wanna prepare a v7 but didn't found it ^^
 
-The latest that I have is here, though not yet submitted since I needed
-to solve one issue on a specific platform with a lot of memory:
+> Can you share your branch as well? I did not pick all of Arnd's patches
+> since some appeared to be seemingly independent from KASan on ARM. This
+> is the KASAN related options that are set in my configuration:
 
-https://github.com/ffainelli/linux/pull/new/kasan-v7
+Of course I will push it to github and inform you shortly.
 
-Can you share your branch as well? I did not pick all of Arnd's patches
-since some appeared to be seemingly independent from KASan on ARM. This
-is the KASAN related options that are set in my configuration:
+> grep KASAN build/linux-custom/.config
+> CONFIG_HAVE_ARCH_KASAN=y
+> CONFIG_CC_HAS_KASAN_GENERIC=y
+> CONFIG_KASAN=y
+> CONFIG_KASAN_GENERIC=y
+> CONFIG_KASAN_OUTLINE=y
+> # CONFIG_KASAN_INLINE is not set
+> CONFIG_KASAN_STACK=1
+> CONFIG_TEST_KASAN=m
 
-grep KASAN build/linux-custom/.config
-CONFIG_HAVE_ARCH_KASAN=3Dy
-CONFIG_CC_HAS_KASAN_GENERIC=3Dy
-CONFIG_KASAN=3Dy
-CONFIG_KASAN_GENERIC=3Dy
-CONFIG_KASAN_OUTLINE=3Dy
+My config is:
+
+CONFIG_HAVE_ARCH_KASAN=y
+CONFIG_CC_HAS_KASAN_GENERIC=y
+CONFIG_KASAN=y
+CONFIG_KASAN_GENERIC=y
+CONFIG_KASAN_OUTLINE=y
 # CONFIG_KASAN_INLINE is not set
-CONFIG_KASAN_STACK=3D1
-CONFIG_TEST_KASAN=3Dm
+CONFIG_KASAN_STACK=1
+# CONFIG_TEST_KASAN is not set
 
-are you using something different by any chance?
---=20
-Florian
-_______________________________________________
-kvmarm mailing list
-kvmarm@lists.cs.columbia.edu
-https://lists.cs.columbia.edu/mailman/listinfo/kvmarm
- =20
+> are you using something different by any chance?
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/231794607.364474.1573784017752%40mail.yahoo.com.
+Unfortunately not.
 
-------=_Part_364473_1006591184.1573784017750
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Regards,
+  Marco
 
-<html><head></head><body><div class=3D"ydp4bb2ab2ayahoo-style-wrap" style=
-=3D"font-family:Helvetica Neue, Helvetica, Arial, sans-serif;font-size:16px=
-;"><div></div>
-        <div dir=3D"ltr" data-setdir=3D"false"><div><div>[::1]:2869&nbsp; &=
-nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;hp-PC:53166&nbsp; &nbsp;&nbsp;</div=
-></div>ios 2.1.2 I sign on it</div><div><br></div>
-       =20
-        </div><div id=3D"yahoo_quoted_3822534166" class=3D"yahoo_quoted">
-            <div style=3D"font-family:'Helvetica Neue', Helvetica, Arial, s=
-ans-serif;font-size:13px;color:#26282a;">
-               =20
-                <div>
-                    Dne petek, 15. november 2019 00:01:38 GMT+1 je uporabni=
-k Florian Fainelli &lt;f.fainelli@gmail.com&gt; napisal:
-                </div>
-                <div><br></div>
-                <div><br></div>
-                <div><div dir=3D"ltr">Hello Marco,<br></div><div dir=3D"ltr=
-"><br></div><div dir=3D"ltr">On 11/14/19 10:12 AM, Marco Felsch wrote:<br><=
-/div><div dir=3D"ltr">&gt; Hi Florian,<br></div><div dir=3D"ltr">&gt; <br><=
-/div><div dir=3D"ltr">&gt; first of all, many thanks for your work on this =
-series =3D) I picked your<br></div><div dir=3D"ltr">&gt; and Arnd patches t=
-o make it compilable. Now it's compiling but my imx6q<br></div><div dir=3D"=
-ltr">&gt; board didn't boot anymore. I debugged the code and found that the=
- branch<br></div><div dir=3D"ltr">&gt; to 'start_kernel' won't be reached<b=
-r></div><div dir=3D"ltr">&gt; <br></div><div dir=3D"ltr">&gt; 8&lt;------- =
-arch/arm/kernel/head-common.S -------<br></div><div dir=3D"ltr">&gt; ....<b=
-r></div><div dir=3D"ltr">&gt; <br></div><div dir=3D"ltr">&gt; #ifdef CONFIG=
-_KASAN<br></div><div dir=3D"ltr">&gt;&nbsp; &nbsp; &nbsp; &nbsp;  bl&nbsp; =
-&nbsp; &nbsp; kasan_early_init<br></div><div dir=3D"ltr">&gt; #endif<br></d=
-iv><div dir=3D"ltr">&gt; &nbsp;&nbsp;&nbsp; mov&nbsp; &nbsp;  lr, #0<br></d=
-iv><div dir=3D"ltr">&gt; &nbsp;&nbsp;&nbsp; b&nbsp; &nbsp; &nbsp;  start_ke=
-rnel<br></div><div dir=3D"ltr">&gt; ENDPROC(__mmap_switched)<br></div><div =
-dir=3D"ltr">&gt; <br></div><div dir=3D"ltr">&gt; ....<br></div><div dir=3D"=
-ltr">&gt; 8&lt;----------------------------------------------<br></div><div=
- dir=3D"ltr">&gt; <br></div><div dir=3D"ltr">&gt; Now, I found also that 'K=
-ASAN_SHADOW_OFFSET' isn't set due to missing<br></div><div dir=3D"ltr">&gt;=
- 'CONFIG_KASAN_SHADOW_OFFSET' and so no '-fasan-shadow-offset=3Dxxxxx' is<b=
-r></div><div dir=3D"ltr">&gt; added. Can that be the reason why my board is=
-n't booted anymore?<br></div><div dir=3D"ltr"><br></div><div dir=3D"ltr">Th=
-e latest that I have is here, though not yet submitted since I needed<br></=
-div><div dir=3D"ltr">to solve one issue on a specific platform with a lot o=
-f memory:<br></div><div dir=3D"ltr"><br></div><div dir=3D"ltr"><a href=3D"h=
-ttps://github.com/ffainelli/linux/pull/new/kasan-v7" target=3D"_blank">http=
-s://github.com/ffainelli/linux/pull/new/kasan-v7</a><br></div><div dir=3D"l=
-tr"><br></div><div dir=3D"ltr">Can you share your branch as well? I did not=
- pick all of Arnd's patches<br></div><div dir=3D"ltr">since some appeared t=
-o be seemingly independent from KASan on ARM. This<br></div><div dir=3D"ltr=
-">is the KASAN related options that are set in my configuration:<br></div><=
-div dir=3D"ltr"><br></div><div dir=3D"ltr">grep KASAN build/linux-custom/.c=
-onfig<br></div><div dir=3D"ltr">CONFIG_HAVE_ARCH_KASAN=3Dy<br></div><div di=
-r=3D"ltr">CONFIG_CC_HAS_KASAN_GENERIC=3Dy<br></div><div dir=3D"ltr">CONFIG_=
-KASAN=3Dy<br></div><div dir=3D"ltr">CONFIG_KASAN_GENERIC=3Dy<br></div><div =
-dir=3D"ltr">CONFIG_KASAN_OUTLINE=3Dy<br></div><div dir=3D"ltr"># CONFIG_KAS=
-AN_INLINE is not set<br></div><div dir=3D"ltr">CONFIG_KASAN_STACK=3D1<br></=
-div><div dir=3D"ltr">CONFIG_TEST_KASAN=3Dm<br></div><div dir=3D"ltr"><br></=
-div><div dir=3D"ltr">are you using something different by any chance?<br></=
-div><div dir=3D"ltr">-- <br></div><div dir=3D"ltr">Florian<br></div><div di=
-r=3D"ltr">_______________________________________________<br></div><div dir=
-=3D"ltr">kvmarm mailing list<br></div><div dir=3D"ltr"><a ymailto=3D"mailto=
-:kvmarm@lists.cs.columbia.edu" href=3D"mailto:kvmarm@lists.cs.columbia.edu"=
->kvmarm@lists.cs.columbia.edu</a><br></div><div dir=3D"ltr"><a href=3D"http=
-s://lists.cs.columbia.edu/mailman/listinfo/kvmarm" target=3D"_blank">https:=
-//lists.cs.columbia.edu/mailman/listinfo/kvmarm</a><br></div></div>
-            </div>
-        </div></body></html>
+> -- 
+> Florian
+> 
 
-<p></p>
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
 
--- <br />
-You received this message because you are subscribed to the Google Groups &=
-quot;kasan-dev&quot; group.<br />
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
-+unsubscribe@googlegroups.com</a>.<br />
-To view this discussion on the web visit <a href=3D"https://groups.google.c=
-om/d/msgid/kasan-dev/231794607.364474.1573784017752%40mail.yahoo.com?utm_me=
-dium=3Demail&utm_source=3Dfooter">https://groups.google.com/d/msgid/kasan-d=
-ev/231794607.364474.1573784017752%40mail.yahoo.com</a>.<br />
-
-------=_Part_364473_1006591184.1573784017750--
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20191115070842.2x7psp243nfo76co%40pengutronix.de.
