@@ -1,150 +1,143 @@
-Return-Path: <kasan-dev+bncBAABBLE7XLXAKGQEMRMSFJQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBNNEXLXAKGQETB45D3A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33b.google.com (mail-wm1-x33b.google.com [IPv6:2a00:1450:4864:20::33b])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE6D5FDC75
-	for <lists+kasan-dev@lfdr.de>; Fri, 15 Nov 2019 12:44:44 +0100 (CET)
-Received: by mail-wm1-x33b.google.com with SMTP id g13sf5527769wme.0
-        for <lists+kasan-dev@lfdr.de>; Fri, 15 Nov 2019 03:44:44 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1573818284; cv=pass;
+Received: from mail-lf1-x137.google.com (mail-lf1-x137.google.com [IPv6:2a00:1450:4864:20::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 920EAFDCBC
+	for <lists+kasan-dev@lfdr.de>; Fri, 15 Nov 2019 12:55:33 +0100 (CET)
+Received: by mail-lf1-x137.google.com with SMTP id v13sf3032080lfq.2
+        for <lists+kasan-dev@lfdr.de>; Fri, 15 Nov 2019 03:55:33 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1573818933; cv=pass;
         d=google.com; s=arc-20160816;
-        b=YVxnkV3zp9Cr9VMa7u+11Cx7GFsLR2mWZsjHARzViEe71zdbiGL0HPtg343K/kXtnS
-         Ov8G+L7t0qzy/Lsvc/dKGXPFcc4U4pHBd0Vu87dlSRoGrdU5BIWrHby9jdxol2pAk6H+
-         R9Uu1ySkzVQ4ksrVdmPxAZCPn08wzLQvOr3pexUooxAGhKIRJSY1fbnozqJonK73vGZK
-         r9/f9MPHCT5AvUDwl3rX0gl4Pwm0P4tsBN+BlKZKrVc5DuXV8YJgeAzQWigfyKRB9g9I
-         S7LBs97Nsh1vlBzYDT8oamg/U/230QDaTCCjo0XeanYqGjJSmN6TzSGyOroIJcFxzcZd
-         VS1g==
+        b=qrLgbE7krgUs5Cqltmpi0wQ/rNgdDvOODLLo0Nes6T3OzFXFLnc7TaLohTzI3VeRsV
+         5pnvuwuenYEJswB5XQ+XBwCLXHeQZODU9zyRRCcNmkTDMqhznWJBEdpLV3KPgah8Pk7S
+         XgEHyHAwKXKVImfM8AepyvfuYNGCzR+ZUrMNz0kV7V7bkDWWyJk0+gJ2bQm1aJohToSO
+         F99WVch2StYKZg+dgnsOHuFFv4fwE0MhSY7jwDR2ONqr+yhfIW5JyYPwdkLjxPE/L7Hh
+         AVBLCfKuSg+8inn+ouSc5j75MbY8JGP6rDprNVJ+V7Sr+rHcuwM68HA/seLP8DWdyJWO
+         jjuQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:user-agent:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:sender:dkim-signature;
-        bh=MDIFgV/tOKjhoz7dIkcA01Z+JtmnnX7x6U1qwFxuVT4=;
-        b=WRYS6RtvqKJCMUXOL5TnbCb+u4kpiISkjF5TXiWDVFJUaqKWd/+BBBFEI9KqiJY2F6
-         QYaTpuqZq7/dSVPb0IbvR3j6tLgQqDb1FqwYf3F+0hOL1Z+HeisQ/EKGd3hrAggm/SjX
-         +kSEzdu7Xxeo3fZGNN1h+PaPul5odgnW2NzeY6ItdvEy80WceRoqUCD3xo1qSSi6ZX5O
-         dBLhYvNU4dbrRpJ6IIAcuuw5W1V3iAxO58IR2RtquBXsPa/yN9jD3b17hlN1wfMuYkYc
-         XOioiCKFC1E9XMFTMIM6y9y9FDqNXwPb2AdmaalXvC4HWd/0w0TKAArsUfa8rQ7apmjo
-         prvQ==
+         :list-id:mailing-list:precedence:reply-to:user-agent:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:to
+         :from:date:dkim-signature;
+        bh=RTyNAB+v2cv2prRWlMfWu96bCntWN8vnTLpXEH3ajws=;
+        b=YLaDtenTMHbraz68Gby2fmWvQhwwJ/f7varagwxkqa84eYRTX6E7UfPmjNiBfxWU+d
+         z3dNjUNUg6tlW4FJLPuwLxyl0gGE969SjICxW1Kx2+PCLGAyIoefny3HAl5R6qJIwo2t
+         e2cNu58so6KrEdziXItL5m79sJwrVnOtxY0Px5h4DwLLNg1vUzv33asX83omSMtWMlgg
+         WauuZcDLwxXwj19dFwE8gR3udc3kBh4FIiNP+GjAQq1unAjtwekHb/uQdKE2JKNk8sx1
+         5pUSgS62FlbFbxRRNWEN3Z17L0jIspvVX9x6RrF0qchEFDSmu6s+ZJpVXpmvjp4bUuv2
+         Qncw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of mfe@pengutronix.de designates 2001:67c:670:201:290:27ff:fe1d:cc33 as permitted sender) smtp.mailfrom=mfe@pengutronix.de
+       dkim=pass header.i=@google.com header.s=20161025 header.b=d37xtxs0;
+       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::341 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+        h=date:from:to:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=MDIFgV/tOKjhoz7dIkcA01Z+JtmnnX7x6U1qwFxuVT4=;
-        b=aTmKO+P9XK3TQ8E/TmjeC/amlxz53qddu6vgfLWzOy0hCU1LWodTGjNQN1uLPU89M9
-         7n95kgl7oT8rSTL7cPfYdi6zw1ZIVaZBaeWzAWOr7pwA7MpSPwWB3hBxWhy5Dux7Pw1K
-         l8LXvHi0XaVgL7/stP1GmCofMIiTq3zMVpjSin+AeWJ+DJkdppYYXZlHuL0Ze4iA4jC3
-         U3qtszf4RnebaLacO9T8W3V7mkKa9ZkNHFELQ9NbWera2vsdnDeYuHXPT08XdDaWLTKB
-         vXvHn1Wf/mJbj6VPIfAuTwPv1aM3yAdl5SElExapcF0o3qI5Z+8BpgHAChTw+l+ojcm2
-         WWoA==
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:list-post:list-help:list-archive:list-subscribe
+         :list-unsubscribe;
+        bh=RTyNAB+v2cv2prRWlMfWu96bCntWN8vnTLpXEH3ajws=;
+        b=MRk0rbcQHSN9hjn8ZClk3H5gPuMc6gPohr3Rb6ubOjdQNuAK1k3z/2bI5ciP5tdJkD
+         lV9H7yT4jvrFm4PPtbKKZYGZ5vtj6+srjTrIfm3CST/yQrJHe9b9RoYyh1o2SlHXvTTX
+         XCl8NqAdVrfqsJamhmgyTgzhQvVIuyB+lUtGfJaPvUizgMYIv4BJ1JMSNqErpQGHaLdQ
+         plHNfE9dv/563UVn7VxfvDcr0fM9NaRgKxqltXECzZVv5wnCZpY6YeV28vCc4NIxTMFP
+         IFpMY3iYVoRNKjQ8pYEOSa7SJAqyDoRX2p3zhRtZIadi5/4l2mVqpoUB+CcN7Ouliztb
+         QfHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=MDIFgV/tOKjhoz7dIkcA01Z+JtmnnX7x6U1qwFxuVT4=;
-        b=PeS25FXWFtwQpPTGhKEgv8uINMl8iyZINVem11rhgaozikEvlPYbTpvlclgSFXyMVw
-         QrpDjQBPlymMS1tn1Ps+ZbjS66YaQdwfcECOMYcn8C1265GmWrWAdLY4LJ/y2xK1Is30
-         ueNOXulHjtTKtY3hZ99q6vh/m5lOi6jtkIgyuwmrmK3cDkSELh74LGXdjU9Qhey9o/yi
-         1t/9SyxYz4v93tChqdlZkx1UHpsW4k5X0wB9RdidYcdou3uC9wKePMdV8x8w8iDmpevX
-         2I0dZ8uxhDJGHEj55x+n2CuUNz66uqEdsT01zYfNxd0wmZAnhbx2L3Le1S1RGxefykhG
-         VWKg==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAV64kYUP8IN2x6xOTqg/uLyA2XDi9CkHcyVaYqxB1eKexHGrGtZ
-	7nRJp3kWAl10xfA7lyysrN8=
-X-Google-Smtp-Source: APXvYqw9yhgcyE6mzZlajVjrwOGBSeVHoUDc1j30rUZn9ku/AS85R7enm9gknrW1zZSGXWEVKRmiVg==
-X-Received: by 2002:a5d:48c8:: with SMTP id p8mr15551714wrs.318.1573818284295;
-        Fri, 15 Nov 2019 03:44:44 -0800 (PST)
+        h=x-gm-message-state:date:from:to:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent
+         :x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=RTyNAB+v2cv2prRWlMfWu96bCntWN8vnTLpXEH3ajws=;
+        b=SdWnf8eUTYUg6x7RoJ4aBMbmaQG6yj46LvUsl9gOdvPcQZjAm7Sw5mDTcjqOQ2Grw2
+         NRhQoemj2WdkLWEw+83lJnknirdow1MSMm/J06NIwHjaLgtBYSf/k7jBa0KxHN3nYP1q
+         Wr2eoABZcllqI92ceN5dJty/pl6LLpqsWJVAIS69dHctoflz5C1savswHzmvA7kvde+d
+         FzadBLsO89RP02r6Qmmltd54ELqIycKUjEnyjQycAaeLS5zQ52ZrJa2rMLF/YKWaHTGe
+         IAB5L8gfAHqfRv/jrRLW2xn8hkeas1rWrrwycKLBH3u8VlU6kMeCoLPmn0n9KVzMVfoE
+         yLcQ==
+X-Gm-Message-State: APjAAAVRn5RIbmIrKZhQ5GCJcgR0wx6K2oHHEejltpnFWVBLUD1vJMnX
+	0bIB01/O9S5Gf5LcCSRG9uo=
+X-Google-Smtp-Source: APXvYqwCgtyZVokQwsLFGRJSEz7ny5/SMo3Ti2eJHWwtTj680KTPp4EVUAzE5CXhVc6jrmSaghISbA==
+X-Received: by 2002:a2e:9083:: with SMTP id l3mr11114198ljg.127.1573818933181;
+        Fri, 15 Nov 2019 03:55:33 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a1c:387:: with SMTP id 129ls15344218wmd.3.canary-gmail; Fri,
- 15 Nov 2019 03:44:43 -0800 (PST)
-X-Received: by 2002:a7b:c632:: with SMTP id p18mr14234663wmk.73.1573818283950;
-        Fri, 15 Nov 2019 03:44:43 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1573818283; cv=none;
+Received: by 2002:a19:40d7:: with SMTP id n206ls1686739lfa.10.gmail; Fri, 15
+ Nov 2019 03:55:32 -0800 (PST)
+X-Received: by 2002:ac2:5503:: with SMTP id j3mr2210138lfk.8.1573818932424;
+        Fri, 15 Nov 2019 03:55:32 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1573818932; cv=none;
         d=google.com; s=arc-20160816;
-        b=LUi2crQ2cqIcCR4XPPkd+ftDGsge8zPGI1F6TtmveBW2tNPScMMGujlQvFwfiENCCK
-         pjhTkkbCvcaC/JkXrTbAHSMc2d/m2WXN0gNghGqa4iuQShUbfULwx3CvIp0pms76HrOg
-         3hnfen7e5YPy/dfzqmTtVkd8FnVdyuo/dZW8ijxUfBqMFWRtSrE+Y6dFcfgAZvv1Kdyc
-         C6ITf/iF9EDBK9C8UbQOYzbeerBQqEfxaVIBK0k0Gci44D43pX2pXA8Zlvv1uQkPyo3U
-         pS2d1E0R5355w/nkVZ22nawu1/UDItwWKmKzLotHNw+qrl1tpfYAiWnxSWAyp7ZLrnNi
-         mKLg==
+        b=r/bXFXqbncyAw6fn8Mm33UUApV3rpcK+EFvPTtXkr0jB5l5I12W2CuW5OL2XLLE1aT
+         jsBnvs6mYZ8saCCNI6nIC3fXxh5lkGo/eoqvkMhekEf/MAfguIafBbH+3bnaJadVkYkj
+         BSw/gF/gz8zUDdd5x4gluSYMCWSAmucgVHsfwIQB+qPCqQ9qNM/gG7cFRTE7/yCkRH7N
+         4MEBD1TFAoJR1IrUUG+H+zWzZt6hZrpw1cdZfuN1rZb12NsR6iOwxRYdlX/ohyrtF7ZM
+         y4KmwLSLtPa+g0eIR73THO8NVvx8cjhKV4IwR/pAaIUUMwwi9rGfqjLiM5uq3Z1JZlKT
+         IPyA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date;
-        bh=vQ5lcC3H4qOgke9+oJRcyPaE03+uFexHlMr3n5xn+Xk=;
-        b=b2WfRbHTn+3WPe8dkSqLF6rlfSPgjYjQPG2lOK6mfvTwPVn3jbIyD+GySDCA+2n9Jo
-         KDLkC0QG1ZTlt+xLT7BIRC/i62Pyf0Od3fOi3VrDfoVycATjHrwB7LJWYez0Pl+ZXvir
-         zRuq1g+KW+07n2wJO9BVJcStU1eHYqVBubPQd2mO4gCT18fA/aGdXHO/bzx9lcrNwmtl
-         Hbt0bcYB+3WiLOuOShmb9ng0cp3S+jNXSuQTCshMVaWfqS69l/VdUdbd/xkQjwQzX0WM
-         GrooPKwcS3V/g2xYv0Gghdu8DEOvuBNCvoWfZMnPhKQJ6oEJHP/LXul1/GnRZ/kQELyd
-         io9Q==
+         :message-id:subject:to:from:date:dkim-signature;
+        bh=Y2n2+Uz9lfxeIcRjHd5xKcgiwSj7xMIx4TZvu7ih+9A=;
+        b=K7DUQ57D7efCXvprDQYbWAHzUrfhkFFD707bsMDf2Oy2VBF8jX/JxPRE4z58zlzHce
+         SxuH3ifzOxP3b2KF/uoZTFkr/QSWwI1l634eNeLXw1EDpqXnyY+6PCEvDT+wCE7yqQXN
+         N748umI/qKDMnw3nhdwhS8+qmq0j3ps5PwGELnbqxFdf6iMFT6dS3ckP6+0f6uduweLm
+         SGSQfZ/vsoR6XqN8qTLUIhzCc4BVbvuJMao6+XIhtqHwzPo5dFWYUe2TyNwOD4QFWfi1
+         GK2YgMBx8NKE6dKkidWOBltPpcGzkc9ZGPYAhIBRtY+vKPj5+JHnifwDpyWQEq7TMJoP
+         BvHQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of mfe@pengutronix.de designates 2001:67c:670:201:290:27ff:fe1d:cc33 as permitted sender) smtp.mailfrom=mfe@pengutronix.de
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de. [2001:67c:670:201:290:27ff:fe1d:cc33])
-        by gmr-mx.google.com with ESMTPS id x2si468425wrv.1.2019.11.15.03.44.43
+       dkim=pass header.i=@google.com header.s=20161025 header.b=d37xtxs0;
+       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::341 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com. [2a00:1450:4864:20::341])
+        by gmr-mx.google.com with ESMTPS id h21si660135lja.5.2019.11.15.03.55.32
         for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 15 Nov 2019 03:55:32 -0800 (PST)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::341 as permitted sender) client-ip=2a00:1450:4864:20::341;
+Received: by mail-wm1-x341.google.com with SMTP id b17so10088636wmj.2
+        for <kasan-dev@googlegroups.com>; Fri, 15 Nov 2019 03:55:32 -0800 (PST)
+X-Received: by 2002:a1c:6a0d:: with SMTP id f13mr14719193wmc.164.1573818931176;
+        Fri, 15 Nov 2019 03:55:31 -0800 (PST)
+Received: from google.com ([100.105.32.75])
+        by smtp.gmail.com with ESMTPSA id d202sm8926257wmd.47.2019.11.15.03.55.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Nov 2019 03:44:43 -0800 (PST)
-Received-SPF: pass (google.com: domain of mfe@pengutronix.de designates 2001:67c:670:201:290:27ff:fe1d:cc33 as permitted sender) client-ip=2001:67c:670:201:290:27ff:fe1d:cc33;
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
-	by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1iVa1Z-0007QU-T6; Fri, 15 Nov 2019 12:44:25 +0100
-Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1iVa1Q-0008K2-Ab; Fri, 15 Nov 2019 12:44:16 +0100
-Date: Fri, 15 Nov 2019 12:44:16 +0100
-From: Marco Felsch <m.felsch@pengutronix.de>
-To: Florian Fainelli <f.fainelli@gmail.com>
-Cc: mark.rutland@arm.com, alexandre.belloni@bootlin.com, mhocko@suse.com,
-	julien.thierry@arm.com, catalin.marinas@arm.com,
-	christoffer.dall@arm.com, dhowells@redhat.com,
-	yamada.masahiro@socionext.com, ryabinin.a.a@gmail.com,
-	glider@google.com, kvmarm@lists.cs.columbia.edu, corbet@lwn.net,
-	liuwenliang@huawei.com, daniel.lezcano@linaro.org,
-	linux@armlinux.org.uk, kasan-dev@googlegroups.com,
-	geert@linux-m68k.org, dvyukov@google.com,
-	bcm-kernel-feedback-list@broadcom.com, drjones@redhat.com,
-	vladimir.murzin@arm.com, keescook@chromium.org, arnd@arndb.de,
-	marc.zyngier@arm.com, andre.przywara@arm.com, pombredanne@nexb.com,
-	jinb.park7@gmail.com, tglx@linutronix.de, kernel@pengutronix.de,
-	linux-arm-kernel@lists.infradead.org, nico@fluxnic.net,
-	gregkh@linuxfoundation.org, ard.biesheuvel@linaro.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	rob@landley.net, philip@cog.systems, akpm@linux-foundation.org,
-	thgarnie@google.com, kirill.shutemov@linux.intel.com
-Subject: Re: [PATCH v6 0/6] KASan for arm
-Message-ID: <20191115114416.ba6lmwb7q4gmepzc@pengutronix.de>
-References: <20190617221134.9930-1-f.fainelli@gmail.com>
- <20191114181243.q37rxoo3seds6oxy@pengutronix.de>
- <7322163f-e08e-a6b7-b143-e9d59917ee5b@gmail.com>
- <20191115070842.2x7psp243nfo76co@pengutronix.de>
+        Fri, 15 Nov 2019 03:55:30 -0800 (PST)
+Date: Fri, 15 Nov 2019 12:55:24 +0100
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+To: akiyks@gmail.com, stern@rowland.harvard.edu, glider@google.com,
+	parri.andrea@gmail.com, andreyknvl@google.com, luto@kernel.org,
+	ard.biesheuvel@linaro.org, arnd@arndb.de, boqun.feng@gmail.com,
+	bp@alien8.de, dja@axtens.net, dlustig@nvidia.com,
+	dave.hansen@linux.intel.com, dhowells@redhat.com,
+	dvyukov@google.com, hpa@zytor.com, mingo@redhat.com,
+	j.alglave@ucl.ac.uk, joel@joelfernandes.org, corbet@lwn.net,
+	jpoimboe@redhat.com, luc.maranget@inria.fr, mark.rutland@arm.com,
+	npiggin@gmail.com, paulmck@kernel.org, peterz@infradead.org,
+	tglx@linutronix.de, will@kernel.org, edumazet@google.com,
+	kasan-dev@googlegroups.com, linux-arch@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-efi@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, x86@kernel.org
+Subject: Re: [PATCH v4 08/10] asm-generic, kcsan: Add KCSAN instrumentation
+ for bitops
+Message-ID: <20191115115524.GA77379@google.com>
+References: <20191114180303.66955-1-elver@google.com>
+ <20191114180303.66955-9-elver@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <20191115070842.2x7psp243nfo76co@pengutronix.de>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-IRC: #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 12:28:52 up  2:47, 19 users,  load average: 0.00, 0.04, 0.03
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: kasan-dev@googlegroups.com
-X-Original-Sender: m.felsch@pengutronix.de
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of mfe@pengutronix.de designates 2001:67c:670:201:290:27ff:fe1d:cc33
- as permitted sender) smtp.mailfrom=mfe@pengutronix.de
+In-Reply-To: <20191114180303.66955-9-elver@google.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Original-Sender: elver@google.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@google.com header.s=20161025 header.b=d37xtxs0;       spf=pass
+ (google.com: domain of elver@google.com designates 2a00:1450:4864:20::341 as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -157,105 +150,198 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hi Florian,
+Signed-off-by: Marco Elver <elver@google.com>
+---
+Tentative version of the bitops patch that applies with the new
+instrumented bitops infrastructure currently in linux-next. (Note that
+that test_bit() is an atomic bitop, but is currently in the wrong
+header.)
 
-On 19-11-15 08:08, Marco Felsch wrote:
-> Hi Florian,
-> 
-> On 19-11-14 15:01, Florian Fainelli wrote:
-> > Hello Marco,
-> > 
-> > On 11/14/19 10:12 AM, Marco Felsch wrote:
-> > > Hi Florian,
-> > > 
-> > > first of all, many thanks for your work on this series =) I picked your
-> > > and Arnd patches to make it compilable. Now it's compiling but my imx6q
-> > > board didn't boot anymore. I debugged the code and found that the branch
-> > > to 'start_kernel' won't be reached
-> > > 
-> > > 8<------- arch/arm/kernel/head-common.S -------
-> > > ....
-> > > 
-> > > #ifdef CONFIG_KASAN
-> > >         bl      kasan_early_init
-> > > #endif
-> > > 	mov     lr, #0
-> > > 	b       start_kernel
-> > > ENDPROC(__mmap_switched)
-> > > 
-> > > ....
-> > > 8<----------------------------------------------
-> > > 
-> > > Now, I found also that 'KASAN_SHADOW_OFFSET' isn't set due to missing
-> > > 'CONFIG_KASAN_SHADOW_OFFSET' and so no '-fasan-shadow-offset=xxxxx' is
-> > > added. Can that be the reason why my board isn't booted anymore?
-> > 
-> > The latest that I have is here, though not yet submitted since I needed
-> > to solve one issue on a specific platform with a lot of memory:
-> > 
-> > https://github.com/ffainelli/linux/pull/new/kasan-v7
-> 
-> Thanks for that hint, I will try this series too :) I read that you
-> wanna prepare a v7 but didn't found it ^^
-> 
-> > Can you share your branch as well? I did not pick all of Arnd's patches
-> > since some appeared to be seemingly independent from KASan on ARM. This
-> > is the KASAN related options that are set in my configuration:
-> 
-> Of course I will push it to github and inform you shortly.
+Otherwise there is no functional change compared to v4 that applies to
+mainline.
 
-Here comes the link:
-https://github.com/medude/linux/tree/v5.4/topic/kasan-arm.v7
+---
+ include/asm-generic/bitops/instrumented-atomic.h     | 7 +++++++
+ include/asm-generic/bitops/instrumented-lock.h       | 5 +++++
+ include/asm-generic/bitops/instrumented-non-atomic.h | 8 ++++++++
+ 3 files changed, 20 insertions(+)
 
-I just applied Arnds Patche which you didn't added into your v7.
-
-> > grep KASAN build/linux-custom/.config
-> > CONFIG_HAVE_ARCH_KASAN=y
-> > CONFIG_CC_HAS_KASAN_GENERIC=y
-> > CONFIG_KASAN=y
-> > CONFIG_KASAN_GENERIC=y
-> > CONFIG_KASAN_OUTLINE=y
-> > # CONFIG_KASAN_INLINE is not set
-> > CONFIG_KASAN_STACK=1
-> > CONFIG_TEST_KASAN=m
-> 
-> My config is:
-> 
-> CONFIG_HAVE_ARCH_KASAN=y
-> CONFIG_CC_HAS_KASAN_GENERIC=y
-> CONFIG_KASAN=y
-> CONFIG_KASAN_GENERIC=y
-> CONFIG_KASAN_OUTLINE=y
-> # CONFIG_KASAN_INLINE is not set
-> CONFIG_KASAN_STACK=1
-> # CONFIG_TEST_KASAN is not set
-> 
-> > are you using something different by any chance?
-> 
-> Unfortunately not.
-
-With your v7 it is working on my imx6 but unfortunately I can't run my
-gstreamer testcase. My CPU load goes to 100% after starting gstreamer
-and nothing happens.. But the test_kasan module works =) So I decided to
-check a imx6quadplus but this target did not boot.. I used another
-toolchain for the imx6quadplus gcc-9 instead of gcc-8. So it seems that
-something went wrong during compilation. Because you didn't changed
-something within the logic.
-
-I wonder why we must not define the CONFIG_KASAN_SHADOW_OFFSET for arm.
-
-Regards,
-  Marco
-
-> Regards,
->   Marco
-> 
-> > -- 
-> > Florian
-> > 
-> 
+diff --git a/include/asm-generic/bitops/instrumented-atomic.h b/include/asm-generic/bitops/instrumented-atomic.h
+index 18ce3c9e8eec..eb3abf7e5c08 100644
+--- a/include/asm-generic/bitops/instrumented-atomic.h
++++ b/include/asm-generic/bitops/instrumented-atomic.h
+@@ -12,6 +12,7 @@
+ #define _ASM_GENERIC_BITOPS_INSTRUMENTED_ATOMIC_H
+ 
+ #include <linux/kasan-checks.h>
++#include <linux/kcsan-checks.h>
+ 
+ /**
+  * set_bit - Atomically set a bit in memory
+@@ -26,6 +27,7 @@
+ static inline void set_bit(long nr, volatile unsigned long *addr)
+ {
+ 	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
++	kcsan_check_atomic_write(addr + BIT_WORD(nr), sizeof(long));
+ 	arch_set_bit(nr, addr);
+ }
+ 
+@@ -39,6 +41,7 @@ static inline void set_bit(long nr, volatile unsigned long *addr)
+ static inline void clear_bit(long nr, volatile unsigned long *addr)
+ {
+ 	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
++	kcsan_check_atomic_write(addr + BIT_WORD(nr), sizeof(long));
+ 	arch_clear_bit(nr, addr);
+ }
+ 
+@@ -55,6 +58,7 @@ static inline void clear_bit(long nr, volatile unsigned long *addr)
+ static inline void change_bit(long nr, volatile unsigned long *addr)
+ {
+ 	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
++	kcsan_check_atomic_write(addr + BIT_WORD(nr), sizeof(long));
+ 	arch_change_bit(nr, addr);
+ }
+ 
+@@ -68,6 +72,7 @@ static inline void change_bit(long nr, volatile unsigned long *addr)
+ static inline bool test_and_set_bit(long nr, volatile unsigned long *addr)
+ {
+ 	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
++	kcsan_check_atomic_write(addr + BIT_WORD(nr), sizeof(long));
+ 	return arch_test_and_set_bit(nr, addr);
+ }
+ 
+@@ -81,6 +86,7 @@ static inline bool test_and_set_bit(long nr, volatile unsigned long *addr)
+ static inline bool test_and_clear_bit(long nr, volatile unsigned long *addr)
+ {
+ 	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
++	kcsan_check_atomic_write(addr + BIT_WORD(nr), sizeof(long));
+ 	return arch_test_and_clear_bit(nr, addr);
+ }
+ 
+@@ -94,6 +100,7 @@ static inline bool test_and_clear_bit(long nr, volatile unsigned long *addr)
+ static inline bool test_and_change_bit(long nr, volatile unsigned long *addr)
+ {
+ 	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
++	kcsan_check_atomic_write(addr + BIT_WORD(nr), sizeof(long));
+ 	return arch_test_and_change_bit(nr, addr);
+ }
+ 
+diff --git a/include/asm-generic/bitops/instrumented-lock.h b/include/asm-generic/bitops/instrumented-lock.h
+index ec53fdeea9ec..2c80dca31e27 100644
+--- a/include/asm-generic/bitops/instrumented-lock.h
++++ b/include/asm-generic/bitops/instrumented-lock.h
+@@ -12,6 +12,7 @@
+ #define _ASM_GENERIC_BITOPS_INSTRUMENTED_LOCK_H
+ 
+ #include <linux/kasan-checks.h>
++#include <linux/kcsan-checks.h>
+ 
+ /**
+  * clear_bit_unlock - Clear a bit in memory, for unlock
+@@ -23,6 +24,7 @@
+ static inline void clear_bit_unlock(long nr, volatile unsigned long *addr)
+ {
+ 	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
++	kcsan_check_atomic_write(addr + BIT_WORD(nr), sizeof(long));
+ 	arch_clear_bit_unlock(nr, addr);
+ }
+ 
+@@ -38,6 +40,7 @@ static inline void clear_bit_unlock(long nr, volatile unsigned long *addr)
+ static inline void __clear_bit_unlock(long nr, volatile unsigned long *addr)
+ {
+ 	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
++	kcsan_check_write(addr + BIT_WORD(nr), sizeof(long));
+ 	arch___clear_bit_unlock(nr, addr);
+ }
+ 
+@@ -53,6 +56,7 @@ static inline void __clear_bit_unlock(long nr, volatile unsigned long *addr)
+ static inline bool test_and_set_bit_lock(long nr, volatile unsigned long *addr)
+ {
+ 	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
++	kcsan_check_atomic_write(addr + BIT_WORD(nr), sizeof(long));
+ 	return arch_test_and_set_bit_lock(nr, addr);
+ }
+ 
+@@ -72,6 +76,7 @@ static inline bool
+ clear_bit_unlock_is_negative_byte(long nr, volatile unsigned long *addr)
+ {
+ 	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
++	kcsan_check_atomic_write(addr + BIT_WORD(nr), sizeof(long));
+ 	return arch_clear_bit_unlock_is_negative_byte(nr, addr);
+ }
+ /* Let everybody know we have it. */
+diff --git a/include/asm-generic/bitops/instrumented-non-atomic.h b/include/asm-generic/bitops/instrumented-non-atomic.h
+index 95ff28d128a1..8479af8b3309 100644
+--- a/include/asm-generic/bitops/instrumented-non-atomic.h
++++ b/include/asm-generic/bitops/instrumented-non-atomic.h
+@@ -12,6 +12,7 @@
+ #define _ASM_GENERIC_BITOPS_INSTRUMENTED_NON_ATOMIC_H
+ 
+ #include <linux/kasan-checks.h>
++#include <linux/kcsan-checks.h>
+ 
+ /**
+  * __set_bit - Set a bit in memory
+@@ -25,6 +26,7 @@
+ static inline void __set_bit(long nr, volatile unsigned long *addr)
+ {
+ 	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
++	kcsan_check_write(addr + BIT_WORD(nr), sizeof(long));
+ 	arch___set_bit(nr, addr);
+ }
+ 
+@@ -40,6 +42,7 @@ static inline void __set_bit(long nr, volatile unsigned long *addr)
+ static inline void __clear_bit(long nr, volatile unsigned long *addr)
+ {
+ 	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
++	kcsan_check_write(addr + BIT_WORD(nr), sizeof(long));
+ 	arch___clear_bit(nr, addr);
+ }
+ 
+@@ -55,6 +58,7 @@ static inline void __clear_bit(long nr, volatile unsigned long *addr)
+ static inline void __change_bit(long nr, volatile unsigned long *addr)
+ {
+ 	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
++	kcsan_check_write(addr + BIT_WORD(nr), sizeof(long));
+ 	arch___change_bit(nr, addr);
+ }
+ 
+@@ -69,6 +73,7 @@ static inline void __change_bit(long nr, volatile unsigned long *addr)
+ static inline bool __test_and_set_bit(long nr, volatile unsigned long *addr)
+ {
+ 	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
++	kcsan_check_write(addr + BIT_WORD(nr), sizeof(long));
+ 	return arch___test_and_set_bit(nr, addr);
+ }
+ 
+@@ -83,6 +88,7 @@ static inline bool __test_and_set_bit(long nr, volatile unsigned long *addr)
+ static inline bool __test_and_clear_bit(long nr, volatile unsigned long *addr)
+ {
+ 	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
++	kcsan_check_write(addr + BIT_WORD(nr), sizeof(long));
+ 	return arch___test_and_clear_bit(nr, addr);
+ }
+ 
+@@ -97,6 +103,7 @@ static inline bool __test_and_clear_bit(long nr, volatile unsigned long *addr)
+ static inline bool __test_and_change_bit(long nr, volatile unsigned long *addr)
+ {
+ 	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
++	kcsan_check_write(addr + BIT_WORD(nr), sizeof(long));
+ 	return arch___test_and_change_bit(nr, addr);
+ }
+ 
+@@ -108,6 +115,7 @@ static inline bool __test_and_change_bit(long nr, volatile unsigned long *addr)
+ static inline bool test_bit(long nr, const volatile unsigned long *addr)
+ {
+ 	kasan_check_read(addr + BIT_WORD(nr), sizeof(long));
++	kcsan_check_atomic_read(addr + BIT_WORD(nr), sizeof(long));
+ 	return arch_test_bit(nr, addr);
+ }
+ 
+-- 
+2.24.0.432.g9d3f5f5b63-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20191115114416.ba6lmwb7q4gmepzc%40pengutronix.de.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20191115115524.GA77379%40google.com.
