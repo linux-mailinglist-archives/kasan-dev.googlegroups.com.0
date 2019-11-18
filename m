@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBCP4ZTXNRIFBBXMUZPXAKGQEUX7ZPJY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCP4ZTXNRIFBBMFOZPXAKGQEYJK7ISQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ed1-x53a.google.com (mail-ed1-x53a.google.com [IPv6:2a00:1450:4864:20::53a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9011A100967
-	for <lists+kasan-dev@lfdr.de>; Mon, 18 Nov 2019 17:44:13 +0100 (CET)
-Received: by mail-ed1-x53a.google.com with SMTP id f26sf11742524edy.16
-        for <lists+kasan-dev@lfdr.de>; Mon, 18 Nov 2019 08:44:13 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1574095453; cv=pass;
+Received: from mail-lf1-x13d.google.com (mail-lf1-x13d.google.com [IPv6:2a00:1450:4864:20::13d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 018A3100A6A
+	for <lists+kasan-dev@lfdr.de>; Mon, 18 Nov 2019 18:38:57 +0100 (CET)
+Received: by mail-lf1-x13d.google.com with SMTP id g143sf5205270lfd.22
+        for <lists+kasan-dev@lfdr.de>; Mon, 18 Nov 2019 09:38:56 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1574098736; cv=pass;
         d=google.com; s=arc-20160816;
-        b=R+CWHF1ZZxaMA95EdO711yD8/a9atGEpuyDiGWnm1J5cp1K6twCD6bvWi/dkBLz87V
-         ziaKoO+KbIdShpfueBeDZz+6oIymElrI6Z99ynJvby/o9xcbMZFP0MEa4W2pdiqMWCXc
-         bZFqZ+rx23O3N4e6OkMTOPCiaMbJ4GwpPbqViblVEb7f8aXG9UFOscx/K60gEptRgP3T
-         V4pgwffUJj3x1IN8yCMFcFh4wBna3vB2Hywjd84YjNrYwf0wVxqR9TbiIPissJx/HurC
-         QHVaVXbIWQiQQuFbrWM6kBTaaRFVF9Sq5sSdF3Q4kzt01zJgbJmYNTkjCMyKLTm7/KFk
-         Lgkw==
+        b=lR91wAYl0N2rBprg9lO+sRvNzNkOkYmHwb2vepEqgeM5kASYCdmwwQo+50wBj2jKcX
+         g+tgM8g30ylKado7BCiE5e0l4g0//IHpDAwxX9oOjc3KZpFZx0O5ckoRIl1XZtMOPY9b
+         5F9GCeuu/XeNPZ3/we4WU1f9Bbf9kmgFdB3f3Ljw306rjwGucsnDCprUCb5FMCwRqgqv
+         FGlMjBl0D0wM9Ty/5+Kx3Q5q9r0tT4KmHCEjGwGtr7tiBJGfUFN3pjHPexa/sViuOaPs
+         a8GNCQ7ld4k/l5BuOM8xJW941dO8Fc3t6JgpucS0DV/C1hiivxVGUsgC1W9r5mCD5p64
+         kOSA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:user-agent:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:sender:dkim-signature;
-        bh=gVGk7pO/Ik/0JMdQEBb+8a2YP+YoH9wdRObNvVzBlJw=;
-        b=akp2aZG4A8H4yA0u28nEXNUOP1vc2fMY8jDv4U9Vqm3PnMyuqEZI5M/JZ8BbAla827
-         dcE7lgHENZbKiogDa0Zom1QEcncy4ybpHAScmughrwITsHY0IGkeruPn1fP6cg+OvOl3
-         b3L1B4IH8EVIJiOjqTGGnp0mNcWpbH32xMGBVEpAwS/KsAYC+hfuwZlvQk6NcEtq1eeZ
-         BY8GsCqmI7wStVy0xJBPOfp+YzHLI55gwVsriadQuXSy5i4RDRxPZtVOiDEgVqEtZ7Ao
-         2A3enJQEqtRWLxXsXrMecY0AbB03dBP7EaGenIze21/6+k/K/BoOOetBmKysoJ/awxWS
-         AhgQ==
+        bh=3+voi2/jS/jXeH49nTpUVoiWU/ktiCgY13u0knITBFQ=;
+        b=x7hh/N8OAiLQBQ5S6+RwhILFu9OpTsA6aPQLlPzVli/o+s1i48OBEcNPGR+gwIpXBN
+         pffeBht350XIuM+IfrghNfVqZc3/FySGWJwzXb13K7Abv72lXpP9Ajtf3pYFLT92Okpj
+         DQSb4Y3444+mqZ4EY/ZbaxKQxp3V/KC2XjrGnzjlOHr1BSPcwUH9Qs2rRjuU9MogAr5M
+         CJXJYsCyBl4MFa4cbN/QHChZy9alTQCrOlkS511KcEGsqhPgq5I40/G2ZeQ4ywHmdBWy
+         w7epWmrEYIYjcXWsx+5++9gxzj1RfUl/Teu591AZfCx5TjUgxaFDSxrZyRdPbDoIUJ7O
+         MTdQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@alien8.de header.s=dkim header.b=nX8hO1n9;
+       dkim=pass header.i=@alien8.de header.s=dkim header.b=JVrUTk3g;
        spf=pass (google.com: domain of bp@alien8.de designates 5.9.137.197 as permitted sender) smtp.mailfrom=bp@alien8.de;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=alien8.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
@@ -36,13 +36,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :content-disposition:in-reply-to:user-agent:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=gVGk7pO/Ik/0JMdQEBb+8a2YP+YoH9wdRObNvVzBlJw=;
-        b=EHtHsx6MNjfWpmE9eqSjj67ITHfbNxzoYzMY2N4aN6fYxl0vdF7bWp/nUcG+K0xvMK
-         doo7Zcgkwm3JlV5xJvXj40RZwo0qFX8cMWyhUqsH7wCGOzYM6MclzrrOEydV4+ztVfZ7
-         2U5ZqEkrSvFzN4lynL27RQnMdTMJSIn9L1NBlsGDzZ3vPXXo/Jvo1LBHVbQiEAK9VgkS
-         uxYqKJzqNcby9AT2d5uW5IoHHMDYYmHtiSM46V+P4+/COvgRb9dIvn0o6SL9oSxjeNMf
-         FQKB+a8CEXm8TCsAmQh9xzQEhyhac+51cb+4lOaFpB3o66bxgZQF44gyyBOBkSm9Y+Gi
-         nkHQ==
+        bh=3+voi2/jS/jXeH49nTpUVoiWU/ktiCgY13u0knITBFQ=;
+        b=MIViqbmIz2dK8bYHrEMC9DvnwC9UmB2726o69387isngVVSweIfogR6tDxYYvndUhJ
+         qtq4hd1ZtOHnukbYlNdbTQzaUlaFppThUIGav2wncR0pxthLZBAy4EBYMeSaqeLuXktq
+         zGIvEdZgFEJ6yGph3tjvGELjO7qCS5XvheZMwxHkXyzI8uQOSrUJ6M4Bljjx6A7PbfGf
+         vA8YsCkX9g+SFpBl89hYgqpXxNmNWeKsnq6UJGuPNuKPVTp5mLQatpMQnxL7QJ076dwP
+         LA4G1PbhBnRrm9v1mYHt5jE+SGoKViORTEUw6KXGjA9gwtiTe0dzEc+SSFBWWoBJOKqM
+         dAEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
@@ -50,58 +50,58 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=gVGk7pO/Ik/0JMdQEBb+8a2YP+YoH9wdRObNvVzBlJw=;
-        b=GAWi3c/Hh2Aq8b8QdwarqGa3W/+5yuV1lCwN5oH2CzKWpOlyUmB8fp/dZ5FzCDpjmd
-         nlpVHp4q949ytRFawlptJpZqMKRcLbDPYrfS8zsS10I4CIEUSDWvFJnMxPRAIjzlgGz+
-         PO5elGyDL4EhW5LG005ikleZLzPUuzU9Yye3uqpYpYmGUgo++PeBdfoUfiUAG/uF91cr
-         c42yj1rPCL9MmSlHTB+0/G1XJ4hYlXQaG0YXbzYPswv/3paGKHPeNzIRb7AwfD3ZpIoJ
-         5HAkhnpcvqJ4dEk4NoFhpu9dW03NfxpVfhPrTfT0FVpq/eLk3PZ/PUIOSuHncjs+FfN1
-         XF6g==
+        bh=3+voi2/jS/jXeH49nTpUVoiWU/ktiCgY13u0knITBFQ=;
+        b=tW7vRnEibWVs5/w2dZ6Gtf9El47gxZwqwc/0zgJpAyNbp/akiGgJVg5byTrcHN0Xp2
+         U8SwMMRE6nJObNRM5GJqMHuOsrwy8L1i+NZ28RRRSMAKFjDwLb3Z9GfxUENX9yvde8DV
+         H+RfkWp+EEJcqcrgnynUgA6a1mwWcMnk3S6Hhxld0slHAyjgTrhbAEvHzxOjzXT2pMEy
+         xcgc5yjSgjcVAQU1+PfylWJjgUI+gmwbV+zhLKdhuQq4DuvnZhDlUht20dBmto3i0PA6
+         QQviOol26DVa1tOPS6rMkJJXVArJA79MbSU7ka5rXjlmyOMCoH7Uns3zkY9TuByrl2G3
+         rl2g==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAW2Gx2jGll9zB6fZKimOXPvnXZ4x3ROjjOET7dMD2yUF8EUOmwe
-	PqetlHAvXgTrjt/6arHrmRw=
-X-Google-Smtp-Source: APXvYqzTMMAyeD5endSkt04JN/ymkty0w5mbj9PH8JXyiY8XqVqTVXzYHnbqhsESol/l/74nq8hhZQ==
-X-Received: by 2002:a17:906:3f8a:: with SMTP id b10mr27488409ejj.315.1574095453274;
-        Mon, 18 Nov 2019 08:44:13 -0800 (PST)
+X-Gm-Message-State: APjAAAV2cqutmFIXEHH/gu9sHkFgZvjlvTAQLw9PrM9WwBqSK7UJMk/3
+	aK8S0FugBwQB460ce4rTvec=
+X-Google-Smtp-Source: APXvYqzmp8LYl7WLEllr6ORfPgBoidGHCqDropycSIpW0Jd/qnIeRQy/OWTzMAK4p6q7RaiSdtWyVQ==
+X-Received: by 2002:ac2:43c9:: with SMTP id u9mr437489lfl.180.1574098736559;
+        Mon, 18 Nov 2019 09:38:56 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:906:2493:: with SMTP id e19ls5813584ejb.4.gmail; Mon, 18
- Nov 2019 08:44:12 -0800 (PST)
-X-Received: by 2002:a17:906:f108:: with SMTP id gv8mr28618851ejb.180.1574095452793;
-        Mon, 18 Nov 2019 08:44:12 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1574095452; cv=none;
+Received: by 2002:a2e:864f:: with SMTP id i15ls4462759ljj.11.gmail; Mon, 18
+ Nov 2019 09:38:56 -0800 (PST)
+X-Received: by 2002:a2e:2e03:: with SMTP id u3mr467264lju.115.1574098736040;
+        Mon, 18 Nov 2019 09:38:56 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1574098736; cv=none;
         d=google.com; s=arc-20160816;
-        b=OXSkDlrmg8DHE8yv4Lm4aQlQokz8BHZJPrYFb9Kde8fqd/8Bw5U73TagPQnB+AqrDq
-         lMlr67uSD3MM8q0KS9gKkK+M2/wUE6koDDl0WxoNR16Pz9CiaLs2+UsYXsCNl9Az+Jwu
-         /H1J80b2pq3MyGqKwP03MID1mjlj1fBUU9ktvqebJLlBProaG51olyxTJ/a/cjXla8rx
-         ig21zhM5zMEbZTAWpxDk47gSlP2dYIzEmPwcrgZA7oflWhfj6VfQhee2JRyZKpNEhaNL
-         F8tzH8gPPSfBEEKFvYUG0LJA627HoxS4OjP3qHGNpmBUEa/ymJsw2F3eGx7oXDIUSxdy
-         S3VA==
+        b=SaLY7kc5gtg1ZUOwTbryyIR+wT7PCU+4YibGQVaooFQ6DkiHsP6YcSFFRLr9P793wP
+         AWnZTf2OFq2ZHA/8E2J7u3As70Jtubcm0puF3zec5wKkbOSitwFccVkZd2RE/0kVtnY0
+         acYKDHsapg5puctaGuC++49ga+IqVA7v6zkfhOhqdt8qVdsDeDEzEl1aXKI/iMKFOPkL
+         E6JsKUGMVpm4fBV4G+bqMpKPV1zn2T1++bYSxb3SQfgFKm/WPHL2hf2R/rOUCoJ1aq68
+         Suxy0C3NSieAUcHYFQYy13fXI/HTl0HCGzvOJJRlunKlasOIHXOYCrTfXrFi0sCj3xY/
+         j8xg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=user-agent:in-reply-to:content-disposition:mime-version:references
          :message-id:subject:cc:to:from:date:dkim-signature;
-        bh=/12TPIe9NGWwR5n7WZI8L7PfOwYBBYIH7pXbgDhu9SQ=;
-        b=xLser4qNt/HHkXHmayaVA6HzL4vHaU7+5tp0D+x2uVWleZha0RxDSE+S4Stty+aqRI
-         TymvvXcVNh9J1zUAb36yFyVXDbkDd1WEaHP02aAwjYHnaxRrDSSSkjK+qjwF9worPI8c
-         GDLEMreT96I61QrigSrQSuro7MUSU+wTWr05wS/xo+j7m95wVIUInhO2kmAmAj4rM5j4
-         kMNqbWYComqXdICA7/TF5sOy2xHmnvYkjuE4UVaXmXnLTQRPwfhIolYQxAuLnipr5pdq
-         05fggxuPejcYzYZGt1Nfgy/UgJn89Gybi6NMC+YuF8BvHZDgBFFKRk9VdwXEotbIz0HU
-         ej1w==
+        bh=/zpixmJKEK2DyhKs6AeIjcFfA5HziA0TuK8uE0/KAJY=;
+        b=Gn+YH37GyuzgGdYTBGgsrqrf7vw5jRHdg9fPAJf4AFhbmZcrkHOHAdNGSK8tecRu0R
+         W/uUF4xVDLEf79AWz62cdeiWswnatgBSpv5JC5cH67si21LBzWhcfH+dW1QqHRkH0I4+
+         pWEuFEM9y8lWJgh+JqejRvN8Xk75LNW9Eg0/MO6yaRn7aBKN+qhJqvfZpdhdNITR2QvC
+         YoH23hVWw1AEiv8+6VRRPUrgOGSOFNrKi1ZX7nLcoxV9e6cItu8k7/pq9LJiYvO8h5JA
+         DIsL3qiMpKDjWapx0xEXFFE4wjyhp/HzXPNCysqnwZN1t1VdPZN3aalcIKQbRuirt1UF
+         M8/w==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@alien8.de header.s=dkim header.b=nX8hO1n9;
+       dkim=pass header.i=@alien8.de header.s=dkim header.b=JVrUTk3g;
        spf=pass (google.com: domain of bp@alien8.de designates 5.9.137.197 as permitted sender) smtp.mailfrom=bp@alien8.de;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=alien8.de
 Received: from mail.skyhub.de (mail.skyhub.de. [5.9.137.197])
-        by gmr-mx.google.com with ESMTPS id v57si1545927edc.3.2019.11.18.08.44.12
+        by gmr-mx.google.com with ESMTPS id z18si903363lfh.1.2019.11.18.09.38.55
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 18 Nov 2019 08:44:12 -0800 (PST)
+        Mon, 18 Nov 2019 09:38:55 -0800 (PST)
 Received-SPF: pass (google.com: domain of bp@alien8.de designates 5.9.137.197 as permitted sender) client-ip=5.9.137.197;
 Received: from zn.tnic (p200300EC2F27B5003D22FC05E431AFF8.dip0.t-ipconnect.de [IPv6:2003:ec:2f27:b500:3d22:fc05:e431:aff8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 30B521EC0BF8;
-	Mon, 18 Nov 2019 17:44:12 +0100 (CET)
-Date: Mon, 18 Nov 2019 17:44:07 +0100
+	by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 1D1D11EC072D;
+	Mon, 18 Nov 2019 18:38:50 +0100 (CET)
+Date: Mon, 18 Nov 2019 18:38:50 +0100
 From: Borislav Petkov <bp@alien8.de>
 To: Dmitry Vyukov <dvyukov@google.com>, Jann Horn <jannh@google.com>
 Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
@@ -115,21 +115,22 @@ Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
 	Andy Lutomirski <luto@kernel.org>,
 	Sean Christopherson <sean.j.christopherson@intel.com>
 Subject: Re: [PATCH v2 2/3] x86/traps: Print non-canonical address on #GP
-Message-ID: <20191118164407.GH6363@zn.tnic>
+Message-ID: <20191118173850.GL6363@zn.tnic>
 References: <20191115191728.87338-1-jannh@google.com>
  <20191115191728.87338-2-jannh@google.com>
  <20191118142144.GC6363@zn.tnic>
  <CACT4Y+bCOr=du1QEg8TtiZ-X6U+8ZPR4N07rJOeSCsd5h+zO3w@mail.gmail.com>
  <CAG48ez1AWW7FkvU31ahy=0ZiaAreSMz=FFA0u8-XkXT9hNdWKA@mail.gmail.com>
  <CACT4Y+bfF86YY_zEGWO1sK0NwuYgr8Cx0wFewRDq0WL_GBgO0Q@mail.gmail.com>
+ <20191118164407.GH6363@zn.tnic>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <CACT4Y+bfF86YY_zEGWO1sK0NwuYgr8Cx0wFewRDq0WL_GBgO0Q@mail.gmail.com>
+In-Reply-To: <20191118164407.GH6363@zn.tnic>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-Original-Sender: bp@alien8.de
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@alien8.de header.s=dkim header.b=nX8hO1n9;       spf=pass
+ header.i=@alien8.de header.s=dkim header.b=JVrUTk3g;       spf=pass
  (google.com: domain of bp@alien8.de designates 5.9.137.197 as permitted
  sender) smtp.mailfrom=bp@alien8.de;       dmarc=pass (p=NONE sp=NONE
  dis=NONE) header.from=alien8.de
@@ -145,81 +146,27 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, Nov 18, 2019 at 05:29:42PM +0100, Dmitry Vyukov wrote:
-> > And of not having a standard way to signal "this line starts something
-> > that should be reported as a bug"? Maybe as a longer-term idea, it'd
-> > help to have some sort of extra prefix byte that the kernel can print
-> > to say "here comes a bug report, first line should be the subject", or
-> > something like that, similar to how we have loglevels...
+On Mon, Nov 18, 2019 at 05:44:07PM +0100, Borislav Petkov wrote:
+> [    2.523708] Write protecting the kernel read-only data: 16384k
+> [    2.524729] Freeing unused kernel image (text/rodata gap) memory: 2040K
+> [    2.525594] Freeing unused kernel image (rodata/data gap) memory: 368K
+> [    2.541414] x86/mm: Checked W+X mappings: passed, no W+X pages found.
 > 
-> This would be great.
-> Also a way to denote crash end.
-> However we have lots of special logic for subjects, not sure if kernel
-> could provide good subject:
-> https://github.com/google/syzkaller/blob/1daed50ac33511e1a107228a9c3b80e5c4aebb5c/pkg/report/linux.go#L537-L1588
-> Probably it could, but it won't be completely trivial. E.g. if there
-> is a stall inside of a timer function, it should give the name of the
-> actual timer callback as identity ("stall in timer_subsystem_foo"). Or
-> for syscalls we use more disambiguation b/c "in sys_ioclt" is not much
-> different than saying "there is a bug in kernel" :)
+> <--- important first splat starts here:
+> 
+> [    2.542218] [*] general protection fault while derefing a non-canonical address 0xdfff000000000001: 0000 [#1] PREEMPT SMP
+		  ^
 
-While external tools are fine and cool, they can't really block kernel
-development and printk strings format is not an ABI. And yeah, we have
-this discussion each time someone proposes changes to those "magic"
-strings but I guess it is about time to fix this in a way that any
-future changes don't break tools.
+Btw, tglx just suggested on IRC to simply slap the die_counter number here so
+that you have
 
-And so I like the idea of marking *only* the first splat with some small
-prefix char as that first splat is the special and very important one.
-I.e., the one where die_counter is 0.
-
-So I could very well imagine something like:
-
+[    2.543343] [1] CPU: 0 PID: 1 Comm: swapper/0 Not tainted 5.4.0-rc8+ #8
+[    2.544138] [1] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.11.1-1 04/01/2014
 ...
-[    2.523708] Write protecting the kernel read-only data: 16384k
-[    2.524729] Freeing unused kernel image (text/rodata gap) memory: 2040K
-[    2.525594] Freeing unused kernel image (rodata/data gap) memory: 368K
-[    2.541414] x86/mm: Checked W+X mappings: passed, no W+X pages found.
 
-<--- important first splat starts here:
+which also tells you to which splat the line belongs to.
 
-[    2.542218] [*] general protection fault while derefing a non-canonical address 0xdfff000000000001: 0000 [#1] PREEMPT SMP
-[    2.543343] [*] CPU: 0 PID: 1 Comm: swapper/0 Not tainted 5.4.0-rc8+ #8
-[    2.544138] [*] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.11.1-1 04/01/2014
-[    2.545120] [*] RIP: 0010:kernel_init+0x58/0x107
-[    2.546055] [*] Code: 48 c7 c7 e0 5c e7 81 e8 eb d2 90 ff c7 05 77 d6 95 00 02 00 00 00 e8 4e 1d a2 ff e8 69 b7 91 ff 48 b8 01 00 00 00 00 00 ff df <ff> e0 48 8b 3d fe 54 d7 00 48 85 ff 74 22 e8 76 93 84 ff 85 c0 89
-[    2.550242] [*] RSP: 0018:ffffc90000013f50 EFLAGS: 00010246
-[    2.551691] [*] RAX: dfff000000000001 RBX: ffffffff817b7ac9 RCX: 0000000000000040
-[    2.553435] [*] RDX: 0000000000000030 RSI: ffff88807da2f170 RDI: 000000000002f170
-[    2.555169] [*] RBP: 0000000000000000 R08: 00000000000001a6 R09: 00000000ad55ad55
-[    2.556393] [*] R10: 0000000000000000 R11: 0000000000000002 R12: 0000000000000000
-[    2.557268] [*] R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
-[    2.558417] [*] FS:  0000000000000000(0000) GS:ffff88807da00000(0000) knlGS:0000000000000000
-[    2.559370] [*] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[    2.560138] [*] CR2: 0000000000000000 CR3: 0000000002009000 CR4: 00000000003406f0
-[    2.561013] [*] Call Trace:
-[    2.561506] [*]  ret_from_fork+0x22/0x40
-[    2.562080] [*] Modules linked in:
-[    2.583706] [*] ---[ end trace 8ceb5a62d3ebbfa6 ]---
-[    2.584384] [*] RIP: 0010:kernel_init+0x58/0x107
-[    2.584999] [*] Code: 48 c7 c7 e0 5c e7 81 e8 eb d2 90 ff c7 05 77 d6 95 00 02 00 00 00 e8 4e 1d a2 ff e8 69 b7 91 ff 48 b8 01 00 00 00 00 00 ff df <ff> e0 48 8b 3d fe 54 d7 00 48 85 ff 74 22 e8 76 93 84 ff 85 c0 89
-[    2.591746] [*] RSP: 0018:ffffc90000013f50 EFLAGS: 00010246
-[    2.593175] [*] RAX: dfff000000000001 RBX: ffffffff817b7ac9 RCX: 0000000000000040
-[    2.594892] [*] RDX: 0000000000000030 RSI: ffff88807da2f170 RDI: 000000000002f170
-[    2.599706] [*] RBP: 0000000000000000 R08: 00000000000001a6 R09: 00000000ad55ad55
-[    2.600585] [*] R10: 0000000000000000 R11: 0000000000000002 R12: 0000000000000000
-[    2.601433] [*] R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
-[    2.602283] [*] FS:  0000000000000000(0000) GS:ffff88807da00000(0000) knlGS:0000000000000000
-[    2.603207] [*] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[    2.607706] [*] CR2: 0000000000000000 CR3: 0000000002009000 CR4: 00000000003406f0
-[    2.608565] [*] Kernel panic - not syncing: Attempted to kill init! exitcode=0x0000000b
-[    2.609600] [*] Kernel Offset: disabled
-[    2.610168] [*] ---[ end Kernel panic - not syncing: Attempted to kill init! exitcode=0x0000000b ]---
-
-<--- and ends here.
-
-to denote that first splat. And the '*' thing is just an example - it
-can be any char - whatever's easier to grep for.
+Also useful.
 
 Thx.
 
@@ -232,4 +179,4 @@ https://people.kernel.org/tglx/notes-about-netiquette
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20191118164407.GH6363%40zn.tnic.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20191118173850.GL6363%40zn.tnic.
