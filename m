@@ -1,129 +1,138 @@
-Return-Path: <kasan-dev+bncBCQ2XPNX7EOBBMUTZPXAKGQEOPGJ3QI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCP4ZTXNRIFBBXMUZPXAKGQEUX7ZPJY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qk1-x73c.google.com (mail-qk1-x73c.google.com [IPv6:2607:f8b0:4864:20::73c])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7CC810095A
-	for <lists+kasan-dev@lfdr.de>; Mon, 18 Nov 2019 17:41:23 +0100 (CET)
-Received: by mail-qk1-x73c.google.com with SMTP id a129sf11777138qkg.22
-        for <lists+kasan-dev@lfdr.de>; Mon, 18 Nov 2019 08:41:23 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1574095282; cv=pass;
+Received: from mail-ed1-x53a.google.com (mail-ed1-x53a.google.com [IPv6:2a00:1450:4864:20::53a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9011A100967
+	for <lists+kasan-dev@lfdr.de>; Mon, 18 Nov 2019 17:44:13 +0100 (CET)
+Received: by mail-ed1-x53a.google.com with SMTP id f26sf11742524edy.16
+        for <lists+kasan-dev@lfdr.de>; Mon, 18 Nov 2019 08:44:13 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1574095453; cv=pass;
         d=google.com; s=arc-20160816;
-        b=nhM40FmU82HGXXopg2bDN2srBVLGTBs3kHDUTHtvsqATAzxvNn/93tt5Drnd0y69d3
-         pmDOoDBdU93vs8l7gNU8JwCF8VyRITVUdgjD8NXvzB78p1O0fLlP4at4O1QFRUt+7Vog
-         O9Q3qYW+llJJcpkJYoA1/IjTqRaRMl89seqlGy0kzRHz+z6SQ7izk5WOD4YKEm7MKGUm
-         jYfNJerdZ2in3eqm8eLttrKY/TSRZAWsB6QUKHaDsut/xQdN0uMiHvZZfoE5JxdrXmwb
-         rmFDGonWXf6zx4U8j5nZMnJ5ER++lvp/KYRzd1JWJcxVHJFIuVw9cydL0ka6Z4xtkWi4
-         I9Og==
+        b=R+CWHF1ZZxaMA95EdO711yD8/a9atGEpuyDiGWnm1J5cp1K6twCD6bvWi/dkBLz87V
+         ziaKoO+KbIdShpfueBeDZz+6oIymElrI6Z99ynJvby/o9xcbMZFP0MEa4W2pdiqMWCXc
+         bZFqZ+rx23O3N4e6OkMTOPCiaMbJ4GwpPbqViblVEb7f8aXG9UFOscx/K60gEptRgP3T
+         V4pgwffUJj3x1IN8yCMFcFh4wBna3vB2Hywjd84YjNrYwf0wVxqR9TbiIPissJx/HurC
+         QHVaVXbIWQiQQuFbrWM6kBTaaRFVF9Sq5sSdF3Q4kzt01zJgbJmYNTkjCMyKLTm7/KFk
+         Lgkw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=fpG7tGYmZnhktT/enA/5dH/hM2fO+vSCNb5F65c/Pdk=;
-        b=Fs1gboL+Tvn9ftjcetNS3q4im0VoJIZ4bTliPrEDCe9Kn0l4SklCxY6nsxh/SmnCXh
-         ajlw3l+v55gu81VTTlE8trdy3L0y870JZKy8XwREmcUW2bUgDTP9Jsg0lkPM5mMuk8h6
-         G4D+DTCINjX0/x4TKt/H8oJQ3ICI0qaDZFoxSqWbn5a27oKHRzJZNRspIB8hzDRCD38/
-         rDAi6JT/pwsCabI3r9LzRetpmQiG3NMRiKjJZbIRU4ZG0I6PypoB2rwDVE3DvSkguOe9
-         8+FYxW8x5hSmONGPlUOsO0GneHZ2GY1DnAk/+RAo+22rN7WRHsfJHo/goFavVaWUFbl9
-         7rGA==
+         :list-id:mailing-list:precedence:user-agent:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:sender:dkim-signature;
+        bh=gVGk7pO/Ik/0JMdQEBb+8a2YP+YoH9wdRObNvVzBlJw=;
+        b=akp2aZG4A8H4yA0u28nEXNUOP1vc2fMY8jDv4U9Vqm3PnMyuqEZI5M/JZ8BbAla827
+         dcE7lgHENZbKiogDa0Zom1QEcncy4ybpHAScmughrwITsHY0IGkeruPn1fP6cg+OvOl3
+         b3L1B4IH8EVIJiOjqTGGnp0mNcWpbH32xMGBVEpAwS/KsAYC+hfuwZlvQk6NcEtq1eeZ
+         BY8GsCqmI7wStVy0xJBPOfp+YzHLI55gwVsriadQuXSy5i4RDRxPZtVOiDEgVqEtZ7Ao
+         2A3enJQEqtRWLxXsXrMecY0AbB03dBP7EaGenIze21/6+k/K/BoOOetBmKysoJ/awxWS
+         AhgQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=lt9VvdJq;
-       spf=pass (google.com: domain of jannh@google.com designates 2607:f8b0:4864:20::342 as permitted sender) smtp.mailfrom=jannh@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@alien8.de header.s=dkim header.b=nX8hO1n9;
+       spf=pass (google.com: domain of bp@alien8.de designates 5.9.137.197 as permitted sender) smtp.mailfrom=bp@alien8.de;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=alien8.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=fpG7tGYmZnhktT/enA/5dH/hM2fO+vSCNb5F65c/Pdk=;
-        b=SNxefEmgvHdXQB88zVjGHgYm4NtPETCHxny9TkiTbx3a9M4SyVS09VRIQ89HQlUVBt
-         l5P3xuqClknj/qVBm7J3V510HQImKTtRuTc3GZgskUxJX+Y3HUJueFtJwroInUZabYU5
-         WwyIpIKH+q4PkDj1gN+hYs14OwUq/mb4tltXsO/0w0H03Ai+/gdiqMt92Tooew1H3Dzl
-         CM9ae+Gv6NrDxGDbLi1mv8CPcgdObDD7PWYzpKHsXahwo7O7E0BkTnUaFfbJDYivVaK6
-         S0wAeCPm2F/XfTNDROtZVCCjKYt57Z07NdtK0yU/mYh+POtaOgW9ONEFV5e5trv1jgOR
-         rT7A==
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=gVGk7pO/Ik/0JMdQEBb+8a2YP+YoH9wdRObNvVzBlJw=;
+        b=EHtHsx6MNjfWpmE9eqSjj67ITHfbNxzoYzMY2N4aN6fYxl0vdF7bWp/nUcG+K0xvMK
+         doo7Zcgkwm3JlV5xJvXj40RZwo0qFX8cMWyhUqsH7wCGOzYM6MclzrrOEydV4+ztVfZ7
+         2U5ZqEkrSvFzN4lynL27RQnMdTMJSIn9L1NBlsGDzZ3vPXXo/Jvo1LBHVbQiEAK9VgkS
+         uxYqKJzqNcby9AT2d5uW5IoHHMDYYmHtiSM46V+P4+/COvgRb9dIvn0o6SL9oSxjeNMf
+         FQKB+a8CEXm8TCsAmQh9xzQEhyhac+51cb+4lOaFpB3o66bxgZQF44gyyBOBkSm9Y+Gi
+         nkHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=fpG7tGYmZnhktT/enA/5dH/hM2fO+vSCNb5F65c/Pdk=;
-        b=LpQf6pt3AKphpgftFr8EWLjn/I0+uNQR1wFH8Ylg83n3X7PoPA+legBa0wNmTd+2HD
-         a+Io3cLXQ3e8wpSp+uP23NVfRqhYEDBr26fkABsMZYYSUOw7l6JW25R/qIqpnTA1W3aG
-         L+bhcETSZ9VC+WQT185Tgeyc6xsS9ELOI2MY6pNZycfz1DDQgDuqt72LO0tgG069l1Gm
-         1W/SI6xX98M8eqS/M3NFrbQQlIyI+oVI0Jl26tNEfv0YoshccN3RY2J/cRDxfUw4sDtw
-         6sAglXpOuIygzyiG8ITkcVzOVxXAMsd8oGuQ84xnAAO2CaOism7yhgB/4nNyWlYTW71t
-         5eEA==
-X-Gm-Message-State: APjAAAWQdsarNAPOevbfAO8vmwDC2tYW3P7QsBv+32o0/A5brFtb2umq
-	PIL3V3kw46WOp6D+x0GyX2I=
-X-Google-Smtp-Source: APXvYqyS8vwlu8TnDU2Rb1xMuiZbdFcKLQaZGIqPgCvo4vHKdTHCG8fuB+3NeLfRMPM+djHsJVp52A==
-X-Received: by 2002:aed:212b:: with SMTP id 40mr27632003qtc.206.1574095282818;
-        Mon, 18 Nov 2019 08:41:22 -0800 (PST)
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=gVGk7pO/Ik/0JMdQEBb+8a2YP+YoH9wdRObNvVzBlJw=;
+        b=GAWi3c/Hh2Aq8b8QdwarqGa3W/+5yuV1lCwN5oH2CzKWpOlyUmB8fp/dZ5FzCDpjmd
+         nlpVHp4q949ytRFawlptJpZqMKRcLbDPYrfS8zsS10I4CIEUSDWvFJnMxPRAIjzlgGz+
+         PO5elGyDL4EhW5LG005ikleZLzPUuzU9Yye3uqpYpYmGUgo++PeBdfoUfiUAG/uF91cr
+         c42yj1rPCL9MmSlHTB+0/G1XJ4hYlXQaG0YXbzYPswv/3paGKHPeNzIRb7AwfD3ZpIoJ
+         5HAkhnpcvqJ4dEk4NoFhpu9dW03NfxpVfhPrTfT0FVpq/eLk3PZ/PUIOSuHncjs+FfN1
+         XF6g==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: APjAAAW2Gx2jGll9zB6fZKimOXPvnXZ4x3ROjjOET7dMD2yUF8EUOmwe
+	PqetlHAvXgTrjt/6arHrmRw=
+X-Google-Smtp-Source: APXvYqzTMMAyeD5endSkt04JN/ymkty0w5mbj9PH8JXyiY8XqVqTVXzYHnbqhsESol/l/74nq8hhZQ==
+X-Received: by 2002:a17:906:3f8a:: with SMTP id b10mr27488409ejj.315.1574095453274;
+        Mon, 18 Nov 2019 08:44:13 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6214:13b4:: with SMTP id h20ls2539916qvz.0.gmail; Mon,
- 18 Nov 2019 08:41:22 -0800 (PST)
-X-Received: by 2002:a0c:b446:: with SMTP id e6mr26897955qvf.159.1574095282171;
-        Mon, 18 Nov 2019 08:41:22 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1574095282; cv=none;
+Received: by 2002:a17:906:2493:: with SMTP id e19ls5813584ejb.4.gmail; Mon, 18
+ Nov 2019 08:44:12 -0800 (PST)
+X-Received: by 2002:a17:906:f108:: with SMTP id gv8mr28618851ejb.180.1574095452793;
+        Mon, 18 Nov 2019 08:44:12 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1574095452; cv=none;
         d=google.com; s=arc-20160816;
-        b=BnQgtPNEdryHLKqZZV4UDnAOWV2kEvRW4dwehhzwQK3Yf6x4jilTXpbmH36hYAlTWs
-         Up/hDM2kXj4fV4VJQLR5QMnrcsOS6fJNQefFo1+0Aj+aOgHi4GYWCrMv6OVsIHRxzD9y
-         F2Uxiy76MGJHpxCvBTvgy/FyS2EnaBegJjMIV29nekicwQM6Ao4YI6CSQQzGJLwVyGRh
-         8Wn3bUNeRnRCvA5kAsjFuCv2Hhg02tc2kWVW3iGHTmbWgLjo/lJuuJ0ZmiJRFtNeaZja
-         dKljYTfNj4gJ+ZKC3zyNKsoYIeHHsP3VVM9w4IuoerhYIBgM8K25/Xo5bI+Tm4JL0T+L
-         NNDA==
+        b=OXSkDlrmg8DHE8yv4Lm4aQlQokz8BHZJPrYFb9Kde8fqd/8Bw5U73TagPQnB+AqrDq
+         lMlr67uSD3MM8q0KS9gKkK+M2/wUE6koDDl0WxoNR16Pz9CiaLs2+UsYXsCNl9Az+Jwu
+         /H1J80b2pq3MyGqKwP03MID1mjlj1fBUU9ktvqebJLlBProaG51olyxTJ/a/cjXla8rx
+         ig21zhM5zMEbZTAWpxDk47gSlP2dYIzEmPwcrgZA7oflWhfj6VfQhee2JRyZKpNEhaNL
+         F8tzH8gPPSfBEEKFvYUG0LJA627HoxS4OjP3qHGNpmBUEa/ymJsw2F3eGx7oXDIUSxdy
+         S3VA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=vXwyD0ddcsazG3MxeN3cnLvJuWsUAB6zn4Igl6PaVxg=;
-        b=MTLb9tHfWz/E771GPLT7lSjP9Ar9mawGLSIAGgJ+O42Ty3trVozEXxjttGFj4wq8a7
-         cy1QOIrIyktq8Jc/djSJ7Cn5KakGCjhgFTny6D4T7V0grqPuvmyU0+BhK9sSv52d7Z3s
-         nwNZKh6HR1+oTDg7TNVrFYUiUSKh/8qWGLT2hXNwExIzePV8ey/g54nSQfejLYmopRRw
-         Ap+Ge7/qetmOsnVGnBSVM/NWlVB/rfQOXrnuohY/7Sfo+IrC6pKivOi1BLiRJ03quUFn
-         R+sRh7K/5tAGqdANMNa0UboAW5PnA3KfWonj4NADgLdyqjateVH+C38fXTLeRjovvdBE
-         sctw==
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:dkim-signature;
+        bh=/12TPIe9NGWwR5n7WZI8L7PfOwYBBYIH7pXbgDhu9SQ=;
+        b=xLser4qNt/HHkXHmayaVA6HzL4vHaU7+5tp0D+x2uVWleZha0RxDSE+S4Stty+aqRI
+         TymvvXcVNh9J1zUAb36yFyVXDbkDd1WEaHP02aAwjYHnaxRrDSSSkjK+qjwF9worPI8c
+         GDLEMreT96I61QrigSrQSuro7MUSU+wTWr05wS/xo+j7m95wVIUInhO2kmAmAj4rM5j4
+         kMNqbWYComqXdICA7/TF5sOy2xHmnvYkjuE4UVaXmXnLTQRPwfhIolYQxAuLnipr5pdq
+         05fggxuPejcYzYZGt1Nfgy/UgJn89Gybi6NMC+YuF8BvHZDgBFFKRk9VdwXEotbIz0HU
+         ej1w==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=lt9VvdJq;
-       spf=pass (google.com: domain of jannh@google.com designates 2607:f8b0:4864:20::342 as permitted sender) smtp.mailfrom=jannh@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com. [2607:f8b0:4864:20::342])
-        by gmr-mx.google.com with ESMTPS id v189si1063719qka.2.2019.11.18.08.41.22
+       dkim=pass header.i=@alien8.de header.s=dkim header.b=nX8hO1n9;
+       spf=pass (google.com: domain of bp@alien8.de designates 5.9.137.197 as permitted sender) smtp.mailfrom=bp@alien8.de;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=alien8.de
+Received: from mail.skyhub.de (mail.skyhub.de. [5.9.137.197])
+        by gmr-mx.google.com with ESMTPS id v57si1545927edc.3.2019.11.18.08.44.12
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 Nov 2019 08:41:22 -0800 (PST)
-Received-SPF: pass (google.com: domain of jannh@google.com designates 2607:f8b0:4864:20::342 as permitted sender) client-ip=2607:f8b0:4864:20::342;
-Received: by mail-ot1-x342.google.com with SMTP id b16so15061138otk.9
-        for <kasan-dev@googlegroups.com>; Mon, 18 Nov 2019 08:41:22 -0800 (PST)
-X-Received: by 2002:a9d:4801:: with SMTP id c1mr164337otf.32.1574095281350;
- Mon, 18 Nov 2019 08:41:21 -0800 (PST)
-MIME-Version: 1.0
-References: <20191115191728.87338-1-jannh@google.com> <20191115191728.87338-2-jannh@google.com>
- <20191118142144.GC6363@zn.tnic> <CACT4Y+bCOr=du1QEg8TtiZ-X6U+8ZPR4N07rJOeSCsd5h+zO3w@mail.gmail.com>
- <CAG48ez1AWW7FkvU31ahy=0ZiaAreSMz=FFA0u8-XkXT9hNdWKA@mail.gmail.com> <CACT4Y+bfF86YY_zEGWO1sK0NwuYgr8Cx0wFewRDq0WL_GBgO0Q@mail.gmail.com>
-In-Reply-To: <CACT4Y+bfF86YY_zEGWO1sK0NwuYgr8Cx0wFewRDq0WL_GBgO0Q@mail.gmail.com>
-From: "'Jann Horn' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Mon, 18 Nov 2019 17:40:55 +0100
-Message-ID: <CAG48ez1=Zwaf4eNW_nKMrJ5DJ31eVLgcRuLPntwm17AT5yatjg@mail.gmail.com>
-Subject: error attribution for stalls [was: [PATCH v2 2/3] x86/traps: Print
- non-canonical address on #GP]
-To: Dmitry Vyukov <dvyukov@google.com>
-Cc: Borislav Petkov <bp@alien8.de>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
-	"H. Peter Anvin" <hpa@zytor.com>, "the arch/x86 maintainers" <x86@kernel.org>, 
-	Andrey Ryabinin <aryabinin@virtuozzo.com>, Alexander Potapenko <glider@google.com>, 
-	kasan-dev <kasan-dev@googlegroups.com>, LKML <linux-kernel@vger.kernel.org>, 
-	Andrey Konovalov <andreyknvl@google.com>, Andy Lutomirski <luto@kernel.org>, 
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 18 Nov 2019 08:44:12 -0800 (PST)
+Received-SPF: pass (google.com: domain of bp@alien8.de designates 5.9.137.197 as permitted sender) client-ip=5.9.137.197;
+Received: from zn.tnic (p200300EC2F27B5003D22FC05E431AFF8.dip0.t-ipconnect.de [IPv6:2003:ec:2f27:b500:3d22:fc05:e431:aff8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 30B521EC0BF8;
+	Mon, 18 Nov 2019 17:44:12 +0100 (CET)
+Date: Mon, 18 Nov 2019 17:44:07 +0100
+From: Borislav Petkov <bp@alien8.de>
+To: Dmitry Vyukov <dvyukov@google.com>, Jann Horn <jannh@google.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	the arch/x86 maintainers <x86@kernel.org>,
+	Andrey Ryabinin <aryabinin@virtuozzo.com>,
+	Alexander Potapenko <glider@google.com>,
+	kasan-dev <kasan-dev@googlegroups.com>,
+	LKML <linux-kernel@vger.kernel.org>,
+	Andrey Konovalov <andreyknvl@google.com>,
+	Andy Lutomirski <luto@kernel.org>,
 	Sean Christopherson <sean.j.christopherson@intel.com>
+Subject: Re: [PATCH v2 2/3] x86/traps: Print non-canonical address on #GP
+Message-ID: <20191118164407.GH6363@zn.tnic>
+References: <20191115191728.87338-1-jannh@google.com>
+ <20191115191728.87338-2-jannh@google.com>
+ <20191118142144.GC6363@zn.tnic>
+ <CACT4Y+bCOr=du1QEg8TtiZ-X6U+8ZPR4N07rJOeSCsd5h+zO3w@mail.gmail.com>
+ <CAG48ez1AWW7FkvU31ahy=0ZiaAreSMz=FFA0u8-XkXT9hNdWKA@mail.gmail.com>
+ <CACT4Y+bfF86YY_zEGWO1sK0NwuYgr8Cx0wFewRDq0WL_GBgO0Q@mail.gmail.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: jannh@google.com
+Content-Disposition: inline
+In-Reply-To: <CACT4Y+bfF86YY_zEGWO1sK0NwuYgr8Cx0wFewRDq0WL_GBgO0Q@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Original-Sender: bp@alien8.de
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=lt9VvdJq;       spf=pass
- (google.com: domain of jannh@google.com designates 2607:f8b0:4864:20::342 as
- permitted sender) smtp.mailfrom=jannh@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Jann Horn <jannh@google.com>
-Reply-To: Jann Horn <jannh@google.com>
+ header.i=@alien8.de header.s=dkim header.b=nX8hO1n9;       spf=pass
+ (google.com: domain of bp@alien8.de designates 5.9.137.197 as permitted
+ sender) smtp.mailfrom=bp@alien8.de;       dmarc=pass (p=NONE sp=NONE
+ dis=NONE) header.from=alien8.de
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -136,29 +145,13 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, Nov 18, 2019 at 5:29 PM Dmitry Vyukov <dvyukov@google.com> wrote:
-> On Mon, Nov 18, 2019 at 5:20 PM 'Jann Horn' via kasan-dev
-> <kasan-dev@googlegroups.com> wrote:
-> > On Mon, Nov 18, 2019 at 5:03 PM Dmitry Vyukov <dvyukov@google.com> wrote:
-> > > This exact form will confuse syzkaller crash parsing for Linux kernel:
-> > > https://github.com/google/syzkaller/blob/1daed50ac33511e1a107228a9c3b80e5c4aebb5c/pkg/report/linux.go#L1347
-> > > It expects a "general protection fault:" line for these crashes.
-> > >
-> > > A graceful way to update kernel crash messages would be to add more
-> > > tests with the new format here:
-> > > https://github.com/google/syzkaller/tree/1daed50ac33511e1a107228a9c3b80e5c4aebb5c/pkg/report/testdata/linux/report
-> > > Update parsing code. Roll out new version. Update all other testing
-> > > systems that detect and parse kernel crashes. Then commit kernel
-> > > changes.
-[...]
-> > > An unfortunate consequence of offloading testing to third-party systems...
-> >
+On Mon, Nov 18, 2019 at 05:29:42PM +0100, Dmitry Vyukov wrote:
 > > And of not having a standard way to signal "this line starts something
 > > that should be reported as a bug"? Maybe as a longer-term idea, it'd
 > > help to have some sort of extra prefix byte that the kernel can print
 > > to say "here comes a bug report, first line should be the subject", or
 > > something like that, similar to how we have loglevels...
->
+> 
 > This would be great.
 > Also a way to denote crash end.
 > However we have lots of special logic for subjects, not sure if kernel
@@ -170,19 +163,73 @@ On Mon, Nov 18, 2019 at 5:29 PM Dmitry Vyukov <dvyukov@google.com> wrote:
 > for syscalls we use more disambiguation b/c "in sys_ioclt" is not much
 > different than saying "there is a bug in kernel" :)
 
-Maybe I'm overthinking things, and maybe this is too much effort
-relative to the benefit it brings, but here's a crazy idea:
+While external tools are fine and cool, they can't really block kernel
+development and printk strings format is not an ABI. And yeah, we have
+this discussion each time someone proposes changes to those "magic"
+strings but I guess it is about time to fix this in a way that any
+future changes don't break tools.
 
-For the specific case of stalls, it might help if the kernel could put
-markers on the stack on the first stall warning (e.g. assuming that
-ORC is enabled, by walking the stack and replacing all saved
-instruction pointers with a pointer to some magic trampoline that
-jumps back to the original caller using some sort of shadow stack),
-then wait a few seconds, and then check how far on the stack the
-markers have been cleared. Then hopefully you'd know exactly in which
-function you're looping.
+And so I like the idea of marking *only* the first splat with some small
+prefix char as that first splat is the special and very important one.
+I.e., the one where die_counter is 0.
+
+So I could very well imagine something like:
+
+...
+[    2.523708] Write protecting the kernel read-only data: 16384k
+[    2.524729] Freeing unused kernel image (text/rodata gap) memory: 2040K
+[    2.525594] Freeing unused kernel image (rodata/data gap) memory: 368K
+[    2.541414] x86/mm: Checked W+X mappings: passed, no W+X pages found.
+
+<--- important first splat starts here:
+
+[    2.542218] [*] general protection fault while derefing a non-canonical address 0xdfff000000000001: 0000 [#1] PREEMPT SMP
+[    2.543343] [*] CPU: 0 PID: 1 Comm: swapper/0 Not tainted 5.4.0-rc8+ #8
+[    2.544138] [*] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.11.1-1 04/01/2014
+[    2.545120] [*] RIP: 0010:kernel_init+0x58/0x107
+[    2.546055] [*] Code: 48 c7 c7 e0 5c e7 81 e8 eb d2 90 ff c7 05 77 d6 95 00 02 00 00 00 e8 4e 1d a2 ff e8 69 b7 91 ff 48 b8 01 00 00 00 00 00 ff df <ff> e0 48 8b 3d fe 54 d7 00 48 85 ff 74 22 e8 76 93 84 ff 85 c0 89
+[    2.550242] [*] RSP: 0018:ffffc90000013f50 EFLAGS: 00010246
+[    2.551691] [*] RAX: dfff000000000001 RBX: ffffffff817b7ac9 RCX: 0000000000000040
+[    2.553435] [*] RDX: 0000000000000030 RSI: ffff88807da2f170 RDI: 000000000002f170
+[    2.555169] [*] RBP: 0000000000000000 R08: 00000000000001a6 R09: 00000000ad55ad55
+[    2.556393] [*] R10: 0000000000000000 R11: 0000000000000002 R12: 0000000000000000
+[    2.557268] [*] R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
+[    2.558417] [*] FS:  0000000000000000(0000) GS:ffff88807da00000(0000) knlGS:0000000000000000
+[    2.559370] [*] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[    2.560138] [*] CR2: 0000000000000000 CR3: 0000000002009000 CR4: 00000000003406f0
+[    2.561013] [*] Call Trace:
+[    2.561506] [*]  ret_from_fork+0x22/0x40
+[    2.562080] [*] Modules linked in:
+[    2.583706] [*] ---[ end trace 8ceb5a62d3ebbfa6 ]---
+[    2.584384] [*] RIP: 0010:kernel_init+0x58/0x107
+[    2.584999] [*] Code: 48 c7 c7 e0 5c e7 81 e8 eb d2 90 ff c7 05 77 d6 95 00 02 00 00 00 e8 4e 1d a2 ff e8 69 b7 91 ff 48 b8 01 00 00 00 00 00 ff df <ff> e0 48 8b 3d fe 54 d7 00 48 85 ff 74 22 e8 76 93 84 ff 85 c0 89
+[    2.591746] [*] RSP: 0018:ffffc90000013f50 EFLAGS: 00010246
+[    2.593175] [*] RAX: dfff000000000001 RBX: ffffffff817b7ac9 RCX: 0000000000000040
+[    2.594892] [*] RDX: 0000000000000030 RSI: ffff88807da2f170 RDI: 000000000002f170
+[    2.599706] [*] RBP: 0000000000000000 R08: 00000000000001a6 R09: 00000000ad55ad55
+[    2.600585] [*] R10: 0000000000000000 R11: 0000000000000002 R12: 0000000000000000
+[    2.601433] [*] R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
+[    2.602283] [*] FS:  0000000000000000(0000) GS:ffff88807da00000(0000) knlGS:0000000000000000
+[    2.603207] [*] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[    2.607706] [*] CR2: 0000000000000000 CR3: 0000000002009000 CR4: 00000000003406f0
+[    2.608565] [*] Kernel panic - not syncing: Attempted to kill init! exitcode=0x0000000b
+[    2.609600] [*] Kernel Offset: disabled
+[    2.610168] [*] ---[ end Kernel panic - not syncing: Attempted to kill init! exitcode=0x0000000b ]---
+
+<--- and ends here.
+
+to denote that first splat. And the '*' thing is just an example - it
+can be any char - whatever's easier to grep for.
+
+Thx.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAG48ez1%3DZwaf4eNW_nKMrJ5DJ31eVLgcRuLPntwm17AT5yatjg%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20191118164407.GH6363%40zn.tnic.
