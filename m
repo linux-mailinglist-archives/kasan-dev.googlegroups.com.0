@@ -1,142 +1,129 @@
-Return-Path: <kasan-dev+bncBD7LZ45K3ECBBMHZ2TXAKGQECSYZV5I@googlegroups.com>
+Return-Path: <kasan-dev+bncBCQ2XPNX7EOBBWH42TXAKGQED3XCR7A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x137.google.com (mail-lf1-x137.google.com [IPv6:2a00:1450:4864:20::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5255103AD2
-	for <lists+kasan-dev@lfdr.de>; Wed, 20 Nov 2019 14:16:32 +0100 (CET)
-Received: by mail-lf1-x137.google.com with SMTP id o140sf7279960lff.18
-        for <lists+kasan-dev@lfdr.de>; Wed, 20 Nov 2019 05:16:32 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1574255792; cv=pass;
+Received: from mail-ot1-x33e.google.com (mail-ot1-x33e.google.com [IPv6:2607:f8b0:4864:20::33e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AE53103B3C
+	for <lists+kasan-dev@lfdr.de>; Wed, 20 Nov 2019 14:23:37 +0100 (CET)
+Received: by mail-ot1-x33e.google.com with SMTP id 15sf13935445oti.9
+        for <lists+kasan-dev@lfdr.de>; Wed, 20 Nov 2019 05:23:37 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1574256216; cv=pass;
         d=google.com; s=arc-20160816;
-        b=GSNwBDJBLb3pvfYhlkQtqCF8bmMoN7yEVbYOHcLdzhxfgmbxLqCooGaK2sd+V9JPD9
-         AGuqXqyzwV22rdzflyhqzV0gAh+5Hph6JscaxZQBK0FGCYlI0jZUrHtwTbCnfcDpY+UC
-         O1AClZnUuiVCe4iO+M36GfNk7rsW6WXIZE/klVQJsm2kVQZ39o2sdlKxDLsBeFioAXi9
-         g4BHGTMSmT4mQg44KyPfMF4HceE39oZZ4evhhAQA5QOmXkZFioiaYMCcdnvqgrA+UD0U
-         J94Gc9q9CSMdxclrw/tyz63vYqU1KmeRLkM+PmQaXkk8SJCJS4DTa+cCczCyPJTAJqS7
-         AgNQ==
+        b=Prf/Nw/+3wFrInsVbxupDfmsvXIkehdHuh36Ont+vXYnmKpewf9WpwDMMLItovQHJG
+         cyt2n29sxzC4zkIFG7kD4/gMPscBZnT/3aLICjleSQW2NJksUNGBDeB6RQLzUqajjpm8
+         dUxqEIHegc19AjBXW2NgEWWp4qRL7rjUpJix40gsAirk+1wyOwONFNTubFzYyrtyfkpc
+         LD2Mg3EHW4BAn+corb6aNThg/lHMm0ip4XTdobHuJjzLzfzrdYUFdHoxm4NdVjfcs7fV
+         MD+c3A5Xx/PIpZrZv/3H2obEWjeLlS1uZSJE9LMUpYQRe4s+yYJ95mGjx0rLEWcxsWIO
+         2cfQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:user-agent:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:sender:dkim-signature;
-        bh=ogOuauL003gkAD8Ukl+O2pkDLmH4cJoxWQMSSV4rPb8=;
-        b=k14raE6jdbjFNdCLAdfjHOFVOtvTVFiBOab57hp0JrZaViPyEADlIoGaTeoYmgSG9/
-         WlPn5QyuJdiVSP9eFd1NSuUflkt7zLFFZkFjTXvAtqBrxWRW6ZKeVT1yua/Y1BQlLeSZ
-         8CchitYZAnRsCPP0EXucXn29SNaB63vfrpSyy4O7M0m1FGPZ2MgN+mIwyFDB4CWTZhvt
-         Svgbd3ADFJh7zGON1SjG2YFrzogOCZe+T5K7poHkRkvjHX+OfhFUHmPwKKElEML9O71x
-         KS10DVMefigloSU4NQRBV/e1eIXJjlbRiSPzQLBBcaqWdYzW2nDCB7pwYm1NVrw+RvOE
-         0dgA==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=7Sfp5IaU6Nnwk/nsN7bjvAw5l9QzZnu36mOSrpRf3rk=;
+        b=wZVF/PJjBL0rU86RLYScrr3rstQTdeo7+8my4B3dcLB/r586Et6Wxrc0S1D7FoxBvp
+         ffdNJMAfRMkxKFxt0xWjbyjfAUxTkEqflWXI1JAmJAhArQazc8i3RkWmr6K+eWRHWTy6
+         Lua3njvfTiP1vfrwYN1JAxF+QtYkNHLexPv0Hw35I2AIgWUJbe/IX/akg67WgRdlEAU7
+         ptMSMfC/N+sNLVHQO68jSWaW4C6TMCZoBtsTGFx5V9GNBLVIxwdxBHUvAB/8vMbzDj+P
+         +SdEnmvk+CLZWOgWu7DXe7YPWV2ebTOrzcyLm35PFKKTlT5a5DuvEoXea4JhJPeGxl2u
+         N3YA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20161025 header.b=vAJwumFF;
-       spf=pass (google.com: domain of mingo.kernel.org@gmail.com designates 2a00:1450:4864:20::444 as permitted sender) smtp.mailfrom=mingo.kernel.org@gmail.com;
-       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       dkim=pass header.i=@google.com header.s=20161025 header.b=URTIsW6t;
+       spf=pass (google.com: domain of jannh@google.com designates 2607:f8b0:4864:20::341 as permitted sender) smtp.mailfrom=jannh@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=ogOuauL003gkAD8Ukl+O2pkDLmH4cJoxWQMSSV4rPb8=;
-        b=TxaxwtbZ/0Qi9yJnjlyBJSmXVnvOXoD9CDLynAk4ImW3qdtDz9eHQCoZq5bSc9Zl4Z
-         ICSfET6Jhifa+kWcIO750601yqR8oPZF3KsTcPRXSzWvyl/+4APZw3b6yKcTmtahlmd3
-         kAgBWUaX3Tq944vfdR/fcyCD8n6zN3tvN9B9Tzsj3kFzzE3v8YQz2S/gUyw9whORfMNJ
-         xAdGhUlNec1DXVSGZB0SPex3hIHvSsvY6pJLn4S0A5qM6/f86Qx/5Fpos/ezf3oDcnQi
-         3B+Pb4TMjO6s8dy3C/va9JhRxmHyLBlsxKvGOeLmHN5NKrt8gBjntZrOFgljOxRP4Htr
-         1pRQ==
+        d=googlegroups.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=7Sfp5IaU6Nnwk/nsN7bjvAw5l9QzZnu36mOSrpRf3rk=;
+        b=TZzhwn9MFXkSVpWdrxtdio7Khzmdb+4GQbyUCogwvWF6O1CcW3cAiXL5Fp5Oa9wvD5
+         i1xRk/45F7YD2L4Z5Dsl2lFTxoKVOcC5hdeKT2JvYnu3aDdLabR2PuRNDvEBDQckhJAT
+         2HhRdYl3Lvrk/greUA0+cwlLJM+xBq8PXWlZRVzymsQc8t+wcvLzDRCsYtZz8e5qeuFy
+         zpkDqAW4qx6lIOHRjOOv0X8U4rc8Sc3wliHpwec9VLh7DXMDkW8px+goa9esgKYNQVgQ
+         PYUNVigWn8PW5USbC7duUMSAiIsXjGvRrYY9253MOSVfJRjjU/6RfSK0U3i52clC0hwA
+         Whog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=ogOuauL003gkAD8Ukl+O2pkDLmH4cJoxWQMSSV4rPb8=;
-        b=J3Y+1nTkziM2brSxhOQA1u9vPrBeUbs90U3Bq80vvUVrGc13/C+Vq8ih5vIBn5SyND
-         zJO3DOzloJgDkgvNxWLoOXaOqDnXZjRqBUubAB/Qr3hDKSEvBJNbrGoUHb/4Vfek3Y3j
-         CRUSMuAZGQ+24jmUQl+P6GYqbDgNt6/uyCvaappzd1QTXHG5skf5E9aTZ1qOVL+4nv3J
-         qvTNbr83vc0GMWDcsdp9QA+NuGPoOpw5tYGeTV8BeG/+hVmVQrgEPnxcf37S1aSiFQUs
-         7WvH2y4ehEtGia9sMBHHrD1CM9XprIndqWU23wv6UvwCDUd0tHzI2med43tKLyG0j2yj
-         vQ6A==
-X-Gm-Message-State: APjAAAUQ06N12Y7kqEDYrmpN8GqZUeIOD16RWVm0Jhqy5DuYbzVOOhUs
-	7EokgYunjJNxWwDtYG8eO8g=
-X-Google-Smtp-Source: APXvYqwFU8Rjo1aSI46SE1qtbOPnuzHDHOwvz2D+q8V0wVowzeXcFikm1xdrPb+UWwXHvbzLHDYNMQ==
-X-Received: by 2002:a05:6512:146:: with SMTP id m6mr2779766lfo.98.1574255792456;
-        Wed, 20 Nov 2019 05:16:32 -0800 (PST)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=7Sfp5IaU6Nnwk/nsN7bjvAw5l9QzZnu36mOSrpRf3rk=;
+        b=Dj5BCX/E2TXePfKfUfnulPsgzv4/4enGtwJgi+gtXYxvS+FtWVYdInzow/nOa0pvYq
+         zix0D0eRvC52V+H+Be5bIPNj/FE5j5dLu/x6rT8ukc5Y1lh6H4iUxUtjW/iU7V3zC5DU
+         X3V1x9WHqRenk1TdtclTGghjDZcAKcBlSxtMSQ8tKf+sIDGo2h3Tc/UPbCoQSwjUAnQl
+         NQwhwAQv5XUS0iFDlMKB0UktErm1PhFJub6kJjg6d8t3zMAqprIuSlyKfKlGf4bYFhLD
+         b9UF6T7Nah8/BAe054EVBytUTPZm7NJ6C54aUqk9fCQW16a+neqF5gCXupmTjDJEIQ5O
+         5rBQ==
+X-Gm-Message-State: APjAAAXbAW1t74J77shVlus/vvLI94e9j1TOWJb2Ew/P6AxqF0fOBAE8
+	qouiHfwIqVV51xDgi49N8Pg=
+X-Google-Smtp-Source: APXvYqzoxOH0leRF/TFV+n87BBSsOtujnAfE25t8St7eqHm8z0pPQ8LREd6c8YqIux2orP1LZ2SebQ==
+X-Received: by 2002:a9d:6c48:: with SMTP id g8mr1954945otq.252.1574256216044;
+        Wed, 20 Nov 2019 05:23:36 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a2e:9ada:: with SMTP id p26ls298822ljj.1.gmail; Wed, 20 Nov
- 2019 05:16:31 -0800 (PST)
-X-Received: by 2002:a2e:2a43:: with SMTP id q64mr2798338ljq.242.1574255791473;
-        Wed, 20 Nov 2019 05:16:31 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1574255791; cv=none;
+Received: by 2002:a9d:62c5:: with SMTP id z5ls301703otk.7.gmail; Wed, 20 Nov
+ 2019 05:23:35 -0800 (PST)
+X-Received: by 2002:a9d:6f15:: with SMTP id n21mr2061194otq.231.1574256215800;
+        Wed, 20 Nov 2019 05:23:35 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1574256215; cv=none;
         d=google.com; s=arc-20160816;
-        b=efXOfm6sLGRDbpjlCcHhDt2tDZabLxNsuUwkZeSN+R/lxNUFLaRvEd8iT43U9s115T
-         vXd+AYHIfKZWkRmJzKPtybK0+XRAR+xgd7FLaJp+Ng2zPAfW9+CX1bf98Ff/URAwetw4
-         V1Llr0ocF4wv9afTT8/SLc6kTIw0oZhhjw17z4mCfO25miXOEA4tx4RoCK/B83RrZcX5
-         L5B+Lfbz0ZyiXcuPy8KDyI4p1ajYE+Xj5Pt7rZmlm05GUL5p0n6wHmyqOXBQp4SDaHnR
-         e+py2dv3uOPf6WOJgSC/v8jGi+oswMIPjGBxv39liHmduwDd7UO1q4bJNayTjFNvHOR0
-         8AeA==
+        b=V69J0lJ1WyonziBy7Jka7kBTgDft1PmkiLZxj/rwF1BOqxpJgSe/v36zPb8xENquxO
+         RjCK/0Tj4HIKU8hICi+EigKt96+EC5UWzIxIKp0WbyZf5+Ma1O2DQEb6ryHpkC6bbLcU
+         SaVqHDR0aju0JKzQ83wrQgfLGc4syKqtTUDvD1BcTstFoeFUE30v2pf0srGnVfrzirhR
+         VI2OSGN7hOK5SUXZiBGxtMOEZXF375XPGraNlwYrHUW3gtOKz6aLknvRY0Cuuu+C4024
+         gjmW9tvlVc/j6Td3NA7wfwvyjjr1DWUYpiLQDK2IZuu9gltdxSZ1+1R0LXi7XtGPjCEK
+         pMFA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:sender:dkim-signature;
-        bh=4yrIyYWfXcBOT1nDN68nB0OKsMqoxxmq3jHpYqJV4Eg=;
-        b=YoSMHHX41UzywP/Pv16hZx0fGhEPXjyzEZ6VR8SXvDETO6fyKPB0/2ltP02DvuA3j6
-         NFmndhV5VQskXNgX5J5SZ0i/sT7dcEt4fwU2k7ctps9vOwciOqm2eXI9WnZYt5ptmlOb
-         cNdY25QdKbHiibptwQPScdLKcZgyvew8iC9b0Y/MXfkP6zak6c0lWUuCtIHCtaxOimLn
-         ZhAmXyQcSt/G9Eke/sBxj9byyhOWJvOUuVxzHOnORqPcjOxp0Xkd+4SBviyZJ7xx0+SM
-         sRyA6FWz59etQGcd88stE6CxGbCV6prfiz+1o0De1EO9V/9AaHQi/ACDALPYJlvepaWZ
-         cOyQ==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=HzMXI8CiEmUCb1T/mIucbXJe4tU8bP4I9jjwwuAfDKQ=;
+        b=ihrQ4mY2cUxfppTSVAxTWkIK0F44bbeJthx3G5M+NIOBExdKTw08f3Jh9ONY43REtz
+         OGWNBkehtSxemwhsJiUdAjFqCD1Ee4iQHHrM30BgvJwOy1RAscTi7wlh6UM56WDAN3n2
+         MA8qYg7MXOaRHZPyuhl44rRqZc1lvxYAoOV/w5bE49dVMvf3TY2n7VmEgCr5ebhkDS/x
+         URszLIegC1eKZ1jWlWbwNM/8Y8w49DjY03ihRxvEn0GGZ2wQbj+c/lwuwxIJxaiWYqHu
+         rLht1ejE+kytuinGtCiSsBzBtr5g2GT+YEkHTl22KAWdqsEtVoVSfLqZujGtpkcRbZ7W
+         huXA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20161025 header.b=vAJwumFF;
-       spf=pass (google.com: domain of mingo.kernel.org@gmail.com designates 2a00:1450:4864:20::444 as permitted sender) smtp.mailfrom=mingo.kernel.org@gmail.com;
-       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com. [2a00:1450:4864:20::444])
-        by gmr-mx.google.com with ESMTPS id b13si1332412ljk.4.2019.11.20.05.16.31
+       dkim=pass header.i=@google.com header.s=20161025 header.b=URTIsW6t;
+       spf=pass (google.com: domain of jannh@google.com designates 2607:f8b0:4864:20::341 as permitted sender) smtp.mailfrom=jannh@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com. [2607:f8b0:4864:20::341])
+        by gmr-mx.google.com with ESMTPS id i23si1389827oie.1.2019.11.20.05.23.35
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 20 Nov 2019 05:16:31 -0800 (PST)
-Received-SPF: pass (google.com: domain of mingo.kernel.org@gmail.com designates 2a00:1450:4864:20::444 as permitted sender) client-ip=2a00:1450:4864:20::444;
-Received: by mail-wr1-x444.google.com with SMTP id z10so28093523wrs.12
-        for <kasan-dev@googlegroups.com>; Wed, 20 Nov 2019 05:16:31 -0800 (PST)
-X-Received: by 2002:adf:f5cf:: with SMTP id k15mr3472304wrp.265.1574255790960;
-        Wed, 20 Nov 2019 05:16:30 -0800 (PST)
-Received: from gmail.com (54033286.catv.pool.telekom.hu. [84.3.50.134])
-        by smtp.gmail.com with ESMTPSA id a11sm6912156wmh.40.2019.11.20.05.16.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Nov 2019 05:16:29 -0800 (PST)
-Sender: Ingo Molnar <mingo.kernel.org@gmail.com>
-Date: Wed, 20 Nov 2019 14:16:27 +0100
-From: Ingo Molnar <mingo@kernel.org>
-To: Jann Horn <jannh@google.com>
-Cc: Borislav Petkov <bp@alien8.de>, Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, "H. Peter Anvin" <hpa@zytor.com>,
-	the arch/x86 maintainers <x86@kernel.org>,
-	Andrey Ryabinin <aryabinin@virtuozzo.com>,
-	Alexander Potapenko <glider@google.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	kasan-dev <kasan-dev@googlegroups.com>,
-	kernel list <linux-kernel@vger.kernel.org>,
-	Andrey Konovalov <andreyknvl@google.com>,
-	Andy Lutomirski <luto@kernel.org>,
-	Sean Christopherson <sean.j.christopherson@intel.com>,
-	Andi Kleen <ak@linux.intel.com>
-Subject: Re: [PATCH v3 2/4] x86/traps: Print non-canonical address on #GP
-Message-ID: <20191120131627.GA54414@gmail.com>
-References: <20191120103613.63563-1-jannh@google.com>
- <20191120103613.63563-2-jannh@google.com>
- <20191120111859.GA115930@gmail.com>
- <20191120112408.GC2634@zn.tnic>
- <CAG48ez26RGztX7O9Ej5rbz2in0KBAEnj1ic5C-8ie7=hzc+d=w@mail.gmail.com>
+        Wed, 20 Nov 2019 05:23:35 -0800 (PST)
+Received-SPF: pass (google.com: domain of jannh@google.com designates 2607:f8b0:4864:20::341 as permitted sender) client-ip=2607:f8b0:4864:20::341;
+Received: by mail-ot1-x341.google.com with SMTP id d5so21150715otp.4
+        for <kasan-dev@googlegroups.com>; Wed, 20 Nov 2019 05:23:35 -0800 (PST)
+X-Received: by 2002:a05:6830:1319:: with SMTP id p25mr2092594otq.110.1574256215221;
+ Wed, 20 Nov 2019 05:23:35 -0800 (PST)
 MIME-Version: 1.0
+References: <20191120103613.63563-1-jannh@google.com> <20191120103613.63563-2-jannh@google.com>
+ <20191120111859.GA115930@gmail.com> <20191120112408.GC2634@zn.tnic>
+ <CAG48ez26RGztX7O9Ej5rbz2in0KBAEnj1ic5C-8ie7=hzc+d=w@mail.gmail.com> <20191120131627.GA54414@gmail.com>
+In-Reply-To: <20191120131627.GA54414@gmail.com>
+From: "'Jann Horn' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Wed, 20 Nov 2019 14:23:09 +0100
+Message-ID: <CAG48ez0KscmTLf2_-tYPuoAxRjJtzUO8kmAPQ_SZTP1zvqvTtA@mail.gmail.com>
+Subject: Re: [PATCH v3 2/4] x86/traps: Print non-canonical address on #GP
+To: Ingo Molnar <mingo@kernel.org>
+Cc: Borislav Petkov <bp@alien8.de>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
+	"H. Peter Anvin" <hpa@zytor.com>, "the arch/x86 maintainers" <x86@kernel.org>, 
+	Andrey Ryabinin <aryabinin@virtuozzo.com>, Alexander Potapenko <glider@google.com>, 
+	Dmitry Vyukov <dvyukov@google.com>, kasan-dev <kasan-dev@googlegroups.com>, 
+	kernel list <linux-kernel@vger.kernel.org>, Andrey Konovalov <andreyknvl@google.com>, 
+	Andy Lutomirski <luto@kernel.org>, Sean Christopherson <sean.j.christopherson@intel.com>, 
+	Andi Kleen <ak@linux.intel.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <CAG48ez26RGztX7O9Ej5rbz2in0KBAEnj1ic5C-8ie7=hzc+d=w@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Original-Sender: mingo@kernel.org
+X-Original-Sender: jannh@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20161025 header.b=vAJwumFF;       spf=pass
- (google.com: domain of mingo.kernel.org@gmail.com designates
- 2a00:1450:4864:20::444 as permitted sender) smtp.mailfrom=mingo.kernel.org@gmail.com;
-       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+ header.i=@google.com header.s=20161025 header.b=URTIsW6t;       spf=pass
+ (google.com: domain of jannh@google.com designates 2607:f8b0:4864:20::341 as
+ permitted sender) smtp.mailfrom=jannh@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Jann Horn <jannh@google.com>
+Reply-To: Jann Horn <jannh@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -149,33 +136,33 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-
-* Jann Horn <jannh@google.com> wrote:
-
-> On Wed, Nov 20, 2019 at 12:24 PM Borislav Petkov <bp@alien8.de> wrote:
-> > On Wed, Nov 20, 2019 at 12:18:59PM +0100, Ingo Molnar wrote:
-> > > How was this maximum string length of '90' derived? In what way will
-> > > that have to change if someone changes the message?
+On Wed, Nov 20, 2019 at 2:16 PM Ingo Molnar <mingo@kernel.org> wrote:
+> * Jann Horn <jannh@google.com> wrote:
+>
+> > On Wed, Nov 20, 2019 at 12:24 PM Borislav Petkov <bp@alien8.de> wrote:
+> > > On Wed, Nov 20, 2019 at 12:18:59PM +0100, Ingo Molnar wrote:
+> > > > How was this maximum string length of '90' derived? In what way will
+> > > > that have to change if someone changes the message?
+> > >
+> > > That was me counting the string length in a dirty patch in a previous
+> > > thread. We probably should say why we decided for a certain length and
+> > > maybe have a define for it.
 > >
-> > That was me counting the string length in a dirty patch in a previous
-> > thread. We probably should say why we decided for a certain length and
-> > maybe have a define for it.
-> 
-> Do you think something like this would be better?
-> 
-> char desc[sizeof(GPFSTR) + 50 + 2*sizeof(unsigned long) + 1] = GPFSTR;
+> > Do you think something like this would be better?
+> >
+> > char desc[sizeof(GPFSTR) + 50 + 2*sizeof(unsigned long) + 1] = GPFSTR;
+>
+> I'd much prefer this for, because it's a big honking warning for people
+> to not just assume things but double check the limits.
 
-I'd much prefer this for, because it's a big honking warning for people 
-to not just assume things but double check the limits.
+Sorry, I can't parse the start of this sentence. I _think_ you're
+saying you want me to make the change to "char desc[sizeof(GPFSTR) +
+50 + 2*sizeof(unsigned long) + 1]"?
 
-I.e. this mild obfuscation of the array size *helps* code quality in the 
-long run :-)
-
-Thanks,
-
-	Ingo
+> I.e. this mild obfuscation of the array size *helps* code quality in the
+> long run :-)
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20191120131627.GA54414%40gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAG48ez0KscmTLf2_-tYPuoAxRjJtzUO8kmAPQ_SZTP1zvqvTtA%40mail.gmail.com.
