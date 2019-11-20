@@ -1,139 +1,129 @@
-Return-Path: <kasan-dev+bncBCP4ZTXNRIFBBZHI2TXAKGQEKS2E2KY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCQ2XPNX7EOBBUXJ2TXAKGQERLMI5KY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ed1-x53b.google.com (mail-ed1-x53b.google.com [IPv6:2a00:1450:4864:20::53b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CD55103A33
-	for <lists+kasan-dev@lfdr.de>; Wed, 20 Nov 2019 13:41:09 +0100 (CET)
-Received: by mail-ed1-x53b.google.com with SMTP id l6sf16263503edc.18
-        for <lists+kasan-dev@lfdr.de>; Wed, 20 Nov 2019 04:41:09 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1574253669; cv=pass;
+Received: from mail-yb1-xb3f.google.com (mail-yb1-xb3f.google.com [IPv6:2607:f8b0:4864:20::b3f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 123D0103A42
+	for <lists+kasan-dev@lfdr.de>; Wed, 20 Nov 2019 13:43:00 +0100 (CET)
+Received: by mail-yb1-xb3f.google.com with SMTP id y64sf18545933ybf.2
+        for <lists+kasan-dev@lfdr.de>; Wed, 20 Nov 2019 04:43:00 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1574253779; cv=pass;
         d=google.com; s=arc-20160816;
-        b=wUWzQblCpr96xwxuanSPE0zXR3GQ68GrQk9YgCU9Mgip6RNcQhpnK0Mq/MIjzsRq52
-         8fdEIHSIElDRz5AFTHE9IBXC8TUy0pSUBL0N146B4GtD3scLt9PdDtdM72TSu3x0qrNh
-         uHCfVUk4VjnOtarOnTXvWZkcWmWelqX82Da0omaxj4lN/LfTS1hwW27jt7N518L3B34b
-         cosjsecHs8Em9wYKCU89nTYwt9uqpjuniPVaON6luCqueY0QsCc8M0ot8erJRQEFxjNK
-         qL4MXH9BIHfiNL49p82NWKJYKN6Q1qBStndAidvCoeDqViPwMy8ZojD2TiAa1cb4z1YW
-         /0lA==
+        b=lxpOm2/Vv3qPgoG+R22fqMCyNNwBY9P1F/2I1FLBCK4laoqQtmynHScif+pyGl18QA
+         w0CeVdrCZauex1zbj4JgqnPO3H9mPTWcanOq2uMSNkwb7nVirvlHtfycw+8ZD0bkERtq
+         0z1hqDC8KcIC8dXu6FRiIuJFmMxzX1Vh+VrmEMr3VTvq1nid0m2Q+KSLyXnXqAV00O+s
+         Dqp7b/ltMacnNRM5iNx1vuMkXqklCoWnq8Nj8tNF4rUsuKiZsmtESccTVnKbUMU+gkG+
+         4Zyz+gJL2UDRvIH+ckK7VDBFYEPQQsZd/PrCRZ5GJgxKEY4Cpy/Yq+IkUUXW06SII8Rn
+         cwtQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:user-agent:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:sender:dkim-signature;
-        bh=39AfQ4deZav4g1wLoNAcpty3hQ8Wo4++wFqZpFXKjYs=;
-        b=iVvhtca6KW1wYYkwsRt37z5M3/vl8mfYTUTsNPE1vQdWCwQr/+a9jpQPjVeV0ymmT7
-         KpXnhZ+Q9ceKKBXgOMr4/A9FFFkil/KC66rOT5/lM1btd1Nb4zCNAGEi5kJZmxb6CWa8
-         X5c7S/MIflLeDfDEelntcr0vWb+KveRZuDTCkU3V3R9JT19FSIRy64RlluU4dOtWh3qT
-         qRmSvuQ81CvoH6YMcvwmn2VMJld7Q0HKKxaZGeB1ryF++RqzDJUqMXxe7Xub9LewRd/k
-         jxszE/1g/IELEvpxW/9l97FnL7Ly05haG1Xqjps7Qi2ORWyVfMmqxpkBU6ZaWlZ7boiB
-         MAFw==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=wjI1S0DSDNID13eJbYpiKLm8yF/k80ezEufctg3ifPY=;
+        b=N86PGt/f64KA9aTxynzeZSS5hAGdvv5x3RIvDIvh4Ut2Bh8ewUDzRL30+cephSbrLY
+         eAfAv1JX10j3Z0to0FuJcUIXRiAES3NsHY2JF7xqYv3gB9Z0HobPq9KPUGQYXsDkdraG
+         fJ8DykwLSpXJnyS/zC2zmNCKldTaeXhaah0rEFlNY1dM8dSIouGEHsmdlOj7hS/G2mfi
+         0FGL9X1G0wGgR+3x3E1MhaMeOUz4bO0ORSI4q2SH0Drm2CrPkiIO1dBFiP0ePEWsopYw
+         NoMOfaIvziAoOwILA78J97iEUdZv4BQ/hArZfr1BLPSeOucgVbw4ntp1CiFmpd9aplEa
+         LxVg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@alien8.de header.s=dkim header.b="c/701oUR";
-       spf=pass (google.com: domain of bp@alien8.de designates 5.9.137.197 as permitted sender) smtp.mailfrom=bp@alien8.de;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=alien8.de
+       dkim=pass header.i=@google.com header.s=20161025 header.b=XqkMWRLF;
+       spf=pass (google.com: domain of jannh@google.com designates 2607:f8b0:4864:20::244 as permitted sender) smtp.mailfrom=jannh@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=39AfQ4deZav4g1wLoNAcpty3hQ8Wo4++wFqZpFXKjYs=;
-        b=lTJ9VBjRGiDGbE//fehvg14R3V3KHge8waDeV0c435tCMmYA8lR2v9io0BoIzWiPjb
-         WeOZ8X1XGdA4GPMU+m+5CIe84O932EWP73zmO0EuURwGTrIfVjN1PAP8snfIrwpqvl6b
-         ikRS6NmlPIXtdqlsaLv/m50V+XVYY2ZHU6rWMuxXCoWGyC81PGTrCId1Hy2uqRiVSpO5
-         5052VGmCFVEQzY2nY4jJ/avn+Qoj44KnfcxKOd6hKyWC9oiECnCbSqysMKqnEK5FLMok
-         TdpDQq7ILrWwzV6ZTFWK7DKR5gNB0UOjpdYqXkH6IqTVXQMZp4gRdZoOSv8ISsBvT/t1
-         +j4w==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=wjI1S0DSDNID13eJbYpiKLm8yF/k80ezEufctg3ifPY=;
+        b=TUaeSJVGkMLk6Z038qqK8V/1uDBUKtSU/K/ByNKjxxJMCV1CX0l1VvRycYx+GhG9zx
+         y/mnJX4zxW4n83Eiyuq0RaDE8N5Nbvfa1ngwMqe1bMOqsLtUK4yxTFIZ9t/rAROP5TY8
+         ShuCydkGx+tCol7Hc0mVwaQnwVBINi8AbsOV7xOTtxmpJBprus+HDEPNQO+33W6ssiwf
+         VvrhF6MlgArWJ6IvYuCSmJb9EvlgDXm7jEKzhnWrYbCqp7QVe3ifanpQI3Snfzifo+kV
+         Siw79Tj8lnSNJLwNJyqet5D555CNulThU3WvXVMOXI/paMflhON/MO2DJsnlsZHTX1px
+         J+Xw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=39AfQ4deZav4g1wLoNAcpty3hQ8Wo4++wFqZpFXKjYs=;
-        b=GmUi5+dy+iEn+wLAchFzcvSri3FBycFyGi0BMX+U82ibMXiIFYP94WQMZpnohf2yKP
-         p8oTG8Tc49YCj287GTwa2AZ6kRtZiF2lwzGa3oGstl69o5acoCvWX+5cKzYFAqCYg1ai
-         UkqMtS/DFglNvPizwEtVz00YJW2Lp1AC+CLO0/AZbBZ1dmhW32QPbkKIcxGzV377RQLq
-         0DDZAYCwcQwPDFCMQfV7ulnx9zUrhLgsCSPHOfKoNOzsCoGN3DDvaqevw6LApbpaIb+X
-         nFfsoJepPjdpaMgo8gQpYGxIwYzk+wexlBdtGbt1gSOlD5LPRrjah1WypS3TzW8+4ojh
-         o+2g==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAV0BoLmuFmsBFjm1imvPrQWMlrwVRaf5iNDaFv64Bu6zr6D/Miv
-	PdTESgOJPmMXFbvS5ECeNzM=
-X-Google-Smtp-Source: APXvYqw/krgptnkm5QZfD5Fs4CD1PIquF+EHx3FvOnV/DMiGV3WbZD+/L58RLkpf2+dhHEFu5I+WaQ==
-X-Received: by 2002:a17:906:57d7:: with SMTP id u23mr5354189ejr.130.1574253669019;
-        Wed, 20 Nov 2019 04:41:09 -0800 (PST)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=wjI1S0DSDNID13eJbYpiKLm8yF/k80ezEufctg3ifPY=;
+        b=lxwn1DRJ+hEn69APhNJro1rmCHHNH/ppExzWyHDaM0lX+MWvB5+ACYnpPDIBLZkR9G
+         +d3pPi/gCWyB4I8UaaZMXG7GKfDdHo6l0Js9K8seboEugV4G6x3ovTWjHOuWL+YCAtjA
+         npseYOHxD/AwpdzZWoemoMBBdw4fwwqLZxReD7G5kv5i5RzkBRx3Q8iYKUBeFKFzztKR
+         PNx9EZSrAr9/+KHCP0wYblUof4U+AzvslW3CpfbIjJ9uXTzztdBe+tCT7Qh285CDtUvQ
+         DOUED5dqjSNGa+05cN5PoFFdQ4v2EQemlQOWjv15mO4rbBPjNuzkUOaIG6Z8r/psUq4Q
+         8lXw==
+X-Gm-Message-State: APjAAAV8fzDZLVliKputWwtr8SQJE8QIr483MJ5ZZdMMd7ArOD2u1A8W
+	phSrWoA3eBYLodYiDNn7yo4=
+X-Google-Smtp-Source: APXvYqziJOar7MzQGJpYUh4QIXWK1esQoHfsICtNPQq7+n4Nae8iGnzLEZViL8KKzLqbqe55Dx/N1w==
+X-Received: by 2002:a25:e015:: with SMTP id x21mr1697794ybg.73.1574253779010;
+        Wed, 20 Nov 2019 04:42:59 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:906:b857:: with SMTP id ga23ls1005939ejb.6.gmail; Wed,
- 20 Nov 2019 04:41:08 -0800 (PST)
-X-Received: by 2002:a17:907:1102:: with SMTP id qu2mr5182933ejb.300.1574253668578;
-        Wed, 20 Nov 2019 04:41:08 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1574253668; cv=none;
+Received: by 2002:a25:8406:: with SMTP id u6ls347720ybk.8.gmail; Wed, 20 Nov
+ 2019 04:42:58 -0800 (PST)
+X-Received: by 2002:a25:6ec5:: with SMTP id j188mr1807330ybc.207.1574253778620;
+        Wed, 20 Nov 2019 04:42:58 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1574253778; cv=none;
         d=google.com; s=arc-20160816;
-        b=NnyJhFK3lUAH6ID+d3Ug9QR0Q8nDqw6xI314SHlYpjoR8Jhu6Fwj0pTYUObQxSF3Kb
-         7aF3E0Xjb1LLAhE7O+zZuK8dOYV5ijRee/ILwSu16qKMe8p/dglWW48vMb8gvWgq3JKu
-         tlOksiikR1CGPNRIixRDPq4skqAvh6LVtKWV/gX37jg5TzF5NyHuY+BZBB3L15fQ4dV8
-         7rX+kDSSFjddMI+T7sWjNnuQI8/9AcHTSSLVXx+DrMzVUoUr51TSTm5Ib14AZ5I/pD1k
-         6IDraMcAfM8eTGyDMOe6kaAbc7RCVb0hfnrIkpaX0CymWtB4QV3L4gu64Ac7Rio4ZGl0
-         /DYQ==
+        b=HQHnw0AxKAntnICbAJ47shibZXnQnxI60mjyPLoYY960MUdV/NCEqlKo2b5UzL5mLs
+         qqlUD8kMF9js+TzoUMoDTw2OBwAvGHrUiV7viGt6RyPLYjHn9EHKoHZ/6qG9HBJvUYbE
+         aPLFFtNLraQZrKq+3R7W3G+KSuE20DIjhKgdl+uY9srVJyAdN/bdeM1KViZLkCoeYQKg
+         gtOpOOiH85gUQs/pwEJkBM3mozKNKReD2/xhM8RYDtq8vNI4D0ko44YOvXUJentq4vD2
+         Bl4lUtAcw2cSPlNckUdPkJbpR/x5QIfUZ9cm7T4YuKXpull43+tGfRkcLE5r5BxBNhuA
+         D0PQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:dkim-signature;
-        bh=ea8pQqJ+Jjuj9IYCptOm3Z7PI1Mh+ByTGxj7asJ2NU4=;
-        b=XS0c6gbjR+8kGznA3sfQAp/dbdkCH9jdKXpBT+zukdeJyueu2wyrpJsgwRojChZbDy
-         OfCusWBQE3/UezZRBJRB3kdx339dTgACbfClxFCU7tmjTCaTfswr20VtdVBeJXrkduKJ
-         4d4p5tfdVuHLPQYp4/LwVTB+5JW5dDdNimQbl4djxw0aV7gj4qQUml4xdAKlFz+LkuYV
-         2Roxif1cmSWOGaIOuwuPZ5rYB1rurtG4UxHxJfkYVYWEbjLn98VY1mVpZMLImlQULQwY
-         uiGlZNbsTI8u8cg80qQ6xMXH4F0C69+wxRYQRo6dzIx9VBBDNQKDRX4DJ2WttqH9c8VZ
-         hpog==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=B1kvKePgmOlp312ylkyBxDZhjYmUB28WgRyVChV+Gis=;
+        b=RZhU6yCMWSSolP+aZ/GUu55xXFjXRRkbC+0Se2v2BRE+xHZR6OOFvodRENuFG1i9qe
+         EZdjruy8zhQZ2XYPunPY112q6bgTeI3mL2eyffvdD5Ds+s4y7KFahk4NxThVub0uzMPv
+         ihA2blaeR1kxsDTmG1d9xBFgxvrB3gfcE8GsjuyQAHwU8E37rHJrcQiP1wlF3+eyAoQk
+         ErCV9s9OhuOH1WHmePwU6zxPqJ02YOeo6F/ZO1IbwhWn0xXxkRGfkU3mhn+s717vciqn
+         uNNzWYitZ/yxKASsoMmvlAK72KiGOqI5+J6XNvNFH/5PPYUgJwZy2esbF+wNf8UTP3Fe
+         aBPw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@alien8.de header.s=dkim header.b="c/701oUR";
-       spf=pass (google.com: domain of bp@alien8.de designates 5.9.137.197 as permitted sender) smtp.mailfrom=bp@alien8.de;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=alien8.de
-Received: from mail.skyhub.de (mail.skyhub.de. [5.9.137.197])
-        by gmr-mx.google.com with ESMTPS id l37si1242577edc.2.2019.11.20.04.41.08
+       dkim=pass header.i=@google.com header.s=20161025 header.b=XqkMWRLF;
+       spf=pass (google.com: domain of jannh@google.com designates 2607:f8b0:4864:20::244 as permitted sender) smtp.mailfrom=jannh@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com. [2607:f8b0:4864:20::244])
+        by gmr-mx.google.com with ESMTPS id f11si1437848ybk.5.2019.11.20.04.42.58
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 20 Nov 2019 04:41:08 -0800 (PST)
-Received-SPF: pass (google.com: domain of bp@alien8.de designates 5.9.137.197 as permitted sender) client-ip=5.9.137.197;
-Received: from zn.tnic (p200300EC2F0D8C00B1B17C12861BCCA4.dip0.t-ipconnect.de [IPv6:2003:ec:2f0d:8c00:b1b1:7c12:861b:cca4])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 0889D1EC0CE2;
-	Wed, 20 Nov 2019 13:41:04 +0100 (CET)
-Date: Wed, 20 Nov 2019 13:41:01 +0100
-From: Borislav Petkov <bp@alien8.de>
-To: Jann Horn <jannh@google.com>
-Cc: Ingo Molnar <mingo@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, "H. Peter Anvin" <hpa@zytor.com>,
-	the arch/x86 maintainers <x86@kernel.org>,
-	Andrey Ryabinin <aryabinin@virtuozzo.com>,
-	Alexander Potapenko <glider@google.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	kasan-dev <kasan-dev@googlegroups.com>,
-	kernel list <linux-kernel@vger.kernel.org>,
-	Andrey Konovalov <andreyknvl@google.com>,
-	Andy Lutomirski <luto@kernel.org>,
-	Sean Christopherson <sean.j.christopherson@intel.com>,
-	Andi Kleen <ak@linux.intel.com>
-Subject: Re: [PATCH v3 2/4] x86/traps: Print non-canonical address on #GP
-Message-ID: <20191120124101.GF2634@zn.tnic>
-References: <20191120103613.63563-1-jannh@google.com>
- <20191120103613.63563-2-jannh@google.com>
- <20191120111859.GA115930@gmail.com>
- <20191120112408.GC2634@zn.tnic>
- <CAG48ez26RGztX7O9Ej5rbz2in0KBAEnj1ic5C-8ie7=hzc+d=w@mail.gmail.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 20 Nov 2019 04:42:58 -0800 (PST)
+Received-SPF: pass (google.com: domain of jannh@google.com designates 2607:f8b0:4864:20::244 as permitted sender) client-ip=2607:f8b0:4864:20::244;
+Received: by mail-oi1-x244.google.com with SMTP id d22so15408426oic.7
+        for <kasan-dev@googlegroups.com>; Wed, 20 Nov 2019 04:42:58 -0800 (PST)
+X-Received: by 2002:aca:4d47:: with SMTP id a68mr2666979oib.68.1574253777810;
+ Wed, 20 Nov 2019 04:42:57 -0800 (PST)
 MIME-Version: 1.0
+References: <20191120103613.63563-1-jannh@google.com> <20191120103613.63563-2-jannh@google.com>
+ <20191120111859.GA115930@gmail.com> <CAG48ez0Frp4-+xHZ=UhbHh0hC_h-1VtJfwHw=kDo6NahyMv1ig@mail.gmail.com>
+ <20191120123058.GA17296@gmail.com> <20191120123926.GE2634@zn.tnic>
+In-Reply-To: <20191120123926.GE2634@zn.tnic>
+From: "'Jann Horn' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Wed, 20 Nov 2019 13:42:31 +0100
+Message-ID: <CAG48ez11KVxQoSDM2GmMAxU=1jNZNYKcLFkvpkeq74p+yxeefw@mail.gmail.com>
+Subject: Re: [PATCH v3 2/4] x86/traps: Print non-canonical address on #GP
+To: Borislav Petkov <bp@alien8.de>
+Cc: Ingo Molnar <mingo@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
+	"H. Peter Anvin" <hpa@zytor.com>, "the arch/x86 maintainers" <x86@kernel.org>, 
+	Andrey Ryabinin <aryabinin@virtuozzo.com>, Alexander Potapenko <glider@google.com>, 
+	Dmitry Vyukov <dvyukov@google.com>, kasan-dev <kasan-dev@googlegroups.com>, 
+	kernel list <linux-kernel@vger.kernel.org>, Andrey Konovalov <andreyknvl@google.com>, 
+	Andy Lutomirski <luto@kernel.org>, Sean Christopherson <sean.j.christopherson@intel.com>, 
+	Andi Kleen <ak@linux.intel.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <CAG48ez26RGztX7O9Ej5rbz2in0KBAEnj1ic5C-8ie7=hzc+d=w@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Original-Sender: bp@alien8.de
+X-Original-Sender: jannh@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@alien8.de header.s=dkim header.b="c/701oUR";       spf=pass
- (google.com: domain of bp@alien8.de designates 5.9.137.197 as permitted
- sender) smtp.mailfrom=bp@alien8.de;       dmarc=pass (p=NONE sp=NONE
- dis=NONE) header.from=alien8.de
+ header.i=@google.com header.s=20161025 header.b=XqkMWRLF;       spf=pass
+ (google.com: domain of jannh@google.com designates 2607:f8b0:4864:20::244 as
+ permitted sender) smtp.mailfrom=jannh@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Jann Horn <jannh@google.com>
+Reply-To: Jann Horn <jannh@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -146,32 +136,37 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Nov 20, 2019 at 01:25:30PM +0100, Jann Horn wrote:
-> On Wed, Nov 20, 2019 at 12:24 PM Borislav Petkov <bp@alien8.de> wrote:
-> > On Wed, Nov 20, 2019 at 12:18:59PM +0100, Ingo Molnar wrote:
-> > > How was this maximum string length of '90' derived? In what way will
-> > > that have to change if someone changes the message?
+On Wed, Nov 20, 2019 at 1:39 PM Borislav Petkov <bp@alien8.de> wrote:
+> On Wed, Nov 20, 2019 at 01:30:58PM +0100, Ingo Molnar wrote:
+> > * Jann Horn <jannh@google.com> wrote:
 > >
-> > That was me counting the string length in a dirty patch in a previous
-> > thread. We probably should say why we decided for a certain length and
-> > maybe have a define for it.
-> 
-> Do you think something like this would be better?
-> 
-> char desc[sizeof(GPFSTR) + 50 + 2*sizeof(unsigned long) + 1] = GPFSTR;
+> > > You mean something like this?
+> > >
+> > > ========================
+> > > diff --git a/arch/x86/kernel/traps.c b/arch/x86/kernel/traps.c
+> > > index 9b23c4bda243..16a6bdaccb51 100644
+> > > --- a/arch/x86/kernel/traps.c
+> > > +++ b/arch/x86/kernel/traps.c
+> > > @@ -516,32 +516,36 @@ dotraplinkage void do_bounds(struct pt_regs
+> > > *regs, long error_code)
+> > >   * On 64-bit, if an uncaught #GP occurs while dereferencing a non-canonical
+> > >   * address, return that address.
+> > >   */
+> > > -static unsigned long get_kernel_gp_address(struct pt_regs *regs)
+> > > +static bool get_kernel_gp_address(struct pt_regs *regs, unsigned long *addr,
+> > > +                                          bool *non_canonical)
+> >
+> > Yeah, that's pretty much the perfect end result!
+>
+> Why do we need the bool thing? Can't we rely on the assumption that an
+> address of 0 is the error case and use that to determine whether the
+> resolving succeeded or not?
 
-Yap, and the 50 is a sufficiently large number so that all possible
-string combinations in this case can fit in the resulting string array.
-
-Thx.
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+True, that'd work, too. I didn't really want to special-case an
+integer here - especially one that has the same value as NULL - but I
+guess it's fine.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20191120124101.GF2634%40zn.tnic.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAG48ez11KVxQoSDM2GmMAxU%3D1jNZNYKcLFkvpkeq74p%2Byxeefw%40mail.gmail.com.
