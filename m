@@ -1,114 +1,111 @@
-Return-Path: <kasan-dev+bncBD7LZ45K3ECBBBXE2TXAKGQE6OCPG7A@googlegroups.com>
+Return-Path: <kasan-dev+bncBCP4ZTXNRIFBBBXI2TXAKGQEE5NIVLY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x337.google.com (mail-wm1-x337.google.com [IPv6:2a00:1450:4864:20::337])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD854103A13
-	for <lists+kasan-dev@lfdr.de>; Wed, 20 Nov 2019 13:31:02 +0100 (CET)
-Received: by mail-wm1-x337.google.com with SMTP id x16sf5045389wmk.2
-        for <lists+kasan-dev@lfdr.de>; Wed, 20 Nov 2019 04:31:02 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1574253062; cv=pass;
+Received: from mail-lf1-x13f.google.com (mail-lf1-x13f.google.com [IPv6:2a00:1450:4864:20::13f])
+	by mail.lfdr.de (Postfix) with ESMTPS id DFDFD103A2E
+	for <lists+kasan-dev@lfdr.de>; Wed, 20 Nov 2019 13:39:34 +0100 (CET)
+Received: by mail-lf1-x13f.google.com with SMTP id j16sf2233233lfk.2
+        for <lists+kasan-dev@lfdr.de>; Wed, 20 Nov 2019 04:39:34 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1574253574; cv=pass;
         d=google.com; s=arc-20160816;
-        b=hrb4ft3y+yekJCheZaG/RRgtPcDi/UuipRPHrf7/CkHJpWEMRv8dgRn0ScOweJUtwH
-         aiaLUtPttPdHKd5EEIT6bkD/+5zsNVqh6Mi0kyQQ4dEGqi0SvF0rodluLpjAL0Kgbq4c
-         0RKkvHQTffU/L9cGe2wwO3Mhm9nd1QNalvw/UjoAh0qSnnzD7SkVyGAAhKI4t0FFiIHW
-         PdPBb9ioyamXroOhSZMWygVlxs1Ng59YsILiosxtZS11A26Bm0stCP8EpOQ6M/lVP9wz
-         P4MHj2mEBazMBCLiToZ5hZ7N4V/3P7VPCwIJzaf7NpOLmqMJrNXG7lWxboFtccezs3tY
-         O0oQ==
+        b=jXJEY+aFZY6K9Xe1ijiR77TLq/sNi1TLdJU3BAlwztm4/kB+Ct6i48lFWnqXOfrmMn
+         eR0To3kbfgVOCqJbOn/IQ3SV78FjuAFvEB+hb5oiUfq9+jJqgB9vQA0/UUrSHOAOZAdH
+         77xBi3TKoLU6Ul7sstcmVrAD0c+motNRGmI7+KDVH15KAYGCvvU6zdAvbvebwZnt7GR8
+         jGJmxxXFbZHW/EWXfJSTO0kGUrfwsENXQnKoM35KIWB+vNcy7WdTYkYI6QT4tTPcE3by
+         KiS5H3VP1AN8P+ZMowgsrGcRZvQGi9VOFt4gRk4vMQ3YFHvKyHPPFZGzQ+MddenPxU/j
+         /MYA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:user-agent:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:sender:dkim-signature;
-        bh=4eOtM60OUwFs7gGlYJ29N+7jX3cpdOq0Iy2LO/0gX7M=;
-        b=C4hadJcpCBEjei5e4wy27LUgoDkAwb26PpCUrZLvhC5ofinAoCZQJji9UonGT/iL04
-         +fhB7BCYczgLhEsYXPktiv0RQBPxeZjM26PY3PwvxR7Z0vJmx6Pdw/mTBcLSx33c+VWT
-         4QbISo9o7UR4m+rCtX609diSUtV4gS1BDoPhZN0Y9pLaIOpxakjfUcZrrEcVcNB/l6Xn
-         8IE8cnhkdrbNBrTbv+5JDFWrskqM9S7iH7CNFzqu/53IsjN3XfeWMpQYIVOcFaZL/FRe
-         Q2cKlKeTnyq//vBkD1psBpsvpFPUMTA7OK+DS75yi3FQovy3Hsqq6nJHq2YC2RvMLlNS
-         pj/g==
+        bh=AZuGir3b1KN6D314gbhsnjYzv/jfHJH2iSyH2j4coXU=;
+        b=tkUdNJhbyLUHPwA+j0+SCoHzbLbm/7cv4Tqxqu0WwJG/ExK39op2n/ht5wM6rpt0Fc
+         HQT/39dQRzLvEMQb38hfwryVuAwFpeWoyyi25PXQ9RhoaFhKiJa+0F4y4gyySrQGtOoL
+         NEtQ7XsxDAid0gCHenyAwLTURY/+nHTD4ZXuZ5Kyl+VxCcnj47ZxBJSicwbf0fxhSq9M
+         EZbs+jyfxEDokGKbNF/VWutOYktCKkqgN3ynN4zMnjzEYQP9p+RsxWOmEMgsuE/0+sn0
+         LKuIVxceI6Zc4H2XtZ61DEpu4k4AaPW2na/ZW8LNVhVk9+ba4jnRIt5OTUpAHM3alI7I
+         rT7w==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20161025 header.b=kMbThVja;
-       spf=pass (google.com: domain of mingo.kernel.org@gmail.com designates 2a00:1450:4864:20::441 as permitted sender) smtp.mailfrom=mingo.kernel.org@gmail.com;
-       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       dkim=pass header.i=@alien8.de header.s=dkim header.b=OjXmSLn6;
+       spf=pass (google.com: domain of bp@alien8.de designates 2a01:4f8:190:11c2::b:1457 as permitted sender) smtp.mailfrom=bp@alien8.de;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=alien8.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=googlegroups.com; s=20161025;
         h=sender:date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=4eOtM60OUwFs7gGlYJ29N+7jX3cpdOq0Iy2LO/0gX7M=;
-        b=mYd7K/ZcB31wG5FUnWkynfbSjABsqvYggdZQNAkFX5ZWERzrKMoQxXcpkUP+xfS5kg
-         GJKt9dmr4lu6KnumSOe1vL3l+y3Uqyy4asklJ+uda+cQqB/fOMhlJn46GvH+ZS2B1pim
-         JYznj7GofVYsNr4bSMGAQvELx8xfNAaq+uhZ23v83DFuA3wGXkPktipRjCpANFvFHJPc
-         R2/Sep4b4WNOGroYNC9GG63yhLq+Ve5uT1pJ1NfNdvyEcp6wT5UPb53QEBALrUmQlsmN
-         qOrrzJ2HuiPNykraJJ2Q+SCy28rICREXno++YC7yehsSfEHxd9DpFyvMtqLZCoDB5I8o
-         d1Ng==
+        bh=AZuGir3b1KN6D314gbhsnjYzv/jfHJH2iSyH2j4coXU=;
+        b=lGqPSy+QPM+HWa9QHnHsr0ui7K0Il6wV/SQwIjHOpYWsnsfjwY8d05By+WbXINHHcv
+         eAUaBv8ZhHrS3tjyP8nP4OEtPe7z9f7W4ypAYcb0oGtrkm6QpS2rkTLpBuhoym0mAEIq
+         fXCKOngxgmBEkeB2CCWKP8wMl8l954Jxf32ybVrZ+xyeOfYv58O4MLnG4eo3pLykTE/M
+         aEfbl5+H2vjrJx3ifAxwSymYvChExrNR9eZfXhlPX1xEbgSOMBhjMuipHilWwiUt4aBa
+         rneJEHAvdiyEvH9FfwDTgZz9of50+SkJZzbngpKZXC3EGqXRpr6OvX2W1XmYmt9yJNtp
+         SqDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
          :references:mime-version:content-disposition:in-reply-to:user-agent
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=4eOtM60OUwFs7gGlYJ29N+7jX3cpdOq0Iy2LO/0gX7M=;
-        b=Cp0vYh2HiHn7t7BvUvIzPwn/20H0I0+KMvzjh+Nfz5slumAaiaGsFM7fS4VpHHj1RT
-         rLZJuJezloUG0TNlbJ6lmjP8Jfj/x970bSIPdwaZjGJFsXYKd+VoS+J3ML2FKAQZ3NgA
-         u5HASF4z1vVwECpt6A2SWuuBYQJAsP5jd0LR5sM4k9MPYdeb9/fvcrJITQymDV5WsRg3
-         w1tdfRS4+Lba8Fg7uPM2OKv52zauC/Lh7QYIDI8wUWp/XL3MAkpJu5maD5ucFEOD4fy3
-         j6EvhIesSu4aN/WR1l/DAtaKgBEiRMe3eRQddm1zoe651XN5sOAFFEKb6q2fcM12HsbB
-         viVw==
-X-Gm-Message-State: APjAAAWHXGomANea+0i0v6cus77J+vnvY4fK3TkKLjuron/bY16UVxeY
-	hATTnSHOKyAhDtDABhelSRQ=
-X-Google-Smtp-Source: APXvYqzJaEBGeaiVx1WTXudCTkPFb0HRVQSpMwyVDg6MQAkYb/f2ElOVuxd4qA2o0Dj5DntvZzyOWQ==
-X-Received: by 2002:a7b:c959:: with SMTP id i25mr2955307wml.100.1574253062562;
-        Wed, 20 Nov 2019 04:31:02 -0800 (PST)
+        bh=AZuGir3b1KN6D314gbhsnjYzv/jfHJH2iSyH2j4coXU=;
+        b=AB9TSx7l4ajK1MPK0x+EYmXXEIPkUuxad7LhYu/bwju4Fn8MdyeyAyB51vELhn+BFN
+         6yyVmw0cn10udoEwRhWzwCKikW9TwmUodBv+AJo1eALFR5O79c0sN5Cm5W9544Z36uU0
+         GiXs3S3xff9azr2crkUw7UOVhWhnPoJpqkoCjci5qEBNKrSdgcHK+59Xi2goHuwZc58S
+         eX+CTZN8BLEsBk+VTVMcEfju/j538ikWIQEkFvNZERYEN9M2lfdQcFm7HWGyWZNkvSrQ
+         BqOVYwqg1IGZ2g5eACtErHYt0qgCntvOL7YYkDnJgbV6BM/603j0QUl4jXpl0TV8S1oj
+         SQ5Q==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: APjAAAU+sMK4zFaFQ3p2gYZAwBs2bO1OYNFeQ8QfAfh+3X6nLHLxN/tu
+	6tEfHzzcAgPQdfYpm/aKgmw=
+X-Google-Smtp-Source: APXvYqz6reuzp/cMlH2KoBzpNGqVzedvxclY1oSJyggXpS7heOkt8PxaaozXTNIUkSOWCkoVMmjArw==
+X-Received: by 2002:a2e:7013:: with SMTP id l19mr2579601ljc.201.1574253574358;
+        Wed, 20 Nov 2019 04:39:34 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a5d:5512:: with SMTP id b18ls724759wrv.16.gmail; Wed, 20 Nov
- 2019 04:31:01 -0800 (PST)
-X-Received: by 2002:adf:fe0e:: with SMTP id n14mr3139901wrr.72.1574253061858;
-        Wed, 20 Nov 2019 04:31:01 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1574253061; cv=none;
+Received: by 2002:a05:651c:289:: with SMTP id b9ls273507ljo.10.gmail; Wed, 20
+ Nov 2019 04:39:33 -0800 (PST)
+X-Received: by 2002:a2e:8508:: with SMTP id j8mr2548360lji.136.1574253573568;
+        Wed, 20 Nov 2019 04:39:33 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1574253573; cv=none;
         d=google.com; s=arc-20160816;
-        b=J8j+qCAWl3MwRRYPOmd4+FGHCCBEpxDLfEdbK88A9ZY6yQlIPTQ+xGEb+XQH3HeBfy
-         6FZAJnOHzUo2cmkRuCAd0rcKe1La+tQBqXHwctb2Ni6f4fJ+XozBq8L5tPLY5s0ADzgS
-         HOLrxyBTqEKqp/rG07T81c+SrDuROwpVQpace+qHgvCtbpj5O+hw+UEoeoAd71F1jtR7
-         s/U0TEvLIJYlFDiz1DV+sH45VIRrrLuMFe0V/26GuUH1UZuyXhUDE/LjlOD/h7t+7KYl
-         EGOQSC72YrnyEq2Rl2dgGs7h2LQ+dLlIIaJIWsJi8wuen1r5x1Sd+vlBNYakHbc8VUWc
-         NlMQ==
+        b=hcUHzQryGXpTX/4ihTF5/Yb8btqrY5OXEB+NngrLkkzbHnrOecUtpaq1xI5diRMQup
+         U6HC5PKy7ey4QVqhx0cDeyU8zu/Ch4lD+twXRQvolU3ou4N5ea4uSUfrMbcOlOcG6MJE
+         Ab4n2laH6r48aQziKSS4EKo+ZCXqTY02E1pHVyjmr4fLs7QX5RvcOu4srd2KuAdhRMTo
+         +0WRmm5XwHyt2e8EYs2kAsN4ODptcpP5QRdWpDDtwTRI2cIEklndMJXnxBcLbuxBpA8C
+         wXw6FXFShHSLmgGgEPd4PceTGxvs/fFlEwEPOdgYP3xYm/EzJhhl3N7bWNDKOfk7xiZm
+         0CIw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:sender:dkim-signature;
-        bh=oF272YdvOBPcMekRUMKZ+4luBT6maFPugIEMdZDUVZw=;
-        b=ZqPibUbq/Ov8Bx3rnSXNiJvEeoL3r/PMxaTbW1iDV+8adQXol+cMdgx2TsiS2sv2Dz
-         4+x04ePSXXICJ1TDw6xqFbVVlBnifMwIuq6JjnnnnnIF6fHkYtzN/GS5m9/gYIORX5yK
-         xkFyM5JSCVFYSU9rd6a+/l8BQp8HRVy8+55zcz8XtKWHztCU2qf+5pJJ2L2iXNYHkO4h
-         /WgFl5WSTP2jKzEjO19dzuCYOzPkOofdXhdk9pxsE5NDpEue2PfcAQA4GqA8624QVles
-         +4BB8docyMJnLvFlYoUrqA+x8x1p1bS784VrqxLErzCfuTJibaugAsVcmlpusAfio+Tq
-         8vaw==
+         :message-id:subject:cc:to:from:date:dkim-signature;
+        bh=zp+1xALzK6MVb4JuJSTpKsxknVwYBFmIQv2YEQLs+rY=;
+        b=0dCrzOVwv2u3WyWsiPInoUXlSlcC6A0eDlP9FGJfvhaPFq6pFCbdr4VIT3CtmCLa1n
+         DnSE66SDirtZEZRxH0DjuYqOWnNrSOe92Pu+Ob++NUEV2LKKn320J0h3eKjPF+y8KLzZ
+         gGFAsTTqKdVH6oCvD7ESOXVj2ylekfxd9ePtxi6T5o9WPn+NSzPRL58I5CZYjdt/8O9I
+         3KsQJoN1bSRlw/atvZfGPLKcaXMhFkDIvwGkQwoXVd7LCCRACYOU1AHlkbWaGiPCWeyg
+         5nhbM8/TlzdMHeGkYx1g5hBFL1M6kpZBU1bmB8wJVGljPYpmkCSwrbFSKaO+fkGijtSk
+         i00g==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20161025 header.b=kMbThVja;
-       spf=pass (google.com: domain of mingo.kernel.org@gmail.com designates 2a00:1450:4864:20::441 as permitted sender) smtp.mailfrom=mingo.kernel.org@gmail.com;
-       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com. [2a00:1450:4864:20::441])
-        by gmr-mx.google.com with ESMTPS id d5si1355871wrm.5.2019.11.20.04.31.01
+       dkim=pass header.i=@alien8.de header.s=dkim header.b=OjXmSLn6;
+       spf=pass (google.com: domain of bp@alien8.de designates 2a01:4f8:190:11c2::b:1457 as permitted sender) smtp.mailfrom=bp@alien8.de;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=alien8.de
+Received: from mail.skyhub.de (mail.skyhub.de. [2a01:4f8:190:11c2::b:1457])
+        by gmr-mx.google.com with ESMTPS id b13si1326363ljk.4.2019.11.20.04.39.33
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 20 Nov 2019 04:31:01 -0800 (PST)
-Received-SPF: pass (google.com: domain of mingo.kernel.org@gmail.com designates 2a00:1450:4864:20::441 as permitted sender) client-ip=2a00:1450:4864:20::441;
-Received: by mail-wr1-x441.google.com with SMTP id t1so27930810wrv.4
-        for <kasan-dev@googlegroups.com>; Wed, 20 Nov 2019 04:31:01 -0800 (PST)
-X-Received: by 2002:a5d:4c8c:: with SMTP id z12mr2966064wrs.347.1574253061550;
-        Wed, 20 Nov 2019 04:31:01 -0800 (PST)
-Received: from gmail.com (54033286.catv.pool.telekom.hu. [84.3.50.134])
-        by smtp.gmail.com with ESMTPSA id w12sm6421851wmi.17.2019.11.20.04.31.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Nov 2019 04:31:00 -0800 (PST)
-Sender: Ingo Molnar <mingo.kernel.org@gmail.com>
-Date: Wed, 20 Nov 2019 13:30:58 +0100
-From: Ingo Molnar <mingo@kernel.org>
-To: Jann Horn <jannh@google.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>, "H. Peter Anvin" <hpa@zytor.com>,
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 20 Nov 2019 04:39:33 -0800 (PST)
+Received-SPF: pass (google.com: domain of bp@alien8.de designates 2a01:4f8:190:11c2::b:1457 as permitted sender) client-ip=2a01:4f8:190:11c2::b:1457;
+Received: from zn.tnic (p200300EC2F0D8C00B1B17C12861BCCA4.dip0.t-ipconnect.de [IPv6:2003:ec:2f0d:8c00:b1b1:7c12:861b:cca4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 8C9BE1EC0CE3;
+	Wed, 20 Nov 2019 13:39:32 +0100 (CET)
+Date: Wed, 20 Nov 2019 13:39:26 +0100
+From: Borislav Petkov <bp@alien8.de>
+To: Ingo Molnar <mingo@kernel.org>
+Cc: Jann Horn <jannh@google.com>, Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, "H. Peter Anvin" <hpa@zytor.com>,
 	the arch/x86 maintainers <x86@kernel.org>,
 	Andrey Ryabinin <aryabinin@virtuozzo.com>,
 	Alexander Potapenko <glider@google.com>,
@@ -120,22 +117,23 @@ Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
 	Sean Christopherson <sean.j.christopherson@intel.com>,
 	Andi Kleen <ak@linux.intel.com>
 Subject: Re: [PATCH v3 2/4] x86/traps: Print non-canonical address on #GP
-Message-ID: <20191120123058.GA17296@gmail.com>
+Message-ID: <20191120123926.GE2634@zn.tnic>
 References: <20191120103613.63563-1-jannh@google.com>
  <20191120103613.63563-2-jannh@google.com>
  <20191120111859.GA115930@gmail.com>
  <CAG48ez0Frp4-+xHZ=UhbHh0hC_h-1VtJfwHw=kDo6NahyMv1ig@mail.gmail.com>
+ <20191120123058.GA17296@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <CAG48ez0Frp4-+xHZ=UhbHh0hC_h-1VtJfwHw=kDo6NahyMv1ig@mail.gmail.com>
+In-Reply-To: <20191120123058.GA17296@gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Original-Sender: mingo@kernel.org
+X-Original-Sender: bp@alien8.de
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20161025 header.b=kMbThVja;       spf=pass
- (google.com: domain of mingo.kernel.org@gmail.com designates
- 2a00:1450:4864:20::441 as permitted sender) smtp.mailfrom=mingo.kernel.org@gmail.com;
-       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+ header.i=@alien8.de header.s=dkim header.b=OjXmSLn6;       spf=pass
+ (google.com: domain of bp@alien8.de designates 2a01:4f8:190:11c2::b:1457 as
+ permitted sender) smtp.mailfrom=bp@alien8.de;       dmarc=pass (p=NONE
+ sp=NONE dis=NONE) header.from=alien8.de
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -148,47 +146,39 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-
-* Jann Horn <jannh@google.com> wrote:
-
-> You mean something like this?
+On Wed, Nov 20, 2019 at 01:30:58PM +0100, Ingo Molnar wrote:
 > 
-> ========================
-> diff --git a/arch/x86/kernel/traps.c b/arch/x86/kernel/traps.c
-> index 9b23c4bda243..16a6bdaccb51 100644
-> --- a/arch/x86/kernel/traps.c
-> +++ b/arch/x86/kernel/traps.c
-> @@ -516,32 +516,36 @@ dotraplinkage void do_bounds(struct pt_regs
-> *regs, long error_code)
->   * On 64-bit, if an uncaught #GP occurs while dereferencing a non-canonical
->   * address, return that address.
->   */
-> -static unsigned long get_kernel_gp_address(struct pt_regs *regs)
-> +static bool get_kernel_gp_address(struct pt_regs *regs, unsigned long *addr,
-> +                                          bool *non_canonical)
-
-Yeah, that's pretty much the perfect end result!
-
-> I guess that could potentially be useful if a #GP is triggered by
-> something like an SSE alignment error? I'll add it in unless someone
-> else complains.
-
-Yeah - also it's correct information about the context of the fault, so 
-it probably cannot *hurt*, and will allow us to debug/validate everything 
-in this area faster.
-
-> > > +#define GPFSTR "general protection fault"
-> > >  dotraplinkage void
-> >
-> > Please separate macro and function definitions by an additional newline.
+> * Jann Horn <jannh@google.com> wrote:
 > 
-> Will change it.
+> > You mean something like this?
+> > 
+> > ========================
+> > diff --git a/arch/x86/kernel/traps.c b/arch/x86/kernel/traps.c
+> > index 9b23c4bda243..16a6bdaccb51 100644
+> > --- a/arch/x86/kernel/traps.c
+> > +++ b/arch/x86/kernel/traps.c
+> > @@ -516,32 +516,36 @@ dotraplinkage void do_bounds(struct pt_regs
+> > *regs, long error_code)
+> >   * On 64-bit, if an uncaught #GP occurs while dereferencing a non-canonical
+> >   * address, return that address.
+> >   */
+> > -static unsigned long get_kernel_gp_address(struct pt_regs *regs)
+> > +static bool get_kernel_gp_address(struct pt_regs *regs, unsigned long *addr,
+> > +                                          bool *non_canonical)
+> 
+> Yeah, that's pretty much the perfect end result!
 
-Thanks!
+Why do we need the bool thing? Can't we rely on the assumption that an
+address of 0 is the error case and use that to determine whether the
+resolving succeeded or not?
 
-	Ingo
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20191120123058.GA17296%40gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20191120123926.GE2634%40zn.tnic.
