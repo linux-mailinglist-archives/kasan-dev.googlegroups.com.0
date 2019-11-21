@@ -1,137 +1,125 @@
-Return-Path: <kasan-dev+bncBCF5XGNWYQBRBRFI3PXAKGQE6DMAFWI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCMIZB7QWENRB2GY3PXAKGQEYWCJJBY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
 Received: from mail-ua1-x93a.google.com (mail-ua1-x93a.google.com [IPv6:2607:f8b0:4864:20::93a])
-	by mail.lfdr.de (Postfix) with ESMTPS id E20E7105944
-	for <lists+kasan-dev@lfdr.de>; Thu, 21 Nov 2019 19:15:33 +0100 (CET)
-Received: by mail-ua1-x93a.google.com with SMTP id d22sf1077220ual.1
-        for <lists+kasan-dev@lfdr.de>; Thu, 21 Nov 2019 10:15:33 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1574360133; cv=pass;
+	by mail.lfdr.de (Postfix) with ESMTPS id E5685105AB0
+	for <lists+kasan-dev@lfdr.de>; Thu, 21 Nov 2019 20:58:33 +0100 (CET)
+Received: by mail-ua1-x93a.google.com with SMTP id o5sf1139395uai.13
+        for <lists+kasan-dev@lfdr.de>; Thu, 21 Nov 2019 11:58:33 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1574366313; cv=pass;
         d=google.com; s=arc-20160816;
-        b=dmAmDQbJLePGtQ4HJ3cyNMbPEO/ZHtDuggxjH22D3fSSvjq3Xs5UfFtDRt9rrZt34S
-         x9Iim0RWJ9WYTUgDuE5J+lL87m+XOwU0miHFmHUqhZH8htQ5RgS2jlOoEFj2ktQu5Tbj
-         +0WY7LhnDdPrqbtcoiDJmgyx04ICI6LJNPSQRnC3up2vozPql5hIMGpcEXu1GsNL4oeI
-         rk2uyCiQvhhCNeeF7oiHTQSc8tZkRqrFwAwWANcucrgxiO4usIqhsbkaNniM9dfvvnAS
-         Sdgw1O/Kp65bSDM/jhyOYS11O5V6gcMAmj/KMfXTSdYvTtuBE3C53jl2eGASJISJlcYJ
-         uadQ==
+        b=q+XkFIzm1BpkPNBWlQPDtXn5EVUr6NRVKKyJ1SbySqCuS1V/w5LMJmWqLlZSGjqccg
+         rehhi5l9ZK0MCVqOJ7/4/Z/rBCX05GzrDg8oDmdzSkSqWpZDMrtYbCqhHHAxcgBa4Fgs
+         EMI4MxXTSERykbD+nuZfVheLhp35UcM40hp4Mm99D5+U11oj+C0d724i+Cpab9pAM0ly
+         CCd9sN6KEMKNLfKMPBMHqYBDdUMmnJ7PIwb/yf2BkTVTD8llITqGUNHnS5g7za3kP9BN
+         hmO2VDwc5X10kEyVOxdmnprzenQB5O480bMmBXPzlyw2h8l+gygMYBe2B0TYEVGOlhvs
+         IWpA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:references:in-reply-to:message-id
-         :date:subject:cc:to:from:mime-version:sender:dkim-signature;
-        bh=98nOAuJ4SHGmDua+JQAbBJ1qm24X4hY6pn0/27ZHcos=;
-        b=ONUeQpKaNWXdYHlrkTBrWO9etWjMZDe6Jb/mWOsQweC+sYOQOPt/RBT1mosPW4iWK5
-         2FhobToZS/r6lX0mYbg18donYp2sRYfJcceUZaywEb5ihbMhzaIfBPf2kwPjjV7M4e3A
-         r01z4kgPELWvpaaSl4mIrO9A3fKo+NmGRkh1pkOFE3mOAnQecn88BUiJEsdiaGTmHd0+
-         kskz7T4CPZj+i6SHPtZaC74gmMOGijcw3XrWJj4CrPyqCPkcYjZw6K/3hKaf1p8JWnFH
-         YXxhpYbUp7w03114i8EHGamr+bDV3nX73vzT/h0fOz7vo4+CiM89bGzxigIFciT1uM+l
-         PASw==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=y2Vu1l2Wl2Fr2DP1lZz3IOPbXFFofasblXpMBpYMkoA=;
+        b=Mm6+aVxxW+HuCjh5T8BKA1DegqkTdXcNH6CLRH1qrOA7iOyIzjkHKMJrV3b+6ZRSnJ
+         KTDz17tl9YpG3AZP31y0K4VbWIXz0sAS41JoUS8cNjSA35AYmiY4D1h+9t+GXUINJxEn
+         nVyseIkm4WDIRfBp4CGkpT8rxpya8vE8yb579zwKd4SP4rUsytWpJFfWz2yJXfQ/x6iU
+         ftCgzSUkCIrArvhFKjY/QoxmBDUxX2RB7IM03GysoM/4zG+hskPx/ACuPT5tm41i0HBf
+         l77g7lfQiTXtze6+PM9YK4Z/xrIzKtOk28sOHt6xUtZdvaX8XyxzExF79o9wTOW8hIvr
+         +6Hw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@chromium.org header.s=google header.b=AUOvfPWM;
-       spf=pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::1041 as permitted sender) smtp.mailfrom=keescook@chromium.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=chromium.org
+       dkim=pass header.i=@google.com header.s=20161025 header.b=Kd3uHXA1;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::841 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:mime-version:from:to:cc:subject:date:message-id:in-reply-to
-         :references:x-original-sender:x-original-authentication-results
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=98nOAuJ4SHGmDua+JQAbBJ1qm24X4hY6pn0/27ZHcos=;
-        b=tmdnMFrl+6Khk2Ni22PpLK7Y0UAzZ3Z1nwDwq2dZbe9rsTeIVMzC6OeAXouWAC/Qwj
-         /5daSQsvbQHtdModqCTbT3trg2OGkBN8oOM+VjrigbhL1Z5IDZR8V/Gte+aaEKKq1uZI
-         Jt0xS4G8L/6MaYMWOxJiz4VdZ3oY/IzJqx17q4Bp3DSUMx4Eqx8+ppgY/NYCfK6WYO/U
-         i67v2GbZlVkzK+lKngKDoXTdV+vLzpaNZSR7qJlN36W8iedGRpE/3S6aP6ONjIoe9N/E
-         v7nxPunl8SiyNsp4Rxvjb7dcgyAL+TEuz4qZMdd2DwmxWBqMbVffKiSliuMfqb9JMpuZ
-         HkxQ==
+        bh=y2Vu1l2Wl2Fr2DP1lZz3IOPbXFFofasblXpMBpYMkoA=;
+        b=VPDz0u6xum5Nx1hpbHRfxHgvCjGDyqRnMBbvZGxIHT7RYax+jqeEjfKA3GHc6SmmGk
+         FD+3+UIPFMhh1P5u8ZlxjUr/f/WAvz87e99xem+mq9Pxpq7peikbPJZ00JNr+bm/orUM
+         pgpKyRKS7WBqspWzMj7atSX72bOvktONXtRRKC56zMVts8MPx4sEYHYTjGF4BQzTkOdw
+         96+JYIpkge7p28taDMesOAsn5rsKNjuqAID9DiY1OzQpShl8aNLA+xGmN6F0ax9ARv5q
+         EnoPJrMtgFxBNGWdOLSHtbWxsfqC72Zb66+ZCQQQW+AGDdSBegY9Wr/pSPUIPk7Q8Yh7
+         fvAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:mime-version:from:to:cc:subject:date
-         :message-id:in-reply-to:references:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=98nOAuJ4SHGmDua+JQAbBJ1qm24X4hY6pn0/27ZHcos=;
-        b=MUD9hTYsPGxjaOumpVSULupfxG08ZsPQ//ulZl0KwO4Kn6KlGTQAyu/8sxHYq486pS
-         G1wp1THIBmVsHL6g9tnkADFFWNvlh8TPjjaM3lkgkiXodgbhvV0UgTMXgssLbMWNyAKu
-         yQtcPudYwWGDBJVgzVe2aUCt8fbrnHzdeCNp6oeLSCmDzPLD/4qWUIyiJ3eGoVKbQPlD
-         hfsWDp9s2o9IaTscBAi9LpozvQi8m9snE+3TesmWV5ttzZriIPqCEfKPxHMbFc4ZwOH5
-         IkudQbhg2APYdAWAtNZAgdqXj6TKKLSw6CSYW6nBFwePP13McPsyQ9XVAZru0yfuQ5Ko
-         dUVg==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAXpFNa6xo5emxyHRbxOzXmXqq0Djqb9zcqk5HlFpP47feSijx1E
-	FQKgw98AvKHXonQYv4oh3+g=
-X-Google-Smtp-Source: APXvYqwawa9Q/gUfuU65Qojq9kPbXSJuf/XOGansWOI3fzGQ6b/kmo8H9fSnOOXbGM+Uh1cDPm3Xyw==
-X-Received: by 2002:ab0:608f:: with SMTP id i15mr6590513ual.20.1574360132810;
-        Thu, 21 Nov 2019 10:15:32 -0800 (PST)
-MIME-Version: 1.0
+        bh=y2Vu1l2Wl2Fr2DP1lZz3IOPbXFFofasblXpMBpYMkoA=;
+        b=ecq3Wm1SoigwslubPTMFOKrcqFQ/N77YrNzWKt1HywCVQbjCWlhMK6G70PegO629KB
+         wdsuunUQicp7UMHxd3zapgr+hobsnt6Ok2TqDH8Sosd4XMXHWELEZ8dl4vHuv4xRrWZS
+         5hg9/NHNuZ1tGEcWjUZ5y2vKYbbf3oM15TvMXYNQtuYEPputneDZjovdFhYRmTIzv0X0
+         e+KkrQDugHRwoo0gkHmAiFRe6kAzQpHf0WmwgcRdAQWD/tanAnVzLJjt5fGNu7MKXNcb
+         xe+3b8yKGOPuC+ynC1SflJ4ZIaqR8wlyZY9h8LP257axSkrY2vgjjz48dX8gtVBSZ2sp
+         S0sQ==
+X-Gm-Message-State: APjAAAVkPvJL3Hsnzqq86GlOA3Ex7nBepc9evYUyfjUE5V/GVueT1kCd
+	RhTLXQh2QyxrAGg9JrnqT1w=
+X-Google-Smtp-Source: APXvYqwGwatY+Z7dS2UjzZK/eN5BIdbPrF1OnQhduxT7RCETqrckhD0vCSPJ+/r1/HQnPAHQOyesWQ==
+X-Received: by 2002:a1f:e9c1:: with SMTP id g184mr7025506vkh.4.1574366312897;
+        Thu, 21 Nov 2019 11:58:32 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a67:c116:: with SMTP id d22ls873190vsj.14.gmail; Thu, 21 Nov
- 2019 10:15:32 -0800 (PST)
-X-Received: by 2002:a67:ee49:: with SMTP id g9mr6928273vsp.105.1574360132490;
-        Thu, 21 Nov 2019 10:15:32 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1574360132; cv=none;
+Received: by 2002:a67:c116:: with SMTP id d22ls902166vsj.14.gmail; Thu, 21 Nov
+ 2019 11:58:32 -0800 (PST)
+X-Received: by 2002:a67:bd05:: with SMTP id y5mr7381315vsq.180.1574366312530;
+        Thu, 21 Nov 2019 11:58:32 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1574366312; cv=none;
         d=google.com; s=arc-20160816;
-        b=DgM0WnIAsVLrF37W2oMIR+Qu4gBvSlfz5rwBD9Fu5uSZdeuoXUUyLa3vHzh4VZFjrA
-         yaAdK6okF/eoqYFNp/dKlYRpmgm8wbePPlDZrwOm24gO81gQ8qKa5uI1umU8AXDsHtTz
-         79sd/HCOy8N/S1cVSO+YiDhNmv/fRXrmZUwV1FJBOSxxDOR2r3lQDARSfPlwyJXN2gP7
-         PUbjaTSR1qUg2OyVukV+KDbwzgibtdGOuKS+E9yhMfGfSeuRd1rqmJnbVvTYnNX+iFbW
-         3BLUmfqp6EZ7Hqn0d4ScVGdIgdnbZ58bg8QzANAD3j5bp+M0rnF20pH66HSeC72V0Xqg
-         eFVA==
+        b=PA5uC34V8cOzY7cszdPTzne7f9Ox145RZgPxgTii+Vww9gzF3DSAiQeKDL9ChYx2iO
+         hIJtlMIQo3aSp2z90mOezZX9L2BVW6PxPMb3trb52rWGkLyZPvVdOHEYa2hOSsYi1lVZ
+         SRDX+wVRM6rCqcxPjnvs3Loq0fwhBi18SfrYBut9L3hloWt9F/3dKQ5+dZ6o4c3sA5mz
+         +V8QZvOX+WlBQjbIDDWV66UF9h6WcNgSC+OdU6xnG9YUGP3lO74CyUfbmwadyYUzjNKt
+         JJIjZgcyGdN9DP/SY/I6POqIf6Pr9vMLPOlq82Dj+KjMgehAB+2tW9/DtxCo7yQqHTLv
+         GFCA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=references:in-reply-to:message-id:date:subject:cc:to:from
-         :dkim-signature;
-        bh=0T61AzxnAvwa4rB+CZumfDDidufAJnp+U8GPCQMxTB4=;
-        b=qn8+ccNcxdmxU1TzuSc6PyBiZ8R/rVHsnehR2CXVZi3DQuBYOZz8cw55s0KAqrERYB
-         XuUKFkptjReYj0et8gbYrd457tfDjTy/c5n6gqNwpQR5HN1c1ZAOsf63LqXj2VT6vA0+
-         4IH5vn6VhDgPml3l4NH7Nf7hNghQv2gBCU5aBfw72i+PrB27bQoSDehzao5zL0lLBa1C
-         g0chvj6hRlQ3CdQcul2A3j+kveXEUvwAXksR2jCs1vxx221mXgJPgoUHlFud6xivydTP
-         u4372k5uZpmkyfwoIKXcz+Dei4C6GSOsN+uCleYFBgdsrDgI2HrKdJ80gHMo+NuCEwQI
-         D/6A==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=NrzxHrY8HSPigVP1ddvjUfQFh9GexeJHE6yrEfyJGn8=;
+        b=IXAFQnZoZ+XGTvtZJRRSaty0lNsrd0H1tqVbZZGX2rquRCevGdAHLeiWHHptI0vo1F
+         WKbsNVWJOBmREWJotwKh0IOR1q+oYfoev5FRQ46Qc9VQQeWLzhOmdkHkv/7Dz71kce9I
+         jwgr5WHqr9UeP5bvUHKO3f3ptltq7dIxsoBtdHDzOLPtlv3ARaOKI/RcG8GR6/CRhex5
+         HbzLxxKtrOJigKfLn6Vxsj1Qbi6Iaol2pHhcxb1gYZKWL7V0P8qOTC2cQt6jBgWAbRtS
+         Bann+O0bvnmQIMMVPHvSP6ikpRF7g7qklPB1sLiAOwSlJtlnO7KIN+jDhYrnhMZx/uro
+         pE8Q==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@chromium.org header.s=google header.b=AUOvfPWM;
-       spf=pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::1041 as permitted sender) smtp.mailfrom=keescook@chromium.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=chromium.org
-Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com. [2607:f8b0:4864:20::1041])
-        by gmr-mx.google.com with ESMTPS id s197si173652vkd.5.2019.11.21.10.15.32
+       dkim=pass header.i=@google.com header.s=20161025 header.b=Kd3uHXA1;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::841 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-qt1-x841.google.com (mail-qt1-x841.google.com. [2607:f8b0:4864:20::841])
+        by gmr-mx.google.com with ESMTPS id o206si218205vka.4.2019.11.21.11.58.32
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 21 Nov 2019 10:15:32 -0800 (PST)
-Received-SPF: pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::1041 as permitted sender) client-ip=2607:f8b0:4864:20::1041;
-Received: by mail-pj1-x1041.google.com with SMTP id cq11so1846469pjb.3
-        for <kasan-dev@googlegroups.com>; Thu, 21 Nov 2019 10:15:32 -0800 (PST)
-X-Received: by 2002:a17:90a:3d01:: with SMTP id h1mr13598717pjc.15.1574360131608;
-        Thu, 21 Nov 2019 10:15:31 -0800 (PST)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id o23sm3964733pgj.90.2019.11.21.10.15.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Nov 2019 10:15:28 -0800 (PST)
-From: Kees Cook <keescook@chromium.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Kees Cook <keescook@chromium.org>,
-	Andrey Ryabinin <aryabinin@virtuozzo.com>,
-	Elena Petrova <lenaptr@google.com>,
-	Alexander Potapenko <glider@google.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Dan Carpenter <dan.carpenter@oracle.com>,
-	"Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-	kasan-dev@googlegroups.com,
-	linux-kernel@vger.kernel.org,
-	kernel-hardening@lists.openwall.com
-Subject: [PATCH v2 3/3] lkdtm/bugs: Add arithmetic overflow and array bounds checks
-Date: Thu, 21 Nov 2019 10:15:19 -0800
-Message-Id: <20191121181519.28637-4-keescook@chromium.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191121181519.28637-1-keescook@chromium.org>
-References: <20191121181519.28637-1-keescook@chromium.org>
-X-Original-Sender: keescook@chromium.org
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@chromium.org header.s=google header.b=AUOvfPWM;       spf=pass
- (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::1041
- as permitted sender) smtp.mailfrom=keescook@chromium.org;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=chromium.org
+        Thu, 21 Nov 2019 11:58:32 -0800 (PST)
+Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::841 as permitted sender) client-ip=2607:f8b0:4864:20::841;
+Received: by mail-qt1-x841.google.com with SMTP id q8so2425652qtr.10
+        for <kasan-dev@googlegroups.com>; Thu, 21 Nov 2019 11:58:32 -0800 (PST)
+X-Received: by 2002:aed:24af:: with SMTP id t44mr10377791qtc.57.1574366311591;
+ Thu, 21 Nov 2019 11:58:31 -0800 (PST)
+MIME-Version: 1.0
+References: <20191112065302.7015-1-walter-zh.wu@mediatek.com> <040479c3-6f96-91c6-1b1a-9f3e947dac06@virtuozzo.com>
+In-Reply-To: <040479c3-6f96-91c6-1b1a-9f3e947dac06@virtuozzo.com>
+From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Thu, 21 Nov 2019 20:58:19 +0100
+Message-ID: <CACT4Y+botuVF6KanfRrudDguw7HGkJ1mrwvxYZQQF0eWoo-Lxw@mail.gmail.com>
+Subject: Re: [PATCH v4 1/2] kasan: detect negative size in memory operation function
+To: Andrey Ryabinin <aryabinin@virtuozzo.com>
+Cc: Walter Wu <walter-zh.wu@mediatek.com>, Alexander Potapenko <glider@google.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, kasan-dev <kasan-dev@googlegroups.com>, 
+	Linux-MM <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>, 
+	Linux ARM <linux-arm-kernel@lists.infradead.org>, 
+	wsd_upstream <wsd_upstream@mediatek.com>, linux-mediatek@lists.infradead.org
 Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: dvyukov@google.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@google.com header.s=20161025 header.b=Kd3uHXA1;       spf=pass
+ (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::841
+ as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
+ (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Dmitry Vyukov <dvyukov@google.com>
+Reply-To: Dmitry Vyukov <dvyukov@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -144,141 +132,69 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Adds LKDTM tests for arithmetic overflow (both signed and unsigned),
-as well as array bounds checking.
+On Thu, Nov 21, 2019 at 1:27 PM Andrey Ryabinin <aryabinin@virtuozzo.com> wrote:
+> > diff --git a/mm/kasan/common.c b/mm/kasan/common.c
+> > index 6814d6d6a023..4bfce0af881f 100644
+> > --- a/mm/kasan/common.c
+> > +++ b/mm/kasan/common.c
+> > @@ -102,7 +102,8 @@ EXPORT_SYMBOL(__kasan_check_write);
+> >  #undef memset
+> >  void *memset(void *addr, int c, size_t len)
+> >  {
+> > -     check_memory_region((unsigned long)addr, len, true, _RET_IP_);
+> > +     if (!check_memory_region((unsigned long)addr, len, true, _RET_IP_))
+> > +             return NULL;
+> >
+> >       return __memset(addr, c, len);
+> >  }
+> > @@ -110,8 +111,9 @@ void *memset(void *addr, int c, size_t len)
+> >  #undef memmove
+> >  void *memmove(void *dest, const void *src, size_t len)
+> >  {
+> > -     check_memory_region((unsigned long)src, len, false, _RET_IP_);
+> > -     check_memory_region((unsigned long)dest, len, true, _RET_IP_);
+> > +     if (!check_memory_region((unsigned long)src, len, false, _RET_IP_) ||
+> > +         !check_memory_region((unsigned long)dest, len, true, _RET_IP_))
+> > +             return NULL;
+> >
+> >       return __memmove(dest, src, len);
+> >  }
+> > @@ -119,8 +121,9 @@ void *memmove(void *dest, const void *src, size_t len)
+> >  #undef memcpy
+> >  void *memcpy(void *dest, const void *src, size_t len)
+> >  {
+> > -     check_memory_region((unsigned long)src, len, false, _RET_IP_);
+> > -     check_memory_region((unsigned long)dest, len, true, _RET_IP_);
+> > +     if (!check_memory_region((unsigned long)src, len, false, _RET_IP_) ||
+> > +         !check_memory_region((unsigned long)dest, len, true, _RET_IP_))
+> > +             return NULL;
+> >
+>
+> I realized that we are going a wrong direction here. Entirely skipping mem*() operation on any
+> poisoned shadow value might only make things worse. Some bugs just don't have any serious consequences,
+> but skipping the mem*() ops entirely might introduce such consequences, which wouldn't happen otherwise.
+>
+> So let's keep this code as this, no need to check the result of check_memory_region().
 
-Signed-off-by: Kees Cook <keescook@chromium.org>
----
- drivers/misc/lkdtm/bugs.c  | 75 ++++++++++++++++++++++++++++++++++++++
- drivers/misc/lkdtm/core.c  |  3 ++
- drivers/misc/lkdtm/lkdtm.h |  3 ++
- 3 files changed, 81 insertions(+)
+I suggested it.
 
-diff --git a/drivers/misc/lkdtm/bugs.c b/drivers/misc/lkdtm/bugs.c
-index 7284a22b1a09..8b4ef30f53c6 100644
---- a/drivers/misc/lkdtm/bugs.c
-+++ b/drivers/misc/lkdtm/bugs.c
-@@ -11,6 +11,7 @@
- #include <linux/sched/signal.h>
- #include <linux/sched/task_stack.h>
- #include <linux/uaccess.h>
-+#include <linux/slab.h>
- 
- struct lkdtm_list {
- 	struct list_head node;
-@@ -171,6 +172,80 @@ void lkdtm_HUNG_TASK(void)
- 	schedule();
- }
- 
-+volatile unsigned int huge = INT_MAX - 2;
-+volatile unsigned int ignored;
-+
-+void lkdtm_OVERFLOW_SIGNED(void)
-+{
-+	int value;
-+
-+	value = huge;
-+	pr_info("Normal signed addition ...\n");
-+	value += 1;
-+	ignored = value;
-+
-+	pr_info("Overflowing signed addition ...\n");
-+	value += 4;
-+	ignored = value;
-+}
-+
-+
-+void lkdtm_OVERFLOW_UNSIGNED(void)
-+{
-+	unsigned int value;
-+
-+	value = huge;
-+	pr_info("Normal unsigned addition ...\n");
-+	value += 1;
-+	ignored = value;
-+
-+	pr_info("Overflowing unsigned addition ...\n");
-+	value += 4;
-+	ignored = value;
-+}
-+
-+/* Intentially using old-style flex array definition of 1 byte. */
-+struct array_bounds_flex_array {
-+	int one;
-+	int two;
-+	char data[1];
-+};
-+
-+struct array_bounds {
-+	int one;
-+	int two;
-+	char data[8];
-+	int three;
-+};
-+
-+void lkdtm_ARRAY_BOUNDS(void)
-+{
-+	struct array_bounds_flex_array *not_checked;
-+	struct array_bounds *checked;
-+	int i;
-+
-+	not_checked = kmalloc(sizeof(*not_checked) * 2, GFP_KERNEL);
-+	checked = kmalloc(sizeof(*checked) * 2, GFP_KERNEL);
-+
-+	pr_info("Array access within bounds ...\n");
-+	/* For both, touch all bytes in the actual member size. */
-+	for (i = 0; i < sizeof(checked->data); i++)
-+		checked->data[i] = 'A';
-+	/*
-+	 * For the uninstrumented flex array member, also touch 1 byte
-+	 * beyond to verify it is correctly uninstrumented.
-+	 */
-+	for (i = 0; i < sizeof(not_checked->data) + 1; i++)
-+		not_checked->data[i] = 'A';
-+
-+	pr_info("Array access beyond bounds ...\n");
-+	for (i = 0; i < sizeof(checked->data) + 1; i++)
-+		checked->data[i] = 'B';
-+
-+	kfree(not_checked);
-+	kfree(checked);
-+}
-+
- void lkdtm_CORRUPT_LIST_ADD(void)
- {
- 	/*
-diff --git a/drivers/misc/lkdtm/core.c b/drivers/misc/lkdtm/core.c
-index cbc4c9045a99..25879f7b0768 100644
---- a/drivers/misc/lkdtm/core.c
-+++ b/drivers/misc/lkdtm/core.c
-@@ -129,6 +129,9 @@ static const struct crashtype crashtypes[] = {
- 	CRASHTYPE(HARDLOCKUP),
- 	CRASHTYPE(SPINLOCKUP),
- 	CRASHTYPE(HUNG_TASK),
-+	CRASHTYPE(OVERFLOW_SIGNED),
-+	CRASHTYPE(OVERFLOW_UNSIGNED),
-+	CRASHTYPE(ARRAY_BOUNDS),
- 	CRASHTYPE(EXEC_DATA),
- 	CRASHTYPE(EXEC_STACK),
- 	CRASHTYPE(EXEC_KMALLOC),
-diff --git a/drivers/misc/lkdtm/lkdtm.h b/drivers/misc/lkdtm/lkdtm.h
-index ab446e0bde97..2cd0c5031eea 100644
---- a/drivers/misc/lkdtm/lkdtm.h
-+++ b/drivers/misc/lkdtm/lkdtm.h
-@@ -22,6 +22,9 @@ void lkdtm_SOFTLOCKUP(void);
- void lkdtm_HARDLOCKUP(void);
- void lkdtm_SPINLOCKUP(void);
- void lkdtm_HUNG_TASK(void);
-+void lkdtm_OVERFLOW_SIGNED(void);
-+void lkdtm_OVERFLOW_UNSIGNED(void);
-+void lkdtm_ARRAY_BOUNDS(void);
- void lkdtm_CORRUPT_LIST_ADD(void);
- void lkdtm_CORRUPT_LIST_DEL(void);
- void lkdtm_CORRUPT_USER_DS(void);
--- 
-2.17.1
+For our production runs it won't matter, we always panic on first report.
+If one does not panic, there is no right answer. You say: _some_ bugs
+don't have any serious consequences, but skipping the mem*() ops
+entirely might introduce such consequences. The opposite is true as
+well, right? :) And it's not hard to come up with a scenario where
+overwriting memory after free or out of bounds badly corrupts memory.
+I don't think we can somehow magically avoid bad consequences in all
+cases.
+
+What I was thinking about is tests. We need tests for this. And we
+tried to construct tests specifically so that they don't badly corrupt
+memory (e.g. OOB/UAF reads, or writes to unused redzones, etc), so
+that it's possible to run all of them to completion reliably. Skipping
+the actual memory options allows to write such tests for all possible
+scenarios. That's was my motivation.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20191121181519.28637-4-keescook%40chromium.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BbotuVF6KanfRrudDguw7HGkJ1mrwvxYZQQF0eWoo-Lxw%40mail.gmail.com.
