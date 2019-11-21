@@ -1,31 +1,31 @@
-Return-Path: <kasan-dev+bncBC5L5P75YUERBP433TXAKGQERBLDIII@googlegroups.com>
+Return-Path: <kasan-dev+bncBC5L5P75YUERBHU43TXAKGQEHWYXDTA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x139.google.com (mail-lf1-x139.google.com [IPv6:2a00:1450:4864:20::139])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D801105C8D
-	for <lists+kasan-dev@lfdr.de>; Thu, 21 Nov 2019 23:20:48 +0100 (CET)
-Received: by mail-lf1-x139.google.com with SMTP id f20sf1306999lfh.7
-        for <lists+kasan-dev@lfdr.de>; Thu, 21 Nov 2019 14:20:48 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1574374848; cv=pass;
+Received: from mail-lf1-x138.google.com (mail-lf1-x138.google.com [IPv6:2a00:1450:4864:20::138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 396A4105C92
+	for <lists+kasan-dev@lfdr.de>; Thu, 21 Nov 2019 23:22:23 +0100 (CET)
+Received: by mail-lf1-x138.google.com with SMTP id w1sf1304784lfc.8
+        for <lists+kasan-dev@lfdr.de>; Thu, 21 Nov 2019 14:22:23 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1574374942; cv=pass;
         d=google.com; s=arc-20160816;
-        b=FhLAJ+P/FUtfyKp8bLXSd0mkK9ubefA/UyG00QuBeJdS5oQyqRd8rgJ/9FCGAaoK9w
-         mGw43xvqXg9AQOlgctzENM3Vswilap4xlYZOL6WqkBxGHRB+54L+CRHcxBgYRbeKAofQ
-         rgNZQVL2aZc6sd0UXFCZsUNuaRC6NgQzB6f/JbamZvyPzuam8GxV8/MfDvEvTJERc0U9
-         cEGEN8h4dLuh/7LMP/PBvLme0mfoAYB1To3RLTHER77ylmwjUhv6UsvjMiF4FCnZuUfS
-         91sdQa9Wf+6aDVpDUtyYqyWxvvK1uvCpX7vhQUoM1KHV6UENReLKJ91qxXIwFSshwxg+
-         cnRA==
+        b=u3qErEtUE47G/JdkA+6DPh/zyLidWtq2YqxEE4fC50hPtGDQqb9jE9ibDErBLVNx68
+         DhqBnxJG05F5OHZ7+IAXxBfTYtSH+VwaPmY68Ke8dRDL5sRCsH0KY8WiyPN0FgKTsP0i
+         RSp3cIAwXz3acc/8cYE8nPFOT+5ucNyDGXCz+mogeYXwgRle7oG7g/yuOu7pub8VuZDL
+         q7J6W20VuT/ZSwzLhqppxNUrZpYtGMwaqzCIEwLHmwE3qdU0f9bPm1VqxX/+BKJYI9c6
+         MHQuynanQHjM9G1ckLRWEfr5lHt/OyuZWex48YWyVeAcD4ESgNjMpDjUoghjjg8swOo3
+         A5jg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:content-language:in-reply-to
          :mime-version:user-agent:date:message-id:from:references:cc:to
          :subject:sender:dkim-signature;
-        bh=e1NbziHEdZIRDHjrcQmMg5cwA4KC+iGMYur+1bvEicY=;
-        b=aHzCYwPMY75rKn7BBCI+erlYthYbaKjxbXd0GvRpqTPI6xTW173twTlDg9+g+XT9o6
-         upzIdCeYde26l7mpPRkNUmy+evxAF/npxbS5D1ic4YzTqydLhtjVFaPHc1y9hvdPDN2o
-         oarBKw7Vlw7289Uyk+8CQ2l97b401M/8qBeNIqS9wVjns7JI3GzsTHk6Njh8JfHaNeP2
-         St1fEi5bzF7c88ZyMOpgN8EgK5YmbTuBlQAUXGbdSKVCxDHcrcwWBie/1CQAH2qOv0nX
-         vq5krzK9PB+ch+RGylXjTgW2BgUVHvmnqOolrw+GaZsygOCHeShqP07rfpDt8j202GeY
-         +2zA==
+        bh=m0vRc1sId1C2WIrhVfMM1dqLPpNNRKy6Bf2LlVl4icg=;
+        b=N0xnzXU2gyEAKI1qc0wEJpG5tMJP4G5s77+shzfwYX5SHzHSn2ktEv5YFbgGm81VlZ
+         8cMwsdAQkNZzYStMDU4KRg8UA5vx5PtP6HcY8T/r9Y+0jK7thX+Xuhp22tDxz9varPPt
+         27KLWGR6crlEcKMXRELEqKobLZDfDvLEOqNToFfIMbKFabvxJNlcG7Yx5w1NTg+phcHR
+         XS+Q1tqr60US1wLX+Gd4QJPyMndHQiojgYt6I5ycrXeiEvz2i4cEikQl56JWeJWuZhGz
+         7IwJA4gcOOozVLL1E2+de7HCqFVxfdy5/VuJraTZqJ7X2JV3s+0HhqgvP7ad8U+b70Vr
+         8MRA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
        spf=pass (google.com: domain of aryabinin@virtuozzo.com designates 185.231.240.75 as permitted sender) smtp.mailfrom=aryabinin@virtuozzo.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=virtuozzo.com
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :mime-version:in-reply-to:content-language:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=e1NbziHEdZIRDHjrcQmMg5cwA4KC+iGMYur+1bvEicY=;
-        b=Jc+f3MobkmwaFodXb3k7UqrRNxIs/NWYBuDkYsjSSCPLP9NSHL3TWtM+1lv1qb7FcS
-         mgFN3AMC1oJfAHTOMhLJYA2OgMl+VAIdqYcDK8xyELHLgR34T0dtxVzNaGiOdfrFJV6p
-         28f9sbYo8fjJCGLet6M7p7xX0IhaXgzGqAHtzkVJd/bXIfRESiQTUAa3QvCOCDz1jKQc
-         tBg3nJ49ONsxR3ZqHYFp9535xh1OzWHxpgIF0JbJ+rSL5PsOIeOAURQgYw2uNY81EuV4
-         KGaCrpB6fZGuZ03Qwplv7gGlriXqG+jZnptk07j7joNCQ4zAlFTTOJ2jO05aNSLedC8H
-         fcrg==
+        bh=m0vRc1sId1C2WIrhVfMM1dqLPpNNRKy6Bf2LlVl4icg=;
+        b=J18Ich/3vg3/EB0Aaoq+uqKtTunfj/2ByA6UGrPwGe/fKWaHREdGFuoi/431h3NyTE
+         TVec3q8xxIqQEWaIbaMegtwhZHFi33eGI77rGZIH/Q6jZBXeeB741yqsSTDGXvxMu4m1
+         GQH0sBgkSwmY3hnfaumzFuMtVp24pEHblE7qz6nTZXDU35NDBDwma8OAMnfYfSynCRzt
+         R1pVv7fYYztShucy6UoAf3X+wS4UVtg34dnh83myC9OL7VmkWHJDHx17MWVyIBWLjePL
+         TJFlWUz4s8QVgkVXKw4UjzINc4GR4FAVtZayUeCU37IBx7+JX231UpvX1QY0z82PTzeP
+         UeRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:subject:to:cc:references:from:message-id
@@ -49,75 +49,72 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=e1NbziHEdZIRDHjrcQmMg5cwA4KC+iGMYur+1bvEicY=;
-        b=iWhG+hYTPAJI3NxA/Y4ky4cBEyss276msyMAO3A1APpbjpJNCV6GLxkpwcqjG6ZCvj
-         tcT95Kbb+gk+Zv6Qa8vJ6Tgt4unIuXhwyhMHRp9AGOshcLoca8yf0MbfNgW++rwCrh+E
-         LUrPh6JwRmCFkNHyGi6wj04mPMEPEZxWTpWFegiMEK2fJ1mkb9Am3X0DGNKF+cMlHeMm
-         n/TsBW8jKWyVQa9zrozeiLMUjXqTbwYrXO1niQxxUXEYvKqDpZ6ScX4O5xS1amxUaMi/
-         ZM+K4tioMXJmDdObk2/k7UKb2uoXdFCihkHX62h5k+W77jR/XT53B48qEGplvJbgviPG
-         kKvA==
+        bh=m0vRc1sId1C2WIrhVfMM1dqLPpNNRKy6Bf2LlVl4icg=;
+        b=PQbD2L+hKpe+4z5BpbrrYeMISc/gINwZwWy2+D/9tFWjAgYKJS0kGMtSQ9ZrkBrs5L
+         4ohVUGV9066sd9rSPLsVnB1PSdT4+mRfTaOpl0qakYWJer0tfipEE8viY2E2qOqQW1vv
+         +yTQhM99K0hpoE4P81ke01LJyabChI0YVlbCxTufzgLPBRfK+FVH5LtzmtuC0VasGls/
+         Weo7mgwv45GRO5IrcPBHMs3gII0EM/Wi7A1UlpfVDTVw5By/XRQ5ufBPybUdpUD/LRrI
+         xLkjYbV6F5ZG81gF6hJkKqG1VzTsWoZXS8di0F+IZzLICBFaC2oYrjURFWWC3F+EmKhU
+         A7iQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAWZjsma9U4tJY4CkKyKpc0UpLlGZisF2WZWjUqjIqE4qIx7ZJ1A
-	Rr7suz2R/FmKlum++e+xLDQ=
-X-Google-Smtp-Source: APXvYqy7x4988rntP6ZTXLxyr0RnvebcwbDFBn0L2J/7/pcbVGhveOSNy+J3gqTFTvDrG2v32kgcfA==
-X-Received: by 2002:a05:651c:87:: with SMTP id 7mr9868326ljq.20.1574374847878;
-        Thu, 21 Nov 2019 14:20:47 -0800 (PST)
+X-Gm-Message-State: APjAAAVSprsZStLHhMFO2G0EFRc/bVYuiRE9gr/7l2BceiCyHUG8o/jW
+	+NezcF7z8wEwvJDVcl3MIQc=
+X-Google-Smtp-Source: APXvYqx84wvGdb+72VAhRVGNHUpca564UQzebrlMdMNU/WmDsJjjBBXXuYqvjkSl4OiK9TIrd42FZw==
+X-Received: by 2002:a2e:300d:: with SMTP id w13mr9785452ljw.117.1574374942814;
+        Thu, 21 Nov 2019 14:22:22 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a19:ee08:: with SMTP id g8ls909330lfb.0.gmail; Thu, 21 Nov
- 2019 14:20:47 -0800 (PST)
-X-Received: by 2002:ac2:5c09:: with SMTP id r9mr6939352lfp.136.1574374847323;
-        Thu, 21 Nov 2019 14:20:47 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1574374847; cv=none;
+Received: by 2002:a2e:8ed1:: with SMTP id e17ls1232557ljl.2.gmail; Thu, 21 Nov
+ 2019 14:22:22 -0800 (PST)
+X-Received: by 2002:a2e:9d97:: with SMTP id c23mr9552396ljj.121.1574374942105;
+        Thu, 21 Nov 2019 14:22:22 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1574374942; cv=none;
         d=google.com; s=arc-20160816;
-        b=PhX09HyZp9w/TspBtpscnf5tD+Y6dFTZ/VvtEuETt7Hc3QbjKddhYNHYhNPJhBlA4D
-         MmyjZB8sxT6UT5jqhNDppbnVsvWdrFX/5cSSsTYwEpoR9dyKpLn4iFpItJ+l19KbxXR/
-         5vHvUg7e5Ct5RXDq9O7hyj6kZ0K01Ao0xVeQ1oW+VsLvwI9Q121MajbegC05S9H9415J
-         pyVqrDsore6xmc+dRndbe+n5uTldPR+2g6Ft3GG3X9OT7MKkyKwuU7tsdqJ3o6e8Xsxh
-         SdkJ99iAE/PVMFi7lOVRGyFcN49TK1ElsII5zlJtQNAdmFVT7covW3q4CQ7kVX9ehRRP
-         Nsug==
+        b=BCyCE4cLA1bV37eiVN9J7F1lVePRjoaJL2R41nSsAUP6A3xhDyqnJzq6M8teAeDIZ3
+         UVashWeqUNhDSTH8Lg7NP4/uWnKOg6QGVRHjssL9s35CvmwjsAH8NlREHjEEGmur6mqZ
+         HC5jnWKy4zm3O4BZGYhyA5Hwj85PQtGITNQIanctOEex+0vsu72Bo2YC6JuDBWMEWXpQ
+         IYGfAqN8vbf9xz+ZdMMRAI17yFuUvUCogzSN5DeoBGYIZZz/LKyVXq0uB+ipUJVafII3
+         s8tegb9KXW0kFmB6iAT/79ae7SvLWpfhCCvpqxnMeLA7NvvL13eLGhDc/yXoQv3uguJ6
+         RTTQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:content-language:in-reply-to:mime-version
          :user-agent:date:message-id:from:references:cc:to:subject;
-        bh=+AB/9Sm9DUswifV1IgH5NCvGEGSb1/O0nPDfQF8SVhc=;
-        b=DRLecHrL6CnQfM6XkQN2VX6ALse7kU5un08bX3W6w3xfC18R4clCbbYgAFoG+xXLxc
-         iUfMocTSFZZ4KuySiwkriaDVRy9yiwLUNBDlVWzG2I7Am4YqSIkqqV7HWs57UGNY3ky/
-         YaL2w9QDxDwo57uA3qWLjQVevVYKcyzNEBsnuAWAuKtJDZKH7tcPF45xdYJdDBJsPPV3
-         2MIuhchYZQ8YYerrCjTajJsX0d1LkNURMP2nWRn8zVqRlLejABMaZebPhLTKx5ah1iXO
-         7n4yomfKoYxLKI1enfcktwR3GLHwJcIH3Kh8E6LzdI8l1qd3/Igggy6Wx7qS2IKIWwv/
-         qR3Q==
+        bh=ji3gnkCDRPtNWFKJJcjkuQMsuapO/ZRLFz7EqSXe6e0=;
+        b=B82a0ugZmbqvco+obbtzSr4MlkZyGAej9jC/9l4UNgoa4f0wsGe/eCbfJXl9Kdf0OY
+         5bwwNS63yXSmVLauInXHXkt8r4bzq3bwL1CxKUG6fuP0bRNUdObox28sTtqgh5HQ8gYl
+         xHpbAnGb5YAw1wsDAYDMiaVAJhuH7zbzGHsHDnka+lxz75+py6cSBItY0cMFzogIB65s
+         vsLSbdTYVQInmzjQIiZRl4SM7dQzdkbTujRPeK1Cs8gMyoUg5vPyt77VzQ3G32M5z+WV
+         IL4wiuUOUu/G4pLbPSSxMzVJCjA098aacuLyDhccVtAvLUGTIJW0ayzs4pdTl8fGIxme
+         ORlg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
        spf=pass (google.com: domain of aryabinin@virtuozzo.com designates 185.231.240.75 as permitted sender) smtp.mailfrom=aryabinin@virtuozzo.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=virtuozzo.com
 Received: from relay.sw.ru (relay.sw.ru. [185.231.240.75])
-        by gmr-mx.google.com with ESMTPS id t3si123996ljj.1.2019.11.21.14.20.47
+        by gmr-mx.google.com with ESMTPS id b13si252387ljk.4.2019.11.21.14.22.22
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 21 Nov 2019 14:20:47 -0800 (PST)
+        Thu, 21 Nov 2019 14:22:22 -0800 (PST)
 Received-SPF: pass (google.com: domain of aryabinin@virtuozzo.com designates 185.231.240.75 as permitted sender) client-ip=185.231.240.75;
 Received: from [192.168.15.154]
 	by relay.sw.ru with esmtp (Exim 4.92.3)
 	(envelope-from <aryabinin@virtuozzo.com>)
-	id 1iXuoL-0007nb-4j; Fri, 22 Nov 2019 01:20:25 +0300
+	id 1iXuq2-0007vl-St; Fri, 22 Nov 2019 01:22:11 +0300
 Subject: Re: [PATCH v4 1/2] kasan: detect negative size in memory operation
  function
-To: Dmitry Vyukov <dvyukov@google.com>
-Cc: Walter Wu <walter-zh.wu@mediatek.com>,
- Alexander Potapenko <glider@google.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- kasan-dev <kasan-dev@googlegroups.com>, Linux-MM <linux-mm@kvack.org>,
- LKML <linux-kernel@vger.kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- wsd_upstream <wsd_upstream@mediatek.com>, linux-mediatek@lists.infradead.org
+To: Walter Wu <walter-zh.wu@mediatek.com>,
+ Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>
+Cc: kasan-dev@googlegroups.com, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ wsd_upstream <wsd_upstream@mediatek.com>,
+ linux-mediatek@lists.infradead.org, Andrew Morton <akpm@linux-foundation.org>
 References: <20191112065302.7015-1-walter-zh.wu@mediatek.com>
- <040479c3-6f96-91c6-1b1a-9f3e947dac06@virtuozzo.com>
- <CACT4Y+botuVF6KanfRrudDguw7HGkJ1mrwvxYZQQF0eWoo-Lxw@mail.gmail.com>
 From: Andrey Ryabinin <aryabinin@virtuozzo.com>
-Message-ID: <ad1aa63b-38d7-4c8d-00c0-bd215cf9b66e@virtuozzo.com>
-Date: Fri, 22 Nov 2019 01:18:38 +0300
+Message-ID: <b2ba5228-dec0-9acf-49e9-d57f156814ef@virtuozzo.com>
+Date: Fri, 22 Nov 2019 01:20:23 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <CACT4Y+botuVF6KanfRrudDguw7HGkJ1mrwvxYZQQF0eWoo-Lxw@mail.gmail.com>
+In-Reply-To: <20191112065302.7015-1-walter-zh.wu@mediatek.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Language: en-US
 X-Original-Sender: aryabinin@virtuozzo.com
@@ -139,77 +136,49 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 
 
-On 11/21/19 10:58 PM, Dmitry Vyukov wrote:
-> On Thu, Nov 21, 2019 at 1:27 PM Andrey Ryabinin <aryabinin@virtuozzo.com> wrote:
->>> diff --git a/mm/kasan/common.c b/mm/kasan/common.c
->>> index 6814d6d6a023..4bfce0af881f 100644
->>> --- a/mm/kasan/common.c
->>> +++ b/mm/kasan/common.c
->>> @@ -102,7 +102,8 @@ EXPORT_SYMBOL(__kasan_check_write);
->>>  #undef memset
->>>  void *memset(void *addr, int c, size_t len)
->>>  {
->>> -     check_memory_region((unsigned long)addr, len, true, _RET_IP_);
->>> +     if (!check_memory_region((unsigned long)addr, len, true, _RET_IP_))
->>> +             return NULL;
->>>
->>>       return __memset(addr, c, len);
->>>  }
->>> @@ -110,8 +111,9 @@ void *memset(void *addr, int c, size_t len)
->>>  #undef memmove
->>>  void *memmove(void *dest, const void *src, size_t len)
->>>  {
->>> -     check_memory_region((unsigned long)src, len, false, _RET_IP_);
->>> -     check_memory_region((unsigned long)dest, len, true, _RET_IP_);
->>> +     if (!check_memory_region((unsigned long)src, len, false, _RET_IP_) ||
->>> +         !check_memory_region((unsigned long)dest, len, true, _RET_IP_))
->>> +             return NULL;
->>>
->>>       return __memmove(dest, src, len);
->>>  }
->>> @@ -119,8 +121,9 @@ void *memmove(void *dest, const void *src, size_t len)
->>>  #undef memcpy
->>>  void *memcpy(void *dest, const void *src, size_t len)
->>>  {
->>> -     check_memory_region((unsigned long)src, len, false, _RET_IP_);
->>> -     check_memory_region((unsigned long)dest, len, true, _RET_IP_);
->>> +     if (!check_memory_region((unsigned long)src, len, false, _RET_IP_) ||
->>> +         !check_memory_region((unsigned long)dest, len, true, _RET_IP_))
->>> +             return NULL;
->>>
->>
->> I realized that we are going a wrong direction here. Entirely skipping mem*() operation on any
->> poisoned shadow value might only make things worse. Some bugs just don't have any serious consequences,
->> but skipping the mem*() ops entirely might introduce such consequences, which wouldn't happen otherwise.
->>
->> So let's keep this code as this, no need to check the result of check_memory_region().
+On 11/12/19 9:53 AM, Walter Wu wrote:
+> KASAN missed detecting size is a negative number in memset(), memcpy(),
+> and memmove(), it will cause out-of-bounds bug. So needs to be detected
+> by KASAN.
 > 
-> I suggested it.
+> If size is a negative number, then it has a reason to be defined as
+> out-of-bounds bug type.
+> Casting negative numbers to size_t would indeed turn up as
+> a large size_t and its value will be larger than ULONG_MAX/2,
+> so that this can qualify as out-of-bounds.
 > 
-> For our production runs it won't matter, we always panic on first report.
-> If one does not panic, there is no right answer. You say: _some_ bugs
-> don't have any serious consequences, but skipping the mem*() ops
-> entirely might introduce such consequences. The opposite is true as
-> well, right? :) And it's not hard to come up with a scenario where
-> overwriting memory after free or out of bounds badly corrupts memory.
-> I don't think we can somehow magically avoid bad consequences in all
-> cases.
->
+> KASAN report is shown below:
+> 
+>  BUG: KASAN: out-of-bounds in kmalloc_memmove_invalid_size+0x70/0xa0
+>  Read of size 18446744073709551608 at addr ffffff8069660904 by task cat/72
+> 
+>  CPU: 2 PID: 72 Comm: cat Not tainted 5.4.0-rc1-next-20191004ajb-00001-gdb8af2f372b2-dirty #1
+>  Hardware name: linux,dummy-virt (DT)
+>  Call trace:
+>   dump_backtrace+0x0/0x288
+>   show_stack+0x14/0x20
+>   dump_stack+0x10c/0x164
+>   print_address_description.isra.9+0x68/0x378
+>   __kasan_report+0x164/0x1a0
+>   kasan_report+0xc/0x18
+>   check_memory_region+0x174/0x1d0
+>   memmove+0x34/0x88
+>   kmalloc_memmove_invalid_size+0x70/0xa0
+> 
+> [1] https://bugzilla.kernel.org/show_bug.cgi?id=199341
+> 
+> Signed-off-by: Walter Wu <walter-zh.wu@mediatek.com>
+> Reported-by: Dmitry Vyukov <dvyukov@google.com>
+> Suggested-by: Dmitry Vyukov <dvyukov@google.com>
+> Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
+> Cc: Andrey Ryabinin <aryabinin@virtuozzo.com>
+> Cc: Alexander Potapenko <glider@google.com>
+> Reported-by: kernel test robot <lkp@intel.com>
+> ---
 
-Absolutely right. My point was that if it's bad consequences either way,
-than there is no point in complicating this code, it doesn't buy us anything.
-
- 
-> What I was thinking about is tests. We need tests for this. And we
-> tried to construct tests specifically so that they don't badly corrupt
-> memory (e.g. OOB/UAF reads, or writes to unused redzones, etc), so
-> that it's possible to run all of them to completion reliably. Skipping
-> the actual memory options allows to write such tests for all possible
-> scenarios. That's was my motivation.
-
-But I see you point now. No objections to the patch in that case.
+Reviewed-by: Andrey Ryabinin <aryabinin@virtuozzo.com>
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/ad1aa63b-38d7-4c8d-00c0-bd215cf9b66e%40virtuozzo.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/b2ba5228-dec0-9acf-49e9-d57f156814ef%40virtuozzo.com.
