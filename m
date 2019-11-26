@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBDE76TXAKGQEFSZZSBY@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBD476TXAKGQEPE44U4A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x23d.google.com (mail-lj1-x23d.google.com [IPv6:2a00:1450:4864:20::23d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97362109D1B
-	for <lists+kasan-dev@lfdr.de>; Tue, 26 Nov 2019 12:42:05 +0100 (CET)
-Received: by mail-lj1-x23d.google.com with SMTP id 70sf3669200ljf.13
-        for <lists+kasan-dev@lfdr.de>; Tue, 26 Nov 2019 03:42:05 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1574768525; cv=pass;
+Received: from mail-lj1-x240.google.com (mail-lj1-x240.google.com [IPv6:2a00:1450:4864:20::240])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E7EF109D1D
+	for <lists+kasan-dev@lfdr.de>; Tue, 26 Nov 2019 12:42:08 +0100 (CET)
+Received: by mail-lj1-x240.google.com with SMTP id h16sf3659819ljk.20
+        for <lists+kasan-dev@lfdr.de>; Tue, 26 Nov 2019 03:42:08 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1574768527; cv=pass;
         d=google.com; s=arc-20160816;
-        b=jJGT+B2QsXKfR10UXH1eROCbMnlAqmur8Bczqs3Sywxs1TE90+e8V0AHoUCUEoyBqm
-         XNw5w/8I4yEOMrUWVhTKhOrXMhKdtAIWcbTjyKVmfndeBN9zm7ioH7IzYHD9Jf4+6F71
-         PPJoLoHOKJOfRFExbIhx5lCi9tKFtYxN4L6M7S4Jd2fjI3mdSgeKLG0z9+IotX46APlB
-         ANVVBgOssK8G5Vc9zHhdbfwWmEx6ayxlyS2a+Api7fZmQ+6Ces1P6QzOVdDx2Ocesw3q
-         HSs9l0qN/+yOoK6D9HNKpD4E1+iB4nVt9xmVgRzkWkm1vpxUQWjk2AWa23BYAt0es9pI
-         p0Rg==
+        b=C4gBbEHGlfC7bWFSQT0Xar8Amowkv2kuRb3+ke4q71bJhpzT04GvBRrgNUazRaWhrV
+         hAz/HZgoszhd/muf/8SyP7evwkgtJqEoEuArJg8D0SV6mr9fIxmRjWO1m8NJ5qtMOv/v
+         slGHzBZLwjVO1im3uXRvrD8zy4s1FBEKhVL6dBG05xj5O11Iw8DC/Tj6eM4ZA11X5gDw
+         7kDnNe5E/86PM9nQhzgrEgtaMha7J5+OdI+WbiH067AvG1f2vgnMDf432z1fRYiFvvnk
+         tQq1qLIY2Wfu4aqdPhrIZ8hS4owYC5epm4q/UN8kYni7YRnKfGLIuF97B0pGmFTHthq/
+         /DPQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
          :references:mime-version:message-id:in-reply-to:date:dkim-signature;
-        bh=062obqGGkszSI+jkNxmK4ZHCiyg2X0unw/+Y+lnB+PY=;
-        b=UBAzWCp0fbxmNrOsn8JDAFj/obXh08Vp016ZWeKFUv9guNMMM0A+j2dOsNO0VTXYsB
-         QHJD01FsJSLhS2TYdTJkZ37ycHstee8Bsg7iMDIUVVYeSUTPYVVN5TqyFPkjxHrMCWou
-         6EihMlUC7LRIX5NDCOWv9vppvALNZsIWFgqAikwEDZP+Hy8kXlRgbuj2Ig8Vf+Nt3vUd
-         6acTpVhSlFs5mgCrHGnApHGk0lPj4LYdw9nPJDKoXl9N4Nxrg+3syt81t7F8OHW1ni2C
-         0S70ZWLKFZx0BoDajmHNrhpjsoCmnlhR2UppHj626Qaoio3qXdlpDY3a7h02We5r4ozk
-         9t0A==
+        bh=w3RqBDcWuBV6NLDXp2/bATwqAH9YT5EwJNljXzTeaTo=;
+        b=k1p5TiZcvAzbH3EoSVu4GKuudCFVdgodPQlGZoubz0C1HHKxGaxW4op8SotTNvEY47
+         StB1LiQBfPTMacXw8W16sGInqsD+R+MUIJpnMgrYUZ+EHQ1nZECeQpMf0rRJY9Cy/3t1
+         zhYj3TUQn0FW9RQiaoJk+wYL/r3CHAQfh2skAwNPlT8AtH46C/Y4NGY/qBhfU9RRcOAO
+         /R2ULhHxBsqkBg7tfQFZ/6rw+f1Xv/yHxdkpRBHAbJtl2v1sl3q6UbdlZn+r4a9wuFnm
+         +8ffM3KSWY0BDMhhP4h3x3iZb2jCsnV6kVogc6rZwHFPUrMYXkm9mKDAcfYOUc6iPgnS
+         iigw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=Mxyw6WQ5;
-       spf=pass (google.com: domain of 3ig_dxqukcrmx4exaz77z4x.v753tbt6-wxez77z4xza7d8b.v75@flex--elver.bounces.google.com designates 2a00:1450:4864:20::449 as permitted sender) smtp.mailfrom=3ig_dXQUKCRMx4ExAz77z4x.v753tBt6-wxEz77z4xzA7D8B.v75@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=pfMouhbR;
+       spf=pass (google.com: domain of 3jg_dxqukcrc18i1e3bb381.zb97xfxa-01i3bb3813ebhcf.zb9@flex--elver.bounces.google.com designates 2a00:1450:4864:20::44a as permitted sender) smtp.mailfrom=3jg_dXQUKCRc18I1E3BB381.zB97xFxA-01I3BB3813EBHCF.zB9@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=062obqGGkszSI+jkNxmK4ZHCiyg2X0unw/+Y+lnB+PY=;
-        b=JGiDo8iCUMh/LuvWBBqA62JUxCo5iP0hGuWdl6Rf216ZUrazksakjztxJ1pJy04yoW
-         oNtHiM6mcN3SctuleqsXOt1cPhdmiOkVFC46pNtwrE6YxMnjIK0oYpVF/lF+SBugChGk
-         3lYV3xwEBOY5TOMvwjHmVUv1U49jtVw8EUzzZpJTbcJ1evvaXlClyXTNgsCuuAlR7wjP
-         /8DEss9ZFVRzf5C2HP3dKMT+I8w3Bfvw4K3Fao3Yl27PYRVKAaNgKeCbALn2C4yfGk2Q
-         MGKGeE4Es8m6veywkt8CKLwQQhBBvHplz84jdvpeWKyt4nrP6zr29sVyfXqFeEvpHp8B
-         +Whw==
+        bh=w3RqBDcWuBV6NLDXp2/bATwqAH9YT5EwJNljXzTeaTo=;
+        b=GOkPUBogngV98c+v4Tim0bFeSt5XbQTiVVxjs8cD+v//7z2dhd4GYCk9+Bw5bx/YSP
+         GTCtpslHArj8LgJcoSaLidFQ4a1YId0kQ2lk/DyNn6u7/SuZLGPMY1frkglywn+H9XFv
+         jmZCvIRmVKYn0k3mzMBOaZNksmuM23iqqIpmA1sp3NdR7W8fOF8pxLWCcEBAeAZgzF1l
+         gMx5kqv8ar3oeH7g+9AdzQmMJlDESYnieV5wNY2/I6Qkoqkx/YIJpsaPvn8pcWUl8Cgw
+         EtXQnt9YzmDPqokgEQgcXQxyxfk6LttFP9caidGppNkdr5sqKRDW/o41IqfyGYOk5GHt
+         ehtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
@@ -49,73 +49,74 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=062obqGGkszSI+jkNxmK4ZHCiyg2X0unw/+Y+lnB+PY=;
-        b=qXBznXFb36zU8MKPOkw5FqMUyX3wqfCWaMblBtVgHTl2Mz9LWwQeUuxY/X8jJOc2A3
-         KgtXl27XQAxVO9iePJpVc59USHbfPbWi/921g8kJmCFcZHeZZKvqgUkKB6qvI/57ej+H
-         3w/NFoeVMqH/ReLURRyfPSYw6pZU4A0Wzyw12lmLksEMg45TImTn9mUgLEZr98INZP0R
-         U+tfWL6WkGZnj1EMMhxy3I83C1VEgj/Atezn6Sy+NuF7nhVOGbTZdU7gygWnDiy1Ts0F
-         /ghYx8pnFQzfAeizwu1QXu0+Txq1TvB/5yegshlhR4PTbCEIUGaEPDvA9b/GzaA3T2zV
-         UKEw==
-X-Gm-Message-State: APjAAAXkPRhM11xndAQmhek92c43PznhCAslirTufX5Mz3QpC8uKtBnL
-	E1qzsCOMr9dnuLmPZrOM1ys=
-X-Google-Smtp-Source: APXvYqylmJM8Hkp28x6UIqpabwyDaHIMrXA/sWFMpmk3gSZNs2g86LpCYwqQiFXq9RDMRqR4lA0qvA==
-X-Received: by 2002:a05:651c:1139:: with SMTP id e25mr26949760ljo.200.1574768524983;
-        Tue, 26 Nov 2019 03:42:04 -0800 (PST)
+        bh=w3RqBDcWuBV6NLDXp2/bATwqAH9YT5EwJNljXzTeaTo=;
+        b=sDcGikf+Pa45IG3iX8j3gjwNPT8Q7+bF3Qtq++zZaXpKZs19tITRFm6iZzffm3nOFe
+         Ia/QQAAl06TOSVkFbPQYc0kE6YaYY/UFP+dyaEPIiewidoLjK8/wYNp0fV4aOr1BC4ef
+         T0W/Aofuxj5DI4zb6J+Q0ehnM8nbCOCpDDzfG4vCDH2m7w2fx/k5pbPHhUe8ABRZEXNH
+         /+xLy8vx0/+RcAgZN7Ei/MAMDD4u3ir6yi9bu25bcduDcsRRXf1IZRYSH8kztiIIgnun
+         Xu9t1Cua6iFCYSYBd6y7wEhwT9BbomX3WCSEtd5SbwyWPQe4Wx65hGzzMl/FG8nVR/TT
+         s7pQ==
+X-Gm-Message-State: APjAAAVQTYQPa7QktqJJrbIXbnFymF/AFxxWK98MQ7eO9pY5aHECH2NR
+	xHhZkN8hIZUCBaMFbdOQriw=
+X-Google-Smtp-Source: APXvYqz4SNVFu5nDYwZDkJJ89dDwoBIHKO4iLdS71taadSKN0HKh/8VjLORSG2UZ39bEOkJdPGkblA==
+X-Received: by 2002:a19:22c4:: with SMTP id i187mr22852578lfi.152.1574768527733;
+        Tue, 26 Nov 2019 03:42:07 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ac2:4465:: with SMTP id y5ls1991525lfl.16.gmail; Tue, 26 Nov
- 2019 03:42:04 -0800 (PST)
-X-Received: by 2002:ac2:5a43:: with SMTP id r3mr10375423lfn.150.1574768524128;
-        Tue, 26 Nov 2019 03:42:04 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1574768524; cv=none;
+Received: by 2002:a2e:2e01:: with SMTP id u1ls2824632lju.12.gmail; Tue, 26 Nov
+ 2019 03:42:06 -0800 (PST)
+X-Received: by 2002:a2e:3311:: with SMTP id d17mr26918617ljc.237.1574768526914;
+        Tue, 26 Nov 2019 03:42:06 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1574768526; cv=none;
         d=google.com; s=arc-20160816;
-        b=0dQjyPslQhjiVfeofXIpfFcKYksscc3+E6unoF42XIF8TwLAwwUtbFf9a40QqGlg8z
-         cmCRqlYeILA2I3659L3XVQsh0zrY2bmmPynQkVFy2TkDIlIv+5BouwmG9iI2I2VairLM
-         5HqZ6/CkqG1DyUfAXqU+sMZg9DLKiHCSE1OvsxtpEp5vtCuXvJKmLfO9iAYiDhZK/fHj
-         TBYNLOLVpMCiK+CBlSgqK5ywd+0usKKLFwow/VNdS2RD5YnLKs32kgq2PNns7xoaok/b
-         THuVl60ZfYkL7lmS1MaJadbEVmUv9oONMFQwyBV1t2LX9iD4lI3zdNt83pUFuL8YzX7Y
-         WEKQ==
+        b=TMbsqgIL2wpYXbNmziUZDiVq0lR4F6RpC8Vp8EwSuFzfjklrkV+0tWki5TSysaQI3h
+         3PgvfuNpH8HkcbwYhrrUL7ywWYsZZOoOl7nHOjkPOzgSkqi4rTYMeSevxi1dZR38MXQD
+         vqp2nV5K3kqj9gfkk0+frM0rbez55+N7ldFhOJiaWZ8qodRX08FjmJV5wGH+Am1u514R
+         HKuRcgLH20mfouDgOtkQb9Qr5vM2iQwd1zjGsgi/goSNbNU8bO5m+oZWb7Czr9WupZV/
+         AuoOmfiRQP7/u0jkAKkf8omoz6WdTMFkNlRt+2kCLZNpvjoXLn7XQZtBBbV5/9J9ttqF
+         PuqA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
          :date:dkim-signature;
-        bh=TE73M/PlolDW9rXCVC/GibXfIUmvajfdfZJped/7p3M=;
-        b=xmNB3IZUSL4H63tfwXT0OU0+IQ27XS2a14h3l0eixvjAf3GRuicC0YtjzHP4BfainH
-         pVK85fo61Qmnec4zRiNoNNZsCLz3u+Wb9Uf/UhPC2BpiOb6bHStuuWORVHa7OdLUzZMW
-         +6e6Jwe7Jn1YeC/xd31C8wiX8987G36MxrERJQu7xSOCtOKEUpqMQ/nvipIYBsNOJfE1
-         ceccU9bVafY7j1m2hpYD3l7/tNKw8qJmjNaOrO/oau4UruGnKKx7QPPlwdCtoPS2DJXG
-         MfTbZhWH26fvF0vyj/LyP10i2PTL/t33Id9M6aH+Z6jBOwEhdQMJd0EkGR0n8JRQ1vDI
-         pzAg==
+        bh=UhG4TbrFQmzzMiP4BKNG5iQmKmV3aCdN4xUR1YDfRPM=;
+        b=geDGbawKs8GeTuilz+OC94k1dZGeV6dvzgU33X9w1SpoiUal/0QafFOJemn9M3pTU2
+         MW0hfeEZEvFP2s/8mRL1S1nj4/MRJLaerbYlf6muZp01QdMTiastalgTHl4UvUgLhV59
+         pci5PdIjSxdG6yFWS7Pv71YujJbqR200h0wO4JJwzvGV4OY56YL5G/JGjoeye4QDdQ9Q
+         aTEnSk7pdsSBQ8LRO7/kkUVJy+b6dH9iUGcc9Ef4SQEAtLSONjpLGYFCGzBXE/eoEqEk
+         0ZExBeB3DHTvgn/RcdGx3xBncQbTWoKPVS0/J9pZkHScJTE9DdiACsFBHinPsQRjuUA5
+         X7kw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=Mxyw6WQ5;
-       spf=pass (google.com: domain of 3ig_dxqukcrmx4exaz77z4x.v753tbt6-wxez77z4xza7d8b.v75@flex--elver.bounces.google.com designates 2a00:1450:4864:20::449 as permitted sender) smtp.mailfrom=3ig_dXQUKCRMx4ExAz77z4x.v753tBt6-wxEz77z4xzA7D8B.v75@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=pfMouhbR;
+       spf=pass (google.com: domain of 3jg_dxqukcrc18i1e3bb381.zb97xfxa-01i3bb3813ebhcf.zb9@flex--elver.bounces.google.com designates 2a00:1450:4864:20::44a as permitted sender) smtp.mailfrom=3jg_dXQUKCRc18I1E3BB381.zB97xFxA-01I3BB3813EBHCF.zB9@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-wr1-x449.google.com (mail-wr1-x449.google.com. [2a00:1450:4864:20::449])
-        by gmr-mx.google.com with ESMTPS id k20si394654ljg.0.2019.11.26.03.42.03
+Received: from mail-wr1-x44a.google.com (mail-wr1-x44a.google.com. [2a00:1450:4864:20::44a])
+        by gmr-mx.google.com with ESMTPS id f11si661972lfm.2.2019.11.26.03.42.06
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 26 Nov 2019 03:42:03 -0800 (PST)
-Received-SPF: pass (google.com: domain of 3ig_dxqukcrmx4exaz77z4x.v753tbt6-wxez77z4xza7d8b.v75@flex--elver.bounces.google.com designates 2a00:1450:4864:20::449 as permitted sender) client-ip=2a00:1450:4864:20::449;
-Received: by mail-wr1-x449.google.com with SMTP id g17so10441859wru.4
-        for <kasan-dev@googlegroups.com>; Tue, 26 Nov 2019 03:42:03 -0800 (PST)
-X-Received: by 2002:adf:a551:: with SMTP id j17mr35424456wrb.18.1574768522892;
- Tue, 26 Nov 2019 03:42:02 -0800 (PST)
-Date: Tue, 26 Nov 2019 12:41:20 +0100
+        Tue, 26 Nov 2019 03:42:06 -0800 (PST)
+Received-SPF: pass (google.com: domain of 3jg_dxqukcrc18i1e3bb381.zb97xfxa-01i3bb3813ebhcf.zb9@flex--elver.bounces.google.com designates 2a00:1450:4864:20::44a as permitted sender) client-ip=2a00:1450:4864:20::44a;
+Received: by mail-wr1-x44a.google.com with SMTP id q12so10444315wrr.3
+        for <kasan-dev@googlegroups.com>; Tue, 26 Nov 2019 03:42:06 -0800 (PST)
+X-Received: by 2002:a5d:46c1:: with SMTP id g1mr15855542wrs.200.1574768526170;
+ Tue, 26 Nov 2019 03:42:06 -0800 (PST)
+Date: Tue, 26 Nov 2019 12:41:21 +0100
 In-Reply-To: <20191126114121.85552-1-elver@google.com>
-Message-Id: <20191126114121.85552-2-elver@google.com>
+Message-Id: <20191126114121.85552-3-elver@google.com>
 Mime-Version: 1.0
 References: <20191126114121.85552-1-elver@google.com>
 X-Mailer: git-send-email 2.24.0.432.g9d3f5f5b63-goog
-Subject: [PATCH v2 2/3] asm-generic/atomic: Use __always_inline for fallback wrappers
+Subject: [PATCH v2 3/3] kcsan: Prefer __always_inline for fast-path
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
 To: elver@google.com
 Cc: will@kernel.org, peterz@infradead.org, boqun.feng@gmail.com, arnd@arndb.de, 
 	dvyukov@google.com, linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org, 
-	kasan-dev@googlegroups.com, mark.rutland@arm.com, paulmck@kernel.org
+	kasan-dev@googlegroups.com, mark.rutland@arm.com, paulmck@kernel.org, 
+	Randy Dunlap <rdunlap@infradead.org>
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=Mxyw6WQ5;       spf=pass
- (google.com: domain of 3ig_dxqukcrmx4exaz77z4x.v753tbt6-wxez77z4xza7d8b.v75@flex--elver.bounces.google.com
- designates 2a00:1450:4864:20::449 as permitted sender) smtp.mailfrom=3ig_dXQUKCRMx4ExAz77z4x.v753tBt6-wxEz77z4xzA7D8B.v75@flex--elver.bounces.google.com;
+ header.i=@google.com header.s=20161025 header.b=pfMouhbR;       spf=pass
+ (google.com: domain of 3jg_dxqukcrc18i1e3bb381.zb97xfxa-01i3bb3813ebhcf.zb9@flex--elver.bounces.google.com
+ designates 2a00:1450:4864:20::44a as permitted sender) smtp.mailfrom=3jg_dXQUKCRc18I1E3BB381.zB97xFxA-01I3BB3813EBHCF.zB9@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Marco Elver <elver@google.com>
 Reply-To: Marco Elver <elver@google.com>
@@ -131,1820 +132,138 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Use __always_inline for atomic fallback wrappers. When building for size
-(CC_OPTIMIZE_FOR_SIZE), some compilers appear to be less inclined to
-inline even relatively small static inline functions that are assumed to
-be inlinable such as atomic ops. This can cause problems, for example in
-UACCESS regions.
+Prefer __always_inline for fast-path functions that are called outside
+of user_access_save, to avoid generating UACCESS warnings when
+optimizing for size (CC_OPTIMIZE_FOR_SIZE). It will also avoid future
+surprises with compiler versions that change the inlining heuristic even
+when optimizing for performance.
 
-While the fallback wrappers aren't pure wrappers, they are trivial
-nonetheless, and the function they wrap should determine the final
-inlining policy.
-
-For x86 tinyconfig we observe:
-- vmlinux baseline: 1315988
-- vmlinux with patch: 1315928 (-60 bytes)
-
-Suggested-by: Mark Rutland <mark.rutland@arm.com>
+Report: http://lkml.kernel.org/r/58708908-84a0-0a81-a836-ad97e33dbb62@infradead.org
+Reported-by: Randy Dunlap <rdunlap@infradead.org>
 Signed-off-by: Marco Elver <elver@google.com>
 ---
-v2:
-* Add patch to series.
+Rebased on: locking/kcsan branch of tip tree.
 ---
- include/linux/atomic-fallback.h              | 340 ++++++++++---------
- scripts/atomic/fallbacks/acquire             |   2 +-
- scripts/atomic/fallbacks/add_negative        |   2 +-
- scripts/atomic/fallbacks/add_unless          |   2 +-
- scripts/atomic/fallbacks/andnot              |   2 +-
- scripts/atomic/fallbacks/dec                 |   2 +-
- scripts/atomic/fallbacks/dec_and_test        |   2 +-
- scripts/atomic/fallbacks/dec_if_positive     |   2 +-
- scripts/atomic/fallbacks/dec_unless_positive |   2 +-
- scripts/atomic/fallbacks/fence               |   2 +-
- scripts/atomic/fallbacks/fetch_add_unless    |   2 +-
- scripts/atomic/fallbacks/inc                 |   2 +-
- scripts/atomic/fallbacks/inc_and_test        |   2 +-
- scripts/atomic/fallbacks/inc_not_zero        |   2 +-
- scripts/atomic/fallbacks/inc_unless_negative |   2 +-
- scripts/atomic/fallbacks/read_acquire        |   2 +-
- scripts/atomic/fallbacks/release             |   2 +-
- scripts/atomic/fallbacks/set_release         |   2 +-
- scripts/atomic/fallbacks/sub_and_test        |   2 +-
- scripts/atomic/fallbacks/try_cmpxchg         |   2 +-
- scripts/atomic/gen-atomic-fallback.sh        |   2 +
- 21 files changed, 192 insertions(+), 188 deletions(-)
+ kernel/kcsan/atomic.h   |  2 +-
+ kernel/kcsan/core.c     | 16 +++++++---------
+ kernel/kcsan/encoding.h | 14 +++++++-------
+ 3 files changed, 15 insertions(+), 17 deletions(-)
 
-diff --git a/include/linux/atomic-fallback.h b/include/linux/atomic-fallback.h
-index a7d240e465c0..656b5489b673 100644
---- a/include/linux/atomic-fallback.h
-+++ b/include/linux/atomic-fallback.h
-@@ -6,6 +6,8 @@
- #ifndef _LINUX_ATOMIC_FALLBACK_H
- #define _LINUX_ATOMIC_FALLBACK_H
- 
-+#include <linux/compiler.h>
-+
- #ifndef xchg_relaxed
- #define xchg_relaxed		xchg
- #define xchg_acquire		xchg
-@@ -76,7 +78,7 @@
- #endif /* cmpxchg64_relaxed */
- 
- #ifndef atomic_read_acquire
--static inline int
-+static __always_inline int
- atomic_read_acquire(const atomic_t *v)
- {
- 	return smp_load_acquire(&(v)->counter);
-@@ -85,7 +87,7 @@ atomic_read_acquire(const atomic_t *v)
- #endif
- 
- #ifndef atomic_set_release
--static inline void
-+static __always_inline void
- atomic_set_release(atomic_t *v, int i)
- {
- 	smp_store_release(&(v)->counter, i);
-@@ -100,7 +102,7 @@ atomic_set_release(atomic_t *v, int i)
- #else /* atomic_add_return_relaxed */
- 
- #ifndef atomic_add_return_acquire
--static inline int
-+static __always_inline int
- atomic_add_return_acquire(int i, atomic_t *v)
- {
- 	int ret = atomic_add_return_relaxed(i, v);
-@@ -111,7 +113,7 @@ atomic_add_return_acquire(int i, atomic_t *v)
- #endif
- 
- #ifndef atomic_add_return_release
--static inline int
-+static __always_inline int
- atomic_add_return_release(int i, atomic_t *v)
- {
- 	__atomic_release_fence();
-@@ -121,7 +123,7 @@ atomic_add_return_release(int i, atomic_t *v)
- #endif
- 
- #ifndef atomic_add_return
--static inline int
-+static __always_inline int
- atomic_add_return(int i, atomic_t *v)
- {
- 	int ret;
-@@ -142,7 +144,7 @@ atomic_add_return(int i, atomic_t *v)
- #else /* atomic_fetch_add_relaxed */
- 
- #ifndef atomic_fetch_add_acquire
--static inline int
-+static __always_inline int
- atomic_fetch_add_acquire(int i, atomic_t *v)
- {
- 	int ret = atomic_fetch_add_relaxed(i, v);
-@@ -153,7 +155,7 @@ atomic_fetch_add_acquire(int i, atomic_t *v)
- #endif
- 
- #ifndef atomic_fetch_add_release
--static inline int
-+static __always_inline int
- atomic_fetch_add_release(int i, atomic_t *v)
- {
- 	__atomic_release_fence();
-@@ -163,7 +165,7 @@ atomic_fetch_add_release(int i, atomic_t *v)
- #endif
- 
- #ifndef atomic_fetch_add
--static inline int
-+static __always_inline int
- atomic_fetch_add(int i, atomic_t *v)
- {
- 	int ret;
-@@ -184,7 +186,7 @@ atomic_fetch_add(int i, atomic_t *v)
- #else /* atomic_sub_return_relaxed */
- 
- #ifndef atomic_sub_return_acquire
--static inline int
-+static __always_inline int
- atomic_sub_return_acquire(int i, atomic_t *v)
- {
- 	int ret = atomic_sub_return_relaxed(i, v);
-@@ -195,7 +197,7 @@ atomic_sub_return_acquire(int i, atomic_t *v)
- #endif
- 
- #ifndef atomic_sub_return_release
--static inline int
-+static __always_inline int
- atomic_sub_return_release(int i, atomic_t *v)
- {
- 	__atomic_release_fence();
-@@ -205,7 +207,7 @@ atomic_sub_return_release(int i, atomic_t *v)
- #endif
- 
- #ifndef atomic_sub_return
--static inline int
-+static __always_inline int
- atomic_sub_return(int i, atomic_t *v)
- {
- 	int ret;
-@@ -226,7 +228,7 @@ atomic_sub_return(int i, atomic_t *v)
- #else /* atomic_fetch_sub_relaxed */
- 
- #ifndef atomic_fetch_sub_acquire
--static inline int
-+static __always_inline int
- atomic_fetch_sub_acquire(int i, atomic_t *v)
- {
- 	int ret = atomic_fetch_sub_relaxed(i, v);
-@@ -237,7 +239,7 @@ atomic_fetch_sub_acquire(int i, atomic_t *v)
- #endif
- 
- #ifndef atomic_fetch_sub_release
--static inline int
-+static __always_inline int
- atomic_fetch_sub_release(int i, atomic_t *v)
- {
- 	__atomic_release_fence();
-@@ -247,7 +249,7 @@ atomic_fetch_sub_release(int i, atomic_t *v)
- #endif
- 
- #ifndef atomic_fetch_sub
--static inline int
-+static __always_inline int
- atomic_fetch_sub(int i, atomic_t *v)
- {
- 	int ret;
-@@ -262,7 +264,7 @@ atomic_fetch_sub(int i, atomic_t *v)
- #endif /* atomic_fetch_sub_relaxed */
- 
- #ifndef atomic_inc
--static inline void
-+static __always_inline void
- atomic_inc(atomic_t *v)
- {
- 	atomic_add(1, v);
-@@ -278,7 +280,7 @@ atomic_inc(atomic_t *v)
- #endif /* atomic_inc_return */
- 
- #ifndef atomic_inc_return
--static inline int
-+static __always_inline int
- atomic_inc_return(atomic_t *v)
- {
- 	return atomic_add_return(1, v);
-@@ -287,7 +289,7 @@ atomic_inc_return(atomic_t *v)
- #endif
- 
- #ifndef atomic_inc_return_acquire
--static inline int
-+static __always_inline int
- atomic_inc_return_acquire(atomic_t *v)
- {
- 	return atomic_add_return_acquire(1, v);
-@@ -296,7 +298,7 @@ atomic_inc_return_acquire(atomic_t *v)
- #endif
- 
- #ifndef atomic_inc_return_release
--static inline int
-+static __always_inline int
- atomic_inc_return_release(atomic_t *v)
- {
- 	return atomic_add_return_release(1, v);
-@@ -305,7 +307,7 @@ atomic_inc_return_release(atomic_t *v)
- #endif
- 
- #ifndef atomic_inc_return_relaxed
--static inline int
-+static __always_inline int
- atomic_inc_return_relaxed(atomic_t *v)
- {
- 	return atomic_add_return_relaxed(1, v);
-@@ -316,7 +318,7 @@ atomic_inc_return_relaxed(atomic_t *v)
- #else /* atomic_inc_return_relaxed */
- 
- #ifndef atomic_inc_return_acquire
--static inline int
-+static __always_inline int
- atomic_inc_return_acquire(atomic_t *v)
- {
- 	int ret = atomic_inc_return_relaxed(v);
-@@ -327,7 +329,7 @@ atomic_inc_return_acquire(atomic_t *v)
- #endif
- 
- #ifndef atomic_inc_return_release
--static inline int
-+static __always_inline int
- atomic_inc_return_release(atomic_t *v)
- {
- 	__atomic_release_fence();
-@@ -337,7 +339,7 @@ atomic_inc_return_release(atomic_t *v)
- #endif
- 
- #ifndef atomic_inc_return
--static inline int
-+static __always_inline int
- atomic_inc_return(atomic_t *v)
- {
- 	int ret;
-@@ -359,7 +361,7 @@ atomic_inc_return(atomic_t *v)
- #endif /* atomic_fetch_inc */
- 
- #ifndef atomic_fetch_inc
--static inline int
-+static __always_inline int
- atomic_fetch_inc(atomic_t *v)
- {
- 	return atomic_fetch_add(1, v);
-@@ -368,7 +370,7 @@ atomic_fetch_inc(atomic_t *v)
- #endif
- 
- #ifndef atomic_fetch_inc_acquire
--static inline int
-+static __always_inline int
- atomic_fetch_inc_acquire(atomic_t *v)
- {
- 	return atomic_fetch_add_acquire(1, v);
-@@ -377,7 +379,7 @@ atomic_fetch_inc_acquire(atomic_t *v)
- #endif
- 
- #ifndef atomic_fetch_inc_release
--static inline int
-+static __always_inline int
- atomic_fetch_inc_release(atomic_t *v)
- {
- 	return atomic_fetch_add_release(1, v);
-@@ -386,7 +388,7 @@ atomic_fetch_inc_release(atomic_t *v)
- #endif
- 
- #ifndef atomic_fetch_inc_relaxed
--static inline int
-+static __always_inline int
- atomic_fetch_inc_relaxed(atomic_t *v)
- {
- 	return atomic_fetch_add_relaxed(1, v);
-@@ -397,7 +399,7 @@ atomic_fetch_inc_relaxed(atomic_t *v)
- #else /* atomic_fetch_inc_relaxed */
- 
- #ifndef atomic_fetch_inc_acquire
--static inline int
-+static __always_inline int
- atomic_fetch_inc_acquire(atomic_t *v)
- {
- 	int ret = atomic_fetch_inc_relaxed(v);
-@@ -408,7 +410,7 @@ atomic_fetch_inc_acquire(atomic_t *v)
- #endif
- 
- #ifndef atomic_fetch_inc_release
--static inline int
-+static __always_inline int
- atomic_fetch_inc_release(atomic_t *v)
- {
- 	__atomic_release_fence();
-@@ -418,7 +420,7 @@ atomic_fetch_inc_release(atomic_t *v)
- #endif
- 
- #ifndef atomic_fetch_inc
--static inline int
-+static __always_inline int
- atomic_fetch_inc(atomic_t *v)
- {
- 	int ret;
-@@ -433,7 +435,7 @@ atomic_fetch_inc(atomic_t *v)
- #endif /* atomic_fetch_inc_relaxed */
- 
- #ifndef atomic_dec
--static inline void
-+static __always_inline void
- atomic_dec(atomic_t *v)
- {
- 	atomic_sub(1, v);
-@@ -449,7 +451,7 @@ atomic_dec(atomic_t *v)
- #endif /* atomic_dec_return */
- 
- #ifndef atomic_dec_return
--static inline int
-+static __always_inline int
- atomic_dec_return(atomic_t *v)
- {
- 	return atomic_sub_return(1, v);
-@@ -458,7 +460,7 @@ atomic_dec_return(atomic_t *v)
- #endif
- 
- #ifndef atomic_dec_return_acquire
--static inline int
-+static __always_inline int
- atomic_dec_return_acquire(atomic_t *v)
- {
- 	return atomic_sub_return_acquire(1, v);
-@@ -467,7 +469,7 @@ atomic_dec_return_acquire(atomic_t *v)
- #endif
- 
- #ifndef atomic_dec_return_release
--static inline int
-+static __always_inline int
- atomic_dec_return_release(atomic_t *v)
- {
- 	return atomic_sub_return_release(1, v);
-@@ -476,7 +478,7 @@ atomic_dec_return_release(atomic_t *v)
- #endif
- 
- #ifndef atomic_dec_return_relaxed
--static inline int
-+static __always_inline int
- atomic_dec_return_relaxed(atomic_t *v)
- {
- 	return atomic_sub_return_relaxed(1, v);
-@@ -487,7 +489,7 @@ atomic_dec_return_relaxed(atomic_t *v)
- #else /* atomic_dec_return_relaxed */
- 
- #ifndef atomic_dec_return_acquire
--static inline int
-+static __always_inline int
- atomic_dec_return_acquire(atomic_t *v)
- {
- 	int ret = atomic_dec_return_relaxed(v);
-@@ -498,7 +500,7 @@ atomic_dec_return_acquire(atomic_t *v)
- #endif
- 
- #ifndef atomic_dec_return_release
--static inline int
-+static __always_inline int
- atomic_dec_return_release(atomic_t *v)
- {
- 	__atomic_release_fence();
-@@ -508,7 +510,7 @@ atomic_dec_return_release(atomic_t *v)
- #endif
- 
- #ifndef atomic_dec_return
--static inline int
-+static __always_inline int
- atomic_dec_return(atomic_t *v)
- {
- 	int ret;
-@@ -530,7 +532,7 @@ atomic_dec_return(atomic_t *v)
- #endif /* atomic_fetch_dec */
- 
- #ifndef atomic_fetch_dec
--static inline int
-+static __always_inline int
- atomic_fetch_dec(atomic_t *v)
- {
- 	return atomic_fetch_sub(1, v);
-@@ -539,7 +541,7 @@ atomic_fetch_dec(atomic_t *v)
- #endif
- 
- #ifndef atomic_fetch_dec_acquire
--static inline int
-+static __always_inline int
- atomic_fetch_dec_acquire(atomic_t *v)
- {
- 	return atomic_fetch_sub_acquire(1, v);
-@@ -548,7 +550,7 @@ atomic_fetch_dec_acquire(atomic_t *v)
- #endif
- 
- #ifndef atomic_fetch_dec_release
--static inline int
-+static __always_inline int
- atomic_fetch_dec_release(atomic_t *v)
- {
- 	return atomic_fetch_sub_release(1, v);
-@@ -557,7 +559,7 @@ atomic_fetch_dec_release(atomic_t *v)
- #endif
- 
- #ifndef atomic_fetch_dec_relaxed
--static inline int
-+static __always_inline int
- atomic_fetch_dec_relaxed(atomic_t *v)
- {
- 	return atomic_fetch_sub_relaxed(1, v);
-@@ -568,7 +570,7 @@ atomic_fetch_dec_relaxed(atomic_t *v)
- #else /* atomic_fetch_dec_relaxed */
- 
- #ifndef atomic_fetch_dec_acquire
--static inline int
-+static __always_inline int
- atomic_fetch_dec_acquire(atomic_t *v)
- {
- 	int ret = atomic_fetch_dec_relaxed(v);
-@@ -579,7 +581,7 @@ atomic_fetch_dec_acquire(atomic_t *v)
- #endif
- 
- #ifndef atomic_fetch_dec_release
--static inline int
-+static __always_inline int
- atomic_fetch_dec_release(atomic_t *v)
- {
- 	__atomic_release_fence();
-@@ -589,7 +591,7 @@ atomic_fetch_dec_release(atomic_t *v)
- #endif
- 
- #ifndef atomic_fetch_dec
--static inline int
-+static __always_inline int
- atomic_fetch_dec(atomic_t *v)
- {
- 	int ret;
-@@ -610,7 +612,7 @@ atomic_fetch_dec(atomic_t *v)
- #else /* atomic_fetch_and_relaxed */
- 
- #ifndef atomic_fetch_and_acquire
--static inline int
-+static __always_inline int
- atomic_fetch_and_acquire(int i, atomic_t *v)
- {
- 	int ret = atomic_fetch_and_relaxed(i, v);
-@@ -621,7 +623,7 @@ atomic_fetch_and_acquire(int i, atomic_t *v)
- #endif
- 
- #ifndef atomic_fetch_and_release
--static inline int
-+static __always_inline int
- atomic_fetch_and_release(int i, atomic_t *v)
- {
- 	__atomic_release_fence();
-@@ -631,7 +633,7 @@ atomic_fetch_and_release(int i, atomic_t *v)
- #endif
- 
- #ifndef atomic_fetch_and
--static inline int
-+static __always_inline int
- atomic_fetch_and(int i, atomic_t *v)
- {
- 	int ret;
-@@ -646,7 +648,7 @@ atomic_fetch_and(int i, atomic_t *v)
- #endif /* atomic_fetch_and_relaxed */
- 
- #ifndef atomic_andnot
--static inline void
-+static __always_inline void
- atomic_andnot(int i, atomic_t *v)
- {
- 	atomic_and(~i, v);
-@@ -662,7 +664,7 @@ atomic_andnot(int i, atomic_t *v)
- #endif /* atomic_fetch_andnot */
- 
- #ifndef atomic_fetch_andnot
--static inline int
-+static __always_inline int
- atomic_fetch_andnot(int i, atomic_t *v)
- {
- 	return atomic_fetch_and(~i, v);
-@@ -671,7 +673,7 @@ atomic_fetch_andnot(int i, atomic_t *v)
- #endif
- 
- #ifndef atomic_fetch_andnot_acquire
--static inline int
-+static __always_inline int
- atomic_fetch_andnot_acquire(int i, atomic_t *v)
- {
- 	return atomic_fetch_and_acquire(~i, v);
-@@ -680,7 +682,7 @@ atomic_fetch_andnot_acquire(int i, atomic_t *v)
- #endif
- 
- #ifndef atomic_fetch_andnot_release
--static inline int
-+static __always_inline int
- atomic_fetch_andnot_release(int i, atomic_t *v)
- {
- 	return atomic_fetch_and_release(~i, v);
-@@ -689,7 +691,7 @@ atomic_fetch_andnot_release(int i, atomic_t *v)
- #endif
- 
- #ifndef atomic_fetch_andnot_relaxed
--static inline int
-+static __always_inline int
- atomic_fetch_andnot_relaxed(int i, atomic_t *v)
- {
- 	return atomic_fetch_and_relaxed(~i, v);
-@@ -700,7 +702,7 @@ atomic_fetch_andnot_relaxed(int i, atomic_t *v)
- #else /* atomic_fetch_andnot_relaxed */
- 
- #ifndef atomic_fetch_andnot_acquire
--static inline int
-+static __always_inline int
- atomic_fetch_andnot_acquire(int i, atomic_t *v)
- {
- 	int ret = atomic_fetch_andnot_relaxed(i, v);
-@@ -711,7 +713,7 @@ atomic_fetch_andnot_acquire(int i, atomic_t *v)
- #endif
- 
- #ifndef atomic_fetch_andnot_release
--static inline int
-+static __always_inline int
- atomic_fetch_andnot_release(int i, atomic_t *v)
- {
- 	__atomic_release_fence();
-@@ -721,7 +723,7 @@ atomic_fetch_andnot_release(int i, atomic_t *v)
- #endif
- 
- #ifndef atomic_fetch_andnot
--static inline int
-+static __always_inline int
- atomic_fetch_andnot(int i, atomic_t *v)
- {
- 	int ret;
-@@ -742,7 +744,7 @@ atomic_fetch_andnot(int i, atomic_t *v)
- #else /* atomic_fetch_or_relaxed */
- 
- #ifndef atomic_fetch_or_acquire
--static inline int
-+static __always_inline int
- atomic_fetch_or_acquire(int i, atomic_t *v)
- {
- 	int ret = atomic_fetch_or_relaxed(i, v);
-@@ -753,7 +755,7 @@ atomic_fetch_or_acquire(int i, atomic_t *v)
- #endif
- 
- #ifndef atomic_fetch_or_release
--static inline int
-+static __always_inline int
- atomic_fetch_or_release(int i, atomic_t *v)
- {
- 	__atomic_release_fence();
-@@ -763,7 +765,7 @@ atomic_fetch_or_release(int i, atomic_t *v)
- #endif
- 
- #ifndef atomic_fetch_or
--static inline int
-+static __always_inline int
- atomic_fetch_or(int i, atomic_t *v)
- {
- 	int ret;
-@@ -784,7 +786,7 @@ atomic_fetch_or(int i, atomic_t *v)
- #else /* atomic_fetch_xor_relaxed */
- 
- #ifndef atomic_fetch_xor_acquire
--static inline int
-+static __always_inline int
- atomic_fetch_xor_acquire(int i, atomic_t *v)
- {
- 	int ret = atomic_fetch_xor_relaxed(i, v);
-@@ -795,7 +797,7 @@ atomic_fetch_xor_acquire(int i, atomic_t *v)
- #endif
- 
- #ifndef atomic_fetch_xor_release
--static inline int
-+static __always_inline int
- atomic_fetch_xor_release(int i, atomic_t *v)
- {
- 	__atomic_release_fence();
-@@ -805,7 +807,7 @@ atomic_fetch_xor_release(int i, atomic_t *v)
- #endif
- 
- #ifndef atomic_fetch_xor
--static inline int
-+static __always_inline int
- atomic_fetch_xor(int i, atomic_t *v)
- {
- 	int ret;
-@@ -826,7 +828,7 @@ atomic_fetch_xor(int i, atomic_t *v)
- #else /* atomic_xchg_relaxed */
- 
- #ifndef atomic_xchg_acquire
--static inline int
-+static __always_inline int
- atomic_xchg_acquire(atomic_t *v, int i)
- {
- 	int ret = atomic_xchg_relaxed(v, i);
-@@ -837,7 +839,7 @@ atomic_xchg_acquire(atomic_t *v, int i)
- #endif
- 
- #ifndef atomic_xchg_release
--static inline int
-+static __always_inline int
- atomic_xchg_release(atomic_t *v, int i)
- {
- 	__atomic_release_fence();
-@@ -847,7 +849,7 @@ atomic_xchg_release(atomic_t *v, int i)
- #endif
- 
- #ifndef atomic_xchg
--static inline int
-+static __always_inline int
- atomic_xchg(atomic_t *v, int i)
- {
- 	int ret;
-@@ -868,7 +870,7 @@ atomic_xchg(atomic_t *v, int i)
- #else /* atomic_cmpxchg_relaxed */
- 
- #ifndef atomic_cmpxchg_acquire
--static inline int
-+static __always_inline int
- atomic_cmpxchg_acquire(atomic_t *v, int old, int new)
- {
- 	int ret = atomic_cmpxchg_relaxed(v, old, new);
-@@ -879,7 +881,7 @@ atomic_cmpxchg_acquire(atomic_t *v, int old, int new)
- #endif
- 
- #ifndef atomic_cmpxchg_release
--static inline int
-+static __always_inline int
- atomic_cmpxchg_release(atomic_t *v, int old, int new)
- {
- 	__atomic_release_fence();
-@@ -889,7 +891,7 @@ atomic_cmpxchg_release(atomic_t *v, int old, int new)
- #endif
- 
- #ifndef atomic_cmpxchg
--static inline int
-+static __always_inline int
- atomic_cmpxchg(atomic_t *v, int old, int new)
- {
- 	int ret;
-@@ -911,7 +913,7 @@ atomic_cmpxchg(atomic_t *v, int old, int new)
- #endif /* atomic_try_cmpxchg */
- 
- #ifndef atomic_try_cmpxchg
--static inline bool
-+static __always_inline bool
- atomic_try_cmpxchg(atomic_t *v, int *old, int new)
- {
- 	int r, o = *old;
-@@ -924,7 +926,7 @@ atomic_try_cmpxchg(atomic_t *v, int *old, int new)
- #endif
- 
- #ifndef atomic_try_cmpxchg_acquire
--static inline bool
-+static __always_inline bool
- atomic_try_cmpxchg_acquire(atomic_t *v, int *old, int new)
- {
- 	int r, o = *old;
-@@ -937,7 +939,7 @@ atomic_try_cmpxchg_acquire(atomic_t *v, int *old, int new)
- #endif
- 
- #ifndef atomic_try_cmpxchg_release
--static inline bool
-+static __always_inline bool
- atomic_try_cmpxchg_release(atomic_t *v, int *old, int new)
- {
- 	int r, o = *old;
-@@ -950,7 +952,7 @@ atomic_try_cmpxchg_release(atomic_t *v, int *old, int new)
- #endif
- 
- #ifndef atomic_try_cmpxchg_relaxed
--static inline bool
-+static __always_inline bool
- atomic_try_cmpxchg_relaxed(atomic_t *v, int *old, int new)
- {
- 	int r, o = *old;
-@@ -965,7 +967,7 @@ atomic_try_cmpxchg_relaxed(atomic_t *v, int *old, int new)
- #else /* atomic_try_cmpxchg_relaxed */
- 
- #ifndef atomic_try_cmpxchg_acquire
--static inline bool
-+static __always_inline bool
- atomic_try_cmpxchg_acquire(atomic_t *v, int *old, int new)
- {
- 	bool ret = atomic_try_cmpxchg_relaxed(v, old, new);
-@@ -976,7 +978,7 @@ atomic_try_cmpxchg_acquire(atomic_t *v, int *old, int new)
- #endif
- 
- #ifndef atomic_try_cmpxchg_release
--static inline bool
-+static __always_inline bool
- atomic_try_cmpxchg_release(atomic_t *v, int *old, int new)
- {
- 	__atomic_release_fence();
-@@ -986,7 +988,7 @@ atomic_try_cmpxchg_release(atomic_t *v, int *old, int new)
- #endif
- 
- #ifndef atomic_try_cmpxchg
--static inline bool
-+static __always_inline bool
- atomic_try_cmpxchg(atomic_t *v, int *old, int new)
- {
- 	bool ret;
-@@ -1010,7 +1012,7 @@ atomic_try_cmpxchg(atomic_t *v, int *old, int new)
-  * true if the result is zero, or false for all
-  * other cases.
+diff --git a/kernel/kcsan/atomic.h b/kernel/kcsan/atomic.h
+index 576e03ddd6a3..a9c193053491 100644
+--- a/kernel/kcsan/atomic.h
++++ b/kernel/kcsan/atomic.h
+@@ -18,7 +18,7 @@
+  * than cast to volatile. Eventually, we hope to be able to remove this
+  * function.
+  */
+-static inline bool kcsan_is_atomic(const volatile void *ptr)
++static __always_inline bool kcsan_is_atomic(const volatile void *ptr)
+ {
+ 	/* only jiffies for now */
+ 	return ptr == &jiffies;
+diff --git a/kernel/kcsan/core.c b/kernel/kcsan/core.c
+index 3314fc29e236..c616fec639cd 100644
+--- a/kernel/kcsan/core.c
++++ b/kernel/kcsan/core.c
+@@ -78,10 +78,8 @@ static atomic_long_t watchpoints[CONFIG_KCSAN_NUM_WATCHPOINTS + NUM_SLOTS-1];
+  */
+ static DEFINE_PER_CPU(long, kcsan_skip);
+ 
+-static inline atomic_long_t *find_watchpoint(unsigned long addr,
+-					     size_t size,
+-					     bool expect_write,
+-					     long *encoded_watchpoint)
++static __always_inline atomic_long_t *
++find_watchpoint(unsigned long addr, size_t size, bool expect_write, long *encoded_watchpoint)
+ {
+ 	const int slot = watchpoint_slot(addr);
+ 	const unsigned long addr_masked = addr & WATCHPOINT_ADDR_MASK;
+@@ -146,7 +144,7 @@ insert_watchpoint(unsigned long addr, size_t size, bool is_write)
+  *	2. the thread that set up the watchpoint already removed it;
+  *	3. the watchpoint was removed and then re-used.
   */
 -static inline bool
 +static __always_inline bool
- atomic_sub_and_test(int i, atomic_t *v)
+ try_consume_watchpoint(atomic_long_t *watchpoint, long encoded_watchpoint)
  {
- 	return atomic_sub_return(i, v) == 0;
-@@ -1027,7 +1029,7 @@ atomic_sub_and_test(int i, atomic_t *v)
-  * returns true if the result is 0, or false for all other
-  * cases.
+ 	return atomic_long_try_cmpxchg_relaxed(watchpoint, &encoded_watchpoint, CONSUMED_WATCHPOINT);
+@@ -160,7 +158,7 @@ static inline bool remove_watchpoint(atomic_long_t *watchpoint)
+ 	return atomic_long_xchg_relaxed(watchpoint, INVALID_WATCHPOINT) != CONSUMED_WATCHPOINT;
+ }
+ 
+-static inline struct kcsan_ctx *get_ctx(void)
++static __always_inline struct kcsan_ctx *get_ctx(void)
+ {
+ 	/*
+ 	 * In interrupts, use raw_cpu_ptr to avoid unnecessary checks, that would
+@@ -169,7 +167,7 @@ static inline struct kcsan_ctx *get_ctx(void)
+ 	return in_task() ? &current->kcsan_ctx : raw_cpu_ptr(&kcsan_cpu_ctx);
+ }
+ 
+-static inline bool is_atomic(const volatile void *ptr)
++static __always_inline bool is_atomic(const volatile void *ptr)
+ {
+ 	struct kcsan_ctx *ctx = get_ctx();
+ 
+@@ -193,7 +191,7 @@ static inline bool is_atomic(const volatile void *ptr)
+ 	return kcsan_is_atomic(ptr);
+ }
+ 
+-static inline bool should_watch(const volatile void *ptr, int type)
++static __always_inline bool should_watch(const volatile void *ptr, int type)
+ {
+ 	/*
+ 	 * Never set up watchpoints when memory operations are atomic.
+@@ -226,7 +224,7 @@ static inline void reset_kcsan_skip(void)
+ 	this_cpu_write(kcsan_skip, skip_count);
+ }
+ 
+-static inline bool kcsan_is_enabled(void)
++static __always_inline bool kcsan_is_enabled(void)
+ {
+ 	return READ_ONCE(kcsan_enabled) && get_ctx()->disable_count == 0;
+ }
+diff --git a/kernel/kcsan/encoding.h b/kernel/kcsan/encoding.h
+index b63890e86449..f03562aaf2eb 100644
+--- a/kernel/kcsan/encoding.h
++++ b/kernel/kcsan/encoding.h
+@@ -59,10 +59,10 @@ encode_watchpoint(unsigned long addr, size_t size, bool is_write)
+ 		      (addr & WATCHPOINT_ADDR_MASK));
+ }
+ 
+-static inline bool decode_watchpoint(long watchpoint,
+-				     unsigned long *addr_masked,
+-				     size_t *size,
+-				     bool *is_write)
++static __always_inline bool decode_watchpoint(long watchpoint,
++					      unsigned long *addr_masked,
++					      size_t *size,
++					      bool *is_write)
+ {
+ 	if (watchpoint == INVALID_WATCHPOINT ||
+ 	    watchpoint == CONSUMED_WATCHPOINT)
+@@ -78,13 +78,13 @@ static inline bool decode_watchpoint(long watchpoint,
+ /*
+  * Return watchpoint slot for an address.
   */
--static inline bool
-+static __always_inline bool
- atomic_dec_and_test(atomic_t *v)
- {
- 	return atomic_dec_return(v) == 0;
-@@ -1044,7 +1046,7 @@ atomic_dec_and_test(atomic_t *v)
-  * and returns true if the result is zero, or false for all
-  * other cases.
-  */
--static inline bool
-+static __always_inline bool
- atomic_inc_and_test(atomic_t *v)
- {
- 	return atomic_inc_return(v) == 0;
-@@ -1062,7 +1064,7 @@ atomic_inc_and_test(atomic_t *v)
-  * if the result is negative, or false when
-  * result is greater than or equal to zero.
-  */
--static inline bool
-+static __always_inline bool
- atomic_add_negative(int i, atomic_t *v)
- {
- 	return atomic_add_return(i, v) < 0;
-@@ -1080,7 +1082,7 @@ atomic_add_negative(int i, atomic_t *v)
-  * Atomically adds @a to @v, so long as @v was not already @u.
-  * Returns original value of @v
-  */
--static inline int
-+static __always_inline int
- atomic_fetch_add_unless(atomic_t *v, int a, int u)
- {
- 	int c = atomic_read(v);
-@@ -1105,7 +1107,7 @@ atomic_fetch_add_unless(atomic_t *v, int a, int u)
-  * Atomically adds @a to @v, if @v was not already @u.
-  * Returns true if the addition was done.
-  */
--static inline bool
-+static __always_inline bool
- atomic_add_unless(atomic_t *v, int a, int u)
- {
- 	return atomic_fetch_add_unless(v, a, u) != u;
-@@ -1121,7 +1123,7 @@ atomic_add_unless(atomic_t *v, int a, int u)
-  * Atomically increments @v by 1, if @v is non-zero.
-  * Returns true if the increment was done.
-  */
--static inline bool
-+static __always_inline bool
- atomic_inc_not_zero(atomic_t *v)
- {
- 	return atomic_add_unless(v, 1, 0);
-@@ -1130,7 +1132,7 @@ atomic_inc_not_zero(atomic_t *v)
- #endif
- 
- #ifndef atomic_inc_unless_negative
--static inline bool
-+static __always_inline bool
- atomic_inc_unless_negative(atomic_t *v)
- {
- 	int c = atomic_read(v);
-@@ -1146,7 +1148,7 @@ atomic_inc_unless_negative(atomic_t *v)
- #endif
- 
- #ifndef atomic_dec_unless_positive
--static inline bool
-+static __always_inline bool
- atomic_dec_unless_positive(atomic_t *v)
- {
- 	int c = atomic_read(v);
-@@ -1162,7 +1164,7 @@ atomic_dec_unless_positive(atomic_t *v)
- #endif
- 
- #ifndef atomic_dec_if_positive
--static inline int
-+static __always_inline int
- atomic_dec_if_positive(atomic_t *v)
- {
- 	int dec, c = atomic_read(v);
-@@ -1186,7 +1188,7 @@ atomic_dec_if_positive(atomic_t *v)
- #endif
- 
- #ifndef atomic64_read_acquire
--static inline s64
-+static __always_inline s64
- atomic64_read_acquire(const atomic64_t *v)
- {
- 	return smp_load_acquire(&(v)->counter);
-@@ -1195,7 +1197,7 @@ atomic64_read_acquire(const atomic64_t *v)
- #endif
- 
- #ifndef atomic64_set_release
--static inline void
-+static __always_inline void
- atomic64_set_release(atomic64_t *v, s64 i)
- {
- 	smp_store_release(&(v)->counter, i);
-@@ -1210,7 +1212,7 @@ atomic64_set_release(atomic64_t *v, s64 i)
- #else /* atomic64_add_return_relaxed */
- 
- #ifndef atomic64_add_return_acquire
--static inline s64
-+static __always_inline s64
- atomic64_add_return_acquire(s64 i, atomic64_t *v)
- {
- 	s64 ret = atomic64_add_return_relaxed(i, v);
-@@ -1221,7 +1223,7 @@ atomic64_add_return_acquire(s64 i, atomic64_t *v)
- #endif
- 
- #ifndef atomic64_add_return_release
--static inline s64
-+static __always_inline s64
- atomic64_add_return_release(s64 i, atomic64_t *v)
- {
- 	__atomic_release_fence();
-@@ -1231,7 +1233,7 @@ atomic64_add_return_release(s64 i, atomic64_t *v)
- #endif
- 
- #ifndef atomic64_add_return
--static inline s64
-+static __always_inline s64
- atomic64_add_return(s64 i, atomic64_t *v)
- {
- 	s64 ret;
-@@ -1252,7 +1254,7 @@ atomic64_add_return(s64 i, atomic64_t *v)
- #else /* atomic64_fetch_add_relaxed */
- 
- #ifndef atomic64_fetch_add_acquire
--static inline s64
-+static __always_inline s64
- atomic64_fetch_add_acquire(s64 i, atomic64_t *v)
- {
- 	s64 ret = atomic64_fetch_add_relaxed(i, v);
-@@ -1263,7 +1265,7 @@ atomic64_fetch_add_acquire(s64 i, atomic64_t *v)
- #endif
- 
- #ifndef atomic64_fetch_add_release
--static inline s64
-+static __always_inline s64
- atomic64_fetch_add_release(s64 i, atomic64_t *v)
- {
- 	__atomic_release_fence();
-@@ -1273,7 +1275,7 @@ atomic64_fetch_add_release(s64 i, atomic64_t *v)
- #endif
- 
- #ifndef atomic64_fetch_add
--static inline s64
-+static __always_inline s64
- atomic64_fetch_add(s64 i, atomic64_t *v)
- {
- 	s64 ret;
-@@ -1294,7 +1296,7 @@ atomic64_fetch_add(s64 i, atomic64_t *v)
- #else /* atomic64_sub_return_relaxed */
- 
- #ifndef atomic64_sub_return_acquire
--static inline s64
-+static __always_inline s64
- atomic64_sub_return_acquire(s64 i, atomic64_t *v)
- {
- 	s64 ret = atomic64_sub_return_relaxed(i, v);
-@@ -1305,7 +1307,7 @@ atomic64_sub_return_acquire(s64 i, atomic64_t *v)
- #endif
- 
- #ifndef atomic64_sub_return_release
--static inline s64
-+static __always_inline s64
- atomic64_sub_return_release(s64 i, atomic64_t *v)
- {
- 	__atomic_release_fence();
-@@ -1315,7 +1317,7 @@ atomic64_sub_return_release(s64 i, atomic64_t *v)
- #endif
- 
- #ifndef atomic64_sub_return
--static inline s64
-+static __always_inline s64
- atomic64_sub_return(s64 i, atomic64_t *v)
- {
- 	s64 ret;
-@@ -1336,7 +1338,7 @@ atomic64_sub_return(s64 i, atomic64_t *v)
- #else /* atomic64_fetch_sub_relaxed */
- 
- #ifndef atomic64_fetch_sub_acquire
--static inline s64
-+static __always_inline s64
- atomic64_fetch_sub_acquire(s64 i, atomic64_t *v)
- {
- 	s64 ret = atomic64_fetch_sub_relaxed(i, v);
-@@ -1347,7 +1349,7 @@ atomic64_fetch_sub_acquire(s64 i, atomic64_t *v)
- #endif
- 
- #ifndef atomic64_fetch_sub_release
--static inline s64
-+static __always_inline s64
- atomic64_fetch_sub_release(s64 i, atomic64_t *v)
- {
- 	__atomic_release_fence();
-@@ -1357,7 +1359,7 @@ atomic64_fetch_sub_release(s64 i, atomic64_t *v)
- #endif
- 
- #ifndef atomic64_fetch_sub
--static inline s64
-+static __always_inline s64
- atomic64_fetch_sub(s64 i, atomic64_t *v)
- {
- 	s64 ret;
-@@ -1372,7 +1374,7 @@ atomic64_fetch_sub(s64 i, atomic64_t *v)
- #endif /* atomic64_fetch_sub_relaxed */
- 
- #ifndef atomic64_inc
--static inline void
-+static __always_inline void
- atomic64_inc(atomic64_t *v)
- {
- 	atomic64_add(1, v);
-@@ -1388,7 +1390,7 @@ atomic64_inc(atomic64_t *v)
- #endif /* atomic64_inc_return */
- 
- #ifndef atomic64_inc_return
--static inline s64
-+static __always_inline s64
- atomic64_inc_return(atomic64_t *v)
- {
- 	return atomic64_add_return(1, v);
-@@ -1397,7 +1399,7 @@ atomic64_inc_return(atomic64_t *v)
- #endif
- 
- #ifndef atomic64_inc_return_acquire
--static inline s64
-+static __always_inline s64
- atomic64_inc_return_acquire(atomic64_t *v)
- {
- 	return atomic64_add_return_acquire(1, v);
-@@ -1406,7 +1408,7 @@ atomic64_inc_return_acquire(atomic64_t *v)
- #endif
- 
- #ifndef atomic64_inc_return_release
--static inline s64
-+static __always_inline s64
- atomic64_inc_return_release(atomic64_t *v)
- {
- 	return atomic64_add_return_release(1, v);
-@@ -1415,7 +1417,7 @@ atomic64_inc_return_release(atomic64_t *v)
- #endif
- 
- #ifndef atomic64_inc_return_relaxed
--static inline s64
-+static __always_inline s64
- atomic64_inc_return_relaxed(atomic64_t *v)
- {
- 	return atomic64_add_return_relaxed(1, v);
-@@ -1426,7 +1428,7 @@ atomic64_inc_return_relaxed(atomic64_t *v)
- #else /* atomic64_inc_return_relaxed */
- 
- #ifndef atomic64_inc_return_acquire
--static inline s64
-+static __always_inline s64
- atomic64_inc_return_acquire(atomic64_t *v)
- {
- 	s64 ret = atomic64_inc_return_relaxed(v);
-@@ -1437,7 +1439,7 @@ atomic64_inc_return_acquire(atomic64_t *v)
- #endif
- 
- #ifndef atomic64_inc_return_release
--static inline s64
-+static __always_inline s64
- atomic64_inc_return_release(atomic64_t *v)
- {
- 	__atomic_release_fence();
-@@ -1447,7 +1449,7 @@ atomic64_inc_return_release(atomic64_t *v)
- #endif
- 
- #ifndef atomic64_inc_return
--static inline s64
-+static __always_inline s64
- atomic64_inc_return(atomic64_t *v)
- {
- 	s64 ret;
-@@ -1469,7 +1471,7 @@ atomic64_inc_return(atomic64_t *v)
- #endif /* atomic64_fetch_inc */
- 
- #ifndef atomic64_fetch_inc
--static inline s64
-+static __always_inline s64
- atomic64_fetch_inc(atomic64_t *v)
- {
- 	return atomic64_fetch_add(1, v);
-@@ -1478,7 +1480,7 @@ atomic64_fetch_inc(atomic64_t *v)
- #endif
- 
- #ifndef atomic64_fetch_inc_acquire
--static inline s64
-+static __always_inline s64
- atomic64_fetch_inc_acquire(atomic64_t *v)
- {
- 	return atomic64_fetch_add_acquire(1, v);
-@@ -1487,7 +1489,7 @@ atomic64_fetch_inc_acquire(atomic64_t *v)
- #endif
- 
- #ifndef atomic64_fetch_inc_release
--static inline s64
-+static __always_inline s64
- atomic64_fetch_inc_release(atomic64_t *v)
- {
- 	return atomic64_fetch_add_release(1, v);
-@@ -1496,7 +1498,7 @@ atomic64_fetch_inc_release(atomic64_t *v)
- #endif
- 
- #ifndef atomic64_fetch_inc_relaxed
--static inline s64
-+static __always_inline s64
- atomic64_fetch_inc_relaxed(atomic64_t *v)
- {
- 	return atomic64_fetch_add_relaxed(1, v);
-@@ -1507,7 +1509,7 @@ atomic64_fetch_inc_relaxed(atomic64_t *v)
- #else /* atomic64_fetch_inc_relaxed */
- 
- #ifndef atomic64_fetch_inc_acquire
--static inline s64
-+static __always_inline s64
- atomic64_fetch_inc_acquire(atomic64_t *v)
- {
- 	s64 ret = atomic64_fetch_inc_relaxed(v);
-@@ -1518,7 +1520,7 @@ atomic64_fetch_inc_acquire(atomic64_t *v)
- #endif
- 
- #ifndef atomic64_fetch_inc_release
--static inline s64
-+static __always_inline s64
- atomic64_fetch_inc_release(atomic64_t *v)
- {
- 	__atomic_release_fence();
-@@ -1528,7 +1530,7 @@ atomic64_fetch_inc_release(atomic64_t *v)
- #endif
- 
- #ifndef atomic64_fetch_inc
--static inline s64
-+static __always_inline s64
- atomic64_fetch_inc(atomic64_t *v)
- {
- 	s64 ret;
-@@ -1543,7 +1545,7 @@ atomic64_fetch_inc(atomic64_t *v)
- #endif /* atomic64_fetch_inc_relaxed */
- 
- #ifndef atomic64_dec
--static inline void
-+static __always_inline void
- atomic64_dec(atomic64_t *v)
- {
- 	atomic64_sub(1, v);
-@@ -1559,7 +1561,7 @@ atomic64_dec(atomic64_t *v)
- #endif /* atomic64_dec_return */
- 
- #ifndef atomic64_dec_return
--static inline s64
-+static __always_inline s64
- atomic64_dec_return(atomic64_t *v)
- {
- 	return atomic64_sub_return(1, v);
-@@ -1568,7 +1570,7 @@ atomic64_dec_return(atomic64_t *v)
- #endif
- 
- #ifndef atomic64_dec_return_acquire
--static inline s64
-+static __always_inline s64
- atomic64_dec_return_acquire(atomic64_t *v)
- {
- 	return atomic64_sub_return_acquire(1, v);
-@@ -1577,7 +1579,7 @@ atomic64_dec_return_acquire(atomic64_t *v)
- #endif
- 
- #ifndef atomic64_dec_return_release
--static inline s64
-+static __always_inline s64
- atomic64_dec_return_release(atomic64_t *v)
- {
- 	return atomic64_sub_return_release(1, v);
-@@ -1586,7 +1588,7 @@ atomic64_dec_return_release(atomic64_t *v)
- #endif
- 
- #ifndef atomic64_dec_return_relaxed
--static inline s64
-+static __always_inline s64
- atomic64_dec_return_relaxed(atomic64_t *v)
- {
- 	return atomic64_sub_return_relaxed(1, v);
-@@ -1597,7 +1599,7 @@ atomic64_dec_return_relaxed(atomic64_t *v)
- #else /* atomic64_dec_return_relaxed */
- 
- #ifndef atomic64_dec_return_acquire
--static inline s64
-+static __always_inline s64
- atomic64_dec_return_acquire(atomic64_t *v)
- {
- 	s64 ret = atomic64_dec_return_relaxed(v);
-@@ -1608,7 +1610,7 @@ atomic64_dec_return_acquire(atomic64_t *v)
- #endif
- 
- #ifndef atomic64_dec_return_release
--static inline s64
-+static __always_inline s64
- atomic64_dec_return_release(atomic64_t *v)
- {
- 	__atomic_release_fence();
-@@ -1618,7 +1620,7 @@ atomic64_dec_return_release(atomic64_t *v)
- #endif
- 
- #ifndef atomic64_dec_return
--static inline s64
-+static __always_inline s64
- atomic64_dec_return(atomic64_t *v)
- {
- 	s64 ret;
-@@ -1640,7 +1642,7 @@ atomic64_dec_return(atomic64_t *v)
- #endif /* atomic64_fetch_dec */
- 
- #ifndef atomic64_fetch_dec
--static inline s64
-+static __always_inline s64
- atomic64_fetch_dec(atomic64_t *v)
- {
- 	return atomic64_fetch_sub(1, v);
-@@ -1649,7 +1651,7 @@ atomic64_fetch_dec(atomic64_t *v)
- #endif
- 
- #ifndef atomic64_fetch_dec_acquire
--static inline s64
-+static __always_inline s64
- atomic64_fetch_dec_acquire(atomic64_t *v)
- {
- 	return atomic64_fetch_sub_acquire(1, v);
-@@ -1658,7 +1660,7 @@ atomic64_fetch_dec_acquire(atomic64_t *v)
- #endif
- 
- #ifndef atomic64_fetch_dec_release
--static inline s64
-+static __always_inline s64
- atomic64_fetch_dec_release(atomic64_t *v)
- {
- 	return atomic64_fetch_sub_release(1, v);
-@@ -1667,7 +1669,7 @@ atomic64_fetch_dec_release(atomic64_t *v)
- #endif
- 
- #ifndef atomic64_fetch_dec_relaxed
--static inline s64
-+static __always_inline s64
- atomic64_fetch_dec_relaxed(atomic64_t *v)
- {
- 	return atomic64_fetch_sub_relaxed(1, v);
-@@ -1678,7 +1680,7 @@ atomic64_fetch_dec_relaxed(atomic64_t *v)
- #else /* atomic64_fetch_dec_relaxed */
- 
- #ifndef atomic64_fetch_dec_acquire
--static inline s64
-+static __always_inline s64
- atomic64_fetch_dec_acquire(atomic64_t *v)
- {
- 	s64 ret = atomic64_fetch_dec_relaxed(v);
-@@ -1689,7 +1691,7 @@ atomic64_fetch_dec_acquire(atomic64_t *v)
- #endif
- 
- #ifndef atomic64_fetch_dec_release
--static inline s64
-+static __always_inline s64
- atomic64_fetch_dec_release(atomic64_t *v)
- {
- 	__atomic_release_fence();
-@@ -1699,7 +1701,7 @@ atomic64_fetch_dec_release(atomic64_t *v)
- #endif
- 
- #ifndef atomic64_fetch_dec
--static inline s64
-+static __always_inline s64
- atomic64_fetch_dec(atomic64_t *v)
- {
- 	s64 ret;
-@@ -1720,7 +1722,7 @@ atomic64_fetch_dec(atomic64_t *v)
- #else /* atomic64_fetch_and_relaxed */
- 
- #ifndef atomic64_fetch_and_acquire
--static inline s64
-+static __always_inline s64
- atomic64_fetch_and_acquire(s64 i, atomic64_t *v)
- {
- 	s64 ret = atomic64_fetch_and_relaxed(i, v);
-@@ -1731,7 +1733,7 @@ atomic64_fetch_and_acquire(s64 i, atomic64_t *v)
- #endif
- 
- #ifndef atomic64_fetch_and_release
--static inline s64
-+static __always_inline s64
- atomic64_fetch_and_release(s64 i, atomic64_t *v)
- {
- 	__atomic_release_fence();
-@@ -1741,7 +1743,7 @@ atomic64_fetch_and_release(s64 i, atomic64_t *v)
- #endif
- 
- #ifndef atomic64_fetch_and
--static inline s64
-+static __always_inline s64
- atomic64_fetch_and(s64 i, atomic64_t *v)
- {
- 	s64 ret;
-@@ -1756,7 +1758,7 @@ atomic64_fetch_and(s64 i, atomic64_t *v)
- #endif /* atomic64_fetch_and_relaxed */
- 
- #ifndef atomic64_andnot
--static inline void
-+static __always_inline void
- atomic64_andnot(s64 i, atomic64_t *v)
- {
- 	atomic64_and(~i, v);
-@@ -1772,7 +1774,7 @@ atomic64_andnot(s64 i, atomic64_t *v)
- #endif /* atomic64_fetch_andnot */
- 
- #ifndef atomic64_fetch_andnot
--static inline s64
-+static __always_inline s64
- atomic64_fetch_andnot(s64 i, atomic64_t *v)
- {
- 	return atomic64_fetch_and(~i, v);
-@@ -1781,7 +1783,7 @@ atomic64_fetch_andnot(s64 i, atomic64_t *v)
- #endif
- 
- #ifndef atomic64_fetch_andnot_acquire
--static inline s64
-+static __always_inline s64
- atomic64_fetch_andnot_acquire(s64 i, atomic64_t *v)
- {
- 	return atomic64_fetch_and_acquire(~i, v);
-@@ -1790,7 +1792,7 @@ atomic64_fetch_andnot_acquire(s64 i, atomic64_t *v)
- #endif
- 
- #ifndef atomic64_fetch_andnot_release
--static inline s64
-+static __always_inline s64
- atomic64_fetch_andnot_release(s64 i, atomic64_t *v)
- {
- 	return atomic64_fetch_and_release(~i, v);
-@@ -1799,7 +1801,7 @@ atomic64_fetch_andnot_release(s64 i, atomic64_t *v)
- #endif
- 
- #ifndef atomic64_fetch_andnot_relaxed
--static inline s64
-+static __always_inline s64
- atomic64_fetch_andnot_relaxed(s64 i, atomic64_t *v)
- {
- 	return atomic64_fetch_and_relaxed(~i, v);
-@@ -1810,7 +1812,7 @@ atomic64_fetch_andnot_relaxed(s64 i, atomic64_t *v)
- #else /* atomic64_fetch_andnot_relaxed */
- 
- #ifndef atomic64_fetch_andnot_acquire
--static inline s64
-+static __always_inline s64
- atomic64_fetch_andnot_acquire(s64 i, atomic64_t *v)
- {
- 	s64 ret = atomic64_fetch_andnot_relaxed(i, v);
-@@ -1821,7 +1823,7 @@ atomic64_fetch_andnot_acquire(s64 i, atomic64_t *v)
- #endif
- 
- #ifndef atomic64_fetch_andnot_release
--static inline s64
-+static __always_inline s64
- atomic64_fetch_andnot_release(s64 i, atomic64_t *v)
- {
- 	__atomic_release_fence();
-@@ -1831,7 +1833,7 @@ atomic64_fetch_andnot_release(s64 i, atomic64_t *v)
- #endif
- 
- #ifndef atomic64_fetch_andnot
--static inline s64
-+static __always_inline s64
- atomic64_fetch_andnot(s64 i, atomic64_t *v)
- {
- 	s64 ret;
-@@ -1852,7 +1854,7 @@ atomic64_fetch_andnot(s64 i, atomic64_t *v)
- #else /* atomic64_fetch_or_relaxed */
- 
- #ifndef atomic64_fetch_or_acquire
--static inline s64
-+static __always_inline s64
- atomic64_fetch_or_acquire(s64 i, atomic64_t *v)
- {
- 	s64 ret = atomic64_fetch_or_relaxed(i, v);
-@@ -1863,7 +1865,7 @@ atomic64_fetch_or_acquire(s64 i, atomic64_t *v)
- #endif
- 
- #ifndef atomic64_fetch_or_release
--static inline s64
-+static __always_inline s64
- atomic64_fetch_or_release(s64 i, atomic64_t *v)
- {
- 	__atomic_release_fence();
-@@ -1873,7 +1875,7 @@ atomic64_fetch_or_release(s64 i, atomic64_t *v)
- #endif
- 
- #ifndef atomic64_fetch_or
--static inline s64
-+static __always_inline s64
- atomic64_fetch_or(s64 i, atomic64_t *v)
- {
- 	s64 ret;
-@@ -1894,7 +1896,7 @@ atomic64_fetch_or(s64 i, atomic64_t *v)
- #else /* atomic64_fetch_xor_relaxed */
- 
- #ifndef atomic64_fetch_xor_acquire
--static inline s64
-+static __always_inline s64
- atomic64_fetch_xor_acquire(s64 i, atomic64_t *v)
- {
- 	s64 ret = atomic64_fetch_xor_relaxed(i, v);
-@@ -1905,7 +1907,7 @@ atomic64_fetch_xor_acquire(s64 i, atomic64_t *v)
- #endif
- 
- #ifndef atomic64_fetch_xor_release
--static inline s64
-+static __always_inline s64
- atomic64_fetch_xor_release(s64 i, atomic64_t *v)
- {
- 	__atomic_release_fence();
-@@ -1915,7 +1917,7 @@ atomic64_fetch_xor_release(s64 i, atomic64_t *v)
- #endif
- 
- #ifndef atomic64_fetch_xor
--static inline s64
-+static __always_inline s64
- atomic64_fetch_xor(s64 i, atomic64_t *v)
- {
- 	s64 ret;
-@@ -1936,7 +1938,7 @@ atomic64_fetch_xor(s64 i, atomic64_t *v)
- #else /* atomic64_xchg_relaxed */
- 
- #ifndef atomic64_xchg_acquire
--static inline s64
-+static __always_inline s64
- atomic64_xchg_acquire(atomic64_t *v, s64 i)
- {
- 	s64 ret = atomic64_xchg_relaxed(v, i);
-@@ -1947,7 +1949,7 @@ atomic64_xchg_acquire(atomic64_t *v, s64 i)
- #endif
- 
- #ifndef atomic64_xchg_release
--static inline s64
-+static __always_inline s64
- atomic64_xchg_release(atomic64_t *v, s64 i)
- {
- 	__atomic_release_fence();
-@@ -1957,7 +1959,7 @@ atomic64_xchg_release(atomic64_t *v, s64 i)
- #endif
- 
- #ifndef atomic64_xchg
--static inline s64
-+static __always_inline s64
- atomic64_xchg(atomic64_t *v, s64 i)
- {
- 	s64 ret;
-@@ -1978,7 +1980,7 @@ atomic64_xchg(atomic64_t *v, s64 i)
- #else /* atomic64_cmpxchg_relaxed */
- 
- #ifndef atomic64_cmpxchg_acquire
--static inline s64
-+static __always_inline s64
- atomic64_cmpxchg_acquire(atomic64_t *v, s64 old, s64 new)
- {
- 	s64 ret = atomic64_cmpxchg_relaxed(v, old, new);
-@@ -1989,7 +1991,7 @@ atomic64_cmpxchg_acquire(atomic64_t *v, s64 old, s64 new)
- #endif
- 
- #ifndef atomic64_cmpxchg_release
--static inline s64
-+static __always_inline s64
- atomic64_cmpxchg_release(atomic64_t *v, s64 old, s64 new)
- {
- 	__atomic_release_fence();
-@@ -1999,7 +2001,7 @@ atomic64_cmpxchg_release(atomic64_t *v, s64 old, s64 new)
- #endif
- 
- #ifndef atomic64_cmpxchg
--static inline s64
-+static __always_inline s64
- atomic64_cmpxchg(atomic64_t *v, s64 old, s64 new)
- {
- 	s64 ret;
-@@ -2021,7 +2023,7 @@ atomic64_cmpxchg(atomic64_t *v, s64 old, s64 new)
- #endif /* atomic64_try_cmpxchg */
- 
- #ifndef atomic64_try_cmpxchg
--static inline bool
-+static __always_inline bool
- atomic64_try_cmpxchg(atomic64_t *v, s64 *old, s64 new)
- {
- 	s64 r, o = *old;
-@@ -2034,7 +2036,7 @@ atomic64_try_cmpxchg(atomic64_t *v, s64 *old, s64 new)
- #endif
- 
- #ifndef atomic64_try_cmpxchg_acquire
--static inline bool
-+static __always_inline bool
- atomic64_try_cmpxchg_acquire(atomic64_t *v, s64 *old, s64 new)
- {
- 	s64 r, o = *old;
-@@ -2047,7 +2049,7 @@ atomic64_try_cmpxchg_acquire(atomic64_t *v, s64 *old, s64 new)
- #endif
- 
- #ifndef atomic64_try_cmpxchg_release
--static inline bool
-+static __always_inline bool
- atomic64_try_cmpxchg_release(atomic64_t *v, s64 *old, s64 new)
- {
- 	s64 r, o = *old;
-@@ -2060,7 +2062,7 @@ atomic64_try_cmpxchg_release(atomic64_t *v, s64 *old, s64 new)
- #endif
- 
- #ifndef atomic64_try_cmpxchg_relaxed
--static inline bool
-+static __always_inline bool
- atomic64_try_cmpxchg_relaxed(atomic64_t *v, s64 *old, s64 new)
- {
- 	s64 r, o = *old;
-@@ -2075,7 +2077,7 @@ atomic64_try_cmpxchg_relaxed(atomic64_t *v, s64 *old, s64 new)
- #else /* atomic64_try_cmpxchg_relaxed */
- 
- #ifndef atomic64_try_cmpxchg_acquire
--static inline bool
-+static __always_inline bool
- atomic64_try_cmpxchg_acquire(atomic64_t *v, s64 *old, s64 new)
- {
- 	bool ret = atomic64_try_cmpxchg_relaxed(v, old, new);
-@@ -2086,7 +2088,7 @@ atomic64_try_cmpxchg_acquire(atomic64_t *v, s64 *old, s64 new)
- #endif
- 
- #ifndef atomic64_try_cmpxchg_release
--static inline bool
-+static __always_inline bool
- atomic64_try_cmpxchg_release(atomic64_t *v, s64 *old, s64 new)
- {
- 	__atomic_release_fence();
-@@ -2096,7 +2098,7 @@ atomic64_try_cmpxchg_release(atomic64_t *v, s64 *old, s64 new)
- #endif
- 
- #ifndef atomic64_try_cmpxchg
--static inline bool
-+static __always_inline bool
- atomic64_try_cmpxchg(atomic64_t *v, s64 *old, s64 new)
- {
- 	bool ret;
-@@ -2120,7 +2122,7 @@ atomic64_try_cmpxchg(atomic64_t *v, s64 *old, s64 new)
-  * true if the result is zero, or false for all
-  * other cases.
-  */
--static inline bool
-+static __always_inline bool
- atomic64_sub_and_test(s64 i, atomic64_t *v)
- {
- 	return atomic64_sub_return(i, v) == 0;
-@@ -2137,7 +2139,7 @@ atomic64_sub_and_test(s64 i, atomic64_t *v)
-  * returns true if the result is 0, or false for all other
-  * cases.
-  */
--static inline bool
-+static __always_inline bool
- atomic64_dec_and_test(atomic64_t *v)
- {
- 	return atomic64_dec_return(v) == 0;
-@@ -2154,7 +2156,7 @@ atomic64_dec_and_test(atomic64_t *v)
-  * and returns true if the result is zero, or false for all
-  * other cases.
-  */
--static inline bool
-+static __always_inline bool
- atomic64_inc_and_test(atomic64_t *v)
- {
- 	return atomic64_inc_return(v) == 0;
-@@ -2172,7 +2174,7 @@ atomic64_inc_and_test(atomic64_t *v)
-  * if the result is negative, or false when
-  * result is greater than or equal to zero.
-  */
--static inline bool
-+static __always_inline bool
- atomic64_add_negative(s64 i, atomic64_t *v)
- {
- 	return atomic64_add_return(i, v) < 0;
-@@ -2190,7 +2192,7 @@ atomic64_add_negative(s64 i, atomic64_t *v)
-  * Atomically adds @a to @v, so long as @v was not already @u.
-  * Returns original value of @v
-  */
--static inline s64
-+static __always_inline s64
- atomic64_fetch_add_unless(atomic64_t *v, s64 a, s64 u)
- {
- 	s64 c = atomic64_read(v);
-@@ -2215,7 +2217,7 @@ atomic64_fetch_add_unless(atomic64_t *v, s64 a, s64 u)
-  * Atomically adds @a to @v, if @v was not already @u.
-  * Returns true if the addition was done.
-  */
--static inline bool
-+static __always_inline bool
- atomic64_add_unless(atomic64_t *v, s64 a, s64 u)
- {
- 	return atomic64_fetch_add_unless(v, a, u) != u;
-@@ -2231,7 +2233,7 @@ atomic64_add_unless(atomic64_t *v, s64 a, s64 u)
-  * Atomically increments @v by 1, if @v is non-zero.
-  * Returns true if the increment was done.
-  */
--static inline bool
-+static __always_inline bool
- atomic64_inc_not_zero(atomic64_t *v)
- {
- 	return atomic64_add_unless(v, 1, 0);
-@@ -2240,7 +2242,7 @@ atomic64_inc_not_zero(atomic64_t *v)
- #endif
- 
- #ifndef atomic64_inc_unless_negative
--static inline bool
-+static __always_inline bool
- atomic64_inc_unless_negative(atomic64_t *v)
- {
- 	s64 c = atomic64_read(v);
-@@ -2256,7 +2258,7 @@ atomic64_inc_unless_negative(atomic64_t *v)
- #endif
- 
- #ifndef atomic64_dec_unless_positive
--static inline bool
-+static __always_inline bool
- atomic64_dec_unless_positive(atomic64_t *v)
- {
- 	s64 c = atomic64_read(v);
-@@ -2272,7 +2274,7 @@ atomic64_dec_unless_positive(atomic64_t *v)
- #endif
- 
- #ifndef atomic64_dec_if_positive
--static inline s64
-+static __always_inline s64
- atomic64_dec_if_positive(atomic64_t *v)
- {
- 	s64 dec, c = atomic64_read(v);
-@@ -2292,4 +2294,4 @@ atomic64_dec_if_positive(atomic64_t *v)
- #define atomic64_cond_read_relaxed(v, c) smp_cond_load_relaxed(&(v)->counter, (c))
- 
- #endif /* _LINUX_ATOMIC_FALLBACK_H */
--// 25de4a2804d70f57e994fe3b419148658bb5378a
-+// baaf45f4c24ed88ceae58baca39d7fd80bb8101b
-diff --git a/scripts/atomic/fallbacks/acquire b/scripts/atomic/fallbacks/acquire
-index e38871e64db6..ea489acc285e 100755
---- a/scripts/atomic/fallbacks/acquire
-+++ b/scripts/atomic/fallbacks/acquire
-@@ -1,5 +1,5 @@
- cat <<EOF
--static inline ${ret}
-+static __always_inline ${ret}
- ${atomic}_${pfx}${name}${sfx}_acquire(${params})
- {
- 	${ret} ret = ${atomic}_${pfx}${name}${sfx}_relaxed(${args});
-diff --git a/scripts/atomic/fallbacks/add_negative b/scripts/atomic/fallbacks/add_negative
-index e6f4815637de..03cc2e07fac5 100755
---- a/scripts/atomic/fallbacks/add_negative
-+++ b/scripts/atomic/fallbacks/add_negative
-@@ -8,7 +8,7 @@ cat <<EOF
-  * if the result is negative, or false when
-  * result is greater than or equal to zero.
-  */
--static inline bool
-+static __always_inline bool
- ${atomic}_add_negative(${int} i, ${atomic}_t *v)
- {
- 	return ${atomic}_add_return(i, v) < 0;
-diff --git a/scripts/atomic/fallbacks/add_unless b/scripts/atomic/fallbacks/add_unless
-index 792533885fbf..daf87a04c850 100755
---- a/scripts/atomic/fallbacks/add_unless
-+++ b/scripts/atomic/fallbacks/add_unless
-@@ -8,7 +8,7 @@ cat << EOF
-  * Atomically adds @a to @v, if @v was not already @u.
-  * Returns true if the addition was done.
-  */
--static inline bool
-+static __always_inline bool
- ${atomic}_add_unless(${atomic}_t *v, ${int} a, ${int} u)
- {
- 	return ${atomic}_fetch_add_unless(v, a, u) != u;
-diff --git a/scripts/atomic/fallbacks/andnot b/scripts/atomic/fallbacks/andnot
-index 9f3a3216b5e3..14efce01225a 100755
---- a/scripts/atomic/fallbacks/andnot
-+++ b/scripts/atomic/fallbacks/andnot
-@@ -1,5 +1,5 @@
- cat <<EOF
--static inline ${ret}
-+static __always_inline ${ret}
- ${atomic}_${pfx}andnot${sfx}${order}(${int} i, ${atomic}_t *v)
- {
- 	${retstmt}${atomic}_${pfx}and${sfx}${order}(~i, v);
-diff --git a/scripts/atomic/fallbacks/dec b/scripts/atomic/fallbacks/dec
-index 10bbc82be31d..118282f3a5a3 100755
---- a/scripts/atomic/fallbacks/dec
-+++ b/scripts/atomic/fallbacks/dec
-@@ -1,5 +1,5 @@
- cat <<EOF
--static inline ${ret}
-+static __always_inline ${ret}
- ${atomic}_${pfx}dec${sfx}${order}(${atomic}_t *v)
- {
- 	${retstmt}${atomic}_${pfx}sub${sfx}${order}(1, v);
-diff --git a/scripts/atomic/fallbacks/dec_and_test b/scripts/atomic/fallbacks/dec_and_test
-index 0ce7103b3df2..f8967a891117 100755
---- a/scripts/atomic/fallbacks/dec_and_test
-+++ b/scripts/atomic/fallbacks/dec_and_test
-@@ -7,7 +7,7 @@ cat <<EOF
-  * returns true if the result is 0, or false for all other
-  * cases.
-  */
--static inline bool
-+static __always_inline bool
- ${atomic}_dec_and_test(${atomic}_t *v)
- {
- 	return ${atomic}_dec_return(v) == 0;
-diff --git a/scripts/atomic/fallbacks/dec_if_positive b/scripts/atomic/fallbacks/dec_if_positive
-index c52eacec43c8..cfb380bd2da6 100755
---- a/scripts/atomic/fallbacks/dec_if_positive
-+++ b/scripts/atomic/fallbacks/dec_if_positive
-@@ -1,5 +1,5 @@
- cat <<EOF
--static inline ${ret}
-+static __always_inline ${ret}
- ${atomic}_dec_if_positive(${atomic}_t *v)
- {
- 	${int} dec, c = ${atomic}_read(v);
-diff --git a/scripts/atomic/fallbacks/dec_unless_positive b/scripts/atomic/fallbacks/dec_unless_positive
-index 8a2578f14268..69cb7aa01f9c 100755
---- a/scripts/atomic/fallbacks/dec_unless_positive
-+++ b/scripts/atomic/fallbacks/dec_unless_positive
-@@ -1,5 +1,5 @@
- cat <<EOF
--static inline bool
-+static __always_inline bool
- ${atomic}_dec_unless_positive(${atomic}_t *v)
- {
- 	${int} c = ${atomic}_read(v);
-diff --git a/scripts/atomic/fallbacks/fence b/scripts/atomic/fallbacks/fence
-index 82f68fa6931a..92a3a4691bab 100755
---- a/scripts/atomic/fallbacks/fence
-+++ b/scripts/atomic/fallbacks/fence
-@@ -1,5 +1,5 @@
- cat <<EOF
--static inline ${ret}
-+static __always_inline ${ret}
- ${atomic}_${pfx}${name}${sfx}(${params})
- {
- 	${ret} ret;
-diff --git a/scripts/atomic/fallbacks/fetch_add_unless b/scripts/atomic/fallbacks/fetch_add_unless
-index d2c091db7eae..fffbc0d16fdf 100755
---- a/scripts/atomic/fallbacks/fetch_add_unless
-+++ b/scripts/atomic/fallbacks/fetch_add_unless
-@@ -8,7 +8,7 @@ cat << EOF
-  * Atomically adds @a to @v, so long as @v was not already @u.
-  * Returns original value of @v
-  */
--static inline ${int}
-+static __always_inline ${int}
- ${atomic}_fetch_add_unless(${atomic}_t *v, ${int} a, ${int} u)
- {
- 	${int} c = ${atomic}_read(v);
-diff --git a/scripts/atomic/fallbacks/inc b/scripts/atomic/fallbacks/inc
-index f866b3ad2353..10751cd62829 100755
---- a/scripts/atomic/fallbacks/inc
-+++ b/scripts/atomic/fallbacks/inc
-@@ -1,5 +1,5 @@
- cat <<EOF
--static inline ${ret}
-+static __always_inline ${ret}
- ${atomic}_${pfx}inc${sfx}${order}(${atomic}_t *v)
- {
- 	${retstmt}${atomic}_${pfx}add${sfx}${order}(1, v);
-diff --git a/scripts/atomic/fallbacks/inc_and_test b/scripts/atomic/fallbacks/inc_and_test
-index 4e2068869f7e..4acea9c93604 100755
---- a/scripts/atomic/fallbacks/inc_and_test
-+++ b/scripts/atomic/fallbacks/inc_and_test
-@@ -7,7 +7,7 @@ cat <<EOF
-  * and returns true if the result is zero, or false for all
-  * other cases.
-  */
--static inline bool
-+static __always_inline bool
- ${atomic}_inc_and_test(${atomic}_t *v)
- {
- 	return ${atomic}_inc_return(v) == 0;
-diff --git a/scripts/atomic/fallbacks/inc_not_zero b/scripts/atomic/fallbacks/inc_not_zero
-index a7c45c8d107c..d9f7b97aab42 100755
---- a/scripts/atomic/fallbacks/inc_not_zero
-+++ b/scripts/atomic/fallbacks/inc_not_zero
-@@ -6,7 +6,7 @@ cat <<EOF
-  * Atomically increments @v by 1, if @v is non-zero.
-  * Returns true if the increment was done.
-  */
--static inline bool
-+static __always_inline bool
- ${atomic}_inc_not_zero(${atomic}_t *v)
- {
- 	return ${atomic}_add_unless(v, 1, 0);
-diff --git a/scripts/atomic/fallbacks/inc_unless_negative b/scripts/atomic/fallbacks/inc_unless_negative
-index 0c266e71dbd4..177a7cb51eda 100755
---- a/scripts/atomic/fallbacks/inc_unless_negative
-+++ b/scripts/atomic/fallbacks/inc_unless_negative
-@@ -1,5 +1,5 @@
- cat <<EOF
--static inline bool
-+static __always_inline bool
- ${atomic}_inc_unless_negative(${atomic}_t *v)
- {
- 	${int} c = ${atomic}_read(v);
-diff --git a/scripts/atomic/fallbacks/read_acquire b/scripts/atomic/fallbacks/read_acquire
-index 75863b5203f7..12fa83cb3a6d 100755
---- a/scripts/atomic/fallbacks/read_acquire
-+++ b/scripts/atomic/fallbacks/read_acquire
-@@ -1,5 +1,5 @@
- cat <<EOF
--static inline ${ret}
-+static __always_inline ${ret}
- ${atomic}_read_acquire(const ${atomic}_t *v)
- {
- 	return smp_load_acquire(&(v)->counter);
-diff --git a/scripts/atomic/fallbacks/release b/scripts/atomic/fallbacks/release
-index 3f628a3802d9..730d2a6d3e07 100755
---- a/scripts/atomic/fallbacks/release
-+++ b/scripts/atomic/fallbacks/release
-@@ -1,5 +1,5 @@
- cat <<EOF
--static inline ${ret}
-+static __always_inline ${ret}
- ${atomic}_${pfx}${name}${sfx}_release(${params})
- {
- 	__atomic_release_fence();
-diff --git a/scripts/atomic/fallbacks/set_release b/scripts/atomic/fallbacks/set_release
-index 45bb5e0cfc08..e5d72c717434 100755
---- a/scripts/atomic/fallbacks/set_release
-+++ b/scripts/atomic/fallbacks/set_release
-@@ -1,5 +1,5 @@
- cat <<EOF
--static inline void
-+static __always_inline void
- ${atomic}_set_release(${atomic}_t *v, ${int} i)
- {
- 	smp_store_release(&(v)->counter, i);
-diff --git a/scripts/atomic/fallbacks/sub_and_test b/scripts/atomic/fallbacks/sub_and_test
-index 289ef17a2d7a..6cfe4ed49746 100755
---- a/scripts/atomic/fallbacks/sub_and_test
-+++ b/scripts/atomic/fallbacks/sub_and_test
-@@ -8,7 +8,7 @@ cat <<EOF
-  * true if the result is zero, or false for all
-  * other cases.
-  */
--static inline bool
-+static __always_inline bool
- ${atomic}_sub_and_test(${int} i, ${atomic}_t *v)
- {
- 	return ${atomic}_sub_return(i, v) == 0;
-diff --git a/scripts/atomic/fallbacks/try_cmpxchg b/scripts/atomic/fallbacks/try_cmpxchg
-index 4ed85e2f5378..c7a26213b978 100755
---- a/scripts/atomic/fallbacks/try_cmpxchg
-+++ b/scripts/atomic/fallbacks/try_cmpxchg
-@@ -1,5 +1,5 @@
- cat <<EOF
--static inline bool
-+static __always_inline bool
- ${atomic}_try_cmpxchg${order}(${atomic}_t *v, ${int} *old, ${int} new)
- {
- 	${int} r, o = *old;
-diff --git a/scripts/atomic/gen-atomic-fallback.sh b/scripts/atomic/gen-atomic-fallback.sh
-index 1bd7c1707633..b6c6f5d306a7 100755
---- a/scripts/atomic/gen-atomic-fallback.sh
-+++ b/scripts/atomic/gen-atomic-fallback.sh
-@@ -149,6 +149,8 @@ cat << EOF
- #ifndef _LINUX_ATOMIC_FALLBACK_H
- #define _LINUX_ATOMIC_FALLBACK_H
- 
-+#include <linux/compiler.h>
-+
- EOF
- 
- for xchg in "xchg" "cmpxchg" "cmpxchg64"; do
+-static inline int watchpoint_slot(unsigned long addr)
++static __always_inline int watchpoint_slot(unsigned long addr)
+ {
+ 	return (addr / PAGE_SIZE) % CONFIG_KCSAN_NUM_WATCHPOINTS;
+ }
+ 
+-static inline bool matching_access(unsigned long addr1, size_t size1,
+-				   unsigned long addr2, size_t size2)
++static __always_inline bool matching_access(unsigned long addr1, size_t size1,
++					    unsigned long addr2, size_t size2)
+ {
+ 	unsigned long end_range1 = addr1 + size1 - 1;
+ 	unsigned long end_range2 = addr2 + size2 - 1;
 -- 
 2.24.0.432.g9d3f5f5b63-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20191126114121.85552-2-elver%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20191126114121.85552-3-elver%40google.com.
