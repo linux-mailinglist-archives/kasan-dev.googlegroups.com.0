@@ -1,126 +1,122 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBGNB6TXAKGQESCF5ONA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDV37XP3XYDRBJNV6TXAKGQEZ5S74SA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pg1-x53c.google.com (mail-pg1-x53c.google.com [IPv6:2607:f8b0:4864:20::53c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D295109D36
-	for <lists+kasan-dev@lfdr.de>; Tue, 26 Nov 2019 12:46:35 +0100 (CET)
-Received: by mail-pg1-x53c.google.com with SMTP id x22sf10586944pgh.19
-        for <lists+kasan-dev@lfdr.de>; Tue, 26 Nov 2019 03:46:34 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1574768793; cv=pass;
+Received: from mail-wr1-x437.google.com (mail-wr1-x437.google.com [IPv6:2a00:1450:4864:20::437])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A9AD109DF6
+	for <lists+kasan-dev@lfdr.de>; Tue, 26 Nov 2019 13:29:26 +0100 (CET)
+Received: by mail-wr1-x437.google.com with SMTP id l20sf632169wrc.13
+        for <lists+kasan-dev@lfdr.de>; Tue, 26 Nov 2019 04:29:26 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1574771365; cv=pass;
         d=google.com; s=arc-20160816;
-        b=kG63V/Y+IksVnbsqxQTMqk/lNddJWSGHz8w0cLfyruyUniVZK9jjcCQxgs6QUjLxpR
-         3Rsv1gvdiOKaX+X8yq+so6M+zcRSi5YfO/Ids5p/NrA/v+T/2roHvtJka81YeRrulegI
-         7DbPwuQVcjjMtiWZSeMlj2HWRZxuo41REPQTSLXNrIDV6fsw0mUCMcG90kX/pMCuhQsI
-         /8uXLg8iWb3IsCuWkNLBhGfjOfyID0NxZrzs1rtNUKNaSd84BlHQXjDbMACGosmb8GCW
-         UbD0FG/S3ER+GV0KeYmGoQtCU+OTxwd5ITyxyvkSb0X/1FKiuOoHm9yuCKQXe95zYIJa
-         5sPA==
+        b=xah4BKkIH3htnhYihrEf0cHeESd69Ip1nKJRLq+mLVJmP0NTPNK/3InluT7gufSHVU
+         3GKdEgLx8GDe0z9E58SlN8+JXjxhPSwxmNmlZzyyL3JQG22NKowTcr9N+TLViC++XFe4
+         pNAOiwEEkSDqbsPm1iC7ys3+dYmKXAdMJ+AQsK7apFVzEXIVawvZxh/bTVFWHSYhjlfC
+         Psm/jzZKuWzyxx/+P5b2qb0R7MiQei64C1yWiobXorhQmAPi3xAlZd3wwMdZI25nYWVu
+         nZoibrQf7GsJLWgMkIgLL6yVGBLerZP3QkRgfVbuvTgzSiU+ie1EH90ympZN8oyx+TNY
+         PDpA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=1sMj8CKaNG6pywfhHon0J9e49p0tgQyAtDs5n8Y80gg=;
-        b=jI4Nc4Xld4pf+OOUw30YhuaUdCdHrSrQNkVE/hSIqjBp86iq+Hpnet0uMAiyaZoMn3
-         S00we3bcL87Fb25bPHH6SVQzbaio5fGB0mhWmE6vx9CnpO2E/031GZ542Pg9hk2NlGgO
-         eo11vd4kLPMtAv6KUsv9HHPKhrm7NlKgfCRLoN+cfLb9iYVW19auyhqLWKphIJ8POo7u
-         4oediadWrhVEF60Zvdt3j6v6aT5hyXnBDzouz9JnX48wcLVKzN8LSdDc1871p38WQKa6
-         ICgSM4EXmM7XeDCSjq6xBEZOeGWoc9bfznJCZ9R6GNMT0JF5Z3QGDQKojcdWWFNCrVCP
-         G2kQ==
+         :list-id:mailing-list:precedence:user-agent:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:sender:dkim-signature;
+        bh=8Aj4OZeJCpcAxqDgeMqQFueJ7kPbfF8SHgV0yiPKZfo=;
+        b=aqzANAE9Yhx6UFhOBQgHDh+1W56Mf+7sypfqOeHIhZyA1O1QDBgaj++3N2TOxkrK/T
+         jjHGoffnyoVgw8xyjYkA2XlBjkEG3ZJ4x18MEua/I5RzjWFXI4YLX1zagvHFSki45ub1
+         7TFtJXIO+r36UcVJFr6AD73FgZUHNdLny+p//G/cQPA/iJ9RgqLgKuEoZknmSNTdkZc4
+         fdbVCBsnh6YUMlZ701MKU8bbfcPcoJ8HIiOZim5JoFCz9w5IN4uXeBURlNmqNz429D3L
+         sY1t3ypTtda39NE9lAKfH+Vfz/AhkJmSLmSnjb1C4fmq1odpmvpcNiyE3l1X8ItT3hkg
+         PNIw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=c5Pahk6W;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::341 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       spf=pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=mark.rutland@arm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=1sMj8CKaNG6pywfhHon0J9e49p0tgQyAtDs5n8Y80gg=;
-        b=eHapPPtqIco2vwNmU9cdyBusKkBxHNZGvYb+qYmKOnXKSvDeMXiwQpTh6WAk/AZH31
-         UJnTNEA5uPI249LGoVy9W572XTUQhfPY3dSLbcR9y+ELVKUmuvJ9wdnA2ZHqqoAArBnQ
-         UfKYRX1TzyWQNSpsbDgzjl+rS9APItsnSuXwrdd09W3YWd4GHjon/vMQe+jYUBxFymN9
-         r/Syislc3ZNKhr2O5wYTBMA2Brl+a3zQ70fxATLpust6JCiYi7t7mWO9Z8s8bPZlnGdZ
-         fM3RymhpSM5tKaa3n98tIterb+1T5R3d/qVBx6tjkYoCFF/ubCAO6qf1QDtKGc2K4KVF
-         TsGA==
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=8Aj4OZeJCpcAxqDgeMqQFueJ7kPbfF8SHgV0yiPKZfo=;
+        b=XWK4xCALx6MAR7rQjYpS5lqAQ8WZPyImGxhGxsx1jKFostO/9ZmR136JNQxTUugzYU
+         EYUbGRzTjYJMfxfsozbe/myQqFq0IdBNlI47mNwgQk8KpmFJc23dZeC7LtYby6HkyJaA
+         FxDvr1VdbGESSYOYf3nkQURdQSZr/mTd7s+qJL8gsF4sHSGv8Mjq3QYk54FkjQYlmqI/
+         e6yPm3R46OJYcBJFQ1uyQurhrAefPfvhc7+uOIwejg8gLZ1ZYUrpyxKx1GVGc/6v3tIV
+         merjvhpRATKvl61libdaXYrEJR05ZIzHGw88cFj6oMH4wGxLxVLCIbo2I2uvYwy8Z/UJ
+         YhFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=1sMj8CKaNG6pywfhHon0J9e49p0tgQyAtDs5n8Y80gg=;
-        b=Z4J4vzwWWFQktfeix2wL1xziAQQkPbJ7MPrhGJHmcFYVrfyJoa0S9hmula992kmOVi
-         u4SWEwtpil3XVdOyqv3u2yFf5/C8VP2mYch0eZLb0bM2NglTmW+56of2SeiXP0oFmy7Y
-         8Wf4l63/Y6TrQZvSe5bT8cfBOUTxMR/IBraytk0VfPrmjwstsVF95CS8iDudI/oSxmU4
-         3s4TT5VrvrJK9AKdHzApvSU8REqbNuuQz9cOoa+gvwRPae0vlnyvZQsjDjNLN+NceOSZ
-         Ypr9PVzz0XWsW8tWM+rOYtdXL/BFTvJed4CrKz4wJOgGUO8YA2Qyll7EIx2LgD2Yv3Im
-         PaFQ==
-X-Gm-Message-State: APjAAAXIBfExfzLepe4JvQbD0oB/PCfPrvsoK1dHDTB2qWJGn+lDdmt7
-	0bp9KaXTxWnlOIj7q9NlqmA=
-X-Google-Smtp-Source: APXvYqwBUb4yJyyhZwgj+HqRTNODSZeZzWjzhd5y0OyjOFEHjkwCcLi8E9vxBi6U3UAt/evjadKrcg==
-X-Received: by 2002:a62:e105:: with SMTP id q5mr41178440pfh.105.1574768793446;
-        Tue, 26 Nov 2019 03:46:33 -0800 (PST)
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=8Aj4OZeJCpcAxqDgeMqQFueJ7kPbfF8SHgV0yiPKZfo=;
+        b=Qd322bX65YcxxphJcSpIOgFeITFsdgJjuZjYH5SvnMBdQGV/Mm8qqUIeKxIFaV2ahj
+         1amFgtxGuBr9iNCTwDTbb+7WO3x2mM8hJHLN5t02jfInbNn28ZFaWCizBMXTrEFS7lcS
+         OV7oyxTGjNAh450OV+Fa0iZcTBy4cE9OuCByWGbwQlliraKRqtyRqTgFMnZYNX/jAJZB
+         4TnISbxTCy7HEbhFe4joyTNI7T4BfU/suChTAm6hWrLfvog8A2NvzDzZLnJtHH/VaBlX
+         Xp1PKluzlWJGFJ7g5UGVCP3lhXdtFZLMuC65uhyCCCDADLa+8BjH/zjcyq2GU4Cb7UQc
+         iqDQ==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: APjAAAWm/J8b7US4Jonx/PfkKmcBbVGIiAcX4xz7i8G1eLb9/0J5+tXy
+	BB1BzgSPddzgKxaGwwDse6M=
+X-Google-Smtp-Source: APXvYqxepK8B6twMm2kk2FDw084DlDNfiFr2UF8t8jpEWPgbkqgyc7II4C4xHy3uC7iFIzMTsLwPTg==
+X-Received: by 2002:adf:f010:: with SMTP id j16mr37999997wro.206.1574771365833;
+        Tue, 26 Nov 2019 04:29:25 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a62:2ec5:: with SMTP id u188ls4966776pfu.0.gmail; Tue, 26
- Nov 2019 03:46:32 -0800 (PST)
-X-Received: by 2002:a62:1b4a:: with SMTP id b71mr40906029pfb.167.1574768792933;
-        Tue, 26 Nov 2019 03:46:32 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1574768792; cv=none;
+Received: by 2002:a05:6000:1008:: with SMTP id a8ls8617744wrx.3.gmail; Tue, 26
+ Nov 2019 04:29:25 -0800 (PST)
+X-Received: by 2002:adf:dfc6:: with SMTP id q6mr3362201wrn.235.1574771365224;
+        Tue, 26 Nov 2019 04:29:25 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1574771365; cv=none;
         d=google.com; s=arc-20160816;
-        b=twfEVBAzMiMh9T29QWRbpZbHDOWn/hJg+RoQcI53XFxlu2QbgBcP4w6D4fY+lz2IeT
-         4qcBXKmGh2FFdYpsqQhn3dbnxNcr7AfWYm5ZhWbOWKVjjDa7Ka2ON+f1M1KUYwnFEqnu
-         c83GGtPC51oMMFpY6t1wt4BW7uRSLY0KDKaJR93vrZDFY2u1HXuQZqyS2syrCSNcNe8W
-         HXYKC71le9bpPwrqVqmVjNhWcyqdPH2JB88yerd4hMiq9WXIISQVZXVzDkMBlvyJu5xa
-         SKecSTJo05GjYe2pswu1nrU4FSViBqvjI9KUv07Fcsn3epBeG2sIlRenH1trBqtPmiz1
-         VJlw==
+        b=brHYgHw/i1omEkbdmEXrPlG01s3s2zI46jeGBsaAPYCmgM6iPHQ3Ce/YD0M3Hkfp1y
+         b4SUC4u2/O/7SS//fjNratdC8W+YKbkJv26cW6cvgjdogWxZ8l3Wbt19bu8rc4UCQ8Ub
+         rwqaYlnctvloz+Mha5MVBGJy9BvGMbToWPHEH+u39Mpn/sY8/ilwABL/JyJ4Nx4FlU84
+         7v/NlTT5/yGthk/jG2SM4hgamzMUNH31o7GfYY8vpyQsuXTuqwSqwQUyHghGPc7WPw+Q
+         MGVN7DU6pOvjnopN1FuUIXtKZtsf49W6ESmPauR9d9LvsimlVsCvRWqT6lggYz2MlMB5
+         C2hw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=tjdzshLYgCCgwbhmOuSJ84yu2IodR1Sq0mvSDQia2nY=;
-        b=MzYHRQRmhFszwV1dRHVbwn7AWYh95b5EzNpE0RZOFpIFi5TGzPtp/1GmyAn03ork67
-         ZSzm2pIpiJCIuJl8F3ab6baVE7DtSYT6iX8bxAqF3BMz9ZsW3Uv1rEkLAz+EjIqTY58N
-         kZO7OIMiD89q0nObQy+qXMZcmlRYF+wD0VIS4/KqwLHLtFQrGMNoRat6l8LiZaujNWmX
-         pnf7IO78dcRDiUGCQRwaPOa/7RuQe0TQidj4nIDA2UDN7zhLr5jA9kF4LBMids5qANn4
-         WWsrb45fbqNALrrwLFOD7Orv0MxFQl98kOb18kvQG3NsSTC7Gv0UrFDa4vgrk+V3TMjJ
-         0Nyg==
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date;
+        bh=lWwz/9kDrHPU7oL02b+cP8DiPcz80JUDFWe9OuDOHR8=;
+        b=ueWR+YPSAqjrWtdw3MkrHlrqDTAbkA5w8zIx9qzoyleC/80IYk1OcDj7ogLjaAfT5v
+         dJPuqineLhObIwjXT7Vr4gvAryPJoWhmgaLquDvE8lADXjM+sTk+TLzbyWB/zZOH5QLf
+         XImCImbXT5k9R4vsG2pWP0IA6RVMwF9kMby+bV+j9E9aevPsV1bWu3hdSjnpMkPG1Ow9
+         iZYsS/tJ0sB3wxhXLep6JwGtu7QPwOu1jQCwInGn/skHcSSGr659c7Ook0x1oezTsiPY
+         lQGSKv5Bi2sahKRfhKPjNLvltAyoxgTFbhy34jsNdUl2EDm3PZN9fqQM+wT7paeaknPx
+         Degg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=c5Pahk6W;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::341 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com. [2607:f8b0:4864:20::341])
-        by gmr-mx.google.com with ESMTPS id h18si75411pju.1.2019.11.26.03.46.32
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 26 Nov 2019 03:46:32 -0800 (PST)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::341 as permitted sender) client-ip=2607:f8b0:4864:20::341;
-Received: by mail-ot1-x341.google.com with SMTP id n23so15568068otr.13
-        for <kasan-dev@googlegroups.com>; Tue, 26 Nov 2019 03:46:32 -0800 (PST)
-X-Received: by 2002:a05:6830:2308:: with SMTP id u8mr23115197ote.2.1574768791781;
- Tue, 26 Nov 2019 03:46:31 -0800 (PST)
+       spf=pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=mark.rutland@arm.com
+Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
+        by gmr-mx.google.com with ESMTP id q128si99950wme.1.2019.11.26.04.29.25
+        for <kasan-dev@googlegroups.com>;
+        Tue, 26 Nov 2019 04:29:25 -0800 (PST)
+Received-SPF: pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 511831FB;
+	Tue, 26 Nov 2019 04:29:24 -0800 (PST)
+Received: from lakrids.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DA5563F52E;
+	Tue, 26 Nov 2019 04:29:22 -0800 (PST)
+Date: Tue, 26 Nov 2019 12:29:18 +0000
+From: Mark Rutland <mark.rutland@arm.com>
+To: Marco Elver <elver@google.com>
+Cc: will@kernel.org, peterz@infradead.org, boqun.feng@gmail.com,
+	arnd@arndb.de, dvyukov@google.com, linux-kernel@vger.kernel.org,
+	linux-arch@vger.kernel.org, kasan-dev@googlegroups.com,
+	paulmck@kernel.org, Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH v2 1/3] asm-generic/atomic: Use __always_inline for pure
+ wrappers
+Message-ID: <20191126122917.GA37833@lakrids.cambridge.arm.com>
+References: <20191126114121.85552-1-elver@google.com>
 MIME-Version: 1.0
-References: <20191122154221.247680-1-elver@google.com> <20191125173756.GF32635@lakrids.cambridge.arm.com>
- <CANpmjNMLEYdW0kaLAiO9fQN1uC7bW6K08zZRG=GG7vq4fBn+WA@mail.gmail.com> <20191125183936.GG32635@lakrids.cambridge.arm.com>
-In-Reply-To: <20191125183936.GG32635@lakrids.cambridge.arm.com>
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Tue, 26 Nov 2019 12:46:19 +0100
-Message-ID: <CANpmjNM5tgiyFOt4jW97Dg1ot1LmJC1rcrQX+Q74B28c=t7Kzw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] asm-generic/atomic: Prefer __always_inline for wrappers
-To: Mark Rutland <mark.rutland@arm.com>
-Cc: Will Deacon <will@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
-	Boqun Feng <boqun.feng@gmail.com>, Arnd Bergmann <arnd@arndb.de>, Dmitry Vyukov <dvyukov@google.com>, 
-	LKML <linux-kernel@vger.kernel.org>, linux-arch <linux-arch@vger.kernel.org>, 
-	kasan-dev <kasan-dev@googlegroups.com>, "Paul E. McKenney" <paulmck@kernel.org>, 
-	Randy Dunlap <rdunlap@infradead.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=c5Pahk6W;       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::341 as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+Content-Disposition: inline
+In-Reply-To: <20191126114121.85552-1-elver@google.com>
+User-Agent: Mutt/1.11.1+11 (2f07cb52) (2018-12-01)
+X-Original-Sender: mark.rutland@arm.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as
+ permitted sender) smtp.mailfrom=mark.rutland@arm.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -133,134 +129,85 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, 25 Nov 2019 at 19:39, Mark Rutland <mark.rutland@arm.com> wrote:
->
-> On Mon, Nov 25, 2019 at 07:22:33PM +0100, Marco Elver wrote:
-> > On Mon, 25 Nov 2019 at 18:38, Mark Rutland <mark.rutland@arm.com> wrote:
-> > >
-> > > On Fri, Nov 22, 2019 at 04:42:20PM +0100, Marco Elver wrote:
-> > > > Prefer __always_inline for atomic wrappers. When building for size
-> > > > (CC_OPTIMIZE_FOR_SIZE), some compilers appear to be less inclined to
-> > > > inline even relatively small static inline functions that are assumed to
-> > > > be inlinable such as atomic ops. This can cause problems, for example in
-> > > > UACCESS regions.
-> > >
-> > > From looking at the link below, the problem is tat objtool isn't happy
-> > > about non-whiteliested calls within UACCESS regions.
-> > >
-> > > Is that a problem here? are the kasan/kcsan calls whitelisted?
-> >
-> > We whitelisted all the relevant functions.
-> >
-> > The problem it that small static inline functions private to the
-> > compilation unit do not get inlined when CC_OPTIMIZE_FOR_SIZE=y (they
-> > do get inlined when CC_OPTIMIZE_FOR_PERFORMANCE=y).
-> >
-> > For the runtime this is easy to fix, by just making these small
-> > functions __always_inline (also avoiding these function call overheads
-> > in the runtime when CC_OPTIMIZE_FOR_SIZE).
-> >
-> > I stumbled upon the issue for the atomic ops, because the runtime uses
-> > atomic_long_try_cmpxchg outside a user_access_save() region (and it
-> > should not be moved inside). Essentially I fixed up the runtime, but
-> > then objtool still complained about the access to
-> > atomic64_try_cmpxchg. Hence this patch.
-> >
-> > I believe it is the right thing to do, because the final inlining
-> > decision should *not* be made by wrappers. I would think this patch is
-> > the right thing to do irrespective of KCSAN or not.
->
-> Given the wrappers are trivial, and for !KASAN && !KCSAN, this would
-> make them equivalent to the things they wrap, that sounds fine to me.
->
-> > > > By using __always_inline, we let the real implementation and not the
-> > > > wrapper determine the final inlining preference.
-> > >
-> > > That sounds reasonable to me, assuming that doesn't end up significantly
-> > > bloating the kernel text. What impact does this have on code size?
-> >
-> > It actually seems to make it smaller.
-> >
-> > x86 tinyconfig:
-> > - vmlinux baseline: 1316204
-> > - vmlinux with patches: 1315988 (-216 bytes)
->
-> Great! Fancy putting that in the commit message?
+On Tue, Nov 26, 2019 at 12:41:19PM +0100, Marco Elver wrote:
+> Prefer __always_inline for atomic wrappers. When building for size
+> (CC_OPTIMIZE_FOR_SIZE), some compilers appear to be less inclined to
+> inline even relatively small static inline functions that are assumed to
+> be inlinable such as atomic ops. This can cause problems, for example in
+> UACCESS regions.
+> 
+> By using __always_inline, we let the real implementation and not the
+> wrapper determine the final inlining preference.
+> 
+> For x86 tinyconfig we observe:
+> - vmlinux baseline: 1316204
+> - vmlinux with patch: 1315988 (-216 bytes)
+> 
+> This came up when addressing UACCESS warnings with CC_OPTIMIZE_FOR_SIZE
+> in the KCSAN runtime:
+> http://lkml.kernel.org/r/58708908-84a0-0a81-a836-ad97e33dbb62@infradead.org
+> 
+> Reported-by: Randy Dunlap <rdunlap@infradead.org>
+> Signed-off-by: Marco Elver <elver@google.com>
+> ---
+> v2:
+> * Add missing '#include <linux/compiler.h>'
+> * Add size diff to commit message.
+> 
+> v1: http://lkml.kernel.org/r/20191122154221.247680-1-elver@google.com
+> ---
+>  include/asm-generic/atomic-instrumented.h | 335 +++++++++++-----------
+>  include/asm-generic/atomic-long.h         | 331 ++++++++++-----------
+>  scripts/atomic/gen-atomic-instrumented.sh |   7 +-
+>  scripts/atomic/gen-atomic-long.sh         |   3 +-
+>  4 files changed, 340 insertions(+), 336 deletions(-)
 
-Done.
+> diff --git a/scripts/atomic/gen-atomic-instrumented.sh b/scripts/atomic/gen-atomic-instrumented.sh
+> index 8b8b2a6f8d68..86d27252b988 100755
+> --- a/scripts/atomic/gen-atomic-instrumented.sh
+> +++ b/scripts/atomic/gen-atomic-instrumented.sh
+> @@ -84,7 +84,7 @@ gen_proto_order_variant()
+>  	[ ! -z "${guard}" ] && printf "#if ${guard}\n"
+>  
+>  cat <<EOF
+> -static inline ${ret}
+> +static __always_inline ${ret}
+>  ${atomicname}(${params})
+>  {
+>  ${checks}
+> @@ -146,17 +146,18 @@ cat << EOF
+>  #ifndef _ASM_GENERIC_ATOMIC_INSTRUMENTED_H
+>  #define _ASM_GENERIC_ATOMIC_INSTRUMENTED_H
+>  
+> +#include <linux/compiler.h>
+>  #include <linux/build_bug.h>
 
-> > > > This came up when addressing UACCESS warnings with CC_OPTIMIZE_FOR_SIZE
-> > > > in the KCSAN runtime:
-> > > > http://lkml.kernel.org/r/58708908-84a0-0a81-a836-ad97e33dbb62@infradead.org
-> > > >
-> > > > Reported-by: Randy Dunlap <rdunlap@infradead.org>
-> > > > Signed-off-by: Marco Elver <elver@google.com>
-> > > > ---
-> > > >  include/asm-generic/atomic-instrumented.h | 334 +++++++++++-----------
-> > > >  include/asm-generic/atomic-long.h         | 330 ++++++++++-----------
-> > > >  scripts/atomic/gen-atomic-instrumented.sh |   6 +-
-> > > >  scripts/atomic/gen-atomic-long.sh         |   2 +-
-> > > >  4 files changed, 336 insertions(+), 336 deletions(-)
-> > >
-> > > Do we need to do similar for gen-atomic-fallback.sh and the fallbacks
-> > > defined in scripts/atomic/fallbacks/ ?
-> >
-> > I think they should be, but I think that's debatable. Some of them do
-> > a little more than just wrap things. If we want to make this
-> > __always_inline, I would do it in a separate patch independent from
-> > this series to not stall the fixes here.
->
-> I would expect that they would suffer the same problem if used in a
-> UACCESS region, so if that's what we're trying to fix here, I think that
-> we need to do likewise there.
->
-> The majority are trivial wrappers (shuffling arguments or adding trivial
-> barriers), so those seem fine. The rest call things that we're inlining
-> here.
->
-> Would you be able to give that a go?
+Sorry for the (super) trivial nit, but could you please re-order these
+two alphabetically, i.e.
 
-Done in v2.
+#include <linux/build_bug.h>
+#include <linux/compiler.h>
 
-> > > > diff --git a/scripts/atomic/gen-atomic-instrumented.sh b/scripts/atomic/gen-atomic-instrumented.sh
-> > > > index 8b8b2a6f8d68..68532d4f36ca 100755
-> > > > --- a/scripts/atomic/gen-atomic-instrumented.sh
-> > > > +++ b/scripts/atomic/gen-atomic-instrumented.sh
-> > > > @@ -84,7 +84,7 @@ gen_proto_order_variant()
-> > > >       [ ! -z "${guard}" ] && printf "#if ${guard}\n"
-> > > >
-> > > >  cat <<EOF
-> > > > -static inline ${ret}
-> > > > +static __always_inline ${ret}
-> > >
-> > > We should add an include of <linux/compiler.h> to the preamble if we're
-> > > explicitly using __always_inline.
-> >
-> > Will add in v2.
-> >
-> > > > diff --git a/scripts/atomic/gen-atomic-long.sh b/scripts/atomic/gen-atomic-long.sh
-> > > > index c240a7231b2e..4036d2dd22e9 100755
-> > > > --- a/scripts/atomic/gen-atomic-long.sh
-> > > > +++ b/scripts/atomic/gen-atomic-long.sh
-> > > > @@ -46,7 +46,7 @@ gen_proto_order_variant()
-> > > >       local retstmt="$(gen_ret_stmt "${meta}")"
-> > > >
-> > > >  cat <<EOF
-> > > > -static inline ${ret}
-> > > > +static __always_inline ${ret}
-> > >
-> > > Likewise here
-> >
-> > Will add in v2.
->
-> Great; thanks!
+With that:
 
-Sent v2: http://lkml.kernel.org/r/20191126114121.85552-1-elver@google.com
+Acked-by: Mark Rutland <mark.rutland@arm.com>
+
+[...]
+
+> @@ -64,6 +64,7 @@ cat << EOF
+>  #ifndef _ASM_GENERIC_ATOMIC_LONG_H
+>  #define _ASM_GENERIC_ATOMIC_LONG_H
+>  
+> +#include <linux/compiler.h>
+>  #include <asm/types.h>
+
+Unlike the above, this doesn't need to be re-ordered; for whatever
+reason, linux/* includes typically come before asm/* includes.
 
 Thanks,
--- Marco
+Mark.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNM5tgiyFOt4jW97Dg1ot1LmJC1rcrQX%2BQ74B28c%3Dt7Kzw%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20191126122917.GA37833%40lakrids.cambridge.arm.com.
