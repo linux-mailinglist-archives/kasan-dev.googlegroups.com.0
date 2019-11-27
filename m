@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBCQ2XPNX7EOBBRFY7PXAKGQEFGUU47Y@googlegroups.com>
+Return-Path: <kasan-dev+bncBCQ2XPNX7EOBBIXR7PXAKGQE2RXOLEI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-io1-xd3f.google.com (mail-io1-xd3f.google.com [IPv6:2607:f8b0:4864:20::d3f])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7F5410B768
-	for <lists+kasan-dev@lfdr.de>; Wed, 27 Nov 2019 21:27:49 +0100 (CET)
-Received: by mail-io1-xd3f.google.com with SMTP id f15sf1239295iol.21
-        for <lists+kasan-dev@lfdr.de>; Wed, 27 Nov 2019 12:27:49 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1574886468; cv=pass;
+Received: from mail-pl1-x63b.google.com (mail-pl1-x63b.google.com [IPv6:2607:f8b0:4864:20::63b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A14410C02F
+	for <lists+kasan-dev@lfdr.de>; Wed, 27 Nov 2019 23:28:52 +0100 (CET)
+Received: by mail-pl1-x63b.google.com with SMTP id a11sf10291612plp.21
+        for <lists+kasan-dev@lfdr.de>; Wed, 27 Nov 2019 14:28:52 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1574893730; cv=pass;
         d=google.com; s=arc-20160816;
-        b=FS8Ktoz3DGY4wDZvj9NcdRkxbQe79ZuP+vc8UCjJgnO1DXGKMOBSOqYZ9FY/NZd+fu
-         kAxfvO6W3uZiPc3hnfxHBilNpb0nkfPAwsv3ccUr2RDoUzf7LSwsImrXGOnKTxJRiqqB
-         VYV7pnFYybC+/J3TquZqje18VEuY6AvVEky7FuZYfv6BHNTBrgwukvGyb8mwX1f6B4+D
-         jJqo0wIUybjnQdZeZxRl4II8vyrPaIsXgBKuByMMJzizfNOE89FcltOyq0e1ZgVb8+JB
-         hLF1o3GRONQEOuxxd9wTdTQ29BCUW0U2O9f5WVLI4bcjNsNv68g66F2mwuNItfycNJuR
-         7k4w==
+        b=gs4TnWCWNhSNvTX+GQ+FquIED6mQkH2VWhvHFgsaK5RTy3hgprit61YNtE9FE7Hgac
+         ueOeSxDCvOiEj91LkfbWHowi/pHeQpusvD4uHfynyPXt28AQOCTQEoMX2VhJ+ifEcylV
+         /ziKM0KlUJRY+HWGJjPB0r4eKSPekIEAqagsIAgVkfywaMvosNRc3bxQMwMWt5V/pcZc
+         bL+vjPB1Ri+dLCKUpCYQF2z2Z83ZJjEIxbYbomUOzr4MuqthyesydE7CSc6iKrMaCNo+
+         Zh75rwbKF/WEA3BZ1PEwDUmA36rjSmQ7q55ee2t0CNqNU+3WdTqaDCJ60aI7bvK6mvCf
+         /yQw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=jMsPz/j9py8fwDzHCRzHRwEVjCjYaxR2slyVDYPLSqM=;
-        b=O35friqpq4qWZaBYxtUZ/yxklBjlS+pqTC1hmpHfBqtjC13dhmTfFRaJ8lDuAMeEeX
-         jj0O3Ksvw00hjEfn4Kyfmtrfhy0y7jpQ3MafwWs2BiY8tKWsZRCilWoko4qtf8Tf8drR
-         vTi9veYZHCi4FywvPgYFiHY0FA6k/3ynIlxynMCbB9iVKINit4km5wxZ9f9RRfJkiD7R
-         7sIPF2wbcB19RdEKxtVBw//gPcXFy0V9pArF5Wz+v94p302Bp5o5TF1yLDo0WgDbhtRv
-         8dDJ5KgmJRuISQXpH/G81foNahjxQVG9UFc0CBeeGr5PfbXROjG5uQCxSwNWQpU8fxAM
-         +JfA==
+        bh=CEw+XjfFdIXZz5JPmUSLbJhGC9lDKzADkaF0uGqgujM=;
+        b=uh5Tr8w63C8aKxOHvpn0Fus/sxj/WmQc6FSR4wUhNGogE3cSGPqUQSTB1UsiM1VEuk
+         sH//FQ7LORSN/D+PtelNkT0LvUgie2AYr042LQ2FCoQ+fFJI2SZf3L+/gb/rtsfxhL3u
+         /l9L9Vl8YPNeZit2uzK3c4IAEZWKn/+SJdARmN78SlqkuW7WeqE8JdHQ05pWg9Y7bjmE
+         tq623FJ6T+jEupCa9dJg3NQ875hcIfyKSPCRRH+kn24y8W1QFvOlClBDAjAnn6mql6l7
+         9XqWCybuaDl7JBzFI5b45clxoO5NR+HNc8+ZsCw3czp4UMWb+7k2L4VZpz6CF7m00Yea
+         U76g==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=UkHiWpu5;
-       spf=pass (google.com: domain of jannh@google.com designates 2607:f8b0:4864:20::342 as permitted sender) smtp.mailfrom=jannh@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=li5wluUZ;
+       spf=pass (google.com: domain of jannh@google.com designates 2607:f8b0:4864:20::241 as permitted sender) smtp.mailfrom=jannh@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=jMsPz/j9py8fwDzHCRzHRwEVjCjYaxR2slyVDYPLSqM=;
-        b=WkIgiJgZvu7XyjtuJBlmcUp39+n4qBfBdD8/fRy9r2gAQ29rOAe5GYTL5Iphrua1QW
-         69zFet3wAJkAmPgx1urgO7GdHWII/Mpx4A+teDOz91dT/0ZUl0BCIxdZe9Y2Fk3wVEcI
-         A93ckqOo9++OGA7IRA7EjDsC7cUtzhrrtuzQf1R89u6f0Jj7ZEoGkKfztW6BoGJY64br
-         Crxyto7L4YVz4/9/xwCqs+JYXaZlICahIs2axXetUPlA3Dkazz0LB2AYmCISKg/Fn0Ci
-         Z0Kh+qSBm5QqEUvIIjM5jsvxVCJYfcrDG0ObjW0a7pkUOvGI9bt08EQ27TPtYHDIwHGy
-         2OCA==
+        bh=CEw+XjfFdIXZz5JPmUSLbJhGC9lDKzADkaF0uGqgujM=;
+        b=dBn65GkJ9K12m4Q6zA3a7qLfSvCZvcTJ/DrU2JXenCvibQg5csZCR2feWB/LuZ4nFD
+         2FGR5teMZfgegBv5LOYucXqje/Oh3OP9p1p+eqE4pG1uxRBr3yBoR67P+eBswzC8zw4j
+         Jvi96JScbHecXDCrT2pUUbE1VoNEYEnkAvzL3jLVL4XkL1X9qzTv158lE3FhLm9kt2Nb
+         JT0JyMS906VLQ8dypQKdV1HB0QFcHXLsgTCLaBItTkPiFIOP4qBErF47e9t4VYOTgxJl
+         NJO4zp13I/2pUUxBsSIUUPedmbKzCLgu74YH8+scy6x61kzPQQB8QgYOLWk9MC16I6VR
+         2BXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
@@ -49,75 +49,75 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=jMsPz/j9py8fwDzHCRzHRwEVjCjYaxR2slyVDYPLSqM=;
-        b=Ll8iVOacqS7yUKddvv2NByzjkggeeHdJF2K+NH08mFcfAeijbSV/cjtIzgicSMz3+y
-         BmnqV1CZT6KQR5nO+qbwhKORyGR2SzjUD8R9Z1QyATaQ6Q5DgELXAA2aKrUYcIFmlB80
-         Q1ecS5G+KTBizw0wb1sjbDRnQXEMcJjwBwNBh0cu5z3HBNWxrU1sl7NdTDqgOg27QebZ
-         KYJ98sFWyvLm6ZqTPU3C7hGz2/wwIei+Wussrrv1ABwbAxd1Udm8pTKNb0pSlDYl26XR
-         pQpucaulllWC5Md7uveTOEcU+AfbL+qmyEX6RoM3L+NmYYzBMx1Q5z4lE1wLZJ4riQtK
-         yMbQ==
-X-Gm-Message-State: APjAAAXigLsbxGfksX+idJ2Gqezs0NwJd/M8vFBPrn1ZAmlHIE7vJd/o
-	hzYEJZb+GvG1IugJLPM4hxc=
-X-Google-Smtp-Source: APXvYqyEJkgk3kxO5aeZPnWcvaEJGp/IdOQbGssu6zj8HVy1Vu5U7JM6sNI/u50/VpUKz27DX0h1gw==
-X-Received: by 2002:a02:7708:: with SMTP id g8mr6486452jac.9.1574886468451;
-        Wed, 27 Nov 2019 12:27:48 -0800 (PST)
+        bh=CEw+XjfFdIXZz5JPmUSLbJhGC9lDKzADkaF0uGqgujM=;
+        b=jTfjNWt95gIk+fXsmU4iEJrLvT31rj04F1BrJtfybvyfk3mqeAZkOLbWoTDJ/3qQAT
+         e4Rlmc9IfAzc9UiSvLxmZMOGcMnOiVDtkUJHlFeovSj1s6QbWgYVPKRw5rDAWXY7hbML
+         bYaxXUysgwP3vkCKLaFaMm3V/6OJ8TkrNV/L9T2hL4o4v+Gh5dzZpiCXSNDRrgFVJcsK
+         s5dqJxZ5eCJSZSEjzaXidZ1doKHVyncVSIWQerJZ9MMVFgjKwoXCTF2O5To5fWyBJO2+
+         4HWp4WzNVupkVcIStNKoTNHvXIsc1gmPRnZIuEzQrCkCqI/2lqLM8Ung+0FtGCfbsilK
+         ++QA==
+X-Gm-Message-State: APjAAAVFWYqo++qEpl6qxh2DxIsNTu4KlJnep1UnhT//TCrVlwzOTNsb
+	qL69dgAEWUXbfCS/eFvJdto=
+X-Google-Smtp-Source: APXvYqyZ+TvplmtEcWqg7fsdG3Pt0Dsj1ICuXSY2Nvg3QIdMpVVl2q3QGv13WUpA0dqSWJ2afkRyLQ==
+X-Received: by 2002:a63:1b5c:: with SMTP id b28mr7519085pgm.69.1574893730550;
+        Wed, 27 Nov 2019 14:28:50 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a5d:81d4:: with SMTP id t20ls3756057iol.16.gmail; Wed, 27
- Nov 2019 12:27:48 -0800 (PST)
-X-Received: by 2002:a5d:8a06:: with SMTP id w6mr1729957iod.216.1574886468104;
-        Wed, 27 Nov 2019 12:27:48 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1574886468; cv=none;
+Received: by 2002:a17:90a:9f8e:: with SMTP id o14ls2198886pjp.3.gmail; Wed, 27
+ Nov 2019 14:28:50 -0800 (PST)
+X-Received: by 2002:a17:90a:c082:: with SMTP id o2mr8901711pjs.94.1574893730178;
+        Wed, 27 Nov 2019 14:28:50 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1574893730; cv=none;
         d=google.com; s=arc-20160816;
-        b=yjhkIkKqE+mRON9uwLRr4pE+YbFq4Xc0n+EF39uj1kPyhvkwktVnJ9Q1z6kefuAmWf
-         oGQSOzKu18Do82/GXhBN0yKzF6chOD5oavpuD6qkAwWBpJs2pbxi7IKnSQMmk23OUoj9
-         6oFwJK/IFMW4IboUJUkiLZ5AXePPLge6fHsvf0YeciG0Gs6iRoEfB1OfvKfp1rB+FEFE
-         KKBbTFMdQW70YL3XdYrkOJ5+i5lWlCgFhHH/c/fMFc1BzJzq5xoi2rMn6qvt5HlMzHcB
-         GYZqO/kxd4xpOV4JaRIhGRxwhCPjenoJK+gCH72qE46XjgKEvNJejeTcVguntQdidsp8
-         bYmQ==
+        b=d3XGozt28UGvrIoutZhZEvNmW/MbEkbu3k8/xvh2HaAbPUL9L54ZrNi8+EmWsqQm/6
+         q9wa84hKtLo0gWcWK5CtYofKaAAfgOJutXR7C/Xx2SgWb0+3W+J62wrlzMhMSWHGIoh5
+         wvhhvVMtAnVoGQsGtQJx8zrwHRykV3y8/9ee/CYC9RPvDroHrEYEWoZUNl8DJ7dSGxhT
+         cKSqa0txV2RCE4Vs5OfDbVPzw/G7TqXWxLNngZBWGEfeMypQ+UN5S6B7cHYma77Ovb4X
+         rbsFZZ2+rKFCiwuWLI3GkGeIAEgmVL3P8vxlESpBzlNXy3bCA6l+CxxDxjKVdM/lRsOd
+         AX2Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=/9xP2Kq0ECGwvZPzuAJ5O0ZAlQ2V/eOMBzNaTBOLe2M=;
-        b=CSR9Q7kyZzPGiE+IFdO59IP2Bgeh7NPFaJvXsdg1LY+yREKyU19b7UgtNsWiZCQP5Z
-         wOupWKEWS3kS42P/kJgRWybih/iFZZNPuKfSxNNXfOybofu2yV7nS7xGocOa+zKIBEC+
-         g2HFox13/UgM0sjw8dykIRBOWUQpN6pWapxaWCjG28n+nNJLQR++421t9yHR/2Mwp8iL
-         hzGhpb19Au+8cni023w8pHFjJ1dKh+gNm2ElSeEmnnkqUxiIMUFCqqXF3Qdb3UA/X2st
-         n7dhw+h2e31I6T1oTg68S8are0ODsKj6MXhI/64OpUM4B33vQ807hdV6VCqHsA5nyG+8
-         1ORA==
+        bh=KeXZ4luqCFNOPNM7E+9i6XZwG6Bi3IeNYp/i0vjoN04=;
+        b=A9ROmT0ttPLOItBMTV0t+tukO8w4KMZY/RQyvBoCir7mtUF7lf7i9oADS/AdRgxBRG
+         YGUu7fHys91F4u2IOxq9pcZU7zl2lrPT702lD3ebvha83lxASOOViJ0xA/UyZMAGy2EH
+         jiTBGY6Zfssijbd8K7dcZBsWDlnHTgJbn4MHfUbiD8m5g5g98pM+2XjZrHq1R+e2hpyG
+         IuFoKrgpuCr27iqnWT952+gBqmkpGANQrvgIE77z9jNZAA0aGlMQq65emnLvVR6nYt2i
+         X3eRB+8uVW1GPD+M8TjcfD8oo+AyNsOBfkuJGfli7+L870VcgFj3WMRLRdEjywe9QgrX
+         lZNg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=UkHiWpu5;
-       spf=pass (google.com: domain of jannh@google.com designates 2607:f8b0:4864:20::342 as permitted sender) smtp.mailfrom=jannh@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=li5wluUZ;
+       spf=pass (google.com: domain of jannh@google.com designates 2607:f8b0:4864:20::241 as permitted sender) smtp.mailfrom=jannh@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com. [2607:f8b0:4864:20::342])
-        by gmr-mx.google.com with ESMTPS id k25si651853iog.5.2019.11.27.12.27.48
+Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com. [2607:f8b0:4864:20::241])
+        by gmr-mx.google.com with ESMTPS id q207si293742pfc.5.2019.11.27.14.28.50
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 27 Nov 2019 12:27:48 -0800 (PST)
-Received-SPF: pass (google.com: domain of jannh@google.com designates 2607:f8b0:4864:20::342 as permitted sender) client-ip=2607:f8b0:4864:20::342;
-Received: by mail-ot1-x342.google.com with SMTP id d7so3362546otq.3
-        for <kasan-dev@googlegroups.com>; Wed, 27 Nov 2019 12:27:48 -0800 (PST)
-X-Received: by 2002:a9d:328:: with SMTP id 37mr4826013otv.228.1574886467145;
- Wed, 27 Nov 2019 12:27:47 -0800 (PST)
+        Wed, 27 Nov 2019 14:28:50 -0800 (PST)
+Received-SPF: pass (google.com: domain of jannh@google.com designates 2607:f8b0:4864:20::241 as permitted sender) client-ip=2607:f8b0:4864:20::241;
+Received: by mail-oi1-x241.google.com with SMTP id x21so14462893oic.0
+        for <kasan-dev@googlegroups.com>; Wed, 27 Nov 2019 14:28:50 -0800 (PST)
+X-Received: by 2002:aca:ccd1:: with SMTP id c200mr6180503oig.157.1574893728992;
+ Wed, 27 Nov 2019 14:28:48 -0800 (PST)
 MIME-Version: 1.0
-References: <20191115191728.87338-1-jannh@google.com> <20191115191728.87338-2-jannh@google.com>
- <CALCETrVQ2NqPnED_E6Y6EsCOEJJcz8GkQhgcKHk7JVAyykq06A@mail.gmail.com>
-In-Reply-To: <CALCETrVQ2NqPnED_E6Y6EsCOEJJcz8GkQhgcKHk7JVAyykq06A@mail.gmail.com>
+References: <20191120170208.211997-1-jannh@google.com> <20191120170208.211997-2-jannh@google.com>
+ <20191120202516.GD32572@linux.intel.com>
+In-Reply-To: <20191120202516.GD32572@linux.intel.com>
 From: "'Jann Horn' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Wed, 27 Nov 2019 21:27:20 +0100
-Message-ID: <CAG48ez2z8i1nosA1nGrVdXx1cXXwHBqe7CC5kMB2W=uxbsvkjg@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] x86/traps: Print non-canonical address on #GP
-To: Andy Lutomirski <luto@kernel.org>
+Date: Wed, 27 Nov 2019 23:28:22 +0100
+Message-ID: <CAG48ez0D2Neddh5WTX-agdpS=Xyf3XWXFB=DebxxV9nAVY43Gg@mail.gmail.com>
+Subject: Re: [PATCH v4 2/4] x86/traps: Print non-canonical address on #GP
+To: Sean Christopherson <sean.j.christopherson@intel.com>
 Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	"H. Peter Anvin" <hpa@zytor.com>, X86 ML <x86@kernel.org>, 
+	"H. Peter Anvin" <hpa@zytor.com>, "the arch/x86 maintainers" <x86@kernel.org>, 
 	Andrey Ryabinin <aryabinin@virtuozzo.com>, Alexander Potapenko <glider@google.com>, 
 	Dmitry Vyukov <dvyukov@google.com>, kasan-dev <kasan-dev@googlegroups.com>, 
-	LKML <linux-kernel@vger.kernel.org>, Andrey Konovalov <andreyknvl@google.com>, 
-	Sean Christopherson <sean.j.christopherson@intel.com>
+	kernel list <linux-kernel@vger.kernel.org>, Andrey Konovalov <andreyknvl@google.com>, 
+	Andy Lutomirski <luto@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: jannh@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=UkHiWpu5;       spf=pass
- (google.com: domain of jannh@google.com designates 2607:f8b0:4864:20::342 as
+ header.i=@google.com header.s=20161025 header.b=li5wluUZ;       spf=pass
+ (google.com: domain of jannh@google.com designates 2607:f8b0:4864:20::241 as
  permitted sender) smtp.mailfrom=jannh@google.com;       dmarc=pass (p=REJECT
  sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Jann Horn <jannh@google.com>
@@ -134,57 +134,135 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Sun, Nov 24, 2019 at 12:08 AM Andy Lutomirski <luto@kernel.org> wrote:
-> On Fri, Nov 15, 2019 at 11:17 AM Jann Horn <jannh@google.com> wrote:
-> > A frequent cause of #GP exceptions are memory accesses to non-canonical
-> > addresses. Unlike #PF, #GP doesn't come with a fault address in CR2, so
-> > the kernel doesn't currently print the fault address for #GP.
-> > Luckily, we already have the necessary infrastructure for decoding X86
-> > instructions and computing the memory address that is being accessed;
-> > hook it up to the #GP handler so that we can figure out whether the #GP
-> > looks like it was caused by a non-canonical address, and if so, print
-> > that address.
-[...]
-> > +static void print_kernel_gp_address(struct pt_regs *regs)
+On Wed, Nov 20, 2019 at 9:25 PM Sean Christopherson
+<sean.j.christopherson@intel.com> wrote:
+> On Wed, Nov 20, 2019 at 06:02:06PM +0100, Jann Horn wrote:
+> > @@ -509,11 +511,50 @@ dotraplinkage void do_bounds(struct pt_regs *regs, long error_code)
+> >       do_trap(X86_TRAP_BR, SIGSEGV, "bounds", regs, error_code, 0, NULL);
+> >  }
+> >
+> > +/*
+> > + * On 64-bit, if an uncaught #GP occurs while dereferencing a non-canonical
+> > + * address, return that address.
+>
+> Stale comment now that it's decoding canonical addresses too.
+
+Right, reworded.
+
+> > + */
+> > +static bool get_kernel_gp_address(struct pt_regs *regs, unsigned long *addr,
+> > +                                        bool *non_canonical)
+>
+> Alignment of non_canonical is funky.
+
+Fixed the indentation.
+
 > > +{
 > > +#ifdef CONFIG_X86_64
-> > +       u8 insn_bytes[MAX_INSN_SIZE];
-> > +       struct insn insn;
-> > +       unsigned long addr_ref;
+> > +     u8 insn_buf[MAX_INSN_SIZE];
+> > +     struct insn insn;
 > > +
-> > +       if (probe_kernel_read(insn_bytes, (void *)regs->ip, MAX_INSN_SIZE))
-> > +               return;
+> > +     if (probe_kernel_read(insn_buf, (void *)regs->ip, MAX_INSN_SIZE))
+> > +             return false;
 > > +
-> > +       kernel_insn_init(&insn, insn_bytes, MAX_INSN_SIZE);
-> > +       insn_get_modrm(&insn);
-> > +       insn_get_sib(&insn);
-> > +       addr_ref = (unsigned long)insn_get_addr_ref(&insn, regs);
-[...]
-> > +}
+> > +     kernel_insn_init(&insn, insn_buf, MAX_INSN_SIZE);
+> > +     insn_get_modrm(&insn);
+> > +     insn_get_sib(&insn);
+> > +     *addr = (unsigned long)insn_get_addr_ref(&insn, regs);
+> > +
+> > +     if (*addr == (unsigned long)-1L)
 >
-> Could you refactor this a little bit so that we end up with a helper
-> that does the computation?  Something like:
->
-> int probe_insn_get_memory_ref(void **addr, size_t *len, void *insn_addr);
->
-> returns 1 if there was a memory operand and fills in addr and len,
-> returns 0 if there was no memory operand, and returns a negative error
-> on error.
->
-> I think we're going to want this for #AC handling, too :)
+> Nit, wouldn't -1UL avoid the need to cast?
 
-Mmmh... the instruction decoder doesn't currently give us a reliable
-access size though. (I know, I'm using it here regardless, but it
-doesn't really matter here if the decoded size is too big from time to
-time... whereas I imagine that that'd matter quite a bit for #AC
-handling.) IIRC e.g. a MOVZX that loads 1 byte into a 4-byte register
-is decoded as having .opnd_bytes==4; and if you look through
-arch/x86/lib/insn.c, there isn't even anything that would ever set
-->opnd_bytes to 1. You'd have to add some plumbing to get reliable
-access sizes. I don't want to add a helper for this before the
-underlying infrastructure actually works properly.
+Ooh. I incorrectly assumed that a minus sign would be part of the
+number literal and wouldn't be allowed for unsigned types, and didn't
+realize that -1UL is just -(1UL)... thanks, will adjust.
+
+> > +             return false;
+> > +
+> > +     /*
+> > +      * Check that:
+> > +      *  - the address is not in the kernel half or -1 (which means the
+> > +      *    decoder failed to decode it)
+> > +      *  - the last byte of the address is not in the user canonical half
+> > +      */
+>
+> This -1 part of the comment should be moved above, or probably dropped
+> entirely.
+
+Yeah... I remember changing that as well as the comment above, I think
+I lost the overview and accidentally went back to an earlier version
+of the commit at some point... adjusted, thanks.
+
+> > +     *non_canonical = *addr < ~__VIRTUAL_MASK &&
+> > +                      *addr + insn.opnd_bytes - 1 > __VIRTUAL_MASK;
+> > +
+[...]
+> > +             if (addr_resolved)
+> > +                     snprintf(desc, sizeof(desc),
+> > +                         GPFSTR " probably for %saddress 0x%lx",
+> > +                         non_canonical ? "non-canonical " : "", gp_addr);
+>
+> I still think not explicitly calling out the straddle case will be
+> confusing, e.g.
+>
+>   general protection fault probably for non-canonical address 0x7fffffffffff: 0000 [#1] SMP
+>
+> versus
+>
+>   general protection fault, non-canonical access 0x7fffffffffff - 0x800000000006: 0000 [#1] SMP
+>
+>
+> And for the canonical case, "probably for address" may not be all that
+> accurate, e.g. #GP(0) due to a instruction specific requirement is arguably
+> just as likely to apply to the instruction itself as it is to its memory
+> operand.
+
+Okay, I'll bump up the level of hedging for canonical addresses to "maybe".
+
+> Rather than pass around multiple booleans, what about adding an enum and
+> handling everything in (a renamed) get_kernel_gp_address?  This works
+> especially well if address decoding is done for 32-bit as well as 64-bit,
+> which is probably worth doing since we're printing the address in 64-bit
+> even if it's canonical.  The ifdeffery is really ugly if its 64-bit only...
+
+The part about 32-bit makes sense to me; I've limited the
+CONFIG_X86_64 ifdeffery to the computation of *non_canonical.
+
+> enum kernel_gp_hint {
+>         GP_NO_HINT,
+>         GP_SEGMENT,
+>         GP_NON_CANONICAL,
+>         GP_STRADDLE_CANONICAL,
+>         GP_RESOLVED_ADDR,
+> };
+
+I don't really like plumbing the error code down to the helper just so
+that it can return an enum value to us based on that; but I guess the
+rest of it does make the code a bit more pretty, will adjust.
+
+> I get that adding a print just for the straddle case is probably overkill,
+> but it seems silly to add all this and not make it as precise as possible.
+>
+>   general protection fault, non-canonical address 0xdead000000000000: 0000 [#1] SMP
+>   general protection fault, non-canonical access 0x7fffffffffff - 0x800000000006: 0000 [#1] SMP
+>   general protection fault, possibly for address 0xffffc9000021bd90: 0000 [#1] SMP
+>   general protection fault, possibly for address 0xebcbde5c: 0000 [#1] SMP  // 32-bit kernel
+>
+>
+> Side topic, opnd_bytes isn't correct for instructions with fixed 64-bit
+> operands (Mq notation in the opcode map), which is probably an argument
+> against the fancy straddle logic...
+
+And there also is nothing in the instruction decoder that could ever
+set opnd_bytes to 1, AFAICS. So while I think that the inaccuracies
+there don't really matter for the coarse "is it noncanonical #GP?"
+distinction right now - especially considering that userland isn't
+allowed to allocate the last canonical virtual page on X86-64 -, it
+definitely isn't accurate enough to explicitly print the access size
+or end address.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAG48ez2z8i1nosA1nGrVdXx1cXXwHBqe7CC5kMB2W%3Duxbsvkjg%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAG48ez0D2Neddh5WTX-agdpS%3DXyf3XWXFB%3DDebxxV9nAVY43Gg%40mail.gmail.com.
