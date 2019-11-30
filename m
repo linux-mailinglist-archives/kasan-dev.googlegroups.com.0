@@ -1,133 +1,148 @@
-Return-Path: <kasan-dev+bncBCTPB5GO2YNBBKWKRHXQKGQEFFMM7TY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDK7LR5URMGRBYPERHXQKGQE2WHUHJA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x43e.google.com (mail-pf1-x43e.google.com [IPv6:2607:f8b0:4864:20::43e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B00010DDA6
-	for <lists+kasan-dev@lfdr.de>; Sat, 30 Nov 2019 13:48:44 +0100 (CET)
-Received: by mail-pf1-x43e.google.com with SMTP id s131sf14480560pfs.21
-        for <lists+kasan-dev@lfdr.de>; Sat, 30 Nov 2019 04:48:44 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1575118123; cv=pass;
+Received: from mail-wr1-x438.google.com (mail-wr1-x438.google.com [IPv6:2a00:1450:4864:20::438])
+	by mail.lfdr.de (Postfix) with ESMTPS id 532E610DDCC
+	for <lists+kasan-dev@lfdr.de>; Sat, 30 Nov 2019 14:45:06 +0100 (CET)
+Received: by mail-wr1-x438.google.com with SMTP id d8sf13273565wrq.12
+        for <lists+kasan-dev@lfdr.de>; Sat, 30 Nov 2019 05:45:06 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1575121506; cv=pass;
         d=google.com; s=arc-20160816;
-        b=DO3RCqcygvZQzntbRdvSJ4HcLS8/xOwt90pw12MNi8+/WzWiuiHeDrmh4UZIUpO1BR
-         6mFFSMT/3aZ9N1H78Xp2FT+tkel5TFasyKJOLEYZl7Zj++YuIq/XOyEcxOWeVuYlNqT7
-         tKv/asd2SZNrKAl3SeHbrzViDgl2gGllKVm4odTHX6OR7h8ltIFuqDiGcx9hcHjgx/oA
-         WYv5voqD2BbvLDjNQTypjYTsbbpUtxrqh9F7Khx3kq9usrvNnvyVyNpN0kmlOpYhIAb8
-         EMF8XS2Fees4vWl/T0UZqYJ5tkY71u0RH/Bvoj0hEncOJxzntaIIj+XWkEdLz7gw1fwx
-         j+9Q==
+        b=f0BaZ2osxGH0T2fN91aUQZ6jyRAYbyxggxAesoV1VaWGBJDZ4rMvMLzcYm3KmxLjKm
+         JJx9X4bN7PItI283bmd++/PQU/vtcE1tM4xmWVOT3g63XKnOkde+KDTDCwJOmJyUFu7n
+         TTU7WfGcbxDVeN5NqdtUKlHAcgOXSUmTBYABtvmKPkaWXLs48YWqdDkwTM+WfSbvqCoM
+         evXh3ATyrirTRbAzRPTpJVFOU+a/q7Is9b6S1CVXmZ+pqmitCJlQ1sHUR7LoUNneMufT
+         HRoWO8uo8uCdRT5HFLCc7HWcPNz3FtAAEaz/M8N2ZATnX1YuDX1FPn5Sd/64CDiyuOqO
+         6ttA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-language:in-reply-to
-         :mime-version:user-agent:date:message-id:from:references:cc:to
-         :subject:sender:dkim-signature;
-        bh=GdNvjodUjtl2oq6hdS7PQSMktyfmPxA3nZMIgVkZi8M=;
-        b=eEg2y4s7uCLkap6xhq8Xp3XKBqqAaBmqKXT+KDBT+RLyQRTiw/RzpKBVwaxMdY4D3S
-         cu4C1De8GdA3LLHTiZlSfksIBXcd22LhUoqSzaw9ibxayfXHeNt/rJ4m8tAGelfo8/zR
-         Xo0ej4HMTDQvGSsSRdzbyNotMm4d6VW68JTrbIIoYkkDJTAFu+tYEV9Ceohi2rMikt5/
-         eO9bM5zuws7PML7Vi1beWOOAFL4BzpL146KuoQgdbxFn/dx50qkRj5e2GNJc2PcdmFVH
-         R2CzuQF699nnGGuBuQ8K7kQpTT896E64H49Ir3RmSq3tYL/arTWl37Mac0MowdASPj+S
-         rOLQ==
+         :list-id:mailing-list:precedence:user-agent:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:date:from:sender:dkim-signature:dkim-signature;
+        bh=AXaeTsXskcBIhPhG6NH3PWA1T63bTB5gVtQQ+zXJ4qc=;
+        b=LDfocsrYD+SK11Q3VzDX2Byd42R/PvAOn2r4cEw2cY27fD/H8Fh4CWKQIaHD/nzn0G
+         pAbM4Vc94nUBUo98FC6E/AvH07Ea+Nzsi7yYuNl8AipCq0PMBLnHMVOihgXyp6Hix2nU
+         wErQChYf4oibd5uKq3dXTUg+GY0WodiuZSW4ER8jJwf7HPG7zf6dOUvN5tV591ze14Ll
+         6eWHQlY9yKejNUyOFXhXiIu8AJHNDOCtzJRq4TPKcmMSk0L2M77soMOyBKPrHto2Ui42
+         +XiMrco/dhGypjRRXelgo2TFqiNDcJLu+4yxZf/Rjv9kEhIYBQ6zO72SDfzIcU/MuEoQ
+         usww==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: best guess record for domain of penguin-kernel@i-love.sakura.ne.jp designates 202.181.97.72 as permitted sender) smtp.mailfrom=penguin-kernel@i-love.sakura.ne.jp
+       dkim=pass header.i=@gmail.com header.s=20161025 header.b=LBo+ojo5;
+       spf=pass (google.com: domain of urezki@gmail.com designates 2a00:1450:4864:20::143 as permitted sender) smtp.mailfrom=urezki@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:x-original-sender
+        h=sender:from:date:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=GdNvjodUjtl2oq6hdS7PQSMktyfmPxA3nZMIgVkZi8M=;
-        b=hEPm3ddRAX4dtDXJ0xRKfbUsUFwH2utsv0ib6wLjAKZIyJCgiDT3r+2UCWUntDkYuO
-         0tkitVLdtMCuCXtPWGXpKVWIQ7EtpAVOYbjz5U9hLn+z7R96UZ1mFRrjtXGuc6k5BSRh
-         7vh4xlbx+l8Zvp6ozw9LUUue/u2oAt6RQCk6gJvi8Toi1DaA8E/77EqFUC7x7CO44IWM
-         x7ALc6FTWPeB+AnnpkL/OVK3AQepwP9SF9Kvv0/a7vVJKENPDBVQjsyNohoHxlmMj7Je
-         0eL3ezFCnEMzlEkp6cGoTRDZ/6V86zTJjJT1FGfrHXBkLc99cHRPR4okegmNkazhqzJx
-         u7ig==
+        bh=AXaeTsXskcBIhPhG6NH3PWA1T63bTB5gVtQQ+zXJ4qc=;
+        b=K7+IqC28D+td2fHOo1OwXNHzGfXtTVQZieogVorytTae17WtgSCQx2zcwuA6GWaDJS
+         nMBUNZuCIZQ9gZ67Qn5lHdQH/+hRCeeGiwGpTNOno80jbwXwsJIM1UIuJyIUpuZTw25V
+         EgKjOVZucvwczITgv8PJ7Xsec+lmuvEfV36NhCsn+H6R1skNQvH/j6sGgCRaxosUNh0p
+         nLefBQQdHskxDoq3CvFLQCkHp86RJHPuqMPBn3ND+Jaby6iIJYqpIkjMFTsNEDySBq4D
+         NN1v0aa3XMVF84zOy20qixOIXahWaj/fVaL9KzUa/obMdaGGjOWrwBMZ7oqhM6GeUGEU
+         0RhQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:date:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=AXaeTsXskcBIhPhG6NH3PWA1T63bTB5gVtQQ+zXJ4qc=;
+        b=tokRzAooHDGkvc/Meo7cwJh0EQs1hMsaNOocsXn47iWpc/fG+AcxWjwKOMUUkPzk8F
+         GCiJGMDmqe2rUMMZ8MZTDjDI5nqBFRfjpZwEqOoKw+nBOGFSmVCsOo7r6mHLlJDESAOb
+         mKSxpOPZf0JYSf1wVg8fxfkqWZvxHi/n1YU2v3Rz4JWgstauTfrOolK0bbU0ktDjnzRK
+         1c+bXjlq0pu3K/Q/ArxdtUJeGap43qhEJgdFk9szjNviNOwJJzWlQFTkprw0PpfPSINs
+         K2RUIX4uw88Tbe+ukpdaDj5kHeu1FEM9Hdr+HK1+3uZxVL97+i+e/5FpFQZXcHeeZ2iB
+         HmBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
+        h=sender:x-gm-message-state:from:date:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=GdNvjodUjtl2oq6hdS7PQSMktyfmPxA3nZMIgVkZi8M=;
-        b=GkAplPEMg/kv9KvrioW+XuNEwubI1/KY4WVL/WC1yXf4+wEF/AuTFINFZTCRFIXmOy
-         snH7+CpZ0TQdmHx8378zjZwEI/W9/y1AXe+AUUNQngvuRneKUoisSqm6AOyV9dBAYuqR
-         5me/+CJfMWKtg/Be2og4eEisBW6V0EIByzfw+C1FV9Wz2NZ92HQ5IloTQ0q8sWuVythd
-         vxBBfvsQEuN5JViRenTmf4tz8HgoCpuX7+M2QbL0Q8M2qim7k3fgPaqRITvPeISEXqsn
-         W/E2zdLdzP5Z5wwziLZkQy//5iyVpl9k6hgbVAF5JHeeeH8R3oi7yH8aV2EiVnpJJb9t
-         MJIw==
+        bh=AXaeTsXskcBIhPhG6NH3PWA1T63bTB5gVtQQ+zXJ4qc=;
+        b=TYGhOW3/E3+HjRvpKWwrJdctnpfjajX+vU8l2M1EMq9+LlSBHfjJdXXS96odtJsR2C
+         QCgHO0H4kwYH52LGc9j6OUA5PnHHZdcmGR14WHLbyoepVocDJUMnXyFrqb0KjXOnCswW
+         MEnncwr0ocDcRKlhA3KJLg/2Hpy4HkUt2Y4TwsLjUS1ti6CImQ30As7fK3C8EBXWq28m
+         GcFGFs46zYfgMKjpmlyAvs27uWjbDbbxPcyYWHCn+e3mtL0ydoyr3a1VYZUbm3UvsHGy
+         oY743xBQVSYoCTf3Hlkn3gjQFW7GDxfy6a1HSVfRAVK4dgLnAA3sfo427jmdF33qHkIu
+         UtkA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAVNqhwcP2ezLoM2vBBRVweq8ME7Oo6azcyoGjEtV/vfUqkbL17u
-	Ho5N1ha7aoZS+rhTjUxuO64=
-X-Google-Smtp-Source: APXvYqyq0HFY49ueHVAVhbGvkFL09OW5PStu5PfmsOUb0qKR/yFFECXo9VdB+O1/AmLwo9O9aRK++A==
-X-Received: by 2002:a63:2808:: with SMTP id o8mr1636596pgo.39.1575118122833;
-        Sat, 30 Nov 2019 04:48:42 -0800 (PST)
+X-Gm-Message-State: APjAAAWBMyyjztNic46xbbhjRCs8/7/RJFQiUq7gVv3uGuYMqB472qhJ
+	06jmLY0dg/Lj7Ts85zjWlHU=
+X-Google-Smtp-Source: APXvYqz7EyX8WVzOufKL/IP8pljA1YY9qwLDVfEm7u+pbHuonleAiDeJAAZxJ3LJSRlghzpJ+y7KBQ==
+X-Received: by 2002:a1c:ed05:: with SMTP id l5mr20894638wmh.161.1575121505789;
+        Sat, 30 Nov 2019 05:45:05 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:90a:ad06:: with SMTP id r6ls2772310pjq.3.canary-gmail;
- Sat, 30 Nov 2019 04:48:42 -0800 (PST)
-X-Received: by 2002:a17:902:54f:: with SMTP id 73mr19529210plf.213.1575118122353;
-        Sat, 30 Nov 2019 04:48:42 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1575118122; cv=none;
+Received: by 2002:a5d:55cd:: with SMTP id i13ls545316wrw.0.gmail; Sat, 30 Nov
+ 2019 05:45:05 -0800 (PST)
+X-Received: by 2002:adf:9185:: with SMTP id 5mr62123308wri.389.1575121505299;
+        Sat, 30 Nov 2019 05:45:05 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1575121505; cv=none;
         d=google.com; s=arc-20160816;
-        b=bOjohz6Oxam7e/SUxHpy4YwStvVq1P3tb/O8YRKZiLzlUm3TYSbtN9ZgMOX9jv0ALb
-         m24z3/tjPiWyR3XObAb1WhEU+yxIxEXgaumeIWWU0PVFJRGIX0CnfLp5cX9SUW/FHPLa
-         yikAuHgTAbmuq4HKlmuBGlaVlUGYSitgkHqSpnRdaG6Mz7Vi0kvHdR2OsVyVPMPijQrD
-         lKB4GDXh8QmeYIyCPto8eA5tbdNOFfWv8sjoLRCUqDB+KbHj6j8Js3x9siv5suzUmfMn
-         F5GpqLROdeCd6Z4KyJ90TsQ9/ajoatZq7QtfwIJdJzL508mBcsGa/Gvk4FjjStCdV1zt
-         W5pA==
+        b=fz5kIzZNqbe+ZobNt2PT10BatdrFyL73OkRYlohmloH8Puwlins6qcPoMBGXpL0SAZ
+         15qs+FWNxxwArHyoQys8/KxEv0xHRVcby3uvECS8FziPasqMcFgLSoOvTh4GQ1APyG9q
+         gTI8zdxy/oLtZKO/Ohv8YG79Al5b9TZ1oaqN9GrbrgnvkSMDUUron5TPNWPggzwiaSB6
+         UobuUb353dcrwEg68GpIh2dOySdAr/G3D9f2jH9Em8i8arnyvfKSjQJeaR6n5k4k3ObY
+         K1+qqU/wwN+NvXWbabqdbrMQNZWYXbQmIrqGXqeiDKaTx+MqU6F1RG3TNFvX/zzGVkvT
+         wl5Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject;
-        bh=rLAJYYFD3WV/p71yWNlfqCyKuY2KS38QD1Dtz7p3djA=;
-        b=g6vNHgXyGrXs5x5O9062FMVKSRyTVKROQWC/oGQPsh+ZZcPlprNjNg3CuLNsX6cuKd
-         Rqe4+rz1mJkujqesmWELTYo1YtNtLdXLlrrccSoY7TzVzzuYy7r3o/t9/IQd/NqmFTMW
-         JMdBX6ruRC/AgfW9CNRgPEtedyqlQ51M2cHfCW4UFSrQW4OWK0rS5HzTEJjM0stA63TD
-         hx8JW0zPXwRiuxVa18nB3Rx3CEl0MobLMJTWDvqL4CSxq4eKGzLi9oxgXCpWxc6b2jfj
-         1VZaFpPuDGRVZiSSYKR2YJXB9Qt3UiuJvdDutOZZq8Ii21e4yQFwW1KLgiX0pqnOLM47
-         /tag==
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:date:from:dkim-signature;
+        bh=EX4Yje1/DqSKTDoH2ZOXvXZz8HHNkGdgnUsG/hOKdBw=;
+        b=odFsX4APKt48o2RQDqReUU4swyF0+91B7ekrKZlMZmdp0QwqJaQL35xXTbFomhLyGw
+         72z2JgbYFtjOCyYTL8Z7AKKbjTHtynR2PUDBesjxR+BwEgC5T7pUYiRqH+s7l6YZUtkD
+         6JMyxKrSLiubqzS4yZpeXgrjpgrsW9+uO2YMHBciDTzNBWxeEndbzUbgN8UnBj5wruV6
+         GkCj15WBBm2vgVrzxwuoZU5W4TUWwCKcb4BlNIDv/5MgbN47eigYfEzmrseRQr8iuoqD
+         MQ1wQkEWpU5AE0n6c/M2o6w3ALuALmHOJjspYa6D5aRYIhAgMWVhgkVSax0DL2luv2w6
+         Up1w==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: best guess record for domain of penguin-kernel@i-love.sakura.ne.jp designates 202.181.97.72 as permitted sender) smtp.mailfrom=penguin-kernel@i-love.sakura.ne.jp
-Received: from www262.sakura.ne.jp (www262.sakura.ne.jp. [202.181.97.72])
-        by gmr-mx.google.com with ESMTPS id w4si677994pjr.1.2019.11.30.04.48.41
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 30 Nov 2019 04:48:42 -0800 (PST)
-Received-SPF: pass (google.com: best guess record for domain of penguin-kernel@i-love.sakura.ne.jp designates 202.181.97.72 as permitted sender) client-ip=202.181.97.72;
-Received: from fsav106.sakura.ne.jp (fsav106.sakura.ne.jp [27.133.134.233])
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id xAUCmYxe079069;
-	Sat, 30 Nov 2019 21:48:34 +0900 (JST)
-	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Received: from www262.sakura.ne.jp (202.181.97.72)
- by fsav106.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav106.sakura.ne.jp);
- Sat, 30 Nov 2019 21:48:34 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav106.sakura.ne.jp)
-Received: from [192.168.1.9] (softbank126040062084.bbtec.net [126.40.62.84])
-	(authenticated bits=0)
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id xAUCmXcG079065
-	(version=TLSv1.2 cipher=AES256-SHA bits=256 verify=NO);
-	Sat, 30 Nov 2019 21:48:34 +0900 (JST)
-	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+       dkim=pass header.i=@gmail.com header.s=20161025 header.b=LBo+ojo5;
+       spf=pass (google.com: domain of urezki@gmail.com designates 2a00:1450:4864:20::143 as permitted sender) smtp.mailfrom=urezki@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com. [2a00:1450:4864:20::143])
+        by gmr-mx.google.com with ESMTPS id 12si974576wmj.1.2019.11.30.05.45.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 30 Nov 2019 05:45:05 -0800 (PST)
+Received-SPF: pass (google.com: domain of urezki@gmail.com designates 2a00:1450:4864:20::143 as permitted sender) client-ip=2a00:1450:4864:20::143;
+Received: by mail-lf1-x143.google.com with SMTP id l14so24548695lfh.10;
+        Sat, 30 Nov 2019 05:45:05 -0800 (PST)
+X-Received: by 2002:ac2:5c4a:: with SMTP id s10mr11141071lfp.88.1575121504733;
+        Sat, 30 Nov 2019 05:45:04 -0800 (PST)
+Received: from pc636 (h5ef52e31.seluork.dyn.perspektivbredband.net. [94.245.46.49])
+        by smtp.gmail.com with ESMTPSA id a18sm11758745ljp.33.2019.11.30.05.45.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 30 Nov 2019 05:45:03 -0800 (PST)
+From: Uladzislau Rezki <urezki@gmail.com>
+Date: Sat, 30 Nov 2019 14:44:55 +0100
+To: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+Cc: Dmitry Vyukov <dvyukov@google.com>,
+	syzbot <syzbot+4925d60532bf4c399608@syzkaller.appspotmail.com>,
+	Daniel Axtens <dja@axtens.net>,
+	kasan-dev <kasan-dev@googlegroups.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	LKML <linux-kernel@vger.kernel.org>, Linux-MM <linux-mm@kvack.org>,
+	syzkaller-bugs <syzkaller-bugs@googlegroups.com>
 Subject: Re: BUG: sleeping function called from invalid context in
  __alloc_pages_nodemask
-To: Dmitry Vyukov <dvyukov@google.com>,
-        syzbot <syzbot+4925d60532bf4c399608@syzkaller.appspotmail.com>,
-        Daniel Axtens <dja@axtens.net>, kasan-dev <kasan-dev@googlegroups.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-        LKML <linux-kernel@vger.kernel.org>, Linux-MM <linux-mm@kvack.org>,
-        syzkaller-bugs <syzkaller-bugs@googlegroups.com>
+Message-ID: <20191130134455.GA27399@pc636>
 References: <000000000000c280ba05988b6242@google.com>
  <CACT4Y+Z_E8tNtt5y4r_Sp+dWDjxundr4vor9DYxDr8FNj5U90A@mail.gmail.com>
-From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-Message-ID: <77abfacd-cfd0-5a8d-4af7-e5847fb4e03a@I-love.SAKURA.ne.jp>
-Date: Sat, 30 Nov 2019 21:48:34 +0900
-User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.1
+ <77abfacd-cfd0-5a8d-4af7-e5847fb4e03a@I-love.SAKURA.ne.jp>
 MIME-Version: 1.0
-In-Reply-To: <CACT4Y+Z_E8tNtt5y4r_Sp+dWDjxundr4vor9DYxDr8FNj5U90A@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Language: en-US
-X-Original-Sender: penguin-kernel@i-love.sakura.ne.jp
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: best guess record for domain of penguin-kernel@i-love.sakura.ne.jp
- designates 202.181.97.72 as permitted sender) smtp.mailfrom=penguin-kernel@i-love.sakura.ne.jp
+Content-Disposition: inline
+In-Reply-To: <77abfacd-cfd0-5a8d-4af7-e5847fb4e03a@I-love.SAKURA.ne.jp>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Original-Sender: Urezki@gmail.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@gmail.com header.s=20161025 header.b=LBo+ojo5;       spf=pass
+ (google.com: domain of urezki@gmail.com designates 2a00:1450:4864:20::143 as
+ permitted sender) smtp.mailfrom=urezki@gmail.com;       dmarc=pass (p=NONE
+ sp=QUARANTINE dis=NONE) header.from=gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -140,84 +155,92 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 2019/11/30 16:57, Dmitry Vyukov wrote:
-> On Sat, Nov 30, 2019 at 8:35 AM syzbot
-> <syzbot+4925d60532bf4c399608@syzkaller.appspotmail.com> wrote:
->>
->> Hello,
->>
->> syzbot found the following crash on:
->>
->> HEAD commit:    419593da Add linux-next specific files for 20191129
->> git tree:       linux-next
->> console output: https://syzkaller.appspot.com/x/log.txt?x=12cc369ce00000
->> kernel config:  https://syzkaller.appspot.com/x/.config?x=7c04b0959e75c206
->> dashboard link: https://syzkaller.appspot.com/bug?extid=4925d60532bf4c399608
->> compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
->>
->> Unfortunately, I don't have any reproducer for this crash yet.
->>
->> IMPORTANT: if you fix the bug, please add the following tag to the commit:
->> Reported-by: syzbot+4925d60532bf4c399608@syzkaller.appspotmail.com
+On Sat, Nov 30, 2019 at 09:48:34PM +0900, Tetsuo Handa wrote:
+> On 2019/11/30 16:57, Dmitry Vyukov wrote:
+> > On Sat, Nov 30, 2019 at 8:35 AM syzbot
+> > <syzbot+4925d60532bf4c399608@syzkaller.appspotmail.com> wrote:
+> >>
+> >> Hello,
+> >>
+> >> syzbot found the following crash on:
+> >>
+> >> HEAD commit:    419593da Add linux-next specific files for 20191129
+> >> git tree:       linux-next
+> >> console output: https://syzkaller.appspot.com/x/log.txt?x=12cc369ce00000
+> >> kernel config:  https://syzkaller.appspot.com/x/.config?x=7c04b0959e75c206
+> >> dashboard link: https://syzkaller.appspot.com/bug?extid=4925d60532bf4c399608
+> >> compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+> >>
+> >> Unfortunately, I don't have any reproducer for this crash yet.
+> >>
+> >> IMPORTANT: if you fix the bug, please add the following tag to the commit:
+> >> Reported-by: syzbot+4925d60532bf4c399608@syzkaller.appspotmail.com
+> > 
+> > +Daniel, kasan-dev
+> > This is presumably from the new CONFIG_KASAN_VMALLOC
 > 
-> +Daniel, kasan-dev
-> This is presumably from the new CONFIG_KASAN_VMALLOC
+> Well, this is because
+> 
+> commit d005e4cdb2307f63b5ce5cb359964c5a72d95790
+> Author: Uladzislau Rezki (Sony) <urezki@gmail.com>
+> Date:   Tue Nov 19 11:45:23 2019 +1100
+> 
+>     mm/vmalloc: rework vmap_area_lock
+> 
+> @@ -3363,29 +3369,38 @@ struct vm_struct **pcpu_get_vm_areas(const unsigned long *offsets,
+>                 va = vas[area];
+>                 va->va_start = start;
+>                 va->va_end = start + size;
+> -
+> -               insert_vmap_area(va, &vmap_area_root, &vmap_area_list);
+>         }
+> 
+> -       spin_unlock(&vmap_area_lock);
+> +       spin_unlock(&free_vmap_area_lock);
+> 
+>         /* insert all vm's */
+> -       for (area = 0; area < nr_vms; area++)
+> -               setup_vmalloc_vm(vms[area], vas[area], VM_ALLOC,
+> +       spin_lock(&vmap_area_lock);
+> +       for (area = 0; area < nr_vms; area++) {
+> +               insert_vmap_area(vas[area], &vmap_area_root, &vmap_area_list);
+> +
+> +               setup_vmalloc_vm_locked(vms[area], vas[area], VM_ALLOC,
+>                                  pcpu_get_vm_areas);
+> +       }
+> +       spin_unlock(&vmap_area_lock);
+> 
+>         kfree(vas);
+>         return vms;
+> 
+> made the iteration atomic context while
+> 
+> commit 1800fa0a084c60a600be0cc43fc657ba5609fdda
+> Author: Daniel Axtens <dja@axtens.net>
+> Date:   Tue Nov 19 11:45:23 2019 +1100
+> 
+>     kasan: support backing vmalloc space with real shadow memory
+> 
+> @@ -3380,6 +3414,9 @@ struct vm_struct **pcpu_get_vm_areas(const unsigned long *offsets,
+> 
+>                 setup_vmalloc_vm_locked(vms[area], vas[area], VM_ALLOC,
+>                                  pcpu_get_vm_areas);
+> +
+> +               /* assume success here */
+> +               kasan_populate_vmalloc(sizes[area], vms[area]);
+>         }
+>         spin_unlock(&vmap_area_lock);
+> 
+> tried to do sleeping allocation inside the iteration.
+There was a patch that fixes an attempt of "sleeping allocation" under
+the spinlock from Daniel:
 
-Well, this is because
+https://lkml.org/lkml/2019/11/20/22
 
-commit d005e4cdb2307f63b5ce5cb359964c5a72d95790
-Author: Uladzislau Rezki (Sony) <urezki@gmail.com>
-Date:   Tue Nov 19 11:45:23 2019 +1100
-
-    mm/vmalloc: rework vmap_area_lock
-
-@@ -3363,29 +3369,38 @@ struct vm_struct **pcpu_get_vm_areas(const unsigned long *offsets,
-                va = vas[area];
-                va->va_start = start;
-                va->va_end = start + size;
--
--               insert_vmap_area(va, &vmap_area_root, &vmap_area_list);
-        }
-
--       spin_unlock(&vmap_area_lock);
-+       spin_unlock(&free_vmap_area_lock);
-
-        /* insert all vm's */
--       for (area = 0; area < nr_vms; area++)
--               setup_vmalloc_vm(vms[area], vas[area], VM_ALLOC,
-+       spin_lock(&vmap_area_lock);
-+       for (area = 0; area < nr_vms; area++) {
-+               insert_vmap_area(vas[area], &vmap_area_root, &vmap_area_list);
-+
-+               setup_vmalloc_vm_locked(vms[area], vas[area], VM_ALLOC,
-                                 pcpu_get_vm_areas);
-+       }
-+       spin_unlock(&vmap_area_lock);
-
-        kfree(vas);
-        return vms;
-
-made the iteration atomic context while
-
-commit 1800fa0a084c60a600be0cc43fc657ba5609fdda
-Author: Daniel Axtens <dja@axtens.net>
-Date:   Tue Nov 19 11:45:23 2019 +1100
-
-    kasan: support backing vmalloc space with real shadow memory
-
-@@ -3380,6 +3414,9 @@ struct vm_struct **pcpu_get_vm_areas(const unsigned long *offsets,
-
-                setup_vmalloc_vm_locked(vms[area], vas[area], VM_ALLOC,
-                                 pcpu_get_vm_areas);
-+
-+               /* assume success here */
-+               kasan_populate_vmalloc(sizes[area], vms[area]);
-        }
-        spin_unlock(&vmap_area_lock);
-
-tried to do sleeping allocation inside the iteration.
+--
+Vlad Rezki
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/77abfacd-cfd0-5a8d-4af7-e5847fb4e03a%40I-love.SAKURA.ne.jp.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20191130134455.GA27399%40pc636.
