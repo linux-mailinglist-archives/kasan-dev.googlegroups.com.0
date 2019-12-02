@@ -1,32 +1,32 @@
-Return-Path: <kasan-dev+bncBCQPF57GUQHBBDFQR7XQKGQE54VGNSA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCQPF57GUQHBBZU3SLXQKGQE5Z4AXBQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-vk1-xa3f.google.com (mail-vk1-xa3f.google.com [IPv6:2607:f8b0:4864:20::a3f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49E9F10E24F
-	for <lists+kasan-dev@lfdr.de>; Sun,  1 Dec 2019 16:11:10 +0100 (CET)
-Received: by mail-vk1-xa3f.google.com with SMTP id o144sf16593670vko.13
-        for <lists+kasan-dev@lfdr.de>; Sun, 01 Dec 2019 07:11:10 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1575213069; cv=pass;
+Received: from mail-pj1-x103a.google.com (mail-pj1-x103a.google.com [IPv6:2607:f8b0:4864:20::103a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1299C10E4FB
+	for <lists+kasan-dev@lfdr.de>; Mon,  2 Dec 2019 05:07:04 +0100 (CET)
+Received: by mail-pj1-x103a.google.com with SMTP id 6sf18967859pja.23
+        for <lists+kasan-dev@lfdr.de>; Sun, 01 Dec 2019 20:07:03 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1575259622; cv=pass;
         d=google.com; s=arc-20160816;
-        b=SsNjdGLQvS1+bMuJfi5FSPug97iRzFLUP+2Jqqe4Vl+Uegx0ozwIwgpjCVxb/qwHnL
-         NhqHo2VGFK+mFXWSmekS8HMkOBon9Todvl+KKGrH4dgwxT8noaVQDxh+/PTITIHbndag
-         EFZUYwA9wFSHgq17FoBFed71amSIyhLKb+oJfOMJnttw9adHTyK0YOreHt7ifztq/2b1
-         ntPHCbrPnwzb39LrwsCRMexjTrIOqbjUIGEdoc+U0Zfuvs8iLvf89+r8xiV7NAqbPwgu
-         4eoUvUFuxaON5Y5dOelDtTWQFevX5+e/KZqBJrZJiFNlmQjsCL7dGOfnD1ywQ41fM9b5
-         QixQ==
+        b=ElEtHkl47Bj6x/TMK4A5hpjsDI3KM6QNFbuJnBdAVTI8OuO+O9b7+MQhkCpWsIRi8e
+         WQeKwWh9trnJMbJoojAwEHctkZm1rA32y0VINAoRkY/rXVwUnzlbwmdtG2P6NzTt13KQ
+         EgBpYRMoSg/1j9ife8ma/PBBv0SZ74eCN3AzxElRwOPJt0vpG6ahXqHwdtExvdMnR+kt
+         S/gvXgpbhQciOAOt0ZF6bvH+qmSb6pMJx7ljkcsgkQAgYrZQDJLEqJVzbX1mmfBZ7iP/
+         uhvcXQpsCOpj3LbsP/kxs5H0uIL+jV00QmPpdvIKIUALDKi9AQS1znasI5eX89206FYV
+         a09w==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:to:from:subject:message-id
          :in-reply-to:date:mime-version:sender:dkim-signature;
-        bh=qvUzxkIpIGGDdVS9+Lehi7IXN1IxAsWZLLIfLUmchbU=;
-        b=B/vSj+pANic7dwvAckVVjVUvft8eIynzIGj0FIe6pCCF6NY5THYOMaLOWWUW0c10Pd
-         8FpamknifCw/VVfu2Fbi1DXIVpUT5i/K294Jmf6NqM2cnaT4XeuFlzrNrftZGPsIhcah
-         gkTJXJKWfd5cRwMli7gWfbmbepCBnUI/hbR05sJtTQpGuh5v75u1g/9Ef+JCu0Ocf9dO
-         zE0YiRXWGYTU9DwIAkD0vJD8wpwTWK+p0Fi11U4PewFBKR/7I+8nxzEXwOvWIb3EzhMc
-         xvYo4+lFPjFSM4ze8mnfuV0tCNeaNMMs2gssmNVIrhS3mrd1f+e/MT16idGYsTXWf6AC
-         lx6g==
+        bh=J5tlYr8vthMsYAwc5rwf6Zh1nmgemAjVXhTteGuHdnc=;
+        b=ZU7Jx69v1WKF0SxBchLW2cXQYXR+VkmORLMNKEXVniZZzWazhDYThQJA2Jliq7qmR+
+         LvK/YrmYDAXzPyx+PNsyK8B+OS5VdTvtX+e67mCqeIZGjO9OUDWNkOEUErL47HzKvbjx
+         U1oIsuKT29a/YQEeYwuN1CL8OFtRSJzka63Hh+MR5fRJUqA1Pgby7FvmWO5qEp6hOecZ
+         aymax2PcTRFLQsdWK65FEnuhS0p6W2/l3h0GY6Kf1rR2joNtzvlc4Cxy+6QHHlQu5nxw
+         hHGwlDP7tT82j5AYLIabyBvoxm/61Og50iIVtY356orR54JqjX2o6tB/YCKCFkIovY2g
+         hrBw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of 3c9jjxqkbaeau01mcnngtcrrkf.iqqingwugteqpvgpv.eqo@m3kw2wvrgufz5godrsrytgd7.apphosting.bounces.google.com designates 209.85.166.200 as permitted sender) smtp.mailfrom=3C9jjXQkbAEAu01mcnngtcrrkf.iqqingwugteqpvgpv.eqo@m3kw2wvrgufz5godrsrytgd7.apphosting.bounces.google.com;
+       spf=pass (google.com: domain of 35y3kxqkbaig4abwmxxq3m11up.s00sxq64q3o0z5qz5.o0y@m3kw2wvrgufz5godrsrytgd7.apphosting.bounces.google.com designates 209.85.166.199 as permitted sender) smtp.mailfrom=35Y3kXQkbAIg4ABwmxxq3m11up.s00sxq64q3o0z5qz5.o0y@m3kw2wvrgufz5godrsrytgd7.apphosting.bounces.google.com;
        dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=appspotmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
@@ -34,85 +34,95 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=qvUzxkIpIGGDdVS9+Lehi7IXN1IxAsWZLLIfLUmchbU=;
-        b=cUhsGwUIK/1PcgDjD8+/LhngSgbcbUG/IT9jgYwYjer0o5dQ4vef3teLEsN/aLeT35
-         qgAmpUaB80bFpzAlhUAZhQjDCq4CIzxylFrMj8GlNeNkYgcY1P4aAMgyrmOLTFKe4Yus
-         Nb0BhGmyBC0T9iIk+ZtQAQ1CnycvGQHYFb1wmDKd3/AUSNUiLzXrGZ3lixexOkn/frFX
-         VrrB+DX0uFAlVJerjiWv+PDGmmU6mnlBw3zaXdpNp1y1RsAxMjAS2yMEk7K02kixVD7+
-         HQMKFsdcS0F17Cs025UpbfaBBEv7EgYr02ptTtRxDIZ3uuHW+LoJlsXbqBXaQhb2MUm0
-         COxA==
+        bh=J5tlYr8vthMsYAwc5rwf6Zh1nmgemAjVXhTteGuHdnc=;
+        b=JKTwG35kH+u5sglza0svPCVQFQ/g42AqLx89hobHSssFkylkAeRlGDyStFdhhORC2D
+         4WcfmSVDyRPk7gtfx1tzfl02K68FvM6hqlARDBcigWHhFqgkLX7LrLxCl+Oz09nlwn6c
+         0K/qatzO4JKD9Zfc9g7/385CNSUphn/7t6/sBHHVwXR0c+WcuP1Yhwi+KxXOaS3eZx0g
+         Dp6NdqT1XO7gjn/2owhK9py0CmhcX2c44/Z6g8zm3BC7UecCG51d/2wj/EiVRKGqvqj+
+         olIUCKouClVQ5YviPbgjIWc3aAK22uPw3Afoor8zb82qqqmgn9885sBLNHGjE0QHyjAm
+         vvKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:mime-version:date:in-reply-to:message-id
          :subject:from:to:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
          :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=qvUzxkIpIGGDdVS9+Lehi7IXN1IxAsWZLLIfLUmchbU=;
-        b=nRsYbQn+hsKCG++n9XJofrhZ5C4IUNgQ4e1+RaJa8v1bW0PHdPUNM2Qg4TPbB2MZRU
-         GpUkmymaIpkO9n9ER4kwoVgwuplIIKb7TxX0EgGUJVrBcj/AOZINXguDhwN6ENd0NIQz
-         EfRVB9enjP9/P2BZ717LwtiZJdaKgthi1pcCknox7QF00qBt/6e5yBYzewQ0/nes9cAM
-         w8C4X274++nBHJk3k6/2j3ALnOzwhwYA7965ec+RQjqaEwTlPoRYnt9VCKA+B+nDgLrv
-         xqkGbxAQyMzsj78zNW+y3C0f7X4N9VNVJx8RCgItwPzGRHkhYVGMOOM0Wr7hnL5JSMHO
-         1SaA==
+        bh=J5tlYr8vthMsYAwc5rwf6Zh1nmgemAjVXhTteGuHdnc=;
+        b=b7X+4RigiIEY9pfoKMUCdhoSIzNu2Qjr6EmITzhl/vi8DQ3kRRciNJLauFP/ynn+3m
+         wwKdKCGh+9KwhNCRCDR90X76g9kEhpPy/RnPzbQvqXr7p6zBAilKYRr0v4FlpO2Xnw5s
+         i8B0I3MSxumBfqiaEEchq/6yLSp2rRy+oZx7SL0e39UEDdpLykA4Oj6qNsOfBEMp7ZMf
+         NuGPMIYc68KCmgYebxfVTDsJC9yfcNcXNibJczPK/EYVOZS7D8lxYv7+FqzvuSDroLbn
+         3mp0qUZH6UsL1gRItNQlPvijObV3O90UZCOXrs8oIxrDbaaupGwczOrThal8Drt73SXA
+         VHkA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAXQv2VuHG943hw7eASDBY6NU6lP1lrzIIy4ynPmuP8+DXbldzGT
-	ftoccRp1Ma0iwa39bYDyT6g=
-X-Google-Smtp-Source: APXvYqzIhm+uMNLOptVwzY+r5lHh9V7hg/VWDdqfVAMs0pNue84xn01c4S0sGvNG1oVmC6bMfZCMIA==
-X-Received: by 2002:ab0:1c6:: with SMTP id 64mr15481252ual.13.1575213068924;
-        Sun, 01 Dec 2019 07:11:08 -0800 (PST)
+X-Gm-Message-State: APjAAAWKpMK7OyweVoxRipX9Mu/q44Elv97XMKnxj+yONh/2VmTh1n6t
+	y5043joP9+lyRWxyUeTMILs=
+X-Google-Smtp-Source: APXvYqyUONaQ1VzuTjj8zlk+DWeMDHTCJOCOH7Uqsz+/z4fAreI3X040aI78RBZMSegVzGveegAP3g==
+X-Received: by 2002:a17:902:6bc3:: with SMTP id m3mr18824380plt.185.1575259622415;
+        Sun, 01 Dec 2019 20:07:02 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a1f:2808:: with SMTP id o8ls203889vko.2.gmail; Sun, 01 Dec
- 2019 07:11:08 -0800 (PST)
-X-Received: by 2002:a1f:1782:: with SMTP id 124mr3105430vkx.27.1575213068437;
-        Sun, 01 Dec 2019 07:11:08 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1575213068; cv=none;
+Received: by 2002:a65:4948:: with SMTP id q8ls8733333pgs.12.gmail; Sun, 01 Dec
+ 2019 20:07:02 -0800 (PST)
+X-Received: by 2002:aa7:8f16:: with SMTP id x22mr29193809pfr.120.1575259621945;
+        Sun, 01 Dec 2019 20:07:01 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1575259621; cv=none;
         d=google.com; s=arc-20160816;
-        b=zo7u+rUIqSRraGuHdLMv2KQAfD6vCb6zMAfjeEtEa5Y7MI2mqfBTTSCmX3d1Dtl8gI
-         GC+DSx9+EGd8uqCWH8tYyH+I3giv6esQu3Lg+zYCv97jCb4qDueeyangXrXhrTmU6I6a
-         /MdmQHI0t3w24OhdoCsojoFht3vN2gfwJKq4BElHEjb9eu03HV4h7FtKA3J0PN+c41ON
-         dGAs4xYZppFnoJTbOwnGB2tFjFs7utqNBDkrNimq6lvvpCcvle3wu0M8zhpSTjONoiPi
-         /ZibLgHeyJyTxCEdjq3SOHJGvsEZBUPgdFnVHB3TTf16rrTZ3MeCKVcP8i/V+4s/tB9V
-         d4hg==
+        b=j/V+qVpOxdD5bJ8GBjH3Vz6HdxvCgjWB86yA5mWB9QF5bBH24tFVMekNnpRjB5Maeu
+         mAQQ51wHxp7u2KbumlFet0PI48I9QoSDf0whUKoB8yy8ZtSsDYOsUWP7WDqrABLNYny2
+         gh+fy1PzmxrWSIgDFVWZxCMejLCjjvdTv0kRhUMqJow7fQ6tZZM094ZQFz88SUTKO0e0
+         CIKc5iLv/2E0FpyMf56Oc9QVCi7/K8bEfugBZ9nFsXKWRTAkEO5aZTPp8HhvxTP3RCJK
+         o185WeVsPVAbuKCr1o5Q2A8UoTpv3yuRSIFdsE/bUt0RrG4839wzX2YdJImCpDSvqMrO
+         5ztA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=to:from:subject:message-id:in-reply-to:date:mime-version;
-        bh=5CLgl9PicPFQzTSO+Rj6AM4Crp6GMlB9i01lWqmMoZY=;
-        b=piy/CsiJeYAVCRpIrHNNeHQyyxHJxQqKKXALNGR/j7LaEtTSsKG8oM/ZWyyiLYCq4+
-         i8LLQHtEnwIyVsp3REZw0GY/y6YB9EYerhYBeR4MViwCaZD5ENDIZ6xqUccBD8xlP8HS
-         e4/3d2g5gJ4FYLrRhcxD/AhSOyEsANYCe8y/k7rA1N07W3zyhSEqh78IETZtTfMw6EuG
-         vfnlU/OBdk3mAosSvbFzVExC7L3wuT2prIZs0eMkwt8KNhcV0PQLRxbmaGdjmjgBP+Ti
-         VZDHbxJTSlLD2lDfopsBQ6Jmkn/VHwX319QKmF8wzAgvaQd4s9znk7hR02RGtko+DrJY
-         nDsg==
+        bh=oWsENjm7d/+QABjuPHBYSJPPMCuN6XI9dZYPsoGDEJo=;
+        b=qAMGDdnoSQwEn/IGCWpwTUAO1VKW2dNx3ZlsgFmWwLAUlxfkOhqOIye4afJZJ1zZX8
+         4vM1ulLq2lqtXLsMBt8qQkI7DwQRVYU01QEKFdXupXMEbTH03mdzQa2sJQOuslzL7xK5
+         0TTSyZOukpdjhsFiSZG3ZWy2ORNyOq81kxT6FeNS+l/6tBZys5Mrm7r5r7PRLVmrC6yy
+         +QcgrAQqQGpTRUWh/RWBnBJEPAMi3pkZbBjcMhSHcpGAIUGfv6p/ahPgRg3N0shSBVdX
+         JKZRnyzIez0IHFzdph8IwR0HdxsjKUpT7ymjL3g6oZ4our0Vv6wzuYFlNZjmKe19a9qQ
+         9EjQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of 3c9jjxqkbaeau01mcnngtcrrkf.iqqingwugteqpvgpv.eqo@m3kw2wvrgufz5godrsrytgd7.apphosting.bounces.google.com designates 209.85.166.200 as permitted sender) smtp.mailfrom=3C9jjXQkbAEAu01mcnngtcrrkf.iqqingwugteqpvgpv.eqo@m3kw2wvrgufz5godrsrytgd7.apphosting.bounces.google.com;
+       spf=pass (google.com: domain of 35y3kxqkbaig4abwmxxq3m11up.s00sxq64q3o0z5qz5.o0y@m3kw2wvrgufz5godrsrytgd7.apphosting.bounces.google.com designates 209.85.166.199 as permitted sender) smtp.mailfrom=35Y3kXQkbAIg4ABwmxxq3m11up.s00sxq64q3o0z5qz5.o0y@m3kw2wvrgufz5godrsrytgd7.apphosting.bounces.google.com;
        dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=appspotmail.com
-Received: from mail-il1-f200.google.com (mail-il1-f200.google.com. [209.85.166.200])
-        by gmr-mx.google.com with ESMTPS id f186si1307874vkc.5.2019.12.01.07.11.08
+Received: from mail-il1-f199.google.com (mail-il1-f199.google.com. [209.85.166.199])
+        by gmr-mx.google.com with ESMTPS id x13si660370pgt.3.2019.12.01.20.07.01
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 01 Dec 2019 07:11:08 -0800 (PST)
-Received-SPF: pass (google.com: domain of 3c9jjxqkbaeau01mcnngtcrrkf.iqqingwugteqpvgpv.eqo@m3kw2wvrgufz5godrsrytgd7.apphosting.bounces.google.com designates 209.85.166.200 as permitted sender) client-ip=209.85.166.200;
-Received: by mail-il1-f200.google.com with SMTP id d14so1741676ild.22
-        for <kasan-dev@googlegroups.com>; Sun, 01 Dec 2019 07:11:08 -0800 (PST)
+        Sun, 01 Dec 2019 20:07:01 -0800 (PST)
+Received-SPF: pass (google.com: domain of 35y3kxqkbaig4abwmxxq3m11up.s00sxq64q3o0z5qz5.o0y@m3kw2wvrgufz5godrsrytgd7.apphosting.bounces.google.com designates 209.85.166.199 as permitted sender) client-ip=209.85.166.199;
+Received: by mail-il1-f199.google.com with SMTP id d4so26189631ile.14
+        for <kasan-dev@googlegroups.com>; Sun, 01 Dec 2019 20:07:01 -0800 (PST)
 MIME-Version: 1.0
-X-Received: by 2002:a92:690c:: with SMTP id e12mr61025372ilc.153.1575213067870;
- Sun, 01 Dec 2019 07:11:07 -0800 (PST)
-Date: Sun, 01 Dec 2019 07:11:07 -0800
+X-Received: by 2002:a5d:8184:: with SMTP id u4mr50614802ion.155.1575259621372;
+ Sun, 01 Dec 2019 20:07:01 -0800 (PST)
+Date: Sun, 01 Dec 2019 20:07:01 -0800
 In-Reply-To: <000000000000c280ba05988b6242@google.com>
 X-Google-Appengine-App-Id: s~syzkaller
-Message-ID: <0000000000005b28f90598a5df9c@google.com>
+Message-ID: <000000000000293e9f0598b0b69d@google.com>
 Subject: Re: BUG: sleeping function called from invalid context in __alloc_pages_nodemask
 From: syzbot <syzbot+4925d60532bf4c399608@syzkaller.appspotmail.com>
-To: akpm@linux-foundation.org, aryabinin@virtuozzo.com, 
-	christophe.leroy@c-s.fr, dja@axtens.net, dvyukov@google.com, 
-	glider@google.com, gor@linux.ibm.com, hdanton@sina.com, 
-	kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	mark.rutland@arm.com, penguin-kernel@I-love.SAKURA.ne.jp, 
-	syzkaller-bugs@googlegroups.com, urezki@gmail.com
+To: a@unstable.cc, akpm@linux-foundation.org, alex.aring@gmail.com, 
+	allison@lohutok.net, andrew@lunn.ch, andy@greyhouse.net, ap420073@gmail.com, 
+	aryabinin@virtuozzo.com, ast@domdv.de, b.a.t.m.a.n@lists.open-mesh.org, 
+	bridge@lists.linux-foundation.org, christophe.leroy@c-s.fr, cleech@redhat.com, 
+	daniel@iogearbox.net, davem@davemloft.net, dja@axtens.net, 
+	dsa@cumulusnetworks.com, dvyukov@google.com, edumazet@google.com, 
+	f.fainelli@gmail.com, fw@strlen.de, glider@google.com, gor@linux.ibm.com, 
+	gregkh@linuxfoundation.org, gustavo@embeddedor.com, gvaradar@cisco.com, 
+	haiyangz@microsoft.com, hdanton@sina.com, idosch@mellanox.com, info@metux.net, 
+	j.vosburgh@gmail.com, j@w1.fi, jakub.kicinski@netronome.com, jhs@mojatatu.com, 
+	jiri@resnulli.us, johan.hedberg@gmail.com, johannes.berg@intel.com, 
+	jwi@linux.ibm.com, kasan-dev@googlegroups.com, kstewart@linuxfoundation.org, 
+	kvalo@codeaurora.org, kys@microsoft.com, lariel@mellanox.com, 
+	linmiaohe@huawei.com, linux-bluetooth@vger.kernel.org, 
+	linux-hams@vger.kernel.org, linux-hyperv@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-ppp@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 X-Original-Sender: syzbot@syzkaller.appspotmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of 3c9jjxqkbaeau01mcnngtcrrkf.iqqingwugteqpvgpv.eqo@m3kw2wvrgufz5godrsrytgd7.apphosting.bounces.google.com
- designates 209.85.166.200 as permitted sender) smtp.mailfrom=3C9jjXQkbAEAu01mcnngtcrrkf.iqqingwugteqpvgpv.eqo@m3kw2wvrgufz5godrsrytgd7.apphosting.bounces.google.com;
+ (google.com: domain of 35y3kxqkbaig4abwmxxq3m11up.s00sxq64q3o0z5qz5.o0y@m3kw2wvrgufz5godrsrytgd7.apphosting.bounces.google.com
+ designates 209.85.166.199 as permitted sender) smtp.mailfrom=35Y3kXQkbAIg4ABwmxxq3m11up.s00sxq64q3o0z5qz5.o0y@m3kw2wvrgufz5godrsrytgd7.apphosting.bounces.google.com;
        dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=appspotmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
@@ -126,81 +136,30 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-syzbot has found a reproducer for the following crash on:
+syzbot has bisected this bug to:
 
-HEAD commit:    419593da Add linux-next specific files for 20191129
+commit ab92d68fc22f9afab480153bd82a20f6e2533769
+Author: Taehee Yoo <ap420073@gmail.com>
+Date:   Mon Oct 21 18:47:51 2019 +0000
+
+     net: core: add generic lockdep keys
+
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=15769712e00000
+start commit:   419593da Add linux-next specific files for 20191129
 git tree:       linux-next
-console output: https://syzkaller.appspot.com/x/log.txt?x=177a9712e00000
+final crash:    https://syzkaller.appspot.com/x/report.txt?x=17769712e00000
+console output: https://syzkaller.appspot.com/x/log.txt?x=13769712e00000
 kernel config:  https://syzkaller.appspot.com/x/.config?x=7c04b0959e75c206
 dashboard link: https://syzkaller.appspot.com/bug?extid=4925d60532bf4c399608
-compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
 syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16148e9ce00000
 C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=12a1f786e00000
 
-IMPORTANT: if you fix the bug, please add the following tag to the commit:
 Reported-by: syzbot+4925d60532bf4c399608@syzkaller.appspotmail.com
+Fixes: ab92d68fc22f ("net: core: add generic lockdep keys")
 
-BUG: sleeping function called from invalid context at mm/page_alloc.c:4681
-in_atomic(): 1, irqs_disabled(): 0, non_block: 0, pid: 9065, name:  
-kworker/1:3
-4 locks held by kworker/1:3/9065:
-  #0: ffff8880aa026d28 ((wq_completion)events){+.+.}, at: __write_once_size  
-include/linux/compiler.h:247 [inline]
-  #0: ffff8880aa026d28 ((wq_completion)events){+.+.}, at: arch_atomic64_set  
-arch/x86/include/asm/atomic64_64.h:34 [inline]
-  #0: ffff8880aa026d28 ((wq_completion)events){+.+.}, at: atomic64_set  
-include/asm-generic/atomic-instrumented.h:868 [inline]
-  #0: ffff8880aa026d28 ((wq_completion)events){+.+.}, at: atomic_long_set  
-include/asm-generic/atomic-long.h:40 [inline]
-  #0: ffff8880aa026d28 ((wq_completion)events){+.+.}, at: set_work_data  
-kernel/workqueue.c:615 [inline]
-  #0: ffff8880aa026d28 ((wq_completion)events){+.+.}, at:  
-set_work_pool_and_clear_pending kernel/workqueue.c:642 [inline]
-  #0: ffff8880aa026d28 ((wq_completion)events){+.+.}, at:  
-process_one_work+0x88b/0x1740 kernel/workqueue.c:2235
-  #1: ffffc90002177dc0 (pcpu_balance_work){+.+.}, at:  
-process_one_work+0x8c1/0x1740 kernel/workqueue.c:2239
-  #2: ffffffff8983ff20 (pcpu_alloc_mutex){+.+.}, at:  
-pcpu_balance_workfn+0xb7/0x1310 mm/percpu.c:1845
-  #3: ffffffff89851b18 (vmap_area_lock){+.+.}, at: spin_lock  
-include/linux/spinlock.h:338 [inline]
-  #3: ffffffff89851b18 (vmap_area_lock){+.+.}, at:  
-pcpu_get_vm_areas+0x3b27/0x3f00 mm/vmalloc.c:3431
-Preemption disabled at:
-[<ffffffff81a89ce7>] spin_lock include/linux/spinlock.h:338 [inline]
-[<ffffffff81a89ce7>] pcpu_get_vm_areas+0x3b27/0x3f00 mm/vmalloc.c:3431
-CPU: 1 PID: 9065 Comm: kworker/1:3 Not tainted  
-5.4.0-next-20191129-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
-Google 01/01/2011
-Workqueue: events pcpu_balance_workfn
-Call Trace:
-  __dump_stack lib/dump_stack.c:77 [inline]
-  dump_stack+0x197/0x210 lib/dump_stack.c:118
-  ___might_sleep.cold+0x1fb/0x23e kernel/sched/core.c:6800
-  __might_sleep+0x95/0x190 kernel/sched/core.c:6753
-  prepare_alloc_pages mm/page_alloc.c:4681 [inline]
-  __alloc_pages_nodemask+0x523/0x910 mm/page_alloc.c:4730
-  alloc_pages_current+0x107/0x210 mm/mempolicy.c:2211
-  alloc_pages include/linux/gfp.h:532 [inline]
-  __get_free_pages+0xc/0x40 mm/page_alloc.c:4786
-  kasan_populate_vmalloc_pte mm/kasan/common.c:762 [inline]
-  kasan_populate_vmalloc_pte+0x2f/0x1c0 mm/kasan/common.c:753
-  apply_to_pte_range mm/memory.c:2041 [inline]
-  apply_to_pmd_range mm/memory.c:2068 [inline]
-  apply_to_pud_range mm/memory.c:2088 [inline]
-  apply_to_p4d_range mm/memory.c:2108 [inline]
-  apply_to_page_range+0x445/0x700 mm/memory.c:2133
-  kasan_populate_vmalloc+0x68/0x90 mm/kasan/common.c:791
-  pcpu_get_vm_areas+0x3c77/0x3f00 mm/vmalloc.c:3439
-  pcpu_create_chunk+0x24e/0x7f0 mm/percpu-vm.c:340
-  pcpu_balance_workfn+0xf1b/0x1310 mm/percpu.c:1934
-  process_one_work+0x9af/0x1740 kernel/workqueue.c:2264
-  worker_thread+0x98/0xe40 kernel/workqueue.c:2410
-  kthread+0x361/0x430 kernel/kthread.c:255
-  ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/0000000000005b28f90598a5df9c%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/000000000000293e9f0598b0b69d%40google.com.
