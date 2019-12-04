@@ -1,68 +1,123 @@
-Return-Path: <kasan-dev+bncBCWM5NUYSUDRBO75T7XQKGQERYBSLZA@googlegroups.com>
+Return-Path: <kasan-dev+bncBC5L5P75YUERBNFWUDXQKGQELB5VOTA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ot1-x33f.google.com (mail-ot1-x33f.google.com [IPv6:2607:f8b0:4864:20::33f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F1DE113523
-	for <lists+kasan-dev@lfdr.de>; Wed,  4 Dec 2019 19:45:17 +0100 (CET)
-Received: by mail-ot1-x33f.google.com with SMTP id 60sf375678otd.19
-        for <lists+kasan-dev@lfdr.de>; Wed, 04 Dec 2019 10:45:17 -0800 (PST)
+Received: from mail-ed1-x539.google.com (mail-ed1-x539.google.com [IPv6:2a00:1450:4864:20::539])
+	by mail.lfdr.de (Postfix) with ESMTPS id 434F81136B2
+	for <lists+kasan-dev@lfdr.de>; Wed,  4 Dec 2019 21:46:45 +0100 (CET)
+Received: by mail-ed1-x539.google.com with SMTP id y23sf364407edt.2
+        for <lists+kasan-dev@lfdr.de>; Wed, 04 Dec 2019 12:46:45 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1575492405; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=lqaon7CTVx10M7p9FYZySdFOhZ6GnNkZnhvZBk2kwnJYYPFwmt3idQdcNPcmOsdxr4
+         lxqXa4cIqqaVxyYWcUfTwCmCltZNLk4e7TUhmQU7cFjtbU9zglLz25t5A+uk5D6UTXl5
+         Ndw2ljCEmDDkaHt1Hd9NDMb6ukBuR01ywQnRzIeaRuAwRNHFPAUORodK0hEt2bBnYCFN
+         nBximv7jVllJwmVvDkSVKiyozCgsoWKsdEOvyk02L58Dsd10yYWfQyc/vP9PYwxP62CD
+         +3YjepGoK3a4pS5tZygCKnK+Y5nJHok9cl8GVNM8e6zLHaTylDrqzuYC74RHWC7h+F1c
+         CFEA==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:content-language:in-reply-to
+         :mime-version:user-agent:date:message-id:from:references:cc:to
+         :subject:sender:dkim-signature;
+        bh=uWAHg6TDBUFsxsYd23DpbZtDPkHzXQYGwy59EgsAt4k=;
+        b=XlomqNJymmacj2NqaeFfQPNwFvxVBeaehVFNQjhCBWYaLdAFNv+bNfCHN2FQ4k9Mbe
+         doQkfH9e7uZ9xqP7iKiRNvLy5b9oA7LsUgCCEQxqmUgcGyLAHshZANfszBam+8DMilFc
+         OBF9n2rUtoruY1OgImiBUeXKllZZpKSMA9vmBNxArqRvcWdCnk9WndCuywkZzmhvp2bW
+         fdcv+OCQ76KGaEdrFVH6mTO1hZPbAdC3DV1Qyi9SCC89+9lSQwUcn7UsJVFl7faQmjvu
+         Gb+jZ/oylNUzhClYIPZRRA/8E7aJ6heLgRo3+YRgjEAmqpdpPNss/qhOVc1orUc/Z5Ju
+         PkXw==
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       spf=pass (google.com: domain of aryabinin@virtuozzo.com designates 185.231.240.75 as permitted sender) smtp.mailfrom=aryabinin@virtuozzo.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=virtuozzo.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:date:from:to:message-id:subject:mime-version
-         :x-original-sender:precedence:mailing-list:list-id:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=YB4wH/pNDNAtbMu514gttgjLc21/I9fpifSVku4po9o=;
-        b=e8Ypfs2K5NFATNSyeX6RpAwHma57xU0kyvjPZx1JZlmaWAC1rCuesObjp2pdj5VQrC
-         6Qo8mJwjQkRlvClsqaP8ffbgZeNjoUBuh0XAQ+GmvfWpn3qSo93CfC3MoX0RTtkw7b4G
-         oH+M20HlfTAbl/Z/KgwdMbrHkLoHkxhJy0hQ50AXs8RjNUXZexn9rz/sWKKjD5wyYBZw
-         XLoeyQOtuSEL4qrOl4pLvmk1p4mQiAnsSmdgRFNbjwq6RH8bs3wLNxZC9GBoZTrRu6NJ
-         VegZtYPeGoAIr4eAn31ALtkHcq0IbwiW+5qrIXNLnWJhv51+B6tni6ZzUY+AHO6+RuZD
-         4dyA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:message-id:subject:mime-version:x-original-sender
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=YB4wH/pNDNAtbMu514gttgjLc21/I9fpifSVku4po9o=;
-        b=nQpZcQF3Zl9mWYRIQc2PeItL2OQnapWwk4dTYNqAm8u4qtr7KBJhH7cOby6DUaIyKR
-         liL5MeshMcoCNe1KlfkqAD1PzFoasNuw8rYPmkOBL79hWzZK8iupblDAVq4H1JNm6d/P
-         hD4Zwr2xeBUs6xl5DaST0Yw+tVwSPpf/MbY7h70QflGz/PBwMxwpkySb/7+sunSnjghl
-         mHyo+YKVjcoCfYapCwbsRG0aG4F4M5jsEjkuz2PAJpz9gd+cHYxJmGGfSYYwZM9qQH3Y
-         hmv49P/4LgdaBwuIfvqZ7g+wQUwIZ7IXIZYNLaJkdJADnc9MAfTqL8R4d0vjWSb0qv9o
-         Z0Dg==
+        h=sender:subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=uWAHg6TDBUFsxsYd23DpbZtDPkHzXQYGwy59EgsAt4k=;
+        b=sX6hhyFA7uMkSNiNnWhfv8zqm67P1uiaar+gbknwtZgzzwcZg8ea+FBSGQG6+uOK53
+         OJr23dIt7HTk6h44aq/G8AViFM+4Fjy3itPEOyF+XupJBQERW6M78l5HZU9IhrMZe8oj
+         v4Q+kAcggBc0Uq8PfAByodtUKDwNtxdUoXk6cgRUu69s07LEDdPi/27mxKuLqc7z1s2o
+         AVO5eDiyjHYVXfkqoQfa2sjkNJF5eM6Fmnaz3bUxoPkmW1wMGwiva3oONTkroj+34Rwr
+         aBMcGt+s5nt1AfmeDU7t/kLHFwOujpgzAWTeO/76qITEEqu/6MzTaO0CWe0SDy/DmN3f
+         bizQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:date:from:to:message-id:subject
-         :mime-version:x-original-sender:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=YB4wH/pNDNAtbMu514gttgjLc21/I9fpifSVku4po9o=;
-        b=VKoVag0r+gP5ruNhUswvkcRaE6w62AZPrRzJi6nWyhq957l3FGm5lwM2dgFn88p7j5
-         U7thkOiig7TqwTfy2SijwB4oY/GNrarzISTVnh2u6iDtvQIVJxCQohQOjhjrUSMneX90
-         BWae3KIMwPmEj5i6COmwSuwa69wreu9O3FdD8ibyA2sQsFp7EUBqq+TZ/sKbTB66tkvp
-         nqKg/y1+woRnBVw8jkexvLU5/FmPcqrEDnjtmQiR2cMlB2vih6nMlq0BSveZIBoyxO7z
-         Zk9OgaFJXfkz3g0ro4oCpugiYkfrIKZrFTLvvwjjX4Out3pwpwvo2bYFoJXojSj7o4nz
-         Fkbw==
+        h=sender:x-gm-message-state:subject:to:cc:references:from:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=uWAHg6TDBUFsxsYd23DpbZtDPkHzXQYGwy59EgsAt4k=;
+        b=ggDnaN+4BF3gW8kuSwXyXv0wC4o8JgIur0/s7M/OUX+ofTu9tiqpiRuk9PYRdE4ARh
+         DFz74A/HvSvmJJZlbJCqIGWb6rKBv51XQ18c0qwDgn6kItGMfUxtUrL/DQsG1MI1Y62p
+         S6OOULU9m9ZZZWvV1SJDGnGvHh1rti4eSvDoqEq3sNGqrUdm18o2Colah2PuYPKkK5kb
+         MC0rusAW/MlV7juYIyVknEHq0NmpDIRPs34CEzLfH/Nb8A8HEdE6yYvh8HxoIiJc31HA
+         qSsBb1ASPRCxbrR3O3/AjuoqpMNlOr0H/fewX4OOP6JE5jUmXK+vHpia+CVwaemFq+hy
+         10ow==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAUsINhm6CJ96UieN/+E2ymXhC6kjFOPiIkYFqbEHan2pjJs2WaV
-	dGGg6N8QR63iogUgUYNvobU=
-X-Google-Smtp-Source: APXvYqxGHjjP2LEOMXcV/fEBUqsxzMrHFBhDnjf/yXaIMHWRNRY47BeSU6UYpukeSmQppsFntrgnJg==
-X-Received: by 2002:a05:6830:120c:: with SMTP id r12mr3761711otp.327.1575485115728;
-        Wed, 04 Dec 2019 10:45:15 -0800 (PST)
+X-Gm-Message-State: APjAAAWdT/aqN/YAwqNH8qlN5FmrrHLxQH+lgRfyAhAzeBxUgFaHq3cz
+	p7tXx1j7qXBKAjWkn103OR4=
+X-Google-Smtp-Source: APXvYqw/q8G6Baqfg2FetIeJRNUova59H8dFzipUrc9IyrutE2VHFaR31OU+pLR9qLK/DLTeQL3HJQ==
+X-Received: by 2002:a17:906:5e4d:: with SMTP id b13mr5345286eju.266.1575492404941;
+        Wed, 04 Dec 2019 12:46:44 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a9d:60de:: with SMTP id b30ls126098otk.0.gmail; Wed, 04 Dec
- 2019 10:45:15 -0800 (PST)
-X-Received: by 2002:a9d:6419:: with SMTP id h25mr3672673otl.267.1575485115292;
-        Wed, 04 Dec 2019 10:45:15 -0800 (PST)
-Date: Wed, 4 Dec 2019 10:45:14 -0800 (PST)
-From: deepthi.sales15@gmail.com
-To: kasan-dev <kasan-dev@googlegroups.com>
-Message-Id: <d44487db-c375-40f5-a6aa-cd45aa0e5c2e@googlegroups.com>
-Subject: Direct client requirement Salesforce Lightning Developer
+Received: by 2002:a17:906:355a:: with SMTP id s26ls217379eja.15.gmail; Wed, 04
+ Dec 2019 12:46:44 -0800 (PST)
+X-Received: by 2002:a17:906:d924:: with SMTP id rn4mr5176814ejb.213.1575492404506;
+        Wed, 04 Dec 2019 12:46:44 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1575492404; cv=none;
+        d=google.com; s=arc-20160816;
+        b=TH6TRkAXfQvi45sRXeozLebXzSRCAbr3oUcmyfdNTUqENegQ2rMWt+51JFbWB5tF4h
+         jFWDSqWEFSH9B44T0MZZBChAXuVZKQfdEd7xt4r/Q1IQ9uBZxm3UXk3mvqrerapzvK1K
+         od8pzQX42d0U5O4T534Zk9xEBIcesM7ZFd7DCbgEyZjGHAiFiAkZRh57Jw0qW3j/YE5s
+         JbKLSczzBNs2PKzhcMvyBzJxjz/IrGxxLO+ED8ckrrEzIEnKnI27tvgBc3RTX3mSyic6
+         WGmrOJve6iHj8D9rRH3AbVA5CVCOjVbh+Fpst2vWv1f1YbN4qr3Y6dlgccsaU1X2/tKh
+         MSkw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject;
+        bh=m1yQAMdr7eHILji8pyjCSNwzoCxPqgNsaaUUpdHlVf4=;
+        b=BOCkChNtGa0/U3cJLekL2QR0aJv9iiA+C+lWJ6iIJLU9Ki/CWxjAtQrS29NFmzeDW8
+         jBhxclGQZ9ZHfCjpc/7nW4cnu6NyskpKASlzPmJDte6DiogvMGXm3nQlgq9l05QC2fJu
+         ehCxBpGHIu3M+/TVLXQu86j79/Dkp4wxqBiDlCjbhYs0qIdqEC8q+AxcIM1um6wr9r5a
+         dkUGDH7l/zeynt2UAs2/rUHhVrmsD77Drtu6pclUoQYGigIqRV+kj1S30wL9l67Fp5Ov
+         BzfaYOisFd0BngaSGwoy0N7XioALB6SzZ7kLJaTpnteKe1SdfJLlgssAOlxCaUuvnbMb
+         bo7w==
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       spf=pass (google.com: domain of aryabinin@virtuozzo.com designates 185.231.240.75 as permitted sender) smtp.mailfrom=aryabinin@virtuozzo.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=virtuozzo.com
+Received: from relay.sw.ru (relay.sw.ru. [185.231.240.75])
+        by gmr-mx.google.com with ESMTPS id cw7si574904edb.0.2019.12.04.12.46.44
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 04 Dec 2019 12:46:44 -0800 (PST)
+Received-SPF: pass (google.com: domain of aryabinin@virtuozzo.com designates 185.231.240.75 as permitted sender) client-ip=185.231.240.75;
+Received: from [192.168.15.5]
+	by relay.sw.ru with esmtp (Exim 4.92.3)
+	(envelope-from <aryabinin@virtuozzo.com>)
+	id 1icbXh-0001mE-UP; Wed, 04 Dec 2019 23:46:38 +0300
+Subject: Re: [PATCH] kasan: support vmalloc backing of vm_map_ram()
+To: Daniel Axtens <dja@axtens.net>, kasan-dev@googlegroups.com,
+ linux-mm@kvack.org, x86@kernel.org, glider@google.com,
+ linux-kernel@vger.kernel.org, dvyukov@google.com
+Cc: Qian Cai <cai@lca.pw>
+References: <20191129154519.30964-1-dja@axtens.net>
+From: Andrey Ryabinin <aryabinin@virtuozzo.com>
+Message-ID: <cac9cbcf-4286-ae34-d150-79ea81a366b0@virtuozzo.com>
+Date: Wed, 4 Dec 2019 23:44:29 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-Content-Type: multipart/mixed; 
-	boundary="----=_Part_1530_345342590.1575485114654"
-X-Original-Sender: deepthi.sales15@gmail.com
+In-Reply-To: <20191129154519.30964-1-dja@axtens.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Language: en-US
+X-Original-Sender: aryabinin@virtuozzo.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of aryabinin@virtuozzo.com designates 185.231.240.75 as
+ permitted sender) smtp.mailfrom=aryabinin@virtuozzo.com;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=virtuozzo.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -75,86 +130,33 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-------=_Part_1530_345342590.1575485114654
-Content-Type: multipart/alternative; 
-	boundary="----=_Part_1531_2102355106.1575485114654"
 
-------=_Part_1531_2102355106.1575485114654
-Content-Type: text/plain; charset="UTF-8"
 
-Hi,
+On 11/29/19 6:45 PM, Daniel Axtens wrote:
+> @@ -1826,7 +1842,15 @@ void *vm_map_ram(struct page **pages, unsigned int count, int node, pgprot_t pro
+>  
+>  		addr = va->va_start;
+>  		mem = (void *)addr;
+> +
+> +		if (kasan_populate_vmalloc_area(size, mem)) {
+> +			vm_unmap_ram(mem, count);
+> +			return NULL;
+> +		}
+>  	}
+> +
+> +	kasan_unpoison_shadow(mem, size);
+> +
 
-Please find the below requirement. If you are comfortable with the 
-requirement send me your updated profile.
+This probably gonna explode on CONFIG_KASAN=y && CONFIG_KASAN_VMALLOC=n
 
-Job Title: Salesforce Lightning Developer  
-Location: Springfield MA 
-Duration: Long Term
-Visa: H1B/GC EAD/GC/USC
+I've sent alternative patch which fixes vm_map_ram() and also makes the code a bit easier to follow in my opinion.
 
-- Strong Salesforce experience (and certifications)
-- Lightning administration and development experience
-- Experience integrating Salesforce with external systems and data sources
-- Sales Cloud, Service Cloud & Knowledge experience
-- Experience with Agile/Scrum software development, DevOps and the 
-financial services industry
-
-Please send profiles to deepthi@webilent.com
+>  	if (vmap_page_range(addr, addr + size, prot, pages) < 0) {
+>  		vm_unmap_ram(mem, count);
+>  		return NULL;
+> 
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/d44487db-c375-40f5-a6aa-cd45aa0e5c2e%40googlegroups.com.
-
-------=_Part_1531_2102355106.1575485114654
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div><font face=3D"Times New Roman, serif"><span style=3D"=
-font-size: 16px;">Hi,</span></font></div><div><font face=3D"Times New Roman=
-, serif"><span style=3D"font-size: 16px;"><br></span></font></div><div><fon=
-t face=3D"Times New Roman, serif"><span style=3D"font-size: 16px;">Please f=
-ind the below requirement. If you are comfortable with the requirement send=
- me your updated profile.</span></font></div><div><font face=3D"Times New R=
-oman, serif"><span style=3D"font-size: 16px;"><br></span></font></div><div>=
-<font face=3D"Times New Roman, serif"><span style=3D"font-size: 16px;">Job =
-Title: Salesforce Lightning Developer=C2=A0=C2=A0</span></font></div><div><=
-font face=3D"Times New Roman, serif"><span style=3D"font-size: 16px;">Locat=
-ion: Springfield MA=C2=A0</span></font></div><div><font face=3D"Times New R=
-oman, serif"><span style=3D"font-size: 16px;">Duration: Long Term</span></f=
-ont></div><div><font face=3D"Times New Roman, serif"><span style=3D"font-si=
-ze: 16px;">Visa: H1B/GC EAD/GC/USC</span></font></div><div><font face=3D"Ti=
-mes New Roman, serif"><span style=3D"font-size: 16px;"><br></span></font></=
-div><div><font face=3D"Times New Roman, serif"><span style=3D"font-size: 16=
-px;">- Strong Salesforce experience (and certifications)</span></font></div=
-><div><font face=3D"Times New Roman, serif"><span style=3D"font-size: 16px;=
-">- Lightning administration and development experience</span></font></div>=
-<div><font face=3D"Times New Roman, serif"><span style=3D"font-size: 16px;"=
->- Experience integrating Salesforce with external systems and data sources=
-</span></font></div><div><font face=3D"Times New Roman, serif"><span style=
-=3D"font-size: 16px;">- Sales Cloud, Service Cloud &amp; Knowledge experien=
-ce</span></font></div><div><font face=3D"Times New Roman, serif"><span styl=
-e=3D"font-size: 16px;">- Experience with Agile/Scrum software development, =
-DevOps and the financial services industry</span></font></div><div><font fa=
-ce=3D"Times New Roman, serif"><span style=3D"font-size: 16px;"><br></span><=
-/font></div><div><font face=3D"Times New Roman, serif"><span style=3D"font-=
-size: 16px;">Please send profiles to deepthi@webilent.com</span></font></di=
-v></div>
-
-<p></p>
-
--- <br />
-You received this message because you are subscribed to the Google Groups &=
-quot;kasan-dev&quot; group.<br />
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
-+unsubscribe@googlegroups.com</a>.<br />
-To view this discussion on the web visit <a href=3D"https://groups.google.c=
-om/d/msgid/kasan-dev/d44487db-c375-40f5-a6aa-cd45aa0e5c2e%40googlegroups.co=
-m?utm_medium=3Demail&utm_source=3Dfooter">https://groups.google.com/d/msgid=
-/kasan-dev/d44487db-c375-40f5-a6aa-cd45aa0e5c2e%40googlegroups.com</a>.<br =
-/>
-
-------=_Part_1531_2102355106.1575485114654--
-
-------=_Part_1530_345342590.1575485114654--
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/cac9cbcf-4286-ae34-d150-79ea81a366b0%40virtuozzo.com.
