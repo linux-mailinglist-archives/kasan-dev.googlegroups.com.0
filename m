@@ -1,101 +1,102 @@
-Return-Path: <kasan-dev+bncBC5L5P75YUERBENWUDXQKGQE6R6737Q@googlegroups.com>
+Return-Path: <kasan-dev+bncBC5L5P75YUERBEFWUDXQKGQEPSUEU6A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wr1-x43b.google.com (mail-wr1-x43b.google.com [IPv6:2a00:1450:4864:20::43b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C6DC1136AF
+Received: from mail-lj1-x237.google.com (mail-lj1-x237.google.com [IPv6:2a00:1450:4864:20::237])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FB371136AE
 	for <lists+kasan-dev@lfdr.de>; Wed,  4 Dec 2019 21:46:09 +0100 (CET)
-Received: by mail-wr1-x43b.google.com with SMTP id 92sf382952wro.14
+Received: by mail-lj1-x237.google.com with SMTP id y15sf281806lji.1
         for <lists+kasan-dev@lfdr.de>; Wed, 04 Dec 2019 12:46:09 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1575492369; cv=pass;
+ARC-Seal: i=2; a=rsa-sha256; t=1575492368; cv=pass;
         d=google.com; s=arc-20160816;
-        b=OYnmgsbbBEJeMhZaNbcskmNb5OmfwT+MZGH5onSWR/djbMwKiL/1vYWtdpmCCK9dK3
-         BCxJnsV9U6Tdo0TM2lmFXN2MjMVlb2jxxC+tkOf9l9V81JmmvNHmeI3VGjZXSCCEBAEF
-         juZrfNQ/7dpSyjBS/Da8rKpkoGficIdfeha8xFcyYYBb/p4rWWckBxKX+5KRW8gT/XE6
-         7Z+S9rwMEftqj+P/hwdEVLwh1h6BrTBbTNVtBS0QVlmQmls4mAzCrWjoCV+pZmdY+UAM
-         iwRDF+OL+VJm/KMkFjcD2gaJvZBhH9sCjYvynKy5CPR+Y8O195SGggcIJWDS34WvT8Qo
-         zH0A==
+        b=U/T19fasLTlsrYQa5CbzyAwuKLqgXzddXkRz+JBz135JEFOQfdERoHxva0LyBMowjO
+         94gIeePRN9424MHloBfdTF+SWPFmCW1yvrDa6gYzzvsqx3cHtANhMes9uIGgAD7bgi4D
+         aRBlvlrCONpYOy8Js0dj/TM5HgIsSDL30+WX4XhL7sCRGTbHHLOtNBFP01SSdxk1SXqo
+         3IYvq6ua+NazkyMfSMZyduU5mmcsTpj5HqKfmP5aqlYwkMNz/nfWWCa+q3LhLWQgIjrB
+         JSfKmWavWI6IwaESSWoU0BIid8o7ZfkvGcFvkz8LZEnGF9x7OiWL8PTUD5HDS82edInF
+         4BQw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:message-id:date
-         :subject:cc:to:from:sender:dkim-signature;
-        bh=7XCmbNvNco/L8C4FkA6QzVb+PkOft05jGvqHBjHgOMI=;
-        b=w6DbTF6Ncj5s5XJHC2Zd0SqkFX+PUIMY/DNQ0pGnSAxpyiuuASdX/CxeuCq5wUUyMR
-         mcIsa12DgBwW3OCqxW9vJmWj84sbUE3AZM2P5aQtH/PcTKwCXAgm2qMrYJTnN/TV6YuH
-         6qjdDlq5xr2/v7TlZ+aAVNPFZzkl6Gofk4yg6L1W+YC7DChMOuLOyo/H8144ZqfYgTPx
-         O5Juz9DTKL7jtJdC6HmbhiuxpJDSxS1lRJ/rPGgXl0wJh3GazB68pAvb2RkXgoRsEEED
-         4poa+7hRdFwCT4ylepoJdPbruuCQSaojMb+2v/3X2yPx6v4ORUgVRyfwgdhwNLadtDs0
-         Ozug==
+         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:sender:dkim-signature;
+        bh=FSfmdkMc67pSVKWeTu9ueIeIVQ96dqX66CYGGaBEmZ4=;
+        b=IdkUAzADOye7WPhCFCS69IRHLXQ8KXoC5HjdmIQ5JYjCR+VBcqKgTI6BK6Ni3GjCDv
+         Fn/etZ8cDfSx4OG/9dC947SyWbMzU6+2N4wuNRSI6v3dWVwg9c/5Pm/tMcbYtW9RhrSQ
+         QIWMA8VG5rAeiSRgiH4JCCPq2cRBI4MNCHMO+AC6m3y63GG6UP0n63LqSs4cL38meonA
+         fwo9EJrwY1jgt1EgnORp8XMYaWuzE8BvTUG2Nc0bcZi1MJHnfh7cyOvWCJJQNezA/rqb
+         IuLwrLdHr3r9zOnTzTSuVwCiCeKgnjM/OEQceKFuoQF7Kh5QiiflWk6bOdvvdYGo2K7j
+         AIXA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
        spf=pass (google.com: domain of aryabinin@virtuozzo.com designates 185.231.240.75 as permitted sender) smtp.mailfrom=aryabinin@virtuozzo.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=virtuozzo.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id:mime-version
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
+        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=7XCmbNvNco/L8C4FkA6QzVb+PkOft05jGvqHBjHgOMI=;
-        b=tYsWaAuFe1SsnsndaKE8hIf2BSS+bEDUlpU/vCUBlWPDtGBDYeOUWE3GuIHAhjCuhy
-         7r1s6LCLKnW1SRtzBdtynivb1uzaDoW0UtDJunchP4nB7slMB+TaDfsivD3i5iXrQ0yV
-         mueTnMhdN1u5VV+BMSGrcYXOcM+KMSGqS4jLfM0PP+m8Zn8xuefHlc4N1w1AXNVzHfKn
-         vgBXNV/IO4Wl+l9eSh2Wh9U9xxLobCMBGaWTjRZ10cI7KRWMjTy+WDj93+5rpxUTWfk9
-         ZvzdRGDFJvj9jLOEQlQ0fSzZZmLAmKn2OgcfwvrEHZ4LuTadgEmJzoZjSX2OhwiU5Uix
-         /O8g==
+        bh=FSfmdkMc67pSVKWeTu9ueIeIVQ96dqX66CYGGaBEmZ4=;
+        b=skTlCH4i3ucsp3qODH8eot5tlhGH8ACH81fbJKMpRDSa/fiWRIDrnLDOLUPztWlKrp
+         9AyIElUEDACrk9OH2wGPMo6J2d7Xv0mUYECxWiOe9MRxY6EnqehM9KKfkCgk+YEmXpT3
+         YhnDygODwcXGJOz9k1QtVSdmBDmC5KWVfZXJfil3W4DnDCP6deErDRlV+oujsmPLfiFR
+         KF2GL2rlioliQB2jTEGqkNU1+JBH6DgWso7JmhRthd2y74nfJDVSqsNs5Bjn2GFhK5VV
+         mjOGmvo6hj1J/RuQrDLylVFE17bg2c62KL+8qVviTmC9YtOWpCjekhGct7awT8nwI6gn
+         L0Xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :mime-version:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=7XCmbNvNco/L8C4FkA6QzVb+PkOft05jGvqHBjHgOMI=;
-        b=YPgr+V+5HXrtt4LcQPH19qp+5uMcChTY8TWsjRiyGR46lMscxXO1B3/mAh+TZAepau
-         iS7XDEOb5z/K/EVbjbf/NAkQHQ3VyqcTTLPeR8qmUldjpNA3ErxCZA3PRbaXJKcBKNTA
-         eRyNP6BDRGlz3HTUJmlZp/4B8JNUc4dqpbMqxqL1DooUw+MvEyISgxHCcbBu1ascXNnr
-         haif7O5huLOGDW/XDUQHmJL6d30/QjIYlwLEgOysAnb0m+4Emw0XHhBjRtB3Qay+A/zq
-         SydSp5o/wxwoYSv/uBwZE/vtXJB9QCMs+p4xgxP0FUXA0jyqhA/Asiwiw6af7YPSE3tI
-         R1Ug==
+         :in-reply-to:references:mime-version:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=FSfmdkMc67pSVKWeTu9ueIeIVQ96dqX66CYGGaBEmZ4=;
+        b=nOiRllEqE6MOB7YBzzEGZmxYcO62qJP9R0MYbGk1iaJRHKqtvkdh8mr/+Mj+6MuHb9
+         4SK0E++yYldo96KXsaLUuR9eRp84uGHpbmgToJatpXcNTZ1TQRHSo0RMZzOyInk1v+Fa
+         hbskjuhfzBPEQyssTzm6pRS0feoMnEQmNb0wIrX306qnCU/Tg2ot44oc7wWLmgoYJwsZ
+         56ohgvX5kfjQThQ1SwUKOSBm80pL+CpgjaanSjvGdm0tD2SKYlLAS73yFVYqo+fiOT6n
+         BQMvmcMKuiP0vpHmTVB8U/F/l/zAIW0Sahd8JFzxrtf2eX72HCMakS1CR0t8duDxkOGr
+         2Mug==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAUMDvKD1Vk4QAaEexmjkEKxtU+UOGlLdcd+bFYSgdWEboMNRCuo
-	K4XFD+fbLZjugBdb3hrinZE=
-X-Google-Smtp-Source: APXvYqyME9FMTdOKp1lCS4orWJeQCCxaCdUjkooWsDeobmSXXZMZPggzdf4zPAPwDwYW3hnFH9sYbQ==
-X-Received: by 2002:a7b:c5d9:: with SMTP id n25mr1732944wmk.8.1575492369053;
-        Wed, 04 Dec 2019 12:46:09 -0800 (PST)
+X-Gm-Message-State: APjAAAU6OapmrOuYGR/lFt71GshMT+1L0nIp43JnLZyHnIYkDhL8BFb5
+	6KLL720AfcBIoppdDObvEIk=
+X-Google-Smtp-Source: APXvYqzAe7N+cE3LXGo6wJu7M5QvpUATyYrKT6/gexulIMe4ncbNWoW17ftTMU4D5N9ecSEgvsXiAQ==
+X-Received: by 2002:ac2:51a6:: with SMTP id f6mr3168659lfk.174.1575492368529;
+        Wed, 04 Dec 2019 12:46:08 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a1c:7ec9:: with SMTP id z192ls219280wmc.5.gmail; Wed, 04 Dec
- 2019 12:46:08 -0800 (PST)
-X-Received: by 2002:a1c:7e91:: with SMTP id z139mr1604669wmc.15.1575492368555;
+Received: by 2002:a05:651c:1b6:: with SMTP id c22ls122647ljn.14.gmail; Wed, 04
+ Dec 2019 12:46:08 -0800 (PST)
+X-Received: by 2002:a2e:809a:: with SMTP id i26mr3239233ljg.108.1575492368009;
         Wed, 04 Dec 2019 12:46:08 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; t=1575492368; cv=none;
         d=google.com; s=arc-20160816;
-        b=LjUz6Fr0+WnjYfNTqNS6fVYvUNxelNLUpTeYe/1pPna56KyAOkpo1wQyjaxrS5Gzsr
-         L7dJ8dVnpXyY0XcLc09lwAzc2noQLloq8GF1dPIebG8cjIzoHTsrSuAb4Rapd3C3EbPu
-         spcq4pW32R7SAM2pJeZJ4OgKw1SjzBpNKTDCykEnFmNFZMDc3Viu/kTkYJP/uw3pfslE
-         VdiHvqZKERSfqMEps7cmsODtxrRYZq7EBLyOFxzyICWn2LhFonf9Hx+IiWZpPOTbm5kh
-         9FcTXQqyG1KEQ56OyOL/Ck70RiWgiDY9adMJgmcKrrc4hC+5QOYuYW0aHlAKNwPMWvYt
-         +ggg==
+        b=PHjoecsy+aDCm5kAorrT0YAcXbrc/bflyiQ+TqbR8X6E+z4W/wpXXFpca8MSWZav9g
+         BQMm1ZZB9xjFrwOCkht8m3ZAyk1BYG64SAEAdXIAPID78jzDByeb27E9Vcx6/hjBYWGx
+         tNCpFKim7cAAaUHnzzLtImph/MXZTbQ0+Nhwp9mZaoVB9mWUaamy8pVZM8vflxpFcpvx
+         zwFSMyKF1fgasgGTfg7eU5DXm8tBsaBOvFt+CmokyyTsufW4fD9MC5+/n2V9JWa97Tmo
+         7kfBL5xERXqtfQJh2vpWWmjI/XbwfJ32/p3jazuaw4bDSp2Jo5VYxZECRXe8q7doUdq0
+         MOlQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from;
-        bh=D9GcdH/Drz7PKtfBHzpKJV2l0zdtg3x2samehdXb14A=;
-        b=GpyEDJtidvmKDINlM+KnhV0oiHx70pwDKpeo1NcGh9WiIkYl96nDbzss4zUyu4qRVc
-         oiLrno2SUqtmWoxiTRUpWX7hppWti72m0qXXtfn4R7V/Fi2T3GDbB3+alr1NNc2aVX/o
-         BrjstD/dqWNUd+ZIlMT0Y2ujLAzMYNxf2pWEha9DDpSIMiT4Pr55KD0oUJ4p5orNi5F5
-         Dr0uuIJcyGbcI/zjBQH8aashpyh63Lmx/NSxHQQ9V8+oWy0yj0ej3bLUZyM//IvzKnEa
-         FrCtpzBEh1hxgb/E9ibAIfG7iwsN/pxxFP005OM6SHLyZx7jU8wg6Hr/mnjtT+iXb5TN
-         7gGQ==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from;
+        bh=yj1n1pPkONt0RgRx/mE0g33aeh73lCM3ma7j6c1ttNY=;
+        b=rN3wBk3J0sZeaY6Lm/5RPN+uMaOiS97cC03tk1zDAFIcr40TinMdTMvAz2IdU15ysH
+         95HLaHSVJuZq7tpXCkQDU3NeNfCzusOWZCmM5Tv1TyirbbJbxRLJKFwN4o7D7cgesBMa
+         /fPy9cusuEw17IFziMwysADgvr3Zy/dYU4W3RguFLpPtdddu3VsBDlfNWZbW/FXG0/2+
+         1RLkUie5kJIn3i2ifDlha6722+QBh/icniPY3I3X55973s8YSCpbjVUtt9teOvkH6Vn1
+         g1Be601U5E9qzydnyIVkoezquSo63qFQ/AWppWs6WIHMhza45psL/1lx7IPQqeojPP4Q
+         KfZg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
        spf=pass (google.com: domain of aryabinin@virtuozzo.com designates 185.231.240.75 as permitted sender) smtp.mailfrom=aryabinin@virtuozzo.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=virtuozzo.com
 Received: from relay.sw.ru (relay.sw.ru. [185.231.240.75])
-        by gmr-mx.google.com with ESMTPS id f191si94391wme.3.2019.12.04.12.46.08
+        by gmr-mx.google.com with ESMTPS id c17si394460ljb.3.2019.12.04.12.46.07
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 04 Dec 2019 12:46:08 -0800 (PST)
+        Wed, 04 Dec 2019 12:46:07 -0800 (PST)
 Received-SPF: pass (google.com: domain of aryabinin@virtuozzo.com designates 185.231.240.75 as permitted sender) client-ip=185.231.240.75;
 Received: from dhcp-172-16-25-5.sw.ru ([172.16.25.5] helo=i7.sw.ru)
 	by relay.sw.ru with esmtp (Exim 4.92.3)
 	(envelope-from <aryabinin@virtuozzo.com>)
-	id 1icbWx-0001lh-Px; Wed, 04 Dec 2019 23:45:52 +0300
+	id 1icbWy-0001lh-Pk; Wed, 04 Dec 2019 23:45:53 +0300
 From: Andrey Ryabinin <aryabinin@virtuozzo.com>
 To: Andrew Morton <akpm@linux-foundation.org>
 Cc: Alexander Potapenko <glider@google.com>,
@@ -105,12 +106,13 @@ Cc: Alexander Potapenko <glider@google.com>,
 	Qian Cai <cai@lca.pw>,
 	linux-mm@kvack.org,
 	linux-kernel@vger.kernel.org,
-	Andrey Ryabinin <aryabinin@virtuozzo.com>,
-	syzbot+82e323920b78d54aaed5@syzkaller.appspotmail.com
-Subject: [PATCH 1/2] kasan: fix crashes on access to memory mapped by vm_map_ram()
-Date: Wed,  4 Dec 2019 23:45:33 +0300
-Message-Id: <20191204204534.32202-1-aryabinin@virtuozzo.com>
+	Andrey Ryabinin <aryabinin@virtuozzo.com>
+Subject: [PATCH 2/2] kasan: Don't allocate page tables in kasan_release_vmalloc()
+Date: Wed,  4 Dec 2019 23:45:34 +0300
+Message-Id: <20191204204534.32202-2-aryabinin@virtuozzo.com>
 X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20191204204534.32202-1-aryabinin@virtuozzo.com>
+References: <20191204204534.32202-1-aryabinin@virtuozzo.com>
 MIME-Version: 1.0
 X-Original-Sender: aryabinin@virtuozzo.com
 X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
@@ -130,251 +132,176 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-With CONFIG_KASAN_VMALLOC=y any use of memory obtained via vm_map_ram()
-will crash because there is no shadow backing that memory.
+The purpose of kasan_release_vmalloc() is to unmap and deallocate shadow
+memory. The usage of apply_to_page_range() isn't suitable in that scenario
+because it allocates pages to fill missing page tables entries.
+This also cause sleep in atomic bug:
 
-Instead of sprinkling additional kasan_populate_vmalloc() calls all over
-the vmalloc code, move it into alloc_vmap_area(). This will fix
-vm_map_ram() and simplify the code a bit.
+	BUG: sleeping function called from invalid context at mm/page_alloc.c:4681
+	in_atomic(): 1, irqs_disabled(): 0, non_block: 0, pid: 15087, name:
+
+	Call Trace:
+	 __dump_stack lib/dump_stack.c:77 [inline]
+	 dump_stack+0x199/0x216 lib/dump_stack.c:118
+	 ___might_sleep.cold.97+0x1f5/0x238 kernel/sched/core.c:6800
+	 __might_sleep+0x95/0x190 kernel/sched/core.c:6753
+	 prepare_alloc_pages mm/page_alloc.c:4681 [inline]
+	 __alloc_pages_nodemask+0x3cd/0x890 mm/page_alloc.c:4730
+	 alloc_pages_current+0x10c/0x210 mm/mempolicy.c:2211
+	 alloc_pages include/linux/gfp.h:532 [inline]
+	 __get_free_pages+0xc/0x40 mm/page_alloc.c:4786
+	 __pte_alloc_one_kernel include/asm-generic/pgalloc.h:21 [inline]
+	 pte_alloc_one_kernel include/asm-generic/pgalloc.h:33 [inline]
+	 __pte_alloc_kernel+0x1d/0x200 mm/memory.c:459
+	 apply_to_pte_range mm/memory.c:2031 [inline]
+	 apply_to_pmd_range mm/memory.c:2068 [inline]
+	 apply_to_pud_range mm/memory.c:2088 [inline]
+	 apply_to_p4d_range mm/memory.c:2108 [inline]
+	 apply_to_page_range+0x77d/0xa00 mm/memory.c:2133
+	 kasan_release_vmalloc+0xa7/0xc0 mm/kasan/common.c:970
+	 __purge_vmap_area_lazy+0xcbb/0x1f30 mm/vmalloc.c:1313
+	 try_purge_vmap_area_lazy mm/vmalloc.c:1332 [inline]
+	 free_vmap_area_noflush+0x2ca/0x390 mm/vmalloc.c:1368
+	 free_unmap_vmap_area mm/vmalloc.c:1381 [inline]
+	 remove_vm_area+0x1cc/0x230 mm/vmalloc.c:2209
+	 vm_remove_mappings mm/vmalloc.c:2236 [inline]
+	 __vunmap+0x223/0xa20 mm/vmalloc.c:2299
+	 __vfree+0x3f/0xd0 mm/vmalloc.c:2356
+	 __vmalloc_area_node mm/vmalloc.c:2507 [inline]
+	 __vmalloc_node_range+0x5d5/0x810 mm/vmalloc.c:2547
+	 __vmalloc_node mm/vmalloc.c:2607 [inline]
+	 __vmalloc_node_flags mm/vmalloc.c:2621 [inline]
+	 vzalloc+0x6f/0x80 mm/vmalloc.c:2666
+	 alloc_one_pg_vec_page net/packet/af_packet.c:4233 [inline]
+	 alloc_pg_vec net/packet/af_packet.c:4258 [inline]
+	 packet_set_ring+0xbc0/0x1b50 net/packet/af_packet.c:4342
+	 packet_setsockopt+0xed7/0x2d90 net/packet/af_packet.c:3695
+	 __sys_setsockopt+0x29b/0x4d0 net/socket.c:2117
+	 __do_sys_setsockopt net/socket.c:2133 [inline]
+	 __se_sys_setsockopt net/socket.c:2130 [inline]
+	 __x64_sys_setsockopt+0xbe/0x150 net/socket.c:2130
+	 do_syscall_64+0xfa/0x780 arch/x86/entry/common.c:294
+	 entry_SYSCALL_64_after_hwframe+0x49/0xbe
+
+Add kasan_unmap_page_range() which skips empty page table entries instead
+of allocating them.
 
 Fixes: 3c5c3cfb9ef4 ("kasan: support backing vmalloc space with real shadow memory")
 Reported-by: Dmitry Vyukov <dvyukov@google.com>
-Reported-by: syzbot+82e323920b78d54aaed5@syzkaller.appspotmail.com
 Signed-off-by: Andrey Ryabinin <aryabinin@virtuozzo.com>
 ---
- include/linux/kasan.h | 15 +++++++++------
- mm/kasan/common.c     | 27 +++++++++++++++++---------
- mm/vmalloc.c          | 45 ++++++++++++++++++-------------------------
- 3 files changed, 46 insertions(+), 41 deletions(-)
+ mm/kasan/common.c | 82 +++++++++++++++++++++++++++++++++++++++--------
+ 1 file changed, 68 insertions(+), 14 deletions(-)
 
-diff --git a/include/linux/kasan.h b/include/linux/kasan.h
-index 4f404c565db1..e18fe54969e9 100644
---- a/include/linux/kasan.h
-+++ b/include/linux/kasan.h
-@@ -205,20 +205,23 @@ static inline void *kasan_reset_tag(const void *addr)
- #endif /* CONFIG_KASAN_SW_TAGS */
- 
- #ifdef CONFIG_KASAN_VMALLOC
--int kasan_populate_vmalloc(unsigned long requested_size,
--			   struct vm_struct *area);
--void kasan_poison_vmalloc(void *start, unsigned long size);
-+int kasan_populate_vmalloc(unsigned long addr, unsigned long size);
-+void kasan_poison_vmalloc(const void *start, unsigned long size);
-+void kasan_unpoison_vmalloc(const void *start, unsigned long size);
- void kasan_release_vmalloc(unsigned long start, unsigned long end,
- 			   unsigned long free_region_start,
- 			   unsigned long free_region_end);
- #else
--static inline int kasan_populate_vmalloc(unsigned long requested_size,
--					 struct vm_struct *area)
-+static inline int kasan_populate_vmalloc(unsigned long start,
-+					unsigned long size)
- {
- 	return 0;
- }
- 
--static inline void kasan_poison_vmalloc(void *start, unsigned long size) {}
-+static inline void kasan_poison_vmalloc(const void *start, unsigned long size)
-+{ }
-+static inline void kasan_unpoison_vmalloc(const void *start, unsigned long size)
-+{ }
- static inline void kasan_release_vmalloc(unsigned long start,
- 					 unsigned long end,
- 					 unsigned long free_region_start,
 diff --git a/mm/kasan/common.c b/mm/kasan/common.c
-index df3371d5c572..a1e6273be8c3 100644
+index a1e6273be8c3..e9ba7d8ad324 100644
 --- a/mm/kasan/common.c
 +++ b/mm/kasan/common.c
-@@ -777,15 +777,17 @@ static int kasan_populate_vmalloc_pte(pte_t *ptep, unsigned long addr,
- 	return 0;
+@@ -857,22 +857,77 @@ void kasan_unpoison_vmalloc(const void *start, unsigned long size)
+ 	kasan_unpoison_shadow(start, size);
  }
  
--int kasan_populate_vmalloc(unsigned long requested_size, struct vm_struct *area)
-+int kasan_populate_vmalloc(unsigned long addr, unsigned long size)
+-static int kasan_depopulate_vmalloc_pte(pte_t *ptep, unsigned long addr,
+-					void *unused)
++static void kasan_unmap_pte_range(pmd_t *pmd, unsigned long addr,
++				unsigned long end)
  {
- 	unsigned long shadow_start, shadow_end;
- 	int ret;
+-	unsigned long page;
++	pte_t *pte;
  
--	shadow_start = (unsigned long)kasan_mem_to_shadow(area->addr);
-+	if (!is_vmalloc_or_module_addr((void *)addr))
-+		return 0;
-+
-+	shadow_start = (unsigned long)kasan_mem_to_shadow((void *)addr);
- 	shadow_start = ALIGN_DOWN(shadow_start, PAGE_SIZE);
--	shadow_end = (unsigned long)kasan_mem_to_shadow(area->addr +
--							area->size);
-+	shadow_end = (unsigned long)kasan_mem_to_shadow((void *)addr + size);
- 	shadow_end = ALIGN(shadow_end, PAGE_SIZE);
+-	page = (unsigned long)__va(pte_pfn(*ptep) << PAGE_SHIFT);
++	pte = pte_offset_kernel(pmd, addr);
++	do {
++		pte_t ptent = ptep_get_and_clear(&init_mm, addr, pte);
  
- 	ret = apply_to_page_range(&init_mm, shadow_start,
-@@ -796,10 +798,6 @@ int kasan_populate_vmalloc(unsigned long requested_size, struct vm_struct *area)
+-	spin_lock(&init_mm.page_table_lock);
++		if (!pte_none(ptent))
++			__free_page(pte_page(ptent));
++	} while (pte++, addr += PAGE_SIZE, addr != end);
++}
  
- 	flush_cache_vmap(shadow_start, shadow_end);
- 
--	kasan_unpoison_shadow(area->addr, requested_size);
--
--	area->flags |= VM_KASAN;
--
- 	/*
- 	 * We need to be careful about inter-cpu effects here. Consider:
- 	 *
-@@ -842,12 +840,23 @@ int kasan_populate_vmalloc(unsigned long requested_size, struct vm_struct *area)
-  * Poison the shadow for a vmalloc region. Called as part of the
-  * freeing process at the time the region is freed.
-  */
--void kasan_poison_vmalloc(void *start, unsigned long size)
-+void kasan_poison_vmalloc(const void *start, unsigned long size)
- {
-+	if (!is_vmalloc_or_module_addr(start))
-+		return;
-+
- 	size = round_up(size, KASAN_SHADOW_SCALE_SIZE);
- 	kasan_poison_shadow(start, size, KASAN_VMALLOC_INVALID);
- }
- 
-+void kasan_unpoison_vmalloc(const void *start, unsigned long size)
+-	if (likely(!pte_none(*ptep))) {
+-		pte_clear(&init_mm, addr, ptep);
+-		free_page(page);
+-	}
+-	spin_unlock(&init_mm.page_table_lock);
++static void kasan_unmap_pmd_range(pud_t *pud, unsigned long addr,
++				unsigned long end)
 +{
-+	if (!is_vmalloc_or_module_addr(start))
-+		return;
-+
-+	kasan_unpoison_shadow(start, size);
++	pmd_t *pmd;
++	unsigned long next;
+ 
+-	return 0;
++	pmd = pmd_offset(pud, addr);
++	do {
++		next = pmd_addr_end(addr, end);
++		if (pmd_none_or_clear_bad(pmd))
++			continue;
++		kasan_unmap_pte_range(pmd, addr, next);
++	} while (pmd++, addr = next, addr != end);
 +}
 +
- static int kasan_depopulate_vmalloc_pte(pte_t *ptep, unsigned long addr,
- 					void *unused)
- {
-diff --git a/mm/vmalloc.c b/mm/vmalloc.c
-index 4d3b3d60d893..a5412f14f57f 100644
---- a/mm/vmalloc.c
-+++ b/mm/vmalloc.c
-@@ -1073,6 +1073,7 @@ static struct vmap_area *alloc_vmap_area(unsigned long size,
- 	struct vmap_area *va, *pva;
- 	unsigned long addr;
- 	int purged = 0;
-+	int ret = -EBUSY;
- 
- 	BUG_ON(!size);
- 	BUG_ON(offset_in_page(size));
-@@ -1139,6 +1140,10 @@ static struct vmap_area *alloc_vmap_area(unsigned long size,
- 	va->va_end = addr + size;
- 	va->vm = NULL;
- 
-+	ret = kasan_populate_vmalloc(addr, size);
-+	if (ret)
-+		goto out;
++static void kasan_unmap_pud_range(p4d_t *p4d, unsigned long addr,
++				unsigned long end)
++{
++	pud_t *pud;
++	unsigned long next;
 +
- 	spin_lock(&vmap_area_lock);
- 	insert_vmap_area(va, &vmap_area_root, &vmap_area_list);
- 	spin_unlock(&vmap_area_lock);
-@@ -1169,8 +1174,9 @@ static struct vmap_area *alloc_vmap_area(unsigned long size,
- 		pr_warn("vmap allocation for size %lu failed: use vmalloc=<size> to increase size\n",
- 			size);
- 
-+out:
- 	kmem_cache_free(vmap_area_cachep, va);
--	return ERR_PTR(-EBUSY);
-+	return ERR_PTR(ret);
++	pud = pud_offset(p4d, addr);
++	do {
++		next = pud_addr_end(addr, end);
++		if (pud_none_or_clear_bad(pud))
++			continue;
++		kasan_unmap_pmd_range(pud, addr, next);
++	} while (pud++, addr = next, addr != end);
++}
++
++static void kasan_unmap_p4d_range(pgd_t *pgd, unsigned long addr,
++				unsigned long end)
++{
++	p4d_t *p4d;
++	unsigned long next;
++
++	p4d = p4d_offset(pgd, addr);
++	do {
++		next = p4d_addr_end(addr, end);
++		if (p4d_none_or_clear_bad(p4d))
++			continue;
++		kasan_unmap_pud_range(p4d, addr, next);
++	} while (p4d++, addr = next, addr != end);
++}
++
++static void kasan_unmap_page_range(unsigned long addr, unsigned long end)
++{
++	pgd_t *pgd;
++	unsigned long next;
++
++	pgd = pgd_offset_k(addr);
++	do {
++		next = pgd_addr_end(addr, end);
++		if (pgd_none_or_clear_bad(pgd))
++			continue;
++		kasan_unmap_p4d_range(pgd, addr, next);
++	} while (pgd++, addr = next, addr != end);
  }
  
- int register_vmap_purge_notifier(struct notifier_block *nb)
-@@ -1771,6 +1777,8 @@ void vm_unmap_ram(const void *mem, unsigned int count)
- 	BUG_ON(addr > VMALLOC_END);
- 	BUG_ON(!PAGE_ALIGNED(addr));
+ /*
+@@ -978,9 +1033,8 @@ void kasan_release_vmalloc(unsigned long start, unsigned long end,
+ 	shadow_end = kasan_mem_to_shadow((void *)region_end);
  
-+	kasan_poison_vmalloc(mem, size);
-+
- 	if (likely(count <= VMAP_MAX_ALLOC)) {
- 		debug_check_no_locks_freed(mem, size);
- 		vb_free(mem, size);
-@@ -1821,6 +1829,9 @@ void *vm_map_ram(struct page **pages, unsigned int count, int node, pgprot_t pro
- 		addr = va->va_start;
- 		mem = (void *)addr;
+ 	if (shadow_end > shadow_start) {
+-		apply_to_page_range(&init_mm, (unsigned long)shadow_start,
+-				    (unsigned long)(shadow_end - shadow_start),
+-				    kasan_depopulate_vmalloc_pte, NULL);
++		kasan_unmap_page_range((unsigned long)shadow_start,
++				    (unsigned long)shadow_end);
+ 		flush_tlb_kernel_range((unsigned long)shadow_start,
+ 				       (unsigned long)shadow_end);
  	}
-+
-+	kasan_unpoison_vmalloc(mem, size);
-+
- 	if (vmap_page_range(addr, addr + size, prot, pages) < 0) {
- 		vm_unmap_ram(mem, count);
- 		return NULL;
-@@ -2075,6 +2086,7 @@ static struct vm_struct *__get_vm_area_node(unsigned long size,
- {
- 	struct vmap_area *va;
- 	struct vm_struct *area;
-+	unsigned long requested_size = size;
- 
- 	BUG_ON(in_interrupt());
- 	size = PAGE_ALIGN(size);
-@@ -2098,23 +2110,9 @@ static struct vm_struct *__get_vm_area_node(unsigned long size,
- 		return NULL;
- 	}
- 
--	setup_vmalloc_vm(area, va, flags, caller);
-+	kasan_unpoison_vmalloc((void *)va->va_start, requested_size);
- 
--	/*
--	 * For KASAN, if we are in vmalloc space, we need to cover the shadow
--	 * area with real memory. If we come here through VM_ALLOC, this is
--	 * done by a higher level function that has access to the true size,
--	 * which might not be a full page.
--	 *
--	 * We assume module space comes via VM_ALLOC path.
--	 */
--	if (is_vmalloc_addr(area->addr) && !(area->flags & VM_ALLOC)) {
--		if (kasan_populate_vmalloc(area->size, area)) {
--			unmap_vmap_area(va);
--			kfree(area);
--			return NULL;
--		}
--	}
-+	setup_vmalloc_vm(area, va, flags, caller);
- 
- 	return area;
- }
-@@ -2293,8 +2291,7 @@ static void __vunmap(const void *addr, int deallocate_pages)
- 	debug_check_no_locks_freed(area->addr, get_vm_area_size(area));
- 	debug_check_no_obj_freed(area->addr, get_vm_area_size(area));
- 
--	if (area->flags & VM_KASAN)
--		kasan_poison_vmalloc(area->addr, area->size);
-+	kasan_poison_vmalloc(area->addr, area->size);
- 
- 	vm_remove_mappings(area, deallocate_pages);
- 
-@@ -2539,7 +2536,7 @@ void *__vmalloc_node_range(unsigned long size, unsigned long align,
- 	if (!size || (size >> PAGE_SHIFT) > totalram_pages())
- 		goto fail;
- 
--	area = __get_vm_area_node(size, align, VM_ALLOC | VM_UNINITIALIZED |
-+	area = __get_vm_area_node(real_size, align, VM_ALLOC | VM_UNINITIALIZED |
- 				vm_flags, start, end, node, gfp_mask, caller);
- 	if (!area)
- 		goto fail;
-@@ -2548,11 +2545,6 @@ void *__vmalloc_node_range(unsigned long size, unsigned long align,
- 	if (!addr)
- 		return NULL;
- 
--	if (is_vmalloc_or_module_addr(area->addr)) {
--		if (kasan_populate_vmalloc(real_size, area))
--			return NULL;
--	}
--
- 	/*
- 	 * In this function, newly allocated vm_struct has VM_UNINITIALIZED
- 	 * flag. It means that vm_struct is not fully initialized.
-@@ -3437,7 +3429,8 @@ struct vm_struct **pcpu_get_vm_areas(const unsigned long *offsets,
- 	/* populate the shadow space outside of the lock */
- 	for (area = 0; area < nr_vms; area++) {
- 		/* assume success here */
--		kasan_populate_vmalloc(sizes[area], vms[area]);
-+		kasan_populate_vmalloc(vas[area]->va_start, sizes[area]);
-+		kasan_unpoison_vmalloc((void *)vms[area]->addr, sizes[area]);
- 	}
- 
- 	kfree(vas);
 -- 
 2.23.0
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20191204204534.32202-1-aryabinin%40virtuozzo.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20191204204534.32202-2-aryabinin%40virtuozzo.com.
