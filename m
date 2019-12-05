@@ -1,140 +1,121 @@
-Return-Path: <kasan-dev+bncBCTPB5GO2YNBBL6JUHXQKGQETMANDJA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDQ27FVWWUFRBDUSULXQKGQEIOU5AEY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ua1-x93c.google.com (mail-ua1-x93c.google.com [IPv6:2607:f8b0:4864:20::93c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E144113978
-	for <lists+kasan-dev@lfdr.de>; Thu,  5 Dec 2019 03:00:16 +0100 (CET)
-Received: by mail-ua1-x93c.google.com with SMTP id u109sf513964uau.7
-        for <lists+kasan-dev@lfdr.de>; Wed, 04 Dec 2019 18:00:16 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1575511215; cv=pass;
+Received: from mail-pj1-x103d.google.com (mail-pj1-x103d.google.com [IPv6:2607:f8b0:4864:20::103d])
+	by mail.lfdr.de (Postfix) with ESMTPS id D3040113ADD
+	for <lists+kasan-dev@lfdr.de>; Thu,  5 Dec 2019 05:35:27 +0100 (CET)
+Received: by mail-pj1-x103d.google.com with SMTP id s3sf1100841pji.18
+        for <lists+kasan-dev@lfdr.de>; Wed, 04 Dec 2019 20:35:27 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1575520526; cv=pass;
         d=google.com; s=arc-20160816;
-        b=W175QZHC2k1w2OLLwPOdKf8kp2OIIxh3zkPjeWcA2A17qgFcxMTOVWkZaNasWd9o5d
-         tRiRK+uVraHB2sH5/MIvzCz9O7FgwfzOSCkXZyIKEA4t4CDm6vZ1XuMfZAtPQOTeBzlc
-         1mvvXMP67JQB+k0KuEsnnU4k4z5rZbzIs48OzpZtuIoG27Ppr+Nt/OvO/zZ0+z8BGI69
-         gG5R/tqoC4Vkk51H2niUA7wHOzRxXJuLqB/9J4N0+BGnhAXVstIZ4yDsbs9AXxhXsmXN
-         O03cmK3uez3/E9r9XzU8oPH6xBafbJ6vGbBxVwUeAIZYE4Ewf9ptN2xehWQho/0JYtm3
-         x6jA==
+        b=SP3S50ekGqI+adIWLeECkdyezU+BCBK/U8vwzm0dibb2sra/eYxRe9SSCVBhsQQ5X9
+         ePLd18LS+EbPxkRIWfkKVvArOy/s78fZ1rtIxMdVrOae1SXVDOmAfU6skf/XMVKMyfcJ
+         XxVTqY/5yqabK+SSTpaopeBYVk/K0ddlBMIStz0UoC4sr17oIIaP3tInTxaCejhwLwE+
+         Wxlc9n+19Ua+QJbe5CceOFiRvIFk8n0INJoH3snJmsv8ID4P3aJpQTXM3oRKgtZUQj5I
+         +m4yXEYbwDQpCJFjY7JEG4/KLDpSbAdlGNMxAUNxAldsCkOZdLAWWMDI1ujz5lIONGfd
+         xm6A==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:references:date
-         :mime-version:cc:to:from:subject:message-id:sender:dkim-signature;
-        bh=hCTUlgGz1Xj69WpfeVr+Y7HRgcwpsFsfwCesCsBNUEA=;
-        b=rL0ibFRnttrcNjo77dS+28ylcTLeI+Qv3uSaCkVQtjxodWqtWp9xKe9R7CKD3eOPvA
-         ioj8GhYqnky8eK0yjdvBA805ldD7pB3pihwhXW1NIx1td31q2BCb1U416Mw53frGlhX0
-         k5AI1PAldn6IecgTxNXhJKfaWlvRGKtCyOYhVdwHP2G+Yix2Db5DWSD64ntFiuLokM+f
-         3yyCa/J1FvQVoI9sgV6NLZBMMVy0FuXYi+chGXMTYeNvlkZECaFeGpK3IiTLieLfvJfY
-         xbNf1nPO/Ui6AxEpLAZMB6YK3VIQteYiF9pdtKmKdEOUznoa+ZAEFBlEkBIEwY4z86lE
-         cmyw==
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :references:in-reply-to:subject:cc:to:from:sender:dkim-signature;
+        bh=m0tHc+odUMQ5mngcA0JiY0RyF2m4vxwio1q/Z850xw8=;
+        b=mUUJLdjgDm+tA7H9bdMXlPvAjL70LruXaAJRmme3MPr6hxz77+1asg/ftnR5bLLGwz
+         acLT16UctamvXtPsYe/Qwecb7PILg0+93wSR6P3tZaGlR58wdxNqzMCrMdZdJwLY6EKf
+         OgqAPCL+qgvBuo5Nn/E6MFB8wVn/58IgTafId/DTLjewd82zWqVSWnUr0wlMVhs9KKK2
+         qa2cuF25aSL5qq8eyC6FKqkoiqv0/PFi/7H3nEPoKW6Y3owui4sfEmiHhBjVqzkJt5xb
+         mqHp45eiWWyVcmwvnRKauMuZLjILCu3/ZinYOi7HvYTTSmiqkHKOQG2Bo5RlOmrdt3tQ
+         5VXA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: best guess record for domain of penguin-kernel@i-love.sakura.ne.jp designates 202.181.97.72 as permitted sender) smtp.mailfrom=penguin-kernel@i-love.sakura.ne.jp
+       dkim=pass header.i=@axtens.net header.s=google header.b=HTnzmMsS;
+       spf=pass (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::643 as permitted sender) smtp.mailfrom=dja@axtens.net
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:message-id:subject:from:to:cc:mime-version:date:references
-         :in-reply-to:x-original-sender:x-original-authentication-results
+        h=sender:from:to:cc:subject:in-reply-to:references:date:message-id
+         :mime-version:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=hCTUlgGz1Xj69WpfeVr+Y7HRgcwpsFsfwCesCsBNUEA=;
-        b=XmHOXHs9mGtMvmbR8qdw2fX25hf1vpO1Riy/MS8x/3OjGo/WGytaDaQXnO+4ghQPsM
-         LVTKAV3lmHLgUlzMNT3XnRB2va/bTI+96AfIgngF/LAeKOfxgfFS7zD5QdoDSh1nPvY7
-         7mZOTsC8vxmAAOCCu+AKV0NMOT8wKul50dT0tftWn+cToPhXCHGlZftdY1CB8bLzTRl7
-         UR9MGmEj1LpP1E1HgideH9ihuMDoqdCpCjTEbfdDwduWTeHOqBO7qnpz9uYo5TjqRV8U
-         CE3GQ7FmOdqvTFzkX6OEiBr+iqs702b+VNv7idRsPI93q7JunuF0vwqjw3OY4gcjOdR6
-         cT5Q==
+        bh=m0tHc+odUMQ5mngcA0JiY0RyF2m4vxwio1q/Z850xw8=;
+        b=Jd/67ytyi+ulaE4DNNTq6CmutwWsaESCje8ntMylNbjn7sL3ihq3bqFG5tPhd/IVNR
+         d3F/uU79NA4r7ei3HdASonYQPiWVziNkHG8Z3PL5DiLSjy44fMpVkUv9ED51xmbY8Sre
+         FRq4WSUA6PNQQjapPe9qBxM3C3pPmqH/A3x6jrxmvdaH/bQ4g89fnCKTDBp4byaIjZAh
+         cKIbaWG37xTgDozXdMCu6UNUwAhfnztMe10wX0aFsUINUexU6gnIO8PzKCxBB+mWgycX
+         vF0IeMWXDiBuGHz0c084pTSObz5DA162Q/wc5Vvh3QgMr9ZtpflcZQKJOk5fqunXgTY1
+         Gpvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:message-id:subject:from:to:cc
-         :mime-version:date:references:in-reply-to:x-original-sender
+        h=sender:x-gm-message-state:from:to:cc:subject:in-reply-to:references
+         :date:message-id:mime-version:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=hCTUlgGz1Xj69WpfeVr+Y7HRgcwpsFsfwCesCsBNUEA=;
-        b=M5oTWcMgAFENEfVPBkvKkh/WZNja0bc/FaLb4DZGb4GYOaNfky9jYa8jL2rG5dKtKq
-         8RqDxGebSQwCmcVeH1Z3Wznwm9sk7gNUXcK4uR4A7tN0Rz2GSpFBSZe/zc2/Tx9FSWTR
-         IuL8dZ+WuaBzvrHNJc70z8B8wiVRvmvZU1OLYIBHrOQz9USqFZcLVSy0sEwbW7DO3fai
-         oDEzhPmJO18isoSpZEtXo342yPMltSPvFC8nm9yKjIT9XwW3qxdolhk6P1rvFA29pM7r
-         TzwjLfDUqpWYllqhD1DaTm/IA7GFKgUUWVlZbt/PN7VUpltvUuw/f5NWCmZVrsiPuhn5
-         p0Uw==
+        bh=m0tHc+odUMQ5mngcA0JiY0RyF2m4vxwio1q/Z850xw8=;
+        b=L35jP7l7LHJzTRJXjYtnkjN58OWYoKeabVbAbVSn1l6xiBJDgimbqPn5AM/poI6Qem
+         jaZhFOpNaLqFK/IFROzRpdjFlYmLxbDYpYmGmN11o4rCaoB1yAReEZWVxNwvwNrEm9Nq
+         SOtCsobqWB5Cr7niERktEpqVD8dTCYLHJPyA//sODzGfjP30wQqHiFgeoA8NkyYIUyby
+         Ffq5oVIZ9BKMVUXBUUIqf3YDxLijoIev/CRMg68PlCTEjlyS4yojXLZ0wttalXCqTQC8
+         vCxpwixL1NBT6ILJYdFVon2LjzoSEp9+5kVW374ZPFfwcS6vpB+2mZC/7lS8hKixiLVS
+         bGxg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAXQlqT8q0Is8OaiX1K9/85O3Vb3xlqltEhJsq8OttTImJaa/dBo
-	qPXu4st7XW5VF6D0lUYZ6mM=
-X-Google-Smtp-Source: APXvYqy8UXSWgtn2RkHZ/mxsB32JLtGT5C1Q3Yqcb1j7msdZJxchMUrXILnB1k1h3PUOLV1OhyS4Yw==
-X-Received: by 2002:a05:6102:3034:: with SMTP id v20mr3750534vsa.28.1575511215435;
-        Wed, 04 Dec 2019 18:00:15 -0800 (PST)
+X-Gm-Message-State: APjAAAU8T0Pr7mVjifLRwOI0wRHtYH351X7vDOCfEMLBiI8gZdK2ZM1J
+	/idNSv7MB+cbUicJGy/1W00=
+X-Google-Smtp-Source: APXvYqz9bWKOFT+GwtTIBqXd+n7DfNdi5cfmC5Em40Bjp/BSQzD4Xeyz7oak8Pi4ZvRO3CuUEhJHNA==
+X-Received: by 2002:a63:d66:: with SMTP id 38mr7195628pgn.233.1575520526102;
+        Wed, 04 Dec 2019 20:35:26 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ab0:4e02:: with SMTP id g2ls111265uah.0.gmail; Wed, 04 Dec
- 2019 18:00:14 -0800 (PST)
-X-Received: by 2002:ab0:7559:: with SMTP id k25mr5173483uaq.41.1575511214806;
-        Wed, 04 Dec 2019 18:00:14 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1575511214; cv=none;
+Received: by 2002:a62:160b:: with SMTP id 11ls509413pfw.7.gmail; Wed, 04 Dec
+ 2019 20:35:25 -0800 (PST)
+X-Received: by 2002:a63:cd06:: with SMTP id i6mr7459488pgg.48.1575520525603;
+        Wed, 04 Dec 2019 20:35:25 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1575520525; cv=none;
         d=google.com; s=arc-20160816;
-        b=ehbxI4L/o7g0MMFLl0ceKvh+C8rm/fOzeT9HZ0MNKfySPE0iekdQ80KsCY4TkYZo2W
-         8crTeHJrJpLnUXXVXH94qX0GUbg5T5bzuDWxnNhz8zrKWergwi75htQGhXj9UguXSxma
-         TyPyTr3otdGq8M/mHXKDr2IhNYCILdTByYexuAZ29sAakf1eJT9euPDy8FjgLWpZ2SEf
-         J/APwc3h0ic141Q33/WJbjumQNm+3+PTCxi7gVTm+zwN5BGHU0GFnYggpmcZzpVRqYss
-         4yVCUMJFX9BT56r39kl2kn8C9XUJwvXLLE1sW6U9AMIS+0g8y7tAi4NxVBwDBpUmHvpl
-         7V/A==
+        b=nlFnmWkIblFC31T6nuY8tuKuOJz2LOcu64N3gny+Sxgf/8Vg5K/wE0vm0r5MD7RO+F
+         +8q2pFS2ZvlGvgofmtRJBYVgpuz/srlKC/Abh7fDGme5PGRCz1Rh33XjIhhRQlUa0gm6
+         UxVjdSjReuB46RggNhv77uY910qaenpP1T8bYbJxKfOUTKqvnYCFrdkSAzP60jE7r8s9
+         s1wDmunxtWYVPkCC6GDaSS9sbBWHQ5/NpZTi1LMQl+G+A9FLZA8ApoWWgTHn/ZEU9Dvs
+         zyAIZB8hHQL0e3X1NU5g+AyNhSZY88dM9k7Vn16voMIK0BVibYXAgqRbAn8oxjHRE5RK
+         oLIw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:in-reply-to:references:date:mime-version
-         :cc:to:from:subject:message-id;
-        bh=Lb6CzwKABj1wc61zKNRHnm120DKXRjxT9mC9j51xRZk=;
-        b=aEwG6kVCjKQR0AFxoDuiCjzmU9aCCZ8/AVCkCi5po4AUv9Kvz0S7lgSq3iHQ9eJAE8
-         v1Hd/7QRsvrYFHuUZ6tLV+cjCVBg4MxrGNdYq4jmzw0xShVWC+GeESXVQ2P8G/vq15Ta
-         ILRLdfMxVVOiNKu2gw2lWV0w6c+n6sfLXnht4w8h3M2Ht3vxk4kQBL/KwB7NSgUs3whF
-         eL31eZEY7Kjj59Wd01zf9ZbAyDOwVCMC8Ym23jwW13iwjJx515cStbuUHm351VweD+MN
-         yKfNhezfsMnnhg6lSydVC6thAs4hYaAr06kmZTEbm+Q8ICstz15vFKq0beiV2GOFahTY
-         AxQA==
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:dkim-signature;
+        bh=s6emKmGGeuSq3wtIVxjBKVR6ZpCN8AX3rs92e/sQ08s=;
+        b=VF6DzQgUUbMErIDYq9A8Bjl8zr7j9tynZJifqlQ1mZGmXShR41PV37dil3Rrz5BMbA
+         9ZL/sZtKphpd+HAd1jwZ6jiqMZJHhIagPH8qzaHmpAC4/qzMeJ9LayIur6hzW0iGDCJM
+         LBuzGf6Xid45fZpmWZ5s5QTCNnW3YyvSKQIKjrIR9gGs5oWnrJLnsrh5GZufCCYZaTVB
+         EGhzCx5aJroE3b8cKXY2CTY9+8B0uXEopHJHW1nzkf0LMHLqJUm3yQGist5U7LbyoW67
+         Gp+VPQhHHFKdcrQYmahU52ks1a/V/v/An+C6yp6N7jEukIyAvDpdu7ovVJwOTzi/7iS6
+         yTxA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: best guess record for domain of penguin-kernel@i-love.sakura.ne.jp designates 202.181.97.72 as permitted sender) smtp.mailfrom=penguin-kernel@i-love.sakura.ne.jp
-Received: from www262.sakura.ne.jp (www262.sakura.ne.jp. [202.181.97.72])
-        by gmr-mx.google.com with ESMTPS id h143si435050vkh.1.2019.12.04.18.00.14
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 04 Dec 2019 18:00:14 -0800 (PST)
-Received-SPF: pass (google.com: best guess record for domain of penguin-kernel@i-love.sakura.ne.jp designates 202.181.97.72 as permitted sender) client-ip=202.181.97.72;
-Received: from fsav301.sakura.ne.jp (fsav301.sakura.ne.jp [153.120.85.132])
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id xB51xvft020982;
-	Thu, 5 Dec 2019 10:59:57 +0900 (JST)
-	(envelope-from penguin-kernel@i-love.sakura.ne.jp)
-Received: from www262.sakura.ne.jp (202.181.97.72)
- by fsav301.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav301.sakura.ne.jp);
- Thu, 05 Dec 2019 10:59:57 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav301.sakura.ne.jp)
-Received: from www262.sakura.ne.jp (localhost [127.0.0.1])
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id xB51xvmN020973;
-	Thu, 5 Dec 2019 10:59:57 +0900 (JST)
-	(envelope-from penguin-kernel@i-love.sakura.ne.jp)
-Received: (from i-love@localhost)
-	by www262.sakura.ne.jp (8.15.2/8.15.2/Submit) id xB51xuco020972;
-	Thu, 5 Dec 2019 10:59:56 +0900 (JST)
-	(envelope-from penguin-kernel@i-love.sakura.ne.jp)
-Message-Id: <201912050159.xB51xuco020972@www262.sakura.ne.jp>
-X-Authentication-Warning: www262.sakura.ne.jp: i-love set sender to penguin-kernel@i-love.sakura.ne.jp using -f
-Subject: Re: KASAN: slab-out-of-bounds Read in =?ISO-2022-JP?B?ZmJjb25fZ2V0X2Zv?=
- =?ISO-2022-JP?B?bnQ=?=
-From: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-To: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Sam Ravnborg <sam@ravnborg.org>, Grzegorz Halat <ghalat@redhat.com>
-Cc: syzbot <syzbot+4455ca3b3291de891abc@syzkaller.appspotmail.com>,
-        aryabinin@virtuozzo.com, daniel.thompson@linaro.org,
-        dri-devel@lists.freedesktop.org, dvyukov@google.com, gleb@kernel.org,
-        gwshan@linux.vnet.ibm.com, hpa@zytor.com, jmorris@namei.org,
-        kasan-dev@googlegroups.com, kvm@vger.kernel.org,
-        linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-security-module@vger.kernel.org, mingo@redhat.com,
-        mpe@ellerman.id.au, pbonzini@redhat.com, ruscur@russell.cc,
-        serge@hallyn.com, stewart@linux.vnet.ibm.com,
-        syzkaller-bugs@googlegroups.com, takedakn@nttdata.co.jp,
-        tglx@linutronix.de, x86@kernel.org
+       dkim=pass header.i=@axtens.net header.s=google header.b=HTnzmMsS;
+       spf=pass (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::643 as permitted sender) smtp.mailfrom=dja@axtens.net
+Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com. [2607:f8b0:4864:20::643])
+        by gmr-mx.google.com with ESMTPS id 17si276906pjb.2.2019.12.04.20.35.25
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 04 Dec 2019 20:35:25 -0800 (PST)
+Received-SPF: pass (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::643 as permitted sender) client-ip=2607:f8b0:4864:20::643;
+Received: by mail-pl1-x643.google.com with SMTP id h13so698881plr.1
+        for <kasan-dev@googlegroups.com>; Wed, 04 Dec 2019 20:35:25 -0800 (PST)
+X-Received: by 2002:a17:90a:bb0b:: with SMTP id u11mr7305972pjr.12.1575520525179;
+        Wed, 04 Dec 2019 20:35:25 -0800 (PST)
+Received: from localhost (2001-44b8-1113-6700-7daa-d2ea-7edb-cfe8.static.ipv6.internode.on.net. [2001:44b8:1113:6700:7daa:d2ea:7edb:cfe8])
+        by smtp.gmail.com with ESMTPSA id c184sm10147599pfa.39.2019.12.04.20.35.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Dec 2019 20:35:24 -0800 (PST)
+From: Daniel Axtens <dja@axtens.net>
+To: Dmitry Vyukov <dvyukov@google.com>, syzbot <syzbot+82e323920b78d54aaed5@syzkaller.appspotmail.com>, kasan-dev <kasan-dev@googlegroups.com>
+Cc: Andrii Nakryiko <andriin@fb.com>, Alexei Starovoitov <ast@kernel.org>, bpf <bpf@vger.kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, Martin KaFai Lau <kafai@fb.com>, LKML <linux-kernel@vger.kernel.org>, netdev <netdev@vger.kernel.org>, Song Liu <songliubraving@fb.com>, syzkaller-bugs <syzkaller-bugs@googlegroups.com>, Yonghong Song <yhs@fb.com>, Andrey Ryabinin <aryabinin@virtuozzo.com>
+Subject: Re: BUG: unable to handle kernel paging request in pcpu_alloc
+In-Reply-To: <CACT4Y+ZTXKP0MAT3ivr5HO-skZOjSVdz7RbDoyc522_Nbk8nKQ@mail.gmail.com>
+References: <000000000000314c120598dc69bd@google.com> <CACT4Y+ZTXKP0MAT3ivr5HO-skZOjSVdz7RbDoyc522_Nbk8nKQ@mail.gmail.com>
+Date: Thu, 05 Dec 2019 15:35:21 +1100
+Message-ID: <877e3be6eu.fsf@dja-thinkpad.axtens.net>
 MIME-Version: 1.0
-Date: Thu, 05 Dec 2019 10:59:56 +0900
-References: <0000000000002cfc3a0598d42b70@google.com> <0000000000003e640e0598e7abc3@google.com>
-In-Reply-To: <0000000000003e640e0598e7abc3@google.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: penguin-kernel@i-love.sakura.ne.jp
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: best guess record for domain of penguin-kernel@i-love.sakura.ne.jp
- designates 202.181.97.72 as permitted sender) smtp.mailfrom=penguin-kernel@i-love.sakura.ne.jp
+X-Original-Sender: dja@axtens.net
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@axtens.net header.s=google header.b=HTnzmMsS;       spf=pass
+ (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::643 as
+ permitted sender) smtp.mailfrom=dja@axtens.net
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -147,58 +128,132 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hello.
+>> HEAD commit:    1ab75b2e Add linux-next specific files for 20191203
+>> git tree:       linux-next
+>> console output: https://syzkaller.appspot.com/x/log.txt?x=10edf2eae00000
+>> kernel config:  https://syzkaller.appspot.com/x/.config?x=de1505c727f0ec20
+>> dashboard link: https://syzkaller.appspot.com/bug?extid=82e323920b78d54aaed5
+>> compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+>> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=156ef061e00000
+>> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=11641edae00000
+>>
+>> IMPORTANT: if you fix the bug, please add the following tag to the commit:
+>> Reported-by: syzbot+82e323920b78d54aaed5@syzkaller.appspotmail.com
+>
+> +Daniel, is it the same as:
+> https://syzkaller.appspot.com/bug?id=f6450554481c55c131cc23d581fbd8ea42e63e18
+> If so, is it possible to make KASAN detect this consistently with the
+> same crash type so that syzbot does not report duplicates?
 
-syzbot is reporting that memory allocation size at fbcon_set_font() is too small
-because font's height is rounded up from 10 to 16 after memory allocation.
+It looks like both of these occur immediately after failure injection. I
+think my assumption that I could ignore the chance of failures in the
+per-cpu allocation path will have to be revisited. That's annoying.
 
-----------
-diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
-index c9235a2f42f8..68fe66e435d3 100644
---- a/drivers/video/fbdev/core/fbcon.c
-+++ b/drivers/video/fbdev/core/fbcon.c
-@@ -2461,6 +2461,7 @@ static int fbcon_get_font(struct vc_data *vc, struct console_font *font)
- 
- 	if (font->width <= 8) {
- 		j = vc->vc_font.height;
-+		printk("ksize(fontdata)=%lu font->charcount=%d vc->vc_font.height=%d font->width=%u\n", ksize(fontdata), font->charcount, j, font->width);
- 		for (i = 0; i < font->charcount; i++) {
- 			memcpy(data, fontdata, j);
- 			memset(data + j, 0, 32 - j);
-@@ -2661,6 +2662,8 @@ static int fbcon_set_font(struct vc_data *vc, struct console_font *font,
- 	size = h * pitch * charcount;
- 
- 	new_data = kmalloc(FONT_EXTRA_WORDS * sizeof(int) + size, GFP_USER);
-+	if (new_data)
-+		printk("ksize(new_data)=%lu h=%u pitch=%u charcount=%u font->width=%u\n", ksize(new_data), h, pitch, charcount, font->width);
- 
- 	if (!new_data)
- 		return -ENOMEM;
-----------
+I'll try to spin something today but Andrey feel free to pip me at the
+post again :)
 
-Normal usage:
+I'm not 100% confident to call them dups just yet, but I'm about 80%
+confident that they are.
 
-[   27.305293] ksize(new_data)=8192 h=16 pitch=1 charcount=256 font->width=8
-[   27.328527] ksize(new_data)=8192 h=16 pitch=1 charcount=256 font->width=8
-[   27.362551] ksize(new_data)=8192 h=16 pitch=1 charcount=256 font->width=8
-[   27.385084] ksize(new_data)=8192 h=16 pitch=1 charcount=256 font->width=8
-[   27.387653] ksize(new_data)=8192 h=16 pitch=1 charcount=256 font->width=8
-[   27.417562] ksize(new_data)=8192 h=16 pitch=1 charcount=256 font->width=8
-[   27.437808] ksize(new_data)=8192 h=16 pitch=1 charcount=256 font->width=8
-[   27.440738] ksize(new_data)=8192 h=16 pitch=1 charcount=256 font->width=8
-[   27.461157] ksize(new_data)=8192 h=16 pitch=1 charcount=256 font->width=8
-[   27.495346] ksize(new_data)=8192 h=16 pitch=1 charcount=256 font->width=8
-[   27.607372] ksize(new_data)=8192 h=16 pitch=1 charcount=256 font->width=8
-[   27.655674] ksize(new_data)=8192 h=16 pitch=1 charcount=256 font->width=8
-[   27.675310] ksize(new_data)=8192 h=16 pitch=1 charcount=256 font->width=8
-[   27.702193] ksize(new_data)=8192 h=16 pitch=1 charcount=256 font->width=8
-
-syzbot's testcase:
-
-[  115.784893] ksize(new_data)=4096 h=10 pitch=1 charcount=256 font->width=8
-[  115.790269] ksize(fontdata)=4096 font->charcount=256 vc->vc_font.height=16 font->width=8
+Regards,
+Daniel
+>
+>> RDX: 000000000000003c RSI: 0000000020000080 RDI: 0c00000000000000
+>> RBP: 0000000000000000 R08: 0000000000000002 R09: 0000000000000000
+>> R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000018
+>> R13: 0000000000000004 R14: 0000000000000005 R15: 0000000000000000
+>> BUG: unable to handle page fault for address: fffff91ffff00000
+>> #PF: supervisor read access in kernel mode
+>> #PF: error_code(0x0000) - not-present page
+>> PGD 21ffe6067 P4D 21ffe6067 PUD aa56c067 PMD aa56d067 PTE 0
+>> Oops: 0000 [#1] PREEMPT SMP KASAN
+>> CPU: 1 PID: 8999 Comm: syz-executor865 Not tainted
+>> 5.4.0-next-20191203-syzkaller #0
+>> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS
+>> Google 01/01/2011
+>> RIP: 0010:memory_is_nonzero mm/kasan/generic.c:121 [inline]
+>> RIP: 0010:memory_is_poisoned_n mm/kasan/generic.c:135 [inline]
+>> RIP: 0010:memory_is_poisoned mm/kasan/generic.c:166 [inline]
+>> RIP: 0010:check_memory_region_inline mm/kasan/generic.c:182 [inline]
+>> RIP: 0010:check_memory_region+0x9c/0x1a0 mm/kasan/generic.c:192
+>> Code: c9 4d 0f 49 c1 49 c1 f8 03 45 85 c0 0f 84 10 01 00 00 41 83 e8 01 4e
+>> 8d 44 c0 08 eb 0d 48 83 c0 08 4c 39 c0 0f 84 a7 00 00 00 <48> 83 38 00 74
+>> ed 4c 8d 40 08 eb 09 48 83 c0 01 49 39 c0 74 53 80
+>> RSP: 0018:ffffc90001f67a80 EFLAGS: 00010216
+>> RAX: fffff91ffff00000 RBX: fffff91ffff01000 RCX: ffffffff819e1589
+>> RDX: 0000000000000001 RSI: 0000000000008000 RDI: ffffe8ffff800000
+>> RBP: ffffc90001f67a98 R08: fffff91ffff01000 R09: 0000000000001000
+>> R10: fffff91ffff00fff R11: ffffe8ffff807fff R12: fffff91ffff00000
+>> R13: 0000000000008000 R14: 0000000000000000 R15: ffff88821fffd100
+>> FS:  00000000011a7880(0000) GS:ffff8880ae900000(0000) knlGS:0000000000000000
+>> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>> CR2: fffff91ffff00000 CR3: 00000000a94ad000 CR4: 00000000001406e0
+>> DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+>> DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+>> Call Trace:
+>>   memset+0x24/0x40 mm/kasan/common.c:107
+>>   memset include/linux/string.h:410 [inline]
+>>   pcpu_alloc+0x589/0x1380 mm/percpu.c:1734
+>>   __alloc_percpu_gfp+0x28/0x30 mm/percpu.c:1783
+>>   bpf_array_alloc_percpu kernel/bpf/arraymap.c:35 [inline]
+>>   array_map_alloc+0x698/0x7d0 kernel/bpf/arraymap.c:159
+>>   find_and_alloc_map kernel/bpf/syscall.c:123 [inline]
+>>   map_create kernel/bpf/syscall.c:654 [inline]
+>>   __do_sys_bpf+0x478/0x3810 kernel/bpf/syscall.c:3012
+>>   __se_sys_bpf kernel/bpf/syscall.c:2989 [inline]
+>>   __x64_sys_bpf+0x73/0xb0 kernel/bpf/syscall.c:2989
+>>   do_syscall_64+0xfa/0x790 arch/x86/entry/common.c:294
+>>   entry_SYSCALL_64_after_hwframe+0x49/0xbe
+>> RIP: 0033:0x442f99
+>> Code: e8 ec 09 03 00 48 83 c4 18 c3 0f 1f 80 00 00 00 00 48 89 f8 48 89 f7
+>> 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff
+>> ff 0f 83 cb 08 fc ff c3 66 2e 0f 1f 84 00 00 00 00
+>> RSP: 002b:00007ffc8aa156d8 EFLAGS: 00000246 ORIG_RAX: 0000000000000141
+>> RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 0000000000442f99
+>> RDX: 000000000000003c RSI: 0000000020000080 RDI: 0c00000000000000
+>> RBP: 0000000000000000 R08: 0000000000000002 R09: 0000000000000000
+>> R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000018
+>> R13: 0000000000000004 R14: 0000000000000005 R15: 0000000000000000
+>> Modules linked in:
+>> CR2: fffff91ffff00000
+>> ---[ end trace 449f8b43dad6ffb8 ]---
+>> RIP: 0010:memory_is_nonzero mm/kasan/generic.c:121 [inline]
+>> RIP: 0010:memory_is_poisoned_n mm/kasan/generic.c:135 [inline]
+>> RIP: 0010:memory_is_poisoned mm/kasan/generic.c:166 [inline]
+>> RIP: 0010:check_memory_region_inline mm/kasan/generic.c:182 [inline]
+>> RIP: 0010:check_memory_region+0x9c/0x1a0 mm/kasan/generic.c:192
+>> Code: c9 4d 0f 49 c1 49 c1 f8 03 45 85 c0 0f 84 10 01 00 00 41 83 e8 01 4e
+>> 8d 44 c0 08 eb 0d 48 83 c0 08 4c 39 c0 0f 84 a7 00 00 00 <48> 83 38 00 74
+>> ed 4c 8d 40 08 eb 09 48 83 c0 01 49 39 c0 74 53 80
+>> RSP: 0018:ffffc90001f67a80 EFLAGS: 00010216
+>> RAX: fffff91ffff00000 RBX: fffff91ffff01000 RCX: ffffffff819e1589
+>> RDX: 0000000000000001 RSI: 0000000000008000 RDI: ffffe8ffff800000
+>> RBP: ffffc90001f67a98 R08: fffff91ffff01000 R09: 0000000000001000
+>> R10: fffff91ffff00fff R11: ffffe8ffff807fff R12: fffff91ffff00000
+>> R13: 0000000000008000 R14: 0000000000000000 R15: ffff88821fffd100
+>> FS:  00000000011a7880(0000) GS:ffff8880ae900000(0000) knlGS:0000000000000000
+>> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>> CR2: fffff91ffff00000 CR3: 00000000a94ad000 CR4: 00000000001406e0
+>> DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+>> DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+>>
+>>
+>> ---
+>> This bug is generated by a bot. It may contain errors.
+>> See https://goo.gl/tpsmEJ for more information about syzbot.
+>> syzbot engineers can be reached at syzkaller@googlegroups.com.
+>>
+>> syzbot will keep track of this bug report. See:
+>> https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+>> syzbot can test patches for this bug, for details see:
+>> https://goo.gl/tpsmEJ#testing-patches
+>>
+>> --
+>> You received this message because you are subscribed to the Google Groups "syzkaller-bugs" group.
+>> To unsubscribe from this group and stop receiving emails from it, send an email to syzkaller-bugs+unsubscribe@googlegroups.com.
+>> To view this discussion on the web visit https://groups.google.com/d/msgid/syzkaller-bugs/000000000000314c120598dc69bd%40google.com.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/201912050159.xB51xuco020972%40www262.sakura.ne.jp.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/877e3be6eu.fsf%40dja-thinkpad.axtens.net.
