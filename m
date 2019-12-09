@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBCQ2XPNX7EOBBV5VXHXQKGQEHTIXP5Y@googlegroups.com>
+Return-Path: <kasan-dev+bncBCQ2XPNX7EOBBXNVXHXQKGQEK6TMJKA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
 Received: from mail-yw1-xc3b.google.com (mail-yw1-xc3b.google.com [IPv6:2607:f8b0:4864:20::c3b])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9884116EED
-	for <lists+kasan-dev@lfdr.de>; Mon,  9 Dec 2019 15:31:52 +0100 (CET)
-Received: by mail-yw1-xc3b.google.com with SMTP id b70sf11906803ywa.15
-        for <lists+kasan-dev@lfdr.de>; Mon, 09 Dec 2019 06:31:52 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1575901911; cv=pass;
+	by mail.lfdr.de (Postfix) with ESMTPS id C0573116EEF
+	for <lists+kasan-dev@lfdr.de>; Mon,  9 Dec 2019 15:31:58 +0100 (CET)
+Received: by mail-yw1-xc3b.google.com with SMTP id e124sf11826774ywc.10
+        for <lists+kasan-dev@lfdr.de>; Mon, 09 Dec 2019 06:31:58 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1575901917; cv=pass;
         d=google.com; s=arc-20160816;
-        b=cX2947bQgaS4hTC48Pkry03FHxHlZT6726MfSLdUc+wdV+lxjw7kbEKeepk8NinPIx
-         +oYieC3Ld8ma6430AZKzyCuFgDfiNn6mOcjQ0ubNifaVJIq38stLx46BRnCU2fsRQXNx
-         tOSX6zMjy7BKyFZJ0u7ilxkQPxTthS6FQ1zJ3s6foKXgScP8fND42xnCViqrHRljbORe
-         ft8ERoPtBsa+AHhH3m2aUNKH4n+YDPafk+c0qUiXmprWjgbe4rZhZcwXl6otUlZQ2/D0
-         VdEhpaf5kSBvXdjZqnnG2KaGdx6AgZQLKYumhH9KeTckpvuxw+mfRpz0MrMB9WWc9PoP
-         q9BA==
+        b=cE4QE1xw45KNAtDy+7/gmsT3Z/z4XasBYNlCQ0QoCXHAMBMJpxNRLHFxiQef/QnoeG
+         xdn8N55N/tz+0v8EW5JIOx4lm2t+fH+Flhmr+eubuEOyGz3OuhS+2MLgF3j2hA6gzxE9
+         MSvxI7Y5m3ryWbeWhYzI3ME82sN0vhJmhyjiPhEDy8hEHPUWw3rAlADm/8EEoCDDYhvG
+         Lmp51WFe3uysM/TnYrolxURLqydFIY6rGN/MY4l7DFQjw+UCL7t/uNWkTuhOVkgjWLpJ
+         +WfxUyhScfVwpnsuKwsF+XPTEHdjWR2HvmC9c8HLW0q3665DiMtR6clgsyZy6W3ghfCr
+         XDEA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
          :references:mime-version:message-id:in-reply-to:date:dkim-signature;
-        bh=YHQmSpppJhSKX0/bzt/1B38iWkJ9mkw3/5uYc9/r5Wo=;
-        b=Z0+0y9xuDceWfyLKF9SYNGG5dJVS0pkFzXfb0+JYVInYSWU45Y0uazYr9XeEs35Oy2
-         yAAUy0eLT4JU0ghOwID7KVrnKBqa/mcxU0tV5kAUIRp9JQbzsft8O8SrUqXAP/eaTpkV
-         1qhvWYjrtuXVysKIgJgnaHu+qbgn1T81yWc7qvyoFDpIk14xUvfu7nPrZMOCCUGDbVtM
-         xXlizlumro0nvhoKEHm6ekzwyRI+8L5fzqvMHaBwVv2VkkRJ2QkIvo0FZJKybcz8PxQx
-         K/KAuzimppRK9XDn/zIh4K+aYdI1lvVQkuibKpeyEOvsk3H05eJlLR+Z6I3qDRkWOCz7
-         13AA==
+        bh=5Bqz71Xbt9af6ctn1YTLlMTIpRlwlnd0TokPET9m62A=;
+        b=yymJN4afHrk/zeZY7d74poB5iCgJMNhbg+gAwFAuxNISVlaxEYGD2slZDOsmV5/6o9
+         leeCml5nn2EFYYpUhKp/3AxivcZEY++HXWQkzxhFQUdkmA5JU0KSIcL30AIvYJrkhtvm
+         3+xRMUJTknvlx8uj+/qIWlVJOvPpQ+DkK+RhRQxA556jAls0GGICsR5/KNzTebJ3ts2E
+         4b5fO6ORbVvX6j7mikpyci1yAiJrZDrp3hFmkjJuptW0n2rUjCi+RWYuVDngLT9fSU6w
+         DOsOKlwiUvFg7Ljc/gKJAyCpuoe6XvLlAIKB9aIm4yQRrgFnZ7nIy7Jg82UgUjK9I5sa
+         2cQQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=V93v4RsD;
-       spf=pass (google.com: domain of 31lruxqukctsgxkkedlldib.zljhxpxk-absdlldibdolrmp.zlj@flex--jannh.bounces.google.com designates 2607:f8b0:4864:20::c49 as permitted sender) smtp.mailfrom=31lruXQUKCTsgXkkedlldib.ZljhXpXk-absdlldibdolrmp.Zlj@flex--jannh.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=c7JyKFkn;
+       spf=pass (google.com: domain of 33fruxqukcuemdqqkjrrjoh.frpndvdq-ghyjrrjohjurxsv.frp@flex--jannh.bounces.google.com designates 2607:f8b0:4864:20::b4a as permitted sender) smtp.mailfrom=33FruXQUKCUEmdqqkjrrjoh.frpndvdq-ghyjrrjohjurxsv.frp@flex--jannh.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=YHQmSpppJhSKX0/bzt/1B38iWkJ9mkw3/5uYc9/r5Wo=;
-        b=rd7VAfOmtjU0odOPADwE82uUX8yYglLLM0yHLm4Yh8b1sZOaBV20pMExsrfi20UorR
-         c3eK+tXCfdUSXUBPDFaRG6iCOraL07LmVHGHVzex5+t99nLDImlVHvvi8D9vB5nXExcb
-         /1jluaL8vwKyD9aN4GvmEK6L1Y4fT+pbLbatNZLvo9rs5tkGSZJL0qP3z3FmpEuchsQI
-         hYKjDZyXaRy4O+47NWaofCj0OWe7azPU17bIUTwGQRSywmfeI699XlVa0LWV5yUvUDUC
-         oD5xAhUdB3FIZMFZobyqNd7i6jkEK96tEl8tswIIzsfAoeFHlqhRbL/7kjEZBwZu8Yf0
-         06UQ==
+        bh=5Bqz71Xbt9af6ctn1YTLlMTIpRlwlnd0TokPET9m62A=;
+        b=FQWEp2bmWBpJbkjqQMV7ZijOhC/qefLDDw8ZnV0Av44tFlAWkJXDE0IqRqwoDJ9op3
+         PjY4HG3PsbzMQE9XVNj44/7HHEI3LbuccjZGD4X0BdMkKxP2RT4FYgPldXKEwKOlgYC5
+         nuTQCgCr51pv0WLYC4Pg/XkLPVVgLdOaQh8qBwu+DoNUsrlYbQalF7Hbg5Ee4RATliJ0
+         YmKeuBBOG0TvoY2A63/4WftynL7eEdTcxNWFIEaRzXvSDgzwEPwMDlapIAjtm0yASJo6
+         7UK5NwuaCaK33KAO4DCUCwa03z4Z4lsNd/dvVDpWMjatjjmKOhfMQcTNR2X33H4tXhVq
+         Astg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
@@ -49,62 +49,62 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=YHQmSpppJhSKX0/bzt/1B38iWkJ9mkw3/5uYc9/r5Wo=;
-        b=JP5ooEk9ChjaLylSoU6e9xxmYJ1WUfi0MloMI5OpR/CwQ32fD5vX0bO8EX2yop8AkN
-         SQYHK+8wNmfH0Mk/DFe2N/VlnwgdLis0Q3ReT9XA9N+M1EEg5StjJiJvv+wLTfTH0vT5
-         X8X2KJUyYmADPI2bI2lP92kUlQMNza2fBbYb4o44NUJXuJ7/YwmrAboVX/1MlhQ+RI0L
-         JCAb2aGs0wEXK8ujOus/xpd/Qfzi6AzV8QMxLO3xJTdi/QGpk/mmIxiDoBTNlk6etp38
-         WG21zF0QGqZT6mVLPbhFWorjZPVAjOcr5ZvNyST1ecnwy+KkKVadzYj6tRrp6bndVdwq
-         q/tg==
-X-Gm-Message-State: APjAAAVba6xQ50S4loWj8wu62YwARn3Fkag3IXmLFDoU4KFnbUQF4bsg
-	TjA0ozNOAJXxVXs8h1fZU7U=
-X-Google-Smtp-Source: APXvYqwC4GcGSVLNqDGCX4OVlb1b4NAj10Q3bCj8QuXgLd3Q40nwJiCrgt50EissDnhATZxjFmhbAg==
-X-Received: by 2002:a0d:ca8e:: with SMTP id m136mr20702155ywd.346.1575901911719;
-        Mon, 09 Dec 2019 06:31:51 -0800 (PST)
+        bh=5Bqz71Xbt9af6ctn1YTLlMTIpRlwlnd0TokPET9m62A=;
+        b=KRwtT72P7pOvpQ9UD2WCQa3FWWpIv1tlqsvhnISPNgEZvxdU/XpdGVI3zANi7Y64aJ
+         bVpoKHdUKNIgAT4TlVtmE1k6y38Sw5DpLKlhXckQB+E3sdMrL1/ZLfQCs1AZf2VpA025
+         Kc01Dtjlq47eNE13UxhhMFMXBcpDWg17FOic4+Q1NXbyuvgNiKyoX10WjlY74iQymxqg
+         5gY1tp6YDkE2z19x2MhW4i/NEcmLmsk1oruhO2j2rkdGbDRsAEQA5EJGLJHSPqVI3Cya
+         4f1am8P9GyXKhIGo6lLHt+xKAmqBGCbj41tnnDSScvS6kAlrk2OaZs59KmjpHqSxyVEb
+         oS2A==
+X-Gm-Message-State: APjAAAX4mZxHnFqhdM3ePi3rRqDiDXKRyMgbvcZWD2+DdsHsPLDwX3hA
+	Sik7eJr0BxaUAbwschOiV5k=
+X-Google-Smtp-Source: APXvYqxqDIXG/4ya+Jk+yim/+wNydgneJDu0Vvqsl2cgvzebzf7yZpHqH6V/lcbXGeG0XPe+v2QgUQ==
+X-Received: by 2002:a25:1087:: with SMTP id 129mr21198396ybq.399.1575901917689;
+        Mon, 09 Dec 2019 06:31:57 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a0d:fc85:: with SMTP id m127ls2010778ywf.8.gmail; Mon, 09
- Dec 2019 06:31:51 -0800 (PST)
-X-Received: by 2002:a81:364a:: with SMTP id d71mr22172843ywa.312.1575901911220;
-        Mon, 09 Dec 2019 06:31:51 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1575901911; cv=none;
+Received: by 2002:a81:59c6:: with SMTP id n189ls2013119ywb.2.gmail; Mon, 09
+ Dec 2019 06:31:57 -0800 (PST)
+X-Received: by 2002:a0d:d403:: with SMTP id w3mr19332797ywd.197.1575901917199;
+        Mon, 09 Dec 2019 06:31:57 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1575901917; cv=none;
         d=google.com; s=arc-20160816;
-        b=CR573V+1GVPCwFe3RPSTK9fgTQY5y1V6GbmXvptj8v5LQwk0Zo/FHfC0Erf4xw14Yo
-         hWjQoCqX4t2U+3qPn4MVO2U3sA4zHa6YOLgftjih8mtKAJxIk2s0LSpx+PG4NLQajRlI
-         LWaZovsQ9fPbbMXEyGzRLY5Dqu61R2jINt6NPyWB5Nkp/6R3ubmHXPfZnkXssIcFxGyr
-         ao0jYVdXgw02IY3CQYSLYUOSSEfxfNPwKHPX4okqlAiVm80mbRcIV00tkfBAqJCyc7R2
-         Qv6VsaI6ilzF1Zu0drl8mNpmqArL8JrWs0/QQUKTsLoJMyRwUbCYe8qku/voEE/cy0xJ
-         JY0Q==
+        b=ZJ/KXrTPdscwn8Q2mKKwJYp9y/aS4/3fQC7eoH2y8UO3VWTDOEkIU4jPe0/nYkTUlU
+         ACp+IsvdZfcs2XLwJd/Yz8Rlpk6fP0BmoyNdcnrwjOULkHUXwLVlWJLMOvbQjNq3j/NG
+         9IsJ8E2cz7IDxj0OIQ41ltiFaCsLp9ogTNyj6qJELaAzh+AojposAqeriIB8pIaelz21
+         EEhL80wb5BfmlVmK34eO+YXOlshrHWaq6mdAsyk5tkAkC9ZhCIKq1aJ8bICI+g2w0bX/
+         FZxp8VGWeD1BKTG9b9w5lNRm8ngqtfcDGd80Mcq3m8YGhK/DK8cNFrn01dRqSQU08Ekv
+         0h9w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
          :date:dkim-signature;
-        bh=6dJeiKQWAfFPvcJSNpo7bPzgTA1iBxJQ7E6uNYT5cFk=;
-        b=AGjQOVKcVNScJJ6e07Lh8Kxrx4/6W0UMSbrhqSGsrDQsrSglmIXAVZIGMG9Wbp0cbW
-         9UBBL+N7e6ZTOLTogLbTMjnvjhksfO2jrzgP9E8xMRGGaYyepr2aUwZIk8bRRTrpVzz4
-         WVKNN6hwURYufEotY8I1dyr5OJeN+F/nFhMCPMdWLl9VkC0gGJpxZ99kKNA0+7yZy14L
-         kKzlMhlk1otughT9lxUIgx4O75znlsoovCcM5cliskCW+CZRnGp/KDXS4rm6lSQEOe+Q
-         FFvG1FC8Wi9C6pM1kCHsGUaAmvOEqb0aZsXhuUD57gyXL3GEwxdsYy3Lz0cfdQP3gzlD
-         uXKA==
+        bh=g+A0f45IRCzFODlDzia7ir2GSqO4sEP6+0Dk2zsbcZc=;
+        b=rG7VsH4mRftBLIttLvDoIk9FYh8LOlzkyvhdw8t7urKoNkavGP9ipoN9xO1JSgamtS
+         Iils1buITos0SGBuRwpbrqcsr4n5Fg35tJNyZS0mQMujIwC+R9Mxi3UqECSMVZ41BbpK
+         rBDtLOfMEkFm1HaRe10hnAWhFXarNGhpv8pDy95kjC6i0xz/wMrjXIhIRt5LLNoULbX/
+         JhbEaxP7Nk+dRxyLgrMUxpbJE1bNy04hG5dXPEqqVvubmdJUFLMSFS9QzXDZ1gIp51mf
+         Dkm1EQVKlcJWDqSzWUDVzIjSotj8uU2lwBse1IfJ1mrK87BaJi+SdRMa7RrL/woynqF2
+         nR+w==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=V93v4RsD;
-       spf=pass (google.com: domain of 31lruxqukctsgxkkedlldib.zljhxpxk-absdlldibdolrmp.zlj@flex--jannh.bounces.google.com designates 2607:f8b0:4864:20::c49 as permitted sender) smtp.mailfrom=31lruXQUKCTsgXkkedlldib.ZljhXpXk-absdlldibdolrmp.Zlj@flex--jannh.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=c7JyKFkn;
+       spf=pass (google.com: domain of 33fruxqukcuemdqqkjrrjoh.frpndvdq-ghyjrrjohjurxsv.frp@flex--jannh.bounces.google.com designates 2607:f8b0:4864:20::b4a as permitted sender) smtp.mailfrom=33FruXQUKCUEmdqqkjrrjoh.frpndvdq-ghyjrrjohjurxsv.frp@flex--jannh.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-yw1-xc49.google.com (mail-yw1-xc49.google.com. [2607:f8b0:4864:20::c49])
-        by gmr-mx.google.com with ESMTPS id r1si215526ybr.3.2019.12.09.06.31.51
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com. [2607:f8b0:4864:20::b4a])
+        by gmr-mx.google.com with ESMTPS id j7si1406423ybo.5.2019.12.09.06.31.57
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Dec 2019 06:31:51 -0800 (PST)
-Received-SPF: pass (google.com: domain of 31lruxqukctsgxkkedlldib.zljhxpxk-absdlldibdolrmp.zlj@flex--jannh.bounces.google.com designates 2607:f8b0:4864:20::c49 as permitted sender) client-ip=2607:f8b0:4864:20::c49;
-Received: by mail-yw1-xc49.google.com with SMTP id b70so11906770ywa.15
-        for <kasan-dev@googlegroups.com>; Mon, 09 Dec 2019 06:31:51 -0800 (PST)
-X-Received: by 2002:a0d:c187:: with SMTP id c129mr5509408ywd.389.1575901910795;
- Mon, 09 Dec 2019 06:31:50 -0800 (PST)
-Date: Mon,  9 Dec 2019 15:31:18 +0100
+        Mon, 09 Dec 2019 06:31:57 -0800 (PST)
+Received-SPF: pass (google.com: domain of 33fruxqukcuemdqqkjrrjoh.frpndvdq-ghyjrrjohjurxsv.frp@flex--jannh.bounces.google.com designates 2607:f8b0:4864:20::b4a as permitted sender) client-ip=2607:f8b0:4864:20::b4a;
+Received: by mail-yb1-xb4a.google.com with SMTP id u10so11728724ybm.4
+        for <kasan-dev@googlegroups.com>; Mon, 09 Dec 2019 06:31:57 -0800 (PST)
+X-Received: by 2002:a5b:350:: with SMTP id q16mr19288549ybp.392.1575901916740;
+ Mon, 09 Dec 2019 06:31:56 -0800 (PST)
+Date: Mon,  9 Dec 2019 15:31:19 +0100
 In-Reply-To: <20191209143120.60100-1-jannh@google.com>
-Message-Id: <20191209143120.60100-2-jannh@google.com>
+Message-Id: <20191209143120.60100-3-jannh@google.com>
 Mime-Version: 1.0
 References: <20191209143120.60100-1-jannh@google.com>
 X-Mailer: git-send-email 2.24.0.393.g34dc348eaf-goog
-Subject: [PATCH v6 2/4] x86/traps: Print address on #GP
+Subject: [PATCH v6 3/4] x86/dumpstack: Split out header line printing from __die()
 From: "'Jann Horn' via kasan-dev" <kasan-dev@googlegroups.com>
 To: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
 	"H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org, Andrey Ryabinin <aryabinin@virtuozzo.com>, 
@@ -115,9 +115,9 @@ Cc: linux-kernel@vger.kernel.org, Andrey Konovalov <andreyknvl@google.com>,
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: jannh@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=V93v4RsD;       spf=pass
- (google.com: domain of 31lruxqukctsgxkkedlldib.zljhxpxk-absdlldibdolrmp.zlj@flex--jannh.bounces.google.com
- designates 2607:f8b0:4864:20::c49 as permitted sender) smtp.mailfrom=31lruXQUKCTsgXkkedlldib.ZljhXpXk-absdlldibdolrmp.Zlj@flex--jannh.bounces.google.com;
+ header.i=@google.com header.s=20161025 header.b=c7JyKFkn;       spf=pass
+ (google.com: domain of 33fruxqukcuemdqqkjrrjoh.frpndvdq-ghyjrrjohjurxsv.frp@flex--jannh.bounces.google.com
+ designates 2607:f8b0:4864:20::b4a as permitted sender) smtp.mailfrom=33FruXQUKCUEmdqqkjrrjoh.frpndvdq-ghyjrrjohjurxsv.frp@flex--jannh.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Jann Horn <jannh@google.com>
 Reply-To: Jann Horn <jannh@google.com>
@@ -133,183 +133,83 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-A frequent cause of #GP exceptions are memory accesses to non-canonical
-addresses. Unlike #PF, #GP doesn't come with a fault address in CR2, so
-the kernel doesn't currently print the fault address for #GP.
-Luckily, we already have the necessary infrastructure for decoding X86
-instructions and computing the memory address that is being accessed;
-hook it up to the #GP handler so that we can figure out the address
-operand of the faulting instruction and print it.
+Split __die() into __die_header() and __die_body(). This allows callers to
+insert extra information below the header line that initiates the bug
+report.
 
-Distinguish two cases:
-  a) (Part of) the memory range being accessed lies in the non-canonical
-     address range; in this case, is is likely that the address we
-     decoded is actually the one that caused the #GP.
-  b) The entire memory range of the operand we decoded lies in canonical
-     address space; the #GP may or may not be related in some way to the
-     address we computed. We'll still print it, but with hedging
-     language in the message.
+This can e.g. be used by __die() callers to allow KASAN to print additional
+information below the header line of the bug report.
 
-While it is already possible to compute the faulting address manually by
-disassembling the opcode dump and evaluating the instruction against the
-register dump, this should make it slightly easier to identify crashes
-at a glance.
-
-Note that the operand length, which we get from the instruction decoder
-and use to determine whether the access straddles into non-canonical
-address space, is currently somewhat unreliable; but it should be good
-enough, considering that Linux on x86-64 never maps the page directly
-before the start of the non-canonical range anyway, and therefore the
-case where a memory range begins in that page and potentially straddles
-into the non-canonical range should be fairly uncommon.
-And if we do get this wrong, it only influences whether the error
-message claims that the access is canonical.
-
-Reviewed-and-tested-by: Sean Christopherson <sean.j.christopherson@intel.com>
 Signed-off-by: Jann Horn <jannh@google.com>
 ---
 
 Notes:
-    v2:
-     - print different message for segment-related GP (Borislav)
-     - rewrite check for non-canonical address (Sean)
-     - make it clear we don't know for sure why the GP happened (Andy)
     v3:
-     - change message format to one line (Borislav)
-    v4:
-     - rename insn_bytes to insn_buf (Ingo)
-     - add space after GPFSTR (Ingo)
-     - make sizeof(desc) clearer (Ingo, Borislav)
-     - also print the address (with a different message) if it's canonical (Ingo)
-    v5:
-     - reword comment on get_kernel_gp_address() (Sean)
-     - make get_kernel_gp_address() also work on 32-bit (Sean)
-     - minor nits (Sean)
-     - more hedging for canonical GP (Sean)
-     - let get_kernel_gp_address() return an enum (Sean)
-     - rewrite commit message
-    v6:
-     - add comma after GPFSTR (Sean)
-     - reorder variable declarations (Sean)
-    
-    I have already sent a patch to syzkaller that relaxes their parsing of GPF
-    messages (https://github.com/google/syzkaller/commit/432c7650) such that
-    changes like the one in this patch don't break it.
-    That patch has already made its way into syzbot's syzkaller instances
-    according to <https://syzkaller.appspot.com/upstream>.
+      new patch
+    v4-v6:
+      no changes
 
- arch/x86/kernel/traps.c | 70 +++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 67 insertions(+), 3 deletions(-)
+ arch/x86/include/asm/kdebug.h |  3 +++
+ arch/x86/kernel/dumpstack.c   | 13 ++++++++++++-
+ 2 files changed, 15 insertions(+), 1 deletion(-)
 
-diff --git a/arch/x86/kernel/traps.c b/arch/x86/kernel/traps.c
-index f19de6f45d48..c8b4ae6aed5b 100644
---- a/arch/x86/kernel/traps.c
-+++ b/arch/x86/kernel/traps.c
-@@ -56,6 +56,8 @@
- #include <asm/mpx.h>
- #include <asm/vm86.h>
- #include <asm/umip.h>
-+#include <asm/insn.h>
-+#include <asm/insn-eval.h>
+diff --git a/arch/x86/include/asm/kdebug.h b/arch/x86/include/asm/kdebug.h
+index 75f1e35e7c15..a0050fabce42 100644
+--- a/arch/x86/include/asm/kdebug.h
++++ b/arch/x86/include/asm/kdebug.h
+@@ -33,6 +33,9 @@ enum show_regs_mode {
+ };
  
- #ifdef CONFIG_X86_64
- #include <asm/x86_init.h>
-@@ -518,10 +520,55 @@ dotraplinkage void do_bounds(struct pt_regs *regs, long error_code)
- 	do_trap(X86_TRAP_BR, SIGSEGV, "bounds", regs, error_code, 0, NULL);
+ extern void die(const char *, struct pt_regs *,long);
++extern void __die_header(const char *str, struct pt_regs *regs, long err);
++extern int __must_check __die_body(const char *str, struct pt_regs *regs,
++				   long err);
+ extern int __must_check __die(const char *, struct pt_regs *, long);
+ extern void show_stack_regs(struct pt_regs *regs);
+ extern void __show_regs(struct pt_regs *regs, enum show_regs_mode);
+diff --git a/arch/x86/kernel/dumpstack.c b/arch/x86/kernel/dumpstack.c
+index e07424e19274..6436f3f5f803 100644
+--- a/arch/x86/kernel/dumpstack.c
++++ b/arch/x86/kernel/dumpstack.c
+@@ -365,7 +365,7 @@ void oops_end(unsigned long flags, struct pt_regs *regs, int signr)
  }
+ NOKPROBE_SYMBOL(oops_end);
  
-+enum kernel_gp_hint {
-+	GP_NO_HINT,
-+	GP_NON_CANONICAL,
-+	GP_CANONICAL
-+};
-+
-+/*
-+ * When an uncaught #GP occurs, try to determine a memory address accessed by
-+ * the instruction and return that address to the caller.
-+ * Also try to figure out whether any part of the access to that address was
-+ * non-canonical.
-+ */
-+static enum kernel_gp_hint get_kernel_gp_address(struct pt_regs *regs,
-+						 unsigned long *addr)
-+{
-+	u8 insn_buf[MAX_INSN_SIZE];
-+	struct insn insn;
-+
-+	if (probe_kernel_read(insn_buf, (void *)regs->ip, MAX_INSN_SIZE))
-+		return GP_NO_HINT;
-+
-+	kernel_insn_init(&insn, insn_buf, MAX_INSN_SIZE);
-+	insn_get_modrm(&insn);
-+	insn_get_sib(&insn);
-+	*addr = (unsigned long)insn_get_addr_ref(&insn, regs);
-+
-+	if (*addr == -1UL)
-+		return GP_NO_HINT;
-+
-+#ifdef CONFIG_X86_64
-+	/*
-+	 * Check that:
-+	 *  - the operand is not in the kernel half
-+	 *  - the last byte of the operand is not in the user canonical half
-+	 */
-+	if (*addr < ~__VIRTUAL_MASK &&
-+	    *addr + insn.opnd_bytes - 1 > __VIRTUAL_MASK)
-+		return GP_NON_CANONICAL;
-+#endif
-+
-+	return GP_CANONICAL;
-+}
-+
-+#define GPFSTR "general protection fault"
-+
- dotraplinkage void
- do_general_protection(struct pt_regs *regs, long error_code)
+-int __die(const char *str, struct pt_regs *regs, long err)
++void __die_header(const char *str, struct pt_regs *regs, long err)
  {
--	const char *desc = "general protection fault";
-+	char desc[sizeof(GPFSTR) + 50 + 2*sizeof(unsigned long) + 1] = GPFSTR;
- 	struct task_struct *tsk;
+ 	const char *pr = "";
  
- 	RCU_LOCKDEP_WARN(!rcu_is_watching(), "entry code didn't wake RCU");
-@@ -540,6 +587,9 @@ do_general_protection(struct pt_regs *regs, long error_code)
+@@ -384,7 +384,11 @@ int __die(const char *str, struct pt_regs *regs, long err)
+ 	       IS_ENABLED(CONFIG_KASAN)   ? " KASAN"           : "",
+ 	       IS_ENABLED(CONFIG_PAGE_TABLE_ISOLATION) ?
+ 	       (boot_cpu_has(X86_FEATURE_PTI) ? " PTI" : " NOPTI") : "");
++}
++NOKPROBE_SYMBOL(__die_header);
  
- 	tsk = current;
- 	if (!user_mode(regs)) {
-+		enum kernel_gp_hint hint = GP_NO_HINT;
-+		unsigned long gp_addr;
++int __die_body(const char *str, struct pt_regs *regs, long err)
++{
+ 	show_regs(regs);
+ 	print_modules();
+ 
+@@ -394,6 +398,13 @@ int __die(const char *str, struct pt_regs *regs, long err)
+ 
+ 	return 0;
+ }
++NOKPROBE_SYMBOL(__die_body);
 +
- 		if (fixup_exception(regs, X86_TRAP_GP, error_code, 0))
- 			return;
++int __die(const char *str, struct pt_regs *regs, long err)
++{
++	__die_header(str, regs, err);
++	return __die_body(str, regs, err);
++}
+ NOKPROBE_SYMBOL(__die);
  
-@@ -556,8 +606,22 @@ do_general_protection(struct pt_regs *regs, long error_code)
- 			return;
- 
- 		if (notify_die(DIE_GPF, desc, regs, error_code,
--			       X86_TRAP_GP, SIGSEGV) != NOTIFY_STOP)
--			die(desc, regs, error_code);
-+			       X86_TRAP_GP, SIGSEGV) == NOTIFY_STOP)
-+			return;
-+
-+		if (error_code)
-+			snprintf(desc, sizeof(desc), "segment-related " GPFSTR);
-+		else
-+			hint = get_kernel_gp_address(regs, &gp_addr);
-+
-+		if (hint != GP_NO_HINT)
-+			snprintf(desc, sizeof(desc), GPFSTR ", %s 0x%lx",
-+				 (hint == GP_NON_CANONICAL) ?
-+				 "probably for non-canonical address" :
-+				 "maybe for address",
-+				 gp_addr);
-+
-+		die(desc, regs, error_code);
- 		return;
- 	}
- 
+ /*
 -- 
 2.24.0.393.g34dc348eaf-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20191209143120.60100-2-jannh%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20191209143120.60100-3-jannh%40google.com.
