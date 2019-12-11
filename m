@@ -1,147 +1,119 @@
-Return-Path: <kasan-dev+bncBCXLBLOA7IGBBKO4X3XQKGQEM72LEAA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCR5PSMFZYORBZXQYDXQKGQEYR2UTHA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x338.google.com (mail-wm1-x338.google.com [IPv6:2a00:1450:4864:20::338])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10611118B38
-	for <lists+kasan-dev@lfdr.de>; Tue, 10 Dec 2019 15:39:38 +0100 (CET)
-Received: by mail-wm1-x338.google.com with SMTP id b131sf1069679wmd.9
-        for <lists+kasan-dev@lfdr.de>; Tue, 10 Dec 2019 06:39:38 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1575988777; cv=pass;
+Received: from mail-yw1-xc38.google.com (mail-yw1-xc38.google.com [IPv6:2607:f8b0:4864:20::c38])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1136311A001
+	for <lists+kasan-dev@lfdr.de>; Wed, 11 Dec 2019 01:29:28 +0100 (CET)
+Received: by mail-yw1-xc38.google.com with SMTP id o200sf449743ywd.22
+        for <lists+kasan-dev@lfdr.de>; Tue, 10 Dec 2019 16:29:28 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1576024167; cv=pass;
         d=google.com; s=arc-20160816;
-        b=PROvoHKU0ekGPP70jwKsmpikKoTQvXgcm/+w1HNWs2vqB98CQnxHQTv3X/I2XbPnd7
-         yW19ZvINH0uRDCnyqoeN+0v4T2kU8N8UqQm2mvdh4aA0Nkp4sZzQOJfiOWCnrcCFRJO7
-         ehJ5px2eBQpq0M4aO5Mjrs2E6jYQM9obEzF3z985B2h3aMiGL8sYL1hNeF+378hQPO8q
-         /9TmeKGUsJDURS6PXZ5paEBYf4DCh+nHK/ctXHA6rg7ij0SXxJO9b7ABUorsS3a9BUkW
-         aC7E+rzlLepcMm30Y++tEAoC6umsy9PLhdk/uDrBqnYy/TWJlL5GEdAGYtvDuaqgPjW9
-         sE7g==
+        b=HaeaAmJilou+OV+s3QP9JCuamGLVj4Yt/hkSI+JZSdy6FrRNONVC9C8uy16SrXtf/q
+         OUZIFU61hxxQPZpqhTRT7DNDqYpWhf9W43VtuTAiBMAxxDojbN6xn8xF07hgsNuBFkxk
+         aymMezE4dUWVNMCsH9RpK/AO4ieMMmcyJhgNPJATD+EEPxPcSgW+DJ6suYD3dP18BqrA
+         +33Ha1kVOIJ5QtpA/shYsRcy9L1VVl4VmaBVcdqoNXDDHaf7vNRTFq+kLvukJdT438GN
+         IakfH/4gfTglV1tPD4WBhecBbrcsFurPwM/tsGjljUkHVI6uzf4HU3mTvas3SvYti7Ps
+         yYow==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding
-         :content-language:in-reply-to:mime-version:user-agent:date
-         :message-id:from:references:to:subject:sender:dkim-signature;
-        bh=XviR8X6BWscvCw9S/VSnsXo1kyFt/Ons9DuG0IgW66w=;
-        b=SfFwaTv3iZ0tS4NMq4NyJ1OQRz/fmjlisL/Rsk4A1VclxK1FQPXHOGF94DrxhYQpCA
-         6VzyeH1YzD5xCWAz5XRfos9iOwICCKsNm5jY2dvPPStgwnBJv8/m+GC7dK9w+xV8v015
-         fP2JgGCORy952hCDHtC+DxoD3k9inhCWHb4RNBmmgTv9WJZaeDuWx1BGvYWP3QUgwoz0
-         DS70SjMyhs3ACLraLEbbPHUcB8pXPAEHvY20haIgp2zuX4VFXgEWD9X5VnoI1piNW0uX
-         ychM8FM+J/uLYmvRJuKX6TGJTAa5tfnvQ1It6PZoNlPXF+4ygqBo+2ferCOMqoJ6a74r
-         g5gA==
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :references:in-reply-to:subject:cc:to:from:sender:dkim-signature;
+        bh=DvqEh3AEJchTfPzn2k6EgfcYtnKvGO5m47eoXnYewJo=;
+        b=V6ulyyDVqj/HhGaCKbf8bqGvBmKjQvvGdI4LN/Cy98DNxYiskimlWTNGJwaIiXly3/
+         QsJGT/ZVcHSMW1c+zUhViNSipEsbRoCzmX3YOT0C3f0je4gOC/BIolJSjXzGkN2fBPx3
+         xVmu+U31b3pp4tNOlhKow7WKQROmOYL4zJiRdb/4OFLPI7s0v/tFtB8k0Rk6qn+hIDqo
+         OJYmPjVJNi/nn0Xq8YSQQ0R5gvi42GM/4ubYtZvP3fsE5i9FrV3s2dpaJHat6ZmvwrXc
+         tHn8hQcaYVqo7NKCP7ibLu1qDcJrMQCihIxLN7gnWlJIzT27Rtu9Vj09qrVV3ghnVbjk
+         M/2g==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@c-s.fr header.s=mail header.b=S5kJVxPB;
-       spf=pass (google.com: domain of christophe.leroy@c-s.fr designates 93.17.236.30 as permitted sender) smtp.mailfrom=christophe.leroy@c-s.fr
+       dkim=pass header.i=@ellerman.id.au header.s=201909 header.b=Jn2SQvPi;
+       spf=pass (google.com: domain of mpe@ellerman.id.au designates 2401:3900:2:1::2 as permitted sender) smtp.mailfrom=mpe@ellerman.id.au
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:subject:to:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
+        h=sender:from:to:cc:subject:in-reply-to:references:date:message-id
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=XviR8X6BWscvCw9S/VSnsXo1kyFt/Ons9DuG0IgW66w=;
-        b=gMi5csUOrebi7Dn2wqBcG3cBoNa91w4AZDGFikwgm8aQYal7UKQnggsoBuzC9FWtV1
-         VxJlMIYPzf/V8kn7MsY7NduFP2EBHre3Vs5qwGOatCL3IvxkgcrPA6T8FoINQ5ZFgmht
-         opY/AERU0p6GdvC8moaHMCh/YgE5tc9/t5yCS+ubBCWPFLJ+A8QG+KxT6rm7Kkwt/aDk
-         aI9Unf2Z2/tzByO2nZvxGrj2SPAzN8mS6aKJ9sj2lXI60xMuGbA4CWHQeOGxFXOPJFUe
-         GZGCLoP8e+P95JNIDKabvsVlCQ0He/lQ5TgHP2nqgTES7w0qraLazGVUqaE2BU/WKaaV
-         tJ6Q==
+        bh=DvqEh3AEJchTfPzn2k6EgfcYtnKvGO5m47eoXnYewJo=;
+        b=iHgrTUEkOp9HcVVRsxSQ1uftXDKHWpYGdjSlaFJ2CILLC7RPYMPXu8UWC5qnDnHa3q
+         Vk6EuzXfQ4F99e/mayi4otcKUeA4UE64Bk7sG8lm0C+7n77MN2SaPwgOJ4OH8wR+pBqD
+         VdI+bT4Q0LM4X6JQIfgowIofpYjfCbAFEs/+/CSxoxGmYOTnOpnajvHHVE8Mv+Cdos4Q
+         tWySdtN5Nv8x8n/XOiC0TgEGtcWLKELY4r37DoQ96WN1VNQIHigx6ixcSteTsVxrOAvn
+         MbcuNvlQHiPSyS4fdvhitMDERwXtr2Ngxii/E7YwG6WaT2nwekRiS9sKU82+uJoS2EoD
+         /PqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:subject:to:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding:x-original-sender
+        h=sender:x-gm-message-state:from:to:cc:subject:in-reply-to:references
+         :date:message-id:mime-version:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=XviR8X6BWscvCw9S/VSnsXo1kyFt/Ons9DuG0IgW66w=;
-        b=kHUiUDhSM/mtMQtsBndUrYUEShaXVKYujlLTxNAEB9l19leVEPg2m555ATIjY+ef6H
-         D5hy8TbdlmxxHAQHz+HvteG7V+TsBIsgYkoIM+m5o8yw0dyKpacZ/grsJEgbvqRULIfE
-         DJeuhxe7w2KPM8zBjVsLEBOEd2yIiCMooJjKYOnLW8A2IuWmaDTRiy2ZEw6BLtf8iiZ4
-         6/W93jtSHp/toiL/yLUkXAuON1oW4hNhxEISS5wjUdJy5gGb4SdZMqGUz61UpTf4YU7K
-         pYadQ5WvkaBCopGUmv9z8V560ybEQjNL7AqABp6VnWoHu0gbpAgUVDAG1ciw0AsfwSrJ
-         E3yg==
+        bh=DvqEh3AEJchTfPzn2k6EgfcYtnKvGO5m47eoXnYewJo=;
+        b=PF0+rl0F2pqWhz93k5a7jtUz7uec9gb8JZk/p2ioEfOo57UwcmPIXdFcIx/C/u7zMn
+         0v8sj3Q8rrWB+EABxZOG8nxvT1eVeoxZ8wzIWzzxi9W/14iNcu5bSavH7gDMb6V8ZUa1
+         s/BNV0qLphAmewZ7UK4PUgv3k4z/+yeg9gLb428hpQSbK/Z3iTmO2RWa849KRBO70fOl
+         EmwwqKFmuiQ79f5mbt+jb6LZCHz/wiKW35H3uyTuO/XRH/azm9rh6xAsuu3FzASrslZo
+         rIRuPXjwIHWKLmQ0CPck/m9GAhvAVzxFxjfP2S26dx75v7Ghxe0znd4LrFWSu1Lkjx/U
+         8onw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAUkIU8ubYiGgMBI5x+n+Vmg6TQvP67AKoOo6KberiUYNlWazmPF
-	nDjP78pOFWoZ5TNd/XLXyKE=
-X-Google-Smtp-Source: APXvYqyrLCp2eYPpTXtHAOxcnjXk4nxCsFvkWnvyXAWB0DRilc33Ry0s2rTsjBeIpa3T+8f0soAZaw==
-X-Received: by 2002:adf:e2c1:: with SMTP id d1mr3654053wrj.347.1575988777686;
-        Tue, 10 Dec 2019 06:39:37 -0800 (PST)
+X-Gm-Message-State: APjAAAXWLABfx7zqqP0bvLy3gcutt+Z76B0fbJz9XJgDxNiOixe79UPK
+	9j/VKoE1yDoN077k+PF/UnQ=
+X-Google-Smtp-Source: APXvYqwjNQawQHi7z6MxVE/O8TujnHFswYphikQfp8m80FBJmAzaTFxZ2pkMjRgKxEtAOsZZ43HCpw==
+X-Received: by 2002:a81:130d:: with SMTP id 13mr271296ywt.168.1576024166992;
+        Tue, 10 Dec 2019 16:29:26 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:adf:eb4c:: with SMTP id u12ls6995534wrn.6.gmail; Tue, 10 Dec
- 2019 06:39:37 -0800 (PST)
-X-Received: by 2002:a5d:5491:: with SMTP id h17mr3830924wrv.374.1575988777158;
-        Tue, 10 Dec 2019 06:39:37 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1575988777; cv=none;
+Received: by 2002:a0d:fc85:: with SMTP id m127ls32571ywf.8.gmail; Tue, 10 Dec
+ 2019 16:29:26 -0800 (PST)
+X-Received: by 2002:a81:4755:: with SMTP id u82mr292848ywa.94.1576024166249;
+        Tue, 10 Dec 2019 16:29:26 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1576024166; cv=none;
         d=google.com; s=arc-20160816;
-        b=FR4BJS66xzJjWpwesfT/mKLnqsET6CaH/PKCEpOudQgL/+ApYDIvGDkPymalErgLOu
-         qA8EE/XVaWItpsKwaFsNNcfAahY6N3pBnTsO/ycJzY6YY1XzLUOPIb4SECe2lzkl9WDH
-         IpKysTUSL0h0gW2K85BKSEklVPlTanoxw/l32BCGtl1ebdExghNzpHdXc/T2X7JynAXu
-         nHiR5Mx3dWLiJtPmjx4NC1uLrwzRCO71nZ7eLhdQDVrlS/46sh3+4c3t0Zz7MwEg+uuL
-         d0leYgwT01jPPJlhMRNc/HU/34vkscWVnHdYtUd9uTdkZgmJgKWc1UY/3UxTFVeqAZsE
-         mgiQ==
+        b=uvBAPl+29v2iZim8CVi2KXnVt5je/EUjqvPj+qoUe8+2wu3vxIXkTJIHHWUZh6IRZn
+         DlOd923e+g5aITUoUAltDw8Ka49Gn0liA8BcHLQD9voZnUb3QD49CUxAtQBTyxM3ECjP
+         qpOaTMGFh4TBSotaMHLGDpI9gmtWKPAmAvYOOpqRMRTPzM8Ws0DNrifsLl/NCPbZHwJC
+         QpGYsHBuffyH5Qi35vROeGiXNm75n+YjAC8Dj5+CMPtDtuiyKb/90melAsj2Sv/oNBtx
+         AI/iAQ3fuTSsfKCbZ5sU1g3ITpHK7fOcqdgkC+sj/Pw+mnFV69TF6NpLwfcI8cHaZjyB
+         4gAw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:to:subject
-         :dkim-signature;
-        bh=gC07UrkwsOByoVoBIV4uyW1SIFHfck0w0oYmnN2eVmc=;
-        b=0s7C74cHzNOfmATkhomVD8+yQJVExckdSX7hmJfK/kATkTQCg6DrMBnCsAlFMJLG3F
-         JHKHYlYtO6k0EWwqwU9oSwguu266kB2fVIBKd3p4FR/Dg/cI5sMofEyCALSIQh1v2/Qn
-         MeIQpg6WSm1lcl2tmQZk4Hj4SI4RoWHgWQMjE73Qbs6mJWIf+PkOKU56cvSUG/+X3FF1
-         D3RsJHcKdlntqZvHceXd+D9gdAVUDYyPgwSgg6aFBz/qsMdBDQuQDHjB4zDQJ4QOEZdz
-         rPw8zRAa7NZHC5e8g76wkKRRy4eDsnViC/dDDHDF14y0ChQjNfuhFJ4j94Yn/sA6iCE+
-         Lklw==
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:dkim-signature;
+        bh=Ng/0ezKD0TtIAYgW99PT/vYxFMIODr0QEpq5l6nJDic=;
+        b=mv47xrwe2N8WT9b69YcwY3JbHYlMciKQM4z1ZlxmElfIT5ZP8jMPPEhLBMgR8N2Jp3
+         PXaLT26Y0xQRC0kumUMxkmrfwu2ed7ZgOuyfGb5zzJxUI4lIx/bozfVbGTKHbpNdq7p/
+         KNBRCxieqZdsDcPjLsex3fQgUy2P7Vze5+JZDMm75QQ8MYJ5+V5FbRuCz/Ro7mBwL3Ic
+         prudhMCL9hGe8Q/GPTmLPqfPK72L9UR4+UkYiYuV+YbONhzj+m7tQb7ZsRflh91EBEDa
+         fAC2arou79eJmfvr00uoo15t1dnAAfD+0QerA/dSZ+J7mmyzBOd6ua0MT853x145R+V0
+         WQZA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@c-s.fr header.s=mail header.b=S5kJVxPB;
-       spf=pass (google.com: domain of christophe.leroy@c-s.fr designates 93.17.236.30 as permitted sender) smtp.mailfrom=christophe.leroy@c-s.fr
-Received: from pegase1.c-s.fr (pegase1.c-s.fr. [93.17.236.30])
-        by gmr-mx.google.com with ESMTPS id 12si153285wmj.1.2019.12.10.06.39.37
+       dkim=pass header.i=@ellerman.id.au header.s=201909 header.b=Jn2SQvPi;
+       spf=pass (google.com: domain of mpe@ellerman.id.au designates 2401:3900:2:1::2 as permitted sender) smtp.mailfrom=mpe@ellerman.id.au
+Received: from ozlabs.org (ozlabs.org. [2401:3900:2:1::2])
+        by gmr-mx.google.com with ESMTPS id m125si20834ybm.1.2019.12.10.16.29.25
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 10 Dec 2019 06:39:37 -0800 (PST)
-Received-SPF: pass (google.com: domain of christophe.leroy@c-s.fr designates 93.17.236.30 as permitted sender) client-ip=93.17.236.30;
-Received: from localhost (mailhub1-ext [192.168.12.233])
-	by localhost (Postfix) with ESMTP id 47XN4R2jvMz9txPV;
-	Tue, 10 Dec 2019 15:39:35 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at c-s.fr
-Received: from pegase1.c-s.fr ([192.168.12.234])
-	by localhost (pegase1.c-s.fr [192.168.12.234]) (amavisd-new, port 10024)
-	with ESMTP id h_8fAE0U-HoN; Tue, 10 Dec 2019 15:39:35 +0100 (CET)
-Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
-	by pegase1.c-s.fr (Postfix) with ESMTP id 47XN4R1Whkz9txPQ;
-	Tue, 10 Dec 2019 15:39:35 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by messagerie.si.c-s.fr (Postfix) with ESMTP id A165C8B815;
-	Tue, 10 Dec 2019 15:39:36 +0100 (CET)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from messagerie.si.c-s.fr ([127.0.0.1])
-	by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
-	with ESMTP id Hn7oLwJSlDri; Tue, 10 Dec 2019 15:39:36 +0100 (CET)
-Received: from [192.168.4.90] (unknown [192.168.4.90])
-	by messagerie.si.c-s.fr (Postfix) with ESMTP id 96E4F8B754;
-	Tue, 10 Dec 2019 15:39:35 +0100 (CET)
-Subject: Re: [PATCH v2 2/4] kasan: use MAX_PTRS_PER_* for early shadow
-To: Balbir Singh <bsingharora@gmail.com>, Daniel Axtens <dja@axtens.net>,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
- linux-xtensa@linux-xtensa.org, linux-arch@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, kasan-dev@googlegroups.com,
- aneesh.kumar@linux.ibm.com
-References: <20191210044714.27265-1-dja@axtens.net>
- <20191210044714.27265-3-dja@axtens.net>
- <a31459ee-2019-2f7b-0dc1-235374579508@gmail.com>
-From: Christophe Leroy <christophe.leroy@c-s.fr>
-Message-ID: <5d1ec6e3-777e-9f23-ea8f-50361a29302f@c-s.fr>
-Date: Tue, 10 Dec 2019 15:39:34 +0100
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.1
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Dec 2019 16:29:26 -0800 (PST)
+Received-SPF: pass (google.com: domain of mpe@ellerman.id.au designates 2401:3900:2:1::2 as permitted sender) client-ip=2401:3900:2:1::2;
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.ozlabs.org (Postfix) with ESMTPSA id 47Xd8v5C5Hz9sP3;
+	Wed, 11 Dec 2019 11:29:19 +1100 (AEDT)
+From: Michael Ellerman <mpe@ellerman.id.au>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, dja@axtens.net, elver@google.com, linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, christophe.leroy@c-s.fr, linux-s390@vger.kernel.org, linux-arch@vger.kernel.org, x86@kernel.org, kasan-dev@googlegroups.com, Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>
+Subject: Re: [GIT PULL] Please pull powerpc/linux.git powerpc-5.5-2 tag (topic/kasan-bitops)
+In-Reply-To: <20191210101545.GL2844@hirez.programming.kicks-ass.net>
+References: <87blslei5o.fsf@mpe.ellerman.id.au> <20191206131650.GM2827@hirez.programming.kicks-ass.net> <87wob4pwnl.fsf@mpe.ellerman.id.au> <20191210101545.GL2844@hirez.programming.kicks-ass.net>
+Date: Wed, 11 Dec 2019 11:29:16 +1100
+Message-ID: <87lfrjpuw3.fsf@mpe.ellerman.id.au>
 MIME-Version: 1.0
-In-Reply-To: <a31459ee-2019-2f7b-0dc1-235374579508@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Language: fr
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: christophe.leroy@c-s.fr
+Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: mpe@ellerman.id.au
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@c-s.fr header.s=mail header.b=S5kJVxPB;       spf=pass (google.com:
- domain of christophe.leroy@c-s.fr designates 93.17.236.30 as permitted
- sender) smtp.mailfrom=christophe.leroy@c-s.fr
+ header.i=@ellerman.id.au header.s=201909 header.b=Jn2SQvPi;       spf=pass
+ (google.com: domain of mpe@ellerman.id.au designates 2401:3900:2:1::2 as
+ permitted sender) smtp.mailfrom=mpe@ellerman.id.au
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -154,34 +126,54 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
+Peter Zijlstra <peterz@infradead.org> writes:
+> On Tue, Dec 10, 2019 at 04:38:54PM +1100, Michael Ellerman wrote:
+>
+>> Good question, I'll have a look.
+>> 
+>> There seems to be confusion about what the type of the bit number is,
+>> which is leading to sign extension in some cases and not others.
+>
+> Shiny.
+>
+>> It looks like the type should be unsigned long?
+>
+> I'm thinking unsigned makes most sense, I mean, negative bit offsets
+> should 'work' but that's almost always guaranteed to be an out-of-bound
+> operation.
 
+Yeah I agree.
 
-Le 10/12/2019 =C3=A0 10:36, Balbir Singh a =C3=A9crit=C2=A0:
->=20
->=20
-> On 10/12/19 3:47 pm, Daniel Axtens wrote:
->> This helps with powerpc support, and should have no effect on
->> anything else.
->>
->> Suggested-by: Christophe Leroy <christophe.leroy@c-s.fr>
->> Signed-off-by: Daniel Axtens <dja@axtens.net>
->=20
-> If you follow the recommendations by Christophe and I, you don't need thi=
-s patch
+> As to 'long' vs 'int', I'm not sure, 4G bits is a long bitmap. But I
+> suppose since the bitmap itself is 'unsigned long', we might as well use
+> 'unsigned long' for the bitnr too.
 
-I guess you mean Patch 1 (the one adding the const to all arches) is not=20
-needed. Of course this one (Patch 2) is needed as it is the one that=20
-changes kasan.h to use const table size instead of impossible variable=20
-table size.
+4G is a lot of bits, but it's not *that* many.
 
-And that would also fix the problem reported by the kbuild test robot.
+eg. If we had a bit per 4K page on a 32T machine that would be 8G bits.
 
-Christophe
+So unsigned long seems best.
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/5d1ec6e3-777e-9f23-ea8f-50361a29302f%40c-s.fr.
+>>   Documentation/core-api/atomic_ops.rst:  void __clear_bit_unlock(unsigned long nr, unsigned long *addr);
+>>   arch/mips/include/asm/bitops.h:static inline void __clear_bit_unlock(unsigned long nr, volatile unsigned long *addr)
+>>   arch/powerpc/include/asm/bitops.h:static inline void arch___clear_bit_unlock(int nr, volatile unsigned long *addr)
+>>   arch/riscv/include/asm/bitops.h:static inline void __clear_bit_unlock(unsigned long nr, volatile unsigned long *addr)
+>>   arch/s390/include/asm/bitops.h:static inline void arch___clear_bit_unlock(unsigned long nr,
+>>   include/asm-generic/bitops/instrumented-lock.h:static inline void __clear_bit_unlock(long nr, volatile unsigned long *addr)
+>>   include/asm-generic/bitops/lock.h:static inline void __clear_bit_unlock(unsigned int nr,
+>> 
+>> So I guess step one is to convert our versions to use unsigned long, so
+>> we're at least not tripping over that difference when comparing the
+>> assembly.
+>
+> Yeah, I'll look at fixing the generic code, bitops/atomic.h and
+> bitops/non-atomic.h don't even agree on the type of bitnr.
+
+Thanks.
+
+cheers
+
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/87lfrjpuw3.fsf%40mpe.ellerman.id.au.
