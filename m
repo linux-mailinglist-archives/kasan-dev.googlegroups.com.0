@@ -1,152 +1,70 @@
-Return-Path: <kasan-dev+bncBCY5VBNX2EDRB7O6Y7XQKGQEMENFF2Y@googlegroups.com>
+Return-Path: <kasan-dev+bncBCRY3K6ZWAFRBYELZDXQKGQEIRRLJFI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ed1-x53d.google.com (mail-ed1-x53d.google.com [IPv6:2a00:1450:4864:20::53d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B1C111C695
-	for <lists+kasan-dev@lfdr.de>; Thu, 12 Dec 2019 08:42:53 +0100 (CET)
-Received: by mail-ed1-x53d.google.com with SMTP id dd24sf893528edb.1
-        for <lists+kasan-dev@lfdr.de>; Wed, 11 Dec 2019 23:42:53 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1576136573; cv=pass;
-        d=google.com; s=arc-20160816;
-        b=ZzpzrZqGGZvxpzvuE9zMROFY9LdPLbft98j8VOtKglsBDZYaGsukdL2WPYv6omEpiQ
-         oiCfR71+pZlXE4YFtdv43fqZmwgPTcHXXt/VFbx8NFnpAjM/BPKIhTk4338zryTLFKhB
-         CTN8ezteOKncvpY6R84umKSuJ5ARvWHlE/W1WeJY/1kN/ZeU0PxYMvaR8R2h90WXOa+o
-         drjpe8jc+n8zKW0vibfoIFxbxZCaOBj4ndu37ti7RtowK2cGue4bwlcshad8Ig2+jUki
-         ubnleJ+ZHd7mpIAEtKL0VLaBjpKEhmseXjho65tAy2AAJJIjWsPr2Aa4V5G3D1R85f5c
-         Uj1A==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-language:in-reply-to
-         :mime-version:user-agent:date:message-id:from:references:to:subject
-         :sender:dkim-signature:dkim-signature;
-        bh=6YeH8hbcnsZl3DV2r0Hqainjo+NtqX+U91b6/W/8if4=;
-        b=Mvc3speKDxv87Oe62w+jnKJt7xTNGAjnR3CbUdzpYL1Ru1B96SZlkjuP/iHjmtypm8
-         jEaj31s5teXq6OT/wu8CrNl601UGXmeKAHb3X1Q/z7TnEyw1eUGd2l/G5gVMWeMMzuRg
-         QiS0xzZahGPFjLHOPce9itVi9sPiw8vFWb+MRB8vYjayi3Ui7ZEeHe2L4NrjHY/hlbh/
-         7JIhXGuWvmzIP3bB8VEb8Q25emVFUX788rkc3xPp2dkl/6hRK0epCjLKtIaI9qLuTs6a
-         F0D+hxcTFQghI2EDUz2vxob4MofCpVdt5U0KxmD/bqnxnW8bf8RJEkBim/6ojQhf9YpY
-         4mrg==
-ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20161025 header.b=NMCNzYEm;
-       spf=pass (google.com: domain of bsingharora@gmail.com designates 2a00:1450:4864:20::144 as permitted sender) smtp.mailfrom=bsingharora@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Received: from mail-ot1-x339.google.com (mail-ot1-x339.google.com [IPv6:2607:f8b0:4864:20::339])
+	by mail.lfdr.de (Postfix) with ESMTPS id 78BEC11C8FB
+	for <lists+kasan-dev@lfdr.de>; Thu, 12 Dec 2019 10:18:26 +0100 (CET)
+Received: by mail-ot1-x339.google.com with SMTP id z7sf345590otm.10
+        for <lists+kasan-dev@lfdr.de>; Thu, 12 Dec 2019 01:18:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:subject:to:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
+        h=sender:date:from:to:message-id:in-reply-to:references:subject
+         :mime-version:x-original-sender:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=6YeH8hbcnsZl3DV2r0Hqainjo+NtqX+U91b6/W/8if4=;
-        b=Rm/whzEE2ZRsIaUUg/A6f0vHwBGNn94qCEJe5rui1F5AI5LNDqLCm6IETo5aUnJU1F
-         5eNreZNgXjxATryJqGwrz7QMX9XgBnmabAsC2aeJoHSIPXXLfo2rciCKFhAidRgvkKBU
-         EapI3ehbUcrQvHVCLfmEnWIs4g2ITRMo4w/PHw1b9Tj/3nZNcp1+2HPYVn0b6mL45Q00
-         IHP1zvHVcG7OcbU1vif6hvd4kNzKdVYP0mpAUdOdTzotTaULErc8yrnO0SO0lVwjoD5D
-         L9EJGnfQ0XdLSp1spvS2APbGZaiEJOMT/S9OxWdA1TBcwnL1KYp79YVFuoPuOLKfKPNZ
-         655g==
+        bh=1mRE8eMVaUHkxocYULGXsVg1m+Om0FheX/Nqje1w5TE=;
+        b=JwRioyUf0Vwa5y4JPuU6KTmTafvXhGeZYG8Ggd3BgdHPEAxVutUJ5C0kJuBfm6OP1k
+         l0zjfXdfuoR0zNCi8unil18nAhE/GHcBnaEm6sQqfTotwlZkSl0oO0jwFa+/V07VmGgw
+         njoRQmLJxpmPTlJ2qyJIP+rw45DAKb5CwTbX2aJG/PPrCCdEfXB+qnEpzr4yZx3l+LZ0
+         HESAj2VFLGTCX9CmJRq4UfWaG0DhQG7kgIrQIuvkiaL+330y68HEvQrb6QH1AJ4ukoY+
+         MJwwbe9C+GXthW6sib43LK6j8L4lnD7gZ+mAuHc2cFWyj3HXzVDPKpqOEyqeRBFAoYnq
+         8eIw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:references:from:message-id:date:user-agent:mime-version
-         :in-reply-to:content-language:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=6YeH8hbcnsZl3DV2r0Hqainjo+NtqX+U91b6/W/8if4=;
-        b=SqVsNBE43mRSe+yBxvYgp4/yN5lSc0HLCNhhigByOSMY8EdZ9jUypPSSejqVGWzd9B
-         8N9Gsw54l7WYcmKIkj9KTLXMIT7gcjIb4Wz0KXYIPjQuBRNEPIIHlA6W4vni6ykGyRd2
-         XOyE/Wch1XRGqn70cU8TcnefUW9HwK3DxoCNk16D1EHWG4aLPwp+XvyEKAnuSPvcTw7h
-         LvVNTpndg/7A2EqSwK2GYwwqvKdXr9rfkgwlvZmMdFTybQAUN/Kd9+GqFLf1SByEdvfT
-         qIScliAM8PzS9kQkuHLOI7XI3J3GGDQ8jtACmwC5vGOpy538DN+oIdNR0oW922CgJO5+
-         VtmA==
+        h=date:from:to:message-id:in-reply-to:references:subject:mime-version
+         :x-original-sender:precedence:mailing-list:list-id:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=1mRE8eMVaUHkxocYULGXsVg1m+Om0FheX/Nqje1w5TE=;
+        b=WBwAQNgqi0XGrUnFLcjwd+BYbz649uvnT1ceYytQ0BBiOCNN/iKBnM0OBhq4fPqXG3
+         H0p6f4KKhVi14gCKAuWvTUKlJCf3F52JLS6X+Jd9bwclhhg6w5CrWROAW5JSgOGqOEPp
+         qbT71OCEH6OdYttcXAa1phDU1iJmC+dgP+scQ+4JRMZKU2ixwRfdBcV7jZUe5KWle6UQ
+         guZO/5lcrex0Sw6aR8lR48oauOIWTh2ANox3VDQeLHmgXfe5+iGEJboOlMYqx9Pa3CDz
+         y2ct4xVRbK909nU3zYGTLtKxs6upWfgeGGPujRg4EiUoIR5ncw6s3XugJHbYuivvlz7h
+         o7tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:subject:to:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :x-original-sender:x-original-authentication-results:precedence
+        h=sender:x-gm-message-state:date:from:to:message-id:in-reply-to
+         :references:subject:mime-version:x-original-sender:precedence
          :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=6YeH8hbcnsZl3DV2r0Hqainjo+NtqX+U91b6/W/8if4=;
-        b=YMznT+JvxnLgpslEovTDSebx91HcK1WKVkfELNcj02caaoyXp48WCdSTSvMaj7bdz3
-         WgOqcprCfVQ4f06haAelgYJA/uzox+1IYumzxE+dVUnSPtakuu0DMoabKebc1b8xoDX3
-         Q7RIGlzECad9APPDrCJWR6ZalsiLZ1n/bLVE3iO4ILqk8SiDOALPvjfY0u3GelyyhlNd
-         wBthhGogc6FLOvHE/TY0XJBTcWpJHO9BwgYM6MEJTLe5Fyh/yAMGaJLz27yCmpoS05UA
-         R6Ae0GwmOzvJ/F+uYLaVgoSFStgavGGJ4jVRLZwEfOV2PEsIPqdwgfL3CzngyE/T+sT+
-         DFig==
+        bh=1mRE8eMVaUHkxocYULGXsVg1m+Om0FheX/Nqje1w5TE=;
+        b=Tzla1uSXQxQocQh6U7vTF63Ri1Asi4Ovxmnw/SYXXcVeCSvLHjkImtAvAwc5A+98Ph
+         SrpSmJaza01vECuoMGckmi6lvNnKAgpCIn1G8VRH2FLKsJ2NTKuU2KeQfzl/Xnb6gXuf
+         QF/AMoBmaIOngtSlHEZI8zPC87H9wHVz1ybuJX0Xwv7UuVwf3DaFAyNz1d6kyinKWTwn
+         jv41dZ1D1qd4DPaa5gc5u9WoWbv4x61UXbbiqOBq+SZDUOkGf4hOOoDIWgrNO5UVce2A
+         ikEI88f64NZJ2CG/CVlN7eQ2advtflDOLfye0weHpGOrRNWgjZljIdB03Vz7faeyIYru
+         tSYQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAWxIeCUUOvGEQFHiAjyA8WWWZcd1q1UVezR5Gt0hPjQWAhQSigR
-	9llZ7ddfz/iWD1H3W/OyTSE=
-X-Google-Smtp-Source: APXvYqytZjm0TrE5QrpqailyzIY9NGA9K9Oj/HSXXyTOTquZqtU4j3MiV10CG/vGyUz0UND141Qa3A==
-X-Received: by 2002:a17:906:35ca:: with SMTP id p10mr8208257ejb.156.1576136573100;
-        Wed, 11 Dec 2019 23:42:53 -0800 (PST)
+X-Gm-Message-State: APjAAAXfz6ZJYtMb4v6Ubfsu9aTfzZgtqaTk9xxFlTPCvP19YoNx75c5
+	XZIn89EIWdpDszM9/tKa8Lc=
+X-Google-Smtp-Source: APXvYqzFnkYFwL2SkLrF4Is3cDW8YVP7U4aWJx+6IIJ55k1aDpTiXVZNc0cF1hqc1/MJOOk1GqYkiA==
+X-Received: by 2002:aca:3012:: with SMTP id w18mr4915225oiw.33.1576142304690;
+        Thu, 12 Dec 2019 01:18:24 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:906:60b:: with SMTP id s11ls1254870ejb.14.gmail; Wed, 11
- Dec 2019 23:42:52 -0800 (PST)
-X-Received: by 2002:a17:906:4e46:: with SMTP id g6mr8129226ejw.309.1576136572582;
-        Wed, 11 Dec 2019 23:42:52 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1576136572; cv=none;
-        d=google.com; s=arc-20160816;
-        b=zw843S6VDN2eoZKHQ77diLIlQTwtE0xqY4pLALeu7zddehLfCrOtNRmOV+cMymd+pj
-         HYbM59dJcqrBR0WAHYE20ehyjk6pLYdB8k5de6IODTzgXz/1hyb4OQv8ME4fSPpdygEm
-         WAaOAQ+nADXdTBxE96y63/xfyWJ4UcMvmvOK8U8EmPIpOFn0exAMYLZO24r3esdhDn+p
-         PlFqrl00wnK/WISGWOIfRs57dB7T9aoARPvSo+KGZ6FRUOg1nwrr666n2dSXVZ+nx3A5
-         YrN/5MygcIh0HXmuyFgVZSKB4/CGy81YiAEb4I9bBha8BZNQEVy2VKm65QsEdoMWJM93
-         5QFA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:to:subject
-         :dkim-signature;
-        bh=PkUsNGoqFdl5gXqJP6bnP2J6yrhC8TrnSK9hjm92v8k=;
-        b=xnqf9zrIoTQhwlV8vRx3iKRl6VeNa/pOPAD+jFf16ubqEetSS9wVzQfIigMCewUntL
-         BftBMoMIjQQNhaTSmzlWNWwkE19hRrMUj6Tr4Q4eIUaGpFmQ5A4oFHTrgAQffz4GKk1Y
-         dIJmkh9zP3ycdPnVHurG1DKkHIxtkTybRkni7IqDn6t6n/eLIhd7+Mb4edJSL+Q77fll
-         MZcVRfcQFPlgMBjxHIkkuRE7Lary/z3EAwb0UY08OIpch6LFh/bHr1+8/HHlw9mGXoHj
-         1+N22miaPqM5T9RW26HRv9ifg4ZC9HXlSDAn6OIaKHX25nS7ezj+DtQtwSpU7e7IOUuw
-         kJEg==
-ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20161025 header.b=NMCNzYEm;
-       spf=pass (google.com: domain of bsingharora@gmail.com designates 2a00:1450:4864:20::144 as permitted sender) smtp.mailfrom=bsingharora@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com. [2a00:1450:4864:20::144])
-        by gmr-mx.google.com with ESMTPS id y72si155414ede.0.2019.12.11.23.42.52
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 Dec 2019 23:42:52 -0800 (PST)
-Received-SPF: pass (google.com: domain of bsingharora@gmail.com designates 2a00:1450:4864:20::144 as permitted sender) client-ip=2a00:1450:4864:20::144;
-Received: by mail-lf1-x144.google.com with SMTP id n12so923751lfe.3
-        for <kasan-dev@googlegroups.com>; Wed, 11 Dec 2019 23:42:52 -0800 (PST)
-X-Received: by 2002:ac2:5975:: with SMTP id h21mr4695940lfp.165.1576136571817;
-        Wed, 11 Dec 2019 23:42:51 -0800 (PST)
-Received: from [192.168.68.108] (115-64-122-209.tpgi.com.au. [115.64.122.209])
-        by smtp.gmail.com with ESMTPSA id v5sm2444547ljk.67.2019.12.11.23.42.45
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 11 Dec 2019 23:42:51 -0800 (PST)
-Subject: Re: [PATCH v2 4/4] powerpc: Book3S 64-bit "heavyweight" KASAN support
-To: Daniel Axtens <dja@axtens.net>, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, linuxppc-dev@lists.ozlabs.org,
- linux-s390@vger.kernel.org, linux-xtensa@linux-xtensa.org,
- linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- kasan-dev@googlegroups.com, christophe.leroy@c-s.fr,
- aneesh.kumar@linux.ibm.com, Dmitry Vyukov <dvyukov@google.com>,
- Andrey Ryabinin <aryabinin@virtuozzo.com>
-References: <20191210044714.27265-1-dja@axtens.net>
- <20191210044714.27265-5-dja@axtens.net>
- <71751e27-e9c5-f685-7a13-ca2e007214bc@gmail.com>
- <875zincu8a.fsf@dja-thinkpad.axtens.net>
- <2e0f21e6-7552-815b-1bf3-b54b0fc5caa9@gmail.com>
- <87wob3aqis.fsf@dja-thinkpad.axtens.net>
-From: Balbir Singh <bsingharora@gmail.com>
-Message-ID: <1bffad2d-db13-9808-afc9-5594f02dcf01@gmail.com>
-Date: Thu, 12 Dec 2019 18:42:40 +1100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+Received: by 2002:a9d:460d:: with SMTP id y13ls1147026ote.15.gmail; Thu, 12
+ Dec 2019 01:18:24 -0800 (PST)
+X-Received: by 2002:a05:6830:1e2d:: with SMTP id t13mr7298363otr.128.1576142303691;
+        Thu, 12 Dec 2019 01:18:23 -0800 (PST)
+Date: Thu, 12 Dec 2019 01:18:22 -0800 (PST)
+From: Walter Wu <truhuan@gmail.com>
+To: kasan-dev <kasan-dev@googlegroups.com>
+Message-Id: <ef99291d-83b9-464e-b7a1-ad7122ed1ea1@googlegroups.com>
+In-Reply-To: <20191016083959.186860-1-elver@google.com>
+References: <20191016083959.186860-1-elver@google.com>
+Subject: Re: [PATCH 0/8] Add Kernel Concurrency Sanitizer (KCSAN)
 MIME-Version: 1.0
-In-Reply-To: <87wob3aqis.fsf@dja-thinkpad.axtens.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Language: en-US
-X-Original-Sender: bsingharora@gmail.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20161025 header.b=NMCNzYEm;       spf=pass
- (google.com: domain of bsingharora@gmail.com designates 2a00:1450:4864:20::144
- as permitted sender) smtp.mailfrom=bsingharora@gmail.com;       dmarc=pass
- (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_5479_243328792.1576142303148"
+X-Original-Sender: truhuan@gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -159,99 +77,446 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
+------=_Part_5479_243328792.1576142303148
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_5480_11805987.1576142303149"
+
+------=_Part_5480_11805987.1576142303149
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Marco Elver=E6=96=BC 2019=E5=B9=B410=E6=9C=8816=E6=97=A5=E6=98=9F=E6=9C=9F=
+=E4=B8=89 UTC+8=E4=B8=8B=E5=8D=884=E6=99=8241=E5=88=8609=E7=A7=92=E5=AF=AB=
+=E9=81=93=EF=BC=9A
+>
+> This is the patch-series for the Kernel Concurrency Sanitizer (KCSAN).=20
+> KCSAN is a sampling watchpoint-based data-race detector. More details=20
+> are included in Documentation/dev-tools/kcsan.rst. This patch-series=20
+> only enables KCSAN for x86, but we expect adding support for other=20
+> architectures is relatively straightforward (we are aware of=20
+> experimental ARM64 and POWER support).=20
+>
+>
+Hi Marco,
+
+Data racing issues always bothers us, we are happy to use this debug tool t=
+o
+detect the root cause. So, we need to understand this tool implementation,
+we try to trace your code and have some questions, would you take the free=
+=20
+time
+to answer the question.=20
+Thanks.
+
+Question:
+We assume they access the same variable when use read() and write()
+Below two Scenario are false negative?
+
+=3D=3D=3D
+Scenario 1:
+
+CPU 0:                                                                     =
+=20
+               CPU 1:
+tsan_read()                                                               =
+=20
+               tsan_write()
+  check_access()                                                           =
+=20
+             check_access()
+     watchpoint=3Dfind_watchpoint() // watchpoint=3DNULL                   =
+=20
+ watchpoint=3Dfind_watchpoint() // watchpoint=3DNULL
+     kcsan_setup_watchpoint()                                             =
+=20
+            kcsan_setup_watchpoint()
+        watchpoint =3D insert_watchpoint                                   =
+  =20
+              watchpoint =3D insert_watchpoint
+        if (!remove_watchpoint(watchpoint)) // no enter, no report         =
+=20
+ if (!remove_watchpoint(watchpoint)) // no enter, no report
+
+=3D=3D=3D
+Scenario 2:
+
+CPU 0:                                                                     =
+=20
+              CPU 1:
+tsan_read()
+  check_access()
+    watchpoint=3Dfind_watchpoint() // watchpoint=3DNULL
+    kcsan_setup_watchpoint()
+      watchpoint =3D insert_watchpoint()=20
+
+tsan_read()                                                               =
+=20
+              tsan_write() =20
+  check_access()                                                           =
+=20
+            check_access()
+    find_watchpoint()                                            =20
+      if(expect_write && !is_write)
+        continue
+      return NULL                                                         =
+=20
+ =20
+    kcsan_setup_watchpoint()
+      watchpoint =3D insert_watchpoint()                                   =
+  =20
+        =20
+      remove_watchpoint(watchpoint)
+        watchpoint =3D INVALID_WATCHPOINT                                  =
+ =20
+                           =20
+                                                                           =
+=20
+                     watchpoint =3D find_watchpoint()                      =
+ =20
+                                                             =20
+                                                                           =
+=20
+                     kcsan_found_watchpoint()
+                                                                           =
+=20
+                        consumed =3D try_consume_watchpoint() //=20
+consumed=3Dfalse, no report
 
 
-On 12/12/19 1:24 am, Daniel Axtens wrote:
-> Hi Balbir,
-> 
->>>>> +Discontiguous memory can occur when you have a machine with memory spread
->>>>> +across multiple nodes. For example, on a Talos II with 64GB of RAM:
->>>>> +
->>>>> + - 32GB runs from 0x0 to 0x0000_0008_0000_0000,
->>>>> + - then there's a gap,
->>>>> + - then the final 32GB runs from 0x0000_2000_0000_0000 to 0x0000_2008_0000_0000
->>>>> +
->>>>> +This can create _significant_ issues:
->>>>> +
->>>>> + - If we try to treat the machine as having 64GB of _contiguous_ RAM, we would
->>>>> +   assume that ran from 0x0 to 0x0000_0010_0000_0000. We'd then reserve the
->>>>> +   last 1/8th - 0x0000_000e_0000_0000 to 0x0000_0010_0000_0000 as the shadow
->>>>> +   region. But when we try to access any of that, we'll try to access pages
->>>>> +   that are not physically present.
->>>>> +
->>>>
->>>> If we reserved memory for KASAN from each node (discontig region), we might survive
->>>> this no? May be we need NUMA aware KASAN? That might be a generic change, just thinking
->>>> out loud.
->>>
->>> The challenge is that - AIUI - in inline instrumentation, the compiler
->>> doesn't generate calls to things like __asan_loadN and
->>> __asan_storeN. Instead it uses -fasan-shadow-offset to compute the
->>> checks, and only calls the __asan_report* family of functions if it
->>> detects an issue. This also matches what I can observe with objdump
->>> across outline and inline instrumentation settings.
->>>
->>> This means that for this sort of thing to work we would need to either
->>> drop back to out-of-line calls, or teach the compiler how to use a
->>> nonlinear, NUMA aware mem-to-shadow mapping.
->>
->> Yes, out of line is expensive, but seems to work well for all use cases.
-> 
-> I'm not sure this is true. Looking at scripts/Makefile.kasan, allocas,
-> stacks and globals will only be instrumented if you can provide
-> KASAN_SHADOW_OFFSET. In the case you're proposing, we can't provide a
-> static offset. I _think_ this is a compiler limitation, where some of
-> those instrumentations only work/make sense with a static offset, but
-> perhaps that's not right? Dmitry and Andrey, can you shed some light on
-> this?
-> 
 
-From what I can read, everything should still be supported, the info page
-for gcc states that globals, stack asan should be enabled by default.
-allocas may have limited meaning if stack-protector is turned on (no?)
 
-> Also, as it currently stands, the speed difference between inline and
-> outline is approximately 2x, and given that we'd like to run this
-> full-time in syzkaller I think there is value in trading off speed for
-> some limitations.
-> 
+To gather early feedback, we announced KCSAN back in September, and=20
+> have integrated the feedback where possible:=20
+>
+> http://lkml.kernel.org/r/CANpmjNPJ_bHjfLZCAPV23AXFfiPiyXXqqu72n6TgWzb2Gnu=
+1eA@mail.gmail.com=20
+>
+> We want to point out and acknowledge the work surrounding the LKMM,=20
+> including several articles that motivate why data-races are dangerous=20
+> [1, 2], justifying a data-race detector such as KCSAN.=20
+> [1] https://lwn.net/Articles/793253/=20
+> [2] https://lwn.net/Articles/799218/=20
+>
+> The current list of known upstream fixes for data-races found by KCSAN=20
+> can be found here:=20
+>
+> https://github.com/google/ktsan/wiki/KCSAN#upstream-fixes-of-data-races-f=
+ound-by-kcsan=20
+>
+> Marco Elver (8):=20
+>   kcsan: Add Kernel Concurrency Sanitizer infrastructure=20
+>   objtool, kcsan: Add KCSAN runtime functions to whitelist=20
+>   build, kcsan: Add KCSAN build exceptions=20
+>   seqlock, kcsan: Add annotations for KCSAN=20
+>   seqlock: Require WRITE_ONCE surrounding raw_seqcount_barrier=20
+>   asm-generic, kcsan: Add KCSAN instrumentation for bitops=20
+>   locking/atomics, kcsan: Add KCSAN instrumentation=20
+>   x86, kcsan: Enable KCSAN for x86=20
+>
+>  Documentation/dev-tools/kcsan.rst         | 202 ++++++++++=20
+>  MAINTAINERS                               |  11 +=20
+>  Makefile                                  |   3 +-=20
+>  arch/x86/Kconfig                          |   1 +=20
+>  arch/x86/boot/Makefile                    |   1 +=20
+>  arch/x86/boot/compressed/Makefile         |   1 +=20
+>  arch/x86/entry/vdso/Makefile              |   1 +=20
+>  arch/x86/include/asm/bitops.h             |   2 +-=20
+>  arch/x86/kernel/Makefile                  |   6 +=20
+>  arch/x86/kernel/cpu/Makefile              |   3 +=20
+>  arch/x86/lib/Makefile                     |   2 +=20
+>  arch/x86/mm/Makefile                      |   3 +=20
+>  arch/x86/purgatory/Makefile               |   1 +=20
+>  arch/x86/realmode/Makefile                |   1 +=20
+>  arch/x86/realmode/rm/Makefile             |   1 +=20
+>  drivers/firmware/efi/libstub/Makefile     |   1 +=20
+>  include/asm-generic/atomic-instrumented.h | 192 ++++++++-=20
+>  include/asm-generic/bitops-instrumented.h |  18 +=20
+>  include/linux/compiler-clang.h            |   9 +=20
+>  include/linux/compiler-gcc.h              |   7 +=20
+>  include/linux/compiler.h                  |  35 +-=20
+>  include/linux/kcsan-checks.h              | 116 ++++++=20
+>  include/linux/kcsan.h                     |  85 ++++=20
+>  include/linux/sched.h                     |   7 +=20
+>  include/linux/seqlock.h                   |  51 ++-=20
+>  init/init_task.c                          |   6 +=20
+>  init/main.c                               |   2 +=20
+>  kernel/Makefile                           |   6 +=20
+>  kernel/kcsan/Makefile                     |  14 +=20
+>  kernel/kcsan/atomic.c                     |  21 +=20
+>  kernel/kcsan/core.c                       | 458 ++++++++++++++++++++++=
+=20
+>  kernel/kcsan/debugfs.c                    | 225 +++++++++++=20
+>  kernel/kcsan/encoding.h                   |  94 +++++=20
+>  kernel/kcsan/kcsan.c                      |  81 ++++=20
+>  kernel/kcsan/kcsan.h                      | 140 +++++++=20
+>  kernel/kcsan/report.c                     | 307 +++++++++++++++=20
+>  kernel/kcsan/test.c                       | 117 ++++++=20
+>  kernel/sched/Makefile                     |   6 +=20
+>  lib/Kconfig.debug                         |   2 +=20
+>  lib/Kconfig.kcsan                         |  88 +++++=20
+>  lib/Makefile                              |   3 +=20
+>  mm/Makefile                               |   8 +=20
+>  scripts/Makefile.kcsan                    |   6 +=20
+>  scripts/Makefile.lib                      |  10 +=20
+>  scripts/atomic/gen-atomic-instrumented.sh |   9 +-=20
+>  tools/objtool/check.c                     |  17 +=20
+>  46 files changed, 2364 insertions(+), 16 deletions(-)=20
+>  create mode 100644 Documentation/dev-tools/kcsan.rst=20
+>  create mode 100644 include/linux/kcsan-checks.h=20
+>  create mode 100644 include/linux/kcsan.h=20
+>  create mode 100644 kernel/kcsan/Makefile=20
+>  create mode 100644 kernel/kcsan/atomic.c=20
+>  create mode 100644 kernel/kcsan/core.c=20
+>  create mode 100644 kernel/kcsan/debugfs.c=20
+>  create mode 100644 kernel/kcsan/encoding.h=20
+>  create mode 100644 kernel/kcsan/kcsan.c=20
+>  create mode 100644 kernel/kcsan/kcsan.h=20
+>  create mode 100644 kernel/kcsan/report.c=20
+>  create mode 100644 kernel/kcsan/test.c=20
+>  create mode 100644 lib/Kconfig.kcsan=20
+>  create mode 100644 scripts/Makefile.kcsan=20
+>
+> --=20
+> 2.23.0.700.g56cf767bdb-goog=20
+>
+>
 
-Full speed vs actually working across different configurations?
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/ef99291d-83b9-464e-b7a1-ad7122ed1ea1%40googlegroups.com.
 
->> BTW, the current set of patches just hang if I try to make the default
->> mode as out of line
-> 
-> Do you have CONFIG_RELOCATABLE?
-> 
-> I've tested the following process:
-> 
-> # 1) apply patches on a fresh linux-next
-> # 2) output dir
-> mkdir ../out-3s-kasan
-> 
-> # 3) merge in the relevant config snippets
-> cat > kasan.config << EOF
-> CONFIG_EXPERT=y
-> CONFIG_LD_HEAD_STUB_CATCH=y
-> 
-> CONFIG_RELOCATABLE=y
-> 
-> CONFIG_KASAN=y
-> CONFIG_KASAN_GENERIC=y
-> CONFIG_KASAN_OUTLINE=y
-> 
-> CONFIG_PHYS_MEM_SIZE_FOR_KASAN=2048
-> EOF
-> 
+------=_Part_5480_11805987.1576142303149
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: base64
 
-I think I got CONFIG_PHYS_MEM_SIZE_FOR_KASN wrong, honestly I don't get why
-we need this size? The size is in MB and the default is 0. 
+PGRpdiBkaXI9Imx0ciI+TWFyY28gRWx2ZXLmlrwgMjAxOeW5tDEw5pyIMTbml6XmmJ/mnJ/kuIkg
+VVRDKzjkuIvljYg05pmCNDHliIYwOeenkuWvq+mBk++8mjxibG9ja3F1b3RlIGNsYXNzPSJnbWFp
+bF9xdW90ZSIgc3R5bGU9Im1hcmdpbjogMDttYXJnaW4tbGVmdDogMC44ZXg7Ym9yZGVyLWxlZnQ6
+IDFweCAjY2NjIHNvbGlkO3BhZGRpbmctbGVmdDogMWV4OyI+VGhpcyBpcyB0aGUgcGF0Y2gtc2Vy
+aWVzIGZvciB0aGUgS2VybmVsIENvbmN1cnJlbmN5IFNhbml0aXplciAoS0NTQU4pLg0KPGJyPktD
+U0FOIGlzIGEgc2FtcGxpbmcgd2F0Y2hwb2ludC1iYXNlZCBkYXRhLXJhY2UgZGV0ZWN0b3IuIE1v
+cmUgZGV0YWlscw0KPGJyPmFyZSBpbmNsdWRlZCBpbiBEb2N1bWVudGF0aW9uL2Rldi10b29scy9r
+Y3Nhbi48d2JyPnJzdC4gVGhpcyBwYXRjaC1zZXJpZXMNCjxicj5vbmx5IGVuYWJsZXMgS0NTQU4g
+Zm9yIHg4NiwgYnV0IHdlIGV4cGVjdCBhZGRpbmcgc3VwcG9ydCBmb3Igb3RoZXINCjxicj5hcmNo
+aXRlY3R1cmVzIGlzIHJlbGF0aXZlbHkgc3RyYWlnaHRmb3J3YXJkICh3ZSBhcmUgYXdhcmUgb2YN
+Cjxicj5leHBlcmltZW50YWwgQVJNNjQgYW5kIFBPV0VSIHN1cHBvcnQpLg0KPGJyPg0KPGJyPjwv
+YmxvY2txdW90ZT48ZGl2Pjxicj48L2Rpdj48ZGl2PkhpIE1hcmNvLDwvZGl2PjxkaXY+PGJyPjwv
+ZGl2PjxkaXY+RGF0YSByYWNpbmcgaXNzdWVzIGFsd2F5cyBib3RoZXJzIHVzLCB3ZSBhcmUgaGFw
+cHkgdG8gdXNlIHRoaXMgZGVidWcgdG9vbCB0bzwvZGl2PjxkaXY+ZGV0ZWN0IHRoZSByb290IGNh
+dXNlLiBTbywgd2UgbmVlZCB0byB1bmRlcnN0YW5kIHRoaXMgdG9vbCBpbXBsZW1lbnRhdGlvbiw8
+L2Rpdj48ZGl2PndlIHRyeSB0byB0cmFjZSB5b3VyIGNvZGUgYW5kIGhhdmUgc29tZSBxdWVzdGlv
+bnMsIHdvdWxkIHlvdSB0YWtlIHRoZSBmcmVlIHRpbWU8L2Rpdj48ZGl2PnRvIGFuc3dlciB0aGUg
+cXVlc3Rpb24uwqA8L2Rpdj48ZGl2PlRoYW5rcy48L2Rpdj48ZGl2Pjxicj48L2Rpdj48ZGl2PlF1
+ZXN0aW9uOjwvZGl2PjxkaXY+V2UgYXNzdW1lIHRoZXkgYWNjZXNzIHRoZSBzYW1lIHZhcmlhYmxl
+IHdoZW4gdXNlIHJlYWQoKSBhbmQgd3JpdGUoKTwvZGl2PjxkaXY+QmVsb3cgdHdvwqBTY2VuYXJp
+byBhcmUgZmFsc2UgbmVnYXRpdmU/PC9kaXY+PGRpdj48YnI+PC9kaXY+PGRpdj49PT08L2Rpdj48
+ZGl2PlNjZW5hcmlvIDE6PGJyPjwvZGl2PjxkaXY+PGRpdj48YnI+PC9kaXY+PGRpdj5DUFUgMDrC
+oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDC
+oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDC
+oCDCoCDCoCDCoCDCoENQVSAxOjwvZGl2PjxkaXY+dHNhbl9yZWFkKCnCoCDCoCDCoCDCoCDCoCDC
+oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDC
+oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoHRzYW5fd3JpdGUo
+KTwvZGl2PjxkaXY+wqAgY2hlY2tfYWNjZXNzKCnCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDC
+oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDC
+oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoGNoZWNrX2FjY2VzcygpPC9kaXY+PGRpdj7CoCDCoCDC
+oHdhdGNocG9pbnQ9ZmluZF93YXRjaHBvaW50KCkgLy8gd2F0Y2hwb2ludD1OVUxMwqAgwqAgwqAg
+wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqB3YXRjaHBvaW50PWZpbmRfd2F0Y2hwb2ludCgpIC8vIHdh
+dGNocG9pbnQ9TlVMTDwvZGl2PjxkaXY+wqAgwqAgwqBrY3Nhbl9zZXR1cF93YXRjaHBvaW50KCnC
+oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDC
+oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCBrY3Nhbl9zZXR1cF93YXRjaHBvaW50KCk8L2Rp
+dj48ZGl2PsKgIMKgIMKgIMKgIHdhdGNocG9pbnQgPSBpbnNlcnRfd2F0Y2hwb2ludMKgIMKgIMKg
+IMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKg
+IMKgIMKgIMKgIMKgIHdhdGNocG9pbnQgPSBpbnNlcnRfd2F0Y2hwb2ludDwvZGl2PjxkaXY+wqAg
+wqAgwqAgwqAgaWYgKCFyZW1vdmVfd2F0Y2hwb2ludCh3YXRjaHBvaW50KSkgLy8gbm8gZW50ZXIs
+IG5vIHJlcG9ydMKgIMKgIMKgIMKgIMKgIMKgaWYgKCFyZW1vdmVfd2F0Y2hwb2ludCh3YXRjaHBv
+aW50KSkgLy8gbm8gZW50ZXIsIG5vIHJlcG9ydDwvZGl2PjxkaXY+PGJyPjwvZGl2PjxkaXY+PT09
+PGJyPjwvZGl2PjxkaXY+U2NlbmFyaW8gMjo8L2Rpdj48ZGl2Pjxicj48L2Rpdj48ZGl2PkNQVSAw
+OsKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKg
+IMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKg
+IMKgIMKgIMKgIMKgIENQVSAxOjwvZGl2PjxkaXY+dHNhbl9yZWFkKCk8L2Rpdj48ZGl2PsKgIGNo
+ZWNrX2FjY2VzcygpPC9kaXY+PGRpdj7CoCDCoCB3YXRjaHBvaW50PWZpbmRfd2F0Y2hwb2ludCgp
+IC8vIHdhdGNocG9pbnQ9TlVMTDwvZGl2PjxkaXY+wqAgwqAga2NzYW5fc2V0dXBfd2F0Y2hwb2lu
+dCgpPC9kaXY+PGRpdj7CoCDCoCDCoCB3YXRjaHBvaW50ID0gaW5zZXJ0X3dhdGNocG9pbnQoKcKg
+PC9kaXY+PGRpdj48YnI+PC9kaXY+PGRpdj50c2FuX3JlYWQoKcKgIMKgIMKgIMKgIMKgIMKgIMKg
+IMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKg
+IMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIHRzYW5fd3JpdGUoKcKgwqA8
+L2Rpdj48ZGl2PsKgIGNoZWNrX2FjY2VzcygpwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
+wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
+wqAgwqAgwqAgwqAgwqAgwqAgwqAgY2hlY2tfYWNjZXNzKCk8L2Rpdj48ZGl2PsKgIMKgIGZpbmRf
+d2F0Y2hwb2ludCgpwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
+wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqA8L2Rpdj48ZGl2PsKgIMKgIMKgIGlmKGV4cGVjdF93cml0
+ZSAmYW1wOyZhbXA7ICFpc193cml0ZSk8L2Rpdj48ZGl2PsKgIMKgIMKgIMKgIGNvbnRpbnVlPC9k
+aXY+PGRpdj7CoCDCoCDCoCByZXR1cm4gTlVMTMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKg
+IMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKg
+IMKgwqA8L2Rpdj48ZGl2PsKgIMKgIGtjc2FuX3NldHVwX3dhdGNocG9pbnQoKTwvZGl2PjxkaXY+
+wqAgwqAgwqAgd2F0Y2hwb2ludCA9IGluc2VydF93YXRjaHBvaW50KCnCoCDCoCDCoCDCoCDCoCDC
+oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoDwv
+ZGl2PjxkaXY+wqAgwqAgwqAgcmVtb3ZlX3dhdGNocG9pbnQod2F0Y2hwb2ludCk8L2Rpdj48ZGl2
+PsKgIMKgIMKgIMKgIHdhdGNocG9pbnQgPSBJTlZBTElEX1dBVENIUE9JTlTCoCDCoCDCoCDCoCDC
+oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDC
+oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoMKgPC9kaXY+PGRpdj7CoCDCoCDCoCDCoCDCoCDCoCDC
+oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDC
+oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDC
+oCDCoCDCoCDCoCDCoHdhdGNocG9pbnQgPSBmaW5kX3dhdGNocG9pbnQoKcKgIMKgIMKgIMKgIMKg
+IMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKg
+IMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKg
+wqA8L2Rpdj48ZGl2PsKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKg
+IMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKg
+IMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKga2NzYW5fZm91bmRf
+d2F0Y2hwb2ludCgpPC9kaXY+PGRpdj7CoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDC
+oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDC
+oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDC
+oCBjb25zdW1lZCA9IHRyeV9jb25zdW1lX3dhdGNocG9pbnQoKSAvLyBjb25zdW1lZD1mYWxzZSwg
+bm8gcmVwb3J0PC9kaXY+PC9kaXY+PGRpdj48YnI+PC9kaXY+PGRpdj48YnI+PC9kaXY+PGRpdj48
+YnI+PC9kaXY+PGRpdj48YnI+PC9kaXY+PGJsb2NrcXVvdGUgY2xhc3M9ImdtYWlsX3F1b3RlIiBz
+dHlsZT0ibWFyZ2luOiAwO21hcmdpbi1sZWZ0OiAwLjhleDtib3JkZXItbGVmdDogMXB4ICNjY2Mg
+c29saWQ7cGFkZGluZy1sZWZ0OiAxZXg7Ij5UbyBnYXRoZXIgZWFybHkgZmVlZGJhY2ssIHdlIGFu
+bm91bmNlZCBLQ1NBTiBiYWNrIGluIFNlcHRlbWJlciwgYW5kDQo8YnI+aGF2ZSBpbnRlZ3JhdGVk
+IHRoZSBmZWVkYmFjayB3aGVyZSBwb3NzaWJsZToNCjxicj48YSBocmVmPSJodHRwOi8vbGttbC5r
+ZXJuZWwub3JnL3IvQ0FOcG1qTlBKX2JIamZMWkNBUFYyM0FYRmZpUGl5WFhxcXU3Mm42VGdXemIy
+R251MWVBQG1haWwuZ21haWwuY29tIiB0YXJnZXQ9Il9ibGFuayIgcmVsPSJub2ZvbGxvdyIgb25t
+b3VzZWRvd249InRoaXMuaHJlZj0mIzM5O2h0dHA6Ly93d3cuZ29vZ2xlLmNvbS91cmw/cVx4M2Ro
+dHRwJTNBJTJGJTJGbGttbC5rZXJuZWwub3JnJTJGciUyRkNBTnBtak5QSl9iSGpmTFpDQVBWMjNB
+WEZmaVBpeVhYcXF1NzJuNlRnV3piMkdudTFlQSU0MG1haWwuZ21haWwuY29tXHgyNnNhXHgzZERc
+eDI2c250elx4M2QxXHgyNnVzZ1x4M2RBRlFqQ05HN2VCS0xSblFqbVJUS3VmR25aTDZ2WUV6dXNn
+JiMzOTs7cmV0dXJuIHRydWU7IiBvbmNsaWNrPSJ0aGlzLmhyZWY9JiMzOTtodHRwOi8vd3d3Lmdv
+b2dsZS5jb20vdXJsP3FceDNkaHR0cCUzQSUyRiUyRmxrbWwua2VybmVsLm9yZyUyRnIlMkZDQU5w
+bWpOUEpfYkhqZkxaQ0FQVjIzQVhGZmlQaXlYWHFxdTcybjZUZ1d6YjJHbnUxZUElNDBtYWlsLmdt
+YWlsLmNvbVx4MjZzYVx4M2REXHgyNnNudHpceDNkMVx4MjZ1c2dceDNkQUZRakNORzdlQktMUm5R
+am1SVEt1ZkduWkw2dllFenVzZyYjMzk7O3JldHVybiB0cnVlOyI+aHR0cDovL2xrbWwua2VybmVs
+Lm9yZy9yLzx3YnI+Q0FOcG1qTlBKXzx3YnI+YkhqZkxaQ0FQVjIzQVhGZmlQaXlYWHFxdTcybjZU
+PHdicj5nV3piMkdudTFlQUBtYWlsLmdtYWlsLmNvbTwvYT4NCjxicj4NCjxicj5XZSB3YW50IHRv
+IHBvaW50IG91dCBhbmQgYWNrbm93bGVkZ2UgdGhlIHdvcmsgc3Vycm91bmRpbmcgdGhlIExLTU0s
+DQo8YnI+aW5jbHVkaW5nIHNldmVyYWwgYXJ0aWNsZXMgdGhhdCBtb3RpdmF0ZSB3aHkgZGF0YS1y
+YWNlcyBhcmUgZGFuZ2Vyb3VzDQo8YnI+WzEsIDJdLCBqdXN0aWZ5aW5nIGEgZGF0YS1yYWNlIGRl
+dGVjdG9yIHN1Y2ggYXMgS0NTQU4uDQo8YnI+WzFdIDxhIGhyZWY9Imh0dHBzOi8vbHduLm5ldC9B
+cnRpY2xlcy83OTMyNTMvIiB0YXJnZXQ9Il9ibGFuayIgcmVsPSJub2ZvbGxvdyIgb25tb3VzZWRv
+d249InRoaXMuaHJlZj0mIzM5O2h0dHBzOi8vd3d3Lmdvb2dsZS5jb20vdXJsP3FceDNkaHR0cHMl
+M0ElMkYlMkZsd24ubmV0JTJGQXJ0aWNsZXMlMkY3OTMyNTMlMkZceDI2c2FceDNkRFx4MjZzbnR6
+XHgzZDFceDI2dXNnXHgzZEFGUWpDTkhaVGFBTlVlR1UzRk5sbE5UNVFPZ2JlUDZBakEmIzM5Ozty
+ZXR1cm4gdHJ1ZTsiIG9uY2xpY2s9InRoaXMuaHJlZj0mIzM5O2h0dHBzOi8vd3d3Lmdvb2dsZS5j
+b20vdXJsP3FceDNkaHR0cHMlM0ElMkYlMkZsd24ubmV0JTJGQXJ0aWNsZXMlMkY3OTMyNTMlMkZc
+eDI2c2FceDNkRFx4MjZzbnR6XHgzZDFceDI2dXNnXHgzZEFGUWpDTkhaVGFBTlVlR1UzRk5sbE5U
+NVFPZ2JlUDZBakEmIzM5OztyZXR1cm4gdHJ1ZTsiPmh0dHBzOi8vbHduLm5ldC9BcnRpY2xlcy88
+d2JyPjc5MzI1My88L2E+DQo8YnI+WzJdIDxhIGhyZWY9Imh0dHBzOi8vbHduLm5ldC9BcnRpY2xl
+cy83OTkyMTgvIiB0YXJnZXQ9Il9ibGFuayIgcmVsPSJub2ZvbGxvdyIgb25tb3VzZWRvd249InRo
+aXMuaHJlZj0mIzM5O2h0dHBzOi8vd3d3Lmdvb2dsZS5jb20vdXJsP3FceDNkaHR0cHMlM0ElMkYl
+MkZsd24ubmV0JTJGQXJ0aWNsZXMlMkY3OTkyMTglMkZceDI2c2FceDNkRFx4MjZzbnR6XHgzZDFc
+eDI2dXNnXHgzZEFGUWpDTkgyaHNrRkNhWlFMRUlSTkQwU2E2MEtHeGxhNUEmIzM5OztyZXR1cm4g
+dHJ1ZTsiIG9uY2xpY2s9InRoaXMuaHJlZj0mIzM5O2h0dHBzOi8vd3d3Lmdvb2dsZS5jb20vdXJs
+P3FceDNkaHR0cHMlM0ElMkYlMkZsd24ubmV0JTJGQXJ0aWNsZXMlMkY3OTkyMTglMkZceDI2c2Fc
+eDNkRFx4MjZzbnR6XHgzZDFceDI2dXNnXHgzZEFGUWpDTkgyaHNrRkNhWlFMRUlSTkQwU2E2MEtH
+eGxhNUEmIzM5OztyZXR1cm4gdHJ1ZTsiPmh0dHBzOi8vbHduLm5ldC9BcnRpY2xlcy88d2JyPjc5
+OTIxOC88L2E+DQo8YnI+DQo8YnI+VGhlIGN1cnJlbnQgbGlzdCBvZiBrbm93biB1cHN0cmVhbSBm
+aXhlcyBmb3IgZGF0YS1yYWNlcyBmb3VuZCBieSBLQ1NBTg0KPGJyPmNhbiBiZSBmb3VuZCBoZXJl
+Og0KPGJyPjxhIGhyZWY9Imh0dHBzOi8vZ2l0aHViLmNvbS9nb29nbGUva3RzYW4vd2lraS9LQ1NB
+TiN1cHN0cmVhbS1maXhlcy1vZi1kYXRhLXJhY2VzLWZvdW5kLWJ5LWtjc2FuIiB0YXJnZXQ9Il9i
+bGFuayIgcmVsPSJub2ZvbGxvdyIgb25tb3VzZWRvd249InRoaXMuaHJlZj0mIzM5O2h0dHBzOi8v
+d3d3Lmdvb2dsZS5jb20vdXJsP3FceDNkaHR0cHMlM0ElMkYlMkZnaXRodWIuY29tJTJGZ29vZ2xl
+JTJGa3RzYW4lMkZ3aWtpJTJGS0NTQU4lMjN1cHN0cmVhbS1maXhlcy1vZi1kYXRhLXJhY2VzLWZv
+dW5kLWJ5LWtjc2FuXHgyNnNhXHgzZERceDI2c250elx4M2QxXHgyNnVzZ1x4M2RBRlFqQ05IRzRQ
+cG5EVkhhZjJBUUtaOHVRMjhYZ25pYzBnJiMzOTs7cmV0dXJuIHRydWU7IiBvbmNsaWNrPSJ0aGlz
+LmhyZWY9JiMzOTtodHRwczovL3d3dy5nb29nbGUuY29tL3VybD9xXHgzZGh0dHBzJTNBJTJGJTJG
+Z2l0aHViLmNvbSUyRmdvb2dsZSUyRmt0c2FuJTJGd2lraSUyRktDU0FOJTIzdXBzdHJlYW0tZml4
+ZXMtb2YtZGF0YS1yYWNlcy1mb3VuZC1ieS1rY3Nhblx4MjZzYVx4M2REXHgyNnNudHpceDNkMVx4
+MjZ1c2dceDNkQUZRakNOSEc0UHBuRFZIYWYyQVFLWjh1UTI4WGduaWMwZyYjMzk7O3JldHVybiB0
+cnVlOyI+aHR0cHM6Ly9naXRodWIuY29tL2dvb2dsZS88d2JyPmt0c2FuL3dpa2kvS0NTQU4jdXBz
+dHJlYW0tPHdicj5maXhlcy1vZi1kYXRhLXJhY2VzLWZvdW5kLWJ5LTx3YnI+a2NzYW48L2E+DQo8
+YnI+DQo8YnI+TWFyY28gRWx2ZXIgKDgpOg0KPGJyPsKgIGtjc2FuOiBBZGQgS2VybmVsIENvbmN1
+cnJlbmN5IFNhbml0aXplciBpbmZyYXN0cnVjdHVyZQ0KPGJyPsKgIG9ianRvb2wsIGtjc2FuOiBB
+ZGQgS0NTQU4gcnVudGltZSBmdW5jdGlvbnMgdG8gd2hpdGVsaXN0DQo8YnI+wqAgYnVpbGQsIGtj
+c2FuOiBBZGQgS0NTQU4gYnVpbGQgZXhjZXB0aW9ucw0KPGJyPsKgIHNlcWxvY2ssIGtjc2FuOiBB
+ZGQgYW5ub3RhdGlvbnMgZm9yIEtDU0FODQo8YnI+wqAgc2VxbG9jazogUmVxdWlyZSBXUklURV9P
+TkNFIHN1cnJvdW5kaW5nIHJhd19zZXFjb3VudF9iYXJyaWVyDQo8YnI+wqAgYXNtLWdlbmVyaWMs
+IGtjc2FuOiBBZGQgS0NTQU4gaW5zdHJ1bWVudGF0aW9uIGZvciBiaXRvcHMNCjxicj7CoCBsb2Nr
+aW5nL2F0b21pY3MsIGtjc2FuOiBBZGQgS0NTQU4gaW5zdHJ1bWVudGF0aW9uDQo8YnI+wqAgeDg2
+LCBrY3NhbjogRW5hYmxlIEtDU0FOIGZvciB4ODYNCjxicj4NCjxicj7CoERvY3VtZW50YXRpb24v
+ZGV2LXRvb2xzLzx3YnI+a2NzYW4ucnN0IMKgIMKgIMKgIMKgIHwgMjAyICsrKysrKysrKysNCjxi
+cj7CoE1BSU5UQUlORVJTIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKg
+IMKgIHwgwqAxMSArDQo8YnI+wqBNYWtlZmlsZSDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDC
+oCDCoCDCoCDCoCDCoCDCoCDCoCDCoHwgwqAgMyArLQ0KPGJyPsKgYXJjaC94ODYvS2NvbmZpZyDC
+oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoHwgwqAgMSArDQo8YnI+wqBhcmNo
+L3g4Ni9ib290L01ha2VmaWxlIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgfCDCoCAxICsN
+Cjxicj7CoGFyY2gveDg2L2Jvb3QvY29tcHJlc3NlZC88d2JyPk1ha2VmaWxlIMKgIMKgIMKgIMKg
+IHwgwqAgMSArDQo8YnI+wqBhcmNoL3g4Ni9lbnRyeS92ZHNvL01ha2VmaWxlIMKgIMKgIMKgIMKg
+IMKgIMKgIMKgfCDCoCAxICsNCjxicj7CoGFyY2gveDg2L2luY2x1ZGUvYXNtL2JpdG9wcy5oIMKg
+IMKgIMKgIMKgIMKgIMKgIHwgwqAgMiArLQ0KPGJyPsKgYXJjaC94ODYva2VybmVsL01ha2VmaWxl
+IMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgfCDCoCA2ICsNCjxicj7CoGFyY2gveDg2L2tlcm5l
+bC9jcHUvTWFrZWZpbGUgwqAgwqAgwqAgwqAgwqAgwqAgwqB8IMKgIDMgKw0KPGJyPsKgYXJjaC94
+ODYvbGliL01ha2VmaWxlIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIHwgwqAgMiArDQo8
+YnI+wqBhcmNoL3g4Ni9tbS9NYWtlZmlsZSDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDC
+oHwgwqAgMyArDQo8YnI+wqBhcmNoL3g4Ni9wdXJnYXRvcnkvTWFrZWZpbGUgwqAgwqAgwqAgwqAg
+wqAgwqAgwqAgfCDCoCAxICsNCjxicj7CoGFyY2gveDg2L3JlYWxtb2RlL01ha2VmaWxlIMKgIMKg
+IMKgIMKgIMKgIMKgIMKgIMKgfCDCoCAxICsNCjxicj7CoGFyY2gveDg2L3JlYWxtb2RlL3JtL01h
+a2VmaWxlIMKgIMKgIMKgIMKgIMKgIMKgIHwgwqAgMSArDQo8YnI+wqBkcml2ZXJzL2Zpcm13YXJl
+L2VmaS9saWJzdHViLzx3YnI+TWFrZWZpbGUgwqAgwqAgfCDCoCAxICsNCjxicj7CoGluY2x1ZGUv
+YXNtLWdlbmVyaWMvYXRvbWljLTx3YnI+aW5zdHJ1bWVudGVkLmggfCAxOTIgKysrKysrKystDQo8
+YnI+wqBpbmNsdWRlL2FzbS1nZW5lcmljL2JpdG9wcy08d2JyPmluc3RydW1lbnRlZC5oIHwgwqAx
+OCArDQo8YnI+wqBpbmNsdWRlL2xpbnV4L2NvbXBpbGVyLWNsYW5nLjx3YnI+aCDCoCDCoCDCoCDC
+oCDCoCDCoHwgwqAgOSArDQo8YnI+wqBpbmNsdWRlL2xpbnV4L2NvbXBpbGVyLWdjYy5oIMKgIMKg
+IMKgIMKgIMKgIMKgIMKgfCDCoCA3ICsNCjxicj7CoGluY2x1ZGUvbGludXgvY29tcGlsZXIuaCDC
+oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoHwgwqAzNSArLQ0KPGJyPsKgaW5jbHVkZS9saW51eC9r
+Y3Nhbi1jaGVja3MuaCDCoCDCoCDCoCDCoCDCoCDCoCDCoHwgMTE2ICsrKysrKw0KPGJyPsKgaW5j
+bHVkZS9saW51eC9rY3Nhbi5oIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIHwgwqA4NSAr
+KysrDQo8YnI+wqBpbmNsdWRlL2xpbnV4L3NjaGVkLmggwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
+wqAgwqAgfCDCoCA3ICsNCjxicj7CoGluY2x1ZGUvbGludXgvc2VxbG9jay5oIMKgIMKgIMKgIMKg
+IMKgIMKgIMKgIMKgIMKgIHwgwqA1MSArKy0NCjxicj7CoGluaXQvaW5pdF90YXNrLmMgwqAgwqAg
+wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqB8IMKgIDYgKw0KPGJyPsKgaW5pdC9tYWlu
+LmMgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgfCDCoCAyICsN
+Cjxicj7CoGtlcm5lbC9NYWtlZmlsZSDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDC
+oCDCoCB8IMKgIDYgKw0KPGJyPsKga2VybmVsL2tjc2FuL01ha2VmaWxlIMKgIMKgIMKgIMKgIMKg
+IMKgIMKgIMKgIMKgIMKgIHwgwqAxNCArDQo8YnI+wqBrZXJuZWwva2NzYW4vYXRvbWljLmMgwqAg
+wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgfCDCoDIxICsNCjxicj7CoGtlcm5lbC9rY3Nhbi9j
+b3JlLmMgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgfCA0NTggKysrKysrKysrKysr
+KysrKysrKysrKw0KPGJyPsKga2VybmVsL2tjc2FuL2RlYnVnZnMuYyDCoCDCoCDCoCDCoCDCoCDC
+oCDCoCDCoCDCoCDCoHwgMjI1ICsrKysrKysrKysrDQo8YnI+wqBrZXJuZWwva2NzYW4vZW5jb2Rp
+bmcuaCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCB8IMKgOTQgKysrKysNCjxicj7CoGtlcm5l
+bC9rY3Nhbi9rY3Nhbi5jIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgfCDCoDgxICsr
+KysNCjxicj7CoGtlcm5lbC9rY3Nhbi9rY3Nhbi5oIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKg
+IMKgIMKgfCAxNDAgKysrKysrKw0KPGJyPsKga2VybmVsL2tjc2FuL3JlcG9ydC5jIMKgIMKgIMKg
+IMKgIMKgIMKgIMKgIMKgIMKgIMKgIHwgMzA3ICsrKysrKysrKysrKysrKw0KPGJyPsKga2VybmVs
+L2tjc2FuL3Rlc3QuYyDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCB8IDExNyArKysr
+KysNCjxicj7CoGtlcm5lbC9zY2hlZC9NYWtlZmlsZSDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDC
+oCDCoCB8IMKgIDYgKw0KPGJyPsKgbGliL0tjb25maWcuZGVidWcgwqAgwqAgwqAgwqAgwqAgwqAg
+wqAgwqAgwqAgwqAgwqAgwqAgfCDCoCAyICsNCjxicj7CoGxpYi9LY29uZmlnLmtjc2FuIMKgIMKg
+IMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIHwgwqA4OCArKysrKw0KPGJyPsKgbGliL01h
+a2VmaWxlIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgfCDCoCAz
+ICsNCjxicj7CoG1tL01ha2VmaWxlIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKg
+IMKgIMKgIMKgIHwgwqAgOCArDQo8YnI+wqBzY3JpcHRzL01ha2VmaWxlLmtjc2FuIMKgIMKgIMKg
+IMKgIMKgIMKgIMKgIMKgIMKgIMKgfCDCoCA2ICsNCjxicj7CoHNjcmlwdHMvTWFrZWZpbGUubGli
+IMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgfCDCoDEwICsNCjxicj7CoHNjcmlwdHMv
+YXRvbWljL2dlbi1hdG9taWMtPHdicj5pbnN0cnVtZW50ZWQuc2ggfCDCoCA5ICstDQo8YnI+wqB0
+b29scy9vYmp0b29sL2NoZWNrLmMgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgfCDCoDE3
+ICsNCjxicj7CoDQ2IGZpbGVzIGNoYW5nZWQsIDIzNjQgaW5zZXJ0aW9ucygrKSwgMTYgZGVsZXRp
+b25zKC0pDQo8YnI+wqBjcmVhdGUgbW9kZSAxMDA2NDQgRG9jdW1lbnRhdGlvbi9kZXYtdG9vbHMv
+a2NzYW4uPHdicj5yc3QNCjxicj7CoGNyZWF0ZSBtb2RlIDEwMDY0NCBpbmNsdWRlL2xpbnV4L2tj
+c2FuLWNoZWNrcy5oDQo8YnI+wqBjcmVhdGUgbW9kZSAxMDA2NDQgaW5jbHVkZS9saW51eC9rY3Nh
+bi5oDQo8YnI+wqBjcmVhdGUgbW9kZSAxMDA2NDQga2VybmVsL2tjc2FuL01ha2VmaWxlDQo8YnI+
+wqBjcmVhdGUgbW9kZSAxMDA2NDQga2VybmVsL2tjc2FuL2F0b21pYy5jDQo8YnI+wqBjcmVhdGUg
+bW9kZSAxMDA2NDQga2VybmVsL2tjc2FuL2NvcmUuYw0KPGJyPsKgY3JlYXRlIG1vZGUgMTAwNjQ0
+IGtlcm5lbC9rY3Nhbi9kZWJ1Z2ZzLmMNCjxicj7CoGNyZWF0ZSBtb2RlIDEwMDY0NCBrZXJuZWwv
+a2NzYW4vZW5jb2RpbmcuaA0KPGJyPsKgY3JlYXRlIG1vZGUgMTAwNjQ0IGtlcm5lbC9rY3Nhbi9r
+Y3Nhbi5jDQo8YnI+wqBjcmVhdGUgbW9kZSAxMDA2NDQga2VybmVsL2tjc2FuL2tjc2FuLmgNCjxi
+cj7CoGNyZWF0ZSBtb2RlIDEwMDY0NCBrZXJuZWwva2NzYW4vcmVwb3J0LmMNCjxicj7CoGNyZWF0
+ZSBtb2RlIDEwMDY0NCBrZXJuZWwva2NzYW4vdGVzdC5jDQo8YnI+wqBjcmVhdGUgbW9kZSAxMDA2
+NDQgbGliL0tjb25maWcua2NzYW4NCjxicj7CoGNyZWF0ZSBtb2RlIDEwMDY0NCBzY3JpcHRzL01h
+a2VmaWxlLmtjc2FuDQo8YnI+DQo8YnI+LS0gDQo8YnI+Mi4yMy4wLjcwMC5nNTZjZjc2N2JkYi1n
+b29nDQo8YnI+DQo8YnI+PC9ibG9ja3F1b3RlPjwvZGl2Pg0KDQo8cD48L3A+CgotLSA8YnIgLz4K
+WW91IHJlY2VpdmVkIHRoaXMgbWVzc2FnZSBiZWNhdXNlIHlvdSBhcmUgc3Vic2NyaWJlZCB0byB0
+aGUgR29vZ2xlIEdyb3VwcyAmcXVvdDtrYXNhbi1kZXYmcXVvdDsgZ3JvdXAuPGJyIC8+ClRvIHVu
+c3Vic2NyaWJlIGZyb20gdGhpcyBncm91cCBhbmQgc3RvcCByZWNlaXZpbmcgZW1haWxzIGZyb20g
+aXQsIHNlbmQgYW4gZW1haWwgdG8gPGEgaHJlZj0ibWFpbHRvOmthc2FuLWRldit1bnN1YnNjcmli
+ZUBnb29nbGVncm91cHMuY29tIj5rYXNhbi1kZXYrdW5zdWJzY3JpYmVAZ29vZ2xlZ3JvdXBzLmNv
+bTwvYT4uPGJyIC8+ClRvIHZpZXcgdGhpcyBkaXNjdXNzaW9uIG9uIHRoZSB3ZWIgdmlzaXQgPGEg
+aHJlZj0iaHR0cHM6Ly9ncm91cHMuZ29vZ2xlLmNvbS9kL21zZ2lkL2thc2FuLWRldi9lZjk5Mjkx
+ZC04M2I5LTQ2NGUtYjdhMS1hZDcxMjJlZDFlYTElNDBnb29nbGVncm91cHMuY29tP3V0bV9tZWRp
+dW09ZW1haWwmdXRtX3NvdXJjZT1mb290ZXIiPmh0dHBzOi8vZ3JvdXBzLmdvb2dsZS5jb20vZC9t
+c2dpZC9rYXNhbi1kZXYvZWY5OTI5MWQtODNiOS00NjRlLWI3YTEtYWQ3MTIyZWQxZWExJTQwZ29v
+Z2xlZ3JvdXBzLmNvbTwvYT4uPGJyIC8+Cg==
+------=_Part_5480_11805987.1576142303149--
 
-Why does the powerpc port of KASAN need the SIZE to be explicitly specified?
-
-Balbir Singh.
-
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/1bffad2d-db13-9808-afc9-5594f02dcf01%40gmail.com.
+------=_Part_5479_243328792.1576142303148--
