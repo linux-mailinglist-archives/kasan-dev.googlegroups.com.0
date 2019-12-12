@@ -1,131 +1,140 @@
-Return-Path: <kasan-dev+bncBC5L5P75YUERBHU6ZDXQKGQEHSVSZZA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCRY3K6ZWAFRBDE6ZDXQKGQESICQNZQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33d.google.com (mail-wm1-x33d.google.com [IPv6:2a00:1450:4864:20::33d])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8CBF11C9FE
-	for <lists+kasan-dev@lfdr.de>; Thu, 12 Dec 2019 10:57:50 +0100 (CET)
-Received: by mail-wm1-x33d.google.com with SMTP id i17sf654894wmd.1
-        for <lists+kasan-dev@lfdr.de>; Thu, 12 Dec 2019 01:57:50 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1576144670; cv=pass;
+Received: from mail-ot1-x33f.google.com (mail-ot1-x33f.google.com [IPv6:2607:f8b0:4864:20::33f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 357F211C9FC
+	for <lists+kasan-dev@lfdr.de>; Thu, 12 Dec 2019 10:57:34 +0100 (CET)
+Received: by mail-ot1-x33f.google.com with SMTP id l21sf389951ota.3
+        for <lists+kasan-dev@lfdr.de>; Thu, 12 Dec 2019 01:57:34 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1576144653; cv=pass;
         d=google.com; s=arc-20160816;
-        b=rPtLbmtmxQKjnfG9dNh9fN00lrCBdKMXo6rARGR5tRYl1xZ8OGBnj07wjXgJrI6c8p
-         6XFBQVnUqsMMIcniU3tcgRGRvtpwwcjsJHBdP9qzrtnDHNP5GCy0K8F+niY85a5BGoGe
-         l6ga4EOLJc7N7ABK4oiv0tC5k88YqboMFdG9RBVGMWwWx2jRdyIulZ/hqV8uVs2KVZxR
-         kGXydNQpGj0BHVXhyolmSKmICMm7H/fclXunCHpsBWVagedDwRkDytQVLV8rSuUUiBZD
-         RAvm6lyaU/NvYCtkFRytgM0aPIalgF5iFeUF81/VDFNhvVW9VaTmeCGb4W3XohG5K1RP
-         Z+Gw==
+        b=fmfesfOeaaBIy/prLgG7Vprz3VQEhP79ZKB/CviRvKbbmQzpP1LCSF9nMdLgM/eNOV
+         WsIlI8ua7ByKCphqZeP9QGazQftTRvyTqJ+BUJVh7iBH1xlfcGgFgnGvqJMGHKL257Uo
+         TsbpxyTaladZYKIVJSKZ+pO5XA7NsfxClmRUpyMj083Owus6iXUsLYUp0Ut2C9iOmY4n
+         ObO3tOYfNqrq5+F5zhh5m2v94BrrK5fwqZjbgdEwJNZNNASmBiNksvb/jIppyoi4kixW
+         PyyUp5y7AK+3m9ZfYbLembGGre79RJFNsVhWOuPWwKPMz/mWxtoyivObnAyEEXelfKTP
+         kdCg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-language:in-reply-to
-         :mime-version:user-agent:date:message-id:from:references:to:subject
-         :sender:dkim-signature;
-        bh=CNAz5Xu4LhuEEbRZ39lezXhxWxzqkyd2JZXhveCOacA=;
-        b=tC4rE5oZVf4kQlY0ZLYx9hq2lrr5h3OaHRCpTdGC+0d24Hybg3fFSGKLTkT21m/0+v
-         zHRd/SBi5b/lUmglF9+xg0d5G/4aX7DO+8cfyEeC+gGaJ5JogcG3mo8T6V3oNiTR3sKp
-         D/h10U7frYC77w4+UmnpONKhoCNf4VfWDApwgxn8A5zx6oRdg4roem58ibL9zoCGLx/h
-         WvZ5KkZmAyLKVKMu+kvEC4M5NKXU0Xp4JLSGN7JQQ/WWznErRJjMXexoyPBG7+BnMf16
-         DUKMZa95EcETFE4wl+y/oY8VyKNxUUQVmZJQlbTppZj/oa1cPZvUQXvA0HBrrjAtBSKw
-         s99g==
+         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:sender:dkim-signature
+         :dkim-signature;
+        bh=klrpADLBC1fcuTtf+RS8YNxd2eCOHRkd1SFK74JCMqs=;
+        b=S/OEKFx7r1fYd1NTg6XzJmVNNa7/oZej9OjB1uoShURCuOEkIAP3HDHQXTbiPQFeWV
+         FiyLuzRou51YLvl6oM1BN5JopsHH8UIQIjDxkcgTNa0F7a1+HE4d669oMt0+ZlSGU1o0
+         Y4nRGXJRR0xRF4oJg4iGtpEiM60QSVjlcTrTs6kkcwSECZMGGracFKsWyVePf+7EwOtM
+         5LaN271mlAqNG2zYaGL4z1b2O4GZOHYEYQj6Jo6LAW+2UYoZvM06tQqFzW9JGwkSJsxY
+         eOHHbi32tnYBkiiuFUMvBF1Fnuqt4Ss85EO7Dp0e8XEDt+yvaw9aCEg+uGjI2bBDs+25
+         ng/w==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of aryabinin@virtuozzo.com designates 185.231.240.75 as permitted sender) smtp.mailfrom=aryabinin@virtuozzo.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=virtuozzo.com
+       dkim=pass header.i=@gmail.com header.s=20161025 header.b=XadX32YS;
+       spf=pass (google.com: domain of truhuan@gmail.com designates 2607:f8b0:4864:20::730 as permitted sender) smtp.mailfrom=truhuan@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:subject:to:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=CNAz5Xu4LhuEEbRZ39lezXhxWxzqkyd2JZXhveCOacA=;
-        b=TLhnWavWtScrASaFT6PqGHloHKrMQ61foB3V8czZy2NHv03QL6k88JxgqWOZiEYLYz
-         QtvNt/iVh10Q7W36ySH/liy8Rafgr1uoO77iCcvstVmmWjMeDn+NQDP6LL61YaRoRW9Y
-         Te+dxXj9/V44MIZz15vWnOzXAPNPDcfp0D1Ti4ITTHQL1Bn/XdxexecIffo6Nb9Z8TwF
-         vSY1Hf7SRJaRtEP04iUcfGcnKBFp/IJnbcr5Q1nc075TBa4ZKwkGNh4+SEZj8KzFKvov
-         SiaJklM+XvjBYl+quFYzufbATwJMRQvXCJOBQYb7sI6RYdIBsZzb3dPr1M1SMSz3t0Gd
-         z2KA==
+        h=sender:mime-version:references:in-reply-to:from:date:message-id
+         :subject:to:cc:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=klrpADLBC1fcuTtf+RS8YNxd2eCOHRkd1SFK74JCMqs=;
+        b=b3O/dS3Fvac2lOsCj57+toyCvqJ6VRbsOcKlOUlEl8GTKPWfZO+0yHOWeMh5HZWAoC
+         NQiy9TNCCSI0aYmJyHj4QUI55PHFYfImSulktL8QBGmqTVTsU9MjGYwxShQ31lqRR85B
+         JG4R10XJ6ZKOFVbg8VCRvh9S0tO/NyKmbU+/V6w/pnbXaq0h14HW3txY5ko/1sQyCzeZ
+         ZoQcWtKj6BFxxGWHL38xTvVFrm7+onY2ClWjG5FfQPFjxCLWkM28xJdH+CVdScZVb+Yp
+         7bL0cNSRS2RX+riCCeTnqTm1+nskUcIVuu2ikLpEEA/QNDcfTH3EgiCENSEJK+0PEuR1
+         Y7Sg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=klrpADLBC1fcuTtf+RS8YNxd2eCOHRkd1SFK74JCMqs=;
+        b=qpbWRcOAsKX2Y/xF+cXn79tHwzV5Vx+OLGI/uE946ifeRtqoNTvVbpnlcYWMnmelXP
+         lNwcSctrRZ1heHwFQl8eQTfG4Qwl0tclb2UlX/AwpZLvnMQ4x7/zZ2SRZtuWfS7lQ4vk
+         oNjXAC3C0JpvLdqY3kkAlK4lstBy91dy8nAHkE8cqQKosablOYOMQQ8YJhhdFuBTAp7L
+         tQxhtJElUzOXKGhasJEllLvvA797W/CquSAgCmOY5qZ87KViU+UAmj5QdKRoL3id866G
+         gKi/MxseoLKTmtueKg62H2W4Kf9nRKzXRoccO+mLbH93h6Aom5Z51TxbIEOt+Vvi5OQD
+         C4BA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:subject:to:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=CNAz5Xu4LhuEEbRZ39lezXhxWxzqkyd2JZXhveCOacA=;
-        b=WD+vHS43bQbh8kXXfEuFil6ra2kFXCxNudCT4bv8CRd08Szprmzgxla1wE52ciEf5W
-         38nDXT47graNgdngFcklfOM+XKm1sfV6dWOKispjgJBvuujgEsg6IHQMGZfgi55iGyqS
-         s05dZcv489e0xBdBdwdNFt5f2Mvt/RxUPtBMU3YmtEu32Qx7SWYHVTmTY4SZJIOD90wi
-         uRqpYOMsHUCpkxMfr2TmncTR8Dy6YMj00vaCmvFitGQVj7sb5+jTDrL4aXif4iKqU8aO
-         pUpxlx6yiqRN3dhGLXe7n7hs4G6eC74yYRtUrxr3htffNEn4/Y9gsSrVajtbTqF3eq0S
-         jlfA==
+        h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
+         :date:message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=klrpADLBC1fcuTtf+RS8YNxd2eCOHRkd1SFK74JCMqs=;
+        b=DiBEIps+DzsyVxFLY/96uAOlHs4dJHB8Mmcj6cLzm0F6GMZVIGqhcH5uaumfTSjZF/
+         ySE2FpUUKDstt8pABJIP7/mB6pTI48e4ecCLXHqRmbs5joQBRJDbJ+BXXHvXqK5eLFj8
+         Sz2tOPDWWSaChOLIEswZXXCuc3ZOEzVSfVLPxZRrJ6WLOnNL8ZCTUIQqAI/wk5tRXuc2
+         9Q3nZ9vn/RBnOxBBenre0f/KdeX9k41ShMo+SREYbSrU5/ScJ8O19eHkDX3zAH8qPkMZ
+         79wXrdHxsgX+t/qwq4ipPksqJlfBRyGsP4qfoSkHKwDZsDNr1IKvYfHzzdlUJX/woaWt
+         40tw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAVLUkVrhWarJ960CjkD0LUGsoqoE4tsuvgMICDvegWfJMOqGZVk
-	OTeQpF4Cwp7rdQ9ZmuSxIjQ=
-X-Google-Smtp-Source: APXvYqxuQeZSOGbJma5ZGCZy2Hx1p2XJBYD62H5wEqf7+I0YekAMQile3CIXCeEjon/nBDyRmwfhVw==
-X-Received: by 2002:a5d:488c:: with SMTP id g12mr5155717wrq.67.1576144670382;
-        Thu, 12 Dec 2019 01:57:50 -0800 (PST)
+X-Gm-Message-State: APjAAAV8ArGY+EAy6pi9xwZhMv55rPpadBKxqNov9XfCeCLCbTWD6t+a
+	nu07lAs3MEIz0OCgdGoDltA=
+X-Google-Smtp-Source: APXvYqx72bEFBK5GDdyOAayPmQQvDvKQ8ceZaPFum7uP6Rl1cIAkQD+matzLFUiYKN1mnYCUsuaTSA==
+X-Received: by 2002:a05:6830:1257:: with SMTP id s23mr7210045otp.241.1576144653043;
+        Thu, 12 Dec 2019 01:57:33 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a5d:6912:: with SMTP id t18ls1910915wru.7.gmail; Thu, 12 Dec
- 2019 01:57:49 -0800 (PST)
-X-Received: by 2002:adf:c147:: with SMTP id w7mr5334458wre.389.1576144669888;
-        Thu, 12 Dec 2019 01:57:49 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1576144669; cv=none;
+Received: by 2002:a9d:7dd6:: with SMTP id k22ls1182880otn.5.gmail; Thu, 12 Dec
+ 2019 01:57:32 -0800 (PST)
+X-Received: by 2002:a9d:6f0a:: with SMTP id n10mr7533483otq.54.1576144652644;
+        Thu, 12 Dec 2019 01:57:32 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1576144652; cv=none;
         d=google.com; s=arc-20160816;
-        b=x8vbePZ8YsJ/iRihAnFKOZ3msKKjba7lEi48GGNLPiVOW9UehX85lRWOkjC6zK5BCd
-         TFUYO3M/04Hb4Vfnu+e6MlpwsO+KGY0CkuWZwPcLKNhjLCEWbdYfAyu6ZUp74pN9RZB2
-         38ZBJXC/WtCkAKL9mqRD4kbMhJv6lH5aDcFrG4pXnC2CSUVBck74ypPX2RgHJ/LeHFSw
-         ymRvLGWAkVdp6DpwAUQDSAGWBI9oIAiTeJxJf9ewvy4J0WM3gD0vbkunt5oHLAxWY/oD
-         u3qITcoWkdrRdDxfDo+/ydaut9Vm/Y0+O6H6bWSsPyVe0o1kfFtYGGV24qkSnaasFbiE
-         aYQQ==
+        b=T52fKTbeZgRRR9O2OgZT5WUm1EkSzRJeKQUDBs+Hy3BHtHL+Tl+erbKww24W2MhmaK
+         EFJ7tXr1fJRAdatUvMtWXQiahvo7t/zkosqCg6ZG61eEYQt7mqm7T3PJP9nQjyqKDND6
+         9Smd0yEUpkaoskqy331P8FQGcl3U2y3O057qWyya6T3+2ybW1TUaSTTohj/0koPV05x7
+         F4VnBUTY4hwnqetLO/vrPgZd5F8i9gS1M9uMFcEC9SymNhgX+blvRA+ipQ+c4g4NVqBw
+         MLlGi5hnHh6y7Ly3CENIVTrfLGYt/2YEvapqcTYJnPDxYml/x7BqtLHKkbxOeD6tfqyQ
+         qVxw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:to:subject;
-        bh=saIL5uEJI5P9qia1ysht0sf7XW4M7qQT3cTu2c67mDM=;
-        b=bXbqA2FgN9Wvnt30+ZwWRHEMWPJLeepZIzLE0znPgK6mOSD7XRgLoAL7lR02FWj73V
-         4I3DWMEsUOldjeB1puThbo6beiHiTzmYcIFI7wD7QmSWN2LI4epVNzImesnWruPKLVDj
-         YJpkVSPBDafnAPVOKVcfZdiUwBJhdk7SGkN0BGIRdJfon4CXbK0UGYzK/ZbV7ybmBnxb
-         8os4taMOE3EL6Y5MFhFumhYby04gXCQQiRenilYN6f1YMx4h56SLwD7zDN4zD896/HSd
-         bK2z42Jr1p2xH/A9vrpqYdKZR97VgbkuTFP8L6AoLtF6hwU6Hp8pTJICKGTucWkjARYs
-         8Vwg==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=DKtmvJjHV6rjixBBkVKsl/uBAIg8pzOxUUpYe/QIt/w=;
+        b=XD1k3QohquYSDZH5cEDbTTGqu/R5UGZT/+9kAmW32ILaVi2nGB6f3X/N1gk+vl+F4K
+         uk4F4fZH+ArOwMWYNkrqbjBv8x+fGXGFfulaHqdgyEeuY+cHtmeE3NewL7RAqXzbxy/f
+         fDDJJrhoUNXnQG2hoeqadj+KtFusJrC9V1fRDdNgpeG3N7dapV6cvGgxJ8M2Bi7mHaR8
+         IPlhQeveRYfCrQIg1owBXfSKl6o80eOHbgVZ2HFaZ6Q3XbuKmLKz7Kh/QYJzsLz3ks/R
+         MM6fh5RF4C4VeIU+qucXUxehNEbnYeeXHBEFxnme3DpODlMU4mAj/mlPgpd09wFfA112
+         mrmw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of aryabinin@virtuozzo.com designates 185.231.240.75 as permitted sender) smtp.mailfrom=aryabinin@virtuozzo.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=virtuozzo.com
-Received: from relay.sw.ru (relay.sw.ru. [185.231.240.75])
-        by gmr-mx.google.com with ESMTPS id x5si49255wmk.1.2019.12.12.01.57.49
+       dkim=pass header.i=@gmail.com header.s=20161025 header.b=XadX32YS;
+       spf=pass (google.com: domain of truhuan@gmail.com designates 2607:f8b0:4864:20::730 as permitted sender) smtp.mailfrom=truhuan@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com. [2607:f8b0:4864:20::730])
+        by gmr-mx.google.com with ESMTPS id 13si232290oin.1.2019.12.12.01.57.32
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 12 Dec 2019 01:57:49 -0800 (PST)
-Received-SPF: pass (google.com: domain of aryabinin@virtuozzo.com designates 185.231.240.75 as permitted sender) client-ip=185.231.240.75;
-Received: from dhcp-172-16-25-5.sw.ru ([172.16.25.5])
-	by relay.sw.ru with esmtp (Exim 4.92.3)
-	(envelope-from <aryabinin@virtuozzo.com>)
-	id 1ifLDd-00051z-5a; Thu, 12 Dec 2019 12:57:13 +0300
-Subject: Re: [PATCH v2 4/4] powerpc: Book3S 64-bit "heavyweight" KASAN support
-To: Daniel Axtens <dja@axtens.net>, Balbir Singh <bsingharora@gmail.com>,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
- linux-xtensa@linux-xtensa.org, linux-arch@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, kasan-dev@googlegroups.com,
- christophe.leroy@c-s.fr, aneesh.kumar@linux.ibm.com,
- Dmitry Vyukov <dvyukov@google.com>
-References: <20191210044714.27265-1-dja@axtens.net>
- <20191210044714.27265-5-dja@axtens.net>
- <71751e27-e9c5-f685-7a13-ca2e007214bc@gmail.com>
- <875zincu8a.fsf@dja-thinkpad.axtens.net>
- <2e0f21e6-7552-815b-1bf3-b54b0fc5caa9@gmail.com>
- <87wob3aqis.fsf@dja-thinkpad.axtens.net>
-From: Andrey Ryabinin <aryabinin@virtuozzo.com>
-Message-ID: <023d59f1-c007-e153-9893-3231a4caf7d1@virtuozzo.com>
-Date: Thu, 12 Dec 2019 12:56:56 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 12 Dec 2019 01:57:32 -0800 (PST)
+Received-SPF: pass (google.com: domain of truhuan@gmail.com designates 2607:f8b0:4864:20::730 as permitted sender) client-ip=2607:f8b0:4864:20::730;
+Received: by mail-qk1-x730.google.com with SMTP id d202so1125187qkb.1
+        for <kasan-dev@googlegroups.com>; Thu, 12 Dec 2019 01:57:32 -0800 (PST)
+X-Received: by 2002:a37:6cc1:: with SMTP id h184mr7188433qkc.96.1576144652145;
+ Thu, 12 Dec 2019 01:57:32 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <87wob3aqis.fsf@dja-thinkpad.axtens.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Language: en-US
-X-Original-Sender: aryabinin@virtuozzo.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of aryabinin@virtuozzo.com designates 185.231.240.75 as
- permitted sender) smtp.mailfrom=aryabinin@virtuozzo.com;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=virtuozzo.com
+References: <CANpmjNPJ_bHjfLZCAPV23AXFfiPiyXXqqu72n6TgWzb2Gnu1eA@mail.gmail.com>
+In-Reply-To: <CANpmjNPJ_bHjfLZCAPV23AXFfiPiyXXqqu72n6TgWzb2Gnu1eA@mail.gmail.com>
+From: Walter <truhuan@gmail.com>
+Date: Thu, 12 Dec 2019 17:58:12 +0800
+Message-ID: <CADyx2V6j+do+CmmSYEUr0iP7TUWD7xHLP2ZJPrqB1Y+QEAwzhw@mail.gmail.com>
+Subject: Re: Kernel Concurrency Sanitizer (KCSAN)
+To: Marco Elver <elver@google.com>
+Cc: kasan-dev <kasan-dev@googlegroups.com>, LKML <linux-kernel@vger.kernel.org>, 
+	Dmitry Vyukov <dvyukov@google.com>, Andrey Konovalov <andreyknvl@google.com>, 
+	Alexander Potapenko <glider@google.com>, paulmck@linux.ibm.com, Paul Turner <pjt@google.com>, 
+	Daniel Axtens <dja@axtens.net>, Anatol Pomazau <anatol@google.com>, Will Deacon <willdeacon@google.com>, 
+	Andrea Parri <parri.andrea@gmail.com>, stern@rowland.harvard.edu, akiyks@gmail.com, 
+	npiggin@gmail.com, boqun.feng@gmail.com, dlustig@nvidia.com, 
+	j.alglave@ucl.ac.uk, luc.maranget@inria.fr
+Content-Type: multipart/alternative; boundary="0000000000001b1ab405997ec622"
+X-Original-Sender: truhuan@gmail.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@gmail.com header.s=20161025 header.b=XadX32YS;       spf=pass
+ (google.com: domain of truhuan@gmail.com designates 2607:f8b0:4864:20::730 as
+ permitted sender) smtp.mailfrom=truhuan@gmail.com;       dmarc=pass (p=NONE
+ sp=QUARANTINE dis=NONE) header.from=gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -138,76 +147,266 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 12/11/19 5:24 PM, Daniel Axtens wrote:
-> Hi Balbir,
-> 
->>>>> +Discontiguous memory can occur when you have a machine with memory spread
->>>>> +across multiple nodes. For example, on a Talos II with 64GB of RAM:
->>>>> +
->>>>> + - 32GB runs from 0x0 to 0x0000_0008_0000_0000,
->>>>> + - then there's a gap,
->>>>> + - then the final 32GB runs from 0x0000_2000_0000_0000 to 0x0000_2008_0000_0000
->>>>> +
->>>>> +This can create _significant_ issues:
->>>>> +
->>>>> + - If we try to treat the machine as having 64GB of _contiguous_ RAM, we would
->>>>> +   assume that ran from 0x0 to 0x0000_0010_0000_0000. We'd then reserve the
->>>>> +   last 1/8th - 0x0000_000e_0000_0000 to 0x0000_0010_0000_0000 as the shadow
->>>>> +   region. But when we try to access any of that, we'll try to access pages
->>>>> +   that are not physically present.
->>>>> +
->>>>
->>>> If we reserved memory for KASAN from each node (discontig region), we might survive
->>>> this no? May be we need NUMA aware KASAN? That might be a generic change, just thinking
->>>> out loud.
->>>
->>> The challenge is that - AIUI - in inline instrumentation, the compiler
->>> doesn't generate calls to things like __asan_loadN and
->>> __asan_storeN. Instead it uses -fasan-shadow-offset to compute the
->>> checks, and only calls the __asan_report* family of functions if it
->>> detects an issue. This also matches what I can observe with objdump
->>> across outline and inline instrumentation settings.
->>>
->>> This means that for this sort of thing to work we would need to either
->>> drop back to out-of-line calls, or teach the compiler how to use a
->>> nonlinear, NUMA aware mem-to-shadow mapping.
->>
->> Yes, out of line is expensive, but seems to work well for all use cases.
-> 
-> I'm not sure this is true. Looking at scripts/Makefile.kasan, allocas,
-> stacks and globals will only be instrumented if you can provide
-> KASAN_SHADOW_OFFSET. In the case you're proposing, we can't provide a
-> static offset. I _think_ this is a compiler limitation, where some of
-> those instrumentations only work/make sense with a static offset, but
-> perhaps that's not right? Dmitry and Andrey, can you shed some light on
-> this?
-> 
+--0000000000001b1ab405997ec622
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-There is no code in the kernel is poisoning/unpoisoning
-redzones/variables on stack. It's because it's always done by the compiler, it inserts
-some code in prologue/epilogue of every function.
-So compiler needs to know the shadow offset which will be used to poison/unpoison
-stack frames.
+Hi Marco,
 
-There is no such kind of limitation on globals instrumentation. The only reason globals
-instrumentation depends on -fasan-shadow-offset is because there was some bug related to
-globals in old gcc version which didn't support -fasan-shadow-offset.
+Data racing issues always bothers us, we are happy to use this debug tool t=
+o
+detect the root cause. So, we need to understand this tool implementation,
+we try to trace your code and have some questions, would you take the free
+time
+to answer the question.
+Thanks.
+
+Question:
+We assume they access the same variable when use read() and write()
+Below two Scenario are false negative?
+
+=3D=3D=3D
+Scenario 1:
+
+CPU 0:
+                CPU 1:
+tsan_read()
+              tsan_write()
+  check_access()
+              check_access()
+     watchpoint=3Dfind_watchpoint() // watchpoint=3DNULL
+watchpoint=3Dfind_watchpoint() // watchpoint=3DNULL
+     kcsan_setup_watchpoint()
+           kcsan_setup_watchpoint()
+        watchpoint =3D insert_watchpoint
+               watchpoint =3D insert_watchpoint
+        if (!remove_watchpoint(watchpoint)) // no enter, no report
+  if (!remove_watchpoint(watchpoint)) // no enter, no report
+
+=3D=3D=3D
+Scenario 2:
+
+CPU 0:
+               CPU 1:
+tsan_read()
+  check_access()
+    watchpoint=3Dfind_watchpoint() // watchpoint=3DNULL
+    kcsan_setup_watchpoint()
+      watchpoint =3D insert_watchpoint()
+
+tsan_read()
+             tsan_write()
+  check_access()
+             check_access()
+    find_watchpoint()
+      if(expect_write && !is_write)
+        continue
+      return NULL
+
+    kcsan_setup_watchpoint()
+      watchpoint =3D insert_watchpoint()
+
+      remove_watchpoint(watchpoint)
+        watchpoint =3D INVALID_WATCHPOINT
 
 
-If you want stack instrumentation with not standard mem-to-shadow mapping, the options are:
-1. Patch compiler to make it possible the poisoning/unpoisonig of stack frames via function calls.
-2. Use out-line instrumentation and do whatever mem-to-shadow mapping you want, but keep all kernel
-stacks in some special place for which standard mem-to-shadow mapping (addr >>3 +offset)
-works.
+                          watchpoint =3D find_watchpoint()
 
 
-> Also, as it currently stands, the speed difference between inline and
-> outline is approximately 2x, and given that we'd like to run this
-> full-time in syzkaller I think there is value in trading off speed for
-> some limitations.
-> 
+                          kcsan_found_watchpoint()
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/023d59f1-c007-e153-9893-3231a4caf7d1%40virtuozzo.com.
+                              consumed =3D try_consume_watchpoint() //
+consumed=3Dfalse, no report
+
+Thanks.
+Walter
+
+'Marco Elver' via kasan-dev <kasan-dev@googlegroups.com> =E6=96=BC 2019=E5=
+=B9=B49=E6=9C=8820=E6=97=A5 =E9=80=B1=E4=BA=94
+=E4=B8=8B=E5=8D=8810:19=E5=AF=AB=E9=81=93=EF=BC=9A
+
+> Hi all,
+>
+> We would like to share a new data-race detector for the Linux kernel:
+> Kernel Concurrency Sanitizer (KCSAN) --
+> https://github.com/google/ktsan/wiki/KCSAN  (Details:
+>
+> https://github.com/google/ktsan/blob/kcsan/Documentation/dev-tools/kcsan.=
+rst
+> )
+>
+> To those of you who we mentioned at LPC that we're working on a
+> watchpoint-based KTSAN inspired by DataCollider [1], this is it (we
+> renamed it to KCSAN to avoid confusion with KTSAN).
+> [1] http://usenix.org/legacy/events/osdi10/tech/full_papers/Erickson.pdf
+>
+> In the coming weeks we're planning to:
+> * Set up a syzkaller instance.
+> * Share the dashboard so that you can see the races that are found.
+> * Attempt to send fixes for some races upstream (if you find that the
+> kcsan-with-fixes branch contains an important fix, please feel free to
+> point it out and we'll prioritize that).
+>
+> There are a few open questions:
+> * The big one: most of the reported races are due to unmarked
+> accesses; prioritization or pruning of races to focus initial efforts
+> to fix races might be required. Comments on how best to proceed are
+> welcome. We're aware that these are issues that have recently received
+> attention in the context of the LKMM
+> (https://lwn.net/Articles/793253/).
+> * How/when to upstream KCSAN?
+>
+> Feel free to test and send feedback.
+>
+> Thanks,
+> -- Marco
+>
+> --
+> You received this message because you are subscribed to the Google Groups
+> "kasan-dev" group.
+> To unsubscribe from this group and stop receiving emails from it, send an
+> email to kasan-dev+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit
+> https://groups.google.com/d/msgid/kasan-dev/CANpmjNPJ_bHjfLZCAPV23AXFfiPi=
+yXXqqu72n6TgWzb2Gnu1eA%40mail.gmail.com
+> .
+>
+
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/CADyx2V6j%2Bdo%2BCmmSYEUr0iP7TUWD7xHLP2ZJPrqB1Y%2BQEAwzhw%40mail.=
+gmail.com.
+
+--0000000000001b1ab405997ec622
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: base64
+
+PGRpdiBkaXI9Imx0ciI+SGkgTWFyY28sPGJyPjxicj5EYXRhIHJhY2luZyBpc3N1ZXMgYWx3YXlz
+IGJvdGhlcnMgdXMsIHdlIGFyZSBoYXBweSB0byB1c2UgdGhpcyBkZWJ1ZyB0b29sIHRvPGJyPmRl
+dGVjdCB0aGUgcm9vdCBjYXVzZS4gU28sIHdlIG5lZWQgdG8gdW5kZXJzdGFuZCB0aGlzIHRvb2wg
+aW1wbGVtZW50YXRpb24sPGJyPndlIHRyeSB0byB0cmFjZSB5b3VyIGNvZGUgYW5kIGhhdmUgc29t
+ZSBxdWVzdGlvbnMsIHdvdWxkIHlvdSB0YWtlIHRoZSBmcmVlIHRpbWU8YnI+dG8gYW5zd2VyIHRo
+ZSBxdWVzdGlvbi4gPGJyPlRoYW5rcy48YnI+PGJyPlF1ZXN0aW9uOjxicj5XZSBhc3N1bWUgdGhl
+eSBhY2Nlc3MgdGhlIHNhbWUgdmFyaWFibGUgd2hlbiB1c2UgcmVhZCgpIGFuZCB3cml0ZSgpPGJy
+PkJlbG93IHR3byBTY2VuYXJpbyBhcmUgZmFsc2UgbmVnYXRpdmU/PGJyPjxicj49PT08YnI+U2Nl
+bmFyaW8gMTo8YnI+PGJyPkNQVSAwOiDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDC
+oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDC
+oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCBDUFUgMTo8YnI+dHNhbl9yZWFkKCkg
+wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
+wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
+wqAgdHNhbl93cml0ZSgpPGJyPsKgIGNoZWNrX2FjY2VzcygpIMKgIMKgIMKgIMKgIMKgIMKgIMKg
+IMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKg
+IMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIGNoZWNrX2FjY2VzcygpPGJyPsKgIMKgIMKg
+d2F0Y2hwb2ludD1maW5kX3dhdGNocG9pbnQoKSAvLyB3YXRjaHBvaW50PU5VTEwgwqAgwqAgwqAg
+wqAgwqAgwqAgwqAgwqAgwqAgwqAgd2F0Y2hwb2ludD1maW5kX3dhdGNocG9pbnQoKSAvLyB3YXRj
+aHBvaW50PU5VTEw8YnI+wqAgwqAgwqBrY3Nhbl9zZXR1cF93YXRjaHBvaW50KCkgwqAgwqAgwqAg
+wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
+wqAgwqAgwqAgwqAgwqAgwqAgwqBrY3Nhbl9zZXR1cF93YXRjaHBvaW50KCk8YnI+wqAgwqAgwqAg
+wqAgd2F0Y2hwb2ludCA9IGluc2VydF93YXRjaHBvaW50IMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKg
+IMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgd2F0
+Y2hwb2ludCA9IGluc2VydF93YXRjaHBvaW50PGJyPsKgIMKgIMKgIMKgIGlmICghcmVtb3ZlX3dh
+dGNocG9pbnQod2F0Y2hwb2ludCkpIC8vIG5vIGVudGVyLCBubyByZXBvcnQgwqAgwqAgwqAgwqAg
+wqAgaWYgKCFyZW1vdmVfd2F0Y2hwb2ludCh3YXRjaHBvaW50KSkgLy8gbm8gZW50ZXIsIG5vIHJl
+cG9ydDxicj48YnI+PT09PGJyPlNjZW5hcmlvIDI6PGJyPjxicj5DUFUgMDogwqAgwqAgwqAgwqAg
+wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
+wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqBD
+UFUgMTo8YnI+dHNhbl9yZWFkKCk8YnI+wqAgY2hlY2tfYWNjZXNzKCk8YnI+wqAgwqAgd2F0Y2hw
+b2ludD1maW5kX3dhdGNocG9pbnQoKSAvLyB3YXRjaHBvaW50PU5VTEw8YnI+wqAgwqAga2NzYW5f
+c2V0dXBfd2F0Y2hwb2ludCgpPGJyPsKgIMKgIMKgIHdhdGNocG9pbnQgPSBpbnNlcnRfd2F0Y2hw
+b2ludCgpIDxicj48YnI+dHNhbl9yZWFkKCkgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
+wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
+wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqB0c2FuX3dyaXRlKCkgwqA8YnI+wqAgY2hlY2tf
+YWNjZXNzKCkgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
+wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
+wqBjaGVja19hY2Nlc3MoKTxicj7CoCDCoCBmaW5kX3dhdGNocG9pbnQoKSDCoCDCoCDCoCDCoCDC
+oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCA8YnI+
+wqAgwqAgwqAgaWYoZXhwZWN0X3dyaXRlICZhbXA7JmFtcDsgIWlzX3dyaXRlKTxicj7CoCDCoCDC
+oCDCoCBjb250aW51ZTxicj7CoCDCoCDCoCByZXR1cm4gTlVMTCDCoCDCoCDCoCDCoCDCoCDCoCDC
+oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDC
+oCDCoCDCoCDCoCDCoDxicj7CoCDCoCBrY3Nhbl9zZXR1cF93YXRjaHBvaW50KCk8YnI+wqAgwqAg
+wqAgd2F0Y2hwb2ludCA9IGluc2VydF93YXRjaHBvaW50KCkgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
+wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgPGJyPsKgIMKg
+IMKgIHJlbW92ZV93YXRjaHBvaW50KHdhdGNocG9pbnQpPGJyPsKgIMKgIMKgIMKgIHdhdGNocG9p
+bnQgPSBJTlZBTElEX1dBVENIUE9JTlQgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
+wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
+wqAgwqA8YnI+wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
+wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
+wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgd2F0Y2hwb2lu
+dCA9IGZpbmRfd2F0Y2hwb2ludCgpIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKg
+IMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKg
+IMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgPGJyPsKgIMKgIMKgIMKgIMKgIMKg
+IMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKg
+IMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKg
+IMKgIMKgIMKgIMKgIMKgIMKgIMKgIGtjc2FuX2ZvdW5kX3dhdGNocG9pbnQoKTxicj7CoCDCoCDC
+oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDC
+oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDC
+oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCBjb25zdW1lZCA9IHRyeV9jb25z
+dW1lX3dhdGNocG9pbnQoKSAvLyBjb25zdW1lZD1mYWxzZSwgbm8gcmVwb3J0PGJyPjxicj5UaGFu
+a3MuPGJyPldhbHRlcjxicj48L2Rpdj48YnI+PGRpdiBjbGFzcz0iZ21haWxfcXVvdGUiPjxkaXYg
+ZGlyPSJsdHIiIGNsYXNzPSJnbWFpbF9hdHRyIj4mIzM5O01hcmNvIEVsdmVyJiMzOTsgdmlhIGth
+c2FuLWRldiAmbHQ7PGEgaHJlZj0ibWFpbHRvOmthc2FuLWRldkBnb29nbGVncm91cHMuY29tIj5r
+YXNhbi1kZXZAZ29vZ2xlZ3JvdXBzLmNvbTwvYT4mZ3Q7IOaWvCAyMDE55bm0OeaciDIw5pelIOmA
+seS6lCDkuIvljYgxMDoxOeWvq+mBk++8mjxicj48L2Rpdj48YmxvY2txdW90ZSBjbGFzcz0iZ21h
+aWxfcXVvdGUiIHN0eWxlPSJtYXJnaW46MHB4IDBweCAwcHggMC44ZXg7Ym9yZGVyLWxlZnQ6MXB4
+IHNvbGlkIHJnYigyMDQsMjA0LDIwNCk7cGFkZGluZy1sZWZ0OjFleCI+SGkgYWxsLDxicj4NCjxi
+cj4NCldlIHdvdWxkIGxpa2UgdG8gc2hhcmUgYSBuZXcgZGF0YS1yYWNlIGRldGVjdG9yIGZvciB0
+aGUgTGludXgga2VybmVsOjxicj4NCktlcm5lbCBDb25jdXJyZW5jeSBTYW5pdGl6ZXIgKEtDU0FO
+KSAtLTxicj4NCjxhIGhyZWY9Imh0dHBzOi8vZ2l0aHViLmNvbS9nb29nbGUva3RzYW4vd2lraS9L
+Q1NBTiIgcmVsPSJub3JlZmVycmVyIiB0YXJnZXQ9Il9ibGFuayI+aHR0cHM6Ly9naXRodWIuY29t
+L2dvb2dsZS9rdHNhbi93aWtpL0tDU0FOPC9hPsKgIChEZXRhaWxzOjxicj4NCjxhIGhyZWY9Imh0
+dHBzOi8vZ2l0aHViLmNvbS9nb29nbGUva3RzYW4vYmxvYi9rY3Nhbi9Eb2N1bWVudGF0aW9uL2Rl
+di10b29scy9rY3Nhbi5yc3QiIHJlbD0ibm9yZWZlcnJlciIgdGFyZ2V0PSJfYmxhbmsiPmh0dHBz
+Oi8vZ2l0aHViLmNvbS9nb29nbGUva3RzYW4vYmxvYi9rY3Nhbi9Eb2N1bWVudGF0aW9uL2Rldi10
+b29scy9rY3Nhbi5yc3Q8L2E+KTxicj4NCjxicj4NClRvIHRob3NlIG9mIHlvdSB3aG8gd2UgbWVu
+dGlvbmVkIGF0IExQQyB0aGF0IHdlJiMzOTtyZSB3b3JraW5nIG9uIGE8YnI+DQp3YXRjaHBvaW50
+LWJhc2VkIEtUU0FOIGluc3BpcmVkIGJ5IERhdGFDb2xsaWRlciBbMV0sIHRoaXMgaXMgaXQgKHdl
+PGJyPg0KcmVuYW1lZCBpdCB0byBLQ1NBTiB0byBhdm9pZCBjb25mdXNpb24gd2l0aCBLVFNBTiku
+PGJyPg0KWzFdIDxhIGhyZWY9Imh0dHA6Ly91c2VuaXgub3JnL2xlZ2FjeS9ldmVudHMvb3NkaTEw
+L3RlY2gvZnVsbF9wYXBlcnMvRXJpY2tzb24ucGRmIiByZWw9Im5vcmVmZXJyZXIiIHRhcmdldD0i
+X2JsYW5rIj5odHRwOi8vdXNlbml4Lm9yZy9sZWdhY3kvZXZlbnRzL29zZGkxMC90ZWNoL2Z1bGxf
+cGFwZXJzL0VyaWNrc29uLnBkZjwvYT48YnI+DQo8YnI+DQpJbiB0aGUgY29taW5nIHdlZWtzIHdl
+JiMzOTtyZSBwbGFubmluZyB0bzo8YnI+DQoqIFNldCB1cCBhIHN5emthbGxlciBpbnN0YW5jZS48
+YnI+DQoqIFNoYXJlIHRoZSBkYXNoYm9hcmQgc28gdGhhdCB5b3UgY2FuIHNlZSB0aGUgcmFjZXMg
+dGhhdCBhcmUgZm91bmQuPGJyPg0KKiBBdHRlbXB0IHRvIHNlbmQgZml4ZXMgZm9yIHNvbWUgcmFj
+ZXMgdXBzdHJlYW0gKGlmIHlvdSBmaW5kIHRoYXQgdGhlPGJyPg0Ka2NzYW4td2l0aC1maXhlcyBi
+cmFuY2ggY29udGFpbnMgYW4gaW1wb3J0YW50IGZpeCwgcGxlYXNlIGZlZWwgZnJlZSB0bzxicj4N
+CnBvaW50IGl0IG91dCBhbmQgd2UmIzM5O2xsIHByaW9yaXRpemUgdGhhdCkuPGJyPg0KPGJyPg0K
+VGhlcmUgYXJlIGEgZmV3IG9wZW4gcXVlc3Rpb25zOjxicj4NCiogVGhlIGJpZyBvbmU6IG1vc3Qg
+b2YgdGhlIHJlcG9ydGVkIHJhY2VzIGFyZSBkdWUgdG8gdW5tYXJrZWQ8YnI+DQphY2Nlc3Nlczsg
+cHJpb3JpdGl6YXRpb24gb3IgcHJ1bmluZyBvZiByYWNlcyB0byBmb2N1cyBpbml0aWFsIGVmZm9y
+dHM8YnI+DQp0byBmaXggcmFjZXMgbWlnaHQgYmUgcmVxdWlyZWQuIENvbW1lbnRzIG9uIGhvdyBi
+ZXN0IHRvIHByb2NlZWQgYXJlPGJyPg0Kd2VsY29tZS4gV2UmIzM5O3JlIGF3YXJlIHRoYXQgdGhl
+c2UgYXJlIGlzc3VlcyB0aGF0IGhhdmUgcmVjZW50bHkgcmVjZWl2ZWQ8YnI+DQphdHRlbnRpb24g
+aW4gdGhlIGNvbnRleHQgb2YgdGhlIExLTU08YnI+DQooPGEgaHJlZj0iaHR0cHM6Ly9sd24ubmV0
+L0FydGljbGVzLzc5MzI1My8iIHJlbD0ibm9yZWZlcnJlciIgdGFyZ2V0PSJfYmxhbmsiPmh0dHBz
+Oi8vbHduLm5ldC9BcnRpY2xlcy83OTMyNTMvPC9hPikuPGJyPg0KKiBIb3cvd2hlbiB0byB1cHN0
+cmVhbSBLQ1NBTj88YnI+DQo8YnI+DQpGZWVsIGZyZWUgdG8gdGVzdCBhbmQgc2VuZCBmZWVkYmFj
+ay48YnI+DQo8YnI+DQpUaGFua3MsPGJyPg0KLS0gTWFyY288YnI+DQo8YnI+DQotLSA8YnI+DQpZ
+b3UgcmVjZWl2ZWQgdGhpcyBtZXNzYWdlIGJlY2F1c2UgeW91IGFyZSBzdWJzY3JpYmVkIHRvIHRo
+ZSBHb29nbGUgR3JvdXBzICZxdW90O2thc2FuLWRldiZxdW90OyBncm91cC48YnI+DQpUbyB1bnN1
+YnNjcmliZSBmcm9tIHRoaXMgZ3JvdXAgYW5kIHN0b3AgcmVjZWl2aW5nIGVtYWlscyBmcm9tIGl0
+LCBzZW5kIGFuIGVtYWlsIHRvIDxhIGhyZWY9Im1haWx0bzprYXNhbi1kZXYlMkJ1bnN1YnNjcmli
+ZUBnb29nbGVncm91cHMuY29tIiB0YXJnZXQ9Il9ibGFuayI+a2FzYW4tZGV2K3Vuc3Vic2NyaWJl
+QGdvb2dsZWdyb3Vwcy5jb208L2E+Ljxicj4NClRvIHZpZXcgdGhpcyBkaXNjdXNzaW9uIG9uIHRo
+ZSB3ZWIgdmlzaXQgPGEgaHJlZj0iaHR0cHM6Ly9ncm91cHMuZ29vZ2xlLmNvbS9kL21zZ2lkL2th
+c2FuLWRldi9DQU5wbWpOUEpfYkhqZkxaQ0FQVjIzQVhGZmlQaXlYWHFxdTcybjZUZ1d6YjJHbnUx
+ZUElNDBtYWlsLmdtYWlsLmNvbSIgcmVsPSJub3JlZmVycmVyIiB0YXJnZXQ9Il9ibGFuayI+aHR0
+cHM6Ly9ncm91cHMuZ29vZ2xlLmNvbS9kL21zZ2lkL2thc2FuLWRldi9DQU5wbWpOUEpfYkhqZkxa
+Q0FQVjIzQVhGZmlQaXlYWHFxdTcybjZUZ1d6YjJHbnUxZUElNDBtYWlsLmdtYWlsLmNvbTwvYT4u
+PGJyPg0KPC9ibG9ja3F1b3RlPjwvZGl2Pg0KDQo8cD48L3A+CgotLSA8YnIgLz4KWW91IHJlY2Vp
+dmVkIHRoaXMgbWVzc2FnZSBiZWNhdXNlIHlvdSBhcmUgc3Vic2NyaWJlZCB0byB0aGUgR29vZ2xl
+IEdyb3VwcyAmcXVvdDtrYXNhbi1kZXYmcXVvdDsgZ3JvdXAuPGJyIC8+ClRvIHVuc3Vic2NyaWJl
+IGZyb20gdGhpcyBncm91cCBhbmQgc3RvcCByZWNlaXZpbmcgZW1haWxzIGZyb20gaXQsIHNlbmQg
+YW4gZW1haWwgdG8gPGEgaHJlZj0ibWFpbHRvOmthc2FuLWRldit1bnN1YnNjcmliZUBnb29nbGVn
+cm91cHMuY29tIj5rYXNhbi1kZXYrdW5zdWJzY3JpYmVAZ29vZ2xlZ3JvdXBzLmNvbTwvYT4uPGJy
+IC8+ClRvIHZpZXcgdGhpcyBkaXNjdXNzaW9uIG9uIHRoZSB3ZWIgdmlzaXQgPGEgaHJlZj0iaHR0
+cHM6Ly9ncm91cHMuZ29vZ2xlLmNvbS9kL21zZ2lkL2thc2FuLWRldi9DQUR5eDJWNmolMkJkbyUy
+QkNtbVNZRVVyMGlQN1RVV0Q3eEhMUDJaSlBycUIxWSUyQlFFQXd6aHclNDBtYWlsLmdtYWlsLmNv
+bT91dG1fbWVkaXVtPWVtYWlsJnV0bV9zb3VyY2U9Zm9vdGVyIj5odHRwczovL2dyb3Vwcy5nb29n
+bGUuY29tL2QvbXNnaWQva2FzYW4tZGV2L0NBRHl4MlY2aiUyQmRvJTJCQ21tU1lFVXIwaVA3VFVX
+RDd4SExQMlpKUHJxQjFZJTJCUUVBd3podyU0MG1haWwuZ21haWwuY29tPC9hPi48YnIgLz4K
+--0000000000001b1ab405997ec622--
