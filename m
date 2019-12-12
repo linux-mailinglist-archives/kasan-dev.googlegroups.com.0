@@ -1,140 +1,131 @@
-Return-Path: <kasan-dev+bncBAABBSOSZHXQKGQER2XC2CI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDV37XP3XYDRB37QZHXQKGQEGE3K6PI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qv1-xf38.google.com (mail-qv1-xf38.google.com [IPv6:2607:f8b0:4864:20::f38])
-	by mail.lfdr.de (Postfix) with ESMTPS id D946811D220
-	for <lists+kasan-dev@lfdr.de>; Thu, 12 Dec 2019 17:22:34 +0100 (CET)
-Received: by mail-qv1-xf38.google.com with SMTP id ec1sf1799617qvb.6
-        for <lists+kasan-dev@lfdr.de>; Thu, 12 Dec 2019 08:22:34 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1576167753; cv=pass;
+Received: from mail-wr1-x43e.google.com (mail-wr1-x43e.google.com [IPv6:2a00:1450:4864:20::43e])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC7C611D3CC
+	for <lists+kasan-dev@lfdr.de>; Thu, 12 Dec 2019 18:27:11 +0100 (CET)
+Received: by mail-wr1-x43e.google.com with SMTP id z10sf1275297wrt.21
+        for <lists+kasan-dev@lfdr.de>; Thu, 12 Dec 2019 09:27:11 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1576171631; cv=pass;
         d=google.com; s=arc-20160816;
-        b=PKJWmnyalwxQvwCuKPHWCFSXd86Tz9NNhUw08iA7OAJZUp5jVWr2apyAq6lYx5/xRB
-         xgtpRfgHgy+ABj5JeBnMuTSUi4cYtBB/lF9JrLWcUxtCGFNNfmblxdyETwct55WyhiQc
-         r+IBVzRXmgkpK7630B5NSjnxewgHwYhA53Jokv5Y57XukoQZmGAGPGxamL8I6u1s0kWu
-         20xy8TPnrHf5V/JQ/t7Mjay+QKX3owui6y4Fed7zmpJH8Xkb/InJXcEbNG1FLouCbxW+
-         dQh8fSlckto0sa8/pJCOdpT7twMA5tbUMXOzJis0Nqb9A4CSMEEGJdMg1buKG+piG8HB
-         faAg==
+        b=W1n2tsb4MknggNEjjfgMHB/fxRfl0yy5jD4MD47ppmbyq3PeTpRXY2K0VOmanfcJ9N
+         iYp8iVKNZzAV102/xaBkWbMW7QTdtR8m92k6WU3Nint16U5egThu7Djw7yiXwAfhPUuF
+         kdUdq2FhS9wRh6KV+Jj51CzippBh0WlNcatdYPhcPCYvCJ/cPXD0cCZGkN4UD6QncVh9
+         5LUhpT1KbUr3EGyt5WzRPDghvP/QC08QGAYRJJQL/JHLro0uJECvX9G+GiQ3otdwf3ZM
+         0U963GsamCKVRl2+3rWOo0WKVTwJ46UYKCq+e/eJUCDagxHvPnibmRPWT7MK0JARqSUi
+         d3Gw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:feedback-id:content-language
-         :in-reply-to:mime-version:user-agent:date:message-id:from:references
-         :cc:to:subject:dmarc-filter:sender:dkim-signature;
-        bh=csFPPiHYTF5OUYR6xNZzkKqQ54jPdGamGSO9xCwNFqo=;
-        b=Q8Bjr3oXWkiwkIjRllQ8EIK27fMNBrhk8yJk/johusxo7BHHRDjAHtSZ+7/q/fYJhl
-         jTCwNxB8eG1b9/xjZh9hWcjKQ9S8o6okxP3lY+B366dLAy3ucd3zHIKhCjiB9E9a+nJv
-         +3C/qiXnlwJTunHo071r6gkLtzrrxqEencJ5bHtSrBwOHrohh3khKNZZ27LAEhJ31lNw
-         zKW9EO9LBP3o+E5YYxQjr+hLlsSwSiV5e52X+ELStOvlDMOKWDQZna/8zf+69qx9oNAK
-         6uLoZDA5cMyQgfZRcF/tV0wJGNwUJ9iK3R3eJX50S/luxblgc6HPmjE5R32ktwiZlFvm
-         EOyA==
+         :list-id:mailing-list:precedence:content-transfer-encoding
+         :user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:sender:dkim-signature;
+        bh=RGLvM4RR7W7kYElySPYGLfi2Q5yJa7kQI8N9xIu16Jc=;
+        b=wP5bf0yA/6N07NNlvDmtcKPG7J8lJDaQ6alLbkOA4O7wHttD10YnvX/3JID5+6a+VD
+         n/TTYDcFrefWgsS/ISN5HTCLP/eaKi79/lbssT00/vo1UtWOi5mDpH15HHMsiZ8Bya9D
+         SYszKTqGFV4IbBzFPvldwyfFBHmu4evN+bwNk1mmMHN+p3hud7W+COt6Zi/btwHrn860
+         OVxlHuPB55D6ZliYE7TCbN80/l3Swxcso2aeEMMSIQcuGRtPQb5y0aCMvMgAZWQ1eTOz
+         7AFUlTylMwrOLC80IWDAZnRuK3irUqsdPFYDs4JXdodWXwiD43CxzUy0QU4tT14xGC63
+         KK8A==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@codeaurora.org header.s=zsmsymrwgfyinv5wlfyidntwsjeeldzt header.b=SVd1N9l0;
-       dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=F7kI2CPL;
-       spf=pass (google.com: domain of 0101016efaeb3fa5-ae09e093-1dce-4ae2-ac73-7ca3fbafb660-000000@us-west-2.amazonses.com designates 54.240.27.185 as permitted sender) smtp.mailfrom=0101016efaeb3fa5-ae09e093-1dce-4ae2-ac73-7ca3fbafb660-000000@us-west-2.amazonses.com
+       spf=pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=mark.rutland@arm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:dmarc-filter:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language:feedback-id
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent:x-original-sender
+         :x-original-authentication-results:content-transfer-encoding
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=csFPPiHYTF5OUYR6xNZzkKqQ54jPdGamGSO9xCwNFqo=;
-        b=BOEmWMkgl1Y1sV5nS3tgn5ARneXCONyo9W0U9GUe/kwNLvw/+kRP8SGFFQ5tAne6kZ
-         CsDmxgyIK5qjaN7FaChHEZYMOlF23VZ/EnenggivTjfc47Byfk8SSCwNFQjyKwa5o3pr
-         DV3LFQzUSoq+CiUoUM7dODX8687q0AOjNh0FySq23wxutTfkSAf+7Boo/f/uqGhb/Cd6
-         Q4riLteM9/DKqBnuZyzWRArAJnYCsbydPjLqlUFQmQgoEz8qJn5tcmkY+b/l8fFEtgve
-         F2h6yrXlbJ/Hl1vO3ZRt5k62itiNp7yN2La7X9nwDyfHLeH+4MiiOJT1mo1JBuOFTC6d
-         zHIw==
+        bh=RGLvM4RR7W7kYElySPYGLfi2Q5yJa7kQI8N9xIu16Jc=;
+        b=GlUD1YJT4zRkJwu6/HyX7oBUp4sVmbpht+oRdgAFkkZezzaiThFwerX4t1Cb4ynZXw
+         /dYXYjF7MHG7lHgdf6HTefshjzbc19DcoySxkZxguDHel4fWZB8GRPqmc4lGTN5sP0d3
+         D5bbdQxWPziKnG4zaVNK/7RnBHlwdWVNsgEZs0rStXa/KXJSVXRYHrkGo/6mNLpNBd3a
+         lQVW4I7vCXuRFWlVRYwHlqVxeF6cAIO6dqtEQRnRguhGfdxkS9A8o6TYn3k5O3kVDysZ
+         ftLQhg+uvoqEkR2cZQfoPO99YfrAdCgWtDY2cB7hORybiFfeeagi2tAAdZM7mKZgBCMg
+         /xXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:dmarc-filter:subject:to:cc:references
-         :from:message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:feedback-id:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent
+         :x-original-sender:x-original-authentication-results
+         :content-transfer-encoding:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=csFPPiHYTF5OUYR6xNZzkKqQ54jPdGamGSO9xCwNFqo=;
-        b=QSOU+5o9wILvjEQMPMo8ZgR8onSxhCGieMrh5z8J+vZW510T1seZjxFaMaSYVo4VqP
-         Qix5MTvtY6XkLcb0NYFE96c7wBXNTnIy5PQrSZuutmtdvUDmx9d0ssj5yVn4pHrCXDQy
-         V2hnt2SS4GpH9cm1CdXaXR84TzafHo+OOcqnvgK4uILYD8ep8ejL0YUKX3UYIoygyoOs
-         D2sh+94dlWMDE7FANK2xYpVOkAjmripZEAAJtMfMnv1ev/MbzSSiG6M4+6s+CfJYasRh
-         T93Stq8hIzbOQnxdBu/CsoIdBJjo8RtHp0MvHfyJJ4IMK1WZObRUWPnXep2UgqemrGsf
-         +ysQ==
+        bh=RGLvM4RR7W7kYElySPYGLfi2Q5yJa7kQI8N9xIu16Jc=;
+        b=okH1HhRzAJ7si+gvvOBKBOvMHBR+o6k2CHVmWtATxKKTAsqws9nJkE1xy7xlmDXAF3
+         m7+tWpptIBH0pH+1W+D+mONiAT1ngnGbzDuEjRmAevEiKn4HipJKrI7H4RnPX+KbWL1Z
+         SBMcM8qIE1dijbnPsdEOXBi6YVMpQ3ds+gsBqpdNrgExSQYrcfstj1u1fNG/EV94ckFP
+         k2pdr3ihb//hSFJNuNoYxPq+dCJl+SC4V/Tm4C/SQHE4rpJ0PvHaOa1toUJHRnnFA55O
+         ls8Jm4ZZli3wW+JkHdTPGOFuHQaud4YoSy0yvlnm6lOaFOdWl5yZlrQ6PsqA7OIrPOzl
+         YlIg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAUiXhsYgnfZux3RGBNr4rBXHGkg7jTVZ6YBmjQDIqP5GkPHpCfu
-	DDOEddt8Ipc7jTggnfTiFB4=
-X-Google-Smtp-Source: APXvYqwvyqA0P69e4KyV8i3m5U7/mQv0NadZmFPIHO3y67apwV4zigZ5al1EET0nC5ozlQ8GfTKA5g==
-X-Received: by 2002:ac8:5155:: with SMTP id h21mr8168037qtn.174.1576167753665;
-        Thu, 12 Dec 2019 08:22:33 -0800 (PST)
+X-Gm-Message-State: APjAAAUHbCTnxqUcxxHt1J29GIUWIuVQz7M6+CQkSFEGlYlS5vgL+0tR
+	+NNqlfR9wZmNe79IwwqqWA8=
+X-Google-Smtp-Source: APXvYqzNJFQKXfFYI5KJL7vvxFpthvCXzs8xwjzRTJq5dXLRlYfGMhMMIUf82dAoTSi1r7VlAa8fPw==
+X-Received: by 2002:adf:e290:: with SMTP id v16mr7943778wri.16.1576171631530;
+        Thu, 12 Dec 2019 09:27:11 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a37:2746:: with SMTP id n67ls1977714qkn.8.gmail; Thu, 12 Dec
- 2019 08:22:33 -0800 (PST)
-X-Received: by 2002:a37:b0c5:: with SMTP id z188mr9120486qke.215.1576167753088;
-        Thu, 12 Dec 2019 08:22:33 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1576167753; cv=none;
+Received: by 2002:a7b:cf15:: with SMTP id l21ls3011100wmg.0.canary-gmail; Thu,
+ 12 Dec 2019 09:27:10 -0800 (PST)
+X-Received: by 2002:a7b:ce81:: with SMTP id q1mr8096328wmj.47.1576171630919;
+        Thu, 12 Dec 2019 09:27:10 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1576171630; cv=none;
         d=google.com; s=arc-20160816;
-        b=0GBArNlvtQbw9Ri2iuWPxZc3W6Gt/F6p40M/zYXcMC8RKCEQGK7SmdkxlcHx42KI3B
-         TvyRuWH+1zXI+mMDgcHYkRatlGCzxBYfYTr9gSlAjDe8lZmhPBS0DkM+P4FxTR1RlUzT
-         zmYz5I88r0s2XxcTWxmiwBiCWcfvkOYczaIaTtstsA7lCbdqW25K9pB85QovvHHDsQx1
-         ZmeLYvh8meSVluGfvAPQQro8DBriZI9AMNeq3afahVKe5CzIb/vgXStA9Rh+Lol4a9Ua
-         NDp41AaKy68ZapXLBVqzckHFXSr8tNMKgP6DbDTGTimXaLUaPBpCuLh4kJEu40oxgymq
-         vPcQ==
+        b=swBwOre0sYuRxg9chfH3q8kMdBIgllkg0tLpVV4sBGwjg8lzE2xVodLsHZQoRtKMgT
+         Q4bTJwgOd2xujeC9bpoNcG+o4zgsJELJkUb+mYzsHMdffHnrpenfcfYJAOCcGSckzsN2
+         v/GvHu5IlzY7y9wbkFgM+k6ZY1YjzA+CRct6JUvMcGiqIp1QoRuQ9sMeEZ0HWgONtK2m
+         l6oAnNB2+6HzABxx42Brf/rGbPMYU+LwPUx0LV/CtNmz+ucgO+Ee3pOdWLnE10TdRXgJ
+         QVPywjzb8cSmF5+Japy8Ir4NWvPUJmk8DoU23flJ/pFKa1Up0djy08HJnxEa1zHtLcrT
+         b8ZQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=feedback-id:content-language:in-reply-to:mime-version:user-agent
-         :date:message-id:from:references:cc:to:subject:dmarc-filter
-         :dkim-signature:dkim-signature;
-        bh=oVq/Akx/sX3E8AbIDrw3ZSi+t/+eN/d3H7q6JrGOiuA=;
-        b=yYnTIj2G6TyJnGf682YVLxEzeDkOYDOk3k12jbZ6YtnM/wiFdjohbv/aw7acvu1Eh9
-         QwVkHNBEk/rwZuFd+0/KzNWz8N5vD02DcKxqenIbUhZBED33a80rtQ5w7ZtnEi3jWYFS
-         fnyXKAmx1dGFpm3KE8lorCWY9s4G3WZGbl6ACC556gUku52V0kDSg3uJ0ac+9Dk/fJpz
-         2USQ1luYYj6KWbqr23NZ2rP+Thc+ZyFfriUxWOMKv0IXqz5xbCEArhIKGItPhBdWIJL7
-         R+85oXT3LlG1iFc1/GP/HThtBiVLGAPfh2KGw6e/E9WF1vFBaVvAMOYM2etYfcZsQ6Ji
-         u+jQ==
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date;
+        bh=yLln+kGSZES5QkL9ahqMCpG4ddNQ0HILbIUzpfYLvcA=;
+        b=b7VkmA3j1P3Ql+6lmi2Ugh4qBia9ZVmFIP42HdV+azQONf7SJFZuk5L/DEVqFfjvBU
+         aMt4C8j3A4FFo9jU/IcUf1cb6qnvzBUbZpO3ZAqHfsJfdKb2q1+0mIwSjEeXPaY65vy8
+         1Wz8NmBe24kwF4wTkP/k+LoUZphDqcKZ6WAhy8K/2b8wlar9ZDRUKH0xkEKgVHk50btL
+         EsbhMHc+wlAXLU4GNEFxRipVgSFNQme59qxGjbgdYGkme4P+kRpRpmKXsAM1yFLAvykW
+         zCvwcwHkBecSPfLwu1Nju735ExjwwWwX6K3THF5+hRcVvpNTnwHI54ig4pTswpaQ9LIY
+         nKgw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@codeaurora.org header.s=zsmsymrwgfyinv5wlfyidntwsjeeldzt header.b=SVd1N9l0;
-       dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=F7kI2CPL;
-       spf=pass (google.com: domain of 0101016efaeb3fa5-ae09e093-1dce-4ae2-ac73-7ca3fbafb660-000000@us-west-2.amazonses.com designates 54.240.27.185 as permitted sender) smtp.mailfrom=0101016efaeb3fa5-ae09e093-1dce-4ae2-ac73-7ca3fbafb660-000000@us-west-2.amazonses.com
-Received: from a27-185.smtp-out.us-west-2.amazonses.com (a27-185.smtp-out.us-west-2.amazonses.com. [54.240.27.185])
-        by gmr-mx.google.com with ESMTPS id d16si331668qtp.5.2019.12.12.08.22.32
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Thu, 12 Dec 2019 08:22:33 -0800 (PST)
-Received-SPF: pass (google.com: domain of 0101016efaeb3fa5-ae09e093-1dce-4ae2-ac73-7ca3fbafb660-000000@us-west-2.amazonses.com designates 54.240.27.185 as permitted sender) client-ip=54.240.27.185;
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-	aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,HTML_MESSAGE,
-	SPF_NONE autolearn=unavailable autolearn_force=no version=3.4.0
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 3D17CC447A1
+       spf=pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=mark.rutland@arm.com
+Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
+        by gmr-mx.google.com with ESMTP id a138si251577wmd.1.2019.12.12.09.27.10
+        for <kasan-dev@googlegroups.com>;
+        Thu, 12 Dec 2019 09:27:10 -0800 (PST)
+Received-SPF: pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D97AE30E;
+	Thu, 12 Dec 2019 09:27:09 -0800 (PST)
+Received: from lakrids.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 89DEB3F6CF;
+	Thu, 12 Dec 2019 09:27:08 -0800 (PST)
+Date: Thu, 12 Dec 2019 17:27:06 +0000
+From: Mark Rutland <mark.rutland@arm.com>
+To: Mukesh Ojha <mojha@codeaurora.org>
+Cc: Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>,
+	sgrover@codeaurora.org, kasan-dev <kasan-dev@googlegroups.com>,
+	LKML <linux-kernel@vger.kernel.org>,
+	"Paul E. McKenney" <paulmck@linux.ibm.com>,
+	Will Deacon <willdeacon@google.com>,
+	Andrea Parri <parri.andrea@gmail.com>,
+	Alan Stern <stern@rowland.harvard.edu>
 Subject: Re: KCSAN Support on ARM64 Kernel
-To: Mark Rutland <mark.rutland@arm.com>, Marco Elver <elver@google.com>
-Cc: Dmitry Vyukov <dvyukov@google.com>, sgrover@codeaurora.org,
- kasan-dev <kasan-dev@googlegroups.com>, LKML <linux-kernel@vger.kernel.org>,
- "Paul E. McKenney" <paulmck@linux.ibm.com>,
- Will Deacon <willdeacon@google.com>, Andrea Parri <parri.andrea@gmail.com>,
- Alan Stern <stern@rowland.harvard.edu>
+Message-ID: <20191212172705.GI46910@lakrids.cambridge.arm.com>
 References: <000001d5824d$c8b2a060$5a17e120$@codeaurora.org>
  <CACT4Y+aAicvQ1FYyOVbhJy62F4U6R_PXr+myNghFh8PZixfYLQ@mail.gmail.com>
  <CANpmjNOx7fuLLBasdEgnOCJepeufY4zo_FijsoSg0hfVgN7Ong@mail.gmail.com>
  <20191014101938.GB41626@lakrids.cambridge.arm.com>
-From: Mukesh Ojha <mojha@codeaurora.org>
-Message-ID: <0101016efaeb3fa5-ae09e093-1dce-4ae2-ac73-7ca3fbafb660-000000@us-west-2.amazonses.com>
-Date: Thu, 12 Dec 2019 16:22:31 +0000
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ <0101016efaeb3a3b-81a8c0fa-c656-4f95-9864-c7f4573024fd-000000@us-west-2.amazonses.com>
 MIME-Version: 1.0
-In-Reply-To: <20191014101938.GB41626@lakrids.cambridge.arm.com>
-Content-Type: multipart/alternative;
- boundary="------------95B484F71E19BF8011B47BB4"
-Content-Language: en-US
-X-SES-Outgoing: 2019.12.12-54.240.27.185
-Feedback-ID: 1.us-west-2.CZuq2qbDmUIuT3qdvXlRHZZCpfZqZ4GtG9v3VKgRyF0=:AmazonSES
-X-Original-Sender: mojha@codeaurora.org
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@codeaurora.org header.s=zsmsymrwgfyinv5wlfyidntwsjeeldzt
- header.b=SVd1N9l0;       dkim=pass header.i=@amazonses.com
- header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=F7kI2CPL;       spf=pass
- (google.com: domain of 0101016efaeb3fa5-ae09e093-1dce-4ae2-ac73-7ca3fbafb660-000000@us-west-2.amazonses.com
- designates 54.240.27.185 as permitted sender) smtp.mailfrom=0101016efaeb3fa5-ae09e093-1dce-4ae2-ac73-7ca3fbafb660-000000@us-west-2.amazonses.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+In-Reply-To: <0101016efaeb3a3b-81a8c0fa-c656-4f95-9864-c7f4573024fd-000000@us-west-2.amazonses.com>
+User-Agent: Mutt/1.11.1+11 (2f07cb52) (2018-12-01)
+X-Original-Sender: mark.rutland@arm.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as
+ permitted sender) smtp.mailfrom=mark.rutland@arm.com
+Content-Transfer-Encoding: quoted-printable
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -147,98 +138,86 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-This is a multi-part message in MIME format.
---------------95B484F71E19BF8011B47BB4
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Hi Mukesh,
 
+In future *please* reply in plaintext rather than HTML.
 
-On 10/14/2019 3:49 PM, Mark Rutland wrote:
-> On Mon, Oct 14, 2019 at 11:09:40AM +0200, Marco Elver wrote:
->> On Mon, 14 Oct 2019 at 10:40, Dmitry Vyukov <dvyukov@google.com> wrote:
->>> On Mon, Oct 14, 2019 at 7:11 AM <sgrover@codeaurora.org> wrote:
->>>> Hi Dmitry,
->>>>
->>>> I am from Qualcomm Linux Security Team, just going through KCSAN
->>>> and found that there was a thread for arm64 support
->>>> (https://lkml.org/lkml/2019/9/20/804).
->>>>
->>>> Can you please tell me if KCSAN is supported on ARM64 now? Can I
->>>> just rebase the KCSAN branch on top of our let=E2=80=99s say android
->>>> mainline kernel, enable the config and run syzkaller on that for
->>>> finding race conditions?
->>>>
->>>> It would be very helpful if you reply, we want to setup this for
->>>> finding issues on our proprietary modules that are not part of
->>>> kernel mainline.
->>>>
->>>> Regards,
->>>>
->>>> Sachin Grover
->>> +more people re KCSAN on ARM64
->> KCSAN does not yet have ARM64 support. Once it's upstream, I would
->> expect that Mark's patches (from repo linked in LKML thread) will just
->> cleanly apply to enable ARM64 support.
-> Once the core kcsan bits are ready, I'll rebase the arm64 patch atop.
-> I'm expecting some things to change as part of review, so it'd be great
-> to see that posted ASAP.
->
-> For arm64 I'm not expecting major changes (other than those necessary to
-> handle the arm64 atomic rework that went in to v5.4-rc1)
+On Thu, Dec 12, 2019 at 04:22:30PM +0000, Mukesh Ojha wrote:
+> On 10/14/2019 3:49 PM, Mark Rutland wrote:
+> > Once the core kcsan bits are ready, I'll rebase the arm64 patch atop.
+> > I'm expecting some things to change as part of review, so it'd be great
+> > to see that posted ASAP.
+> >=20
+> > For arm64 I'm not expecting major changes (other than those necessary t=
+o
+> > handle the arm64 atomic rework that went in to v5.4-rc1)
+>=20
+> Hi Mark,
+>=20
+> Are the below patches enough for kcsan to be working on arm64 ?
 
-Hi Mark,
+That depends on what branch you're using as a base. My arm64/kcsan
+branch worked for me as-is, but as I mentioned that was /very/ noisy.
+Both the kcsan code and the arm64 code have moved on since then, and I
+have no idea how well that would backport.
 
-Are the below patches enough for kcsan to be working on arm64 ?
-I am not sure about the one you are mentioning about "atomic rework=20
-patches which went in 5.4 rc1" .
+I had a quick go at porting my arm64 patch atop the kcsan branch in
+Paul's tree, and that doesn't get as far as producing earlycon output,
+so more work will be necessary to investigate and debug that.
 
-Thanks.
-Mukesh
+I hope to look at that, but I don't think I'll have the chance to do so
+before the end of next week.
 
-2019-10-03 	arm64, kcsan: enable KCSAN for arm64=20
-<https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git/commit/?h=
-=3Darm64/kcsan&id=3Dae1d089527027ce710e464105a73eb0db27d7875>arm64/kcsan=20
-<https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git/log/?h=3Dar=
-m64/kcsan>=20
-	Mark Rutland 	5 	-1/+5
+> I am not sure about the one you are mentioning about "atomic rework patch=
+es
+> which went in 5.4 rc1" .
 
-=09
-=09
-=09
-=09
-2019-09-24 	locking/atomics, kcsan: Add KCSAN instrumentation=20
-<https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git/commit/?h=
-=3Darm64/kcsan&id=3D8b3b76ec443b9af7e55994a163bb6f4aee016f09>=20
-	Marco Elver 	2 	-2/+199
-2019-09-24 	asm-generic, kcsan: Add KCSAN instrumentation for bitops=20
-<https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git/commit/?h=
-=3Darm64/kcsan&id=3D50c23ad00c040927e71c8943d4eb7d52e9f77762>=20
-	Marco Elver 	1 	-0/+18
-2019-09-24 	seqlock, kcsan: Add annotations for KCSAN=20
-<https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git/commit/?h=
-=3Darm64/kcsan&id=3De2b32e1a3b397bffcb6afbe86f6fe55e2040a34a>=20
-	Marco Elver 	1 	-5/+42
-2019-09-24 	build, kcsan: Add KCSAN build exceptions=20
-<https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git/commit/?h=
-=3Darm64/kcsan&id=3D35a907033244099a71f17d28e9ffaca92f714463>=20
-	Marco Elver 	3 	-0/+17
-2019-09-24 	objtool, kcsan: Add KCSAN runtime functions to whitelist=20
-<https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git/commit/?h=
-=3Darm64/kcsan&id=3D3afc592ca7ebd9c13c939c98b995763345e85e08>=20
-	Marco Elver 	1 	-0/+17
-2019-09-24 	kcsan: Add Kernel Concurrency Sanitizer infrastructure=20
-<https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git/commit/?h=
-=3Darm64/kcsan&id=3D73d893b441dc3e5c1645884a19b46a1bfd4fd692>=20
-	Marco Elver
+There were a number of patches from Andrew Murray reworking the arm64
+atomic implementation. See:
 
+$ git log v5.3..v5.4-rc1 --author=3D'Andrew Murray' -- arch/arm64
 
+With those patches applied, my change to arch/arm64/lib/Makefile is
+unnecessary and can be dropped.
 
->
-> FWIW, I was able to run Syzkaller atop of my arm64/kcsan branch, but
-> it's very noisy as it has none of the core fixes.
->
-> Thanks,
-> Mark.
+Thanks,
+Mark.
+
+> 2019-10-03 	arm64, kcsan: enable KCSAN for arm64 <https://git.kernel.org/=
+pub/scm/linux/kernel/git/mark/linux.git/commit/?h=3Darm64/kcsan&id=3Dae1d08=
+9527027ce710e464105a73eb0db27d7875>arm64/kcsan <https://git.kernel.org/pub/=
+scm/linux/kernel/git/mark/linux.git/log/?h=3Darm64/kcsan>
+> 	Mark Rutland 	5 	-1/+5
+>=20
+> =09
+> =09
+> =09
+> =09
+> 2019-09-24 	locking/atomics, kcsan: Add KCSAN instrumentation <https://gi=
+t.kernel.org/pub/scm/linux/kernel/git/mark/linux.git/commit/?h=3Darm64/kcsa=
+n&id=3D8b3b76ec443b9af7e55994a163bb6f4aee016f09>
+> 	Marco Elver 	2 	-2/+199
+> 2019-09-24 	asm-generic, kcsan: Add KCSAN instrumentation for bitops <htt=
+ps://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git/commit/?h=3Darm=
+64/kcsan&id=3D50c23ad00c040927e71c8943d4eb7d52e9f77762>
+> 	Marco Elver 	1 	-0/+18
+> 2019-09-24 	seqlock, kcsan: Add annotations for KCSAN <https://git.kernel=
+.org/pub/scm/linux/kernel/git/mark/linux.git/commit/?h=3Darm64/kcsan&id=3De=
+2b32e1a3b397bffcb6afbe86f6fe55e2040a34a>
+> 	Marco Elver 	1 	-5/+42
+> 2019-09-24 	build, kcsan: Add KCSAN build exceptions <https://git.kernel.=
+org/pub/scm/linux/kernel/git/mark/linux.git/commit/?h=3Darm64/kcsan&id=3D35=
+a907033244099a71f17d28e9ffaca92f714463>
+> 	Marco Elver 	3 	-0/+17
+> 2019-09-24 	objtool, kcsan: Add KCSAN runtime functions to whitelist <htt=
+ps://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git/commit/?h=3Darm=
+64/kcsan&id=3D3afc592ca7ebd9c13c939c98b995763345e85e08>
+> 	Marco Elver 	1 	-0/+17
+> 2019-09-24 	kcsan: Add Kernel Concurrency Sanitizer infrastructure <https=
+://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git/commit/?h=3Darm64=
+/kcsan&id=3D73d893b441dc3e5c1645884a19b46a1bfd4fd692>
+> 	Marco Elver
+>=20
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
@@ -246,328 +225,4 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/0101016efaeb3fa5-ae09e093-1dce-4ae2-ac73-7ca3fbafb660-000000%40us=
--west-2.amazonses.com.
-
---------------95B484F71E19BF8011B47BB4
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-  <head>
-    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DUTF-8=
-">
-  </head>
-  <body text=3D"#000000" bgcolor=3D"#FFFFFF">
-    <p><br>
-    </p>
-    <div class=3D"moz-cite-prefix">On 10/14/2019 3:49 PM, Mark Rutland
-      wrote:<br>
-    </div>
-    <blockquote type=3D"cite"
-      cite=3D"mid:20191014101938.GB41626@lakrids.cambridge.arm.com">
-      <pre class=3D"moz-quote-pre" wrap=3D"">On Mon, Oct 14, 2019 at 11:09:=
-40AM +0200, Marco Elver wrote:
-</pre>
-      <blockquote type=3D"cite">
-        <pre class=3D"moz-quote-pre" wrap=3D"">On Mon, 14 Oct 2019 at 10:40=
-, Dmitry Vyukov <a class=3D"moz-txt-link-rfc2396E" href=3D"mailto:dvyukov@g=
-oogle.com">&lt;dvyukov@google.com&gt;</a> wrote:
-</pre>
-        <blockquote type=3D"cite">
-          <pre class=3D"moz-quote-pre" wrap=3D"">
-On Mon, Oct 14, 2019 at 7:11 AM <a class=3D"moz-txt-link-rfc2396E" href=3D"=
-mailto:sgrover@codeaurora.org">&lt;sgrover@codeaurora.org&gt;</a> wrote:
-</pre>
-          <blockquote type=3D"cite">
-            <pre class=3D"moz-quote-pre" wrap=3D"">
-Hi Dmitry,
-
-I am from Qualcomm Linux Security Team, just going through KCSAN
-and found that there was a thread for arm64 support
-(<a class=3D"moz-txt-link-freetext" href=3D"https://lkml.org/lkml/2019/9/20=
-/804">https://lkml.org/lkml/2019/9/20/804</a>).
-
-Can you please tell me if KCSAN is supported on ARM64 now? Can I
-just rebase the KCSAN branch on top of our let=E2=80=99s say android
-mainline kernel, enable the config and run syzkaller on that for
-finding race conditions?
-
-It would be very helpful if you reply, we want to setup this for
-finding issues on our proprietary modules that are not part of
-kernel mainline.
-
-Regards,
-
-Sachin Grover
-</pre>
-          </blockquote>
-          <pre class=3D"moz-quote-pre" wrap=3D"">
-+more people re KCSAN on ARM64
-</pre>
-        </blockquote>
-        <pre class=3D"moz-quote-pre" wrap=3D"">
-KCSAN does not yet have ARM64 support. Once it's upstream, I would
-expect that Mark's patches (from repo linked in LKML thread) will just
-cleanly apply to enable ARM64 support.
-</pre>
-      </blockquote>
-      <pre class=3D"moz-quote-pre" wrap=3D"">
-Once the core kcsan bits are ready, I'll rebase the arm64 patch atop.
-I'm expecting some things to change as part of review, so it'd be great
-to see that posted ASAP.
-
-For arm64 I'm not expecting major changes (other than those necessary to
-handle the arm64 atomic rework that went in to v5.4-rc1)
-</pre>
-    </blockquote>
-    <p>Hi Mark,<br>
-      <br>
-    </p>
-    <p>Are the below patches enough for kcsan to be working on arm64 ?<br>
-      I am not sure about the one you are mentioning about "atomic
-      rework patches which went in 5.4 rc1" .<br>
-    </p>
-    <p>Thanks.<br>
-      Mukesh<br>
-      <br>
-    </p>
-    <table class=3D"list nowrap" style=3D"border-collapse: collapse; width:
-      1521px; border: none; color: rgb(51, 51, 51); font-family:
-      sans-serif; font-size: 13.3333px; font-style: normal;
-      font-variant-ligatures: normal; font-variant-caps: normal;
-      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
-      start; text-indent: 0px; text-transform: none; white-space:
-      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
-      0px; background-color: rgb(255, 255, 255); text-decoration-style:
-      initial; text-decoration-color: initial;">
-      <tbody>
-        <tr style=3D"background: rgb(238, 238, 238);">
-          <td style=3D"border: none; padding: 0.1em 0.5em; white-space:
-            nowrap;"><span title=3D"2019-10-03 16:14:35 +0100">2019-10-03</=
-span></td>
-          <td style=3D"border: none; padding: 0.1em 0.5em; white-space:
-            nowrap;"><a
-href=3D"https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git/comm=
-it/?h=3Darm64/kcsan&amp;id=3Dae1d089527027ce710e464105a73eb0db27d7875"
-              style=3D"color: black; text-decoration: none;">arm64, kcsan:
-              enable KCSAN for arm64</a><span class=3D"decoration"><a
-                class=3D"branch-deco"
-href=3D"https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git/log/=
-?h=3Darm64/kcsan"
-                style=3D"color: black; text-decoration: none; margin: 0px
-                0.5em; padding: 0px 0.25em; background-color: rgb(136,
-                255, 136); border: 1px solid rgb(0, 119, 0);">arm64/kcsan</=
-a></span></td>
-          <td style=3D"border: none; padding: 0.1em 0.5em; white-space:
-            nowrap;"><span class=3D"libravatar"><img class=3D"inline"
-src=3D"https://seccdn.libravatar.org/avatar/546ba522be956ba117d48cbbafcc530=
-9?s=3D13&amp;d=3Dretro"
-                style=3D"border: none; border-radius: 3px; width: 13px;
-                height: 13px; margin-right: 0.2em; opacity: 0.4;"></span>Ma=
-rk
-            Rutland</td>
-          <td style=3D"border: none; padding: 0.1em 0.5em; white-space:
-            nowrap;">5</td>
-          <td style=3D"border: none; padding: 0.1em 0.5em; white-space:
-            nowrap;"><span class=3D"deletions" style=3D"color: rgb(136, 0,
-              0);">-1</span>/<span class=3D"insertions" style=3D"color:
-              rgb(0, 136, 0);">+5</span></td>
-        </tr>
-        <tr style=3D"background: white;">
-          <td style=3D"border: none; padding: 0.1em 0.5em; white-space:
-            nowrap;"><br>
-          </td>
-          <td style=3D"border: none; padding: 0.1em 0.5em; white-space:
-            nowrap;"><br>
-          </td>
-          <td style=3D"border: none; padding: 0.1em 0.5em; white-space:
-            nowrap;"><br>
-          </td>
-          <td style=3D"border: none; padding: 0.1em 0.5em; white-space:
-            nowrap;"><br>
-          </td>
-          <td style=3D"border: none; padding: 0.1em 0.5em; white-space:
-            nowrap;"><br>
-          </td>
-        </tr>
-        <tr style=3D"background: rgb(247, 247, 247);">
-          <td style=3D"border: none; padding: 0.1em 0.5em; white-space:
-            nowrap;"><span title=3D"2019-09-24 17:54:32 +0200">2019-09-24</=
-span></td>
-          <td style=3D"border: none; padding: 0.1em 0.5em; white-space:
-            nowrap;"><a
-href=3D"https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git/comm=
-it/?h=3Darm64/kcsan&amp;id=3D8b3b76ec443b9af7e55994a163bb6f4aee016f09"
-              style=3D"color: black; text-decoration: none;">locking/atomic=
-s,
-              kcsan: Add KCSAN instrumentation</a></td>
-          <td style=3D"border: none; padding: 0.1em 0.5em; white-space:
-            nowrap;"><span class=3D"libravatar"><img class=3D"inline"
-src=3D"https://seccdn.libravatar.org/avatar/ade606cb28976e5f1b070eccf7793e0=
-b?s=3D13&amp;d=3Dretro"
-                style=3D"border: none; border-radius: 3px; width: 13px;
-                height: 13px; margin-right: 0.2em; opacity: 0.4;"></span>Ma=
-rco
-            Elver</td>
-          <td style=3D"border: none; padding: 0.1em 0.5em; white-space:
-            nowrap;">2</td>
-          <td style=3D"border: none; padding: 0.1em 0.5em; white-space:
-            nowrap;"><span class=3D"deletions" style=3D"color: rgb(136, 0,
-              0);">-2</span>/<span class=3D"insertions" style=3D"color:
-              rgb(0, 136, 0);">+199</span></td>
-        </tr>
-        <tr style=3D"background: white;">
-          <td style=3D"border: none; padding: 0.1em 0.5em; white-space:
-            nowrap;"><span title=3D"2019-09-24 17:54:32 +0200">2019-09-24</=
-span></td>
-          <td style=3D"border: none; padding: 0.1em 0.5em; white-space:
-            nowrap;"><a
-href=3D"https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git/comm=
-it/?h=3Darm64/kcsan&amp;id=3D50c23ad00c040927e71c8943d4eb7d52e9f77762"
-              style=3D"color: black; text-decoration: none;">asm-generic,
-              kcsan: Add KCSAN instrumentation for bitops</a></td>
-          <td style=3D"border: none; padding: 0.1em 0.5em; white-space:
-            nowrap;"><span class=3D"libravatar"><img class=3D"inline"
-src=3D"https://seccdn.libravatar.org/avatar/ade606cb28976e5f1b070eccf7793e0=
-b?s=3D13&amp;d=3Dretro"
-                style=3D"border: none; border-radius: 3px; width: 13px;
-                height: 13px; margin-right: 0.2em; opacity: 0.4;"></span>Ma=
-rco
-            Elver</td>
-          <td style=3D"border: none; padding: 0.1em 0.5em; white-space:
-            nowrap;">1</td>
-          <td style=3D"border: none; padding: 0.1em 0.5em; white-space:
-            nowrap;"><span class=3D"deletions" style=3D"color: rgb(136, 0,
-              0);">-0</span>/<span class=3D"insertions" style=3D"color:
-              rgb(0, 136, 0);">+18</span></td>
-        </tr>
-        <tr style=3D"background: rgb(247, 247, 247);">
-          <td style=3D"border: none; padding: 0.1em 0.5em; white-space:
-            nowrap;"><span title=3D"2019-09-24 17:54:32 +0200">2019-09-24</=
-span></td>
-          <td style=3D"border: none; padding: 0.1em 0.5em; white-space:
-            nowrap;"><a
-href=3D"https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git/comm=
-it/?h=3Darm64/kcsan&amp;id=3De2b32e1a3b397bffcb6afbe86f6fe55e2040a34a"
-              style=3D"color: black; text-decoration: none;">seqlock,
-              kcsan: Add annotations for KCSAN</a></td>
-          <td style=3D"border: none; padding: 0.1em 0.5em; white-space:
-            nowrap;"><span class=3D"libravatar"><img class=3D"inline"
-src=3D"https://seccdn.libravatar.org/avatar/ade606cb28976e5f1b070eccf7793e0=
-b?s=3D13&amp;d=3Dretro"
-                style=3D"border: none; border-radius: 3px; width: 13px;
-                height: 13px; margin-right: 0.2em; opacity: 0.4;"></span>Ma=
-rco
-            Elver</td>
-          <td style=3D"border: none; padding: 0.1em 0.5em; white-space:
-            nowrap;">1</td>
-          <td style=3D"border: none; padding: 0.1em 0.5em; white-space:
-            nowrap;"><span class=3D"deletions" style=3D"color: rgb(136, 0,
-              0);">-5</span>/<span class=3D"insertions" style=3D"color:
-              rgb(0, 136, 0);">+42</span></td>
-        </tr>
-        <tr style=3D"background: white;">
-          <td style=3D"border: none; padding: 0.1em 0.5em; white-space:
-            nowrap;"><span title=3D"2019-09-24 17:54:32 +0200">2019-09-24</=
-span></td>
-          <td style=3D"border: none; padding: 0.1em 0.5em; white-space:
-            nowrap;"><a
-href=3D"https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git/comm=
-it/?h=3Darm64/kcsan&amp;id=3D35a907033244099a71f17d28e9ffaca92f714463"
-              style=3D"color: black; text-decoration: none;">build, kcsan:
-              Add KCSAN build exceptions</a></td>
-          <td style=3D"border: none; padding: 0.1em 0.5em; white-space:
-            nowrap;"><span class=3D"libravatar"><img class=3D"inline"
-src=3D"https://seccdn.libravatar.org/avatar/ade606cb28976e5f1b070eccf7793e0=
-b?s=3D13&amp;d=3Dretro"
-                style=3D"border: none; border-radius: 3px; width: 13px;
-                height: 13px; margin-right: 0.2em; opacity: 0.4;"></span>Ma=
-rco
-            Elver</td>
-          <td style=3D"border: none; padding: 0.1em 0.5em; white-space:
-            nowrap;">3</td>
-          <td style=3D"border: none; padding: 0.1em 0.5em; white-space:
-            nowrap;"><span class=3D"deletions" style=3D"color: rgb(136, 0,
-              0);">-0</span>/<span class=3D"insertions" style=3D"color:
-              rgb(0, 136, 0);">+17</span></td>
-        </tr>
-        <tr style=3D"background: rgb(247, 247, 247);">
-          <td style=3D"border: none; padding: 0.1em 0.5em; white-space:
-            nowrap;"><span title=3D"2019-09-24 17:54:32 +0200">2019-09-24</=
-span></td>
-          <td style=3D"border: none; padding: 0.1em 0.5em; white-space:
-            nowrap;"><a
-href=3D"https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git/comm=
-it/?h=3Darm64/kcsan&amp;id=3D3afc592ca7ebd9c13c939c98b995763345e85e08"
-              style=3D"color: black; text-decoration: none;">objtool,
-              kcsan: Add KCSAN runtime functions to whitelist</a></td>
-          <td style=3D"border: none; padding: 0.1em 0.5em; white-space:
-            nowrap;"><span class=3D"libravatar"><img class=3D"inline"
-src=3D"https://seccdn.libravatar.org/avatar/ade606cb28976e5f1b070eccf7793e0=
-b?s=3D13&amp;d=3Dretro"
-                style=3D"border: none; border-radius: 3px; width: 13px;
-                height: 13px; margin-right: 0.2em; opacity: 0.4;"></span>Ma=
-rco
-            Elver</td>
-          <td style=3D"border: none; padding: 0.1em 0.5em; white-space:
-            nowrap;">1</td>
-          <td style=3D"border: none; padding: 0.1em 0.5em; white-space:
-            nowrap;"><span class=3D"deletions" style=3D"color: rgb(136, 0,
-              0);">-0</span>/<span class=3D"insertions" style=3D"color:
-              rgb(0, 136, 0);">+17</span></td>
-        </tr>
-        <tr style=3D"background: white;">
-          <td style=3D"border: none; padding: 0.1em 0.5em; white-space:
-            nowrap;"><span title=3D"2019-09-24 17:54:32 +0200">2019-09-24</=
-span></td>
-          <td style=3D"border: none; padding: 0.1em 0.5em; white-space:
-            nowrap;"><a
-href=3D"https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git/comm=
-it/?h=3Darm64/kcsan&amp;id=3D73d893b441dc3e5c1645884a19b46a1bfd4fd692"
-              style=3D"color: black; text-decoration: none;">kcsan: Add
-              Kernel Concurrency Sanitizer infrastructure</a></td>
-          <td style=3D"border: none; padding: 0.1em 0.5em; white-space:
-            nowrap;"><span class=3D"libravatar"><img class=3D"inline"
-src=3D"https://seccdn.libravatar.org/avatar/ade606cb28976e5f1b070eccf7793e0=
-b?s=3D13&amp;d=3Dretro"
-                style=3D"border: none; border-radius: 3px; width: 13px;
-                height: 13px; margin-right: 0.2em; opacity: 0.4;"></span>Ma=
-rco
-            Elver</td>
-        </tr>
-      </tbody>
-    </table>
-    <p><br>
-    </p>
-    <p><br>
-    </p>
-    <blockquote type=3D"cite"
-      cite=3D"mid:20191014101938.GB41626@lakrids.cambridge.arm.com">
-      <pre class=3D"moz-quote-pre" wrap=3D"">
-
-FWIW, I was able to run Syzkaller atop of my arm64/kcsan branch, but
-it's very noisy as it has none of the core fixes.
-
-Thanks,
-Mark.
-</pre>
-    </blockquote>
-  </body>
-</html>
-
-<p></p>
-
--- <br />
-You received this message because you are subscribed to the Google Groups &=
-quot;kasan-dev&quot; group.<br />
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
-+unsubscribe@googlegroups.com</a>.<br />
-To view this discussion on the web visit <a href=3D"https://groups.google.c=
-om/d/msgid/kasan-dev/0101016efaeb3fa5-ae09e093-1dce-4ae2-ac73-7ca3fbafb660-=
-000000%40us-west-2.amazonses.com?utm_medium=3Demail&utm_source=3Dfooter">ht=
-tps://groups.google.com/d/msgid/kasan-dev/0101016efaeb3fa5-ae09e093-1dce-4a=
-e2-ac73-7ca3fbafb660-000000%40us-west-2.amazonses.com</a>.<br />
-
---------------95B484F71E19BF8011B47BB4--
+kasan-dev/20191212172705.GI46910%40lakrids.cambridge.arm.com.
