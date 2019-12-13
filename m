@@ -1,118 +1,125 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBJHTZ7XQKGQEKU32TEA@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBO7UZ7XQKGQESUVIGXY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33d.google.com (mail-wm1-x33d.google.com [IPv6:2a00:1450:4864:20::33d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5583511EC0D
-	for <lists+kasan-dev@lfdr.de>; Fri, 13 Dec 2019 21:50:46 +0100 (CET)
-Received: by mail-wm1-x33d.google.com with SMTP id g26sf35954wmk.6
-        for <lists+kasan-dev@lfdr.de>; Fri, 13 Dec 2019 12:50:46 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1576270246; cv=pass;
+Received: from mail-ua1-x93f.google.com (mail-ua1-x93f.google.com [IPv6:2607:f8b0:4864:20::93f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B96411EC1B
+	for <lists+kasan-dev@lfdr.de>; Fri, 13 Dec 2019 21:53:17 +0100 (CET)
+Received: by mail-ua1-x93f.google.com with SMTP id i4sf89990ual.10
+        for <lists+kasan-dev@lfdr.de>; Fri, 13 Dec 2019 12:53:16 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1576270396; cv=pass;
         d=google.com; s=arc-20160816;
-        b=EAjCwIqIya+3VFaCQ4MGxXncO/8kJld1GrGQOkM3YLLhEnO8b06A8W8SocaCJm9tV3
-         MraB+bP5TNHIsrLu3MyI2oYUHl8ordJUl0ANdLVcOcOKdvKoVVGx5AID1b1BqgbyjxS7
-         dRHX50sEcIgHqN3zj27tniVO9F+6Fcvi+sDhEPeTLwojxv9hJQh3wt2AqjXadnobNrNR
-         lJrahtN+rAxG93c5RkKsteiI9ilwkw/i3wazzqOKzZd0qxaIgkotCQx/fX/Q5TT4Gmfa
-         T6vbo1DelnXxqCMmRWEcfm2gI+6CRg7kDF/MqNANcdH7l4IFEon1PVAzC3Kf1PxBYWF5
-         y5TA==
+        b=XZnGe7S8r6dgU3iuhKH6u2xBsVNU4nH89c9OL/ZGHOADXNJ/LV59GkPFDD5pVWgYm/
+         4YXGTbTsMMFqosa5zHIV/EFEW95sFCdEsP6V+nih7h80aeekwm6CWWB2HaaarKXGXli8
+         ZSqg8r/IJ/yH0LFtT73i7GgG87klN3GfxGiKcrl4obvWdbSvjdDrz3JGzxfCXKpF5RVf
+         b4TjEb/qAEVrIj/1mtvYkBupQu5peASTVSD2dRawo2sALbSgnCGSZlrGBBSTyGL0gkb+
+         jMHCWZ1lCOWqgLTak6EGTl7LsmNugV9Elgoz2AYz7f8dRnuo4lKWrbf5KJig18QBfHLJ
+         pDaQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
-         :mime-version:message-id:date:dkim-signature;
-        bh=9E5crYpgs978oMLi0Bi1Ubaj/JJzDEfPUzHWQxsQX9A=;
-        b=kpfGkRAVHsiE2HpirnC7BsK5juwwID2A/8ZRhJlXsIZ1khBTzyxtnS78De7bQ84dbC
-         pubG/9b0ujM7y8vQaYlirIIyX+MLuIcmKvhPLEA8jmKuQw60t1xHQxbQDg4r8nEcf0Tm
-         W9f7B9yuqeuFOL4nJXkuFdnTgKmeA2xIErLJm2BVYWb7p2QF4Ea3z73wDMcnUYNV4SiB
-         aNSJy3/xr8Ac0H9CNRZWoIIK2psT4zZsVFW0dzfA8bkrSXGllfvttaSkJloJigz/6dhH
-         sl0NIBSE2Rh2yjN50H1W1jyDZWOfEtHZ4eH/9tGYpVA7itbqKuZe4POoOe56YRJa4p5Y
-         3GUg==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=yq8b8XCAnwcbG8/QIKBM54js1t1WWjDrnB9d8OFxXNA=;
+        b=DDkcXho2WWoTURIxM58+qG98AYFG35v/UiD30hubASyq6ZwVBoY6/ComFUFMa2SwTE
+         zdB5MplXoTG11tfkxpdDqy4AAL6x0hZiMKoprXDZsQpIQ5NHgn/6MnFc58uHq5rW8e4D
+         mGAF8bn5wzkUV/c3f474QTdFvB70Pc8Wntt9krQfxszhW9XQXY7JpISRogpUsYZGefcY
+         vXrxUl9cto1P7rpt7HHXNn5WGgXJnM8a/0el8SHZsuU0NOGs+klqf7ux9kJiYgy3Hlo6
+         +NrXPdZ3qGo35T8FiZ99/EiVr/p4kR1H2NTZxlQIHr4AKfNEDheYy52iielwZxvNZXp1
+         DIYg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=N3yH+STX;
-       spf=pass (google.com: domain of 3o_nzxqukcvw8fp8laiiaf8.6ige4m4h-78paiiaf8aliojm.6ig@flex--elver.bounces.google.com designates 2a00:1450:4864:20::44a as permitted sender) smtp.mailfrom=3o_nzXQUKCVw8FP8LAIIAF8.6IGE4M4H-78PAIIAF8ALIOJM.6IG@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=n8TzZEHD;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::344 as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=date:message-id:mime-version:subject:from:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:list-post:list-help:list-archive:list-subscribe
-         :list-unsubscribe;
-        bh=9E5crYpgs978oMLi0Bi1Ubaj/JJzDEfPUzHWQxsQX9A=;
-        b=IkAIKuCtj9Z+zjClNoF2lh628Hamis5AbNevaksx3qNnaUgdCjYEy4FpZaQ+QN1Gob
-         Mi9QELAcTq15w4/eS5AycMchXHejI2IOVe75FB2sWu25AYKo3ABiF7kB9NpsQJzR3UZt
-         sbNQXE32gbvibJX79GV1IUckMg7vq8sM2OZhuW4POhCVjfdnYWpKYTBYvp4Cwm9SbWMw
-         CJ4H4mdMutEMan4P5gGn7e5X1gSzlZmqgZ7RkYIzr6r5mjOSTyeds7j4mtVUU9LJKCVj
-         9rtvDEMe+zwfLyyTLnrz8o8IAStc5BVK5e1mj6kV4Vu95TjiO/4r/zTT9S9mU+zv/kx2
-         BJYg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=yq8b8XCAnwcbG8/QIKBM54js1t1WWjDrnB9d8OFxXNA=;
+        b=IHE46QeGOKM7Sgo+w99P5QbaWUGfOueL/0eDZejXb98NlHTSyPrzKF2d6KBS0+tDex
+         DfucNMbqXJhbybXGkXQjcfkyuVgHAuAaat0FXMgBZi7+F0hffdPdSH99rH3Q6nQtg0UJ
+         A6495m+1y+CMoHRLmjPTzkZWGLtmgfOjh433soXFHL7A3h0zJq2ZrcqDl5h9sHFH6gXA
+         yd/KhmG5xfR1h5hF8vuJ0WUm2Rv/umBSXpEZ9gOutvDaZoby4vWz+we8EnEfy51Asb/i
+         YLONtxj8EvnEsMbam2iCV79MrL17/N3h9HuCgLQyNjiJu/50BduytmhmsQHj8O17bFt2
+         EMaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc
-         :x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=9E5crYpgs978oMLi0Bi1Ubaj/JJzDEfPUzHWQxsQX9A=;
-        b=T3metQmJE3mYrdcJ857gxfTelQCl1B81A7L1oo7mLGCafefHSR9pWl1XaEAY8qCJFy
-         0Cq/L2/dmima8ufs0oazYkG8SD0a9+t7ur81ZBafAxVUfJjx2Pq0LuDTDi+VddYvhX8w
-         6VRU9BRVJr1Px4U5ziVSPHRVFWX4NQfCEmRuzH+aclY11oU9Hma/YdNkWWjSGiBzbNnB
-         VwbCTJ09295P1j4gg+yekJbfe6BRz7SFqPSGMKVKI6LLOcPAL59SPeE0y33koe2O8HxM
-         XPepDNuQh3AnC9aIil01sx+KaRUTutAuDfq96ojoPd/gBJeEYaWPcgM3fRUqWCKxucZn
-         F/0Q==
-X-Gm-Message-State: APjAAAWCoy6IvrxNDfKs959xF0Kqllw4hOh6M4d9OK4lIqptMduG7/Gh
-	V54zRFDRxTHWpiXFchcT23s=
-X-Google-Smtp-Source: APXvYqxVscwD0qSW1ZVPgyzWecvM/meeGSJL0fN5M0m20F7RaYu06bMMaVqTSYWXxPjFHfrek8aZjw==
-X-Received: by 2002:a5d:494b:: with SMTP id r11mr14967314wrs.184.1576270245037;
-        Fri, 13 Dec 2019 12:50:45 -0800 (PST)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=yq8b8XCAnwcbG8/QIKBM54js1t1WWjDrnB9d8OFxXNA=;
+        b=udLstV/wvP+uh7+pha7AxE0N2idYifkHhyd/wrfJigfdeR6Al8ZbedIWom3THI6PGr
+         BN9Yv923UD9Xww/p4m9O+3HVXWaem+/HZEv50vC2wLRo3GPHP1ZR2QhfGUvnE4XbIjSR
+         UrnTe6AzW1tv2vPuhhpMTBMqbdg4PsGaV8TbU6/QJkhbCeM8A8yrfBsM7JpVOch87YeG
+         Z+Pk+4f5IwDEHGxlKO29p06A7s/Mdi7ZVISQ3iOos2fp1cJ9zGiyAPvr08U33Q6Hw1Ts
+         tWc6W4w9MY0wcMtNr+sCsaqBT8T2jnnjrpxwaLHEnulqwTT6o9wNPaNv2W/MHz0bicZJ
+         t2AA==
+X-Gm-Message-State: APjAAAX7VHPLffrjMz2yFpRS8taIq3Xby6n8Pjxb8GFeH6juJcomB8vE
+	fM3F+9aV3OsjVP5FamZ9qDE=
+X-Google-Smtp-Source: APXvYqymL7B2BmWW4CfzXQHKPwopdi7gRQWXEAL7Dv+NYu28tukTPDBAie4qSsNYbOf5OMAJurFGCQ==
+X-Received: by 2002:a67:bd0e:: with SMTP id y14mr12660972vsq.59.1576270395896;
+        Fri, 13 Dec 2019 12:53:15 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a1c:7ec9:: with SMTP id z192ls5392837wmc.5.gmail; Fri, 13
- Dec 2019 12:50:44 -0800 (PST)
-X-Received: by 2002:a1c:f70d:: with SMTP id v13mr13483861wmh.44.1576270244416;
-        Fri, 13 Dec 2019 12:50:44 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1576270244; cv=none;
+Received: by 2002:ab0:2885:: with SMTP id s5ls793035uap.10.gmail; Fri, 13 Dec
+ 2019 12:53:15 -0800 (PST)
+X-Received: by 2002:ab0:714c:: with SMTP id k12mr14998579uao.124.1576270395412;
+        Fri, 13 Dec 2019 12:53:15 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1576270395; cv=none;
         d=google.com; s=arc-20160816;
-        b=pz5akudo9BR6gGOgspB8NbciBFYumNQ607azWeWmgg5PtMQ1vQuamF2G/b/HrK3rzi
-         GotOIjwm1zU/jJQoL2t52IeUZKkkLSiGj2nuEelMOpQg71WcgOi85O4mIl0ZV4BnAHIf
-         Gb8k4kGg6Z+npymYsRbTyW3XQ0Vk54pVQYfRnPKSEsLptcIVel8RstAMddzWER3OvTYB
-         M7eKNKSk6IrCxoHn1P1odTlPCD8l+/kVs5BT4TpkcXwvEiiGBOWFfuN3JYcMDIRzkBL6
-         0eplvKDdlxfCmBtQYwZ8bA0w9c4rjxjXBR2W5AT54LCgnkvDgxp8MF7GAOZb0Ga9ncKP
-         GXJg==
+        b=nc7a7L5WXEWcLOJjr95S5ZSF2EqgYEQXMGY8y7tepIhcswa2FFgi44S2cmVqUnqc8f
+         mpu9AeO3PKRSiIAztJSz/FuazTAiulKQ6yAKR9syj7cNNXjus0wVaIkf5FN//IPlq+Ot
+         Pbf4WoNblxJ8RlI9Ge2EIQNoMSaEYOaMgIHrnkkOvLNmPdO+LbCm0MLyv6JZpjhFOhhN
+         rG/iH2Sl1np/+tlrVkLSWpnOMsb1xalyGFvfMwxc2MTjJn18xOUWP+PUvdGH3Ugo7LTy
+         jl65AJ7SbaKv53+Vf7vHSHi6h0/q8QnQymQ720J+6HkBQBFreRjLM49ZWtDLLjq9l4R8
+         6AQg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:from:subject:mime-version:message-id:date:dkim-signature;
-        bh=a1jdZmOtDq0rK4AdE9X1BQB4Chvj4FuBPej3mFQLPjk=;
-        b=aqJuvOF1i7m+tszb4/do1dyrO0H5uxcmC/e5Nr5eP1RFAd22BQdoMNIU0FOV2lJRQJ
-         E31tH/hFRRzaye0LvIMwPnU4xYGHEEaJLsE4cEg8Nc/l0d8yR9rV1WjM/uewvvkJT39r
-         gXL1YJqQUUkzDGVVS7w8Rn9J6xLZ3iEzYcreEgIOmXnyyOEU2gULJhPgCQHUHIP3Luvz
-         kbvki/cRCWC6XSJjNKND5WSy+JreMJDkNHCqWLix52Ipf32gnYmgvWeIy+AjKNZWoS5b
-         xVZqqW7AlIm2DCb10LBkpsnXTHTZGe2hZhoKNxK5C0kyqs0mYYqF5NZYoaTy9UAwck+K
-         AgJA==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=RJVV240FcmOJOsegfmFG4PxTY2FHtv3JmMVXSMNvK6k=;
+        b=BRmOQNGu6Qpixqq/8MdEFrLfKv5nyQ6qX79vFDjB5qWfUJ3gNr6BRY5rwkAoepuszl
+         bSZHZiVQYbmTxVUkuXv7vtr8ndYNaCv3PYT02BH9rUztyZiAGnm9DN9sDzKw/Oamhypw
+         FX89CY9AdRCH9mY1OKtRmNxGosm/Xhs2wb2eHuF79bHOWcUm7g0G66TsF8AdG7E8zt7C
+         +0rzOYuryBkjynv8rXNDaXp9OuJrKFaBtz2nBvyytwd2+A+O1j246keHtHuzz4E/gwb7
+         ONC1Z7vgqfJMViCXJ6ZTYFsONEy/tZ9UYpkFVbCfSpqlkrtpWw6S3f6fH36gQYFUaf8l
+         xlDQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=N3yH+STX;
-       spf=pass (google.com: domain of 3o_nzxqukcvw8fp8laiiaf8.6ige4m4h-78paiiaf8aliojm.6ig@flex--elver.bounces.google.com designates 2a00:1450:4864:20::44a as permitted sender) smtp.mailfrom=3o_nzXQUKCVw8FP8LAIIAF8.6IGE4M4H-78PAIIAF8ALIOJM.6IG@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=n8TzZEHD;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::344 as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-wr1-x44a.google.com (mail-wr1-x44a.google.com. [2a00:1450:4864:20::44a])
-        by gmr-mx.google.com with ESMTPS id a138si426975wmd.1.2019.12.13.12.50.44
+Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com. [2607:f8b0:4864:20::344])
+        by gmr-mx.google.com with ESMTPS id w4si502564vse.2.2019.12.13.12.53.15
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 13 Dec 2019 12:50:44 -0800 (PST)
-Received-SPF: pass (google.com: domain of 3o_nzxqukcvw8fp8laiiaf8.6ige4m4h-78paiiaf8aliojm.6ig@flex--elver.bounces.google.com designates 2a00:1450:4864:20::44a as permitted sender) client-ip=2a00:1450:4864:20::44a;
-Received: by mail-wr1-x44a.google.com with SMTP id y7so61873wrm.3
-        for <kasan-dev@googlegroups.com>; Fri, 13 Dec 2019 12:50:44 -0800 (PST)
-X-Received: by 2002:adf:dc86:: with SMTP id r6mr15819986wrj.68.1576270243820;
- Fri, 13 Dec 2019 12:50:43 -0800 (PST)
-Date: Fri, 13 Dec 2019 21:49:46 +0100
-Message-Id: <20191213204946.251125-1-elver@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.24.1.735.g03f4e72817-goog
-Subject: [PATCH RESEND -rcu/kcsan] kcsan: Prefer __always_inline for fast-path
+        Fri, 13 Dec 2019 12:53:15 -0800 (PST)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::344 as permitted sender) client-ip=2607:f8b0:4864:20::344;
+Received: by mail-ot1-x344.google.com with SMTP id 59so569566otp.12
+        for <kasan-dev@googlegroups.com>; Fri, 13 Dec 2019 12:53:15 -0800 (PST)
+X-Received: by 2002:a9d:7f12:: with SMTP id j18mr17267505otq.17.1576270394337;
+ Fri, 13 Dec 2019 12:53:14 -0800 (PST)
+MIME-Version: 1.0
+References: <20191126140406.164870-1-elver@google.com> <20191126140406.164870-3-elver@google.com>
+ <00ee3b40-0e37-c9ac-3209-d07b233a0c1d@infradead.org> <20191203160128.GC2889@paulmck-ThinkPad-P72>
+ <CANpmjNOvDHoapk1cR5rCAcYgfVwf8NS0wFJncJ-bQrWzCKLPpw@mail.gmail.com> <20191213013127.GE2889@paulmck-ThinkPad-P72>
+In-Reply-To: <20191213013127.GE2889@paulmck-ThinkPad-P72>
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-To: elver@google.com
-Cc: paulmck@kernel.org, kasan-dev@googlegroups.com, 
-	linux-kernel@vger.kernel.org, dvyukov@google.com, 
-	Randy Dunlap <rdunlap@infradead.org>
+Date: Fri, 13 Dec 2019 21:53:02 +0100
+Message-ID: <CANpmjNPWYh1HioefhZjQtXv+8sXSxQmg22uJN=-ut9mdsr=atw@mail.gmail.com>
+Subject: Re: [PATCH v3 3/3] kcsan: Prefer __always_inline for fast-path
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: Randy Dunlap <rdunlap@infradead.org>, Mark Rutland <mark.rutland@arm.com>, 
+	LKML <linux-kernel@vger.kernel.org>, Will Deacon <will@kernel.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Boqun Feng <boqun.feng@gmail.com>, 
+	Arnd Bergmann <arnd@arndb.de>, Dmitry Vyukov <dvyukov@google.com>, 
+	linux-arch <linux-arch@vger.kernel.org>, kasan-dev <kasan-dev@googlegroups.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=N3yH+STX;       spf=pass
- (google.com: domain of 3o_nzxqukcvw8fp8laiiaf8.6ige4m4h-78paiiaf8aliojm.6ig@flex--elver.bounces.google.com
- designates 2a00:1450:4864:20::44a as permitted sender) smtp.mailfrom=3o_nzXQUKCVw8FP8LAIIAF8.6IGE4M4H-78PAIIAF8ALIOJM.6IG@flex--elver.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+ header.i=@google.com header.s=20161025 header.b=n8TzZEHD;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::344 as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Marco Elver <elver@google.com>
 Reply-To: Marco Elver <elver@google.com>
 Precedence: list
@@ -127,144 +134,215 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Prefer __always_inline for fast-path functions that are called outside
-of user_access_save, to avoid generating UACCESS warnings when
-optimizing for size (CC_OPTIMIZE_FOR_SIZE). It will also avoid future
-surprises with compiler versions that change the inlining heuristic even
-when optimizing for performance.
+On Fri, 13 Dec 2019 at 02:31, Paul E. McKenney <paulmck@kernel.org> wrote:
+>
+> On Thu, Dec 12, 2019 at 10:11:59PM +0100, Marco Elver wrote:
+> > On Tue, 3 Dec 2019 at 17:01, Paul E. McKenney <paulmck@kernel.org> wrote:
+> > >
+> > > On Mon, Dec 02, 2019 at 09:30:22PM -0800, Randy Dunlap wrote:
+> > > > On 11/26/19 6:04 AM, Marco Elver wrote:
+> > > > > Prefer __always_inline for fast-path functions that are called outside
+> > > > > of user_access_save, to avoid generating UACCESS warnings when
+> > > > > optimizing for size (CC_OPTIMIZE_FOR_SIZE). It will also avoid future
+> > > > > surprises with compiler versions that change the inlining heuristic even
+> > > > > when optimizing for performance.
+> > > > >
+> > > > > Report: http://lkml.kernel.org/r/58708908-84a0-0a81-a836-ad97e33dbb62@infradead.org
+> > > > > Reported-by: Randy Dunlap <rdunlap@infradead.org>
+> > > > > Signed-off-by: Marco Elver <elver@google.com>
+> > > >
+> > > > Acked-by: Randy Dunlap <rdunlap@infradead.org> # build-tested
+> > >
+> > > Thank you, Randy!
+> >
+> > Hoped this would have applied by now, but since KCSAN isn't in
+> > mainline yet, should I send a version of this patch rebased on
+> > -rcu/kcsan?
+> > It will just conflict with the style cleanup that is in
+> > -tip/locking/kcsan when another eventual merge happens. Alternatively,
+> > we can delay it for now and just have to remember to apply eventually
+> > (and have to live with things being messy for a bit longer :-)).
+>
+> Excellent question.  ;-)
+>
+> The first several commits are in -tip already, so they will go upstream
+> in their current state by default.  And a bunch of -tip commits have
+> already been merged on top of them, so it might not be easy to move them.
+>
+> So please feel free to port the patch to -rcu/ksan and let's see how that
+> plays out.  If it gets too ugly, then maybe wait until the current set
+> of patches go upstream.
+>
+> Another option is to port them to the kcsan merge point in -rcu.  That
+> would bring in v5.5-rc1.  Would that help?
 
-Report: http://lkml.kernel.org/r/58708908-84a0-0a81-a836-ad97e33dbb62@infradead.org
-Reported-by: Randy Dunlap <rdunlap@infradead.org>
-Acked-by: Randy Dunlap <rdunlap@infradead.org> # build-tested
-Signed-off-by: Marco Elver <elver@google.com>
----
-Version rebased on -rcu/kcsan.
-
-There are 3 locations that would conflict with the style cleanup in
--tip/locking/kcsan:
+For this patch it won't help, since it only conflicts with changes in
+this commit which is not in v5.5-rc1:
 https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git/commit/?h=locking/kcsan&id=5cbaefe9743bf14c9d3106db0cc19f8cb0a3ca22
 
-For the conflicting locations the better style is carried over, so that
-upon eventual merge the resolution should be trivial.
----
- kernel/kcsan/atomic.h   |  2 +-
- kernel/kcsan/core.c     | 17 ++++++++---------
- kernel/kcsan/encoding.h | 11 +++++------
- 3 files changed, 14 insertions(+), 16 deletions(-)
+However, for this patch there are only 3 locations in
+kernel/kcsan/{core.c,encoding.h} that conflict, and all of them should
+be trivial to resolve. For the version rebased against -rcu/kcsan, in
+the conflicting locations I simply carried over the better style, so
+that upon eventual merge the resolution should be trivial (I hope). I
+have sent the rebased version here:
+http://lkml.kernel.org/r/20191213204946.251125-1-elver@google.com
 
-diff --git a/kernel/kcsan/atomic.h b/kernel/kcsan/atomic.h
-index c9c3fe628011..466e6777533e 100644
---- a/kernel/kcsan/atomic.h
-+++ b/kernel/kcsan/atomic.h
-@@ -18,7 +18,7 @@
-  * than cast to volatile. Eventually, we hope to be able to remove this
-  * function.
-  */
--static inline bool kcsan_is_atomic(const volatile void *ptr)
-+static __always_inline bool kcsan_is_atomic(const volatile void *ptr)
- {
- 	/* only jiffies for now */
- 	return ptr == &jiffies;
-diff --git a/kernel/kcsan/core.c b/kernel/kcsan/core.c
-index d9410d58c93e..69870645b631 100644
---- a/kernel/kcsan/core.c
-+++ b/kernel/kcsan/core.c
-@@ -78,9 +78,8 @@ static atomic_long_t watchpoints[CONFIG_KCSAN_NUM_WATCHPOINTS + NUM_SLOTS - 1];
-  */
- static DEFINE_PER_CPU(long, kcsan_skip);
- 
--static inline atomic_long_t *find_watchpoint(unsigned long addr, size_t size,
--					     bool expect_write,
--					     long *encoded_watchpoint)
-+static __always_inline atomic_long_t *
-+find_watchpoint(unsigned long addr, size_t size, bool expect_write, long *encoded_watchpoint)
- {
- 	const int slot = watchpoint_slot(addr);
- 	const unsigned long addr_masked = addr & WATCHPOINT_ADDR_MASK;
-@@ -150,8 +149,8 @@ static inline atomic_long_t *insert_watchpoint(unsigned long addr, size_t size,
-  *	2. the thread that set up the watchpoint already removed it;
-  *	3. the watchpoint was removed and then re-used.
-  */
--static inline bool try_consume_watchpoint(atomic_long_t *watchpoint,
--					  long encoded_watchpoint)
-+static __always_inline bool
-+try_consume_watchpoint(atomic_long_t *watchpoint, long encoded_watchpoint)
- {
- 	return atomic_long_try_cmpxchg_relaxed(watchpoint, &encoded_watchpoint,
- 					       CONSUMED_WATCHPOINT);
-@@ -166,7 +165,7 @@ static inline bool remove_watchpoint(atomic_long_t *watchpoint)
- 	       CONSUMED_WATCHPOINT;
- }
- 
--static inline struct kcsan_ctx *get_ctx(void)
-+static __always_inline struct kcsan_ctx *get_ctx(void)
- {
- 	/*
- 	 * In interrupt, use raw_cpu_ptr to avoid unnecessary checks, that would
-@@ -175,7 +174,7 @@ static inline struct kcsan_ctx *get_ctx(void)
- 	return in_task() ? &current->kcsan_ctx : raw_cpu_ptr(&kcsan_cpu_ctx);
- }
- 
--static inline bool is_atomic(const volatile void *ptr)
-+static __always_inline bool is_atomic(const volatile void *ptr)
- {
- 	struct kcsan_ctx *ctx = get_ctx();
- 
-@@ -199,7 +198,7 @@ static inline bool is_atomic(const volatile void *ptr)
- 	return kcsan_is_atomic(ptr);
- }
- 
--static inline bool should_watch(const volatile void *ptr, int type)
-+static __always_inline bool should_watch(const volatile void *ptr, int type)
- {
- 	/*
- 	 * Never set up watchpoints when memory operations are atomic.
-@@ -232,7 +231,7 @@ static inline void reset_kcsan_skip(void)
- 	this_cpu_write(kcsan_skip, skip_count);
- }
- 
--static inline bool kcsan_is_enabled(void)
-+static __always_inline bool kcsan_is_enabled(void)
- {
- 	return READ_ONCE(kcsan_enabled) && get_ctx()->disable_count == 0;
- }
-diff --git a/kernel/kcsan/encoding.h b/kernel/kcsan/encoding.h
-index e17bdac0e54b..e527e83ce825 100644
---- a/kernel/kcsan/encoding.h
-+++ b/kernel/kcsan/encoding.h
-@@ -58,9 +58,8 @@ static inline long encode_watchpoint(unsigned long addr, size_t size,
- 		      (addr & WATCHPOINT_ADDR_MASK));
- }
- 
--static inline bool decode_watchpoint(long watchpoint,
--				     unsigned long *addr_masked, size_t *size,
--				     bool *is_write)
-+static __always_inline bool
-+decode_watchpoint(long watchpoint, unsigned long *addr_masked, size_t *size, bool *is_write)
- {
- 	if (watchpoint == INVALID_WATCHPOINT ||
- 	    watchpoint == CONSUMED_WATCHPOINT)
-@@ -77,13 +76,13 @@ static inline bool decode_watchpoint(long watchpoint,
- /*
-  * Return watchpoint slot for an address.
-  */
--static inline int watchpoint_slot(unsigned long addr)
-+static __always_inline int watchpoint_slot(unsigned long addr)
- {
- 	return (addr / PAGE_SIZE) % CONFIG_KCSAN_NUM_WATCHPOINTS;
- }
- 
--static inline bool matching_access(unsigned long addr1, size_t size1,
--				   unsigned long addr2, size_t size2)
-+static __always_inline bool matching_access(unsigned long addr1, size_t size1,
-+					    unsigned long addr2, size_t size2)
- {
- 	unsigned long end_range1 = addr1 + size1 - 1;
- 	unsigned long end_range2 = addr2 + size2 - 1;
--- 
-2.24.1.735.g03f4e72817-goog
+Unrelated to this patch, we also deferred the updated bitops patch
+which now applies on top of v5.5-rc1:
+http://lkml.kernel.org/r/20191115115524.GA77379@google.com
+but doesn't apply to -rcu/kcsan. I think the bitops patch isn't
+terribly urgent, so it could wait to avoid further confusion.
+
+Many thanks,
+-- Marco
+
+
+>                                                         Thanx, Paul
+>
+> > The version as-is here applies on -tip/locking/kcsan and -next (which
+> > merged -tip/locking/kcsan).
+> >
+> > Thanks,
+> > -- Marco
+> >
+> >
+> > >                                                         Thanx, Paul
+> > >
+> > > > Thanks.
+> > > >
+> > > > > ---
+> > > > > Rebased on: locking/kcsan branch of tip tree.
+> > > > > ---
+> > > > >  kernel/kcsan/atomic.h   |  2 +-
+> > > > >  kernel/kcsan/core.c     | 16 +++++++---------
+> > > > >  kernel/kcsan/encoding.h | 14 +++++++-------
+> > > > >  3 files changed, 15 insertions(+), 17 deletions(-)
+> > > > >
+> > > > > diff --git a/kernel/kcsan/atomic.h b/kernel/kcsan/atomic.h
+> > > > > index 576e03ddd6a3..a9c193053491 100644
+> > > > > --- a/kernel/kcsan/atomic.h
+> > > > > +++ b/kernel/kcsan/atomic.h
+> > > > > @@ -18,7 +18,7 @@
+> > > > >   * than cast to volatile. Eventually, we hope to be able to remove this
+> > > > >   * function.
+> > > > >   */
+> > > > > -static inline bool kcsan_is_atomic(const volatile void *ptr)
+> > > > > +static __always_inline bool kcsan_is_atomic(const volatile void *ptr)
+> > > > >  {
+> > > > >     /* only jiffies for now */
+> > > > >     return ptr == &jiffies;
+> > > > > diff --git a/kernel/kcsan/core.c b/kernel/kcsan/core.c
+> > > > > index 3314fc29e236..c616fec639cd 100644
+> > > > > --- a/kernel/kcsan/core.c
+> > > > > +++ b/kernel/kcsan/core.c
+> > > > > @@ -78,10 +78,8 @@ static atomic_long_t watchpoints[CONFIG_KCSAN_NUM_WATCHPOINTS + NUM_SLOTS-1];
+> > > > >   */
+> > > > >  static DEFINE_PER_CPU(long, kcsan_skip);
+> > > > >
+> > > > > -static inline atomic_long_t *find_watchpoint(unsigned long addr,
+> > > > > -                                        size_t size,
+> > > > > -                                        bool expect_write,
+> > > > > -                                        long *encoded_watchpoint)
+> > > > > +static __always_inline atomic_long_t *
+> > > > > +find_watchpoint(unsigned long addr, size_t size, bool expect_write, long *encoded_watchpoint)
+> > > > >  {
+> > > > >     const int slot = watchpoint_slot(addr);
+> > > > >     const unsigned long addr_masked = addr & WATCHPOINT_ADDR_MASK;
+> > > > > @@ -146,7 +144,7 @@ insert_watchpoint(unsigned long addr, size_t size, bool is_write)
+> > > > >   * 2. the thread that set up the watchpoint already removed it;
+> > > > >   * 3. the watchpoint was removed and then re-used.
+> > > > >   */
+> > > > > -static inline bool
+> > > > > +static __always_inline bool
+> > > > >  try_consume_watchpoint(atomic_long_t *watchpoint, long encoded_watchpoint)
+> > > > >  {
+> > > > >     return atomic_long_try_cmpxchg_relaxed(watchpoint, &encoded_watchpoint, CONSUMED_WATCHPOINT);
+> > > > > @@ -160,7 +158,7 @@ static inline bool remove_watchpoint(atomic_long_t *watchpoint)
+> > > > >     return atomic_long_xchg_relaxed(watchpoint, INVALID_WATCHPOINT) != CONSUMED_WATCHPOINT;
+> > > > >  }
+> > > > >
+> > > > > -static inline struct kcsan_ctx *get_ctx(void)
+> > > > > +static __always_inline struct kcsan_ctx *get_ctx(void)
+> > > > >  {
+> > > > >     /*
+> > > > >      * In interrupts, use raw_cpu_ptr to avoid unnecessary checks, that would
+> > > > > @@ -169,7 +167,7 @@ static inline struct kcsan_ctx *get_ctx(void)
+> > > > >     return in_task() ? &current->kcsan_ctx : raw_cpu_ptr(&kcsan_cpu_ctx);
+> > > > >  }
+> > > > >
+> > > > > -static inline bool is_atomic(const volatile void *ptr)
+> > > > > +static __always_inline bool is_atomic(const volatile void *ptr)
+> > > > >  {
+> > > > >     struct kcsan_ctx *ctx = get_ctx();
+> > > > >
+> > > > > @@ -193,7 +191,7 @@ static inline bool is_atomic(const volatile void *ptr)
+> > > > >     return kcsan_is_atomic(ptr);
+> > > > >  }
+> > > > >
+> > > > > -static inline bool should_watch(const volatile void *ptr, int type)
+> > > > > +static __always_inline bool should_watch(const volatile void *ptr, int type)
+> > > > >  {
+> > > > >     /*
+> > > > >      * Never set up watchpoints when memory operations are atomic.
+> > > > > @@ -226,7 +224,7 @@ static inline void reset_kcsan_skip(void)
+> > > > >     this_cpu_write(kcsan_skip, skip_count);
+> > > > >  }
+> > > > >
+> > > > > -static inline bool kcsan_is_enabled(void)
+> > > > > +static __always_inline bool kcsan_is_enabled(void)
+> > > > >  {
+> > > > >     return READ_ONCE(kcsan_enabled) && get_ctx()->disable_count == 0;
+> > > > >  }
+> > > > > diff --git a/kernel/kcsan/encoding.h b/kernel/kcsan/encoding.h
+> > > > > index b63890e86449..f03562aaf2eb 100644
+> > > > > --- a/kernel/kcsan/encoding.h
+> > > > > +++ b/kernel/kcsan/encoding.h
+> > > > > @@ -59,10 +59,10 @@ encode_watchpoint(unsigned long addr, size_t size, bool is_write)
+> > > > >                   (addr & WATCHPOINT_ADDR_MASK));
+> > > > >  }
+> > > > >
+> > > > > -static inline bool decode_watchpoint(long watchpoint,
+> > > > > -                                unsigned long *addr_masked,
+> > > > > -                                size_t *size,
+> > > > > -                                bool *is_write)
+> > > > > +static __always_inline bool decode_watchpoint(long watchpoint,
+> > > > > +                                         unsigned long *addr_masked,
+> > > > > +                                         size_t *size,
+> > > > > +                                         bool *is_write)
+> > > > >  {
+> > > > >     if (watchpoint == INVALID_WATCHPOINT ||
+> > > > >         watchpoint == CONSUMED_WATCHPOINT)
+> > > > > @@ -78,13 +78,13 @@ static inline bool decode_watchpoint(long watchpoint,
+> > > > >  /*
+> > > > >   * Return watchpoint slot for an address.
+> > > > >   */
+> > > > > -static inline int watchpoint_slot(unsigned long addr)
+> > > > > +static __always_inline int watchpoint_slot(unsigned long addr)
+> > > > >  {
+> > > > >     return (addr / PAGE_SIZE) % CONFIG_KCSAN_NUM_WATCHPOINTS;
+> > > > >  }
+> > > > >
+> > > > > -static inline bool matching_access(unsigned long addr1, size_t size1,
+> > > > > -                              unsigned long addr2, size_t size2)
+> > > > > +static __always_inline bool matching_access(unsigned long addr1, size_t size1,
+> > > > > +                                       unsigned long addr2, size_t size2)
+> > > > >  {
+> > > > >     unsigned long end_range1 = addr1 + size1 - 1;
+> > > > >     unsigned long end_range2 = addr2 + size2 - 1;
+> > > > >
+> > > >
+> > > >
+> > > > --
+> > > > ~Randy
+> > > >
+>
+> --
+> You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20191213013127.GE2889%40paulmck-ThinkPad-P72.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20191213204946.251125-1-elver%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNPWYh1HioefhZjQtXv%2B8sXSxQmg22uJN%3D-ut9mdsr%3Datw%40mail.gmail.com.
