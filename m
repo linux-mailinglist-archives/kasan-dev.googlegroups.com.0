@@ -1,123 +1,125 @@
-Return-Path: <kasan-dev+bncBDQ27FVWWUFRBVE547XQKGQEBWTQY4Q@googlegroups.com>
+Return-Path: <kasan-dev+bncBCMIZB7QWENRBK6Z47XQKGQE2GHIATI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pl1-x63a.google.com (mail-pl1-x63a.google.com [IPv6:2607:f8b0:4864:20::63a])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB396123FF3
-	for <lists+kasan-dev@lfdr.de>; Wed, 18 Dec 2019 08:01:41 +0100 (CET)
-Received: by mail-pl1-x63a.google.com with SMTP id f2sf618680plr.21
-        for <lists+kasan-dev@lfdr.de>; Tue, 17 Dec 2019 23:01:41 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1576652500; cv=pass;
+Received: from mail-pl1-x637.google.com (mail-pl1-x637.google.com [IPv6:2607:f8b0:4864:20::637])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2328F124264
+	for <lists+kasan-dev@lfdr.de>; Wed, 18 Dec 2019 10:09:01 +0100 (CET)
+Received: by mail-pl1-x637.google.com with SMTP id t17sf804599ply.5
+        for <lists+kasan-dev@lfdr.de>; Wed, 18 Dec 2019 01:09:01 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1576660139; cv=pass;
         d=google.com; s=arc-20160816;
-        b=EIKhPkJ0QQqbXrHuWAbQpn98uHpvB/6/0zGeAiIKO46LcGOBU4n3N1A8KtVxcG+ahw
-         52ciCl5ZgEVSieFFDOgf86IHLUV0YERrQ9JcYvOB4KtEnUXyiX4bW0vhxiEUNnWfKpos
-         scEkwC85VYsMVzh0zgbXMVwPmrbYUvQ4EaQ9uAM6ov8P8xNxpNq9Zd6cbT3GypL10tI9
-         X0gvAQlWmp3Q/pkg7q78+V0mnJy4luInU3atQsVSVa6422cz7cCnsCfxjlJatOzK2eky
-         GDURgyhs+5npyMwttSiexKc/h9STPGGtffbIigaJU7I3EWSldz3OL8gAP+/BEYTtpZtr
-         ldmw==
+        b=nPJ5AH448DtDCR5prOZFJX/gRmJsW00TwTXh7me+PAhGLvD3v0EpTDmzGYOiWhx8ek
+         rFOwXvVendG30fIX03vz85GmuqgmG/8p2do+9lu1T3vRvwpMGR4W7zD9fCbav8jLNPBJ
+         Uf5lcllD1HG12VWAEbQTptQfTS/BrRvL60ICHK8J59Uh2ia/trqJUFH+xAsAMhS+W8AN
+         fRccsv5e5gG8z9AS89QqwReGmMZ+iQ7uYTEEhtRSzqFD+zLIuGs5jSYrBkqyig8QC75X
+         OnlW2odkwkM4+vWKBhzkAJJNoQbU+LG9dkNwZuxv5VAaFr8g5foGADEPZU7+ugF0LHIX
+         nocg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding
-         :mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:sender:dkim-signature;
-        bh=cACAXIntGqu1emSB+Cxy7OuVGOSqDrUlhr/1odmcj20=;
-        b=zZjEgqAR5VuYSVcIAAcN24orIItvqxgHNi6NJp0r6kODKFCZFGWSTeeZwq0IUyfZAb
-         BeyqkEwf2+xJe8Ha13W4dziIT1D1g7MCz0eEEUaDNvh6gpmKKDS+9wz1xdN8pGUv2f2N
-         vhmsMpVPVntzO0OJOzMLF2HTGsakcgJh5thr4TIfX3LTxQ7+ZyLfxy/Yjbq/hPzB11fr
-         H3lOCDyiC2q5iwVlXO7vNVWz16p9bEHB7cauatB5DZshWkMWYzuoBvzyhH85TPPgb8Sm
-         CIlQ1WQWkFPNLKjsV+nTpD9ClLzcAWO4x0tACh9NE012HkeOuoIOXnLiXkUDVhtDR8F2
-         g1mQ==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=1uoHSvhHm/iGayPgrE42iajA0+KC0X5qV/dmobMSDBo=;
+        b=X8iSwT/bfW4TRb14L5FxTS4rSq58DurDBxFhEu9ulr4NOQZmrf4F/h9yyhcOlrVpWy
+         O1Nohb970Y0TwwZUdmF+JZrDon9iS6iF3KRSHTkPEwZmuRWdKDK3oa5+RAhPISWO2Ulg
+         X9P3JGjLNrZGeFTppysJQZlgdDb42Lria+mTnk0opdT790vyqOkSIS2r675P6RISXcqV
+         nQiDZUAXyYIRE88vx702ocjiF1DnfPx5xwAZ/JH2RCRvFyfqDziWDD65gwYWlBZvgjbM
+         4dJbXJwUVSCoeloCsXHwAxN+4lS1jLGNoFUqMx6gB+UE6QpqeH8HmHlm13Lj2boLAJ3p
+         EsIQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@axtens.net header.s=google header.b=HJ57PQOL;
-       spf=pass (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::443 as permitted sender) smtp.mailfrom=dja@axtens.net
+       dkim=pass header.i=@google.com header.s=20161025 header.b=nj0nK9hM;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::742 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:from:to:cc:subject:in-reply-to:references:date:message-id
-         :mime-version:content-transfer-encoding:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=cACAXIntGqu1emSB+Cxy7OuVGOSqDrUlhr/1odmcj20=;
-        b=IkFR4QrfM7BRR7GxZqfv1Uo+PzFd+1S8u4Yq2akhO/oR93s0TWVyj9TH1x7bymJoCc
-         ZH7mx3iy3du53SZ5OUOd1K55ig7x5G6pjLb94WpEjEoDzB0FOt9NQggMN+Q7d+gvWDfO
-         Blt0MpWak4jfnrHx64mMr+B6CX55jq11xkvpeeiepA8SzsqdwdJnOstNz7Xjc4uqEZ0k
-         edWK5wme3aRVJp1Ptvkh7yFfG4TJX8vRTYdL6g20bjWDjjtK4Fg0rcBdvIpKexy7m3UH
-         ed8jBYC6+bUbcNz+ur3VSJ9dK9cmvbv8la1IFvnVcLFt1iSJybtckZz/y07z85U67g64
-         RbYg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=1uoHSvhHm/iGayPgrE42iajA0+KC0X5qV/dmobMSDBo=;
+        b=YHjgECc2Z6/UmdHlkMaHHPHUA1g1sW8N2fjv1gt+kNTtcEjVAL5AM43+LkRsKcqTwB
+         tty6rGMiJwBXHs6UR54+hIh/1PncRgLBYqH/6rE3KynuhYZDRw/LyTxkhW8nECTI5QJJ
+         Ne0iRtcPpurS84Y0h0/6YEFThI2sBZgZ3G6elBXP0+wzEx0bxXlJB3ViCZmGY69Lqe2M
+         8o90u5M7m2LaxgIudnYXXnBsgzef0qAEaIk3NElZcl19OF0DblfIvUCZUy2rAORh8dG3
+         AAxgttF4do9IqIomrFeFkKdQc2YEVbDVLJ5YixLRdIo+KEPSYPXkQQES03T9IBVwsz60
+         7emg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:from:to:cc:subject:in-reply-to:references
-         :date:message-id:mime-version:content-transfer-encoding
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=cACAXIntGqu1emSB+Cxy7OuVGOSqDrUlhr/1odmcj20=;
-        b=ZuPmMvxzuBRXGqR43ho7aHEGjbMQQJ2fO7s5hl/9v02w4wIUpwuKjo5S58Tbfnebzl
-         WBLWb3gXZBtsX8kknTwdP7lELiOl06gqNaiV5nAHlGw3NZYuPQxYqoAL4T8xMMrGlZSL
-         W/FkxO0+cKkFYqt/x1s23xaQb5wSX3eHOqnDcc6bGTV87nGjrQFtU8W+vAZYpyOnw48m
-         rPYyAF42TMDVh6KD5hh5oupQTGo+PhPCNb16KKBKudWnlfvptZjIBLZleUGpbvk//osL
-         6epYAl+CYS+N3/ksHQfpyWW+VAmi3Jzt3ngFHKvRk6/7y/mZmoPKNCvbttO/A3uuZg6b
-         Oi/w==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAVpYDpbMq5VS3YIL/oNDC6SYlzT3luZ7JROY0+dpDeGsxIZUtNF
-	CTSGyl6XeMhZHJvah8i2wlU=
-X-Google-Smtp-Source: APXvYqz0tKCYju2gUsaDyWAsPOzez6JHn9hNF4hgqBw3oWg2kUeHGpUXodaVqx6WVGsTKwg3WQHkUQ==
-X-Received: by 2002:a17:90a:fa95:: with SMTP id cu21mr985950pjb.129.1576652500422;
-        Tue, 17 Dec 2019 23:01:40 -0800 (PST)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=1uoHSvhHm/iGayPgrE42iajA0+KC0X5qV/dmobMSDBo=;
+        b=tf/UQDMR35WKxaC2bGd9PWopy/v5ksNRb3gvMJ4bdNySs/6048Py6m5ndPsQj9k9v8
+         q0T1QO3EuITcT+p/iYSQNqqkVCzGMZD6iu0wCHEWH6vO/jVyKrn356vyeueI4gF6kLZd
+         OilvqlNjD8M3O59tvZAhHs4J7PoXMsV5+7kwP5EbSpB95ke17hzkOZcezRlN4E7hV53p
+         VMIOC40rQZsbvZ5Vhz+4mmMraaKH9QNJDqGy0NUQwTiS3hNmpHoC/6LSw1kKTcI6Zqm1
+         uil+pXWrlRQv0cst9EVpDGTTOleWgrE1GdEAgJF4WGUC+gGlN0+jOEhmfVXKWi19m+2G
+         OOEA==
+X-Gm-Message-State: APjAAAXD3F+4aDo3FVDMFUN7/Ta0Jjs8jRyXiVUwgO9HuSVphchgIH60
+	3/GsAwe9VyhKanOXakzJ7to=
+X-Google-Smtp-Source: APXvYqwhNWc2tbRjaPv3aE7+mFmR0wX9ghh9sYk9b2YHFj9yv7X5FihStYR7Zsy+5XUlZvkL4KkrDg==
+X-Received: by 2002:a17:90a:a010:: with SMTP id q16mr1566556pjp.115.1576660139265;
+        Wed, 18 Dec 2019 01:08:59 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:902:724a:: with SMTP id c10ls365000pll.1.gmail; Tue, 17
- Dec 2019 23:01:40 -0800 (PST)
-X-Received: by 2002:a17:90a:8584:: with SMTP id m4mr967126pjn.123.1576652500025;
-        Tue, 17 Dec 2019 23:01:40 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1576652500; cv=none;
+Received: by 2002:a62:1853:: with SMTP id 80ls409015pfy.1.gmail; Wed, 18 Dec
+ 2019 01:08:58 -0800 (PST)
+X-Received: by 2002:a63:2842:: with SMTP id o63mr1847836pgo.317.1576660138828;
+        Wed, 18 Dec 2019 01:08:58 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1576660138; cv=none;
         d=google.com; s=arc-20160816;
-        b=ibk0kPrqP0jm5ieTnvv7qvaS9SxDddCvnNwFFOGM8au8oK9Jk8/44QDU792ZLqIbJu
-         NCsSZLivsUUytLPXvUiUyhL9AxlGvqgenuuysHmDn/ZkDAFK1KOJnAR0sXr7qENXXF6h
-         S0cBun416OvFX+A8dAPvjVJrbXnUAVcuRvOy3dz/3FJwoVEV0JPQY6O1+FORXUVuMFvb
-         U7U9n+p8/mgpB37GxprKrTeiivFQKtfRO3mRuz9yFM5N0jYZ0UfiyJWHlIkHE73JdUWK
-         kaUOlb8CQqXTPH7V9ruY0Av0AIbcFvetBT1r2/Coh/orEsZBiBYD8b0Pj09euPtIuyTQ
-         dswg==
+        b=eIMxYuDVtuqj1wJEQMQJ1X9v6WRQOYRg/n0PQOuYFY9ShLZn1iry85UsHvH5y2Z5tJ
+         tDQi71qxsLN3LOEbpLNvPsheoNQa0gvrnSOImbxd6yC9LKVkLtCB7pMZgODkjd3fEaZZ
+         RLVulHiwW6XckzdNl8PdMpAk8JGG7NL4MAmARiQfPaBYJbkW5WOAifoVaWZDQggfst8z
+         LBggH0O3oC9rfhobtSYgqjRTl578Ro4BmXGCh8rkxw10DU6VRVkR75ePXpU4591ayxf4
+         SXA6WnDbEGcbh/2DTNpAvJndFny58J/iGONzQlh24JSvU98a0ZDufTNwPJFvBDeNAg53
+         I7cg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:message-id:date:references
-         :in-reply-to:subject:cc:to:from:dkim-signature;
-        bh=BZCWkhOFV3yf2yR16aoRfXzQzGQ6DZmCFUiKpUKgtKg=;
-        b=bkbWIP0lQPAPRhgDBah1zJk94szxEmVjrVZdCzHEEY66SBnBSc5g3pOa4zRRfPvb+b
-         kRnlC6aChJ5FjCDx7ae1ZtVfmUGfzDNH2SdSvK2Wl6C4TxTvbNradeykU6B6ZLG3Pqd5
-         lNHnGQng2YT1E3em83V/+xN4jOsQYphYkbLDKF7IEiIXrGgFyWpOT1XW63KQIcKMJM/E
-         00TzPM4PEfArvQkWVIrrUQ2klX9i5lAKaBszYVXeOxiPhdUtJ4HsrcBI6YAYjt/jVTrj
-         H3hPggk3CFLaVjaGWLTm/b8ZhkaV/MSxgUuhRrd2EtSQ8NX/5xFF46weAEtgY7sTbKLf
-         bUXw==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=NAPWBP7CuDFreLAWP9d0OtbbvgLd0xxTvpXtHQFwqyE=;
+        b=ZY0bBvyhR/3lKYidSkvgCZmxSQrDy4MJEi28B9KIGGkt5ELr88HjxOhT7o7E6fZG1+
+         Lo2jWNS8naysePraUaEbD+fo+cP455VxIG3BBR/O7Pdx5GFXBk58WkZsuVKue4LGiZQb
+         IDVKI5qpHLihu6E7oKBdgktIgFqKS1Ei6cS70PrMMV6XdhxkCIZAiQaLviln+2wZ7EyT
+         kBsEzq/sOvVtd5UD5/2KkbCRVgp+8bEuTlV5heVg9oFDfF5CHsI8x5QKU/3xvQLIwm23
+         yp2LGimJ8pIH13n4GzsWLR4mHi2ZzWdqQJmzdEMuxY2A6xUgnStNK5KglgP2Qqk10+0G
+         jWyw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@axtens.net header.s=google header.b=HJ57PQOL;
-       spf=pass (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::443 as permitted sender) smtp.mailfrom=dja@axtens.net
-Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com. [2607:f8b0:4864:20::443])
-        by gmr-mx.google.com with ESMTPS id d12si205875pjv.0.2019.12.17.23.01.39
+       dkim=pass header.i=@google.com header.s=20161025 header.b=nj0nK9hM;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::742 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com. [2607:f8b0:4864:20::742])
+        by gmr-mx.google.com with ESMTPS id w2si42713pgt.2.2019.12.18.01.08.58
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 17 Dec 2019 23:01:39 -0800 (PST)
-Received-SPF: pass (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::443 as permitted sender) client-ip=2607:f8b0:4864:20::443;
-Received: by mail-pf1-x443.google.com with SMTP id 2so667044pfg.12
-        for <kasan-dev@googlegroups.com>; Tue, 17 Dec 2019 23:01:39 -0800 (PST)
-X-Received: by 2002:a63:3484:: with SMTP id b126mr1263334pga.17.1576652499643;
-        Tue, 17 Dec 2019 23:01:39 -0800 (PST)
-Received: from localhost (2001-44b8-1113-6700-a084-b324-40b3-453d.static.ipv6.internode.on.net. [2001:44b8:1113:6700:a084:b324:40b3:453d])
-        by smtp.gmail.com with ESMTPSA id i127sm1608577pfc.55.2019.12.17.23.01.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Dec 2019 23:01:38 -0800 (PST)
-From: Daniel Axtens <dja@axtens.net>
-To: Jordan Niethe <jniethe5@gmail.com>
-Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org, linuxppc-dev@lists.ozlabs.org, kasan-dev@googlegroups.com, christophe.leroy@c-s.fr, aneesh.kumar@linux.ibm.com, bsingharora@gmail.com, Michael Ellerman <mpe@ellerman.id.au>
-Subject: Re: [PATCH v3 3/3] powerpc: Book3S 64-bit "heavyweight" KASAN support
-In-Reply-To: <CACzsE9q1iLgoMLzVy0AYeRvWbj=kY-Ry52y84PGtWw3YXXFipA@mail.gmail.com>
-References: <20191212151656.26151-1-dja@axtens.net> <20191212151656.26151-4-dja@axtens.net> <CACzsE9q1iLgoMLzVy0AYeRvWbj=kY-Ry52y84PGtWw3YXXFipA@mail.gmail.com>
-Date: Wed, 18 Dec 2019 18:01:34 +1100
-Message-ID: <87y2vat8vl.fsf@dja-thinkpad.axtens.net>
+        Wed, 18 Dec 2019 01:08:58 -0800 (PST)
+Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::742 as permitted sender) client-ip=2607:f8b0:4864:20::742;
+Received: by mail-qk1-x742.google.com with SMTP id w127so929872qkb.11
+        for <kasan-dev@googlegroups.com>; Wed, 18 Dec 2019 01:08:58 -0800 (PST)
+X-Received: by 2002:ae9:eb48:: with SMTP id b69mr1335544qkg.43.1576660137547;
+ Wed, 18 Dec 2019 01:08:57 -0800 (PST)
 MIME-Version: 1.0
+References: <00000000000021cc1a0599f66f55@google.com>
+In-Reply-To: <00000000000021cc1a0599f66f55@google.com>
+From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Wed, 18 Dec 2019 10:08:45 +0100
+Message-ID: <CACT4Y+Y0FXiGgsMt=k9d73bkQvW-NqyUoS=w6KXQ=28_ROz1YA@mail.gmail.com>
+Subject: Re: BUG: soft lockup in sock_setsockopt
+To: syzbot <syzbot+e7e13ce5d4ca294ca90a@syzkaller.appspotmail.com>, 
+	kasan-dev <kasan-dev@googlegroups.com>, Daniel Axtens <dja@axtens.net>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Josh Poimboeuf <jpoimboe@redhat.com>, 
+	LKML <linux-kernel@vger.kernel.org>, namit@vmware.com, 
+	Peter Zijlstra <peterz@infradead.org>, syzkaller-bugs <syzkaller-bugs@googlegroups.com>, 
+	Thomas Gleixner <tglx@linutronix.de>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: dja@axtens.net
+X-Original-Sender: dvyukov@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@axtens.net header.s=google header.b=HJ57PQOL;       spf=pass
- (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::443 as
- permitted sender) smtp.mailfrom=dja@axtens.net
+ header.i=@google.com header.s=20161025 header.b=nj0nK9hM;       spf=pass
+ (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::742
+ as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
+ (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Dmitry Vyukov <dvyukov@google.com>
+Reply-To: Dmitry Vyukov <dvyukov@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -130,83 +132,148 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-
->>    [For those not immersed in ppc64, in real mode, the top nibble or 2 b=
-its
->>    (depending on radix/hash mmu) of the address is ignored. The linear
->>    mapping is placed at 0xc000000000000000. This means that a pointer to
->>    part of the linear mapping will work both in real mode, where it will=
- be
->>    interpreted as a physical address of the form 0x000..., and out of re=
-al
->>    mode, where it will go via the linear mapping.]
->>
+On Wed, Dec 18, 2019 at 9:43 AM syzbot
+<syzbot+e7e13ce5d4ca294ca90a@syzkaller.appspotmail.com> wrote:
 >
-> How does hash or radix mmu mode effect how many bits are ignored in real =
-mode?
+> Hello,
+>
+> syzbot found the following crash on:
+>
+> HEAD commit:    9065e063 Merge branch 'x86-urgent-for-linus' of git://git...
+> git tree:       upstream
+> console output: https://syzkaller.appspot.com/x/log.txt?x=17185e99e00000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=dcf10bf83926432a
+> dashboard link: https://syzkaller.appspot.com/bug?extid=e7e13ce5d4ca294ca90a
+> compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+>
+> Unfortunately, I don't have any reproducer for this crash yet.
+>
+> IMPORTANT: if you fix the bug, please add the following tag to the commit:
+> Reported-by: syzbot+e7e13ce5d4ca294ca90a@syzkaller.appspotmail.com
 
-Bah, you're picking on details that I picked up from random
-conversations in the office rather than from reading the spec! :P
++Daniel, kasan-dev,
 
-The ISA suggests that real addresses space is limited to at most 64
-bits. ISAv3, Book III s5.7:
+This looks like another stall caused by KASAN+vmalloc. Now it has
+reached upstream and this instance uses Apparmor rather than Smack.
 
-| * Host real address space size is 2^m bytes, m <=3D 60;
-|   see Note 1.
-| * Guest real address space size is 2 m bytes, m <=3D 60;
-|   see Notes 1 and 2.
-...
-| Notes:
-| 1. The value of m is implementation-dependent (sub-
-|    ject to the maximum given above). When used to
-|    address storage or to represent a guest real
-|    address, the high-order 60-m bits of the =E2=80=9C60-bit=E2=80=9D
-|    real address must be zeros.
-| 2. The hypervisor may assign a guest real address
-|    space size for each partition that uses Radix Tree
-|    translation. Accesses to guest real storage out-
-|    side this range but still mappable by the second
-|    level Radix Tree will cause an HISI or HDSI.
-|    Accesses to storage outside the mappable range
-|    will have boundedly undefined results.
+> watchdog: BUG: soft lockup - CPU#0 stuck for 122s! [syz-executor.3:9634]
+> Modules linked in:
+> irq event stamp: 35786
+> hardirqs last  enabled at (35785): [<ffffffff81006983>]
+> trace_hardirqs_on_thunk+0x1a/0x1c arch/x86/entry/thunk_64.S:41
+> hardirqs last disabled at (35786): [<ffffffff8100699f>]
+> trace_hardirqs_off_thunk+0x1a/0x1c arch/x86/entry/thunk_64.S:42
+> softirqs last  enabled at (5788): [<ffffffff880006cd>]
+> __do_softirq+0x6cd/0x98c kernel/softirq.c:319
+> softirqs last disabled at (5707): [<ffffffff81478ceb>] invoke_softirq
+> kernel/softirq.c:373 [inline]
+> softirqs last disabled at (5707): [<ffffffff81478ceb>] irq_exit+0x19b/0x1e0
+> kernel/softirq.c:413
+> CPU: 0 PID: 9634 Comm: syz-executor.3 Not tainted 5.5.0-rc2-syzkaller #0
+> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS
+> Google 01/01/2011
+> RIP: 0010:__read_once_size include/linux/compiler.h:199 [inline]
+> RIP: 0010:csd_lock_wait kernel/smp.c:109 [inline]
+> RIP: 0010:smp_call_function_single+0x188/0x480 kernel/smp.c:311
+> Code: 00 e8 6c 23 0b 00 48 8b 4c 24 08 48 8b 54 24 10 48 8d 74 24 40 8b 7c
+> 24 1c e8 c4 f9 ff ff 41 89 c5 eb 07 e8 4a 23 0b 00 f3 90 <44> 8b 64 24 58
+> 31 ff 41 83 e4 01 44 89 e6 e8 b5 24 0b 00 45 85 e4
+> RSP: 0018:ffffc90004d3f480 EFLAGS: 00000246 ORIG_RAX: ffffffffffffff13
+> RAX: 0000000000040000 RBX: 1ffff920009a7e94 RCX: ffffc90010442000
+> RDX: 0000000000040000 RSI: ffffffff816a0856 RDI: 0000000000000005
+> RBP: ffffc90004d3f550 R08: ffff88809e5161c0 R09: ffffed1015d27059
+> R10: ffffed1015d27058 R11: ffff8880ae9382c7 R12: 0000000000000001
+> R13: 0000000000000000 R14: 0000000000000001 R15: 0000000000000000
+> FS:  00007f19610d6700(0000) GS:ffff8880ae800000(0000) knlGS:0000000000000000
+> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: 00007fe53bcc09c0 CR3: 000000008ffc6000 CR4: 00000000001426f0
+> DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+> DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+> Call Trace:
+>   smp_call_function_many+0x7ba/0x940 kernel/smp.c:451
+>   smp_call_function+0x42/0x90 kernel/smp.c:509
+>   on_each_cpu+0x2f/0x1f0 kernel/smp.c:616
+>   flush_tlb_kernel_range+0x19b/0x250 arch/x86/mm/tlb.c:839
+>   kasan_release_vmalloc+0xb4/0xc0 mm/kasan/common.c:976
+>   __purge_vmap_area_lazy+0xca5/0x1ef0 mm/vmalloc.c:1313
+>   _vm_unmap_aliases mm/vmalloc.c:1730 [inline]
+>   _vm_unmap_aliases+0x396/0x480 mm/vmalloc.c:1695
+>   vm_unmap_aliases+0x19/0x20 mm/vmalloc.c:1753
+>   change_page_attr_set_clr+0x22e/0x840 arch/x86/mm/pageattr.c:1709
+>   change_page_attr_clear arch/x86/mm/pageattr.c:1766 [inline]
+>   set_memory_ro+0x7b/0xa0 arch/x86/mm/pageattr.c:1899
+>   bpf_jit_binary_lock_ro include/linux/filter.h:790 [inline]
+>   bpf_int_jit_compile+0xebd/0x12ce arch/x86/net/bpf_jit_comp.c:1659
+>   bpf_prog_select_runtime+0x4b9/0x850 kernel/bpf/core.c:1801
+>   bpf_migrate_filter net/core/filter.c:1275 [inline]
+>   bpf_prepare_filter net/core/filter.c:1323 [inline]
+>   bpf_prepare_filter+0x977/0xd60 net/core/filter.c:1289
+>   __get_filter+0x212/0x2c0 net/core/filter.c:1492
+>   sk_attach_filter+0x1e/0xa0 net/core/filter.c:1507
+>   sock_setsockopt+0x1f44/0x22b0 net/core/sock.c:999
+>   __sys_setsockopt+0x440/0x4c0 net/socket.c:2113
+>   __do_sys_setsockopt net/socket.c:2133 [inline]
+>   __se_sys_setsockopt net/socket.c:2130 [inline]
+>   __x64_sys_setsockopt+0xbe/0x150 net/socket.c:2130
+>   do_syscall_64+0xfa/0x790 arch/x86/entry/common.c:294
+>   entry_SYSCALL_64_after_hwframe+0x49/0xbe
+> RIP: 0033:0x45a919
+> Code: ad b6 fb ff c3 66 2e 0f 1f 84 00 00 00 00 00 66 90 48 89 f8 48 89 f7
+> 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff
+> ff 0f 83 7b b6 fb ff c3 66 2e 0f 1f 84 00 00 00 00
+> RSP: 002b:00007f19610d5c78 EFLAGS: 00000246 ORIG_RAX: 0000000000000036
+> RAX: ffffffffffffffda RBX: 0000000000000005 RCX: 000000000045a919
+> RDX: 000000000000001a RSI: 0000000000000001 RDI: 000000000000000c
+> RBP: 000000000075c070 R08: 0000000000000010 R09: 0000000000000000
+> R10: 0000000020000480 R11: 0000000000000246 R12: 00007f19610d66d4
+> R13: 00000000004c9e34 R14: 00000000004e1f78 R15: 00000000ffffffff
+> Sending NMI from CPU 0 to CPUs 1:
+> NMI backtrace for cpu 1
+> CPU: 1 PID: 3231 Comm: kworker/1:3 Not tainted 5.5.0-rc2-syzkaller #0
+> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS
+> Google 01/01/2011
+> Workqueue: rcu_gp process_srcu
+> RIP: 0010:delay_tsc+0x33/0xc0 arch/x86/lib/delay.c:68
+> Code: bf 01 00 00 00 41 55 41 54 53 e8 58 95 8b f9 e8 63 b4 cd fb 41 89 c5
+> 0f 01 f9 66 90 48 c1 e2 20 48 09 c2 49 89 d4 eb 16 f3 90 <bf> 01 00 00 00
+> e8 33 95 8b f9 e8 3e b4 cd fb 44 39 e8 75 36 0f 01
+> RSP: 0018:ffffc9000898fbb0 EFLAGS: 00000286
+> RAX: 0000000080000000 RBX: 000000c937e7f04b RCX: 0000000000000000
+> RDX: 0000000000000001 RSI: ffffffff8392f013 RDI: 0000000000000001
+> RBP: ffffc9000898fbd0 R08: ffff88809e1e2200 R09: 0000000000000040
+> R10: 0000000000000040 R11: ffffffff89a4f487 R12: 000000c937e7c4ab
+> R13: 0000000000000001 R14: 0000000000002ced R15: 0000000000000047
+> FS:  0000000000000000(0000) GS:ffff8880ae900000(0000) knlGS:0000000000000000
+> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: 00007fbb9d9c6000 CR3: 0000000094911000 CR4: 00000000001426e0
+> DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+> DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+> Call Trace:
+>   __delay arch/x86/lib/delay.c:161 [inline]
+>   __const_udelay+0x59/0x80 arch/x86/lib/delay.c:175
+>   try_check_zero+0x201/0x330 kernel/rcu/srcutree.c:705
+>   srcu_advance_state kernel/rcu/srcutree.c:1142 [inline]
+>   process_srcu+0x329/0xe10 kernel/rcu/srcutree.c:1237
+>   process_one_work+0x9af/0x1740 kernel/workqueue.c:2264
+>   worker_thread+0x98/0xe40 kernel/workqueue.c:2410
+>   kthread+0x361/0x430 kernel/kthread.c:255
+>   ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
+>
+>
+> ---
+> This bug is generated by a bot. It may contain errors.
+> See https://goo.gl/tpsmEJ for more information about syzbot.
+> syzbot engineers can be reached at syzkaller@googlegroups.com.
+>
+> syzbot will keep track of this bug report. See:
+> https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+>
+> --
+> You received this message because you are subscribed to the Google Groups "syzkaller-bugs" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to syzkaller-bugs+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/syzkaller-bugs/00000000000021cc1a0599f66f55%40google.com.
 
-However, it doesn't follow from that passage that the top 4 bits are
-always ignored when translations are off ('real mode'): see for example
-the discussion of the HRMOR in s 5.7.3 and s 5.7.3.1.=20
-
-I think I got the 'top 2 bits on radix' thing from the discussion of
-'quadrants' in arch/powerpc/include/asm/book3s/64/radix.h, which in turn
-is discussed in s 5.7.5.1. Table 20 in particular is really helpful for
-understanding it. But it's not especially relevant to what I'm actually
-doing here.
-
-I think to fully understand all of what's going on I would need to spend
-some serious time with the entirety of s5.7, because there a lot of
-quirks about how storage works! But I think for our purposes it suffices
-to say:
-
-  The kernel installs a linear mapping at effective address
-  c000... onward. This is a one-to-one mapping with physical memory from
-  0000... onward. Because of how memory accesses work on powerpc 64-bit
-  Book3S, a kernel pointer in the linear map accesses the same memory
-  both with translations on (accessing as an 'effective address'), and
-  with translations off (accessing as a 'real address'). This works in
-  both guests and the hypervisor. For more details, see s5.7 of Book III
-  of version 3 of the ISA, in particular the Storage Control Overview,
-  s5.7.3, and s5.7.5 - noting that this KASAN implementation currently
-  only supports Radix.
-
-Thanks for your attention to detail!
-
-Regards,
-Daniel
-
-
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/87y2vat8vl.fsf%40dja-thinkpad.axtens.net.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BY0FXiGgsMt%3Dk9d73bkQvW-NqyUoS%3Dw6KXQ%3D28_ROz1YA%40mail.gmail.com.
