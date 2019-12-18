@@ -1,125 +1,125 @@
-Return-Path: <kasan-dev+bncBCMIZB7QWENRBK6Z47XQKGQE2GHIATI@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBW7A47XQKGQEQM2MR6A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pl1-x637.google.com (mail-pl1-x637.google.com [IPv6:2607:f8b0:4864:20::637])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2328F124264
-	for <lists+kasan-dev@lfdr.de>; Wed, 18 Dec 2019 10:09:01 +0100 (CET)
-Received: by mail-pl1-x637.google.com with SMTP id t17sf804599ply.5
-        for <lists+kasan-dev@lfdr.de>; Wed, 18 Dec 2019 01:09:01 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1576660139; cv=pass;
+Received: from mail-lf1-x139.google.com (mail-lf1-x139.google.com [IPv6:2a00:1450:4864:20::139])
+	by mail.lfdr.de (Postfix) with ESMTPS id C64B51242F2
+	for <lists+kasan-dev@lfdr.de>; Wed, 18 Dec 2019 10:24:43 +0100 (CET)
+Received: by mail-lf1-x139.google.com with SMTP id b26sf143162lfq.16
+        for <lists+kasan-dev@lfdr.de>; Wed, 18 Dec 2019 01:24:43 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1576661083; cv=pass;
         d=google.com; s=arc-20160816;
-        b=nPJ5AH448DtDCR5prOZFJX/gRmJsW00TwTXh7me+PAhGLvD3v0EpTDmzGYOiWhx8ek
-         rFOwXvVendG30fIX03vz85GmuqgmG/8p2do+9lu1T3vRvwpMGR4W7zD9fCbav8jLNPBJ
-         Uf5lcllD1HG12VWAEbQTptQfTS/BrRvL60ICHK8J59Uh2ia/trqJUFH+xAsAMhS+W8AN
-         fRccsv5e5gG8z9AS89QqwReGmMZ+iQ7uYTEEhtRSzqFD+zLIuGs5jSYrBkqyig8QC75X
-         OnlW2odkwkM4+vWKBhzkAJJNoQbU+LG9dkNwZuxv5VAaFr8g5foGADEPZU7+ugF0LHIX
-         nocg==
+        b=aUm6p8E7sKQEan4QSwgfl8VP3aU80FGQP3Lef2VtzLosycFmZJIWV3r6AReQsjFbTb
+         quG6wkWycSsgBtbUlgXPM4ym7gvtKM+cWRtDHKobfADbQ3wn0fyjbFQRsmzfPFDX6ql/
+         IzleYYzsDrTGv9oqw07TnVGNAVF4sjwi7gC181hgcokG/mvB8aHEY+bbv98ktiauNer8
+         KjkiyB1yY3gCYiD+PwBhCEpDLH/DG3P9hh4a9wyuTz8Ls+THc63J6HQbg5eSU8wVZATz
+         P0yf8wCj9C3PQcWR5BLkfCY22jYztHXCvU3Ju1Xx/g8h53WfcC/B0Za44fzy5/r2H/HG
+         qYOw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=1uoHSvhHm/iGayPgrE42iajA0+KC0X5qV/dmobMSDBo=;
-        b=X8iSwT/bfW4TRb14L5FxTS4rSq58DurDBxFhEu9ulr4NOQZmrf4F/h9yyhcOlrVpWy
-         O1Nohb970Y0TwwZUdmF+JZrDon9iS6iF3KRSHTkPEwZmuRWdKDK3oa5+RAhPISWO2Ulg
-         X9P3JGjLNrZGeFTppysJQZlgdDb42Lria+mTnk0opdT790vyqOkSIS2r675P6RISXcqV
-         nQiDZUAXyYIRE88vx702ocjiF1DnfPx5xwAZ/JH2RCRvFyfqDziWDD65gwYWlBZvgjbM
-         4dJbXJwUVSCoeloCsXHwAxN+4lS1jLGNoFUqMx6gB+UE6QpqeH8HmHlm13Lj2boLAJ3p
-         EsIQ==
+         :list-id:mailing-list:precedence:content-language:in-reply-to
+         :mime-version:user-agent:date:message-id:from:references:cc:to
+         :subject:sender:dkim-signature;
+        bh=nnlNhEGytzr+GCm5iiWEdc/ypbYL2hqqGAoaurk2d54=;
+        b=jN8uBAJixxH1IeZ4/qSk34MHJkKQxiW5ywmLYfVguibPNmBa6eqFdYWnMvGqfG7GJL
+         DFn5/TKc8+zunmFWoVtoCFyY7QTifV3vdMw26GLBjnvqJMLyfHmTak36jd4PKgNKzL1G
+         v1Ae4apkgh2rt9KvNb/CevlmkV3Q12YC7ynWeOgKBqIrxZjnDdrmLlu1rW1Zc4DBcajw
+         O8RbskqgzutdUmh4pMCKoEhnw9Jp+CKu+nkQM0g6RJIDsOGVakfMR1jtcMe6ngGevEnj
+         R4wHah6cCgvvZBikWROiawhyRomnJvco9J3P/8YBaG73KCsxs7h8Az8ROZ78KRXeVLoO
+         /CLw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=nj0nK9hM;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::742 as permitted sender) smtp.mailfrom=dvyukov@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       spf=pass (google.com: domain of jgross@suse.com designates 195.135.220.15 as permitted sender) smtp.mailfrom=jgross@suse.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=1uoHSvhHm/iGayPgrE42iajA0+KC0X5qV/dmobMSDBo=;
-        b=YHjgECc2Z6/UmdHlkMaHHPHUA1g1sW8N2fjv1gt+kNTtcEjVAL5AM43+LkRsKcqTwB
-         tty6rGMiJwBXHs6UR54+hIh/1PncRgLBYqH/6rE3KynuhYZDRw/LyTxkhW8nECTI5QJJ
-         Ne0iRtcPpurS84Y0h0/6YEFThI2sBZgZ3G6elBXP0+wzEx0bxXlJB3ViCZmGY69Lqe2M
-         8o90u5M7m2LaxgIudnYXXnBsgzef0qAEaIk3NElZcl19OF0DblfIvUCZUy2rAORh8dG3
-         AAxgttF4do9IqIomrFeFkKdQc2YEVbDVLJ5YixLRdIo+KEPSYPXkQQES03T9IBVwsz60
-         7emg==
+        h=sender:subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=nnlNhEGytzr+GCm5iiWEdc/ypbYL2hqqGAoaurk2d54=;
+        b=fpZPLbOv0B2+V5JcVD+RN5Cne0CS4TR8l2S619Op5qYA+s9VEEQn0TPkyyxH6wEYgy
+         5kWTNLj45+dmXRHG+SoyGzlL0IugJkfNOcPvNUijDtVkBx1sVPeruueSx4S3mb0RsGST
+         JASLj28qwwsaBdNkVHe9BR5tjiCJuQygHr47Vb5SqeJBKkac7jncOD2mqxetH/VjgfPv
+         VQ1qP4OkYK+Q0L40exKu8Cj0XG1Y3yqoPQC0srUmsU8YqV8vvxi7aSm5lOWr/wdzeorW
+         kfVSMRpIomYqQtBC9BBrZzNgPq0hLgSGqE1ujZ1qO+gNQVFjCI/pC8Z/MEoFLNcQjyLA
+         663A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=1uoHSvhHm/iGayPgrE42iajA0+KC0X5qV/dmobMSDBo=;
-        b=tf/UQDMR35WKxaC2bGd9PWopy/v5ksNRb3gvMJ4bdNySs/6048Py6m5ndPsQj9k9v8
-         q0T1QO3EuITcT+p/iYSQNqqkVCzGMZD6iu0wCHEWH6vO/jVyKrn356vyeueI4gF6kLZd
-         OilvqlNjD8M3O59tvZAhHs4J7PoXMsV5+7kwP5EbSpB95ke17hzkOZcezRlN4E7hV53p
-         VMIOC40rQZsbvZ5Vhz+4mmMraaKH9QNJDqGy0NUQwTiS3hNmpHoC/6LSw1kKTcI6Zqm1
-         uil+pXWrlRQv0cst9EVpDGTTOleWgrE1GdEAgJF4WGUC+gGlN0+jOEhmfVXKWi19m+2G
-         OOEA==
-X-Gm-Message-State: APjAAAXD3F+4aDo3FVDMFUN7/Ta0Jjs8jRyXiVUwgO9HuSVphchgIH60
-	3/GsAwe9VyhKanOXakzJ7to=
-X-Google-Smtp-Source: APXvYqwhNWc2tbRjaPv3aE7+mFmR0wX9ghh9sYk9b2YHFj9yv7X5FihStYR7Zsy+5XUlZvkL4KkrDg==
-X-Received: by 2002:a17:90a:a010:: with SMTP id q16mr1566556pjp.115.1576660139265;
-        Wed, 18 Dec 2019 01:08:59 -0800 (PST)
+        h=sender:x-gm-message-state:subject:to:cc:references:from:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=nnlNhEGytzr+GCm5iiWEdc/ypbYL2hqqGAoaurk2d54=;
+        b=OsUBWFBdxPHqDcm5tXW4P6Q/Klvbf0jPy0RRpxGh1mhU8PaG+pk8pzeyMn0tNz/s9t
+         rJRVxn2JgYrP+c98W0r+alD2VP3o2X89zFZuuJlQeMiob7iitGvOEjM7+4vATVMLt3/H
+         dP+TMbawbni3n5Ymn7dQoG7xqXyUQlXbt9dNI87pGSV6+P/XMQOySaG68cBMzPYpxCyu
+         7G8T/8KvYAZR8iEoCxsKc2ru4QmYuhIm1+PKkNDqsGNjPBAsCLalR9NUAWwVPlkNlEnj
+         DUHGcLvacmaZGTZhjoXYtOSz+mcohxPR6CZGjurw/evgEyX98YSBYsCmOrC+2+FOLpb7
+         wM/A==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: APjAAAVc/EAJOg4mFai5XeOC7vrEEZzNunnqHS2gMy9lS+bE9OHI0j3i
+	BZAQXetqwdW5PzTKwT8gHkI=
+X-Google-Smtp-Source: APXvYqx5BgTfjFt3SpFbOE4dUHAGhE1HVz/8bc4mzWJ2xLeY+oDjwPlMKJUnZhPKd9EXMZ3sX9JlLQ==
+X-Received: by 2002:a2e:9157:: with SMTP id q23mr1027116ljg.196.1576661083343;
+        Wed, 18 Dec 2019 01:24:43 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a62:1853:: with SMTP id 80ls409015pfy.1.gmail; Wed, 18 Dec
- 2019 01:08:58 -0800 (PST)
-X-Received: by 2002:a63:2842:: with SMTP id o63mr1847836pgo.317.1576660138828;
-        Wed, 18 Dec 2019 01:08:58 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1576660138; cv=none;
+Received: by 2002:a2e:3a07:: with SMTP id h7ls204504lja.3.gmail; Wed, 18 Dec
+ 2019 01:24:42 -0800 (PST)
+X-Received: by 2002:a2e:81c3:: with SMTP id s3mr1023332ljg.168.1576661082872;
+        Wed, 18 Dec 2019 01:24:42 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1576661082; cv=none;
         d=google.com; s=arc-20160816;
-        b=eIMxYuDVtuqj1wJEQMQJ1X9v6WRQOYRg/n0PQOuYFY9ShLZn1iry85UsHvH5y2Z5tJ
-         tDQi71qxsLN3LOEbpLNvPsheoNQa0gvrnSOImbxd6yC9LKVkLtCB7pMZgODkjd3fEaZZ
-         RLVulHiwW6XckzdNl8PdMpAk8JGG7NL4MAmARiQfPaBYJbkW5WOAifoVaWZDQggfst8z
-         LBggH0O3oC9rfhobtSYgqjRTl578Ro4BmXGCh8rkxw10DU6VRVkR75ePXpU4591ayxf4
-         SXA6WnDbEGcbh/2DTNpAvJndFny58J/iGONzQlh24JSvU98a0ZDufTNwPJFvBDeNAg53
-         I7cg==
+        b=tmatquZoHvJoAtkqcXtJ04+U76zdAwvBMUIwpdl9GRl7tY06JNOqUSLVo5wgzpcpFk
+         RUPJ/wUJDE9lrcz5PLZQgPwdJ/XiVlFdKhPIJ8dLMr48B6opSZGnqDdf+o3vFhF22Ohl
+         aczjo+GOR3Pd+qMgFe9I79anF7xB1vYX0EWo1FVScUSpHThQDF4VMVsVYszCadZiGrSg
+         fTp60LfE/cgXeXbExx/8kmicdrv0pp9nvGfjDG8JlvmsU4zfvyLIatDNiCUg1AvDaVg+
+         cZHwDmp+vlSRNSadYzYREBBc2u3vJsHtUZOa2O0FeSgIQTX8y127eSrM9z9arpXyk6Th
+         iXzw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=NAPWBP7CuDFreLAWP9d0OtbbvgLd0xxTvpXtHQFwqyE=;
-        b=ZY0bBvyhR/3lKYidSkvgCZmxSQrDy4MJEi28B9KIGGkt5ELr88HjxOhT7o7E6fZG1+
-         Lo2jWNS8naysePraUaEbD+fo+cP455VxIG3BBR/O7Pdx5GFXBk58WkZsuVKue4LGiZQb
-         IDVKI5qpHLihu6E7oKBdgktIgFqKS1Ei6cS70PrMMV6XdhxkCIZAiQaLviln+2wZ7EyT
-         kBsEzq/sOvVtd5UD5/2KkbCRVgp+8bEuTlV5heVg9oFDfF5CHsI8x5QKU/3xvQLIwm23
-         yp2LGimJ8pIH13n4GzsWLR4mHi2ZzWdqQJmzdEMuxY2A6xUgnStNK5KglgP2Qqk10+0G
-         jWyw==
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject;
+        bh=UIFpxTW4P5MeDnUuPm4BnwWHGD1JSFxkki5UmrGbTsw=;
+        b=zTxlms4A4MuDvTTWJyoxuik9bWVCOvnWxKvzYbT2OzRgsABMKkwbspJCtO8OBlLp9l
+         erpHq9skhzOv6aHewtcPFUWAbW2M4OsU5y3uLY7jDLYN0+I+Waq9OKWnsRsFRxcK5YgP
+         BWtgPGZteOJ9rGa9YhaUe4AG5/C+xevtbxsjuMUglKvaJfbiQo9teITn5F5Iy59ralQh
+         kiq9yoQGH46V3fU6O1kfPUAPNnFbJomFmUhrkE305JanDBmWU1/HM8v+a5G4ALR39WZv
+         iVUPZnDuAW054yooitiTq4Him6u6uUthtfDj6vgiE1BPMb7c6iQAUQ7nmNRJCZy741mN
+         iYKA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=nj0nK9hM;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::742 as permitted sender) smtp.mailfrom=dvyukov@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com. [2607:f8b0:4864:20::742])
-        by gmr-mx.google.com with ESMTPS id w2si42713pgt.2.2019.12.18.01.08.58
+       spf=pass (google.com: domain of jgross@suse.com designates 195.135.220.15 as permitted sender) smtp.mailfrom=jgross@suse.com
+Received: from mx2.suse.de (mx2.suse.de. [195.135.220.15])
+        by gmr-mx.google.com with ESMTPS id j30si80298lfp.5.2019.12.18.01.24.42
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 18 Dec 2019 01:08:58 -0800 (PST)
-Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::742 as permitted sender) client-ip=2607:f8b0:4864:20::742;
-Received: by mail-qk1-x742.google.com with SMTP id w127so929872qkb.11
-        for <kasan-dev@googlegroups.com>; Wed, 18 Dec 2019 01:08:58 -0800 (PST)
-X-Received: by 2002:ae9:eb48:: with SMTP id b69mr1335544qkg.43.1576660137547;
- Wed, 18 Dec 2019 01:08:57 -0800 (PST)
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 18 Dec 2019 01:24:42 -0800 (PST)
+Received-SPF: pass (google.com: domain of jgross@suse.com designates 195.135.220.15 as permitted sender) client-ip=195.135.220.15;
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+	by mx2.suse.de (Postfix) with ESMTP id 93C0CAB71;
+	Wed, 18 Dec 2019 09:24:41 +0000 (UTC)
+Subject: Re: [RFC PATCH 1/3] x86/xen: add basic KASAN support for PV kernel
+To: Sergey Dyasli <sergey.dyasli@citrix.com>, xen-devel@lists.xen.org,
+ kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org
+Cc: Andrey Ryabinin <aryabinin@virtuozzo.com>,
+ Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>,
+ Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ George Dunlap <george.dunlap@citrix.com>,
+ Ross Lagerwall <ross.lagerwall@citrix.com>
+References: <20191217140804.27364-1-sergey.dyasli@citrix.com>
+ <20191217140804.27364-2-sergey.dyasli@citrix.com>
+From: =?UTF-8?B?SsO8cmdlbiBHcm/Dnw==?= <jgross@suse.com>
+Message-ID: <934a2950-9079-138d-5476-5eabd84dfec5@suse.com>
+Date: Wed, 18 Dec 2019 10:24:38 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.1
 MIME-Version: 1.0
-References: <00000000000021cc1a0599f66f55@google.com>
-In-Reply-To: <00000000000021cc1a0599f66f55@google.com>
-From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Wed, 18 Dec 2019 10:08:45 +0100
-Message-ID: <CACT4Y+Y0FXiGgsMt=k9d73bkQvW-NqyUoS=w6KXQ=28_ROz1YA@mail.gmail.com>
-Subject: Re: BUG: soft lockup in sock_setsockopt
-To: syzbot <syzbot+e7e13ce5d4ca294ca90a@syzkaller.appspotmail.com>, 
-	kasan-dev <kasan-dev@googlegroups.com>, Daniel Axtens <dja@axtens.net>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Josh Poimboeuf <jpoimboe@redhat.com>, 
-	LKML <linux-kernel@vger.kernel.org>, namit@vmware.com, 
-	Peter Zijlstra <peterz@infradead.org>, syzkaller-bugs <syzkaller-bugs@googlegroups.com>, 
-	Thomas Gleixner <tglx@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: dvyukov@google.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=nj0nK9hM;       spf=pass
- (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::742
- as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
- (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Dmitry Vyukov <dvyukov@google.com>
-Reply-To: Dmitry Vyukov <dvyukov@google.com>
+In-Reply-To: <20191217140804.27364-2-sergey.dyasli@citrix.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Language: en-US
+X-Original-Sender: jgross@suse.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of jgross@suse.com designates 195.135.220.15 as permitted
+ sender) smtp.mailfrom=jgross@suse.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -132,148 +132,240 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Dec 18, 2019 at 9:43 AM syzbot
-<syzbot+e7e13ce5d4ca294ca90a@syzkaller.appspotmail.com> wrote:
->
-> Hello,
->
-> syzbot found the following crash on:
->
-> HEAD commit:    9065e063 Merge branch 'x86-urgent-for-linus' of git://git...
-> git tree:       upstream
-> console output: https://syzkaller.appspot.com/x/log.txt?x=17185e99e00000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=dcf10bf83926432a
-> dashboard link: https://syzkaller.appspot.com/bug?extid=e7e13ce5d4ca294ca90a
-> compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
->
-> Unfortunately, I don't have any reproducer for this crash yet.
->
-> IMPORTANT: if you fix the bug, please add the following tag to the commit:
-> Reported-by: syzbot+e7e13ce5d4ca294ca90a@syzkaller.appspotmail.com
-
-+Daniel, kasan-dev,
-
-This looks like another stall caused by KASAN+vmalloc. Now it has
-reached upstream and this instance uses Apparmor rather than Smack.
-
-> watchdog: BUG: soft lockup - CPU#0 stuck for 122s! [syz-executor.3:9634]
-> Modules linked in:
-> irq event stamp: 35786
-> hardirqs last  enabled at (35785): [<ffffffff81006983>]
-> trace_hardirqs_on_thunk+0x1a/0x1c arch/x86/entry/thunk_64.S:41
-> hardirqs last disabled at (35786): [<ffffffff8100699f>]
-> trace_hardirqs_off_thunk+0x1a/0x1c arch/x86/entry/thunk_64.S:42
-> softirqs last  enabled at (5788): [<ffffffff880006cd>]
-> __do_softirq+0x6cd/0x98c kernel/softirq.c:319
-> softirqs last disabled at (5707): [<ffffffff81478ceb>] invoke_softirq
-> kernel/softirq.c:373 [inline]
-> softirqs last disabled at (5707): [<ffffffff81478ceb>] irq_exit+0x19b/0x1e0
-> kernel/softirq.c:413
-> CPU: 0 PID: 9634 Comm: syz-executor.3 Not tainted 5.5.0-rc2-syzkaller #0
-> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS
-> Google 01/01/2011
-> RIP: 0010:__read_once_size include/linux/compiler.h:199 [inline]
-> RIP: 0010:csd_lock_wait kernel/smp.c:109 [inline]
-> RIP: 0010:smp_call_function_single+0x188/0x480 kernel/smp.c:311
-> Code: 00 e8 6c 23 0b 00 48 8b 4c 24 08 48 8b 54 24 10 48 8d 74 24 40 8b 7c
-> 24 1c e8 c4 f9 ff ff 41 89 c5 eb 07 e8 4a 23 0b 00 f3 90 <44> 8b 64 24 58
-> 31 ff 41 83 e4 01 44 89 e6 e8 b5 24 0b 00 45 85 e4
-> RSP: 0018:ffffc90004d3f480 EFLAGS: 00000246 ORIG_RAX: ffffffffffffff13
-> RAX: 0000000000040000 RBX: 1ffff920009a7e94 RCX: ffffc90010442000
-> RDX: 0000000000040000 RSI: ffffffff816a0856 RDI: 0000000000000005
-> RBP: ffffc90004d3f550 R08: ffff88809e5161c0 R09: ffffed1015d27059
-> R10: ffffed1015d27058 R11: ffff8880ae9382c7 R12: 0000000000000001
-> R13: 0000000000000000 R14: 0000000000000001 R15: 0000000000000000
-> FS:  00007f19610d6700(0000) GS:ffff8880ae800000(0000) knlGS:0000000000000000
-> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> CR2: 00007fe53bcc09c0 CR3: 000000008ffc6000 CR4: 00000000001426f0
-> DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-> DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-> Call Trace:
->   smp_call_function_many+0x7ba/0x940 kernel/smp.c:451
->   smp_call_function+0x42/0x90 kernel/smp.c:509
->   on_each_cpu+0x2f/0x1f0 kernel/smp.c:616
->   flush_tlb_kernel_range+0x19b/0x250 arch/x86/mm/tlb.c:839
->   kasan_release_vmalloc+0xb4/0xc0 mm/kasan/common.c:976
->   __purge_vmap_area_lazy+0xca5/0x1ef0 mm/vmalloc.c:1313
->   _vm_unmap_aliases mm/vmalloc.c:1730 [inline]
->   _vm_unmap_aliases+0x396/0x480 mm/vmalloc.c:1695
->   vm_unmap_aliases+0x19/0x20 mm/vmalloc.c:1753
->   change_page_attr_set_clr+0x22e/0x840 arch/x86/mm/pageattr.c:1709
->   change_page_attr_clear arch/x86/mm/pageattr.c:1766 [inline]
->   set_memory_ro+0x7b/0xa0 arch/x86/mm/pageattr.c:1899
->   bpf_jit_binary_lock_ro include/linux/filter.h:790 [inline]
->   bpf_int_jit_compile+0xebd/0x12ce arch/x86/net/bpf_jit_comp.c:1659
->   bpf_prog_select_runtime+0x4b9/0x850 kernel/bpf/core.c:1801
->   bpf_migrate_filter net/core/filter.c:1275 [inline]
->   bpf_prepare_filter net/core/filter.c:1323 [inline]
->   bpf_prepare_filter+0x977/0xd60 net/core/filter.c:1289
->   __get_filter+0x212/0x2c0 net/core/filter.c:1492
->   sk_attach_filter+0x1e/0xa0 net/core/filter.c:1507
->   sock_setsockopt+0x1f44/0x22b0 net/core/sock.c:999
->   __sys_setsockopt+0x440/0x4c0 net/socket.c:2113
->   __do_sys_setsockopt net/socket.c:2133 [inline]
->   __se_sys_setsockopt net/socket.c:2130 [inline]
->   __x64_sys_setsockopt+0xbe/0x150 net/socket.c:2130
->   do_syscall_64+0xfa/0x790 arch/x86/entry/common.c:294
->   entry_SYSCALL_64_after_hwframe+0x49/0xbe
-> RIP: 0033:0x45a919
-> Code: ad b6 fb ff c3 66 2e 0f 1f 84 00 00 00 00 00 66 90 48 89 f8 48 89 f7
-> 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff
-> ff 0f 83 7b b6 fb ff c3 66 2e 0f 1f 84 00 00 00 00
-> RSP: 002b:00007f19610d5c78 EFLAGS: 00000246 ORIG_RAX: 0000000000000036
-> RAX: ffffffffffffffda RBX: 0000000000000005 RCX: 000000000045a919
-> RDX: 000000000000001a RSI: 0000000000000001 RDI: 000000000000000c
-> RBP: 000000000075c070 R08: 0000000000000010 R09: 0000000000000000
-> R10: 0000000020000480 R11: 0000000000000246 R12: 00007f19610d66d4
-> R13: 00000000004c9e34 R14: 00000000004e1f78 R15: 00000000ffffffff
-> Sending NMI from CPU 0 to CPUs 1:
-> NMI backtrace for cpu 1
-> CPU: 1 PID: 3231 Comm: kworker/1:3 Not tainted 5.5.0-rc2-syzkaller #0
-> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS
-> Google 01/01/2011
-> Workqueue: rcu_gp process_srcu
-> RIP: 0010:delay_tsc+0x33/0xc0 arch/x86/lib/delay.c:68
-> Code: bf 01 00 00 00 41 55 41 54 53 e8 58 95 8b f9 e8 63 b4 cd fb 41 89 c5
-> 0f 01 f9 66 90 48 c1 e2 20 48 09 c2 49 89 d4 eb 16 f3 90 <bf> 01 00 00 00
-> e8 33 95 8b f9 e8 3e b4 cd fb 44 39 e8 75 36 0f 01
-> RSP: 0018:ffffc9000898fbb0 EFLAGS: 00000286
-> RAX: 0000000080000000 RBX: 000000c937e7f04b RCX: 0000000000000000
-> RDX: 0000000000000001 RSI: ffffffff8392f013 RDI: 0000000000000001
-> RBP: ffffc9000898fbd0 R08: ffff88809e1e2200 R09: 0000000000000040
-> R10: 0000000000000040 R11: ffffffff89a4f487 R12: 000000c937e7c4ab
-> R13: 0000000000000001 R14: 0000000000002ced R15: 0000000000000047
-> FS:  0000000000000000(0000) GS:ffff8880ae900000(0000) knlGS:0000000000000000
-> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> CR2: 00007fbb9d9c6000 CR3: 0000000094911000 CR4: 00000000001426e0
-> DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-> DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-> Call Trace:
->   __delay arch/x86/lib/delay.c:161 [inline]
->   __const_udelay+0x59/0x80 arch/x86/lib/delay.c:175
->   try_check_zero+0x201/0x330 kernel/rcu/srcutree.c:705
->   srcu_advance_state kernel/rcu/srcutree.c:1142 [inline]
->   process_srcu+0x329/0xe10 kernel/rcu/srcutree.c:1237
->   process_one_work+0x9af/0x1740 kernel/workqueue.c:2264
->   worker_thread+0x98/0xe40 kernel/workqueue.c:2410
->   kthread+0x361/0x430 kernel/kthread.c:255
->   ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
->
->
+On 17.12.19 15:08, Sergey Dyasli wrote:
+> This enables to use Outline instrumentation for Xen PV kernels.
+> 
+> KASAN_INLINE and KASAN_VMALLOC options currently lead to boot crashes
+> and hence disabled.
+> 
+> Rough edges in the patch are marked with XXX.
+> 
+> Signed-off-by: Sergey Dyasli <sergey.dyasli@citrix.com>
 > ---
-> This bug is generated by a bot. It may contain errors.
-> See https://goo.gl/tpsmEJ for more information about syzbot.
-> syzbot engineers can be reached at syzkaller@googlegroups.com.
->
-> syzbot will keep track of this bug report. See:
-> https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
->
-> --
-> You received this message because you are subscribed to the Google Groups "syzkaller-bugs" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to syzkaller-bugs+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/syzkaller-bugs/00000000000021cc1a0599f66f55%40google.com.
+>   arch/x86/mm/init.c          | 14 ++++++++++++++
+>   arch/x86/mm/kasan_init_64.c | 28 ++++++++++++++++++++++++++++
+>   arch/x86/xen/Makefile       |  7 +++++++
+>   arch/x86/xen/enlighten_pv.c |  3 +++
+>   arch/x86/xen/mmu_pv.c       | 13 +++++++++++--
+>   arch/x86/xen/multicalls.c   | 10 ++++++++++
+>   drivers/xen/Makefile        |  2 ++
+>   kernel/Makefile             |  2 ++
+>   lib/Kconfig.kasan           |  3 ++-
+>   9 files changed, 79 insertions(+), 3 deletions(-)
+> 
+> diff --git a/arch/x86/mm/init.c b/arch/x86/mm/init.c
+> index e7bb483557c9..0c98a45eec6c 100644
+> --- a/arch/x86/mm/init.c
+> +++ b/arch/x86/mm/init.c
+> @@ -8,6 +8,8 @@
+>   #include <linux/kmemleak.h>
+>   #include <linux/sched/task.h>
+>   
+> +#include <xen/xen.h>
+> +
+>   #include <asm/set_memory.h>
+>   #include <asm/e820/api.h>
+>   #include <asm/init.h>
+> @@ -835,6 +837,18 @@ void free_kernel_image_pages(const char *what, void *begin, void *end)
+>   	unsigned long end_ul = (unsigned long)end;
+>   	unsigned long len_pages = (end_ul - begin_ul) >> PAGE_SHIFT;
+>   
+> +	/*
+> +	 * XXX: skip this for now. Otherwise it leads to:
+> +	 *
+> +	 * (XEN) mm.c:2713:d157v0 Bad type (saw 8c00000000000001 != exp e000000000000000) for mfn 36f40 (pfn 02f40)
+> +	 * (XEN) mm.c:1043:d157v0 Could not get page type PGT_writable_page
+> +	 * (XEN) mm.c:1096:d157v0 Error getting mfn 36f40 (pfn 02f40) from L1 entry 8010000036f40067 for l1e_owner d157, pg_owner d157
+> +	 *
+> +	 * and further #PF error: [PROT] [WRITE] in the kernel.
+> +	 */
+> +	if (xen_pv_domain() && IS_ENABLED(CONFIG_KASAN))
+> +		return;
+> +
+
+I guess this is related to freeing some kasan page tables without
+unpinning them?
+
+>   	free_init_pages(what, begin_ul, end_ul);
+>   
+>   	/*
+> diff --git a/arch/x86/mm/kasan_init_64.c b/arch/x86/mm/kasan_init_64.c
+> index cf5bc37c90ac..caee2022f8b0 100644
+> --- a/arch/x86/mm/kasan_init_64.c
+> +++ b/arch/x86/mm/kasan_init_64.c
+> @@ -13,6 +13,8 @@
+>   #include <linux/sched/task.h>
+>   #include <linux/vmalloc.h>
+>   
+> +#include <xen/xen.h>
+> +
+>   #include <asm/e820/types.h>
+>   #include <asm/pgalloc.h>
+>   #include <asm/tlbflush.h>
+> @@ -20,6 +22,9 @@
+>   #include <asm/pgtable.h>
+>   #include <asm/cpu_entry_area.h>
+>   
+> +#include <xen/interface/xen.h>
+> +#include <asm/xen/hypervisor.h>
+> +
+>   extern struct range pfn_mapped[E820_MAX_ENTRIES];
+>   
+>   static p4d_t tmp_p4d_table[MAX_PTRS_PER_P4D] __initdata __aligned(PAGE_SIZE);
+> @@ -305,6 +310,12 @@ static struct notifier_block kasan_die_notifier = {
+>   };
+>   #endif
+>   
+> +#ifdef CONFIG_XEN
+> +/* XXX: this should go to some header */
+> +void __init set_page_prot(void *addr, pgprot_t prot);
+> +void __init pin_pagetable_pfn(unsigned cmd, unsigned long pfn);
+> +#endif
+> +
+
+Instead of exporting those, why don't you ...
+
+>   void __init kasan_early_init(void)
+>   {
+>   	int i;
+> @@ -332,6 +343,16 @@ void __init kasan_early_init(void)
+>   	for (i = 0; pgtable_l5_enabled() && i < PTRS_PER_P4D; i++)
+>   		kasan_early_shadow_p4d[i] = __p4d(p4d_val);
+>   
+> +	if (xen_pv_domain()) {
+> +		/* PV page tables must have PAGE_KERNEL_RO */
+> +		set_page_prot(kasan_early_shadow_pud, PAGE_KERNEL_RO);
+> +		set_page_prot(kasan_early_shadow_pmd, PAGE_KERNEL_RO);
+> +		set_page_prot(kasan_early_shadow_pte, PAGE_KERNEL_RO);
+
+add a function doing that to mmu_pv.c (e.g. xen_pv_kasan_early_init())?
+
+> +
+> +		/* Add mappings to the initial PV page tables */
+> +		kasan_map_early_shadow((pgd_t *)xen_start_info->pt_base);
+> +	}
+> +
+>   	kasan_map_early_shadow(early_top_pgt);
+>   	kasan_map_early_shadow(init_top_pgt);
+>   }
+> @@ -369,6 +390,13 @@ void __init kasan_init(void)
+>   				__pgd(__pa(tmp_p4d_table) | _KERNPG_TABLE));
+>   	}
+>   
+> +	if (xen_pv_domain()) {
+> +		/* PV page tables must be pinned */
+> +		set_page_prot(early_top_pgt, PAGE_KERNEL_RO);
+> +		pin_pagetable_pfn(MMUEXT_PIN_L4_TABLE,
+> +				  PFN_DOWN(__pa_symbol(early_top_pgt)));
+
+and another one like xen_pv_kasan_init() here.
+
+> +	}
+> +
+>   	load_cr3(early_top_pgt);
+>   	__flush_tlb_all();
+>   
+> diff --git a/arch/x86/xen/Makefile b/arch/x86/xen/Makefile
+> index 084de77a109e..102fad0b0bca 100644
+> --- a/arch/x86/xen/Makefile
+> +++ b/arch/x86/xen/Makefile
+> @@ -1,3 +1,10 @@
+> +KASAN_SANITIZE_enlighten_pv.o := n
+> +KASAN_SANITIZE_enlighten.o := n
+> +KASAN_SANITIZE_irq.o := n
+> +KASAN_SANITIZE_mmu_pv.o := n
+> +KASAN_SANITIZE_p2m.o := n
+> +KASAN_SANITIZE_multicalls.o := n
+> +
+>   # SPDX-License-Identifier: GPL-2.0
+>   OBJECT_FILES_NON_STANDARD_xen-asm_$(BITS).o := y
+>   
+> diff --git a/arch/x86/xen/enlighten_pv.c b/arch/x86/xen/enlighten_pv.c
+> index ae4a41ca19f6..27de55699f24 100644
+> --- a/arch/x86/xen/enlighten_pv.c
+> +++ b/arch/x86/xen/enlighten_pv.c
+> @@ -72,6 +72,7 @@
+>   #include <asm/mwait.h>
+>   #include <asm/pci_x86.h>
+>   #include <asm/cpu.h>
+> +#include <asm/kasan.h>
+>   
+>   #ifdef CONFIG_ACPI
+>   #include <linux/acpi.h>
+> @@ -1231,6 +1232,8 @@ asmlinkage __visible void __init xen_start_kernel(void)
+>   	/* Get mfn list */
+>   	xen_build_dynamic_phys_to_machine();
+>   
+> +	kasan_early_init();
+> +
+>   	/*
+>   	 * Set up kernel GDT and segment registers, mainly so that
+>   	 * -fstack-protector code can be executed.
+> diff --git a/arch/x86/xen/mmu_pv.c b/arch/x86/xen/mmu_pv.c
+> index c8dbee62ec2a..eaf63f1f26af 100644
+> --- a/arch/x86/xen/mmu_pv.c
+> +++ b/arch/x86/xen/mmu_pv.c
+> @@ -1079,7 +1079,7 @@ static void xen_exit_mmap(struct mm_struct *mm)
+>   
+>   static void xen_post_allocator_init(void);
+>   
+> -static void __init pin_pagetable_pfn(unsigned cmd, unsigned long pfn)
+> +void __init pin_pagetable_pfn(unsigned cmd, unsigned long pfn)
+>   {
+>   	struct mmuext_op op;
+>   
+> @@ -1767,7 +1767,7 @@ static void __init set_page_prot_flags(void *addr, pgprot_t prot,
+>   	if (HYPERVISOR_update_va_mapping((unsigned long)addr, pte, flags))
+>   		BUG();
+>   }
+> -static void __init set_page_prot(void *addr, pgprot_t prot)
+> +void __init set_page_prot(void *addr, pgprot_t prot)
+>   {
+>   	return set_page_prot_flags(addr, prot, UVMF_NONE);
+>   }
+> @@ -1943,6 +1943,15 @@ void __init xen_setup_kernel_pagetable(pgd_t *pgd, unsigned long max_pfn)
+>   	if (i && i < pgd_index(__START_KERNEL_map))
+>   		init_top_pgt[i] = ((pgd_t *)xen_start_info->pt_base)[i];
+>   
+> +#ifdef CONFIG_KASAN
+> +	/*
+> +	 * Copy KASAN mappings
+> +	 * ffffec0000000000 - fffffbffffffffff (=44 bits) kasan shadow memory (16TB)
+> +	 */
+> +	for (i = 0xec0 >> 3; i < 0xfc0 >> 3; i++)
+> +		init_top_pgt[i] = ((pgd_t *)xen_start_info->pt_base)[i];
+> +#endif
+> +
+>   	/* Make pagetable pieces RO */
+>   	set_page_prot(init_top_pgt, PAGE_KERNEL_RO);
+>   	set_page_prot(level3_ident_pgt, PAGE_KERNEL_RO);
+> diff --git a/arch/x86/xen/multicalls.c b/arch/x86/xen/multicalls.c
+> index 07054572297f..5e4729efbbe2 100644
+> --- a/arch/x86/xen/multicalls.c
+> +++ b/arch/x86/xen/multicalls.c
+> @@ -99,6 +99,15 @@ void xen_mc_flush(void)
+>   				ret++;
+>   	}
+>   
+> +	/*
+> +	 * XXX: Kasan produces quite a lot (~2000) of warnings in a form of:
+> +	 *
+> +	 *     (XEN) mm.c:3222:d155v0 mfn 3704b already pinned
+> +	 *
+> +	 * during kasan_init(). They are benign, but silence them for now.
+> +	 * Otherwise, booting takes too long due to printk() spam.
+> +	 */
+> +#ifndef CONFIG_KASAN
+
+It might be interesting to identify the problematic page tables.
+
+I guess this would require some hacking to avoid the multicalls in order
+to identify which page table should not be pinned again.
+
+
+Juergen
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BY0FXiGgsMt%3Dk9d73bkQvW-NqyUoS%3Dw6KXQ%3D28_ROz1YA%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/934a2950-9079-138d-5476-5eabd84dfec5%40suse.com.
