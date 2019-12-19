@@ -1,126 +1,118 @@
-Return-Path: <kasan-dev+bncBCMIZB7QWENRBS465XXQKGQEVOG3J7Y@googlegroups.com>
+Return-Path: <kasan-dev+bncBCR5PSMFZYORBNV45XXQKGQEB3V3KMY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pl1-x63f.google.com (mail-pl1-x63f.google.com [IPv6:2607:f8b0:4864:20::63f])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF26F125EC2
-	for <lists+kasan-dev@lfdr.de>; Thu, 19 Dec 2019 11:22:05 +0100 (CET)
-Received: by mail-pl1-x63f.google.com with SMTP id t3sf2793002plz.3
-        for <lists+kasan-dev@lfdr.de>; Thu, 19 Dec 2019 02:22:05 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1576750924; cv=pass;
+Received: from mail-yb1-xb37.google.com (mail-yb1-xb37.google.com [IPv6:2607:f8b0:4864:20::b37])
+	by mail.lfdr.de (Postfix) with ESMTPS id 986201260C8
+	for <lists+kasan-dev@lfdr.de>; Thu, 19 Dec 2019 12:25:43 +0100 (CET)
+Received: by mail-yb1-xb37.google.com with SMTP id e11sf3714088ybn.12
+        for <lists+kasan-dev@lfdr.de>; Thu, 19 Dec 2019 03:25:43 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1576754742; cv=pass;
         d=google.com; s=arc-20160816;
-        b=xpcdNHi9GM7ra3BSYAz5UqC3YDeo/1pS5SwPMIIwhmKkoyl/XZ//OfZvbdBie+6SIZ
-         QmMN7p+9bv2tlOj1IH8X7ZGJM0RwvF5FtuOM/KjhQTvFp3lTd+08hhMaA3vzpG+S3lO/
-         932YWiwpVV4YYtUhyQxf/0vI7QV3WGaYpGPC5mBLw7R7qsAzB5xQaaT+ODY12G+Ar6l5
-         sbdN84cIO83/mekhhCyorIBdUaPAw5oTaGBifhn71v9tTSfajIYVf/rlJtwGQBOALsvZ
-         wqMjgT9FAmIPMOvEK6GE+POks1s2WhL/pvxMLrm5EWAjdKlWDBWaWyFmAJQWy81i5sHS
-         3NGQ==
+        b=z0dnMQi+hnW9xzSWK9MPQ0+QTTpwn9LUtX96Pec8zUDA5ZjOyP1sCz565vV/Hmmjfg
+         SlRfIxkH8FujLHodkQZ48mIY2fYfj9vIa5Lt9pNT/UVHXAC4PIFf3CaPuM+ZUjanofek
+         QkldhJYXVsG6NzZmcqt6A2fQswslOg5+Kj6ov667maj+6z+MuHw6E2ztXXw6dWIMOmmW
+         H6yTnx9xfHyMwWI4gmWvQsC28u0ukLpnUR/d1W1oAZKmhtoew68F5GEQk6jPEtObqRDx
+         bJK8jEBqlx5yj8GUnWfQkR9IiE97UX41wyO1G3gjfTTp/JVxYArdgxG21LjdxXUmadyw
+         HSAg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=FafL9E23T6bpfRwlLFC9cyPbDC3NYLQtTf+VfA0OYFs=;
-        b=RxSjxLX9gmRsy6oqm6gp13kzYkXDuVhHt2gbv0M7BtOaiL3gSUPCDQ8SHeCpIXzhxv
-         oHwjaqObVwpQZfwdEWPKIGO5qaI0OAYzG6xQFG2Ny1TtOEN8qX4PvDFD+Q/DFpxERKxu
-         Y2QnX3IPBQ0PXoud1c5d6TGFbHIv3OLsQ89AfbvyegpgMfvf9H0ocTjSzL5TRkXf25UR
-         FxNfzykLE66CsImhr7sbGlOHFXmRXmZMWEYjeDmfce5v+wALnKP7kZkRFuGTphz8K4CE
-         Kl8tw/VIzZufvbG4j7WDdJ7gGxR4iUoOABaEi6+pABif/uAwQMClalDisKu5XBaXveCi
-         cuWQ==
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :references:in-reply-to:subject:to:from:sender:dkim-signature;
+        bh=KYUZ23H4g4w4CKyAx48cByE1ayXuekNWEXTwfCpAYIA=;
+        b=cPjbtjMV8wGrfO48mH1PUFdQmmw86daKezaCKdFiMvLjKUPt2t8TNrOjtVFMBPeq9M
+         wzOBT+gVUwrLw1Khdn8ytYuQqF2iCqQPe1YhI9rvM5G0xx/lU/e8fSpRXkowxvM+Rs8d
+         seNtrAH0+Iz6RN9GDoOeEzbJFaMCFSQHtMieygmK3JguhogBXFtNMbPsso8hFKNif7/z
+         NyfHCcIpR1OMh0VGVc23ymU9QX6WWaEi+4Cn4d0Zs6zpVL+GEOvkBoKub4obTMu1uLU3
+         4cNL3s4IWXoZFEa1E/K5tcEDALZXsox/G7QUwhc5bDUSuW06eWVzqyqwwHP7Bs1HnA8U
+         GD0A==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=mnU7Uy9c;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::f43 as permitted sender) smtp.mailfrom=dvyukov@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@ellerman.id.au header.s=201909 header.b=P0pIMkw4;
+       spf=pass (google.com: domain of mpe@ellerman.id.au designates 203.11.71.1 as permitted sender) smtp.mailfrom=mpe@ellerman.id.au
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
+        h=sender:from:to:subject:in-reply-to:references:date:message-id
+         :mime-version:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=FafL9E23T6bpfRwlLFC9cyPbDC3NYLQtTf+VfA0OYFs=;
-        b=i4qS1BHRiVIVFL2WDyhQi1r82DnWwv9ZhR/PA8SXUpO+VNbEqyMV+uTVuVskpQay7c
-         Q+n/HA7vIFKXcUAQsx7DSGJudSiai7UNk73heCYIXGdkfIQTxO5tTu3Nbu+WDpJkUBrI
-         fZoLh5UM0Ifi9/JCDoGcxzZRMSMosrFn+NSAG6LkAw81aYgwnW6OKnURZ60hSFIxnQNX
-         xQrlq+x5+6HzBkNBlcB+y4NMwsRKq2T2zcsB5EOnmcUs2G0+dvd2+53acQw/gJnqjpqJ
-         sC+7Z/sE+GJZGVw+DV6RyI6E+YJhQdalMU6TE26r0SkQwhEbQ6P9u6ahZMyTwaEtKtPw
-         q7mA==
+        bh=KYUZ23H4g4w4CKyAx48cByE1ayXuekNWEXTwfCpAYIA=;
+        b=eI2fgtmZHSlKa8CTgsCTTmnUf72esa1cp+5hiIeVzhScOKkt+0agVUr9jgRzkVq1Wu
+         FwzE9EYfirbenExnx1P2Kd9aHN22nHSAXitGlX23zJ6sYUDlAxwjmsVwyNKrw4N62gNT
+         LlP40Ap8Kt5vmQwYPCd2FtOWrU/Q8/abICjrDAkQXyF7RcV4Xs39fE9GoDR1ttFOZQs7
+         MrkLEGVKk1/aagB3ebOG2UTLWt1gF5XVv+t8qcgBjFNWewuYFYLINxYbWQ1siGRX9CcF
+         369QNfJ2HyXqfFt0AtNwI3nbELdkL3QrJWKmJVGh91JOAC6y7nGT+47RU+EWp+3suVtx
+         Zevg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+        h=sender:x-gm-message-state:from:to:subject:in-reply-to:references
+         :date:message-id:mime-version:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=FafL9E23T6bpfRwlLFC9cyPbDC3NYLQtTf+VfA0OYFs=;
-        b=BYvnsSdfiIq3YN3tb8942JxWaYVG2frEP5G3G9Xw3UNNY3gCKcbE+5f+W/741gkuiu
-         8r8f9AbkWv0MUV0ndNycjWCN4K4yUxQm79JIUa1OwlD9I3OmcngKg6YKXjWPaXSr/gl/
-         ZnRBWatCwzw9XFpMxvc9W+FG743VU37TvmscwF8RqSpKEP1jzqnKdVREQKlRhTioUjlo
-         llTd5wrVnXnfGDUKaNqFQTFjDmuqdE6oKNfpWcbDZL8samoRayRl2kBPBptentfvx5Q+
-         YxdwdF3ss2i06d3oA3R2VGj9vz8skXdnQ03NveoU6QeFia5tjlHgTD6w5Suz71NHa3/6
-         VmCg==
-X-Gm-Message-State: APjAAAVDS/eoa2so+BaeV4AMnL7zANIrVxBpbsZWWm25xyqQ68ItlE7l
-	GMdkoIP0cUy0pNs4mQWgcbg=
-X-Google-Smtp-Source: APXvYqzoHPxyY78APjeGrvHLkt60j+IMHqVypBGmE6QgN1WzDJjKFfByJGJFKx4QTaWW4kQIPWXZoQ==
-X-Received: by 2002:aa7:820d:: with SMTP id k13mr9115859pfi.10.1576750923986;
-        Thu, 19 Dec 2019 02:22:03 -0800 (PST)
+        bh=KYUZ23H4g4w4CKyAx48cByE1ayXuekNWEXTwfCpAYIA=;
+        b=GXVLh27f7Hz8syFpUzEOEXpCfEouQ6/1PCGWOcgwpuBfHyPrz4YEppZg4q4SSQbX4H
+         OrsFfvFcyfOzov2Su+tyE4k198mESnfJs/GSZY2SD+rjaQShM/Fs3Uajy/aTQr8XGNK1
+         fCKxBXOFM1g2Ftu5DGWGuXkbjAWBCbZ6c9sDP9OsJ6VAoQoa2mEB+yNnH3V8VzcEi1ED
+         rCJDaG0idg+F6AXee4ntzeG1YJAmKE+3Zungvpu5ejGcazHkveiaYxChOpW3sKuTEmcW
+         mnFaIny7kakd1w0+uVqgANTnjyAsBpfYPfoJ6s7JZ49YVrq+wZV5t269kWXrG59efpXl
+         h2SQ==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: APjAAAWXk4pnb1VwWSDUB5BeN/TCQyYWFC6r0WYS4CP64W4NRredE/ZF
+	EhP737k4TU1UkODm7sa3YdA=
+X-Google-Smtp-Source: APXvYqz0P60A5MkvN+JBVeTFyMdCaAh72y06TenBjkD49rLtxF9fjRj4nl4/SYLdr6sbYhzFxyrSow==
+X-Received: by 2002:a25:24c5:: with SMTP id k188mr6017073ybk.207.1576754742420;
+        Thu, 19 Dec 2019 03:25:42 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:aa7:8048:: with SMTP id y8ls1401832pfm.10.gmail; Thu, 19 Dec
- 2019 02:22:03 -0800 (PST)
-X-Received: by 2002:a63:2949:: with SMTP id p70mr8352537pgp.191.1576750923532;
-        Thu, 19 Dec 2019 02:22:03 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1576750923; cv=none;
+Received: by 2002:a25:d4d5:: with SMTP id m204ls801372ybf.5.gmail; Thu, 19 Dec
+ 2019 03:25:41 -0800 (PST)
+X-Received: by 2002:a25:310b:: with SMTP id x11mr5637637ybx.467.1576754741097;
+        Thu, 19 Dec 2019 03:25:41 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1576754741; cv=none;
         d=google.com; s=arc-20160816;
-        b=gAtRM/zrd83lO70aDiHo5F0qaJp2dWKX8SZS0TvmEHZPGLvijZUNYByGwf5DbCL6/W
-         aC04B0xxy+IUSu5AYyy/tSD3FkhloJwH8YTuGf0Mb/KC3ooZIxzFQo+0Ck0m/K40UBwK
-         GFwTNOLZ6qbo2w56VspsfO+/S8ltRFP5/7aHqlkbz1Tala9WdVKu9UEnVBVtm6Adr2v1
-         QH8pyvneaaq9OerpjNp3Vr4jGKGyR4DfqweIATp3SUX7BsY+ubJYMFDmV0yTV3N+602C
-         CBLmdYKFNN5w2y3R0h72eUQWHXcxRamsoKoPhcdQnf+cjiZkpcQZtqSaBJtfqoHPl8aY
-         LpHw==
+        b=GShL/iDL0aTNaFAXNQ16M704AC+dj60ON98CwLOAxj715+5rdOgbtEdr7EkyeU/qkG
+         I/2EelmkEvW1Mfu4NnDQYhRe4/Icd/GPE9IND2U2SncEz5jWkmL6yPHNzjc193DtfJw9
+         P1ZxTi6j2uMWxLkRaUZ2aA7yl3uoYu22PZLaAy3K3lWnX6ZcPqvV8nxzxnpD9qBMA4dV
+         HqtjZhveGF+H0wh9hz59/7v/CVftBkQrtyGLD7IqyjeQ9zDRDnuX+CjaJuDEKVJ6vriY
+         NveYJDP8R3cVDUIyJz3VsgeT/JyqzIMLFEo4Pm8PvrD+P2iI6u4RZC5WT0U/sbQ1QDq5
+         X0Qw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=RxF/3xVlUS8ynULbPMYetj7WI4OWmavmAlIDGJ3QWsE=;
-        b=zRvU8vQNECf6E87vOl6HbgiViab7KxK044ZcJNgKTByjONAJwzUG2z/ZjJgfxEQo8J
-         nAuoNJhtRWG0qxxZJbYE3uIBl0rwHRWd21N4xGOiCvZDf/FfaJiBhcLUsSkRciDDhmza
-         HWcZjmDjheEOt6OU82R1CtAcZPdkfrFmb6HvDCSa4V1vCbVXgAzT1rNATFokJVgeQ/r3
-         /DjZgQmajZJHBfZaDHjQ7vz/uzWdZQ/WKn9SfH9KOICgsWhf9f1XW5c+LgnJF8pgBTO/
-         6fISYfXhr19ymQA6z79d4MXHKsTIB2IbrhqoZFsJ76UEYWdDEMqfg1zWcYQwKHkS05V9
-         OJNg==
+        h=mime-version:message-id:date:references:in-reply-to:subject:to:from
+         :dkim-signature;
+        bh=5NL3hw3ZipUm0x7KGXD6mjMXU8mT1W7WQy6jFvhbHQo=;
+        b=Fgwc88ZL+s042Ipte4Y+b641DB14y0iASgV6HtQs/JUhR1d1lQMwcpWkM4xEcP/uTQ
+         8BXrzVpWUkoUWvu632h+1ro7aSROWSC3Rcm66y3+kr4iF5RzrhCbwzDAucr+mK61iZ/t
+         cUuWLL3TWo73Mj2WW9z99FPvJeF6Ikqu1jKOtcDoMi01CzGqTQIERnFGoQeQDVjzpLT/
+         rhpLEUSnAt5kzHkW6j06ZpG0cZPzGHPlYkG4krTzk8eQq2YE6wEUwRwCFD46fkRRCLbB
+         jKgyU71I+0VSZjB4DkDXIW/R8QMiut5u3MjxC0JHgpzgjclOH6rCHPzpILDiFkdP4IxO
+         rZBA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=mnU7Uy9c;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::f43 as permitted sender) smtp.mailfrom=dvyukov@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-qv1-xf43.google.com (mail-qv1-xf43.google.com. [2607:f8b0:4864:20::f43])
-        by gmr-mx.google.com with ESMTPS id j2si252800pfi.1.2019.12.19.02.22.03
+       dkim=pass header.i=@ellerman.id.au header.s=201909 header.b=P0pIMkw4;
+       spf=pass (google.com: domain of mpe@ellerman.id.au designates 203.11.71.1 as permitted sender) smtp.mailfrom=mpe@ellerman.id.au
+Received: from ozlabs.org (bilbo.ozlabs.org. [203.11.71.1])
+        by gmr-mx.google.com with ESMTPS id z5si292960ywg.5.2019.12.19.03.25.40
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Dec 2019 02:22:03 -0800 (PST)
-Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::f43 as permitted sender) client-ip=2607:f8b0:4864:20::f43;
-Received: by mail-qv1-xf43.google.com with SMTP id dp13so2009984qvb.7
-        for <kasan-dev@googlegroups.com>; Thu, 19 Dec 2019 02:22:03 -0800 (PST)
-X-Received: by 2002:a05:6214:1103:: with SMTP id e3mr6769571qvs.159.1576750922197;
- Thu, 19 Dec 2019 02:22:02 -0800 (PST)
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Dec 2019 03:25:41 -0800 (PST)
+Received-SPF: pass (google.com: domain of mpe@ellerman.id.au designates 203.11.71.1 as permitted sender) client-ip=203.11.71.1;
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.ozlabs.org (Postfix) with ESMTPSA id 47dqLP6ntkz9sPn;
+	Thu, 19 Dec 2019 22:25:33 +1100 (AEDT)
+From: Michael Ellerman <mpe@ellerman.id.au>
+To: Daniel Axtens <dja@axtens.net>, Christophe Leroy <christophe.leroy@c-s.fr>, linux-kernel@vger.kernel.org, linux-mm@kvack.org, linuxppc-dev@lists.ozlabs.org, kasan-dev@googlegroups.com, aneesh.kumar@linux.ibm.com, bsingharora@gmail.com
+Subject: Re: [PATCH v4 4/4] powerpc: Book3S 64-bit "heavyweight" KASAN support
+In-Reply-To: <87bls4tzjn.fsf@dja-thinkpad.axtens.net>
+References: <20191219003630.31288-1-dja@axtens.net> <20191219003630.31288-5-dja@axtens.net> <c4d37067-829f-cd7d-7e94-0ec2223cce71@c-s.fr> <87bls4tzjn.fsf@dja-thinkpad.axtens.net>
+Date: Thu, 19 Dec 2019 22:25:32 +1100
+Message-ID: <87fthgmuab.fsf@mpe.ellerman.id.au>
 MIME-Version: 1.0
-References: <20191218231150.12139-1-jannh@google.com> <20191218231150.12139-4-jannh@google.com>
-In-Reply-To: <20191218231150.12139-4-jannh@google.com>
-From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Thu, 19 Dec 2019 11:21:51 +0100
-Message-ID: <CACT4Y+bKioQorPESS0B83s4TkU0ZSo7M2JpNxJD06W=OihrK9A@mail.gmail.com>
-Subject: Re: [PATCH v7 4/4] x86/kasan: Print original address on #GP
-To: Jann Horn <jannh@google.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	"H. Peter Anvin" <hpa@zytor.com>, "the arch/x86 maintainers" <x86@kernel.org>, 
-	Andrey Ryabinin <aryabinin@virtuozzo.com>, Alexander Potapenko <glider@google.com>, 
-	kasan-dev <kasan-dev@googlegroups.com>, LKML <linux-kernel@vger.kernel.org>, 
-	Andrey Konovalov <andreyknvl@google.com>, Andy Lutomirski <luto@kernel.org>, 
-	Sean Christopherson <sean.j.christopherson@intel.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: dvyukov@google.com
+X-Original-Sender: mpe@ellerman.id.au
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=mnU7Uy9c;       spf=pass
- (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::f43
- as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
- (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Dmitry Vyukov <dvyukov@google.com>
-Reply-To: Dmitry Vyukov <dvyukov@google.com>
+ header.i=@ellerman.id.au header.s=201909 header.b=P0pIMkw4;       spf=pass
+ (google.com: domain of mpe@ellerman.id.au designates 203.11.71.1 as permitted
+ sender) smtp.mailfrom=mpe@ellerman.id.au
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -133,188 +125,37 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Dec 19, 2019 at 12:12 AM Jann Horn <jannh@google.com> wrote:
+Daniel Axtens <dja@axtens.net> writes:
+> Christophe Leroy <christophe.leroy@c-s.fr> writes:
+>> On 12/19/2019 12:36 AM, Daniel Axtens wrote:
+>>> KASAN support on Book3S is a bit tricky to get right:
+...
+>>> diff --git a/arch/powerpc/include/asm/kasan.h b/arch/powerpc/include/asm/kasan.h
+>>> index 296e51c2f066..f18268cbdc33 100644
+>>> --- a/arch/powerpc/include/asm/kasan.h
+>>> +++ b/arch/powerpc/include/asm/kasan.h
+>>> @@ -2,6 +2,9 @@
+>>>   #ifndef __ASM_KASAN_H
+>>>   #define __ASM_KASAN_H
+>>>   
+>>> +#include <asm/page.h>
+>>> +#include <asm/pgtable.h>
+>>
+>> What do you need asm/pgtable.h for ?
+>>
+>> Build failure due to circular inclusion of asm/pgtable.h:
 >
-> Make #GP exceptions caused by out-of-bounds KASAN shadow accesses easier
-> to understand by computing the address of the original access and
-> printing that. More details are in the comments in the patch.
->
-> This turns an error like this:
->
->     kasan: CONFIG_KASAN_INLINE enabled
->     kasan: GPF could be caused by NULL-ptr deref or user memory access
->     general protection fault, probably for non-canonical address
->         0xe017577ddf75b7dd: 0000 [#1] PREEMPT SMP KASAN PTI
->
-> into this:
->
->     general protection fault, probably for non-canonical address
->         0xe017577ddf75b7dd: 0000 [#1] PREEMPT SMP KASAN PTI
->     KASAN: maybe wild-memory-access in range
->         [0x00badbeefbadbee8-0x00badbeefbadbeef]
->
-> The hook is placed in architecture-independent code, but is currently
-> only wired up to the X86 exception handler because I'm not sufficiently
-> familiar with the address space layout and exception handling mechanisms
-> on other architectures.
->
-> Signed-off-by: Jann Horn <jannh@google.com>
-> ---
->
-> Notes:
->     v2:
->      - move to mm/kasan/report.c (Dmitry)
->      - change hook name to be more generic
->      - use TASK_SIZE instead of TASK_SIZE_MAX for compiling on non-x86
->      - don't open-code KASAN_SHADOW_MASK (Dmitry)
->      - add "KASAN: " prefix, but not "BUG: " (Andrey, Dmitry)
->      - use same naming scheme as get_wild_bug_type (Andrey)
->      - this version was "Reviewed-by: Dmitry Vyukov <dvyukov@google.com>"
->     v3:
->      - adjusted example output in commit message based on
->        changes in preceding patch
->      - ensure that KASAN output happens after bust_spinlocks(1)
->      - moved hook in arch/x86/kernel/traps.c such that output
->        appears after the first line of KASAN-independent error report
->     v4:
->      - adjust patch to changes in x86/traps patch
->     v5:
->      - adjust patch to changes in x86/traps patch
->      - fix bug introduced in v3: remove die() call after oops_end()
->     v6:
->      - adjust sample output in commit message
->     v7:
->      - instead of open-coding __die_header()+__die_body() in traps.c,
->        insert a hook call into die_body(), introduced in patch 3/4
->        (Borislav)
->
->  arch/x86/kernel/dumpstack.c |  2 ++
->  arch/x86/mm/kasan_init_64.c | 21 -------------------
->  include/linux/kasan.h       |  6 ++++++
->  mm/kasan/report.c           | 40 +++++++++++++++++++++++++++++++++++++
->  4 files changed, 48 insertions(+), 21 deletions(-)
->
-> diff --git a/arch/x86/kernel/dumpstack.c b/arch/x86/kernel/dumpstack.c
-> index 8995bf10c97c..ae64ec7f752f 100644
-> --- a/arch/x86/kernel/dumpstack.c
-> +++ b/arch/x86/kernel/dumpstack.c
-> @@ -427,6 +427,8 @@ void die_addr(const char *str, struct pt_regs *regs, long err, long gp_addr)
->         int sig = SIGSEGV;
->
->         __die_header(str, regs, err);
-> +       if (gp_addr)
-> +               kasan_non_canonical_hook(gp_addr);
->         if (__die_body(str, regs, err))
->                 sig = 0;
->         oops_end(flags, regs, sig);
-> diff --git a/arch/x86/mm/kasan_init_64.c b/arch/x86/mm/kasan_init_64.c
-> index cf5bc37c90ac..763e71abc0fe 100644
-> --- a/arch/x86/mm/kasan_init_64.c
-> +++ b/arch/x86/mm/kasan_init_64.c
-> @@ -288,23 +288,6 @@ static void __init kasan_shallow_populate_pgds(void *start, void *end)
->         } while (pgd++, addr = next, addr != (unsigned long)end);
->  }
->
-> -#ifdef CONFIG_KASAN_INLINE
-> -static int kasan_die_handler(struct notifier_block *self,
-> -                            unsigned long val,
-> -                            void *data)
-> -{
-> -       if (val == DIE_GPF) {
-> -               pr_emerg("CONFIG_KASAN_INLINE enabled\n");
-> -               pr_emerg("GPF could be caused by NULL-ptr deref or user memory access\n");
-> -       }
-> -       return NOTIFY_OK;
-> -}
-> -
-> -static struct notifier_block kasan_die_notifier = {
-> -       .notifier_call = kasan_die_handler,
-> -};
-> -#endif
-> -
->  void __init kasan_early_init(void)
->  {
->         int i;
-> @@ -341,10 +324,6 @@ void __init kasan_init(void)
->         int i;
->         void *shadow_cpu_entry_begin, *shadow_cpu_entry_end;
->
-> -#ifdef CONFIG_KASAN_INLINE
-> -       register_die_notifier(&kasan_die_notifier);
-> -#endif
-> -
->         memcpy(early_top_pgt, init_top_pgt, sizeof(early_top_pgt));
->
->         /*
-> diff --git a/include/linux/kasan.h b/include/linux/kasan.h
-> index 4f404c565db1..e0238af0388f 100644
-> --- a/include/linux/kasan.h
-> +++ b/include/linux/kasan.h
-> @@ -225,4 +225,10 @@ static inline void kasan_release_vmalloc(unsigned long start,
->                                          unsigned long free_region_end) {}
->  #endif
->
-> +#ifdef CONFIG_KASAN_INLINE
-> +void kasan_non_canonical_hook(unsigned long addr);
-> +#else /* CONFIG_KASAN_INLINE */
-> +static inline void kasan_non_canonical_hook(unsigned long addr) { }
-> +#endif /* CONFIG_KASAN_INLINE */
-> +
->  #endif /* LINUX_KASAN_H */
-> diff --git a/mm/kasan/report.c b/mm/kasan/report.c
-> index 621782100eaa..5ef9f24f566b 100644
-> --- a/mm/kasan/report.c
-> +++ b/mm/kasan/report.c
-> @@ -512,3 +512,43 @@ void __kasan_report(unsigned long addr, size_t size, bool is_write, unsigned lon
->
->         end_report(&flags);
->  }
-> +
-> +#ifdef CONFIG_KASAN_INLINE
-> +/*
-> + * With CONFIG_KASAN_INLINE, accesses to bogus pointers (outside the high
-> + * canonical half of the address space) cause out-of-bounds shadow memory reads
-> + * before the actual access. For addresses in the low canonical half of the
-> + * address space, as well as most non-canonical addresses, that out-of-bounds
-> + * shadow memory access lands in the non-canonical part of the address space.
-> + * Help the user figure out what the original bogus pointer was.
-> + */
-> +void kasan_non_canonical_hook(unsigned long addr)
-> +{
-> +       unsigned long orig_addr;
-> +       const char *bug_type;
-> +
-> +       if (addr < KASAN_SHADOW_OFFSET)
-> +               return;
-> +
-> +       orig_addr = (addr - KASAN_SHADOW_OFFSET) << KASAN_SHADOW_SCALE_SHIFT;
-> +       /*
-> +        * For faults near the shadow address for NULL, we can be fairly certain
-> +        * that this is a KASAN shadow memory access.
-> +        * For faults that correspond to shadow for low canonical addresses, we
-> +        * can still be pretty sure - that shadow region is a fairly narrow
-> +        * chunk of the non-canonical address space.
-> +        * But faults that look like shadow for non-canonical addresses are a
-> +        * really large chunk of the address space. In that case, we still
-> +        * print the decoded address, but make it clear that this is not
-> +        * necessarily what's actually going on.
-> +        */
-> +       if (orig_addr < PAGE_SIZE)
-> +               bug_type = "null-ptr-deref";
-> +       else if (orig_addr < TASK_SIZE)
-> +               bug_type = "probably user-memory-access";
-> +       else
-> +               bug_type = "maybe wild-memory-access";
-> +       pr_alert("KASAN: %s in range [0x%016lx-0x%016lx]\n", bug_type,
-> +                orig_addr, orig_addr + KASAN_SHADOW_MASK);
-> +}
-> +#endif
+> I see there's a lot of ppc32 stuff, I clearly need to bite the bullet
+> and get a ppc32 toolchain so I can squash these without chewing up any
+> more of your time. I'll sort that out and send a new spin.
 
-Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
+I think you run Ubuntu, in which case it should just be:
 
-Thanks!
+$ apt install gcc-powerpc-linux-gnu
+
+cheers
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BbKioQorPESS0B83s4TkU0ZSo7M2JpNxJD06W%3DOihrK9A%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/87fthgmuab.fsf%40mpe.ellerman.id.au.
