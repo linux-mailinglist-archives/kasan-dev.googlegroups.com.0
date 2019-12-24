@@ -1,127 +1,133 @@
-Return-Path: <kasan-dev+bncBAABBRN2QDYAKGQETB5RLGA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDLLJZUMQQCBBP44Q7YAKGQEJK3M7TY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-vk1-xa39.google.com (mail-vk1-xa39.google.com [IPv6:2607:f8b0:4864:20::a39])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4598E1290C1
-	for <lists+kasan-dev@lfdr.de>; Mon, 23 Dec 2019 02:49:59 +0100 (CET)
-Received: by mail-vk1-xa39.google.com with SMTP id z24sf6495088vkn.0
-        for <lists+kasan-dev@lfdr.de>; Sun, 22 Dec 2019 17:49:59 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1577065798; cv=pass;
+Received: from mail-yb1-xb3f.google.com (mail-yb1-xb3f.google.com [IPv6:2607:f8b0:4864:20::b3f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 05955129F10
+	for <lists+kasan-dev@lfdr.de>; Tue, 24 Dec 2019 09:37:21 +0100 (CET)
+Received: by mail-yb1-xb3f.google.com with SMTP id 132sf13654305ybb.3
+        for <lists+kasan-dev@lfdr.de>; Tue, 24 Dec 2019 00:37:20 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1577176640; cv=pass;
         d=google.com; s=arc-20160816;
-        b=K2HOdMn9N430JHC5ZkO9A4H8NU2RcSq2bkpXSqvR2ztkYPDMZ1De3dirZjK6lm1xJz
-         5cfcTZhlNG+7JufG8B8p+OKty1Q6xA0aH0+ryrXSIf/zTRmV3HfaiKz8TmohE3wuqGmu
-         cB6F8zzD6GRyKS7YVquYkMO/L65EGfYRsHUkjMXXxpXaN2zbqnRf3BJFEffwdNLimPDk
-         mI4cRFFpNbEgwPUNfV6ip4Ljj4Y/2Enkr3n9RyY3h4gwWS0dENdD7hRlNNn8FZ78PqwA
-         IJMMCNQe6JAZlCrRj7U1n7CbMCnZG6GrzJovpEhIjs3kamdboHAz5Xhf5TDDHP72vUoC
-         ch8Q==
+        b=MIij3+j3D5eU0tua9hrjXyPfHK+l52ukiGN5pmwx6U7sd6jTP0/R4RaGmTd6sprtuf
+         XN148Bjud5+bakXAsCJGpDM84o5g1rTq53RinjfnDilDxcl62l0PcAiJERw1mOBkrUNu
+         PCm0eqWHllHu/CdhOE9p4O8lH4peYnoD7774znFl3OujHzdT5LNRliSNXKPAn8YVHvZh
+         6PpROv+TPYok4UApYtnVwr6BPXdtuDuvJWaIEn9HCafT+uvWurr8jb5251a/FG0Kod1h
+         s+w1j3ZihPkqNSj4X1Zw/Ju83ZXsAV/TZhBUBRsI0QJGXURPf9zYmOhbH0HxP8sYV47z
+         QTIQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:message-id:date:subject:cc:to:from
-         :mime-version:sender:dkim-signature;
-        bh=7S7cxxYAy+r6g+HhgcTpACMBRPbBfYLqNg52OJ8Tg3E=;
-        b=mY7KndO6P5S/MxFTIZVD8FdIaDkEhaPIClK7sv+CXgQFs8YCQVPY/GYst1wRKjFrjw
-         IbzlAAG0X5OY/GYG65YAbHGN5H6PXe00aM5w1+o3YW4xR7Y5xmLwVnhxIkobnU38goOv
-         1OdYGOiF9VAW4Ci7LsGbcWwHVNfzV4L5BAnYk77ZOimPiiMyfjwBGo7uj9LBjOFr0yVR
-         xHroKRunetVaCNynoSK4cf970+TkPzyUCfO42jSbxC3tVnO3IB/8aGCz8FJUv1N9Tf4w
-         NJjQ5PpEjmNNb0xfMk6hlyBzeJaR6P6oFHIRHYr3aHaURxkmjjYJYPBPC1ojQaQJiIWN
-         Svug==
+         :list-id:mailing-list:precedence:to:subject:message-id:date:from
+         :reply-to:mime-version:sender:dkim-signature:dkim-signature;
+        bh=AnSD2asPQxC2d1dm0U7R1zKpoBuvAcq7bcAZzxgkQ2M=;
+        b=DZicHuBcxnZ1x/W3BDHihLILKrbf/qOxKTrSpZauK2hmFNanfkXTlYa5ggjmyeVQd+
+         1OCW6wldsKufFtEaq/HuetxWsXsyj03dx1sW1K8Rrp6lf3R4uky0dS93f3eHanwNpcmE
+         2Emjdb2vDoMi1OI4rAcN7tKkDhW41kX0xOPMMX+Y7To7wwikecRvL1iVE8GSu3v41GhJ
+         N0/YbAtg9cOXVF55nRjbmTmok1fqufyRpjbajLdtVUbHZhb+T6Myf+KQJ95i8HtNrAih
+         qUXm3jS24tvclwSVNxfc03DP22EU8Ma5CtDk6jZcqUwse6s/DpLc9n2HNtobBFAl/j77
+         r3sw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of wang.yi59@zte.com.cn designates 63.217.80.70 as permitted sender) smtp.mailfrom=wang.yi59@zte.com.cn
+       dkim=pass header.i=@gmail.com header.s=20161025 header.b=VlyE5hkj;
+       spf=pass (google.com: domain of am19040@gmail.com designates 2607:f8b0:4864:20::142 as permitted sender) smtp.mailfrom=am19040@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:mime-version:from:to:cc:subject:date:message-id
+        h=sender:mime-version:reply-to:from:date:message-id:subject:to
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=7S7cxxYAy+r6g+HhgcTpACMBRPbBfYLqNg52OJ8Tg3E=;
-        b=EEajW/MVLs/Xd861dSWw12K8r3gIF0fIPrY/IsblSrXSWpmq98WRgNAKzTsVJpmm8S
-         iSVucWI1GV6WcpTn2e/WWmgbXGEdl0nrxFuLxZZU8Hhz/HBQv0pLHZYeSTzCEk4khP92
-         dOfHkO4oFIWoD/PLW4OGiy7ovpTc2plE1U8WI6Fdon+z0XH9bkG9OP+hIF0+/ThPSAMI
-         Hv0KRnBRhFPhOayRlA184VRaGRCikpVNW6ic5s2Ibv1VW8g8nLuRIzU7QHDiCsM9ix50
-         mkSFgtO3BuZ5U2EqY5ymD9WnNmRo1d5sLfTt5duW4xFeet3EulRGzFWsKJWq6HvM3sBb
-         q5Sg==
+        bh=AnSD2asPQxC2d1dm0U7R1zKpoBuvAcq7bcAZzxgkQ2M=;
+        b=gApSRt53QQrbgEj1RBDFMGWmNHAT8auhic38rAmWSFZOdoYSE88S/HIz9EHz1UuCwd
+         R3p/X6tVKxvMIBeiw3yp3rALzBQ4rSKQeX1f/DK3fzCx1LhMuIIUD6pVp8XKj+X6CV5o
+         LG9U1yXsMVfdwcDWQGUfz+jp/ZJfrWDk3r74f611mIRQC4b8vYvqw6nDITIOUEPyP/ZI
+         o+bmh39Ve/im3E5fanHS133rAOq1btgujWSWrUk7d6kvFA+sZrquo4Je6yGQZtTSsiaA
+         LH1bU2oCmN47ci/7ZBrWIxKjA5d8P86xdvE8aI7lC+r5h9mVAVC6Wi+OTWk6EMoSHRqb
+         AYeQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=AnSD2asPQxC2d1dm0U7R1zKpoBuvAcq7bcAZzxgkQ2M=;
+        b=rCNCifg/GGfs3phW3ZN/bxXVo6X04N/naZbxw2hyws72P1+Je/v7YlozKRiGvR0kwL
+         Qmgi9BVMtFSaUgaL7ysrwNBiGTZus3bRqyPS/pjmoBMfsdeZ6460/B1kAqIWH2EUpxHD
+         44s7iBMCMy+O+LzBombvW2Te5Wg/pBPoiflAx91woNTneK9311T69PUoSK/FHWCvyt0D
+         t3rFjScu254s4f74dp3iqZo+2p5YI4sOMGf3AqJduVJqh/HLZ/4Ql/YFKGfLc13XWonR
+         MMxWuPWhW45JWGNNBkxnM41Be5v/M+rCJnsmUQ0oHQPr9oE5tFZcs4E/rislgNuR5Wm8
+         yTjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:mime-version:from:to:cc:subject:date
-         :message-id:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=7S7cxxYAy+r6g+HhgcTpACMBRPbBfYLqNg52OJ8Tg3E=;
-        b=VNV5bN6n6OE5K2+6SNM2knXDaOA7ZOE0l0ijOI7EaWf6ZyHXYkutmbMWhCFD91EHmz
-         DWNqkotjNgzXn1r0VXasDVXNp3d1HKBZbkX2Qr5CAKY0ThxXYUCfUZzLU9vFg2pjo07C
-         89DEhh08Cr4+/MHg9ysK1bYeRGWU8cqF/oWFcaq7pWJ/+i+fbzfissf2M/ulzDtLT1ff
-         m+ZMmcMGXmeR64CwQbDaMRql2lTIkUv99oYdrgIaLAABot4fKECOcZrUFkZMBzqIN5wi
-         8kl+mIziUfhx7XuKfduXvbfx1yw0n50fBhLUaliTf6w/sPmmYEo1nivOiwoT5AHr6DQ/
-         e38g==
+        h=sender:x-gm-message-state:mime-version:reply-to:from:date
+         :message-id:subject:to:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=AnSD2asPQxC2d1dm0U7R1zKpoBuvAcq7bcAZzxgkQ2M=;
+        b=lqRHrlK/LG5LtA3Uh72jvVzI9UY4LV+iUOEasH8h60+2KhugKAi7ChrCgAGPlF25M7
+         Ul+pbE+NmHWEbMLbEZQLyGf0++QkyJAStL3Ebqkjtiiqy9/EjLeMhYfvwTEV+kzmKtj0
+         tdCso2VW9L5YKP2TQTi0g7lzK5fQH1uEdBcTuj74r02zCxeWhMWQCxM27G4ZSu1jxCP5
+         ul/S1TGGrAi1VpduH4/HqJcckoxrXvKV0tHaeZUfk5IPZsoG4GUrsDOV9YhaGEt4sdIl
+         S5AuJ9UiSG8fdZWdfAPPlruCOtnqQBakXVVio4p2W2SUs1WzODYpJt7O7VPLTcW52mBT
+         GbQA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAVCKajfD2HZmz1ihVZK6MNFA5g6EyFOZ6uMhHsKexmhq1VzmyLI
-	JELDjjyfYEV3+D86asrGKxA=
-X-Google-Smtp-Source: APXvYqyhaB49aCMdvuRaR/0Zp8CWvQh0d0vf5hCIYMgUvHhJtXG92TeWUO9qFPEKBYihFLZv0796sw==
-X-Received: by 2002:a1f:8cd5:: with SMTP id o204mr10945538vkd.66.1577065798009;
-        Sun, 22 Dec 2019 17:49:58 -0800 (PST)
-MIME-Version: 1.0
+X-Gm-Message-State: APjAAAWs9oG4liORqXAA2tKjvAE0VnusAvvJOq1xzgt7BePQ0nC6710z
+	9NS7aURkZRuAOcaXBkjoSII=
+X-Google-Smtp-Source: APXvYqzj7f0rHuEMYTPmsj3HuJEbR0Pl/kDwo97EsLQXFCXyoB5DWHiDiHCoUSLoiVrmu7mRu+eVlg==
+X-Received: by 2002:a81:408:: with SMTP id 8mr23430616ywe.88.1577176639943;
+        Tue, 24 Dec 2019 00:37:19 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a67:f94a:: with SMTP id u10ls1331417vsq.1.gmail; Sun, 22 Dec
- 2019 17:49:57 -0800 (PST)
-X-Received: by 2002:a67:f84e:: with SMTP id b14mr15183412vsp.126.1577065797730;
-        Sun, 22 Dec 2019 17:49:57 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1577065797; cv=none;
+Received: by 2002:a81:5f04:: with SMTP id t4ls2794566ywb.12.gmail; Tue, 24 Dec
+ 2019 00:37:19 -0800 (PST)
+X-Received: by 2002:a81:2847:: with SMTP id o68mr25972438ywo.245.1577176639616;
+        Tue, 24 Dec 2019 00:37:19 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1577176639; cv=none;
         d=google.com; s=arc-20160816;
-        b=bXPzeWgSGh45tRbRsMWUiCFnDuFbVD6xerW4L7mceL4BBRUkO5vatm2e44fNfyeeyY
-         zfIMWstV8Cl04isSOatIlPTFe25KLGg4hyKO3BYXj++RAXwQeUOcGTAii5c3d5GLrnA3
-         /lpW0QYl1j+C7GoMO1v7inpIu7UIyHH9pRmf+QoHN3I8yEv48o8lBTV2w57kQvFhPxdI
-         FaynlmdDFocSOFTEjlGoK2Shwk3lXE8XxJfHYnf4fQWw4prLxiI1OygURqBOl6bQw160
-         3k47KICv23qffWLj9fxozb/VrI7X7i30OvKFeXH+dgGqkhSzh8Kz0zcWcZLcP0+o6Vn/
-         AagA==
+        b=uh2ea+70lU8sdBA7QGL2ZCRuH9lIRVEznMCWhccbaW2X5f5bFrmrHfskvcWStT5wOQ
+         7r9VfdgXoSGpisUxI6dOX5/stutsEVuPjW1mU8+Byx1wpXi0mAiOH5zQ9TSVDtvI8Olk
+         E2/nsOOpyawRkwr0/gTIQiq2JL8p5DGjDXba/syf49awtyaqJlKuHCpO/MdeUn4dFtk7
+         KlsaKJOargwKnuour8FNc6sq2TOT7mnyDElbQGs1qf9L46XjvTpALasTyUo0+oX9VBvk
+         pz8xl//915yZM+sR8iAX5Ruz7FFf++Lyb8OhC3HHO/IdatQoJLOwCVLSUfx7d60DOHd7
+         j0Dg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=message-id:date:subject:cc:to:from;
-        bh=hGExTlOzNBDbnyrDyEQkJpMzxNQGkzqXcTOsHgGyftI=;
-        b=qFRGsLJmf5+nM83MpNl3nWL0YbndQfeZrDyQY72RI9RV0MCgQUk6vdwHPoJwUmyenw
-         D3idLNyd0jKUF7/BiDEFzyDhTKOZ73zut8rd2CezN09tbhfCTvUnaymPU2dOy/HTpUR2
-         6JbrMmaHIxxdIcEG7707TzDPP5d1pi/ftfAvWF5Bef9LWhRlJtgxdJbzj4RlhLGftadD
-         KyOazcQ//cEaXx437nCawjxZ52eTI//LW4Pj9vmxRzyNIFi4ADyb7k6QmzHoRKGiiZqD
-         SrHEfMGFPFZUyvAQ9dWnYVv7yxl8QH463QfXl1nAj/l0UkElNwfExT6U2eCugNwiGtbp
-         9jOw==
+        h=to:subject:message-id:date:from:reply-to:mime-version
+         :dkim-signature;
+        bh=LcGU1mt+nAQIi3eKcWZpiy7DqrkNG23tK1MNYV9CB+M=;
+        b=acl1jnbQ/xYRqu8RQsfU+zCga3v9k9MYLDLbjA2xSQYR/W3wlzxFtlNmW9kSniQGfm
+         hxFBf3XZvoFYAFkbVpMYNzptex6p7gyGzjUHIJ08vF4IY1lWvl8pQINzhszCXXNfalfB
+         OYEPD9wH9QgzRlrmPupi+fSKwvQZRTuPB2YYDxrFGVHS7bOnA7aksBQENMpbJ8Kxt1M8
+         3QobWD4yBuaaW9PmOgnJoLZ+cbmATZHCeshpWH8FiV33r0oVCOiIuO2tlDVH7S0yFbB0
+         fwVn7sjcHDSbXkFSJ2cjtzRn4cqvQWWFw5udTIxtFImmJAXRfLUb+JDaOC/6gLrn1Eus
+         UhhQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of wang.yi59@zte.com.cn designates 63.217.80.70 as permitted sender) smtp.mailfrom=wang.yi59@zte.com.cn
-Received: from mxhk.zte.com.cn (mxhk.zte.com.cn. [63.217.80.70])
-        by gmr-mx.google.com with ESMTPS id c124si663113vkb.2.2019.12.22.17.49.57
+       dkim=pass header.i=@gmail.com header.s=20161025 header.b=VlyE5hkj;
+       spf=pass (google.com: domain of am19040@gmail.com designates 2607:f8b0:4864:20::142 as permitted sender) smtp.mailfrom=am19040@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Received: from mail-il1-x142.google.com (mail-il1-x142.google.com. [2607:f8b0:4864:20::142])
+        by gmr-mx.google.com with ESMTPS id s64si1055050ywf.0.2019.12.24.00.37.19
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 22 Dec 2019 17:49:57 -0800 (PST)
-Received-SPF: pass (google.com: domain of wang.yi59@zte.com.cn designates 63.217.80.70 as permitted sender) client-ip=63.217.80.70;
-Received: from mse-fl2.zte.com.cn (unknown [10.30.14.239])
-	by Forcepoint Email with ESMTPS id 6DB6E44C4802612FF7C7;
-	Mon, 23 Dec 2019 09:49:55 +0800 (CST)
-Received: from notes_smtp.zte.com.cn (notes_smtp.zte.com.cn [10.30.1.239])
-	by mse-fl2.zte.com.cn with ESMTP id xBN1nanf029636;
-	Mon, 23 Dec 2019 09:49:36 +0800 (GMT-8)
-	(envelope-from wang.yi59@zte.com.cn)
-Received: from fox-host8.localdomain ([10.74.120.8])
-          by szsmtp06.zte.com.cn (Lotus Domino Release 8.5.3FP6)
-          with ESMTP id 2019122309493877-1467356 ;
-          Mon, 23 Dec 2019 09:49:38 +0800
-From: Yi Wang <wang.yi59@zte.com.cn>
-To: aryabinin@virtuozzo.com
-Cc: glider@google.com, dvyukov@google.com, kasan-dev@googlegroups.com,
-        linux-kernel@vger.kernel.org, xue.zhihong@zte.com.cn,
-        wang.yi59@zte.com.cn, up2wing@gmail.com, wang.liang82@zte.com.cn,
-        Huang Zijiang <huang.zijiang@zte.com.cn>
-Subject: [PATCH] lib: Use kzalloc() instead of kmalloc() with flag GFP_ZERO.
-Date: Mon, 23 Dec 2019 09:49:34 +0800
-Message-Id: <1577065774-25142-1-git-send-email-wang.yi59@zte.com.cn>
-X-Mailer: git-send-email 1.8.3.1
-X-MIMETrack: Itemize by SMTP Server on SZSMTP06/server/zte_ltd(Release 8.5.3FP6|November
- 21, 2013) at 2019-12-23 09:49:38,
-	Serialize by Router on notes_smtp/zte_ltd(Release 9.0.1FP7|August  17, 2016) at
- 2019-12-23 09:49:37,
-	Serialize complete at 2019-12-23 09:49:37
-X-MAIL: mse-fl2.zte.com.cn xBN1nanf029636
-X-Original-Sender: wang.yi59@zte.com.cn
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of wang.yi59@zte.com.cn designates 63.217.80.70 as
- permitted sender) smtp.mailfrom=wang.yi59@zte.com.cn
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 24 Dec 2019 00:37:19 -0800 (PST)
+Received-SPF: pass (google.com: domain of am19040@gmail.com designates 2607:f8b0:4864:20::142 as permitted sender) client-ip=2607:f8b0:4864:20::142;
+Received: by mail-il1-x142.google.com with SMTP id t8so16097328iln.4
+        for <kasan-dev@googlegroups.com>; Tue, 24 Dec 2019 00:37:19 -0800 (PST)
+X-Received: by 2002:a92:c50e:: with SMTP id r14mr29396039ilg.52.1577176639205;
+ Tue, 24 Dec 2019 00:37:19 -0800 (PST)
+MIME-Version: 1.0
+Received: by 2002:a5e:c244:0:0:0:0:0 with HTTP; Tue, 24 Dec 2019 00:37:18
+ -0800 (PST)
+Reply-To: bethnatividad9@gmail.com
+From: Beth Nat <am19040@gmail.com>
+Date: Tue, 24 Dec 2019 08:37:18 +0000
+Message-ID: <CAEgaL+akE_7uuR+QBv+=W5npZ3Bg=jguaB4zU63CGVjztQeQyg@mail.gmail.com>
+Subject: 
+To: undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: am19040@gmail.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@gmail.com header.s=20161025 header.b=VlyE5hkj;       spf=pass
+ (google.com: domain of am19040@gmail.com designates 2607:f8b0:4864:20::142 as
+ permitted sender) smtp.mailfrom=am19040@gmail.com;       dmarc=pass (p=NONE
+ sp=QUARANTINE dis=NONE) header.from=gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -134,53 +140,11 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-From: Huang Zijiang <huang.zijiang@zte.com.cn>
-
-Use kzalloc instead of manually setting kmalloc
-with flag GFP_ZERO since kzalloc sets allocated memory
-to zero.
-
-Signed-off-by: Huang Zijiang <huang.zijiang@zte.com.cn>
-Signed-off-by: Yi Wang <wang.yi59@zte.com.cn>
----
- lib/test_kasan.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/lib/test_kasan.c b/lib/test_kasan.c
-index 05686c8..ff5d21e 100644
---- a/lib/test_kasan.c
-+++ b/lib/test_kasan.c
-@@ -598,7 +598,7 @@ static noinline void __init kasan_memchr(void)
-     size_t size = 24;
- 
-     pr_info("out-of-bounds in memchr\n");
--    ptr = kmalloc(size, GFP_KERNEL | __GFP_ZERO);
-+ptr = kzalloc(size, GFP_KERNEL);
-     if (!ptr)
-         return;
- 
-@@ -613,7 +613,7 @@ static noinline void __init kasan_memcmp(void)
-     int arr[9];
- 
-     pr_info("out-of-bounds in memcmp\n");
--    ptr = kmalloc(size, GFP_KERNEL | __GFP_ZERO);
-+ptr = kzalloc(size, GFP_KERNEL);
-     if (!ptr)
-         return;
- 
-@@ -628,7 +628,7 @@ static noinline void __init kasan_strings(void)
-     size_t size = 24;
- 
-     pr_info("use-after-free in strchr\n");
--    ptr = kmalloc(size, GFP_KERNEL | __GFP_ZERO);
-+ptr = kzalloc(size, GFP_KERNEL);
-     if (!ptr)
-         return;
-
--- 
-1.9.1
+How are you today my dear? i saw your profile and it interests me, i
+am a Military nurse from USA. Can we be friend? I want to know more
+about you.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/1577065774-25142-1-git-send-email-wang.yi59%40zte.com.cn.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAEgaL%2BakE_7uuR%2BQBv%2B%3DW5npZ3Bg%3DjguaB4zU63CGVjztQeQyg%40mail.gmail.com.
