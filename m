@@ -1,31 +1,31 @@
-Return-Path: <kasan-dev+bncBAABBVW6WHYAKGQET6ODNCY@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBWG6WHYAKGQE3DHBD6A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-f56.google.com (mail-lf1-f56.google.com [209.85.167.56])
-	by mail.lfdr.de (Postfix) with ESMTPS id 017C212DE70
-	for <lists+kasan-dev@lfdr.de>; Wed,  1 Jan 2020 11:07:19 +0100 (CET)
-Received: by mail-lf1-f56.google.com with SMTP id f22sf6857099lfh.4
-        for <lists+kasan-dev@lfdr.de>; Wed, 01 Jan 2020 02:07:18 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1577873238; cv=pass;
+Received: from mail-lj1-f184.google.com (mail-lj1-f184.google.com [209.85.208.184])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD4DD12DE74
+	for <lists+kasan-dev@lfdr.de>; Wed,  1 Jan 2020 11:07:20 +0100 (CET)
+Received: by mail-lj1-f184.google.com with SMTP id a19sf4973606ljp.15
+        for <lists+kasan-dev@lfdr.de>; Wed, 01 Jan 2020 02:07:20 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1577873240; cv=pass;
         d=google.com; s=arc-20160816;
-        b=NSaIUCUt/MrNH708XhvqHG2H/PwZr5C9XwBES6gll11G5fOkhbw1k9/GAqQtcpZUpo
-         d8sI9gHgcAOae74054okgWnl/Q/IfI3VNWJoVQyBb8e/W+xrBzHui1bBpwJt/Q7xYpWk
-         Hggyh4c2onq8Tzr2ZWqRs8ToYkaUKIEnSjKVP0umucbhMEFZRiN/OwPCMf/LPEqKqErl
-         lBwAlz5S4HJWBgIk5S3emhJHg+c4OEVLnijvsAW3f5AmVu2C/qwV53d0NM+pcccjiBdZ
-         nEH8fGe1Mzpiw/oDTp+s+l8Ka4O56Nl/vULhsarYpF3RJ/0II4U38igF6YCg7/PYdFBQ
-         CIag==
+        b=RwMopeU86j/EIo12L2oPWm0vwfc9vAnvTG2HmzEUZk4Xdx6hYX09bDPjZ/YfI1SdoN
+         w/mJuPPyKN8pIJn6PjsCVK0F6dnSMiI/6Oq86GGxt/SYxuyy0LzWo9gcpj4Yzp2rSI5Q
+         Y3XnG0khKQ36XE1rzFKrbAZhXvIVcYam+BhZjLhQbGnzwlAfJPXaEkVPC7Unkrc72MoE
+         KNZaTDT4J3M4M2zt/Y8ZjdZjBn1VdNjY3I6Fm0q3B5ZKYRQMSfvkOk5NanDrNpMCeFgY
+         nyvEG6EnAPpxYwP1Ip7c31pC1yl64okeDVfdChzkqBjNu3gqlcdBuIyQCXCorlRWmN9z
+         88Cg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:robot-unsubscribe:robot-id
          :message-id:mime-version:references:in-reply-to:cc:subject:to
          :reply-to:sender:from:date;
-        bh=yrwZa7K/Q76RgRA4gma+0KM1kZnS0l1urAiIjTEsjdQ=;
-        b=GC9hizBkfTyixS4TXonUXkgV/psGGElNODnjXaSu0qwy9F1LA40hA4RfIU+xwv1Rwn
-         ZpDOvvPrNIe2KLGGIea8Z2f5rL6qv5IT6v3yBOz0FHXfkkd63KyLBFwytNJJDQnVEZpX
-         Ln90LQFEQ32kUYFLVK7hLE5cV1yb3QLHeGVZtAYJXVIO7H/nWB+j134fzuz/u3YXRHKO
-         cPFp6VGQ+YKlkLQP6zw+7IzqFnx2fvHESJ2p2uffIvgvSpt6aZ0UsHsKhK8Lz9T3BgAb
-         G4vyTPYF/MJnVlbWyCvQt08Zehu6H88JKUGw8gl+FT20zbwFLwBecOWMy4N3QDB4QpGo
-         005A==
+        bh=zx7Y2iuQ9vNnFJdYhEjNbUYP+l+C5wQZGvgeobu3COw=;
+        b=FSNrBrxeNw0b1yECfhxaFRkSqMGZBwIy/qdTsBKJwq38lYhY16bjPxSUkrml/7YsxZ
+         L+a2PTML+QQ60i/xXpk7F5QJ8HdZJy1CyMd4tukYaWL8aQerYjU1A0Zw8lNeZ1tmDAVg
+         ZM1RtnDN2GKWBC60c3RldJvZdM4huCgPVMt8tYyBOijMIFJs8eRDhcbMkZ0L2JZwlYMA
+         txJvqJE460MLBP3tgoaKh6VKmBRsGyjSKdaFQkkPtfDnxMDE7Oy/EMMnmbYXk2HjP9SE
+         Rd/ruiywl55s0HqPAF20z+3asNHPyyr9mns0NvrSyp83DN5f4JOkXvvK7Etq/30uI/7w
+         5zkA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
        spf=pass (google.com: best guess record for domain of tip-bot2@linutronix.de designates 2a0a:51c0:0:12e:550::1 as permitted sender) smtp.mailfrom=tip-bot2@linutronix.de
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
@@ -36,81 +36,79 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=yrwZa7K/Q76RgRA4gma+0KM1kZnS0l1urAiIjTEsjdQ=;
-        b=qFoasE++2efpczl0KnaolzRDSpwPZDSOd1GXw+lxqQVFwmRENBlVcFui4Ub4HZB6XK
-         0i61apbeiHeG40CLiP9MBIM4Mr0bEO848ZUlvEjusxnj4/Cvi7dHZ0q8gbElbAdktFWa
-         LtVXNfsxGK3zbfWbQvF8d42GitPrAjcyGJ2GeOoKlp0cTCOSmUsFSfiWbwak4MI72z19
-         5YxfhE7EE5QpFMv2Slue/LQzqITKPwENmAX1iONVA2ztEiA1cy25aBhrJ65LRt1rX0zE
-         3Z5+p0jMOqoZh7+DxYH1nuWtCuHRj5zGfmUwyJAvRxiOdvhax0r6Pf+4LIBB1bJy1der
-         Hegw==
-X-Gm-Message-State: APjAAAVHX8Fs+8J1h37aCFl6ajuSqfPgE6GPn+ha0ykQm7U6btIQ5OUR
-	FrWUQfDmAoDuEjVG5vmBKR0=
-X-Google-Smtp-Source: APXvYqycU8mCkt9PEGVTG38X8/lK+oQ0VrhhK3CBaFs7gOLpk4IYmxGgEAjEF04Ah7HVHGcLofcefw==
-X-Received: by 2002:a2e:5304:: with SMTP id h4mr46870428ljb.75.1577873238556;
-        Wed, 01 Jan 2020 02:07:18 -0800 (PST)
+        bh=zx7Y2iuQ9vNnFJdYhEjNbUYP+l+C5wQZGvgeobu3COw=;
+        b=rpcaaAwQQCatjN5/6RgvMyLxDvgEebRPqvzA9YFSSVDobtS7nFqY08J1lWJiVzumdG
+         r2vH0Nof1oP7RTpR+enzXLYLH5vbMzVgYnLy5v9Zuni+FDZWV9s4tHM7Mp7rqZV/0TY5
+         X95wVDTHUa344bM3yViYqFXLxAMIeE/mL/5MeKjPqVtITXB+CVOuDqi8DK/5m7fImtO6
+         XKjzZo1XY3Lz7oIpSOTHeuBHBPtyJPeZ6Bo4UW71Zdo25bs05Mm2P9pg2Aa+pRPMMGoW
+         EykQI7ShzX5uKq8SFVzPlAJM6Vz/vxtkhYqZ7AMOfORcOWr9BWPAqRHYDYQ935wh9FRB
+         HOIg==
+X-Gm-Message-State: APjAAAXWDpBtTbQ3iMlZMHDCxvFT61BIsgMZ86sbEfBlNLhCoCIX60IE
+	HVKxo6jdEAomEzyiuKMnSdo=
+X-Google-Smtp-Source: APXvYqw133zqPr1Yyd3qXKsmazM+lOqZ7SRiZPTkGvndAJ6C9/vw3RER62wT2yrTfy5IlurCLMbMiQ==
+X-Received: by 2002:a2e:b4cb:: with SMTP id r11mr45326144ljm.68.1577873240436;
+        Wed, 01 Jan 2020 02:07:20 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a19:3f0b:: with SMTP id m11ls3229272lfa.0.gmail; Wed, 01 Jan
- 2020 02:07:18 -0800 (PST)
-X-Received: by 2002:a19:4849:: with SMTP id v70mr43632559lfa.30.1577873238120;
-        Wed, 01 Jan 2020 02:07:18 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1577873238; cv=none;
+Received: by 2002:a2e:95c7:: with SMTP id y7ls4379531ljh.16.gmail; Wed, 01 Jan
+ 2020 02:07:20 -0800 (PST)
+X-Received: by 2002:a2e:9b03:: with SMTP id u3mr34390717lji.87.1577873240058;
+        Wed, 01 Jan 2020 02:07:20 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1577873240; cv=none;
         d=google.com; s=arc-20160816;
-        b=hpOg63oLjMDm7LL0Zm4ZGXvWPEJJ1LopxUrKWNZSIK0YBNTbTz/JGoMKIxPX9qZd9t
-         rXffKbuCsIelTLC73VAdaICrIXVA75PQMTRGSlB4kVyMWa3+GG6rcYazNllwnQ5Ikr6V
-         ISCjUgiF1urIAqbBqsZwaCtnySt14f8AGtdoVh9icQDeyVmuqwHnzfX71uh07uskGOR/
-         s3ryEen2bKq8Iram10lnxGV7FI4rjmAd0kNCn7GtwH78Gz4GowSMzjL3642gSnGfBDj+
-         IVdaykV79nW42DefIUhHSbXo27C3+JKbCiomgJwXkC2Q5TJKAx2fXAbOnbek6Wl873rK
-         PV1g==
+        b=xRmN89daYNGihvYKB7NphYZ7qbkSiH9CC73Lbe8LP4u8FZs9IRAx9pBLrhKt5M119v
+         DD6sLOUT1R3pU5wLeZT3jBNln9N+rbqq/TGCzwDWZZL6hV7hQ38yrJRYyvVJuzUpYrcW
+         GUnpi2n38lS+Me3F5idbtJ5KX789RwNp5WwO7ll82VIs2PWFiULyAGXJeWkn1Z91HSwd
+         9OfbdJ4a7ppAO9CYyAH61qh0SFXjV8UqnUjFSyKh/dRY5fVV6YLNzxFwyxoLb12n1Kxw
+         +qQGw5+ihEdIGZ/2TrPhIxVE6TQeWEBzzWkH9iKfyVG50Onb5YC+t+bfHPtwdS8vM4OI
+         AHxg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:precedence:robot-unsubscribe:robot-id
          :message-id:mime-version:references:in-reply-to:cc:subject:to
          :reply-to:sender:from:date;
-        bh=d3+bpax9WGs7ZYjnPN6v5g5h7WK/ETmXRELFstNlTA0=;
-        b=mxfdbcyKBaGOxIdtKHYLzImBbxejLmcs9TMrcXfGgD7RTndNqApsOmwJFXu3eqsfhy
-         138z50zLtVJqKjSxXb9mCsIPZKerzwJ7u1FsGQXMFpSfpmbuCb654arsKE6Chiqzx1U5
-         iK6qgwnuGBgE/LRU6fo2bHdrxhIkhOXPffTYMdQ4ziHKQS3htdtu3yXrOiGxM5Tz6z2p
-         7BLt/z7Dh+LvrG4pfroEt2xZWJahAui4jIG8927ilwAw4ruEJjf0Hv+2yhxx7l8Pmqua
-         aUuy/k7nGvjLXxPRP3UOK16VaV8aS/QEcLi6kZo0V3iIW6KAL0bhb6RWHjdduO5X6K/6
-         IvJw==
+        bh=Ssm4B4JsmKgyFcnyGO0YhuLFzNtqCRmZd1l9ktePUIg=;
+        b=flxXEsWHmS+TxPUxFgW5+uLDMQ/LR1ATCEy2vHNmmJGsyop9ChT8gRf8JDaEW8hm6s
+         ZD086BTNy+0ewZG5P9OoUnp5pw8VaURcZOpEbbjUeKUgyP/+dWkHXmkftBcVA8mGn/YN
+         oATExni1rfCLDYrrvmAGw2W4lqKgLzPgscmw8x6hVBookVJpSwhIcCg799dMhx4AZd6D
+         uNOd6WS+93ZuJ/qIdOnyIGTo50yBb0FI5PfAcNuQtiBod7o3GW3nRzcPJ3auoysSz3ja
+         1RbSZJnxCdSL05ZgZjqg79tYWacOram6lfZ9vEu1RYTSaMsGt9mRRGqtqrQOSXRTfLpG
+         voGg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
        spf=pass (google.com: best guess record for domain of tip-bot2@linutronix.de designates 2a0a:51c0:0:12e:550::1 as permitted sender) smtp.mailfrom=tip-bot2@linutronix.de
 Received: from Galois.linutronix.de (Galois.linutronix.de. [2a0a:51c0:0:12e:550::1])
-        by gmr-mx.google.com with ESMTPS id h8si1620475ljj.3.2020.01.01.02.07.17
+        by gmr-mx.google.com with ESMTPS id e3si2151900ljg.2.2020.01.01.02.07.20
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Wed, 01 Jan 2020 02:07:17 -0800 (PST)
+        Wed, 01 Jan 2020 02:07:20 -0800 (PST)
 Received-SPF: pass (google.com: best guess record for domain of tip-bot2@linutronix.de designates 2a0a:51c0:0:12e:550::1 as permitted sender) client-ip=2a0a:51c0:0:12e:550::1;
 Received: from [5.158.153.53] (helo=tip-bot2.lab.linutronix.de)
 	by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
 	(Exim 4.80)
 	(envelope-from <tip-bot2@linutronix.de>)
-	id 1imauH-0004P3-LA; Wed, 01 Jan 2020 11:07:13 +0100
+	id 1imauI-0004P7-2q; Wed, 01 Jan 2020 11:07:14 +0100
 Received: from [127.0.1.1] (localhost [IPv6:::1])
-	by tip-bot2.lab.linutronix.de (Postfix) with ESMTP id 456A41C2C2B;
+	by tip-bot2.lab.linutronix.de (Postfix) with ESMTP id A273C1C2C2F;
 	Wed,  1 Jan 2020 11:07:13 +0100 (CET)
 Date: Wed, 01 Jan 2020 10:07:13 -0000
 From: "tip-bot2 for Jann Horn" <tip-bot2@linutronix.de>
 Sender: tip-bot2@linutronix.de
 Reply-to: linux-kernel@vger.kernel.org
 To: linux-tip-commits@vger.kernel.org
-Subject: [tip: x86/core] x86/dumpstack: Introduce die_addr() for die() with
- #GP fault address
+Subject: [tip: x86/core] x86/insn-eval: Add support for 64-bit kernel mode
 Cc: Jann Horn <jannh@google.com>, Borislav Petkov <bp@suse.de>,
  Alexander Potapenko <glider@google.com>,
  Andrey Konovalov <andreyknvl@google.com>,
  Andrey Ryabinin <aryabinin@virtuozzo.com>, Andy Lutomirski <luto@kernel.org>,
  Dmitry Vyukov <dvyukov@google.com>,
- "Eric W. Biederman" <ebiederm@xmission.com>, "H. Peter Anvin" <hpa@zytor.com>,
- Ingo Molnar <mingo@redhat.com>, kasan-dev@googlegroups.com,
- Masami Hiramatsu <mhiramat@kernel.org>,
- "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+ "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+ "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+ kasan-dev@googlegroups.com, Oleg Nesterov <oleg@redhat.com>,
  Sean Christopherson <sean.j.christopherson@intel.com>,
  Thomas Gleixner <tglx@linutronix.de>, "x86-ml" <x86@kernel.org>,
  LKML <linux-kernel@vger.kernel.org>
-In-Reply-To: <20191218231150.12139-3-jannh@google.com>
-References: <20191218231150.12139-3-jannh@google.com>
+In-Reply-To: <20191218231150.12139-1-jannh@google.com>
+References: <20191218231150.12139-1-jannh@google.com>
 MIME-Version: 1.0
-Message-ID: <157787323316.30329.2945432496766517547.tip-bot2@tip-bot2>
+Message-ID: <157787323354.30329.6908978173787271263.tip-bot2@tip-bot2>
 X-Mailer: tip-git-log-daemon
 Robot-ID: <tip-bot2.linutronix.de>
 Robot-Unsubscribe: Contact <mailto:tglx@linutronix.de> to get blacklisted from these emails
@@ -136,23 +134,23 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 The following commit has been merged into the x86/core branch of tip:
 
-Commit-ID:     aa49f20462c90df4150f33d245cbcfe0d9c80350
-Gitweb:        https://git.kernel.org/tip/aa49f20462c90df4150f33d245cbcfe0d9c80350
+Commit-ID:     7be4412721aee25e35583a20a896085dc6b99c3e
+Gitweb:        https://git.kernel.org/tip/7be4412721aee25e35583a20a896085dc6b99c3e
 Author:        Jann Horn <jannh@google.com>
-AuthorDate:    Thu, 19 Dec 2019 00:11:49 +01:00
+AuthorDate:    Thu, 19 Dec 2019 00:11:47 +01:00
 Committer:     Borislav Petkov <bp@suse.de>
-CommitterDate: Tue, 31 Dec 2019 13:11:35 +01:00
+CommitterDate: Mon, 30 Dec 2019 20:17:15 +01:00
 
-x86/dumpstack: Introduce die_addr() for die() with #GP fault address
+x86/insn-eval: Add support for 64-bit kernel mode
 
-Split __die() into __die_header() and __die_body(). This allows inserting
-extra information below the header line that initiates the bug report.
+To support evaluating 64-bit kernel mode instructions:
 
-Introduce a new function die_addr() that behaves like die(), but is for
-faults only and uses __die_header() and __die_body() so that a future
-commit can print extra information after the header line.
+* Replace existing checks for user_64bit_mode() with a new helper that
+checks whether code is being executed in either 64-bit kernel mode or
+64-bit user mode.
 
- [ bp: Comment the KASAN-specific usage of gp_addr. ]
+* Select the GS base depending on whether the instruction is being
+evaluated in kernel mode.
 
 Signed-off-by: Jann Horn <jannh@google.com>
 Signed-off-by: Borislav Petkov <bp@suse.de>
@@ -161,113 +159,137 @@ Cc: Andrey Konovalov <andreyknvl@google.com>
 Cc: Andrey Ryabinin <aryabinin@virtuozzo.com>
 Cc: Andy Lutomirski <luto@kernel.org>
 Cc: Dmitry Vyukov <dvyukov@google.com>
-Cc: "Eric W. Biederman" <ebiederm@xmission.com>
+Cc: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
 Cc: "H. Peter Anvin" <hpa@zytor.com>
 Cc: Ingo Molnar <mingo@redhat.com>
 Cc: kasan-dev@googlegroups.com
-Cc: Masami Hiramatsu <mhiramat@kernel.org>
-Cc: "Peter Zijlstra (Intel)" <peterz@infradead.org>
+Cc: Oleg Nesterov <oleg@redhat.com>
 Cc: Sean Christopherson <sean.j.christopherson@intel.com>
 Cc: Thomas Gleixner <tglx@linutronix.de>
 Cc: x86-ml <x86@kernel.org>
-Link: https://lkml.kernel.org/r/20191218231150.12139-3-jannh@google.com
+Link: https://lkml.kernel.org/r/20191218231150.12139-1-jannh@google.com
 ---
- arch/x86/include/asm/kdebug.h |  1 +
- arch/x86/kernel/dumpstack.c   | 24 +++++++++++++++++++++++-
- arch/x86/kernel/traps.c       |  9 ++++++++-
- 3 files changed, 32 insertions(+), 2 deletions(-)
+ arch/x86/include/asm/ptrace.h | 13 +++++++++++++
+ arch/x86/lib/insn-eval.c      | 26 +++++++++++++++-----------
+ 2 files changed, 28 insertions(+), 11 deletions(-)
 
-diff --git a/arch/x86/include/asm/kdebug.h b/arch/x86/include/asm/kdebug.h
-index 75f1e35..247ab14 100644
---- a/arch/x86/include/asm/kdebug.h
-+++ b/arch/x86/include/asm/kdebug.h
-@@ -33,6 +33,7 @@ enum show_regs_mode {
- };
- 
- extern void die(const char *, struct pt_regs *,long);
-+void die_addr(const char *str, struct pt_regs *regs, long err, long gp_addr);
- extern int __must_check __die(const char *, struct pt_regs *, long);
- extern void show_stack_regs(struct pt_regs *regs);
- extern void __show_regs(struct pt_regs *regs, enum show_regs_mode);
-diff --git a/arch/x86/kernel/dumpstack.c b/arch/x86/kernel/dumpstack.c
-index e07424e..8995bf1 100644
---- a/arch/x86/kernel/dumpstack.c
-+++ b/arch/x86/kernel/dumpstack.c
-@@ -365,7 +365,7 @@ void oops_end(unsigned long flags, struct pt_regs *regs, int signr)
+diff --git a/arch/x86/include/asm/ptrace.h b/arch/x86/include/asm/ptrace.h
+index 5057a8e..ac45b06 100644
+--- a/arch/x86/include/asm/ptrace.h
++++ b/arch/x86/include/asm/ptrace.h
+@@ -159,6 +159,19 @@ static inline bool user_64bit_mode(struct pt_regs *regs)
+ #endif
  }
- NOKPROBE_SYMBOL(oops_end);
  
--int __die(const char *str, struct pt_regs *regs, long err)
-+static void __die_header(const char *str, struct pt_regs *regs, long err)
++/*
++ * Determine whether the register set came from any context that is running in
++ * 64-bit mode.
++ */
++static inline bool any_64bit_mode(struct pt_regs *regs)
++{
++#ifdef CONFIG_X86_64
++	return !user_mode(regs) || user_64bit_mode(regs);
++#else
++	return false;
++#endif
++}
++
+ #ifdef CONFIG_X86_64
+ #define current_user_stack_pointer()	current_pt_regs()->sp
+ #define compat_user_stack_pointer()	current_pt_regs()->sp
+diff --git a/arch/x86/lib/insn-eval.c b/arch/x86/lib/insn-eval.c
+index 306c3a0..31600d8 100644
+--- a/arch/x86/lib/insn-eval.c
++++ b/arch/x86/lib/insn-eval.c
+@@ -155,7 +155,7 @@ static bool check_seg_overrides(struct insn *insn, int regoff)
+  */
+ static int resolve_default_seg(struct insn *insn, struct pt_regs *regs, int off)
  {
- 	const char *pr = "";
+-	if (user_64bit_mode(regs))
++	if (any_64bit_mode(regs))
+ 		return INAT_SEG_REG_IGNORE;
+ 	/*
+ 	 * Resolve the default segment register as described in Section 3.7.4
+@@ -266,7 +266,7 @@ static int resolve_seg_reg(struct insn *insn, struct pt_regs *regs, int regoff)
+ 	 * which may be invalid at this point.
+ 	 */
+ 	if (regoff == offsetof(struct pt_regs, ip)) {
+-		if (user_64bit_mode(regs))
++		if (any_64bit_mode(regs))
+ 			return INAT_SEG_REG_IGNORE;
+ 		else
+ 			return INAT_SEG_REG_CS;
+@@ -289,7 +289,7 @@ static int resolve_seg_reg(struct insn *insn, struct pt_regs *regs, int regoff)
+ 	 * In long mode, segment override prefixes are ignored, except for
+ 	 * overrides for FS and GS.
+ 	 */
+-	if (user_64bit_mode(regs)) {
++	if (any_64bit_mode(regs)) {
+ 		if (idx != INAT_SEG_REG_FS &&
+ 		    idx != INAT_SEG_REG_GS)
+ 			idx = INAT_SEG_REG_IGNORE;
+@@ -646,23 +646,27 @@ unsigned long insn_get_seg_base(struct pt_regs *regs, int seg_reg_idx)
+ 		 */
+ 		return (unsigned long)(sel << 4);
  
-@@ -384,7 +384,11 @@ int __die(const char *str, struct pt_regs *regs, long err)
- 	       IS_ENABLED(CONFIG_KASAN)   ? " KASAN"           : "",
- 	       IS_ENABLED(CONFIG_PAGE_TABLE_ISOLATION) ?
- 	       (boot_cpu_has(X86_FEATURE_PTI) ? " PTI" : " NOPTI") : "");
-+}
-+NOKPROBE_SYMBOL(__die_header);
+-	if (user_64bit_mode(regs)) {
++	if (any_64bit_mode(regs)) {
+ 		/*
+ 		 * Only FS or GS will have a base address, the rest of
+ 		 * the segments' bases are forced to 0.
+ 		 */
+ 		unsigned long base;
  
-+static int __die_body(const char *str, struct pt_regs *regs, long err)
-+{
- 	show_regs(regs);
- 	print_modules();
- 
-@@ -394,6 +398,13 @@ int __die(const char *str, struct pt_regs *regs, long err)
- 
- 	return 0;
- }
-+NOKPROBE_SYMBOL(__die_body);
-+
-+int __die(const char *str, struct pt_regs *regs, long err)
-+{
-+	__die_header(str, regs, err);
-+	return __die_body(str, regs, err);
-+}
- NOKPROBE_SYMBOL(__die);
- 
- /*
-@@ -410,6 +421,17 @@ void die(const char *str, struct pt_regs *regs, long err)
- 	oops_end(flags, regs, sig);
- }
- 
-+void die_addr(const char *str, struct pt_regs *regs, long err, long gp_addr)
-+{
-+	unsigned long flags = oops_begin();
-+	int sig = SIGSEGV;
-+
-+	__die_header(str, regs, err);
-+	if (__die_body(str, regs, err))
-+		sig = 0;
-+	oops_end(flags, regs, sig);
-+}
-+
- void show_regs(struct pt_regs *regs)
- {
- 	show_regs_print_info(KERN_DEFAULT);
-diff --git a/arch/x86/kernel/traps.c b/arch/x86/kernel/traps.c
-index 108ab1e..2afd7d8 100644
---- a/arch/x86/kernel/traps.c
-+++ b/arch/x86/kernel/traps.c
-@@ -619,7 +619,14 @@ dotraplinkage void do_general_protection(struct pt_regs *regs, long error_code)
- 				 "maybe for address",
- 				 gp_addr);
- 
--		die(desc, regs, error_code);
-+		/*
-+		 * KASAN is interested only in the non-canonical case, clear it
-+		 * otherwise.
-+		 */
-+		if (hint != GP_NON_CANONICAL)
-+			gp_addr = 0;
-+
-+		die_addr(desc, regs, error_code, gp_addr);
- 		return;
+-		if (seg_reg_idx == INAT_SEG_REG_FS)
++		if (seg_reg_idx == INAT_SEG_REG_FS) {
+ 			rdmsrl(MSR_FS_BASE, base);
+-		else if (seg_reg_idx == INAT_SEG_REG_GS)
++		} else if (seg_reg_idx == INAT_SEG_REG_GS) {
+ 			/*
+ 			 * swapgs was called at the kernel entry point. Thus,
+ 			 * MSR_KERNEL_GS_BASE will have the user-space GS base.
+ 			 */
+-			rdmsrl(MSR_KERNEL_GS_BASE, base);
+-		else
++			if (user_mode(regs))
++				rdmsrl(MSR_KERNEL_GS_BASE, base);
++			else
++				rdmsrl(MSR_GS_BASE, base);
++		} else {
+ 			base = 0;
++		}
+ 		return base;
  	}
  
+@@ -703,7 +707,7 @@ static unsigned long get_seg_limit(struct pt_regs *regs, int seg_reg_idx)
+ 	if (sel < 0)
+ 		return 0;
+ 
+-	if (user_64bit_mode(regs) || v8086_mode(regs))
++	if (any_64bit_mode(regs) || v8086_mode(regs))
+ 		return -1L;
+ 
+ 	if (!sel)
+@@ -948,7 +952,7 @@ static int get_eff_addr_modrm(struct insn *insn, struct pt_regs *regs,
+ 	 * following instruction.
+ 	 */
+ 	if (*regoff == -EDOM) {
+-		if (user_64bit_mode(regs))
++		if (any_64bit_mode(regs))
+ 			tmp = regs->ip + insn->length;
+ 		else
+ 			tmp = 0;
+@@ -1250,7 +1254,7 @@ static void __user *get_addr_ref_32(struct insn *insn, struct pt_regs *regs)
+ 	 * After computed, the effective address is treated as an unsigned
+ 	 * quantity.
+ 	 */
+-	if (!user_64bit_mode(regs) && ((unsigned int)eff_addr > seg_limit))
++	if (!any_64bit_mode(regs) && ((unsigned int)eff_addr > seg_limit))
+ 		goto out;
+ 
+ 	/*
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/157787323316.30329.2945432496766517547.tip-bot2%40tip-bot2.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/157787323354.30329.6908978173787271263.tip-bot2%40tip-bot2.
