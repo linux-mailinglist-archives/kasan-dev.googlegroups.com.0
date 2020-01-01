@@ -1,31 +1,31 @@
 Return-Path: <kasan-dev+bncBAABBVO6WHYAKGQEP3OULHQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wr1-f60.google.com (mail-wr1-f60.google.com [209.85.221.60])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA63112DE6E
-	for <lists+kasan-dev@lfdr.de>; Wed,  1 Jan 2020 11:07:17 +0100 (CET)
-Received: by mail-wr1-f60.google.com with SMTP id k18sf19173261wrw.9
-        for <lists+kasan-dev@lfdr.de>; Wed, 01 Jan 2020 02:07:17 -0800 (PST)
+Received: from mail-ed1-f55.google.com (mail-ed1-f55.google.com [209.85.208.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03B5B12DE6F
+	for <lists+kasan-dev@lfdr.de>; Wed,  1 Jan 2020 11:07:18 +0100 (CET)
+Received: by mail-ed1-f55.google.com with SMTP id n18sf15395331edo.17
+        for <lists+kasan-dev@lfdr.de>; Wed, 01 Jan 2020 02:07:18 -0800 (PST)
 ARC-Seal: i=2; a=rsa-sha256; t=1577873237; cv=pass;
         d=google.com; s=arc-20160816;
-        b=y3/jnGha7iXgJYQPh+9uWMv6Nv0N1FYrWSb39Ypg4ejshTL5vdma4ARMt3lPQLGIrx
-         8cpDfiO7/1883ISer+uciNKUA5WlrAxaYhYvjsRMi8ZAk6q/AiwVrGeOarqMS5Lc1Y5a
-         rq/Kx1zgCP8LcjHjkCcWZos5O8q7jKp0LD656TZf+hpaiDKTKA+LLzbUaZDwu+bfh1hD
-         ft5eWGF4wyzzSzmTz+lola2GdB410VvMO6gBjvhRqgyuQKYfuQFCo7QsHvcMktyUiAf2
-         vTdEcUbkzh7WzBXibn0ZvKRwTPYgZOSWgJPIHb9bzeR+7ouXL1l9EAuo1lAaFOnsngw7
-         yqjA==
+        b=Z8UfmT82ts99E2ae00ZZuriQSb1wxexQ2yNRNluADPfmwP8hn46kvNSs6N3uFUo6Zb
+         dK28/wO7ebmslsZ+gp/pdWw6xrGt90H8zzSrxDCsv/+jUrBqGNm38OQ02ql4o5/y0+PB
+         LLeNzaGgxUYSWwYS0W8Z0hFR60EG0IDjaUXItmfKZfzYomJQ7Z9OqkQLj5HFQbNEbPUn
+         KZ/pow6BolHZPKi/Pp0GkAeFtlvrPaAJF6jw/RMhHVZvANPpsTLkQsItNy+K6MMkkdQ5
+         MsttZ4lPuQfeTdP2RSOK0F5oMTNY8pyU82UQW9nMGc+OTb56R6CMp6oO3QsfCiKK5miA
+         x/SA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:robot-unsubscribe:robot-id
          :message-id:mime-version:references:in-reply-to:cc:subject:to
          :reply-to:sender:from:date;
-        bh=laTBLL0mxJVFmvWpxed/Zk7lDAQmWGhAkfMLGIa7G04=;
-        b=NfYwGjkUhYjms4Bj5H+w2ohdRvLjk0sPlQZXpT+sP0Ilf0rtIhA8uMFVUE8BNQKI5K
-         ht7mNVd3xrlQSYyGNK2uckbC90Kpef/GyL++N11dks2IOL3ziF9ebku15xXvgv0O0lAc
-         iNtqcL6YoHWrQhms+BQuCpLXRHY5BV6FX+6Zre0gTBU01yAuoB6+crP8M/a/3QsNSKzw
-         lmN5DmRpV3V/VDoexB0xJNFv5m6sE5OquunPfmsTYd8lpAOlCLzGlTJWqWDs8fKJBwg2
-         2V4J6uX7F/TAfRZrAGQQVwmdKMT1/usLwVhml6PHTYsUImt9fJmgr39sQDQES+32ApgV
-         32eg==
+        bh=tDwyxGvopd49lzBUp85kZwcAaGoLxzuR5YCFNYJ2TPg=;
+        b=KtUZ5nwtWEhJJq0pCELbY1m6VdRsSJqmFzEYTVJcwoJ65nacmkXtVaBUB0x3vtnkGs
+         HmXIWl51UNCahh2W26KC51DUXYQ7rLjpivhyuC1vVsvnHkL+SYOZWcFNOLeiQ7btA0nu
+         ZmW/ilwRWGdM7DFXO9sOvO1towxfnuFqlDYd7ljYpl67zo3TXb2NG8u3U2nEBwF35ltF
+         I4ny+Bd052QGd57P4Iy0bNO4B3fxaLCfbjfNGVxDAEZhsppf4uLdJD11Bpjq5INftMJ8
+         ZSj/pQ/Y2KWPEk64WcoRVO6XDSBngIMMh6AATtJJHfTw8nusZOZ936FrGyshIOax+DBU
+         Wjiw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
        spf=pass (google.com: best guess record for domain of tip-bot2@linutronix.de designates 2a0a:51c0:0:12e:550::1 as permitted sender) smtp.mailfrom=tip-bot2@linutronix.de
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
@@ -36,79 +36,79 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=laTBLL0mxJVFmvWpxed/Zk7lDAQmWGhAkfMLGIa7G04=;
-        b=DynmR/2ZYw99aOQX1QBCJiBWKno7LF+PziZUwTRGK20vPXmcT/5/+Y2Gb0ZASO4R44
-         uneYst+XSLW+xDIYZv/8Fc9LcnGfqnF+spqJVTLPmtnoEFqB/pAnaU8PkJSAgCPqrSnQ
-         hZ4uwJeX45tylzX9RFWHMQXABp2tdJfSGH3O5HToF+oH4v8jaIqS4UKro7YIryXJj8Yx
-         IuVM24xonSQco2fpbXmqCYF0iGeGl8qHiHpY61c626HTWlKGejY6stocvBeSpkhnfkXi
-         o+QZdLauPvs7PuzkgHdlB5+sCqfDL0mJu5YCStdvM+GtCqbnyNbp9kk6FEEm0NVivBoG
-         0i0A==
-X-Gm-Message-State: APjAAAUBWjeiNe9UkNKA0/q/WOT3JE/RoC8eLRDJaMFk4/TXkqo4B/Ok
-	8lLcf6M9aon3wsfaenL7oFs=
-X-Google-Smtp-Source: APXvYqw+Wgz9AsFPsEDW6wOU7i28WfFZVV33o3uTwGRBLrrvXPfIqL+2Mrev5iKVKyZQ5zqmbMR/DA==
-X-Received: by 2002:a05:600c:30a:: with SMTP id q10mr8480985wmd.84.1577873237456;
+        bh=tDwyxGvopd49lzBUp85kZwcAaGoLxzuR5YCFNYJ2TPg=;
+        b=XoaVSn+MhUCVCE3+R+BC6a+D+RhBxbkQnTtuOaO4zLAAV355O+7c/UWqCixi3Pcc0l
+         VVSv+hgXjbh98f3KzECM5J4lgskJ3TxBu4EFXqSYgFEHLc9r5/3cSXQ2yOE18sMA2rVs
+         66x3Hn7mMuOk/5eNxvPBKrclcuBK8SlXkwimZJLRwgbkdPbQ1bhgFxZXeMDyyDEbyFjy
+         pIuA1v+WGRSlsWv30QEEW/qBQCKDX5Juh69bsIAnYSeG+xY1sCcMnhJXmFbB0e7Mrgcs
+         yKzbRMMYxwzHj9AWXhPQ70i394iEWy0CmomoiGTCcKj3dbvthZucyBMIg1Cys9DmAyy2
+         GC6g==
+X-Gm-Message-State: APjAAAVI5WExeICTlEbRYFMNhRt0RJcD/oTTABt0LMBBW8ggZHUVIor1
+	wLj+lB+Wtb5S8wIfZ+MoF1c=
+X-Google-Smtp-Source: APXvYqwIfdfQZ4PFZ60j709uUUmLoEwa/uuDoYUm3HpDt+/oCO2Jk6SWBES/YOPX/EnB+k5smnxLjg==
+X-Received: by 2002:a17:906:31db:: with SMTP id f27mr46396434ejf.86.1577873237724;
         Wed, 01 Jan 2020 02:07:17 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a7b:cb55:: with SMTP id v21ls1205632wmj.4.canary-gmail; Wed,
+Received: by 2002:a17:906:355a:: with SMTP id s26ls12050063eja.15.gmail; Wed,
  01 Jan 2020 02:07:17 -0800 (PST)
-X-Received: by 2002:a7b:c342:: with SMTP id l2mr9272974wmj.159.1577873237007;
+X-Received: by 2002:a17:906:d0c9:: with SMTP id bq9mr82030516ejb.56.1577873237349;
         Wed, 01 Jan 2020 02:07:17 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; t=1577873237; cv=none;
         d=google.com; s=arc-20160816;
-        b=uIz6TKTfivK5GdGDIImbgcyg9koFMvWZHn4j9/3J3304ryYCRKk00iVk8VzL5DISVS
-         qg8OThMXHgvNlnBesL2GwQaXsj4sHNcpII/fjgPGvazR/98zwCqMDz6LJSpLnKCmfLlC
-         NSMy0wiQh8nxLVkq2d5RMa0BV3vNTo0W3CFfb6kmJ9n+xTjTlLfa4XToUNAp3qzD3S31
-         cjdv+IiKk6/st9NOQmLjdW4wsMAq8+60VkgiebXNVAnWZA6YxZ3i6BSLfM8NqjoFbhbM
-         DCFVzGcupvIxjruQcyCTTnFp5Uxis1KRUCA6Fv4dQfTwLd0+QFFk/qn+XS7rWM6pvnDa
-         F/Lg==
+        b=hSvBQktLhzSg1ZfMvE8sjkumEoORLcv98w67bcMoVx0b84HGC4wpos5EiN4DpjKI9c
+         4e7DsSbFcycbKHwEkP5LOPAoPvhhEhN4xFazKZgJY9JMNMtEBwRqOvqco1dRnv7t2q48
+         ySdC4xCao4qrd61rEceTL0hafBxYmp1a2DZKwxD6qR97gS/O7FlbFI0gnMJI3jvF42vU
+         8Lj4sW4KCITOOkCbmMvg7owHlVW5I1lPKnn9jSHhSi2a62Oc6Nb9zsxA8VIJbJ4/CIGq
+         gkrxWCo8m+J7NR8sxuI0nZglHUeE/IzTVRo8YljCU8OCTxpmpAzq4c+jtrijhnsTDKtL
+         Geeg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:precedence:robot-unsubscribe:robot-id
          :message-id:mime-version:references:in-reply-to:cc:subject:to
          :reply-to:sender:from:date;
-        bh=7x6ZxTeX/T9IRYDy8G4cz8njUXnLYigPjIJD7YHmwec=;
-        b=XgoIfwDxF54SHLCZC/trr6SnKqyFEzSrc/mWesLSWPJgDxVSS2kXhB6BINPJ8nMYwv
-         DTi7cEc7sOIKgWhDmupDtYWBLVI2cZG4DlWb0RNax1Vee53HItN4tPNlNsJD6EIY+J0B
-         X5pjcOMN+1jmCcwPJeJjxGUR20WijKMINT7HI18CNu1gz4IB/9akuiN3npfocRiSoTs+
-         Zxs/z7rErX8HuDK2gx3RGIuzACcGwjjLakXe+ZfAbbqDM85Srn+K+UmC0OS7gdCo0TwQ
-         ufn9gxiyuYewhHdXzBF9r1THBmjj13PWWciNM2NQsfA2beXY/L00kIWJhEh5QmicSpF8
-         Napg==
+        bh=HXDzgsqNRlF3OXWsxqLfyBor8N+H8AfCNB4eWxQed9U=;
+        b=eTpPGg6dd9rQQqZ3bTdPsvgeW3RJraIAUhuf3qk759Y/2XrtieAvpc/mBo9V0jS5Mt
+         2wWwDzc/tMcBN7XXcBNIkmFCoikpv1GDWSWKuuAlV6qlZ8sn+3GdQyMdRnzEEWcl2ckL
+         mcu/SoP3zsJVDhrWxCukMeTTCoOy7jcqwbHsc9KNEmat9UGyfqimM7kzmGzDEFSChRZB
+         gCyCWompOmazKZqfuQ97W9MrdJ3ymGqrudwUCx10Kam2NaTLDloRl4gKDDcFgNDJgXFt
+         HLOGbEgG+8nTQWIaVqDQJsS8ToHzDjDe5GvDPYBG2827p5S9xnhvrU9qnRUy+vmi+mqk
+         Qy1A==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
        spf=pass (google.com: best guess record for domain of tip-bot2@linutronix.de designates 2a0a:51c0:0:12e:550::1 as permitted sender) smtp.mailfrom=tip-bot2@linutronix.de
 Received: from Galois.linutronix.de (Galois.linutronix.de. [2a0a:51c0:0:12e:550::1])
-        by gmr-mx.google.com with ESMTPS id o139si221187wme.1.2020.01.01.02.07.16
+        by gmr-mx.google.com with ESMTPS id d29si1895488edj.0.2020.01.01.02.07.17
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Wed, 01 Jan 2020 02:07:16 -0800 (PST)
+        Wed, 01 Jan 2020 02:07:17 -0800 (PST)
 Received-SPF: pass (google.com: best guess record for domain of tip-bot2@linutronix.de designates 2a0a:51c0:0:12e:550::1 as permitted sender) client-ip=2a0a:51c0:0:12e:550::1;
 Received: from [5.158.153.53] (helo=tip-bot2.lab.linutronix.de)
 	by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
 	(Exim 4.80)
 	(envelope-from <tip-bot2@linutronix.de>)
-	id 1imauH-0004P0-MQ; Wed, 01 Jan 2020 11:07:14 +0100
+	id 1imauH-0004P4-Qi; Wed, 01 Jan 2020 11:07:14 +0100
 Received: from [127.0.1.1] (localhost [IPv6:::1])
-	by tip-bot2.lab.linutronix.de (Postfix) with ESMTP id 169A81C2BFF;
+	by tip-bot2.lab.linutronix.de (Postfix) with ESMTP id 75A601C2C2C;
 	Wed,  1 Jan 2020 11:07:13 +0100 (CET)
-Date: Wed, 01 Jan 2020 10:07:12 -0000
+Date: Wed, 01 Jan 2020 10:07:13 -0000
 From: "tip-bot2 for Jann Horn" <tip-bot2@linutronix.de>
 Sender: tip-bot2@linutronix.de
 Reply-to: linux-kernel@vger.kernel.org
 To: linux-tip-commits@vger.kernel.org
-Subject: [tip: x86/core] x86/kasan: Print original address on #GP
+Subject: [tip: x86/core] x86/traps: Print address on #GP
 Cc: Jann Horn <jannh@google.com>, Borislav Petkov <bp@suse.de>,
- Dmitry Vyukov <dvyukov@google.com>, Alexander Potapenko <glider@google.com>,
- Andrew Morton <akpm@linux-foundation.org>,
+ Sean Christopherson <sean.j.christopherson@intel.com>,
+ Alexander Potapenko <glider@google.com>,
  Andrey Konovalov <andreyknvl@google.com>,
  Andrey Ryabinin <aryabinin@virtuozzo.com>, Andy Lutomirski <luto@kernel.org>,
- Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>,
+ Dmitry Vyukov <dvyukov@google.com>,
+ "Eric W. Biederman" <ebiederm@xmission.com>, "H. Peter Anvin" <hpa@zytor.com>,
  Ingo Molnar <mingo@redhat.com>, kasan-dev@googlegroups.com,
- "linux-mm" <linux-mm@kvack.org>, Peter Zijlstra <peterz@infradead.org>,
- Sean Christopherson <sean.j.christopherson@intel.com>,
+ Masami Hiramatsu <mhiramat@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
  Thomas Gleixner <tglx@linutronix.de>, "x86-ml" <x86@kernel.org>,
  LKML <linux-kernel@vger.kernel.org>
-In-Reply-To: <20191218231150.12139-4-jannh@google.com>
-References: <20191218231150.12139-4-jannh@google.com>
+In-Reply-To: <20191218231150.12139-2-jannh@google.com>
+References: <20191218231150.12139-2-jannh@google.com>
 MIME-Version: 1.0
-Message-ID: <157787323296.30329.6279558999926427913.tip-bot2@tip-bot2>
+Message-ID: <157787323335.30329.8702104659641784210.tip-bot2@tip-bot2>
 X-Mailer: tip-git-log-daemon
 Robot-ID: <tip-bot2.linutronix.de>
 Robot-Unsubscribe: Contact <mailto:tglx@linutronix.de> to get blacklisted from these emails
@@ -134,180 +134,181 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 The following commit has been merged into the x86/core branch of tip:
 
-Commit-ID:     2f004eea0fc8f86b45dfc2007add2d4986de8d02
-Gitweb:        https://git.kernel.org/tip/2f004eea0fc8f86b45dfc2007add2d4986de8d02
+Commit-ID:     59c1dcbed5b51cab543be8f47b6d7d9cf107ec94
+Gitweb:        https://git.kernel.org/tip/59c1dcbed5b51cab543be8f47b6d7d9cf107ec94
 Author:        Jann Horn <jannh@google.com>
-AuthorDate:    Thu, 19 Dec 2019 00:11:50 +01:00
+AuthorDate:    Thu, 19 Dec 2019 00:11:48 +01:00
 Committer:     Borislav Petkov <bp@suse.de>
-CommitterDate: Tue, 31 Dec 2019 13:15:38 +01:00
+CommitterDate: Tue, 31 Dec 2019 12:31:13 +01:00
 
-x86/kasan: Print original address on #GP
+x86/traps: Print address on #GP
 
-Make #GP exceptions caused by out-of-bounds KASAN shadow accesses easier
-to understand by computing the address of the original access and
-printing that. More details are in the comments in the patch.
+A frequent cause of #GP exceptions are memory accesses to non-canonical
+addresses. Unlike #PF, #GP doesn't report a fault address in CR2, so the
+kernel doesn't currently print the fault address for a #GP.
 
-This turns an error like this:
+Luckily, the necessary infrastructure for decoding x86 instructions and
+computing the memory address being accessed is already present. Hook
+it up to the #GP handler so that the address operand of the faulting
+instruction can be figured out and printed.
 
-  kasan: CONFIG_KASAN_INLINE enabled
-  kasan: GPF could be caused by NULL-ptr deref or user memory access
-  general protection fault, probably for non-canonical address
-      0xe017577ddf75b7dd: 0000 [#1] PREEMPT SMP KASAN PTI
+Distinguish two cases:
 
-into this:
+  a) (Part of) the memory range being accessed lies in the non-canonical
+     address range; in this case, it is likely that the decoded address
+     is actually the one that caused the #GP.
 
-  general protection fault, probably for non-canonical address
-      0xe017577ddf75b7dd: 0000 [#1] PREEMPT SMP KASAN PTI
-  KASAN: maybe wild-memory-access in range
-      [0x00badbeefbadbee8-0x00badbeefbadbeef]
+  b) The entire memory range of the decoded operand lies in canonical
+     address space; the #GP may or may not be related in some way to the
+     computed address. Print it, but with hedging language in the message.
 
-The hook is placed in architecture-independent code, but is currently
-only wired up to the X86 exception handler because I'm not sufficiently
-familiar with the address space layout and exception handling mechanisms
-on other architectures.
+While it is already possible to compute the faulting address manually by
+disassembling the opcode dump and evaluating the instruction against the
+register dump, this should make it slightly easier to identify crashes
+at a glance.
+
+Note that the operand length which comes from the instruction decoder
+and is used to determine whether the access straddles into non-canonical
+address space, is currently somewhat unreliable; but it should be good
+enough, considering that Linux on x86-64 never maps the page directly
+before the start of the non-canonical range anyway, and therefore the
+case where a memory range begins in that page and potentially straddles
+into the non-canonical range should be fairly uncommon.
+
+In the case the address is still computed wrongly, it only influences
+whether the error message claims that the access is canonical.
+
+ [ bp: Remove ambiguous "we", massage, reflow comments and spacing. ]
 
 Signed-off-by: Jann Horn <jannh@google.com>
 Signed-off-by: Borislav Petkov <bp@suse.de>
-Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
+Reviewed-by: Sean Christopherson <sean.j.christopherson@intel.com>
+Tested-by: Sean Christopherson <sean.j.christopherson@intel.com>
 Cc: Alexander Potapenko <glider@google.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>
 Cc: Andrey Konovalov <andreyknvl@google.com>
 Cc: Andrey Ryabinin <aryabinin@virtuozzo.com>
 Cc: Andy Lutomirski <luto@kernel.org>
-Cc: Dave Hansen <dave.hansen@linux.intel.com>
+Cc: Dmitry Vyukov <dvyukov@google.com>
+Cc: "Eric W. Biederman" <ebiederm@xmission.com>
 Cc: "H. Peter Anvin" <hpa@zytor.com>
 Cc: Ingo Molnar <mingo@redhat.com>
 Cc: kasan-dev@googlegroups.com
-Cc: linux-mm <linux-mm@kvack.org>
+Cc: Masami Hiramatsu <mhiramat@kernel.org>
 Cc: Peter Zijlstra <peterz@infradead.org>
-Cc: Sean Christopherson <sean.j.christopherson@intel.com>
 Cc: Thomas Gleixner <tglx@linutronix.de>
 Cc: x86-ml <x86@kernel.org>
-Link: https://lkml.kernel.org/r/20191218231150.12139-4-jannh@google.com
+Link: https://lkml.kernel.org/r/20191218231150.12139-2-jannh@google.com
 ---
- arch/x86/kernel/dumpstack.c |  2 ++-
- arch/x86/mm/kasan_init_64.c | 21 +-------------------
- include/linux/kasan.h       |  6 +++++-
- mm/kasan/report.c           | 40 ++++++++++++++++++++++++++++++++++++-
- 4 files changed, 48 insertions(+), 21 deletions(-)
+ arch/x86/kernel/traps.c | 72 +++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 67 insertions(+), 5 deletions(-)
 
-diff --git a/arch/x86/kernel/dumpstack.c b/arch/x86/kernel/dumpstack.c
-index 8995bf1..ae64ec7 100644
---- a/arch/x86/kernel/dumpstack.c
-+++ b/arch/x86/kernel/dumpstack.c
-@@ -427,6 +427,8 @@ void die_addr(const char *str, struct pt_regs *regs, long err, long gp_addr)
- 	int sig = SIGSEGV;
+diff --git a/arch/x86/kernel/traps.c b/arch/x86/kernel/traps.c
+index 05da6b5..108ab1e 100644
+--- a/arch/x86/kernel/traps.c
++++ b/arch/x86/kernel/traps.c
+@@ -56,6 +56,8 @@
+ #include <asm/mpx.h>
+ #include <asm/vm86.h>
+ #include <asm/umip.h>
++#include <asm/insn.h>
++#include <asm/insn-eval.h>
  
- 	__die_header(str, regs, err);
-+	if (gp_addr)
-+		kasan_non_canonical_hook(gp_addr);
- 	if (__die_body(str, regs, err))
- 		sig = 0;
- 	oops_end(flags, regs, sig);
-diff --git a/arch/x86/mm/kasan_init_64.c b/arch/x86/mm/kasan_init_64.c
-index cf5bc37..763e71a 100644
---- a/arch/x86/mm/kasan_init_64.c
-+++ b/arch/x86/mm/kasan_init_64.c
-@@ -288,23 +288,6 @@ static void __init kasan_shallow_populate_pgds(void *start, void *end)
- 	} while (pgd++, addr = next, addr != (unsigned long)end);
+ #ifdef CONFIG_X86_64
+ #include <asm/x86_init.h>
+@@ -518,10 +520,53 @@ exit_trap:
+ 	do_trap(X86_TRAP_BR, SIGSEGV, "bounds", regs, error_code, 0, NULL);
  }
  
--#ifdef CONFIG_KASAN_INLINE
--static int kasan_die_handler(struct notifier_block *self,
--			     unsigned long val,
--			     void *data)
--{
--	if (val == DIE_GPF) {
--		pr_emerg("CONFIG_KASAN_INLINE enabled\n");
--		pr_emerg("GPF could be caused by NULL-ptr deref or user memory access\n");
--	}
--	return NOTIFY_OK;
--}
--
--static struct notifier_block kasan_die_notifier = {
--	.notifier_call = kasan_die_handler,
--};
--#endif
--
- void __init kasan_early_init(void)
- {
- 	int i;
-@@ -341,10 +324,6 @@ void __init kasan_init(void)
- 	int i;
- 	void *shadow_cpu_entry_begin, *shadow_cpu_entry_end;
- 
--#ifdef CONFIG_KASAN_INLINE
--	register_die_notifier(&kasan_die_notifier);
--#endif
--
- 	memcpy(early_top_pgt, init_top_pgt, sizeof(early_top_pgt));
- 
- 	/*
-diff --git a/include/linux/kasan.h b/include/linux/kasan.h
-index e18fe54..5cde9e7 100644
---- a/include/linux/kasan.h
-+++ b/include/linux/kasan.h
-@@ -228,4 +228,10 @@ static inline void kasan_release_vmalloc(unsigned long start,
- 					 unsigned long free_region_end) {}
- #endif
- 
-+#ifdef CONFIG_KASAN_INLINE
-+void kasan_non_canonical_hook(unsigned long addr);
-+#else /* CONFIG_KASAN_INLINE */
-+static inline void kasan_non_canonical_hook(unsigned long addr) { }
-+#endif /* CONFIG_KASAN_INLINE */
+-dotraplinkage void
+-do_general_protection(struct pt_regs *regs, long error_code)
++enum kernel_gp_hint {
++	GP_NO_HINT,
++	GP_NON_CANONICAL,
++	GP_CANONICAL
++};
 +
- #endif /* LINUX_KASAN_H */
-diff --git a/mm/kasan/report.c b/mm/kasan/report.c
-index 6217821..5ef9f24 100644
---- a/mm/kasan/report.c
-+++ b/mm/kasan/report.c
-@@ -512,3 +512,43 @@ void __kasan_report(unsigned long addr, size_t size, bool is_write, unsigned lon
- 
- 	end_report(&flags);
- }
-+
-+#ifdef CONFIG_KASAN_INLINE
 +/*
-+ * With CONFIG_KASAN_INLINE, accesses to bogus pointers (outside the high
-+ * canonical half of the address space) cause out-of-bounds shadow memory reads
-+ * before the actual access. For addresses in the low canonical half of the
-+ * address space, as well as most non-canonical addresses, that out-of-bounds
-+ * shadow memory access lands in the non-canonical part of the address space.
-+ * Help the user figure out what the original bogus pointer was.
++ * When an uncaught #GP occurs, try to determine the memory address accessed by
++ * the instruction and return that address to the caller. Also, try to figure
++ * out whether any part of the access to that address was non-canonical.
 + */
-+void kasan_non_canonical_hook(unsigned long addr)
-+{
-+	unsigned long orig_addr;
-+	const char *bug_type;
++static enum kernel_gp_hint get_kernel_gp_address(struct pt_regs *regs,
++						 unsigned long *addr)
+ {
+-	const char *desc = "general protection fault";
++	u8 insn_buf[MAX_INSN_SIZE];
++	struct insn insn;
 +
-+	if (addr < KASAN_SHADOW_OFFSET)
-+		return;
++	if (probe_kernel_read(insn_buf, (void *)regs->ip, MAX_INSN_SIZE))
++		return GP_NO_HINT;
 +
-+	orig_addr = (addr - KASAN_SHADOW_OFFSET) << KASAN_SHADOW_SCALE_SHIFT;
++	kernel_insn_init(&insn, insn_buf, MAX_INSN_SIZE);
++	insn_get_modrm(&insn);
++	insn_get_sib(&insn);
++
++	*addr = (unsigned long)insn_get_addr_ref(&insn, regs);
++	if (*addr == -1UL)
++		return GP_NO_HINT;
++
++#ifdef CONFIG_X86_64
 +	/*
-+	 * For faults near the shadow address for NULL, we can be fairly certain
-+	 * that this is a KASAN shadow memory access.
-+	 * For faults that correspond to shadow for low canonical addresses, we
-+	 * can still be pretty sure - that shadow region is a fairly narrow
-+	 * chunk of the non-canonical address space.
-+	 * But faults that look like shadow for non-canonical addresses are a
-+	 * really large chunk of the address space. In that case, we still
-+	 * print the decoded address, but make it clear that this is not
-+	 * necessarily what's actually going on.
++	 * Check that:
++	 *  - the operand is not in the kernel half
++	 *  - the last byte of the operand is not in the user canonical half
 +	 */
-+	if (orig_addr < PAGE_SIZE)
-+		bug_type = "null-ptr-deref";
-+	else if (orig_addr < TASK_SIZE)
-+		bug_type = "probably user-memory-access";
-+	else
-+		bug_type = "maybe wild-memory-access";
-+	pr_alert("KASAN: %s in range [0x%016lx-0x%016lx]\n", bug_type,
-+		 orig_addr, orig_addr + KASAN_SHADOW_MASK);
-+}
++	if (*addr < ~__VIRTUAL_MASK &&
++	    *addr + insn.opnd_bytes - 1 > __VIRTUAL_MASK)
++		return GP_NON_CANONICAL;
 +#endif
++
++	return GP_CANONICAL;
++}
++
++#define GPFSTR "general protection fault"
++
++dotraplinkage void do_general_protection(struct pt_regs *regs, long error_code)
++{
++	char desc[sizeof(GPFSTR) + 50 + 2*sizeof(unsigned long) + 1] = GPFSTR;
+ 	struct task_struct *tsk;
+ 
+ 	RCU_LOCKDEP_WARN(!rcu_is_watching(), "entry code didn't wake RCU");
+@@ -540,6 +585,9 @@ do_general_protection(struct pt_regs *regs, long error_code)
+ 
+ 	tsk = current;
+ 	if (!user_mode(regs)) {
++		enum kernel_gp_hint hint = GP_NO_HINT;
++		unsigned long gp_addr;
++
+ 		if (fixup_exception(regs, X86_TRAP_GP, error_code, 0))
+ 			return;
+ 
+@@ -556,8 +604,22 @@ do_general_protection(struct pt_regs *regs, long error_code)
+ 			return;
+ 
+ 		if (notify_die(DIE_GPF, desc, regs, error_code,
+-			       X86_TRAP_GP, SIGSEGV) != NOTIFY_STOP)
+-			die(desc, regs, error_code);
++			       X86_TRAP_GP, SIGSEGV) == NOTIFY_STOP)
++			return;
++
++		if (error_code)
++			snprintf(desc, sizeof(desc), "segment-related " GPFSTR);
++		else
++			hint = get_kernel_gp_address(regs, &gp_addr);
++
++		if (hint != GP_NO_HINT)
++			snprintf(desc, sizeof(desc), GPFSTR ", %s 0x%lx",
++				 (hint == GP_NON_CANONICAL) ?
++				 "probably for non-canonical address" :
++				 "maybe for address",
++				 gp_addr);
++
++		die(desc, regs, error_code);
+ 		return;
+ 	}
+ 
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/157787323296.30329.6279558999926427913.tip-bot2%40tip-bot2.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/157787323335.30329.8702104659641784210.tip-bot2%40tip-bot2.
