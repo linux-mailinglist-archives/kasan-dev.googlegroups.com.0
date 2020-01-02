@@ -1,114 +1,114 @@
-Return-Path: <kasan-dev+bncBCP4ZTXNRIFBBDHPW3YAKGQEU7N22KY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDVIHK4E4ILBBO7ZW3YAKGQEOXJLVXI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wr1-x43e.google.com (mail-wr1-x43e.google.com [IPv6:2a00:1450:4864:20::43e])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAC5512E466
-	for <lists+kasan-dev@lfdr.de>; Thu,  2 Jan 2020 10:27:40 +0100 (CET)
-Received: by mail-wr1-x43e.google.com with SMTP id z14sf21543573wrs.4
-        for <lists+kasan-dev@lfdr.de>; Thu, 02 Jan 2020 01:27:40 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1577957260; cv=pass;
+Received: from mail-lj1-x237.google.com (mail-lj1-x237.google.com [IPv6:2a00:1450:4864:20::237])
+	by mail.lfdr.de (Postfix) with ESMTPS id CADE012E492
+	for <lists+kasan-dev@lfdr.de>; Thu,  2 Jan 2020 10:49:47 +0100 (CET)
+Received: by mail-lj1-x237.google.com with SMTP id k21sf1205281ljg.3
+        for <lists+kasan-dev@lfdr.de>; Thu, 02 Jan 2020 01:49:47 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1577958587; cv=pass;
         d=google.com; s=arc-20160816;
-        b=Kf4f1Y2rI6w6dT/wrQlf0AyQpPxQt3He7S2FI4O9GNkE3K9SKjwl5qSgiLAOBDVI6x
-         uDADjQFphtK/VeMkJL/m7L4zWo5KfKRCezJIMiAXyrIkP17O4Qw5ooVSTKSfY6DT2ZFN
-         dedm6YFYa5ry3SqwQu8t1nRnaEW/cqiSmxkG3zkZ+6L2CA6csdjk721KD/mimcODNUoi
-         /OcRES8SiyEATrvA+YxJN8PDi5ArvmUizLz2WfJxoclnsIWbHYxm9BYs6xhc55an9xbL
-         Fw62AHJkGeiOzlRdOBPFYjrnubprwWikUiWh+6DCQYiytWsuigqDoBWTbGrZrvS+pv09
-         PZmQ==
+        b=hewJVEswUFnbYkQI4xYJPkcUfzRaRyiotrp843L8c8joUF8d2lrnfp5K9+d1Y7wYDT
+         JBtxF3DxgdOFqQf7iTQo0xooJ7o4si8xcBH7y9J0wo1uuUMA6sdaiDXh0lljH7oB3Fhn
+         bOjlYO0WD+z6MNQLIiwfF4+d+LTg1ORlfRXzjvl0553JwMQCZylJdcZVOTQOR8hPXaJZ
+         Jf6bj/d6I4a/OrBo1JxOSWoVzuKUCpC9wMKqGbt4jz6jETDMPcRhXYSYDM2TOnoB2uPc
+         XgAT9C75NlS4g2i9qgVxP86hbQa2M+YKLQHiHSpZj//VBhyTfCmder9ywRzRneBn99Yy
+         D0uw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:user-agent:in-reply-to
-         :content-transfer-encoding:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:dkim-signature;
-        bh=FKOwxCigBgCHLdtAd9MXBvJZKQcAQN9UgK+uDiSn7gc=;
-        b=DDtEJiDUbTtotRJVMvqMZoZqeFAJubXy+/l3EbnnoHeCYV2VNMzYBF7BbyD0ll6uFJ
-         1/M1YZ6a3WWFm/9tkNR8H/h9iAKXj6ZIq+zJ4zisxJ8sPEYUAKXI3xPJBGEXwwJMSE0m
-         SXNz6sQ3s/5ml4FKnAlDQkUwxU2jgEKz4MxQSVLAhTkUYxDC3VGWvquT4XrSvtOgJTWP
-         bK6gtBgdLlrTbuqmNBvR9pyyVtDpc9javym0YtMLw4y/kM41Ur8tZcfB4AporoTe4M+M
-         V+wj/3mu0T1BvnpSTmNOYuyqjBrZeQLPcTy5bmMI630URVZC0BAO68uWKc6DPmTHlgUb
-         6dzw==
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:sender:dkim-signature;
+        bh=ecVpfC/Mcgp70qFisOmdoRoKR7VW0RAXdkWkwv1qC7o=;
+        b=KvErbqTw6615zWvMht+OFkgTkKOvMdGHcDgYGXeQQ/4hU8gXb/ScOmaUFm1mqC9jPe
+         0xbTB6mutI+qAV7rQ0XSBeBfN+yDwRWpTQtsJXf51bcOvbsLlbRakkbKX9fKd0a/+16j
+         Bg2TK1Rv8ReEtr+A5KxqqvZkinI3xA5N4XtL+PY3kTiMAlIRORzl59HMzyZfMVUyvBJc
+         hWfMczNB7CnciYDC0U37RZORlnRpSlLrWMbfakmo0kbTODOvM9dYXpeJw9C5NrP5ixMd
+         IJNwniRRXtLvXOl4NBmkNJYd2uaO8hUMkG7zQn4FIztSWroocZtLvtQQ2E2rbsSW7hZP
+         +/fA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@alien8.de header.s=dkim header.b=MUKjLCQD;
-       spf=pass (google.com: domain of bp@alien8.de designates 5.9.137.197 as permitted sender) smtp.mailfrom=bp@alien8.de;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=alien8.de
+       dkim=pass header.i=@shutemov-name.20150623.gappssmtp.com header.s=20150623 header.b=bfxdHICm;
+       spf=neutral (google.com: 2a00:1450:4864:20::241 is neither permitted nor denied by best guess record for domain of kirill@shutemov.name) smtp.mailfrom=kirill@shutemov.name
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
         h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=FKOwxCigBgCHLdtAd9MXBvJZKQcAQN9UgK+uDiSn7gc=;
-        b=JA+pSGQVjhi6tw1eEmSM5RzPhVEJpJWjGVKiq/m7JwOGxtknM6C4bnM+sgHVbq7WpX
-         N9zhvyB8Dmna1VzUSCpffkC3U81Z/PraZ02UH9M4egroVEwTkeyY3Lj/6gbmevXza9Rp
-         ZTv2K0Bhh7TB7TP4YiATW275SeMkU3S7VXBA+xUEFjPqNeuoZblPWPSwFbZnvwf6nnQW
-         F6QopWV71KDoN6XkivGfrQqAoXepQ8fcITvFJf9TEz7lxCmDHykcogDx8ViZnekO2+a3
-         HsbCcuB3IoJgQ9juQwkF4v9JNF1JZvmFkIAUB6rcziHSYOpTnmgJz+rojQ6WpGrEFvZo
-         6XTw==
+         :content-disposition:in-reply-to:user-agent:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=ecVpfC/Mcgp70qFisOmdoRoKR7VW0RAXdkWkwv1qC7o=;
+        b=e4Y60OxjB0WNipag+dZ1PgYJP93yswE4dNEdA37LYMJVfc99pdJkXGy4C2TY1zj3jq
+         6xWWaKrhfhRL5ykNVJMLH3aV7IO02hVpS8b+7auJZSy28eNL5CVVo7Oi0pHEGVeTYkCX
+         YNlAWu4dvJK9ofYsX7QmvwPX8ehlZW1jMyEKC1zWNs9rmVc34XgdrYmNJJX3zQiLq8Wx
+         WhhrUGeOcz5M0M2lQuTFJ3BuBocH0F270r6j8DFy8xyQ+g0BhzkfCDUngBiahiz/inTt
+         s5L7qrYSp8r6wTwuGvAe2aiYGtkWq/Te4wuvZJCovZXnJUEXxC6zlQoqadxIicBn160Q
+         432w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition
-         :content-transfer-encoding:in-reply-to:user-agent:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=FKOwxCigBgCHLdtAd9MXBvJZKQcAQN9UgK+uDiSn7gc=;
-        b=NJy8nvLKhkHo4gaZRrBIMGAsiFceRWvLlMyyR+6gbDnk7QIBBKmz9SXi5dB72mEb1O
-         XZeDb8YoaiHGaCMcINZjFqvSX+ttVixsf0qaYKonE8yRF35rGXrB+OO8RqMwqfXpAb4l
-         tU0MhF1TqR1zj1l30pEjPyvpNp4nvHeO6+f7mI1Etr8OLB27YB2qHCtdcsAzz43Y6kky
-         OqN8ViQWwVEUvZkvQRWhlBifrKjUMzFsbyrRt5cQBG+x7uj8WnqQcjPO7r4EE+gQhWGZ
-         VMkVTJOx8idyGU+wd9Jb3RQbPmRe6XzWFIjBxzg5W7pinfaMtiimXvMvu4mAEif8iNtQ
-         bwIA==
+         :references:mime-version:content-disposition:in-reply-to:user-agent
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=ecVpfC/Mcgp70qFisOmdoRoKR7VW0RAXdkWkwv1qC7o=;
+        b=O04I/YRBELgQq027yK6RVZNzoQE/f15itzwDSf9FX4V/cIPyMRNc70RBJiBK8yIgQa
+         atUB4QOpFYHtu7FnCN4UhSF6kUjcz+Cp9ocuPpZbIM1AjzISh2gwX6+7tQegdVne/WiG
+         DnZVsAVcNBdG1nmh9lCVPYBcWoIMOH/edLLOQ38P3a32PNVAT6hRlMYFA9N05mQgQPkX
+         N2KvdsBCZhXUG1/6w8n6pLF7HMe0IaTity/aBbyiWEK4s57C/rhNAskWYiHmvevfIrt7
+         dWtk441I88Owq42P0FRZ6IUlglQu2qJwWv1NLlpa06ij8DP6rm/Vyhs/naKSGE0HC7n6
+         kPwA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAVmabWZRM9+RPEWT5KUkOMWoudxPrE+yBl+wUz6H+i71gSRiONz
-	i2mf+IcQqzsvHaAu/8zB7ew=
-X-Google-Smtp-Source: APXvYqxHug4OrZ/yOgr85TV53y7t7FvMTF8GDTuV8NJlc7SjF8V7H5vV+f0tlZEdZ7prBzcU0DYIvg==
-X-Received: by 2002:a05:600c:2c50:: with SMTP id r16mr13040982wmg.74.1577957260670;
-        Thu, 02 Jan 2020 01:27:40 -0800 (PST)
+X-Gm-Message-State: APjAAAX1FWE2+y/Y9fHng17+ofTsIV0eKVnzYyRrIlrkV5tLIeKRWzJj
+	Rc78Qv5vGrb2b+xQy9Execw=
+X-Google-Smtp-Source: APXvYqzx3MAf6DqvrB6ctqACn47wEZ2Q8WTz0aD9zMDJTRurxVXzNBphS3b3Ff87ruB7Kgou6DQZtQ==
+X-Received: by 2002:ac2:44a2:: with SMTP id c2mr47744081lfm.105.1577958587269;
+        Thu, 02 Jan 2020 01:49:47 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a7b:c3d8:: with SMTP id t24ls1800969wmj.5.canary-gmail; Thu,
- 02 Jan 2020 01:27:40 -0800 (PST)
-X-Received: by 2002:a05:600c:290f:: with SMTP id i15mr13757169wmd.115.1577957260211;
-        Thu, 02 Jan 2020 01:27:40 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1577957260; cv=none;
+Received: by 2002:a2e:3c09:: with SMTP id j9ls4607623lja.2.gmail; Thu, 02 Jan
+ 2020 01:49:46 -0800 (PST)
+X-Received: by 2002:a05:651c:102c:: with SMTP id w12mr47840087ljm.53.1577958586754;
+        Thu, 02 Jan 2020 01:49:46 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1577958586; cv=none;
         d=google.com; s=arc-20160816;
-        b=XOQ4pi5QNk0AKMItv0oU+L4V8SlRdHlnqy06trMDCH3eOa1hUJJl1DHYS5qPqlUZeT
-         F7vzzJ9dTo7iEGWilLiv+eSeNvNwFtLaLCxJYlLylHiUNSsSHeBlVpIQm86fQB1m4Ua3
-         27erI16WNOEP+gQwVAq/AXTUreJtRCYLJHfdAvs6Qa1QA0ED0LEBhgOuetSeUPJVqMBD
-         LgOwLu10znRG/9nOFjGNoGpOq8bw2a+HpMgjaLXL/1vW0NGWaXnFydlwPDrbZ+Cjzc2L
-         xyp5HH6QRHlQTsf0ojJJy2mlAOvcdvoI8bvRHpeX54IItdMf0E6LFYhtvXncTqsQh4lJ
-         u1eg==
+        b=smYBPKp6dmUP7uEDPSvsKi9YYOPM2S3Q4JJMr7SiY2DEUFbJO826yWdkul6Aav66Vq
+         fBX//Ifr/y7El5NOI7V9EwZy0917FmU/G06JDZURmjtiEyV62zlPXXd2dZAi3dZ0o9cU
+         JJwp/KK+scl/i2a4h3tT8FGIBR/6MdFDqIfxDfs9Sc8pRGbQiGggE3jTq4ppFQ1ZEb0b
+         TfMKG2GJRd2tEwzR6ZmUJaucL7s/In6bDgPBZDz7SdW9yYbSXmc6cdpoc1/Ri74u6iic
+         82AA/YQog9nyHHWKwDJGDC27m04whtJqeSb7hC7fBYx5kmMgg7rA4T1I2ZWPMPzeQvZQ
+         MFYg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=user-agent:in-reply-to:content-transfer-encoding
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:dkim-signature;
-        bh=qFX5xVhEa7R6fr10YXKpmVLCawy4p5svcRjomdy8DBQ=;
-        b=1HtPGdwv/pCG1KKzUXdA3XFl9v5/nUCZR1T4ggOX/AfWB2CizubRCmVxchCTnQjbyc
-         g7u9HKEJZT0Xst0tmbCfzq2Zs81I/gtrdbOKRMHX27nwFLGPVPX5v0WEoBwVhuAog+UY
-         ooFF3B26IBk23Fnt4rv1QLbhFLGfnkuTe2fPnfSVG3lGNay36OFH/jsxQjbT80+1UCiO
-         vGqlla2etpIPeJnRvIK7rdx9Ss/bLWVclfZlDCqvdxT34riB+byalmMcbH7vXLvnc4eR
-         EKegaAvJcGtOahuU6IiOtl+j/yahE+0HMSvVMxjPINl7Kd3ol/TST2WtWa9arz6PXt8i
-         zqNQ==
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:dkim-signature;
+        bh=CJNF7zzDiHYcqJL9y97v859TagsM8CsUOrBW1KXmnOw=;
+        b=x6QDZ3p9Lt8Z0KyPv7zB6SpD/Jn2YCXCWSbdTQZ9agjo83tWytvlWfUDeHNr6Hygl5
+         K1j0B0VaeYNKnXdmfhYOqvyykI8GZSvcM/i+bqZmFqBN5UlCwJr0beHs8wmQtU16QbJX
+         crejOLVglA346adQ3qoa8mvumllR7Ac663SYojpKcMehLkjY8e1E7qBW8ngVkiKFBFUU
+         uWuK+cb8JLehdCorLepygxFoNLi4h3A2gbldkZGnbyynNgzMU52Nb7ruKHA3evs/qp5Y
+         uq2wWt4PItVu8vZqxVGSXgFPvu8UkKVGLj92T3eNVPsIEBT2S+HTwukVNpvje8+PdtfE
+         wD4g==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@alien8.de header.s=dkim header.b=MUKjLCQD;
-       spf=pass (google.com: domain of bp@alien8.de designates 5.9.137.197 as permitted sender) smtp.mailfrom=bp@alien8.de;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=alien8.de
-Received: from mail.skyhub.de (mail.skyhub.de. [5.9.137.197])
-        by gmr-mx.google.com with ESMTPS id x5si433140wmk.1.2020.01.02.01.27.40
+       dkim=pass header.i=@shutemov-name.20150623.gappssmtp.com header.s=20150623 header.b=bfxdHICm;
+       spf=neutral (google.com: 2a00:1450:4864:20::241 is neither permitted nor denied by best guess record for domain of kirill@shutemov.name) smtp.mailfrom=kirill@shutemov.name
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com. [2a00:1450:4864:20::241])
+        by gmr-mx.google.com with ESMTPS id u5si2302631lfm.0.2020.01.02.01.49.46
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 02 Jan 2020 01:27:40 -0800 (PST)
-Received-SPF: pass (google.com: domain of bp@alien8.de designates 5.9.137.197 as permitted sender) client-ip=5.9.137.197;
-Received: from zn.tnic (p200300EC2F00E700329C23FFFEA6A903.dip0.t-ipconnect.de [IPv6:2003:ec:2f00:e700:329c:23ff:fea6:a903])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 69C2D1EC0716;
-	Thu,  2 Jan 2020 10:27:39 +0100 (CET)
-Date: Thu, 2 Jan 2020 10:27:33 +0100
-From: Borislav Petkov <bp@alien8.de>
-To: Andy Lutomirski <luto@amacapital.net>
-Cc: "Kirill A. Shutemov" <kirill@shutemov.name>,
-	Jann Horn <jannh@google.com>, Thomas Gleixner <tglx@linutronix.de>,
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 02 Jan 2020 01:49:46 -0800 (PST)
+Received-SPF: neutral (google.com: 2a00:1450:4864:20::241 is neither permitted nor denied by best guess record for domain of kirill@shutemov.name) client-ip=2a00:1450:4864:20::241;
+Received: by mail-lj1-x241.google.com with SMTP id z22so35336153ljg.1
+        for <kasan-dev@googlegroups.com>; Thu, 02 Jan 2020 01:49:46 -0800 (PST)
+X-Received: by 2002:a2e:9008:: with SMTP id h8mr49408333ljg.217.1577958586448;
+        Thu, 02 Jan 2020 01:49:46 -0800 (PST)
+Received: from box.localdomain ([86.57.175.117])
+        by smtp.gmail.com with ESMTPSA id m11sm23025754lfj.89.2020.01.02.01.49.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Jan 2020 01:49:45 -0800 (PST)
+Received: by box.localdomain (Postfix, from userid 1000)
+	id 1A2C410006A; Thu,  2 Jan 2020 12:49:46 +0300 (+03)
+Date: Thu, 2 Jan 2020 12:49:46 +0300
+From: "Kirill A. Shutemov" <kirill@shutemov.name>
+To: Borislav Petkov <bp@alien8.de>
+Cc: Andy Lutomirski <luto@amacapital.net>, Jann Horn <jannh@google.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
 	Ingo Molnar <mingo@redhat.com>, "H. Peter Anvin" <hpa@zytor.com>,
 	x86@kernel.org, Andrey Ryabinin <aryabinin@virtuozzo.com>,
 	Alexander Potapenko <glider@google.com>,
@@ -118,21 +118,21 @@ Cc: "Kirill A. Shutemov" <kirill@shutemov.name>,
 	Andy Lutomirski <luto@kernel.org>,
 	Sean Christopherson <sean.j.christopherson@intel.com>
 Subject: Re: [PATCH v7 1/4] x86/insn-eval: Add support for 64-bit kernel mode
-Message-ID: <20200102092733.GA8345@zn.tnic>
+Message-ID: <20200102094946.3vtwrvxcyohlqoxh@box.shutemov.name>
 References: <20200102074705.n6cnvxrcojhlxqr5@box.shutemov.name>
  <498AAA9C-4779-4557-BBF5-A05C55563204@amacapital.net>
+ <20200102092733.GA8345@zn.tnic>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <498AAA9C-4779-4557-BBF5-A05C55563204@amacapital.net>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Original-Sender: bp@alien8.de
+In-Reply-To: <20200102092733.GA8345@zn.tnic>
+User-Agent: NeoMutt/20180716
+X-Original-Sender: kirill@shutemov.name
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@alien8.de header.s=dkim header.b=MUKjLCQD;       spf=pass
- (google.com: domain of bp@alien8.de designates 5.9.137.197 as permitted
- sender) smtp.mailfrom=bp@alien8.de;       dmarc=pass (p=NONE sp=NONE
- dis=NONE) header.from=alien8.de
+ header.i=@shutemov-name.20150623.gappssmtp.com header.s=20150623
+ header.b=bfxdHICm;       spf=neutral (google.com: 2a00:1450:4864:20::241 is
+ neither permitted nor denied by best guess record for domain of
+ kirill@shutemov.name) smtp.mailfrom=kirill@shutemov.name
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -145,36 +145,26 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Jan 02, 2020 at 04:55:22PM +0900, Andy Lutomirski wrote:
-> > In most cases you have struct insn around (or can easily pass it down t=
-o
-> > the place). Why not use insn->x86_64?
->=20
-> What populates that?
+On Thu, Jan 02, 2020 at 10:27:33AM +0100, Borislav Petkov wrote:
+> On Thu, Jan 02, 2020 at 04:55:22PM +0900, Andy Lutomirski wrote:
+> > > In most cases you have struct insn around (or can easily pass it down to
+> > > the place). Why not use insn->x86_64?
+> > 
+> > What populates that?
+> 
+> insn_init() AFAICT.
+> 
+> However, you have cases where you don't have struct insn:
+> fixup_umip_exception() uses it and it calls insn_get_seg_base() which
+> does use it too.
 
-insn_init() AFAICT.
+Caller can indicate the bitness directly. It's always 32-bit for UMIP and
+get_seg_base_limit() can use insn->x86_64.
 
-However, you have cases where you don't have struct insn:
-fixup_umip_exception() uses it and it calls insn_get_seg_base() which
-does use it too.
+-- 
+ Kirill A. Shutemov
 
-> FWIW, this code is a bit buggy: it gets EFI mixed mode wrong. I=E2=80=99m
-> not entirely sure we care.
-
-We'll cross that bridge when we get there, I'd say.
-
-Thx.
-
---=20
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/20200102092733.GA8345%40zn.tnic.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200102094946.3vtwrvxcyohlqoxh%40box.shutemov.name.
