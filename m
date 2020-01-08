@@ -1,138 +1,160 @@
-Return-Path: <kasan-dev+bncBCTPB5GO2YNBBKO423YAKGQECKPF2EI@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABB3PG27YAKGQEVTVCC7I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qt1-x83e.google.com (mail-qt1-x83e.google.com [IPv6:2607:f8b0:4864:20::83e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00036133F3F
-	for <lists+kasan-dev@lfdr.de>; Wed,  8 Jan 2020 11:25:46 +0100 (CET)
-Received: by mail-qt1-x83e.google.com with SMTP id o18sf1714410qtt.19
-        for <lists+kasan-dev@lfdr.de>; Wed, 08 Jan 2020 02:25:46 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1578479146; cv=pass;
+Received: from mail-ed1-x53d.google.com (mail-ed1-x53d.google.com [IPv6:2a00:1450:4864:20::53d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 78519134602
+	for <lists+kasan-dev@lfdr.de>; Wed,  8 Jan 2020 16:21:17 +0100 (CET)
+Received: by mail-ed1-x53d.google.com with SMTP id j6sf1903705edt.21
+        for <lists+kasan-dev@lfdr.de>; Wed, 08 Jan 2020 07:21:17 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1578496877; cv=pass;
         d=google.com; s=arc-20160816;
-        b=owrRI9McQD6YKlikM1pAODSo6fmotR0e4DoqqYk5LVB/reRvlRNLCiCBYN9V5IZMPS
-         dW0VW6y6AIEnKXjHMj9etnYe9h+cXrUesr+89DQ/rovY4j5YsHOWR8LeBsFYooGmJWK4
-         y1kcMuGmHnczirVJv/j9dKFKqhSL8JWk8n4Q6waGAv+0YR4DRcJ85ojxNVTgYh3vaCQC
-         d10V7yZst2FxQzK1KeFQ7dz2e3gZ3ngNnVGBz0ge/Y35xaSBUe/lORDxi/+xg9mb3DSe
-         l3T4FRiQGY6wp/FmFvYZIaIEH7AijrtjPg0kXooo/+pg+RAaIzsBz0GtU3uBhOhOW0u6
-         jyBA==
+        b=tOUbdVgvJYidU2SI0xsLVB+Ix/0SiEOgwF6oBrJaCeD1XHMVJno1j5Ys5xEAjWOOFQ
+         86KNbMGMj41l96G28CInR596rI6dB8WWjW1mjMoSEB2OdUQeCmIdoxyDr7jZIx1pS5Q/
+         ZBK8GdptvPoZuQYnoAPKkb75g0nlr/Wc2MTDHbouE53JLhEH2F1HAtzA6tnjUizcyALY
+         6D/SpC30CQQ601ZSjj2EMu+p5de3Md7F7Euw8BBL6b3fhW4/eC8NVirkx1YQUkoOcvC5
+         pLrGEr1OxRPjMMqCPP2LnSAGpIKrJPCY6P5AZGR7qUdQq5THUT9Xebk5yRfVGov0qLt7
+         EXIQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-language:in-reply-to
-         :mime-version:user-agent:date:message-id:from:references:cc:to
-         :subject:sender:dkim-signature;
-        bh=aW7I69809aU8bmbNxDqIDxwLii/CDr1EuUHGfrAQjC0=;
-        b=dW7cO8zF7GynrVKmSEubXk6tX4HKIeLDRMbD6Dkn/NoNWMRI6MP/mCATm50Jsn+eIS
-         xSWmxmdrkE9sTg+9+B7aiL0VJmIw8RDr5hfo5qm6qjmxyb89x/f/RS7MHCqHSgOkpZyu
-         YtIDw3x5KfhoFroOxGief2VtoQyCrZrre0yxhvlowgn6RsJ45yLSg+jsD/lQzAkOh7kI
-         r2n8/rFax6lI9FYV5fDnplfrGBYdyYcwDfq8XKgiiNWv2zbgO7NYJ3eiaapOhQCaHzfF
-         m+Jnih+0d2lNF9W+v94ipqTwAYiv2X4JExdz1bM2T5K+RJjcXeEiWCBIhymDbBQmDQ9W
-         MfVg==
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :subject:cc:to:from:ironport-sdr:sender:dkim-signature;
+        bh=RBlboRf0mnFypsPD89Ek60vOGEqiCTxSkRM02fiyslA=;
+        b=x3dVmFUM63da6uQH1YjQ58hCE5gUTDLSVPecVFeebL6+avjQ6+VrVnWqPamoVZXwcp
+         yHT6YeLAhOSjoRYnGGSOGIljsogvU63Fogp3iW/lpWe2KddOyvq+bJ+MWnIO4lW0ewos
+         hSqyZwVqwwFn7U8conOjFZAlGiAPN2q8K+yo7NP10WKwn5glcIF5iuPhpyvpCgdby7rL
+         /LXVVnMThbMwQySs9vhIz7n2wpqVA7JvVSJOqotznljkc8c2eLF/wQdWRubTY0Qzx5jD
+         +By/k1xDWoYUnysHYfONsABTgshxaCYAoZX3ZrX0Eq+zUQCBleCgmikU297Jut19TzWV
+         AVVA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: best guess record for domain of penguin-kernel@i-love.sakura.ne.jp designates 202.181.97.72 as permitted sender) smtp.mailfrom=penguin-kernel@i-love.sakura.ne.jp
+       dkim=pass header.i=@citrix.com header.s=securemail header.b=Wbed+Rur;
+       spf=pass (google.com: domain of sergey.dyasli@citrix.com designates 216.71.155.168 as permitted sender) smtp.mailfrom=sergey.dyasli@citrix.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=citrix.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=aW7I69809aU8bmbNxDqIDxwLii/CDr1EuUHGfrAQjC0=;
-        b=CZ2Exl9nmqIW3Cshu9ETYI2UMQoaeOfyhnyvjAq4Oon4e3cC17BMUC2odosXFjzytT
-         9x/2kLg+28MVVd5MxppqSZxv2DhB1YaBQZuHesVdH0/2Gy3IiNVVkhNS4ae+/BM0LKpa
-         42Vn53mtm0/QmRlzK2FVomFqAKG16jnIkb1q91SXMbWN/YVemIQR2BGavUoMMc8JeC46
-         LR83deSWyA+PLX5FL4QCc2ixT5AzDUwtdBb8cjRGhyzmXGLDNkKUN8Ww58Yd804xmiCC
-         2AiHvU6qkWLsy4Vx95XqOo7NF4UfF0I5WIcS6nq4Ia+jyr6tqQPMXiMj19hH5aIQUJWQ
-         2OJw==
+        h=sender:ironport-sdr:from:to:cc:subject:date:message-id:mime-version
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=RBlboRf0mnFypsPD89Ek60vOGEqiCTxSkRM02fiyslA=;
+        b=idHPL0yPCS0zEuErBO21KQ7tYk1NaJAUNXsXY/zPAISLr7HYMh6Ij1OeI9y3FJUw2k
+         +wCf5TsV5GF16jH3zaFCL/KEMgKQXyh3tRXIIuazni26H73c2041PMf+LJRYl+i75+iZ
+         /b9DoTsOBDzdcyzdgKtoMunujns2THMJJca0echgmLdW2ZzL6oHRZa96KvYau7GEKoyF
+         ZV+ErUIkHGDFz8zoX0pxfqSrxAu6omon6JoiEZNFV1hxd+Kjg4CjvT7DE81USYgdm2m4
+         9LzuLnBRaWTSUJiJCHtrJNO7+MHcc0XoD+B7jG94n/bGRKXmQhq1njvJpKkjJF6o0kH5
+         AULg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=aW7I69809aU8bmbNxDqIDxwLii/CDr1EuUHGfrAQjC0=;
-        b=klsC3AlQkzH0BCtsnfWRaSP2/sUY6Zsf+fxkqRiykKQUgwd1bvvehTqHleObCicPZO
-         lweAnk5Sc3A0qnqq3Jm1u4iOgKtrNAFNGlBYfUi8XK/N03klZftUMyo0zw+oki87NZrY
-         skY3RBjVrrG+K2AkW6EiilAgKYroR4amoaeBDmDB6COdVUV5aixiYvsxEvDgiTlwEiBW
-         36J5Os2ZyBMCVwbkTUAooYrJGp+aO8ZWbgCzKV27GTC7ZgaW7tBl31VIZyBl2d58GXlQ
-         y8ercO4fa4vFbU5ssGGzclI5HWz2wbXUKeuZB8ZIJQLe+nd0N5wapkQFe8DMQjmWRqZR
-         4okQ==
+        h=sender:x-gm-message-state:ironport-sdr:from:to:cc:subject:date
+         :message-id:mime-version:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=RBlboRf0mnFypsPD89Ek60vOGEqiCTxSkRM02fiyslA=;
+        b=ts8D8PnEvliKBfL5v+eo5HJZQQev4WRXmz3YBzrcsrdwlWhkFybFpPvqXuWgSppItD
+         PfCztm17YNK+rJ1v/esXd94JagaAwXQrwzSn4+wBvGfkoMezGOdZ5QMnl1sRV8IR9iE0
+         ZRHN2vaWJiNodxCFTDTaYBux1Xrx26RWEbf/ZqNKBkpTUBRM9fupeTu6V5dc2NFMYy3S
+         9iFmE8UYvuT9HdWXIM1NY6eRg4q1UyklTNSk5b4jyS5jZ2dLco+rkfq2+q0HKOsADXRD
+         s5aonS+O9hl6HAsg6qq+I06jUfk7avb3GCDA+VOjC68MvhwglNaZhn4xWQvjDuFVWLoP
+         z5Ww==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAVuqxnQSfsdMQWBVLZkm6qxHISw3DsvscckB3QjoTNH/DK8UwWQ
-	EbQNErh9G41OKYlN2LA1dTk=
-X-Google-Smtp-Source: APXvYqzlT9Uket/NI0Qiw2awtn5D9G1MhKz6vCl4me/QhU4Heav2l42+TapWlsWUFQ9AueJhQCAjEA==
-X-Received: by 2002:a37:68d5:: with SMTP id d204mr3569777qkc.171.1578479146014;
-        Wed, 08 Jan 2020 02:25:46 -0800 (PST)
+X-Gm-Message-State: APjAAAUDGXEuFZ7BD3Rdox7bHXIucxr8ZG0K0lf/TOnqE5ZW9YWGtsH4
+	PQFyo4a8BCczn/ZgXVZ3xKE=
+X-Google-Smtp-Source: APXvYqzEE4g5GB/qzRFDg+3GdbVv9qhxaJDULUKd7IoZnf098F1NkNCfUZQdzWw0RXhosd4RYvVy/g==
+X-Received: by 2002:a17:906:b850:: with SMTP id ga16mr5341103ejb.232.1578496877197;
+        Wed, 08 Jan 2020 07:21:17 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ac8:3690:: with SMTP id a16ls815581qtc.8.gmail; Wed, 08 Jan
- 2020 02:25:45 -0800 (PST)
-X-Received: by 2002:aed:3242:: with SMTP id y60mr2796701qtd.254.1578479145441;
-        Wed, 08 Jan 2020 02:25:45 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1578479145; cv=none;
+Received: by 2002:a17:906:3614:: with SMTP id q20ls793811ejb.2.gmail; Wed, 08
+ Jan 2020 07:21:16 -0800 (PST)
+X-Received: by 2002:a17:906:4089:: with SMTP id u9mr5428263ejj.205.1578496876827;
+        Wed, 08 Jan 2020 07:21:16 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1578496876; cv=none;
         d=google.com; s=arc-20160816;
-        b=VJFhiF6KYtTvkrRhkD1owCfD/3CIa3yqyExPJV3DDPQmCDo6E/HNFZz2RJScaecgaH
-         pMjupPeCVCgtahdyX2r+9u6V+fPAz5CJcpDL4LDfil5Hjh2kw40YiU5SPs3A0fp6xEnt
-         LrG71j6cmUlYreThQ1Ld2Phjge8U3K+2V8FHYKK5ATOywST3B2UbLVuEtV+74igoPz31
-         zJdNdAQQgO0VHUkrpE7Ov2oJXwNxFYI2fVi4d3lZUPR1YpTl/EbjKeZI2jluMXnb7KhL
-         bYzKoCQ/5dtEqkxA/4poZHRRSI2khMLYbiCablqALBZ7kBxXxrtiuIFALoFDQ6j/3EE+
-         xybw==
+        b=YsV584+AKnJ4cXf2gfoHClfcR7R4/AeTnOFgfeHH6lMvFSWa8iwWz+KuvYIoSA2v0g
+         n4QTwTDVLVNYf9di4lUKM05DdqVAcgVLRdWgvVC0cyioMP1/KkQmKEwzZkoVlFhMFhND
+         L4N+6g0d6gL8aTKj2xM5tl8d35sY++acPFmZexhLNdydSdkOQQEhBpFuVLA+G4/XV5GO
+         TVeQli0+ZS9I+zPuHXI6q3nN6dJhC976axMN+aJ8W/W/lbh9LcKI0lN1sOM+p08hvng8
+         A0BW1Qp8a7jWBlNpdEw8a/dD/KK/JPg17uag+2ggVNwVeLO1oiWs+AmZQA6GxDM4NWZc
+         aPzA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject;
-        bh=dBBxNGKKqN7Q5RjCrlHxM6SZzPTCuSM6ye5004TsXaM=;
-        b=UMlHnRhFYPhuCvnPAy4dvKmTf0CAw6ziKN04OZeb9UjFDv/iU/3te+KdvygKKpKF6j
-         SnZiTuVRM8Y0p1hSxghKibHTn5+eCsJjVZwH8aV8d1QjUmMUTNzcaf5DeaOSdh4K4y+V
-         C/xq5hpNJUdw1ooTL4+7sV4IcbKCCHY3SfeEyuzZWb18PjmVGirLJOhMyep3xUxnjVGT
-         rvLK7gxRL4W3DA33082FuPJ2zISL3zRdTetJ+JM696ldR8Gr/LyAD6m5hZtV1qVAxDIg
-         BwngCgjdw4ivgn9G4b9kRga6gxbeCskwWd8GztgRNBPMeVCO1mB7rU7HBi3/5aqd7eia
-         o8qQ==
+        h=mime-version:message-id:date:subject:cc:to:from:ironport-sdr
+         :dkim-signature;
+        bh=T90N6M0/jg2EUM3Vw4qlTMYFloCXIcO0ZDMCB0pbAfA=;
+        b=UJNzsa1PB6D6agLtZ5hdrr7Ej/zktJcyES+OxjFMGqKx96H6Sm9yN9oDSMo2Qs9nHI
+         IgFTt/6yWbAAdRzPJxYLnChOR0wOc29lc3B3WWMs8HT+8LvR5g+5EVUbExiriY6sUXBI
+         6MxXVArOF5nq1nlrPXavILi/zwY35NCX3m3Lo0ZcQHJwmIX7cJvBA0p5Eg/8aBh6Yk/j
+         8Wfm6og89AsA/9xyFqO0L1JhzvGqL+zDLzB/PC8Fy+ETHbYJF5sJMEIJsofEfOo2t46s
+         B86E1F2xxIuKd7zU1kEZL4NltCSD25IEAixfvACCr7gUmzbrchTMcbID4VIn28FuHJTA
+         Zh9w==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: best guess record for domain of penguin-kernel@i-love.sakura.ne.jp designates 202.181.97.72 as permitted sender) smtp.mailfrom=penguin-kernel@i-love.sakura.ne.jp
-Received: from www262.sakura.ne.jp (www262.sakura.ne.jp. [202.181.97.72])
-        by gmr-mx.google.com with ESMTPS id d135si106766qke.7.2020.01.08.02.25.44
+       dkim=pass header.i=@citrix.com header.s=securemail header.b=Wbed+Rur;
+       spf=pass (google.com: domain of sergey.dyasli@citrix.com designates 216.71.155.168 as permitted sender) smtp.mailfrom=sergey.dyasli@citrix.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=citrix.com
+Received: from esa5.hc3370-68.iphmx.com (esa5.hc3370-68.iphmx.com. [216.71.155.168])
+        by gmr-mx.google.com with ESMTPS id ba12si148870edb.3.2020.01.08.07.21.16
+        for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 08 Jan 2020 02:25:45 -0800 (PST)
-Received-SPF: pass (google.com: best guess record for domain of penguin-kernel@i-love.sakura.ne.jp designates 202.181.97.72 as permitted sender) client-ip=202.181.97.72;
-Received: from fsav107.sakura.ne.jp (fsav107.sakura.ne.jp [27.133.134.234])
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 008APecx043436;
-	Wed, 8 Jan 2020 19:25:40 +0900 (JST)
-	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Received: from www262.sakura.ne.jp (202.181.97.72)
- by fsav107.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav107.sakura.ne.jp);
- Wed, 08 Jan 2020 19:25:40 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav107.sakura.ne.jp)
-Received: from [192.168.1.9] (softbank126040062084.bbtec.net [126.40.62.84])
-	(authenticated bits=0)
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 008APZVQ043386
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Wed, 8 Jan 2020 19:25:40 +0900 (JST)
-	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Subject: Re: INFO: rcu detected stall in sys_kill
-To: Dmitry Vyukov <dvyukov@google.com>
-Cc: Casey Schaufler <casey@schaufler-ca.com>,
-        syzbot <syzbot+de8d933e7d153aa0c1bb@syzkaller.appspotmail.com>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        syzkaller-bugs <syzkaller-bugs@googlegroups.com>
-References: <00000000000036decf0598c8762e@google.com>
- <CACT4Y+YVMUxeLcFMray9n0+cXbVibj5X347LZr8YgvjN5nC8pw@mail.gmail.com>
- <CACT4Y+asdED7tYv462Ui2OhQVKXVUnC+=fumXR3qM1A4d6AvOQ@mail.gmail.com>
- <f7758e0a-a157-56a2-287e-3d4452d72e00@schaufler-ca.com>
- <87a787ekd0.fsf@dja-thinkpad.axtens.net>
- <87h81zax74.fsf@dja-thinkpad.axtens.net>
- <CACT4Y+b+Vx1FeCmhMAYq-g3ObHdMPOsWxouyXXUr7S5OjNiVGQ@mail.gmail.com>
-From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-Message-ID: <0b60c93e-a967-ecac-07e7-67aea1a0208e@I-love.SAKURA.ne.jp>
-Date: Wed, 8 Jan 2020 19:25:33 +0900
-User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.1
+        Wed, 08 Jan 2020 07:21:16 -0800 (PST)
+Received-SPF: pass (google.com: domain of sergey.dyasli@citrix.com designates 216.71.155.168 as permitted sender) client-ip=216.71.155.168;
+Received-SPF: None (esa5.hc3370-68.iphmx.com: no sender
+  authenticity information available from domain of
+  sergey.dyasli@citrix.com) identity=pra;
+  client-ip=162.221.158.21; receiver=esa5.hc3370-68.iphmx.com;
+  envelope-from="sergey.dyasli@citrix.com";
+  x-sender="sergey.dyasli@citrix.com";
+  x-conformance=sidf_compatible
+Received-SPF: Pass (esa5.hc3370-68.iphmx.com: domain of
+  sergey.dyasli@citrix.com designates 162.221.158.21 as
+  permitted sender) identity=mailfrom;
+  client-ip=162.221.158.21; receiver=esa5.hc3370-68.iphmx.com;
+  envelope-from="sergey.dyasli@citrix.com";
+  x-sender="sergey.dyasli@citrix.com";
+  x-conformance=sidf_compatible; x-record-type="v=spf1";
+  x-record-text="v=spf1 ip4:209.167.231.154 ip4:178.63.86.133
+  ip4:195.66.111.40/30 ip4:85.115.9.32/28 ip4:199.102.83.4
+  ip4:192.28.146.160 ip4:192.28.146.107 ip4:216.52.6.88
+  ip4:216.52.6.188 ip4:162.221.158.21 ip4:162.221.156.83
+  ip4:168.245.78.127 ~all"
+Received-SPF: None (esa5.hc3370-68.iphmx.com: no sender
+  authenticity information available from domain of
+  postmaster@mail.citrix.com) identity=helo;
+  client-ip=162.221.158.21; receiver=esa5.hc3370-68.iphmx.com;
+  envelope-from="sergey.dyasli@citrix.com";
+  x-sender="postmaster@mail.citrix.com";
+  x-conformance=sidf_compatible
+IronPort-SDR: aV70Ec38LNGJHPyjmtz3ubeiTnr6mtH+1TOCC+rUdQpsyHfc0ycOuyMkNd8LI/THZ/TU7JqOOv
+ J2EMt9YDA3dz5/DokVaJH6CTl/S0dcoWuwQeuBL5EH1lDvJUBxJqjLZyyVNAI0xRXUYaVc5/zQ
+ J7xZ4F3n5EcB47TJwb3p9tdkRo8vRuUyZJfApAh7tNh38bQRzOPlTFDSL0Yg3gR6ny8iCS01/a
+ 4leaynRNcoOnKITm0n+jg6lZkAlEuZPd30A4iqTn7Uns0uulDWrjpKs47Vvht/MLdLQUgcxrLU
+ Eaw=
+X-SBRS: 2.7
+X-MesageID: 11004140
+X-Ironport-Server: esa5.hc3370-68.iphmx.com
+X-Remote-IP: 162.221.158.21
+X-Policy: $RELAYED
+X-IronPort-AV: E=Sophos;i="5.69,410,1571716800"; 
+   d="scan'208";a="11004140"
+From: Sergey Dyasli <sergey.dyasli@citrix.com>
+To: <xen-devel@lists.xen.org>, <kasan-dev@googlegroups.com>,
+	<linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>
+CC: Andrey Ryabinin <aryabinin@virtuozzo.com>, Alexander Potapenko
+	<glider@google.com>, Dmitry Vyukov <dvyukov@google.com>, Boris Ostrovsky
+	<boris.ostrovsky@oracle.com>, Juergen Gross <jgross@suse.com>, "Stefano
+ Stabellini" <sstabellini@kernel.org>, George Dunlap
+	<george.dunlap@citrix.com>, Ross Lagerwall <ross.lagerwall@citrix.com>,
+	Andrew Morton <akpm@linux-foundation.org>, Sergey Dyasli
+	<sergey.dyasli@citrix.com>
+Subject: [PATCH v1 0/4] basic KASAN support for Xen PV domains
+Date: Wed, 8 Jan 2020 15:20:56 +0000
+Message-ID: <20200108152100.7630-1-sergey.dyasli@citrix.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-In-Reply-To: <CACT4Y+b+Vx1FeCmhMAYq-g3ObHdMPOsWxouyXXUr7S5OjNiVGQ@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Language: en-US
-X-Original-Sender: penguin-kernel@i-love.sakura.ne.jp
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: best guess record for domain of penguin-kernel@i-love.sakura.ne.jp
- designates 202.181.97.72 as permitted sender) smtp.mailfrom=penguin-kernel@i-love.sakura.ne.jp
+X-Original-Sender: sergey.dyasli@citrix.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@citrix.com header.s=securemail header.b=Wbed+Rur;       spf=pass
+ (google.com: domain of sergey.dyasli@citrix.com designates 216.71.155.168 as
+ permitted sender) smtp.mailfrom=sergey.dyasli@citrix.com;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=citrix.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -145,31 +167,38 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 2020/01/08 15:20, Dmitry Vyukov wrote:
-> I temporarily re-enabled smack instance and it produced another 50
-> stalls all over the kernel, and now keeps spewing a dozen every hour.
+This series allows to boot and run Xen PV kernels (Dom0 and DomU) with
+CONFIG_KASAN=y. It has been used internally for some time now with good
+results for finding memory corruption issues in Dom0 kernel.
 
-Since we can get stall reports rather easily, can we try modifying
-kernel command line (e.g. lsm=smack) and/or kernel config (e.g. no kasan) ?
+Only Outline instrumentation is supported at the moment.
 
-> 
-> I've mailed 3 new samples, you can see them here:
-> https://syzkaller.appspot.com/bug?extid=de8d933e7d153aa0c1bb
-> 
-> The config is provided, command line args are here:
-> https://github.com/google/syzkaller/blob/master/dashboard/config/upstream-smack.cmdline
-> Some non-default sysctls that syzbot sets are here:
-> https://github.com/google/syzkaller/blob/master/dashboard/config/upstream.sysctl
-> Image can be downloaded from here:
-> https://github.com/google/syzkaller/blob/master/docs/syzbot.md#crash-does-not-reproduce
-> syzbot uses GCE VMs with 2 CPUs and 7.5GB memory, but this does not
-> look to be virtualization-related (?) so probably should reproduce in
-> qemu too.
+Sergey Dyasli (2):
+  kasan: introduce set_pmd_early_shadow()
+  x86/xen: add basic KASAN support for PV kernel
 
-Is it possible to add instance for linux-next.git that uses these configs?
-If yes, we could try adding some debug printk() under CONFIG_DEBUG_AID_FOR_SYZBOT=y .
+Ross Lagerwall (2):
+  xen: teach KASAN about grant tables
+  xen/netback: Fix grant copy across page boundary with KASAN
+
+ arch/x86/mm/kasan_init_64.c       | 12 +++++++
+ arch/x86/xen/Makefile             |  7 ++++
+ arch/x86/xen/enlighten_pv.c       |  3 ++
+ arch/x86/xen/mmu_pv.c             | 39 ++++++++++++++++++++
+ drivers/net/xen-netback/common.h  |  2 +-
+ drivers/net/xen-netback/netback.c | 59 +++++++++++++++++++++++++------
+ drivers/xen/Makefile              |  2 ++
+ drivers/xen/grant-table.c         |  5 ++-
+ include/xen/xen-ops.h             |  4 +++
+ kernel/Makefile                   |  2 ++
+ lib/Kconfig.kasan                 |  3 +-
+ mm/kasan/init.c                   | 25 ++++++++-----
+ 12 files changed, 141 insertions(+), 22 deletions(-)
+
+-- 
+2.17.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/0b60c93e-a967-ecac-07e7-67aea1a0208e%40I-love.SAKURA.ne.jp.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200108152100.7630-1-sergey.dyasli%40citrix.com.
