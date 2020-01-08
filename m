@@ -1,19 +1,19 @@
-Return-Path: <kasan-dev+bncBCJ4HEMQYEKRBLM63DYAKGQEXYOBRHY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCJ4HEMQYEKRBLU63DYAKGQEMQZS2RQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oi1-x23b.google.com (mail-oi1-x23b.google.com [IPv6:2607:f8b0:4864:20::23b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21BFE134916
-	for <lists+kasan-dev@lfdr.de>; Wed,  8 Jan 2020 18:19:43 +0100 (CET)
-Received: by mail-oi1-x23b.google.com with SMTP id o5sf1959554oif.9
-        for <lists+kasan-dev@lfdr.de>; Wed, 08 Jan 2020 09:19:43 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1578503981; cv=pass;
+Received: from mail-pj1-x103f.google.com (mail-pj1-x103f.google.com [IPv6:2607:f8b0:4864:20::103f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 21F66134917
+	for <lists+kasan-dev@lfdr.de>; Wed,  8 Jan 2020 18:19:44 +0100 (CET)
+Received: by mail-pj1-x103f.google.com with SMTP id 14sf1891232pjo.3
+        for <lists+kasan-dev@lfdr.de>; Wed, 08 Jan 2020 09:19:44 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1578503982; cv=pass;
         d=google.com; s=arc-20160816;
-        b=giBnwvemmHVJqzJ/Y3ku8EkxmxKfpF71Sll8Hrag9QsRoOWBdLf81+5en2gS4B3hwt
-         LCrUGiTBOD3NQr99aBoB/5tKzKTckfJKIKPy8Ol4vpG63EE1AxAhDzQTZi4dreFQMykO
-         dQMVVAcz9dmzmvcA8S8a6SHuGTeOwSZHzQaBhe6n73fe1rfNyE/dWEo0aGCctlWT2CcA
-         VcvRwZIRvH4c3YKCwERE3T6ZQ4bKk00w+xrHpWuy4OOsDvu/ctoD/HqhZYQ6N57GhnfH
-         m+q1bBY1WbimiUEko7bZg0iLLsKOdY/ZSdIVkYYGu3pE086k6n+vC/3LtyvBeJrJuo+X
-         EHjw==
+        b=V0z8pX8xBhue56Veuf1OhvtEbKWeEj4P9g/2/sP438tbualMCk4RiqD1saMABHJ9Cx
+         La9sY9TCXokfwLTpFlgMFXZemahjHIAut+KpTIZARHCyCaewDOU/RNxW7x20NQOvSycr
+         7LCx/46x3d6WHwQAcBa10rPEG5gDDExTVr65crVdo2UL05hbvUCVtYd56tR8dxtnhnso
+         FU0aFvieXrpEW0Ws921iNmLAmBdi0niSf2CmCE7sXgoZkSIwO5elvVVL92VOUQYsFeub
+         z6+yBqbxWMyT+caPm6Wxi21+G2xjPp8nub41X2RqM5nQkDoF+NE8XP2lbHvMzRCF5yEa
+         yq7Q==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:content-language:in-reply-to
@@ -52,31 +52,31 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
         bh=K2OehBknEiR6AV2BOzW/GZCh5C9dVjTuw5JruKrJm7M=;
-        b=UEbmba2/VdWGOAdzbY9fb6WUQfUkdG5A1OytzhfDqqM/FQ4LqFU8yXjuiU+ty097aN
-         8ZaeQzU9d2sllfOFbV3KQYiSHP9mKtUFo1ciyX9ARBZsgFNz5/YgbcJr6fZSZe5z+aXU
-         sR9J/F2uJPgxBz1Vv28PCppa8/23dpjrpLT6w0Cnt92M6TWvEGLU1NtLEeRSn5nf3yqR
-         dWXjpLVSCq7jDyVpkf1jg/xf+UH+j18fOvK/O9EROWXX0HjNcrtQE1nIGF3qojkFj6V9
-         zVvFM1Sqpc9SkOngyQ6WD5klqqbaFS31b3TnZHJof4MixgrwnMOxjl3RPSAfpfqvh3h/
-         P9NQ==
+        b=rlf1U0a3uJtAkKdPB3K2kHmBiR4kpyZE5Idz7YebmkpxSMxdGhsZq89xGjxDbInr7y
+         SkKf8l4xS9hzBPofFHcq3vY3n0b8fxJ/ETXx7P29+X1gZrViXM1JUde3WfVj1SNyT4Sx
+         oSFbSWeM5NnA18yzOnDxU6tLHvsDfML4HxVfIsdhu0wrtwmHlUDjSGLhZTyBZk/i3oez
+         FiiucPWLBxyJ+uvN/JmBYSF55LYTSDHR0DtSwGpyaqTiNxwtRdGrmvzIYLYyy4NJ0ke2
+         keDmlfMvO+KhBKj+OVCOMumVWclycQ+9Avs5Zd4KtG3cBJofR5HStQ4AEa2L1ZckxwPl
+         +nvA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAX3w2pEtArjfnjVS1FEVz7uckaxhW1B8P8adYEnh9+bHOv+o8ew
-	NdUsLF3U/Sca8zrWZ+9MAyg=
-X-Google-Smtp-Source: APXvYqw4rMsKOU/tWTMi2D6tuv/AL+E8DfXAE/CPv089K2Q0ZXstAR6ho35rerKuqOPR2TMGBprEXA==
-X-Received: by 2002:a05:6830:11d2:: with SMTP id v18mr5269573otq.151.1578503981453;
-        Wed, 08 Jan 2020 09:19:41 -0800 (PST)
+X-Gm-Message-State: APjAAAWgTmMSO/rB8PbiSM8Th3boa8Vp7MdxWiajah24kgMKCRtws4eR
+	8RtLqJPff6/V29ARAz3FK/E=
+X-Google-Smtp-Source: APXvYqw7Hf7Gn3vn0/6YJNdIyRe736h2/UlsyLUhdvOzjLd0cfDsfXcnPhJ8XqK1q2tscZyMFK3aFA==
+X-Received: by 2002:a17:90a:3945:: with SMTP id n5mr5504618pjf.34.1578503982432;
+        Wed, 08 Jan 2020 09:19:42 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a9d:4a91:: with SMTP id i17ls759158otf.15.gmail; Wed, 08 Jan
- 2020 09:19:40 -0800 (PST)
-X-Received: by 2002:a05:6830:4c2:: with SMTP id s2mr5212906otd.144.1578503980786;
-        Wed, 08 Jan 2020 09:19:40 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1578503980; cv=none;
+Received: by 2002:a05:6a00:cc:: with SMTP id e12ls1397944pfj.6.gmail; Wed, 08
+ Jan 2020 09:19:42 -0800 (PST)
+X-Received: by 2002:a65:66c4:: with SMTP id c4mr6406782pgw.429.1578503981977;
+        Wed, 08 Jan 2020 09:19:41 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1578503981; cv=none;
         d=google.com; s=arc-20160816;
-        b=MkswiJRelYFxyxyFcvnO8aeF1w2A5sBCoZg+8ASsr3yM6J8dEME1GzJhaglDMdnMUS
-         wa+7H6hIszHPQhLRBv1SyUgc1g5H4Y7y0TNQarShwSsyc7jEGya3y0f07j/UKZSJwkPZ
-         FN7kVSgK1QvbfHCyCaCafCWSJY8JSuXFqLSv9LdTlxP2ycNpc61PktsEX2vDuD+mm3fJ
-         WfzzMRF6znvev+LPCGoSyuXTEFgl9YFR4NT5IhO/ZoJ6KoUB0YFwuhQR3Ky5tqDN49aS
-         CeOaNed4jpW/UB5M760FnE3OYiA9ZoXHrL5ZdRjI13UWZt1PwByBaDstPYXL92SQlrxw
-         +1RA==
+        b=WUCGDiuVmDbq+gT2XtlX2VAQU/40Cgfjfq+OBfr5EHAR6RQ8m7VGcQMPIhVKGMOXj1
+         mnNfhDa30rFPVfBHWL5hPTJ7A5nPRsctEyjep7KbAT8sAqv1yz8yb8FfGwsNoLhlvHjm
+         Zm7PLfRxtufWUC9aBfBXoqRJLrwEVFbBZflAiXtZipbQTgVjzZhw+6C9GvQsjUDNbHxS
+         LU8SWcT8jG04btCq9zaK0cqsSAHVEt2sFl05OvlaMR10evbSFcV8qBjRzXOaTK4DqBw5
+         5ha399l8pmZp5yke9J2bxr1IQZE8FOB73QICcneBhGEcYV0/ceIM5Y2iGg3ftODBilY8
+         OSHQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-language:content-transfer-encoding:in-reply-to:mime-version
          :user-agent:date:message-id:autocrypt:openpgp:from:references:cc:to
@@ -92,7 +92,7 @@ ARC-Authentication-Results: i=1; gmr-mx.google.com;
        dkim=pass header.i=@yahoo.com header.s=s2048 header.b=Dd1rN0sO;
        spf=neutral (google.com: 66.163.189.152 is neither permitted nor denied by best guess record for domain of casey@schaufler-ca.com) smtp.mailfrom=casey@schaufler-ca.com
 Received: from sonic314-26.consmr.mail.ne1.yahoo.com (sonic314-26.consmr.mail.ne1.yahoo.com. [66.163.189.152])
-        by gmr-mx.google.com with ESMTPS id d189si149330oif.0.2020.01.08.09.19.40
+        by gmr-mx.google.com with ESMTPS id c24si80397pjr.2.2020.01.08.09.19.40
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
         Wed, 08 Jan 2020 09:19:40 -0800 (PST)
