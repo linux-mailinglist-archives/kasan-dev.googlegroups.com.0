@@ -1,129 +1,135 @@
-Return-Path: <kasan-dev+bncBAABBUHM2PYAKGQEYZBQE6Y@googlegroups.com>
+Return-Path: <kasan-dev+bncBCMIZB7QWENRBPPJ2XYAKGQE7MRQYJQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ot1-x33c.google.com (mail-ot1-x33c.google.com [IPv6:2607:f8b0:4864:20::33c])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8A281333B9
-	for <lists+kasan-dev@lfdr.de>; Tue,  7 Jan 2020 22:21:21 +0100 (CET)
-Received: by mail-ot1-x33c.google.com with SMTP id m18sf551862otp.20
-        for <lists+kasan-dev@lfdr.de>; Tue, 07 Jan 2020 13:21:21 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1578432080; cv=pass;
+Received: from mail-qt1-x83a.google.com (mail-qt1-x83a.google.com [IPv6:2607:f8b0:4864:20::83a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F0BD133BA4
+	for <lists+kasan-dev@lfdr.de>; Wed,  8 Jan 2020 07:20:46 +0100 (CET)
+Received: by mail-qt1-x83a.google.com with SMTP id o18sf1387267qtt.19
+        for <lists+kasan-dev@lfdr.de>; Tue, 07 Jan 2020 22:20:46 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1578464445; cv=pass;
         d=google.com; s=arc-20160816;
-        b=rzZuXjOszxKZTGKpsf0wIZfw5V6yN2yjmgznxCzXKwrdRF1t8/fq9Y6DZuo+kIg2Sb
-         NMjPgvAK+nTyV1is4hse5noky0Nwkk014RdmWFflx/gGBi2DVNOfKhT3cGmtsIQYEVqC
-         ebxFoU7Ud+BYLmCW7OEildkwdb1gKcDui/33DZkjvdwPidZ8Xq8j4eGOHSJ4A47YDytq
-         ZmYUpmLv7t5gEhE2f6pXGOtl3+gCkPPuYMFvCmYMBxapOG+V3WavdRDkLwjR58EhdVno
-         dYIuusGthbG1bLu8D04CB8YQQTkhznpjx3QIfyB0z8piF9/TjavLuW6dz/tsnRfnt6hP
-         FvQQ==
+        b=yFfQ7bVl/B3xgc48TeBQ1hP6xy6c39fJSsJY+1K56XLyXp1rCrfHFD1ZNfXYwMKsC6
+         MMnR6g3niMVpGMAKP/DAHJYj4xas8XdH/DwepkenZe7tuG0mQZfHxKQH9lPhOxNx2Iiy
+         w+3YOkzO5uxnn81X2Wifr//JrpWGTaYu1FMm3wOjZOaQVEGfXmw06V0sBKJtttk95Ky3
+         tplhm5un+6CM9kr0OVW/IyLIR+zzji45sjEAwIK1ibVEcIxtKLRSEbvf2YOmmlYZJYub
+         Crm0VP3FSgaSTOLxe4mlAaJkyyiFao8hh+mgMgkpQLEoH+R9bhXZLqBkIBzXLl4e7VyK
+         JVew==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:user-agent:in-reply-to
-         :content-disposition:mime-version:references:reply-to:message-id
-         :subject:cc:to:from:date:sender:dkim-signature;
-        bh=QrgmovI1bFYVQBL2JFsJRr2zDcXD08Cvmz5Hzi8xxuQ=;
-        b=R0kPhWpus9LxbogaOIep9XyuIKbVkqVK7wMVI8/z8ZcPSzGBhTBDj7xgQ/Y1t9TyBk
-         EYhgQeQYDKpeoGTFNXMtK7vc/qOtGUPFf+1ZGloUbLUbEaw8jg8lR/NzSaP2XZxzdVTW
-         QoQHQVXj5md3N18gIDd87+E9e964SSiYIrNP49Uo/CG/bHH2PJ4ERli42vebV9Osf1OW
-         5+xguiLv7IiQJh9dhojTU/ncVpZJFIH/LkPwKZlyGZuqaPiHsdI/Urs/ytAbfk+3nSy9
-         465ViMS1fz2XoscBELQFrgSYX4SrovZA7XTv4zoElI1dP2uo99D5pfkzySdqUzWWzQv2
-         0kXQ==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=02JNkhu7N4EaWbH90QY6srSnyFfiCwA/gHO6hGfweBw=;
+        b=ft1tSLs0sV6titVy/TdHPBZygW5juwqRTJ/Tw37TITCv5ZFn+qIV84GVWORF392xtW
+         tx5BY2Qfk7WQjoC6JgnFePspWP1UcHgHV2sLA62lUk/eu/YrkTBANm3yMi3ZIabchw/d
+         aGajkzBfGeGzQ7M5B9X55P+ZaJVPO2MxiKpRD17lviYrVmtv9cGeGzS+k68cpqxm/hjn
+         arUivcItrIrZ4pc8/qZq3q9iYO9U30FcQVmfdzkqxDyeezhat3LBI1hDqnCchGUWoaAF
+         U0zq7GsocHVe8s+qOpSpePaxPutej3jrpWdnIXtVjOw+9s7tKShZZxm3KdlHa2O49Hef
+         NVhw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=default header.b=AuSCEO+O;
-       spf=pass (google.com: domain of srs0=p4iy=24=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=p4iy=24=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       dkim=pass header.i=@google.com header.s=20161025 header.b=vpgxkWKp;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::741 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:reply-to:references
-         :mime-version:content-disposition:in-reply-to:user-agent
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=QrgmovI1bFYVQBL2JFsJRr2zDcXD08Cvmz5Hzi8xxuQ=;
-        b=i7nMQT8wgVC5uHmkwuT0lms3RQs0hLeLHJ5WKOVbGqIOdcqlTtRGQqb8MXtizpB+n2
-         roaz1/SKQGVgRWSOOGTgX6VO0UlH7WcfoJv4gachbmUN0DEGMtIGf3T8gypWvcYkY2D3
-         lPXfO/IFMdPqLW+qB2S2pNoB4ToZxzXjIYipjGn8NDf6KXdX/p6CZVlg+SRd+ggBN8Q8
-         2OL5+igpcQMow9QEul/VvX/zg/rTZd57AUmghHeYTyEe4JwbbN5QIUZ4o5fKI33Dtt5j
-         ZfKzj/sErJ0z7X+ILja8gNFNum6JfrkvJN0elieNEJ+yzHBW0HmH5WM3wINdqu7QAVs8
-         VAoA==
+        bh=02JNkhu7N4EaWbH90QY6srSnyFfiCwA/gHO6hGfweBw=;
+        b=eLvC0KpSa4dn5PbpYwM313yeVJUut7f5NhuKkGkR2RkVXmYz7pTl15bqKgawSeTAm6
+         p9GvJxlFkfuRuw2fLo5qXVwXR8IYAppO2HTWPrkcY0s4TgiASGWyr8UBI+AYw7ZW4FHw
+         nZAQwsroHh1Bs2rAd90wS2nEm3K4gnlmx/VZjVbeJpAYjE348I00ZtEY3P2gAFrqtKro
+         QfZoXzBADSwiHOBQNRv584vuZr7hwT+HxlrsnzborkyMYG7B1VPipSVz14YcXN6Eol0G
+         Zl8nJ4uwplcLhCITY2u4orcEOArtmwJH2Y/vlpsrB0h4uW+xzoWWGCzo4p6ZIpNBJfBF
+         zfvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :reply-to:references:mime-version:content-disposition:in-reply-to
-         :user-agent:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=QrgmovI1bFYVQBL2JFsJRr2zDcXD08Cvmz5Hzi8xxuQ=;
-        b=gbXFwe+u/0+mZs1TAT6BP5DT57957ImZR+SR9UX9UqmLmdkbTyKdCOP/ICeued5t8h
-         Wn/tRA47H6qlLrx2K+9Pc8c7ejVyLpDHTlaTV39eFCeqIIjFql0cx1kKMeDikZYQ/brV
-         TxPouNzvXU1xbV0rcBfEhqfmxckeQQjHECwJpyPLJrcchjmkPtIV88JkHxlUAZBhDZHZ
-         H1q826tGLYoke8+rprlP/v1eou509H6+qn+s0bEfBO2GWuCEgkEOSccCOtRfDFn1V6td
-         txUpDjVgfg1dBi4HUpOUgA8Mao9V3l/TWf9iqTU3fbb73jkphadZkr5W/21gW0JtYlLX
-         nqTg==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAWm9t91d6LAFodcqd/e0pM5jKCuAvIpamlkh8H/x1GIkO84LgJB
-	u7RNWZwukXvnr22OpV/8Xso=
-X-Google-Smtp-Source: APXvYqzr1GwREOWdUfXkwXhieQAkhWY2Iu4CUMnmQ1NaOaT4w3ACfATtL8y+omTA4zZdRWDlOty3xQ==
-X-Received: by 2002:a05:6830:2110:: with SMTP id i16mr1647739otc.337.1578432080694;
-        Tue, 07 Jan 2020 13:21:20 -0800 (PST)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=02JNkhu7N4EaWbH90QY6srSnyFfiCwA/gHO6hGfweBw=;
+        b=CsIJdBNS5JItbnlK6fyqtcaMEjkYGa3Zbvod1DQ5uoUm/WTpbOEl00/TOR16p5LvIO
+         sjYb1H5+WXJnth1BeT3b0ktkG8lagiqxmxVh8DuU3BUV3f6r9/IMqNWSQAZWEH/k626h
+         XSQUfbAN15Av0L1nfPsEsbb5y6v4/QOReOD3KN4wlGr0FPSNj1bfUd9OmrwTDaenQkNW
+         fBSlgSuUUj1j3u+hQzhslEpR/HGyA0V58JemEx0cW2vuMzKJK5Uj1yLBgihrLrZWZXvu
+         M6cOS4ARZD7Z4L2jdxdSTPHEMY193cH/n9ehd2+MI/rMnUO9v8T0aIpceGNSIbDDoa0E
+         sBew==
+X-Gm-Message-State: APjAAAXi6wGxvgov4O/ztEdfsBCXkzK136RetpcxGJqVRPLSoyQh7YNs
+	JC6zJOPlTg+yEdJQwtF0tbs=
+X-Google-Smtp-Source: APXvYqx9i7EbQ/9tyqrF2KxJBMueSqLj1yP6O4yMpph20LUSINnQ1VGl43aQZYVAJQ76MmwqQPXuhw==
+X-Received: by 2002:a37:8306:: with SMTP id f6mr2898991qkd.372.1578464445137;
+        Tue, 07 Jan 2020 22:20:45 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:aca:cf95:: with SMTP id f143ls145908oig.7.gmail; Tue, 07 Jan
- 2020 13:21:20 -0800 (PST)
-X-Received: by 2002:aca:d787:: with SMTP id o129mr374866oig.75.1578432080381;
-        Tue, 07 Jan 2020 13:21:20 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1578432080; cv=none;
+Received: by 2002:a37:4bd5:: with SMTP id y204ls855117qka.4.gmail; Tue, 07 Jan
+ 2020 22:20:44 -0800 (PST)
+X-Received: by 2002:a05:620a:4db:: with SMTP id 27mr2968175qks.146.1578464444754;
+        Tue, 07 Jan 2020 22:20:44 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1578464444; cv=none;
         d=google.com; s=arc-20160816;
-        b=qz+heR238002ftpdA76p9bfYCVTWgW9xjbGFtTzeN6+QyXSZZs43w9K/vv5EIfcI7+
-         aWkcgW/YW3Q0oKChh/wpnNaqj4ooJn4KmqI38uPl0aHsRHOOc1QZdSmZXwZpupsF8k7l
-         mRILDUNGQteAfaFOEDmxvtQRnmXcGvVdBXPaKk+DfE+1oTrTPECX7WNq+Utb2x0ZbDqE
-         h7Msr6t4i2H/rcEtljJfBcMqYcQlUQRvRYWT6VFo7r30mGj8pv6T3gjpBu+pxKn96d/p
-         Q/FglBnBglap7T90zO++90KdnSSG+0lyRm4MsZ7RBYfo8uUQnEjTjfzkBvltrYl2uCWO
-         Brow==
+        b=RzrU0/jBwY20yrlDFJ/qoA7hcQB0pU2NBR5rrY4g6LWDkBAcxmlPhzBY/QKrSZ5cwV
+         zEycMXIub4j698QIVDX2UH7spK7InleGS8Rw1DfMz7AdCGmcn/rDeHEgduJwt/jW7CHb
+         /j+Y2BXMmBtpGlyHxiG7wWyaNvk86JgkcHmXDH37JYk5zbkdQ5dmI+BDUq1VmdFGpAaa
+         +CjzcTfYspMaF7N5H+faCpR3fm1n1cBHWy17dtvsN79VxoJaDXo4R8L5UgK/4HiRBJWt
+         EQtOSRU6dExAhk+18b9Zl4R9zyY8bK8jKSTVECRQTF7rjLCuF51plR/3Jz7wUe4Mq4mk
+         NqdA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :reply-to:message-id:subject:cc:to:from:date:dkim-signature;
-        bh=K4FuwATRH/9EAkZDbUiiFseo42cSudOB1u7L+ZjjyKg=;
-        b=YjcaTBzA2CDV6iSIz1mxSfmSfZXIyDXP6dVcKnsclkgaXNMdSuT2Y/HqwDXYkxBCNu
-         WHEl97BW1UYftoeb3IFQYrI2SCyna7kT3MMcKh/ITAy9U/umc9kTyIzwyTqKKbRHit0O
-         Fk9Nz7tKmDtEmgBaIQ+IOXE9IJWXO4Ie7jBOmB84L21CrLs5jp/R84W6nHEnLhWy64sJ
-         y5WCvfS4sjbETaaRpSXLT1ktit01pIkBWYs45QhE/z2zdirE4m9ixtH7dHMVg9lXzHRl
-         XaIMzV3iXc8fGmi8lNB81l8sm90nxXSY1vef3csiq1d2rsivmqnbCR1wsHFAl3hGXFMW
-         se+Q==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=AK1iJurazYPeDznylfVGz03NF8tJ90Gw1QHQnKAzHGU=;
+        b=TeG8TN8UmYAnPSiMVMflCv4MumoB8Xf1nMdOA+5gYiYnUy9yYrjQnp/sJ5G+GLNEAc
+         pKDHVBLxUBo3eE1mI7XbXQ7Ri3BCM/bOXfx8fzraKEMUlU8TbFCT4o9hOB5t8nu1JNl+
+         HPEAh0nyAr/7YbcPDlAHD3HHj9VS+NsNSL28zdMxn+hPEr0MZJfizKuzHotoePth1dRq
+         yD9TH0DXsVZNRWqGKelTOgO6Ci+x6OwmcF2CKR9LAhPbcqk+lIdnjadIThtddLDSNKnu
+         MNhtCAhmQqkHvFlwAIRtTyVLGQxZlJUZ8AXwKzIlQyG03FH6R6ojVEKsV6ZYXWSl7rH4
+         4i/Q==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=default header.b=AuSCEO+O;
-       spf=pass (google.com: domain of srs0=p4iy=24=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=p4iy=24=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id e14si79010otr.1.2020.01.07.13.21.20
+       dkim=pass header.i=@google.com header.s=20161025 header.b=vpgxkWKp;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::741 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com. [2607:f8b0:4864:20::741])
+        by gmr-mx.google.com with ESMTPS id r62si72145qkc.6.2020.01.07.22.20.44
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 07 Jan 2020 13:21:20 -0800 (PST)
-Received-SPF: pass (google.com: domain of srs0=p4iy=24=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
-Received: from paulmck-ThinkPad-P72.home (50-39-105-78.bvtn.or.frontiernet.net [50.39.105.78])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id 75C532081E;
-	Tue,  7 Jan 2020 21:21:19 +0000 (UTC)
-Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
-	id 4E1673522735; Tue,  7 Jan 2020 13:21:19 -0800 (PST)
-Date: Tue, 7 Jan 2020 13:21:19 -0800
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Marco Elver <elver@google.com>
-Cc: kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org,
-	dvyukov@google.com, Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH RESEND -rcu] kcsan: Prefer __always_inline for fast-path
-Message-ID: <20200107212119.GB13449@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
-References: <20200107163104.143542-1-elver@google.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 07 Jan 2020 22:20:44 -0800 (PST)
+Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::741 as permitted sender) client-ip=2607:f8b0:4864:20::741;
+Received: by mail-qk1-x741.google.com with SMTP id x129so1683338qke.8
+        for <kasan-dev@googlegroups.com>; Tue, 07 Jan 2020 22:20:44 -0800 (PST)
+X-Received: by 2002:a37:5841:: with SMTP id m62mr2846731qkb.256.1578464444103;
+ Tue, 07 Jan 2020 22:20:44 -0800 (PST)
 MIME-Version: 1.0
+References: <00000000000036decf0598c8762e@google.com> <CACT4Y+YVMUxeLcFMray9n0+cXbVibj5X347LZr8YgvjN5nC8pw@mail.gmail.com>
+ <CACT4Y+asdED7tYv462Ui2OhQVKXVUnC+=fumXR3qM1A4d6AvOQ@mail.gmail.com>
+ <f7758e0a-a157-56a2-287e-3d4452d72e00@schaufler-ca.com> <87a787ekd0.fsf@dja-thinkpad.axtens.net>
+ <87h81zax74.fsf@dja-thinkpad.axtens.net>
+In-Reply-To: <87h81zax74.fsf@dja-thinkpad.axtens.net>
+From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Wed, 8 Jan 2020 07:20:32 +0100
+Message-ID: <CACT4Y+b+Vx1FeCmhMAYq-g3ObHdMPOsWxouyXXUr7S5OjNiVGQ@mail.gmail.com>
+Subject: Re: INFO: rcu detected stall in sys_kill
+To: Daniel Axtens <dja@axtens.net>
+Cc: Casey Schaufler <casey@schaufler-ca.com>, 
+	syzbot <syzbot+de8d933e7d153aa0c1bb@syzkaller.appspotmail.com>, 
+	linux-security-module <linux-security-module@vger.kernel.org>, 
+	Andrey Ryabinin <aryabinin@virtuozzo.com>, kasan-dev <kasan-dev@googlegroups.com>, 
+	Andrea Arcangeli <aarcange@redhat.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Christian Brauner <christian@brauner.io>, christian@kellner.me, cyphar@cyphar.com, 
+	"Reshetova, Elena" <elena.reshetova@intel.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Kees Cook <keescook@chromium.org>, ldv@altlinux.org, 
+	LKML <linux-kernel@vger.kernel.org>, Andy Lutomirski <luto@amacapital.net>, 
+	Ingo Molnar <mingo@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
+	syzkaller-bugs <syzkaller-bugs@googlegroups.com>, Thomas Gleixner <tglx@linutronix.de>, 
+	Al Viro <viro@zeniv.linux.org.uk>, Will Drewry <wad@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <20200107163104.143542-1-elver@google.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Original-Sender: paulmck@kernel.org
+X-Original-Sender: dvyukov@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=default header.b=AuSCEO+O;       spf=pass
- (google.com: domain of srs0=p4iy=24=paulmck-thinkpad-p72.home=paulmck@kernel.org
- designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=p4iy=24=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+ header.i=@google.com header.s=20161025 header.b=vpgxkWKp;       spf=pass
+ (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::741
+ as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
+ (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Dmitry Vyukov <dvyukov@google.com>
+Reply-To: Dmitry Vyukov <dvyukov@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -136,148 +142,172 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Jan 07, 2020 at 05:31:04PM +0100, Marco Elver wrote:
-> Prefer __always_inline for fast-path functions that are called outside
-> of user_access_save, to avoid generating UACCESS warnings when
-> optimizing for size (CC_OPTIMIZE_FOR_SIZE). It will also avoid future
-> surprises with compiler versions that change the inlining heuristic even
-> when optimizing for performance.
-> 
-> Report: http://lkml.kernel.org/r/58708908-84a0-0a81-a836-ad97e33dbb62@infradead.org
-> Reported-by: Randy Dunlap <rdunlap@infradead.org>
-> Acked-by: Randy Dunlap <rdunlap@infradead.org> # build-tested
-> Signed-off-by: Marco Elver <elver@google.com>
-> ---
-> Rebased against -rcu/dev branch.
+On Tue, Dec 17, 2019 at 2:39 PM Daniel Axtens <dja@axtens.net> wrote:
+>
+> Daniel Axtens <dja@axtens.net> writes:
+>
+> > Hi Casey,
+> >
+> >> There haven't been Smack changes recently, so this is
+> >> going to have been introduced elsewhere. I'm perfectly
+> >> willing to accept that Smack is doing something horribly
+> >> wrong WRT rcu, and that it needs repair, but its going to
+> >> be tough for me to track down. I hope someone else is looking
+> >> into this, as my chances of finding the problem are pretty
+> >> slim.
+> >
+> > Yeah, I'm having a look, it's probably related to my kasan-vmalloc
+> > stuff. It's currently in a bit of flux as syzkaller finds a bunch of
+> > other bugs with it, once that stablises a bit I'll come back to Smack.
+>
+> I have had a brief and wildly unsuccessful look at this. I'm happy to
+> come back to it and go over it with a finer toothed comb, but it will
+> almost certainly have to wait until next year.
+>
+> I don't think it's related to RCU, we also have a plain lockup:
+> https://syzkaller.appspot.com/bug?id=be03729d17bb3b2df1754a7486a8f8628f6ff1ec
+>
+> Dmitry, I've been really struggling to repro this locally, even with
+> your config. Is there an easy way to see the kernel command line you
+> booted with and anything else that makes this image special? I have zero
+> experience with smack so this is a steep learning curve.
 
-Queued and pushed, thank you, Marco!
+I temporarily re-enabled smack instance and it produced another 50
+stalls all over the kernel, and now keeps spewing a dozen every hour.
 
-							Thanx, Paul
+I've mailed 3 new samples, you can see them here:
+https://syzkaller.appspot.com/bug?extid=de8d933e7d153aa0c1bb
 
-> ---
->  kernel/kcsan/atomic.h   |  2 +-
->  kernel/kcsan/core.c     | 18 +++++++++---------
->  kernel/kcsan/encoding.h | 14 +++++++-------
->  3 files changed, 17 insertions(+), 17 deletions(-)
-> 
-> diff --git a/kernel/kcsan/atomic.h b/kernel/kcsan/atomic.h
-> index 576e03ddd6a3..a9c193053491 100644
-> --- a/kernel/kcsan/atomic.h
-> +++ b/kernel/kcsan/atomic.h
-> @@ -18,7 +18,7 @@
->   * than cast to volatile. Eventually, we hope to be able to remove this
->   * function.
->   */
-> -static inline bool kcsan_is_atomic(const volatile void *ptr)
-> +static __always_inline bool kcsan_is_atomic(const volatile void *ptr)
->  {
->  	/* only jiffies for now */
->  	return ptr == &jiffies;
-> diff --git a/kernel/kcsan/core.c b/kernel/kcsan/core.c
-> index 3314fc29e236..4d4ab5c5dc53 100644
-> --- a/kernel/kcsan/core.c
-> +++ b/kernel/kcsan/core.c
-> @@ -78,10 +78,10 @@ static atomic_long_t watchpoints[CONFIG_KCSAN_NUM_WATCHPOINTS + NUM_SLOTS-1];
->   */
->  static DEFINE_PER_CPU(long, kcsan_skip);
->  
-> -static inline atomic_long_t *find_watchpoint(unsigned long addr,
-> -					     size_t size,
-> -					     bool expect_write,
-> -					     long *encoded_watchpoint)
-> +static __always_inline atomic_long_t *find_watchpoint(unsigned long addr,
-> +						      size_t size,
-> +						      bool expect_write,
-> +						      long *encoded_watchpoint)
->  {
->  	const int slot = watchpoint_slot(addr);
->  	const unsigned long addr_masked = addr & WATCHPOINT_ADDR_MASK;
-> @@ -146,7 +146,7 @@ insert_watchpoint(unsigned long addr, size_t size, bool is_write)
->   *	2. the thread that set up the watchpoint already removed it;
->   *	3. the watchpoint was removed and then re-used.
->   */
-> -static inline bool
-> +static __always_inline bool
->  try_consume_watchpoint(atomic_long_t *watchpoint, long encoded_watchpoint)
->  {
->  	return atomic_long_try_cmpxchg_relaxed(watchpoint, &encoded_watchpoint, CONSUMED_WATCHPOINT);
-> @@ -160,7 +160,7 @@ static inline bool remove_watchpoint(atomic_long_t *watchpoint)
->  	return atomic_long_xchg_relaxed(watchpoint, INVALID_WATCHPOINT) != CONSUMED_WATCHPOINT;
->  }
->  
-> -static inline struct kcsan_ctx *get_ctx(void)
-> +static __always_inline struct kcsan_ctx *get_ctx(void)
->  {
->  	/*
->  	 * In interrupts, use raw_cpu_ptr to avoid unnecessary checks, that would
-> @@ -169,7 +169,7 @@ static inline struct kcsan_ctx *get_ctx(void)
->  	return in_task() ? &current->kcsan_ctx : raw_cpu_ptr(&kcsan_cpu_ctx);
->  }
->  
-> -static inline bool is_atomic(const volatile void *ptr)
-> +static __always_inline bool is_atomic(const volatile void *ptr)
->  {
->  	struct kcsan_ctx *ctx = get_ctx();
->  
-> @@ -193,7 +193,7 @@ static inline bool is_atomic(const volatile void *ptr)
->  	return kcsan_is_atomic(ptr);
->  }
->  
-> -static inline bool should_watch(const volatile void *ptr, int type)
-> +static __always_inline bool should_watch(const volatile void *ptr, int type)
->  {
->  	/*
->  	 * Never set up watchpoints when memory operations are atomic.
-> @@ -226,7 +226,7 @@ static inline void reset_kcsan_skip(void)
->  	this_cpu_write(kcsan_skip, skip_count);
->  }
->  
-> -static inline bool kcsan_is_enabled(void)
-> +static __always_inline bool kcsan_is_enabled(void)
->  {
->  	return READ_ONCE(kcsan_enabled) && get_ctx()->disable_count == 0;
->  }
-> diff --git a/kernel/kcsan/encoding.h b/kernel/kcsan/encoding.h
-> index b63890e86449..f03562aaf2eb 100644
-> --- a/kernel/kcsan/encoding.h
-> +++ b/kernel/kcsan/encoding.h
-> @@ -59,10 +59,10 @@ encode_watchpoint(unsigned long addr, size_t size, bool is_write)
->  		      (addr & WATCHPOINT_ADDR_MASK));
->  }
->  
-> -static inline bool decode_watchpoint(long watchpoint,
-> -				     unsigned long *addr_masked,
-> -				     size_t *size,
-> -				     bool *is_write)
-> +static __always_inline bool decode_watchpoint(long watchpoint,
-> +					      unsigned long *addr_masked,
-> +					      size_t *size,
-> +					      bool *is_write)
->  {
->  	if (watchpoint == INVALID_WATCHPOINT ||
->  	    watchpoint == CONSUMED_WATCHPOINT)
-> @@ -78,13 +78,13 @@ static inline bool decode_watchpoint(long watchpoint,
->  /*
->   * Return watchpoint slot for an address.
->   */
-> -static inline int watchpoint_slot(unsigned long addr)
-> +static __always_inline int watchpoint_slot(unsigned long addr)
->  {
->  	return (addr / PAGE_SIZE) % CONFIG_KCSAN_NUM_WATCHPOINTS;
->  }
->  
-> -static inline bool matching_access(unsigned long addr1, size_t size1,
-> -				   unsigned long addr2, size_t size2)
-> +static __always_inline bool matching_access(unsigned long addr1, size_t size1,
-> +					    unsigned long addr2, size_t size2)
->  {
->  	unsigned long end_range1 = addr1 + size1 - 1;
->  	unsigned long end_range2 = addr2 + size2 - 1;
-> -- 
-> 2.24.1.735.g03f4e72817-goog
-> 
+The config is provided, command line args are here:
+https://github.com/google/syzkaller/blob/master/dashboard/config/upstream-smack.cmdline
+Some non-default sysctls that syzbot sets are here:
+https://github.com/google/syzkaller/blob/master/dashboard/config/upstream.sysctl
+Image can be downloaded from here:
+https://github.com/google/syzkaller/blob/master/docs/syzbot.md#crash-does-not-reproduce
+syzbot uses GCE VMs with 2 CPUs and 7.5GB memory, but this does not
+look to be virtualization-related (?) so probably should reproduce in
+qemu too.
+
+
+
+> Regards,
+> Daniel
+>
+> >
+> > Regards,
+> > Daniel
+> >
+> >>
+> >>>>
+> >>>> I see 2 common this across all stalls:
+> >>>> 1. They all happen on the instance that uses smack (which is now
+> >>>> effectively dead), see smack instance here:
+> >>>> https://syzkaller.appspot.com/upstream
+> >>>> 2. They all contain this frame in the stack trace:
+> >>>> free_thread_stack+0x168/0x590 kernel/fork.c:280
+> >>>> The last commit that touches this file is "fork: support VMAP_STACK
+> >>>> with KASAN_VMALLOC".
+> >>>> That may be very likely the root cause. +Daniel
+> >>> I've stopped smack syzbot instance b/c it produces infinite stream of
+> >>> assorted crashes due to this.
+> >>> Please ping syzkaller@googlegroups.com when this is fixed, I will
+> >>> re-enable the instance.
+> >>>
+> >>>>> rcu: INFO: rcu_preempt detected stalls on CPUs/tasks:
+> >>>>>         (detected by 1, t=10502 jiffies, g=6629, q=331)
+> >>>>> rcu: All QSes seen, last rcu_preempt kthread activity 10503
+> >>>>> (4294953794-4294943291), jiffies_till_next_fqs=1, root ->qsmask 0x0
+> >>>>> syz-executor.0  R  running task    24648  8293   8292 0x0000400a
+> >>>>> Call Trace:
+> >>>>>   <IRQ>
+> >>>>>   sched_show_task+0x40f/0x560 kernel/sched/core.c:5954
+> >>>>>   print_other_cpu_stall kernel/rcu/tree_stall.h:410 [inline]
+> >>>>>   check_cpu_stall kernel/rcu/tree_stall.h:538 [inline]
+> >>>>>   rcu_pending kernel/rcu/tree.c:2827 [inline]
+> >>>>>   rcu_sched_clock_irq+0x1861/0x1ad0 kernel/rcu/tree.c:2271
+> >>>>>   update_process_times+0x12d/0x180 kernel/time/timer.c:1726
+> >>>>>   tick_sched_handle kernel/time/tick-sched.c:167 [inline]
+> >>>>>   tick_sched_timer+0x263/0x420 kernel/time/tick-sched.c:1310
+> >>>>>   __run_hrtimer kernel/time/hrtimer.c:1514 [inline]
+> >>>>>   __hrtimer_run_queues+0x403/0x840 kernel/time/hrtimer.c:1576
+> >>>>>   hrtimer_interrupt+0x38c/0xda0 kernel/time/hrtimer.c:1638
+> >>>>>   local_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1110 [inline]
+> >>>>>   smp_apic_timer_interrupt+0x109/0x280 arch/x86/kernel/apic/apic.c:1135
+> >>>>>   apic_timer_interrupt+0xf/0x20 arch/x86/entry/entry_64.S:829
+> >>>>>   </IRQ>
+> >>>>> RIP: 0010:__read_once_size include/linux/compiler.h:199 [inline]
+> >>>>> RIP: 0010:check_kcov_mode kernel/kcov.c:70 [inline]
+> >>>>> RIP: 0010:__sanitizer_cov_trace_pc+0x1c/0x50 kernel/kcov.c:102
+> >>>>> Code: cc 07 48 89 de e8 64 02 3b 00 5b 5d c3 cc 48 8b 04 24 65 48 8b 0c 25
+> >>>>> c0 1d 02 00 65 8b 15 b8 81 8b 7e f7 c2 00 01 1f 00 75 2c <8b> 91 80 13 00
+> >>>>> 00 83 fa 02 75 21 48 8b 91 88 13 00 00 48 8b 32 48
+> >>>>> RSP: 0018:ffffc900021c7c28 EFLAGS: 00000246 ORIG_RAX: ffffffffffffff13
+> >>>>> RAX: ffffffff81487433 RBX: 0000000000000000 RCX: ffff88809428a100
+> >>>>> RDX: 0000000000000001 RSI: 00000000fffffffc RDI: ffffea0002479240
+> >>>>> RBP: ffffc900021c7c50 R08: dffffc0000000000 R09: fffffbfff1287025
+> >>>>> R10: fffffbfff1287025 R11: 0000000000000000 R12: dffffc0000000000
+> >>>>> R13: dffffc0000000000 R14: 00000000fffffffc R15: ffff888091c57428
+> >>>>>   free_thread_stack+0x168/0x590 kernel/fork.c:280
+> >>>>>   release_task_stack kernel/fork.c:440 [inline]
+> >>>>>   put_task_stack+0xa3/0x130 kernel/fork.c:451
+> >>>>>   finish_task_switch+0x3f1/0x550 kernel/sched/core.c:3256
+> >>>>>   context_switch kernel/sched/core.c:3388 [inline]
+> >>>>>   __schedule+0x9a8/0xcc0 kernel/sched/core.c:4081
+> >>>>>   preempt_schedule_common kernel/sched/core.c:4236 [inline]
+> >>>>>   preempt_schedule+0xdb/0x120 kernel/sched/core.c:4261
+> >>>>>   ___preempt_schedule+0x16/0x18 arch/x86/entry/thunk_64.S:50
+> >>>>>   __raw_read_unlock include/linux/rwlock_api_smp.h:227 [inline]
+> >>>>>   _raw_read_unlock+0x3a/0x40 kernel/locking/spinlock.c:255
+> >>>>>   kill_something_info kernel/signal.c:1586 [inline]
+> >>>>>   __do_sys_kill kernel/signal.c:3640 [inline]
+> >>>>>   __se_sys_kill+0x5e9/0x6c0 kernel/signal.c:3634
+> >>>>>   __x64_sys_kill+0x5b/0x70 kernel/signal.c:3634
+> >>>>>   do_syscall_64+0xf7/0x1c0 arch/x86/entry/common.c:294
+> >>>>>   entry_SYSCALL_64_after_hwframe+0x49/0xbe
+> >>>>> RIP: 0033:0x422a17
+> >>>>> Code: 44 00 00 48 c7 c2 d4 ff ff ff f7 d8 64 89 02 b8 ff ff ff ff c3 66 2e
+> >>>>> 0f 1f 84 00 00 00 00 00 0f 1f 40 00 b8 3e 00 00 00 0f 05 <48> 3d 01 f0 ff
+> >>>>> ff 0f 83 dd 32 ff ff c3 66 2e 0f 1f 84 00 00 00 00
+> >>>>> RSP: 002b:00007fff38dca538 EFLAGS: 00000293 ORIG_RAX: 000000000000003e
+> >>>>> RAX: ffffffffffffffda RBX: 0000000000000064 RCX: 0000000000422a17
+> >>>>> RDX: 0000000000000bb8 RSI: 0000000000000009 RDI: 00000000fffffffe
+> >>>>> RBP: 0000000000000002 R08: 0000000000000001 R09: 0000000001c62940
+> >>>>> R10: 0000000000000000 R11: 0000000000000293 R12: 0000000000000008
+> >>>>> R13: 00007fff38dca570 R14: 000000000000f0b6 R15: 00007fff38dca580
+> >>>>> rcu: rcu_preempt kthread starved for 10533 jiffies! g6629 f0x2
+> >>>>> RCU_GP_WAIT_FQS(5) ->state=0x0 ->cpu=0
+> >>>>> rcu: RCU grace-period kthread stack dump:
+> >>>>> rcu_preempt     R  running task    29032    10      2 0x80004008
+> >>>>> Call Trace:
+> >>>>>   context_switch kernel/sched/core.c:3388 [inline]
+> >>>>>   __schedule+0x9a8/0xcc0 kernel/sched/core.c:4081
+> >>>>>   schedule+0x181/0x210 kernel/sched/core.c:4155
+> >>>>>   schedule_timeout+0x14f/0x240 kernel/time/timer.c:1895
+> >>>>>   rcu_gp_fqs_loop kernel/rcu/tree.c:1661 [inline]
+> >>>>>   rcu_gp_kthread+0xed8/0x1770 kernel/rcu/tree.c:1821
+> >>>>>   kthread+0x332/0x350 kernel/kthread.c:255
+> >>>>>   ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
+> >>>>>
+> >>>>>
+> >>>>> ---
+> >>>>> This bug is generated by a bot. It may contain errors.
+> >>>>> See https://goo.gl/tpsmEJ for more information about syzbot.
+> >>>>> syzbot engineers can be reached at syzkaller@googlegroups.com.
+> >>>>>
+> >>>>> syzbot will keep track of this bug report. See:
+> >>>>> https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+> >>>>>
+> >>>>> --
+> >>>>> You received this message because you are subscribed to the Google Groups "syzkaller-bugs" group.
+> >>>>> To unsubscribe from this group and stop receiving emails from it, send an email to syzkaller-bugs+unsubscribe@googlegroups.com.
+> >>>>> To view this discussion on the web visit https://groups.google.com/d/msgid/syzkaller-bugs/00000000000036decf0598c8762e%40google.com.
+>
+> --
+> You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/87h81zax74.fsf%40dja-thinkpad.axtens.net.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200107212119.GB13449%40paulmck-ThinkPad-P72.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2Bb%2BVx1FeCmhMAYq-g3ObHdMPOsWxouyXXUr7S5OjNiVGQ%40mail.gmail.com.
