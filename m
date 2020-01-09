@@ -1,136 +1,121 @@
-Return-Path: <kasan-dev+bncBAABBM5C33YAKGQE7EQAZFI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDQ27FVWWUFRB3PM33YAKGQEAIYTEQQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qt1-x838.google.com (mail-qt1-x838.google.com [IPv6:2607:f8b0:4864:20::838])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42CDD1361F2
-	for <lists+kasan-dev@lfdr.de>; Thu,  9 Jan 2020 21:46:44 +0100 (CET)
-Received: by mail-qt1-x838.google.com with SMTP id e37sf5010690qtk.7
-        for <lists+kasan-dev@lfdr.de>; Thu, 09 Jan 2020 12:46:44 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1578602803; cv=pass;
+Received: from mail-yw1-xc37.google.com (mail-yw1-xc37.google.com [IPv6:2607:f8b0:4864:20::c37])
+	by mail.lfdr.de (Postfix) with ESMTPS id A85921363C0
+	for <lists+kasan-dev@lfdr.de>; Fri, 10 Jan 2020 00:25:34 +0100 (CET)
+Received: by mail-yw1-xc37.google.com with SMTP id u199sf79401ywc.10
+        for <lists+kasan-dev@lfdr.de>; Thu, 09 Jan 2020 15:25:34 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1578612333; cv=pass;
         d=google.com; s=arc-20160816;
-        b=MPJqdTwvamcj+AwlBF88mYl16dmmvttyB3DBYjf6nAX+IgHe9466CgMdz/uYlmPBw2
-         Vmvl8470gNjkobJkEWdKdx10/hRI3Mrp3PE5h2DBIOVW55+tGvz9vJ6DInryrDE2hX4l
-         jfqfQ+PBzlFj4vCsmUZJe0sBqceqNnm7s6vChgcCRkDmJPDNnRnYgpDSYD4ajwECJqh5
-         dH+bgfHS5xQnbAA31Uj+cZpz26kYunSApR5jlUbL1oTyIIowUlCSCqdc/uc4r6JYliF+
-         AZJwyHElIgw5ooAeYFFTNAZSvtaEfp0u4Pt2b3zdi52de6zKZZfm6c06HtkkZGWlJqaj
-         4WlQ==
+        b=cYk764Y9PbwgI7e6DvUOLhsv7gOSAdyK6x8hZMZ+OZqrPFPmyS4d3sVkXJ/5WCjYUs
+         4b7LF8s6nFjF3oYASM9jyzVh7CNle3MlKlvaBPApIrPCK+oatUZRliaNIe3OGrUXy2Wz
+         7sOhbWlmpom8Ai/fbA2/CEzl/5YUHpjM6Po8s+QPckcUKFh0XlZwJbgesb41Ffkxff2c
+         KIgjtdBlwue/I9ekmJ6rK/yMM90Tbh9DHb9s60KOqXoLySWgxbxen2JE2mzlUaEm/oIn
+         gqKOHGNa0fO3upWr1ySo7tNJb7pmJX2PW7GrKyu4mhf+WnwE/5DsL47htSc4O94GFWOu
+         XnuQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:user-agent:in-reply-to
-         :content-disposition:mime-version:references:reply-to:message-id
-         :subject:cc:to:from:date:sender:dkim-signature;
-        bh=F0LJCd77kCP1zOAj9fvwLajYbaqGd5K/QnOcRMqWyN0=;
-        b=rftdZZPcyQOSPCF3PfnD/v1xS4yLQg3JRvxHf5ewpC1g2/rX4SrhEQ2CN9LsmtE4La
-         0fPaQXWF4rx72FZbG7MF9O4MRDNwacNJhFA8O6g4s5hecWWXZ40Cdq5E7HLaWQJ2/r6Z
-         WciwUMJy7cyiorWvuVlte0KWPsaNv0kBJceydee259hDL6Q6Ah1PDzy/gi2f2ARmCdyO
-         ZbIbIiIpsat1tbzak7tE5bF5wxFoyl8wenrEXQ0IwnuXziTsNulksEEZ/Wxtc/qssetB
-         LrV2LMfmmIRXCXmwXGtXa6pSrQFQEG7wZ+vK/NVK7w/m68O08kh5TCDXVXrCk6tzApl5
-         8stg==
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :references:in-reply-to:subject:cc:to:from:sender:dkim-signature;
+        bh=5ryiNehUl3tS3BjxQ+OaU+3B8MAXwfvwyMyGjKvV/iU=;
+        b=DJ+BVjnT0IvhIx1htqk05Jfsy9Zi9lIwHgIfI9/Dd550Fy/W+e+tYEpFp+2QSu/zuQ
+         V62o7p4h1gW7MoynJMksPX32lk/ENCkt1pANsuO8DkleVB/mfpF92leqd+26SZknASon
+         zDNfBwB97hQShwDjdbowtamsDcywGLUfU2dqazDcExRwuctuem9ST1FDlLq1TCoPPqbH
+         XlZXE909vTTh62reS4GzYsoQorZf1Rdbir+ZOz1T0jfE/TFP8jRRSDK53CNrmCOz425n
+         rXwFtUL5eBYZV3gVLect1xcJEVMcrvM1cK9F41iq6Rr03/49FvvBvDwaKzXdGlvCtKqY
+         r2rw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=default header.b=TJDZxhO9;
-       spf=pass (google.com: domain of srs0=wnto=26=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=wNtO=26=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       dkim=pass header.i=@axtens.net header.s=google header.b=hJEPs+ON;
+       spf=pass (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::444 as permitted sender) smtp.mailfrom=dja@axtens.net
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:reply-to:references
-         :mime-version:content-disposition:in-reply-to:user-agent
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
+        h=sender:from:to:cc:subject:in-reply-to:references:date:message-id
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=F0LJCd77kCP1zOAj9fvwLajYbaqGd5K/QnOcRMqWyN0=;
-        b=mnyxCfli3/dZLryG2U9hdfoAqE6ebvQU5mcuTrS0ksC6YxNrWfJCa8uGgUzGHaicJw
-         EliGEC9nZQctDSa2qamItsmf5viOyKbRrYO3qfi2oC1mkFSYF0JjvLRbn82qeHu4BLKT
-         4HzoIgt/dPlhVjj0RNWzGy30+1bMUmd/RrU5dyfkO9SkifB1tUBWIVKVohiMYS6A8Hb0
-         Ju35aLuR0je0c/1OUNHYST6IQ2ms392cPzfXJVTo0s/aB78K3+sjY23MKuZSu5kkLXwD
-         OtxDUHxDOnLk/lEbWpHvtJ+/3BE6YhvJvxKjiSPvHOM2AkLqiRgaE0CzAW+cbELKZ466
-         CqsA==
+        bh=5ryiNehUl3tS3BjxQ+OaU+3B8MAXwfvwyMyGjKvV/iU=;
+        b=d4iA+XaEqPrBEZ6UPwzzipsRX1R6gbLTyAakYWJJhuVP1wMyFkBNZYhxzKac/5rCCo
+         mkyxpAI85QIitGWTN9kg7VL9koCwuyQd5nQL71Qe5ui/zGWs4UzmIXYluZS3DkjYCTnJ
+         NvRK88gRdT9lKk/zgQo1jwHB685JYMXlVT5857iuZci5wT19n7Se7Dr6AttCwjJURFE+
+         U6XWtrZPUSLVvW/SawxC3ODUOpjw75wCkvxF5pSwpYRSuuI5fnfZ9Uf7n6U9Em78sMd5
+         uNC0QZYdXrqS5pmvCsJ8OhbSOlWLfRZKIeUgOcWj6ycs7aBuo2As2f8LY5AHKKhq7ZuM
+         k66g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :reply-to:references:mime-version:content-disposition:in-reply-to
-         :user-agent:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=F0LJCd77kCP1zOAj9fvwLajYbaqGd5K/QnOcRMqWyN0=;
-        b=OhsNXHHLHxf/y4ZuWN8BLxEYmhs6Rw3HghxIHmkn/eKVauHUBMwFdmq5gLgPtsvRKm
-         lkRoCCK6PSogXM1PMfQjw+swvZnuyFTeaIMIVFyy9W6J2RSZy8k6CpyvwIGnzCUk0Qpr
-         p0SbPm45kYQXJfRnaMo1i3OiTqLBWufXzPCRbZrXlUKzgzAoZie5UvwKe3RFrbtHrfa2
-         R+Xu0WZHFYtfP+oTERdPBhVJuKmt4CH1vbIEEDOB4PuLsoPWOVMNnRVY0mcNvj4KTUUA
-         zaVHUazZrH08wPgHfSh5UEsjL6cUl0eoVetjydRLVBWiefxJVS9Vb8EPWdvx0H38FD4S
-         dlUQ==
+        h=sender:x-gm-message-state:from:to:cc:subject:in-reply-to:references
+         :date:message-id:mime-version:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=5ryiNehUl3tS3BjxQ+OaU+3B8MAXwfvwyMyGjKvV/iU=;
+        b=rqYs0JAj44odWe0h7Le9Wx6dlrrBlzor/IXU31Z3khRmtXeOeiLeve3RZmr6ErYXA5
+         sy9nhD8ZTQS44ILLxeZQF0cO7BqwM+ut0Tivy9+TVhfr9A74O27EOup2fmqkde67vULb
+         nQhqhgOpmZwhM0Ju23O3xxlzHey0V11H5D1DEugMQtPejUP/8m8Ysx4DsyXc0FT+uig2
+         UqhCHXRycEw1ojB0jwR9g1XWhEttlF+VNzz2kS1NM0F2/QC/r+Tte0gyqrK7zmqxK5oV
+         EivDoF+Hz1jj9l52Z23BtLsMQf4p55gc3oYSK0DyLO3VtnTk1DgoilAIutTMOItqA+W3
+         +1wA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAWnW+Gl/PcHFD+ThE13r0BOx0hL+cJHBn93vvuGUyDG7JRjktKZ
-	S0W6DBy3ZI7v2sDcjxphwYI=
-X-Google-Smtp-Source: APXvYqxChQROPnQiK1sg3qWxY1bZishy8ZLfKMBJN0aBdtmSIW6HP5q7V3y/+zRJB6IYw6URnUhZlQ==
-X-Received: by 2002:a05:6214:108a:: with SMTP id o10mr10257472qvr.246.1578602803248;
-        Thu, 09 Jan 2020 12:46:43 -0800 (PST)
+X-Gm-Message-State: APjAAAUFLenwkKnpxFYs4j7aDFulzD8YOSVU5QLtJyqVkcvMLwBg3k0f
+	agppnGMiRDOCrxvIu5gK1oQ=
+X-Google-Smtp-Source: APXvYqym9wMqVm0Y3ymINvq9jR93sXq6Laf8d4Bi43/TFFZwB9xQJL4BdPuluLPVgOcOQCQkdCjUDw==
+X-Received: by 2002:a25:e6cd:: with SMTP id d196mr113099ybh.317.1578612333392;
+        Thu, 09 Jan 2020 15:25:33 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a37:9f92:: with SMTP id i140ls1292158qke.11.gmail; Thu, 09
- Jan 2020 12:46:43 -0800 (PST)
-X-Received: by 2002:a37:9ec5:: with SMTP id h188mr11694027qke.435.1578602802960;
-        Thu, 09 Jan 2020 12:46:42 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1578602802; cv=none;
+Received: by 2002:a81:194b:: with SMTP id 72ls562651ywz.6.gmail; Thu, 09 Jan
+ 2020 15:25:33 -0800 (PST)
+X-Received: by 2002:a81:a189:: with SMTP id y131mr418289ywg.329.1578612332970;
+        Thu, 09 Jan 2020 15:25:32 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1578612332; cv=none;
         d=google.com; s=arc-20160816;
-        b=lYalBP4KcKCe0ejwROOsszh+a0kvAyjEN7SQwRKmmbwqZYEIcWpKz6yBIGzya/D4Y2
-         p5osWkPNpdLgz7Ow6C27kgfBoI/v0BrfJ68k9qoud6p8tCZmpC8RQeufGJSNcOekajGt
-         7ipF23Z5HcWXgzi1ShBDuLpZfHXxDuj5S6SUFVRvGrTsuFZ4FskxihWl1ciy5O8LRSzJ
-         LdjyHIw0hUjiQw4I4Q61sWcA2TIiIOS1KM/whqeWSDBUKfV+33/PAnjxlfQd6scC2aOP
-         MOSFLKSpsN9ULbEH1LwirV+auOe+f6QBcU6GxaNZS0cnwZ2XOFm5a6JwuBTkZu5Ys8gg
-         vQwQ==
+        b=GIT0mCqeGjSu3khu+Wur7Oxlxyp8uNQMktjQ+dHSZ4Hoy/vZmV4Nubl+hQ+qe+jx99
+         JIIkJHkl5K+hy0FAJzrdYA8s5Rz+VjQGDkCVNgpsYGxapGX3mkNvfMR5f6YcJSGpNy+W
+         9i3vK41Fz2zTWFPYKcXKC9tyqfKEcOawUbM5lJiIK4e6SIlRYndQMCBQTKT55BrVmuTd
+         EkNj2DMJOqTR9fDZkrmEQ2nXomKRjluoim1HstjU9T6CN4lWOVv1F2GXyf+651EGP+xb
+         fRGiIZonm49fbR+Ys/C+0bNXnHxq623Hrzpm/I2h5rOBMxis6ToJgA1S6Pc38b3yU9cP
+         UnAg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :reply-to:message-id:subject:cc:to:from:date:dkim-signature;
-        bh=7KvsjX7S0YOH65KqyOw09EuFMyLRQS9an/veXj3aZR4=;
-        b=T6caSDCL3DYSkixmTco8/tFiB26rBnwb+uVRwHOWi8z/ikzy7ATYQBDMDnmdnVANJZ
-         BgxLRzCU6V7MbUSz13ksAtexjpefV8C0d6kokWAa9Ypvlil1kLgU/nVg7FWuh2jTa2G0
-         MNiSGOoRtxNbO2lerKhArlvaqY2EO4ipQpSiehwouvcOdVkwSBNrb89ZpwTwFnwGpaWK
-         xnDMx7LVMcvCm4kO0Ec13HUbsp3ehoWvMsbEybCDMbJzFLkbX9+EY919z6+zILlPD00B
-         UV5sg5JqdZylnyP+R+DlRR3HmU9JQwoAp/ro/FN8OKnLSYO9zKq6BJoEcAI8GZOfKB7/
-         g+Zg==
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:dkim-signature;
+        bh=UzPtNbIFdT7VgcJL3S0ZhY3HIrUCX+/Gia26wjd0jI0=;
+        b=QXGllEkHC4qURC5WBLS8+9Doq7qrhfY3fQXq7M8FO5rezIwN+8A01ulhVu0AtALQGn
+         TeREw6B/yx+hiSnXDz3ytL+mvpjXtWlgCUv6SI9i5tShZocFuR1bxCBY5ECZHFUQoXTM
+         XkbpT5LGWhXZilgSGTct6eY8Tf1XRzAc9eUZp2lrhbXJHXYP+MJdx7Af/ripxJRmLT/L
+         wspa/J2+izqaL2ctNPr8HH4GJi0ncOH+Cx5eygSJeBq6CMQUIEktvNu2nKRy2vkyEO55
+         258K9WDkNSlL+IC3+xgXocdYujaczC5DRJMCfSIKYjnM7fMUnjrUsaOYeCDe++4nH3cD
+         Go/Q==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=default header.b=TJDZxhO9;
-       spf=pass (google.com: domain of srs0=wnto=26=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=wNtO=26=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id o36si339309qto.4.2020.01.09.12.46.42
+       dkim=pass header.i=@axtens.net header.s=google header.b=hJEPs+ON;
+       spf=pass (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::444 as permitted sender) smtp.mailfrom=dja@axtens.net
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com. [2607:f8b0:4864:20::444])
+        by gmr-mx.google.com with ESMTPS id p187si15302ywe.1.2020.01.09.15.25.32
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 09 Jan 2020 12:46:42 -0800 (PST)
-Received-SPF: pass (google.com: domain of srs0=wnto=26=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
-Received: from paulmck-ThinkPad-P72.home (50-39-105-78.bvtn.or.frontiernet.net [50.39.105.78])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id CA6F820721;
-	Thu,  9 Jan 2020 20:46:41 +0000 (UTC)
-Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
-	id 7775D352272E; Thu,  9 Jan 2020 12:46:41 -0800 (PST)
-Date: Thu, 9 Jan 2020 12:46:41 -0800
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Marco Elver <elver@google.com>
-Cc: Andrey Konovalov <andreyknvl@google.com>,
-	Alexander Potapenko <glider@google.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	kasan-dev <kasan-dev@googlegroups.com>,
-	LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH -rcu 0/2] kcsan: Improvements to reporting
-Message-ID: <20200109204641.GW13449@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
-References: <20200109152322.104466-1-elver@google.com>
- <20200109162739.GS13449@paulmck-ThinkPad-P72>
- <CANpmjNOR4oT+yuGsjajMjWduKjQOGg9Ybd97L2jwY2ZJN8hgqg@mail.gmail.com>
- <20200109173127.GU13449@paulmck-ThinkPad-P72>
- <CANpmjNP=8cfqgXkz7f8D6STTn1-2h9qzUery4qMHeTTeNJOdxQ@mail.gmail.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 09 Jan 2020 15:25:32 -0800 (PST)
+Received-SPF: pass (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::444 as permitted sender) client-ip=2607:f8b0:4864:20::444;
+Received: by mail-pf1-x444.google.com with SMTP id i23so167933pfo.2
+        for <kasan-dev@googlegroups.com>; Thu, 09 Jan 2020 15:25:32 -0800 (PST)
+X-Received: by 2002:a63:1a1f:: with SMTP id a31mr538473pga.21.1578612331836;
+        Thu, 09 Jan 2020 15:25:31 -0800 (PST)
+Received: from localhost (2001-44b8-1113-6700-5cb3-ebc3-7dc6-a17b.static.ipv6.internode.on.net. [2001:44b8:1113:6700:5cb3:ebc3:7dc6:a17b])
+        by smtp.gmail.com with ESMTPSA id j125sm107356pfg.160.2020.01.09.15.25.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Jan 2020 15:25:30 -0800 (PST)
+From: Daniel Axtens <dja@axtens.net>
+To: Dmitry Vyukov <dvyukov@google.com>, Casey Schaufler <casey@schaufler-ca.com>, Alexander Potapenko <glider@google.com>, clang-built-linux <clang-built-linux@googlegroups.com>
+Cc: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>, syzbot <syzbot+de8d933e7d153aa0c1bb@syzkaller.appspotmail.com>, kasan-dev <kasan-dev@googlegroups.com>, Andrew Morton <akpm@linux-foundation.org>, LKML <linux-kernel@vger.kernel.org>, syzkaller-bugs <syzkaller-bugs@googlegroups.com>
+Subject: Re: INFO: rcu detected stall in sys_kill
+In-Reply-To: <CACT4Y+axj5M4p=mZkFb1MyBw0MK1c6nWb-fKQcYSnYB8n1Cb8Q@mail.gmail.com>
+References: <00000000000036decf0598c8762e@google.com> <CACT4Y+YVMUxeLcFMray9n0+cXbVibj5X347LZr8YgvjN5nC8pw@mail.gmail.com> <CACT4Y+asdED7tYv462Ui2OhQVKXVUnC+=fumXR3qM1A4d6AvOQ@mail.gmail.com> <f7758e0a-a157-56a2-287e-3d4452d72e00@schaufler-ca.com> <87a787ekd0.fsf@dja-thinkpad.axtens.net> <87h81zax74.fsf@dja-thinkpad.axtens.net> <CACT4Y+b+Vx1FeCmhMAYq-g3ObHdMPOsWxouyXXUr7S5OjNiVGQ@mail.gmail.com> <0b60c93e-a967-ecac-07e7-67aea1a0208e@I-love.SAKURA.ne.jp> <6d009462-74d9-96e9-ab3f-396842a58011@schaufler-ca.com> <CACT4Y+bURugCpLm5TG37-7voFEeEoXo_Gb=3sy75_RELZotXHw@mail.gmail.com> <CACT4Y+avizeUd=nY2w1B_LbEC1cP5prBfpnANYaxhgS_fcL6ag@mail.gmail.com> <CACT4Y+Z3GCncV3G1=36NmDRX_XOZsdoRJ3UshZoornbSRSN28w@mail.gmail.com> <CACT4Y+ZyVi=ow+VXA9PaWEVE8qKj8_AKzeFsNdsmiSR9iL3FOw@mail.gmail.com> <CACT4Y+axj5M4p=mZkFb1MyBw0MK1c6nWb-fKQcYSnYB8n1Cb8Q@mail.gmail.com>
+Date: Fri, 10 Jan 2020 10:25:27 +1100
+Message-ID: <87a76wnrfc.fsf@dja-thinkpad.axtens.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <CANpmjNP=8cfqgXkz7f8D6STTn1-2h9qzUery4qMHeTTeNJOdxQ@mail.gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Original-Sender: paulmck@kernel.org
+X-Original-Sender: dja@axtens.net
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=default header.b=TJDZxhO9;       spf=pass
- (google.com: domain of srs0=wnto=26=paulmck-thinkpad-p72.home=paulmck@kernel.org
- designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=wNtO=26=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+ header.i=@axtens.net header.s=google header.b=hJEPs+ON;       spf=pass
+ (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::444 as
+ permitted sender) smtp.mailfrom=dja@axtens.net
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -143,105 +128,177 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Jan 09, 2020 at 06:42:16PM +0100, Marco Elver wrote:
-> On Thu, 9 Jan 2020 at 18:31, Paul E. McKenney <paulmck@kernel.org> wrote:
-> >
-> > On Thu, Jan 09, 2020 at 06:03:39PM +0100, Marco Elver wrote:
-> > > On Thu, 9 Jan 2020 at 17:27, Paul E. McKenney <paulmck@kernel.org> wrote:
-> > > >
-> > > > On Thu, Jan 09, 2020 at 04:23:20PM +0100, Marco Elver wrote:
-> > > > > Improvements to KCSAN data race reporting:
-> > > > > 1. Show if access is marked (*_ONCE, atomic, etc.).
-> > > > > 2. Rate limit reporting to avoid spamming console.
-> > > > >
-> > > > > Marco Elver (2):
-> > > > >   kcsan: Show full access type in report
-> > > > >   kcsan: Rate-limit reporting per data races
-> > > >
-> > > > Queued and pushed, thank you!  I edited the commit logs a bit, so could
-> > > > you please check to make sure that I didn't mess anything up?
-> > >
-> > > Looks good to me, thank you.
-> > >
-> > > > At some point, boot-time-allocated per-CPU arrays might be needed to
-> > > > avoid contention on large systems, but one step at a time.  ;-)
-> > >
-> > > I certainly hope the rate of fixing/avoiding data races will not be
-> > > eclipsed by the rate at which new ones are introduced. :-)
-> >
-> > Me too!
-> >
-> > However, on a large system, duplicate reports might happen quite
-> > frequently, which might cause slowdowns given the single global
-> > array.  Or maybe not -- I guess we will find out soon enough. ;-)
-> >
-> > But I must confess that I am missing how concurrent access to the
-> > report_times[] array is handled.  I would have expected that
-> > rate_limit_report() would choose a random starting entry and
-> > search circularly.  And I would expect that the code at the end
-> > of that function would instead look something like this:
-> >
-> >         if (ktime_before(oldtime, invalid_before) &&
-> >             cmpxchg(&use_entry->time, oldtime, now) == oldtime) {
-> >                 use_entry->frame1 = frame1;
-> >                 use_entry->frame2 = frame2;
-> >         } else {
-> >                 // Too bad, next duplicate report won't be suppressed.
-> >         }
-> >
-> > Where "oldtime" is captured from the entry during the scan, and from the
-> > first entry scanned.  This cmpxchg() approach is of course vulnerable
-> > to the ->frame1 and ->frame2 assignments taking more than three seconds
-> > (by default), but if that becomes a problem, a WARN_ON() could be added:
-> >
-> >         if (ktime_before(oldtime, invalid_before) &&
-> >             cmpxchg(&use_entry->time, oldtime, now) == oldtime) {
-> >                 use_entry->frame1 = frame1;
-> >                 use_entry->frame2 = frame2;
-> >                 WARN_ON_ONCE(use_entry->time != now);
-> >         } else {
-> >                 // Too bad, next duplicate report won't be suppressed.
-> >         }
-> >
-> > So what am I missing here?
-> 
-> Ah right, sorry, I should have clarified or commented in the code that
-> all of this is happening under 'report_lock' (taken in prepare_report,
-> held in print_report->rate_limit_report, released in release_report).
-> That also means that any optimization here won't matter until
-> report_lock is removed.
+Dmitry Vyukov <dvyukov@google.com> writes:
 
-Got it, thank you!  And yes, lock contention on report_lock might be
-a problem on large systems.  But let's see how it goes.
+> On Thu, Jan 9, 2020 at 11:05 AM Dmitry Vyukov <dvyukov@google.com> wrote:
+>> > > > > On 1/8/2020 2:25 AM, Tetsuo Handa wrote:
+>> > > > > > On 2020/01/08 15:20, Dmitry Vyukov wrote:
+>> > > > > >> I temporarily re-enabled smack instance and it produced another 50
+>> > > > > >> stalls all over the kernel, and now keeps spewing a dozen every hour.
+>> > > > >
+>> > > > > Do I have to be using clang to test this? I'm setting up to work on this,
+>> > > > > and don't want to waste time using my current tool chain if the problem
+>> > > > > is clang specific.
+>> > > >
+>> > > > Humm, interesting. Initially I was going to say that most likely it's
+>> > > > not clang-related. Bug smack instance is actually the only one that
+>> > > > uses clang as well (except for KMSAN of course). So maybe it's indeed
+>> > > > clang-related rather than smack-related. Let me try to build a kernel
+>> > > > with clang.
+>> > >
+>> > > +clang-built-linux, glider
+>> > >
+>> > > [clang-built linux is severe broken since early Dec]
+>> > >
+>> > > Building kernel with clang I can immediately reproduce this locally:
+>> > >
+>> > > $ syz-manager
+>> > > 2020/01/09 09:27:15 loading corpus...
+>> > > 2020/01/09 09:27:17 serving http on http://0.0.0.0:50001
+>> > > 2020/01/09 09:27:17 serving rpc on tcp://[::]:45851
+>> > > 2020/01/09 09:27:17 booting test machines...
+>> > > 2020/01/09 09:27:17 wait for the connection from test machine...
+>> > > 2020/01/09 09:29:23 machine check:
+>> > > 2020/01/09 09:29:23 syscalls                : 2961/3195
+>> > > 2020/01/09 09:29:23 code coverage           : enabled
+>> > > 2020/01/09 09:29:23 comparison tracing      : enabled
+>> > > 2020/01/09 09:29:23 extra coverage          : enabled
+>> > > 2020/01/09 09:29:23 setuid sandbox          : enabled
+>> > > 2020/01/09 09:29:23 namespace sandbox       : enabled
+>> > > 2020/01/09 09:29:23 Android sandbox         : /sys/fs/selinux/policy
+>> > > does not exist
+>> > > 2020/01/09 09:29:23 fault injection         : enabled
+>> > > 2020/01/09 09:29:23 leak checking           : CONFIG_DEBUG_KMEMLEAK is
+>> > > not enabled
+>> > > 2020/01/09 09:29:23 net packet injection    : enabled
+>> > > 2020/01/09 09:29:23 net device setup        : enabled
+>> > > 2020/01/09 09:29:23 concurrency sanitizer   : /sys/kernel/debug/kcsan
+>> > > does not exist
+>> > > 2020/01/09 09:29:23 devlink PCI setup       : PCI device 0000:00:10.0
+>> > > is not available
+>> > > 2020/01/09 09:29:27 corpus                  : 50226 (0 deleted)
+>> > > 2020/01/09 09:29:27 VMs 20, executed 0, cover 0, crashes 0, repro 0
+>> > > 2020/01/09 09:29:37 VMs 20, executed 45, cover 0, crashes 0, repro 0
+>> > > 2020/01/09 09:29:47 VMs 20, executed 74, cover 0, crashes 0, repro 0
+>> > > 2020/01/09 09:29:57 VMs 20, executed 80, cover 0, crashes 0, repro 0
+>> > > 2020/01/09 09:30:07 VMs 20, executed 80, cover 0, crashes 0, repro 0
+>> > > 2020/01/09 09:30:17 VMs 20, executed 80, cover 0, crashes 0, repro 0
+>> > > 2020/01/09 09:30:27 VMs 20, executed 80, cover 0, crashes 0, repro 0
+>> > > 2020/01/09 09:30:37 VMs 20, executed 80, cover 0, crashes 0, repro 0
+>> > > 2020/01/09 09:30:47 VMs 20, executed 80, cover 0, crashes 0, repro 0
+>> > > 2020/01/09 09:30:57 VMs 20, executed 80, cover 0, crashes 0, repro 0
+>> > > 2020/01/09 09:31:07 VMs 20, executed 80, cover 0, crashes 0, repro 0
+>> > > 2020/01/09 09:31:17 VMs 20, executed 80, cover 0, crashes 0, repro 0
+>> > > 2020/01/09 09:31:26 vm-10: crash: INFO: rcu detected stall in do_idle
+>> > > 2020/01/09 09:31:27 VMs 13, executed 80, cover 0, crashes 0, repro 0
+>> > > 2020/01/09 09:31:28 vm-1: crash: INFO: rcu detected stall in sys_futex
+>> > > 2020/01/09 09:31:29 vm-4: crash: INFO: rcu detected stall in sys_futex
+>> > > 2020/01/09 09:31:31 vm-0: crash: INFO: rcu detected stall in sys_getsockopt
+>> > > 2020/01/09 09:31:33 vm-18: crash: INFO: rcu detected stall in sys_clone3
+>> > > 2020/01/09 09:31:35 vm-3: crash: INFO: rcu detected stall in sys_futex
+>> > > 2020/01/09 09:31:36 vm-8: crash: INFO: rcu detected stall in do_idle
+>> > > 2020/01/09 09:31:37 VMs 7, executed 80, cover 0, crashes 6, repro 0
+>> > > 2020/01/09 09:31:38 vm-19: crash: INFO: rcu detected stall in schedule_tail
+>> > > 2020/01/09 09:31:40 vm-6: crash: INFO: rcu detected stall in schedule_tail
+>> > > 2020/01/09 09:31:42 vm-2: crash: INFO: rcu detected stall in schedule_tail
+>> > > 2020/01/09 09:31:44 vm-12: crash: INFO: rcu detected stall in sys_futex
+>> > > 2020/01/09 09:31:46 vm-15: crash: INFO: rcu detected stall in sys_nanosleep
+>> > > 2020/01/09 09:31:47 VMs 1, executed 80, cover 0, crashes 11, repro 0
+>> > > 2020/01/09 09:31:48 vm-16: crash: INFO: rcu detected stall in sys_futex
+>> > > 2020/01/09 09:31:50 vm-9: crash: INFO: rcu detected stall in schedule
+>> > > 2020/01/09 09:31:52 vm-13: crash: INFO: rcu detected stall in schedule_tail
+>> > > 2020/01/09 09:31:54 vm-11: crash: INFO: rcu detected stall in schedule_tail
+>> > > 2020/01/09 09:31:56 vm-17: crash: INFO: rcu detected stall in sys_futex
+>> > > 2020/01/09 09:31:57 VMs 0, executed 80, cover 0, crashes 16, repro 0
+>> > > 2020/01/09 09:31:58 vm-7: crash: INFO: rcu detected stall in sys_futex
+>> > > 2020/01/09 09:32:00 vm-5: crash: INFO: rcu detected stall in dput
+>> > > 2020/01/09 09:32:02 vm-14: crash: INFO: rcu detected stall in sys_nanosleep
+>> > >
+>> > >
+>> > > Then I switched LSM to selinux and I _still_ can reproduce this. So,
+>> > > Casey, you may relax, this is not smack-specific :)
+>> > >
+>> > > Then I disabled CONFIG_KASAN_VMALLOC and CONFIG_VMAP_STACK and it
+>> > > started working normally.
+>> > >
+>> > > So this is somehow related to both clang and KASAN/VMAP_STACK.
+>> > >
+>> > > The clang I used is:
+>> > > https://storage.googleapis.com/syzkaller/clang-kmsan-362913.tar.gz
+>> > > (the one we use on syzbot).
+>> >
+>> >
+>> > Clustering hangs, they all happen within very limited section of the code:
+>> >
+>> >       1  free_thread_stack+0x124/0x590 kernel/fork.c:284
+>> >       5  free_thread_stack+0x12e/0x590 kernel/fork.c:280
+>> >      39  free_thread_stack+0x12e/0x590 kernel/fork.c:284
+>> >       6  free_thread_stack+0x133/0x590 kernel/fork.c:280
+>> >       5  free_thread_stack+0x13d/0x590 kernel/fork.c:280
+>> >       2  free_thread_stack+0x141/0x590 kernel/fork.c:280
+>> >       6  free_thread_stack+0x14c/0x590 kernel/fork.c:280
+>> >       9  free_thread_stack+0x151/0x590 kernel/fork.c:280
+>> >       3  free_thread_stack+0x15b/0x590 kernel/fork.c:280
+>> >      67  free_thread_stack+0x168/0x590 kernel/fork.c:280
+>> >       6  free_thread_stack+0x16d/0x590 kernel/fork.c:284
+>> >       2  free_thread_stack+0x177/0x590 kernel/fork.c:284
+>> >       1  free_thread_stack+0x182/0x590 kernel/fork.c:284
+>> >       1  free_thread_stack+0x186/0x590 kernel/fork.c:284
+>> >      16  free_thread_stack+0x18b/0x590 kernel/fork.c:284
+>> >       4  free_thread_stack+0x195/0x590 kernel/fork.c:284
+>> >
+>> > Here is disass of the function:
+>> > https://gist.githubusercontent.com/dvyukov/a283d1aaf2ef7874001d56525279ccbd/raw/ac2478bff6472bc473f57f91a75f827cd72bb6bf/gistfile1.txt
+>> >
+>> > But if I am not mistaken, the function only ever jumps down. So how
+>> > can it loop?...
+>>
+>>
+>> This is a miscompilation related to static branches.
+>>
+>> objdump shows:
+>>
+>> ffffffff814878f8: 0f 1f 44 00 00        nopl   0x0(%rax,%rax,1)
+>>  ./arch/x86/include/asm/jump_label.h:25
+>> asm_volatile_goto("1:"
+>>
+>> However, the actual instruction in memory at the time is:
+>>
+>>    0xffffffff814878f8 <+408>: jmpq   0xffffffff8148787f <free_thread_stack+287>
+>>
+>> Which jumps to a wrong location in free_thread_stack and makes it loop.
+>>
+>> The static branch is this:
+>>
+>> static inline bool memcg_kmem_enabled(void)
+>> {
+>>   return static_branch_unlikely(&memcg_kmem_enabled_key);
+>> }
+>>
+>> static inline void memcg_kmem_uncharge(struct page *page, int order)
+>> {
+>>   if (memcg_kmem_enabled())
+>>     __memcg_kmem_uncharge(page, order);
+>> }
+>>
+>> I suspect it may have something to do with loop unrolling. It may jump
+>> to the right location, but in the wrong unrolled iteration.
+>
+>
+> Kernel built with clang version 10.0.0
+> (https://github.com/llvm/llvm-project.git
+> c2443155a0fb245c8f17f2c1c72b6ea391e86e81) works fine.
+>
+> Alex, please update clang on syzbot machines.
 
-							Thanx, Paul
+Wow, what a bug. Very happy to be off the hook for causing it, and
+feeling a lot better about my inability to reproduce it with a GCC-built
+kernel!
 
-> Thanks,
-> -- Marco
-> 
-> >                                                         Thanx, Paul
-> >
-> > > Thanks,
-> > > -- Marco
-> > >
-> > > >                                                         Thanx, Paul
-> > > >
-> > > > >  kernel/kcsan/core.c   |  15 +++--
-> > > > >  kernel/kcsan/kcsan.h  |   2 +-
-> > > > >  kernel/kcsan/report.c | 153 +++++++++++++++++++++++++++++++++++-------
-> > > > >  lib/Kconfig.kcsan     |  10 +++
-> > > > >  4 files changed, 148 insertions(+), 32 deletions(-)
-> > > > >
-> > > > > --
-> > > > > 2.25.0.rc1.283.g88dfdc4193-goog
-> > > > >
-> > > >
-> > > > --
-> > > > You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-> > > > To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-> > > > To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200109162739.GS13449%40paulmck-ThinkPad-P72.
+Regards,
+Daniel
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200109204641.GW13449%40paulmck-ThinkPad-P72.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/87a76wnrfc.fsf%40dja-thinkpad.axtens.net.
