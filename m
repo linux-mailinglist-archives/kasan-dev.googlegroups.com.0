@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBB6UK3XYAKGQELUFYSGI@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBB7MK3XYAKGQEC26FQQA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33e.google.com (mail-wm1-x33e.google.com [IPv6:2a00:1450:4864:20::33e])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC32C135C9D
-	for <lists+kasan-dev@lfdr.de>; Thu,  9 Jan 2020 16:23:38 +0100 (CET)
-Received: by mail-wm1-x33e.google.com with SMTP id 7sf574335wmf.9
-        for <lists+kasan-dev@lfdr.de>; Thu, 09 Jan 2020 07:23:38 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1578583418; cv=pass;
+Received: from mail-wr1-x43e.google.com (mail-wr1-x43e.google.com [IPv6:2a00:1450:4864:20::43e])
+	by mail.lfdr.de (Postfix) with ESMTPS id C5611135C9F
+	for <lists+kasan-dev@lfdr.de>; Thu,  9 Jan 2020 16:23:41 +0100 (CET)
+Received: by mail-wr1-x43e.google.com with SMTP id j13sf2991213wrr.20
+        for <lists+kasan-dev@lfdr.de>; Thu, 09 Jan 2020 07:23:41 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1578583421; cv=pass;
         d=google.com; s=arc-20160816;
-        b=AzCJxNWlnMTRAhx7ivRNN3eRbMvyjrQijAieNQRqZH+RnP2Ze/5W23o5DWTmVBy4Ed
-         LffVQJK4WM96pSOt/XihG2m+1ghKLb36WRyTToizOZ6hxGEqBotW/o9c/7FU/NQf/x1U
-         yGtAU29KpfcONhoIYIi1mGBdROkHA9NQrWvH8haeiDjJFg3BNRivIDrUyCpzSoTL5JRP
-         /aCriSNfgC3zfEME6oKFUeTseWUW8uWhviDKqbesBFjGr2cXWU/Y+h0DCuDuSzmllCch
-         WJEnHNrCr9ngwV824YAWnOUXGudritelBda2zzPsyeJbhvwUTVwWq6rSHjMLAbpVFMZr
-         Nl8A==
+        b=W/vN2PHLTRMYjXQ4ZnVpTsIPSVrapvYaapxLteaFSYHqEL55pevbJjx0EU5PNxA/de
+         sJSTduM2xQLU/69xYuE8zqSZo0FAJE2OQgNZTY5hkqsYD+SmiJ3F5fbn7OF8flYY3TRT
+         mGCVcy9BXT4fQy6HmaXucdrpfYkfUEIb9l5n3n4qXExXgJolPFkieW8lfUOx/N/Z8Kk3
+         c7Dzs3D97SbY3GLDAIbLjilOIl2D0bqmEEt6LJIg08uY5hT8HY5tu1ZtVnMtVkpUqNh/
+         Q8QNweo1Hx0n9uWSTE/8iDp8FiJTlKwdSajhtpQPl+fldRRoZsrx69irhFbaWXqzNbBe
+         DlDQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
          :references:mime-version:message-id:in-reply-to:date:dkim-signature;
-        bh=I+tbXx3H5IcFp+3OIIJ1svEagXPL82DG9EHZDztOkRs=;
-        b=FTtPUoF2u+C1S9/Z+Sy7F2vrmL/F9GuIGD3MKhroFv7ddUKLCvusfrrP0H+2kk0mEV
-         /L15meG+y68Ksx09csOdT9AcVzXhPFiVOAxiYW0OPXKfDTRcst4Jy/bUpIMUPPTkqUMx
-         Tfs+RW//6eJgsWtG6cY2KpXIvBzT9ldgcKfqrovmm+xZhvP+0LMqEGkS/APjcNn3hAop
-         tA2dh6PlSPLp9yXkgG0oHFbOs9R41wrKXXSXNqrALe/QQA/D5o/VARkOWtYPUtLnhiHE
-         DtB05YrJV6K0Gcqcea0Ue95XObZKdqwfckUwRYygDdgflkhFk0vHD6xFCdB7Yikbsbra
-         gZDw==
+        bh=8qhAKdmPPKPHei4JPS8f1wdAm8q6DriKQich+EidZlE=;
+        b=IzU2czKfFnlptROOLbbjRx61FjtBc8DxJQQMuvdr+NzPYL3kdB3NX/zG7wd9KmuY4X
+         lsC4jpSGtE5dizfuwt9ASvUcybkMO6qt8A2THg3N/7cgzJHRCoFA9rE/h0PAxdywt5ar
+         abIEPPMZV3knsQs406laiCv98PG6zafvZ9hXwf/3j2Pxf5HkSmQ+JH27F6P10DW1w3eM
+         Jy4nQE+aYTVB5YbH3IpSL5J8tVg2m0NLY1s5Va9xUN73rVM5LiJGiWr83bFy56cQ2/hq
+         TqlDzqyeyFvhPWpx+/TI1F0wncSV8+DgvkcUTC3iJ8VwvbBfaI20cfdur/DH6bg2peMb
+         sdIQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=YFVOVJQJ;
-       spf=pass (google.com: domain of 3euuxxgukcvg4bl4h6ee6b4.2eca0i0d-34l6ee6b46hekfi.2ec@flex--elver.bounces.google.com designates 2a00:1450:4864:20::449 as permitted sender) smtp.mailfrom=3eUUXXgUKCVg4BL4H6EE6B4.2ECA0I0D-34L6EE6B46HEKFI.2EC@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=vffo9f1x;
+       spf=pass (google.com: domain of 3feuxxgukcvs7eo7k9hh9e7.5hfd3l3g-67o9hh9e79khnil.5hf@flex--elver.bounces.google.com designates 2a00:1450:4864:20::349 as permitted sender) smtp.mailfrom=3fEUXXgUKCVs7EO7K9HH9E7.5HFD3L3G-67O9HH9E79KHNIL.5HF@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=I+tbXx3H5IcFp+3OIIJ1svEagXPL82DG9EHZDztOkRs=;
-        b=c3b9AuyHFwKNKN520kiKYMvs4Ze2fEKzTf4ue4ojd3uWJLUIrDWh9o3ZQwBtHhTlwX
-         6bbIZZzot1w3Jz04T4qlJqzs63B2vbGX8/qLlU6W8tx9f1q/HXC2Urx9YbXXHiWgz5bQ
-         /V6jmftwZLR9Vzm1FCzqf6rZ6LyB+4DTgi76g9BQZNCJDCzogexGKeohguUb4O4YXCrY
-         QPl4lQEfY6ONrzThNtwcyQvJ1CE6JYfoToKUOA+po+p08KZLoX1Pyoj7P6JhAVLBiteO
-         1zNXCdq4MkxL1dy7YE+mfsb956EcWhssQrGY/NKfkztG7LXjC/22/DgSJKJ4chfROJLM
-         UTLg==
+        bh=8qhAKdmPPKPHei4JPS8f1wdAm8q6DriKQich+EidZlE=;
+        b=JOEHOtro2cY+xufF1/gKLJnntohVJ+sbIC0XS5h9F/3KOD3CqGLGxjbT23ekzSuYU1
+         caRAfwp6W0nOMKsTbAirJ9ODFAKk5GkEP9L1rtvR2TZUDbEKR5GHxdwF8LVQ74TeMJGP
+         yYxOvX3XlG0sKioL2JQBtf7lbcoQ79TF20sXq683RulqoOh3sIaul65duEq25oXrFXDv
+         bMUuc0ic2aG+rNEKPoCrE865GEfOBNOXrap/bu1OgYYHnugG2aykr9jrUM344+R3jCtq
+         jDi2wQG1KkUJ46n+Vu9H2NePexXQVUNJB3XkRjTVxLYKUPQ5d1qwYUhnbQfaqaLNvoA1
+         Sbkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
@@ -49,72 +49,73 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=I+tbXx3H5IcFp+3OIIJ1svEagXPL82DG9EHZDztOkRs=;
-        b=SxrzUky8Z5hSwYUlhPMAu7SRppJ02oDBqZ+fHvLHGWgILFe44//jFOSSQZEnTFPMPX
-         OIgPtN3YjtQN37Wfgk20PBf3HHeoWh0EU5WdaC1FkQ88LNYMJWi1kA0S8ZsZ6kp9eOnr
-         7CLDHR4W6Yuu6mjWGy3ZnUvJdBn7ClZPuW1TcCEMOjKnmrjkV9+L1ceYf+FygiZYXUqJ
-         9rdE/McNUGYunDDcc4eXzJ73Xu8wcJ8LWYNGau2mta3FI8vJvnb/XISXmq5VP9uMg8WL
-         PpockHtuch8AQLxPJ6k/7bZcvbnp1D9HRFZNqUKXgVIoSCd1t+chGNH26xrlU+TRSAhZ
-         4+rA==
-X-Gm-Message-State: APjAAAXaooAB+NmJUXBo1DeqKP/ACOhnCM5XNkP6LfRFyQ4BAyGnmptw
-	4Dp3qG/WP57ZJiwJ95DP8sM=
-X-Google-Smtp-Source: APXvYqwZKeOgJzg1WcKfjv+1bthZyuV8FUgqFl7gH7u59DJhyDVY7JEac4fmJYtbchbCVcVRMHapdA==
-X-Received: by 2002:a5d:6708:: with SMTP id o8mr11708076wru.296.1578583418579;
-        Thu, 09 Jan 2020 07:23:38 -0800 (PST)
+        bh=8qhAKdmPPKPHei4JPS8f1wdAm8q6DriKQich+EidZlE=;
+        b=AzxtaFk8ZKrzebH3kpGJsB366YJOwly7XtK9NtP9CrbbHG/yhMMxtwQ9XyiktxGe2s
+         fN30hhc5cb+C8arxDJXfLcfGa9h0F7vVtUe74ckO8x0jJJODwNfEIEvozzz5Xe0Uihr4
+         EtJZvf9J8aiJcfWFNboWSHLSD/j00fn8BBj2jMbjffQ/MJ5Q4tf3+IRAB1mmzYbMpzvd
+         Zm65mOODLBIUFUFC5dHLUyoBC3/8mqfvU9Ham9ICPEBG0vQ0bcWrjukFrgMCYA+133Z1
+         DhKIPWQSObMVEadM2ITzKVUrSuv9i7C2boXMcQ15G74A+sTfeErxanNQeMbexd7jsoyF
+         2ViA==
+X-Gm-Message-State: APjAAAVddZSiGuOJPCzCRyUbyRT5h8U8Cr53qowtoLQOJjX1Kk+0b+DQ
+	O47au9PfLM1KDriJ04joJSE=
+X-Google-Smtp-Source: APXvYqweeigyGG6oyyPVf+GKhSqKTSJrOdKnx5yhm5p5UP1me1rWetilQeCvuap1C+beffJAAywpLA==
+X-Received: by 2002:a1c:62c1:: with SMTP id w184mr5762815wmb.150.1578583421426;
+        Thu, 09 Jan 2020 07:23:41 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a7b:c76b:: with SMTP id x11ls963312wmk.3.gmail; Thu, 09 Jan
- 2020 07:23:37 -0800 (PST)
-X-Received: by 2002:a7b:c7d4:: with SMTP id z20mr5996891wmk.42.1578583417960;
-        Thu, 09 Jan 2020 07:23:37 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1578583417; cv=none;
+Received: by 2002:a7b:cb55:: with SMTP id v21ls960787wmj.4.canary-gmail; Thu,
+ 09 Jan 2020 07:23:40 -0800 (PST)
+X-Received: by 2002:a1c:6707:: with SMTP id b7mr5779250wmc.54.1578583420821;
+        Thu, 09 Jan 2020 07:23:40 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1578583420; cv=none;
         d=google.com; s=arc-20160816;
-        b=IIkR+yK40WVsyC5KVZ3dPgvO0o3mPhb4XumC4caaYuyoqV2uiY9kca/udMU60X4lcU
-         MQIN3lRv9+4Uou+SV03be+/xHqS8mbujk9Ar6kWemcRmboRLqdDhtoI5vZEFVQNiNvxp
-         DVJR9dMjs0KUrMyzBgQxlChylB70aazWBhLsubzyZdLSIV0CUlhtvVPwid+3LTBMbWmp
-         ObeWTX/Tv9LNgoz+Q7TJyufxGeshMx0fciGKaXPCvI/kza+eC4wHxbJVqwenPi36oqyA
-         t2gWaQ0tXVXQNzQxUxCaHp6zDXj5Qi/D8CHOw15OJle5EkUQjVts77mlxXPwNYN6zI4H
-         07+w==
+        b=eiqmrCT321QB/92eh65AXkySrZxdermhjekecq1wuaO3xlW8hZgSk5lRjGPRB8EZJc
+         sdEWMmeXquduqPpBtDm5LZBYFsBM7KWnY6zvbpYyRT7SP6tVeIlL9mC/prlx/rBxmPMv
+         GpcgVOpkC8nq9XC+SDpsPtm81nZrV75IKVs8Lgg6X6l6aBffuScx6LTZqqR11M4MouYg
+         aW/OEWd+8db8QaEqwZnqRT0eAls5lXYnkhvYVvpha9+KHt9YSBTdhnePtnOhUz4ScrO5
+         kd2fd1crl/eRce0lfRMYEts7x8+S0IS1Yt663o+QMRnjyTWyWT+6ziBJ4prEU8b7dOh5
+         Xxiw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
          :date:dkim-signature;
-        bh=jq0KfymqHCwAzpI6yM9iLGY3LYJxpSimWAtJZq35DB8=;
-        b=pTT+eG6Lf7o/nFgr7768uWa1o2louGOsFSt+7epmla4vREhge4zhF+Kbrh2BpqKXcL
-         OVbj4tQTbh6TasDfQ1SkeygxZ54CN2zc8me2mvT1a1lnD5RtIftUaHt6I8BBZ2holnx+
-         NdoYzWB/g8YYJqG6jriyw/pu7NEf9lKlo0JhJVqH5pObl1D7kZw+04w1fNo6Zfyj544y
-         eOuPqdxnuwzW+J8Xx5RWBKen8t7iyO9rpIidjqWmuEElY1fYhweRRuU6SCp7TGKGV48f
-         ysjOFGetHYGySavX/q+CAR//2SDpbSVK6ScVLm1ZaWNIAGxkvixEe4Nys7qBqK0L628a
-         h9Pw==
+        bh=BwDt6lrR16c2nuKNqASjxv2dJeJjfu/H1rhKllUpnIM=;
+        b=XgcjQEbOmwdPdPi82NIBx9Kx6fwwYOqVvhuKuaD7J4vt2DGVHaLPMfDVxsDP+VhjZE
+         dOLa0hyI2lh9zQeQDEO0Th9lkOXEHPQ3ZOwTYxB9qz3qq8k2B2qtqFdc96w6/ZEB4s3u
+         rD+Zp5twklMGRE0O2GmfmRHqZZ9EnRWrSpXrANtXVIDNjAMU6dIjwd2irhcoB39KTWcU
+         5BLj1uit5oX/Pp29sVLAB7ZaMvS3JcRgLANjq62pwBKLJ6rK2d6Nr9x/qghC4STragfr
+         FnEfSgY7sjkrQwQtuI1cy6f4v19S58lPmbd8MOTiEsvNCKISrfmi1LeucAynuqLJlnGA
+         noNA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=YFVOVJQJ;
-       spf=pass (google.com: domain of 3euuxxgukcvg4bl4h6ee6b4.2eca0i0d-34l6ee6b46hekfi.2ec@flex--elver.bounces.google.com designates 2a00:1450:4864:20::449 as permitted sender) smtp.mailfrom=3eUUXXgUKCVg4BL4H6EE6B4.2ECA0I0D-34L6EE6B46HEKFI.2EC@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=vffo9f1x;
+       spf=pass (google.com: domain of 3feuxxgukcvs7eo7k9hh9e7.5hfd3l3g-67o9hh9e79khnil.5hf@flex--elver.bounces.google.com designates 2a00:1450:4864:20::349 as permitted sender) smtp.mailfrom=3fEUXXgUKCVs7EO7K9HH9E7.5HFD3L3G-67O9HH9E79KHNIL.5HF@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-wr1-x449.google.com (mail-wr1-x449.google.com. [2a00:1450:4864:20::449])
-        by gmr-mx.google.com with ESMTPS id u9si312893wri.3.2020.01.09.07.23.37
+Received: from mail-wm1-x349.google.com (mail-wm1-x349.google.com. [2a00:1450:4864:20::349])
+        by gmr-mx.google.com with ESMTPS id p23si155912wma.1.2020.01.09.07.23.40
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Jan 2020 07:23:37 -0800 (PST)
-Received-SPF: pass (google.com: domain of 3euuxxgukcvg4bl4h6ee6b4.2eca0i0d-34l6ee6b46hekfi.2ec@flex--elver.bounces.google.com designates 2a00:1450:4864:20::449 as permitted sender) client-ip=2a00:1450:4864:20::449;
-Received: by mail-wr1-x449.google.com with SMTP id k18so3018295wrw.9
-        for <kasan-dev@googlegroups.com>; Thu, 09 Jan 2020 07:23:37 -0800 (PST)
-X-Received: by 2002:a5d:5704:: with SMTP id a4mr11552160wrv.198.1578583417361;
- Thu, 09 Jan 2020 07:23:37 -0800 (PST)
-Date: Thu,  9 Jan 2020 16:23:21 +0100
+        Thu, 09 Jan 2020 07:23:40 -0800 (PST)
+Received-SPF: pass (google.com: domain of 3feuxxgukcvs7eo7k9hh9e7.5hfd3l3g-67o9hh9e79khnil.5hf@flex--elver.bounces.google.com designates 2a00:1450:4864:20::349 as permitted sender) client-ip=2a00:1450:4864:20::349;
+Received: by mail-wm1-x349.google.com with SMTP id h130so1046054wme.7
+        for <kasan-dev@googlegroups.com>; Thu, 09 Jan 2020 07:23:40 -0800 (PST)
+X-Received: by 2002:a5d:540f:: with SMTP id g15mr11173097wrv.86.1578583420349;
+ Thu, 09 Jan 2020 07:23:40 -0800 (PST)
+Date: Thu,  9 Jan 2020 16:23:22 +0100
 In-Reply-To: <20200109152322.104466-1-elver@google.com>
-Message-Id: <20200109152322.104466-2-elver@google.com>
+Message-Id: <20200109152322.104466-3-elver@google.com>
 Mime-Version: 1.0
 References: <20200109152322.104466-1-elver@google.com>
 X-Mailer: git-send-email 2.25.0.rc1.283.g88dfdc4193-goog
-Subject: [PATCH -rcu 1/2] kcsan: Show full access type in report
+Subject: [PATCH -rcu 2/2] kcsan: Rate-limit reporting per data races
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
 To: elver@google.com
 Cc: paulmck@kernel.org, andreyknvl@google.com, glider@google.com, 
-	dvyukov@google.com, kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org
+	dvyukov@google.com, kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org, 
+	Qian Cai <cai@lca.pw>
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=YFVOVJQJ;       spf=pass
- (google.com: domain of 3euuxxgukcvg4bl4h6ee6b4.2eca0i0d-34l6ee6b46hekfi.2ec@flex--elver.bounces.google.com
- designates 2a00:1450:4864:20::449 as permitted sender) smtp.mailfrom=3eUUXXgUKCVg4BL4H6EE6B4.2ECA0I0D-34L6EE6B46HEKFI.2EC@flex--elver.bounces.google.com;
+ header.i=@google.com header.s=20161025 header.b=vffo9f1x;       spf=pass
+ (google.com: domain of 3feuxxgukcvs7eo7k9hh9e7.5hfd3l3g-67o9hh9e79khnil.5hf@flex--elver.bounces.google.com
+ designates 2a00:1450:4864:20::349 as permitted sender) smtp.mailfrom=3fEUXXgUKCVs7EO7K9HH9E7.5HFD3L3G-67O9HH9E79KHNIL.5HF@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Marco Elver <elver@google.com>
 Reply-To: Marco Elver <elver@google.com>
@@ -130,234 +131,223 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-This change adds support for showing the complete access type in the
-report. Currently the following access types can be shown:
-  "read", "read (marked)", "write", "write (marked)".
+Adds support for rate limiting reports. This uses a time based rate
+limit, that limits any given data race report to no more than one in a
+fixed time window (default is 3 sec). This should prevent the console
+from being spammed with data race reports, that would render the system
+unusable.
 
+The implementation assumes that unique data races and the rate at which
+they occur is bounded, since we cannot store arbitrarily many past data
+race report information: we use a fixed-size array to store the required
+information. We cannot use kmalloc/krealloc and resize the list when
+needed, as reporting is triggered by the instrumentation calls; to
+permit using KCSAN on the allocators, we cannot (re-)allocate any memory
+during report generation (data races in the allocators lead to
+deadlock).
+
+Reported-by: Qian Cai <cai@lca.pw>
 Suggested-by: Paul E. McKenney <paulmck@kernel.org>
 Signed-off-by: Marco Elver <elver@google.com>
 ---
- kernel/kcsan/core.c   | 15 ++++++++-------
- kernel/kcsan/kcsan.h  |  2 +-
- kernel/kcsan/report.c | 43 ++++++++++++++++++++++++++++---------------
- 3 files changed, 37 insertions(+), 23 deletions(-)
+ kernel/kcsan/report.c | 112 ++++++++++++++++++++++++++++++++++++++----
+ lib/Kconfig.kcsan     |  10 ++++
+ 2 files changed, 112 insertions(+), 10 deletions(-)
 
-diff --git a/kernel/kcsan/core.c b/kernel/kcsan/core.c
-index 4d4ab5c5dc53..87bf857c8893 100644
---- a/kernel/kcsan/core.c
-+++ b/kernel/kcsan/core.c
-@@ -255,7 +255,7 @@ static inline unsigned int get_delay(void)
- 
- static noinline void kcsan_found_watchpoint(const volatile void *ptr,
- 					    size_t size,
--					    bool is_write,
-+					    int type,
- 					    atomic_long_t *watchpoint,
- 					    long encoded_watchpoint)
- {
-@@ -276,7 +276,7 @@ static noinline void kcsan_found_watchpoint(const volatile void *ptr,
- 	flags = user_access_save();
- 
- 	if (consumed) {
--		kcsan_report(ptr, size, is_write, true, raw_smp_processor_id(),
-+		kcsan_report(ptr, size, type, true, raw_smp_processor_id(),
- 			     KCSAN_REPORT_CONSUMED_WATCHPOINT);
- 	} else {
- 		/*
-@@ -292,8 +292,9 @@ static noinline void kcsan_found_watchpoint(const volatile void *ptr,
- }
- 
- static noinline void
--kcsan_setup_watchpoint(const volatile void *ptr, size_t size, bool is_write)
-+kcsan_setup_watchpoint(const volatile void *ptr, size_t size, int type)
- {
-+	const bool is_write = (type & KCSAN_ACCESS_WRITE) != 0;
- 	atomic_long_t *watchpoint;
- 	union {
- 		u8 _1;
-@@ -415,13 +416,13 @@ kcsan_setup_watchpoint(const volatile void *ptr, size_t size, bool is_write)
- 		 * No need to increment 'data_races' counter, as the racing
- 		 * thread already did.
- 		 */
--		kcsan_report(ptr, size, is_write, size > 8 || value_change,
-+		kcsan_report(ptr, size, type, size > 8 || value_change,
- 			     smp_processor_id(), KCSAN_REPORT_RACE_SIGNAL);
- 	} else if (value_change) {
- 		/* Inferring a race, since the value should not have changed. */
- 		kcsan_counter_inc(KCSAN_COUNTER_RACES_UNKNOWN_ORIGIN);
- 		if (IS_ENABLED(CONFIG_KCSAN_REPORT_RACE_UNKNOWN_ORIGIN))
--			kcsan_report(ptr, size, is_write, true,
-+			kcsan_report(ptr, size, type, true,
- 				     smp_processor_id(),
- 				     KCSAN_REPORT_RACE_UNKNOWN_ORIGIN);
- 	}
-@@ -455,10 +456,10 @@ static __always_inline void check_access(const volatile void *ptr, size_t size,
- 	 */
- 
- 	if (unlikely(watchpoint != NULL))
--		kcsan_found_watchpoint(ptr, size, is_write, watchpoint,
-+		kcsan_found_watchpoint(ptr, size, type, watchpoint,
- 				       encoded_watchpoint);
- 	else if (unlikely(should_watch(ptr, type)))
--		kcsan_setup_watchpoint(ptr, size, is_write);
-+		kcsan_setup_watchpoint(ptr, size, type);
- }
- 
- /* === Public interface ===================================================== */
-diff --git a/kernel/kcsan/kcsan.h b/kernel/kcsan/kcsan.h
-index d3b9a96ac8a4..8492da45494b 100644
---- a/kernel/kcsan/kcsan.h
-+++ b/kernel/kcsan/kcsan.h
-@@ -103,7 +103,7 @@ enum kcsan_report_type {
- /*
-  * Print a race report from thread that encountered the race.
-  */
--extern void kcsan_report(const volatile void *ptr, size_t size, bool is_write,
-+extern void kcsan_report(const volatile void *ptr, size_t size, int access_type,
- 			 bool value_change, int cpu_id, enum kcsan_report_type type);
- 
- #endif /* _KERNEL_KCSAN_KCSAN_H */
 diff --git a/kernel/kcsan/report.c b/kernel/kcsan/report.c
-index 0eea05a3135b..9f503ca2ff7a 100644
+index 9f503ca2ff7a..e324af7d14c9 100644
 --- a/kernel/kcsan/report.c
 +++ b/kernel/kcsan/report.c
-@@ -24,7 +24,7 @@
- static struct {
- 	const volatile void	*ptr;
- 	size_t			size;
--	bool			is_write;
-+	int			access_type;
- 	int			task_pid;
- 	int			cpu_id;
- 	unsigned long		stack_entries[NUM_STACK_ENTRIES];
-@@ -41,8 +41,10 @@ static DEFINE_SPINLOCK(report_lock);
+@@ -1,6 +1,7 @@
+ // SPDX-License-Identifier: GPL-2.0
+ 
+ #include <linux/kernel.h>
++#include <linux/ktime.h>
+ #include <linux/preempt.h>
+ #include <linux/printk.h>
+ #include <linux/sched.h>
+@@ -31,12 +32,101 @@ static struct {
+ 	int			num_stack_entries;
+ } other_info = { .ptr = NULL };
+ 
++/*
++ * Information about reported data races; used to rate limit reporting.
++ */
++struct report_time {
++	/*
++	 * The last time the data race was reported.
++	 */
++	ktime_t time;
++
++	/*
++	 * The frames of the 2 threads; if only 1 thread is known, one frame
++	 * will be 0.
++	 */
++	unsigned long frame1;
++	unsigned long frame2;
++};
++
++/*
++ * Since we also want to be able to debug allocators with KCSAN, to avoid
++ * deadlock, report_times cannot be dynamically resized with krealloc in
++ * rate_limit_report.
++ *
++ * Therefore, we use a fixed-size array, which at most will occupy a page. This
++ * still adequately rate limits reports, assuming that a) number of unique data
++ * races is not excessive, and b) occurrence of unique data races within the
++ * same time window is limited.
++ */
++#define REPORT_TIMES_MAX (PAGE_SIZE / sizeof(struct report_time))
++#define REPORT_TIMES_SIZE                                                      \
++	(CONFIG_KCSAN_REPORT_ONCE_IN_MS > REPORT_TIMES_MAX ?                   \
++		 REPORT_TIMES_MAX :                                            \
++		 CONFIG_KCSAN_REPORT_ONCE_IN_MS)
++static struct report_time report_times[REPORT_TIMES_SIZE];
++
+ /*
+  * This spinlock protects reporting and other_info, since other_info is usually
+  * required when reporting.
+  */
+ static DEFINE_SPINLOCK(report_lock);
+ 
++/*
++ * Checks if the data race identified by thread frames frame1 and frame2 has
++ * been reported since (now - KCSAN_REPORT_ONCE_IN_MS).
++ */
++static bool rate_limit_report(unsigned long frame1, unsigned long frame2)
++{
++	struct report_time *use_entry = &report_times[0];
++	ktime_t now;
++	ktime_t invalid_before;
++	int i;
++
++	BUILD_BUG_ON(CONFIG_KCSAN_REPORT_ONCE_IN_MS != 0 && REPORT_TIMES_SIZE == 0);
++
++	if (CONFIG_KCSAN_REPORT_ONCE_IN_MS == 0)
++		return false;
++
++	now = ktime_get();
++	invalid_before = ktime_sub_ms(now, CONFIG_KCSAN_REPORT_ONCE_IN_MS);
++
++	/* Check if a matching data race report exists. */
++	for (i = 0; i < REPORT_TIMES_SIZE; ++i) {
++		struct report_time *rt = &report_times[i];
++
++		/*
++		 * Must always select an entry for use to store info as we
++		 * cannot resize report_times; at the end of the scan, use_entry
++		 * will be the oldest entry, which ideally also happened before
++		 * KCSAN_REPORT_ONCE_IN_MS ago.
++		 */
++		if (ktime_before(rt->time, use_entry->time))
++			use_entry = rt;
++
++		/*
++		 * Initially, no need to check any further as this entry as well
++		 * as following entries have never been used.
++		 */
++		if (rt->time == 0)
++			break;
++
++		/* Check if entry expired. */
++		if (ktime_before(rt->time, invalid_before))
++			continue; /* before KCSAN_REPORT_ONCE_IN_MS ago */
++
++		/* Reported recently, check if data race matches. */
++		if ((rt->frame1 == frame1 && rt->frame2 == frame2) ||
++		    (rt->frame1 == frame2 && rt->frame2 == frame1))
++			return true;
++	}
++
++	use_entry->time = now;
++	use_entry->frame1 = frame1;
++	use_entry->frame2 = frame2;
++	return false;
++}
++
+ /*
   * Special rules to skip reporting.
   */
- static bool
--skip_report(bool is_write, bool value_change, unsigned long top_frame)
-+skip_report(int access_type, bool value_change, unsigned long top_frame)
- {
-+	const bool is_write = (access_type & KCSAN_ACCESS_WRITE) != 0;
-+
- 	if (IS_ENABLED(CONFIG_KCSAN_REPORT_VALUE_CHANGE_ONLY) && is_write &&
- 	    !value_change) {
- 		/*
-@@ -63,9 +65,20 @@ skip_report(bool is_write, bool value_change, unsigned long top_frame)
- 	return kcsan_skip_report_debugfs(top_frame);
- }
+@@ -132,7 +222,9 @@ static bool print_report(const volatile void *ptr, size_t size, int access_type,
+ 	unsigned long stack_entries[NUM_STACK_ENTRIES] = { 0 };
+ 	int num_stack_entries = stack_trace_save(stack_entries, NUM_STACK_ENTRIES, 1);
+ 	int skipnr = get_stack_skipnr(stack_entries, num_stack_entries);
+-	int other_skipnr;
++	unsigned long this_frame = stack_entries[skipnr];
++	unsigned long other_frame = 0;
++	int other_skipnr = 0; /* silence uninit warnings */
  
--static inline const char *get_access_type(bool is_write)
-+static const char *get_access_type(int type)
- {
--	return is_write ? "write" : "read";
-+	switch (type) {
-+	case 0:
-+		return "read";
-+	case KCSAN_ACCESS_ATOMIC:
-+		return "read (marked)";
-+	case KCSAN_ACCESS_WRITE:
-+		return "write";
-+	case KCSAN_ACCESS_WRITE | KCSAN_ACCESS_ATOMIC:
-+		return "write (marked)";
-+	default:
-+		BUG();
-+	}
- }
- 
- /* Return thread description: in task or interrupt. */
-@@ -112,7 +125,7 @@ static int sym_strcmp(void *addr1, void *addr2)
- /*
-  * Returns true if a report was generated, false otherwise.
-  */
--static bool print_report(const volatile void *ptr, size_t size, bool is_write,
-+static bool print_report(const volatile void *ptr, size_t size, int access_type,
- 			 bool value_change, int cpu_id,
- 			 enum kcsan_report_type type)
- {
-@@ -124,7 +137,7 @@ static bool print_report(const volatile void *ptr, size_t size, bool is_write,
  	/*
  	 * Must check report filter rules before starting to print.
- 	 */
--	if (skip_report(is_write, true, stack_entries[skipnr]))
-+	if (skip_report(access_type, true, stack_entries[skipnr]))
- 		return false;
- 
+@@ -143,34 +235,34 @@ static bool print_report(const volatile void *ptr, size_t size, int access_type,
  	if (type == KCSAN_REPORT_RACE_SIGNAL) {
-@@ -132,7 +145,7 @@ static bool print_report(const volatile void *ptr, size_t size, bool is_write,
+ 		other_skipnr = get_stack_skipnr(other_info.stack_entries,
  						other_info.num_stack_entries);
++		other_frame = other_info.stack_entries[other_skipnr];
  
  		/* @value_change is only known for the other thread */
--		if (skip_report(other_info.is_write, value_change,
-+		if (skip_report(other_info.access_type, value_change,
- 				other_info.stack_entries[other_skipnr]))
+-		if (skip_report(other_info.access_type, value_change,
+-				other_info.stack_entries[other_skipnr]))
++		if (skip_report(other_info.access_type, value_change, other_frame))
  			return false;
  	}
-@@ -170,7 +183,7 @@ static bool print_report(const volatile void *ptr, size_t size, bool is_write,
+ 
++	if (rate_limit_report(this_frame, other_frame))
++		return false;
++
+ 	/* Print report header. */
+ 	pr_err("==================================================================\n");
  	switch (type) {
- 	case KCSAN_REPORT_RACE_SIGNAL:
- 		pr_err("%s to 0x%px of %zu bytes by %s on cpu %i:\n",
--		       get_access_type(other_info.is_write), other_info.ptr,
-+		       get_access_type(other_info.access_type), other_info.ptr,
- 		       other_info.size, get_thread_desc(other_info.task_pid),
- 		       other_info.cpu_id);
+ 	case KCSAN_REPORT_RACE_SIGNAL: {
+-		void *this_fn = (void *)stack_entries[skipnr];
+-		void *other_fn = (void *)other_info.stack_entries[other_skipnr];
+ 		int cmp;
  
-@@ -181,14 +194,14 @@ static bool print_report(const volatile void *ptr, size_t size, bool is_write,
- 
- 		pr_err("\n");
- 		pr_err("%s to 0x%px of %zu bytes by %s on cpu %i:\n",
--		       get_access_type(is_write), ptr, size,
-+		       get_access_type(access_type), ptr, size,
- 		       get_thread_desc(in_task() ? task_pid_nr(current) : -1),
- 		       cpu_id);
- 		break;
+ 		/*
+ 		 * Order functions lexographically for consistent bug titles.
+ 		 * Do not print offset of functions to keep title short.
+ 		 */
+-		cmp = sym_strcmp(other_fn, this_fn);
++		cmp = sym_strcmp((void *)other_frame, (void *)this_frame);
+ 		pr_err("BUG: KCSAN: data-race in %ps / %ps\n",
+-		       cmp < 0 ? other_fn : this_fn,
+-		       cmp < 0 ? this_fn : other_fn);
++		       (void *)(cmp < 0 ? other_frame : this_frame),
++		       (void *)(cmp < 0 ? this_frame : other_frame));
+ 	} break;
  
  	case KCSAN_REPORT_RACE_UNKNOWN_ORIGIN:
- 		pr_err("race at unknown origin, with %s to 0x%px of %zu bytes by %s on cpu %i:\n",
--		       get_access_type(is_write), ptr, size,
-+		       get_access_type(access_type), ptr, size,
- 		       get_thread_desc(in_task() ? task_pid_nr(current) : -1),
- 		       cpu_id);
+-		pr_err("BUG: KCSAN: data-race in %pS\n",
+-		       (void *)stack_entries[skipnr]);
++		pr_err("BUG: KCSAN: data-race in %pS\n", (void *)this_frame);
  		break;
-@@ -223,7 +236,7 @@ static void release_report(unsigned long *flags, enum kcsan_report_type type)
-  * required for the report type, simply acquires report_lock and returns true.
-  */
- static bool prepare_report(unsigned long *flags, const volatile void *ptr,
--			   size_t size, bool is_write, int cpu_id,
-+			   size_t size, int access_type, int cpu_id,
- 			   enum kcsan_report_type type)
- {
- 	if (type != KCSAN_REPORT_CONSUMED_WATCHPOINT &&
-@@ -243,7 +256,7 @@ static bool prepare_report(unsigned long *flags, const volatile void *ptr,
  
- 		other_info.ptr			= ptr;
- 		other_info.size			= size;
--		other_info.is_write		= is_write;
-+		other_info.access_type		= access_type;
- 		other_info.task_pid		= in_task() ? task_pid_nr(current) : -1;
- 		other_info.cpu_id		= cpu_id;
- 		other_info.num_stack_entries	= stack_trace_save(other_info.stack_entries, NUM_STACK_ENTRIES, 1);
-@@ -302,14 +315,14 @@ static bool prepare_report(unsigned long *flags, const volatile void *ptr,
- 	goto retry;
- }
+ 	default:
+diff --git a/lib/Kconfig.kcsan b/lib/Kconfig.kcsan
+index 3f78b1434375..3552990abcfe 100644
+--- a/lib/Kconfig.kcsan
++++ b/lib/Kconfig.kcsan
+@@ -81,6 +81,16 @@ config KCSAN_SKIP_WATCH_RANDOMIZE
+ 	  KCSAN_WATCH_SKIP. If false, the chosen value is always
+ 	  KCSAN_WATCH_SKIP.
  
--void kcsan_report(const volatile void *ptr, size_t size, bool is_write,
-+void kcsan_report(const volatile void *ptr, size_t size, int access_type,
- 		  bool value_change, int cpu_id, enum kcsan_report_type type)
- {
- 	unsigned long flags = 0;
- 
- 	kcsan_disable_current();
--	if (prepare_report(&flags, ptr, size, is_write, cpu_id, type)) {
--		if (print_report(ptr, size, is_write, value_change, cpu_id, type) && panic_on_warn)
-+	if (prepare_report(&flags, ptr, size, access_type, cpu_id, type)) {
-+		if (print_report(ptr, size, access_type, value_change, cpu_id, type) && panic_on_warn)
- 			panic("panic_on_warn set ...\n");
- 
- 		release_report(&flags, type);
++config KCSAN_REPORT_ONCE_IN_MS
++	int "Duration in milliseconds, in which any given data race is only reported once"
++	default 3000
++	help
++	  Any given data race is only reported once in the defined time window.
++	  Different data races may still generate reports within a duration
++	  that is smaller than the duration defined here. This allows rate
++	  limiting reporting to avoid flooding the console with reports.
++	  Setting this to 0 disables rate limiting.
++
+ # Note that, while some of the below options could be turned into boot
+ # parameters, to optimize for the common use-case, we avoid this because: (a)
+ # it would impact performance (and we want to avoid static branch for all
 -- 
 2.25.0.rc1.283.g88dfdc4193-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200109152322.104466-2-elver%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200109152322.104466-3-elver%40google.com.
