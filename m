@@ -1,121 +1,165 @@
-Return-Path: <kasan-dev+bncBDQ27FVWWUFRB3PM33YAKGQEAIYTEQQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBC3JRV7SWYEBB3XO33YAKGQE6STAUIQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yw1-xc37.google.com (mail-yw1-xc37.google.com [IPv6:2607:f8b0:4864:20::c37])
-	by mail.lfdr.de (Postfix) with ESMTPS id A85921363C0
-	for <lists+kasan-dev@lfdr.de>; Fri, 10 Jan 2020 00:25:34 +0100 (CET)
-Received: by mail-yw1-xc37.google.com with SMTP id u199sf79401ywc.10
-        for <lists+kasan-dev@lfdr.de>; Thu, 09 Jan 2020 15:25:34 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1578612333; cv=pass;
+Received: from mail-pg1-x53a.google.com (mail-pg1-x53a.google.com [IPv6:2607:f8b0:4864:20::53a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B8C01363D5
+	for <lists+kasan-dev@lfdr.de>; Fri, 10 Jan 2020 00:29:52 +0100 (CET)
+Received: by mail-pg1-x53a.google.com with SMTP id l13sf154826pgt.5
+        for <lists+kasan-dev@lfdr.de>; Thu, 09 Jan 2020 15:29:52 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1578612591; cv=pass;
         d=google.com; s=arc-20160816;
-        b=cYk764Y9PbwgI7e6DvUOLhsv7gOSAdyK6x8hZMZ+OZqrPFPmyS4d3sVkXJ/5WCjYUs
-         4b7LF8s6nFjF3oYASM9jyzVh7CNle3MlKlvaBPApIrPCK+oatUZRliaNIe3OGrUXy2Wz
-         7sOhbWlmpom8Ai/fbA2/CEzl/5YUHpjM6Po8s+QPckcUKFh0XlZwJbgesb41Ffkxff2c
-         KIgjtdBlwue/I9ekmJ6rK/yMM90Tbh9DHb9s60KOqXoLySWgxbxen2JE2mzlUaEm/oIn
-         gqKOHGNa0fO3upWr1ySo7tNJb7pmJX2PW7GrKyu4mhf+WnwE/5DsL47htSc4O94GFWOu
-         XnuQ==
+        b=d8rKpmInwRbXqbhTS+wsML4yoFRjvz032tuWR3KKIzQjKFQ8zj+S8ncmN7uji+l/it
+         KE7UwBp4UkLvQ9oujVcHa02cLQSy9N77tDRFfmmaek8Y4x20KO0VlIC2rcDsTcds+5Yw
+         PyWf7InymB6SbbyDathlcD8BHtt1bqjJfGqqI7VQEseBMPX3cTfQNTAvTBkumY2lhIQ1
+         XyuDFwZL/YaOVSJxT+E2mYzxcDmS4HXKRCfWkfnSRp+WRQYjk2FWPkaRu3Fjlm8x+0aE
+         ckYt/AmPd9AsU1ZfNkCVRSiv66+8aC/9NEh/zWGj+Sc4YPts5wJ/kvmCvtZCh7ViyQVj
+         SBtg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:message-id:date
-         :references:in-reply-to:subject:cc:to:from:sender:dkim-signature;
-        bh=5ryiNehUl3tS3BjxQ+OaU+3B8MAXwfvwyMyGjKvV/iU=;
-        b=DJ+BVjnT0IvhIx1htqk05Jfsy9Zi9lIwHgIfI9/Dd550Fy/W+e+tYEpFp+2QSu/zuQ
-         V62o7p4h1gW7MoynJMksPX32lk/ENCkt1pANsuO8DkleVB/mfpF92leqd+26SZknASon
-         zDNfBwB97hQShwDjdbowtamsDcywGLUfU2dqazDcExRwuctuem9ST1FDlLq1TCoPPqbH
-         XlZXE909vTTh62reS4GzYsoQorZf1Rdbir+ZOz1T0jfE/TFP8jRRSDK53CNrmCOz425n
-         rXwFtUL5eBYZV3gVLect1xcJEVMcrvM1cK9F41iq6Rr03/49FvvBvDwaKzXdGlvCtKqY
-         r2rw==
+         :list-id:mailing-list:precedence:content-language
+         :content-transfer-encoding:in-reply-to:mime-version:user-agent:date
+         :message-id:from:references:cc:to:subject:sender:dkim-signature;
+        bh=tSolIaxmLSL8W/CfQYyJCZKDxEyDWoQjMsg8YMqIWmo=;
+        b=Cj7SpC8tY3lPco+LRNiSs1PYQDTaX1EVZuTS3Gog2kCg3FIo0l/U1j/mtNvcx4VRvs
+         6hJO/cKscj07+AbD4878QFJroYkcgBPnTWkps4jC8JR5OEyVXvYSDsarDw30YJfRgwXE
+         FlF3hspLPiBar/q2Fw2uTmK/nKOe7YQqOc5MFVC7CdnDbzcePTpaxC9sP8PDq1QYTAdp
+         nsQH/CRgT2itrM60VH2RV7+aAnkO6i29kR+0qZwE0wKc9hIcQgnD5KWOSJZYRUGJVaSB
+         0KjrHETwcKktd09IWJCeOwbPhyG+nijM2JbagZFOEetLReeEDqvxO9fa1mkH4f+jdiZf
+         FnSA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@axtens.net header.s=google header.b=hJEPs+ON;
-       spf=pass (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::444 as permitted sender) smtp.mailfrom=dja@axtens.net
+       dkim=pass header.i=@oracle.com header.s=corp-2019-08-05 header.b=CpkVOYU9;
+       spf=pass (google.com: domain of boris.ostrovsky@oracle.com designates 156.151.31.86 as permitted sender) smtp.mailfrom=boris.ostrovsky@oracle.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=oracle.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:from:to:cc:subject:in-reply-to:references:date:message-id
-         :mime-version:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+        h=sender:subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=5ryiNehUl3tS3BjxQ+OaU+3B8MAXwfvwyMyGjKvV/iU=;
-        b=d4iA+XaEqPrBEZ6UPwzzipsRX1R6gbLTyAakYWJJhuVP1wMyFkBNZYhxzKac/5rCCo
-         mkyxpAI85QIitGWTN9kg7VL9koCwuyQd5nQL71Qe5ui/zGWs4UzmIXYluZS3DkjYCTnJ
-         NvRK88gRdT9lKk/zgQo1jwHB685JYMXlVT5857iuZci5wT19n7Se7Dr6AttCwjJURFE+
-         U6XWtrZPUSLVvW/SawxC3ODUOpjw75wCkvxF5pSwpYRSuuI5fnfZ9Uf7n6U9Em78sMd5
-         uNC0QZYdXrqS5pmvCsJ8OhbSOlWLfRZKIeUgOcWj6ycs7aBuo2As2f8LY5AHKKhq7ZuM
-         k66g==
+        bh=tSolIaxmLSL8W/CfQYyJCZKDxEyDWoQjMsg8YMqIWmo=;
+        b=WEZiOiSGGO1hHj0jEoGSffrBf60kpNdzEv6B5SWkH93qLI8r2PWX8G9nEI+h7EDvvn
+         qAd/et7YdnIjCwMwGiu7fdHx7WAwnMjA+QY95+kIYbW3v1S1yH2aUdC7Taj2ewztGvSX
+         WDA6vOHzIAsJG0ooJVQfTi4M2oZaoPdJXjvBnLlrkbchzjTBG4FN8rOYEraJaJtMVH0t
+         570wBqeOgXen8A4iLIj1bKn9KEEgRCdqvAgpuiWjOlexMj9+9f9tXGPf1doHFrX31dp/
+         I8blCrkR3y/Ic1ikCILAN+p8GPVFtlypES5vVqMQV3uyrq+KtnzADrEKy4WmygnWe6S1
+         zEgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:from:to:cc:subject:in-reply-to:references
-         :date:message-id:mime-version:x-original-sender
+        h=sender:x-gm-message-state:subject:to:cc:references:from:message-id
+         :date:user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=5ryiNehUl3tS3BjxQ+OaU+3B8MAXwfvwyMyGjKvV/iU=;
-        b=rqYs0JAj44odWe0h7Le9Wx6dlrrBlzor/IXU31Z3khRmtXeOeiLeve3RZmr6ErYXA5
-         sy9nhD8ZTQS44ILLxeZQF0cO7BqwM+ut0Tivy9+TVhfr9A74O27EOup2fmqkde67vULb
-         nQhqhgOpmZwhM0Ju23O3xxlzHey0V11H5D1DEugMQtPejUP/8m8Ysx4DsyXc0FT+uig2
-         UqhCHXRycEw1ojB0jwR9g1XWhEttlF+VNzz2kS1NM0F2/QC/r+Tte0gyqrK7zmqxK5oV
-         EivDoF+Hz1jj9l52Z23BtLsMQf4p55gc3oYSK0DyLO3VtnTk1DgoilAIutTMOItqA+W3
-         +1wA==
+        bh=tSolIaxmLSL8W/CfQYyJCZKDxEyDWoQjMsg8YMqIWmo=;
+        b=ClVBACK9u/jfHPZuxl2ws8ifGlZcf0Xk7MeOIPpCJujy/t/nVoI2PNP9o4ifDOykdf
+         cZkj6GuG+55fojpw8ALKFrtXqqF0WbORcFpbHZ80TrdkmtqJNiG5+Xs65H3h9KLNqstT
+         Ua/lcFLYxPQx2jies0G052j/f2yn4TcUnLA9z2sQcb+WVe4jgXcRsVy1PipElTALb/Is
+         XMeodvy4tDLSU4gmgTVe7ZbGcXXgSTQrG0ddDuna6X6BEJIuwFsL11e5mnGEuCLntJTX
+         mF27eiyQ7nsKIiG3DBM9Z59SOZaI8kELilpwYMOdYeqc67vACYp4UPzg+Fq5ixA8e2ku
+         NV7Q==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAUFLenwkKnpxFYs4j7aDFulzD8YOSVU5QLtJyqVkcvMLwBg3k0f
-	agppnGMiRDOCrxvIu5gK1oQ=
-X-Google-Smtp-Source: APXvYqym9wMqVm0Y3ymINvq9jR93sXq6Laf8d4Bi43/TFFZwB9xQJL4BdPuluLPVgOcOQCQkdCjUDw==
-X-Received: by 2002:a25:e6cd:: with SMTP id d196mr113099ybh.317.1578612333392;
-        Thu, 09 Jan 2020 15:25:33 -0800 (PST)
+X-Gm-Message-State: APjAAAUQDOaQ5XCruC9eFjb0RorQFUizygg3gmB/H8C0qiLQMFtTU7uz
+	fgz0Pqvc6deOqGgNZ6OHfK8=
+X-Google-Smtp-Source: APXvYqx7N8NsyKxvoZL+NmBRkzfOigKrSZQq/J5scR93JzVWAmKpb1fbb5601niNdPSG492UjisB4w==
+X-Received: by 2002:a62:7c58:: with SMTP id x85mr455175pfc.76.1578612590880;
+        Thu, 09 Jan 2020 15:29:50 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a81:194b:: with SMTP id 72ls562651ywz.6.gmail; Thu, 09 Jan
- 2020 15:25:33 -0800 (PST)
-X-Received: by 2002:a81:a189:: with SMTP id y131mr418289ywg.329.1578612332970;
-        Thu, 09 Jan 2020 15:25:32 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1578612332; cv=none;
+Received: by 2002:a63:2703:: with SMTP id n3ls951379pgn.5.gmail; Thu, 09 Jan
+ 2020 15:29:50 -0800 (PST)
+X-Received: by 2002:a62:1548:: with SMTP id 69mr407457pfv.239.1578612590538;
+        Thu, 09 Jan 2020 15:29:50 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1578612590; cv=none;
         d=google.com; s=arc-20160816;
-        b=GIT0mCqeGjSu3khu+Wur7Oxlxyp8uNQMktjQ+dHSZ4Hoy/vZmV4Nubl+hQ+qe+jx99
-         JIIkJHkl5K+hy0FAJzrdYA8s5Rz+VjQGDkCVNgpsYGxapGX3mkNvfMR5f6YcJSGpNy+W
-         9i3vK41Fz2zTWFPYKcXKC9tyqfKEcOawUbM5lJiIK4e6SIlRYndQMCBQTKT55BrVmuTd
-         EkNj2DMJOqTR9fDZkrmEQ2nXomKRjluoim1HstjU9T6CN4lWOVv1F2GXyf+651EGP+xb
-         fRGiIZonm49fbR+Ys/C+0bNXnHxq623Hrzpm/I2h5rOBMxis6ToJgA1S6Pc38b3yU9cP
-         UnAg==
+        b=gt9g5figBOHls1iqyzH18M3zG2qqTt9EqdvdHa1it1/PlW4uicEyEWMD0vLPYj65Un
+         rcjhZBjjqbU38SAuaJ5BI/CUtLd5dLBfzuXeVIl+z33Vw2C8ev5c0R+1E8/nmWqUuI2+
+         eM/dlD+tCpGH9doi9eFK6DFSB9KEW4uuAAYVo2zQVptTs7JJTHgchwbcIzV4Vg0ZBigo
+         qOf3WUTh4mkEJC8IgeEVFWjd7KqAukERQgnQBMttAyLNSXnX8oph2YsgiNIxG5I4Jth7
+         IdtCxTewuLmAy3LFAlfAji9l3XEDfoX5TQ9dCJgqnawPGGA1EYxPfZVmkNjmpN6g0Q06
+         VLdA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:dkim-signature;
-        bh=UzPtNbIFdT7VgcJL3S0ZhY3HIrUCX+/Gia26wjd0jI0=;
-        b=QXGllEkHC4qURC5WBLS8+9Doq7qrhfY3fQXq7M8FO5rezIwN+8A01ulhVu0AtALQGn
-         TeREw6B/yx+hiSnXDz3ytL+mvpjXtWlgCUv6SI9i5tShZocFuR1bxCBY5ECZHFUQoXTM
-         XkbpT5LGWhXZilgSGTct6eY8Tf1XRzAc9eUZp2lrhbXJHXYP+MJdx7Af/ripxJRmLT/L
-         wspa/J2+izqaL2ctNPr8HH4GJi0ncOH+Cx5eygSJeBq6CMQUIEktvNu2nKRy2vkyEO55
-         258K9WDkNSlL+IC3+xgXocdYujaczC5DRJMCfSIKYjnM7fMUnjrUsaOYeCDe++4nH3cD
-         Go/Q==
+        h=content-language:content-transfer-encoding:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject
+         :dkim-signature;
+        bh=mRGveEf/LQllrkPFYbXImW1JYkM5dZmKgDk7Iei+h40=;
+        b=zKrZlLWjkazzj5xLYJYmcC/H/SwjgNi9C4YZ9Dq3Ry4p6CFNsalJYZvl1YcqIJaHtW
+         Mx8FwscmQjpCNPf3AZ0Y8+yY6t0Z5hBiaRPG5dDZo7947t4LZXqz4Vjr51OlINQYW/ep
+         dCZ03adGRkrYPA4Y4Xgjx2XJhqoW9VN/wgLoTgMuy1H+3YLxocQO80TSfoNZza4pX5o1
+         37PvC7Ff6pibXtpZ1Z1zZyLn/yF2yWNeJ1V6/wb2k8y31b2rJPsyX1FjbPuL59K3bb91
+         qw3K+oO8sI7F9vqJ+mi4eDVt0alzVt0J6d4wW8rLhhPSeev2hnmJZqg7k5wImTtgvW2w
+         Dvkg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@axtens.net header.s=google header.b=hJEPs+ON;
-       spf=pass (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::444 as permitted sender) smtp.mailfrom=dja@axtens.net
-Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com. [2607:f8b0:4864:20::444])
-        by gmr-mx.google.com with ESMTPS id p187si15302ywe.1.2020.01.09.15.25.32
+       dkim=pass header.i=@oracle.com header.s=corp-2019-08-05 header.b=CpkVOYU9;
+       spf=pass (google.com: domain of boris.ostrovsky@oracle.com designates 156.151.31.86 as permitted sender) smtp.mailfrom=boris.ostrovsky@oracle.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=oracle.com
+Received: from userp2130.oracle.com (userp2130.oracle.com. [156.151.31.86])
+        by gmr-mx.google.com with ESMTPS id d12si178383pjv.0.2020.01.09.15.29.49
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Jan 2020 15:25:32 -0800 (PST)
-Received-SPF: pass (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::444 as permitted sender) client-ip=2607:f8b0:4864:20::444;
-Received: by mail-pf1-x444.google.com with SMTP id i23so167933pfo.2
-        for <kasan-dev@googlegroups.com>; Thu, 09 Jan 2020 15:25:32 -0800 (PST)
-X-Received: by 2002:a63:1a1f:: with SMTP id a31mr538473pga.21.1578612331836;
-        Thu, 09 Jan 2020 15:25:31 -0800 (PST)
-Received: from localhost (2001-44b8-1113-6700-5cb3-ebc3-7dc6-a17b.static.ipv6.internode.on.net. [2001:44b8:1113:6700:5cb3:ebc3:7dc6:a17b])
-        by smtp.gmail.com with ESMTPSA id j125sm107356pfg.160.2020.01.09.15.25.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Jan 2020 15:25:30 -0800 (PST)
-From: Daniel Axtens <dja@axtens.net>
-To: Dmitry Vyukov <dvyukov@google.com>, Casey Schaufler <casey@schaufler-ca.com>, Alexander Potapenko <glider@google.com>, clang-built-linux <clang-built-linux@googlegroups.com>
-Cc: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>, syzbot <syzbot+de8d933e7d153aa0c1bb@syzkaller.appspotmail.com>, kasan-dev <kasan-dev@googlegroups.com>, Andrew Morton <akpm@linux-foundation.org>, LKML <linux-kernel@vger.kernel.org>, syzkaller-bugs <syzkaller-bugs@googlegroups.com>
-Subject: Re: INFO: rcu detected stall in sys_kill
-In-Reply-To: <CACT4Y+axj5M4p=mZkFb1MyBw0MK1c6nWb-fKQcYSnYB8n1Cb8Q@mail.gmail.com>
-References: <00000000000036decf0598c8762e@google.com> <CACT4Y+YVMUxeLcFMray9n0+cXbVibj5X347LZr8YgvjN5nC8pw@mail.gmail.com> <CACT4Y+asdED7tYv462Ui2OhQVKXVUnC+=fumXR3qM1A4d6AvOQ@mail.gmail.com> <f7758e0a-a157-56a2-287e-3d4452d72e00@schaufler-ca.com> <87a787ekd0.fsf@dja-thinkpad.axtens.net> <87h81zax74.fsf@dja-thinkpad.axtens.net> <CACT4Y+b+Vx1FeCmhMAYq-g3ObHdMPOsWxouyXXUr7S5OjNiVGQ@mail.gmail.com> <0b60c93e-a967-ecac-07e7-67aea1a0208e@I-love.SAKURA.ne.jp> <6d009462-74d9-96e9-ab3f-396842a58011@schaufler-ca.com> <CACT4Y+bURugCpLm5TG37-7voFEeEoXo_Gb=3sy75_RELZotXHw@mail.gmail.com> <CACT4Y+avizeUd=nY2w1B_LbEC1cP5prBfpnANYaxhgS_fcL6ag@mail.gmail.com> <CACT4Y+Z3GCncV3G1=36NmDRX_XOZsdoRJ3UshZoornbSRSN28w@mail.gmail.com> <CACT4Y+ZyVi=ow+VXA9PaWEVE8qKj8_AKzeFsNdsmiSR9iL3FOw@mail.gmail.com> <CACT4Y+axj5M4p=mZkFb1MyBw0MK1c6nWb-fKQcYSnYB8n1Cb8Q@mail.gmail.com>
-Date: Fri, 10 Jan 2020 10:25:27 +1100
-Message-ID: <87a76wnrfc.fsf@dja-thinkpad.axtens.net>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 09 Jan 2020 15:29:49 -0800 (PST)
+Received-SPF: pass (google.com: domain of boris.ostrovsky@oracle.com designates 156.151.31.86 as permitted sender) client-ip=156.151.31.86;
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+	by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 009NSmIg192998;
+	Thu, 9 Jan 2020 23:29:44 GMT
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+	by userp2130.oracle.com with ESMTP id 2xaj4ue779-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 09 Jan 2020 23:29:44 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+	by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 009NO7Bt063938;
+	Thu, 9 Jan 2020 23:27:44 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+	by userp3030.oracle.com with ESMTP id 2xdms0aay4-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 09 Jan 2020 23:27:43 +0000
+Received: from abhmp0014.oracle.com (abhmp0014.oracle.com [141.146.116.20])
+	by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 009NReTB004699;
+	Thu, 9 Jan 2020 23:27:40 GMT
+Received: from bostrovs-us.us.oracle.com (/10.152.32.65)
+	by default (Oracle Beehive Gateway v4.0)
+	with ESMTP ; Thu, 09 Jan 2020 15:27:40 -0800
+Subject: Re: [PATCH v1 2/4] x86/xen: add basic KASAN support for PV kernel
+To: Sergey Dyasli <sergey.dyasli@citrix.com>, xen-devel@lists.xen.org,
+        kasan-dev@googlegroups.com, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org
+Cc: Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Alexander Potapenko <glider@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>, Juergen Gross <jgross@suse.com>,
+        Stefano Stabellini
+ <sstabellini@kernel.org>,
+        George Dunlap <george.dunlap@citrix.com>,
+        Ross Lagerwall <ross.lagerwall@citrix.com>,
+        Andrew Morton <akpm@linux-foundation.org>
+References: <20200108152100.7630-1-sergey.dyasli@citrix.com>
+ <20200108152100.7630-3-sergey.dyasli@citrix.com>
+From: Boris Ostrovsky <boris.ostrovsky@oracle.com>
+Message-ID: <5214cb54-1719-f93b-130f-90c5da31e22a@oracle.com>
+Date: Thu, 9 Jan 2020 18:27:38 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: dja@axtens.net
+In-Reply-To: <20200108152100.7630-3-sergey.dyasli@citrix.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9495 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1911140001 definitions=main-2001090195
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9495 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1911140001
+ definitions=main-2001090196
+X-Original-Sender: boris.ostrovsky@oracle.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@axtens.net header.s=google header.b=hJEPs+ON;       spf=pass
- (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::444 as
- permitted sender) smtp.mailfrom=dja@axtens.net
+ header.i=@oracle.com header.s=corp-2019-08-05 header.b=CpkVOYU9;
+       spf=pass (google.com: domain of boris.ostrovsky@oracle.com designates
+ 156.151.31.86 as permitted sender) smtp.mailfrom=boris.ostrovsky@oracle.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=oracle.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -128,177 +172,37 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Dmitry Vyukov <dvyukov@google.com> writes:
 
-> On Thu, Jan 9, 2020 at 11:05 AM Dmitry Vyukov <dvyukov@google.com> wrote:
->> > > > > On 1/8/2020 2:25 AM, Tetsuo Handa wrote:
->> > > > > > On 2020/01/08 15:20, Dmitry Vyukov wrote:
->> > > > > >> I temporarily re-enabled smack instance and it produced another 50
->> > > > > >> stalls all over the kernel, and now keeps spewing a dozen every hour.
->> > > > >
->> > > > > Do I have to be using clang to test this? I'm setting up to work on this,
->> > > > > and don't want to waste time using my current tool chain if the problem
->> > > > > is clang specific.
->> > > >
->> > > > Humm, interesting. Initially I was going to say that most likely it's
->> > > > not clang-related. Bug smack instance is actually the only one that
->> > > > uses clang as well (except for KMSAN of course). So maybe it's indeed
->> > > > clang-related rather than smack-related. Let me try to build a kernel
->> > > > with clang.
->> > >
->> > > +clang-built-linux, glider
->> > >
->> > > [clang-built linux is severe broken since early Dec]
->> > >
->> > > Building kernel with clang I can immediately reproduce this locally:
->> > >
->> > > $ syz-manager
->> > > 2020/01/09 09:27:15 loading corpus...
->> > > 2020/01/09 09:27:17 serving http on http://0.0.0.0:50001
->> > > 2020/01/09 09:27:17 serving rpc on tcp://[::]:45851
->> > > 2020/01/09 09:27:17 booting test machines...
->> > > 2020/01/09 09:27:17 wait for the connection from test machine...
->> > > 2020/01/09 09:29:23 machine check:
->> > > 2020/01/09 09:29:23 syscalls                : 2961/3195
->> > > 2020/01/09 09:29:23 code coverage           : enabled
->> > > 2020/01/09 09:29:23 comparison tracing      : enabled
->> > > 2020/01/09 09:29:23 extra coverage          : enabled
->> > > 2020/01/09 09:29:23 setuid sandbox          : enabled
->> > > 2020/01/09 09:29:23 namespace sandbox       : enabled
->> > > 2020/01/09 09:29:23 Android sandbox         : /sys/fs/selinux/policy
->> > > does not exist
->> > > 2020/01/09 09:29:23 fault injection         : enabled
->> > > 2020/01/09 09:29:23 leak checking           : CONFIG_DEBUG_KMEMLEAK is
->> > > not enabled
->> > > 2020/01/09 09:29:23 net packet injection    : enabled
->> > > 2020/01/09 09:29:23 net device setup        : enabled
->> > > 2020/01/09 09:29:23 concurrency sanitizer   : /sys/kernel/debug/kcsan
->> > > does not exist
->> > > 2020/01/09 09:29:23 devlink PCI setup       : PCI device 0000:00:10.0
->> > > is not available
->> > > 2020/01/09 09:29:27 corpus                  : 50226 (0 deleted)
->> > > 2020/01/09 09:29:27 VMs 20, executed 0, cover 0, crashes 0, repro 0
->> > > 2020/01/09 09:29:37 VMs 20, executed 45, cover 0, crashes 0, repro 0
->> > > 2020/01/09 09:29:47 VMs 20, executed 74, cover 0, crashes 0, repro 0
->> > > 2020/01/09 09:29:57 VMs 20, executed 80, cover 0, crashes 0, repro 0
->> > > 2020/01/09 09:30:07 VMs 20, executed 80, cover 0, crashes 0, repro 0
->> > > 2020/01/09 09:30:17 VMs 20, executed 80, cover 0, crashes 0, repro 0
->> > > 2020/01/09 09:30:27 VMs 20, executed 80, cover 0, crashes 0, repro 0
->> > > 2020/01/09 09:30:37 VMs 20, executed 80, cover 0, crashes 0, repro 0
->> > > 2020/01/09 09:30:47 VMs 20, executed 80, cover 0, crashes 0, repro 0
->> > > 2020/01/09 09:30:57 VMs 20, executed 80, cover 0, crashes 0, repro 0
->> > > 2020/01/09 09:31:07 VMs 20, executed 80, cover 0, crashes 0, repro 0
->> > > 2020/01/09 09:31:17 VMs 20, executed 80, cover 0, crashes 0, repro 0
->> > > 2020/01/09 09:31:26 vm-10: crash: INFO: rcu detected stall in do_idle
->> > > 2020/01/09 09:31:27 VMs 13, executed 80, cover 0, crashes 0, repro 0
->> > > 2020/01/09 09:31:28 vm-1: crash: INFO: rcu detected stall in sys_futex
->> > > 2020/01/09 09:31:29 vm-4: crash: INFO: rcu detected stall in sys_futex
->> > > 2020/01/09 09:31:31 vm-0: crash: INFO: rcu detected stall in sys_getsockopt
->> > > 2020/01/09 09:31:33 vm-18: crash: INFO: rcu detected stall in sys_clone3
->> > > 2020/01/09 09:31:35 vm-3: crash: INFO: rcu detected stall in sys_futex
->> > > 2020/01/09 09:31:36 vm-8: crash: INFO: rcu detected stall in do_idle
->> > > 2020/01/09 09:31:37 VMs 7, executed 80, cover 0, crashes 6, repro 0
->> > > 2020/01/09 09:31:38 vm-19: crash: INFO: rcu detected stall in schedule_tail
->> > > 2020/01/09 09:31:40 vm-6: crash: INFO: rcu detected stall in schedule_tail
->> > > 2020/01/09 09:31:42 vm-2: crash: INFO: rcu detected stall in schedule_tail
->> > > 2020/01/09 09:31:44 vm-12: crash: INFO: rcu detected stall in sys_futex
->> > > 2020/01/09 09:31:46 vm-15: crash: INFO: rcu detected stall in sys_nanosleep
->> > > 2020/01/09 09:31:47 VMs 1, executed 80, cover 0, crashes 11, repro 0
->> > > 2020/01/09 09:31:48 vm-16: crash: INFO: rcu detected stall in sys_futex
->> > > 2020/01/09 09:31:50 vm-9: crash: INFO: rcu detected stall in schedule
->> > > 2020/01/09 09:31:52 vm-13: crash: INFO: rcu detected stall in schedule_tail
->> > > 2020/01/09 09:31:54 vm-11: crash: INFO: rcu detected stall in schedule_tail
->> > > 2020/01/09 09:31:56 vm-17: crash: INFO: rcu detected stall in sys_futex
->> > > 2020/01/09 09:31:57 VMs 0, executed 80, cover 0, crashes 16, repro 0
->> > > 2020/01/09 09:31:58 vm-7: crash: INFO: rcu detected stall in sys_futex
->> > > 2020/01/09 09:32:00 vm-5: crash: INFO: rcu detected stall in dput
->> > > 2020/01/09 09:32:02 vm-14: crash: INFO: rcu detected stall in sys_nanosleep
->> > >
->> > >
->> > > Then I switched LSM to selinux and I _still_ can reproduce this. So,
->> > > Casey, you may relax, this is not smack-specific :)
->> > >
->> > > Then I disabled CONFIG_KASAN_VMALLOC and CONFIG_VMAP_STACK and it
->> > > started working normally.
->> > >
->> > > So this is somehow related to both clang and KASAN/VMAP_STACK.
->> > >
->> > > The clang I used is:
->> > > https://storage.googleapis.com/syzkaller/clang-kmsan-362913.tar.gz
->> > > (the one we use on syzbot).
->> >
->> >
->> > Clustering hangs, they all happen within very limited section of the code:
->> >
->> >       1  free_thread_stack+0x124/0x590 kernel/fork.c:284
->> >       5  free_thread_stack+0x12e/0x590 kernel/fork.c:280
->> >      39  free_thread_stack+0x12e/0x590 kernel/fork.c:284
->> >       6  free_thread_stack+0x133/0x590 kernel/fork.c:280
->> >       5  free_thread_stack+0x13d/0x590 kernel/fork.c:280
->> >       2  free_thread_stack+0x141/0x590 kernel/fork.c:280
->> >       6  free_thread_stack+0x14c/0x590 kernel/fork.c:280
->> >       9  free_thread_stack+0x151/0x590 kernel/fork.c:280
->> >       3  free_thread_stack+0x15b/0x590 kernel/fork.c:280
->> >      67  free_thread_stack+0x168/0x590 kernel/fork.c:280
->> >       6  free_thread_stack+0x16d/0x590 kernel/fork.c:284
->> >       2  free_thread_stack+0x177/0x590 kernel/fork.c:284
->> >       1  free_thread_stack+0x182/0x590 kernel/fork.c:284
->> >       1  free_thread_stack+0x186/0x590 kernel/fork.c:284
->> >      16  free_thread_stack+0x18b/0x590 kernel/fork.c:284
->> >       4  free_thread_stack+0x195/0x590 kernel/fork.c:284
->> >
->> > Here is disass of the function:
->> > https://gist.githubusercontent.com/dvyukov/a283d1aaf2ef7874001d56525279ccbd/raw/ac2478bff6472bc473f57f91a75f827cd72bb6bf/gistfile1.txt
->> >
->> > But if I am not mistaken, the function only ever jumps down. So how
->> > can it loop?...
->>
->>
->> This is a miscompilation related to static branches.
->>
->> objdump shows:
->>
->> ffffffff814878f8: 0f 1f 44 00 00        nopl   0x0(%rax,%rax,1)
->>  ./arch/x86/include/asm/jump_label.h:25
->> asm_volatile_goto("1:"
->>
->> However, the actual instruction in memory at the time is:
->>
->>    0xffffffff814878f8 <+408>: jmpq   0xffffffff8148787f <free_thread_stack+287>
->>
->> Which jumps to a wrong location in free_thread_stack and makes it loop.
->>
->> The static branch is this:
->>
->> static inline bool memcg_kmem_enabled(void)
->> {
->>   return static_branch_unlikely(&memcg_kmem_enabled_key);
->> }
->>
->> static inline void memcg_kmem_uncharge(struct page *page, int order)
->> {
->>   if (memcg_kmem_enabled())
->>     __memcg_kmem_uncharge(page, order);
->> }
->>
->> I suspect it may have something to do with loop unrolling. It may jump
->> to the right location, but in the wrong unrolled iteration.
->
->
-> Kernel built with clang version 10.0.0
-> (https://github.com/llvm/llvm-project.git
-> c2443155a0fb245c8f17f2c1c72b6ea391e86e81) works fine.
->
-> Alex, please update clang on syzbot machines.
 
-Wow, what a bug. Very happy to be off the hook for causing it, and
-feeling a lot better about my inability to reproduce it with a GCC-built
-kernel!
+On 1/8/20 10:20 AM, Sergey Dyasli wrote:
+> @@ -1943,6 +1973,15 @@ void __init xen_setup_kernel_pagetable(pgd_t *pgd,=
+ unsigned long max_pfn)
+>   	if (i && i < pgd_index(__START_KERNEL_map))
+>   		init_top_pgt[i] =3D ((pgd_t *)xen_start_info->pt_base)[i];
+>  =20
+> +#ifdef CONFIG_KASAN
+> +	/*
+> +	 * Copy KASAN mappings
+> +	 * ffffec0000000000 - fffffbffffffffff (=3D44 bits) kasan shadow memory=
+ (16TB)
+> +	 */
+> +	for (i =3D 0xec0 >> 3; i < 0xfc0 >> 3; i++)
 
-Regards,
-Daniel
+Are you referring here to=C2=A0 KASAN_SHADOW_START and KASAN_SHADOW_END? If=
+=20
+so, can you use them instead?
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/87a76wnrfc.fsf%40dja-thinkpad.axtens.net.
+-boris
+
+> +		init_top_pgt[i] =3D ((pgd_t *)xen_start_info->pt_base)[i];
+> +#endif
+> +
+>  =20
+
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/5214cb54-1719-f93b-130f-90c5da31e22a%40oracle.com.
