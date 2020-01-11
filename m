@@ -1,125 +1,135 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBXUQ4PYAKGQEUFNQ3GY@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABB7FS4XYAKGQECANPO3I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pg1-x53d.google.com (mail-pg1-x53d.google.com [IPv6:2607:f8b0:4864:20::53d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04E36137674
-	for <lists+kasan-dev@lfdr.de>; Fri, 10 Jan 2020 19:54:24 +0100 (CET)
-Received: by mail-pg1-x53d.google.com with SMTP id r30sf1766004pgm.8
-        for <lists+kasan-dev@lfdr.de>; Fri, 10 Jan 2020 10:54:23 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1578682462; cv=pass;
+Received: from mail-vk1-xa3b.google.com (mail-vk1-xa3b.google.com [IPv6:2607:f8b0:4864:20::a3b])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4D10137B79
+	for <lists+kasan-dev@lfdr.de>; Sat, 11 Jan 2020 06:13:33 +0100 (CET)
+Received: by mail-vk1-xa3b.google.com with SMTP id a20sf1800710vkm.22
+        for <lists+kasan-dev@lfdr.de>; Fri, 10 Jan 2020 21:13:33 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1578719612; cv=pass;
         d=google.com; s=arc-20160816;
-        b=Flv58KGtUCliEeZtnmjTXmr6mLyjwC5LwDuudseVw97bOcjlRTBOI/T8LosUshzp1Q
-         69wimgxsg5CQHgOSENq5PfP27iGO+W1bT+LbUZ/0HYZrFqsBBzBxcXD8nZynJyYQFA58
-         qVA5CNXigYTFGL4YaIMXPFKEEuAwaXVQeUKS73hm99kEwaJWy+MbBVyRlGBnNsv5j+Dr
-         JQMLqATYbXfin6we1XFSiAAJJ0v1/4UqPPTn5+ffRuwoTvJxccSHYwYuhY95xcEdYbz7
-         Fk9FKl10ag8H1z6aifsYCySetGhRgbKw4phKZwI/zCp8wXDYaYcP+AziBhKO9kM7/lHr
-         7y3w==
+        b=ihCl3ckNBLHlpk7vGHWoD50tByGwbmbZH3BfoFcSV7+5mW80Zjtx/K4ci5ifWyaEO7
+         B2QnPs/leOTfwOs9FNy1PzqtgVciJI0InNtRBpyDhIZf369V4Xdzj5R84iQ1CNn8KEBF
+         N+jSMhGaK1VtwCIpHTlt3JOw5G15bMzHAALHCX+SJpH+XSmp/9l2K+xVgQ9UOBqNCIlt
+         /1hpiPHCDIyWDmnDeT72CQnkSvz4e8x7V+6o0BG/SlHL9nwooupCZBycrUUKrRifmvqC
+         oMY8ocyZrWjDP5cCx/8RVrO0pt7/bPcegRAiNI/7L/4toJ+lnc0fpxnZfCWLeZ1LqqqX
+         2XaQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=xmek1KF2ansBYvJ8OyVEFH+tcSte5+oUQ0ui6I0T7k8=;
-        b=h36KHVRGOWJaKcumJqKV2Rt8EQPK1G0VFMzO/Wu7ILxvNMYMtbzqUwQKmMJ7tgYI0k
-         kGnixERUwiaiVZglqa3eV6iX9n+owwfHJmaiO97jxpgl77JSOumtmPlFsW7kkVJ75asP
-         MFJ6n93xcGRco2n2bpIhaFLOVJK0ljxUHVa0UraUyE+VryCW/3AeCOvYM8MKWPBBYtST
-         +R2V2R5n3jIAPHs4AMqmrESJKLRIVENy3O/bApe30sgvISUu+KFYNBbZmhv193T3wg7h
-         8ywsdvEiPe1SkIxg0nnLpFXf/7GeVq09xuyAQtn5/FRwMbc2nqVfAUXeTPnBOk0ygLw2
-         c9xQ==
+         :list-id:mailing-list:precedence:user-agent:in-reply-to
+         :content-disposition:mime-version:references:reply-to:message-id
+         :subject:cc:to:from:date:sender:dkim-signature;
+        bh=mmjerlxziJNi462I0n1bfDeVJk4golwXZbHqRuYegGc=;
+        b=yxkyNoKq4nzG6zO0Lt7cfLFaTJWpAHPWditX7LGNjPBFNSUSJRZ14+hZ8n4SmquR78
+         ch5pMOzT/i4rr7PQU4H+eWIHtQ3A3yq4vBIugAUXIgCpY6ty2xSq7eu6VTvfr+xKvM57
+         Mr3bBbIzNGw0KZrrs/mdqMBSVcuCevHCDsS3vJYehttJHURmBxBT2/xWQxPpgq/QVldH
+         i1S78OCIm89uqUW1CQB8EMLMtitgCKTJmP7UVmm3gQIpWK6nPmERyIcbg0Hakv8uqJCw
+         iu+Ybl/jg7Pzk7dX/m3V5wUM5V8Dcct8sGqZXH9LYPGXRByT3Kkh7xH4UkyHUXlmrGtR
+         sjsg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b="W/6dxF5y";
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::341 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@kernel.org header.s=default header.b=rYcvO1RX;
+       spf=pass (google.com: domain of srs0=sz6w=3a=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=sZ6w=3A=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+        h=sender:date:from:to:cc:subject:message-id:reply-to:references
+         :mime-version:content-disposition:in-reply-to:user-agent
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=xmek1KF2ansBYvJ8OyVEFH+tcSte5+oUQ0ui6I0T7k8=;
-        b=h9XlRdGAIsECTMFXTPs++x0RaytjOzFAKNE0ziQY6U7JRH8ijxxTVT/Aqgjeh2LTPn
-         ipDTRS3qQ3oSAkNycAa0hyIeQLa+9JFizGhj/2TlVvJt5UHr3VvihCLfTbssuCnNSoiN
-         /gttx5t9Bs5XY4lzzPz1I2p43We8E/k6QcXGm6wNTSILNNIFjNoZbwMk/zcDwcprjTAA
-         YJbUF6xnRgOlZF0nJEanSHXpaHRdUs0ggI9og1YJxHeKIC6NVQWboIQUSb4SqtQiq2gr
-         djIykm/IkfLQAm1FDrpe8+Bkyg2CxDe2CKsnzTttK/+i+H/puLkWmeuuw6n3s8EdxYBe
-         vtKQ==
+        bh=mmjerlxziJNi462I0n1bfDeVJk4golwXZbHqRuYegGc=;
+        b=bh/L1NMSvWsqx2Cvn+L/QVQd2kg+0UfywDiSWu8b9cNhx8EyTVnCCrD6rmnggHa1NL
+         HNllkP40dhYJJYHdjaLdBmvorNystVsWTXSs0CRvcegHupJc9Fyx+U6xJMJQC9Ruye53
+         7aMGZqVilJjhe1Fk9QhyYrya+ICUkpuNdC5e99k9whWKCD9v4/jV5vVDu8FZNXhzDGSV
+         Ubm4QwzGW2Fm5VKJVi+c6mXnUMvMV3/LD09gFQXM2TbBCgh2uLU1W8q5s++Z6q1eF6mr
+         kPO6UzwId6w+jE+AqeFDdLTsoX2Q2FBmwyxm0ggDLf4cwXnfrVCsoAwUfU/8/Mqpoar9
+         geGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=xmek1KF2ansBYvJ8OyVEFH+tcSte5+oUQ0ui6I0T7k8=;
-        b=bNByFIhjqC6f4tfA8zNo7ob/sdgJ5bzQBKTWY3V1WTR/XrhEh96PL6k7AdbU1XqJXZ
-         14lgD3DB9RJpAKEODXZq7Axof5/dDNduEp3ER4AS3QHd6A9im7V4FqX1PzA/iOvoVuqS
-         3JsSLsky8YjW1geFB/mwj/PFhjx4jhsbZV1bzPhlMz3sCi/7l1IZhIehDc+plDIy/cdB
-         B2byb+pqkeQ7bzCsVAN/86XDt56fbh3awM2Flxwx5edyWLBvfs8MUQzw1RLvYv0IKTuA
-         X6Ck5ptcfQ8MrTEk2GgGWnDpz3GXNDIymI0LOEu1+uhyOwHQpqaPep1VU51lJ+2qGz6S
-         HKoA==
-X-Gm-Message-State: APjAAAWWXNvPyNusZrevmvlX/d+d5dRyfn5fqqfsppVD3olAYjUdG97R
-	VkZt575v7CPT6IbLHwqRhmA=
-X-Google-Smtp-Source: APXvYqw7lXY3rakz2QLTqy4N0Bk9Q3wDkqw2uGORJJBj44QzNaBQq3WkO/IoVrQGSwF4KMX9/WDfLw==
-X-Received: by 2002:aa7:8708:: with SMTP id b8mr5874050pfo.184.1578682462722;
-        Fri, 10 Jan 2020 10:54:22 -0800 (PST)
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :reply-to:references:mime-version:content-disposition:in-reply-to
+         :user-agent:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=mmjerlxziJNi462I0n1bfDeVJk4golwXZbHqRuYegGc=;
+        b=MlYrG1X0ituQ5WW2kb/EYcubhXJj9cQPx2e29vrtUakjmlUJ1Y/rxynTrOdCJlz/Yg
+         mVa43hC+o9WQg3bRpHKnQyEYJbmYvsv//emFugyWsfKUCTt1W/FQv3GsxkFBZhISLNNd
+         qtZdusUBPfeCLdmtnHuad7xzyf+10nfuaCDg4KI7gwMv24ZWOLvmIFqSXsKYYsz9TPnB
+         pC/jvmQOtaXTqtDtOf7vOrBqTzaL3hyU+oGEjQpCGQLtVFieM4PzN4LPajayNQAkaTGE
+         Pl+NEF/PTCZoAYlHaYPJI/hQOfpBAUQKH2a7BivKr/1N7y5IvbHCHSLvk+l+5qfs86bT
+         eP4Q==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: APjAAAUfkVrq3gC2mZGn7ZRdU3/+I1TUnRg3suNkvUqyU9y1xdo4UFNe
+	AD5ghg1pXiT78LNPN5BU/sw=
+X-Google-Smtp-Source: APXvYqxkyWGSqFfKn9KlGnZjLJG5MnC5Au4dQ7Y2r0DVaLJfppK+cmOwSEuI1arsNNYWrk33pHm78g==
+X-Received: by 2002:ab0:7049:: with SMTP id v9mr4295383ual.95.1578719612287;
+        Fri, 10 Jan 2020 21:13:32 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a63:d207:: with SMTP id a7ls1582361pgg.1.gmail; Fri, 10 Jan
- 2020 10:54:22 -0800 (PST)
-X-Received: by 2002:aa7:8d8f:: with SMTP id i15mr5670129pfr.220.1578682462357;
-        Fri, 10 Jan 2020 10:54:22 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1578682462; cv=none;
+Received: by 2002:a67:c20c:: with SMTP id i12ls641188vsj.14.gmail; Fri, 10 Jan
+ 2020 21:13:32 -0800 (PST)
+X-Received: by 2002:a05:6102:20c:: with SMTP id z12mr3886973vsp.32.1578719612028;
+        Fri, 10 Jan 2020 21:13:32 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1578719612; cv=none;
         d=google.com; s=arc-20160816;
-        b=Hwi4/h9FEpbu4qESl1NxcTAnwiFGPuER9af3QyXQp8Z8lHojsvtSeSpLi4Tky+CuqO
-         V1bRJDJrM2pertpicBlyTz85inCXs1BdVfzcMV5hGeN3YizFIZvlZpHNYr8KxoeN/9ZF
-         mWb9ohA/FOEX+6Ek1qerGI5zTeXY/bL13+zkPDYphcOscnFU/NGL2T/V806daDLD7l4e
-         I6CxGR/l4AwOwz9O7gWuCPC+PirnZeIEMZoXq2CBjbxDvDQtR6yv+56EXuD58Fek6l2A
-         Ux4gz+yfCRfeznbA02VJP62pU5VRvl/dPwQn6RdYSDf/zBPklQ0Krmr1NBAVpgu6JijG
-         6MVg==
+        b=ZL1M91JNfVNSW/160+P1xBcR0tw8IWoJbLUeurFQWmDbJyfiEX9P39p9pKISFbd2S2
+         7xDiJ3ISwBx8HbnxZY79pljmY38DD2MVyKDkSZHMRSdpwY3bzAsfhjHUR/83HNa59nqD
+         7/6YPWWAxyFfHlYR50vVUblzL25+/shM53kHFyex4yIfHOmEbuueE8BqxTSp2DZOoN4Q
+         FEdHpqAgyZRU0rOGzZ96i1knVOcc3NOzcEN42AGY9UPrKSBhG0DRzmzdAqG/MmlQ2XAM
+         T2og0g1iB5dAUCJR5rpjcLVzAX8aepBNKg/K1JR1qiOX9F+UYLGubIAkhTN4Jg+b2EOg
+         tGHA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=QcMlx17bbe46RkMKi52DH8y3hZ3BUHEjTIS1UBwAyfk=;
-        b=GpHxKs7Tcc8+NFEgKpFB2HRmsvuDCbM2CmnWzomZJJAw2Ko+9oZB0Ae3v0VFkhlVn8
-         QY4z+7MG6cEIDqZ8kHIJuUzBWJdvKFeg29CsSo6ItiPxIPwTROeXjf+lnmO8EkGc8+E3
-         tbCiC/aJMmQOvv9td/A860qQ0mBnWggMijCnKJ5PZswgiVQrLPmyjA2O5V6QoFit5n9h
-         8rRwslpuApcVaZ/sDvzseCtWceY91xBATLDWvIwM5fj7rBQGSTXlJCPd5dc/TiLpu25n
-         67nsF3y6j3zDVBF4tUrGADf8qay3GDpKHWvifFX7tJeYooULRMYlbF1huiNWZr6EypXK
-         JtPg==
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :reply-to:message-id:subject:cc:to:from:date:dkim-signature;
+        bh=TJbyE/MSXaZBlg9XQfpVJR6fmaJSUwRaj3KGDRF+J0c=;
+        b=x0H/Q/HL1ZXf+J6f2TjZORl7fWwU3X/iPeWsGPeeF1VF4iE/W8eE9BCToJxHK9Gg5g
+         SPLiRUiIR8HjQ0tfY03xG5PLHWTJygaOWkLBDcjisqTbBGxAmYuTHKMkhLBqrnpidihN
+         UHLw6hAHlQMZAhTU1rJMjs52R0Pcxb3rkP1ysvXshB/1lXNYwQnuG0hwJk7pD51TmWOB
+         qTokLj8VUnIdThVFzzGEgiUFKOMnRZkXmaR9dehvOMgRP67SB3GTapOqIUZKYJxL6jv0
+         Nzs3AAk4b63w0l5O/E3aE6V7Tc7KJQFgwNHCsbNIgUlBPyezq+/SuGybV+uM/7Td+4Vu
+         GLAA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b="W/6dxF5y";
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::341 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com. [2607:f8b0:4864:20::341])
-        by gmr-mx.google.com with ESMTPS id a24si134262plm.1.2020.01.10.10.54.22
+       dkim=pass header.i=@kernel.org header.s=default header.b=rYcvO1RX;
+       spf=pass (google.com: domain of srs0=sz6w=3a=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=sZ6w=3A=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
+        by gmr-mx.google.com with ESMTPS id i27si202513uat.1.2020.01.10.21.13.31
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 Jan 2020 10:54:22 -0800 (PST)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::341 as permitted sender) client-ip=2607:f8b0:4864:20::341;
-Received: by mail-ot1-x341.google.com with SMTP id b18so2966349otp.0
-        for <kasan-dev@googlegroups.com>; Fri, 10 Jan 2020 10:54:22 -0800 (PST)
-X-Received: by 2002:a9d:7f12:: with SMTP id j18mr3925122otq.17.1578682461403;
- Fri, 10 Jan 2020 10:54:21 -0800 (PST)
-MIME-Version: 1.0
-References: <20200109152322.104466-1-elver@google.com> <20200109152322.104466-3-elver@google.com>
- <CANpmjNNt_+EQHLFZyV5_Wq1frU3A=Rh8y5P7Zjp-0cAU2X7N6w@mail.gmail.com>
-In-Reply-To: <CANpmjNNt_+EQHLFZyV5_Wq1frU3A=Rh8y5P7Zjp-0cAU2X7N6w@mail.gmail.com>
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Fri, 10 Jan 2020 19:54:09 +0100
-Message-ID: <CANpmjNOcjdr6HNaSP4Q7GTR72vx4bSMa_2O=_9oQwcz3xFk=Wg@mail.gmail.com>
-Subject: Re: [PATCH -rcu 2/2] kcsan: Rate-limit reporting per data races
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 10 Jan 2020 21:13:31 -0800 (PST)
+Received-SPF: pass (google.com: domain of srs0=sz6w=3a=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
+Received: from paulmck-ThinkPad-P72.home (50-39-105-78.bvtn.or.frontiernet.net [50.39.105.78])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPSA id C69B52077C;
+	Sat, 11 Jan 2020 05:13:30 +0000 (UTC)
+Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
+	id 859AD3522887; Fri, 10 Jan 2020 21:13:30 -0800 (PST)
+Date: Fri, 10 Jan 2020 21:13:30 -0800
+From: "Paul E. McKenney" <paulmck@kernel.org>
 To: Marco Elver <elver@google.com>
-Cc: "Paul E. McKenney" <paulmck@kernel.org>, Andrey Konovalov <andreyknvl@google.com>, 
-	Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>, 
-	kasan-dev <kasan-dev@googlegroups.com>, LKML <linux-kernel@vger.kernel.org>, 
-	Qian Cai <cai@lca.pw>
+Cc: Andrey Konovalov <andreyknvl@google.com>,
+	Alexander Potapenko <glider@google.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	kasan-dev <kasan-dev@googlegroups.com>,
+	LKML <linux-kernel@vger.kernel.org>, Qian Cai <cai@lca.pw>
+Subject: Re: [PATCH -rcu 2/2] kcsan: Rate-limit reporting per data races
+Message-ID: <20200111051330.GG13449@paulmck-ThinkPad-P72>
+Reply-To: paulmck@kernel.org
+References: <20200109152322.104466-1-elver@google.com>
+ <20200109152322.104466-3-elver@google.com>
+ <CANpmjNNt_+EQHLFZyV5_Wq1frU3A=Rh8y5P7Zjp-0cAU2X7N6w@mail.gmail.com>
+ <CANpmjNOcjdr6HNaSP4Q7GTR72vx4bSMa_2O=_9oQwcz3xFk=Wg@mail.gmail.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
+Content-Disposition: inline
+In-Reply-To: <CANpmjNOcjdr6HNaSP4Q7GTR72vx4bSMa_2O=_9oQwcz3xFk=Wg@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Original-Sender: paulmck@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b="W/6dxF5y";       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::341 as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+ header.i=@kernel.org header.s=default header.b=rYcvO1RX;       spf=pass
+ (google.com: domain of srs0=sz6w=3a=paulmck-thinkpad-p72.home=paulmck@kernel.org
+ designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=sZ6w=3A=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -132,121 +142,123 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, 10 Jan 2020 at 19:20, Marco Elver <elver@google.com> wrote:
->
-> On Thu, 9 Jan 2020 at 16:23, Marco Elver <elver@google.com> wrote:
+On Fri, Jan 10, 2020 at 07:54:09PM +0100, Marco Elver wrote:
+> On Fri, 10 Jan 2020 at 19:20, Marco Elver <elver@google.com> wrote:
 > >
-> > Adds support for rate limiting reports. This uses a time based rate
-> > limit, that limits any given data race report to no more than one in a
-> > fixed time window (default is 3 sec). This should prevent the console
-> > from being spammed with data race reports, that would render the system
-> > unusable.
+> > On Thu, 9 Jan 2020 at 16:23, Marco Elver <elver@google.com> wrote:
+> > >
+> > > Adds support for rate limiting reports. This uses a time based rate
+> > > limit, that limits any given data race report to no more than one in a
+> > > fixed time window (default is 3 sec). This should prevent the console
+> > > from being spammed with data race reports, that would render the system
+> > > unusable.
+> > >
+> > > The implementation assumes that unique data races and the rate at which
+> > > they occur is bounded, since we cannot store arbitrarily many past data
+> > > race report information: we use a fixed-size array to store the required
+> > > information. We cannot use kmalloc/krealloc and resize the list when
+> > > needed, as reporting is triggered by the instrumentation calls; to
+> > > permit using KCSAN on the allocators, we cannot (re-)allocate any memory
+> > > during report generation (data races in the allocators lead to
+> > > deadlock).
+> > >
+> > > Reported-by: Qian Cai <cai@lca.pw>
+> > > Suggested-by: Paul E. McKenney <paulmck@kernel.org>
+> > > Signed-off-by: Marco Elver <elver@google.com>
+> > > ---
+> > >  kernel/kcsan/report.c | 112 ++++++++++++++++++++++++++++++++++++++----
+> > >  lib/Kconfig.kcsan     |  10 ++++
+> > >  2 files changed, 112 insertions(+), 10 deletions(-)
+> > >
+> > > diff --git a/kernel/kcsan/report.c b/kernel/kcsan/report.c
+> > > index 9f503ca2ff7a..e324af7d14c9 100644
+> > > --- a/kernel/kcsan/report.c
+> > > +++ b/kernel/kcsan/report.c
+> > > @@ -1,6 +1,7 @@
+> > >  // SPDX-License-Identifier: GPL-2.0
+> > >
+> > >  #include <linux/kernel.h>
+> > > +#include <linux/ktime.h>
+> > >  #include <linux/preempt.h>
+> > >  #include <linux/printk.h>
+> > >  #include <linux/sched.h>
+> > > @@ -31,12 +32,101 @@ static struct {
+> > >         int                     num_stack_entries;
+> > >  } other_info = { .ptr = NULL };
+> > >
+> > > +/*
+> > > + * Information about reported data races; used to rate limit reporting.
+> > > + */
+> > > +struct report_time {
+> > > +       /*
+> > > +        * The last time the data race was reported.
+> > > +        */
+> > > +       ktime_t time;
+> > > +
+> > > +       /*
+> > > +        * The frames of the 2 threads; if only 1 thread is known, one frame
+> > > +        * will be 0.
+> > > +        */
+> > > +       unsigned long frame1;
+> > > +       unsigned long frame2;
+> > > +};
+> > > +
+> > > +/*
+> > > + * Since we also want to be able to debug allocators with KCSAN, to avoid
+> > > + * deadlock, report_times cannot be dynamically resized with krealloc in
+> > > + * rate_limit_report.
+> > > + *
+> > > + * Therefore, we use a fixed-size array, which at most will occupy a page. This
+> > > + * still adequately rate limits reports, assuming that a) number of unique data
+> > > + * races is not excessive, and b) occurrence of unique data races within the
+> > > + * same time window is limited.
+> > > + */
+> > > +#define REPORT_TIMES_MAX (PAGE_SIZE / sizeof(struct report_time))
+> > > +#define REPORT_TIMES_SIZE                                                      \
+> > > +       (CONFIG_KCSAN_REPORT_ONCE_IN_MS > REPORT_TIMES_MAX ?                   \
+> > > +                REPORT_TIMES_MAX :                                            \
+> > > +                CONFIG_KCSAN_REPORT_ONCE_IN_MS)
+> > > +static struct report_time report_times[REPORT_TIMES_SIZE];
+> > > +
+> > >  /*
+> > >   * This spinlock protects reporting and other_info, since other_info is usually
+> > >   * required when reporting.
+> > >   */
+> > >  static DEFINE_SPINLOCK(report_lock);
+> > >
+> > > +/*
+> > > + * Checks if the data race identified by thread frames frame1 and frame2 has
+> > > + * been reported since (now - KCSAN_REPORT_ONCE_IN_MS).
+> > > + */
+> > > +static bool rate_limit_report(unsigned long frame1, unsigned long frame2)
+> > > +{
+> > > +       struct report_time *use_entry = &report_times[0];
+> > > +       ktime_t now;
+> > > +       ktime_t invalid_before;
+> > > +       int i;
+> > > +
+> > > +       BUILD_BUG_ON(CONFIG_KCSAN_REPORT_ONCE_IN_MS != 0 && REPORT_TIMES_SIZE == 0);
+> > > +
+> > > +       if (CONFIG_KCSAN_REPORT_ONCE_IN_MS == 0)
+> > > +               return false;
+> > > +
+> > > +       now = ktime_get();
+> > > +       invalid_before = ktime_sub_ms(now, CONFIG_KCSAN_REPORT_ONCE_IN_MS);
 > >
-> > The implementation assumes that unique data races and the rate at which
-> > they occur is bounded, since we cannot store arbitrarily many past data
-> > race report information: we use a fixed-size array to store the required
-> > information. We cannot use kmalloc/krealloc and resize the list when
-> > needed, as reporting is triggered by the instrumentation calls; to
-> > permit using KCSAN on the allocators, we cannot (re-)allocate any memory
-> > during report generation (data races in the allocators lead to
-> > deadlock).
-> >
-> > Reported-by: Qian Cai <cai@lca.pw>
-> > Suggested-by: Paul E. McKenney <paulmck@kernel.org>
-> > Signed-off-by: Marco Elver <elver@google.com>
-> > ---
-> >  kernel/kcsan/report.c | 112 ++++++++++++++++++++++++++++++++++++++----
-> >  lib/Kconfig.kcsan     |  10 ++++
-> >  2 files changed, 112 insertions(+), 10 deletions(-)
-> >
-> > diff --git a/kernel/kcsan/report.c b/kernel/kcsan/report.c
-> > index 9f503ca2ff7a..e324af7d14c9 100644
-> > --- a/kernel/kcsan/report.c
-> > +++ b/kernel/kcsan/report.c
-> > @@ -1,6 +1,7 @@
-> >  // SPDX-License-Identifier: GPL-2.0
-> >
-> >  #include <linux/kernel.h>
-> > +#include <linux/ktime.h>
-> >  #include <linux/preempt.h>
-> >  #include <linux/printk.h>
-> >  #include <linux/sched.h>
-> > @@ -31,12 +32,101 @@ static struct {
-> >         int                     num_stack_entries;
-> >  } other_info = { .ptr = NULL };
-> >
-> > +/*
-> > + * Information about reported data races; used to rate limit reporting.
-> > + */
-> > +struct report_time {
-> > +       /*
-> > +        * The last time the data race was reported.
-> > +        */
-> > +       ktime_t time;
-> > +
-> > +       /*
-> > +        * The frames of the 2 threads; if only 1 thread is known, one frame
-> > +        * will be 0.
-> > +        */
-> > +       unsigned long frame1;
-> > +       unsigned long frame2;
-> > +};
-> > +
-> > +/*
-> > + * Since we also want to be able to debug allocators with KCSAN, to avoid
-> > + * deadlock, report_times cannot be dynamically resized with krealloc in
-> > + * rate_limit_report.
-> > + *
-> > + * Therefore, we use a fixed-size array, which at most will occupy a page. This
-> > + * still adequately rate limits reports, assuming that a) number of unique data
-> > + * races is not excessive, and b) occurrence of unique data races within the
-> > + * same time window is limited.
-> > + */
-> > +#define REPORT_TIMES_MAX (PAGE_SIZE / sizeof(struct report_time))
-> > +#define REPORT_TIMES_SIZE                                                      \
-> > +       (CONFIG_KCSAN_REPORT_ONCE_IN_MS > REPORT_TIMES_MAX ?                   \
-> > +                REPORT_TIMES_MAX :                                            \
-> > +                CONFIG_KCSAN_REPORT_ONCE_IN_MS)
-> > +static struct report_time report_times[REPORT_TIMES_SIZE];
-> > +
-> >  /*
-> >   * This spinlock protects reporting and other_info, since other_info is usually
-> >   * required when reporting.
-> >   */
-> >  static DEFINE_SPINLOCK(report_lock);
-> >
-> > +/*
-> > + * Checks if the data race identified by thread frames frame1 and frame2 has
-> > + * been reported since (now - KCSAN_REPORT_ONCE_IN_MS).
-> > + */
-> > +static bool rate_limit_report(unsigned long frame1, unsigned long frame2)
-> > +{
-> > +       struct report_time *use_entry = &report_times[0];
-> > +       ktime_t now;
-> > +       ktime_t invalid_before;
-> > +       int i;
-> > +
-> > +       BUILD_BUG_ON(CONFIG_KCSAN_REPORT_ONCE_IN_MS != 0 && REPORT_TIMES_SIZE == 0);
-> > +
-> > +       if (CONFIG_KCSAN_REPORT_ONCE_IN_MS == 0)
-> > +               return false;
-> > +
-> > +       now = ktime_get();
-> > +       invalid_before = ktime_sub_ms(now, CONFIG_KCSAN_REPORT_ONCE_IN_MS);
->
-> Been thinking about this a bit more, and wondering if we should just
-> use jiffies here?  Don't think we need the precision.
+> > Been thinking about this a bit more, and wondering if we should just
+> > use jiffies here?  Don't think we need the precision.
+> 
+> Sent v2: http://lkml.kernel.org/r/20200110184834.192636-1-elver@google.com
+> I think it's also safer to use jiffies, as noted in the v2 patch.
+> 
+> Paul: sorry for sending v2, seeing you already had these in your tree.
+> Hope this is ok.
 
-Sent v2: http://lkml.kernel.org/r/20200110184834.192636-1-elver@google.com
-I think it's also safer to use jiffies, as noted in the v2 patch.
+Not a problem!  Pulling in the replacements shortly.
 
-Paul: sorry for sending v2, seeing you already had these in your tree.
-Hope this is ok.
-
-Thanks,
--- Marco
+							Thanx, Paul
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNOcjdr6HNaSP4Q7GTR72vx4bSMa_2O%3D_9oQwcz3xFk%3DWg%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200111051330.GG13449%40paulmck-ThinkPad-P72.
