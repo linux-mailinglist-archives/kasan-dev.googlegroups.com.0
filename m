@@ -1,107 +1,106 @@
-Return-Path: <kasan-dev+bncBDQ27FVWWUFRBMHG7LYAKGQEJLRM2BA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDQ27FVWWUFRBNHG7LYAKGQESPLF56A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yw1-xc39.google.com (mail-yw1-xc39.google.com [IPv6:2607:f8b0:4864:20::c39])
-	by mail.lfdr.de (Postfix) with ESMTPS id F00F413B9C9
-	for <lists+kasan-dev@lfdr.de>; Wed, 15 Jan 2020 07:37:37 +0100 (CET)
-Received: by mail-yw1-xc39.google.com with SMTP id q130sf18830539ywh.11
-        for <lists+kasan-dev@lfdr.de>; Tue, 14 Jan 2020 22:37:37 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1579070257; cv=pass;
+Received: from mail-oi1-x23e.google.com (mail-oi1-x23e.google.com [IPv6:2607:f8b0:4864:20::23e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35FAA13B9CC
+	for <lists+kasan-dev@lfdr.de>; Wed, 15 Jan 2020 07:37:42 +0100 (CET)
+Received: by mail-oi1-x23e.google.com with SMTP id c4sf5874011oiy.0
+        for <lists+kasan-dev@lfdr.de>; Tue, 14 Jan 2020 22:37:42 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1579070260; cv=pass;
         d=google.com; s=arc-20160816;
-        b=ta4EO9NweV7XMWNkRlLddEGlFHVwFqwuKWeyiT1CrUtygfqVfN+xNW18akq11h8LjD
-         V8G7rFjEsN1wWsqCIU+RqImyrY6XmPsEgPztlmYi9XtL6Q9vasC7NzwkDHcP4DcemDZU
-         31NspZQyEC3VPD5CNuiSG6CvWDbz94Omk/zF4To1lJvWdy4QwIbrzIbOQc18EH/ZtUG8
-         RdjCgaATk+9S3H29MII8Ou2Gn6aDX9zzZjs4aRHTTBJMRRoj8rngHgjhRt/djh8vcefo
-         Vk8juko+fDVNe8M6H/uRvgYWZARUFgrJqnPk9DbPlR8zcxEJHIW4+HmpKhgzRKDyv5xZ
-         DbBw==
+        b=lU2AwV2vZgmXLZ6HsqS99GyjDYjV8Xnt+ayUsKe1pnG7uk94MaA9SAectcEkmFn5XR
+         386h/Zd/bTD/y7xAko9p3vees79NO84ywA9KpgYQE1bs3qooMHtCP/JK46hfsPArlkpR
+         m+vJkUkO7J10QZssvXCqh9m5uMosPz0fiThNT+At8Jmz72E4qQxk3gU8EZVRjlOHEMZD
+         fq3hJ1dlN3gad/ZMJnkiwaC2zQhd1DdZLmGLMLFrk8HikhTzj3ekkbJSdZtiCaHRsTF1
+         1AfbFzYBjQY+/ow7HaKTTZvkWxMB3tBZ34gR9ZUx4acDbhMem/VYyo1heOF/yP039cZv
+         SD9A==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding
-         :mime-version:references:in-reply-to:message-id:date:subject:cc:to
-         :from:sender:dkim-signature;
-        bh=/eL1akvry/f9zjUF29I5NPHcTvwFd0Um7MyH6278ico=;
-        b=jFaiIBzimL65/wxZhlN6KEs5ETMFpoUs/Qq733UZIKHx8wn29B4D5s/YV85D6h+7Vt
-         QnUFPMRuJccUQ+JpOqffsl4knAj346uydcskiV9HrT60p9LISWico/CykjepGMSkwEDv
-         36T1L2piVadWu7vSvTSOfmRYGc3VuUzBoPRU0LjObw/Gd0yopt6Ep3M3gCINCixip278
-         Yw+Fu2B/2aa7fDRbVni+AwQOer025GwsM2ewrgKjNQECtTtuMJ2ViKvLm4Iqpvr12s9S
-         AwUbQeKBkhyAUxCtYiIk3m9PKw/44iauPUD2UM2hCrJqL3SQaxPTgS7F50IqDSdgVpzA
-         QxKA==
+         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:sender:dkim-signature;
+        bh=AqXtWsJnChJ/MzyMr0rrz0vQLYKJb4okcyKxTWoGK+k=;
+        b=riWyaqNfCSetts5VQS+PwnUGgDqY9J/FPrVfNxVclOhqLcpQoCZABOsaNzqkFSaAuP
+         gqO5dk/fFtb05dBWvVedLoPqytdlImfUR2T+aEGCxTiBDXLIcs/4T/dnH0M0yv9VlWFT
+         VJKNTTVIgU18SNgAlWkmqNNN+AFobQBMnVnOyN/VU0LOow5gnBedcSDssnsyHvXT5gwB
+         ZA+M2lYrqD3RPhWyLxksA/WQxoWM06TzspTEqkT9WEV3E4xkV1JHe8TnLfG8UnmUVj0n
+         ktJPCN/5j4f7LMtTa13kIJMoWtL7XptbJ+r8IqtD96TA7OqkchTa8vq8kJ1RyDpagjCj
+         IQ7w==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@axtens.net header.s=google header.b=hZt2zcSk;
-       spf=pass (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::1044 as permitted sender) smtp.mailfrom=dja@axtens.net
+       dkim=pass header.i=@axtens.net header.s=google header.b=jF35eyuW;
+       spf=pass (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::441 as permitted sender) smtp.mailfrom=dja@axtens.net
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
         h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=/eL1akvry/f9zjUF29I5NPHcTvwFd0Um7MyH6278ico=;
-        b=Jo2wFs2oMj77IS48nITm8RUANbqZrlfBIP2v0D5ojXaEqR/490ATmqY3TvKvHJYJ/t
-         LG0PXxB3syWQ2bi/LSkW0XxJAQLJtzIRe45AZVjaJYAQOB2ArFSgeCjwcijb+WXnyRvl
-         lYytfVfS8+ehzwNWYnljNaJ7ROmisq8Hm6MvYpCDE4jLolwjM6pdkHPTk1cs5H61Gh4B
-         Hnsh+NaHoczJiDANOsuXTtT4A3tpQ6F4Jvn9j4FUsT10IXfzRny+BfH91n0MZOg+HOSe
-         gE7ZOqz1e/s1p3QxJgNLufoEwOkAjxTBekoH0AR6q4deoSTZzw48mgwV8r3uLONbyrMU
-         ypgA==
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=AqXtWsJnChJ/MzyMr0rrz0vQLYKJb4okcyKxTWoGK+k=;
+        b=TdjlgwoGpnf/fc/33Z5YSQm57YvM63a6RQnpMJzpt8jCFAjyWwg9VKr1/xCqqiw4KS
+         i1gPQJrN2TIpmqqVHFnlstpp3emLppbOqt0El6AnhyjYDYCyz25ONAtVmrDkfWSaT8CN
+         hLW+f5zXHq7pg2hDB6pB6AWaBAjCglUDwVaQykYL1xOzJOFNdsAB5ZQSobOqXv7gs/3U
+         m1U6h0VwIT6LKUIgrSHKhGXl7KnfiLp/l9KCm8qGDtexyqtWcughaxM4/+X8BNhYFT5+
+         X3jJo7XzqAHm/rQbP4SRbAKQVP31qzVdDUMXyJcgH7FU40ji3haL6HktJse3t9dza322
+         Wdxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :in-reply-to:references:mime-version:content-transfer-encoding
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=/eL1akvry/f9zjUF29I5NPHcTvwFd0Um7MyH6278ico=;
-        b=G1st61jzg3x8wHoieLFyJL1VOSaEOoYzWq8PkLyu81IaAXnjyJw93WyZvJp6XKpQJY
-         Nb5iCFrQht2W/smBXGYSffE/6I/1bESyZWMWi/0T+l3rf48arlkE44BoGvPCA1hkHMoA
-         HDflyMTdRzdfgDo6k/0yqYMhvu17kdANbQT3gWqQVa11J12rOFbtlOomrQQMb6VRefdp
-         oms9s8VBiY0vftaaESWHy48wrLvap4rCaZSxCyf24VPYrYSxvM87OWM05zLica+C2lHa
-         OjkbkgZVlp1v0sJWiu+7cbg1ecAHs+bvhq3VAn4S5VBlwxHACff5VLD5XTtqIxMam5Fb
-         l8UQ==
+         :in-reply-to:references:mime-version:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=AqXtWsJnChJ/MzyMr0rrz0vQLYKJb4okcyKxTWoGK+k=;
+        b=d6VCFb3VVVJVd0AvfM3QcN8hvw/fkG1NVvogca8BtC1HPTPGxzs815+utLo/Tutq+b
+         ANvCtM/xthNQUorqv5hopGn9CXLQtxqsyPf5yecvuhfZXAwzWDNEMKZrCCk880Yuhh8M
+         la6TR3y4OiHWhcDKBRwVn/epRzxzpeiKanV1X/54WvInsvXha5JcqHtkYBEG6T4ggEOF
+         /LXnyxsLR4hzdnpys2bFywkjAf31/SRcAgOhUi6bbNsz9G7Hyh9eSlasodeKOe4Csg5w
+         E0ISN42Tw+x+OfY4OyvePfIttEhUlFtCJwqM1Qi80KG8sdK/h9J6YTrLk7Myyi550gx2
+         +21A==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAX3J9sBBxRSGqhzAAg+AzWUKy65lLH94+9vuK0oUn0JKT/gJlnn
-	+eb4rN4MORhlEZRUnY7NuaA=
-X-Google-Smtp-Source: APXvYqxbzK7EL3dD0pPYbYVtwama75Alb5t3QhIrNdPvH5Gznq4SjH4WmyekW46zQ2GkoDTm1iZ14g==
-X-Received: by 2002:a81:7841:: with SMTP id t62mr21018333ywc.140.1579070256840;
-        Tue, 14 Jan 2020 22:37:36 -0800 (PST)
+X-Gm-Message-State: APjAAAV1fQx4GoeFujyeHjeFXsZDtA8/viPp8eX1EOhO1KYgmwpsCION
+	wDxKrfntf4Lh7k1rEVafJK4=
+X-Google-Smtp-Source: APXvYqw2Gdsa1Mezr7wvpdAiGdlx5WaHm/Kwo003d14L+GmItXtv/9EDG9zd/TzAumrKURV83uKoZg==
+X-Received: by 2002:a9d:32c7:: with SMTP id u65mr1731575otb.224.1579070260722;
+        Tue, 14 Jan 2020 22:37:40 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a25:aa54:: with SMTP id s78ls1561367ybi.9.gmail; Tue, 14 Jan
- 2020 22:37:36 -0800 (PST)
-X-Received: by 2002:a25:7cc1:: with SMTP id x184mr20925836ybc.69.1579070256546;
-        Tue, 14 Jan 2020 22:37:36 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1579070256; cv=none;
+Received: by 2002:aca:af4a:: with SMTP id y71ls3200108oie.16.gmail; Tue, 14
+ Jan 2020 22:37:40 -0800 (PST)
+X-Received: by 2002:aca:dfd5:: with SMTP id w204mr20473788oig.95.1579070260291;
+        Tue, 14 Jan 2020 22:37:40 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1579070260; cv=none;
         d=google.com; s=arc-20160816;
-        b=pPAVgeJ50H03mExIEt89L4JedmZYx//PGCN9SiIaBGG2F/EK2oOmRcE3s/3cj0XorC
-         gr2WXvkbOE/dJqZ7jzH1cO5Sg3BYhSuTpVWwesboWeleNM1clrCqPe6F6D9UTGK9xnAp
-         d9WxuQqdZ0JKCbqoWKX/OGATZvsP341NhQZhl2YA2OTrFoS3yhj32Swb9PHAOKnoiFg8
-         ZVoGcFEGgNZlDD61t+fGDXxrzLLoAQCx3OrUuQAkEI3lQLwYBHTyBs1AMhB+NwRxYkAY
-         Xn47uhGRSicfg1lNqgIrh7s3DORU6nckHYHHRjKrcXc5wIvh/N93Ao05QQstf4mHQcOs
-         ji/g==
+        b=U0Wt8zw+rTBPZMrCNgr8vZ0ebrCHEITZYJmeMOyiPNfB+AJYDu4Bnpa08luMfsdm0q
+         lbQtO14pBv34thiTmpBb7EjPV0FqJXlslR5w6ibG7iCiTfdFpuc/sr6ZFgKvp+Drv3tV
+         tsR4yZAmFDiaJk2NIQTnpFjtasGzBBmksYZ4fBzUYNrMs9ut8SlMLy+z4elNU+qVK3PR
+         F01D5iP5xgP/UVFfPHAPfuFOso/gmbOydoK1XrN3xIlkw+KiKV73zxZ5stOtDW9kvtWb
+         sxMPW5Hu13AoPGeuMN212EopkKzUgShk+Tv1x2VbP0TovAvBcqzT3pr5oEi8zCpHamtC
+         M8gw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=r5/dhMWxJZ8SOba/KcCWGM9GPzNc+Jy36C4OySceHUs=;
-        b=EdIO1/O+NpFFdR/KjzOntAHKkQeNM3ozVguWBMb6sIgql4IqDf6ssiQVWEIxeom4a8
-         SrtoNTJp3aOQsy4lI0TNx9pfSjybVTwB8koXgnfNCVIaoxSsHIGebd6NsC5Wkqj6rZ4W
-         Nui+kNbnHu5Vfoo4zPxzKT6rvedwoLOtpXh/2Hh61XhH/XF8A6DwZMd0M3OsknhH4pxI
-         cSEi6TseocRKFt2OMLzjCGefPeehJYk0B5QPa/sHf8DS4cyXRcWDNMk4YaJL4tWS6r16
-         JwH+kleMzkjqQ9bYwx1soWwNd4Mx/OWfa3bcwjT5oLYy/MPCAGUsQ9BeXYNeAftcwFSQ
-         cpdQ==
+        bh=47TfoOm/Ot7psKePVSna5lKaeSaaEjfGGPpf3dZ7N5k=;
+        b=hLuGz0joIeU7eOy4rgV1Euykrv1tyLkxc58O2zPcUqHd18M6QP3Th/wDwStRrY2yjX
+         +C4qr9rO/Hvi08wdhQ6nUIi0elXBNE3srwKIyv2ndkoasWp09Jr2hfK89ciAYMu7r5At
+         4/+zNtGUtrko2R1hNoKrsEP9HggOn2rm2alf3owbTyh/raNeeWVXq5UZFKz5FE5At1o3
+         TSLMWlp1wq0+bT1fV0Oe9Q61ItHbe9g6AsMWYHMQM101ns6HIUSJl5cPYYdgU+I3s7Lj
+         gaBrgESsyHxV5t6ArF32OzwLuJEipcOVa/93LaSmvW7U8p0CyAw+AdeGHF0Lu672SWvr
+         4XZg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@axtens.net header.s=google header.b=hZt2zcSk;
-       spf=pass (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::1044 as permitted sender) smtp.mailfrom=dja@axtens.net
-Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com. [2607:f8b0:4864:20::1044])
-        by gmr-mx.google.com with ESMTPS id j7si802184ywc.2.2020.01.14.22.37.36
+       dkim=pass header.i=@axtens.net header.s=google header.b=jF35eyuW;
+       spf=pass (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::441 as permitted sender) smtp.mailfrom=dja@axtens.net
+Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com. [2607:f8b0:4864:20::441])
+        by gmr-mx.google.com with ESMTPS id d16si740582oij.1.2020.01.14.22.37.40
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 14 Jan 2020 22:37:36 -0800 (PST)
-Received-SPF: pass (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::1044 as permitted sender) client-ip=2607:f8b0:4864:20::1044;
-Received: by mail-pj1-x1044.google.com with SMTP id u63so1717819pjb.0
-        for <kasan-dev@googlegroups.com>; Tue, 14 Jan 2020 22:37:36 -0800 (PST)
-X-Received: by 2002:a17:90a:6:: with SMTP id 6mr34950202pja.71.1579070255741;
-        Tue, 14 Jan 2020 22:37:35 -0800 (PST)
+        Tue, 14 Jan 2020 22:37:40 -0800 (PST)
+Received-SPF: pass (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::441 as permitted sender) client-ip=2607:f8b0:4864:20::441;
+Received: by mail-pf1-x441.google.com with SMTP id 62so1382539pfu.11
+        for <kasan-dev@googlegroups.com>; Tue, 14 Jan 2020 22:37:40 -0800 (PST)
+X-Received: by 2002:a62:868f:: with SMTP id x137mr29859489pfd.228.1579070259533;
+        Tue, 14 Jan 2020 22:37:39 -0800 (PST)
 Received: from localhost (2001-44b8-1113-6700-8d73-bc9d-5592-cfd7.static.ipv6.internode.on.net. [2001:44b8:1113:6700:8d73:bc9d:5592:cfd7])
-        by smtp.gmail.com with ESMTPSA id c15sm20438468pja.30.2020.01.14.22.37.34
+        by smtp.gmail.com with ESMTPSA id v13sm20960031pgc.54.2020.01.14.22.37.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jan 2020 22:37:35 -0800 (PST)
+        Tue, 14 Jan 2020 22:37:38 -0800 (PST)
 From: Daniel Axtens <dja@axtens.net>
 To: linux-kernel@vger.kernel.org,
 	linux-mm@kvack.org,
@@ -116,20 +115,19 @@ Cc: linuxppc-dev@lists.ozlabs.org,
 	Andrey Ryabinin <aryabinin@virtuozzo.com>,
 	Alexander Potapenko <glider@google.com>,
 	Dmitry Vyukov <dvyukov@google.com>
-Subject: [PATCH 1/2] kasan: stop tests being eliminated as dead code with FORTIFY_SOURCE
-Date: Wed, 15 Jan 2020 17:37:09 +1100
-Message-Id: <20200115063710.15796-2-dja@axtens.net>
+Subject: [PATCH 2/2] string.h: fix incompatibility between FORTIFY_SOURCE and KASAN
+Date: Wed, 15 Jan 2020 17:37:10 +1100
+Message-Id: <20200115063710.15796-3-dja@axtens.net>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200115063710.15796-1-dja@axtens.net>
 References: <20200115063710.15796-1-dja@axtens.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-Original-Sender: dja@axtens.net
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@axtens.net header.s=google header.b=hZt2zcSk;       spf=pass
- (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::1044 as
+ header.i=@axtens.net header.s=google header.b=jF35eyuW;       spf=pass
+ (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::441 as
  permitted sender) smtp.mailfrom=dja@axtens.net
+Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -142,175 +140,367 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-3 KASAN self-tests fail on a kernel with both KASAN and FORTIFY_SOURCE:
-memchr, memcmp and strlen.
+The memcmp KASAN self-test fails on a kernel with both KASAN and
+FORTIFY_SOURCE.
 
 When FORTIFY_SOURCE is on, a number of functions are replaced with
 fortified versions, which attempt to check the sizes of the operands.
 However, these functions often directly invoke __builtin_foo() once they
-have performed the fortify check. The compiler can detect that the results
-of these functions are not used, and knows that they have no other side
-effects, and so can eliminate them as dead code.
+have performed the fortify check. Using __builtins may bypass KASAN
+checks if the compiler decides to inline it's own implementation as
+sequence of instructions, rather than emit a function call that goes out
+to a KASAN-instrumented implementation.
 
-Why are only memchr, memcmp and strlen affected?
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+Why is only memcmp affected?
+============================
 
-Of string and string-like functions, kasan_test tests:
+Of the string and string-like functions that kasan_test tests, only memcmp
+is replaced by an inline sequence of instructions in my testing on x86 with
+gcc version 9.2.1 20191008 (Ubuntu 9.2.1-9ubuntu2).
 
- * strchr  ->  not affected, no fortified version
- * strrchr ->  likewise
- * strcmp  ->  likewise
- * strncmp ->  likewise
+I believe this is due to compiler heuristics. For example, if I annotate
+kmalloc calls with the alloc_size annotation (and disable some fortify
+compile-time checking!), the compiler will replace every memset except the
+one in kmalloc_uaf_memset with inline instructions. (I have some WIP
+patches to add this annotation.)
 
- * strnlen ->  not affected, the fortify source implementation calls the
-               underlying strnlen implementation which is instrumented, not
-               a builtin
+Does this affect other functions in string.h?
+=============================================
 
- * strlen  ->  affected, the fortify souce implementation calls a __builtin
-               version which the compiler can determine is dead.
+Yes. Anything that uses __builtin_* rather than __real_* could be
+affected. This looks like:
 
- * memchr  ->  likewise
- * memcmp  ->  likewise
+ - strncpy
+ - strcat
+ - strlen
+ - strlcpy maybe, under some circumstances?
+ - strncat under some circumstances
+ - memset
+ - memcpy
+ - memmove
+ - memcmp (as noted)
+ - memchr
+ - strcpy
 
- * memset ->   not affected, the compiler knows that memset writes to its
-	       first argument and therefore is not dead.
+Whether a function call is emitted always depends on the compiler. Most
+bugs should get caught by FORTIFY_SOURCE, but the missed memcmp test shows
+that this is not always the case.
 
-Why does this not affect the functions normally?
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+Isn't FORTIFY_SOURCE disabled with KASAN?
+========================================-
 
-In string.h, these functions are not marked as __pure, so the compiler
-cannot know that they do not have side effects. If relevant functions are
-marked as __pure in string.h, we see the following warnings and the
-functions are elided:
+The string headers on all arches supporting KASAN disable fortify with
+kasan, but only when address sanitisation is _also_ disabled. For example
+from x86:
 
-lib/test_kasan.c: In function =E2=80=98kasan_memchr=E2=80=99:
-lib/test_kasan.c:606:2: warning: statement with no effect [-Wunused-value]
-  memchr(ptr, '1', size + 1);
-  ^~~~~~~~~~~~~~~~~~~~~~~~~~
-lib/test_kasan.c: In function =E2=80=98kasan_memcmp=E2=80=99:
-lib/test_kasan.c:622:2: warning: statement with no effect [-Wunused-value]
-  memcmp(ptr, arr, size+1);
-  ^~~~~~~~~~~~~~~~~~~~~~~~
-lib/test_kasan.c: In function =E2=80=98kasan_strings=E2=80=99:
-lib/test_kasan.c:645:2: warning: statement with no effect [-Wunused-value]
-  strchr(ptr, '1');
-  ^~~~~~~~~~~~~~~~
-...
+ #if defined(CONFIG_KASAN) && !defined(__SANITIZE_ADDRESS__)
+ /*
+  * For files that are not instrumented (e.g. mm/slub.c) we
+  * should use not instrumented version of mem* functions.
+  */
+ #define memcpy(dst, src, len) __memcpy(dst, src, len)
+ #define memmove(dst, src, len) __memmove(dst, src, len)
+ #define memset(s, c, n) __memset(s, c, n)
 
-This annotation would make sense to add and could be added at any point, so
-the behaviour of test_kasan.c should change.
+ #ifndef __NO_FORTIFY
+ #define __NO_FORTIFY /* FORTIFY_SOURCE uses __builtin_memcpy, etc. */
+ #endif
 
-The fix
-=3D=3D=3D=3D=3D=3D=3D
+ #endif
 
-Make all the functions that are pure write their results to a global,
-which makes them live. The strlen and memchr tests now pass.
+This comes from commit 6974f0c4555e ("include/linux/string.h: add the
+option of fortified string.h functions"), and doesn't work when KASAN is
+enabled and the file is supposed to be sanitised - as with test_kasan.c
 
-The memcmp test still fails to trigger, which is addressed in the next
-patch.
+I'm pretty sure this is backwards: we shouldn't be using __builtin_memcpy
+when we have a KASAN instrumented file, but we can use __builtin_* - and in
+many cases all fortification - in files where we don't have
+instrumentation.
+
+What is correct behaviour?
+==========================
+
+Firstly, there is some overlap between fortification and KASAN: both
+provide some level of _runtime_ checking. Only fortify provides
+compile-time checking.
+
+KASAN and fortify can pick up different things at runtime:
+
+ - Some fortify functions, notably the string functions, could easily be
+   modified to consider sub-object sizes (e.g. members within a struct),
+   and I have some WIP patches to do this. KASAN cannot detect these
+   because it cannot insert poision between members of a struct.
+
+ - KASAN can detect many over-reads/over-writes when the sizes of both
+   operands are unknown, which fortify cannot.
+
+So there are a couple of options:
+
+ 1) Flip the test: disable fortify in santised files and enable it in
+    unsanitised files. This at least stops us missing KASAN checking, but
+    we lose the fortify checking.
+
+ 2) Make the fortify code always call out to real versions. Do this only
+    for KASAN, for fear of losing the inlining opportunities we get from
+    __builtin_*.
+
+(We can't use kasan_check_{read,write}: because the fortify functions are
+_extern inline_, you can't include _static_ inline functions without a
+compiler warning. kasan_check_{read,write} are static inline so we can't
+use them even when they would otherwise be suitable.)
+
+Take approach 2 and call out to real versions when KASAN is enabled.
+
+Use __underlying_foo to distinguish from __real_foo: __real_foo always
+refers to the kernel's implementation of foo, __underlying_foo could be
+either the kernel implementation or the __builtin_foo implementation.
+
+Remove all the attempted disablement code in arch string headers.
+
+This makes all the tests succeed with FORTIFY_SOURCE enabled.
 
 Cc: Daniel Micay <danielmicay@gmail.com>
 Cc: Andrey Ryabinin <aryabinin@virtuozzo.com>
 Cc: Alexander Potapenko <glider@google.com>
 Cc: Dmitry Vyukov <dvyukov@google.com>
-Fixes: 0c96350a2d2f ("lib/test_kasan.c: add tests for several string/memory=
- API functions")
+Fixes: 6974f0c4555e ("include/linux/string.h: add the option of fortified string.h functions")
 Signed-off-by: Daniel Axtens <dja@axtens.net>
----
- lib/test_kasan.c | 30 +++++++++++++++++++-----------
- 1 file changed, 19 insertions(+), 11 deletions(-)
 
-diff --git a/lib/test_kasan.c b/lib/test_kasan.c
-index 328d33beae36..58a8cef0d7a2 100644
---- a/lib/test_kasan.c
-+++ b/lib/test_kasan.c
-@@ -23,6 +23,14 @@
-=20
- #include <asm/page.h>
-=20
-+/*
-+ * We assign some test results to these globals to make sure the tests
-+ * are not eliminated as dead code.
-+ */
-+
-+int int_result;
-+void *ptr_result;
-+
- /*
-  * Note: test functions are marked noinline so that their names appear in
-  * reports.
-@@ -603,7 +611,7 @@ static noinline void __init kasan_memchr(void)
- 	if (!ptr)
- 		return;
-=20
--	memchr(ptr, '1', size + 1);
-+	ptr_result =3D memchr(ptr, '1', size + 1);
- 	kfree(ptr);
- }
-=20
-@@ -618,8 +626,7 @@ static noinline void __init kasan_memcmp(void)
- 	if (!ptr)
- 		return;
-=20
--	memset(arr, 0, sizeof(arr));
--	memcmp(ptr, arr, size+1);
-+	int_result =3D memcmp(ptr, arr, size + 1);
- 	kfree(ptr);
- }
-=20
-@@ -642,22 +649,22 @@ static noinline void __init kasan_strings(void)
- 	 * will likely point to zeroed byte.
- 	 */
- 	ptr +=3D 16;
--	strchr(ptr, '1');
-+	ptr_result =3D strchr(ptr, '1');
-=20
- 	pr_info("use-after-free in strrchr\n");
--	strrchr(ptr, '1');
-+	ptr_result =3D strrchr(ptr, '1');
-=20
- 	pr_info("use-after-free in strcmp\n");
--	strcmp(ptr, "2");
-+	int_result =3D strcmp(ptr, "2");
-=20
- 	pr_info("use-after-free in strncmp\n");
--	strncmp(ptr, "2", 1);
-+	int_result =3D strncmp(ptr, "2", 1);
-=20
- 	pr_info("use-after-free in strlen\n");
--	strlen(ptr);
-+	int_result =3D strlen(ptr);
-=20
- 	pr_info("use-after-free in strnlen\n");
--	strnlen(ptr, 1);
-+	int_result =3D strnlen(ptr, 1);
- }
-=20
- static noinline void __init kasan_bitops(void)
-@@ -724,11 +731,12 @@ static noinline void __init kasan_bitops(void)
- 	__test_and_change_bit(BITS_PER_LONG + BITS_PER_BYTE, bits);
-=20
- 	pr_info("out-of-bounds in test_bit\n");
--	(void)test_bit(BITS_PER_LONG + BITS_PER_BYTE, bits);
-+	int_result =3D test_bit(BITS_PER_LONG + BITS_PER_BYTE, bits);
-=20
- #if defined(clear_bit_unlock_is_negative_byte)
- 	pr_info("out-of-bounds in clear_bit_unlock_is_negative_byte\n");
--	clear_bit_unlock_is_negative_byte(BITS_PER_LONG + BITS_PER_BYTE, bits);
-+	int_result =3D clear_bit_unlock_is_negative_byte(BITS_PER_LONG +
-+		BITS_PER_BYTE, bits);
+---
+
+Dmitry, this might cause a few new syzkaller splats - I first picked it up
+building from a syskaller config. Or it might not, it just depends what gets
+replaced with an inline sequence of instructions.
+
+checkpatch complains about some over-long lines, happy to change the format
+if anyone has better ideas for how to lay it out.
+---
+ arch/arm64/include/asm/string.h   |  4 ---
+ arch/powerpc/include/asm/string.h |  4 ---
+ arch/s390/include/asm/string.h    |  4 ---
+ arch/x86/include/asm/string_64.h  |  4 ---
+ arch/xtensa/include/asm/string.h  |  3 --
+ include/linux/string.h            | 49 +++++++++++++++++++++++--------
+ 6 files changed, 37 insertions(+), 31 deletions(-)
+
+diff --git a/arch/arm64/include/asm/string.h b/arch/arm64/include/asm/string.h
+index b31e8e87a0db..eafb2c4771fc 100644
+--- a/arch/arm64/include/asm/string.h
++++ b/arch/arm64/include/asm/string.h
+@@ -59,10 +59,6 @@ void memcpy_flushcache(void *dst, const void *src, size_t cnt);
+ #define memmove(dst, src, len) __memmove(dst, src, len)
+ #define memset(s, c, n) __memset(s, c, n)
+ 
+-#ifndef __NO_FORTIFY
+-#define __NO_FORTIFY /* FORTIFY_SOURCE uses __builtin_memcpy, etc. */
+-#endif
+-
  #endif
- 	kfree(bits);
+ 
+ #endif
+diff --git a/arch/powerpc/include/asm/string.h b/arch/powerpc/include/asm/string.h
+index b72692702f35..952c5934596b 100644
+--- a/arch/powerpc/include/asm/string.h
++++ b/arch/powerpc/include/asm/string.h
+@@ -43,10 +43,6 @@ void *__memmove(void *to, const void *from, __kernel_size_t n);
+ #define memmove(dst, src, len) __memmove(dst, src, len)
+ #define memset(s, c, n) __memset(s, c, n)
+ 
+-#ifndef __NO_FORTIFY
+-#define __NO_FORTIFY /* FORTIFY_SOURCE uses __builtin_memcpy, etc. */
+-#endif
+-
+ #endif
+ 
+ #ifdef CONFIG_PPC64
+diff --git a/arch/s390/include/asm/string.h b/arch/s390/include/asm/string.h
+index 4c0690fc5167..e0b66d8c89a1 100644
+--- a/arch/s390/include/asm/string.h
++++ b/arch/s390/include/asm/string.h
+@@ -75,10 +75,6 @@ extern void *__memmove(void *dest, const void *src, size_t n);
+ 
+ #define __no_sanitize_prefix_strfunc(x) __##x
+ 
+-#ifndef __NO_FORTIFY
+-#define __NO_FORTIFY /* FORTIFY_SOURCE uses __builtin_memcpy, etc. */
+-#endif
+-
+ #else
+ #define __no_sanitize_prefix_strfunc(x) x
+ #endif /* defined(CONFIG_KASAN) && !defined(__SANITIZE_ADDRESS__) */
+diff --git a/arch/x86/include/asm/string_64.h b/arch/x86/include/asm/string_64.h
+index 75314c3dbe47..ec63d11e1f04 100644
+--- a/arch/x86/include/asm/string_64.h
++++ b/arch/x86/include/asm/string_64.h
+@@ -76,10 +76,6 @@ int strcmp(const char *cs, const char *ct);
+ #define memmove(dst, src, len) __memmove(dst, src, len)
+ #define memset(s, c, n) __memset(s, c, n)
+ 
+-#ifndef __NO_FORTIFY
+-#define __NO_FORTIFY /* FORTIFY_SOURCE uses __builtin_memcpy, etc. */
+-#endif
+-
+ #endif
+ 
+ #define __HAVE_ARCH_MEMCPY_MCSAFE 1
+diff --git a/arch/xtensa/include/asm/string.h b/arch/xtensa/include/asm/string.h
+index 89b51a0c752f..8cf04c5a33fb 100644
+--- a/arch/xtensa/include/asm/string.h
++++ b/arch/xtensa/include/asm/string.h
+@@ -132,9 +132,6 @@ extern void *__memmove(void *__dest, __const__ void *__src, size_t __n);
+ #define memmove(dst, src, len) __memmove(dst, src, len)
+ #define memset(s, c, n) __memset(s, c, n)
+ 
+-#ifndef __NO_FORTIFY
+-#define __NO_FORTIFY /* FORTIFY_SOURCE uses __builtin_memcpy, etc. */
+-#endif
+ #endif
+ 
+ #endif	/* _XTENSA_STRING_H */
+diff --git a/include/linux/string.h b/include/linux/string.h
+index 3b8e8b12dd37..4364c106355e 100644
+--- a/include/linux/string.h
++++ b/include/linux/string.h
+@@ -317,6 +317,31 @@ void __read_overflow3(void) __compiletime_error("detected read beyond size of ob
+ void __write_overflow(void) __compiletime_error("detected write beyond size of object passed as 1st parameter");
+ 
+ #if !defined(__NO_FORTIFY) && defined(__OPTIMIZE__) && defined(CONFIG_FORTIFY_SOURCE)
++
++#ifdef CONFIG_KASAN
++extern void *__underlying_memchr(const void *p, int c, __kernel_size_t size) __RENAME(memchr);
++extern int __underlying_memcmp(const void *p, const void *q, __kernel_size_t size) __RENAME(memcmp);
++extern void *__underlying_memcpy(void *p, const void *q, __kernel_size_t size) __RENAME(memcpy);
++extern void *__underlying_memmove(void *p, const void *q, __kernel_size_t size) __RENAME(memmove);
++extern void *__underlying_memset(void *p, int c, __kernel_size_t size) __RENAME(memset);
++extern char *__underlying_strcat(char *p, const char *q) __RENAME(strcat);
++extern char *__underlying_strcpy(char *p, const char *q) __RENAME(strcpy);
++extern __kernel_size_t __underlying_strlen(const char *p) __RENAME(strlen);
++extern char *__underlying_strncat(char *p, const char *q, __kernel_size_t count) __RENAME(strncat);
++extern char *__underlying_strncpy(char *p, const char *q, __kernel_size_t size) __RENAME(strncpy);
++#else
++#define __underlying_memchr	__builtin_memchr
++#define __underlying_memcmp	__builtin_memcmp
++#define __underlying_memcpy	__builtin_memcpy
++#define __underlying_memmove	__builtin_memmove
++#define __underlying_memset	__builtin_memset
++#define __underlying_strcat	__builtin_strcat
++#define __underlying_strcpy	__builtin_strcpy
++#define __underlying_strlen	__builtin_strlen
++#define __underlying_strncat	__builtin_strncat
++#define __underlying_strncpy	__builtin_strncpy
++#endif
++
+ __FORTIFY_INLINE char *strncpy(char *p, const char *q, __kernel_size_t size)
+ {
+ 	size_t p_size = __builtin_object_size(p, 0);
+@@ -324,14 +349,14 @@ __FORTIFY_INLINE char *strncpy(char *p, const char *q, __kernel_size_t size)
+ 		__write_overflow();
+ 	if (p_size < size)
+ 		fortify_panic(__func__);
+-	return __builtin_strncpy(p, q, size);
++	return __underlying_strncpy(p, q, size);
  }
---=20
+ 
+ __FORTIFY_INLINE char *strcat(char *p, const char *q)
+ {
+ 	size_t p_size = __builtin_object_size(p, 0);
+ 	if (p_size == (size_t)-1)
+-		return __builtin_strcat(p, q);
++		return __underlying_strcat(p, q);
+ 	if (strlcat(p, q, p_size) >= p_size)
+ 		fortify_panic(__func__);
+ 	return p;
+@@ -345,7 +370,7 @@ __FORTIFY_INLINE __kernel_size_t strlen(const char *p)
+ 	/* Work around gcc excess stack consumption issue */
+ 	if (p_size == (size_t)-1 ||
+ 	    (__builtin_constant_p(p[p_size - 1]) && p[p_size - 1] == '\0'))
+-		return __builtin_strlen(p);
++		return __underlying_strlen(p);
+ 	ret = strnlen(p, p_size);
+ 	if (p_size <= ret)
+ 		fortify_panic(__func__);
+@@ -378,7 +403,7 @@ __FORTIFY_INLINE size_t strlcpy(char *p, const char *q, size_t size)
+ 			__write_overflow();
+ 		if (len >= p_size)
+ 			fortify_panic(__func__);
+-		__builtin_memcpy(p, q, len);
++		__underlying_memcpy(p, q, len);
+ 		p[len] = '\0';
+ 	}
+ 	return ret;
+@@ -391,12 +416,12 @@ __FORTIFY_INLINE char *strncat(char *p, const char *q, __kernel_size_t count)
+ 	size_t p_size = __builtin_object_size(p, 0);
+ 	size_t q_size = __builtin_object_size(q, 0);
+ 	if (p_size == (size_t)-1 && q_size == (size_t)-1)
+-		return __builtin_strncat(p, q, count);
++		return __underlying_strncat(p, q, count);
+ 	p_len = strlen(p);
+ 	copy_len = strnlen(q, count);
+ 	if (p_size < p_len + copy_len + 1)
+ 		fortify_panic(__func__);
+-	__builtin_memcpy(p + p_len, q, copy_len);
++	__underlying_memcpy(p + p_len, q, copy_len);
+ 	p[p_len + copy_len] = '\0';
+ 	return p;
+ }
+@@ -408,7 +433,7 @@ __FORTIFY_INLINE void *memset(void *p, int c, __kernel_size_t size)
+ 		__write_overflow();
+ 	if (p_size < size)
+ 		fortify_panic(__func__);
+-	return __builtin_memset(p, c, size);
++	return __underlying_memset(p, c, size);
+ }
+ 
+ __FORTIFY_INLINE void *memcpy(void *p, const void *q, __kernel_size_t size)
+@@ -423,7 +448,7 @@ __FORTIFY_INLINE void *memcpy(void *p, const void *q, __kernel_size_t size)
+ 	}
+ 	if (p_size < size || q_size < size)
+ 		fortify_panic(__func__);
+-	return __builtin_memcpy(p, q, size);
++	return __underlying_memcpy(p, q, size);
+ }
+ 
+ __FORTIFY_INLINE void *memmove(void *p, const void *q, __kernel_size_t size)
+@@ -438,7 +463,7 @@ __FORTIFY_INLINE void *memmove(void *p, const void *q, __kernel_size_t size)
+ 	}
+ 	if (p_size < size || q_size < size)
+ 		fortify_panic(__func__);
+-	return __builtin_memmove(p, q, size);
++	return __underlying_memmove(p, q, size);
+ }
+ 
+ extern void *__real_memscan(void *, int, __kernel_size_t) __RENAME(memscan);
+@@ -464,7 +489,7 @@ __FORTIFY_INLINE int memcmp(const void *p, const void *q, __kernel_size_t size)
+ 	}
+ 	if (p_size < size || q_size < size)
+ 		fortify_panic(__func__);
+-	return __builtin_memcmp(p, q, size);
++	return __underlying_memcmp(p, q, size);
+ }
+ 
+ __FORTIFY_INLINE void *memchr(const void *p, int c, __kernel_size_t size)
+@@ -474,7 +499,7 @@ __FORTIFY_INLINE void *memchr(const void *p, int c, __kernel_size_t size)
+ 		__read_overflow();
+ 	if (p_size < size)
+ 		fortify_panic(__func__);
+-	return __builtin_memchr(p, c, size);
++	return __underlying_memchr(p, c, size);
+ }
+ 
+ void *__real_memchr_inv(const void *s, int c, size_t n) __RENAME(memchr_inv);
+@@ -505,7 +530,7 @@ __FORTIFY_INLINE char *strcpy(char *p, const char *q)
+ 	size_t p_size = __builtin_object_size(p, 0);
+ 	size_t q_size = __builtin_object_size(q, 0);
+ 	if (p_size == (size_t)-1 && q_size == (size_t)-1)
+-		return __builtin_strcpy(p, q);
++		return __underlying_strcpy(p, q);
+ 	memcpy(p, q, strlen(q) + 1);
+ 	return p;
+ }
+-- 
 2.20.1
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/20200115063710.15796-2-dja%40axtens.net.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200115063710.15796-3-dja%40axtens.net.
