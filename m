@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBDX4HWEMTEBRBZEWQHYQKGQEVNLSITQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDX4HWEMTEBRB3NPQHYQKGQEYC7FNHA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pl1-x637.google.com (mail-pl1-x637.google.com [IPv6:2607:f8b0:4864:20::637])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57E5513D927
-	for <lists+kasan-dev@lfdr.de>; Thu, 16 Jan 2020 12:39:18 +0100 (CET)
-Received: by mail-pl1-x637.google.com with SMTP id bd7sf8598186plb.0
-        for <lists+kasan-dev@lfdr.de>; Thu, 16 Jan 2020 03:39:18 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1579174757; cv=pass;
+Received: from mail-oi1-x23d.google.com (mail-oi1-x23d.google.com [IPv6:2607:f8b0:4864:20::23d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6371213DA16
+	for <lists+kasan-dev@lfdr.de>; Thu, 16 Jan 2020 13:32:47 +0100 (CET)
+Received: by mail-oi1-x23d.google.com with SMTP id c4sf7774788oiy.0
+        for <lists+kasan-dev@lfdr.de>; Thu, 16 Jan 2020 04:32:47 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1579177966; cv=pass;
         d=google.com; s=arc-20160816;
-        b=ErcjJwMyw8bWfHei2ThAvsux5Csvge7jeHBZ/mkd6Al+5JWryZr7nx1fbmmTxhfPG7
-         oJnXpzrQSspmbaZQJpq6OdSC3aAiuPi6MwI7Q1W6dmC7vVPFg23I5VVxKKWiVOorQb55
-         BHdKHsf9Xdz6zDEo0/NfZYuUnnbLGoowbOziTODjaT047CBoqJvhAkze+rDC/cvMfP3e
-         2iNlnIW/uMkzg9qG+7QX5j2nZyrajwZgWTqNUxbrvqOfgiDxOq7I16feXwAEgFrGzLJu
-         e41CpP+AjhbtvXglWX6xFJ/K8shdQdERfivxrk+eKnPmVQMFuZMYKFhQ4y0iFtriXuL1
-         qLOw==
+        b=e1CHIf8EGOhO0dVtY585AUxvLA3JYB3o2Fwez/7x1cVelK6tRILWm3pO3b2rCe1yx/
+         yGWjq3mcVmYYkY7mGhxcxDTlyAiFz+DgKmft/P4BvSMvQ1yn/i9G3Zzv34Mms2RKd1WN
+         LY+VcYU/2+zjcaW+ojFoCVVdsZS59N/8RjFbYDQde2QseJpKwpEFUDDBDDZoWxC8ardS
+         SpxWrSn8ebxs2KSHf+wki2OcmeIBjaavG0ANk0c5rhxDE9m2ltk7W4rs4gm9cN7A0iXG
+         jvCnGLS9M9oW7y/yAgXFX1L4gEDKPdcA5Mj2k4W1Qre125JUYkwx70dO5oJ8k2LUX+ua
+         QnCg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=G3UHdgYUfpkxfVOMBiAkr6/5yIhL1X2Vd5D+8c4Pfak=;
-        b=aUtBcF5tmGrnnquy+68sbYfznDAhbRMTRwAeNkThNJP9uKpV5T1+4OvEWmB7P7DcCw
-         01x6fwikpsvXjybMtHuRK++wfkHGcsF9V/BaKNNEZ8K9Vm5UVHG2hmfyK52AxUDkWPEp
-         aDMQPA5CY6dtDf+UOztxaDl/4jflAuaaOab6BCr+3VAqTXQeJdJg+lBeKhlLerXVh/1/
-         mu4Ni8uTKZUqtjld0xV3EjI3E2Qi52VOCHwiLXifZBcfTGR3WEyeGRRgjzMTOD845yC4
-         kGK9B57yCzP8pgbF+9LfpTNS8f/0aX1T/b9mvrWtoR3Na1xfStPgW4vt5tZYeS21KU0k
-         TUDg==
+        bh=MvIPvktRTf8giGNUiKfoUFpnFBz0O6PAOYKqrLCHA1g=;
+        b=oyoMDdoLFWCGjBEHC5HBQGYbPXnMJNcEcRUER9JNbtIqBTO9fM5FY3ruUPYeM01NLL
+         wKpzwIfnOdfbCI8ENBH7hfTkXStoJFjI1gqDlqOhYaZh13h5NkFri4SMOwuxxOOM4kdB
+         wINbxQj8gSX2PnzwOd8pdI46N/SkpZc6OQfs1ubKXzGtSXqacfkjPc+VCKf0yrbjA/3y
+         G7FkIkGc6FJJAuUflovRGdCnUca28UPbaE+NWNX91aFMf3rTOAW1iIHocue/eXpI3b+P
+         5O7y3f4+AfoYzQkn24EG/K/BU35ev9rT61fBhn5955bSmEui92YbZjIG6oleNo45L4H2
+         wqlw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=dSzoVn31;
-       spf=pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::543 as permitted sender) smtp.mailfrom=andreyknvl@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=UXGYA21K;
+       spf=pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::1041 as permitted sender) smtp.mailfrom=andreyknvl@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=G3UHdgYUfpkxfVOMBiAkr6/5yIhL1X2Vd5D+8c4Pfak=;
-        b=fRXNa0ApTdxACNJ0VKoPNcHprop7l4DdzbTaYLGnndFEg2QJEXGRMlNr1k+vnz7Ctj
-         bjTZl2lGaooCcho8A8x2inX6GaTahYURg1pq62n20edpp6WMgmj21AJcaFCiOvAVc4OV
-         teWXoz8zbKnqRdulDsC2D2LTUuLskMn85UEBNAW7xsWKN8ItD9HNr7mD0X4IgAhdLG5z
-         Tnn9QdmQERt4I2oXCBzUAnbr16QWlatPJrUfYh56hR2lrlKEWHYms6mBO5Wf59Rrz3yt
-         SIHKLOLQxWdawyacQIeV3uWW/Q5bUQHsm1z/TFUogcDbRStsH2VJuThSjnUc3YyejeT3
-         HZcw==
+        bh=MvIPvktRTf8giGNUiKfoUFpnFBz0O6PAOYKqrLCHA1g=;
+        b=O9eLTFM5+PQFzhKpWgBLlELHut7ENU2XrkuhjS3S+mPx+7APdz5P7grDU2tr3aG6z4
+         +gyMuviXkvwRoij6X2iM6OCoRD65VX0XL3uyiSfpk0i1EyiD6eghmhkz3ksjX8+g04zM
+         4ZvaJmR+vdPcC1WFx1WIW5a7H1TagH80T7Ec+TfMmnKBNFXWHLZ0VQwT8H6SgWUq9dxE
+         2eKfA6ZMIrRnF5dnb/Fppn5ykhtlTwbHPm5iC9/iest5iJVI0m6DbNWMZkimaTxSsgV7
+         jiCw4FPlZPwC88+Hw/s2VXoEZCKWH67RD5pxZHTkNYfG2u5drF3JU9itsctCFjKJhYQw
+         pH/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
@@ -49,70 +49,75 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=G3UHdgYUfpkxfVOMBiAkr6/5yIhL1X2Vd5D+8c4Pfak=;
-        b=s17J5Dk72vLeg6VtgHX+u/W7eDTGaU+vM+AidKW1/OHBi548l12FzltwxfwEH3E7ea
-         AE95Z9r9Yj7ZgYIgThEk8Mo+0Ft3y6E5KmFu/2bc2Zh15xgh8iCQi9+gMMjehq0SP6pd
-         t7SMDuDos97WKSyRRwHPDNSshG91iUorPDbEg0m8MV/qHdR8JnmgLwLZ/gkNsNAAV7Mj
-         33Wul0CFrUUIZMYEvnYtNiiS/8y88CtX80jCulrswQs8ryfWTkjJLyAG3x9HxWhjsq5P
-         QyYGpBGhFO9k/UYmAHESuQBHlqT+5k1+r6PTxgeA9GQP7aVhCZPLAnc4bdQhTvSh2m4m
-         +yqA==
-X-Gm-Message-State: APjAAAWhSHOyHMjlTI/vPjacsgRcb1QnhuZts5y737NBjvE4EEg9hqN5
-	nXgyZGvxA49c+0lEIxk+OMQ=
-X-Google-Smtp-Source: APXvYqwSnMlCiC6V0z2lFdFdq6EQz5y5QnJ7b3YU6rUbXKXMy9wZ2DNunA5fcLWaF+7XC24HDUDGZg==
-X-Received: by 2002:a17:90b:3c9:: with SMTP id go9mr6220863pjb.7.1579174756880;
-        Thu, 16 Jan 2020 03:39:16 -0800 (PST)
+        bh=MvIPvktRTf8giGNUiKfoUFpnFBz0O6PAOYKqrLCHA1g=;
+        b=h7MvRZexPidiVKg+7xgQcIKuoFLsfC/UODCI3Je0iNICXK+vw/tNWHTkTziJk06+0b
+         8UKw+F71MdhkdLlczCmSQNVu2ka6TY8ysSDVX+08LrpD8KNX7yugKfL/y97wgVY6osC9
+         Y8a4U4gVtphg4AymTImk89VkD4H4Enf5qS557dkF9hCPN1YuacFwEWMZo8CdZzqprlz8
+         5Y7/0pNw/JM5DnSsVj2O/I5vOIYhjxt6FrdzpdJiZdeVvjBO0hd1PL3qV9JmWhbtivHt
+         5kqZ5g45YGY+ia3i9imgSsaOuBcqRo0+yfF8CkZ8leKzfDrlCQEmquM0qYuWopXeEq9w
+         scDQ==
+X-Gm-Message-State: APjAAAVqWBl1Jp86bVBgcVc7SfKnLK9slJe45OtYzJJgG4bgdCxT4Ns/
+	6o2p3GnsLECZuK6IC6LFpis=
+X-Google-Smtp-Source: APXvYqyhqNhb35jiBjAbHa0V1Z8IzpAPxaux0XcrJuYYE2VWcAaDWFmkhN9a8tAIIgLS/ODb+2uRqw==
+X-Received: by 2002:a9d:f26:: with SMTP id 35mr1798086ott.260.1579177965782;
+        Thu, 16 Jan 2020 04:32:45 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:90a:37e8:: with SMTP id v95ls823839pjb.2.gmail; Thu, 16
- Jan 2020 03:39:16 -0800 (PST)
-X-Received: by 2002:a17:902:8eca:: with SMTP id x10mr31898927plo.248.1579174756373;
-        Thu, 16 Jan 2020 03:39:16 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1579174756; cv=none;
+Received: by 2002:aca:1a0d:: with SMTP id a13ls3946299oia.14.gmail; Thu, 16
+ Jan 2020 04:32:45 -0800 (PST)
+X-Received: by 2002:aca:c507:: with SMTP id v7mr3883545oif.157.1579177965408;
+        Thu, 16 Jan 2020 04:32:45 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1579177965; cv=none;
         d=google.com; s=arc-20160816;
-        b=qz7U2UcAxhACe2w/20SL49TmBzz+if3Np90EheouiqBDNyf8OL412nuEDnklQOfMoy
-         rkuKKQ8rpNjiehFL8htHqJ2SovKDokKx4TWPuDHyTtYMp2km+CT5mpFLWvYfN8Fz7uSh
-         Gng/RT0WwtV/to+7ylDzCfwDPuA3fTOOH5C3RyB9Y4V80mnMLlR+W13Zv59IcR7lbaA7
-         EmFgh0yHH66BtavjDWzQbtf0iCDqUTh0XHJDZfybCfCkWobI0z4YNpbyJT/lwn4HLo4u
-         jdAnv0402C4+F2Py/ROKh3K2Q/zhJYNRnzh8tw7IU9b3qIfAwxfEw5PSu+iOT5PYo7uB
-         UisQ==
+        b=fH6V4ef4+YyR/g32YyCsSp6H0Q2a2ijT07zWNJr7BQmEDdwrtyMHnd1ew2lwK0Fgvk
+         WCgTOVz5fw2QDm3GVIL67HYdBBpODtpWiB+YHQOMxpFCqxRDUpVHzEZmKjn8VOo6fGmz
+         tpkrerrEYWtYRJhfSN6Ufvse594yC0Ca0rzdmIgkvoj4a/uD9hjQSsA1wjWAQv6/2sA6
+         07NaqWi+09aijxJISMEVUxyIqf5PRBmjioaeDzNIPNCbZqzxnhs6WAh7S5u/A267IIr+
+         1gp2exenglJMfqTu7u1e7SEet/H6kaHT8vjqGZbakU6AGVqPm0pFznGa0P8EoxlE+e+H
+         rBnA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=XQ2WYK66tyT9hqx5BTHGPz07wmp8qftkyUQb3t1BOpU=;
-        b=MQWYAVDBGIxk9UEzVIhzlfDNNhVRHb9XmVlOROICr9NuqwNJF4qtsL+WzGei4qIFKA
-         3dNz1JYsTLeFmhUWiOq2im4VuoAfvNmvkGGCirLKS91lWxNo6rNOEDZILnv1wc/fciP1
-         rbntkZJMV2Gb9BgmxdJiBrR71UgrQlRHor5EozBt1jl/RBsj1g854BaVInW8MoFuWe4P
-         VKFo/L5upLzeWI53TNwzf0YWAcm9sY8Aq95PjaONO8sb73/uc4gJZ/ARLuTuv8VuO0uG
-         v0NNI8OGNM91iHrNFoffdNwEfPQmY8M8FYodrWfJtnc6eKyGoB/sEMz/J/BYXHvsw6NL
-         lKwA==
+        bh=kUo0X8yHvUiQ3XC8YUK28eSRhJfh+ll6/ugw3Oe1M1Q=;
+        b=YFEbwcLmGVq64GSBUWUwa8ldFGpDaJOoz0BqyBxvfL4lGo6b/k1zufphOW0+NN6f+a
+         n1rRgq7MCfwOb7vCg8aZpeSyLn3afz0/cew49/1URFi2kEP7uNIRqPlw+Q+6X541XFkA
+         Zn5KVO/j9tFVDvlQpVSuhW+9OobPr2DXazaCBum2n6rstscYJ6J7YUv3CkQsuE1kosHa
+         3lD8ycm1LLGC4lkAJYhDkqSkQtGq8iPWXSngvcrYJtd2fKoKESM9+Fdt4qzr8kKjRAoQ
+         7JMx9gBW5GsZHfYjIWliM8Fe/5O0tRaYeDvvVlZ+9IrIrSPGwa0hDpX3FmtgHpRvFyGp
+         Imcw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=dSzoVn31;
-       spf=pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::543 as permitted sender) smtp.mailfrom=andreyknvl@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=UXGYA21K;
+       spf=pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::1041 as permitted sender) smtp.mailfrom=andreyknvl@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com. [2607:f8b0:4864:20::543])
-        by gmr-mx.google.com with ESMTPS id y3si136408plr.1.2020.01.16.03.39.16
+Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com. [2607:f8b0:4864:20::1041])
+        by gmr-mx.google.com with ESMTPS id d16si981605oij.1.2020.01.16.04.32.45
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 16 Jan 2020 03:39:16 -0800 (PST)
-Received-SPF: pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::543 as permitted sender) client-ip=2607:f8b0:4864:20::543;
-Received: by mail-pg1-x543.google.com with SMTP id k3so9774743pgc.3
-        for <kasan-dev@googlegroups.com>; Thu, 16 Jan 2020 03:39:16 -0800 (PST)
-X-Received: by 2002:a63:358a:: with SMTP id c132mr39524917pga.286.1579174755819;
- Thu, 16 Jan 2020 03:39:15 -0800 (PST)
+        Thu, 16 Jan 2020 04:32:45 -0800 (PST)
+Received-SPF: pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::1041 as permitted sender) client-ip=2607:f8b0:4864:20::1041;
+Received: by mail-pj1-x1041.google.com with SMTP id bg7so1516802pjb.5
+        for <kasan-dev@googlegroups.com>; Thu, 16 Jan 2020 04:32:45 -0800 (PST)
+X-Received: by 2002:a17:90a:660b:: with SMTP id l11mr6404502pjj.47.1579177964411;
+ Thu, 16 Jan 2020 04:32:44 -0800 (PST)
 MIME-Version: 1.0
-References: <20200116111449.217744-1-dvyukov@gmail.com>
-In-Reply-To: <20200116111449.217744-1-dvyukov@gmail.com>
+References: <20200116012321.26254-1-keescook@chromium.org> <20200116012321.26254-7-keescook@chromium.org>
+In-Reply-To: <20200116012321.26254-7-keescook@chromium.org>
 From: "'Andrey Konovalov' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Thu, 16 Jan 2020 12:39:04 +0100
-Message-ID: <CAAeHK+x1o+7qvZx0tkqqaSHJfovajywFh5PhACcjDu2PsNNpVw@mail.gmail.com>
-Subject: Re: [PATCH] kcov: ignore fault-inject and stacktrace
-To: Dmitry Vyukov <dvyukov@gmail.com>
+Date: Thu, 16 Jan 2020 13:32:33 +0100
+Message-ID: <CAAeHK+x5pLce4Uig6O03YS6MrSJtu6FR9DbcTsjy29BbgEZM4A@mail.gmail.com>
+Subject: Re: [PATCH v3 6/6] ubsan: Include bug type in report header
+To: Kees Cook <keescook@chromium.org>
 Cc: Andrew Morton <akpm@linux-foundation.org>, Dmitry Vyukov <dvyukov@google.com>, 
-	kasan-dev <kasan-dev@googlegroups.com>, LKML <linux-kernel@vger.kernel.org>
+	Andrey Ryabinin <aryabinin@virtuozzo.com>, Elena Petrova <lenaptr@google.com>, 
+	Alexander Potapenko <glider@google.com>, Dan Carpenter <dan.carpenter@oracle.com>, 
+	"Gustavo A. R. Silva" <gustavo@embeddedor.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Ard Biesheuvel <ard.biesheuvel@linaro.org>, kasan-dev <kasan-dev@googlegroups.com>, 
+	Linux Memory Management List <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>, 
+	kernel-hardening@lists.openwall.com, syzkaller <syzkaller@googlegroups.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: andreyknvl@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=dSzoVn31;       spf=pass
- (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::543
+ header.i=@google.com header.s=20161025 header.b=UXGYA21K;       spf=pass
+ (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::1041
  as permitted sender) smtp.mailfrom=andreyknvl@google.com;       dmarc=pass
  (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Andrey Konovalov <andreyknvl@google.com>
@@ -129,93 +134,168 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Jan 16, 2020 at 12:14 PM Dmitry Vyukov <dvyukov@gmail.com> wrote:
+On Thu, Jan 16, 2020 at 2:24 AM Kees Cook <keescook@chromium.org> wrote:
 >
-> From: Dmitry Vyukov <dvyukov@google.com>
+> When syzbot tries to figure out how to deduplicate bug reports, it
+> prefers seeing a hint about a specific bug type (we can do better than
+> just "UBSAN"). This lifts the handler reason into the UBSAN report line
+> that includes the file path that tripped a check. Unfortunately, UBSAN
+> does not provide function names.
 >
-> Don't instrument 3 more files that contain debugging facilities and
-> produce large amounts of uninteresting coverage for every syscall.
-> The following snippets are sprinkled all over the place in kcov
-> traces in a debugging kernel. We already try to disable instrumentation
-> of stack unwinding code and of most debug facilities. I guess we
-> did not use fault-inject.c at the time, and stacktrace.c was somehow
-> missed (or something has changed in kernel/configs).
-> This change both speeds up kcov (kernel doesn't need to store these
-> PCs, user-space doesn't need to process them) and frees trace buffer
-> capacity for more useful coverage.
->
-> should_fail
-> lib/fault-inject.c:149
-> fail_dump
-> lib/fault-inject.c:45
->
-> stack_trace_save
-> kernel/stacktrace.c:124
-> stack_trace_consume_entry
-> kernel/stacktrace.c:86
-> stack_trace_consume_entry
-> kernel/stacktrace.c:89
-> ... a hundred frames skipped ...
-> stack_trace_consume_entry
-> kernel/stacktrace.c:93
-> stack_trace_consume_entry
-> kernel/stacktrace.c:86
->
-> Signed-off-by: Dmitry Vyukov <dvyukov@google.com>
-
-Reviewed-by: Andrey Konovalov <andreyknvl@google.com>
-
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Andrey Konovalov <andreyknvl@google.com>
-> Cc: kasan-dev@googlegroups.com
-> Cc: linux-kernel@vger.kernel.org
+> Suggested-by: Dmitry Vyukov <dvyukov@google.com>
+> Link: https://lore.kernel.org/lkml/CACT4Y+bsLJ-wFx_TaXqax3JByUOWB3uk787LsyMVcfW6JzzGvg@mail.gmail.com
+> Signed-off-by: Kees Cook <keescook@chromium.org>
 > ---
->  kernel/Makefile | 1 +
->  lib/Makefile    | 1 +
->  mm/Makefile     | 1 +
->  3 files changed, 3 insertions(+)
+>  lib/ubsan.c | 36 +++++++++++++++---------------------
+>  1 file changed, 15 insertions(+), 21 deletions(-)
 >
-> diff --git a/kernel/Makefile b/kernel/Makefile
-> index e5ffd8c002541..5d935b63f812a 100644
-> --- a/kernel/Makefile
-> +++ b/kernel/Makefile
-> @@ -30,6 +30,7 @@ KCSAN_SANITIZE_softirq.o = n
->  # and produce insane amounts of uninteresting coverage.
->  KCOV_INSTRUMENT_module.o := n
->  KCOV_INSTRUMENT_extable.o := n
-> +KCOV_INSTRUMENT_stacktrace.o := n
->  # Don't self-instrument.
->  KCOV_INSTRUMENT_kcov.o := n
->  KASAN_SANITIZE_kcov.o := n
-> diff --git a/lib/Makefile b/lib/Makefile
-> index 004a4642938af..6cd19bb3085c5 100644
-> --- a/lib/Makefile
-> +++ b/lib/Makefile
-> @@ -16,6 +16,7 @@ KCOV_INSTRUMENT_rbtree.o := n
->  KCOV_INSTRUMENT_list_debug.o := n
->  KCOV_INSTRUMENT_debugobjects.o := n
->  KCOV_INSTRUMENT_dynamic_debug.o := n
-> +KCOV_INSTRUMENT_fault-inject.o := n
+> diff --git a/lib/ubsan.c b/lib/ubsan.c
+> index 429663eef6a7..057d5375bfc6 100644
+> --- a/lib/ubsan.c
+> +++ b/lib/ubsan.c
+> @@ -45,13 +45,6 @@ static bool was_reported(struct source_location *location)
+>         return test_and_set_bit(REPORTED_BIT, &location->reported);
+>  }
 >
->  # Early boot use of cmdline, don't instrument it
->  ifdef CONFIG_AMD_MEM_ENCRYPT
-> diff --git a/mm/Makefile b/mm/Makefile
-> index 3c53198835479..c9696f3ec8408 100644
-> --- a/mm/Makefile
-> +++ b/mm/Makefile
-> @@ -28,6 +28,7 @@ KCOV_INSTRUMENT_kmemleak.o := n
->  KCOV_INSTRUMENT_memcontrol.o := n
->  KCOV_INSTRUMENT_mmzone.o := n
->  KCOV_INSTRUMENT_vmstat.o := n
-> +KCOV_INSTRUMENT_failslab.o := n
+> -static void print_source_location(const char *prefix,
+> -                               struct source_location *loc)
+> -{
+> -       pr_err("%s %s:%d:%d\n", prefix, loc->file_name,
+> -               loc->line & LINE_MASK, loc->column & COLUMN_MASK);
+> -}
+> -
+>  static bool suppress_report(struct source_location *loc)
+>  {
+>         return current->in_ubsan || was_reported(loc);
+> @@ -140,13 +133,14 @@ static void val_to_string(char *str, size_t size, struct type_descriptor *type,
+>         }
+>  }
 >
->  CFLAGS_init-mm.o += $(call cc-disable-warning, override-init)
->  CFLAGS_init-mm.o += $(call cc-disable-warning, initializer-overrides)
+> -static void ubsan_prologue(struct source_location *location)
+> +static void ubsan_prologue(struct source_location *loc, const char *reason)
+>  {
+>         current->in_ubsan++;
+>
+>         pr_err("========================================"
+>                 "========================================\n");
+> -       print_source_location("UBSAN: Undefined behaviour in", location);
+> +       pr_err("UBSAN: %s in %s:%d:%d\n", reason, loc->file_name,
+> +               loc->line & LINE_MASK, loc->column & COLUMN_MASK);
+>  }
+>
+>  static void ubsan_epilogue(void)
+> @@ -180,12 +174,12 @@ static void handle_overflow(struct overflow_data *data, void *lhs,
+>         if (suppress_report(&data->location))
+>                 return;
+>
+> -       ubsan_prologue(&data->location);
+> +       ubsan_prologue(&data->location, type_is_signed(type) ?
+> +                       "signed integer overflow" :
+> +                       "unsigned integer overflow");
+>
+>         val_to_string(lhs_val_str, sizeof(lhs_val_str), type, lhs);
+>         val_to_string(rhs_val_str, sizeof(rhs_val_str), type, rhs);
+> -       pr_err("%s integer overflow:\n",
+> -               type_is_signed(type) ? "signed" : "unsigned");
+>         pr_err("%s %c %s cannot be represented in type %s\n",
+>                 lhs_val_str,
+>                 op,
+> @@ -225,7 +219,7 @@ void __ubsan_handle_negate_overflow(struct overflow_data *data,
+>         if (suppress_report(&data->location))
+>                 return;
+>
+> -       ubsan_prologue(&data->location);
+> +       ubsan_prologue(&data->location, "negation overflow");
+>
+>         val_to_string(old_val_str, sizeof(old_val_str), data->type, old_val);
+>
+> @@ -245,7 +239,7 @@ void __ubsan_handle_divrem_overflow(struct overflow_data *data,
+>         if (suppress_report(&data->location))
+>                 return;
+>
+> -       ubsan_prologue(&data->location);
+> +       ubsan_prologue(&data->location, "division overflow");
+>
+>         val_to_string(rhs_val_str, sizeof(rhs_val_str), data->type, rhs);
+>
+> @@ -264,7 +258,7 @@ static void handle_null_ptr_deref(struct type_mismatch_data_common *data)
+>         if (suppress_report(data->location))
+>                 return;
+>
+> -       ubsan_prologue(data->location);
+> +       ubsan_prologue(data->location, "NULL pointer dereference");
+
+Not crucially important, but I think it makes sense to use the
+single-word-with-hyphens bug type format like in KASAN here, e.g.
+null-ptr-deref, misaligned-access, etc.
+
+
+>
+>         pr_err("%s null pointer of type %s\n",
+>                 type_check_kinds[data->type_check_kind],
+> @@ -279,7 +273,7 @@ static void handle_misaligned_access(struct type_mismatch_data_common *data,
+>         if (suppress_report(data->location))
+>                 return;
+>
+> -       ubsan_prologue(data->location);
+> +       ubsan_prologue(data->location, "misaligned access");
+>
+>         pr_err("%s misaligned address %p for type %s\n",
+>                 type_check_kinds[data->type_check_kind],
+> @@ -295,7 +289,7 @@ static void handle_object_size_mismatch(struct type_mismatch_data_common *data,
+>         if (suppress_report(data->location))
+>                 return;
+>
+> -       ubsan_prologue(data->location);
+> +       ubsan_prologue(data->location, "object size mismatch");
+>         pr_err("%s address %p with insufficient space\n",
+>                 type_check_kinds[data->type_check_kind],
+>                 (void *) ptr);
+> @@ -354,7 +348,7 @@ void __ubsan_handle_out_of_bounds(struct out_of_bounds_data *data, void *index)
+>         if (suppress_report(&data->location))
+>                 return;
+>
+> -       ubsan_prologue(&data->location);
+> +       ubsan_prologue(&data->location, "array index out of bounds");
+>
+>         val_to_string(index_str, sizeof(index_str), data->index_type, index);
+>         pr_err("index %s is out of range for type %s\n", index_str,
+> @@ -375,7 +369,7 @@ void __ubsan_handle_shift_out_of_bounds(struct shift_out_of_bounds_data *data,
+>         if (suppress_report(&data->location))
+>                 goto out;
+>
+> -       ubsan_prologue(&data->location);
+> +       ubsan_prologue(&data->location, "shift out of bounds");
+>
+>         val_to_string(rhs_str, sizeof(rhs_str), rhs_type, rhs);
+>         val_to_string(lhs_str, sizeof(lhs_str), lhs_type, lhs);
+> @@ -407,7 +401,7 @@ EXPORT_SYMBOL(__ubsan_handle_shift_out_of_bounds);
+>
+>  void __ubsan_handle_builtin_unreachable(struct unreachable_data *data)
+>  {
+> -       ubsan_prologue(&data->location);
+> +       ubsan_prologue(&data->location, "unreachable");
+>         pr_err("calling __builtin_unreachable()\n");
+>         ubsan_epilogue();
+>         panic("can't return from __builtin_unreachable()");
+> @@ -422,7 +416,7 @@ void __ubsan_handle_load_invalid_value(struct invalid_value_data *data,
+>         if (suppress_report(&data->location))
+>                 return;
+>
+> -       ubsan_prologue(&data->location);
+> +       ubsan_prologue(&data->location, "invalid load");
+>
+>         val_to_string(val_str, sizeof(val_str), data->type, val);
+>
 > --
-> 2.25.0.rc1.283.g88dfdc4193-goog
+> 2.20.1
 >
+> --
+> You received this message because you are subscribed to the Google Groups "syzkaller" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to syzkaller+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/syzkaller/20200116012321.26254-7-keescook%40chromium.org.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAAeHK%2Bx1o%2B7qvZx0tkqqaSHJfovajywFh5PhACcjDu2PsNNpVw%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAAeHK%2Bx5pLce4Uig6O03YS6MrSJtu6FR9DbcTsjy29BbgEZM4A%40mail.gmail.com.
