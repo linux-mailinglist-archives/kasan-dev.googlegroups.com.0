@@ -1,137 +1,122 @@
-Return-Path: <kasan-dev+bncBC4NLWXH4YGBBLULQHYQKGQE63GQ7CA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDX4HWEMTEBRBZEWQHYQKGQEVNLSITQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x240.google.com (mail-lj1-x240.google.com [IPv6:2a00:1450:4864:20::240])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07A3B13D8C7
-	for <lists+kasan-dev@lfdr.de>; Thu, 16 Jan 2020 12:14:55 +0100 (CET)
-Received: by mail-lj1-x240.google.com with SMTP id z17sf5014378ljz.2
-        for <lists+kasan-dev@lfdr.de>; Thu, 16 Jan 2020 03:14:55 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1579173294; cv=pass;
+Received: from mail-pl1-x637.google.com (mail-pl1-x637.google.com [IPv6:2607:f8b0:4864:20::637])
+	by mail.lfdr.de (Postfix) with ESMTPS id 57E5513D927
+	for <lists+kasan-dev@lfdr.de>; Thu, 16 Jan 2020 12:39:18 +0100 (CET)
+Received: by mail-pl1-x637.google.com with SMTP id bd7sf8598186plb.0
+        for <lists+kasan-dev@lfdr.de>; Thu, 16 Jan 2020 03:39:18 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1579174757; cv=pass;
         d=google.com; s=arc-20160816;
-        b=r/zsGpYIps7y+Audg4ih6yYA00qewYUmyxXFCzM77lpmh/DNFdcHDiaTh+Hpfm9Bzr
-         1CiH+MZSlj/t25Pz5MV+zscPxpN2LMe0698xNxtXFjwwW3zRGxGL5G3dBUjyvaiIQMuN
-         DmWKXVf5xady18elr0vosk7uketmK8uC+YuNrgikZSJ6t9uSW93wAyD8mt2O4zx6ZKQr
-         dLz/W9yjn9bL226IG+lXkpg3w1pDcMhpO4iJgPY5o6lqI16Ym+UyoDov/ec95U16MV5S
-         se3OlO7eobyX48dJEKlx/8DicxJAnSKXnEQ4PmMY2WFMLqadJ8hG5BNMoFrf0Xg9sYpr
-         NSpg==
+        b=ErcjJwMyw8bWfHei2ThAvsux5Csvge7jeHBZ/mkd6Al+5JWryZr7nx1fbmmTxhfPG7
+         oJnXpzrQSspmbaZQJpq6OdSC3aAiuPi6MwI7Q1W6dmC7vVPFg23I5VVxKKWiVOorQb55
+         BHdKHsf9Xdz6zDEo0/NfZYuUnnbLGoowbOziTODjaT047CBoqJvhAkze+rDC/cvMfP3e
+         2iNlnIW/uMkzg9qG+7QX5j2nZyrajwZgWTqNUxbrvqOfgiDxOq7I16feXwAEgFrGzLJu
+         e41CpP+AjhbtvXglWX6xFJ/K8shdQdERfivxrk+eKnPmVQMFuZMYKFhQ4y0iFtriXuL1
+         qLOw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:message-id:date
-         :subject:cc:to:from:sender:dkim-signature:dkim-signature;
-        bh=tblgLD3GSUSU4f4oRZrM5p6jZczOOH5G5ciUcwGq0y8=;
-        b=K7L9YB9SXZZfldapHhMeVEFry76aXqsAnSjells4/mz4nD+wD+2GfngHAnZg7ot89W
-         nVO5oNBh93+V0iN6UoR5BjlC3CU5hsXSxpPbvJe7czOZFYr+AwiLX6r8wRl9k2uiBDnm
-         eN5iZwMd400g6+BdxEG2r0cE/0dOPr2z1FTIjH9CHak+86V9EMll6fADpJ8xXhSozyQq
-         xacOOoP1aCawnxyHe32cLA4jVVDo+0VZYYl47Ji5HxbMiPxXGO8h2NPCQAYyE8vq+Ka8
-         wUmlF0MOKNlCI5rlak2Ru4xAo/4M+zD9SKdONNuaV4y1NnGbmeoYgQEJxC1rKa93wH0E
-         0Y4A==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=G3UHdgYUfpkxfVOMBiAkr6/5yIhL1X2Vd5D+8c4Pfak=;
+        b=aUtBcF5tmGrnnquy+68sbYfznDAhbRMTRwAeNkThNJP9uKpV5T1+4OvEWmB7P7DcCw
+         01x6fwikpsvXjybMtHuRK++wfkHGcsF9V/BaKNNEZ8K9Vm5UVHG2hmfyK52AxUDkWPEp
+         aDMQPA5CY6dtDf+UOztxaDl/4jflAuaaOab6BCr+3VAqTXQeJdJg+lBeKhlLerXVh/1/
+         mu4Ni8uTKZUqtjld0xV3EjI3E2Qi52VOCHwiLXifZBcfTGR3WEyeGRRgjzMTOD845yC4
+         kGK9B57yCzP8pgbF+9LfpTNS8f/0aX1T/b9mvrWtoR3Na1xfStPgW4vt5tZYeS21KU0k
+         TUDg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20161025 header.b=jYfYaY1Y;
-       spf=pass (google.com: domain of dvyukov@gmail.com designates 2a00:1450:4864:20::442 as permitted sender) smtp.mailfrom=dvyukov@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+       dkim=pass header.i=@google.com header.s=20161025 header.b=dSzoVn31;
+       spf=pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::543 as permitted sender) smtp.mailfrom=andreyknvl@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id:mime-version
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=tblgLD3GSUSU4f4oRZrM5p6jZczOOH5G5ciUcwGq0y8=;
-        b=H0dhXzkgwXuO4A0m7/8cLr5JYLlU9FA580VlW0ZA2FFXa6UrAWmNl/9ZuQu/PqjSPQ
-         xgFD45hOCbVaJrixgbCCsT8nYMicZv4u1sA43vUjhTibGkm3wrgIa4Xfr/oiDiiSOb2Q
-         NDUec8942HyUauYXnbxYk3GWtbe0HpuzgK9dPrb+7a/G0DlpFru9Z7FPJfhrP7cpenbC
-         ZeWe50yiC/h9gRMuR/6G0cx9+dcHze+dpHAqjv21pHaaV4pdPtQoFQ18m6+jMJISlVVy
-         4TZg+5CLgaPXjJEZnlg4yIta1ig0QrioaRiBqTbaCS9Te1d5f0LGVfHKU9PD4JNXcsDc
-         8w/w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=tblgLD3GSUSU4f4oRZrM5p6jZczOOH5G5ciUcwGq0y8=;
-        b=seA8sleYVG6S6ioKvYGApEo7dD5m+6sL6Hyiogpqvkkp6pgFuttyGUXDoFfrMYLs4d
-         DFJkh4hQ+KzX/QAxaWA5MgkrdktyD38AUy9XHGnhH6cVP315rLgcdPP4swZdL+Wy9ry5
-         oCA4XyAXrTjrRgBpnbKqEEE9YFtFESeg8ok00X9bkMn7txoCwsW5rId3hdxJsFJCMcow
-         S4YXq//bHs9KxOW1ZCFW1br9PfxtEq5y2nXWQP2/0WM9wwm8JHoyqfTnSpeMNOF6GUFW
-         xf8muMfR0C4RDuHmBmKv5prKyp9kg7SeLx+8zd8CC3b3GI4uAyf2Mc2lTY6wIU8Gddjk
-         r32g==
+        bh=G3UHdgYUfpkxfVOMBiAkr6/5yIhL1X2Vd5D+8c4Pfak=;
+        b=fRXNa0ApTdxACNJ0VKoPNcHprop7l4DdzbTaYLGnndFEg2QJEXGRMlNr1k+vnz7Ctj
+         bjTZl2lGaooCcho8A8x2inX6GaTahYURg1pq62n20edpp6WMgmj21AJcaFCiOvAVc4OV
+         teWXoz8zbKnqRdulDsC2D2LTUuLskMn85UEBNAW7xsWKN8ItD9HNr7mD0X4IgAhdLG5z
+         Tnn9QdmQERt4I2oXCBzUAnbr16QWlatPJrUfYh56hR2lrlKEWHYms6mBO5Wf59Rrz3yt
+         SIHKLOLQxWdawyacQIeV3uWW/Q5bUQHsm1z/TFUogcDbRStsH2VJuThSjnUc3YyejeT3
+         HZcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :mime-version:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=tblgLD3GSUSU4f4oRZrM5p6jZczOOH5G5ciUcwGq0y8=;
-        b=Xve7FXTlXGaQDwvff6iVBEAiwiH6mDXlUDSnxUKfhGCrXdT44YfS8hiXj0YTZuBhnB
-         9J17H9xONbcgcWRdtnaLEsB0zOZB8RuK5y44TyhRtZSOi5ojnqx2tdPVAumIjKi7pAtg
-         KZXwDk0uCoIj9569xkzxmxclMk+r1kI4yRA0PCFviJpLOEA/8mwYrJRRkdDHBaj7gGVj
-         jFQMxCjD8K5fMyjZ2ZsShVHaqiH2UeiU3ecrA282B9ujjsiEMr4V4Prq4AM+pubxVAQz
-         3OrhYwcVZFa7S0FcsvUeMLDduXxj06qAHZfIiXC5/HYozgEiINdVhb4JGBE3cib45LiK
-         V5lw==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAUAPBtcamK43lqUvCHVyDj6eYO5GvoaZbQ67i+B275lA+5vFOMI
-	iiPxUPc6ybgxZA+1ZZc+sDQ=
-X-Google-Smtp-Source: APXvYqxuX7JqBLz7T7WlrBCSNmcWhyfAUsN8Tti5OrAOQB6/JnA2+LRXHMso36WjdfF0h5PJZf//Bg==
-X-Received: by 2002:a19:7401:: with SMTP id v1mr2190289lfe.129.1579173294606;
-        Thu, 16 Jan 2020 03:14:54 -0800 (PST)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=G3UHdgYUfpkxfVOMBiAkr6/5yIhL1X2Vd5D+8c4Pfak=;
+        b=s17J5Dk72vLeg6VtgHX+u/W7eDTGaU+vM+AidKW1/OHBi548l12FzltwxfwEH3E7ea
+         AE95Z9r9Yj7ZgYIgThEk8Mo+0Ft3y6E5KmFu/2bc2Zh15xgh8iCQi9+gMMjehq0SP6pd
+         t7SMDuDos97WKSyRRwHPDNSshG91iUorPDbEg0m8MV/qHdR8JnmgLwLZ/gkNsNAAV7Mj
+         33Wul0CFrUUIZMYEvnYtNiiS/8y88CtX80jCulrswQs8ryfWTkjJLyAG3x9HxWhjsq5P
+         QyYGpBGhFO9k/UYmAHESuQBHlqT+5k1+r6PTxgeA9GQP7aVhCZPLAnc4bdQhTvSh2m4m
+         +yqA==
+X-Gm-Message-State: APjAAAWhSHOyHMjlTI/vPjacsgRcb1QnhuZts5y737NBjvE4EEg9hqN5
+	nXgyZGvxA49c+0lEIxk+OMQ=
+X-Google-Smtp-Source: APXvYqwSnMlCiC6V0z2lFdFdq6EQz5y5QnJ7b3YU6rUbXKXMy9wZ2DNunA5fcLWaF+7XC24HDUDGZg==
+X-Received: by 2002:a17:90b:3c9:: with SMTP id go9mr6220863pjb.7.1579174756880;
+        Thu, 16 Jan 2020 03:39:16 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a2e:9c85:: with SMTP id x5ls3049424lji.0.gmail; Thu, 16 Jan
- 2020 03:14:54 -0800 (PST)
-X-Received: by 2002:a05:651c:2046:: with SMTP id t6mr1951253ljo.180.1579173294039;
-        Thu, 16 Jan 2020 03:14:54 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1579173294; cv=none;
+Received: by 2002:a17:90a:37e8:: with SMTP id v95ls823839pjb.2.gmail; Thu, 16
+ Jan 2020 03:39:16 -0800 (PST)
+X-Received: by 2002:a17:902:8eca:: with SMTP id x10mr31898927plo.248.1579174756373;
+        Thu, 16 Jan 2020 03:39:16 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1579174756; cv=none;
         d=google.com; s=arc-20160816;
-        b=F30G4PQmLGWpL2G0Re2IXQuNtk8ciANXokkqHHeexWKpJaETPBZCgT2wPArN5rsL5f
-         HbJshfQvcj/oAruqvT2YOjFR0OGjCVqU19V8tnwTWAKHZu8eOYGXDtiNBCVI4qKPtGYF
-         TxSay04yPSXVwFQdb796nl6IYybXrSPKqITmUTVpr6duYEsaHNBxySowhKA44vg6XNJ8
-         nk5MHGFY+sC+Fbqf4/MYT82RlUsUy+e8J96UfJf43q/70OWyMC1VrospxLOiQvOGMLvr
-         T3GmMu0Jrp3gkNGpctpxQwoCWSBzsOhrHln0Zr/JQDDqQxonvNjXE/WsuXPaFkwkoFIW
-         x2ig==
+        b=qz7U2UcAxhACe2w/20SL49TmBzz+if3Np90EheouiqBDNyf8OL412nuEDnklQOfMoy
+         rkuKKQ8rpNjiehFL8htHqJ2SovKDokKx4TWPuDHyTtYMp2km+CT5mpFLWvYfN8Fz7uSh
+         Gng/RT0WwtV/to+7ylDzCfwDPuA3fTOOH5C3RyB9Y4V80mnMLlR+W13Zv59IcR7lbaA7
+         EmFgh0yHH66BtavjDWzQbtf0iCDqUTh0XHJDZfybCfCkWobI0z4YNpbyJT/lwn4HLo4u
+         jdAnv0402C4+F2Py/ROKh3K2Q/zhJYNRnzh8tw7IU9b3qIfAwxfEw5PSu+iOT5PYo7uB
+         UisQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:dkim-signature;
-        bh=R9Q5677Ur8luUcGkjg5jrHlKUFNub/5xyB+iK5Dfa/s=;
-        b=uljtkS42+cKQLey09zj3g2qCIulGI6RDco0Pv1/SN9BfF4aeET7qFoYkIKM1J1k60n
-         5P6zd5kFc6FCnTK7BEn6qiJqtCs+Tawfdcqsx2gEaMg5n2NkF5acORSHWP7jj2Ke7FfK
-         l6vccDG2cxJjABnhTjuKZyGcacKPWzzMFcBRvNa3FkzLY2rkd0gPI9kALh6KoiHJgIyw
-         W1+tSqLzpYTaISRQh5fP632SqBBmZjWJiGvJX+tA0sv9BKrEgWbFi5J33uQ+yP5zsEKQ
-         9IOBLCIZPK1NsK+/+VuSAPtIjmAgZjG/tBhorqGpd3VmYA7UP5A+s24fWmP660XURjHG
-         U/cA==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=XQ2WYK66tyT9hqx5BTHGPz07wmp8qftkyUQb3t1BOpU=;
+        b=MQWYAVDBGIxk9UEzVIhzlfDNNhVRHb9XmVlOROICr9NuqwNJF4qtsL+WzGei4qIFKA
+         3dNz1JYsTLeFmhUWiOq2im4VuoAfvNmvkGGCirLKS91lWxNo6rNOEDZILnv1wc/fciP1
+         rbntkZJMV2Gb9BgmxdJiBrR71UgrQlRHor5EozBt1jl/RBsj1g854BaVInW8MoFuWe4P
+         VKFo/L5upLzeWI53TNwzf0YWAcm9sY8Aq95PjaONO8sb73/uc4gJZ/ARLuTuv8VuO0uG
+         v0NNI8OGNM91iHrNFoffdNwEfPQmY8M8FYodrWfJtnc6eKyGoB/sEMz/J/BYXHvsw6NL
+         lKwA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20161025 header.b=jYfYaY1Y;
-       spf=pass (google.com: domain of dvyukov@gmail.com designates 2a00:1450:4864:20::442 as permitted sender) smtp.mailfrom=dvyukov@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com. [2a00:1450:4864:20::442])
-        by gmr-mx.google.com with ESMTPS id z16si822971ljk.0.2020.01.16.03.14.54
+       dkim=pass header.i=@google.com header.s=20161025 header.b=dSzoVn31;
+       spf=pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::543 as permitted sender) smtp.mailfrom=andreyknvl@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com. [2607:f8b0:4864:20::543])
+        by gmr-mx.google.com with ESMTPS id y3si136408plr.1.2020.01.16.03.39.16
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 16 Jan 2020 03:14:54 -0800 (PST)
-Received-SPF: pass (google.com: domain of dvyukov@gmail.com designates 2a00:1450:4864:20::442 as permitted sender) client-ip=2a00:1450:4864:20::442;
-Received: by mail-wr1-x442.google.com with SMTP id g17so18716444wro.2
-        for <kasan-dev@googlegroups.com>; Thu, 16 Jan 2020 03:14:54 -0800 (PST)
-X-Received: by 2002:adf:9c8f:: with SMTP id d15mr2748995wre.390.1579173293323;
-        Thu, 16 Jan 2020 03:14:53 -0800 (PST)
-Received: from dvyukov-desk.muc.corp.google.com ([2a00:79e0:15:13:aecf:473e:300f:893f])
-        by smtp.gmail.com with ESMTPSA id w19sm3573792wmc.22.2020.01.16.03.14.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Jan 2020 03:14:52 -0800 (PST)
-From: Dmitry Vyukov <dvyukov@gmail.com>
-To: akpm@linux-foundation.org
-Cc: Dmitry Vyukov <dvyukov@google.com>,
-	Andrey Konovalov <andreyknvl@google.com>,
-	kasan-dev@googlegroups.com,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] kcov: ignore fault-inject and stacktrace
-Date: Thu, 16 Jan 2020 12:14:49 +0100
-Message-Id: <20200116111449.217744-1-dvyukov@gmail.com>
-X-Mailer: git-send-email 2.25.0.rc1.283.g88dfdc4193-goog
+        Thu, 16 Jan 2020 03:39:16 -0800 (PST)
+Received-SPF: pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::543 as permitted sender) client-ip=2607:f8b0:4864:20::543;
+Received: by mail-pg1-x543.google.com with SMTP id k3so9774743pgc.3
+        for <kasan-dev@googlegroups.com>; Thu, 16 Jan 2020 03:39:16 -0800 (PST)
+X-Received: by 2002:a63:358a:: with SMTP id c132mr39524917pga.286.1579174755819;
+ Thu, 16 Jan 2020 03:39:15 -0800 (PST)
 MIME-Version: 1.0
-X-Original-Sender: dvyukov@gmail.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20161025 header.b=jYfYaY1Y;       spf=pass
- (google.com: domain of dvyukov@gmail.com designates 2a00:1450:4864:20::442 as
- permitted sender) smtp.mailfrom=dvyukov@gmail.com;       dmarc=pass (p=NONE
- sp=QUARANTINE dis=NONE) header.from=gmail.com
+References: <20200116111449.217744-1-dvyukov@gmail.com>
+In-Reply-To: <20200116111449.217744-1-dvyukov@gmail.com>
+From: "'Andrey Konovalov' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Thu, 16 Jan 2020 12:39:04 +0100
+Message-ID: <CAAeHK+x1o+7qvZx0tkqqaSHJfovajywFh5PhACcjDu2PsNNpVw@mail.gmail.com>
+Subject: Re: [PATCH] kcov: ignore fault-inject and stacktrace
+To: Dmitry Vyukov <dvyukov@gmail.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Dmitry Vyukov <dvyukov@google.com>, 
+	kasan-dev <kasan-dev@googlegroups.com>, LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: andreyknvl@google.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@google.com header.s=20161025 header.b=dSzoVn31;       spf=pass
+ (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::543
+ as permitted sender) smtp.mailfrom=andreyknvl@google.com;       dmarc=pass
+ (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Andrey Konovalov <andreyknvl@google.com>
+Reply-To: Andrey Konovalov <andreyknvl@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -144,87 +129,93 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-From: Dmitry Vyukov <dvyukov@google.com>
+On Thu, Jan 16, 2020 at 12:14 PM Dmitry Vyukov <dvyukov@gmail.com> wrote:
+>
+> From: Dmitry Vyukov <dvyukov@google.com>
+>
+> Don't instrument 3 more files that contain debugging facilities and
+> produce large amounts of uninteresting coverage for every syscall.
+> The following snippets are sprinkled all over the place in kcov
+> traces in a debugging kernel. We already try to disable instrumentation
+> of stack unwinding code and of most debug facilities. I guess we
+> did not use fault-inject.c at the time, and stacktrace.c was somehow
+> missed (or something has changed in kernel/configs).
+> This change both speeds up kcov (kernel doesn't need to store these
+> PCs, user-space doesn't need to process them) and frees trace buffer
+> capacity for more useful coverage.
+>
+> should_fail
+> lib/fault-inject.c:149
+> fail_dump
+> lib/fault-inject.c:45
+>
+> stack_trace_save
+> kernel/stacktrace.c:124
+> stack_trace_consume_entry
+> kernel/stacktrace.c:86
+> stack_trace_consume_entry
+> kernel/stacktrace.c:89
+> ... a hundred frames skipped ...
+> stack_trace_consume_entry
+> kernel/stacktrace.c:93
+> stack_trace_consume_entry
+> kernel/stacktrace.c:86
+>
+> Signed-off-by: Dmitry Vyukov <dvyukov@google.com>
 
-Don't instrument 3 more files that contain debugging facilities and
-produce large amounts of uninteresting coverage for every syscall.
-The following snippets are sprinkled all over the place in kcov
-traces in a debugging kernel. We already try to disable instrumentation
-of stack unwinding code and of most debug facilities. I guess we
-did not use fault-inject.c at the time, and stacktrace.c was somehow
-missed (or something has changed in kernel/configs).
-This change both speeds up kcov (kernel doesn't need to store these
-PCs, user-space doesn't need to process them) and frees trace buffer
-capacity for more useful coverage.
+Reviewed-by: Andrey Konovalov <andreyknvl@google.com>
 
-should_fail
-lib/fault-inject.c:149
-fail_dump
-lib/fault-inject.c:45
-
-stack_trace_save
-kernel/stacktrace.c:124
-stack_trace_consume_entry
-kernel/stacktrace.c:86
-stack_trace_consume_entry
-kernel/stacktrace.c:89
-... a hundred frames skipped ...
-stack_trace_consume_entry
-kernel/stacktrace.c:93
-stack_trace_consume_entry
-kernel/stacktrace.c:86
-
-Signed-off-by: Dmitry Vyukov <dvyukov@google.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Andrey Konovalov <andreyknvl@google.com>
-Cc: kasan-dev@googlegroups.com
-Cc: linux-kernel@vger.kernel.org
----
- kernel/Makefile | 1 +
- lib/Makefile    | 1 +
- mm/Makefile     | 1 +
- 3 files changed, 3 insertions(+)
-
-diff --git a/kernel/Makefile b/kernel/Makefile
-index e5ffd8c002541..5d935b63f812a 100644
---- a/kernel/Makefile
-+++ b/kernel/Makefile
-@@ -30,6 +30,7 @@ KCSAN_SANITIZE_softirq.o = n
- # and produce insane amounts of uninteresting coverage.
- KCOV_INSTRUMENT_module.o := n
- KCOV_INSTRUMENT_extable.o := n
-+KCOV_INSTRUMENT_stacktrace.o := n
- # Don't self-instrument.
- KCOV_INSTRUMENT_kcov.o := n
- KASAN_SANITIZE_kcov.o := n
-diff --git a/lib/Makefile b/lib/Makefile
-index 004a4642938af..6cd19bb3085c5 100644
---- a/lib/Makefile
-+++ b/lib/Makefile
-@@ -16,6 +16,7 @@ KCOV_INSTRUMENT_rbtree.o := n
- KCOV_INSTRUMENT_list_debug.o := n
- KCOV_INSTRUMENT_debugobjects.o := n
- KCOV_INSTRUMENT_dynamic_debug.o := n
-+KCOV_INSTRUMENT_fault-inject.o := n
- 
- # Early boot use of cmdline, don't instrument it
- ifdef CONFIG_AMD_MEM_ENCRYPT
-diff --git a/mm/Makefile b/mm/Makefile
-index 3c53198835479..c9696f3ec8408 100644
---- a/mm/Makefile
-+++ b/mm/Makefile
-@@ -28,6 +28,7 @@ KCOV_INSTRUMENT_kmemleak.o := n
- KCOV_INSTRUMENT_memcontrol.o := n
- KCOV_INSTRUMENT_mmzone.o := n
- KCOV_INSTRUMENT_vmstat.o := n
-+KCOV_INSTRUMENT_failslab.o := n
- 
- CFLAGS_init-mm.o += $(call cc-disable-warning, override-init)
- CFLAGS_init-mm.o += $(call cc-disable-warning, initializer-overrides)
--- 
-2.25.0.rc1.283.g88dfdc4193-goog
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Andrey Konovalov <andreyknvl@google.com>
+> Cc: kasan-dev@googlegroups.com
+> Cc: linux-kernel@vger.kernel.org
+> ---
+>  kernel/Makefile | 1 +
+>  lib/Makefile    | 1 +
+>  mm/Makefile     | 1 +
+>  3 files changed, 3 insertions(+)
+>
+> diff --git a/kernel/Makefile b/kernel/Makefile
+> index e5ffd8c002541..5d935b63f812a 100644
+> --- a/kernel/Makefile
+> +++ b/kernel/Makefile
+> @@ -30,6 +30,7 @@ KCSAN_SANITIZE_softirq.o = n
+>  # and produce insane amounts of uninteresting coverage.
+>  KCOV_INSTRUMENT_module.o := n
+>  KCOV_INSTRUMENT_extable.o := n
+> +KCOV_INSTRUMENT_stacktrace.o := n
+>  # Don't self-instrument.
+>  KCOV_INSTRUMENT_kcov.o := n
+>  KASAN_SANITIZE_kcov.o := n
+> diff --git a/lib/Makefile b/lib/Makefile
+> index 004a4642938af..6cd19bb3085c5 100644
+> --- a/lib/Makefile
+> +++ b/lib/Makefile
+> @@ -16,6 +16,7 @@ KCOV_INSTRUMENT_rbtree.o := n
+>  KCOV_INSTRUMENT_list_debug.o := n
+>  KCOV_INSTRUMENT_debugobjects.o := n
+>  KCOV_INSTRUMENT_dynamic_debug.o := n
+> +KCOV_INSTRUMENT_fault-inject.o := n
+>
+>  # Early boot use of cmdline, don't instrument it
+>  ifdef CONFIG_AMD_MEM_ENCRYPT
+> diff --git a/mm/Makefile b/mm/Makefile
+> index 3c53198835479..c9696f3ec8408 100644
+> --- a/mm/Makefile
+> +++ b/mm/Makefile
+> @@ -28,6 +28,7 @@ KCOV_INSTRUMENT_kmemleak.o := n
+>  KCOV_INSTRUMENT_memcontrol.o := n
+>  KCOV_INSTRUMENT_mmzone.o := n
+>  KCOV_INSTRUMENT_vmstat.o := n
+> +KCOV_INSTRUMENT_failslab.o := n
+>
+>  CFLAGS_init-mm.o += $(call cc-disable-warning, override-init)
+>  CFLAGS_init-mm.o += $(call cc-disable-warning, initializer-overrides)
+> --
+> 2.25.0.rc1.283.g88dfdc4193-goog
+>
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200116111449.217744-1-dvyukov%40gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAAeHK%2Bx1o%2B7qvZx0tkqqaSHJfovajywFh5PhACcjDu2PsNNpVw%40mail.gmail.com.
