@@ -1,144 +1,141 @@
-Return-Path: <kasan-dev+bncBDE6RCFOWIARBH6DRDYQKGQEPWSCTDQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCF5XGNWYQBRBA6KRDYQKGQEFFSOHJI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ed1-x53f.google.com (mail-ed1-x53f.google.com [IPv6:2a00:1450:4864:20::53f])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECE6A141290
-	for <lists+kasan-dev@lfdr.de>; Fri, 17 Jan 2020 22:05:35 +0100 (CET)
-Received: by mail-ed1-x53f.google.com with SMTP id d21sf17290003edy.3
-        for <lists+kasan-dev@lfdr.de>; Fri, 17 Jan 2020 13:05:35 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1579295135; cv=pass;
+Received: from mail-ot1-x340.google.com (mail-ot1-x340.google.com [IPv6:2607:f8b0:4864:20::340])
+	by mail.lfdr.de (Postfix) with ESMTPS id 084001412B9
+	for <lists+kasan-dev@lfdr.de>; Fri, 17 Jan 2020 22:20:05 +0100 (CET)
+Received: by mail-ot1-x340.google.com with SMTP id m18sf13902615otp.20
+        for <lists+kasan-dev@lfdr.de>; Fri, 17 Jan 2020 13:20:04 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1579296004; cv=pass;
         d=google.com; s=arc-20160816;
-        b=M/yNmkqlj+PO39FZwy8dIWdTLUB9EG7uohzUsJwoxRM89nW/sKaeVRELa0QMIPGJE0
-         C0xEWv4P8uGM2xEH11Ak8B7C0pdDd0VNO8PGYsFQ4rK73SV7/wIDF5uaUgq86VD+0tIZ
-         eBveseMpHu4ipf9OtYjYAKTgzuh83OEUuEGnu9DKCntluzPKRTS7f4zWKKEE760aoGir
-         e/8VZkFaoQUOUyQe7cPWhdBWOVYgO5kceR6i43eH+HQ6EgFiUzHS87p80T7k79FeaJqc
-         EFxwOandeo4xM0RcvfcGjTeIa0VvxmNpsUojc42VriqzYJK1U28VTfAr9ExIcCTRG1Q2
-         fNsA==
+        b=GPFWSLQkxkYsyjXsXpM4WAms5do85syRgZhBdpRti7lA/nsxbJaFJ0xznwRNOEU27M
+         hQ9ZCc9X8BOmS2HuvP4bVxW1AtSilO12iFf4dYswfmiqSo916g3YFD0FvP5i2tbOan1T
+         qrEIxKS9RQ5vQO0CHic0M0ruj0XTRGqLT3IwaMAVEB603uZRm4DFGQZcTRx2V0Ef9vfQ
+         5c/GMELKdc4+icovJ+arU1sCdR4LFk/qs1bXHsEchRhxKvz1WGypkyqEP10+DX1jQf+e
+         mHE3Aq9DdUBzvjr+fP41dZqpG+bvNtR+TzZFa4NMu971B6gwAovlsgUsAet1vWCXewOx
+         PBxA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:sender:dkim-signature;
-        bh=rkyu/5fp0X9rh2WGrMFd0atfCMw7TdOTC2xj1ywz2UE=;
-        b=nXa36v6CtDMcHo6L6Q4OHRhz4Wius23Yjs/pLLISluozyFbl4yrEHa1pd1WGlU4WAv
-         o+jj/Zb+Wr9i6zKP/yXsc7UT/WukrGwhvlPcBi/K8VDfnmf0uiklPGAa4we/XK7boAls
-         Lno+ZCWZpEBs39S5w3xlPv6eHWQsfZerQXVhI1Dw3AkNrgZwoRYJHAFAnz8+UE9wL1Ao
-         J7P0DPe8a2ONlkklD6EBpKUYXPibLMsGyyeGi2K2xnOeddJKUHLMib2jFQHuZwEEyXZc
-         +kRkA8jv3mESpt/XoJ1gdfwZLXFVvV8IEztlTZH/83mgD3APpUNdHnTzKe3kWYxXDPd8
-         rdgQ==
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature;
+        bh=Q77sAA/dnbzwJWT8VDi/CbwSgBKKUl/J8npYQRpXlwg=;
+        b=WYbdehXbQ75c5ShM93OpJ783RUtJYE5gy4m4vt2WMnm0V1k2vBueNLQRxeOY80yj6y
+         E4Nu1Y6eZkwSMVyw5LPB3Z89AdAfcje8QJLBrirVzVDTPCY7x+HrCU0bI9h21tY+V0TL
+         0h6+U/R1QFxTJF4uL1sUtuMhvtLs6JGEwLsyNob7oDNKEKNkrLJQhx1VG9VVslQCwpKn
+         UYFx4jw04IylfJqDneTlTApCiSi7NjLEXGT77v1PFFyaNLLHDqRfelYgXJpThbVRFzmh
+         67Ov4lrL5ABuciPKnYbgpU8FvUSRbpCWODC4OQdxqvU/PNMGLdGDG7eZ/342bPE2Shjl
+         d3xw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linaro.org header.s=google header.b=cHQbz9Me;
-       spf=pass (google.com: domain of linus.walleij@linaro.org designates 2a00:1450:4864:20::242 as permitted sender) smtp.mailfrom=linus.walleij@linaro.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org
+       dkim=pass header.i=@chromium.org header.s=google header.b=IjpQ6Aru;
+       spf=pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::1043 as permitted sender) smtp.mailfrom=keescook@chromium.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=chromium.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:mime-version:references:in-reply-to:from:date:message-id
-         :subject:to:cc:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=rkyu/5fp0X9rh2WGrMFd0atfCMw7TdOTC2xj1ywz2UE=;
-        b=ki4VNvAVkhOZgO5nrXnv1Zyt7GufIpVrTxr0pHU6LxdIhyqN3kDwk7TK15XmRKY5f/
-         MxUGPzRGs7+vq0ZUmdkoM+4pEUVaBfJ489Nd1ZgzIhJv4iAE/XRoY90aWiPiWZ1CEDwn
-         UakfI1PCkR/YX+oVKotvfQB8kp1ijMNuyobH4klXo6VR9Qsk+CYQT2IF6EnoczjwVTdU
-         Tm4Vjime/C0DlSFTvfvhDxUH5sSwdbSp6p5FEFNkf/O1zx6renX0RFwIW5Fn9mx7kNHb
-         MBxwoFgmINlpO4HS/XBG1HOS14ZYIFXwaONOlm2XWj8NHnwsATBoaxpJXBd+G32YQib7
-         zbjg==
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=Q77sAA/dnbzwJWT8VDi/CbwSgBKKUl/J8npYQRpXlwg=;
+        b=WjlYs1xNnV+6wUeSMvSPAbe+q4YTQlA+ldi1u4LTBJohWQKwOL2ripR2gGPy9MyZXv
+         qg0iutJMPFo2TC2CaM6aCPN5q55+7Jfe3/eAMN4TJNyfUuOQwYiK8bgCyVN1H0ULMIhN
+         AdU87M6xrWlayKoiW4YxipNxrEjY3qxwS/TMemKJdPlBDcSyFsOmt0ot1fe1lIInDaU7
+         XhExnJ7Q/Vs/O4qMuz6n2SxQhxYvQZKDewcRa7eXpCpeFhSlPJqehEqcwoqLbzX5qlGL
+         B4lp5iLK4JNn21JGsCJS9K3joE5oIJMr8JXeMXvY5mqgWKGcy/lwOlF+as3rDwcww5SH
+         Vl+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
-         :date:message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=rkyu/5fp0X9rh2WGrMFd0atfCMw7TdOTC2xj1ywz2UE=;
-        b=UVBWxuZigg3TxnBZYe77mUrSw0I9zwro4s7IDC+IAL3NkttbTlAbEFRBU71l4Dd1Ep
-         4Hq5uSO6cSHjCxc4OyCvcnNNpBafbJg6F23a0Zdg9rCrdyTR3f3shE457UnHc1udApVg
-         ClUTpUu3+u5AeLPgkdvqaeS/jNI6sY7tXBqP9QkCehlbdfE/XOW9P0vOvC8pHabdQj6W
-         BTH3GyT+TNmITNU7yz4XrVLz5g4jGCwKWmFFlkYVXMDsPNh9yxxwrZm8huS5/DYoeA5E
-         HAFXNW2pC6xbvHYyerOWyyQ6xY73HtjVMb9CeaYq/ZpzzwsJYZFaGbaMN1Fm45cY0KKQ
-         xgOg==
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=Q77sAA/dnbzwJWT8VDi/CbwSgBKKUl/J8npYQRpXlwg=;
+        b=XByPrYMHUomjkvDx0GImyb6lS5MyZShmgg4E5JzvD8x9hkeIvklA07ZCzpZfEIGV7S
+         rzUcT+7Y++4M3UhpkjnVClpUX3GFIficCPh9M1iZp0waFah/VVILMOQ0MFm1cPIVCg2W
+         wxd2dxMm9344q1vZ5G2LeMGfNmBgdjiXYzlwrJluvO/xTSvOv8qmp9BvE/diDUVuU1KB
+         65JrRPFiHJG6qfYuHhQ2x4rOBlUCnLnYZGZZusJ0XmkUpuxEwAnyD08AIHY1CgdYrne8
+         hG4DamHOA/M10YCa38XlFQGXEYf596YpmMpnc29MaM9UxMk//tJosiHXUuPk62cD0qmg
+         BuVg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAVKHLHGngyfhkF4mBQzCe3jRetrkOw5mcZExQN8exTKBUJpmTHw
-	sn2HIZYa0J4q8JLjkqztios=
-X-Google-Smtp-Source: APXvYqz6RWPM84Y0fUwal8cmen75x62ncAJjzcH89tFVr2tLo+hggiGJVH7rDIjtnSJUsS1bm0eTtw==
-X-Received: by 2002:a17:906:b30f:: with SMTP id n15mr9696768ejz.236.1579295135640;
-        Fri, 17 Jan 2020 13:05:35 -0800 (PST)
+X-Gm-Message-State: APjAAAXtcWfTwA9EmoKGpc6+thVNhoBLA6zU7kKaH1l31+GLkJvwpMmA
+	fTU9zSn6qGIhqhxLxLtGZO0=
+X-Google-Smtp-Source: APXvYqw3MCM5nMstPrK2uSZWXofdbI5TWoHWcFCw34liihYwwle5NFgw0Re3W9+N68z9U71rKIivww==
+X-Received: by 2002:a05:6830:c2:: with SMTP id x2mr7788019oto.8.1579296003883;
+        Fri, 17 Jan 2020 13:20:03 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:906:355a:: with SMTP id s26ls7370578eja.15.gmail; Fri,
- 17 Jan 2020 13:05:35 -0800 (PST)
-X-Received: by 2002:a17:906:1ec8:: with SMTP id m8mr9946600ejj.355.1579295135133;
-        Fri, 17 Jan 2020 13:05:35 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1579295135; cv=none;
+Received: by 2002:aca:c694:: with SMTP id w142ls4871881oif.6.gmail; Fri, 17
+ Jan 2020 13:20:03 -0800 (PST)
+X-Received: by 2002:aca:ec50:: with SMTP id k77mr5051614oih.114.1579296003490;
+        Fri, 17 Jan 2020 13:20:03 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1579296003; cv=none;
         d=google.com; s=arc-20160816;
-        b=WWAPzPsUFrruUwKWjX542b0Q2RvZod7ZNgIX5cDYrQz+bzgq0ANxE0tPUf4dedoANO
-         hDscR0eBHZcPHRPbBpL/sIZnoh/MMSfOhnTlRtHWHmBpgUsJ9f8o8e2TKmGAkgTU/VBY
-         nCGUW58296rd1YPPSxxBiWCteurH8BxInF68CWey+yVXsoBplR5kiQA48Dl+L7laSrm+
-         NE9Xx7lAe2cgXSVCiwY7rRCl8lBa0+EJAokJBUdLqhdmPilxfQ8TS7EzIcdnvNoMQkqN
-         FU/O3IGHgy0+XEx0nSY1HVQy7F5Qg8sCIJm8q/b8ICysf2gNd1NPRNyQAbxV7HdaAHDV
-         Hmew==
+        b=0Jts8ZEuevZ19Z/DL6LQpy1sd348Ctu0YshlIQE/EvNOi3oN9w4MdMnRt4hhT/4bw3
+         /bMrQjJFn/oHNfg8AxFeOVcpFzVvImim8w5exEn3IifKlhpijtvtUBwY1WTBeL3g/fxb
+         D26qrHWQ1hx0ngo//cXM1YNrAFGJDmLf1eLeU7UdBGI5kliJQrznig5q/hiOwxwJVqhU
+         FjDeom6go2hdBMVwqv/nF/bk3ZveLZuq2eJAXU6FsgAiR14J7d6FKnLmURnkNtgvdDsB
+         B7JU0tL7MXt+DStIaZyooYo94Q71c4x9ujWv2fgCT5SWl1OBjhRwkKzzsgxKvioQ/eEu
+         PGnQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=ZBkS9S8oFTr7ty1NIiAX5JrGRHx/96iPY51B8fxdR2Y=;
-        b=x9IT4OGXTRYWHanTD0Sh+Q0inaxzmX0VpRT89q5e9PCV16CCA5wUL+Gnyd2YUrGK4M
-         mt1W9pesIqbPmqb1Duqt8CTEU5DyEcKk6LUUtg0eUPdql1ofsr/vTWsnt8HvqV9Xql6M
-         O8RlQ2z4OUjMiEOmNKE5OSc82SlYoSqhX9EYJAjmmScxuPxeNIC/ORFxTjnDiZUMeQim
-         bNRVeoaiwO/Q6JRLybHDGAsdH+5MWkViN/wtw6enTALP1T9paLIppGIT3hljBKvdWG3G
-         QTdRdLiI8X0Dg8nR1icYM74DMhb1JSLE0OscIE045nQ3Aut/z/RQPL+xGx+P9FFy3eV8
-         0MTw==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:dkim-signature;
+        bh=0ov/MSAN6f4SPopx5kOpmENhTI+79DbFyHl+2GkJMEA=;
+        b=zpb+Tgb8sCOp6Us/RH4XfaJcAR6wjxnQeb+JbEaHFAqB9J5pa98s7MwF3WKwCp/cG/
+         Ddd7bvOCXLWs6EWxXzbCMjmYCvpmIOVBnIG2mIh9eGhObE5BZDMPqkDVILJaPo7VBhVj
+         VnoxrhvU3XvRuKJHtc1W66DKFQQ1vc6te15m5fI0LmUWLEesib56G2NabHlRueugQfeJ
+         zevIc7wBKhibLxwPvA4Ns0DJ5X7gfXEducI52SC+u0KxZbmRnUD52XHnDOlJHMN9zpGD
+         oKggUAbZuztV464rGeT+5OfwweyxMTzJ7BY6nbQ0VUI/I/fqpOwzS7b0ig2zzXQcxtha
+         DWwg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linaro.org header.s=google header.b=cHQbz9Me;
-       spf=pass (google.com: domain of linus.walleij@linaro.org designates 2a00:1450:4864:20::242 as permitted sender) smtp.mailfrom=linus.walleij@linaro.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com. [2a00:1450:4864:20::242])
-        by gmr-mx.google.com with ESMTPS id ba12si1081351edb.3.2020.01.17.13.05.35
+       dkim=pass header.i=@chromium.org header.s=google header.b=IjpQ6Aru;
+       spf=pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::1043 as permitted sender) smtp.mailfrom=keescook@chromium.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=chromium.org
+Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com. [2607:f8b0:4864:20::1043])
+        by gmr-mx.google.com with ESMTPS id d16si1222079oij.1.2020.01.17.13.20.03
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 17 Jan 2020 13:05:35 -0800 (PST)
-Received-SPF: pass (google.com: domain of linus.walleij@linaro.org designates 2a00:1450:4864:20::242 as permitted sender) client-ip=2a00:1450:4864:20::242;
-Received: by mail-lj1-x242.google.com with SMTP id y4so27837045ljj.9
-        for <kasan-dev@googlegroups.com>; Fri, 17 Jan 2020 13:05:35 -0800 (PST)
-X-Received: by 2002:a2e:9143:: with SMTP id q3mr6695400ljg.199.1579295134552;
- Fri, 17 Jan 2020 13:05:34 -0800 (PST)
+        Fri, 17 Jan 2020 13:20:03 -0800 (PST)
+Received-SPF: pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::1043 as permitted sender) client-ip=2607:f8b0:4864:20::1043;
+Received: by mail-pj1-x1043.google.com with SMTP id d15so3694097pjw.1
+        for <kasan-dev@googlegroups.com>; Fri, 17 Jan 2020 13:20:03 -0800 (PST)
+X-Received: by 2002:a17:902:b401:: with SMTP id x1mr1280965plr.326.1579296002758;
+        Fri, 17 Jan 2020 13:20:02 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id w11sm29039174pfn.4.2020.01.17.13.20.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Jan 2020 13:20:01 -0800 (PST)
+Date: Fri, 17 Jan 2020 13:20:00 -0800
+From: Kees Cook <keescook@chromium.org>
+To: Dmitry Vyukov <dvyukov@google.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Andrey Ryabinin <aryabinin@virtuozzo.com>,
+	Elena Petrova <lenaptr@google.com>,
+	Alexander Potapenko <glider@google.com>,
+	Dan Carpenter <dan.carpenter@oracle.com>,
+	"Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+	kasan-dev <kasan-dev@googlegroups.com>,
+	Linux-MM <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>,
+	kernel-hardening@lists.openwall.com,
+	syzkaller <syzkaller@googlegroups.com>
+Subject: Re: [PATCH v3 5/6] kasan: Unset panic_on_warn before calling panic()
+Message-ID: <202001171317.5E3C106F@keescook>
+References: <20200116012321.26254-1-keescook@chromium.org>
+ <20200116012321.26254-6-keescook@chromium.org>
+ <CACT4Y+batRaj_PaDnfzLjpLDOCChhpiayKeab-rNLx5LAj1sSQ@mail.gmail.com>
+ <202001161548.9E126B774F@keescook>
+ <CACT4Y+Z9o4B37-sNU2582FBv_2+evgyKVbVo-OAufLrsney=wA@mail.gmail.com>
 MIME-Version: 1.0
-References: <20190617221134.9930-1-f.fainelli@gmail.com> <20191114181243.q37rxoo3seds6oxy@pengutronix.de>
- <7322163f-e08e-a6b7-b143-e9d59917ee5b@gmail.com> <20191115070842.2x7psp243nfo76co@pengutronix.de>
- <20191115114416.ba6lmwb7q4gmepzc@pengutronix.de> <60bda4a9-f4f8-3641-2612-17fab3173b29@gmail.com>
- <CACRpkdYJR3gQCb4WXwF4tGzk+tT7jMcV9=nDK0PFkeh+0G11bA@mail.gmail.com> <2639dfb0-9e48-cc0f-27e5-34308f790293@gmail.com>
-In-Reply-To: <2639dfb0-9e48-cc0f-27e5-34308f790293@gmail.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Fri, 17 Jan 2020 22:05:23 +0100
-Message-ID: <CACRpkdYs-jeYO+8avOryJnXdWsB9AkPy7Q5FRQ1gGC1NU35MHA@mail.gmail.com>
-Subject: Re: [PATCH v6 0/6] KASan for arm
-To: Florian Fainelli <f.fainelli@gmail.com>
-Cc: Marco Felsch <m.felsch@pengutronix.de>, Mark Rutland <mark.rutland@arm.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Michal Hocko <mhocko@suse.com>, 
-	Julien Thierry <julien.thierry@arm.com>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Christoffer Dall <christoffer.dall@arm.com>, David Howells <dhowells@redhat.com>, 
-	Masahiro Yamada <yamada.masahiro@socionext.com>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, 
-	Alexander Potapenko <glider@google.com>, kvmarm@lists.cs.columbia.edu, 
-	Jonathan Corbet <corbet@lwn.net>, Abbott Liu <liuwenliang@huawei.com>, 
-	Daniel Lezcano <daniel.lezcano@linaro.org>, Russell King <linux@armlinux.org.uk>, 
-	kasan-dev <kasan-dev@googlegroups.com>, Geert Uytterhoeven <geert@linux-m68k.org>, 
-	Dmitry Vyukov <dvyukov@google.com>, 
-	bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>, drjones@redhat.com, 
-	Vladimir Murzin <vladimir.murzin@arm.com>, Kees Cook <keescook@chromium.org>, 
-	Arnd Bergmann <arnd@arndb.de>, Marc Zyngier <marc.zyngier@arm.com>, 
-	Andre Przywara <andre.przywara@arm.com>, Philippe Ombredanne <pombredanne@nexb.com>, 
-	Jinbum Park <jinb.park7@gmail.com>, Thomas Gleixner <tglx@linutronix.de>, 
-	Sascha Hauer <kernel@pengutronix.de>, Linux ARM <linux-arm-kernel@lists.infradead.org>, 
-	Nicolas Pitre <nico@fluxnic.net>, Greg KH <gregkh@linuxfoundation.org>, 
-	Ard Biesheuvel <ard.biesheuvel@linaro.org>, 
-	Linux Doc Mailing List <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Rob Landley <rob@landley.net>, philip@cog.systems, 
-	Andrew Morton <akpm@linux-foundation.org>, Thomas Garnier <thgarnie@google.com>, 
-	"Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: linus.walleij@linaro.org
+Content-Disposition: inline
+In-Reply-To: <CACT4Y+Z9o4B37-sNU2582FBv_2+evgyKVbVo-OAufLrsney=wA@mail.gmail.com>
+X-Original-Sender: keescook@chromium.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linaro.org header.s=google header.b=cHQbz9Me;       spf=pass
- (google.com: domain of linus.walleij@linaro.org designates
- 2a00:1450:4864:20::242 as permitted sender) smtp.mailfrom=linus.walleij@linaro.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org
+ header.i=@chromium.org header.s=google header.b=IjpQ6Aru;       spf=pass
+ (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::1043
+ as permitted sender) smtp.mailfrom=keescook@chromium.org;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=chromium.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -151,23 +148,85 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, Jan 17, 2020 at 8:55 PM Florian Fainelli <f.fainelli@gmail.com> wrote:
+On Fri, Jan 17, 2020 at 10:54:36AM +0100, Dmitry Vyukov wrote:
+> On Fri, Jan 17, 2020 at 12:49 AM Kees Cook <keescook@chromium.org> wrote:
+> >
+> > On Thu, Jan 16, 2020 at 06:23:01AM +0100, Dmitry Vyukov wrote:
+> > > On Thu, Jan 16, 2020 at 2:24 AM Kees Cook <keescook@chromium.org> wrote:
+> > > >
+> > > > As done in the full WARN() handler, panic_on_warn needs to be cleared
+> > > > before calling panic() to avoid recursive panics.
+> > > >
+> > > > Signed-off-by: Kees Cook <keescook@chromium.org>
+> > > > ---
+> > > >  mm/kasan/report.c | 10 +++++++++-
+> > > >  1 file changed, 9 insertions(+), 1 deletion(-)
+> > > >
+> > > > diff --git a/mm/kasan/report.c b/mm/kasan/report.c
+> > > > index 621782100eaa..844554e78893 100644
+> > > > --- a/mm/kasan/report.c
+> > > > +++ b/mm/kasan/report.c
+> > > > @@ -92,8 +92,16 @@ static void end_report(unsigned long *flags)
+> > > >         pr_err("==================================================================\n");
+> > > >         add_taint(TAINT_BAD_PAGE, LOCKDEP_NOW_UNRELIABLE);
+> > > >         spin_unlock_irqrestore(&report_lock, *flags);
+> > > > -       if (panic_on_warn)
+> > > > +       if (panic_on_warn) {
+> > > > +               /*
+> > > > +                * This thread may hit another WARN() in the panic path.
+> > > > +                * Resetting this prevents additional WARN() from panicking the
+> > > > +                * system on this thread.  Other threads are blocked by the
+> > > > +                * panic_mutex in panic().
+> > >
+> > > I don't understand part about other threads.
+> > > Other threads are not necessary inside of panic(). And in fact since
+> > > we reset panic_on_warn, they will not get there even if they should.
+> > > If I am reading this correctly, once one thread prints a warning and
+> > > is going to panic, other threads may now print infinite amounts of
+> > > warning and proceed past them freely. Why is this the behavior we
+> > > want?
+> >
+> > AIUI, the issue is the current thread hitting another WARN and blocking
+> > on trying to call panic again. WARNs encountered during the execution of
+> > panic() need to not attempt to call panic() again.
+> 
+> Yes, but the variable is global and affects other threads and the
+> comment talks about other threads, and that's the part I am confused
+> about (for both comment wording and the actual behavior). For the
+> "same thread hitting another warning" case we need a per-task flag or
+> something.
 
-> [Me]
-> > Can we start to submit these patches to Russell's patch tracker?
-> > Any more testing I should be doing?
->
-> Let me submit and rebase v7 get the auto builders some days to see if it
-> exposes a new build issue and then we toss it to RMK's patch tracker and
-> fix bugs from there?
+This is duplicating the common panic-on-warn logic (see the generic bug
+code), so I'd like to just have the same behavior between the three
+implementations of panic-on-warn (generic bug, kasan, ubsan), and then
+work to merge them into a common handler, and then perhaps fix the
+details of the behavior. I think it's more correct to allow the panicing
+thread to complete than to care about what the other threads are doing.
+Right now, a WARN within the panic code will either a) hang the machine,
+or b) not panic, allowing the rest of the threads to continue, maybe
+then hitting other WARNs and hanging. The generic bug code does not
+suffer from this.
 
-OK you can add my Tested-by: Linus Walleij <linus.walleij@linaro.org>
-to the patches.
+-Kees
 
-Thanks,
-Linus Walleij
+> 
+> > -Kees
+> >
+> > >
+> > > > +                */
+> > > > +               panic_on_warn = 0;
+> > > >                 panic("panic_on_warn set ...\n");
+> > > > +       }
+> > > >         kasan_enable_current();
+> > > >  }
+> >
+> > --
+> > Kees Cook
+
+-- 
+Kees Cook
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACRpkdYs-jeYO%2B8avOryJnXdWsB9AkPy7Q5FRQ1gGC1NU35MHA%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/202001171317.5E3C106F%40keescook.
