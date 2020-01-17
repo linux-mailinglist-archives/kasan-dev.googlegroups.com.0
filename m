@@ -1,164 +1,129 @@
-Return-Path: <kasan-dev+bncBAABBDW7Q3YQKGQEBPUHKJY@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBVPGQ3YQKGQESD37AAA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wr1-x43a.google.com (mail-wr1-x43a.google.com [IPv6:2a00:1450:4864:20::43a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C0AA140A52
-	for <lists+kasan-dev@lfdr.de>; Fri, 17 Jan 2020 13:58:55 +0100 (CET)
-Received: by mail-wr1-x43a.google.com with SMTP id z14sf10598919wrs.4
-        for <lists+kasan-dev@lfdr.de>; Fri, 17 Jan 2020 04:58:55 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1579265935; cv=pass;
+Received: from mail-io1-xd38.google.com (mail-io1-xd38.google.com [IPv6:2607:f8b0:4864:20::d38])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60F33140A7E
+	for <lists+kasan-dev@lfdr.de>; Fri, 17 Jan 2020 14:15:02 +0100 (CET)
+Received: by mail-io1-xd38.google.com with SMTP id w22sf10231994ior.6
+        for <lists+kasan-dev@lfdr.de>; Fri, 17 Jan 2020 05:15:02 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1579266901; cv=pass;
         d=google.com; s=arc-20160816;
-        b=L18m9cGfWer3E3gZqfr9qIpOMDa5OsvTLxXZ2qCgwTof7DXSVbUZ8BnTsTWWDLtZYc
-         U/qkf0DxS5eBwCe+XFuTWkbxWzY91uObMqUJv1+EhILbLMzPeOQwcMejvOrHoDMOosC2
-         cvRThfRbC+R8sc6uphmwzU3j4BndC3K/PXLfszWKxwBtlMfEHUKXZK3yncEuIRiNRzA9
-         48ph0TAVwqF7AjuhBdWwJiU+eocOg3ow4s5oes0/EnTc0CBh+efeyDAMkRya/sef/LYL
-         9Eg4NtXOXAFXFRh2nPAMdK5hWOwVYplqEZupMvcJY73WdnIENQwZ+YkQpLOTyQ1OjKjC
-         FfKg==
+        b=L2BsukHK5g2Bj9ayfhtwbpLroQLJzWBdLlRtlIhfcAMVIy17Or1d6bFrRoW9zv+mVA
+         dt3IFHfyRBuNn/ci7wZ4BYtaOtdSkfJIhRVlbNFZjCq035G028MMOkJxsqWwALyQbwAZ
+         1vYb+0Z/Bx4DN+gjec/NDY4BKn8MzDDrz2oyvkJqwfhZJrAcpLvnPI/DBi8CYz0sX1zl
+         d6fnXufsfegapkKqDlXxdeoEf9joXWEHskE2tOt0Zsqj5tIXXfggxNyrAmz8tyxzRlqh
+         7bKqg+XNFcIytjkKy09zWFYsyVj9Vvitc73ZOHsJtqrx4xOUO9D7hmfMR9Xa+IqH6Sq5
+         vl/Q==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:ironport-sdr:sender
-         :dkim-signature;
-        bh=NfK3PuBZXRJlnSylBJbZmAQdgOKImzR2lvmzCm/+gyE=;
-        b=Yff1HL1bt9XcgM/wSVDgPXa4A1CY8/wJHfyE+2YLsR9iHwM2VBkQ+EQjMiF9r7YYqa
-         1huf9Zpho5jpC1iPvdhtENe80suHnPsMh0bt5gK5niNo5av699xDlWwEoPLJtStmc7Uw
-         tocaKdaARhAQPhPYwxN+080nlJskjZd99uGhVwNloLJa7GUZeu42337caTLjgOMbctlG
-         h+XEYAvjW2mdjVDtNYDc4/4khWVnP5SPUAqqVurBuXDkLNrLbW7Wpcfg9r1cs4Nw1oI2
-         YyC7nQqyT4nIfMYmSa+l63oXktsc0r1dLfzWf0RXoFsa8AziFO6viW5P/YDgWQ9yGvAT
-         +INw==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=s19g+Eu2U1F8HiL7DFNnh5j4n1aLNk55thDyZJ/ergM=;
+        b=i25K7SbfWPHT+NjfXh3fgFlA7wMVnt0DL34O1JEVnYYSEzv61gc14t32auZ9/kvqk3
+         hPx5daRqjdoenCKX0JN3H9lzwEVFDlcwjCl01+ji5dcnx0mWqYorg7oQPOQaSuepGT7u
+         k5aVlN1yABLLa41g7/Xn8KlBPnirsK1qupJ9nC0H0ZFhaRSabG/ICadkICgnXvmVbYly
+         qX1FH2n748UhjEQU80OX0rLpQJ0aacTDG16I9K4qWOqZHv9FQ1qOc/cjjAdtH/cokEUb
+         juZeOGIqwtcnxsfmUxajzBky1PNA5OYuyABdFLxRCmIMqqbzYkxzy2Odi04HDvSSPXkW
+         aGQw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@citrix.com header.s=securemail header.b=ZVGaqM0Q;
-       spf=pass (google.com: domain of sergey.dyasli@citrix.com designates 216.71.155.175 as permitted sender) smtp.mailfrom=sergey.dyasli@citrix.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=citrix.com
+       dkim=pass header.i=@google.com header.s=20161025 header.b=phe1Ud2o;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::32b as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:ironport-sdr:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=NfK3PuBZXRJlnSylBJbZmAQdgOKImzR2lvmzCm/+gyE=;
-        b=Rmjung8vOdSJ87at67+qvYvLfNJXnhY4RXSeOLQbSzJqVX8Ew8frb+3qcFoMJUqvj9
-         smQ5+M9oVA8hZq185Tj59k+EnQ9JuwK/1AKfVBqNcLpZr8/3wr3MomKOmCjkJAlxHHeS
-         CZfGcy5o+jffyDo2LpOeMu+jnLEPCBpnPVO02TKrO7fgQ/k/QGVJ7OF36gx4QKqQwV7r
-         9KV7rcipJrPnYPdXaZw7jh9cZsYseEZryz81c3w+8JNMFQACF6cJ8EbaoHOHiaTgoVul
-         BVNpAjbAiSgFgmZoWNxLnIWXknW6satQo+Yr9+L49aed8SIf8dwuBlnbLVqBORKEPmVO
-         a7Fw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=s19g+Eu2U1F8HiL7DFNnh5j4n1aLNk55thDyZJ/ergM=;
+        b=rdSCR9mnBe6UrM1342n2ZwqpJOtzYFYx4yGmuRYMmejT2tl4nsey8s0V0jB6QtHGFS
+         tyq6PZMaFsrxw5+cJEDIZODRcw5osIjeov90Egksvqqpt7WHB2m5XPFQa5UNnY41TUWr
+         liNFMes0g4PJ6hUujod80E4eurmka0SZ4sGihepHqjSOr6WFLACo35EtAb6ZsT3+MEIZ
+         MqFGvO2gOu+125ZyjCnBZ2Q+jVo6rcjdmn6ifPBdSkSpi4exbqaphFnauUSyHDaz9EMW
+         NbdCLr5Ha/PR8RR3b5OPaO7Crp3m0YMpSWZRcT+HfaObO0sPYSAUg7I+L5Iocx5tr6hv
+         VsYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:ironport-sdr:from:to:cc:subject:date
-         :message-id:in-reply-to:references:mime-version:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=NfK3PuBZXRJlnSylBJbZmAQdgOKImzR2lvmzCm/+gyE=;
-        b=r6sGaB/qBJHIiqBI3YEv00j/QIFGfcc7d9WVdZFyaWdjVG2bz48qAMxOX3ouNoxJDD
-         bSTpmp+Y83uFrwRArcAOE3cYuCYNpuN+CTf8NfPc5io/1OO0Xiuu/4jaXJTHgonq36WJ
-         Y0lmmrd97J1Uj0kY2E/TKqmOlarSsjwNUyQzdEeWqjPpihgOKL2yKNnyPzscR3pYZQa3
-         3xWSXh62HgzIHNMJxR/G5+NR5PqOiktTbymM8Q/O5J6X7X4HxnXbukVjC+CGFkfiJwDw
-         wskafiYO21aAAjPfRdr7smORJ7Osixf4XEID6xMuoftDzzDNa81MHTheNPqaOyN4hR8o
-         W9RA==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAUmGuARn8ZJWxRs4vWoPFyWzTG2AcOdil+jjYb+0qnN+cgXBoa2
-	ukJQw8BOJZ78w+TjiFmSvl4=
-X-Google-Smtp-Source: APXvYqzTMZEkQzktz/5U3Wveyq5bnCJvarmoKAe8AhxbrwaGesQ/eT6D6RcBxJ+ha8Z+nTYKrMSPLA==
-X-Received: by 2002:a5d:4b88:: with SMTP id b8mr2920680wrt.343.1579265934988;
-        Fri, 17 Jan 2020 04:58:54 -0800 (PST)
+        bh=s19g+Eu2U1F8HiL7DFNnh5j4n1aLNk55thDyZJ/ergM=;
+        b=i0DUzlKF162XUWywcMeNJAwBbT9zb1J/g+tv7ZtxsxIDPcYAA9EXyumFeW+4LSd90m
+         leniTdyJg9eCKKR+0MbZ0z1b2pigW9dBvu1hF1VLRRrgaUVxsJckdl2h+RLGLgTI8Jh/
+         +NGotY/2IkV2bFpYFmb7i0chd9fzuMcrPsOtCv+dpxBZ9XvmMiY9rkbtExs4hnxCn8Ct
+         gi6FOaXZf8NgoIODvg0m93S9SF9BVOwF/hxZaglBDbo/MZdLtirm/wLm/bDTYv7AbbZJ
+         Md2iLaAvvzcxVMQBS3P6FDMF7H4ZvExyVunHPGL7/LWYHb/zyfKMOjvTpRyA6XGh5Ig4
+         /Q3w==
+X-Gm-Message-State: APjAAAVLUr0y4WGlblnaN3mri2JL8207/q+wYuf5/zl4/2NVilea1V+N
+	z7B4UD0JVCUnXl56uS0zCE4=
+X-Google-Smtp-Source: APXvYqyPGkT2QNSleUDj0hShcTNoDsBPq8Xv5+p6oo7q+/mL6swTmIrqQwDdj+ZGY0Wb6RlJvFDErw==
+X-Received: by 2002:a02:7fd0:: with SMTP id r199mr3188454jac.126.1579266901245;
+        Fri, 17 Jan 2020 05:15:01 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:adf:eb4c:: with SMTP id u12ls8901450wrn.6.gmail; Fri, 17 Jan
- 2020 04:58:54 -0800 (PST)
-X-Received: by 2002:adf:de86:: with SMTP id w6mr3013281wrl.115.1579265934578;
-        Fri, 17 Jan 2020 04:58:54 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1579265934; cv=none;
+Received: by 2002:a5e:9807:: with SMTP id s7ls4063341ioj.13.gmail; Fri, 17 Jan
+ 2020 05:15:00 -0800 (PST)
+X-Received: by 2002:a6b:5904:: with SMTP id n4mr32330436iob.9.1579266900824;
+        Fri, 17 Jan 2020 05:15:00 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1579266900; cv=none;
         d=google.com; s=arc-20160816;
-        b=RCVg4ra+6FKsIGMSH0vNk6J0yo9WC4Nw2ov0bIXS8sbQxTuIjVHBn9yAorNLYeRTj5
-         PIqpdUutHA+ZSusRYie1pq6l0GuHDou6aLmXXcpGx+169fylcSYkOdjpKLPY1HSjMRdE
-         LEkwv+uGMS3KlTmmWo9SOhTEE5+OJ0PjEqOSkWLdEfIv0/Uu6pIE+sxyYbr0M6aitYp1
-         ot5acTBYx8wSDiOMEZOSsXPWVvKU/PAV+y/I7H3qkmjlY0PR/p9Uk4b1M1jnj8qtn674
-         n9x8D6+4dBc2nCXqlPpuqBvS9pYDsAb/IFQV+Zf+ANVdlSzMP9pVJyp1zgqAJ70OAUxz
-         BoJQ==
+        b=w/spFTxE5kNpqf2lAqRVNGnC+FhiY94VL13sjUsHLN8DIFbUNVxrEmmf7QdcB6/H5y
+         xbtcWGhNmDmZriodHe1L4CHEo5aTTR4CR+x0qDp0qIse0LbjBy4TVCTes2Vr1mUFXacS
+         mYYwBHPhs2D+NV+RoGQvKyX2TDukeSQSAWe2rRW0qVOCT7JCyLI4kharkkMeGnN9DmtQ
+         8cz6RrOO7jCzT8hD5GtjLYQcQxXxSTN6yoBuyP/j5MWrKztxLx3oyGryy56qebtVbCaK
+         7ZOH3YlXy+YPd8mE7oBP7Ax2lfUjmWgp8jwO/5hL3o0r6msORyRpGlbhuEOtJsJA5pnd
+         t9VQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=mime-version:references:in-reply-to:message-id:date:subject:cc:to
-         :from:ironport-sdr:dkim-signature;
-        bh=sSeG/8S7uZ8CHXZ5AXhNnUqtp2MAORYb3iKHPG9qIqw=;
-        b=oDQRmvkw4y3/csrAwnDMOPiqcegKm6RAyTcni7dcAay1J9ZiKUve8Uey0mU1hmE2nK
-         FUXTyX2+upFfoXPYHFpfmcDYanw6EBADmVQKRzknnd0OfHnxJ3IurwssCFnLqUiNn3aI
-         6TcMYka8I3aPJ21W0ZiOXRJW/asDafbyFn7DV6wVmhNiPR3zxSKAP6HKuSSXbeLWBZ49
-         ScE++vrY2/BQ/dr0IVFlSOow1M3Ej5ck2XKdLLDNCKdeY9GXFSrPAvHy3Bibvr2n2SMj
-         Jyyyx/LMBVDE62lEa8upNgl1HWQIl8o/YKrI+1ebmeXnYtuVQ8uiIZo0MTLytRoj/rYx
-         /AQg==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=B8YqwuFYQqcgYYrogodMJhZN7j+MHKf9rIlBL0O/Le8=;
+        b=jNWgHBABsN4a47758afhCeSA+H+c4+aIFVxsE3MPTQH+aE7C4TFSGdSE3R/lZgC2zC
+         Vd17N3GiEu3hCWHK1222/7WMt3TV5I309JRmQT2H6EGIzGW0j53oHOeOsKxutI2XUWnv
+         7PzldDb/x51TE4oZvWkjx7HoMdFSySxX6ezjCUMmG6JSwrA3tFA2DB4ZIBzPe/jQz65I
+         x4aFkdu2isJLfsrSDvFrEp2B8cNBGEmBBYo9yFhvYT6lSkiRWZAyMyo2E2ez03cwFXoS
+         ACqON+dLWFPFCxVeYUmBrBvsh6Jln3xb0pshXZ6MvtVtqZCPnsMZPEfimQ8OReCKy0gU
+         /OFw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@citrix.com header.s=securemail header.b=ZVGaqM0Q;
-       spf=pass (google.com: domain of sergey.dyasli@citrix.com designates 216.71.155.175 as permitted sender) smtp.mailfrom=sergey.dyasli@citrix.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=citrix.com
-Received: from esa6.hc3370-68.iphmx.com (esa6.hc3370-68.iphmx.com. [216.71.155.175])
-        by gmr-mx.google.com with ESMTPS id x5si585778wmk.1.2020.01.17.04.58.53
+       dkim=pass header.i=@google.com header.s=20161025 header.b=phe1Ud2o;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::32b as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-ot1-x32b.google.com (mail-ot1-x32b.google.com. [2607:f8b0:4864:20::32b])
+        by gmr-mx.google.com with ESMTPS id h4si1356991ilf.3.2020.01.17.05.15.00
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 17 Jan 2020 04:58:54 -0800 (PST)
-Received-SPF: pass (google.com: domain of sergey.dyasli@citrix.com designates 216.71.155.175 as permitted sender) client-ip=216.71.155.175;
-Received-SPF: None (esa6.hc3370-68.iphmx.com: no sender
-  authenticity information available from domain of
-  sergey.dyasli@citrix.com) identity=pra;
-  client-ip=162.221.158.21; receiver=esa6.hc3370-68.iphmx.com;
-  envelope-from="sergey.dyasli@citrix.com";
-  x-sender="sergey.dyasli@citrix.com";
-  x-conformance=sidf_compatible
-Received-SPF: Pass (esa6.hc3370-68.iphmx.com: domain of
-  sergey.dyasli@citrix.com designates 162.221.158.21 as
-  permitted sender) identity=mailfrom;
-  client-ip=162.221.158.21; receiver=esa6.hc3370-68.iphmx.com;
-  envelope-from="sergey.dyasli@citrix.com";
-  x-sender="sergey.dyasli@citrix.com";
-  x-conformance=sidf_compatible; x-record-type="v=spf1";
-  x-record-text="v=spf1 ip4:209.167.231.154 ip4:178.63.86.133
-  ip4:195.66.111.40/30 ip4:85.115.9.32/28 ip4:199.102.83.4
-  ip4:192.28.146.160 ip4:192.28.146.107 ip4:216.52.6.88
-  ip4:216.52.6.188 ip4:162.221.158.21 ip4:162.221.156.83
-  ip4:168.245.78.127 ~all"
-Received-SPF: None (esa6.hc3370-68.iphmx.com: no sender
-  authenticity information available from domain of
-  postmaster@mail.citrix.com) identity=helo;
-  client-ip=162.221.158.21; receiver=esa6.hc3370-68.iphmx.com;
-  envelope-from="sergey.dyasli@citrix.com";
-  x-sender="postmaster@mail.citrix.com";
-  x-conformance=sidf_compatible
-IronPort-SDR: 9Pu+Dt4AmrdPopz9X+nqR/BgvGLwCGMi4qVLlyuEh3k94OexmfeofNXTntlanbYRuLsYxfZlBT
- Lrz3S4mzj+puxMJ8Jo8y0SfffVP7bc/scRO23dHBd+HX4rVw+kT+b7tFlF8c35lmDBLBJ1mctn
- 9EZXkeeJCjvAkP89TdmjIz9xq7qCRFedYIaST8GIAjgqtr6KH2oRrTOJGpO4JtV9OtGaVMwiCK
- IH/1chH8J4VSQ7BL2hBX6eO3omZmcU4WoyMDnXGfzaGCdmOjnujJAIYi5Amz6ZEpyDylGUShII
- GIE=
-X-SBRS: 2.7
-X-MesageID: 11502060
-X-Ironport-Server: esa6.hc3370-68.iphmx.com
-X-Remote-IP: 162.221.158.21
-X-Policy: $RELAYED
-X-IronPort-AV: E=Sophos;i="5.70,330,1574139600"; 
-   d="scan'208";a="11502060"
-From: Sergey Dyasli <sergey.dyasli@citrix.com>
-To: <xen-devel@lists.xen.org>, <kasan-dev@googlegroups.com>,
-	<linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>
-CC: Andrey Ryabinin <aryabinin@virtuozzo.com>, Alexander Potapenko
-	<glider@google.com>, Dmitry Vyukov <dvyukov@google.com>, Boris Ostrovsky
-	<boris.ostrovsky@oracle.com>, Juergen Gross <jgross@suse.com>, "Stefano
- Stabellini" <sstabellini@kernel.org>, George Dunlap
-	<george.dunlap@citrix.com>, Ross Lagerwall <ross.lagerwall@citrix.com>,
-	Andrew Morton <akpm@linux-foundation.org>, Sergey Dyasli
-	<sergey.dyasli@citrix.com>, Wei Liu <wei.liu@kernel.org>, Paul Durrant
-	<paul@xen.org>
-Subject: [PATCH v2 4/4] xen/netback: fix grant copy across page boundary
-Date: Fri, 17 Jan 2020 12:58:34 +0000
-Message-ID: <20200117125834.14552-5-sergey.dyasli@citrix.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200117125834.14552-1-sergey.dyasli@citrix.com>
-References: <20200117125834.14552-1-sergey.dyasli@citrix.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 17 Jan 2020 05:15:00 -0800 (PST)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::32b as permitted sender) client-ip=2607:f8b0:4864:20::32b;
+Received: by mail-ot1-x32b.google.com with SMTP id i15so22495840oto.2
+        for <kasan-dev@googlegroups.com>; Fri, 17 Jan 2020 05:15:00 -0800 (PST)
+X-Received: by 2002:a9d:588c:: with SMTP id x12mr5863094otg.2.1579266899985;
+ Fri, 17 Jan 2020 05:14:59 -0800 (PST)
 MIME-Version: 1.0
+References: <20200115165749.145649-1-elver@google.com> <CAK8P3a3b=SviUkQw7ZXZF85gS1JO8kzh2HOns5zXoEJGz-+JiQ@mail.gmail.com>
+ <CANpmjNOpTYnF3ssqrE_s+=UA-2MpfzzdrXoyaifb3A55_mc0uA@mail.gmail.com>
+ <CAK8P3a3WywSsahH2vtZ_EOYTWE44YdN+Pj6G8nt_zrL3sckdwQ@mail.gmail.com>
+ <CANpmjNMk2HbuvmN1RaZ=8OV+tx9qZwKyRySONDRQar6RCGM1SA@mail.gmail.com> <CAK8P3a066Knr-KC2v4M8Dr1phr0Gbb2KeZZLQ7Ana0fkrgPDPg@mail.gmail.com>
+In-Reply-To: <CAK8P3a066Knr-KC2v4M8Dr1phr0Gbb2KeZZLQ7Ana0fkrgPDPg@mail.gmail.com>
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Fri, 17 Jan 2020 14:14:48 +0100
+Message-ID: <CANpmjNO395-atZXu_yEArZqAQ+ib3Ack-miEhA9msJ6_eJsh4g@mail.gmail.com>
+Subject: Re: [PATCH -rcu] asm-generic, kcsan: Add KCSAN instrumentation for bitops
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: "Paul E. McKenney" <paulmck@kernel.org>, Andrey Konovalov <andreyknvl@google.com>, 
+	Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>, 
+	kasan-dev <kasan-dev@googlegroups.com>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Michael Ellerman <mpe@ellerman.id.au>, 
+	christophe leroy <christophe.leroy@c-s.fr>, Daniel Axtens <dja@axtens.net>, 
+	linux-arch <linux-arch@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: sergey.dyasli@citrix.com
+X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@citrix.com header.s=securemail header.b=ZVGaqM0Q;       spf=pass
- (google.com: domain of sergey.dyasli@citrix.com designates 216.71.155.175 as
- permitted sender) smtp.mailfrom=sergey.dyasli@citrix.com;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=citrix.com
+ header.i=@google.com header.s=20161025 header.b=phe1Ud2o;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::32b as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -171,165 +136,74 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-From: Ross Lagerwall <ross.lagerwall@citrix.com>
+On Fri, 17 Jan 2020 at 13:25, Arnd Bergmann <arnd@arndb.de> wrote:
+>
+> On Wed, Jan 15, 2020 at 9:50 PM Marco Elver <elver@google.com> wrote:
+> > On Wed, 15 Jan 2020 at 20:55, Arnd Bergmann <arnd@arndb.de> wrote:
+> > > On Wed, Jan 15, 2020 at 8:51 PM Marco Elver <elver@google.com> wrote:
+> > > > On Wed, 15 Jan 2020 at 20:27, Arnd Bergmann <arnd@arndb.de> wrote:
+> > > Are there any that really just want kasan_check_write() but not one
+> > > of the kcsan checks?
+> >
+> > If I understood correctly, this suggestion would amount to introducing
+> > a new header, e.g. 'ksan-checks.h', that provides unified generic
+> > checks. For completeness, we will also need to consider reads. Since
+> > KCSAN provides 4 check variants ({read,write} x {plain,atomic}), we
+> > will need 4 generic check variants.
+>
+> Yes, that was the idea.
+>
+> > I certainly do not feel comfortable blindly introducing kcsan_checks
+> > in all places where we have kasan_checks, but it may be worthwhile
+> > adding this infrastructure and starting with atomic-instrumented and
+> > bitops-instrumented wrappers. The other locations you list above would
+> > need to be evaluated on a case-by-case basis to check if we want to
+> > report data races for those accesses.
+>
+> I think the main question to answer is whether it is more likely to go
+> wrong because we are missing checks when one caller accidentally
+> only has one but not the other, or whether they go wrong because
+> we accidentally check both when we should only be checking one.
+>
+> My guess would be that the first one is more likely to happen, but
+> the second one is more likely to cause problems when it happens.
 
-When KASAN (or SLUB_DEBUG) is turned on, there is a higher chance that
-non-power-of-two allocations are not aligned to the next power of 2 of
-the size. Therefore, handle grant copies that cross page boundaries.
+Right, I guess both have trade-offs.
 
-Signed-off-by: Ross Lagerwall <ross.lagerwall@citrix.com>
-Signed-off-by: Sergey Dyasli <sergey.dyasli@citrix.com>
----
-v1 --> v2:
-- Use sizeof_field(struct sk_buff, cb)) instead of magic number 48
-- Slightly update commit message
+> > As a minor data point, {READ,WRITE}_ONCE in compiler.h currently only
+> > has kcsan_checks and not kasan_checks.
+>
+> Right. This is because we want an explicit "atomic" check for kcsan
+> but we want to have the function inlined for kasan, right?
 
-RFC --> v1:
-- Added BUILD_BUG_ON to the netback patch
-- xenvif_idx_release() now located outside the loop
+Yes, correct.
 
-CC: Wei Liu <wei.liu@kernel.org>
-CC: Paul Durrant <paul@xen.org>
----
- drivers/net/xen-netback/common.h  |  2 +-
- drivers/net/xen-netback/netback.c | 60 +++++++++++++++++++++++++------
- 2 files changed, 50 insertions(+), 12 deletions(-)
+> > My personal preference would be to keep the various checks explicit,
+> > clearly opting into either KCSAN and/or KASAN. Since I do not think
+> > it's obvious if we want both for the existing and potentially new
+> > locations (in future), the potential for error by blindly using a
+> > generic 'ksan_check' appears worse than potentially adding a dozen
+> > lines or so.
+> >
+> > Let me know if you'd like to proceed with 'ksan-checks.h'.
+>
+> Could you have a look at the files I listed and see if there are any
+> other examples that probably a different set of checks between the
+> two, besides the READ_ONCE() example?
 
-diff --git a/drivers/net/xen-netback/common.h b/drivers/net/xen-netback/common.h
-index 05847eb91a1b..e57684415edd 100644
---- a/drivers/net/xen-netback/common.h
-+++ b/drivers/net/xen-netback/common.h
-@@ -155,7 +155,7 @@ struct xenvif_queue { /* Per-queue data for xenvif */
- 	struct pending_tx_info pending_tx_info[MAX_PENDING_REQS];
- 	grant_handle_t grant_tx_handle[MAX_PENDING_REQS];
- 
--	struct gnttab_copy tx_copy_ops[MAX_PENDING_REQS];
-+	struct gnttab_copy tx_copy_ops[MAX_PENDING_REQS * 2];
- 	struct gnttab_map_grant_ref tx_map_ops[MAX_PENDING_REQS];
- 	struct gnttab_unmap_grant_ref tx_unmap_ops[MAX_PENDING_REQS];
- 	/* passed to gnttab_[un]map_refs with pages under (un)mapping */
-diff --git a/drivers/net/xen-netback/netback.c b/drivers/net/xen-netback/netback.c
-index 0020b2e8c279..f8774ede9f0e 100644
---- a/drivers/net/xen-netback/netback.c
-+++ b/drivers/net/xen-netback/netback.c
-@@ -320,6 +320,7 @@ static int xenvif_count_requests(struct xenvif_queue *queue,
- 
- struct xenvif_tx_cb {
- 	u16 pending_idx;
-+	u8 copies;
- };
- 
- #define XENVIF_TX_CB(skb) ((struct xenvif_tx_cb *)(skb)->cb)
-@@ -439,6 +440,7 @@ static int xenvif_tx_check_gop(struct xenvif_queue *queue,
- {
- 	struct gnttab_map_grant_ref *gop_map = *gopp_map;
- 	u16 pending_idx = XENVIF_TX_CB(skb)->pending_idx;
-+	u8 copies = XENVIF_TX_CB(skb)->copies;
- 	/* This always points to the shinfo of the skb being checked, which
- 	 * could be either the first or the one on the frag_list
- 	 */
-@@ -450,23 +452,26 @@ static int xenvif_tx_check_gop(struct xenvif_queue *queue,
- 	int nr_frags = shinfo->nr_frags;
- 	const bool sharedslot = nr_frags &&
- 				frag_get_pending_idx(&shinfo->frags[0]) == pending_idx;
--	int i, err;
-+	int i, err = 0;
- 
--	/* Check status of header. */
--	err = (*gopp_copy)->status;
--	if (unlikely(err)) {
--		if (net_ratelimit())
--			netdev_dbg(queue->vif->dev,
-+	while (copies) {
-+		/* Check status of header. */
-+		int newerr = (*gopp_copy)->status;
-+		if (unlikely(newerr)) {
-+			if (net_ratelimit())
-+				netdev_dbg(queue->vif->dev,
- 				   "Grant copy of header failed! status: %d pending_idx: %u ref: %u\n",
- 				   (*gopp_copy)->status,
- 				   pending_idx,
- 				   (*gopp_copy)->source.u.ref);
--		/* The first frag might still have this slot mapped */
--		if (!sharedslot)
--			xenvif_idx_release(queue, pending_idx,
--					   XEN_NETIF_RSP_ERROR);
-+			err = newerr;
-+		}
-+		(*gopp_copy)++;
-+		copies--;
- 	}
--	(*gopp_copy)++;
-+	/* The first frag might still have this slot mapped */
-+	if (unlikely(err) && !sharedslot)
-+		xenvif_idx_release(queue, pending_idx, XEN_NETIF_RSP_ERROR);
- 
- check_frags:
- 	for (i = 0; i < nr_frags; i++, gop_map++) {
-@@ -910,6 +915,7 @@ static void xenvif_tx_build_gops(struct xenvif_queue *queue,
- 			xenvif_tx_err(queue, &txreq, extra_count, idx);
- 			break;
- 		}
-+		XENVIF_TX_CB(skb)->copies = 0;
- 
- 		skb_shinfo(skb)->nr_frags = ret;
- 		if (data_len < txreq.size)
-@@ -933,6 +939,7 @@ static void xenvif_tx_build_gops(struct xenvif_queue *queue,
- 						   "Can't allocate the frag_list skb.\n");
- 				break;
- 			}
-+			XENVIF_TX_CB(nskb)->copies = 0;
- 		}
- 
- 		if (extras[XEN_NETIF_EXTRA_TYPE_GSO - 1].type) {
-@@ -990,6 +997,31 @@ static void xenvif_tx_build_gops(struct xenvif_queue *queue,
- 
- 		queue->tx_copy_ops[*copy_ops].len = data_len;
- 		queue->tx_copy_ops[*copy_ops].flags = GNTCOPY_source_gref;
-+		XENVIF_TX_CB(skb)->copies++;
-+
-+		if (offset_in_page(skb->data) + data_len > XEN_PAGE_SIZE) {
-+			unsigned int extra_len = offset_in_page(skb->data) +
-+					     data_len - XEN_PAGE_SIZE;
-+
-+			queue->tx_copy_ops[*copy_ops].len -= extra_len;
-+			(*copy_ops)++;
-+
-+			queue->tx_copy_ops[*copy_ops].source.u.ref = txreq.gref;
-+			queue->tx_copy_ops[*copy_ops].source.domid =
-+				queue->vif->domid;
-+			queue->tx_copy_ops[*copy_ops].source.offset =
-+				txreq.offset + data_len - extra_len;
-+
-+			queue->tx_copy_ops[*copy_ops].dest.u.gmfn =
-+				virt_to_gfn(skb->data + data_len - extra_len);
-+			queue->tx_copy_ops[*copy_ops].dest.domid = DOMID_SELF;
-+			queue->tx_copy_ops[*copy_ops].dest.offset = 0;
-+
-+			queue->tx_copy_ops[*copy_ops].len = extra_len;
-+			queue->tx_copy_ops[*copy_ops].flags = GNTCOPY_source_gref;
-+
-+			XENVIF_TX_CB(skb)->copies++;
-+		}
- 
- 		(*copy_ops)++;
- 
-@@ -1674,5 +1706,11 @@ static void __exit netback_fini(void)
- }
- module_exit(netback_fini);
- 
-+static void __init __maybe_unused build_assertions(void)
-+{
-+	BUILD_BUG_ON(sizeof(struct xenvif_tx_cb) >
-+		     sizeof_field(struct sk_buff, cb));
-+}
-+
- MODULE_LICENSE("Dual BSD/GPL");
- MODULE_ALIAS("xen-backend:vif");
--- 
-2.17.1
+All the user-copy related code should probably have kcsan_checks as well.
+
+> If you can't find any, I would prefer having the simpler interface
+> with just one set of annotations.
+
+That's fair enough. I'll prepare a v2 series that first introduces the
+new header, and then applies it to the locations that seem obvious
+candidates for having both checks.
+
+Thanks,
+-- Marco
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200117125834.14552-5-sergey.dyasli%40citrix.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNO395-atZXu_yEArZqAQ%2Bib3Ack-miEhA9msJ6_eJsh4g%40mail.gmail.com.
