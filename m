@@ -1,134 +1,141 @@
-Return-Path: <kasan-dev+bncBCVL5GMC3MJBBEMATDYQKGQEPT7W57I@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBYEYTDYQKGQEH3EU7UQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x14f.google.com (mail-lf1-x14f.google.com [IPv6:2a00:1450:4864:20::14f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 883D2143232
-	for <lists+kasan-dev@lfdr.de>; Mon, 20 Jan 2020 20:31:29 +0100 (CET)
-Received: by mail-lf1-x14f.google.com with SMTP id c15sf68172lfc.8
-        for <lists+kasan-dev@lfdr.de>; Mon, 20 Jan 2020 11:31:29 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1579548689; cv=pass;
+Received: from mail-pg1-x53b.google.com (mail-pg1-x53b.google.com [IPv6:2607:f8b0:4864:20::53b])
+	by mail.lfdr.de (Postfix) with ESMTPS id E10C11432DF
+	for <lists+kasan-dev@lfdr.de>; Mon, 20 Jan 2020 21:24:01 +0100 (CET)
+Received: by mail-pg1-x53b.google.com with SMTP id q1sf218546pge.12
+        for <lists+kasan-dev@lfdr.de>; Mon, 20 Jan 2020 12:24:01 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1579551840; cv=pass;
         d=google.com; s=arc-20160816;
-        b=u0i5FNgxFG5zk2peKMgnNCShiVuUGDOsIvFKyBNd+V4pdB/GlG2/bH5k7fETD1RmwY
-         ZYn8qdooSZXLEYNriOHIKZb3rtZlWiWvUpwSjsfS5n7/65vvHo+xLyIFbupQUYdU9lbx
-         5MP6kDu9exXengs+nsJXXTpuz1t9VqYenVNNedF4rgWVm2UP/0t2jHipItKITPZ6sB4t
-         oZp6ED5r1EH0xDtSOJ7EEA4J1t3cvM9uDxjYtBxubgBpmz0ZeVk1bQMmP5X0x2A1dJLn
-         vzLMhZRFDeJ1KWA/Z9CSWeqWvmn+7FNHKAI99U/mz/Yqg1+c6syc+VuoM6v1jw1PxGbH
-         91qw==
+        b=wlpjqB+2BakoILEvXDXMJcY2WFrMDdF1CSJOhYACB3qbio/ApyWmBP0VsKdDY6wFqk
+         zlyA7JYKRjXrGNWJJYMdsd7ZSxutzNLtPOiA9Vsl5HuMgT1Vc0caxVF1P6NZRQLXDfZf
+         Pgqkku48M48XH1OlmjxjWqLt4Qx7I2hupIXAUDwKNxTVLy/iBVN0XE6JXIhuIRgzfKey
+         o2Fvx4oRgkPK6RYd6IHrF3Q1/BFIL6P9Py0pX97cn/9SZ0DYbC3oiLe/HFpY3iuXsKO8
+         3J2gdFXIMEP8sVM/USQ+tm1T3PgXwCIKLiStg5yzxQ7/yp+EOLGUdyxYXTXfC+Lz6JGG
+         U8Qg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:to:subject:message-id:date:from
-         :reply-to:mime-version:sender:dkim-signature:dkim-signature;
-        bh=mXo0Mg6Q7ONaKtpDNkZuZuH/zgoyv5XyLhCwATD3dlg=;
-        b=jerVblVBfoNmHsDYhspx5OvucnwXFXjvKidN0sJDtb78YLqc74op5sI+7Zjg31pURv
-         f63A6iYX9PCzE39yAYFvMVmTLhlYE57hT+ATq9yQ2SEObn3LYLlcE9UE6syoW4FGPmNV
-         fs58uW+OmLxbgcPw6PPMyPyff+noj0bxpwf+ok1wJem4e7+adCI2IZRtiyJ2vrPIAws4
-         5QqeJWBFTbV9yA7yaTBIZydYSfLwwngTxW18lzX0WqZ9B85KqxOZ80uuApX+3vhbL3J5
-         g0szq3y4OhRFJw5ni621BVHUTj/wbPB8LSEZCE8Qun7bytYnxfrms81c7LYlixUbbU/p
-         mOtA==
+         :list-id:mailing-list:precedence:user-agent:in-reply-to
+         :content-disposition:mime-version:references:reply-to:message-id
+         :subject:cc:to:from:date:sender:dkim-signature;
+        bh=ZTR6GTVubkBrx2OCGikk7OJ5zxMvATZ8bSBquLySiE0=;
+        b=UDJdKPz/FRBS7ATDwg2VjoV9MF241cJMLbaHdCJUjEL7ul17vpFGsWm4OHLoFN013+
+         BCM5s3rWrjyylme0xGyt4bxasnWYiyyIzFwBn6Pl5xyeFVS4yna1ljDoOpTAewa6vGuD
+         DVlHiBr6xB8P0DEiHrRCeYyGGyeGKfqTvxkn6dow9jVhAxPwfO98n/2IceB+nwud1cNb
+         RnXCKVgfth6ZHvaDBeTczl8fJJOPSssSGgl1jnCfFvAF0YEgNI4cy343vUy19DE1MPzK
+         OaVUvfOjOlal+r/NWg9mi2nxccd31LETwNAt0/sNiUWDRCX+UdmqWF5EOlmEGcBvm3ir
+         cBBw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20161025 header.b=SrI6z+19;
-       spf=pass (google.com: domain of eco.bank1204@gmail.com designates 2a00:1450:4864:20::541 as permitted sender) smtp.mailfrom=eco.bank1204@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+       dkim=pass header.i=@kernel.org header.s=default header.b=Trz8Uogv;
+       spf=pass (google.com: domain of srs0=4bvu=3j=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=4bVu=3J=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:mime-version:reply-to:from:date:message-id:subject:to
+        h=sender:date:from:to:cc:subject:message-id:reply-to:references
+         :mime-version:content-disposition:in-reply-to:user-agent
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=mXo0Mg6Q7ONaKtpDNkZuZuH/zgoyv5XyLhCwATD3dlg=;
-        b=FAwM30JR1J7Qxd65wjjPW1/dFg+DIlSbxYD9QKxF0pSpRjFuD/IwFic9EuaBomTLnc
-         la1WTxI4cFOzf4OpQ3KCxsom/a0Cc2/ySNYCZUIE0KII1R9MasEa8ISY0eY4DJNltG9t
-         cezXraiThIOnj4wCrqPGhExXbNWcG+m01yYdDwcgUREGLCHTtl3xPkzS2Ccomov4OXPN
-         IgGzvm8tG8W12IjGlso41bZ9ZnAdpweCF1W2R9+bbaNm/3PXLO6BUUsSnCaCHjHAQjYo
-         8FpYobTPT/Xovpl/gNdZ3L3ik7D4Euu1UV7XIs5I0MguN+49o4k2mWuU0xbAC6vZlakm
-         ZvfQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=mXo0Mg6Q7ONaKtpDNkZuZuH/zgoyv5XyLhCwATD3dlg=;
-        b=VQOL9b/Xhdcp2RTq0p7gBqbhvKmCpljRBlOtQLi5erEIwIz2nKZm4qm0eHWfh1bRPo
-         o7RUlnivFQmrMYsG+QgsvkIXkUWqpPv8NzsFWkqbsQQIR+gfeaYab74Fk9Fp8y7bRFwd
-         wnWv5tCG4L9jYCEiM8eE3t05LueGJ47aQutNSp0vgRZpu3Pt/VuEnGlbRiD1mow+qoyK
-         hPH8M6ktruismfCCxs472+WvL+vVwPZf82apG5pc5qhphU5B3AYwjLAQNFlUqvp+gOMB
-         c+i2cFg4O4lTeCdJK0DECxXfuo4FcF8vXy90qBCaT2ToZIzs2PUj1/i3Mtfa5kh88jnP
-         1sCg==
+        bh=ZTR6GTVubkBrx2OCGikk7OJ5zxMvATZ8bSBquLySiE0=;
+        b=mqqNZlJ6HZcTEqDkdgVD0T0yHyoaY4xRqsqceY9IMFlS4+oJwiQW3Y/ebJH0ine/r2
+         3BTYBwFsIJK+YYbr2gsOae7765/YldXnwBAt5eZA39gpAaCFSpOuMbT7q5ZuTPIGaI1W
+         pkm+Z4XGReKQlasQSL+jmhXMc6jUcRsD4EbbRwvTxh4KVz2QlttUdtSp8EiHz/kUWjFB
+         0S0K4nk1y/M+XOEDlFGmvCpeCvqccZy981SovZEHsMrinu3C8Xa3PRqGa/l5wVYQsrxs
+         UIqB5BStSg+0ffi2v0rPCuQMTnYiOxtCWS96R8Jl0YjPuPvLVjFzaxbB0Ia7yOEQ1yy8
+         bAcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:mime-version:reply-to:from:date
-         :message-id:subject:to:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=mXo0Mg6Q7ONaKtpDNkZuZuH/zgoyv5XyLhCwATD3dlg=;
-        b=WFG7ogvA0Guwh9NA2PnPMiELF5HK75OKKI1fr4D1JMba60Nj5L/qWU6MMU6cHCrXpF
-         c2cQylMuWTMdlAknP3xki8DN/1LSqbxfwHKFl5P9OorJ4mIfRh6GRW3zkWpA4PpW9hPC
-         F/JcfcxKkxtLuamkg91GzgO2jpB3R4UlX1kQtz1Kia1Ekpqc5kquivb5OiPK79sAwJQ6
-         7/BURRWqZn4PBxmKYqTxKMoHXgEb7tRSIMq9TdlYfdsxfa8PViBG6ylBREkA6uwrgW6V
-         dHihWPje6RLxWqVRsTIXRobyaK8gN5CQtK2l2WfC8afmagbd0Xo0h31xqTzBy/WWviMM
-         2r9A==
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :reply-to:references:mime-version:content-disposition:in-reply-to
+         :user-agent:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=ZTR6GTVubkBrx2OCGikk7OJ5zxMvATZ8bSBquLySiE0=;
+        b=pyAbJMp9TcRZv3zayPPlrhDYk4PYBUC9xaDnD3k4qpz/3OV0g5n2DHnazIe8sqcAMd
+         LwNfm1SPZQo38zz/svrR4E9frMEtgT/oFDboIQ6LSXqIVJn057C6MhvkXUQ/4tVuwmEk
+         DoU6cKTAKxlhnNMJldeziwdzdZBv8/Zw1n2BgShIbsGC4zmasYXcWhVKC7vl5jmIlZ+k
+         biA8HpzVDFyM3CxoKj3WPeWYy4dlVQyiv4EvKIVI+T4CgJopY/DAJw8DCsQNMmJzdj1/
+         CmS77i7zt6IScc9vzdC654g2PF5GKmeZV9vBKTJvh/zmx89vHyYTC8VPWqC04n/aETJ1
+         8biQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAXiMd4qTkP6KbUzav90iQoG5+UqNVYEdRYarN0Smtyz6Q8Nalbb
-	VTxLRH7Qxfv06cwMPrtjy9Q=
-X-Google-Smtp-Source: APXvYqzCNBW+TxY8cgjkBaoo0+BJ0lOBqpUvw9jeLFzxz7IjagjqMBqzjYwD1gByM3R3q8R5hHiCMA==
-X-Received: by 2002:ac2:5388:: with SMTP id g8mr461160lfh.43.1579548689127;
-        Mon, 20 Jan 2020 11:31:29 -0800 (PST)
+X-Gm-Message-State: APjAAAWf98awXEXdsPLSXnHl6iHzQsqu77u90OduCruXtG5IneqqcmoF
+	/nYFbukNfVPGdp4N7ZgRCT4=
+X-Google-Smtp-Source: APXvYqzRGh1QLQWx0uca8k/7KCYxrdMsO2TynfnRWiIhl1XYMIE/eQO3IOkBXBaFcBhISsO7YKefXA==
+X-Received: by 2002:a17:90a:c301:: with SMTP id g1mr863442pjt.88.1579551840198;
+        Mon, 20 Jan 2020 12:24:00 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a19:c74d:: with SMTP id x74ls3168442lff.12.gmail; Mon, 20
- Jan 2020 11:31:28 -0800 (PST)
-X-Received: by 2002:a19:844:: with SMTP id 65mr497827lfi.20.1579548688401;
-        Mon, 20 Jan 2020 11:31:28 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1579548688; cv=none;
+Received: by 2002:a17:902:8686:: with SMTP id g6ls10176351plo.12.gmail; Mon,
+ 20 Jan 2020 12:23:59 -0800 (PST)
+X-Received: by 2002:a17:902:7b86:: with SMTP id w6mr1438405pll.317.1579551839808;
+        Mon, 20 Jan 2020 12:23:59 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1579551839; cv=none;
         d=google.com; s=arc-20160816;
-        b=N0yl3o9pCBKtUVKBtPdd3Jsf3UoABwKZV7NzM0d0dXK0uqJ5yLhKzBj2frRO+0mlOd
-         SkYx+ulsoy1HCQrH761dJlWIduW0KlP83YO/nivdrsrAVg9teXYxBqwXJKSUfbeZOTEm
-         Lhquf0T5Pjx3zQHKITKf9j8aU1AzYdJ7cYfElEpkljc0wxhQzgeBk4wLrowk/UXLuAOX
-         V8O/9K/TiEnABMpUg28+4MmueMgPaI5IRV6xOM37GyIjoJxKL5QK8rRn1BqH79QLV16e
-         ucfnEtFbsBWNXtJ0zMXE4kkTOA7PYRzCxw4k9ZfPiW17YJLQelnLJ0ZvWFuecAww8ga/
-         n6gQ==
+        b=HwzadLX/4vtgkuQnbSwgXmtc1+RSoA3zErFH7dl/sEaCRprEK1lXOn8dNIfCw27XMj
+         sWdEr4/TRNACKOzQwPKEmUoA3TrbYQRJ1LGW5g/FkXgXpaJnAj1t6YYtXkT38LG8vi27
+         +jyZeA1IRkWg3vQ2nkddFkuR+n/pny6B/eVZCdqOsAug8lfrHdeH35cKsKumvsWQFlHu
+         3Y7GB0euyZn5Mu9dromrEyPCyo/hllNfLPW6xyGv9ideWvsG8/5K0p8C8Nl9H2Bjsf6B
+         9Bu4yYb7AR9JSrlMv6usH2bAgF6YNugaUbv2fzozt33PFLr8/oe04xE4HzPWQbfL/fos
+         NzMw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=to:subject:message-id:date:from:reply-to:mime-version
-         :dkim-signature;
-        bh=z7I/Kq2V0EnXiuoACdRbnwoAql3KZ080nwyXVjlruyU=;
-        b=q5Fq9bIViUdyfyzKnoeDUBpxDXgSEDQUsI8chmhYXiT84e8tI8SPk24uf2+8dDCHTs
-         ND2Gr2wJD9snGxivCaP1i6YaCOQkHfiktWklK/Q+L+K7VjJSdMgS0ZTku7y9AulBRvhh
-         ZYjvA39iQjD5EnwcexyAxzaYVe2pHJxOOVE38xivDz4o2JxNU8ocRVb4FvG6OkwAaDru
-         HmA1LjVxsi2LieDaRCq9aeDbja9yYwRDlpxkf5iezcxg/D2H5NL7h8nuf29K3j4jRiZ9
-         nTHwZLVcEcEOloaEvvPduM8wqbWfvbxaOFH3BuXCfnG6xmB1dkJsa3GahL2aOwMHx0b2
-         YY+g==
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :reply-to:message-id:subject:cc:to:from:date:dkim-signature;
+        bh=wEGTHLrigkXKi4scRVgiXZcVEUOKm1jYWbV6RrGGpLE=;
+        b=om1B0o+DITENROs/gR2qrVrdSm/lv4HIOTrohvXDEkvYgZZ28DLkUtie9aPfTxB9pA
+         7uNeNcYC+O4uzVPozX5ekmF0ORxIzOBwjzPiG6JDzIbVXfLKsSg6ynPZ7C9lveqxrvHo
+         xkBgwV/YQfyF188BOJltcX4H4EcXzZnpy2c1C3smcaitwpKfRqCP0O70KKh6tAazdVT/
+         ohAgz/cIUFI9mL/r3Sk9DFIUR7oEegEUkTkvtZz9RmkOrr6BMFTaX0Sivw13wfTXKLKd
+         VU9zAkYvfC3rSW2v1oRGsGl7Eh2QcDYaD42L3w1nFVcqGvTswR810P1e1Wx5JPW1LW+c
+         OkKQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20161025 header.b=SrI6z+19;
-       spf=pass (google.com: domain of eco.bank1204@gmail.com designates 2a00:1450:4864:20::541 as permitted sender) smtp.mailfrom=eco.bank1204@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com. [2a00:1450:4864:20::541])
-        by gmr-mx.google.com with ESMTPS id u5si1435285lfm.0.2020.01.20.11.31.28
+       dkim=pass header.i=@kernel.org header.s=default header.b=Trz8Uogv;
+       spf=pass (google.com: domain of srs0=4bvu=3j=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=4bVu=3J=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
+        by gmr-mx.google.com with ESMTPS id d14si1646804pfo.4.2020.01.20.12.23.59
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Jan 2020 11:31:28 -0800 (PST)
-Received-SPF: pass (google.com: domain of eco.bank1204@gmail.com designates 2a00:1450:4864:20::541 as permitted sender) client-ip=2a00:1450:4864:20::541;
-Received: by mail-ed1-x541.google.com with SMTP id v28so548901edw.12
-        for <kasan-dev@googlegroups.com>; Mon, 20 Jan 2020 11:31:28 -0800 (PST)
-X-Received: by 2002:a17:906:f241:: with SMTP id gy1mr926107ejb.345.1579548687843;
- Mon, 20 Jan 2020 11:31:27 -0800 (PST)
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 20 Jan 2020 12:23:59 -0800 (PST)
+Received-SPF: pass (google.com: domain of srs0=4bvu=3j=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
+Received: from paulmck-ThinkPad-P72.home (50-39-105-78.bvtn.or.frontiernet.net [50.39.105.78])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPSA id 602D1217F4;
+	Mon, 20 Jan 2020 20:23:59 +0000 (UTC)
+Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
+	id 3A1093522745; Mon, 20 Jan 2020 12:23:59 -0800 (PST)
+Date: Mon, 20 Jan 2020 12:23:59 -0800
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Marco Elver <elver@google.com>, andreyknvl@google.com,
+	glider@google.com, dvyukov@google.com, kasan-dev@googlegroups.com,
+	linux-kernel@vger.kernel.org, mark.rutland@arm.com, will@kernel.org,
+	boqun.feng@gmail.com, arnd@arndb.de, viro@zeniv.linux.org.uk,
+	christophe.leroy@c-s.fr, dja@axtens.net, mpe@ellerman.id.au,
+	rostedt@goodmis.org, mhiramat@kernel.org, mingo@kernel.org,
+	christian.brauner@ubuntu.com, daniel@iogearbox.net,
+	cyphar@cyphar.com, keescook@chromium.org,
+	linux-arch@vger.kernel.org
+Subject: Re: [PATCH 3/5] asm-generic, kcsan: Add KCSAN instrumentation for
+ bitops
+Message-ID: <20200120202359.GF2935@paulmck-ThinkPad-P72>
+Reply-To: paulmck@kernel.org
+References: <20200120141927.114373-1-elver@google.com>
+ <20200120141927.114373-3-elver@google.com>
+ <20200120144048.GB14914@hirez.programming.kicks-ass.net>
+ <20200120162725.GE2935@paulmck-ThinkPad-P72>
+ <20200120165223.GC14914@hirez.programming.kicks-ass.net>
 MIME-Version: 1.0
-Received: by 2002:a05:6402:22dc:0:0:0:0 with HTTP; Mon, 20 Jan 2020 11:31:27
- -0800 (PST)
-Reply-To: mcclainejohn.13@gmail.com
-From: "Prof, William Roberts" <eco.bank1204@gmail.com>
-Date: Mon, 20 Jan 2020 20:31:27 +0100
-Message-ID: <CAOE+jACYN-9AiP3uaE8Ut4Rjk53mzxareAyVj45HaD3RqW0fqg@mail.gmail.com>
-Subject: Contact Diplomatic Agent, Mr. Mcclaine John to receive your ATM CARD
- valued the sum of $12.8Million United States Dollars
-To: undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: eco.bank1204@gmail.com
+Content-Disposition: inline
+In-Reply-To: <20200120165223.GC14914@hirez.programming.kicks-ass.net>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Original-Sender: paulmck@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20161025 header.b=SrI6z+19;       spf=pass
- (google.com: domain of eco.bank1204@gmail.com designates 2a00:1450:4864:20::541
- as permitted sender) smtp.mailfrom=eco.bank1204@gmail.com;       dmarc=pass
- (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+ header.i=@kernel.org header.s=default header.b=Trz8Uogv;       spf=pass
+ (google.com: domain of srs0=4bvu=3j=paulmck-thinkpad-p72.home=paulmck@kernel.org
+ designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=4bVu=3J=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -141,46 +148,36 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Attn: Dear Beneficiary,
+On Mon, Jan 20, 2020 at 05:52:23PM +0100, Peter Zijlstra wrote:
+> On Mon, Jan 20, 2020 at 08:27:25AM -0800, Paul E. McKenney wrote:
+> > On Mon, Jan 20, 2020 at 03:40:48PM +0100, Peter Zijlstra wrote:
+> > > On Mon, Jan 20, 2020 at 03:19:25PM +0100, Marco Elver wrote:
+> > > > Add explicit KCSAN checks for bitops.
+> > > > 
+> > > > Note that test_bit() is an atomic bitop, and we instrument it as such,
+> > > 
+> > > Well, it is 'atomic' in the same way that atomic_read() is. Both are
+> > > very much not atomic ops, but are part of an interface that facilitates
+> > > atomic operations.
+> > 
+> > True, but they all are either inline assembly or have either an
+> > implicit or explicit cast to volatile, so they could be treated
+> > the same as atomic_read(), correct?  If not, what am I missing?
+> 
+> Sure, but that is due to instrumentation requirements, not anything
+> else.
+> 
+> Also note the distinct lack of __test_bit(), to mirror the non-atomic
+> __set_bit() and __clear_bit().
 
-I wish to inform you that the diplomatic agent conveying your ATM CARD
-valued the sum of $12.8Million United States Dollars has misplaced
-your address and he is currently stranded at (George Bush
-International Airport) Houston Texas USA now
-We required you to reconfirm the following information's below to him
-so that he can deliver your Payment CARD to you today or tomorrow
-morning as information provided with open communications via email and
-telephone for security reasons.
-HERE IS THE DETAILS  HE NEED FROM YOU URGENT
-YOUR FULL NAME:========
-ADDRESS:========
-MOBILE NO:========
-NAME OF YOUR NEAREST AIRPORT:========
-A COPY OF YOUR IDENTIFICATION :========
+OK, I will bite.  ;-)
 
-Note; do contact the diplomatic agent immediately through the
-information's listed below
-Contact Person: Diplomatic Agent, Mr. Mcclaine John
-EMAIL: mcclainejohn.13@gmail.com
-Tel:(223) 777-7518
+We also don't have __atomic_read() and __atomic_set(), yet atomic_read()
+and atomic_set() are considered to be non-racy, right?
 
-Contact the diplomatic agent immediately
-because he is waiting to hear from you today with the needed information's.
-
-NOTE: The Diplomatic agent does not know that the content of the
-consignment box is $12.800,000,00 Million United States Dollars and on
-no circumstances should you let him know the content. The consignment
-was moved from here as family treasures, so never allow him to open
-the box. Please I have paid delivery fees for you but the only money
-you must send to Mcclaine John is your ATM CARD delivery fee $25.00
-only. text Him as you contact Him Immediately
-
-Thanks,
-with Regards.
-Prof, William Roberts
-Director DHL COURIER SERVICES-Benin
+							Thanx, Paul
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAOE%2BjACYN-9AiP3uaE8Ut4Rjk53mzxareAyVj45HaD3RqW0fqg%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200120202359.GF2935%40paulmck-ThinkPad-P72.
