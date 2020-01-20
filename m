@@ -1,150 +1,134 @@
-Return-Path: <kasan-dev+bncBDEKVJM7XAHRBZXSS7YQKGQEXGR2QYQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCVL5GMC3MJBBEMATDYQKGQEPT7W57I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wr1-x43e.google.com (mail-wr1-x43e.google.com [IPv6:2a00:1450:4864:20::43e])
-	by mail.lfdr.de (Postfix) with ESMTPS id E07931431EA
-	for <lists+kasan-dev@lfdr.de>; Mon, 20 Jan 2020 20:03:02 +0100 (CET)
-Received: by mail-wr1-x43e.google.com with SMTP id d8sf196465wrq.12
-        for <lists+kasan-dev@lfdr.de>; Mon, 20 Jan 2020 11:03:02 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1579546982; cv=pass;
+Received: from mail-lf1-x14f.google.com (mail-lf1-x14f.google.com [IPv6:2a00:1450:4864:20::14f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 883D2143232
+	for <lists+kasan-dev@lfdr.de>; Mon, 20 Jan 2020 20:31:29 +0100 (CET)
+Received: by mail-lf1-x14f.google.com with SMTP id c15sf68172lfc.8
+        for <lists+kasan-dev@lfdr.de>; Mon, 20 Jan 2020 11:31:29 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1579548689; cv=pass;
         d=google.com; s=arc-20160816;
-        b=RYkD6tyoWA1XFbPaZ6h3WnXKef8TOZ7b8p7BxlEy0t6KjKeswPXUyPzarqO972UPqo
-         xNq4W+3BagJQCRQSxGGBc+NDCQvH2UPDxvcqp3HMWWL4nWM7noKsCeHUuo1njmO1NQB2
-         5GG5D4LfEw41Ck5Yb8ViZsSeO1HiNVVQJJI+QB5PH4H56tkw1S7qFuN5incpzPhabA8k
-         4UcIwt8HXyqqrNk98hAmMY/Te3sGqwCH3ePFTPYoUCva1lbbpQ2zeFhQtchXU9CaxSiD
-         PIpCr2OcHH6Ywe/qRNkxHBhlgJJoAycAOOb3mkXnBvqgUMAa0uP20J5eDpXCu5d+k5tJ
-         y4uQ==
+        b=u0i5FNgxFG5zk2peKMgnNCShiVuUGDOsIvFKyBNd+V4pdB/GlG2/bH5k7fETD1RmwY
+         ZYn8qdooSZXLEYNriOHIKZb3rtZlWiWvUpwSjsfS5n7/65vvHo+xLyIFbupQUYdU9lbx
+         5MP6kDu9exXengs+nsJXXTpuz1t9VqYenVNNedF4rgWVm2UP/0t2jHipItKITPZ6sB4t
+         oZp6ED5r1EH0xDtSOJ7EEA4J1t3cvM9uDxjYtBxubgBpmz0ZeVk1bQMmP5X0x2A1dJLn
+         vzLMhZRFDeJ1KWA/Z9CSWeqWvmn+7FNHKAI99U/mz/Yqg1+c6syc+VuoM6v1jw1PxGbH
+         91qw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:sender:dkim-signature;
-        bh=rmwIDeP/SQRIPZvwVCR5JHljmt5aQLcySzUDdxWFFa0=;
-        b=wZAYB9FdLs92rgBYzzhZmoaUKthztycWek9DaAYorXxQiWxO1eeBVwVRbyGwqODERK
-         WEDk3QetRlW/S7u5LEc15gCe8j8GzgAmeabetiw7G3mS9tnr6R1dAgmUIkAUcroEZGkd
-         Qp/81iXZpjne1/HY3cYw0Mu/iPhqCf1q2fMwz1W4Yovw1U995hsiDwr+eKVWTC6vpXpB
-         TDxUH8p7/Xu6uY1d6yNdPYrIdqLmhgInhtEpLOO+b4Yhnbp2mJXWEC70PpiA0VXARRbV
-         l8TEvShjPAFoefi/ePMckq1shHhSixbhDQHazhxmio8XkZevhvCE2IqFjlSjg2rM5CoO
-         Mnqw==
+         :list-id:mailing-list:precedence:to:subject:message-id:date:from
+         :reply-to:mime-version:sender:dkim-signature:dkim-signature;
+        bh=mXo0Mg6Q7ONaKtpDNkZuZuH/zgoyv5XyLhCwATD3dlg=;
+        b=jerVblVBfoNmHsDYhspx5OvucnwXFXjvKidN0sJDtb78YLqc74op5sI+7Zjg31pURv
+         f63A6iYX9PCzE39yAYFvMVmTLhlYE57hT+ATq9yQ2SEObn3LYLlcE9UE6syoW4FGPmNV
+         fs58uW+OmLxbgcPw6PPMyPyff+noj0bxpwf+ok1wJem4e7+adCI2IZRtiyJ2vrPIAws4
+         5QqeJWBFTbV9yA7yaTBIZydYSfLwwngTxW18lzX0WqZ9B85KqxOZ80uuApX+3vhbL3J5
+         g0szq3y4OhRFJw5ni621BVHUTj/wbPB8LSEZCE8Qun7bytYnxfrms81c7LYlixUbbU/p
+         mOtA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=neutral (google.com: 212.227.126.187 is neither permitted nor denied by best guess record for domain of arnd@arndb.de) smtp.mailfrom=arnd@arndb.de
+       dkim=pass header.i=@gmail.com header.s=20161025 header.b=SrI6z+19;
+       spf=pass (google.com: domain of eco.bank1204@gmail.com designates 2a00:1450:4864:20::541 as permitted sender) smtp.mailfrom=eco.bank1204@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:mime-version:references:in-reply-to:from:date:message-id
-         :subject:to:cc:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+        h=sender:mime-version:reply-to:from:date:message-id:subject:to
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=rmwIDeP/SQRIPZvwVCR5JHljmt5aQLcySzUDdxWFFa0=;
-        b=J7PagK05ZjYOIV1rQ3ylAECjOYo7oe8at99MrPfe5DZS+50NXsStMe2uXGxy1Vj59M
-         E0bAmK8EFkFB6l2KyPj0k2REzOFjThMkkC+JsQUSr8/yaiX8p/UXMkoX6B8rNTWfKBME
-         H21IIBzYQiWPxq0nXp/ATjsM/FHVxJMth/gxAMOPRVae0oMAhoF6hdvoq1T/ZHJCfWFe
-         t03VXTLQLFCsvynEfZqjld9QIVecWAiMECYaXNNm/NyCoq8gwifjiKaDOPAKmwoOVvsX
-         sBFWgG1WY1pbvvLGbhGV5O1XrLw6dcMx3lk86yGIK6/M5ssCxMk6ZbzzCFTE/9bkREx7
-         nTGA==
+        bh=mXo0Mg6Q7ONaKtpDNkZuZuH/zgoyv5XyLhCwATD3dlg=;
+        b=FAwM30JR1J7Qxd65wjjPW1/dFg+DIlSbxYD9QKxF0pSpRjFuD/IwFic9EuaBomTLnc
+         la1WTxI4cFOzf4OpQ3KCxsom/a0Cc2/ySNYCZUIE0KII1R9MasEa8ISY0eY4DJNltG9t
+         cezXraiThIOnj4wCrqPGhExXbNWcG+m01yYdDwcgUREGLCHTtl3xPkzS2Ccomov4OXPN
+         IgGzvm8tG8W12IjGlso41bZ9ZnAdpweCF1W2R9+bbaNm/3PXLO6BUUsSnCaCHjHAQjYo
+         8FpYobTPT/Xovpl/gNdZ3L3ik7D4Euu1UV7XIs5I0MguN+49o4k2mWuU0xbAC6vZlakm
+         ZvfQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=mXo0Mg6Q7ONaKtpDNkZuZuH/zgoyv5XyLhCwATD3dlg=;
+        b=VQOL9b/Xhdcp2RTq0p7gBqbhvKmCpljRBlOtQLi5erEIwIz2nKZm4qm0eHWfh1bRPo
+         o7RUlnivFQmrMYsG+QgsvkIXkUWqpPv8NzsFWkqbsQQIR+gfeaYab74Fk9Fp8y7bRFwd
+         wnWv5tCG4L9jYCEiM8eE3t05LueGJ47aQutNSp0vgRZpu3Pt/VuEnGlbRiD1mow+qoyK
+         hPH8M6ktruismfCCxs472+WvL+vVwPZf82apG5pc5qhphU5B3AYwjLAQNFlUqvp+gOMB
+         c+i2cFg4O4lTeCdJK0DECxXfuo4FcF8vXy90qBCaT2ToZIzs2PUj1/i3Mtfa5kh88jnP
+         1sCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
-         :date:message-id:subject:to:cc:x-original-sender
+        h=sender:x-gm-message-state:mime-version:reply-to:from:date
+         :message-id:subject:to:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=rmwIDeP/SQRIPZvwVCR5JHljmt5aQLcySzUDdxWFFa0=;
-        b=Q2M9H+3ND9qnepOdWDzRMQUbvLnsGDGCTFjRK11uoh0OrkeEjKzoFvWudzyJaL3Vq6
-         //wR0xZERqAg24vOeDOiBhpBCufsrfsuQWw5hSwXlO7QkLHUiTBwZkSbcXZ8FmZBYZe+
-         pQn1o0PvUuVeYXoAEoDT4J6jHwRCuNytkP4/y/7ChzMDdN9bKmGO8AsJ7KwrYr7ky0HZ
-         hNOEqWaFuegK1oOfqo+kYJsmfbFYUsFxqlh3cjqUYe6hiBkZTSxVBlz5DaeTuvqiMHu+
-         0ev2SPJubuxS7DeGrpoC4GJzQ+Kx0agCVnzV0M6meLMIAv0BJOHlNE368gAqIbEtn32Q
-         4JSA==
+        bh=mXo0Mg6Q7ONaKtpDNkZuZuH/zgoyv5XyLhCwATD3dlg=;
+        b=WFG7ogvA0Guwh9NA2PnPMiELF5HK75OKKI1fr4D1JMba60Nj5L/qWU6MMU6cHCrXpF
+         c2cQylMuWTMdlAknP3xki8DN/1LSqbxfwHKFl5P9OorJ4mIfRh6GRW3zkWpA4PpW9hPC
+         F/JcfcxKkxtLuamkg91GzgO2jpB3R4UlX1kQtz1Kia1Ekpqc5kquivb5OiPK79sAwJQ6
+         7/BURRWqZn4PBxmKYqTxKMoHXgEb7tRSIMq9TdlYfdsxfa8PViBG6ylBREkA6uwrgW6V
+         dHihWPje6RLxWqVRsTIXRobyaK8gN5CQtK2l2WfC8afmagbd0Xo0h31xqTzBy/WWviMM
+         2r9A==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAW0Hxghh8bfHwLvHJ44mDQIbARWxIaLom9WJZA+S/a/KZoHDsVS
-	G6iWxAdA/Yb9OPd/hKnntUs=
-X-Google-Smtp-Source: APXvYqwr2BgoBQtCtHQnsRZby6y2xV7GwBtkJAvrcZ2kH3G8JAB46uEaKOIEBI8mSsSVkAOlkRCpNg==
-X-Received: by 2002:a05:6000:118d:: with SMTP id g13mr868498wrx.141.1579546982599;
-        Mon, 20 Jan 2020 11:03:02 -0800 (PST)
+X-Gm-Message-State: APjAAAXiMd4qTkP6KbUzav90iQoG5+UqNVYEdRYarN0Smtyz6Q8Nalbb
+	VTxLRH7Qxfv06cwMPrtjy9Q=
+X-Google-Smtp-Source: APXvYqzCNBW+TxY8cgjkBaoo0+BJ0lOBqpUvw9jeLFzxz7IjagjqMBqzjYwD1gByM3R3q8R5hHiCMA==
+X-Received: by 2002:ac2:5388:: with SMTP id g8mr461160lfh.43.1579548689127;
+        Mon, 20 Jan 2020 11:31:29 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a5d:6912:: with SMTP id t18ls2859449wru.7.gmail; Mon, 20 Jan
- 2020 11:03:02 -0800 (PST)
-X-Received: by 2002:a05:6000:12ce:: with SMTP id l14mr969158wrx.342.1579546982059;
-        Mon, 20 Jan 2020 11:03:02 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1579546982; cv=none;
+Received: by 2002:a19:c74d:: with SMTP id x74ls3168442lff.12.gmail; Mon, 20
+ Jan 2020 11:31:28 -0800 (PST)
+X-Received: by 2002:a19:844:: with SMTP id 65mr497827lfi.20.1579548688401;
+        Mon, 20 Jan 2020 11:31:28 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1579548688; cv=none;
         d=google.com; s=arc-20160816;
-        b=n8WUCg5ajOVcb92KERUJoclSw6+DaJ0ZK0mSLTC0E9pfZ1MWuUCN5uneX+j+vJ0ekq
-         YD01cLxyfrSGaRIm9JJv38G0tFHIaHbjexRaqWTXCRyHI6rN4TBmD+yLRRmcL9JjMDZA
-         Byr8DMHVFvgbLkfJLZ5DrywyuP6rB3B/jd7gBIeYOt4FqlqMq64BiG3DzXLJa5NGBhVo
-         drGZs9IdTRgzmvQDXVEV+CfW0g7/HOz7ftjVX7gjO4Aq1v6O4hh/24u6uXyZkvClVnjt
-         yyk0RDkaQhH0q2ikY0C6G6ZTWKiR34NMwVTNC418X68S7IN6gNRG1G2XLVxY/5W4Aj90
-         payw==
+        b=N0yl3o9pCBKtUVKBtPdd3Jsf3UoABwKZV7NzM0d0dXK0uqJ5yLhKzBj2frRO+0mlOd
+         SkYx+ulsoy1HCQrH761dJlWIduW0KlP83YO/nivdrsrAVg9teXYxBqwXJKSUfbeZOTEm
+         Lhquf0T5Pjx3zQHKITKf9j8aU1AzYdJ7cYfElEpkljc0wxhQzgeBk4wLrowk/UXLuAOX
+         V8O/9K/TiEnABMpUg28+4MmueMgPaI5IRV6xOM37GyIjoJxKL5QK8rRn1BqH79QLV16e
+         ucfnEtFbsBWNXtJ0zMXE4kkTOA7PYRzCxw4k9ZfPiW17YJLQelnLJ0ZvWFuecAww8ga/
+         n6gQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version;
-        bh=zVDX76oU4uN/Wz/AWau+L6wJ8ExpJ/NsK/bCJiqNHG0=;
-        b=H2jorlycr/3+Y/718XBCyRQV2XFrESsebOqRi+gsbr6462GSlrnX1cYtOATHxO0W8f
-         ciMzWM+74UtOby+jvBTlQvVfDs30wyyuBLxDXdlCAhuCNSyEeu9cKlUPraz9ULmlOuFB
-         jhl9jc5vlf+NcKSDrAFM73yGbnM7YTYU4LDimkQShIzRVDFfa6pCsMGSbzI6DX3+xD28
-         wET1GFVpWn/+obTEGsKxSNgorjdf1zoHqIsnklpbbSm51TDxLaKwOqQMIU4fL2ymRtaH
-         VLTox92te7rhW9jEyQBNspz74l5UQUxZpNioojal0yY8pfk+fyImg1ROwIUyH/X09JSs
-         Xmiw==
+        h=to:subject:message-id:date:from:reply-to:mime-version
+         :dkim-signature;
+        bh=z7I/Kq2V0EnXiuoACdRbnwoAql3KZ080nwyXVjlruyU=;
+        b=q5Fq9bIViUdyfyzKnoeDUBpxDXgSEDQUsI8chmhYXiT84e8tI8SPk24uf2+8dDCHTs
+         ND2Gr2wJD9snGxivCaP1i6YaCOQkHfiktWklK/Q+L+K7VjJSdMgS0ZTku7y9AulBRvhh
+         ZYjvA39iQjD5EnwcexyAxzaYVe2pHJxOOVE38xivDz4o2JxNU8ocRVb4FvG6OkwAaDru
+         HmA1LjVxsi2LieDaRCq9aeDbja9yYwRDlpxkf5iezcxg/D2H5NL7h8nuf29K3j4jRiZ9
+         nTHwZLVcEcEOloaEvvPduM8wqbWfvbxaOFH3BuXCfnG6xmB1dkJsa3GahL2aOwMHx0b2
+         YY+g==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=neutral (google.com: 212.227.126.187 is neither permitted nor denied by best guess record for domain of arnd@arndb.de) smtp.mailfrom=arnd@arndb.de
-Received: from mout.kundenserver.de (mout.kundenserver.de. [212.227.126.187])
-        by gmr-mx.google.com with ESMTPS id m2si37751wmi.3.2020.01.20.11.03.01
+       dkim=pass header.i=@gmail.com header.s=20161025 header.b=SrI6z+19;
+       spf=pass (google.com: domain of eco.bank1204@gmail.com designates 2a00:1450:4864:20::541 as permitted sender) smtp.mailfrom=eco.bank1204@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com. [2a00:1450:4864:20::541])
+        by gmr-mx.google.com with ESMTPS id u5si1435285lfm.0.2020.01.20.11.31.28
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 20 Jan 2020 11:03:02 -0800 (PST)
-Received-SPF: neutral (google.com: 212.227.126.187 is neither permitted nor denied by best guess record for domain of arnd@arndb.de) client-ip=212.227.126.187;
-Received: from mail-qt1-f179.google.com ([209.85.160.179]) by
- mrelayeu.kundenserver.de (mreue011 [212.227.15.129]) with ESMTPSA (Nemesis)
- id 1MWAjC-1j9RHj271m-00XgLF for <kasan-dev@googlegroups.com>; Mon, 20 Jan
- 2020 20:03:01 +0100
-Received: by mail-qt1-f179.google.com with SMTP id d18so603038qtj.10
-        for <kasan-dev@googlegroups.com>; Mon, 20 Jan 2020 11:03:01 -0800 (PST)
-X-Received: by 2002:ac8:768d:: with SMTP id g13mr805093qtr.7.1579546980409;
- Mon, 20 Jan 2020 11:03:00 -0800 (PST)
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 20 Jan 2020 11:31:28 -0800 (PST)
+Received-SPF: pass (google.com: domain of eco.bank1204@gmail.com designates 2a00:1450:4864:20::541 as permitted sender) client-ip=2a00:1450:4864:20::541;
+Received: by mail-ed1-x541.google.com with SMTP id v28so548901edw.12
+        for <kasan-dev@googlegroups.com>; Mon, 20 Jan 2020 11:31:28 -0800 (PST)
+X-Received: by 2002:a17:906:f241:: with SMTP id gy1mr926107ejb.345.1579548687843;
+ Mon, 20 Jan 2020 11:31:27 -0800 (PST)
 MIME-Version: 1.0
-References: <20200115165749.145649-1-elver@google.com> <CAK8P3a3b=SviUkQw7ZXZF85gS1JO8kzh2HOns5zXoEJGz-+JiQ@mail.gmail.com>
- <CANpmjNOpTYnF3ssqrE_s+=UA-2MpfzzdrXoyaifb3A55_mc0uA@mail.gmail.com>
- <CAK8P3a3WywSsahH2vtZ_EOYTWE44YdN+Pj6G8nt_zrL3sckdwQ@mail.gmail.com>
- <CANpmjNMk2HbuvmN1RaZ=8OV+tx9qZwKyRySONDRQar6RCGM1SA@mail.gmail.com>
- <CAK8P3a066Knr-KC2v4M8Dr1phr0Gbb2KeZZLQ7Ana0fkrgPDPg@mail.gmail.com>
- <CANpmjNO395-atZXu_yEArZqAQ+ib3Ack-miEhA9msJ6_eJsh4g@mail.gmail.com>
- <CANpmjNOH1h=txXnd1aCXTN8THStLTaREcQpzd5QvoXz_3r=8+A@mail.gmail.com>
- <CAK8P3a0p9Y8080T-RR2pp-p2_A0FBae7zB-kSq09sMZ_X7AOhw@mail.gmail.com> <CANpmjNOUTed6FT8X0bUSc1tGBh3jrEJ0DRpQwBfoPF5ah8Wrhw@mail.gmail.com>
-In-Reply-To: <CANpmjNOUTed6FT8X0bUSc1tGBh3jrEJ0DRpQwBfoPF5ah8Wrhw@mail.gmail.com>
-From: Arnd Bergmann <arnd@arndb.de>
-Date: Mon, 20 Jan 2020 20:02:44 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a32sVU4umk2FLnWnMGMQxThvMHAKxVM+G4X-hMgpBsXMA@mail.gmail.com>
-Message-ID: <CAK8P3a32sVU4umk2FLnWnMGMQxThvMHAKxVM+G4X-hMgpBsXMA@mail.gmail.com>
-Subject: Re: [PATCH -rcu] asm-generic, kcsan: Add KCSAN instrumentation for bitops
-To: Marco Elver <elver@google.com>
-Cc: "Paul E. McKenney" <paulmck@kernel.org>, Andrey Konovalov <andreyknvl@google.com>, 
-	Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>, 
-	kasan-dev <kasan-dev@googlegroups.com>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Michael Ellerman <mpe@ellerman.id.au>, 
-	christophe leroy <christophe.leroy@c-s.fr>, Daniel Axtens <dja@axtens.net>, 
-	linux-arch <linux-arch@vger.kernel.org>
+Received: by 2002:a05:6402:22dc:0:0:0:0 with HTTP; Mon, 20 Jan 2020 11:31:27
+ -0800 (PST)
+Reply-To: mcclainejohn.13@gmail.com
+From: "Prof, William Roberts" <eco.bank1204@gmail.com>
+Date: Mon, 20 Jan 2020 20:31:27 +0100
+Message-ID: <CAOE+jACYN-9AiP3uaE8Ut4Rjk53mzxareAyVj45HaD3RqW0fqg@mail.gmail.com>
+Subject: Contact Diplomatic Agent, Mr. Mcclaine John to receive your ATM CARD
+ valued the sum of $12.8Million United States Dollars
+To: undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:f+vD3V7BbhBWlMuN68dTZCHBe5NrOroU+9wvIB8Uymf4wEuvuQs
- d3lwl2rOjxvCH4z1jW5YlGZkeaS7duKL98HiS4MH23BHwywq3L9GFgKVd2EblKl+sjiv5iP
- 6f0xGWARljCXzHQc71yh5/hoTx9ATJM6/tdQsiPmDpIS2OWrihOa9QipXndeiyWmtgSMKwC
- aP8tVJKkCwkFZXCsF2oYg==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:6V5kiZc6A1o=:8bnPbtPV8rtcDZYmg1ZeIN
- J8qdFm4XQsYDKyHW38R+Ln9Q61uNp2breC0dwQdSNLT1kVeINgQJfYvhh0Jq+O+i9IF4MokxB
- DCcuXSRd3HaI9jbqE8Ju+PNCxDUa4EqbarkCNutIVbX9NSXwT1xMgMKveLuv2XphEg+AiyPwd
- tUzjjCVNnu17Mxi/KIVGY8dXaGDE3wW0F+74KOV47/v5N09rx9qmDoxydUxbnRrOAxLATkFZT
- giamYvhCmvwb9cF9eORruRm27A73Sr7cX+g8ykcsq/EnjkoZVPlD4gkdPVZARXw4PrSfuYI1E
- Furji1UJ/baB9I/Yi2OtRUYhYzBpYoQOpMGzj4s3nH28YJ9oDpFFOdbaYzKlbe05fPyfa+9e2
- RlXhoCIjbOcCMlsMZCS+5B4auzFPEsbQzQtr575qZ/7Tzkkl1f0oNA0h/7cGBrMsEcSVMoikt
- sl5wzPJiYc0+swbCOlkuKHLt6hOFCgu1tm1PLgc3X8Q/jW+kNVEFY7bJ0k1gOPoVMkQ43ilk2
- 6AgDJbSZHcMZkjYW43p7qlXyhbNR2r201EVhqoE3qUTgJJsIP0fZZiJ3/cmYNxgCkwSySdLog
- IKUTDSHtojgiDLAS3YN5kdOoYel2JDWFRFbxmNLlRx21mhH/1H8vXERmDtps8+R/Mr4E0NSWo
- TfHNknKl89qIJHxg4xzI64y7j8B41SSiJpN+E4AkVQQSsur/kV8q6HNxiGUy5tjQ0/yIT2zfU
- pSgvhTb+KRecKlItgayv00xBSIF0vEKXp99I8CpOmWSO7fJ9FmNiQDTfRXRz17OE9TDs3tqvr
- v/ssSVWkWwxs4k6P5IyVveYV4vUlbgx4onAkL6SPRj3dvqEvEfHDjGS7L7q1sOZDAoZY2Wl6N
- EMWyXl9JgJJcCHAUwEAg==
-X-Original-Sender: arnd@arndb.de
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=neutral
- (google.com: 212.227.126.187 is neither permitted nor denied by best guess
- record for domain of arnd@arndb.de) smtp.mailfrom=arnd@arndb.de
+X-Original-Sender: eco.bank1204@gmail.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@gmail.com header.s=20161025 header.b=SrI6z+19;       spf=pass
+ (google.com: domain of eco.bank1204@gmail.com designates 2a00:1450:4864:20::541
+ as permitted sender) smtp.mailfrom=eco.bank1204@gmail.com;       dmarc=pass
+ (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -157,52 +141,46 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, Jan 20, 2020 at 4:11 PM Marco Elver <elver@google.com> wrote:
-> On Mon, 20 Jan 2020 at 15:40, Arnd Bergmann <arnd@arndb.de> wrote:
-> > On Mon, Jan 20, 2020 at 3:23 PM Marco Elver <elver@google.com> wrote:
-> > > On Fri, 17 Jan 2020 at 14:14, Marco Elver <elver@google.com> wrote:
-> > > > On Fri, 17 Jan 2020 at 13:25, Arnd Bergmann <arnd@arndb.de> wrote:
-> > > > > On Wed, Jan 15, 2020 at 9:50 PM Marco Elver <elver@google.com> wrote:
-> >
-> > > > > If you can't find any, I would prefer having the simpler interface
-> > > > > with just one set of annotations.
-> > > >
-> > > > That's fair enough. I'll prepare a v2 series that first introduces the
-> > > > new header, and then applies it to the locations that seem obvious
-> > > > candidates for having both checks.
-> > >
-> > > I've sent a new patch series which introduces instrumented.h:
-> > >    http://lkml.kernel.org/r/20200120141927.114373-1-elver@google.com
-> >
-> > Looks good to me, feel free to add
-> >
-> > Acked-by: Arnd Bergmann <arnd@arndb.de>
-> >
-> > if you are merging this through your own tree or someone else's,
-> > or let me know if I should put it into the asm-generic git tree.
->
-> Thank you!  It seems there is still some debate around the user-copy
-> instrumentation.
->
-> The main question we have right now is if we should add pre/post hooks
-> for them. Although in the version above I added KCSAN checks after the
-> user-copies, it seems maybe we want it before. I personally don't have
-> a strong preference, and wanted to err on the side of being more
-> conservative.
->
-> If I send a v2, and it now turns out we do all the instrumentation
-> before the user-copies for KASAN and KCSAN, then we have a bunch of
-> empty hooks. However, for KMSAN we need the post-hook, at least for
-> copy_from_user. Do you mind a bunch of empty functions to provide
-> pre/post hooks for user-copies? Could the post-hooks be generally
-> useful for something else?
+Attn: Dear Beneficiary,
 
-I'd prefer not to add any empty hooks, let's do that once they
-are actually used.
+I wish to inform you that the diplomatic agent conveying your ATM CARD
+valued the sum of $12.8Million United States Dollars has misplaced
+your address and he is currently stranded at (George Bush
+International Airport) Houston Texas USA now
+We required you to reconfirm the following information's below to him
+so that he can deliver your Payment CARD to you today or tomorrow
+morning as information provided with open communications via email and
+telephone for security reasons.
+HERE IS THE DETAILS  HE NEED FROM YOU URGENT
+YOUR FULL NAME:========
+ADDRESS:========
+MOBILE NO:========
+NAME OF YOUR NEAREST AIRPORT:========
+A COPY OF YOUR IDENTIFICATION :========
 
-      Arnd
+Note; do contact the diplomatic agent immediately through the
+information's listed below
+Contact Person: Diplomatic Agent, Mr. Mcclaine John
+EMAIL: mcclainejohn.13@gmail.com
+Tel:(223) 777-7518
+
+Contact the diplomatic agent immediately
+because he is waiting to hear from you today with the needed information's.
+
+NOTE: The Diplomatic agent does not know that the content of the
+consignment box is $12.800,000,00 Million United States Dollars and on
+no circumstances should you let him know the content. The consignment
+was moved from here as family treasures, so never allow him to open
+the box. Please I have paid delivery fees for you but the only money
+you must send to Mcclaine John is your ATM CARD delivery fee $25.00
+only. text Him as you contact Him Immediately
+
+Thanks,
+with Regards.
+Prof, William Roberts
+Director DHL COURIER SERVICES-Benin
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAK8P3a32sVU4umk2FLnWnMGMQxThvMHAKxVM%2BG4X-hMgpBsXMA%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAOE%2BjACYN-9AiP3uaE8Ut4Rjk53mzxareAyVj45HaD3RqW0fqg%40mail.gmail.com.
