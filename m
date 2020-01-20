@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBEU2S7YQKGQE6CKFILA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCMIZB7QWENRBBNAS7YQKGQESDALB7Q@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-io1-xd3c.google.com (mail-io1-xd3c.google.com [IPv6:2607:f8b0:4864:20::d3c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BF29142F0D
-	for <lists+kasan-dev@lfdr.de>; Mon, 20 Jan 2020 16:53:55 +0100 (CET)
-Received: by mail-io1-xd3c.google.com with SMTP id s6sf12922769iod.4
-        for <lists+kasan-dev@lfdr.de>; Mon, 20 Jan 2020 07:53:55 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1579535634; cv=pass;
+Received: from mail-yw1-xc3e.google.com (mail-yw1-xc3e.google.com [IPv6:2607:f8b0:4864:20::c3e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A108142F3B
+	for <lists+kasan-dev@lfdr.de>; Mon, 20 Jan 2020 17:06:30 +0100 (CET)
+Received: by mail-yw1-xc3e.google.com with SMTP id x194sf30683912ywd.8
+        for <lists+kasan-dev@lfdr.de>; Mon, 20 Jan 2020 08:06:30 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1579536389; cv=pass;
         d=google.com; s=arc-20160816;
-        b=aA1Zarf24CEvIHGDG83NBgTlnykiKO7KMiFkutf4WTkw3ZUuE5JvfwT0RypxVs871y
-         jOPVLW5G7cXnEuSm4UFoK0iVswJzo8xuGDgL8BpNXT66TJiU+db9HC2oDiONUq61W2eD
-         A1twtFII76V175nJIr1S4xvlnNg/bLsyA/ifXd9ujbhll45j680Mls1eogVve7bi13LX
-         YLMUajBRqT0Pm108iWP/ptsH25uE8BM0ewmn3dUpuDuaSbjgeHbb+JdSJc+/hnfEvFS2
-         WpJt0uZFJm2KZmb5iYNCyVlunYwnvgna1vX6RiA7Tcq960EldGiz1YvQqeLKFojLlMYH
-         xwvA==
+        b=f1I6yH/XAo4Pj7gh50UL59ApGdjwbl+QExQu7sYPD1+aIt91RbdkEyrC/fLEofSBQX
+         9Jhm241UzkGK7zE84YwKrFTZTUOwp0l3qhSOSCxys9rAYiPAoMevroFF9w7BO81j00/4
+         /ZWU1jBlC5BwmBa9oYcVUaOKbqxhg2QYg5KFpzYuocdJ+CFNWcA2MOxXupz5Ke0TswT8
+         yuzaZJdV9G0uA0qWX/cKro3qGmzZGI9NIvWkFtLJvbfG5rvZES5/+A77WCkCSWPKGwip
+         0wo5QuP+olmzg7JPHkO7ZWYxgCkPpJswM098OBw9icrBioG6jmrg+EZg/mnEhWYZpAdj
+         NpDw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=zJTeX8bBUNYWujP1zQa+yomngBiaZ/GsnqRpDftsMKU=;
-        b=Kn6rHWmIYS95pxwt+YXiS65TcpopVUQTk350lIxRG9roqjQnQh2DQpdyy7ifO/EBEs
-         TkGLblic28ooH58KlGxGd9pP93nqXGyZnvlAu2ruzyByb0TGBmMS9Sevek6XICZjo+Iy
-         ail+OGoyVnyV4Ki0WsXtQe7o7RRCmhd4R25A+yH6k+z0GtOpZbQKTcFZicV1MwYK4PPw
-         4jjUJYKIS2AkFD2FykdDh3NlVqvpUps3fXNRRSbrdBvG63jWNSJZYt+9VNrVz5tQ8660
-         G7vScr0HCEZBEhQEklQEqBRIgvfZUqhHL9Yy5Vy/egIYubFRxOpYwWYv7D5s7FNhmRwO
-         /3Ew==
+        bh=hwDarntvLN6FFpPGLXBmZ4HynHWSLpMaGFByErjMQFk=;
+        b=lKC1eU1CNj41LNb4R8KZbeuQU1gXlPVoQ3E6a4AJqtekfyj2j/zdMthr7MoqmX9q/k
+         VX478N3Xeq+l2A3bIKvq0vY50i2kdrzz8lFM5KxkQMWXQ14SmeVVm7aowZty5ns8CBmN
+         hG9Z7jedgFmzFe5U7kZhO/HQbDEcC7xoOk9QW+4c7LcHu2qD5pM0BzOkVpGLKszGVQ/6
+         A1LsSapdk8kwX+4G0k8SaS1U9wpeA7Ie9TjQl13wQtGWhlu4e/NUo+C4TOYcSYyA0un9
+         G+EOpYDQnPKr1XLBs1JV42g9Qcz+XjjZhedSr+SaOTb1BWAx4xQItr713YlP8QkgqQbV
+         IPmg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=gBOINAIW;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::241 as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=Baf6RJnN;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::744 as permitted sender) smtp.mailfrom=dvyukov@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=zJTeX8bBUNYWujP1zQa+yomngBiaZ/GsnqRpDftsMKU=;
-        b=FsPczbTl2xQlaJncWpRpIpgdO3rmZ0tSmLf+Hketij/zGZ4hi9ZnktrzcoFyiP4sUN
-         QBQiZcAgpqfZ7cJym10/sxzdFAfanUsLOy6/H+mfdy+xgjtcnze/ZVsxyYMIEmuqKNmp
-         UGJiP5M9PqdugzO1y7aBlllX/iY3wkzWdiQW8oLdu+Q9PE6KrOlmOnu/xcaL0W70KnSe
-         1R7fBuSmn8oz8LKWJvd6y66iO2GGSg1UuRExUYYF1fb3xi4mlrLrQGoGpIHo6nbuC0AC
-         1f8LZQx0JVu8YTH1jADOd9qvCOfLC5TTkcm9kuVREr43hpWYXnowAWpR+PDxfMz/INYV
-         4q6g==
+        bh=hwDarntvLN6FFpPGLXBmZ4HynHWSLpMaGFByErjMQFk=;
+        b=UMRMn+svSfSD7ohCc4rVvNQA3sg9T6U5srhr7oPJoBgZx1IM9XYZBiSsN3FtnsaqQm
+         /vVDKGyAs94THmXZoTE6R1IJHo/MFURMCnNAs71RBJssx8hKFxCwRcsQ9KzgnL87gSE1
+         lVikjaEG0d/GPxcLl6uOyz5Q6m+xldqi8hVpTNmNDG1t0xYNvlDj48GEBNdYDhNZMZz5
+         Kk00oS1nqm0YFXKrCdB9SsGSWpl6dH5eq8vhp/yY3zPzZF0wCBcYwn2CTbgMyFvDT3j/
+         ekrYRRSD268lYz9uiu4KmxBGet+IrnE3Ioj4/8XSRrVFc+J4Gi+0eXz4sGUuDX5X10pW
+         f7ww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
@@ -49,63 +49,65 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=zJTeX8bBUNYWujP1zQa+yomngBiaZ/GsnqRpDftsMKU=;
-        b=FXpxg/wt8qliuYQbvzFbH/MCKzAdPFypkstuXW6LCDkR2HFS57JK2iRs2fRq4oiuQn
-         Aki9sMI8FUHZLjbd+zWXWoAuDeLDiMTLwHxk8q2bINF//YNlIxouNaaH+RR7G7tINEIA
-         n8uO2aANnwG/0br5guyi7rFWReb36pyEzOBxorrtp2TmZj4JzrieN1UmLtINPrzH5+de
-         PipvNmctwix0cWrShxF13teCkeOB7ZJgEdorNL9UKTYR2zkg8GPOtyJpU+EIc77+Tce7
-         +ySQD8n0XDKovIMFrpwtOiim+qwi04sMx8ZjyBVxNMXjmjHtCbsah5g/djpCtwIsRwpz
-         Lx/g==
-X-Gm-Message-State: APjAAAVox0/TtnHYqtcBL+IclihDQpnWlkZ1MbRr2MWCiQIOIpKFSoaC
-	vJgZPexTHeJQmfJ9TUDPpNI=
-X-Google-Smtp-Source: APXvYqw2eNVqr6Nskg/DH+wxzjMsrpzktuYxysbIEqDJb0aaazWzBo2UEDV5DFgpdAAGQ7aIUekTTA==
-X-Received: by 2002:a05:6e02:4cc:: with SMTP id f12mr10950301ils.90.1579535634217;
-        Mon, 20 Jan 2020 07:53:54 -0800 (PST)
+        bh=hwDarntvLN6FFpPGLXBmZ4HynHWSLpMaGFByErjMQFk=;
+        b=rLBtugxh+DzhbMInzGL2RqqNoK5ASK1kqLhV9UT2tur9eowYhg6x8TgSxTe/FbICK1
+         DzOfm65rRBj7UwB8qW80dc+HpbCl6q5ChaSZ9we08pIDShNLrtEQZZca9EG5hIy1JVf1
+         NZBYv+6tEhQMhQwPurt4NO3qmM6GAULBWesM5MMPR8IhI1kktvh9BxDLvqjqcmL7F3RW
+         w40nUqEKPujkaqdNBciowFqPMTC2fuz5F6oq9m2npWT8B9oPynXKed49QFBl2jzQ+kId
+         bD2a7G7kPAC9XHBtfBCMDAW+QhAWN4govAg3iSaPxXlUZ/2BY0WrUnw64nCRw5R5vge/
+         kpxQ==
+X-Gm-Message-State: APjAAAWSHtGqzuG0E7skOzva+M57wF+lJjwCYvSxUQgUrd/0M5zJl0xG
+	3V/Y9uhWNz3j7OHCxA9HG7w=
+X-Google-Smtp-Source: APXvYqxhbPRL4S9SraItZZkdwux6q5fzxj3bcrxranIkQvxWBsKEGeyhzaE4ywTCThBaKpdrihBy3A==
+X-Received: by 2002:a0d:e9c7:: with SMTP id s190mr38722150ywe.429.1579536389129;
+        Mon, 20 Jan 2020 08:06:29 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6e02:e8f:: with SMTP id t15ls5753652ilj.9.gmail; Mon, 20
- Jan 2020 07:53:53 -0800 (PST)
-X-Received: by 2002:a92:60f:: with SMTP id x15mr11017708ilg.181.1579535633715;
-        Mon, 20 Jan 2020 07:53:53 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1579535633; cv=none;
+Received: by 2002:a25:ca8c:: with SMTP id a134ls3140385ybg.0.gmail; Mon, 20
+ Jan 2020 08:06:28 -0800 (PST)
+X-Received: by 2002:a25:a2d1:: with SMTP id c17mr370840ybn.492.1579536388706;
+        Mon, 20 Jan 2020 08:06:28 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1579536388; cv=none;
         d=google.com; s=arc-20160816;
-        b=yq9Z35fsxNrWidVm5ZhJ5W2cLaVZLlkTxhm94O//UhoFaaXRyHUm7EqAh79M7x3911
-         PAOhGxjwodwu4XObi7hOzkwVzEbbhYsKOCP0LOFLnfjRR0IhJ0SimOQeqYsQ3LDTGE5W
-         OVPedqR8SuNDEBOUxlKxFbcAUCIrSBdpi6MIZaHeI5bcIA/D3qXk6KpcrumvpwyfS4V8
-         SxP2Gw9eKkKTTs931C2Mqma10OhkxZMTxmxcAgm78/K9Jfl9elb/g+yT6Gmc/aWi1ERs
-         b8JwbVGccEjhR7hn3xmroHHDzHGHEgZkbUDm1qQw1lm55I9GsGFkLYtT+56PaTp0ix1i
-         p7wQ==
+        b=nPJMChPJ9QqSjA3yc/JLF/WFvQNrT+xIBAB83xDYAvnZtgvWJMR3PV32H4y3vHnlQG
+         E2z4H7B0FV0hFLbS9ePXasqIoJ+LTrdaD4RtG+pEsW2uI+G4MoN1zwoJejGTlzW4GNAM
+         QndI/CUst4zRiBdjH2m2k0njbwbjyY9v/EKdu+FrMNcfq6yF8oPMuidn2//e7u26nifQ
+         HpF1SAKjkbNmap9wMuxy33tUb+AQ6dSIteAgfsBpTDY91hcDFFEP/4iAOb1KtV5bA/Wk
+         DBxiE/54puS89tdpIhigMQAKy1bVNkfBuvPczpePQBXxYHEEYXJ7Jap0gCdlqxXRxfQ9
+         iPlQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=qiceCXFRSUBzYMQE2f4OjMMcZXcb2LTrkgPg5J2K4zg=;
-        b=Fp+/bd85OpAE84YuWQ7nTN8eM8EWrL+nBwBArgds7MPEmbJjNaJdcIDKMUHV38Qtsf
-         0sNhLusE/MFUWyTo+Ga0tIwgzIjsXLNw6M/uNf1pCKuJ5CXYpoEDj13/2xambxx+rLvD
-         OFAweTcWgb8r5QV4pXNC/JH1kliX9jN6TIoxg5Bd50Sx7pZqefFGRj8TE7kyfYcAZ3xo
-         gcvUYZIo4TV0Y5N7wgIxr2ME+SGGU8p1mmeTo2+K1Ue11Oz3vF8S1k0EaACMQhl4owzp
-         Ebp2+pW6n1dcu23J50RJcClTnu7MKN5eFcOU5AUL+EW3iZa06Cgb2dz0HKFYJ9dh3C2o
-         iQ+g==
+        bh=rKBXxvKIRJE9r95Oq/vyPWMrKks8UEDi+Qo4dUocXJw=;
+        b=I2IIMgwlBo81BiFdFEo91EOVqcnR+WoA3eU5lkdZ0H6SUeU27sTxQxFqTpJg2QmDrJ
+         Mn0Qz29HDuPgyM0xCszOTBrCl8+V0bDl93hYdvE2GJ6R27rJVEGDQKXBcR3i2g5qobP0
+         KDT9oY8VBqjEEQrltx4WJfq0wMFWV5Ggn2ZNZDpbrK1g5UT+ZwU0M3o9iX/z/BM5y0gd
+         BJ3NmngylMv76hE5HgHwbiKXM2L/wzYNsZKwJqutP0C/zKI82qHfzFS9ZbInQJUWRVK5
+         pcxTRV9DxCtoqeIbViEausyA41Z/UiCS3MmE3RU8aC+nrqdTlGlMQRVI0iq36B+zt9+/
+         Jw7w==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=gBOINAIW;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::241 as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=Baf6RJnN;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::744 as permitted sender) smtp.mailfrom=dvyukov@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com. [2607:f8b0:4864:20::241])
-        by gmr-mx.google.com with ESMTPS id z20si1547330ill.5.2020.01.20.07.53.53
+Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com. [2607:f8b0:4864:20::744])
+        by gmr-mx.google.com with ESMTPS id p15si1630010ybl.5.2020.01.20.08.06.28
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Jan 2020 07:53:53 -0800 (PST)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::241 as permitted sender) client-ip=2607:f8b0:4864:20::241;
-Received: by mail-oi1-x241.google.com with SMTP id 13so28837802oij.13
-        for <kasan-dev@googlegroups.com>; Mon, 20 Jan 2020 07:53:53 -0800 (PST)
-X-Received: by 2002:aca:2112:: with SMTP id 18mr12680928oiz.155.1579535633036;
- Mon, 20 Jan 2020 07:53:53 -0800 (PST)
+        Mon, 20 Jan 2020 08:06:28 -0800 (PST)
+Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::744 as permitted sender) client-ip=2607:f8b0:4864:20::744;
+Received: by mail-qk1-x744.google.com with SMTP id x129so30536778qke.8
+        for <kasan-dev@googlegroups.com>; Mon, 20 Jan 2020 08:06:28 -0800 (PST)
+X-Received: by 2002:a05:620a:1136:: with SMTP id p22mr240817qkk.8.1579536388045;
+ Mon, 20 Jan 2020 08:06:28 -0800 (PST)
 MIME-Version: 1.0
-References: <20200120141927.114373-1-elver@google.com> <CACT4Y+ajkjCzv2adupX9oVKjNppn-AKsGkGqLMExwjHXG37Lxw@mail.gmail.com>
-In-Reply-To: <CACT4Y+ajkjCzv2adupX9oVKjNppn-AKsGkGqLMExwjHXG37Lxw@mail.gmail.com>
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Mon, 20 Jan 2020 16:53:41 +0100
-Message-ID: <CANpmjNN4XhU6WL35bHF2Wu76fJMXO5++uRBk0nh_s6BiRV9jdA@mail.gmail.com>
+References: <20200120141927.114373-1-elver@google.com> <CACT4Y+bnRoKinPopVqyxj4av6_xa_OUN0wwnidpO3dX3iYq_gg@mail.gmail.com>
+ <CACT4Y+YuTT6kZ-AkgU0c1o09qmQdFWr4_Sds4jaDg-Va6g6jkA@mail.gmail.com>
+ <CACT4Y+acrXkA-ixjQXqNf1EC=fpgTWf3Rcevxxon0DfrPdD-UQ@mail.gmail.com> <CANpmjNNcXUF-=Y-hmry9-xEoNpJd0WH+fOcJJM6kv2eRm5v-kg@mail.gmail.com>
+In-Reply-To: <CANpmjNNcXUF-=Y-hmry9-xEoNpJd0WH+fOcJJM6kv2eRm5v-kg@mail.gmail.com>
+From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Mon, 20 Jan 2020 17:06:16 +0100
+Message-ID: <CACT4Y+bD3cNxfaWOuhHz338MoVoaHpw-E8+b7v6mo_ir2KD46Q@mail.gmail.com>
 Subject: Re: [PATCH 1/5] include/linux: Add instrumented.h infrastructure
-To: Dmitry Vyukov <dvyukov@google.com>
+To: Marco Elver <elver@google.com>
 Cc: "Paul E. McKenney" <paulmck@kernel.org>, Andrey Konovalov <andreyknvl@google.com>, 
 	Alexander Potapenko <glider@google.com>, kasan-dev <kasan-dev@googlegroups.com>, 
 	LKML <linux-kernel@vger.kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
@@ -117,14 +119,14 @@ Cc: "Paul E. McKenney" <paulmck@kernel.org>, Andrey Konovalov <andreyknvl@google
 	Christian Brauner <christian.brauner@ubuntu.com>, Daniel Borkmann <daniel@iogearbox.net>, cyphar@cyphar.com, 
 	Kees Cook <keescook@chromium.org>, linux-arch <linux-arch@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
+X-Original-Sender: dvyukov@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=gBOINAIW;       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::241 as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+ header.i=@google.com header.s=20161025 header.b=Baf6RJnN;       spf=pass
+ (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::744
+ as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
+ (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Dmitry Vyukov <dvyukov@google.com>
+Reply-To: Dmitry Vyukov <dvyukov@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -137,162 +139,115 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, 20 Jan 2020 at 15:34, Dmitry Vyukov <dvyukov@google.com> wrote:
+On Mon, Jan 20, 2020 at 4:40 PM Marco Elver <elver@google.com> wrote:
+> > > > > This adds instrumented.h, which provides generic wrappers for memory
+> > > > > access instrumentation that the compiler cannot emit for various
+> > > > > sanitizers. Currently this unifies KASAN and KCSAN instrumentation. In
+> > > > > future this will also include KMSAN instrumentation.
+> > > > >
+> > > > > Note that, copy_{to,from}_user require special instrumentation,
+> > > > > providing hooks before and after the access, since we may need to know
+> > > > > the actual bytes accessed (currently this is relevant for KCSAN, and is
+> > > > > also relevant in future for KMSAN).
+> > > > >
+> > > > > Suggested-by: Arnd Bergmann <arnd@arndb.de>
+> > > > > Signed-off-by: Marco Elver <elver@google.com>
+> > > > > ---
+> > > > >  include/linux/instrumented.h | 153 +++++++++++++++++++++++++++++++++++
+> > > > >  1 file changed, 153 insertions(+)
+> > > > >  create mode 100644 include/linux/instrumented.h
+> > > > >
+> > > > > diff --git a/include/linux/instrumented.h b/include/linux/instrumented.h
+> > > > > new file mode 100644
+> > > > > index 000000000000..9f83c8520223
+> > > > > --- /dev/null
+> > > > > +++ b/include/linux/instrumented.h
+> > > > > @@ -0,0 +1,153 @@
+> > > > > +/* SPDX-License-Identifier: GPL-2.0 */
+> > > > > +
+> > > > > +/*
+> > > > > + * This header provides generic wrappers for memory access instrumentation that
+> > > > > + * the compiler cannot emit for: KASAN, KCSAN.
+> > > > > + */
+> > > > > +#ifndef _LINUX_INSTRUMENTED_H
+> > > > > +#define _LINUX_INSTRUMENTED_H
+> > > > > +
+> > > > > +#include <linux/compiler.h>
+> > > > > +#include <linux/kasan-checks.h>
+> > > > > +#include <linux/kcsan-checks.h>
+> > > > > +#include <linux/types.h>
+> > > > > +
+> > > > > +/**
+> > > > > + * instrument_read - instrument regular read access
+> > > > > + *
+> > > > > + * Instrument a regular read access. The instrumentation should be inserted
+> > > > > + * before the actual read happens.
+> > > > > + *
+> > > > > + * @ptr address of access
+> > > > > + * @size size of access
+> > > > > + */
+> > > >
+> > > > Based on offline discussion, that's what we add for KMSAN:
+> > > >
+> > > > > +static __always_inline void instrument_read(const volatile void *v, size_t size)
+> > > > > +{
+> > > > > +       kasan_check_read(v, size);
+> > > > > +       kcsan_check_read(v, size);
+> > > >
+> > > > KMSAN: nothing
+> > >
+> > > KMSAN also has instrumentation in
+> > > copy_to_user_page/copy_from_user_page. Do we need to do anything for
+> > > KASAN/KCSAN for these functions?
 >
-> On Mon, Jan 20, 2020 at 3:19 PM Marco Elver <elver@google.com> wrote:
+> copy_to_user_page/copy_from_user_page can be instrumented with
+> instrument_copy_{to,from}_user_. I prefer keeping this series with no
+> functional change intended for KASAN at least.
+>
+> > There is also copy_user_highpage.
 > >
-> > This adds instrumented.h, which provides generic wrappers for memory
-> > access instrumentation that the compiler cannot emit for various
-> > sanitizers. Currently this unifies KASAN and KCSAN instrumentation. In
-> > future this will also include KMSAN instrumentation.
-> >
-> > Note that, copy_{to,from}_user require special instrumentation,
-> > providing hooks before and after the access, since we may need to know
-> > the actual bytes accessed (currently this is relevant for KCSAN, and is
-> > also relevant in future for KMSAN).
+> > And ioread/write8/16/32_rep: do we need any instrumentation there. It
+> > seems we want both KSAN and KCSAN too. One may argue that KCSAN
+> > instrumentation there is to super critical at this point, but KASAN
+> > instrumentation is important, if anything to prevent silent memory
+> > corruptions. How do we instrument there? I don't see how it maps to
+> > any of the existing instrumentation functions.
 >
-> How will KMSAN instrumentation look like?
+> These should be able to use the regular instrument_{read,write}. I
+> prefer keeping this series with no functional change intended for
+> KASAN at least.
+
+instrument_{read,write} will not contain any KMSAN instrumentation,
+which means we will effectively remove KMSAN instrumentation, which is
+weird because we instrumented these functions because of KMSAN in the
+first place...
+
+> > There is also kmsan_check_skb/kmsan_handle_dma/kmsan_handle_urb that
+> > does not seem to map to any of the instrumentation functions.
 >
-> > Suggested-by: Arnd Bergmann <arnd@arndb.de>
-> > Signed-off-by: Marco Elver <elver@google.com>
-> > ---
-> >  include/linux/instrumented.h | 153 +++++++++++++++++++++++++++++++++++
-> >  1 file changed, 153 insertions(+)
-> >  create mode 100644 include/linux/instrumented.h
-> >
-> > diff --git a/include/linux/instrumented.h b/include/linux/instrumented.h
-> > new file mode 100644
-> > index 000000000000..9f83c8520223
-> > --- /dev/null
-> > +++ b/include/linux/instrumented.h
-> > @@ -0,0 +1,153 @@
-> > +/* SPDX-License-Identifier: GPL-2.0 */
-> > +
-> > +/*
-> > + * This header provides generic wrappers for memory access instrumentation that
-> > + * the compiler cannot emit for: KASAN, KCSAN.
-> > + */
-> > +#ifndef _LINUX_INSTRUMENTED_H
-> > +#define _LINUX_INSTRUMENTED_H
-> > +
-> > +#include <linux/compiler.h>
-> > +#include <linux/kasan-checks.h>
-> > +#include <linux/kcsan-checks.h>
-> > +#include <linux/types.h>
-> > +
-> > +/**
-> > + * instrument_read - instrument regular read access
-> > + *
-> > + * Instrument a regular read access. The instrumentation should be inserted
-> > + * before the actual read happens.
-> > + *
-> > + * @ptr address of access
-> > + * @size size of access
-> > + */
-> > +static __always_inline void instrument_read(const volatile void *v, size_t size)
-> > +{
-> > +       kasan_check_read(v, size);
-> > +       kcsan_check_read(v, size);
-> > +}
-> > +
-> > +/**
-> > + * instrument_write - instrument regular write access
-> > + *
-> > + * Instrument a regular write access. The instrumentation should be inserted
-> > + * before the actual write happens.
-> > + *
-> > + * @ptr address of access
-> > + * @size size of access
-> > + */
-> > +static __always_inline void instrument_write(const volatile void *v, size_t size)
-> > +{
-> > +       kasan_check_write(v, size);
-> > +       kcsan_check_write(v, size);
-> > +}
-> > +
-> > +/**
-> > + * instrument_atomic_read - instrument atomic read access
-> > + *
-> > + * Instrument an atomic read access. The instrumentation should be inserted
-> > + * before the actual read happens.
-> > + *
-> > + * @ptr address of access
-> > + * @size size of access
-> > + */
-> > +static __always_inline void instrument_atomic_read(const volatile void *v, size_t size)
-> > +{
-> > +       kasan_check_read(v, size);
-> > +       kcsan_check_atomic_read(v, size);
-> > +}
-> > +
-> > +/**
-> > + * instrument_atomic_write - instrument atomic write access
-> > + *
-> > + * Instrument an atomic write access. The instrumentation should be inserted
-> > + * before the actual write happens.
-> > + *
-> > + * @ptr address of access
-> > + * @size size of access
-> > + */
-> > +static __always_inline void instrument_atomic_write(const volatile void *v, size_t size)
-> > +{
-> > +       kasan_check_write(v, size);
-> > +       kcsan_check_atomic_write(v, size);
-> > +}
-> > +
-> > +/**
-> > + * instrument_copy_to_user_pre - instrument reads of copy_to_user
-> > + *
-> > + * Instrument reads from kernel memory, that are due to copy_to_user (and
-> > + * variants).
-> > + *
-> > + * The instrumentation must be inserted before the accesses. At this point the
-> > + * actual number of bytes accessed is not yet known.
-> > + *
-> > + * @dst destination address
-> > + * @size maximum access size
-> > + */
-> > +static __always_inline void
-> > +instrument_copy_to_user_pre(const volatile void *src, size_t size)
-> > +{
-> > +       /* Check before, to warn before potential memory corruption. */
-> > +       kasan_check_read(src, size);
-> > +}
-> > +
-> > +/**
-> > + * instrument_copy_to_user_post - instrument reads of copy_to_user
-> > + *
-> > + * Instrument reads from kernel memory, that are due to copy_to_user (and
-> > + * variants).
-> > + *
-> > + * The instrumentation must be inserted after the accesses. At this point the
-> > + * actual number of bytes accessed should be known.
-> > + *
-> > + * @dst destination address
-> > + * @size maximum access size
-> > + * @left number of bytes left that were not copied
-> > + */
-> > +static __always_inline void
-> > +instrument_copy_to_user_post(const volatile void *src, size_t size, size_t left)
-> > +{
-> > +       /* Check after, to avoid false positive if memory was not accessed. */
-> > +       kcsan_check_read(src, size - left);
+> For now, I would rather that there are some one-off special
+> instrumentation, like for KMSAN. Coming up with a unified interface
+> here that, without the use-cases even settled, seems hard to justify.
+> Once instrumentation for these have settled, unifying the interface
+> would have better justification.
+
+I would assume they may also require an annotation that checks the
+memory region under all 3 tools and we don't have such annotation
+(same as the previous case and effectively copy_to_user). I would
+expect such annotation will be used in more places once we start
+looking for more opportunities.
+
+> This patch series is merely supposed to introduce instrumented.h and
+> replace the kasan_checks (also implicitly introducing kcsan_checks
+> there), however, with no further functional change intended.
 >
-> Why don't we check the full range?
-> Kernel intending to copy something racy to user already looks like a
-> bug to me, even if user-space has that page unmapped. User-space can
-> always make the full range succeed. What am I missing?
-
-Fair enough. I can move this into the pre-hooks in v2.
-
-However, note that, that leaves us with a bunch of empty post-hooks in
-the patch. While this will probably change when we get KMSAN, is it
-reasonable to keep them empty for now?
-
-Thanks,
--- Marco
+> I propose that adding entirely new instrumentation for both KASAN and
+> KCSAN, we should send a separate patch-series.
+>
+> Thanks,
+> -- Marco
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNN4XhU6WL35bHF2Wu76fJMXO5%2B%2BuRBk0nh_s6BiRV9jdA%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BbD3cNxfaWOuhHz338MoVoaHpw-E8%2Bb7v6mo_ir2KD46Q%40mail.gmail.com.
