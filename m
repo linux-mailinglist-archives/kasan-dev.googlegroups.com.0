@@ -1,34 +1,34 @@
-Return-Path: <kasan-dev+bncBAABB3V5UDYQKGQEGOKVEVY@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABB7G4UDYQKGQEKRWYGGY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-il1-x139.google.com (mail-il1-x139.google.com [IPv6:2607:f8b0:4864:20::139])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1B9514521F
-	for <lists+kasan-dev@lfdr.de>; Wed, 22 Jan 2020 11:07:43 +0100 (CET)
-Received: by mail-il1-x139.google.com with SMTP id c5sf4434257ilo.9
-        for <lists+kasan-dev@lfdr.de>; Wed, 22 Jan 2020 02:07:43 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1579687662; cv=pass;
+Received: from mail-wm1-x340.google.com (mail-wm1-x340.google.com [IPv6:2a00:1450:4864:20::340])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA6F114537B
+	for <lists+kasan-dev@lfdr.de>; Wed, 22 Jan 2020 12:14:04 +0100 (CET)
+Received: by mail-wm1-x340.google.com with SMTP id 18sf1896793wmp.0
+        for <lists+kasan-dev@lfdr.de>; Wed, 22 Jan 2020 03:14:04 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1579691644; cv=pass;
         d=google.com; s=arc-20160816;
-        b=hyV69XDRRhzmnhhmeN5e+UN669Y2BJTjTYfb4dd/NwA6sUEkxdpODQedHfmjIy32tF
-         SdW1uaYTiBZvPaEqbzrYm705rZlDdDgwe4+LKrVGjfmebjYR7KTsPjv710CeZsMK3ZhF
-         3imiF6Kv13/JH5O1pdJfqNhnT8UzIFgpFKAltMnc8FoRG1IN0LwZys3pMbdYsDXPRxmJ
-         sw4SBX3JURb7BgWbhiC4FwZTM9VngEhfmEo3WrcB5NHRRuJqTuUIez6xCo/b0b2A866N
-         IFIID44kSExunGcxsutxXU+0wnkb/N/VL6B3/MRGWL+/t6dW31FTtfEk4WZKQHhb4bV7
-         FPGg==
+        b=LL38IQjMZiozbzHnFhDWm/+pgGHofNJdhsJh/fqw6oFZGkaV7n8SGHtdpvHr1WfZ67
+         3ruQ7mUmxELCJIdVpSdrgllg0iQe9xEgMytOgJ/Jbt+Iwb8zowuSYOhFK5ZjvVlWIRsi
+         aY+5oi2YvkXs6Pq3nLZq6BhZa3ijxgC4eazK+soky8fYEPubHY6qWqB/JjwzUvuRNLrJ
+         bWBCZS7m0+X41jGX+vQzUBh+8gREnSVgDHHEyuVw3u7OGXqcgyByuSXs9inlIcdI08zF
+         4oXtCHGpfWlg2bJdYllBM/tTZmOD10YoSu4QL6wCZBImv+3xaMccn3YJH9tU0b87Qvxu
+         Yyjg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:content-language:in-reply-to
          :mime-version:user-agent:date:message-id:autocrypt:from:references
          :cc:to:subject:ironport-sdr:sender:dkim-signature;
-        bh=hvcoChAW/k8RCeDEZYVnOsiGbIj0KFr6ZtMLS7Pr/+g=;
-        b=dj2fb4D6yHG1oHHgALhX1oIGiu0DFddnxknef9TMjw1wj+U0bpcJGCIjAxXsQoTHNi
-         FRUOg5JBcIj2osEZeLB5rm4CA2sl1chakSGKLD3gEwLe1CFjdIpqUgh7DuLiXSaob2OB
-         Ko9gw3lfr7TMHf3QasPC1rDUP77ZfofSYsK82Pg1+tKteJKkn/M47Qlrdv2TdBEMlnXZ
-         2udaLkHCy5JxuHJaJyhBibKqplLQwXWZ1OPw0lzh+C5VkdmvRUqn4jBoDFdWOOFSL8Ny
-         qzib7ilNvRtTpkJl6NPdo4eAUaEQjFsEkBNYZAoaUrwPcfZX2feXTUrf1O4XMcfG418j
-         1P8Q==
+        bh=aJ6gqDclJps+92yMi2EqP2zs5MKmSwUtrEDcizFcW3Q=;
+        b=I18LfwnVtbiBdmBW6bflcwrmwczEXyTzzjFciNVOQRitbWVm4gC0XUEH2GxCTtg8Lj
+         l5cylpvenAQW1Z72zHFl5Hxp3ZizLBr1RVUhUzgPDcTZMg6WCtQJ8oSM82/TAWfeHrIS
+         PFl0hcR1G+pFeZcS2Y5emK6b86iAqy35ezlIBpCLAbk/DN4EsZWs/qsDzS9NGPVlKVJ2
+         +Y2HnJPH7NQnxi2ffbPBosQ7Sk+ZXLLDyzJ/3bEfxxv4FGFOS0rAKFxSMFv08WAIzKKh
+         w/6cSjwtC3FxWX/kzNZmTliwrPsUD3lCDC1Ag4nTcgQZaWLvDrok5ZecrhC6U0wve2Jc
+         CEBQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@citrix.com header.s=securemail header.b=HEJmoLVE;
-       spf=pass (google.com: domain of sergey.dyasli@citrix.com designates 216.71.145.153 as permitted sender) smtp.mailfrom=sergey.dyasli@citrix.com;
+       dkim=pass header.i=@citrix.com header.s=securemail header.b=VekwyUgO;
+       spf=pass (google.com: domain of sergey.dyasli@citrix.com designates 216.71.155.144 as permitted sender) smtp.mailfrom=sergey.dyasli@citrix.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=citrix.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
@@ -37,13 +37,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :content-language:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=hvcoChAW/k8RCeDEZYVnOsiGbIj0KFr6ZtMLS7Pr/+g=;
-        b=D+PSghcPQd3Nque2XIVyq0d7pUG3mhZ7HnQoll8R0dGuwM40cvIJkd28Ap9tOqy4zr
-         dgFOpGMzcP7NTTFuafLkyw62jZ4YQEXFKg+V+2VWZQiFPbElbE/ugAUIhgT1l8FrUR9C
-         9iDr0YtSWetp8Br6vDgUb0aTAl7GL9G/40EMgzkFzZ18VdDgaatg50BgHC/dAx7O1gey
-         u9FQNOK4ay3ogPx8fVVKHVzPIgmqJUkLteJii4+b9okXWZGeadyJxDEzDC/ZFrolbtnR
-         IJDLazTjsS0Y4IpJL31/57e8BTPMaB6EDHNMujxG7QcLnI/eLeLXaNzbRpIKIfWU3KFb
-         1guA==
+        bh=aJ6gqDclJps+92yMi2EqP2zs5MKmSwUtrEDcizFcW3Q=;
+        b=Rw0vo3NbCYEOAolmKndM/KlamhkG7/qptfeifseNFlHSjPdaChZWRYelqyGxONLreK
+         F9/Mn+gYBqMnrQ7M8OGuJUTFcf1aGj98wa8Z+7R+OXpcuutt2xgmF4W/fvb4onN2WGVP
+         UX0v9yBki9pAc7wzIEOWWF0NJCKud3Z6+/J1zX7esuV3tQZSxDbwhINO4hoEe1gxdfH6
+         wwe77s8MKrfXXisbGkEGrp/2EArfzukBmhV4RqvUfVBwWzdL6Eh+aANjYtyrI4pRR942
+         OtuX85eN776iyG9A5zeu3muMod4roQrqvrMBlo+PnGisU8q34a3QfMM7PSZXn7LLS2aP
+         FWkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:ironport-sdr:subject:to:cc:references
@@ -52,64 +52,64 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=hvcoChAW/k8RCeDEZYVnOsiGbIj0KFr6ZtMLS7Pr/+g=;
-        b=PJUzpzabgU7GS/V3KZ8A9A7e+tjYr1JOXPIrtxxXEIq2ffC6Z5DbWeyZTROU7SEejj
-         5LoHeTmSaDik3wf3ECu788i1FImJ30jx145K9PEu2BGhDHFPB8lYuZm/5mbJ5v4A00/A
-         qRMl21m/Hp25etEcFfXn1E9+pSs5ZinOYZbq6529ebWkcGxGAxXPtpnsRUzLrlx+JlDI
-         LhVTEanpQ5hSZD1pvlComprvNOsqE0FLe9XoB9rYijw8chYIIEicxdgZw89xgyedkPbY
-         ykwEzW2zFfmeMeQMINbzx7ZKfiDeZEROjQajd2i0UuqRoq60jX9Cvlj1aKeeWtWNBh9S
-         FEhw==
+        bh=aJ6gqDclJps+92yMi2EqP2zs5MKmSwUtrEDcizFcW3Q=;
+        b=nHyyfolB2P7jbtL/E++y8//8cquOoJxHqFSOp/3Re6BmdbqrxWoG6H5VXQvkfOgm2p
+         eUHExZJFPnhavm9WeZYeg/P5SXiqBxw8baWVzwLqDXV30Sykh40aC0QhOAshm2szS8K5
+         5ylWJLGfsDkRrN7aN2emrLa/813N7/bLUf4eJHo9/sOv2BhZtHs4hMcIN8RqVvD/uiFo
+         a6JZykMaEd0wVVrF+anGuXaNFdEJcBIPlD4LIDVR7+tAp6jRzZfFg8fx+IxspyGOPmo4
+         hRGUCWCY2fi/KwfhEoMIHqsvSoxEiAF9/cKymiKJmSVnxrcYJdQHv2IIkEK7gvpCKEZN
+         pL5g==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAWxrOpi/SeJx3ZzDYEnOd/Jn3ZEeNi690hNvTLTc58fX9sU+WRf
-	fcOXieVq2UrU4WMmkAnCIks=
-X-Google-Smtp-Source: APXvYqxxZWYwijYlH0cMW7SwHwqarT1GB2GkXBeCgoiOJ2jdHxkdNNXzR+QtHp6Uigc0AcUGelIl2w==
-X-Received: by 2002:a92:bf10:: with SMTP id z16mr7460347ilh.87.1579687662396;
-        Wed, 22 Jan 2020 02:07:42 -0800 (PST)
+X-Gm-Message-State: APjAAAVm3xEyc0qHbr+r7DWC5Z4OZnnJ5YFz4OiWgoEC8gf0nig1V7tS
+	2K4bH463BM1a7JiQ5iPHLWg=
+X-Google-Smtp-Source: APXvYqyEB0PqYRNfbhOyyKpJyfAtbIQie1rtX4mr+AXbXMiGv0XaAOz9nUfAnc8AytuLDx2xNyYo7w==
+X-Received: by 2002:adf:a109:: with SMTP id o9mr10792122wro.189.1579691644554;
+        Wed, 22 Jan 2020 03:14:04 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a92:5d90:: with SMTP id e16ls6762943ilg.4.gmail; Wed, 22 Jan
- 2020 02:07:42 -0800 (PST)
-X-Received: by 2002:a92:d3cd:: with SMTP id c13mr6862963ilh.21.1579687661999;
-        Wed, 22 Jan 2020 02:07:41 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1579687661; cv=none;
+Received: by 2002:a1c:e913:: with SMTP id q19ls2815540wmc.3.canary-gmail; Wed,
+ 22 Jan 2020 03:14:04 -0800 (PST)
+X-Received: by 2002:a05:600c:54c:: with SMTP id k12mr2420813wmc.124.1579691644136;
+        Wed, 22 Jan 2020 03:14:04 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1579691644; cv=none;
         d=google.com; s=arc-20160816;
-        b=eMe/cEbCzipoAmcli6KUds8H+aznyIvU6WFOo1XFqvX2bELPA9bYlzEUGMl2nr+Gkw
-         W8ZUXnvW3D7SLm5fynkvOTttZxGSOCLZxnD4w9awfDepo5PQHt/1l/qoQuZxnLca7pgR
-         F2HrNjQSl+XmoNgs1xpM+gax+RU1RR/YzYD2HbsqQbHVzXsLYWDEXDF+4PimjxdjIGa4
-         54LSr7b4cxC3ufyFaUC9np3tqutHGzYJj0kEpwwOoYVpL1SeM4HtX/KGmLPS0fhkmsF5
-         ado23K827mWyJZn6Fgj5SMiUAT/EDwnswFm9Nso464ogq35gu6L1cwRqW1Oj+LNW31zk
-         64cg==
+        b=itsNMMJPm0hR7rDlSu9er4041dkv5ITRg3CAFIEI9M8XSwe9EB8Q8zwInwRpJ92G5w
+         VQ91iILetfnfQGW9CZ8dlpK3zMAyIvQe2+h+7eT6xER3YFqp59EpqZ2VJpkiwYSgWRkY
+         Kj0J8ux0ete5MQHHfJajL45SfCWk3eqUIOucOpZOyUFcCxa7nC8bszb8Zqtg3krnxOOL
+         RkEYUfhiY3zPaYZpeQlIibvNwf2h8ANWonzgeTUwlZq+CWPRUmfeSj1//O4M49bQO40p
+         9SRINgPr+cipnNGia0TvZW2N/t3Vu4Bh82FOxvQNzTzATEhS48WeSseJBsC3FyMt2z3M
+         Hisg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:content-language:in-reply-to:mime-version
          :user-agent:date:message-id:autocrypt:from:references:cc:to:subject
          :ironport-sdr:dkim-signature;
-        bh=g8zwr+5Z1U64v1L7b14YYEycHrewuTXF5B3e5sG8dsE=;
-        b=HswLg3/NSrLeBK8u2hAjwlNOrCj/tDLO0gOUfO1EgG6bicYL8XO1/4s5y2SGv3bi7p
-         2T3XIp9+AOS5g8R5kcfirsC2F7cprzjdbIDYAVK9wnwPfXQ9eJLwZFtQI1CFIJ6dXEoD
-         KtQ2fFNhrShrrxcv6uG8ebuBOFSRy4OniO4hMBGW64Mb/HZq2jWgr2cf5H5iGgak6STB
-         YNckPbAwZMOz/atoHg+uL5ObMCyGxMMsxR82asGmAe3dVA3ljyfT9bPsK3hA4xNoa9EG
-         ITSFc3IquvHnXv8z/ZNaMkV0dsUkQTMvC7wwcfSflgnL2qpcwV71AnoGVMoQ3dX3NM3l
-         8SPg==
+        bh=MeQM2UxxDeac6E4ue3L0UrkqNV+ursdme1MC2ONHwhQ=;
+        b=xAb0+AG6dl1tvOkYljezRWR8St9o2aCO9jT655pCHfQ9/Ldu1cXgx5mSP9Bgf29B5a
+         J9ozPQD9+cDqTj+c8+sqv90ivtxMnsang6MPDM6i6pYMfnFU4PE2osr+n/VkouSKaNlA
+         CgYDBZrLzoGWFLaGltKPBaUqM1oJljJuBzkmdUm/wWYFH6mAiT7GFp9W9d3//6qf7HMg
+         8Wn9kWrRc/2C1dVG/V6467vmzK5OwMPPUq7H9WwX9yzBgt5aNX7FHWX2OlfHG6hJmSQ/
+         IrmHdsEh2tgTNSSTtn+JS+0y+F3wzwHQiQc4gKA5SkR15yOfmyyEhR48AG5vMx/hPgvy
+         SQ1g==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@citrix.com header.s=securemail header.b=HEJmoLVE;
-       spf=pass (google.com: domain of sergey.dyasli@citrix.com designates 216.71.145.153 as permitted sender) smtp.mailfrom=sergey.dyasli@citrix.com;
+       dkim=pass header.i=@citrix.com header.s=securemail header.b=VekwyUgO;
+       spf=pass (google.com: domain of sergey.dyasli@citrix.com designates 216.71.155.144 as permitted sender) smtp.mailfrom=sergey.dyasli@citrix.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=citrix.com
-Received: from esa2.hc3370-68.iphmx.com (esa2.hc3370-68.iphmx.com. [216.71.145.153])
-        by gmr-mx.google.com with ESMTPS id f85si1824350ilg.2.2020.01.22.02.07.41
+Received: from esa4.hc3370-68.iphmx.com (esa4.hc3370-68.iphmx.com. [216.71.155.144])
+        by gmr-mx.google.com with ESMTPS id t83si123759wmb.4.2020.01.22.03.14.03
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 22 Jan 2020 02:07:41 -0800 (PST)
-Received-SPF: pass (google.com: domain of sergey.dyasli@citrix.com designates 216.71.145.153 as permitted sender) client-ip=216.71.145.153;
-Received-SPF: None (esa2.hc3370-68.iphmx.com: no sender
+        Wed, 22 Jan 2020 03:14:04 -0800 (PST)
+Received-SPF: pass (google.com: domain of sergey.dyasli@citrix.com designates 216.71.155.144 as permitted sender) client-ip=216.71.155.144;
+Received-SPF: None (esa4.hc3370-68.iphmx.com: no sender
   authenticity information available from domain of
   sergey.dyasli@citrix.com) identity=pra;
-  client-ip=162.221.158.21; receiver=esa2.hc3370-68.iphmx.com;
+  client-ip=162.221.158.21; receiver=esa4.hc3370-68.iphmx.com;
   envelope-from="sergey.dyasli@citrix.com";
   x-sender="sergey.dyasli@citrix.com";
   x-conformance=sidf_compatible
-Received-SPF: Pass (esa2.hc3370-68.iphmx.com: domain of
+Received-SPF: Pass (esa4.hc3370-68.iphmx.com: domain of
   sergey.dyasli@citrix.com designates 162.221.158.21 as
   permitted sender) identity=mailfrom;
-  client-ip=162.221.158.21; receiver=esa2.hc3370-68.iphmx.com;
+  client-ip=162.221.158.21; receiver=esa4.hc3370-68.iphmx.com;
   envelope-from="sergey.dyasli@citrix.com";
   x-sender="sergey.dyasli@citrix.com";
   x-conformance=sidf_compatible; x-record-type="v=spf1";
@@ -118,39 +118,38 @@ Received-SPF: Pass (esa2.hc3370-68.iphmx.com: domain of
   ip4:192.28.146.160 ip4:192.28.146.107 ip4:216.52.6.88
   ip4:216.52.6.188 ip4:162.221.158.21 ip4:162.221.156.83
   ip4:168.245.78.127 ~all"
-Received-SPF: None (esa2.hc3370-68.iphmx.com: no sender
+Received-SPF: None (esa4.hc3370-68.iphmx.com: no sender
   authenticity information available from domain of
   postmaster@mail.citrix.com) identity=helo;
-  client-ip=162.221.158.21; receiver=esa2.hc3370-68.iphmx.com;
+  client-ip=162.221.158.21; receiver=esa4.hc3370-68.iphmx.com;
   envelope-from="sergey.dyasli@citrix.com";
   x-sender="postmaster@mail.citrix.com";
   x-conformance=sidf_compatible
-IronPort-SDR: vMRjz/muvrzwffZ9gPdAkzOUaYy9fd6F78rjNgWjA+E4IrmOT4iUvZoLuMWmHiiID1Own4xeCv
- TTEFoxCLO0ynfKfwXsKjsen+Q6U5ExT5FZj3v02meT9wHVyfNOIz7Q5wFMv/c9/i8H5OaNDmvh
- nlai6MElcKtJaJBzKeVUrv4MtVGjtptShv3QnmR/wz4kQ7WeRURg83hdt8nY+TiAp6YU0W8zjv
- GaNx5omxl14S8EncuOU9JVydX0d78Q3ZKy+JOzG90YjDhFWXZurtNmqEGkNbT7kfgdQmV7EuBz
- H1o=
+IronPort-SDR: CDfu/Z3EtczMTzpEfAZPSlKPw+H9ASx9SLknEvZtvXAO/orpurrTD7fm1oG1CbkTm3bPIKKqcE
+ XaF9PXjKhkCPzXqCgi84uDCo+RemjNh/65gMfG8+ZZ32QMpk2RC0NKgTJq8q6iPECwlikBFfqV
+ bNWSAvt0+CdPwyWK08v4vI4mmHD7OF7uJv1TROtgDcKH63Mx1udzWkdfW54vrsqOxfLeSxbvn+
+ XUN/aD7Wd1oz8Blud63w7wAdtUBgarO5W3lgetyx+NK9hMzWiaFaFhoa303hiqKFVJdBXapkfq
+ 10Q=
 X-SBRS: 2.7
-X-MesageID: 11271803
-X-Ironport-Server: esa2.hc3370-68.iphmx.com
+X-MesageID: 11856945
+X-Ironport-Server: esa4.hc3370-68.iphmx.com
 X-Remote-IP: 162.221.158.21
 X-Policy: $RELAYED
 X-IronPort-AV: E=Sophos;i="5.70,349,1574139600"; 
-   d="scan'208";a="11271803"
-Subject: Re: [PATCH v2 4/4] xen/netback: fix grant copy across page boundary
-To: Paul Durrant <pdurrant@gmail.com>
-CC: <xen-devel@lists.xen.org>, <kasan-dev@googlegroups.com>,
-	<linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>, Andrey Ryabinin
-	<aryabinin@virtuozzo.com>, Alexander Potapenko <glider@google.com>, "Dmitry
- Vyukov" <dvyukov@google.com>, Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-	Juergen Gross <jgross@suse.com>, Stefano Stabellini <sstabellini@kernel.org>,
-	George Dunlap <george.dunlap@citrix.com>, Ross Lagerwall
-	<ross.lagerwall@citrix.com>, Andrew Morton <akpm@linux-foundation.org>, "Wei
- Liu" <wei.liu@kernel.org>, "sergey.dyasli@citrix.com >> Sergey Dyasli"
-	<sergey.dyasli@citrix.com>
+   d="scan'208";a="11856945"
+Subject: Re: [PATCH v2 2/4] x86/xen: add basic KASAN support for PV kernel
+To: Boris Ostrovsky <boris.ostrovsky@oracle.com>, <xen-devel@lists.xen.org>,
+	<kasan-dev@googlegroups.com>, <linux-mm@kvack.org>,
+	<linux-kernel@vger.kernel.org>
+CC: Andrey Ryabinin <aryabinin@virtuozzo.com>, Alexander Potapenko
+	<glider@google.com>, Dmitry Vyukov <dvyukov@google.com>, Juergen Gross
+	<jgross@suse.com>, Stefano Stabellini <sstabellini@kernel.org>, George Dunlap
+	<george.dunlap@citrix.com>, Ross Lagerwall <ross.lagerwall@citrix.com>,
+	Andrew Morton <akpm@linux-foundation.org>, "sergey.dyasli@citrix.com >>
+ Sergey Dyasli" <sergey.dyasli@citrix.com>
 References: <20200117125834.14552-1-sergey.dyasli@citrix.com>
- <20200117125834.14552-5-sergey.dyasli@citrix.com>
- <CACCGGhApXXnQwfBN_LioAh+8bk-cAAQ2ciua-MnnQoMBUfap6g@mail.gmail.com>
+ <20200117125834.14552-3-sergey.dyasli@citrix.com>
+ <28aba070-fa53-5677-c2d2-97d06514dda8@oracle.com>
 From: Sergey Dyasli <sergey.dyasli@citrix.com>
 Autocrypt: addr=sergey.dyasli@citrix.com; keydata=
  xsFNBFtMVHEBEADc/hZcLexrB6vGTdGqEUsYZkFGQh6Z1OO7bCtM1go1RugSMeq9tkFHQSOc
@@ -196,18 +195,18 @@ Autocrypt: addr=sergey.dyasli@citrix.com; keydata=
  SEwtoxu6EEUYfbcjWgzJCs023hbRykZlFALoRNCwVz/FnPuVu291jn9kjvCTEeE6g2dCtOrO
  ukuXzk1tIeeoggsU7AJ0bzP7QOEhEckaBbP4k6ic26LJGWNMinllePyEMXzsgmMHVN//8wDT
  NWaanhP/JZ1v5Mfn8s1chIqC0sJIw73RvvuBkOa+jx0OwW3RFoQ=
-Message-ID: <85b36733-7f54-fdfd-045d-b8e8a92d84c5@citrix.com>
-Date: Wed, 22 Jan 2020 10:07:35 +0000
+Message-ID: <3570a312-04e9-c7f8-e348-e1c2dbd040db@citrix.com>
+Date: Wed, 22 Jan 2020 11:13:54 +0000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <CACCGGhApXXnQwfBN_LioAh+8bk-cAAQ2ciua-MnnQoMBUfap6g@mail.gmail.com>
+In-Reply-To: <28aba070-fa53-5677-c2d2-97d06514dda8@oracle.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Language: en-US
 X-Original-Sender: sergey.dyasli@citrix.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@citrix.com header.s=securemail header.b=HEJmoLVE;       spf=pass
- (google.com: domain of sergey.dyasli@citrix.com designates 216.71.145.153 as
+ header.i=@citrix.com header.s=securemail header.b=VekwyUgO;       spf=pass
+ (google.com: domain of sergey.dyasli@citrix.com designates 216.71.155.144 as
  permitted sender) smtp.mailfrom=sergey.dyasli@citrix.com;       dmarc=pass
  (p=NONE sp=NONE dis=NONE) header.from=citrix.com
 Precedence: list
@@ -222,38 +221,63 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 20/01/2020 08:58, Paul Durrant wrote:
-> On Fri, 17 Jan 2020 at 12:59, Sergey Dyasli <sergey.dyasli@citrix.com> wrote:
->>
->> From: Ross Lagerwall <ross.lagerwall@citrix.com>
->>
->> When KASAN (or SLUB_DEBUG) is turned on, there is a higher chance that
->> non-power-of-two allocations are not aligned to the next power of 2 of
->> the size. Therefore, handle grant copies that cross page boundaries.
->>
->> Signed-off-by: Ross Lagerwall <ross.lagerwall@citrix.com>
->> Signed-off-by: Sergey Dyasli <sergey.dyasli@citrix.com>
->> ---
->> v1 --> v2:
->> - Use sizeof_field(struct sk_buff, cb)) instead of magic number 48
->> - Slightly update commit message
->>
->> RFC --> v1:
->> - Added BUILD_BUG_ON to the netback patch
->> - xenvif_idx_release() now located outside the loop
->>
->> CC: Wei Liu <wei.liu@kernel.org>
->> CC: Paul Durrant <paul@xen.org>
+On 17/01/2020 14:56, Boris Ostrovsky wrote:
 >
-> Acked-by: Paul Durrant <paul@xen.org>
+>
+> On 1/17/20 7:58 AM, Sergey Dyasli wrote:
+>> --- a/arch/x86/mm/kasan_init_64.c
+>> +++ b/arch/x86/mm/kasan_init_64.c
+>> @@ -13,6 +13,9 @@
+>>   #include <linux/sched/task.h>
+>>   #include <linux/vmalloc.h>
+>>   +#include <xen/xen.h>
+>> +#include <xen/xen-ops.h>
+>> +
+>>   #include <asm/e820/types.h>
+>>   #include <asm/pgalloc.h>
+>>   #include <asm/tlbflush.h>
+>> @@ -332,6 +335,11 @@ void __init kasan_early_init(void)
+>>       for (i = 0; pgtable_l5_enabled() && i < PTRS_PER_P4D; i++)
+>>           kasan_early_shadow_p4d[i] = __p4d(p4d_val);
+>>   +    if (xen_pv_domain()) {
+>> +        pgd_t *pv_top_pgt = xen_pv_kasan_early_init();
+>> +        kasan_map_early_shadow(pv_top_pgt);
+>> +    }
+>> +
+>
+>
+> I'd suggest replacing this with xen_kasan_early_init() and doing everything, including PV check, there. This way non-Xen code won't need to be aware of Xen-specific details such as guest types.
 
-Thanks! I believe this patch can go in independently from the other
-patches in the series. What else is required for this?
+This would require exporting kasan_map_early_shadow() via kasan.h.
+I'm fine with either approach.
+
+>>       kasan_map_early_shadow(early_top_pgt);
+>>       kasan_map_early_shadow(init_top_pgt);
+>>   }
+>> @@ -369,6 +377,8 @@ void __init kasan_init(void)
+>>                   __pgd(__pa(tmp_p4d_table) | _KERNPG_TABLE));
+>>       }
+>>   +    xen_pv_kasan_pin_pgd(early_top_pgt);
+>> +
+>
+> And drop "_pv" here (and below) for the same reason.
+
+This is a reasonable suggestion.
+
+>>       load_cr3(early_top_pgt);
+>>       __flush_tlb_all();
+>>   @@ -433,6 +443,8 @@ void __init kasan_init(void)
+>>       load_cr3(init_top_pgt);
+>>       __flush_tlb_all();
+>>   +    xen_pv_kasan_unpin_pgd(early_top_pgt);
+>> +
+>>
 
 --
+Thanks,
 Sergey
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/85b36733-7f54-fdfd-045d-b8e8a92d84c5%40citrix.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/3570a312-04e9-c7f8-e348-e1c2dbd040db%40citrix.com.
