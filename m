@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBCV5TUXXRUIBBS6NYHYQKGQEUAT6GMA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCV5TUXXRUIBBW6PYHYQKGQEWZGJENI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pg1-x540.google.com (mail-pg1-x540.google.com [IPv6:2607:f8b0:4864:20::540])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5328F14BE0D
-	for <lists+kasan-dev@lfdr.de>; Tue, 28 Jan 2020 17:52:29 +0100 (CET)
-Received: by mail-pg1-x540.google.com with SMTP id y15sf8934923pgk.20
-        for <lists+kasan-dev@lfdr.de>; Tue, 28 Jan 2020 08:52:29 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1580230347; cv=pass;
+Received: from mail-qv1-xf39.google.com (mail-qv1-xf39.google.com [IPv6:2607:f8b0:4864:20::f39])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7734114BE24
+	for <lists+kasan-dev@lfdr.de>; Tue, 28 Jan 2020 17:57:00 +0100 (CET)
+Received: by mail-qv1-xf39.google.com with SMTP id dr18sf6821130qvb.14
+        for <lists+kasan-dev@lfdr.de>; Tue, 28 Jan 2020 08:57:00 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1580230619; cv=pass;
         d=google.com; s=arc-20160816;
-        b=ssd8WLkDFnDT9KOzLV4zcnRhEiw31P/gCwkIVl0jxZwi8OTDs3YJKA+s+KMbGeq5cA
-         ak+bbSgtn2oX3b0pn9WuIybgEux5mdh53g9/oYKYi0whuzvm6Q7Vl0ywKyOl2Fe1drDr
-         b1Tzw7divHpR9Jxf5PXpUQ5jTOI5KOJMnrmG/z5/Sb33ZRkyy3eeci9DUGESu8FVzUJD
-         R7pW9LsmxIYY7s/XwFBWXA0cUI5UuQNnK5o2J43C5ErBvq2BYmJVlN4kanhaqTuvN6nu
-         rQ8iv2fPSPlCIahDhm1D4WLe+ODjBCWFHEC140CKmGfUToj+Ai0tGGAA2eBjpG9nPOLe
-         pmOA==
+        b=uOL7wSZYYhr5VpsoQ/BsEi0xH4KtOqGU8ECoZJZRL8QpvaGlojlzRWb/x81nghu35x
+         tCyQLiYwRUoVWJD9XSaWJsJy1sg0FM3pqRa64/cgRBKkUp4gzuhqnrns3z0uueFUA5d5
+         l61r9Aca4nGpTaNHiHJciQ19RKxmxjZ9L0yN1YOPxyFbVrRinynhUDsHQOYjwkQVCGkm
+         nhkRYhqV5l5B9tpbJojQ5uuJCkGjejjXvjF49rYDarBWNmCnwu6j/D9DCjDZPtfoc9ib
+         6bfujd0LE13yInAOfRtKa4/4qRJ0m+B5FanAj011i2NS36fD0277cAhF0uHoBnDUyZf2
+         bMGg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:user-agent:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:sender:dkim-signature;
-        bh=mbhcF/kUyoT5k+ozxjEYXaAolnTRl6Q+HX5UKNERwao=;
-        b=eUpQldi4oeFLqObWE4tLFlrtsGrIQaI5JeyTpgswoM0cnOGMavkdbFJRxzxF6JAJzi
-         AOTkjPBfk87L7iA4oBn8et9hB0hK87qCeqmv7wMtTkw4n3qb7N0KI4OGpEbA3vIwY27U
-         p9C911vTUasMQ2SN56g/2ue3nog6nR451rm+/4QSa6DJmtCK//2mGVCfR5g0qHkDs0kI
-         ZxL6cRazjZFDH4hAK6svmUXrrH7fYpQ53bOMYhsEeYFzBaWcg2dmGpPUk9+glSCNiidC
-         dnuzd+32O6YpaTX/8XXm7Uu6FvPxKoLOHPTIH0pC4s6LzrCyy0UxP/lJ9d3+jWUj9Oz2
-         BWYQ==
+        bh=p6Zo84jBOCCM0Syxduk6VCpvWL3ubqiKM+MaQWAZD/0=;
+        b=Dw844wBhfFrOO9X23x2K285433rc3j067Nk5BTEUaUqWhffNJ8hiiDpbqfLknd05kf
+         69SUrNI6HrK0nC6+HOPza9E1/7sMbLeXIT5cJIpnoM++OC7/2FLhgUpUCqr8OaKeDtKm
+         2KQXh/5QMgzJb7fusEhoCXGSNFUAqz2FeD/Q337Z12TAlcAWR+KzCxq2wQaaGDwwazeJ
+         x2Hxm5I/Hxbztupt+6LTsGYQJkEjhIyDLOR8f3g07jvwGI0TAEDw+xo/2GudUUDj6gl/
+         0pbXwtXBUOzRv25LZR2hujcQqHCWImRvOt0AYPLyOlAAr2tEuTCusJ2rkcIsp7aYX0SX
+         BADA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=merlin.20170209 header.b=1VZRq8GW;
+       dkim=pass header.i=@infradead.org header.s=merlin.20170209 header.b=NUg4BVZs;
        spf=pass (google.com: best guess record for domain of peterz@infradead.org designates 2001:8b0:10b:1231::1 as permitted sender) smtp.mailfrom=peterz@infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :content-disposition:in-reply-to:user-agent:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=mbhcF/kUyoT5k+ozxjEYXaAolnTRl6Q+HX5UKNERwao=;
-        b=ZvlMpqZQDxtAfLJkFFCfdUuQJfxjBiLq8+i6n18ZZMr/r9oDG10xC+hRANr3r5uOSa
-         cOQiTLImJNzwRpZMWQL2rY7BafpmeFoUMhGVJg6C17P9XWBTiNAb7wOv3qNs8hHYh7Xc
-         FW3iIUyWEoZ1DrGL/kadB1HxdiiHbHTiMBPC2g22Fl8jSZoLSO9ksDTQguu4rvNk9wGy
-         ZPcaU6hh6xUMvVt6HVzJMDW58VX06KNxsVj6JwDnhBt0WxOHyA5aRX6XXM+j5c2sKuQV
-         47hgLYKSk13MZX8UglP4S7+sPLrUtKm6iR2A2+c2OEVLxbO8R8NoJmKXqr7AG1iQb9u3
-         E2ag==
+        bh=p6Zo84jBOCCM0Syxduk6VCpvWL3ubqiKM+MaQWAZD/0=;
+        b=FFQdm4QCUxpS8jczm0TsJ/wAu1iWaH424EknDqVG+/5zo+35MjyWcJ40jcSgr9rbLN
+         rzOMByacZpmNOBIJLOhmy11OXYHwRhJKM1qK9FatVpykMzzCYOAm+fo84LqVDFuzptJw
+         HBZd7MdPKzJXdimaG5kL3PDqX/m11S4yWYPcnbdFxcZa3MSWxj/JMoea2Afm4XS6WEr7
+         wEbQQJAL7YF/JdexZVm06eVA7BAdq6YVTpniYM0RwXBMkGVtCCNbCIMSMMzpvnUwyLEg
+         Q22Q4sBFgxQXKyquU1FqpMfl6lpL73Gp3iObnQg6BuMVT/c3jNmZcHYHmrknQU5A1YCc
+         v1kA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
@@ -49,62 +49,62 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=mbhcF/kUyoT5k+ozxjEYXaAolnTRl6Q+HX5UKNERwao=;
-        b=ZTFulnqzEUDdLTQI1laW1vhvRIIYBSbagz65lZm98SUWR0wtxTH3p+vaXizRQ1tX/W
-         irjQNn+8NWlxM7AAN8rxGwWucVrFp1qsFqnVU4sMFtvz+1BYA+MlWkEFIxg6Ulendz/C
-         WVW0ZMYhfpd83QBNlwL5mYNAioN58fyksH9EJIaa2UnqsT8HmWWmA/kmLtTbbXhEoEcm
-         Xdjvz10lPafJrOExzVLgJ+B07LYLLz8RKh8jTo6du9RqF4kKdiZP5zqNaGJTjmYoe/vs
-         UeJxlTDB+QVAuFr3wgVaQgzzbuL83ZZbK1lrqq7wuHpXq96DAsxT0TBwAlDb66UUl+ut
-         yf0Q==
+        bh=p6Zo84jBOCCM0Syxduk6VCpvWL3ubqiKM+MaQWAZD/0=;
+        b=F8jr747rebtyvzAC5khZTBPcRrYRwG88/FGv3KP6MqH1f4Xabtg/mA2z1GJYcjmJIW
+         Fv1G/MLeEuP0l1W7dQxjCaKJlFblM1CDDtwSQjLHwp/PKuTWdJydfXfx0KdSmZhTIBQX
+         jf4FmYZ1DPZBFp6BtGJjUvVrGHvwBipOYghpYr+KXn3PDyNnpWBsF0Iv0VTRIVxnwBJq
+         67ngqt/EvAbiKEurf58CGLvTO03aocGAC+DaiPqS0r4b3puPGhZQ7ad0a8Yo0ie5b/9g
+         hBYH8EUU/e/KDpZmz77gcXUpn2K/B2oYL2dhL77+xnBT7XenCPG/nyJPk9NRs+YmXB89
+         247Q==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAXXj3oQNs50DPySqJ0VTM9qru+jkrSsgU8nFnzNY4vNriV+szWh
-	RCDyUr9wwYf7ym30SHvTdbY=
-X-Google-Smtp-Source: APXvYqxFp3OQMNj4zdWB3Ve0hkXC6goJLkHxCFxh0OkFA3Nm7hx2BT9eBP2+szJkfggRp6HITDOIeA==
-X-Received: by 2002:a17:902:b107:: with SMTP id q7mr15990763plr.343.1580230347459;
-        Tue, 28 Jan 2020 08:52:27 -0800 (PST)
+X-Gm-Message-State: APjAAAU82AsNaaJsa/C3rlOQ4cmZQeHeJnOgkka5YJ7X9EwnwZoie2w6
+	AbLGqiJr1wPWfL2C5qYwpIY=
+X-Google-Smtp-Source: APXvYqz1lTfSzu2ck1a3J0Ej9pq8+ejjTgdPAdxP8Y2XMZ5haKdJrS6VNDg0yp2v5WnsXN70kPBUPA==
+X-Received: by 2002:a05:6214:118d:: with SMTP id t13mr22670665qvv.5.1580230619440;
+        Tue, 28 Jan 2020 08:56:59 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:902:a701:: with SMTP id w1ls6052390plq.7.gmail; Tue, 28
- Jan 2020 08:52:27 -0800 (PST)
-X-Received: by 2002:a17:902:5a85:: with SMTP id r5mr24253494pli.222.1580230346999;
-        Tue, 28 Jan 2020 08:52:26 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1580230346; cv=none;
+Received: by 2002:a05:6214:321:: with SMTP id j1ls476042qvu.6.gmail; Tue, 28
+ Jan 2020 08:56:59 -0800 (PST)
+X-Received: by 2002:a05:6214:20c:: with SMTP id i12mr23480595qvt.48.1580230618962;
+        Tue, 28 Jan 2020 08:56:58 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1580230618; cv=none;
         d=google.com; s=arc-20160816;
-        b=eVTeL43ybFHexY1FDEROR7hCLB5uJJl0ch0vf0aDs8f03Z/wuQykH1y52nQlpL8zyU
-         Z3g7KVPXCpbz02XgGNjW0zll67GqF9dM0DAH5UOEm4dY7+JakrgFsyZSY4J81/qNVmBa
-         /C1AbR9aOihFhK2dg9fG1TRqQcdaWwf+rQJrZRaR8TBVYNgJI86l/SeLaehE2Cz31gNr
-         hAXq3AAdn8xA5lBUUmi6jaTHyAEDrZLcD+45qwV0toCIQmCoHpDXictuK369JByiR+J3
-         wCcO1tFezsGC5s4GvGC5wbVrtmHc0RuIv+46awuk7IADCe0US+lmHvghd8cjvx6oqNse
-         U42w==
+        b=ctOv4jrdaslZBlHOKSI/XpQErTXJwX3p4LwBbn8QiWlDnI946hQ6KvpWl6eZx9BmR5
+         joPNCPQfXA7TA9Ju3m1EALThh71P2E76RTRONlm7UqI8nrvCTH4Br4H8U6raitd98OK7
+         jKJmuAqb//A3PsOBB+gYaSssMEjuijLIGA3HPpJTDpmPRqpN1VmomOWfqIcNXGJ/gcHc
+         eecHE+yrL8fgUvOBEn5hAUlEsz4cyNVZcWPMURsFIRYHp6N6xptoYPSSm/dfDdQwUJwJ
+         jUQ7RlMUyhwHdI8kH53BY23ILSbOWnJY20GrE70MXcOzM42rL2vVIszKn7lAQ/b+Yrmp
+         Rd5Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=user-agent:in-reply-to:content-disposition:mime-version:references
          :message-id:subject:cc:to:from:date:dkim-signature;
-        bh=65hiUb5MefbH8f+PDl0IMq1gSfIHpN1RqmM1DlOSyZU=;
-        b=n3/X2lkrrN4R+MZpkWxcXKQ4AvGga/TkcOiS9UwUnF4xTvS0wPYY1s+nnJkaKjwVQR
-         8jgA3FU815M5AQytdhMC/cdEr0UvPjiKYL4mxhh3OEXRMBsbhNrW0UXvBRgP0nHXCpg5
-         8S8zODIXHQNr1v7zB9DAIWebwTVMdlf1fJRwylwsiKzR9O4LAHBaE6UG/wKZBDMfC9J0
-         p/iqi7BwbnyICZlc6/Fb3gPACj8Azn2hpXqqN54eH9tAoCYjvF8b9NUv5H35HQrXao8i
-         bmUjebQK+SiwNsp4eW0Eobl+oubnqjf2FNlwWgmJWnwh5pFO18i/EBL+6mu4hHcEOxA9
-         gqVQ==
+        bh=xqLkdksTAn4mILhz/FZa+hmKnpwus5eIvV60Ofg9aS8=;
+        b=Fbjh6fL4ZmYwrworV7lxDoXqnb8sMWDc114XVgyQqmeIup0sKbVqjlRggaFIC5Wxwk
+         wg56OYZCQl2DAEfQjpzByV2A58nQBbdilW5KVwNLj5TQ101YYays3J3Wq4rhZaygTfYR
+         yMCJgVs5ZGp32oydWh0yhidZh0ZYOr5NjxahUVmyTaHGl17NUSHhXhhvA9Fgq+OWdJOE
+         tMoY4zmvy3gLwlAMNfbdrvF5VJQNLjqRZr/87WZ2fgNQERF+iCrdsWbh1hA6yJj8jzW1
+         cD43jw7KTAPvsQKb2dcIf9LXY1KX+k0I23IxRQq8W/P0AMaPRIG7HwcPS+uOSjOIzx58
+         xhzw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=merlin.20170209 header.b=1VZRq8GW;
+       dkim=pass header.i=@infradead.org header.s=merlin.20170209 header.b=NUg4BVZs;
        spf=pass (google.com: best guess record for domain of peterz@infradead.org designates 2001:8b0:10b:1231::1 as permitted sender) smtp.mailfrom=peterz@infradead.org
 Received: from merlin.infradead.org (merlin.infradead.org. [2001:8b0:10b:1231::1])
-        by gmr-mx.google.com with ESMTPS id 82si600647pgg.2.2020.01.28.08.52.22
+        by gmr-mx.google.com with ESMTPS id l18si528732qtb.4.2020.01.28.08.56.58
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jan 2020 08:52:22 -0800 (PST)
+        Tue, 28 Jan 2020 08:56:58 -0800 (PST)
 Received-SPF: pass (google.com: best guess record for domain of peterz@infradead.org designates 2001:8b0:10b:1231::1 as permitted sender) client-ip=2001:8b0:10b:1231::1;
 Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
 	by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iwU65-0001Gy-V8; Tue, 28 Jan 2020 16:52:18 +0000
+	id 1iwUAa-0001KE-Ju; Tue, 28 Jan 2020 16:56:56 +0000
 Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(Client did not present a certificate)
-	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 9720C306012;
-	Tue, 28 Jan 2020 17:50:32 +0100 (CET)
+	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 96E16302524;
+	Tue, 28 Jan 2020 17:55:12 +0100 (CET)
 Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 083A42B7159FB; Tue, 28 Jan 2020 17:52:15 +0100 (CET)
-Date: Tue, 28 Jan 2020 17:52:15 +0100
+	id 0CBB3201F06F7; Tue, 28 Jan 2020 17:56:55 +0100 (CET)
+Date: Tue, 28 Jan 2020 17:56:55 +0100
 From: Peter Zijlstra <peterz@infradead.org>
 To: Marco Elver <elver@google.com>
 Cc: Qian Cai <cai@lca.pw>, Will Deacon <will@kernel.org>,
@@ -113,7 +113,7 @@ Cc: Qian Cai <cai@lca.pw>, Will Deacon <will@kernel.org>,
 	"paul E. McKenney" <paulmck@kernel.org>,
 	kasan-dev <kasan-dev@googlegroups.com>
 Subject: Re: [PATCH] locking/osq_lock: fix a data race in osq_wait_next
-Message-ID: <20200128165214.GL14914@hirez.programming.kicks-ass.net>
+Message-ID: <20200128165655.GM14914@hirez.programming.kicks-ass.net>
 References: <20200122165938.GA16974@willie-the-truck>
  <A5114711-B8DE-48DA-AFD0-62128AC08270@lca.pw>
  <20200122223851.GA45602@google.com>
@@ -128,7 +128,7 @@ In-Reply-To: <CANpmjNNo6yW-y-Af7JgvWi3t==+=02hE4-pFU4OiH8yvbT3Byg@mail.gmail.com
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-Original-Sender: peterz@infradead.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@infradead.org header.s=merlin.20170209 header.b=1VZRq8GW;
+ header.i=@infradead.org header.s=merlin.20170209 header.b=NUg4BVZs;
        spf=pass (google.com: best guess record for domain of
  peterz@infradead.org designates 2001:8b0:10b:1231::1 as permitted sender) smtp.mailfrom=peterz@infradead.org
 Precedence: list
@@ -144,58 +144,45 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
  <https://groups.google.com/group/kasan-dev/subscribe>
 
 On Tue, Jan 28, 2020 at 12:46:26PM +0100, Marco Elver wrote:
-> On Tue, 28 Jan 2020 at 04:11, Qian Cai <cai@lca.pw> wrote:
-> >
-> > > On Jan 23, 2020, at 4:39 AM, Peter Zijlstra <peterz@infradead.org> wrote:
-> > >
-> > > On Wed, Jan 22, 2020 at 06:54:43PM -0500, Qian Cai wrote:
-> > >> diff --git a/kernel/locking/osq_lock.c b/kernel/locking/osq_lock.c
-> > >> index 1f7734949ac8..832e87966dcf 100644
-> > >> --- a/kernel/locking/osq_lock.c
-> > >> +++ b/kernel/locking/osq_lock.c
-> > >> @@ -75,7 +75,7 @@ osq_wait_next(struct optimistic_spin_queue *lock,
-> > >>                 * wait for either @lock to point to us, through its Step-B, or
-> > >>                 * wait for a new @node->next from its Step-C.
-> > >>                 */
-> > >> -               if (node->next) {
-> > >> +               if (READ_ONCE(node->next)) {
-> > >>                        next = xchg(&node->next, NULL);
-> > >>                        if (next)
-> > >>                                break;
-> > >
-> > > This could possibly trigger the warning, but is a false positive. The
-> > > above doesn't fix anything in that even if that load is shattered the
-> > > code will function correctly -- it checks for any !0 value, any byte
-> > > composite that is !0 is sufficient.
-> > >
-> > > This is in fact something KCSAN compiler infrastructure could deduce.
-> 
-> Not in the general case. As far as I can tell, this if-statement is
-> purely optional and an optimization to avoid false sharing. This is
-> specific knowledge about the logic that (without conveying more
-> details about the logic) the tool couldn't safely deduce. Consider the
-> case:
-> 
-> T0:
-> if ( (x = READ_ONCE(ptr)) ) use_ptr_value(*x);
-> 
-> T1:
-> WRITE_ONCE(ptr, valid_ptr);
-> 
-> Here, unlike the case above, reading ptr without READ_ONCE can clearly
-> be dangerous.
 
-There is a very big difference here though. In the osq case the result
-of the load is only every compared to 0, after which the value is
-discarded. While in your example you let the variable escape and use it
-again later.
+> > Marco, any thought on improving KCSAN for this to reduce the false
+> > positives?
+> 
+> Define 'false positive'.
 
-I'm claiming that in the first case, the only thing that's ever done
-with a racy load is comparing against 0, there is no possible bad
-outcome ever. While obviously if you let the load escape, or do anything
-other than compare against 0, there is.
+I'll use it where the code as written is correct while the tool
+complains about it.
+
+> From what I can tell, all 'false positives' that have come up are data
+> races where the consequences on the behaviour of the code is
+> inconsequential. In other words, all of them would require
+> understanding of the intended logic of the code, and understanding if
+> the worst possible outcome of a data race changes the behaviour of the
+> code in such a way that we may end up with an erroneously behaving
+> system.
+> 
+> As I have said before, KCSAN (or any data race detector) by definition
+> only works at the language level. Any semantic analysis, beyond simple
+> rules (such as ignore same-value stores) and annotations, is simply
+> impossible since the tool can't know about the logic that the
+> programmer intended.
+> 
+> That being said, if there are simple rules (like ignore same-value
+> stores) or other minimal annotations that can help reduce such 'false
+> positives', more than happy to add them.
+
+OK, so KCSAN knows about same-value-stores? If so, that ->cpu =
+smp_processor_id() case really doesn't need annotation, right?
+
+> What to do about osq_lock here? If people agree that no further
+> annotations are wanted, and the reasoning above concludes there are no
+> bugs, we can blacklist the file. That would, however, miss new data
+> races in future.
+
+I'm still hoping to convince you that the other case is one of those
+'simple-rules' too :-)
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200128165214.GL14914%40hirez.programming.kicks-ass.net.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200128165655.GM14914%40hirez.programming.kicks-ass.net.
