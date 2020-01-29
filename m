@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBAABB3NSY7YQKGQEVUBBICI@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBTFYY7YQKGQEK2FBOIY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qk1-x739.google.com (mail-qk1-x739.google.com [IPv6:2607:f8b0:4864:20::739])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CDE914D10E
-	for <lists+kasan-dev@lfdr.de>; Wed, 29 Jan 2020 20:13:50 +0100 (CET)
-Received: by mail-qk1-x739.google.com with SMTP id x127sf383900qkb.0
-        for <lists+kasan-dev@lfdr.de>; Wed, 29 Jan 2020 11:13:50 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1580325229; cv=pass;
+Received: from mail-yw1-xc3b.google.com (mail-yw1-xc3b.google.com [IPv6:2607:f8b0:4864:20::c3b])
+	by mail.lfdr.de (Postfix) with ESMTPS id A21EB14D12E
+	for <lists+kasan-dev@lfdr.de>; Wed, 29 Jan 2020 20:26:05 +0100 (CET)
+Received: by mail-yw1-xc3b.google.com with SMTP id 12sf793487ywu.3
+        for <lists+kasan-dev@lfdr.de>; Wed, 29 Jan 2020 11:26:05 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1580325964; cv=pass;
         d=google.com; s=arc-20160816;
-        b=EJmb2zbJyJk1fv8oH8grItUOjC9OO02X9ZSiTCrRO3qLlftwfIMSITwVDDaHQHZsWI
-         /iH11HI3MKH/KrFZKeSxvgFLW9JR4fpcurvi5gxqIOvfGr/Yj4cc5KOgElAkr/VAVMcq
-         gJcaBm9pzkI0X0gLzLK7XP45d0O/TcRTr2In8pWQlhW4MpGjacBhYMNpiV6Es+hwjJe9
-         R0YNUgzbqqJChrM2CD8RLOahZKyMplrAKPWT+6cCC4jZ6UD27XF0ezVD71iPqGHlvgHz
-         stoxFo92hUWbZ8q9nDlXNbD121RIZg9CV6Lo82G9ApcU12/q5y+MZMbIpWfG27mSvgCu
-         l63g==
+        b=uZ2LbjeRBWiuzNJ8WFJcBcBRXtjSwa5FzzvAAtDsIBvU9n4W53lQaVSN29uWhBndlE
+         dqoF936z4TUfEOgFQal1qKDbcLSiovg03W37hSzoxP8OAkz5cEwS0R57sXg+T0An+ugz
+         shKX43WTGC1jjzDJv8GAZCxioiCv8K2NhYy9ClJdFkrSJ/qhnc2Y1+oBWfwVXSLWsk1C
+         utWoHwzobM2e19Rp9qloleVVrp34Rjxy9Z6aT1UPDHxphjMBTn4Fl6IbKLxR3HlnRUTd
+         dYTc57R15EPQNYn8Id+UOJJa8IBsTj6+/tZ0LBicM48MylH2kKUIQz22eETbhCgzmlUU
+         OY5w==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:user-agent:in-reply-to
          :content-disposition:mime-version:references:reply-to:message-id
          :subject:cc:to:from:date:sender:dkim-signature;
-        bh=pZdZ37+ROK8g+QRDmlHouTNhofzz374VR/JCQeabUG0=;
-        b=kvvbEUlK18h4ogYewkkD0caUUYmpzxHZOL/JXTRSrLc1U5z73/kGEG7KfJJIYyVjJ+
-         7Nwrgcfup0FazdDbHi+U3qWxnbX1pEuQdUH6DUJzG/SZCIhtIDGYggJ0phBG3HLSKEbB
-         tU64hDu2kLQXkoMM49d2Dcq1KDS1qwaALWIhruBhGm6j/gBnoV6gBZ/Ob/RylI/MPEqJ
-         aI/rThPRM0SApc6BV/Z9qRgnHKmoS13DTtjEGKKNz+T89yw8YIvBtULJox2292LQ3X9P
-         lp6EoBjgTSVXXn05fseUeAERJgkuaOkYX5Kh3neqHw7fPXREFLnVfnOGZuCuS8iAEwX0
-         u2dg==
+        bh=+AQNN567Poq9m4SGFxFBW06MDE9V+SDOYw49djNv8hM=;
+        b=V4SNciKf+Qzqh5HT6yooVGfWmYjcuIkqc7dcY90BkMtNIf+LYl5Yo+84P9yVT7w3mm
+         BoblTYL/mHclnOAFUaIkAqqIbaoI3EOTTaoCcz7gJFn6GrCmonTizJ+6zFyESGahba1r
+         IwlergW1O58HGDBQABjYCm67pG+wCkEiM/v1G6zfHW4vMwsmbHinxhNspXIux2jNj9SH
+         9I/DPO3nVE/VWK8zhHgs2/1mPgylPl+hNOD+xKRe6wBTeGpdWOsj1+XZSNeXQ5AGfB2D
+         DbUVPeMC/jPLS05iKqhVjEejjibu/qbTJ6ocwYVxTP4gIfswtmJ6PmAVBIjFH6cW4S9U
+         gxZg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=default header.b=0zQWbA7V;
+       dkim=pass header.i=@kernel.org header.s=default header.b=jGfMBgUq;
        spf=pass (google.com: domain of srs0=gagg=3s=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=Gagg=3S=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
@@ -37,13 +37,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=pZdZ37+ROK8g+QRDmlHouTNhofzz374VR/JCQeabUG0=;
-        b=EtDjY2em5mbt+QDLR3XsckQqovWMfkM+RnSMhLnUKISJVs0EXzVjKJG9V7mbmdT8DG
-         nYWbk/cRLve5fP00PK2Ax0mnEgejelHZp5Qa9G/w8QZOmHZDVzOx3XN4fTwKCKlIxuIw
-         E8ZAV8RAF/b1FswYXGTZH5GYTCfVvL24SssKrmU3xot6HjixXIY/YaNc0sRjfg5rksrV
-         7PH/Z23CFjcA1gXB8fU7piC7JIlJO0NTEndVbQ3WbVsQ6ZaS+AqQaRXD3OIP+LJrcVFT
-         n94drqqOOhBCXfoAzd17fcLKAUa6JEme1Jw/+bSQvDeg8lDEbhhrpkTM+nxUYrgXXeqS
-         WxJQ==
+        bh=+AQNN567Poq9m4SGFxFBW06MDE9V+SDOYw49djNv8hM=;
+        b=b+TEJ4ia6Zzeg8irLzeRXbqVl8Y62r03pLH3XHBp0MY1KJ/haUPQV7qeTff9BvmDYs
+         hgfrXXDeengEHcA6EOEvD+c9Lvin0nXMKarL56VuCNuKNL0oBXPPub/QhC5YHayPyZnF
+         AFPEZDvhCCSllERccLHTm8WMR/gvN4kQrFu/ILOPuRkGEnbMhk1YAkEBLpf95pb9+6xR
+         AmYZrsUeaQETG3DXs1NPDhlv/Kpveg4yxkiFQM/ZxMWsBdDO+nNareEbGebavGy+3nbV
+         sxt4Czr2PuaGRjGuYPo0w7w97Cc8fV3BNjMXWIg6BDWpjtyvRBE+0xaF6xh+ZXZ57urb
+         ELKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
@@ -51,93 +51,87 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :user-agent:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
          :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=pZdZ37+ROK8g+QRDmlHouTNhofzz374VR/JCQeabUG0=;
-        b=sk7grpM6saHLfiYlwpVgtuXohc8VliW7WfbEDEuWPMfaXmP0lBd1/KeYg79tHnEEXr
-         AnQHQxzHY/4kEhp9NPDu42PZsURdhxd45ikMMSiT4XG2QFdO2AN7XoYMuOIvWIRBTWer
-         3RSXf2GbtF5GG9AVAcSwayP84BhvpEXtYWPbupYxHtgMhncM4hgtYyI9OZoHaorfur/i
-         lKVpCdcQNrm8oDco9qkxTAL5q9/0VgJcd3sARdg4tAphxc0FRRzcpdAF5jrjJsJ2m7Ai
-         l+DRWHeMdOSK+EZggI8hXEZqlFp3qe0oFI3v20Fn6CJT/LMrJyQ0D3+M6Xs1I3HrFRTY
-         luRA==
+        bh=+AQNN567Poq9m4SGFxFBW06MDE9V+SDOYw49djNv8hM=;
+        b=NqMlsTh7wnw6qc/Of9FmDlw2yP0F+P/mo6YOGythbr/kSRhtt5V3QCuark3W++ng8K
+         /m45ghZLJ8T1US3CDf1g8u/bDYBRFb0LPemmrqObE4/DCwjuw7k3dqhwQstfswjGA/WN
+         mM9haRs1W0vOsFP799Dy5xRmu5aHGd0uEdnsa/wM4THUF8HBP2YLOtKzaRAt/AubIkti
+         ieAbTTVBYLmYkG3TKJk4qznQSIcS0ow3ODxbAlNmd1pPP/pmTgvGCx6ryxHMZ+sB05jz
+         4RhvynEuCMIwzI7q/NvT/o2nq1cUpic5fhoLKAlJAQBxILe7opog0/eIPaIWLPuDcPt+
+         72Mg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAWlcYK/IvdxM27FbpAG4+DkT/gKvtBLYIGpWvpMULYeSC78BH5d
-	K7qRO4cSMwOaFbcm0KQkIZo=
-X-Google-Smtp-Source: APXvYqzQUzLMdJkf/QBmzpHDKOfvz1ZwAjZCquZr2dcorL3wUcTJ9oUGQzT2QYg6QM800rrni26QDg==
-X-Received: by 2002:a05:620a:1358:: with SMTP id c24mr1297634qkl.285.1580325229347;
-        Wed, 29 Jan 2020 11:13:49 -0800 (PST)
+X-Gm-Message-State: APjAAAVbTDk0/NIPRDT+oo8gioXJeDcVAykFaQWktHzORK6nn11ZTIBy
+	sugTcjgQQm0o1didt6PcgBU=
+X-Google-Smtp-Source: APXvYqxM9gbOmEdIL4EOm1+VQVsl3Ns55tiszcmAV/+jBpG56Dtbq5dJwGaonGpJve7s3Tson0Q2iQ==
+X-Received: by 2002:a25:2641:: with SMTP id m62mr872482ybm.454.1580325964563;
+        Wed, 29 Jan 2020 11:26:04 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a37:f507:: with SMTP id l7ls480254qkk.0.gmail; Wed, 29 Jan
- 2020 11:13:49 -0800 (PST)
-X-Received: by 2002:a37:a558:: with SMTP id o85mr1308918qke.435.1580325229047;
-        Wed, 29 Jan 2020 11:13:49 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1580325229; cv=none;
+Received: by 2002:a81:ad1b:: with SMTP id l27ls151970ywh.10.gmail; Wed, 29 Jan
+ 2020 11:26:04 -0800 (PST)
+X-Received: by 2002:a81:4b42:: with SMTP id y63mr359048ywa.502.1580325964188;
+        Wed, 29 Jan 2020 11:26:04 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1580325964; cv=none;
         d=google.com; s=arc-20160816;
-        b=GHFTYDTOcZzrCAuiFIN5Vlw2vK62YUmUjrjWowUuH9m8V6Mr4cpcHOUTw6NkVSfp8u
-         V9XHGBvh/5aDznxJY+IeYcfQuSEhqVGYuFd6l7bc7vK8RFuSXWvDqQdMQwXcgOwkNcf/
-         rgDlf33n50hMKY0a54jnO8n+QMzr7MI2GqqdbDST3PrUGTEBvU06WB33N4xAJ9GmKkW9
-         tHAcPzVaPfHFgd7XVy35hYkaLwp5CFzCjoHWNOEYoWzS+vlyLjAexz1tzdsfHmGZ3APs
-         LaG1AbxxmGFHDMEEKfNN0lO2DKuJw7PqTrjupqPb3Tmmct0SJcvUiBeMRrtfWOCY8dIn
-         V9oA==
+        b=Ecv0iuDEoL/29pwjZeYxkUZ+Ukco1eFrrhfSC64BC25gJ9zbAmEE+Gg2qUF+ipKkqC
+         zZnWgGZ2ClXMJQjljTeRDYbh19JcPOTNZralHZvcTEsfKpamizJilsrLX2x5Mw2B5AG5
+         WybkBjkrQiHa9lJSNGYwl/5J3V++wbRREvZoeCHuJoMQ2jf45qCvTEQ2WzQmgo294R9l
+         x2VfvgKk/A7kDl6JU9vkZy/S/M3FNsiPHAmy5MBxQYfpft/EP4LWkZ7gZ9DhHK0OfvE1
+         QMNI0ybu1nBjQupmJnP3OeGJgQfU9iYHPi1y9eNIBP83M/EBoHAOwiQiR7aEKB8JWYhi
+         zoGg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=user-agent:in-reply-to:content-disposition:mime-version:references
          :reply-to:message-id:subject:cc:to:from:date:dkim-signature;
-        bh=0eOPfy4DrkPraPiOe/HVjWqrk7rNFafSm7glsZ1rliQ=;
-        b=vnWOR50O8u84PUJvVBs0eJ1+EovM84TAhInZAQBFqvRcKJF3gyAuAOJ3AB8pStiscZ
-         QFh7dc/sPbW6nmBrSZpTOBpR4sqdjn3cQ/vW9C6LyZtiCGnVezsp5q7phW6yrmqOfoqP
-         H0NXLzsTIpfIgoNnkFNiWWBA4SgJ4Emx0spZyvF13rhN8afQH/K7SrscmJeb28K52j0s
-         c5QFmMqC2khl+eoYZKsmXz88F7J1FDvkLvBqLjfCoCGEJglA9lwoYkGI1wjCbt7Uudm3
-         gKKjtFd4qLRP7VSkvVo9ffoiSrUVJyFO7E3cfOZwXnk6Vo7OWMqn/uDNxeqZJdBuELV5
-         fi/Q==
+        bh=WtGEfepyy0LbV7lFOfxrrSzZDn1Nz2ZTUtAy6mD4oJ8=;
+        b=yhQGdT16QKfseVBt5duhbtoSNRuiohMrydYj10gt6R4zVSLHZwsOucpvKdcSE48F0s
+         IgW+zr6DmWeanqIkYKVfUNl3ShUjZlip3YnFWU+t3Rc27ZgWGkqAjhWuxZsinNbyQkBz
+         ecOu4uwYl0wOKjQj5P1OsNLN11sfl3S0jHef2cPwZp9N2InXGSCfngLUof0RyAqvLtpc
+         0Yrzd5knx3C0asneeHzuOBsE/37tam9OOMNXGWg1ddGscAJ1FQjlMd+FxJ/z/KjeNo7D
+         m4DUNl/ro6pwnTsxD5W9xK37hbkCWSmTiwIC5f/4VDJr76tuVqRBr9hUZgiFVvAR6OpZ
+         T/Kg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=default header.b=0zQWbA7V;
+       dkim=pass header.i=@kernel.org header.s=default header.b=jGfMBgUq;
        spf=pass (google.com: domain of srs0=gagg=3s=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=Gagg=3S=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id l18si155290qtb.4.2020.01.29.11.13.48
+        by gmr-mx.google.com with ESMTPS id p187si148270ywe.1.2020.01.29.11.26.04
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 29 Jan 2020 11:13:49 -0800 (PST)
+        Wed, 29 Jan 2020 11:26:04 -0800 (PST)
 Received-SPF: pass (google.com: domain of srs0=gagg=3s=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
 Received: from paulmck-ThinkPad-P72.home (unknown [199.201.64.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id C476B205F4;
-	Wed, 29 Jan 2020 19:13:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPSA id 2B80120661;
+	Wed, 29 Jan 2020 19:26:03 +0000 (UTC)
 Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
-	id 668C53521AEF; Wed, 29 Jan 2020 11:13:47 -0800 (PST)
-Date: Wed, 29 Jan 2020 11:13:47 -0800
+	id C3B9A3521AEF; Wed, 29 Jan 2020 11:26:02 -0800 (PST)
+Date: Wed, 29 Jan 2020 11:26:02 -0800
 From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Dmitry Vyukov <dvyukov@google.com>
-Cc: Marco Elver <elver@google.com>,
-	Andrey Konovalov <andreyknvl@google.com>,
-	Alexander Potapenko <glider@google.com>,
-	kasan-dev <kasan-dev@googlegroups.com>,
-	LKML <linux-kernel@vger.kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>, Will Deacon <will@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Boqun Feng <boqun.feng@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
-	Al Viro <viro@zeniv.linux.org.uk>, Daniel Axtens <dja@axtens.net>,
-	Christophe Leroy <christophe.leroy@c-s.fr>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ingo Molnar <mingo@kernel.org>,
-	Christian Brauner <christian.brauner@ubuntu.com>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Kees Cook <keescook@chromium.org>, cyphar@cyphar.com,
-	linux-arch <linux-arch@vger.kernel.org>
-Subject: Re: [PATCH v2 1/5] include/linux: Add instrumented.h infrastructure
-Message-ID: <20200129191347.GA21972@paulmck-ThinkPad-P72>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Marco Elver <elver@google.com>, Qian Cai <cai@lca.pw>,
+	Will Deacon <will@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	kasan-dev <kasan-dev@googlegroups.com>
+Subject: Re: [PATCH] locking/osq_lock: fix a data race in osq_wait_next
+Message-ID: <20200129192602.GA2935@paulmck-ThinkPad-P72>
 Reply-To: paulmck@kernel.org
-References: <20200121160512.70887-1-elver@google.com>
- <CACT4Y+aRk5=7UoPb9zmDm5XL9CcJDv9YnzndjXYtt+3FKd8maw@mail.gmail.com>
+References: <20200122165938.GA16974@willie-the-truck>
+ <A5114711-B8DE-48DA-AFD0-62128AC08270@lca.pw>
+ <20200122223851.GA45602@google.com>
+ <A90E2B85-77CB-4743-AEC3-90D7836C4D47@lca.pw>
+ <20200123093905.GU14914@hirez.programming.kicks-ass.net>
+ <E722E6E0-26CB-440F-98D7-D182B57D1F43@lca.pw>
+ <CANpmjNNo6yW-y-Af7JgvWi3t==+=02hE4-pFU4OiH8yvbT3Byg@mail.gmail.com>
+ <20200128165655.GM14914@hirez.programming.kicks-ass.net>
+ <20200129002253.GT2935@paulmck-ThinkPad-P72>
+ <20200129184935.GU14879@hirez.programming.kicks-ass.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <CACT4Y+aRk5=7UoPb9zmDm5XL9CcJDv9YnzndjXYtt+3FKd8maw@mail.gmail.com>
+In-Reply-To: <20200129184935.GU14879@hirez.programming.kicks-ass.net>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 X-Original-Sender: paulmck@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=default header.b=0zQWbA7V;       spf=pass
+ header.i=@kernel.org header.s=default header.b=jGfMBgUq;       spf=pass
  (google.com: domain of srs0=gagg=3s=paulmck-thinkpad-p72.home=paulmck@kernel.org
  designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=Gagg=3S=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
@@ -153,174 +147,37 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, Jan 24, 2020 at 12:22:56PM +0100, Dmitry Vyukov wrote:
-> On Tue, Jan 21, 2020 at 5:05 PM 'Marco Elver' via kasan-dev
-> <kasan-dev@googlegroups.com> wrote:
-> >
-> > This adds instrumented.h, which provides generic wrappers for memory
-> > access instrumentation that the compiler cannot emit for various
-> > sanitizers. Currently this unifies KASAN and KCSAN instrumentation. In
-> > future this will also include KMSAN instrumentation.
-> >
-> > Note that, copy_{to,from}_user should use special instrumentation, since
-> > we should be able to instrument both source and destination memory
-> > accesses if both are kernel memory.
-> >
-> > The current patch only instruments the memory access where the address
-> > is always in kernel space, however, both may in fact be kernel addresses
-> > when a compat syscall passes an argument allocated in the kernel to a
-> > real syscall. In a future change, both KASAN and KCSAN should check both
-> > addresses in such cases, as well as KMSAN will make use of both
-> > addresses. [It made more sense to provide the completed function
-> > signature, rather than updating it and changing all locations again at a
-> > later time.]
+On Wed, Jan 29, 2020 at 07:49:35PM +0100, Peter Zijlstra wrote:
+> On Tue, Jan 28, 2020 at 04:22:53PM -0800, Paul E. McKenney wrote:
+> > On Tue, Jan 28, 2020 at 05:56:55PM +0100, Peter Zijlstra wrote:
+> > > On Tue, Jan 28, 2020 at 12:46:26PM +0100, Marco Elver wrote:
+> > > 
+> > > > > Marco, any thought on improving KCSAN for this to reduce the false
+> > > > > positives?
+> > > > 
+> > > > Define 'false positive'.
+> > > 
+> > > I'll use it where the code as written is correct while the tool
+> > > complains about it.
+> > 
+> > I could be wrong, but I would guess that Marco is looking for something
+> > a little less subjective and a little more specific.  ;-)
 > 
-> Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
+> How is that either? If any valid translation by a compile results in
+> correct functionality, yet the tool complains, then surely we can speak
+> of a objective fact.
 
-I have applied this and the other four with Dmitry's Reviewed-by.
+Marco covered my concern in his point about the need to change the
+compiler.
 
-Thank you all!
+In any case, agreed, if a read does nothing but feed into the old/new
+values for a CAS, the only thing a reasonable compiler (as opposed to
+a just-barely-meets-the-standard demonic compiler) can do to you is to
+decrease the CAS success rate.
 
 							Thanx, Paul
-
-> > Suggested-by: Arnd Bergmann <arnd@arndb.de>
-> > Signed-off-by: Marco Elver <elver@google.com>
-> > Acked-by: Alexander Potapenko <glider@google.com>
-> > ---
-> > v2:
-> > * Simplify header, since we currently do not need pre/post user-copy
-> >   distinction.
-> > * Make instrument_copy_{to,from}_user function arguments match
-> >   copy_{to,from}_user and update rationale in commit message.
-> > ---
-> >  include/linux/instrumented.h | 109 +++++++++++++++++++++++++++++++++++
-> >  1 file changed, 109 insertions(+)
-> >  create mode 100644 include/linux/instrumented.h
-> >
-> > diff --git a/include/linux/instrumented.h b/include/linux/instrumented.h
-> > new file mode 100644
-> > index 000000000000..43e6ea591975
-> > --- /dev/null
-> > +++ b/include/linux/instrumented.h
-> > @@ -0,0 +1,109 @@
-> > +/* SPDX-License-Identifier: GPL-2.0 */
-> > +
-> > +/*
-> > + * This header provides generic wrappers for memory access instrumentation that
-> > + * the compiler cannot emit for: KASAN, KCSAN.
-> > + */
-> > +#ifndef _LINUX_INSTRUMENTED_H
-> > +#define _LINUX_INSTRUMENTED_H
-> > +
-> > +#include <linux/compiler.h>
-> > +#include <linux/kasan-checks.h>
-> > +#include <linux/kcsan-checks.h>
-> > +#include <linux/types.h>
-> > +
-> > +/**
-> > + * instrument_read - instrument regular read access
-> > + *
-> > + * Instrument a regular read access. The instrumentation should be inserted
-> > + * before the actual read happens.
-> > + *
-> > + * @ptr address of access
-> > + * @size size of access
-> > + */
-> > +static __always_inline void instrument_read(const volatile void *v, size_t size)
-> > +{
-> > +       kasan_check_read(v, size);
-> > +       kcsan_check_read(v, size);
-> > +}
-> > +
-> > +/**
-> > + * instrument_write - instrument regular write access
-> > + *
-> > + * Instrument a regular write access. The instrumentation should be inserted
-> > + * before the actual write happens.
-> > + *
-> > + * @ptr address of access
-> > + * @size size of access
-> > + */
-> > +static __always_inline void instrument_write(const volatile void *v, size_t size)
-> > +{
-> > +       kasan_check_write(v, size);
-> > +       kcsan_check_write(v, size);
-> > +}
-> > +
-> > +/**
-> > + * instrument_atomic_read - instrument atomic read access
-> > + *
-> > + * Instrument an atomic read access. The instrumentation should be inserted
-> > + * before the actual read happens.
-> > + *
-> > + * @ptr address of access
-> > + * @size size of access
-> > + */
-> > +static __always_inline void instrument_atomic_read(const volatile void *v, size_t size)
-> > +{
-> > +       kasan_check_read(v, size);
-> > +       kcsan_check_atomic_read(v, size);
-> > +}
-> > +
-> > +/**
-> > + * instrument_atomic_write - instrument atomic write access
-> > + *
-> > + * Instrument an atomic write access. The instrumentation should be inserted
-> > + * before the actual write happens.
-> > + *
-> > + * @ptr address of access
-> > + * @size size of access
-> > + */
-> > +static __always_inline void instrument_atomic_write(const volatile void *v, size_t size)
-> > +{
-> > +       kasan_check_write(v, size);
-> > +       kcsan_check_atomic_write(v, size);
-> > +}
-> > +
-> > +/**
-> > + * instrument_copy_to_user - instrument reads of copy_to_user
-> > + *
-> > + * Instrument reads from kernel memory, that are due to copy_to_user (and
-> > + * variants). The instrumentation must be inserted before the accesses.
-> > + *
-> > + * @to destination address
-> > + * @from source address
-> > + * @n number of bytes to copy
-> > + */
-> > +static __always_inline void
-> > +instrument_copy_to_user(void __user *to, const void *from, unsigned long n)
-> > +{
-> > +       kasan_check_read(from, n);
-> > +       kcsan_check_read(from, n);
-> > +}
-> > +
-> > +/**
-> > + * instrument_copy_from_user - instrument writes of copy_from_user
-> > + *
-> > + * Instrument writes to kernel memory, that are due to copy_from_user (and
-> > + * variants). The instrumentation should be inserted before the accesses.
-> > + *
-> > + * @to destination address
-> > + * @from source address
-> > + * @n number of bytes to copy
-> > + */
-> > +static __always_inline void
-> > +instrument_copy_from_user(const void *to, const void __user *from, unsigned long n)
-> > +{
-> > +       kasan_check_write(to, n);
-> > +       kcsan_check_write(to, n);
-> > +}
-> > +
-> > +#endif /* _LINUX_INSTRUMENTED_H */
-> > --
-> > 2.25.0.341.g760bfbb309-goog
-> >
-> > --
-> > You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-> > To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-> > To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200121160512.70887-1-elver%40google.com.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200129191347.GA21972%40paulmck-ThinkPad-P72.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200129192602.GA2935%40paulmck-ThinkPad-P72.
