@@ -1,47 +1,47 @@
-Return-Path: <kasan-dev+bncBCV5TUXXRUIBBJVDY7YQKGQEQ5X2EJA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCV5TUXXRUIBBR5HY7YQKGQEOGPGCXA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x438.google.com (mail-pf1-x438.google.com [IPv6:2607:f8b0:4864:20::438])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAFFE14D09A
-	for <lists+kasan-dev@lfdr.de>; Wed, 29 Jan 2020 19:40:39 +0100 (CET)
-Received: by mail-pf1-x438.google.com with SMTP id 63sf123277pfw.22
-        for <lists+kasan-dev@lfdr.de>; Wed, 29 Jan 2020 10:40:39 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1580323238; cv=pass;
+Received: from mail-vs1-xe40.google.com (mail-vs1-xe40.google.com [IPv6:2607:f8b0:4864:20::e40])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA3A414D0B2
+	for <lists+kasan-dev@lfdr.de>; Wed, 29 Jan 2020 19:49:44 +0100 (CET)
+Received: by mail-vs1-xe40.google.com with SMTP id o185sf220778vsc.5
+        for <lists+kasan-dev@lfdr.de>; Wed, 29 Jan 2020 10:49:44 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1580323783; cv=pass;
         d=google.com; s=arc-20160816;
-        b=sPPXb2WPWjsGJeOVImHjL+blGeHhWhgICdfmvzJMONSRkqOQHAjFu5tQi5wbtW7dHJ
-         l7OtFJWHpPP0xG8yrsCd2Wvfrjdi+zhdDliQX9g0mib50VkXbGRvsVydEqidMoT0St6J
-         mjMMPRzeUQUsLDGNAZAb47fblSgmhaE2OSxS5t7rP5IM7FLoo/UeYWMweWQ7xR14ISkD
-         uBjaZOM6hIGrwu1OVTuqhC6dXSWFPFwWDjwRAAHg9TVL+nh4qjdtk7oDrMknZZBDXqEG
-         XQiw3Z+NaBR6qhtU8UK/bKIzHU+5MnKVkaUGfHwldSNRECG01H5MLlyx704YH+kDWm49
-         sNzA==
+        b=OTEFfUDAC3oewnS33LsVAzv+LcqZJBrNWzFsdlnTKlGX/7JaghNbWy5adz387V6sld
+         ZeOMibgfnkL1WipKVdoJ79Jn7eolwO84kDXTN1pKA2Cu1FdXOKSWY6bNqW7VdxeXn4Sa
+         XblFibv3TdkQfQjt8w6ZsvfyqGHhe7+FI5H5y51Mb6k1KVQRtJGZTuEUaK8/X9CqIcGH
+         QOd0lwkqXfaK9lmwj8tRVHcB4ptWKtFKUrLyAwNOGfYUPKYxDuHfrik2kg6CQQTX9wOW
+         a9lvZOwJ0UqcnW3lZ7/D7KJ7G8W+VYis64dDKU/Qo5iSvf1m8havyhN6WiavT7CjmFxR
+         KHKw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:user-agent:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:sender:dkim-signature;
-        bh=0tbf7x+f3NieaUhxRILlNm0zgthHJXEXsPA5zErbmq4=;
-        b=GquqvS2c3tnso+X+CS1G5yX96Xo5YITlawc04B/avGWcr5M84b2KH2M1Tjn7D5Ap2z
-         v1sb70WFiRoRmpQeMi8M5KDjKTuspL0lZYGWCE5zLnnlDxNKDdKXossP5Ye1a3P7PrOD
-         CoPyBbbNrpr3uVvlGXjdfYYqSUQKAylbnSyy647cJ7TXp3YDdEbi5lHjVvTKMY2kVgmV
-         0gF6CMknmwMAyQ2I8BiF3DLAkDXwonrj5LDKcgUNRQUbCIB10xHrjjREyu6dR/IO+pVe
-         xfoZJiJU0D7g2GSEk/ZpMUubqAeMNHmrW2i2nTO5QU1Zgmb3fNaJYI3hWGdyRFPTGXKX
-         APtA==
+        bh=GjzW+7ZK8C4JAmZ9fygE4rsVkRLao/4b93l1UkzKCXQ=;
+        b=d2eNykiCS1XjyBCh00Yp71e/9akV/seBNVbhf6gKeoU0eDcAunriI4b2tSqTKLCowr
+         HDh3/zOSbNDUmILXjTnViemOJARojJQgrCyKcROfiniLZMxa6C8FdLKrkAlQuBUuGqtZ
+         iEb95PB56lTPXaQD8cT3eVzzpffiUiK61L9MPIOFbWv90VYUElMTRAbkckeVkfjumE3k
+         UuS4cTrqSE40DPqipsqzap6POuA6Ild0hVeg3SID4wEnUxf7q+7YtAKs5zrAoH51L+lJ
+         NmhU888lfzN3TLqb/nZJOku/NYarNq97fr8OPYnumuIylmgAL21aEtO5wKkTLdj84TXl
+         Yrlg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=merlin.20170209 header.b=PuB4FG0m;
-       spf=temperror (google.com: error in processing during lookup of peterz@infradead.org: DNS error) smtp.mailfrom=peterz@infradead.org
+       dkim=pass header.i=@infradead.org header.s=bombadil.20170209 header.b="sr/jic7X";
+       spf=pass (google.com: best guess record for domain of peterz@infradead.org designates 2607:7c80:54:e::133 as permitted sender) smtp.mailfrom=peterz@infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
         h=sender:date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=0tbf7x+f3NieaUhxRILlNm0zgthHJXEXsPA5zErbmq4=;
-        b=P+ZT+EfXZi0k0tb+PdZnyQxMW2fLQXWcC5qEFcqzcWcyLPiafOc8AVnU+cohIkdyJh
-         OxUtAaVkZb8r4S2I9hs8XKlMiB3EpybofxdCddHKWlcu1V7xlT52ZTp1ZqDrzxFmAmzA
-         P12Ow9EhkbIecd4yOjnJxHnJ/uKLCRallaWB/ZDowIcoHUs5DWr5wYsSp0XzD1k3cIgr
-         uK4jUHBKjACGbDQ7QIY7I5No8N3FHUO6MNe0Ea1xhmiWRYGVxPV9u8xyf5KC1lVfB1IU
-         ryg7JMgord24wRvTCvawmmPNTjfYBQ8OTZvSJx/A3IFIWp6VpkSzSWdYNvMYrMpR+qhB
-         QMFw==
+        bh=GjzW+7ZK8C4JAmZ9fygE4rsVkRLao/4b93l1UkzKCXQ=;
+        b=NjHMi0xcYFPBNo0BPmMCI6Bz4RQwr8PXV4LsSQruisiqXYlaJXZMDnj7NiIs/7C9Zc
+         vteN88+l0GZJgnER+JXeX4turvNjzhgnDv+pv+zEdYgclh2siIBOyOxT1+xwUDv+Sgyr
+         Jj4wmkVLjB/h3EetombjZstise34P9FZMvVUB2vV6lTrhzUtubKr4/oJSeVw9s957OkO
+         H1m/4PiIGpX2+07ZrVlDLESYbmrCYAlRWcSjDZPIT27h1LevnzPyGFZZOanbFyVr93Wy
+         LcEA9zR6YlJoNZ1QeY/GlzeEGG5aq4JkniqWIcJShYefWd+b+sTH6E1/D4GPR4faIHVf
+         5Gsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
@@ -49,70 +49,70 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=0tbf7x+f3NieaUhxRILlNm0zgthHJXEXsPA5zErbmq4=;
-        b=O4KCK8WwTKYxywSQYskpQmP6pjkZFxy6PKFtCPebE3s5dyx4t6wCLDoDkKiM8lUDWm
-         L2u+uIhI5gcKM1LpTypfqE+P+iXHS456EAut+PgSFlR2kl8UDNCuJQgoIHsYDmJTK1Xo
-         nqRYvkNqkjoTz4pOPFLBd1tljLohi6xP2sVRYei0N2P8mUMnttcGZP6t2x913wFFx374
-         BaY1DI4cwxPlbiJizkOCI5zfcaaxLzhD/H2Z/IVZP2Dcs+zTukWOmw8fu/TkEfq/WFdx
-         cOSqEtx2qOHr81y3DmTDnMXspXGWhDwv7Mt0xLSuE0b0wR5ncilBvwz2h9Lmjmv0SBBP
-         aMyw==
+        bh=GjzW+7ZK8C4JAmZ9fygE4rsVkRLao/4b93l1UkzKCXQ=;
+        b=HYa6wrPVXcs84DtLeba1DBfkjrOiNJgyQj5h7R/VHNtL1RyUqDCSiXagYeC+GZ6/R8
+         5/31oLBJ5yiiPK5MjFdQug0FayVrdpznL3JbB3sc8jiC9i9xMw/FpmWimrP53fhJuu7x
+         lR5n2zElEOx69fVW88vtfzQUa6xtGxd/WNZiqtvRkBLN0TRYd21WRGxI2Vyu5cGebwQi
+         fLXnDB3p25yy7CUHBjQfMv3Iw3lvh68qBICM2cUyhqwacMN74Cc0pjd4tSBEdW52CUrZ
+         4XlFPGQiamcKFkteie9txuOml0wuoysE8xH3GOTOC12d3mMrc2D0gBn4GTYf3k7YSLFA
+         mHpA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAWlQBD+VJFsl8uICiU+qnxzX0PJGj5Br16nKiYzjiNWnaxfqU1j
-	nbW+WKR40a7TEDanVlpywf4=
-X-Google-Smtp-Source: APXvYqwjDKYx/oNZROZSR8kJx5bgoEq/Jasm4eyUnfuJBaPBG8XVdrMSnV3P/KKAHy3GVu8A+fsjlg==
-X-Received: by 2002:aa7:848c:: with SMTP id u12mr931411pfn.12.1580323238234;
-        Wed, 29 Jan 2020 10:40:38 -0800 (PST)
+X-Gm-Message-State: APjAAAXiZjn9MFHrIGLcX7fywaQEv6jqDOS9dCTzoiadae2UwiW3aOgp
+	Zz81X3My7ILAJiyA+E6qCJg=
+X-Google-Smtp-Source: APXvYqyFpHIqMjt9JQ3i24cxHc1ZqejFjtQTcYakGJq+txpTyIBVMlmEgi9Uybw4Zc46t99sSYP/mA==
+X-Received: by 2002:a67:31d8:: with SMTP id x207mr695782vsx.192.1580323783568;
+        Wed, 29 Jan 2020 10:49:43 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a65:4608:: with SMTP id v8ls88365pgq.8.gmail; Wed, 29 Jan
- 2020 10:40:37 -0800 (PST)
-X-Received: by 2002:a63:d54f:: with SMTP id v15mr503395pgi.64.1580323237822;
-        Wed, 29 Jan 2020 10:40:37 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1580323237; cv=none;
+Received: by 2002:ab0:20a9:: with SMTP id y9ls40454ual.9.gmail; Wed, 29 Jan
+ 2020 10:49:43 -0800 (PST)
+X-Received: by 2002:a9f:21aa:: with SMTP id 39mr156093uac.138.1580323783219;
+        Wed, 29 Jan 2020 10:49:43 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1580323783; cv=none;
         d=google.com; s=arc-20160816;
-        b=ElZ798YTM3VDPm2c16InuEvo8v/+72Rb0rREc3ftdfoReC7+FHBsfeTp3CvWTZoim9
-         dVj2lYOzvba9OouR9XuBOrJKZ44S0uck1FesfZR6yJPBq/4wVHn7WlLR957HZwkVm6dq
-         gEK0RSSbOuAkC2rOqZkuMla7BdHYaNOxU41fD1X1S/QSkt4KRsUEXmt8amtoOte643NL
-         hzBY73Za/FQevS/Dnz0DZbO8SN0vujrnwFxhyQiRkbCdlLEp256HjmrJ0PDOyxuZMUBl
-         OvS9mOlZx8wpaQ5gZpPJIyHOyyyPc/upK0iSXEfv6Sodj6dJ9DknZZxNI2zx7knWpysY
-         Esqg==
+        b=gz4wWKEDppbwZ7zAAybXhApG9hFRn2ajdq7ymNpuZ5wZ5xuH6ZWcbd+KmnmYY4TRPe
+         8S6AveMCEeWytRXn/PocAdGoyVVACXK2NS/reGqy+62dcuZa7PqTevhjzxYPnsLFy99t
+         Vlt8ODm+dVU38GnFKizkCmNRGxu7tF+jIIRyzO2+0QqZl6OKM3h4dIMtNJNjTU4ozEfE
+         OGuIXhzBtkMieHJSzz9R3tKaIwM4R72AMBoKzbgDhUnfe2voxLZQBrU+eL/Xtv4EuWUO
+         wrbzwp4JxHH2i5BbscHXaUT6s6U0ERgvpcgUGhJ9GcU8dC6mfF21PhxJo3+KKdJzDz/8
+         /Eyw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=user-agent:in-reply-to:content-disposition:mime-version:references
          :message-id:subject:cc:to:from:date:dkim-signature;
-        bh=GQmHDll3iwjJrh7vaYQic2Eyspa/xass3sVAm/tVDXo=;
-        b=dorPMqag0JIN/ACDQXfOm0kb9Y3DSBpWZ5y4VZVTlWdctXAyACWQ7URFej6vJm3S9u
-         IeEbWeAo8dJzQv3Kuzhppj4h9pNjIFTJz3wULx7w+WYzHqit7fiQ7Se6Tdfcf5fFm/aQ
-         1CSli4gChSq7xpgYHu4RVSAMAmFHsA9uVlcqmphpRfv3kuhosi7n8xgr2qQKuIIcvQdj
-         G38n/l+DueVS+oMCrWVeNFa6Bt9eRJbzj1bbgPheSUv65ov7mUoBtykrVdwTiZ4UKxNa
-         qPkMMuo7r6M11xQfVIDIPEdmKa3Ax9FWQ47R3umlBmrdNvvU4+DAHUKPnbankf0y2bMj
-         IqPw==
+        bh=KUyQBoXhEovxNfF4eKqrkEbw0GAhd/ZaP73j2VawXbg=;
+        b=b09MAwVVWee7l7dMTLWEc81HGUwo9lG9v8nzkdxTWXv+ERQEuET7EzCXlLOxxwINCa
+         dz9whvhWmWAIn26mrvXWLkhlNsolMxt5Y6ZEu1O6gUKBvoy5hosgIRh43cgNCXwbSe2X
+         iYTBAVY6oG3nh1GxqrE37ROrocVk5+5pxb/E8PGTHRDemfnmw8hFRdJjcTOra7VYBoZj
+         w5A6dUiZdu4VxoDC1QWJXIcalf18MvJFZ07zvfO9hVqlKwt9DgoJWfp5MAQ+3qaCc23n
+         dRt8EtKi+RzSFLxm0w+9hE+q6oWgz5TxF6/visotQ1VZAFfamTkwXl3UtnwBp79KfoK1
+         8hNQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=merlin.20170209 header.b=PuB4FG0m;
-       spf=temperror (google.com: error in processing during lookup of peterz@infradead.org: DNS error) smtp.mailfrom=peterz@infradead.org
-Received: from merlin.infradead.org ([2001:8b0:10b:1231::1])
-        by gmr-mx.google.com with ESMTPS id y13si141319plp.0.2020.01.29.10.40.35
+       dkim=pass header.i=@infradead.org header.s=bombadil.20170209 header.b="sr/jic7X";
+       spf=pass (google.com: best guess record for domain of peterz@infradead.org designates 2607:7c80:54:e::133 as permitted sender) smtp.mailfrom=peterz@infradead.org
+Received: from bombadil.infradead.org (bombadil.infradead.org. [2607:7c80:54:e::133])
+        by gmr-mx.google.com with ESMTPS id o19si174680vka.4.2020.01.29.10.49.43
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Jan 2020 10:40:35 -0800 (PST)
-Received-SPF: temperror (google.com: error in processing during lookup of peterz@infradead.org: DNS error) client-ip=2001:8b0:10b:1231::1;
+        Wed, 29 Jan 2020 10:49:43 -0800 (PST)
+Received-SPF: pass (google.com: best guess record for domain of peterz@infradead.org designates 2607:7c80:54:e::133 as permitted sender) client-ip=2607:7c80:54:e::133;
 Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-	by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iwsGJ-00064A-0j; Wed, 29 Jan 2020 18:40:27 +0000
+	by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+	id 1iwsPB-00028n-UZ; Wed, 29 Jan 2020 18:49:40 +0000
 Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(Client did not present a certificate)
-	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 3626F300DD5;
-	Wed, 29 Jan 2020 19:38:41 +0100 (CET)
+	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 178F33035D4;
+	Wed, 29 Jan 2020 19:47:53 +0100 (CET)
 Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 245202B7334F2; Wed, 29 Jan 2020 19:40:24 +0100 (CET)
-Date: Wed, 29 Jan 2020 19:40:24 +0100
+	id F082D2B7A8620; Wed, 29 Jan 2020 19:49:35 +0100 (CET)
+Date: Wed, 29 Jan 2020 19:49:35 +0100
 From: Peter Zijlstra <peterz@infradead.org>
-To: Marco Elver <elver@google.com>
-Cc: "Paul E. McKenney" <paulmck@kernel.org>, Qian Cai <cai@lca.pw>,
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: Marco Elver <elver@google.com>, Qian Cai <cai@lca.pw>,
 	Will Deacon <will@kernel.org>, Ingo Molnar <mingo@redhat.com>,
 	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
 	kasan-dev <kasan-dev@googlegroups.com>
 Subject: Re: [PATCH] locking/osq_lock: fix a data race in osq_wait_next
-Message-ID: <20200129184024.GT14879@hirez.programming.kicks-ass.net>
+Message-ID: <20200129184935.GU14879@hirez.programming.kicks-ass.net>
 References: <20200122165938.GA16974@willie-the-truck>
  <A5114711-B8DE-48DA-AFD0-62128AC08270@lca.pw>
  <20200122223851.GA45602@google.com>
@@ -122,17 +122,16 @@ References: <20200122165938.GA16974@willie-the-truck>
  <CANpmjNNo6yW-y-Af7JgvWi3t==+=02hE4-pFU4OiH8yvbT3Byg@mail.gmail.com>
  <20200128165655.GM14914@hirez.programming.kicks-ass.net>
  <20200129002253.GT2935@paulmck-ThinkPad-P72>
- <CANpmjNN8J1oWtLPHTgCwbbtTuU_Js-8HD=cozW5cYkm8h-GTBg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <CANpmjNN8J1oWtLPHTgCwbbtTuU_Js-8HD=cozW5cYkm8h-GTBg@mail.gmail.com>
+In-Reply-To: <20200129002253.GT2935@paulmck-ThinkPad-P72>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-Original-Sender: peterz@infradead.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@infradead.org header.s=merlin.20170209 header.b=PuB4FG0m;
-       spf=temperror (google.com: error in processing during lookup of
- peterz@infradead.org: DNS error) smtp.mailfrom=peterz@infradead.org
+ header.i=@infradead.org header.s=bombadil.20170209 header.b="sr/jic7X";
+       spf=pass (google.com: best guess record for domain of
+ peterz@infradead.org designates 2607:7c80:54:e::133 as permitted sender) smtp.mailfrom=peterz@infradead.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -145,50 +144,26 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Jan 29, 2020 at 04:29:43PM +0100, Marco Elver wrote:
-
-> On Tue, 28 Jan 2020 at 17:52, Peter Zijlstra <peterz@infradead.org> wrote:
-> > I'm claiming that in the first case, the only thing that's ever done
-> > with a racy load is comparing against 0, there is no possible bad
-> > outcome ever. While obviously if you let the load escape, or do anything
-> > other than compare against 0, there is.
+On Tue, Jan 28, 2020 at 04:22:53PM -0800, Paul E. McKenney wrote:
+> On Tue, Jan 28, 2020 at 05:56:55PM +0100, Peter Zijlstra wrote:
+> > On Tue, Jan 28, 2020 at 12:46:26PM +0100, Marco Elver wrote:
+> > 
+> > > > Marco, any thought on improving KCSAN for this to reduce the false
+> > > > positives?
+> > > 
+> > > Define 'false positive'.
+> > 
+> > I'll use it where the code as written is correct while the tool
+> > complains about it.
 > 
-> It might sound like a simple rule, but implementing this is anything
-> but simple: This would require changing the compiler,
+> I could be wrong, but I would guess that Marco is looking for something
+> a little less subjective and a little more specific.  ;-)
 
-Right.
-
-> which we said we'd like to avoid as it introduces new problems.
-
-Ah, I missed that brief.
-
-> This particular rule relies on semantic analysis that is beyond what
-> the TSAN instrumentation currently supports. Right now we support GCC
-> and Clang; changing the compiler probably means we'd end up with only
-> one (probably Clang), and many more years before the change has
-> propagated to the majority of used compiler versions. It'd be good if
-> we can do this purely as a change in the kernel's codebase.
-
-*sigh*, I didn't know there was such a resistance to change the tooling.
-That seems very unfortunate :-/
-
-> Keeping the bigger picture in mind, how frequent is this case, and
-> what are we really trying to accomplish?
-
-It's trying to avoid the RmW pulling the line in exclusive/modified
-state in a loop. The basic C-CAS pattern if you will.
-
-> Is it only to avoid a READ_ONCE? Why is the READ_ONCE bad here? If
-> there is a racing access, why not be explicit about it?
-
-It's probably not terrible to put a READ_ONCE() there; we just need to
-make sure the compiler doesn't do something stupid (it is known to do
-stupid when 'volatile' is present).
-
-But the fact remains that it is entirely superfluous, there is no
-possible way the compiler can wreck this.
+How is that either? If any valid translation by a compile results in
+correct functionality, yet the tool complains, then surely we can speak
+of a objective fact.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200129184024.GT14879%40hirez.programming.kicks-ass.net.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200129184935.GU14879%40hirez.programming.kicks-ass.net.
