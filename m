@@ -1,119 +1,130 @@
-Return-Path: <kasan-dev+bncBCD3NZ4T2IKRB2HD3LYQKGQEHMIGHAY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCXLBLOA7IGBBU7R4DYQKGQEI36XIFQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-vk1-xa37.google.com (mail-vk1-xa37.google.com [IPv6:2607:f8b0:4864:20::a37])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8684B14FCDC
-	for <lists+kasan-dev@lfdr.de>; Sun,  2 Feb 2020 12:26:33 +0100 (CET)
-Received: by mail-vk1-xa37.google.com with SMTP id t126sf3862612vkg.6
-        for <lists+kasan-dev@lfdr.de>; Sun, 02 Feb 2020 03:26:33 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1580642792; cv=pass;
+Received: from mail-lj1-x238.google.com (mail-lj1-x238.google.com [IPv6:2a00:1450:4864:20::238])
+	by mail.lfdr.de (Postfix) with ESMTPS id 14E8A150968
+	for <lists+kasan-dev@lfdr.de>; Mon,  3 Feb 2020 16:14:28 +0100 (CET)
+Received: by mail-lj1-x238.google.com with SMTP id t11sf4083429ljo.13
+        for <lists+kasan-dev@lfdr.de>; Mon, 03 Feb 2020 07:14:28 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1580742867; cv=pass;
         d=google.com; s=arc-20160816;
-        b=qPNIjB1OU0crzh2Z4Yhm7rDBh7YqlYgVRKwPPMq+AnZNIAR1m7l8kEsjsdG7QzC9SV
-         C7U0TwOtDzYB+SfQgJlrcd75N0AinjDavVbmEl8D/5R9V3zeZ6qps1dGUdfvJrZxnLYM
-         TxNTlqo+U9bqvwKPbbQymuDAjOXzvOorSFdEL24VX0zLURR/DeG9sh0UIcWUCMAxuuPz
-         rfO6ZXn0yzyn6LopwGSXl5R0NRoWgyTmnWhaFrvGtnMf3xMRYM1ZP/nf44DU+Y57WHLK
-         WfiM+Z9sVFwJsiPnK0xY9VUMr2/e5dJTgGzkssdbg5MdXQ4VWVj+gxRkMkA6zQJ/6aCb
-         PaTQ==
+        b=zIMxBi5mpqKb5dnojWVbl6ZVkJVZ+sJQgOUolzabq+Vle4oP1sK3Eid3ljwH4+MUIZ
+         UEOko+yYuYwd4CUyG27hANvPVysr0k9OKb+IENrBUK+jQZcWuKr6gkR5l9RF1OunDc4M
+         4CrO172SydyNBczwE50NQ92FHMIYQCQPe1KlEbrcbpuqi6ACsZkr+xiPZAAmmjqV9ESq
+         shW4QnqgQSdqyGX7JPqnXu/A0ixgR4VF53Qy2qz7vrWR8gAvnvgUKVQO0B5HaY6PDMTt
+         zKAv80uLcnEMOCxxbL9RDnGKh07NhR+3u6g915hzmM+uq8H/ouuSPLqfJbZU3VC6Uht7
+         2X5g==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:to:in-reply-to:cc:references
-         :message-id:date:subject:mime-version:from:sender:dkim-signature;
-        bh=wl+YjVXdVgnMTcqJG/EDhUXIOWE1QyX1Bs8NKk4vZcs=;
-        b=esDWJRi/DrSZnopwYW8dq43H8x87FxEL34LidNGjOMw35v7Y2VWhB44ngpwpd6DuF6
-         s7wrtv5eTCl1W0s7ip5PHFTh4m4FEJJc8Zt0+75fUWpcMfk7w7Q4y49zQ1kHL+zMjsbK
-         Z3kJbn2zsfa46qfE8r3KS32amFij/jrI9t8W098UecvfBmps6VC2/U1lCR82QxAI4Cn5
-         BQPSVsD9hLGqPbNOcFiuJpGLDdG5P5sFH0tJUZs5Jj38HLkyfP8QIYZWhx7Xs110Uf3D
-         eN6bl0LtsMyEh5+ijfL6TKRSaEH/ayDvCH4HPG73GEKwKhi8m5yz3fxiUdfsK1V9zCCD
-         oh0w==
+         :list-id:mailing-list:precedence:content-transfer-encoding
+         :content-language:in-reply-to:mime-version:user-agent:date
+         :message-id:from:references:cc:to:subject:sender:dkim-signature;
+        bh=sh/SavcTOmhG5+ECtOqrRlr1Sj2OP1hpY1csAgldN8A=;
+        b=epHMT/KY5YDcC9OCt+3f9qYIiDFaMKfd8tNwRkNc/MoeDFE6untQ0t6W7CXGxUUbSg
+         lzvO96pHXJArzmAeZo52PAikp1F0vFSWIt7xZyqAx+zToF1WLiZy7CYs2Hs49kdmORWW
+         5q8QZ4Hj67IYT9zciWMup5wOYL0bYAAB+PpwDORceNedbYdxMV5yRNuciZtMlV7Ke75n
+         6udh2N8S04LEs6b0dY0RH/wnDBRBgp+nmh6RfI7Trt6biNn+mm2KMX0r50Nxa3u5YmiM
+         cjLmghUTmxDeAWPLZ2XD0Fvd0zNLXl4OEbES1dGCsYu3mBbUQmcROnZ4TOF69jnb0O2t
+         ZMfw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@lca.pw header.s=google header.b=ktqi1Si5;
-       spf=pass (google.com: domain of cai@lca.pw designates 2607:f8b0:4864:20::744 as permitted sender) smtp.mailfrom=cai@lca.pw
+       dkim=pass header.i=@c-s.fr header.s=mail header.b=OGtzFIa+;
+       spf=pass (google.com: domain of christophe.leroy@c-s.fr designates 93.17.236.30 as permitted sender) smtp.mailfrom=christophe.leroy@c-s.fr
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:from:mime-version:subject:date:message-id:references:cc
-         :in-reply-to:to:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+        h=sender:subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=wl+YjVXdVgnMTcqJG/EDhUXIOWE1QyX1Bs8NKk4vZcs=;
-        b=JovBiGEKnBOG0z1OHxHUf666ukc5GsaetsFBjW99XbFLC6OYzFG3O0m5xIJP3WjpxW
-         0SOlLaCz9LC5ev7k7J69Rx62NMN2ahqGT+urZ7xl+aX4JsVkSxM5sna3nnJR+n/eJMhx
-         kQ/JSHk50r/B9EvDFa5nR60NSJV0+DV/Ge6TD+Z7kHwVAnTJ68dktLm1XDQ5DEoQG3go
-         z3BBKeuIq2pquHN1IBY6EmlTK29ihzdlmrOJpMO/7KXM2P5SbA3UkCgl1CNhqsf6ePVp
-         iLWkhtBdYp8nnGRtq7d07QKGIi8mau4qk1yy+KeeerpNt1V2cD/6MXSAusmuKyjvPyp0
-         XsxQ==
+        bh=sh/SavcTOmhG5+ECtOqrRlr1Sj2OP1hpY1csAgldN8A=;
+        b=oUi6nDhTkF56yx1fWfmdreSgRTcOq6+7SwbCDp35NOuDhAaCX59POr/HAJTqc+mNRK
+         5lGmbRszOUA7l0jr90QM54Z5b0hfYlWTm/5wOwx1mESthDAtn6icw991jJk6eDs4l9LS
+         rCznI/VEgVajmzUrBzMBILk65DHEeEaCpEOKfO58IIZ0PGpoyj5NjUwBCpym06MEdhf1
+         wRSrNwVteuueM3TFfl13s9evLBfAVtaw/nKCx1kr/sA+Fdp108Dv9RLHjRhsvxHx8xBt
+         OFK0lu+O6RuMd0lGuDeiLIddWTgVFItTKGX8kBTTfp5mC/k4NPJevVrYiEyJZ3bi4UlV
+         NCTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:from:mime-version:subject:date:message-id
-         :references:cc:in-reply-to:to:x-original-sender
+        h=sender:x-gm-message-state:subject:to:cc:references:from:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=wl+YjVXdVgnMTcqJG/EDhUXIOWE1QyX1Bs8NKk4vZcs=;
-        b=fJ236kINHjGmCIURKFosCALttUYLKwfOEeipQt/J2FAljesmg+mXQ5D5DYSvcpE6S0
-         /v4ewoJgkB9N0rtnyuUaXFWtZm49FJWb3FM7p8d6RKsi8vJ4J1A29MO2vkZ9UQI6niw9
-         nKPCIQEv10hONVdDFeLxwibabt1uDarQOdhIiovHKSL1SOZFQT0Z/1DD/aZsspwVUEWx
-         OD3K7Qs9pgduqokx4wyKGK5urtBAFFJFNLPZVX9S76H+geYcLQmTUS/0XVbsfuw04fvN
-         Ik2HjWVq5QDGdr4ZOHIqPFCazR/E9A8M9UdTrYi1XhAZceNvpJKBPdkwohZyAPcIi+vR
-         xeEg==
+        bh=sh/SavcTOmhG5+ECtOqrRlr1Sj2OP1hpY1csAgldN8A=;
+        b=brdCsme0S5xZNWkp4IOJ9mYDU6eJ+g+ZMJKjbBfrwR/AOhDAPzF9LXmJmnPFFKTDTZ
+         tz6owlEQzTxooPgDdxaX6ItsvAXibRSzEKjCEPcV3G5bruvSL/mQFRIJmYu/46MVrIQx
+         yPC5j7uiB/yo24crvkqJ0TDBHMej/Rpt0msy+B8b/RB5Pzl2UxaDqDgXQvQwcZXyr84m
+         uK8FAmtv7JZpfp4Ikp1xCtJZbBFKxZgrJxg7ifMpmrfnBC/mSAd2u6lQ+KKBlQ9lv27d
+         qNlQqEq1TnmDBzlPnUCKThemgAUuMGewAaEQAMzHFQQZScrPP0n2E1FxfuT3GtI4IZIx
+         1sqQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAUaERFLHv+Ga0zf1rhLbImHDIv1PeDKGx9cxXJHCyefKbQlQHX+
-	ykqS9SUJhKxaqvE5DvH3O9o=
-X-Google-Smtp-Source: APXvYqyqA3MHCazhg36nAI1DpPfZVJ7r7wrlayTO3xsI58F039ud2m6vHs3oU0ZumP69uuBmT6xf0Q==
-X-Received: by 2002:a67:7fd3:: with SMTP id a202mr12285233vsd.1.1580642792592;
-        Sun, 02 Feb 2020 03:26:32 -0800 (PST)
+X-Gm-Message-State: APjAAAVFhtyhYoTyvdioRf6RWs3zmkvtmbpnTYLmmcnu76u/9YvVw8ZT
+	cmIG9qYKRsHvgw5/WGKERXs=
+X-Google-Smtp-Source: APXvYqy6kfulLYcu3ZNM1hcTIZ2JQPYzpzOHwSNUfn7rNa9IV4YFxMDLm3SMo9RMamZ08V6bouxWtQ==
+X-Received: by 2002:a2e:e12:: with SMTP id 18mr14451731ljo.123.1580742867377;
+        Mon, 03 Feb 2020 07:14:27 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a1f:4196:: with SMTP id o144ls600248vka.0.gmail; Sun, 02 Feb
- 2020 03:26:32 -0800 (PST)
-X-Received: by 2002:a05:6122:1065:: with SMTP id k5mr11242227vko.14.1580642792114;
-        Sun, 02 Feb 2020 03:26:32 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1580642792; cv=none;
+Received: by 2002:a19:8488:: with SMTP id g130ls1069567lfd.11.gmail; Mon, 03
+ Feb 2020 07:14:26 -0800 (PST)
+X-Received: by 2002:ac2:52a2:: with SMTP id r2mr12153235lfm.33.1580742866736;
+        Mon, 03 Feb 2020 07:14:26 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1580742866; cv=none;
         d=google.com; s=arc-20160816;
-        b=z/M8NHVYCeBeZQLz0Aq+5gwI+7Yhg+sDdwezGFpSE6gF++xNqYe8RFW+OfO99pBF5w
-         haDrGOzDMruIhQYcmH4CBKv6yiwNGvbMx/V1xidHUNhrW3I20pfhkjtgHlg9MohNhxnQ
-         98i3ekTmRn315R4rilEr+miA7uNFUIuV4ncAg8Vzmi4HBtxDMmjf8hljE2qI0ETv/sZH
-         TTUZ2AHii9OUsy4SMWcI2A91Wa6HSXGvBsgp+CJAtinfi1VUrph9TPZ34gEYhK4PxJbQ
-         uwvFx0Eai7JRuFN68wxQco3Nkyd9B/1JlZzKWpX8sVxicGwBiSE70zJ0UwsY0joWMRuQ
-         xPDA==
+        b=zfhRnb0r+D2rdMK3I5JtDjkCb39VVuXNodmuQQOteI2ki+YhZBch44YVq095ET+w0E
+         pYGdXmdUfc9BDVMvGMApaK9O8Ad9TN4aL8dTCzkJOWiUlPtzTz4x9xUGznl8r1mLszst
+         NYCLSMCLmlwmgN1RaWbDA/H6omrrslyE21puSw9DONZ/ALDf3ccNbx10a9Mrt8F7XChE
+         Myfm+5wzichMlJB8/ANtUe7/sbGeule+BQob2ESWfpdY8a6WP5Xf2NQYqSqCvo2lF4y6
+         Ycil8EqJ20xazAeNPjcd+ohvv9Voy83lWlD7GUgOs3VDPSImgnnXDRTOgnPBV4QQyMt1
+         iCEQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=to:in-reply-to:cc:references:message-id:date:subject:mime-version
-         :from:content-transfer-encoding:dkim-signature;
-        bh=haUAAZdbmdU3COyJ/sqnDbNti6tUXhiH5WpEb5CUu3o=;
-        b=nxM8fmLQPJCybD5t07gg8rC2uDVejiGnM+7bIwVKj8JKQIroBlXLIQUD+rhmZFo0Zb
-         ztmIiYDeoM98WEX2QGxVFEi15sKJyaggKmqX/81Z65XuUb7ah1v1u1uAMaCghJokYoLX
-         5InGAXL21TXzlrOflvha/jmMJZprk6GKT9rl50cZnhb0j4dC/Y3Ps8THrtYW27b4dBGd
-         JeLhJHGaZWybyu0p4jw1JK3pAlo9gx54c8sy2vdcJVSJj2wS+zlIR//eD52bGSXnB3uX
-         jnA9992h8mp9JtJM7OfV36BmfSncts8DfzjddWTpYbBNLehJu1LYPl0tMpbC3aQ9s9HP
-         qYQQ==
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject
+         :dkim-signature;
+        bh=i4hAG7YwdO6LNDmYZ4wBEtikutj9N76WG5xl/PwnPrw=;
+        b=0RuqqtAfVYgzzTSVSiIQZzaoUsZLOQvNBuvCAaUWt72blrbQtzW5hWYHBfSkDicXP8
+         nUOBSpU3Lg2uwm76eDeo27Wna93ii0NG/eG7zVcGnu3vUUiio5M08pF2Bhggeo8c4z3V
+         aFHn5JfdImd+3U1rs16WRaZtP5/n/cWvwlRR18wR4HfCWIoIGKSSo5aXtyxyV92S2n3K
+         80261jxkRDdz94XyxNLLQy1TT4DOlxgXKaFy9T7NJXGo1+yKXoN8hrWVWwvQG9QorRM9
+         BmHts01s3/4ZYLPybZYX7fsAqP0Oo7/3X/fZDkI00eL6ine+zoRiHMolaLYyqrnuxx4l
+         0ZDA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@lca.pw header.s=google header.b=ktqi1Si5;
-       spf=pass (google.com: domain of cai@lca.pw designates 2607:f8b0:4864:20::744 as permitted sender) smtp.mailfrom=cai@lca.pw
-Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com. [2607:f8b0:4864:20::744])
-        by gmr-mx.google.com with ESMTPS id h7si581314vsm.1.2020.02.02.03.26.31
+       dkim=pass header.i=@c-s.fr header.s=mail header.b=OGtzFIa+;
+       spf=pass (google.com: domain of christophe.leroy@c-s.fr designates 93.17.236.30 as permitted sender) smtp.mailfrom=christophe.leroy@c-s.fr
+Received: from pegase1.c-s.fr (pegase1.c-s.fr. [93.17.236.30])
+        by gmr-mx.google.com with ESMTPS id e3si869791ljg.2.2020.02.03.07.14.26
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 02 Feb 2020 03:26:32 -0800 (PST)
-Received-SPF: pass (google.com: domain of cai@lca.pw designates 2607:f8b0:4864:20::744 as permitted sender) client-ip=2607:f8b0:4864:20::744;
-Received: by mail-qk1-x744.google.com with SMTP id q15so11399629qke.9
-        for <kasan-dev@googlegroups.com>; Sun, 02 Feb 2020 03:26:31 -0800 (PST)
-X-Received: by 2002:a05:620a:218d:: with SMTP id g13mr19497581qka.286.1580642791619;
-        Sun, 02 Feb 2020 03:26:31 -0800 (PST)
-Received: from [192.168.1.183] (pool-71-184-117-43.bstnma.fios.verizon.net. [71.184.117.43])
-        by smtp.gmail.com with ESMTPSA id s1sm7274932qkm.84.2020.02.02.03.26.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 02 Feb 2020 03:26:30 -0800 (PST)
-Content-Type: text/plain; charset="UTF-8"
-From: Qian Cai <cai@lca.pw>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH V12] mm/debug: Add tests validating architecture page table helpers
-Date: Sun, 2 Feb 2020 06:26:29 -0500
-Message-Id: <2C4ADFAE-7BB4-42B7-8F54-F036EA7A4316@lca.pw>
-References: <473d8198-3ac4-af3b-e2ec-c0698a3565d3@c-s.fr>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 03 Feb 2020 07:14:26 -0800 (PST)
+Received-SPF: pass (google.com: domain of christophe.leroy@c-s.fr designates 93.17.236.30 as permitted sender) client-ip=93.17.236.30;
+Received: from localhost (mailhub1-int [192.168.12.234])
+	by localhost (Postfix) with ESMTP id 48BBF846fMz9v3ls;
+	Mon,  3 Feb 2020 16:14:20 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at c-s.fr
+Received: from pegase1.c-s.fr ([192.168.12.234])
+	by localhost (pegase1.c-s.fr [192.168.12.234]) (amavisd-new, port 10024)
+	with ESMTP id 5VszB6UW2Yif; Mon,  3 Feb 2020 16:14:20 +0100 (CET)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+	by pegase1.c-s.fr (Postfix) with ESMTP id 48BBF82h8pz9v3lm;
+	Mon,  3 Feb 2020 16:14:20 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id 7DE228B7B0;
+	Mon,  3 Feb 2020 16:14:25 +0100 (CET)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+	by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+	with ESMTP id unrhNEULKrXy; Mon,  3 Feb 2020 16:14:25 +0100 (CET)
+Received: from [172.25.230.102] (po15451.idsi0.si.c-s.fr [172.25.230.102])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id 12E638B7AC;
+	Mon,  3 Feb 2020 16:14:25 +0100 (CET)
+Subject: Re: [PATCH V12] mm/debug: Add tests validating architecture page
+ table helpers
+To: Qian Cai <cai@lca.pw>
 Cc: Anshuman Khandual <Anshuman.Khandual@arm.com>, linux-mm@kvack.org,
- Andrew Morton <akpm@linux-foundation.org>,
- Vlastimil Babka <vbabka@suse.cz>,
+ Andrew Morton <akpm@linux-foundation.org>, Vlastimil Babka <vbabka@suse.cz>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Mike Rapoport <rppt@linux.vnet.ibm.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Thomas Gleixner <tglx@linutronix.de>, Mike Rapoport
+ <rppt@linux.vnet.ibm.com>, Jason Gunthorpe <jgg@ziepe.ca>,
  Dan Williams <dan.j.williams@intel.com>,
  Peter Zijlstra <peterz@infradead.org>, Michal Hocko <mhocko@kernel.org>,
  Mark Rutland <Mark.Rutland@arm.com>, Mark Brown <broonie@kernel.org>,
@@ -129,25 +140,34 @@ Cc: Anshuman Khandual <Anshuman.Khandual@arm.com>, linux-mm@kvack.org,
  Michael Ellerman <mpe@ellerman.id.au>, Paul Mackerras <paulus@samba.org>,
  Martin Schwidefsky <schwidefsky@de.ibm.com>,
  Heiko Carstens <heiko.carstens@de.ibm.com>,
- "David S. Miller" <davem@davemloft.net>,
- Vineet Gupta <vgupta@synopsys.com>, James Hogan <jhogan@kernel.org>,
- Paul Burton <paul.burton@mips.com>, Ralf Baechle <ralf@linux-mips.org>,
+ "David S. Miller" <davem@davemloft.net>, Vineet Gupta <vgupta@synopsys.com>,
+ James Hogan <jhogan@kernel.org>, Paul Burton <paul.burton@mips.com>,
+ Ralf Baechle <ralf@linux-mips.org>,
  "Kirill A . Shutemov" <kirill@shutemov.name>,
- Gerald Schaefer <gerald.schaefer@de.ibm.com>,
- Ingo Molnar <mingo@kernel.org>, linux-snps-arc@lists.infradead.org,
+ Gerald Schaefer <gerald.schaefer@de.ibm.com>, Ingo Molnar
+ <mingo@kernel.org>, linux-snps-arc@lists.infradead.org,
  linux-mips@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-ia64@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
  linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
  sparclinux@vger.kernel.org, x86@kernel.org, linux-kernel@vger.kernel.org,
  kasan-dev <kasan-dev@googlegroups.com>
-In-Reply-To: <473d8198-3ac4-af3b-e2ec-c0698a3565d3@c-s.fr>
-To: Christophe Leroy <christophe.leroy@c-s.fr>
-X-Mailer: iPhone Mail (17C54)
-X-Original-Sender: cai@lca.pw
+References: <473d8198-3ac4-af3b-e2ec-c0698a3565d3@c-s.fr>
+ <2C4ADFAE-7BB4-42B7-8F54-F036EA7A4316@lca.pw>
+From: Christophe Leroy <christophe.leroy@c-s.fr>
+Message-ID: <8e94a073-4045-89aa-6a3b-24847ad7c858@c-s.fr>
+Date: Mon, 3 Feb 2020 16:14:24 +0100
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.2
+MIME-Version: 1.0
+In-Reply-To: <2C4ADFAE-7BB4-42B7-8F54-F036EA7A4316@lca.pw>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Language: fr
+Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: christophe.leroy@c-s.fr
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@lca.pw header.s=google header.b=ktqi1Si5;       spf=pass
- (google.com: domain of cai@lca.pw designates 2607:f8b0:4864:20::744 as
- permitted sender) smtp.mailfrom=cai@lca.pw
+ header.i=@c-s.fr header.s=mail header.b=OGtzFIa+;       spf=pass (google.com:
+ domain of christophe.leroy@c-s.fr designates 93.17.236.30 as permitted
+ sender) smtp.mailfrom=christophe.leroy@c-s.fr
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -162,17 +182,41 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 
 
-> On Jan 30, 2020, at 9:13 AM, Christophe Leroy <christophe.leroy@c-s.fr> wrote:
-> 
-> config DEBUG_VM_PGTABLE
->    bool "Debug arch page table for semantics compliance" if ARCH_HAS_DEBUG_VM_PGTABLE || EXPERT
->    depends on MMU
->    default 'n' if !ARCH_HAS_DEBUG_VM_PGTABLE
->    default 'y' if DEBUG_VM
+Le 02/02/2020 =C3=A0 12:26, Qian Cai a =C3=A9crit=C2=A0:
+>=20
+>=20
+>> On Jan 30, 2020, at 9:13 AM, Christophe Leroy <christophe.leroy@c-s.fr> =
+wrote:
+>>
+>> config DEBUG_VM_PGTABLE
+>>     bool "Debug arch page table for semantics compliance" if ARCH_HAS_DE=
+BUG_VM_PGTABLE || EXPERT
+>>     depends on MMU
+>>     default 'n' if !ARCH_HAS_DEBUG_VM_PGTABLE
+>>     default 'y' if DEBUG_VM
+>=20
+> Does it really necessary to potentially force all bots to run this? Syzbo=
+t, kernel test robot etc? Does it ever pay off for all their machine times =
+there?
+>=20
 
-Does it really necessary to potentially force all bots to run this? Syzbot, kernel test robot etc? Does it ever pay off for all their machine times there?
+Machine time ?
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/2C4ADFAE-7BB4-42B7-8F54-F036EA7A4316%40lca.pw.
+On a 32 bits powerpc running at 132 MHz, the tests takes less than 10ms.=20
+Is it worth taking the risk of not detecting faults by not selecting it=20
+by default ?
+
+[    5.656916] debug_vm_pgtable: debug_vm_pgtable: Validating=20
+architecture page table helpers
+[    5.665661] debug_vm_pgtable: debug_vm_pgtable: Validated=20
+architecture page table helpers
+
+Christophe
+
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/8e94a073-4045-89aa-6a3b-24847ad7c858%40c-s.fr.
