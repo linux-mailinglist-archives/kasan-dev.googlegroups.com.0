@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBAABBNHH6XYQKGQEDNATWLY@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBNPH6XYQKGQEYLAN6NQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ed1-x537.google.com (mail-ed1-x537.google.com [IPv6:2a00:1450:4864:20::537])
-	by mail.lfdr.de (Postfix) with ESMTPS id B124C155949
-	for <lists+kasan-dev@lfdr.de>; Fri,  7 Feb 2020 15:27:00 +0100 (CET)
-Received: by mail-ed1-x537.google.com with SMTP id cq10sf2006954edb.5
-        for <lists+kasan-dev@lfdr.de>; Fri, 07 Feb 2020 06:27:00 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1581085620; cv=pass;
+Received: from mail-ed1-x53e.google.com (mail-ed1-x53e.google.com [IPv6:2a00:1450:4864:20::53e])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA54E15594B
+	for <lists+kasan-dev@lfdr.de>; Fri,  7 Feb 2020 15:27:01 +0100 (CET)
+Received: by mail-ed1-x53e.google.com with SMTP id g11sf1975361edu.10
+        for <lists+kasan-dev@lfdr.de>; Fri, 07 Feb 2020 06:27:01 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1581085621; cv=pass;
         d=google.com; s=arc-20160816;
-        b=uq3+hSsPUvcDLY/XaSGiudasS+t3U73cnxywH4hPdLszSHxers/bNQu/1T6Y3t6TIl
-         dfyLVdahnXXwyQodEY7qKYJcwKinpvopfHu8Ag8vIagorHo0MeDMhWcW/wK01X4jkEcX
-         9wO4OoIBppS73dkT+Mmxf+yDPh7wzZcmKFmlfs5HshAN51gT8jU0tUPplbA95ek8I6TF
-         jDDguLoFJzqDeMNnWjJ8sb2XPSmyJMB7sjaQpgSM6NrxAw1GraLppmzc2CAjY0lZ66t1
-         zJ1vkfGbFNzt/WuY0wMQ8JZ6qnFrbW11vL5U8FkoQGzml6Lr8zvq2A+mh5dtj8xohZ1B
-         pIzw==
+        b=G8lkb8pRaea4e9SEQH5e69Xz/ov5Hyn4gPB/vyAIsZQcv8hSVLdglAx2eaZnJi6vtz
+         Br9BMW4H2qLCJtLifhE0ivfT79LUyXv+XdFWeNIdRe0OoI2bU+EGb7LiWzTnT/GRsnra
+         sW7NGu/Czn570ylkZZY8l4O6UUSnz7RZPhEidAhxDx3lU25WXenxjTu4IbboZke4J+Ov
+         94qt3H+VifBuN72cpesmZPYt3ESxSanK8DWjvHgUdKThLHuOzTBYSBTw30q3M4AQN5Ky
+         TuNkpP/R6NukUyQ5drQ33BHNCOmfyopDtmfamnEUzQ7cwIrBNxFksTa0oYmVNi0foQLd
+         ejSQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:ironport-sdr:sender
          :dkim-signature;
-        bh=J+SwsVkIkXUHNBlwfbaRh6phQ9aQ7CdxMqodpIXtLDU=;
-        b=DerTd0+aUXMmcsV7SsWShImsUn/1aKh6orcJ2Vr3tMkULy0BZ282dwwIMg83+HRgAO
-         XbzhdqFj80/W7u/O1X8qA+qZTBjTYePt+oqgqetNqQgHAgbnHqP/M0+PjwohF7moXgsl
-         VbF3s6ZqiBJZ7u/Xk/Zm9PfS7/a6v6KrjlSGeu20EKWRYd8zFsvr32cY/aIv01bzmKux
-         Qb5ZKRZNJ1oXgeNGGh7WqyzMXyxvPOSEJac1nfTrec57gUYeCYdPBaPPSg8KMAqDtOqw
-         mrmvxyVEghxW4QtWQBRxKu9ai5Pn9G42YiHthvvu0IwIhex/sGSWt0ZizaAOCZzejgiu
-         qkzQ==
+        bh=aHoV/uVYlb6f/d0PHPmJUvbxYEWPMRcdQFaYh0K5zNU=;
+        b=y6AsIOtbycvjNEpJjj9G2XOJw2suvVGwnuY2HejYQ97bAxehQfCIXwnFK/fljP4IXj
+         MB0ZI24WKnhmDdYTDIkdwaOQ/uPaSSCd930KTgSuAIo4UMtGL82bPozXVaTpaWfIPoBh
+         8A7ctejZvevD68RJgUfZDwpq8OqwfwYqQB3dVcfwEiz0Y9hrwgMHaR8vl75SVSAA6NDR
+         fnaOrE0KBS4mJodGnJZbaaA4lXREQ1u1H/pMamXzK8G9HQYpAIz35iHCHO2viE+nt26f
+         cB/O9Aomg4iBV5Qaw612EAk8IUYTvBkivkmq+E2DOHyILdm9XJ/voFHIQbSxIEeICFfp
+         3Nnw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@citrix.com header.s=securemail header.b=MjT9lM4Z;
+       dkim=pass header.i=@citrix.com header.s=securemail header.b=eQEjheAg;
        spf=pass (google.com: domain of sergey.dyasli@citrix.com designates 216.71.155.168 as permitted sender) smtp.mailfrom=sergey.dyasli@citrix.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=citrix.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
@@ -36,13 +36,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :references:mime-version:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=J+SwsVkIkXUHNBlwfbaRh6phQ9aQ7CdxMqodpIXtLDU=;
-        b=MAzVlFRwfyxbpAUlOo8/zwRTHCheA7cFz7Recl69F43xcUJUtHy45SfKdnETqAhwmh
-         rlVvC19Kg/cYaM5TV816D/K4KnpVqeNOxp5aVy6zJ2RoptVQt//iu3NxkoXTQ0dpM3Xd
-         IM7h3H6DVHP/i/7A7rXY9ubmwXtcaWRKjUC/pYumKM9XwIHD//9l+IIf9+HatVghneMf
-         EoGd8wNutm/6Q5uZMvoq2EPXCadjadTZ7ayGFXP/LkSJAnqX69RBFF20OYMfN8xCRtJ6
-         QMzULXWen1LAIwISkSpR98EDNgRjr5wVwFH1ituyAyoFLkgUEbs5h4Rl876iD4cwwxTw
-         L3FA==
+        bh=aHoV/uVYlb6f/d0PHPmJUvbxYEWPMRcdQFaYh0K5zNU=;
+        b=YtWJbuXT+pm1uNarAwD9AY0kf+RUaU560nJVtaBHjyCNj6mdWQLOXlfAuCVAUK0Cqg
+         Qau8Pg5dGYkfbo6MC/iAIg8fXV5H/95mS0nXC1tk/CeyLD0oBvV8F2wGTBgZolhtNM+Z
+         9Nk5z1/rqlrIgTa2CnR5btV6j7Pc60qtFm1k8P2UZrlAgDU+neIWpSfqn2fy78yi6Mue
+         nIw1vEAX2iqOSFHfvVYF77+gpimWBVyUei3jBLknzC3UsU43GqeCk7NBQdE4M0ZW551V
+         O9E4KMxgczup9ZoyX6NqMLc+Wqbmn6ujfEp7flXAUd+Toki0zPea0W13pqf+pnmoEfa9
+         Rz+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:ironport-sdr:from:to:cc:subject:date
@@ -50,51 +50,51 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=J+SwsVkIkXUHNBlwfbaRh6phQ9aQ7CdxMqodpIXtLDU=;
-        b=Ggk+5tLr/dyI7cSVUI0+P8MUxkBI87xuxePWF+DqJmt8NCMirX8Za9sbzCH5AGSMhe
-         oC7idwdAzxtNrdwRylhd/EMyi5EmL1czJvEMUTOUzSDo+4gh2QBQnMPu+PXA1QSug3qP
-         acdkD3+5DdyfERl75qtFDl8SPBNSk6Hsm3OtE6BqMZaW7PrM/BetdwiFht7wGaXJAyhj
-         KGue/sGsyYRTPERJgIOXmMf3ncu/G4y1hCtfBG7//BBwKU1TMTzEgl74s+8QYQHhyESK
-         0gkmZSUfzxiRzuh8TtnfHp36Aitk5Z2kzSBN5HkpTjxD51jxytmThrPOwCYiL6wNh7Jr
-         GaZg==
+        bh=aHoV/uVYlb6f/d0PHPmJUvbxYEWPMRcdQFaYh0K5zNU=;
+        b=bF/oY1Gqp5yWlO4KG6nSoN6wexxZLs4aM3D8nHKg9cMqtotjQzBZmeiih8X7TtOFto
+         v44ez6dX40g3av7PJftGmBssjDNR5wEkTjgSW9GAenDELnd06294uZvOyHYMpOxQsP/c
+         Ujwm1WLa1bPVRXVa8dZk0UK4PbIXwif/MO6Yq/DMdxQnMNkYJXCmzGPznAbYP1kufpz7
+         UEJjf+8tFzahdbMKL6Mdr1rURy9Oj5obbLN1hvTMA5vv2e+t2wCiKKO2AJxduJJL4KG6
+         rzBsg7meB4QuCQqwFWayE4VKN7YZANF+ILvXANJfqElf4NbICRHCkfZlEVhANPK+/45v
+         wBfA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAVYnIbGyGdQPWj1vMi2KRn31LK7ZicV80MG5nT+yeyM7GdjHIuM
-	DRPlabXa3zC/d0PROKYQqEo=
-X-Google-Smtp-Source: APXvYqwHz1UtK6iXk1+QQfAMfcsO93CNPAp2T2TTLFW3RE8QfIrtdp5KUECH7Xz/pfeiLah50a1ecg==
-X-Received: by 2002:a17:906:e52:: with SMTP id q18mr8753729eji.14.1581085620457;
-        Fri, 07 Feb 2020 06:27:00 -0800 (PST)
+X-Gm-Message-State: APjAAAVHI0sCHHxbIDLjmphTFPYGzWYv4qyc1Cv7AYIF8+MLoGUNHTQD
+	v4Fp3i+ivIS7JihHgz5828Q=
+X-Google-Smtp-Source: APXvYqwneZZRNkSJMpBkC22jZxWZpWFm8+w5AmQqw1TEGAwKxlojC+RwJ+Lc/3Viu2HlM34L3RL3Cw==
+X-Received: by 2002:a17:906:f245:: with SMTP id gy5mr8413721ejb.225.1581085621552;
+        Fri, 07 Feb 2020 06:27:01 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:907:405c:: with SMTP id ns20ls59915ejb.3.gmail; Fri, 07
- Feb 2020 06:27:00 -0800 (PST)
-X-Received: by 2002:a17:906:e51:: with SMTP id q17mr8779385eji.107.1581085620045;
-        Fri, 07 Feb 2020 06:27:00 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1581085620; cv=none;
+Received: by 2002:a17:906:e20e:: with SMTP id gf14ls60263ejb.10.gmail; Fri, 07
+ Feb 2020 06:27:01 -0800 (PST)
+X-Received: by 2002:adf:cd04:: with SMTP id w4mr5257898wrm.219.1581085621153;
+        Fri, 07 Feb 2020 06:27:01 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1581085621; cv=none;
         d=google.com; s=arc-20160816;
-        b=WT5JxpzLqxgW3ihMpdbSYZfWuCPRPv2oP21BqKVf08KanZ9tBkDRnj3fKqNpncfo0/
-         SFQDgmi3XxnOqOdJ7j6n38KQhX/v1hciBw8pUQNJvKncd/9S6jINZ63vaQtMIs35R3uL
-         2vPLuSNXlx3WO7GXm3bdCRzbvC7mVLeB3g7CJl3NxWuMAYrPlCUktpjV6SZFYbqInDst
-         XY4KD3kZ4m3jm/c/Ea9Fp2m872uKJ2AglJpilaWAK4hKo2ogMSRhtTaqERnn+0ruNdOH
-         q7Z2CvfrtrXmK8G9K/IP1Yimg2MxNPMnh7csphRGK7nrSuwPVyh6rVQAOFG9j2DhXS0Z
-         U4Gg==
+        b=B0vK2XZ4QVO4NxqakCLlVhfcB51t4CSThOXGG63SmhbjIx43gpRcXDaddmccPrNcl+
+         Q0NwN0kGK22RoJ+sD0oRKGfoqxSvQnf1QLF3pL87bAlBRKIgSebS6U1nhth4vhwf3lqw
+         YXqHuqHohtgW923wzlX90E+PtNsDA25QyNxr26CmzQTENJ0HZqvg+31HJdprwNLxsCXW
+         cgxbb7J/sOKL/KF9nG2Us3cBPPJHPrqTA8UQDzt6YGxzy9ZKdFsHXQq4Ono7mPKWa/kd
+         t5oo+Xg4Fi/FLZiviOnWe+dkq6dUxXbTOntV4uAIpCaoi3ITo8IddYSEHMRUVjpm+P9E
+         Ezhw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=mime-version:references:in-reply-to:message-id:date:subject:cc:to
          :from:ironport-sdr:dkim-signature;
-        bh=9PsuMGwU7Rfc0lWpIZv6gNZKXGa5gNjoaZ19euyXmSk=;
-        b=HuAiqhdoYV45Xf6i20UNlbBJoFratkz7KyMAdpZEVmBBRiopmLrssJtOvGLbcHInPY
-         jvjR2WXgNX0nYXym2GTiVLqdLoxelKKdJ+WTlry4VptxEihBflCMpLuGUqfjenDUjoja
-         Waw/979nqGCZo+JRx5CvI0KsC4MsgiTYsiYJJlqQBoriwL80zojTe3Lg4ujiLB2aTDgs
-         0WI27c+pXdXcD1jEm1HqM+4gEDiKOFfO+856CEx8Jcf/661dkLN0W4ODdLI7VPnaFNaY
-         MWlMdwlXfU6xi7wVQVFWQZjGvOVkJsAshDLAdeXVf/D2uRR6YvGcea9NeRfOVOQTI2r8
-         HR+w==
+        bh=bpl9CbjPCGJCfDoXSYcJuP7uAkPIMcA6dbtqHCt746E=;
+        b=mo3ywUdsaoPlzYlsdD73znLV3nswpqn3921fQcJYh80VW16OANQqq9Nax3YukpFujc
+         ddfDAq5fSOFHN5P8uG9LdkWE14Y4Kk0QOPsVgS0uzTxJf3JaMnjI3W14MWgHIExtq+11
+         Q4Vyw4ikn5cWR0VD333JrVRZlBWmjUOaRvyIVWPtf0gFg8qDgynqj3EQaelOHN0oxSeh
+         H28CigWue9wgHJa56M/y/8eZ4Ta6VOEq0tmZytvC2k2jRCwnnVaYwl0l7Nws/06gdSZk
+         mCC6d7/2ymhH1PyoffwgJzv3+jOfHGsCSI5Li04muib2NFbRw5mzr84MgZelLXc5ceVi
+         00Yw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@citrix.com header.s=securemail header.b=MjT9lM4Z;
+       dkim=pass header.i=@citrix.com header.s=securemail header.b=eQEjheAg;
        spf=pass (google.com: domain of sergey.dyasli@citrix.com designates 216.71.155.168 as permitted sender) smtp.mailfrom=sergey.dyasli@citrix.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=citrix.com
 Received: from esa5.hc3370-68.iphmx.com (esa5.hc3370-68.iphmx.com. [216.71.155.168])
-        by gmr-mx.google.com with ESMTPS id df10si169947edb.1.2020.02.07.06.26.59
+        by gmr-mx.google.com with ESMTPS id 202si286519wme.0.2020.02.07.06.27.00
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 07 Feb 2020 06:27:00 -0800 (PST)
+        Fri, 07 Feb 2020 06:27:01 -0800 (PST)
 Received-SPF: pass (google.com: domain of sergey.dyasli@citrix.com designates 216.71.155.168 as permitted sender) client-ip=216.71.155.168;
 Received-SPF: None (esa5.hc3370-68.iphmx.com: no sender
   authenticity information available from domain of
@@ -122,18 +122,18 @@ Received-SPF: None (esa5.hc3370-68.iphmx.com: no sender
   envelope-from="sergey.dyasli@citrix.com";
   x-sender="postmaster@mail.citrix.com";
   x-conformance=sidf_compatible
-IronPort-SDR: kMMz1oyZramg5ckLxUaxLPT0jR449vrClgivhA3Gm8ZlVz5SUPPvSuwAPwqhJfmuBnoLUKlldo
- E+J7QlpDxutZ8TB8H+ybgc3fuUAHYrc0xcqNp+avLDJaZ2qnpb18hAzEQv4+OTQdbt/JjvDsj4
- ZSVShM3LgJf74tPuBoogRoUg0zc8a2K/oa4k1g1OX6EJulg+1+I7f94ytjWhEYWSDWKiheSTej
- 4qyTHoOgsuA9cFUCoVK99dgYp/L2Yj9LBmIw62LAEemsgElBhmTzRPXuV1ZG0Km2IZK39HnLOM
- BzU=
+IronPort-SDR: 0LSwV5f+ce7LmCuyeNmBPXSPCt25wkJPqq44O0V1EgoVlnukj5AqmkkFejo0CY5l5ERMbV+FBD
+ B9HTCM3bMTG8GxBCwMm19Kw9z4XyUkLs7ZW7Kfol7V6XvpuBIrm0bWGE/NcA5xrwYsAUNlnZJK
+ h6OwQYuh0W6BirgUV/IwqdC4udufQdUKpYVFFhPfiL65EbUtbtW3JqkDnms3Dj4sQxM8Ang2vW
+ 6XTrHCYqY/Hpz6cTLB+pzDrK2qVjF3srYEHaUV3qYfkqBx0oqOswZiQYm718ghYtnIAW8MQ7ym
+ W+w=
 X-SBRS: 2.7
-X-MesageID: 12479584
+X-MesageID: 12479586
 X-Ironport-Server: esa5.hc3370-68.iphmx.com
 X-Remote-IP: 162.221.158.21
 X-Policy: $RELAYED
 X-IronPort-AV: E=Sophos;i="5.70,413,1574139600"; 
-   d="scan'208";a="12479584"
+   d="scan'208";a="12479586"
 From: Sergey Dyasli <sergey.dyasli@citrix.com>
 To: <xen-devel@lists.xen.org>, <kasan-dev@googlegroups.com>,
 	<linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>
@@ -143,10 +143,12 @@ CC: Andrey Ryabinin <aryabinin@virtuozzo.com>, Alexander Potapenko
  Stabellini" <sstabellini@kernel.org>, George Dunlap
 	<george.dunlap@citrix.com>, Ross Lagerwall <ross.lagerwall@citrix.com>,
 	Andrew Morton <akpm@linux-foundation.org>, Sergey Dyasli
-	<sergey.dyasli@citrix.com>
-Subject: [PATCH v3 3/4] xen: teach KASAN about grant tables
-Date: Fri, 7 Feb 2020 14:26:51 +0000
-Message-ID: <20200207142652.670-4-sergey.dyasli@citrix.com>
+	<sergey.dyasli@citrix.com>, "David S. Miller" <davem@davemloft.net>,
+	<netdev@vger.kernel.org>, Wei Liu <wei.liu@kernel.org>, Paul Durrant
+	<paul@xen.org>
+Subject: [PATCH v3 4/4] xen/netback: fix grant copy across page boundary
+Date: Fri, 7 Feb 2020 14:26:52 +0000
+Message-ID: <20200207142652.670-5-sergey.dyasli@citrix.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200207142652.670-1-sergey.dyasli@citrix.com>
 References: <20200207142652.670-1-sergey.dyasli@citrix.com>
@@ -154,7 +156,7 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: sergey.dyasli@citrix.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@citrix.com header.s=securemail header.b=MjT9lM4Z;       spf=pass
+ header.i=@citrix.com header.s=securemail header.b=eQEjheAg;       spf=pass
  (google.com: domain of sergey.dyasli@citrix.com designates 216.71.155.168 as
  permitted sender) smtp.mailfrom=sergey.dyasli@citrix.com;       dmarc=pass
  (p=NONE sp=NONE dis=NONE) header.from=citrix.com
@@ -172,50 +174,169 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 From: Ross Lagerwall <ross.lagerwall@citrix.com>
 
-Otherwise it produces lots of false positives when a guest starts using
-PV I/O devices.
+When KASAN (or SLUB_DEBUG) is turned on, there is a higher chance that
+non-power-of-two allocations are not aligned to the next power of 2 of
+the size. Therefore, handle grant copies that cross page boundaries.
 
 Signed-off-by: Ross Lagerwall <ross.lagerwall@citrix.com>
 Signed-off-by: Sergey Dyasli <sergey.dyasli@citrix.com>
+Acked-by: Paul Durrant <paul@xen.org>
 ---
-v2 --> v3: no changes
+v2 --> v3:
+- Added Acked-by: Paul Durrant <paul@xen.org>
+CC: "David S. Miller" <davem@davemloft.net>
+CC: netdev@vger.kernel.org
 
-v1 --> v2: no changes
+v1 --> v2:
+- Use sizeof_field(struct sk_buff, cb)) instead of magic number 48
+- Slightly update commit message
 
 RFC --> v1:
-- Slightly clarified the commit message
----
- drivers/xen/grant-table.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+- Added BUILD_BUG_ON to the netback patch
+- xenvif_idx_release() now located outside the loop
 
-diff --git a/drivers/xen/grant-table.c b/drivers/xen/grant-table.c
-index 7b36b51cdb9f..ce95f7232de6 100644
---- a/drivers/xen/grant-table.c
-+++ b/drivers/xen/grant-table.c
-@@ -1048,6 +1048,7 @@ int gnttab_map_refs(struct gnttab_map_grant_ref *map_ops,
- 			foreign = xen_page_foreign(pages[i]);
- 			foreign->domid = map_ops[i].dom;
- 			foreign->gref = map_ops[i].ref;
-+			kasan_alloc_pages(pages[i], 0);
+CC: Wei Liu <wei.liu@kernel.org>
+CC: Paul Durrant <paul@xen.org>
+---
+ drivers/net/xen-netback/common.h  |  2 +-
+ drivers/net/xen-netback/netback.c | 60 +++++++++++++++++++++++++------
+ 2 files changed, 50 insertions(+), 12 deletions(-)
+
+diff --git a/drivers/net/xen-netback/common.h b/drivers/net/xen-netback/common.h
+index 05847eb91a1b..e57684415edd 100644
+--- a/drivers/net/xen-netback/common.h
++++ b/drivers/net/xen-netback/common.h
+@@ -155,7 +155,7 @@ struct xenvif_queue { /* Per-queue data for xenvif */
+ 	struct pending_tx_info pending_tx_info[MAX_PENDING_REQS];
+ 	grant_handle_t grant_tx_handle[MAX_PENDING_REQS];
+ 
+-	struct gnttab_copy tx_copy_ops[MAX_PENDING_REQS];
++	struct gnttab_copy tx_copy_ops[MAX_PENDING_REQS * 2];
+ 	struct gnttab_map_grant_ref tx_map_ops[MAX_PENDING_REQS];
+ 	struct gnttab_unmap_grant_ref tx_unmap_ops[MAX_PENDING_REQS];
+ 	/* passed to gnttab_[un]map_refs with pages under (un)mapping */
+diff --git a/drivers/net/xen-netback/netback.c b/drivers/net/xen-netback/netback.c
+index 315dfc6ea297..41054de38a62 100644
+--- a/drivers/net/xen-netback/netback.c
++++ b/drivers/net/xen-netback/netback.c
+@@ -320,6 +320,7 @@ static int xenvif_count_requests(struct xenvif_queue *queue,
+ 
+ struct xenvif_tx_cb {
+ 	u16 pending_idx;
++	u8 copies;
+ };
+ 
+ #define XENVIF_TX_CB(skb) ((struct xenvif_tx_cb *)(skb)->cb)
+@@ -439,6 +440,7 @@ static int xenvif_tx_check_gop(struct xenvif_queue *queue,
+ {
+ 	struct gnttab_map_grant_ref *gop_map = *gopp_map;
+ 	u16 pending_idx = XENVIF_TX_CB(skb)->pending_idx;
++	u8 copies = XENVIF_TX_CB(skb)->copies;
+ 	/* This always points to the shinfo of the skb being checked, which
+ 	 * could be either the first or the one on the frag_list
+ 	 */
+@@ -450,23 +452,26 @@ static int xenvif_tx_check_gop(struct xenvif_queue *queue,
+ 	int nr_frags = shinfo->nr_frags;
+ 	const bool sharedslot = nr_frags &&
+ 				frag_get_pending_idx(&shinfo->frags[0]) == pending_idx;
+-	int i, err;
++	int i, err = 0;
+ 
+-	/* Check status of header. */
+-	err = (*gopp_copy)->status;
+-	if (unlikely(err)) {
+-		if (net_ratelimit())
+-			netdev_dbg(queue->vif->dev,
++	while (copies) {
++		/* Check status of header. */
++		int newerr = (*gopp_copy)->status;
++		if (unlikely(newerr)) {
++			if (net_ratelimit())
++				netdev_dbg(queue->vif->dev,
+ 				   "Grant copy of header failed! status: %d pending_idx: %u ref: %u\n",
+ 				   (*gopp_copy)->status,
+ 				   pending_idx,
+ 				   (*gopp_copy)->source.u.ref);
+-		/* The first frag might still have this slot mapped */
+-		if (!sharedslot)
+-			xenvif_idx_release(queue, pending_idx,
+-					   XEN_NETIF_RSP_ERROR);
++			err = newerr;
++		}
++		(*gopp_copy)++;
++		copies--;
+ 	}
+-	(*gopp_copy)++;
++	/* The first frag might still have this slot mapped */
++	if (unlikely(err) && !sharedslot)
++		xenvif_idx_release(queue, pending_idx, XEN_NETIF_RSP_ERROR);
+ 
+ check_frags:
+ 	for (i = 0; i < nr_frags; i++, gop_map++) {
+@@ -910,6 +915,7 @@ static void xenvif_tx_build_gops(struct xenvif_queue *queue,
+ 			xenvif_tx_err(queue, &txreq, extra_count, idx);
  			break;
  		}
++		XENVIF_TX_CB(skb)->copies = 0;
  
-@@ -1084,8 +1085,10 @@ int gnttab_unmap_refs(struct gnttab_unmap_grant_ref *unmap_ops,
- 	if (ret)
- 		return ret;
+ 		skb_shinfo(skb)->nr_frags = ret;
+ 		if (data_len < txreq.size)
+@@ -933,6 +939,7 @@ static void xenvif_tx_build_gops(struct xenvif_queue *queue,
+ 						   "Can't allocate the frag_list skb.\n");
+ 				break;
+ 			}
++			XENVIF_TX_CB(nskb)->copies = 0;
+ 		}
  
--	for (i = 0; i < count; i++)
-+	for (i = 0; i < count; i++) {
- 		ClearPageForeign(pages[i]);
-+		kasan_free_pages(pages[i], 0);
-+	}
+ 		if (extras[XEN_NETIF_EXTRA_TYPE_GSO - 1].type) {
+@@ -990,6 +997,31 @@ static void xenvif_tx_build_gops(struct xenvif_queue *queue,
  
- 	return clear_foreign_p2m_mapping(unmap_ops, kunmap_ops, pages, count);
+ 		queue->tx_copy_ops[*copy_ops].len = data_len;
+ 		queue->tx_copy_ops[*copy_ops].flags = GNTCOPY_source_gref;
++		XENVIF_TX_CB(skb)->copies++;
++
++		if (offset_in_page(skb->data) + data_len > XEN_PAGE_SIZE) {
++			unsigned int extra_len = offset_in_page(skb->data) +
++					     data_len - XEN_PAGE_SIZE;
++
++			queue->tx_copy_ops[*copy_ops].len -= extra_len;
++			(*copy_ops)++;
++
++			queue->tx_copy_ops[*copy_ops].source.u.ref = txreq.gref;
++			queue->tx_copy_ops[*copy_ops].source.domid =
++				queue->vif->domid;
++			queue->tx_copy_ops[*copy_ops].source.offset =
++				txreq.offset + data_len - extra_len;
++
++			queue->tx_copy_ops[*copy_ops].dest.u.gmfn =
++				virt_to_gfn(skb->data + data_len - extra_len);
++			queue->tx_copy_ops[*copy_ops].dest.domid = DOMID_SELF;
++			queue->tx_copy_ops[*copy_ops].dest.offset = 0;
++
++			queue->tx_copy_ops[*copy_ops].len = extra_len;
++			queue->tx_copy_ops[*copy_ops].flags = GNTCOPY_source_gref;
++
++			XENVIF_TX_CB(skb)->copies++;
++		}
+ 
+ 		(*copy_ops)++;
+ 
+@@ -1688,5 +1720,11 @@ static void __exit netback_fini(void)
  }
+ module_exit(netback_fini);
+ 
++static void __init __maybe_unused build_assertions(void)
++{
++	BUILD_BUG_ON(sizeof(struct xenvif_tx_cb) >
++		     sizeof_field(struct sk_buff, cb));
++}
++
+ MODULE_LICENSE("Dual BSD/GPL");
+ MODULE_ALIAS("xen-backend:vif");
 -- 
 2.17.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200207142652.670-4-sergey.dyasli%40citrix.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200207142652.670-5-sergey.dyasli%40citrix.com.
