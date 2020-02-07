@@ -1,120 +1,132 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBBPH63YQKGQEEUAILLQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBJX263YQKGQE6JYXZEY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x238.google.com (mail-lj1-x238.google.com [IPv6:2a00:1450:4864:20::238])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73FB1155E7A
-	for <lists+kasan-dev@lfdr.de>; Fri,  7 Feb 2020 19:59:18 +0100 (CET)
-Received: by mail-lj1-x238.google.com with SMTP id z11sf68058ljm.15
-        for <lists+kasan-dev@lfdr.de>; Fri, 07 Feb 2020 10:59:18 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1581101958; cv=pass;
+Received: from mail-yb1-xb3b.google.com (mail-yb1-xb3b.google.com [IPv6:2607:f8b0:4864:20::b3b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2384E155EAC
+	for <lists+kasan-dev@lfdr.de>; Fri,  7 Feb 2020 20:40:24 +0100 (CET)
+Received: by mail-yb1-xb3b.google.com with SMTP id k10sf223745ybp.4
+        for <lists+kasan-dev@lfdr.de>; Fri, 07 Feb 2020 11:40:24 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1581104423; cv=pass;
         d=google.com; s=arc-20160816;
-        b=km6e5uzX9oyXKMypXKaaUR6KruibE2JNCmCuetM20B2IDEtgX8EkaaTxUfIGAY2FG4
-         9x3hiLwLJ3tmE2hNfTXs297k7V0ZiFdn5H3lzWgLBt7yF6uncFTMiFXryF+zwhlHh/Lb
-         4vJTVgI0LwiyICw2rH8x1HtAbn+rt0kFs5uP4r0mJT7Bs1um4jqOq9iNWnd9c1vuAM+c
-         jFhW7RWn9wqnPGCpNgqqgGNNkZfucC9bPdvMw3JAKHloHZQBdj0xhv47h1KanP64pnI4
-         n5cMG+kHADF3DOG601gVqU+tWbcKbm9ZblO86T8pscWfrYALv5TV6iyGFiPMdPkwLY3F
-         sBsQ==
+        b=rGpbDZZ1Jo+EDtRcbPCTIqpE+EgXs9hjBdqUGyNpq4S7xHRuo+RntEawrPPZnZ5qhh
+         Rz6XlrPci7HiNalhdMyamCWYiibFQZHNFuL0SuuP4sa/pO24sia1m4jdbNiw9pJUsMbK
+         ECIjCAgFKsqCyRDo4Ix1XDRCZJJaxEWckXwsh2odTZMr58XD1BlX2MfDJ1fV8dXdaz1p
+         w9oyn+Mw7Xm4urddOpJPzCVQ0OoMe2Ced+scpradyl6vsIDIcCw4d/KeYUx0+1m0jaXH
+         CR1J/LRHgMFPVjdLtX/IMgPyLbaDxDEv7cbhmFCyIuB+2v/K0G1QjMlr3L2WsIKxRm/s
+         wBWw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
-         :mime-version:message-id:date:dkim-signature;
-        bh=Y78E7tTCX43BxZR/ul4iBMP/CoxWwXOHSTie0HfWkdQ=;
-        b=zYb3kYVznVng52vWiGXr7gK/HddVnTEO1nj4TBl1R5jvY7XMi9aod8lV2IHFAJ/aid
-         wuT1c4LejesxQwdhorU9uQjylxosfjV5FqmwmF24iFEhKHWWq216+IukU6qKzuyVZOnT
-         0Xt5eQWCzfHqtZRapgW3vGsFFnhrAuns4Gr7fDRa42Y+eyTrawni6QV8ackQQqyuWKYr
-         QIK4IsJxqil7QKJHsKqPE26L3Y6M//e2bDHGDelZPhHY6zWgcXIfZc9xC9OWhjrKyg7T
-         0KUJ/QP9FyxW0KAIF1fuJVY4mS5+5QeZyXRq3DE8huQuv17d7vFq+TxpDugqK93GfoDC
-         0qsQ==
+         :list-id:mailing-list:precedence:user-agent:in-reply-to
+         :content-disposition:mime-version:references:reply-to:message-id
+         :subject:cc:to:from:date:sender:dkim-signature;
+        bh=j4GDyOWd4I3NEKrab3NFGciVlJRdlyeX9RoANHB653U=;
+        b=ZItGc7w0XFITCqypQYt71mxdxM7xE0jYtEDbzEexW+76U/yR18j8okJlooiPMDN6ED
+         bMyzLQnbnzZ//F9clSVL0Y6ee9x4mr8lT9I4xZhYnGAYlhzhexqHlnSEd2pvI7Qx+L1a
+         tD1crA53JpNm+5f96InDpou8JsFWuJhJOvpAOKp56auoc7SHF7k6EFBSNHEvW4HQKWNO
+         Y3tzuHtNofyZKoJIx4//CyGo0R1qYiSO8n8QLQrowX7D0i5DbzdJqRQa5pn0ZMrobTlM
+         AH7XH8PApl/KOd5wDdELHyWIFGibMYDRITMYlZwVx3pqTqmTZhTmgqmCv/T/hvXCrbAq
+         vEBQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=nP+4sZ11;
-       spf=pass (google.com: domain of 3hlm9xgukcdk9gq9mbjjbg9.7jhf5n5i-89qbjjbg9bmjpkn.7jh@flex--elver.bounces.google.com designates 2a00:1450:4864:20::44a as permitted sender) smtp.mailfrom=3hLM9XgUKCdk9GQ9MBJJBG9.7JHF5N5I-89QBJJBG9BMJPKN.7JH@flex--elver.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@kernel.org header.s=default header.b=vkh70UPw;
+       spf=pass (google.com: domain of srs0=yqfb=33=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=YQfb=33=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=date:message-id:mime-version:subject:from:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:list-post:list-help:list-archive:list-subscribe
-         :list-unsubscribe;
-        bh=Y78E7tTCX43BxZR/ul4iBMP/CoxWwXOHSTie0HfWkdQ=;
-        b=dtmEVJqeXcrkUI6B6uk4UG9JYfvr2qxEIcTdZWYgbNppH1F0f68+W9FulQG9qxeKKc
-         U7t2RUXNm1sb99cDcHWagY7dqA03Qbd3El7lStWZgSnyRoi6UtBwsfYwwrcf1zfKGj6E
-         sCJu+ct8dd2qPVEohggKYcUP3s3N6rZBaT/YShA5GPDbbTcG99BX1+f9ZeJXBMShBoZH
-         MEi4/+/Vt+0WBANZaYvyuQpx1SPjkHXFo0LHffnLtXxRDcsanRTTFY1bc88jjmJsanVF
-         w4j8DKdgvbeZbiXrjqmQVyMmU+4EocIHniAK3VOQv+3NnFU4eC/j6ae15/cqBu3mdO7V
-         o5KQ==
+        h=sender:date:from:to:cc:subject:message-id:reply-to:references
+         :mime-version:content-disposition:in-reply-to:user-agent
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=j4GDyOWd4I3NEKrab3NFGciVlJRdlyeX9RoANHB653U=;
+        b=sShCbjHGbGuUA358EfYthC7uJutW6TSca8DJkuWaoDhewbVwwakEnZyXwu+cKlCG9V
+         GmyQhFREdvEsNg2FpEVJs0+mprM9O6uyjmR7czG8YTfBOF/QZqdOJ+z+Qy/ALt9L2/ot
+         cLRAX8sjeBFqv9K1qPItp2RSPNnI+ZtRHT7ngqJ8jK2faNJW/uRncEbRy+5UnFuF6oaE
+         yP0lSoWgyK/y31S9QmD52fJq7+xSK+8XgaZ8rXtuoobYI+vnf/YyQArcbfYDN0C2UKgx
+         nA4yCtVBDXBucn9pOAK1eBztnC5JiUrIccqQYaBFiC0T/F0MvxhV6BHZ77isbXCKrc3H
+         ol1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc
-         :x-original-sender:x-original-authentication-results:reply-to
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :reply-to:references:mime-version:content-disposition:in-reply-to
+         :user-agent:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
          :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=Y78E7tTCX43BxZR/ul4iBMP/CoxWwXOHSTie0HfWkdQ=;
-        b=PyHC10bgBiai0+QrzEiRBYfzzmthfM/ew9mStxVK8p5PVfhKOSmuMKkCJ9MmocQ9vH
-         DCwhlTLfb4IQO7GXRlBOnOaNyjlySRImIz8PPjNwMApVBcaUiUNk8S5LGzEWbx2EnR24
-         LT0QCEqRDPce+FYaOEgY7a0M3CI4uAH2+HH+rkSpALKGXNxurDPawb/pSOmlqUXiXej4
-         iQzrtFqNgZSQZNrx3XzPbc3AGJ1/hF7oXFW2S2PYd0ZtLVraimz98kuja1LGDVik9Ves
-         rH1pEBecP/yV/iQbUs8qjqZG2VR2v+U6XcgFrbGcPqTLmXBIohumqjoY62BxiIz02al8
-         M7QQ==
-X-Gm-Message-State: APjAAAX9uiX/OMGAAunjGlzlOku00gAmr06tosFhEDN6TRh3o3bzI5aT
-	ZQfxpYfe1sKRgbpRL7gte30=
-X-Google-Smtp-Source: APXvYqxjAswwLlQOTzuZJD872w3wyPj5gf1Qn6+LLXAm9+Z4nR53AjD6fs4CEwjRoXsAq1t890pdBA==
-X-Received: by 2002:a2e:9c85:: with SMTP id x5mr415050lji.50.1581101957950;
-        Fri, 07 Feb 2020 10:59:17 -0800 (PST)
+        bh=j4GDyOWd4I3NEKrab3NFGciVlJRdlyeX9RoANHB653U=;
+        b=c2pjjQG+2sOCiokGgoCV2RPYk0PU/r80kcfw5Z4dO8lwvr4cYNey614Ry9AbMbRz+P
+         cBSdMzCohpORmccs8njDvf6M3SZ9bzuCrzAauCh7tJRlC1/st5rFI6befKs/n71YLNlq
+         Y/JN/FLndqEapW0UdlMN9OOIImgZNQ/GaCWFOSu/Z32ZniEURj48WEPGK8/dLv63Uu0s
+         XSkTVdfOjFeV0tYaZXMhQpOHOL27jd7YfHwnmlvhFoNsUvFbcNV1JWQ4hn9gUiy4A58N
+         JrMWB3PVXN4/PzBaJ2nmtbhfdcHlrGyG42XxjVP1zY0UIfSVfAkSn7jh0J6xlVAYwYz3
+         Nt0w==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: APjAAAWYGt+6H023OmSbvOdVobVKSTbEnfb9+p5SQBXCpBmttIYJnilk
+	gD/e/UULlPZ7bzhkw/luKL4=
+X-Google-Smtp-Source: APXvYqya1yOnbbTWkL+1aSm3Zmp0cyg98/Iwcyz9VTleEed8Knc/uqH9C5n8sQHxeR8gJ2hi7ck3XA==
+X-Received: by 2002:a81:3e17:: with SMTP id l23mr619779ywa.248.1581104422882;
+        Fri, 07 Feb 2020 11:40:22 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a2e:9c85:: with SMTP id x5ls79978lji.0.gmail; Fri, 07 Feb
- 2020 10:59:17 -0800 (PST)
-X-Received: by 2002:a2e:5304:: with SMTP id h4mr379399ljb.75.1581101956975;
-        Fri, 07 Feb 2020 10:59:16 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1581101956; cv=none;
+Received: by 2002:a81:764a:: with SMTP id j10ls30628ywk.11.gmail; Fri, 07 Feb
+ 2020 11:40:22 -0800 (PST)
+X-Received: by 2002:a81:138f:: with SMTP id 137mr662164ywt.364.1581104422594;
+        Fri, 07 Feb 2020 11:40:22 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1581104422; cv=none;
         d=google.com; s=arc-20160816;
-        b=0Tk90UthQyiu6KDmKL4tSN/hyvXl0FFhn/CeMe3YWtJlGQYCkXffw5tYz+2gZlW/26
-         06TqYqGQ+LerIAYXaFbchJiPHMF698spU/FZWraEf4OEmZ6WqyHHt0es7U3dAzouydxm
-         ect9hyn/bgNrciF5hgrzPVavf7bnw3TYhwLs0m1vEqeHGdApDT9mhrL8rMfZnLZjK9ze
-         243OwQOLnFgE00W3aKDvDpOZSPTSGNDLEiTClxscD0mcotHyF0p0zIuWCOD2ZHaPuwAG
-         LuF0njLFlGND6V7RumY4MXH0VX8gqVo8fg9DRlNNZSrtJeWK3z8uuagsgh2R0SRPfttQ
-         zUhA==
+        b=sgsPmjV6t9lMx87A7ypg/yN/MAI6GmNkhtB2D20pcDvREzeKJ2StTUvOHepuDNtBGC
+         f4lZ/qEgKQpUmuQo4Gv9dlNQYav2gGOfxOGrpju0ICxGqTiu7Uy26WnKJ1nYvSoz+ik/
+         b4QJqjbwIaVNQUdjarF6y0uImBhlWQBEjIkcNPao7TrRjosBYs2yOjaForOHBo1Zis2R
+         6lRMu9EI8NkrwWtKYB0ciXc3MZXL3LzLm2n9K8QVw8N4+1MLwK1WqidTtijuE0v2tvYj
+         rn8J8z7bOUiO5NkN3Xm2FkXUQ1Co2gezI+N4eU5tz9vHXGbhLqPQvoyMcgSH40l19b8b
+         Kqyg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:from:subject:mime-version:message-id:date:dkim-signature;
-        bh=nR+y9oL83JIGNZtIre6/euwCwaqJGCzYCr1D5UPHiH4=;
-        b=k48VS+fclaEhV6oSj8iqbH3u+xL4854A8FeuVhjndeayaPBmkoFv2Y528scHtACbHV
-         ZnMcRAW6rtK+/UnrDVhOoC61JmhABoVoWK43WR2zE1DYfnTj2juotdH4r8QGWgbSnMBb
-         YwVFGqeGWErmAZnS1vJB3h9g/mLfq7fxDqxivuL1JAGgRgANB1QR55UM6hyumQ0wpHR3
-         Tq0X+YiimRMLzJCEA9cKJulwyF8OBAYh/B+NqsUPVR9/IjQ0ImliQ3GvSP1jEFVNIwke
-         +iqHjVhyQHvrLrOtri+LbD98tbD+bC/yEyOIfT3hyCpTX777MvV+JnWn7UlFHxQ41EoC
-         jjbQ==
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :reply-to:message-id:subject:cc:to:from:date:dkim-signature;
+        bh=V91oaijQ8Rl49IpFIbW1Z7GeCZ2SCsVUSx52WBU4zlQ=;
+        b=Y3BCGEBZpdb8XV+dBreuZ+LvjhBj2SdAXOGPGwgNIwR3/6PIadowyLjbE9OgG1ElL5
+         9IuhVL041PHpP/Fv+pTtHvWVtCvt1Vqub3YL1nWz3BoiPpZsYj1pGLiCAODVQAX+nhEs
+         TVF6MUHidlal1fikI0RWH60JDFyzRkrrbf1XSOaAL8BKohhythjkxY/WSW+Tb3zV4OB+
+         yn/fNpPxRxptiNMe7PxAiQTAXjgHXD7lNNzFwy+9pz3peXUOeNnBDcPI8llZxNhKAbGd
+         /rslcARUUUdplwvEgOUFfiHgUG6RqNmbliqAZEwQ7Cp7pNEhPw9C2ZMmO5gkWqaLpGnh
+         wm9A==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=nP+4sZ11;
-       spf=pass (google.com: domain of 3hlm9xgukcdk9gq9mbjjbg9.7jhf5n5i-89qbjjbg9bmjpkn.7jh@flex--elver.bounces.google.com designates 2a00:1450:4864:20::44a as permitted sender) smtp.mailfrom=3hLM9XgUKCdk9GQ9MBJJBG9.7JHF5N5I-89QBJJBG9BMJPKN.7JH@flex--elver.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-wr1-x44a.google.com (mail-wr1-x44a.google.com. [2a00:1450:4864:20::44a])
-        by gmr-mx.google.com with ESMTPS id j30si13839lfp.5.2020.02.07.10.59.16
+       dkim=pass header.i=@kernel.org header.s=default header.b=vkh70UPw;
+       spf=pass (google.com: domain of srs0=yqfb=33=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=YQfb=33=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
+        by gmr-mx.google.com with ESMTPS id p7si22880ybg.1.2020.02.07.11.40.22
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 07 Feb 2020 10:59:16 -0800 (PST)
-Received-SPF: pass (google.com: domain of 3hlm9xgukcdk9gq9mbjjbg9.7jhf5n5i-89qbjjbg9bmjpkn.7jh@flex--elver.bounces.google.com designates 2a00:1450:4864:20::44a as permitted sender) client-ip=2a00:1450:4864:20::44a;
-Received: by mail-wr1-x44a.google.com with SMTP id s13so121931wru.7
-        for <kasan-dev@googlegroups.com>; Fri, 07 Feb 2020 10:59:16 -0800 (PST)
-X-Received: by 2002:a5d:40d1:: with SMTP id b17mr400665wrq.93.1581101956137;
- Fri, 07 Feb 2020 10:59:16 -0800 (PST)
-Date: Fri,  7 Feb 2020 19:59:10 +0100
-Message-Id: <20200207185910.162512-1-elver@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.25.0.341.g760bfbb309-goog
-Subject: [PATCH] kcsan: Expose core configuration parameters as module params
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-To: elver@google.com
-Cc: paulmck@kernel.org, andreyknvl@google.com, glider@google.com, 
-	dvyukov@google.com, kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org, 
-	Qian Cai <cai@lca.pw>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 07 Feb 2020 11:40:22 -0800 (PST)
+Received-SPF: pass (google.com: domain of srs0=yqfb=33=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
+Received: from paulmck-ThinkPad-P72.home (50-39-105-78.bvtn.or.frontiernet.net [50.39.105.78])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPSA id 9B5CD20726;
+	Fri,  7 Feb 2020 19:40:21 +0000 (UTC)
+Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
+	id 641F535219BF; Fri,  7 Feb 2020 11:40:21 -0800 (PST)
+Date: Fri, 7 Feb 2020 11:40:21 -0800
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Marco Elver <elver@google.com>
+Cc: andreyknvl@google.com, glider@google.com, dvyukov@google.com,
+	kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org,
+	Qian Cai <cai@lca.pw>, mingo@kernel.org, will@kernel.org,
+	torvalds@linux-foundation.org
+Subject: Re: [PATCH] kcsan: Expose core configuration parameters as module
+ params
+Message-ID: <20200207194021.GO2935@paulmck-ThinkPad-P72>
+Reply-To: paulmck@kernel.org
+References: <20200207185910.162512-1-elver@google.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
+Content-Disposition: inline
+In-Reply-To: <20200207185910.162512-1-elver@google.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Original-Sender: paulmck@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=nP+4sZ11;       spf=pass
- (google.com: domain of 3hlm9xgukcdk9gq9mbjjbg9.7jhf5n5i-89qbjjbg9bmjpkn.7jh@flex--elver.bounces.google.com
- designates 2a00:1450:4864:20::44a as permitted sender) smtp.mailfrom=3hLM9XgUKCdk9GQ9MBJJBG9.7JHF5N5I-89QBJJBG9BMJPKN.7JH@flex--elver.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+ header.i=@kernel.org header.s=default header.b=vkh70UPw;       spf=pass
+ (google.com: domain of srs0=yqfb=33=paulmck-thinkpad-p72.home=paulmck@kernel.org
+ designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=YQfb=33=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -127,90 +139,108 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-This adds early_boot, udelay_{task,interrupt}, and skip_watch as module
-params. The latter parameters are useful to modify at runtime to tune
-KCSAN's performance on new systems. This will also permit auto-tuning
-these parameters to maximize overall system performance and KCSAN's race
-detection ability.
+On Fri, Feb 07, 2020 at 07:59:10PM +0100, Marco Elver wrote:
+> This adds early_boot, udelay_{task,interrupt}, and skip_watch as module
+> params. The latter parameters are useful to modify at runtime to tune
+> KCSAN's performance on new systems. This will also permit auto-tuning
+> these parameters to maximize overall system performance and KCSAN's race
+> detection ability.
+> 
+> None of the parameters are used in the fast-path and referring to them
+> via static variables instead of CONFIG constants will not affect
+> performance.
+> 
+> Signed-off-by: Marco Elver <elver@google.com>
+> Cc: Qian Cai <cai@lca.pw>
 
-None of the parameters are used in the fast-path and referring to them
-via static variables instead of CONFIG constants will not affect
-performance.
+Thank you both!
 
-Signed-off-by: Marco Elver <elver@google.com>
-Cc: Qian Cai <cai@lca.pw>
----
- kernel/kcsan/core.c | 24 +++++++++++++++++++-----
- 1 file changed, 19 insertions(+), 5 deletions(-)
+I have pulled this in, and have also rebased the KCSAN commits into a
+separate branch named kcsan in -rcu.  This allows people to use current
+KCSAN without exposing themselves to random RCU changes.
 
-diff --git a/kernel/kcsan/core.c b/kernel/kcsan/core.c
-index 87ef01e40199d..498b1eb3c1cda 100644
---- a/kernel/kcsan/core.c
-+++ b/kernel/kcsan/core.c
-@@ -6,6 +6,7 @@
- #include <linux/export.h>
- #include <linux/init.h>
- #include <linux/kernel.h>
-+#include <linux/moduleparam.h>
- #include <linux/percpu.h>
- #include <linux/preempt.h>
- #include <linux/random.h>
-@@ -16,6 +17,20 @@
- #include "encoding.h"
- #include "kcsan.h"
- 
-+static bool kcsan_early_enable = IS_ENABLED(CONFIG_KCSAN_EARLY_ENABLE);
-+static unsigned int kcsan_udelay_task = CONFIG_KCSAN_UDELAY_TASK;
-+static unsigned int kcsan_udelay_interrupt = CONFIG_KCSAN_UDELAY_INTERRUPT;
-+static long kcsan_skip_watch = CONFIG_KCSAN_SKIP_WATCH;
-+
-+#ifdef MODULE_PARAM_PREFIX
-+#undef MODULE_PARAM_PREFIX
-+#endif
-+#define MODULE_PARAM_PREFIX "kcsan."
-+module_param_named(early_enable, kcsan_early_enable, bool, 0);
-+module_param_named(udelay_task, kcsan_udelay_task, uint, 0644);
-+module_param_named(udelay_interrupt, kcsan_udelay_interrupt, uint, 0644);
-+module_param_named(skip_watch, kcsan_skip_watch, long, 0644);
-+
- bool kcsan_enabled;
- 
- /* Per-CPU kcsan_ctx for interrupts */
-@@ -239,9 +254,9 @@ should_watch(const volatile void *ptr, size_t size, int type)
- 
- static inline void reset_kcsan_skip(void)
- {
--	long skip_count = CONFIG_KCSAN_SKIP_WATCH -
-+	long skip_count = kcsan_skip_watch -
- 			  (IS_ENABLED(CONFIG_KCSAN_SKIP_WATCH_RANDOMIZE) ?
--				   prandom_u32_max(CONFIG_KCSAN_SKIP_WATCH) :
-+				   prandom_u32_max(kcsan_skip_watch) :
- 				   0);
- 	this_cpu_write(kcsan_skip, skip_count);
- }
-@@ -253,8 +268,7 @@ static __always_inline bool kcsan_is_enabled(void)
- 
- static inline unsigned int get_delay(void)
- {
--	unsigned int delay = in_task() ? CONFIG_KCSAN_UDELAY_TASK :
--					 CONFIG_KCSAN_UDELAY_INTERRUPT;
-+	unsigned int delay = in_task() ? kcsan_udelay_task : kcsan_udelay_interrupt;
- 	return delay - (IS_ENABLED(CONFIG_KCSAN_DELAY_RANDOMIZE) ?
- 				prandom_u32_max(delay) :
- 				0);
-@@ -527,7 +541,7 @@ void __init kcsan_init(void)
- 	 * We are in the init task, and no other tasks should be running;
- 	 * WRITE_ONCE without memory barrier is sufficient.
- 	 */
--	if (IS_ENABLED(CONFIG_KCSAN_EARLY_ENABLE))
-+	if (kcsan_early_enable)
- 		WRITE_ONCE(kcsan_enabled, true);
- }
- 
--- 
-2.25.0.341.g760bfbb309-goog
+f60f0f543333 ("kcsan: Expose core configuration parameters as module params")
+
+git://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git
+
+I just now kicked off a short sanity test with rcutorture, and will of
+course do more testing over time.
+
+							Thanx, Paul
+
+> ---
+>  kernel/kcsan/core.c | 24 +++++++++++++++++++-----
+>  1 file changed, 19 insertions(+), 5 deletions(-)
+> 
+> diff --git a/kernel/kcsan/core.c b/kernel/kcsan/core.c
+> index 87ef01e40199d..498b1eb3c1cda 100644
+> --- a/kernel/kcsan/core.c
+> +++ b/kernel/kcsan/core.c
+> @@ -6,6 +6,7 @@
+>  #include <linux/export.h>
+>  #include <linux/init.h>
+>  #include <linux/kernel.h>
+> +#include <linux/moduleparam.h>
+>  #include <linux/percpu.h>
+>  #include <linux/preempt.h>
+>  #include <linux/random.h>
+> @@ -16,6 +17,20 @@
+>  #include "encoding.h"
+>  #include "kcsan.h"
+>  
+> +static bool kcsan_early_enable = IS_ENABLED(CONFIG_KCSAN_EARLY_ENABLE);
+> +static unsigned int kcsan_udelay_task = CONFIG_KCSAN_UDELAY_TASK;
+> +static unsigned int kcsan_udelay_interrupt = CONFIG_KCSAN_UDELAY_INTERRUPT;
+> +static long kcsan_skip_watch = CONFIG_KCSAN_SKIP_WATCH;
+> +
+> +#ifdef MODULE_PARAM_PREFIX
+> +#undef MODULE_PARAM_PREFIX
+> +#endif
+> +#define MODULE_PARAM_PREFIX "kcsan."
+> +module_param_named(early_enable, kcsan_early_enable, bool, 0);
+> +module_param_named(udelay_task, kcsan_udelay_task, uint, 0644);
+> +module_param_named(udelay_interrupt, kcsan_udelay_interrupt, uint, 0644);
+> +module_param_named(skip_watch, kcsan_skip_watch, long, 0644);
+> +
+>  bool kcsan_enabled;
+>  
+>  /* Per-CPU kcsan_ctx for interrupts */
+> @@ -239,9 +254,9 @@ should_watch(const volatile void *ptr, size_t size, int type)
+>  
+>  static inline void reset_kcsan_skip(void)
+>  {
+> -	long skip_count = CONFIG_KCSAN_SKIP_WATCH -
+> +	long skip_count = kcsan_skip_watch -
+>  			  (IS_ENABLED(CONFIG_KCSAN_SKIP_WATCH_RANDOMIZE) ?
+> -				   prandom_u32_max(CONFIG_KCSAN_SKIP_WATCH) :
+> +				   prandom_u32_max(kcsan_skip_watch) :
+>  				   0);
+>  	this_cpu_write(kcsan_skip, skip_count);
+>  }
+> @@ -253,8 +268,7 @@ static __always_inline bool kcsan_is_enabled(void)
+>  
+>  static inline unsigned int get_delay(void)
+>  {
+> -	unsigned int delay = in_task() ? CONFIG_KCSAN_UDELAY_TASK :
+> -					 CONFIG_KCSAN_UDELAY_INTERRUPT;
+> +	unsigned int delay = in_task() ? kcsan_udelay_task : kcsan_udelay_interrupt;
+>  	return delay - (IS_ENABLED(CONFIG_KCSAN_DELAY_RANDOMIZE) ?
+>  				prandom_u32_max(delay) :
+>  				0);
+> @@ -527,7 +541,7 @@ void __init kcsan_init(void)
+>  	 * We are in the init task, and no other tasks should be running;
+>  	 * WRITE_ONCE without memory barrier is sufficient.
+>  	 */
+> -	if (IS_ENABLED(CONFIG_KCSAN_EARLY_ENABLE))
+> +	if (kcsan_early_enable)
+>  		WRITE_ONCE(kcsan_enabled, true);
+>  }
+>  
+> -- 
+> 2.25.0.341.g760bfbb309-goog
+> 
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200207185910.162512-1-elver%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200207194021.GO2935%40paulmck-ThinkPad-P72.
