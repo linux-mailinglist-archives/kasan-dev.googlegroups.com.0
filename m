@@ -1,34 +1,34 @@
-Return-Path: <kasan-dev+bncBC3JRV7SWYEBBBP2Q3ZAKGQEXLGHTCY@googlegroups.com>
+Return-Path: <kasan-dev+bncBC3JRV7SWYEBBHP4Q3ZAKGQEPSF7JUY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pg1-x53b.google.com (mail-pg1-x53b.google.com [IPv6:2607:f8b0:4864:20::53b])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD9A015843D
-	for <lists+kasan-dev@lfdr.de>; Mon, 10 Feb 2020 21:28:54 +0100 (CET)
-Received: by mail-pg1-x53b.google.com with SMTP id m18sf6134341pgn.18
-        for <lists+kasan-dev@lfdr.de>; Mon, 10 Feb 2020 12:28:54 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1581366533; cv=pass;
+Received: from mail-io1-xd3c.google.com (mail-io1-xd3c.google.com [IPv6:2607:f8b0:4864:20::d3c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 475E9158448
+	for <lists+kasan-dev@lfdr.de>; Mon, 10 Feb 2020 21:33:36 +0100 (CET)
+Received: by mail-io1-xd3c.google.com with SMTP id c7sf5448914ioq.18
+        for <lists+kasan-dev@lfdr.de>; Mon, 10 Feb 2020 12:33:36 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1581366814; cv=pass;
         d=google.com; s=arc-20160816;
-        b=i9oynl5HVCi0tMoE93AvYsLPmR76mlA+r8GaCE6MgT5BPsJJ4H//cPIms0yOIGjvAV
-         4VAe6ayegI2RTIcqO0tUMG+PI+2fX0k/Bnhnxu0QSP25BqBdd+IkwPa6/W2wj9825g3i
-         uDY22yhGJemhzr2/KwOFYjq40ePJwfd9HoWfhP+jS1/THqA0+mM1Rgs/lOwU4Ia4f8mt
-         6a7YQw5iYqoI9Usl6qc47NV5yjWQV/UNqKF1VVawJ4bsq71JCQ/c6nv1+bkx9byzWxdf
-         dr/CybJWGhZEm2WH1FFe8ZqPAiaLoM6Zp98/ocIAjgQMYnJJCx7uCFXJEgaOdD/2O9Ak
-         p+Bw==
+        b=bKO9RZSPMQisUIFS+sBUKthKhnt+rlXGy2s5jPl+1sGnN5rNc88/D9pgbaE1XgrQ/l
+         s8DY6yEkKIh1xlmWjkgyqWsdsP8P8YCaHZFcng53NWRjP8TmDV5wVxz0375l2zAuz831
+         QNt6y/HLWQTot9TiLXwbK8jBq0bKwUS07xY86TrGOSjAqqxufSrl4l77Ios+xFARUUVs
+         UyRz4WWXygz1hbIsrV50UuXvDFclah01a44LEZfdDPTCbsCmJMAKhG7OvcH98dEXzu1c
+         +1N9YXWkRV/bNUJx1pAgUSin5nr+6IUalOFqQGtMRidK3l0u/ZFbCMRAnbPM2vumJpIs
+         HqsA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:content-language:in-reply-to
          :mime-version:user-agent:date:message-id:autocrypt:from:references
          :cc:to:subject:sender:dkim-signature;
-        bh=hZXmQnV8iz0pGsN5dRUyCLXnXzN5clPePGmDLCiKb58=;
-        b=O34qilNnDPuRis7dUIydmw62eY1eeYv3u/zMCmIzifXAsSJwCxGncvBvBlplp5rdZW
-         memg/vsNTUlv6AzfeesGNU1ceiCPS00D3ipIGIIs8W+Z8qAG2rJOadsdLDBaSm/58KwF
-         NK5Iny/GH8iWS8a6AWsPXWN/c3P8h+z2d8T8Yb63jws5+WwEyqNXTh12LwYatvzAY41m
-         LjxhYPO3bV5MKbqnAXG0YoOc0DUihcPPJ80Wzkd9KnwAINRe3L7D32gugpSSSmyZOV1C
-         /qjc6UCAsh+GBoiH1jB0ePree4zVDY0cqfSS4cAct0MKhxiIcr6aAkpHBEJ0l7EcN1Tv
-         KfWg==
+        bh=knmgHtwg4PAFiCQo1cg5GYfV62YxIt+SKjIs271vreE=;
+        b=RySFtMFPB/z58cwulat1+IUme6pXzRQwt/mUV9LsseDufZXOQK8GHmVDOmra61YOGp
+         9pJAC0iTxC0B1iiXnSvodBRfnSaVud9hEF7xtf44MKqBnvfHnTkgEcP7cMT895DKUhw3
+         DOcmaGxS7x0IpM9gSyMXxUfB684Jtgjtev1AXU2mZQqSm2xVraWaf0jpuVBUkNHrm485
+         XVSMQ3Tr+BKxlyA2sr07fQ4S6J6lDkocq3ZG5Hu/Dr940PklhAhEhc52TaTatfPm4QyM
+         +i172ZhMp5ClLRqzgSKl3vDyfHb04bqLWWIqejH7E4XZqsLwYTf7L1KuopZWCE7TV256
+         7oEQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@oracle.com header.s=corp-2020-01-29 header.b=PYvlJVCx;
-       spf=pass (google.com: domain of boris.ostrovsky@oracle.com designates 156.151.31.86 as permitted sender) smtp.mailfrom=boris.ostrovsky@oracle.com;
+       dkim=pass header.i=@oracle.com header.s=corp-2020-01-29 header.b="Qv9gH/CX";
+       spf=pass (google.com: domain of boris.ostrovsky@oracle.com designates 141.146.126.78 as permitted sender) smtp.mailfrom=boris.ostrovsky@oracle.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=oracle.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
@@ -37,13 +37,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=hZXmQnV8iz0pGsN5dRUyCLXnXzN5clPePGmDLCiKb58=;
-        b=VYieVKEFN5ER0ekdWGiCX7l6SZwK6wjvqjZmQFpOTZf5haA8NUvJBgAOYW6vHiOLhN
-         P6X6JpCB75+QGPpUxzBTz2yyZdmxrJnQYKBgaEpW5PhJsYOXp6u4V/Bf4ioDY67NcABe
-         8Kt7SUq06MBhe6T+mzrqBYihZDM56K6ZkmFvpzQat/ujscDnADVtjlRcDQkePbgLbU5+
-         W//+Chunf6sv5eQrOWzTk/Q3b0wFMLX9VzCweklYd1xxlwf23QXR7hvogXf0DCEW6Xee
-         XTcSe4fqFivPujYdAssZmc4kdS9s3rmWBiBiM07gTgliJVYzwKVN9oln81FBCJeWCcAO
-         ciBw==
+        bh=knmgHtwg4PAFiCQo1cg5GYfV62YxIt+SKjIs271vreE=;
+        b=EKPbiR/RrrWt+3hBq4lrBwd0AgUKWEje5TIcs7+LS5D6+rsl4FQI5t6dAqqhYdw2RE
+         kB0mPFiICLQPfbPuwqKoMUA8s374h7E3Bm1fKqgtagVcs6ucPn1vz2LRBvzkk3ocf/gY
+         ipUJoPrkVO4s0y1HJET3Ri1IsDrouweGxJL/SSmusXuooyWYeWzuhV5UrQCPM2xtrGZW
+         YGSrPdkj8/yEwthhhsK0zbcYZBFQwhh4bGjh/rXTBl+eBF2WI9hVvNjV29FhGQ3M1gY5
+         UPGJ9PG1K3mClAb3bDv3pDgrG8rYckrv70MYvUDB0/M4LhV8hZOTWE27kX0tyZwJVeFH
+         fbIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:subject:to:cc:references:from:autocrypt
@@ -52,74 +52,74 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=hZXmQnV8iz0pGsN5dRUyCLXnXzN5clPePGmDLCiKb58=;
-        b=qkfo8oUf0lddM0S+HqAmPZpOV6etxdupG8RN8SGZRSI9E6sFl59d6w3M0dr2tzNTME
-         r5QBPfoO6zTdnrOmXzzvhiBhdN+fTG5MMiBc8O1sgkmAuZ9Vp6MBPPR2reUPi/kQTNJt
-         eI6gNOx0+j1oz4kiukrKWvdUd9mU1WbfTpwO/EvMaN5fG30vjnZilnoHcmfmF+rckM+9
-         CFg5h7TYz/fONxjcYXC7DW5a8+e039MBr+a3MF1K+LO7U78eZeYLPolA6adeZTa0no4r
-         BevWuWYhzibbisle9x70LLzbH0siZVC95t7hBVs8lWnz97cDYL9lhkgkI/S7QUhwfmfk
-         QbhQ==
+        bh=knmgHtwg4PAFiCQo1cg5GYfV62YxIt+SKjIs271vreE=;
+        b=Fj++KPbUcNEw47m9Ymm8y7StoEqtYZrbjHDP83E+rB6G/hAskXI1eHmUIJxDy8qSvU
+         SE7EBpmtUupC68qkn8J5v9FBSG0qEKpmCJF47zxIpPd95A7n+BktcvHXCkMPIgIfjbwU
+         4HCAOG2tYnIg/DnXmTCGP+cibhzVrfDiKXbbf0T0P+y+5j8s1AHFn1+okQNLVZRxyEA0
+         Zol5guMpJpoLrSPF3cOfrp0ZUdzyeH1kotQiPevmSqwEPuAsMTcDIm6QrDIgrpVQg2Ew
+         p5JCf2xqGW9Q3+4WwlulivlQOxfkupy1ZNFo7h0KAeFvG8D+OD9ECHLyrMqdT5LK1OPO
+         dEiA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAX67uPwOkPlPp++OACPzcnuOvqrNYaC82+9ggTCX5SQ92yslFVw
-	/GhRwh8Yi9GQ3YmdcC5zAkc=
-X-Google-Smtp-Source: APXvYqw3LmAtphurJ7M5WMKguwi9w3Uo9lDM+JMe0DAWg/AGJPwCt3NH1ot8ImYefoAGr9g8IL1NiA==
-X-Received: by 2002:a63:f648:: with SMTP id u8mr3460219pgj.148.1581366533542;
-        Mon, 10 Feb 2020 12:28:53 -0800 (PST)
+X-Gm-Message-State: APjAAAVALJbKBs4OEGylIU9cNScts1AClofeV/h6/hsOgFeHf77HtftP
+	ss9FCbT/0zpOeIRfpLBdQLo=
+X-Google-Smtp-Source: APXvYqxYl37TbqWlsIGmdQDT2VdZPLqUrh9jizQOJzCbEDdP3u8LHDKPsssuuzZIf5T0pkNUBijMtQ==
+X-Received: by 2002:a05:6e02:5c3:: with SMTP id l3mr3354717ils.260.1581366813745;
+        Mon, 10 Feb 2020 12:33:33 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:902:9887:: with SMTP id s7ls4231637plp.9.gmail; Mon, 10
- Feb 2020 12:28:53 -0800 (PST)
-X-Received: by 2002:a17:90a:e291:: with SMTP id d17mr1016918pjz.116.1581366533120;
-        Mon, 10 Feb 2020 12:28:53 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1581366533; cv=none;
+Received: by 2002:a92:8c10:: with SMTP id o16ls1962253ild.6.gmail; Mon, 10 Feb
+ 2020 12:33:33 -0800 (PST)
+X-Received: by 2002:a05:6e02:ea9:: with SMTP id u9mr3246227ilj.40.1581366813386;
+        Mon, 10 Feb 2020 12:33:33 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1581366813; cv=none;
         d=google.com; s=arc-20160816;
-        b=F6YrODNQDBtGWyh7QiHwEjNcSJqIB/M9bkaIrL4SCWGr97R3ww9V3z3tTVtr3zKVH/
-         0+qM7f24WFXXZqr1fM3l2Bo4xuWRfFF3XlBgDAc8URnNZAd1khIuUgqHwqgcSYW3nA5U
-         lraUfBZaxKYXtCWLpeMHBSmfF7fUP8KOIkbo1dychdvXAJujrfwZduZjlZ6RZiVgfpg1
-         X6qxAug0r4V0uW0YJFj5pyWRxDwMXz0u7jgdSQZ5UFAGox2lpBcst5GFGxoTjur54EQV
-         O9zUgwrC/B5hgzZeidbCU+A3eNfu8W6svwHawzQtqCgqm6AFUqgFwG+A43b9Bm+ADTXs
-         IImg==
+        b=I5qBGTtOWBIMKOAUY0PZfS1bluZ5iD+gp7upHqGO5vrU7GU7xAVDCE4BLqb55jRKTd
+         4xNHjJ7j9FfvrtWKEoJ/6SWHM+WsuIOCPolrLgwHYa9D61AaUImPcnv7lduRjlRdINYS
+         3fw26Zof8djwF97G9iHHsNRSV/fWX/FlNOHeAo6YBTgzD0loFYIGUrXsxJYW5oe+tq6Q
+         nRRrsKPLKYlSBRp6PVNVmxwBMHI1HA6S57/9rRhG9S+1/ao7sap5vejSGWWF68bR6Gz9
+         ggfKlpQVCEHZghm3QzOFr6IjQijVzEjMCpgyLkJXIlPxIJB8ofom9X45I6t3xBeNk2fb
+         qbbQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-language:content-transfer-encoding:in-reply-to:mime-version
          :user-agent:date:message-id:autocrypt:from:references:cc:to:subject
          :dkim-signature;
-        bh=0p/9Qs6uC0BaB+0SCy7KvfzsMvYfbq6Mgk/yMvp8PgY=;
-        b=aHfvonqjFVCiutMc97MbmPPXsdo8gewf2PetSf3JNLYIAaGvvFIyWl1EvKmy7I/NB5
-         WeJJO7Ds2ymfBK5LqdN3e4zyGE4AHwhNNioamv1FSQ8MlWJAkwxpdstVBOiyA2Iw0o3r
-         6Z6maI5ZVdngFa/5anPQIyBAcExlBHiXfk+yKBJq5iry1Qmgb+0SVYNpPUxnTlyQdueI
-         wdGvNaFSrBuY3rn9h0sFEb2yOvZWOylGaXs3/QnI3OpeQ+gHtJgJbVKwTnP+Jar79KAI
-         lhlQuw0Q1uGjr+6QT/R53XS2rCqWy5MMe1l3ZVJ8SfxGGakrAq644a3miAbjQSoiuVvx
-         uJsg==
+        bh=vG1mkAjNS0IUY82t2fwR1dyk1+GFCsDem1vS5EXCY2Y=;
+        b=S2Y53wcrrTxS2exT4/Debv2SD+wACALcup7a0lTWot8P/Ka/ptoxVy+BnYPmgeOwoJ
+         Ye/xPb7NYCV7O5Mx+b0dfHs8NqBXat7avzPwa1arezQasYx+EolhnZ7MOVPzMa4x7WTd
+         lZePIf0JhItBGmZ45D1G6ETXOyc7nFd2f8dkr8tKhTLmSb3a2p31v85zhqe/onp2zqte
+         o3UVKWNiGgSu5ntyDXwTym9dqr/LSwI6HOVQY1KRj9yxFOmIsdZAOACBFaqLLIx59peY
+         TYV8WanYwOqJAiTM/3alJcxoUvMO4Zd7qOPyz3pd7iZ0ZRiOfvfl2MYNuS8+isPKacH5
+         Z+Qg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@oracle.com header.s=corp-2020-01-29 header.b=PYvlJVCx;
-       spf=pass (google.com: domain of boris.ostrovsky@oracle.com designates 156.151.31.86 as permitted sender) smtp.mailfrom=boris.ostrovsky@oracle.com;
+       dkim=pass header.i=@oracle.com header.s=corp-2020-01-29 header.b="Qv9gH/CX";
+       spf=pass (google.com: domain of boris.ostrovsky@oracle.com designates 141.146.126.78 as permitted sender) smtp.mailfrom=boris.ostrovsky@oracle.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=oracle.com
-Received: from userp2130.oracle.com (userp2130.oracle.com. [156.151.31.86])
-        by gmr-mx.google.com with ESMTPS id j10si77724pgg.2.2020.02.10.12.28.52
+Received: from aserp2120.oracle.com (aserp2120.oracle.com. [141.146.126.78])
+        by gmr-mx.google.com with ESMTPS id i4si76269ioi.1.2020.02.10.12.33.33
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 10 Feb 2020 12:28:53 -0800 (PST)
-Received-SPF: pass (google.com: domain of boris.ostrovsky@oracle.com designates 156.151.31.86 as permitted sender) client-ip=156.151.31.86;
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-	by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01AKSnft095974;
-	Mon, 10 Feb 2020 20:28:49 GMT
+        Mon, 10 Feb 2020 12:33:33 -0800 (PST)
+Received-SPF: pass (google.com: domain of boris.ostrovsky@oracle.com designates 141.146.126.78 as permitted sender) client-ip=141.146.126.78;
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+	by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01AKWMF6068971;
+	Mon, 10 Feb 2020 20:33:30 GMT
 Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
-	by userp2130.oracle.com with ESMTP id 2y2k87y4x4-1
+	by aserp2120.oracle.com with ESMTP id 2y2jx5ydhf-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Mon, 10 Feb 2020 20:28:49 +0000
+	Mon, 10 Feb 2020 20:33:30 +0000
 Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
-	by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01AKS7tZ173240;
-	Mon, 10 Feb 2020 20:28:48 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
-	by aserp3030.oracle.com with ESMTP id 2y26htm1rt-1
+	by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01AKS7x6173225;
+	Mon, 10 Feb 2020 20:33:29 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+	by aserp3030.oracle.com with ESMTP id 2y26htm81x-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 10 Feb 2020 20:28:48 +0000
-Received: from abhmp0002.oracle.com (abhmp0002.oracle.com [141.146.116.8])
-	by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 01AKSlLV016847;
-	Mon, 10 Feb 2020 20:28:47 GMT
+	Mon, 10 Feb 2020 20:33:29 +0000
+Received: from abhmp0001.oracle.com (abhmp0001.oracle.com [141.146.116.7])
+	by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 01AKXSlZ011490;
+	Mon, 10 Feb 2020 20:33:28 GMT
 Received: from bostrovs-us.us.oracle.com (/10.152.32.65)
 	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Mon, 10 Feb 2020 12:28:47 -0800
-Subject: Re: [PATCH v3 2/4] x86/xen: add basic KASAN support for PV kernel
+	with ESMTP ; Mon, 10 Feb 2020 12:33:27 -0800
+Subject: Re: [PATCH v3 3/4] xen: teach KASAN about grant tables
 To: Sergey Dyasli <sergey.dyasli@citrix.com>, xen-devel@lists.xen.org,
         kasan-dev@googlegroups.com, linux-mm@kvack.org,
         linux-kernel@vger.kernel.org
@@ -132,7 +132,7 @@ Cc: Andrey Ryabinin <aryabinin@virtuozzo.com>,
         Ross Lagerwall <ross.lagerwall@citrix.com>,
         Andrew Morton <akpm@linux-foundation.org>
 References: <20200207142652.670-1-sergey.dyasli@citrix.com>
- <20200207142652.670-3-sergey.dyasli@citrix.com>
+ <20200207142652.670-4-sergey.dyasli@citrix.com>
 From: Boris Ostrovsky <boris.ostrovsky@oracle.com>
 Autocrypt: addr=boris.ostrovsky@oracle.com; keydata=
  xsFNBFH8CgsBEAC0KiOi9siOvlXatK2xX99e/J3OvApoYWjieVQ9232Eb7GzCWrItCzP8FUV
@@ -177,12 +177,12 @@ Autocrypt: addr=boris.ostrovsky@oracle.com; keydata=
  Fm5PY8YtX576DchSP6qJC57/eAAe/9ztZdVAdesQwGb9hZHJc75B+VNm4xrh/PJO6c1THqdQ
  19WVJ+7rDx3PhVncGlbAOiiiE3NOFPJ1OQYxPKtpBUukAlOTnkKE6QcA4zckFepUkfmBV1wM
  Jg6OxFYd01z+a+oL
-Message-ID: <1d99ff54-dc81-85a8-0ecb-c3ee4d418f2e@oracle.com>
-Date: Mon, 10 Feb 2020 15:29:26 -0500
+Message-ID: <22a1a10d-a323-b039-639a-6fee6c32fad6@oracle.com>
+Date: Mon, 10 Feb 2020 15:34:05 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200207142652.670-3-sergey.dyasli@citrix.com>
+In-Reply-To: <20200207142652.670-4-sergey.dyasli@citrix.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Language: en-US
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9527 signatures=668685
@@ -191,16 +191,16 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 p
  spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2001150001 definitions=main-2002100148
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9527 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 lowpriorityscore=0
- suspectscore=0 bulkscore=0 phishscore=0 mlxlogscore=999 mlxscore=0
- malwarescore=0 impostorscore=0 clxscore=1011 spamscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2001150001 definitions=main-2002100148
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 malwarescore=0
+ priorityscore=1501 adultscore=0 phishscore=0 impostorscore=0 spamscore=0
+ bulkscore=0 lowpriorityscore=0 mlxscore=0 suspectscore=0 clxscore=1015
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
+ definitions=main-2002100148
 X-Original-Sender: boris.ostrovsky@oracle.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@oracle.com header.s=corp-2020-01-29 header.b=PYvlJVCx;
+ header.i=@oracle.com header.s=corp-2020-01-29 header.b="Qv9gH/CX";
        spf=pass (google.com: domain of boris.ostrovsky@oracle.com designates
- 156.151.31.86 as permitted sender) smtp.mailfrom=boris.ostrovsky@oracle.com;
+ 141.146.126.78 as permitted sender) smtp.mailfrom=boris.ostrovsky@oracle.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=oracle.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
@@ -217,23 +217,19 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 
 On 2/7/20 9:26 AM, Sergey Dyasli wrote:
-> Introduce and use xen_kasan_* functions that are needed to properly
-> initialise KASAN for Xen PV domains. Disable instrumentation for files
-> that are used by xen_start_kernel() before kasan_early_init() could
-> be called.
+> From: Ross Lagerwall <ross.lagerwall@citrix.com>
 >
-> This enables to use Outline instrumentation for Xen PV kernels.
-> KASAN_INLINE and KASAN_VMALLOC options currently lead to boot crashes
-> and hence disabled.
+> Otherwise it produces lots of false positives when a guest starts using
+> PV I/O devices.
 >
+> Signed-off-by: Ross Lagerwall <ross.lagerwall@citrix.com>
 > Signed-off-by: Sergey Dyasli <sergey.dyasli@citrix.com>
+>
 
-Xen bits:
 
 Reviewed-by: Boris Ostrovsky <boris.ostrovsky@oracle.com>
-
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/1d99ff54-dc81-85a8-0ecb-c3ee4d418f2e%40oracle.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/22a1a10d-a323-b039-639a-6fee6c32fad6%40oracle.com.
