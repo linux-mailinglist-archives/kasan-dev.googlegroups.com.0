@@ -1,130 +1,132 @@
-Return-Path: <kasan-dev+bncBAABBFXKQXZAKGQEN2PDHZA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCD3NZ4T2IKRB4MGQ3ZAKGQEL6CQO7Q@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qt1-x83f.google.com (mail-qt1-x83f.google.com [IPv6:2607:f8b0:4864:20::83f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1815F157EA8
-	for <lists+kasan-dev@lfdr.de>; Mon, 10 Feb 2020 16:22:00 +0100 (CET)
-Received: by mail-qt1-x83f.google.com with SMTP id e37sf4611992qtk.7
-        for <lists+kasan-dev@lfdr.de>; Mon, 10 Feb 2020 07:22:00 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1581348119; cv=pass;
+Received: from mail-yw1-xc38.google.com (mail-yw1-xc38.google.com [IPv6:2607:f8b0:4864:20::c38])
+	by mail.lfdr.de (Postfix) with ESMTPS id 50BC3157F98
+	for <lists+kasan-dev@lfdr.de>; Mon, 10 Feb 2020 17:23:14 +0100 (CET)
+Received: by mail-yw1-xc38.google.com with SMTP id j185sf6477557ywf.21
+        for <lists+kasan-dev@lfdr.de>; Mon, 10 Feb 2020 08:23:14 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1581351793; cv=pass;
         d=google.com; s=arc-20160816;
-        b=nTtCVuP7LfwkLaqoli6/JdMFCG8ivr6Hc7Asvqiba0lXpQ8RyJu93CNDFiPwfpJ2TS
-         vkioKLWKu4dHTiWqAS9IjX67eYrAO19+QSZ2CBrtaVcwUxi0XaGmNwHAFuqQSlTufft8
-         xoqJefzZhIvgETfkhK6OyFUGx3gY6pWne7KfOmo2rxAk623k1R+qZBRlBNDdBwFuRLNU
-         84l8MKJOzfk0NNa7xNwy9/lzNqYj4N1LjZ+muKTao9q2Bcb+BdKCSl+k1ebhhfva8fgK
-         2952A7m4Mb6f5VGyxc13V0oqzueiWOexeKoDQd76tgVEHhKn4h0TemMT/I4vFOrAhQta
-         fJ7g==
+        b=IIDcO9JnpGECQR8vblPVz26niDuDAWBvA2/lXOZVuLtrXYLywZOTeH75O8u2YMvnzh
+         SXOWHj/2I+9HxYFRd95E8oTDD/vKBehLo4WOHTrRDwyBebxByxk+cgDRG5hdYTGsX/40
+         /jwPxsD2DmW3boOQQKh9uxx6zhFSVauDiug7r6WwWqEZzvvpYR184kswwYi9fKNSUd5W
+         KglT1qZMnuNzDaXoeszD+ng6ralSJ149CqOQseaVvBw9Vqbvd0rgWPh51ZvKZ7tom43p
+         iUqRZt1DgMDe4swQVyEKj577+w028CE4zleIwx6p/hh7Z9owi8uabfMHo9futTv7vPrS
+         +hpQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:user-agent:in-reply-to
-         :content-disposition:mime-version:references:reply-to:message-id
-         :subject:cc:to:from:date:sender:dkim-signature;
-        bh=QGTcte8F9j5yW9WPMgFxsFu6MXZGKGSOWHPNQAYeytY=;
-        b=Df7OYFjQZW9NyMhYSRo7yB0jblBPoO3qXGe00+nQE834+vbvKeN9gbIH0LkXJ+ATjs
-         TGVGmjpuxloHcL1XDNNmaxQXfDrBHR4ut9IN+5twEkcduLpM4T9tpZI77x9ZBDtju1P8
-         ugcHovMBAIyI35oSB0tqQgdNHN0XJeXKGMQHuA0yP5Gb/WIKGCAejN7FK+Fv6p4fjEFn
-         i8tgNlZUhZq9xJ/U6s5yOtq9+EHw5Mjh6dNt5KjCq/fqMjsDnmgcQTvONRa/NyLQ8mas
-         baxSHLHULUMxXzHkJXsWi67ZG/0AO7ucLUYt2mKpArz+g5jFzFOZZN5KX2v+tUvJFGCC
-         EFOQ==
+         :list-id:mailing-list:precedence:content-transfer-encoding
+         :mime-version:references:in-reply-to:date:cc:to:from:subject
+         :message-id:sender:dkim-signature;
+        bh=5Bdez1rxKw2ipUEQvtKWDlT4751ZRBeKEGLFjkCXFC0=;
+        b=YqIh5VTkkMfwnz1uJNaJGRYEMy9Pxv8JDz7VuKJ/d8xp2z8kLxWPVkyj+LInZKLaBo
+         wzF4gvjm60yJo53bWQ7IOXcoZHUJKDZSY7fdtfnL2f4UdNUyLOYl4WCJpp1/Sk4j6PRm
+         OZ31kH5ftvUA/5VOYmDPQXbPaehJBJAt/B5n8JJGu2/lxl/LWlySdnh4iNnkf36RRTWK
+         31WFGq5sQeOYiZ1/drbr+Eo8bj7W+kUr4ZwegtFPo+dNYE64wh0+y09ri6jb7qJOQBd2
+         8fqIg3Hro+LCSDtWojdWQBXMcjSu5aqeWO+efKzX0eCnJoTgNgEohlL7ptkeeh1OH4/O
+         kbqw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=default header.b=p542MkWc;
-       spf=pass (google.com: domain of srs0=mxv1=36=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=MXv1=36=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       dkim=pass header.i=@lca.pw header.s=google header.b=ot9S+A+S;
+       spf=pass (google.com: domain of cai@lca.pw designates 2607:f8b0:4864:20::741 as permitted sender) smtp.mailfrom=cai@lca.pw
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:reply-to:references
-         :mime-version:content-disposition:in-reply-to:user-agent
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=QGTcte8F9j5yW9WPMgFxsFu6MXZGKGSOWHPNQAYeytY=;
-        b=KPb16ebucDm7RL0IGrlnrPBgmu0pxYB70N/CS0REHjxiQC7CvGGeIQyZnOvBzQYYbx
-         1A4X5FAJbrIQesJx4V7V5FCnSmAMzWDC29lTzF9s0+pHYCBBRYrG2XCLF03L2tWYixeo
-         eULgYEQQSuYo8UDIAG31gFf3YRWSih9m6rE2qA75jvNk7x4UfUiMMFwitF3kK6yAz/E+
-         dPUY2I7H9vaqBGoUFGGBhKGUw4mtPDiainLi8rvnbphIvnaqifVeT5br11APxgt865D5
-         3DDAGeEXp3AtnsBdD2LFEoPGGdfRJd0UO9ap04vGEMPbIFp2T2iAlefi2Ihus6wjnppS
-         O/Dw==
+        h=sender:message-id:subject:from:to:cc:date:in-reply-to:references
+         :mime-version:content-transfer-encoding:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=5Bdez1rxKw2ipUEQvtKWDlT4751ZRBeKEGLFjkCXFC0=;
+        b=ePin7CS6uylpPlR4AKtNb8hbvYupRLXH3N42xrt80qgQw2IWbGGU+r8K463UC4x1j3
+         dkHqdVCIYyZsiJRgAd6UFMDtDdHEx9v+VN1Ja+Dq9/af0mssvuabpoTDoSlePvmKQHhp
+         iX4FXeA1vTiAY22AeW0uA2icEqKjQGIkKkRCz7c51N/INktKd9W128dhkZgVJoUC7WJ2
+         4sb9YPoSteCa/S+XjDQJrWlcASuX9y3HmgE83f83ZrcxIIwNmHG+tdRlcWOYn2E3scG3
+         MKQwFvteydZFZEznFr687DWlrXm4MvqPazKnzdfKBDNk+Mph1yTrl9MbLtNTuW65vIPe
+         cDTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :reply-to:references:mime-version:content-disposition:in-reply-to
-         :user-agent:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=QGTcte8F9j5yW9WPMgFxsFu6MXZGKGSOWHPNQAYeytY=;
-        b=pombhYm/4LrV3ZORnghgh7FFgyANsWC4U1bgWEmRrZtJN/LPgQwaG+31WcH5Bg3j7B
-         EkQmIWU2wPLpBM4GDDxjH8U3zSdNGzhga1d0fSI1rwFGAaCf/QiZhS1s31Csuq1bURrb
-         Nn5eP9hMEtYKO4JE1dPA4fxrB+qLVzY7Kknk3BeQ0hCFDtI8YgnNd4khf3qrdrWGsmds
-         I6rRZ09Ifs85cQ9Z8Be1Qt0W8lY6zjUkxIvrjsOLR/N7i2oHE3WwNkCZXQUHdTVGt1Mn
-         atFuVxhDhuGka8AEu3uRPuparnNH3wSyv/ZCk+fRcFcooEYwsZoH0q4rGVcJmstsXLIU
-         4Ssw==
+        h=sender:x-gm-message-state:message-id:subject:from:to:cc:date
+         :in-reply-to:references:mime-version:content-transfer-encoding
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=5Bdez1rxKw2ipUEQvtKWDlT4751ZRBeKEGLFjkCXFC0=;
+        b=lmFUSWHcHPhjyr5jgbUR/S7mnbMirTkbCd8mtwHMWR1GPsRiqQcXIwbsWbkE7vxWO7
+         /udnNA2PIKy7aBD20t/yX2dOw/hOdca2ScZVVxNbd1mWsSY0TCmkmWEC2Eb4VFXaDo2C
+         OUrUUSwNTfOkH4cLccnS5Lj1X49lL7RlXV6CrwlsoDbQGkN61vCq3NIDVYBnpiL6ppVf
+         E4kvLYTuyueakqeoyntRI44IR5dZcn04JnwUzluuQJrY/RYqUrNz0KlGc080Rvu7+v3T
+         0GVtffQDzVdmJSllR/71HfBbDDVLB3sY14j9oq9gQ/mKlqDvxS9C3hDCLMXwW86nN/be
+         6g5w==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAUQHdzNcX4LgPKfEVF+o+Bv0KMmFxDqeVpu9M2aOBQpsYqUTYoi
-	2aQ5QG4eSJYCFmhLxTcgSJQ=
-X-Google-Smtp-Source: APXvYqwxWUOFE2/eK0bMmky6SdFkRaN0BLsaViN0RYQu3+tThOwqImIRtLruOKsn0olk1AKcyBxCeg==
-X-Received: by 2002:a37:f60b:: with SMTP id y11mr1199586qkj.183.1581348118906;
-        Mon, 10 Feb 2020 07:21:58 -0800 (PST)
+X-Gm-Message-State: APjAAAXnYFtBx0whjxHRBxtHyC6bvaqeC+w3PfqVR7T/g7AAwDtATFJi
+	qNXiukp2r+9Z4NM7/w3JXe0=
+X-Google-Smtp-Source: APXvYqzHu7AnviUSuKuEv5j4e2yDWPpJ4EXJY+XcnQh4Y9SrqkFIkp0s7TGEWyVH/RCUSY0onYEZjg==
+X-Received: by 2002:a0d:ea15:: with SMTP id t21mr1604010ywe.360.1581351793317;
+        Mon, 10 Feb 2020 08:23:13 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ad4:5441:: with SMTP id h1ls1739261qvt.8.gmail; Mon, 10 Feb
- 2020 07:21:58 -0800 (PST)
-X-Received: by 2002:ad4:4434:: with SMTP id e20mr10463457qvt.157.1581348118635;
-        Mon, 10 Feb 2020 07:21:58 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1581348118; cv=none;
+Received: by 2002:a81:2ecc:: with SMTP id u195ls1360190ywu.11.gmail; Mon, 10
+ Feb 2020 08:23:12 -0800 (PST)
+X-Received: by 2002:a81:6084:: with SMTP id u126mr1724535ywb.115.1581351792906;
+        Mon, 10 Feb 2020 08:23:12 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1581351792; cv=none;
         d=google.com; s=arc-20160816;
-        b=Xgyjpf1u6PI4XX7ybCBtnAHpoDFm6hPGpkGEn/qR4sDJWR1iyrEny40ApaxYEXVytr
-         CCuJT5adsHywpcn0pYXLXy5azE/hrYk9NsF5iMDC/zngfMeZGw9+l+dTKMmUv6I4Xved
-         HLhDDMZGnRwj5f8Sbr38jigLd4BrViO+KloA/lxlS9fABW8q4P593qd70BuYU/pHX8Db
-         0V0sARxmDHYIMN/J/AzUCYDm2dx/yb536kdRxSNQmmPQ6LTDtLUES6CC6kPD9OsUCkSl
-         dKWkR0AoBDDtIp/nG508bG35zJPlYYucaTd5Oprhttwx+2ZVeCArpAaNz4+j/OGMYYzA
-         1BTg==
+        b=Cosoj0/GZ917T51SPcmT8TQPhM6ODggO0YBrR4+k7KTsmHcW6R8a8b66gh7tBOgF2E
+         tp2OA9bYx40f0n1/yxLgLVyTQ/asLBuJ4ofIq9tlynCuSJfXI/kzNwJAm2nDaO/uD5cT
+         Oo8N8R3WrYeCH2UPB9H09OHofLxhOuKxrEFb0l8L06oZQpGKlbX5ze8WKdDlK7ORQaBP
+         utkNlT/LVLmR/vTEPLsjJYcgmY4nsA8GzOQI5bfu5ziC4BHBio9aYFMzWEq1IRT7aSvR
+         /LZrzJDRmtfdoXSfnucWC7dQgGkFbXTXHOpg7/VM/Zl/3rDIn+sV2E+xEzjhO2eS4XXq
+         E1FA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :reply-to:message-id:subject:cc:to:from:date:dkim-signature;
-        bh=wL77na+4Tr8fLRCxWeTcL2vUCczRx43y4v3artlyPL4=;
-        b=qcg1qQNdmHfnEo6r/FzzyA5AlU8At4fKy5cwfeNs82KY4ERM47O1crcUE4H9DjGZNj
-         lgdrwt0zJGPeOHf6vZNmqZ7Hbm2HaecnRad4skSir0WarR1d3ynhciLa8OO/QqoeXu7i
-         GfR9nUKFE210AdSuP3FRQQC5E2pA/KqlTEtVf3Seo9lSsqa52L4RlB/nIRUwaTd4ltlG
-         IE+glNzPbnSEvINYk0oKR/mbGJxjE9aANyQeuMHxDbAS7G6qxmnclNyvQSksdoJkCoFv
-         P5tUJc+ZEb5+e/+v4ER6r2Fnij+Q1R5LNxko/Y41sLPBFPOCHJqL5UcNFZqiHMeDsg1x
-         vDZQ==
+        h=content-transfer-encoding:mime-version:references:in-reply-to:date
+         :cc:to:from:subject:message-id:dkim-signature;
+        bh=TaHv+PKpHG2kLF+syKmgL65ROquUkDcK5zPG7XnFfj8=;
+        b=jeN3CpOw2I03r8phGbrbWsz5jKV8BhGUiGthUVOBHV/6YiHC4n7S+AAkZfvqnHXIOr
+         2oO9DHk1Qc1muJ6NVFXbbUUIgMvn8Ne2BIDjn6h52LUwCmagR0NwjkvqQXTrw4vAx8YP
+         QQpsTkEcaL2LkvSWxVUVqkjCVdCXWNlsuqIjOp+jZezZOTdHFkiGNsLnD229Jq1q4de3
+         uTSFEywNPENkHj1RCJjF3adU7kJrwSc0/8XZfleX6ZovD2eyIbjnZWI93+wZ23llKsbj
+         1PWw4Q7oGvdNglCY278IOHpgZpSzNlvzklNaJjeeqx6QbB10zzszDyucMBeiaBhmQnwP
+         mgxA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=default header.b=p542MkWc;
-       spf=pass (google.com: domain of srs0=mxv1=36=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=MXv1=36=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id o21si37654qtb.3.2020.02.10.07.21.58
+       dkim=pass header.i=@lca.pw header.s=google header.b=ot9S+A+S;
+       spf=pass (google.com: domain of cai@lca.pw designates 2607:f8b0:4864:20::741 as permitted sender) smtp.mailfrom=cai@lca.pw
+Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com. [2607:f8b0:4864:20::741])
+        by gmr-mx.google.com with ESMTPS id i200si61466ywa.3.2020.02.10.08.23.12
         for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 10 Feb 2020 08:23:12 -0800 (PST)
+Received-SPF: pass (google.com: domain of cai@lca.pw designates 2607:f8b0:4864:20::741 as permitted sender) client-ip=2607:f8b0:4864:20::741;
+Received: by mail-qk1-x741.google.com with SMTP id v2so2142801qkj.2
+        for <kasan-dev@googlegroups.com>; Mon, 10 Feb 2020 08:23:12 -0800 (PST)
+X-Received: by 2002:ae9:e306:: with SMTP id v6mr2094560qkf.162.1581351792284;
+        Mon, 10 Feb 2020 08:23:12 -0800 (PST)
+Received: from dhcp-41-57.bos.redhat.com (nat-pool-bos-t.redhat.com. [66.187.233.206])
+        by smtp.gmail.com with ESMTPSA id g6sm359335qki.100.2020.02.10.08.23.10
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 10 Feb 2020 07:21:58 -0800 (PST)
-Received-SPF: pass (google.com: domain of srs0=mxv1=36=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
-Received: from paulmck-ThinkPad-P72.home (unknown [193.85.242.128])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id 5DB872082F;
-	Mon, 10 Feb 2020 15:21:57 +0000 (UTC)
-Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
-	id 11DD33522700; Mon, 10 Feb 2020 07:21:54 -0800 (PST)
-Date: Mon, 10 Feb 2020 07:21:54 -0800
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Marco Elver <elver@google.com>
-Cc: andreyknvl@google.com, glider@google.com, dvyukov@google.com,
-	kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] kcsan: Fix misreporting if concurrent races on same
- address
-Message-ID: <20200210152154.GY2935@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
-References: <20200210145639.169712-1-elver@google.com>
-MIME-Version: 1.0
+        Mon, 10 Feb 2020 08:23:11 -0800 (PST)
+Message-ID: <1581351789.7365.32.camel@lca.pw>
+Subject: Re: [PATCH] mm: fix a data race in put_page()
+From: Qian Cai <cai@lca.pw>
+To: Marco Elver <elver@google.com>, John Hubbard <jhubbard@nvidia.com>
+Cc: Jan Kara <jack@suse.cz>, David Hildenbrand <david@redhat.com>, Andrew
+ Morton <akpm@linux-foundation.org>, ira.weiny@intel.com, Dan Williams
+ <dan.j.williams@intel.com>,  Linux Memory Management List
+ <linux-mm@kvack.org>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>,  "Paul E. McKenney" <paulmck@kernel.org>,
+ kasan-dev <kasan-dev@googlegroups.com>
+Date: Mon, 10 Feb 2020 11:23:09 -0500
+In-Reply-To: <CANpmjNNaHAnKCMLb+Njs3AhEoJT9O6-Yh63fcNcVTjBbNQiEPg@mail.gmail.com>
+References: <5402183a-2372-b442-84d3-c28fb59fa7af@nvidia.com>
+	 <8602A57D-B420-489C-89CC-23D096014C47@lca.pw>
+	 <1a179bea-fd71-7b53-34c5-895986c24931@nvidia.com>
+	 <CANpmjNNaHAnKCMLb+Njs3AhEoJT9O6-Yh63fcNcVTjBbNQiEPg@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <20200210145639.169712-1-elver@google.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Original-Sender: paulmck@kernel.org
+X-Mailer: Evolution 3.22.6 (3.22.6-10.el7)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: cai@lca.pw
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=default header.b=p542MkWc;       spf=pass
- (google.com: domain of srs0=mxv1=36=paulmck-thinkpad-p72.home=paulmck@kernel.org
- designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=MXv1=36=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+ header.i=@lca.pw header.s=google header.b=ot9S+A+S;       spf=pass
+ (google.com: domain of cai@lca.pw designates 2607:f8b0:4864:20::741 as
+ permitted sender) smtp.mailfrom=cai@lca.pw
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -137,61 +139,179 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, Feb 10, 2020 at 03:56:39PM +0100, Marco Elver wrote:
-> If there are more than 3 threads racing on the same address, it can
-> happen that 'other_info' is populated not by the thread that consumed
-> the calling thread's watchpoint but by one of the others.
-> 
-> To avoid deadlock, we have to consume 'other_info' regardless. In case
-> we observe that we only have information about readers, we discard the
-> 'other_info' and skip the report.
-> 
-> Signed-off-by: Marco Elver <elver@google.com>
+On Mon, 2020-02-10 at 08:48 +0100, Marco Elver wrote:
+> On Sun, 9 Feb 2020 at 08:15, John Hubbard <jhubbard@nvidia.com> wrote:
+> >=20
+> > On 2/8/20 7:10 PM, Qian Cai wrote:
+> > >=20
+> > >=20
+> > > > On Feb 8, 2020, at 8:44 PM, John Hubbard <jhubbard@nvidia.com> wrot=
+e:
+> > > >=20
+> > > > So it looks like we're probably stuck with having to annotate the c=
+ode. Given
+> > > > that, there is a balance between how many macros, and how much comm=
+enting. For
+> > > > example, if there is a single macro (data_race, for example), then =
+we'll need to
+> > > > add comments for the various cases, explaining which data_race situ=
+ation is
+> > > > happening.
+> > >=20
+> > > On the other hand, it is perfect fine of not commenting on each data_=
+race() that most of times, people could run git blame to learn more details=
+. Actually, no maintainers from various of subsystems asked for commenting =
+so far.
+> > >=20
+> >=20
+> > Well, maybe I'm looking at this wrong. I was thinking that one should a=
+ttempt to
+> > understand the code on the screen, and that's generally best--but here,=
+ maybe
+> > "data_race" is just something that means "tool cruft", really. So menta=
+lly we
+> > would move toward visually filtering out the data_race "key word".
+>=20
+> One thing to note is that 'data_race()' points out concurrency, and
+> that somebody has deemed that the code won't break even with data
+> races. Somebody trying to understand or modify the code should ensure
+> this will still be the case. So, 'data_race()' isn't just tool cruft.
+> It's documentation for something that really isn't obvious from the
+> code alone.
+>=20
+> Whenever we see a READ_ONCE or other marked access it is obvious to
+> the reader that there are concurrent accesses happening.  I'd argue
+> that for intentional data races, we should convey similar information,
+> to avoid breaking the code (of course KCSAN would tell you, but only
+> after the change was done). Even moreso, since changes to code
+> involving 'data_race()' will need re-verification that the data races
+> are still safe.
+>=20
+> > I really don't like it but at least there is a significant benefit from=
+ the tool
+> > that probably makes it worth the visual noise.
+> >=20
+> > Blue sky thoughts for The Far Future: It would be nice if the tools got=
+ a lot
+> > better--maybe in the direction of C language extensions, even if only u=
+sed in
+> > this project at first.
+>=20
+> Still thinking about this.  What we want to convey is that, while
+> there are races on the particular variable, nobody should be modifying
+> the bits here. Adding a READ_ONCE (or data_race()) would miss a
+> harmful race where somebody modifies these bits, so in principle I
+> agree. However, I think the tool can't automatically tell (even if we
+> had compiler extensions to give us the bits accessed) which bits we
+> care about, because we might have something like:
+>=20
+> int foo_bar =3D READ_ONCE(flags) >> FOO_BAR_SHIFT;  // need the
+> READ_ONCE because of FOO bits
+> .. (foo_bar & FOO_MASK) ..  // FOO bits can be modified concurrently
+> .. (foo_bar & BAR_MASK) ..  // nobody should modify BAR bits
+> concurrently though !
+>=20
+> What we want is to assert that nobody touches a particular set of
+> bits. KCSAN has recently gotten ASSERT_EXCLUSIVE_{WRITER,ACCESS}
+> macros which help assert properties of concurrent code, where bugs
+> won't manifest as data races. Along those lines, I can see the value
+> in doing an exclusivity check on a bitmask of a variable.
+>=20
+> I don't know how much a READ_BITS macro could help, since it's
+> probably less ergonomic to have to say something like:
+>   READ_BITS(page->flags, ZONES_MASK << ZONES_PGSHIFT) >> ZONES_PGSHIFT.
+>=20
+> Here is an alternative:
+>=20
+> Let's say KCSAN gives you this:
+>    /* ... Assert that the bits set in mask are not written
+> concurrently; they may still be read concurrently.
+>      The access that immediately follows is assumed to access those
+> bits and safe w.r.t. data races.
+>=20
+>      For example, this may be used when certain bits of @flags may
+> only be modified when holding the appropriate lock,
+>      but other bits may still be modified locklessly.
+>    ...
+>   */
+>    #define ASSERT_EXCLUSIVE_BITS(flags, mask)   ....
+>=20
+> Then we can write page_zonenum as follows:
+>=20
+> static inline enum zone_type page_zonenum(const struct page *page)
+>  {
+> +       ASSERT_EXCLUSIVE_BITS(page->flags, ZONES_MASK << ZONES_PGSHIFT);
+>         return (page->flags >> ZONES_PGSHIFT) & ZONES_MASK;
+>  }
 
-Queued for testing and review, thank you!!!
+Actually, it seems still need to write if I understand correctly,
 
-							Thanx, Paul
+ASSERT_EXCLUSIVE_BITS(page->flags, ZONES_MASK << ZONES_PGSHIFT);
+return data_race((page->flags >> ZONES_PGSHIFT) & ZONES_MASK);
 
-> ---
->  kernel/kcsan/report.c | 20 ++++++++++++++++++++
->  1 file changed, 20 insertions(+)
-> 
-> diff --git a/kernel/kcsan/report.c b/kernel/kcsan/report.c
-> index 3bc590e6be7e3..e046dd26a2459 100644
-> --- a/kernel/kcsan/report.c
-> +++ b/kernel/kcsan/report.c
-> @@ -422,6 +422,26 @@ static bool prepare_report(unsigned long *flags, const volatile void *ptr,
->  			return false;
->  		}
->  
-> +		access_type |= other_info.access_type;
-> +		if ((access_type & KCSAN_ACCESS_WRITE) == 0) {
-> +			/*
-> +			 * This is not the other_info from the thread that
-> +			 * consumed our watchpoint.
-> +			 *
-> +			 * There are concurrent races between more than 3
-> +			 * threads on the same address. The thread that set up
-> +			 * the watchpoint here was a read, as well as the one
-> +			 * that is currently in other_info.
-> +			 *
-> +			 * It's fine if we simply omit this report, since the
-> +			 * chances of one of the other reports including the
-> +			 * same info is high, as well as the chances that we
-> +			 * simply re-report the race again.
-> +			 */
-> +			release_report(flags, KCSAN_REPORT_RACE_SIGNAL);
-> +			return false;
-> +		}
-> +
->  		/*
->  		 * Matching & usable access in other_info: keep other_info_lock
->  		 * locked, as this thread consumes it to print the full report;
-> -- 
-> 2.25.0.341.g760bfbb309-goog
-> 
+On the other hand, if you really worry about this thing could go wrong, it =
+might
+be better of using READ_ONCE() at the first place where it will be more fut=
+ure-
+proof with the trade-off it might generate less efficient code optimization=
+?
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200210152154.GY2935%40paulmck-ThinkPad-P72.
+Alternatively, is there a way to write this as this?
+
+return ASSERT_EXCLUSIVE_BITS(page->flags, ZONES_MASK << ZONES_PGSHIFT);
+
+Kind of ugly but it probably cleaner.
+
+>=20
+> This will accomplish the following:
+> 1. The current code is not touched, and we do not have to verify that
+> the change is correct without KCSAN.
+> 2. We're not introducing a bunch of special macros to read bits in variou=
+s ways.
+> 3. KCSAN will assume that the access is safe, and no data race report
+> is generated.
+> 4. If somebody modifies ZONES bits concurrently, KCSAN will tell you
+> about the race.
+> 5. We're documenting the code.
+>=20
+> Anything I missed?
+>=20
+> Thanks,
+> -- Marco
+>=20
+>=20
+>=20
+>=20
+>=20
+> > thanks,
+> > --
+> > John Hubbard
+> > NVIDIA
+> >=20
+> > > >=20
+> > > > That's still true, but to a lesser extent if more macros are added.=
+ In this case,
+> > > > I suspect that READ_BITS() makes the commenting easier and shorter.=
+ So I'd tentatively
+> > > > lead towards adding it, but what do others on the list think?
+> > >=20
+> > > Even read bits could be dangerous from data races and confusing at be=
+st, so I am not really sure what the value of introducing this new macro. P=
+eople who like to understand it correctly still need to read the commit log=
+s.
+> > >=20
+> > > This flags->zonenum is such a special case that I don=E2=80=99t reall=
+y see it regularly for the last few weeks digging KCSAN reports, so even if=
+ it is worth adding READ_BITS(), there are more equally important macros ne=
+ed to be added together to be useful initially. For example, HARMLESS_COUNT=
+ERS(), READ_SINGLE_BIT(), READ_IMMUTATABLE_BITS() etc which Linus said exac=
+tly wanted to avoid.
+> > >=20
+
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/1581351789.7365.32.camel%40lca.pw.
