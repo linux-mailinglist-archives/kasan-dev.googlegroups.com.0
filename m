@@ -1,121 +1,146 @@
-Return-Path: <kasan-dev+bncBDK3TPOVRULBBA6AQ7ZAKGQECSHKJHY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDCO5FWBMEINFRMH6ICRUBEIFMOF4@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yw1-xc37.google.com (mail-yw1-xc37.google.com [IPv6:2607:f8b0:4864:20::c37])
-	by mail.lfdr.de (Postfix) with ESMTPS id B94A71585D1
-	for <lists+kasan-dev@lfdr.de>; Mon, 10 Feb 2020 23:58:12 +0100 (CET)
-Received: by mail-yw1-xc37.google.com with SMTP id l12sf7359596ywk.6
-        for <lists+kasan-dev@lfdr.de>; Mon, 10 Feb 2020 14:58:12 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1581375491; cv=pass;
+Received: from mail-lj1-x238.google.com (mail-lj1-x238.google.com [IPv6:2a00:1450:4864:20::238])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D6671585F7
+	for <lists+kasan-dev@lfdr.de>; Tue, 11 Feb 2020 00:10:10 +0100 (CET)
+Received: by mail-lj1-x238.google.com with SMTP id j21sf3153416lji.12
+        for <lists+kasan-dev@lfdr.de>; Mon, 10 Feb 2020 15:10:10 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1581376210; cv=pass;
         d=google.com; s=arc-20160816;
-        b=deVwyffoUQFPiBuKSvhC+pefpciXZQ/Vht7O3nzVDWy/7QHxlyhNr7lBhzyhi9oZeX
-         EotUNfe7zJSp3/9kApd8KAWC0qaHSicdkQ6R36S0D75Z5RwYEBDzYEVyrDAga9vtadyz
-         qTdByd/aW7poD4MfSvrnG0otnxe8baoALAeaOIJgB245RMi9zgbucXchSiHD+5rBcfwb
-         E6zqpTA5K5SG2ENh7aOuOGcKopCrSMEh2ugGgCQtAWeq4W3XkXCESSoCV7Jjlqa12dE3
-         uQ8Oi76oLFYJ1ap8eE4S4QYIFhiMqxR7QHOXnfN0X4ln7VAVcwuYPTzNRve4LUAEb97h
-         6Xsg==
+        b=Z/N06TWPJWhNKaYsZl0RfECs5ATVfHaL8idZzg7+kwxU1Hdo4y19qTqpYq9x4t8l5K
+         J035NFQhhBseCh9FZiNOtWgnSPfgaxn5WaO95zONofV+xyZ2c48R2KAecpFmoDsCPv0I
+         CntORyntJhi7qwMnTDhJry7Vt9wK0KfdU81JglYE3Kc5qNyN2vTa4UA6HtSMT03/dKpE
+         vxKzcAs8pfJZTrI8niR+usxkT48q9CIz51XFzbsqt6PpsSmEc70yM3rZu+P6lbb5xfBt
+         IXYxqN9wA5ZVf27cF14YNpxW9dvCCejGo0ZucbogatqfWoqsv5sKjvD2+Twi+NG5XaV3
+         9dkQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
-         :mime-version:message-id:date:dkim-signature;
-        bh=VDq26oaU6058bv2kw+9ijRGRF4cBvDPulEYA9n90LQs=;
-        b=roJku0DzLgwAgbh1O15e4j0oXnPVC3b6zq84CWxqouJYBnH70STb4yMn+VyDf0TmwY
-         FPB4Vy5r+LODVN9Ozy423GUKemoLQOpBPqrCg3xcTDIousgAFcV++DcZiFK9LNTCwYQX
-         megwLVFtX9aVmHRKhDxU5iE0IAsqlM+Io3G7KPHFGtafGL+JMp2yy3PyMceHdJ/zmU2b
-         UGBgdCi9nRwop33YFKtb3z3oFVC24SmC72zMnZSkfEVjg46qzPNAQX3gghW7RDQ7hCSO
-         nh1j4P/okXeM8X1ibkWwgnfKPsO5SCPmlzt1qjFSfCybcnWdnOOuPNQH3cFO76FmeWTu
-         b4Ow==
+         :list-id:mailing-list:precedence:mime-version:references:message-id
+         :in-reply-to:subject:cc:to:date:from:sender:dkim-signature
+         :dkim-signature;
+        bh=Z+UosE4ZflvC0pt99qB8AbxUSoCxMD3q61VjtYkUqbo=;
+        b=VEagNlbBiILhEBEU7tfr8diIfu+kkMgHICbbeJhl9DmgRwXRBL+ZbJGi2RVkAFLVjI
+         glURRnQLtcP1zGI/HQXLUSEy+AIcnGEbq+xLiBM04hC1n0ttsT6txc+YoB67r3gDq94I
+         zkp6NhdP98R96IuTW9cDfjOpA/uYIKwOH/EzCpe6tKgxkXptAOyKEPfhTrItsnrrB67G
+         0ZU4X4H1UO5fGIeMyycSYunXyQAE3ytXsWF21SsrqwSkPBJ6vKr4usd8gvKCL0Ko7tNs
+         Pe8XxtFcSELS8z6JDH1h162WflhGSbsISjqoUG4eorpgpZc9Rto+WRQS9RVaiL3NoSim
+         +bkQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=GFdrTt3S;
-       spf=pass (google.com: domain of 3aubbxgwkcce0ypzohsmvuzvnvvnsl.jvtrhzhu-kl2nvvnslnyv1wz.jvt@flex--trishalfonso.bounces.google.com designates 2607:f8b0:4864:20::649 as permitted sender) smtp.mailfrom=3AuBBXgwKCcE0ypzohsmvuzvnvvnsl.jvtrhzhu-kl2nvvnslnyv1wz.jvt@flex--trishalfonso.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@gmail.com header.s=20161025 header.b=hUMe+OTA;
+       spf=pass (google.com: domain of jbi.octave@gmail.com designates 2a00:1450:4864:20::342 as permitted sender) smtp.mailfrom=jbi.octave@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=date:message-id:mime-version:subject:from:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:list-post:list-help:list-archive:list-subscribe
-         :list-unsubscribe;
-        bh=VDq26oaU6058bv2kw+9ijRGRF4cBvDPulEYA9n90LQs=;
-        b=bR4ssal3dRJpEGcbYTr/yCgfs27cdVACj9S7IzeczntrcAmoZQFgPK6bUAwpw0WIXi
-         68AYRcfGkoBRtShIWclhxsS6d8pomONHsz/NfnZLPKdopSytL8KZiWLUEEaeCWmPw45L
-         fjroYWXYgiAhYQOWZmbxVURPpQme0d550aSH0vjRQI2XQtQ0NWfywvUX5HldDZLwszUN
-         L8Ypw3WJ0qKN4S0rulvNx/8VEfN1KQn1VdzC+ndtXXjL8YgqHDSg4XuphsqLIOeHaYE+
-         4NCPnjJVB6JPR3x0VFLNneKK8IgXHhHt56iSXjYwSsz9Ky1C6EDeQIGuheyJgvpNK13D
-         73qg==
+        h=sender:from:date:to:cc:subject:in-reply-to:message-id:references
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=Z+UosE4ZflvC0pt99qB8AbxUSoCxMD3q61VjtYkUqbo=;
+        b=Or6KyFsfpwE3GZO3GloLvkpnKdQtXOqynf+kFvcrU0ZchFmmkFaYGg94NjSUilSTIO
+         QnZ6S2M77qv6FaRUUv8l7tfwcYkbYSG4vVXsVd3UQhN+qPyuxIGrOAvzw0cD5TRM983p
+         ju4eK5ALNNQQaYHoRrsuj8t1tN+dq36/gncbhWeAt9dpxcUFUUjSl4j2XHE00N5cE4yz
+         VzmL07+S6nvZ5XmI0XuRmp0qUTapgO6fJDVLDv/yoTJSjwo1+9UkGEoqWekK2+KPYk+q
+         frLtnSdp0bARMvQwmoLyyZpjteWfFu/fldQsMGu+/t1WMdlQPVd32V6XR4OTOxRvQcx4
+         sgyg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:date:to:cc:subject:in-reply-to:message-id:references
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=Z+UosE4ZflvC0pt99qB8AbxUSoCxMD3q61VjtYkUqbo=;
+        b=ZV+8tw/vzNkUwY0iD5Yg5tgnxi+u6s9TPeB5iLP3nfXJly7oMW92njsQc00l5yzQAi
+         jsw9xhXQbVZRHc7ABcRTfMgWKpWWyXC9A7XMQUH+z86XUQ+QTRWAwtDAwacPac+i+YCr
+         8hLF12J/AD3du3IB0Oe4mT3VzgTkV9nknqE1LdrTAa3+AIaJE9Y72HwIWhp5BXPVp5gL
+         XwaBQsK0Q+5YhVucmDQ7gVK71R38XuA7bptcTnp3CXAeN2+7Wy5+uxoxJAN75zeJGRK7
+         iw7LUOcU0ttwdqJNz/kESWfMUPV2sKXDKUZnNeT2Ynzv5mgc1eumhCwGK3tKtTfwthD0
+         mXPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc
-         :x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=VDq26oaU6058bv2kw+9ijRGRF4cBvDPulEYA9n90LQs=;
-        b=Q0nqiWTGkvnv5k7fXBaefEbjTomRX7/njq1XniSBHokBAg8sAchyHPoy6RITTHQGhm
-         P7QZskxGU1kjeZlqno/4rXQk+tqdsmDq/CUgFF3XS+3vfdT3vDgXDHtiADkNlx3y/b7g
-         kk4psCVEZxpke4UcvZjNRWlYOCef5LkWJWrg2JIfCUeYR1k71XOA1jqUraX+HoP4QKjt
-         6G7JgTXPNh/jxiGtYcTL/12ibBt+GbYJ/tdUcrVcwb6EWCtZyLkIOGe2ZT8uKhXNurY7
-         1SFIUvImKbgPJ4xls4adi5w0z/A8Us/uOgIa/YczbIVuNw5AhZANX9tyWAkTMj1uLJBO
-         GNpw==
-X-Gm-Message-State: APjAAAWy0kBD6N2C/YNoen1qmv2zN0n52VVBo6bSLkR11kqhq84pVQwx
-	aRAH2t+TdBrdN3yBYDk0GAo=
-X-Google-Smtp-Source: APXvYqxJ+Ysqzgrl57v0omll3xk2B+cPj0ifO1w0HhGKvbjPHwatGzkEejklEU9l7iJ5Q0X8pu+VeQ==
-X-Received: by 2002:a81:bb54:: with SMTP id a20mr3301228ywl.408.1581375491448;
-        Mon, 10 Feb 2020 14:58:11 -0800 (PST)
+        h=sender:x-gm-message-state:from:date:to:cc:subject:in-reply-to
+         :message-id:references:mime-version:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=Z+UosE4ZflvC0pt99qB8AbxUSoCxMD3q61VjtYkUqbo=;
+        b=KWCe2To5qTzV3Zhc4naA5cnkrP91Rh7N/tnIuuiW1Hcz9wXDgab2MmkAy0D3OOyMus
+         7ArvRl0QR5bP+OVAm6s0pDZfnDqCRp6749uc2Au9xvNNh3Iu8YA+5qPn9l1i/x12jN+N
+         isoqGZmDTFdqI7ZQ1KGz6jJBtgtnPmcpCMeQGprYuHXbGBG5gMn+PWT8WQxIaCOioex6
+         Vbvz3tbomlqAdaxentpphMcoVgqqyj07FYPT2cG5TE0OwrX/kM/cY4CnpbF6MfBENCBb
+         npwG3/ssFLTC7Fov8qE/r6uRHlyOJJQc1IAM/e47XY3TsRAXWAH/mjunS0FEZaAjDQgx
+         TFrQ==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: APjAAAX5RlFl31YVIs4uNZZ9c1NcVL8yi3gpBrU0KFkWScSyYbgW9scq
+	Z5eOIRjf9HRqBSeEWR0qBoA=
+X-Google-Smtp-Source: APXvYqxL0HPT88CUzv96eSDxtIWc+xtSGdKojV2WNXPK9tjTgp3ezcQzVJR1b13nh4qYVIimJYFdrg==
+X-Received: by 2002:a2e:8105:: with SMTP id d5mr2297344ljg.25.1581376210171;
+        Mon, 10 Feb 2020 15:10:10 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a25:2f88:: with SMTP id v130ls666357ybv.2.gmail; Mon, 10 Feb
- 2020 14:58:11 -0800 (PST)
-X-Received: by 2002:a25:ab65:: with SMTP id u92mr3621936ybi.472.1581375491059;
-        Mon, 10 Feb 2020 14:58:11 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1581375491; cv=none;
+Received: by 2002:a2e:9516:: with SMTP id f22ls1759344ljh.2.gmail; Mon, 10 Feb
+ 2020 15:10:09 -0800 (PST)
+X-Received: by 2002:a2e:9110:: with SMTP id m16mr2271307ljg.140.1581376209320;
+        Mon, 10 Feb 2020 15:10:09 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1581376209; cv=none;
         d=google.com; s=arc-20160816;
-        b=X6tDFhgRbdPigF9fDOPMpdthvdv1X+6m3u/HbKJdIxv5gW/8kZhMw/pCSKeL1DN/Bz
-         TAjE9s3rqwX9xBvWJq5lCsgE/y4CjsfDOvN4OGO/b/QyvUfrGYMRCW72IAJ1xMBvG65Z
-         vJRGGnD9i/VZe0aBhhA/Fc6gvIPzhSyPXki5RUhZXp4eOA5ElhaV0VKtppgNjbBqwVjI
-         KGtgwJIps3uwKTeRxqEDAc05Of9/puZEzRspRrGPwRgf0Lptp0SknIr0ICRqQr/hjslC
-         zIEF3cLt1iX4OVBH3SRlkLkVVNv0nP+gWf+OQjIggf6LcYcMmejau8M5ujTEt5EeL2JO
-         Sqdg==
+        b=F3SBDFJ1uzkv7T+3mh/913YsHBxmZk/UPKj6cfbzLNAND3979rhtYw5tleE0WLjRUc
+         M36oojJTdAhKf7wz2oTcioEyDEhDIuRQsAlxVSTNblkpoefWVB+CkRaqHOFwyqU+Z+9U
+         mg9imgVpA2YwDFyXJ1meUP9rCmbUFDe4vL6a0M7oqQnyc/wW52WC0GNQaPWpxu38Yz25
+         tzrekxlm2fTfDtk8N+sKcqC/0liSoYEG1fbYma2eC2YPpUzs6ZcnjunkBmbEMwlpfWei
+         7KtZq1KneGCme9GQyT1h05rBkaUYpeF2FsFe8vmLjZFn9QSliv46NbuLP4BmuiY4n0BW
+         7FYA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:from:subject:mime-version:message-id:date:dkim-signature;
-        bh=e3IohNnZH1pK34OxxjwQrgjk1+u95jywj4N942Qaffg=;
-        b=hnKvFKyOOco2aDqTQpHN6ZMCpAvoonahNP7ZAwR+W/wWVgHuMnmuM9tks2c2MW3vo6
-         qr8ZHgGIJ0mSAoK6msO15IE5sTiIfXHSmgVKS2sf6lMDlY2aB5ZqkuxvOJt9xT5pf1cD
-         v6D+GIvYsavN4YFSU/5qXiv22Qo9Ly2kzcPr7YsPuVGZcQlNnVJKfcQdDMspy/trqe0A
-         dG2Q3Cc7dNMJoepipvTpjkb1nikLa27Wh2p/7YyjgqY3XKvYM5ytpbKIY4Dfsjlad1HU
-         rwi4zhHR6ycnGchBIzUwvYNxjpPTCdpDNjAAukQG3lUIlN/6LAeEVlOvjppP1hnFX1hw
-         3dog==
+        h=mime-version:references:message-id:in-reply-to:subject:cc:to:date
+         :from:dkim-signature;
+        bh=HlH978RiT/OKtcm1ieT3FHA3Af2vEFe/d++NhRbZZHo=;
+        b=T6AskPMLcz+YnSwzKvD8/R5H2qiqkRxuSrcpLitChTv+jZJRoBLJafwlb8xgK3ABB/
+         XaLUWlNgN32PS5nYyTzCsz8fuzAYMzhw0lX1DMhRL/dy3DQXI0Fncv5NtUSZ1/3uqQ3G
+         NCZ8ky6FS++42Rw+SFFT/CQqRKhcWgHFH48Uqhyz52F3a++F+5XzkdNdP/Tq9Ep7dIQY
+         5lNxwMbVqe7gfalF8rYCHH2JjkIePHUhOuWjrlRv1Ym9erdiNWCjpKYIdYJexwBQteSm
+         LEV3SlZgUAKQsB20DRwUwa2i4UBjymoEgPiiU6TJgGe6PNifrrkh388ktFfNDQhK5KaC
+         mJLw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=GFdrTt3S;
-       spf=pass (google.com: domain of 3aubbxgwkcce0ypzohsmvuzvnvvnsl.jvtrhzhu-kl2nvvnslnyv1wz.jvt@flex--trishalfonso.bounces.google.com designates 2607:f8b0:4864:20::649 as permitted sender) smtp.mailfrom=3AuBBXgwKCcE0ypzohsmvuzvnvvnsl.jvtrhzhu-kl2nvvnslnyv1wz.jvt@flex--trishalfonso.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-pl1-x649.google.com (mail-pl1-x649.google.com. [2607:f8b0:4864:20::649])
-        by gmr-mx.google.com with ESMTPS id l1si27146ybt.2.2020.02.10.14.58.11
+       dkim=pass header.i=@gmail.com header.s=20161025 header.b=hUMe+OTA;
+       spf=pass (google.com: domain of jbi.octave@gmail.com designates 2a00:1450:4864:20::342 as permitted sender) smtp.mailfrom=jbi.octave@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com. [2a00:1450:4864:20::342])
+        by gmr-mx.google.com with ESMTPS id h8si96702ljj.3.2020.02.10.15.10.09
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 10 Feb 2020 14:58:11 -0800 (PST)
-Received-SPF: pass (google.com: domain of 3aubbxgwkcce0ypzohsmvuzvnvvnsl.jvtrhzhu-kl2nvvnslnyv1wz.jvt@flex--trishalfonso.bounces.google.com designates 2607:f8b0:4864:20::649 as permitted sender) client-ip=2607:f8b0:4864:20::649;
-Received: by mail-pl1-x649.google.com with SMTP id c19so3681045plz.19
-        for <kasan-dev@googlegroups.com>; Mon, 10 Feb 2020 14:58:11 -0800 (PST)
-X-Received: by 2002:a63:26c4:: with SMTP id m187mr3932433pgm.410.1581375490395;
- Mon, 10 Feb 2020 14:58:10 -0800 (PST)
-Date: Mon, 10 Feb 2020 14:58:06 -0800
-Message-Id: <20200210225806.249297-1-trishalfonso@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.25.0.341.g760bfbb309-goog
-Subject: [RFC PATCH v2] UML: add support for KASAN under x86_64
-From: "'Patricia Alfonso' via kasan-dev" <kasan-dev@googlegroups.com>
-To: jdike@addtoit.com, richard@nod.at, anton.ivanov@cambridgegreys.com, 
-	aryabinin@virtuozzo.com, dvyukov@google.com, davidgow@google.com, 
-	brendanhiggins@google.com, johannes@sipsolutions.net
-Cc: kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org, 
-	linux-um@lists.infradead.org, Patricia Alfonso <trishalfonso@google.com>
+        Mon, 10 Feb 2020 15:10:09 -0800 (PST)
+Received-SPF: pass (google.com: domain of jbi.octave@gmail.com designates 2a00:1450:4864:20::342 as permitted sender) client-ip=2a00:1450:4864:20::342;
+Received: by mail-wm1-x342.google.com with SMTP id p9so1165604wmc.2
+        for <kasan-dev@googlegroups.com>; Mon, 10 Feb 2020 15:10:09 -0800 (PST)
+X-Received: by 2002:a1c:740b:: with SMTP id p11mr1428624wmc.78.1581376208631;
+        Mon, 10 Feb 2020 15:10:08 -0800 (PST)
+Received: from ninjahub.lan (host-2-102-13-223.as13285.net. [2.102.13.223])
+        by smtp.gmail.com with ESMTPSA id 18sm1122951wmf.1.2020.02.10.15.10.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Feb 2020 15:10:08 -0800 (PST)
+From: Jules Irenge <jbi.octave@gmail.com>
+Date: Mon, 10 Feb 2020 23:09:59 +0000 (GMT)
+To: Boqun Feng <boqun.feng@gmail.com>
+cc: Jules Irenge <jbi.octave@gmail.com>, linux-kernel@vger.kernel.org, 
+    linux-mm@kvack.org, kasan-dev@googlegroups.com, akpm@linux-foundation.org, 
+    dvyukov@google.com, glider@google.com, aryabinin@virtuozzo.com, 
+    bsegall@google.com, rostedt@goodmis.org, dietmar.eggemann@arm.com, 
+    vincent.guittot@linaro.org, juri.lelli@redhat.com, peterz@infradead.org, 
+    mingo@redhat.com, mgorman@suse.de, dvhart@infradead.org, 
+    tglx@linutronix.de, namhyung@kernel.org, jolsa@redhat.com, 
+    alexander.shishkin@linux.intel.com, mark.rutland@arm.com, acme@kernel.org, 
+    viro@zeniv.linux.org.uk, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 00/11] Lock warning cleanup
+In-Reply-To: <20200210050622.GC69108@debian-boqun.qqnc3lrjykvubdpftowmye0fmh.lx.internal.cloudapp.net>
+Message-ID: <alpine.LFD.2.21.2002102306000.191510@ninjahub.org>
+References: <0/11> <cover.1581282103.git.jbi.octave@gmail.com> <20200210050622.GC69108@debian-boqun.qqnc3lrjykvubdpftowmye0fmh.lx.internal.cloudapp.net>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: trishalfonso@google.com
+X-Original-Sender: jbi.octave@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=GFdrTt3S;       spf=pass
- (google.com: domain of 3aubbxgwkcce0ypzohsmvuzvnvvnsl.jvtrhzhu-kl2nvvnslnyv1wz.jvt@flex--trishalfonso.bounces.google.com
- designates 2607:f8b0:4864:20::649 as permitted sender) smtp.mailfrom=3AuBBXgwKCcE0ypzohsmvuzvnvvnsl.jvtrhzhu-kl2nvvnslnyv1wz.jvt@flex--trishalfonso.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Patricia Alfonso <trishalfonso@google.com>
-Reply-To: Patricia Alfonso <trishalfonso@google.com>
+ header.i=@gmail.com header.s=20161025 header.b=hUMe+OTA;       spf=pass
+ (google.com: domain of jbi.octave@gmail.com designates 2a00:1450:4864:20::342
+ as permitted sender) smtp.mailfrom=jbi.octave@gmail.com;       dmarc=pass
+ (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -128,292 +153,77 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Make KASAN run on User Mode Linux on x86_64.
 
-Depends on Constructor support in UML and is based off of
-"[RFC PATCH] um: implement CONFIG_CONSTRUCTORS for modules"
-(https://patchwork.ozlabs.org/patch/1234551/) and "[DEMO] um:
-demonstrate super early constructors"
-(https://patchwork.ozlabs.org/patch/1234553/) by
-Johannes.
 
-The location of the KASAN shadow memory, starting at
-KASAN_SHADOW_OFFSET, can be configured using the
-KASAN_SHADOW_OFFSET option. UML uses roughly 18TB of address
-space, and KASAN requires 1/8th of this. The default location of
-this offset is 0x100000000000. There is usually enough free space at
-this location; however, it is a config option so that it can be
-easily changed if needed.
+On Mon, 10 Feb 2020, Boqun Feng wrote:
 
-The UML-specific KASAN initializer uses mmap to map
-the roughly 2.25TB of shadow memory to the location defined by
-KASAN_SHADOW_OFFSET.
+> Hi Jules,
+> 
+> On Sun, Feb 09, 2020 at 10:24:42PM +0000, Jules Irenge wrote:
+> > This patch series adds missing annotations to functions that register warnings of context imbalance when built with Sparse tool.
+> > The adds fix the warnings and give insight on what the functions are actually doing.
+> > 
+> > 1. Within the futex subsystem, a __releases(&pi_state->.pi_mutex.wait_lock) is added because wake_futex_pi() only releases the lock at exit,
+> > must_hold(q->lock_ptr) have been added to fixup_pi_state_owner() because the lock is held at entry and exit;
+> > a __releases(&hb->lock) added to futex_wait_queue_me() as it only releases the lock.
+> > 
+> > 2. Within fs_pin, a __releases(RCU) is added because the function exit RCU critical section at exit.
+> > 
+> > 3. In kasan, an __acquires(&report_lock) has been added to start_report() and   __releases(&report_lock) to end_report() 
+> > 
+> > 4. Within ring_buffer subsystem, a __releases(RCU) has been added perf_output_end() 
+> > 
+> > 5. schedule subsystem recorded an addition of the __releases(rq->lock) annotation and a __must_hold(this_rq->lock)
+> > 
+> > 6. At hrtimer subsystem, __acquires(timer) is added  to lock_hrtimer_base() as the function acquire the lock but never releases it.
+> > Jules Irenge (11):
+> >   hrtimer: Add missing annotation to lock_hrtimer_base()
+> >   futex: Add missing annotation for wake_futex_pi()
+> >   futex: Add missing annotation for fixup_pi_state_owner()
+> 
+> Given that those three patches have been sent and reviewed, please do
+> increase the version number (this time, for example, using v2) when
+> sending the updated ones. Also please add a few sentences after the
+> commit log describing what you have changed between versions.
+> 
+> Here is an example:
+> 
+> 	https://lore.kernel.org/lkml/20200124231834.63628-4-pmalani@chromium.org/
+> 
+> Regards,
+> Boqun
+> 
+> >   perf/ring_buffer: Add missing annotation to perf_output_end()
+> >   sched/fair: Add missing annotation for nohz_newidle_balance()
+> >   sched/deadline: Add missing annotation for dl_task_offline_migration()
+> >   fs_pin: Add missing annotation for pin_kill() declaration
+> >   fs_pin: Add missing annotation for pin_kill() definition
+> >   kasan: add missing annotation for start_report()
+> >   kasan: add missing annotation for end_report()
+> >   futex: Add missing annotation for futex_wait_queue_me()
+> > 
+> >  fs/fs_pin.c                 | 2 +-
+> >  include/linux/fs_pin.h      | 2 +-
+> >  kernel/events/ring_buffer.c | 2 +-
+> >  kernel/futex.c              | 3 +++
+> >  kernel/sched/deadline.c     | 1 +
+> >  kernel/sched/fair.c         | 2 +-
+> >  kernel/time/hrtimer.c       | 1 +
+> >  mm/kasan/report.c           | 4 ++--
+> >  8 files changed, 11 insertions(+), 6 deletions(-)
+> > 
+> > -- 
+> > 2.24.1
+> > 
+> 
 
-Signed-off-by: Patricia Alfonso <trishalfonso@google.com>
----
+Thanks for the feedback, I take good notes. I am working on the 
+second version.
 
-Changes since v1:
- - KASAN has been initialized much earlier.
- - With the help of Johannes's RFC patch to implement constructors in
-   UML and Demo showing how kasan_init could take advantage of these
-   super early constructors, most of the "KASAN_SANITIZE := n" have
-   been removed.
- - Removed extraneous code
- - Fixed typos
-
- arch/um/Kconfig              | 10 ++++++++++
- arch/um/Makefile             |  6 ++++++
- arch/um/include/asm/dma.h    |  1 +
- arch/um/include/asm/kasan.h  | 30 ++++++++++++++++++++++++++++++
- arch/um/kernel/Makefile      | 22 ++++++++++++++++++++++
- arch/um/kernel/mem.c         | 19 +++++++++----------
- arch/um/os-Linux/mem.c       | 19 +++++++++++++++++++
- arch/um/os-Linux/user_syms.c |  4 ++--
- arch/x86/um/Makefile         |  3 ++-
- arch/x86/um/vdso/Makefile    |  3 +++
- 10 files changed, 104 insertions(+), 13 deletions(-)
- create mode 100644 arch/um/include/asm/kasan.h
-
-diff --git a/arch/um/Kconfig b/arch/um/Kconfig
-index 0917f8443c28..2b76dc273731 100644
---- a/arch/um/Kconfig
-+++ b/arch/um/Kconfig
-@@ -8,6 +8,7 @@ config UML
- 	select ARCH_HAS_KCOV
- 	select ARCH_NO_PREEMPT
- 	select HAVE_ARCH_AUDITSYSCALL
-+	select HAVE_ARCH_KASAN if X86_64
- 	select HAVE_ARCH_SECCOMP_FILTER
- 	select HAVE_ASM_MODVERSIONS
- 	select HAVE_UID16
-@@ -200,6 +201,15 @@ config UML_TIME_TRAVEL_SUPPORT
- 
- 	  It is safe to say Y, but you probably don't need this.
- 
-+config KASAN_SHADOW_OFFSET
-+	hex
-+	depends on KASAN
-+	default 0x100000000000
-+	help
-+	  This is the offset at which the ~2.25TB of shadow memory is
-+	  initialized and used by KASAN for memory debugging. The default
-+	  is 0x100000000000.
-+
- endmenu
- 
- source "arch/um/drivers/Kconfig"
-diff --git a/arch/um/Makefile b/arch/um/Makefile
-index d2daa206872d..28fe7a9a1858 100644
---- a/arch/um/Makefile
-+++ b/arch/um/Makefile
-@@ -75,6 +75,12 @@ USER_CFLAGS = $(patsubst $(KERNEL_DEFINES),,$(patsubst -I%,,$(KBUILD_CFLAGS))) \
- 		-D_FILE_OFFSET_BITS=64 -idirafter $(srctree)/include \
- 		-idirafter $(objtree)/include -D__KERNEL__ -D__UM_HOST__
- 
-+# Kernel config options are not included in USER_CFLAGS, but the option for KASAN
-+# should be included if the KASAN config option was set.
-+ifdef CONFIG_KASAN
-+	USER_CFLAGS+=-DCONFIG_KASAN=y
-+endif
-+
- #This will adjust *FLAGS accordingly to the platform.
- include $(ARCH_DIR)/Makefile-os-$(OS)
- 
-diff --git a/arch/um/include/asm/dma.h b/arch/um/include/asm/dma.h
-index fdc53642c718..8aafd60d62bb 100644
---- a/arch/um/include/asm/dma.h
-+++ b/arch/um/include/asm/dma.h
-@@ -5,6 +5,7 @@
- #include <asm/io.h>
- 
- extern unsigned long uml_physmem;
-+extern unsigned long long physmem_size;
- 
- #define MAX_DMA_ADDRESS (uml_physmem)
- 
-diff --git a/arch/um/include/asm/kasan.h b/arch/um/include/asm/kasan.h
-new file mode 100644
-index 000000000000..ba08061068cf
---- /dev/null
-+++ b/arch/um/include/asm/kasan.h
-@@ -0,0 +1,30 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#ifndef __ASM_UM_KASAN_H
-+#define __ASM_UM_KASAN_H
-+
-+#include <linux/init.h>
-+#include <linux/const.h>
-+
-+#define KASAN_SHADOW_OFFSET _AC(CONFIG_KASAN_SHADOW_OFFSET, UL)
-+#ifdef CONFIG_X86_64
-+#define KASAN_SHADOW_SIZE 0x100000000000UL
-+#else
-+#error "KASAN_SHADOW_SIZE is not defined for this sub-architecture"
-+#endif /* CONFIG_X86_64 */
-+
-+// used in kasan_mem_to_shadow to divide by 8
-+#define KASAN_SHADOW_SCALE_SHIFT 3
-+
-+#define KASAN_SHADOW_START (KASAN_SHADOW_OFFSET)
-+#define KASAN_SHADOW_END (KASAN_SHADOW_START + KASAN_SHADOW_SIZE)
-+
-+#ifdef CONFIG_KASAN
-+void kasan_init(void);
-+#else
-+static inline void kasan_init(void) { }
-+#endif /* CONFIG_KASAN */
-+
-+void kasan_map_memory(void *start, unsigned long len);
-+void kasan_unpoison_shadow(const void *address, size_t size);
-+
-+#endif /* __ASM_UM_KASAN_H */
-diff --git a/arch/um/kernel/Makefile b/arch/um/kernel/Makefile
-index 5aa882011e04..875e1827588b 100644
---- a/arch/um/kernel/Makefile
-+++ b/arch/um/kernel/Makefile
-@@ -8,6 +8,28 @@
- # kernel.
- KCOV_INSTRUMENT                := n
- 
-+# The way UMl deals with the stack causes seemingly false positive KASAN
-+# reports such as:
-+# BUG: KASAN: stack-out-of-bounds in show_stack+0x15e/0x1fb
-+# Read of size 8 at addr 000000006184bbb0 by task swapper/1
-+# ==================================================================
-+# BUG: KASAN: stack-out-of-bounds in dump_trace+0x141/0x1c5
-+# Read of size 8 at addr 0000000071057eb8 by task swapper/1
-+# ==================================================================
-+# BUG: KASAN: stack-out-of-bounds in get_wchan+0xd7/0x138
-+# Read of size 8 at addr 0000000070e8fc80 by task systemd/1
-+#
-+# With these files removed from instrumentation, those reports are
-+# eliminated, but KASAN still repeatedly reports a bug on syscall_stub_data:
-+# ==================================================================
-+# BUG: KASAN: stack-out-of-bounds in syscall_stub_data+0x299/0x2bf
-+# Read of size 128 at addr 0000000071457c50 by task swapper/1
-+
-+KASAN_SANITIZE_stacktrace.o := n
-+KASAN_SANITIZE_sysrq.o := n
-+KASAN_SANITIZE_process.o := n
-+
-+
- CPPFLAGS_vmlinux.lds := -DSTART=$(LDS_START)		\
-                         -DELF_ARCH=$(LDS_ELF_ARCH)	\
-                         -DELF_FORMAT=$(LDS_ELF_FORMAT)	\
-diff --git a/arch/um/kernel/mem.c b/arch/um/kernel/mem.c
-index 32fc941c80f7..7b7b8a0ee724 100644
---- a/arch/um/kernel/mem.c
-+++ b/arch/um/kernel/mem.c
-@@ -18,21 +18,20 @@
- #include <kern_util.h>
- #include <mem_user.h>
- #include <os.h>
-+#include <linux/sched/task.h>
- 
--extern int printf(const char *msg, ...);
--static void early_print(void)
-+#ifdef CONFIG_KASAN
-+void kasan_init(void)
- {
--	printf("I'm super early, before constructors\n");
-+	kasan_map_memory((void *)KASAN_SHADOW_START, KASAN_SHADOW_SIZE);
-+	init_task.kasan_depth = 0;
-+	os_info("KernelAddressSanitizer initialized\n");
- }
- 
--static void __attribute__((constructor)) constructor_test(void)
--{
--	printf("yes, you can see it\n");
--}
--
--static void (*early_print_ptr)(void)
-+static void (*kasan_init_ptr)(void)
- __attribute__((section(".kasan_init"), used))
-- = early_print;
-+= kasan_init;
-+#endif
- 
- /* allocated in paging_init, zeroed in mem_init, and unchanged thereafter */
- unsigned long *empty_zero_page = NULL;
-diff --git a/arch/um/os-Linux/mem.c b/arch/um/os-Linux/mem.c
-index 3c1b77474d2d..da7039721d35 100644
---- a/arch/um/os-Linux/mem.c
-+++ b/arch/um/os-Linux/mem.c
-@@ -17,6 +17,25 @@
- #include <init.h>
- #include <os.h>
- 
-+/**
-+ * kasan_map_memory() - maps memory from @start with a size of @len.
-+ * The allocated memory is filled with zeroes upon success.
-+ * @start: the start address of the memory to be mapped
-+ * @len: the length of the memory to be mapped
-+ *
-+ * This function is used to map shadow memory for KASAN in uml
-+ */
-+void kasan_map_memory(void *start, size_t len)
-+{
-+	if (mmap(start,
-+		 len,
-+		 PROT_READ|PROT_WRITE,
-+		 MAP_FIXED|MAP_ANONYMOUS|MAP_PRIVATE|MAP_NORESERVE,
-+		 -1,
-+		 0) == MAP_FAILED)
-+		os_info("Couldn't allocate shadow memory %s", strerror(errno));
-+}
-+
- /* Set by make_tempfile() during early boot. */
- static char *tempdir = NULL;
- 
-diff --git a/arch/um/os-Linux/user_syms.c b/arch/um/os-Linux/user_syms.c
-index 715594fe5719..cb667c9225ab 100644
---- a/arch/um/os-Linux/user_syms.c
-+++ b/arch/um/os-Linux/user_syms.c
-@@ -27,10 +27,10 @@ EXPORT_SYMBOL(strstr);
- #ifndef __x86_64__
- extern void *memcpy(void *, const void *, size_t);
- EXPORT_SYMBOL(memcpy);
--#endif
--
- EXPORT_SYMBOL(memmove);
- EXPORT_SYMBOL(memset);
-+#endif
-+
- EXPORT_SYMBOL(printf);
- 
- /* Here, instead, I can provide a fake prototype. Yes, someone cares: genksyms.
-diff --git a/arch/x86/um/Makefile b/arch/x86/um/Makefile
-index 33c51c064c77..7dbd76c546fe 100644
---- a/arch/x86/um/Makefile
-+++ b/arch/x86/um/Makefile
-@@ -26,7 +26,8 @@ else
- 
- obj-y += syscalls_64.o vdso/
- 
--subarch-y = ../lib/csum-partial_64.o ../lib/memcpy_64.o ../entry/thunk_64.o
-+subarch-y = ../lib/csum-partial_64.o ../lib/memcpy_64.o ../entry/thunk_64.o \
-+	../lib/memmove_64.o ../lib/memset_64.o
- 
- endif
- 
-diff --git a/arch/x86/um/vdso/Makefile b/arch/x86/um/vdso/Makefile
-index 0caddd6acb22..450efa0fb694 100644
---- a/arch/x86/um/vdso/Makefile
-+++ b/arch/x86/um/vdso/Makefile
-@@ -3,6 +3,9 @@
- # Building vDSO images for x86.
- #
- 
-+# do not instrument on vdso because KASAN is not compatible with user mode
-+KASAN_SANITIZE			:= n
-+
- # Prevents link failures: __sanitizer_cov_trace_pc() is not linked in.
- KCOV_INSTRUMENT                := n
- 
--- 
-2.25.0.341.g760bfbb309-goog
+Kind regards,
+Jules
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200210225806.249297-1-trishalfonso%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/alpine.LFD.2.21.2002102306000.191510%40ninjahub.org.
