@@ -1,133 +1,132 @@
-Return-Path: <kasan-dev+bncBCD3NZ4T2IKRB3WBQXZAKGQE7ZPP3PI@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBXOJQXZAKGQEPYHLVIA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x438.google.com (mail-pf1-x438.google.com [IPv6:2607:f8b0:4864:20::438])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2D23157CD8
-	for <lists+kasan-dev@lfdr.de>; Mon, 10 Feb 2020 14:55:59 +0100 (CET)
-Received: by mail-pf1-x438.google.com with SMTP id z19sf5275989pfn.18
-        for <lists+kasan-dev@lfdr.de>; Mon, 10 Feb 2020 05:55:59 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1581342958; cv=pass;
+Received: from mail-io1-xd3c.google.com (mail-io1-xd3c.google.com [IPv6:2607:f8b0:4864:20::d3c])
+	by mail.lfdr.de (Postfix) with ESMTPS id D5CEE157D1D
+	for <lists+kasan-dev@lfdr.de>; Mon, 10 Feb 2020 15:12:46 +0100 (CET)
+Received: by mail-io1-xd3c.google.com with SMTP id l62sf4713568ioa.19
+        for <lists+kasan-dev@lfdr.de>; Mon, 10 Feb 2020 06:12:46 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1581343965; cv=pass;
         d=google.com; s=arc-20160816;
-        b=BidgKfi1LDAyaQTIQNpUBEf8B16pcIcxXSvXyGLXqe2kfw3TMjqR2+kY6e+81wrk/H
-         zJMdTVPApHASc2t5uVWMhP1+0KeBctTu9rBm9/2uwUj1rZW6M6FxCoSxy71StlGstIuX
-         BCtjJtSRZeewJ0ScPvgY9i2UfCRIkAppn7Um/yLFK+1xuYcihJQFbyOXWdzDYn9HjkN+
-         WLUfmNsn2v2YdUdjUo11HVwO7DAoOAQ9RTsJ4wWrV8FtvDZ3P0OmMsuk3TNJj0eOWz5e
-         wLEgoH6jIcDU/+quRpMHqryvm2DuH09Q6R3P1n26fEgfQCDPq/dOqYxq+0BVkbm6l175
-         NeAA==
+        b=W15ayDBJs6YjfTQ8qv7EWtgIOwHByAA601wdyqi8jhGDWd4GyQyUoKKTIC/ILQtJee
+         hrm0NRGTPfcstSWPqPVAF8mq21foXoN8XZppA99ywrgr/Qxs+OA4vDFYlikLE0KJ+v2V
+         FqKIo6KBEQCNI8jMmTFO6HZL5NbXfuAUYJr6xSizkZLD0lATIqoD++rUHFlG3O+Xi+6P
+         PkdW7xldFr0ThT/DMb+HkqbKL5GWjiWbUfd6KqH1La63gf3nSMEWPT/wnKbJ/1/dSyPI
+         dA5F2r/2iqDVxTH+ut2tRu/l9nJ6xlYzcLNvip/rUNCvzt8aJXkQNVKbJFvd2DCpwASW
+         NPWw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding
-         :mime-version:references:in-reply-to:date:cc:to:from:subject
-         :message-id:sender:dkim-signature;
-        bh=XquCIMSVzF+8Jw1hfu4RjdG2kyOSnBYqCUGkJfk4BYw=;
-        b=F15/5eFoXEDHYEe3qCW+/WYkdZzvWd0K+JKB1mGbl1JqCW8k3HDnNTX6eQF+RYn07H
-         m0l560WSQ7OMimn13+iCVEHOWxU/Uviz4U0XvnEDRpUSZfvSt/i9ClA3wKP2Tvyxs302
-         n517IMQPKu+c74c3xAziwlJHTAak23MKQ1YClsD7Bz5TOn/XMCkTHmU36M3pKjvqA/xC
-         OFFsbitFGfBnGT9R77yD3nhWZTTblvUcwfO1lwxrlw/mjLys//9Ua6lbu76mlOWeiR1S
-         RS5aYKaqWa6T+/P86nBC4UBxZWhgu23CeiQ2dzdsl06NHDGF40O2N1U98Ws4mcJ+8KZE
-         53Fw==
+         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
+         :cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=Wx7ZgrwruZ4ZLUfk0O4smRMKFexAzHhmwZmmy+Nph8s=;
+        b=zdv6gPwis3WnDyrFcYEz9FnlKIz4Rsez2hZ9jHHyLa+cObDXK9CUhsAqqWQucenICD
+         XJrShf6rQ1WfBcMfze1IYnwJDGrrv8kD7lRRhsx0vSftst0VDLkKCvLQc+7/oa/Gj93Q
+         9FTPY+5gp2HJB+HujbqdvfwiGcbbNvohjC/2Xv7t3j3kmsF3Ioasgbu7XRHcwGR5Ebi2
+         krZjmvaya240n4D93nnmVUd+Bj9R/W6jMpQSO0JRu1zjmehYmsg30jR5pM56lXjFygQL
+         IazUeJdXNIIjO8T760YvWhajOrq98+CBEyqM+KthYPyLRLdOtLNr6kZiLAaestj1guKa
+         L6dA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@lca.pw header.s=google header.b=StiymXhX;
-       spf=pass (google.com: domain of cai@lca.pw designates 2607:f8b0:4864:20::841 as permitted sender) smtp.mailfrom=cai@lca.pw
+       dkim=pass header.i=@google.com header.s=20161025 header.b=s8AaOmsF;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::243 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:message-id:subject:from:to:cc:date:in-reply-to:references
-         :mime-version:content-transfer-encoding:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=XquCIMSVzF+8Jw1hfu4RjdG2kyOSnBYqCUGkJfk4BYw=;
-        b=Fd/kf+rpB7eGxqrRfJdp48o4vBn47epqZ9YeKJOuI3kvvLGctJ6b/twAPzDhwKl4d/
-         N1pi7VpXqCsviz+H5VH90yiPPymyAIt6ENJjbB1tX/FajbdPOWMvuWGDoktZeiy3fym6
-         Bap+dkF6ToZOqU/00zfgpppB0VJXZE8L6yMVKKVr/BN7FSY9PgcOP8dnWYZnC2YAC+ea
-         YweAEpmnU6glbCCmW3WIMjnlHeoS5iME5NrCL95a2m5SznyukvjzBHe8EzKg3+q4iJMO
-         qrPgeMqwW5LdmHxdG4dyYPpdbHw/Yxz5pW2HbjNZ35WLn5DmDxvOcNJHSe8tlVfJyjeX
-         9j1g==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:list-post:list-help:list-archive:list-subscribe
+         :list-unsubscribe;
+        bh=Wx7ZgrwruZ4ZLUfk0O4smRMKFexAzHhmwZmmy+Nph8s=;
+        b=GJJDOVh2DnGsOTu/zApenodNycwqPfQLwrjKhLyNs5PR+GjTnLWCoCJCDXravfMZvG
+         Qrx1EgVAW9xRZan52YuepPZmRv0wY1mCwvPvu07QThyuzu1HYsk8dLDL7JbW/y/BQRUW
+         o0USWwOylkmgqvXzEhxWie2up/unQHvIKOjv/e1CLkbIFAYbhumWXZ014UD6JNDReVrJ
+         NpfMFW3iQhCpBTObej4bS8SJDitILG7e0NJmIPotVkUGWjsFhnnxQT9yvsMX7yFjyrBd
+         pfbQJLN0owdPLUxaRhwXAJHx4H/5KaUuKgGu8jWiWFcxH2fXbTZemzN1+BGvWowG1oF2
+         G7DA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:message-id:subject:from:to:cc:date
-         :in-reply-to:references:mime-version:content-transfer-encoding
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=XquCIMSVzF+8Jw1hfu4RjdG2kyOSnBYqCUGkJfk4BYw=;
-        b=aGnK+f9m4+UVy1lSfyiCa32ZhrR5VROV+zDdbV/UNYin7I3oOMEXR0vpq2jCaEkJSq
-         s0xPI5LXuoZ1wflI9fkvTnqyx/apK0JYEJGX+IMvk8WYGNzIxkcVNyYhvr+Iu3ZTGuWx
-         1l3CV/Fkrpx3sXIJRzYZGdAPn2FKvZvAA+bRTpAVt+VlXccCkNuzRu18TJW6lG4i2W98
-         Hq0LUOlACoRFvBLp+wtlnY6aWQEfoCQFGnnaZNK/Um1ZWI8W0jyKyRfIX2Jil2qbG2jK
-         mByKgtwQVASGhMExgr8SEP8ZVWYHnlKZVpSxOnx1klPsHNAtqjEopK+m4fCl+Ua++BWr
-         gvbg==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAW16WN5BIdXGNxhUuz5OpE5/0/2eRoxD5RfhLL5bliEokHm8EAW
-	vBez4MuJccchqJCBK4u8f38=
-X-Google-Smtp-Source: APXvYqzfxVkBMw6ysJ1DI7YwlcBfkBIerF5k9UgjFrANgoSoSJQDGR4HUDpd5aKHNy+KuJyUNq6dGA==
-X-Received: by 2002:a17:902:343:: with SMTP id 61mr13156612pld.332.1581342958297;
-        Mon, 10 Feb 2020 05:55:58 -0800 (PST)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding
+         :x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=Wx7ZgrwruZ4ZLUfk0O4smRMKFexAzHhmwZmmy+Nph8s=;
+        b=opxPX+oON0ZY1ZjJ/xxV2IsuG6R/iIGI7opUzdUf6U9TXlaWTELK1r1jyOLUehxfvj
+         k2GTg2EZ+Qy28sUdany2qkcIu8eglciPxApyjhXzU6CCofpcjE2itAKBNC0VbwCBWp1W
+         cVIkxxM/UWzT389HXrY3Fpff/CW1QQl5QCRk6Mw/jbrYDVFfrEK3j64C8Jd5z67AWjWq
+         L50H9irtjWmUoR3iTvCFZu2lHNZGgoCvrWtpx15mqZMzCegmBIEs0buUoiPTBqKzir7D
+         1q/+s5IDS5TVTzRzSCIyCrJCjWFDObllfVmtkoUmxYFisxgqrgZumOJZfD98obCJ4xCA
+         VPbw==
+X-Gm-Message-State: APjAAAWdunVtk6qF7i04Va5A3uYmv1rQE1qnm3uIm12IInoeB/Pn8aTd
+	/q5t6Tty2SFZ1uXmBPnVvs0=
+X-Google-Smtp-Source: APXvYqxY/F12mB0uxPck/38cHxRU8l6cV9NvPpb0ZNuUZ8JzqxFMWTxzSyNzOHHKKgZ5pI0vzoKUnw==
+X-Received: by 2002:a02:c6d5:: with SMTP id r21mr10082212jan.129.1581343965414;
+        Mon, 10 Feb 2020 06:12:45 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:90a:6644:: with SMTP id f4ls10423090pjm.2.gmail; Mon, 10
- Feb 2020 05:55:57 -0800 (PST)
-X-Received: by 2002:a17:90a:154b:: with SMTP id y11mr1941130pja.78.1581342957891;
-        Mon, 10 Feb 2020 05:55:57 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1581342957; cv=none;
+Received: by 2002:a6b:5f17:: with SMTP id t23ls1359624iob.10.gmail; Mon, 10
+ Feb 2020 06:12:44 -0800 (PST)
+X-Received: by 2002:a6b:3845:: with SMTP id f66mr10059574ioa.102.1581343964709;
+        Mon, 10 Feb 2020 06:12:44 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1581343964; cv=none;
         d=google.com; s=arc-20160816;
-        b=kWo4fLSlFtsiWlq+2o8rjZQ8SDuKqhb7yVofgJurQdf+eJxB/I6IMP3DsSvo37ClOC
-         9wC39RB7uUPfHKY6uAj/9a/o1Qs9SMs+rd4ZYFqa1xYLYxdpBqgxKmtSGMFBgO9F0GON
-         kWp+rSLbSdClqJcZxYIuAoOXZhwnLO1lu33ZmJsWM7us5Lc+f0a6e4geWdrCNALXkSHq
-         uqLf2XX2XSfQkNdC0WdoOWnrXZOLlMToR0atQcqSzymeLsQK6DJUDmMhgxRCsCOXNml3
-         IyJzqWjMC69WtO5XcF/5NQiDNqys1ljQHH2SOHrylhVpHKXl1CwTvo1JvnF58clC0q6a
-         8WUA==
+        b=Xoke3ulmdgMBnP1Ii4kigg2VWdUX0pEavh0UH+mPTZzEKknXQy2q8AxeP7JknFRS5l
+         YdW6Xolhmq/o3fXOtBdjLpUgJA6FzrN6SG262OPHg6QmD3zPFvAE8wDMXv8y+9oblQvD
+         P9JO6I2QoUoZ1kjAgqmtTDoKeIcz9ErIpY4OzGJC4zn72J02d0bjFIplwhorp4syM6jD
+         /b5drdmTyNBOd+4sdItr5Q8qcV58aP50pAa+mVu7+CeSPZcldGUNZgFIBRguuz0ndMVi
+         meXjHP3WmAAf2L+YKIP5lxEwCkmZbL0aDE0303xl6DJrDG81dviRQHiup+DDx2nmEeeN
+         jWRg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:references:in-reply-to:date
-         :cc:to:from:subject:message-id:dkim-signature;
-        bh=uvc+HCAjGfX6aDuiEDkX1stZqSNz9kTlsYc/8zRaw1M=;
-        b=f/+lpdclhJHxUZz902TlbQNli2wg8wnpGT9cbGNOAvFyeleSFCYsrREkmONDSG+yle
-         Qry7Sn0DfndFMam5AN/Zjdd2Es3uVzlvADkyejxUH4M11Bnsy2/SP6GsQs75h37NlrRX
-         zDf/fqkZWdJl1kZmlQEd6xG1WGbeM3A7QwQtfAiRUivUqvgq9TSm6u8+caCKKD99Dskk
-         vldiHN1O/EL8uj2DOTtzx9c1Vav01UdhvRU7OqpW+TFzdJnufzn3drB/HZEJfUUBgwOV
-         0SSCvwFk0lxNKTaju9BtwRuIYNHLHDMjRjkeZ+fhd0Nbi4IMke92xmSvzzXdKAXGlJ+x
-         qmOg==
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=ST/uAoLQf5dHHFUuf0J7KbsthQeZglVfBV4jHCEUrUk=;
+        b=IA4rRH8Np+FwAvNtJyiKMpAAtTe6KcMeBQn97FSjBPoEaExQ3z1wOfpt9yUDo0aKoT
+         L/pW/p5gzx5cKRWTOGT6jqmGlkNzXF45sJTUeNjC+p3khJ/60Bjkh9rnWqbbOmcD8OT5
+         KVr+YH7b9IzWJnnKO5fFyXVikUZ49rp6J/f1Hc+CChb4PLNGI5PgAnR4xDzurJS1C4R5
+         8VBLnlhKL5+Dxe0tlkSr6qBRTOA0vRtaH8lnzLmxPDFkubvOqHb/hGtA/xgGScPGEL6p
+         iYz4stSbDWk3Wmt4nwcMtGxD+Mlp9FNqPzvhuVxK8mBUcpHxRnT7A9GQPevftXRu+nal
+         Ctxg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@lca.pw header.s=google header.b=StiymXhX;
-       spf=pass (google.com: domain of cai@lca.pw designates 2607:f8b0:4864:20::841 as permitted sender) smtp.mailfrom=cai@lca.pw
-Received: from mail-qt1-x841.google.com (mail-qt1-x841.google.com. [2607:f8b0:4864:20::841])
-        by gmr-mx.google.com with ESMTPS id j123si11278pfd.5.2020.02.10.05.55.57
+       dkim=pass header.i=@google.com header.s=20161025 header.b=s8AaOmsF;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::243 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-oi1-x243.google.com (mail-oi1-x243.google.com. [2607:f8b0:4864:20::243])
+        by gmr-mx.google.com with ESMTPS id b16si21768ion.0.2020.02.10.06.12.44
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 10 Feb 2020 05:55:57 -0800 (PST)
-Received-SPF: pass (google.com: domain of cai@lca.pw designates 2607:f8b0:4864:20::841 as permitted sender) client-ip=2607:f8b0:4864:20::841;
-Received: by mail-qt1-x841.google.com with SMTP id w47so5151469qtk.4
-        for <kasan-dev@googlegroups.com>; Mon, 10 Feb 2020 05:55:57 -0800 (PST)
-X-Received: by 2002:aed:3eee:: with SMTP id o43mr10143047qtf.33.1581342956768;
-        Mon, 10 Feb 2020 05:55:56 -0800 (PST)
-Received: from dhcp-41-57.bos.redhat.com (nat-pool-bos-t.redhat.com. [66.187.233.206])
-        by smtp.gmail.com with ESMTPSA id a24sm157600qkl.82.2020.02.10.05.55.55
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 10 Feb 2020 05:55:56 -0800 (PST)
-Message-ID: <1581342954.7365.27.camel@lca.pw>
-Subject: Re: [PATCH] mm: fix a data race in put_page()
-From: Qian Cai <cai@lca.pw>
-To: Marco Elver <elver@google.com>
-Cc: John Hubbard <jhubbard@nvidia.com>, Jan Kara <jack@suse.cz>, David
- Hildenbrand <david@redhat.com>, Andrew Morton <akpm@linux-foundation.org>,
- ira.weiny@intel.com, Dan Williams <dan.j.williams@intel.com>, Linux Memory
- Management List <linux-mm@kvack.org>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, "Paul E. McKenney" <paulmck@kernel.org>,
- kasan-dev <kasan-dev@googlegroups.com>
-Date: Mon, 10 Feb 2020 08:55:54 -0500
-In-Reply-To: <CANpmjNPdwuMpJvwdVj6zm6G5rXzjvkF+GZqqxvpC8Ui4iN8New@mail.gmail.com>
+        Mon, 10 Feb 2020 06:12:44 -0800 (PST)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::243 as permitted sender) client-ip=2607:f8b0:4864:20::243;
+Received: by mail-oi1-x243.google.com with SMTP id z2so9285184oih.6
+        for <kasan-dev@googlegroups.com>; Mon, 10 Feb 2020 06:12:44 -0800 (PST)
+X-Received: by 2002:aca:2112:: with SMTP id 18mr884734oiz.155.1581343963985;
+ Mon, 10 Feb 2020 06:12:43 -0800 (PST)
+MIME-Version: 1.0
 References: <CANpmjNNaHAnKCMLb+Njs3AhEoJT9O6-Yh63fcNcVTjBbNQiEPg@mail.gmail.com>
-	 <26B88005-28E6-4A09-B3A7-DC982DABE679@lca.pw>
-	 <CANpmjNMzF-T=CzMqoJh-5zrsro8Ky7Q85tnX_HwWhsLCa0DsHw@mail.gmail.com>
-	 <1581341769.7365.25.camel@lca.pw>
-	 <CANpmjNPdwuMpJvwdVj6zm6G5rXzjvkF+GZqqxvpC8Ui4iN8New@mail.gmail.com>
+ <26B88005-28E6-4A09-B3A7-DC982DABE679@lca.pw> <CANpmjNMzF-T=CzMqoJh-5zrsro8Ky7Q85tnX_HwWhsLCa0DsHw@mail.gmail.com>
+ <1581341769.7365.25.camel@lca.pw> <CANpmjNPdwuMpJvwdVj6zm6G5rXzjvkF+GZqqxvpC8Ui4iN8New@mail.gmail.com>
+ <1581342954.7365.27.camel@lca.pw>
+In-Reply-To: <1581342954.7365.27.camel@lca.pw>
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Mon, 10 Feb 2020 15:12:32 +0100
+Message-ID: <CANpmjNN=SNr=HJMLrQUno2F1L4PmQL19JfvVjngKee77tN2q-Q@mail.gmail.com>
+Subject: Re: [PATCH] mm: fix a data race in put_page()
+To: Qian Cai <cai@lca.pw>
+Cc: John Hubbard <jhubbard@nvidia.com>, Jan Kara <jack@suse.cz>, 
+	David Hildenbrand <david@redhat.com>, Andrew Morton <akpm@linux-foundation.org>, ira.weiny@intel.com, 
+	Dan Williams <dan.j.williams@intel.com>, 
+	Linux Memory Management List <linux-mm@kvack.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, "Paul E. McKenney" <paulmck@kernel.org>, 
+	kasan-dev <kasan-dev@googlegroups.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.22.6 (3.22.6-10.el7)
-Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: cai@lca.pw
+X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@lca.pw header.s=google header.b=StiymXhX;       spf=pass
- (google.com: domain of cai@lca.pw designates 2607:f8b0:4864:20::841 as
- permitted sender) smtp.mailfrom=cai@lca.pw
+ header.i=@google.com header.s=20161025 header.b=s8AaOmsF;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::243 as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -140,107 +139,131 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, 2020-02-10 at 14:38 +0100, Marco Elver wrote:
-> On Mon, 10 Feb 2020 at 14:36, Qian Cai <cai@lca.pw> wrote:
-> >=20
-> > On Mon, 2020-02-10 at 13:58 +0100, Marco Elver wrote:
-> > > On Mon, 10 Feb 2020 at 13:16, Qian Cai <cai@lca.pw> wrote:
-> > > >=20
-> > > >=20
-> > > >=20
-> > > > > On Feb 10, 2020, at 2:48 AM, Marco Elver <elver@google.com> wrote=
-:
-> > > > >=20
-> > > > > Here is an alternative:
-> > > > >=20
-> > > > > Let's say KCSAN gives you this:
-> > > > >   /* ... Assert that the bits set in mask are not written
-> > > > > concurrently; they may still be read concurrently.
-> > > > >     The access that immediately follows is assumed to access thos=
-e
-> > > > > bits and safe w.r.t. data races.
-> > > > >=20
-> > > > >     For example, this may be used when certain bits of @flags may
-> > > > > only be modified when holding the appropriate lock,
-> > > > >     but other bits may still be modified locklessly.
-> > > > >   ...
-> > > > >  */
-> > > > >   #define ASSERT_EXCLUSIVE_BITS(flags, mask)   ....
-> > > > >=20
-> > > > > Then we can write page_zonenum as follows:
-> > > > >=20
-> > > > > static inline enum zone_type page_zonenum(const struct page *page=
-)
-> > > > > {
-> > > > > +       ASSERT_EXCLUSIVE_BITS(page->flags, ZONES_MASK << ZONES_PG=
-SHIFT);
-> > > > >        return (page->flags >> ZONES_PGSHIFT) & ZONES_MASK;
-> > > > > }
-> > > > >=20
-> > > > > This will accomplish the following:
-> > > > > 1. The current code is not touched, and we do not have to verify =
-that
-> > > > > the change is correct without KCSAN.
-> > > > > 2. We're not introducing a bunch of special macros to read bits i=
-n various ways.
-> > > > > 3. KCSAN will assume that the access is safe, and no data race re=
-port
-> > > > > is generated.
-> > > > > 4. If somebody modifies ZONES bits concurrently, KCSAN will tell =
-you
-> > > > > about the race.
-> > > > > 5. We're documenting the code.
-> > > > >=20
-> > > > > Anything I missed?
-> > > >=20
-> > > > I don=E2=80=99t know. Having to write the same line twice does not =
-feel me any better than data_race() with commenting occasionally.
-> > >=20
-> > > Point 4 above: While data_race() will ignore cause KCSAN to not repor=
-t
-> > > the data race, now you might be missing a real bug: if somebody
-> > > concurrently modifies the bits accessed, you want to know about it!
-> > > Either way, it's up to you to add the ASSERT_EXCLUSIVE_BITS, but just
-> > > remember that if you decide to silence it with data_race(), you need
-> > > to be sure there are no concurrent writers to those bits.
-> >=20
-> > Right, in this case, there is no concurrent writers to those bits, so I=
-'ll add a
-> > comment should be sufficient. However, I'll keep ASSERT_EXCLUSIVE_BITS(=
-) in mind
-> > for other places.
->=20
-> Right now there are no concurrent writers to those bits. But somebody
-> might introduce a bug that will write them, even though they shouldn't
-> have. With ASSERT_EXCLUSIVE_BITS() you can catch that. Once I have the
-> patches for this out, I would consider adding it here for this reason.
+On Mon, 10 Feb 2020 at 14:55, Qian Cai <cai@lca.pw> wrote:
+>
+> On Mon, 2020-02-10 at 14:38 +0100, Marco Elver wrote:
+> > On Mon, 10 Feb 2020 at 14:36, Qian Cai <cai@lca.pw> wrote:
+> > >
+> > > On Mon, 2020-02-10 at 13:58 +0100, Marco Elver wrote:
+> > > > On Mon, 10 Feb 2020 at 13:16, Qian Cai <cai@lca.pw> wrote:
+> > > > >
+> > > > >
+> > > > >
+> > > > > > On Feb 10, 2020, at 2:48 AM, Marco Elver <elver@google.com> wro=
+te:
+> > > > > >
+> > > > > > Here is an alternative:
+> > > > > >
+> > > > > > Let's say KCSAN gives you this:
+> > > > > >   /* ... Assert that the bits set in mask are not written
+> > > > > > concurrently; they may still be read concurrently.
+> > > > > >     The access that immediately follows is assumed to access th=
+ose
+> > > > > > bits and safe w.r.t. data races.
+> > > > > >
+> > > > > >     For example, this may be used when certain bits of @flags m=
+ay
+> > > > > > only be modified when holding the appropriate lock,
+> > > > > >     but other bits may still be modified locklessly.
+> > > > > >   ...
+> > > > > >  */
+> > > > > >   #define ASSERT_EXCLUSIVE_BITS(flags, mask)   ....
+> > > > > >
+> > > > > > Then we can write page_zonenum as follows:
+> > > > > >
+> > > > > > static inline enum zone_type page_zonenum(const struct page *pa=
+ge)
+> > > > > > {
+> > > > > > +       ASSERT_EXCLUSIVE_BITS(page->flags, ZONES_MASK << ZONES_=
+PGSHIFT);
+> > > > > >        return (page->flags >> ZONES_PGSHIFT) & ZONES_MASK;
+> > > > > > }
+> > > > > >
+> > > > > > This will accomplish the following:
+> > > > > > 1. The current code is not touched, and we do not have to verif=
+y that
+> > > > > > the change is correct without KCSAN.
+> > > > > > 2. We're not introducing a bunch of special macros to read bits=
+ in various ways.
+> > > > > > 3. KCSAN will assume that the access is safe, and no data race =
+report
+> > > > > > is generated.
+> > > > > > 4. If somebody modifies ZONES bits concurrently, KCSAN will tel=
+l you
+> > > > > > about the race.
+> > > > > > 5. We're documenting the code.
+> > > > > >
+> > > > > > Anything I missed?
+> > > > >
+> > > > > I don=E2=80=99t know. Having to write the same line twice does no=
+t feel me any better than data_race() with commenting occasionally.
+> > > >
+> > > > Point 4 above: While data_race() will ignore cause KCSAN to not rep=
+ort
+> > > > the data race, now you might be missing a real bug: if somebody
+> > > > concurrently modifies the bits accessed, you want to know about it!
+> > > > Either way, it's up to you to add the ASSERT_EXCLUSIVE_BITS, but ju=
+st
+> > > > remember that if you decide to silence it with data_race(), you nee=
+d
+> > > > to be sure there are no concurrent writers to those bits.
+> > >
+> > > Right, in this case, there is no concurrent writers to those bits, so=
+ I'll add a
+> > > comment should be sufficient. However, I'll keep ASSERT_EXCLUSIVE_BIT=
+S() in mind
+> > > for other places.
+> >
+> > Right now there are no concurrent writers to those bits. But somebody
+> > might introduce a bug that will write them, even though they shouldn't
+> > have. With ASSERT_EXCLUSIVE_BITS() you can catch that. Once I have the
+> > patches for this out, I would consider adding it here for this reason.
+>
+> Surely, we could add many of those to catch theoretical issues. I can thi=
+nk of
+> more like ASSERT_HARMLESS_COUNTERS() because the worry about one day some=
+one
+> might change the code to use counters from printing out information to ma=
+king
+> important MM heuristic decisions. Then, we might end up with those too ma=
+ny
+> macros situation again. The list goes on, ASSERT_COMPARE_ZERO_NOLOOP(),
+> ASSERT_SINGLE_BIT() etc.
 
-Surely, we could add many of those to catch theoretical issues. I can think=
- of
-more like ASSERT_HARMLESS_COUNTERS() because the worry about one day someon=
-e
-might change the code to use counters from printing out information to maki=
-ng
-important MM heuristic decisions. Then, we might end up with those too many
-macros situation again. The list goes on, ASSERT_COMPARE_ZERO_NOLOOP(),
-ASSERT_SINGLE_BIT() etc.
+I'm sorry, but the above don't assert any quantifiable properties in the co=
+de.
 
-On the other hand, maybe to take a more pragmatic approach that if there ar=
-e
-strong evidences that developers could easily make mistakes in a certain pl=
-ace,
-then we could add a new macro, so the next time Joe developer wants to a ne=
-w
-macro, he/she has to provide the same strong justifications?
+What we want is to be able to catch bugs that violate the *current*
+properties of the code *today*. A very real property of the code
+*today* is that nobody should modify zonenum without taking a lock. If
+you mark the access here, there is no tool that can help you. I'm
+trying to change that.
 
->=20
-> > >=20
-> > > There is no way to automatically infer all over the kernel which bits
-> > > we care about, and the most reliable is to be explicit about it. I
-> > > don't see a problem with it per se.
-> > >=20
-> > > Thanks,
-> > > -- Marco
+The fact that we have bits that can be modified locklessly and some
+that can't is an inconvenience, but can be solved.
+
+Makes sense?
+
+Thanks,
+-- Marco
+
+> On the other hand, maybe to take a more pragmatic approach that if there =
+are
+> strong evidences that developers could easily make mistakes in a certain =
+place,
+> then we could add a new macro, so the next time Joe developer wants to a =
+new
+> macro, he/she has to provide the same strong justifications?
+>
+> >
+> > > >
+> > > > There is no way to automatically infer all over the kernel which bi=
+ts
+> > > > we care about, and the most reliable is to be explicit about it. I
+> > > > don't see a problem with it per se.
+> > > >
+> > > > Thanks,
+> > > > -- Marco
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
@@ -248,4 +271,5 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/1581342954.7365.27.camel%40lca.pw.
+kasan-dev/CANpmjNN%3DSNr%3DHJMLrQUno2F1L4PmQL19JfvVjngKee77tN2q-Q%40mail.gm=
+ail.com.
