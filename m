@@ -1,140 +1,121 @@
-Return-Path: <kasan-dev+bncBCZLJOMFV4FRB6ULQ7ZAKGQEVYFCJXA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDK3TPOVRULBBA6AQ7ZAKGQECSHKJHY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pj1-x1037.google.com (mail-pj1-x1037.google.com [IPv6:2607:f8b0:4864:20::1037])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2778315848E
-	for <lists+kasan-dev@lfdr.de>; Mon, 10 Feb 2020 22:07:08 +0100 (CET)
-Received: by mail-pj1-x1037.google.com with SMTP id a31sf394972pje.4
-        for <lists+kasan-dev@lfdr.de>; Mon, 10 Feb 2020 13:07:08 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1581368826; cv=pass;
+Received: from mail-yw1-xc37.google.com (mail-yw1-xc37.google.com [IPv6:2607:f8b0:4864:20::c37])
+	by mail.lfdr.de (Postfix) with ESMTPS id B94A71585D1
+	for <lists+kasan-dev@lfdr.de>; Mon, 10 Feb 2020 23:58:12 +0100 (CET)
+Received: by mail-yw1-xc37.google.com with SMTP id l12sf7359596ywk.6
+        for <lists+kasan-dev@lfdr.de>; Mon, 10 Feb 2020 14:58:12 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1581375491; cv=pass;
         d=google.com; s=arc-20160816;
-        b=O3kqMTQREc3T2SfuK20+TfPwo6nPv/He7ZwkApq2RKT+4WgB2VhwMnWPC8gwhbWgkt
-         8Q736uks/RoRZMqkLlVV8XW77xjVc0io07T/cGtpJu8vfHoWiqZiCvBftFoTQDLCL5Wr
-         3S2a6hNRqdadHaFh/ZSr8TSoziayZVJJYo09lDjdY1PKhj6O4y7DfS1nllOYDj0WNa7k
-         FLapVrPK0UKVW4WC98nw/x6IJ8d06xPBMC64N+OuJ1Wlri/QK5QJ+DcWPbHAGmkahfq8
-         W3llt2YAMUNzvVdvD8YVE/zzVEeeUe2IwVZyXrLzjTwc8crRM7dVYWFTCXyc0x44uuc+
-         jpog==
+        b=deVwyffoUQFPiBuKSvhC+pefpciXZQ/Vht7O3nzVDWy/7QHxlyhNr7lBhzyhi9oZeX
+         EotUNfe7zJSp3/9kApd8KAWC0qaHSicdkQ6R36S0D75Z5RwYEBDzYEVyrDAga9vtadyz
+         qTdByd/aW7poD4MfSvrnG0otnxe8baoALAeaOIJgB245RMi9zgbucXchSiHD+5rBcfwb
+         E6zqpTA5K5SG2ENh7aOuOGcKopCrSMEh2ugGgCQtAWeq4W3XkXCESSoCV7Jjlqa12dE3
+         uQ8Oi76oLFYJ1ap8eE4S4QYIFhiMqxR7QHOXnfN0X4ln7VAVcwuYPTzNRve4LUAEb97h
+         6Xsg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-language:in-reply-to
-         :mime-version:user-agent:date:message-id:from:references:cc:to
-         :subject:sender:dkim-signature;
-        bh=VS11O5stwguM1bVJ1vc70oAEASvNphrCL1rck3mj8dE=;
-        b=tIA9vCBKLDe+jYeuyEiKYKlK9vnBDJ7KsqQ1fHmQJWRcLNHwqbJ5LukKBS0TiCPjb+
-         bZDYnTycp1KCDd1l7uawIWRlh/csigVhFhVvDYuIpJF859WaO/yQBRfjW8VthVUsChP9
-         qjHXayXMXD8oZduFq/8xqe3bSX2cTxV2Kvwc4WO3BOmGUaJmKVMZFVlYfgDRD+9U533f
-         SgFslHqgownXeOLbHahxk9tHxLyWyvci7tVC5yvQbxHJwsuNxnSse7NyLjvQ1MWXnhud
-         hLLJwS+12kmR70qTAwg0Z/hnlKVTDV/mjwaNnurh1phihPv2PT5t7ZNjsSWbiC/ztsCr
-         800g==
+         :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
+         :mime-version:message-id:date:dkim-signature;
+        bh=VDq26oaU6058bv2kw+9ijRGRF4cBvDPulEYA9n90LQs=;
+        b=roJku0DzLgwAgbh1O15e4j0oXnPVC3b6zq84CWxqouJYBnH70STb4yMn+VyDf0TmwY
+         FPB4Vy5r+LODVN9Ozy423GUKemoLQOpBPqrCg3xcTDIousgAFcV++DcZiFK9LNTCwYQX
+         megwLVFtX9aVmHRKhDxU5iE0IAsqlM+Io3G7KPHFGtafGL+JMp2yy3PyMceHdJ/zmU2b
+         UGBgdCi9nRwop33YFKtb3z3oFVC24SmC72zMnZSkfEVjg46qzPNAQX3gghW7RDQ7hCSO
+         nh1j4P/okXeM8X1ibkWwgnfKPsO5SCPmlzt1qjFSfCybcnWdnOOuPNQH3cFO76FmeWTu
+         b4Ow==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@nvidia.com header.s=n1 header.b=BR9X6s3L;
-       spf=pass (google.com: domain of jhubbard@nvidia.com designates 216.228.121.65 as permitted sender) smtp.mailfrom=jhubbard@nvidia.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=nvidia.com
+       dkim=pass header.i=@google.com header.s=20161025 header.b=GFdrTt3S;
+       spf=pass (google.com: domain of 3aubbxgwkcce0ypzohsmvuzvnvvnsl.jvtrhzhu-kl2nvvnslnyv1wz.jvt@flex--trishalfonso.bounces.google.com designates 2607:f8b0:4864:20::649 as permitted sender) smtp.mailfrom=3AuBBXgwKCcE0ypzohsmvuzvnvvnsl.jvtrhzhu-kl2nvvnslnyv1wz.jvt@flex--trishalfonso.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=VS11O5stwguM1bVJ1vc70oAEASvNphrCL1rck3mj8dE=;
-        b=TjxLgEsia28XvgQ05oYcEhZ5unGAc9rb2WKLDANQE0bDjL4FA2TxGSIKFz1knkAylC
-         YRLbI31zFYZ/FDbrrZvLhHuceWpX2+hr3Dm7SuQpMxuzrWSOkJzeIc47UzlYE2sHazQ+
-         9h1y5RjePUiaj9nEXI4Up/Ci06PgSFCicyVrMxFdEqOXDhuLZ4WQTgJl9jV1f8VB2sdd
-         bkq49+Hfcu1TGvuN2xCveuzftkjToTqLm4is4SoCZk2Ezk22z+pS2EMly6qI5O9Joyao
-         G5o2TKdVp/OiFBIoPfR+HRGblRZUamkJMWxCuWfi27UFQyk+eQRPNqIZ7rJZfVpzifSk
-         iHfQ==
+        h=date:message-id:mime-version:subject:from:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:list-post:list-help:list-archive:list-subscribe
+         :list-unsubscribe;
+        bh=VDq26oaU6058bv2kw+9ijRGRF4cBvDPulEYA9n90LQs=;
+        b=bR4ssal3dRJpEGcbYTr/yCgfs27cdVACj9S7IzeczntrcAmoZQFgPK6bUAwpw0WIXi
+         68AYRcfGkoBRtShIWclhxsS6d8pomONHsz/NfnZLPKdopSytL8KZiWLUEEaeCWmPw45L
+         fjroYWXYgiAhYQOWZmbxVURPpQme0d550aSH0vjRQI2XQtQ0NWfywvUX5HldDZLwszUN
+         L8Ypw3WJ0qKN4S0rulvNx/8VEfN1KQn1VdzC+ndtXXjL8YgqHDSg4XuphsqLIOeHaYE+
+         4NCPnjJVB6JPR3x0VFLNneKK8IgXHhHt56iSXjYwSsz9Ky1C6EDeQIGuheyJgvpNK13D
+         73qg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=VS11O5stwguM1bVJ1vc70oAEASvNphrCL1rck3mj8dE=;
-        b=BdqybPvcK/gX4GVB4+m6WYbnP/6Ns4X28v+Qn2N6ESJ2M1V+xYx80geE8VrnZy9bgh
-         DaZNbWu9fyf5b/QeRzE98u4MOx7Wh4wXsWOmCYuMnywj+E5Kbtw9UzM5NTRIkF/d86UP
-         CG6bsZtLcs1/ypuKh3Es7Oa5G0E+ApRHRchXiS8V+ZiBQM3jMCKqP296tzuE7NfyH1RG
-         Cpo3ezfexXUmPAZZUAeoYO/wYZTkzpFJPXZc1Ou4KzKUQpgI92JEPO5zFmc3H1B/85E1
-         mvr8eQf4xHU8Gw8J4cnOvj6sUtZWK0ga+Sfn0HgvIeqDEjDn3XuSmLNg3LqAINKWI01v
-         7b1Q==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAVZI+1Duj2CLpsFqK0d1ZDwVTVadx8lZNVqC1BzAeozWVYqiwnm
-	ImW3SYLEU8TbD+B5+DnYv0w=
-X-Google-Smtp-Source: APXvYqz6CXdsNrg7mmid+ffln7BhHPwfduWnzn7/sxHcVb0jBYBk2UcejimSa6Ed40Ei2KC+pW9DHg==
-X-Received: by 2002:aa7:8695:: with SMTP id d21mr2937670pfo.199.1581368826604;
-        Mon, 10 Feb 2020 13:07:06 -0800 (PST)
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc
+         :x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=VDq26oaU6058bv2kw+9ijRGRF4cBvDPulEYA9n90LQs=;
+        b=Q0nqiWTGkvnv5k7fXBaefEbjTomRX7/njq1XniSBHokBAg8sAchyHPoy6RITTHQGhm
+         P7QZskxGU1kjeZlqno/4rXQk+tqdsmDq/CUgFF3XS+3vfdT3vDgXDHtiADkNlx3y/b7g
+         kk4psCVEZxpke4UcvZjNRWlYOCef5LkWJWrg2JIfCUeYR1k71XOA1jqUraX+HoP4QKjt
+         6G7JgTXPNh/jxiGtYcTL/12ibBt+GbYJ/tdUcrVcwb6EWCtZyLkIOGe2ZT8uKhXNurY7
+         1SFIUvImKbgPJ4xls4adi5w0z/A8Us/uOgIa/YczbIVuNw5AhZANX9tyWAkTMj1uLJBO
+         GNpw==
+X-Gm-Message-State: APjAAAWy0kBD6N2C/YNoen1qmv2zN0n52VVBo6bSLkR11kqhq84pVQwx
+	aRAH2t+TdBrdN3yBYDk0GAo=
+X-Google-Smtp-Source: APXvYqxJ+Ysqzgrl57v0omll3xk2B+cPj0ifO1w0HhGKvbjPHwatGzkEejklEU9l7iJ5Q0X8pu+VeQ==
+X-Received: by 2002:a81:bb54:: with SMTP id a20mr3301228ywl.408.1581375491448;
+        Mon, 10 Feb 2020 14:58:11 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:90a:b26:: with SMTP id 35ls237779pjq.1.gmail; Mon, 10
- Feb 2020 13:07:06 -0800 (PST)
-X-Received: by 2002:a17:902:be04:: with SMTP id r4mr14501749pls.315.1581368826169;
-        Mon, 10 Feb 2020 13:07:06 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1581368826; cv=none;
+Received: by 2002:a25:2f88:: with SMTP id v130ls666357ybv.2.gmail; Mon, 10 Feb
+ 2020 14:58:11 -0800 (PST)
+X-Received: by 2002:a25:ab65:: with SMTP id u92mr3621936ybi.472.1581375491059;
+        Mon, 10 Feb 2020 14:58:11 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1581375491; cv=none;
         d=google.com; s=arc-20160816;
-        b=WieVjQgzCMS7i8HQjMb4uqbZ/2ghsrKAHgjwAkd91TeIoylM6buuJeaQ9fwOF1dAvw
-         m5Huf7+JoHoG2pLBCFyJLzvDH+mmaVquuROwVKJDfQ8UE8ccE7LSfjoPMwbZDCVmC2Js
-         OCr0UuPmjbj2vN8XPqCTojPrptaqkB/n1+rCfTHuDD9QfiR4gw5dqaa0OYZPs6zbwQdU
-         68Cc4I05yusYP89fZ2VbUyWJktGJ4a5qZJDY8W5Th1ftO470xwEAoulO2sHwIcILR/Mc
-         qKqLyvWDL/U3M3B0CYVXwjmdxwrLgNpABKoo4TCd3dd+qtMRGEf0gDXqBl5OmPMtTF8E
-         Nnrw==
+        b=X6tDFhgRbdPigF9fDOPMpdthvdv1X+6m3u/HbKJdIxv5gW/8kZhMw/pCSKeL1DN/Bz
+         TAjE9s3rqwX9xBvWJq5lCsgE/y4CjsfDOvN4OGO/b/QyvUfrGYMRCW72IAJ1xMBvG65Z
+         vJRGGnD9i/VZe0aBhhA/Fc6gvIPzhSyPXki5RUhZXp4eOA5ElhaV0VKtppgNjbBqwVjI
+         KGtgwJIps3uwKTeRxqEDAc05Of9/puZEzRspRrGPwRgf0Lptp0SknIr0ICRqQr/hjslC
+         zIEF3cLt1iX4OVBH3SRlkLkVVNv0nP+gWf+OQjIggf6LcYcMmejau8M5ujTEt5EeL2JO
+         Sqdg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=dkim-signature:content-transfer-encoding:content-language
-         :in-reply-to:mime-version:user-agent:date:message-id:from:references
-         :cc:to:subject;
-        bh=x5jlNDmZWfgsReEBA1RyRhnoPE9uvIpHWxzFCAc54tQ=;
-        b=H38C3efSuIKTooLukoGSSvYsfG79Jru0PLqmaDEayTgbvBMJdfGcFw4D3sxwasT6dl
-         VkQYSAofRq2bPVp3hyEhjzTAyneh3S0Inbr08qFvKGPiuezIHd9jaVKapNeYvICYd+Qq
-         Q+cfidYMWO2JJx+l+M+Aqw7/YtBm8lFAkK9xwvNiWdSzi7g/ta+kw9ADv1jJ4kckiDlZ
-         pQwnmd6I+9oJwF24cAQdZf9H141DnCM1vv5RG9CYPT6RIQC8Ge8HVmBqgvwjkV1xIubG
-         uCL2ncF/8++yNSqIFOPQB6WkjpX++Skj6KLeOZ6UCITO5g7YaMfp9JhpXsbPTk4fIzXZ
-         2e6A==
+        h=cc:to:from:subject:mime-version:message-id:date:dkim-signature;
+        bh=e3IohNnZH1pK34OxxjwQrgjk1+u95jywj4N942Qaffg=;
+        b=hnKvFKyOOco2aDqTQpHN6ZMCpAvoonahNP7ZAwR+W/wWVgHuMnmuM9tks2c2MW3vo6
+         qr8ZHgGIJ0mSAoK6msO15IE5sTiIfXHSmgVKS2sf6lMDlY2aB5ZqkuxvOJt9xT5pf1cD
+         v6D+GIvYsavN4YFSU/5qXiv22Qo9Ly2kzcPr7YsPuVGZcQlNnVJKfcQdDMspy/trqe0A
+         dG2Q3Cc7dNMJoepipvTpjkb1nikLa27Wh2p/7YyjgqY3XKvYM5ytpbKIY4Dfsjlad1HU
+         rwi4zhHR6ycnGchBIzUwvYNxjpPTCdpDNjAAukQG3lUIlN/6LAeEVlOvjppP1hnFX1hw
+         3dog==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@nvidia.com header.s=n1 header.b=BR9X6s3L;
-       spf=pass (google.com: domain of jhubbard@nvidia.com designates 216.228.121.65 as permitted sender) smtp.mailfrom=jhubbard@nvidia.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=nvidia.com
-Received: from hqnvemgate26.nvidia.com (hqnvemgate26.nvidia.com. [216.228.121.65])
-        by gmr-mx.google.com with ESMTPS id y13si90115plp.0.2020.02.10.13.07.05
+       dkim=pass header.i=@google.com header.s=20161025 header.b=GFdrTt3S;
+       spf=pass (google.com: domain of 3aubbxgwkcce0ypzohsmvuzvnvvnsl.jvtrhzhu-kl2nvvnslnyv1wz.jvt@flex--trishalfonso.bounces.google.com designates 2607:f8b0:4864:20::649 as permitted sender) smtp.mailfrom=3AuBBXgwKCcE0ypzohsmvuzvnvvnsl.jvtrhzhu-kl2nvvnslnyv1wz.jvt@flex--trishalfonso.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-pl1-x649.google.com (mail-pl1-x649.google.com. [2607:f8b0:4864:20::649])
+        by gmr-mx.google.com with ESMTPS id l1si27146ybt.2.2020.02.10.14.58.11
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 10 Feb 2020 13:07:06 -0800 (PST)
-Received-SPF: pass (google.com: domain of jhubbard@nvidia.com designates 216.228.121.65 as permitted sender) client-ip=216.228.121.65;
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-	id <B5e41c5e70000>; Mon, 10 Feb 2020 13:06:47 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Mon, 10 Feb 2020 13:07:01 -0800
-X-PGP-Universal: processed;
-	by hqpgpgate101.nvidia.com on Mon, 10 Feb 2020 13:07:01 -0800
-Received: from [10.110.48.28] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 10 Feb
- 2020 21:07:01 +0000
-Subject: Re: [PATCH 5/5] kcsan: Introduce ASSERT_EXCLUSIVE_BITS(var, mask)
-To: Marco Elver <elver@google.com>
-CC: <paulmck@kernel.org>, <andreyknvl@google.com>, <glider@google.com>,
-	<dvyukov@google.com>, <kasan-dev@googlegroups.com>,
-	<linux-kernel@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@redhat.com>, Jan Kara <jack@suse.cz>, Qian Cai
-	<cai@lca.pw>
-References: <20200210184317.233039-1-elver@google.com>
- <20200210184317.233039-5-elver@google.com>
-From: John Hubbard <jhubbard@nvidia.com>
-X-Nvconfidentiality: public
-Message-ID: <3963b39c-bdc9-d188-a086-f5ea443477d1@nvidia.com>
-Date: Mon, 10 Feb 2020 13:07:00 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.2
-MIME-Version: 1.0
-In-Reply-To: <20200210184317.233039-5-elver@google.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- HQMAIL107.nvidia.com (172.20.187.13)
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 10 Feb 2020 14:58:11 -0800 (PST)
+Received-SPF: pass (google.com: domain of 3aubbxgwkcce0ypzohsmvuzvnvvnsl.jvtrhzhu-kl2nvvnslnyv1wz.jvt@flex--trishalfonso.bounces.google.com designates 2607:f8b0:4864:20::649 as permitted sender) client-ip=2607:f8b0:4864:20::649;
+Received: by mail-pl1-x649.google.com with SMTP id c19so3681045plz.19
+        for <kasan-dev@googlegroups.com>; Mon, 10 Feb 2020 14:58:11 -0800 (PST)
+X-Received: by 2002:a63:26c4:: with SMTP id m187mr3932433pgm.410.1581375490395;
+ Mon, 10 Feb 2020 14:58:10 -0800 (PST)
+Date: Mon, 10 Feb 2020 14:58:06 -0800
+Message-Id: <20200210225806.249297-1-trishalfonso@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.25.0.341.g760bfbb309-goog
+Subject: [RFC PATCH v2] UML: add support for KASAN under x86_64
+From: "'Patricia Alfonso' via kasan-dev" <kasan-dev@googlegroups.com>
+To: jdike@addtoit.com, richard@nod.at, anton.ivanov@cambridgegreys.com, 
+	aryabinin@virtuozzo.com, dvyukov@google.com, davidgow@google.com, 
+	brendanhiggins@google.com, johannes@sipsolutions.net
+Cc: kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org, 
+	linux-um@lists.infradead.org, Patricia Alfonso <trishalfonso@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Language: en-US
-X-Original-Sender: jhubbard@nvidia.com
+X-Original-Sender: trishalfonso@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@nvidia.com header.s=n1 header.b=BR9X6s3L;       spf=pass
- (google.com: domain of jhubbard@nvidia.com designates 216.228.121.65 as
- permitted sender) smtp.mailfrom=jhubbard@nvidia.com;       dmarc=pass (p=NONE
- sp=NONE dis=NONE) header.from=nvidia.com
+ header.i=@google.com header.s=20161025 header.b=GFdrTt3S;       spf=pass
+ (google.com: domain of 3aubbxgwkcce0ypzohsmvuzvnvvnsl.jvtrhzhu-kl2nvvnslnyv1wz.jvt@flex--trishalfonso.bounces.google.com
+ designates 2607:f8b0:4864:20::649 as permitted sender) smtp.mailfrom=3AuBBXgwKCcE0ypzohsmvuzvnvvnsl.jvtrhzhu-kl2nvvnslnyv1wz.jvt@flex--trishalfonso.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Patricia Alfonso <trishalfonso@google.com>
+Reply-To: Patricia Alfonso <trishalfonso@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -147,242 +128,292 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 2/10/20 10:43 AM, Marco Elver wrote:
-> This introduces ASSERT_EXCLUSIVE_BITS(var, mask).
-> ASSERT_EXCLUSIVE_BITS(var, mask) will cause KCSAN to assume that the
-> following access is safe w.r.t. data races (however, please see the
-> docbook comment for disclaimer here).
-> 
-> For more context on why this was considered necessary, please see:
->   http://lkml.kernel.org/r/1580995070-25139-1-git-send-email-cai@lca.pw
-> 
-> In particular, data races between reads (that use @mask bits of an
-> access that should not be modified concurrently) and writes (that change
-> ~@mask bits not used by the read) should ordinarily be marked. After
-> marking these, we would no longer be able to detect harmful races
-> between reads to @mask bits and writes to @mask bits.
+Make KASAN run on User Mode Linux on x86_64.
 
-I know this is "just" the commit log, but as long as I'm reviewing the
-whole thing...to make the above a little clearer, see if you like this 
-revised wording:
+Depends on Constructor support in UML and is based off of
+"[RFC PATCH] um: implement CONFIG_CONSTRUCTORS for modules"
+(https://patchwork.ozlabs.org/patch/1234551/) and "[DEMO] um:
+demonstrate super early constructors"
+(https://patchwork.ozlabs.org/patch/1234553/) by
+Johannes.
 
-In particular, before this patch, data races between reads (that use
-@mask bits of an access that should not be modified concurrently) and
-writes (that change ~@mask bits not used by the readers) would have
-been annotated with "data_race()". However, doing so would then hide
-real problems: we would no longer be able to detect harmful races
-between reads to @mask bits and writes to @mask bits.
+The location of the KASAN shadow memory, starting at
+KASAN_SHADOW_OFFSET, can be configured using the
+KASAN_SHADOW_OFFSET option. UML uses roughly 18TB of address
+space, and KASAN requires 1/8th of this. The default location of
+this offset is 0x100000000000. There is usually enough free space at
+this location; however, it is a config option so that it can be
+easily changed if needed.
 
+The UML-specific KASAN initializer uses mmap to map
+the roughly 2.25TB of shadow memory to the location defined by
+KASAN_SHADOW_OFFSET.
 
-> 
-> Therefore, by using ASSERT_EXCLUSIVE_BITS(var, mask), we accomplish:
-> 
->   1. No new macros introduced elsewhere; since there are numerous ways in
->      which we can extract the same bits, a one-size-fits-all macro is
->      less preferred.
+Signed-off-by: Patricia Alfonso <trishalfonso@google.com>
+---
 
-This somehow confuses me a lot. Maybe say it like this:
+Changes since v1:
+ - KASAN has been initialized much earlier.
+ - With the help of Johannes's RFC patch to implement constructors in
+   UML and Demo showing how kasan_init could take advantage of these
+   super early constructors, most of the "KASAN_SANITIZE := n" have
+   been removed.
+ - Removed extraneous code
+ - Fixed typos
 
-1. Avoid a proliferation of specific macros at the call sites: by including a
-   mask in the argument list, we can use the same macro in a wide variety of 
-   call sites, regardless of which bits in a field each call site uses.
+ arch/um/Kconfig              | 10 ++++++++++
+ arch/um/Makefile             |  6 ++++++
+ arch/um/include/asm/dma.h    |  1 +
+ arch/um/include/asm/kasan.h  | 30 ++++++++++++++++++++++++++++++
+ arch/um/kernel/Makefile      | 22 ++++++++++++++++++++++
+ arch/um/kernel/mem.c         | 19 +++++++++----------
+ arch/um/os-Linux/mem.c       | 19 +++++++++++++++++++
+ arch/um/os-Linux/user_syms.c |  4 ++--
+ arch/x86/um/Makefile         |  3 ++-
+ arch/x86/um/vdso/Makefile    |  3 +++
+ 10 files changed, 104 insertions(+), 13 deletions(-)
+ create mode 100644 arch/um/include/asm/kasan.h
 
-?
-
-> 
->   2. The existing code does not need to be modified (although READ_ONCE()
->      may still be advisable if we cannot prove that the data race is
->      always safe).
-> 
->   3. We catch bugs where the exclusive bits are modified concurrently.
-> 
->   4. We document properties of the current code.
-> 
-> Signed-off-by: Marco Elver <elver@google.com>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: David Hildenbrand <david@redhat.com>
-> Cc: Jan Kara <jack@suse.cz>
-> Cc: John Hubbard <jhubbard@nvidia.com>
-> Cc: Paul E. McKenney <paulmck@kernel.org>
-> Cc: Qian Cai <cai@lca.pw>
-> ---
->  include/linux/kcsan-checks.h | 57 ++++++++++++++++++++++++++++++++----
->  kernel/kcsan/debugfs.c       | 15 +++++++++-
->  2 files changed, 65 insertions(+), 7 deletions(-)
-> 
-> diff --git a/include/linux/kcsan-checks.h b/include/linux/kcsan-checks.h
-> index 4ef5233ff3f04..eae6030cd4348 100644
-> --- a/include/linux/kcsan-checks.h
-> +++ b/include/linux/kcsan-checks.h
-> @@ -152,9 +152,9 @@ static inline void kcsan_check_access(const volatile void *ptr, size_t size,
->  #endif
->  
->  /**
-> - * ASSERT_EXCLUSIVE_WRITER - assert no other threads are writing @var
-> + * ASSERT_EXCLUSIVE_WRITER - assert no concurrent writes to @var
->   *
-> - * Assert that there are no other threads writing @var; other readers are
-> + * Assert that there are no concurrent writes to @var; other readers are
->   * allowed. This assertion can be used to specify properties of concurrent code,
->   * where violation cannot be detected as a normal data race.
->   *
-> @@ -171,11 +171,11 @@ static inline void kcsan_check_access(const volatile void *ptr, size_t size,
->  	__kcsan_check_access(&(var), sizeof(var), KCSAN_ACCESS_ASSERT)
->  
->  /**
-> - * ASSERT_EXCLUSIVE_ACCESS - assert no other threads are accessing @var
-> + * ASSERT_EXCLUSIVE_ACCESS - assert no concurrent accesses to @var
->   *
-> - * Assert that no other thread is accessing @var (no readers nor writers). This
-> - * assertion can be used to specify properties of concurrent code, where
-> - * violation cannot be detected as a normal data race.
-> + * Assert that there are no concurrent accesses to @var (no readers nor
-> + * writers). This assertion can be used to specify properties of concurrent
-> + * code, where violation cannot be detected as a normal data race.
->   *
->   * For example, in a reference-counting algorithm where exclusive access is
->   * expected after the refcount reaches 0. We can check that this property
-> @@ -191,4 +191,49 @@ static inline void kcsan_check_access(const volatile void *ptr, size_t size,
->  #define ASSERT_EXCLUSIVE_ACCESS(var)                                           \
->  	__kcsan_check_access(&(var), sizeof(var), KCSAN_ACCESS_WRITE | KCSAN_ACCESS_ASSERT)
->  
-> +/**
-> + * ASSERT_EXCLUSIVE_BITS - assert no concurrent writes to subset of bits in @var
-> + *
-> + * [Bit-granular variant of ASSERT_EXCLUSIVE_WRITER(var)]
-
-
-No need for the square brackets, unless that's some emerging convention in the
-documentation world. 
-
-
-> + *
-> + * Assert that there are no concurrent writes to a subset of bits in @var;
-> + * concurrent readers are permitted. Concurrent writes (or reads) to ~@mask bits
-> + * are ignored. This assertion can be used to specify properties of concurrent
-> + * code, where marked accesses imply violations cannot be detected as a normal
-> + * data race.
-
-
-How about this wording:
-
-/*
- * Assert that there are no concurrent writes to a subset of bits in @var;
- * concurrent readers are permitted. Concurrent writes (or reads) to ~@mask bits
- * are ignored. This assertion provides more detailed, bit-level information to
- * the KCSAN system than most of the other (word granularity) annotations. As
- * such, it allows KCSAN to safely overlook some bits while still continuing to
- * check the remaining bits for unsafe access patterns.
- *
- * Use this if you have some bits that are read-only, and other bits that are
- * not, within a variable.
- */
-
-?
-
-
-> + *
-> + * For example, this may be used when certain bits of @var may only be modified
-> + * when holding the appropriate lock, but other bits may still be modified
-> + * concurrently. Writers, where other bits may change concurrently, could use
-> + * the assertion as follows:
-> + *
-> + *	spin_lock(&foo_lock);
-> + *	ASSERT_EXCLUSIVE_BITS(flags, FOO_MASK);
-> + *	old_flags = READ_ONCE(flags);
-> + *	new_flags = (old_flags & ~FOO_MASK) | (new_foo << FOO_SHIFT);
-> + *	if (cmpxchg(&flags, old_flags, new_flags) != old_flags) { ... }
-> + *	spin_unlock(&foo_lock);
-> + *
-> + * Readers, could use it as follows:
-> + *
-> + *	ASSERT_EXCLUSIVE_BITS(flags, FOO_MASK);
-> + *	foo = (READ_ONCE(flags) & FOO_MASK) >> FOO_SHIFT;
-
-
-In the general case (which is what this documentation covers), the
-READ_ONCE() is not required. So this should either leave it out, or
-explain that it's not necessarily required.
-
-
-> + *
-> + * NOTE: The access that immediately follows is assumed to access the masked
-> + * bits only, and safe w.r.t. data races. While marking this access is optional
-> + * from KCSAN's point-of-view, it may still be advisable to do so, since we
-> + * cannot reason about all possible compiler optimizations when it comes to bit
-> + * manipulations (on the reader and writer side).
-> + *
-> + * @var variable to assert on
-> + * @mask only check for modifications to bits set in @mask
-> + */
-> +#define ASSERT_EXCLUSIVE_BITS(var, mask)                                       \
-
-
-This API looks good to me.
-
-
-> +	do {                                                                   \
-> +		kcsan_set_access_mask(mask);                                   \
-> +		__kcsan_check_access(&(var), sizeof(var), KCSAN_ACCESS_ASSERT);\
-> +		kcsan_set_access_mask(0);                                      \
-> +		kcsan_atomic_next(1);                                          \
-> +	} while (0)
-> +
->  #endif /* _LINUX_KCSAN_CHECKS_H */
-> diff --git a/kernel/kcsan/debugfs.c b/kernel/kcsan/debugfs.c
-> index 9bbba0e57c9b3..2ff1961239778 100644
-> --- a/kernel/kcsan/debugfs.c
-> +++ b/kernel/kcsan/debugfs.c
-> @@ -100,8 +100,10 @@ static noinline void microbenchmark(unsigned long iters)
->   * debugfs file from multiple tasks to generate real conflicts and show reports.
->   */
->  static long test_dummy;
-> +static long test_flags;
->  static noinline void test_thread(unsigned long iters)
->  {
-> +	const long CHANGE_BITS = 0xff00ff00ff00ff00L;
->  	const struct kcsan_ctx ctx_save = current->kcsan_ctx;
->  	cycles_t cycles;
->  
-> @@ -109,16 +111,27 @@ static noinline void test_thread(unsigned long iters)
->  	memset(&current->kcsan_ctx, 0, sizeof(current->kcsan_ctx));
->  
->  	pr_info("KCSAN: %s begin | iters: %lu\n", __func__, iters);
-> +	pr_info("test_dummy@%px, test_flags@%px\n", &test_dummy, &test_flags);
->  
->  	cycles = get_cycles();
->  	while (iters--) {
-> +		/* These all should generate reports. */
->  		__kcsan_check_read(&test_dummy, sizeof(test_dummy));
-> -		__kcsan_check_write(&test_dummy, sizeof(test_dummy));
->  		ASSERT_EXCLUSIVE_WRITER(test_dummy);
->  		ASSERT_EXCLUSIVE_ACCESS(test_dummy);
->  
-> +		ASSERT_EXCLUSIVE_BITS(test_flags, ~CHANGE_BITS); /* no report */
-> +		__kcsan_check_read(&test_flags, sizeof(test_flags)); /* no report */
-> +
-> +		ASSERT_EXCLUSIVE_BITS(test_flags, CHANGE_BITS); /* report */
-> +		__kcsan_check_read(&test_flags, sizeof(test_flags)); /* no report */
-> +
->  		/* not actually instrumented */
->  		WRITE_ONCE(test_dummy, iters);  /* to observe value-change */
-> +		__kcsan_check_write(&test_dummy, sizeof(test_dummy));
-> +
-> +		test_flags ^= CHANGE_BITS; /* generate value-change */
-> +		__kcsan_check_write(&test_flags, sizeof(test_flags));
->  	}
->  	cycles = get_cycles() - cycles;
->  
-> 
-
-
-
-thanks,
+diff --git a/arch/um/Kconfig b/arch/um/Kconfig
+index 0917f8443c28..2b76dc273731 100644
+--- a/arch/um/Kconfig
++++ b/arch/um/Kconfig
+@@ -8,6 +8,7 @@ config UML
+ 	select ARCH_HAS_KCOV
+ 	select ARCH_NO_PREEMPT
+ 	select HAVE_ARCH_AUDITSYSCALL
++	select HAVE_ARCH_KASAN if X86_64
+ 	select HAVE_ARCH_SECCOMP_FILTER
+ 	select HAVE_ASM_MODVERSIONS
+ 	select HAVE_UID16
+@@ -200,6 +201,15 @@ config UML_TIME_TRAVEL_SUPPORT
+ 
+ 	  It is safe to say Y, but you probably don't need this.
+ 
++config KASAN_SHADOW_OFFSET
++	hex
++	depends on KASAN
++	default 0x100000000000
++	help
++	  This is the offset at which the ~2.25TB of shadow memory is
++	  initialized and used by KASAN for memory debugging. The default
++	  is 0x100000000000.
++
+ endmenu
+ 
+ source "arch/um/drivers/Kconfig"
+diff --git a/arch/um/Makefile b/arch/um/Makefile
+index d2daa206872d..28fe7a9a1858 100644
+--- a/arch/um/Makefile
++++ b/arch/um/Makefile
+@@ -75,6 +75,12 @@ USER_CFLAGS = $(patsubst $(KERNEL_DEFINES),,$(patsubst -I%,,$(KBUILD_CFLAGS))) \
+ 		-D_FILE_OFFSET_BITS=64 -idirafter $(srctree)/include \
+ 		-idirafter $(objtree)/include -D__KERNEL__ -D__UM_HOST__
+ 
++# Kernel config options are not included in USER_CFLAGS, but the option for KASAN
++# should be included if the KASAN config option was set.
++ifdef CONFIG_KASAN
++	USER_CFLAGS+=-DCONFIG_KASAN=y
++endif
++
+ #This will adjust *FLAGS accordingly to the platform.
+ include $(ARCH_DIR)/Makefile-os-$(OS)
+ 
+diff --git a/arch/um/include/asm/dma.h b/arch/um/include/asm/dma.h
+index fdc53642c718..8aafd60d62bb 100644
+--- a/arch/um/include/asm/dma.h
++++ b/arch/um/include/asm/dma.h
+@@ -5,6 +5,7 @@
+ #include <asm/io.h>
+ 
+ extern unsigned long uml_physmem;
++extern unsigned long long physmem_size;
+ 
+ #define MAX_DMA_ADDRESS (uml_physmem)
+ 
+diff --git a/arch/um/include/asm/kasan.h b/arch/um/include/asm/kasan.h
+new file mode 100644
+index 000000000000..ba08061068cf
+--- /dev/null
++++ b/arch/um/include/asm/kasan.h
+@@ -0,0 +1,30 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++#ifndef __ASM_UM_KASAN_H
++#define __ASM_UM_KASAN_H
++
++#include <linux/init.h>
++#include <linux/const.h>
++
++#define KASAN_SHADOW_OFFSET _AC(CONFIG_KASAN_SHADOW_OFFSET, UL)
++#ifdef CONFIG_X86_64
++#define KASAN_SHADOW_SIZE 0x100000000000UL
++#else
++#error "KASAN_SHADOW_SIZE is not defined for this sub-architecture"
++#endif /* CONFIG_X86_64 */
++
++// used in kasan_mem_to_shadow to divide by 8
++#define KASAN_SHADOW_SCALE_SHIFT 3
++
++#define KASAN_SHADOW_START (KASAN_SHADOW_OFFSET)
++#define KASAN_SHADOW_END (KASAN_SHADOW_START + KASAN_SHADOW_SIZE)
++
++#ifdef CONFIG_KASAN
++void kasan_init(void);
++#else
++static inline void kasan_init(void) { }
++#endif /* CONFIG_KASAN */
++
++void kasan_map_memory(void *start, unsigned long len);
++void kasan_unpoison_shadow(const void *address, size_t size);
++
++#endif /* __ASM_UM_KASAN_H */
+diff --git a/arch/um/kernel/Makefile b/arch/um/kernel/Makefile
+index 5aa882011e04..875e1827588b 100644
+--- a/arch/um/kernel/Makefile
++++ b/arch/um/kernel/Makefile
+@@ -8,6 +8,28 @@
+ # kernel.
+ KCOV_INSTRUMENT                := n
+ 
++# The way UMl deals with the stack causes seemingly false positive KASAN
++# reports such as:
++# BUG: KASAN: stack-out-of-bounds in show_stack+0x15e/0x1fb
++# Read of size 8 at addr 000000006184bbb0 by task swapper/1
++# ==================================================================
++# BUG: KASAN: stack-out-of-bounds in dump_trace+0x141/0x1c5
++# Read of size 8 at addr 0000000071057eb8 by task swapper/1
++# ==================================================================
++# BUG: KASAN: stack-out-of-bounds in get_wchan+0xd7/0x138
++# Read of size 8 at addr 0000000070e8fc80 by task systemd/1
++#
++# With these files removed from instrumentation, those reports are
++# eliminated, but KASAN still repeatedly reports a bug on syscall_stub_data:
++# ==================================================================
++# BUG: KASAN: stack-out-of-bounds in syscall_stub_data+0x299/0x2bf
++# Read of size 128 at addr 0000000071457c50 by task swapper/1
++
++KASAN_SANITIZE_stacktrace.o := n
++KASAN_SANITIZE_sysrq.o := n
++KASAN_SANITIZE_process.o := n
++
++
+ CPPFLAGS_vmlinux.lds := -DSTART=$(LDS_START)		\
+                         -DELF_ARCH=$(LDS_ELF_ARCH)	\
+                         -DELF_FORMAT=$(LDS_ELF_FORMAT)	\
+diff --git a/arch/um/kernel/mem.c b/arch/um/kernel/mem.c
+index 32fc941c80f7..7b7b8a0ee724 100644
+--- a/arch/um/kernel/mem.c
++++ b/arch/um/kernel/mem.c
+@@ -18,21 +18,20 @@
+ #include <kern_util.h>
+ #include <mem_user.h>
+ #include <os.h>
++#include <linux/sched/task.h>
+ 
+-extern int printf(const char *msg, ...);
+-static void early_print(void)
++#ifdef CONFIG_KASAN
++void kasan_init(void)
+ {
+-	printf("I'm super early, before constructors\n");
++	kasan_map_memory((void *)KASAN_SHADOW_START, KASAN_SHADOW_SIZE);
++	init_task.kasan_depth = 0;
++	os_info("KernelAddressSanitizer initialized\n");
+ }
+ 
+-static void __attribute__((constructor)) constructor_test(void)
+-{
+-	printf("yes, you can see it\n");
+-}
+-
+-static void (*early_print_ptr)(void)
++static void (*kasan_init_ptr)(void)
+ __attribute__((section(".kasan_init"), used))
+- = early_print;
++= kasan_init;
++#endif
+ 
+ /* allocated in paging_init, zeroed in mem_init, and unchanged thereafter */
+ unsigned long *empty_zero_page = NULL;
+diff --git a/arch/um/os-Linux/mem.c b/arch/um/os-Linux/mem.c
+index 3c1b77474d2d..da7039721d35 100644
+--- a/arch/um/os-Linux/mem.c
++++ b/arch/um/os-Linux/mem.c
+@@ -17,6 +17,25 @@
+ #include <init.h>
+ #include <os.h>
+ 
++/**
++ * kasan_map_memory() - maps memory from @start with a size of @len.
++ * The allocated memory is filled with zeroes upon success.
++ * @start: the start address of the memory to be mapped
++ * @len: the length of the memory to be mapped
++ *
++ * This function is used to map shadow memory for KASAN in uml
++ */
++void kasan_map_memory(void *start, size_t len)
++{
++	if (mmap(start,
++		 len,
++		 PROT_READ|PROT_WRITE,
++		 MAP_FIXED|MAP_ANONYMOUS|MAP_PRIVATE|MAP_NORESERVE,
++		 -1,
++		 0) == MAP_FAILED)
++		os_info("Couldn't allocate shadow memory %s", strerror(errno));
++}
++
+ /* Set by make_tempfile() during early boot. */
+ static char *tempdir = NULL;
+ 
+diff --git a/arch/um/os-Linux/user_syms.c b/arch/um/os-Linux/user_syms.c
+index 715594fe5719..cb667c9225ab 100644
+--- a/arch/um/os-Linux/user_syms.c
++++ b/arch/um/os-Linux/user_syms.c
+@@ -27,10 +27,10 @@ EXPORT_SYMBOL(strstr);
+ #ifndef __x86_64__
+ extern void *memcpy(void *, const void *, size_t);
+ EXPORT_SYMBOL(memcpy);
+-#endif
+-
+ EXPORT_SYMBOL(memmove);
+ EXPORT_SYMBOL(memset);
++#endif
++
+ EXPORT_SYMBOL(printf);
+ 
+ /* Here, instead, I can provide a fake prototype. Yes, someone cares: genksyms.
+diff --git a/arch/x86/um/Makefile b/arch/x86/um/Makefile
+index 33c51c064c77..7dbd76c546fe 100644
+--- a/arch/x86/um/Makefile
++++ b/arch/x86/um/Makefile
+@@ -26,7 +26,8 @@ else
+ 
+ obj-y += syscalls_64.o vdso/
+ 
+-subarch-y = ../lib/csum-partial_64.o ../lib/memcpy_64.o ../entry/thunk_64.o
++subarch-y = ../lib/csum-partial_64.o ../lib/memcpy_64.o ../entry/thunk_64.o \
++	../lib/memmove_64.o ../lib/memset_64.o
+ 
+ endif
+ 
+diff --git a/arch/x86/um/vdso/Makefile b/arch/x86/um/vdso/Makefile
+index 0caddd6acb22..450efa0fb694 100644
+--- a/arch/x86/um/vdso/Makefile
++++ b/arch/x86/um/vdso/Makefile
+@@ -3,6 +3,9 @@
+ # Building vDSO images for x86.
+ #
+ 
++# do not instrument on vdso because KASAN is not compatible with user mode
++KASAN_SANITIZE			:= n
++
+ # Prevents link failures: __sanitizer_cov_trace_pc() is not linked in.
+ KCOV_INSTRUMENT                := n
+ 
 -- 
-John Hubbard
-NVIDIA
+2.25.0.341.g760bfbb309-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/3963b39c-bdc9-d188-a086-f5ea443477d1%40nvidia.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200210225806.249297-1-trishalfonso%40google.com.
