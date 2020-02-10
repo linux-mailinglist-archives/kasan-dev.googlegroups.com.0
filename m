@@ -1,125 +1,207 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBX6IQ3ZAKGQEGKKSCZI@googlegroups.com>
+Return-Path: <kasan-dev+bncBC3JRV7SWYEBBBP2Q3ZAKGQEXLGHTCY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x140.google.com (mail-lf1-x140.google.com [IPv6:2a00:1450:4864:20::140])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11B951582E5
-	for <lists+kasan-dev@lfdr.de>; Mon, 10 Feb 2020 19:43:44 +0100 (CET)
-Received: by mail-lf1-x140.google.com with SMTP id v10sf736984lfa.14
-        for <lists+kasan-dev@lfdr.de>; Mon, 10 Feb 2020 10:43:44 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1581360223; cv=pass;
+Received: from mail-pg1-x53b.google.com (mail-pg1-x53b.google.com [IPv6:2607:f8b0:4864:20::53b])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD9A015843D
+	for <lists+kasan-dev@lfdr.de>; Mon, 10 Feb 2020 21:28:54 +0100 (CET)
+Received: by mail-pg1-x53b.google.com with SMTP id m18sf6134341pgn.18
+        for <lists+kasan-dev@lfdr.de>; Mon, 10 Feb 2020 12:28:54 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1581366533; cv=pass;
         d=google.com; s=arc-20160816;
-        b=YvmoRb8cabLZyDJnzlDZZzI4neHjLg5KuGMvhQqB/6DiLCV16k+wEFBmZ1kLCYm2Cl
-         v8EU4HWwRdCIDmJu7K9F43GpCa3cEo7GrBIGrl1odZyKOTZ9+y3zdnN50fbfU2pwmZ99
-         zf1L3i8PBAAtw9rOKyb4vCJbqQk7RuWBKMM2ECX0YeIrqmZSt4iT3plvcJdgIpW35Sjs
-         yALMDvqsvv9rXBGvu+2UTKvGwf3yhRKNNS6wj8OphMp0J/8r2aU/NTLiUE5wE29v25qa
-         jMEW9n3pL/Jy3SW632IE3sfhTWCiuiYGAAJnG6tAW6I6psbl4enwWnDjy+BuEd7C9014
-         NAKg==
+        b=i9oynl5HVCi0tMoE93AvYsLPmR76mlA+r8GaCE6MgT5BPsJJ4H//cPIms0yOIGjvAV
+         4VAe6ayegI2RTIcqO0tUMG+PI+2fX0k/Bnhnxu0QSP25BqBdd+IkwPa6/W2wj9825g3i
+         uDY22yhGJemhzr2/KwOFYjq40ePJwfd9HoWfhP+jS1/THqA0+mM1Rgs/lOwU4Ia4f8mt
+         6a7YQw5iYqoI9Usl6qc47NV5yjWQV/UNqKF1VVawJ4bsq71JCQ/c6nv1+bkx9byzWxdf
+         dr/CybJWGhZEm2WH1FFe8ZqPAiaLoM6Zp98/ocIAjgQMYnJJCx7uCFXJEgaOdD/2O9Ak
+         p+Bw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
-         :references:mime-version:message-id:in-reply-to:date:dkim-signature;
-        bh=LQvSyH9VLxoUXrTCqFgMUrCo+KEn/i5uRI/HWbDqcvs=;
-        b=tqeXKlE4d8NY5Ez1Vzk/5ili0TQJWlCoIa0MmXE88dYs1pp6qcYkifrYNDJyhty+Jj
-         ormRLrQOqMDC/p2MjhQBFDKidIFavvaW7cPk6bEqvA1IoXS2Laeh+ZrhB3wBQcC53ldA
-         vFQ1m5mOCF624aoGscG2Y1W05X1KYFlMGSp8hWrfsdJ5SvlkP5rd9vNBuWTUWBDWP9Q9
-         q24jhF0m202GAZHK2k1a43WH/7xW6MUAvAuDsdQjRxSXxlSD0dNciQFVHroJCJmPL5Ek
-         deTaBLMYCgxLGFKaJwn00x+c505L+27rBwunhTPKlViGgZrIKTrrYgZOJx1RdL9kwkmr
-         K0Dg==
+         :list-id:mailing-list:precedence:content-language:in-reply-to
+         :mime-version:user-agent:date:message-id:autocrypt:from:references
+         :cc:to:subject:sender:dkim-signature;
+        bh=hZXmQnV8iz0pGsN5dRUyCLXnXzN5clPePGmDLCiKb58=;
+        b=O34qilNnDPuRis7dUIydmw62eY1eeYv3u/zMCmIzifXAsSJwCxGncvBvBlplp5rdZW
+         memg/vsNTUlv6AzfeesGNU1ceiCPS00D3ipIGIIs8W+Z8qAG2rJOadsdLDBaSm/58KwF
+         NK5Iny/GH8iWS8a6AWsPXWN/c3P8h+z2d8T8Yb63jws5+WwEyqNXTh12LwYatvzAY41m
+         LjxhYPO3bV5MKbqnAXG0YoOc0DUihcPPJ80Wzkd9KnwAINRe3L7D32gugpSSSmyZOV1C
+         /qjc6UCAsh+GBoiH1jB0ePree4zVDY0cqfSS4cAct0MKhxiIcr6aAkpHBEJ0l7EcN1Tv
+         KfWg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=sB5OY1dU;
-       spf=pass (google.com: domain of 3xarbxgukcaqipzivksskpi.gsqoewer-hizksskpikvsytw.gsq@flex--elver.bounces.google.com designates 2a00:1450:4864:20::44a as permitted sender) smtp.mailfrom=3XaRBXgUKCaQIPZIVKSSKPI.GSQOEWER-HIZKSSKPIKVSYTW.GSQ@flex--elver.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@oracle.com header.s=corp-2020-01-29 header.b=PYvlJVCx;
+       spf=pass (google.com: domain of boris.ostrovsky@oracle.com designates 156.151.31.86 as permitted sender) smtp.mailfrom=boris.ostrovsky@oracle.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=oracle.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+        h=sender:subject:to:cc:references:from:autocrypt:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=LQvSyH9VLxoUXrTCqFgMUrCo+KEn/i5uRI/HWbDqcvs=;
-        b=hPe5t6bAknl3sPiTgP688lRzi6hRjqWdOwr0zEbn7hJRSET3ZgtRCDJKHB8nLLNv63
-         4GofEvAEXtbwAAmLe4StSH6t0HimjsaZAiiBJRF64Io3qRIoU1jq5qBV5ogqfhGxxIGf
-         ia9T9aocGsNv90mwEudfDA1sE/kXGGCMZ13WkYXfuFteeLLOCfEn+ymaNZf88jxTD/eJ
-         BjxbLhmiMhZDrtWalSxnXUSRtt4RK1pmZyqINGI7co9YBfxTGYMFSPvFtr9yS4dc75X8
-         UHemwH2SLh/PpSlmkJJZbXy8iBtwg1Z/MIDhbY34iz8LhWRiksX0bxZIRzVHX+qXb8Bq
-         oIOw==
+        bh=hZXmQnV8iz0pGsN5dRUyCLXnXzN5clPePGmDLCiKb58=;
+        b=VYieVKEFN5ER0ekdWGiCX7l6SZwK6wjvqjZmQFpOTZf5haA8NUvJBgAOYW6vHiOLhN
+         P6X6JpCB75+QGPpUxzBTz2yyZdmxrJnQYKBgaEpW5PhJsYOXp6u4V/Bf4ioDY67NcABe
+         8Kt7SUq06MBhe6T+mzrqBYihZDM56K6ZkmFvpzQat/ujscDnADVtjlRcDQkePbgLbU5+
+         W//+Chunf6sv5eQrOWzTk/Q3b0wFMLX9VzCweklYd1xxlwf23QXR7hvogXf0DCEW6Xee
+         XTcSe4fqFivPujYdAssZmc4kdS9s3rmWBiBiM07gTgliJVYzwKVN9oln81FBCJeWCcAO
+         ciBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+        h=sender:x-gm-message-state:subject:to:cc:references:from:autocrypt
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=LQvSyH9VLxoUXrTCqFgMUrCo+KEn/i5uRI/HWbDqcvs=;
-        b=pyp9IgMNuywXMGJ/H0WP/WBq9q8Rd4A7yK5Gni3ZqkzY+IBWwAR5SftKe80HhpKJ7s
-         OwZMH47ehkp2m+nlx5e8RAAqgv7Cf8Ve0P7ZQEjmLHHWRJUZJOZnd1fAsDwrCQaOjhdM
-         yJONgSnFmJZYeyChJ4EP5YWNfpX3Q9oTj95IbUQLhiK5x7N437X2cKwBdHFNkVrHKNjG
-         MzqdHwTP1bhllseCYsSh2rHXBv8WL/O9snDkClMrsG1MzmZQEAlAhons+2fwK9aNqYvP
-         WA+pUEGFodVZLH9QOxNU4JX8fj5/JQv6Ithkny6S5Bt4/9PcfS4ys7ze+az+u937rV1k
-         /mFQ==
-X-Gm-Message-State: APjAAAXJCXeXsak+p+BB7bzNZx9TXmhZOgOnIBTOpqZGfj2KZJ2KkQvB
-	kxuQ3mQ8/O/KhIl8tuKEHoA=
-X-Google-Smtp-Source: APXvYqzjXAwmA3rFdghqueOEMzahSJrxMAZv8ebXV1Hfnk6VZ6V2FMTB4sghj6MLPJEwH4uH9SBHFg==
-X-Received: by 2002:a2e:81c3:: with SMTP id s3mr1769180ljg.168.1581360223614;
-        Mon, 10 Feb 2020 10:43:43 -0800 (PST)
+        bh=hZXmQnV8iz0pGsN5dRUyCLXnXzN5clPePGmDLCiKb58=;
+        b=qkfo8oUf0lddM0S+HqAmPZpOV6etxdupG8RN8SGZRSI9E6sFl59d6w3M0dr2tzNTME
+         r5QBPfoO6zTdnrOmXzzvhiBhdN+fTG5MMiBc8O1sgkmAuZ9Vp6MBPPR2reUPi/kQTNJt
+         eI6gNOx0+j1oz4kiukrKWvdUd9mU1WbfTpwO/EvMaN5fG30vjnZilnoHcmfmF+rckM+9
+         CFg5h7TYz/fONxjcYXC7DW5a8+e039MBr+a3MF1K+LO7U78eZeYLPolA6adeZTa0no4r
+         BevWuWYhzibbisle9x70LLzbH0siZVC95t7hBVs8lWnz97cDYL9lhkgkI/S7QUhwfmfk
+         QbhQ==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: APjAAAX67uPwOkPlPp++OACPzcnuOvqrNYaC82+9ggTCX5SQ92yslFVw
+	/GhRwh8Yi9GQ3YmdcC5zAkc=
+X-Google-Smtp-Source: APXvYqw3LmAtphurJ7M5WMKguwi9w3Uo9lDM+JMe0DAWg/AGJPwCt3NH1ot8ImYefoAGr9g8IL1NiA==
+X-Received: by 2002:a63:f648:: with SMTP id u8mr3460219pgj.148.1581366533542;
+        Mon, 10 Feb 2020 12:28:53 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:651c:1051:: with SMTP id x17ls1617111ljm.8.gmail; Mon,
- 10 Feb 2020 10:43:42 -0800 (PST)
-X-Received: by 2002:a2e:8758:: with SMTP id q24mr1769541ljj.157.1581360222766;
-        Mon, 10 Feb 2020 10:43:42 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1581360222; cv=none;
+Received: by 2002:a17:902:9887:: with SMTP id s7ls4231637plp.9.gmail; Mon, 10
+ Feb 2020 12:28:53 -0800 (PST)
+X-Received: by 2002:a17:90a:e291:: with SMTP id d17mr1016918pjz.116.1581366533120;
+        Mon, 10 Feb 2020 12:28:53 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1581366533; cv=none;
         d=google.com; s=arc-20160816;
-        b=A+xFh2pILUJXxNok+5MPbGhmBjhVjBJM+MN62y46w7BadPWpGxxoEodeBuwIBPVIsj
-         UBn5GIH7hyphaSCY8PM+iniB/jhFJyGJpdE4KHys280C/lVx74v8wEpLYy/Re9VS40eL
-         9hmAsQag/1lNo10VaPwWy2Mz3YEUWWfnHragJKgUg2Y5KtPtwybxSnD45QrJJE8EYgbJ
-         Gs/oSZl1fsZwx/vKCYoNiRWoJN1KMVJvmUAadNr5CEU3Y5Ok8LaakdyPvaOeaC+uuTO7
-         Ls6TP0s/s1Mj9cs6OA5K1JFpbRfoWAckwCFXYRywcktFYQrF/9yAZldZma4OkV3U0JMA
-         MVDw==
+        b=F6YrODNQDBtGWyh7QiHwEjNcSJqIB/M9bkaIrL4SCWGr97R3ww9V3z3tTVtr3zKVH/
+         0+qM7f24WFXXZqr1fM3l2Bo4xuWRfFF3XlBgDAc8URnNZAd1khIuUgqHwqgcSYW3nA5U
+         lraUfBZaxKYXtCWLpeMHBSmfF7fUP8KOIkbo1dychdvXAJujrfwZduZjlZ6RZiVgfpg1
+         X6qxAug0r4V0uW0YJFj5pyWRxDwMXz0u7jgdSQZ5UFAGox2lpBcst5GFGxoTjur54EQV
+         O9zUgwrC/B5hgzZeidbCU+A3eNfu8W6svwHawzQtqCgqm6AFUqgFwG+A43b9Bm+ADTXs
+         IImg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
-         :date:dkim-signature;
-        bh=ekjMPPG/6GfXWp+1AYZk+dASF82ToWENMAHOLhIQ8HA=;
-        b=Ba6AWqdbQpdfIY4lUUPpI/juk7mM6uZ3IylC6aKHgdYiwiSI2ZdAZVXGIJyTVSnUAZ
-         5G5xg3HfRuPur49u2wK+Z4ENmmjoGYU+jxL9IpR2OGleoODZ9Qi+ofxUfeGJDxiyUYar
-         O2WucNUu2TU7B0DKYqOwzU5g9UIz9M1ky9XfTvB2TXBT9jpxFxv7gvbMVAqgtfZUEf1h
-         ncHCJ3bvdI/yTdpMHA9NfPFVKWXvHKovD+2ucNPoNnfVYvkQy92RdAMB0k73h58WT+gF
-         yWZygsdXWn1AQCQVSI0sBM3oNE8J6Bb8F+++ISN4YI1v6g/U4xOq8/G8ICUPSdDA3m04
-         t8sA==
+        h=content-language:content-transfer-encoding:in-reply-to:mime-version
+         :user-agent:date:message-id:autocrypt:from:references:cc:to:subject
+         :dkim-signature;
+        bh=0p/9Qs6uC0BaB+0SCy7KvfzsMvYfbq6Mgk/yMvp8PgY=;
+        b=aHfvonqjFVCiutMc97MbmPPXsdo8gewf2PetSf3JNLYIAaGvvFIyWl1EvKmy7I/NB5
+         WeJJO7Ds2ymfBK5LqdN3e4zyGE4AHwhNNioamv1FSQ8MlWJAkwxpdstVBOiyA2Iw0o3r
+         6Z6maI5ZVdngFa/5anPQIyBAcExlBHiXfk+yKBJq5iry1Qmgb+0SVYNpPUxnTlyQdueI
+         wdGvNaFSrBuY3rn9h0sFEb2yOvZWOylGaXs3/QnI3OpeQ+gHtJgJbVKwTnP+Jar79KAI
+         lhlQuw0Q1uGjr+6QT/R53XS2rCqWy5MMe1l3ZVJ8SfxGGakrAq644a3miAbjQSoiuVvx
+         uJsg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=sB5OY1dU;
-       spf=pass (google.com: domain of 3xarbxgukcaqipzivksskpi.gsqoewer-hizksskpikvsytw.gsq@flex--elver.bounces.google.com designates 2a00:1450:4864:20::44a as permitted sender) smtp.mailfrom=3XaRBXgUKCaQIPZIVKSSKPI.GSQOEWER-HIZKSSKPIKVSYTW.GSQ@flex--elver.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-wr1-x44a.google.com (mail-wr1-x44a.google.com. [2a00:1450:4864:20::44a])
-        by gmr-mx.google.com with ESMTPS id b29si80109lfo.2.2020.02.10.10.43.42
+       dkim=pass header.i=@oracle.com header.s=corp-2020-01-29 header.b=PYvlJVCx;
+       spf=pass (google.com: domain of boris.ostrovsky@oracle.com designates 156.151.31.86 as permitted sender) smtp.mailfrom=boris.ostrovsky@oracle.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=oracle.com
+Received: from userp2130.oracle.com (userp2130.oracle.com. [156.151.31.86])
+        by gmr-mx.google.com with ESMTPS id j10si77724pgg.2.2020.02.10.12.28.52
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 10 Feb 2020 10:43:42 -0800 (PST)
-Received-SPF: pass (google.com: domain of 3xarbxgukcaqipzivksskpi.gsqoewer-hizksskpikvsytw.gsq@flex--elver.bounces.google.com designates 2a00:1450:4864:20::44a as permitted sender) client-ip=2a00:1450:4864:20::44a;
-Received: by mail-wr1-x44a.google.com with SMTP id d8so5439395wrq.12
-        for <kasan-dev@googlegroups.com>; Mon, 10 Feb 2020 10:43:42 -0800 (PST)
-X-Received: by 2002:a5d:4d0a:: with SMTP id z10mr3276542wrt.253.1581360221843;
- Mon, 10 Feb 2020 10:43:41 -0800 (PST)
-Date: Mon, 10 Feb 2020 19:43:17 +0100
-In-Reply-To: <20200210184317.233039-1-elver@google.com>
-Message-Id: <20200210184317.233039-5-elver@google.com>
-Mime-Version: 1.0
-References: <20200210184317.233039-1-elver@google.com>
-X-Mailer: git-send-email 2.25.0.341.g760bfbb309-goog
-Subject: [PATCH 5/5] kcsan: Introduce ASSERT_EXCLUSIVE_BITS(var, mask)
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-To: elver@google.com
-Cc: paulmck@kernel.org, andreyknvl@google.com, glider@google.com, 
-	dvyukov@google.com, kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org, 
-	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@redhat.com>, Jan Kara <jack@suse.cz>, 
-	John Hubbard <jhubbard@nvidia.com>, Qian Cai <cai@lca.pw>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 10 Feb 2020 12:28:53 -0800 (PST)
+Received-SPF: pass (google.com: domain of boris.ostrovsky@oracle.com designates 156.151.31.86 as permitted sender) client-ip=156.151.31.86;
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+	by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01AKSnft095974;
+	Mon, 10 Feb 2020 20:28:49 GMT
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+	by userp2130.oracle.com with ESMTP id 2y2k87y4x4-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Mon, 10 Feb 2020 20:28:49 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+	by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01AKS7tZ173240;
+	Mon, 10 Feb 2020 20:28:48 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+	by aserp3030.oracle.com with ESMTP id 2y26htm1rt-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 10 Feb 2020 20:28:48 +0000
+Received: from abhmp0002.oracle.com (abhmp0002.oracle.com [141.146.116.8])
+	by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 01AKSlLV016847;
+	Mon, 10 Feb 2020 20:28:47 GMT
+Received: from bostrovs-us.us.oracle.com (/10.152.32.65)
+	by default (Oracle Beehive Gateway v4.0)
+	with ESMTP ; Mon, 10 Feb 2020 12:28:47 -0800
+Subject: Re: [PATCH v3 2/4] x86/xen: add basic KASAN support for PV kernel
+To: Sergey Dyasli <sergey.dyasli@citrix.com>, xen-devel@lists.xen.org,
+        kasan-dev@googlegroups.com, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org
+Cc: Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Alexander Potapenko <glider@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>, Juergen Gross <jgross@suse.com>,
+        Stefano Stabellini
+ <sstabellini@kernel.org>,
+        George Dunlap <george.dunlap@citrix.com>,
+        Ross Lagerwall <ross.lagerwall@citrix.com>,
+        Andrew Morton <akpm@linux-foundation.org>
+References: <20200207142652.670-1-sergey.dyasli@citrix.com>
+ <20200207142652.670-3-sergey.dyasli@citrix.com>
+From: Boris Ostrovsky <boris.ostrovsky@oracle.com>
+Autocrypt: addr=boris.ostrovsky@oracle.com; keydata=
+ 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
+ Jg6OxFYd01z+a+oL
+Message-ID: <1d99ff54-dc81-85a8-0ecb-c3ee4d418f2e@oracle.com>
+Date: Mon, 10 Feb 2020 15:29:26 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
+MIME-Version: 1.0
+In-Reply-To: <20200207142652.670-3-sergey.dyasli@citrix.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
+Content-Language: en-US
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9527 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 phishscore=0
+ bulkscore=0 adultscore=0 malwarescore=0 suspectscore=0 mlxscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2001150001 definitions=main-2002100148
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9527 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 lowpriorityscore=0
+ suspectscore=0 bulkscore=0 phishscore=0 mlxlogscore=999 mlxscore=0
+ malwarescore=0 impostorscore=0 clxscore=1011 spamscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2001150001 definitions=main-2002100148
+X-Original-Sender: boris.ostrovsky@oracle.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=sB5OY1dU;       spf=pass
- (google.com: domain of 3xarbxgukcaqipzivksskpi.gsqoewer-hizksskpikvsytw.gsq@flex--elver.bounces.google.com
- designates 2a00:1450:4864:20::44a as permitted sender) smtp.mailfrom=3XaRBXgUKCaQIPZIVKSSKPI.GSQOEWER-HIZKSSKPIKVSYTW.GSQ@flex--elver.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+ header.i=@oracle.com header.s=corp-2020-01-29 header.b=PYvlJVCx;
+       spf=pass (google.com: domain of boris.ostrovsky@oracle.com designates
+ 156.151.31.86 as permitted sender) smtp.mailfrom=boris.ostrovsky@oracle.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=oracle.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -132,176 +214,26 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-This introduces ASSERT_EXCLUSIVE_BITS(var, mask).
-ASSERT_EXCLUSIVE_BITS(var, mask) will cause KCSAN to assume that the
-following access is safe w.r.t. data races (however, please see the
-docbook comment for disclaimer here).
 
-For more context on why this was considered necessary, please see:
-  http://lkml.kernel.org/r/1580995070-25139-1-git-send-email-cai@lca.pw
 
-In particular, data races between reads (that use @mask bits of an
-access that should not be modified concurrently) and writes (that change
-~@mask bits not used by the read) should ordinarily be marked. After
-marking these, we would no longer be able to detect harmful races
-between reads to @mask bits and writes to @mask bits.
+On 2/7/20 9:26 AM, Sergey Dyasli wrote:
+> Introduce and use xen_kasan_* functions that are needed to properly
+> initialise KASAN for Xen PV domains. Disable instrumentation for files
+> that are used by xen_start_kernel() before kasan_early_init() could
+> be called.
+>
+> This enables to use Outline instrumentation for Xen PV kernels.
+> KASAN_INLINE and KASAN_VMALLOC options currently lead to boot crashes
+> and hence disabled.
+>
+> Signed-off-by: Sergey Dyasli <sergey.dyasli@citrix.com>
 
-Therefore, by using ASSERT_EXCLUSIVE_BITS(var, mask), we accomplish:
+Xen bits:
 
-  1. No new macros introduced elsewhere; since there are numerous ways in
-     which we can extract the same bits, a one-size-fits-all macro is
-     less preferred.
+Reviewed-by: Boris Ostrovsky <boris.ostrovsky@oracle.com>
 
-  2. The existing code does not need to be modified (although READ_ONCE()
-     may still be advisable if we cannot prove that the data race is
-     always safe).
-
-  3. We catch bugs where the exclusive bits are modified concurrently.
-
-  4. We document properties of the current code.
-
-Signed-off-by: Marco Elver <elver@google.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: David Hildenbrand <david@redhat.com>
-Cc: Jan Kara <jack@suse.cz>
-Cc: John Hubbard <jhubbard@nvidia.com>
-Cc: Paul E. McKenney <paulmck@kernel.org>
-Cc: Qian Cai <cai@lca.pw>
----
- include/linux/kcsan-checks.h | 57 ++++++++++++++++++++++++++++++++----
- kernel/kcsan/debugfs.c       | 15 +++++++++-
- 2 files changed, 65 insertions(+), 7 deletions(-)
-
-diff --git a/include/linux/kcsan-checks.h b/include/linux/kcsan-checks.h
-index 4ef5233ff3f04..eae6030cd4348 100644
---- a/include/linux/kcsan-checks.h
-+++ b/include/linux/kcsan-checks.h
-@@ -152,9 +152,9 @@ static inline void kcsan_check_access(const volatile void *ptr, size_t size,
- #endif
- 
- /**
-- * ASSERT_EXCLUSIVE_WRITER - assert no other threads are writing @var
-+ * ASSERT_EXCLUSIVE_WRITER - assert no concurrent writes to @var
-  *
-- * Assert that there are no other threads writing @var; other readers are
-+ * Assert that there are no concurrent writes to @var; other readers are
-  * allowed. This assertion can be used to specify properties of concurrent code,
-  * where violation cannot be detected as a normal data race.
-  *
-@@ -171,11 +171,11 @@ static inline void kcsan_check_access(const volatile void *ptr, size_t size,
- 	__kcsan_check_access(&(var), sizeof(var), KCSAN_ACCESS_ASSERT)
- 
- /**
-- * ASSERT_EXCLUSIVE_ACCESS - assert no other threads are accessing @var
-+ * ASSERT_EXCLUSIVE_ACCESS - assert no concurrent accesses to @var
-  *
-- * Assert that no other thread is accessing @var (no readers nor writers). This
-- * assertion can be used to specify properties of concurrent code, where
-- * violation cannot be detected as a normal data race.
-+ * Assert that there are no concurrent accesses to @var (no readers nor
-+ * writers). This assertion can be used to specify properties of concurrent
-+ * code, where violation cannot be detected as a normal data race.
-  *
-  * For example, in a reference-counting algorithm where exclusive access is
-  * expected after the refcount reaches 0. We can check that this property
-@@ -191,4 +191,49 @@ static inline void kcsan_check_access(const volatile void *ptr, size_t size,
- #define ASSERT_EXCLUSIVE_ACCESS(var)                                           \
- 	__kcsan_check_access(&(var), sizeof(var), KCSAN_ACCESS_WRITE | KCSAN_ACCESS_ASSERT)
- 
-+/**
-+ * ASSERT_EXCLUSIVE_BITS - assert no concurrent writes to subset of bits in @var
-+ *
-+ * [Bit-granular variant of ASSERT_EXCLUSIVE_WRITER(var)]
-+ *
-+ * Assert that there are no concurrent writes to a subset of bits in @var;
-+ * concurrent readers are permitted. Concurrent writes (or reads) to ~@mask bits
-+ * are ignored. This assertion can be used to specify properties of concurrent
-+ * code, where marked accesses imply violations cannot be detected as a normal
-+ * data race.
-+ *
-+ * For example, this may be used when certain bits of @var may only be modified
-+ * when holding the appropriate lock, but other bits may still be modified
-+ * concurrently. Writers, where other bits may change concurrently, could use
-+ * the assertion as follows:
-+ *
-+ *	spin_lock(&foo_lock);
-+ *	ASSERT_EXCLUSIVE_BITS(flags, FOO_MASK);
-+ *	old_flags = READ_ONCE(flags);
-+ *	new_flags = (old_flags & ~FOO_MASK) | (new_foo << FOO_SHIFT);
-+ *	if (cmpxchg(&flags, old_flags, new_flags) != old_flags) { ... }
-+ *	spin_unlock(&foo_lock);
-+ *
-+ * Readers, could use it as follows:
-+ *
-+ *	ASSERT_EXCLUSIVE_BITS(flags, FOO_MASK);
-+ *	foo = (READ_ONCE(flags) & FOO_MASK) >> FOO_SHIFT;
-+ *
-+ * NOTE: The access that immediately follows is assumed to access the masked
-+ * bits only, and safe w.r.t. data races. While marking this access is optional
-+ * from KCSAN's point-of-view, it may still be advisable to do so, since we
-+ * cannot reason about all possible compiler optimizations when it comes to bit
-+ * manipulations (on the reader and writer side).
-+ *
-+ * @var variable to assert on
-+ * @mask only check for modifications to bits set in @mask
-+ */
-+#define ASSERT_EXCLUSIVE_BITS(var, mask)                                       \
-+	do {                                                                   \
-+		kcsan_set_access_mask(mask);                                   \
-+		__kcsan_check_access(&(var), sizeof(var), KCSAN_ACCESS_ASSERT);\
-+		kcsan_set_access_mask(0);                                      \
-+		kcsan_atomic_next(1);                                          \
-+	} while (0)
-+
- #endif /* _LINUX_KCSAN_CHECKS_H */
-diff --git a/kernel/kcsan/debugfs.c b/kernel/kcsan/debugfs.c
-index 9bbba0e57c9b3..2ff1961239778 100644
---- a/kernel/kcsan/debugfs.c
-+++ b/kernel/kcsan/debugfs.c
-@@ -100,8 +100,10 @@ static noinline void microbenchmark(unsigned long iters)
-  * debugfs file from multiple tasks to generate real conflicts and show reports.
-  */
- static long test_dummy;
-+static long test_flags;
- static noinline void test_thread(unsigned long iters)
- {
-+	const long CHANGE_BITS = 0xff00ff00ff00ff00L;
- 	const struct kcsan_ctx ctx_save = current->kcsan_ctx;
- 	cycles_t cycles;
- 
-@@ -109,16 +111,27 @@ static noinline void test_thread(unsigned long iters)
- 	memset(&current->kcsan_ctx, 0, sizeof(current->kcsan_ctx));
- 
- 	pr_info("KCSAN: %s begin | iters: %lu\n", __func__, iters);
-+	pr_info("test_dummy@%px, test_flags@%px\n", &test_dummy, &test_flags);
- 
- 	cycles = get_cycles();
- 	while (iters--) {
-+		/* These all should generate reports. */
- 		__kcsan_check_read(&test_dummy, sizeof(test_dummy));
--		__kcsan_check_write(&test_dummy, sizeof(test_dummy));
- 		ASSERT_EXCLUSIVE_WRITER(test_dummy);
- 		ASSERT_EXCLUSIVE_ACCESS(test_dummy);
- 
-+		ASSERT_EXCLUSIVE_BITS(test_flags, ~CHANGE_BITS); /* no report */
-+		__kcsan_check_read(&test_flags, sizeof(test_flags)); /* no report */
-+
-+		ASSERT_EXCLUSIVE_BITS(test_flags, CHANGE_BITS); /* report */
-+		__kcsan_check_read(&test_flags, sizeof(test_flags)); /* no report */
-+
- 		/* not actually instrumented */
- 		WRITE_ONCE(test_dummy, iters);  /* to observe value-change */
-+		__kcsan_check_write(&test_dummy, sizeof(test_dummy));
-+
-+		test_flags ^= CHANGE_BITS; /* generate value-change */
-+		__kcsan_check_write(&test_flags, sizeof(test_flags));
- 	}
- 	cycles = get_cycles() - cycles;
- 
--- 
-2.25.0.341.g760bfbb309-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200210184317.233039-5-elver%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/1d99ff54-dc81-85a8-0ecb-c3ee4d418f2e%40oracle.com.
