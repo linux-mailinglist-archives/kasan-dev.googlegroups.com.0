@@ -1,123 +1,146 @@
-Return-Path: <kasan-dev+bncBDQ27FVWWUFRBAM7R7ZAKGQEJQRVGQY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCXLBLOA7IGBB7VJR7ZAKGQEBR6GH6I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-vk1-xa3f.google.com (mail-vk1-xa3f.google.com [IPv6:2607:f8b0:4864:20::a3f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B38B15A5D8
-	for <lists+kasan-dev@lfdr.de>; Wed, 12 Feb 2020 11:12:18 +0100 (CET)
-Received: by mail-vk1-xa3f.google.com with SMTP id 128sf462104vka.12
-        for <lists+kasan-dev@lfdr.de>; Wed, 12 Feb 2020 02:12:18 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1581502337; cv=pass;
+Received: from mail-wm1-x33c.google.com (mail-wm1-x33c.google.com [IPv6:2a00:1450:4864:20::33c])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD5E115A688
+	for <lists+kasan-dev@lfdr.de>; Wed, 12 Feb 2020 11:35:42 +0100 (CET)
+Received: by mail-wm1-x33c.google.com with SMTP id g26sf542989wmk.6
+        for <lists+kasan-dev@lfdr.de>; Wed, 12 Feb 2020 02:35:42 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1581503742; cv=pass;
         d=google.com; s=arc-20160816;
-        b=oHx2hvMVVR6wceUnxsV0OlegqeIX1msp5DemqX9a+s/2J0v41BEHxrR7x+RW/iiaeX
-         W+HgPP7gG0UrDxO82w32TOMp66LPO7v8rwVCZde7P0JmWF+14v+lVB+0ffJiDqiZUmoZ
-         6Z72NzPgEuS8T35vBTOKSM+gXgcMg0DCFCxBvd9c3BcGc1A7beTjlv9jRXzt+viXV9Ec
-         l8BIgm5fKgJoybuRBhjqcDTxnayOjqZQL9rh+l2If2cJSjFD/soOVALaWbgpvQkq0zIp
-         wbGviKgSuda4Pua9adsLRnRvh0CAQ2tAVXN0xYCHg7yQ9h7VN5VgP7onrALuspq6Atuu
-         NJkQ==
+        b=gNhGim8kpWZZbHCXaOjkRyF5udey7E6Aetu9Eu6WsuNa7mnfqZkpAEzZwRDz4Lhq3u
+         x57fR7z0zqo/Dnr25sT50mXXB6bZ5sMKDu413lJhOQn9bCWgnRRzVKvndzS0EQmzFoOK
+         a1QpyKRMC+Ab1Pfm0T/qZ6L2E+r8l69Eijx9PNSmC5jAhdFy406hYfF99nxaLQa72lOf
+         NODFaFzOJSFz8WVdnkdo7ccQIegw4sgV5sgN8QpKSAsKljOPBkcgXubVJ84uIJpLpk8+
+         tv964k7+qh2wxh2OFBVAXUAKOaFBIoidSCei+jPT3QF+vy0RP0UdbaMOwpuZJNpNaV5+
+         r9ZQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:content-transfer-encoding
-         :mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:sender:dkim-signature;
-        bh=ZYOkhd2ocmR6ovK7xezMkX37OYEZXOJqp0jA17zjgh8=;
-        b=T9eZ9al0hLH4eoFM5RXd/06MdW8oMjody3abbFFgNBnH4+Wys84Ytq/enjiPFWAEG2
-         LwLbQxE4wN4Sdm1i8kLnQOGeGjJUiMyqxe6TqcgRV+XrW8xGq+OrEqCYDlV/2yPkMU2Y
-         TNtQsTIhA9R8JpgT1TktNJZ1p0048/DKbF6TrOnEd2EQvU5T/lYmenzVxij6+LSDPycE
-         tw5BdSbvAibBN8LxlcfBSDNmqNQYwymprH+2Dbo5Iw+oowImeIet4XSeB/zQxRNCvCqs
-         ud7DJijTyjJzVT3s/vFy0iGUaR/2lIAm5XssF5H2WiXtGIl3ROL6NmqwDAytt2b3yJmP
-         FPUw==
+         :content-language:in-reply-to:mime-version:user-agent:date
+         :message-id:from:references:cc:to:subject:sender:dkim-signature;
+        bh=xDpBVK/CAsY13t4S+dPaoJsIeW+J6HSducK2Tghm3GU=;
+        b=KJaEpnqshw2xUfsjo0l6UCuoX/MEiQIVyixhI0/K9rQ+6cx4Pq1htbRkPAyWhLHEuA
+         93qmZR2rFtjLnn+6f/duRzOfwOCYMasv07azrdNsz6SGwHNwxnB6f/AqxrJJdteNRSfW
+         YaOGQuoFHqf4oBQT/BH6Ur6Ly7/27tHJ+p3uQtzN+YpxxvXdrZS3LU1YHInxFDMq19Dv
+         5ZTpxEfkgbxlY6O2fShalxqgFYXcHfTFKZ0AzJ2oVv/uh1YeU34tyP382viQIDj0qHEz
+         zIGGBy70AG7694QJgrEiAlHuXylmMh4bFX4T1cxXXYyBW0gu/EsClZgSBTGy1mdWHYi7
+         DIkg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@axtens.net header.s=google header.b=l9MckMLM;
-       spf=pass (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::443 as permitted sender) smtp.mailfrom=dja@axtens.net
+       dkim=pass header.i=@c-s.fr header.s=mail header.b="lstPK/Ib";
+       spf=pass (google.com: domain of christophe.leroy@c-s.fr designates 93.17.236.30 as permitted sender) smtp.mailfrom=christophe.leroy@c-s.fr
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:from:to:cc:subject:in-reply-to:references:date:message-id
-         :mime-version:content-transfer-encoding:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=ZYOkhd2ocmR6ovK7xezMkX37OYEZXOJqp0jA17zjgh8=;
-        b=eYTh2s8cv2VjMIv4jgnftPs2STyi8n1D19z8WhbcN2u10y7YlFCjs8mXAyYFvPfIJG
-         +9NSBijNNvjdAZmnvJH/+UjFs3c6F0/hlZIlOAeU2GU3caHjn4/8/6htsl6TEKenCpUV
-         e4zuqpDZFLlbwvKRRahm5tePmY7lm+kNobzV06RLTiclTZA5uxiSGWqH2PuE4TZqC4AG
-         vg8DhjEWnF9TeqqoOgPHGnlK4agPEQ4JX8TkvsMcu0J+k29vp0bgmGWaO8abuCE8xEF0
-         61/QjswN1QO9wqdzVA2XQ1JBuVpieu5tNHYiCx+JPIbP6k1UhGfPkCpS04J1udwAVgpL
-         HppQ==
+        h=sender:subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=xDpBVK/CAsY13t4S+dPaoJsIeW+J6HSducK2Tghm3GU=;
+        b=IvMo1JWj/a90BitZIk56L6ZM/LNhjvZ3AHM82/slVthgKKKm/tC3SefFAKKLgeovMt
+         2aAHx3gi8XG+T+BTKAoYeps58Wllx/EmCikmjBdoFyxTnnc+/ei1j3nBpZV/66eUSw0Q
+         lQLYag95OtmaLCHOj4O8YjiTMkHn7EnaHIYWTqnwEQNcXW0dYalh7jmsPmEh7SvBrJys
+         fFggyVDP0niT3SbHKjSUXJ0DFCLOg84o6vW8Ai6Wv0n4iUyHXXIlyp57Y8TtW2U4zusw
+         LLv5SdtQ0ZbkGzM1sI0jAT13aEgcbmgPnV1FNNKPvTME72jGYHyLsi2XyD1iJdKU5Hbf
+         bWyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:from:to:cc:subject:in-reply-to:references
-         :date:message-id:mime-version:content-transfer-encoding
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=ZYOkhd2ocmR6ovK7xezMkX37OYEZXOJqp0jA17zjgh8=;
-        b=drUR4J2WwFdCEi35APCUeBDzz6xhRGS/Dx31XT+bosiNqXkOLRWnAPNKl5aXbSH9vk
-         kV5ydV2VxlZQHs/QvBYg1mY4UUY8pZdFBeRjbyuNV1/CUTDiJO7TS0205eEJF1C79dm8
-         qkimuRm24q3zeFpogi2WAQxG2clu/i4FLbqn/ab5Zv0coEUsi5SwO6cfWVRqskrbk5Fc
-         3I5goQ1ItKhFMHq7oFtXWcZTJUOZcEZUpbJHq6AChRNJCerTzBssi3EfBzRwPj+Eok8e
-         tRYrYO4NBIa8h1xkRU9OLKT08L1IssIk+RzWsBgsr0ON3MU98ktOUjIh9nbfDWuL3a//
-         pO2w==
+        h=sender:x-gm-message-state:subject:to:cc:references:from:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=xDpBVK/CAsY13t4S+dPaoJsIeW+J6HSducK2Tghm3GU=;
+        b=DtfAPAWFa0GS6gZ8zXSQbUnklPnpgO4dtvdhHY3dEy9psQFCKynW7HpV+w6fjaZGdL
+         UUJdtXJ0KnRyZ8hStRvduOqtiNLMKeNvY8Aw9nTKzJlp4VjeoUmqKC5lHBO5L6kcuAim
+         RZ0A9hSk45YNiPROcpL04n0Qz6ExAhRyl5YkUsTzUZLHwbCHM/dNhFjeZdYabVbobLpn
+         qlDuwulAfwyDIGCMbSPZ/b03PO9G0+ygOZ+Y070herkJlaqzqrOANGXxHpTqXn4a0Ppf
+         wWN5UWI9ly+2A8yVB493YZOtQZWvNPw72XbxUic4eQH5y52LC0kJGqnz0Nuw2s2mHje7
+         TmMQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAUcpHtouX6Z7V7eU1RYI8wQehSlNl9L2rVXnbolsRtP7qMw5V+w
-	89azGhhHehirkAwr1t2DPug=
-X-Google-Smtp-Source: APXvYqytXInRbA8qFOZzNgfs2klDqUIEQC1sADGWhe/vUD6M6Fb5gsD1tc0Rtl3vha8AbLcB/+FkKA==
-X-Received: by 2002:a67:c204:: with SMTP id i4mr12567235vsj.118.1581502337099;
-        Wed, 12 Feb 2020 02:12:17 -0800 (PST)
+X-Gm-Message-State: APjAAAUVRCMBVII+Ko6TqwFa8MQc6+G0u96Gip5r3uSfJG+WXZHe4peu
+	WGjLWxBdWZVqD0M6NpAFq6E=
+X-Google-Smtp-Source: APXvYqz8I0Q3pyDJHcseWItkGjcXdxeiWBuySUBMVcqL2ziq/uphv1rfeVDP7YHbGPkU9qncpIOEFQ==
+X-Received: by 2002:adf:fd8d:: with SMTP id d13mr14728200wrr.208.1581503742530;
+        Wed, 12 Feb 2020 02:35:42 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a1f:1f83:: with SMTP id f125ls727387vkf.3.gmail; Wed, 12 Feb
- 2020 02:12:16 -0800 (PST)
-X-Received: by 2002:a1f:acc6:: with SMTP id v189mr7378216vke.86.1581502336722;
-        Wed, 12 Feb 2020 02:12:16 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1581502336; cv=none;
+Received: by 2002:adf:eb4c:: with SMTP id u12ls10473393wrn.6.gmail; Wed, 12
+ Feb 2020 02:35:42 -0800 (PST)
+X-Received: by 2002:a5d:4bd0:: with SMTP id l16mr5936420wrt.271.1581503741995;
+        Wed, 12 Feb 2020 02:35:41 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1581503741; cv=none;
         d=google.com; s=arc-20160816;
-        b=DbjJAZsR+ynvDZOrdjfMWQ0L/0XnSCUMOiEAhX99baD2LSdkU7lsozqtOjxznZfdkQ
-         YkQ7MXbnEUSY+62+sR8TQV7uQ7rGr4ceEJ8/LfX7NJRatg6WATolFmZPugnL9Bjsg1Zy
-         Lxg74Fb+Jh2iYwSEEiS9rrLEmc/h7pjjFalX16PbHgsVMhvj09jZtNa+gvT0SVuOEOVo
-         NmFpIpH2Lv2msMpx2cjxbjXADBenSmudQVoxPqlf0zoctTQQZrrVLONldJGnuS+ABqbh
-         fwMn8PxEBH48Y1XAXyK5KY0UqUHCsG6yyFJv8lWA1J97N5hAErML2xfZoIQdEMC+nAWU
-         O2ag==
+        b=cTNUUqUaSgNASI8wpfC0fKPBtR7px0a4WDLOkqWbsN+67V1hUvGD1y1ozntK6zYDii
+         ebVTsjMsxjCreaeUqzhRxEW37hGTyTbjjol8qhbwZ0P0Qal5NfYxTP1K0Qb7x1I2U3lD
+         g7iKmmujvequH8zbWBOOsv1b4SA/Q2nD2J5Eho30bAfFCbBk72GtcjcliO6PQ7PFd3s5
+         01gW4aqbu+p/GCukJqm2O0/PpUCZe5KAvNzZL1ZLcc7V17qwb0UMZdUnk+NYqcPbRnVP
+         m20+fOLizDVH6D+zBeH8xg3VW95aGmou4TszvtJ/g83igXtEJIIuE0EW5RNWGEcedcwa
+         M1QQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:message-id:date:references
-         :in-reply-to:subject:cc:to:from:dkim-signature;
-        bh=KF/rQa9b+YDdw75c1nDcpos7LuX+EOPNM62K9KllEpE=;
-        b=TfoR4/IdSTdoaUMRC9j1sClbiWL2+yfwsyusRoh6FCtCQ7sR8BNPuEbsGDF2KPGANk
-         I38ZVMobFeMvYX4oaPYoy/ALXw7Hz2xcn7s85wK2W7ij5cC1xt2Kpa2WIVzAyRT8RcSp
-         AANxx3iiShJ9OQPujy24uVYmuck/SLd/kbCc0RImILGtyUlHQ8uFZEwDDfOcYtOUzFB8
-         heuUPf6a4C0L6jrkSqT87ReXsFgL3bbA1I61P+RgEDffcKMINK5EDwHJwH/PvJuLof9c
-         eMG0ZBjEjqgT7hjL0WxXlsyCtsASIomDxc6YSUclF0gSao2d9dlTFTr6XivjpXBc07fr
-         wogw==
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject
+         :dkim-signature;
+        bh=JvA0CG6jDvr0RSzi8Qrt1q4uSzBaTaD34CT+eJj09s4=;
+        b=KqSesffRy+lgplMeEoDtwuTS39rubS1NjKnhjvlewmN9lnPhEA1r06Hs0j8LCcXzRl
+         pXTThcYXwhRcX8kN5G2Rq5h8Q152m8ICxolFJRAbg/8T4LBb6dO9wRffDQr6htKmZPB8
+         4kGgkZbwNcV94JxlV4zmCQndCik3vJ78Z7V+f4xxCexTrvcqHnhgyE3e8uPI7cmw91HV
+         gzs/9DhunKK4TuM0AghZqIggthROrT0xSOCwfFGMfnHQEQrPPWdQEiXqD42VHHcJMJJ6
+         tmteSZ60KRyxexeNi30vPG38VnjEx1CfNaxClxlFHmjOvG5d5hinSPi4BSwpmz1ddaBe
+         OiHQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@axtens.net header.s=google header.b=l9MckMLM;
-       spf=pass (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::443 as permitted sender) smtp.mailfrom=dja@axtens.net
-Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com. [2607:f8b0:4864:20::443])
-        by gmr-mx.google.com with ESMTPS id h7si381417vsm.1.2020.02.12.02.12.16
+       dkim=pass header.i=@c-s.fr header.s=mail header.b="lstPK/Ib";
+       spf=pass (google.com: domain of christophe.leroy@c-s.fr designates 93.17.236.30 as permitted sender) smtp.mailfrom=christophe.leroy@c-s.fr
+Received: from pegase1.c-s.fr (pegase1.c-s.fr. [93.17.236.30])
+        by gmr-mx.google.com with ESMTPS id y185si204007wmg.0.2020.02.12.02.35.41
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 12 Feb 2020 02:12:16 -0800 (PST)
-Received-SPF: pass (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::443 as permitted sender) client-ip=2607:f8b0:4864:20::443;
-Received: by mail-pf1-x443.google.com with SMTP id q8so1006418pfh.7
-        for <kasan-dev@googlegroups.com>; Wed, 12 Feb 2020 02:12:16 -0800 (PST)
-X-Received: by 2002:a63:d44e:: with SMTP id i14mr7939813pgj.417.1581502336089;
-        Wed, 12 Feb 2020 02:12:16 -0800 (PST)
-Received: from localhost (2001-44b8-1113-6700-65dc-9b98-63a7-c7a4.static.ipv6.internode.on.net. [2001:44b8:1113:6700:65dc:9b98:63a7:c7a4])
-        by smtp.gmail.com with ESMTPSA id e7sm190440pfj.114.2020.02.12.02.12.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Feb 2020 02:12:15 -0800 (PST)
-From: Daniel Axtens <dja@axtens.net>
-To: Christophe Leroy <christophe.leroy@c-s.fr>, linux-kernel@vger.kernel.org, linux-mm@kvack.org, linuxppc-dev@lists.ozlabs.org, kasan-dev@googlegroups.com, aneesh.kumar@linux.ibm.com, bsingharora@gmail.com
-Cc: Michael Ellerman <mpe@ellerman.id.au>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 12 Feb 2020 02:35:41 -0800 (PST)
+Received-SPF: pass (google.com: domain of christophe.leroy@c-s.fr designates 93.17.236.30 as permitted sender) client-ip=93.17.236.30;
+Received: from localhost (mailhub1-int [192.168.12.234])
+	by localhost (Postfix) with ESMTP id 48HbdS2CM5z9tyYb;
+	Wed, 12 Feb 2020 11:35:40 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at c-s.fr
+Received: from pegase1.c-s.fr ([192.168.12.234])
+	by localhost (pegase1.c-s.fr [192.168.12.234]) (amavisd-new, port 10024)
+	with ESMTP id HsF2zY7jBGR0; Wed, 12 Feb 2020 11:35:40 +0100 (CET)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+	by pegase1.c-s.fr (Postfix) with ESMTP id 48HbdS0h0Gz9v3Yf;
+	Wed, 12 Feb 2020 11:35:40 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id 417A58B80C;
+	Wed, 12 Feb 2020 11:35:41 +0100 (CET)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+	by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+	with ESMTP id wbLwY91DPYyD; Wed, 12 Feb 2020 11:35:41 +0100 (CET)
+Received: from [172.25.230.102] (po15451.idsi0.si.c-s.fr [172.25.230.102])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id 13B278B806;
+	Wed, 12 Feb 2020 11:35:41 +0100 (CET)
 Subject: Re: [PATCH v6 4/4] powerpc: Book3S 64-bit "heavyweight" KASAN support
-In-Reply-To: <224745f3-db66-fe46-1459-d1d41867b4f3@c-s.fr>
-References: <20200212054724.7708-1-dja@axtens.net> <20200212054724.7708-5-dja@axtens.net> <224745f3-db66-fe46-1459-d1d41867b4f3@c-s.fr>
-Date: Wed, 12 Feb 2020 21:12:12 +1100
-Message-ID: <87imkcru6b.fsf@dja-thinkpad.axtens.net>
+To: Daniel Axtens <dja@axtens.net>, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, linuxppc-dev@lists.ozlabs.org,
+ kasan-dev@googlegroups.com, aneesh.kumar@linux.ibm.com, bsingharora@gmail.com
+Cc: Michael Ellerman <mpe@ellerman.id.au>
+References: <20200212054724.7708-1-dja@axtens.net>
+ <20200212054724.7708-5-dja@axtens.net>
+ <224745f3-db66-fe46-1459-d1d41867b4f3@c-s.fr>
+ <87imkcru6b.fsf@dja-thinkpad.axtens.net>
+From: Christophe Leroy <christophe.leroy@c-s.fr>
+Message-ID: <5e392944-50ac-ed06-5896-2664894335d9@c-s.fr>
+Date: Wed, 12 Feb 2020 11:35:40 +0100
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <87imkcru6b.fsf@dja-thinkpad.axtens.net>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Language: fr
 Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: dja@axtens.net
+X-Original-Sender: christophe.leroy@c-s.fr
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@axtens.net header.s=google header.b=l9MckMLM;       spf=pass
- (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::443 as
- permitted sender) smtp.mailfrom=dja@axtens.net
+ header.i=@c-s.fr header.s=mail header.b="lstPK/Ib";       spf=pass
+ (google.com: domain of christophe.leroy@c-s.fr designates 93.17.236.30 as
+ permitted sender) smtp.mailfrom=christophe.leroy@c-s.fr
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -130,81 +153,87 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Christophe Leroy <christophe.leroy@c-s.fr> writes:
 
-> Le 12/02/2020 =C3=A0 06:47, Daniel Axtens a =C3=A9crit=C2=A0:
->> diff --git a/arch/powerpc/include/asm/kasan.h b/arch/powerpc/include/asm=
-/kasan.h
->> index fbff9ff9032e..2911fdd3a6a0 100644
->> --- a/arch/powerpc/include/asm/kasan.h
->> +++ b/arch/powerpc/include/asm/kasan.h
->> @@ -2,6 +2,8 @@
->>   #ifndef __ASM_KASAN_H
->>   #define __ASM_KASAN_H
->>  =20
->> +#include <asm/page.h>
->> +
->>   #ifdef CONFIG_KASAN
->>   #define _GLOBAL_KASAN(fn)	_GLOBAL(__##fn)
->>   #define _GLOBAL_TOC_KASAN(fn)	_GLOBAL_TOC(__##fn)
->> @@ -14,29 +16,41 @@
->>  =20
->>   #ifndef __ASSEMBLY__
->>  =20
->> -#include <asm/page.h>
->> -
->>   #define KASAN_SHADOW_SCALE_SHIFT	3
->>  =20
->>   #define KASAN_SHADOW_START	(KASAN_SHADOW_OFFSET + \
->>   				 (PAGE_OFFSET >> KASAN_SHADOW_SCALE_SHIFT))
->>  =20
->> +#ifdef CONFIG_KASAN_SHADOW_OFFSET
->>   #define KASAN_SHADOW_OFFSET	ASM_CONST(CONFIG_KASAN_SHADOW_OFFSET)
->> +#endif
->>  =20
->> +#ifdef CONFIG_PPC32
->>   #define KASAN_SHADOW_END	0UL
->>  =20
->> -#define KASAN_SHADOW_SIZE	(KASAN_SHADOW_END - KASAN_SHADOW_START)
->> +#ifdef CONFIG_KASAN
->> +void kasan_late_init(void);
->> +#else
->> +static inline void kasan_late_init(void) { }
->> +#endif
->> +
->> +#endif
->> +
->> +#ifdef CONFIG_PPC_BOOK3S_64
->> +#define KASAN_SHADOW_END	(KASAN_SHADOW_OFFSET + \
->> +				 (RADIX_VMEMMAP_END >> KASAN_SHADOW_SCALE_SHIFT))
->> +
->> +static inline void kasan_late_init(void) { }
->> +#endif
->>  =20
->>   #ifdef CONFIG_KASAN
->>   void kasan_early_init(void);
->>   void kasan_mmu_init(void);
->>   void kasan_init(void);
->> -void kasan_late_init(void);
->>   #else
->>   static inline void kasan_init(void) { }
->>   static inline void kasan_mmu_init(void) { }
->> -static inline void kasan_late_init(void) { }
->>   #endif
->
-> Why modify all this kasan_late_init() stuff ?
->
-> This function is only called from kasan init_32.c, it is never called by=
-=20
-> PPC64, so you should not need to modify anything at all.
 
-I got a compile error for a missing symbol. I'll repro it and attach it.
+Le 12/02/2020 =C3=A0 11:12, Daniel Axtens a =C3=A9crit=C2=A0:
+> Christophe Leroy <christophe.leroy@c-s.fr> writes:
+>=20
+>> Le 12/02/2020 =C3=A0 06:47, Daniel Axtens a =C3=A9crit=C2=A0:
+>>> diff --git a/arch/powerpc/include/asm/kasan.h b/arch/powerpc/include/as=
+m/kasan.h
+>>> index fbff9ff9032e..2911fdd3a6a0 100644
+>>> --- a/arch/powerpc/include/asm/kasan.h
+>>> +++ b/arch/powerpc/include/asm/kasan.h
+>>> @@ -2,6 +2,8 @@
+>>>    #ifndef __ASM_KASAN_H
+>>>    #define __ASM_KASAN_H
+>>>   =20
+>>> +#include <asm/page.h>
+>>> +
+>>>    #ifdef CONFIG_KASAN
+>>>    #define _GLOBAL_KASAN(fn)	_GLOBAL(__##fn)
+>>>    #define _GLOBAL_TOC_KASAN(fn)	_GLOBAL_TOC(__##fn)
+>>> @@ -14,29 +16,41 @@
+>>>   =20
+>>>    #ifndef __ASSEMBLY__
+>>>   =20
+>>> -#include <asm/page.h>
+>>> -
+>>>    #define KASAN_SHADOW_SCALE_SHIFT	3
+>>>   =20
+>>>    #define KASAN_SHADOW_START	(KASAN_SHADOW_OFFSET + \
+>>>    				 (PAGE_OFFSET >> KASAN_SHADOW_SCALE_SHIFT))
+>>>   =20
+>>> +#ifdef CONFIG_KASAN_SHADOW_OFFSET
+>>>    #define KASAN_SHADOW_OFFSET	ASM_CONST(CONFIG_KASAN_SHADOW_OFFSET)
+>>> +#endif
+>>>   =20
+>>> +#ifdef CONFIG_PPC32
+>>>    #define KASAN_SHADOW_END	0UL
+>>>   =20
+>>> -#define KASAN_SHADOW_SIZE	(KASAN_SHADOW_END - KASAN_SHADOW_START)
+>>> +#ifdef CONFIG_KASAN
+>>> +void kasan_late_init(void);
+>>> +#else
+>>> +static inline void kasan_late_init(void) { }
+>>> +#endif
+>>> +
+>>> +#endif
+>>> +
+>>> +#ifdef CONFIG_PPC_BOOK3S_64
+>>> +#define KASAN_SHADOW_END	(KASAN_SHADOW_OFFSET + \
+>>> +				 (RADIX_VMEMMAP_END >> KASAN_SHADOW_SCALE_SHIFT))
+>>> +
+>>> +static inline void kasan_late_init(void) { }
+>>> +#endif
+>>>   =20
+>>>    #ifdef CONFIG_KASAN
+>>>    void kasan_early_init(void);
+>>>    void kasan_mmu_init(void);
+>>>    void kasan_init(void);
+>>> -void kasan_late_init(void);
+>>>    #else
+>>>    static inline void kasan_init(void) { }
+>>>    static inline void kasan_mmu_init(void) { }
+>>> -static inline void kasan_late_init(void) { }
+>>>    #endif
+>>
+>> Why modify all this kasan_late_init() stuff ?
+>>
+>> This function is only called from kasan init_32.c, it is never called by
+>> PPC64, so you should not need to modify anything at all.
+>=20
+> I got a compile error for a missing symbol. I'll repro it and attach it.
+>=20
 
-Regards,
-Daniel
+Oops, sorry. I looked too quickly. It is defined in kasan_init_32.c and=20
+called from mm/mem.c
 
->
-> Christophe
+We don't have a performance issue here, since this is called only once=20
+during startup. Could you define an empty kasan_late_init() in=20
+init_book3s_64.c instead ?
+
+Christophe
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
@@ -212,4 +241,4 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/87imkcru6b.fsf%40dja-thinkpad.axtens.net.
+kasan-dev/5e392944-50ac-ed06-5896-2664894335d9%40c-s.fr.
