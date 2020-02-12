@@ -1,126 +1,123 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBLFUR7ZAKGQEJJ3EI7A@googlegroups.com>
+Return-Path: <kasan-dev+bncBDQ27FVWWUFRBHWZR7ZAKGQEW6TBCLY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oi1-x240.google.com (mail-oi1-x240.google.com [IPv6:2607:f8b0:4864:20::240])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD16A15A731
-	for <lists+kasan-dev@lfdr.de>; Wed, 12 Feb 2020 11:57:49 +0100 (CET)
-Received: by mail-oi1-x240.google.com with SMTP id l19sf777060oil.7
-        for <lists+kasan-dev@lfdr.de>; Wed, 12 Feb 2020 02:57:49 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1581505068; cv=pass;
+Received: from mail-pj1-x103d.google.com (mail-pj1-x103d.google.com [IPv6:2607:f8b0:4864:20::103d])
+	by mail.lfdr.de (Postfix) with ESMTPS id B0FB115A8E9
+	for <lists+kasan-dev@lfdr.de>; Wed, 12 Feb 2020 13:16:32 +0100 (CET)
+Received: by mail-pj1-x103d.google.com with SMTP id h6sf1229408pju.3
+        for <lists+kasan-dev@lfdr.de>; Wed, 12 Feb 2020 04:16:32 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1581509791; cv=pass;
         d=google.com; s=arc-20160816;
-        b=yRPpiEoGtRYGMrZLC0Nn+CUwFJZ62mj8ZSs0uoL7XeHXqLARF1PHw3+ba8WRFeX1oG
-         fOwDtp+WZODjEjbKpT+sy45eIQyrD8iJtFk1KjbSr+Or9Ncwohc+xoxs770x39Zbc39I
-         Q0eSWH6AAjZMByuVGEyWwhhNfVkWE3dNmB3tx7iWwn4XxcJsQ6AATPoKXFm/AgWvlV3u
-         VvajnGlZlQgfA76AWUnmGgLT81WMtpFRrBJeEPCf+YQPgjC1VczMfhkMRvS5t3rFmUb+
-         Dl8+YHFXOrgP4raxE/xrTV35Aq+9OQIomaIEFYt4RBqggLro09ySwFkyYGvjWr/k+OFT
-         BqeQ==
+        b=P0WUspTUA7h9wl4oo5uz0oj+6N0OwskXD3TNQMBXrtqwhIYFN2YFbqvIQ6H2YMUna5
+         N1hQPH9ulK7VQebos2TATx4GD60goBWpM4RrDc+2KVdvp2Qty4DC1S6h8Qvvq5s7vpXi
+         rNLJfMcxlnO416LMTrUl1VMY1Uo28GGUvESOzX0d4ICg2cqmsBiWK4E9FNu2QAFx+9v9
+         EcLstQDFB4cc9exFSliS+bpPtbE6BBRCyyKuGuQcapgtcrs0QiWgzIc2xVCvqeRwxGod
+         BMwG6s4nbAIqftHTtvNUwH0DGUwFXBimK4K21wZYpXaZoQbd93QqVpKobVKU0Fvgi77f
+         RJKQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=ywM39I35BiZ+EaTkRPGM6bYs11bVtdS0lwL//8206AE=;
-        b=EonQymiAWebbVgxQNpe6SW1Obc0DjpLHSLaXqJA74Gi7lssLcfBEZmf7E7av9oxGQx
-         Cc6ho3v3kEMlxHZtfYM33fEg+KS5rBdVjAfJCNxAoVTb/Cs8lxWZtnc1A35jwEg3Hufb
-         e9oPkLS40q5AjlyBZGH2bPdTbul3zohxQ3TES6wviv4tExl5oRNQgRqXxDYZEJgiTs+Z
-         xQp57ugL2IsnjJzvRPn3mvEAJB6EoMnxosrIGnQoI7A29dDBQ+s6bsVaULoayLWfKwW+
-         bVOVsRRkDHl0p1YQRjQ5A3uytNA3rbUUPGJ6VpPtICnvaXVh+gk5Pl07b/qMkwcsEpeH
-         DXtw==
+         :list-id:mailing-list:precedence:content-transfer-encoding
+         :mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:sender:dkim-signature;
+        bh=TjEV5vfL6POliI0Q0Oz4wTqEa/ggCZ4IuRcN3OHvjVM=;
+        b=Mjp7o1UdbeMi1Vl74MV3DPSlKbPiSgkh9B5fMZQ9EbmEF1CP7BnDqSrKeva5mKRfAK
+         v0OCxnuqm9gtbChOkM942zR5K/NRV3bgYMNwHKsMfliZCwdaKdeycAYKnSv3EqnRYXH5
+         THLT23JNN9tdxkEKhCFrgKaP16Kcwdfj7QrEmbKlgct0LcXmK+n4XsqrhSRx/eA/BY0Y
+         eA/kJCQCS99oyAFdWRv/Z3RH9yeFSQLYaUwV9PIhpDkjJmwpj0D68W+/0Iulf0/rSukk
+         PG7dejkXsPQ9lYk6YqP3CRy7Kl3+W4LV626BujRFKUG5Epd6OEqYcAICm8y5e4fN33Qa
+         764A==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=iirO+oAZ;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::242 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@axtens.net header.s=google header.b=XWCVr0we;
+       spf=pass (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::1043 as permitted sender) smtp.mailfrom=dja@axtens.net
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=ywM39I35BiZ+EaTkRPGM6bYs11bVtdS0lwL//8206AE=;
-        b=YKoF3Tlyj3OzbU4UIpQ9/01ReYC/5baf1fTFFeuNj6UOW0xlMcTP7VspU07QJATzyb
-         LVPqy/r9sTLhfWHQg5ggz7IU0cE2NAx7bsYJsvEp3/fRxPjgF85KZ+3B4iA+zByGlvuz
-         x3vPeW4JYapjDb6NeRWft+eVZaSycEVgqr1C9TAdX68k8GkaUHXxS3EE7dLhktWW0IUP
-         uXWhOIA0YeGsH0GoaySfUXKWWHFXg8DcTsJJtYzhHlHoaOOxr7ZSVVyK3wfBX7IgbPzV
-         NZ627NDp82C1xaUlr03uLbDrj5D/gqUiVp0WpFj7Jt/cnTsqNcHDVuWr7xUziK8FV8dG
-         nsew==
+        h=sender:from:to:cc:subject:in-reply-to:references:date:message-id
+         :mime-version:content-transfer-encoding:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=TjEV5vfL6POliI0Q0Oz4wTqEa/ggCZ4IuRcN3OHvjVM=;
+        b=hvtYkuCewfWkL0Msh+0qZ+DyWzaoDrTP84291EWZpim6+AxeKc1C44whhi9/EVjVkn
+         +Rpm5FRiy5KVWHrLnapL8rEp76zyHNdEgQCJ3U1bB97fjbGYcf2ffKz76PumZ+xlDqa/
+         0uVNx/zWnbgrruxvvoIDhWd2//cAR+SaAEpCot2I0Ed0Ep/uTQaaCfytAeQa29HTUwy0
+         c+J03Tta2R0fV4Y5R/+KB0R//aEJ97oir7hrXpT3Xh/KnqgoCqs98edu0FrnR5ORdk0l
+         WYa1msYKf9s0GlO321hOHKIizYNZlvqVs+cDR3ZgQlg3fqhNXX7CbafCzXKmLn2dS1AU
+         W6Ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=ywM39I35BiZ+EaTkRPGM6bYs11bVtdS0lwL//8206AE=;
-        b=r7Pa7mUrNGlwrrtJzE+B1hpCfCV4jIK1z6JQPETWONBIpFStUgt5pZXj9rhNBMvDMD
-         Mg4gXELK82MUpCX49poIVyBLtgxN7kmRueYt31xYJgmqkVHyMjNVHTcyJG+yDN4jamJh
-         L8ePMG5UHCob4HazjoQ3BxkBjX8o5zlK3FvsDeFnrl+1D9a6xQIg9eIoduN3wYpeklUk
-         W2EHTyijKMVsb/cUyHOf5DZ3NFJICpZwNu1HyfUbIyr+9ptI1mOb1ZV9rMEfNRJjFX2E
-         Aqb24NLoGJwVOtgjcQRUsidpcLSKoA1vIbYDheZaRGJ7GGCc5tXSD5axiU24Nn9dYtHn
-         44YQ==
-X-Gm-Message-State: APjAAAXHMyx5j5eEyML4xUoVE4w66xbDceM+iLz67LrApCu5Onuaz1ce
-	EOxQ4JFsRJfrQYkNDxSCq4M=
-X-Google-Smtp-Source: APXvYqzAwS9u44A0XD5dykonyt5nXGxeRl9aRq4ksd5B7t9IyU61XNbWqxY8uPbPrem4PEuBALlwxw==
-X-Received: by 2002:a9d:7410:: with SMTP id n16mr9057849otk.23.1581505068143;
-        Wed, 12 Feb 2020 02:57:48 -0800 (PST)
+        h=sender:x-gm-message-state:from:to:cc:subject:in-reply-to:references
+         :date:message-id:mime-version:content-transfer-encoding
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=TjEV5vfL6POliI0Q0Oz4wTqEa/ggCZ4IuRcN3OHvjVM=;
+        b=AEeKmnfWwS3U8SMQsGAfA5yCtKk9FlqiHMniNqYzUqsHxGaJEq/ELQ5xuDz6LERln6
+         4J+THUb7KltNGFehsq3JRCAsAeJSLMqGNoHq50/gVKkV1nnBCb4y/Lmbrg6AQXPKBlXF
+         76xVNlOb3+m0zlw8kCP1dzuy8zD4dxfZp0IUlrkDo2lqY2tVnZdRmOPuQPSPTF7P5B30
+         juqt8MMOv4REaxXCfA+GWFbyQ1x2RSkx/1elfz8Qq/oXeXmCKHT4/oeWM1RfbAwpRqbd
+         xIDnerwDtbiw4vsS5NtzMHe5BTpnUadsvCIYMxkTF0+EhJbg2Red2Sv8xneYxTKF/Lxz
+         0Z3w==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: APjAAAVUthRffTJQ5gLJDAxYSHhFNskeqBOcsQM5FG7R0M65dhGhMM/k
+	5AiEtf/nY0OaVtmmNyKy+Wk=
+X-Google-Smtp-Source: APXvYqzQhiqJs/s2G0cuk5aF2/BuPEY5CwBkvFHM957K7eZE9JK28z8n3+7Dni3ISpNquTfwpJcETw==
+X-Received: by 2002:a17:902:2e:: with SMTP id 43mr8231126pla.326.1581509790978;
+        Wed, 12 Feb 2020 04:16:30 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a9d:5a87:: with SMTP id w7ls4349493oth.1.gmail; Wed, 12 Feb
- 2020 02:57:47 -0800 (PST)
-X-Received: by 2002:a9d:1c96:: with SMTP id l22mr1520147ota.322.1581505067751;
-        Wed, 12 Feb 2020 02:57:47 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1581505067; cv=none;
+Received: by 2002:a62:2c97:: with SMTP id s145ls4989278pfs.4.gmail; Wed, 12
+ Feb 2020 04:16:30 -0800 (PST)
+X-Received: by 2002:a63:5826:: with SMTP id m38mr12470012pgb.191.1581509789821;
+        Wed, 12 Feb 2020 04:16:29 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1581509789; cv=none;
         d=google.com; s=arc-20160816;
-        b=sg4tDe8g2f9Ovwm7asFSl6KOkBqIjiUK5U+xugc8OxHjFrTpubgAogTuvnNQUV2lfZ
-         RSWxYOXAwRbXfb7KPFbPoNiuDhLYgpG2hQlZHeI6u//raJF/R8ZrcTpqiYXwfPlB7rzP
-         zvlojzo1NwORAM+bvXRASfBEAZQb+eiQmv/vnGwP/hugPN34D+iw33feTxbRLtimEOK0
-         4qNo+vqhRUDhAcrKWVRru4pYlrSdpm3eALOKvUfy7/p2plDImge25nxwy5YhVAu87hSX
-         4N9TZqt9bRBn7rXHci5v2WRAREi48mOitzs+rXKMQbFx+e7lXSTBes20ePPY+EuxRcXt
-         k1kQ==
+        b=T0ocPpx6+SdJj1JH8FojeFuDYImpH4Qz5oFJE+lfokE1L6TBcxskoMQWuZMw36usYX
+         UrdUiicqxIiydPNkdZB2ncFW44sm9jkpaoFDQV9wXxATtgRwmNEv1dXn0Hd6FIO6oSlu
+         Ln5e7EWbE/XKVUMygUvffDIO7eKEye99ayB3DcrYZwTum0XMDc9rUZeW4iNJYKIAnlY3
+         BpaeiGnr3hqhYcLHFK60c/nSA4nI1NycFplrJ8jzdyI/4030MiTnePyx9H9oJhsh2D2d
+         JkfLYl0l16cIidFMdkhZUDyeHoVszWbNHq+3NgAfMWQT4TQrnxSXDyVFvT/zptPDFmbq
+         vHJQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=PFew8rKg4ZVQwTxQ3iTASZzMVyEkdsLW0wvz/USyjXc=;
-        b=UIPV2wXD4q70a+fgrm9zi5inxv2jLokIdT+wXX9lQuOgkFnMplw+VhHgbfaY/Iwrmr
-         Mb+pQVdSEaEDTSiGHD4nykFk1yeS+XtohlHxWPeOLMKmmqbVPJR1dNmOVErOqLQ6laq0
-         7PiDHivDU8klDAc8Wp3XPaOI4MGx6jyu87CL9GaulYu5kyqQdJAYocMVsfI4iMiT0mV4
-         s55ojECCF3l3xNmuQ9X/QeI5q1i6/YQKVSaIELq/Ma38uuERUnjpB2tziZXNKJ4/IRkI
-         p+3tis423OwwplYZRwUaHN9FDyLwIgznLDx8ceeix/taC6SD2cSqzqviE1rKiTNlairM
-         LLzA==
+        h=content-transfer-encoding:mime-version:message-id:date:references
+         :in-reply-to:subject:cc:to:from:dkim-signature;
+        bh=ORoK11ERH5m7YuJvIylQ/MWzmpJfOKr+pxcrwqBrMvQ=;
+        b=0UsmE/iyVPmnl3QpMx4omBO3RhL68SzZ7fGy0C13K/Mm/Dui/lGMYxapyPohSCsfcT
+         NVYHyKVHwpze7JGXHblQN4P+cmiwe9Ci+dXRJnR/U9ynaPckoFfm6PKi4D6qlJmv5MlX
+         K7Q9p40XAhk0FfhBQc6aI/ad0RSbBX7xleP+tdlKcTNb0YKnHGfDbZz8NNJ7BwiqVXhQ
+         09Dph4l+hJQmzfg4rMBmeVHyoaSdd0pwDREGblLmNzoVsSM5aSQnuAxSz1VBMkVspMGv
+         w2n449ouSokQ9nUeN5FQKDV7DTXwvuOsyGs2R8uVd8aELkevt04irBy6O8NemCfb1fq+
+         sMCw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=iirO+oAZ;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::242 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com. [2607:f8b0:4864:20::242])
-        by gmr-mx.google.com with ESMTPS id d6si333147oig.4.2020.02.12.02.57.47
+       dkim=pass header.i=@axtens.net header.s=google header.b=XWCVr0we;
+       spf=pass (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::1043 as permitted sender) smtp.mailfrom=dja@axtens.net
+Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com. [2607:f8b0:4864:20::1043])
+        by gmr-mx.google.com with ESMTPS id n20si3719pgl.1.2020.02.12.04.16.29
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 12 Feb 2020 02:57:47 -0800 (PST)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::242 as permitted sender) client-ip=2607:f8b0:4864:20::242;
-Received: by mail-oi1-x242.google.com with SMTP id z2so1604237oih.6
-        for <kasan-dev@googlegroups.com>; Wed, 12 Feb 2020 02:57:47 -0800 (PST)
-X-Received: by 2002:a05:6808:8d5:: with SMTP id k21mr5883820oij.121.1581505067174;
- Wed, 12 Feb 2020 02:57:47 -0800 (PST)
+        Wed, 12 Feb 2020 04:16:29 -0800 (PST)
+Received-SPF: pass (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::1043 as permitted sender) client-ip=2607:f8b0:4864:20::1043;
+Received: by mail-pj1-x1043.google.com with SMTP id 12so820490pjb.5
+        for <kasan-dev@googlegroups.com>; Wed, 12 Feb 2020 04:16:29 -0800 (PST)
+X-Received: by 2002:a17:902:34d:: with SMTP id 71mr7957844pld.140.1581509789395;
+        Wed, 12 Feb 2020 04:16:29 -0800 (PST)
+Received: from localhost (2001-44b8-1113-6700-65dc-9b98-63a7-c7a4.static.ipv6.internode.on.net. [2001:44b8:1113:6700:65dc:9b98:63a7:c7a4])
+        by smtp.gmail.com with ESMTPSA id z27sm749357pfj.107.2020.02.12.04.16.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Feb 2020 04:16:25 -0800 (PST)
+From: Daniel Axtens <dja@axtens.net>
+To: Christophe Leroy <christophe.leroy@c-s.fr>, linux-kernel@vger.kernel.org, linux-mm@kvack.org, linuxppc-dev@lists.ozlabs.org, kasan-dev@googlegroups.com, aneesh.kumar@linux.ibm.com, bsingharora@gmail.com
+Cc: Michael Ellerman <mpe@ellerman.id.au>
+Subject: Re: [PATCH v6 4/4] powerpc: Book3S 64-bit "heavyweight" KASAN support
+In-Reply-To: <5e392944-50ac-ed06-5896-2664894335d9@c-s.fr>
+References: <20200212054724.7708-1-dja@axtens.net> <20200212054724.7708-5-dja@axtens.net> <224745f3-db66-fe46-1459-d1d41867b4f3@c-s.fr> <87imkcru6b.fsf@dja-thinkpad.axtens.net> <5e392944-50ac-ed06-5896-2664894335d9@c-s.fr>
+Date: Wed, 12 Feb 2020 23:16:21 +1100
+Message-ID: <87ftfgrofe.fsf@dja-thinkpad.axtens.net>
 MIME-Version: 1.0
-References: <20200211160423.138870-1-elver@google.com> <20200211160423.138870-5-elver@google.com>
- <29718fab-0da5-e734-796c-339144ac5080@nvidia.com>
-In-Reply-To: <29718fab-0da5-e734-796c-339144ac5080@nvidia.com>
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Wed, 12 Feb 2020 11:57:36 +0100
-Message-ID: <CANpmjNOWzWB2GgJiZx7c96qoy-e+BDFUx9zYr+1hZS1SUS7LBQ@mail.gmail.com>
-Subject: Re: [PATCH v2 5/5] kcsan: Introduce ASSERT_EXCLUSIVE_BITS(var, mask)
-To: John Hubbard <jhubbard@nvidia.com>
-Cc: "Paul E. McKenney" <paulmck@kernel.org>, Andrey Konovalov <andreyknvl@google.com>, 
-	Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>, 
-	kasan-dev <kasan-dev@googlegroups.com>, LKML <linux-kernel@vger.kernel.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@redhat.com>, Jan Kara <jack@suse.cz>, 
-	Qian Cai <cai@lca.pw>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
+Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: dja@axtens.net
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=iirO+oAZ;       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::242 as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+ header.i=@axtens.net header.s=google header.b=XWCVr0we;       spf=pass
+ (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::1043 as
+ permitted sender) smtp.mailfrom=dja@axtens.net
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -133,227 +130,103 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, 11 Feb 2020 at 22:41, John Hubbard <jhubbard@nvidia.com> wrote:
->
-> On 2/11/20 8:04 AM, Marco Elver wrote:
-> > This introduces ASSERT_EXCLUSIVE_BITS(var, mask).
-> > ASSERT_EXCLUSIVE_BITS(var, mask) will cause KCSAN to assume that the
-> > following access is safe w.r.t. data races (however, please see the
-> > docbook comment for disclaimer here).
-> >
-> > For more context on why this was considered necessary, please see:
-> >   http://lkml.kernel.org/r/1580995070-25139-1-git-send-email-cai@lca.pw
-> >
-> > In particular, before this patch, data races between reads (that use
-> > @mask bits of an access that should not be modified concurrently) and
-> > writes (that change ~@mask bits not used by the readers) would have been
-> > annotated with "data_race()" (or "READ_ONCE()"). However, doing so would
-> > then hide real problems: we would no longer be able to detect harmful
-> > races between reads to @mask bits and writes to @mask bits.
-> >
-> > Therefore, by using ASSERT_EXCLUSIVE_BITS(var, mask), we accomplish:
-> >
-> >   1. Avoid proliferation of specific macros at the call sites: by
-> >      including a single mask in the argument list, we can use the same
-> >      macro in a wide variety of call sites, regardless of how and which
-> >      bits in a field each call site actually accesses.
-> >
-> >   2. The existing code does not need to be modified (although READ_ONCE()
-> >      may still be advisable if we cannot prove that the data race is
-> >      always safe).
-> >
-> >   3. We catch bugs where the exclusive bits are modified concurrently.
-> >
-> >   4. We document properties of the current code.
->
->
-> API looks good to me. (I'm not yet familiar enough with KCSAN to provide
-> any useful review of about the various kcsan*() calls that implement the
-> new macro.)
->
-> btw, it might be helpful for newcomers if you mentioned which tree this
-> is based on. I poked around briefly and failed several times to find one. :)
+Christophe Leroy <christophe.leroy@c-s.fr> writes:
 
-KCSAN is currently in -rcu (kcsan branch has the latest version),
--tip, and -next.
-
-> You can add:
+> Le 12/02/2020 =C3=A0 11:12, Daniel Axtens a =C3=A9crit=C2=A0:
+>> Christophe Leroy <christophe.leroy@c-s.fr> writes:
+>>=20
+>>> Le 12/02/2020 =C3=A0 06:47, Daniel Axtens a =C3=A9crit=C2=A0:
+>>>> diff --git a/arch/powerpc/include/asm/kasan.h b/arch/powerpc/include/a=
+sm/kasan.h
+>>>> index fbff9ff9032e..2911fdd3a6a0 100644
+>>>> --- a/arch/powerpc/include/asm/kasan.h
+>>>> +++ b/arch/powerpc/include/asm/kasan.h
+>>>> @@ -2,6 +2,8 @@
+>>>>    #ifndef __ASM_KASAN_H
+>>>>    #define __ASM_KASAN_H
+>>>>   =20
+>>>> +#include <asm/page.h>
+>>>> +
+>>>>    #ifdef CONFIG_KASAN
+>>>>    #define _GLOBAL_KASAN(fn)	_GLOBAL(__##fn)
+>>>>    #define _GLOBAL_TOC_KASAN(fn)	_GLOBAL_TOC(__##fn)
+>>>> @@ -14,29 +16,41 @@
+>>>>   =20
+>>>>    #ifndef __ASSEMBLY__
+>>>>   =20
+>>>> -#include <asm/page.h>
+>>>> -
+>>>>    #define KASAN_SHADOW_SCALE_SHIFT	3
+>>>>   =20
+>>>>    #define KASAN_SHADOW_START	(KASAN_SHADOW_OFFSET + \
+>>>>    				 (PAGE_OFFSET >> KASAN_SHADOW_SCALE_SHIFT))
+>>>>   =20
+>>>> +#ifdef CONFIG_KASAN_SHADOW_OFFSET
+>>>>    #define KASAN_SHADOW_OFFSET	ASM_CONST(CONFIG_KASAN_SHADOW_OFFSET)
+>>>> +#endif
+>>>>   =20
+>>>> +#ifdef CONFIG_PPC32
+>>>>    #define KASAN_SHADOW_END	0UL
+>>>>   =20
+>>>> -#define KASAN_SHADOW_SIZE	(KASAN_SHADOW_END - KASAN_SHADOW_START)
+>>>> +#ifdef CONFIG_KASAN
+>>>> +void kasan_late_init(void);
+>>>> +#else
+>>>> +static inline void kasan_late_init(void) { }
+>>>> +#endif
+>>>> +
+>>>> +#endif
+>>>> +
+>>>> +#ifdef CONFIG_PPC_BOOK3S_64
+>>>> +#define KASAN_SHADOW_END	(KASAN_SHADOW_OFFSET + \
+>>>> +				 (RADIX_VMEMMAP_END >> KASAN_SHADOW_SCALE_SHIFT))
+>>>> +
+>>>> +static inline void kasan_late_init(void) { }
+>>>> +#endif
+>>>>   =20
+>>>>    #ifdef CONFIG_KASAN
+>>>>    void kasan_early_init(void);
+>>>>    void kasan_mmu_init(void);
+>>>>    void kasan_init(void);
+>>>> -void kasan_late_init(void);
+>>>>    #else
+>>>>    static inline void kasan_init(void) { }
+>>>>    static inline void kasan_mmu_init(void) { }
+>>>> -static inline void kasan_late_init(void) { }
+>>>>    #endif
+>>>
+>>> Why modify all this kasan_late_init() stuff ?
+>>>
+>>> This function is only called from kasan init_32.c, it is never called b=
+y
+>>> PPC64, so you should not need to modify anything at all.
+>>=20
+>> I got a compile error for a missing symbol. I'll repro it and attach it.
+>>=20
 >
-> Acked-by: John Hubbard <jhubbard@nvidia.com>
-
-Thank you!
--- Marco
-
+> Oops, sorry. I looked too quickly. It is defined in kasan_init_32.c and=
+=20
+> called from mm/mem.c
 >
-> thanks,
-> --
-> John Hubbard
-> NVIDIA
-> >
-> > Signed-off-by: Marco Elver <elver@google.com>
-> > Cc: Andrew Morton <akpm@linux-foundation.org>
-> > Cc: David Hildenbrand <david@redhat.com>
-> > Cc: Jan Kara <jack@suse.cz>
-> > Cc: John Hubbard <jhubbard@nvidia.com>
-> > Cc: Paul E. McKenney <paulmck@kernel.org>
-> > Cc: Qian Cai <cai@lca.pw>
-> > ---
-> > v2:
-> > * Update API documentation to be clearer about how this compares to the
-> >   existing assertions, and update use-cases. [Based on suggestions from
-> >   John Hubbard]
-> > * Update commit message. [Suggestions from John Hubbard]
-> > ---
-> >  include/linux/kcsan-checks.h | 69 ++++++++++++++++++++++++++++++++----
-> >  kernel/kcsan/debugfs.c       | 15 +++++++-
-> >  2 files changed, 77 insertions(+), 7 deletions(-)
-> >
-> > diff --git a/include/linux/kcsan-checks.h b/include/linux/kcsan-checks.h
-> > index 4ef5233ff3f04..1b8aac5d6a0b5 100644
-> > --- a/include/linux/kcsan-checks.h
-> > +++ b/include/linux/kcsan-checks.h
-> > @@ -152,9 +152,9 @@ static inline void kcsan_check_access(const volatile void *ptr, size_t size,
-> >  #endif
-> >
-> >  /**
-> > - * ASSERT_EXCLUSIVE_WRITER - assert no other threads are writing @var
-> > + * ASSERT_EXCLUSIVE_WRITER - assert no concurrent writes to @var
-> >   *
-> > - * Assert that there are no other threads writing @var; other readers are
-> > + * Assert that there are no concurrent writes to @var; other readers are
-> >   * allowed. This assertion can be used to specify properties of concurrent code,
-> >   * where violation cannot be detected as a normal data race.
-> >   *
-> > @@ -171,11 +171,11 @@ static inline void kcsan_check_access(const volatile void *ptr, size_t size,
-> >       __kcsan_check_access(&(var), sizeof(var), KCSAN_ACCESS_ASSERT)
-> >
-> >  /**
-> > - * ASSERT_EXCLUSIVE_ACCESS - assert no other threads are accessing @var
-> > + * ASSERT_EXCLUSIVE_ACCESS - assert no concurrent accesses to @var
-> >   *
-> > - * Assert that no other thread is accessing @var (no readers nor writers). This
-> > - * assertion can be used to specify properties of concurrent code, where
-> > - * violation cannot be detected as a normal data race.
-> > + * Assert that there are no concurrent accesses to @var (no readers nor
-> > + * writers). This assertion can be used to specify properties of concurrent
-> > + * code, where violation cannot be detected as a normal data race.
-> >   *
-> >   * For example, in a reference-counting algorithm where exclusive access is
-> >   * expected after the refcount reaches 0. We can check that this property
-> > @@ -191,4 +191,61 @@ static inline void kcsan_check_access(const volatile void *ptr, size_t size,
-> >  #define ASSERT_EXCLUSIVE_ACCESS(var)                                           \
-> >       __kcsan_check_access(&(var), sizeof(var), KCSAN_ACCESS_WRITE | KCSAN_ACCESS_ASSERT)
-> >
-> > +/**
-> > + * ASSERT_EXCLUSIVE_BITS - assert no concurrent writes to subset of bits in @var
-> > + *
-> > + * Bit-granular variant of ASSERT_EXCLUSIVE_WRITER(var).
-> > + *
-> > + * Assert that there are no concurrent writes to a subset of bits in @var;
-> > + * concurrent readers are permitted. This assertion captures more detailed
-> > + * bit-level properties, compared to the other (word granularity) assertions.
-> > + * Only the bits set in @mask are checked for concurrent modifications, while
-> > + * ignoring the remaining bits, i.e. concurrent writes (or reads) to ~@mask bits
-> > + * are ignored.
-> > + *
-> > + * Use this for variables, where some bits must not be modified concurrently,
-> > + * yet other bits are expected to be modified concurrently.
-> > + *
-> > + * For example, variables where, after initialization, some bits are read-only,
-> > + * but other bits may still be modified concurrently. A reader may wish to
-> > + * assert that this is true as follows:
-> > + *
-> > + *   ASSERT_EXCLUSIVE_BITS(flags, READ_ONLY_MASK);
-> > + *   foo = (READ_ONCE(flags) & READ_ONLY_MASK) >> READ_ONLY_SHIFT;
-> > + *
-> > + *   Note: The access that immediately follows ASSERT_EXCLUSIVE_BITS() is
-> > + *   assumed to access the masked bits only, and KCSAN optimistically assumes it
-> > + *   is therefore safe, even in the presence of data races, and marking it with
-> > + *   READ_ONCE() is optional from KCSAN's point-of-view. We caution, however,
-> > + *   that it may still be advisable to do so, since we cannot reason about all
-> > + *   compiler optimizations when it comes to bit manipulations (on the reader
-> > + *   and writer side). If you are sure nothing can go wrong, we can write the
-> > + *   above simply as:
-> > + *
-> > + *   ASSERT_EXCLUSIVE_BITS(flags, READ_ONLY_MASK);
-> > + *   foo = (flags & READ_ONLY_MASK) >> READ_ONLY_SHIFT;
-> > + *
-> > + * Another example, where this may be used, is when certain bits of @var may
-> > + * only be modified when holding the appropriate lock, but other bits may still
-> > + * be modified concurrently. Writers, where other bits may change concurrently,
-> > + * could use the assertion as follows:
-> > + *
-> > + *   spin_lock(&foo_lock);
-> > + *   ASSERT_EXCLUSIVE_BITS(flags, FOO_MASK);
-> > + *   old_flags = READ_ONCE(flags);
-> > + *   new_flags = (old_flags & ~FOO_MASK) | (new_foo << FOO_SHIFT);
-> > + *   if (cmpxchg(&flags, old_flags, new_flags) != old_flags) { ... }
-> > + *   spin_unlock(&foo_lock);
-> > + *
-> > + * @var variable to assert on
-> > + * @mask only check for modifications to bits set in @mask
-> > + */
-> > +#define ASSERT_EXCLUSIVE_BITS(var, mask)                                       \
-> > +     do {                                                                   \
-> > +             kcsan_set_access_mask(mask);                                   \
-> > +             __kcsan_check_access(&(var), sizeof(var), KCSAN_ACCESS_ASSERT);\
-> > +             kcsan_set_access_mask(0);                                      \
-> > +             kcsan_atomic_next(1);                                          \
-> > +     } while (0)
-> > +
-> >  #endif /* _LINUX_KCSAN_CHECKS_H */
-> > diff --git a/kernel/kcsan/debugfs.c b/kernel/kcsan/debugfs.c
-> > index 9bbba0e57c9b3..2ff1961239778 100644
-> > --- a/kernel/kcsan/debugfs.c
-> > +++ b/kernel/kcsan/debugfs.c
-> > @@ -100,8 +100,10 @@ static noinline void microbenchmark(unsigned long iters)
-> >   * debugfs file from multiple tasks to generate real conflicts and show reports.
-> >   */
-> >  static long test_dummy;
-> > +static long test_flags;
-> >  static noinline void test_thread(unsigned long iters)
-> >  {
-> > +     const long CHANGE_BITS = 0xff00ff00ff00ff00L;
-> >       const struct kcsan_ctx ctx_save = current->kcsan_ctx;
-> >       cycles_t cycles;
-> >
-> > @@ -109,16 +111,27 @@ static noinline void test_thread(unsigned long iters)
-> >       memset(&current->kcsan_ctx, 0, sizeof(current->kcsan_ctx));
-> >
-> >       pr_info("KCSAN: %s begin | iters: %lu\n", __func__, iters);
-> > +     pr_info("test_dummy@%px, test_flags@%px\n", &test_dummy, &test_flags);
-> >
-> >       cycles = get_cycles();
-> >       while (iters--) {
-> > +             /* These all should generate reports. */
-> >               __kcsan_check_read(&test_dummy, sizeof(test_dummy));
-> > -             __kcsan_check_write(&test_dummy, sizeof(test_dummy));
-> >               ASSERT_EXCLUSIVE_WRITER(test_dummy);
-> >               ASSERT_EXCLUSIVE_ACCESS(test_dummy);
-> >
-> > +             ASSERT_EXCLUSIVE_BITS(test_flags, ~CHANGE_BITS); /* no report */
-> > +             __kcsan_check_read(&test_flags, sizeof(test_flags)); /* no report */
-> > +
-> > +             ASSERT_EXCLUSIVE_BITS(test_flags, CHANGE_BITS); /* report */
-> > +             __kcsan_check_read(&test_flags, sizeof(test_flags)); /* no report */
-> > +
-> >               /* not actually instrumented */
-> >               WRITE_ONCE(test_dummy, iters);  /* to observe value-change */
-> > +             __kcsan_check_write(&test_dummy, sizeof(test_dummy));
-> > +
-> > +             test_flags ^= CHANGE_BITS; /* generate value-change */
-> > +             __kcsan_check_write(&test_flags, sizeof(test_flags));
-> >       }
-> >       cycles = get_cycles() - cycles;
-> >
-> >
->
-> --
-> You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/29718fab-0da5-e734-796c-339144ac5080%40nvidia.com.
+> We don't have a performance issue here, since this is called only once=20
+> during startup. Could you define an empty kasan_late_init() in=20
+> init_book3s_64.c instead ?
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNOWzWB2GgJiZx7c96qoy-e%2BBDFUx9zYr%2B1hZS1SUS7LBQ%40mail.gmail.com.
+Yeah, I can do that, will respin tomorrow.
+
+Would you mind having a quick check of the documentation changes in
+patches 2 and 4? I just want to confirm I've accurately captured the
+state of ppc32 kasan work.
+
+Thanks!
+Daniel
+>
+> Christophe
+
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/87ftfgrofe.fsf%40dja-thinkpad.axtens.net.
