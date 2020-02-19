@@ -1,47 +1,47 @@
-Return-Path: <kasan-dev+bncBCV5TUXXRUIBBN6FWXZAKGQEFD4JTLA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCV5TUXXRUIBBJGPWXZAKGQEKYRHUZQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ed1-x538.google.com (mail-ed1-x538.google.com [IPv6:2a00:1450:4864:20::538])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9B89164A65
-	for <lists+kasan-dev@lfdr.de>; Wed, 19 Feb 2020 17:30:47 +0100 (CET)
-Received: by mail-ed1-x538.google.com with SMTP id n18sf528657edo.17
-        for <lists+kasan-dev@lfdr.de>; Wed, 19 Feb 2020 08:30:47 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1582129847; cv=pass;
+Received: from mail-qk1-x73d.google.com (mail-qk1-x73d.google.com [IPv6:2607:f8b0:4864:20::73d])
+	by mail.lfdr.de (Postfix) with ESMTPS id A7D9A164AFD
+	for <lists+kasan-dev@lfdr.de>; Wed, 19 Feb 2020 17:51:49 +0100 (CET)
+Received: by mail-qk1-x73d.google.com with SMTP id z73sf658685qkb.10
+        for <lists+kasan-dev@lfdr.de>; Wed, 19 Feb 2020 08:51:49 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1582131108; cv=pass;
         d=google.com; s=arc-20160816;
-        b=w3RjhGeFkTUK3GVPc0Qh4UpBrDte4BG1hzVAsJd2U8TRlP+bbP6ePby3qaGZqBPf1h
-         U5jOUkXjopHq33JbvShtaStkeVrxQEbXFL2/xuPQW5wlsEn4Umi6Bs713q5NcsoGpN1T
-         uDy9jEy8Mwdu3FbfSh1cJ4NoB/SPKJmO7+W1YRwPKh+SSKvcsksGX7nNABPyRMhrVGKC
-         3IBgBmgayPGOPonno7a+ZW9XTgCqkanjw+0slEI3mxeDkkkcFEjG2mgm3/xp7Xt75vSj
-         uTpEEL+J9ejKx9zfS6xlm3CGPyxyPTgAGxdKniRWtHUFgCFDeKRTf/XhmNyu1ihefF8K
-         LHpg==
+        b=iNDvf5Qp3mLkYpgVi6rTuhsNedjJX5loY24/n5ZNNZJu61tH/P/W+07MkVtE9ZdExM
+         I+JbDIu0NL3N65f+1WhXL4xC/dKrfAkA/XXmfPlTcYjf3+9k/0Sq1GU7E7MQvWwuUfHS
+         3roJDdweDPEL00s1YVWubz5kN5u+iOmLhPnDT0Pv8/oEoo16/mnf38gmBxK3bV7fyx44
+         w+tDWaleHBXNbWacF5yOe2kvq49hB3Ljbkrmee9D1AVIaWnSvNtO32bIcrnEzngEMBOL
+         vUMVNMyX/t8Z5pSZ5iwvt1n/JUVnJC/hE++yIrM/GhBAVTaHtTaRGGXRhli3K7YlMJxE
+         8dAQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:user-agent:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:sender:dkim-signature;
-        bh=tRRmX9M6z6P5ulF94ECFsrTnMcvS5lvLXTxT+In07PE=;
-        b=HCGh5OT31BOIPRcPixruzNsrvHhwESNrM8Pi4/I9rhDpcd6/Yn2GEx/MRESo5CQ61W
-         PDBQzOqCqjlotHr1rRcviPONqEJEC2TK2EefJvpOFqzdt5SzoIyA+q04YYfHTyvjrgLL
-         nTAi63h3ineige8Gl30E88B9aDGnmPUui8Gfl13nbEck6m14rqzKPS8G1t9rdkJ2pCPS
-         iG9tm3Ai1yCCeJz+18TYNpeihhGBw/O/1mnbzLq79oVWwlRvsY6I6S2u95TBLFBxQKO5
-         NvZuKZSQCOjCJTrEbWtmEDkEnHBRtQ5L//u5OARDkWcMOG8nCAMIIM0Vs7WTX13yQWHC
-         Tqcg==
+        bh=geBmGyUsFvhS0P/Ba3fDf6I2p88MjmtUxH6MhzI7Ong=;
+        b=vlghZWIESbvwUTjboN4akYyZIZ5hiHu/ZPM70e7a9+WwxiG+1TirV71Ir12j5CF8c6
+         AR5fbK7Zgz9KhOXzyNfK+z8k5OZzjvWTObiLRq5vfp2Y1c4vSgGr8sF5vUg51BoCpGDz
+         GoeyYEInWrGw1jd5nkcm6EUyOf+Sw+OfmS1AyKJQtLyrGgEDTUDmvGJSLwdexJ1sblH3
+         nYsMxcj19kCbbN1r5V8sziHW9sZehyc4kPD9SblgcrSsxUJmxTti4ieH2J1gJGAusRta
+         HBideN3SMUI33JPLcvs9RmGMn1N1zfqjqSd5Tq/Kqw4Sstumx0x+3p87LfgdBms9rBLP
+         tThw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=bombadil.20170209 header.b=ORvjDlmq;
-       spf=pass (google.com: best guess record for domain of peterz@infradead.org designates 2607:7c80:54:e::133 as permitted sender) smtp.mailfrom=peterz@infradead.org
+       dkim=pass header.i=@infradead.org header.s=merlin.20170209 header.b=aPCcJ9zr;
+       spf=pass (google.com: best guess record for domain of peterz@infradead.org designates 2001:8b0:10b:1231::1 as permitted sender) smtp.mailfrom=peterz@infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
         h=sender:date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=tRRmX9M6z6P5ulF94ECFsrTnMcvS5lvLXTxT+In07PE=;
-        b=Buag6iDL128bpKCnD9STE+mdcGIWsDZ9tPo65oTHX15LiKvV1Ps35oAW2uZ9xA2/GO
-         gXxd+INFaSLL97mVbi2HWcsYsx8RFsjvst8cTwZPxXB+HBDCYk6YRhrdftDC/no8s4k2
-         JxFrpEJ80G0ssrUHQPuECRc63KOm42cjLWX8mONNenmQskLhiOZSlbwe6Qg2RO5rSDJI
-         OSSZf14SIfbcLCgsFjN/wYE8iqa2OTqTg1WOHIW2Upl2UONr1I4KTHtfddY2iGUXM2RN
-         gQcdVGrxFBXDOY+YP0LiTROhY1T0+GzkpCkzeszCVpTiC4hJP4kM0hyfmimiI5Oo4Aio
-         mGjg==
+        bh=geBmGyUsFvhS0P/Ba3fDf6I2p88MjmtUxH6MhzI7Ong=;
+        b=sTweBSUo+THR6C/o9FMjhXBr80ElZr78OQaKn6UKrO2avSfE66L8v+rOvT3IywyWly
+         Lm6QctSJeXrLRhY1EG4rLUugLWWaVSNIxi2L8E2nVsF9oHJ0lo2AjrQf3bCcVPtT3nXo
+         QNVubeMM8QlgEef/H4b+m9qcR2Xq0miPxvrC+UBee5AiP+hA5eG36HLOftFHVRtGBOwW
+         hjJQcobytJjZVFD7oMK1wjVcQvn4bK25W+tNfTk4kMKVJSE83a1IdX3cxsImRYn5Oei7
+         o1rwHfI41F38dUOq+cRV8Szo0iVWE+Rf/F2IEtDMfS+6QyrXB5vRFAd6NE0NRJR4RDCL
+         KKLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
@@ -49,62 +49,62 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=tRRmX9M6z6P5ulF94ECFsrTnMcvS5lvLXTxT+In07PE=;
-        b=U6/jTRj5YEAlsoc0romRejp/UmdnVqyv35xrYR6k3JWE7btZFpZHW0Gh7pLG6LRh8o
-         0CnkMR+mHISQ/1HFE3mpnH7hFk4CWosJKUGavOaQg4bmizRcK26xWKP1GXvKMgOs/srF
-         7qihks0k2iZdQ8A+0INJkgLCKwhrmnQJAhVwmzjPnIH2nFkv+r2PIUnMEgJBby6FgOUS
-         yd7T/LiDUwzo0gnSZxBSsE3Pn+u8oO7lHxtD09Jmu5gLyJswBywwblCsVl5Uq+3CVtj6
-         HI+ikiex1ab2twqNhK0l/gjbH0vU5cR2+xeArwCF4+enigMPOAfATAZP68LhdstjmQuX
-         Pqxg==
+        bh=geBmGyUsFvhS0P/Ba3fDf6I2p88MjmtUxH6MhzI7Ong=;
+        b=hFwudxp1Bt2QF23kk+kyCcLqn1Ozgy5/BLyY3oe/ixCh7GDevJOCuUX8wiVtnIIP0y
+         tlwGuThg49Yg/q/XLDHyMbrzv8wsZXI2jNeMQsdDOEVj+vgt1tmnHI8d86DsrsP8O5oa
+         a7KodH2RxP4CVaKZ7JB44SvNwZPqOj0NfqW8cW6GQUzXld/wTa5THiHg8VBbX4P6mur+
+         XAW6AbAkvJfaYskRHTsbcFXDd6WfzY/9TsEauN0IZYzJmZVbDnjjODPFsG7hYOuDJ5Pq
+         wPlXM/jdq1IAth92/9i+UPN3GrRZx4LTlfwogTDbWGMFPGui6x+XB1akAt/CIek4+s77
+         TH7g==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAWcleMWmoA+nOaCoIpecJ2Bekn6JONalq5NyCAgJ6KFQa5+DuNJ
-	1rJdWKesrWgxZtdek8bDv58=
-X-Google-Smtp-Source: APXvYqxQHzPdLmVYg0qbv6Ow3VvlKzJDmVwD25IxR5HMRqGADEMEKv5ZkIsc1cwHf3bQcKdcseJe1A==
-X-Received: by 2002:a17:906:34d2:: with SMTP id h18mr24533341ejb.76.1582129847333;
-        Wed, 19 Feb 2020 08:30:47 -0800 (PST)
+X-Gm-Message-State: APjAAAUSjf1DKCAeKOYFcf0SS6N/O05DMtjBkzM3tGj1kqIPDn+J9QfL
+	rD3X+ar6x1fqticzz2eLKNU=
+X-Google-Smtp-Source: APXvYqxiluwWl5DUwL6A6X8bJuSXRnU5FtIj+j/P2i7dtKtGQlpS3wpoKL5X9pH2CV+hU63ogzu5CA==
+X-Received: by 2002:a37:6717:: with SMTP id b23mr24945332qkc.353.1582131108575;
+        Wed, 19 Feb 2020 08:51:48 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:906:584f:: with SMTP id h15ls7654193ejs.9.gmail; Wed, 19
- Feb 2020 08:30:46 -0800 (PST)
-X-Received: by 2002:a25:2c51:: with SMTP id s78mr26008367ybs.54.1582129846307;
-        Wed, 19 Feb 2020 08:30:46 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1582129846; cv=none;
+Received: by 2002:a37:63c7:: with SMTP id x190ls34034qkb.1.gmail; Wed, 19 Feb
+ 2020 08:51:48 -0800 (PST)
+X-Received: by 2002:a37:a404:: with SMTP id n4mr24528136qke.247.1582131108145;
+        Wed, 19 Feb 2020 08:51:48 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1582131108; cv=none;
         d=google.com; s=arc-20160816;
-        b=jpJE+0Ky4NMeDcPtJqEF0p0qk94XSXLq2fXpPZtb0/GuIc2cQFDiceakn9NSauTOov
-         a3PehHGNB2r901cERaw0fZooGRz0hWaHMcT9+MX6SQeiCUPh/4SSU/oONQ8WGeLbVXSn
-         Aske6QmTTgbXHDxXsPt8PNEd79OjIjWPEzRak93ALbOw6XUTxtHV6VXJp271TRCbDgBv
-         CvqOlfd6pi7XVt6S/ShrzJKtl47/+XTigvNz6EPa/aGh7HwjBON5XLB1P5e3VfMq0rgW
-         E7AGtWAhj+UU4jSZTFoEJW3HWG1Ha6EpqfRhKimVtzNLwPgzOMklTPBzCPVAy6v+L5AX
-         oE6A==
+        b=Y6a7fQS0Xc4iZ0NnMf8GY4+bgXgdkGqY4+N31/JkM4+XnpkMyjZBfGO/OR2iG27xjf
+         YrfWSiCLLHH9aK3uz7paqjGIHQgHV/sMxBlMvyxEHQFDYf6K4r+nYz9fq5vXzDwZA9lA
+         NPDrq6/pWZg9E+ItlJUB9GRAcVN2H19FT1GrmbLAtB+3HWlM31UslSQzaDDKsnzCVPhq
+         rTYFntiBzUByDbtbQnnD3pzIDFAXHwxjcJfmQjkKZ5pPSQgmD4ucvSU/o29YM/rarUF/
+         GYwKstSJUX2+It1x5H3Ri3072RiFgX6cpM6AvyXMz0XYrkm4HFHIUJFmd463wGkZEUZy
+         idjQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=user-agent:in-reply-to:content-disposition:mime-version:references
          :message-id:subject:cc:to:from:date:dkim-signature;
-        bh=Qa5MZXsY7UPTTol/FJvhlBtevBmctxCysX0lVvI/ets=;
-        b=bN6u2bs3uK0+XR8zLc6doRbThvCIPx792AMlGuU4cl4NMDF0byy3npYtfJMNyxPMJF
-         Vn4KaJMSsXFhumsZoKsBkIaxZecL43iYGh2QzqPzhFJN5wApc5X+/mz4JxM6iTDasHWg
-         2Ltur3W9JxmPyqzZ6DkNUyu1jEz/nuj3Wu54kYQGn6cgVawRCsZXOdp/6dVsmsabDlo2
-         9WjSTmIl863gkkOIg7WOK+aPnpTT1P+IqYylT0NePz3R7tzVAgRj7hXRzzmoVvMui/DW
-         TaC5yPRwWR8yf0/fHfr+HjJ59ErHcNLM22yzAgtW27csZAckraogsO//XkDm0Tl1O7fC
-         t2kg==
+        bh=aOY3HVNQlxhNJtO2V3TApKHEpYE+w+Db2fWfBxPBg70=;
+        b=WUsZxUhiQnZtycPhL+/j4pTjVzWOlQnL4SzjjEs5fSR5Fx84Jvgb60BEBW115ap8w8
+         pFH35ftk9sQueWMsix3cjw3/K1hhOQ9whm1rpOjiVPOYdRIgnyJQ+H6UpOYuMUzGJq4w
+         N7c1byGdqonb4P3raEesA/0ewa2PpjfXQHmdhDR5ZHMehiqGkhsSitf6CBiN2gWL/ky7
+         PW5W2e3qtLiKctgNbhRLqf7jmJk1JoKE7PtumGReX5FjzkF3r9IDKGsvTInT9d9uJN0p
+         ZnBqZN8TrMheQd5wDO0Br4A0e64BK47tVuM5gPKJuko6dGAGWmXblZAWjoRcNF1XAbgN
+         TxIQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=bombadil.20170209 header.b=ORvjDlmq;
-       spf=pass (google.com: best guess record for domain of peterz@infradead.org designates 2607:7c80:54:e::133 as permitted sender) smtp.mailfrom=peterz@infradead.org
-Received: from bombadil.infradead.org (bombadil.infradead.org. [2607:7c80:54:e::133])
-        by gmr-mx.google.com with ESMTPS id p187si10897ywe.1.2020.02.19.08.30.46
+       dkim=pass header.i=@infradead.org header.s=merlin.20170209 header.b=aPCcJ9zr;
+       spf=pass (google.com: best guess record for domain of peterz@infradead.org designates 2001:8b0:10b:1231::1 as permitted sender) smtp.mailfrom=peterz@infradead.org
+Received: from merlin.infradead.org (merlin.infradead.org. [2001:8b0:10b:1231::1])
+        by gmr-mx.google.com with ESMTPS id m18si44311qkm.0.2020.02.19.08.51.48
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Feb 2020 08:30:46 -0800 (PST)
-Received-SPF: pass (google.com: best guess record for domain of peterz@infradead.org designates 2607:7c80:54:e::133 as permitted sender) client-ip=2607:7c80:54:e::133;
+        Wed, 19 Feb 2020 08:51:48 -0800 (PST)
+Received-SPF: pass (google.com: best guess record for domain of peterz@infradead.org designates 2001:8b0:10b:1231::1 as permitted sender) client-ip=2001:8b0:10b:1231::1;
 Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-	by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1j4SF2-0004Yt-Q2; Wed, 19 Feb 2020 16:30:29 +0000
+	by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+	id 1j4SZN-0001JM-FA; Wed, 19 Feb 2020 16:51:29 +0000
 Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(Client did not present a certificate)
-	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 397F3300606;
-	Wed, 19 Feb 2020 17:28:32 +0100 (CET)
+	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 75EB4300606;
+	Wed, 19 Feb 2020 17:49:35 +0100 (CET)
 Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 636E5201BADC9; Wed, 19 Feb 2020 17:30:25 +0100 (CET)
-Date: Wed, 19 Feb 2020 17:30:25 +0100
+	id DB88D201E478A; Wed, 19 Feb 2020 17:51:27 +0100 (CET)
+Date: Wed, 19 Feb 2020 17:51:27 +0100
 From: Peter Zijlstra <peterz@infradead.org>
 To: Dmitry Vyukov <dvyukov@google.com>
 Cc: LKML <linux-kernel@vger.kernel.org>,
@@ -127,20 +127,21 @@ Cc: LKML <linux-kernel@vger.kernel.org>,
 	kasan-dev <kasan-dev@googlegroups.com>
 Subject: Re: [PATCH v3 22/22] x86/int3: Ensure that poke_int3_handler() is
  not sanitized
-Message-ID: <20200219163025.GH18400@hirez.programming.kicks-ass.net>
+Message-ID: <20200219165127.GF14946@hirez.programming.kicks-ass.net>
 References: <20200219144724.800607165@infradead.org>
  <20200219150745.651901321@infradead.org>
  <CACT4Y+Y+nPcnbb8nXGQA1=9p8BQYrnzab_4SvuPwbAJkTGgKOQ@mail.gmail.com>
+ <20200219163025.GH18400@hirez.programming.kicks-ass.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <CACT4Y+Y+nPcnbb8nXGQA1=9p8BQYrnzab_4SvuPwbAJkTGgKOQ@mail.gmail.com>
+In-Reply-To: <20200219163025.GH18400@hirez.programming.kicks-ass.net>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-Original-Sender: peterz@infradead.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@infradead.org header.s=bombadil.20170209 header.b=ORvjDlmq;
+ header.i=@infradead.org header.s=merlin.20170209 header.b=aPCcJ9zr;
        spf=pass (google.com: best guess record for domain of
- peterz@infradead.org designates 2607:7c80:54:e::133 as permitted sender) smtp.mailfrom=peterz@infradead.org
+ peterz@infradead.org designates 2001:8b0:10b:1231::1 as permitted sender) smtp.mailfrom=peterz@infradead.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -153,71 +154,23 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Feb 19, 2020 at 05:06:03PM +0100, Dmitry Vyukov wrote:
-> On Wed, Feb 19, 2020 at 4:14 PM Peter Zijlstra <peterz@infradead.org> wrote:
-> >
-> > In order to ensure poke_int3_handler() is completely self contained --
-> > we call this while we're modifying other text, imagine the fun of
-> > hitting another INT3 -- ensure that everything is without sanitize
-> > crud.
+On Wed, Feb 19, 2020 at 05:30:25PM +0100, Peter Zijlstra wrote:
+> > It's quite fragile. Tomorrow poke_int3_handler handler calls more of
+> > fewer functions, and both ways it's not detected by anything.
 > 
-> +kasan-dev
+> Yes; not having tools for this is pretty annoying. In 0/n I asked Dan if
+> smatch could do at least the normal tracing stuff, the compiler
+> instrumentation bits are going to be far more difficult because smatch
+> doesn't work at that level :/
 > 
-> Hi Peter,
-> 
-> How do we hit another INT3 here? 
+> (I actually have
 
-INT3 is mostly the result of either kprobes (someone sticks a kprobe in
-the middle of *SAN) or self modifying text stuff (jump_labels, ftrace
-and soon static_call).
+... and I stopped typing ...
 
-> Does the code do
-> out-of-bounds/use-after-free writes?
-> Debugging later silent memory corruption may be no less fun :)
-
-It all stinks, debugging a recursive exception is also not fun.
-
-> Not sanitizing bsearch entirely is a bit unfortunate. We won't find
-> any bugs in it when called from other sites too.
-
-Agreed.
-
-> It may deserve a comment at least. Tomorrow I may want to remove
-> __no_sanitize, just because sanitizing more is better, and no int3
-> test will fail to stop me from doing that...
-
-If only I actually had a test-case for this :/
-
-> It's quite fragile. Tomorrow poke_int3_handler handler calls more of
-> fewer functions, and both ways it's not detected by anything.
-
-Yes; not having tools for this is pretty annoying. In 0/n I asked Dan if
-smatch could do at least the normal tracing stuff, the compiler
-instrumentation bits are going to be far more difficult because smatch
-doesn't work at that level :/
-
-(I actually have
-
-> And if we ignore all by one function, it is still not helpful, right?
-> Depending on failure cause/mode, using kasan_disable/enable_current
-> may be a better option.
-
-kasan_disable_current() could mostly work; but only covers kasan, not
-ubsan or kcsan. It then also relies on kasan_disable_current() itself
-being notrace as well as all instrumentation functions itself (which I
-think is currently true because of mm/kasan/Makefile stripping
-CC_FLAGS_FTRACE).
-
-But what stops someone from sticking a kprobe or #DB before you check
-that variable?
-
-By inlining everything in poke_int3_handler() (except bsearch :/) we can
-mark the whole function off limits to everything and call it a day. That
-simplicity has been the guiding principle so far.
-
-Alternatively we can provide an __always_inline variant of bsearch().
+I think I mean to say something like: ... more changes to
+poke_int3_handler() pending, but they're all quite simple).
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200219163025.GH18400%40hirez.programming.kicks-ass.net.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200219165127.GF14946%40hirez.programming.kicks-ass.net.
