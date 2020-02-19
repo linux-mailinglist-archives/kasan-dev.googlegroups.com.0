@@ -1,130 +1,146 @@
-Return-Path: <kasan-dev+bncBCMIZB7QWENRB6FZWXZAKGQE7QAYJBI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCV5TUXXRUIBBN6FWXZAKGQEFD4JTLA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pg1-x53f.google.com (mail-pg1-x53f.google.com [IPv6:2607:f8b0:4864:20::53f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9872E164973
-	for <lists+kasan-dev@lfdr.de>; Wed, 19 Feb 2020 17:06:18 +0100 (CET)
-Received: by mail-pg1-x53f.google.com with SMTP id t17sf427360pgb.20
-        for <lists+kasan-dev@lfdr.de>; Wed, 19 Feb 2020 08:06:18 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1582128377; cv=pass;
+Received: from mail-ed1-x538.google.com (mail-ed1-x538.google.com [IPv6:2a00:1450:4864:20::538])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9B89164A65
+	for <lists+kasan-dev@lfdr.de>; Wed, 19 Feb 2020 17:30:47 +0100 (CET)
+Received: by mail-ed1-x538.google.com with SMTP id n18sf528657edo.17
+        for <lists+kasan-dev@lfdr.de>; Wed, 19 Feb 2020 08:30:47 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1582129847; cv=pass;
         d=google.com; s=arc-20160816;
-        b=spNyq60TmTNrBfezIAzEg1gyIybf9JbweAcqdg5coz2ZgA001uinCVhn/wU7ZosgRO
-         HpcjCHLrH4nJT6c10aim/RWZbKrWRyx6fSdUIYtmpyq8gFln84FJ6GuN4OvhhCeCRvey
-         VA/9ZJDo+Uk6N4u4pFSVzSP2Rgy1VwBNsUl6y2ppsRKnuVuIKDyH5O3dEMH8TJoqqU/w
-         yQTvnYZzPAOwRgp0YXuN1p+SKnZAnqlL3CylTUppgdPSVXiyi6yz20Ufay69dkFA2MZ9
-         dEpmzs/hrwBq8MxmlUVUXUn26qiopAJerO7GPQvmGNAPy9vdh+ZwO1v6OXUj8bhWRrhL
-         1OBA==
+        b=w3RjhGeFkTUK3GVPc0Qh4UpBrDte4BG1hzVAsJd2U8TRlP+bbP6ePby3qaGZqBPf1h
+         U5jOUkXjopHq33JbvShtaStkeVrxQEbXFL2/xuPQW5wlsEn4Umi6Bs713q5NcsoGpN1T
+         uDy9jEy8Mwdu3FbfSh1cJ4NoB/SPKJmO7+W1YRwPKh+SSKvcsksGX7nNABPyRMhrVGKC
+         3IBgBmgayPGOPonno7a+ZW9XTgCqkanjw+0slEI3mxeDkkkcFEjG2mgm3/xp7Xt75vSj
+         uTpEEL+J9ejKx9zfS6xlm3CGPyxyPTgAGxdKniRWtHUFgCFDeKRTf/XhmNyu1ihefF8K
+         LHpg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=XgQN7BfKZWsNgy+1iHCjeLFnLTx553wQufmmKm4cvT0=;
-        b=sgPg47mxP8W+rgyJY8TN1fsaoA38vahZz6ogSZBQf4M+gafbXpk/8G7X9zrmWci3rM
-         L10pUrcdxLbnOCnlXS+eVypQhXxXXfxe01juFXNQPLVD7ja+fJ0nnNMa7D+L6aI3DXDi
-         pauckyxEp4eogk1SFCMEzJ2GXdZHT0sUIJ+lVX2EVmZaw8JnlqPae8Dz2GGnax+E8vg9
-         IRdDPnL5pWwNcrLyFj6J4xHs49l5Vt2DIRLhKJE4cOY9XKjey74+0CrPNiueVmXRYbNz
-         vF/If2BR5/hDxTy3QfPqH0PMaVs0WrzRUBY8r13l6JikgIpJS+zGtnvm2rWAg04BwGef
-         P5Sw==
+         :list-id:mailing-list:precedence:user-agent:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:sender:dkim-signature;
+        bh=tRRmX9M6z6P5ulF94ECFsrTnMcvS5lvLXTxT+In07PE=;
+        b=HCGh5OT31BOIPRcPixruzNsrvHhwESNrM8Pi4/I9rhDpcd6/Yn2GEx/MRESo5CQ61W
+         PDBQzOqCqjlotHr1rRcviPONqEJEC2TK2EefJvpOFqzdt5SzoIyA+q04YYfHTyvjrgLL
+         nTAi63h3ineige8Gl30E88B9aDGnmPUui8Gfl13nbEck6m14rqzKPS8G1t9rdkJ2pCPS
+         iG9tm3Ai1yCCeJz+18TYNpeihhGBw/O/1mnbzLq79oVWwlRvsY6I6S2u95TBLFBxQKO5
+         NvZuKZSQCOjCJTrEbWtmEDkEnHBRtQ5L//u5OARDkWcMOG8nCAMIIM0Vs7WTX13yQWHC
+         Tqcg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=GzyOGDrL;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::744 as permitted sender) smtp.mailfrom=dvyukov@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@infradead.org header.s=bombadil.20170209 header.b=ORvjDlmq;
+       spf=pass (google.com: best guess record for domain of peterz@infradead.org designates 2607:7c80:54:e::133 as permitted sender) smtp.mailfrom=peterz@infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=XgQN7BfKZWsNgy+1iHCjeLFnLTx553wQufmmKm4cvT0=;
-        b=PH6yfWW07XMep3Xy17GoSme3H3pxkDxlBz6tMkA8Y66JPXWuefz6jBSc9Z6XHJiL4U
-         IdKEeXAbzMrNqOBts8qwgY9RY7NHunnYpA1WQ3ZAZqEkfh1Ieg80OWVQ454VGkGC23om
-         n1BViH6jnoMI3majcIypFdefFfOa1PkE/HKISvlJDADwIMJ5+lmmb4silv+RhuFmdX5F
-         pNPYSRrPoG5V+TJKMocJvb59xkQHQCnen/Q7d5w/VS8iT0e77M8XHTOxE+Dk2Ooff58f
-         7r07v7wKkReNBMrqp58TI3dWP4ZFXkShNTPDmKlGXBQv9EShptcJxkNM//QrtWIuBCiw
-         AHrA==
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=tRRmX9M6z6P5ulF94ECFsrTnMcvS5lvLXTxT+In07PE=;
+        b=Buag6iDL128bpKCnD9STE+mdcGIWsDZ9tPo65oTHX15LiKvV1Ps35oAW2uZ9xA2/GO
+         gXxd+INFaSLL97mVbi2HWcsYsx8RFsjvst8cTwZPxXB+HBDCYk6YRhrdftDC/no8s4k2
+         JxFrpEJ80G0ssrUHQPuECRc63KOm42cjLWX8mONNenmQskLhiOZSlbwe6Qg2RO5rSDJI
+         OSSZf14SIfbcLCgsFjN/wYE8iqa2OTqTg1WOHIW2Upl2UONr1I4KTHtfddY2iGUXM2RN
+         gQcdVGrxFBXDOY+YP0LiTROhY1T0+GzkpCkzeszCVpTiC4hJP4kM0hyfmimiI5Oo4Aio
+         mGjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=XgQN7BfKZWsNgy+1iHCjeLFnLTx553wQufmmKm4cvT0=;
-        b=BsWsSfl747463ZA5wfowD4N4iOCNNwqkH6uradbqOx8DdeNw+a115oaqA7MkutY1Ev
-         YKNHCTeF1TO5+9qsajvdJjs/W6iGkWsvLRo87LDeVXCRApCIeSqxi9AY/WrlVDMGNYzh
-         CDmCxap7rDEE6JdPqsPm2KmMBVCLIPC7zgv9h7zQy+MHp9v2WnVZsKhWYfecVM4u95jM
-         61UdDaAYeS7Eu2X8nDX42I8WZyq+b5WWyTpBIqsNINEJu3QAecQd1s/WNRepeKeGoOxo
-         PM9hxR+yW6jTVDwWIHIkmGpJKu26XkF/fNvfO9IkyibXI72wMOsymL1mf82QtPFwPxnf
-         whOg==
-X-Gm-Message-State: APjAAAVfyGjlaK76U/2mSJpT8lDKxWaNBoVpO9p6SqxBmQLx7J6Drq2k
-	E8XxtRuzEZ+sv3dCRFKad2k=
-X-Google-Smtp-Source: APXvYqxpmuESCzx4RK3iCXc2Vwf9f7JoOe4RXWjBUQwvXFFTa+p2prfw0ZcE8mYFqj+Uo0ESx8awjg==
-X-Received: by 2002:a17:902:ab81:: with SMTP id f1mr27352217plr.5.1582128376714;
-        Wed, 19 Feb 2020 08:06:16 -0800 (PST)
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=tRRmX9M6z6P5ulF94ECFsrTnMcvS5lvLXTxT+In07PE=;
+        b=U6/jTRj5YEAlsoc0romRejp/UmdnVqyv35xrYR6k3JWE7btZFpZHW0Gh7pLG6LRh8o
+         0CnkMR+mHISQ/1HFE3mpnH7hFk4CWosJKUGavOaQg4bmizRcK26xWKP1GXvKMgOs/srF
+         7qihks0k2iZdQ8A+0INJkgLCKwhrmnQJAhVwmzjPnIH2nFkv+r2PIUnMEgJBby6FgOUS
+         yd7T/LiDUwzo0gnSZxBSsE3Pn+u8oO7lHxtD09Jmu5gLyJswBywwblCsVl5Uq+3CVtj6
+         HI+ikiex1ab2twqNhK0l/gjbH0vU5cR2+xeArwCF4+enigMPOAfATAZP68LhdstjmQuX
+         Pqxg==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: APjAAAWcleMWmoA+nOaCoIpecJ2Bekn6JONalq5NyCAgJ6KFQa5+DuNJ
+	1rJdWKesrWgxZtdek8bDv58=
+X-Google-Smtp-Source: APXvYqxQHzPdLmVYg0qbv6Ow3VvlKzJDmVwD25IxR5HMRqGADEMEKv5ZkIsc1cwHf3bQcKdcseJe1A==
+X-Received: by 2002:a17:906:34d2:: with SMTP id h18mr24533341ejb.76.1582129847333;
+        Wed, 19 Feb 2020 08:30:47 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:90b:46ce:: with SMTP id jx14ls3053897pjb.3.gmail; Wed,
- 19 Feb 2020 08:06:16 -0800 (PST)
-X-Received: by 2002:a17:90a:98d:: with SMTP id 13mr9796820pjo.102.1582128376273;
-        Wed, 19 Feb 2020 08:06:16 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1582128376; cv=none;
+Received: by 2002:a17:906:584f:: with SMTP id h15ls7654193ejs.9.gmail; Wed, 19
+ Feb 2020 08:30:46 -0800 (PST)
+X-Received: by 2002:a25:2c51:: with SMTP id s78mr26008367ybs.54.1582129846307;
+        Wed, 19 Feb 2020 08:30:46 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1582129846; cv=none;
         d=google.com; s=arc-20160816;
-        b=k/VOcc47DhdF+4AnHbhwHsrgUG3BvBW1I5pRQUhEeWKV8nIa0vzUBvi/OjrVNrQZi1
-         r10r0i+ipP+1tsrepZtpHrUPWdb5LfRHydbEbhK3I/6VfQ0wZBrRmVAR4It0OFUvVeR8
-         uZ4o18IencZvTen6h/Y/7aqlY6t9Sq05foB9GLHZTm2YwbTuZGA+EMqyZ440ncuhZE0s
-         fgWsGn4UL4bmB7NbvYJwCqXHQwT370/yL/eWtJQWoa1TctHq77YTP6rgbi7zUKovo5aS
-         pUT+zejSf4rohzsu741LjtOzjVybJgJsIt9xuHJ56yKuRz307fyIzWfQthA2uzYt6cFx
-         89Uw==
+        b=jpJE+0Ky4NMeDcPtJqEF0p0qk94XSXLq2fXpPZtb0/GuIc2cQFDiceakn9NSauTOov
+         a3PehHGNB2r901cERaw0fZooGRz0hWaHMcT9+MX6SQeiCUPh/4SSU/oONQ8WGeLbVXSn
+         Aske6QmTTgbXHDxXsPt8PNEd79OjIjWPEzRak93ALbOw6XUTxtHV6VXJp271TRCbDgBv
+         CvqOlfd6pi7XVt6S/ShrzJKtl47/+XTigvNz6EPa/aGh7HwjBON5XLB1P5e3VfMq0rgW
+         E7AGtWAhj+UU4jSZTFoEJW3HWG1Ha6EpqfRhKimVtzNLwPgzOMklTPBzCPVAy6v+L5AX
+         oE6A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=Uhi4M2kPWQtaIRnOkT6OXlV4BqN3p0xNbs1d1Zj15X4=;
-        b=COM9UX+EGck8FMCeQQKoXnEg1aFy58Sc70B4u4C+XYKNaPv+gtQr7qrBgUDbvWyEwC
-         Lwh0BQ1hnJ1+eVSScq5Puq/wts5xGznZO0gelc9NKcHdO20ZNIMlHslWN2IcQ6xuVFip
-         0tfhXzy4J46cmTU7f++tkbouwAM3pKFecRwdGwAxgduPfVlpj4W9tWQbNoxt/T4J6IZX
-         lFNNIx7ndhSHBZj3CgwX4Z+qJ6vBH5naruuV4QHpn6URw6c24bo9gMbOlf90tm0yqsOQ
-         8lngYGdzCkAvhTSO44wiPV00Vsuxf5frxvZOB0n5u2kIQPohOGNiuKFmZN7fDf6fBEM+
-         Likw==
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:dkim-signature;
+        bh=Qa5MZXsY7UPTTol/FJvhlBtevBmctxCysX0lVvI/ets=;
+        b=bN6u2bs3uK0+XR8zLc6doRbThvCIPx792AMlGuU4cl4NMDF0byy3npYtfJMNyxPMJF
+         Vn4KaJMSsXFhumsZoKsBkIaxZecL43iYGh2QzqPzhFJN5wApc5X+/mz4JxM6iTDasHWg
+         2Ltur3W9JxmPyqzZ6DkNUyu1jEz/nuj3Wu54kYQGn6cgVawRCsZXOdp/6dVsmsabDlo2
+         9WjSTmIl863gkkOIg7WOK+aPnpTT1P+IqYylT0NePz3R7tzVAgRj7hXRzzmoVvMui/DW
+         TaC5yPRwWR8yf0/fHfr+HjJ59ErHcNLM22yzAgtW27csZAckraogsO//XkDm0Tl1O7fC
+         t2kg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=GzyOGDrL;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::744 as permitted sender) smtp.mailfrom=dvyukov@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com. [2607:f8b0:4864:20::744])
-        by gmr-mx.google.com with ESMTPS id 59si27100ple.2.2020.02.19.08.06.16
+       dkim=pass header.i=@infradead.org header.s=bombadil.20170209 header.b=ORvjDlmq;
+       spf=pass (google.com: best guess record for domain of peterz@infradead.org designates 2607:7c80:54:e::133 as permitted sender) smtp.mailfrom=peterz@infradead.org
+Received: from bombadil.infradead.org (bombadil.infradead.org. [2607:7c80:54:e::133])
+        by gmr-mx.google.com with ESMTPS id p187si10897ywe.1.2020.02.19.08.30.46
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 19 Feb 2020 08:06:16 -0800 (PST)
-Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::744 as permitted sender) client-ip=2607:f8b0:4864:20::744;
-Received: by mail-qk1-x744.google.com with SMTP id b7so577742qkl.7
-        for <kasan-dev@googlegroups.com>; Wed, 19 Feb 2020 08:06:16 -0800 (PST)
-X-Received: by 2002:a05:620a:150a:: with SMTP id i10mr2031290qkk.407.1582128375013;
- Wed, 19 Feb 2020 08:06:15 -0800 (PST)
-MIME-Version: 1.0
-References: <20200219144724.800607165@infradead.org> <20200219150745.651901321@infradead.org>
-In-Reply-To: <20200219150745.651901321@infradead.org>
-From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Wed, 19 Feb 2020 17:06:03 +0100
-Message-ID: <CACT4Y+Y+nPcnbb8nXGQA1=9p8BQYrnzab_4SvuPwbAJkTGgKOQ@mail.gmail.com>
-Subject: Re: [PATCH v3 22/22] x86/int3: Ensure that poke_int3_handler() is not sanitized
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, linux-arch <linux-arch@vger.kernel.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, Ingo Molnar <mingo@kernel.org>, 
-	Joel Fernandes <joel@joelfernandes.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Gustavo A. R. Silva" <gustavo@embeddedor.com>, Thomas Gleixner <tglx@linutronix.de>, 
-	"Paul E. McKenney" <paulmck@kernel.org>, Josh Triplett <josh@joshtriplett.org>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Lai Jiangshan <jiangshanlai@gmail.com>, 
-	Andy Lutomirski <luto@kernel.org>, tony.luck@intel.com, 
-	Frederic Weisbecker <frederic@kernel.org>, Dan Carpenter <dan.carpenter@oracle.com>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Andrey Ryabinin <aryabinin@virtuozzo.com>, 
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Feb 2020 08:30:46 -0800 (PST)
+Received-SPF: pass (google.com: best guess record for domain of peterz@infradead.org designates 2607:7c80:54:e::133 as permitted sender) client-ip=2607:7c80:54:e::133;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+	by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+	id 1j4SF2-0004Yt-Q2; Wed, 19 Feb 2020 16:30:29 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(Client did not present a certificate)
+	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 397F3300606;
+	Wed, 19 Feb 2020 17:28:32 +0100 (CET)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 636E5201BADC9; Wed, 19 Feb 2020 17:30:25 +0100 (CET)
+Date: Wed, 19 Feb 2020 17:30:25 +0100
+From: Peter Zijlstra <peterz@infradead.org>
+To: Dmitry Vyukov <dvyukov@google.com>
+Cc: LKML <linux-kernel@vger.kernel.org>,
+	linux-arch <linux-arch@vger.kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ingo Molnar <mingo@kernel.org>,
+	Joel Fernandes <joel@joelfernandes.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Andy Lutomirski <luto@kernel.org>, tony.luck@intel.com,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Dan Carpenter <dan.carpenter@oracle.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Andrey Ryabinin <aryabinin@virtuozzo.com>,
 	kasan-dev <kasan-dev@googlegroups.com>
+Subject: Re: [PATCH v3 22/22] x86/int3: Ensure that poke_int3_handler() is
+ not sanitized
+Message-ID: <20200219163025.GH18400@hirez.programming.kicks-ass.net>
+References: <20200219144724.800607165@infradead.org>
+ <20200219150745.651901321@infradead.org>
+ <CACT4Y+Y+nPcnbb8nXGQA1=9p8BQYrnzab_4SvuPwbAJkTGgKOQ@mail.gmail.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: dvyukov@google.com
+Content-Disposition: inline
+In-Reply-To: <CACT4Y+Y+nPcnbb8nXGQA1=9p8BQYrnzab_4SvuPwbAJkTGgKOQ@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Original-Sender: peterz@infradead.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=GzyOGDrL;       spf=pass
- (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::744
- as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
- (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Dmitry Vyukov <dvyukov@google.com>
-Reply-To: Dmitry Vyukov <dvyukov@google.com>
+ header.i=@infradead.org header.s=bombadil.20170209 header.b=ORvjDlmq;
+       spf=pass (google.com: best guess record for domain of
+ peterz@infradead.org designates 2607:7c80:54:e::133 as permitted sender) smtp.mailfrom=peterz@infradead.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -137,156 +153,71 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Feb 19, 2020 at 4:14 PM Peter Zijlstra <peterz@infradead.org> wrote:
->
-> In order to ensure poke_int3_handler() is completely self contained --
-> we call this while we're modifying other text, imagine the fun of
-> hitting another INT3 -- ensure that everything is without sanitize
-> crud.
+On Wed, Feb 19, 2020 at 05:06:03PM +0100, Dmitry Vyukov wrote:
+> On Wed, Feb 19, 2020 at 4:14 PM Peter Zijlstra <peterz@infradead.org> wrote:
+> >
+> > In order to ensure poke_int3_handler() is completely self contained --
+> > we call this while we're modifying other text, imagine the fun of
+> > hitting another INT3 -- ensure that everything is without sanitize
+> > crud.
+> 
+> +kasan-dev
+> 
+> Hi Peter,
+> 
+> How do we hit another INT3 here? 
 
-+kasan-dev
+INT3 is mostly the result of either kprobes (someone sticks a kprobe in
+the middle of *SAN) or self modifying text stuff (jump_labels, ftrace
+and soon static_call).
 
-Hi Peter,
+> Does the code do
+> out-of-bounds/use-after-free writes?
+> Debugging later silent memory corruption may be no less fun :)
 
-How do we hit another INT3 here? Does the code do
-out-of-bounds/use-after-free writes?
-Debugging later silent memory corruption may be no less fun :)
+It all stinks, debugging a recursive exception is also not fun.
 
-Not sanitizing bsearch entirely is a bit unfortunate. We won't find
-any bugs in it when called from other sites too.
-It may deserve a comment at least. Tomorrow I may want to remove
-__no_sanitize, just because sanitizing more is better, and no int3
-test will fail to stop me from doing that...
+> Not sanitizing bsearch entirely is a bit unfortunate. We won't find
+> any bugs in it when called from other sites too.
 
-It's quite fragile. Tomorrow poke_int3_handler handler calls more of
-fewer functions, and both ways it's not detected by anything. And if
-we ignore all by one function, it is still not helpful, right?
-Depending on failure cause/mode, using kasan_disable/enable_current
-may be a better option.
+Agreed.
 
+> It may deserve a comment at least. Tomorrow I may want to remove
+> __no_sanitize, just because sanitizing more is better, and no int3
+> test will fail to stop me from doing that...
 
-> Cc: Dmitry Vyukov <dvyukov@google.com>
-> Cc: Andrey Ryabinin <aryabinin@virtuozzo.com>
-> Reported-by: Thomas Gleixner <tglx@linutronix.de>
-> Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-> ---
->  arch/x86/kernel/alternative.c       |    4 ++--
->  arch/x86/kernel/traps.c             |    2 +-
->  include/linux/compiler-clang.h      |    7 +++++++
->  include/linux/compiler-gcc.h        |    6 ++++++
->  include/linux/compiler.h            |    5 +++++
->  include/linux/compiler_attributes.h |    1 +
->  lib/bsearch.c                       |    2 +-
->  7 files changed, 23 insertions(+), 4 deletions(-)
->
-> --- a/arch/x86/kernel/alternative.c
-> +++ b/arch/x86/kernel/alternative.c
-> @@ -979,7 +979,7 @@ static __always_inline void *text_poke_a
->         return _stext + tp->rel_addr;
->  }
->
-> -static int notrace patch_cmp(const void *key, const void *elt)
-> +static int notrace __no_sanitize patch_cmp(const void *key, const void *elt)
->  {
->         struct text_poke_loc *tp = (struct text_poke_loc *) elt;
->
-> @@ -991,7 +991,7 @@ static int notrace patch_cmp(const void
->  }
->  NOKPROBE_SYMBOL(patch_cmp);
->
-> -int notrace poke_int3_handler(struct pt_regs *regs)
-> +int notrace __no_sanitize poke_int3_handler(struct pt_regs *regs)
->  {
->         struct bp_patching_desc *desc;
->         struct text_poke_loc *tp;
-> --- a/arch/x86/kernel/traps.c
-> +++ b/arch/x86/kernel/traps.c
-> @@ -496,7 +496,7 @@ dotraplinkage void do_general_protection
->  }
->  NOKPROBE_SYMBOL(do_general_protection);
->
-> -dotraplinkage void notrace do_int3(struct pt_regs *regs, long error_code)
-> +dotraplinkage void notrace __no_sanitize do_int3(struct pt_regs *regs, long error_code)
->  {
->         if (poke_int3_handler(regs))
->                 return;
-> --- a/include/linux/compiler-clang.h
-> +++ b/include/linux/compiler-clang.h
-> @@ -24,6 +24,13 @@
->  #define __no_sanitize_address
->  #endif
->
-> +#if __has_feature(undefined_sanitizer)
-> +#define __no_sanitize_undefined \
-> +               __atribute__((no_sanitize("undefined")))
-> +#else
-> +#define __no_sanitize_undefined
-> +#endif
-> +
->  /*
->   * Not all versions of clang implement the the type-generic versions
->   * of the builtin overflow checkers. Fortunately, clang implements
-> --- a/include/linux/compiler-gcc.h
-> +++ b/include/linux/compiler-gcc.h
-> @@ -145,6 +145,12 @@
->  #define __no_sanitize_address
->  #endif
->
-> +#if __has_attribute(__no_sanitize_undefined__)
-> +#define __no_sanitize_undefined __attribute__((no_sanitize_undefined))
-> +#else
-> +#define __no_sanitize_undefined
-> +#endif
-> +
->  #if GCC_VERSION >= 50100
->  #define COMPILER_HAS_GENERIC_BUILTIN_OVERFLOW 1
->  #endif
-> --- a/include/linux/compiler.h
-> +++ b/include/linux/compiler.h
-> @@ -199,6 +199,7 @@ void __read_once_size(const volatile voi
->         __READ_ONCE_SIZE;
->  }
->
-> +#define __no_kasan __no_sanitize_address
->  #ifdef CONFIG_KASAN
->  /*
->   * We can't declare function 'inline' because __no_sanitize_address confilcts
-> @@ -274,6 +275,10 @@ static __always_inline void __write_once
->   */
->  #define READ_ONCE_NOCHECK(x) __READ_ONCE(x, 0)
->
-> +#define __no_ubsan __no_sanitize_undefined
-> +
-> +#define __no_sanitize __no_kasan __no_ubsan
-> +
->  static __no_kasan_or_inline
->  unsigned long read_word_at_a_time(const void *addr)
->  {
-> --- a/include/linux/compiler_attributes.h
-> +++ b/include/linux/compiler_attributes.h
-> @@ -41,6 +41,7 @@
->  # define __GCC4_has_attribute___nonstring__           0
->  # define __GCC4_has_attribute___no_sanitize_address__ (__GNUC_MINOR__ >= 8)
->  # define __GCC4_has_attribute___fallthrough__         0
-> +# define __GCC4_has_attribute___no_sanitize_undefined__ (__GNUC_MINOR__ >= 9)
->  #endif
->
->  /*
-> --- a/lib/bsearch.c
-> +++ b/lib/bsearch.c
-> @@ -28,7 +28,7 @@
->   * the key and elements in the array are of the same type, you can use
->   * the same comparison function for both sort() and bsearch().
->   */
-> -void *bsearch(const void *key, const void *base, size_t num, size_t size,
-> +void __no_sanitize *bsearch(const void *key, const void *base, size_t num, size_t size,
->               cmp_func_t cmp)
->  {
->         const char *pivot;
->
->
+If only I actually had a test-case for this :/
+
+> It's quite fragile. Tomorrow poke_int3_handler handler calls more of
+> fewer functions, and both ways it's not detected by anything.
+
+Yes; not having tools for this is pretty annoying. In 0/n I asked Dan if
+smatch could do at least the normal tracing stuff, the compiler
+instrumentation bits are going to be far more difficult because smatch
+doesn't work at that level :/
+
+(I actually have
+
+> And if we ignore all by one function, it is still not helpful, right?
+> Depending on failure cause/mode, using kasan_disable/enable_current
+> may be a better option.
+
+kasan_disable_current() could mostly work; but only covers kasan, not
+ubsan or kcsan. It then also relies on kasan_disable_current() itself
+being notrace as well as all instrumentation functions itself (which I
+think is currently true because of mm/kasan/Makefile stripping
+CC_FLAGS_FTRACE).
+
+But what stops someone from sticking a kprobe or #DB before you check
+that variable?
+
+By inlining everything in poke_int3_handler() (except bsearch :/) we can
+mark the whole function off limits to everything and call it a day. That
+simplicity has been the guiding principle so far.
+
+Alternatively we can provide an __always_inline variant of bsearch().
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BY%2BnPcnbb8nXGQA1%3D9p8BQYrnzab_4SvuPwbAJkTGgKOQ%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200219163025.GH18400%40hirez.programming.kicks-ass.net.
