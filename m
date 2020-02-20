@@ -1,130 +1,132 @@
-Return-Path: <kasan-dev+bncBAABBE7QWXZAKGQERACO6DY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCMIZB7QWENRB6OCXHZAKGQEJK6QK7A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pj1-x1039.google.com (mail-pj1-x1039.google.com [IPv6:2607:f8b0:4864:20::1039])
-	by mail.lfdr.de (Postfix) with ESMTPS id 653A9164D3D
-	for <lists+kasan-dev@lfdr.de>; Wed, 19 Feb 2020 19:01:57 +0100 (CET)
-Received: by mail-pj1-x1039.google.com with SMTP id z12sf623518pju.0
-        for <lists+kasan-dev@lfdr.de>; Wed, 19 Feb 2020 10:01:57 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1582135316; cv=pass;
+Received: from mail-pl1-x63e.google.com (mail-pl1-x63e.google.com [IPv6:2607:f8b0:4864:20::63e])
+	by mail.lfdr.de (Postfix) with ESMTPS id D580C165BAE
+	for <lists+kasan-dev@lfdr.de>; Thu, 20 Feb 2020 11:37:46 +0100 (CET)
+Received: by mail-pl1-x63e.google.com with SMTP id w17sf1958945plq.16
+        for <lists+kasan-dev@lfdr.de>; Thu, 20 Feb 2020 02:37:46 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1582195065; cv=pass;
         d=google.com; s=arc-20160816;
-        b=cK29GKAUr47l3dGrbnA+iebdmrF8/RBG8Rjbdunq1bxkNL6EVFP5sYK1YCEXAc5Np/
-         h/ps0r1uhiNg0cisGYqxdA+6q3YW+6zLHEgAdcdEHrdNuO7lF3erScQzh82nCDVaZZef
-         6S15ayHBfWWWQfTvUNoL53YAhNofxHoULIQHPzauOL2yTuv9NxSwOssning2KCI0hxbC
-         I0OS1lXfUbLaZ97bUMjGX7dZELH4iSG0ZDFHNCC3MZ5Ic+Aw9B+HlKONEUAkaaFq0TEL
-         OhyKOuVbaZxg4Q0j9LDYgydmfQ+tF+nV6BdtQ/QEkVY7XI8a9CjfyCdknD7g/6O4FEU+
-         yiMg==
+        b=qiBHmqvqHJkb1wcgJN4UOUYUyxvDcPN4wa/+VxI2npBsG50hKx7xLyZdjcX+9UNJrC
+         PEIXAA6M/Y2aNU7PWpQAsA9zs0wV/IPj5mDdS/Ctuy8yKI+4pqLJVD8uFKQIR9iKK/cm
+         L2cQqs2ZxTSLc4R1WB6iE3EKJkhy7LKfW8MQPWPT6PaVwcriyBGvBARTolZXMATeXxQq
+         Do08+2kA18uaBEk89tEdhkn+ViZyR1qIwe13aenpGHG3NecW6aLOolhGon6Lg4zQ8bge
+         tBn5djHTIDCVEN74FbtHZ9E7u4F46nYNFRUQ/WcOBgs/xMPOUv182/tHbmar03N2OjIx
+         sgvA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:user-agent:in-reply-to
-         :content-disposition:mime-version:references:reply-to:message-id
-         :subject:cc:to:from:date:sender:dkim-signature;
-        bh=BBaUT/8Ch6ygsLYRaYe4U9n3z7WNxYsZZ56EXhETwHA=;
-        b=IdSAD4JEZaHspN3dPvEQ2uGWeLLYn/ZeJDT2zhX0dHd5qzlvn2hh5Vhnqea0zGUehk
-         CM8S5uXjKYfAphwbyrjesQ4k29WMofhHMB0NpHDNmDkNq75Y+nRuYeQIFnFcHUvEkZ03
-         vBKj/BYxYXEQIwoeVa2NYd5blCDiohxTcxT8dawXQ7hRG/k/xYOWvGP67BEbVARO6DQI
-         yw1noyWSY3qFl0QxeH2vlgTMShC3Ebn6NvMqisZ6hy0T1RmZhR5fRfpRv/4idAp2SSkt
-         DCBS7si33jiJ2a3EvmmyJzKnOHxCK538wf3cZ5FYtjfOrhyUPWW+XO/Xq9287iiIagQu
-         i2zA==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=ZDxS9Kv395sgy0op6+tqmltAdaimGwfILe7IttkXARU=;
+        b=abR9Akgd7JqeBntNp/zNcKUP4DoWYHzryS0PrCtrb8t7GUkRjHAy3T6sIPuMDcwcPv
+         Kj1HpgKV3Z0aAc3Q26BcsVLm4A+x5ZtxwRmmYQi9FdrAN2XvxHJrixVXc4ZA29mY8bPM
+         bufU2UAmUV/8OVX0xeSY+uv1GuNcZBQiyPBh7cSKYxbEpujyquDSqZYpTjjqqb9P4Inu
+         OKojnpjdKdKCsw8pWIQSWP6rbgWlP3ExKSWAiZF8ID9dq64wJLObPqwgWoVwOepm/DJu
+         ZzDF+KkSHWsbxnuMgeZUbKw5Uoii7iiX+nrLTyYEFH4c9zKeSaiAtjHSFoIHkm3xjf8k
+         I5JQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=default header.b=PC5SIEBR;
-       spf=pass (google.com: domain of srs0=16ht=4h=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=16Ht=4H=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       dkim=pass header.i=@google.com header.s=20161025 header.b=jA55lcjy;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::842 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:reply-to:references
-         :mime-version:content-disposition:in-reply-to:user-agent
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=BBaUT/8Ch6ygsLYRaYe4U9n3z7WNxYsZZ56EXhETwHA=;
-        b=hTLoitcfp4ZW3/P7Li0Yh0MzrxpemWUPb6v3Z10R7FrxoX1Cz+O/KQ7bn3v9mWmNjK
-         aJSBewLoMUQiyFEzCZmfpQGZGfKxSqq65Kda7/LeH1PrC9TuGYh5myP2yAODyRRobywS
-         nouUu2ID0/pUnKziQcHQBdmpsCokH3XWZSBZopJxAgAGZ1jk0K3t1XuuPvIvF3xGBUTf
-         FV9zow/xmU2aSmgk1DyWYtbkY4xM8kRUffWJs9C+69SdDCxYCDSNwUd/z0SjagGfUw2y
-         Bsq87/6Wi7tA+gY5/VPG1S90GyAUwA1pzsdZUJYhhXiUVYpMYmjt84xvET41OLRlNG1J
-         PsCQ==
+        bh=ZDxS9Kv395sgy0op6+tqmltAdaimGwfILe7IttkXARU=;
+        b=re0Bl7X5/dKwEMKmTCoRPqQ3RMkPZFLLHXy2j9BWjJFZesxWLitfC2ydFwBE8AhEYn
+         DQcFcgjJ/FM5QfrTgdwGaqLQpmlDy/GXFpRbfifZmWVwQfIVkN0IRO+BVq6KFTo7SvHy
+         TI3Lb1lOFK4/yEaf1nR94/Uv8nrCXV97ztZ8MbLjW+XZfhKlPuoFy7m/+DIhR6oQwgEL
+         ldheoiVSKrkP/fn2qtNXXjTCL50GJNk+/PdKKsAur1HBEmcg0DV0jXRIihnf3G+qbdSo
+         vp0u8GRKlGKP74Z9m4VBQqFxIPgnyDzzDC9nPkvLeKif/vJoJv5y75BkKnH5+pWOyLvw
+         suzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :reply-to:references:mime-version:content-disposition:in-reply-to
-         :user-agent:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=BBaUT/8Ch6ygsLYRaYe4U9n3z7WNxYsZZ56EXhETwHA=;
-        b=n1JXvUOE46M6ieeMamGzaE3wGuaYA1m6iVtqMG4JAlOQ/+as4rfmbmL0GxFV23aAHh
-         fKHhZtzqBKteTTcaFdOMbq7k1T6apDTBYsGdsMr9IPbkXar5o3Gbnx0/SPAnZIivAdBe
-         maIYaqIAMVgASTB/i0wq6cW5PAKfgFYe6ZjZiFG0vJ8whwsb7i/GgsaefOxBiXP1rN3t
-         U/pxKWui33m2lkZ/8lRSNZrSKwPxGFWzvqW8pBHxBYt+TGNJsfMnFn4kevojWNnIEVjX
-         PMPnJyf4qS13JCdkNVb8UhFkT3j97uGxnCxsUEAcmd9zZrfb8FdE2Ke7K533Oifs0AdQ
-         ez8Q==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAU7nEGIYtvzjco6F6IYy6rG+YsKUl+o/cyp21po41Ux0IOquSay
-	g1AvZqxJ33NAhHGgBwSQbUw=
-X-Google-Smtp-Source: APXvYqymmiMxUaYLlv/2nJur6FKkXV2Y6paSht6jFQoNBGB9DwIOKgSCGODcbmvFuvEN9g5G88fyEg==
-X-Received: by 2002:a63:cc09:: with SMTP id x9mr9846636pgf.339.1582135316041;
-        Wed, 19 Feb 2020 10:01:56 -0800 (PST)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=ZDxS9Kv395sgy0op6+tqmltAdaimGwfILe7IttkXARU=;
+        b=dwmi0HCA017hcXQ60SfMVnW5yMPdiPBqacUv2ZJe2hGedl4kFT0bJUMACfSJ2O/Zpe
+         BBrnykmwlmajtdUej4PdCLRsWXY+p4L8duMyMp/og84fub1hQmJM8Q6rUCdZhIRmtYXH
+         +D7ai/hLUz/zAUS0ICmZqg+NSqNV8pUdY7L+zkZATLkGaxxSwlHI+nVbtrdjuqY9Z5HL
+         9/tVou7LdDhT/TfxI+HPtB0QEl4g9FI6pXQ4RsvNmw1MLcSW4U5PUdb2fhrbOegjtjvD
+         HGbdclTKgKdPUtRxdIqMZ9c+jDr3qIDWXpx1y4Pzy7vvXZqHjc0FJckgeq5ZWA4L2SgJ
+         EE2A==
+X-Gm-Message-State: APjAAAU7BqKYBOQMTils49blyZ2YXh0PTtjLE/cpwMji6Fowtb3bVkFm
+	uLoIiFYnbMRgmREUuT/K+LM=
+X-Google-Smtp-Source: APXvYqzZ4+PaDkCQlaKH+AyaHofJBpEXzUwW0L6f6Hrj9NTsohkAR3YQe+LDi530vLwMlfAKXy624Q==
+X-Received: by 2002:a63:921a:: with SMTP id o26mr33052880pgd.246.1582195065588;
+        Thu, 20 Feb 2020 02:37:45 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:902:ab86:: with SMTP id f6ls7591463plr.10.gmail; Wed, 19
- Feb 2020 10:01:55 -0800 (PST)
-X-Received: by 2002:a17:90a:178f:: with SMTP id q15mr10480137pja.132.1582135315664;
-        Wed, 19 Feb 2020 10:01:55 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1582135315; cv=none;
+Received: by 2002:a17:90a:6644:: with SMTP id f4ls776874pjm.2.gmail; Thu, 20
+ Feb 2020 02:37:45 -0800 (PST)
+X-Received: by 2002:a17:90a:5289:: with SMTP id w9mr2806906pjh.95.1582195064976;
+        Thu, 20 Feb 2020 02:37:44 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1582195064; cv=none;
         d=google.com; s=arc-20160816;
-        b=PHlP9y6Mo0gRNJBDRWDDIeEi1I8X5HzlYB2mt5oAPYhE2XBHq+OMipoLoX4tSsPb2j
-         bXgq2CDU7wofSfzSmWM0k1P4kvZQbOCbRzjRO+P/P4+I+nKXHODdNfgDt07A2U1w9e46
-         x3oOOOIdHXS8mxeTdfkJxRcnD0QVfhpXik5TIEnTLf5wc9CmVnas23nh9s4cHjW/LSN8
-         WZOb2oRCjBgluV9qwWUsGJ1N/Q6AapH6E52Iqc4rGLydAw16lfsc6cbur2MsQcRfYqNa
-         SudVJe3E2inDDHI9oThPZ7Yac8719gY3EDhzp0Gk30YAIfP6oNq2+9QZeUeDISbJ1eB3
-         QIHg==
+        b=dtPBQYb0k9yzVTSzSV9BtrMe4aEqPr8XssB7VWsBNw8wfro+9wJEdbHYO62geQvaX8
+         B3jj3Q3HzV4lIIOQ5yrd+n1PfWuWHVFKRAet5fYxdxHNHwRmqpTPFojT02vBBCf1vk+j
+         MEczMi/5qUrfWTXM6zpg4MXHQiZ3FTTe4LVpJ1EiOg3nLx7++3lIe+BDh1vckqbLn3p5
+         9RBJqFAO46CJjrJgk+9eUJVfKAUUsnFp2GfqwqkUMPLKilUMd21tln0A93eIJ/N0hcSV
+         nzJ4zLs+kMppdXJ+WUtjgNBD40L6PyD1k1bsGsxYxWzuN6SwIHaNsC2Q/SWUYL/LeBsq
+         Z8NQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :reply-to:message-id:subject:cc:to:from:date:dkim-signature;
-        bh=gnZ1F9gUnRDWBV4JdOstiTb0zYeGazVBoDuMiIXRXm8=;
-        b=qdKALd5C5Z4qSeSVyAoD0AsnQImz3yM7OV1RR51KppQTXnIu8qbeYQVtFBmaYmEg/j
-         TowvWxmAuahE+C3IIRmRmobmof087bYcrv1s58Fl8+lGmbnXFMd6yjszDrfUjy212Ba/
-         62NGmr4ygqL6OnmPWoZ6Y8znHpNBOIogX6K/8ImR5ZfNyogPlKIPhZzH0xnWQz4aKsi7
-         cL/EKYUXTTXKZudMRfg8wW+2LADCE1i/sdP5ecXwwYAQ3dhiPIuTIb5WWP2Sn/Iw2emC
-         qH4BjLEkA7/FiIbH4Ew3iRGvCd3I/DxTyiyT0fqsAVz5EYx/BB/KQI4x57kyOK9zIW5U
-         gyPg==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=+L7+FQcGBr8q70euhVbn25PNyS+UmjbMnhO14ByiE0w=;
+        b=S5i252TprIWGK7ImkBkO6KhrRpTv3Mh/D95uohIvMn9bweC8R7pUbFcLcErgtcKdbF
+         Hs2vqlSJvWroroPd16UhWQK1COeoQZ+tOSZ4gDVWPbBIOBYq9ViU2/RwF4P06f9ZvMbg
+         enDQuhx7FkVYU6Ibtqn+9ICJr8/QnPFnq8K7aWxWjJxIIz4tlQ6q9Sa1aLdWkcE8Mz3s
+         HMM8nutTuDizjArOWw3dtlvJ4/ZwpF48oTNqbi5Kj5f/Kts9KJ4UapmxY+lKH/H3noFH
+         YVaSsE86wzjs9tyhm3bbp/8fBLJoqMHRsJRz9LPTZ7B6EY334CnXMiLqXfQo4iVI2bKb
+         Yakg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=default header.b=PC5SIEBR;
-       spf=pass (google.com: domain of srs0=16ht=4h=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=16Ht=4H=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id i16si365007pju.1.2020.02.19.10.01.55
+       dkim=pass header.i=@google.com header.s=20161025 header.b=jA55lcjy;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::842 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-qt1-x842.google.com (mail-qt1-x842.google.com. [2607:f8b0:4864:20::842])
+        by gmr-mx.google.com with ESMTPS id n20si135906pgl.1.2020.02.20.02.37.44
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 19 Feb 2020 10:01:55 -0800 (PST)
-Received-SPF: pass (google.com: domain of srs0=16ht=4h=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
-Received: from paulmck-ThinkPad-P72.home (50-39-105-78.bvtn.or.frontiernet.net [50.39.105.78])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id 55DE924656;
-	Wed, 19 Feb 2020 18:01:55 +0000 (UTC)
-Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
-	id 2AFF335209B0; Wed, 19 Feb 2020 10:01:55 -0800 (PST)
-Date: Wed, 19 Feb 2020 10:01:55 -0800
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Marco Elver <elver@google.com>
-Cc: andreyknvl@google.com, glider@google.com, dvyukov@google.com,
-	kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org,
-	Qian Cai <cai@lca.pw>
-Subject: Re: [PATCH] kcsan: Add option for verbose reporting
-Message-ID: <20200219180155.GM2935@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
-References: <20200219151531.161515-1-elver@google.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 20 Feb 2020 02:37:44 -0800 (PST)
+Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::842 as permitted sender) client-ip=2607:f8b0:4864:20::842;
+Received: by mail-qt1-x842.google.com with SMTP id t13so2505244qto.3
+        for <kasan-dev@googlegroups.com>; Thu, 20 Feb 2020 02:37:44 -0800 (PST)
+X-Received: by 2002:ac8:340c:: with SMTP id u12mr25564787qtb.257.1582195063751;
+ Thu, 20 Feb 2020 02:37:43 -0800 (PST)
 MIME-Version: 1.0
+References: <20200219144724.800607165@infradead.org> <20200219150745.651901321@infradead.org>
+ <CACT4Y+Y+nPcnbb8nXGQA1=9p8BQYrnzab_4SvuPwbAJkTGgKOQ@mail.gmail.com>
+ <20200219163025.GH18400@hirez.programming.kicks-ass.net> <20200219172014.GI14946@hirez.programming.kicks-ass.net>
+In-Reply-To: <20200219172014.GI14946@hirez.programming.kicks-ass.net>
+From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Thu, 20 Feb 2020 11:37:32 +0100
+Message-ID: <CACT4Y+ZfxqMuiL_UF+rCku628hirJwp3t3vW5WGM8DWG6OaCeg@mail.gmail.com>
+Subject: Re: [PATCH v3 22/22] x86/int3: Ensure that poke_int3_handler() is not sanitized
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: LKML <linux-kernel@vger.kernel.org>, linux-arch <linux-arch@vger.kernel.org>, 
+	Steven Rostedt <rostedt@goodmis.org>, Ingo Molnar <mingo@kernel.org>, 
+	Joel Fernandes <joel@joelfernandes.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"Gustavo A. R. Silva" <gustavo@embeddedor.com>, Thomas Gleixner <tglx@linutronix.de>, 
+	"Paul E. McKenney" <paulmck@kernel.org>, Josh Triplett <josh@joshtriplett.org>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Lai Jiangshan <jiangshanlai@gmail.com>, 
+	Andy Lutomirski <luto@kernel.org>, tony.luck@intel.com, 
+	Frederic Weisbecker <frederic@kernel.org>, Dan Carpenter <dan.carpenter@oracle.com>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Andrey Ryabinin <aryabinin@virtuozzo.com>, 
+	kasan-dev <kasan-dev@googlegroups.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <20200219151531.161515-1-elver@google.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Original-Sender: paulmck@kernel.org
+X-Original-Sender: dvyukov@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=default header.b=PC5SIEBR;       spf=pass
- (google.com: domain of srs0=16ht=4h=paulmck-thinkpad-p72.home=paulmck@kernel.org
- designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=16Ht=4H=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+ header.i=@google.com header.s=20161025 header.b=jA55lcjy;       spf=pass
+ (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::842
+ as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
+ (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Dmitry Vyukov <dvyukov@google.com>
+Reply-To: Dmitry Vyukov <dvyukov@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -137,136 +139,131 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Feb 19, 2020 at 04:15:31PM +0100, Marco Elver wrote:
-> Adds CONFIG_KCSAN_VERBOSE to optionally enable more verbose reports.
-> Currently information about the reporting task's held locks and IRQ
-> trace events are shown, if they are enabled.
-> 
-> Signed-off-by: Marco Elver <elver@google.com>
-> Suggested-by: Qian Cai <cai@lca.pw>
+On Wed, Feb 19, 2020 at 6:20 PM Peter Zijlstra <peterz@infradead.org> wrote:
+>
+> On Wed, Feb 19, 2020 at 05:30:25PM +0100, Peter Zijlstra wrote:
+>
+> > By inlining everything in poke_int3_handler() (except bsearch :/) we can
+> > mark the whole function off limits to everything and call it a day. That
+> > simplicity has been the guiding principle so far.
+> >
+> > Alternatively we can provide an __always_inline variant of bsearch().
+>
+> This reduces the __no_sanitize usage to just the exception entry
+> (do_int3) and the critical function: poke_int3_handler().
+>
+> Is this more acceptible?
 
-Queued for testing and review, thank you!
+Let's say it's more acceptable.
 
-							Thanx, Paul
+Acked-by: Dmitry Vyukov <dvyukov@google.com>
 
-> ---
->  kernel/kcsan/report.c | 48 +++++++++++++++++++++++++++++++++++++++++++
->  lib/Kconfig.kcsan     | 13 ++++++++++++
->  2 files changed, 61 insertions(+)
-> 
-> diff --git a/kernel/kcsan/report.c b/kernel/kcsan/report.c
-> index 11c791b886f3c..f14becb6f1537 100644
-> --- a/kernel/kcsan/report.c
-> +++ b/kernel/kcsan/report.c
-> @@ -1,10 +1,12 @@
->  // SPDX-License-Identifier: GPL-2.0
->  
-> +#include <linux/debug_locks.h>
->  #include <linux/jiffies.h>
->  #include <linux/kernel.h>
->  #include <linux/lockdep.h>
->  #include <linux/preempt.h>
->  #include <linux/printk.h>
-> +#include <linux/rcupdate.h>
->  #include <linux/sched.h>
->  #include <linux/spinlock.h>
->  #include <linux/stacktrace.h>
-> @@ -245,6 +247,29 @@ static int sym_strcmp(void *addr1, void *addr2)
->  	return strncmp(buf1, buf2, sizeof(buf1));
+I guess there is no ideal solution here.
+
+Just a straw man proposal: expected number of elements is large enough
+to make bsearch profitable, right? I see 1 is a common case, but the
+other case has multiple entries.
+
+> --- a/arch/x86/kernel/alternative.c
+> +++ b/arch/x86/kernel/alternative.c
+> @@ -979,7 +979,7 @@ static __always_inline void *text_poke_a
+>         return _stext + tp->rel_addr;
 >  }
->  
-> +static void print_verbose_info(struct task_struct *task)
+>
+> -static int notrace __no_sanitize patch_cmp(const void *key, const void *elt)
+> +static __always_inline int patch_cmp(const void *key, const void *elt)
+>  {
+>         struct text_poke_loc *tp = (struct text_poke_loc *) elt;
+>
+> @@ -989,7 +989,6 @@ static int notrace __no_sanitize patch_c
+>                 return 1;
+>         return 0;
+>  }
+> -NOKPROBE_SYMBOL(patch_cmp);
+>
+>  int notrace __no_sanitize poke_int3_handler(struct pt_regs *regs)
+>  {
+> @@ -1024,9 +1023,9 @@ int notrace __no_sanitize poke_int3_hand
+>          * Skip the binary search if there is a single member in the vector.
+>          */
+>         if (unlikely(desc->nr_entries > 1)) {
+> -               tp = bsearch(ip, desc->vec, desc->nr_entries,
+> -                            sizeof(struct text_poke_loc),
+> -                            patch_cmp);
+> +               tp = __bsearch(ip, desc->vec, desc->nr_entries,
+> +                              sizeof(struct text_poke_loc),
+> +                              patch_cmp);
+>                 if (!tp)
+>                         goto out_put;
+>         } else {
+> --- a/include/linux/bsearch.h
+> +++ b/include/linux/bsearch.h
+> @@ -4,7 +4,29 @@
+>
+>  #include <linux/types.h>
+>
+> -void *bsearch(const void *key, const void *base, size_t num, size_t size,
+> -             cmp_func_t cmp);
+> +static __always_inline
+> +void *__bsearch(const void *key, const void *base, size_t num, size_t size, cmp_func_t cmp)
 > +{
-> +	if (!task)
-> +		return;
+> +       const char *pivot;
+> +       int result;
 > +
-> +	if (task != current && task->state == TASK_RUNNING)
-> +		/*
-> +		 * Showing held locks for a running task is unreliable, so just
-> +		 * skip this. The printed locks are very likely inconsistent,
-> +		 * since the stack trace was obtained when the actual race
-> +		 * occurred and the task has since continued execution. Since we
-> +		 * cannot display the below information from the racing thread,
-> +		 * but must print it all from the watcher thread, bail out.
-> +		 * Note: Even if the task is not running, there is a chance that
-> +		 * the locks held may be inconsistent.
-> +		 */
-> +		return;
+> +       while (num > 0) {
+> +               pivot = base + (num >> 1) * size;
+> +               result = cmp(key, pivot);
 > +
-> +	pr_err("\n");
-> +	debug_show_held_locks(task);
-> +	print_irqtrace_events(task);
+> +               if (result == 0)
+> +                       return (void *)pivot;
+> +
+> +               if (result > 0) {
+> +                       base = pivot + size;
+> +                       num--;
+> +               }
+> +               num >>= 1;
+> +       }
+> +
+> +       return NULL;
 > +}
 > +
->  /*
->   * Returns true if a report was generated, false otherwise.
+> +extern void *bsearch(const void *key, const void *base, size_t num, size_t size, cmp_func_t cmp);
+>
+>  #endif /* _LINUX_BSEARCH_H */
+> --- a/lib/bsearch.c
+> +++ b/lib/bsearch.c
+> @@ -28,27 +28,9 @@
+>   * the key and elements in the array are of the same type, you can use
+>   * the same comparison function for both sort() and bsearch().
 >   */
-> @@ -319,6 +344,26 @@ static bool print_report(const volatile void *ptr, size_t size, int access_type,
->  				  other_info.num_stack_entries - other_skipnr,
->  				  0);
->  
-> +		if (IS_ENABLED(CONFIG_KCSAN_VERBOSE) && other_info.task_pid != -1) {
-> +			struct task_struct *other_task;
-> +
-> +			/*
-> +			 * Rather than passing @current from the other task via
-> +			 * @other_info, obtain task_struct here. The problem
-> +			 * with passing @current via @other_info is that, we
-> +			 * would have to get_task_struct/put_task_struct, and if
-> +			 * we race with a task being released, we would have to
-> +			 * release it in release_report(). This may result in
-> +			 * deadlock if we want to use KCSAN on the allocators.
-> +			 * Instead, make this best-effort, and if the task was
-> +			 * already released, we just do not print anything here.
-> +			 */
-> +			rcu_read_lock();
-> +			other_task = find_task_by_pid_ns(other_info.task_pid, &init_pid_ns);
-> +			print_verbose_info(other_task);
-> +			rcu_read_unlock();
-> +		}
-> +
->  		pr_err("\n");
->  		pr_err("%s to 0x%px of %zu bytes by %s on cpu %i:\n",
->  		       get_access_type(access_type), ptr, size,
-> @@ -340,6 +385,9 @@ static bool print_report(const volatile void *ptr, size_t size, int access_type,
->  	stack_trace_print(stack_entries + skipnr, num_stack_entries - skipnr,
->  			  0);
->  
-> +	if (IS_ENABLED(CONFIG_KCSAN_VERBOSE))
-> +		print_verbose_info(current);
-> +
->  	/* Print report footer. */
->  	pr_err("\n");
->  	pr_err("Reported by Kernel Concurrency Sanitizer on:\n");
-> diff --git a/lib/Kconfig.kcsan b/lib/Kconfig.kcsan
-> index f0b791143c6ab..ba9268076cfbc 100644
-> --- a/lib/Kconfig.kcsan
-> +++ b/lib/Kconfig.kcsan
-> @@ -20,6 +20,19 @@ menuconfig KCSAN
->  
->  if KCSAN
->  
-> +config KCSAN_VERBOSE
-> +	bool "Show verbose reports with more information about system state"
-> +	depends on PROVE_LOCKING
-> +	help
-> +	  If enabled, reports show more information about the system state that
-> +	  may help better analyze and debug races. This includes held locks and
-> +	  IRQ trace events.
-> +
-> +	  While this option should generally be benign, we call into more
-> +	  external functions on report generation; if a race report is
-> +	  generated from any one of them, system stability may suffer due to
-> +	  deadlocks or recursion.  If in doubt, say N.
-> +
->  config KCSAN_DEBUG
->  	bool "Debugging of KCSAN internals"
->  
-> -- 
-> 2.25.0.265.gbab2e86ba0-goog
-> 
+> -void __no_sanitize *bsearch(const void *key, const void *base, size_t num, size_t size,
+> -             cmp_func_t cmp)
+> +void *bsearch(const void *key, const void *base, size_t num, size_t size, cmp_func_t cmp)
+>  {
+> -       const char *pivot;
+> -       int result;
+> -
+> -       while (num > 0) {
+> -               pivot = base + (num >> 1) * size;
+> -               result = cmp(key, pivot);
+> -
+> -               if (result == 0)
+> -                       return (void *)pivot;
+> -
+> -               if (result > 0) {
+> -                       base = pivot + size;
+> -                       num--;
+> -               }
+> -               num >>= 1;
+> -       }
+> -
+> -       return NULL;
+> +       __bsearch(key, base, num, size, cmp);
+>  }
+>  EXPORT_SYMBOL(bsearch);
+>  NOKPROBE_SYMBOL(bsearch);
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200219180155.GM2935%40paulmck-ThinkPad-P72.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BZfxqMuiL_UF%2BrCku628hirJwp3t3vW5WGM8DWG6OaCeg%40mail.gmail.com.
