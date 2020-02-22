@@ -1,124 +1,133 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBOGHYHZAKGQEXYMUBII@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBTMHYLZAKGQED6NRQ2A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yw1-xc3a.google.com (mail-yw1-xc3a.google.com [IPv6:2607:f8b0:4864:20::c3a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 268AF168A43
-	for <lists+kasan-dev@lfdr.de>; Sat, 22 Feb 2020 00:11:54 +0100 (CET)
-Received: by mail-yw1-xc3a.google.com with SMTP id k129sf2940936ywe.13
-        for <lists+kasan-dev@lfdr.de>; Fri, 21 Feb 2020 15:11:54 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1582326713; cv=pass;
+Received: from mail-io1-xd3c.google.com (mail-io1-xd3c.google.com [IPv6:2607:f8b0:4864:20::d3c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A041168B90
+	for <lists+kasan-dev@lfdr.de>; Sat, 22 Feb 2020 02:28:47 +0100 (CET)
+Received: by mail-io1-xd3c.google.com with SMTP id x10sf3745856iob.2
+        for <lists+kasan-dev@lfdr.de>; Fri, 21 Feb 2020 17:28:47 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1582334926; cv=pass;
         d=google.com; s=arc-20160816;
-        b=BxOKTcXj97b2Eo7ZJXGrHpcZeMZZ7UtVJnTHUX/Z/MRths45au5XizGNEynFAaIHES
-         Prv6lJhwDtwVcwdTk4I3DdT7+zTOr6T20mtmfHgpMeMsy5kr6QwEOq9gn29HZMldMHZI
-         bfyoCegUyEWhC+zPGT0FHumSbmnVGnTDuHQufVfgEdM7CFIeQ6wtueiUj6tonqtCOpqt
-         cdCgpiRu5AajY5hsPTYv1GJNEUGMJ6RRhAhb2/5hscH3dUvftfF2U1yADV5QA/I8h5iU
-         gAUFkGQxuhA80lIUZNXwjv2dq9l+vGUxcSZ2DvcwBq/l9fElXG+3GqAYW+dopLkvX1uz
-         ysiw==
+        b=qfI+IXNTPJEigJFYBN3h5l3PAsOyOoZ5ZNwaSzMGPnC0AYljvVTbtB6Uw5JMwyKsDt
+         TfD8BoM5+/BX77mn/BWXvyd9Xs1/WyVxZs6R92cfqjvWXuS7Kb4fjNV4OEhcEd5ZFlbj
+         RxA+ThmMFHFsAHZZb9E0KgoM/oMjaLF2DkIJS/3SDnzdsZz7rRd5BHjlrAqIWyssAwof
+         M5yRt+zsnVv6XWPU7A2blCsOrJnciyfpQoGnQerTyIcvaIuhIpXi9xSpET0qC9krUf54
+         aVjmeh8A1aYvixPKrjPpSsPAeadCWxSFWSyYVXzxosxSJVNMwiO5rvQ4fitpyIUd8xYO
+         A6zA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=Xhmwdy69FsgePm65Kam4vamkBI4fp48+mr4zoFLBZsk=;
-        b=zHeqf+QJynulwu+sd+G/whwHF0ZHigjMDUhRrxItmpQoTpp3zB/pKFVpwONZTGo0o5
-         BuPmn16AZ6vEBIldqaTmLTM9kUQ9YXlVl2aINDRHrORkuINwxbs+u9yvtjYcWRZszO/e
-         j4q6z+P5AtUgBYfxPbSQdBqcI6dIqgt63nGAoqa1DI84nETfaVOqOcNOqlJnzrXnO1BK
-         Rk2ZcAdFzkzWYqRR3j4otJotFUSPcm8RxBuEBtTK0VF1K/83xPQkVOuZ8/JPISan/jjQ
-         Z4UO5F0KoNgOY2ATV+dkh+hAZg/cLupOnvIAu49vTEEgFEsZ9RrdCR1iCNobcT5eTfwK
-         QNvg==
+         :list-id:mailing-list:precedence:user-agent:in-reply-to
+         :content-disposition:mime-version:references:reply-to:message-id
+         :subject:cc:to:from:date:sender:dkim-signature;
+        bh=3Am34nd7/8DFAt5nKpkyBa2t8wF3nIubKupTz4BZZ/g=;
+        b=RbPtP/TPyxCyqskebBJ/YMPVhCJU9YmYy2n2u61F9Mvfqw3iDDdFueY7w0rOZsacjb
+         mgpE2P2Z/BIq5EZ1koSKmoRe1yjSSR86/S1q/0I8wYSRtk6opZY/ytT61FJ+BwXQZnfF
+         vY23RlM9yeQ+7DF5Br/D9Lyg6P37cgGNXEFnCRbxDcW0ejn3DP5avXtPJE80/WjhgAxt
+         uzdXaBldy4C58bfBhH/mtY7V59h44sc5+uhlKBORdJya8ayaZmwjopysEgerNyyDech2
+         wdBEp/26PnQtKBeETeLtq3qJ1PqX0kiE+foq+HHvcrjfs0upIH3QJ+ZQKeEQVisx7rHB
+         tNug==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=PR7FLPbQ;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::244 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@kernel.org header.s=default header.b=xjKM7DAI;
+       spf=pass (google.com: domain of srs0=jasw=4k=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=JASw=4K=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+        h=sender:date:from:to:cc:subject:message-id:reply-to:references
+         :mime-version:content-disposition:in-reply-to:user-agent
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=Xhmwdy69FsgePm65Kam4vamkBI4fp48+mr4zoFLBZsk=;
-        b=ajKaHil5ysIc91y86K1iqBlekaeU29bBgk+oXWRLUfKCqjgoP8I9WdoeS7Chdo4bNW
-         N+dfisqcAvCYu3LRUaT2hP19eIz9bjnrdKursJcVrigl7xtqjk8FPfSq3KkpwUy8uSio
-         83Wmx99dQDpbs9uOOJg9mgpL1nNqWqLTUH2EcV355sPzz9hwCUtPN12TlCNFAgm4/2hW
-         OZUGjKQJXP5eM/BmWsABerWD3cWnJjfOYuOOyrGY89yW7YfOOoDZYAngtIytrmG8G3Hx
-         zIVxqQHSYurOjMtFxAViWzhtooFasX9gXBhITT6j6Ta8xembEoCgY0dxlbRlo7oL77LI
-         5INA==
+        bh=3Am34nd7/8DFAt5nKpkyBa2t8wF3nIubKupTz4BZZ/g=;
+        b=qKehOHXpRzhp247VJ07blHFu/cA4y/2tEklCE5daCnZV0Y+tyJ2u2rZrJilb5QmXhx
+         S2XGT2cZfKKdLYqD63KVffrUrgKDDOlCxxScE1FdZ50v0CCF4CsTraR10vP09EXnVjBH
+         240KlOyflUvlLpJO97dbDeYbZop+XYhRLfs2MyiTZDO3X8TcqnS/vX4dlXoViFOHxCpt
+         rZJ7xLJoEGIPWEJ8eWMODtMZNMtat4oxBXZ302JEyNX5p03xrbSJ9kbXJoB4Vz6zUx/d
+         J2oD9e+3rT6sTLWOXA4nRDNA8Svgz0qHiVCPqKnF8Zfvp7vzOSsJ/V2o6xm2UtD/tH/a
+         rKig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=Xhmwdy69FsgePm65Kam4vamkBI4fp48+mr4zoFLBZsk=;
-        b=fnxVTCaZ2p9EZnlLQ9DBtwvaFzr/FSHj7S8XV914IEDeTE+DysAHxObm/HoJZawmoY
-         Ex6deTCOQHYa/HU36GtMkedH2ZZg6Qt3l5HnMvKdSWyepTXVHehHSisG632wfPzhVckV
-         Ewfg9mPgCb6yy8v60VhGjGcxdck1vnmcrrdtY6JueC94TzAbIBRXU0YPdG7nIUtMkhK2
-         T75Cy9evq2Wn1WGAHFlbfUHLSiYF6pAUvD25i/3ZSG52kPAi3rqWXyQjc1FW2QR6e7w1
-         m9G73Vz1K+cbO+rTIwjTyw1UIxSOLBRQX+OrOTSBwn2fB51MlAHTCdGTXMewbZ7fWWC9
-         fU3w==
-X-Gm-Message-State: APjAAAUEUXvlrIARfbplK5bdf6N/nL0SFO0jJDTPrAcmKs+k7LCw43c3
-	ifBh3aWa7CyVYsoMA3cfpG4=
-X-Google-Smtp-Source: APXvYqx3JuYp64KNbok07Nk4UI3QWMBicAvrBVnZHSwHjVWI9y8VdsDALiazzd5/db4YSF/kdG6wnQ==
-X-Received: by 2002:a0d:e2d1:: with SMTP id l200mr31670603ywe.122.1582326712991;
-        Fri, 21 Feb 2020 15:11:52 -0800 (PST)
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :reply-to:references:mime-version:content-disposition:in-reply-to
+         :user-agent:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=3Am34nd7/8DFAt5nKpkyBa2t8wF3nIubKupTz4BZZ/g=;
+        b=I5w5M/7ZTJulJLMeGb2LB0hw28OUDKGchI9lcL8QOFMacf6LD8m2yUBkurJw3K6+rZ
+         LRN0d0YE5CTXE2hjTrP3o/t0lx9T1l5w0Ptdso5eW2wFOVdUSMynnCQYOmDtUGDjfHUW
+         1chXgPjbELTQSyw/TcbDJqAk9z8iR44QyCq18Zaur9TGqe9BSdaf7yXrHbOlzfoE9N5P
+         8SI4bgvp7W7Oy2vbBmhdrV/xnuM9wVBt6xKZuaQ9y6UPv4qLz9wSTnMFGdkh5MebWnlM
+         X6gYYz00Z8UrmPRS1/jGiaIkx4AFezGMN6yI5gHuqCr8U52wj4hQe/kmVoSClqyQ7acU
+         tdkg==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: APjAAAVojYZUmBxVobda1oLlhbw0RSOoZOBZJo6kLd6eEhLhgNcBgtnc
+	6eOuDzvhNS1xvSuIUkUP3Cw=
+X-Google-Smtp-Source: APXvYqwVOwV3Xjihl9C1x7YwG7hzSo0F/yw1XB6B5QJGJxQKBhmmzJnH5a+3tPFDq6cXeCGA6LL04A==
+X-Received: by 2002:a92:d608:: with SMTP id w8mr39057103ilm.95.1582334925995;
+        Fri, 21 Feb 2020 17:28:45 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a0d:df8b:: with SMTP id i133ls766964ywe.7.gmail; Fri, 21 Feb
- 2020 15:11:52 -0800 (PST)
-X-Received: by 2002:a0d:dd83:: with SMTP id g125mr35101478ywe.396.1582326712544;
-        Fri, 21 Feb 2020 15:11:52 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1582326712; cv=none;
+Received: by 2002:a05:6e02:f13:: with SMTP id x19ls862687ilj.0.gmail; Fri, 21
+ Feb 2020 17:28:45 -0800 (PST)
+X-Received: by 2002:a92:d5c3:: with SMTP id d3mr39893301ilq.250.1582334925628;
+        Fri, 21 Feb 2020 17:28:45 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1582334925; cv=none;
         d=google.com; s=arc-20160816;
-        b=MAXJ9vEUVXmy+LWoOEaSSrBeUU46vMNLVYG67lSPRv48vAL55i4gvi+ka8daZds6Gm
-         dagUIOffpjJbPxXXdGLlsB6iuPpd6i/0mUcOLr0tCNyHq8mQXZhsexS0VrjHMRNUdmqI
-         o066+OZuM9YK5FkBeyuRrK9KiVDe2fO/96KS6ESpXiI5bNK4QnZkvxneNnQkvkK1BQjA
-         a8Lyldg4+6VNVan9H87n4pPkx4GUzx1Ol4PQu5snfbwTOQRjh5hZ1nOzbVBk+YzBK+8R
-         5mkotAHLexeN4bBqtuadKJJ8znIvQBuMl3+5NgMgyQlYh6tAXRFXlr/Jt3284AZjwK/O
-         q6SA==
+        b=sPP1MnAV34Jz7AafW6Msc6MOe92NX4p0NGCzob1cnEkyfiJl1gQCIS7na8c/ju02rm
+         THWOZMs14MV/2Auuc3k9EHECEODroU9G0RC5AMYdl3C5JgguGjBKe4XTLu1Iiyy6E8Nr
+         Q5HWQyB198Hy9SyM4X8qhmgG04jjwc3OzRAsox49BZU5cDT2YQvXy5EvCR2d1g00ozbd
+         0GYaKQeJlzZX0B3mLjdG1Wb/z40/uMqY1MgauvxNJDFg8nziTXnIZTR88UHquVcQ6/8+
+         eB43Q1sDM/Z92tHdmyLdDzExLtBVPYE9to4hkwBY5u66mS3C7Sy4UQpiGj+vPOsbxd9F
+         S6gg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=47OgEQS9D9Mt9IKVwoke3+HqPkA9hvZv3pNIQJ9tJH4=;
-        b=acq7R6EEoa+2oxB6dXdrxTENt41Qx/Uy+kPc9nJzDK+B3iuMkeo8r2QdH6LxemyKay
-         q1bGACBm5gfz4EzUZ2X9V9N/TD5zlZIAlZzuRpE/3qeEKQyHhgiptUOsjwefqMncoQUV
-         6jb0uIRJMUeSAeW/9NngOJpUHg6EyWRB0ukjwU8I/br6uOG0xq3/clXjl80eU+dJSrvR
-         ityfTm5Ep1Ibz/EvWRZnZ2MUeRXLna/e4HTM+SJ5RJj7hgXEAT3rW1ZSXDvc/KBwMB2T
-         e9qhDb+0Wxg5XdbFmvJreRNzmvQ991Vrk/B1o/h3BaCRRIHk57//n2/cvQ0d6rM46plf
-         NnGg==
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :reply-to:message-id:subject:cc:to:from:date:dkim-signature;
+        bh=bf5kzm3R9o6FwPUxtnBNxvnWIF6yTpIlBnCSfZjk8aA=;
+        b=WiCL1vIbg3RbA7x5tcCpxY3cQlfzBr8PjJRtKVsw/v8onTgFuJy2ftfbpPk2Z5TAij
+         oxscSr1tpQNf24aj/jjoMeXQ2OaROI8qnF4YCWlu/aDxPd1G4irBesQiAjC5k0gJVHjr
+         rwKgNf1923q3RVyRX5GGYt/JTPD0B2FpUpiyLUZZ63xyodH9tsDZFNeada9PSfuaP5KG
+         b+b9ueYTyBHYWJxmN4gr78ic5jf09mPpFyA2FsgVwTHUWX2OINTK2wfeHIGaxBh1U5kR
+         eEYDF2a79li8P7X/O2rHrL2wF42FHfXWH0D0F64HcS6+D5Dz5LRcr0YN+HGBuiEm8PvU
+         NFww==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=PR7FLPbQ;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::244 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com. [2607:f8b0:4864:20::244])
-        by gmr-mx.google.com with ESMTPS id l1si77711ybt.2.2020.02.21.15.11.52
+       dkim=pass header.i=@kernel.org header.s=default header.b=xjKM7DAI;
+       spf=pass (google.com: domain of srs0=jasw=4k=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=JASw=4K=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
+        by gmr-mx.google.com with ESMTPS id b16si241025ion.0.2020.02.21.17.28.45
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 21 Feb 2020 15:11:52 -0800 (PST)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::244 as permitted sender) client-ip=2607:f8b0:4864:20::244;
-Received: by mail-oi1-x244.google.com with SMTP id i1so3268429oie.8
-        for <kasan-dev@googlegroups.com>; Fri, 21 Feb 2020 15:11:52 -0800 (PST)
-X-Received: by 2002:aca:c7ca:: with SMTP id x193mr4065649oif.70.1582326711772;
- Fri, 21 Feb 2020 15:11:51 -0800 (PST)
-MIME-Version: 1.0
-References: <20200221225635.218857-1-elver@google.com>
-In-Reply-To: <20200221225635.218857-1-elver@google.com>
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Sat, 22 Feb 2020 00:11:39 +0100
-Message-ID: <CANpmjNNxtyQy2+-v85=PcjBAqGt=7dcqLi+WA3FS8U94nuVYnw@mail.gmail.com>
-Subject: Re: [PATCH v2] kcsan: Add option for verbose reporting
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 21 Feb 2020 17:28:45 -0800 (PST)
+Received-SPF: pass (google.com: domain of srs0=jasw=4k=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
+Received: from paulmck-ThinkPad-P72.home (50-39-105-78.bvtn.or.frontiernet.net [50.39.105.78])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPSA id B631320722;
+	Sat, 22 Feb 2020 01:28:44 +0000 (UTC)
+Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
+	id 56BA835226DB; Fri, 21 Feb 2020 17:28:44 -0800 (PST)
+Date: Fri, 21 Feb 2020 17:28:44 -0800
+From: "Paul E. McKenney" <paulmck@kernel.org>
 To: Marco Elver <elver@google.com>
-Cc: "Paul E. McKenney" <paulmck@kernel.org>, Andrey Konovalov <andreyknvl@google.com>, 
-	Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>, 
-	kasan-dev <kasan-dev@googlegroups.com>, LKML <linux-kernel@vger.kernel.org>, 
-	Qian Cai <cai@lca.pw>
+Cc: Andrey Konovalov <andreyknvl@google.com>,
+	Alexander Potapenko <glider@google.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	kasan-dev <kasan-dev@googlegroups.com>,
+	LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2] kcsan: Add option to allow watcher interruptions
+Message-ID: <20200222012844.GN2935@paulmck-ThinkPad-P72>
+Reply-To: paulmck@kernel.org
+References: <20200221220209.164772-1-elver@google.com>
+ <CANpmjNOnXhX_Edc7=7L072TB5-uv-4nivPEUYNh-=-1EFkYJbw@mail.gmail.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
+Content-Disposition: inline
+In-Reply-To: <CANpmjNOnXhX_Edc7=7L072TB5-uv-4nivPEUYNh-=-1EFkYJbw@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Original-Sender: paulmck@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=PR7FLPbQ;       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::244 as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+ header.i=@kernel.org header.s=default header.b=xjKM7DAI;       spf=pass
+ (google.com: domain of srs0=jasw=4k=paulmck-thinkpad-p72.home=paulmck@kernel.org
+ designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=JASw=4K=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -131,248 +140,162 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Superseded by v3 due to typos:
-http://lkml.kernel.org/r/20200221231027.230147-1-elver@google.com
+On Fri, Feb 21, 2020 at 11:58:30PM +0100, Marco Elver wrote:
+> On Fri, 21 Feb 2020 at 23:02, Marco Elver <elver@google.com> wrote:
+> >
+> > Add option to allow interrupts while a watchpoint is set up. This can be
+> > enabled either via CONFIG_KCSAN_INTERRUPT_WATCHER or via the boot
+> > parameter 'kcsan.interrupt_watcher=1'.
+> >
+> > Note that, currently not all safe per-CPU access primitives and patterns
+> > are accounted for, which could result in false positives. For example,
+> > asm-generic/percpu.h uses plain operations, which by default are
+> > instrumented. On interrupts and subsequent accesses to the same
+> > variable, KCSAN would currently report a data race with this option.
+> >
+> > Therefore, this option should currently remain disabled by default, but
+> > may be enabled for specific test scenarios.
+> >
+> > To avoid new warnings, changes all uses of smp_processor_id() to use the
+> > raw version (as already done in kcsan_found_watchpoint()). The exact SMP
+> > processor id is for informational purposes in the report, and
+> > correctness is not affected.
+> >
+> > Signed-off-by: Marco Elver <elver@google.com>
+> > ---
+> > v2:
+> > * Change smp_processor_id() to raw_smp_processor_id() as already used in
+> >   kcsan_found_watchpoint() to avoid warnings.
+> 
+> Just noticed this one should probably go before v2 of "kcsan: Add
+> option for verbose reporting" as otherwise there may be a minor
+> conflict (adjacent lines touched). (Sorry)
 
-Thanks,
--- Marco
+Not a problem, "git revert" followed by applying the patches in the
+requested order.  ;-)
 
-On Fri, 21 Feb 2020 at 23:57, Marco Elver <elver@google.com> wrote:
->
-> Adds CONFIG_KCSAN_VERBOSE to optionally enable more verbose reports.
-> Currently information about the reporting task's held locks and IRQ
-> trace events are shown, if they are enabled.
->
-> Signed-off-by: Marco Elver <elver@google.com>
-> Suggested-by: Qian Cai <cai@lca.pw>
-> ---
-> v2:
-> * Rework obtaining 'current' for the "other thread" -- it now passes
->   'current' and ensures that we stall until the report was printed, so
->   that the lockdep information contained in 'current' is accurate. This
->   was non-trivial but testing so far leads me to conclude this now
->   reliably prints the held locks for the "other thread" (please test
->   more!).
-> ---
->  kernel/kcsan/core.c   |   4 +-
->  kernel/kcsan/kcsan.h  |   3 ++
->  kernel/kcsan/report.c | 103 +++++++++++++++++++++++++++++++++++++++++-
->  lib/Kconfig.kcsan     |  13 ++++++
->  4 files changed, 120 insertions(+), 3 deletions(-)
->
-> diff --git a/kernel/kcsan/core.c b/kernel/kcsan/core.c
-> index e7387fec66795..065615df88eaa 100644
-> --- a/kernel/kcsan/core.c
-> +++ b/kernel/kcsan/core.c
-> @@ -18,8 +18,8 @@
->  #include "kcsan.h"
->
->  static bool kcsan_early_enable = IS_ENABLED(CONFIG_KCSAN_EARLY_ENABLE);
-> -static unsigned int kcsan_udelay_task = CONFIG_KCSAN_UDELAY_TASK;
-> -static unsigned int kcsan_udelay_interrupt = CONFIG_KCSAN_UDELAY_INTERRUPT;
-> +unsigned int kcsan_udelay_task = CONFIG_KCSAN_UDELAY_TASK;
-> +unsigned int kcsan_udelay_interrupt = CONFIG_KCSAN_UDELAY_INTERRUPT;
->  static long kcsan_skip_watch = CONFIG_KCSAN_SKIP_WATCH;
->  static bool kcsan_interrupt_watcher = IS_ENABLED(CONFIG_KCSAN_INTERRUPT_WATCHER);
->
-> diff --git a/kernel/kcsan/kcsan.h b/kernel/kcsan/kcsan.h
-> index 892de5120c1b6..e282f8b5749e9 100644
-> --- a/kernel/kcsan/kcsan.h
-> +++ b/kernel/kcsan/kcsan.h
-> @@ -13,6 +13,9 @@
->  /* The number of adjacent watchpoints to check. */
->  #define KCSAN_CHECK_ADJACENT 1
->
-> +extern unsigned int kcsan_udelay_task;
-> +extern unsigned int kcsan_udelay_interrupt;
-> +
->  /*
->   * Globally enable and disable KCSAN.
->   */
-> diff --git a/kernel/kcsan/report.c b/kernel/kcsan/report.c
-> index 11c791b886f3c..ee8f33d7405fb 100644
-> --- a/kernel/kcsan/report.c
-> +++ b/kernel/kcsan/report.c
-> @@ -1,5 +1,7 @@
->  // SPDX-License-Identifier: GPL-2.0
->
-> +#include <linux/debug_locks.h>
-> +#include <linux/delay.h>
->  #include <linux/jiffies.h>
->  #include <linux/kernel.h>
->  #include <linux/lockdep.h>
-> @@ -31,7 +33,26 @@ static struct {
->         int                     cpu_id;
->         unsigned long           stack_entries[NUM_STACK_ENTRIES];
->         int                     num_stack_entries;
-> -} other_info = { .ptr = NULL };
-> +
-> +       /*
-> +        * Optionally pass @current. Typically we do not need to pass @current
-> +        * via @other_info since just @task_pid is sufficient. Passing @current
-> +        * has additional overhead.
-> +        *
-> +        * To safely pass @current, we must either use get_task_struct/
-> +        * put_task_struct, or stall the thread that populated @other_info.
-> +        *
-> +        * We cannot rely on get_task_struct/put_task_struct in case
-> +        * release_report() races with a task being released, and would have to
-> +        * free it in release_report(). This may result in deadlock if we want
-> +        * to use KCSAN on the allocators.
-> +        *
-> +        * Since we also want to reliably print held locks for
-> +        * CONFIG_KCSAN_VERBOSE, the current implementation stalls the thread
-> +        * that populated @other_info until it has been consumed.
-> +        */
-> +       struct task_struct      *task;
-> +} other_info;
->
->  /*
->   * Information about reported races; used to rate limit reporting.
-> @@ -245,6 +266,16 @@ static int sym_strcmp(void *addr1, void *addr2)
->         return strncmp(buf1, buf2, sizeof(buf1));
->  }
->
-> +static void print_verbose_info(struct task_struct *task)
-> +{
-> +       if (!task)
-> +               return;
-> +
-> +       pr_err("\n");
-> +       debug_show_held_locks(task);
-> +       print_irqtrace_events(task);
-> +}
-> +
->  /*
->   * Returns true if a report was generated, false otherwise.
->   */
-> @@ -319,6 +350,9 @@ static bool print_report(const volatile void *ptr, size_t size, int access_type,
->                                   other_info.num_stack_entries - other_skipnr,
->                                   0);
->
-> +               if (IS_ENABLED(CONFIG_KCSAN_VERBOSE))
-> +                   print_verbose_info(other_info.task);
-> +
->                 pr_err("\n");
->                 pr_err("%s to 0x%px of %zu bytes by %s on cpu %i:\n",
->                        get_access_type(access_type), ptr, size,
-> @@ -340,6 +374,9 @@ static bool print_report(const volatile void *ptr, size_t size, int access_type,
->         stack_trace_print(stack_entries + skipnr, num_stack_entries - skipnr,
->                           0);
->
-> +       if (IS_ENABLED(CONFIG_KCSAN_VERBOSE))
-> +               print_verbose_info(current);
-> +
->         /* Print report footer. */
->         pr_err("\n");
->         pr_err("Reported by Kernel Concurrency Sanitizer on:\n");
-> @@ -357,6 +394,67 @@ static void release_report(unsigned long *flags, enum kcsan_report_type type)
->         spin_unlock_irqrestore(&report_lock, *flags);
->  }
->
-> +/*
-> + * Sets @other_info.task and awaits consumption of @other_info.
-> + *
-> + * Precondition: report_lock is held.
-> + * Postcontiion: report_lock is held.
-> + */
-> +static void
-> +set_other_info_task_blocking(unsigned long *flags, const volatile void *ptr)
-> +{
-> +       /*
-> +        * We may be instrumenting a code-path where current->state is already
-> +        * something other than TASK_RUNNING.
-> +        */
-> +       const bool is_running = current->state == TASK_RUNNING;
-> +       /*
-> +        * To avoid deadlock in case we are in an interrupt here and this is a
-> +        * race with a task on the same CPU (KCSAN_INTERRUPT_WATCHER), provide a
-> +        * timeout to ensure this works in all contexts.
-> +        *
-> +        * Await approximately the worst case delay of the reporting thread (if
-> +        * we are not interrupted).
-> +        */
-> +       int timeout = max(kcsan_udelay_task, kcsan_udelay_interrupt);
-> +
-> +       other_info.task = current;
-> +       do {
-> +               if (is_running) {
-> +                       /*
-> +                        * Let lockdep know the real task is sleeping, to print
-> +                        * the held locks (recall we turned lockdep off, so
-> +                        * locking/unlocking @report_lock won't be recorded).
-> +                        */
-> +                       set_current_state(TASK_UNINTERRUPTIBLE);
-> +               }
-> +               spin_unlock_irqrestore(&report_lock, *flags);
-> +               /*
-> +                * We cannot call schedule() since we also cannot reliably
-> +                * determine if sleeping here is permitted -- see in_atomic().
-> +                */
-> +
-> +               udelay(1);
-> +               spin_lock_irqsave(&report_lock, *flags);
-> +               if (timeout-- < 0) {
-> +                       /*
-> +                        * Abort. Reset other_info.task to NULL, since it
-> +                        * appears the other thread is still going to consume
-> +                        * it. It will result in no verbose info printed for
-> +                        * this task.
-> +                        */
-> +                       other_info.task = NULL;
-> +                       break;
-> +               }
-> +               /*
-> +                * If @ptr nor @current matches, then our information has been
-> +                * consumed and we may continue. If not, retry.
-> +                */
-> +       } while (other_info.ptr == ptr && other_info.task == current);
-> +       if (is_running)
-> +               set_current_state(TASK_RUNNING);
-> +}
-> +
->  /*
->   * Depending on the report type either sets other_info and returns false, or
->   * acquires the matching other_info and returns true. If other_info is not
-> @@ -388,6 +486,9 @@ static bool prepare_report(unsigned long *flags, const volatile void *ptr,
->                 other_info.cpu_id               = cpu_id;
->                 other_info.num_stack_entries    = stack_trace_save(other_info.stack_entries, NUM_STACK_ENTRIES, 1);
->
-> +               if (IS_ENABLED(CONFIG_KCSAN_VERBOSE))
-> +                       set_other_info_task_blocking(flags, ptr);
-> +
->                 spin_unlock_irqrestore(&report_lock, *flags);
->
->                 /*
-> diff --git a/lib/Kconfig.kcsan b/lib/Kconfig.kcsan
-> index 081ed2e1bf7b1..0f1447ff8f558 100644
-> --- a/lib/Kconfig.kcsan
-> +++ b/lib/Kconfig.kcsan
-> @@ -20,6 +20,19 @@ menuconfig KCSAN
->
->  if KCSAN
->
-> +config KCSAN_VERBOSE
-> +       bool "Show verbose reports with more information about system state"
-> +       depends on PROVE_LOCKING
-> +       help
-> +         If enabled, reports show more information about the system state that
-> +         may help better analyze and debug races. This includes held locks and
-> +         IRQ trace events.
-> +
-> +         While this option should generally be benign, we call into more
-> +         external functions on report generation; if a race report is
-> +         generated from any one of them, system stability may suffer due to
-> +         deadlocks or recursion.  If in doubt, say N.
-> +
->  config KCSAN_DEBUG
->         bool "Debugging of KCSAN internals"
->
-> --
-> 2.25.0.265.gbab2e86ba0-goog
->
+							Thanx, Paul
+
+> Thanks,
+> -- Marco
+> 
+> > ---
+> >  kernel/kcsan/core.c | 34 ++++++++++------------------------
+> >  lib/Kconfig.kcsan   | 11 +++++++++++
+> >  2 files changed, 21 insertions(+), 24 deletions(-)
+> >
+> > diff --git a/kernel/kcsan/core.c b/kernel/kcsan/core.c
+> > index 589b1e7f0f253..e7387fec66795 100644
+> > --- a/kernel/kcsan/core.c
+> > +++ b/kernel/kcsan/core.c
+> > @@ -21,6 +21,7 @@ static bool kcsan_early_enable = IS_ENABLED(CONFIG_KCSAN_EARLY_ENABLE);
+> >  static unsigned int kcsan_udelay_task = CONFIG_KCSAN_UDELAY_TASK;
+> >  static unsigned int kcsan_udelay_interrupt = CONFIG_KCSAN_UDELAY_INTERRUPT;
+> >  static long kcsan_skip_watch = CONFIG_KCSAN_SKIP_WATCH;
+> > +static bool kcsan_interrupt_watcher = IS_ENABLED(CONFIG_KCSAN_INTERRUPT_WATCHER);
+> >
+> >  #ifdef MODULE_PARAM_PREFIX
+> >  #undef MODULE_PARAM_PREFIX
+> > @@ -30,6 +31,7 @@ module_param_named(early_enable, kcsan_early_enable, bool, 0);
+> >  module_param_named(udelay_task, kcsan_udelay_task, uint, 0644);
+> >  module_param_named(udelay_interrupt, kcsan_udelay_interrupt, uint, 0644);
+> >  module_param_named(skip_watch, kcsan_skip_watch, long, 0644);
+> > +module_param_named(interrupt_watcher, kcsan_interrupt_watcher, bool, 0444);
+> >
+> >  bool kcsan_enabled;
+> >
+> > @@ -354,7 +356,7 @@ kcsan_setup_watchpoint(const volatile void *ptr, size_t size, int type)
+> >         unsigned long access_mask;
+> >         enum kcsan_value_change value_change = KCSAN_VALUE_CHANGE_MAYBE;
+> >         unsigned long ua_flags = user_access_save();
+> > -       unsigned long irq_flags;
+> > +       unsigned long irq_flags = 0;
+> >
+> >         /*
+> >          * Always reset kcsan_skip counter in slow-path to avoid underflow; see
+> > @@ -370,26 +372,9 @@ kcsan_setup_watchpoint(const volatile void *ptr, size_t size, int type)
+> >                 goto out;
+> >         }
+> >
+> > -       /*
+> > -        * Disable interrupts & preemptions to avoid another thread on the same
+> > -        * CPU accessing memory locations for the set up watchpoint; this is to
+> > -        * avoid reporting races to e.g. CPU-local data.
+> > -        *
+> > -        * An alternative would be adding the source CPU to the watchpoint
+> > -        * encoding, and checking that watchpoint-CPU != this-CPU. There are
+> > -        * several problems with this:
+> > -        *   1. we should avoid stealing more bits from the watchpoint encoding
+> > -        *      as it would affect accuracy, as well as increase performance
+> > -        *      overhead in the fast-path;
+> > -        *   2. if we are preempted, but there *is* a genuine data race, we
+> > -        *      would *not* report it -- since this is the common case (vs.
+> > -        *      CPU-local data accesses), it makes more sense (from a data race
+> > -        *      detection point of view) to simply disable preemptions to ensure
+> > -        *      as many tasks as possible run on other CPUs.
+> > -        *
+> > -        * Use raw versions, to avoid lockdep recursion via IRQ flags tracing.
+> > -        */
+> > -       raw_local_irq_save(irq_flags);
+> > +       if (!kcsan_interrupt_watcher)
+> > +               /* Use raw to avoid lockdep recursion via IRQ flags tracing. */
+> > +               raw_local_irq_save(irq_flags);
+> >
+> >         watchpoint = insert_watchpoint((unsigned long)ptr, size, is_write);
+> >         if (watchpoint == NULL) {
+> > @@ -507,7 +492,7 @@ kcsan_setup_watchpoint(const volatile void *ptr, size_t size, int type)
+> >                 if (is_assert && value_change == KCSAN_VALUE_CHANGE_TRUE)
+> >                         kcsan_counter_inc(KCSAN_COUNTER_ASSERT_FAILURES);
+> >
+> > -               kcsan_report(ptr, size, type, value_change, smp_processor_id(),
+> > +               kcsan_report(ptr, size, type, value_change, raw_smp_processor_id(),
+> >                              KCSAN_REPORT_RACE_SIGNAL);
+> >         } else if (value_change == KCSAN_VALUE_CHANGE_TRUE) {
+> >                 /* Inferring a race, since the value should not have changed. */
+> > @@ -518,13 +503,14 @@ kcsan_setup_watchpoint(const volatile void *ptr, size_t size, int type)
+> >
+> >                 if (IS_ENABLED(CONFIG_KCSAN_REPORT_RACE_UNKNOWN_ORIGIN) || is_assert)
+> >                         kcsan_report(ptr, size, type, KCSAN_VALUE_CHANGE_TRUE,
+> > -                                    smp_processor_id(),
+> > +                                    raw_smp_processor_id(),
+> >                                      KCSAN_REPORT_RACE_UNKNOWN_ORIGIN);
+> >         }
+> >
+> >         kcsan_counter_dec(KCSAN_COUNTER_USED_WATCHPOINTS);
+> >  out_unlock:
+> > -       raw_local_irq_restore(irq_flags);
+> > +       if (!kcsan_interrupt_watcher)
+> > +               raw_local_irq_restore(irq_flags);
+> >  out:
+> >         user_access_restore(ua_flags);
+> >  }
+> > diff --git a/lib/Kconfig.kcsan b/lib/Kconfig.kcsan
+> > index f0b791143c6ab..081ed2e1bf7b1 100644
+> > --- a/lib/Kconfig.kcsan
+> > +++ b/lib/Kconfig.kcsan
+> > @@ -88,6 +88,17 @@ config KCSAN_SKIP_WATCH_RANDOMIZE
+> >           KCSAN_WATCH_SKIP. If false, the chosen value is always
+> >           KCSAN_WATCH_SKIP.
+> >
+> > +config KCSAN_INTERRUPT_WATCHER
+> > +       bool "Interruptible watchers"
+> > +       help
+> > +         If enabled, a task that set up a watchpoint may be interrupted while
+> > +         delayed. This option will allow KCSAN to detect races between
+> > +         interrupted tasks and other threads of execution on the same CPU.
+> > +
+> > +         Currently disabled by default, because not all safe per-CPU access
+> > +         primitives and patterns may be accounted for, and therefore could
+> > +         result in false positives.
+> > +
+> >  config KCSAN_REPORT_ONCE_IN_MS
+> >         int "Duration in milliseconds, in which any given race is only reported once"
+> >         default 3000
+> > --
+> > 2.25.0.265.gbab2e86ba0-goog
+> >
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNNxtyQy2%2B-v85%3DPcjBAqGt%3D7dcqLi%2BWA3FS8U94nuVYnw%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200222012844.GN2935%40paulmck-ThinkPad-P72.
