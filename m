@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBCF5XGNWYQBRBOU64DZAKGQEEKDDIQQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCF5XGNWYQBRBOE64DZAKGQEKGWY35Y@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qk1-x73e.google.com (mail-qk1-x73e.google.com [IPv6:2607:f8b0:4864:20::73e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92A5F1727FF
-	for <lists+kasan-dev@lfdr.de>; Thu, 27 Feb 2020 19:49:31 +0100 (CET)
-Received: by mail-qk1-x73e.google.com with SMTP id a10sf172085qkg.11
-        for <lists+kasan-dev@lfdr.de>; Thu, 27 Feb 2020 10:49:31 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1582829370; cv=pass;
+Received: from mail-yw1-xc37.google.com (mail-yw1-xc37.google.com [IPv6:2607:f8b0:4864:20::c37])
+	by mail.lfdr.de (Postfix) with ESMTPS id A53F81727FC
+	for <lists+kasan-dev@lfdr.de>; Thu, 27 Feb 2020 19:49:29 +0100 (CET)
+Received: by mail-yw1-xc37.google.com with SMTP id q187sf797089ywg.12
+        for <lists+kasan-dev@lfdr.de>; Thu, 27 Feb 2020 10:49:29 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1582829368; cv=pass;
         d=google.com; s=arc-20160816;
-        b=W9ffP86VApVZdjofmMvRPwtrPk++lE2Hx8YFBelY4I278oV9htCoslvKy5g6r+aW4p
-         911yPjOtUmlXlRGk24OGyJydXbqatBs3I9S+hlUru+6pGZU7+VkOYCLaE9rVZNiBwkvp
-         R4pVJCumB8BiTaw/YmwpwXwLtyhR9tgzAyWNP5wMHTNtLVGRCE6g8w9x+oaTXSK9IU9i
-         NGNcwRCMS2i9FNsGmPvSvIvpnXgnPuPjbOxLpyV3F9e2EvxEr4TKiAiUVAbyzfZvT9yx
-         1kSTWmSqLaquXyUe6OKlYQYSoMkYlsgqxZd5tS3XtShBfIalCbXGPw5DPpjGwoC1O/E6
-         +n7w==
+        b=Ygv6o1z/lTQ4AbAEdNfNhTUL/bMNa61cWg2mikv5T/l5uMJd6/NGxa5+kiTNoPjXTG
+         /Ag4D7VOyirzepp7/ekva8ufoQtxi6VkqX/s3j/5QoAzGG615Qs35APfJVYzrsg1uv6Q
+         CQ/7Nza/N1tLMcubacStNpu5V/aBmZTebUAvwJC+sElhzP0ml04LorgTAsz6lnY5ddWa
+         jt3LXWE05TTjATGi2zuvQT/8JDhDo0ai4yH0kgT5bYjcRZmbYhSpVdiPArau1C8EfCig
+         FPy3BERZG3tWM5w3Tjb2JQXJfX9zk1P2hVNjMDbseFk6Xdy82i6Idlwn4DRfHWmJvU5c
+         a8TQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=GKdqdVYu/rRv8BAGEklZZ4fyQm0YyNkuhxgMLIUDv54=;
-        b=mqRoDrRso5p0cGqgHLjNKyNg5D59edYgkdbPzkv+L05Bwf4IODMfHSAjSowZaAC5e3
-         PLM6bLnywHAO1EGgDqcFFJU/bLQmAqkHo4wZr4xglGI+zo1xIEYd4LAy2I8Y6/+s7ASe
-         P3T012fSJOhuAb45dP6mBmCBVREPlXZjr0Z/bq/SXoYY+toFv4cwIGAa6/QuO7+4X5rp
-         rVqcFJcOW365Tq+aRXUZwYDK2UOO/w6ekMJAl6PYZ5e4CwrZkMWFXjP4o04n5xKw9hkf
-         XznpIb0xISmU+Usp22yaYUozDeEqV7QfNM2KPD0iuhDroCvRfPlE2qx44cmdfpCZfZGv
-         t6sQ==
+        bh=ILoZffsLIw6nMb5cr/C7n6Y2Fz96KJVkiBAgbqKBtFY=;
+        b=FKNRkRHy4j10KrJmQZ2xFTZAjUisYfiBzk8zcjgi0pZnsFOIkfR70nzS8V9wX3+G1j
+         5hwTf1Ef66GKJjSVUdTtoNtofv9mkEc6gT9pAoF3Vh3fr4t2oOssoalwVWOJPHxxkzF9
+         omMtDDUhtdGkHSAVLGum7sI1oW0ySjAjz4gTGUQSfMEJwXbN/IpeDpjtGfholxDrFw3x
+         qQFwlGJhnP3o+SjsyigxCM1scRfh6YPyNEy/8G04f6p/PoukuIDaMavUsHnXQXqjsHDD
+         23JJdDAIYsgHr56CeOLF0pM32i5PJTk7/RPp10ZudB9qySrpieBMcGGKhq8cm81KQjqk
+         DEIg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@chromium.org header.s=google header.b=OG6B2Rfw;
-       spf=pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::442 as permitted sender) smtp.mailfrom=keescook@chromium.org;
+       dkim=pass header.i=@chromium.org header.s=google header.b=eXruJRfn;
+       spf=pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::643 as permitted sender) smtp.mailfrom=keescook@chromium.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=chromium.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :mime-version:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=GKdqdVYu/rRv8BAGEklZZ4fyQm0YyNkuhxgMLIUDv54=;
-        b=NTv+7i5h0s2nkNZnkedD5KGFDkAmnvULbNbuzZNdtbm6DyL+/KvCw5xLIz6SMw8Vs9
-         QA5sR4yJ6W9i02YA5D8fg5OvnPY2cb58CSh/StHyyz9Wzqdl3SK9Qa3Ol0qUy71s96aR
-         qmJbTU7atCh04Kv2px0l5HpUGZFjwwlZl0qATSSc+hoIPoSibWRkmTu3hP7f9w/TenI/
-         +1BTmUNNKEBJV3Pp8igX8bnhjDaurfB2oTljI1DHN3kkwBnfirlhJbAQ/7+n5pqoL2uU
-         Stv0JCipMa5/00uFakIArxw6GnLeVfP6m/VnlBVo8D02mxpQ1ZXXMY+lP8BuH+jXL2xh
-         +jtg==
+        bh=ILoZffsLIw6nMb5cr/C7n6Y2Fz96KJVkiBAgbqKBtFY=;
+        b=gRIqY+YRhl4+rLpJ2uHilkcVC7ppv38zHzQ1HpWfoGUJ9oxwlCR6KbYkkNRkLgE75B
+         SIZOsPk8pKrseHVz4vzrA+8qxV3eDasB/knVWsaOMW0iE58I7Pl/sz8VCUCkjfgL/vB7
+         hvILD6rkW21JJfIrcoNlWtifXL7bXJCamZq8QxTJxYtv367tebhHJNONYOz49tXzFp1s
+         QzKQHf8l2+DH1M055KIsvwRcnLQKpfxbR58r1NZ0GbAFfOY8xHDpukJZTapG86kqHTiU
+         zSYp15Wi7PFcTROHF64uc/639JcOtk9Md5zGMEWORmsDfkhlUuagYOJ8GJIe1ulXxKGt
+         +HjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
@@ -49,66 +49,66 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=GKdqdVYu/rRv8BAGEklZZ4fyQm0YyNkuhxgMLIUDv54=;
-        b=J77LrsE4hfa3+QLO5rw5D185vdCcmn2thX69WmU/AlbmXT7agGWFGZ7pyM/eNGjPBM
-         8XsFVQ0Kr6T/UqyhymF6niNLapgejKctXejCzbBOROuu7cOhxUA7yNdoTCyREwD27tDu
-         wpRm1oYGmrfP+GNXMOwO4zx6bshOtOuEDweE2P/KiIuMLPKh5VVPc8SoK8KBt6hZZS2E
-         bO+W1qYQdzmAZp+A4PnUKOYAflq0BitFTPW6HtZ/IsyMcSR7QRC3kRbX9veuzR8yg/qZ
-         lSLs7a3tuPgvuymssvLs7GHe6U2EIHvPtjq3ccO7S9C/FrV9SVsMlM1r8hMvYtz/xC2F
-         Imiw==
+        bh=ILoZffsLIw6nMb5cr/C7n6Y2Fz96KJVkiBAgbqKBtFY=;
+        b=HsZWrbBCOr25BOynPzlaRvrBdzRoINWlZPRIA4fbtOe7lnXAJlT815Exgtx9MpItjL
+         TXtccUP3YjZ/77EubA4NfAafbRxpuGeL/OJI+pSSPiw2ESmfFTlPop58IWFWFVsqZEQg
+         JSX7fPrLgkY8gOzm9nG8KKqfwxwn8NjNFO2mMJtACcyjtr0FWqXCi6U8Enaxdlh66YGq
+         9FJVlzqzXI4bwKieECjvsVK0PRTnMlgPMpJ9zQMNLxky4rmXpKWrVDtXugJxXxktfzL4
+         XNmOdWkk+YJ/XFVJiDd5q5VdaBNRRK3cB8HyhocsWp0BTiNMeYnRYDbkJL2zBX0Fv9rO
+         dbJg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAUxB5xWjb3KMI4sc4vvUgpeIEvWILe66osA1C9PDBFwp7HpuF2W
-	7KwItx+25ZHFiV2lfktv99k=
-X-Google-Smtp-Source: APXvYqy8zk/GNeC/IXv00rJy97eVRuNxwS+5g6CCA9DYUbfCikb2bItKwx/StXHmqN68Ju7gJugxww==
-X-Received: by 2002:ac8:6759:: with SMTP id n25mr699522qtp.226.1582829370655;
-        Thu, 27 Feb 2020 10:49:30 -0800 (PST)
+X-Gm-Message-State: APjAAAUfJk6OSW8z/UGI51aEqnZWaNmFJWzVW+yXSd8u2kOKDR1bFy15
+	VZTyBHDHdJpsSPEgixRHOww=
+X-Google-Smtp-Source: APXvYqwaD/Xc+sAMWL1iINE99rhzUG4N+QH/L86LYYANld9kJ1GHrsLFQ+e4guYAvVGbCiAZ+sKkjg==
+X-Received: by 2002:a25:d0e:: with SMTP id 14mr37293ybn.355.1582829368602;
+        Thu, 27 Feb 2020 10:49:28 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ad4:4b68:: with SMTP id m8ls155858qvx.2.gmail; Thu, 27 Feb
- 2020 10:49:30 -0800 (PST)
-X-Received: by 2002:ad4:554b:: with SMTP id v11mr317405qvy.0.1582829370363;
-        Thu, 27 Feb 2020 10:49:30 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1582829370; cv=none;
+Received: by 2002:a0d:fc04:: with SMTP id m4ls391ywf.8.gmail; Thu, 27 Feb 2020
+ 10:49:28 -0800 (PST)
+X-Received: by 2002:a0d:d906:: with SMTP id b6mr813456ywe.151.1582829368229;
+        Thu, 27 Feb 2020 10:49:28 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1582829368; cv=none;
         d=google.com; s=arc-20160816;
-        b=IofrkvvUE9CKKnhpi4S3LtQNN+QIJ9UQFv3xy03lsn8x6u/PYB/lDUzcNXTbj5yj44
-         hvjdXs16tARUBkpNhCDgtBVyZi0KUfqVPKlyzpJ55aFi/ZyoSjIwnFFRmwgft31sV4Mj
-         EE4uWIFkn80BZjXid4q6Km3ztqXACsrpkz1XjIiLqu0vz9QI1f88U4q95oq7VeJqgTJO
-         xZNZW5CwZ6gAnd0vHbAwTkNsKqbn4+uDUlIaDwxRUUm0vrZkICmbWqj4NF5Xt4PVMgd9
-         l6ncC5Hkb0t4zkbTXtlfLfoshOjz1wj4am006PBHoFHG3WU+3FDB1/Gceljc7Mx+nKfY
-         qWxA==
+        b=e9DELX3Uw/9fYbyRKj5/szeuDZRtEjiOgnhtMqPJTR42hUaoGDcHque/NDok4kT52S
+         f4PdJVKLrWkqeyFhvGYEo3p6BapjilJGocQokZUq1c590b6Nyf2JGHjLmCw92vP2WRW5
+         3OOjmg+CYMwka2TqtNU26NNZHxppv2C2XeWh1xRdJwOp1k3SfOlD9UrXDe9Gv9/6KxvF
+         jss6tNjcI2QiUfeHxidt1mgle1avVbllXkVeW4okAHUWRR+9UT0cO6vPOqTYNRrMJ7Aw
+         1N/iBWQqBTP2Z1tqpLzEljzjqxm1j1AR/63H0tP8AlkWRagIUDtEZvgvyKxbm920Unwa
+         SBqQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=ouVhJC1LzbMtIjBpkBkXzJDLKbzWPj7ADPmF+3aq9S8=;
-        b=0FcK6VFLIkp4kOE+oW1L2wY2BEOk0zMsc2l0F8hb9d4S29Xvu11vji6ldP3R9dY6Hq
-         U9MCRaKxF6L8uFrLZwAvCE6lX6UK7ws4wH2pxnKeUk9Uj0Tz0BmDQ79aqVh3MWdIYfJ3
-         HGh0SDfffCvaxUh/mjAgcMvLsXChFVM2B+M25h/C7N8OcV0gDRWArNJvKzO2CWz9sDUY
-         amjv/92Y05hzOMucmvWzdsVaMzHnBCjDcxeW9vukeShuSgFlV/0uHYzft5Aoge3XFoaT
-         YDaTj0UmDb5BWFue0m6LtetUnUp2Jm3Cinsp/ZXmbqFO598UkOgoJdIHdxciU8nWcdV6
-         HdDA==
+        bh=TZN5E5934TvMDmRyA6YbiUZA3oVW+HYGx9jzlGs1fas=;
+        b=0qYGC3G32P69hTQHRZKfgKSVppPqax9Ue7uCt0iiCyBwDzHhq0UwvqtPbjwgqz3k72
+         oJqrcfMEVmuW1OsbR0m9JwjcUzq5zSc+x6L2uQkf/49znRWgTDwUJF7hQveKGartdcuK
+         HwDajiLx+yB5hw6AemhYEppA7/7wRjmpD62dQ77N/7AdBlYQ8LDh77Md1/0orazxTgnO
+         +BaAeO1745VwHLhTjQfwPTu9JDf4QtrZIjo7PqDIIfNf6Hdovk1kp0rqq6NPTIpa8CvD
+         QWDd63wjSdDlbmHKLIcsid4dcZN511YB1tsku9wXCT9Gn1rKq7FsLQCGS8lUkgDKPD/h
+         V6EA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@chromium.org header.s=google header.b=OG6B2Rfw;
-       spf=pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::442 as permitted sender) smtp.mailfrom=keescook@chromium.org;
+       dkim=pass header.i=@chromium.org header.s=google header.b=eXruJRfn;
+       spf=pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::643 as permitted sender) smtp.mailfrom=keescook@chromium.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=chromium.org
-Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com. [2607:f8b0:4864:20::442])
-        by gmr-mx.google.com with ESMTPS id a130si27650qkc.7.2020.02.27.10.49.30
+Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com. [2607:f8b0:4864:20::643])
+        by gmr-mx.google.com with ESMTPS id i200si29280ywa.3.2020.02.27.10.49.28
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 27 Feb 2020 10:49:30 -0800 (PST)
-Received-SPF: pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::442 as permitted sender) client-ip=2607:f8b0:4864:20::442;
-Received: by mail-pf1-x442.google.com with SMTP id p14so286283pfn.4
-        for <kasan-dev@googlegroups.com>; Thu, 27 Feb 2020 10:49:30 -0800 (PST)
-X-Received: by 2002:a63:120f:: with SMTP id h15mr716250pgl.235.1582829369446;
-        Thu, 27 Feb 2020 10:49:29 -0800 (PST)
+        Thu, 27 Feb 2020 10:49:28 -0800 (PST)
+Received-SPF: pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::643 as permitted sender) client-ip=2607:f8b0:4864:20::643;
+Received: by mail-pl1-x643.google.com with SMTP id q4so159822pls.4
+        for <kasan-dev@googlegroups.com>; Thu, 27 Feb 2020 10:49:28 -0800 (PST)
+X-Received: by 2002:a17:902:8a89:: with SMTP id p9mr160846plo.286.1582829367317;
+        Thu, 27 Feb 2020 10:49:27 -0800 (PST)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id q17sm7811248pfg.123.2020.02.27.10.49.26
+        by smtp.gmail.com with ESMTPSA id c19sm8674594pfc.144.2020.02.27.10.49.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Thu, 27 Feb 2020 10:49:26 -0800 (PST)
 From: Kees Cook <keescook@chromium.org>
 To: Andrew Morton <akpm@linux-foundation.org>
 Cc: Kees Cook <keescook@chromium.org>,
 	Elena Petrova <lenaptr@google.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
 	Andrey Ryabinin <aryabinin@virtuozzo.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
 	Andrey Konovalov <andreyknvl@google.com>,
 	Alexander Potapenko <glider@google.com>,
 	Dan Carpenter <dan.carpenter@oracle.com>,
@@ -120,17 +120,17 @@ Cc: Kees Cook <keescook@chromium.org>,
 	linux-kernel@vger.kernel.org,
 	kernel-hardening@lists.openwall.com,
 	syzkaller@googlegroups.com
-Subject: [PATCH v4 1/6] ubsan: Add trap instrumentation option
-Date: Thu, 27 Feb 2020 10:49:16 -0800
-Message-Id: <20200227184921.30215-2-keescook@chromium.org>
+Subject: [PATCH v4 2/6] ubsan: Split "bounds" checker from other options
+Date: Thu, 27 Feb 2020 10:49:17 -0800
+Message-Id: <20200227184921.30215-3-keescook@chromium.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200227184921.30215-1-keescook@chromium.org>
 References: <20200227184921.30215-1-keescook@chromium.org>
 MIME-Version: 1.0
 X-Original-Sender: keescook@chromium.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@chromium.org header.s=google header.b=OG6B2Rfw;       spf=pass
- (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::442
+ header.i=@chromium.org header.s=google header.b=eXruJRfn;       spf=pass
+ (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::643
  as permitted sender) smtp.mailfrom=keescook@chromium.org;       dmarc=pass
  (p=NONE sp=NONE dis=NONE) header.from=chromium.org
 Content-Type: text/plain; charset="UTF-8"
@@ -146,117 +146,147 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-The Undefined Behavior Sanitizer can operate in two modes: warning
-reporting mode via lib/ubsan.c handler calls, or trap mode, which uses
-__builtin_trap() as the handler. Using lib/ubsan.c means the kernel
-image is about 5% larger (due to all the debugging text and reporting
-structures to capture details about the warning conditions). Using the
-trap mode, the image size changes are much smaller, though at the loss
-of the "warning only" mode.
+In order to do kernel builds with the bounds checker individually
+available, introduce CONFIG_UBSAN_BOUNDS, with the remaining options
+under CONFIG_UBSAN_MISC.
 
-In order to give greater flexibility to system builders that want
-minimal changes to image size and are prepared to deal with kernel code
-being aborted and potentially destabilizing the system, this introduces
-CONFIG_UBSAN_TRAP. The resulting image sizes comparison:
+For example, using this, we can start to expand the coverage syzkaller is
+providing. Right now, all of UBSan is disabled for syzbot builds because
+taken as a whole, it is too noisy. This will let us focus on one feature
+at a time.
 
-   text    data     bss       dec       hex     filename
-19533663   6183037  18554956  44271656  2a38828 vmlinux.stock
-19991849   7618513  18874448  46484810  2c54d4a vmlinux.ubsan
-19712181   6284181  18366540  44362902  2a4ec96 vmlinux.ubsan-trap
+For the bounds checker specifically, this provides a mechanism to
+eliminate an entire class of array overflows with close to zero
+performance overhead (I cannot measure a difference). In my (mostly)
+defconfig, enabling bounds checking adds ~4200 checks to the kernel.
+Performance changes are in the noise, likely due to the branch predictors
+optimizing for the non-fail path.
 
-CONFIG_UBSAN=y:      image +4.8% (text +2.3%, data +18.9%)
-CONFIG_UBSAN_TRAP=y: image +0.2% (text +0.9%, data +1.6%)
+Some notes on the bounds checker:
 
-Additionally adjusts the CONFIG_UBSAN Kconfig help for clarity and
-removes the mention of non-existing boot param "ubsan_handle".
+- it does not instrument {mem,str}*()-family functions, it only
+  instruments direct indexed accesses (e.g. "foo[i]"). Dealing with
+  the {mem,str}*()-family functions is a work-in-progress around
+  CONFIG_FORTIFY_SOURCE[1].
+
+- it ignores flexible array members, including the very old single
+  byte (e.g. "int foo[1];") declarations. (Note that GCC's
+  implementation appears to ignore _all_ trailing arrays, but Clang only
+  ignores empty, 0, and 1 byte arrays[2].)
+
+[1] https://github.com/KSPP/linux/issues/6
+[2] https://gcc.gnu.org/bugzilla/show_bug.cgi?id=92589
 
 Suggested-by: Elena Petrova <lenaptr@google.com>
 Signed-off-by: Kees Cook <keescook@chromium.org>
+Reviewed-by: Andrey Ryabinin <aryabinin@virtuozzo.com>
 Acked-by: Dmitry Vyukov <dvyukov@google.com>
 ---
- lib/Kconfig.ubsan      | 22 ++++++++++++++++++----
- lib/Makefile           |  2 ++
- scripts/Makefile.ubsan |  9 +++++++--
- 3 files changed, 27 insertions(+), 6 deletions(-)
+ lib/Kconfig.ubsan      | 29 ++++++++++++++++++++++++-----
+ scripts/Makefile.ubsan |  7 ++++++-
+ 2 files changed, 30 insertions(+), 6 deletions(-)
 
 diff --git a/lib/Kconfig.ubsan b/lib/Kconfig.ubsan
-index 0e04fcb3ab3d..9deb655838b0 100644
+index 9deb655838b0..48469c95d78e 100644
 --- a/lib/Kconfig.ubsan
 +++ b/lib/Kconfig.ubsan
-@@ -5,11 +5,25 @@ config ARCH_HAS_UBSAN_SANITIZE_ALL
- config UBSAN
+@@ -2,7 +2,7 @@
+ config ARCH_HAS_UBSAN_SANITIZE_ALL
+ 	bool
+ 
+-config UBSAN
++menuconfig UBSAN
  	bool "Undefined behaviour sanity checker"
  	help
--	  This option enables undefined behaviour sanity checker
-+	  This option enables the Undefined Behaviour sanity checker.
- 	  Compile-time instrumentation is used to detect various undefined
--	  behaviours in runtime. Various types of checks may be enabled
--	  via boot parameter ubsan_handle
--	  (see: Documentation/dev-tools/ubsan.rst).
-+	  behaviours at runtime. For more details, see:
-+	  Documentation/dev-tools/ubsan.rst
-+
-+config UBSAN_TRAP
-+	bool "On Sanitizer warnings, abort the running kernel code"
-+	depends on UBSAN
-+	depends on $(cc-option, -fsanitize-undefined-trap-on-error)
-+	help
-+	  Building kernels with Sanitizer features enabled tends to grow
-+	  the kernel size by around 5%, due to adding all the debugging
-+	  text on failure paths. To avoid this, Sanitizer instrumentation
-+	  can just issue a trap. This reduces the kernel size overhead but
-+	  turns all warnings (including potentially harmless conditions)
-+	  into full exceptions that abort the running kernel code
-+	  (regardless of context, locks held, etc), which may destabilize
-+	  the system. For some system builders this is an acceptable
-+	  trade-off.
+ 	  This option enables the Undefined Behaviour sanity checker.
+@@ -10,9 +10,10 @@ config UBSAN
+ 	  behaviours at runtime. For more details, see:
+ 	  Documentation/dev-tools/ubsan.rst
  
++if UBSAN
++
+ config UBSAN_TRAP
+ 	bool "On Sanitizer warnings, abort the running kernel code"
+-	depends on UBSAN
+ 	depends on $(cc-option, -fsanitize-undefined-trap-on-error)
+ 	help
+ 	  Building kernels with Sanitizer features enabled tends to grow
+@@ -25,9 +26,26 @@ config UBSAN_TRAP
+ 	  the system. For some system builders this is an acceptable
+ 	  trade-off.
+ 
++config UBSAN_BOUNDS
++	bool "Perform array index bounds checking"
++	default UBSAN
++	help
++	  This option enables detection of directly indexed out of bounds
++	  array accesses, where the array size is known at compile time.
++	  Note that this does not protect array overflows via bad calls
++	  to the {str,mem}*cpy() family of functions (that is addressed
++	  by CONFIG_FORTIFY_SOURCE).
++
++config UBSAN_MISC
++	bool "Enable all other Undefined Behavior sanity checks"
++	default UBSAN
++	help
++	  This option enables all sanity checks that don't have their
++	  own Kconfig options. Disable this if you only want to have
++	  individually selected checks.
++
  config UBSAN_SANITIZE_ALL
  	bool "Enable instrumentation for the entire kernel"
-diff --git a/lib/Makefile b/lib/Makefile
-index 611872c06926..55cc8d73cd43 100644
---- a/lib/Makefile
-+++ b/lib/Makefile
-@@ -279,7 +279,9 @@ quiet_cmd_build_OID_registry = GEN     $@
- clean-files	+= oid_registry_data.c
+-	depends on UBSAN
+ 	depends on ARCH_HAS_UBSAN_SANITIZE_ALL
  
- obj-$(CONFIG_UCS2_STRING) += ucs2_string.o
-+ifneq ($(CONFIG_UBSAN_TRAP),y)
- obj-$(CONFIG_UBSAN) += ubsan.o
-+endif
+ 	# We build with -Wno-maybe-uninitilzed, but we still want to
+@@ -44,7 +62,6 @@ config UBSAN_SANITIZE_ALL
  
- UBSAN_SANITIZE_ubsan.o := n
- KASAN_SANITIZE_ubsan.o := n
+ config UBSAN_NO_ALIGNMENT
+ 	bool "Disable checking of pointers alignment"
+-	depends on UBSAN
+ 	default y if HAVE_EFFICIENT_UNALIGNED_ACCESS
+ 	help
+ 	  This option disables the check of unaligned memory accesses.
+@@ -57,7 +74,9 @@ config UBSAN_ALIGNMENT
+ 
+ config TEST_UBSAN
+ 	tristate "Module for testing for undefined behavior detection"
+-	depends on m && UBSAN
++	depends on m
+ 	help
+ 	  This is a test module for UBSAN.
+ 	  It triggers various undefined behavior, and detect it.
++
++endif	# if UBSAN
 diff --git a/scripts/Makefile.ubsan b/scripts/Makefile.ubsan
-index 019771b845c5..668a91510bfe 100644
+index 668a91510bfe..5b15bc425ec9 100644
 --- a/scripts/Makefile.ubsan
 +++ b/scripts/Makefile.ubsan
-@@ -1,5 +1,10 @@
- # SPDX-License-Identifier: GPL-2.0
- ifdef CONFIG_UBSAN
-+
-+ifdef CONFIG_UBSAN_ALIGNMENT
-+      CFLAGS_UBSAN += $(call cc-option, -fsanitize=alignment)
+@@ -5,14 +5,19 @@ ifdef CONFIG_UBSAN_ALIGNMENT
+       CFLAGS_UBSAN += $(call cc-option, -fsanitize=alignment)
+ endif
+ 
++ifdef CONFIG_UBSAN_BOUNDS
++      CFLAGS_UBSAN += $(call cc-option, -fsanitize=bounds)
 +endif
 +
++ifdef CONFIG_UBSAN_MISC
        CFLAGS_UBSAN += $(call cc-option, -fsanitize=shift)
        CFLAGS_UBSAN += $(call cc-option, -fsanitize=integer-divide-by-zero)
        CFLAGS_UBSAN += $(call cc-option, -fsanitize=unreachable)
-@@ -9,8 +14,8 @@ ifdef CONFIG_UBSAN
+       CFLAGS_UBSAN += $(call cc-option, -fsanitize=signed-integer-overflow)
+-      CFLAGS_UBSAN += $(call cc-option, -fsanitize=bounds)
+       CFLAGS_UBSAN += $(call cc-option, -fsanitize=object-size)
        CFLAGS_UBSAN += $(call cc-option, -fsanitize=bool)
        CFLAGS_UBSAN += $(call cc-option, -fsanitize=enum)
++endif
  
--ifdef CONFIG_UBSAN_ALIGNMENT
--      CFLAGS_UBSAN += $(call cc-option, -fsanitize=alignment)
-+ifdef CONFIG_UBSAN_TRAP
-+      CFLAGS_UBSAN += $(call cc-option, -fsanitize-undefined-trap-on-error)
- endif
- 
-       # -fsanitize=* options makes GCC less smart than usual and
+ ifdef CONFIG_UBSAN_TRAP
+       CFLAGS_UBSAN += $(call cc-option, -fsanitize-undefined-trap-on-error)
 -- 
 2.20.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200227184921.30215-2-keescook%40chromium.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200227184921.30215-3-keescook%40chromium.org.
