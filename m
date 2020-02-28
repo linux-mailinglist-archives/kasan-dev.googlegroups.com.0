@@ -1,139 +1,118 @@
-Return-Path: <kasan-dev+bncBCF5XGNWYQBRBAVU4DZAKGQESXAQF4A@googlegroups.com>
+Return-Path: <kasan-dev+bncBCQPF57GUQHBBRMR4PZAKGQERQJ62MI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ot1-x33d.google.com (mail-ot1-x33d.google.com [IPv6:2607:f8b0:4864:20::33d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A0BE1728AF
-	for <lists+kasan-dev@lfdr.de>; Thu, 27 Feb 2020 20:35:31 +0100 (CET)
-Received: by mail-ot1-x33d.google.com with SMTP id 4sf300937otd.17
-        for <lists+kasan-dev@lfdr.de>; Thu, 27 Feb 2020 11:35:31 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1582832130; cv=pass;
+Received: from mail-vk1-xa37.google.com (mail-vk1-xa37.google.com [IPv6:2607:f8b0:4864:20::a37])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B42C17325E
+	for <lists+kasan-dev@lfdr.de>; Fri, 28 Feb 2020 09:01:10 +0100 (CET)
+Received: by mail-vk1-xa37.google.com with SMTP id s4sf1011917vkk.7
+        for <lists+kasan-dev@lfdr.de>; Fri, 28 Feb 2020 00:01:10 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1582876869; cv=pass;
         d=google.com; s=arc-20160816;
-        b=vLzHvGz5q4j9U2g7oyQLxpmawWuhzU1WQQWS4ybjkJjAfBIZ+GonYXyk2+Evw5jycN
-         BsgxgfCtBZIY/i0mZ1l+1FI+ycD7+oR6TpeDtchyK6P4YmLjdLgkyFr5WkOSxeGWlYSd
-         SGHjBML2l8qASpi/XZAIXrZ+zk4Mq8B9BPw1KLSj5CyRKpKATA4ABIMlDRwZ5TBTsLYL
-         wAQKyhMnw6EPoOqOVuP4MZBVukOSNDk627CNDBI2pLL6ZGz9uZ0DGBiHsWvWMAAVFq9d
-         HsfoytM1oYLywa4EcUOkde2wMXTTdtSIE5S7H+XhwWsIHgHJkkWjKBgcQnSjf0KD/Me5
-         Q+ew==
+        b=TZZA+2KQjBItn7XZ+PJAh81pcWnh5jGaUHH9e95LjIc/l6Xj/jcyQhAzLMzdXLIf7C
+         3hw0YrUT7OeOvVp3NvnbZ0J7AoYY6oN+nI+77SUsNeKzXQP8VTtLyJhxoB+u1r+8Zlah
+         g2NhWDkVeAdAYRLKg3zeQJ9bzr92h7mZ+xOTnvuNxkA/IP0yVeofxdA7wzD7PCRikyFq
+         OJcxHOeE4vgAtep4gkFoDTS3VFgZQe9kxgxTTvqsfCVxYLdmsA2ccMn7XUyvbNZI0rPV
+         Tj5JCRaanozVKo8ACJQMi5RpU+lRcLcqi6XmdR8xLkooxyw4h8PyvjegelrLq8s7BGKn
+         60Cw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=G+wdBzetYDIbcuxdXmd7nhbf2pav6A6L4MoiEB5R4MI=;
-        b=lpLRChDRxebOT6WrDE2NKNFfWqBUKeU/5wZt9J9H2lwmUa8qUFBV1lkLXKIIaSMSOh
-         uwczivdNN893tgh3R7VCJqZ0vHFRZobaJssoAqymNW7VoTzsNGc6wndIHPLH2QRYVA6P
-         T9BU3yn9+ghzXarndXPOrpAQPaFFDbIvk6aXrjlB3gDttQcVc2UPKawl4hdFEcuZlQYP
-         ++u9OrXuqaLUWnvI3YcXQZsmGBzqcXyuPQDFP1WyEepiu9+jcYpajmxPYUMuznU3LZya
-         UQ8mwgOdbn1Brm1brZPmyFIVSWvMF8TRV8fvxIckOTag9SfzawQbVmBcQ64OjDZosamF
-         uhaw==
+         :list-id:mailing-list:precedence:to:from:subject:message-id
+         :in-reply-to:date:mime-version:sender:dkim-signature;
+        bh=FX2Mcvx9ZJEtmxO5REma4IVeeP7oplgLf1UFbSnL2+w=;
+        b=Rc0GVpyBdlR8RTbEtkVJPDiNe6qElP6quDY4NbvRrnwp3mS4uVLkHsd0YFO7h3JPcZ
+         WZe/+y/m37wZ8e3aUPHz9Noz4P40J2NPle9dQyK5wihmUOnsLoyxDSbUeD+Szwx54yoa
+         pgD7/N1x4mpBk5wekzVLLoqpr7KU+axWQTGp4YKvSKzKEdeczOuvYKJyyO38xa/QJYgD
+         4kPc/xZaeQ7qB/EXa1WGy0juCsO9qsxajNVAqDTwEFD9H5vPSvYCS0ubWjWTonGBqkYF
+         j1AL8Nd5qvFTOFeJ00kQpfcSucPwU12Q9hHsxo0xU2EeojYCkcMAAcvwBTTxc3hrdfjs
+         ScPQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@chromium.org header.s=google header.b=RHZfJ6Zj;
-       spf=pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::442 as permitted sender) smtp.mailfrom=keescook@chromium.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=chromium.org
+       spf=pass (google.com: domain of 3xmhyxgkbalejpqbrccvirggzu.xffxcvljvitfekvek.tfd@m3kw2wvrgufz5godrsrytgd7.apphosting.bounces.google.com designates 209.85.166.200 as permitted sender) smtp.mailfrom=3xMhYXgkbALEjpqbRccViRggZU.XffXcVljViTfekVek.Tfd@m3kw2wvrgufz5godrsrytgd7.apphosting.bounces.google.com;
+       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=appspotmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+        h=sender:mime-version:date:in-reply-to:message-id:subject:from:to
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=G+wdBzetYDIbcuxdXmd7nhbf2pav6A6L4MoiEB5R4MI=;
-        b=E9WIdqxuw/D07eE0yGmuzB9yNEHzNbJkcH0FEFRDwvDaCMVUABpR0tSPaRW+M8BR9C
-         YlUpQYCyQHyShiLHBeCHh2GR4GP17CS/CLIINWA21DUapxWHnL+Wz49aZTS02INnm5Bc
-         84QYBKpx7V8f1nOief8CslecMGfFdHPUg7+h7m8iNNiXc7S6ChFZlzTu/ALtkMmO0934
-         ABWv9F2hXMvi2K8UJQ3OZW02ybBNqGBI4r10uFrW9Fqbh2GpLXo9U2JcmmgXaRAyIgeb
-         lnsp4urL4PtyAYNmq6jU/nVas25W7R7d3mjjZLc3mxf5OypBf/8dWoW2OP3nFZFiEbZX
-         6RJQ==
+        bh=FX2Mcvx9ZJEtmxO5REma4IVeeP7oplgLf1UFbSnL2+w=;
+        b=PDmw2A33cmiP/GmUu5Hg0F4HwssGBzx9kCfS8ZujZkKdPSYdxhzKQB/Y6Wj4ARRYgs
+         a5E82iDuDPY6IeXxBXvcgwMeI+gdU5z1Zd6FntwEZA8x2oxWent8MF4EMu8Q3nBH4KZ3
+         DUoMLJ1uu9JkQ94QNRWSJvOnZuYY3rujYZI8H2lLQmWh+TZEu+tID0FTcD0ichDokVfj
+         a+ii6S9Er7G/wqbhY7FMRaiVDLjtGdsUbQGLOPkufFKpXN8E/ae+ZNukadLZhaSXzOUZ
+         2+0JOYu0r85mSnmZMfsAv7td5pPNMHdaNwWO1wNG5XjGg8ANwCkEJG0VieBQCujLrT7k
+         T1BA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :in-reply-to:references:mime-version:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=G+wdBzetYDIbcuxdXmd7nhbf2pav6A6L4MoiEB5R4MI=;
-        b=q25oU9/EF/IX6xeIf0Lbs3yua0iFG4PD076eX++HtRG7nLI6SyHWQ7me3i96KT0Cal
-         KRAXmD2cxxMz8lWp/84lZEDer3tJ41U89CG+sdqFqz5u4NdeTnHPWpp+WUEitct0OHwg
-         1ZaATLOJUxTHFRL9gjqKgOcXGR6gwkybIlfwH66vvFEGXlce6vnK3Ada8sr/6ymcSGIf
-         RPc5kgfaPIFg3W/RnTPgia/B9vwVVX/s+cE/Tsd3S7M2h9OUjDYFINJotY4qidWMVy0p
-         7/su2ZCJL/3QvAMgEkUN0Rl7wRlZsrRDemUIn6YF7UiD21I0Szjjodquv8zgIm7H9GHI
-         shLg==
+        h=sender:x-gm-message-state:mime-version:date:in-reply-to:message-id
+         :subject:from:to:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=FX2Mcvx9ZJEtmxO5REma4IVeeP7oplgLf1UFbSnL2+w=;
+        b=lj5wnuehvKKRbUBODAYnoSiBMvWWhkBkH+ZbSdPrUslJ/UwvLDSpR0aWzp+I9ccKe6
+         VW5fBJmpY90XCkmkLASvUFkMqtUI3TDewWmic8UowsfJgrfmleBidOcTOyJzWESNmf4T
+         Wf3yMCfGw4YP0Jj3+BTGOGu9/fw0dfEsOJ46AGzCmnk70/kHgDCsL2XjfRTO9cwOSt7w
+         Ict8MrVycz0ZriCle8euw4oY26p7jmsh6FyUp4wn/c0P/uZrG3mOQjYAEem704C5Xpgw
+         +UddPFrW+Hiulml7951yb6ek9GnNpF6aupRvXGM39nD9dTT0QzVOkJBKnvolI33ZLTZ2
+         WfsA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: APjAAAXy7lANP0BzM892fzoLtRywyvxG0SwBntWYek83Fh26S6clYD8Y
-	+/WMr/QKqkyjX82i4IR6PGc=
-X-Google-Smtp-Source: APXvYqym9WzuW9DXEfqXaN16JzT1L61pnZFXmqx78Fy4QuyUhyuYPCRF+fsTV/HIc6PaEIXKO/P20w==
-X-Received: by 2002:a54:4816:: with SMTP id j22mr433948oij.179.1582832130429;
-        Thu, 27 Feb 2020 11:35:30 -0800 (PST)
+X-Gm-Message-State: ANhLgQ0PFLLLtle/9xULlSbk2T8qmbppwOvr6WqgsQ0gnW42iX0CQ38v
+	x4VvrQjbFWwyQMzgZ/ae2LU=
+X-Google-Smtp-Source: ADFU+vshYVf1gH5DKMnd5D0zWaufpLaArAoBNJow9ZWBog4HP/IqXzqqwfQC2xEanMRoBZRvVhE0Cg==
+X-Received: by 2002:a05:6102:18f:: with SMTP id r15mr1886361vsq.206.1582876869139;
+        Fri, 28 Feb 2020 00:01:09 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6808:649:: with SMTP id z9ls268966oih.3.gmail; Thu, 27
- Feb 2020 11:35:30 -0800 (PST)
-X-Received: by 2002:aca:c515:: with SMTP id v21mr531465oif.60.1582832130139;
-        Thu, 27 Feb 2020 11:35:30 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1582832130; cv=none;
+Received: by 2002:a67:7d4e:: with SMTP id y75ls173877vsc.5.gmail; Fri, 28 Feb
+ 2020 00:01:08 -0800 (PST)
+X-Received: by 2002:a05:6102:3014:: with SMTP id s20mr1911784vsa.10.1582876868763;
+        Fri, 28 Feb 2020 00:01:08 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1582876868; cv=none;
         d=google.com; s=arc-20160816;
-        b=pRIis91W9jx9LcQbeKni924aNGmEeDEj4qxlxarFX0+u+z8B3mGFJD9yXc1GqcKhGN
-         BBQD3T1Fy3s0OIjMLEWcillDH7/epXsJ1fbOEwwfxYNwu+pkrXLQwx9r8aZErIqH8X+G
-         Zwl541x5+STMpWlCISmg2XdsmUWzg4Kufi+ygZqxNCKpXWpjFyZ7/jGhdV5MshAtnv6I
-         903cgIUOL3Y1EuX18ETuPNRDuMOxP92MoEGE0Z3q+wcp6NRfPDghm8dA1VjjHWnGKwTx
-         88v/v3rsuTih7tN/EmqvffkYRrnkULzggTw2h+083gHp4bcWkCXVBId4aI4QlYswKKJK
-         5Htw==
+        b=JdQrh7hmYCm9r6kUNNl7nJBtabSMAWXef++uJqAMBL1ro/4jqe+Pm3//Flysj/Xk8v
+         +dE5GER8BrLMMdrXHRuHIo1/pptxmG5QzyqlTemuca+F2e+aZCJd/QRw176BBgi+L6th
+         3uec9KOakycEKgU2AXn1uu+QeZFq6b/iinu8mQiPGbJGcAOrljws0U4adFqXyyFJHTGR
+         N+QnwPJsgdhV4qDCJxbOpC1PUGQGLUun419aitBtRd27XW1c0nT/DScgDR/GtMZk8Ir3
+         5rh8UBPiwIHflrOuqFbBXdAZE4iTfvadpapM4t55skqNeiOKb+V4CK9e0OSoecWAlOX7
+         IITw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=jDKV/BVhQvBMwfS/RHWg5/AFVijLTVXYoYGSEirzUqw=;
-        b=TxWoDZ5UMf+Hbfy+hPU7F9crY1BGoYJDxvWY7O7DHY5iS6iGT0Eqznt2Wi86LFiC0E
-         VKz05nE6+v0URJPmPkb1aFMd37V1ARjIBMyjNUnG79PU9T/qaMACOFDcbBK0+vGZpLi+
-         A4OrgTMh8vVom9F8UwcAsSGc+m4a8fAYyHl3S9wT5+rCJk58i2G/sOcvL0oPIxiaODfB
-         HOqGsPs4K+hC14rym11Jm7IpcWpVslMpg9Gv91WodPGH5NhZDTkyQREnfg+imHHT9WOL
-         66EXiSsdxCB+yi6GzO4TayFYt0oaOuST4Xnhn4OP3x5MJuwaUaskwlPpSBXfg8XPpkEu
-         4o9g==
+        h=to:from:subject:message-id:in-reply-to:date:mime-version;
+        bh=1F6QPB2AKxQKkbwngYuex+ythgWDXEu9f8wBzkprX/k=;
+        b=uGmNiCGj6TSzc4VM6tyilIMbWR2XH0EkCPY0Kv3PiYOZ+7fylzrNnQxuHHRhvJOA/z
+         CLppKun1ScitIO8K5LV+w9VEgkv5WxUees0tA5CdAY04p6SdE/ieTq9tqa6GVNAGxWKG
+         9GtN0BBOt8Ng7niNjGlXV6IbfbMMbY8NgftET908vRh4u7ZYqNLuHhIklYCXUUh8q87L
+         nfTxkLlviev8wanLckKLNN6WJ6oYpLGlMXHIyGI6q1Ign/FqwHaL2ursOZwKYzgPwBBN
+         WwIeRFmnnDxyQx4BoRVQb3i/Ktgmjh0NF3oSR4/U9uAD7fuLcLuNCm2oaNUi4rBfuOUY
+         0DiA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@chromium.org header.s=google header.b=RHZfJ6Zj;
-       spf=pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::442 as permitted sender) smtp.mailfrom=keescook@chromium.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=chromium.org
-Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com. [2607:f8b0:4864:20::442])
-        by gmr-mx.google.com with ESMTPS id z12si47274oid.0.2020.02.27.11.35.30
+       spf=pass (google.com: domain of 3xmhyxgkbalejpqbrccvirggzu.xffxcvljvitfekvek.tfd@m3kw2wvrgufz5godrsrytgd7.apphosting.bounces.google.com designates 209.85.166.200 as permitted sender) smtp.mailfrom=3xMhYXgkbALEjpqbRccViRggZU.XffXcVljViTfekVek.Tfd@m3kw2wvrgufz5godrsrytgd7.apphosting.bounces.google.com;
+       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=appspotmail.com
+Received: from mail-il1-f200.google.com (mail-il1-f200.google.com. [209.85.166.200])
+        by gmr-mx.google.com with ESMTPS id u11si178663vkb.1.2020.02.28.00.01.08
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 27 Feb 2020 11:35:30 -0800 (PST)
-Received-SPF: pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::442 as permitted sender) client-ip=2607:f8b0:4864:20::442;
-Received: by mail-pf1-x442.google.com with SMTP id y5so335334pfb.11
-        for <kasan-dev@googlegroups.com>; Thu, 27 Feb 2020 11:35:30 -0800 (PST)
-X-Received: by 2002:a62:e80a:: with SMTP id c10mr518798pfi.129.1582832129371;
-        Thu, 27 Feb 2020 11:35:29 -0800 (PST)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id o6sm8598900pfg.180.2020.02.27.11.35.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Feb 2020 11:35:27 -0800 (PST)
-From: Kees Cook <keescook@chromium.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Kees Cook <keescook@chromium.org>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Andrey Ryabinin <aryabinin@virtuozzo.com>,
-	Elena Petrova <lenaptr@google.com>,
-	Andrey Konovalov <andreyknvl@google.com>,
-	Alexander Potapenko <glider@google.com>,
-	Dan Carpenter <dan.carpenter@oracle.com>,
-	"Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-	kasan-dev@googlegroups.com,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	kernel-hardening@lists.openwall.com,
-	syzkaller@googlegroups.com
-Subject: [PATCH v5 6/6] ubsan: Include bug type in report header
-Date: Thu, 27 Feb 2020 11:35:16 -0800
-Message-Id: <20200227193516.32566-7-keescook@chromium.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200227193516.32566-1-keescook@chromium.org>
-References: <20200227193516.32566-1-keescook@chromium.org>
+        Fri, 28 Feb 2020 00:01:08 -0800 (PST)
+Received-SPF: pass (google.com: domain of 3xmhyxgkbalejpqbrccvirggzu.xffxcvljvitfekvek.tfd@m3kw2wvrgufz5godrsrytgd7.apphosting.bounces.google.com designates 209.85.166.200 as permitted sender) client-ip=209.85.166.200;
+Received: by mail-il1-f200.google.com with SMTP id w6so2523900ill.12
+        for <kasan-dev@googlegroups.com>; Fri, 28 Feb 2020 00:01:08 -0800 (PST)
 MIME-Version: 1.0
-X-Original-Sender: keescook@chromium.org
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@chromium.org header.s=google header.b=RHZfJ6Zj;       spf=pass
- (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::442
- as permitted sender) smtp.mailfrom=keescook@chromium.org;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=chromium.org
+X-Received: by 2002:a92:d608:: with SMTP id w8mr3044015ilm.95.1582876868273;
+ Fri, 28 Feb 2020 00:01:08 -0800 (PST)
+Date: Fri, 28 Feb 2020 00:01:08 -0800
+In-Reply-To: <0000000000005f386305988bb15f@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+Message-ID: <00000000000074eed3059f9e3d0a@google.com>
+Subject: Re: BUG: unable to handle kernel paging request in xfs_sb_read_verify
+From: syzbot <syzbot+6be2cbddaad2e32b47a0@syzkaller.appspotmail.com>
+To: allison.henderson@oracle.com, bfoster@redhat.com, darrick.wong@oracle.com, 
+	dchinner@redhat.com, dja@axtens.net, dvyukov@google.com, 
+	kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org, 
+	linux-xfs@vger.kernel.org, sandeen@redhat.com, 
+	syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: syzbot@syzkaller.appspotmail.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of 3xmhyxgkbalejpqbrccvirggzu.xffxcvljvitfekvek.tfd@m3kw2wvrgufz5godrsrytgd7.apphosting.bounces.google.com
+ designates 209.85.166.200 as permitted sender) smtp.mailfrom=3xMhYXgkbALEjpqbRccViRggZU.XffXcVljViTfekVek.Tfd@m3kw2wvrgufz5godrsrytgd7.apphosting.bounces.google.com;
+       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=appspotmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -146,155 +125,15 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-When syzbot tries to figure out how to deduplicate bug reports, it
-prefers seeing a hint about a specific bug type (we can do better than
-just "UBSAN"). This lifts the handler reason into the UBSAN report line
-that includes the file path that tripped a check. Unfortunately, UBSAN
-does not provide function names.
-
-Suggested-by: Dmitry Vyukov <dvyukov@google.com>
-Link: https://lore.kernel.org/lkml/CACT4Y+bsLJ-wFx_TaXqax3JByUOWB3uk787LsyMVcfW6JzzGvg@mail.gmail.com
-Signed-off-by: Kees Cook <keescook@chromium.org>
----
- lib/ubsan.c | 36 +++++++++++++++---------------------
- 1 file changed, 15 insertions(+), 21 deletions(-)
-
-diff --git a/lib/ubsan.c b/lib/ubsan.c
-index 429663eef6a7..f8c0ccf35f29 100644
---- a/lib/ubsan.c
-+++ b/lib/ubsan.c
-@@ -45,13 +45,6 @@ static bool was_reported(struct source_location *location)
- 	return test_and_set_bit(REPORTED_BIT, &location->reported);
- }
- 
--static void print_source_location(const char *prefix,
--				struct source_location *loc)
--{
--	pr_err("%s %s:%d:%d\n", prefix, loc->file_name,
--		loc->line & LINE_MASK, loc->column & COLUMN_MASK);
--}
--
- static bool suppress_report(struct source_location *loc)
- {
- 	return current->in_ubsan || was_reported(loc);
-@@ -140,13 +133,14 @@ static void val_to_string(char *str, size_t size, struct type_descriptor *type,
- 	}
- }
- 
--static void ubsan_prologue(struct source_location *location)
-+static void ubsan_prologue(struct source_location *loc, const char *reason)
- {
- 	current->in_ubsan++;
- 
- 	pr_err("========================================"
- 		"========================================\n");
--	print_source_location("UBSAN: Undefined behaviour in", location);
-+	pr_err("UBSAN: %s in %s:%d:%d\n", reason, loc->file_name,
-+		loc->line & LINE_MASK, loc->column & COLUMN_MASK);
- }
- 
- static void ubsan_epilogue(void)
-@@ -180,12 +174,12 @@ static void handle_overflow(struct overflow_data *data, void *lhs,
- 	if (suppress_report(&data->location))
- 		return;
- 
--	ubsan_prologue(&data->location);
-+	ubsan_prologue(&data->location, type_is_signed(type) ?
-+			"signed-integer-overflow" :
-+			"unsigned-integer-overflow");
- 
- 	val_to_string(lhs_val_str, sizeof(lhs_val_str), type, lhs);
- 	val_to_string(rhs_val_str, sizeof(rhs_val_str), type, rhs);
--	pr_err("%s integer overflow:\n",
--		type_is_signed(type) ? "signed" : "unsigned");
- 	pr_err("%s %c %s cannot be represented in type %s\n",
- 		lhs_val_str,
- 		op,
-@@ -225,7 +219,7 @@ void __ubsan_handle_negate_overflow(struct overflow_data *data,
- 	if (suppress_report(&data->location))
- 		return;
- 
--	ubsan_prologue(&data->location);
-+	ubsan_prologue(&data->location, "negation-overflow");
- 
- 	val_to_string(old_val_str, sizeof(old_val_str), data->type, old_val);
- 
-@@ -245,7 +239,7 @@ void __ubsan_handle_divrem_overflow(struct overflow_data *data,
- 	if (suppress_report(&data->location))
- 		return;
- 
--	ubsan_prologue(&data->location);
-+	ubsan_prologue(&data->location, "division-overflow");
- 
- 	val_to_string(rhs_val_str, sizeof(rhs_val_str), data->type, rhs);
- 
-@@ -264,7 +258,7 @@ static void handle_null_ptr_deref(struct type_mismatch_data_common *data)
- 	if (suppress_report(data->location))
- 		return;
- 
--	ubsan_prologue(data->location);
-+	ubsan_prologue(data->location, "null-ptr-deref");
- 
- 	pr_err("%s null pointer of type %s\n",
- 		type_check_kinds[data->type_check_kind],
-@@ -279,7 +273,7 @@ static void handle_misaligned_access(struct type_mismatch_data_common *data,
- 	if (suppress_report(data->location))
- 		return;
- 
--	ubsan_prologue(data->location);
-+	ubsan_prologue(data->location, "misaligned-access");
- 
- 	pr_err("%s misaligned address %p for type %s\n",
- 		type_check_kinds[data->type_check_kind],
-@@ -295,7 +289,7 @@ static void handle_object_size_mismatch(struct type_mismatch_data_common *data,
- 	if (suppress_report(data->location))
- 		return;
- 
--	ubsan_prologue(data->location);
-+	ubsan_prologue(data->location, "object-size-mismatch");
- 	pr_err("%s address %p with insufficient space\n",
- 		type_check_kinds[data->type_check_kind],
- 		(void *) ptr);
-@@ -354,7 +348,7 @@ void __ubsan_handle_out_of_bounds(struct out_of_bounds_data *data, void *index)
- 	if (suppress_report(&data->location))
- 		return;
- 
--	ubsan_prologue(&data->location);
-+	ubsan_prologue(&data->location, "array-index-out-of-bounds");
- 
- 	val_to_string(index_str, sizeof(index_str), data->index_type, index);
- 	pr_err("index %s is out of range for type %s\n", index_str,
-@@ -375,7 +369,7 @@ void __ubsan_handle_shift_out_of_bounds(struct shift_out_of_bounds_data *data,
- 	if (suppress_report(&data->location))
- 		goto out;
- 
--	ubsan_prologue(&data->location);
-+	ubsan_prologue(&data->location, "shift-out-of-bounds");
- 
- 	val_to_string(rhs_str, sizeof(rhs_str), rhs_type, rhs);
- 	val_to_string(lhs_str, sizeof(lhs_str), lhs_type, lhs);
-@@ -407,7 +401,7 @@ EXPORT_SYMBOL(__ubsan_handle_shift_out_of_bounds);
- 
- void __ubsan_handle_builtin_unreachable(struct unreachable_data *data)
- {
--	ubsan_prologue(&data->location);
-+	ubsan_prologue(&data->location, "unreachable");
- 	pr_err("calling __builtin_unreachable()\n");
- 	ubsan_epilogue();
- 	panic("can't return from __builtin_unreachable()");
-@@ -422,7 +416,7 @@ void __ubsan_handle_load_invalid_value(struct invalid_value_data *data,
- 	if (suppress_report(&data->location))
- 		return;
- 
--	ubsan_prologue(&data->location);
-+	ubsan_prologue(&data->location, "invalid-load");
- 
- 	val_to_string(val_str, sizeof(val_str), data->type, val);
- 
--- 
-2.20.1
+This bug is marked as fixed by commit:
+kasan: support vmalloc backing of vm_map_ram()
+But I can't find it in any tested tree for more than 90 days.
+Is it a correct commit? Please update it by replying:
+#syz fix: exact-commit-title
+Until then the bug is still considered open and
+new crashes with the same signature are ignored.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200227193516.32566-7-keescook%40chromium.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/00000000000074eed3059f9e3d0a%40google.com.
