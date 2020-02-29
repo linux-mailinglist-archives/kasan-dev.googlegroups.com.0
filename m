@@ -1,112 +1,110 @@
-Return-Path: <kasan-dev+bncBDK3TPOVRULBBPHK43ZAKGQEYZLCC2Q@googlegroups.com>
+Return-Path: <kasan-dev+bncBDK3TPOVRULBBW7T43ZAKGQEU5SUKGA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ed1-x53f.google.com (mail-ed1-x53f.google.com [IPv6:2a00:1450:4864:20::53f])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2C2A1743EF
-	for <lists+kasan-dev@lfdr.de>; Sat, 29 Feb 2020 01:50:04 +0100 (CET)
-Received: by mail-ed1-x53f.google.com with SMTP id d12sf1600726edq.16
-        for <lists+kasan-dev@lfdr.de>; Fri, 28 Feb 2020 16:50:04 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1582937404; cv=pass;
+Received: from mail-wr1-x439.google.com (mail-wr1-x439.google.com [IPv6:2a00:1450:4864:20::439])
+	by mail.lfdr.de (Postfix) with ESMTPS id 85453174411
+	for <lists+kasan-dev@lfdr.de>; Sat, 29 Feb 2020 02:09:47 +0100 (CET)
+Received: by mail-wr1-x439.google.com with SMTP id r1sf2109971wrc.15
+        for <lists+kasan-dev@lfdr.de>; Fri, 28 Feb 2020 17:09:47 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1582938587; cv=pass;
         d=google.com; s=arc-20160816;
-        b=Ye0A8ePtQwKmB0Adxbpwye7O3hfeHVKaCn27w317DPA4HH2Rn/BQvfAyL+U3CmD3Lx
-         Y0ScHoXo/VHBPE4FlMVtGEEVzoGXjpFGvyVPtStRlU/p3N8xGlBYR9iuZlAdmmvGMKr4
-         wtM2acilWLwIJdenOtoMnzNTzZt64/lcsymH6MvmKe4oSOnQRwiJC6cgQPSrYEcihjjb
-         nxpd6n7TMPaD4J0CcK8JxNDboolgyB60C+d7vYWd12iT78cNbz7BdavVNhAq2hPMmNss
-         AA8ksL3ElWKrnbU2P6L0JxmmrYcM1rcncGI/KG1My1dPqh6HHMnLoPH/RoZ7WRjAMdZl
-         JbGA==
+        b=y3dpWkzhmHYNHeD5x3l+sAkUXYOAYFwjwX0yqJXMZxI+dvKEywDuADECHeUw8qi4a7
+         jxXDufnz9lJH6rhYLXJSS8h+oiKQGDdgsOz8umL3n1L1qqB+lIfDAR4gLU/ua3ez0P8n
+         D2hecswLwiIEO3+HB73O/UKqLXC5l1zZ8r96inJyjpCEcPIDd0F+QYSnf1WsYNtsNYOd
+         SyPl8SNQjnwWGToiO+BDT0Dy/BRcys6QYIzsglHKT3VoluKytnBhVnv6VAXtxaL2QNf2
+         33RAVN4xoxzqzxS212oAP6uCiwxoRj+8A9y7bGKNgFwIVsuURHUPT3JHtpUoLcVnUV0d
+         uckg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
-         :cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=3n+sXRFXzOXz24PnZvZ0ZmIP0yUtCyUWuJfkzCICJBM=;
-        b=JhpO7Y27T+4HfY8TD93DopQTdC5nomZRclwLjnWkE0nu4ADLcpGdOtgPQXTzJRRR6L
-         Jj6a1tRxHOmCZp1DaL1CmuSo6GhtqtKzqQr2+86rQbgJOXCfGcHW5OPEcyrP2UBb5Ar5
-         0toj+IHKo5LQAaXCrpJEcNtPXg9E7b3Moav7SrDlQsYoBXBmAh52c6EqwWv6kJU/wtep
-         v0fa7+etQ+sa6PgBsTVwCoGgReULIKGj5GBhAyyQBgKe3dFHXFUW9ada/6tGjEAcW9jE
-         2jJ82i8yKZU0mkvc/bPg4c/55ta4Zi8MN5IXwpKEYqaRqUHT1B21OmtwRA9+R2744v07
-         GutQ==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=xzwhGKws036MypBN7uggD8H6UCJQv51e8h0SekHsVuw=;
+        b=Qv0gLT0nCyt7B/6yL+E/jCCjx5/siefaKMUPanlbPj3J0KnSCK8PrsY4/wtygshE9v
+         6yoekElXrXMUfZsuBeEsRxP9p2QHMhj+RzSgVq61QtsASRJkQ1yeMXZC3sfrHM/m03ia
+         sWOPYoQronB7XVVtwptaBuJht3drtscKiMiFIZiNZDz0CsljVT2cKTD1Y3f1almip/qr
+         PZ5AxeIc/rkI+yhxAxhDpfMEtMP9i3dGzxDweMk652qe9+I+TzidfjffLeyWOf++TKxw
+         llbjLYhbXw3nvZcj9O+oHrteK/RQXd/SlAIQjPn4bimmIeGtuixpCjWKODY3eBODU9Oc
+         UEgw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=Pim9Ezl7;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=WKqJxdxa;
        spf=pass (google.com: domain of trishalfonso@google.com designates 2a00:1450:4864:20::443 as permitted sender) smtp.mailfrom=trishalfonso@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:list-post:list-help:list-archive:list-subscribe
-         :list-unsubscribe;
-        bh=3n+sXRFXzOXz24PnZvZ0ZmIP0yUtCyUWuJfkzCICJBM=;
-        b=c/g03Co2iizqz7/mNcTTM+PucHHw10vwyb3YujVmInfVeg0v3Kw4Sz2hapA8WphhtZ
-         Esxtav4O8mlS0AsTwIDYpeqY+Fl03n84+Qsun0rVPb2m9ZUBQ0ONbYGKGeI5CtqLtOpK
-         PxFk75m4oURd3XfHXtc+uAyBJtiYIIbI9j7w/BNg6VqLvqNPaP9CzbbDKS14brq835T4
-         +TryhdLkXjkTuIRmMX+DWwTXHgoY15CP5e+72rwWUhULfrb+xcXcea5X2LTyIlV7tYtu
-         JUi3pVLyytpyQAUVHrsIAhw3s04SLbDn3p/50WvL8og2vyQjWPCJx3lbnogOFbSs20cH
-         LwJA==
+         :cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=xzwhGKws036MypBN7uggD8H6UCJQv51e8h0SekHsVuw=;
+        b=XSoU3xFET6RRCjRFlSHTAKZQG9UDJX7ga/gUj8hM6s5kQQrtEhqCuA+6BR7XvwROw5
+         Ea1lNWgE/wWmvAqXhw0FHpa5OhzcZ1rheTlJbuihNLPoAHoey2hijEQeN8M3SAa6uCzz
+         nqKZcFscM0V/iMrvmDwkPsCdfKnDtvD69DDnS03VRbpM22JcoAFLwjF71yPePWKgzOBk
+         M/JsmWNKAWqvUvqNRYVL1NauSuZRU/Qi11Vf1fSNlYC2Sfruawr9wRT1uvN0/IKQoQ/x
+         Y8OzSt5v2nQ4Djiorbbv1MTDhe66dgZjFMYd39PzO22l0r4jYSYDfGCbpXoDb/3mPfrf
+         fvhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding
-         :x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=3n+sXRFXzOXz24PnZvZ0ZmIP0yUtCyUWuJfkzCICJBM=;
-        b=lyYt/+UIyb+fIzcVfwPbKWHAZDhcW7DIBnvAJsl4V4eCRSasdR+kF3EVSxPUufGZ+/
-         QeLYU4u+E38sJl5cd2FbdCrtiFxRSSgKlnoYRd4GIC5lZMPdRsnyLmQwvsBznBU0N01x
-         kpatuE+96wCywqeBEfdflCvk+8dF+82CgUAIQ/RyFQQyjtZbTXrnSnsmHZ3ZF9DyE5b+
-         EWnTP2IarQ+8SEn41fdV4A7dzLqe8kmHbH3p+jKbds5y1oVuBNBLz5uKzrrbsSUv5DHE
-         lKAwYkVdqIIcfoa2qRk406Y7wkcbkE+iF3ldbS/HP/wE2EXszXM972ehDImzFDbObUCk
-         frzA==
-X-Gm-Message-State: APjAAAXYekNQL75h/S9JGqzUU/uPGkDmioD3rCeafKVsxKXmujhG346g
-	AA6GDdDqWbw4oSj38I8VsIo=
-X-Google-Smtp-Source: APXvYqxHmDMaPGaVTI9X5GejE/1SnHzjrtLzdzlE2CFVCw9AY6JTMcZ7vK+qC8Ooo6woJL+1s3ohkg==
-X-Received: by 2002:a17:906:4a12:: with SMTP id w18mr6492297eju.321.1582937404688;
-        Fri, 28 Feb 2020 16:50:04 -0800 (PST)
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=xzwhGKws036MypBN7uggD8H6UCJQv51e8h0SekHsVuw=;
+        b=LsQHSJunGaJpGaQkg3oLwIFrXV+uGu+pCBI+agKTp7mQT02MCUh93443aHCwlGS42B
+         tLiqJ07cMYWhNgEgBDr+ZlFfweI1x+pzaau36vqsS1r88xGT2a/mRgRg8cDUvEQ8qi2/
+         6e8JCPmGk7MtvSiCjfn9eqJeWaWMMbrD7wyw2Ard/kN1UwIuliSCte5OiRPNf+bKO4U7
+         ADdVPRg6BAFF1HOySbUBljWR1O8t6hzJNOwQRrqUc/y11PfFYt5qZzwrk1S8mV1/y1kc
+         uLp0+QKVGnXCB+8C3LJpVXewUhR5+zlEXRvRBmGlYepO+ZAf3cTkkE92JPfFI4ChjGNF
+         jpaQ==
+X-Gm-Message-State: APjAAAWAAhACwFBk7DzFy87ypEsiPT6A7qCDuZAcn6gz8AT+xZydYTKs
+	0E/lzjh5YXjWJ+WvGFc3s68=
+X-Google-Smtp-Source: APXvYqyr/AGh8PvYKd+tlItxGUeDx9iLCXVo8otwmHiEtWIKHl2hskvUUEsGAJ7BwzyHjUqt2MuulQ==
+X-Received: by 2002:adf:e542:: with SMTP id z2mr7722319wrm.150.1582938587186;
+        Fri, 28 Feb 2020 17:09:47 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:906:bfe7:: with SMTP id vr7ls660630ejb.1.gmail; Fri, 28
- Feb 2020 16:50:04 -0800 (PST)
-X-Received: by 2002:a17:906:4d43:: with SMTP id b3mr6438948ejv.109.1582937404167;
-        Fri, 28 Feb 2020 16:50:04 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1582937404; cv=none;
+Received: by 2002:a1c:7e50:: with SMTP id z77ls2631920wmc.2.canary-gmail; Fri,
+ 28 Feb 2020 17:09:46 -0800 (PST)
+X-Received: by 2002:a1c:6085:: with SMTP id u127mr7626255wmb.144.1582938586548;
+        Fri, 28 Feb 2020 17:09:46 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1582938586; cv=none;
         d=google.com; s=arc-20160816;
-        b=qGcd53wogM5LtemjopsZvudpoEP/HSdPXTJBp1eYk48UEZehBA3/jEKhzEeHeE4EKT
-         sTqo9dcUp+C9I4h2S2fawxbu8Qsk9cyBlM0mRiGX2Evk0/h5VT/I3vGB7WLU9m7ceY5k
-         0gNiw68wpwxPtiPnrnEYUSgQIBQTOgy+eeYHtfQMRwOooqXFN/gwVc/Dp+xUP37xSNgK
-         Blwka6jB3scq65b54kjoZdL6wnnHYwb9782heqM/VSOGBXcCfBFyW6VKC3o78R2Iwd6t
-         fYR93BTyDZZ1hstNNbQfO4VsaoCDr+u/rsq1J3D3wmkO6Oggf2UT5JhtdwF14TihBAYN
-         110A==
+        b=TZFwFRuPZX7WAV+GNRRF4zoUR0ndmjh06kZW+t+yoyHTqtSwyrouD61dZdpyoh0dpy
+         8fbfp7xJOUBgtTEnTanYpvAqcQ9UrsAWiLP924yvG0X7eImPTVsufJRXY7ReFEst7fhF
+         TnUrFbYUSM/e/j4UhEkxhpArRPehRtKfP33G96+z3vVDvfE0MhIFlgG+z5qnYGaV0qal
+         +2lKPewWprsIcmcCpRSu71Bd5ptKzjsqtfsvA0teabuHcUZX/r6DuBUqWAUwtY2dKr7j
+         hQdUwKfPUT3nAix6zqeJ+R3qM4RIlUVDFtOB3fDlHdKtDaGO2G2p4a7f7GgObYag1Gte
+         oVlA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=0fc83ZqAA6+83fPnMS4lxXssttTpf+l85Fw1w82L0QU=;
-        b=ppNFxCb42dTfJPc7n0iJV1VFLh8T76/JcGVFCq/WU2xpSjOR7CrIU+lHJhn1lXIvSi
-         oHoyQlRrptfLF+Ny08m1rgG0hFpMEVdTxTxzHRbik0V+fmLlkHBrZV+d8CyObPqh901d
-         WH748Ns9jBo2utV05O1yUD7OSHJxmVavrJ47xmxbx2vfkgIRwlsmhBDVcWgPSEP0SmEI
-         bhtN/Ny2favTapq7yr9xVsz3MjhtNoN/wU9q7khxdXdUEt+85GUtqNrpTaJpxrobJGTq
-         kyqdWBfSeMoY5yYcGVnTyA6gmFH4JAK4e1rPEcJazY4GFRrCiR+7DWILJlaDJRUFDPyx
-         APQw==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=SN7G4tCYEshnaGRAM2db2SQakrRhJKUvOkKXHESfWSo=;
+        b=auwyZkG+BOY5Bhapn0vlsXazdoDRN2w8GlVNQubvtyKhwBA1xus8qWP/WpiZ22XbNF
+         T7DSMJuQR7Np0T0O1gSVYz2citvEcnUnVjiTRrl2AyeOUo8Cvo/m4XUm5MfifWg9dD2h
+         oRz+WCFXNJ19tZllduzmGUb8HeUvNOnCfPkH2yhBpp5YH2Jyofxx4f2D4F+A0sC9jL6X
+         2r4TXXy8xj1gk8HpjXD7rwJB8NbL/Z0wckHBjBNC2t7AOdcHaf7M26cK9eayKQI2CcNg
+         6F+Ot+Ai8OENtyGVvOC5clym+y6NCi6oBTaRCpZtV6t//MRC73i4BJz2u2D7+/752JEk
+         gXWA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=Pim9Ezl7;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=WKqJxdxa;
        spf=pass (google.com: domain of trishalfonso@google.com designates 2a00:1450:4864:20::443 as permitted sender) smtp.mailfrom=trishalfonso@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com. [2a00:1450:4864:20::443])
-        by gmr-mx.google.com with ESMTPS id s16si351559edy.3.2020.02.28.16.50.04
+        by gmr-mx.google.com with ESMTPS id f1si6007wme.1.2020.02.28.17.09.46
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 28 Feb 2020 16:50:04 -0800 (PST)
+        Fri, 28 Feb 2020 17:09:46 -0800 (PST)
 Received-SPF: pass (google.com: domain of trishalfonso@google.com designates 2a00:1450:4864:20::443 as permitted sender) client-ip=2a00:1450:4864:20::443;
-Received: by mail-wr1-x443.google.com with SMTP id e8so5260692wrm.5
-        for <kasan-dev@googlegroups.com>; Fri, 28 Feb 2020 16:50:04 -0800 (PST)
-X-Received: by 2002:adf:e38d:: with SMTP id e13mr6955293wrm.133.1582937403580;
- Fri, 28 Feb 2020 16:50:03 -0800 (PST)
+Received: by mail-wr1-x443.google.com with SMTP id y17so5308079wrn.6
+        for <kasan-dev@googlegroups.com>; Fri, 28 Feb 2020 17:09:46 -0800 (PST)
+X-Received: by 2002:adf:82ef:: with SMTP id 102mr6964889wrc.23.1582938585758;
+ Fri, 28 Feb 2020 17:09:45 -0800 (PST)
 MIME-Version: 1.0
 References: <20200227024301.217042-1-trishalfonso@google.com>
- <20200227024301.217042-2-trishalfonso@google.com> <CACT4Y+b0LHp15GNchK_TPxaqX8zscqgBw-Jm2Y3yq8Bn=dRbeQ@mail.gmail.com>
-In-Reply-To: <CACT4Y+b0LHp15GNchK_TPxaqX8zscqgBw-Jm2Y3yq8Bn=dRbeQ@mail.gmail.com>
+ <20200227024301.217042-2-trishalfonso@google.com> <CACT4Y+bO7N_80N7NkjOstp=dxGnV1GZUoH3sh6XU90ro0_7M0A@mail.gmail.com>
+In-Reply-To: <CACT4Y+bO7N_80N7NkjOstp=dxGnV1GZUoH3sh6XU90ro0_7M0A@mail.gmail.com>
 From: "'Patricia Alfonso' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Fri, 28 Feb 2020 16:49:52 -0800
-Message-ID: <CAKFsvUJhbk6cOXKgQ1+9=eDRDES1AB0rSTM+zid-yfk2U-qhYw@mail.gmail.com>
+Date: Fri, 28 Feb 2020 17:09:34 -0800
+Message-ID: <CAKFsvUKB=S9p6JjRHg=h9d2MM_kb+BoRYO8-wkWPEQex2W1vZA@mail.gmail.com>
 Subject: Re: [RFC PATCH 2/2] KUnit: KASAN Integration
 To: Dmitry Vyukov <dvyukov@google.com>
 Cc: Andrey Ryabinin <aryabinin@virtuozzo.com>, Brendan Higgins <brendanhiggins@google.com>, 
@@ -115,10 +113,9 @@ Cc: Andrey Ryabinin <aryabinin@virtuozzo.com>, Brendan Higgins <brendanhiggins@g
 	LKML <linux-kernel@vger.kernel.org>, kasan-dev <kasan-dev@googlegroups.com>, 
 	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>, kunit-dev@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-Original-Sender: trishalfonso@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=Pim9Ezl7;       spf=pass
+ header.i=@google.com header.s=20161025 header.b=WKqJxdxa;       spf=pass
  (google.com: domain of trishalfonso@google.com designates 2a00:1450:4864:20::443
  as permitted sender) smtp.mailfrom=trishalfonso@google.com;       dmarc=pass
  (p=REJECT sp=REJECT dis=NONE) header.from=google.com
@@ -136,7 +133,7 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Feb 27, 2020 at 6:45 AM Dmitry Vyukov <dvyukov@google.com> wrote:
+On Thu, Feb 27, 2020 at 6:39 AM Dmitry Vyukov <dvyukov@google.com> wrote:
 >
 > On Thu, Feb 27, 2020 at 3:44 AM 'Patricia Alfonso' via kasan-dev
 > <kasan-dev@googlegroups.com> wrote:
@@ -151,53 +148,174 @@ On Thu, Feb 27, 2020 at 6:45 AM Dmitry Vyukov <dvyukov@google.com> wrote:
 > >  - This prints "line# has passed" or "line# has failed"
 > >
 > > Signed-off-by: Patricia Alfonso <trishalfonso@google.com>
+> > ---
+> > If anyone has any suggestions on how best to print the failure
+> > messages, please share!
+> >
+> > One issue I have found while testing this is the allocation fails in
+> > kmalloc_pagealloc_oob_right() sometimes, but not consistently. This
+> > does cause the test to fail on the KUnit side, as expected, but it
+> > seems to skip all the tests before this one because the output starts
+> > with this failure instead of with the first test, kmalloc_oob_right().
+> >
+> >  include/kunit/test.h                | 24 ++++++++++++++++++++++++
+> >  include/linux/sched.h               |  7 ++++++-
+> >  lib/kunit/test.c                    |  7 ++++++-
+> >  mm/kasan/report.c                   | 19 +++++++++++++++++++
+> >  tools/testing/kunit/kunit_kernel.py |  2 +-
+> >  5 files changed, 56 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/include/kunit/test.h b/include/kunit/test.h
+> > index 2dfb550c6723..2e388f8937f3 100644
+> > --- a/include/kunit/test.h
+> > +++ b/include/kunit/test.h
+> > @@ -21,6 +21,8 @@ struct kunit_resource;
+> >  typedef int (*kunit_resource_init_t)(struct kunit_resource *, void *);
+> >  typedef void (*kunit_resource_free_t)(struct kunit_resource *);
+> >
+> > +void kunit_set_failure(struct kunit *test);
+> > +
+> >  /**
+> >   * struct kunit_resource - represents a *test managed resource*
+> >   * @allocation: for the user to store arbitrary data.
+> > @@ -191,6 +193,9 @@ struct kunit {
+> >          * protect it with some type of lock.
+> >          */
+> >         struct list_head resources; /* Protected by lock. */
+> > +
+> > +       bool kasan_report_expected;
+> > +       bool kasan_report_found;
+> >  };
+> >
+> >  void kunit_init_test(struct kunit *test, const char *name);
+> > @@ -941,6 +946,25 @@ do {                                                                              \
+> >                                                 ptr,                           \
+> >                                                 NULL)
+> >
+> > +/**
+> > + * KUNIT_EXPECT_KASAN_FAIL() - Causes a test failure when the expression does
+> > + * not cause a KASAN error.
 >
-> This does not build for me:
+> Oh, I see, this is not a test, but rather an ASSERT-like macro.
+> Then maybe we should use it for actual expressions that are supposed
+> to trigger KASAN errors?
 >
-> $ make
-> scripts/kconfig/conf  --syncconfig Kconfig
->   CC      arch/x86/kernel/asm-offsets.s
->   UPD     include/generated/asm-offsets.h
->   CALL    scripts/checksyscalls.sh
->   CALL    scripts/atomic/check-atomics.sh
->   DESCEND  objtool
->   CC      init/main.o
-> In file included from ./include/linux/uaccess.h:11,
->                  from ./arch/x86/include/asm/fpu/xstate.h:5,
->                  from ./arch/x86/include/asm/pgtable.h:26,
->                  from ./include/linux/kasan.h:15,
->                  from ./include/linux/slab.h:136,
->                  from ./include/kunit/test.h:16,
->                  from ./include/linux/sched.h:35,
->                  from ./include/linux/ioprio.h:5,
->                  from ./include/linux/fs.h:39,
->                  from ./include/linux/proc_fs.h:9,
->                  from init/main.c:18:
-> ./arch/x86/include/asm/uaccess.h: In function =E2=80=98set_fs=E2=80=99:
-> ./arch/x86/include/asm/uaccess.h:31:9: error: dereferencing pointer to
-> incomplete type =E2=80=98struct task_struct=E2=80=99
->    31 |  current->thread.addr_limit =3D fs;
->       |         ^~
-> make[1]: *** [scripts/Makefile.build:268: init/main.o] Error 1
-> make: *** [Makefile:1681: init] Error 2
+> E.g. KUNIT_EXPECT_KASAN_FAIL(test, *(volatile int*)p);
 >
->
-> On bfdc6d91a25f4545bcd1b12e3219af4838142ef1 config:
-> https://pastebin.com/raw/nwnL2N9w
 
-I'm sorry. It seems I only ever tested locally on UML. As Alan
-suggested, removing "#include <kunit/test.h>" from
-include/linux/sched.h seems to fix this problem.
+This is one possible approach. I wasn't sure what would be the most
+useful. Would it be most useful to assert an error is reported on a
+function or assert an error is reported at a specific address?
 
---=20
-Best,
+>
+> > + *
+> > + */
+> > +#define KUNIT_EXPECT_KASAN_FAIL(test, condition) do {  \
+>
+> s/condition/expression/
+>
+> > +       test->kasan_report_expected = true;     \
+>
+> Check that kasan_report_expected is unset. If these are nested things
+> will break in confusing ways.
+> Or otherwise we need to restore the previous value at the end.
+>
+Good point! I think I was just unsure of where I should set this value
+and what the default should be.
+
+> > +       test->kasan_report_found = false; \
+> > +       condition; \
+> > +       if (test->kasan_report_found == test->kasan_report_expected) { \
+>
+> We know that kasan_report_expected is true here, so we could just said:
+>
+> if (!test->kasan_report_found)
+>
+Good point! This is much more readable
+
+> > +               pr_info("%d has passed", __LINE__); \
+> > +       } else { \
+> > +               kunit_set_failure(test); \
+> > +               pr_info("%d has failed", __LINE__); \
+>
+> This needs a more readable error.
+>
+Yes, this was just a stand-in. I was wondering if you might have a
+suggestion for the best way to print this failure message? Alan
+suggested reusing the KUNIT_EXPECT_EQ() macro so the error message
+would look something like:
+"Expected kasan_report_expected == kasan_report_found, but
+kasan_report_expected == true
+kasan_report_found == false"
+
+What do you think of this?
+
+> > +       } \
+> > +       test->kasan_report_expected = false;    \
+> > +       test->kasan_report_found = false;       \
+> > +} while (0)
+> > +
+> >  /**
+> >   * KUNIT_EXPECT_TRUE() - Causes a test failure when the expression is not true.
+> >   * @test: The test context object.
+> > diff --git a/include/linux/sched.h b/include/linux/sched.h
+> > index 04278493bf15..db23d56061e7 100644
+> > --- a/include/linux/sched.h
+> > +++ b/include/linux/sched.h
+> > @@ -32,6 +32,8 @@
+> >  #include <linux/posix-timers.h>
+> >  #include <linux/rseq.h>
+> >
+> > +#include <kunit/test.h>
+> > +
+> >  /* task_struct member predeclarations (sorted alphabetically): */
+> >  struct audit_context;
+> >  struct backing_dev_info;
+> > @@ -1178,7 +1180,10 @@ struct task_struct {
+> >
+> >  #ifdef CONFIG_KASAN
+> >         unsigned int                    kasan_depth;
+> > -#endif
+> > +#ifdef CONFIG_KUNIT
+> > +       struct kunit *kasan_kunit_test;
+>
+> I would assume we will use this for other things as well (failing
+> tests on LOCKDEP errors, WARNINGs, etc).
+> So I would call this just kunit_test and make non-dependent on KASAN right away.
+>
+Yeah, I think I just wanted to make it clear that this is only used
+for KASAN, but I believe that was before we talked about extending
+this.
+
+> > +       if (current->kasan_kunit_test) {
+>
+> Strictly saying, this also needs to check in_task().
+>
+
+I was not aware of in_task()... can you explain its importance to me?
+
+> > +               if (current->kasan_kunit_test->kasan_report_expected) {
+> > +                       current->kasan_kunit_test->kasan_report_found = true;
+> > +                       return;
+> > +               }
+> > +               kunit_set_failure(current->kasan_kunit_test);
+> > +       }
+>
+> This chunk is duplicated 2 times. I think it will be more reasonable
+> for KASAN code to just notify KUNIT that the error has happened, and
+> then KUNIT will figure out what it means and what to do.
+>
+>
+Yeah, I think moving this to the KUnit files is best too. I would like
+to keep kunit_set_failure a static function as well.
+
+
+-- 
+Thank you for the comments!
+
 Patricia Alfonso
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CAKFsvUJhbk6cOXKgQ1%2B9%3DeDRDES1AB0rSTM%2Bzid-yfk2U-qhYw%40mail.=
-gmail.com.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAKFsvUKB%3DS9p6JjRHg%3Dh9d2MM_kb%2BBoRYO8-wkWPEQex2W1vZA%40mail.gmail.com.
