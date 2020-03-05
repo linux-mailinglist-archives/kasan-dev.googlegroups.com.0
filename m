@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBNEXQTZQKGQEPOFLABA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCMIZB7QWENRBKVIQTZQKGQESUKAXNQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pg1-x53c.google.com (mail-pg1-x53c.google.com [IPv6:2607:f8b0:4864:20::53c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A78C17A755
-	for <lists+kasan-dev@lfdr.de>; Thu,  5 Mar 2020 15:24:54 +0100 (CET)
-Received: by mail-pg1-x53c.google.com with SMTP id v11sf3312149pgs.10
-        for <lists+kasan-dev@lfdr.de>; Thu, 05 Mar 2020 06:24:54 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1583418293; cv=pass;
+Received: from mail-vk1-xa3f.google.com (mail-vk1-xa3f.google.com [IPv6:2607:f8b0:4864:20::a3f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E26017A85E
+	for <lists+kasan-dev@lfdr.de>; Thu,  5 Mar 2020 16:00:59 +0100 (CET)
+Received: by mail-vk1-xa3f.google.com with SMTP id c127sf2112214vkh.18
+        for <lists+kasan-dev@lfdr.de>; Thu, 05 Mar 2020 07:00:59 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1583420458; cv=pass;
         d=google.com; s=arc-20160816;
-        b=FARFh0o9x+pF+hEEUC2ixHYVy/riC5A+HTU+MsjrfqU8v9/+x3sh07Z9WldZ+pW+UG
-         dRjZIO3p7TBLvmke86r/78BgLLLKMT+99VRJcgDP3trBj3MXESGVRZrKvUGBb98+uWN1
-         nuHwZ8tjgtjCgzwdWqd90/UeqbbzooU+1ganIKZrggZMYFNrwksAYEjt9xyhJ/5ej/WH
-         az+F3j1kijmmz+1Gu5J5lNGIIqqcywW6e4+b2ESm7UavBZRSuoTToM4T25CTcMgFotY/
-         eukl80/xDx5a8WdNLQJfSBD606H4w+iYcqDp6La+IbE7XIY88TXga8PKtChOgHBlDwnS
-         AHmA==
+        b=RD3jhtd2gdOfGvfNWukq0nURx9JDV33m1ilPu1dmRGPr4P2icrS2gOpt/HwDqCQ9Jp
+         eaXg0LwVgC362zTd6LdKE+PqUfL46U7gR7JrNlymN+R0NxW9B/yirONSLu4JEIHygyjw
+         Vz1uqp/Pl04hcLSZZHCNCMyKaLcDyNDCVmZHW590gaanxSrFHe60YByz3yjSSy7XK6dQ
+         Ep18RP0no0MkYy19wjxvlcBfsa3yo1VbkJkwP6EH1IBN+QN4xR+AYl7xkCr+/C22x21q
+         k2jMcXuL1K2TFx4xuJywJasQ0qUdGSLvNcQ0G5W0M8mHA2X4W0nFs3bjWXcK+OPCxg+5
+         nPmA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=GzWdjosLU3DJRP7zTP35bGVbt7tDLd/WsuoMep0Fna8=;
-        b=H7gQMAPN3f2kVxFo/JilVDSjlgA7SeD58p8gVTj4DhtT3LHedvCbU/B7ow22Hq89Oo
-         aoscgjA3TENfHHvk78KdhZU1R/MkyhkusKnISt2+EpNHJFhO7h4Pl77bSk7Gew4MwYhO
-         o6s4OZDjZ+vJ9iV1wpzR1v7fmeJNvOmhYqAQvH50luroUkKwYEXTkOpryDPu9gqQZHMp
-         hmqS26iiX1KqHAKzbMbJGD2fBreWBope2o/+VvWWnfy1oid+rSTcJ2Z+oMpgzjHvRzLV
-         g1KJrkzmLqLCkUD/VyqxzzWSYO9aOnL6xoB1IzhC9DfzK9fiJUhifIti4f8ZcxcZmK3o
-         +4sQ==
+        bh=Xpccqe7AsfEiMTtSRdFc/8FeJa/3rIsSUnUfEkFnTsU=;
+        b=UTm3cUgaxkvPKe4PsWay8GPEmN7C0GKX41S9/qfBfxvOGxDX+x7bFAsPFHiPuXZW2r
+         J7ps4BbxYeX0hIRkLaEcN1+mCsx0R3t8FLMGRhFlmOHtl7+v3iebn3TUEcCGGD0TpsYe
+         yH6P/UjzXyENVAA0pw4GIRwzpFYkFpL4H7UZJM4+wEpJSasG3tb2X8DOWyYUZsaur1QY
+         Nq32e4sYJz2THiSCtHTDUZUs1pWlSp9qpupA17yNGS6ClPLLGvUsYsbnKMkiJQ+s/mDd
+         x5U7rW7nZvk48ZYr4iPj/nsr5eS5y5gNnhaUCZG3GjK3g3xHoRLyXp9MR6pN6/+8Zw9p
+         bMIg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=OM4RnwdM;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::241 as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=Ex8G2A6+;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::741 as permitted sender) smtp.mailfrom=dvyukov@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=GzWdjosLU3DJRP7zTP35bGVbt7tDLd/WsuoMep0Fna8=;
-        b=QwnSb2Azp4EmZp1lEtvYUpJBIbUae8X0CanL6rEDaqvHCApnMnGa4P3/rk/7RgcyfZ
-         4Djxk+BJvirYZqmjuZTUVxiRXhs/TIiJFr6tNnz1oNOcbBk0jwgQbo6AfTdhGbc6JP6E
-         RgbJRlWBzTYdMILxw+327SiwpgJmtjfiBYw2uLYLKtEPdyZr/N2V1zsXvQv1Aq/smD6g
-         dmLbC7mY1uQDTj2GEvrEgZzyKG4oXlot79WK/R2m9STmsOSe/8Gu6SEZX7n3zDToBiR5
-         eyZoQlGJyFHv5us92E1cBYmxV1npx8SlvneSfZEz2bQ0vj1t6N2khhhTDBr7f5PkUf98
-         VAkQ==
+        bh=Xpccqe7AsfEiMTtSRdFc/8FeJa/3rIsSUnUfEkFnTsU=;
+        b=eqpi4B9gixaexYxidMWSV5MhE87U3ExiBqPqhQWtaRA/OoFLJh+kp+3P0Ibvnk+Npc
+         4qttCk4inL5ayJMyIKfkUTxhBy4dz2ry/LBdhwSjNSMghQW7tPx9VzOYLP1g3E6wb1l8
+         bR9C+8HBTtSIkEr6e99+hHMAEE5xaYv1QF0Wy/g7mjGEnV31Mf9mDDokiCb1AE2MyrjG
+         G6C/Ky2J3eUs4ccF8bQXb8UWJshi6msxKNygrWB1WQ466fEh/kF/QybJJKkKvdwYOoGW
+         WqQTiqKYDeanhDz9+l3a4eRhaTimDUYX8K1q8IboIkoWj2U623QRlRhEW43tZK3YcAJ2
+         2ffA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
@@ -49,77 +49,76 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=GzWdjosLU3DJRP7zTP35bGVbt7tDLd/WsuoMep0Fna8=;
-        b=ePRrIq+/NGaTYMdpmLxNJJySxCGb8or4p0701UYdcLx21U4otfkhyGUUyNwIJOcq1t
-         Ch5EoxZgX0oWwVKmz2wx2zeNmr+sw4qsqiMNYZo+hpCLRIRzO8VbF281xFwEoffthnqN
-         XSXbbSaG3HvsFZUoEt4xeZWPo68Tah1JoGMe5QLECN1T/Wlj0GCvk+0N/YdqQ018kFOo
-         Bx6k0eETM/RgQ7AytGtwXg2vGjyK71q2EWNsf43cGNCnenL21m7ZQXiIHN6GtFy1pmf9
-         bN58axBFTdPN9i6Dtncu9td1C8rPq4vH2fM/Ubgx9LBjCeEM7LCjj4cPI840/CJBqnR9
-         4dwg==
-X-Gm-Message-State: ANhLgQ0AQUnR6rh4hvoFcc2Hu2hv+ttE1etFht8u/zAsjqGXD8OUdXzX
-	s8WqR2dhdQEtPJomHyw4pV4=
-X-Google-Smtp-Source: ADFU+vuN5SLNFvgZMfunlFIetQkAPayoLEXFtt0dr0IKh7rE20ZVLv8ilfSb76AJ+vgTjUQA+C2peQ==
-X-Received: by 2002:a63:f311:: with SMTP id l17mr8096004pgh.142.1583418292757;
-        Thu, 05 Mar 2020 06:24:52 -0800 (PST)
+        bh=Xpccqe7AsfEiMTtSRdFc/8FeJa/3rIsSUnUfEkFnTsU=;
+        b=KAhzCP5R8tvXsc3AKCoOQ3R9xLyx/2/Af5oBXKAnkRiVFe+lotylew8y5xDRr9hNHb
+         l5HUI9njJWNjAj9WIG+UloVJVJiXqyffms1n7wXy68Etds9EJPJ9v618Ot+iXO6JOzAs
+         AHzZ1mI9iVpgCYDaBrYKH0iByySeMGfNyGGpljOA+bPuqGrFaVbwFfWsviUXexPnDT4B
+         Jvni2PxixEyFHgPYCfpbk5ywd/RGOIZMX9rJglnVDsU59i+Fi9l8TUM1kNhb88TfEaUk
+         KxZIG2MqXJbZSwz5TlQPB24vIszr/d9zbFz0Esw+G52UnN+VjQCHzz6xf2cCK91EPT6q
+         1hng==
+X-Gm-Message-State: ANhLgQ3yciDlEYN5HK7E184CV/hu6Huf14StdGH673msWoRvvultUR79
+	/o7HR8f5N5C3Wi3ZegyqIbk=
+X-Google-Smtp-Source: ADFU+vvO+3suHZPS90b+pPZTnzWvEANUwb1oub2iIfYsS3HtDROkxqzu53VSxTuFgAvGAbCATXCiWQ==
+X-Received: by 2002:a67:8c44:: with SMTP id o65mr5266395vsd.181.1583420458349;
+        Thu, 05 Mar 2020 07:00:58 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a63:7744:: with SMTP id s65ls846961pgc.3.gmail; Thu, 05 Mar
- 2020 06:24:52 -0800 (PST)
-X-Received: by 2002:aa7:8191:: with SMTP id g17mr8750436pfi.25.1583418292251;
-        Thu, 05 Mar 2020 06:24:52 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1583418292; cv=none;
+Received: by 2002:ab0:751a:: with SMTP id m26ls54475uap.11.gmail; Thu, 05 Mar
+ 2020 07:00:57 -0800 (PST)
+X-Received: by 2002:a9f:21aa:: with SMTP id 39mr4790842uac.138.1583420457894;
+        Thu, 05 Mar 2020 07:00:57 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1583420457; cv=none;
         d=google.com; s=arc-20160816;
-        b=GRgiV6jifO5RafsgPBn8/jc8FwdyUHBripqe2UO3dFNrNTy3eGRDcH01ZoWKuPQkIy
-         MrlLsenKli6l7QEtqwvubXMfpSPRJicsHVraU+SF8CQ0CFV2MjEAWgUi+VmARfxX0LsM
-         3Nnco7ZOOitWsg7CmDFFc4zEM3ZSq49tcI4yMqGCXs6UAMQ0WBcA5pzBUNKGP5VABPUj
-         l06Cfz1eRmevtqaGro2Z4TFBmE8HEIdSE2rVBu33ReGw+jHYeYgk/PXcvBDFxklfwXQJ
-         js5fbhGmc42MO/Ydy5NLFtCvSwkchRTXi8G+AFqjXcyduWR8nfI4kqy5O04herj478sL
-         9c8g==
+        b=wBCT1Q0a9TsWFtE1Fj//7stzCEa34Z3UX4wfz6AsBlsX0RpIYS0uhdRNVYZP4fMOrn
+         /QJWcnCxaSNGNNvCailJsLjjW+1UDYet7jwReBICMsmPwvKewqxDG87epqCgTFg9cwbD
+         t8rOiAkZorUNtjKyLHhIsKpjmjWQz8vaO3UcvsT2Je6yNb3hsgxQYztIr1m55hg54SPO
+         a7QaaiqsgMHug38YuLuhRrxShnQQUxbZ6qy8GahjPGY68i+nT72QJtjKEB5NaEQwv7dO
+         +8Q8ZPME2uRtYkZETTnwZ4JBd6O37R6JxomQEatPbG/XhK4Y7I7dSO9Ll2D8fo3wZJrL
+         Yz0A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=WdOkNe1i6CaMq0tiqi6obtIyviMmK0f4VHBh6zrGclw=;
-        b=W0npRA5gKeGg84zPy5dxjhhzdnhqMcnfT8c48WEeUD9xSR/yomFN8SYbSVhuH3FUrv
-         /2VfU4iL/xZXl+Pp4b9VGZCVUazC1nKOUlULaIfONVwVtd7LY3riG0xiLjWEWxnU6lSS
-         qczM7NgTxhBpb7hZdPH1q/zriz6pZEQiPn9pXIWgAQC88NJUG9ykSq+Am+cWEP4U/4rM
-         9OCQs3Dap4nRQJEF4SyrvItANMDYA1h6Wut2bDQ2Nffj4PajNn0tQSKwfpI92oF9HDzv
-         PqUQM7Ky0eQdWkGImOUE3GiywZx19cY6JnewCiwEVxpRc+VdMKT0oPLIjwVVT4w8GHIN
-         E1FQ==
+        bh=pW1XsXMlKF0mwYd8TUNT+Rz9xBvx6M7XY+U2Node5Ok=;
+        b=kR9crbzKjFheNqzJQYDt5sf80OV6W8qeNniEUNOOSJcMjNS2COi6ibkQ39Ym+TadZi
+         glJwiGmwW6kS35Ojikvy12ITeis4sksvN0R+5VItXmJ01kfQDH19dLkErP73C/nYLaf3
+         XpxufT1Wyz4KlIHb/7Ts75s9YF1YY/IXDIWSQ5V2lFRePanG0N0oOpZGiO3yfq38F1RX
+         5W6hDm5ZdT/rlOJ090PGOOwBbbu7XDdGsVwL18pSDXHh+KjbD7G8Vp1jt1kXXynL862X
+         f4n4K0hQFlSYCnscz3S2rkLL8muYBE8zqFRjiKHlf4h1RPWQd5hjgWgAy7fJPrOXO56b
+         4LtA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=OM4RnwdM;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::241 as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=Ex8G2A6+;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::741 as permitted sender) smtp.mailfrom=dvyukov@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com. [2607:f8b0:4864:20::241])
-        by gmr-mx.google.com with ESMTPS id i4si248463pgg.1.2020.03.05.06.24.52
+Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com. [2607:f8b0:4864:20::741])
+        by gmr-mx.google.com with ESMTPS id h6si445598vkc.3.2020.03.05.07.00.57
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 05 Mar 2020 06:24:52 -0800 (PST)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::241 as permitted sender) client-ip=2607:f8b0:4864:20::241;
-Received: by mail-oi1-x241.google.com with SMTP id i1so6093705oie.8
-        for <kasan-dev@googlegroups.com>; Thu, 05 Mar 2020 06:24:52 -0800 (PST)
-X-Received: by 2002:a05:6808:8d5:: with SMTP id k21mr5897489oij.121.1583418291263;
- Thu, 05 Mar 2020 06:24:51 -0800 (PST)
+        Thu, 05 Mar 2020 07:00:57 -0800 (PST)
+Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::741 as permitted sender) client-ip=2607:f8b0:4864:20::741;
+Received: by mail-qk1-x741.google.com with SMTP id p62so5564808qkb.0
+        for <kasan-dev@googlegroups.com>; Thu, 05 Mar 2020 07:00:57 -0800 (PST)
+X-Received: by 2002:ae9:e003:: with SMTP id m3mr8719872qkk.250.1583420455002;
+ Thu, 05 Mar 2020 07:00:55 -0800 (PST)
 MIME-Version: 1.0
-References: <20200304162541.46663-1-elver@google.com> <20200304162541.46663-2-elver@google.com>
- <1583340277.7365.153.camel@lca.pw> <CANpmjNPKjbCi=m+3Cqyhh9o5xrmLOzB6O48vtAP9KMsEsgzNrA@mail.gmail.com>
-In-Reply-To: <CANpmjNPKjbCi=m+3Cqyhh9o5xrmLOzB6O48vtAP9KMsEsgzNrA@mail.gmail.com>
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Thu, 5 Mar 2020 15:24:39 +0100
-Message-ID: <CANpmjNMXFyhA23WrTTAjzGcjvtXz-1y5DQi6a0xgSxzg_7bGEg@mail.gmail.com>
-Subject: Re: [PATCH 2/3] kcsan: Update Documentation/dev-tools/kcsan.rst
-To: Qian Cai <cai@lca.pw>
-Cc: "Paul E. McKenney" <paulmck@kernel.org>, Andrey Konovalov <andreyknvl@google.com>, 
-	Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>, 
-	kasan-dev <kasan-dev@googlegroups.com>, LKML <linux-kernel@vger.kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+References: <202002292221.D4YLxcV6%lkp@intel.com> <20200305134341.GY2596@hirez.programming.kicks-ass.net>
+In-Reply-To: <20200305134341.GY2596@hirez.programming.kicks-ass.net>
+From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Thu, 5 Mar 2020 16:00:42 +0100
+Message-ID: <CACT4Y+apHDVM7u8f660vc3orkHtCXY+ZGgn_Ueu_eXDxDw3Dgw@mail.gmail.com>
+Subject: Re: [peterz-queue:core/rcu 31/33] arch/x86/kernel/alternative.c:961:26:
+ error: inlining failed in call to always_inline 'try_get_desc': function
+ attribute mismatch
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: kbuild test robot <lkp@intel.com>, kbuild-all@lists.01.org, 
+	Thomas Gleixner <tglx@linutronix.de>, kasan-dev <kasan-dev@googlegroups.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
+X-Original-Sender: dvyukov@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=OM4RnwdM;       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::241 as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+ header.i=@google.com header.s=20161025 header.b=Ex8G2A6+;       spf=pass
+ (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::741
+ as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
+ (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Dmitry Vyukov <dvyukov@google.com>
+Reply-To: Dmitry Vyukov <dvyukov@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -132,54 +131,570 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, 4 Mar 2020 at 17:57, Marco Elver <elver@google.com> wrote:
+On Thu, Mar 5, 2020 at 2:43 PM Peter Zijlstra <peterz@infradead.org> wrote:
 >
-> On Wed, 4 Mar 2020 at 17:44, Qian Cai <cai@lca.pw> wrote:
-> >
-> > On Wed, 2020-03-04 at 17:25 +0100, 'Marco Elver' via kasan-dev wrote:
-> > >  Selective analysis
-> > >  ~~~~~~~~~~~~~~~~~~
-> > > @@ -111,8 +107,8 @@ the below options are available:
-> > >
-> > >  * Disabling data race detection for entire functions can be accomplished by
-> > >    using the function attribute ``__no_kcsan`` (or ``__no_kcsan_or_inline`` for
-> > > -  ``__always_inline`` functions). To dynamically control for which functions
-> > > -  data races are reported, see the `debugfs`_ blacklist/whitelist feature.
-> > > +  ``__always_inline`` functions). To dynamically limit for which functions to
-> > > +  generate reports, see the `DebugFS interface`_ blacklist/whitelist feature.
-> >
-> > As mentioned in [1], do it worth mentioning "using __no_kcsan_or_inline for
-> > inline functions as well when CONFIG_OPTIMIZE_INLINING=y" ?
-> >
-> > [1] https://lore.kernel.org/lkml/E9162CDC-BBC5-4D69-87FB-C93AB8B3D581@lca.pw/
 >
-> Strictly speaking it shouldn't be necessary. Only __always_inline is
-> incompatible with __no_kcsan.
+> Dmitry; I keep getting this from the 0day robot, but I can't reproduce
+> locally (with GCC-8 and up).
 >
-> AFAIK what you noticed is a bug with some versions of GCC. I think
-> with GCC >=9 and Clang there is no problem.
+> The alternative to having that __no_sanitize is moving the code that
+> wants this into it's own .c file and using the Makefile hacks to kills
+> everything dead, but that's cumbersome too.
 >
-> The bigger problem is turning a bunch of 'inline' functions into
-> '__always_inline' accidentally, that's why the text only mentions
-> '__no_kcsan_or_inline' for '__always_inline'. For extremely small
-> functions, that's probably ok, but it's not general advice we should
-> give for that reason.
+> The thing is, Thomas is reworking the x86 entry code and we're moving a
+> whole bunch of that into C, those early entry functions also all want
+> this.
 >
-> I will try to write something about this here, but sadly there is no
-> clear rule for this until the misbehaving compilers are no longer
-> supported.
+> Do you have any clues as to what gcc-7 is on about and what, if
+> anything, we can do about this?
 
-I've sent v2 of the comment/documentation update series:
-   http://lkml.kernel.org/r/20200305142109.50945-1-elver@google.com
-  (only this patch changed)
+Hi Peter,
 
-Please check it captures the current caveat around "__no_kcsan inline"
-with old compilers.
+I can reproduce this on:
 
-Thank you,
--- Marco
+commit 38b47f3cd6f56a0616b0503bbd58c9ab8b3511e9 (HEAD)
+   x86/int3: Ensure that poke_int3_handler() is not sanitized
+
+with a small diff:
+
+--- a/include/linux/rcupdate.h
++++ b/include/linux/rcupdate.h
+@@ -194,14 +194,14 @@ static inline int trace_rcu_enter(void)
+ {
+        int state = !rcu_is_watching();
+        if (state)
+-               rcu_irq_enter_irqsave();
++               rcu_irq_enter_irqsafe();
+        return state;
+ }
+
+ static inline void trace_rcu_exit(int state)
+ {
+        if (state)
+-               rcu_irq_exit_irqsave();
++               rcu_irq_exit_irqsafe();
+ }
+
+by running:
+
+make CC=gcc-7 arch/x86/kernel/alternative.o
+make CC=gcc-8 arch/x86/kernel/alternative.o
+
+
+Question: do we need/want to not kasan-instrument user_mode?
+
+
+
+
+
+> On Sat, Feb 29, 2020 at 10:37:26PM +0800, kbuild test robot wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git core/rcu
+> > head:   bc72cd8dac4be9572f0cae33b096f9c23460e08a
+> > commit: 2834aaec9e68691ed8d74bdfd3bbea47b6b3972f [31/33] x86/int3: Ensure that poke_int3_handler() is not sanitized
+> > config: x86_64-allmodconfig (attached as .config)
+> > compiler: gcc-7 (Debian 7.5.0-5) 7.5.0
+> > reproduce:
+> >         git checkout 2834aaec9e68691ed8d74bdfd3bbea47b6b3972f
+> >         # save the attached .config to linux build tree
+> >         make ARCH=x86_64
+> >
+> > If you fix the issue, kindly add following tag
+> > Reported-by: kbuild test robot <lkp@intel.com>
+> >
+> > All errors (new ones prefixed by >>):
+> >
+> >    In file included from arch/x86/include/asm/math_emu.h:5:0,
+> >                     from arch/x86/include/asm/processor.h:13,
+> >                     from arch/x86/include/asm/cpufeature.h:5,
+> >                     from arch/x86/include/asm/thread_info.h:53,
+> >                     from include/linux/thread_info.h:38,
+> >                     from arch/x86/include/asm/preempt.h:7,
+> >                     from include/linux/preempt.h:78,
+> >                     from include/linux/spinlock.h:51,
+> >                     from include/linux/seqlock.h:36,
+> >                     from include/linux/time.h:6,
+> >                     from include/linux/stat.h:19,
+> >                     from include/linux/module.h:13,
+> >                     from arch/x86/kernel/alternative.c:4:
+> >    arch/x86/kernel/alternative.c: In function 'poke_int3_handler':
+> >    arch/x86/include/asm/ptrace.h:126:28: error: inlining failed in call to always_inline 'user_mode': function attribute mismatch
+> >     static __always_inline int user_mode(struct pt_regs *regs)
+> >                                ^~~~~~~~~
+> >    arch/x86/kernel/alternative.c:1000:6: note: called from here
+> >      if (user_mode(regs))
+> >          ^~~~~~~~~~~~~~~
+> > >> arch/x86/kernel/alternative.c:961:26: error: inlining failed in call to always_inline 'try_get_desc': function attribute mismatch
+> >     struct bp_patching_desc *try_get_desc(struct bp_patching_desc **descp)
+> >                              ^~~~~~~~~~~~
+> >    arch/x86/kernel/alternative.c:1013:7: note: called from here
+> >      desc = try_get_desc(&bp_desc);
+> >      ~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+> >    In file included from arch/x86/kernel/alternative.c:17:0:
+> > >> include/linux/bsearch.h:8:7: error: inlining failed in call to always_inline '__bsearch': function attribute mismatch
+> >     void *__bsearch(const void *key, const void *base, size_t num, size_t size, cmp_func_t cmp)
+> >           ^~~~~~~~~
+> >    arch/x86/kernel/alternative.c:1026:6: note: called from here
+> >       tp = __bsearch(ip, desc->vec, desc->nr_entries,
+> >       ~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> >               sizeof(struct text_poke_loc),
+> >               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> >               patch_cmp);
+> >               ~~~~~~~~~~
+> >    arch/x86/kernel/alternative.c:977:30: error: inlining failed in call to always_inline 'text_poke_addr': function attribute mismatch
+> >     static __always_inline void *text_poke_addr(struct text_poke_loc *tp)
+> >                                  ^~~~~~~~~~~~~~
+> >    arch/x86/kernel/alternative.c:1033:7: note: called from here
+> >       if (text_poke_addr(tp) != ip)
+> >           ^~~~~~~~~~~~~~~~~~
+> >    In file included from arch/x86/include/asm/kprobes.h:18:0,
+> >                     from include/linux/kprobes.h:30,
+> >                     from arch/x86/kernel/alternative.c:15:
+> > >> arch/x86/include/asm/text-patching.h:67:28: error: inlining failed in call to always_inline 'text_opcode_size': function attribute mismatch
+> >     static __always_inline int text_opcode_size(u8 opcode)
+> >                                ^~~~~~~~~~~~~~~~
+> >    arch/x86/kernel/alternative.c:1037:6: note: called from here
+> >      len = text_opcode_size(tp->opcode);
+> >      ~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> >    In file included from arch/x86/include/asm/kprobes.h:18:0,
+> >                     from include/linux/kprobes.h:30,
+> >                     from arch/x86/kernel/alternative.c:15:
+> > >> arch/x86/include/asm/text-patching.h:144:6: error: inlining failed in call to always_inline 'int3_emulate_call': function attribute mismatch
+> >     void int3_emulate_call(struct pt_regs *regs, unsigned long func)
+> >          ^~~~~~~~~~~~~~~~~
+> >    arch/x86/kernel/alternative.c:1049:3: note: called from here
+> >       int3_emulate_call(regs, (long)ip + tp->rel32);
+> >       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> >    In file included from arch/x86/include/asm/kprobes.h:18:0,
+> >                     from include/linux/kprobes.h:30,
+> >                     from arch/x86/kernel/alternative.c:15:
+> > >> arch/x86/include/asm/text-patching.h:122:6: error: inlining failed in call to always_inline 'int3_emulate_jmp': function attribute mismatch
+> >     void int3_emulate_jmp(struct pt_regs *regs, unsigned long ip)
+> >          ^~~~~~~~~~~~~~~~
+> >    arch/x86/kernel/alternative.c:1054:3: note: called from here
+> >       int3_emulate_jmp(regs, (long)ip + tp->rel32);
+> >       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > >> arch/x86/kernel/alternative.c:971:29: error: inlining failed in call to always_inline 'put_desc': function attribute mismatch
+> >     static __always_inline void put_desc(struct bp_patching_desc *desc)
+> >                                 ^~~~~~~~
+> >    arch/x86/kernel/alternative.c:1064:2: note: called from here
+> >      put_desc(desc);
+> >      ^~~~~~~~~~~~~~
+> > --
+> >    In file included from include/linux/preempt.h:78:0,
+> >                     from include/linux/rcupdate.h:27,
+> >                     from include/linux/rculist.h:11,
+> >                     from include/linux/pid.h:5,
+> >                     from include/linux/sched.h:14,
+> >                     from include/linux/context_tracking.h:5,
+> >                     from arch/x86/kernel/traps.c:15:
+> >    arch/x86/kernel/traps.c: In function 'do_int3':
+> > >> arch/x86/include/asm/preempt.h:24:28: error: inlining failed in call to always_inline 'preempt_count': function attribute mismatch
+> >     static __always_inline int preempt_count(void)
+> >                                ^~~~~~~~~~~~~
+> >    In file included from arch/x86/include/asm/current.h:5:0,
+> >                     from include/linux/sched.h:12,
+> >                     from include/linux/context_tracking.h:5,
+> >                     from arch/x86/kernel/traps.c:15:
+> >    include/linux/preempt.h:102:20: note: called from here
+> >     #define in_nmi()  (preempt_count() & NMI_MASK)
+> >                        ^~~~~~~~~~~~~~~
+> >    include/linux/compiler.h:78:42: note: in definition of macro 'unlikely'
+> >     # define unlikely(x) __builtin_expect(!!(x), 0)
+> >                                              ^
+> >    include/linux/hardirq.h:86:3: note: in expansion of macro 'BUG_ON'
+> >       BUG_ON(in_nmi() == NMI_MASK);   \
+> >       ^~~~~~
+> >    include/linux/hardirq.h:86:10: note: in expansion of macro 'in_nmi'
+> >       BUG_ON(in_nmi() == NMI_MASK);   \
+> >              ^~~~~~
+> >    arch/x86/kernel/traps.c:521:2: note: in expansion of macro 'nmi_enter'
+> >      nmi_enter();
+> >      ^~~~~~~~~
+> >    In file included from include/linux/hardirq.h:7:0,
+> >                     from include/linux/interrupt.h:11,
+> >                     from arch/x86/kernel/traps.c:16:
+> > >> include/linux/ftrace_irq.h:10:29: error: inlining failed in call to always_inline 'ftrace_nmi_enter': function attribute mismatch
+> >     static __always_inline void ftrace_nmi_enter(void)
+> >                                 ^~~~~~~~~~~~~~~~
+> >    In file included from include/linux/interrupt.h:11:0,
+> >                     from arch/x86/kernel/traps.c:16:
+> >    include/linux/hardirq.h:85:3: note: called from here
+> >       ftrace_nmi_enter();    \
+> >       ^~~~~~~~~~~~~~~~~~
+> >    arch/x86/kernel/traps.c:521:2: note: in expansion of macro 'nmi_enter'
+> >      nmi_enter();
+> >      ^~~~~~~~~
+> >    In file included from include/linux/sched.h:12:0,
+> >                     from include/linux/context_tracking.h:5,
+> >                     from arch/x86/kernel/traps.c:15:
+> > >> arch/x86/include/asm/current.h:13:44: error: inlining failed in call to always_inline 'get_current': function attribute mismatch
+> >     static __always_inline struct task_struct *get_current(void)
+> >                                                ^~~~~~~~~~~
+> >    arch/x86/include/asm/current.h:18:17: note: called from here
+> >     #define current get_current()
+> >                     ^~~~~~~~~~~~~
+> >    include/linux/lockdep.h:304:2: note: in expansion of macro 'current'
+> >      current->lockdep_recursion += LOCKDEP_OFF; \
+> >      ^~~~~~~
+> >    include/linux/hardirq.h:84:3: note: in expansion of macro 'lockdep_off'
+> >       lockdep_off();     \
+> >       ^~~~~~~~~~~
+> >    arch/x86/kernel/traps.c:521:2: note: in expansion of macro 'nmi_enter'
+> >      nmi_enter();
+> >      ^~~~~~~~~
+> > >> arch/x86/include/asm/current.h:13:44: error: inlining failed in call to always_inline 'get_current': function attribute mismatch
+> >     static __always_inline struct task_struct *get_current(void)
+> >                                                ^~~~~~~~~~~
+> >    arch/x86/include/asm/current.h:18:17: note: called from here
+> >     #define current get_current()
+> >                     ^~~~~~~~~~~~~
+> >    include/linux/irqflags.h:40:2: note: in expansion of macro 'current'
+> >      current->hardirq_context++;  \
+> >      ^~~~~~~
+> >    include/linux/hardirq.h:89:3: note: in expansion of macro 'trace_hardirq_enter'
+> >       trace_hardirq_enter();    \
+> >       ^~~~~~~~~~~~~~~~~~~
+> >    arch/x86/kernel/traps.c:521:2: note: in expansion of macro 'nmi_enter'
+> >      nmi_enter();
+> >      ^~~~~~~~~
+> >    In file included from include/linux/preempt.h:78:0,
+> >                     from include/linux/rcupdate.h:27,
+> >                     from include/linux/rculist.h:11,
+> >                     from include/linux/pid.h:5,
+> >                     from include/linux/sched.h:14,
+> >                     from include/linux/context_tracking.h:5,
+> >                     from arch/x86/kernel/traps.c:15:
+> >    arch/x86/include/asm/preempt.h:77:29: error: inlining failed in call to always_inline '__preempt_count_add': function attribute mismatch
+> >     static __always_inline void __preempt_count_add(int val)
+> >                                 ^~~~~~~~~~~~~~~~~~~
+> >    In file included from include/linux/interrupt.h:11:0,
+> >                     from arch/x86/kernel/traps.c:16:
+> >    include/linux/hardirq.h:87:3: note: called from here
+> >       __preempt_count_add(NMI_OFFSET + HARDIRQ_OFFSET); \
+> >       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> >    arch/x86/kernel/traps.c:521:2: note: in expansion of macro 'nmi_enter'
+> >      nmi_enter();
+> >      ^~~~~~~~~
+> >    In file included from include/linux/preempt.h:78:0,
+> >                     from include/linux/rcupdate.h:27,
+> >                     from include/linux/rculist.h:11,
+> >                     from include/linux/pid.h:5,
+> >                     from include/linux/sched.h:14,
+> >                     from include/linux/context_tracking.h:5,
+> >                     from arch/x86/kernel/traps.c:15:
+> > >> arch/x86/include/asm/preempt.h:24:28: error: inlining failed in call to always_inline 'preempt_count': function attribute mismatch
+> >     static __always_inline int preempt_count(void)
+> >                                ^~~~~~~~~~~~~
+> >    In file included from arch/x86/include/asm/current.h:5:0,
+> >                     from include/linux/sched.h:12,
+> >                     from include/linux/context_tracking.h:5,
+> >                     from arch/x86/kernel/traps.c:15:
+> >    include/linux/preempt.h:102:20: note: called from here
+> >     #define in_nmi()  (preempt_count() & NMI_MASK)
+> >                        ^~~~~~~~~~~~~~~
+> >    include/linux/compiler.h:78:42: note: in definition of macro 'unlikely'
+> >     # define unlikely(x) __builtin_expect(!!(x), 0)
+> >                                              ^
+> >    include/linux/hardirq.h:96:3: note: in expansion of macro 'BUG_ON'
+> >       BUG_ON(!in_nmi());    \
+> >       ^~~~~~
+> >    include/linux/hardirq.h:96:11: note: in expansion of macro 'in_nmi'
+> >       BUG_ON(!in_nmi());    \
+> >               ^~~~~~
+> >    arch/x86/kernel/traps.c:543:2: note: in expansion of macro 'nmi_exit'
+> >      nmi_exit();
+> >      ^~~~~~~~
+> >    In file included from include/linux/sched.h:12:0,
+> >                     from include/linux/context_tracking.h:5,
+> >                     from arch/x86/kernel/traps.c:15:
+> > >> arch/x86/include/asm/current.h:13:44: error: inlining failed in call to always_inline 'get_current': function attribute mismatch
+> >     static __always_inline struct task_struct *get_current(void)
+> >                                                ^~~~~~~~~~~
+> >    arch/x86/include/asm/current.h:18:17: note: called from here
+> >     #define current get_current()
+> >                     ^~~~~~~~~~~~~
+> >    include/linux/irqflags.h:44:2: note: in expansion of macro 'current'
+> >      current->hardirq_context--;  \
+> >      ^~~~~~~
+> >    include/linux/hardirq.h:94:3: note: in expansion of macro 'trace_hardirq_exit'
+> >       trace_hardirq_exit();    \
+> >       ^~~~~~~~~~~~~~~~~~
+> >    arch/x86/kernel/traps.c:543:2: note: in expansion of macro 'nmi_exit'
+> >      nmi_exit();
+> >      ^~~~~~~~
+> > >> arch/x86/include/asm/current.h:13:44: error: inlining failed in call to always_inline 'get_current': function attribute mismatch
+> >     static __always_inline struct task_struct *get_current(void)
+> >                                                ^~~~~~~~~~~
+> >    arch/x86/include/asm/current.h:18:17: note: called from here
+> >     #define current get_current()
+> >                     ^~~~~~~~~~~~~
+> >    include/linux/lockdep.h:309:2: note: in expansion of macro 'current'
+> >      current->lockdep_recursion -= LOCKDEP_OFF; \
+> >      ^~~~~~~
+> >    include/linux/hardirq.h:99:3: note: in expansion of macro 'lockdep_on'
+> >       lockdep_on();     \
+> >       ^~~~~~~~~~
+> >    arch/x86/kernel/traps.c:543:2: note: in expansion of macro 'nmi_exit'
+> >      nmi_exit();
+> >      ^~~~~~~~
+> >    In file included from include/linux/hardirq.h:7:0,
+> >                     from include/linux/interrupt.h:11,
+> >                     from arch/x86/kernel/traps.c:16:
+> > >> include/linux/ftrace_irq.h:18:29: error: inlining failed in call to always_inline 'ftrace_nmi_exit': function attribute mismatch
+> >     static __always_inline void ftrace_nmi_exit(void)
+> >                                 ^~~~~~~~~~~~~~~
+> >    In file included from include/linux/interrupt.h:11:0,
+> >                     from arch/x86/kernel/traps.c:16:
+> >    include/linux/hardirq.h:98:3: note: called from here
+> >       ftrace_nmi_exit();    \
+> >       ^~~~~~~~~~~~~~~~~
+> >    arch/x86/kernel/traps.c:543:2: note: in expansion of macro 'nmi_exit'
+> >      nmi_exit();
+> >      ^~~~~~~~
+> >    In file included from include/linux/preempt.h:78:0,
+> >                     from include/linux/rcupdate.h:27,
+> >                     from include/linux/rculist.h:11,
+> >                     from include/linux/pid.h:5,
+> >                     from include/linux/sched.h:14,
+> >                     from include/linux/context_tracking.h:5,
+> >                     from arch/x86/kernel/traps.c:15:
+> >    arch/x86/include/asm/preempt.h:82:29: error: inlining failed in call to always_inline '__preempt_count_sub': function attribute mismatch
+> >     static __always_inline void __preempt_count_sub(int val)
+> >                                 ^~~~~~~~~~~~~~~~~~~
+> >    In file included from include/linux/interrupt.h:11:0,
+> >                     from arch/x86/kernel/traps.c:16:
+> >    include/linux/hardirq.h:97:3: note: called from here
+> >       __preempt_count_sub(NMI_OFFSET + HARDIRQ_OFFSET); \
+> >       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> >    arch/x86/kernel/traps.c:543:2: note: in expansion of macro 'nmi_exit'
+> >      nmi_exit();
+> >      ^~~~~~~~
+> > --
+> >    In file included from include/linux/preempt.h:78:0,
+> >                     from include/linux/rcupdate.h:27,
+> >                     from include/linux/rculist.h:11,
+> >                     from include/linux/pid.h:5,
+> >                     from include/linux/sched.h:14,
+> >                     from include/linux/context_tracking.h:5,
+> >                     from arch/x86//kernel/traps.c:15:
+> >    arch/x86//kernel/traps.c: In function 'do_int3':
+> > >> arch/x86/include/asm/preempt.h:24:28: error: inlining failed in call to always_inline 'preempt_count': function attribute mismatch
+> >     static __always_inline int preempt_count(void)
+> >                                ^~~~~~~~~~~~~
+> >    In file included from arch/x86/include/asm/current.h:5:0,
+> >                     from include/linux/sched.h:12,
+> >                     from include/linux/context_tracking.h:5,
+> >                     from arch/x86//kernel/traps.c:15:
+> >    include/linux/preempt.h:102:20: note: called from here
+> >     #define in_nmi()  (preempt_count() & NMI_MASK)
+> >                        ^~~~~~~~~~~~~~~
+> >    include/linux/compiler.h:78:42: note: in definition of macro 'unlikely'
+> >     # define unlikely(x) __builtin_expect(!!(x), 0)
+> >                                              ^
+> >    include/linux/hardirq.h:86:3: note: in expansion of macro 'BUG_ON'
+> >       BUG_ON(in_nmi() == NMI_MASK);   \
+> >       ^~~~~~
+> >    include/linux/hardirq.h:86:10: note: in expansion of macro 'in_nmi'
+> >       BUG_ON(in_nmi() == NMI_MASK);   \
+> >              ^~~~~~
+> >    arch/x86//kernel/traps.c:521:2: note: in expansion of macro 'nmi_enter'
+> >      nmi_enter();
+> >      ^~~~~~~~~
+> >    In file included from include/linux/hardirq.h:7:0,
+> >                     from include/linux/interrupt.h:11,
+> >                     from arch/x86//kernel/traps.c:16:
+> > >> include/linux/ftrace_irq.h:10:29: error: inlining failed in call to always_inline 'ftrace_nmi_enter': function attribute mismatch
+> >     static __always_inline void ftrace_nmi_enter(void)
+> >                                 ^~~~~~~~~~~~~~~~
+> >    In file included from include/linux/interrupt.h:11:0,
+> >                     from arch/x86//kernel/traps.c:16:
+> >    include/linux/hardirq.h:85:3: note: called from here
+> >       ftrace_nmi_enter();    \
+> >       ^~~~~~~~~~~~~~~~~~
+> >    arch/x86//kernel/traps.c:521:2: note: in expansion of macro 'nmi_enter'
+> >      nmi_enter();
+> >      ^~~~~~~~~
+> >    In file included from include/linux/sched.h:12:0,
+> >                     from include/linux/context_tracking.h:5,
+> >                     from arch/x86//kernel/traps.c:15:
+> > >> arch/x86/include/asm/current.h:13:44: error: inlining failed in call to always_inline 'get_current': function attribute mismatch
+> >     static __always_inline struct task_struct *get_current(void)
+> >                                                ^~~~~~~~~~~
+> >    arch/x86/include/asm/current.h:18:17: note: called from here
+> >     #define current get_current()
+> >                     ^~~~~~~~~~~~~
+> >    include/linux/lockdep.h:304:2: note: in expansion of macro 'current'
+> >      current->lockdep_recursion += LOCKDEP_OFF; \
+> >      ^~~~~~~
+> >    include/linux/hardirq.h:84:3: note: in expansion of macro 'lockdep_off'
+> >       lockdep_off();     \
+> >       ^~~~~~~~~~~
+> >    arch/x86//kernel/traps.c:521:2: note: in expansion of macro 'nmi_enter'
+> >      nmi_enter();
+> >      ^~~~~~~~~
+> > >> arch/x86/include/asm/current.h:13:44: error: inlining failed in call to always_inline 'get_current': function attribute mismatch
+> >     static __always_inline struct task_struct *get_current(void)
+> >                                                ^~~~~~~~~~~
+> >    arch/x86/include/asm/current.h:18:17: note: called from here
+> >     #define current get_current()
+> >                     ^~~~~~~~~~~~~
+> >    include/linux/irqflags.h:40:2: note: in expansion of macro 'current'
+> >      current->hardirq_context++;  \
+> >      ^~~~~~~
+> >    include/linux/hardirq.h:89:3: note: in expansion of macro 'trace_hardirq_enter'
+> >       trace_hardirq_enter();    \
+> >       ^~~~~~~~~~~~~~~~~~~
+> >    arch/x86//kernel/traps.c:521:2: note: in expansion of macro 'nmi_enter'
+> >      nmi_enter();
+> >      ^~~~~~~~~
+> >    In file included from include/linux/preempt.h:78:0,
+> >                     from include/linux/rcupdate.h:27,
+> >                     from include/linux/rculist.h:11,
+> >                     from include/linux/pid.h:5,
+> >                     from include/linux/sched.h:14,
+> >                     from include/linux/context_tracking.h:5,
+> >                     from arch/x86//kernel/traps.c:15:
+> >    arch/x86/include/asm/preempt.h:77:29: error: inlining failed in call to always_inline '__preempt_count_add': function attribute mismatch
+> >     static __always_inline void __preempt_count_add(int val)
+> >                                 ^~~~~~~~~~~~~~~~~~~
+> >    In file included from include/linux/interrupt.h:11:0,
+> >                     from arch/x86//kernel/traps.c:16:
+> >    include/linux/hardirq.h:87:3: note: called from here
+> >       __preempt_count_add(NMI_OFFSET + HARDIRQ_OFFSET); \
+> >       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> >    arch/x86//kernel/traps.c:521:2: note: in expansion of macro 'nmi_enter'
+> >      nmi_enter();
+> >      ^~~~~~~~~
+> >    In file included from include/linux/preempt.h:78:0,
+> >                     from include/linux/rcupdate.h:27,
+> >                     from include/linux/rculist.h:11,
+> >                     from include/linux/pid.h:5,
+> >                     from include/linux/sched.h:14,
+> >                     from include/linux/context_tracking.h:5,
+> >                     from arch/x86//kernel/traps.c:15:
+> > >> arch/x86/include/asm/preempt.h:24:28: error: inlining failed in call to always_inline 'preempt_count': function attribute mismatch
+> >     static __always_inline int preempt_count(void)
+> >                                ^~~~~~~~~~~~~
+> >    In file included from arch/x86/include/asm/current.h:5:0,
+> >                     from include/linux/sched.h:12,
+> >                     from include/linux/context_tracking.h:5,
+> >                     from arch/x86//kernel/traps.c:15:
+> >    include/linux/preempt.h:102:20: note: called from here
+> >     #define in_nmi()  (preempt_count() & NMI_MASK)
+> >                        ^~~~~~~~~~~~~~~
+> >    include/linux/compiler.h:78:42: note: in definition of macro 'unlikely'
+> >     # define unlikely(x) __builtin_expect(!!(x), 0)
+> >                                              ^
+> >    include/linux/hardirq.h:96:3: note: in expansion of macro 'BUG_ON'
+> >       BUG_ON(!in_nmi());    \
+> >       ^~~~~~
+> >    include/linux/hardirq.h:96:11: note: in expansion of macro 'in_nmi'
+> >       BUG_ON(!in_nmi());    \
+> >               ^~~~~~
+> >    arch/x86//kernel/traps.c:543:2: note: in expansion of macro 'nmi_exit'
+> >      nmi_exit();
+> >      ^~~~~~~~
+> >    In file included from include/linux/sched.h:12:0,
+> >                     from include/linux/context_tracking.h:5,
+> >                     from arch/x86//kernel/traps.c:15:
+> > >> arch/x86/include/asm/current.h:13:44: error: inlining failed in call to always_inline 'get_current': function attribute mismatch
+> >     static __always_inline struct task_struct *get_current(void)
+> >                                                ^~~~~~~~~~~
+> >    arch/x86/include/asm/current.h:18:17: note: called from here
+> >     #define current get_current()
+> >                     ^~~~~~~~~~~~~
+> >    include/linux/irqflags.h:44:2: note: in expansion of macro 'current'
+> >      current->hardirq_context--;  \
+> >      ^~~~~~~
+> >    include/linux/hardirq.h:94:3: note: in expansion of macro 'trace_hardirq_exit'
+> >       trace_hardirq_exit();    \
+> >       ^~~~~~~~~~~~~~~~~~
+> >    arch/x86//kernel/traps.c:543:2: note: in expansion of macro 'nmi_exit'
+> >      nmi_exit();
+> >      ^~~~~~~~
+> > >> arch/x86/include/asm/current.h:13:44: error: inlining failed in call to always_inline 'get_current': function attribute mismatch
+> >     static __always_inline struct task_struct *get_current(void)
+> >                                                ^~~~~~~~~~~
+> >    arch/x86/include/asm/current.h:18:17: note: called from here
+> >     #define current get_current()
+> >                     ^~~~~~~~~~~~~
+> >    include/linux/lockdep.h:309:2: note: in expansion of macro 'current'
+> >      current->lockdep_recursion -= LOCKDEP_OFF; \
+> >      ^~~~~~~
+> >    include/linux/hardirq.h:99:3: note: in expansion of macro 'lockdep_on'
+> >       lockdep_on();     \
+> >       ^~~~~~~~~~
+> >    arch/x86//kernel/traps.c:543:2: note: in expansion of macro 'nmi_exit'
+> >      nmi_exit();
+> >      ^~~~~~~~
+> >    In file included from include/linux/hardirq.h:7:0,
+> >                     from include/linux/interrupt.h:11,
+> >                     from arch/x86//kernel/traps.c:16:
+> > >> include/linux/ftrace_irq.h:18:29: error: inlining failed in call to always_inline 'ftrace_nmi_exit': function attribute mismatch
+> >     static __always_inline void ftrace_nmi_exit(void)
+> >                                 ^~~~~~~~~~~~~~~
+> >    In file included from include/linux/interrupt.h:11:0,
+> >                     from arch/x86//kernel/traps.c:16:
+> >    include/linux/hardirq.h:98:3: note: called from here
+> >       ftrace_nmi_exit();    \
+> >       ^~~~~~~~~~~~~~~~~
+> >    arch/x86//kernel/traps.c:543:2: note: in expansion of macro 'nmi_exit'
+> >      nmi_exit();
+> >      ^~~~~~~~
+> >    In file included from include/linux/preempt.h:78:0,
+> >                     from include/linux/rcupdate.h:27,
+> >                     from include/linux/rculist.h:11,
+> >                     from include/linux/pid.h:5,
+> >                     from include/linux/sched.h:14,
+> >                     from include/linux/context_tracking.h:5,
+> >                     from arch/x86//kernel/traps.c:15:
+> >    arch/x86/include/asm/preempt.h:82:29: error: inlining failed in call to always_inline '__preempt_count_sub': function attribute mismatch
+> >     static __always_inline void __preempt_count_sub(int val)
+> >                                 ^~~~~~~~~~~~~~~~~~~
+> >    In file included from include/linux/interrupt.h:11:0,
+> >                     from arch/x86//kernel/traps.c:16:
+> >    include/linux/hardirq.h:97:3: note: called from here
+> >       __preempt_count_sub(NMI_OFFSET + HARDIRQ_OFFSET); \
+> >       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> >    arch/x86//kernel/traps.c:543:2: note: in expansion of macro 'nmi_exit'
+> >      nmi_exit();
+> >      ^~~~~~~~
+> > ..
+> >
+> > vim +/try_get_desc +961 arch/x86/kernel/alternative.c
+> >
+> > 1f676247f36a4b Peter Zijlstra             2019-12-11  959
+> > 809106a6157bce Thomas Gleixner            2020-01-21  960  static __always_inline
+> > 809106a6157bce Thomas Gleixner            2020-01-21 @961  struct bp_patching_desc *try_get_desc(struct bp_patching_desc **descp)
+> > 1f676247f36a4b Peter Zijlstra             2019-12-11  962  {
+> > a9d380bd4091e7 Peter Zijlstra             2020-01-24  963     struct bp_patching_desc *desc = READ_ONCE_NOCHECK(*descp); /* rcu_dereference */
+> > 1f676247f36a4b Peter Zijlstra             2019-12-11  964
+> > a9d380bd4091e7 Peter Zijlstra             2020-01-24  965     if (!desc || !arch_atomic_inc_not_zero(&desc->refs))
+> > 1f676247f36a4b Peter Zijlstra             2019-12-11  966             return NULL;
+> > 1f676247f36a4b Peter Zijlstra             2019-12-11  967
+> > 1f676247f36a4b Peter Zijlstra             2019-12-11  968     return desc;
+> > 1f676247f36a4b Peter Zijlstra             2019-12-11  969  }
+> > 1f676247f36a4b Peter Zijlstra             2019-12-11  970
+> > 809106a6157bce Thomas Gleixner            2020-01-21 @971  static __always_inline void put_desc(struct bp_patching_desc *desc)
+> > 1f676247f36a4b Peter Zijlstra             2019-12-11  972  {
+> > 1f676247f36a4b Peter Zijlstra             2019-12-11  973     smp_mb__before_atomic();
+> > a9d380bd4091e7 Peter Zijlstra             2020-01-24  974     arch_atomic_dec(&desc->refs);
+> > 1f676247f36a4b Peter Zijlstra             2019-12-11  975  }
+> > c0213b0ac03cf6 Daniel Bristot de Oliveira 2019-06-12  976
+> >
+> > :::::: The code at line 961 was first introduced by commit
+> > :::::: 809106a6157bce0fff76bfc7864e7ce34080abe0 x86/int3: Ensure that poke_int3_handler() is not traced
+> >
+> > :::::: TO: Thomas Gleixner <tglx@linutronix.de>
+> > :::::: CC: Peter Zijlstra <peterz@infradead.org>
+> >
+> > ---
+> > 0-DAY CI Kernel Test Service, Intel Corporation
+> > https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+>
+>
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNMXFyhA23WrTTAjzGcjvtXz-1y5DQi6a0xgSxzg_7bGEg%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BapHDVM7u8f660vc3orkHtCXY%2BZGgn_Ueu_eXDxDw3Dgw%40mail.gmail.com.
