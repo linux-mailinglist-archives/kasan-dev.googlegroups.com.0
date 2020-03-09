@@ -1,32 +1,32 @@
 Return-Path: <kasan-dev+bncBAABBPFGTLZQKGQE6HA3DYI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-il1-x13f.google.com (mail-il1-x13f.google.com [IPv6:2607:f8b0:4864:20::13f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32CCD17E7D7
-	for <lists+kasan-dev@lfdr.de>; Mon,  9 Mar 2020 20:04:29 +0100 (CET)
-Received: by mail-il1-x13f.google.com with SMTP id x2sf8069715ila.6
+Received: from mail-oi1-x240.google.com (mail-oi1-x240.google.com [IPv6:2607:f8b0:4864:20::240])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AF0D17E7DA
+	for <lists+kasan-dev@lfdr.de>; Mon,  9 Mar 2020 20:04:30 +0100 (CET)
+Received: by mail-oi1-x240.google.com with SMTP id m19sf5621101oie.16
         for <lists+kasan-dev@lfdr.de>; Mon, 09 Mar 2020 12:04:29 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1583780668; cv=pass;
+ARC-Seal: i=2; a=rsa-sha256; t=1583780669; cv=pass;
         d=google.com; s=arc-20160816;
-        b=w5uOGjp3O04Jqrpu/sXMXKBNQHEqfKG9b37u3j24nyfnovyhlu0hGjScM6ClESbwB6
-         pqSghd5RAHszZ+9ZsX/NiSS+WU+/P6pZHNj8xrRLYUeNU1mT6LirRHlpDA+3abvgNbEf
-         PXXOsGC8jXvUMCgd69T0ILfH4hwyjGPSBg3YO3CVob4Rgk7ii+hMf0300ute4epP+bAH
-         sSvB+gbb8sSQG5Zeffp4oitxK66kVu/kYGgkf3m0DyDQ2yYIULpbVQmIaJbEu9S9NSDw
-         oRX88Ov9mb7d/2/B+nL22gHtWLQ+k67ofKJM8HGw1k6+YPggz7gUYO9x3SJfp+JQSVRP
-         dpww==
+        b=jdosgH+QatLTlZeD2RWL/61Frg0CV5E0nRoNAxYzG3Xzn14OOwr4OEGUCpilfg5Cb/
+         eQVbJ+/qeqs93/5YG2Sm9/p0H7/IYqO3+IK256VdDAO1yN2OA272EyW9Q+dRlTvr+UC6
+         0OfCw7DMgbkZ/LDyYcKgBzSGncZhYc7hcqNDEItPK04jz4sqH7rGjvfMmGfa8WM+qm/0
+         C5+Kyz5TEr4U+1K07wkUzGQ/MNIYZvq1Yg3tv0RLLkjv6Skd7ECWJwlbbypurWml68Cq
+         ZQCTJ2BERHZ9uOoDMaFhCp2FOqRxpn0mUEiC1mjT79lY4By3oQVIKV0+KF8r/jTRecQf
+         xVkg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:references:in-reply-to:message-id
          :date:subject:cc:to:from:mime-version:sender:dkim-signature;
-        bh=hbzMm9mSpMqAgbxSCP9sTNnrdvfFbfCPpUXran1J1Uc=;
-        b=g86x4QeKMso6EbWGrF+E7rwcurMgTpUAlJqEZZlir7nIh5veEiKW/4F2avA6U+u7Ml
-         kiamEihcRYoLSDn+ycaWNuvcdNQ9Hg82QomEt8rnCoXSAseAiqMhcSi3V5jbu+cVbXfG
-         7UZ8NyXVd22lGNp3VNbW3eBUuyEFx3ngnQ4xIbO1Mur1a5c0XZFUSgvfSXFegQdMGfCX
-         EEV50ReN3ojWjRZDy90otkbzHoG2GF/D/i2mba0cYmvPNZO16aYU9bctg0FdH2m2AuEs
-         b+aDJnNaacHzTeoxGUxglI0coEKf9oKook8aWrLAuepwwyofwJmBGFwULLvqbt9gztFJ
-         ZAYA==
+        bh=JLr0ZgelBYxshGOi9pfxGyAHKvgVXxgG276YQeudptg=;
+        b=RrS7HLAk9fxuollqRDoqMogPZkPGg8GXR6eLRzhN86Yuo0Xw3/Pm5yjJl65KmCpjSi
+         ug8ns62JCHw9KETvFcsm+PgMXK/hIQ6iSIhHoyFQGI73cDOMiVAAlDSmEljWE+crYqud
+         BUAGTWM1wnCwH5sn4lQqBbKFfCrzYtBlKa+JnuGi/DWQ8lmkUrpIm2YvvqqvgUdZxqr9
+         DH/T3t0NrTefJ74oz4e3YXX7FmJmaXtHXh5I6gPpzP0k8zLuZ0v8LdR9fhZZNCFz0UNb
+         hgIr3Xb9mHD9ly/3jA0+inEeKeNrvCQ7WIEXV3hygNFdGG9iCAsqQ011tEU476wnEOdF
+         DsBA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=default header.b=Udws6YeY;
+       dkim=pass header.i=@kernel.org header.s=default header.b=eoU+iiQc;
        spf=pass (google.com: domain of paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=paulmck@kernel.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :references:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=hbzMm9mSpMqAgbxSCP9sTNnrdvfFbfCPpUXran1J1Uc=;
-        b=l4DdCBTXVBSbiff9pfF8ohmAxpjXvWkJCGbDQmKE5eaYkWk4ml7pD5cCVP0nydLE/L
-         KdrFMrMvdE7nTONhFG8q43gEK+o1tphTm6q3Pt0brbH3jfi97B3wdxdDoGQTKs6MdWw2
-         jv845Bu9UMJ4Fn08Q2VEoLIqiP2It/3wQ4Gw7b7dcG04TiWCF7teIr6lbs54tSktyGar
-         PUo2T2/RAzbP62vxapsRZLAVcDhp3z0T868IKiU3ZES/hoPqrb6Pzt1BFZPeCd3745D8
-         JBZq1X2A+gXnV7veA/p3KWIg47RtIAuCPruMpIwvc3GLthcrP4rxaMIyQFrE0g1a8VCQ
-         /3Jw==
+        bh=JLr0ZgelBYxshGOi9pfxGyAHKvgVXxgG276YQeudptg=;
+        b=ZJRrLPDVmh84TFE3DU86fE1HBf8wtKeDa9KpwHt73XjfAh4LtsdS6L876rCDTgttix
+         g8glSKtoTsConSvm7PM2h4/uRsDkWalfhk33VGLHLzWWQO/e2oVmEotW028/sszVicpR
+         zhV0EPAqCP4P4iv0MNpmtmZd0+C0O+o4O2QXnUjdvRiemqKvhuXN8iep2W0i6kbzFDKr
+         HbP33ILcp+CFjd0g0ewDMKQKPGHMM6tPNTLXpB6mZe+/RfDplSmfo23aV6vAHYNontt9
+         0LBTX42jBD3V0+8WQhsQ0n9s0E2mdVLgMXqocLUsdsbdo2yuQVfPQeDd8iVtGVEaXdOc
+         cpSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:mime-version:from:to:cc:subject:date
@@ -49,57 +49,57 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=hbzMm9mSpMqAgbxSCP9sTNnrdvfFbfCPpUXran1J1Uc=;
-        b=bgW1JJsAROztT8lyY8x1O5LPcScWDjN7tXrUSxAD3MYl2a3YcKI8IG3M19DxXbWtM4
-         IamWE8YiOPQPFIknx82BN7qUe3VtHgBrlgw7dixqXtQEqeIga704W3jNaQawCAp5Qz/j
-         OGSR4+qsZcPR/pSdOr1fcklq+bvN46xHfq8xlXUmCL2/QZjx/CJBfFQSXgVfHufteM9x
-         s35To73Ug0c4ZpKyoQt+2YbAc1AiVK6W4KPmp50oRFtKzb+j1SYuF2ViD2P6N2sU/TKJ
-         ntapCWJ5FcayzP9ZmL0kZbSsFfr+PZuJ1B4CnfaMph0lr7zdlQ0a2eZW3c1NxKN15eyW
-         yjSw==
+        bh=JLr0ZgelBYxshGOi9pfxGyAHKvgVXxgG276YQeudptg=;
+        b=Kj2W7gtmrVC4ulu52VDXFAFbW1DVylmJ2xWVPgxC7Ta7LejGp6bbIoCk+abkgHQSZ1
+         /jNkRoTtl6G42PUi/dJPpkdM58qFEJwp80RgRUR63oO5LByCb0OrQ8MAEhD1UaYU0ysf
+         /0Qm4FyIcIjHzZ4A2TfIfj6Q31bN8ssyNQq+BnQtLlNT2wv5fovMuKKCrbwR8LFdurda
+         vyTQKDClpZtr0hjyNppPtPGmCn2JR7VFXH87guMajGKpDxKdW2UfPrgqYtdILpbjv64D
+         pPsEwVTrBCZ+S/MtmBMOHXA3m7MqLVpQiAaOoJOh+0ZemJCr+Okty/fDVOQfXUYkIWzV
+         1Pbg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ANhLgQ2Yov8nbd9NNs/oUvzj5a9S/xu6Sr/Gmp2ZE029xSSm/6RrCxr0
-	To3mLAHNIF1NehktG2/ieTs=
-X-Google-Smtp-Source: ADFU+vsdXXdsy0ell1vvgFR/SN9y0gD+QeUdJw2KlT45iBBzqy110fIa+betyPYMGkK+plG2Hlv5eQ==
-X-Received: by 2002:a02:a412:: with SMTP id c18mr17004851jal.69.1583780668193;
+X-Gm-Message-State: ANhLgQ03CDmwN+6CVdaoeMtxHLLXRnrNnnPtWpAvyvOvrv+lRjxNxqjO
+	V1C7tXhMPZ9/DNX+pVOjhNc=
+X-Google-Smtp-Source: ADFU+vuoQ8CYRM35vQhAODMrwllB1xH6wunuAvWHKJSm0bL8bAeUDLcTD4KTeC0ueoCx8uQD1F+tqg==
+X-Received: by 2002:a05:6830:1503:: with SMTP id k3mr14585356otp.28.1583780668886;
         Mon, 09 Mar 2020 12:04:28 -0700 (PDT)
 MIME-Version: 1.0
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a92:ca92:: with SMTP id t18ls2723211ilo.5.gmail; Mon, 09 Mar
- 2020 12:04:27 -0700 (PDT)
-X-Received: by 2002:a92:5f5b:: with SMTP id t88mr2261363ilb.192.1583780667826;
-        Mon, 09 Mar 2020 12:04:27 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1583780667; cv=none;
+Received: by 2002:a9d:6a5a:: with SMTP id h26ls1801447otn.1.gmail; Mon, 09 Mar
+ 2020 12:04:28 -0700 (PDT)
+X-Received: by 2002:a05:6830:1bc3:: with SMTP id v3mr14771706ota.310.1583780668225;
+        Mon, 09 Mar 2020 12:04:28 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1583780668; cv=none;
         d=google.com; s=arc-20160816;
-        b=Fj65Brng6ujXK7OMtgCtCpkHOev4B0zm3cCwePVKsvBTktih4GsB/AgqlRDxBH31h1
-         ygLSzLMh4T4emhM3a3g0eZUdywwcBz42Fos/0iQfzYDU+oUBp2KQPejVoJ64DdrYoK/f
-         7vkiH8Zlxuqvubs8boGIHmuU+4PbTxWEXVEonShG3zgjHn7oP2cB54l4WFU+9yasvDya
-         Hzc6XnswBbvN32skvT9J/1taZU5wmQ3YeL1X08mE53HDaJymVHFWp69/pE3V9ontVa/v
-         ITRtTcVHGdBc29IjDu4fANXpnziR1JT+OgfRragXkdJJd/qnKceuRNkKCNBYfHZJuNZp
-         0o2A==
+        b=m/ol5+/dEzj8J1odplqnR7AvG+U0b/X85zhVDwn7hiT8r2bfgwYZTDFyl9iN8H9WOc
+         c6Znckyk0Ups1uLm3K966UUO2A33ESIWdxazyr6KvHW70RkHyVSkU70T1Zu7DCeoPHfS
+         vdGzrxKJwQGZ+4Gd1PQqvhTnT6RsdWKCYeTnIvMzpHPHiu4sY41Ika3EFZiG2RSPd1yh
+         3qxAEDkVHij/2zT2GVyu/Nh+hnM0mbH0nQgpNL1NT/ED86uJC/i+sQLSjCbyO8BRK0Yl
+         81GJgGRrTDtSo9ozRFvUiJnj8vm5QHrpO04euHEMdwm7ulpt7NHqyKSuBBAvPBxo8kHQ
+         XzPg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=references:in-reply-to:message-id:date:subject:cc:to:from
          :dkim-signature;
-        bh=15ARx1YToHX4rpjIXyTdjQwrVNcIJKN1xPCYiL0kg0o=;
-        b=00FSXpIaGeaKZe0pp/D+K8zG8uo/vFmwiUxQoHVmqsqqcGc9em6wUVkeutB3OH0xYv
-         4jnn2iTjkdNv6o+5EJwbB711dBs+AFWTHBNrRjUiUdJlmaoc9bZ4mG258Ttufuf0kArg
-         fEQ3L9gX5dNqW/1IWpXTyCkg08dc1JCJla0rsPEDA98Aj3ZKRnrGcjTHhvEgfGefY4sE
-         KucxC70J187eeRv9Fu35n6HnGf/fyt3p6T3aeqbncxRa7lGYZxqb7DwxGW0Ts/svKQDI
-         o28jeSOiUI60WIwqBQ1n4IIAkMeyAP8FxUc49zZsC1e0QIBEK/ub6UZn9o8uShXVi1re
-         +mvQ==
+        bh=JsHFLf04ezH/jMt2MB+GNUH9i+ZE5EJhksP/hz5dFpA=;
+        b=ciszU6Svbqh2VLypfbc1UaDaUEdoCemiNY3KT32LGvVUGxPxB8NzgCyVnrHlBGgfsR
+         DpRrrDIf+Fbv3pdA9G12mXb00aaXj8OCHY3o3qc+A9YdoXKrilOFFW/5AXukOqZKL0zS
+         25auZLIkYBkYGkETY0dB4HYrpr5ZhkJKjt2WEgGuFzLe4Po7m1kFmBzi3x4kQp7Pmcp9
+         1iwS9NY9jlvKvaUWZZtLgnTTUi+byWTDKPqQTVcL9LG2OHvxEJkhglMwFeXTojmaAQbg
+         vvY/MpXE5/0yqujoooVPJFaWsSpj51u9/FBHBYWAolhBsw8anqbiVAOg5rf1wxsi32hH
+         kO3g==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=default header.b=Udws6YeY;
+       dkim=pass header.i=@kernel.org header.s=default header.b=eoU+iiQc;
        spf=pass (google.com: domain of paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=paulmck@kernel.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id d26si571861ioo.1.2020.03.09.12.04.27
+        by gmr-mx.google.com with ESMTPS id d11si235195otk.5.2020.03.09.12.04.28
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 09 Mar 2020 12:04:27 -0700 (PDT)
+        Mon, 09 Mar 2020 12:04:28 -0700 (PDT)
 Received-SPF: pass (google.com: domain of paulmck@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
 Received: from paulmck-ThinkPad-P72.home (50-39-105-78.bvtn.or.frontiernet.net [50.39.105.78])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id 191B62468D;
+	by mail.kernel.org (Postfix) with ESMTPSA id 56F73222C3;
 	Mon,  9 Mar 2020 19:04:27 +0000 (UTC)
 From: paulmck@kernel.org
 To: linux-kernel@vger.kernel.org,
@@ -113,15 +113,15 @@ Cc: elver@google.com,
 	cai@lca.pw,
 	boqun.feng@gmail.com,
 	"Paul E . McKenney" <paulmck@kernel.org>
-Subject: [PATCH kcsan 20/32] kcsan: Fix misreporting if concurrent races on same address
-Date: Mon,  9 Mar 2020 12:04:08 -0700
-Message-Id: <20200309190420.6100-20-paulmck@kernel.org>
+Subject: [PATCH kcsan 21/32] kcsan: Move interfaces that affects checks to kcsan-checks.h
+Date: Mon,  9 Mar 2020 12:04:09 -0700
+Message-Id: <20200309190420.6100-21-paulmck@kernel.org>
 X-Mailer: git-send-email 2.9.5
 In-Reply-To: <20200309190359.GA5822@paulmck-ThinkPad-P72>
 References: <20200309190359.GA5822@paulmck-ThinkPad-P72>
 X-Original-Sender: paulmck@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=default header.b=Udws6YeY;       spf=pass
+ header.i=@kernel.org header.s=default header.b=eoU+iiQc;       spf=pass
  (google.com: domain of paulmck@kernel.org designates 198.145.29.99 as
  permitted sender) smtp.mailfrom=paulmck@kernel.org;       dmarc=pass (p=NONE
  sp=NONE dis=NONE) header.from=kernel.org
@@ -140,70 +140,143 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 From: Marco Elver <elver@google.com>
 
-If there are at least 4 threads racing on the same address, it can
-happen that one of the readers may observe another matching reader in
-other_info. To avoid locking up, we have to consume 'other_info'
-regardless, but skip the report. See the added comment for more details.
+This moves functions that affect state changing the behaviour of
+kcsan_check_access() to kcsan-checks.h. Since these are likely used with
+kcsan_check_access() it makes more sense to have them in kcsan-checks.h,
+to avoid including all of 'include/linux/kcsan.h'.
+
+No functional change intended.
 
 Signed-off-by: Marco Elver <elver@google.com>
+Acked-by: John Hubbard <jhubbard@nvidia.com>
 Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
 ---
- kernel/kcsan/report.c | 38 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 38 insertions(+)
+ include/linux/kcsan-checks.h | 48 ++++++++++++++++++++++++++++++++++++++++++--
+ include/linux/kcsan.h        | 41 -------------------------------------
+ 2 files changed, 46 insertions(+), 43 deletions(-)
 
-diff --git a/kernel/kcsan/report.c b/kernel/kcsan/report.c
-index 3bc590e..abf6852 100644
---- a/kernel/kcsan/report.c
-+++ b/kernel/kcsan/report.c
-@@ -422,6 +422,44 @@ static bool prepare_report(unsigned long *flags, const volatile void *ptr,
- 			return false;
- 		}
+diff --git a/include/linux/kcsan-checks.h b/include/linux/kcsan-checks.h
+index cf69617..8675411 100644
+--- a/include/linux/kcsan-checks.h
++++ b/include/linux/kcsan-checks.h
+@@ -32,10 +32,54 @@
+  */
+ void __kcsan_check_access(const volatile void *ptr, size_t size, int type);
  
-+		access_type |= other_info.access_type;
-+		if ((access_type & KCSAN_ACCESS_WRITE) == 0) {
-+			/*
-+			 * While the address matches, this is not the other_info
-+			 * from the thread that consumed our watchpoint, since
-+			 * neither this nor the access in other_info is a write.
-+			 * It is invalid to continue with the report, since we
-+			 * only have information about reads.
-+			 *
-+			 * This can happen due to concurrent races on the same
-+			 * address, with at least 4 threads. To avoid locking up
-+			 * other_info and all other threads, we have to consume
-+			 * it regardless.
-+			 *
-+			 * A concrete case to illustrate why we might lock up if
-+			 * we do not consume other_info:
-+			 *
-+			 *   We have 4 threads, all accessing the same address
-+			 *   (or matching address ranges). Assume the following
-+			 *   watcher and watchpoint consumer pairs:
-+			 *   write1-read1, read2-write2. The first to populate
-+			 *   other_info is write2, however, write1 consumes it,
-+			 *   resulting in a report of write1-write2. This report
-+			 *   is valid, however, now read1 populates other_info;
-+			 *   read2-read1 is an invalid conflict, yet, no other
-+			 *   conflicting access is left. Therefore, we must
-+			 *   consume read1's other_info.
-+			 *
-+			 * Since this case is assumed to be rare, it is
-+			 * reasonable to omit this report: one of the other
-+			 * reports includes information about the same shared
-+			 * data, and at this point the likelihood that we
-+			 * re-report the same race again is high.
-+			 */
-+			release_report(flags, KCSAN_REPORT_RACE_SIGNAL);
-+			return false;
-+		}
+-#else
++/**
++ * kcsan_nestable_atomic_begin - begin nestable atomic region
++ *
++ * Accesses within the atomic region may appear to race with other accesses but
++ * should be considered atomic.
++ */
++void kcsan_nestable_atomic_begin(void);
 +
- 		/*
- 		 * Matching & usable access in other_info: keep other_info_lock
- 		 * locked, as this thread consumes it to print the full report;
++/**
++ * kcsan_nestable_atomic_end - end nestable atomic region
++ */
++void kcsan_nestable_atomic_end(void);
++
++/**
++ * kcsan_flat_atomic_begin - begin flat atomic region
++ *
++ * Accesses within the atomic region may appear to race with other accesses but
++ * should be considered atomic.
++ */
++void kcsan_flat_atomic_begin(void);
++
++/**
++ * kcsan_flat_atomic_end - end flat atomic region
++ */
++void kcsan_flat_atomic_end(void);
++
++/**
++ * kcsan_atomic_next - consider following accesses as atomic
++ *
++ * Force treating the next n memory accesses for the current context as atomic
++ * operations.
++ *
++ * @n number of following memory accesses to treat as atomic.
++ */
++void kcsan_atomic_next(int n);
++
++#else /* CONFIG_KCSAN */
++
+ static inline void __kcsan_check_access(const volatile void *ptr, size_t size,
+ 					int type) { }
+-#endif
++
++static inline void kcsan_nestable_atomic_begin(void)	{ }
++static inline void kcsan_nestable_atomic_end(void)	{ }
++static inline void kcsan_flat_atomic_begin(void)	{ }
++static inline void kcsan_flat_atomic_end(void)		{ }
++static inline void kcsan_atomic_next(int n)		{ }
++
++#endif /* CONFIG_KCSAN */
+ 
+ /*
+  * kcsan_*: Only calls into the runtime when the particular compilation unit has
+diff --git a/include/linux/kcsan.h b/include/linux/kcsan.h
+index 1019e3a..7a614ca 100644
+--- a/include/linux/kcsan.h
++++ b/include/linux/kcsan.h
+@@ -56,52 +56,11 @@ void kcsan_disable_current(void);
+  */
+ void kcsan_enable_current(void);
+ 
+-/**
+- * kcsan_nestable_atomic_begin - begin nestable atomic region
+- *
+- * Accesses within the atomic region may appear to race with other accesses but
+- * should be considered atomic.
+- */
+-void kcsan_nestable_atomic_begin(void);
+-
+-/**
+- * kcsan_nestable_atomic_end - end nestable atomic region
+- */
+-void kcsan_nestable_atomic_end(void);
+-
+-/**
+- * kcsan_flat_atomic_begin - begin flat atomic region
+- *
+- * Accesses within the atomic region may appear to race with other accesses but
+- * should be considered atomic.
+- */
+-void kcsan_flat_atomic_begin(void);
+-
+-/**
+- * kcsan_flat_atomic_end - end flat atomic region
+- */
+-void kcsan_flat_atomic_end(void);
+-
+-/**
+- * kcsan_atomic_next - consider following accesses as atomic
+- *
+- * Force treating the next n memory accesses for the current context as atomic
+- * operations.
+- *
+- * @n number of following memory accesses to treat as atomic.
+- */
+-void kcsan_atomic_next(int n);
+-
+ #else /* CONFIG_KCSAN */
+ 
+ static inline void kcsan_init(void)			{ }
+ static inline void kcsan_disable_current(void)		{ }
+ static inline void kcsan_enable_current(void)		{ }
+-static inline void kcsan_nestable_atomic_begin(void)	{ }
+-static inline void kcsan_nestable_atomic_end(void)	{ }
+-static inline void kcsan_flat_atomic_begin(void)	{ }
+-static inline void kcsan_flat_atomic_end(void)		{ }
+-static inline void kcsan_atomic_next(int n)		{ }
+ 
+ #endif /* CONFIG_KCSAN */
+ 
 -- 
 2.9.5
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200309190420.6100-20-paulmck%40kernel.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200309190420.6100-21-paulmck%40kernel.org.
