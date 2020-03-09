@@ -1,32 +1,32 @@
 Return-Path: <kasan-dev+bncBAABBONGTLZQKGQEYXPJ26A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-il1-x13e.google.com (mail-il1-x13e.google.com [IPv6:2607:f8b0:4864:20::13e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D29117E7CB
-	for <lists+kasan-dev@lfdr.de>; Mon,  9 Mar 2020 20:04:26 +0100 (CET)
-Received: by mail-il1-x13e.google.com with SMTP id c3sf7429182ilm.4
-        for <lists+kasan-dev@lfdr.de>; Mon, 09 Mar 2020 12:04:26 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1583780665; cv=pass;
+Received: from mail-vs1-xe38.google.com (mail-vs1-xe38.google.com [IPv6:2607:f8b0:4864:20::e38])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1286417E7CD
+	for <lists+kasan-dev@lfdr.de>; Mon,  9 Mar 2020 20:04:27 +0100 (CET)
+Received: by mail-vs1-xe38.google.com with SMTP id v11sf1085107vsg.4
+        for <lists+kasan-dev@lfdr.de>; Mon, 09 Mar 2020 12:04:27 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1583780666; cv=pass;
         d=google.com; s=arc-20160816;
-        b=ftu+/QzN4qKi9E+pvDHYDzeuReY455jaGoS2st8reohtRcOIL8qVfV6KDDVMm02P+h
-         lBG150qgjmE2mV9d1a7bQgukIWffdAloYucVSUOGYi419lv20zQzBmOyAD60yaWK1KLl
-         PSmPxyI+K1C7Bqb7HXw+8LTW1gp6xbohenuIslynteWWVNSDrfGDNAeYKBQj5Si3AMxR
-         MeikUXJFiZvR10MM3IxeaCXgU3nEueVcV8kLkehZvdLh4zuuMoSZWWyH5VZ0nXvnIYdo
-         /PI/q6I+M+CFj2W90EWJn094qdCQ0e8cxI1yDXw/t/91d2ufqrSAn0FrmW3d6um1vays
-         h2Ug==
+        b=hHdc3KyQhpKXLZ10UFuCj2sUKOjWAv4RsMPXchR0F1y/xZObNAQlphEyhK+oFNn+KH
+         qXxrFrr34sPcLfe85EytoYVNBzKiFILjXhZCZHgm0LkxWeKjuFmKG0UX/j7WsJ9WkQ39
+         9Zjs2OUuoGWuMlqDEzl46XVC6wk5rvcmYr7Ke65Z4ms/cJ1f982Jz52whoYVDNRhNxZ+
+         c3IBOPlaZRlUtzJH7rkXnUok1axHK3g8t1O+isKkaps+bBLYgzYNRMvudq9I7ZuvAG0Q
+         iCm0cDtHV0YIWbgj7BYXNHhiS8Bjpmitr8MMfbviFBcDIjd9CBoY+JQMD9p9zf5LKKGW
+         QtYA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:references:in-reply-to:message-id
          :date:subject:cc:to:from:mime-version:sender:dkim-signature;
-        bh=sYEoRvnX+rO8r3Z4hztuhkFQWrcHW4oBg53ulMM+mG4=;
-        b=HhpI+J8X3drSacu82YHcLRzdwjOWu/cNsz0IT6+5ZhrYIcQ0rVeRpMsHjTum4fRZLO
-         QcYixpiXcEHtaDC2mIdu7Fp5EznVJnn+peUCqE8qQVX5oQ09lhU/4SCio+qkcvBj4Xgh
-         QRY8jhYD5H+3ri+zF5me7uRmD38ATtk04uzQXaE0b7/J2g/08+yx4Cwy8ONvWWsT6dps
-         FEUm75bjtEZsiG0oMzDW8rrkrFA0ZnDyzjJVYpdp3gbGrcL6i3/W/VSDXv9lFsutcc33
-         9XF4k4PkXg+HGUBcOQjz7H7mHsK32U9XidIHnSPDaEg1Gmb59jY1ZATCQaHXtJb7RFI+
-         C9oA==
+        bh=xiVAY/IfI/MUQwg1mQtdvm1nIkJJHpjHyyh/4JwJAKQ=;
+        b=P+aeghxBCU+VyGc7DvdiFA8qIXZTqH5QctPe2EcYeu8OvFKhlL9UYOuXwxltBef4mj
+         B/+33xyIbGtI/zs45zJeNf8/Ao0wQGFBReffrfVZbJif8qogtev2gx0jv0d2ZAt9wZ2Q
+         RjadCv5UNqT2wuykJMAGwIUq7zI5Ney4mc/kOLZF06hduhTBxAKqlKVLSv9Ksim+FXL9
+         iMzbscP8xdUdiP/owPdDQpgOhk0WA4PCH4TIOJHuRdwKKGuM65yKWqLfG8e39rqgifRF
+         vRvn9dSpYfzW+FdRkUWXM+nN7/GIoUC7wNUppzTcZl7kXBH1gW+eHtWJQzLp7H8yqEu7
+         LzGQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=default header.b="rV93/R6q";
+       dkim=pass header.i=@kernel.org header.s=default header.b="R/Ut1NOC";
        spf=pass (google.com: domain of paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=paulmck@kernel.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :references:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=sYEoRvnX+rO8r3Z4hztuhkFQWrcHW4oBg53ulMM+mG4=;
-        b=AxIDlRLBGFNlI7Q99Q7BwXDtiz+n/0D8KgLNhK26MKBsAKTJLsNSVm/XoBB8CxEBtO
-         +mWOn/PzsoI4p1ANNfx58YbHy7I2eNZFyFJXHbnuY30ZswKQWqkzY67se+P2Vvcrc+D5
-         /UrNIZZogNtMjljmFHAGdjqbEnqXAw7wx7iOan5N0g8e2dajnQpNEr+UcoR47uuWX6g/
-         pcRkDuTsqviUanDRamUqlTzYXc9K7vd8TdZ4j2DF2HqZg5+pu0aCI4eUgzDSYsHejDEp
-         /K9/VhHZQOi+Lue6P1fXlzfFcCXpiWim40ioYk04r6qNO01uPO4wAuibVb9+p94e7CGI
-         5cUg==
+        bh=xiVAY/IfI/MUQwg1mQtdvm1nIkJJHpjHyyh/4JwJAKQ=;
+        b=W5uIGGOG6qNYpNJW9zlsn5UO691pJFITL6XS2DaGji26xKhKrNJzYgjaWR1uaGSTd/
+         tmqNSOGjLi9MgJOGlRQ2Q4Q0nc2agk845UvfgZT4zVYbyTICGWdfEs7ZgO6U9DCi5Mc/
+         mTPBoEP7etcuGVdtbT5pe1Cf3uOL4yqWWeGL/gxslwpikyJiYYSZGInifwJDF/MPLyd/
+         nnTAttYeY2HrTxjqTANoMBZvj/E0NR92+m9EOEyCMaHHSg2kEw/88hkzxHnDmUlfHxgI
+         IiDUkoFZaexJhlVjAqtyjOmOubyaj7BLRwtLpn9W1VoiJb7AKwWMUYABwbZc0b2eviya
+         N2Rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:mime-version:from:to:cc:subject:date
@@ -49,57 +49,57 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=sYEoRvnX+rO8r3Z4hztuhkFQWrcHW4oBg53ulMM+mG4=;
-        b=COjxG857IIlX2JzUWGZUinCet8QqMLnLtnWVqJfaVN0SExMSLEsClF+kbKxDEpyJRS
-         T2ClkM7+dUAo7frd5oe9k+jzCkgEKERwZq87RvgNbyJ5TmjWNHgGPcLbeBprb2dZr7ty
-         19p7DbHlzTisx07egabZb8z2T0hD7W48LhpBIn0TMGBP0lcX1bTb4x99Gn/4SIdmzuUy
-         HJOrXUp/Gfcw88sgVp4v7FLEwF1zAwYtoQGqYAWP941RkecH5gSTc8Rm8WjcK6NNyV5i
-         nJfrmFHlDpkUFaYc03S4yf7zfEIExa7byZHJfNWgTsF/QLQexL64iVaSyMjRDHkQ6cm+
-         VfLg==
+        bh=xiVAY/IfI/MUQwg1mQtdvm1nIkJJHpjHyyh/4JwJAKQ=;
+        b=n1C7YkVgBBayKaA8W66ClV7F4j7VMBB8PiqvpIVRF4uqi+Cv+lRP0C+fVlzxEiSHC/
+         vdeLohM2XQay3YLdjbiXYBdgezzjcxZLbSNHq0+a7vSn9UF8+qGbSRaa/5fU0np8mlqp
+         Xxf8gucLqlAW1nNr3tH5oFMpiIpfLteioVs3nn7JFJD26oj9hQo65XYJcRD3ShsaZ7iI
+         Rkzs+5eYDrCCRqYSaOvpgXjkA5+ZfnsCSt4Y/vt1fXqZ1lzNbUNZ2222Erspe8tXuu/q
+         7WwaEefOTHH+GjC5SG2xlihgO/obaDDYK5nOgHuWhJouQOL2hrTs444DNJqLSkqwQqtX
+         +JEg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ANhLgQ0lTLUIsJQIf7J9NFzDLIEAIEbqLUWOOSIFyfUObxqXlv1aDjDt
-	lT4FKrlnuLGgbweGORG1qdE=
-X-Google-Smtp-Source: ADFU+vtb3MGui/QmZpBoYGonNMlWR4DxQlS0BYqxNFiO+DNX/lTTlX+Tgkw/0zhtgqN1TYBVeyLhmg==
-X-Received: by 2002:a92:8b8b:: with SMTP id i133mr12386293ild.307.1583780665201;
+X-Gm-Message-State: ANhLgQ13b30n/bwZVbboRtDB8rzxetsZ7JhMPa1teufz9XTKABR85ObK
+	PukZx6Hm1bHY9Q+ogOwO6H8=
+X-Google-Smtp-Source: ADFU+vt7HIpIjupFM6Tar62lN9BrbynOuSXSTgAfVrFXO5ORxiN2k2M223TjWOfKdZS7JTGRTWq8gg==
+X-Received: by 2002:a9f:2478:: with SMTP id 111mr2499818uaq.0.1583780665915;
         Mon, 09 Mar 2020 12:04:25 -0700 (PDT)
 MIME-Version: 1.0
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a5d:9057:: with SMTP id v23ls1550411ioq.5.gmail; Mon, 09 Mar
- 2020 12:04:24 -0700 (PDT)
-X-Received: by 2002:a6b:e70e:: with SMTP id b14mr1965378ioh.1.1583780664847;
-        Mon, 09 Mar 2020 12:04:24 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1583780664; cv=none;
+Received: by 2002:a05:6102:2261:: with SMTP id v1ls856303vsd.5.gmail; Mon, 09
+ Mar 2020 12:04:25 -0700 (PDT)
+X-Received: by 2002:a67:72c7:: with SMTP id n190mr11244868vsc.188.1583780665556;
+        Mon, 09 Mar 2020 12:04:25 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1583780665; cv=none;
         d=google.com; s=arc-20160816;
-        b=RCXGFSrpuE1tC6SMDE//6GNOC5xfbLRdwcZ+b/Lpisjh55YuPBYRnTvphpU/aphQLX
-         7KEk1AOl1us77YOU1NWNwoiTmteyzJR8XtPFwGMJj84MMrf2TgXxcQuvfLhf3pQT6O1h
-         BskcnaxMQMOeYxVbJxDDKIucOj0CpM+j/J3RzjkROFMYrpoBiadcDk/JKTuQhXlC0fJ9
-         SSk5QDsPXRRM4oASqsuUJXdBr6JVbamzby+FM74hR9EOs7cv293Hylasn+P7VcCeeuVS
-         RSW2/pDythlfbO3YFJZKWD8PpNxzX7drZJfd0Gzxl+c22X+HnPORi13gsuvgPH1Lgw5G
-         OO8g==
+        b=S1BGA24K+SdkXzSfXcN9+JAdbpq7f4gOzBa7iptVUIhn/mdFPGwGdJJvFiqgVz5J/B
+         l8XTo5MguYNPeVJAVAGa3y4WTq22ntw3Y7P5pI0cqv3rhXLT8FRXRtLG7AIph6B6+/t/
+         HrgNSdt4xSKbq95E+XDd5iAgU6AB7WhhX9Az0sv7BrkzEatkofFpGQcBCEO3zSQjk7qa
+         IrUfjUM4HRSXjvl6SqAC9Y/h2+Tp9U9Xz0DJsT99FABvaSo0uRoTP6xNHZ0UT6lJ/x8r
+         96GJ9kJ4jbHevWAgOrPWdDnvJKo4VHqB2WFyRcnZOFotou2v2Em97IlMNgqCicB7l3eM
+         1JYg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=references:in-reply-to:message-id:date:subject:cc:to:from
          :dkim-signature;
-        bh=+hkaLOIVc7xUSiPNDSPRb3iPWfaWnj1AuhUwWo4MHuc=;
-        b=jAfUOukxmoDAj8EkT8xJ422Yr8rAs6gRgZuPf9hDG21wonwCcEworWfj0/X71M0+5H
-         Baot5LaxbRxmQeVDNL8l6kDhbnvGF5Hw2htKLYG79GnUnwDA3kWlcnlcB6pE+4/Qs7c9
-         m/r6Dzg12q0Z4PymjaGN+2kEVM4PCGIxvEckBJIOh7OtiVXQvsratXrZn536prMsGN3z
-         42rslrugDJ1ajPCrrv3VPngB3UD/IN0LeAx7m0ZgEW0/akZhS3fNaerfCyP+KV+Z85IW
-         c4zh907r3hwbH+MqGDUHTyMVuYWuh57T8qQYVVM5ryr1iVGvcHnNK1ytzPsalLcsMQ6T
-         v4JQ==
+        bh=nCzY6t2wZCLAdpVwXZygsmH/wQlko6QJgxybCjJHkNc=;
+        b=TWAU3bNO9BQhmObnTrmHyk8Ix5dKymk53E6P37O7r4yWLUT7AfVsNA6qZ6MrcfXJaP
+         0FzlK9GjNkIy8/AEEg/0GwKqXHR8nA9YanK8V0036WsWENPsZhvHi8lt8O8+Ek+NBQ89
+         qxeJRQeZbGJWyRoXhOVGGdWWCVAwk5rTVWMEo3Dh3oEU8hQ40vkUACzH2+r74DgD1VuR
+         RPTjuO0xPbEBquur2zDAdKYulDE2QbUf2i+pmXrX+jdi37Vv3hE7Jqt0R34ZUXcAvC68
+         /4QZDwYcupxmkj/wiiH3ry7IVPDuXe8ofXa2YDA9NSKPU78FW/8Pkgc+JK7ZpP0HPm3k
+         nONw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=default header.b="rV93/R6q";
+       dkim=pass header.i=@kernel.org header.s=default header.b="R/Ut1NOC";
        spf=pass (google.com: domain of paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=paulmck@kernel.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id s201si243602ilc.0.2020.03.09.12.04.24
+        by gmr-mx.google.com with ESMTPS id 205si277793vkw.2.2020.03.09.12.04.25
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 09 Mar 2020 12:04:24 -0700 (PDT)
+        Mon, 09 Mar 2020 12:04:25 -0700 (PDT)
 Received-SPF: pass (google.com: domain of paulmck@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
 Received: from paulmck-ThinkPad-P72.home (50-39-105-78.bvtn.or.frontiernet.net [50.39.105.78])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id 138AD22522;
+	by mail.kernel.org (Postfix) with ESMTPSA id 5A1A924655;
 	Mon,  9 Mar 2020 19:04:24 +0000 (UTC)
 From: paulmck@kernel.org
 To: linux-kernel@vger.kernel.org,
@@ -113,15 +113,15 @@ Cc: elver@google.com,
 	cai@lca.pw,
 	boqun.feng@gmail.com,
 	"Paul E . McKenney" <paulmck@kernel.org>
-Subject: [PATCH kcsan 08/32] asm-generic, kcsan: Add KCSAN instrumentation for bitops
-Date: Mon,  9 Mar 2020 12:03:56 -0700
-Message-Id: <20200309190420.6100-8-paulmck@kernel.org>
+Subject: [PATCH kcsan 09/32] iov_iter: Use generic instrumented.h
+Date: Mon,  9 Mar 2020 12:03:57 -0700
+Message-Id: <20200309190420.6100-9-paulmck@kernel.org>
 X-Mailer: git-send-email 2.9.5
 In-Reply-To: <20200309190359.GA5822@paulmck-ThinkPad-P72>
 References: <20200309190359.GA5822@paulmck-ThinkPad-P72>
 X-Original-Sender: paulmck@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=default header.b="rV93/R6q";       spf=pass
+ header.i=@kernel.org header.s=default header.b="R/Ut1NOC";       spf=pass
  (google.com: domain of paulmck@kernel.org designates 198.145.29.99 as
  permitted sender) smtp.mailfrom=paulmck@kernel.org;       dmarc=pass (p=NONE
  sp=NONE dis=NONE) header.from=kernel.org
@@ -140,213 +140,61 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 From: Marco Elver <elver@google.com>
 
-Add explicit KCSAN checks for bitops.
+This replaces the kasan instrumentation with generic instrumentation,
+implicitly adding KCSAN instrumentation support.
 
+For KASAN no functional change is intended.
+
+Suggested-by: Arnd Bergmann <arnd@arndb.de>
 Signed-off-by: Marco Elver <elver@google.com>
-Acked-by: Arnd Bergmann <arnd@arndb.de>
 Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
 ---
- include/asm-generic/bitops/instrumented-atomic.h     | 14 +++++++-------
- include/asm-generic/bitops/instrumented-lock.h       | 10 +++++-----
- include/asm-generic/bitops/instrumented-non-atomic.h | 16 ++++++++--------
- 3 files changed, 20 insertions(+), 20 deletions(-)
+ lib/iov_iter.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/include/asm-generic/bitops/instrumented-atomic.h b/include/asm-generic/bitops/instrumented-atomic.h
-index 18ce3c9..fb2cb33 100644
---- a/include/asm-generic/bitops/instrumented-atomic.h
-+++ b/include/asm-generic/bitops/instrumented-atomic.h
-@@ -11,7 +11,7 @@
- #ifndef _ASM_GENERIC_BITOPS_INSTRUMENTED_ATOMIC_H
- #define _ASM_GENERIC_BITOPS_INSTRUMENTED_ATOMIC_H
- 
--#include <linux/kasan-checks.h>
+diff --git a/lib/iov_iter.c b/lib/iov_iter.c
+index fb29c02..614b699 100644
+--- a/lib/iov_iter.c
++++ b/lib/iov_iter.c
+@@ -8,6 +8,7 @@
+ #include <linux/splice.h>
+ #include <net/checksum.h>
+ #include <linux/scatterlist.h>
 +#include <linux/instrumented.h>
  
- /**
-  * set_bit - Atomically set a bit in memory
-@@ -25,7 +25,7 @@
-  */
- static inline void set_bit(long nr, volatile unsigned long *addr)
+ #define PIPE_PARANOIA /* for now */
+ 
+@@ -138,7 +139,7 @@
+ static int copyout(void __user *to, const void *from, size_t n)
  {
--	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
-+	instrument_atomic_write(addr + BIT_WORD(nr), sizeof(long));
- 	arch_set_bit(nr, addr);
- }
- 
-@@ -38,7 +38,7 @@ static inline void set_bit(long nr, volatile unsigned long *addr)
-  */
- static inline void clear_bit(long nr, volatile unsigned long *addr)
+ 	if (access_ok(to, n)) {
+-		kasan_check_read(from, n);
++		instrument_copy_to_user(to, from, n);
+ 		n = raw_copy_to_user(to, from, n);
+ 	}
+ 	return n;
+@@ -147,7 +148,7 @@ static int copyout(void __user *to, const void *from, size_t n)
+ static int copyin(void *to, const void __user *from, size_t n)
  {
--	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
-+	instrument_atomic_write(addr + BIT_WORD(nr), sizeof(long));
- 	arch_clear_bit(nr, addr);
- }
- 
-@@ -54,7 +54,7 @@ static inline void clear_bit(long nr, volatile unsigned long *addr)
-  */
- static inline void change_bit(long nr, volatile unsigned long *addr)
+ 	if (access_ok(from, n)) {
+-		kasan_check_write(to, n);
++		instrument_copy_from_user(to, from, n);
+ 		n = raw_copy_from_user(to, from, n);
+ 	}
+ 	return n;
+@@ -639,7 +640,7 @@ EXPORT_SYMBOL(_copy_to_iter);
+ static int copyout_mcsafe(void __user *to, const void *from, size_t n)
  {
--	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
-+	instrument_atomic_write(addr + BIT_WORD(nr), sizeof(long));
- 	arch_change_bit(nr, addr);
- }
- 
-@@ -67,7 +67,7 @@ static inline void change_bit(long nr, volatile unsigned long *addr)
-  */
- static inline bool test_and_set_bit(long nr, volatile unsigned long *addr)
- {
--	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
-+	instrument_atomic_write(addr + BIT_WORD(nr), sizeof(long));
- 	return arch_test_and_set_bit(nr, addr);
- }
- 
-@@ -80,7 +80,7 @@ static inline bool test_and_set_bit(long nr, volatile unsigned long *addr)
-  */
- static inline bool test_and_clear_bit(long nr, volatile unsigned long *addr)
- {
--	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
-+	instrument_atomic_write(addr + BIT_WORD(nr), sizeof(long));
- 	return arch_test_and_clear_bit(nr, addr);
- }
- 
-@@ -93,7 +93,7 @@ static inline bool test_and_clear_bit(long nr, volatile unsigned long *addr)
-  */
- static inline bool test_and_change_bit(long nr, volatile unsigned long *addr)
- {
--	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
-+	instrument_atomic_write(addr + BIT_WORD(nr), sizeof(long));
- 	return arch_test_and_change_bit(nr, addr);
- }
- 
-diff --git a/include/asm-generic/bitops/instrumented-lock.h b/include/asm-generic/bitops/instrumented-lock.h
-index ec53fde..b9bec46 100644
---- a/include/asm-generic/bitops/instrumented-lock.h
-+++ b/include/asm-generic/bitops/instrumented-lock.h
-@@ -11,7 +11,7 @@
- #ifndef _ASM_GENERIC_BITOPS_INSTRUMENTED_LOCK_H
- #define _ASM_GENERIC_BITOPS_INSTRUMENTED_LOCK_H
- 
--#include <linux/kasan-checks.h>
-+#include <linux/instrumented.h>
- 
- /**
-  * clear_bit_unlock - Clear a bit in memory, for unlock
-@@ -22,7 +22,7 @@
-  */
- static inline void clear_bit_unlock(long nr, volatile unsigned long *addr)
- {
--	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
-+	instrument_atomic_write(addr + BIT_WORD(nr), sizeof(long));
- 	arch_clear_bit_unlock(nr, addr);
- }
- 
-@@ -37,7 +37,7 @@ static inline void clear_bit_unlock(long nr, volatile unsigned long *addr)
-  */
- static inline void __clear_bit_unlock(long nr, volatile unsigned long *addr)
- {
--	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
-+	instrument_write(addr + BIT_WORD(nr), sizeof(long));
- 	arch___clear_bit_unlock(nr, addr);
- }
- 
-@@ -52,7 +52,7 @@ static inline void __clear_bit_unlock(long nr, volatile unsigned long *addr)
-  */
- static inline bool test_and_set_bit_lock(long nr, volatile unsigned long *addr)
- {
--	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
-+	instrument_atomic_write(addr + BIT_WORD(nr), sizeof(long));
- 	return arch_test_and_set_bit_lock(nr, addr);
- }
- 
-@@ -71,7 +71,7 @@ static inline bool test_and_set_bit_lock(long nr, volatile unsigned long *addr)
- static inline bool
- clear_bit_unlock_is_negative_byte(long nr, volatile unsigned long *addr)
- {
--	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
-+	instrument_atomic_write(addr + BIT_WORD(nr), sizeof(long));
- 	return arch_clear_bit_unlock_is_negative_byte(nr, addr);
- }
- /* Let everybody know we have it. */
-diff --git a/include/asm-generic/bitops/instrumented-non-atomic.h b/include/asm-generic/bitops/instrumented-non-atomic.h
-index 95ff28d..20f788a 100644
---- a/include/asm-generic/bitops/instrumented-non-atomic.h
-+++ b/include/asm-generic/bitops/instrumented-non-atomic.h
-@@ -11,7 +11,7 @@
- #ifndef _ASM_GENERIC_BITOPS_INSTRUMENTED_NON_ATOMIC_H
- #define _ASM_GENERIC_BITOPS_INSTRUMENTED_NON_ATOMIC_H
- 
--#include <linux/kasan-checks.h>
-+#include <linux/instrumented.h>
- 
- /**
-  * __set_bit - Set a bit in memory
-@@ -24,7 +24,7 @@
-  */
- static inline void __set_bit(long nr, volatile unsigned long *addr)
- {
--	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
-+	instrument_write(addr + BIT_WORD(nr), sizeof(long));
- 	arch___set_bit(nr, addr);
- }
- 
-@@ -39,7 +39,7 @@ static inline void __set_bit(long nr, volatile unsigned long *addr)
-  */
- static inline void __clear_bit(long nr, volatile unsigned long *addr)
- {
--	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
-+	instrument_write(addr + BIT_WORD(nr), sizeof(long));
- 	arch___clear_bit(nr, addr);
- }
- 
-@@ -54,7 +54,7 @@ static inline void __clear_bit(long nr, volatile unsigned long *addr)
-  */
- static inline void __change_bit(long nr, volatile unsigned long *addr)
- {
--	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
-+	instrument_write(addr + BIT_WORD(nr), sizeof(long));
- 	arch___change_bit(nr, addr);
- }
- 
-@@ -68,7 +68,7 @@ static inline void __change_bit(long nr, volatile unsigned long *addr)
-  */
- static inline bool __test_and_set_bit(long nr, volatile unsigned long *addr)
- {
--	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
-+	instrument_write(addr + BIT_WORD(nr), sizeof(long));
- 	return arch___test_and_set_bit(nr, addr);
- }
- 
-@@ -82,7 +82,7 @@ static inline bool __test_and_set_bit(long nr, volatile unsigned long *addr)
-  */
- static inline bool __test_and_clear_bit(long nr, volatile unsigned long *addr)
- {
--	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
-+	instrument_write(addr + BIT_WORD(nr), sizeof(long));
- 	return arch___test_and_clear_bit(nr, addr);
- }
- 
-@@ -96,7 +96,7 @@ static inline bool __test_and_clear_bit(long nr, volatile unsigned long *addr)
-  */
- static inline bool __test_and_change_bit(long nr, volatile unsigned long *addr)
- {
--	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
-+	instrument_write(addr + BIT_WORD(nr), sizeof(long));
- 	return arch___test_and_change_bit(nr, addr);
- }
- 
-@@ -107,7 +107,7 @@ static inline bool __test_and_change_bit(long nr, volatile unsigned long *addr)
-  */
- static inline bool test_bit(long nr, const volatile unsigned long *addr)
- {
--	kasan_check_read(addr + BIT_WORD(nr), sizeof(long));
-+	instrument_atomic_read(addr + BIT_WORD(nr), sizeof(long));
- 	return arch_test_bit(nr, addr);
- }
- 
+ 	if (access_ok(to, n)) {
+-		kasan_check_read(from, n);
++		instrument_copy_to_user(to, from, n);
+ 		n = copy_to_user_mcsafe((__force void *) to, from, n);
+ 	}
+ 	return n;
 -- 
 2.9.5
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200309190420.6100-8-paulmck%40kernel.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200309190420.6100-9-paulmck%40kernel.org.
