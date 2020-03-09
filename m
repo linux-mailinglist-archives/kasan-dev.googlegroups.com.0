@@ -1,32 +1,32 @@
 Return-Path: <kasan-dev+bncBAABBOFGTLZQKGQE5Y7FWLY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ot1-x33b.google.com (mail-ot1-x33b.google.com [IPv6:2607:f8b0:4864:20::33b])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBB1017E7C8
+Received: from mail-vk1-xa3f.google.com (mail-vk1-xa3f.google.com [IPv6:2607:f8b0:4864:20::a3f])
+	by mail.lfdr.de (Postfix) with ESMTPS id C09B917E7C9
 	for <lists+kasan-dev@lfdr.de>; Mon,  9 Mar 2020 20:04:25 +0100 (CET)
-Received: by mail-ot1-x33b.google.com with SMTP id t16sf7135143otc.3
+Received: by mail-vk1-xa3f.google.com with SMTP id h197sf4954159vka.5
         for <lists+kasan-dev@lfdr.de>; Mon, 09 Mar 2020 12:04:25 -0700 (PDT)
 ARC-Seal: i=2; a=rsa-sha256; t=1583780664; cv=pass;
         d=google.com; s=arc-20160816;
-        b=tolCLH9EAxLtaHwetUpqw8da4bed63auFqKolGesnQi2syJbRjqWxtTo8ZD1VQ6Bf1
-         +IydCbrz1qNGMq22Qy45wqvxd0xx6v8QTR06It0+NV8/vkWgAJEif+8xvJwtHakmEcek
-         T39df7vDFKFjkdy8jwtVL++Qe3w187WqWERdW1TG73m/ZoG07yA4GYmf9kjAdmjbEmUr
-         lShDImukQgW+mfZXSP3eF0O5M2+2Qz6NHExCi7xDjBlG09/9lTOKc2lu/DKVfM2V1fgc
-         1ZoneQOiFFf3RcMiExreoi8A5U5e3cJPWn+afy2n2bExoXNmPV3ItuFu4/IPLLh1zi+4
-         3fnA==
+        b=kyDYJvU+x6Gjz1s6ZVBBe1EBbs/ZRXcxyKX6lcH5EbzNZS0VMhxzyKiiypztMCjzl9
+         5N62UclozOFuvfEUNi8ZzqEA5w7iviTQNV/U5LZ9d0HN9DRFbl3e5XrKSYrgf6PSdu17
+         NpzTW8MOKBeFSN3GN4eHUw1DIpVyrNVyL5Vic/alCzv4ANSMpZ6md/vpiwP4uWlBmFX5
+         0fOFxYHfm9cQ5OiwriXMyOFfT766XKRfniOzp6+UqzZNAM7RotFAvn6L2CPhh18ysX8z
+         g6s2sZnQ76EN5f/XyGh5lJisgWu919o2rRgwo8l3xfcpEuBN1oz0pdBD/sXZO6PLOMh/
+         qH5g==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:references:in-reply-to:message-id
          :date:subject:cc:to:from:mime-version:sender:dkim-signature;
-        bh=6KyAFQ5I7v19xgqkoTCzK/sTY5OI/8aWDQPgoog13oQ=;
-        b=IhAVlTKHMoDcko6pC358+vaBkfMtYRxOwTlA+DCoG4o71OhlZT+3fegh6Kj1yYwmPU
-         4P/AzYimul/N2rpyuM8AilWb9mxcfgBh6uTTKhBXmLOwrOR2LOKDvE/kjL6ya7vrGBua
-         jpa9k181FHpNwlJCeq52KPFPgYiPtjXpxNpW0IQT+ceNaesD9A43KavZLtuSfHSoinTw
-         NnQWQ8xso0obIxzIqEzTYWtbL7gwVWgKjuuo04VtlldHqfaWBtoZIeiek3jcdD6C+2ku
-         bYHBO3H5wXl//hB9mP16aO2CZEhwnRItXxz+5rX65vGO9hg9FuIDwcvgDEDzMh83fOvc
-         XCPg==
+        bh=As7RGBs+GHTfvZa00vzTMvRRMNbE1/S76sMq2B243yQ=;
+        b=ke1WUxjXxqTKKhxRjc2uAgRpR/mquQ9Xso3NQTgnoVZumBxwzi2ROFjrLAy1arS/L1
+         lSn/tSMgmXhO9J8BYF+OEcL4fYTr5JQtDfdFj5QKn1wVK/RbXu+bMRZ1gEWiy2A8TflV
+         NgvB72w9bJuUBp5Y9ZHOicGHPg3cL+/QomeLu7Pom6TNjLMPcxAHohRb17iHk3V3Choi
+         EYCw/4sbp6XYiBM7zYCDUf9jJHAS5xIE24HbIo/4r8mTPrl8n/aFbTiRnx6LkxvbKW40
+         JVE29tm0W8CJQd/1+vuIGJQ9AKOeTfODAJVZVtNnQGsHklFRJz+rKma1ezCEtotg6Zz1
+         i2nQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=default header.b=n1FhMvHw;
+       dkim=pass header.i=@kernel.org header.s=default header.b=HeZukTxo;
        spf=pass (google.com: domain of paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=paulmck@kernel.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :references:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=6KyAFQ5I7v19xgqkoTCzK/sTY5OI/8aWDQPgoog13oQ=;
-        b=FHbMJfdf0vMMkUuyY4LtRlAKEv2vH1M63glQKL8o4aI/yYa5BrhHvJk6Fe3MzeuXVZ
-         Q3UczY0M4z26AW1FzTVbrXpWLxmITrDzNtzK/rkzjWsLtRjEmjKcKF3tFnsQ/wiKGWXE
-         iPk0TMUNNXuIi89XOqKSDdjh9RMXdaODChQywPfMFutrb5C+wivVmlwzBfefRZmU8n6w
-         0kmYU7WugHNTciBdqhGU9vNDSShhJ/c5lDjElOet4gOD8zYS7C+nGCWAey1O62KG/ZW3
-         O6UZh98g46/J12UGbHsbe1hi8LiN0nxnGWFG7JUTknQ8z3i3DCY0nK81ScFfzGJn18Un
-         zwSQ==
+        bh=As7RGBs+GHTfvZa00vzTMvRRMNbE1/S76sMq2B243yQ=;
+        b=gHvXGAf723UCjkZOZ8Yt9V9piE6z+QJ6HD1AxoHaYhRD/0B6HFisgHcIc6VeVKvqA7
+         E0M5QpyIQLeZpvfsyKvUAkA3zv9My66gTgj6DUuoSHpFTgeyHFNGS97vfXxyGLYR4KfA
+         4GflzAFyKRFy3BaJ4efKsbm1aDRz+etOLSb9x3/eq6GyjI6oBLp6LkjE9jqjwbyQfRxM
+         Is0wNC7FEuAmQgT6cqKziz2Wr8FbscrS6rj8dWwfUMBCEcjuk9k44/Xekn+iba1YBzFW
+         cTaX3Y0LoDEA5eX8gr4vq0R7FOcFaqftYZISxhoPakI128RoMQtUiO1FldLwzRevnbnQ
+         BpGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:mime-version:from:to:cc:subject:date
@@ -49,58 +49,58 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=6KyAFQ5I7v19xgqkoTCzK/sTY5OI/8aWDQPgoog13oQ=;
-        b=PPn6UAV/1IU4EgYSgPMV2F/G8BFnbJev3Gr1fD9a3PQe2IbkinV90E/N6dFynZ8IQ9
-         D47L/umECY2NPvNxJbRX4ZMCQEDTm1963Gx4LObKzqlWmbPvGuBghnd9cOKZSWG/H72C
-         pfw/3fXC7Z9xNIULsvMqhCa0u4PKObDa1BC/r9g0fRYcow4YbXvsoovWKihqE6vxyfw6
-         QDssnxb3Q8LFRKOhxwT6WHOkigm4C25WSpMxV2W/VFDwWFlValmZXOXlhy5uaVsBlkjv
-         S7YwSG3a70pvP2pPXCyVGUN5UZD5RG/DE60PrOllCD0z2QczHs3Pf/mDL6ZeFqmB5LLj
-         W4Pg==
+        bh=As7RGBs+GHTfvZa00vzTMvRRMNbE1/S76sMq2B243yQ=;
+        b=npUwOPsl8aFfCPbGJUAk0YB3fE9ObfiOSICHEWTnKpa7fgN2/je07G5gy8vJmPPFVM
+         nLWlZRtbONppjo9AnmN9N1S6iw6ISiI3dceFHkD2u5PkMj9VGCWUwM8tHmTIMU64IpOj
+         M7PDKexuyfljfzfLSjA+nfB69tuWVFO22V8OtBibrN4lgEAZvYBGzRjcTbjZOHtFGPb5
+         dsbOYR95ybBXL8Wu732YEHUE7ImzssI//OvuJeFMTMopFK+VNqfMrg/owMgV1AICvyQU
+         KaAKcrWVUii7I1SEjbTtZlbFhaFOKRoBg8Od/bqc28t0HVQkiURlYAlFzXtQitC4gJFQ
+         ro3A==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ANhLgQ2wuJ1zMvb3R4O/nxjtmPXe4FYeTyhaqAz+PODnZc4+aEXsj9F2
-	9FMIPho0qAj2av5uy6NY5QY=
-X-Google-Smtp-Source: ADFU+vvoGjxVnrTpOwVU0g/B6tZuUzyiGZmuX21HGUs3nhZx7BJlf7K9DbULE58jMHTA3/TU6J13IQ==
-X-Received: by 2002:a9d:6c58:: with SMTP id g24mr4044871otq.106.1583780664468;
+X-Gm-Message-State: ANhLgQ2y5D14fdK5idOiSUrZlFQ+eZBUDoRo9jCPSP8QaOafRuWyg8DD
+	L3gsEu+z5DyWVy1zKYJZQFo=
+X-Google-Smtp-Source: ADFU+vvixjB0roJb6WMQSp+Ct/t3/k81bTb+/dJ6xY5+oQOaV0DaozwSMK4Fjm2r2o92DfN5jQ2u1w==
+X-Received: by 2002:ab0:769:: with SMTP id h96mr9341267uah.20.1583780664731;
         Mon, 09 Mar 2020 12:04:24 -0700 (PDT)
 MIME-Version: 1.0
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a9d:6759:: with SMTP id w25ls1740339otm.10.gmail; Mon, 09
- Mar 2020 12:04:24 -0700 (PDT)
-X-Received: by 2002:a9d:64cd:: with SMTP id n13mr14209909otl.274.1583780663970;
-        Mon, 09 Mar 2020 12:04:23 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1583780663; cv=none;
+Received: by 2002:ab0:2005:: with SMTP id v5ls771131uak.3.gmail; Mon, 09 Mar
+ 2020 12:04:24 -0700 (PDT)
+X-Received: by 2002:ab0:2083:: with SMTP id r3mr5057584uak.12.1583780664316;
+        Mon, 09 Mar 2020 12:04:24 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1583780664; cv=none;
         d=google.com; s=arc-20160816;
-        b=YIGRlzj4bUnpLuBH9aUtzsbJkbzz3+ZUvZIFFJ+ALiJ3CPliK93mVFDfiaVSRHuYk4
-         0aRbVz8/VV5YtTRYBEpgxsdAv27jh8vhrQIHXl22JD+YPQ7z8FZS0lW3KQlGclX1oVCz
-         EZzkjZvWIefN15LQJowD/XrY82YnPUdFKlUiHi1tZZpsirXDipUgrFvj5CYVwmbbDqnQ
-         YWMcfBPRJ6HwwJmxJEPzvDxP49hc/4Ss+7YDGB+RQF0M6JcrvKUBicY+T58Q773AC1TZ
-         op9XcX9SpVN1Jgb2ljB5uV44QwwjSrrRu4P93c+cSPHZFLl/G54O9M2/DiWXoX5ejh8L
-         Moew==
+        b=T2fqq1cts+Zu+1LQu9azuRDx4zIaEUUmzHHAPAqbyvhsYcelxbnUnG6dCmWlE73RrI
+         RSVReK9k+ovdM7DJj6Tk5n4LA+tgbx/zFrLFEG2ky45Bm4/6gHdiM11tDq6GRsq0xNvC
+         oQo4XScE4piY606itVNw1b7BpQ5obHUx/ysNDyOoLJwbdqoPUvT8dTGDTG6+iul7KBRm
+         xWa6flrfBbpQXKqwbv9YvSCxKhsO/SWyUlHrUQkvtHp6RJ8eFPGVt//Xlax8BQe1BfLA
+         jk3M/BCA6PNzQARkXoDIN0rtiQbrcks0EdYDMceB9auzTHClTmTpgRWv9o5a/OZ6GLpl
+         83Ag==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=references:in-reply-to:message-id:date:subject:cc:to:from
          :dkim-signature;
-        bh=c5D4ljJmBqCSgA4t2dCT7MImX7WFaLbZ9rmjyQ+qx2E=;
-        b=GDKImt4CRRvKhsEMYz7vH/2j+niHNkEj1LQliZdP9Ou9p3nbNFPY7bEJeM9ICxH3hc
-         rxNP15OXb6SH7uXc/yhfGKSUdeo5b9orT2pvg4hr45s/aHfDrVIU7K7XL9ZK4tuBpRyY
-         jKdyjqFvkInIPwzuxfGMiK20bkNDfc+tKqJFkCMTJsTAJ5gL/hIUmPBekIZK4k1qD+gU
-         avYjQexNYsjJO4mlJ6VdTUd6KIwpxS7fRSM+zQD5TJoyWB3GbMCIvH3jMG/2520oHsxX
-         B7g9dUyx8Vjv3KF3ukPj+WXX3tgaGlBxQIPRgznm5LJvpT/GfnLDq5KuXcZ63SqCPCc4
-         Gi3Q==
+        bh=4wbgPjZurvDPyAs/wx518F3T2nxujGPWNRH/hyBEjkw=;
+        b=MbA/zX89w985S/jfbHk5wUOg5R1iJXm1ZwvmiTZurrFoh1jHIjDvgG/SFogpCAj/Rz
+         jI+ozySSMebhBVdhfNB+I8ap3WNLYyey5pbbxpUUIYkp8/91cOJ5MrYyb6FHzptJYtxx
+         E60iL1qbvP1plKdYXR7RFkchT9lOuP3m07l6aKEp3lac8GjF1jThA/SfXmQ2uPPSIUWp
+         eMxmAxEn887g7uPgAWf3EcX02fpgPKxk8y5sxPhKWbeoRq4kBhEGkLA49tBT2Q7aMFBD
+         YQzGfNhFKlCoKRK/Q0VhtPvb7D3NGHwMFEgDp2yA15h0yvCygABgXxwyK/nJSOhDFDtn
+         uPfQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=default header.b=n1FhMvHw;
+       dkim=pass header.i=@kernel.org header.s=default header.b=HeZukTxo;
        spf=pass (google.com: domain of paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=paulmck@kernel.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id d11si235170otk.5.2020.03.09.12.04.23
+        by gmr-mx.google.com with ESMTPS id w4si682114vse.2.2020.03.09.12.04.24
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 09 Mar 2020 12:04:23 -0700 (PDT)
+        Mon, 09 Mar 2020 12:04:24 -0700 (PDT)
 Received-SPF: pass (google.com: domain of paulmck@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
 Received: from paulmck-ThinkPad-P72.home (50-39-105-78.bvtn.or.frontiernet.net [50.39.105.78])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id E3A0A227BF;
-	Mon,  9 Mar 2020 19:04:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPSA id 2EDF722B48;
+	Mon,  9 Mar 2020 19:04:23 +0000 (UTC)
 From: paulmck@kernel.org
 To: linux-kernel@vger.kernel.org,
 	kasan-dev@googlegroups.com,
@@ -113,15 +113,15 @@ Cc: elver@google.com,
 	cai@lca.pw,
 	boqun.feng@gmail.com,
 	"Paul E . McKenney" <paulmck@kernel.org>
-Subject: [PATCH kcsan 04/32] kcsan: Make KCSAN compatible with lockdep
-Date: Mon,  9 Mar 2020 12:03:52 -0700
-Message-Id: <20200309190420.6100-4-paulmck@kernel.org>
+Subject: [PATCH kcsan 05/32] kcsan: Address missing case with KCSAN_REPORT_VALUE_CHANGE_ONLY
+Date: Mon,  9 Mar 2020 12:03:53 -0700
+Message-Id: <20200309190420.6100-5-paulmck@kernel.org>
 X-Mailer: git-send-email 2.9.5
 In-Reply-To: <20200309190359.GA5822@paulmck-ThinkPad-P72>
 References: <20200309190359.GA5822@paulmck-ThinkPad-P72>
 X-Original-Sender: paulmck@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=default header.b=n1FhMvHw;       spf=pass
+ header.i=@kernel.org header.s=default header.b=HeZukTxo;       spf=pass
  (google.com: domain of paulmck@kernel.org designates 198.145.29.99 as
  permitted sender) smtp.mailfrom=paulmck@kernel.org;       dmarc=pass (p=NONE
  sp=NONE dis=NONE) header.from=kernel.org
@@ -140,136 +140,74 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 From: Marco Elver <elver@google.com>
 
-We must avoid any recursion into lockdep if KCSAN is enabled on utilities
-used by lockdep. One manifestation of this is corruption of lockdep's
-IRQ trace state (if TRACE_IRQFLAGS), resulting in spurious warnings
-(see below).  This commit fixes this by:
+Even with KCSAN_REPORT_VALUE_CHANGE_ONLY, KCSAN still reports data
+races between reads and watchpointed writes, even if the writes wrote
+values already present.  This commit causes KCSAN to unconditionally
+skip reporting in this case.
 
-1. Using raw_local_irq{save,restore} in kcsan_setup_watchpoint().
-2. Disabling lockdep in kcsan_report().
-
-Tested with:
-
-  CONFIG_LOCKDEP=y
-  CONFIG_DEBUG_LOCKDEP=y
-  CONFIG_TRACE_IRQFLAGS=y
-
-This fix eliminates spurious warnings such as the following one:
-
-    WARNING: CPU: 0 PID: 2 at kernel/locking/lockdep.c:4406 check_flags.part.0+0x101/0x220
-    Modules linked in:
-    CPU: 0 PID: 2 Comm: kthreadd Not tainted 5.5.0-rc1+ #11
-    Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.12.0-1 04/01/2014
-    RIP: 0010:check_flags.part.0+0x101/0x220
-    <snip>
-    Call Trace:
-     lock_is_held_type+0x69/0x150
-     freezer_fork+0x20b/0x370
-     cgroup_post_fork+0x2c9/0x5c0
-     copy_process+0x2675/0x3b40
-     _do_fork+0xbe/0xa30
-     ? _raw_spin_unlock_irqrestore+0x40/0x50
-     ? match_held_lock+0x56/0x250
-     ? kthread_park+0xf0/0xf0
-     kernel_thread+0xa6/0xd0
-     ? kthread_park+0xf0/0xf0
-     kthreadd+0x321/0x3d0
-     ? kthread_create_on_cpu+0x130/0x130
-     ret_from_fork+0x3a/0x50
-    irq event stamp: 64
-    hardirqs last  enabled at (63): [<ffffffff9a7995d0>] _raw_spin_unlock_irqrestore+0x40/0x50
-    hardirqs last disabled at (64): [<ffffffff992a96d2>] kcsan_setup_watchpoint+0x92/0x460
-    softirqs last  enabled at (32): [<ffffffff990489b8>] fpu__copy+0xe8/0x470
-    softirqs last disabled at (30): [<ffffffff99048939>] fpu__copy+0x69/0x470
-
-Reported-by: Qian Cai <cai@lca.pw>
 Signed-off-by: Marco Elver <elver@google.com>
-Acked-by: Alexander Potapenko <glider@google.com>
-Tested-by: Qian Cai <cai@lca.pw>
 Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
 ---
- kernel/kcsan/core.c     |  6 ++++--
- kernel/kcsan/report.c   | 11 +++++++++++
- kernel/locking/Makefile |  3 +++
- 3 files changed, 18 insertions(+), 2 deletions(-)
+ kernel/kcsan/report.c | 27 ++++++++++++++++++++-------
+ 1 file changed, 20 insertions(+), 7 deletions(-)
 
-diff --git a/kernel/kcsan/core.c b/kernel/kcsan/core.c
-index 87bf857..64b30f7 100644
---- a/kernel/kcsan/core.c
-+++ b/kernel/kcsan/core.c
-@@ -336,8 +336,10 @@ kcsan_setup_watchpoint(const volatile void *ptr, size_t size, int type)
- 	 *      CPU-local data accesses), it makes more sense (from a data race
- 	 *      detection point of view) to simply disable preemptions to ensure
- 	 *      as many tasks as possible run on other CPUs.
-+	 *
-+	 * Use raw versions, to avoid lockdep recursion via IRQ flags tracing.
- 	 */
--	local_irq_save(irq_flags);
-+	raw_local_irq_save(irq_flags);
- 
- 	watchpoint = insert_watchpoint((unsigned long)ptr, size, is_write);
- 	if (watchpoint == NULL) {
-@@ -429,7 +431,7 @@ kcsan_setup_watchpoint(const volatile void *ptr, size_t size, int type)
- 
- 	kcsan_counter_dec(KCSAN_COUNTER_USED_WATCHPOINTS);
- out_unlock:
--	local_irq_restore(irq_flags);
-+	raw_local_irq_restore(irq_flags);
- out:
- 	user_access_restore(ua_flags);
- }
 diff --git a/kernel/kcsan/report.c b/kernel/kcsan/report.c
-index b5b4fee..33bdf8b 100644
+index 33bdf8b..7cd3428 100644
 --- a/kernel/kcsan/report.c
 +++ b/kernel/kcsan/report.c
-@@ -2,6 +2,7 @@
- 
- #include <linux/jiffies.h>
- #include <linux/kernel.h>
-+#include <linux/lockdep.h>
- #include <linux/preempt.h>
- #include <linux/printk.h>
- #include <linux/sched.h>
-@@ -410,6 +411,14 @@ void kcsan_report(const volatile void *ptr, size_t size, int access_type,
+@@ -130,12 +130,25 @@ static bool rate_limit_report(unsigned long frame1, unsigned long frame2)
+  * Special rules to skip reporting.
+  */
+ static bool
+-skip_report(int access_type, bool value_change, unsigned long top_frame)
++skip_report(bool value_change, unsigned long top_frame)
  {
- 	unsigned long flags = 0;
- 
+-	const bool is_write = (access_type & KCSAN_ACCESS_WRITE) != 0;
+-
+-	if (IS_ENABLED(CONFIG_KCSAN_REPORT_VALUE_CHANGE_ONLY) && is_write &&
+-	    !value_change) {
 +	/*
-+	 * With TRACE_IRQFLAGS, lockdep's IRQ trace state becomes corrupted if
-+	 * we do not turn off lockdep here; this could happen due to recursion
-+	 * into lockdep via KCSAN if we detect a data race in utilities used by
-+	 * lockdep.
++	 * The first call to skip_report always has value_change==true, since we
++	 * cannot know the value written of an instrumented access. For the 2nd
++	 * call there are 6 cases with CONFIG_KCSAN_REPORT_VALUE_CHANGE_ONLY:
++	 *
++	 * 1. read watchpoint, conflicting write (value_change==true): report;
++	 * 2. read watchpoint, conflicting write (value_change==false): skip;
++	 * 3. write watchpoint, conflicting write (value_change==true): report;
++	 * 4. write watchpoint, conflicting write (value_change==false): skip;
++	 * 5. write watchpoint, conflicting read (value_change==false): skip;
++	 * 6. write watchpoint, conflicting read (value_change==true): impossible;
++	 *
++	 * Cases 1-4 are intuitive and expected; case 5 ensures we do not report
++	 * data races where the write may have rewritten the same value; and
++	 * case 6 is simply impossible.
 +	 */
-+	lockdep_off();
-+
- 	kcsan_disable_current();
- 	if (prepare_report(&flags, ptr, size, access_type, cpu_id, type)) {
- 		if (print_report(ptr, size, access_type, value_change, cpu_id, type) && panic_on_warn)
-@@ -418,4 +427,6 @@ void kcsan_report(const volatile void *ptr, size_t size, int access_type,
- 		release_report(&flags, type);
++	if (IS_ENABLED(CONFIG_KCSAN_REPORT_VALUE_CHANGE_ONLY) && !value_change) {
+ 		/*
+ 		 * The access is a write, but the data value did not change.
+ 		 *
+@@ -228,7 +241,7 @@ static bool print_report(const volatile void *ptr, size_t size, int access_type,
+ 	/*
+ 	 * Must check report filter rules before starting to print.
+ 	 */
+-	if (skip_report(access_type, true, stack_entries[skipnr]))
++	if (skip_report(true, stack_entries[skipnr]))
+ 		return false;
+ 
+ 	if (type == KCSAN_REPORT_RACE_SIGNAL) {
+@@ -237,7 +250,7 @@ static bool print_report(const volatile void *ptr, size_t size, int access_type,
+ 		other_frame = other_info.stack_entries[other_skipnr];
+ 
+ 		/* @value_change is only known for the other thread */
+-		if (skip_report(other_info.access_type, value_change, other_frame))
++		if (skip_report(value_change, other_frame))
+ 			return false;
  	}
- 	kcsan_enable_current();
-+
-+	lockdep_on();
- }
-diff --git a/kernel/locking/Makefile b/kernel/locking/Makefile
-index 45452fa..6d11cfb 100644
---- a/kernel/locking/Makefile
-+++ b/kernel/locking/Makefile
-@@ -5,6 +5,9 @@ KCOV_INSTRUMENT		:= n
  
- obj-y += mutex.o semaphore.o rwsem.o percpu-rwsem.o
- 
-+# Avoid recursion lockdep -> KCSAN -> ... -> lockdep.
-+KCSAN_SANITIZE_lockdep.o := n
-+
- ifdef CONFIG_FUNCTION_TRACER
- CFLAGS_REMOVE_lockdep.o = $(CC_FLAGS_FTRACE)
- CFLAGS_REMOVE_lockdep_proc.o = $(CC_FLAGS_FTRACE)
 -- 
 2.9.5
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200309190420.6100-4-paulmck%40kernel.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200309190420.6100-5-paulmck%40kernel.org.
