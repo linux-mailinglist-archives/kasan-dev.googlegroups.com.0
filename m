@@ -1,32 +1,32 @@
 Return-Path: <kasan-dev+bncBAABBPNGTLZQKGQEHKXXC2Q@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yw1-xc40.google.com (mail-yw1-xc40.google.com [IPv6:2607:f8b0:4864:20::c40])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6ABF517E7DB
+Received: from mail-yw1-xc3c.google.com (mail-yw1-xc3c.google.com [IPv6:2607:f8b0:4864:20::c3c])
+	by mail.lfdr.de (Postfix) with ESMTPS id DEDDF17E7DE
 	for <lists+kasan-dev@lfdr.de>; Mon,  9 Mar 2020 20:04:30 +0100 (CET)
-Received: by mail-yw1-xc40.google.com with SMTP id h8sf17047722ywi.5
+Received: by mail-yw1-xc3c.google.com with SMTP id o79sf17031273ywo.14
         for <lists+kasan-dev@lfdr.de>; Mon, 09 Mar 2020 12:04:30 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1583780669; cv=pass;
+ARC-Seal: i=2; a=rsa-sha256; t=1583780670; cv=pass;
         d=google.com; s=arc-20160816;
-        b=lUFbozBVcCNmTAxMJ71aynWxKj5t6t0ODnY7k8EiVcISpwsuWHc/qa8SggBGjnuK0W
-         iOP+xdgHPwwCnz5bnf2bi6Vys9QLQXFUFnmIXwwsTyLzrds/SO7xfcQtaQB8Ab/ZZE4e
-         d3e39UXsNZcC5DeCC+kiFVfgPfcjSIrSt2L6gRDxFkosV6PzTWAbQgQo/ciaQ/XIJiV/
-         lQcx9MmObwA5BI+ySL4b2sjQCqb4oTDGf9Pp68lVHSu1tmj4VRoXQE12g3yLp9Fz6RYz
-         LgPiF0NHFrVOuKEY3+GF2ISMC/LJVFPWt0fE3qu+azi1Yyf2qP9FdGxuxhdKcUScUVgO
-         AFPQ==
+        b=mf60JwH0RuoLaWEDtvw3umI8gvlKGIf5VJiGOdxCujyIPVFCmc7EZQBMss90gfzupB
+         VtMYirQ3Qq0ZvTv5zUYv2qur0c42TLaHiTA/SY9XCioIHtl2tXIUa24f4TRNuiKCJv14
+         mRrWQjiZ4pOSwkc04q3dMqJxFPP6FKAevOHjDdKpoTfycY+DO7hVRihjMGeB24b89YUx
+         4W36AcaeokKjXh/PWK+a+cQK9ryn5JWtcPetTqIfCKo+xogd+KI3Ej+qebgG9VU8f9C1
+         gC9bgFFhYp0qiDwZgtQJYT1TrGE/a8moJ7moQJpSqelPqCFMOOv7XHnFYddGKyveUpZs
+         MN/g==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:references:in-reply-to:message-id
          :date:subject:cc:to:from:mime-version:sender:dkim-signature;
-        bh=hlNV0aUKkeg7KsVg870H4tB1IUlqGXzC4HdHIjkA5H4=;
-        b=LzfPR6/TkEIXP0J8OY0kRyzECjS9B+1mRM7gEsBBLb5/2pbxqmP9Ms3keu6N7CI6Bs
-         LzSh6f7qxk45BrwePY5wKCs5vtI7HaqvEyo2AOfDMxPIUNQc6JCg8af4R0aG7Ml+woaC
-         2AXbICh1QDjgQLv6HYQprC+/ksle3XDwfyfkOp/hR70CeDLDV4ciRiATdQ0piphwysZJ
-         2ArC1IruSdYfyna/mvU6C/hGUbexo4KcJi2HzsRgBJ4b6sDZ2Owv49xa6wWQeT94bpyk
-         bTuleeJvfgQU9wxvSgHgSacJ0j7toLcR36nPZdkyzxbttpNhM6WJTZ1GwwiISu+B0Ci3
-         iJbA==
+        bh=bSJFLkPuTfXSH0vJyW1bO3L9TSg7L5K86uHZcRN1OOw=;
+        b=ih5VajNnOXPNduBkGCwi5a/V4KO3XEhxr/HOuNTEZgnmBmuGk1YLrgruKQFOkiI4Up
+         RTCp72v5QZKXJMiG12kCvYO/qUiCPcGS6KddiIUz8z7N7omp/xZa3KgS2GWXPHoG4/8/
+         ZWOexjMzfzsa38SIUs/ZyzoEMiR5IQWwooYNMeAM6BD65JfYvfyZPjLV+2Yy0cIeccG4
+         pFQpttss4qiGADqnYUxyuEBZANXk3uk/snogKQkc98yJityf1ZmP/tk5RcWlNvqzYN0d
+         IE1lhL7ZWXI23GK5CXiQ06Yl/2G7/SBSDthgZLMoCk28Ez0cS55CRSKFrVVD2ihVRn8/
+         NyNw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=default header.b="jbMGV/zp";
+       dkim=pass header.i=@kernel.org header.s=default header.b=SJFbXoDZ;
        spf=pass (google.com: domain of paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=paulmck@kernel.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :references:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=hlNV0aUKkeg7KsVg870H4tB1IUlqGXzC4HdHIjkA5H4=;
-        b=k3MAm1Fh0L+nj5fvS7lqLWFBSmOSUDvMrPvF8MKIBxEYc+zBN30OgcsGblpT7lUYN6
-         IpPjkqQWGLSKRCz+Qv/PP2rqZSHW607WA0Lm/paHiFheGpIB6zCvcFdh806JM7SQAUVr
-         iVQB0U6/vnaD8RgserCu/xy6+QQbDMUae5cwMMhTeD+GGA9O6u9L1UA8s2p8nmrlBuZ+
-         P29Oj7IbUEev4NYF+Mpt66cHuwwy6cwkHTe/ca4AcqVoaiAr9qyRwiY6Nc3PEiQBk/fs
-         Dp6R2AMCNJG+hxZbKJ7bwURUhd6xwIJ48WfUhi7ZhMoVv/hndjQDjiiC9RdiOyA56Vsb
-         bqKg==
+        bh=bSJFLkPuTfXSH0vJyW1bO3L9TSg7L5K86uHZcRN1OOw=;
+        b=ODkKRVhRNWV78y1xj0HP0Z1IaxVuDr4EYwPEZs/tdme0J2AhIDi8ZDPNjVZ4a2bzHo
+         MKD2EWgQCb122njdAIHr4PljRzV8mSZpYoWYcxzF95WYzchKu91QpePkKsTytrIhkAlt
+         Lb7czMtLiHHtE02otQmWM8O72C/doB5JUSFQY9JMdRbllA4ixxm0bFw5JzjBlN3VNyUW
+         zDFj/TGFPzK6i1GHTkHym5WoNhUpoON2OX8l6EJ0CQWZH6gYRaTJNlDDUcO9DWKrqPtF
+         dnHxqK5GEzUGJjWhejHk2Nz2ySELHByRGElYYXBKvRqu69D+gh5kDDuhqZixv3PeSLsZ
+         zg4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:mime-version:from:to:cc:subject:date
@@ -49,49 +49,49 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=hlNV0aUKkeg7KsVg870H4tB1IUlqGXzC4HdHIjkA5H4=;
-        b=OwQz/mUnAyczcDk6A1xK7U0HuyerDfzN04CtwhQTX01GC0VSbK7QQtqImyljwRAK5q
-         VmW5asa3nmWl1WKd+ypu5l0K6l+g5c8jxSQ+ynGfzkBxfThRfnL++tqdt3ILWaK0hP7I
-         kJeJDqVwgzgVoqpCGq3JYjp5FkirZGKee4tB8pr2lTssA3aVwRjsvx7e1j573aG/55an
-         hxnocOU5mRyWuoLcPYVjlILPYWSDC7dCJ2GUrYUGcfYswiLFYxIxlxKFDlOxcCKNyxQF
-         WtbL491sgWRJrl3y+ytff8rH4xU6oXVrv5+pM07x07ZDCr53wYrmLTaa7Ems0tGZmW9s
-         AfXQ==
+        bh=bSJFLkPuTfXSH0vJyW1bO3L9TSg7L5K86uHZcRN1OOw=;
+        b=kchfL+lV+tEQuK1nyMDuO8Jn/+q025s61BCX9rHgQkDihPx0Fk2pGKoBVN/OQsdr1X
+         bS4Qkw97PyFJcct3dqne6Kd1MPfdsSuiAW78uXPsRk0EU3osSPj8IWFr+UfvPF7QlBcW
+         mYY+VYizbBaeQ3KDYUCWVCvFADGnWvYYYqTcAzX8MNsmGRDQiDo98NojlNZr9UvTEryk
+         X9dmBqWGAVmFYjBM7jA3fUGy3uoHguzyOD+aBdmq2RlKZTMTAksfpNrl1B8+zF8KY9ro
+         ums1zSx9WF2uz5+LPgoEMxTo5YH+hv5EdCnkvHjZFkE7YaQ9JLEpPW6PlTeR+opWZYD8
+         DNzQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ANhLgQ1NQqeGnNwkVJyzYdF4pxDjh/ChWvyx7RGwpcSFAbmurNKsb9k5
-	YDLKG8oOcIhmzo1iY20jFLQ=
-X-Google-Smtp-Source: ADFU+vufkhg2noczN921jttguzaRr5sJ54OEIUZeCX98ILnu35vgJdRIVk3RdPMKYdRP3qnf30VA7Q==
-X-Received: by 2002:a25:cc8a:: with SMTP id l132mr19137364ybf.178.1583780669383;
+X-Gm-Message-State: ANhLgQ3Vv0r7SrEf3skk3n7R7nlns6OS9Jmryo3E/3meL8QolMRnAWpI
+	3QvlBUTRGJV4nJpheDnbtHg=
+X-Google-Smtp-Source: ADFU+vvxDbDwTY0Y7aJXZVJ9p5orfiGOUlcyzJU7gpocr0g0vqH+NcXMdNEZHwxSo0KSR6BJcEpyQw==
+X-Received: by 2002:a81:49c3:: with SMTP id w186mr6531614ywa.329.1583780669770;
         Mon, 09 Mar 2020 12:04:29 -0700 (PDT)
 MIME-Version: 1.0
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a25:df89:: with SMTP id w131ls2943499ybg.2.gmail; Mon, 09
- Mar 2020 12:04:29 -0700 (PDT)
-X-Received: by 2002:a25:2f44:: with SMTP id v65mr19656153ybv.442.1583780669042;
+Received: by 2002:a81:8644:: with SMTP id w65ls2207770ywf.3.gmail; Mon, 09 Mar
+ 2020 12:04:29 -0700 (PDT)
+X-Received: by 2002:a0d:d610:: with SMTP id y16mr17174105ywd.38.1583780669335;
         Mon, 09 Mar 2020 12:04:29 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; t=1583780669; cv=none;
         d=google.com; s=arc-20160816;
-        b=nDybLS1M7yymRty/n2Nd3YInjr/6IfAQqukKdtlBxwd0x/uBrSgS0/kfNsw7vVNhKx
-         8qUbX7RxxsdjlHDLkRFaj/ICL/U0fzSZFGDPzE7JSds9EA2RnFeqFz2Lq7QTLp0vG18k
-         qFIe/QnqKvMvU3Ci9hbJzl4fndivJn/G9lpyX7JOMotq/D2eJBPXtqxCRdDaAysAwLLL
-         kIrXyIDqgjGNmTfXp4buu/FJh7zudJqUe5T6hHavlzGZHX5B66qnz/yANST31T/sw15H
-         klGWgI2Qsl0WMBHrvlrP2+WmHyEK/ATjHeibtRb8eX41/396uLB8nH0V09wDrepAvkwZ
-         bKTw==
+        b=UUqgF6Vl0slrPo2vKKp9X4bl+WOC0cWr1MEkM4SZurwTMOmnwXc4f3G58ZdTU6MoWJ
+         OIzl3Mp8aoUHOEIWaYh1/3b9jc6DnvlzEDJNoSf3LG3PjnJ1dv6vS0I1gZutib75kd16
+         /ohcKFqDgYRCy/4AW7QWno/IOub0rPNv1CNT4GHTcfXyR+JLRkjZLEAeL3GRbeGPzpo7
+         Fcfd88b7gOb0YCpeniJeeZnL+VUXxi262gwpgHERcKLm8Ojag0FZhwK+svx9NOzqTDdT
+         3jwJO8Ak0QknukpVYxu0tlTIjwzUOZf0D8X21+o3IyXO25QRrFzBttxXU2hzQIFatQC1
+         +w4A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=references:in-reply-to:message-id:date:subject:cc:to:from
          :dkim-signature;
-        bh=84QBQaylsc7MeMLSPXn/T2P2X5nhpABl2K4HEFI035M=;
-        b=XyAy9Hogg7WZN0NISyMi7fSBe+GlJ78/87KC5R2trIym1ZCJ1k1d463EFs9SHcVE5N
-         75y4rizZZhX/oMw+aI36uuXLgI0KWhOrdUBnnE4aPY6WMAUCsAT5Px2uSyG/5C6Nd2KB
-         h6w11yyX/hsWA2oas/BjTyRJtkiZ+If0/9ZLQjuECqhkV+032y7ZwEyG7hEj0lTsQ6Ud
-         W9RBjH/A7S0pZJIHBnU4y42imQ/8K0U8Jqd86vfL2ZJU1G7H00oGPdjA9qYQFDzE4eeC
-         YR76x8ho82AmWHBErRq/8xOUgHa69r52LYqzDtvc+WJYseHyNbT1iNunGv+5QUin3r6T
-         HDeQ==
+        bh=q3o9IxybYU2ZEs1Q7aBtJmQIlY/JCQRqVN7aKBGb+d0=;
+        b=JGjvwsuySn5WufGf64iCQsQlx1bgnhwa55A3gz3i9Y54EIqcOTbhpMOwXWwqLUCnQw
+         FL4P71zZTmO5l3iu1tLi9LvBtnSuJlbK1TcHSDokpDkSxoyRrRiMUXnCMX9cIt6ZqqRD
+         eG3++3vG86l5u2cHpcvuRqCfSj701UFY3jJ4Uj+ThtwrvcF9D2ucMKAAN8q/yNdrv6WT
+         ujRsGZhfW2PRyKbUIM0N0/XRDmQ7OcjmvQXgNy7AH08okSrDf8MqsWXghCHICp8dD8Xh
+         Cr5n0ANRgHthrEJjEMsYTNENaH7dIHM2JsTLFJu48UUXSg753aOlZTfet/x6+p0qaKpi
+         paug==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=default header.b="jbMGV/zp";
+       dkim=pass header.i=@kernel.org header.s=default header.b=SJFbXoDZ;
        spf=pass (google.com: domain of paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=paulmck@kernel.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id e131si306171ybh.3.2020.03.09.12.04.28
+        by gmr-mx.google.com with ESMTPS id b130si689362ywe.2.2020.03.09.12.04.29
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
         Mon, 09 Mar 2020 12:04:29 -0700 (PDT)
@@ -99,7 +99,7 @@ Received-SPF: pass (google.com: domain of paulmck@kernel.org designates 198.145.
 Received: from paulmck-ThinkPad-P72.home (50-39-105-78.bvtn.or.frontiernet.net [50.39.105.78])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id 1810A2464B;
+	by mail.kernel.org (Postfix) with ESMTPSA id 563BF24656;
 	Mon,  9 Mar 2020 19:04:28 +0000 (UTC)
 From: paulmck@kernel.org
 To: linux-kernel@vger.kernel.org,
@@ -112,16 +112,19 @@ Cc: elver@google.com,
 	dvyukov@google.com,
 	cai@lca.pw,
 	boqun.feng@gmail.com,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@redhat.com>,
+	Jan Kara <jack@suse.cz>,
 	"Paul E . McKenney" <paulmck@kernel.org>
-Subject: [PATCH kcsan 24/32] kcsan: Add kcsan_set_access_mask() support
-Date: Mon,  9 Mar 2020 12:04:12 -0700
-Message-Id: <20200309190420.6100-24-paulmck@kernel.org>
+Subject: [PATCH kcsan 25/32] kcsan: Introduce ASSERT_EXCLUSIVE_BITS(var, mask)
+Date: Mon,  9 Mar 2020 12:04:13 -0700
+Message-Id: <20200309190420.6100-25-paulmck@kernel.org>
 X-Mailer: git-send-email 2.9.5
 In-Reply-To: <20200309190359.GA5822@paulmck-ThinkPad-P72>
 References: <20200309190359.GA5822@paulmck-ThinkPad-P72>
 X-Original-Sender: paulmck@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=default header.b="jbMGV/zp";       spf=pass
+ header.i=@kernel.org header.s=default header.b=SJFbXoDZ;       spf=pass
  (google.com: domain of paulmck@kernel.org designates 198.145.29.99 as
  permitted sender) smtp.mailfrom=paulmck@kernel.org;       dmarc=pass (p=NONE
  sp=NONE dis=NONE) header.from=kernel.org
@@ -140,233 +143,191 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 From: Marco Elver <elver@google.com>
 
-When setting up an access mask with kcsan_set_access_mask(), KCSAN will
-only report races if concurrent changes to bits set in access_mask are
-observed. Conveying access_mask via a separate call avoids introducing
-overhead in the common-case fast-path.
+This introduces ASSERT_EXCLUSIVE_BITS(var, mask).
+ASSERT_EXCLUSIVE_BITS(var, mask) will cause KCSAN to assume that the
+following access is safe w.r.t. data races (however, please see the
+docbook comment for disclaimer here).
+
+For more context on why this was considered necessary, please see:
+  http://lkml.kernel.org/r/1580995070-25139-1-git-send-email-cai@lca.pw
+
+In particular, before this patch, data races between reads (that use
+@mask bits of an access that should not be modified concurrently) and
+writes (that change ~@mask bits not used by the readers) would have been
+annotated with "data_race()" (or "READ_ONCE()"). However, doing so would
+then hide real problems: we would no longer be able to detect harmful
+races between reads to @mask bits and writes to @mask bits.
+
+Therefore, by using ASSERT_EXCLUSIVE_BITS(var, mask), we accomplish:
+
+  1. Avoid proliferation of specific macros at the call sites: by
+     including a single mask in the argument list, we can use the same
+     macro in a wide variety of call sites, regardless of how and which
+     bits in a field each call site actually accesses.
+
+  2. The existing code does not need to be modified (although READ_ONCE()
+     may still be advisable if we cannot prove that the data race is
+     always safe).
+
+  3. We catch bugs where the exclusive bits are modified concurrently.
+
+  4. We document properties of the current code.
 
 Signed-off-by: Marco Elver <elver@google.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: David Hildenbrand <david@redhat.com>
+Cc: Jan Kara <jack@suse.cz>
+Cc: Paul E. McKenney <paulmck@kernel.org>
+Cc: Qian Cai <cai@lca.pw>
 Acked-by: John Hubbard <jhubbard@nvidia.com>
 Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
 ---
- include/linux/kcsan-checks.h | 11 +++++++++++
- include/linux/kcsan.h        |  5 +++++
- init/init_task.c             |  1 +
- kernel/kcsan/core.c          | 43 +++++++++++++++++++++++++++++++++++++++----
- kernel/kcsan/kcsan.h         |  5 +++++
- kernel/kcsan/report.c        | 13 ++++++++++++-
- 6 files changed, 73 insertions(+), 5 deletions(-)
+ include/linux/kcsan-checks.h | 69 ++++++++++++++++++++++++++++++++++++++++----
+ kernel/kcsan/debugfs.c       | 15 +++++++++-
+ 2 files changed, 77 insertions(+), 7 deletions(-)
 
 diff --git a/include/linux/kcsan-checks.h b/include/linux/kcsan-checks.h
-index 8675411..4ef5233 100644
+index 4ef5233..1b8aac5 100644
 --- a/include/linux/kcsan-checks.h
 +++ b/include/linux/kcsan-checks.h
-@@ -68,6 +68,16 @@ void kcsan_flat_atomic_end(void);
-  */
- void kcsan_atomic_next(int n);
- 
-+/**
-+ * kcsan_set_access_mask - set access mask
-+ *
-+ * Set the access mask for all accesses for the current context if non-zero.
-+ * Only value changes to bits set in the mask will be reported.
-+ *
-+ * @mask bitmask
-+ */
-+void kcsan_set_access_mask(unsigned long mask);
-+
- #else /* CONFIG_KCSAN */
- 
- static inline void __kcsan_check_access(const volatile void *ptr, size_t size,
-@@ -78,6 +88,7 @@ static inline void kcsan_nestable_atomic_end(void)	{ }
- static inline void kcsan_flat_atomic_begin(void)	{ }
- static inline void kcsan_flat_atomic_end(void)		{ }
- static inline void kcsan_atomic_next(int n)		{ }
-+static inline void kcsan_set_access_mask(unsigned long mask) { }
- 
- #endif /* CONFIG_KCSAN */
- 
-diff --git a/include/linux/kcsan.h b/include/linux/kcsan.h
-index 7a614ca..3b84606 100644
---- a/include/linux/kcsan.h
-+++ b/include/linux/kcsan.h
-@@ -35,6 +35,11 @@ struct kcsan_ctx {
- 	 */
- 	int atomic_nest_count;
- 	bool in_flat_atomic;
-+
-+	/*
-+	 * Access mask for all accesses if non-zero.
-+	 */
-+	unsigned long access_mask;
- };
+@@ -152,9 +152,9 @@ static inline void kcsan_check_access(const volatile void *ptr, size_t size,
+ #endif
  
  /**
-diff --git a/init/init_task.c b/init/init_task.c
-index 2b4fe98..096191d 100644
---- a/init/init_task.c
-+++ b/init/init_task.c
-@@ -167,6 +167,7 @@ struct task_struct init_task
- 		.atomic_next		= 0,
- 		.atomic_nest_count	= 0,
- 		.in_flat_atomic		= false,
-+		.access_mask		= 0,
- 	},
- #endif
- #ifdef CONFIG_TRACE_IRQFLAGS
-diff --git a/kernel/kcsan/core.c b/kernel/kcsan/core.c
-index 3f89801..589b1e7 100644
---- a/kernel/kcsan/core.c
-+++ b/kernel/kcsan/core.c
-@@ -39,6 +39,7 @@ static DEFINE_PER_CPU(struct kcsan_ctx, kcsan_cpu_ctx) = {
- 	.atomic_next		= 0,
- 	.atomic_nest_count	= 0,
- 	.in_flat_atomic		= false,
-+	.access_mask		= 0,
- };
+- * ASSERT_EXCLUSIVE_WRITER - assert no other threads are writing @var
++ * ASSERT_EXCLUSIVE_WRITER - assert no concurrent writes to @var
+  *
+- * Assert that there are no other threads writing @var; other readers are
++ * Assert that there are no concurrent writes to @var; other readers are
+  * allowed. This assertion can be used to specify properties of concurrent code,
+  * where violation cannot be detected as a normal data race.
+  *
+@@ -171,11 +171,11 @@ static inline void kcsan_check_access(const volatile void *ptr, size_t size,
+ 	__kcsan_check_access(&(var), sizeof(var), KCSAN_ACCESS_ASSERT)
  
- /*
-@@ -298,6 +299,15 @@ static noinline void kcsan_found_watchpoint(const volatile void *ptr,
+ /**
+- * ASSERT_EXCLUSIVE_ACCESS - assert no other threads are accessing @var
++ * ASSERT_EXCLUSIVE_ACCESS - assert no concurrent accesses to @var
+  *
+- * Assert that no other thread is accessing @var (no readers nor writers). This
+- * assertion can be used to specify properties of concurrent code, where
+- * violation cannot be detected as a normal data race.
++ * Assert that there are no concurrent accesses to @var (no readers nor
++ * writers). This assertion can be used to specify properties of concurrent
++ * code, where violation cannot be detected as a normal data race.
+  *
+  * For example, in a reference-counting algorithm where exclusive access is
+  * expected after the refcount reaches 0. We can check that this property
+@@ -191,4 +191,61 @@ static inline void kcsan_check_access(const volatile void *ptr, size_t size,
+ #define ASSERT_EXCLUSIVE_ACCESS(var)                                           \
+ 	__kcsan_check_access(&(var), sizeof(var), KCSAN_ACCESS_WRITE | KCSAN_ACCESS_ASSERT)
  
- 	if (!kcsan_is_enabled())
- 		return;
++/**
++ * ASSERT_EXCLUSIVE_BITS - assert no concurrent writes to subset of bits in @var
++ *
++ * Bit-granular variant of ASSERT_EXCLUSIVE_WRITER(var).
++ *
++ * Assert that there are no concurrent writes to a subset of bits in @var;
++ * concurrent readers are permitted. This assertion captures more detailed
++ * bit-level properties, compared to the other (word granularity) assertions.
++ * Only the bits set in @mask are checked for concurrent modifications, while
++ * ignoring the remaining bits, i.e. concurrent writes (or reads) to ~@mask bits
++ * are ignored.
++ *
++ * Use this for variables, where some bits must not be modified concurrently,
++ * yet other bits are expected to be modified concurrently.
++ *
++ * For example, variables where, after initialization, some bits are read-only,
++ * but other bits may still be modified concurrently. A reader may wish to
++ * assert that this is true as follows:
++ *
++ *	ASSERT_EXCLUSIVE_BITS(flags, READ_ONLY_MASK);
++ *	foo = (READ_ONCE(flags) & READ_ONLY_MASK) >> READ_ONLY_SHIFT;
++ *
++ *   Note: The access that immediately follows ASSERT_EXCLUSIVE_BITS() is
++ *   assumed to access the masked bits only, and KCSAN optimistically assumes it
++ *   is therefore safe, even in the presence of data races, and marking it with
++ *   READ_ONCE() is optional from KCSAN's point-of-view. We caution, however,
++ *   that it may still be advisable to do so, since we cannot reason about all
++ *   compiler optimizations when it comes to bit manipulations (on the reader
++ *   and writer side). If you are sure nothing can go wrong, we can write the
++ *   above simply as:
++ *
++ * 	ASSERT_EXCLUSIVE_BITS(flags, READ_ONLY_MASK);
++ *	foo = (flags & READ_ONLY_MASK) >> READ_ONLY_SHIFT;
++ *
++ * Another example, where this may be used, is when certain bits of @var may
++ * only be modified when holding the appropriate lock, but other bits may still
++ * be modified concurrently. Writers, where other bits may change concurrently,
++ * could use the assertion as follows:
++ *
++ *	spin_lock(&foo_lock);
++ *	ASSERT_EXCLUSIVE_BITS(flags, FOO_MASK);
++ *	old_flags = READ_ONCE(flags);
++ *	new_flags = (old_flags & ~FOO_MASK) | (new_foo << FOO_SHIFT);
++ *	if (cmpxchg(&flags, old_flags, new_flags) != old_flags) { ... }
++ *	spin_unlock(&foo_lock);
++ *
++ * @var variable to assert on
++ * @mask only check for modifications to bits set in @mask
++ */
++#define ASSERT_EXCLUSIVE_BITS(var, mask)                                       \
++	do {                                                                   \
++		kcsan_set_access_mask(mask);                                   \
++		__kcsan_check_access(&(var), sizeof(var), KCSAN_ACCESS_ASSERT);\
++		kcsan_set_access_mask(0);                                      \
++		kcsan_atomic_next(1);                                          \
++	} while (0)
 +
-+	/*
-+	 * The access_mask check relies on value-change comparison. To avoid
-+	 * reporting a race where e.g. the writer set up the watchpoint, but the
-+	 * reader has access_mask!=0, we have to ignore the found watchpoint.
-+	 */
-+	if (get_ctx()->access_mask != 0)
-+		return;
-+
- 	/*
- 	 * Consume the watchpoint as soon as possible, to minimize the chances
- 	 * of !consumed. Consuming the watchpoint must always be guarded by
-@@ -341,6 +351,7 @@ kcsan_setup_watchpoint(const volatile void *ptr, size_t size, int type)
- 		u32 _4;
- 		u64 _8;
- 	} expect_value;
-+	unsigned long access_mask;
- 	enum kcsan_value_change value_change = KCSAN_VALUE_CHANGE_MAYBE;
- 	unsigned long ua_flags = user_access_save();
- 	unsigned long irq_flags;
-@@ -435,18 +446,27 @@ kcsan_setup_watchpoint(const volatile void *ptr, size_t size, int type)
- 	 * Re-read value, and check if it is as expected; if not, we infer a
- 	 * racy access.
- 	 */
-+	access_mask = get_ctx()->access_mask;
- 	switch (size) {
- 	case 1:
- 		expect_value._1 ^= READ_ONCE(*(const u8 *)ptr);
-+		if (access_mask)
-+			expect_value._1 &= (u8)access_mask;
- 		break;
- 	case 2:
- 		expect_value._2 ^= READ_ONCE(*(const u16 *)ptr);
-+		if (access_mask)
-+			expect_value._2 &= (u16)access_mask;
- 		break;
- 	case 4:
- 		expect_value._4 ^= READ_ONCE(*(const u32 *)ptr);
-+		if (access_mask)
-+			expect_value._4 &= (u32)access_mask;
- 		break;
- 	case 8:
- 		expect_value._8 ^= READ_ONCE(*(const u64 *)ptr);
-+		if (access_mask)
-+			expect_value._8 &= (u64)access_mask;
- 		break;
- 	default:
- 		break; /* ignore; we do not diff the values */
-@@ -460,11 +480,20 @@ kcsan_setup_watchpoint(const volatile void *ptr, size_t size, int type)
- 	if (!remove_watchpoint(watchpoint)) {
- 		/*
- 		 * Depending on the access type, map a value_change of MAYBE to
--		 * TRUE (require reporting).
-+		 * TRUE (always report) or FALSE (never report).
- 		 */
--		if (value_change == KCSAN_VALUE_CHANGE_MAYBE && (size > 8 || is_assert)) {
--			/* Always assume a value-change. */
--			value_change = KCSAN_VALUE_CHANGE_TRUE;
-+		if (value_change == KCSAN_VALUE_CHANGE_MAYBE) {
-+			if (access_mask != 0) {
-+				/*
-+				 * For access with access_mask, we require a
-+				 * value-change, as it is likely that races on
-+				 * ~access_mask bits are expected.
-+				 */
-+				value_change = KCSAN_VALUE_CHANGE_FALSE;
-+			} else if (size > 8 || is_assert) {
-+				/* Always assume a value-change. */
-+				value_change = KCSAN_VALUE_CHANGE_TRUE;
-+			}
- 		}
- 
- 		/*
-@@ -622,6 +651,12 @@ void kcsan_atomic_next(int n)
- }
- EXPORT_SYMBOL(kcsan_atomic_next);
- 
-+void kcsan_set_access_mask(unsigned long mask)
-+{
-+	get_ctx()->access_mask = mask;
-+}
-+EXPORT_SYMBOL(kcsan_set_access_mask);
-+
- void __kcsan_check_access(const volatile void *ptr, size_t size, int type)
+ #endif /* _LINUX_KCSAN_CHECKS_H */
+diff --git a/kernel/kcsan/debugfs.c b/kernel/kcsan/debugfs.c
+index 9bbba0e..2ff1961 100644
+--- a/kernel/kcsan/debugfs.c
++++ b/kernel/kcsan/debugfs.c
+@@ -100,8 +100,10 @@ static noinline void microbenchmark(unsigned long iters)
+  * debugfs file from multiple tasks to generate real conflicts and show reports.
+  */
+ static long test_dummy;
++static long test_flags;
+ static noinline void test_thread(unsigned long iters)
  {
- 	check_access(ptr, size, type);
-diff --git a/kernel/kcsan/kcsan.h b/kernel/kcsan/kcsan.h
-index 83a79b0..892de51 100644
---- a/kernel/kcsan/kcsan.h
-+++ b/kernel/kcsan/kcsan.h
-@@ -99,6 +99,11 @@ enum kcsan_value_change {
- 	KCSAN_VALUE_CHANGE_MAYBE,
++	const long CHANGE_BITS = 0xff00ff00ff00ff00L;
+ 	const struct kcsan_ctx ctx_save = current->kcsan_ctx;
+ 	cycles_t cycles;
  
- 	/*
-+	 * Did not observe a value-change, and it is invalid to report the race.
-+	 */
-+	KCSAN_VALUE_CHANGE_FALSE,
-+
-+	/*
- 	 * The value was observed to change, and the race should be reported.
- 	 */
- 	KCSAN_VALUE_CHANGE_TRUE,
-diff --git a/kernel/kcsan/report.c b/kernel/kcsan/report.c
-index d871476..11c791b 100644
---- a/kernel/kcsan/report.c
-+++ b/kernel/kcsan/report.c
-@@ -132,6 +132,9 @@ static bool rate_limit_report(unsigned long frame1, unsigned long frame2)
- static bool
- skip_report(enum kcsan_value_change value_change, unsigned long top_frame)
- {
-+	/* Should never get here if value_change==FALSE. */
-+	WARN_ON_ONCE(value_change == KCSAN_VALUE_CHANGE_FALSE);
-+
- 	/*
- 	 * The first call to skip_report always has value_change==TRUE, since we
- 	 * cannot know the value written of an instrumented access. For the 2nd
-@@ -493,7 +496,15 @@ void kcsan_report(const volatile void *ptr, size_t size, int access_type,
+@@ -109,16 +111,27 @@ static noinline void test_thread(unsigned long iters)
+ 	memset(&current->kcsan_ctx, 0, sizeof(current->kcsan_ctx));
  
- 	kcsan_disable_current();
- 	if (prepare_report(&flags, ptr, size, access_type, cpu_id, type)) {
--		if (print_report(ptr, size, access_type, value_change, cpu_id, type) && panic_on_warn)
-+		/*
-+		 * Never report if value_change is FALSE, only if we it is
-+		 * either TRUE or MAYBE. In case of MAYBE, further filtering may
-+		 * be done once we know the full stack trace in print_report().
-+		 */
-+		bool reported = value_change != KCSAN_VALUE_CHANGE_FALSE &&
-+				print_report(ptr, size, access_type, value_change, cpu_id, type);
-+
-+		if (reported && panic_on_warn)
- 			panic("panic_on_warn set ...\n");
+ 	pr_info("KCSAN: %s begin | iters: %lu\n", __func__, iters);
++	pr_info("test_dummy@%px, test_flags@%px\n", &test_dummy, &test_flags);
  
- 		release_report(&flags, type);
+ 	cycles = get_cycles();
+ 	while (iters--) {
++		/* These all should generate reports. */
+ 		__kcsan_check_read(&test_dummy, sizeof(test_dummy));
+-		__kcsan_check_write(&test_dummy, sizeof(test_dummy));
+ 		ASSERT_EXCLUSIVE_WRITER(test_dummy);
+ 		ASSERT_EXCLUSIVE_ACCESS(test_dummy);
+ 
++		ASSERT_EXCLUSIVE_BITS(test_flags, ~CHANGE_BITS); /* no report */
++		__kcsan_check_read(&test_flags, sizeof(test_flags)); /* no report */
++
++		ASSERT_EXCLUSIVE_BITS(test_flags, CHANGE_BITS); /* report */
++		__kcsan_check_read(&test_flags, sizeof(test_flags)); /* no report */
++
+ 		/* not actually instrumented */
+ 		WRITE_ONCE(test_dummy, iters);  /* to observe value-change */
++		__kcsan_check_write(&test_dummy, sizeof(test_dummy));
++
++		test_flags ^= CHANGE_BITS; /* generate value-change */
++		__kcsan_check_write(&test_flags, sizeof(test_flags));
+ 	}
+ 	cycles = get_cycles() - cycles;
+ 
 -- 
 2.9.5
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200309190420.6100-24-paulmck%40kernel.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200309190420.6100-25-paulmck%40kernel.org.
