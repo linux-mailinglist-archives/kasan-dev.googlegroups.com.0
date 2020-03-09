@@ -1,32 +1,32 @@
 Return-Path: <kasan-dev+bncBAABBN5GTLZQKGQEPDCGIZA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-io1-xd37.google.com (mail-io1-xd37.google.com [IPv6:2607:f8b0:4864:20::d37])
-	by mail.lfdr.de (Postfix) with ESMTPS id D297517E7C5
-	for <lists+kasan-dev@lfdr.de>; Mon,  9 Mar 2020 20:04:24 +0100 (CET)
-Received: by mail-io1-xd37.google.com with SMTP id l62sf7241327ioa.19
-        for <lists+kasan-dev@lfdr.de>; Mon, 09 Mar 2020 12:04:24 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1583780663; cv=pass;
+Received: from mail-qt1-x83b.google.com (mail-qt1-x83b.google.com [IPv6:2607:f8b0:4864:20::83b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 31D5717E7C7
+	for <lists+kasan-dev@lfdr.de>; Mon,  9 Mar 2020 20:04:25 +0100 (CET)
+Received: by mail-qt1-x83b.google.com with SMTP id b10sf3404958qto.21
+        for <lists+kasan-dev@lfdr.de>; Mon, 09 Mar 2020 12:04:25 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1583780664; cv=pass;
         d=google.com; s=arc-20160816;
-        b=wuYKw7fJG2MNBT96N/+09xLCB14GtYqcALzz34iL1Yyl5JCamCoGdTrNL8ylG8Kij9
-         +PHlQcN6sqE76+05b4BAOQuTmXh9fVLfEAGJWzOfu7eXkoInPP5mx6InkI4iGgTkSdMM
-         7cvi1RWAkjfmo77rtdPCHO49Zivt7IvTcD8Q5q2u2dsGLLMB+ms2Wm87QezrdtKnOIJ+
-         KhySaP/RB+ec26Vu5iRo2jg360H02mrbtJfWnmgM5VwT57n63iN6umsI7EvL+Np397pj
-         CL8U1szaWiRS0s+AEWWObT9mOW+Lhiyqnvkhewmk5Xcq2nFPAd22PrfR4Yug/tkZPChn
-         OpXA==
+        b=j1G0D/08X505tc3K6QaQzLOpmXOvi4R/Z1krCqWG7lFfHl8J0/eRp+0pySJimor63u
+         3YAvq6B0Ax536WZoL9PKPJdQoElOra+vhlj/cauLdlw1XJeppseNY7nNbbEeDiytNLEL
+         IdRZ6Zj3VP/Gf4uhzGA4JMzb7Es7oiZftWFGyUomx2dGs7CLX7mEgDi44odbkE5jKdh7
+         DlES4iWZ6/OWf1J64rdamX/SVQhQqWQ2vm0VtUyGrCBRT/ONeLQQZVxNczSUBS7Q4LO7
+         dobixfMdiLYCG4d6fozpQqgfHF0fN2NM1ICyEIeY3tIw67kHElgDXwGNhHrJQPkTA7KO
+         uR+A==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:references:in-reply-to:message-id
          :date:subject:cc:to:from:mime-version:sender:dkim-signature;
-        bh=oHsUdGXKD4hBNMasd02a6njohyPXiaspsyHyCn3Gjig=;
-        b=v3irbaW4GQvTqNhwdF/jS4ArYIPTiICis38y1wKPnWUIedwRUAx+wGeICWsRqiNoe+
-         xCxR6H0TKD6E92ibtTiQPTwrbz+DXrPuxGvZ3TKSWdQUqw+EZ75kHgho6kX/Oap5Kn62
-         9ar3+b5oHOGGto1X9OZulCHtjOd/3JCOQ5o5Oyobb+QPozFfPcMYbQgeaobGEqMbPVzm
-         1rVv2qHXWnUo6Dm4QGnzkKR4Ztgy6nDNRZEAFz6JYV94ytkbwhWKPNzYd1WuU+5AIBa1
-         R9ee7K52hclWgImCt7FBfpeMXZl6rsp7cLNvVg1W+/UYN2uvFBzP5xLrBaO9TmFnvvGs
-         vkZA==
+        bh=+tb85Qf0UGmxO7LchY7k/ewbSaVa7EbADIejZi/ysaM=;
+        b=0QGLQOW+95+jgpJMSL/lBMRbr0xQk4kIEcF3GNvhKTwdmjq3ia7F4XRsIyrbZateW+
+         eDHPIO+2u5wvphEb02EKeaSyJFDqARt48Gbw0SylQ6jAPP3HqIiOaURyT9N4NNZhVVlV
+         Cp4cae6rfzxJd7ggn3lUe4cOSkWHcXCQsqE0HpCPlgtyIAlKUxWSc9cge5q0vA+cr7+t
+         9j8OQBVrk1NC4b6hH5EaVpMJCUlvwbiGUKOqTG8TfBJ5HnINqEYtPvE0MMcLAefbUY0o
+         8VG9nluLGBXdNJC0C8hQciAK4A3LFGcBpBwD+gnDlanTp0etsLMMnTsitCWVHcTG9SQ4
+         OIUQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=default header.b=jocnfW4Z;
+       dkim=pass header.i=@kernel.org header.s=default header.b="D/XKQ7Z0";
        spf=pass (google.com: domain of paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=paulmck@kernel.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :references:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=oHsUdGXKD4hBNMasd02a6njohyPXiaspsyHyCn3Gjig=;
-        b=O+5Y5nnUK0w1+pFRXHEC+E0/Zv84sMLoC9MjY0gnrvQbsEPft7u2SmskBh4q1HjMyJ
-         JAtUjYA2EdW6uBpGktrm/weLTqsrorhgjB7jXN5GW4SBF1bbbdcpF6rHQEjTr97Z7t4W
-         YE6qOYxkx6LQcjdMiamLAms8f7Hs3nX0vxhUJN6vJ1bOaXiUas+dZq+gZ1PRa7qnPQdT
-         R2gcb0IcBcApquxLKf9kuo+/pDGS0YAQd9V8luAqYO6M1T0pb4Wu8IMd7wZX/PySXyi0
-         eYIUghvyMqzMrW5bdRUFvtqQEolgqrcWPtzzuIWj6gX5nCT1iEjaOFbzPS+8He1QZ4i0
-         SV5A==
+        bh=+tb85Qf0UGmxO7LchY7k/ewbSaVa7EbADIejZi/ysaM=;
+        b=f9wfK3Xahri1rUhX5lkBlqXxvl5o1ZJ6vKxxyLU+KFfh5HMT5tyP4gVQmRMJ4j3bhd
+         Xm60bxMFZpCiEGkFmEGBdiM4Dcj5aR5uvNgOxIKFcf2M0Glfz1aO3VaQHrgO4OTn70zs
+         T58pWeTBXEeAx7yzbyUZW5gSi4bFSbcilgnHqi7dv4KfZXKRv0KUSCZcgBaw3/zz2ww8
+         dWvE6+BF3AQE05nXAfAV3fgHf7kJxf/2BVOActxF6Y6vPPbnOP5bnOHtTlVmogCjRk8U
+         IGaPojKTD2EszU9uNzq0buYW6zbc1Ac5+opBF3GjDJ2dtP2pPYeZtkyA7piVCIJex6ki
+         0t6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:mime-version:from:to:cc:subject:date
@@ -49,57 +49,57 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=oHsUdGXKD4hBNMasd02a6njohyPXiaspsyHyCn3Gjig=;
-        b=ppc2NkQ1hkIV/4o0k+HSxoZSCJRtasv9ZYDODuwFnEbRhbIW4zyguwgPiFmGShK/v4
-         3icjdFrgMz9HAsb2lwIGX1zoaFxOCf+3fGswoSjwACmsQAohmKQi5nw3IM/sZIjp3by1
-         O/Vf6lh6mbkdoFhZ0q6UaZdkCF+zzN54ltnWIFjnJxcqyyS3jIwgikiPxVB0NzV2pzKv
-         ICv3laUe5DmGsj/45eADmLTG/bJBhUWr1jQXwI4+81uwvlzn5dca0H1dIFFDsH2vGBOf
-         VOx7OBdRUV0dDs2WvIjhp1DAOav7YllobGf6LFqzViNPC7uCreuV7FKj4/klBcX2GNir
-         5iCw==
+        bh=+tb85Qf0UGmxO7LchY7k/ewbSaVa7EbADIejZi/ysaM=;
+        b=tqrQjfDpJpcIuVCzSnYZSLZv8FbyqpBUjHLL+kwKGkCZFjW/paqnir/aSzjNtpe7B8
+         FQYvV9RWaDdegb8wxMK/pjo41azFBHeEBFnpw0Qg5btxdZUqdyMhfQveQbUPSZnThkNP
+         +Yrn5NIDBhvqKIYb7p9JyLk2i/3HO1I/UM27n7+2kWWjJGa5bqmSWe8OgCTw0bJ7+1fG
+         8wG3x3Qkgj2izZz4nNWIbp8s88VL+vubXseQzcCR9ypBNSqM//SD80PsGwFdXWL88nSr
+         cOBlV5/Bd1jXCq15Bzq+iA5M2HJRAcopZhU720yadBYf5WuoQJScSSl8otPt8KwCXh2K
+         tNFw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ANhLgQ0EBuZj899GhavAOVP0gVejkDYCSACy0Ntg5Wu2Oaakq5A1oLzc
-	vrn9Ngjx5Gk6QFh1KZjAAmM=
-X-Google-Smtp-Source: ADFU+vsIEEuzFQxoYnArxI1RVULQ+LVNuB3EdH32bOJmJJO3ixS82L0ZUjm1j+hTuk8zRdVPIuMWmg==
-X-Received: by 2002:a05:6e02:cc1:: with SMTP id c1mr17377704ilj.165.1583780663406;
+X-Gm-Message-State: ANhLgQ3YEAcrI1ARIULco5/t6B0jCaF3K8ZAadymbt+DwnPh6UPyykOZ
+	tcIApt/dcvJpPjF71uZ0ckM=
+X-Google-Smtp-Source: ADFU+vv+ADAkXUNpGaAsQG0pUk+W18+qkj6R7iJiGTbRiEqIK3U1HJntpb20RnTSDyCh8Eg3MOqHKw==
+X-Received: by 2002:ac8:6a13:: with SMTP id t19mr15796672qtr.70.1583780663988;
         Mon, 09 Mar 2020 12:04:23 -0700 (PDT)
 MIME-Version: 1.0
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a02:3084:: with SMTP id q126ls1289125jaq.6.gmail; Mon, 09
- Mar 2020 12:04:23 -0700 (PDT)
-X-Received: by 2002:a02:b09c:: with SMTP id v28mr15923660jah.82.1583780662910;
-        Mon, 09 Mar 2020 12:04:22 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1583780662; cv=none;
+Received: by 2002:a37:6714:: with SMTP id b20ls4660124qkc.5.gmail; Mon, 09 Mar
+ 2020 12:04:23 -0700 (PDT)
+X-Received: by 2002:a37:3c9:: with SMTP id 192mr16665787qkd.330.1583780663648;
+        Mon, 09 Mar 2020 12:04:23 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1583780663; cv=none;
         d=google.com; s=arc-20160816;
-        b=F4WYNfiYDaZoK1Vxip/OAvXuAfe1VX4MtEDr/qCV5bQRGJoGXdbP/6rA7mr0+D9iX6
-         TE8p3c47jp/9fTLlrx1BoMtmngK/4w96GAVpkOjeGijngiBKYt8AFyvVqOCG21FwMrX2
-         Olky8LbN2oytBq+zgY9MywycEOJKIVS0bJx0fl49XpvV9blM76y6TpbUqt9IO1aYmkke
-         emaIRA3yOvrm7h0iWQJ6GViBsem7SUu1CJSc0QJgF7C1Vz0ER3Ak9+LcM1ZFSP8yJz2I
-         z4MTj59xOZPhMbP/MyxFxiXRIXxQEROrwCVe/APo+cNK3dK8i5UPN2MyIszO3KD8QJ65
-         pYOw==
+        b=ZVdq1AP82m15PzYYRaKCUZyxqpAkgBomwMolT757UET95SZT1hwZ1A0SYQChuHVZlK
+         3z4EsPdbo8LfN+CMUTvlt4mLo684a8nRzWVkaLT5zeCarM+t5UKX5Vm7SnbuuPxrKS1e
+         Eur9zKGEhDxgBy2gB9d2SnnCg3CQ3MvQ/awlY3vbC4MjzPQ966WaXfjP/urMvLv41FQe
+         V7LDg+VslwSRIJobVDNcfGlNBnZNUhnOORCSAqWJ4fr5NjRoWRkl1/rhCqjIHKhqvJVp
+         zQCcDZ/L68pHWPeOK9Dmn+SpD2qDSfrQDWzRJHR9PsrgTYVvvth1ec8F10NVnT/k6aX3
+         7jXw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=references:in-reply-to:message-id:date:subject:cc:to:from
          :dkim-signature;
-        bh=CFWP3ptdY3H4ubSpc3jXyi8HVOtEEBPQ55EsDYvIYV4=;
-        b=yj+XCkQT/6f2wAFQ8WAwCTudZ0D5y9ITQ5ZvlSd1eGuUc+q9NJ11CPlL2NRQ+H+9Sa
-         b7afGt5VI8ijFGbtO94J9cd/gfre7zaPTGepmbsdX81uej5Lloauob9Hj9hIKm/qrswv
-         qJnzerPV2R0Y5JFd1aP4s9PhLVFDLVo1eVD6H5JIblxQPFn3TKeV2DEpuNy7PUzXFU2t
-         fjfGdNSAsP0V2mqIqBdvG6iHp9vvD+f5B90zAXZ+/Evmnn30RqEuXofURPuqDp/VwCFE
-         TIe9I3Yr4Doi05ySH1XnXViAh2kciab2q3UmHiRnhTkcyNu02dxJhgXo/l5SdfIIb6+y
-         jvBA==
+        bh=9r84v2PFyIYRDRfzsjLI85txIQspijuXwuu826o7MXg=;
+        b=G8mdWnKvsnTT3fgN2V/zUiEGtoubTSulmMwbQUMABIg2CRZ0HZ6907qy68bayZeYcQ
+         KOt+C1geHJdZZesd9YqS7GsjU+HWxbvuT9MP5FVCTsd/6L9ndKd3MJSh2WY/y9GCF4wx
+         1/Crv0viBJlgOinJWj1dBt/2G9KuvFTGa+pH8s3Qj/Wy3ESgeyFsAXB3mb8M3VcRLFQ6
+         rp5d33BNGdRNuPgSaT28LtEDYYC8ZaVQAN0seHEF5n3PKuqzGk4tc1ipWWychiRlk8lx
+         KgPLnLHEsf75IWlVUtySh/yrTUrtZJJC39zzYJiicvZ748ntqbOJWvK6RCV/fkqa7y1r
+         Ax3Q==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=default header.b=jocnfW4Z;
+       dkim=pass header.i=@kernel.org header.s=default header.b="D/XKQ7Z0";
        spf=pass (google.com: domain of paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=paulmck@kernel.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id t10si634871ilf.3.2020.03.09.12.04.22
+        by gmr-mx.google.com with ESMTPS id w10si576933qtn.1.2020.03.09.12.04.23
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 09 Mar 2020 12:04:22 -0700 (PDT)
+        Mon, 09 Mar 2020 12:04:23 -0700 (PDT)
 Received-SPF: pass (google.com: domain of paulmck@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
 Received: from paulmck-ThinkPad-P72.home (50-39-105-78.bvtn.or.frontiernet.net [50.39.105.78])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id 1B40720873;
+	by mail.kernel.org (Postfix) with ESMTPSA id 5EC5B222D9;
 	Mon,  9 Mar 2020 19:04:22 +0000 (UTC)
 From: paulmck@kernel.org
 To: linux-kernel@vger.kernel.org,
@@ -113,15 +113,15 @@ Cc: elver@google.com,
 	cai@lca.pw,
 	boqun.feng@gmail.com,
 	"Paul E . McKenney" <paulmck@kernel.org>
-Subject: [PATCH kcsan 01/32] kcsan: Prefer __always_inline for fast-path
-Date: Mon,  9 Mar 2020 12:03:49 -0700
-Message-Id: <20200309190420.6100-1-paulmck@kernel.org>
+Subject: [PATCH kcsan 02/32] kcsan: Show full access type in report
+Date: Mon,  9 Mar 2020 12:03:50 -0700
+Message-Id: <20200309190420.6100-2-paulmck@kernel.org>
 X-Mailer: git-send-email 2.9.5
 In-Reply-To: <20200309190359.GA5822@paulmck-ThinkPad-P72>
 References: <20200309190359.GA5822@paulmck-ThinkPad-P72>
 X-Original-Sender: paulmck@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=default header.b=jocnfW4Z;       spf=pass
+ header.i=@kernel.org header.s=default header.b="D/XKQ7Z0";       spf=pass
  (google.com: domain of paulmck@kernel.org designates 198.145.29.99 as
  permitted sender) smtp.mailfrom=paulmck@kernel.org;       dmarc=pass (p=NONE
  sp=NONE dis=NONE) header.from=kernel.org
@@ -140,140 +140,234 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 From: Marco Elver <elver@google.com>
 
-Prefer __always_inline for fast-path functions that are called outside
-of user_access_save, to avoid generating UACCESS warnings when
-optimizing for size (CC_OPTIMIZE_FOR_SIZE). It will also avoid future
-surprises with compiler versions that change the inlining heuristic even
-when optimizing for performance.
+This commit adds access-type information to KCSAN's reports as follows:
+"read", "read (marked)", "write", and "write (marked)".
 
-Report: http://lkml.kernel.org/r/58708908-84a0-0a81-a836-ad97e33dbb62@infradead.org
-Reported-by: Randy Dunlap <rdunlap@infradead.org>
-Acked-by: Randy Dunlap <rdunlap@infradead.org> # build-tested
+Suggested-by: Paul E. McKenney <paulmck@kernel.org>
 Signed-off-by: Marco Elver <elver@google.com>
 Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
 ---
- kernel/kcsan/atomic.h   |  2 +-
- kernel/kcsan/core.c     | 18 +++++++++---------
- kernel/kcsan/encoding.h | 14 +++++++-------
- 3 files changed, 17 insertions(+), 17 deletions(-)
+ kernel/kcsan/core.c   | 15 ++++++++-------
+ kernel/kcsan/kcsan.h  |  2 +-
+ kernel/kcsan/report.c | 43 ++++++++++++++++++++++++++++---------------
+ 3 files changed, 37 insertions(+), 23 deletions(-)
 
-diff --git a/kernel/kcsan/atomic.h b/kernel/kcsan/atomic.h
-index 576e03d..a9c1930 100644
---- a/kernel/kcsan/atomic.h
-+++ b/kernel/kcsan/atomic.h
-@@ -18,7 +18,7 @@
-  * than cast to volatile. Eventually, we hope to be able to remove this
-  * function.
-  */
--static inline bool kcsan_is_atomic(const volatile void *ptr)
-+static __always_inline bool kcsan_is_atomic(const volatile void *ptr)
- {
- 	/* only jiffies for now */
- 	return ptr == &jiffies;
 diff --git a/kernel/kcsan/core.c b/kernel/kcsan/core.c
-index 3314fc2..4d4ab5c 100644
+index 4d4ab5c..87bf857 100644
 --- a/kernel/kcsan/core.c
 +++ b/kernel/kcsan/core.c
-@@ -78,10 +78,10 @@ static atomic_long_t watchpoints[CONFIG_KCSAN_NUM_WATCHPOINTS + NUM_SLOTS-1];
-  */
- static DEFINE_PER_CPU(long, kcsan_skip);
+@@ -255,7 +255,7 @@ static inline unsigned int get_delay(void)
  
--static inline atomic_long_t *find_watchpoint(unsigned long addr,
--					     size_t size,
--					     bool expect_write,
--					     long *encoded_watchpoint)
-+static __always_inline atomic_long_t *find_watchpoint(unsigned long addr,
-+						      size_t size,
-+						      bool expect_write,
-+						      long *encoded_watchpoint)
+ static noinline void kcsan_found_watchpoint(const volatile void *ptr,
+ 					    size_t size,
+-					    bool is_write,
++					    int type,
+ 					    atomic_long_t *watchpoint,
+ 					    long encoded_watchpoint)
  {
- 	const int slot = watchpoint_slot(addr);
- 	const unsigned long addr_masked = addr & WATCHPOINT_ADDR_MASK;
-@@ -146,7 +146,7 @@ insert_watchpoint(unsigned long addr, size_t size, bool is_write)
-  *	2. the thread that set up the watchpoint already removed it;
-  *	3. the watchpoint was removed and then re-used.
-  */
--static inline bool
-+static __always_inline bool
- try_consume_watchpoint(atomic_long_t *watchpoint, long encoded_watchpoint)
- {
- 	return atomic_long_try_cmpxchg_relaxed(watchpoint, &encoded_watchpoint, CONSUMED_WATCHPOINT);
-@@ -160,7 +160,7 @@ static inline bool remove_watchpoint(atomic_long_t *watchpoint)
- 	return atomic_long_xchg_relaxed(watchpoint, INVALID_WATCHPOINT) != CONSUMED_WATCHPOINT;
+@@ -276,7 +276,7 @@ static noinline void kcsan_found_watchpoint(const volatile void *ptr,
+ 	flags = user_access_save();
+ 
+ 	if (consumed) {
+-		kcsan_report(ptr, size, is_write, true, raw_smp_processor_id(),
++		kcsan_report(ptr, size, type, true, raw_smp_processor_id(),
+ 			     KCSAN_REPORT_CONSUMED_WATCHPOINT);
+ 	} else {
+ 		/*
+@@ -292,8 +292,9 @@ static noinline void kcsan_found_watchpoint(const volatile void *ptr,
  }
  
--static inline struct kcsan_ctx *get_ctx(void)
-+static __always_inline struct kcsan_ctx *get_ctx(void)
+ static noinline void
+-kcsan_setup_watchpoint(const volatile void *ptr, size_t size, bool is_write)
++kcsan_setup_watchpoint(const volatile void *ptr, size_t size, int type)
  {
- 	/*
- 	 * In interrupts, use raw_cpu_ptr to avoid unnecessary checks, that would
-@@ -169,7 +169,7 @@ static inline struct kcsan_ctx *get_ctx(void)
- 	return in_task() ? &current->kcsan_ctx : raw_cpu_ptr(&kcsan_cpu_ctx);
++	const bool is_write = (type & KCSAN_ACCESS_WRITE) != 0;
+ 	atomic_long_t *watchpoint;
+ 	union {
+ 		u8 _1;
+@@ -415,13 +416,13 @@ kcsan_setup_watchpoint(const volatile void *ptr, size_t size, bool is_write)
+ 		 * No need to increment 'data_races' counter, as the racing
+ 		 * thread already did.
+ 		 */
+-		kcsan_report(ptr, size, is_write, size > 8 || value_change,
++		kcsan_report(ptr, size, type, size > 8 || value_change,
+ 			     smp_processor_id(), KCSAN_REPORT_RACE_SIGNAL);
+ 	} else if (value_change) {
+ 		/* Inferring a race, since the value should not have changed. */
+ 		kcsan_counter_inc(KCSAN_COUNTER_RACES_UNKNOWN_ORIGIN);
+ 		if (IS_ENABLED(CONFIG_KCSAN_REPORT_RACE_UNKNOWN_ORIGIN))
+-			kcsan_report(ptr, size, is_write, true,
++			kcsan_report(ptr, size, type, true,
+ 				     smp_processor_id(),
+ 				     KCSAN_REPORT_RACE_UNKNOWN_ORIGIN);
+ 	}
+@@ -455,10 +456,10 @@ static __always_inline void check_access(const volatile void *ptr, size_t size,
+ 	 */
+ 
+ 	if (unlikely(watchpoint != NULL))
+-		kcsan_found_watchpoint(ptr, size, is_write, watchpoint,
++		kcsan_found_watchpoint(ptr, size, type, watchpoint,
+ 				       encoded_watchpoint);
+ 	else if (unlikely(should_watch(ptr, type)))
+-		kcsan_setup_watchpoint(ptr, size, is_write);
++		kcsan_setup_watchpoint(ptr, size, type);
  }
  
--static inline bool is_atomic(const volatile void *ptr)
-+static __always_inline bool is_atomic(const volatile void *ptr)
- {
- 	struct kcsan_ctx *ctx = get_ctx();
- 
-@@ -193,7 +193,7 @@ static inline bool is_atomic(const volatile void *ptr)
- 	return kcsan_is_atomic(ptr);
- }
- 
--static inline bool should_watch(const volatile void *ptr, int type)
-+static __always_inline bool should_watch(const volatile void *ptr, int type)
- {
- 	/*
- 	 * Never set up watchpoints when memory operations are atomic.
-@@ -226,7 +226,7 @@ static inline void reset_kcsan_skip(void)
- 	this_cpu_write(kcsan_skip, skip_count);
- }
- 
--static inline bool kcsan_is_enabled(void)
-+static __always_inline bool kcsan_is_enabled(void)
- {
- 	return READ_ONCE(kcsan_enabled) && get_ctx()->disable_count == 0;
- }
-diff --git a/kernel/kcsan/encoding.h b/kernel/kcsan/encoding.h
-index b63890e8..f03562a 100644
---- a/kernel/kcsan/encoding.h
-+++ b/kernel/kcsan/encoding.h
-@@ -59,10 +59,10 @@ encode_watchpoint(unsigned long addr, size_t size, bool is_write)
- 		      (addr & WATCHPOINT_ADDR_MASK));
- }
- 
--static inline bool decode_watchpoint(long watchpoint,
--				     unsigned long *addr_masked,
--				     size_t *size,
--				     bool *is_write)
-+static __always_inline bool decode_watchpoint(long watchpoint,
-+					      unsigned long *addr_masked,
-+					      size_t *size,
-+					      bool *is_write)
- {
- 	if (watchpoint == INVALID_WATCHPOINT ||
- 	    watchpoint == CONSUMED_WATCHPOINT)
-@@ -78,13 +78,13 @@ static inline bool decode_watchpoint(long watchpoint,
+ /* === Public interface ===================================================== */
+diff --git a/kernel/kcsan/kcsan.h b/kernel/kcsan/kcsan.h
+index d3b9a96..8492da4 100644
+--- a/kernel/kcsan/kcsan.h
++++ b/kernel/kcsan/kcsan.h
+@@ -103,7 +103,7 @@ enum kcsan_report_type {
  /*
-  * Return watchpoint slot for an address.
+  * Print a race report from thread that encountered the race.
   */
--static inline int watchpoint_slot(unsigned long addr)
-+static __always_inline int watchpoint_slot(unsigned long addr)
+-extern void kcsan_report(const volatile void *ptr, size_t size, bool is_write,
++extern void kcsan_report(const volatile void *ptr, size_t size, int access_type,
+ 			 bool value_change, int cpu_id, enum kcsan_report_type type);
+ 
+ #endif /* _KERNEL_KCSAN_KCSAN_H */
+diff --git a/kernel/kcsan/report.c b/kernel/kcsan/report.c
+index 0eea05a..9f503ca 100644
+--- a/kernel/kcsan/report.c
++++ b/kernel/kcsan/report.c
+@@ -24,7 +24,7 @@
+ static struct {
+ 	const volatile void	*ptr;
+ 	size_t			size;
+-	bool			is_write;
++	int			access_type;
+ 	int			task_pid;
+ 	int			cpu_id;
+ 	unsigned long		stack_entries[NUM_STACK_ENTRIES];
+@@ -41,8 +41,10 @@ static DEFINE_SPINLOCK(report_lock);
+  * Special rules to skip reporting.
+  */
+ static bool
+-skip_report(bool is_write, bool value_change, unsigned long top_frame)
++skip_report(int access_type, bool value_change, unsigned long top_frame)
  {
- 	return (addr / PAGE_SIZE) % CONFIG_KCSAN_NUM_WATCHPOINTS;
++	const bool is_write = (access_type & KCSAN_ACCESS_WRITE) != 0;
++
+ 	if (IS_ENABLED(CONFIG_KCSAN_REPORT_VALUE_CHANGE_ONLY) && is_write &&
+ 	    !value_change) {
+ 		/*
+@@ -63,9 +65,20 @@ skip_report(bool is_write, bool value_change, unsigned long top_frame)
+ 	return kcsan_skip_report_debugfs(top_frame);
  }
  
--static inline bool matching_access(unsigned long addr1, size_t size1,
--				   unsigned long addr2, size_t size2)
-+static __always_inline bool matching_access(unsigned long addr1, size_t size1,
-+					    unsigned long addr2, size_t size2)
+-static inline const char *get_access_type(bool is_write)
++static const char *get_access_type(int type)
  {
- 	unsigned long end_range1 = addr1 + size1 - 1;
- 	unsigned long end_range2 = addr2 + size2 - 1;
+-	return is_write ? "write" : "read";
++	switch (type) {
++	case 0:
++		return "read";
++	case KCSAN_ACCESS_ATOMIC:
++		return "read (marked)";
++	case KCSAN_ACCESS_WRITE:
++		return "write";
++	case KCSAN_ACCESS_WRITE | KCSAN_ACCESS_ATOMIC:
++		return "write (marked)";
++	default:
++		BUG();
++	}
+ }
+ 
+ /* Return thread description: in task or interrupt. */
+@@ -112,7 +125,7 @@ static int sym_strcmp(void *addr1, void *addr2)
+ /*
+  * Returns true if a report was generated, false otherwise.
+  */
+-static bool print_report(const volatile void *ptr, size_t size, bool is_write,
++static bool print_report(const volatile void *ptr, size_t size, int access_type,
+ 			 bool value_change, int cpu_id,
+ 			 enum kcsan_report_type type)
+ {
+@@ -124,7 +137,7 @@ static bool print_report(const volatile void *ptr, size_t size, bool is_write,
+ 	/*
+ 	 * Must check report filter rules before starting to print.
+ 	 */
+-	if (skip_report(is_write, true, stack_entries[skipnr]))
++	if (skip_report(access_type, true, stack_entries[skipnr]))
+ 		return false;
+ 
+ 	if (type == KCSAN_REPORT_RACE_SIGNAL) {
+@@ -132,7 +145,7 @@ static bool print_report(const volatile void *ptr, size_t size, bool is_write,
+ 						other_info.num_stack_entries);
+ 
+ 		/* @value_change is only known for the other thread */
+-		if (skip_report(other_info.is_write, value_change,
++		if (skip_report(other_info.access_type, value_change,
+ 				other_info.stack_entries[other_skipnr]))
+ 			return false;
+ 	}
+@@ -170,7 +183,7 @@ static bool print_report(const volatile void *ptr, size_t size, bool is_write,
+ 	switch (type) {
+ 	case KCSAN_REPORT_RACE_SIGNAL:
+ 		pr_err("%s to 0x%px of %zu bytes by %s on cpu %i:\n",
+-		       get_access_type(other_info.is_write), other_info.ptr,
++		       get_access_type(other_info.access_type), other_info.ptr,
+ 		       other_info.size, get_thread_desc(other_info.task_pid),
+ 		       other_info.cpu_id);
+ 
+@@ -181,14 +194,14 @@ static bool print_report(const volatile void *ptr, size_t size, bool is_write,
+ 
+ 		pr_err("\n");
+ 		pr_err("%s to 0x%px of %zu bytes by %s on cpu %i:\n",
+-		       get_access_type(is_write), ptr, size,
++		       get_access_type(access_type), ptr, size,
+ 		       get_thread_desc(in_task() ? task_pid_nr(current) : -1),
+ 		       cpu_id);
+ 		break;
+ 
+ 	case KCSAN_REPORT_RACE_UNKNOWN_ORIGIN:
+ 		pr_err("race at unknown origin, with %s to 0x%px of %zu bytes by %s on cpu %i:\n",
+-		       get_access_type(is_write), ptr, size,
++		       get_access_type(access_type), ptr, size,
+ 		       get_thread_desc(in_task() ? task_pid_nr(current) : -1),
+ 		       cpu_id);
+ 		break;
+@@ -223,7 +236,7 @@ static void release_report(unsigned long *flags, enum kcsan_report_type type)
+  * required for the report type, simply acquires report_lock and returns true.
+  */
+ static bool prepare_report(unsigned long *flags, const volatile void *ptr,
+-			   size_t size, bool is_write, int cpu_id,
++			   size_t size, int access_type, int cpu_id,
+ 			   enum kcsan_report_type type)
+ {
+ 	if (type != KCSAN_REPORT_CONSUMED_WATCHPOINT &&
+@@ -243,7 +256,7 @@ static bool prepare_report(unsigned long *flags, const volatile void *ptr,
+ 
+ 		other_info.ptr			= ptr;
+ 		other_info.size			= size;
+-		other_info.is_write		= is_write;
++		other_info.access_type		= access_type;
+ 		other_info.task_pid		= in_task() ? task_pid_nr(current) : -1;
+ 		other_info.cpu_id		= cpu_id;
+ 		other_info.num_stack_entries	= stack_trace_save(other_info.stack_entries, NUM_STACK_ENTRIES, 1);
+@@ -302,14 +315,14 @@ static bool prepare_report(unsigned long *flags, const volatile void *ptr,
+ 	goto retry;
+ }
+ 
+-void kcsan_report(const volatile void *ptr, size_t size, bool is_write,
++void kcsan_report(const volatile void *ptr, size_t size, int access_type,
+ 		  bool value_change, int cpu_id, enum kcsan_report_type type)
+ {
+ 	unsigned long flags = 0;
+ 
+ 	kcsan_disable_current();
+-	if (prepare_report(&flags, ptr, size, is_write, cpu_id, type)) {
+-		if (print_report(ptr, size, is_write, value_change, cpu_id, type) && panic_on_warn)
++	if (prepare_report(&flags, ptr, size, access_type, cpu_id, type)) {
++		if (print_report(ptr, size, access_type, value_change, cpu_id, type) && panic_on_warn)
+ 			panic("panic_on_warn set ...\n");
+ 
+ 		release_report(&flags, type);
 -- 
 2.9.5
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200309190420.6100-1-paulmck%40kernel.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200309190420.6100-2-paulmck%40kernel.org.
