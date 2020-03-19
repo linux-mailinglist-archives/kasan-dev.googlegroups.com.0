@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBDK3TPOVRULBBBGCZ3ZQKGQEM7GU27Y@googlegroups.com>
+Return-Path: <kasan-dev+bncBDK3TPOVRULBBB6CZ3ZQKGQEDWO7H3Q@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-vk1-xa3f.google.com (mail-vk1-xa3f.google.com [IPv6:2607:f8b0:4864:20::a3f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 226AA18BCE2
-	for <lists+kasan-dev@lfdr.de>; Thu, 19 Mar 2020 17:42:46 +0100 (CET)
-Received: by mail-vk1-xa3f.google.com with SMTP id 133sf1016129vku.16
-        for <lists+kasan-dev@lfdr.de>; Thu, 19 Mar 2020 09:42:46 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1584636165; cv=pass;
+Received: from mail-qt1-x83a.google.com (mail-qt1-x83a.google.com [IPv6:2607:f8b0:4864:20::83a])
+	by mail.lfdr.de (Postfix) with ESMTPS id A397C18BCE3
+	for <lists+kasan-dev@lfdr.de>; Thu, 19 Mar 2020 17:42:48 +0100 (CET)
+Received: by mail-qt1-x83a.google.com with SMTP id i36sf3244878qtd.9
+        for <lists+kasan-dev@lfdr.de>; Thu, 19 Mar 2020 09:42:48 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1584636167; cv=pass;
         d=google.com; s=arc-20160816;
-        b=gGbt+VqKtKy5HGam8gzxKqS2Y27NLTJNtC8TPuj1OvTLbJOa/ub30jiLg8Nk23gReK
-         D9EpanEPzEXEhgUrrPTnBR5D15G8oCUHqJCnOXhAtT5GuZqsBzI/uXEFmKreVklCk8Ic
-         HMnuoLwT7bFp2q77T8+M0mmqH/2iSM1XbPb5w9ce8s4WUhJJtqqN+PyT76NKBLFNlB7D
-         0tzRK3dL3/mHE2ubdFxKu8ZsZVrCjqE8aBOgvY5N9G2BtaoVSeK076BKPA5urQbmltOo
-         i5Kvec8El1FsQN4O6+rUmpyUGh8KCCDhH1/f3zTlSpehVycbfO8UM+oLpsdoLPBVtcSq
-         IY/w==
+        b=cnjJxCVfQkIVhmJnYSTtOt5pAQgubAR7Uj5eDVZE5PzlP3CJgh2ylrBc67YxPEOrss
+         oT73dLLfw9dRb4UObwL0Pbo4BNqf3jYuIZvWUrJfHLJ2uyCgdOskc37+/kvlEwb8WWbe
+         OzuAoTp4akDLcemIOcyFLdldrE1fX8FUYUxGjyevdT8LkN/7aoy52btfhbNTJyKL2Hic
+         FJEDlufDWifoQu0WLjETnqXq8OvV1+YGBbZgqPEyHi264JnQ0Dc1RrlQdM/YCI/ecVU0
+         3+WQCtQR6rJu7waVZUh8h5Iy1GcyrKC80NLyuGDlnpSrLb/VI5Ms2Ry0e+KAmVKd2el9
+         hQnQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
          :references:mime-version:message-id:in-reply-to:date:dkim-signature;
-        bh=oKkPeq9w8/aH6eyd6o3MCL5sxuwu1p74gUpylSV/Ub0=;
-        b=lKjaxU94PwVCt/Gbh7H5q2pekJcufZFe1bnmTYP/T5kqioc8SekI80ZEqQJVk+0wmx
-         fTjYSTBuLl466YgqxqrmmJW8pE7jk8VCEJGP8Vm/Rta6a04VbZfzO+YiFxRO6rcbQ/4w
-         VF++3x0VdmvS60Sb12AgMmOjYOI0xPDWoUq+F/GGzPfoQc4qNT3Wq6x3FXC38JsYsrVc
-         v8cYzBwcbxT4FLBASn8ynvNQgqKG0nzCtfcXw7LJ4NCzJRBJW9HIBH8OA7ZybgdlrlUP
-         2nO5LR6c/AbvzENCZOgUjGtr/CcUrKepQKfxRrreJBEjlDhaXKMF5V3yzPL5JK5bRdrn
-         NVhg==
+        bh=PWcOh1ypqldKS+XtpC6gI1Sc1W1e3OJsCuebBAvgtzI=;
+        b=hMkcZEEfDEn2jDlLG1S7g4dBFiSnlbUfqJxUwSOT61nPrOil0VcMtPXxSDlvEwMhOs
+         smjYzrB34EoBrvDWWQ6K05nJrbDQzlBxHGtpxQ5QG3//cHylcDgAl5tDhZSaotW3rr1c
+         6in/CNW/aoyalU7zixDjgZozH1cHqR2GnJ+q7XTlFtjFhpsTUYkZ0DxWDkul9f8ahN8N
+         Vclxn/+CPpTS+0f0AUWT8+F/70PRC9Lmu/yw8dAzPB5DEC2av0rwAyUBpBplkvEPZI/4
+         /v4YES5pFKFxyHKVXKKMAVEt4qHUykPaR4YxrkMRmWziM9R2ZjZ0i4pr9BGlMwoa4FIL
+         YqJA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=pAEEZ2fM;
-       spf=pass (google.com: domain of 3bkfzxgwkcq886x7wp0u3273v33v0t.r31zp7p2-stav33v0tv63947.r31@flex--trishalfonso.bounces.google.com designates 2607:f8b0:4864:20::74a as permitted sender) smtp.mailfrom=3BKFzXgwKCQ886x7wp0u3273v33v0t.r31zp7p2-stAv33v0tv63947.r31@flex--trishalfonso.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=hdDV9H3L;
+       spf=pass (google.com: domain of 3bqfzxgwkcrea8z9yr2w5495x55x2v.t531r9r4-uvcx55x2vx85b69.t53@flex--trishalfonso.bounces.google.com designates 2607:f8b0:4864:20::104a as permitted sender) smtp.mailfrom=3BqFzXgwKCREA8z9yr2w5495x55x2v.t531r9r4-uvCx55x2vx85B69.t53@flex--trishalfonso.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=oKkPeq9w8/aH6eyd6o3MCL5sxuwu1p74gUpylSV/Ub0=;
-        b=ODwE9z7HkgLOst6eNyLEGd+h8xHBktUy774k0BUU/EYJmQMyfUIXHVHvp4KVIldLFc
-         JnYzGxqZePvQ8GYOamZ3j9BOCDELQxSmkzrfwDwMB54Rec41LDE3ArBYGp/4AbVvzR/p
-         s57OuAyp4W4LYmE+XpRo6RAoUmLGInRt5WkIJPwAJHUcNRQgZKDlYr0zeMhZUHveMV6R
-         H590I2aDBwpTqI0NDaO+TEIko7eXTti9xvl3F3Kc6HevSPfIxHGcgF/AVVuA3IoZl5n1
-         gZvofXfv8r1kkbnMQCfaS8R4133t1U6sE4yeAJvd0avtBYadctApiVprU6qwRBwWVzDd
-         r8CA==
+        bh=PWcOh1ypqldKS+XtpC6gI1Sc1W1e3OJsCuebBAvgtzI=;
+        b=pdx3APccYRdIzVjhpRVantoNDBZTd8xrU4SfUSjlJGl55dpPUyww0uJ8+8goAi+Yu1
+         e4MhdPlcSebCJG0rnsmFZnvpAeTNyLc4Svyo7SKXNqVbjVL77hX40gLEbvhJm8hXKC+K
+         oHfi5oUvQDHnRl/W/gSIRChVgJmF3bTSSaM2LdvSmRm348WfXFBDvWPWX+8iU4STeQfS
+         UoVEpbjPD7+5Maanbe33Y4xETaAN2DMnLf9XZTYJdiFf9EcppsOs8RDeEJZ++CpBDxQi
+         NRXg/DA3VLgfwpt30F5BnRdCnXjCRhgbASNfCLh0NqeRdLt6UbgOUW133IUmYyTf2nHf
+         jA7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
@@ -49,62 +49,62 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=oKkPeq9w8/aH6eyd6o3MCL5sxuwu1p74gUpylSV/Ub0=;
-        b=G5ydWXw4zKYauhg6sZKZTObfHAVuIVkhSWYWyb8BGIUQjm2Dv3Mq5Tu1v1nVUI4gJx
-         xNqn/qFXQSDjd5NU4fJ79YETcFwoG0B5GfSt4Gq8H4gnRxLUKQQ3mnr10o5Cu1+ORnjH
-         YQ6uWQOhek3zB8oUZ5W3KY9wOpNIsujGz++sZupWkEE7pd5TnH72LodaicbxbWHdGyJj
-         tbpszl8r0M91fzaA62jSmdlZ4053Sixj8rKyf5nV+H47kw2chtepafdT2JyQ4mOVOcsJ
-         +ImM5phj3Wmfe6M0ShY9yyjEaC0WbdxZ40F9cIBmcHad3iFjtTT+rdXkmk5Ydrg6tlFk
-         1+ig==
-X-Gm-Message-State: ANhLgQ17PvatiVqH0w7rMtMh1y7OIuCalC1nZegGq0CIwBbAX8ok2NJK
-	DdFTLr+wJt23k71Kasyb1Ts=
-X-Google-Smtp-Source: ADFU+vvuMxrDRwPE4H+aPxblVptrCtxbpjJFCa0GV3NyEJI52wBkCFJUiT6XIJ4BTlWc9ZW0LwbV/A==
-X-Received: by 2002:a67:ef52:: with SMTP id k18mr2784208vsr.67.1584636165025;
-        Thu, 19 Mar 2020 09:42:45 -0700 (PDT)
+        bh=PWcOh1ypqldKS+XtpC6gI1Sc1W1e3OJsCuebBAvgtzI=;
+        b=T7ONFcxD++FAqYtm+QvkbGOFOIEcRG2fmtopuQ6TwXoY9j9UJFdxftxx4noHUWhvLW
+         bF/geDBuGzrmiMrXSogY/AS4ICI2peRH7KRyhsQRryE+hUrX9+4B/SP3ABE0zGygxmRD
+         UK9uaSHwzk/Lz3cI008OoYWdBnZxic5IcYwW6F1wMTy5LJsKz7xV6nELDhFn0VzeQxNy
+         WViWE0wWxl8XTnLnOBFgeI1lpCoiPJvOi4c1KEBRKy/wDojip4A6c6nhojRhAEq/0iaK
+         tNbNfGquFlQmP69ebPKoN/9JVxRcePdMV3OD13/66tC+L4tgVe9+dQd81g+MN1NEYMhR
+         uuqA==
+X-Gm-Message-State: ANhLgQ1JOlNSvWNFsA6u5Ec76/xgWS72RwhDoqKeplqB0/gJ/FRnFYi/
+	0YSNvQ06RSMQ9N9FfyDYTdQ=
+X-Google-Smtp-Source: ADFU+vt8YCpvNQ8IMxJ/bAxE+nY0WJmMs2lJn/aJrJzSDpu1rFgNrzuSHKGR7rcJGZJi+Cjm1coXbQ==
+X-Received: by 2002:ad4:5994:: with SMTP id ek20mr3844829qvb.93.1584636167723;
+        Thu, 19 Mar 2020 09:42:47 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6102:22e8:: with SMTP id b8ls450956vsh.0.gmail; Thu, 19
- Mar 2020 09:42:44 -0700 (PDT)
-X-Received: by 2002:a67:c497:: with SMTP id d23mr2883211vsk.139.1584636164563;
-        Thu, 19 Mar 2020 09:42:44 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1584636164; cv=none;
+Received: by 2002:a37:645:: with SMTP id 66ls1568871qkg.9.gmail; Thu, 19 Mar
+ 2020 09:42:47 -0700 (PDT)
+X-Received: by 2002:a05:620a:20c2:: with SMTP id f2mr3996697qka.296.1584636167339;
+        Thu, 19 Mar 2020 09:42:47 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1584636167; cv=none;
         d=google.com; s=arc-20160816;
-        b=LMuylTygeYH3KXS1pCy7QrnwmO1QfCuoJ0FaB/i9l8cW/uVRtwaDae7Bu9hILa/Vbd
-         C2ASJZmkVCmGv0jv7ghhW+rjANaAfUAsFsR6sYJ04Jhl5Z1Rm8uiZmZPTf7Xkg/cMnEg
-         SHIrHZC4EVJVLi3wPTZ0lTuFloK46LFL0VimSfGEHdAUSMQuFvHNX6aPimCbIlJ4x/cF
-         ML98TMHC62Y5baB4o0fFlbA+0VS2+iUzVIg39dWlw4wbZCYKZmaxirjicSvHpJ65yeJb
-         /P3huHdQC6s8uCf5SN1MLk8XQ2SuckOrZkWllU8ScGPXG8OF4LomEvcec79Iv7I1CkPE
-         miPg==
+        b=RL8ig831kU5KGOVc+P6xCFkn4RTN5xecLY5FKket40Y6z345qg4bMZYTPzAbcnSM24
+         r36hUZ3qPBo0ulHtf7l/IdpuyaKeRoaKZBX+ubJ5CrxF/VDzNEFehxZjWODQBVrGZtyh
+         ix3hLr2L3rWU0QqLVGB2ZJMPJl5vL3B21YDFhoILgvAK4A7dX4l2+AhnV6PvHHXnF6uv
+         PH2U0xYxHDMNlKxbl7br7iNQIGO1kazfd3CySQYXphwVAsKvLYpJj2w+xegseFjERh23
+         XiyHjuSmFYVlpNXk7ImP6/MQGpcYK980h62LlhZuTyCBdIDEFdg9rXuinVE9W3PRqJvn
+         /sZg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
          :date:dkim-signature;
-        bh=/e3rkkmfd1b6sk0SVgpVxi2weXIopunVz1TGXPB1o2Q=;
-        b=NM/POq3TfrXNu6FcHFrnGxKFIfyO4WcuYj1fywG7pkUir+eB3r2WRYXWkRiUWIYsXQ
-         PrqE7ZOXWiBzotv4WzPEkORp3py28wjgQm3J4l+4pLPmkI/8dQN7YKOLAH6QjvAwHS9s
-         cLUgseN2UA6UFaAOTaqGp70FnKrH/Y5KMwEV7jMZMmDJ1wsu7YiaNcUqZ34ooilu2/mW
-         NQ4z/8ZEoIyiIjfzWsbMfes3JhSzv1IKgQjySU6OkByhkvm2B0NmjFLyQil4CH6L78fF
-         5ALGF8yq1LF0+McWod4tYiE3WDr2JgGhVswmwJs9gfJEdPGJyAuus80lJPzDd2IRhJ/g
-         Qu6g==
+        bh=Xrj+8qNx0KoAn4W34u+9YgQgrTU26Dej+YkYnDk+H1c=;
+        b=MNUOYOTyaUUPLNi9G+S8ZmTg7gPwSrN1X+i+bZP9S1iT1Y1ppEOTlpYMnud0jSOuOO
+         u1rj4WvIZATp3gEAensST9qd5DfPMrLPKMM/hXX37jU6fDmTLiRWCaJy0PskSqkgfbyJ
+         f8efzLfK1/qcnWYNaIDvazISOhm3dkfJCJnp7TcnrAf3IOQXICWxw4RcuPJS939e+1bk
+         ld90W84s89z8+J4QcRHwXSFHkVNRwENVSQ9LyTy/5a05uJq2wjTQdNaNyyPkUa5PrbzS
+         5gZtZ3Vw7p6X1Iz22KdHK+YmQtA/0wgUgPvQsDfVzB74QXfrmTKX08qWex6WI1d429yb
+         962g==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=pAEEZ2fM;
-       spf=pass (google.com: domain of 3bkfzxgwkcq886x7wp0u3273v33v0t.r31zp7p2-stav33v0tv63947.r31@flex--trishalfonso.bounces.google.com designates 2607:f8b0:4864:20::74a as permitted sender) smtp.mailfrom=3BKFzXgwKCQ886x7wp0u3273v33v0t.r31zp7p2-stAv33v0tv63947.r31@flex--trishalfonso.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=hdDV9H3L;
+       spf=pass (google.com: domain of 3bqfzxgwkcrea8z9yr2w5495x55x2v.t531r9r4-uvcx55x2vx85b69.t53@flex--trishalfonso.bounces.google.com designates 2607:f8b0:4864:20::104a as permitted sender) smtp.mailfrom=3BqFzXgwKCREA8z9yr2w5495x55x2v.t531r9r4-uvCx55x2vx85B69.t53@flex--trishalfonso.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-qk1-x74a.google.com (mail-qk1-x74a.google.com. [2607:f8b0:4864:20::74a])
-        by gmr-mx.google.com with ESMTPS id c9si98565vsq.2.2020.03.19.09.42.44
+Received: from mail-pj1-x104a.google.com (mail-pj1-x104a.google.com. [2607:f8b0:4864:20::104a])
+        by gmr-mx.google.com with ESMTPS id z126si170840qkd.2.2020.03.19.09.42.47
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Mar 2020 09:42:44 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 3bkfzxgwkcq886x7wp0u3273v33v0t.r31zp7p2-stav33v0tv63947.r31@flex--trishalfonso.bounces.google.com designates 2607:f8b0:4864:20::74a as permitted sender) client-ip=2607:f8b0:4864:20::74a;
-Received: by mail-qk1-x74a.google.com with SMTP id a21so2982446qkg.6
-        for <kasan-dev@googlegroups.com>; Thu, 19 Mar 2020 09:42:44 -0700 (PDT)
-X-Received: by 2002:a0c:edcf:: with SMTP id i15mr3610736qvr.151.1584636164003;
- Thu, 19 Mar 2020 09:42:44 -0700 (PDT)
-Date: Thu, 19 Mar 2020 09:42:25 -0700
+        Thu, 19 Mar 2020 09:42:47 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 3bqfzxgwkcrea8z9yr2w5495x55x2v.t531r9r4-uvcx55x2vx85b69.t53@flex--trishalfonso.bounces.google.com designates 2607:f8b0:4864:20::104a as permitted sender) client-ip=2607:f8b0:4864:20::104a;
+Received: by mail-pj1-x104a.google.com with SMTP id t7so1877101pjb.9
+        for <kasan-dev@googlegroups.com>; Thu, 19 Mar 2020 09:42:47 -0700 (PDT)
+X-Received: by 2002:a17:90a:628a:: with SMTP id d10mr4805164pjj.25.1584636166443;
+ Thu, 19 Mar 2020 09:42:46 -0700 (PDT)
+Date: Thu, 19 Mar 2020 09:42:26 -0700
 In-Reply-To: <20200319164227.87419-1-trishalfonso@google.com>
-Message-Id: <20200319164227.87419-2-trishalfonso@google.com>
+Message-Id: <20200319164227.87419-3-trishalfonso@google.com>
 Mime-Version: 1.0
 References: <20200319164227.87419-1-trishalfonso@google.com>
 X-Mailer: git-send-email 2.25.1.696.g5e7596f4ac-goog
-Subject: [RFC PATCH v2 1/3] Add KUnit Struct to Current Task
+Subject: [RFC PATCH v2 2/3] KUnit: KASAN Integration
 From: "'Patricia Alfonso' via kasan-dev" <kasan-dev@googlegroups.com>
 To: davidgow@google.com, brendanhiggins@google.com, aryabinin@virtuozzo.com, 
 	dvyukov@google.com, mingo@redhat.com, peterz@infradead.org, 
@@ -115,9 +115,9 @@ Cc: linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: trishalfonso@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=pAEEZ2fM;       spf=pass
- (google.com: domain of 3bkfzxgwkcq886x7wp0u3273v33v0t.r31zp7p2-stav33v0tv63947.r31@flex--trishalfonso.bounces.google.com
- designates 2607:f8b0:4864:20::74a as permitted sender) smtp.mailfrom=3BKFzXgwKCQ886x7wp0u3273v33v0t.r31zp7p2-stAv33v0tv63947.r31@flex--trishalfonso.bounces.google.com;
+ header.i=@google.com header.s=20161025 header.b=hdDV9H3L;       spf=pass
+ (google.com: domain of 3bqfzxgwkcrea8z9yr2w5495x55x2v.t531r9r4-uvcx55x2vx85b69.t53@flex--trishalfonso.bounces.google.com
+ designates 2607:f8b0:4864:20::104a as permitted sender) smtp.mailfrom=3BqFzXgwKCREA8z9yr2w5495x55x2v.t531r9r4-uvCx55x2vx85B69.t53@flex--trishalfonso.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Patricia Alfonso <trishalfonso@google.com>
 Reply-To: Patricia Alfonso <trishalfonso@google.com>
@@ -133,34 +133,214 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-In order to integrate debugging tools like KASAN into the KUnit
-framework, add KUnit struct to the current task to keep track of the
-current KUnit test.
+Integrate KASAN into KUnit testing framework.
+	- Fail tests when KASAN reports an error that is not expected
+     	- Use KUNIT_EXPECT_KASAN_FAIL to expect a KASAN error in KASAN tests
+     	- Expected KASAN reports pass tests and are still printed when run
+     	without kunit_tool (kunit_tool still bypasses the report due to the
+	test passing)
+     	- KUnit struct in current task used to keep track of the current test
+     	from KASAN code
+
+Make use of "[RFC PATCH kunit-next 1/2] kunit: generalize
+kunit_resource API beyond allocated resources" and "[RFC PATCH
+kunit-next 2/2] kunit: add support for named resources" from Alan
+Maguire [1]
+	- A named resource is added to a test when a KASAN report is
+	 expected
+        - This resource contains a struct for kasan_data containing
+        booleans representing if a KASAN report is expected and if a
+        KASAN report is found
+
+[1] (https://lore.kernel.org/linux-kselftest/1583251361-12748-1-git-send-email-alan.maguire@oracle.com/T/#t)
 
 Signed-off-by: Patricia Alfonso <trishalfonso@google.com>
 ---
- include/linux/sched.h | 4 ++++
- 1 file changed, 4 insertions(+)
+ include/kunit/test.h | 10 ++++++++++
+ lib/kunit/test.c     | 10 +++++++++-
+ lib/test_kasan.c     | 37 +++++++++++++++++++++++++++++++++++++
+ mm/kasan/report.c    | 33 +++++++++++++++++++++++++++++++++
+ 4 files changed, 89 insertions(+), 1 deletion(-)
 
-diff --git a/include/linux/sched.h b/include/linux/sched.h
-index 04278493bf15..1fbfa0634776 100644
---- a/include/linux/sched.h
-+++ b/include/linux/sched.h
-@@ -1180,6 +1180,10 @@ struct task_struct {
- 	unsigned int			kasan_depth;
- #endif
+diff --git a/include/kunit/test.h b/include/kunit/test.h
+index 70ee581b19cd..2ab265f4f76c 100644
+--- a/include/kunit/test.h
++++ b/include/kunit/test.h
+@@ -19,9 +19,19 @@
+ 
+ struct kunit_resource;
+ 
++#ifdef CONFIG_KASAN
++/* kasan_data struct is used in KUnit tests for KASAN expected failures */
++struct kunit_kasan_expectation {
++	bool report_expected;
++	bool report_found;
++};
++#endif /* CONFIG_KASAN */
++
+ typedef int (*kunit_resource_init_t)(struct kunit_resource *, void *);
+ typedef void (*kunit_resource_free_t)(struct kunit_resource *);
+ 
++void kunit_set_failure(struct kunit *test);
++
+ /**
+  * struct kunit_resource - represents a *test managed resource*
+  * @data: for the user to store arbitrary data.
+diff --git a/lib/kunit/test.c b/lib/kunit/test.c
+index 86a4d9ca0a45..3f927ef45827 100644
+--- a/lib/kunit/test.c
++++ b/lib/kunit/test.c
+@@ -10,11 +10,12 @@
+ #include <linux/kernel.h>
+ #include <linux/kref.h>
+ #include <linux/sched/debug.h>
++#include <linux/sched.h>
+ 
+ #include "string-stream.h"
+ #include "try-catch-impl.h"
+ 
+-static void kunit_set_failure(struct kunit *test)
++void kunit_set_failure(struct kunit *test)
+ {
+ 	WRITE_ONCE(test->success, false);
+ }
+@@ -237,6 +238,10 @@ static void kunit_try_run_case(void *data)
+ 	struct kunit_suite *suite = ctx->suite;
+ 	struct kunit_case *test_case = ctx->test_case;
+ 
++#if (IS_ENABLED(CONFIG_KASAN) && IS_BUILTIN(CONFIG_KUNIT))
++	current->kunit_test = test;
++#endif /* IS_ENABLED(CONFIG_KASAN) && IS_BUILTIN(CONFIG_KUNIT) */
++
+ 	/*
+ 	 * kunit_run_case_internal may encounter a fatal error; if it does,
+ 	 * abort will be called, this thread will exit, and finally the parent
+@@ -590,6 +595,9 @@ void kunit_cleanup(struct kunit *test)
+ 		spin_unlock(&test->lock);
+ 		kunit_remove_resource(test, res);
+ 	}
++#if (IS_ENABLED(CONFIG_KASAN) && IS_BUILTIN(CONFIG_KUNIT))
++	current->kunit_test = NULL;
++#endif /* IS_ENABLED(CONFIG_KASAN) && IS_BUILTIN(CONFIG_KUNIT)*/
+ }
+ EXPORT_SYMBOL_GPL(kunit_cleanup);
+ 
+diff --git a/lib/test_kasan.c b/lib/test_kasan.c
+index 3872d250ed2c..cf73c6bee81b 100644
+--- a/lib/test_kasan.c
++++ b/lib/test_kasan.c
+@@ -23,6 +23,43 @@
+ 
+ #include <asm/page.h>
+ 
++#include <kunit/test.h>
++
++struct kunit_resource resource;
++struct kunit_kasan_expectation fail_data;
++
++#define KUNIT_SET_KASAN_DATA(test) do { \
++	fail_data.report_expected = true; \
++	fail_data.report_found = false; \
++	kunit_add_named_resource(test, \
++				NULL, \
++				NULL, \
++				&resource, \
++				"kasan_data", &fail_data); \
++} while (0)
++
++#define KUNIT_DO_EXPECT_KASAN_FAIL(test, condition) do { \
++	struct kunit_resource *resource; \
++	struct kunit_kasan_expectation *kasan_data; \
++	condition; \
++	resource = kunit_find_named_resource(test, "kasan_data"); \
++	kasan_data = resource->data; \
++	KUNIT_EXPECT_EQ(test, \
++			kasan_data->report_expected, \
++			kasan_data->report_found); \
++	kunit_put_resource(resource); \
++} while (0)
++
++/**
++ * KUNIT_EXPECT_KASAN_FAIL() - Causes a test failure when the expression does
++ * not cause a KASAN error.
++ *
++ */
++#define KUNIT_EXPECT_KASAN_FAIL(test, condition) do { \
++	KUNIT_SET_KASAN_DATA(test); \
++	KUNIT_DO_EXPECT_KASAN_FAIL(test, condition); \
++} while (0)
++
+ /*
+  * Note: test functions are marked noinline so that their names appear in
+  * reports.
+diff --git a/mm/kasan/report.c b/mm/kasan/report.c
+index 5ef9f24f566b..ef3d0f54097e 100644
+--- a/mm/kasan/report.c
++++ b/mm/kasan/report.c
+@@ -32,6 +32,8 @@
+ 
+ #include <asm/sections.h>
+ 
++#include <kunit/test.h>
++
+ #include "kasan.h"
+ #include "../slab.h"
+ 
+@@ -455,12 +457,38 @@ static bool report_enabled(void)
+ 	return !test_and_set_bit(KASAN_BIT_REPORTED, &kasan_flags);
+ }
  
 +#if IS_BUILTIN(CONFIG_KUNIT)
-+	struct kunit			*kunit_test;
++void kasan_update_kunit_status(struct kunit *cur_test)
++{
++	struct kunit_resource *resource;
++	struct kunit_kasan_expectation *kasan_data;
++
++	if (kunit_find_named_resource(cur_test, "kasan_data")) {
++		resource = kunit_find_named_resource(cur_test, "kasan_data");
++		kasan_data = resource->data;
++		kasan_data->report_found = true;
++
++		if (!kasan_data->report_expected)
++			kunit_set_failure(current->kunit_test);
++		else
++			return;
++	} else
++		kunit_set_failure(current->kunit_test);
++}
 +#endif /* IS_BUILTIN(CONFIG_KUNIT) */
 +
- #ifdef CONFIG_FUNCTION_GRAPH_TRACER
- 	/* Index of current stored address in ret_stack: */
- 	int				curr_ret_stack;
+ void kasan_report_invalid_free(void *object, unsigned long ip)
+ {
+ 	unsigned long flags;
+ 	u8 tag = get_tag(object);
+ 
+ 	object = reset_tag(object);
++
++#if IS_BUILTIN(CONFIG_KUNIT)
++	if (current->kunit_test)
++		kasan_update_kunit_status(current->kunit_test);
++#endif /* IS_BUILTIN(CONFIG_KUNIT) */
++
+ 	start_report(&flags);
+ 	pr_err("BUG: KASAN: double-free or invalid-free in %pS\n", (void *)ip);
+ 	print_tags(tag, object);
+@@ -481,6 +509,11 @@ void __kasan_report(unsigned long addr, size_t size, bool is_write, unsigned lon
+ 	if (likely(!report_enabled()))
+ 		return;
+ 
++#if IS_BUILTIN(CONFIG_KUNIT)
++	if (current->kunit_test)
++		kasan_update_kunit_status(current->kunit_test);
++#endif /* IS_BUILTIN(CONFIG_KUNIT) */
++
+ 	disable_trace_on_warning();
+ 
+ 	tagged_addr = (void *)addr;
 -- 
 2.25.1.696.g5e7596f4ac-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200319164227.87419-2-trishalfonso%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200319164227.87419-3-trishalfonso%40google.com.
