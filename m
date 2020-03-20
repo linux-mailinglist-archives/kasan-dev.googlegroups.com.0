@@ -1,129 +1,126 @@
-Return-Path: <kasan-dev+bncBDRK7WUAV4ARBFGI2LZQKGQEQP6FHQQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBD2NJ5WGSUOBBFEP2PZQKGQE2FFCSNI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qv1-xf4f.google.com (mail-qv1-xf4f.google.com [IPv6:2607:f8b0:4864:20::f4f])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5F6718CC3E
-	for <lists+kasan-dev@lfdr.de>; Fri, 20 Mar 2020 12:08:05 +0100 (CET)
-Received: by mail-qv1-xf4f.google.com with SMTP id ee5sf5356154qvb.23
-        for <lists+kasan-dev@lfdr.de>; Fri, 20 Mar 2020 04:08:05 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1584702484; cv=pass;
+Received: from mail-wm1-x33e.google.com (mail-wm1-x33e.google.com [IPv6:2a00:1450:4864:20::33e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F71418CF1B
+	for <lists+kasan-dev@lfdr.de>; Fri, 20 Mar 2020 14:39:33 +0100 (CET)
+Received: by mail-wm1-x33e.google.com with SMTP id n25sf2387352wmi.5
+        for <lists+kasan-dev@lfdr.de>; Fri, 20 Mar 2020 06:39:33 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1584711573; cv=pass;
         d=google.com; s=arc-20160816;
-        b=wlmPw2LnoscHyUbKc9bxf1Jo8AM6ABfSEmiDz/bW+aEUS+QqZe7XdyiHYV0DkRwPp/
-         cQUgGz5v/fS1TyJ1XAvwUzVtlk3yj1yO3v/+Nk0LryrvGjXfjWz0LNE9fKgpjJhaRT1/
-         rbhzPUovZK2NF5wt992FCobdwO4hjZo812HqpniPjWORFHMumRGswXsI0bnb88tg0A4e
-         50PkJH7XY6u/FW0jVzrSLvSoHM/vgUtKXmNElb5v2dLYuSvccKpdyLiI3y+/ADhqGBTA
-         FFuSBheT4b938HX3NmWVREwXbZpA6lY3GAMM0XMYcXMW9L+QLI0baeIfpIU/6M0O4Rea
-         ajGA==
+        b=ewniYYIczpjIkqCRpXkGbFhzG889UQ/152ccw5UQD8Ujgjr8j5QnTnXFvwvP+w4kCm
+         iXWF5JbusvHuVwA9428wJXFx420OxeZYyTLpKa2uKlUbM4ee4W5HWPKGa2D2V+hum3lb
+         /uDMU/3de2q3LXncj2HM5E+0FKnnMGMC3q6Ktr+A4NwJvvIj+sbDZqrLY/nOMce2zTl4
+         Q1jCuUn2Rizb/844qovul98wgrV9qfcn8L03qVXmkXapfP9BxkbaZcMlRPNkgdScXvbu
+         GP9QsnPpnK53kyge2QKVmF3wuRZ8/IWdFZgTOkXXOiTAs1MKR9MamBchvSYMqmvCQ7hw
+         HDRw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:to:subject:message-id:date:from
-         :mime-version:sender:dkim-signature:dkim-signature;
-        bh=NaDcslXgw9TVjUFAvcDNQU6cazokT7VRhbnwwVPNb4Q=;
-        b=Rglbep9o3o1tjm5eXvbBOzHRTQ+Lt4yEHVn3PeI8vJo0fNT1DCV3S/IzbQWnWi5h3Z
-         QlknUQUU2hJwnkexYufQ6GIdzBfRN1CceXKnxIjpnnZprGiadajWLyO+L18ferEdrHaA
-         PujXBt4kL5R4AmGCG2qEkXH9+knqSNgtacnv+hjzq+JzjsJTwj/Ji8lT86AW1EjqNLcG
-         uvkj+Zq/v+QrNnBTnSbK9gAYP3glkvBvCP9flEkhN4+k5BWVCgvOgkgD9T+jw1Uxb0NY
-         V2z6PWj7wuEpUKN8wkC5P9Uu/GIAuSVxO+XWWzPYfr1rur7MMF9RKenc5UvfqXNSCpeJ
-         8YMg==
+         :list-id:mailing-list:precedence:mime-version:user-agent:references
+         :in-reply-to:date:cc:to:from:subject:message-id:sender
+         :dkim-signature;
+        bh=QqSFIBojoXBcdo2V74Xjyb+S0dACvTlhNN9hW1wCnMw=;
+        b=P6oxdzMjXrMj1SikTY2RKG/aAOIlQPbdtm6Nwx3prOc5yz0uDWIcQzZffRccmBBS0F
+         Y13GpoSeJu8VgiYy4QzlaBKd2cRyQKL5z7w+5YXbj2sUhzQZeagV3BR93s1GsE5kmPNs
+         mncswIl+1lBp3MHvaMHl4j1c1zU/QIVVWJ5fKBeGCnaDjGydMpNExAeDYwpHNk39D/Pq
+         axZQLSX/a7DqxgFXdiJ6CQDp2QW//9ZEgXL6xS+nuBqxHRS3kGiHxI8IReRz3734bwHJ
+         g4z2MdrwCslf1OCLgEUKzX3+I55WWM7ClDs9Zp8eVW6nfpilITbKejXBc/UVCCaG0aaU
+         pN0w==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20161025 header.b=Kcjom3Ny;
-       spf=pass (google.com: domain of federabureauofinteligence@gmail.com designates 2607:f8b0:4864:20::242 as permitted sender) smtp.mailfrom=federabureauofinteligence@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+       spf=pass (google.com: best guess record for domain of johannes@sipsolutions.net designates 2a01:4f8:191:4433::2 as permitted sender) smtp.mailfrom=johannes@sipsolutions.net
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:mime-version:from:date:message-id:subject:to
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=NaDcslXgw9TVjUFAvcDNQU6cazokT7VRhbnwwVPNb4Q=;
-        b=P2Oo6elHfNGIux8PblF/agP3V+xDZkiEPvHjikGwrqlkv9pUhimbqZTjaM37aUEDgi
-         mjr1za5h4Tdg+E9G+mV1oKiLqgFoGasry6VSTxZKLQZXKFhadEF5tgSdALTJSezVe8Vv
-         XzQc7g2CoP/TB7UIyxk7MW/ljzJwdNo0deLCyBfH79kEw7gFCgejESImFoOCyEPOxhNh
-         1SfNwg+vfHHkJlcnQ8/CI1cq4XObi4MgTYwUf/8PsaGHV+H+tfKxjh2T4K/Ems2OC0Qm
-         sHd/AtI9b+vEWy8b7+zqKObEk9zcrCLxu1yG7BghRxe9x6YMKlbK+IXzQCV8QsrRjggj
-         MvDw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to:x-original-sender
+        h=sender:message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=NaDcslXgw9TVjUFAvcDNQU6cazokT7VRhbnwwVPNb4Q=;
-        b=qKnVZPYnFfnWLcD888F79oTwnb74aKuerBiPYsUICOxAu7lw7fpWdpHP9zr2f4lW0Y
-         FVh22Eu2+r7wxxhXkrYVrY8/W3eNTJV4oUMv0z9AgenPT7EvKzZLpPMVyNbWRj/RlEwX
-         lfSX7CaCR6Mi0EohbTnvO8tqFp5Rt4utEbwN558nudKXwz8S7lgmNodiunaXFUxXz4zq
-         Y07Rxg/9C4dJaPb05jeBV6ZlYbAKpv01B1EEUwG3bEv4fKHp8KqTen1YP7DRjCJsXAOG
-         v2zrWeAw7aCFWZAMzlnP11J7VYl4EFZXB4KZBfSyIe5FzZlULTtZnL/LGeaeIceLYho0
-         tpWg==
+        bh=QqSFIBojoXBcdo2V74Xjyb+S0dACvTlhNN9hW1wCnMw=;
+        b=AC/EXscMa6Wm2eDncmoziKoYvMs/4Gn8TuGFh8fFcx/rzfxrfci3SI7M+sltpMicnW
+         399ZgpQ8nolX0nsRsZRmsv9IL4k+F1i1GIFA2Nk+G3xZ+BeDZ/PEkfS7SjymGov9lTDU
+         xUD58adJtfH7Uc3kxt8/pifVHahc6PnL1rFcreQLanFa6V+0eRb0xVUpLM7hao0ZcyJp
+         2FLBOwdVReL0gfqZQUXVZcpjgfRifKFfJA0c+Tc2huQf1/Xec2Kmw5hW3+KDC1/2PKAH
+         HkMnZiYW7LH8m8luqekcSH2NOADAp5Xwn6w26gakMqHQ3Farkib5bzeqHECpDJjPTRLF
+         wBqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:mime-version:from:date:message-id:subject
-         :to:x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=NaDcslXgw9TVjUFAvcDNQU6cazokT7VRhbnwwVPNb4Q=;
-        b=Cfl3KgsrQZCdUqghMylI4KWEESnmzKvzhPuQQ247G3k2l+v8SM+FQLVb7VJDs6Po8V
-         eWge5TMTzVxNV/fPKDLVqImlmT5P9ezvxa+ggSJwWlwBIwflcZOYx/sMbCeaM31CUGLA
-         F8q3qqTG9R4DNOuDbJ7xFpZjJ+Of7s6ch/DElVXmGwKcwlGSIIB4k55jvALNK1MZu/1+
-         wBClHy64xpfqw/7kE5M39R3Ny5yX1qwaHexo+MSzfveaOlfTIia+ruOdmlUC34f88e2/
-         w2PEE5paJ6UVKqjbVZU7yhuKj7Z5K97hvkTu3G4inbj9RKN2dH+KHtsb23kddDJ+pfzW
-         d5yw==
+        h=sender:x-gm-message-state:message-id:subject:from:to:cc:date
+         :in-reply-to:references:user-agent:mime-version:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=QqSFIBojoXBcdo2V74Xjyb+S0dACvTlhNN9hW1wCnMw=;
+        b=YwvpH7+/OM+MBhs8CgCG557fkgAmRmfuZJkt6BNClnDE9jj60+4c1karrql9mjYzSn
+         ob28FK2uyYC1lc8U4WZxqHGD0SRepBKpd4D1szL9pPJIBZAK3vdzDg9Bx88yW8EVAoBg
+         m8ytSIHhaNRPlupg4S+RNi7AoPZCSHu8+gBk5jiU+//6fVRE6W70f1b/2Rd7tIh+make
+         lhWBtMIxZ36SvEXeETRsOb2KTFOLvNG84zjn1Dz/7bnl5rlnr5wRMBYArAqITBwz7RYO
+         UVyHRNalLxCctLHJOAreZYJW2/synZeE2NzJFbMAwUBgGqB9LESkEjy3A+6U+fUOVs3I
+         VVCw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ANhLgQ26MUp+zP50HLmlhllIn6RUpxCkwQdYhdAvF8VG1YajnEGk3DY4
-	c23ObKnDKB4eCOT9uN9zHJc=
-X-Google-Smtp-Source: ADFU+vszPZ9AOORZ/br00tKq2EdtIG9IVLyC4L4rgi4+/aguCzELCuuc6n0NZTiEn1rMn0SD3wMbJg==
-X-Received: by 2002:ac8:7b24:: with SMTP id l4mr7556397qtu.17.1584702484698;
-        Fri, 20 Mar 2020 04:08:04 -0700 (PDT)
+X-Gm-Message-State: ANhLgQ23SgkRZ/u6/NbqKclzgJwLS1561C/DfSzrhqdzXL+8NvQXdWiU
+	X3xJr6JDG1ijML9kSEU7Xso=
+X-Google-Smtp-Source: ADFU+vtwPxmZECmRa4Vhb/iF7nJY7P738OtPmTAktyoVzi8iXd96JwEVyE66AbXQoHOlPPA7QsTv6g==
+X-Received: by 2002:a1c:a78a:: with SMTP id q132mr10410476wme.107.1584711572955;
+        Fri, 20 Mar 2020 06:39:32 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a0c:efc2:: with SMTP id a2ls1296398qvt.5.gmail; Fri, 20 Mar
- 2020 04:08:04 -0700 (PDT)
-X-Received: by 2002:a0c:fdc5:: with SMTP id g5mr7710501qvs.194.1584702484291;
-        Fri, 20 Mar 2020 04:08:04 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1584702484; cv=none;
+Received: by 2002:a7b:c771:: with SMTP id x17ls3006517wmk.2.canary-gmail; Fri,
+ 20 Mar 2020 06:39:32 -0700 (PDT)
+X-Received: by 2002:a1c:b4d4:: with SMTP id d203mr10487480wmf.85.1584711572381;
+        Fri, 20 Mar 2020 06:39:32 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1584711572; cv=none;
         d=google.com; s=arc-20160816;
-        b=MCUjCqjEDOkIyMjMUGnhSzff6Ch868io/VZvc87l0ufAHWzrpN0p14XUfbJuk5p1yT
-         fGkh782aUt1DqDS7uhQdXrc4pTVKXHdmhIU9dx4GpQ9k9mLKnrFFrFsbUVM4GzTnbYiF
-         JA4ZRAeUmP5DwJeAnpLmM/lQTti7+B7kNtTog7/tlY0ZdgQQYcZaLNJaAc/BhWyn1INW
-         9Sv09WONyh/ZmpYS8/v4GeLp2LuiJqkMPzofxn18L7oiVx7I6ixbfJzEDDq7rRHsjScP
-         LYuJSd3pohGOnMs26swY1QNys7+7bklrjUW17AvW2x7xBmMHvJsIljAJfEK4Zc58RjSc
-         PbpQ==
+        b=MdODLiErG+B0QtcGoitkmhlrtACmIMC6cD2LgVAcfi9ZOMjafkiTu0vRU0cNFJfGyz
+         4Ozrt67Tz6h5+EWw1/qU3D21nZIuPhDkoCKBu77Mwjc9CPpoJoIk1Fkm5ID0cKQJC8eh
+         YMhpFyfbqd/k1UvChzDF0eSkhdf4HsBZndzjBjy/RyfggaMrdGM5dM85ICHX77GULlD7
+         AWkzG56N8ayh39+L3nxk8n1O4kd5DJ7hPlBwUod+L2lJ3QBoDuej0Jrr0dYi8sSVVBXs
+         dMT+l5mYsYjqmkrS3IP8ibPtP/zKc4QPhgt8C7u18MVBXwWFTPlEwnvcX1vsfaJqXhUW
+         YH+g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=kuhba0bbR9oJup1oQ7P5tNPZ9FqBHXE57QqcfHgaIHo=;
-        b=H1XEJA4o9EpiAerN1bjbsI6Wj3Cb8zGsqQR+KVj+3qmsfcBfh0iP98OrFSP4MmINgS
-         am+RWknVTNQH/N5jDZ+fAz/clNGLnrC1SIcrjG07ArY1pZRbQ4NhJLgzp8aDQYKS6eHB
-         Vi4Git2asbxWJIMA1s4Vu+PvuP5fBVaUuayTDwslO0MFconi5zCtxa86uokiyX13cbuk
-         bnWw5LFc/Qg4JRMw4uwgEq1+xDWlqckqMGAyZLgLBgVfksz172q6AHsMFNnsLHIzcbkT
-         z7IyRdp+R1uFcgXxHu9Ew3ieQz7ZJHkOgSLMiF6yu6loFpHRFo9tEf9bsQUUywS4bvVQ
-         XuRw==
+        h=content-transfer-encoding:mime-version:user-agent:references
+         :in-reply-to:date:cc:to:from:subject:message-id;
+        bh=6QStyEp04Y+OksQjkheHdEz6m+Vo0cZGwh70Bhe3HLs=;
+        b=ytxYGHGA7vKo57ZvAdTbxzwxqQ2Zl4TWYs/1LqSgXLYt36u6Ao83+TAI033xLw0ETR
+         2XoijaFxairDfOCRahpgWfrG3hDwvRqvE/K4BVS3snTnEZBkGEcBlVnfDB7lIklU86z1
+         ad0Cr7tDkav0fvzyHBnyKX/fofyOHVKKkjB9Lo8UatU9CEORHOupH8wlPdcIh7XKNeAF
+         P54uv2I1nYZYUV6qzzcD1Eivw3l7AwF4S/ic6gUeV4HO5FWF3sMcfLsRgyEZb0TuNfyM
+         IWXEaolHdW9nlsCkz50BNlv8pkc+KS0qX3kASbRTkTcZz+8Y0ixQN5XfY7ln7EyCylOJ
+         aNOg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20161025 header.b=Kcjom3Ny;
-       spf=pass (google.com: domain of federabureauofinteligence@gmail.com designates 2607:f8b0:4864:20::242 as permitted sender) smtp.mailfrom=federabureauofinteligence@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com. [2607:f8b0:4864:20::242])
-        by gmr-mx.google.com with ESMTPS id n138si277575qkn.5.2020.03.20.04.08.04
+       spf=pass (google.com: best guess record for domain of johannes@sipsolutions.net designates 2a01:4f8:191:4433::2 as permitted sender) smtp.mailfrom=johannes@sipsolutions.net
+Received: from sipsolutions.net (s3.sipsolutions.net. [2a01:4f8:191:4433::2])
+        by gmr-mx.google.com with ESMTPS id y185si206026wmd.2.2020.03.20.06.39.32
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 20 Mar 2020 04:08:04 -0700 (PDT)
-Received-SPF: pass (google.com: domain of federabureauofinteligence@gmail.com designates 2607:f8b0:4864:20::242 as permitted sender) client-ip=2607:f8b0:4864:20::242;
-Received: by mail-oi1-x242.google.com with SMTP id p125so6018195oif.10
-        for <kasan-dev@googlegroups.com>; Fri, 20 Mar 2020 04:08:04 -0700 (PDT)
-X-Received: by 2002:aca:3255:: with SMTP id y82mr6102866oiy.44.1584702483981;
- Fri, 20 Mar 2020 04:08:03 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a4a:c897:0:0:0:0:0 with HTTP; Fri, 20 Mar 2020 04:08:03
- -0700 (PDT)
-From: federa bureau of inteligence <federabureauofinteligence@gmail.com>
-Date: Fri, 20 Mar 2020 11:08:03 +0000
-Message-ID: <CAE9o6LB50YPWezLwrs9uSwCgfuFuUSrTfGz=QiaO9Pj23qjovw@mail.gmail.com>
-Subject: HAPPY SURVIVAL OF CORONAVIRUS
-To: undisclosed-recipients:;
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Mar 2020 06:39:32 -0700 (PDT)
+Received-SPF: pass (google.com: best guess record for domain of johannes@sipsolutions.net designates 2a01:4f8:191:4433::2 as permitted sender) client-ip=2a01:4f8:191:4433::2;
+Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.93)
+	(envelope-from <johannes@sipsolutions.net>)
+	id 1jFHrn-00Ax8I-UW; Fri, 20 Mar 2020 14:39:16 +0100
+Message-ID: <ded22d68e623d2663c96a0e1c81d660b9da747bc.camel@sipsolutions.net>
+Subject: Re: [PATCH] UML: add support for KASAN under x86_64
+From: Johannes Berg <johannes@sipsolutions.net>
+To: Dmitry Vyukov <dvyukov@google.com>
+Cc: Patricia Alfonso <trishalfonso@google.com>, Jeff Dike
+ <jdike@addtoit.com>,  Richard Weinberger <richard@nod.at>,
+ anton.ivanov@cambridgegreys.com, Andrey Ryabinin <aryabinin@virtuozzo.com>,
+ Brendan Higgins <brendanhiggins@google.com>,  David Gow
+ <davidgow@google.com>, linux-um@lists.infradead.org, LKML
+ <linux-kernel@vger.kernel.org>,  kasan-dev <kasan-dev@googlegroups.com>
+Date: Fri, 20 Mar 2020 14:39:13 +0100
+In-Reply-To: <CACT4Y+bdxmRmr57JO_k0whhnT2BqcSA=Jwa5M6=9wdyOryv6Ug@mail.gmail.com> (sfid-20200311_183506_748492_1435E277)
+References: <20200226004608.8128-1-trishalfonso@google.com>
+	 <CAKFsvULd7w21T_nEn8QiofQGMovFBmi94dq2W_-DOjxf5oD-=w@mail.gmail.com>
+	 <4b8c1696f658b4c6c393956734d580593b55c4c0.camel@sipsolutions.net>
+	 <674ad16d7de34db7b562a08b971bdde179158902.camel@sipsolutions.net>
+	 <CACT4Y+bdxmRmr57JO_k0whhnT2BqcSA=Jwa5M6=9wdyOryv6Ug@mail.gmail.com>
+	 (sfid-20200311_183506_748492_1435E277)
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: federabureauofinteligence@gmail.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20161025 header.b=Kcjom3Ny;       spf=pass
- (google.com: domain of federabureauofinteligence@gmail.com designates
- 2607:f8b0:4864:20::242 as permitted sender) smtp.mailfrom=federabureauofinteligence@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+User-Agent: Evolution 3.34.4 (3.34.4-1.fc31)
+MIME-Version: 1.0
+X-Original-Sender: johannes@sipsolutions.net
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: best guess record for domain of johannes@sipsolutions.net
+ designates 2a01:4f8:191:4433::2 as permitted sender) smtp.mailfrom=johannes@sipsolutions.net
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -136,25 +133,141 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Dear Sir,
+On Wed, 2020-03-11 at 18:34 +0100, Dmitry Vyukov wrote:
 
-HAPPY SURVIVAL OF CORONAVIRUS
+> > $ gdb -p ...
+> > (gdb) p/x task_size
+> > $1 = 0x7fc0000000
+> > (gdb) p/x __end_of_fixed_addresses
+> > $2 = 0x0
+> > (gdb) p/x end_iomem
+> > $3 = 0x70000000
+> > (gdb) p/x __va_space
+> > 
+> > #define TASK_SIZE (task_size)
+> > #define FIXADDR_TOP        (TASK_SIZE - 2 * PAGE_SIZE)
+> > 
+> > #define FIXADDR_START      (FIXADDR_TOP - FIXADDR_SIZE)
+> > #define FIXADDR_SIZE       (__end_of_fixed_addresses << PAGE_SHIFT)
+> > 
+> > #define VMALLOC_END       (FIXADDR_START-2*PAGE_SIZE)
+> > 
+> > #define MODULES_VADDR   VMALLOC_START
+> > #define MODULES_END       VMALLOC_END
+> > #define VMALLOC_START ((end_iomem + VMALLOC_OFFSET) & ~(VMALLOC_OFFSET-1))
+> > #define VMALLOC_OFFSET  (__va_space)
+> > #define __va_space (8*1024*1024)
+> > 
+> > 
+> > So from that, it would look like the UML vmalloc area is from
+> > 0x  70800000 all the way to
+> > 0x7fbfffc000, which obviously clashes with the KASAN_SHADOW_OFFSET being
+> > just 0x7fff8000.
+> > 
+> > 
+> > I'm guessing that basically the module loading overwrote the kasan
+> > shadow then?
+> 
+> Well, ok, this is definitely not going to fly :)
 
-We are reaching for a very interesting business transaction which we
-feel will of great benefit.We the FBI unit in the western subregion of
-Africa have a fund which we confiscated and lodge it in a bank
+Yeah, not with vmalloc/modules at least, but you can't really prevent
+vmalloc :)
 
-This fund is worth of $12.5 million dollars.We will need your
-assistance to recieve this fund into your account for investment in
-your country.
+> I don't know if it's easy to move modules to a different location.
 
-We will need your urgent response for details
+We'd have to not just move modules, but also vmalloc space. They're one
+and the same in UML.
 
-Inspector Greg Adams,
-For and on behalf of Cote D'Ivoire FBI
-Tel 00225 6716 6756
+> It
+> would be nice because 0x7fbfffc000 is the shadow start that's used in
+> userspace asan and it allows to faster instrumentation (if offset is
+> within first 2 gigs, the instruction encoding is much more compact,
+> for >2gigs it will require several instructions).
+
+Wait ... Now you say 0x7fbfffc000, but that is almost fine? I think you
+confused the values - because I see, on userspace, the following:
+
+|| `[0x10007fff8000, 0x7fffffffffff]` || HighMem    ||
+|| `[0x02008fff7000, 0x10007fff7fff]` || HighShadow ||
+|| `[0x00008fff7000, 0x02008fff6fff]` || ShadowGap  ||
+|| `[0x00007fff8000, 0x00008fff6fff]` || LowShadow  ||
+|| `[0x000000000000, 0x00007fff7fff]` || LowMem     ||
+
+
+Now, I also don't really understand what UML is doing here -
+os_get_top_address() determines some sort of "top address"? But all that
+is only on 32-bit, on 64-bit, that's always 0x7fc0000000.
+
+So basically that means it's just _slightly_ higher than what you
+suggested as the KASAN_SHADOW_OFFSET now (even if erroneously?), and
+shouldn't actually clash (and we can just change the top address value
+to be slightly lower anyway to prevent clashing).
+
+> But if it's not really easy, I guess we go with a large shadow start
+> (at least initially). A slower but working KASAN is better than fast
+> non-working KASAN :)
+
+Indeed, but I can't even get it to work regardless of the offset.
+
+Note that I have lockdep enabled, and at least some crashes appear to be
+because of the stack unwinding code that is called by lockdep in various
+situations...
+
+> > I tried changing it
+> > 
+> >  config KASAN_SHADOW_OFFSET
+> >         hex
+> >         depends on KASAN
+> > -       default 0x7fff8000
+> > +       default 0x8000000000
+> > 
+> > 
+> > and also put a check in like this:
+> > 
+> > +++ b/arch/um/kernel/um_arch.c
+> > @@ -13,6 +13,7 @@
+> >  #include <linux/sched.h>
+> >  #include <linux/sched/task.h>
+> >  #include <linux/kmsg_dump.h>
+> > +#include <linux/kasan.h>
+> > 
+> >  #include <asm/pgtable.h>
+> >  #include <asm/processor.h>
+> > @@ -267,9 +268,11 @@ int __init linux_main(int argc, char **argv)
+> >         /*
+> >          * TASK_SIZE needs to be PGDIR_SIZE aligned or else exit_mmap craps
+> >          * out
+> >          */
+> >         task_size = host_task_size & PGDIR_MASK;
+> > 
+> > +       if (task_size > KASAN_SHADOW_OFFSET)
+> > +               panic("KASAN shadow offset must be bigger than task size");
+> > 
+> > 
+> > but now I just crash accessing the shadow even though it was mapped fine?
+> 
+> Yes, this is puzzling.
+> I noticed that RIP is the same in both cases and it relates to vmap code.
+> A support for shadow for vmalloced-memory was added to KASAN recently
+> and I suspect it may conflict with UML.
+
+This can't be it - HAVE_ARCH_KASAN_VMALLOC isn't selected, so
+KASAN_VMALLOC isn't set.
+
+> What does pte-manipulation code even do under UML?
+
+No idea.
+
+> Looking at the code around, kasan_mem_notifier may be a problem too,
+> or at least excessive and confusing. We already have shadow for
+> everything, we don't need _any_ of dynamic/lazy shadow mapping.
+
+CONFIG_MEMORY_HOTPLUG is also not supported in ARCH=um, or at least not
+used in my config.
+
+johannes
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAE9o6LB50YPWezLwrs9uSwCgfuFuUSrTfGz%3DQiaO9Pj23qjovw%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/ded22d68e623d2663c96a0e1c81d660b9da747bc.camel%40sipsolutions.net.
