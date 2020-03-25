@@ -1,124 +1,158 @@
-Return-Path: <kasan-dev+bncBCMIZB7QWENRB2ED5TZQKGQEAWIHQXY@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBSND5XZQKGQENLJ26KQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oi1-x237.google.com (mail-oi1-x237.google.com [IPv6:2607:f8b0:4864:20::237])
-	by mail.lfdr.de (Postfix) with ESMTPS id E625C19217E
-	for <lists+kasan-dev@lfdr.de>; Wed, 25 Mar 2020 08:02:01 +0100 (CET)
-Received: by mail-oi1-x237.google.com with SMTP id s126sf1094463oih.6
-        for <lists+kasan-dev@lfdr.de>; Wed, 25 Mar 2020 00:02:01 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1585119720; cv=pass;
+Received: from mail-pf1-x438.google.com (mail-pf1-x438.google.com [IPv6:2607:f8b0:4864:20::438])
+	by mail.lfdr.de (Postfix) with ESMTPS id 332141928B0
+	for <lists+kasan-dev@lfdr.de>; Wed, 25 Mar 2020 13:42:51 +0100 (CET)
+Received: by mail-pf1-x438.google.com with SMTP id 20sf2000322pfw.10
+        for <lists+kasan-dev@lfdr.de>; Wed, 25 Mar 2020 05:42:51 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1585140169; cv=pass;
         d=google.com; s=arc-20160816;
-        b=DKphTjsBdj8eVQM3+nCPinVBDSPQqKbPB33N1Ue/8+kjW0cYdWtVkU9aHj5ZQl7obb
-         fDIBG/ijtRygePtWrpaRU7C0aSUW+XGS/NFA9q22hGXufkVQtWsJRylbi4rr0cV5h8ea
-         ON6ZvezXji+r3rX9+hMnUiZbimeR7wmmyhIYUA8UCEwHGey0Nw6KT23p49g6xwdeozGQ
-         Gynk0mxfigWQ6ZwT5WxRJnQpWJkU1+Z6h4HBqLWb8YRstUqSIrV/wHkwyIUt6cwCjike
-         6MYg0yRSKRIyZ3bNgdVbYXsYKMvOP+HrYdmEehF4TPl8fzMwntbAHx7lnQpb135pslFU
-         5+1g==
+        b=pwKoxmztNMuZxRSReqGglrEXB6dadK+jv5wgXW2HnjeBTZ79jQsFapUglEttmzq/ou
+         2NVV1EUKJqjbKrAgHWyCLV4/ka1gxW3oEfi7SCgiPs32vO9zZASkAF8pmr2uNJJSG7fn
+         ++2pcvVsCmSwl2FEV9KIzcObVBCaT2/DqmB42RqW4tcUomrcmZkeI2escHDu9mhuBhHv
+         zyPU5eSCn3O6uWHU3MrFR1flGV6ueg8EinlhEhcWR/H0FV9vCJVEdLLQKUPis66S8aUS
+         yycXv5k+ywDz0nv9iEZeqR1OuArL5HMWCyVL71fpPB9oK0NylusLFcooruVcGwlKAY8P
+         TL3w==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
-         :cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=T0h0yEtarYsu8fCKWvi8NzhiWDDkui5f5uOOS3Nivp0=;
-        b=jVDvUOvvrAa2mKCdenYOLgDO3dlq2RSGXiQcnJFClhZvpmJN8Ju3Fl+p7CyNeoXFFJ
-         xkzLHmnFWCLsXOOuIA/krcPwBNh5Mi/uiBqmCQi8Kth/RCul3MSgAWukw0i2WfGuC0/R
-         l0ANIwujMbcS8gql+GP3L0H9P/4fUlwTW7BOWhrI5WXJCFTRwz6yR/bkYfedLp5FQKfd
-         XXYuFlKll5mxSkNrOhokCSWsIUAA/ENrqEQbWDBnrG3nSDOHvlFxW6884rFVi3kZzfxC
-         oMXRTAO1nPSoUMUX2LO217p7LfCqlFg9zLULXJ1GTxscj5nHm7rXQiumSbCd96w/r4BF
-         VGOQ==
+         :list-id:mailing-list:precedence:mime-version:user-agent:references
+         :message-id:in-reply-to:subject:cc:to:from:date:sender
+         :dkim-signature;
+        bh=6Eb2vWvdZn0qx2cIYNyGZI5GqnEh46b/7haRVwjTCGg=;
+        b=hA9Qa20yL2ye34au0yczNCratnoxmxVBVSXLeP436lONxX/EUl4Es3V6Yv5R4XaDl2
+         puUY6cMWmf3LvgxOfvyX+TpWBq5rAH7bzG3QVfzKmtBKcnMFz2AJhUBziyOsXgSSyR/x
+         F1Ya2C5j6KwskbH9tXEEo3HyFDCAzK3E8Y4i1m1/y3B0ncVu/PUv7l2DBON9w8W34p8M
+         Wh0LGduhcFvPpLJowh3na2a+MPcO5tktrIe+7ck1s6XgBgZ0ctRpJ7tICEEGBc8ilMHH
+         LPCfbSCzimC0MCmLC7R/x+iyJWwhOgrC8rWSyXtc+GNqSbBvKHrC3Oif/GlDQFdBvroO
+         HC9g==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=JmooXooB;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::843 as permitted sender) smtp.mailfrom=dvyukov@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@oracle.com header.s=corp-2020-01-29 header.b=uk1q+G09;
+       spf=pass (google.com: domain of alan.maguire@oracle.com designates 141.146.126.78 as permitted sender) smtp.mailfrom=alan.maguire@oracle.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=oracle.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:list-post:list-help:list-archive:list-subscribe
-         :list-unsubscribe;
-        bh=T0h0yEtarYsu8fCKWvi8NzhiWDDkui5f5uOOS3Nivp0=;
-        b=NxiP6Z1LIZir8sg0SXfGe/sx/1soW8mY1GZ7kRS+LidoygTc/fUxOkL7gpi/xsNE7R
-         KTgFShGO6EfRMxUMPl8CgsgJ27JVEFFSP2mVz4xR/pUiK3rgFIA75JwtkNDh5qc0DQhd
-         Givcp95PjwBj9ChQtGZegNS3qw/ty4ONQo1QmsD5LQ5ZfcDK1UZPvkV1bMHc1MsXa1BQ
-         xwhbSrtsZgktuGSQiEVNrpikona/r6ZA+BMpzc/E1k1/79Z4iUvUFe5k5oBkBxqoBnBE
-         ONICSkKVCLi7ToBuniMKs+oF0N28B5M3A9TQ0WEBk1cPXjFVH/FwaOOtVhA3MsgHAqLd
-         3gKA==
+        h=sender:date:from:to:cc:subject:in-reply-to:message-id:references
+         :user-agent:mime-version:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=6Eb2vWvdZn0qx2cIYNyGZI5GqnEh46b/7haRVwjTCGg=;
+        b=J1yuItTtzGj0ggQVUOnhEWsBUtwz/z16t0LCVL4ys6MvoqIMgmJtX8mfvYoLEU2RIE
+         5Mhn9TugrrLEa6JRzxNa5gr+ZTXkzMLE+bwr46FM/8FLyR5tLug+GrKv9lbGCLirIKgX
+         higJdG7W5nNxOMVF2in4LQKJtmAfBNIOQ8WyLSKXAY9FfonRiZQlScNdDIE3aEzpk32R
+         A+QxJr0tMHREW3uZYyt/C14pp6eBar4uFL+EaiSKZLYuey5C6TQ8ep+41iHPmBaOr0sw
+         wYYX+5wM6u4cT8hx9kyu6ZFoyWdIiXZh40wrIPMNE/giYwL9CbXZKWR2mY9DEY74bmvm
+         4bCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding
-         :x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=T0h0yEtarYsu8fCKWvi8NzhiWDDkui5f5uOOS3Nivp0=;
-        b=KmZyfAHJcU5QtsOvrUwr8cNS/gqPfjhOu1XGuGeUCwW47XDOSbuGAo4P//t3NssILi
-         bBdifZEzR6+DTnkwyzp+WWgNR5IEag8lJx2czp2ZxflKdGtrrR7B6ylRTCdtnC8iAT6H
-         9B7jY1pGm87mPIP8ZDtyTsEWIGvL/WE4kgjEdmZtiBY4O+RzUhfnb/GzhNehGJiQQIDk
-         MJHfzlbD+Cy9gKtYnNcE24cBJV2Vii1XJc04e79a5gRjLnQUAXGV4Smv1adpdAbaLhsn
-         8cEB7uKqtxnOIUP51iW/JaOW29HpSsF+TcMhRb9j2oPIQXEuOlInngt6WX2LSXkHFhqC
-         SoHg==
-X-Gm-Message-State: ANhLgQ2vHXn5/2Yh8cLNYYjsaZmjT1zl9Tqjl5DZOWtpFLTwl/D/Se7s
-	nKqetI5jcgkpRs2AF2Squrg=
-X-Google-Smtp-Source: ADFU+vuUGtDE2f5z51hWHibGYcA64UGf2ydbuFY49RHnyPqA9zqghWohJu0NnEkJ+UBsQ8GYFObksw==
-X-Received: by 2002:aca:4cd8:: with SMTP id z207mr1406783oia.155.1585119720743;
-        Wed, 25 Mar 2020 00:02:00 -0700 (PDT)
+        h=sender:x-gm-message-state:date:from:to:cc:subject:in-reply-to
+         :message-id:references:user-agent:mime-version:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=6Eb2vWvdZn0qx2cIYNyGZI5GqnEh46b/7haRVwjTCGg=;
+        b=CbCRjFvDdi9bBPuicBeCYT0fA75/US8njzgodWbkn+plJInnpZFRubbxB4mwmmrkkI
+         ej/LDrHdTk2rM0wU2uC11qSojO3P4B5/z7MqcFnKwgSlxky7YGzZmnz9Hvj9zjck+rlz
+         vTepa2OCb/On38fkjGm9al2/PJpYG4xTfDriZKjEfScQFqVAzqzKLpiR6heUuzHPXhl6
+         bEt1txCBWbm2qQCa2jRkv20EX3OoRN0e7bYi961SiSwf2tP0vlWZSsMSjOjSudPDk9bI
+         NWFGzuVUjTxS5nrpwOSXfXeDPB0Uy20Zq1ELTswolqgD/y6r2yGXBmPHCis5lpVfyyZd
+         GjxQ==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: ANhLgQ0BDSi01Kt6T0iOS8hZcmJFH7a1zrwCkGxldlFC7VJAszeb+a1r
+	vJMyF/fIR1DQEM1vD6M3ODs=
+X-Google-Smtp-Source: ADFU+vtdQHwTs32Y4XVR46nOXk46vKon8pr32lPo+/K5vnry5KcFjLcZQXp6b0UCBObZmkRDwOhNhg==
+X-Received: by 2002:aa7:9e42:: with SMTP id z2mr3201739pfq.109.1585140169685;
+        Wed, 25 Mar 2020 05:42:49 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a9d:6082:: with SMTP id m2ls307368otj.8.gmail; Wed, 25 Mar
- 2020 00:02:00 -0700 (PDT)
-X-Received: by 2002:a9d:6744:: with SMTP id w4mr1464432otm.220.1585119720370;
-        Wed, 25 Mar 2020 00:02:00 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1585119720; cv=none;
+Received: by 2002:a17:902:9688:: with SMTP id n8ls1732563plp.3.gmail; Wed, 25
+ Mar 2020 05:42:49 -0700 (PDT)
+X-Received: by 2002:a17:90a:e397:: with SMTP id b23mr3678489pjz.137.1585140169326;
+        Wed, 25 Mar 2020 05:42:49 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1585140169; cv=none;
         d=google.com; s=arc-20160816;
-        b=d1OjFIiYn6ArIxagjYdvHuenkNTotw1ZDHKRwGg/Gc7YFVrslXk8sUOInrHxTd7Wzb
-         AFDAmytgz1uw5Cq2MQUPwxphcav7isL+18qyy06IH+pq0hqbjPgn9sE9+qM+V8C0m2V+
-         WlcNVeKYL8I37BV5FJ6Q/DcoeGXH4cA/RScBRTkC8jEQeANbMBpwEZQfY0ifnswqcx3F
-         ebMqEH0gGNarfG9hhdsjYxV+ZCBD1AXBOEWKe0WAlAZtg81aO4d9l6EyJ3t3dZM5drrW
-         Mlfgg7n3HhcYo+pD1igZOoEJBk5Hn4EV0ZMQZsKOYcmA00yVwocoVk85VLuC61pPpZdS
-         nTOA==
+        b=k5v846JQYV8lUG2MmVbceAcGhetuEQNJ5FAqyCxkDvp3Qh43m79nTKjqNFzyw+m0oe
+         X7QeiIsuMy/tiRlQ2DqKPfTpd1GqNJBQgU6eM2mmWyqzETBbF86THUw785Prk6tQjwmk
+         79agpSztyyUIAxfz1criC9ahMp8uVvEmnclEont2PWklAQjddB8XmfGWgUcPpLYLl9Xv
+         JBy8ACeQvkxElEc6PMn5edx91zFesGoaVg09IwEREWEONTGzJoYZj++6KXvvTQMc4dzW
+         uvu1iTac2aw1CBTAnZWEEo/idT0rl1cwViVedbD6Qxnd3J+J7fhV07fdcyNwx6q86Tvz
+         4M9Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=o1bzOxpIYCfc405aT2K97rWEpKgnVHKtv3CEiQWv3o8=;
-        b=O+Q4MjOUQ2glKT+6ciOz6qQPtZs/Lal/TxuvMf0NV4zJyIL6hOIV0XPcO0N1skyEq7
-         QUw98d7uAXay3JZcuFjIOANi28eEQa5Cy9vX7DDUyR2Co4UWaoKGxuGN7DGNOzrFIXof
-         xULd+9zVIRMdy135m3oKGhbwpg4tNKd9BrUn4rgzCCjgo738e7219RU+z5bOEBWx4ZvA
-         N7vBPs6MxBeG8BDcuukhSviVRSJYayveXtkOnNANMwB93NYlSswz2DEjuFbg7/52pB8l
-         Y4RiMMDCEonuaoE5smizYge+E07YXypBPyEHkHSkHHgxtAbZQyjdf6+2CgMimen0SDW5
-         ms6w==
+        h=mime-version:user-agent:references:message-id:in-reply-to:subject
+         :cc:to:from:date:dkim-signature;
+        bh=4CxQcsvrlZYbDGdz/Ttr6KfahZweiekg6E11FnAAvqQ=;
+        b=WOXxMA28spnbcWdqZdZdUyxNyxGKtsGZ4pNbPASxjGWzLJgZNV1ricRGmOMO97UsuI
+         YkGd++/DRQouhrauJjQ6+JPa8P8riWhFMUPdjdQ/+gonn15H/ZH4+KY0bSdF7xjOoNGe
+         an9saKyOPq506XrtbMp3OGttvqZHDLNv0dwTzuw68B+1Lm1ahA6cSgffvciPdE0BDQMZ
+         s6HoyncUqMsnzESf+r0BEQxz2WD+ml5LRj5pA0iJgGM1WMbCD7kx5MOC0nDp/FUMUIlW
+         HX08W3fOt+9goGJEaWTg/DkOWZdYSmX3FIbocYuTXanL64+Tak83+Fo9Nxm4mSW5L7fr
+         vQKw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=JmooXooB;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::843 as permitted sender) smtp.mailfrom=dvyukov@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-qt1-x843.google.com (mail-qt1-x843.google.com. [2607:f8b0:4864:20::843])
-        by gmr-mx.google.com with ESMTPS id m19si536510otn.4.2020.03.25.00.02.00
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Mar 2020 00:02:00 -0700 (PDT)
-Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::843 as permitted sender) client-ip=2607:f8b0:4864:20::843;
-Received: by mail-qt1-x843.google.com with SMTP id t17so1324218qtn.12
-        for <kasan-dev@googlegroups.com>; Wed, 25 Mar 2020 00:02:00 -0700 (PDT)
-X-Received: by 2002:aed:2591:: with SMTP id x17mr1588738qtc.380.1585119719764;
- Wed, 25 Mar 2020 00:01:59 -0700 (PDT)
+       dkim=pass header.i=@oracle.com header.s=corp-2020-01-29 header.b=uk1q+G09;
+       spf=pass (google.com: domain of alan.maguire@oracle.com designates 141.146.126.78 as permitted sender) smtp.mailfrom=alan.maguire@oracle.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=oracle.com
+Received: from aserp2120.oracle.com (aserp2120.oracle.com. [141.146.126.78])
+        by gmr-mx.google.com with ESMTPS id c3si194804pje.1.2020.03.25.05.42.49
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 25 Mar 2020 05:42:49 -0700 (PDT)
+Received-SPF: pass (google.com: domain of alan.maguire@oracle.com designates 141.146.126.78 as permitted sender) client-ip=141.146.126.78;
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+	by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02PCdUAM052990;
+	Wed, 25 Mar 2020 12:42:46 GMT
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+	by aserp2120.oracle.com with ESMTP id 2ywavm9dj5-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 25 Mar 2020 12:42:46 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+	by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02PCfbXI165088;
+	Wed, 25 Mar 2020 12:42:45 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+	by userp3020.oracle.com with ESMTP id 3003ghnayj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 25 Mar 2020 12:42:45 +0000
+Received: from abhmp0012.oracle.com (abhmp0012.oracle.com [141.146.116.18])
+	by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 02PCgh08017482;
+	Wed, 25 Mar 2020 12:42:43 GMT
+Received: from dhcp-10-175-163-133.vpn.oracle.com (/10.175.163.133)
+	by default (Oracle Beehive Gateway v4.0)
+	with ESMTP ; Wed, 25 Mar 2020 05:42:43 -0700
+Date: Wed, 25 Mar 2020 12:42:36 +0000 (GMT)
+From: Alan Maguire <alan.maguire@oracle.com>
+X-X-Sender: alan@localhost
+To: Patricia Alfonso <trishalfonso@google.com>
+cc: Alan Maguire <alan.maguire@oracle.com>, David Gow <davidgow@google.com>,
+        Brendan Higgins <brendanhiggins@google.com>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Dmitry Vyukov <dvyukov@google.com>, Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        kasan-dev <kasan-dev@googlegroups.com>, kunit-dev@googlegroups.com,
+        "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>
+Subject: Re: [RFC PATCH v2 1/3] Add KUnit Struct to Current Task
+In-Reply-To: <CAKFsvULUx3qi_kMGJx69ndzCgq=m2xf4XWrYRYBCViud0P7qqA@mail.gmail.com>
+Message-ID: <alpine.LRH.2.21.2003251242200.9650@localhost>
+References: <20200319164227.87419-1-trishalfonso@google.com> <20200319164227.87419-2-trishalfonso@google.com> <alpine.LRH.2.21.2003241635230.30637@localhost> <CAKFsvULUx3qi_kMGJx69ndzCgq=m2xf4XWrYRYBCViud0P7qqA@mail.gmail.com>
+User-Agent: Alpine 2.21 (LRH 202 2017-01-01)
 MIME-Version: 1.0
-References: <5612aad0-2579-4965-8d8f-b3073ee52b56@googlegroups.com>
-In-Reply-To: <5612aad0-2579-4965-8d8f-b3073ee52b56@googlegroups.com>
-From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Wed, 25 Mar 2020 08:01:48 +0100
-Message-ID: <CACT4Y+ZoGe8gW5trnGaxNBVV0JHxioKQQvh+qjZfnn95ysu0_w@mail.gmail.com>
-Subject: Re: KASAN patch
-To: cyb3rphr34k <mfghani0@gmail.com>
-Cc: syzkaller <syzkaller@googlegroups.com>, kasan-dev <kasan-dev@googlegroups.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: dvyukov@google.com
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9570 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 mlxlogscore=999 bulkscore=0
+ phishscore=0 adultscore=0 spamscore=0 malwarescore=0 suspectscore=3
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
+ definitions=main-2003250106
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9570 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 malwarescore=0
+ priorityscore=1501 mlxscore=0 bulkscore=0 clxscore=1015 impostorscore=0
+ phishscore=0 suspectscore=3 mlxlogscore=999 spamscore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
+ definitions=main-2003250105
+X-Original-Sender: alan.maguire@oracle.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=JmooXooB;       spf=pass
- (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::843
- as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
- (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Dmitry Vyukov <dvyukov@google.com>
-Reply-To: Dmitry Vyukov <dvyukov@google.com>
+ header.i=@oracle.com header.s=corp-2020-01-29 header.b=uk1q+G09;
+       spf=pass (google.com: domain of alan.maguire@oracle.com designates
+ 141.146.126.78 as permitted sender) smtp.mailfrom=alan.maguire@oracle.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=oracle.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -131,64 +165,144 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Mar 25, 2020 at 4:40 AM cyb3rphr34k <mfghani0@gmail.com> wrote:
+
+On Tue, 24 Mar 2020, Patricia Alfonso wrote:
+
+> On Tue, Mar 24, 2020 at 9:40 AM Alan Maguire <alan.maguire@oracle.com> wrote:
+> >
+> >
+> > On Thu, 19 Mar 2020, Patricia Alfonso wrote:
+> >
+> > > In order to integrate debugging tools like KASAN into the KUnit
+> > > framework, add KUnit struct to the current task to keep track of the
+> > > current KUnit test.
+> > >
+> > > Signed-off-by: Patricia Alfonso <trishalfonso@google.com>
+> > > ---
+> > >  include/linux/sched.h | 4 ++++
+> > >  1 file changed, 4 insertions(+)
+> > >
+> > > diff --git a/include/linux/sched.h b/include/linux/sched.h
+> > > index 04278493bf15..1fbfa0634776 100644
+> > > --- a/include/linux/sched.h
+> > > +++ b/include/linux/sched.h
+> > > @@ -1180,6 +1180,10 @@ struct task_struct {
+> > >       unsigned int                    kasan_depth;
+> > >  #endif
+> > >
+> > > +#if IS_BUILTIN(CONFIG_KUNIT)
+> >
+> > This patch set looks great! You might have noticed I
+> > refreshed the kunit resources stuff to incorporate
+> > feedback from Brendan, but I don't think any API changes
+> > were made that should have consequences for your code
+> > (I'm building with your patches on top to make sure).
+> > I'd suggest promoting from RFC to v3 on the next round
+> > unless anyone objects.
+> >
+> > As Dmitry suggested, the above could likely be changed to be
+> > "#ifdef CONFIG_KUNIT" as kunit can be built as a
+> > module also. More on this in patch 2..
+> >
+> I suppose this could be changed so that this can be used in possible
+> future scenarios, but for now, since built-in things can't rely on
+> modules, the KASAN integration relies on KUnit being built-in.
 >
-> Hi,
-> It's probably not the right forum to ask this question.
 
-+kasan-dev@googlegroups.com is the right mailing list for KASAN questions.
+I think we can get around that. I've tried tweaking the resources
+patchset such that the functions you need in KASAN (which
+is builtin) are declared as "static inline" in include/kunit/test.h;
+doing this allows us to build kunit and test_kasan as a
+module while supporting the builtin functionality required to
+retrieve and use kunit resources within KASAN itself.  
 
-> But syzkaller requires kernels to be patched with KASAN to get the crashe=
-s right.
+The impact of this amounts to a few functions, but it would
+require a rebase of your changes. I'll send out a  v3 of the
+resources patches shortly; I just want to do some additional
+testing on them. I can also send you the modified versions of
+your patches that I used to test with.
 
-Hi,
+With these changes I can run the tests on baremetal
+x86_64 by modprobe'ing test_kasan. However I see a few failures:
 
-This is totally false.
-syzkaller is fuzzer, it produces a stress load and provokes bugs. Now
-if the kernel will be able to self-diagnose these bugs or not, and in
-what form is a different question. Without KASAN it may miss some, it
-may diagnose some poorly. But it's true for every additional debugging
-check. One doesn't enable LOCKDEP, they miss deadlocks or get poor
-diagnostics.
+[   87.577012]  # kasan_memchr: EXPECTATION FAILED at lib/test_kasan.c:509
+        Expected kasan_data->report_expected == kasan_data->report_found, 
+but
+                kasan_data->report_expected == 1
+                kasan_data->report_found == 0
+[   87.577104]  not ok 30 - kasan_memchr
+[   87.603823]  # kasan_memcmp: EXPECTATION FAILED at lib/test_kasan.c:523
+        Expected kasan_data->report_expected == kasan_data->report_found, 
+but
+                kasan_data->report_expected == 1
+                kasan_data->report_found == 0
+[   87.603929]  not ok 31 - kasan_memcmp
+[   87.630644]  # kasan_strings: EXPECTATION FAILED at 
+lib/test_kasan.c:544
+        Expected kasan_data->report_expected == kasan_data->report_found, 
+but
+                kasan_data->report_expected == 1
+                kasan_data->report_found == 0
+[   87.630910]  # kasan_strings: EXPECTATION FAILED at 
+lib/test_kasan.c:546
+        Expected kasan_data->report_expected == kasan_data->report_found, 
+but
+                kasan_data->report_expected == 1
+                kasan_data->report_found == 0
+[   87.654037]  # kasan_strings: EXPECTATION FAILED at 
+lib/test_kasan.c:548
+        Expected kasan_data->report_expected == kasan_data->report_found, 
+but
+                kasan_data->report_expected == 1
+                kasan_data->report_found == 0
+[   87.677179]  # kasan_strings: EXPECTATION FAILED at 
+lib/test_kasan.c:550
+        Expected kasan_data->report_expected == kasan_data->report_found, 
+but
+                kasan_data->report_expected == 1
+                kasan_data->report_found == 0
+[   87.700242]  # kasan_strings: EXPECTATION FAILED at 
+lib/test_kasan.c:552
+        Expected kasan_data->report_expected == kasan_data->report_found, 
+but
+                kasan_data->report_expected == 1
+                kasan_data->report_found == 0
+[   87.723336]  # kasan_strings: EXPECTATION FAILED at 
+lib/test_kasan.c:554
+        Expected kasan_data->report_expected == kasan_data->report_found, 
+but
+                kasan_data->report_expected == 1
+                kasan_data->report_found == 0
+[   87.746304]  not ok 32 - kasan_strings
 
-FreeBSD -- no KASAN:
-https://syzkaller.appspot.com/freebsd
+The above three tests consistently fail while everything
+else passes, and happen irrespective of whether kunit
+is built as a module or built-in.  Let me know if you 
+need any more info to debug (I built the kernel with
+CONFIG_SLUB=y if that matters).
 
-OpenBSD -- no KASAN:
-https://syzkaller.appspot.com/openbsd
+Thanks!
 
-AkarOS -- no KASAN:
-https://syzkaller.appspot.com/akaros
-
-Fuchsia -- no KASAN.
-
-Linux KMSAN instance -- no KASAN:
-https://syzkaller.appspot.com/upstream?manager=3Dci-upstream-kmsan-gce
-
-Linux KCSAN instance -- no KASAN:
-https://syzkaller.appspot.com/upstream?manager=3Dci2-upstream-kcsan-gce
-
-We test some Linux kernels without any sanitizers whatsoever.
+Alan
 
 
->  hence, to test older kernels, we'd require to patch them with KASAN. I'm=
- confused that KASAN is just an address sanitizer so why do we need source =
-code patches to the kernel e.g for asan, we just need the compiler instrume=
-ntation and we don't need to change the source of any program. So, how it i=
-t different when it comes to a kernel? why do we need kernel level patches =
-for KASAN and not just some latest compiler?
+> > > +     struct kunit                    *kunit_test;
+> > > +#endif /* IS_BUILTIN(CONFIG_KUNIT) */
+> > > +
+> > >  #ifdef CONFIG_FUNCTION_GRAPH_TRACER
+> > >       /* Index of current stored address in ret_stack: */
+> > >       int                             curr_ret_stack;
+> > > --
+> > > 2.25.1.696.g5e7596f4ac-goog
+> > >
+> > >
+> 
+> -- 
+> Best,
+> Patricia
+> 
 
-We need kernel patches because asan runtime for the kernel version
-lives in the kernel itself rather than in the compiler.
-It lives with the kernel because it depends a lot, touches, hooks into
-and needs to be evolved with the kernel source code. THis is not true
-for user-space asan, it does not depend on one's particular program.
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CACT4Y%2BZoGe8gW5trnGaxNBVV0JHxioKQQvh%2BqjZfnn95ysu0_w%40mail.gm=
-ail.com.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/alpine.LRH.2.21.2003251242200.9650%40localhost.
