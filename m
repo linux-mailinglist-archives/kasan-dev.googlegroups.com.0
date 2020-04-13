@@ -1,172 +1,146 @@
-Return-Path: <kasan-dev+bncBCPILY4NUAFBBRVN2P2AKGQEM5QYROQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDY3NC743AGBBPFV2P2AKGQE4UDEQ7I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qv1-xf38.google.com (mail-qv1-xf38.google.com [IPv6:2607:f8b0:4864:20::f38])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86AAA1A6DDC
-	for <lists+kasan-dev@lfdr.de>; Mon, 13 Apr 2020 23:16:55 +0200 (CEST)
-Received: by mail-qv1-xf38.google.com with SMTP id x9sf9253485qvj.8
-        for <lists+kasan-dev@lfdr.de>; Mon, 13 Apr 2020 14:16:55 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1586812614; cv=pass;
+Received: from mail-qv1-xf3d.google.com (mail-qv1-xf3d.google.com [IPv6:2607:f8b0:4864:20::f3d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1850D1A6E5A
+	for <lists+kasan-dev@lfdr.de>; Mon, 13 Apr 2020 23:33:49 +0200 (CEST)
+Received: by mail-qv1-xf3d.google.com with SMTP id dc4sf5902402qvb.2
+        for <lists+kasan-dev@lfdr.de>; Mon, 13 Apr 2020 14:33:49 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1586813628; cv=pass;
         d=google.com; s=arc-20160816;
-        b=xUQ5VDnn+tlM9VBmegvRqBS0tp85QKfASHLZX/dG8kvvwOv8TyeyDxFm6BHTXlWcgk
-         TXomLm6NZUHDKmGPO0A6mwY83eKa5WNe5FjfG3NCp3kagzpCfo2gvaARnqMKEy/5VeDk
-         4Vc3JM5BDi5VK0KnxhRlvBH4Kxhus9+8A42Sp2f0c5l7z8aiV3dkpEcJk/1D4zTR13SS
-         7o9ENAEPzHLrITScpzebzE24mv4BrEKgarX7Gx4LZfqPTsxEnK2hfYhn4Fq//130hHFU
-         RQauNHHAXr7yDQlDdTAhGzmBt9bvK8cpeP5sd2sQr2ZXy66xrwjHnK7dQJQffhcL36WO
-         dH8A==
+        b=OrSoZVw5G8xArj9J3nlQda5tgqWY/PqS6+6G/pSHu65ExzNi0wTWqIjrS9AUgzaLak
+         1zXNRajqeJdpWimLQmR9sOZuGa82EE791bEmOEOpsAo6PjfqPPWMFnSyZz0oACfu2oQX
+         Qvuf6C6PSnj4b6zduUmulzzOJgsKnzaaC3qpgcXjByiUd4Fjge9BjIJGnEO5bJXp/184
+         7uY8XG1PLZOS375zgLyqICtAqrGngLHyBCDZ2mDnaosPRaeVKMcR4eUCRONdAIb/APQT
+         9nu8hyRl6p3GxmIG8dqEUM9hR3xYVvC6URbO6l8ZOqdc0Wix0CnvYt13ftecPXPiogJE
+         7qhQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:references:in-reply-to:message-id
-         :date:subject:cc:to:from:mime-version:sender:dkim-signature;
-        bh=tjobM8PNa8Z00VfvbfImayWyk+xfXbFVsHEG9UxfzEs=;
-        b=YIRg+9DigRPoE/c3Qd66Of6UWOxS/EPSaO0+bLaoVI8/vGuMX1MH6WDkmCt7sWlfVD
-         qxH+iR/TGbH4mzi2T4NF8L+e7MIMTZ+iM+A+dAQok+0pNjogba7hyzFL5GgcXQizZf6b
-         Bgw/Pwvnsli3u1cZ3ij9TXfSJuz0ctAtCFHl1/Sbq+fZW2yp5wQ1DhNFUFjTPHqohgga
-         HZFq+UU58Wfj9+4QNaC68DnAIZqQMjMosT6jEPtaaOcghOQZeMPJhwQDpT+amCNaCr08
-         KMzk7h4jGpfYtQhNmvmH1DufnSnunxYFf+K11pZssarJspHHhYmwiAtoBsarDXd/rJWy
-         qGmw==
+         :list-id:mailing-list:precedence:mime-version:user-agent:references
+         :in-reply-to:date:cc:to:from:subject:message-id:sender
+         :dkim-signature;
+        bh=2QsLrmDjKHCnPXJ1p7+za/j0YBn5FVs7sAQUal83nF0=;
+        b=RbZ2y0VCZ628XhRTk0kROrKMxMR1vOqKv/RED1ZWq1kakCfAG6tRp7yTZ1Vqx3EYNP
+         xigYUjG1xZFRsea6apqL74NJgFqvMibnZWRITR03Tuq7clFr5H6ClRl9XvodVHf4dRhl
+         e+mvnJh4nD5a/icNBF6leb7pjq5mp8/QBRiKmv+chi30LurzKlXMuhmBQxBujQE2BCg9
+         Ua+1EjFp7cQX/qlEzy3JvNQTCrwxsu67Ng7pPBRwsXDbECSRrcj8DXaswh1oYYEc6997
+         LLh4sp+JqSCdU2M/XrPTau8qRZtJUaVm9oWPM2AsAfYRKsg1qK6mdwwip+AZ+easZrL9
+         ElUA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=E+gP7Dfd;
-       spf=pass (google.com: domain of longman@redhat.com designates 205.139.110.61 as permitted sender) smtp.mailfrom=longman@redhat.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
+       spf=neutral (google.com: 216.40.44.238 is neither permitted nor denied by best guess record for domain of joe@perches.com) smtp.mailfrom=joe@perches.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:mime-version:from:to:cc:subject:date:message-id:in-reply-to
-         :references:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=tjobM8PNa8Z00VfvbfImayWyk+xfXbFVsHEG9UxfzEs=;
-        b=b0/hSHvZN3wI8eHyKCN+pjTV6UjgbHfJYCBnU6lTnu8JfC5Nc2aY0B6ctWe+7TqakM
-         IDDHIwAdQD7YTJcMEsR9enwDnSMgQoIyTLZC73yv066i98a/SVlHsuWqXdUedsK/dwwd
-         uY1T8EE0P1YJI2EE2m8IxvHyrWR/3SfCLVuE/Y8r/xGOfq+Zs0jXaeIHOb7g2MeDKlQC
-         yrOQhdv+xRs/Og0s/i3h6YCdNzzWy+Y1HoZwAI54omjXaL8v4CZG+UZ+NhZRQX5WNO2M
-         oWijEjN2698a2trbKvD4ECgNU6c2c7ggXvpVGDe8JVMcIsv3E+8ACu/prISzMPmOkB52
-         Ti6A==
+        h=sender:message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=2QsLrmDjKHCnPXJ1p7+za/j0YBn5FVs7sAQUal83nF0=;
+        b=CLxB2K6ccmMK1G5bA88KcHF8RZGGY49IYaNa7bHGn20CPc9IwN7tHCYGIEqagn9mjH
+         J+BZOiUhKlG5O9T1h7iW/2Fo1S5e32q2jhOMoKIfg96RqV+HFzbPMu3v93SxMVtrNr3G
+         0y5/G9WHbzTpNB9pCfbZq7rsQvZlTU4B9rdPzp42Nlunp35S8ecs6mMHxYTzAhYiFXUX
+         Se45zS/4TVIiElJj5G8/03AdpvXj9e2dNbc3HS75MO9v7Rv/DdooTyXTzZ57AZNKNTEg
+         SzceFSg1zk4GA/D9ReQQTtm9I8jZM/G1shMbfHjxPedDPguXgqS5eX6h+7hTIRsX8Hc9
+         cliQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:mime-version:from:to:cc:subject:date
-         :message-id:in-reply-to:references:x-original-sender
+        h=sender:x-gm-message-state:message-id:subject:from:to:cc:date
+         :in-reply-to:references:user-agent:mime-version:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=tjobM8PNa8Z00VfvbfImayWyk+xfXbFVsHEG9UxfzEs=;
-        b=mH7ylRy/mIQYD1jwbSQth2QnEiETeOu1XIM67m+ZQ+X/ONZKtbRIKKCBir6JtyedUM
-         yPB5eYzZt3bydt3l3t9uXG3Fxo9zsDHt6mD9SnHC4FXCezatXPgxxlwb5pyT9BPWg3yR
-         kLJv47AuqjiTE8yg5de5Oqet+HUCvjtmBkfEeDDGAKDsFY3kbccCblSXUEmfLN57geYM
-         yBnb6YF8ik2X+zEuu5bp8Jfnnea1m4vYKwmTDFC+uMjrvD6LcKK5WOwzWh/tTEhCzVyo
-         fkIfgRNEg3J2lUaKje/NMmLcDE4xAD45GK3nUBjvKY7ZLgghBIFu+edXHFUMqVHzV5Is
-         EFVw==
+        bh=2QsLrmDjKHCnPXJ1p7+za/j0YBn5FVs7sAQUal83nF0=;
+        b=JKjtNoI+MzJPDD/4NJvCLQZadSwMm+nNaap8ctgaJSnuDAX9qyBX0ibq9Q00EVMiV5
+         MDGYkwSESjAvXnBCYWwS2Elyz9eF2jQk6Rn9IlODx6Rx5xwZq+KS6HGg4g68a/nfyCeD
+         MCwPLxfFb4WtSa1ctRMa+WnCyZD1IHGPN8CAmQyh3lmAmbG679bnPoUlw/dZ/JNkO0v+
+         3Z17pJwQkt9h+IcR9PaV6Ftu0afArY677iZ74+ViAoQ6BbO69HMSBhWj6J2BOEMCkFJG
+         GYMF6Hp30VK54EmBU5eaTKtBegDluLig3iiYafT2jLVjLG2XWyX8aV54xpNpjrMTLVEU
+         u42g==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AGi0PuZ/4SXnaoFvRy5A/E8vWIj+X4WrNFqP21pD6SQitERDuPhRdSf1
-	bELH/BxCSLmthIPF5e6E0hE=
-X-Google-Smtp-Source: APiQypILtw0B9uHYHM+wRUtTQThv6dwOaC1tCRU8jB8GBzvt49SS/DY483+VAL6ck+k6o4a/uIk8gA==
-X-Received: by 2002:a0c:de12:: with SMTP id t18mr18244540qvk.202.1586812614573;
-        Mon, 13 Apr 2020 14:16:54 -0700 (PDT)
-MIME-Version: 1.0
+X-Gm-Message-State: AGi0PuY02aEi12OrawZ2JnKwqW1KROvSZiTizykSJmk0rICzTioSkRlK
+	dSlZNWB8S8fmU71P+TSrd8I=
+X-Google-Smtp-Source: APiQypJDIVjBkN/c/cH8vZgJmXFVGyU4XY8/YEL+TItjoQjK1NnmMjr4wdN0mr9UEcR71d67BWgOHw==
+X-Received: by 2002:ac8:7288:: with SMTP id v8mr13101929qto.31.1586813628133;
+        Mon, 13 Apr 2020 14:33:48 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a37:9e17:: with SMTP id h23ls839861qke.7.gmail; Mon, 13 Apr
- 2020 14:16:54 -0700 (PDT)
-X-Received: by 2002:ae9:f44a:: with SMTP id z10mr18758860qkl.353.1586812614146;
-        Mon, 13 Apr 2020 14:16:54 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1586812614; cv=none;
+Received: by 2002:ac8:2208:: with SMTP id o8ls561208qto.10.gmail; Mon, 13 Apr
+ 2020 14:33:47 -0700 (PDT)
+X-Received: by 2002:ac8:6ec8:: with SMTP id f8mr11791567qtv.330.1586813627763;
+        Mon, 13 Apr 2020 14:33:47 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1586813627; cv=none;
         d=google.com; s=arc-20160816;
-        b=nSU9gBhUFQN9UdDKaJYccSLHtTEAS1aSVbOYIqqvGfcUU6FimQEExEiNFJ4DqhYvfk
-         dB5YJJZt8vFD1ylSFxAV6WcRikx3bjEPrAol4vsMSFT+Do16zN5ahC9uiyZAUSD6EisP
-         HjVI/864HPgBLocaloYtqMxA/SkBTQDBxxmv9L5dustFtyvrfIN0P3mKqn8Bc3B6Q9+h
-         8F11158UFfv1UNi1te32rDKp1EHr0WdxFkbTVEKRYcD3Jg5JAy129d/LIT8MSqzGdng5
-         nLS6zM7A/1T9MTAq8DeWiHc1JOrLg7B/P4nc/cCJ7U2otNPQtKvhhrnN9YPYijx57xpl
-         LPFg==
+        b=B+IXwvbkTbdxuyMhf/5BUFR7K8imqec03+eSG/YukVcjRFplLZn3kMhAt6bJromkFA
+         SPlteCp3UAPJ2fWNIJV8dps4TE3gDL4eZOddSXaAncqMaXm+TAaGIeHoESxoI403eLkX
+         nok7AzHGoxoLi1BoLPPJlmdWty1zpBvqVEqpmJH2FxPo00SpzeYYcyEBqHT6NW16QSFW
+         8a/nKt3ulpiycjqhJW88HoKLYdCTer4ZteN9AwvdS7wWn3HO56Cy3ZLC1vXzOrnGU0Mr
+         ob8LwS933KxSOk8d1odxEGifEYMojztZc1uwbLMuVMsRY/uK+RJqbPbMYCxzsJqrGhn/
+         nPhg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=references:in-reply-to:message-id:date:subject:cc:to:from
-         :dkim-signature;
-        bh=nDsD8ARELWs0d4asbSq1NjjS9iTGbr+u27Se40H771Q=;
-        b=uih5iIr0LcU3TWbIekKU+2/q5jYkGua+vx+Ils27308TU/V4OCUReQaALWYp+bJ6D7
-         LZjCDRr6CyquPjw/eAbXjk8hExUDjaPULmxafNMWV4HUZrXrBMjBLThcsGYozkiEkiZ3
-         sOXCn8r+F3MozmdaYkB5uWCo8bhmGmKqh5KFmeFJC9Ljq8DpFSmKp1/KoTprpNRCi4Db
-         YrvX5q/TV7yffpF0rPLrkdiMlx5c+oyircEQ9fbGAsGcMPh1cOfen3zAmfl9tHvZHAwD
-         bpWhm4A9lf+mfxFXELBg469vLXG/Uh1xANrKidgV/7N1Zr80QozQ1VvnagoKeC7PA+zG
-         jPWA==
+        h=content-transfer-encoding:mime-version:user-agent:references
+         :in-reply-to:date:cc:to:from:subject:message-id;
+        bh=zlWGbTOB9joXsAgxkgX2tpua1ctVBKP5fRVz0EJLD7E=;
+        b=TfSCsSrACDxFIWSZfQvZANDeB5vt2etXUWmOoyVx16OKPKsWKuLUgJJ/rnTC8NNK5M
+         JSWhATUcKys3fe3NTPUZWSdoRQTH9sVN2gq2LLiofG6hkTbzSX7UfvmXAHulAapQX+tl
+         iJSLhph8gHPlCcAnwUV88j5ptOInnyHGQIvNSlXHKQf9rUpoLTsy6LTmyfPoTTk+CueZ
+         HaWkEQHiVrV04MShbajhzcv3G2aD3r6vPHgw3Vmyr4aGU4ZrJrsLqUKba/sq48moUTeF
+         7IG+Fi/FwJhjsjD4/qg3YgtzWReu9Frfp9d2I0x8b5WhiV/sPXG7sxmCccafQFBTGhIa
+         u5MA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=E+gP7Dfd;
-       spf=pass (google.com: domain of longman@redhat.com designates 205.139.110.61 as permitted sender) smtp.mailfrom=longman@redhat.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com. [205.139.110.61])
-        by gmr-mx.google.com with ESMTPS id e11si835451qtw.1.2020.04.13.14.16.54
+       spf=neutral (google.com: 216.40.44.238 is neither permitted nor denied by best guess record for domain of joe@perches.com) smtp.mailfrom=joe@perches.com
+Received: from smtprelay.hostedemail.com (smtprelay0238.hostedemail.com. [216.40.44.238])
+        by gmr-mx.google.com with ESMTPS id 198si458400qkh.7.2020.04.13.14.33.47
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 13 Apr 2020 14:16:54 -0700 (PDT)
-Received-SPF: pass (google.com: domain of longman@redhat.com designates 205.139.110.61 as permitted sender) client-ip=205.139.110.61;
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-346-rjIc-N9CM66LO5fX_MJoTg-1; Mon, 13 Apr 2020 17:16:49 -0400
-X-MC-Unique: rjIc-N9CM66LO5fX_MJoTg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 64AE4107ACCA;
-	Mon, 13 Apr 2020 21:16:44 +0000 (UTC)
-Received: from llong.com (ovpn-115-28.rdu2.redhat.com [10.10.115.28])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 1198311D2D3;
-	Mon, 13 Apr 2020 21:16:39 +0000 (UTC)
-From: Waiman Long <longman@redhat.com>
-To: Andrew Morton <akpm@linux-foundation.org>,
-	David Howells <dhowells@redhat.com>,
-	Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
-	James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Joe Perches <joe@perches.com>,
-	Matthew Wilcox <willy@infradead.org>,
-	David Rientjes <rientjes@google.com>
-Cc: linux-mm@kvack.org,
-	keyrings@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	x86@kernel.org,
-	linux-crypto@vger.kernel.org,
-	linux-s390@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org,
-	linux-amlogic@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	linuxppc-dev@lists.ozlabs.org,
-	virtualization@lists.linux-foundation.org,
-	netdev@vger.kernel.org,
-	intel-wired-lan@lists.osuosl.org,
-	linux-ppp@vger.kernel.org,
-	wireguard@lists.zx2c4.com,
-	linux-wireless@vger.kernel.org,
-	devel@driverdev.osuosl.org,
-	linux-scsi@vger.kernel.org,
-	target-devel@vger.kernel.org,
-	linux-btrfs@vger.kernel.org,
-	linux-cifs@vger.kernel.org,
-	samba-technical@lists.samba.org,
-	linux-fscrypt@vger.kernel.org,
-	ecryptfs@vger.kernel.org,
-	kasan-dev@googlegroups.com,
-	linux-bluetooth@vger.kernel.org,
-	linux-wpan@vger.kernel.org,
-	linux-sctp@vger.kernel.org,
-	linux-nfs@vger.kernel.org,
-	tipc-discussion@lists.sourceforge.net,
-	cocci@systeme.lip6.fr,
-	linux-security-module@vger.kernel.org,
-	linux-integrity@vger.kernel.org,
-	Waiman Long <longman@redhat.com>
-Subject: [PATCH 2/2] crypto: Remove unnecessary memzero_explicit()
-Date: Mon, 13 Apr 2020 17:15:50 -0400
-Message-Id: <20200413211550.8307-3-longman@redhat.com>
-In-Reply-To: <20200413211550.8307-1-longman@redhat.com>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Apr 2020 14:33:47 -0700 (PDT)
+Received-SPF: neutral (google.com: 216.40.44.238 is neither permitted nor denied by best guess record for domain of joe@perches.com) client-ip=216.40.44.238;
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+	by smtprelay06.hostedemail.com (Postfix) with ESMTP id D45AF18027F9D;
+	Mon, 13 Apr 2020 21:33:46 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Spam-Summary: 2,0,0,,d41d8cd98f00b204,joe@perches.com,,RULES_HIT:41:355:379:599:966:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1541:1593:1594:1711:1730:1747:1777:1792:2196:2199:2393:2559:2562:2693:2828:3138:3139:3140:3141:3142:3352:3622:3865:3866:3867:3868:3871:3872:4321:4385:5007:6119:6742:6743:7808:8660:10004:10400:10466:10848:11026:11232:11657:11658:11914:12043:12048:12296:12297:12438:12740:12760:12895:13069:13148:13230:13311:13357:13439:14659:14721:21080:21451:21627:21990:30054:30091,0,RBL:none,CacheIP:none,Bayesian:0.5,0.5,0.5,Netcheck:none,DomainCache:0,MSF:not bulk,SPF:,MSBL:0,DNSBL:none,Custom_rules:0:0:0,LFtime:2,LUA_SUMMARY:none
+X-HE-Tag: badge84_5a5696689f027
+X-Filterd-Recvd-Size: 3380
+Received: from XPS-9350.home (unknown [47.151.136.130])
+	(Authenticated sender: joe@perches.com)
+	by omf07.hostedemail.com (Postfix) with ESMTPA;
+	Mon, 13 Apr 2020 21:33:40 +0000 (UTC)
+Message-ID: <efd6ceb1f182aa7364e9706422768a1c1335aee4.camel@perches.com>
+Subject: Re: [PATCH 2/2] crypto: Remove unnecessary memzero_explicit()
+From: Joe Perches <joe@perches.com>
+To: Waiman Long <longman@redhat.com>, Andrew Morton
+ <akpm@linux-foundation.org>,  David Howells <dhowells@redhat.com>, Jarkko
+ Sakkinen <jarkko.sakkinen@linux.intel.com>, James Morris
+ <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, Linus Torvalds
+ <torvalds@linux-foundation.org>, Matthew Wilcox <willy@infradead.org>,
+ David Rientjes <rientjes@google.com>
+Cc: linux-mm@kvack.org, keyrings@vger.kernel.org,
+ linux-kernel@vger.kernel.org,  x86@kernel.org,
+ linux-crypto@vger.kernel.org, linux-s390@vger.kernel.org, 
+ linux-pm@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+ linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org, 
+ linux-mediatek@lists.infradead.org, linuxppc-dev@lists.ozlabs.org, 
+ virtualization@lists.linux-foundation.org, netdev@vger.kernel.org, 
+ intel-wired-lan@lists.osuosl.org, linux-ppp@vger.kernel.org, 
+ wireguard@lists.zx2c4.com, linux-wireless@vger.kernel.org, 
+ devel@driverdev.osuosl.org, linux-scsi@vger.kernel.org, 
+ target-devel@vger.kernel.org, linux-btrfs@vger.kernel.org, 
+ linux-cifs@vger.kernel.org, samba-technical@lists.samba.org, 
+ linux-fscrypt@vger.kernel.org, ecryptfs@vger.kernel.org, 
+ kasan-dev@googlegroups.com, linux-bluetooth@vger.kernel.org, 
+ linux-wpan@vger.kernel.org, linux-sctp@vger.kernel.org, 
+ linux-nfs@vger.kernel.org, tipc-discussion@lists.sourceforge.net, 
+ cocci@systeme.lip6.fr, linux-security-module@vger.kernel.org, 
+ linux-integrity@vger.kernel.org
+Date: Mon, 13 Apr 2020 14:31:32 -0700
+In-Reply-To: <20200413211550.8307-3-longman@redhat.com>
 References: <20200413211550.8307-1-longman@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Original-Sender: longman@redhat.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@redhat.com header.s=mimecast20190719 header.b=E+gP7Dfd;
-       spf=pass (google.com: domain of longman@redhat.com designates
- 205.139.110.61 as permitted sender) smtp.mailfrom=longman@redhat.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
+	 <20200413211550.8307-3-longman@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.34.1-2
+MIME-Version: 1.0
+X-Original-Sender: joe@perches.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=neutral
+ (google.com: 216.40.44.238 is neither permitted nor denied by best guess
+ record for domain of joe@perches.com) smtp.mailfrom=joe@perches.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -179,152 +153,44 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Since kfree_sensitive() will do an implicit memzero_explicit(), there
-is no need to call memzero_explicit() before it. Eliminate those
-memzero_explicit() and simplify the call sites.
+On Mon, 2020-04-13 at 17:15 -0400, Waiman Long wrote:
+> Since kfree_sensitive() will do an implicit memzero_explicit(), there
+> is no need to call memzero_explicit() before it. Eliminate those
+> memzero_explicit() and simplify the call sites.
 
-Signed-off-by: Waiman Long <longman@redhat.com>
----
- .../crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c  | 15 +++------------
- .../crypto/allwinner/sun8i-ss/sun8i-ss-cipher.c  | 16 +++-------------
- drivers/crypto/amlogic/amlogic-gxl-cipher.c      | 10 ++--------
- drivers/crypto/inside-secure/safexcel_hash.c     |  3 +--
- 4 files changed, 9 insertions(+), 35 deletions(-)
+2 bits of trivia:
 
-diff --git a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c
-index aa4e8fdc2b32..46c10c7ca6d0 100644
---- a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c
-+++ b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c
-@@ -366,10 +366,7 @@ void sun8i_ce_cipher_exit(struct crypto_tfm *tfm)
- {
- 	struct sun8i_cipher_tfm_ctx *op = crypto_tfm_ctx(tfm);
- 
--	if (op->key) {
--		memzero_explicit(op->key, op->keylen);
--		kfree(op->key);
--	}
-+	kfree_sensitive(op->key);
- 	crypto_free_sync_skcipher(op->fallback_tfm);
- 	pm_runtime_put_sync_suspend(op->ce->dev);
- }
-@@ -391,10 +388,7 @@ int sun8i_ce_aes_setkey(struct crypto_skcipher *tfm, const u8 *key,
- 		dev_dbg(ce->dev, "ERROR: Invalid keylen %u\n", keylen);
- 		return -EINVAL;
- 	}
--	if (op->key) {
--		memzero_explicit(op->key, op->keylen);
--		kfree(op->key);
--	}
-+	kfree_sensitive(op->key);
- 	op->keylen = keylen;
- 	op->key = kmemdup(key, keylen, GFP_KERNEL | GFP_DMA);
- 	if (!op->key)
-@@ -416,10 +410,7 @@ int sun8i_ce_des3_setkey(struct crypto_skcipher *tfm, const u8 *key,
- 	if (err)
- 		return err;
- 
--	if (op->key) {
--		memzero_explicit(op->key, op->keylen);
--		kfree(op->key);
--	}
-+	free_sensitive(op->key, op->keylen);
- 	op->keylen = keylen;
- 	op->key = kmemdup(key, keylen, GFP_KERNEL | GFP_DMA);
- 	if (!op->key)
-diff --git a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-cipher.c b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-cipher.c
-index 5246ef4f5430..7e09a923cbaf 100644
---- a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-cipher.c
-+++ b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-cipher.c
-@@ -249,7 +249,6 @@ static int sun8i_ss_cipher(struct skcipher_request *areq)
- 			offset = areq->cryptlen - ivsize;
- 			if (rctx->op_dir & SS_DECRYPTION) {
- 				memcpy(areq->iv, backup_iv, ivsize);
--				memzero_explicit(backup_iv, ivsize);
- 				kfree_sensitive(backup_iv);
- 			} else {
- 				scatterwalk_map_and_copy(areq->iv, areq->dst, offset,
-@@ -367,10 +366,7 @@ void sun8i_ss_cipher_exit(struct crypto_tfm *tfm)
- {
- 	struct sun8i_cipher_tfm_ctx *op = crypto_tfm_ctx(tfm);
- 
--	if (op->key) {
--		memzero_explicit(op->key, op->keylen);
--		kfree(op->key);
--	}
-+	kfree_sensitive(op->key);
- 	crypto_free_sync_skcipher(op->fallback_tfm);
- 	pm_runtime_put_sync(op->ss->dev);
- }
-@@ -392,10 +388,7 @@ int sun8i_ss_aes_setkey(struct crypto_skcipher *tfm, const u8 *key,
- 		dev_dbg(ss->dev, "ERROR: Invalid keylen %u\n", keylen);
- 		return -EINVAL;
- 	}
--	if (op->key) {
--		memzero_explicit(op->key, op->keylen);
--		kfree(op->key);
--	}
-+	kfree_sensitive(op->key);
- 	op->keylen = keylen;
- 	op->key = kmemdup(key, keylen, GFP_KERNEL | GFP_DMA);
- 	if (!op->key)
-@@ -418,10 +411,7 @@ int sun8i_ss_des3_setkey(struct crypto_skcipher *tfm, const u8 *key,
- 		return -EINVAL;
- 	}
- 
--	if (op->key) {
--		memzero_explicit(op->key, op->keylen);
--		kfree(op->key);
--	}
-+	kfree_sensitive(op->key);
- 	op->keylen = keylen;
- 	op->key = kmemdup(key, keylen, GFP_KERNEL | GFP_DMA);
- 	if (!op->key)
-diff --git a/drivers/crypto/amlogic/amlogic-gxl-cipher.c b/drivers/crypto/amlogic/amlogic-gxl-cipher.c
-index fd1269900d67..f424397fbba4 100644
---- a/drivers/crypto/amlogic/amlogic-gxl-cipher.c
-+++ b/drivers/crypto/amlogic/amlogic-gxl-cipher.c
-@@ -341,10 +341,7 @@ void meson_cipher_exit(struct crypto_tfm *tfm)
- {
- 	struct meson_cipher_tfm_ctx *op = crypto_tfm_ctx(tfm);
- 
--	if (op->key) {
--		memzero_explicit(op->key, op->keylen);
--		kfree(op->key);
--	}
-+	kfree_sensitive(op->key)
- 	crypto_free_sync_skcipher(op->fallback_tfm);
- }
- 
-@@ -368,10 +365,7 @@ int meson_aes_setkey(struct crypto_skcipher *tfm, const u8 *key,
- 		dev_dbg(mc->dev, "ERROR: Invalid keylen %u\n", keylen);
- 		return -EINVAL;
- 	}
--	if (op->key) {
--		memzero_explicit(op->key, op->keylen);
--		kfree(op->key);
--	}
-+	kfree_sensitive(op->key);
- 	op->keylen = keylen;
- 	op->key = kmemdup(key, keylen, GFP_KERNEL | GFP_DMA);
- 	if (!op->key)
-diff --git a/drivers/crypto/inside-secure/safexcel_hash.c b/drivers/crypto/inside-secure/safexcel_hash.c
-index 43962bc709c6..4a2d162914de 100644
---- a/drivers/crypto/inside-secure/safexcel_hash.c
-+++ b/drivers/crypto/inside-secure/safexcel_hash.c
-@@ -1081,8 +1081,7 @@ static int safexcel_hmac_init_pad(struct ahash_request *areq,
- 		}
- 
- 		/* Avoid leaking */
--		memzero_explicit(keydup, keylen);
--		kfree(keydup);
-+		kfree_sensitive(keydup);
- 
- 		if (ret)
- 			return ret;
--- 
-2.18.1
+> diff --git a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c
+[]
+> @@ -391,10 +388,7 @@ int sun8i_ce_aes_setkey(struct crypto_skcipher *tfm, const u8 *key,
+>  		dev_dbg(ce->dev, "ERROR: Invalid keylen %u\n", keylen);
+>  		return -EINVAL;
+>  	}
+> -	if (op->key) {
+> -		memzero_explicit(op->key, op->keylen);
+> -		kfree(op->key);
+> -	}
+> +	kfree_sensitive(op->key);
+>  	op->keylen = keylen;
+>  	op->key = kmemdup(key, keylen, GFP_KERNEL | GFP_DMA);
+>  	if (!op->key)
+
+It might be a defect to set op->keylen before the kmemdup succeeds.
+
+> @@ -416,10 +410,7 @@ int sun8i_ce_des3_setkey(struct crypto_skcipher *tfm, const u8 *key,
+>  	if (err)
+>  		return err;
+>  
+> -	if (op->key) {
+> -		memzero_explicit(op->key, op->keylen);
+> -		kfree(op->key);
+> -	}
+> +	free_sensitive(op->key, op->keylen);
+
+Why not kfree_sensitive(op->key) ?
+
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200413211550.8307-3-longman%40redhat.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/efd6ceb1f182aa7364e9706422768a1c1335aee4.camel%40perches.com.
