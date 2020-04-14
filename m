@@ -1,69 +1,147 @@
-Return-Path: <kasan-dev+bncBCXPLWNX5QLBBPGX2X2AKGQE7KZZYAY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCLI747UVAFRBCHK2X2AKGQEOMYETWQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oi1-x237.google.com (mail-oi1-x237.google.com [IPv6:2607:f8b0:4864:20::237])
-	by mail.lfdr.de (Postfix) with ESMTPS id 093F31A7534
-	for <lists+kasan-dev@lfdr.de>; Tue, 14 Apr 2020 09:52:30 +0200 (CEST)
-Received: by mail-oi1-x237.google.com with SMTP id z2sf9137905oid.13
-        for <lists+kasan-dev@lfdr.de>; Tue, 14 Apr 2020 00:52:29 -0700 (PDT)
+Received: from mail-ot1-x33c.google.com (mail-ot1-x33c.google.com [IPv6:2607:f8b0:4864:20::33c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 591D61A761F
+	for <lists+kasan-dev@lfdr.de>; Tue, 14 Apr 2020 10:32:09 +0200 (CEST)
+Received: by mail-ot1-x33c.google.com with SMTP id k19sf9995363otl.8
+        for <lists+kasan-dev@lfdr.de>; Tue, 14 Apr 2020 01:32:09 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1586853128; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=QytWhSo15wsfwvboXEwy2qquISzDCwp7ZcA63VzffgNABhkV0vQg1WxHDZE0yQfw34
+         0rAFeQfeujtSiheO8B6RY6PUtewpin0dHY7kpXyNYnzWj+cNzdhjpeBB9++oqLkpbYYM
+         EtpyVok959aUzB0I5kCkVxJBneG/pvVf5XjqWJxsEOsxuFOg0hmlTmtC/dyBpQv88TYX
+         HzsAltz8fL8M1jMuHcz72JdTNnq4ZfdkuycWoNaEukxHtXbuwqqAKW7zNhsQlqoUhz79
+         lrRN/kFkGmQ99N/A8TRqJ8vFzHhn3zIAqmxpQC/IdeE3L37Mk1W/DTZI2xRKpCSWcdBp
+         HrAw==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:content-language:in-reply-to
+         :mime-version:date:message-id:from:references:cc:to:subject:sender
+         :dkim-signature;
+        bh=V2TkFMWvQAvWO++kxV9faffbeJoNct79jeohnjYvez4=;
+        b=GaSijSTSw4/4VT5+I+HYFjhKQgj3dD9Ce9hEVsaWrcNUV8tCxxsCroKixzNWf6UZMP
+         7WEd1E0/yieOX1scP7nEiXJi6+LLmmCw0FL3sn2ISdc83XBWeCjfSvaFqQnzPjnEc0sn
+         zvoG4okTi9/jULgpaIBEbDrjaMzz+9vWWkY+bUlZvDU97oSz9WqnbZ5jmetJKxvu7pMf
+         eOX1kEtjLVVwu/d6F4tgfElqYjazhy3qVYKUw9TPSGo78/IEp4UZNaDODkcrx5B5RLuA
+         CtYQX9/rScP2SNKwYszEva1fHmIsNAMpAREOwoL/PmGAsn/zKrmx1Ih6ZU9DZGPxNfHS
+         FUVg==
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@zx2c4.com header.s=mail header.b=sx6IKJIx;
+       spf=pass (google.com: domain of jason@zx2c4.com designates 192.95.5.64 as permitted sender) smtp.mailfrom=Jason@zx2c4.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=zx2c4.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:date:from:to:message-id:subject:mime-version
-         :x-original-sender:precedence:mailing-list:list-id:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=A400BXwju2+RGEybaRvURqY7QBZ1uPSQzSHde+/NvkU=;
-        b=Jkxjkk1GeMx8ft2ki+rOE77n0nFwUWOZQ07uE3Y7mi/HlZwJ3yzDZ3xywK8dh/BjEH
-         FvRZgFgIl/cjNhMZtYEGo1Yu9XW5E97kkOsx09tzkDPLsZc07wj39UiyUo6k4iQGhi46
-         hyBmkXxTjgx1+S/AwRaqr1gU4FPgxEgu4QmcWRVd6svqsNxDcKnnp78/XBG5Nwj+zzQ8
-         i3T18a6gN8+LX2Uz9VRb6RQ/h33Syn19CKxI3vC5B9lg6s0c/YnZIBiu1rHKAfvdWxmH
-         2ElkN36kaC4BdS7oF4BaodQtqxP7fZfQQdWbN2gARcAx+5Qm2jlfWrpXQ1CjNJI4D+aK
-         /+bg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:message-id:subject:mime-version:x-original-sender
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=A400BXwju2+RGEybaRvURqY7QBZ1uPSQzSHde+/NvkU=;
-        b=ICgH3D9iIx/TebNUMpHhg8wUcORToPDj+XLT2K05Zoe2dKkLDd/zEuqPtzriPrzcL2
-         +ami3j5Bi86aj5Dp95OL1/1nIaWVnTyYXsVt10G5EbWgWJs8cHiSnB5p7hlVWCZ/CyT5
-         jFCOZmNTfejCgsTo9SQ4AM5SdWOPjHrfVrQX+ZK4ZCok/M4YGI/yC1YVoF1zybhQNYuy
-         oUuUWB49v0YbJT9/eVgq/uNy4Mv8SGjgEmgOWEJpWUBAmWs5BxVReCWOFEMBFVwcKhrx
-         nLlJqZujMrEUQmGvJUwOB9bFpA0wBCr6XMeo0omoWv0TBQH8NHFeS9wTM5RyFh2puIdS
-         MYFQ==
+        h=sender:subject:to:cc:references:from:message-id:date:mime-version
+         :in-reply-to:content-language:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=V2TkFMWvQAvWO++kxV9faffbeJoNct79jeohnjYvez4=;
+        b=J5ktHI1m97PY7w99ipcU10yB72d227JT/9+tbRqZxFys75tJn30SBBhFDXd/cFj4qI
+         zPgFtTR/+J8Hkwk2JbSoFp7E2mT9u43hMKetio3l4QL8ezS/1sIk3C7487c847PZotEn
+         B4hmtBa5/qUMkiVw2G2qDqp3+97nigxdTZ2+swbrMm96ACaQ5f9Y2w4xf5C9JZmkB27N
+         sN3yC0XuFm1kYE1GWvhq/wI1GUY4SuSpxwly5G45awiY8KJVPAxJJ0mSCp4Y/NQVX5Dk
+         5FUVw11tJnhgm7fywsSSgVyBY1XE7K39H6dIqW9+XGYfiIv4S8saZZKdeCvisZIguHBe
+         9EBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:date:from:to:message-id:subject
-         :mime-version:x-original-sender:precedence:mailing-list:list-id
+        h=sender:x-gm-message-state:subject:to:cc:references:from:message-id
+         :date:mime-version:in-reply-to:content-language:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=A400BXwju2+RGEybaRvURqY7QBZ1uPSQzSHde+/NvkU=;
-        b=NHwLl13vt4VGthePUCLdPlXiCi3rf+FAztFUixyiRhvYb8foNum/ualshNF7Wnxq+W
-         1J0mU4Jy8HGIeJ2stXp6H1oVMrwbZcGCXGi1I443RdqA7zAWOYRKqM5yjmzEeEgDth/h
-         275nQZN2JuzsAaFwqIrm3garYV/nfhWDzCJTqyhw/NlhIaZBOKm94nsEBpDPal3zFpoS
-         rd56b8qRGT6+eWl8g0da7YX5RfcjuRJQxwRoPd0ZTyfLslxnnqNuKL2GlxYXCzKoFD3H
-         ff+0j/2olRiaP+vaaavp0rIFXAUUwlrP9aTd6BwOTR8BvTqSKT8VDDJ/amFAGcDlyN4x
-         WP0w==
+        bh=V2TkFMWvQAvWO++kxV9faffbeJoNct79jeohnjYvez4=;
+        b=W3Ka9XMdmVCaDt502XmJD5pGDUsRZwlMvinTDMiHWcCcx7L+ZCaSm7gFZNdGHQJEqh
+         WtwXAbxNr5J3dHW9rQPco/KIcHB5/qPjkN7p55NBuKq1n5/xkcAYEDVx42vsijk+k24Q
+         5JWAU/gicj96U7P9EZ8voWnYBOuN8ZQDnjL8lKYBZSxw7j0fEp4eUu2l7KuyAhtW8uLe
+         V8l0SBUdajWv/9Ki93CP4izjU17O9YGiwtxZM1au/XusCNtoi0S9oMLCHn5Ia1JuP4Ys
+         KZXdq1DKa242iJa1kgAPmt9KNIkWm+jNFH179s5J6Tf5Q1/fGcJKl5PWPk3O5tCKP7dC
+         gxWw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AGi0PubsdChdoTu7mxIMvVGO4zoOSJcsB/31jEYDniiiO5ei2z/wWjMS
-	zi7r5W8TsuXUZQUPf8U5jgs=
-X-Google-Smtp-Source: APiQypIlZPwQ8TwcADIDMnWZaYgEG+zqT0SAxC1YFylCL3sKYpDf03q20ruB3JRQ8cLAJhDm7GQBvQ==
-X-Received: by 2002:a05:6830:13d5:: with SMTP id e21mr13865488otq.60.1586850748598;
-        Tue, 14 Apr 2020 00:52:28 -0700 (PDT)
+X-Gm-Message-State: AGi0PuYq3HgjEcMkFcbALbEorVg3sBJNZnIVymY5G3BqRnqNKHVEseJS
+	Q+tqRfn6fNpte6vKBnvM1Rw=
+X-Google-Smtp-Source: APiQypKbKi7/m75NtsUYFcVCs50qyBWBJ3yA+aAHgMRAWJvwghQAjSzVZH5PiCO0G43T+VSqbyH0SQ==
+X-Received: by 2002:aca:5e0b:: with SMTP id s11mr13902664oib.111.1586853128321;
+        Tue, 14 Apr 2020 01:32:08 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a4a:3745:: with SMTP id r66ls146488oor.10.gmail; Tue, 14 Apr
- 2020 00:52:28 -0700 (PDT)
-X-Received: by 2002:a4a:b141:: with SMTP id e1mr17455655ooo.54.1586850748154;
-        Tue, 14 Apr 2020 00:52:28 -0700 (PDT)
-Date: Tue, 14 Apr 2020 00:52:26 -0700 (PDT)
-From: Best Pharmacure <bestpharmacure@gmail.com>
-To: kasan-dev <kasan-dev@googlegroups.com>
-Message-Id: <2591d947-3667-47f9-9264-1d83498154f7@googlegroups.com>
-Subject: Diazepam for sale | Buy xanax online | Alprazolam for sale | Buy
- Adderall online | Buy opana online | oxycondon for sale
+Received: by 2002:a4a:3745:: with SMTP id r66ls152058oor.10.gmail; Tue, 14 Apr
+ 2020 01:32:08 -0700 (PDT)
+X-Received: by 2002:a4a:55d8:: with SMTP id e207mr17554187oob.37.1586853127951;
+        Tue, 14 Apr 2020 01:32:07 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1586853127; cv=none;
+        d=google.com; s=arc-20160816;
+        b=ZcS+29QUTBdGDgRpjZJ/RSUZGNmioXDBlIjO4c55Sb+Iywjl8H7QA0CqHhOQEUlrY0
+         4DuCEb0BDX2JaTKYtm33HzQEHkFNjcdRaNMIqXr0MmIDK0dv/X2PK5rc5/hl5zrcvSKO
+         4hyxVFhfWlbQQgTFmNrnmxfZb4qY9emYKzxhQNNoNUA4nk0oAJgdx0BJGZ0M6dDBarSr
+         YMCgZVusjTTAUQGOQHBSGysv1qKZwcApVM7KY2Ydry4OFsFAvE8yfy7vlP3xrpuKTXHm
+         rm8RmaJkulhTi7rI2tIXs97pTFk8Bati8XXQDeAsGabtzWyd9LY/rbZ3LU/Z2gW5GAAs
+         hilQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :date:message-id:from:references:cc:to:subject:dkim-signature;
+        bh=UKQsCwENnNIEAuJXvQ/tW8fkmNjG5WmayzQXfCLs/i4=;
+        b=RdcJhV4DTuCJLOv6ZuZGLRYRAq6R5C2HcSRtbwnUF31kSsHaPuz6xqz0PqcKOAenOt
+         l3sfn96f43e0KO2F3d4k3oAKVBoN9LTrSYwgKmekjVqw/GGoWOPhprDZE8kR17gylXAF
+         bXCiouSb0SVbSy3vIwSO6jIvPQVW6OncCIk0za/78B8Io/aOBpNDpoe9u2M04Zp5SY62
+         iFZbRPx6gApn6do2rNoRSXkQ2O7SXAhtc4xrn8mHiMu+oDYihQX6dxQk5yEuD0In28PQ
+         SNkNhhgDMj4r3HUF0l/o1rk/OTVJ2l1v8WF5ox5SWM+9xZ20rbTFglBYa6RaZbYqAc5B
+         GAsQ==
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       dkim=pass header.i=@zx2c4.com header.s=mail header.b=sx6IKJIx;
+       spf=pass (google.com: domain of jason@zx2c4.com designates 192.95.5.64 as permitted sender) smtp.mailfrom=Jason@zx2c4.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=zx2c4.com
+Received: from mail.zx2c4.com (mail.zx2c4.com. [192.95.5.64])
+        by gmr-mx.google.com with ESMTPS id m14si265235otn.5.2020.04.14.01.32.07
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Apr 2020 01:32:07 -0700 (PDT)
+Received-SPF: pass (google.com: domain of jason@zx2c4.com designates 192.95.5.64 as permitted sender) client-ip=192.95.5.64;
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTP id 9d220a78;
+	Tue, 14 Apr 2020 08:22:18 +0000 (UTC)
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id e4f42b92 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+	Tue, 14 Apr 2020 08:22:18 +0000 (UTC)
+Subject: Re: [PATCH 1/2] mm, treewide: Rename kzfree() to kfree_sensitive()
+To: Waiman Long <longman@redhat.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ David Howells <dhowells@redhat.com>,
+ Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
+ James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>, Joe Perches
+ <joe@perches.com>, Matthew Wilcox <willy@infradead.org>,
+ David Rientjes <rientjes@google.com>
+Cc: linux-mm@kvack.org, keyrings@vger.kernel.org,
+ linux-kernel@vger.kernel.org, x86@kernel.org, linux-crypto@vger.kernel.org,
+ linux-s390@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+ virtualization@lists.linux-foundation.org, netdev@vger.kernel.org,
+ intel-wired-lan@lists.osuosl.org, linux-ppp@vger.kernel.org,
+ wireguard@lists.zx2c4.com, linux-wireless@vger.kernel.org,
+ devel@driverdev.osuosl.org, linux-scsi@vger.kernel.org,
+ target-devel@vger.kernel.org, linux-btrfs@vger.kernel.org,
+ linux-cifs@vger.kernel.org, samba-technical@lists.samba.org,
+ linux-fscrypt@vger.kernel.org, ecryptfs@vger.kernel.org,
+ kasan-dev@googlegroups.com, linux-bluetooth@vger.kernel.org,
+ linux-wpan@vger.kernel.org, linux-sctp@vger.kernel.org,
+ linux-nfs@vger.kernel.org, tipc-discussion@lists.sourceforge.net,
+ cocci@systeme.lip6.fr, linux-security-module@vger.kernel.org,
+ linux-integrity@vger.kernel.org
+References: <20200413211550.8307-1-longman@redhat.com>
+ <20200413211550.8307-2-longman@redhat.com>
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Message-ID: <4babf834-c531-50ba-53f6-e88410b15ce3@zx2c4.com>
+Date: Tue, 14 Apr 2020 02:32:03 -0600
 MIME-Version: 1.0
-Content-Type: multipart/mixed; 
-	boundary="----=_Part_1780_1880757908.1586850746425"
-X-Original-Sender: bestpharmacure@gmail.com
+In-Reply-To: <20200413211550.8307-2-longman@redhat.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Language: en-US
+X-Original-Sender: jason@zx2c4.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@zx2c4.com header.s=mail header.b=sx6IKJIx;       spf=pass
+ (google.com: domain of jason@zx2c4.com designates 192.95.5.64 as permitted
+ sender) smtp.mailfrom=Jason@zx2c4.com;       dmarc=pass (p=NONE sp=NONE
+ dis=NONE) header.from=zx2c4.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -76,158 +154,48 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-------=_Part_1780_1880757908.1586850746425
-Content-Type: multipart/alternative; 
-	boundary="----=_Part_1781_239349039.1586850746425"
+On 4/13/20 3:15 PM, Waiman Long wrote:
+> As said by Linus:
+> 
+>    A symmetric naming is only helpful if it implies symmetries in use.
+>    Otherwise it's actively misleading.
+> 
+>    In "kzalloc()", the z is meaningful and an important part of what the
+>    caller wants.
+> 
+>    In "kzfree()", the z is actively detrimental, because maybe in the
+>    future we really _might_ want to use that "memfill(0xdeadbeef)" or
+>    something. The "zero" part of the interface isn't even _relevant_.
+> 
+> The main reason that kzfree() exists is to clear sensitive information
+> that should not be leaked to other future users of the same memory
+> objects.
+> 
+> Rename kzfree() to kfree_sensitive() to follow the example of the
+> recently added kvfree_sensitive() and make the intention of the API
+> more explicit. 
 
-------=_Part_1781_239349039.1586850746425
-Content-Type: text/plain; charset="UTF-8"
+Seems reasonable to me. One bikeshed, that you can safely discard and 
+ignore as a mere bikeshed: kfree_memzero or kfree_scrub or 
+kfree_{someverb} seems like a better function name, as it describes what 
+the function does, rather than "_sensitive" that suggests something 
+about the data maybe but who knows what that entails. If you disagree, 
+not a big deal either way.
 
-https://bestpharmacure.com/product/ecstasy-mdma-pills-online/
-https://bestpharmacure.com/product/alprazolam-2mg-for-sale/
-Hello we are leading suppliers of pharmaceutical product meds online we 
-operate on daily and retails basis and very reliable and our product are 
-100% top quality am ready to supply on large and smaller orders and i am 
-looking in building a strong business relationship with potential client 
-around the world i do world wide delivery and delivery is guarantee.
- pm us or you can get on  whatsapp.
+ > In addition, memzero_explicit() is used to clear the
+ > memory to make sure that it won't get optimized away by the compiler.
 
-Whatsapp:+1(213)-973-8297
-Email....sales@bestpharmacure.com
-
-<a href="https://www.bestpharmacure.com/" rel="dofollow">ECSTASY (MDMA) 
-pills online</a>
-<a href="https://www.bestpharmacure.com/" rel="dofollow">buy vien giam 
-can</a>
-<a href="https://www.bestpharmacure.com/" rel="dofollow">obesitrol for 
-sale</a>
-<a href="https://www.bestpharmacure.com/" rel="dofollow">buy lipo blast 
-weight loss online</a>
-<a href="https://www.bestpharmacure.com/" rel="dofollow">fat burner for 
-sale</a>
-<a href="https://www.bestpharmacure.com/" rel="dofollow">buy oxycotin 
-online</a>
-<a href="https://www.bestpharmacure.com/" rel="dofollow">oxycotin for 
-sale</a>
-<a href="https://www.bestpharmacure.com/" rel="dofollow">oxycodone for 
-sale</a>
-<a href="https://www.bestpharmacure.com/" rel="dofollow">order ibuprofen</a>
-<a href="https://www.bestpharmacure.com/" rel="dofollow">buy lyrica 
-online</a>
-<a href="https://www.bestpharmacure.com/" rel="dofollow">opana for sale</a>
-<a href="https://www.bestpharmacure.com/" rel="dofollow">buy 
-Abstral-Sublingual</a>
-<a href="https://www.bestpharmacure.com/" rel="dofollow">buy adderall 
-online</a>
-<a href="https://www.bestpharmacure.com/" rel="dofollow">Buspirone for 
-sale</a>
-<a href="https://www.bestpharmacure.com/" rel="dofollow">Buy Citalopram</a>
-<a href="https://www.bestpharmacure.com/" rel="dofollow">Desyrel for 
-sale</a>
-<a href="https://www.bestpharmacure.com/" rel="dofollow">buy diazepam 
-online</a>
-<a href="https://www.bestpharmacure.com/" rel="dofollow">escitalopram for 
-sale</a>
-<a href="https://www.bestpharmacure.com/" rel="dofollow">buy fluoxetine</a>
-<a href="https://www.bestpharmacure.com/" rel="dofollow">where to buy 
-Escitalopram-Lexapro</a>
-<a href="https://www.bestpharmacure.com/" rel="dofollow">buy morphine 
-online</a>
-<a href="https://www.bestpharmacure.com/" rel="dofollow">paroxetine for 
-sale</a>
-<a href="https://www.bestpharmacure.com/" rel="dofollow">buy Tramadol</a>
-<a href="https://www.bestpharmacure.com/" rel="dofollow">Tramadol for 
-sale</a>
-<a href="https://www.bestpharmacure.com/" rel="dofollow">buy Rozerem</a>
-<a href="https://www.bestpharmacure.com/" rel="dofollow">cheap Prosom for 
-sale</a>
-<a href="https://www.bestpharmacure.com/" rel="dofollow">buy cheap 
-Pregabalin</a>
-<a href="https://www.bestpharmacure.com/" rel="dofollow">order Silenor</a>
-<a href="https://www.bestpharmacure.com/" rel="dofo
+This had occurred to me momentarily a number of years ago, but I was 
+under the impression that the kernel presumes extern function calls to 
+always imply a compiler barrier, making it difficult for the compiler to 
+reason about what happens in/after kfree, in order to be able to 
+optimize out the preceding memset. With LTO, that rule obviously 
+changes. I guess new code should be written with cross-object 
+optimizations in mind now a days? [Meanwhile, it would be sort of 
+interesting to teach gcc about kfree to enable additional scary 
+optimizations...]
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/2591d947-3667-47f9-9264-1d83498154f7%40googlegroups.com.
-
-------=_Part_1781_239349039.1586850746425
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>https://bestpharmacure.com/product/ecstasy-mdma-pills=
--online/</div><div>https://bestpharmacure.com/product/alprazolam-2mg-for-sa=
-le/</div><div>Hello we are leading suppliers of pharmaceutical product meds=
- online we operate on daily and retails basis and very reliable and our pro=
-duct are 100% top quality am ready to supply on large and smaller orders an=
-d i am looking in building a strong business relationship with potential cl=
-ient around the world i do world wide delivery and delivery is guarantee.</=
-div><div>=C2=A0pm us or you can get on=C2=A0 whatsapp.</div><div><br></div>=
-<div>Whatsapp:+1(213)-973-8297</div><div>Email....sales@bestpharmacure.com<=
-/div><div><br></div><div>&lt;a href=3D&quot;https://www.bestpharmacure.com/=
-&quot; rel=3D&quot;dofollow&quot;&gt;ECSTASY (MDMA) pills online&lt;/a&gt;<=
-/div><div>&lt;a href=3D&quot;https://www.bestpharmacure.com/&quot; rel=3D&q=
-uot;dofollow&quot;&gt;buy vien giam can&lt;/a&gt;</div><div>&lt;a href=3D&q=
-uot;https://www.bestpharmacure.com/&quot; rel=3D&quot;dofollow&quot;&gt;obe=
-sitrol for sale&lt;/a&gt;</div><div>&lt;a href=3D&quot;https://www.bestphar=
-macure.com/&quot; rel=3D&quot;dofollow&quot;&gt;buy lipo blast weight loss =
-online&lt;/a&gt;</div><div>&lt;a href=3D&quot;https://www.bestpharmacure.co=
-m/&quot; rel=3D&quot;dofollow&quot;&gt;fat burner for sale&lt;/a&gt;</div><=
-div>&lt;a href=3D&quot;https://www.bestpharmacure.com/&quot; rel=3D&quot;do=
-follow&quot;&gt;buy oxycotin online&lt;/a&gt;</div><div>&lt;a href=3D&quot;=
-https://www.bestpharmacure.com/&quot; rel=3D&quot;dofollow&quot;&gt;oxycoti=
-n for sale&lt;/a&gt;</div><div>&lt;a href=3D&quot;https://www.bestpharmacur=
-e.com/&quot; rel=3D&quot;dofollow&quot;&gt;oxycodone for sale&lt;/a&gt;</di=
-v><div>&lt;a href=3D&quot;https://www.bestpharmacure.com/&quot; rel=3D&quot=
-;dofollow&quot;&gt;order ibuprofen&lt;/a&gt;</div><div>&lt;a href=3D&quot;h=
-ttps://www.bestpharmacure.com/&quot; rel=3D&quot;dofollow&quot;&gt;buy lyri=
-ca online&lt;/a&gt;</div><div>&lt;a href=3D&quot;https://www.bestpharmacure=
-.com/&quot; rel=3D&quot;dofollow&quot;&gt;opana for sale&lt;/a&gt;</div><di=
-v>&lt;a href=3D&quot;https://www.bestpharmacure.com/&quot; rel=3D&quot;dofo=
-llow&quot;&gt;buy Abstral-Sublingual&lt;/a&gt;</div><div>&lt;a href=3D&quot=
-;https://www.bestpharmacure.com/&quot; rel=3D&quot;dofollow&quot;&gt;buy ad=
-derall online&lt;/a&gt;</div><div>&lt;a href=3D&quot;https://www.bestpharma=
-cure.com/&quot; rel=3D&quot;dofollow&quot;&gt;Buspirone for sale&lt;/a&gt;<=
-/div><div>&lt;a href=3D&quot;https://www.bestpharmacure.com/&quot; rel=3D&q=
-uot;dofollow&quot;&gt;Buy Citalopram&lt;/a&gt;</div><div>&lt;a href=3D&quot=
-;https://www.bestpharmacure.com/&quot; rel=3D&quot;dofollow&quot;&gt;Desyre=
-l for sale&lt;/a&gt;</div><div>&lt;a href=3D&quot;https://www.bestpharmacur=
-e.com/&quot; rel=3D&quot;dofollow&quot;&gt;buy diazepam online&lt;/a&gt;</d=
-iv><div>&lt;a href=3D&quot;https://www.bestpharmacure.com/&quot; rel=3D&quo=
-t;dofollow&quot;&gt;escitalopram for sale&lt;/a&gt;</div><div>&lt;a href=3D=
-&quot;https://www.bestpharmacure.com/&quot; rel=3D&quot;dofollow&quot;&gt;b=
-uy fluoxetine&lt;/a&gt;</div><div>&lt;a href=3D&quot;https://www.bestpharma=
-cure.com/&quot; rel=3D&quot;dofollow&quot;&gt;where to buy Escitalopram-Lex=
-apro&lt;/a&gt;</div><div>&lt;a href=3D&quot;https://www.bestpharmacure.com/=
-&quot; rel=3D&quot;dofollow&quot;&gt;buy morphine online&lt;/a&gt;</div><di=
-v>&lt;a href=3D&quot;https://www.bestpharmacure.com/&quot; rel=3D&quot;dofo=
-llow&quot;&gt;paroxetine for sale&lt;/a&gt;</div><div>&lt;a href=3D&quot;ht=
-tps://www.bestpharmacure.com/&quot; rel=3D&quot;dofollow&quot;&gt;buy Trama=
-dol&lt;/a&gt;</div><div>&lt;a href=3D&quot;https://www.bestpharmacure.com/&=
-quot; rel=3D&quot;dofollow&quot;&gt;Tramadol for sale&lt;/a&gt;</div><div>&=
-lt;a href=3D&quot;https://www.bestpharmacure.com/&quot; rel=3D&quot;dofollo=
-w&quot;&gt;buy Rozerem&lt;/a&gt;</div><div>&lt;a href=3D&quot;https://www.b=
-estpharmacure.com/&quot; rel=3D&quot;dofollow&quot;&gt;cheap Prosom for sal=
-e&lt;/a&gt;</div><div>&lt;a href=3D&quot;https://www.bestpharmacure.com/&qu=
-ot; rel=3D&quot;dofollow&quot;&gt;buy cheap Pregabalin&lt;/a&gt;</div><div>=
-&lt;a href=3D&quot;https://www.bestpharmacure.com/&quot; rel=3D&quot;dofoll=
-ow&quot;&gt;order Silenor&lt;/a&gt;</div><div>&lt;a href=3D&quot;https://ww=
-w.bestpharmacure.com/&quot; rel=3D&quot;dofo</div></div>
-
-<p></p>
-
--- <br />
-You received this message because you are subscribed to the Google Groups &=
-quot;kasan-dev&quot; group.<br />
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
-+unsubscribe@googlegroups.com</a>.<br />
-To view this discussion on the web visit <a href=3D"https://groups.google.c=
-om/d/msgid/kasan-dev/2591d947-3667-47f9-9264-1d83498154f7%40googlegroups.co=
-m?utm_medium=3Demail&utm_source=3Dfooter">https://groups.google.com/d/msgid=
-/kasan-dev/2591d947-3667-47f9-9264-1d83498154f7%40googlegroups.com</a>.<br =
-/>
-
-------=_Part_1781_239349039.1586850746425--
-
-------=_Part_1780_1880757908.1586850746425--
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/4babf834-c531-50ba-53f6-e88410b15ce3%40zx2c4.com.
