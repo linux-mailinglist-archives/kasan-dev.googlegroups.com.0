@@ -1,165 +1,130 @@
-Return-Path: <kasan-dev+bncBCPILY4NUAFBBXWH272AKGQEDKZDW3I@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBUPP272AKGQECK4BXEA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ot1-x33b.google.com (mail-ot1-x33b.google.com [IPv6:2607:f8b0:4864:20::33b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 785D11A849C
-	for <lists+kasan-dev@lfdr.de>; Tue, 14 Apr 2020 18:25:03 +0200 (CEST)
-Received: by mail-ot1-x33b.google.com with SMTP id a21sf425000oto.15
-        for <lists+kasan-dev@lfdr.de>; Tue, 14 Apr 2020 09:25:03 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1586881502; cv=pass;
+Received: from mail-il1-x13b.google.com (mail-il1-x13b.google.com [IPv6:2607:f8b0:4864:20::13b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A18A1A87F0
+	for <lists+kasan-dev@lfdr.de>; Tue, 14 Apr 2020 19:50:11 +0200 (CEST)
+Received: by mail-il1-x13b.google.com with SMTP id m2sf776808ilb.21
+        for <lists+kasan-dev@lfdr.de>; Tue, 14 Apr 2020 10:50:10 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1586886610; cv=pass;
         d=google.com; s=arc-20160816;
-        b=xp3NomjuCcHy6nrJ7Klt3yKN6Sw+0lem8VeMb69sGFBYO7dyTd5OGe3h0CIvhosbZk
-         J6LJG7b/O3XjH+tZdTYg/uamVlvfM8VuxZIBL/Hj8RJzuF/wGI7HMGG04K5WQJPhCXMK
-         AvmkCr8mR31OEABarlz/3Nxlro/HmYblREZNjdICuBY99rlfJXYL1sVEeX+Wjmxn1TyO
-         yPY/9gjS+7snAbuNsSV9xbUJOx/Lt7bMvs4IHq6F/ohnY0Ej9zsmt3Qb/pwDmCEJ+xwz
-         GTqeae+n4K3NRxUWTufgb1tOBJEjW6Dr5b83FfpVoSB783gZIRg15ruS1rAlAWZs/UXq
-         tgBA==
+        b=vj/XUZhdeeFKQwJ6s+N19SRwk49yK9QslwKkTDZm0EwcM/+UqohyBpQ0dKc6sl1zmh
+         cZV7AB0yzt9Wjua5RwBVsW9l/9ZfzumNkzIsS5wtruUQjnHULmdhPqdEok37qkO4v7V1
+         lHv7IJGT6ywnL7xI1TfrJS4BUfgCc29WMWYdbTuk524jZ7fC0wOzmMEYIdtrV5FmeBxs
+         jhkXmm0crakSpJT8oFvRO30WDY2LKv/GjiFuxegI3HnuX6uEwGPimuZ4jlHcXMjNnL5Q
+         Ke3Uzw/SAQybk9yKVwtT1PjHRJjoZPY8LaBXNuNOvpNJOjE/ewotn0F4Zn4Z0YCW9j2T
+         ZU/g==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding
-         :content-language:in-reply-to:mime-version:user-agent:date
-         :message-id:organization:from:references:cc:to:subject:sender
-         :dkim-signature;
-        bh=FH+RFvqaQ2VCwSZ5b5ZrG/4EPR4cQ5lMACYkryNTWGU=;
-        b=FUgLPqPp2tI9nT66ee2OFhdjR41kVc8NPQrlnLZJ1OiTVBda86Cv4/3Qq2VXbJDLiO
-         OdJ9dIH1wjMmbIkfPgoW77Jx5FZbwf0D/kEk8g95FgVDdza2EjtO5vxTygCE6Hth5ryz
-         kOgaIjOZZ9QMnQs92sh9VMUUEvJAYf+DMQQ6TRowq9yNJoyyuRKxQebzH633gFDKF9Wv
-         eoludwLqsW0fsIDDcrA1XzPP2Os6mdEMPlAEvXmNBnI4nAmVleDFJCgIdJwyh6vkUMrr
-         RjaYkDmsDawb/dlYmFDsBGeVPn+FV0GRjSf4S6JTSMAqGzPjpKsM/U9W0R8VLCcmSebO
-         cL1Q==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=ByvjQ6jiBJDw5SxlZrCj+YrJg5ZgQI1BhL4/xFHfWz0=;
+        b=EgU+wekiVJ7aSu4/5Z8jCpyXtSwIChl+FIKlomfShtQImtRsFumCqcSMXX7H8MgTq0
+         Jr5IyyHtwtK0d4v5TqKFHrwItb5GOCG96g0APSnkA2p/lYVst5xGuvWK/AFP8A2lB73W
+         vdJJuARKL4BRI0xptaAYr/bst3F0EtgSXzRQs88JvgeAYQBz1I8QQwQXfKs+yp3YDgnI
+         HNyK8r03ce6VybRPWFiuVuv4Dk+ZQKWAKlxFhqCKl0HeXdqKLzf0hegSu71LLDz1YE7I
+         P6Bkfoj18WOwo9/T8JsBGAwNNdqsv2iuMnOep8f8JHW2Z8ZoDtwjHM3ERcv2xlcuslht
+         iIvw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=NsgcQPq0;
-       spf=pass (google.com: domain of longman@redhat.com designates 207.211.31.120 as permitted sender) smtp.mailfrom=longman@redhat.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
+       dkim=pass header.i=@google.com header.s=20161025 header.b=UAMvKl7x;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::244 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:subject:to:cc:references:from:organization:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=FH+RFvqaQ2VCwSZ5b5ZrG/4EPR4cQ5lMACYkryNTWGU=;
-        b=W6nLf5VW59lP99TgP672hbF3XtETJs2tdv66wCDAwy7kDvJ4HKRpcgliVeEmWShScx
-         7o8X0xVh61vuPfLYGnoG7e/DiGik8z3dg280PLWxKTAywrq9HPfSW4KuQnVfzIZztYmA
-         3gL77Y2trQixJTOuqIgSDcXhlvyXJ/fbJtnSqHg0bRQ975NfMJxlWbZnnZETGvXMa1In
-         JU6QwHCsB19s2jmSFzIaEb45/QaVPexsYIMvk3+E/yqOqeE0/Z9uUI9VMwynUt//B+NO
-         TOnCcfUVD/LMPlHerR7rmVfKxnxYfGpAA6e9kMEqOM97fbQwSF8g8OpgfVRcFfg57BdJ
-         7yyA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=ByvjQ6jiBJDw5SxlZrCj+YrJg5ZgQI1BhL4/xFHfWz0=;
+        b=XWJ2Uh/U/LuETWIl8lG0vOvCdNhOcG8xs7VFBkscVvm+n/7393eadWaqXPJHkcVXrP
+         AeBiUeLwNDOrDL4r6Wvur7jem+iAOZq95hzHQNO8Si6dx4OgqdbuqUSxOE4Wbn/eTm+M
+         jGqhtEUBUAcEBaM19vo9MUv0E9k33RWxKPkc3c6i6RvCuwBYaYA4PQkL3O5MKPq6m1WV
+         wqOpibTcG5XdkWWYeA17FrquFhkRphWEVVzADdZlXZ6eWxFMkVzR7JAmQZqOEfYov9Bz
+         /98frj1YeJi1CJ6dVqA3QbfpbUBBfmqBKWHHlne6cmP4uzeIJquBrvpVEk0mJnQ27mCS
+         CGag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:subject:to:cc:references:from
-         :organization:message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=FH+RFvqaQ2VCwSZ5b5ZrG/4EPR4cQ5lMACYkryNTWGU=;
-        b=A+H5z5RTZ4WbSKMG6kJTnXeLZhWSJ6Rva45E4LX/M+7SG0cSUIDygcoMxzQBUjfBbS
-         nAF6+pfCr654YZ+wnKAkoeBjhTA+5Zia90Bn7ZxkGHhn48AFPYbaxE6Ot6YxJg9uUUyJ
-         ktcRpK+YLHD/TnR6zaPOQ+9PZPxt9AEb71j8aJvuqo3QpvtgMF8UVzEQRWaOq+4d/Xg+
-         wETWkry5jsJhzVFdjPuD/hHdD5lYMCYxR0YvmHFDaJQfsszpL/xm+4P7dJAnkbCBs/Of
-         qgwn8/qRHbzjtZfJBV16Q64qhNEgUemuj6En8Dgt4JbN1HKoQ8t5vEXlkyEK304YUZEo
-         p5Cg==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AGi0PuYdHHKVC392bjuOT0AAUbk6JfGAJX2qCuyHx327kDXrr4dStWDP
-	ZJ/1YafS12S8BvP9c21dbQ4=
-X-Google-Smtp-Source: APiQypJa/j8GFG9dlGFF8hU/aIMXqVFwXIo3E6sktQGKMJmohKca6ytyJLjwXtyE16u8f+97+cPGpQ==
-X-Received: by 2002:a05:6830:1453:: with SMTP id w19mr2475671otp.230.1586881502155;
-        Tue, 14 Apr 2020 09:25:02 -0700 (PDT)
+        bh=ByvjQ6jiBJDw5SxlZrCj+YrJg5ZgQI1BhL4/xFHfWz0=;
+        b=pK9mrCAX9YcoBl/aPAqoBEatp48ciSRaxwIx75j5SGstD7Bwg0vVjXKHf09q2zD90P
+         uqGVpTuPU2fRaSOg+1BpKjOGssyJXYad/MoU8Bmprqb+7BMAq/pwnxVgIgnk7BF6Sojx
+         uz+Oz/QzmUKw0dxVuozxJ6tW6Dwk91ieZ7tGcV9ldHdYXTgpy3DHmlJvySVmYmbVVv9U
+         i7l8yuGA02FxVZoKotJaS5V3bZ5JEsra1CSdirJti7Gz/ciJI3qVL7H+ziEAyJTyMFMx
+         dr3wDotCNqcAmMYHmEr34FkINyB8hQ3+npZGiV90ftMuy6gwdsdAi7atkj8YVwvG4Wbl
+         gd/w==
+X-Gm-Message-State: AGi0PuajxM/VdYsddZuTEd9HFzMpa6l/sh6Ck2qi34flt88yG2bZLJmm
+	B0LDMVnwl9q/2oKUoSwoUls=
+X-Google-Smtp-Source: APiQypLm6JrRobupOojE6gE90cwXyyHqzS/c6FUQzwyfLJxJSdDj7mydxJ03PwHmvn1b7kdZ867FZQ==
+X-Received: by 2002:a02:3b50:: with SMTP id i16mr6088660jaf.39.1586886609921;
+        Tue, 14 Apr 2020 10:50:09 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a9d:3b23:: with SMTP id z32ls913829otb.1.gmail; Tue, 14 Apr
- 2020 09:25:01 -0700 (PDT)
-X-Received: by 2002:a9d:2056:: with SMTP id n80mr20117902ota.281.1586881501755;
-        Tue, 14 Apr 2020 09:25:01 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1586881501; cv=none;
+Received: by 2002:a5d:8ac3:: with SMTP id e3ls1258280iot.10.gmail; Tue, 14 Apr
+ 2020 10:50:09 -0700 (PDT)
+X-Received: by 2002:a6b:e519:: with SMTP id y25mr6168748ioc.97.1586886609564;
+        Tue, 14 Apr 2020 10:50:09 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1586886609; cv=none;
         d=google.com; s=arc-20160816;
-        b=mSRAlw0vpOe4tSneKrXSfH6StWn3cqkc9qTOEgBamjSFWASQp+/HrNQuah69fKyWlT
-         HbXtJgaPslZDQRoNU6PI4ZXmhHkooXpKDX0D6ILG6KlfXCX63ZH20Vdi/ZdA2CZyk9RP
-         cZiijTZvas6ZOi8P3KEMcX9TSqxSMfJgWTCWgj62UIs1+Iu4I7uFwwHtTFDjWhxY+s7S
-         hQpNzj8JSumNRh3q82eDY08o/1QkoRHeBF29ahbBI3iHrEenz3NrUdC2Cog7+Ki1tqPR
-         Qr3ZWE2oGupf7BkyNHLw8soyNAQFa4bHUEHGqsGEOXx9ebTZqp0SGnK/qmRpjX2xK4xs
-         wTxw==
+        b=rxJRD+FO+NYcJEftWKAQKmEFAL//b5xvnm6QkdNlkI0Hr2L+bLtl/FWpnL7hbPmkPc
+         x5/FnLFB5bWIe4CGAs2OoK8rzAUpzROVzF3UdrN+cWyLXW6NzrG+qgoocIqy6ijFxgk6
+         djvzQuaUzm+/+Gc1x6hRA9okTSxe4Nzv0KfGBgSQ3zQ8gJEJmDMdYtZz27to+rnUOPZW
+         +04/LTxYZRHcGtUUY5MdnOQIGiXJJ7ZBnlqe6OJ9SZoiYyeUwrln1bm9nolSm39rpZ6J
+         I4HolCvCfoULZN+FfBCY/mIlPKcXLfjTSOIPr+ALOX/xzHxKAceam0S/FBEnK6EGMw7T
+         yzfA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:organization:from:references:cc:to
-         :subject:dkim-signature;
-        bh=yW8t58m2bp1NhazlqC7/k8J+nPWsrZBYDWUsjTyk2qQ=;
-        b=pLzNSaURJvduk3jjzijJNR4ERB/Li/Z5To/dURkWUwEYgdxB2yoq54FADvaHeyTrBe
-         57PKnuG83YyVpYeTaVNZsZ2E9keO1Aya9BSh4rV8zJKBVdUtTIZsyK6SjeIyGc3llBQz
-         ju2Pv7mhCAtd1G71pOvUv6XM4UaF5rlblm5aGRNxc9bdxo9fEyYsgBuYW6WuK0RvSJTb
-         5XCqMrMz3kLpf0jp4mLUgoErHM1oFikMxOSqysKxQNcVhd3C66R2BnOocyXUBsQJqVGI
-         FyWPbohbdvG9PrhYqWMJEI8GIHX/zayMC4ZbYs4Pqz/E2zSQROe25PEBsxcMK/7Ywk2Q
-         tXiA==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=TEcf9WnegdoS4TK74rJ3jgH/4y0s3Rie/mbgUIU1/FE=;
+        b=iPWyCQ5sCvAZ82txtqr6PlGhTBU9JbwjES2BSXEcKxsQ+gJyam9xR9aLQO7Rvc3cmD
+         EyEpTeT/yv667FlGO35zJf94QtOtTRiwYrttSrttNHWPeA/H+hPaq0FV9PADm9WNxLT1
+         SpwamGD/QGTS+K3FCGOT/YBXPpj53Oee09rY0mUXWDKu6A7f6TrSEeisKTAvXzYBcFtW
+         6TDeL7UOjn+xgCklyT15TqIVENumE9ifbbZ9yXANF0fY105Vo9E1t6OAmC2xJFCAE/a6
+         2+nl3R7MQ9gcSSobnM9nLRIjjbY+LccDMH9JScDDioDOuzmzS32CAs+z6h/enb+5oF87
+         KeEw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=NsgcQPq0;
-       spf=pass (google.com: domain of longman@redhat.com designates 207.211.31.120 as permitted sender) smtp.mailfrom=longman@redhat.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com. [207.211.31.120])
-        by gmr-mx.google.com with ESMTPS id f7si792366oti.0.2020.04.14.09.25.01
+       dkim=pass header.i=@google.com header.s=20161025 header.b=UAMvKl7x;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::244 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com. [2607:f8b0:4864:20::244])
+        by gmr-mx.google.com with ESMTPS id o12si1486057iov.3.2020.04.14.10.50.09
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 14 Apr 2020 09:25:01 -0700 (PDT)
-Received-SPF: pass (google.com: domain of longman@redhat.com designates 207.211.31.120 as permitted sender) client-ip=207.211.31.120;
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-87-m_CJjLwlPvyXxruKyZ4cKA-1; Tue, 14 Apr 2020 12:24:56 -0400
-X-MC-Unique: m_CJjLwlPvyXxruKyZ4cKA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 12123107ACC4;
-	Tue, 14 Apr 2020 16:24:50 +0000 (UTC)
-Received: from llong.remote.csb (ovpn-118-173.rdu2.redhat.com [10.10.118.173])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 0E02D118DEE;
-	Tue, 14 Apr 2020 16:24:36 +0000 (UTC)
-Subject: Re: [PATCH v2 2/2] crypto: Remove unnecessary memzero_explicit()
-To: Christophe Leroy <christophe.leroy@c-s.fr>,
- Andrew Morton <akpm@linux-foundation.org>,
- David Howells <dhowells@redhat.com>,
- Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
- James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>,
- Linus Torvalds <torvalds@linux-foundation.org>, Joe Perches
- <joe@perches.com>, Matthew Wilcox <willy@infradead.org>,
- David Rientjes <rientjes@google.com>
-Cc: linux-mm@kvack.org, keyrings@vger.kernel.org,
- linux-kernel@vger.kernel.org, x86@kernel.org, linux-crypto@vger.kernel.org,
- linux-s390@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
- virtualization@lists.linux-foundation.org, netdev@vger.kernel.org,
- intel-wired-lan@lists.osuosl.org, linux-ppp@vger.kernel.org,
- wireguard@lists.zx2c4.com, linux-wireless@vger.kernel.org,
- devel@driverdev.osuosl.org, linux-scsi@vger.kernel.org,
- target-devel@vger.kernel.org, linux-btrfs@vger.kernel.org,
- linux-cifs@vger.kernel.org, samba-technical@lists.samba.org,
- linux-fscrypt@vger.kernel.org, ecryptfs@vger.kernel.org,
- kasan-dev@googlegroups.com, linux-bluetooth@vger.kernel.org,
- linux-wpan@vger.kernel.org, linux-sctp@vger.kernel.org,
- linux-nfs@vger.kernel.org, tipc-discussion@lists.sourceforge.net,
- cocci@systeme.lip6.fr, linux-security-module@vger.kernel.org,
- linux-integrity@vger.kernel.org
-References: <20200413211550.8307-1-longman@redhat.com>
- <20200413222846.24240-1-longman@redhat.com>
- <eca85e0b-0af3-c43a-31e4-bd5c3f519798@c-s.fr>
-From: Waiman Long <longman@redhat.com>
-Organization: Red Hat
-Message-ID: <e194a51f-a5e5-a557-c008-b08cac558572@redhat.com>
-Date: Tue, 14 Apr 2020 12:24:36 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 14 Apr 2020 10:50:09 -0700 (PDT)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::244 as permitted sender) client-ip=2607:f8b0:4864:20::244;
+Received: by mail-oi1-x244.google.com with SMTP id x10so1761051oie.1
+        for <kasan-dev@googlegroups.com>; Tue, 14 Apr 2020 10:50:09 -0700 (PDT)
+X-Received: by 2002:a54:481a:: with SMTP id j26mr16403284oij.172.1586886608876;
+ Tue, 14 Apr 2020 10:50:08 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <eca85e0b-0af3-c43a-31e4-bd5c3f519798@c-s.fr>
+References: <0000000000009d5cef05a22baa95@google.com> <20200331202706.GA127606@gmail.com>
+ <CACT4Y+ZSTjPmPmiL_1JEdroNZXYgaKewDBEH6RugnhsDVd+bUQ@mail.gmail.com>
+ <CANpmjNPkzTSwtJhRXWE0DYi8mToDufuOztjE4h9KopZ11T+q+w@mail.gmail.com> <20200401162028.GA201933@gmail.com>
+In-Reply-To: <20200401162028.GA201933@gmail.com>
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Tue, 14 Apr 2020 19:49:57 +0200
+Message-ID: <CANpmjNOJ-LZXv29heKZ5LazF5e99BC7-fXi7G0EsSNQd_yiyPQ@mail.gmail.com>
+Subject: Re: KCSAN: data-race in glue_cbc_decrypt_req_128bit / glue_cbc_decrypt_req_128bit
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: Dmitry Vyukov <dvyukov@google.com>, 
+	syzbot <syzbot+6a6bca8169ffda8ce77b@syzkaller.appspotmail.com>, 
+	Borislav Petkov <bp@alien8.de>, David Miller <davem@davemloft.net>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, "H. Peter Anvin" <hpa@zytor.com>, 
+	"open list:HARDWARE RANDOM NUMBER GENERATOR CORE" <linux-crypto@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, syzkaller-bugs <syzkaller-bugs@googlegroups.com>, 
+	Thomas Gleixner <tglx@linutronix.de>, "the arch/x86 maintainers" <x86@kernel.org>, 
+	kasan-dev <kasan-dev@googlegroups.com>, "Paul E. McKenney" <paulmck@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: longman@redhat.com
+X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@redhat.com header.s=mimecast20190719 header.b=NsgcQPq0;
-       spf=pass (google.com: domain of longman@redhat.com designates
- 207.211.31.120 as permitted sender) smtp.mailfrom=longman@redhat.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
+ header.i=@google.com header.s=20161025 header.b=UAMvKl7x;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::244 as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -172,81 +137,139 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 4/14/20 2:08 AM, Christophe Leroy wrote:
+On Wed, 1 Apr 2020 at 18:20, Eric Biggers <ebiggers@kernel.org> wrote:
 >
+> On Wed, Apr 01, 2020 at 12:24:01PM +0200, Marco Elver wrote:
+> > On Wed, 1 Apr 2020 at 09:04, Dmitry Vyukov <dvyukov@google.com> wrote:
+> > >
+> > > On Tue, Mar 31, 2020 at 10:27 PM Eric Biggers <ebiggers@kernel.org> wrote:
+> > > >
+> > > > On Tue, Mar 31, 2020 at 12:35:13PM -0700, syzbot wrote:
+> > > > > Hello,
+> > > > >
+> > > > > syzbot found the following crash on:
+> > > > >
+> > > > > HEAD commit:    b12d66a6 mm, kcsan: Instrument SLAB free with ASSERT_EXCLU..
+> > > > > git tree:       https://github.com/google/ktsan.git kcsan
+> > > > > console output: https://syzkaller.appspot.com/x/log.txt?x=111f0865e00000
+> > > > > kernel config:  https://syzkaller.appspot.com/x/.config?x=10bc0131c4924ba9
+> > > > > dashboard link: https://syzkaller.appspot.com/bug?extid=6a6bca8169ffda8ce77b
+> > > > > compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+> > > > >
+> > > > > Unfortunately, I don't have any reproducer for this crash yet.
+> > > > >
+> > > > > IMPORTANT: if you fix the bug, please add the following tag to the commit:
+> > > > > Reported-by: syzbot+6a6bca8169ffda8ce77b@syzkaller.appspotmail.com
+> > > > >
+> > > > > ==================================================================
+> > > > > BUG: KCSAN: data-race in glue_cbc_decrypt_req_128bit / glue_cbc_decrypt_req_128bit
+> > > > >
+> > > > > write to 0xffff88809966e128 of 8 bytes by task 24119 on cpu 0:
+> > > > >  u128_xor include/crypto/b128ops.h:67 [inline]
+> > > > >  glue_cbc_decrypt_req_128bit+0x396/0x460 arch/x86/crypto/glue_helper.c:144
+> > > > >  cbc_decrypt+0x26/0x40 arch/x86/crypto/serpent_avx2_glue.c:152
+> > > > >  crypto_skcipher_decrypt+0x65/0x90 crypto/skcipher.c:652
+> > > > >  _skcipher_recvmsg crypto/algif_skcipher.c:142 [inline]
+> > > > >  skcipher_recvmsg+0x7fa/0x8c0 crypto/algif_skcipher.c:161
+> > > > >  skcipher_recvmsg_nokey+0x5e/0x80 crypto/algif_skcipher.c:279
+> > > > >  sock_recvmsg_nosec net/socket.c:886 [inline]
+> > > > >  sock_recvmsg net/socket.c:904 [inline]
+> > > > >  sock_recvmsg+0x92/0xb0 net/socket.c:900
+> > > > >  ____sys_recvmsg+0x167/0x3a0 net/socket.c:2566
+> > > > >  ___sys_recvmsg+0xb2/0x100 net/socket.c:2608
+> > > > >  __sys_recvmsg+0x9d/0x160 net/socket.c:2642
+> > > > >  __do_sys_recvmsg net/socket.c:2652 [inline]
+> > > > >  __se_sys_recvmsg net/socket.c:2649 [inline]
+> > > > >  __x64_sys_recvmsg+0x51/0x70 net/socket.c:2649
+> > > > >  do_syscall_64+0xcc/0x3a0 arch/x86/entry/common.c:294
+> > > > >  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+> > > > >
+> > > > > read to 0xffff88809966e128 of 8 bytes by task 24118 on cpu 1:
+> > > > >  u128_xor include/crypto/b128ops.h:67 [inline]
+> > > > >  glue_cbc_decrypt_req_128bit+0x37c/0x460 arch/x86/crypto/glue_helper.c:144
+> > > > >  cbc_decrypt+0x26/0x40 arch/x86/crypto/serpent_avx2_glue.c:152
+> > > > >  crypto_skcipher_decrypt+0x65/0x90 crypto/skcipher.c:652
+> > > > >  _skcipher_recvmsg crypto/algif_skcipher.c:142 [inline]
+> > > > >  skcipher_recvmsg+0x7fa/0x8c0 crypto/algif_skcipher.c:161
+> > > > >  skcipher_recvmsg_nokey+0x5e/0x80 crypto/algif_skcipher.c:279
+> > > > >  sock_recvmsg_nosec net/socket.c:886 [inline]
+> > > > >  sock_recvmsg net/socket.c:904 [inline]
+> > > > >  sock_recvmsg+0x92/0xb0 net/socket.c:900
+> > > > >  ____sys_recvmsg+0x167/0x3a0 net/socket.c:2566
+> > > > >  ___sys_recvmsg+0xb2/0x100 net/socket.c:2608
+> > > > >  __sys_recvmsg+0x9d/0x160 net/socket.c:2642
+> > > > >  __do_sys_recvmsg net/socket.c:2652 [inline]
+> > > > >  __se_sys_recvmsg net/socket.c:2649 [inline]
+> > > > >  __x64_sys_recvmsg+0x51/0x70 net/socket.c:2649
+> > > > >  do_syscall_64+0xcc/0x3a0 arch/x86/entry/common.c:294
+> > > > >  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+> > > > >
+> > > > > Reported by Kernel Concurrency Sanitizer on:
+> > > > > CPU: 1 PID: 24118 Comm: syz-executor.1 Not tainted 5.6.0-rc1-syzkaller #0
+> > > > > Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+> > > > > ==================================================================
+> > > > >
+> > > >
+> > > > I think this is a problem for almost all the crypto code.  Due to AF_ALG, both
+> > > > the source and destination buffers can be userspace pages that were gotten with
+> > > > get_user_pages().  Such pages can be concurrently modified, not just by the
+> > > > kernel but also by userspace.
+> > > >
+> > > > I'm not sure what can be done about this.
+> > >
+> > > Oh, I thought it's something more serious like a shared crypto object.
+> > > Thanks for debugging.
+[...]
+> > >
+> > > Marco, I think we need to ignore all memory that comes from
+> > > get_user_pages() somehow. Either not set watchpoints at all, or
+> > > perhaps filter them out later if the check is not totally free.
+> >
+> > Makes sense. We already have similar checks, and they're in the
+> > slow-path, so it shouldn't be a problem. Let me investigate.
 >
-> Le 14/04/2020 =C3=A0 00:28, Waiman Long a =C3=A9crit=C2=A0:
->> Since kfree_sensitive() will do an implicit memzero_explicit(), there
->> is no need to call memzero_explicit() before it. Eliminate those
->> memzero_explicit() and simplify the call sites. For better correctness,
->> the setting of keylen is also moved down after the key pointer check.
->>
->> Signed-off-by: Waiman Long <longman@redhat.com>
->> ---
->> =C2=A0 .../allwinner/sun8i-ce/sun8i-ce-cipher.c=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 | 19 +++++-------------
->> =C2=A0 .../allwinner/sun8i-ss/sun8i-ss-cipher.c=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 | 20 +++++--------------
->> =C2=A0 drivers/crypto/amlogic/amlogic-gxl-cipher.c=C2=A0=C2=A0 | 12 +++-=
--------
->> =C2=A0 drivers/crypto/inside-secure/safexcel_hash.c=C2=A0 |=C2=A0 3 +--
->> =C2=A0 4 files changed, 14 insertions(+), 40 deletions(-)
->>
->> diff --git a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c
->> b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c
->> index aa4e8fdc2b32..8358fac98719 100644
->> --- a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c
->> +++ b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c
->> @@ -366,10 +366,7 @@ void sun8i_ce_cipher_exit(struct crypto_tfm *tfm)
->> =C2=A0 {
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct sun8i_cipher_tfm_ctx *op =3D crypt=
-o_tfm_ctx(tfm);
->> =C2=A0 -=C2=A0=C2=A0=C2=A0 if (op->key) {
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 memzero_explicit(op->key, op=
-->keylen);
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 kfree(op->key);
->> -=C2=A0=C2=A0=C2=A0 }
->> +=C2=A0=C2=A0=C2=A0 kfree_sensitive(op->key);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 crypto_free_sync_skcipher(op->fallback_tf=
-m);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pm_runtime_put_sync_suspend(op->ce->dev);
->> =C2=A0 }
->> @@ -391,14 +388,11 @@ int sun8i_ce_aes_setkey(struct crypto_skcipher
->> *tfm, const u8 *key,
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev_dbg(ce->dev, =
-"ERROR: Invalid keylen %u\n", keylen);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return -EINVAL;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->> -=C2=A0=C2=A0=C2=A0 if (op->key) {
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 memzero_explicit(op->key, op=
-->keylen);
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 kfree(op->key);
->> -=C2=A0=C2=A0=C2=A0 }
->> -=C2=A0=C2=A0=C2=A0 op->keylen =3D keylen;
->> +=C2=A0=C2=A0=C2=A0 kfree_sensitive(op->key);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 op->key =3D kmemdup(key, keylen, GFP_KERN=
-EL | GFP_DMA);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!op->key)
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return -ENOMEM;
->> +=C2=A0=C2=A0=C2=A0 op->keylen =3D keylen;
+> I'm wondering whether you really should move so soon to ignoring these races?
+> They are still races; the crypto code is doing standard unannotated reads/writes
+> of memory that can be concurrently modified.
 >
-> Does it matter at all to ensure op->keylen is not set when of->key is
-> NULL ? I'm not sure.
->
-> But if it does, then op->keylen should be set to 0 when freeing op->key.=
-=20
+[...]
 
-My thinking is that if memory allocation fails, we just don't touch
-anything and return an error code. I will not explicitly set keylen to 0
-in this case unless it is specified in the API documentation.
+Wanted to follow up on this, just to clarify: The issue here
+essentially boils down to a user-space race involving an API that
+isn't designed to be thread-safe with the provided arguments (pointer
+to same user-space memory). The data race here merely manifests in
+kernel code, but otherwise the kernel is unaffected (if it were
+affected, a real fix would be needed). I.e. if we observe this data
+race, KCSAN is helpfully pointing out that user space has a bug.
 
-Cheers,
-Longman
+There are some options to deal with cases like this:
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/e194a51f-a5e5-a557-c008-b08cac558572%40redhat.com.
+1. Do nothing, and just let KCSAN report the data race.
+
+2. Somehow make KCSAN distinguish in-kernel data races that are due to
+user space misusing the API. KCSAN can still show the race, but
+clearly denote the nature of it by e.g. saying "KCSAN: user data-race
+in ..." (instead of "KCSAN: data-race in ..."). This will require one
+of 2 things:
+
+    a. Distinguish the access by memory range. This doesn't seem
+great, because I don't know if we can apply a general rule like "all
+races involving this memory are user-space's fault". What if we have
+data races in the memory range that aren't user-space's fault?
+
+    b. Mark the accesses somehow, either by providing a region in
+which all races are deemed user-space's fault. This is likely more
+problematic than (a), because saying something like "all races in this
+section of code are user-space's fault" may also hide real issues.
+
+Because none of (2.a) or (2.b) seem great, at present I would opt for (1).
+
+Anything better we can do here?
+
+Thanks,
+-- Marco
+
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNOJ-LZXv29heKZ5LazF5e99BC7-fXi7G0EsSNQd_yiyPQ%40mail.gmail.com.
