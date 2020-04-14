@@ -1,147 +1,150 @@
-Return-Path: <kasan-dev+bncBCLI747UVAFRBCHK2X2AKGQEOMYETWQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBC4LN7MPQ4HRB3HX2X2AKGQEFQMF6UQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ot1-x33c.google.com (mail-ot1-x33c.google.com [IPv6:2607:f8b0:4864:20::33c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 591D61A761F
-	for <lists+kasan-dev@lfdr.de>; Tue, 14 Apr 2020 10:32:09 +0200 (CEST)
-Received: by mail-ot1-x33c.google.com with SMTP id k19sf9995363otl.8
-        for <lists+kasan-dev@lfdr.de>; Tue, 14 Apr 2020 01:32:09 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1586853128; cv=pass;
+Received: from mail-wm1-x339.google.com (mail-wm1-x339.google.com [IPv6:2a00:1450:4864:20::339])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EE781A76CB
+	for <lists+kasan-dev@lfdr.de>; Tue, 14 Apr 2020 11:01:33 +0200 (CEST)
+Received: by mail-wm1-x339.google.com with SMTP id h184sf353495wmf.5
+        for <lists+kasan-dev@lfdr.de>; Tue, 14 Apr 2020 02:01:33 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1586854892; cv=pass;
         d=google.com; s=arc-20160816;
-        b=QytWhSo15wsfwvboXEwy2qquISzDCwp7ZcA63VzffgNABhkV0vQg1WxHDZE0yQfw34
-         0rAFeQfeujtSiheO8B6RY6PUtewpin0dHY7kpXyNYnzWj+cNzdhjpeBB9++oqLkpbYYM
-         EtpyVok959aUzB0I5kCkVxJBneG/pvVf5XjqWJxsEOsxuFOg0hmlTmtC/dyBpQv88TYX
-         HzsAltz8fL8M1jMuHcz72JdTNnq4ZfdkuycWoNaEukxHtXbuwqqAKW7zNhsQlqoUhz79
-         lrRN/kFkGmQ99N/A8TRqJ8vFzHhn3zIAqmxpQC/IdeE3L37Mk1W/DTZI2xRKpCSWcdBp
-         HrAw==
+        b=GgtZ3AipRmPugvMyr85W/dwQaQ4iSEeU3VUR7vti4metA1KXNVWMBrJHVt2lfHHZSN
+         f4e8ELLnpHzvnrhkpFLfBpZcrHyiDYhuNW9ik5dc0UInqZPsmqCAYmpRngjCQX6LdaZh
+         svttllZgbNp7JGrGZACnPEO9U3NG01RawS4iMdStrgOWRzXyEphRQuBNBlL9Crfz6Ypv
+         Qhw3dv/3EO47sprFATE694nuNV/IWS3AGmqQU2k0oUgroPG0Z/GJqaZwTdDA+vyMFAs1
+         Oiz6bJ3K7bO/q+AthE+cYO7B0HnRs6RvUsiOGAGwqjFlkbphvNXBANXxuCjyd8g9nb4Y
+         s0KA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-language:in-reply-to
-         :mime-version:date:message-id:from:references:cc:to:subject:sender
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
          :dkim-signature;
-        bh=V2TkFMWvQAvWO++kxV9faffbeJoNct79jeohnjYvez4=;
-        b=GaSijSTSw4/4VT5+I+HYFjhKQgj3dD9Ce9hEVsaWrcNUV8tCxxsCroKixzNWf6UZMP
-         7WEd1E0/yieOX1scP7nEiXJi6+LLmmCw0FL3sn2ISdc83XBWeCjfSvaFqQnzPjnEc0sn
-         zvoG4okTi9/jULgpaIBEbDrjaMzz+9vWWkY+bUlZvDU97oSz9WqnbZ5jmetJKxvu7pMf
-         eOX1kEtjLVVwu/d6F4tgfElqYjazhy3qVYKUw9TPSGo78/IEp4UZNaDODkcrx5B5RLuA
-         CtYQX9/rScP2SNKwYszEva1fHmIsNAMpAREOwoL/PmGAsn/zKrmx1Ih6ZU9DZGPxNfHS
-         FUVg==
+        bh=y1Zfu9hhS1qh/i9zrtECs+U9kG2BjJmg/uEEIhDwDRk=;
+        b=HwAtDexqVuclJs1cxl+ex/01R42DhZU39wdGJ3cqvGN50EVYK5fnyCwWCbpF45wqL/
+         V57redkdVKhpxgS2FIBCXq9vcMzH/9yexSGphdrt+/9gURqzU3oUy18tklw4wL2ImBpz
+         GFzpN1zjLWoGkeZRsrWvEXsl+TLbHN1zbN8IPWg2YjATSl91nJFyHvcquUUZ6IinttDt
+         a5TL7Qf9PQx1uGrm/IW2zuH4FO3FeKoWXshl6eHN6/9oKT7TC3v/w7/kMxVWSxpuWCxR
+         mPe1yWtVr2T+U4hPgSAGJoGYTtRO8InF04lLzT9UbjE4yjN7Mz61dUSx+r00d1h2IfGQ
+         k2XA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@zx2c4.com header.s=mail header.b=sx6IKJIx;
-       spf=pass (google.com: domain of jason@zx2c4.com designates 192.95.5.64 as permitted sender) smtp.mailfrom=Jason@zx2c4.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=zx2c4.com
+       spf=pass (google.com: domain of mstsxfx@gmail.com designates 209.85.128.68 as permitted sender) smtp.mailfrom=mstsxfx@gmail.com;
+       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:subject:to:cc:references:from:message-id:date:mime-version
-         :in-reply-to:content-language:x-original-sender
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=V2TkFMWvQAvWO++kxV9faffbeJoNct79jeohnjYvez4=;
-        b=J5ktHI1m97PY7w99ipcU10yB72d227JT/9+tbRqZxFys75tJn30SBBhFDXd/cFj4qI
-         zPgFtTR/+J8Hkwk2JbSoFp7E2mT9u43hMKetio3l4QL8ezS/1sIk3C7487c847PZotEn
-         B4hmtBa5/qUMkiVw2G2qDqp3+97nigxdTZ2+swbrMm96ACaQ5f9Y2w4xf5C9JZmkB27N
-         sN3yC0XuFm1kYE1GWvhq/wI1GUY4SuSpxwly5G45awiY8KJVPAxJJ0mSCp4Y/NQVX5Dk
-         5FUVw11tJnhgm7fywsSSgVyBY1XE7K39H6dIqW9+XGYfiIv4S8saZZKdeCvisZIguHBe
-         9EBw==
+        bh=y1Zfu9hhS1qh/i9zrtECs+U9kG2BjJmg/uEEIhDwDRk=;
+        b=OffWxi7/OzddjqdXxqH0AJpioawjRZd9QltuyTQn4SpcDLOEdtXeKDudJcqzSEaFir
+         3iot3ENqOmNJFfyLB8bQVm8HO5TKkiMLZVHdTxRG35DJUg6+I/RsrOV0EVtywVTBtne5
+         0b/o8rZktjHyl8k4wDmuq5RmIF86ju8pixvhCuAKM2pJB+IXKoMDo+D7VZ0rq2f0carH
+         tRqBPZXM7B/Vg/VVq/S3wPjcmtuW118W2v9jJrQPtELu8vd1NlPLFoP1VPRAXGmjdpyL
+         Z94tt0BIr31mxSUuR5F2kxXzI72GyPc8zBZjXQi9HTk/tDKFwhhhR3yQu8XOJkeHw8ZW
+         7/sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:subject:to:cc:references:from:message-id
-         :date:mime-version:in-reply-to:content-language:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=V2TkFMWvQAvWO++kxV9faffbeJoNct79jeohnjYvez4=;
-        b=W3Ka9XMdmVCaDt502XmJD5pGDUsRZwlMvinTDMiHWcCcx7L+ZCaSm7gFZNdGHQJEqh
-         WtwXAbxNr5J3dHW9rQPco/KIcHB5/qPjkN7p55NBuKq1n5/xkcAYEDVx42vsijk+k24Q
-         5JWAU/gicj96U7P9EZ8voWnYBOuN8ZQDnjL8lKYBZSxw7j0fEp4eUu2l7KuyAhtW8uLe
-         V8l0SBUdajWv/9Ki93CP4izjU17O9YGiwtxZM1au/XusCNtoi0S9oMLCHn5Ia1JuP4Ys
-         KZXdq1DKa242iJa1kgAPmt9KNIkWm+jNFH179s5J6Tf5Q1/fGcJKl5PWPk3O5tCKP7dC
-         gxWw==
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=y1Zfu9hhS1qh/i9zrtECs+U9kG2BjJmg/uEEIhDwDRk=;
+        b=YVMy+GUN14qyMQb8i3v38xSf8lHSJyafxG0QX1uWYt5Dr5vlfDemZHn9zeXDD1XS9r
+         yyU1E8kuV0wx4VBMkfdaRt4pDJxLKZbF5ulq2xqvjHzSDC9iuu/qe9sX3TlDtdqOpcGJ
+         zcz0yz9GgAiTPM02LU7xmLkG3A8XWPJpwPOc0WajRy7XS0Irm/f3P6gq8UByE3nov5Na
+         +oSJCxWxuOuCH3gMjxugYW/GK5BjhoDnynP5G/WtNBk7NwCD4bi6mSPphn9jWGmugJvl
+         A4I8SByDXLPkg2LmB4YuurBg3b+NVq9AuKuiTOftig07YEPvJ1sYbLxJzEWWj2WIMmmN
+         1OLA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AGi0PuYq3HgjEcMkFcbALbEorVg3sBJNZnIVymY5G3BqRnqNKHVEseJS
-	Q+tqRfn6fNpte6vKBnvM1Rw=
-X-Google-Smtp-Source: APiQypKbKi7/m75NtsUYFcVCs50qyBWBJ3yA+aAHgMRAWJvwghQAjSzVZH5PiCO0G43T+VSqbyH0SQ==
-X-Received: by 2002:aca:5e0b:: with SMTP id s11mr13902664oib.111.1586853128321;
-        Tue, 14 Apr 2020 01:32:08 -0700 (PDT)
+X-Gm-Message-State: AGi0PuZtnzbNQvUWf4XRvRZt5K2zjdWl6XCBvYYLtbRoYrkbIosbjcz0
+	Gd1WBQjfYjJoAtmmfdbydoo=
+X-Google-Smtp-Source: APiQypJpZmaZagyhlGmNxbC+dQCKMm45UHJWk0Njohdl+SzOolmLXP/oGF7RSAZ4NBOdAOyOnKPK5w==
+X-Received: by 2002:adf:e7ca:: with SMTP id e10mr521122wrn.18.1586854892766;
+        Tue, 14 Apr 2020 02:01:32 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a4a:3745:: with SMTP id r66ls152058oor.10.gmail; Tue, 14 Apr
- 2020 01:32:08 -0700 (PDT)
-X-Received: by 2002:a4a:55d8:: with SMTP id e207mr17554187oob.37.1586853127951;
-        Tue, 14 Apr 2020 01:32:07 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1586853127; cv=none;
+Received: by 2002:a1c:5644:: with SMTP id k65ls2809382wmb.1.gmail; Tue, 14 Apr
+ 2020 02:01:32 -0700 (PDT)
+X-Received: by 2002:a1c:6344:: with SMTP id x65mr22967904wmb.56.1586854892152;
+        Tue, 14 Apr 2020 02:01:32 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1586854892; cv=none;
         d=google.com; s=arc-20160816;
-        b=ZcS+29QUTBdGDgRpjZJ/RSUZGNmioXDBlIjO4c55Sb+Iywjl8H7QA0CqHhOQEUlrY0
-         4DuCEb0BDX2JaTKYtm33HzQEHkFNjcdRaNMIqXr0MmIDK0dv/X2PK5rc5/hl5zrcvSKO
-         4hyxVFhfWlbQQgTFmNrnmxfZb4qY9emYKzxhQNNoNUA4nk0oAJgdx0BJGZ0M6dDBarSr
-         YMCgZVusjTTAUQGOQHBSGysv1qKZwcApVM7KY2Ydry4OFsFAvE8yfy7vlP3xrpuKTXHm
-         rm8RmaJkulhTi7rI2tIXs97pTFk8Bati8XXQDeAsGabtzWyd9LY/rbZ3LU/Z2gW5GAAs
-         hilQ==
+        b=ziGlWdx7+cQWqMOOURpHGaAoq7NfJWUbmqvGMYexhOmFpnnwgdio5RO5AWmW/2ezgM
+         qjL+3QQW7Szi2MMbrDrIOlK0eUUhLfhPz/faJ+prmP9HKeT5ra3pskWw7mM6xO2xTYyc
+         ++8NUcM840gqr/zfUX5eDpfu3cQa1tMknU0YhkiZAGzZdJV9GHEN13TphF2bGpkPbhdw
+         JgOM7wPg4sSzHcj0ZFH9jhfSuvN8512OXouGFw1vJ+6RYGtg7mN5W/tgQIssPNb17R+r
+         +t24ToqPSWzy/4gvKd+Bl1TmL9SdeOKxGrDGPfR2SGKNiDJflpHJWxyN3dDC437P3A2R
+         2ltA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :date:message-id:from:references:cc:to:subject:dkim-signature;
-        bh=UKQsCwENnNIEAuJXvQ/tW8fkmNjG5WmayzQXfCLs/i4=;
-        b=RdcJhV4DTuCJLOv6ZuZGLRYRAq6R5C2HcSRtbwnUF31kSsHaPuz6xqz0PqcKOAenOt
-         l3sfn96f43e0KO2F3d4k3oAKVBoN9LTrSYwgKmekjVqw/GGoWOPhprDZE8kR17gylXAF
-         bXCiouSb0SVbSy3vIwSO6jIvPQVW6OncCIk0za/78B8Io/aOBpNDpoe9u2M04Zp5SY62
-         iFZbRPx6gApn6do2rNoRSXkQ2O7SXAhtc4xrn8mHiMu+oDYihQX6dxQk5yEuD0In28PQ
-         SNkNhhgDMj4r3HUF0l/o1rk/OTVJ2l1v8WF5ox5SWM+9xZ20rbTFglBYa6RaZbYqAc5B
-         GAsQ==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date;
+        bh=ZSEHFc2eh+N6K60wyVHbBWfK0AmjMN90oe2OMNtMMJ0=;
+        b=a1Iyy7Vby32BZJLwoDvKCSKWKR55/KYOTXhezjLOBoEkNqJqICkSfZryfVdC9b6cW4
+         kVHS/fLhmRoQc+O3l6JPvGg4UDDwk6fiiFBQVta4hGjAZwHTHSuOI1e5ExpmoiMBXdPZ
+         ZTxPK4pHqJWsXWsA8krcHXcCvsl/FN/NuzrY7B4wIriM+9bZ0hfV5yKviI3yUbYQgQBo
+         BQezR2N2Uv7ku640GagEo5MS6yhj+45GBJxKbuQWBIJJQqhnFHVOzzuqVV01Z3h4d/Dr
+         soz3+ozaFd2clHeD0WtIkm5QLccUhDXkzUrLnwCa7EBojUmr30J2NDmKKKtDweCtN98P
+         0y5g==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@zx2c4.com header.s=mail header.b=sx6IKJIx;
-       spf=pass (google.com: domain of jason@zx2c4.com designates 192.95.5.64 as permitted sender) smtp.mailfrom=Jason@zx2c4.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=zx2c4.com
-Received: from mail.zx2c4.com (mail.zx2c4.com. [192.95.5.64])
-        by gmr-mx.google.com with ESMTPS id m14si265235otn.5.2020.04.14.01.32.07
+       spf=pass (google.com: domain of mstsxfx@gmail.com designates 209.85.128.68 as permitted sender) smtp.mailfrom=mstsxfx@gmail.com;
+       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com. [209.85.128.68])
+        by gmr-mx.google.com with ESMTPS id o125si909930wme.4.2020.04.14.02.01.32
         for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 14 Apr 2020 02:01:32 -0700 (PDT)
+Received-SPF: pass (google.com: domain of mstsxfx@gmail.com designates 209.85.128.68 as permitted sender) client-ip=209.85.128.68;
+Received: by mail-wm1-f68.google.com with SMTP id a201so12686554wme.1
+        for <kasan-dev@googlegroups.com>; Tue, 14 Apr 2020 02:01:32 -0700 (PDT)
+X-Received: by 2002:a1c:a913:: with SMTP id s19mr23660673wme.134.1586854891811;
+        Tue, 14 Apr 2020 02:01:31 -0700 (PDT)
+Received: from localhost (ip-37-188-180-223.eurotel.cz. [37.188.180.223])
+        by smtp.gmail.com with ESMTPSA id n6sm18637096wrs.81.2020.04.14.02.01.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Apr 2020 01:32:07 -0700 (PDT)
-Received-SPF: pass (google.com: domain of jason@zx2c4.com designates 192.95.5.64 as permitted sender) client-ip=192.95.5.64;
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTP id 9d220a78;
-	Tue, 14 Apr 2020 08:22:18 +0000 (UTC)
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id e4f42b92 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-	Tue, 14 Apr 2020 08:22:18 +0000 (UTC)
+        Tue, 14 Apr 2020 02:01:30 -0700 (PDT)
+Date: Tue, 14 Apr 2020 11:01:29 +0200
+From: Michal Hocko <mhocko@kernel.org>
+To: Waiman Long <longman@redhat.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	David Howells <dhowells@redhat.com>,
+	Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
+	James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Joe Perches <joe@perches.com>, Matthew Wilcox <willy@infradead.org>,
+	David Rientjes <rientjes@google.com>, linux-mm@kvack.org,
+	keyrings@vger.kernel.org, linux-kernel@vger.kernel.org,
+	x86@kernel.org, linux-crypto@vger.kernel.org,
+	linux-s390@vger.kernel.org, linux-pm@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org,
+	linux-amlogic@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+	virtualization@lists.linux-foundation.org, netdev@vger.kernel.org,
+	intel-wired-lan@lists.osuosl.org, linux-ppp@vger.kernel.org,
+	wireguard@lists.zx2c4.com, linux-wireless@vger.kernel.org,
+	devel@driverdev.osuosl.org, linux-scsi@vger.kernel.org,
+	target-devel@vger.kernel.org, linux-btrfs@vger.kernel.org,
+	linux-cifs@vger.kernel.org, samba-technical@lists.samba.org,
+	linux-fscrypt@vger.kernel.org, ecryptfs@vger.kernel.org,
+	kasan-dev@googlegroups.com, linux-bluetooth@vger.kernel.org,
+	linux-wpan@vger.kernel.org, linux-sctp@vger.kernel.org,
+	linux-nfs@vger.kernel.org, tipc-discussion@lists.sourceforge.net,
+	cocci@systeme.lip6.fr, linux-security-module@vger.kernel.org,
+	linux-integrity@vger.kernel.org
 Subject: Re: [PATCH 1/2] mm, treewide: Rename kzfree() to kfree_sensitive()
-To: Waiman Long <longman@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- David Howells <dhowells@redhat.com>,
- Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
- James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>,
- Linus Torvalds <torvalds@linux-foundation.org>, Joe Perches
- <joe@perches.com>, Matthew Wilcox <willy@infradead.org>,
- David Rientjes <rientjes@google.com>
-Cc: linux-mm@kvack.org, keyrings@vger.kernel.org,
- linux-kernel@vger.kernel.org, x86@kernel.org, linux-crypto@vger.kernel.org,
- linux-s390@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
- virtualization@lists.linux-foundation.org, netdev@vger.kernel.org,
- intel-wired-lan@lists.osuosl.org, linux-ppp@vger.kernel.org,
- wireguard@lists.zx2c4.com, linux-wireless@vger.kernel.org,
- devel@driverdev.osuosl.org, linux-scsi@vger.kernel.org,
- target-devel@vger.kernel.org, linux-btrfs@vger.kernel.org,
- linux-cifs@vger.kernel.org, samba-technical@lists.samba.org,
- linux-fscrypt@vger.kernel.org, ecryptfs@vger.kernel.org,
- kasan-dev@googlegroups.com, linux-bluetooth@vger.kernel.org,
- linux-wpan@vger.kernel.org, linux-sctp@vger.kernel.org,
- linux-nfs@vger.kernel.org, tipc-discussion@lists.sourceforge.net,
- cocci@systeme.lip6.fr, linux-security-module@vger.kernel.org,
- linux-integrity@vger.kernel.org
+Message-ID: <20200414090129.GE4629@dhcp22.suse.cz>
 References: <20200413211550.8307-1-longman@redhat.com>
  <20200413211550.8307-2-longman@redhat.com>
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Message-ID: <4babf834-c531-50ba-53f6-e88410b15ce3@zx2c4.com>
-Date: Tue, 14 Apr 2020 02:32:03 -0600
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
 In-Reply-To: <20200413211550.8307-2-longman@redhat.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Language: en-US
-X-Original-Sender: jason@zx2c4.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@zx2c4.com header.s=mail header.b=sx6IKJIx;       spf=pass
- (google.com: domain of jason@zx2c4.com designates 192.95.5.64 as permitted
- sender) smtp.mailfrom=Jason@zx2c4.com;       dmarc=pass (p=NONE sp=NONE
- dis=NONE) header.from=zx2c4.com
+X-Original-Sender: mhocko@kernel.org
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of mstsxfx@gmail.com designates 209.85.128.68 as
+ permitted sender) smtp.mailfrom=mstsxfx@gmail.com;       dmarc=fail (p=NONE
+ sp=NONE dis=NONE) header.from=kernel.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -154,18 +157,18 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 4/13/20 3:15 PM, Waiman Long wrote:
+On Mon 13-04-20 17:15:49, Waiman Long wrote:
 > As said by Linus:
 > 
->    A symmetric naming is only helpful if it implies symmetries in use.
->    Otherwise it's actively misleading.
+>   A symmetric naming is only helpful if it implies symmetries in use.
+>   Otherwise it's actively misleading.
 > 
->    In "kzalloc()", the z is meaningful and an important part of what the
->    caller wants.
+>   In "kzalloc()", the z is meaningful and an important part of what the
+>   caller wants.
 > 
->    In "kzfree()", the z is actively detrimental, because maybe in the
->    future we really _might_ want to use that "memfill(0xdeadbeef)" or
->    something. The "zero" part of the interface isn't even _relevant_.
+>   In "kzfree()", the z is actively detrimental, because maybe in the
+>   future we really _might_ want to use that "memfill(0xdeadbeef)" or
+>   something. The "zero" part of the interface isn't even _relevant_.
 > 
 > The main reason that kzfree() exists is to clear sensitive information
 > that should not be leaked to other future users of the same memory
@@ -173,29 +176,29 @@ On 4/13/20 3:15 PM, Waiman Long wrote:
 > 
 > Rename kzfree() to kfree_sensitive() to follow the example of the
 > recently added kvfree_sensitive() and make the intention of the API
-> more explicit. 
+> more explicit. In addition, memzero_explicit() is used to clear the
+> memory to make sure that it won't get optimized away by the compiler.
+> 
+> The renaming is done by using the command sequence:
+> 
+>   git grep -w --name-only kzfree |\
+>   xargs sed -i 's/\bkzfree\b/kfree_sensitive/'
+> 
+> followed by some editing of the kfree_sensitive() kerneldoc and the
+> use of memzero_explicit() instead of memset().
+> 
+> Suggested-by: Joe Perches <joe@perches.com>
+> Signed-off-by: Waiman Long <longman@redhat.com>
 
-Seems reasonable to me. One bikeshed, that you can safely discard and 
-ignore as a mere bikeshed: kfree_memzero or kfree_scrub or 
-kfree_{someverb} seems like a better function name, as it describes what 
-the function does, rather than "_sensitive" that suggests something 
-about the data maybe but who knows what that entails. If you disagree, 
-not a big deal either way.
+Makes sense. I haven't checked all the conversions and will rely on the
+script doing the right thing. The core MM part is correct.
 
- > In addition, memzero_explicit() is used to clear the
- > memory to make sure that it won't get optimized away by the compiler.
-
-This had occurred to me momentarily a number of years ago, but I was 
-under the impression that the kernel presumes extern function calls to 
-always imply a compiler barrier, making it difficult for the compiler to 
-reason about what happens in/after kfree, in order to be able to 
-optimize out the preceding memset. With LTO, that rule obviously 
-changes. I guess new code should be written with cross-object 
-optimizations in mind now a days? [Meanwhile, it would be sort of 
-interesting to teach gcc about kfree to enable additional scary 
-optimizations...]
+Acked-by: Michal Hocko <mhocko@suse.com>
+-- 
+Michal Hocko
+SUSE Labs
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/4babf834-c531-50ba-53f6-e88410b15ce3%40zx2c4.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200414090129.GE4629%40dhcp22.suse.cz.
