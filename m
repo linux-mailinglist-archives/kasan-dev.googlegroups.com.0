@@ -1,138 +1,128 @@
-Return-Path: <kasan-dev+bncBCFYN6ELYIORBWO53T2AKGQE3M7QXBY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCD3NZ4T2IKRBRPN3T2AKGQE3XGSDUA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-io1-xd39.google.com (mail-io1-xd39.google.com [IPv6:2607:f8b0:4864:20::d39])
-	by mail.lfdr.de (Postfix) with ESMTPS id 920891AAC6E
-	for <lists+kasan-dev@lfdr.de>; Wed, 15 Apr 2020 17:57:14 +0200 (CEST)
-Received: by mail-io1-xd39.google.com with SMTP id n85sf16362264iod.0
-        for <lists+kasan-dev@lfdr.de>; Wed, 15 Apr 2020 08:57:14 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1586966233; cv=pass;
+Received: from mail-pj1-x1040.google.com (mail-pj1-x1040.google.com [IPv6:2607:f8b0:4864:20::1040])
+	by mail.lfdr.de (Postfix) with ESMTPS id 01DF71AAD61
+	for <lists+kasan-dev@lfdr.de>; Wed, 15 Apr 2020 18:31:05 +0200 (CEST)
+Received: by mail-pj1-x1040.google.com with SMTP id o103sf159504pjb.3
+        for <lists+kasan-dev@lfdr.de>; Wed, 15 Apr 2020 09:31:04 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1586968261; cv=pass;
         d=google.com; s=arc-20160816;
-        b=gJec+NJwVnssCkmivcQNxsn8LIC0+KGaUgjX0/E5AROo3YFRNDAanjDExWPI5rylhl
-         s6BnVgG2RJwiTzfV0u5ZyiOnv9s9sueYaIue4t+CWfG8ucMGTQcfm5cZFH6dRyP1jk8W
-         0mZn+Y82dRKGzwGWThBJYVhCAG0VqVhu5r7xooIv9WY9WHzpJ3mjLzNvf9PirmqZc6Xe
-         6tJCOQS0S/W+NQkI3VBHACCEZVoUIhBczwY0dxiXun4bAGf4/RQznGNkMdDe7qbBVdQk
-         Tt8N66X9kWklLxmnqmzr9M4M+uCHPr0YgmaxyQKKgzKepLlhzRF9ey2qL/HqHXtGwtyM
-         q9Eg==
+        b=R7JWFeM6IWU7kJRL+GK1XdmI3G1wc6dyxwvlkxkn83QJPMnFHSaXqjJ9cbBXN1GZ3u
+         6R05T9uqQMdjPmiCzmLrrXFgdT///6Sc7ndLIQNoXILiwUu9tcbVY9X7HW5VZrnYP6fD
+         +tbLIentbMBaCs+uSD+1KhgVT7aLW50eOAdE0bWBRZUHpkA5hShVterRDp0Qwhlo3t0T
+         lLYhxCEkyvVIS4Dq2vE3UdPuMAmOL7hiq9qOdUVBP8nDQjvji34dpw+7g6Xg5JG4FR3b
+         nYU50rukawIolEU+DQL7S60CBsGDFr6dF3QEE7mo2i16F0o5uIFEB4lCT6hJrKqfz+j/
+         mg6w==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-language:in-reply-to
-         :mime-version:user-agent:date:message-id:from:references:cc:to
-         :subject:sender:dkim-signature;
-        bh=NhryUw0n36klZwNEsz3nem7L5dmBUSaKzi5YYvdgEHo=;
-        b=E8wPPWW/4j1zn8p7Sr4xY8DzVbdPXAVA4ZrlK1kz5LJ/VAp/efDEOyvtKUseTDQTAB
-         14EpIrVMFbKQZNOt+mcSIngk/6mJgBn1J5/wszFguGbH03amiqRJWWY6wdDO4m+vO+1S
-         6Z/BC5ZduBttY35ceeMyGLGOYQSCogPJESVuk7XsLxjWzNFJRWjfRpBIt5uv1TVyqSPv
-         n7oAX/St9/Wwv6FfSEGjbUpHyCIPGgj0tcmmK1jSWcFQtCCuwj9fTc+1bpxdurD2wjno
-         9GiVtonrZL41oj0KahcOtmUZHXlggfioRhDh9e9bK8JWZA+YS45E2tODHeEph4qVIlX+
-         N2fg==
+         :list-id:mailing-list:precedence:to:references:message-id:cc:date
+         :in-reply-to:from:subject:mime-version:sender:dkim-signature;
+        bh=nBJl3lxGZpvM7vJGmHVMaolIiuUxSFy1DoRLU+1Ms00=;
+        b=lMT/FJJ5oVyyAUwyn+CFkHNbXEwIvE6hC7SF6pnOOvcLMx2oiG0UcXrtAZE78MMxmw
+         r+jg+SM5NoYO/XdL3puyQD9N54qiAjQ9g9+ep9KQSq7HBr1l0x7Y3aX2JMY6631QL5h/
+         HIoGqsR9D81grDdYwCCrevNP50dYeLyIwVoA8Rt+Ll1jv4uEnEQNAAhhUvpUAyne7zx3
+         oF9M4EHK0caXs1d2A9d0qGxcgVsMCmY8bR+vnFAcS2KiX4dAMMk5fLnlYFFTud7sLHn+
+         Zrn2g/r2Ce9euHyJqTw6SEy7b7bxyYv+WM64v0coewsnLanTXCDsCrBKrqgWOPnC0xOm
+         nAmA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=aNPF7aU6;
-       spf=pass (google.com: domain of pbonzini@redhat.com designates 205.139.110.120 as permitted sender) smtp.mailfrom=pbonzini@redhat.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
+       dkim=pass header.i=@lca.pw header.s=google header.b=OIbcbV2E;
+       spf=pass (google.com: domain of cai@lca.pw designates 2607:f8b0:4864:20::844 as permitted sender) smtp.mailfrom=cai@lca.pw
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=NhryUw0n36klZwNEsz3nem7L5dmBUSaKzi5YYvdgEHo=;
-        b=qYnO8y3Fdulo7EPzYeXEEl2nWLBWX+EddW5q3KcUn/9IDjMgY0HOGPf/B4rfrb3VpE
-         kMAMZgoomV3dSxDwn1o3hnhOwzvqklpJEBGufYgYqS+KgqFBP3SWfygIh2ACSiuB4lED
-         8Sw/mzreKylgbeWjX+2P/jrDhvpv7NTK/7i1P7WGiVy7U/FT5z1L3bIy2rENyq+wWFQX
-         DgF301R7jT934gFOjvBOYJhL8vaLBFJZrrdQ5rSa/8kDFHVSz34eXrnKk81j2xfX6Jew
-         8ogbT1zF/vlylZCnpxclefdRlw9ZDTxx29ZWgFHEmCN02mjG/DCOoIRngCnHpAiec1uL
-         lkFw==
+        h=sender:mime-version:subject:from:in-reply-to:date:cc:message-id
+         :references:to:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=nBJl3lxGZpvM7vJGmHVMaolIiuUxSFy1DoRLU+1Ms00=;
+        b=PfiivtUSISbdHtENeMGaxcRQxxElIaKo9/mtpBfKpyOC04Buj71YJpZfBSffqJQswI
+         ueILhTLyWGM3qB9X2D5PjNjyOabOoFxtD20sb747LSQX96bVxnZ9x3QvyJuyr2glUE9v
+         uWCnhRElm2dAzI7lgjMwq+rQfsJiMN2eua7H1IquizTou+OOEC334MKyP9EzzrbdM3Cg
+         Pz8sYVa+YKEm9oDzP0g3BwmaeErXDbL34Bu4nulUzwtOsuhl41MT75kEtJLn/hqDzUsK
+         ttLDb96aAG7Y7ZsMQqODLnk8vJAZ0tG8x8/Lz266wqBN2UKRqIfASqI0TkLcXq7mQy3T
+         iw+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=NhryUw0n36klZwNEsz3nem7L5dmBUSaKzi5YYvdgEHo=;
-        b=s+vKGrhXwVMf6irE8loWWgCLeojwQDsx98rxoIsKjzCz5bdJ0Cx2zgD2AU0WapCywd
-         VquhKkP9sD45xE90n839EknjmpGR7n6SuNOG/rMDUQlKjlVaQ6pr1mAxUo2+YxtPW1RU
-         B1i3tBCuI8/uceKheBpf7IfZjs/U/Gn6KTMx+J34ysrCbZvwS01JVh37VlrmJRGV4aJe
-         XLr03jvZySbhD70RWKu/l7rmiEg8Ef+TT/aGhg7rEIxijjFYJMgCp/qsK1nD5ulURuWg
-         VWdBGQDsvPM+TWmDi/DpSGav5rv/yUg7gQZSoVmgJXesHzy4szmW8adfux1snOEnQLdm
-         wjtQ==
+        h=sender:x-gm-message-state:mime-version:subject:from:in-reply-to
+         :date:cc:message-id:references:to:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=nBJl3lxGZpvM7vJGmHVMaolIiuUxSFy1DoRLU+1Ms00=;
+        b=idq7njg3Js5FWkdtPKQ3oKG4cfVn+BPd7QflrB0tFKtdec7+WFUJeycCFsRDkwGLCe
+         IV2eafA0L0ZseLeNBCdZAqWAvwHGGZQ7Lxu5vRpE525GgcgEXjKZGU2A0NCLNKhb9vDd
+         +bxenzz3RF7X37RZxx46LfnnsHCsjE7EdWq9kEhdbdV7oxCMKzW8wsDugNto9syPPE6o
+         XdLEPWCnsRhZT5C6dve45zW26CsWYI0QQz3AuUERy4riDOu1KXBIl7OENFpmxnD3AyNd
+         fN1cLbOGyOAsNx3Tco+kTNi8/TmAuy4IyVAlRYEqSHHi28UojAT73Ymjzq6AGVo0a1fc
+         /Ocg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AGi0PubzXzPVhVP6ooc8YQHDQUj033K7/LnA2t3G1G2iUt76JSZrQCJB
-	ju6BUztjQNUGFOXxKa63Hu0=
-X-Google-Smtp-Source: APiQypIEgtbi1d9We+JEUXK7V2pYUT/GnPgW7Q72OIwlv6BZltSSyRv201gAkJNGhIEA+s1DKmTEWA==
-X-Received: by 2002:a5d:8b57:: with SMTP id c23mr26849395iot.161.1586966233447;
-        Wed, 15 Apr 2020 08:57:13 -0700 (PDT)
+X-Gm-Message-State: AGi0PuYv461c/bAUbaW7y1PjdawHZIoOMTah/9vaYB8BfAnEWSDhEvnU
+	R+QmMnyFZqJM5fRff8XRb/o=
+X-Google-Smtp-Source: APiQypLTpm0BKldIXcp8Hm2Ud9e0QO3OoRsZskv3vmdHl46kL6YjpdD8pQI7Ga7UzIAPENJpbLE3NQ==
+X-Received: by 2002:a63:b447:: with SMTP id n7mr26596066pgu.278.1586968261300;
+        Wed, 15 Apr 2020 09:31:01 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a02:47:: with SMTP id 68ls1565075jaa.9.gmail; Wed, 15 Apr
- 2020 08:57:13 -0700 (PDT)
-X-Received: by 2002:a02:c725:: with SMTP id h5mr25901096jao.13.1586966232786;
-        Wed, 15 Apr 2020 08:57:12 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1586966232; cv=none;
+Received: by 2002:a62:7682:: with SMTP id r124ls5527538pfc.11.gmail; Wed, 15
+ Apr 2020 09:31:00 -0700 (PDT)
+X-Received: by 2002:a65:64cb:: with SMTP id t11mr28324022pgv.62.1586968260921;
+        Wed, 15 Apr 2020 09:31:00 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1586968260; cv=none;
         d=google.com; s=arc-20160816;
-        b=nBkd3uukSObCdGFvwl+pLB7mNwZyaHdHrJSmcK8Iif/hoW3jmxDZ4Hlmw++ShMnMB7
-         2oD12893NRYoaUZAfR4R9FNEHGUJdf30FH0QJKoO6XG8vlVlLJcg25y4qClFOqZJHPEA
-         y/Z8nw14qxsve8+3LNnlR0YWLXQGRtIptdo6fdM+TvZSJADKF+kECwrjsqO23h+6cgPu
-         F5xAJARP2axo6pLuqwlRYFNDiWcTlkSS6J0CvBuWZqBVPEN8Ok5xXo1mVWzGoOnYpu5Q
-         T6nUSxNSPXQOtIG/yweVb2hOtZZpieRPGykl1+zbW3K9VVOBw3G7XGOHhDyoA9pa3z2P
-         2xlQ==
+        b=rfVO8zTGX+41pWlletZMBp4hW7SCYG4MRePpytRzqs67xo+SsrLczXWjN5YsBVInhr
+         KVYP0bSF//cAqrb4KQWWOO3XhV+aU1vJLv+9FXkGepZojcPUBQw1mYQzDGjJI8VijeKo
+         cP+ljoozVSwW0e5jR0yrruOkhqJnnWFQ+WFIYNMtGNxb4It0ZGGdAOXjS1w8IzIOJtcX
+         FIgRR3GNgIWSvH/1GCxW5AE+R8GhIp3Wk9IWrXw1VhXV79POCJ57T98L4Q8Tfwi670SO
+         VfqWB71lKku0uCS3qBKgujqeKv8dWuAezFRbjDxro+t4/ZcaIhl9xn+5EA1o2SaZRSA3
+         j+Yg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject
-         :dkim-signature;
-        bh=sWwTwNA7+phf5J6ocjP6MH/fyRWY0vqsvDmTIUNVg/c=;
-        b=ZHzwTYTOTv+PlEkT3mIiINn+CG5iz8xlcml2M9Oy1PDdzyiL49iDZ1wsznDpr2fWj7
-         doYrYi+3ML6TNZk7L3c0SCg92knO+GlnfkF67G+i/kOv9m0iB9Jm05NnsenOxfphPQgf
-         WE4zFwKnVTVWLtOF7m+lH4wvLuSuXZpdXKhbTATF3VoeN+wRwhQ06ndBBSH2uTiAk8uB
-         rR3T3YjX9UBC1DCu3gtXaHIu2pkaLBGg4zjnbX6usE/J6mKgU8SpGN/s13riFk8At6IK
-         ukGYMZgL+xBjfbQbvLFCDrxMuxD8z+1eS7TGIfOjwYuksLbA5E/iRV9eWik0BbIVUQOU
-         tGKg==
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:dkim-signature;
+        bh=Pe2rnVHnSWvKL1ikgOoLe3CQ+A3ETgzCQ267TJC22Kk=;
+        b=O7aMYCBzbFzfMbXV5BIrftUuKMnpl8m7sE8Oh+CraDJ/QB8XBZJUsZT5lkTgwm2L6x
+         i5KbgcjyZCfz7RErB4pVNTOvwyNmGMrf+xwy90nlBcUWv9m9dRyt/JOB1dcLseHNgFym
+         MXmgooKVsefqoK6OkH3CrkIsCY0l+wckJZotMSUXMi/NcIxYzoyBDXABgXRttdrnxIYU
+         pwc/VedBqwiNmG01+x9Ik4SZQIcnZGXMfVLtV0lq51P6vu097ElEL10o3SdMbrk6mtso
+         NzA6ryw8ql6PuHz6fJ7w/BirJUIZUrH1XbbYSXXcQRshgCxdbdyreDX2mDOPUHd2rhYR
+         ejmg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=aNPF7aU6;
-       spf=pass (google.com: domain of pbonzini@redhat.com designates 205.139.110.120 as permitted sender) smtp.mailfrom=pbonzini@redhat.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com. [205.139.110.120])
-        by gmr-mx.google.com with ESMTPS id x16si291700iov.1.2020.04.15.08.57.12
+       dkim=pass header.i=@lca.pw header.s=google header.b=OIbcbV2E;
+       spf=pass (google.com: domain of cai@lca.pw designates 2607:f8b0:4864:20::844 as permitted sender) smtp.mailfrom=cai@lca.pw
+Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com. [2607:f8b0:4864:20::844])
+        by gmr-mx.google.com with ESMTPS id e6si958317plt.5.2020.04.15.09.31.00
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 15 Apr 2020 08:57:12 -0700 (PDT)
-Received-SPF: pass (google.com: domain of pbonzini@redhat.com designates 205.139.110.120 as permitted sender) client-ip=205.139.110.120;
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-310-8iFAtzsHPV2hil5bdsBOlw-1; Wed, 15 Apr 2020 11:57:10 -0400
-X-MC-Unique: 8iFAtzsHPV2hil5bdsBOlw-1
-Received: by mail-wr1-f69.google.com with SMTP id e5so108438wrs.23
-        for <kasan-dev@googlegroups.com>; Wed, 15 Apr 2020 08:57:09 -0700 (PDT)
-X-Received: by 2002:a5d:634d:: with SMTP id b13mr19463055wrw.353.1586966228729;
-        Wed, 15 Apr 2020 08:57:08 -0700 (PDT)
-X-Received: by 2002:a5d:634d:: with SMTP id b13mr19463030wrw.353.1586966228418;
-        Wed, 15 Apr 2020 08:57:08 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:9066:4f2:9fbd:f90e? ([2001:b07:6468:f312:9066:4f2:9fbd:f90e])
-        by smtp.gmail.com with ESMTPSA id v21sm12010wmj.8.2020.04.15.08.57.07
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 15 Apr 2020 08:57:07 -0700 (PDT)
-Subject: Re: [PATCH -next] kvm/svm: disable KCSAN for svm_vcpu_run()
-To: Qian Cai <cai@lca.pw>, paulmck@kernel.org
-Cc: elver@google.com, sean.j.christopherson@intel.com,
- kasan-dev@googlegroups.com, kvm@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20200415153709.1559-1-cai@lca.pw>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <f02ca9b9-f0a6-dfb5-1ca0-32a12d4f56fb@redhat.com>
-Date: Wed, 15 Apr 2020 17:57:07 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
-MIME-Version: 1.0
-In-Reply-To: <20200415153709.1559-1-cai@lca.pw>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+        Wed, 15 Apr 2020 09:31:00 -0700 (PDT)
+Received-SPF: pass (google.com: domain of cai@lca.pw designates 2607:f8b0:4864:20::844 as permitted sender) client-ip=2607:f8b0:4864:20::844;
+Received: by mail-qt1-x844.google.com with SMTP id f13so13622175qti.5
+        for <kasan-dev@googlegroups.com>; Wed, 15 Apr 2020 09:31:00 -0700 (PDT)
+X-Received: by 2002:ac8:4e2c:: with SMTP id d12mr2252732qtw.204.1586968259960;
+        Wed, 15 Apr 2020 09:30:59 -0700 (PDT)
+Received: from [192.168.1.153] (pool-71-184-117-43.bstnma.fios.verizon.net. [71.184.117.43])
+        by smtp.gmail.com with ESMTPSA id n64sm12808792qka.18.2020.04.15.09.30.58
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 15 Apr 2020 09:30:59 -0700 (PDT)
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: pbonzini@redhat.com
+Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.80.23.2.2\))
+Subject: Re: [PATCH -next] kvm/svm: disable KCSAN for svm_vcpu_run()
+From: Qian Cai <cai@lca.pw>
+In-Reply-To: <f02ca9b9-f0a6-dfb5-1ca0-32a12d4f56fb@redhat.com>
+Date: Wed, 15 Apr 2020 12:30:58 -0400
+Cc: "paul E. McKenney" <paulmck@kernel.org>,
+ Elver Marco <elver@google.com>,
+ Sean Christopherson <sean.j.christopherson@intel.com>,
+ kasan-dev <kasan-dev@googlegroups.com>,
+ kvm@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Message-Id: <94BC9E64-A189-4475-9C75-240F732C078D@lca.pw>
+References: <20200415153709.1559-1-cai@lca.pw>
+ <f02ca9b9-f0a6-dfb5-1ca0-32a12d4f56fb@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+X-Mailer: Apple Mail (2.3608.80.23.2.2)
+X-Original-Sender: cai@lca.pw
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@redhat.com header.s=mimecast20190719 header.b=aNPF7aU6;
-       spf=pass (google.com: domain of pbonzini@redhat.com designates
- 205.139.110.120 as permitted sender) smtp.mailfrom=pbonzini@redhat.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
+ header.i=@lca.pw header.s=google header.b=OIbcbV2E;       spf=pass
+ (google.com: domain of cai@lca.pw designates 2607:f8b0:4864:20::844 as
+ permitted sender) smtp.mailfrom=cai@lca.pw
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -145,54 +135,54 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 15/04/20 17:37, Qian Cai wrote:
-> For some reasons, running a simple qemu-kvm command with KCSAN will
-> reset AMD hosts. It turns out svm_vcpu_run() could not be instrumented.
-> Disable it for now.
-> 
->  # /usr/libexec/qemu-kvm -name ubuntu-18.04-server-cloudimg -cpu host
-> 	-smp 2 -m 2G -hda ubuntu-18.04-server-cloudimg.qcow2
-> 
-> === console output ===
-> Kernel 5.6.0-next-20200408+ on an x86_64
-> 
-> hp-dl385g10-05 login:
-> 
-> <...host reset...>
-> 
-> HPE ProLiant System BIOS A40 v1.20 (03/09/2018)
-> (C) Copyright 1982-2018 Hewlett Packard Enterprise Development LP
-> Early system initialization, please wait...
-> 
-> Signed-off-by: Qian Cai <cai@lca.pw>
-> ---
->  arch/x86/kvm/svm/svm.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/arch/x86/kvm/svm/svm.c b/arch/x86/kvm/svm/svm.c
-> index 2be5bbae3a40..1fdb300e9337 100644
-> --- a/arch/x86/kvm/svm/svm.c
-> +++ b/arch/x86/kvm/svm/svm.c
-> @@ -3278,7 +3278,7 @@ static void svm_cancel_injection(struct kvm_vcpu *vcpu)
->  
->  bool __svm_vcpu_run(unsigned long vmcb_pa, unsigned long *regs);
->  
-> -static void svm_vcpu_run(struct kvm_vcpu *vcpu)
-> +static __no_kcsan void svm_vcpu_run(struct kvm_vcpu *vcpu)
->  {
->  	struct vcpu_svm *svm = to_svm(vcpu);
->  
-> 
 
-I suppose you tested the patch to move cli/sti into the .S file.  Anyway:
 
-Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+> On Apr 15, 2020, at 11:57 AM, Paolo Bonzini <pbonzini@redhat.com> wrote:
+> 
+> On 15/04/20 17:37, Qian Cai wrote:
+>> For some reasons, running a simple qemu-kvm command with KCSAN will
+>> reset AMD hosts. It turns out svm_vcpu_run() could not be instrumented.
+>> Disable it for now.
+>> 
+>> # /usr/libexec/qemu-kvm -name ubuntu-18.04-server-cloudimg -cpu host
+>> 	-smp 2 -m 2G -hda ubuntu-18.04-server-cloudimg.qcow2
+>> 
+>> === console output ===
+>> Kernel 5.6.0-next-20200408+ on an x86_64
+>> 
+>> hp-dl385g10-05 login:
+>> 
+>> <...host reset...>
+>> 
+>> HPE ProLiant System BIOS A40 v1.20 (03/09/2018)
+>> (C) Copyright 1982-2018 Hewlett Packard Enterprise Development LP
+>> Early system initialization, please wait...
+>> 
+>> Signed-off-by: Qian Cai <cai@lca.pw>
+>> ---
+>> arch/x86/kvm/svm/svm.c | 2 +-
+>> 1 file changed, 1 insertion(+), 1 deletion(-)
+>> 
+>> diff --git a/arch/x86/kvm/svm/svm.c b/arch/x86/kvm/svm/svm.c
+>> index 2be5bbae3a40..1fdb300e9337 100644
+>> --- a/arch/x86/kvm/svm/svm.c
+>> +++ b/arch/x86/kvm/svm/svm.c
+>> @@ -3278,7 +3278,7 @@ static void svm_cancel_injection(struct kvm_vcpu *vcpu)
+>> 
+>> bool __svm_vcpu_run(unsigned long vmcb_pa, unsigned long *regs);
+>> 
+>> -static void svm_vcpu_run(struct kvm_vcpu *vcpu)
+>> +static __no_kcsan void svm_vcpu_run(struct kvm_vcpu *vcpu)
+>> {
+>> 	struct vcpu_svm *svm = to_svm(vcpu);
+>> 
+>> 
+> 
+> I suppose you tested the patch to move cli/sti into the .S file.  Anyway:
 
-Thanks,
-
-Paolo
+Yes, tested that without any luck.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/f02ca9b9-f0a6-dfb5-1ca0-32a12d4f56fb%40redhat.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/94BC9E64-A189-4475-9C75-240F732C078D%40lca.pw.
