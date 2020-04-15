@@ -1,32 +1,32 @@
-Return-Path: <kasan-dev+bncBAABBKFH3X2AKGQEJ5EESCQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBKNH3X2AKGQE5OU4ZVA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-il1-x140.google.com (mail-il1-x140.google.com [IPv6:2607:f8b0:4864:20::140])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F5AE1AB0CB
-	for <lists+kasan-dev@lfdr.de>; Wed, 15 Apr 2020 20:34:17 +0200 (CEST)
-Received: by mail-il1-x140.google.com with SMTP id a15sf6041382ilh.20
-        for <lists+kasan-dev@lfdr.de>; Wed, 15 Apr 2020 11:34:17 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1586975656; cv=pass;
+Received: from mail-qv1-xf38.google.com (mail-qv1-xf38.google.com [IPv6:2607:f8b0:4864:20::f38])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7742E1AB0CE
+	for <lists+kasan-dev@lfdr.de>; Wed, 15 Apr 2020 20:34:18 +0200 (CEST)
+Received: by mail-qv1-xf38.google.com with SMTP id br11sf842526qvb.16
+        for <lists+kasan-dev@lfdr.de>; Wed, 15 Apr 2020 11:34:18 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1586975657; cv=pass;
         d=google.com; s=arc-20160816;
-        b=eiiWBhQL7CIQQiLaRwk0cAYWdnL9xBwlGdo3OCr6/GDkERJfFIw/0R1EBj/P/om1LY
-         PhL3dvfDRAXvrYhsi6hBHy9+Gef7j/z0g4vDYlB+P0QwCeLTJtRX+o0WcqmyfZF/S9ko
-         BF+idGznmqax+hSfgUSKc3TnUf5vU9Y+9MAWukWnGiLQx6boZag7+h1GWCf0G1+7n9Dk
-         N34HDLn64F/3wjn7mFIKT/lGhCl/qJO+b6hi0UmLO37ZrNpojRqwsVqlTxs1gmRx4SdI
-         F/ATIvkuyhYooUae3QVfLRrEU2IfRXMiB4jI+G4VMJcoTM0773pHO5mIlDXqBmr7zm5O
-         X6YQ==
+        b=Vidn9VfkSVZnnJ6OW7XYx4LX8fOZB1IDcBAypZgplbGKTOGtscq1/Pj1GkRe8aiz2L
+         ODXDcCJfWTpNzkGiWbAkzqDfQijwfFc/Z2L59ysmemD4shwormLVz4kKDTmS27+VkvwO
+         e/tcs4kLOOLxQplHJ5MRLx90VytNBp7fQRImgHkO68fVct8CEhfj8+M9WgD9RJJ7l9s6
+         jb+MbUFoabQl4yC3QwKEhlL4nMNsLzE62FiyvPb3HW/SqOyK0LOOoTMol4+Yl42nJLsC
+         OjWhplKiwKDfVamSC0TqcUrvw7V+g/Nxs+7jI7vToTdnlbnj+w/EfMpi4gzFiuYeAswM
+         nqDw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:references:in-reply-to:message-id
          :date:subject:cc:to:from:mime-version:sender:dkim-signature;
-        bh=Hue51j7g561MOUSq18lEib14hmqZXn3oy0UO2CtrIRk=;
-        b=s82FUcLAKbMqKyug6LlfnVIhLY/bAquo9uFPN+HXo3Dktzfd4d/iEKvJHhcsIPsuF6
-         xtDRad+y2BXBsDFqQq6giNtXRYnxinEVsClT/Heg5BCsdCNBq7MFA1gtqau9SZIqt1DC
-         q3glDLH8lpx5il5DViIugC5NI+T97VMJ1FrVlU1PLl7xbzkMN1u2vgmhrWrB5ADXfeYn
-         F433mH/tZmQkID+3ceOyjSCdbDzkJ57p5P0VmP/I1ZYmVNJLy2huhAAqGM3Zf/EJPlkr
-         Kp5zkT9OwKpLHaAV0KhiXUofknmV65jvEntYJnMfyxBWh8elAE01K/tV+jbdS7t1IIgt
-         WVkg==
+        bh=a+ZdETs0QpWPvrt1fM9OkDWhjvv+dufIMqLa5AYc09k=;
+        b=rCTBBf6QtAxsi16hblEvN4iLA1nRKaNwAIubGDtH+6QWMW9FhAEuvBYUG1Egmz1Rf8
+         krG++b8WrKdwlMiIStJJf4743n7PoQjiXE4ycQm5CCwrK58vcxkX/N6j6Kw30AKF8qqC
+         Eh//32dQv29s1Sh/sob8IQMaWia5TJRdm85Acy90Dq7ufjupjflgUvGMiCsbw09OsADr
+         2uFXL8uXJjbOKkFx++yxRSmHo4+H/1W87HUduVVTBdpX54OZqK3fCjPwWXXgDIUsvwsU
+         7D5BFZ9ivwro3vkEEfITm8KgOYD66sVf20OjDUPk6B/dnyEpzy53zN25+lNLHBAhNjom
+         FISw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=default header.b="OL/sNkRf";
+       dkim=pass header.i=@kernel.org header.s=default header.b=DXPlfztC;
        spf=pass (google.com: domain of paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=paulmck@kernel.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :references:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=Hue51j7g561MOUSq18lEib14hmqZXn3oy0UO2CtrIRk=;
-        b=HsXa/XciY4OHiJaHvFDiYS6/VtVkGoIEsDLoTu0NkmGLUFfHW4DBzKx9mqTs+HIz+r
-         8AxDdLPIAHFEHQ647A/fGy8MsQL/Avq0ZkWLCTarweagAaNx8PqpAyvaz7vTLYwY9tBT
-         N61aZZryZebM7QuPM0nZQvL6AeCuPJnjBEyKmF2YWM0NKPsXrvB0Z4VykdQqQ5scrRO+
-         2dT5InFcBRNc5zX+diRSZErMizGFknbujqUyMQzqaFFhKImQGG9Fc1djhDo2S0YtsrKd
-         h1IO+6/OG2OHpbLIl9nM/Vt2A1IamaOXeKbVZSl9SHJiovbMcZfrrWLF1i8W6YV65+Rq
-         PMNg==
+        bh=a+ZdETs0QpWPvrt1fM9OkDWhjvv+dufIMqLa5AYc09k=;
+        b=Hp7fRwTQLwKt4JHTj9UirT+8zZS9Cx541Kwqi0wzYmhbPmVHxzqlDBtBzwy+ulRySx
+         HPsihSYnCuH1FPQK0RroVqqxoJduvOs5+ZpGt0wvGvSMFqlY16zvVHVBBclvD1JOjJ6F
+         Q5uxHZmT1Y1+8WqOMjJAltmF0R/gotf2L8lsqK0UW2ew1zc4FbRdSrHOTJJqWdneAIy4
+         OSwa06xKEX99F/Jlyoi+KJpK8u4h2MfBmrsULYT4PrLh2SmgA3Kvt6nlPl60mYxLR7Na
+         I4UzYyGmDgWjVERUf/uolTSBPF5DaEeDiRwMFAiCT7W99RYc1NyfnaeOrNEAfooPIaYY
+         dVfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:mime-version:from:to:cc:subject:date
@@ -49,49 +49,49 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=Hue51j7g561MOUSq18lEib14hmqZXn3oy0UO2CtrIRk=;
-        b=jaz9eODx7UqY+8OskSlqgwSjL3jakyeh5d5lWF71eCSwviJNF2/XIRoQqlAZtS7Ruy
-         /sP5XcmA1AD4IFTnQyd7B57RK65YsQYjFh6rIZBlRpwFUGKFLJ3zWZj/yYKEdHhewPJF
-         2so+Pv1lhGfmwwSsvdY3B0ooBIVC5Zp0Ty+U1hliac+SHEwhWEiF82gLfDcfazhNor5f
-         EMoX9MugmQgE7bZPkAXMTvSjsfuJ9ChokBXYcluauEbT8h5I9Hua6JdrKfm+OW346ccO
-         8WnSYqxsjgdsnLzrPc/daEz09ZOXv+pmWve/N3fFDnSwH7SsbX0JI1d6NXzBxv2Tew9s
-         XVbQ==
+        bh=a+ZdETs0QpWPvrt1fM9OkDWhjvv+dufIMqLa5AYc09k=;
+        b=tCmco3nJTCK5J7FcqyvEWUseBPmuBDRe9PkepRiVxxaucNaxQtzagpbKNPUoRc2vWw
+         NfSHKvhL/9FsBSwYMIpdWpYJzPql7/CNekhG39mCHvnvnAIfDVQLy6/C1bL/g05PNC2W
+         qGtqxdyCeuQsxzEN/RbE/mX3ZC/ilgQ1cJRHEYX1JfPaU8vL+kvGMtZbcPnHtFzYnOeq
+         K9j+eVfIgqHTFmOlByEweXUBDgSXlJnzDf3v7cfPH5Nwx00aJ3YKvuY1p9UBRLDZpkGx
+         UmxyT8c6t8efR3zgKZ7uYmxf4eFRnLQsrYndD1AUg56iR3uV56jy6RHawSuHv5DivQ8i
+         uQ8Q==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AGi0PuYrNCxg36m6jsaXFpRTQ103f4m/C5XYHNuThx0CDP+ToKrAQ494
-	+GJphWYFp4ekvf8bYwZUDIE=
-X-Google-Smtp-Source: APiQypJKXJ1kZMc2nk/6EpyP6AievDCaXsFC34EF91cvgn8HGKHo5Yldt78FWLncY3O8nX4fFBg7rQ==
-X-Received: by 2002:a92:c6c4:: with SMTP id v4mr6352096ilm.18.1586975656385;
-        Wed, 15 Apr 2020 11:34:16 -0700 (PDT)
+X-Gm-Message-State: AGi0PubtDXduUdK2Y6QgN3jjBISLO1XeVz2yz+D2QfYr+bUqx32rIg2T
+	2AVhOXC3ssbiPBVagZYnW9k=
+X-Google-Smtp-Source: APiQypIvXdKFdefk4aM1Bek99zlBL4/+DYwmdY4H5sLeRgHK4Gx2ne9m7EKPN/demNJLDYN+3S401g==
+X-Received: by 2002:ac8:554b:: with SMTP id o11mr22606089qtr.168.1586975657087;
+        Wed, 15 Apr 2020 11:34:17 -0700 (PDT)
 MIME-Version: 1.0
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a92:c84c:: with SMTP id b12ls3798095ilq.5.gmail; Wed, 15 Apr
+Received: by 2002:ac8:5217:: with SMTP id r23ls3966235qtn.6.gmail; Wed, 15 Apr
  2020 11:34:16 -0700 (PDT)
-X-Received: by 2002:a92:5ed9:: with SMTP id f86mr6716632ilg.31.1586975656117;
+X-Received: by 2002:ac8:1b70:: with SMTP id p45mr22738862qtk.258.1586975656814;
         Wed, 15 Apr 2020 11:34:16 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; t=1586975656; cv=none;
         d=google.com; s=arc-20160816;
-        b=kVvpA2z4uAhKylmm+A03x6wkEEyiAPfS2LrzZ85sLJTu9tRx/MuLSMrObgi0iCefLQ
-         Y5nAvqZUVjckISiqGe6BvvSZyl+Bi1QMIvKyBydPUe8a8R/6dLTTQ5GAn/Y43yOpcrax
-         SL+dTC4YTP59wKr9vGumEvLa/SHpOiwekJdYva/se1WKJQjPHSruwAGpCnijdSgSVqp0
-         OO4vguOW2D/ZgxSvobaQ1tytpCgLu8aI/XJ4pDoTw3dHr8k8ZiQUDgRjIqkTWEjMQOhq
-         79+vvF7HefzrfRyhc9v/xDn0/yIp5Je9yXwvVbSjiEDMS53OPLT9BwuTHqYfKsqjPpx9
-         e71g==
+        b=SF2KF9Ke526QvMmUxrPpF5UGmiZ8vMcdCh6W2Yu+c3cWflJjgzz8Q+1mSBJ6GvFdfJ
+         Y95O4TUAW9hdMRx3TFrZO6SdXjVMWSUgnd6oAoed69JEVmUT/WFKNYhuxTG7eWag5PZT
+         zEw3emm/Q+CUzmOIgslk5qaCiozAUnbQtIsXhAjZde9UmzUbQapsUFIF21kWIazYJPOK
+         NHtUccnb2BQhL0oXP+KmFczEU8NLpXa0JU+pfLVPUoYFvlZYXuWvK8s9D69rDzlDLH10
+         ghTfmArY6QfXWOOUKjndhhcP3qbxkXUK8MglogItmtGbCxn/zxxBBUFQeQKRDL3dkKvY
+         +Xfw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=references:in-reply-to:message-id:date:subject:cc:to:from
          :dkim-signature;
-        bh=E4MDhvt9sSp32AnKupyPJ5px9a6lorYz0jHcAv/cFXQ=;
-        b=RF0lYRgU1+/ZDC9+Cwl3oPqXoyYcDG5AT9ezEyeEnb+02HZ1Iq3KuDG8D8/UT+2rgz
-         Whax3V3wI+JHg2Da2xqT9HcFtoRdL0itfqSMYAk+02nulE/IE372s2WvKxEy6fDAyMFh
-         mEsYNYjz95uf8npZS3z2mtjPbLMzkXoJdghJC8wm93ibQB3lki+RAbQLbizV9GeBP8va
-         DTGteISlqHpdZCroorxOMR6RKM+DvbteDRY99tnRzB0tT85mS+q4kV5og1mRN154rHhe
-         3DrPMTfpKPP0Z6DirQyZ6YbEf373P8EJiWVN0ZiQBwwgLImww53nFytSBC6ME4J4Dl84
-         NTyQ==
+        bh=yumnNzVNUe9o3O/rYbCDG2XcFq/hAkFquqUnMLG5IJo=;
+        b=0Vf7OSHigVCShNKxkGNp4Z5O5PqUYxQcdlfTNIxCYKFLZ+76xs7YoPPhggca5jEOpA
+         0vKY28PNSv9EFVyXA2oLI1Ap04P3ns0VcdzQ1J2wGm+nIOHkA/4zm6PTOOqi51oqOJ3g
+         pAXzp4ybJ6NhzBrYJq8ISvLkWG/0g0HH4GGS1THBKp6wvt3TOSsprKOZCmU4EitXSK57
+         wqi9qGbZzZwZnSI4Lzax2YDA7BHgb+ZRWrxw+60e4LzN4SUoIT4bqE7TQASXr1scN/Iu
+         T6YXd08vJyoJM0vvof2IfXrytw6oLO0LboLZV72XP4NukzoJ80IPquQDtxhl3lBr2q95
+         dPgg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=default header.b="OL/sNkRf";
+       dkim=pass header.i=@kernel.org header.s=default header.b=DXPlfztC;
        spf=pass (google.com: domain of paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=paulmck@kernel.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id g17si809865ioe.0.2020.04.15.11.34.16
+        by gmr-mx.google.com with ESMTPS id o3si985707qtm.0.2020.04.15.11.34.16
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
         Wed, 15 Apr 2020 11:34:16 -0700 (PDT)
@@ -99,7 +99,7 @@ Received-SPF: pass (google.com: domain of paulmck@kernel.org designates 198.145.
 Received: from paulmck-ThinkPad-P72.home (50-39-105-78.bvtn.or.frontiernet.net [50.39.105.78])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id 4F453217BA;
+	by mail.kernel.org (Postfix) with ESMTPSA id 9132F217D8;
 	Wed, 15 Apr 2020 18:34:15 +0000 (UTC)
 From: paulmck@kernel.org
 To: linux-kernel@vger.kernel.org,
@@ -113,15 +113,15 @@ Cc: elver@google.com,
 	cai@lca.pw,
 	boqun.feng@gmail.com,
 	"Paul E . McKenney" <paulmck@kernel.org>
-Subject: [PATCH v4 tip/core/rcu 09/15] kcsan: Add support for scoped accesses
-Date: Wed, 15 Apr 2020 11:34:05 -0700
-Message-Id: <20200415183411.12368-9-paulmck@kernel.org>
+Subject: [PATCH v4 tip/core/rcu 10/15] objtool, kcsan: Add explicit check functions to uaccess whitelist
+Date: Wed, 15 Apr 2020 11:34:06 -0700
+Message-Id: <20200415183411.12368-10-paulmck@kernel.org>
 X-Mailer: git-send-email 2.9.5
 In-Reply-To: <20200415183343.GA12265@paulmck-ThinkPad-P72>
 References: <20200415183343.GA12265@paulmck-ThinkPad-P72>
 X-Original-Sender: paulmck@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=default header.b="OL/sNkRf";       spf=pass
+ header.i=@kernel.org header.s=default header.b=DXPlfztC;       spf=pass
  (google.com: domain of paulmck@kernel.org designates 198.145.29.99 as
  permitted sender) smtp.mailfrom=paulmck@kernel.org;       dmarc=pass (p=NONE
  sp=NONE dis=NONE) header.from=kernel.org
@@ -140,362 +140,37 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 From: Marco Elver <elver@google.com>
 
-This adds support for scoped accesses, where the memory range is checked
-for the duration of the scope. The feature is implemented by inserting
-the relevant access information into a list of scoped accesses for
-the current execution context, which are then checked (until removed)
-on every call (through instrumentation) into the KCSAN runtime.
+Add explicitly invoked KCSAN check functions to objtool's uaccess
+whitelist. This is needed in order to permit calling into
+kcsan_check_scoped_accesses() from the fast-path, which in turn calls
+__kcsan_check_access().  __kcsan_check_access() is the generic variant
+of the already whitelisted specializations __tsan_{read,write}N.
 
-An alternative, more complex, implementation could set up a watchpoint for
-the scoped access, and keep the watchpoint set up. This, however, would
-require first exposing a handle to the watchpoint, as well as dealing
-with cases such as accesses by the same thread while the watchpoint is
-still set up (and several more cases). It is also doubtful if this would
-provide any benefit, since the majority of delay where the watchpoint
-is set up is likely due to the injected delays by KCSAN.  Therefore,
-the implementation in this patch is simpler and avoids hurting KCSAN's
-main use-case (normal data race detection); it also implicitly increases
-scoped-access race-detection-ability due to increased probability of
-setting up watchpoints by repeatedly calling __kcsan_check_access()
-throughout the scope of the access.
-
-The implementation required adding an additional conditional branch to
-the fast-path. However, the microbenchmark showed a *speedup* of ~5%
-on the fast-path. This appears to be due to subtly improved codegen by
-GCC from moving get_ctx() and associated load of preempt_count earlier.
-
-Suggested-by: Boqun Feng <boqun.feng@gmail.com>
-Suggested-by: Paul E. McKenney <paulmck@kernel.org>
 Signed-off-by: Marco Elver <elver@google.com>
 Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
 ---
- include/linux/kcsan-checks.h | 57 ++++++++++++++++++++++++++++++
- include/linux/kcsan.h        |  3 ++
- init/init_task.c             |  1 +
- kernel/kcsan/core.c          | 83 +++++++++++++++++++++++++++++++++++++++-----
- kernel/kcsan/report.c        | 33 ++++++++++++------
- 5 files changed, 158 insertions(+), 19 deletions(-)
+ tools/objtool/check.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/include/linux/kcsan-checks.h b/include/linux/kcsan-checks.h
-index 3cd8bb0..b24253d 100644
---- a/include/linux/kcsan-checks.h
-+++ b/include/linux/kcsan-checks.h
-@@ -3,6 +3,8 @@
- #ifndef _LINUX_KCSAN_CHECKS_H
- #define _LINUX_KCSAN_CHECKS_H
- 
-+/* Note: Only include what is already included by compiler.h. */
-+#include <linux/compiler_attributes.h>
- #include <linux/types.h>
- 
- /*
-@@ -12,10 +14,12 @@
-  *   WRITE : write access;
-  *   ATOMIC: access is atomic;
-  *   ASSERT: access is not a regular access, but an assertion;
-+ *   SCOPED: access is a scoped access;
-  */
- #define KCSAN_ACCESS_WRITE  0x1
- #define KCSAN_ACCESS_ATOMIC 0x2
- #define KCSAN_ACCESS_ASSERT 0x4
-+#define KCSAN_ACCESS_SCOPED 0x8
- 
- /*
-  * __kcsan_*: Always calls into the runtime when KCSAN is enabled. This may be used
-@@ -78,6 +82,52 @@ void kcsan_atomic_next(int n);
-  */
- void kcsan_set_access_mask(unsigned long mask);
- 
-+/* Scoped access information. */
-+struct kcsan_scoped_access {
-+	struct list_head list;
-+	const volatile void *ptr;
-+	size_t size;
-+	int type;
-+};
-+/*
-+ * Automatically call kcsan_end_scoped_access() when kcsan_scoped_access goes
-+ * out of scope; relies on attribute "cleanup", which is supported by all
-+ * compilers that support KCSAN.
-+ */
-+#define __kcsan_cleanup_scoped                                                 \
-+	__maybe_unused __attribute__((__cleanup__(kcsan_end_scoped_access)))
-+
-+/**
-+ * kcsan_begin_scoped_access - begin scoped access
-+ *
-+ * Begin scoped access and initialize @sa, which will cause KCSAN to
-+ * continuously check the memory range in the current thread until
-+ * kcsan_end_scoped_access() is called for @sa.
-+ *
-+ * Scoped accesses are implemented by appending @sa to an internal list for the
-+ * current execution context, and then checked on every call into the KCSAN
-+ * runtime.
-+ *
-+ * @ptr: address of access
-+ * @size: size of access
-+ * @type: access type modifier
-+ * @sa: struct kcsan_scoped_access to use for the scope of the access
-+ */
-+struct kcsan_scoped_access *
-+kcsan_begin_scoped_access(const volatile void *ptr, size_t size, int type,
-+			  struct kcsan_scoped_access *sa);
-+
-+/**
-+ * kcsan_end_scoped_access - end scoped access
-+ *
-+ * End a scoped access, which will stop KCSAN checking the memory range.
-+ * Requires that kcsan_begin_scoped_access() was previously called once for @sa.
-+ *
-+ * @sa: a previously initialized struct kcsan_scoped_access
-+ */
-+void kcsan_end_scoped_access(struct kcsan_scoped_access *sa);
-+
-+
- #else /* CONFIG_KCSAN */
- 
- static inline void __kcsan_check_access(const volatile void *ptr, size_t size,
-@@ -90,6 +140,13 @@ static inline void kcsan_flat_atomic_end(void)		{ }
- static inline void kcsan_atomic_next(int n)		{ }
- static inline void kcsan_set_access_mask(unsigned long mask) { }
- 
-+struct kcsan_scoped_access { };
-+#define __kcsan_cleanup_scoped __maybe_unused
-+static inline struct kcsan_scoped_access *
-+kcsan_begin_scoped_access(const volatile void *ptr, size_t size, int type,
-+			  struct kcsan_scoped_access *sa) { return sa; }
-+static inline void kcsan_end_scoped_access(struct kcsan_scoped_access *sa) { }
-+
- #endif /* CONFIG_KCSAN */
- 
- /*
-diff --git a/include/linux/kcsan.h b/include/linux/kcsan.h
-index 3b84606..17ae59e 100644
---- a/include/linux/kcsan.h
-+++ b/include/linux/kcsan.h
-@@ -40,6 +40,9 @@ struct kcsan_ctx {
- 	 * Access mask for all accesses if non-zero.
- 	 */
- 	unsigned long access_mask;
-+
-+	/* List of scoped accesses. */
-+	struct list_head scoped_accesses;
- };
- 
- /**
-diff --git a/init/init_task.c b/init/init_task.c
-index 096191d..1989438 100644
---- a/init/init_task.c
-+++ b/init/init_task.c
-@@ -168,6 +168,7 @@ struct task_struct init_task
- 		.atomic_nest_count	= 0,
- 		.in_flat_atomic		= false,
- 		.access_mask		= 0,
-+		.scoped_accesses	= {LIST_POISON1, NULL},
- 	},
- #endif
- #ifdef CONFIG_TRACE_IRQFLAGS
-diff --git a/kernel/kcsan/core.c b/kernel/kcsan/core.c
-index 4d8ea0f..a572aae 100644
---- a/kernel/kcsan/core.c
-+++ b/kernel/kcsan/core.c
-@@ -6,6 +6,7 @@
- #include <linux/export.h>
- #include <linux/init.h>
- #include <linux/kernel.h>
-+#include <linux/list.h>
- #include <linux/moduleparam.h>
- #include <linux/percpu.h>
- #include <linux/preempt.h>
-@@ -42,6 +43,7 @@ static DEFINE_PER_CPU(struct kcsan_ctx, kcsan_cpu_ctx) = {
- 	.atomic_nest_count	= 0,
- 	.in_flat_atomic		= false,
- 	.access_mask		= 0,
-+	.scoped_accesses	= {LIST_POISON1, NULL},
- };
- 
- /*
-@@ -191,12 +193,23 @@ static __always_inline struct kcsan_ctx *get_ctx(void)
- 	return in_task() ? &current->kcsan_ctx : raw_cpu_ptr(&kcsan_cpu_ctx);
- }
- 
-+/* Check scoped accesses; never inline because this is a slow-path! */
-+static noinline void kcsan_check_scoped_accesses(void)
-+{
-+	struct kcsan_ctx *ctx = get_ctx();
-+	struct list_head *prev_save = ctx->scoped_accesses.prev;
-+	struct kcsan_scoped_access *scoped_access;
-+
-+	ctx->scoped_accesses.prev = NULL;  /* Avoid recursion. */
-+	list_for_each_entry(scoped_access, &ctx->scoped_accesses, list)
-+		__kcsan_check_access(scoped_access->ptr, scoped_access->size, scoped_access->type);
-+	ctx->scoped_accesses.prev = prev_save;
-+}
-+
- /* Rules for generic atomic accesses. Called from fast-path. */
- static __always_inline bool
--is_atomic(const volatile void *ptr, size_t size, int type)
-+is_atomic(const volatile void *ptr, size_t size, int type, struct kcsan_ctx *ctx)
- {
--	struct kcsan_ctx *ctx;
--
- 	if (type & KCSAN_ACCESS_ATOMIC)
- 		return true;
- 
-@@ -213,7 +226,6 @@ is_atomic(const volatile void *ptr, size_t size, int type)
- 	    IS_ALIGNED((unsigned long)ptr, size))
- 		return true; /* Assume aligned writes up to word size are atomic. */
- 
--	ctx = get_ctx();
- 	if (ctx->atomic_next > 0) {
- 		/*
- 		 * Because we do not have separate contexts for nested
-@@ -233,7 +245,7 @@ is_atomic(const volatile void *ptr, size_t size, int type)
- }
- 
- static __always_inline bool
--should_watch(const volatile void *ptr, size_t size, int type)
-+should_watch(const volatile void *ptr, size_t size, int type, struct kcsan_ctx *ctx)
- {
- 	/*
- 	 * Never set up watchpoints when memory operations are atomic.
-@@ -242,7 +254,7 @@ should_watch(const volatile void *ptr, size_t size, int type)
- 	 * should not count towards skipped instructions, and (2) to actually
- 	 * decrement kcsan_atomic_next for consecutive instruction stream.
- 	 */
--	if (is_atomic(ptr, size, type))
-+	if (is_atomic(ptr, size, type, ctx))
- 		return false;
- 
- 	if (this_cpu_dec_return(kcsan_skip) >= 0)
-@@ -563,8 +575,14 @@ static __always_inline void check_access(const volatile void *ptr, size_t size,
- 	if (unlikely(watchpoint != NULL))
- 		kcsan_found_watchpoint(ptr, size, type, watchpoint,
- 				       encoded_watchpoint);
--	else if (unlikely(should_watch(ptr, size, type)))
--		kcsan_setup_watchpoint(ptr, size, type);
-+	else {
-+		struct kcsan_ctx *ctx = get_ctx(); /* Call only once in fast-path. */
-+
-+		if (unlikely(should_watch(ptr, size, type, ctx)))
-+			kcsan_setup_watchpoint(ptr, size, type);
-+		else if (unlikely(ctx->scoped_accesses.prev))
-+			kcsan_check_scoped_accesses();
-+	}
- }
- 
- /* === Public interface ===================================================== */
-@@ -660,6 +678,55 @@ void kcsan_set_access_mask(unsigned long mask)
- }
- EXPORT_SYMBOL(kcsan_set_access_mask);
- 
-+struct kcsan_scoped_access *
-+kcsan_begin_scoped_access(const volatile void *ptr, size_t size, int type,
-+			  struct kcsan_scoped_access *sa)
-+{
-+	struct kcsan_ctx *ctx = get_ctx();
-+
-+	__kcsan_check_access(ptr, size, type);
-+
-+	ctx->disable_count++; /* Disable KCSAN, in case list debugging is on. */
-+
-+	INIT_LIST_HEAD(&sa->list);
-+	sa->ptr = ptr;
-+	sa->size = size;
-+	sa->type = type;
-+
-+	if (!ctx->scoped_accesses.prev) /* Lazy initialize list head. */
-+		INIT_LIST_HEAD(&ctx->scoped_accesses);
-+	list_add(&sa->list, &ctx->scoped_accesses);
-+
-+	ctx->disable_count--;
-+	return sa;
-+}
-+EXPORT_SYMBOL(kcsan_begin_scoped_access);
-+
-+void kcsan_end_scoped_access(struct kcsan_scoped_access *sa)
-+{
-+	struct kcsan_ctx *ctx = get_ctx();
-+
-+	if (WARN(!ctx->scoped_accesses.prev, "Unbalanced %s()?", __func__))
-+		return;
-+
-+	ctx->disable_count++; /* Disable KCSAN, in case list debugging is on. */
-+
-+	list_del(&sa->list);
-+	if (list_empty(&ctx->scoped_accesses))
-+		/*
-+		 * Ensure we do not enter kcsan_check_scoped_accesses()
-+		 * slow-path if unnecessary, and avoids requiring list_empty()
-+		 * in the fast-path (to avoid a READ_ONCE() and potential
-+		 * uaccess warning).
-+		 */
-+		ctx->scoped_accesses.prev = NULL;
-+
-+	ctx->disable_count--;
-+
-+	__kcsan_check_access(sa->ptr, sa->size, sa->type);
-+}
-+EXPORT_SYMBOL(kcsan_end_scoped_access);
-+
- void __kcsan_check_access(const volatile void *ptr, size_t size, int type)
- {
- 	check_access(ptr, size, type);
-diff --git a/kernel/kcsan/report.c b/kernel/kcsan/report.c
-index ae0a383..ddc18f1 100644
---- a/kernel/kcsan/report.c
-+++ b/kernel/kcsan/report.c
-@@ -205,6 +205,20 @@ skip_report(enum kcsan_value_change value_change, unsigned long top_frame)
- 
- static const char *get_access_type(int type)
- {
-+	if (type & KCSAN_ACCESS_ASSERT) {
-+		if (type & KCSAN_ACCESS_SCOPED) {
-+			if (type & KCSAN_ACCESS_WRITE)
-+				return "assert no accesses (scoped)";
-+			else
-+				return "assert no writes (scoped)";
-+		} else {
-+			if (type & KCSAN_ACCESS_WRITE)
-+				return "assert no accesses";
-+			else
-+				return "assert no writes";
-+		}
-+	}
-+
- 	switch (type) {
- 	case 0:
- 		return "read";
-@@ -214,17 +228,14 @@ static const char *get_access_type(int type)
- 		return "write";
- 	case KCSAN_ACCESS_WRITE | KCSAN_ACCESS_ATOMIC:
- 		return "write (marked)";
--
--	/*
--	 * ASSERT variants:
--	 */
--	case KCSAN_ACCESS_ASSERT:
--	case KCSAN_ACCESS_ASSERT | KCSAN_ACCESS_ATOMIC:
--		return "assert no writes";
--	case KCSAN_ACCESS_ASSERT | KCSAN_ACCESS_WRITE:
--	case KCSAN_ACCESS_ASSERT | KCSAN_ACCESS_WRITE | KCSAN_ACCESS_ATOMIC:
--		return "assert no accesses";
--
-+	case KCSAN_ACCESS_SCOPED:
-+		return "read (scoped)";
-+	case KCSAN_ACCESS_SCOPED | KCSAN_ACCESS_ATOMIC:
-+		return "read (marked, scoped)";
-+	case KCSAN_ACCESS_SCOPED | KCSAN_ACCESS_WRITE:
-+		return "write (scoped)";
-+	case KCSAN_ACCESS_SCOPED | KCSAN_ACCESS_WRITE | KCSAN_ACCESS_ATOMIC:
-+		return "write (marked, scoped)";
- 	default:
- 		BUG();
- 	}
+diff --git a/tools/objtool/check.c b/tools/objtool/check.c
+index b6da413..b6a573d 100644
+--- a/tools/objtool/check.c
++++ b/tools/objtool/check.c
+@@ -468,8 +468,10 @@ static const char *uaccess_safe_builtin[] = {
+ 	"__asan_report_store8_noabort",
+ 	"__asan_report_store16_noabort",
+ 	/* KCSAN */
++	"__kcsan_check_access",
+ 	"kcsan_found_watchpoint",
+ 	"kcsan_setup_watchpoint",
++	"kcsan_check_scoped_accesses",
+ 	/* KCSAN/TSAN */
+ 	"__tsan_func_entry",
+ 	"__tsan_func_exit",
 -- 
 2.9.5
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200415183411.12368-9-paulmck%40kernel.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200415183411.12368-10-paulmck%40kernel.org.
