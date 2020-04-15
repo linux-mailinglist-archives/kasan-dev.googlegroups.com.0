@@ -1,32 +1,32 @@
 Return-Path: <kasan-dev+bncBAABBKFH3X2AKGQEJ5EESCQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-vs1-xe40.google.com (mail-vs1-xe40.google.com [IPv6:2607:f8b0:4864:20::e40])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FF401AB0CD
-	for <lists+kasan-dev@lfdr.de>; Wed, 15 Apr 2020 20:34:18 +0200 (CEST)
-Received: by mail-vs1-xe40.google.com with SMTP id u4sf374760vsg.7
-        for <lists+kasan-dev@lfdr.de>; Wed, 15 Apr 2020 11:34:18 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1586975657; cv=pass;
+Received: from mail-il1-x140.google.com (mail-il1-x140.google.com [IPv6:2607:f8b0:4864:20::140])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F5AE1AB0CB
+	for <lists+kasan-dev@lfdr.de>; Wed, 15 Apr 2020 20:34:17 +0200 (CEST)
+Received: by mail-il1-x140.google.com with SMTP id a15sf6041382ilh.20
+        for <lists+kasan-dev@lfdr.de>; Wed, 15 Apr 2020 11:34:17 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1586975656; cv=pass;
         d=google.com; s=arc-20160816;
-        b=SFm7vdR8n28lrslKftmeLUJNAyrgPG6iX6hOI2FMEybFpioZF6tXk8OQ9gcG5W/3Pd
-         5x2chyJlwTUfortqZOYy2SIXVwOytNKM3gzHoqQ+dqKvpWLI8ElsQtfw0A1C8TetqQQK
-         /zuEcTGzu5tnv71qtz82E1YjHcvsQ7ulpjPnzyLplNO1C3PIRXoWrJs+vLwj4SZ1ajuv
-         PMzanLtP48Z7cfRg68QriNNNhfoR9HhtyDD+9AfdcTRYdp9f5lOiGHwBOXaKDzXwogbw
-         eOCWuNCklGvZ2OxhqeOmT2IJOxuTqG3LPOKrnPrL14JgJOxk3fS9Jf14YCQOwqETXLOh
-         lHZw==
+        b=eiiWBhQL7CIQQiLaRwk0cAYWdnL9xBwlGdo3OCr6/GDkERJfFIw/0R1EBj/P/om1LY
+         PhL3dvfDRAXvrYhsi6hBHy9+Gef7j/z0g4vDYlB+P0QwCeLTJtRX+o0WcqmyfZF/S9ko
+         BF+idGznmqax+hSfgUSKc3TnUf5vU9Y+9MAWukWnGiLQx6boZag7+h1GWCf0G1+7n9Dk
+         N34HDLn64F/3wjn7mFIKT/lGhCl/qJO+b6hi0UmLO37ZrNpojRqwsVqlTxs1gmRx4SdI
+         F/ATIvkuyhYooUae3QVfLRrEU2IfRXMiB4jI+G4VMJcoTM0773pHO5mIlDXqBmr7zm5O
+         X6YQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:references:in-reply-to:message-id
          :date:subject:cc:to:from:mime-version:sender:dkim-signature;
-        bh=rqmZDA+SNq4D7WjgCniSKpOJDKaU4X78efKtIKvVhfA=;
-        b=E5OxO4Mz+OUiD0i2/zhdJSBBtQgqXT46zeukK2vZ2a6voktyFfkfNe3lzafTW0XrqR
-         76DEtqZ/qJEYLvCMj31zD0I3eBcMsww7Zid11t2bezzNeHzV6PbpLcGHjGRcaLByHr+m
-         aXvxr/WTDJU+3SdsuoGscajopWLOOQ6+6/MXWF2Jv+UnbHc2iwDBj25UF+AJGz2+tD7u
-         qy1twlVTa16cYGJ5kTm0NmbXON1BCSoYPF0T1UNH7cUJw16mFgCKUhGi9tkfDV+ehgZZ
-         qa0Qr0sRXeUq7wAuEw0b9UaGRP1U4iGtfmQAaEGIotvb7I/0uqYON9ZPVLy/jTmiPFXg
-         VCnw==
+        bh=Hue51j7g561MOUSq18lEib14hmqZXn3oy0UO2CtrIRk=;
+        b=s82FUcLAKbMqKyug6LlfnVIhLY/bAquo9uFPN+HXo3Dktzfd4d/iEKvJHhcsIPsuF6
+         xtDRad+y2BXBsDFqQq6giNtXRYnxinEVsClT/Heg5BCsdCNBq7MFA1gtqau9SZIqt1DC
+         q3glDLH8lpx5il5DViIugC5NI+T97VMJ1FrVlU1PLl7xbzkMN1u2vgmhrWrB5ADXfeYn
+         F433mH/tZmQkID+3ceOyjSCdbDzkJ57p5P0VmP/I1ZYmVNJLy2huhAAqGM3Zf/EJPlkr
+         Kp5zkT9OwKpLHaAV0KhiXUofknmV65jvEntYJnMfyxBWh8elAE01K/tV+jbdS7t1IIgt
+         WVkg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=default header.b=NG37waP8;
+       dkim=pass header.i=@kernel.org header.s=default header.b="OL/sNkRf";
        spf=pass (google.com: domain of paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=paulmck@kernel.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :references:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=rqmZDA+SNq4D7WjgCniSKpOJDKaU4X78efKtIKvVhfA=;
-        b=FUtYuegDi1HTa7MYFM9otRTHeDBXuorq1XtVH0V93r3gXNbfAEgl1NeEQHagElYAR+
-         yH9LrFKpl8IoxjDtxy3rj+MaXkdjtBDN2ISGrIyHeedI4NGu0SrAxbhv+O7Lq6JwK26y
-         m7clrd4rH1RUxpGvj+Rl6phJlUlqzcsm9X3dxD8uC07MBXu5sw5PNitmdB7BDJFXG41s
-         6i3LaI7AX3D0J1hNOWtNH4irLHtt9VeUKbCMUrSAPMzbbDJz5r2kaUEwqs4T6fQ0XIo8
-         dzg1/kNWeVXL7w4FlwoqBMc2FOByK2x1Qm0D0wC+VjHgsnkekL9qwaeeWNmJDyVeyFz9
-         HkHQ==
+        bh=Hue51j7g561MOUSq18lEib14hmqZXn3oy0UO2CtrIRk=;
+        b=HsXa/XciY4OHiJaHvFDiYS6/VtVkGoIEsDLoTu0NkmGLUFfHW4DBzKx9mqTs+HIz+r
+         8AxDdLPIAHFEHQ647A/fGy8MsQL/Avq0ZkWLCTarweagAaNx8PqpAyvaz7vTLYwY9tBT
+         N61aZZryZebM7QuPM0nZQvL6AeCuPJnjBEyKmF2YWM0NKPsXrvB0Z4VykdQqQ5scrRO+
+         2dT5InFcBRNc5zX+diRSZErMizGFknbujqUyMQzqaFFhKImQGG9Fc1djhDo2S0YtsrKd
+         h1IO+6/OG2OHpbLIl9nM/Vt2A1IamaOXeKbVZSl9SHJiovbMcZfrrWLF1i8W6YV65+Rq
+         PMNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:mime-version:from:to:cc:subject:date
@@ -49,49 +49,49 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=rqmZDA+SNq4D7WjgCniSKpOJDKaU4X78efKtIKvVhfA=;
-        b=mgy3+Ag8iLBEpZHEsKdn+VgaPZ0/5kL8PakIRfn41KY2fmc+zcNS077x4i4g03OXRa
-         nwDwylf1ns9kE/QaoQ7j0Bo5fAhlbrQfSFky77Pr4YNqx4wGaJn1/l/yYaySFyuxGHvn
-         yydKLhRKnb5TPlNUUmnskfQlhukF8SoeD1ejisLshofHxoxuR/mAtT8QHCgNDKbM5BXv
-         +tWVIAeTtmsB3MpLBkWZAvQ+tGsFNrtv1YS8MB4HHKhBXpw3sf7FA0nBiojd1NTOuOR9
-         WdfHxBAtk+LGA4p31MLUiSed7oFGr9ZHm/KHa3XhL+p6u74aHlsAvbQ+2tIdOIgDmMOy
-         CYJg==
+        bh=Hue51j7g561MOUSq18lEib14hmqZXn3oy0UO2CtrIRk=;
+        b=jaz9eODx7UqY+8OskSlqgwSjL3jakyeh5d5lWF71eCSwviJNF2/XIRoQqlAZtS7Ruy
+         /sP5XcmA1AD4IFTnQyd7B57RK65YsQYjFh6rIZBlRpwFUGKFLJ3zWZj/yYKEdHhewPJF
+         2so+Pv1lhGfmwwSsvdY3B0ooBIVC5Zp0Ty+U1hliac+SHEwhWEiF82gLfDcfazhNor5f
+         EMoX9MugmQgE7bZPkAXMTvSjsfuJ9ChokBXYcluauEbT8h5I9Hua6JdrKfm+OW346ccO
+         8WnSYqxsjgdsnLzrPc/daEz09ZOXv+pmWve/N3fFDnSwH7SsbX0JI1d6NXzBxv2Tew9s
+         XVbQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AGi0Pub5jclHeuu+i3XzniCWy2HZLUxZH9D5OLfAa4xfexNTmzbueDM7
-	KvBa8JaXSlLESbrhMnqMynA=
-X-Google-Smtp-Source: APiQypKhjWwzFe/eb7yQ+jq5iiaAHkuY6mMF7lwA5x/9RcKp84yxICmJR25wQLd8nhL4tuXkiE94vA==
-X-Received: by 2002:a9f:20c6:: with SMTP id 64mr6233979uaa.100.1586975656805;
+X-Gm-Message-State: AGi0PuYrNCxg36m6jsaXFpRTQ103f4m/C5XYHNuThx0CDP+ToKrAQ494
+	+GJphWYFp4ekvf8bYwZUDIE=
+X-Google-Smtp-Source: APiQypJKXJ1kZMc2nk/6EpyP6AievDCaXsFC34EF91cvgn8HGKHo5Yldt78FWLncY3O8nX4fFBg7rQ==
+X-Received: by 2002:a92:c6c4:: with SMTP id v4mr6352096ilm.18.1586975656385;
         Wed, 15 Apr 2020 11:34:16 -0700 (PDT)
 MIME-Version: 1.0
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a1f:99cf:: with SMTP id b198ls465295vke.8.gmail; Wed, 15 Apr
+Received: by 2002:a92:c84c:: with SMTP id b12ls3798095ilq.5.gmail; Wed, 15 Apr
  2020 11:34:16 -0700 (PDT)
-X-Received: by 2002:a1f:2a87:: with SMTP id q129mr5902660vkq.90.1586975656286;
+X-Received: by 2002:a92:5ed9:: with SMTP id f86mr6716632ilg.31.1586975656117;
         Wed, 15 Apr 2020 11:34:16 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; t=1586975656; cv=none;
         d=google.com; s=arc-20160816;
-        b=yyAFW5Xo82jOodqzdQb52wtlKBJAGF7tIZw0xQvO2J6RnDjqghFLVrCdI0gC0tpG1w
-         ZDGE+np8EB8oBlGxa56rb+WEvKSL3Cd59JqI5OSr6dPrcVVbc1E7Zcf49oIeBO1Yvtam
-         Iriv6yFpKUo429NtmeH9ZUQVP4bUByuapxUZuE4IajwwdC9vUdLD2JkfneGD5PMtTXIF
-         1rh2AzWARDlDbPYO0XMyF3TJ8RLtOfJnutbR48tsXSNc10ouvlcOM4SDgTNOQwLXmTkd
-         QhxRpDh8qMVLZjeiI2X3gsLLJy8z1P6qJdFiCqbLK8VtaOqQBsdNnmfrS2H9Rc9hw6FQ
-         N2mg==
+        b=kVvpA2z4uAhKylmm+A03x6wkEEyiAPfS2LrzZ85sLJTu9tRx/MuLSMrObgi0iCefLQ
+         Y5nAvqZUVjckISiqGe6BvvSZyl+Bi1QMIvKyBydPUe8a8R/6dLTTQ5GAn/Y43yOpcrax
+         SL+dTC4YTP59wKr9vGumEvLa/SHpOiwekJdYva/se1WKJQjPHSruwAGpCnijdSgSVqp0
+         OO4vguOW2D/ZgxSvobaQ1tytpCgLu8aI/XJ4pDoTw3dHr8k8ZiQUDgRjIqkTWEjMQOhq
+         79+vvF7HefzrfRyhc9v/xDn0/yIp5Je9yXwvVbSjiEDMS53OPLT9BwuTHqYfKsqjPpx9
+         e71g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=references:in-reply-to:message-id:date:subject:cc:to:from
          :dkim-signature;
-        bh=iZqcuRyjuilu7O4IJ1QgwR4TU6zrYqwGThJJStGWLNE=;
-        b=tBsp/Or73EONhbuNvlJiZKdn/zLL1QCC7vJIKJQorjvSoMr6NrcOBm0/qjIGj127cR
-         mmK+CP45Tcn/AmX01+ltXud0u50AMERDDewhv6chX5+Xze6Mf74BMXaCCyWpIyk/9+xE
-         V11eVAnRyXhDMO7A/My6rJziBTRvFyiPbF0DxHIXYGJ+niHF14L8HV03FGml9tpK7T3M
-         9zgJ8q4f1D0/57dv1JOanrvxjSabLnryT6UCGwIQgFnk7R5V2rBtfhfwk/n2GnBpuL3O
-         vkkoAOI8cwwJ66T4P8ONugsus49ys7s3md0IIPGgwzKUNZmGQXA7/sHPVSu0UBJdVLvU
-         A47g==
+        bh=E4MDhvt9sSp32AnKupyPJ5px9a6lorYz0jHcAv/cFXQ=;
+        b=RF0lYRgU1+/ZDC9+Cwl3oPqXoyYcDG5AT9ezEyeEnb+02HZ1Iq3KuDG8D8/UT+2rgz
+         Whax3V3wI+JHg2Da2xqT9HcFtoRdL0itfqSMYAk+02nulE/IE372s2WvKxEy6fDAyMFh
+         mEsYNYjz95uf8npZS3z2mtjPbLMzkXoJdghJC8wm93ibQB3lki+RAbQLbizV9GeBP8va
+         DTGteISlqHpdZCroorxOMR6RKM+DvbteDRY99tnRzB0tT85mS+q4kV5og1mRN154rHhe
+         3DrPMTfpKPP0Z6DirQyZ6YbEf373P8EJiWVN0ZiQBwwgLImww53nFytSBC6ME4J4Dl84
+         NTyQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=default header.b=NG37waP8;
+       dkim=pass header.i=@kernel.org header.s=default header.b="OL/sNkRf";
        spf=pass (google.com: domain of paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=paulmck@kernel.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id 62si780262uav.1.2020.04.15.11.34.16
+        by gmr-mx.google.com with ESMTPS id g17si809865ioe.0.2020.04.15.11.34.16
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
         Wed, 15 Apr 2020 11:34:16 -0700 (PDT)
@@ -99,7 +99,7 @@ Received-SPF: pass (google.com: domain of paulmck@kernel.org designates 198.145.
 Received: from paulmck-ThinkPad-P72.home (50-39-105-78.bvtn.or.frontiernet.net [50.39.105.78])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id 05CEA21744;
+	by mail.kernel.org (Postfix) with ESMTPSA id 4F453217BA;
 	Wed, 15 Apr 2020 18:34:15 +0000 (UTC)
 From: paulmck@kernel.org
 To: linux-kernel@vger.kernel.org,
@@ -113,15 +113,15 @@ Cc: elver@google.com,
 	cai@lca.pw,
 	boqun.feng@gmail.com,
 	"Paul E . McKenney" <paulmck@kernel.org>
-Subject: [PATCH v4 tip/core/rcu 08/15] kcsan: Avoid blocking producers in prepare_report()
-Date: Wed, 15 Apr 2020 11:34:04 -0700
-Message-Id: <20200415183411.12368-8-paulmck@kernel.org>
+Subject: [PATCH v4 tip/core/rcu 09/15] kcsan: Add support for scoped accesses
+Date: Wed, 15 Apr 2020 11:34:05 -0700
+Message-Id: <20200415183411.12368-9-paulmck@kernel.org>
 X-Mailer: git-send-email 2.9.5
 In-Reply-To: <20200415183343.GA12265@paulmck-ThinkPad-P72>
 References: <20200415183343.GA12265@paulmck-ThinkPad-P72>
 X-Original-Sender: paulmck@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=default header.b=NG37waP8;       spf=pass
+ header.i=@kernel.org header.s=default header.b="OL/sNkRf";       spf=pass
  (google.com: domain of paulmck@kernel.org designates 198.145.29.99 as
  permitted sender) smtp.mailfrom=paulmck@kernel.org;       dmarc=pass (p=NONE
  sp=NONE dis=NONE) header.from=kernel.org
@@ -140,499 +140,362 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 From: Marco Elver <elver@google.com>
 
-To avoid deadlock in case watchers can be interrupted, we need to ensure
-that producers of the struct other_info can never be blocked by an
-unrelated consumer. (Likely to occur with KCSAN_INTERRUPT_WATCHER.)
+This adds support for scoped accesses, where the memory range is checked
+for the duration of the scope. The feature is implemented by inserting
+the relevant access information into a list of scoped accesses for
+the current execution context, which are then checked (until removed)
+on every call (through instrumentation) into the KCSAN runtime.
 
-There are several cases that can lead to this scenario, for example:
+An alternative, more complex, implementation could set up a watchpoint for
+the scoped access, and keep the watchpoint set up. This, however, would
+require first exposing a handle to the watchpoint, as well as dealing
+with cases such as accesses by the same thread while the watchpoint is
+still set up (and several more cases). It is also doubtful if this would
+provide any benefit, since the majority of delay where the watchpoint
+is set up is likely due to the injected delays by KCSAN.  Therefore,
+the implementation in this patch is simpler and avoids hurting KCSAN's
+main use-case (normal data race detection); it also implicitly increases
+scoped-access race-detection-ability due to increased probability of
+setting up watchpoints by repeatedly calling __kcsan_check_access()
+throughout the scope of the access.
 
-	1. A watchpoint A was set up by task T1, but interrupted by
-	   interrupt I1. Some other thread (task or interrupt) finds
-	   watchpoint A consumes it, and sets other_info. Then I1 also
-	   finds some unrelated watchpoint B, consumes it, but is blocked
-	   because other_info is in use. T1 cannot consume other_info
-	   because I1 never returns -> deadlock.
+The implementation required adding an additional conditional branch to
+the fast-path. However, the microbenchmark showed a *speedup* of ~5%
+on the fast-path. This appears to be due to subtly improved codegen by
+GCC from moving get_ctx() and associated load of preempt_count earlier.
 
-	2. A watchpoint A was set up by task T1, but interrupted by
-	   interrupt I1, which also sets up a watchpoint B. Some other
-	   thread finds watchpoint A, and consumes it and sets up
-	   other_info with its information. Similarly some other thread
-	   finds watchpoint B and consumes it, but is then blocked because
-	   other_info is in use. When I1 continues it sees its watchpoint
-	   was consumed, and that it must wait for other_info, which
-	   currently contains information to be consumed by T1. However, T1
-	   cannot unblock other_info because I1 never returns -> deadlock.
-
-To avoid this, we need to ensure that producers of struct other_info
-always have a usable other_info entry. This is obviously not the case
-with only a single instance of struct other_info, as concurrent
-producers must wait for the entry to be released by some consumer (which
-may be locked up as illustrated above).
-
-While it would be nice if producers could simply call kmalloc() and
-append their instance of struct other_info to a list, we are very
-limited in this code path: since KCSAN can instrument the allocators
-themselves, calling kmalloc() could lead to deadlock or corrupted
-allocator state.
-
-Since producers of the struct other_info will always succeed at
-try_consume_watchpoint(), preceding the call into kcsan_report(), we
-know that the particular watchpoint slot cannot simply be reused or
-consumed by another potential other_info producer. If we move removal of
-a watchpoint after reporting (by the consumer of struct other_info), we
-can see a consumed watchpoint as a held lock on elements of other_info,
-if we create a one-to-one mapping of a watchpoint to an other_info
-element.
-
-Therefore, the simplest solution is to create an array of struct
-other_info that is as large as the watchpoints array in core.c, and pass
-the watchpoint index to kcsan_report() for producers and consumers, and
-change watchpoints to be removed after reporting is done.
-
-With a default config on a 64-bit system, the array other_infos consumes
-~37KiB. For most systems today this is not a problem. On smaller memory
-constrained systems, the config value CONFIG_KCSAN_NUM_WATCHPOINTS can
-be reduced appropriately.
-
-Overall, this change is a simplification of the prepare_report() code,
-and makes some of the checks (such as checking if at least one access is
-a write) redundant.
-
-Tested:
-$ tools/testing/selftests/rcutorture/bin/kvm.sh \
-	--cpus 12 --duration 10 --kconfig "CONFIG_DEBUG_INFO=y \
-	CONFIG_KCSAN=y CONFIG_KCSAN_ASSUME_PLAIN_WRITES_ATOMIC=n \
-	CONFIG_KCSAN_REPORT_VALUE_CHANGE_ONLY=n \
-	CONFIG_KCSAN_REPORT_ONCE_IN_MS=100000 CONFIG_KCSAN_VERBOSE=y \
-	CONFIG_KCSAN_INTERRUPT_WATCHER=y CONFIG_PROVE_LOCKING=y" \
-	--configs TREE03
-=> No longer hangs and runs to completion as expected.
-
-Reported-by: Paul E. McKenney <paulmck@kernel.org>
+Suggested-by: Boqun Feng <boqun.feng@gmail.com>
+Suggested-by: Paul E. McKenney <paulmck@kernel.org>
 Signed-off-by: Marco Elver <elver@google.com>
 Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
 ---
- kernel/kcsan/core.c   |  31 +++++---
- kernel/kcsan/kcsan.h  |   3 +-
- kernel/kcsan/report.c | 212 ++++++++++++++++++++++++--------------------------
- 3 files changed, 124 insertions(+), 122 deletions(-)
+ include/linux/kcsan-checks.h | 57 ++++++++++++++++++++++++++++++
+ include/linux/kcsan.h        |  3 ++
+ init/init_task.c             |  1 +
+ kernel/kcsan/core.c          | 83 +++++++++++++++++++++++++++++++++++++++-----
+ kernel/kcsan/report.c        | 33 ++++++++++++------
+ 5 files changed, 158 insertions(+), 19 deletions(-)
 
-diff --git a/kernel/kcsan/core.c b/kernel/kcsan/core.c
-index f1c3862..4d8ea0f 100644
---- a/kernel/kcsan/core.c
-+++ b/kernel/kcsan/core.c
-@@ -69,7 +69,6 @@ static DEFINE_PER_CPU(struct kcsan_ctx, kcsan_cpu_ctx) = {
-  *   slot=9:  [10, 11,  9]
-  *   slot=63: [64, 65, 63]
-  */
--#define NUM_SLOTS (1 + 2*KCSAN_CHECK_ADJACENT)
- #define SLOT_IDX(slot, i) (slot + ((i + KCSAN_CHECK_ADJACENT) % NUM_SLOTS))
+diff --git a/include/linux/kcsan-checks.h b/include/linux/kcsan-checks.h
+index 3cd8bb0..b24253d 100644
+--- a/include/linux/kcsan-checks.h
++++ b/include/linux/kcsan-checks.h
+@@ -3,6 +3,8 @@
+ #ifndef _LINUX_KCSAN_CHECKS_H
+ #define _LINUX_KCSAN_CHECKS_H
+ 
++/* Note: Only include what is already included by compiler.h. */
++#include <linux/compiler_attributes.h>
+ #include <linux/types.h>
  
  /*
-@@ -171,12 +170,16 @@ try_consume_watchpoint(atomic_long_t *watchpoint, long encoded_watchpoint)
- 	return atomic_long_try_cmpxchg_relaxed(watchpoint, &encoded_watchpoint, CONSUMED_WATCHPOINT);
- }
+@@ -12,10 +14,12 @@
+  *   WRITE : write access;
+  *   ATOMIC: access is atomic;
+  *   ASSERT: access is not a regular access, but an assertion;
++ *   SCOPED: access is a scoped access;
+  */
+ #define KCSAN_ACCESS_WRITE  0x1
+ #define KCSAN_ACCESS_ATOMIC 0x2
+ #define KCSAN_ACCESS_ASSERT 0x4
++#define KCSAN_ACCESS_SCOPED 0x8
  
--/*
-- * Return true if watchpoint was not touched, false if consumed.
-- */
--static inline bool remove_watchpoint(atomic_long_t *watchpoint)
-+/* Return true if watchpoint was not touched, false if already consumed. */
-+static inline bool consume_watchpoint(atomic_long_t *watchpoint)
- {
--	return atomic_long_xchg_relaxed(watchpoint, INVALID_WATCHPOINT) != CONSUMED_WATCHPOINT;
-+	return atomic_long_xchg_relaxed(watchpoint, CONSUMED_WATCHPOINT) != CONSUMED_WATCHPOINT;
-+}
+ /*
+  * __kcsan_*: Always calls into the runtime when KCSAN is enabled. This may be used
+@@ -78,6 +82,52 @@ void kcsan_atomic_next(int n);
+  */
+ void kcsan_set_access_mask(unsigned long mask);
+ 
++/* Scoped access information. */
++struct kcsan_scoped_access {
++	struct list_head list;
++	const volatile void *ptr;
++	size_t size;
++	int type;
++};
++/*
++ * Automatically call kcsan_end_scoped_access() when kcsan_scoped_access goes
++ * out of scope; relies on attribute "cleanup", which is supported by all
++ * compilers that support KCSAN.
++ */
++#define __kcsan_cleanup_scoped                                                 \
++	__maybe_unused __attribute__((__cleanup__(kcsan_end_scoped_access)))
 +
-+/* Remove the watchpoint -- its slot may be reused after. */
-+static inline void remove_watchpoint(atomic_long_t *watchpoint)
-+{
-+	atomic_long_set(watchpoint, INVALID_WATCHPOINT);
- }
++/**
++ * kcsan_begin_scoped_access - begin scoped access
++ *
++ * Begin scoped access and initialize @sa, which will cause KCSAN to
++ * continuously check the memory range in the current thread until
++ * kcsan_end_scoped_access() is called for @sa.
++ *
++ * Scoped accesses are implemented by appending @sa to an internal list for the
++ * current execution context, and then checked on every call into the KCSAN
++ * runtime.
++ *
++ * @ptr: address of access
++ * @size: size of access
++ * @type: access type modifier
++ * @sa: struct kcsan_scoped_access to use for the scope of the access
++ */
++struct kcsan_scoped_access *
++kcsan_begin_scoped_access(const volatile void *ptr, size_t size, int type,
++			  struct kcsan_scoped_access *sa);
++
++/**
++ * kcsan_end_scoped_access - end scoped access
++ *
++ * End a scoped access, which will stop KCSAN checking the memory range.
++ * Requires that kcsan_begin_scoped_access() was previously called once for @sa.
++ *
++ * @sa: a previously initialized struct kcsan_scoped_access
++ */
++void kcsan_end_scoped_access(struct kcsan_scoped_access *sa);
++
++
+ #else /* CONFIG_KCSAN */
  
- static __always_inline struct kcsan_ctx *get_ctx(void)
-@@ -322,7 +325,8 @@ static noinline void kcsan_found_watchpoint(const volatile void *ptr,
+ static inline void __kcsan_check_access(const volatile void *ptr, size_t size,
+@@ -90,6 +140,13 @@ static inline void kcsan_flat_atomic_end(void)		{ }
+ static inline void kcsan_atomic_next(int n)		{ }
+ static inline void kcsan_set_access_mask(unsigned long mask) { }
  
- 	if (consumed) {
- 		kcsan_report(ptr, size, type, KCSAN_VALUE_CHANGE_MAYBE,
--			     KCSAN_REPORT_CONSUMED_WATCHPOINT);
-+			     KCSAN_REPORT_CONSUMED_WATCHPOINT,
-+			     watchpoint - watchpoints);
- 	} else {
- 		/*
- 		 * The other thread may not print any diagnostics, as it has
-@@ -470,7 +474,7 @@ kcsan_setup_watchpoint(const volatile void *ptr, size_t size, int type)
- 		value_change = KCSAN_VALUE_CHANGE_TRUE;
- 
- 	/* Check if this access raced with another. */
--	if (!remove_watchpoint(watchpoint)) {
-+	if (!consume_watchpoint(watchpoint)) {
- 		/*
- 		 * Depending on the access type, map a value_change of MAYBE to
- 		 * TRUE (always report) or FALSE (never report).
-@@ -500,7 +504,8 @@ kcsan_setup_watchpoint(const volatile void *ptr, size_t size, int type)
- 		if (is_assert && value_change == KCSAN_VALUE_CHANGE_TRUE)
- 			kcsan_counter_inc(KCSAN_COUNTER_ASSERT_FAILURES);
- 
--		kcsan_report(ptr, size, type, value_change, KCSAN_REPORT_RACE_SIGNAL);
-+		kcsan_report(ptr, size, type, value_change, KCSAN_REPORT_RACE_SIGNAL,
-+			     watchpoint - watchpoints);
- 	} else if (value_change == KCSAN_VALUE_CHANGE_TRUE) {
- 		/* Inferring a race, since the value should not have changed. */
- 
-@@ -510,9 +515,15 @@ kcsan_setup_watchpoint(const volatile void *ptr, size_t size, int type)
- 
- 		if (IS_ENABLED(CONFIG_KCSAN_REPORT_RACE_UNKNOWN_ORIGIN) || is_assert)
- 			kcsan_report(ptr, size, type, KCSAN_VALUE_CHANGE_TRUE,
--				     KCSAN_REPORT_RACE_UNKNOWN_ORIGIN);
-+				     KCSAN_REPORT_RACE_UNKNOWN_ORIGIN,
-+				     watchpoint - watchpoints);
- 	}
- 
-+	/*
-+	 * Remove watchpoint; must be after reporting, since the slot may be
-+	 * reused after this point.
-+	 */
-+	remove_watchpoint(watchpoint);
- 	kcsan_counter_dec(KCSAN_COUNTER_USED_WATCHPOINTS);
- out_unlock:
- 	if (!kcsan_interrupt_watcher)
-diff --git a/kernel/kcsan/kcsan.h b/kernel/kcsan/kcsan.h
-index 6630dfe..763d6d0 100644
---- a/kernel/kcsan/kcsan.h
-+++ b/kernel/kcsan/kcsan.h
-@@ -12,6 +12,7 @@
- 
- /* The number of adjacent watchpoints to check. */
- #define KCSAN_CHECK_ADJACENT 1
-+#define NUM_SLOTS (1 + 2*KCSAN_CHECK_ADJACENT)
- 
- extern unsigned int kcsan_udelay_task;
- extern unsigned int kcsan_udelay_interrupt;
-@@ -136,6 +137,6 @@ enum kcsan_report_type {
-  */
- extern void kcsan_report(const volatile void *ptr, size_t size, int access_type,
- 			 enum kcsan_value_change value_change,
--			 enum kcsan_report_type type);
-+			 enum kcsan_report_type type, int watchpoint_idx);
- 
- #endif /* _KERNEL_KCSAN_KCSAN_H */
-diff --git a/kernel/kcsan/report.c b/kernel/kcsan/report.c
-index de234d1..ae0a383 100644
---- a/kernel/kcsan/report.c
-+++ b/kernel/kcsan/report.c
-@@ -30,9 +30,7 @@ struct access_info {
++struct kcsan_scoped_access { };
++#define __kcsan_cleanup_scoped __maybe_unused
++static inline struct kcsan_scoped_access *
++kcsan_begin_scoped_access(const volatile void *ptr, size_t size, int type,
++			  struct kcsan_scoped_access *sa) { return sa; }
++static inline void kcsan_end_scoped_access(struct kcsan_scoped_access *sa) { }
++
+ #endif /* CONFIG_KCSAN */
  
  /*
-  * Other thread info: communicated from other racing thread to thread that set
-- * up the watchpoint, which then prints the complete report atomically. Only
-- * need one struct, as all threads should to be serialized regardless to print
-- * the reports, with reporting being in the slow-path.
-+ * up the watchpoint, which then prints the complete report atomically.
-  */
- struct other_info {
- 	struct access_info	ai;
-@@ -59,7 +57,11 @@ struct other_info {
- 	struct task_struct	*task;
+diff --git a/include/linux/kcsan.h b/include/linux/kcsan.h
+index 3b84606..17ae59e 100644
+--- a/include/linux/kcsan.h
++++ b/include/linux/kcsan.h
+@@ -40,6 +40,9 @@ struct kcsan_ctx {
+ 	 * Access mask for all accesses if non-zero.
+ 	 */
+ 	unsigned long access_mask;
++
++	/* List of scoped accesses. */
++	struct list_head scoped_accesses;
  };
  
--static struct other_info other_infos[1];
-+/*
-+ * To never block any producers of struct other_info, we need as many elements
-+ * as we have watchpoints (upper bound on concurrent races to report).
-+ */
-+static struct other_info other_infos[CONFIG_KCSAN_NUM_WATCHPOINTS + NUM_SLOTS-1];
+ /**
+diff --git a/init/init_task.c b/init/init_task.c
+index 096191d..1989438 100644
+--- a/init/init_task.c
++++ b/init/init_task.c
+@@ -168,6 +168,7 @@ struct task_struct init_task
+ 		.atomic_nest_count	= 0,
+ 		.in_flat_atomic		= false,
+ 		.access_mask		= 0,
++		.scoped_accesses	= {LIST_POISON1, NULL},
+ 	},
+ #endif
+ #ifdef CONFIG_TRACE_IRQFLAGS
+diff --git a/kernel/kcsan/core.c b/kernel/kcsan/core.c
+index 4d8ea0f..a572aae 100644
+--- a/kernel/kcsan/core.c
++++ b/kernel/kcsan/core.c
+@@ -6,6 +6,7 @@
+ #include <linux/export.h>
+ #include <linux/init.h>
+ #include <linux/kernel.h>
++#include <linux/list.h>
+ #include <linux/moduleparam.h>
+ #include <linux/percpu.h>
+ #include <linux/preempt.h>
+@@ -42,6 +43,7 @@ static DEFINE_PER_CPU(struct kcsan_ctx, kcsan_cpu_ctx) = {
+ 	.atomic_nest_count	= 0,
+ 	.in_flat_atomic		= false,
+ 	.access_mask		= 0,
++	.scoped_accesses	= {LIST_POISON1, NULL},
+ };
  
  /*
-  * Information about reported races; used to rate limit reporting.
-@@ -96,10 +98,11 @@ struct report_time {
- static struct report_time report_times[REPORT_TIMES_SIZE];
- 
- /*
-- * This spinlock protects reporting and other_info, since other_info is usually
-- * required when reporting.
-+ * Spinlock serializing report generation, and access to @other_infos. Although
-+ * it could make sense to have a finer-grained locking story for @other_infos,
-+ * report generation needs to be serialized either way, so not much is gained.
-  */
--static DEFINE_SPINLOCK(report_lock);
-+static DEFINE_RAW_SPINLOCK(report_lock);
- 
- /*
-  * Checks if the race identified by thread frames frame1 and frame2 has
-@@ -395,9 +398,13 @@ static bool print_report(enum kcsan_value_change value_change,
- static void release_report(unsigned long *flags, struct other_info *other_info)
- {
- 	if (other_info)
--		other_info->ai.ptr = NULL; /* Mark for reuse. */
-+		/*
-+		 * Use size to denote valid/invalid, since KCSAN entirely
-+		 * ignores 0-sized accesses.
-+		 */
-+		other_info->ai.size = 0;
- 
--	spin_unlock_irqrestore(&report_lock, *flags);
-+	raw_spin_unlock_irqrestore(&report_lock, *flags);
+@@ -191,12 +193,23 @@ static __always_inline struct kcsan_ctx *get_ctx(void)
+ 	return in_task() ? &current->kcsan_ctx : raw_cpu_ptr(&kcsan_cpu_ctx);
  }
  
- /*
-@@ -435,14 +442,14 @@ static void set_other_info_task_blocking(unsigned long *flags,
- 			 */
- 			set_current_state(TASK_UNINTERRUPTIBLE);
- 		}
--		spin_unlock_irqrestore(&report_lock, *flags);
-+		raw_spin_unlock_irqrestore(&report_lock, *flags);
- 		/*
- 		 * We cannot call schedule() since we also cannot reliably
- 		 * determine if sleeping here is permitted -- see in_atomic().
- 		 */
- 
- 		udelay(1);
--		spin_lock_irqsave(&report_lock, *flags);
-+		raw_spin_lock_irqsave(&report_lock, *flags);
- 		if (timeout-- < 0) {
- 			/*
- 			 * Abort. Reset @other_info->task to NULL, since it
-@@ -454,128 +461,107 @@ static void set_other_info_task_blocking(unsigned long *flags,
- 			break;
- 		}
- 		/*
--		 * If @ptr nor @current matches, then our information has been
--		 * consumed and we may continue. If not, retry.
-+		 * If invalid, or @ptr nor @current matches, then @other_info
-+		 * has been consumed and we may continue. If not, retry.
- 		 */
--	} while (other_info->ai.ptr == ai->ptr && other_info->task == current);
-+	} while (other_info->ai.size && other_info->ai.ptr == ai->ptr &&
-+		 other_info->task == current);
- 	if (is_running)
- 		set_current_state(TASK_RUNNING);
- }
- 
--/*
-- * Depending on the report type either sets other_info and returns false, or
-- * acquires the matching other_info and returns true. If other_info is not
-- * required for the report type, simply acquires report_lock and returns true.
-- */
--static bool prepare_report(unsigned long *flags, enum kcsan_report_type type,
--			   const struct access_info *ai, struct other_info *other_info)
-+/* Populate @other_info; requires that the provided @other_info not in use. */
-+static void prepare_report_producer(unsigned long *flags,
-+				    const struct access_info *ai,
-+				    struct other_info *other_info)
- {
--	if (type != KCSAN_REPORT_CONSUMED_WATCHPOINT &&
--	    type != KCSAN_REPORT_RACE_SIGNAL) {
--		/* other_info not required; just acquire report_lock */
--		spin_lock_irqsave(&report_lock, *flags);
--		return true;
--	}
-+	raw_spin_lock_irqsave(&report_lock, *flags);
- 
--retry:
--	spin_lock_irqsave(&report_lock, *flags);
-+	/*
-+	 * The same @other_infos entry cannot be used concurrently, because
-+	 * there is a one-to-one mapping to watchpoint slots (@watchpoints in
-+	 * core.c), and a watchpoint is only released for reuse after reporting
-+	 * is done by the consumer of @other_info. Therefore, it is impossible
-+	 * for another concurrent prepare_report_producer() to set the same
-+	 * @other_info, and are guaranteed exclusivity for the @other_infos
-+	 * entry pointed to by @other_info.
-+	 *
-+	 * To check this property holds, size should never be non-zero here,
-+	 * because every consumer of struct other_info resets size to 0 in
-+	 * release_report().
-+	 */
-+	WARN_ON(other_info->ai.size);
- 
--	switch (type) {
--	case KCSAN_REPORT_CONSUMED_WATCHPOINT:
--		if (other_info->ai.ptr)
--			break; /* still in use, retry */
-+	other_info->ai = *ai;
-+	other_info->num_stack_entries = stack_trace_save(other_info->stack_entries, NUM_STACK_ENTRIES, 2);
- 
--		other_info->ai = *ai;
--		other_info->num_stack_entries = stack_trace_save(other_info->stack_entries, NUM_STACK_ENTRIES, 1);
-+	if (IS_ENABLED(CONFIG_KCSAN_VERBOSE))
-+		set_other_info_task_blocking(flags, ai, other_info);
- 
--		if (IS_ENABLED(CONFIG_KCSAN_VERBOSE))
--			set_other_info_task_blocking(flags, ai, other_info);
-+	raw_spin_unlock_irqrestore(&report_lock, *flags);
-+}
- 
--		spin_unlock_irqrestore(&report_lock, *flags);
-+/* Awaits producer to fill @other_info and then returns. */
-+static bool prepare_report_consumer(unsigned long *flags,
-+				    const struct access_info *ai,
-+				    struct other_info *other_info)
++/* Check scoped accesses; never inline because this is a slow-path! */
++static noinline void kcsan_check_scoped_accesses(void)
 +{
- 
--		/*
--		 * The other thread will print the summary; other_info may now
--		 * be consumed.
--		 */
--		return false;
-+	raw_spin_lock_irqsave(&report_lock, *flags);
-+	while (!other_info->ai.size) { /* Await valid @other_info. */
-+		raw_spin_unlock_irqrestore(&report_lock, *flags);
-+		cpu_relax();
-+		raw_spin_lock_irqsave(&report_lock, *flags);
-+	}
- 
--	case KCSAN_REPORT_RACE_SIGNAL:
--		if (!other_info->ai.ptr)
--			break; /* no data available yet, retry */
-+	/* Should always have a matching access based on watchpoint encoding. */
-+	if (WARN_ON(!matching_access((unsigned long)other_info->ai.ptr & WATCHPOINT_ADDR_MASK, other_info->ai.size,
-+				     (unsigned long)ai->ptr & WATCHPOINT_ADDR_MASK, ai->size)))
-+		goto discard;
- 
-+	if (!matching_access((unsigned long)other_info->ai.ptr, other_info->ai.size,
-+			     (unsigned long)ai->ptr, ai->size)) {
- 		/*
--		 * First check if this is the other_info we are expecting, i.e.
--		 * matches based on how watchpoint was encoded.
-+		 * If the actual accesses to not match, this was a false
-+		 * positive due to watchpoint encoding.
- 		 */
--		if (!matching_access((unsigned long)other_info->ai.ptr & WATCHPOINT_ADDR_MASK, other_info->ai.size,
--				     (unsigned long)ai->ptr & WATCHPOINT_ADDR_MASK, ai->size))
--			break; /* mismatching watchpoint, retry */
--
--		if (!matching_access((unsigned long)other_info->ai.ptr, other_info->ai.size,
--				     (unsigned long)ai->ptr, ai->size)) {
--			/*
--			 * If the actual accesses to not match, this was a false
--			 * positive due to watchpoint encoding.
--			 */
--			kcsan_counter_inc(KCSAN_COUNTER_ENCODING_FALSE_POSITIVES);
--
--			/* discard this other_info */
--			release_report(flags, other_info);
--			return false;
--		}
-+		kcsan_counter_inc(KCSAN_COUNTER_ENCODING_FALSE_POSITIVES);
-+		goto discard;
-+	}
- 
--		if (!((ai->access_type | other_info->ai.access_type) & KCSAN_ACCESS_WRITE)) {
--			/*
--			 * While the address matches, this is not the other_info
--			 * from the thread that consumed our watchpoint, since
--			 * neither this nor the access in other_info is a write.
--			 * It is invalid to continue with the report, since we
--			 * only have information about reads.
--			 *
--			 * This can happen due to concurrent races on the same
--			 * address, with at least 4 threads. To avoid locking up
--			 * other_info and all other threads, we have to consume
--			 * it regardless.
--			 *
--			 * A concrete case to illustrate why we might lock up if
--			 * we do not consume other_info:
--			 *
--			 *   We have 4 threads, all accessing the same address
--			 *   (or matching address ranges). Assume the following
--			 *   watcher and watchpoint consumer pairs:
--			 *   write1-read1, read2-write2. The first to populate
--			 *   other_info is write2, however, write1 consumes it,
--			 *   resulting in a report of write1-write2. This report
--			 *   is valid, however, now read1 populates other_info;
--			 *   read2-read1 is an invalid conflict, yet, no other
--			 *   conflicting access is left. Therefore, we must
--			 *   consume read1's other_info.
--			 *
--			 * Since this case is assumed to be rare, it is
--			 * reasonable to omit this report: one of the other
--			 * reports includes information about the same shared
--			 * data, and at this point the likelihood that we
--			 * re-report the same race again is high.
--			 */
--			release_report(flags, other_info);
--			return false;
--		}
-+	return true;
- 
--		/* Matching access in other_info. */
--		return true;
-+discard:
-+	release_report(flags, other_info);
-+	return false;
-+}
- 
-+/*
-+ * Depending on the report type either sets @other_info and returns false, or
-+ * awaits @other_info and returns true. If @other_info is not required for the
-+ * report type, simply acquires @report_lock and returns true.
-+ */
-+static noinline bool prepare_report(unsigned long *flags,
-+				    enum kcsan_report_type type,
-+				    const struct access_info *ai,
-+				    struct other_info *other_info)
-+{
-+	switch (type) {
-+	case KCSAN_REPORT_CONSUMED_WATCHPOINT:
-+		prepare_report_producer(flags, ai, other_info);
-+		return false;
-+	case KCSAN_REPORT_RACE_SIGNAL:
-+		return prepare_report_consumer(flags, ai, other_info);
- 	default:
--		BUG();
-+		/* @other_info not required; just acquire @report_lock. */
-+		raw_spin_lock_irqsave(&report_lock, *flags);
-+		return true;
- 	}
--
--	spin_unlock_irqrestore(&report_lock, *flags);
--
--	goto retry;
- }
- 
- void kcsan_report(const volatile void *ptr, size_t size, int access_type,
- 		  enum kcsan_value_change value_change,
--		  enum kcsan_report_type type)
-+		  enum kcsan_report_type type, int watchpoint_idx)
- {
- 	unsigned long flags = 0;
- 	const struct access_info ai = {
-@@ -586,7 +572,11 @@ void kcsan_report(const volatile void *ptr, size_t size, int access_type,
- 		.cpu_id		= raw_smp_processor_id()
- 	};
- 	struct other_info *other_info = type == KCSAN_REPORT_RACE_UNKNOWN_ORIGIN
--					? NULL : &other_infos[0];
-+					? NULL : &other_infos[watchpoint_idx];
++	struct kcsan_ctx *ctx = get_ctx();
++	struct list_head *prev_save = ctx->scoped_accesses.prev;
++	struct kcsan_scoped_access *scoped_access;
 +
-+	kcsan_disable_current();
-+	if (WARN_ON(watchpoint_idx < 0 || watchpoint_idx >= ARRAY_SIZE(other_infos)))
-+		goto out;
++	ctx->scoped_accesses.prev = NULL;  /* Avoid recursion. */
++	list_for_each_entry(scoped_access, &ctx->scoped_accesses, list)
++		__kcsan_check_access(scoped_access->ptr, scoped_access->size, scoped_access->type);
++	ctx->scoped_accesses.prev = prev_save;
++}
++
+ /* Rules for generic atomic accesses. Called from fast-path. */
+ static __always_inline bool
+-is_atomic(const volatile void *ptr, size_t size, int type)
++is_atomic(const volatile void *ptr, size_t size, int type, struct kcsan_ctx *ctx)
+ {
+-	struct kcsan_ctx *ctx;
+-
+ 	if (type & KCSAN_ACCESS_ATOMIC)
+ 		return true;
  
- 	/*
- 	 * With TRACE_IRQFLAGS, lockdep's IRQ trace state becomes corrupted if
-@@ -596,7 +586,6 @@ void kcsan_report(const volatile void *ptr, size_t size, int access_type,
- 	 */
- 	lockdep_off();
+@@ -213,7 +226,6 @@ is_atomic(const volatile void *ptr, size_t size, int type)
+ 	    IS_ALIGNED((unsigned long)ptr, size))
+ 		return true; /* Assume aligned writes up to word size are atomic. */
  
--	kcsan_disable_current();
- 	if (prepare_report(&flags, type, &ai, other_info)) {
+-	ctx = get_ctx();
+ 	if (ctx->atomic_next > 0) {
  		/*
- 		 * Never report if value_change is FALSE, only if we it is
-@@ -611,7 +600,8 @@ void kcsan_report(const volatile void *ptr, size_t size, int access_type,
- 
- 		release_report(&flags, other_info);
- 	}
--	kcsan_enable_current();
- 
- 	lockdep_on();
-+out:
-+	kcsan_enable_current();
+ 		 * Because we do not have separate contexts for nested
+@@ -233,7 +245,7 @@ is_atomic(const volatile void *ptr, size_t size, int type)
  }
+ 
+ static __always_inline bool
+-should_watch(const volatile void *ptr, size_t size, int type)
++should_watch(const volatile void *ptr, size_t size, int type, struct kcsan_ctx *ctx)
+ {
+ 	/*
+ 	 * Never set up watchpoints when memory operations are atomic.
+@@ -242,7 +254,7 @@ should_watch(const volatile void *ptr, size_t size, int type)
+ 	 * should not count towards skipped instructions, and (2) to actually
+ 	 * decrement kcsan_atomic_next for consecutive instruction stream.
+ 	 */
+-	if (is_atomic(ptr, size, type))
++	if (is_atomic(ptr, size, type, ctx))
+ 		return false;
+ 
+ 	if (this_cpu_dec_return(kcsan_skip) >= 0)
+@@ -563,8 +575,14 @@ static __always_inline void check_access(const volatile void *ptr, size_t size,
+ 	if (unlikely(watchpoint != NULL))
+ 		kcsan_found_watchpoint(ptr, size, type, watchpoint,
+ 				       encoded_watchpoint);
+-	else if (unlikely(should_watch(ptr, size, type)))
+-		kcsan_setup_watchpoint(ptr, size, type);
++	else {
++		struct kcsan_ctx *ctx = get_ctx(); /* Call only once in fast-path. */
++
++		if (unlikely(should_watch(ptr, size, type, ctx)))
++			kcsan_setup_watchpoint(ptr, size, type);
++		else if (unlikely(ctx->scoped_accesses.prev))
++			kcsan_check_scoped_accesses();
++	}
+ }
+ 
+ /* === Public interface ===================================================== */
+@@ -660,6 +678,55 @@ void kcsan_set_access_mask(unsigned long mask)
+ }
+ EXPORT_SYMBOL(kcsan_set_access_mask);
+ 
++struct kcsan_scoped_access *
++kcsan_begin_scoped_access(const volatile void *ptr, size_t size, int type,
++			  struct kcsan_scoped_access *sa)
++{
++	struct kcsan_ctx *ctx = get_ctx();
++
++	__kcsan_check_access(ptr, size, type);
++
++	ctx->disable_count++; /* Disable KCSAN, in case list debugging is on. */
++
++	INIT_LIST_HEAD(&sa->list);
++	sa->ptr = ptr;
++	sa->size = size;
++	sa->type = type;
++
++	if (!ctx->scoped_accesses.prev) /* Lazy initialize list head. */
++		INIT_LIST_HEAD(&ctx->scoped_accesses);
++	list_add(&sa->list, &ctx->scoped_accesses);
++
++	ctx->disable_count--;
++	return sa;
++}
++EXPORT_SYMBOL(kcsan_begin_scoped_access);
++
++void kcsan_end_scoped_access(struct kcsan_scoped_access *sa)
++{
++	struct kcsan_ctx *ctx = get_ctx();
++
++	if (WARN(!ctx->scoped_accesses.prev, "Unbalanced %s()?", __func__))
++		return;
++
++	ctx->disable_count++; /* Disable KCSAN, in case list debugging is on. */
++
++	list_del(&sa->list);
++	if (list_empty(&ctx->scoped_accesses))
++		/*
++		 * Ensure we do not enter kcsan_check_scoped_accesses()
++		 * slow-path if unnecessary, and avoids requiring list_empty()
++		 * in the fast-path (to avoid a READ_ONCE() and potential
++		 * uaccess warning).
++		 */
++		ctx->scoped_accesses.prev = NULL;
++
++	ctx->disable_count--;
++
++	__kcsan_check_access(sa->ptr, sa->size, sa->type);
++}
++EXPORT_SYMBOL(kcsan_end_scoped_access);
++
+ void __kcsan_check_access(const volatile void *ptr, size_t size, int type)
+ {
+ 	check_access(ptr, size, type);
+diff --git a/kernel/kcsan/report.c b/kernel/kcsan/report.c
+index ae0a383..ddc18f1 100644
+--- a/kernel/kcsan/report.c
++++ b/kernel/kcsan/report.c
+@@ -205,6 +205,20 @@ skip_report(enum kcsan_value_change value_change, unsigned long top_frame)
+ 
+ static const char *get_access_type(int type)
+ {
++	if (type & KCSAN_ACCESS_ASSERT) {
++		if (type & KCSAN_ACCESS_SCOPED) {
++			if (type & KCSAN_ACCESS_WRITE)
++				return "assert no accesses (scoped)";
++			else
++				return "assert no writes (scoped)";
++		} else {
++			if (type & KCSAN_ACCESS_WRITE)
++				return "assert no accesses";
++			else
++				return "assert no writes";
++		}
++	}
++
+ 	switch (type) {
+ 	case 0:
+ 		return "read";
+@@ -214,17 +228,14 @@ static const char *get_access_type(int type)
+ 		return "write";
+ 	case KCSAN_ACCESS_WRITE | KCSAN_ACCESS_ATOMIC:
+ 		return "write (marked)";
+-
+-	/*
+-	 * ASSERT variants:
+-	 */
+-	case KCSAN_ACCESS_ASSERT:
+-	case KCSAN_ACCESS_ASSERT | KCSAN_ACCESS_ATOMIC:
+-		return "assert no writes";
+-	case KCSAN_ACCESS_ASSERT | KCSAN_ACCESS_WRITE:
+-	case KCSAN_ACCESS_ASSERT | KCSAN_ACCESS_WRITE | KCSAN_ACCESS_ATOMIC:
+-		return "assert no accesses";
+-
++	case KCSAN_ACCESS_SCOPED:
++		return "read (scoped)";
++	case KCSAN_ACCESS_SCOPED | KCSAN_ACCESS_ATOMIC:
++		return "read (marked, scoped)";
++	case KCSAN_ACCESS_SCOPED | KCSAN_ACCESS_WRITE:
++		return "write (scoped)";
++	case KCSAN_ACCESS_SCOPED | KCSAN_ACCESS_WRITE | KCSAN_ACCESS_ATOMIC:
++		return "write (marked, scoped)";
+ 	default:
+ 		BUG();
+ 	}
 -- 
 2.9.5
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200415183411.12368-8-paulmck%40kernel.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200415183411.12368-9-paulmck%40kernel.org.
