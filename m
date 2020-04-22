@@ -1,34 +1,34 @@
-Return-Path: <kasan-dev+bncBCD3NZ4T2IKRB4M4QL2QKGQE4HH5OAA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCD3NZ4T2IKRBXFFQL2QKGQET3GWUWY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x43e.google.com (mail-pf1-x43e.google.com [IPv6:2607:f8b0:4864:20::43e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 472F01B4CB6
-	for <lists+kasan-dev@lfdr.de>; Wed, 22 Apr 2020 20:35:31 +0200 (CEST)
-Received: by mail-pf1-x43e.google.com with SMTP id a6sf2813777pfg.18
-        for <lists+kasan-dev@lfdr.de>; Wed, 22 Apr 2020 11:35:31 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1587580530; cv=pass;
+Received: from mail-qk1-x73e.google.com (mail-qk1-x73e.google.com [IPv6:2607:f8b0:4864:20::73e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C0A31B4CE8
+	for <lists+kasan-dev@lfdr.de>; Wed, 22 Apr 2020 20:54:22 +0200 (CEST)
+Received: by mail-qk1-x73e.google.com with SMTP id c140sf3916529qkg.23
+        for <lists+kasan-dev@lfdr.de>; Wed, 22 Apr 2020 11:54:22 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1587581661; cv=pass;
         d=google.com; s=arc-20160816;
-        b=C1Z6gu7Qo2dynBWYVm7Tamn3o0nuJXhrDdrQf+zzM0jbUFXFdE0loB7IHiuvhIzJlG
-         oWedhMgmkgCeHuLeoMLL3vWYuJEd+37UPIrkzObjfSLqOSkvE4DGTkSDBTTznU57RmiY
-         maOUYgdpXFcrT5Spw9Ugs8te//0Yw6EspFZK6qDbuhrx0UH/KW3/K/5yPb0tYlhGJCIX
-         rVy7JfL4uND5KJZiYaW2uFyVAAsAlAxCaw0VMokjYH6L0gXidySHiBPH7GWSWJno+uLg
-         S/lPTlAFoJvPKQUNhV5YlImmr1ciGt2eo6X/mIsw9slvk+Yb/9buGDgvPvl8GFh21OY+
-         jAdA==
+        b=MIlPgwo4mAOw7gbDywACr6Rjd0DHWF5jrBD12kwPCz/TPDGJySkzb6QVvf1VcASvgl
+         he781lFRVBlpInszeqf19TftgsiFKY80Eivl67jEtonSFMwGYURoPHGNLK8C2Ej9vAIO
+         ww5klbF5ii1eAanU5oQyXWq9VYH0HE5C0ziFgcaSMTfA1OcFL7tV8eifrWcTe1jcFlgR
+         quswYmgFW38yCMT1Sus3kKCkRXNWb9oz813G0dg5Lac1eUxufUEn6Bt4MeUWRjw3prEE
+         yeYeItBWipV7nbDk3raClUFG/gEFpJj5MJUwwPJsAuUxv7Tbi0hT3yN1PZ9T5eaMu+RS
+         1xHQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:to:references:message-id
          :content-transfer-encoding:cc:date:in-reply-to:from:subject
          :mime-version:sender:dkim-signature;
-        bh=/2Qxv7C1CmCfI2mCmdjSarXa7R8BRb6rSFXcBaT0lps=;
-        b=yfI549kB00yERcLkofZZVRHHsMflT35UgykWQENBzymDRJjBnVhXCsQKxslZna78V+
-         SEpv93CDAueIER4yzVv88kx3qrvXGXKwTZ5M/8bnBzQHgE+iaKMyiFl85S8c/XwKUXi9
-         3GEwB/fQypNcBb+bz9XbRekOvezbcLqKCxxI5LSg0+nnw4BpI748k/tTww+ea5hrUpCF
-         3M4IbAzcmixoXHNVgocfjxevXTQBkZiQ5QhNK4DnY73dEoC5MrGRCEPBthyvbhjF/zQC
-         i79BXcSthmHBxvPwHstEVBC7ldjnQJfgN2W0AG8xTcC2ezzRYdXPbkDLhX3IdZ/3DSxn
-         A4+g==
+        bh=VjOIcGlV9UC8XuqGS8rJ1b36VmrhnHeYPV/+S0T2wBU=;
+        b=Ws364zJMTH33+doSktkXaK7eM9mr8UnoS20d806I8WG/v/J/pcv74fQQ1X1Iy4r9JV
+         WkxdSYKVfHk5LvlZuq8Q3cJX8Sqgvt8fBXIbBcGgaWmIH6qFwlYhoDiPOPbrvnUOR/MD
+         D8vYin7wLXXe73FHJbyJw91hcGSKxWqYRgU+eltlU5DR27eqgsOxghJ+ulJsc+16seA8
+         Y2c+6oi+AML/isAclCC5GN5sTzI50BibMvdXX+JxEkYLAYUhFkuRqJabGBBArhG1YaBg
+         jBJjtEpzXB7xUVh+2Kjc0zperNx7M8jrAG+aQEmiIeR0WgahfGlQIW766cMNcnldxthy
+         SKbg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@lca.pw header.s=google header.b=KaI0znSO;
-       spf=pass (google.com: domain of cai@lca.pw designates 2607:f8b0:4864:20::841 as permitted sender) smtp.mailfrom=cai@lca.pw
+       dkim=pass header.i=@lca.pw header.s=google header.b=KcTXmBwo;
+       spf=pass (google.com: domain of cai@lca.pw designates 2607:f8b0:4864:20::744 as permitted sender) smtp.mailfrom=cai@lca.pw
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
         h=sender:mime-version:subject:from:in-reply-to:date:cc
@@ -36,13 +36,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=/2Qxv7C1CmCfI2mCmdjSarXa7R8BRb6rSFXcBaT0lps=;
-        b=OpgYuFw59plRBk9JZKd7sUfjNQgleBoTZAQtX0sB5Qa+uctauT2yRwGMfuONgzuqUv
-         S7yt7fTgBfrhfrJS9g20XEWfChXsqYoQ/FnPBbX3Yzkn7ojT7wYmNoOKLJpGLVWMwhLI
-         OmDTbcr7OjdJaVgfjpJ/3gZQgGl5yRzS/Zq6Y57TcwXQ/JWKA+9fulu3GSHM2mCs7lgS
-         O/vQcs4k3z7l9RefKPczaj+TT1cH5VO/OHVhBRNw8fE0GgVK8FM2lmc/Da3icQrCgRyz
-         7zxu/8sgImuGF+X6o8fJOma8xRuBbvcxPiDX9p819MAk70k4ElMgQXL/MBJekrLzaO+x
-         NAUg==
+        bh=VjOIcGlV9UC8XuqGS8rJ1b36VmrhnHeYPV/+S0T2wBU=;
+        b=q5gCV8ltiPuxu8ORqWfMXxfz6d0bVIR2+MWkOXTLFdLLak97tjNoi4NOcjWwwln0Ps
+         KXm54GKkO/aCwRrqR2SdVcuClDG8XvyDACLGnN7F5859lox9itG6MHn+dBdvvEb3M9q4
+         bu2Z1BmD244ORVxP1Wm6XvxZv4st168/dUNbfaEcmVkX7OOVsWe2pcaMXYomboxyzkRc
+         ONZKgjjUTvi5VoJrsu2lk4QmLXiBMLZYXGgY8IAlFy+NDdEc8MATrenNwc0n25Qm7dNA
+         K/J++ksvSaZSklvoYJ7zOOsCqfgyME6O0a4oLBZru2AcWdQYFZVBkWPHVnsxNG7/wgXw
+         Fzjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:mime-version:subject:from:in-reply-to
@@ -50,81 +50,82 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=/2Qxv7C1CmCfI2mCmdjSarXa7R8BRb6rSFXcBaT0lps=;
-        b=UJlCfkMpLSL9SuUqud4PE5ZMurVV+JEHo1oeI1YDzA+t+SNBnwOvtzzmidFl5HZ+gQ
-         STIUrJDYXbpp3MXfm3G0DiEehAbGkU9c2bxMRO8xCVPJorQFJ/VeLEYN7XV2/lEhLZB9
-         22VOX5qdvmuN8cey1VWKkPQKabcrWTPesU3MgkGHpidvQT0JGsRicK/D9uQ9jKKe1aVf
-         sIa2X9faDRgGbF/7rCc9PIR63t02w2WwcOGRKMX5LEkKtHs3QMtp77zM0Uxz4XppaNCl
-         +mxElEIAvKC9y1jn3erPI2+yxaszoVJy8j3iUgJpoktt7rLDnRUbnxLL8zz0hDmoZh/A
-         YZtQ==
+        bh=VjOIcGlV9UC8XuqGS8rJ1b36VmrhnHeYPV/+S0T2wBU=;
+        b=JdmAp5QtBpT75JSD7APHxc1wtsKxG5gg4b2JyIw0e4TXnoKgCJhbEKdKlqNtkZyU4Q
+         JYx2DFryGtstBKp4q1BtKscMeBXc6B3uGHzAyfOtfZGOxcB4SkbwV5na2dHe9kGu4EJ3
+         MLvu6YyEzaUFCRJ09DMEOXd2KFxVc2A8q35f6EQLw1037ekSOcC8Iz0P93GbmoQrBJDY
+         ql01Dr7lL1nO5SEx0T85DauzusJQ6jQazO1ooEIx5Yng6+YLPVe3qAFmmT2RSCh3abAr
+         WwnhDUXGQRpjwhNFbMqZK9TJNnwGFIe426UmPdIaVk6rB/bO/egcrD+DBAT30H6ZrkgK
+         tE6Q==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AGi0PuYy71KIw74CKodg3JHpaQNpscg4bBt9jIgAz/hHWyehaFT9GbTM
-	hHDnRsA7bdyAceJAlNt0A1U=
-X-Google-Smtp-Source: APiQypJleAPjDDjKZa5m9leL1u5hEBDDTtQpnAhFNvJV+i6ZfkwGhhwJT0R1UNVZAUyROyf5bPHvhw==
-X-Received: by 2002:a17:902:ba89:: with SMTP id k9mr27517708pls.199.1587580529981;
-        Wed, 22 Apr 2020 11:35:29 -0700 (PDT)
+X-Gm-Message-State: AGi0PuZEUgKhOoAXIpQ21aN9AQavP0d8hMAgkauldYJu0sraoSB7U1Cl
+	9jjsh9xoB659kcclWyck7Wk=
+X-Google-Smtp-Source: APiQypL5a0rVM9N9zp5dr1kPZ4u7ELdc0K65UCp29i3qj/waN+BfXPUM0okg4wvw8NWkdKRZYJZrzg==
+X-Received: by 2002:a37:9445:: with SMTP id w66mr25810472qkd.15.1587581660907;
+        Wed, 22 Apr 2020 11:54:20 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a63:7b5c:: with SMTP id k28ls1625499pgn.4.gmail; Wed, 22 Apr
- 2020 11:35:29 -0700 (PDT)
-X-Received: by 2002:a62:1452:: with SMTP id 79mr2849497pfu.108.1587580529494;
-        Wed, 22 Apr 2020 11:35:29 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1587580529; cv=none;
+Received: by 2002:a37:c97:: with SMTP id 145ls2034981qkm.4.gmail; Wed, 22 Apr
+ 2020 11:54:20 -0700 (PDT)
+X-Received: by 2002:a37:5f41:: with SMTP id t62mr28794815qkb.410.1587581660554;
+        Wed, 22 Apr 2020 11:54:20 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1587581660; cv=none;
         d=google.com; s=arc-20160816;
-        b=NsenU7AdInnxkS1a4AbkDY8xDzwWD9ZgDGUJkke1Scefy05zOnctFS1om+elXSi0kj
-         +wfhU2p3WpNXxRs9Bv5/exjTPCJuTOVAhov+e6UZqaatOIAMTlOSmtgRu9Z8iIEgkl8a
-         G6a9ba/cs4U52+ftI8yOkcVujThn5BgeLoWcX04sB0Cr8bCdzSrdkCaDG/dPt7Ff4tBI
-         ulxyPQkun+mKYPAxP09W6Ud1CPySHaVxJQpa++Ah32z9n6FJ2eZ6N68ncUV2jXn4Kfyv
-         PlCriWXAE3vs+m+kOKmPp639vR3vCPa3Z5Q1mbqYCdgSKQFxT6lgA9JA3fqqU5Qrlj9C
-         ayRg==
+        b=MNgDb1HlPIGadVsIc5LTysU0m49bqQtSLPuc9BqhkafniqEj8tkLfZDZt5/Ghv0kkI
+         HgNhQn11eh70zyPjb6pD42drj8kowZ/Go+7qjYwdIhQfABkqkJCaMLN5mBqfNcKrILEV
+         LuSRlAliPhUkFXPN6IrPkJKikXjapVgfaq+tDdtUC/mP8jzvgsXieRfZNyMtc5ULLDT0
+         KSHvbfdMJZgJ2/PLqTxtzNTgmHzPQFxPej1zVsI0AOsDfHvvGvVWCGEKDr/zs9GDcdGm
+         Prn19ydGznEvx1suweYwnEy/7hwx5PDm+yVdkIv3UE/HscajmeBSyE9P/On01YpQBcJv
+         ge2Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=to:references:message-id:content-transfer-encoding:cc:date
          :in-reply-to:from:subject:mime-version:dkim-signature;
-        bh=KFMe5jf+SqPXjS3cNqNcR09qpXqrclNV90ZAafesRSo=;
-        b=LiWr4jAgTgk6BNF01QDJcX2riqNarEoPa/rO3aUjbGVnKTVv/FXAnhnW4x8DQhG7R8
-         Utn7GoBqLS/5YVaL2NaSepLujzwCUbUmRDX5T4eXpNo4VpzCcSEWWUTuO3qpFA16/Gcc
-         vnyePPrMS9ItqI/MQzcXojd0IlAJR98o/8GgZ23uMUTK4iwmyeaKy2NylyIwATY7CyeN
-         P8rzqi7lhXpu7AUEEI4MghKNMTAfKCawd59pLhk4GBPqwiSzmTonTAQ5TOU2Kwqedips
-         YsprvU0UZUaxl4qZYXRCPWbrrjZrr2USEkKPaaPYUKlNvRWZGDKLkVSEUcciallRUHgK
-         4AKQ==
+        bh=Cf7V5KoTnxdr5/vwnYfKOK1hbcf2VCNupE2mGkiuZek=;
+        b=nkP0320IZCxdhFu2w6wcvfRILVPJkiX0KDB+95y8GPBpzvyfL4XPk5pctYBcjB4uog
+         Tsb02TcOcR/AYG7F+aqQO1xvH9JLsiJHxXRzBF4iBNhPU72DzTKHRCOwMXB/6n+LLHzg
+         hcy9eGMXPN18oaJ2h5IcVi+kLbqvFmcnSAe767iTSfFgiP7TmpkYm9Yaiaj2MUE+ofaU
+         +l/F6c9ZXXcjZCbelmbJbr3IUjX6Yny0CpH9hcLf17Gen5ylC0eu4LBKGwN7q2Uaet2N
+         G0CbA1BITr2krATFL/QkrpKKXDenxgSjNW7ylj842Eb7zwLchGbdg8WhjE9pH1R6R0lY
+         4Z+A==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@lca.pw header.s=google header.b=KaI0znSO;
-       spf=pass (google.com: domain of cai@lca.pw designates 2607:f8b0:4864:20::841 as permitted sender) smtp.mailfrom=cai@lca.pw
-Received: from mail-qt1-x841.google.com (mail-qt1-x841.google.com. [2607:f8b0:4864:20::841])
-        by gmr-mx.google.com with ESMTPS id a13si5725pjv.2.2020.04.22.11.35.29
+       dkim=pass header.i=@lca.pw header.s=google header.b=KcTXmBwo;
+       spf=pass (google.com: domain of cai@lca.pw designates 2607:f8b0:4864:20::744 as permitted sender) smtp.mailfrom=cai@lca.pw
+Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com. [2607:f8b0:4864:20::744])
+        by gmr-mx.google.com with ESMTPS id 140si10476qkk.1.2020.04.22.11.54.20
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Apr 2020 11:35:29 -0700 (PDT)
-Received-SPF: pass (google.com: domain of cai@lca.pw designates 2607:f8b0:4864:20::841 as permitted sender) client-ip=2607:f8b0:4864:20::841;
-Received: by mail-qt1-x841.google.com with SMTP id 92so2574457qtg.0
-        for <kasan-dev@googlegroups.com>; Wed, 22 Apr 2020 11:35:29 -0700 (PDT)
-X-Received: by 2002:ac8:35e2:: with SMTP id l31mr28306687qtb.104.1587580528321;
-        Wed, 22 Apr 2020 11:35:28 -0700 (PDT)
+        Wed, 22 Apr 2020 11:54:20 -0700 (PDT)
+Received-SPF: pass (google.com: domain of cai@lca.pw designates 2607:f8b0:4864:20::744 as permitted sender) client-ip=2607:f8b0:4864:20::744;
+Received: by mail-qk1-x744.google.com with SMTP id s188so2802219qkf.0
+        for <kasan-dev@googlegroups.com>; Wed, 22 Apr 2020 11:54:20 -0700 (PDT)
+X-Received: by 2002:a37:4c4d:: with SMTP id z74mr27822914qka.53.1587581660096;
+        Wed, 22 Apr 2020 11:54:20 -0700 (PDT)
 Received: from [192.168.1.153] (pool-71-184-117-43.bstnma.fios.verizon.net. [71.184.117.43])
-        by smtp.gmail.com with ESMTPSA id x55sm33045qtk.3.2020.04.22.11.35.27
+        by smtp.gmail.com with ESMTPSA id c41sm29245qta.96.2020.04.22.11.54.18
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 22 Apr 2020 11:35:27 -0700 (PDT)
+        Wed, 22 Apr 2020 11:54:19 -0700 (PDT)
 Content-Type: text/plain; charset="UTF-8"
 Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.80.23.2.2\))
 Subject: Re: AMD boot woe due to "x86/mm: Cleanup pgprot_4k_2_large() and
  pgprot_large_2_4k()"
 From: Qian Cai <cai@lca.pw>
-In-Reply-To: <20200422170116.GA28345@lst.de>
-Date: Wed, 22 Apr 2020 14:35:26 -0400
-Cc: Borislav Petkov <bp@suse.de>,
+In-Reply-To: <20200422164703.GD26846@zn.tnic>
+Date: Wed, 22 Apr 2020 14:54:18 -0400
+Cc: Christoph Hellwig <hch@lst.de>,
  "Peter Zijlstra (Intel)" <peterz@infradead.org>,
  x86 <x86@kernel.org>,
  LKML <linux-kernel@vger.kernel.org>,
  kasan-dev <kasan-dev@googlegroups.com>
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <10D18276-0485-4368-BFDE-4EC13E42AE22@lca.pw>
-References: <1ED37D02-125F-4919-861A-371981581D9E@lca.pw>
- <20200422170116.GA28345@lst.de>
-To: Christoph Hellwig <hch@lst.de>
+Message-Id: <48A05550-75AD-40EA-921E-BAE43453AC47@lca.pw>
+References: <20200422161757.GC26846@zn.tnic>
+ <59604C7F-696A-45A3-BF4F-C8913E09DD4C@lca.pw>
+ <20200422164703.GD26846@zn.tnic>
+To: Borislav Petkov <bp@alien8.de>
 X-Mailer: Apple Mail (2.3608.80.23.2.2)
 X-Original-Sender: cai@lca.pw
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@lca.pw header.s=google header.b=KaI0znSO;       spf=pass
- (google.com: domain of cai@lca.pw designates 2607:f8b0:4864:20::841 as
+ header.i=@lca.pw header.s=google header.b=KcTXmBwo;       spf=pass
+ (google.com: domain of cai@lca.pw designates 2607:f8b0:4864:20::744 as
  permitted sender) smtp.mailfrom=cai@lca.pw
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
@@ -140,109 +141,33 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 
 
-> On Apr 22, 2020, at 1:01 PM, Christoph Hellwig <hch@lst.de> wrote:
+> On Apr 22, 2020, at 12:47 PM, Borislav Petkov <bp@alien8.de> wrote:
 >=20
-> On Wed, Apr 22, 2020 at 11:55:54AM -0400, Qian Cai wrote:
->> Reverted the linux-next commit and its dependency,
->>=20
->> a85573f7e741 ("x86/mm: Unexport __cachemode2pte_tbl=E2=80=9D)
->> 9e294786c89a (=E2=80=9Cx86/mm: Cleanup pgprot_4k_2_large() and pgprot_la=
-rge_2_4k()=E2=80=9D)
->>=20
->> fixed crashes or hard reset on AMD machines during boot that have been f=
-lagged by
->> KASAN in different forms indicating some sort of memory corruption with =
-this config,
+> On Wed, Apr 22, 2020 at 12:35:08PM -0400, Qian Cai wrote:
+>> The config has a few extra memory debugging options enabled like
+>> KASAN, debug_pagealloc, debug_vm etc.
 >=20
-> Interesting.  Your config seems to boot fine in my VM until the point
-> where the lack of virtio-blk support stops it from mounting the root
-> file system.
->=20
-> Looking at the patch I found one bug, although that should not affect
-> your config (it should use the pgprotval_t type), and one difference
-> that could affect code generation, although I prefer the new version
-> (use of __pgprot vs a local variable + pgprot_val()).
->=20
-> Two patches attached, can you try them?
-> <0001-x86-Use-pgprotval_t-in-protval_4k_2_large-and-pgprot.patch><0002-fo=
-o.patch>
+> How about you specify exactly which CONFIG_ switches and cmdline options
+> you have enabled deliberately? I can rhyme up the rest from the .config
+> file.
 
-Yes, but both patches do not help here. This time flagged by UBSAN,
+The thing is pretty much the same debug kernel config has been used for
+a few years, so I don=E2=80=99t deliberately enable anything today.
 
-static void dump_pagetable(unsigned long address)
-{
-        pgd_t *base =3D __va(read_cr3_pa());
-        pgd_t *pgd =3D base + pgd_index(address); <=E2=80=94=E2=80=94 shift=
--out-of-bounds here
+The best bet is probably to skim through the =E2=80=9CKernel hacking=E2=80=
+=9D section of
+the config and enable whatever you feel relevant if you have not enabled
+already.
 
-[    4.452663][    T0] ACPI: LAPIC_NMI (acpi_id[0x73] high level lint[0x1])
-[    4.459391][    T0] ACPI: LAPIC_NMI (acpi_id[0x74] high level lint[0x1])
-[    4.466115][    T0] ACPI: LAPIC_NMI (acpi_id[0x75] high level lint[0x1])
-[    4.472842][    T0] ACPI: LAPIC_NMI (acpi_id[0x76] high level lint[0x1])
-[    4.479567][    T0] ACPI: LAPIC_NMI (acpi_id[0x77] high level lint[0x1])
-[    4.486294][    T0] ACPI: LAPIC_NMI (acpi_id[0x78] high level lint[0x1])
-[    4.493021][    T0] ACPI: LAPIC_NMI (acpi_id[0x79] high level lint[0x1])
-[    4.499745][    T0] ACPI: LAPIC_NMI (acpi_id[0x7a] high level lint[0x1])
-[    4.506471][    T0] ACPI: LAPIC_NMI (acpi_id[0x7b] high level liad acces=
-s in kernel mode
-[    4.901030][    T0] #PF: error_code(0x0000) - not-present page
-[    4.906884][    T0] BUG: unable to handle page fault for address: ffffed=
-11509c29da
-[    4.914483][    T0] #PF: supervisor read access in kernel mode
-[    4.920334][    T0] #PF: error_code(0x0000) - not-present page
-[    4.926189][    T0] BUG: unable to handle page fault for address: ffffed=
-11509c29da
-[    4.933786][    T0] #PF: supervisor read access in kernel mode
-[    4.939640][    T0] #PF: error_code(0x0000) - not-present page
-[    4.945492][    T0] BUG: unable to handle page fault for address: ffffed=
-11509c29da
-[    4.953091][    T0] #PF: supervisor read access in kernel mode
-[    4.958943][    T0] #PF: error_code(0x0000) - not-present page
-[    4.964797][    T0] BUG: unable to handle page fault for address: ffffed=
-11509c29da
-[    4.972395][    T0] #PF: supervisor read access in kernel mode
-[    4.978247][    T0] #PF: error_code(0x0000) - not-present page
-[    4.984102][    T0] BUG: unable to handle page fault for address: ffffed=
-11509c29da
-[    4.9917age fault for address: ffffed11509c29da
-[    5.481007][    T0] #PF: supervisor read access in kernel mode
-[    5.486862][    T0] #PF: error_code(0x0000) - not-present page
-[    5.492713][    T0] BUG: unable to handle page fault for address: ffffed=
-11509c29da
-[    5.500314][    T0] #PF: supervisor read access in kernel mode
-[    5.506165][    T0] #PF: error_code(0x0000) - not-present page
-[    5.512020][    T0] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-[    5.521193][    T0] UBSAN: shift-out-of-bounds in arch/x86/mm/fault.c:45=
-0:22
-[    5.528268][    T0] shift exponent 4294967295 is too large for 64-bit ty=
-pe 'long unsigned int'
-[    5.536916][    T0] CPU: 0 PID: 0 Comm: swapper Tainted: G    B         =
-    5.7.0-rc2-next-20200422+ #10
-[    5.546434][    T0] Hardware name: HPE ProLiant DL385 Gen10/ProLiant DL3=
-85 Gen10, BIOS A40 07/10/2019
-[    5.555692][    T0] Call Trace:
-[    5.558837][    T0] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-[    5.568012][T0] BUG: unable to handle page fault for address: 0000000a2b=
-84dda8
-[    5.961699][    T0] #PF: supervisor read access in kernel mode
-[    5.967550][    T0] #PF: error_code(0x0000) - not-present page
-[    5.973405][    T0] BUG: unable to handle page fault for address: 000000=
-0a2b84dda8
-[    5.981005][    T0] #PF: supervisor read access in kernel mode
-[    5.986856][    T0] #PF: error_code(0x0000) - not-present page
-[    5.992708][    T0] BUG: unable to handle page fault for address: 000000=
-0a2b84dda8
-[    6.000308][    T0] #PF: supervisor read access in kernel mode
-[    6.006159][    T0] #PF: error_code(0x0000) - not-present page
-[    6.012013][    T0] BUG: unable to handle page fault for address: 000000=
-0a2b84dda8
-[    6.019612][    T0] #PF: supervisor read access in kernel mode
+The cmdline is also in the .config via CONFIG_CMDLINE.
+
+>=20
+> Full dmesg would be good too, sent privately's fine too.
+
+https://cailca.github.io/files/dmesg.txt
+
+First, it comes with the dmesg that crashes and followed by the good dmesg
+after reverting the commits (starting from line 644).
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
@@ -250,4 +175,4 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/10D18276-0485-4368-BFDE-4EC13E42AE22%40lca.pw.
+kasan-dev/48A05550-75AD-40EA-921E-BAE43453AC47%40lca.pw.
