@@ -1,137 +1,141 @@
-Return-Path: <kasan-dev+bncBAABBMXKYX2QKGQEA5DMZVI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDEKVJM7XAHRB5PNYX2QKGQEKB2EAUQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oo1-xc3c.google.com (mail-oo1-xc3c.google.com [IPv6:2607:f8b0:4864:20::c3c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 441771C5885
-	for <lists+kasan-dev@lfdr.de>; Tue,  5 May 2020 16:16:20 +0200 (CEST)
-Received: by mail-oo1-xc3c.google.com with SMTP id t23sf1760883oor.1
-        for <lists+kasan-dev@lfdr.de>; Tue, 05 May 2020 07:16:20 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1588688179; cv=pass;
+Received: from mail-wr1-x43f.google.com (mail-wr1-x43f.google.com [IPv6:2a00:1450:4864:20::43f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F24E1C5940
+	for <lists+kasan-dev@lfdr.de>; Tue,  5 May 2020 16:23:49 +0200 (CEST)
+Received: by mail-wr1-x43f.google.com with SMTP id e14sf284663wrv.11
+        for <lists+kasan-dev@lfdr.de>; Tue, 05 May 2020 07:23:49 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1588688629; cv=pass;
         d=google.com; s=arc-20160816;
-        b=tfthSutJs/m/XSAiQSYsLUz42ztxW5q1f7ASYi/fEAfn34mGBY5FEscYatv45G4BvK
-         EYTnvTjaWyR9ZekuG+kPPMJOrOaNlKeW3/bDAE0zu7JGhj6K0IDGqZaYPwKuIcFfY+ml
-         MU6pH/POJHJBjwD7AjSC4kGVMcTuWo6Ksia2NB47cjT3IZcW5R1Sw9uPrybcQbcsy+gF
-         QeTH55eNrccMinZn1kHHNfnuMmKemTXa42VnnfL/L44b6TretnYCierxZljNueLjqu+U
-         1OvWlRS1BV8ydYIou/R7gbI91j4jxMr/E/TqHDU8nA0zjG9qqgy7h4ITQyzXUAAOGnde
-         sHbg==
+        b=M36O4UBaHTI6ECLlr7iUMkjkKjKfZEXPSXFsF6c21115tFOvdlDFqEEN8VIV++UnmY
+         tE/bWCmrfzU8JR+i5uw5iYJShYq/weOi6xcHJN369x2x8GgqTZqkEvZNYU6nTwMVmlmE
+         /HG5QE/zkGHlI56Twfh0BMnWwZkCG2GPd8/Xhhu3kwDCzQNQFSfjt3ZErGwIt23Zgt89
+         fkOCpzCIeQE46uKp8Mq8yHB3KHHSY4lUGYWYKfDSwpYQSg32KXVZ+ehG4yXO7bYadOSo
+         PZfjeMlSXIgzVAQZZOLAAdHjH3vJQukO+ja/W3MQZtjEI1qu4WR8j2UHE6kMPXfQqL5Y
+         sqtA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:user-agent:in-reply-to
-         :content-disposition:mime-version:references:reply-to:message-id
-         :subject:cc:to:from:date:sender:dkim-signature;
-        bh=cmV0hQWJl092dCYmvI6LzeuLGORrn8zLRMMCkWJb3yA=;
-        b=tT8NdxWGrSqg60nVjc9NeBREpFJyC6X13Sn3Q9I5wE9ahcQGx1K2ISTe+MiBY8TIvp
-         xtRh3jmQHx0oY0Wh/4KuY2HUQVkoIy/6iL+Xjc8qsCv3wEAz/9pQZoqeJN7KmEAYtYfA
-         /1H3ltrrUSeWyF5Opes/TJoT9bh9ABzdU0RrABIp0w2E//oxAjjX359CbfJwfUatc+RL
-         9w83Ow5Brt9TZJycVyy/AkyMWOtMeepURBkvFUHMLVXcpZvGeilzBodeXUycDaoleO36
-         sdl0dK/aSOU//tRuxst4IH8kZl1zuiKqM4DmiQczk5XskVwXb1rBfDcbhcBuYq87JM/n
-         gi5g==
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :subject:cc:to:from:sender:dkim-signature;
+        bh=EXOh0CGF4ttQX63jC6lYTaZNO2ADV2sEpcrNLK7AtOw=;
+        b=L4LC18E65jKoFzTB8xuwR7kDrmqvgVMPdVYncnSms5GmLg0un3FOTt/eW/9PAvXZ7W
+         uRBi1Tf0YOJtcxMmATwCsPLJ+4st8vr7bGTMJHk3PNAuGmSPtf9mz68mETtVVpDKQZGh
+         Gogr3buj5FPERpm2Thh7LdBjZ25J6BZWv+PpacJM5GVkR2krrMotVgUewZpRDzeYX+yp
+         7KpxvsU1Ph2NAITy+IFckPB/oBrQ8zreoSTg+MSInqM/Yuh6N4XthDkGAI0cCbbtqNIc
+         O3p7NXfu9rqdIELIok6jbW+EW5ax2sxTuoGwaD1j3Orb6oObf29HmQ5EXWvWieKpo1fQ
+         R/RA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=default header.b=TrSglO9H;
-       spf=pass (google.com: domain of srs0=s9up=6t=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=s9uP=6T=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       spf=neutral (google.com: 212.227.126.133 is neither permitted nor denied by best guess record for domain of arnd@arndb.de) smtp.mailfrom=arnd@arndb.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:reply-to:references
-         :mime-version:content-disposition:in-reply-to:user-agent
+        h=sender:from:to:cc:subject:date:message-id:mime-version
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=cmV0hQWJl092dCYmvI6LzeuLGORrn8zLRMMCkWJb3yA=;
-        b=Q4iX9zXTK3bFXnH8vAmxdPv6LAMvZ9n9PJHw+NaMSHx9SHnedvHMR9Es6ClIvUvdBw
-         O6pVvASEtro1vlzd5JmtSGzIRa1oqjZydS+gOPqnib2uZxuA6k6gxbCvR7nj2IQxSjpy
-         nklbk7duj/Z3/U1KnEgUr82hNXahElX3EUOxumzsLCUxV4r8/ejwMHwjCo0s51UQdNqt
-         /ukob7GZxg7xdEgOT/U/mMJ+FtU24flqfgJhzPFhL/1w+dsdAdNC8bVrJQ6eQtXy71eU
-         6J6RH3XIap1e9BKNa9+RoTkDxQsC91JHa38mLsUa0qBwvpIcdnRoqAOayKj25DnlhDp4
-         KbMw==
+        bh=EXOh0CGF4ttQX63jC6lYTaZNO2ADV2sEpcrNLK7AtOw=;
+        b=lYmCZriUDvoPGKRDWlYyK3wCXZJJz3RC9BGVsC90inQUQBhbiF2pehG+BptWiqMfT/
+         GNu5zucSbunETv6bKGHuWmR32g5OB0qSjIqzwv8UjR9e6jt5iSgKD1NSx5D94jgs7u+H
+         TS6MMQmuYIQkWLiXCEyGvBJ4D1fBjEkPxrhVhaQSN0INSS7/9vWL/I9nQQceRFKl8pMq
+         Fnmi8oDwl53vTEQAYu2/vbk9xCV5a7aIiATXDzRYdUn5LAk/VdR/NZVhFKzKu4O7xWfM
+         BPtNGqQhOmhfonIwTYxSNl3e2k0VAz7rGb7SoRjOOr5m1MDohbVxwVxrn1yMFDW15zo9
+         NV7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :reply-to:references:mime-version:content-disposition:in-reply-to
-         :user-agent:x-original-sender:x-original-authentication-results
+        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :mime-version:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
          :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=cmV0hQWJl092dCYmvI6LzeuLGORrn8zLRMMCkWJb3yA=;
-        b=KRqcn1lbbGf+fWcBsv9T1MBJiAsW9I8TomKlIaHO2XeuOmcl4kQ9EQN4dCg1rbtpB6
-         hAg/HlDRp3PZL+vKfso35Rebe1acp3FvPUoWlfcoR1IHoaOacd9CHppbs283QAfGtpGN
-         cqjg4myjZKvIgLiCOvTs74/8OTFuU15dtYJkYasYAPDszrW+VPLIva0FBhRqnjXUD+y2
-         IGTmn0CXYFEy9BYK3B0nJcuFaAg7zKMuMaKCXZ81yhJLjxEJblkFXetA2zpviByybVgI
-         BM5L5Hxc5J4QT59f/owzGDZQLNCOAv2moSNBP0fis9bSeMI4zFNe0GWnsnN5jM7ne1tK
-         rMnw==
+        bh=EXOh0CGF4ttQX63jC6lYTaZNO2ADV2sEpcrNLK7AtOw=;
+        b=b3Ja2c1S+qdRJGw82OrMC7wSyb55tQ85W8teGVMtGPgPMNE8Md9ftEi7XxV886QE1C
+         AAls9RbA2m5LhRkpRx/I0fBX/Ax76aDl+3w1ybz0VkEMhyeOCQVSdrQfMkJ2nnxeUABy
+         V2sjOhA1j0RNvNsPTKpeM8n9PuWYEV75DhsRYCTO9fqR6JXoqonI34jtudWIJTK6I5aP
+         b8z+ug3aK2w0eb3Fm3cqinyK5AqwH7TggTVb/wPrwVkq1on6i8TUVQkn64+fIyzYP6B4
+         YrkAFGx+jISOyOXBzcjUyj5euocNedP5p6S8sskWiM6zHpBryOOn4hpH+HlqdxnMK67d
+         p39A==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AGi0PuZtWKu6CNFqRx8IIvjNjtjsXvfmCtw22/4f/4kVaSP2rR3cyrCj
-	db50zy9HafPnkR2ERbWQs5A=
-X-Google-Smtp-Source: APiQypKOR0EQRf0uK2iMpP5IDQOXk55CwYMCb3UZ571nzzuUf0PqIiEWa8BsAHPAT1QKq/oanrQwtg==
-X-Received: by 2002:a05:6808:49:: with SMTP id v9mr2504909oic.41.1588688178845;
-        Tue, 05 May 2020 07:16:18 -0700 (PDT)
+X-Gm-Message-State: AGi0PuYaOOebp7xE42aHb0QmnheUfOnfRMjvEk3vG5uSwlehsyzcqUbJ
+	y6KLq1WmS/WfmpnJpxyAv0U=
+X-Google-Smtp-Source: APiQypI4VeJj8kzrua2Bgwu+u/oyYhOsXDBW04mOyM/7wvPT+bhEL+my06mAnqBQxkeVKuSKobDUwg==
+X-Received: by 2002:adf:9482:: with SMTP id 2mr3824506wrr.328.1588688629095;
+        Tue, 05 May 2020 07:23:49 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a9d:150:: with SMTP id 74ls652368otu.8.gmail; Tue, 05 May
- 2020 07:16:18 -0700 (PDT)
-X-Received: by 2002:a9d:6282:: with SMTP id x2mr2767538otk.52.1588688178220;
-        Tue, 05 May 2020 07:16:18 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1588688178; cv=none;
+Received: by 2002:adf:fa52:: with SMTP id y18ls3629524wrr.9.gmail; Tue, 05 May
+ 2020 07:23:48 -0700 (PDT)
+X-Received: by 2002:a5d:4704:: with SMTP id y4mr4192396wrq.96.1588688628409;
+        Tue, 05 May 2020 07:23:48 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1588688628; cv=none;
         d=google.com; s=arc-20160816;
-        b=xs8IMuvEXIarl0yqj9Bkt5AG2dLPOIS9CK9DZJxlPtqvq1LV77RfpnjeQ/prBLUf5O
-         VZFKPsjgIb6zHvgWq/OEHDGnsdSFV8ZLYOGbF1dKYQ40kYV2Subf18w5y5AZTAf+KUhW
-         LQ27n+4ouH1HlnsTvPl3Hp9NxDkPMTwSiGA89KVcoL/i/bRCzb2g5AKptVnzfFZubbJd
-         KTPl/IfrHLMm4Lvf91RbzGAYjkSwNvGYvQGLM129CNA6gnblf17OaqZRh1cyE4ESPSo8
-         tkAQcD8vW9l86xJ/c6fAUBQaRp62aVtg7YNlQioOG519SzIhwDh4zfSQi/bYv8Uy4PvU
-         18qg==
+        b=bUZPdlOzWTOkI+Ln94sCv3Rl9x71ab8tj3lrFR2kqvd+u03qZOQiVzXOEevG8TDJuo
+         7/kZL9L5AZXf/pzFyJgHzfv2QmNzk4o6FNM5sWUoW6gGUabGyIGoIriemi4OsrWPzcH7
+         TjZbb0CMwHDes/gLXSzATg6IhMsP8FUh+AFfIZ6AQl789Kqu/Fl1R5Wz+uviOM9+CaHN
+         A22NkAcEHCPhOXCvhhgs15UhU2hmwauKVQu8IpaTq6MF4/qdkjrsdEsexG77jxT81Xb/
+         WXF/awOhSEA4dU1B15r/wvn6l/RZ4z3Jc6a8NkD8bmkqmJ9ftjdCOV4/3zMssUmLt03B
+         9TUg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :reply-to:message-id:subject:cc:to:from:date:dkim-signature;
-        bh=m1fLayl/w7aKQZpbO5RkmXQrax0FSFbLy+2B91mIMr4=;
-        b=sYIAnUO3G9xLAIb5hhyhiex5ok/VTFfzFVmSLwezTTY43lhTXH4HvR+gTkIYHrG2/3
-         YfkZIKfim7QhBb9q4wokLTJAe5D6J+mN+tx4IMR9LbJmgG9vBM+hWZAs8yn71PqBse/j
-         myGaw0OJyDv7qSecmJPs8ukV/3K43QVyUb37hcsyuX4Vy148mn4RzNl0Qkd7dD7qAD5O
-         wLK661zbz/NNbj0L5DjPA9mdRJBxx8zu8l73ABGuz0gHiKfaq6yOJKFy6VjU+gmm7P7G
-         lS6FgSZyC3KjwYXjOe2EWg8mmh0b7qGSz/59Z6O78Hzt6xfhTp/XCYZCmHehZmUrBLi8
-         abNQ==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from;
+        bh=yWF8ElnkGd/20Oa5vCY8ksE6XbahroP7edCjO0yHack=;
+        b=CCpYwcBBavnher3qlKDEDj+iIQDKI9jUx4Iq3vPf889yhFfHKtRs6WEQTYQd12Dyuc
+         CA/BR5NTzsBtwmUz2jNUsYqgvvOS85SxMebtu+kEnpLJkH3sJtnpPk6lG1AxVHfseOo2
+         uJVn5riNEu3vn9ctox9BLUmvsxq23pSi9eBb07UWYAJkp29/B8+3xfM54YQ+sOkphFFq
+         lzN5JQ6tWyx01Qq+Zc91KMEtAhySwiy8OmDpQEGZx03FPK7d8IQSxxm+W4+5vOJ8MDqA
+         jjRysgoUIVqbnkFA9oPpc7VVDgJjVUGfTgI9llyvcjScb/MOcUe51wTZamWyexJy9s0F
+         8ldQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=default header.b=TrSglO9H;
-       spf=pass (google.com: domain of srs0=s9up=6t=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=s9uP=6T=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id l22si158313oos.2.2020.05.05.07.16.18
+       spf=neutral (google.com: 212.227.126.133 is neither permitted nor denied by best guess record for domain of arnd@arndb.de) smtp.mailfrom=arnd@arndb.de
+Received: from mout.kundenserver.de (mout.kundenserver.de. [212.227.126.133])
+        by gmr-mx.google.com with ESMTPS id h8si101469wro.3.2020.05.05.07.23.48
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 05 May 2020 07:16:18 -0700 (PDT)
-Received-SPF: pass (google.com: domain of srs0=s9up=6t=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
-Received: from paulmck-ThinkPad-P72.home (50-39-105-78.bvtn.or.frontiernet.net [50.39.105.78])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id 5ADCE2084D;
-	Tue,  5 May 2020 14:16:17 +0000 (UTC)
-Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
-	id 38A4F3521001; Tue,  5 May 2020 07:16:17 -0700 (PDT)
-Date: Tue, 5 May 2020 07:16:17 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Marco Elver <elver@google.com>
-Cc: David Gow <davidgow@google.com>,
-	KUnit Development <kunit-dev@googlegroups.com>,
-	Brendan Higgins <brendanhiggins@google.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Alexander Potapenko <glider@google.com>,
+        Tue, 05 May 2020 07:23:48 -0700 (PDT)
+Received-SPF: neutral (google.com: 212.227.126.133 is neither permitted nor denied by best guess record for domain of arnd@arndb.de) client-ip=212.227.126.133;
+Received: from localhost.localdomain ([149.172.19.189]) by
+ mrelayeu.kundenserver.de (mreue011 [212.227.15.129]) with ESMTPA (Nemesis) id
+ 1MacjC-1izfbf1FxC-00c78g; Tue, 05 May 2020 16:23:45 +0200
+From: Arnd Bergmann <arnd@arndb.de>
+To: Andrey Ryabinin <aryabinin@virtuozzo.com>,
+	Kees Cook <keescook@chromium.org>,
 	Andrey Konovalov <andreyknvl@google.com>,
-	kasan-dev <kasan-dev@googlegroups.com>,
-	LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] kcsan: Add test suite
-Message-ID: <20200505141617.GY2869@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
-References: <20200427143507.49654-1-elver@google.com>
- <CANpmjNOv7VXv9LtWHWBx1-an+1+WxjtzDNBF+rKsOm+ybmvwog@mail.gmail.com>
- <CABVgOSnr8CX5tN9u_wafxSiyyVcM9nL_nX2ufrSdRi=jdWjerg@mail.gmail.com>
- <CANpmjNMhVcR6TiLv29HqSvVVurUMwtHiokodPyzvwFSeE6UpZw@mail.gmail.com>
+	Marco Elver <elver@google.com>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Ingo Molnar <mingo@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Stephen Rothwell <sfr@canb.auug.org.au>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	kasan-dev@googlegroups.com,
+	linux-kernel@vger.kernel.org,
+	clang-built-linux@googlegroups.com
+Subject: [PATCH] ubsan, kcsan: don't combine sanitizer with kcov
+Date: Tue,  5 May 2020 16:23:24 +0200
+Message-Id: <20200505142341.1096942-1-arnd@arndb.de>
+X-Mailer: git-send-email 2.26.0
 MIME-Version: 1.0
+X-Provags-ID: V03:K1:JkuyWhciBA/aX1Zn4ELUz4dlGvSAU8bKJNTZp0muHfNY70Is8/z
+ PQV0xJ+scnfPXeY8VAGsx2N/Y2vXgGDZheALBVwZUXDSKdy2bdNc8Z2PrkSNFFxkx37YLNh
+ Z8uFSR+Q7ZjuSdBRCdR+4L7yllPzaAJwmQMpAN3CrAdUbrJKkmJ6Yo+c3wz3JnveMWcxobE
+ SMNSE9VDqfPQ8hFKI4AlA==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:tgXZYycAEVU=:lPwOc28vx5ScJrO1pHRcB0
+ rxw0c5/ZDaDv7RJ/qbwYGydXNqqS6uzeVUc8MMG6ZeFq8tvKV9VIQc94u0AUEJjq6ImT5Ergq
+ rQxaX/chIPGX53mBVBYn5xBOCx81eKmeB1EdXqJzVg7JqFW28UAA9cF59rYJ+gE3SIdVE/nIF
+ SokPSHNDCMEspvYRh2CrNorucNVYsEL/AgJXbpn0PZl9zEzBI/djdSgv9/LrxhTmZHy6RNLUE
+ 0XwXuejTHjC9EKHXgxGmyIUKmcS1mLFyNsb+DxbdrfVMpE+7sgaqvu+wu/hPojVWMIQjmLQbw
+ va+xgLG/Q6wh540kMi4yAggUI1qc+YuH3XnvyvGWm2EaSZiGURifJrwzJxYs+AKd6GMY3+3xx
+ zsL2tW4o/QFVkXVNR5JSV3Gu/lrOox2IkJ/5AU+5kja6VhXCRbRnwK5syP3xa5FrLAa90z7GG
+ KNGS1FYIS9p3t30+hicKEV5lf0yAA5vL0qUdN1K3S4R/r3h85XmgmeGlUrrcVOfjUpZYA2dk9
+ zyS+Yy009Ly3gp687W8jivoGTTrxYJZYlepNS6lt/8vDb/J7ImpIIdirdhF/M54Hi8mLahoX7
+ g8zh43nDHnieM2fROES6HZX+c0J9kkqV93/zcCVqpNhkDhw3WXoG5WeNSe67smre82rl1zcVA
+ 5LXl/C86XYD+LkZA9jjKLiW5xzOyR51h9YDAo1kKdMaxGYkMb/H7k3r8glnjcp9ECirj7K+Qe
+ QfHceo3s8uzaulP7M3XrRegVhnYM9NriiEa192ZQQ2KEDUHhvlVvyy+FLDJHDDwAZ7rl3MTQ9
+ 3itAByRmtW1leBvDn6VsH+KZvYoOScPZVHB3svSQALiyIgicBA=
+X-Original-Sender: arnd@arndb.de
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=neutral
+ (google.com: 212.227.126.133 is neither permitted nor denied by best guess
+ record for domain of arnd@arndb.de) smtp.mailfrom=arnd@arndb.de
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <CANpmjNMhVcR6TiLv29HqSvVVurUMwtHiokodPyzvwFSeE6UpZw@mail.gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Original-Sender: paulmck@kernel.org
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=default header.b=TrSglO9H;       spf=pass
- (google.com: domain of srs0=s9up=6t=paulmck-thinkpad-p72.home=paulmck@kernel.org
- designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=s9uP=6T=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -144,109 +148,52 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, May 05, 2020 at 03:01:45PM +0200, Marco Elver wrote:
-> On Tue, 5 May 2020 at 07:00, David Gow <davidgow@google.com> wrote:
-> >
-> > On Mon, Apr 27, 2020 at 11:23 PM 'Marco Elver' via kasan-dev
-> > <kasan-dev@googlegroups.com> wrote:
-> > >
-> > > On Mon, 27 Apr 2020 at 16:35, Marco Elver <elver@google.com> wrote:
-> > > >
-> > > > This adds KCSAN test focusing on behaviour of the integrated runtime.
-> > > > Tests various race scenarios, and verifies the reports generated to
-> > > > console. Makes use of KUnit for test organization, and the Torture
-> > > > framework for test thread control.
-> > > >
-> > > > Signed-off-by: Marco Elver <elver@google.com>
-> > > > ---
-> > >
-> > > +KUnit devs
-> > > We had some discussions on how to best test sanitizer runtimes, and we
-> > > believe that this test is what testing sanitizer runtimes should
-> > > roughly look like. Note that, for KCSAN there are various additional
-> > > complexities like multiple threads, and report generation isn't
-> > > entirely deterministic (need to run some number of iterations to get
-> > > reports, may get multiple reports, etc.).
-> >
-> > Thanks very much for writing the test. I do think that it goes a
-> > little outside what we'd normally expect of a unit test (notably with
-> > the issues around determinism and threading), but it's good to see
-> > KUnit being pushed in new directions a bit.
-> >
-> > The biggest issue in my mind is the possibility that the
-> > non-determinism of the tests could cause false positives. If we're
-> > trying to run as many KUnit tests as possible as part of continuous
-> > integration systems or as a condition for accepting patches, having
-> > flaky tests could be annoying. The KCSAN tests seem to break/fail
-> > as-is when run on single-core machines (at least, under qemu), so some
-> > way of documenting this as a requirement would probably be necessary,
-> > too.
-> 
-> True. Although note that we require CONFIG_KCSAN=y for this test to be
-> enabled, so I don't think it's a big problem for a regular CI setups.
-> For a KCSAN setup, I'd expect that we know that running on a
-> single-core system doesn't yield much interesting results regardless
-> of tests being run.
-> 
-> The non-deterministic nature of concurrent tests will never entirely
-> go away, but I think with the right preconditions met (at least N
-> CPUs, where N depends on PREEMPT_NONE, PREEMPT_VOLUNTARY or PREEMPT)
-> the tests here should not normally fail.
-> 
-> > One possibility would be to add support for "skipped" tests to KUnit
-> > (the TAP specification allows for it), so that the KCSAN test could
-> > detect cases where it's not reliable, and skip itself (leaving a note
-> > as to why). In the short term, though, we'd absolutely need some
-> > documentation around the dependencies for the test.
-> 
-> That would be nice. For the time being, I will add a precondition
-> check to test_init(), and print a warning if the test needs to be
-> skipped.
-> 
-> > (For the record, the failures I saw were all due to running under qemu
-> > emulating as a uniprocessor/single-core machine: with
-> > CONFIG_PREEMPT_VOLUNTARY, it would just hang after creating the first
-> > couple of threads. With CONFIG_PREEMPT, the tests completed, but the
-> > majority of them failed.)
-> 
-> Right, let me try to fix those at least. I'll send v2.
-> 
-> (Paul: If you prefer a separate patch rather than v2, let me know.)
+Clang does not allow -fsanitize-coverage=trace-{pc,cmp} together
+with -fsanitize=bounds or with ubsan:
 
-A v2 would work well, thank you!
+clang: error: argument unused during compilation: '-fsanitize-coverage=trace-pc' [-Werror,-Wunused-command-line-argument]
+clang: error: argument unused during compilation: '-fsanitize-coverage=trace-cmp' [-Werror,-Wunused-command-line-argument]
 
-							Thanx, Paul
+To avoid that case, add a Kconfig dependency. The dependency could
+go either way, disabling CONFIG_KCOV or CONFIG_UBSAN_BOUNDS when the
+other is set. I picked the second option here as this seems to have
+a smaller impact on the resulting kernel.
 
-> > > The main thing, however, is that we want to verify the actual output
-> > > (or absence of it) to console. This is what the KCSAN test does using
-> > > the 'console' tracepoint. Could KUnit provide some generic
-> > > infrastructure to check console output, like is done in the test here?
-> > > Right now I couldn't say what the most useful generalization of this
-> > > would be (without it just being a wrapper around the console
-> > > tracepoint), because the way I've decided to capture and then match
-> > > console output is quite test-specific. For now we can replicate this
-> > > logic on a per-test basis, but it would be extremely useful if there
-> > > was a generic interface that KUnit could provide in future.
-> >
-> > This is something we've discussed here a couple of times as well.
-> > While I'll confess to being a little bit wary of having tests rely too
-> > heavily on console output: it risks being a bit fragile if the exact
-> > contents or formatting of messages change, or ends up having a lot of
-> > string formatting and/or parsing code in the tests. I do agree,
-> > though, that it probably needs to be at least a part of testing things
-> > like sanitizers where the ultimate goal is to produce console output.
-> > I'm not exactly sure how we'd implement it yet, so it's probably not
-> > going to happen extremely soon, but what you have here looks to me
-> > like a good example we can generalise as needed.
-> 
-> The fragility due to formatting etc. for the sanitizers is exactly
-> what we want, since any change in console output could be a bug. But
-> as you say, for other tests, it might not make much sense.
-> 
-> Thanks,
-> -- Marco
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ lib/Kconfig.kcsan | 2 +-
+ lib/Kconfig.ubsan | 1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/lib/Kconfig.kcsan b/lib/Kconfig.kcsan
+index ea28245c6c1d..8f856c8828d5 100644
+--- a/lib/Kconfig.kcsan
++++ b/lib/Kconfig.kcsan
+@@ -5,7 +5,7 @@ config HAVE_ARCH_KCSAN
+ 
+ menuconfig KCSAN
+ 	bool "KCSAN: dynamic data race detector"
+-	depends on HAVE_ARCH_KCSAN && DEBUG_KERNEL && !KASAN
++	depends on HAVE_ARCH_KCSAN && DEBUG_KERNEL && !KASAN && !KCOV
+ 	select STACKTRACE
+ 	help
+ 	  The Kernel Concurrency Sanitizer (KCSAN) is a dynamic
+diff --git a/lib/Kconfig.ubsan b/lib/Kconfig.ubsan
+index 929211039bac..f98ef029553e 100644
+--- a/lib/Kconfig.ubsan
++++ b/lib/Kconfig.ubsan
+@@ -29,6 +29,7 @@ config UBSAN_TRAP
+ config UBSAN_BOUNDS
+ 	bool "Perform array index bounds checking"
+ 	default UBSAN
++	depends on !(CC_IS_CLANG && KCOV)
+ 	help
+ 	  This option enables detection of directly indexed out of bounds
+ 	  array accesses, where the array size is known at compile time.
+-- 
+2.26.0
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200505141617.GY2869%40paulmck-ThinkPad-P72.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200505142341.1096942-1-arnd%40arndb.de.
