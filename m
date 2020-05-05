@@ -1,69 +1,125 @@
-Return-Path: <kasan-dev+bncBC66TOP4SALRB75MYX2QKGQE7PWYNOY@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBRWHYX2QKGQEC665IMA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ot1-x33a.google.com (mail-ot1-x33a.google.com [IPv6:2607:f8b0:4864:20::33a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1496A1C5506
-	for <lists+kasan-dev@lfdr.de>; Tue,  5 May 2020 14:05:22 +0200 (CEST)
-Received: by mail-ot1-x33a.google.com with SMTP id e23sf963586otk.1
-        for <lists+kasan-dev@lfdr.de>; Tue, 05 May 2020 05:05:22 -0700 (PDT)
+Received: from mail-pg1-x53e.google.com (mail-pg1-x53e.google.com [IPv6:2607:f8b0:4864:20::53e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DE201C5625
+	for <lists+kasan-dev@lfdr.de>; Tue,  5 May 2020 15:02:00 +0200 (CEST)
+Received: by mail-pg1-x53e.google.com with SMTP id l7sf1190628pgb.2
+        for <lists+kasan-dev@lfdr.de>; Tue, 05 May 2020 06:02:00 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1588683719; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=EL7+v94GTBvqxvIl10Il9MJIbvtnG7DGz14gERSH05i7p/AeTcjy8UttuaaiNFafBW
+         /2/CLRwgECA/oNHJb/Sm/WSiUEGbA2kx/iK/TvwFm0FLhDVOrsxz/BCZKjmckxXpFZMR
+         U6bt2m+QzfcPFFY3KwVT3URsyl90WPnnLV8b4B5042eAtzk7Ph2Zp9tMOx0PDnj6p/RD
+         VJydFr1Ac2PeQqyDSmlY8QzCSmHIL1PaCsFM+sflusQz22PHAB1qrBY23DTDX7mQWFwy
+         OtD4NXOzhplexVWOMKlxXqjhMe2+ZB519fSAYuRJ2x01TK0TCrTs2sitocwBspcb0Ikm
+         hkRA==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=9V6MxrF/7EBLhYptosA0wG1K5hPMIveMOHQxQ43WB1o=;
+        b=OPp092pt46TsLe2wFZIXQCHUBrHRWSeGeb1eOtzPGfi8Erv6oNggp6JxQNvNQ2i67h
+         zW/kEL+Knvd8EOj5bpr504jUrKY8cITOQySiUlnrel+nSnxjfm1EOgfxjvQXPq3AvMmi
+         MyP9L3QJUZNcym9geikKxiTOa+sF8/dP3fSCMSfgToW/isSR9zt0UctCak8pqz3MR2P4
+         Wmz6jK8TY/4J3UPIE1puUtpAuCPE+6MmAaZMj5COioGdj6VVFJxCLuQ2lX0r7HUeOjzP
+         xD4NUKxTBSq2cKcPsh1OrNEcB63KtPMJxO7+14zJgO5YwHlDxfLUWJkRQvO6vpqVuKVH
+         rC3Q==
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=W1VfS4vL;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::341 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:date:from:to:message-id:subject:mime-version
-         :x-original-sender:precedence:mailing-list:list-id:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=3n1dxfHy8RZrpBXhoJ/5+W8FzhyQRksV6mqxIGggqZU=;
-        b=OK8WBQXFr2QCYO6zZMnm4FuNZ4r4I3NIsn1oMbGhV/xSHoPFgCrJHPOfHxEOwlXoG5
-         u00KzHE3rJ8F4uSfS1ZOTSxkD2OOjsknYIIB8kh1nz9LeGVMsTfADBAzJth+gp5BiAT7
-         9XkiiGDO+J/AQHHyOMCsd3S6nVmt9IpCJz3JrEKb3R3R2cds+x+M6GubXq+PKN9kGxAX
-         JT+Qa/frSIO1lfs4n5yBiG6PMW25MqQPWyuAf5ADewKV++7WbNKGtZyWgJrSN9yfWzlA
-         9o9tn+P9NRfcgN8+5bZn8WyjM/uE2luKLD4usVXgO64SMoO0unKqUUEDvaY3682H9uAP
-         nPCg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:message-id:subject:mime-version:x-original-sender
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=3n1dxfHy8RZrpBXhoJ/5+W8FzhyQRksV6mqxIGggqZU=;
-        b=LadrlOW2TqLP2JP+ZqLHCgUMZe8mKBwX2qAW7ATOgxuAVEiv29eF1l2/Ou0mnHeSQ4
-         Mq0yi7GGUHfD6GTXMd71u7rJHl+wbojANBnMgK8BZXE5mEWwvHGiFc6WQcesdr7ThxHd
-         VQxcp95QiC51JXtWnAU4/X7uB4OAY7pyu/vf/a4UuWmjds8hX9Tle0iRzLyoGjiG3LNX
-         nx1q/AXvd4kPVYtSV2md8BKfIYwuje4tdQPRy8k178s8kdhEHTqZm8oH7iL7qzddpCeP
-         RkF45A9LNHjXtPw+iw1HWcnH6Oc6jooogxwxBwtP2m9hGgBlor9IjQdCcq02Wbf5pPWK
-         cG7g==
+        bh=9V6MxrF/7EBLhYptosA0wG1K5hPMIveMOHQxQ43WB1o=;
+        b=XhsbmRibR75aymKhNxgccWyit9mxk2epZ7/ufE0KBbhsFKhaZnzdla+6NaYNxKsfmW
+         vgMx0/wvBOiiM3bEYvA4MyM2bBVAqJH28U5EusbX4yz8cc6ZEiYeQJdYeL8NHGqUFCuS
+         fF5NJSqhegd5hTOtm68dBt8rzhl5pWvrHiqmR0t5JfauvPO3tz9qVHKvNtVzhni9TpaJ
+         x5g3t425z42YqoBOjjiXsBt0YpmBBvCinrvOPOzOv2J3p5w2v1qifJMi2GapYVLhWZYn
+         /jY8M9NmU2IkuUsCsZCAklTAPnnHpdHsLbo4xbsX3ip+bXFMiKltfa9DTQPntemBVIIH
+         I51A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:date:from:to:message-id:subject
-         :mime-version:x-original-sender:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=3n1dxfHy8RZrpBXhoJ/5+W8FzhyQRksV6mqxIGggqZU=;
-        b=gWQ7H9FZA+yco/XlWb9kNg1B4pr9ADlA0SfZoQ5Ir63EtiA3u6LdnLS5Y/G0Gwpt0G
-         yiJh+1OiWVbU4MEz/3XsHEWndwdktxNxJoFizbyCL3tY81JhmbKyLbG5XoNl+JKoXRAz
-         94m0GONOWaFQu8otquJAi39VMTakQJ9FRj4TG/VZ9sz/t8Jws2VxHccAnSc80Dk8BTvT
-         XY1zIzKk3X50MCjKdvbevwQAxt5bD5VJWr2aPNgtcdPiwARdM/TIRTlvQR7E6ypTeaX3
-         iF1MIWVBPDGP0j9esWE2LFY8kM9HDXGwAbmEMfkW8tMrJIB3C07z5tWzf1VlAhg6GqhL
-         Y6bw==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AGi0PuZ8mhoOP0WU7nYO3GxGSOYxsZQL6CCrMMJZIZMJ6rqqaUNknAeO
-	K2hCX9BbAAQ6gaZYqKwRQB8=
-X-Google-Smtp-Source: APiQypIRC06EZGgdB6dvWvdgkyT4IA8c32q9qaQHCj5FgBivYipnY4VfskXV1hQxrxRx15xdI6WVsQ==
-X-Received: by 2002:a4a:92d1:: with SMTP id j17mr2568367ooh.13.1588680319578;
-        Tue, 05 May 2020 05:05:19 -0700 (PDT)
+        bh=9V6MxrF/7EBLhYptosA0wG1K5hPMIveMOHQxQ43WB1o=;
+        b=CkjFoetVAOALafxtHsWP4v3Jgj1lz2eIfzELQ+BprWsL9UqVAzRnE88WwgRJ4VxPR5
+         D9JqzT5RLQcB9G69XY6gbQywbHEcWJ6mEdNfZegHMpF3aximqwayCQWjYAgcgDFhdE4N
+         LBgM3OQbALcnSu3NcrffdxVHtFEwICG2h2CvGTllmQ6qN6Z6Vckh68XUAQXnV8sWz5QV
+         uRpkpd6iu3xTmlsqf9HYKjjxpJvHXRBe0MDx9uwcj6UEoLLqZTG34Y21D1gy4c47PxlX
+         2/fmF1rjobukpYpfSvN9aLrlmpvdCbNgdyBSZC6lKiHtLN8975REkxTF9FDcd8v46V0h
+         pIqg==
+X-Gm-Message-State: AGi0PuZMap3fPm8mkgR1q9YSKNNgWAVf67uDMg6x8yQlY2MXKCp23jUm
+	IEhnf3IYfcVPYSSshTwsK6A=
+X-Google-Smtp-Source: APiQypIPoT4ijHYr1O+YxWx+qHjgbCNo8UdjoXeT0sZWfOWi/yN4DSE5rcs3J7zABCcnsYOaHondsg==
+X-Received: by 2002:a63:4c9:: with SMTP id 192mr2838636pge.207.1588683719041;
+        Tue, 05 May 2020 06:01:59 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a9d:6e97:: with SMTP id a23ls559189otr.2.gmail; Tue, 05 May
- 2020 05:05:19 -0700 (PDT)
-X-Received: by 2002:a05:6830:90:: with SMTP id a16mr2167469oto.282.1588680319221;
-        Tue, 05 May 2020 05:05:19 -0700 (PDT)
-Date: Tue, 5 May 2020 05:05:18 -0700 (PDT)
-From: robert mathews <mathewsrobert54@gmail.com>
-To: kasan-dev <kasan-dev@googlegroups.com>
-Message-Id: <b95bf3f4-7159-43d0-8864-e36d32931ac1@googlegroups.com>
-Subject: ANXIETY DISORDER MANAGEMENT ,INSOMNIA[TROUBLE SLEEPING ],treatment
- or correction of erectile dysfunction and more
+Received: by 2002:a62:ea0e:: with SMTP id t14ls1173478pfh.3.gmail; Tue, 05 May
+ 2020 06:01:58 -0700 (PDT)
+X-Received: by 2002:a65:5a8b:: with SMTP id c11mr2848101pgt.215.1588683718467;
+        Tue, 05 May 2020 06:01:58 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1588683718; cv=none;
+        d=google.com; s=arc-20160816;
+        b=IrRLnQdIRHcOHsyO4wNeNZfgEUeNWHn57dSj2yxSrVadLBjr08GNy3QAXFQcJR1ofW
+         j283Fk4v36iDQHzgjXB5n1mlbKOkKP+IufRpUzq9CzL/sYujzr1/OvM0lwOQVlo83S4D
+         jmv7xkaMVCwQcWYkj88TTefkaVxpNBfgww8XcIdsVofOg4Ay9yuv7lpWAi+DlbFxBb1h
+         KOPOcsm50cBmHVocjHjmhgYSzcKjyjTZ6koygQ89XbKHHLAvHeUwqu7/+UGJ9nKzB1rk
+         xqzISanA3yq1JBNpIHK5GJMURPVJHlY6DCeHOWLtiIZvWXS4cMiUn/00fh1rDC2lqDrU
+         Nf9w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=JTDmSdSSqcf0820VG99rQzpJRdzBGuHIvjHK4wifur4=;
+        b=weUQAhtMAXvB5TDP4tBsgreyisZiv+T0EkMsI2TCCtiADnJsq5/PDFhzc3+2lNBRvw
+         /jeKtw+hD5Zc3Fow1zCu1G1rFrvTbTKZWSj7RDfIMWo2l3czfa/2CNhJe3N/8L+mFF0f
+         FBdr39Yrpsf2MlXf1fAQlVXY0U2VXBySqxBeQpvqVBcz8eLdFo3B0U20LASPY92MPNkf
+         otYTddu3QPUQ5xZlGzvYH/wKyfLeBfIMPITOjj/Kkwd6oJuslgXjhMSXILBLz0XLwij/
+         M9pm7+Sxj4bW7Gj+Rkp9K3Sa2YjY5iSPTdnXQbSiZNMOiAKxswKuVKj7CisYmUvgADUo
+         wLig==
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=W1VfS4vL;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::341 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com. [2607:f8b0:4864:20::341])
+        by gmr-mx.google.com with ESMTPS id c17si140337plc.5.2020.05.05.06.01.58
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 05 May 2020 06:01:58 -0700 (PDT)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::341 as permitted sender) client-ip=2607:f8b0:4864:20::341;
+Received: by mail-ot1-x341.google.com with SMTP id c3so1507020otp.8
+        for <kasan-dev@googlegroups.com>; Tue, 05 May 2020 06:01:58 -0700 (PDT)
+X-Received: by 2002:a9d:412:: with SMTP id 18mr2181834otc.233.1588683716950;
+ Tue, 05 May 2020 06:01:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/mixed; 
-	boundary="----=_Part_485_1219993954.1588680318555"
-X-Original-Sender: mathewsrobert54@gmail.com
+References: <20200427143507.49654-1-elver@google.com> <CANpmjNOv7VXv9LtWHWBx1-an+1+WxjtzDNBF+rKsOm+ybmvwog@mail.gmail.com>
+ <CABVgOSnr8CX5tN9u_wafxSiyyVcM9nL_nX2ufrSdRi=jdWjerg@mail.gmail.com>
+In-Reply-To: <CABVgOSnr8CX5tN9u_wafxSiyyVcM9nL_nX2ufrSdRi=jdWjerg@mail.gmail.com>
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Tue, 5 May 2020 15:01:45 +0200
+Message-ID: <CANpmjNMhVcR6TiLv29HqSvVVurUMwtHiokodPyzvwFSeE6UpZw@mail.gmail.com>
+Subject: Re: [PATCH] kcsan: Add test suite
+To: David Gow <davidgow@google.com>
+Cc: KUnit Development <kunit-dev@googlegroups.com>, Brendan Higgins <brendanhiggins@google.com>, 
+	"Paul E. McKenney" <paulmck@kernel.org>, Dmitry Vyukov <dvyukov@google.com>, 
+	Alexander Potapenko <glider@google.com>, Andrey Konovalov <andreyknvl@google.com>, 
+	kasan-dev <kasan-dev@googlegroups.com>, LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: elver@google.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@google.com header.s=20161025 header.b=W1VfS4vL;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::341 as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -76,122 +132,104 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-------=_Part_485_1219993954.1588680318555
-Content-Type: multipart/alternative; 
-	boundary="----=_Part_486_1071657836.1588680318555"
+On Tue, 5 May 2020 at 07:00, David Gow <davidgow@google.com> wrote:
+>
+> On Mon, Apr 27, 2020 at 11:23 PM 'Marco Elver' via kasan-dev
+> <kasan-dev@googlegroups.com> wrote:
+> >
+> > On Mon, 27 Apr 2020 at 16:35, Marco Elver <elver@google.com> wrote:
+> > >
+> > > This adds KCSAN test focusing on behaviour of the integrated runtime.
+> > > Tests various race scenarios, and verifies the reports generated to
+> > > console. Makes use of KUnit for test organization, and the Torture
+> > > framework for test thread control.
+> > >
+> > > Signed-off-by: Marco Elver <elver@google.com>
+> > > ---
+> >
+> > +KUnit devs
+> > We had some discussions on how to best test sanitizer runtimes, and we
+> > believe that this test is what testing sanitizer runtimes should
+> > roughly look like. Note that, for KCSAN there are various additional
+> > complexities like multiple threads, and report generation isn't
+> > entirely deterministic (need to run some number of iterations to get
+> > reports, may get multiple reports, etc.).
+>
+> Thanks very much for writing the test. I do think that it goes a
+> little outside what we'd normally expect of a unit test (notably with
+> the issues around determinism and threading), but it's good to see
+> KUnit being pushed in new directions a bit.
+>
+> The biggest issue in my mind is the possibility that the
+> non-determinism of the tests could cause false positives. If we're
+> trying to run as many KUnit tests as possible as part of continuous
+> integration systems or as a condition for accepting patches, having
+> flaky tests could be annoying. The KCSAN tests seem to break/fail
+> as-is when run on single-core machines (at least, under qemu), so some
+> way of documenting this as a requirement would probably be necessary,
+> too.
 
-------=_Part_486_1071657836.1588680318555
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+True. Although note that we require CONFIG_KCSAN=y for this test to be
+enabled, so I don't think it's a big problem for a regular CI setups.
+For a KCSAN setup, I'd expect that we know that running on a
+single-core system doesn't yield much interesting results regardless
+of tests being run.
 
-DO NOT MISS OUT BUT CONTACT AND GET SORTED ASAP=20
-*INQUIRIES:
--Email..... mathewsrobert54@gmail.com
+The non-deterministic nature of concurrent tests will never entirely
+go away, but I think with the right preconditions met (at least N
+CPUs, where N depends on PREEMPT_NONE, PREEMPT_VOLUNTARY or PREEMPT)
+the tests here should not normally fail.
 
-Diazepam 5mgs 1000pills 100=C2=A3
-Diazepam 5mgs 2000pills 200=C2=A3
-Diazepam 5mgs 5000pills 480=C2=A3
+> One possibility would be to add support for "skipped" tests to KUnit
+> (the TAP specification allows for it), so that the KCSAN test could
+> detect cases where it's not reliable, and skip itself (leaving a note
+> as to why). In the short term, though, we'd absolutely need some
+> documentation around the dependencies for the test.
 
-Diazepam 10mgs 1000pills 130=C2=A3
-Diazepam 10mgs 2000pills 210=C2=A3
-Diazepam 10mgs 5000pills 300=C2=A3
-Diazepam 10mgs 10000pills 600=C2=A3
+That would be nice. For the time being, I will add a precondition
+check to test_init(), and print a warning if the test needs to be
+skipped.
 
-Ketamine 5vials 100=C2=A3
-Ketamine 10vials 180=C2=A3
-Ketamine 25vials 320=C2=A3
+> (For the record, the failures I saw were all due to running under qemu
+> emulating as a uniprocessor/single-core machine: with
+> CONFIG_PREEMPT_VOLUNTARY, it would just hang after creating the first
+> couple of threads. With CONFIG_PREEMPT, the tests completed, but the
+> majority of them failed.)
 
-FOR TRAMADOL SMALLER ORDER
+Right, let me try to fix those at least. I'll send v2.
 
-tramadol 100mg 300pills =C2=A380
-tramadol 200mg 300pills =C2=A3100
-tramadol 100mg 500pills =C2=A3130
-tramadol 200mg 500pills =C2=A3140
-tramadol 100mg 1000pills =C2=A3220
-tramadol 200mg 1000pills =C2=A3230
-tramadol 225mg 1000pills =C2=A3250
+(Paul: If you prefer a separate patch rather than v2, let me know.)
 
-FOR TRAMADOL BULK ORDER
+> > The main thing, however, is that we want to verify the actual output
+> > (or absence of it) to console. This is what the KCSAN test does using
+> > the 'console' tracepoint. Could KUnit provide some generic
+> > infrastructure to check console output, like is done in the test here?
+> > Right now I couldn't say what the most useful generalization of this
+> > would be (without it just being a wrapper around the console
+> > tracepoint), because the way I've decided to capture and then match
+> > console output is quite test-specific. For now we can replicate this
+> > logic on a per-test basis, but it would be extremely useful if there
+> > was a generic interface that KUnit could provide in future.
+>
+> This is something we've discussed here a couple of times as well.
+> While I'll confess to being a little bit wary of having tests rely too
+> heavily on console output: it risks being a bit fragile if the exact
+> contents or formatting of messages change, or ends up having a lot of
+> string formatting and/or parsing code in the tests. I do agree,
+> though, that it probably needs to be at least a part of testing things
+> like sanitizers where the ultimate goal is to produce console output.
+> I'm not exactly sure how we'd implement it yet, so it's probably not
+> going to happen extremely soon, but what you have here looks to me
+> like a good example we can generalise as needed.
 
-tramadol 100mg 5000pills =C2=A3600
-tramadol 200mg 5000pills =C2=A3700
-tramadol 225mg 5000pills =C2=A3800
+The fragility due to formatting etc. for the sanitizers is exactly
+what we want, since any change in console output could be a bug. But
+as you say, for other tests, it might not make much sense.
 
-Viagra 100mg 1000pills 350=C2=A3
-Viagra 100mg 2000pills 600=C2=A3
-Viagra 100mg 5000pills 1000=C2=A3
+Thanks,
+-- Marco
 
-Xanax 0.5mg 1000pills 270=C2=A3
-Xanax 0.5mg 2000pills 500=C2=A3
-Xanax 0.5mg 5000pills 900=C2=A3
-
-other products available for sale
-
-alpha testo boast ..60 pills - =C2=A3100
-zopiclone 7.5mg,
-oxycodone 5mg & 10mg,
-
-
-*CONTACT:
--Email...... mathewsrobert54@gmail.com
-Wickr=E2=80=A6..dinalarry
-WhatsApp=E2=80=A6.+237672864865
-Telegram=E2=80=A6..@l_oarry
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/b95bf3f4-7159-43d0-8864-e36d32931ac1%40googlegroups.com.
-
-------=_Part_486_1071657836.1588680318555
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>DO NOT MISS OUT BUT CONTACT AND GET SORTED ASAP=C2=A0=
-</div><div><span style=3D"white-space:pre">	</span></div><div>*INQUIRIES:</=
-div><div>-Email..... mathewsrobert54@gmail.com</div><div><br></div><div>Dia=
-zepam 5mgs 1000pills 100=C2=A3</div><div>Diazepam 5mgs 2000pills 200=C2=A3<=
-/div><div>Diazepam 5mgs 5000pills 480=C2=A3</div><div><br></div><div>Diazep=
-am 10mgs 1000pills 130=C2=A3</div><div>Diazepam 10mgs 2000pills 210=C2=A3</=
-div><div>Diazepam 10mgs 5000pills 300=C2=A3</div><div>Diazepam 10mgs 10000p=
-ills 600=C2=A3</div><div><br></div><div>Ketamine 5vials 100=C2=A3</div><div=
->Ketamine 10vials 180=C2=A3</div><div>Ketamine 25vials 320=C2=A3</div><div>=
-<br></div><div>FOR TRAMADOL SMALLER ORDER</div><div><br></div><div>tramadol=
- 100mg 300pills =C2=A380</div><div>tramadol 200mg 300pills =C2=A3100</div><=
-div>tramadol 100mg 500pills =C2=A3130</div><div>tramadol 200mg 500pills =C2=
-=A3140</div><div>tramadol 100mg 1000pills =C2=A3220</div><div>tramadol 200m=
-g 1000pills =C2=A3230</div><div>tramadol 225mg 1000pills =C2=A3250</div><di=
-v><br></div><div>FOR TRAMADOL BULK ORDER</div><div><br></div><div>tramadol =
-100mg 5000pills =C2=A3600</div><div>tramadol 200mg 5000pills =C2=A3700</div=
-><div>tramadol 225mg 5000pills =C2=A3800</div><div><br></div><div>Viagra 10=
-0mg 1000pills 350=C2=A3</div><div>Viagra 100mg 2000pills 600=C2=A3</div><di=
-v>Viagra 100mg 5000pills 1000=C2=A3</div><div><br></div><div>Xanax 0.5mg 10=
-00pills 270=C2=A3</div><div>Xanax 0.5mg 2000pills 500=C2=A3</div><div>Xanax=
- 0.5mg 5000pills 900=C2=A3</div><div><br></div><div>other products availabl=
-e for sale</div><div><br></div><div>alpha testo boast ..60 pills - =C2=A310=
-0</div><div>zopiclone 7.5mg,</div><div>oxycodone 5mg &amp; 10mg,</div><div>=
-<br></div><div><br></div><div>*CONTACT:</div><div>-Email...... mathewsrober=
-t54@gmail.com</div><div>Wickr=E2=80=A6..dinalarry</div><div>WhatsApp=E2=80=
-=A6.+237672864865</div><div>Telegram=E2=80=A6..@l_oarry</div><div><br></div=
-></div>
-
-<p></p>
-
--- <br />
-You received this message because you are subscribed to the Google Groups &=
-quot;kasan-dev&quot; group.<br />
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
-+unsubscribe@googlegroups.com</a>.<br />
-To view this discussion on the web visit <a href=3D"https://groups.google.c=
-om/d/msgid/kasan-dev/b95bf3f4-7159-43d0-8864-e36d32931ac1%40googlegroups.co=
-m?utm_medium=3Demail&utm_source=3Dfooter">https://groups.google.com/d/msgid=
-/kasan-dev/b95bf3f4-7159-43d0-8864-e36d32931ac1%40googlegroups.com</a>.<br =
-/>
-
-------=_Part_486_1071657836.1588680318555--
-
-------=_Part_485_1219993954.1588680318555--
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNMhVcR6TiLv29HqSvVVurUMwtHiokodPyzvwFSeE6UpZw%40mail.gmail.com.
