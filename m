@@ -1,112 +1,113 @@
-Return-Path: <kasan-dev+bncBCMIZB7QWENRBLX2YX2QKGQEAZQCVZI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDEKVJM7XAHRBW76YX2QKGQEVOTYNTA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-vk1-xa3c.google.com (mail-vk1-xa3c.google.com [IPv6:2607:f8b0:4864:20::a3c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D07D1C59FE
-	for <lists+kasan-dev@lfdr.de>; Tue,  5 May 2020 16:50:23 +0200 (CEST)
-Received: by mail-vk1-xa3c.google.com with SMTP id n28sf1113239vkl.4
-        for <lists+kasan-dev@lfdr.de>; Tue, 05 May 2020 07:50:23 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1588690222; cv=pass;
+Received: from mail-wm1-x33e.google.com (mail-wm1-x33e.google.com [IPv6:2a00:1450:4864:20::33e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A3991C5A43
+	for <lists+kasan-dev@lfdr.de>; Tue,  5 May 2020 16:59:40 +0200 (CEST)
+Received: by mail-wm1-x33e.google.com with SMTP id b203sf967702wmd.6
+        for <lists+kasan-dev@lfdr.de>; Tue, 05 May 2020 07:59:40 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1588690780; cv=pass;
         d=google.com; s=arc-20160816;
-        b=Zu9BY4xd9Zwvc3vQ4eFFhXRDl0L5DisrFuoG5LzCebf/OhlmDmiL1LT5yNmPObRJGd
-         W+iM+DNHF3uGwjGtNvGoIixbi364KNoX+8PC27BlFCWZpmublQOBSXdiGWZvRebXjDmF
-         0vWAqc58cbGUVb4CTyePDUqCJUZj16EdkSctlj1Bj6rTgQXbn6UDm5BSPikiHbLifLmd
-         T4FPPKzLL0bCODjb7QVIY2pBhejdXjRCotD4y3Ax4Xk/lXXs3d4zSLjkjhMZcdke1Yze
-         vM2f/N7Go9op/aspFr7DDao5iqjtuCETyRABqYqLoV2Lom+iVonrLcp/Pk6bXNTgdO3r
-         R2aQ==
+        b=m2W1BrRz58/vS06VMPIEfN3iMnUe3VSpkiwhpmD6AWKEPu0FMF2XxdNbNxFGj7DhCM
+         4dnghWO96mRxH2NnpRTgwzJV+a7O4pQZ2uqax/vLTR7pN4uOHFIpL5QdyoA+Igvj0LqF
+         u1PwxgtJ0Scgwx3Dl7v0heAEpD9Ey3ymgca8iWy2oj9Ksz0N0Ipx9USw0B7bzqYwUpss
+         5M6xBGkwyRQ0gBU22mkKGZ6nmVtWvFEgUdOOiRlDNDEVBkncqfhJwHSs7f4mppyI5XmP
+         bY9rKsb4TLEdZQXf4yg7vTtClGa+F3F2VKY8Tu1NhojLj+gXh2u8mUxh1vMoOb3ycqyK
+         AqYg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=MQKsD1GtA//o9T00XnUcoaN9L77he6+SCaHC4VFO3JU=;
-        b=DTmkMTJoPYqeqYP723/7HNw+gL7nNsvEe5bX38wCOStPly+T38nQdykT93g6ncnOdB
-         YyZcM4Ra7gcR11B/3m50fDWPiLC1zuJeW0WH4iyKMV8+5bdgmlDFQaX5HmiCj4sikje6
-         xM+wRl4gyX95NjJv+TxFLiSTsS+/Qtk6iMPI3vDm5Ggp9roYbR7DzaBHrpGtwwAPFSgI
-         wH/531r9iQ8GcjnMWOGoUDlJu4EjYXSp5wxnaNSxBX3FZXzyNFxhGEZTbARVG3dwQWTF
-         UrAajN0f8mBddDmwJRjjyywQWBujMDAjwclwT4eRxbpev+xMyurpG0QFI63nqKxPYmSb
-         2L/Q==
+         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:sender:dkim-signature;
+        bh=bKhQ5kkc3++usZ5jcUQe3QOEJOPe9yBa9MAK2C63VVs=;
+        b=IyV7YY5JqkaBcPDfTqUfb07zgJjj/3gJtiX1o1Fs0EWmHZjBu3e5rVOO7CZfxxSbPB
+         m2D2koH6tknlRd6hZd0P1X4nZQ96aB6DRLoBp0mxNujLKqpnWtYxP4Gn9RTMtVMgoYYL
+         OKAlOtR7I3Ghlyorkh0hZsiLVzrXrn4cNdFz1ffm0Ur46pmswDDdkP1pq5IKNsyniRXF
+         G778BGk4kGepnCJzCilSfRJAzb8cj6PwAjCmJInyVssXyOxCxrrkgyIQVpcCmp4AXSF8
+         8e1LVkmQvWLujQk2x4LEla9pSmC4Pt9hG7hcddCyyUpkMj1UVWUnUjlpZb+YbHLEqUEH
+         IbGA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=Zxm+Rr7l;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::f43 as permitted sender) smtp.mailfrom=dvyukov@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       spf=neutral (google.com: 212.227.17.13 is neither permitted nor denied by best guess record for domain of arnd@arndb.de) smtp.mailfrom=arnd@arndb.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
+        h=sender:mime-version:references:in-reply-to:from:date:message-id
+         :subject:to:cc:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=MQKsD1GtA//o9T00XnUcoaN9L77he6+SCaHC4VFO3JU=;
-        b=TLQyp3u9Mwq2rG4lQZ6x8Eq1j4qOAm1cWfXTWjJykKPxyvTDGC+n7szPk7RyGn+v2G
-         WMuT8kr7l8vPu3PRd54Zbwoiv3tSgIXxx12xWGi89M0YqqhTDPjrtJkprVIUXzXNnvYt
-         VnUZoPtbsC3aM3LcRgKsQvqV4rPxTTGz+t1CNuUx5uDpuMFvhwjLEfXayUJZUR6ul0UT
-         O9DewH0OfiIPkk1Pav5ID+YfIyP8w4eWasNMc3vW4ipdQHs1+X+vHoDEy+UzpLDaNoCB
-         DO/r3TpRW76O8K3lqOgyuR+vHAeZ++mbVKcHqG8gmUwwYW6Lg9q8sYAHMSi0k+rqAN14
-         3ZzA==
+        bh=bKhQ5kkc3++usZ5jcUQe3QOEJOPe9yBa9MAK2C63VVs=;
+        b=DA3L3LR6Bu57ap2b+p+d7h8YGidS6qWM4roF7kUjLQDG31a/78tFoe/7OMEzJqjSk9
+         qSw5ChR3FuXa5X1SF+GJqyCAh9eY5d61Nha91CPeRtFRbx1zYxXnZPBA2Nzq4lnngGmY
+         oAEE9YcYgy9mqcuBfe0821SWGyh9ylfEqM+IFDsvIK5sA9yBuBtVUNBDOK5mR4/W3eZY
+         q7hD12egYYRd3g7F3MvagZcZeA0uRKJM4T10wNy9WPnb7iUIWI29923gDngQqyJwxN7+
+         A6aFBN4JzMbbfpIg1Qqwzel3tI0Isx1ROUB43o30URpinpQZZxX8OI4MpJJRlklgCKk7
+         HWsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+        h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
+         :date:message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=MQKsD1GtA//o9T00XnUcoaN9L77he6+SCaHC4VFO3JU=;
-        b=ps/l7OyQEGjfmeYU41jsPFNuw5BmkEDQCE9UuGYbHbxCav0wpA64V/39Z1MZd/y4Qy
-         YViDL85fBBtCfxl7/9Tm/bo2nQ07PtKDoTdcUDx/q8tTEfTGmyBoQ5FOwU1gAz5cRep9
-         A51xR64Lqbvx/9u+BYVY7o000wscNatcKHOI7queR9xGE6VBvNTJlgWLc9+zyL2SYFtu
-         rjQunJ4yedr1yTR/kQ9xRViI4d9+2v/eZcehm4pewJ7H/WC9KW7eMCUKnBOIDRt6Hobv
-         B3gKT1ljyCm/8hE/u3d2xR8aVykqyUHeWYh6NP+bUoZDhrQoMTdr+WmJ8hfBnIdMcUnq
-         FmOg==
-X-Gm-Message-State: AGi0Pub84XkuIJGmWjwScxHmU5NAUPvIdgjzc7a0uh09aOnLOHEPKXAV
-	db4ZCFUa4PC2nkBQqDf7/Ec=
-X-Google-Smtp-Source: APiQypKl1yfEHs/FbK4j8C2mltYbJ+O6lsAFVCxKYHfPnSXpxk3d1pPIiV6pqt2qD2LpnueHsjHPUg==
-X-Received: by 2002:ab0:142f:: with SMTP id b44mr2476577uae.113.1588690222293;
-        Tue, 05 May 2020 07:50:22 -0700 (PDT)
+        bh=bKhQ5kkc3++usZ5jcUQe3QOEJOPe9yBa9MAK2C63VVs=;
+        b=BLCFMvUU0kVMRRo8NA6U2mzZnsHBAn1b28XDw7byxKw+OXPePEJhXc7ll0Llg1FbEz
+         iMp/jZAnwuIxQmhpalO7OYOZwjlUWyNkxU/AZBqA29kt3uZ3UfKTVwoFlTyA4xMh60sT
+         cu2+QnfRHDWCmPh16K9pbsd7eyUKO3++402PO2JjHBQbuV0mP8NDOtStEhLVn9i3/Nls
+         IvOUKanEf0XppxEi03r7BsSGMzrv7+N5C1Vx7G0ZcxQ+7ji1ur6hV1idi8r4DhF7mEjl
+         enhhgQZWpT5nUNMlNFuROsM/ETsumH3mU7WXtprKIBfpFn5sjXRItysixMJ0shOXAZUe
+         V1lQ==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AGi0PuYFSpWtUyVYJIk/I3W6N32JcK03UnKkuqWsoDeWUmcDCC9pLK6Z
+	MOhYRJhw1kBFf+1gI9gMRmc=
+X-Google-Smtp-Source: APiQypLjFgQZs7TgYcl8uFpf9FXT/gyo/yS44pcFjvTk5cR0lTzehc8qv6o6aIqXIrQENHrauFCaNQ==
+X-Received: by 2002:a05:600c:2dcf:: with SMTP id e15mr3974337wmh.171.1588690779859;
+        Tue, 05 May 2020 07:59:39 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a67:7f86:: with SMTP id a128ls346769vsd.8.gmail; Tue, 05 May
- 2020 07:50:21 -0700 (PDT)
-X-Received: by 2002:a67:fa50:: with SMTP id j16mr3382328vsq.44.1588690221883;
-        Tue, 05 May 2020 07:50:21 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1588690221; cv=none;
+Received: by 2002:a5d:668b:: with SMTP id l11ls4453895wru.0.gmail; Tue, 05 May
+ 2020 07:59:39 -0700 (PDT)
+X-Received: by 2002:adf:ee4c:: with SMTP id w12mr4613366wro.347.1588690779274;
+        Tue, 05 May 2020 07:59:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1588690779; cv=none;
         d=google.com; s=arc-20160816;
-        b=1D4kuPbQRvGJ/sq7KPpaoHTE+RYF1FHes7imKr0hv7jHgDR4n7InGsv+AtMVmUzmiI
-         /bX+8hgV1HwgQ7Pvl7kXWuRzPUZw8TfB2W6ahjergQmJF1qYpFWcvfZPTdGYOn6UUA34
-         telAsyNciwEng++AsDQTWhiwYR+C6FR13vTnmiModugTsGsY/l0gcxVMMzTtqk3r7NOQ
-         AFmoaqQJKhQvTokf92Iino5FUZIIezDg0pMELdYVQ75GeISNRJjm/RkwfCF8m6+QvC1w
-         7ATZra/jVE9CUuScA25SAp1EkViMamwfyTejQRgkCgTn8ndkoGpjxR89walAKYHL7Gkg
-         W7Fg==
+        b=LVzVPWm3/mCrez69dK2ZZERzJadfiZfx/9uVCrlBTrPu8FpKozkk4FWQCrqpbdY6FQ
+         YP8Vnc5tBgYop4U2wqkD7Eiy4lRjF8GFuDRxuctbyGgRmrbBw/fpYHlMwS8WIazs0+ux
+         a8efcjxbw/oW4wCVugOhkws5kVvre4Z7cEvtyH9gcw6/3kYiRRhJGHucTDuVFWKEGFex
+         RyID6niK23hbeNjj19arTdO9WQr1p6PrOVxs/UF5ozZeyfmbn2u1rfVsfF+RmM4c5I+A
+         IH4pEfBzhzauxVbvJQpvR7LdjksuqJZf3yDjNHP9uitj+Sia2uF1rsnPat5MW+8iKs8P
+         mubw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=7Pq81uf2psyNx4BKzdHn/TmsDqiXEasycTFHLZy0fzE=;
-        b=OezIqCvJfjb9FtIsO8EWCCxS6dAG1ANtvduGEcOxTkGHjFi2RIBaW1od7lyCcram65
-         5VhtXUi8aMYr6CZ+hqnGu4X/Wm9Q+xPj2COXiSuhonTFHrVv3JUQJm17+G2pARa+zvxu
-         RZqDBa1XNBX5lR6kMZC2ULG8pUfus1Ki35NbSTLbB+IMx2ZeiejGgdFxOS54vHFZn1CK
-         +BUiZ54RHDITW6+a63/VDmJR5pN8wGGUPOhDQtl/74rkh44DvEvbOxjjlPnxkxRQpBZM
-         sWW2eeCKreYrAe9XdYM/gHH9oD3bzxhsNs1fEg88o+w/L1Qc4/B6xBTlk8K3OiuZEkeZ
-         yG/A==
+         :mime-version;
+        bh=YNYB3K96/IdhKEEdr8N1NKAkIyq2gns1y4XdLMjk7ek=;
+        b=MJG1eW+xmycrDZYLSy+iTAFATrz1Jo+NDWJOPxRrJN48/kRlUj89OFoVoD2DGCLRyT
+         MJhMlJMQltff2QTIr9+e2zjGqKxjjioOcQzFP4gRYrKjKSW2KnehDDbKba43S1E1EIKj
+         AYZhLVuqoz4JCCDYKah67Go7rKTi3+6OK/jwprHbrpyoxwMmdhyWz8YgRXPmWqUtZWQ5
+         s2hyISf/vR/L8e6LU6gnIICLcIDGDQGnJ+Dte8doZB6tOY7Wlfr22hoddn0QJFysZG1X
+         0RsnoHhaknSCK/601Rdxr6mG/IT1x1rDMdPEO7nCk2O8u2ni3ccN5qRex56KGDF1oJ50
+         8+zQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=Zxm+Rr7l;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::f43 as permitted sender) smtp.mailfrom=dvyukov@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-qv1-xf43.google.com (mail-qv1-xf43.google.com. [2607:f8b0:4864:20::f43])
-        by gmr-mx.google.com with ESMTPS id s64si212724vkg.1.2020.05.05.07.50.21
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 05 May 2020 07:50:21 -0700 (PDT)
-Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::f43 as permitted sender) client-ip=2607:f8b0:4864:20::f43;
-Received: by mail-qv1-xf43.google.com with SMTP id t8so1109156qvw.5
-        for <kasan-dev@googlegroups.com>; Tue, 05 May 2020 07:50:21 -0700 (PDT)
-X-Received: by 2002:a0c:f8cf:: with SMTP id h15mr2976751qvo.22.1588690221148;
- Tue, 05 May 2020 07:50:21 -0700 (PDT)
+       spf=neutral (google.com: 212.227.17.13 is neither permitted nor denied by best guess record for domain of arnd@arndb.de) smtp.mailfrom=arnd@arndb.de
+Received: from mout.kundenserver.de (mout.kundenserver.de. [212.227.17.13])
+        by gmr-mx.google.com with ESMTPS id u23si232649wmn.0.2020.05.05.07.59.39
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 05 May 2020 07:59:39 -0700 (PDT)
+Received-SPF: neutral (google.com: 212.227.17.13 is neither permitted nor denied by best guess record for domain of arnd@arndb.de) client-ip=212.227.17.13;
+Received: from mail-qk1-f179.google.com ([209.85.222.179]) by
+ mrelayeu.kundenserver.de (mreue108 [212.227.15.145]) with ESMTPSA (Nemesis)
+ id 1MmlbE-1ipjY42wJq-00jnCz; Tue, 05 May 2020 16:59:38 +0200
+Received: by mail-qk1-f179.google.com with SMTP id i14so2516922qka.10;
+        Tue, 05 May 2020 07:59:38 -0700 (PDT)
+X-Received: by 2002:a37:a492:: with SMTP id n140mr4097616qke.352.1588690777455;
+ Tue, 05 May 2020 07:59:37 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200505142341.1096942-1-arnd@arndb.de> <CANpmjNMtGy6YK8zuqf0dmkykZMt=qkxkZrZNEKde1nbw84ZLkg@mail.gmail.com>
-In-Reply-To: <CANpmjNMtGy6YK8zuqf0dmkykZMt=qkxkZrZNEKde1nbw84ZLkg@mail.gmail.com>
-From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Tue, 5 May 2020 16:50:09 +0200
-Message-ID: <CACT4Y+Zpp=+JJedhMpunuUh832eJFu+af-r8631Ar0kE2nv72A@mail.gmail.com>
+ <CACT4Y+Zpp=+JJedhMpunuUh832eJFu+af-r8631Ar0kE2nv72A@mail.gmail.com>
+In-Reply-To: <CACT4Y+Zpp=+JJedhMpunuUh832eJFu+af-r8631Ar0kE2nv72A@mail.gmail.com>
+From: Arnd Bergmann <arnd@arndb.de>
+Date: Tue, 5 May 2020 16:59:20 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a23XzLhZQNuFbeQhaSNru1abPwXV_mXR_P6N6Dvxm6jFw@mail.gmail.com>
+Message-ID: <CAK8P3a23XzLhZQNuFbeQhaSNru1abPwXV_mXR_P6N6Dvxm6jFw@mail.gmail.com>
 Subject: Re: [PATCH] ubsan, kcsan: don't combine sanitizer with kcov
-To: Marco Elver <elver@google.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, Andrey Ryabinin <aryabinin@virtuozzo.com>, 
+To: Dmitry Vyukov <dvyukov@google.com>
+Cc: Marco Elver <elver@google.com>, Andrey Ryabinin <aryabinin@virtuozzo.com>, 
 	Kees Cook <keescook@chromium.org>, Andrey Konovalov <andreyknvl@google.com>, 
 	"Paul E. McKenney" <paulmck@kernel.org>, Ingo Molnar <mingo@kernel.org>, 
 	Andrew Morton <akpm@linux-foundation.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
@@ -114,14 +115,28 @@ Cc: Arnd Bergmann <arnd@arndb.de>, Andrey Ryabinin <aryabinin@virtuozzo.com>,
 	kasan-dev <kasan-dev@googlegroups.com>, LKML <linux-kernel@vger.kernel.org>, 
 	clang-built-linux <clang-built-linux@googlegroups.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: dvyukov@google.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=Zxm+Rr7l;       spf=pass
- (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::f43
- as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
- (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Dmitry Vyukov <dvyukov@google.com>
-Reply-To: Dmitry Vyukov <dvyukov@google.com>
+X-Provags-ID: V03:K1:hyR7Ox/myYz3aM0AbiuocaW7xwzp1dKvsByExjJF4NwfKiaZZqh
+ Ii1Y0ntWLCLVtDUqhkoT+74QmVeOiAOr2ZlOQrmdyGK5EZzLlKdqqrXNYvLIDD/O7+ox+XS
+ TNhOVXr1F80uYgF1l58vS4j7y7X5ThvZj0ILYThLaNn+4VQQc+LUzoRGEdkHsJVESREv7Qg
+ uqv+uHeuZYZDLYkAvsGOg==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:SeEJAuoqTIw=:qbnMonlpbTwXDSGSiQPrJJ
+ 7CJvlmtlGxYj5bsrwA1+9CRTutBTm7mU47uel75g+Zrye69DL4BHQcCJrWGTIqhVVHics4rFB
+ bTP5XUZLqBOUMBsPJAcpQWnMW5BDG7rjxGerjmJTsP8X2dCiUHY5i5l/uPHciz9fvEpWd1I0L
+ Fj175dHs9DgXvP+qLyRHhpEutk36JZpO56fL6lmdmLNdtc5YWcrUkmiqvRlVMn6azbG/IN/A9
+ vzse6UR8/nwzg/aHMIUSC9w/dWouPMCfIrDM3fl8zKnuV7K/Z3H98YEYeoLqOoWrmJTQCcmGW
+ seBCPKfWSp+r+rDPWcPQnmiktcAZ0DQxQHDtrZBEp+lTUI2H7SRGfFXUMlqv0twoS8Fiembw2
+ E6EuYSYLCd413s5yUsydJXk55haeij3MHAhy4bzZEniwRH6MuH/idemqZDqPwHJ6seHWowwpC
+ p6ntsnlkCEP/zuQuf2BW9mn9XA8IRoSnD1qiyMFllaKq+BaVHt5p5a9Tq8RfJeOchAdMMmtq7
+ GkTkePSOjGXZiOulXmPOFBsgLx1nz+Y2iglDbA9FpLqZTwV9fsd2OGxHW1XkvM/BfIpTQy9XL
+ WJlZ70nT4gwqUtWqyOlBsO00KLKfTBPMrz/j/bp95i7CfL4rmbnY0WZXjIGh48eYrkqV9EJUe
+ PukjHCChTrA4PT9kETAOOJXFZbf6J8kAH8QSuTBHX6syUU/v22qFYW1brR1Oi/WO+AEL7WJxd
+ kdBEVaAXGRhUywlotfcpg299Lrj0+0Eyde2hWBHOMiVwzOmzH5flDXOhD2IqikjGd7GhnZmOw
+ Rojtqh9VcVye5yzxyLFQYRZzchIJZ3jiRcWRZACRTNnQpmheac=
+X-Original-Sender: arnd@arndb.de
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=neutral
+ (google.com: 212.227.17.13 is neither permitted nor denied by best guess
+ record for domain of arnd@arndb.de) smtp.mailfrom=arnd@arndb.de
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -134,89 +149,92 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, May 5, 2020 at 4:36 PM Marco Elver <elver@google.com> wrote:
-> > Clang does not allow -fsanitize-coverage=trace-{pc,cmp} together
-> > with -fsanitize=bounds or with ubsan:
+On Tue, May 5, 2020 at 4:50 PM 'Dmitry Vyukov' via Clang Built Linux
+<clang-built-linux@googlegroups.com> wrote:
+> On Tue, May 5, 2020 at 4:36 PM Marco Elver <elver@google.com> wrote:
+> > > Clang does not allow -fsanitize-coverage=trace-{pc,cmp} together
+> > > with -fsanitize=bounds or with ubsan:
+> > >
+> > > clang: error: argument unused during compilation: '-fsanitize-coverage=trace-pc' [-Werror,-Wunused-command-line-argument]
+> > > clang: error: argument unused during compilation: '-fsanitize-coverage=trace-cmp' [-Werror,-Wunused-command-line-argument]
+> > >
+> > >  menuconfig KCSAN
+> > >         bool "KCSAN: dynamic data race detector"
+> > > -       depends on HAVE_ARCH_KCSAN && DEBUG_KERNEL && !KASAN
+> > > +       depends on HAVE_ARCH_KCSAN && DEBUG_KERNEL && !KASAN && !KCOV
 > >
-> > clang: error: argument unused during compilation: '-fsanitize-coverage=trace-pc' [-Werror,-Wunused-command-line-argument]
-> > clang: error: argument unused during compilation: '-fsanitize-coverage=trace-cmp' [-Werror,-Wunused-command-line-argument]
+> > This also disables KCOV with GCC. Why does this not work with KCSAN?
+
+My mistake, this should be kept enabled for gcc. If we can get the combination
+to work in clang, that's something that should also get enabled.
+
+> > This is a huge problem for us, since syzbot requires KCOV. In fact
+> > I've always been building KCSAN kernels with CONFIG_KCOV=y (with GCC
+> > or Clang) and cannot reproduce the problem.
+
+I have some local patches that change the way we pick the warning options
+for each compiler, and enable more of the warnings that are normally disabled.
+
+Maybe -Wunused-command-line-argument is disabled by default?
+I only started seeing this problem recently. It's also possible that there
+are some other options that interact with it so only Kcov+FOO leads to
+KCSAN being ignored.
+
+> > Ditto, we really need KCOV for all sanitizers. I also just tried to
+> > reproduce the problem but can't.
 > >
-> > To avoid that case, add a Kconfig dependency. The dependency could
-> > go either way, disabling CONFIG_KCOV or CONFIG_UBSAN_BOUNDS when the
-> > other is set. I picked the second option here as this seems to have
-> > a smaller impact on the resulting kernel.
+> > Which version of clang is causing this? I'm currently using Clang 9.
+> > My guess is that we should not fix this by disallowing KCOV, but
+> > rather make Clang work with these configs.
 > >
-> > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> > ---
-> >  lib/Kconfig.kcsan | 2 +-
-> >  lib/Kconfig.ubsan | 1 +
-> >  2 files changed, 2 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/lib/Kconfig.kcsan b/lib/Kconfig.kcsan
-> > index ea28245c6c1d..8f856c8828d5 100644
-> > --- a/lib/Kconfig.kcsan
-> > +++ b/lib/Kconfig.kcsan
-> > @@ -5,7 +5,7 @@ config HAVE_ARCH_KCSAN
-> >
-> >  menuconfig KCSAN
-> >         bool "KCSAN: dynamic data race detector"
-> > -       depends on HAVE_ARCH_KCSAN && DEBUG_KERNEL && !KASAN
-> > +       depends on HAVE_ARCH_KCSAN && DEBUG_KERNEL && !KASAN && !KCOV
+> > Dmitry, can you comment?
 >
-> This also disables KCOV with GCC. Why does this not work with KCSAN?
+> FWIW I can reproduce both with clang:
 >
-> This is a huge problem for us, since syzbot requires KCOV. In fact
-> I've always been building KCSAN kernels with CONFIG_KCOV=y (with GCC
-> or Clang) and cannot reproduce the problem.
+> $ clang /tmp/test.c -c -fsanitize-coverage=trace-pc -fsanitize=bounds
+> clang-11: warning: argument unused during compilation:
+> '-fsanitize-coverage=trace-pc' [-Wunused-command-line-argument]
 >
-> >         select STACKTRACE
-> >         help
-> >           The Kernel Concurrency Sanitizer (KCSAN) is a dynamic
-> > diff --git a/lib/Kconfig.ubsan b/lib/Kconfig.ubsan
-> > index 929211039bac..f98ef029553e 100644
-> > --- a/lib/Kconfig.ubsan
-> > +++ b/lib/Kconfig.ubsan
-> > @@ -29,6 +29,7 @@ config UBSAN_TRAP
-> >  config UBSAN_BOUNDS
-> >         bool "Perform array index bounds checking"
-> >         default UBSAN
-> > +       depends on !(CC_IS_CLANG && KCOV)
+> $ clang /tmp/test.c -c -fsanitize-coverage=trace-pc -fsanitize=thread
+> clang-11: warning: argument unused during compilation:
+> '-fsanitize-coverage=trace-pc' [-Wunused-command-line-argument]
 >
-> Ditto, we really need KCOV for all sanitizers. I also just tried to
-> reproduce the problem but can't.
+> with both my disto's 9.0.1 and fresher 11.0.0
+> (7b80cb7cf45faf462d6193cc41c2cb7ad556600d.
 >
-> Which version of clang is causing this? I'm currently using Clang 9.
-> My guess is that we should not fix this by disallowing KCOV, but
-> rather make Clang work with these configs.
+> But both work with gcc
 >
-> Dmitry, can you comment?
+> $ gcc /tmp/test.c -c -fsanitize-coverage=trace-pc -fsanitize=thread
+> $ gcc /tmp/test.c -c -fsanitize-coverage=trace-pc -fsanitize=bounds
+>
+> Is it a known issue in clang?
+>
+> Can we somehow disable it only for clang and not gcc?
+>
+> This will immediately break KCSAN on syzbot as it enables KCSAN and KCOV:
+> https://syzkaller.appspot.com/upstream?manager=ci2-upstream-kcsan-gce
 
-FWIW I can reproduce both with clang:
+I can respin the patch with this fixup if you like:
 
-$ clang /tmp/test.c -c -fsanitize-coverage=trace-pc -fsanitize=bounds
-clang-11: warning: argument unused during compilation:
-'-fsanitize-coverage=trace-pc' [-Wunused-command-line-argument]
+--- a/lib/Kconfig.kcsan
++++ b/lib/Kconfig.kcsan
+@@ -5,7 +5,7 @@ config HAVE_ARCH_KCSAN
 
-$ clang /tmp/test.c -c -fsanitize-coverage=trace-pc -fsanitize=thread
-clang-11: warning: argument unused during compilation:
-'-fsanitize-coverage=trace-pc' [-Wunused-command-line-argument]
+ menuconfig KCSAN
+        bool "KCSAN: dynamic data race detector"
+-       depends on HAVE_ARCH_KCSAN && DEBUG_KERNEL && !KASAN && !KCOV
++       depends on HAVE_ARCH_KCSAN && DEBUG_KERNEL && !KASAN && !(KCOV
+&& CC_IS_CLANG)
+        select STACKTRACE
+        help
+          The Kernel Concurrency Sanitizer (KCSAN) is a dynamic
 
-with both my disto's 9.0.1 and fresher 11.0.0
-(7b80cb7cf45faf462d6193cc41c2cb7ad556600d.
+As you both say, the combination seems to be quite important, so maybe there
+is something else that can be to also enable it with clang.
 
-But both work with gcc
-
-$ gcc /tmp/test.c -c -fsanitize-coverage=trace-pc -fsanitize=thread
-$ gcc /tmp/test.c -c -fsanitize-coverage=trace-pc -fsanitize=bounds
-
-Is it a known issue in clang?
-
-Can we somehow disable it only for clang and not gcc?
-
-This will immediately break KCSAN on syzbot as it enables KCSAN and KCOV:
-https://syzkaller.appspot.com/upstream?manager=ci2-upstream-kcsan-gce
+      Arnd
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BZpp%3D%2BJJedhMpunuUh832eJFu%2Baf-r8631Ar0kE2nv72A%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAK8P3a23XzLhZQNuFbeQhaSNru1abPwXV_mXR_P6N6Dvxm6jFw%40mail.gmail.com.
