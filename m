@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBDE6RCFOWIARB54G2D2QKGQE3GJUCCA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDE6RCFOWIARB6MG2D2QKGQE5P6LL3I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qt1-x83b.google.com (mail-qt1-x83b.google.com [IPv6:2607:f8b0:4864:20::83b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96CFB1C8B44
-	for <lists+kasan-dev@lfdr.de>; Thu,  7 May 2020 14:47:52 +0200 (CEST)
-Received: by mail-qt1-x83b.google.com with SMTP id f56sf6568034qte.18
-        for <lists+kasan-dev@lfdr.de>; Thu, 07 May 2020 05:47:52 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1588855671; cv=pass;
+Received: from mail-qk1-x73f.google.com (mail-qk1-x73f.google.com [IPv6:2607:f8b0:4864:20::73f])
+	by mail.lfdr.de (Postfix) with ESMTPS id D41171C8B46
+	for <lists+kasan-dev@lfdr.de>; Thu,  7 May 2020 14:47:54 +0200 (CEST)
+Received: by mail-qk1-x73f.google.com with SMTP id z8sf5617532qki.13
+        for <lists+kasan-dev@lfdr.de>; Thu, 07 May 2020 05:47:54 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1588855674; cv=pass;
         d=google.com; s=arc-20160816;
-        b=Hw2bctny+1SJ+5UZ9qGOYaB48q/xG7aqG6C/gagddoPFU49TJx5ICqGOWdy3SBXv+D
-         m2Fl4QX9/LOZj5c2pGBb9bZJyOpZGDTXNWEyYnOB/pNYKbVttjCB1g8YUAwd3joZdgGK
-         sgC+D0S/Lhej878hTlXHSpe7dKGd8NfcUq0qejYpdqFifYPvoDqUwfLzqa+w83vd9wCj
-         xQiz8QE42UXWUB4Z5BzhxvKeSggREhfe1UT3cRHl5BBLNsIeMH3IuGMfXJaCBt2xW7FZ
-         jd7CNSLACMAkcSwOy4WwlJvCjRBsAmmFYsPzmyDOj6VgU2o5jGw14smAUZ6SFdD/aweY
-         5ojQ==
+        b=eSAx3Mw2L4X0mTbLfaaW0z9zbYPcCf81IVn6TE31lUUJTbl479jownCk92ecM0eeYA
+         bIep3MHJ0k5pG9sHok7wbt2vg8pxfYdKNpxb4Iw0BYrzxpXISbzaDPoMAkgcbsA95CcM
+         a1UK/5kdOxhCdL8L2bTnZCpHmsVDay72u99F7I4sfkoDkPEFMR4aMprRGmG4Oof5S0G7
+         Dn/KUqlXlEf7rO6/StlxFr3n0WKcCOlns1PJSNr8HWc8fx4e9nruE2rcFUcOpLS7DF5c
+         5VEil3r+9Aased1G//WtIhII+NT4KF3GBPHDptvJYjrjcFZgCYtvBwPn2CRLzFvS2YPg
+         LBDg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=OsuIf4YwoKj7MnRCBTzgmFvHcsT5RJDt20/dgc4DE1M=;
-        b=bsCtYaKHvyxKFGJ0KnQ/NmgRjo5sDUOukoophRyun7G/DY4Yq4IubUSFGhvKrfWIO+
-         iMix+qKl85amOwPcENt0J6LbRqeXYl860jjk0t4HgQQ6cioJkDLbJzS2y9MA0ujbi3lK
-         03qSNUEZzTavngOGlVuLk+6gfuwWN9lIKogojgKvgIiPMv3l+sX47XANQfqTP1KmWar9
-         xF0GqBZmZLZ0oWXyYS/T55mountaC0C47u5JKFbA4YRNTyGhAitx9fwtGqKlyRYzsrXe
-         9p92j5Dx0HQtQpRNxFSfNjvxf3UN2HIHgiesho8LmOEMT2Qv92SJrlQ7TroY3zXc/ih+
-         ckjA==
+        bh=hyL0OdbpCjIkuamCzuDM9qR3viS0k8el2ntE4s8F3pU=;
+        b=AwHP2kwapxpbbn/2xZPm3yqQjWmlZEXh44wxukZwoXBdJdHFceFq5jRqQPOnPs6K2b
+         eD4rTujihe4tBjl1VlWzllWt9r3nqFN3kF7pA5TH4s62v1jxok032ebsfLZHuUmT+fFo
+         4naLjLuEUR66txlu6gYTGTbG95QCJb1w7VunNi0b1iC28cDUk2WjAb0vDRd86jMgFMuk
+         WOCKQAkDgxPlpLqUtxkxoKQz+wrxrZZ4OZ/lwBWJtRflXaEByhJq/AjcooqSbC01hS0z
+         N6O/t+stQU2CuBDvFsT87R94Ucuo4m//Y3yi9ywPyYnRWHRwjIm17bGoUCWyy/+frO/j
+         aoPg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linaro.org header.s=google header.b=a22GdmKB;
-       spf=pass (google.com: domain of linus.walleij@linaro.org designates 2a00:1450:4864:20::143 as permitted sender) smtp.mailfrom=linus.walleij@linaro.org;
+       dkim=pass header.i=@linaro.org header.s=google header.b=loBHrv8y;
+       spf=pass (google.com: domain of linus.walleij@linaro.org designates 2a00:1450:4864:20::244 as permitted sender) smtp.mailfrom=linus.walleij@linaro.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :mime-version:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=OsuIf4YwoKj7MnRCBTzgmFvHcsT5RJDt20/dgc4DE1M=;
-        b=ibFZj+3efd2QQLgaAH/bsWzBmZn5AMe6UFY7scTW1OAroxp6k4d05YOPll4JbP1Cii
-         IEuhivWkQD4WdC0QR00nFOTZpM0VOfazzc8awMsW+REUpyupmEcOKA/xi9CuzlH2IJ0c
-         adr2iFhe88zm12qRILVsN36565RsoEOCvhdfC3mEBXpRBl1UAwCv5vtH3WKTFplsiYL4
-         EVm0YCQsmFENMG+jCjKLLaRn1XlJMHooflQPLtIich67fCmF6jS3rAMTJrPGqj7r1re2
-         KoIyx9aWCXxCVuy1CWo6as7NwtXRcbrus078MQwQIHcFyeyyrPfNt99rUxFNEeP6jaiH
-         RNSA==
+        bh=hyL0OdbpCjIkuamCzuDM9qR3viS0k8el2ntE4s8F3pU=;
+        b=LaxZvlHPf8n20kLYVfDHHiaY8LBo1xv+TaD0mMbMtySIS0P5Q9/oulaQiwj/R7ugWc
+         GLw5VWkRWeh8IxPX51nZw6ayCGRnl2lodLhC6GenrVj9o6S3jF2pWRtsKgK/xAXPe0Ae
+         lreMUXYaRgDbSs387Pgq7J9w/BItVa8aWcwRbiiaEKaWh23ROlAamhDv+ONG9ZiFGDOd
+         7NO/EUq9xvyYqwZMF1rqzk11ECErnQq8eW43OGsHcxmDFNJNLuRAwjBKLCk+e1UkysV9
+         e5AshKQvuG5WsaaGbhbwVBbQ+376K1uXZROp1YsqsvA+mY468xbRmqYX8OwtQkZ21zCq
+         qo4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
@@ -49,60 +49,60 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=OsuIf4YwoKj7MnRCBTzgmFvHcsT5RJDt20/dgc4DE1M=;
-        b=QE7ZIC2nr+4gJHnQr6T3jE53QgqaKUH0CeQEnLN/uTpRjneM0LAe6ll9VdFLg/9Mez
-         3EWjiylnIKm+eToCvRf/mpNrgpw7/Lyr9qVtdX35jTuVOQe5AqMEzOK/5wbG344fl5VE
-         L5S94J7u6IkAS2Ze1JysBrAg0VuvHWXbCaWui+eKe2zXLhvYZbWFmSqoLe0S23+HtCcd
-         wKfUK8D/jY7zHp+zOQ2s8+IhdgNL2vil/p8j66ON1ITfwKS/LfLLhZsBo/mwsK0MiEe9
-         GwveoY3mENokOZmZRhX0rkWfr1psi5g7cQBKXSplxk6lRoHFl9scS03ltSBKt0QPDiZJ
-         lQaw==
+        bh=hyL0OdbpCjIkuamCzuDM9qR3viS0k8el2ntE4s8F3pU=;
+        b=EmJ56DQ4f1XQ6EeSvWEfqOnkXUlbkxmYtrCSw39G66uxhvn1ueFpvYC8SkxxARUrNx
+         vCXWb4rOK37q8NkPu/uLln9c8Blmu7uyMNG8v1ytwjZ0K4a1v7VXHYpQVWsbaaLmYDX4
+         xo+Tn7/bW20NjCRoQNBS7UcbjxJgy7TigmRf5uGvnXImndDb/2sHysNCeV/oYLlaLmHU
+         Zmpkj6WeeTOGTG8eUjYlJOJOA0mjYV0qyb1oEjQPzrNyW0fOAsSHSk85jr0UmRF/4CDs
+         uUK+NLZR+oJEdRXmrchmvLoK4s4OJmFuNwTyjL/r+VlPnDhflBpK5uOQgWkcigHARQ9A
+         rWMQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AGi0Puaf/Xm+vjEt7IO3y3p4ev+cJv1/2D+5uHGB3GQCW0ZsSjwFuwBe
-	SnKh7qBnXaZ55GP/P7qO/nQ=
-X-Google-Smtp-Source: APiQypLJSZleSeY9A/IsDV+s7TmUsHutc+V01dct8c7HX+AUELdBW/S2zgejPU47noPQlrLo27ClUQ==
-X-Received: by 2002:a37:a310:: with SMTP id m16mr13022066qke.346.1588855671301;
-        Thu, 07 May 2020 05:47:51 -0700 (PDT)
+X-Gm-Message-State: AGi0PuYYdYiXLelCouS9m2w66+RWteASjnozavNb/wpNxAAjLziGCFvx
+	XhdzNdtGLtMDz37Xs2p6LWo=
+X-Google-Smtp-Source: APiQypIIv4j9YD7ZQaJx7045flMRS+EBp287AxZeRTNAIEpojcCnWQyvd+/aaah1zeNcauMdJrJksA==
+X-Received: by 2002:ac8:66d8:: with SMTP id m24mr13819433qtp.175.1588855673805;
+        Thu, 07 May 2020 05:47:53 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:620a:1237:: with SMTP id v23ls5533013qkj.11.gmail; Thu,
- 07 May 2020 05:47:51 -0700 (PDT)
-X-Received: by 2002:a1c:3c42:: with SMTP id j63mr6049709wma.118.1588855670853;
-        Thu, 07 May 2020 05:47:50 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1588855670; cv=none;
+Received: by 2002:aed:3fd5:: with SMTP id w21ls4237450qth.7.gmail; Thu, 07 May
+ 2020 05:47:53 -0700 (PDT)
+X-Received: by 2002:a1c:ed0b:: with SMTP id l11mr10961003wmh.31.1588855673441;
+        Thu, 07 May 2020 05:47:53 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1588855673; cv=none;
         d=google.com; s=arc-20160816;
-        b=wXCDvevjEHq+0mOp4PKH08RPbUZT1gUNWely/yF38Dink9mmA6c3tbDVIHWKKptmNh
-         AYEHx6SklNMM0WZHDA59GZEWAGfPFA3+PCZWmKLPu3bdMqsI5JHttVCbeuFNZLFfXcdt
-         xqEC6kXFTzWNnpig2lMpSSIMMBYmdjD8n5N8ykRoa/TklkOMiNmYBzjWEyx9zlZKEcJ7
-         OKTxpNy5sNml0bb1QTBwiAPrKIRfrHdzWpFr+mLbuz39aocCX+EJlB4fyuGIEosx3YmD
-         wFHkSnqAg6C3oj0nELWz4foYgutggLyPgynD1YLHC6ljtCy4TadWfBjPk1vm6JTDXPHM
-         iKng==
+        b=hfYogbWcXT3oPOj6WWi3OAnkFNFQoYuDIJD/ixTxWXpRPBxnF/L3qcqLtmLDO/Xfh/
+         8qvvYWqiVORXg+CsQDtcnSy+SkYJ6AWaUuo4oQ8g6TdDQHzjCCaRvaQXPO2r5ky95SAH
+         3xjqPT+vOHs2f/52YEBZdiuOV7W3+XQtRMuOOzsCJD57junAIFUwdKmspYkaf+4JWj3o
+         HFaBotXCqlMjPjqN6dfJIPLpAsObUz9py1C6jS5xYbt/LBG9wssAed8FZI4uzqcDw/jB
+         7tUFVrlrveRf8Nawugz1/qVToe/t0C1GvLto0gumZW1BI3Kd8wVEVYLTQfb4ZRDk9GrL
+         F31w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=OFzLjGWJZUchbaZBa5lRk73Fn2jLSts6/MNQ/Gs4VTs=;
-        b=tACZqz6808G4jF/udQtvHVm4bY8LxcMCyrUoeo7uJ+1oFp6JelgpwJ1l7j3Gx1n28D
-         0pY6qXiovbr7F8SmF0WbSFYZAUOBvwnoB7A1qovstoQWDDbfEoS39wV6WmFhUmh1o8NZ
-         5W1664Nx046NjXvqBr9DcSUcG1qq41C8b9/9VwbO2plGd78wgVMrvr46AUZyEQQyzQ8n
-         HRI7R4/D8rbfVLPZ6YQWBZoaJ0oL8B3PH5mZnn3qqugKjn1IR9McoU16VSWFH5Lox7ag
-         I3YpJgx7gms8pnub+tR7acalZ7O/Xmd1UVtESTFREubpLH/6ZDK4E0eb1n+sW2O4Fs1t
-         skww==
+        bh=YYkNToxGZUMGPX9WJcRr1Cp2dwvtaKoN0WkoOFKKBiE=;
+        b=AulAjT9UgyY65bZQj8RphsCqzk7qjtReKbnY4iY77jjcVt94+OvgfTLIXZlp5XXdSL
+         VVgqAVvv1XsKhMHtFNy94ySRHIKNJFiANe9u5TdI52GziuriozhqOVV+8aRwjFVSRtDW
+         EbBCMg6e/+YChSbhrCUdYpfqTpVtfKaXgX1nVtTvVw77eaZb7YKprW25OIIfPBJss1fQ
+         pNdMhpbn4OhHMrJa9zt/54wan3b2QQldt7stZ8wXsRDc+vt1NKtC8uoP07UNmeUVtgjO
+         Af3wN8VWne0aSk6G0U0Z+HS25q0glPzWbsI4LnUgLduzt0uMd0aIngPq6xGdoKqulnq6
+         lQ4Q==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linaro.org header.s=google header.b=a22GdmKB;
-       spf=pass (google.com: domain of linus.walleij@linaro.org designates 2a00:1450:4864:20::143 as permitted sender) smtp.mailfrom=linus.walleij@linaro.org;
+       dkim=pass header.i=@linaro.org header.s=google header.b=loBHrv8y;
+       spf=pass (google.com: domain of linus.walleij@linaro.org designates 2a00:1450:4864:20::244 as permitted sender) smtp.mailfrom=linus.walleij@linaro.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com. [2a00:1450:4864:20::143])
-        by gmr-mx.google.com with ESMTPS id w8si298842wrn.2.2020.05.07.05.47.50
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com. [2a00:1450:4864:20::244])
+        by gmr-mx.google.com with ESMTPS id x11si235337wmi.1.2020.05.07.05.47.53
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 07 May 2020 05:47:50 -0700 (PDT)
-Received-SPF: pass (google.com: domain of linus.walleij@linaro.org designates 2a00:1450:4864:20::143 as permitted sender) client-ip=2a00:1450:4864:20::143;
-Received: by mail-lf1-x143.google.com with SMTP id a4so4351605lfh.12
-        for <kasan-dev@googlegroups.com>; Thu, 07 May 2020 05:47:50 -0700 (PDT)
-X-Received: by 2002:a19:644f:: with SMTP id b15mr8825581lfj.28.1588855670390;
-        Thu, 07 May 2020 05:47:50 -0700 (PDT)
+        Thu, 07 May 2020 05:47:53 -0700 (PDT)
+Received-SPF: pass (google.com: domain of linus.walleij@linaro.org designates 2a00:1450:4864:20::244 as permitted sender) client-ip=2a00:1450:4864:20::244;
+Received: by mail-lj1-x244.google.com with SMTP id f18so6115618lja.13
+        for <kasan-dev@googlegroups.com>; Thu, 07 May 2020 05:47:53 -0700 (PDT)
+X-Received: by 2002:a2e:7508:: with SMTP id q8mr8523566ljc.234.1588855672792;
+        Thu, 07 May 2020 05:47:52 -0700 (PDT)
 Received: from localhost.localdomain (c-f3d7225c.014-348-6c756e10.bbcust.telenor.se. [92.34.215.243])
-        by smtp.gmail.com with ESMTPSA id b4sm3730126lfo.33.2020.05.07.05.47.49
+        by smtp.gmail.com with ESMTPSA id b4sm3730126lfo.33.2020.05.07.05.47.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 May 2020 05:47:49 -0700 (PDT)
+        Thu, 07 May 2020 05:47:52 -0700 (PDT)
 From: Linus Walleij <linus.walleij@linaro.org>
 To: Florian Fainelli <f.fainelli@gmail.com>,
 	Abbott Liu <liuwenliang@huawei.com>,
@@ -114,20 +114,19 @@ Cc: linux-arm-kernel@lists.infradead.org,
 	Alexander Potapenko <glider@google.com>,
 	Dmitry Vyukov <dvyukov@google.com>,
 	kasan-dev@googlegroups.com,
-	Marc Zyngier <marc.zyngier@arm.com>,
 	Linus Walleij <linus.walleij@linaro.org>
-Subject: [PATCH 1/5 v8] ARM: Disable KASan instrumentation for some code
-Date: Thu,  7 May 2020 14:45:18 +0200
-Message-Id: <20200507124522.171323-2-linus.walleij@linaro.org>
+Subject: [PATCH 2/5 v8] ARM: Replace string mem* functions for KASan
+Date: Thu,  7 May 2020 14:45:19 +0200
+Message-Id: <20200507124522.171323-3-linus.walleij@linaro.org>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <20200507124522.171323-1-linus.walleij@linaro.org>
 References: <20200507124522.171323-1-linus.walleij@linaro.org>
 MIME-Version: 1.0
 X-Original-Sender: linus.walleij@linaro.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linaro.org header.s=google header.b=a22GdmKB;       spf=pass
+ header.i=@linaro.org header.s=google header.b=loBHrv8y;       spf=pass
  (google.com: domain of linus.walleij@linaro.org designates
- 2a00:1450:4864:20::143 as permitted sender) smtp.mailfrom=linus.walleij@linaro.org;
+ 2a00:1450:4864:20::244 as permitted sender) smtp.mailfrom=linus.walleij@linaro.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: list
@@ -144,117 +143,236 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 From: Andrey Ryabinin <aryabinin@virtuozzo.com>
 
-Disable instrumentation for arch/arm/boot/compressed/*
-since that code is executed before the kernel has even
-set up its mappings and definately out of scope for
-KASan.
+Functions like memset()/memmove()/memcpy() do a lot of memory
+accesses.
 
-Disable instrumentation of arch/arm/vdso/* because that code
-is not linked with the kernel image, so the KASan management
-code would fail to link.
+If a bad pointer is passed to one of these functions it is important
+to catch this. Compiler instrumentation cannot do this since these
+functions are written in assembly.
 
-Disable instrumentation of arch/arm/mm/physaddr.c. See commit
-ec6d06efb0ba ("arm64: Add support for CONFIG_DEBUG_VIRTUAL")
-for more details.
+KASan replaces these memory functions with instrumented variants.
 
-Disable kasan check in the function unwind_pop_register because
-it does not matter that kasan checks failed when unwind_pop_register()
-reads the stack memory of a task.
+The original functions are declared as weak symbols so that
+the strong definitions in mm/kasan/kasan.c can replace them.
+
+The original functions have aliases with a '__' prefix in their
+name, so we can call the non-instrumented variant if needed.
+
+We must use __memcpy()/__memset() in place of memcpy()/memset()
+when we copy .data to RAM and when we clear .bss, because
+kasan_early_init cannot be called before the initialization of
+.data and .bss.
+
+For the kernel compression and EFI libstub's custom string
+libraries we need a special quirk: even if these are built
+without KASan enabled, they rely on the global headers for their
+custom string libraries, which means that e.g. memcpy()
+will be defined to __memcpy() and we get link failures.
+Since these implementations are written i C rather than
+assembly we use e.g. __alias(memcpy) to redirected any
+users back to the local implementation.
 
 Cc: Andrey Ryabinin <aryabinin@virtuozzo.com>
 Cc: Alexander Potapenko <glider@google.com>
 Cc: Dmitry Vyukov <dvyukov@google.com>
 Cc: kasan-dev@googlegroups.com
-Reported-by: Florian Fainelli <f.fainelli@gmail.com>
-Reported-by: Marc Zyngier <marc.zyngier@arm.com>
+Reported-by: Russell King - ARM Linux <linux@armlinux.org.uk>
 Signed-off-by: Abbott Liu <liuwenliang@huawei.com>
 Signed-off-by: Florian Fainelli <f.fainelli@gmail.com>
 Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 ---
 ChangeLog v7->v8:
-- Do not sanitize arch/arm/mm/mmu.c.
-  Apart from being intuitively correct, it turns out that KASan
-  will insert a __asan_load4() into the set_pte_at() function
-  in mmu.c and this is something that KASan calls in the early
-  initialization, to set up the shadow memory. Naturally,
-  __asan_load4() cannot be called before the shadow memory is
-  set up so we need to exclude mmu.c from sanitization.
+- Use the less invasive version of handling the global redefines
+  of the string functions in the decompressor: __alias() the
+  functions locally in the library.
+- Put in some more comments so readers of the code knows what
+  is going on.
 ChangeLog v6->v7:
-- Removed the KVM instrumentaton disablement since KVM
-  on ARM32 is gone.
+- Move the hacks around __SANITIZE_ADDRESS__ into this file
+- Edit the commit message
+- Rebase on the other v2 patches
 ---
- arch/arm/boot/compressed/Makefile | 1 +
- arch/arm/kernel/unwind.c          | 6 +++++-
- arch/arm/mm/Makefile              | 2 ++
- arch/arm/vdso/Makefile            | 2 ++
- 4 files changed, 10 insertions(+), 1 deletion(-)
+ arch/arm/boot/compressed/string.c | 19 +++++++++++++++++++
+ arch/arm/include/asm/string.h     | 21 +++++++++++++++++++++
+ arch/arm/kernel/head-common.S     |  4 ++--
+ arch/arm/lib/memcpy.S             |  3 +++
+ arch/arm/lib/memmove.S            |  5 ++++-
+ arch/arm/lib/memset.S             |  3 +++
+ 6 files changed, 52 insertions(+), 3 deletions(-)
 
-diff --git a/arch/arm/boot/compressed/Makefile b/arch/arm/boot/compressed/Makefile
-index 9c11e7490292..abd6f3d5c2ba 100644
---- a/arch/arm/boot/compressed/Makefile
-+++ b/arch/arm/boot/compressed/Makefile
-@@ -24,6 +24,7 @@ OBJS		+= hyp-stub.o
- endif
+diff --git a/arch/arm/boot/compressed/string.c b/arch/arm/boot/compressed/string.c
+index ade5079bebbf..8c0fa276d994 100644
+--- a/arch/arm/boot/compressed/string.c
++++ b/arch/arm/boot/compressed/string.c
+@@ -7,6 +7,25 @@
  
- GCOV_PROFILE		:= n
-+KASAN_SANITIZE		:= n
+ #include <linux/string.h>
  
- # Prevents link failures: __sanitizer_cov_trace_pc() is not linked in.
- KCOV_INSTRUMENT		:= n
-diff --git a/arch/arm/kernel/unwind.c b/arch/arm/kernel/unwind.c
-index 11a964fd66f4..739a77f39a8f 100644
---- a/arch/arm/kernel/unwind.c
-+++ b/arch/arm/kernel/unwind.c
-@@ -236,7 +236,11 @@ static int unwind_pop_register(struct unwind_ctrl_block *ctrl,
- 		if (*vsp >= (unsigned long *)ctrl->sp_high)
- 			return -URC_FAILURE;
++/*
++ * The decompressor is built without KASan but uses the same redirects as the
++ * rest of the kernel when CONFIG_KASAN is enabled, defining e.g. memcpy()
++ * to __memcpy() but since we are not linking with the main kernel string
++ * library in the decompressor, that will lead to link failures.
++ *
++ * Undefine KASan's versions, define the wrapped functions and alias them to
++ * the right names so that when e.g. __memcpy() appear in the code, it will
++ * still be linked to this local version of memcpy().
++ */
++#ifdef CONFIG_KASAN
++#undef memcpy
++#undef memmove
++#undef memset
++void *__memcpy(void *__dest, __const void *__src, size_t __n) __alias(memcpy);
++void *__memmove(void *__dest, __const void *__src, size_t count) __alias(memmove);
++void *__memset(void *s, int c, size_t count) __alias(memset);
++#endif
++
+ void *memcpy(void *__dest, __const void *__src, size_t __n)
+ {
+ 	int i = 0;
+diff --git a/arch/arm/include/asm/string.h b/arch/arm/include/asm/string.h
+index 111a1d8a41dd..947f93037d87 100644
+--- a/arch/arm/include/asm/string.h
++++ b/arch/arm/include/asm/string.h
+@@ -5,6 +5,9 @@
+ /*
+  * We don't do inline string functions, since the
+  * optimised inline asm versions are not small.
++ *
++ * The __underscore versions of some functions are for KASan to be able
++ * to replace them with instrumented versions.
+  */
  
--	ctrl->vrs[reg] = *(*vsp)++;
-+	/* Use READ_ONCE_NOCHECK here to avoid this memory access
-+	 * from being tracked by KASAN.
-+	 */
-+	ctrl->vrs[reg] = READ_ONCE_NOCHECK(*(*vsp));
-+	(*vsp)++;
- 	return URC_OK;
+ #define __HAVE_ARCH_STRRCHR
+@@ -15,15 +18,18 @@ extern char * strchr(const char * s, int c);
+ 
+ #define __HAVE_ARCH_MEMCPY
+ extern void * memcpy(void *, const void *, __kernel_size_t);
++extern void *__memcpy(void *dest, const void *src, __kernel_size_t n);
+ 
+ #define __HAVE_ARCH_MEMMOVE
+ extern void * memmove(void *, const void *, __kernel_size_t);
++extern void *__memmove(void *dest, const void *src, __kernel_size_t n);
+ 
+ #define __HAVE_ARCH_MEMCHR
+ extern void * memchr(const void *, int, __kernel_size_t);
+ 
+ #define __HAVE_ARCH_MEMSET
+ extern void * memset(void *, int, __kernel_size_t);
++extern void *__memset(void *s, int c, __kernel_size_t n);
+ 
+ #define __HAVE_ARCH_MEMSET32
+ extern void *__memset32(uint32_t *, uint32_t v, __kernel_size_t);
+@@ -39,4 +45,19 @@ static inline void *memset64(uint64_t *p, uint64_t v, __kernel_size_t n)
+ 	return __memset64(p, v, n * 8, v >> 32);
  }
  
-diff --git a/arch/arm/mm/Makefile b/arch/arm/mm/Makefile
-index 7cb1699fbfc4..99699c32d8a5 100644
---- a/arch/arm/mm/Makefile
-+++ b/arch/arm/mm/Makefile
-@@ -7,6 +7,7 @@ obj-y				:= extable.o fault.o init.o iomap.o
- obj-y				+= dma-mapping$(MMUEXT).o
- obj-$(CONFIG_MMU)		+= fault-armv.o flush.o idmap.o ioremap.o \
- 				   mmap.o pgd.o mmu.o pageattr.o
-+KASAN_SANITIZE_mmu.o		:= n
- 
- ifneq ($(CONFIG_MMU),y)
- obj-y				+= nommu.o
-@@ -16,6 +17,7 @@ endif
- obj-$(CONFIG_ARM_PTDUMP_CORE)	+= dump.o
- obj-$(CONFIG_ARM_PTDUMP_DEBUGFS)	+= ptdump_debugfs.o
- obj-$(CONFIG_MODULES)		+= proc-syms.o
-+KASAN_SANITIZE_physaddr.o	:= n
- obj-$(CONFIG_DEBUG_VIRTUAL)	+= physaddr.o
- 
- obj-$(CONFIG_ALIGNMENT_TRAP)	+= alignment.o
-diff --git a/arch/arm/vdso/Makefile b/arch/arm/vdso/Makefile
-index d3c9f03e7e79..71d18d59bd35 100644
---- a/arch/arm/vdso/Makefile
-+++ b/arch/arm/vdso/Makefile
-@@ -42,6 +42,8 @@ GCOV_PROFILE := n
- # Prevents link failures: __sanitizer_cov_trace_pc() is not linked in.
- KCOV_INSTRUMENT := n
- 
-+KASAN_SANITIZE := n
++/*
++ * For files that are not instrumented (e.g. mm/slub.c) we
++ * must use non-instrumented versions of the mem*
++ * functions named __memcpy() etc. All such kernel code has
++ * been tagged with KASAN_SANITIZE_file.o = n, which means
++ * that the address sanitization argument isn't passed to the
++ * compiler, and __SANITIZE_ADDRESS__ is not set. As a result
++ * these defines kick in.
++ */
++#if defined(CONFIG_KASAN) && !defined(__SANITIZE_ADDRESS__)
++#define memcpy(dst, src, len) __memcpy(dst, src, len)
++#define memmove(dst, src, len) __memmove(dst, src, len)
++#define memset(s, c, n) __memset(s, c, n)
++#endif
 +
- # Force dependency
- $(obj)/vdso.o : $(obj)/vdso.so
+ #endif
+diff --git a/arch/arm/kernel/head-common.S b/arch/arm/kernel/head-common.S
+index 4a3982812a40..6840c7c60a85 100644
+--- a/arch/arm/kernel/head-common.S
++++ b/arch/arm/kernel/head-common.S
+@@ -95,7 +95,7 @@ __mmap_switched:
+  THUMB(	ldmia	r4!, {r0, r1, r2, r3} )
+  THUMB(	mov	sp, r3 )
+ 	sub	r2, r2, r1
+-	bl	memcpy				@ copy .data to RAM
++	bl	__memcpy			@ copy .data to RAM
+ #endif
  
+    ARM(	ldmia	r4!, {r0, r1, sp} )
+@@ -103,7 +103,7 @@ __mmap_switched:
+  THUMB(	mov	sp, r3 )
+ 	sub	r2, r1, r0
+ 	mov	r1, #0
+-	bl	memset				@ clear .bss
++	bl	__memset			@ clear .bss
+ 
+ 	ldmia	r4, {r0, r1, r2, r3}
+ 	str	r9, [r0]			@ Save processor ID
+diff --git a/arch/arm/lib/memcpy.S b/arch/arm/lib/memcpy.S
+index 09a333153dc6..ad4625d16e11 100644
+--- a/arch/arm/lib/memcpy.S
++++ b/arch/arm/lib/memcpy.S
+@@ -58,6 +58,8 @@
+ 
+ /* Prototype: void *memcpy(void *dest, const void *src, size_t n); */
+ 
++.weak memcpy
++ENTRY(__memcpy)
+ ENTRY(mmiocpy)
+ ENTRY(memcpy)
+ 
+@@ -65,3 +67,4 @@ ENTRY(memcpy)
+ 
+ ENDPROC(memcpy)
+ ENDPROC(mmiocpy)
++ENDPROC(__memcpy)
+diff --git a/arch/arm/lib/memmove.S b/arch/arm/lib/memmove.S
+index b50e5770fb44..fd123ea5a5a4 100644
+--- a/arch/arm/lib/memmove.S
++++ b/arch/arm/lib/memmove.S
+@@ -24,12 +24,14 @@
+  * occurring in the opposite direction.
+  */
+ 
++.weak memmove
++ENTRY(__memmove)
+ ENTRY(memmove)
+ 	UNWIND(	.fnstart			)
+ 
+ 		subs	ip, r0, r1
+ 		cmphi	r2, ip
+-		bls	memcpy
++		bls	__memcpy
+ 
+ 		stmfd	sp!, {r0, r4, lr}
+ 	UNWIND(	.fnend				)
+@@ -222,3 +224,4 @@ ENTRY(memmove)
+ 18:		backward_copy_shift	push=24	pull=8
+ 
+ ENDPROC(memmove)
++ENDPROC(__memmove)
+diff --git a/arch/arm/lib/memset.S b/arch/arm/lib/memset.S
+index 6ca4535c47fb..0e7ff0423f50 100644
+--- a/arch/arm/lib/memset.S
++++ b/arch/arm/lib/memset.S
+@@ -13,6 +13,8 @@
+ 	.text
+ 	.align	5
+ 
++.weak memset
++ENTRY(__memset)
+ ENTRY(mmioset)
+ ENTRY(memset)
+ UNWIND( .fnstart         )
+@@ -132,6 +134,7 @@ UNWIND( .fnstart            )
+ UNWIND( .fnend   )
+ ENDPROC(memset)
+ ENDPROC(mmioset)
++ENDPROC(__memset)
+ 
+ ENTRY(__memset32)
+ UNWIND( .fnstart         )
 -- 
 2.25.4
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200507124522.171323-2-linus.walleij%40linaro.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200507124522.171323-3-linus.walleij%40linaro.org.
