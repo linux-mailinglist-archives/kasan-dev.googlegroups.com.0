@@ -1,132 +1,144 @@
-Return-Path: <kasan-dev+bncBCMIZB7QWENRB7FR532QKGQEJAEPTJQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDGPTM5BQUDRB27Q532QKGQEIWV2TZY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ua1-x93a.google.com (mail-ua1-x93a.google.com [IPv6:2607:f8b0:4864:20::93a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98C7D1D0906
-	for <lists+kasan-dev@lfdr.de>; Wed, 13 May 2020 08:51:41 +0200 (CEST)
-Received: by mail-ua1-x93a.google.com with SMTP id l9sf6931168uao.12
-        for <lists+kasan-dev@lfdr.de>; Tue, 12 May 2020 23:51:41 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1589352700; cv=pass;
+Received: from mail-pf1-x43d.google.com (mail-pf1-x43d.google.com [IPv6:2607:f8b0:4864:20::43d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 89D5D1D0B77
+	for <lists+kasan-dev@lfdr.de>; Wed, 13 May 2020 11:05:49 +0200 (CEST)
+Received: by mail-pf1-x43d.google.com with SMTP id q142sf14340528pfc.21
+        for <lists+kasan-dev@lfdr.de>; Wed, 13 May 2020 02:05:49 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1589360748; cv=pass;
         d=google.com; s=arc-20160816;
-        b=ik8wHW8kchB08qYj9MT3xpP4zMcG0lGqZ16YloCdqx2nnIn75AEM9rtg8BLOagh3ja
-         Or1OLbeAZlAu8K8fvPdQgN/THATMxCaS8tHGCX/+w3qlFI+TF+KnKNfDNH06GhRW2PQB
-         ZlWMC7QsEHX5xSN3z8VWEoebGtnEtUzJKtxx6WVgVGJ2V6LHvmpeaQGX7UqDTQ6LPpOt
-         ljn3F50VcrEJhhyIRPfCG1UJL/Zh752w5s1MnEE27IP6BNGUy+Bv5p2fPbIGFlwNbGJU
-         qYMh6SABnG+NFgJEkH1s2zNfmU9/nxXsLxuiDi4ReNhSD1Bbj+5cw3UEYWdRWQnGf9jL
-         6zWA==
+        b=OsQ2GM2riqIe2N7RDdLVOAF4IrwRxe7w9w4PkOQTW4W+O/5/2HssQZ2uQzzmA2hU7K
+         Q7XeyYQgJZxZmOj7JwQOibMpvlmUsxxfwRkRZqrzOhfkLIhHzDY/q7cHCkYsO4IJxAyq
+         gSZgW95ewi/lJL9dsKO49BnbJ7Iu0EvFNklkSKF88VhrRBLCAkk7jAvybFhPQ0Mfe9lK
+         ydOOufpEABSTUjjNL60Fresbn/PXwZk1PnmzFyL2ImNMTc0hs8ruUaWSM/DoHiHOcgce
+         ML2g4AwN0ST+aEwnsEsbssaY5V09dCQhmcAPUFnW72Nvu7jvThHeSbfFy3Wcklc1gMyc
+         06Aw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=1DR9eHEhS0OESK+XGbyGDagsM8wiojtagCgd3i1AXJA=;
-        b=xWXVDhziIH7gDyvRLie2IgXmsjIpAtM8aCoSUepzoT2qzy3ORubhtRjIcxUVm5TFn0
-         C60KFBqSb1kl0C+E6iSnONHTfQtqLkRQsqR3GtsXcHfnfBS0791hXzwim8RxWiK5ANoy
-         RfLY8AFV7bPJJ3hs27JUHovkixvx1lvYN9yF92RN/mX0N9+VDIbtU6uePvgG6dNVzRm5
-         YnEuYAm/tOEzdaRu7Brf8HIscux09ZqySZiK1Z6ronl65dB+LYPU1fzODldQ24BGCrjP
-         4BjElrbcuGh9zl2Ncgfkeah91MoCQyLFcBBAmuyjeBnzEqDWBCXG8oao8dl3AYHTSAWI
-         7z0Q==
+         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
+         :date:cc:to:from:subject:message-id:sender:dkim-signature;
+        bh=Hsbku9TkN3C7aywtWf+bgdxp5EwGbwxetCow0u5IM9Q=;
+        b=T6ktJru+MQt7gqky5syTSkNc+oCs3DZ1DsXBdcnwfZYstKl81XRGUK4qDytvbixieu
+         aTnPYJ2fITteJrVy0g+1+V0BQZKDnTQqZ4EnlUAxQTV3cdx33moIVvN5NHJaw7AY+xcr
+         8feNF7ySVEghGaCMGJRp20sY/AmeBbVduYzFISQu4y3+gMunIKrXrlOqWI9TdN48/r7P
+         r8eOrj9UR5jmJokN1hdjt+w1EJOmvwGz0Yg8+dwqrVjiorZEHiUhbSOMpl2+Ktfyv5PR
+         Zv74MmUVCOCww1IuJtjEzKZXmJBkRpqSwYLJlquCCqDoRGkypMcOo7vqIm+GBCwchgX4
+         770A==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=MVQ6mRj0;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::f42 as permitted sender) smtp.mailfrom=dvyukov@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@mediatek.com header.s=dk header.b=EujlaFy5;
+       spf=pass (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.184 as permitted sender) smtp.mailfrom=walter-zh.wu@mediatek.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
+        h=sender:message-id:subject:from:to:cc:date:in-reply-to:references
+         :mime-version:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=1DR9eHEhS0OESK+XGbyGDagsM8wiojtagCgd3i1AXJA=;
-        b=gXWvuoeXYd2gcB14gjLAyflkKWIK3v8KSS+GC0gpE6thfEyss/pQywhFAuvnY4mr0e
-         b64DOrrVtNl06e3ly+QSiCXURJVT8IHw8cZ/zIGyHwWXJzQK9BvUnbolOdPcDqDIXINO
-         2GOtizsUZTQkQP7mblu3HiszykFnmlROzO6p+8sUWnKzsljL5RJk8z/RMrzhbuuub7hT
-         SpIXz3Eu+qFHcPOdFm3d9/74QQjgsy9gvo5z9azFKhfA3JQQteHaZLke8Bl5qKyzlMDx
-         4Gm05XTQm17xsQuaJCXH5SbZvrAWnPDFGTi3gFtmEx+tX9GL5NgGaWdCcEMxvAJ2Kb4M
-         N99g==
+        bh=Hsbku9TkN3C7aywtWf+bgdxp5EwGbwxetCow0u5IM9Q=;
+        b=tRrNxZUJ17WJnsI3C9NTxxSSRVjqBA74G5Ziwhq5D8l9Yo9ihtDsgzaiIcK55EL0kW
+         9YQfMQp4FYE+riwbXM7h2cY7lQlqbTzv6HvbYjsnmn/K4/zgPIT2iGz8zwdgQVZDm3eo
+         j9PqAx7C9a+MDRiHJdcn6g5TtgeNxoCFNIdxJvyJtDaiEAWf+wXQdsjmuq0yoKQQwTQM
+         Ym4kVSBvqDJvJ45HXiFpIQ1gG55EyNGydFSaJxA50gEw8ROl0jzgIhbQYZcCc0XDSCT1
+         QqvS6b7RXBMmyHb8LrJNu59z+8vHEStIyFONJZWNPjQ6cqOnclNrd2b4lCbmLd+VctaT
+         AyRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+        h=sender:x-gm-message-state:message-id:subject:from:to:cc:date
+         :in-reply-to:references:mime-version:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=1DR9eHEhS0OESK+XGbyGDagsM8wiojtagCgd3i1AXJA=;
-        b=d8RyevgbJyPwGPpEaYgXtcHj3FzSAhCqCE0bpZSl7CHlhYsPI+NK7JoDj6sBjR1HBn
-         AHxjd5etUwOAcsnio7vrJEueHyZtPoSK1U+mNRSvewb3s8k+n5xQF4MCmK050XOmLZKp
-         gF4r++DAIdcgJ7W3ANeeIsH7niHEjoKCeswTThTPH92tuxWitf8qHni/eUPrq1jT/1iH
-         /FhWNSSxvmURyAl7Qg0BXE6rtmmrvckMT9JkANa7sRX3l7fraaTyyzykhouWc4S1lLXp
-         JDfDCwouNOXmyn/nhdAqR1oIRwwPobIhtkXPLURdM00Zb0XioWkMdtY59z7HBAKrJt7Z
-         9r0A==
-X-Gm-Message-State: AGi0PuZqX5nec40yG3kK6A5E6gGfzMyq7LsOreZgyUjC+7USj8mvKjN4
-	83valcpNJ8gqQLgNAZFTtUM=
-X-Google-Smtp-Source: APiQypIwiluGr2zqZNOl/OkSQ8hxxtp4GGideVhO8A/1ps7hDdYeUksZpv4uP1pqIMnT8sGJPWkitg==
-X-Received: by 2002:a67:6e07:: with SMTP id j7mr18231599vsc.181.1589352700435;
-        Tue, 12 May 2020 23:51:40 -0700 (PDT)
+        bh=Hsbku9TkN3C7aywtWf+bgdxp5EwGbwxetCow0u5IM9Q=;
+        b=tJ3qZ7p3VB6F1v7ILDsbzLBOEw9lXuX5a5Wxiq/W1iPo38dVD/SNOgaeNXmDTwWRRg
+         4s+ff3htCokclWkHZyCy9LhvP+UJZpGsam/kwPwAeqNtLt1obLnO/FNlRID3+n8R0oDb
+         s+/eI9VEhpEljdiUGrWadl5XJVHDRnxsxebeyiDFbgOPy4ayiSkzsUc7a7Nk99oKN3cs
+         yo75g92hm2nt9IaHkLXTjIQfyt/Mwgi3JIXRsfDYoyH5lLR2vsez9kTOKi8FFdBrAxJM
+         Q6lMOkDLcwp8GO6vVJk5UEBdEfKwgIbcJCkDc3syJQ8VlLGZtp0KUdWncGBiUKVTG/0y
+         u5Xg==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AGi0PuYgd+EfI8jjm02rbgiRGlCimpgeGBEDdnKqMhMr9Qsy9xclyJQr
+	/O8xa1UN1zl9SMP/QGiYx7E=
+X-Google-Smtp-Source: APiQypJrjZ4YSdGuWpv1QATL63Bl1/LITmDKqidPZTnUcVvieu0FMm2XtzFV64qbm49UFUKo+xMOdw==
+X-Received: by 2002:aa7:9709:: with SMTP id a9mr26428228pfg.166.1589360747952;
+        Wed, 13 May 2020 02:05:47 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a67:3346:: with SMTP id z67ls102076vsz.6.gmail; Tue, 12 May
- 2020 23:51:40 -0700 (PDT)
-X-Received: by 2002:a67:e3b9:: with SMTP id j25mr17423044vsm.110.1589352700081;
-        Tue, 12 May 2020 23:51:40 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1589352700; cv=none;
+Received: by 2002:a17:902:7c87:: with SMTP id y7ls619365pll.0.gmail; Wed, 13
+ May 2020 02:05:47 -0700 (PDT)
+X-Received: by 2002:a17:90a:9e9:: with SMTP id 96mr32627230pjo.41.1589360747552;
+        Wed, 13 May 2020 02:05:47 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1589360747; cv=none;
         d=google.com; s=arc-20160816;
-        b=Q4VOT8TWrW3vBT7kkwTwFLYeLoLvF0jVzf+rvPz+NDmrVhqAlZMzgA2USIZNfkLd3W
-         0sUo1KRfy57tV3xWmhl98qqK7a8w+KU/4KI//X6ptrmzFrOsezSVjbOGdBFSuHb1b+kc
-         2ZY9NXs0cipONHyqGZ3xbGntI6sLGeVDtdzXmfCy02BBd2YZHQWmXMCEefgXoj9uhJkd
-         phWQdRcGX1U1xo810aAMRw8U8jzD/k0LbvIs5J/vfvPtfs7pBNpkfB4KL3OFM59DGFcu
-         TuKxK5cisivMmeIlNr8y2iTXqUAOSUK603oYDHDkLeNHDXr+8vev1eXUKv9LSoQKl+j5
-         DDGg==
+        b=1JsXYvRHhcsuQlODE+v1NEU5Cnrl8hbjClekEL/S5FMPWCfwjBbMD9N86bXB6OYvyl
+         4G35zNcdOXrtdphHC04cHGAJWKq8KutzMjdykmJGquxLFbDfdD+f2OoXYUQZvArRVpfQ
+         BQOUg+s3nAaLElclOmWDpDsqMTyJuP1E5Te3SrCjHvVpv6bhCMXiqHQlKYhfGVXHBhna
+         /ogl6BKn4+aiYzDF8QLjYkngqfXRVa+XZuCkRbEAbPhWGylanSWIM9y4d1nadjVsWjTb
+         COewn6i5l6ucU5LSQBw6rd7booEBOsnOxRIWxsiVxrzEAEpP26paebk6Cu1QCTtbYJPD
+         j+Uw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=e6QbSlNOUjKcG/ZMZ3XtXHK+IfmeCzylC8Xkh73q0Aw=;
-        b=i9wHdWJ7xNbICDVOi65gXYH1Jawt7ML1b3OOFsBHs/etZD272DoVLLf28siPIe9h48
-         tpKpHrrPDb4g3IErNchAnNrNu8PLhIlT7d8Au4/LqefD+NMiArypS/KxMAQbY96LqTU6
-         RnRAAS1EDFKEmROdSdYgsirwcJR7sNtjzhWxvCbLH4KNQ4lqTtAAn+d3l0aRRqHYvHZ9
-         kRlVmA8VMRFyXCnz04C1V+UDsDZA1DE/qP99j+AedNqwuageYTj/tMqBl/vIBNnrjJEB
-         8nTY9oYefkTPPwyewXz4SL4+gu5StpWL2eKAUOd29UhrGMeBxNNcdAFPPABoKgxbFkds
-         5jjA==
+        h=content-transfer-encoding:mime-version:references:in-reply-to:date
+         :cc:to:from:subject:message-id:dkim-signature;
+        bh=5D8WCKWhqtUmM0QZKWnoCy74fM9ScjwQw/X1UTYKKjQ=;
+        b=SK4eLaSvcFKY2o5JnBgLkcbNsql394XnfOWv2wfs2JnkO9VovNyfy573n3FtWD14hG
+         XPDVrMpCLqp0GY4FDxI/B/K5v8RknRZl3xhEqASvkxL414YvXfmjbLmw3GR1W9aFZajK
+         vt25VLtB99mPBnB93G4qNW+X70iLcgZwkKLf6Az0qI4+NMYL70CsyHcFGY6btI1GRzqx
+         UFATM7gOYQJPmfnVH8LXznHjjGYthBWoAuXT4Grj3FAbqaKQYcsqnC5j8w7q/TENcv2I
+         Rj7/5mXtJO8Rc2fA4d1jYq9wDFCJwDtpd22SDaj7LARGAW+gozWNvzxxpLYArCHyZ7oy
+         Besg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=MVQ6mRj0;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::f42 as permitted sender) smtp.mailfrom=dvyukov@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-qv1-xf42.google.com (mail-qv1-xf42.google.com. [2607:f8b0:4864:20::f42])
-        by gmr-mx.google.com with ESMTPS id e22si1066960vkn.4.2020.05.12.23.51.40
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 May 2020 23:51:40 -0700 (PDT)
-Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::f42 as permitted sender) client-ip=2607:f8b0:4864:20::f42;
-Received: by mail-qv1-xf42.google.com with SMTP id di6so7617507qvb.10
-        for <kasan-dev@googlegroups.com>; Tue, 12 May 2020 23:51:40 -0700 (PDT)
-X-Received: by 2002:a0c:f153:: with SMTP id y19mr909681qvl.22.1589352699379;
- Tue, 12 May 2020 23:51:39 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200511023111.15310-1-walter-zh.wu@mediatek.com>
- <CACT4Y+YWNwTSoheJhc3nMdQi9m719F3PzpGo3TfRY3zAg9EwuQ@mail.gmail.com>
- <CACT4Y+bO1Zg_jgFHbOWgp7fLAADOQ_-AZmjEHz0WG7=oyOt4Gg@mail.gmail.com>
- <1589203771.21284.22.camel@mtksdccf07> <CACT4Y+aOkuH6Dn+L+wv1qVOLgXyCY_Ck4hecAMw3DgyBgC9qHw@mail.gmail.com>
- <1589254720.19238.36.camel@mtksdccf07> <CACT4Y+aibZEBR-3bos3ox5Tuu48TnHC20mDDN0AkWeRUKrT0aw@mail.gmail.com>
- <1589334472.19238.44.camel@mtksdccf07>
-In-Reply-To: <1589334472.19238.44.camel@mtksdccf07>
-From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Wed, 13 May 2020 08:51:27 +0200
-Message-ID: <CACT4Y+Zv3rCZs8z56NHM0hHWMwQr_2AT8nx0vUigzMG2v3Rt8Q@mail.gmail.com>
+       dkim=pass header.i=@mediatek.com header.s=dk header.b=EujlaFy5;
+       spf=pass (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.184 as permitted sender) smtp.mailfrom=walter-zh.wu@mediatek.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
+Received: from mailgw02.mediatek.com ([210.61.82.184])
+        by gmr-mx.google.com with ESMTP id c14si78637pfr.6.2020.05.13.02.05.47
+        for <kasan-dev@googlegroups.com>;
+        Wed, 13 May 2020 02:05:47 -0700 (PDT)
+Received-SPF: pass (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.184 as permitted sender) client-ip=210.61.82.184;
+X-UUID: 1c94421455df4e59b215e8ab80cba6f8-20200513
+X-UUID: 1c94421455df4e59b215e8ab80cba6f8-20200513
+Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw02.mediatek.com
+	(envelope-from <walter-zh.wu@mediatek.com>)
+	(Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
+	with ESMTP id 1888924811; Wed, 13 May 2020 17:05:45 +0800
+Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
+ mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Wed, 13 May 2020 17:05:42 +0800
+Received: from [172.21.84.99] (172.21.84.99) by MTKCAS06.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Wed, 13 May 2020 17:05:41 +0800
+Message-ID: <1589360744.14554.10.camel@mtksdccf07>
 Subject: Re: [PATCH v2 1/3] rcu/kasan: record and print call_rcu() call stack
-To: Walter Wu <walter-zh.wu@mediatek.com>
-Cc: Andrey Ryabinin <aryabinin@virtuozzo.com>, Alexander Potapenko <glider@google.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, "Paul E . McKenney" <paulmck@kernel.org>, 
-	Josh Triplett <josh@joshtriplett.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Lai Jiangshan <jiangshanlai@gmail.com>, Joel Fernandes <joel@joelfernandes.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, kasan-dev <kasan-dev@googlegroups.com>, 
-	Linux-MM <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>, 
-	Linux ARM <linux-arm-kernel@lists.infradead.org>
+From: Walter Wu <walter-zh.wu@mediatek.com>
+To: Dmitry Vyukov <dvyukov@google.com>
+CC: Andrey Ryabinin <aryabinin@virtuozzo.com>, Alexander Potapenko
+	<glider@google.com>, Matthias Brugger <matthias.bgg@gmail.com>, "Paul E .
+ McKenney" <paulmck@kernel.org>, Josh Triplett <josh@joshtriplett.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Lai Jiangshan
+	<jiangshanlai@gmail.com>, Joel Fernandes <joel@joelfernandes.org>, "Andrew
+ Morton" <akpm@linux-foundation.org>, kasan-dev <kasan-dev@googlegroups.com>,
+	Linux-MM <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>, "Linux
+ ARM" <linux-arm-kernel@lists.infradead.org>
+Date: Wed, 13 May 2020 17:05:44 +0800
+In-Reply-To: <CACT4Y+Zv3rCZs8z56NHM0hHWMwQr_2AT8nx0vUigzMG2v3Rt8Q@mail.gmail.com>
+References: <20200511023111.15310-1-walter-zh.wu@mediatek.com>
+	 <CACT4Y+YWNwTSoheJhc3nMdQi9m719F3PzpGo3TfRY3zAg9EwuQ@mail.gmail.com>
+	 <CACT4Y+bO1Zg_jgFHbOWgp7fLAADOQ_-AZmjEHz0WG7=oyOt4Gg@mail.gmail.com>
+	 <1589203771.21284.22.camel@mtksdccf07>
+	 <CACT4Y+aOkuH6Dn+L+wv1qVOLgXyCY_Ck4hecAMw3DgyBgC9qHw@mail.gmail.com>
+	 <1589254720.19238.36.camel@mtksdccf07>
+	 <CACT4Y+aibZEBR-3bos3ox5Tuu48TnHC20mDDN0AkWeRUKrT0aw@mail.gmail.com>
+	 <1589334472.19238.44.camel@mtksdccf07>
+	 <CACT4Y+Zv3rCZs8z56NHM0hHWMwQr_2AT8nx0vUigzMG2v3Rt8Q@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: dvyukov@google.com
+X-Mailer: Evolution 3.2.3-0ubuntu6
+MIME-Version: 1.0
+X-MTK: N
+X-Original-Sender: walter-zh.wu@mediatek.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=MVQ6mRj0;       spf=pass
- (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::f42
- as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
- (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Dmitry Vyukov <dvyukov@google.com>
-Reply-To: Dmitry Vyukov <dvyukov@google.com>
+ header.i=@mediatek.com header.s=dk header.b=EujlaFy5;       spf=pass
+ (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.184 as
+ permitted sender) smtp.mailfrom=walter-zh.wu@mediatek.com;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -139,73 +151,90 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, May 13, 2020 at 3:48 AM Walter Wu <walter-zh.wu@mediatek.com> wrote:
-> > > > Are you sure it will increase object size?
-> > > > I think we overlap kasan_free_meta with the object as well. The only
-> > > > case we don't overlap kasan_free_meta with the object are
-> > > > SLAB_TYPESAFE_BY_RCU || cache->ctor. But these are rare and it should
-> > > > only affect small objects with small redzones.
-> > > > And I think now we simply have a bug for these objects, we check
-> > > > KASAN_KMALLOC_FREE and then assume object contains free stack, but for
-> > > > objects with ctor, they still contain live object data, we don't store
-> > > > free stack in them.
-> > > > Such objects can be both free and still contain user data.
+On Wed, 2020-05-13 at 08:51 +0200, 'Dmitry Vyukov' via kasan-dev wrote:
+> On Wed, May 13, 2020 at 3:48 AM Walter Wu <walter-zh.wu@mediatek.com> wrote:
+> > > > > Are you sure it will increase object size?
+> > > > > I think we overlap kasan_free_meta with the object as well. The only
+> > > > > case we don't overlap kasan_free_meta with the object are
+> > > > > SLAB_TYPESAFE_BY_RCU || cache->ctor. But these are rare and it should
+> > > > > only affect small objects with small redzones.
+> > > > > And I think now we simply have a bug for these objects, we check
+> > > > > KASAN_KMALLOC_FREE and then assume object contains free stack, but for
+> > > > > objects with ctor, they still contain live object data, we don't store
+> > > > > free stack in them.
+> > > > > Such objects can be both free and still contain user data.
+> > > > >
 > > > >
+> > > > Overlay kasan_free_meta. I see. but overlay it only when the object was
+> > > > freed. kasan_free_meta will be used until free object.
+> > > > 1). When put object into quarantine, it need kasan_free_meta.
+> > > > 2). When the object exit from quarantine, it need kasan_free_meta
+> > > >
+> > > > If we choose to overlay kasan_free_meta, then the free stack will be
+> > > > stored very late. It may has no free stack in report.
 > > >
-> > > Overlay kasan_free_meta. I see. but overlay it only when the object was
-> > > freed. kasan_free_meta will be used until free object.
-> > > 1). When put object into quarantine, it need kasan_free_meta.
-> > > 2). When the object exit from quarantine, it need kasan_free_meta
+> > > Sorry, I don't understand what you mean.
 > > >
-> > > If we choose to overlay kasan_free_meta, then the free stack will be
-> > > stored very late. It may has no free stack in report.
+> > > Why will it be stored too late?
+> > > In __kasan_slab_free() putting into quarantine and recording free
+> > > stack are literally adjacent lines of code:
+> > >
+> > > static bool __kasan_slab_free(struct kmem_cache *cache, void *object,
+> > >       unsigned long ip, bool quarantine)
+> > > {
+> > >     ...
+> > >     kasan_set_free_info(cache, object, tag);
+> > >     quarantine_put(get_free_info(cache, object), cache);
+> > >
+> > >
+> > > Just to make sure, what I meant is that we add free_track to kasan_free_meta:
+> > >
+> > > struct kasan_free_meta {
+> > >     struct qlist_node quarantine_link;
+> > > +  struct kasan_track free_track;
+> > > };
+> > >
 > >
-> > Sorry, I don't understand what you mean.
-> >
-> > Why will it be stored too late?
-> > In __kasan_slab_free() putting into quarantine and recording free
-> > stack are literally adjacent lines of code:
-> >
-> > static bool __kasan_slab_free(struct kmem_cache *cache, void *object,
-> >       unsigned long ip, bool quarantine)
-> > {
-> >     ...
-> >     kasan_set_free_info(cache, object, tag);
-> >     quarantine_put(get_free_info(cache, object), cache);
-> >
-> >
-> > Just to make sure, what I meant is that we add free_track to kasan_free_meta:
-> >
-> > struct kasan_free_meta {
-> >     struct qlist_node quarantine_link;
-> > +  struct kasan_track free_track;
-> > };
-> >
->
-> When I see above struct kasan_free_meta, I know why you don't understand
-> my meaning, because I thought you were going to overlay the
-> quarantine_link by free_track, but it seems like to add free_track to
-> kasan_free_meta. Does it enlarge meta-data size?
+> > When I see above struct kasan_free_meta, I know why you don't understand
+> > my meaning, because I thought you were going to overlay the
+> > quarantine_link by free_track, but it seems like to add free_track to
+> > kasan_free_meta. Does it enlarge meta-data size?
+> 
+> I would assume it should not increase meta-data size. In both cases we
+> store exactly the same information inside of the object: quarantine
+> link and free track.
+> I see it more as a question of code organization. We already have a
+> concept of "this data is placed inside of the freed object", we
+> already have a name for it (kasan_free_meta), we already have code to
+> choose where to place it, we already have helper functions to access
+> it. And your change effectively duplicates all of this to place the
+> free track.
+> 
 
-I would assume it should not increase meta-data size. In both cases we
-store exactly the same information inside of the object: quarantine
-link and free track.
-I see it more as a question of code organization. We already have a
-concept of "this data is placed inside of the freed object", we
-already have a name for it (kasan_free_meta), we already have code to
-choose where to place it, we already have helper functions to access
-it. And your change effectively duplicates all of this to place the
-free track.
+I want to make a summary. Which of the following is the approach we
+want? or if I have some misunderstandings, please help me to correct.
+Thanks.
 
-> > And I think its life-time and everything should be exactly what we need.
+1) For different object, then it will has two ways.
+1.a) When object are LAB_TYPESAFE_BY_RCU || cache->ctor, then store free
+stack into free track of struct kasan_free_meta.
+2.b) Except 1.a), store free stack into freed object.
+
+or
+
+2) We always store free stack into free track of struct kasan_free_meta
+
+
+> > > And I think its life-time and everything should be exactly what we need.
+> > >
+> > > Also it should help to fix the problem with ctors: kasan_free_meta is
+> > > already allocated on the side for such objects, and that's exactly
+> > > what we need for objects with ctor's.
 > >
-> > Also it should help to fix the problem with ctors: kasan_free_meta is
-> > already allocated on the side for such objects, and that's exactly
-> > what we need for objects with ctor's.
->
-> I see.
+> > I see.
+> 
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BZv3rCZs8z56NHM0hHWMwQr_2AT8nx0vUigzMG2v3Rt8Q%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/1589360744.14554.10.camel%40mtksdccf07.
