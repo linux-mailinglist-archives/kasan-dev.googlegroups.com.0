@@ -1,133 +1,70 @@
-Return-Path: <kasan-dev+bncBAABBTFE6H2QKGQEPGQIHFY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDML5AWB7ANRBEUD6T2QKGQE5TF4IJQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-vs1-xe40.google.com (mail-vs1-xe40.google.com [IPv6:2607:f8b0:4864:20::e40])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADCFA1D1FCA
-	for <lists+kasan-dev@lfdr.de>; Wed, 13 May 2020 22:02:21 +0200 (CEST)
-Received: by mail-vs1-xe40.google.com with SMTP id m191sf75848vsd.10
-        for <lists+kasan-dev@lfdr.de>; Wed, 13 May 2020 13:02:21 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1589400140; cv=pass;
-        d=google.com; s=arc-20160816;
-        b=FAZ5dQEYed1LLM+0UqEZGGL1J83eV6w9WjPrXV2BTk9hJ3ZpzNhRslcQJrL/wI8AyP
-         mpU6rXu/qWsfUEH3sPwsxAhXzZTTreMvUrOZenIQZ0OKwEuNVvWTu4YV9mynE44VKR8o
-         5fCj0kv+eIF+ZLwjoD/rWa0PVGLlfRQLhSLrRN8e50ijBH12RS06DYJFb57OKuVHpt5M
-         4wklR/YCsgpow3Ond2+DE/MwPQlcgi1qMQYJEF/AcAzUYKMGUCUyKGdv401SngpIZzQE
-         wGwn6F+8BN0g/eDSrgIoxfR1He2YkfmxGcWUj7kyjv9ifuSZzM4JAEe8VJ9jlddZTsfP
-         KpDQ==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:user-agent:in-reply-to
-         :content-disposition:mime-version:references:reply-to:message-id
-         :subject:cc:to:from:date:sender:dkim-signature;
-        bh=HI4bMGt5KAHBwOAjwVQHDh/Oz7OWXSm3wvuo1GjCGlk=;
-        b=rjHSIkGeoOQT4ewFLCVcYsLhU0w2wl+Qbw2l63+iA1CN2obnIersoFqHy3+3CYyhHa
-         a0FM761Cz6/Yi6wnzYwvQDfUx4VqJYwOvvx+8SbhkKuRsQzsRk6Lg69lDomZKSWFQd5J
-         jaNoNDimsruJqhMt8AlDGaorSkwC0R8FPbJ0eHFj2aRmAHl2rSDy9ZdC2KnQHFy4n0JJ
-         eB854rvaa6DQl0lMzwm3P5xqhYwI55lbrByayYvU3Nbrkwj3pEK1PcZa314fVxWQuZCh
-         bpbqualuys+zkGeB7h2IG967SsnHOsMW2FBvwYMGRm9QfjSU9j6ELBjE1BfeDgk0W2rq
-         Pwhw==
-ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=default header.b=oZX6W3Z4;
-       spf=pass (google.com: domain of srs0=h0+r=63=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=h0+r=63=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Received: from mail-oi1-x23f.google.com (mail-oi1-x23f.google.com [IPv6:2607:f8b0:4864:20::23f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A1631D2A13
+	for <lists+kasan-dev@lfdr.de>; Thu, 14 May 2020 10:30:12 +0200 (CEST)
+Received: by mail-oi1-x23f.google.com with SMTP id h4sf18041852oie.2
+        for <lists+kasan-dev@lfdr.de>; Thu, 14 May 2020 01:30:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:reply-to:references
-         :mime-version:content-disposition:in-reply-to:user-agent
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
+        h=sender:date:from:to:message-id:subject:mime-version
+         :x-original-sender:precedence:mailing-list:list-id:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=n469VaN1P3ftKDUZtSNLPgYkAPxPxxdvfyJ9Q7OshjQ=;
+        b=mz1PNZ8/re3fiHbiPV968GRadaJnc6OVQiuawas8ofsaGh1NTKoPGOFrgIwtumiof7
+         dhu2pdzPkGvp3BJtlhCzaGzGOESE04L4L7PSOmUI7Ztrqq1NOLV1ZW4LdXYG8xgZmbLk
+         FDUBSd/1sLFDSaoi7QmFS8HT8nn2T08xPIF09akbwDo+3iHLShQsAWSgespc4+fj7ueI
+         8SZTBKUJWIHsLl+mhh9tTH09y6wON2D/Upcqca5XlLCTk+bJC5CyT+K3Q3V8o24B/C36
+         Tb6qG4EU3UnTeuv/cTy3Bx421/NbEULhpniWRo6TGnw2tlWzWxcygaTSmjxavomDDO3x
+         VQAA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:message-id:subject:mime-version:x-original-sender
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=HI4bMGt5KAHBwOAjwVQHDh/Oz7OWXSm3wvuo1GjCGlk=;
-        b=qjsy0zdjAbYFmDLiKpmW0eWPnN5M21vSwHYUomGN6DoZpTX1ozCZutjbS5EJEMIWGq
-         td+CqJ7Eel/a212K+D2oU/RVRGAd4E4cJE8p8KnV5B7pv/t0Sdi+GyDtG6UVXnNrkgRu
-         FXT8mG/wOcU3ruda3gCXSpJmjKyK0tZHkILxWvlTd5WZ4V1jG72QsRydRnHMXbTmdon9
-         IGeFtDjz9PLbx4VZn4yRfS2BOkoThqnbaFF9SghfVVG5hfNzXrt3cuDQQv86IYpSEdxH
-         ADAwxL33DPJosXQgGnt47Mn9Xcxlf9cEkRuKLPkwx8toLuyTIyPuzzRwChSxd/sRN0ak
-         WfOA==
+        bh=n469VaN1P3ftKDUZtSNLPgYkAPxPxxdvfyJ9Q7OshjQ=;
+        b=rCZ1PB4NOP6OfQmCh7KHwTHiWzDZoa0pr8D052dvvmq3lv45rDu4exMqQHJ38cMSna
+         6BTgJfoSriKmi9Mmi1POwV3sc4pPYR1TN1CaGmMBRGOLThAxczckaYNrkGsbiQfNsDOg
+         35ESqs9mGzuWh42dnG9yVhZ4+7kftw15KIUSFCLOv5UsuKOckoOHFtxqm9/3+tQFgs6n
+         lnMPO1Yt7dxgYfmXGRx0EzJkfJCvuh3LjOQLLm0PG9zxVPYqzjO3pWRZ3by9ot0Q/aCm
+         qO7uu0zCceLYLp5kF36pslaWnbDC03KJX1JTpD7LeUqfbulKqZ2jPhtqnSzyvnU1aC+d
+         rKTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :reply-to:references:mime-version:content-disposition:in-reply-to
-         :user-agent:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=HI4bMGt5KAHBwOAjwVQHDh/Oz7OWXSm3wvuo1GjCGlk=;
-        b=e+jOMIJGeGWDd8EIdeG/pwHSVYVxcc/izIBsbYpKc36TwtTWI5pRAiRCuOGaDsiGuC
-         kuo0phGB8HOK0bq4mqcbqkp2T2sBB3lJXlJnWzY9/+/kUsT/EFMK4MBy/O/GQW/tyBLT
-         JrY7Oa1v2OaIrI1mvs/+bkpQniZYkp0j1KJ0dERMPU9gb39Y30iu4swnaEzRoJxcmbcl
-         WDVsTbCf+hd7ZsnVGHGH1WnrZovO20Lp9k3Eo8v3IHqeErCdQdeO7Av7QfdI/ynD10hx
-         8nLtYFXbRxM8N2j8vAjnRFeJaJtbzvgfiKUviysZBep/0VA5AezI79R4jQQGnPRe5mzs
-         GZBQ==
+        h=sender:x-gm-message-state:date:from:to:message-id:subject
+         :mime-version:x-original-sender:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=n469VaN1P3ftKDUZtSNLPgYkAPxPxxdvfyJ9Q7OshjQ=;
+        b=mF6iQPnW6ylrvVVdaKT9gl0G+9v1TZ7wcag4rYA+voOrSSitk/GMPW424I393ePISU
+         o57N7RmHiWxnI4ow9PMooIgiIWcqDwYDdpjkP9KTaqP37tLGMRbUNwKOKtfcnmv/1men
+         5IQZT1sG45I9chK1MsiH4PXQBI7PonYdNajtp+saCq8dRk/V+08FHP3J166KUlKzNYag
+         JKjDcin+vcLGOLonA9za4qQOzz374IvDV0vSGxePgb0aUQSG5N1q2ttlouRNLfAsq+yI
+         eNd6baTnIvXyfCezt71kDwknqTy/eSarqKteXIh/fttwRdYZSEhGDEN1PZQzvuPCz1a6
+         Pq8Q==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM531ZpZkzYHfHz9sNEWBgwnSaYUoM+0x3ebMUZBI8wI0Np229m1O7
-	hNQJiQyi3v3rUSNFElOxsv4=
-X-Google-Smtp-Source: ABdhPJwC0/nutmcTjrTQScOI6Ugdwe+pW4jh1/5l9TrPlZdRoi9hOCvGwzQSTSzvXdl6pbwQus3PgA==
-X-Received: by 2002:a67:1903:: with SMTP id 3mr730487vsz.22.1589400140508;
-        Wed, 13 May 2020 13:02:20 -0700 (PDT)
+X-Gm-Message-State: AGi0PuYJNqQKK3i1VLX+VvWRd9Zu1hDWxgP+8fvSVEBbgnFPgnrtE0s9
+	PCtOH62xm1akxDkY98Tt0YY=
+X-Google-Smtp-Source: APiQypLPD6JJiWK+hs4BGSJ2cl5rTy2WDsj6t+iaB3dSUbjfqMCr+ZVFupApsnMm2fKnTH7vUsmPfg==
+X-Received: by 2002:a54:4f1a:: with SMTP id e26mr29939836oiy.45.1589445010845;
+        Thu, 14 May 2020 01:30:10 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a67:7f86:: with SMTP id a128ls98279vsd.8.gmail; Wed, 13 May
- 2020 13:02:20 -0700 (PDT)
-X-Received: by 2002:a67:8743:: with SMTP id j64mr757342vsd.149.1589400140237;
-        Wed, 13 May 2020 13:02:20 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1589400140; cv=none;
-        d=google.com; s=arc-20160816;
-        b=F4pS1Vq5j2iPBGg4Lhk9iykUYfc7NuvoXnRtgsGIAxKEubAV3Xkewhz0WjNozxnoo6
-         e1fRA9WjvtEvXCJDCN9S4+KuYTSS7UJ3WHEMLlTpOgyxw/6Y7buoTNJrXHjb3yVsVSPB
-         DOigch44yJCWpzw41YmL9bNNrpam1IyivWuLRlGt7rQhgB+xnOk6oXL47zuAgAxZiaNb
-         QfLGR+8mnAqq0aOXu+ph16Z0WF0IInW6vXorx3DgOUQTdpdgd9ZaVAeF35E70OdoD3gA
-         uGM24R49v8tgcDvyci+Jkdb+0prXBKeXmLznE7OLqUBcvpxKExxFmdLOwyDxcHFey2pm
-         CkeQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :reply-to:message-id:subject:cc:to:from:date:dkim-signature;
-        bh=q8bx4k6HGy5lI9oMQDUvpfRKQB8DBhk2AZO6NIPgo1s=;
-        b=YPrvDH0GHZgDduf/LxzKzkKcW15JyRsL8/82y/g3cNAlVd369nrcA33jHSXBZYkKTF
-         DY2S1GvI3VMyhWkvW8pxQCgzISre1kSoKgmu3nf1K01C6AL16ZmPaNxEMDXb4jkLG2Wk
-         DPXQzNxpPG9Oun+mTIYkAlMsJO9aYt7WkSoEozNN0ioUWw24pq86YuCqdGoh6MDK1EyN
-         7AC4KsgFxxSUHqcrkKMnjMzuxxVPFin/m7zZn3zDmklf9wmr8z2Ku7nHjgwX9ISNSJOz
-         5GSjrg2RquOOUT98Hi6njePWcUztYAWYxFDdj6+hI8j6OXw5XxFZTfvrLksh+aZMLdFi
-         Ukcg==
-ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=default header.b=oZX6W3Z4;
-       spf=pass (google.com: domain of srs0=h0+r=63=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=h0+r=63=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id i26si30626vsk.0.2020.05.13.13.02.20
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 13 May 2020 13:02:20 -0700 (PDT)
-Received-SPF: pass (google.com: domain of srs0=h0+r=63=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
-Received: from paulmck-ThinkPad-P72.home (unknown [50.39.105.78])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id D9A59205ED;
-	Wed, 13 May 2020 20:02:19 +0000 (UTC)
-Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
-	id 005D5352352C; Wed, 13 May 2020 13:02:18 -0700 (PDT)
-Date: Wed, 13 May 2020 13:02:18 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>,
-	Ingo Molnar <mingo@kernel.org>, Kees Cook <keescook@chromium.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Thomas Gleixner <tglx@linutronix.de>, kasan-dev@googlegroups.com,
-	linux-kernel@vger.kernel.org, clang-built-linux@googlegroups.com
-Subject: Re: [PATCH] [v2] ubsan, kcsan: don't combine sanitizer with kcov on
- clang
-Message-ID: <20200513200218.GA25892@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
-References: <CANpmjNPCZ2r9V7t50_yy+F_-roBWJdiQWgmvvcqTFxzdzOwKhg@mail.gmail.com>
- <20200507162617.2472578-1-arnd@arndb.de>
+Received: by 2002:aca:aace:: with SMTP id t197ls64032oie.4.gmail; Thu, 14 May
+ 2020 01:30:10 -0700 (PDT)
+X-Received: by 2002:aca:ba05:: with SMTP id k5mr29057039oif.35.1589445010469;
+        Thu, 14 May 2020 01:30:10 -0700 (PDT)
+Date: Thu, 14 May 2020 01:30:09 -0700 (PDT)
+From: Jude Serge <siijude6@gmail.com>
+To: kasan-dev <kasan-dev@googlegroups.com>
+Message-Id: <e48d7b7a-5762-4610-bb7e-e807566cf216@googlegroups.com>
+Subject: buy marijuana, CANNABIS PRODUCER. High Grade Medical Marijuana
+ Sativa, Indica & hybrid strains, shrooms, vapes, Hash, (RSO), BHO, HEMP
+ OILS, THC OILS, Cannabis Oil and Edibles FOR SALE.
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <20200507162617.2472578-1-arnd@arndb.de>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Original-Sender: paulmck@kernel.org
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=default header.b=oZX6W3Z4;       spf=pass
- (google.com: domain of srs0=h0+r=63=paulmck-thinkpad-p72.home=paulmck@kernel.org
- designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=h0+r=63=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_3329_111209783.1589445009918"
+X-Original-Sender: siijude6@gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -140,90 +77,101 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, May 07, 2020 at 06:25:31PM +0200, Arnd Bergmann wrote:
-> Clang does not allow -fsanitize-coverage=trace-{pc,cmp} together
-> with -fsanitize=bounds or with ubsan:
-> 
-> clang: error: argument unused during compilation: '-fsanitize-coverage=trace-pc' [-Werror,-Wunused-command-line-argument]
-> clang: error: argument unused during compilation: '-fsanitize-coverage=trace-cmp' [-Werror,-Wunused-command-line-argument]
-> 
-> To avoid the warning, check whether clang can handle this correctly
-> or disallow ubsan and kcsan when kcov is enabled.
-> 
-> Link: https://bugs.llvm.org/show_bug.cgi?id=45831
-> Link: https://lore.kernel.org/lkml/20200505142341.1096942-1-arnd@arndb.de
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+------=_Part_3329_111209783.1589445009918
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_3330_482836368.1589445009918"
 
-Applied for v5.9 and pushed, thank you!
+------=_Part_3330_482836368.1589445009918
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-							Thanx, Paul
+our website link: https://marijuannashop.com/
 
-> ---
-> v2: this implements Marco's suggestion to check what the compiler
-> actually supports, and references the bug report I now opened.
-> 
-> Let's wait for replies on that bug report before this gets applied,
-> in case the feedback there changes the conclusion.
-> ---
->  lib/Kconfig.kcsan | 11 +++++++++++
->  lib/Kconfig.ubsan | 11 +++++++++++
->  2 files changed, 22 insertions(+)
-> 
-> diff --git a/lib/Kconfig.kcsan b/lib/Kconfig.kcsan
-> index ea28245c6c1d..a7276035ca0d 100644
-> --- a/lib/Kconfig.kcsan
-> +++ b/lib/Kconfig.kcsan
-> @@ -3,9 +3,20 @@
->  config HAVE_ARCH_KCSAN
->  	bool
->  
-> +config KCSAN_KCOV_BROKEN
-> +	def_bool KCOV && CC_HAS_SANCOV_TRACE_PC
-> +	depends on CC_IS_CLANG
-> +	depends on !$(cc-option,-Werror=unused-command-line-argument -fsanitize=thread -fsanitize-coverage=trace-pc)
-> +	help
-> +	  Some versions of clang support either KCSAN and KCOV but not the
-> +	  combination of the two.
-> +	  See https://bugs.llvm.org/show_bug.cgi?id=45831 for the status
-> +	  in newer releases.
-> +
->  menuconfig KCSAN
->  	bool "KCSAN: dynamic data race detector"
->  	depends on HAVE_ARCH_KCSAN && DEBUG_KERNEL && !KASAN
-> +	depends on !KCSAN_KCOV_BROKEN
->  	select STACKTRACE
->  	help
->  	  The Kernel Concurrency Sanitizer (KCSAN) is a dynamic
-> diff --git a/lib/Kconfig.ubsan b/lib/Kconfig.ubsan
-> index 929211039bac..a5ba2fd51823 100644
-> --- a/lib/Kconfig.ubsan
-> +++ b/lib/Kconfig.ubsan
-> @@ -26,9 +26,20 @@ config UBSAN_TRAP
->  	  the system. For some system builders this is an acceptable
->  	  trade-off.
->  
-> +config UBSAN_KCOV_BROKEN
-> +	def_bool KCOV && CC_HAS_SANCOV_TRACE_PC
-> +	depends on CC_IS_CLANG
-> +	depends on !$(cc-option,-Werror=unused-command-line-argument -fsanitize=bounds -fsanitize-coverage=trace-pc)
-> +	help
-> +	  Some versions of clang support either UBSAN or KCOV but not the
-> +	  combination of the two.
-> +	  See https://bugs.llvm.org/show_bug.cgi?id=45831 for the status
-> +	  in newer releases.
-> +
->  config UBSAN_BOUNDS
->  	bool "Perform array index bounds checking"
->  	default UBSAN
-> +	depends on !UBSAN_KCOV_BROKEN
->  	help
->  	  This option enables detection of directly indexed out of bounds
->  	  array accesses, where the array size is known at compile time.
-> -- 
-> 2.26.0
-> 
+https://marijuannashop.com/product-category/savita/
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200513200218.GA25892%40paulmck-ThinkPad-P72.
+https://marijuannashop.com/product-category/hybrid/
+
+https://marijuannashop.com/product-category/indica/
+
+https://marijuannashop.com/product-category/shrooms/
+
+Our email: sale@mar......na.com
+Call Text & WhatsApp us at: +1 (424) 269-5782
+
+>>>>>>>> Fast and Reliable delivery -Tracking Available!
+>>>>>>>>Good quality products.
+>>>>>>>>>Good and affordable prices.
+>>>>>>>>>Various shipping option (Overnight and Airmail).
+>>>>>>>>>No Prescription Required!
+>>>>>>>>>Buy Direct and Save Time and Money!
+         100% Customer Satisfaction Guaranteed ! -Additional Discounts on=
+=20
+Bulk Orders
+We guarantee the safety passage of your package ,all our packages are=20
+customized and diplomatic sealed packages this means that they are custom=
+=20
+free. We offer triple vacuum seal and stealth package on all orders so it=
+=20
+can=E2=80=99t be scent detected by canine (dogs) or electronic sniffers, We=
+ do=20
+provide refunds or replace your order if there is a failure in delivering.=
+=20
+Weed for sale, Where to buy weed, Hash oil for sale, Cannabis oil for sale,=
+=20
+Buy marijuana online, THC oil for sale, How to buy weed online, Marijuana=
+=20
+for sale, Order weed online, Buy medical marijuana online
+
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/e48d7b7a-5762-4610-bb7e-e807566cf216%40googlegroups.com.
+
+------=_Part_3330_482836368.1589445009918
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>our website link: https://marijuannashop.com/</div><d=
+iv><br></div><div>https://marijuannashop.com/product-category/savita/</div>=
+<div><br></div><div>https://marijuannashop.com/product-category/hybrid/</di=
+v><div><br></div><div>https://marijuannashop.com/product-category/indica/</=
+div><div><br></div><div>https://marijuannashop.com/product-category/shrooms=
+/</div><div><br></div><div>Our email: sale@mar......na.com</div><div>Call T=
+ext &amp; WhatsApp us at: +1 (424) 269-5782</div><div><br></div><div>&gt;&g=
+t;&gt;&gt;&gt;&gt;&gt;&gt; Fast and Reliable delivery -Tracking Available!<=
+/div><div>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;Good quality products.</div><div>=
+&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;Good and affordable prices.</div><div>&=
+gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;Various shipping option (Overnight and A=
+irmail).</div><div>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;No Prescription Requ=
+ired!</div><div>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;Buy Direct and Save Tim=
+e and Money!</div><div>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0100% Customer Sati=
+sfaction Guaranteed ! -Additional Discounts on Bulk Orders</div><div>We gua=
+rantee the safety passage of your package ,all our packages are customized =
+and diplomatic sealed packages this means that they are custom free. We off=
+er triple vacuum seal and stealth package on all orders so it can=E2=80=99t=
+ be scent detected by canine (dogs) or electronic sniffers, We do provide r=
+efunds or replace your order if there is a failure in delivering. Weed for =
+sale, Where to buy weed, Hash oil for sale, Cannabis oil for sale, Buy mari=
+juana online, THC oil for sale, How to buy weed online, Marijuana for sale,=
+ Order weed online, Buy medical marijuana online</div></div>
+
+<p></p>
+
+-- <br />
+You received this message because you are subscribed to the Google Groups &=
+quot;kasan-dev&quot; group.<br />
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
++unsubscribe@googlegroups.com</a>.<br />
+To view this discussion on the web visit <a href=3D"https://groups.google.c=
+om/d/msgid/kasan-dev/e48d7b7a-5762-4610-bb7e-e807566cf216%40googlegroups.co=
+m?utm_medium=3Demail&utm_source=3Dfooter">https://groups.google.com/d/msgid=
+/kasan-dev/e48d7b7a-5762-4610-bb7e-e807566cf216%40googlegroups.com</a>.<br =
+/>
+
+------=_Part_3330_482836368.1589445009918--
+
+------=_Part_3329_111209783.1589445009918--
