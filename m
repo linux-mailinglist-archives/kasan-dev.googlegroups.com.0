@@ -1,69 +1,135 @@
-Return-Path: <kasan-dev+bncBC66TOP4SALRBRNQ7D2QKGQEUSUYX3Q@googlegroups.com>
+Return-Path: <kasan-dev+bncBDE6RCFOWIARBPP77H2QKGQERU2CSEQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oo1-xc3e.google.com (mail-oo1-xc3e.google.com [IPv6:2607:f8b0:4864:20::c3e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 515A81D4455
-	for <lists+kasan-dev@lfdr.de>; Fri, 15 May 2020 06:19:18 +0200 (CEST)
-Received: by mail-oo1-xc3e.google.com with SMTP id 187sf676443oor.18
-        for <lists+kasan-dev@lfdr.de>; Thu, 14 May 2020 21:19:18 -0700 (PDT)
+Received: from mail-lf1-x137.google.com (mail-lf1-x137.google.com [IPv6:2a00:1450:4864:20::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8C311D4CC9
+	for <lists+kasan-dev@lfdr.de>; Fri, 15 May 2020 13:40:45 +0200 (CEST)
+Received: by mail-lf1-x137.google.com with SMTP id c4sf775606lfj.16
+        for <lists+kasan-dev@lfdr.de>; Fri, 15 May 2020 04:40:45 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1589542845; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=MTn44Y/i16R/n+LlosgOVaFGvou46DX+R/VdEgB4JQ4MbdW8M/hsKM7Jw5O1C0PwVZ
+         55S2vgcV4gALhY/vhKfgBOk5B+5gfAs3B30KAXQJdadYDAoWhCnb/PiAFqCrlh3yQFPm
+         SlTf0/1rVePWiWGJ8VM3brF1+xNV9MjwFYEwrOHOEUCggUbdGWmHON6N0WW3mKGbxZoG
+         UrJZx/Y/SswDL6HuUPahwokWypsi5Z4o5nGDo6HFHUPsHBCM8C8FEuEM87zC7YavUa1C
+         o2Kx/COAbR8Tf+iHCTcFwdhPP+VHB6yfodI1eeCKdg2IJj0Ath7J3AdOxydfigQozy4A
+         xTOw==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:sender:dkim-signature;
+        bh=TBqkD9J6tVPz4ps5FQ0v3BvNkMNjvV4FEBPPHtO68rI=;
+        b=F0PQS6JQ0X1klRZckkoI/WrNkvZQN/C5XWTGiewQVsfN7Sj4UyWRRfDSTfEySuzSCy
+         br1Q7qJ+KOD6LLqLugHepj98iYnaojW+3t7kaYd/P15MMKlyWDooJh/Tz0xOelZ/UG8r
+         3L4cHov4jyIoJtvvDxXSO9UTmSdHYJxGTakkJUJZuGAWG3QLQ1YhUz3csqfZ963dVH2k
+         r0BmLt8k87SLVYGw/tNcSAP15h0Yx9G1SLhLJxNLJrOy9Ros91AtD/nki+DjdFUY60vo
+         8VCbEBG34wTpeZqRUegogJwP7K+H8E/vbuRcsccHPXxZaVvhvtL7eaPOCTEa0tnuaZLq
+         MOmQ==
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@linaro.org header.s=google header.b=EJFsHD5d;
+       spf=pass (google.com: domain of linus.walleij@linaro.org designates 2a00:1450:4864:20::242 as permitted sender) smtp.mailfrom=linus.walleij@linaro.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:date:from:to:message-id:subject:mime-version
-         :x-original-sender:precedence:mailing-list:list-id:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=ZYEb34d/O02LD6qEwCleo89amMcCfwGEY0J4orRfPBI=;
-        b=nRwwTHod+8TgapAFN5oKSdTPN/QElfFjHZUG0OgOFvLIEQDXceOOpAxWGJsGzIVJr3
-         rO6XT04NSXV5z7EIVA9ZS6EuhDlzl1+xB8GvGLNg5Ld+CKnk/omgwDu4VC/7R1NX1u82
-         IEjuKdf1CBlqMjMmXJnVmfH9/jbKEzdjl3LVnT54E22b2TENmcYawm9kHgXWxIeG+lVm
-         SNeXSCtIksft5s5bz0IfE7Ysl8XkFwp62hLwp8yefg+G6nwzJ7DXh5lQyCbz+v8Rjp/7
-         GcYrMbWNcHOlHHrJDhk0axpIZUk/ESzwbq32BKUYtn+R9oSNil9qv5vBjm1jQ5kNBakn
-         xkPA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:message-id:subject:mime-version:x-original-sender
+        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=ZYEb34d/O02LD6qEwCleo89amMcCfwGEY0J4orRfPBI=;
-        b=CjbMs3HX02CNTLenDFhzZsq5pLuduwYtPd/jxSV/2pn1GzkI+mDrTubhVrmIceFFgz
-         mPSiLKWMdjQdoFovJfYFCPD9eBzf02G7fc+r6sI3KW1Is5XHhn0Nb5gylCQfatlt+H72
-         g7iEGmLDDg5B4yuUl8kLXIWbg0Ud7xH3TLjU/zpOFs6YFR+LtxgunZ2NhhOIZEtRGGpp
-         OFnodVtJT6Mr0smtLb9CJqo5zxJ0MRGQpNlxxj9P6VQLe74tsmb14+tvxKF40TCFYPxv
-         MLJnbRE5bXLmlbmjzLIY1m4qbE9AgQ5R70LOh9QzhDyx6J510KYzrEwcLHRkqo7cRikB
-         DJrQ==
+        bh=TBqkD9J6tVPz4ps5FQ0v3BvNkMNjvV4FEBPPHtO68rI=;
+        b=cH7xHQs9sPGOBYLecG8z7a0HzWPthM4SicEFfLw7OaSuPyQLm3f1LeQbI4xJ0fj7NG
+         AaR3S0H9Iiz74uXQ+oj/DC2qF37fw+mbsIojdkrOaDK8gOYB7fPQ03l9Lzkm5dvwt3Ij
+         5A+OSfONFBUUacx5yURgsncvg29q1gIsBYijaq01VLvAbD/HSR01u5X0BZjUhbYWjE5g
+         SFlLVVEgxWtMhikRaGFcxDjohqPt7DDC9vWYJednX0/p+G6y1Az/2CcLDUle2pcL/Vew
+         NBe+MOilrdTY0HLpMyQrcT+1RkpOTtvsFV/UIKZYwuwawrlR6FVNALbRW/VJMVKd+oNU
+         IZQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:date:from:to:message-id:subject
-         :mime-version:x-original-sender:precedence:mailing-list:list-id
+        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :in-reply-to:references:mime-version:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=ZYEb34d/O02LD6qEwCleo89amMcCfwGEY0J4orRfPBI=;
-        b=O4ddCg1fLvjfZIsg0AlqGu/sPMOVjEGrYq+lg/5ESt9phD2FzRZgfQo2GQ5XF2XNMm
-         goA2cdeMQpEW9rJ0WBJ3xPqSzAXrYhHgPMw2NmDOMum/ekikVcsVfD/xAV5s1cPKN6EV
-         Q+l2R6uL48DCpI09Yo1gbMAopsXTrJc5OpbwxLdSe8KlbNN/xcid+RFFI0iD1JgHDe+v
-         9R8GjN+XT6b1TWZs0GuDinbhiE3Ga4Z+1XrP7v+YD8Jxy7VXuhTQAumoTEdIfZifj9mq
-         Fr4DghZ4rF9CbEcqJYMAsuZGw45wR8c0+UuSrJzm4G1KP+J/L/iow05gmx+niCpWGHc8
-         u57w==
+        bh=TBqkD9J6tVPz4ps5FQ0v3BvNkMNjvV4FEBPPHtO68rI=;
+        b=RVWw7bMuT/91egN/9kw+p5jsnxnt26lNwoEzjnQefM9yMIeSmydgpQld7seBvlifOL
+         1zptvln5EcPA1vU6cGsZFVe0m80lf/SWk5Kaso4GkMMIpn3RN3WXotTO2mo+lxgHcuGX
+         e2XI1cYAEyxehmuMHGuaSUbM5tb/qdDZXCK54foNi0GQBPeXckV6Qsd3TJI9OQx9FHTV
+         7MDliL6jUJxfePHxy1DNCU29hNJpyXrHyr+tnOOqFiYcWRRhK5Bi192b7DsO0Bkb7+cn
+         Gl3//1yR22YIsUooPjmFEGxcIT6djYk7Eu8NPIH5RTQdONcUOK9RapmfG/cEtnnYegoo
+         Jibg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM530dYFqk52lGvwadEp/ChBEX3w6pQKs5nNZa3NZR5v4C/u4kaWBR
-	+Yx9SI6OdqS4x94qH0JCM1g=
-X-Google-Smtp-Source: ABdhPJxfPB1jRwCZ7/BJUODdTm1wgyJZmfMwC5OjsR+m3iIEufuoB+aNJaaXrnJct7Wyqw4W6xJ2Sg==
-X-Received: by 2002:aca:df06:: with SMTP id w6mr851439oig.129.1589516357217;
-        Thu, 14 May 2020 21:19:17 -0700 (PDT)
+X-Gm-Message-State: AOAM533HkBTU8Bl5fZtplOtgepij7lveT9J8kGyMypTZYhU3T7Rlp6VD
+	WEMyevHqzehHK8YVnZPv5EA=
+X-Google-Smtp-Source: ABdhPJwJAleunIZ3qWUvWKDTj6azknXTvM69xH9RSLe4pWdZrKodCeaTwoLqH8U14uSL3/c4lx1RTw==
+X-Received: by 2002:ac2:4257:: with SMTP id m23mr2125352lfl.141.1589542845230;
+        Fri, 15 May 2020 04:40:45 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:aca:aace:: with SMTP id t197ls249803oie.4.gmail; Thu, 14 May
- 2020 21:19:17 -0700 (PDT)
-X-Received: by 2002:aca:c546:: with SMTP id v67mr830366oif.84.1589516356898;
-        Thu, 14 May 2020 21:19:16 -0700 (PDT)
-Date: Thu, 14 May 2020 21:19:16 -0700 (PDT)
-From: mathewsrobert54@gmail.com
-To: kasan-dev <kasan-dev@googlegroups.com>
-Message-Id: <6b4e12c8-b6a6-416d-a2a9-663d02d544b5@googlegroups.com>
-Subject: ANXIETY DISORDER MANAGEMENT ,INSOMNIA[TROUBLE SLEEPING ],treatment
- or correction of erectile dysfunction and more
+Received: by 2002:ac2:4566:: with SMTP id k6ls269907lfm.6.gmail; Fri, 15 May
+ 2020 04:40:44 -0700 (PDT)
+X-Received: by 2002:a05:6512:3ea:: with SMTP id n10mr2180137lfq.127.1589542844599;
+        Fri, 15 May 2020 04:40:44 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1589542844; cv=none;
+        d=google.com; s=arc-20160816;
+        b=NkFIY8hxSxFHIQStsoV2B4dgfhUEhfRDzBXKBCss6YybwzOh4CJIewC9DtDgCIoHe4
+         PUgOhm3hHYqoXgvPzOb1EfOH/NB0avh0uwIMxbYttaYZeIvHVznuWYLpAyrvpEp9N5md
+         BAZgRsP6v2xTETtFmRR5u0biBZLvT0yp/11yLbZapqnZGCwsSpKGLbPdcE7c5h8umN50
+         uc9Yy4JlSnyPvkjZeZ4ZAu9XHp48+gYCu4q8Mvuuiny+EpXPJUbP7GaIs/ZXzYN99KAf
+         UkXq5vQpT2jF7cw0grQeJ4HaWGiDNnebfm9bvB+9Sns8sbGlXIEnChgJRmnKbn4+dV+m
+         1QkQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:dkim-signature;
+        bh=g6gTqv4UmGAZbCp5TjzzAy5mfc7aqGMQAl6xsZbz28M=;
+        b=ecfLvcTeiXU+x6i8jVSiXAfmC4eNwAWkVTg9eNq89bhO22M2ojZfJGnCvg6QQwEjnI
+         AUWnLo3b2C78I6p5LpCcZ4Aa/U67W0NoN+h6i6BCvCTzobTml+LHaTm4hMrgWKF/8SSJ
+         UrkXj8Q0PvLHdWtE8kcnXCXpU1HgyvNyv9vE9nLUt4M4AelMMRptS7wCJIS2+pTDJeoS
+         fMglpMUj+QWZH53/OuKs6j4QdizMR7bY5JaLGzF/mp/e0UNk0pddn26/C7EUBA+oswvP
+         5uoByV0O8b7YViaAauGM3RjsDXi72tLaeeoUCSqB/q8Gu16FaRwa9wME7G3yjx/Zh62Y
+         k4SQ==
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       dkim=pass header.i=@linaro.org header.s=google header.b=EJFsHD5d;
+       spf=pass (google.com: domain of linus.walleij@linaro.org designates 2a00:1450:4864:20::242 as permitted sender) smtp.mailfrom=linus.walleij@linaro.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com. [2a00:1450:4864:20::242])
+        by gmr-mx.google.com with ESMTPS id c24si160216lff.2.2020.05.15.04.40.44
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 15 May 2020 04:40:44 -0700 (PDT)
+Received-SPF: pass (google.com: domain of linus.walleij@linaro.org designates 2a00:1450:4864:20::242 as permitted sender) client-ip=2a00:1450:4864:20::242;
+Received: by mail-lj1-x242.google.com with SMTP id w10so1907944ljo.0
+        for <kasan-dev@googlegroups.com>; Fri, 15 May 2020 04:40:44 -0700 (PDT)
+X-Received: by 2002:a05:651c:14d:: with SMTP id c13mr1850742ljd.94.1589542844329;
+        Fri, 15 May 2020 04:40:44 -0700 (PDT)
+Received: from genomnajs.ideon.se ([85.235.10.227])
+        by smtp.gmail.com with ESMTPSA id 130sm1218445lfl.37.2020.05.15.04.40.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 May 2020 04:40:43 -0700 (PDT)
+From: Linus Walleij <linus.walleij@linaro.org>
+To: Florian Fainelli <f.fainelli@gmail.com>,
+	Abbott Liu <liuwenliang@huawei.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Andrey Ryabinin <aryabinin@virtuozzo.com>
+Cc: linux-arm-kernel@lists.infradead.org,
+	Arnd Bergmann <arnd@arndb.de>,
+	Alexander Potapenko <glider@google.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	kasan-dev@googlegroups.com,
+	Marc Zyngier <marc.zyngier@arm.com>,
+	Linus Walleij <linus.walleij@linaro.org>
+Subject: [PATCH 1/5 v9] ARM: Disable KASan instrumentation for some code
+Date: Fri, 15 May 2020 13:40:24 +0200
+Message-Id: <20200515114028.135674-2-linus.walleij@linaro.org>
+X-Mailer: git-send-email 2.25.4
+In-Reply-To: <20200515114028.135674-1-linus.walleij@linaro.org>
+References: <20200515114028.135674-1-linus.walleij@linaro.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; 
-	boundary="----=_Part_273_1720112881.1589516356053"
-X-Original-Sender: mathewsrobert54@gmail.com
+X-Original-Sender: linus.walleij@linaro.org
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@linaro.org header.s=google header.b=EJFsHD5d;       spf=pass
+ (google.com: domain of linus.walleij@linaro.org designates
+ 2a00:1450:4864:20::242 as permitted sender) smtp.mailfrom=linus.walleij@linaro.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -76,110 +142,123 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-------=_Part_273_1720112881.1589516356053
-Content-Type: multipart/alternative; 
-	boundary="----=_Part_274_1678094415.1589516356053"
+From: Andrey Ryabinin <aryabinin@virtuozzo.com>
 
-------=_Part_274_1678094415.1589516356053
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Disable instrumentation for arch/arm/boot/compressed/*
+since that code is executed before the kernel has even
+set up its mappings and definately out of scope for
+KASan.
 
-DO NOT MISS OUT BUT CONTACT AND GET SORTED ASAP=20
-*INQUIRIES:
--Email..... mathewsrobert54@gmail.com
+Disable instrumentation of arch/arm/vdso/* because that code
+is not linked with the kernel image, so the KASan management
+code would fail to link.
 
-Diazepam 5mgs 1000pills 100=C2=A3
-Diazepam 5mgs 2000pills 200=C2=A3
-Diazepam 5mgs 5000pills 480=C2=A3
+Disable instrumentation of arch/arm/mm/physaddr.c. See commit
+ec6d06efb0ba ("arm64: Add support for CONFIG_DEBUG_VIRTUAL")
+for more details.
 
-Diazepam 10mgs 1000pills 130=C2=A3
-Diazepam 10mgs 2000pills 210=C2=A3
-Diazepam 10mgs 5000pills 300=C2=A3
-Diazepam 10mgs 10000pills 600=C2=A3
+Disable kasan check in the function unwind_pop_register because
+it does not matter that kasan checks failed when unwind_pop_register()
+reads the stack memory of a task.
 
-Ketamine 5vials 100=C2=A3
-Ketamine 10vials 180=C2=A3
-Ketamine 25vials 320=C2=A3
+Cc: Andrey Ryabinin <aryabinin@virtuozzo.com>
+Cc: Alexander Potapenko <glider@google.com>
+Cc: Dmitry Vyukov <dvyukov@google.com>
+Cc: kasan-dev@googlegroups.com
+Reviewed-by: Ard Biesheuvel <ardb@kernel.org>
+Tested-by: Ard Biesheuvel <ardb@kernel.org> # QEMU/KVM/mach-virt/LPAE/8G
+Reported-by: Florian Fainelli <f.fainelli@gmail.com>
+Reported-by: Marc Zyngier <marc.zyngier@arm.com>
+Signed-off-by: Abbott Liu <liuwenliang@huawei.com>
+Signed-off-by: Florian Fainelli <f.fainelli@gmail.com>
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+---
+ChangeLog v8->v9:
+- Collect Ard's tags.
+ChangeLog v7->v8:
+- Do not sanitize arch/arm/mm/mmu.c.
+  Apart from being intuitively correct, it turns out that KASan
+  will insert a __asan_load4() into the set_pte_at() function
+  in mmu.c and this is something that KASan calls in the early
+  initialization, to set up the shadow memory. Naturally,
+  __asan_load4() cannot be called before the shadow memory is
+  set up so we need to exclude mmu.c from sanitization.
+ChangeLog v6->v7:
+- Removed the KVM instrumentaton disablement since KVM
+  on ARM32 is gone.
+---
+ arch/arm/boot/compressed/Makefile | 1 +
+ arch/arm/kernel/unwind.c          | 6 +++++-
+ arch/arm/mm/Makefile              | 2 ++
+ arch/arm/vdso/Makefile            | 2 ++
+ 4 files changed, 10 insertions(+), 1 deletion(-)
 
-FOR TRAMADOL SMALLER ORDER
+diff --git a/arch/arm/boot/compressed/Makefile b/arch/arm/boot/compressed/Makefile
+index 9c11e7490292..abd6f3d5c2ba 100644
+--- a/arch/arm/boot/compressed/Makefile
++++ b/arch/arm/boot/compressed/Makefile
+@@ -24,6 +24,7 @@ OBJS		+= hyp-stub.o
+ endif
+ 
+ GCOV_PROFILE		:= n
++KASAN_SANITIZE		:= n
+ 
+ # Prevents link failures: __sanitizer_cov_trace_pc() is not linked in.
+ KCOV_INSTRUMENT		:= n
+diff --git a/arch/arm/kernel/unwind.c b/arch/arm/kernel/unwind.c
+index 11a964fd66f4..739a77f39a8f 100644
+--- a/arch/arm/kernel/unwind.c
++++ b/arch/arm/kernel/unwind.c
+@@ -236,7 +236,11 @@ static int unwind_pop_register(struct unwind_ctrl_block *ctrl,
+ 		if (*vsp >= (unsigned long *)ctrl->sp_high)
+ 			return -URC_FAILURE;
+ 
+-	ctrl->vrs[reg] = *(*vsp)++;
++	/* Use READ_ONCE_NOCHECK here to avoid this memory access
++	 * from being tracked by KASAN.
++	 */
++	ctrl->vrs[reg] = READ_ONCE_NOCHECK(*(*vsp));
++	(*vsp)++;
+ 	return URC_OK;
+ }
+ 
+diff --git a/arch/arm/mm/Makefile b/arch/arm/mm/Makefile
+index 7cb1699fbfc4..99699c32d8a5 100644
+--- a/arch/arm/mm/Makefile
++++ b/arch/arm/mm/Makefile
+@@ -7,6 +7,7 @@ obj-y				:= extable.o fault.o init.o iomap.o
+ obj-y				+= dma-mapping$(MMUEXT).o
+ obj-$(CONFIG_MMU)		+= fault-armv.o flush.o idmap.o ioremap.o \
+ 				   mmap.o pgd.o mmu.o pageattr.o
++KASAN_SANITIZE_mmu.o		:= n
+ 
+ ifneq ($(CONFIG_MMU),y)
+ obj-y				+= nommu.o
+@@ -16,6 +17,7 @@ endif
+ obj-$(CONFIG_ARM_PTDUMP_CORE)	+= dump.o
+ obj-$(CONFIG_ARM_PTDUMP_DEBUGFS)	+= ptdump_debugfs.o
+ obj-$(CONFIG_MODULES)		+= proc-syms.o
++KASAN_SANITIZE_physaddr.o	:= n
+ obj-$(CONFIG_DEBUG_VIRTUAL)	+= physaddr.o
+ 
+ obj-$(CONFIG_ALIGNMENT_TRAP)	+= alignment.o
+diff --git a/arch/arm/vdso/Makefile b/arch/arm/vdso/Makefile
+index d3c9f03e7e79..71d18d59bd35 100644
+--- a/arch/arm/vdso/Makefile
++++ b/arch/arm/vdso/Makefile
+@@ -42,6 +42,8 @@ GCOV_PROFILE := n
+ # Prevents link failures: __sanitizer_cov_trace_pc() is not linked in.
+ KCOV_INSTRUMENT := n
+ 
++KASAN_SANITIZE := n
++
+ # Force dependency
+ $(obj)/vdso.o : $(obj)/vdso.so
+ 
+-- 
+2.25.4
 
-tramadol 100mg 300pills =C2=A380
-tramadol 200mg 300pills =C2=A3100
-tramadol 100mg 500pills =C2=A3130
-tramadol 200mg 500pills =C2=A3140
-tramadol 100mg 1000pills =C2=A3220
-tramadol 200mg 1000pills =C2=A3230
-tramadol 225mg 1000pills =C2=A3250
-
-FOR TRAMADOL BULK ORDER
-
-tramadol 100mg 5000pills =C2=A3600
-tramadol 200mg 5000pills =C2=A3700
-tramadol 225mg 5000pills =C2=A3800
-
-Viagra 100mg 1000pills 350=C2=A3
-Viagra 100mg 2000pills 600=C2=A3
-Viagra 100mg 5000pills 1000=C2=A3
-
-Xanax 0.5mg 1000pills 270=C2=A3
-Xanax 0.5mg 2000pills 500=C2=A3
-Xanax 0.5mg 5000pills 900=C2=A3
-
-other products available for sale
-
-alpha testo boast ..60 pills - =C2=A3100
-zopiclone 7.5mg,
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/6b4e12c8-b6a6-416d-a2a9-663d02d544b5%40googlegroups.com.
-
-------=_Part_274_1678094415.1589516356053
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>DO NOT MISS OUT BUT CONTACT AND GET SORTED ASAP=C2=A0=
-</div><div><span style=3D"white-space:pre">	</span></div><div>*INQUIRIES:</=
-div><div>-Email..... mathewsrobert54@gmail.com</div><div><br></div><div>Dia=
-zepam 5mgs 1000pills 100=C2=A3</div><div>Diazepam 5mgs 2000pills 200=C2=A3<=
-/div><div>Diazepam 5mgs 5000pills 480=C2=A3</div><div><br></div><div>Diazep=
-am 10mgs 1000pills 130=C2=A3</div><div>Diazepam 10mgs 2000pills 210=C2=A3</=
-div><div>Diazepam 10mgs 5000pills 300=C2=A3</div><div>Diazepam 10mgs 10000p=
-ills 600=C2=A3</div><div><br></div><div>Ketamine 5vials 100=C2=A3</div><div=
->Ketamine 10vials 180=C2=A3</div><div>Ketamine 25vials 320=C2=A3</div><div>=
-<br></div><div>FOR TRAMADOL SMALLER ORDER</div><div><br></div><div>tramadol=
- 100mg 300pills =C2=A380</div><div>tramadol 200mg 300pills =C2=A3100</div><=
-div>tramadol 100mg 500pills =C2=A3130</div><div>tramadol 200mg 500pills =C2=
-=A3140</div><div>tramadol 100mg 1000pills =C2=A3220</div><div>tramadol 200m=
-g 1000pills =C2=A3230</div><div>tramadol 225mg 1000pills =C2=A3250</div><di=
-v><br></div><div>FOR TRAMADOL BULK ORDER</div><div><br></div><div>tramadol =
-100mg 5000pills =C2=A3600</div><div>tramadol 200mg 5000pills =C2=A3700</div=
-><div>tramadol 225mg 5000pills =C2=A3800</div><div><br></div><div>Viagra 10=
-0mg 1000pills 350=C2=A3</div><div>Viagra 100mg 2000pills 600=C2=A3</div><di=
-v>Viagra 100mg 5000pills 1000=C2=A3</div><div><br></div><div>Xanax 0.5mg 10=
-00pills 270=C2=A3</div><div>Xanax 0.5mg 2000pills 500=C2=A3</div><div>Xanax=
- 0.5mg 5000pills 900=C2=A3</div><div><br></div><div>other products availabl=
-e for sale</div><div><br></div><div>alpha testo boast ..60 pills - =C2=A310=
-0</div><div>zopiclone 7.5mg,</div></div>
-
-<p></p>
-
--- <br />
-You received this message because you are subscribed to the Google Groups &=
-quot;kasan-dev&quot; group.<br />
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
-+unsubscribe@googlegroups.com</a>.<br />
-To view this discussion on the web visit <a href=3D"https://groups.google.c=
-om/d/msgid/kasan-dev/6b4e12c8-b6a6-416d-a2a9-663d02d544b5%40googlegroups.co=
-m?utm_medium=3Demail&utm_source=3Dfooter">https://groups.google.com/d/msgid=
-/kasan-dev/6b4e12c8-b6a6-416d-a2a9-663d02d544b5%40googlegroups.com</a>.<br =
-/>
-
-------=_Part_274_1678094415.1589516356053--
-
-------=_Part_273_1720112881.1589516356053--
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200515114028.135674-2-linus.walleij%40linaro.org.
