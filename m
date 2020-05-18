@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBCMIZB7QWENRBDGCRH3AKGQENLFJSZQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCMIZB7QWENRBLGDRH3AKGQEFBBEZZI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ua1-x93d.google.com (mail-ua1-x93d.google.com [IPv6:2607:f8b0:4864:20::93d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90DFC1D74FE
-	for <lists+kasan-dev@lfdr.de>; Mon, 18 May 2020 12:18:53 +0200 (CEST)
-Received: by mail-ua1-x93d.google.com with SMTP id 65sf772367uae.3
-        for <lists+kasan-dev@lfdr.de>; Mon, 18 May 2020 03:18:53 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1589797132; cv=pass;
+Received: from mail-ua1-x937.google.com (mail-ua1-x937.google.com [IPv6:2607:f8b0:4864:20::937])
+	by mail.lfdr.de (Postfix) with ESMTPS id 929861D7506
+	for <lists+kasan-dev@lfdr.de>; Mon, 18 May 2020 12:21:33 +0200 (CEST)
+Received: by mail-ua1-x937.google.com with SMTP id z20sf3332372uag.19
+        for <lists+kasan-dev@lfdr.de>; Mon, 18 May 2020 03:21:33 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1589797292; cv=pass;
         d=google.com; s=arc-20160816;
-        b=dXmJI48f3QjoPhjMlg2kubLxN9BEN9Q2d2quLia+J00b4MQXx2qC4+T2lb2vsJNE3a
-         tN0l4ApcYEacze/vL8Cfkj0F0W/gWKFTsn6WsskSW5s1PgtUM/XeUivj6Rr8N3qhURmq
-         5YlHccoRAwJIcJSCbp0vrJ6iGyebXLEmSIzQXpPO/le4Gv8eSKTOov0n9YPvJuOjqmDq
-         H/x5qiNF19SrgKuQCTGalJ89TB5XFEutJKKXqgdH17re53FD5tENi+9l+zOUEH49ZwIq
-         BIikHQk0h0KSrtTJx5fSDghFz4h4etkR7WDf2wt2XzNve5lk7Piuz6vQOz5xtZL7EbWa
-         3AGA==
+        b=e1q/Mn1y8tS7oRmEjrkeh4N1SHfrad9q60/lX+Bz5Fc25hUQnvT1DxRYA3W/Zd+os6
+         VTWEdlv38GbO2d2alOCv6XVAvJTpzg56E3M0kUKs3vME8R0tfTsptqJK/GHcoh4mnQrM
+         ghDXBFVP1PRoNL9OfSQ3edrpFltH4K+8XITyc5zKhYTgRVSdzemTIn4KvcIVA+2K/E3S
+         eHb2rhmyWBYy8CZWQfwP9AY3zt89NczFqGsZu8TFgUtb7TWs7KFnYnT9uaJEInMz+Um+
+         C8rzUHYrJKVCMPneRiLpOgsWYe7aw0VZkPFJ6Ey1TBZOv1qY+CS/Rv95oo4OcGHzry2Q
+         tEsA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=f4xA0uUBE/esvXcFynIkkXcdnFjiXNh/wZhuz/f6skY=;
-        b=C/jKCjrbzdcAi7CTanrjSwrME97DOw2L7+6ioYq8qbRAg3I9UpSELfnLYSfYc5tBnU
-         drFLp5rcusBwrUHh2AUTCjhpYhkSQnYFVLQeb0iJl0M3ZK0x2bzgBGQqxPfTMJDwfJHv
-         tdGh8l4SeeJySkd1MLJyMiiStO/AfVBLyOg+1L9R0mH5l6V2/KA+7uEZwUYmGLfOO2ZC
-         L3Q9HzGuFZKxHIBrk5hmJyfnAVWEOyXOVWiZPHlFWuch+Xmd//+UHGcjZirqEx3Fizj/
-         4tZjQJQlbPF5vrootDlW8EJNPVSNsE9m59UPt6BkvPXfEb2LSbg94UuB42wVC41P72Z4
-         mhgw==
+        bh=7PBTl8VPWTQM3KA/JqUpUDBzHGsvmtlBQ+zLT+dcxxg=;
+        b=Jx0ivATx6oj/zOTKhHWWiqWfd6icwxT80p6WIY73AVscPPQJwap2ayqqYieH//GRfg
+         LUsZdnLgtcE1eviMVRcZOrFujEsm1LZZe+3FAko6qrSDtiKP4fbKjqANAFuGEkzlVZ5X
+         gnmTy4BqwWZ8ofjoUNd6yJT0J5l0COx3lCC0m3LpoB8N8xZ0POtxKtR75Tszf9BzIrmd
+         CnhQidxeUFQVB0yB2H7aOwiLhoyzLHrel0g9Ek8Q01AZ/k4wLEpOtNDMtqIRgRu1cXbC
+         XkNgLnGZOuQ/OP2U5UU9k0EftqKuFZLicUvXyFFE+e/z3xcT+735ybZ01X2QyX0+p3Rp
+         NW1w==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b="Kopo/21L";
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::744 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=XrEl9sHF;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::f44 as permitted sender) smtp.mailfrom=dvyukov@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=f4xA0uUBE/esvXcFynIkkXcdnFjiXNh/wZhuz/f6skY=;
-        b=SWd1+5g/147GWZqKrv7CEoISYOXaQvOkAKczTkmertwrB5274Qx8ZwvhoFv/oxj2o2
-         nkFT8aonJLJzXN3j4v+SnYHR+N1YXDJSl4CCShrkxSfbepiTACZ6WJdye4q9anD5EBMu
-         yFP2jLsIstphqdo57ZUujYMVziqRB2sCp8MDskHpNfVDcYclNp4jPW4sTUd6O5LdnDRe
-         3dSX7MhFmkBA87FYv4KgHUi9Hfm0SKC9DXxOXnHP63+qQab83TwlZCdb/cpxwBgsES93
-         VUthGbizcNhSi50Lfe/m70M4zmKb7ADEYC4oUzCjbRYse6EgqU300t2v0+PLlLtYFZ2v
-         cUYA==
+        bh=7PBTl8VPWTQM3KA/JqUpUDBzHGsvmtlBQ+zLT+dcxxg=;
+        b=g1YCrBhO5ysf2PDPNg0YqiYBsds/zJLNdHRalkPeJZDnRdW807f0or1EuKEF8Qpyot
+         aipdTdIrMHbTzYSO1EBxAjbRTczbAATmwLOEC/ejA6+EKc6K8RYhDUYXXidTAl4RRc9c
+         3kmQvaW7oCeGNa4Ji3OVn/xjkMezEsDCQ4BvUob35XwU8BqIl1F1EL56TAfcYeXQa4bm
+         VNF4olxQmOlKRFtyL2RdeiTpn7NMC+UhiH+T8oXs+qP5tuIrrl+cr0PnKPgwqeKnSvm1
+         XzCpJ1RrJw05RmRGCNpzHld1s6I0tXhGiCgsOYq75VhWCN+mIPF3OWZ1fvnJHKBWIwV6
+         Q5ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
@@ -49,73 +49,76 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=f4xA0uUBE/esvXcFynIkkXcdnFjiXNh/wZhuz/f6skY=;
-        b=qf15kJuGaC6mIWvWSSf/L20sZenYctDiuky3hQOpxdln9tZTayKcjFfyQH8l02R/y7
-         TRdR6VYhs7RWzS54sF5s2xc+ei4fGcR7rlGgf6TB4qgQZq51n4kjbvhKq1UZl3Ty2f9E
-         vxWTHc/4mB5STPMLeydTr0Iixn6bAU0lui1+IwX1eeda3qjNMB1LcuRzRpMowzqt9Mxf
-         P3N3rOsLf/TEc3+V+GuhISQZBukKQu4VR69PIQYEISWRmgtHEe5D/JjPAmEy492+BHc7
-         WseK3CghCrABToOcnw3Iu6gpBG8kXTpgTzFGCxH/oMMjfU2qssMVhzam+PZJYPWWMoOi
-         wJpw==
-X-Gm-Message-State: AOAM533I9OoDzaY/SfpeMwx21juRcO9k57QB6v0i4nDlvJybOCzBveM2
-	rYktTa5D1LJaed/0ZbPo3Mo=
-X-Google-Smtp-Source: ABdhPJzY7UdjYlr9Qed6z51VMD5P8eThXrfsmW2YgQBL2pnV3e/Dthj3xWtQ61yrithbaMGj/31w9w==
-X-Received: by 2002:a67:d43:: with SMTP id 64mr10398094vsn.142.1589797132499;
-        Mon, 18 May 2020 03:18:52 -0700 (PDT)
+        bh=7PBTl8VPWTQM3KA/JqUpUDBzHGsvmtlBQ+zLT+dcxxg=;
+        b=Dm9XA+dPc52Dr3iYG3X7hM+RWgaA54z+J44/1khr0GaRkEE5KPp6LYGkzk2LhvcV9D
+         gqJHVGpczDEGqNbF2HuJdNHZLLeinjC6xg/Yp/QKAyQRUJPH4rgjQB6XtIy9VwXQPWC/
+         SFjjUlfIAggHVqyvA5JcIWXwtoxd1mhEd3zSEiOa4B/Aj6WKD66vg3pbWC5+a4DJOji1
+         fqi2sbHOnMDCF2s9aZy6NxsQSnFDqh9xoLfv1cSEKj7tYOKNzg8qbdoWt/UUVrIIhRaj
+         S1YNDP5+qKlaU2lFw0fCjHHKhdrVmOincuOS7bgz7nx0XgNHzTrX1qAHUvE1+Fi4w4pS
+         r2FA==
+X-Gm-Message-State: AOAM533KV55kAbRQgqrEYG0XIkqyVe1AU5h5H73xe3CbJykacmwofEky
+	m8ROYvgPu7Ua9KPgcoSJOxc=
+X-Google-Smtp-Source: ABdhPJy5EEum8lcMTjtt4Jnbu4UNDUIR2qXvCvuKRyh1rHecBa0cRMCG4yOLPOyBvAuSPKxxet0hVw==
+X-Received: by 2002:ab0:2f5:: with SMTP id 108mr5175284uah.122.1589797292533;
+        Mon, 18 May 2020 03:21:32 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a67:7902:: with SMTP id u2ls1006251vsc.9.gmail; Mon, 18 May
- 2020 03:18:52 -0700 (PDT)
-X-Received: by 2002:a67:f356:: with SMTP id p22mr6767398vsm.130.1589797132191;
-        Mon, 18 May 2020 03:18:52 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1589797132; cv=none;
+Received: by 2002:a05:6102:9c1:: with SMTP id g1ls883335vsi.0.gmail; Mon, 18
+ May 2020 03:21:32 -0700 (PDT)
+X-Received: by 2002:a67:eec9:: with SMTP id o9mr10856103vsp.160.1589797292123;
+        Mon, 18 May 2020 03:21:32 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1589797292; cv=none;
         d=google.com; s=arc-20160816;
-        b=zHQq7Olw2DbL3GkWDHXRjmXFCb4FrLxVLmg7a3hzrN+ajPoU2kVeTar662s/C5Pkod
-         u/Fy887IKH40ROaLe6O6hp+BZhyLP0JpKLRWz/7vV/t2P98bSLKArWpiowAhYxb8QPu7
-         LYag6TgDIgQkhYS3mUb+iRXqAHUsyvT/izgJzeRJPzXjpnfoYPW1k5BzPqObmOLqxqTQ
-         fwP+w/dQ4ZVDJ7dYwcJSZoIYdlFr1YO3nPAiNaTUslTZnM7qBdzgMQjg+hp06TZU0zv/
-         iJIWQatNB35SxBSw61GeEOhttv1la2T8w2MgL9QeZVVM9cDNQKLbAOyMdnJKXBkgQa8J
-         uU3Q==
+        b=kroqRJObKGBWzE4O/AblkCJOwtxnszQvqwiqBML2OpdmkCLPcZXfiurRhBpcrgVhUH
+         HqTlMz+IrQ2Vc+RjwyWCs+H0mSVn/cpsqQI2rn1vsDK4Le1M3qv6Qjk4pWEGCck0sxLp
+         FolM8nLNCuAi82HkPgmGLviTrx+zW5NziePiCL/AEra/VD3TJFA2/wuZT8hdne94OXDK
+         YjTd2sWvW//u2w8y3PpYjNY0TK8Aj7n6iIkRNx9jxaFHeKVIpuZ6+kbI/SMmvB2asV/E
+         QLDjCtXK+toA6c/EhfRmhCPZeXms0vILXDSaw7A3BqeXQeYjUw1lJbsCiHHUaOJYRKKm
+         +46w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=SeQSSJ6tmsyyQwBxZIU0ZhjYI9wUM1h2JniQ2eBNH4E=;
-        b=ua0ZMktbo0ijTpyBTc8qvZekMiTQWxWiCzbCtHdGomrlmrswyhpRDnSGD/6kEIc/Um
-         HYIl7uWzUvOzAEX9CbEbVUQz9EGgy6z6K0mJzriLCMeXow5NWzf6huWPhhmDTpOCtp3y
-         mBEAHts7Ae4ikU5z/2miQaCfPsINxBTRFAVrwglMXde81k/IH7assGWSAEYirOfj2zzc
-         uWOD4q+6iTjFr57YZc4Cx92oe9ChB1gh4vk6gx6ryF1qC93fygMpXBkK3epb4hxdgdZh
-         D9+J1fwxMz2DRV5kr5k4kPYlZeIEPIRcx2WUNAxC6C1Z/zG+1O+UKvBT2UnyJXZyXQa1
-         6o1g==
+        bh=4UrcruNgjCGo7KZXCgHiav/SoRCLnqO+sVxO468jQxk=;
+        b=UxvmsifNyrQB3IeIPLG4c0vTUr7D7bmcw85LH7RIPJlO3P4akXEmPWqjn6rdFtmhDl
+         41UwI6Ws2PQY+BkcZwCLPHogts3oNks0ervq2kWjeqROwsNx9xPxTNeqX1lCzUy95Y62
+         nTDTuFakc7+xzuL+oQ9uNLj1iYPlg1EhIj1q0peAp5ziRSuPoCGCII9jMqd1Y9myQYV8
+         hoW1J9aVpP+hyEGpmgQ+rxxYy8yMcQ5jmORYRJXFtmI6Gd7nuYc5lxG+zEZ8UQHy4cRT
+         4/8VNXX7qqv2C2+6F/uyP57HuqX2Q3RQaJmWFRdVmWBjE8eSUINTaQq95w9kpRrcv75A
+         lZ7A==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b="Kopo/21L";
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::744 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=XrEl9sHF;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::f44 as permitted sender) smtp.mailfrom=dvyukov@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com. [2607:f8b0:4864:20::744])
-        by gmr-mx.google.com with ESMTPS id y77si499973vky.0.2020.05.18.03.18.52
+Received: from mail-qv1-xf44.google.com (mail-qv1-xf44.google.com. [2607:f8b0:4864:20::f44])
+        by gmr-mx.google.com with ESMTPS id b10si693872vso.1.2020.05.18.03.21.32
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 May 2020 03:18:52 -0700 (PDT)
-Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::744 as permitted sender) client-ip=2607:f8b0:4864:20::744;
-Received: by mail-qk1-x744.google.com with SMTP id z80so9543155qka.0
-        for <kasan-dev@googlegroups.com>; Mon, 18 May 2020 03:18:52 -0700 (PDT)
-X-Received: by 2002:a05:620a:990:: with SMTP id x16mr14681630qkx.256.1589797131499;
- Mon, 18 May 2020 03:18:51 -0700 (PDT)
+        Mon, 18 May 2020 03:21:32 -0700 (PDT)
+Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::f44 as permitted sender) client-ip=2607:f8b0:4864:20::f44;
+Received: by mail-qv1-xf44.google.com with SMTP id x13so4430808qvr.2
+        for <kasan-dev@googlegroups.com>; Mon, 18 May 2020 03:21:32 -0700 (PDT)
+X-Received: by 2002:a0c:db03:: with SMTP id d3mr15524799qvk.80.1589797291392;
+ Mon, 18 May 2020 03:21:31 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200518062730.4665-1-walter-zh.wu@mediatek.com>
-In-Reply-To: <20200518062730.4665-1-walter-zh.wu@mediatek.com>
+References: <20200518062603.4570-1-walter-zh.wu@mediatek.com>
+In-Reply-To: <20200518062603.4570-1-walter-zh.wu@mediatek.com>
 From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Mon, 18 May 2020 12:18:39 +0200
-Message-ID: <CACT4Y+YVF2cLdg6qaK+3NcU3kLz2Pys6NWxLAYfity5n5cjirA@mail.gmail.com>
-Subject: Re: [PATCH v3 2/4] kasan: record and print the free track
+Date: Mon, 18 May 2020 12:21:19 +0200
+Message-ID: <CACT4Y+aSmcoSeC7J7RgoVV8CanwCrEz=zNZYG=_8KX3U-57A5Q@mail.gmail.com>
+Subject: Re: [PATCH v3 1/4] rcu/kasan: record and print call_rcu() call stack
 To: Walter Wu <walter-zh.wu@mediatek.com>
 Cc: Andrey Ryabinin <aryabinin@virtuozzo.com>, Alexander Potapenko <glider@google.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, kasan-dev <kasan-dev@googlegroups.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, "Paul E . McKenney" <paulmck@kernel.org>, 
+	Josh Triplett <josh@joshtriplett.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Lai Jiangshan <jiangshanlai@gmail.com>, Joel Fernandes <joel@joelfernandes.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, kasan-dev <kasan-dev@googlegroups.com>, 
 	Linux-MM <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>, 
 	Linux ARM <linux-arm-kernel@lists.infradead.org>, 
 	wsd_upstream <wsd_upstream@mediatek.com>, linux-mediatek@lists.infradead.org
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: dvyukov@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b="Kopo/21L";       spf=pass
- (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::744
+ header.i=@google.com header.s=20161025 header.b=XrEl9sHF;       spf=pass
+ (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::f44
  as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
  (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Dmitry Vyukov <dvyukov@google.com>
@@ -132,250 +135,229 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, May 18, 2020 at 8:27 AM Walter Wu <walter-zh.wu@mediatek.com> wrote:
+On Mon, May 18, 2020 at 8:26 AM Walter Wu <walter-zh.wu@mediatek.com> wrote:
 >
-> Move free track from slub alloc meta-data to slub free meta-data in
-> order to make struct kasan_free_meta size is 16 bytes. It is a good
-> size because it is the minimal redzone size and a good number of
-> alignment.
+> This feature will record the last two call_rcu() call stack and
+> prints up to 2 call_rcu() call stacks in KASAN report.
 >
-> For free track in generic KASAN, we do the modification in struct
-> kasan_alloc_meta and kasan_free_meta:
-> - remove free track from kasan_alloc_meta.
-> - add free track into kasan_free_meta.
+> When call_rcu() is called, we store the call_rcu() call stack into
+> slub alloc meta-data, so that the KASAN report can print rcu stack.
 >
 > [1]https://bugzilla.kernel.org/show_bug.cgi?id=198437
+> [2]https://groups.google.com/forum/#!searchin/kasan-dev/better$20stack$20traces$20for$20rcu%7Csort:date/kasan-dev/KQsjT_88hDE/7rNUZprRBgAJ
 >
 > Signed-off-by: Walter Wu <walter-zh.wu@mediatek.com>
 > Suggested-by: Dmitry Vyukov <dvyukov@google.com>
 > Cc: Andrey Ryabinin <aryabinin@virtuozzo.com>
 > Cc: Dmitry Vyukov <dvyukov@google.com>
 > Cc: Alexander Potapenko <glider@google.com>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Paul E. McKenney <paulmck@kernel.org>
+> Cc: Josh Triplett <josh@joshtriplett.org>
+> Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+> Cc: Lai Jiangshan <jiangshanlai@gmail.com>
+> Cc: Joel Fernandes <joel@joelfernandes.org>
 > ---
->  mm/kasan/common.c  | 33 ++++++++++-----------------------
->  mm/kasan/generic.c | 18 ++++++++++++++++++
->  mm/kasan/kasan.h   |  7 +++++++
->  mm/kasan/report.c  | 20 --------------------
->  mm/kasan/tags.c    | 37 +++++++++++++++++++++++++++++++++++++
->  5 files changed, 72 insertions(+), 43 deletions(-)
+>  include/linux/kasan.h |  2 ++
+>  kernel/rcu/tree.c     |  2 ++
+>  lib/Kconfig.kasan     |  2 ++
+>  mm/kasan/common.c     |  4 ++--
+>  mm/kasan/generic.c    | 20 ++++++++++++++++++++
+>  mm/kasan/kasan.h      | 10 ++++++++++
+>  mm/kasan/report.c     | 24 ++++++++++++++++++++++++
+>  7 files changed, 62 insertions(+), 2 deletions(-)
 >
+> diff --git a/include/linux/kasan.h b/include/linux/kasan.h
+> index 31314ca7c635..23b7ee00572d 100644
+> --- a/include/linux/kasan.h
+> +++ b/include/linux/kasan.h
+> @@ -174,11 +174,13 @@ static inline size_t kasan_metadata_size(struct kmem_cache *cache) { return 0; }
+>
+>  void kasan_cache_shrink(struct kmem_cache *cache);
+>  void kasan_cache_shutdown(struct kmem_cache *cache);
+> +void kasan_record_aux_stack(void *ptr);
+>
+>  #else /* CONFIG_KASAN_GENERIC */
+>
+>  static inline void kasan_cache_shrink(struct kmem_cache *cache) {}
+>  static inline void kasan_cache_shutdown(struct kmem_cache *cache) {}
+> +static inline void kasan_record_aux_stack(void *ptr) {}
+>
+>  #endif /* CONFIG_KASAN_GENERIC */
+>
+> diff --git a/kernel/rcu/tree.c b/kernel/rcu/tree.c
+> index 06548e2ebb72..36a4ff7f320b 100644
+> --- a/kernel/rcu/tree.c
+> +++ b/kernel/rcu/tree.c
+> @@ -57,6 +57,7 @@
+>  #include <linux/slab.h>
+>  #include <linux/sched/isolation.h>
+>  #include <linux/sched/clock.h>
+> +#include <linux/kasan.h>
+>  #include "../time/tick-internal.h"
+>
+>  #include "tree.h"
+> @@ -2668,6 +2669,7 @@ __call_rcu(struct rcu_head *head, rcu_callback_t func)
+>         head->func = func;
+>         head->next = NULL;
+>         local_irq_save(flags);
+> +       kasan_record_aux_stack(head);
+>         rdp = this_cpu_ptr(&rcu_data);
+>
+>         /* Add the callback to our list. */
+> diff --git a/lib/Kconfig.kasan b/lib/Kconfig.kasan
+> index 81f5464ea9e1..4e83cf6e3caa 100644
+> --- a/lib/Kconfig.kasan
+> +++ b/lib/Kconfig.kasan
+> @@ -58,6 +58,8 @@ config KASAN_GENERIC
+>           For better error detection enable CONFIG_STACKTRACE.
+>           Currently CONFIG_KASAN_GENERIC doesn't work with CONFIG_DEBUG_SLAB
+>           (the resulting kernel does not boot).
+> +         In generic mode KASAN prints the last two call_rcu() call stacks in
+> +         reports.
+>
+>  config KASAN_SW_TAGS
+>         bool "Software tag-based mode"
 > diff --git a/mm/kasan/common.c b/mm/kasan/common.c
-> index 8bc618289bb1..6500bc2bb70c 100644
+> index 2906358e42f0..8bc618289bb1 100644
 > --- a/mm/kasan/common.c
 > +++ b/mm/kasan/common.c
-> @@ -51,7 +51,7 @@ depot_stack_handle_t kasan_save_stack(gfp_t flags)
->         return stack_depot_save(entries, nr_entries, flags);
->  }
+> @@ -41,7 +41,7 @@
+>  #include "kasan.h"
+>  #include "../slab.h"
 >
-> -static inline void set_track(struct kasan_track *track, gfp_t flags)
-> +void kasan_set_track(struct kasan_track *track, gfp_t flags)
+> -static inline depot_stack_handle_t save_stack(gfp_t flags)
+> +depot_stack_handle_t kasan_save_stack(gfp_t flags)
+>  {
+>         unsigned long entries[KASAN_STACK_DEPTH];
+>         unsigned int nr_entries;
+> @@ -54,7 +54,7 @@ static inline depot_stack_handle_t save_stack(gfp_t flags)
+>  static inline void set_track(struct kasan_track *track, gfp_t flags)
 >  {
 >         track->pid = current->pid;
->         track->stack = kasan_save_stack(flags);
-> @@ -249,9 +249,7 @@ void kasan_cache_create(struct kmem_cache *cache, unsigned int *size,
->         *size += sizeof(struct kasan_alloc_meta);
->
->         /* Add free meta. */
-> -       if (IS_ENABLED(CONFIG_KASAN_GENERIC) &&
-> -           (cache->flags & SLAB_TYPESAFE_BY_RCU || cache->ctor ||
-> -            cache->object_size < sizeof(struct kasan_free_meta))) {
-> +       if (IS_ENABLED(CONFIG_KASAN_GENERIC)) {
-
-Why do we need to increase object size unconditionally?
-We only store info in free track when the object is free, so I would
-assume we still can generally overlap free track and the object
-itself. We store free track at the same time we use the quarantine
-link, and the quarantine link was overlapped with the object just
-fine.
-With this change we indeed increase object size, which we do not want
-in general.
-
-
->                 cache->kasan_info.free_meta_offset = *size;
->                 *size += sizeof(struct kasan_free_meta);
->         }
-> @@ -299,24 +297,6 @@ struct kasan_free_meta *get_free_info(struct kmem_cache *cache,
->         return (void *)object + cache->kasan_info.free_meta_offset;
+> -       track->stack = save_stack(flags);
+> +       track->stack = kasan_save_stack(flags);
 >  }
 >
-> -
-> -static void kasan_set_free_info(struct kmem_cache *cache,
-> -               void *object, u8 tag)
-> -{
-> -       struct kasan_alloc_meta *alloc_meta;
-> -       u8 idx = 0;
-> -
-> -       alloc_meta = get_alloc_info(cache, object);
-> -
-> -#ifdef CONFIG_KASAN_SW_TAGS_IDENTIFY
-> -       idx = alloc_meta->free_track_idx;
-> -       alloc_meta->free_pointer_tag[idx] = tag;
-> -       alloc_meta->free_track_idx = (idx + 1) % KASAN_NR_FREE_STACKS;
-> -#endif
-> -
-> -       set_track(&alloc_meta->free_track[idx], GFP_NOWAIT);
-> -}
-> -
->  void kasan_poison_slab(struct page *page)
->  {
->         unsigned long i;
-> @@ -396,6 +376,13 @@ void * __must_check kasan_init_slab_obj(struct kmem_cache *cache,
->         alloc_info = get_alloc_info(cache, object);
->         __memset(alloc_info, 0, sizeof(*alloc_info));
->
-> +       if (IS_ENABLED(CONFIG_KASAN_GENERIC)) {
-> +               struct kasan_free_meta *free_info;
-> +
-> +               free_info = get_free_info(cache, object);
-> +               __memset(free_info, 0, sizeof(*free_info));
-
-If we overlap free track with object, this will not be needed as well, right?
-
-> +       }
-> +
->         if (IS_ENABLED(CONFIG_KASAN_SW_TAGS))
->                 object = set_tag(object,
->                                 assign_tag(cache, object, true, false));
-> @@ -492,7 +479,7 @@ static void *__kasan_kmalloc(struct kmem_cache *cache, const void *object,
->                 KASAN_KMALLOC_REDZONE);
->
->         if (cache->flags & SLAB_KASAN)
-> -               set_track(&get_alloc_info(cache, object)->alloc_track, flags);
-> +               kasan_set_track(&get_alloc_info(cache, object)->alloc_track, flags);
->
->         return set_tag(object, tag);
->  }
+>  void kasan_enable_current(void)
 > diff --git a/mm/kasan/generic.c b/mm/kasan/generic.c
-> index 78d8e0a75a8a..988bc095b738 100644
+> index 56ff8885fe2e..78d8e0a75a8a 100644
 > --- a/mm/kasan/generic.c
 > +++ b/mm/kasan/generic.c
-> @@ -345,3 +345,21 @@ void kasan_record_aux_stack(void *addr)
->                 alloc_info->rcu_stack[1] = alloc_info->rcu_stack[0];
->         alloc_info->rcu_stack[0] = kasan_save_stack(GFP_NOWAIT);
->  }
+> @@ -325,3 +325,23 @@ DEFINE_ASAN_SET_SHADOW(f2);
+>  DEFINE_ASAN_SET_SHADOW(f3);
+>  DEFINE_ASAN_SET_SHADOW(f5);
+>  DEFINE_ASAN_SET_SHADOW(f8);
 > +
-> +void kasan_set_free_info(struct kmem_cache *cache,
-> +                               void *object, u8 tag)
+> +void kasan_record_aux_stack(void *addr)
 > +{
-> +       struct kasan_free_meta *free_meta;
+> +       struct page *page = kasan_addr_to_page(addr);
+> +       struct kmem_cache *cache;
+> +       struct kasan_alloc_meta *alloc_info;
+> +       void *object;
 > +
-> +       free_meta = get_free_info(cache, object);
-> +       kasan_set_track(&free_meta->free_track, GFP_NOWAIT);
-> +}
+> +       if (!(page && PageSlab(page)))
+> +               return;
 > +
-> +struct kasan_track *kasan_get_free_track(struct kmem_cache *cache,
-> +                               void *object, u8 tag)
-> +{
-> +       struct kasan_free_meta *free_meta;
+> +       cache = page->slab_cache;
+> +       object = nearest_obj(cache, page, addr);
+> +       alloc_info = get_alloc_info(cache, object);
 > +
-> +       free_meta = get_free_info(cache, object);
-> +       return &free_meta->free_track;
+> +       /* record last two call_rcu() call stacks */
+> +       if (alloc_info->rcu_stack[0])
+
+Do we need this if?
+
+If we do "alloc_info->rcu_stack[1] = alloc_info->rcu_stack[0]"
+unconditionally, then we will just move 0 from [0] to [1], which
+should be 0 at this point anyway.
+
+I think it will be more reasonable to rename rcu_stack to aux_stack,
+the function that stores the stacks is kasan_record_aux_stack.
+
+> +               alloc_info->rcu_stack[1] = alloc_info->rcu_stack[0];
+> +       alloc_info->rcu_stack[0] = kasan_save_stack(GFP_NOWAIT);
 > +}
 > diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
-> index 870c5dd07756..87ee3626b8b0 100644
+> index e8f37199d885..870c5dd07756 100644
 > --- a/mm/kasan/kasan.h
 > +++ b/mm/kasan/kasan.h
-> @@ -127,6 +127,9 @@ struct kasan_free_meta {
->          * Otherwise it might be used for the allocator freelist.
->          */
->         struct qlist_node quarantine_link;
-> +#ifdef CONFIG_KASAN_GENERIC
-> +       struct kasan_track free_track;
-> +#endif
->  };
+> @@ -104,7 +104,15 @@ struct kasan_track {
 >
->  struct kasan_alloc_meta *get_alloc_info(struct kmem_cache *cache,
-> @@ -168,6 +171,10 @@ void kasan_report_invalid_free(void *object, unsigned long ip);
+>  struct kasan_alloc_meta {
+>         struct kasan_track alloc_track;
+> +#ifdef CONFIG_KASAN_GENERIC
+> +       /*
+> +        * call_rcu() call stack is stored into struct kasan_alloc_meta.
+> +        * The free stack is stored into struct kasan_free_meta.
+> +        */
+> +       depot_stack_handle_t rcu_stack[2];
+> +#else
+>         struct kasan_track free_track[KASAN_NR_FREE_STACKS];
+> +#endif
+>  #ifdef CONFIG_KASAN_SW_TAGS_IDENTIFY
+>         u8 free_pointer_tag[KASAN_NR_FREE_STACKS];
+>         u8 free_track_idx;
+> @@ -159,6 +167,8 @@ void kasan_report_invalid_free(void *object, unsigned long ip);
+>
 >  struct page *kasan_addr_to_page(const void *addr);
 >
->  depot_stack_handle_t kasan_save_stack(gfp_t flags);
-> +void kasan_set_track(struct kasan_track *track, gfp_t flags);
-> +void kasan_set_free_info(struct kmem_cache *cache, void *object, u8 tag);
-> +struct kasan_track *kasan_get_free_track(struct kmem_cache *cache,
-> +                               void *object, u8 tag);
->
+> +depot_stack_handle_t kasan_save_stack(gfp_t flags);
+> +
 >  #if defined(CONFIG_KASAN_GENERIC) && \
 >         (defined(CONFIG_SLAB) || defined(CONFIG_SLUB))
+>  void quarantine_put(struct kasan_free_meta *info, struct kmem_cache *cache);
 > diff --git a/mm/kasan/report.c b/mm/kasan/report.c
-> index 5ee66cf7e27c..7e9f9f6d5e85 100644
+> index 80f23c9da6b0..5ee66cf7e27c 100644
 > --- a/mm/kasan/report.c
 > +++ b/mm/kasan/report.c
-> @@ -159,26 +159,6 @@ static void describe_object_addr(struct kmem_cache *cache, void *object,
->                 (void *)(object_addr + cache->object_size));
+> @@ -179,6 +179,17 @@ static struct kasan_track *kasan_get_free_track(struct kmem_cache *cache,
+>         return &alloc_meta->free_track[i];
 >  }
 >
-> -static struct kasan_track *kasan_get_free_track(struct kmem_cache *cache,
-> -               void *object, u8 tag)
-> -{
-> -       struct kasan_alloc_meta *alloc_meta;
-> -       int i = 0;
-> -
-> -       alloc_meta = get_alloc_info(cache, object);
-> -
-> -#ifdef CONFIG_KASAN_SW_TAGS_IDENTIFY
-> -       for (i = 0; i < KASAN_NR_FREE_STACKS; i++) {
-> -               if (alloc_meta->free_pointer_tag[i] == tag)
-> -                       break;
-> -       }
-> -       if (i == KASAN_NR_FREE_STACKS)
-> -               i = alloc_meta->free_track_idx;
-> -#endif
-> -
-> -       return &alloc_meta->free_track[i];
-> -}
-> -
->  #ifdef CONFIG_KASAN_GENERIC
->  static void print_stack(depot_stack_handle_t stack)
+> +#ifdef CONFIG_KASAN_GENERIC
+> +static void print_stack(depot_stack_handle_t stack)
+> +{
+> +       unsigned long *entries;
+> +       unsigned int nr_entries;
+> +
+> +       nr_entries = stack_depot_fetch(stack, &entries);
+> +       stack_trace_print(entries, nr_entries, 0);
+> +}
+> +#endif
+> +
+>  static void describe_object(struct kmem_cache *cache, void *object,
+>                                 const void *addr, u8 tag)
 >  {
-> diff --git a/mm/kasan/tags.c b/mm/kasan/tags.c
-> index 25b7734e7013..201dee5d6ae0 100644
-> --- a/mm/kasan/tags.c
-> +++ b/mm/kasan/tags.c
-> @@ -162,3 +162,40 @@ void __hwasan_tag_memory(unsigned long addr, u8 tag, unsigned long size)
->         kasan_poison_shadow((void *)addr, size, tag);
->  }
->  EXPORT_SYMBOL(__hwasan_tag_memory);
+> @@ -192,6 +203,19 @@ static void describe_object(struct kmem_cache *cache, void *object,
+>                 free_track = kasan_get_free_track(cache, object, tag);
+>                 print_track(free_track, "Freed");
+>                 pr_err("\n");
 > +
-> +void kasan_set_free_info(struct kmem_cache *cache,
-> +                               void *object, u8 tag)
-> +{
-> +       struct kasan_alloc_meta *alloc_meta;
-> +       u8 idx = 0;
-> +
-> +       alloc_meta = get_alloc_info(cache, object);
-> +
-> +#ifdef CONFIG_KASAN_SW_TAGS_IDENTIFY
-> +       idx = alloc_meta->free_track_idx;
-> +       alloc_meta->free_pointer_tag[idx] = tag;
-> +       alloc_meta->free_track_idx = (idx + 1) % KASAN_NR_FREE_STACKS;
+> +#ifdef CONFIG_KASAN_GENERIC
+> +               if (alloc_info->rcu_stack[0]) {
+> +                       pr_err("Last one call_rcu() call stack:\n");
+> +                       print_stack(alloc_info->rcu_stack[0]);
+> +                       pr_err("\n");
+> +               }
+> +               if (alloc_info->rcu_stack[1]) {
+> +                       pr_err("Second to last call_rcu() call stack:\n");
+> +                       print_stack(alloc_info->rcu_stack[1]);
+> +                       pr_err("\n");
+> +               }
 > +#endif
-> +
-> +       kasan_set_track(&alloc_meta->free_track[idx], GFP_NOWAIT);
-> +}
-> +
-> +struct kasan_track *kasan_get_free_track(struct kmem_cache *cache,
-> +                               void *object, u8 tag)
-> +{
-> +       struct kasan_alloc_meta *alloc_meta;
-> +       int i = 0;
-> +
-> +       alloc_meta = get_alloc_info(cache, object);
-> +
-> +#ifdef CONFIG_KASAN_SW_TAGS_IDENTIFY
-> +       for (i = 0; i < KASAN_NR_FREE_STACKS; i++) {
-> +               if (alloc_meta->free_pointer_tag[i] == tag)
-> +                       break;
-> +       }
-> +       if (i == KASAN_NR_FREE_STACKS)
-> +               i = alloc_meta->free_track_idx;
-> +#endif
-> +
-> +       return &alloc_meta->free_track[i];
-> +}
+>         }
+>
+>         describe_object_addr(cache, object, addr);
 > --
 > 2.18.0
+>
+> --
+> You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200518062603.4570-1-walter-zh.wu%40mediatek.com.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BYVF2cLdg6qaK%2B3NcU3kLz2Pys6NWxLAYfity5n5cjirA%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BaSmcoSeC7J7RgoVV8CanwCrEz%3DzNZYG%3D_8KX3U-57A5Q%40mail.gmail.com.
