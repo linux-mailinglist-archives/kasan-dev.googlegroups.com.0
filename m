@@ -1,127 +1,136 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBB45KTH3AKGQEFV7C2MI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDAZZCVNSYPBBXNMTH3AKGQELCGEBCQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oo1-xc37.google.com (mail-oo1-xc37.google.com [IPv6:2607:f8b0:4864:20::c37])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29D6C1DCADC
-	for <lists+kasan-dev@lfdr.de>; Thu, 21 May 2020 12:18:28 +0200 (CEST)
-Received: by mail-oo1-xc37.google.com with SMTP id s23sf3182660ook.7
-        for <lists+kasan-dev@lfdr.de>; Thu, 21 May 2020 03:18:28 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1590056307; cv=pass;
+Received: from mail-oi1-x237.google.com (mail-oi1-x237.google.com [IPv6:2607:f8b0:4864:20::237])
+	by mail.lfdr.de (Postfix) with ESMTPS id 37D291DCAE7
+	for <lists+kasan-dev@lfdr.de>; Thu, 21 May 2020 12:22:22 +0200 (CEST)
+Received: by mail-oi1-x237.google.com with SMTP id x67sf3030629oix.21
+        for <lists+kasan-dev@lfdr.de>; Thu, 21 May 2020 03:22:22 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1590056541; cv=pass;
         d=google.com; s=arc-20160816;
-        b=VV+hsH8Dx4W0TnQT7QgT3U1Y2arnlr8epJz+V1xT6kjznjzJdU5KQopx14Voq2S0up
-         cbpi5PStNliwSBrtBLs7hXDANiRyBrs3UwFEm7JOvY79DYsQ6EY0zmdFyknPmNbEELRX
-         e5rbjh3gzT15CzcP37y06p1qwOuE3ujLk4rEYpaB+pgftmrFarCMy51ab+Upoemyb+Zq
-         WL0vgB1UzctEwOc6qOFTo8wAzquBK+b3LhO16b0ELUxJcSwZqD5YUV81QsUCQgmQ7e7O
-         mGgoMbVrVWX1RR46jso4AaBAUEsdoU4sIw3rceyqaEnCFKcg14Bba1ihHREcbgP2WmuJ
-         CH9A==
+        b=Zy1gKUIJrid0BCH0ec5pYdb1Ejxjueshr8y8whR+vGN/R10u9wadXlgXfebDTQ8+7n
+         vbhgvW8XPb9vpbBOMDcchXvh8gXZaiwwGh7ZliXMOZ8NfbcUmDjapWZ3qS/hj8OpIZjR
+         JmyH6B2uhZvQlt8JYN54C2rQPAKKqUxOcHQk56RLIbBjCrb3x6W/iOHiHq4hawIxO9Ah
+         i0eykhVOtiukdC2+27S60wQLzazcCypuQuxROopwMoqP3Q80CZTJGEbwZGRol9nmkZux
+         AuK/7j35cfGZIkxXnDug8+0GUOUYMm7p94tAlJZLYWx79XyCEDgJKTCDsXyeNpqXXVT4
+         SE1A==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=/s7CBJiF/qVf2MdP+g1BlSQszJUhtF3SIezSRUTzViE=;
-        b=OOrff41xm/Yo81tY/uRe6Kv56sU4HYcQQC/nMUl3kJrvSFXx9ZUw5m8vOj/d1yJmgx
-         3qBQ0NBOokEAbsXtD4KYt4z13iDaWOyRadgD45obvpRjDlKSPxtYx+qdeKR6KQoq6RMs
-         Fysto7c2EtHAJ9SZvIF/I7c88LfMscqMLsDwPocodJnrumRUjaipBwCT3pwtorLbGuDd
-         LMXKezqfETR9Qn88WiBtVJTN7JcE7xoa0VDd4/2f3wY9Ra4U5lkovSQYYWMn5YtHW24F
-         syDE/+6yUSaNWeu/vKOR8AZMf1pmtCcCRI1OdGQ41VYFXZFc3lyEuJLJkhtWYZjUhfnQ
-         2xRw==
+         :list-id:mailing-list:precedence:user-agent:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:sender:dkim-signature;
+        bh=PXwKqsEp6MUenmY2eXpP3QKMaI9wFXHJuCIeTegAkEI=;
+        b=NMbFrHQQZpk6cVzABJ3BMntboZgtqwtTc+2VzYICcAz/i6pC0oIe3VLL0XOMsWjAFC
+         rNgfoY1zK2hUqLPWPAEsoyifEpY2lENMgj/cMFfV6NrBN+ubLxh5p5W0+FqwvaAPwJO8
+         WQWRGLxiaJRT0GHv9eoSFbOR5NjfsTBRE6b+ej5GghXOoLVCYcomF2xx1R0DbNjPg2OT
+         GcquXDIizVAkWFTsvIlp2a0szBGAw1PwkMwVNBvnlFlcu/FHc9yzyBQ5Mc3Yo3xdd88m
+         DlC0nR73/Za+xoPB9AVZuzd1iu4KfU0KSLnJI2VMoq1n65+KcTk0YyO4B37fqPrAk4Vw
+         GbHg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=g3fbfIYD;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::c43 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@kernel.org header.s=default header.b=sb5C65+d;
+       spf=pass (google.com: domain of will@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=will@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=/s7CBJiF/qVf2MdP+g1BlSQszJUhtF3SIezSRUTzViE=;
-        b=YQDn4oE891ioFb4zP3PoTQ5v4T8SJwrYmHN+gMD0bGVKL2ecxleugikoOZTDxh9rF5
-         gQNIhHXdx/zShlNe+j2iypr9aRnMlpSjIqKpKKZniieLAM1TJflCzz5I5aNxXGF2GxLs
-         JJJvPAmsqmPKG9b5C0tI5yraeqTsagdHZ84BvPaDFSu0NwOdSDzxl5+TkRLasPyDcRzs
-         z5kJuR7BQXWk0oBfSQUqDncFmFNTlmJimsAbUlOok6bzt1ahHWdh9yFBRJrDO6GH4Zd8
-         5S9hdHzYXvTBtxS3sw6x6pZ0Re2bSzb40cMMswUKD+ZIulTYWU18Vxz/4TxJtW58oIvF
-         1dJw==
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=PXwKqsEp6MUenmY2eXpP3QKMaI9wFXHJuCIeTegAkEI=;
+        b=fPt+QGsT6jMFa1NU1AcT5xCH6ug9k6YI+bqcrSqiuMpOSq+8azwp1kjFmHNDmo3kiF
+         gT1wzSCRj1kkBEvhZ0mD4tD1b/bR0Z4WIBp5b2FdrtSC1YyY3EVO4af+d0902JgJ7yb/
+         yg7V4QhX3BxXkbN6twqADBuFO9dpA+3LQP2UTiEkkmfADJv1PPjGIgZzZc2skPFEehr5
+         RU4hOHIPbzrpGYCm0ggIaja0yhyppowcrK+kiL6ATE5jcDmbqoCSJfGrIFLH2yfOBZqu
+         uLe1YRnaNJ1/PZDFHHCYUHEFevHQcgBTMlNHkLnh/at1pkwOLhXpqHafJZr++QOgQ5yj
+         sprg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=/s7CBJiF/qVf2MdP+g1BlSQszJUhtF3SIezSRUTzViE=;
-        b=CEpQOUK+mfl8Fg+PafCQpOyUhs6TYG9b+ws4tkDoPVY56TepaBPG/Z/DjZV4mbUWB9
-         bzTltg8Y5uvWG+djb5a2FhpZ5cn0gxHUXmlbuVXsDza6ljgNiBm42oep/Uj0eO57/Qc4
-         r2UeczEiANQ4ZX9LmkjWKN5g4GWW8XPk4sfHQpnEFSFE6eJDZPpvxhrT69xxK97eVzWh
-         IYDuDUPBX0XdyMyuff/A1/F+iteZ4Gs3DWdD/9yMXCdbG8T4D+2QQ967N5mxjwWu/iHf
-         lmL33xaxQm4dvHXWdgGwDAFBR7KMNzMNQNzN+9+jLog51ljtJT+Cw7Kjc+RCZx2qYCMT
-         xZQA==
-X-Gm-Message-State: AOAM533gvwFLz37bPuwPn4olKQcOYeDReUCx1BWUKDlxLLYnk/2n/GuL
-	dqKaiGp9JRNG4SM/n2P7rBQ=
-X-Google-Smtp-Source: ABdhPJxL+j79HaaUus3KxM2MRde0A8VwR9Q4ZRPOit6EBZ22WV8Z3m06MwpqNB29YKJt56s7xU1r0A==
-X-Received: by 2002:aca:eb96:: with SMTP id j144mr5721890oih.48.1590056307080;
-        Thu, 21 May 2020 03:18:27 -0700 (PDT)
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=PXwKqsEp6MUenmY2eXpP3QKMaI9wFXHJuCIeTegAkEI=;
+        b=dkc+U2mMmnkmfQBRTgZXdmqfo5QOdFoOYvONIWabEWNYpe1QGci+zWckctvofcVq/e
+         XfqE/BxjFeFejOXowdZ24TTLrRWUuz1cnQQI4t4+VYVd8rb+tUwoN6MJVUpa/Fu7/CX/
+         y3iiTXA4ym20Ihhq6xhRFcrnuj1MAtoVyHWdntqAqOYc2OJrGsTVCiKcwGNtibVMdEfj
+         4nc+nmdQxLmKaKiZj6E+DfeIjGm4e+aB+y+9D0UP4V72hR/PD3BmKvXirrAmv95Wm80p
+         g6qfkIUT/E84Dqgq51n7MfUVJVZocV4Fr28oLRcHjkkx/8k9gc8kw6Z+0Tnr6HCFsbW0
+         MZEQ==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM530kKZWvjw/+1sUDfPlp1W06e4xhYGWxaimbF3R2zlitZRxIDGjd
+	q6HgtDj6P3EJpxyOaeHpixE=
+X-Google-Smtp-Source: ABdhPJwot2B1027EoeBEFUW0SrASHTu9P+bfx7VbfZYPNppHNhIztAkjoIjGPnjiJEZfvuXjuBATpA==
+X-Received: by 2002:a05:6830:1d69:: with SMTP id l9mr7019715oti.127.1590056541176;
+        Thu, 21 May 2020 03:22:21 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:aca:502:: with SMTP id 2ls304507oif.11.gmail; Thu, 21 May
- 2020 03:18:26 -0700 (PDT)
-X-Received: by 2002:aca:3883:: with SMTP id f125mr6331122oia.28.1590056306816;
-        Thu, 21 May 2020 03:18:26 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1590056306; cv=none;
+Received: by 2002:aca:c54b:: with SMTP id v72ls315316oif.2.gmail; Thu, 21 May
+ 2020 03:22:20 -0700 (PDT)
+X-Received: by 2002:a54:4802:: with SMTP id j2mr6434249oij.170.1590056540823;
+        Thu, 21 May 2020 03:22:20 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1590056540; cv=none;
         d=google.com; s=arc-20160816;
-        b=gMUsLWgGiujZXEX+Axsn7cJjfelyUw3CB7pwJWWDDz3i16o+HjsYCh6P1qiPTC1fav
-         9Wf7uZiCEVfQl/855Mez81mBlQtM1XlhRCUcl6HA96j1e/OE/i0Y5XyhdZNYIfC96LNz
-         VjDPm1ZenE2Ptxg6NimffQmSFm9CvD+BjGwE1NnaDuKyCVA+hLXbhQ5Go9rsJ5qwF87S
-         Ckdm+4xqB9up3Y+6yNwTYWiJ3bP+t51cxNeSeJ2A3mk/vKqn1XOpoohD+uA/QwEjK480
-         7eteBmb1TJlvsXVOCM487qM7OXmzfmR5O35oO/V3Z8NSe5m40jx1bifFkJ2w/b1FFbHe
-         YTQQ==
+        b=XxiiUli0tETHcqkqwoqd3TR7svTke8n9JIXWt2oi9gx6CZaX6MieXrPFQ9jQSqomvZ
+         1dteO62NU7rKLGlKBqcygS1HYaJwuA59i6GxIW1Z8q7uOI7sLwFMdEFNqZx+54zhntKa
+         lnPe/b3v1vcJm9kNKDQ1LpJwIP+oS1AS5ihJMo1MH5hAoXN2E4QMJjAZgQCFjnWXhWhp
+         bXS2qir3swRy+0/GY4/bpmRcrsK3+kmwjn+owea548blJ3Tzox/cLcLUHOTdQlN51+Cl
+         eLiOMzGBr5UXs2SIazn7gdP9DFCh7R84oOH+Emr9mPtxgfuFvDhdhDIB3DvetQhF0kVj
+         07aw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=izKU/C7ocKPbE+164Qwv+Ka88gTqLAT8wcuVjIle3sU=;
-        b=jrAObOOJp3XpCb3W0Cui+sZl4unh2tJ0elnQeGakGANM4h5jHLVyh25vgnYKwxjywD
-         A5QfLAnIr8n/QWXiPJuXQCEJe4E0QRnENzMSAWIISNJZ+kgoEYtZcj1Ayzf06NoLNjIg
-         jczNq8juZP/STWdiSm41XiZPA5bYDgZfGv+aXgsn/LOShkdlDSROw53jHr5tEunF+VKc
-         33dSNMcOfdf+x/vVwOrbGY9G+R8+Uw6Dm6bEl/NTpha9NQgf3gvVr99B04n5iPl+KFvg
-         lRtrKzrHCM4SBomp/gPrhbo62ZFV2yqTtvK7AUXFQfRAddhcTPSiRnYe8T3/gHT7g4gk
-         7DyA==
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:dkim-signature;
+        bh=FjG7FeHqf0yFBkIPr3XlM8T0X3uBGaYdIxJzuG74aFQ=;
+        b=Wdn7ltg7OBb63HrupSi4AOJT7gao4W1Yfwg2wR9Kl6FS6HT4WIsBGjbdKKh0eHE4WU
+         VfB6QIS3LUYSnpFZ1/MbJFZzNmTEcRkO8CP/9uYV1iJ+OymPJu4MQ1L9wK7YXBPeRVL+
+         72k6q9KPAkdDymlL11DR82GD0QQfmKIN6M3CAvbNknzW6JVbbsYi3O/LtaAR5ACJ+UR0
+         vmdx6mcUt6+2EL5cQn1Na4dXjGCj1pZG6YH0Dg+wp2W/NqI4ERbHoqfWGh/cdZDAn+bN
+         1BCBkb4i7xy5JSCs7P59iWGx4IWCivpoadEGMBYzDgCLkhwbYS5tGAjM3umLlS6y/0mk
+         mdZQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=g3fbfIYD;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::c43 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-oo1-xc43.google.com (mail-oo1-xc43.google.com. [2607:f8b0:4864:20::c43])
-        by gmr-mx.google.com with ESMTPS id k65si472330oib.2.2020.05.21.03.18.26
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 21 May 2020 03:18:26 -0700 (PDT)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::c43 as permitted sender) client-ip=2607:f8b0:4864:20::c43;
-Received: by mail-oo1-xc43.google.com with SMTP id a83so1335253oob.9
-        for <kasan-dev@googlegroups.com>; Thu, 21 May 2020 03:18:26 -0700 (PDT)
-X-Received: by 2002:a4a:6241:: with SMTP id y1mr4526981oog.14.1590056306345;
- Thu, 21 May 2020 03:18:26 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200515150338.190344-1-elver@google.com> <20200515150338.190344-9-elver@google.com>
- <CANpmjNNdBrO=dJ1gL+y0w2zBFdB7G1E9g4uk7oDDEt_X9FaRVA@mail.gmail.com>
-In-Reply-To: <CANpmjNNdBrO=dJ1gL+y0w2zBFdB7G1E9g4uk7oDDEt_X9FaRVA@mail.gmail.com>
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Thu, 21 May 2020 12:18:14 +0200
-Message-ID: <CANpmjNPLVMTSUAARL94Pug21ab4+zNikO1HYN2fVO3LfM4aMuQ@mail.gmail.com>
-Subject: Re: [PATCH -tip 08/10] READ_ONCE, WRITE_ONCE: Remove data_race() wrapping
+       dkim=pass header.i=@kernel.org header.s=default header.b=sb5C65+d;
+       spf=pass (google.com: domain of will@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=will@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
+        by gmr-mx.google.com with ESMTPS id u15si461947otq.2.2020.05.21.03.22.20
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 21 May 2020 03:22:20 -0700 (PDT)
+Received-SPF: pass (google.com: domain of will@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
+Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPSA id 1AB3720721;
+	Thu, 21 May 2020 10:22:17 +0000 (UTC)
+Date: Thu, 21 May 2020 11:22:14 +0100
+From: Will Deacon <will@kernel.org>
 To: Marco Elver <elver@google.com>
-Cc: "Paul E. McKenney" <paulmck@kernel.org>, Dmitry Vyukov <dvyukov@google.com>, 
-	Alexander Potapenko <glider@google.com>, Andrey Konovalov <andreyknvl@google.com>, 
-	kasan-dev <kasan-dev@googlegroups.com>, LKML <linux-kernel@vger.kernel.org>, 
-	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@kernel.org>, 
-	Peter Zijlstra <peterz@infradead.org>, Will Deacon <will@kernel.org>, 
+Cc: "Paul E. McKenney" <paulmck@kernel.org>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Alexander Potapenko <glider@google.com>,
+	Andrey Konovalov <andreyknvl@google.com>,
+	kasan-dev <kasan-dev@googlegroups.com>,
+	LKML <linux-kernel@vger.kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
 	clang-built-linux <clang-built-linux@googlegroups.com>
+Subject: Re: [PATCH -tip 08/10] READ_ONCE, WRITE_ONCE: Remove data_race()
+ wrapping
+Message-ID: <20200521102214.GC5360@willie-the-truck>
+References: <20200515150338.190344-1-elver@google.com>
+ <20200515150338.190344-9-elver@google.com>
+ <CANpmjNNdBrO=dJ1gL+y0w2zBFdB7G1E9g4uk7oDDEt_X9FaRVA@mail.gmail.com>
+ <CANpmjNPLVMTSUAARL94Pug21ab4+zNikO1HYN2fVO3LfM4aMuQ@mail.gmail.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
+Content-Disposition: inline
+In-Reply-To: <CANpmjNPLVMTSUAARL94Pug21ab4+zNikO1HYN2fVO3LfM4aMuQ@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Original-Sender: will@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=g3fbfIYD;       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::c43 as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+ header.i=@kernel.org header.s=default header.b=sb5C65+d;       spf=pass
+ (google.com: domain of will@kernel.org designates 198.145.29.99 as permitted
+ sender) smtp.mailfrom=will@kernel.org;       dmarc=pass (p=NONE sp=NONE
+ dis=NONE) header.from=kernel.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -134,66 +143,57 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, 21 May 2020 at 11:47, Marco Elver <elver@google.com> wrote:
->
-> On Fri, 15 May 2020 at 17:04, Marco Elver <elver@google.com> wrote:
+On Thu, May 21, 2020 at 12:18:14PM +0200, Marco Elver wrote:
+> On Thu, 21 May 2020 at 11:47, Marco Elver <elver@google.com> wrote:
+> > On Fri, 15 May 2020 at 17:04, Marco Elver <elver@google.com> wrote:
+> > > diff --git a/include/linux/compiler.h b/include/linux/compiler.h
+> > > index 17c98b215572..fce56402c082 100644
+> > > --- a/include/linux/compiler.h
+> > > +++ b/include/linux/compiler.h
+> > > @@ -229,7 +229,7 @@ void ftrace_likely_update(struct ftrace_likely_data *f, int val,
+> > >  #define __READ_ONCE_SCALAR(x)                                          \
+> > >  ({                                                                     \
+> > >         typeof(x) *__xp = &(x);                                         \
+> > > -       __unqual_scalar_typeof(x) __x = data_race(__READ_ONCE(*__xp));  \
+> > > +       __unqual_scalar_typeof(x) __x = __READ_ONCE(*__xp);             \
+> > >         kcsan_check_atomic_read(__xp, sizeof(*__xp));                   \
 > >
-> > The volatile access no longer needs to be wrapped in data_race(),
-> > because we require compilers that emit instrumentation distinguishing
-> > volatile accesses.
+> > Some self-review: We don't need kcsan_check_atomic anymore, and this
+> > should be removed.
 > >
-> > Signed-off-by: Marco Elver <elver@google.com>
-> > ---
-> >  include/linux/compiler.h | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > I'll send v2 to address this (together with fix to data_race()
+> > removing nested statement expressions).
+> 
+> The other thing here is that we no longer require __xp, and can just
+> pass x into __READ_ONCE.
+> 
+> > >         smp_read_barrier_depends();                                     \
+> > >         (typeof(x))__x;                                                 \
+> > > @@ -250,7 +250,7 @@ do {                                                                        \
+> > >  do {                                                                   \
+> > >         typeof(x) *__xp = &(x);                                         \
+> > >         kcsan_check_atomic_write(__xp, sizeof(*__xp));                  \
 > >
-> > diff --git a/include/linux/compiler.h b/include/linux/compiler.h
-> > index 17c98b215572..fce56402c082 100644
-> > --- a/include/linux/compiler.h
-> > +++ b/include/linux/compiler.h
-> > @@ -229,7 +229,7 @@ void ftrace_likely_update(struct ftrace_likely_data *f, int val,
-> >  #define __READ_ONCE_SCALAR(x)                                          \
-> >  ({                                                                     \
-> >         typeof(x) *__xp = &(x);                                         \
-> > -       __unqual_scalar_typeof(x) __x = data_race(__READ_ONCE(*__xp));  \
-> > +       __unqual_scalar_typeof(x) __x = __READ_ONCE(*__xp);             \
-> >         kcsan_check_atomic_read(__xp, sizeof(*__xp));                   \
->
-> Some self-review: We don't need kcsan_check_atomic anymore, and this
-> should be removed.
->
-> I'll send v2 to address this (together with fix to data_race()
-> removing nested statement expressions).
+> > Same.
+> 
+> __xp can also be removed.
+> 
+> Note that this effectively aliases __WRITE_ONCE_SCALAR to
+> __WRITE_ONCE. To keep the API consistent with READ_ONCE, I assume we
+> want to keep __WRITE_ONCE_SCALAR, in case it is meant to change in
+> future?
 
-The other thing here is that we no longer require __xp, and can just
-pass x into __READ_ONCE.
+Ha! So I think this ends up being very similar to what I had *before* I
+rebased onto KCSAN:
 
-> >         smp_read_barrier_depends();                                     \
-> >         (typeof(x))__x;                                                 \
-> > @@ -250,7 +250,7 @@ do {                                                                        \
-> >  do {                                                                   \
-> >         typeof(x) *__xp = &(x);                                         \
-> >         kcsan_check_atomic_write(__xp, sizeof(*__xp));                  \
->
-> Same.
+https://git.kernel.org/pub/scm/linux/kernel/git/will/linux.git/tree/include/linux/compiler.h?h=rwonce/cleanup#n202
 
-__xp can also be removed.
+in which case you can drop __WRITE_ONCE_SCALAR; the _SCALAR things shouldn't
+be used outside of the implementation anyway.
 
-Note that this effectively aliases __WRITE_ONCE_SCALAR to
-__WRITE_ONCE. To keep the API consistent with READ_ONCE, I assume we
-want to keep __WRITE_ONCE_SCALAR, in case it is meant to change in
-future?
-
-> > -       data_race(({ __WRITE_ONCE(*__xp, val); 0; }));                  \
-> > +       __WRITE_ONCE(*__xp, val);                                       \
-> >  } while (0)
-> >
-> >  #define WRITE_ONCE(x, val)                                             \
-> > --
-> > 2.26.2.761.g0e0b3e54be-goog
-> >
+Will
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNPLVMTSUAARL94Pug21ab4%2BzNikO1HYN2fVO3LfM4aMuQ%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200521102214.GC5360%40willie-the-truck.
