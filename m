@@ -1,68 +1,131 @@
-Return-Path: <kasan-dev+bncBCH2XPOBSAERBEPPUD3AKGQEHLQKPMY@googlegroups.com>
+Return-Path: <kasan-dev+bncBD55JLOZ34EBB5FEUH3AKGQEZK44FCQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ot1-x33d.google.com (mail-ot1-x33d.google.com [IPv6:2607:f8b0:4864:20::33d])
-	by mail.lfdr.de (Postfix) with ESMTPS id D55ED1DF0AB
-	for <lists+kasan-dev@lfdr.de>; Fri, 22 May 2020 22:35:30 +0200 (CEST)
-Received: by mail-ot1-x33d.google.com with SMTP id o6sf3384747otp.0
-        for <lists+kasan-dev@lfdr.de>; Fri, 22 May 2020 13:35:30 -0700 (PDT)
+Received: from mail-pj1-x103e.google.com (mail-pj1-x103e.google.com [IPv6:2607:f8b0:4864:20::103e])
+	by mail.lfdr.de (Postfix) with ESMTPS id C789B1DF1D8
+	for <lists+kasan-dev@lfdr.de>; Sat, 23 May 2020 00:30:13 +0200 (CEST)
+Received: by mail-pj1-x103e.google.com with SMTP id o89sf9985876pjo.3
+        for <lists+kasan-dev@lfdr.de>; Fri, 22 May 2020 15:30:13 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1590186612; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=OmcvCpuM+THjbAVxoh/Adh+mNPMyjUDBz8lP712VA6JDYmXWR6k8q15C2jzLgtM16R
+         EolfGy8t7Uz5e5SnRj9e99Ki1TpfYk5WtScr0xrwtg477iRrA9VYXcSAYExxKaBMKTEW
+         dLGfqc5yH3B+s1EqNvI9eWWldor6hrsPu+f5DpaJO7wFXkA/FWD/KGLMnLCDyOP8PBmL
+         rnfWuWwiwg0/SXCKEQJUtjgkFOE2RFfWC/HZggMmSv+cEGJBI1Pq4zPqICQsaWmAUa2t
+         wiOc3gAThEp7MJw/qyUuwWY8Yk1rovmj9aMAMghsqMCcHRTH7CyZwYOOkXxgrbTOvn85
+         3q4Q==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:content-language:in-reply-to
+         :mime-version:user-agent:date:message-id:from:references:cc:to
+         :subject:sender:dkim-signature;
+        bh=jmFAFIwshKlAH+NrYWttLgTtX6TUViHjZiKIawXtnj4=;
+        b=S59H0KQvKlWsfMiQfX3Rlp9dWtAg3bkvpApQ+Viq9esdIZmonlYojmHFYAlw2cP+nM
+         p/4Ews5nTp7/6Y32yAACysqVmmlFakNu/SVS4snnE2MYP9F3V2u4aGJpccPKHjT7JEMj
+         a3BL1aTyxp6qA2xAtCs1Wwwvfwyyw1sJOZWBe1eWI0NWiaZgwss8k235TkB4FMUbnyI4
+         ZazYK+fZ1lhhxvbotWFaH/o4TrI148vgn+eq8YviGtKGON/+XNlG/4KphYSfTnGzvS33
+         h6+zL7JOTye7CRkIxlGjeyCjuqSnRuCpxIHE1SawZAeR+XwdiefE+QH07thdysnD/Stu
+         VAkA==
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@kernel.org header.s=default header.b=squkeIoz;
+       spf=pass (google.com: domain of shuah@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=shuah@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:date:from:to:message-id:subject:mime-version
-         :x-original-sender:precedence:mailing-list:list-id:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=mwB0eG2LD/cXFYBR8kliEIjOXPNrc+c8121PSg4Wf3o=;
-        b=cL8PzGCQkKSKrfD/+pl0t/QoftvcSD5SXq5dg3SQKQjbVaTfEiyAdfRpEka5dgAw4x
-         JQgn3/HDsed+D7ButGd6cezjxuN7anq8g9khOJXTE91UhLWSaQ9ax9al02exlXtxzzWY
-         cXcWI6nU4rcjggPGnpL+ziDu4BbNNqZ45LAEocMK+AKv1xisRRqpEBGci61/nEzvhh1P
-         BOs2ecV/U+LR1WziXUD/2V/ZmEQ8KL1Nm0BalUj44id0lp+vWGfdCQMrFP8B4IEFvYu4
-         aJmqCNq8v+W+kP049MRs8MqHUXBeN1dpufHF1qKgGjv9vxi/M0RR+s2C3sBUyprFvYAt
-         Lh6Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:message-id:subject:mime-version:x-original-sender
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=mwB0eG2LD/cXFYBR8kliEIjOXPNrc+c8121PSg4Wf3o=;
-        b=mwXntdnp8VL4+loniMb29iANxmVXu1P5K1ErC9cz1Qn65KAibU4d6ULgmTrgOAsbyL
-         qFKAdTOOlo2wjXmOjuWxl8JPfgkCUU2aX20xyYoTlqeJxGcMA7RuSmix4WUcXF6QNGHq
-         CNz5gcU64dpMZKKGuPsrVz1BEYua6okektYkhMo7qGyTtwzWOM3IwSb4HUS60n/E1ew6
-         QpEAunQvqxt7LfVpTx7Pkv8C7sD0blFAuqObWZFtty3Judjr1rmiEwERVS5uUdLX61A6
-         6Ig2HK1FuAbBkGD3al16kL42UCe2fCK+YAnl3HP7C4v7nhz/vu6VkyPgHfqxIZ8Fz/eW
-         m0iw==
+        h=sender:subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=jmFAFIwshKlAH+NrYWttLgTtX6TUViHjZiKIawXtnj4=;
+        b=lwNA+F3RnE9FKn5+zuxA/Ft4yCrP6MaWlDXlY5eeISAqfnulvSKnpOply8Vs46BMDm
+         yrtLcG+Mp3onbjjRL//WfdbgRqwTLGgjt7rBVrL2go/YZBn+8R1XHemIlfko8NeoxCH6
+         Kg98SXXm60eU0lenJ4tscLOrTxcc/nF63DVuYc3XuiaNftRpeiGOWTFMEXLLz3pry59p
+         k6ZT01YAlU4Tc6bTAgjUWzks+Lsi7CtF9Ttr0J+LfIcHu4RNahgFPtwvdhpTaD6YFnSb
+         JSSUz7ZXuGtlPeAFEr5B8/SSNr2/DDlpNHsnnTXm2au+prfMEemc+2yLDOdBcDh+IdYH
+         Qmqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:date:from:to:message-id:subject
-         :mime-version:x-original-sender:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=mwB0eG2LD/cXFYBR8kliEIjOXPNrc+c8121PSg4Wf3o=;
-        b=qbdnhIa+IkpnhF38GFDBc2cFSb6NbfMceagfCKnpxFO0tVJPip62/VE9+Z3lOtxKC3
-         XLvjiqT7SPAoPBGHlDqj6vHks4IiOySH4INfHCmXo4utMFvnhC8pefvZxMYdkYDolkwN
-         TAD8KeWluV39XOBvm7cRY4SGWKO/xCddSlFPUqPgVnhnkQhuYhT0UOPdC1XK4YKfWPxT
-         YHgJi3mOGfDDr9UVA/wX+fm+q/d59owAmCOk71VCmk/T7/LJ3GPlROVY/rOo1duLTN9S
-         PMleslDMr71aLz/cGK6Lud7Al1VYtU5/ORoIiVvQUeR5fjm60ACrAvk7qh9NkJ47ZUTi
-         6ibA==
+        h=sender:x-gm-message-state:subject:to:cc:references:from:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=jmFAFIwshKlAH+NrYWttLgTtX6TUViHjZiKIawXtnj4=;
+        b=f+TanMjT8kKzJbbDvUC12kXQZm6HbcfFvAjSIuvPIP00lgcHg6r/YwNtstu+bvxJN4
+         CicM9XHkrL0KH8X+iAmbdTWqJhL4vNjVEqQG2BUurpjY/RTq/ZhFOw4kmCR89xjAWnOp
+         ti+yn/2Zp9WUBO/Kh80C3B7X41/+1hg8lbqtvyZcQHeL2pb2XTFdTJSXDKuUb/rvs8Zf
+         DVL6LG8yZR76tJ5/XlI83JdatH9WxsMsxuY0HlUlIw2/sQvER2Wlu6CWrHXsN175okSQ
+         BY9/Q15Fncc+uJ5b0AtyuUvGiiiehWNAAPRacHL6jrW3rOvZ4XbcQg/XW3axN41VAMGD
+         caXw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM530ASlhlVS+gKyydO5SdAU8YfZC25XNEZX077/dCkwsULM/Z6Tnd
-	U9hbfUR6fwoPE4PeU+CnjdU=
-X-Google-Smtp-Source: ABdhPJy8f9U+7a9EMqO3jeHtRGrM54F6xt1E1nwv9K/1fGQRzjpqQA7kfSLjmFTPkMYvqB0xXORnGw==
-X-Received: by 2002:a9d:588:: with SMTP id 8mr6844938otd.183.1590179729633;
-        Fri, 22 May 2020 13:35:29 -0700 (PDT)
+X-Gm-Message-State: AOAM531PE4wVscH7/LLZqCNWRwY7cztXuzA9lmtg5oBV6bncJQGbffS9
+	Rfx3BPOXTiRO7XTwh29HZyg=
+X-Google-Smtp-Source: ABdhPJy5k/9gYXYA9YVSW1ccg/rKZPnzq1rsn66L3urYYJqs/fILO3TYXAH8l0FqIQHYJBNmv5E/Kw==
+X-Received: by 2002:a17:90b:30c5:: with SMTP id hi5mr6895015pjb.110.1590186612381;
+        Fri, 22 May 2020 15:30:12 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a9d:19af:: with SMTP id k44ls515312otk.4.gmail; Fri, 22 May
- 2020 13:35:29 -0700 (PDT)
-X-Received: by 2002:a9d:837:: with SMTP id 52mr12786149oty.282.1590179729088;
-        Fri, 22 May 2020 13:35:29 -0700 (PDT)
-Date: Fri, 22 May 2020 13:35:28 -0700 (PDT)
-From: =?UTF-8?B?5oWV5Yas5Lqu?= <mudongliangabcd@gmail.com>
-To: kasan-dev <kasan-dev@googlegroups.com>
-Message-Id: <18768d5f-b3ee-4c46-a87f-2d3642fd923b@googlegroups.com>
-Subject: Is this a bug in KASAN?
+Received: by 2002:a65:668c:: with SMTP id b12ls693665pgw.10.gmail; Fri, 22 May
+ 2020 15:30:12 -0700 (PDT)
+X-Received: by 2002:a63:f242:: with SMTP id d2mr16215320pgk.212.1590186611997;
+        Fri, 22 May 2020 15:30:11 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1590186611; cv=none;
+        d=google.com; s=arc-20160816;
+        b=DkkauKGkbPLLLDisnOvyRv6CtFt572GzyT4wxq8sHFCL+Kd0hbBXRGomu43a1V8ap0
+         yZSED7mxoGsKEcd7DxweYV9Ws86qzPQ3zxPNF8tU6584Gb+DtL9/3AjHaCuCADSmIqQ9
+         xcmdeIsNazo+Bk4+WQq3rZRVjQ7ZKsaLZEdFLxlX8vE7X3/2ZSC2MfhyuWL7TxZztsZQ
+         w6gKFtLjXn2ZVE0+xYG9M1cFgBUuOOkJioiau0r2hsoywmIaK3pkYx9IRkqCddjmPWeh
+         DMLg328qQ5BqmD/Mpa24fWCZqLwRqkmtmfbSXkNwXMX+jGzGWFicoapUsLc3QAOpBYZB
+         kACg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject
+         :dkim-signature;
+        bh=MD73iyvc2D6cuh2zaRiEzbthWk0N4+4A23FvKCERbtQ=;
+        b=tTRGqmkKtj2f5O1fcAL0ROCA5wdKtQySJcsX3WPrDr3SVREhjBVu5h0bD/bPOi6srg
+         oBp52hdPVZ0WTcjmA7Gs+QSJT3NXXQy/m2msHnmo+3zBPqJxUtrHa9EUVlpyJSqVhwbu
+         KvbxQeICmhqrNjSF94OLMsubq2n+TQ7YGENb0b9vzGNMtb9SICQUmph+j4lEipNcSIJm
+         EIinSfWsslu2Qk4TJnuAGykBB3RFS/qIzWkIxzv3uA0JJN2t99y/RfX4T1PpsDpaPyfA
+         Fvjfd0eDmNNQOfJ3iM41KaYz0WJunvuo/RPQafwcxOFwp/tcDB9busVh5y3fALryjIEu
+         f1aA==
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       dkim=pass header.i=@kernel.org header.s=default header.b=squkeIoz;
+       spf=pass (google.com: domain of shuah@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=shuah@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
+        by gmr-mx.google.com with ESMTPS id q1si706095pgg.5.2020.05.22.15.30.11
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 22 May 2020 15:30:11 -0700 (PDT)
+Received-SPF: pass (google.com: domain of shuah@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
+Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net [24.9.64.241])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPSA id B1E282100A;
+	Fri, 22 May 2020 22:30:10 +0000 (UTC)
+Subject: Re: [PATCH v7 0/5] KUnit-KASAN Integration
+To: Alan Maguire <alan.maguire@oracle.com>, David Gow <davidgow@google.com>,
+ brendanhiggins@google.com
+Cc: trishalfonso@google.com, aryabinin@virtuozzo.com, dvyukov@google.com,
+ mingo@redhat.com, peterz@infradead.org, juri.lelli@redhat.com,
+ vincent.guittot@linaro.org, linux-kernel@vger.kernel.org,
+ kasan-dev@googlegroups.com, kunit-dev@googlegroups.com,
+ linux-kselftest@vger.kernel.org, shuah <shuah@kernel.org>
+References: <20200424061342.212535-1-davidgow@google.com>
+ <alpine.LRH.2.21.2005031101130.20090@localhost>
+From: shuah <shuah@kernel.org>
+Message-ID: <26d96fb9-392b-3b20-b689-7bc2c6819e7b@kernel.org>
+Date: Fri, 22 May 2020 16:30:10 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: multipart/mixed; 
-	boundary="----=_Part_625_331356829.1590179728577"
-X-Original-Sender: mudongliangabcd@gmail.com
+In-Reply-To: <alpine.LRH.2.21.2005031101130.20090@localhost>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Language: en-US
+X-Original-Sender: shuah@kernel.org
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@kernel.org header.s=default header.b=squkeIoz;       spf=pass
+ (google.com: domain of shuah@kernel.org designates 198.145.29.99 as permitted
+ sender) smtp.mailfrom=shuah@kernel.org;       dmarc=pass (p=NONE sp=NONE
+ dis=NONE) header.from=kernel.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -75,141 +138,75 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-------=_Part_625_331356829.1590179728577
-Content-Type: multipart/alternative; 
-	boundary="----=_Part_626_1120365460.1590179728577"
+On 5/3/20 4:09 AM, Alan Maguire wrote:
+> On Thu, 23 Apr 2020, David Gow wrote:
+> 
+>> This patchset contains everything needed to integrate KASAN and KUnit.
+>>
+>> KUnit will be able to:
+>> (1) Fail tests when an unexpected KASAN error occurs
+>> (2) Pass tests when an expected KASAN error occurs
+>>
+>> Convert KASAN tests to KUnit with the exception of copy_user_test
+>> because KUnit is unable to test those.
+>>
+>> Add documentation on how to run the KASAN tests with KUnit and what to
+>> expect when running these tests.
+>>
+>> This patchset depends on:
+>> - "[PATCH v3 kunit-next 0/2] kunit: extend kunit resources API" [1]
+>> - "[PATCH v3 0/3] Fix some incompatibilites between KASAN and
+>>    FORTIFY_SOURCE" [2]
+>>
+>> Changes from v6:
+>>   - Rebased on top of kselftest/kunit
+>>   - Rebased on top of Daniel Axtens' fix for FORTIFY_SOURCE
+>>     incompatibilites [2]
+>>   - Removed a redundant report_enabled() check.
+>>   - Fixed some places with out of date Kconfig names in the
+>>     documentation.
+>>
+> 
+> Sorry for the delay in getting to this; I retested the
+> series with the above patchsets pre-applied; all looks
+> good now, thanks!  Looks like Daniel's patchset has a v4
+> so I'm not sure if that will have implications for applying
+> your changes on top of it (haven't tested it yet myself).
+> 
+> For the series feel free to add
+> 
+> Tested-by: Alan Maguire <alan.maguire@oracle.com>
+> 
+> I'll try and take some time to review v7 shortly, but I wanted
+> to confirm the issues I saw went away first in case you're
+> blocked.  The only remaining issue I see is that we'd need the
+> named resource patchset to land first; it would be good
+> to ensure the API it provides is solid so you won't need to
+> respin.
+> 
+> Thanks!
+> 
+> Alan
+>   
+>> Changes from v5:
+>>   - Split out the panic_on_warn changes to a separate patch.
+>>   - Fix documentation to fewer to the new Kconfig names.
+>>   - Fix some changes which were in the wrong patch.
+>>   - Rebase on top of kselftest/kunit (currently identical to 5.7-rc1)
+>>
+>
 
-------=_Part_626_1120365460.1590179728577
-Content-Type: text/plain; charset="UTF-8"
+Hi Brendan,
 
-Hi all, I found an issue in analyzing the bug(
-https://syzkaller.appspot.com/bug?id=d75bc1468fb7ff9c2fa47437f4f1dc87ec7d8094
-).
+Is this series ready to go inot Linux 5.8-rc1? Let me know.
+Probably needs rebase on top of kselftest/kunit. I applied
+patches from David and Vitor
 
-From the allocation and free trace, we could find that the related object 
-is "struct inode"(inode = kmem_cache_alloc(inode_cachep, GFP_KERNEL);  and 
-kmem_cache_free(inode_cachep, inode);)
-
-Allocated by task 2222:
- save_stack+0x43/0xd0 mm/kasan/kasan.c:448
- set_track mm/kasan/kasan.c:460 [inline]
- kasan_kmalloc+0xc4/0xe0 mm/kasan/kasan.c:553
- kasan_slab_alloc+0x12/0x20 mm/kasan/kasan.c:490
- kmem_cache_alloc+0x12e/0x760 mm/slab.c:3554
- *alloc_inode*+0xb2/0x190 fs/inode.c:212
- new_inode_pseudo+0x69/0x1a0 fs/inode.c:895
- get_pipe_inode fs/pipe.c:707 [inline]
- create_pipe_files+0x90/0x940 fs/pipe.c:748
- umh_pipe_setup+0xac/0x430 kernel/umh.c:431
- call_usermodehelper_exec_async+0x3c0/0x9e0 kernel/umh.c:93
- ret_from_fork+0x3a/0x50 arch/x86/entry/entry_64.S:412
-
-Freed by task 2222:
- save_stack+0x43/0xd0 mm/kasan/kasan.c:448
- set_track mm/kasan/kasan.c:460 [inline]
- __kasan_slab_free+0x11a/0x170 mm/kasan/kasan.c:521
- kasan_slab_free+0xe/0x10 mm/kasan/kasan.c:528
- __cache_free mm/slab.c:3498 [inline]
- kmem_cache_free+0x86/0x2d0 mm/slab.c:3756
- *free_inode_nonrcu*+0x1c/0x20 fs/inode.c:230
- destroy_inode+0x151/0x1f0 fs/inode.c:267
- evict+0x5cd/0x960 fs/inode.c:575
- iput_final fs/inode.c:1520 [inline]
- iput+0x62d/0xa80 fs/inode.c:1546
- dentry_unlink_inode+0x49a/0x620 fs/dcache.c:376
- __dentry_kill+0x444/0x790 fs/dcache.c:568
- dentry_kill+0xc9/0x5a0 fs/dcache.c:687
- dput.part.26+0x65a/0x780 fs/dcache.c:848
- dput+0x15/0x20 fs/dcache.c:830
- __fput+0x558/0x890 fs/file_table.c:227
- ____fput+0x15/0x20 fs/file_table.c:243
- task_work_run+0x1e4/0x290 kernel/task_work.c:113
- exit_task_work include/linux/task_work.h:22 [inline]
- do_exit+0x1aee/0x2730 kernel/exit.c:865
- do_group_exit+0x16f/0x430 kernel/exit.c:968
- __do_sys_exit_group kernel/exit.c:979 [inline]
- __se_sys_exit_group kernel/exit.c:977 [inline]
- __x64_sys_exit_group+0x3e/0x50 kernel/exit.c:977
- do_syscall_64+0x1b1/0x800 arch/x86/entry/common.c:287
- entry_SYSCALL_64_after_hwframe+0x49/0xbe
-
-But the use site of this bug is in the "io_is_direct". And the 
-corresponding memory reference is "return (filp->f_flags & O_DIRECT) || 
-IS_DAX(filp->f_mapping->host);". I do not find any operation related with 
-the inode object.
-
-So is this a bug in the KASAN?
+thanks,
+-- Shuah
 
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/18768d5f-b3ee-4c46-a87f-2d3642fd923b%40googlegroups.com.
-
-------=_Part_626_1120365460.1590179728577
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hi all, I found an issue in analyzing the bug(<a href=
-=3D"https://syzkaller.appspot.com/bug?id=3Dd75bc1468fb7ff9c2fa47437f4f1dc87=
-ec7d8094">https://syzkaller.appspot.com/bug?id=3Dd75bc1468fb7ff9c2fa47437f4=
-f1dc87ec7d8094</a>).</div><div><br></div><div>From the allocation and free =
-trace, we could find that the related object is &quot;struct inode&quot;(in=
-ode =3D kmem_cache_alloc(inode_cachep, GFP_KERNEL);=C2=A0 and kmem_cache_fr=
-ee(inode_cachep, inode);)</div><div><br></div><div><div>Allocated by task 2=
-222:</div><div>=C2=A0save_stack+0x43/0xd0 mm/kasan/kasan.c:448</div><div>=
-=C2=A0set_track mm/kasan/kasan.c:460 [inline]</div><div>=C2=A0kasan_kmalloc=
-+0xc4/0xe0 mm/kasan/kasan.c:553</div><div>=C2=A0kasan_slab_alloc+0x12/0x20 =
-mm/kasan/kasan.c:490</div><div>=C2=A0kmem_cache_alloc+0x12e/0x760 mm/slab.c=
-:3554</div><div>=C2=A0<b><font color=3D"#ff0000">alloc_inode</font></b>+0xb=
-2/0x190 fs/inode.c:212</div><div>=C2=A0new_inode_pseudo+0x69/0x1a0 fs/inode=
-.c:895</div><div>=C2=A0get_pipe_inode fs/pipe.c:707 [inline]</div><div>=C2=
-=A0create_pipe_files+0x90/0x940 fs/pipe.c:748</div><div>=C2=A0umh_pipe_setu=
-p+0xac/0x430 kernel/umh.c:431</div><div>=C2=A0call_usermodehelper_exec_asyn=
-c+0x3c0/0x9e0 kernel/umh.c:93</div><div>=C2=A0ret_from_fork+0x3a/0x50 arch/=
-x86/entry/entry_64.S:412</div><div><br></div><div>Freed by task 2222:</div>=
-<div>=C2=A0save_stack+0x43/0xd0 mm/kasan/kasan.c:448</div><div>=C2=A0set_tr=
-ack mm/kasan/kasan.c:460 [inline]</div><div>=C2=A0__kasan_slab_free+0x11a/0=
-x170 mm/kasan/kasan.c:521</div><div>=C2=A0kasan_slab_free+0xe/0x10 mm/kasan=
-/kasan.c:528</div><div>=C2=A0__cache_free mm/slab.c:3498 [inline]</div><div=
->=C2=A0kmem_cache_free+0x86/0x2d0 mm/slab.c:3756</div><div>=C2=A0<b><font c=
-olor=3D"#ff0000">free_inode_nonrcu</font></b>+0x1c/0x20 fs/inode.c:230</div=
-><div>=C2=A0destroy_inode+0x151/0x1f0 fs/inode.c:267</div><div>=C2=A0evict+=
-0x5cd/0x960 fs/inode.c:575</div><div>=C2=A0iput_final fs/inode.c:1520 [inli=
-ne]</div><div>=C2=A0iput+0x62d/0xa80 fs/inode.c:1546</div><div>=C2=A0dentry=
-_unlink_inode+0x49a/0x620 fs/dcache.c:376</div><div>=C2=A0__dentry_kill+0x4=
-44/0x790 fs/dcache.c:568</div><div>=C2=A0dentry_kill+0xc9/0x5a0 fs/dcache.c=
-:687</div><div>=C2=A0dput.part.26+0x65a/0x780 fs/dcache.c:848</div><div>=C2=
-=A0dput+0x15/0x20 fs/dcache.c:830</div><div>=C2=A0__fput+0x558/0x890 fs/fil=
-e_table.c:227</div><div>=C2=A0____fput+0x15/0x20 fs/file_table.c:243</div><=
-div>=C2=A0task_work_run+0x1e4/0x290 kernel/task_work.c:113</div><div>=C2=A0=
-exit_task_work include/linux/task_work.h:22 [inline]</div><div>=C2=A0do_exi=
-t+0x1aee/0x2730 kernel/exit.c:865</div><div>=C2=A0do_group_exit+0x16f/0x430=
- kernel/exit.c:968</div><div>=C2=A0__do_sys_exit_group kernel/exit.c:979 [i=
-nline]</div><div>=C2=A0__se_sys_exit_group kernel/exit.c:977 [inline]</div>=
-<div>=C2=A0__x64_sys_exit_group+0x3e/0x50 kernel/exit.c:977</div><div>=C2=
-=A0do_syscall_64+0x1b1/0x800 arch/x86/entry/common.c:287</div><div>=C2=A0en=
-try_SYSCALL_64_after_hwframe+0x49/0xbe</div></div><div><br></div><div>But t=
-he use site of this bug is in the &quot;io_is_direct&quot;. And the corresp=
-onding memory reference is &quot;return (filp-&gt;f_flags &amp; O_DIRECT) |=
-| IS_DAX(filp-&gt;f_mapping-&gt;host);&quot;. I do not find any operation r=
-elated with the inode object.</div><div><br></div><div>So is this a bug in =
-the KASAN?</div><div><br></div><div><br></div></div>
-
-<p></p>
-
--- <br />
-You received this message because you are subscribed to the Google Groups &=
-quot;kasan-dev&quot; group.<br />
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
-+unsubscribe@googlegroups.com</a>.<br />
-To view this discussion on the web visit <a href=3D"https://groups.google.c=
-om/d/msgid/kasan-dev/18768d5f-b3ee-4c46-a87f-2d3642fd923b%40googlegroups.co=
-m?utm_medium=3Demail&utm_source=3Dfooter">https://groups.google.com/d/msgid=
-/kasan-dev/18768d5f-b3ee-4c46-a87f-2d3642fd923b%40googlegroups.com</a>.<br =
-/>
-
-------=_Part_626_1120365460.1590179728577--
-
-------=_Part_625_331356829.1590179728577--
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/26d96fb9-392b-3b20-b689-7bc2c6819e7b%40kernel.org.
