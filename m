@@ -1,122 +1,69 @@
-Return-Path: <kasan-dev+bncBCT4XGV33UIBB6OGUH3AKGQE772ZWYY@googlegroups.com>
+Return-Path: <kasan-dev+bncBC66TOP4SALRBRO7UH3AKGQEP4HSBAA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oi1-x237.google.com (mail-oi1-x237.google.com [IPv6:2607:f8b0:4864:20::237])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5DF51DF319
-	for <lists+kasan-dev@lfdr.de>; Sat, 23 May 2020 01:42:50 +0200 (CEST)
-Received: by mail-oi1-x237.google.com with SMTP id m13sf6047472oic.2
-        for <lists+kasan-dev@lfdr.de>; Fri, 22 May 2020 16:42:50 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1590190969; cv=pass;
-        d=google.com; s=arc-20160816;
-        b=T+JE5VbJcz3FQYuD8zG2sSz7Hzhl2IG8TEB/CUzt0T56UHSwIi+x3qtE9ar43/PwcB
-         d6mzt3IqjLEzr1X1X7Fdd9Dj60z13Og3EqMU5h7A9bvfstyZPsEQhtDMiXNIlQl5f0zx
-         x/0GEVIiOybpo93pY7YK0040wryAGkTTySqB0ZdYvvXLhCz84fvPklZTx+nb5tNJqBWj
-         FFfM3W3ADKHXEZQ94tLEamAYSYnOyzJ6NO5YzUtP0XAR3DjSaE1E+Ap6pQ/WeNxKgKTm
-         cLSyBvyGLSNYdCI4+/A6tsxQy+s6cGAr2J5qEDUWRSBENOIIa23WQE/8c9zSnonOOJHO
-         REPQ==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:sender:dkim-signature;
-        bh=UYiHfxCozP8GAMutnF0UQmemmsuooJ1US3jV1rdX48Y=;
-        b=T4s0aMbHxR0DbAWz/kh8WMNHoWjbKFmuUOA/6wKG+014Fp9wXwLifF1ibWDuX/Ht44
-         Xh6jJqZbkV67kx/uLVMyodOzYIH9iTzpkXS566Q8+FbPqacV6+fqas9/oiuqV2d66SsN
-         9pbISP72s5Wx3papPJkBgnwmWZr9bPlSEtcpv9RQf57L/hMRnQLkPUVqLDwSx07uvC7c
-         y7otfHu3ddwkzKpJ5X9bJeHmMgpjRGGaaABCMBKxLmFSfVHEbWWfi5cN3Nd/KCQpqswy
-         nmGXQr7LOa3Tow6S24a6sZnFykYGZLd0URMiUbQKrfu5IiIG9KYRDmAEkVXpArBr/K1O
-         o/ow==
-ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=default header.b=mwbCPnxS;
-       spf=pass (google.com: domain of akpm@linux-foundation.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
+Received: from mail-ot1-x337.google.com (mail-ot1-x337.google.com [IPv6:2607:f8b0:4864:20::337])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CF381DF387
+	for <lists+kasan-dev@lfdr.de>; Sat, 23 May 2020 02:35:18 +0200 (CEST)
+Received: by mail-ot1-x337.google.com with SMTP id n22sf5654126otq.19
+        for <lists+kasan-dev@lfdr.de>; Fri, 22 May 2020 17:35:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:in-reply-to:references
-         :mime-version:x-original-sender:x-original-authentication-results
+        h=sender:date:from:to:message-id:subject:mime-version
+         :x-original-sender:precedence:mailing-list:list-id:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=RjeQUntK+QXS7cU+yd5D/0BBKEGO7CDaZVQpc9FN5sk=;
+        b=T5grPDRisXK51ePcQzeIysXmqO+3Y9ulVfN/k8wF+OmCEYrOwQZCvRng3E5NbPIqzI
+         hmmSKI2YDPNixWGcoVYgwZ2mycTMMwQVn2aBhdww5X9uHyBcxZxAB1JISU94wM/cG++i
+         wO/4/z3pd8POHp6yCZAViAJvmFXn9c/Kz6y4tEvxc+bpR3RM5ySLnqygieOxV7aJOOzC
+         6Yae1UsQxRbrD/BK8zE6FcTysqte+UAfnMjUaC/k0XwiozNrvVr8EvK1Dd2/Oq675AR6
+         WUvghDYcU+qKTsesFSK5NL6mHcqsr6KLNZI6hnSu3CTFhDbxFV6+7hJZ33CKX5lEel/I
+         64Bg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:message-id:subject:mime-version:x-original-sender
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=UYiHfxCozP8GAMutnF0UQmemmsuooJ1US3jV1rdX48Y=;
-        b=DsZPXncSsdRf3Ggm/t7rIGmI2RN1KgSVOtGB9dzZNGB7+b5T+B+qfkdWP+2+8vvh4w
-         +b1WIbzzvG9advgZ7qsrnvCLwsZkdDTxrPgwSFP01Ei/7zp00d/bWYnrY005KG5Aml0d
-         f0fu33udEc2UAgKnj9OcFJ8TJRkMGSvZ2SbN57gg9VKGIplJIaeql18i+IOx12ipO2eU
-         twKylIqPhopdcb/GGkS5sU49Cile+z96fF2/AoGkVBlNGIvYH6iq4kEu6+5ZB8YS+G3p
-         FuodBNzCXsleLR6vZc+N64ejxnOULHWFs+cTSBzNAWDvoxMpN26CRfE+bh3ZF/De2v3K
-         nZHw==
+        bh=RjeQUntK+QXS7cU+yd5D/0BBKEGO7CDaZVQpc9FN5sk=;
+        b=SHLwnbmNHV2QzVg9m7wLtsnpsIwFYyX3sjF+fUH19WvzfvFHVOIiVusSTZi+UhuH3j
+         reioZsDe+rRCaZQO4PT3pvy95oInf57jUVuXflHy6JB3pUMGflLwMq7t+2i1Gigb/ZMS
+         XK9GVxVwDM4dzfmDWcLuUqGcdb6KE+BWuDZn86C/9g2nCoKbX5eW2Kr8tkGUt6507PEv
+         6cilUtjJbXVxQdt9GiMNprzRH/itYlCAq76U9P72q6STgY5Bm0RnEcqRCSIpH7SMl7wE
+         ZBIJOJpa0glPPYi06Nv0CCtKmQmLWW2g3X84iSVy8/UNONsJf1GITDX0ja8BAl5UEGs3
+         5DxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :in-reply-to:references:mime-version:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
+        h=sender:x-gm-message-state:date:from:to:message-id:subject
+         :mime-version:x-original-sender:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=UYiHfxCozP8GAMutnF0UQmemmsuooJ1US3jV1rdX48Y=;
-        b=DhkEcoDVeUMiWQd2BADQbIyHAXJTlnxoiNEuDS50IGy7tDJ94/wzWlhcmRaTivQivx
-         6NZomH+ucftvR8Qr3Qb+d942dmYyj/VIvZtejKcppZRn7DoHZ/AaTpMzUT8Nb2P4MtBr
-         HzRlaPsCo42gj9EpKQJNsRrRUFh58Qe10h7BpJDty4othzSFzLxBFlSb81K3BwkkMJOn
-         DWymq0mpiETdyXea7vksZudhlgnct1Gz0E7bnPWSugFugqOMOq7hhUhK3SOKei9dEPqx
-         CnO5uqB+JPH5BjkpJSWxA3+FMAOSIJKJ0BwpD6oHkhEoDRJBUH4IzNgXxasRVss6R7M5
-         Ecjw==
+        bh=RjeQUntK+QXS7cU+yd5D/0BBKEGO7CDaZVQpc9FN5sk=;
+        b=uZ7UqqMH+zTU8oHiYXs1P2Zdic/Wh2mXlSxUOKvaeftjlkoBR6HEFfnX3LdewHfGS7
+         bBuCPEvQArakWGU5PDSTG9Sw/rNMx9SuCxTq0nEoVWxyRKfq7br6MvdlJba4UfWnTNR0
+         Bsx4CAD7Jx9fy2AHG4o5smOeDvRxHrRYgsiHOfckCJpqoMRE8YovYDRRMiSf19tTuNZK
+         b6FCK/oD2MG/kXapns5iKbNfOxdM1D37zJzTRFpEh9tUrPInTGUGxKmOYwnKTPOvt7j3
+         1dRGqU1H9oh6ohd0icDzxhJAEnv6ygInMm7VX24q9fMjMgu6ApUKyX+TeAWC03YP1LnZ
+         WiQw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM530zXo+R45EIl9zsmz/n1oE3gEBKFiybA7ak9jCYJgZynQRk7BnC
-	yxLWmNwU+9ZG/rlKHDqnKos=
-X-Google-Smtp-Source: ABdhPJzQvbZO35KJo0CV+oaM/7/fz5xy0w56cder/dVWuPL7SZwXn4X83RsvpybdKFPSDHaEkJsIiw==
-X-Received: by 2002:a9d:70ca:: with SMTP id w10mr12903924otj.216.1590190969824;
-        Fri, 22 May 2020 16:42:49 -0700 (PDT)
+X-Gm-Message-State: AOAM5327/aiJPKVbNvUxWFOESsKDS34uF+f+dk2HcnFgHMbDCTFiT2Pa
+	/Ns2PyZRt/6mUxbf9DCG/No=
+X-Google-Smtp-Source: ABdhPJzWJF0/LmQGQF+7ZPYItqyzHMn7eKe8R1qoc5BKsTbhodd6eM75UCQMoYURzY3WZIPzSJHM3Q==
+X-Received: by 2002:aca:b6c2:: with SMTP id g185mr4583668oif.166.1590194117163;
+        Fri, 22 May 2020 17:35:17 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a4a:e1a8:: with SMTP id 8ls163579ooy.4.gmail; Fri, 22 May
- 2020 16:42:49 -0700 (PDT)
-X-Received: by 2002:a4a:b346:: with SMTP id n6mr4941811ooo.18.1590190969432;
-        Fri, 22 May 2020 16:42:49 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1590190969; cv=none;
-        d=google.com; s=arc-20160816;
-        b=VCman5wro3STvKxEcNSlMHGolkzIBPc6Pce6IUMqlN8l7RRTTPb4RgQGQsnIKmqCAm
-         wYxQOzPJ+hMxF2lMhw5F3G2hmpXsYU+E+94r8PmyWFd96Z9mnJyF4F45uAou5uEPxWkI
-         1pHRKdQak90KM4nokTG42CAGvzitRP4KV4KL+PfblaO73WZT6hQbFAgrxbpurBHYa9Jv
-         AYkbShNpjyTF0Cc/CbvsfIHRebFSBstuZ8+Ce3JTdxiOZAqS2i5eSKZlCSsKhCrIhBwh
-         y2KAoJJ5jy4MJ/8CurHYM/SqbmhFgY8U8QgKosdC9o+vmkz4IifGXdrGGf+l1zPn9Wi9
-         71EA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:dkim-signature;
-        bh=pG2Rvu1hqf0wBe0whshoHy7zhZRMqOLGFffbMky0MSE=;
-        b=yfh9LefOr6S8SfZGBSzg/ZwxC9mCglkq8fs5ILcy8bQIVhDh3BGq52HH8YxUYwAHkr
-         aAvPNZNrN8AXJAvWIHx/8BQqGozegqeIqwFYNWgm6fI9Lz6zMWW1rEmczqESF8/Ztyup
-         XVq+q146rwhO4VDrpmewoxYEkenpk9MdA/N7d3xc1lN4BUUmhzZ5bhemeNpnLJSVps6M
-         9+IXEZhaJg2iYpiM4g4sMldyu+arreZNamormrj2SGECrKAXa0oIP7sGhqDa7AD5xxAV
-         PcISlk6kUEmPhuWy3Z6HwcKIBhb3MJpohQ0jLYp/AOSvYLnJAmYJT8OQnxpHIpypfzg6
-         HaMw==
-ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=default header.b=mwbCPnxS;
-       spf=pass (google.com: domain of akpm@linux-foundation.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
-Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id f197si753834oob.1.2020.05.22.16.42.49
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 22 May 2020 16:42:49 -0700 (PDT)
-Received-SPF: pass (google.com: domain of akpm@linux-foundation.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
-Received: from localhost.localdomain (c-73-231-172-41.hsd1.ca.comcast.net [73.231.172.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id 2AF7920723;
-	Fri, 22 May 2020 23:42:48 +0000 (UTC)
-Date: Fri, 22 May 2020 16:42:47 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Marco Elver <elver@google.com>
-Cc: dvyukov@google.com, glider@google.com, andreyknvl@google.com,
- linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
- aryabinin@virtuozzo.com, linux-mm@kvack.org, cai@lca.pw, kernel test robot
- <rong.a.chen@intel.com>
-Subject: Re: [PATCH v2] kasan: Disable branch tracing for core runtime
-Message-Id: <20200522164247.4a88aed496f0feb458d8bca0@linux-foundation.org>
-In-Reply-To: <20200522075207.157349-1-elver@google.com>
-References: <20200522075207.157349-1-elver@google.com>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: akpm@linux-foundation.org
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=default header.b=mwbCPnxS;       spf=pass
- (google.com: domain of akpm@linux-foundation.org designates 198.145.29.99 as
- permitted sender) smtp.mailfrom=akpm@linux-foundation.org
+Received: by 2002:aca:4790:: with SMTP id u138ls586575oia.3.gmail; Fri, 22 May
+ 2020 17:35:16 -0700 (PDT)
+X-Received: by 2002:aca:4e87:: with SMTP id c129mr4573781oib.9.1590194116833;
+        Fri, 22 May 2020 17:35:16 -0700 (PDT)
+Date: Fri, 22 May 2020 17:35:16 -0700 (PDT)
+From: robert mathews <mathewsrobert54@gmail.com>
+To: kasan-dev <kasan-dev@googlegroups.com>
+Message-Id: <18ea2d11-765b-4637-b0c0-e1f3763e5674@googlegroups.com>
+Subject: ANXIETY DISORDER MANAGEMENT ,INSOMNIA[TROUBLE SLEEPING ],treatment
+ or correction of erectile dysfunction and more
+MIME-Version: 1.0
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_713_1544680329.1590194116408"
+X-Original-Sender: mathewsrobert54@gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -129,27 +76,133 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, 22 May 2020 09:52:07 +0200 Marco Elver <elver@google.com> wrote:
+------=_Part_713_1544680329.1590194116408
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_714_20072058.1590194116409"
 
-> During early boot, while KASAN is not yet initialized, it is possible to
-> enter reporting code-path and end up in kasan_report(). While
-> uninitialized, the branch there prevents generating any reports,
-> however, under certain circumstances when branches are being traced
-> (TRACE_BRANCH_PROFILING), we may recurse deep enough to cause kernel
-> reboots without warning.
-> 
-> To prevent similar issues in future, we should disable branch tracing
-> for the core runtime.
-> 
-> Link: https://lore.kernel.org/lkml/20200517011732.GE24705@shao2-debian/
-> Reported-by: kernel test robot <rong.a.chen@intel.com>
-> Signed-off-by: Marco Elver <elver@google.com>
+------=_Part_714_20072058.1590194116409
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I assume this affects 5.6 and perhaps earlier kernels?
+I am one of the best, Reliable suppliers of chemical research products worl=
+d
+wide. Our shipping and delivery is 100% safe and convenient. We are ready
+to sell minimum quantities and large supplies of our product worldwide.
 
-I also assume that a cc:stable is appropriate for this fix?
+*INQUIRIES:
+-Email..... mathewsrobert54@gmail.com
+below are the list and price range of our products including delivery cost=
+=20
+NB,prices are slightly negotiable,
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200522164247.4a88aed496f0feb458d8bca0%40linux-foundation.org.
+Diazepam 5mgs 1000pills 100=C2=A3
+Diazepam 5mgs 2000pills 200=C2=A3
+Diazepam 5mgs 5000pills 480=C2=A3
+
+Diazepam 10mgs 1000pills 130=C2=A3
+Diazepam 10mgs 2000pills 210=C2=A3
+Diazepam 10mgs 5000pills 300=C2=A3
+Diazepam 10mgs 10000pills 600=C2=A3
+
+Ketamine 5vials 100=C2=A3
+Ketamine 10vials 180=C2=A3
+Ketamine 25vials 320=C2=A3
+
+FOR TRAMADOL SMALLER ORDER
+
+tramadol 100mg 300pills =C2=A380
+tramadol 200mg 300pills =C2=A3100
+tramadol 100mg 500pills =C2=A3130
+tramadol 200mg 500pills =C2=A3140
+tramadol 100mg 1000pills =C2=A3220
+tramadol 200mg 1000pills =C2=A3230
+tramadol 225mg 1000pills =C2=A3250
+
+FOR TRAMADOL BULK ORDER
+
+tramadol 100mg 5000pills =C2=A3600
+tramadol 200mg 5000pills =C2=A3700
+tramadol 225mg 5000pills =C2=A3800
+
+Viagra 100mg 1000pills 350=C2=A3
+Viagra 100mg 2000pills 600=C2=A3
+Viagra 100mg 5000pills 1000=C2=A3
+
+Xanax 0.5mg 1000pills 270=C2=A3
+Xanax 0.5mg 2000pills 500=C2=A3
+Xanax 0.5mg 5000pills 900=C2=A3
+
+other products available for sale
+
+alpha testo boast ..60 pills - =C2=A3100
+zopiclone 7.5mg,
+oxycodone 5mg & 10mg,
+
+
+*CONTACT:
+-Email...... mathewsrobert54@gmail.com
+Wickr=E2=80=A6..dinalarry
+WhatsApp=E2=80=A6.+237672864865
+Telegram=E2=80=A6..@l_oarry
+
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/18ea2d11-765b-4637-b0c0-e1f3763e5674%40googlegroups.com.
+
+------=_Part_714_20072058.1590194116409
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>I am one of the best, Reliable suppliers of chemical =
+research products world</div><div>wide. Our shipping and delivery is 100% s=
+afe and convenient. We are ready</div><div>to sell minimum quantities and l=
+arge supplies of our product worldwide.</div><div><br></div><div><span styl=
+e=3D"white-space:pre">	</span></div><div>*INQUIRIES:</div><div>-Email..... =
+mathewsrobert54@gmail.com</div><div>below are the list and price range of o=
+ur products including delivery cost=C2=A0</div><div>NB,prices are slightly =
+negotiable,</div><div><br></div><div>Diazepam 5mgs 1000pills 100=C2=A3</div=
+><div>Diazepam 5mgs 2000pills 200=C2=A3</div><div>Diazepam 5mgs 5000pills 4=
+80=C2=A3</div><div><br></div><div>Diazepam 10mgs 1000pills 130=C2=A3</div><=
+div>Diazepam 10mgs 2000pills 210=C2=A3</div><div>Diazepam 10mgs 5000pills 3=
+00=C2=A3</div><div>Diazepam 10mgs 10000pills 600=C2=A3</div><div><br></div>=
+<div>Ketamine 5vials 100=C2=A3</div><div>Ketamine 10vials 180=C2=A3</div><d=
+iv>Ketamine 25vials 320=C2=A3</div><div><br></div><div>FOR TRAMADOL SMALLER=
+ ORDER</div><div><br></div><div>tramadol 100mg 300pills =C2=A380</div><div>=
+tramadol 200mg 300pills =C2=A3100</div><div>tramadol 100mg 500pills =C2=A31=
+30</div><div>tramadol 200mg 500pills =C2=A3140</div><div>tramadol 100mg 100=
+0pills =C2=A3220</div><div>tramadol 200mg 1000pills =C2=A3230</div><div>tra=
+madol 225mg 1000pills =C2=A3250</div><div><br></div><div>FOR TRAMADOL BULK =
+ORDER</div><div><br></div><div>tramadol 100mg 5000pills =C2=A3600</div><div=
+>tramadol 200mg 5000pills =C2=A3700</div><div>tramadol 225mg 5000pills =C2=
+=A3800</div><div><br></div><div>Viagra 100mg 1000pills 350=C2=A3</div><div>=
+Viagra 100mg 2000pills 600=C2=A3</div><div>Viagra 100mg 5000pills 1000=C2=
+=A3</div><div><br></div><div>Xanax 0.5mg 1000pills 270=C2=A3</div><div>Xana=
+x 0.5mg 2000pills 500=C2=A3</div><div>Xanax 0.5mg 5000pills 900=C2=A3</div>=
+<div><br></div><div>other products available for sale</div><div><br></div><=
+div>alpha testo boast ..60 pills - =C2=A3100</div><div>zopiclone 7.5mg,</di=
+v><div>oxycodone 5mg &amp; 10mg,</div><div><br></div><div><br></div><div>*C=
+ONTACT:</div><div>-Email...... mathewsrobert54@gmail.com</div><div>Wickr=E2=
+=80=A6..dinalarry</div><div>WhatsApp=E2=80=A6.+237672864865</div><div>Teleg=
+ram=E2=80=A6..@l_oarry</div><div><br></div></div>
+
+<p></p>
+
+-- <br />
+You received this message because you are subscribed to the Google Groups &=
+quot;kasan-dev&quot; group.<br />
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
++unsubscribe@googlegroups.com</a>.<br />
+To view this discussion on the web visit <a href=3D"https://groups.google.c=
+om/d/msgid/kasan-dev/18ea2d11-765b-4637-b0c0-e1f3763e5674%40googlegroups.co=
+m?utm_medium=3Demail&utm_source=3Dfooter">https://groups.google.com/d/msgid=
+/kasan-dev/18ea2d11-765b-4637-b0c0-e1f3763e5674%40googlegroups.com</a>.<br =
+/>
+
+------=_Part_714_20072058.1590194116409--
+
+------=_Part_713_1544680329.1590194116408--
