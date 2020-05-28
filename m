@@ -1,129 +1,141 @@
-Return-Path: <kasan-dev+bncBCA2BG6MWAHBB7VMYD3AKGQE5MVGL6I@googlegroups.com>
+Return-Path: <kasan-dev+bncBCCZL45QXABBBB5YYD3AKGQESIM7NAY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yb1-xb40.google.com (mail-yb1-xb40.google.com [IPv6:2607:f8b0:4864:20::b40])
-	by mail.lfdr.de (Postfix) with ESMTPS id 645D81E6BB6
-	for <lists+kasan-dev@lfdr.de>; Thu, 28 May 2020 21:52:31 +0200 (CEST)
-Received: by mail-yb1-xb40.google.com with SMTP id g9sf168932ybc.1
-        for <lists+kasan-dev@lfdr.de>; Thu, 28 May 2020 12:52:31 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1590695550; cv=pass;
+Received: from mail-pg1-x538.google.com (mail-pg1-x538.google.com [IPv6:2607:f8b0:4864:20::538])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74F0D1E6C40
+	for <lists+kasan-dev@lfdr.de>; Thu, 28 May 2020 22:16:09 +0200 (CEST)
+Received: by mail-pg1-x538.google.com with SMTP id q5sf23008252pgt.16
+        for <lists+kasan-dev@lfdr.de>; Thu, 28 May 2020 13:16:09 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1590696967; cv=pass;
         d=google.com; s=arc-20160816;
-        b=nO0qQ7fwtcN3PQU/uGxWL0QwrbX0ocks+/H2D67Ol4Vvan+oWQh1aC1Nf0E/2mFKcB
-         KJcwytM20JiaWheIDOsOhs79LS2b+lH5wTUX53RzpVZIedGkZEs9pU7TZWTGfyAQzvsK
-         6yVu220179tudB3jFnrZ7c5TOpK7sDM0+I2HlQIXR5Skrd41L2omv89lvm1/tuVpEM53
-         jmopuXOmhvSIOLvAMMNxudm0Tm87wyDIuaymcP6J7oTowQD9dRHCzTweoXYu9GSjMfqi
-         7ISuQHbVr0QO+Bw29jzD2YYKMIOwJV9SxRnI/JlxYnqONsTdFPKOY4O+eUUOowjm4DfS
-         GFAw==
+        b=xhZ8r/FV6Glwt/78bEwTkAa3D8Hxk26gkCzVrNPYxCTf1VxZWiiPt9vyvsmMiGwLPi
+         cbT33yC7827JpnnK3hrJXjgL7DhZNfa5VxaTPrGirYuDR9MZtC/Qqu9+pDo9M+2Qithv
+         jQbT7Slx+53y+63/rjR0lQwsxOg9JlYiubMBzZtabp/tCT6n8FqGUYRbTMf16X1c2T/5
+         KrYCXGFoioYPGDKI2RyphhiYBcaW2TIeQJd47X52poiCU6ugEGPh42u/RS0L3SwEoTeu
+         NHUCW7fsZ/yE7ypUTyM1FatgQ8L8tsIG+kPw6iIOAqSPywc+i+bhSEn5uHAAxUp9j0zH
+         /xaw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=84TNZndHgFB0AbIyblFPU/fEr9YK/SWOgpp0F/XWlHs=;
-        b=z70LI6qkmKekeN0Mg/KcKc/CRbMyDYzI0antz3uskxrDm1UTJGkAf2tdH2XVq1fC5Z
-         xEoMGoK2UZtO/SSDwUlNWQFZ1w/mx65IKZ3vDXuRB09Es7YUHuihwZdamxp5W6yon4hd
-         eCQmPwYOuNo8gMwc7Lu3/XWGNrSozCjbkYhrvT8dIAHfHeJnSRJjdklhiXbv7SCKM+rz
-         b+HUlCmIBagQKl3MypAA/qQSpb/3h06OpHXYrn+O6x0JtKXKPbKkbalPaoy0o4oXzLnE
-         E/u9XrNFJ8CJ1tTs1FHVCn7dL+jYBI1XmVmxjgWtBq16DTDk6ojDOl1FU1tU0fZd7h6v
-         dRfQ==
+         :list-id:mailing-list:precedence:content-language:in-reply-to
+         :mime-version:user-agent:date:message-id:from:references:cc:to
+         :subject:sender:dkim-signature;
+        bh=96rk6qkaUPKhkWkNqSsc2hvCb23TNo/dZTGrmyPKJA4=;
+        b=NWM25OAKOSiHjzxjnqKW0eXu4TswHhk1iLxTs6HXqyXa2rBHTqhlNcOJ/gLpS8uEzM
+         3R5FVcpDQxt1Pjd0xuxBoUNI3QsyELSK02dilGppngzCs/JOSe12VSJ7CNPwIRPg5O0N
+         uG1URn7x9G6wnQPL0KOmWvouJb+ismEQ+uEh1BjDrAkW38vf4tsGlqGS+l/+XRyBVm9d
+         tlqvuvwX72DLeVr4K9yPGSL5kDJft5l/68VJnlLcfKXHA2gn620XoiCS//1tWpkSKqoL
+         KCOm3ncEhoifDUsW/RuZNucFM+hJivCby9OJ9Nyklea1gDMSm3k30KjClSwws20LgYuF
+         qF4w==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b="ijypAQ4/";
-       spf=pass (google.com: domain of brendanhiggins@google.com designates 2607:f8b0:4864:20::444 as permitted sender) smtp.mailfrom=brendanhiggins@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@linuxfoundation.org header.s=google header.b=eBP0mtNv;
+       spf=pass (google.com: domain of skhan@linuxfoundation.org designates 2607:f8b0:4864:20::241 as permitted sender) smtp.mailfrom=skhan@linuxfoundation.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=84TNZndHgFB0AbIyblFPU/fEr9YK/SWOgpp0F/XWlHs=;
-        b=cdo4lDSBrXG7MjP6igoLQ9hytinYWnfT6ZWPVCRfCxfAvwAjyS3lkJPCj01/R9/iba
-         6mGpPLyACWe5025YsYc6RSOUIeNC5KycBIIhBJ405bNhz/D/4GWPaUI7oJelO9n2U/9b
-         q24ySxPNLdgwYPLLDMEt+UEDXd+qC9TjFftKlOk0XgQxDwL27PYP4jc/irkeGESitMXc
-         mLsoNTkuJMfZan1v6qt3UGr298zZMkjad8vffjBoQA75N4QQ4lYPo7JEdBMm8P/UeHlp
-         hwReYxSClKeuq+T95Z+BEg0Lj/56Q2zSE2HORk67nyLUhH5e4NNBXjANk16Smm6MNLAD
-         jNsg==
+        h=sender:subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=96rk6qkaUPKhkWkNqSsc2hvCb23TNo/dZTGrmyPKJA4=;
+        b=iweQeqdOVHxaRuWqH0Fh7ghtewvs77naLbWQG1CdYZPpGiN7DT3A56qkybh9K2NyV1
+         tsBkLaWYnQT8p+6W0gMys/NKiNIQu/Wto1FYcXpqc+a9pUvXDGlqEE18Ruc3sokIurmH
+         pYIVkc1jRj6Fb/mVC43x0zDHUyvspesiCjGNJIbSTZKtfbyRjIx4lHFzgGoinxr137Dg
+         8g7/ipEEu1kVmw7PY+SY1zSGijDBnSt1BVTYVasKUck81v3G6uLVk8qhKCfbQDi03YYf
+         55T9/Ww0yutC6cc3C1XH3K2TUNkKUDbFr4H8Uy025F/2Z+3e2HKvMwhB5UqHbvdVcbux
+         lRiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=84TNZndHgFB0AbIyblFPU/fEr9YK/SWOgpp0F/XWlHs=;
-        b=RPQvXnr4ta74hyQ0Ht50N0GRQGvoi5BY17qGeOQZ+RNZhvgZ0K94acv0gI3HcBraPv
-         GPhcy0eWXT7RGN2lifITXWUs7ZDtkAjkld2Px5zuc1e/FES/B1+BLIX9ihBkPqYDXw5Y
-         PEcRKoe5KNzut5BeI+c3d0D+qSWdQGPYJD7rXPwhOHY32O85sO5QF5VE7xm9gqc6FCuN
-         h8sMHwtiIqK4veFkcgmznrX9RsUR5PEJfEMbDqXUv9wVmtxFTqnZIJK1J5gviQuvkj5E
-         QklfJbK5k80h35ehSxEsdoomvy3w+lWEJBe2dlNafpN2gR36KWr9ubu2o7ETu44p1OfV
-         oMoQ==
-X-Gm-Message-State: AOAM5334nD38TkqRrCwPE8RPTh50lIctlAPYkgt6hkNBD7Q+cfK3jTnp
-	Rcfxr4ShoUthodY/yUBjDKU=
-X-Google-Smtp-Source: ABdhPJxvBwom37v6Ya/7xpDhO7De+MWpzTKdFSUXTCp67gdfoDm8o9YnVFs5hzKimY/owtM6bzA0gg==
-X-Received: by 2002:a25:c6c7:: with SMTP id k190mr5427672ybf.422.1590695550419;
-        Thu, 28 May 2020 12:52:30 -0700 (PDT)
+        h=sender:x-gm-message-state:subject:to:cc:references:from:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=96rk6qkaUPKhkWkNqSsc2hvCb23TNo/dZTGrmyPKJA4=;
+        b=H80Egixm+Q+97NCLepEricd08RL+Odg/XrFQQdT2rz3IbP0Obm/a1WvC0Af4cmo50y
+         JGtUAnBkvsDQOVXq63O6grqPZWBKGVuS7YDUXOpZcsHDLCjcs7qK3w3U4urHVm7EwVN/
+         Vp25lt3gWnmd/fvCclhdG6ldA5YVAO1NTzPnNQyP6uj8D/a0dWy+9JkousYGcIzkigb4
+         p3NKLY55m/h2AlEWQn45AGVYMi/zWa+MALOHbJzzSk/gB9CBC47XmS49YJRgSzknRAcD
+         IP81ZhZ6lQX8QmK4+GDd5UDPMAHw6y8n72/YkwCfoYVsWVnavxTXzFghS1h0MAc/tAEY
+         ZyHg==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM5329lZh8/qOZWBMp/XKEcNDF95T7rsdVIjlwjcX1OCPpaCrKoiZq
+	Tv04UinfmmV8TOhDFH87+E8=
+X-Google-Smtp-Source: ABdhPJxlUuDzyyH2Y4Cc/eNhruMhs4bX2a9c8Aq9He7Mmj81xRELnddr6d64uzzcjjIaQLXIGnIpFg==
+X-Received: by 2002:a17:90b:1288:: with SMTP id fw8mr5598183pjb.160.1590696967600;
+        Thu, 28 May 2020 13:16:07 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6902:72b:: with SMTP id l11ls1347792ybt.8.gmail; Thu, 28
- May 2020 12:52:30 -0700 (PDT)
-X-Received: by 2002:a25:aaea:: with SMTP id t97mr8312600ybi.86.1590695550085;
-        Thu, 28 May 2020 12:52:30 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1590695550; cv=none;
+Received: by 2002:a63:b219:: with SMTP id x25ls1024314pge.8.gmail; Thu, 28 May
+ 2020 13:16:07 -0700 (PDT)
+X-Received: by 2002:a65:6799:: with SMTP id e25mr4886521pgr.9.1590696967169;
+        Thu, 28 May 2020 13:16:07 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1590696967; cv=none;
         d=google.com; s=arc-20160816;
-        b=w9QoWLlnR5q41/Fw355gHRMj1Dt9+FclXEbQOWbEsxGh419NS34hfA0v13o2gN2S75
-         hWmsZJuds781N9PpoPBOCeD3okD3+g/l9xpDeAaeoirf1ZZjTYTKnSsgjDjDgC3fo3ti
-         Cnsm+OR9oIvKawwDRrhSBo5IzW+pe/8klGwRl5BPCEM6DCzSXwIzbQvC9Ku+uc6t2gPp
-         rDHEatum2+IabKUI9YD3c+Pfb5BDJbCBduD9hKLrmyAmRWs5Axbff5nAKn4bQgGnFn3Y
-         GkyP9PoLlxVLkvKbOaJf0FwzR+xld7U+aXlKxGyYuyZRig+INuy1HsXVoXAthQFNIoIy
-         67jA==
+        b=rrGysIDOSnSAjD+XZkjHK8a+k+Wq8qNKHKbhs6MhRQa+0DcRg3c/ceMeHLfLP8mhXv
+         nJMem0JnOku2Ilz+Zi/MljDH0nnVhLnKRFwj+6TRCjqxhlPljhEISBfri2AQ5Yz00Y7L
+         p4eIisOrMtLv2y5BBqA6yNyntJ7DdC/2iWnhoQCDGI5NDoSk9EgVS1uJDov8fKtj7awE
+         rAD/uGRHXCnGUwouTDT0Vyt+wY3eJNoPRmBwdgd+jHmoc7OYemvwqtT2oKh/O4VXLQu2
+         Ti5Pj7ZuIPOkEYsoi6WRVJN/ckJNyTnfjP1GEFrUHnGwbzlFPZZr7wxTM/u7Dx2d+IV4
+         b1QQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=WYeCBR8WcHvQvd56ESdKiIjSS5Wn/icLWSDDTkY8XKE=;
-        b=u4aQzu5LPo50eojt1tyTKfimIKQm+Pez865oC+AmclpI59eYaP3ZsC0lLFiPDJiRdC
-         zyryWuwIFivpyThjWJrFdADsXooIEGDpGiyAXWi5uDVxp+eCf4t2KmoXeA3KBYQ/809q
-         mr0oMB1JkzpulbY7EOpHgf8VVrOuhsmJLFClUH1+uG4Zv++knxOw3E+Isq5UluuViycO
-         Ub9DgJpmVwudW19aeGBC6HAi0RnoSTEZOAW5USK1vMDJko4G2G9JKR2sVesYghM+b4LD
-         W4bTb4rlpbMxSDGQlXztjlN10EtwPliDrydbRtjawIbmLc1+bozr9AsMJ64VZZXp7ksb
-         ZJoA==
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject
+         :dkim-signature;
+        bh=G9v5weXtyKc3IseC+Bgo2LPHDLXxu13c4mrDGZBtUCE=;
+        b=Dii0Ho0sMRalXAmU/0krGPFkRGPWYcNvetoblxCaEs1iJzAfroNJKLux4ehI5VTGQT
+         p+xF1rXoanqmzD/3+MD+AMNaxN4QZwdGEslNywU77I9IgJvQAiSgthgYMEDfLWm4CHZN
+         2AZPyfuSt5W4qpM+amSI6JFU1zD7vsIo07HS0VP/JE8rWdhZllj4XoyapSWPGf8gruOs
+         5uXdCyt/bxGT+jrNVzLGixnfgHBtvx9Hs2CiMo3SAuRt8s/y5kSqrZLnCLlHJnJfrpqE
+         cdxu1wQwYdB1y3s1ZXMKenOEzPbvDJRs47aPXljSlorLlWWwkyI9qXD/DtT3T8rovZ2i
+         +biQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b="ijypAQ4/";
-       spf=pass (google.com: domain of brendanhiggins@google.com designates 2607:f8b0:4864:20::444 as permitted sender) smtp.mailfrom=brendanhiggins@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com. [2607:f8b0:4864:20::444])
-        by gmr-mx.google.com with ESMTPS id v184si31539ybb.5.2020.05.28.12.52.30
+       dkim=pass header.i=@linuxfoundation.org header.s=google header.b=eBP0mtNv;
+       spf=pass (google.com: domain of skhan@linuxfoundation.org designates 2607:f8b0:4864:20::241 as permitted sender) smtp.mailfrom=skhan@linuxfoundation.org
+Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com. [2607:f8b0:4864:20::241])
+        by gmr-mx.google.com with ESMTPS id a22si191363pjv.3.2020.05.28.13.16.07
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 28 May 2020 12:52:30 -0700 (PDT)
-Received-SPF: pass (google.com: domain of brendanhiggins@google.com designates 2607:f8b0:4864:20::444 as permitted sender) client-ip=2607:f8b0:4864:20::444;
-Received: by mail-pf1-x444.google.com with SMTP id 131so5716442pfv.13
-        for <kasan-dev@googlegroups.com>; Thu, 28 May 2020 12:52:30 -0700 (PDT)
-X-Received: by 2002:a63:d04b:: with SMTP id s11mr4435032pgi.384.1590695548943;
- Thu, 28 May 2020 12:52:28 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200424061342.212535-1-davidgow@google.com> <alpine.LRH.2.21.2005031101130.20090@localhost>
- <26d96fb9-392b-3b20-b689-7bc2c6819e7b@kernel.org> <CABVgOS=MueiJ6AHH6QUSWjipSezi1AvggxBCrh0Q9P_wa55XZQ@mail.gmail.com>
-In-Reply-To: <CABVgOS=MueiJ6AHH6QUSWjipSezi1AvggxBCrh0Q9P_wa55XZQ@mail.gmail.com>
-From: "'Brendan Higgins' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Thu, 28 May 2020 12:52:17 -0700
-Message-ID: <CAFd5g46Y-9vSSSke05hNyOoj3=OXcJh8bHGFciDVnwkSrpcjZw@mail.gmail.com>
+        Thu, 28 May 2020 13:16:07 -0700 (PDT)
+Received-SPF: pass (google.com: domain of skhan@linuxfoundation.org designates 2607:f8b0:4864:20::241 as permitted sender) client-ip=2607:f8b0:4864:20::241;
+Received: by mail-oi1-x241.google.com with SMTP id m67so376526oif.4
+        for <kasan-dev@googlegroups.com>; Thu, 28 May 2020 13:16:07 -0700 (PDT)
+X-Received: by 2002:a54:460a:: with SMTP id p10mr3528564oip.136.1590696966382;
+        Thu, 28 May 2020 13:16:06 -0700 (PDT)
+Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
+        by smtp.gmail.com with ESMTPSA id k69sm2109002oib.26.2020.05.28.13.16.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 28 May 2020 13:16:05 -0700 (PDT)
 Subject: Re: [PATCH v7 0/5] KUnit-KASAN Integration
-To: David Gow <davidgow@google.com>
-Cc: shuah <shuah@kernel.org>, Alan Maguire <alan.maguire@oracle.com>, 
-	Patricia Alfonso <trishalfonso@google.com>, Andrey Ryabinin <aryabinin@virtuozzo.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, Ingo Molnar <mingo@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>, 
-	Vincent Guittot <vincent.guittot@linaro.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, kasan-dev <kasan-dev@googlegroups.com>, 
-	KUnit Development <kunit-dev@googlegroups.com>, 
-	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: brendanhiggins@google.com
+To: Brendan Higgins <brendanhiggins@google.com>,
+ David Gow <davidgow@google.com>
+Cc: shuah <shuah@kernel.org>, Alan Maguire <alan.maguire@oracle.com>,
+ Patricia Alfonso <trishalfonso@google.com>,
+ Andrey Ryabinin <aryabinin@virtuozzo.com>, Dmitry Vyukov
+ <dvyukov@google.com>, Ingo Molnar <mingo@redhat.com>,
+ Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ kasan-dev <kasan-dev@googlegroups.com>,
+ KUnit Development <kunit-dev@googlegroups.com>,
+ "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <20200424061342.212535-1-davidgow@google.com>
+ <alpine.LRH.2.21.2005031101130.20090@localhost>
+ <26d96fb9-392b-3b20-b689-7bc2c6819e7b@kernel.org>
+ <CABVgOS=MueiJ6AHH6QUSWjipSezi1AvggxBCrh0Q9P_wa55XZQ@mail.gmail.com>
+ <CAFd5g46Y-9vSSSke05hNyOoj3=OXcJh8bHGFciDVnwkSrpcjZw@mail.gmail.com>
+From: Shuah Khan <skhan@linuxfoundation.org>
+Message-ID: <cadaba3e-f679-e275-4196-4e497eb27624@linuxfoundation.org>
+Date: Thu, 28 May 2020 14:16:04 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
+MIME-Version: 1.0
+In-Reply-To: <CAFd5g46Y-9vSSSke05hNyOoj3=OXcJh8bHGFciDVnwkSrpcjZw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Language: en-US
+X-Original-Sender: skhan@linuxfoundation.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b="ijypAQ4/";       spf=pass
- (google.com: domain of brendanhiggins@google.com designates
- 2607:f8b0:4864:20::444 as permitted sender) smtp.mailfrom=brendanhiggins@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Brendan Higgins <brendanhiggins@google.com>
-Reply-To: Brendan Higgins <brendanhiggins@google.com>
+ header.i=@linuxfoundation.org header.s=google header.b=eBP0mtNv;
+       spf=pass (google.com: domain of skhan@linuxfoundation.org designates
+ 2607:f8b0:4864:20::241 as permitted sender) smtp.mailfrom=skhan@linuxfoundation.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -136,104 +148,118 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, May 26, 2020 at 7:51 PM David Gow <davidgow@google.com> wrote:
->
-> On Sat, May 23, 2020 at 6:30 AM shuah <shuah@kernel.org> wrote:
-> >
-> > On 5/3/20 4:09 AM, Alan Maguire wrote:
-> > > On Thu, 23 Apr 2020, David Gow wrote:
-> > >
-> > >> This patchset contains everything needed to integrate KASAN and KUnit.
-> > >>
-> > >> KUnit will be able to:
-> > >> (1) Fail tests when an unexpected KASAN error occurs
-> > >> (2) Pass tests when an expected KASAN error occurs
-> > >>
-> > >> Convert KASAN tests to KUnit with the exception of copy_user_test
-> > >> because KUnit is unable to test those.
-> > >>
-> > >> Add documentation on how to run the KASAN tests with KUnit and what to
-> > >> expect when running these tests.
-> > >>
-> > >> This patchset depends on:
-> > >> - "[PATCH v3 kunit-next 0/2] kunit: extend kunit resources API" [1]
-> > >> - "[PATCH v3 0/3] Fix some incompatibilites between KASAN and
-> > >>    FORTIFY_SOURCE" [2]
-> > >>
-> > >> Changes from v6:
-> > >>   - Rebased on top of kselftest/kunit
-> > >>   - Rebased on top of Daniel Axtens' fix for FORTIFY_SOURCE
-> > >>     incompatibilites [2]
-> > >>   - Removed a redundant report_enabled() check.
-> > >>   - Fixed some places with out of date Kconfig names in the
-> > >>     documentation.
-> > >>
-> > >
-> > > Sorry for the delay in getting to this; I retested the
-> > > series with the above patchsets pre-applied; all looks
-> > > good now, thanks!  Looks like Daniel's patchset has a v4
-> > > so I'm not sure if that will have implications for applying
-> > > your changes on top of it (haven't tested it yet myself).
-> > >
-> > > For the series feel free to add
-> > >
-> > > Tested-by: Alan Maguire <alan.maguire@oracle.com>
-> > >
-> > > I'll try and take some time to review v7 shortly, but I wanted
-> > > to confirm the issues I saw went away first in case you're
-> > > blocked.  The only remaining issue I see is that we'd need the
-> > > named resource patchset to land first; it would be good
-> > > to ensure the API it provides is solid so you won't need to
-> > > respin.
-> > >
-> > > Thanks!
-> > >
-> > > Alan
-> > >
-> > >> Changes from v5:
-> > >>   - Split out the panic_on_warn changes to a separate patch.
-> > >>   - Fix documentation to fewer to the new Kconfig names.
-> > >>   - Fix some changes which were in the wrong patch.
-> > >>   - Rebase on top of kselftest/kunit (currently identical to 5.7-rc1)
-> > >>
-> > >
-> >
-> > Hi Brendan,
-> >
-> > Is this series ready to go inot Linux 5.8-rc1? Let me know.
-> > Probably needs rebase on top of kselftest/kunit. I applied
-> > patches from David and Vitor
-> >
-> > thanks,
-> > -- Shuah
-> >
->
-> Hi Shuah,
->
-> I think the only things holding this up are the missing dependencies:
-> the "extend kunit resources API" patches[1] for KUnit (which look
-> ready to me), and the "Fix some incompatibilities between KASAN and
-> FORTIFY_SOURCE" changes[2] on the KASAN side (which also seem ready).
->
-> This patchset may need a (likely rather trivial) rebase on top of
-> whatever versions of those end up merged: I'm happy to do that if
-> necessary.
->
-> Cheers,
-> -- David
->
-> [1]: https://lore.kernel.org/linux-kselftest/1585313122-26441-1-git-send-email-alan.maguire@oracle.com/T/#t
-> [2]: http://lkml.iu.edu/hypermail/linux/kernel/2004.3/00735.html
+On 5/28/20 1:52 PM, Brendan Higgins wrote:
+> On Tue, May 26, 2020 at 7:51 PM David Gow <davidgow@google.com> wrote:
+>>
+>> On Sat, May 23, 2020 at 6:30 AM shuah <shuah@kernel.org> wrote:
+>>>
+>>> On 5/3/20 4:09 AM, Alan Maguire wrote:
+>>>> On Thu, 23 Apr 2020, David Gow wrote:
+>>>>
+>>>>> This patchset contains everything needed to integrate KASAN and KUnit.
+>>>>>
+>>>>> KUnit will be able to:
+>>>>> (1) Fail tests when an unexpected KASAN error occurs
+>>>>> (2) Pass tests when an expected KASAN error occurs
+>>>>>
+>>>>> Convert KASAN tests to KUnit with the exception of copy_user_test
+>>>>> because KUnit is unable to test those.
+>>>>>
+>>>>> Add documentation on how to run the KASAN tests with KUnit and what to
+>>>>> expect when running these tests.
+>>>>>
+>>>>> This patchset depends on:
+>>>>> - "[PATCH v3 kunit-next 0/2] kunit: extend kunit resources API" [1]
+>>>>> - "[PATCH v3 0/3] Fix some incompatibilites between KASAN and
+>>>>>     FORTIFY_SOURCE" [2]
+>>>>>
+>>>>> Changes from v6:
+>>>>>    - Rebased on top of kselftest/kunit
+>>>>>    - Rebased on top of Daniel Axtens' fix for FORTIFY_SOURCE
+>>>>>      incompatibilites [2]
+>>>>>    - Removed a redundant report_enabled() check.
+>>>>>    - Fixed some places with out of date Kconfig names in the
+>>>>>      documentation.
+>>>>>
+>>>>
+>>>> Sorry for the delay in getting to this; I retested the
+>>>> series with the above patchsets pre-applied; all looks
+>>>> good now, thanks!  Looks like Daniel's patchset has a v4
+>>>> so I'm not sure if that will have implications for applying
+>>>> your changes on top of it (haven't tested it yet myself).
+>>>>
+>>>> For the series feel free to add
+>>>>
+>>>> Tested-by: Alan Maguire <alan.maguire@oracle.com>
+>>>>
+>>>> I'll try and take some time to review v7 shortly, but I wanted
+>>>> to confirm the issues I saw went away first in case you're
+>>>> blocked.  The only remaining issue I see is that we'd need the
+>>>> named resource patchset to land first; it would be good
+>>>> to ensure the API it provides is solid so you won't need to
+>>>> respin.
+>>>>
+>>>> Thanks!
+>>>>
+>>>> Alan
+>>>>
+>>>>> Changes from v5:
+>>>>>    - Split out the panic_on_warn changes to a separate patch.
+>>>>>    - Fix documentation to fewer to the new Kconfig names.
+>>>>>    - Fix some changes which were in the wrong patch.
+>>>>>    - Rebase on top of kselftest/kunit (currently identical to 5.7-rc1)
+>>>>>
+>>>>
+>>>
+>>> Hi Brendan,
+>>>
+>>> Is this series ready to go inot Linux 5.8-rc1? Let me know.
+>>> Probably needs rebase on top of kselftest/kunit. I applied
+>>> patches from David and Vitor
+>>>
+>>> thanks,
+>>> -- Shuah
+>>>
+>>
+>> Hi Shuah,
+>>
+>> I think the only things holding this up are the missing dependencies:
+>> the "extend kunit resources API" patches[1] for KUnit (which look
+>> ready to me), and the "Fix some incompatibilities between KASAN and
+>> FORTIFY_SOURCE" changes[2] on the KASAN side (which also seem ready).
+>>
+>> This patchset may need a (likely rather trivial) rebase on top of
+>> whatever versions of those end up merged: I'm happy to do that if
+>> necessary.
+>>
+>> Cheers,
+>> -- David
+>>
+>> [1]: https://lore.kernel.org/linux-kselftest/1585313122-26441-1-git-send-email-alan.maguire@oracle.com/T/#t
+>> [2]: http://lkml.iu.edu/hypermail/linux/kernel/2004.3/00735.html
+> 
+> As David pointed out, this series is waiting on its dependencies.
+> Sorry, I thought the "extend KUnit resources API" patchset was ready
+> to go, but I realized I only gave a reviewed-by to one of the patches.
+> Both have been reviewed now, but one patch needs a minor fix.
+> 
 
-As David pointed out, this series is waiting on its dependencies.
-Sorry, I thought the "extend KUnit resources API" patchset was ready
-to go, but I realized I only gave a reviewed-by to one of the patches.
-Both have been reviewed now, but one patch needs a minor fix.
+Yes. Thanks David.
 
-As for other patches, the patches from David, Vitor, and Anders should
-cover everything. Thanks!
+> As for other patches, the patches from David, Vitor, and Anders should
+> cover everything. Thanks!
+>
+I pulled David's and Vitor's patches. I am waiting for patch from
+Vitor to fix a problem that was introduced when I was resolving merge
+conflicts between Vitor's and David's patches.
+
+I will pull Anders patches.
+
+thanks,
+-- Shuah
+
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAFd5g46Y-9vSSSke05hNyOoj3%3DOXcJh8bHGFciDVnwkSrpcjZw%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/cadaba3e-f679-e275-4196-4e497eb27624%40linuxfoundation.org.
