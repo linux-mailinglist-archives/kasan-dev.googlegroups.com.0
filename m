@@ -1,153 +1,140 @@
-Return-Path: <kasan-dev+bncBDHYDDNWVUNRBJNRXX3AKGQESNISJYQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCQ6FHMJVICRBWXIX33AKGQE5PQROQY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pg1-x53c.google.com (mail-pg1-x53c.google.com [IPv6:2607:f8b0:4864:20::53c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F2E71E5781
-	for <lists+kasan-dev@lfdr.de>; Thu, 28 May 2020 08:22:31 +0200 (CEST)
-Received: by mail-pg1-x53c.google.com with SMTP id k21sf21337898pgn.14
-        for <lists+kasan-dev@lfdr.de>; Wed, 27 May 2020 23:22:31 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1590646950; cv=pass;
+Received: from mail-ua1-x93e.google.com (mail-ua1-x93e.google.com [IPv6:2607:f8b0:4864:20::93e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 16B051E617C
+	for <lists+kasan-dev@lfdr.de>; Thu, 28 May 2020 14:53:48 +0200 (CEST)
+Received: by mail-ua1-x93e.google.com with SMTP id x4sf4768615uar.4
+        for <lists+kasan-dev@lfdr.de>; Thu, 28 May 2020 05:53:48 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1590670426; cv=pass;
         d=google.com; s=arc-20160816;
-        b=H5b2tS1fjZVuVlswgBce41+8kgau8M92tFL3dbpTErMZiDcGixjY+bFLRYPbZBGAMR
-         ryg58V5/XSqLTsJYIN4oZrZGz8z+8xAwaAiHw1Zcs2QXuw3wLTSYpIH3PY0+qMbdMZQG
-         rineQr4PjmDykZ0zq5HpzdPtJiWQiR6ijf76nAqBM7Osub/bnR1x5cJtLUWKZMsm6Leg
-         FAI7kSMmHT1vSP5ldVkj3OsisBwfPWJtismYU0Yr0EiP0zWJuifskrqhosuUMO5Xqyc/
-         hk6il8wtmps1Y6+GQxd9+YXb7+zt5IpTgT/R9U54u2XFf0ZgB65nQLp/aTj4jzdxxEjC
-         elZg==
+        b=IhENQzuIlL8Lb7tOHRJnfsOKPax9HGTi7EMmoJ0ze0IyxvhlRBopAO+wZNZSqEywnA
+         +yLYSmLprlo0T4kaGf/W2H1WpWzkv6JGzCJ7oMIsyZfamwc+GQTUfhHdgC0UssvdpReV
+         NHrH7tvfawEBszNp6er9nhGADUSh6kwHubn2p3t9wETl8pIdphW+dzsFoLu6HW9fWVYp
+         0gGOFHvuG2YvIjKGuW8zl2bsupCmRk6x1rH6EVuwvvsKOM1j70U/rzCnH0VV3qERyRwf
+         9qpoLD+qYVXMqqhaWXUhBJZWzSCyG1kAAimZRkMVYNr30dWUtYnDBrJfH2WaJlTls7OG
+         MlFg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:sender:dkim-signature
-         :dkim-signature;
-        bh=7q7+5hrB4sigPo9gKKi8uRyXLBlDhrevhRXExtTb4KA=;
-        b=wZss4cUTuxg2CbVMMvIMRa7XkqcDll+xBetUbk+SSmYUdVZ0olaBImZHDBZvEt5b50
-         USq5YcMszthOnDzw592hLcbfbH6bZgc5k4KQHrLVtLpnXncf0ZEx51ECB+o8cti6o+bi
-         qbztAydYtLhvlELsVG3zaVvfkFJR+NMwdpax72q6lkydbkhYGLWSwTjw4l0uQOdXTTMS
-         zS43CtWwgaHJYs+TAsW5M3U0tljpM6nMoaqWy/RjXEpMB9/cpcD3IZrzHjPykWKM5l8H
-         w60yHqAUHgRX2HXGOFyFkEQu/z+2A4qF7fBBJzZIE+0eLRRvDg814MqylJjDismYo+O0
-         GfVg==
+         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:sender:dkim-signature;
+        bh=X1tRgILJQX2tCWt0n1F0Dh0DyH1/BZJ5F2qoXfdaShk=;
+        b=dcIWhKwgDDXwISDqKoQRQidBVnZJ1coUiYgmJKarQwYylQ/IMflfZgBhsYIeV7XZ6k
+         ZJNIANovAkDxB8cOmvxr5sZ96LRFS+nXRvUQm4b3VtqoV1NfE92xPn9cFRFDmj/XXOTe
+         nq4Fex/6lsalDRcXkGmj4MrEgMdG3N21so2mnVmyp6HZ0EGXzVZ21jH+4fVTxw8wMivi
+         nqVvVYtLQi/F4gWDy2ZgVPjHXFTn4Xzhc2M7OnYMg6ieL2+GjMk23FDcEtocBzVRhLFB
+         sFYDAEQuXwvOQ4wndikx/7eqCrGWnolerSJIjOIT30z+PoEzG3UHslL183LV767EekOw
+         czbA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20161025 header.b=WfiyTQKG;
-       spf=pass (google.com: domain of sedat.dilek@gmail.com designates 2607:f8b0:4864:20::d42 as permitted sender) smtp.mailfrom=sedat.dilek@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+       dkim=pass header.i=@canb.auug.org.au header.s=201702 header.b=DqxdiboI;
+       spf=pass (google.com: domain of sfr@canb.auug.org.au designates 2401:3900:2:1::2 as permitted sender) smtp.mailfrom=sfr@canb.auug.org.au
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:mime-version:references:in-reply-to:reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=7q7+5hrB4sigPo9gKKi8uRyXLBlDhrevhRXExtTb4KA=;
-        b=FoaxPOY2DxoIPndRarJt2pnOm61w+lCLY6oa2ixYXFPPFCRvAMkZzEXdrXYp441zro
-         INtFGSA7FbeaKsZWJgZe2JLgeBNuLvcr07omk4O1caB4XbDw3P0KDtVfBG7JA5rYB0B9
-         caHr22LhcCgTwBcNDRE3DEy4df6WO4M5sj2C+xU8Fk/h5whrPembjFLQ6fYCuJMucssA
-         PVQDYVk+9Xzg8Zz5JUDvQpbW4AVT6TwzwUd//U7ZZ5QJqJDiim7ileCIRvoqfFWAZFls
-         tqQamzQfPNnkeZ2wwVu4r2c7QmrAbyme9qN3FJCoaW1kXAFCagOyQ7ZmNspn3g+Q1SGU
-         seOQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc:x-original-sender:x-original-authentication-results
+        h=sender:date:from:to:cc:subject:message-id:in-reply-to:references
+         :mime-version:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=7q7+5hrB4sigPo9gKKi8uRyXLBlDhrevhRXExtTb4KA=;
-        b=LHbJJwCl0JdWVyNLPh+ghJVH7H+Vvs73RscUU+5zI3DLyLR9aWiLew4vrQsjPlHnIa
-         CKPZiol1TC8Bn8DszOTIqMQjMaieXfeLtU/77yqVwveB+Al2H6sPbG7yvh0hEvsuRF8p
-         3wPEYAigyVcAev7LOPIuj11eVZVM4pn00kZG/zCw7wKN9YECS95koYCAfcwpVAq2DdSc
-         OvUM8xAcbIslVsn54qHneqcPTBra/KFnk0f5C6G0uDhQgrs+sAFwlWkXWQV4uCxCHxGA
-         EfZKA1En7R08B00gVnR/i03b2caA0A9MegMDiE0M1KCKvq4EUlUAl0yeO38VBeeBmvjJ
-         SZLA==
+        bh=X1tRgILJQX2tCWt0n1F0Dh0DyH1/BZJ5F2qoXfdaShk=;
+        b=rDqsiLSkhhbv0ETG41FzAsXkjeDEZo0b5dm5ZtudTs4GUqozxulBJ0h/xKgA/jC5aC
+         aVSakwPWsNmry3FF2rZIGLeWUB16aXRzN5I4oECOMBs1chR4LMK63vFIuFrtJGARBH4+
+         PtECXgVp42YtTegs0pSS7Z9hsulVTdfQC6rGJwTFZne2Q+DwJ3fdZQr4yggjEnVy4pMt
+         GRJgEwvuIbRfHZ2KiqcSj8a8TMyc7NLnt5HuWCZXmRvHs8Gak5IGKPN5shBvB1d8zy0S
+         QVPXxE4tFKVyv6lXGnYF4C4+Ste6Tnx7QAIE7AcWnx2D8yeNfJ+Rx+ONXxH6kYLhCraF
+         BtsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:mime-version:references:in-reply-to
-         :reply-to:from:date:message-id:subject:to:cc:x-original-sender
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :in-reply-to:references:mime-version:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=7q7+5hrB4sigPo9gKKi8uRyXLBlDhrevhRXExtTb4KA=;
-        b=rwjCftpJe+DZ4ZPwaDwHFYC9jr/XfCgE0wHUVq4rf6aI14XfxyD2qcZeJQWXk+wVnL
-         vQ1e0S8OXPl6jQimbxUTC5ng7cfqTyiPMyP/kdKTCl2GUSTazFuRBMbqZDM2o1YCJ7Hg
-         NARVxY4WDoGN1LuALpZsHRwjZ+WF1Z3KnWTB8ZLiSqRNdBNOzUpbWPYxVZKOHPwFjO7l
-         BHIFSi+JCfNwiHlRK2VGL/4QuJGzRp8dGQ6mHJwAwR6oYmUztUXPOjYU5swrEtN/6kIT
-         a6aY/58ruQnXKuuf6Fe/I4GGLtsl6OsHVyc02Ww6mDfOhi1H8+Tnj+6bWsLAeVIJtZkT
-         YJUQ==
+        bh=X1tRgILJQX2tCWt0n1F0Dh0DyH1/BZJ5F2qoXfdaShk=;
+        b=S9/HRJT6VPQQtJO888uqaNSFRuJZuQPMWrkN5IrIZPhWk82JOKGxil7ehCA9p15oB2
+         xQCdkrzpJSALBSYvCBpGuuDORAWo1XxjiEtEbKU88B38f3+VqMmnC8WKVGwvCqRXb7ML
+         2IDCzsaJpg7vyjVFcHBAsTKwNdFV3vivuruQHxq40UbrZuCo3wqi7NDGBjBN9RRIpE6l
+         A0s7/B9OFuv/wUOAph0GK8NInK38di/HyxgO09VxtArROQkyyT8ZVIxVQ9tjtura8IcI
+         A4D/XZpoNeVxom7JrZX4jp+sK53Br+m7r7bR9YYEijT5uiKWubCaU8cGaVKVP0lr8LYu
+         F0iA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM531MZivDAPRjEnSc6CwEGfxqlUZSKab3zevdJkbzAbl4iFdi0INA
-	Nb2ld0E4arG7ClFgHcsOjcw=
-X-Google-Smtp-Source: ABdhPJzxhcFDiiA0jerI70rL2RkWBOgbBpUz5/p3lreW4u+9sBkop+3ZbTq4/KZ65rrR2LH+eJhpjg==
-X-Received: by 2002:a63:fc0e:: with SMTP id j14mr1480007pgi.264.1590646949702;
-        Wed, 27 May 2020 23:22:29 -0700 (PDT)
+X-Gm-Message-State: AOAM530AdVzD969QNf4HcWgv5c0Dx1N1Ke46cdoOMcWbUdrwv6TufrCX
+	ho/sB9g1wuEzj5UQAfPpQ0k=
+X-Google-Smtp-Source: ABdhPJyc3ijttbqk8wyd2lSHJZfsHKe2YodlqVSkOP9Pbr1ojSe3qT8BL4YEaXgMPhQDLPbSQDnzMA==
+X-Received: by 2002:a05:6102:3030:: with SMTP id v16mr1718706vsa.177.1590670426619;
+        Thu, 28 May 2020 05:53:46 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a63:521f:: with SMTP id g31ls454817pgb.2.gmail; Wed, 27 May
- 2020 23:22:29 -0700 (PDT)
-X-Received: by 2002:aa7:80d9:: with SMTP id a25mr1602993pfn.220.1590646949082;
-        Wed, 27 May 2020 23:22:29 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1590646949; cv=none;
+Received: by 2002:a9f:2462:: with SMTP id 89ls150124uaq.3.gmail; Thu, 28 May
+ 2020 05:53:46 -0700 (PDT)
+X-Received: by 2002:a9f:22c9:: with SMTP id 67mr1835010uan.13.1590670426190;
+        Thu, 28 May 2020 05:53:46 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1590670426; cv=none;
         d=google.com; s=arc-20160816;
-        b=VLF+QaAsz0fU85bvQqF9j6DT0Cu7kOwbJ+AK/GrzuLcv8YqfSlMXBQr0/FMJ2jFIh3
-         dtA6HL2vnIQO7uazokxMFZTdFBoRKqLIbc76c2Er6dR6X38qOuwf/GE7vVYVnFWc6VZa
-         2E2FefBsZJuKhfWQdE0w9FlhNzN6Z0a0tsamPHIAJhu4pMoA8d+QovENoQ7CgNMmGM3O
-         xFbD74PMnSmGxmPCK3a4+sJSOslGN7++mSGvspynT2NIv9+aaIf4VLJ4xqiIu3XAiqxi
-         /KA+mmCsMLdwsOppTpuA6XjbDaANPBdwJo6Ymgio3f5hUrNXWU0G+471Rmp91DiKdILM
-         JNHg==
+        b=fdBlPj5Rl6mPwMUp6ohUFsAUy7nyBaCEa2ZTP1mXQMBvknP2J7XBCTVXU1N7Gd+n0H
+         ndrhM4DuZ/V9W23KAjMfHAIIIwXbfsKsxw8oGP8BSN3hSKkHDRMdyGjrIZa6slrYj8JK
+         frInzgZP07ijVJP2V9/A9dMidddjx2kjf/TwNWBSLrw1MaUK25vlrNR3eJM9poZHXvl7
+         vy/+T0xihrRlOhmkWuXyLptd37vWUbeJz9yZ3ubfiXp4+cUPg4QJ52ZZP0o/dmYkZSV8
+         q+1fVkzabAUwJAhax1wZvxRIhhsBcS54odTdAly4yhwb/5k63zYjgZ9iFs87huLJcChg
+         FHGA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:reply-to:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=ApMydJklNvicE/rjcweMlO1leLGvq/JINlm5m40L3lA=;
-        b=J8klnEFQXPsi3Zj4uHR8HYTSymb0PL/JbXPrA6kuru9xxOl/nLjEn05Lfd4YlG0DoR
-         TBjfHfrM3GSIMiC/l7jMXppytba2PO15H5P/4saQ1oogkRsl+0SGPkIhBsK8SPcE5gKN
-         vz0GhFqEW3iVArVEu8FT2+G91UGFR9E5Y9FeycAr2z3YGmrUVZAL/avQGMip9fNQugAw
-         veafd9s9yzWImIhXpp4uc/Bk9GmZOIIzaJX/ApFRGq0k84VSgVN7SkK14YuVZJIlxPI3
-         qIaeN3SHsk6mlj5TuhPGXHh0lGKCO1IDgMssUdF8EIG5cwTwEYxXD+mK8FRbURbaPIZT
-         9VMQ==
+        h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+         :date:dkim-signature;
+        bh=ZBsCj2O8w8xTGzkKezsi4dWXexaPe4MLdXo5AvnuKpM=;
+        b=hD0s1JtbQhhDUq1uK/MVQDdbEdFGRk6aKd7g1wdV2xxxlXN5ck3i2Ixfk5SRD8Amhm
+         LuLs5u4t+YnaXKdE2tWxGbGtKgXC5/v1SUf7JPzMRhvMs0V2h0EAuhJOtCPatDRLsI+G
+         MVEOQLKcaX8JrSKwNWu1S6rvySGfUrWYvxkNXrq/6rfrZqy+HuYUo7YQtm4iuGnCTSgL
+         NUVpZ3S2KwT8iBhqIw/ZWqfZuqY37zsWPGbAGgj59jVPUTITaTzJAGh/fm/zTnJI2LdD
+         4y64u5wb5zzNks1U1W2vHIqbpy8cTSSu7eGNgfrM8T5pbszEZ7i4czDBgtzeykWlEE1N
+         PC+w==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20161025 header.b=WfiyTQKG;
-       spf=pass (google.com: domain of sedat.dilek@gmail.com designates 2607:f8b0:4864:20::d42 as permitted sender) smtp.mailfrom=sedat.dilek@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-io1-xd42.google.com (mail-io1-xd42.google.com. [2607:f8b0:4864:20::d42])
-        by gmr-mx.google.com with ESMTPS id k138si69963pfd.1.2020.05.27.23.22.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 27 May 2020 23:22:29 -0700 (PDT)
-Received-SPF: pass (google.com: domain of sedat.dilek@gmail.com designates 2607:f8b0:4864:20::d42 as permitted sender) client-ip=2607:f8b0:4864:20::d42;
-Received: by mail-io1-xd42.google.com with SMTP id c8so8399141iob.6;
-        Wed, 27 May 2020 23:22:29 -0700 (PDT)
-X-Received: by 2002:a02:ca18:: with SMTP id i24mr1261326jak.70.1590646948481;
- Wed, 27 May 2020 23:22:28 -0700 (PDT)
+       dkim=pass header.i=@canb.auug.org.au header.s=201702 header.b=DqxdiboI;
+       spf=pass (google.com: domain of sfr@canb.auug.org.au designates 2401:3900:2:1::2 as permitted sender) smtp.mailfrom=sfr@canb.auug.org.au
+Received: from ozlabs.org (ozlabs.org. [2401:3900:2:1::2])
+        by gmr-mx.google.com with ESMTPS id m12si391797vka.2.2020.05.28.05.53.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 May 2020 05:53:45 -0700 (PDT)
+Received-SPF: pass (google.com: domain of sfr@canb.auug.org.au designates 2401:3900:2:1::2 as permitted sender) client-ip=2401:3900:2:1::2;
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.ozlabs.org (Postfix) with ESMTPSA id 49Xngk1GHNz9sSF;
+	Thu, 28 May 2020 22:53:38 +1000 (AEST)
+Date: Thu, 28 May 2020 22:53:36 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: Marco Elver <elver@google.com>, Will Deacon <will@kernel.org>, Nick
+ Desaulniers <ndesaulniers@google.com>, "Paul E. McKenney"
+ <paulmck@kernel.org>, Dmitry Vyukov <dvyukov@google.com>, Alexander
+ Potapenko <glider@google.com>, Andrey Konovalov <andreyknvl@google.com>,
+ kasan-dev <kasan-dev@googlegroups.com>, LKML
+ <linux-kernel@vger.kernel.org>, Thomas Gleixner <tglx@linutronix.de>, Ingo
+ Molnar <mingo@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
+ clang-built-linux <clang-built-linux@googlegroups.com>, Borislav Petkov
+ <bp@alien8.de>
+Subject: Re: [PATCH -tip v3 09/11] data_race: Avoid nested statement
+ expression
+Message-ID: <20200528225336.2defab20@canb.auug.org.au>
+In-Reply-To: <CAK8P3a1BH5nXDK2VS7jWc_u2B1kztr4u9JMXhWF9-iZdrsb-7Q@mail.gmail.com>
+References: <20200521142047.169334-1-elver@google.com>
+	<20200521142047.169334-10-elver@google.com>
+	<CAKwvOdnR7BXw_jYS5PFTuUamcwprEnZ358qhOxSu6wSSSJhxOA@mail.gmail.com>
+	<CAK8P3a0RJtbVi1JMsfik=jkHCNFv+DJn_FeDg-YLW+ueQW3tNg@mail.gmail.com>
+	<20200526120245.GB27166@willie-the-truck>
+	<CAK8P3a29BNwvdN1YNzoN966BF4z1QiSxdRXTP+BzhM9H07LoYQ@mail.gmail.com>
+	<CANpmjNOUdr2UG3F45=JaDa0zLwJ5ukPc1MMKujQtmYSmQnjcXg@mail.gmail.com>
+	<20200526173312.GA30240@google.com>
+	<CAK8P3a3ZawPnzmzx4q58--M1h=v4X-1GtQLiwL1=G6rDK8=Wpg@mail.gmail.com>
+	<CAK8P3a3UYQeXhiufUevz=rwe09WM_vSTCd9W+KvJHJcOeQyWVA@mail.gmail.com>
+	<20200527072248.GA9887@willie-the-truck>
+	<CANpmjNO2A39XRQ9OstwKGKpZ6wQ4ebVcBNfH_ZhCTi8RG6WqYw@mail.gmail.com>
+	<CAK8P3a1BH5nXDK2VS7jWc_u2B1kztr4u9JMXhWF9-iZdrsb-7Q@mail.gmail.com>
 MIME-Version: 1.0
-References: <20200527103236.148700-1-elver@google.com> <CAK8P3a1MFgRxm6=+9WZKNzN+Nc5fhrDso6orSNQaaa-0yqygYA@mail.gmail.com>
- <CA+icZUWtzu0ONUSy0E27Mq1BrdO79qNaY3Si-PDhHZyF8M4S5g@mail.gmail.com>
- <CAK8P3a04=mVQgSrvDhpVxQj50JEFDn_xMhYrvjmUnLYTWH3QXQ@mail.gmail.com>
- <CA+icZUXVSTxDYJwXLyAwZd91cjMPcPRpeAR72JKqkqa-wRNnWg@mail.gmail.com>
- <CAK8P3a3i0kPf8dRg7Ko-33hsb+LkP=P05uz2tGvg5B43O-hFvg@mail.gmail.com>
- <CA+icZUWr5xDz5ujBfsXjnDdiBuopaGE6xO5LJQP9_y=YoROb+Q@mail.gmail.com>
- <CANpmjNOtKQAB_3t1G5Da-J1k-9Dk6eQKP+xNozRbmHJXZqXGFw@mail.gmail.com>
- <CA+icZUWzPMOj+qsDz-5Z3tD-hX5gcowjBkwYyiy8SL36Jg+2Nw@mail.gmail.com>
- <CANpmjNOPcFSr2n_ro8TqhOBXOBfUY0vZtj_VT7hh3HOhJN4BqQ@mail.gmail.com>
- <CA+icZUVK=5agY_FPdPeRbZyn3EoUgnmPToR3iGWuCzY+KHtoAA@mail.gmail.com>
- <CANpmjNOA2Oa=AJkKYadbvEVOaqzgD840aC5wfGGrFvDqUmjhpg@mail.gmail.com> <CA+icZUXu15=NK8wQgy=eeu=JcOGfB4Qr6UnwzTVvcH4T1L4pUQ@mail.gmail.com>
-In-Reply-To: <CA+icZUXu15=NK8wQgy=eeu=JcOGfB4Qr6UnwzTVvcH4T1L4pUQ@mail.gmail.com>
-Reply-To: sedat.dilek@gmail.com
-From: Sedat Dilek <sedat.dilek@gmail.com>
-Date: Thu, 28 May 2020 08:22:15 +0200
-Message-ID: <CA+icZUVogqZzSP9Kemgfe7CQ31Exn8vzzfUccJ-mCXQyUGBeMw@mail.gmail.com>
-Subject: Re: [PATCH -tip] compiler_types.h: Optimize __unqual_scalar_typeof
- compilation time
-To: Marco Elver <elver@google.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, Will Deacon <will@kernel.org>, 
-	Peter Zijlstra <peterz@infradead.org>, Borislav Petkov <bp@alien8.de>, 
-	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@kernel.org>, 
-	clang-built-linux <clang-built-linux@googlegroups.com>, 
-	"Paul E. McKenney" <paulmck@kernel.org>, Dmitry Vyukov <dvyukov@google.com>, 
-	Alexander Potapenko <glider@google.com>, Andrey Konovalov <andreyknvl@google.com>, 
-	kasan-dev <kasan-dev@googlegroups.com>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
-	Stephen Rothwell <sfr@canb.auug.org.au>
-Content-Type: multipart/alternative; boundary="00000000000053cdf505a6af5a0e"
-X-Original-Sender: sedat.dilek@gmail.com
+Content-Type: multipart/signed; boundary="Sig_/=gXnD5Mwv9r7w5Lq6vJ+mEE";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-Original-Sender: sfr@canb.auug.org.au
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20161025 header.b=WfiyTQKG;       spf=pass
- (google.com: domain of sedat.dilek@gmail.com designates 2607:f8b0:4864:20::d42
- as permitted sender) smtp.mailfrom=sedat.dilek@gmail.com;       dmarc=pass
- (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+ header.i=@canb.auug.org.au header.s=201702 header.b=DqxdiboI;       spf=pass
+ (google.com: domain of sfr@canb.auug.org.au designates 2401:3900:2:1::2 as
+ permitted sender) smtp.mailfrom=sfr@canb.auug.org.au
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -160,703 +147,79 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
---00000000000053cdf505a6af5a0e
+--Sig_/=gXnD5Mwv9r7w5Lq6vJ+mEE
 Content-Type: text/plain; charset="UTF-8"
 
-It took me 7 hours and 27 minutes - approx. 2h30m and 50 percent more than
-with clang-10 and Linux v5.7-rc7.
+Hi Arnd,
 
-- Sedat -
+On Wed, 27 May 2020 11:26:51 +0200 Arnd Bergmann <arnd@arndb.de> wrote:
+>
+> Right. I think there is still room for optimization around here, but
+> for v5.8 I'm happy enough with Marco's__unqual_scalar_typeof()
+> change. Stephen Rothwell is probably the one who's most affected
+> by compile speed, so it would be good to get an Ack/Nak from him
+> on whether this brings speed and memory usage back to normal
+> for him as well.
 
-Sedat Dilek <sedat.dilek@gmail.com> schrieb am Do., 28. Mai 2020, 04:12:
+Assuming you meant "[PATCH -tip] compiler_types.h: Optimize
+__unqual_scalar_typeof  compilation time"
+https://lore.kernel.org/lkml/20200527103236.148700-1-elver@google.com/
 
-> On Wed, May 27, 2020 at 9:15 PM Marco Elver <elver@google.com> wrote:
-> >
-> > On Wed, 27 May 2020 at 21:11, Sedat Dilek <sedat.dilek@gmail.com> wrote:
-> > >
-> > > On Wed, May 27, 2020 at 3:57 PM Marco Elver <elver@google.com> wrote:
-> > > >
-> > > > On Wed, 27 May 2020 at 15:37, Sedat Dilek <sedat.dilek@gmail.com>
-> wrote:
-> > > > >
-> > > > > On Wed, May 27, 2020 at 3:30 PM Marco Elver <elver@google.com>
-> wrote:
-> > > > > >
-> > > > > > On Wed, 27 May 2020 at 15:11, Sedat Dilek <sedat.dilek@gmail.com>
-> wrote:
-> > > > > > >
-> > > > > > > On Wed, May 27, 2020 at 2:50 PM Arnd Bergmann <arnd@arndb.de>
-> wrote:
-> > > > > > > >
-> > > > > > > > On Wed, May 27, 2020 at 2:35 PM Sedat Dilek <
-> sedat.dilek@gmail.com> wrote:
-> > > > > > > > > On Wed, May 27, 2020 at 2:31 PM Arnd Bergmann <
-> arnd@arndb.de> wrote:
-> > > > > > > > > > On Wed, May 27, 2020 at 1:36 PM Sedat Dilek <
-> sedat.dilek@gmail.com> wrote:
-> > > > > > > > > > > On Wed, May 27, 2020 at 1:27 PM Arnd Bergmann <
-> arnd@arndb.de> wrote:
-> > > > > > > > > > > > On Wed, May 27, 2020 at 12:33 PM Marco Elver <
-> elver@google.com> wrote:
-> > > > > > > > > > > >
-> > > > > > > > > > > > This gives us back 80% of the performance drop on
-> clang, and 50%
-> > > > > > > > > > > > of the drop I saw with gcc, compared to current
-> mainline.
-> > > > > > > > > > > >
-> > > > > > > > > > > > Tested-by: Arnd Bergmann <arnd@arndb.de>
-> > > > > > > > > > > >
-> > > > > > > > > > >
-> > > > > > > > > > > Hi Arnd,
-> > > > > > > > > > >
-> > > > > > > > > > > with "mainline" you mean Linux-next aka Linux v5.8 -
-> not v5.7?
-> > > > > > > > > >
-> > > > > > > > > > I meant v5.7.
-> > > > > > > > > >
-> > > > > > > > > > > I have not seen __unqual_scalar_typeof(x) in
-> compiler_types.h in Linux v5.7.
-> > > > > > > > > > >
-> > > > > > > > > > > Is there a speedup benefit also for Linux v5.7?
-> > > > > > > > > > > Which patches do I need?
-> > > > > > > > > >
-> > > > > > > > > > v5.7-rc is the baseline and is the fastest I currently
-> see. On certain files,
-> > > > > > > > > > I saw an intermittent 10x slowdown that was already
-> fixed earlier, now
-> > > > > > > > > > linux-next
-> > > > > > > > > > is more like 2x slowdown for me and 1.2x with this patch
-> on top, so we're
-> > > > > > > > > > almost back to the speed of linux-5.7.
-> > > > > > > > > >
-> > > > > > > > >
-> > > > > > > > > Which clang version did you use - and have you set KCSAN
-> kconfigs -
-> > > > > > > > > AFAICS this needs clang-11?
-> > > > > > > >
-> > > > > > > > I'm currently using clang-11, but I see the same problem
-> with older
-> > > > > > > > versions, and both with and without KCSAN enabled. I think
-> the issue
-> > > > > > > > is mostly the deep nesting of macros that leads to code
-> bloat.
-> > > > > > > >
-> > > > > > >
-> > > > > > > Thanks.
-> > > > > > >
-> > > > > > > With clang-10:
-> > > > > > >
-> > > > > > > $ scripts/diffconfig /boot/config-5.7.0-rc7-2-amd64-clang
-> .config
-> > > > > > >  BUILD_SALT "5.7.0-rc7-2-amd64-clang" ->
-> "5.7.0-rc7-3-amd64-clang"
-> > > > > > > +HAVE_ARCH_KCSAN y
-> > > > > >
-> > > > > > Clang 10 doesn't support KCSAN (HAVE_KCSAN_COMPILER unset).
-> > > > > >
-> > > > > > > With clang-11:
-> > > > > > >
-> > > > > > > $ scripts/diffconfig /boot/config-5.7.0-rc7-2-amd64-clang
-> .config
-> > > > > > >  BUILD_SALT "5.7.0-rc7-2-amd64-clang" ->
-> "5.7.0-rc7-3-amd64-clang"
-> > > > > > >  CLANG_VERSION 100001 -> 110000
-> > > > > > > +CC_HAS_ASM_INLINE y
-> > > > > > > +HAVE_ARCH_KCSAN y
-> > > > > > > +HAVE_KCSAN_COMPILER y
-> > > > > > > +KCSAN n
-> > > > > > >
-> > > > > > > Which KCSAN kconfigs did you enable?
-> > > > > >
-> > > > > > To clarify: as said in [1], KCSAN (or any other instrumentation)
-> is no
-> > > > > > longer relevant to the issue here, and the compile-time
-> regression is
-> > > > > > observable with most configs. The problem is due to
-> pre-processing and
-> > > > > > parsing, which came about due to new READ_ONCE() and the
-> > > > > > __unqual_scalar_typeof() macro (which this patch optimizes).
-> > > > > >
-> > > > > > KCSAN and new ONCEs got tangled up because we first attempted to
-> > > > > > annotate {READ,WRITE}_ONCE() with data_race(), but that turned
-> out to
-> > > > > > have all kinds of other issues (explanation in [2]). So we
-> decided to
-> > > > > > drop all the KCSAN-specific bits from ONCE, and require KCSAN to
-> be
-> > > > > > Clang 11. Those fixes were applied to the first version of new
-> > > > > > {READ,WRITE}_ONCE() in -tip, which actually restored the new
-> ONCEs to
-> > > > > > the pre-KCSAN version (now that KCSAN can deal with them without
-> > > > > > annotations).
-> > > > > >
-> > > > > > Hope this makes more sense now.
-> > > > > >
-> > > > > > [1]
-> https://lore.kernel.org/lkml/CANpmjNOUdr2UG3F45=JaDa0zLwJ5ukPc1MMKujQtmYSmQnjcXg@mail.gmail.com/
-> > > > > > [2]
-> https://lore.kernel.org/lkml/20200521142047.169334-1-elver@google.com/
-> > > > > >
-> > > > >
-> > > > > Thanks, Marco.
-> > > > >
-> > > > > I pulled tip.git#locking/kcsan on top of Linux v5.7-rc7 and
-> applied this patch.
-> > > > > Just wanted to try KCSAN for the first time and it will also be my
-> > > > > first building with clang-11.
-> > > > > That's why I asked.
-> > > >
-> > > > In general, CONFIG_KCSAN=y and the defaults for the other KCSAN
-> > > > options should be good. Depending on the size of your system, you
-> > > > could also tweak KCSAN runtime performance:
-> > > >
-> https://lwn.net/Articles/816850/#Interacting%20with%20KCSAN%20at%20Runtime
-> > > > -- the defaults should be good for most systems though.
-> > > > Hope this helps. Any more questions, do let me know.
-> > > >
-> > >
-> > > Which "projects" and packages do I need?
-> > >
-> > > I have installed:
-> > >
-> > > # LC_ALL=C apt-get install llvm-11 clang-11 lld-11
-> > > --no-install-recommends -t llvm-toolchain -y
-> > >
-> > > # dpkg -l | grep
-> > > 1:11~++20200527111130+65030821d4a-1~exp1~20200527091804.3261 | awk
-> > > '/^ii/ {print $1 " " $2 " " $3}' | column -t
-> > > ii  clang-11
-> > > 1:11~++20200527111130+65030821d4a-1~exp1~20200527091804.3261
-> > > ii  libclang-common-11-dev
-> > > 1:11~++20200527111130+65030821d4a-1~exp1~20200527091804.3261
-> > > ii  libclang-cpp11
-> > > 1:11~++20200527111130+65030821d4a-1~exp1~20200527091804.3261
-> > > ii  libclang1-11
-> > > 1:11~++20200527111130+65030821d4a-1~exp1~20200527091804.3261
-> > > ii  libllvm11:amd64
-> > > 1:11~++20200527111130+65030821d4a-1~exp1~20200527091804.3261
-> > > ii  lld-11
-> > > 1:11~++20200527111130+65030821d4a-1~exp1~20200527091804.3261
-> > > ii  llvm-11
-> > > 1:11~++20200527111130+65030821d4a-1~exp1~20200527091804.3261
-> > > ii  llvm-11-runtime
-> > > 1:11~++20200527111130+65030821d4a-1~exp1~20200527091804.3261
-> > >
-> > > Is that enough?
-> >
-> > Just clang-11 (and its transitive dependencies) is enough. Unsure what
-> > your installed binary is, likely "clang-11", so if you can do "make
-> > CC=clang-11 defconfig" (and check for CONFIG_HAVE_KCSAN_COMPILER)
-> > you're good to go.
-> >
->
-> I was able to build with clang-11 from apt.llvm.org.
->
-> [ build-time ]
->
-> Normally, it takes me approx. 05:00 to build with clang-10
-> (10.0.1-rc1) and Linux v5.7-rc7.
->
-> This time start: 21:18 and stop: 03:45 means 06:27 - took 01:27 longer.
->
-> Samsung Ultrabook 2nd generation aka Intel Sandybridge CPU with 'make -j3'.
->
-> [ diffconfig ]
->
->  BUILD_SALT "5.7.0-rc7-2-amd64-clang" -> "5.7.0-rc7-3-amd64-clang"
->  CLANG_VERSION 100001 -> 110000
-> +CC_HAS_ASM_INLINE y
-> +HAVE_ARCH_KCSAN y
-> +HAVE_KCSAN_COMPILER y
-> +KCSAN y
-> +KCSAN_ASSUME_PLAIN_WRITES_ATOMIC y
-> +KCSAN_DEBUG n
-> +KCSAN_DELAY_RANDOMIZE y
-> +KCSAN_EARLY_ENABLE y
-> +KCSAN_IGNORE_ATOMICS n
-> +KCSAN_INTERRUPT_WATCHER n
-> +KCSAN_NUM_WATCHPOINTS 64
-> +KCSAN_REPORT_ONCE_IN_MS 3000
-> +KCSAN_REPORT_RACE_UNKNOWN_ORIGIN y
-> +KCSAN_REPORT_VALUE_CHANGE_ONLY y
-> +KCSAN_SELFTEST y
-> +KCSAN_SKIP_WATCH 4000
-> +KCSAN_SKIP_WATCH_RANDOMIZE y
-> +KCSAN_UDELAY_INTERRUPT 20
-> +KCSAN_UDELAY_TASK 80
->
-> I am seeing this data-races:
->
-> root@iniza:~# LC_ALL=C dmesg -T | grep 'BUG: KCSAN: data-race'
-> [Thu May 28 03:51:53 2020] BUG: KCSAN: data-race in
-> mutex_spin_on_owner+0xe0/0x1b0
-> [Thu May 28 03:52:00 2020] BUG: KCSAN: data-race in mark_page_accessed
-> / workingset_activation
-> [Thu May 28 03:52:02 2020] BUG: KCSAN: data-race in
-> mutex_spin_on_owner+0xe0/0x1b0
-> [Thu May 28 03:52:08 2020] BUG: KCSAN: data-race in
-> blk_mq_sched_dispatch_requests / blk_mq_sched_dispatch_requests
-> [Thu May 28 03:52:10 2020] BUG: KCSAN: data-race in dd_has_work /
-> dd_insert_requests
-> [Thu May 28 03:52:11 2020] BUG: KCSAN: data-race in
-> mutex_spin_on_owner+0xe0/0x1b0
-> [Thu May 28 03:52:13 2020] BUG: KCSAN: data-race in
-> page_counter_try_charge / page_counter_try_charge
-> [Thu May 28 03:52:15 2020] BUG: KCSAN: data-race in ep_poll_callback /
-> ep_send_events_proc
-> [Thu May 28 03:52:21 2020] BUG: KCSAN: data-race in
-> mutex_spin_on_owner+0xe0/0x1b0
-> [Thu May 28 03:52:25 2020] BUG: KCSAN: data-race in
-> mutex_spin_on_owner+0xe0/0x1b0
-> [Thu May 28 03:52:26 2020] BUG: KCSAN: data-race in dd_has_work /
-> deadline_remove_request
-> [Thu May 28 03:52:31 2020] BUG: KCSAN: data-race in dd_has_work /
-> deadline_remove_request
-> [Thu May 28 03:52:38 2020] BUG: KCSAN: data-race in dd_has_work /
-> deadline_remove_request
-> [Thu May 28 03:52:53 2020] BUG: KCSAN: data-race in dd_has_work /
-> dd_insert_requests
-> [Thu May 28 03:52:56 2020] BUG: KCSAN: data-race in dd_has_work /
-> deadline_remove_request
-> [Thu May 28 03:52:59 2020] BUG: KCSAN: data-race in
-> blk_mq_sched_dispatch_requests / blk_mq_sched_dispatch_requests
-> [Thu May 28 03:53:25 2020] BUG: KCSAN: data-race in
-> rwsem_spin_on_owner+0x102/0x1a0
-> [Thu May 28 03:53:25 2020] BUG: KCSAN: data-race in
-> page_counter_try_charge / page_counter_try_charge
-> [Thu May 28 03:53:39 2020] BUG: KCSAN: data-race in do_epoll_wait /
-> ep_poll_callback
-> [Thu May 28 03:53:39 2020] BUG: KCSAN: data-race in
-> find_next_and_bit+0x30/0xd0
-> [Thu May 28 03:53:41 2020] BUG: KCSAN: data-race in dd_has_work /
-> dd_insert_requests
-> [Thu May 28 03:53:43 2020] BUG: KCSAN: data-race in do_epoll_wait /
-> ep_poll_callback
-> [Thu May 28 03:53:45 2020] BUG: KCSAN: data-race in dd_has_work /
-> dd_insert_requests
-> [Thu May 28 03:53:46 2020] BUG: KCSAN: data-race in
-> blk_mq_sched_dispatch_requests / blk_mq_sched_dispatch_requests
-> [Thu May 28 03:53:47 2020] BUG: KCSAN: data-race in
-> rwsem_spin_on_owner+0x102/0x1a0
-> [Thu May 28 03:54:02 2020] BUG: KCSAN: data-race in dd_has_work /
-> deadline_remove_request
-> [Thu May 28 03:54:11 2020] BUG: KCSAN: data-race in
-> find_next_and_bit+0x30/0xd0
-> [Thu May 28 03:54:19 2020] BUG: KCSAN: data-race in
-> rwsem_spin_on_owner+0x102/0x1a0
-> [Thu May 28 03:55:00 2020] BUG: KCSAN: data-race in
-> mutex_spin_on_owner+0xe0/0x1b0
-> [Thu May 28 03:56:14 2020] BUG: KCSAN: data-race in dd_has_work /
-> deadline_remove_request
-> [Thu May 28 03:56:50 2020] BUG: KCSAN: data-race in dd_has_work /
-> deadline_remove_request
-> [Thu May 28 03:56:50 2020] BUG: KCSAN: data-race in dd_has_work /
-> deadline_remove_request
-> [Thu May 28 03:56:52 2020] BUG: KCSAN: data-race in
-> tick_nohz_next_event / tick_nohz_stop_tick
-> [Thu May 28 03:56:58 2020] BUG: KCSAN: data-race in
-> blk_mq_sched_dispatch_requests / blk_mq_sched_dispatch_requests
-> [Thu May 28 03:57:58 2020] BUG: KCSAN: data-race in
-> blk_mq_sched_dispatch_requests / blk_mq_sched_dispatch_requests
-> [Thu May 28 03:58:00 2020] BUG: KCSAN: data-race in dd_has_work /
-> deadline_remove_request
-> [Thu May 28 03:58:07 2020] BUG: KCSAN: data-race in
-> tick_nohz_next_event / tick_nohz_stop_tick
-> [Thu May 28 03:58:44 2020] BUG: KCSAN: data-race in
-> mutex_spin_on_owner+0xe0/0x1b0
-> [Thu May 28 03:58:49 2020] BUG: KCSAN: data-race in
-> __bitmap_subset+0x38/0xd0
-> [Thu May 28 03:59:46 2020] BUG: KCSAN: data-race in
-> tick_nohz_next_event / tick_nohz_stop_tick
-> [Thu May 28 04:00:25 2020] BUG: KCSAN: data-race in dd_has_work /
-> deadline_remove_request
-> [Thu May 28 04:00:26 2020] BUG: KCSAN: data-race in
-> tick_nohz_next_event / tick_nohz_stop_tick
->
-> Full dmesg output and linux-config attached.
->
-> - Sedat -
->
+I did some x86_64 allmodconfig builds (as I do all day):
+
+Linus' tree:
+
+36884.15user 1439.31system 9:05.46elapsed 7025%CPU (0avgtext+0avgdata 500416maxresident)k
+0inputs+128outputs (0major+64821256minor)pagefaults 0swaps
+36878.19user 1436.60system 9:05.37elapsed 7025%CPU (0avgtext+0avgdata 494656maxresident)k
+0inputs+128outputs (0major+64771097minor)pagefaults 0swaps
+
+linux-next:
+
+42378.58user 1513.34system 9:59.33elapsed 7323%CPU (0avgtext+0avgdata 537920maxresident)k
+0inputs+384outputs (0major+65102976minor)pagefaults 0swaps
+42378.38user 1509.52system 9:59.12elapsed 7325%CPU (0avgtext+0avgdata 535360maxresident)k
+0inputs+384outputs (0major+65102513minor)pagefaults 0swaps
+
+linux-next+patch:
+
+39090.54user 1464.71system 9:17.36elapsed 7276%CPU (0avgtext+0avgdata 520576maxresident)k
+0inputs+384outputs (0major+62226026minor)pagefaults 0swaps
+39101.66user 1471.55system 9:18.13elapsed 7269%CPU (0avgtext+0avgdata 513856maxresident)k
+0inputs+384outputs (0major+62243972minor)pagefaults 0swaps
+
+So, it is a bit better than current linux-next, but not quita back to
+Linus' tree (but that is not unexpected as there are over 12000 new
+commits in -next).
+
+$ x86_64-linux-gnu-gcc --version
+x86_64-linux-gnu-gcc (Debian 9.3.0-8) 9.3.0
+
+80 thread Power8 using -j100
+
+-- 
+Cheers,
+Stephen Rothwell
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CA%2BicZUVogqZzSP9Kemgfe7CQ31Exn8vzzfUccJ-mCXQyUGBeMw%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200528225336.2defab20%40canb.auug.org.au.
 
---00000000000053cdf505a6af5a0e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+--Sig_/=gXnD5Mwv9r7w5Lq6vJ+mEE
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-<div dir=3D"auto">It took me 7 hours and 27 minutes - approx. 2h30m and 50 =
-percent more than with clang-10 and Linux v5.7-rc7.<div dir=3D"auto"><br></=
-div><div dir=3D"auto">- Sedat -</div></div><br><div class=3D"gmail_quote"><=
-div dir=3D"ltr" class=3D"gmail_attr">Sedat Dilek &lt;<a href=3D"mailto:seda=
-t.dilek@gmail.com">sedat.dilek@gmail.com</a>&gt; schrieb am Do., 28. Mai 20=
-20, 04:12:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
- .8ex;border-left:1px #ccc solid;padding-left:1ex">On Wed, May 27, 2020 at =
-9:15 PM Marco Elver &lt;<a href=3D"mailto:elver@google.com" target=3D"_blan=
-k" rel=3D"noreferrer">elver@google.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; On Wed, 27 May 2020 at 21:11, Sedat Dilek &lt;<a href=3D"mailto:sedat.=
-dilek@gmail.com" target=3D"_blank" rel=3D"noreferrer">sedat.dilek@gmail.com=
-</a>&gt; wrote:<br>
-&gt; &gt;<br>
-&gt; &gt; On Wed, May 27, 2020 at 3:57 PM Marco Elver &lt;<a href=3D"mailto=
-:elver@google.com" target=3D"_blank" rel=3D"noreferrer">elver@google.com</a=
->&gt; wrote:<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; On Wed, 27 May 2020 at 15:37, Sedat Dilek &lt;<a href=3D"mai=
-lto:sedat.dilek@gmail.com" target=3D"_blank" rel=3D"noreferrer">sedat.dilek=
-@gmail.com</a>&gt; wrote:<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; On Wed, May 27, 2020 at 3:30 PM Marco Elver &lt;<a href=
-=3D"mailto:elver@google.com" target=3D"_blank" rel=3D"noreferrer">elver@goo=
-gle.com</a>&gt; wrote:<br>
-&gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; On Wed, 27 May 2020 at 15:11, Sedat Dilek &lt;<a h=
-ref=3D"mailto:sedat.dilek@gmail.com" target=3D"_blank" rel=3D"noreferrer">s=
-edat.dilek@gmail.com</a>&gt; wrote:<br>
-&gt; &gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; &gt; On Wed, May 27, 2020 at 2:50 PM Arnd Bergmann=
- &lt;<a href=3D"mailto:arnd@arndb.de" target=3D"_blank" rel=3D"noreferrer">=
-arnd@arndb.de</a>&gt; wrote:<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt; On Wed, May 27, 2020 at 2:35 PM Sedat Di=
-lek &lt;<a href=3D"mailto:sedat.dilek@gmail.com" target=3D"_blank" rel=3D"n=
-oreferrer">sedat.dilek@gmail.com</a>&gt; wrote:<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; On Wed, May 27, 2020 at 2:31 PM Arn=
-d Bergmann &lt;<a href=3D"mailto:arnd@arndb.de" target=3D"_blank" rel=3D"no=
-referrer">arnd@arndb.de</a>&gt; wrote:<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; On Wed, May 27, 2020 at 1:36 P=
-M Sedat Dilek &lt;<a href=3D"mailto:sedat.dilek@gmail.com" target=3D"_blank=
-" rel=3D"noreferrer">sedat.dilek@gmail.com</a>&gt; wrote:<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; On Wed, May 27, 2020 at 1=
-:27 PM Arnd Bergmann &lt;<a href=3D"mailto:arnd@arndb.de" target=3D"_blank"=
- rel=3D"noreferrer">arnd@arndb.de</a>&gt; wrote:<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; On Wed, May 27, 2020=
- at 12:33 PM Marco Elver &lt;<a href=3D"mailto:elver@google.com" target=3D"=
-_blank" rel=3D"noreferrer">elver@google.com</a>&gt; wrote:<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; This gives us back 8=
-0% of the performance drop on clang, and 50%<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; of the drop I saw wi=
-th gcc, compared to current mainline.<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; Tested-by: Arnd Berg=
-mann &lt;<a href=3D"mailto:arnd@arndb.de" target=3D"_blank" rel=3D"noreferr=
-er">arnd@arndb.de</a>&gt;<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; Hi Arnd,<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; with &quot;mainline&quot;=
- you mean Linux-next aka Linux v5.8 - not v5.7?<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; I meant v5.7.<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; I have not seen __unqual_=
-scalar_typeof(x) in compiler_types.h in Linux v5.7.<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; Is there a speedup benefi=
-t also for Linux v5.7?<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; Which patches do I need?<=
-br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; v5.7-rc is the baseline and is=
- the fastest I currently see. On certain files,<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; I saw an intermittent 10x slow=
-down that was already fixed earlier, now<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; linux-next<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; is more like 2x slowdown for m=
-e and 1.2x with this patch on top, so we&#39;re<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; almost back to the speed of li=
-nux-5.7.<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; Which clang version did you use - a=
-nd have you set KCSAN kconfigs -<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; AFAICS this needs clang-11?<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt; I&#39;m currently using clang-11, but I =
-see the same problem with older<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt; versions, and both with and without KCSA=
-N enabled. I think the issue<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt; is mostly the deep nesting of macros tha=
-t leads to code bloat.<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; &gt; Thanks.<br>
-&gt; &gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; &gt; With clang-10:<br>
-&gt; &gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; &gt; $ scripts/diffconfig /boot/config-5.7.0-rc7-2=
--amd64-clang .config<br>
-&gt; &gt; &gt; &gt; &gt; &gt;=C2=A0 BUILD_SALT &quot;5.7.0-rc7-2-amd64-clan=
-g&quot; -&gt; &quot;5.7.0-rc7-3-amd64-clang&quot;<br>
-&gt; &gt; &gt; &gt; &gt; &gt; +HAVE_ARCH_KCSAN y<br>
-&gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; Clang 10 doesn&#39;t support KCSAN (HAVE_KCSAN_COM=
-PILER unset).<br>
-&gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; &gt; With clang-11:<br>
-&gt; &gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; &gt; $ scripts/diffconfig /boot/config-5.7.0-rc7-2=
--amd64-clang .config<br>
-&gt; &gt; &gt; &gt; &gt; &gt;=C2=A0 BUILD_SALT &quot;5.7.0-rc7-2-amd64-clan=
-g&quot; -&gt; &quot;5.7.0-rc7-3-amd64-clang&quot;<br>
-&gt; &gt; &gt; &gt; &gt; &gt;=C2=A0 CLANG_VERSION 100001 -&gt; 110000<br>
-&gt; &gt; &gt; &gt; &gt; &gt; +CC_HAS_ASM_INLINE y<br>
-&gt; &gt; &gt; &gt; &gt; &gt; +HAVE_ARCH_KCSAN y<br>
-&gt; &gt; &gt; &gt; &gt; &gt; +HAVE_KCSAN_COMPILER y<br>
-&gt; &gt; &gt; &gt; &gt; &gt; +KCSAN n<br>
-&gt; &gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; &gt; Which KCSAN kconfigs did you enable?<br>
-&gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; To clarify: as said in [1], KCSAN (or any other in=
-strumentation) is no<br>
-&gt; &gt; &gt; &gt; &gt; longer relevant to the issue here, and the compile=
--time regression is<br>
-&gt; &gt; &gt; &gt; &gt; observable with most configs. The problem is due t=
-o pre-processing and<br>
-&gt; &gt; &gt; &gt; &gt; parsing, which came about due to new READ_ONCE() a=
-nd the<br>
-&gt; &gt; &gt; &gt; &gt; __unqual_scalar_typeof() macro (which this patch o=
-ptimizes).<br>
-&gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; KCSAN and new ONCEs got tangled up because we firs=
-t attempted to<br>
-&gt; &gt; &gt; &gt; &gt; annotate {READ,WRITE}_ONCE() with data_race(), but=
- that turned out to<br>
-&gt; &gt; &gt; &gt; &gt; have all kinds of other issues (explanation in [2]=
-). So we decided to<br>
-&gt; &gt; &gt; &gt; &gt; drop all the KCSAN-specific bits from ONCE, and re=
-quire KCSAN to be<br>
-&gt; &gt; &gt; &gt; &gt; Clang 11. Those fixes were applied to the first ve=
-rsion of new<br>
-&gt; &gt; &gt; &gt; &gt; {READ,WRITE}_ONCE() in -tip, which actually restor=
-ed the new ONCEs to<br>
-&gt; &gt; &gt; &gt; &gt; the pre-KCSAN version (now that KCSAN can deal wit=
-h them without<br>
-&gt; &gt; &gt; &gt; &gt; annotations).<br>
-&gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; Hope this makes more sense now.<br>
-&gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; [1] <a href=3D"https://lore.kernel.org/lkml/CANpmj=
-NOUdr2UG3F45=3DJaDa0zLwJ5ukPc1MMKujQtmYSmQnjcXg@mail.gmail.com/" rel=3D"nor=
-eferrer noreferrer" target=3D"_blank">https://lore.kernel.org/lkml/CANpmjNO=
-Udr2UG3F45=3DJaDa0zLwJ5ukPc1MMKujQtmYSmQnjcXg@mail.gmail.com/</a><br>
-&gt; &gt; &gt; &gt; &gt; [2] <a href=3D"https://lore.kernel.org/lkml/202005=
-21142047.169334-1-elver@google.com/" rel=3D"noreferrer noreferrer" target=
-=3D"_blank">https://lore.kernel.org/lkml/20200521142047.169334-1-elver@goog=
-le.com/</a><br>
-&gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; Thanks, Marco.<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; I pulled tip.git#locking/kcsan on top of Linux v5.7-rc7=
- and applied this patch.<br>
-&gt; &gt; &gt; &gt; Just wanted to try KCSAN for the first time and it will=
- also be my<br>
-&gt; &gt; &gt; &gt; first building with clang-11.<br>
-&gt; &gt; &gt; &gt; That&#39;s why I asked.<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; In general, CONFIG_KCSAN=3Dy and the defaults for the other =
-KCSAN<br>
-&gt; &gt; &gt; options should be good. Depending on the size of your system=
-, you<br>
-&gt; &gt; &gt; could also tweak KCSAN runtime performance:<br>
-&gt; &gt; &gt; <a href=3D"https://lwn.net/Articles/816850/#Interacting%20wi=
-th%20KCSAN%20at%20Runtime" rel=3D"noreferrer noreferrer" target=3D"_blank">=
-https://lwn.net/Articles/816850/#Interacting%20with%20KCSAN%20at%20Runtime<=
-/a><br>
-&gt; &gt; &gt; -- the defaults should be good for most systems though.<br>
-&gt; &gt; &gt; Hope this helps. Any more questions, do let me know.<br>
-&gt; &gt; &gt;<br>
-&gt; &gt;<br>
-&gt; &gt; Which &quot;projects&quot; and packages do I need?<br>
-&gt; &gt;<br>
-&gt; &gt; I have installed:<br>
-&gt; &gt;<br>
-&gt; &gt; # LC_ALL=3DC apt-get install llvm-11 clang-11 lld-11<br>
-&gt; &gt; --no-install-recommends -t llvm-toolchain -y<br>
-&gt; &gt;<br>
-&gt; &gt; # dpkg -l | grep<br>
-&gt; &gt; 1:11~++20200527111130+65030821d4a-1~exp1~20200527091804.3261 | aw=
-k<br>
-&gt; &gt; &#39;/^ii/ {print $1 &quot; &quot; $2 &quot; &quot; $3}&#39; | co=
-lumn -t<br>
-&gt; &gt; ii=C2=A0 clang-11<br>
-&gt; &gt; 1:11~++20200527111130+65030821d4a-1~exp1~20200527091804.3261<br>
-&gt; &gt; ii=C2=A0 libclang-common-11-dev<br>
-&gt; &gt; 1:11~++20200527111130+65030821d4a-1~exp1~20200527091804.3261<br>
-&gt; &gt; ii=C2=A0 libclang-cpp11<br>
-&gt; &gt; 1:11~++20200527111130+65030821d4a-1~exp1~20200527091804.3261<br>
-&gt; &gt; ii=C2=A0 libclang1-11<br>
-&gt; &gt; 1:11~++20200527111130+65030821d4a-1~exp1~20200527091804.3261<br>
-&gt; &gt; ii=C2=A0 libllvm11:amd64<br>
-&gt; &gt; 1:11~++20200527111130+65030821d4a-1~exp1~20200527091804.3261<br>
-&gt; &gt; ii=C2=A0 lld-11<br>
-&gt; &gt; 1:11~++20200527111130+65030821d4a-1~exp1~20200527091804.3261<br>
-&gt; &gt; ii=C2=A0 llvm-11<br>
-&gt; &gt; 1:11~++20200527111130+65030821d4a-1~exp1~20200527091804.3261<br>
-&gt; &gt; ii=C2=A0 llvm-11-runtime<br>
-&gt; &gt; 1:11~++20200527111130+65030821d4a-1~exp1~20200527091804.3261<br>
-&gt; &gt;<br>
-&gt; &gt; Is that enough?<br>
-&gt;<br>
-&gt; Just clang-11 (and its transitive dependencies) is enough. Unsure what=
-<br>
-&gt; your installed binary is, likely &quot;clang-11&quot;, so if you can d=
-o &quot;make<br>
-&gt; CC=3Dclang-11 defconfig&quot; (and check for CONFIG_HAVE_KCSAN_COMPILE=
-R)<br>
-&gt; you&#39;re good to go.<br>
-&gt;<br>
-<br>
-I was able to build with clang-11 from <a href=3D"http://apt.llvm.org" rel=
-=3D"noreferrer noreferrer" target=3D"_blank">apt.llvm.org</a>.<br>
-<br>
-[ build-time ]<br>
-<br>
-Normally, it takes me approx. 05:00 to build with clang-10<br>
-(10.0.1-rc1) and Linux v5.7-rc7.<br>
-<br>
-This time start: 21:18 and stop: 03:45 means 06:27 - took 01:27 longer.<br>
-<br>
-Samsung Ultrabook 2nd generation aka Intel Sandybridge CPU with &#39;make -=
-j3&#39;.<br>
-<br>
-[ diffconfig ]<br>
-<br>
-=C2=A0BUILD_SALT &quot;5.7.0-rc7-2-amd64-clang&quot; -&gt; &quot;5.7.0-rc7-=
-3-amd64-clang&quot;<br>
-=C2=A0CLANG_VERSION 100001 -&gt; 110000<br>
-+CC_HAS_ASM_INLINE y<br>
-+HAVE_ARCH_KCSAN y<br>
-+HAVE_KCSAN_COMPILER y<br>
-+KCSAN y<br>
-+KCSAN_ASSUME_PLAIN_WRITES_ATOMIC y<br>
-+KCSAN_DEBUG n<br>
-+KCSAN_DELAY_RANDOMIZE y<br>
-+KCSAN_EARLY_ENABLE y<br>
-+KCSAN_IGNORE_ATOMICS n<br>
-+KCSAN_INTERRUPT_WATCHER n<br>
-+KCSAN_NUM_WATCHPOINTS 64<br>
-+KCSAN_REPORT_ONCE_IN_MS 3000<br>
-+KCSAN_REPORT_RACE_UNKNOWN_ORIGIN y<br>
-+KCSAN_REPORT_VALUE_CHANGE_ONLY y<br>
-+KCSAN_SELFTEST y<br>
-+KCSAN_SKIP_WATCH 4000<br>
-+KCSAN_SKIP_WATCH_RANDOMIZE y<br>
-+KCSAN_UDELAY_INTERRUPT 20<br>
-+KCSAN_UDELAY_TASK 80<br>
-<br>
-I am seeing this data-races:<br>
-<br>
-root@iniza:~# LC_ALL=3DC dmesg -T | grep &#39;BUG: KCSAN: data-race&#39;<br=
->
-[Thu May 28 03:51:53 2020] BUG: KCSAN: data-race in<br>
-mutex_spin_on_owner+0xe0/0x1b0<br>
-[Thu May 28 03:52:00 2020] BUG: KCSAN: data-race in mark_page_accessed<br>
-/ workingset_activation<br>
-[Thu May 28 03:52:02 2020] BUG: KCSAN: data-race in<br>
-mutex_spin_on_owner+0xe0/0x1b0<br>
-[Thu May 28 03:52:08 2020] BUG: KCSAN: data-race in<br>
-blk_mq_sched_dispatch_requests / blk_mq_sched_dispatch_requests<br>
-[Thu May 28 03:52:10 2020] BUG: KCSAN: data-race in dd_has_work /<br>
-dd_insert_requests<br>
-[Thu May 28 03:52:11 2020] BUG: KCSAN: data-race in<br>
-mutex_spin_on_owner+0xe0/0x1b0<br>
-[Thu May 28 03:52:13 2020] BUG: KCSAN: data-race in<br>
-page_counter_try_charge / page_counter_try_charge<br>
-[Thu May 28 03:52:15 2020] BUG: KCSAN: data-race in ep_poll_callback /<br>
-ep_send_events_proc<br>
-[Thu May 28 03:52:21 2020] BUG: KCSAN: data-race in<br>
-mutex_spin_on_owner+0xe0/0x1b0<br>
-[Thu May 28 03:52:25 2020] BUG: KCSAN: data-race in<br>
-mutex_spin_on_owner+0xe0/0x1b0<br>
-[Thu May 28 03:52:26 2020] BUG: KCSAN: data-race in dd_has_work /<br>
-deadline_remove_request<br>
-[Thu May 28 03:52:31 2020] BUG: KCSAN: data-race in dd_has_work /<br>
-deadline_remove_request<br>
-[Thu May 28 03:52:38 2020] BUG: KCSAN: data-race in dd_has_work /<br>
-deadline_remove_request<br>
-[Thu May 28 03:52:53 2020] BUG: KCSAN: data-race in dd_has_work /<br>
-dd_insert_requests<br>
-[Thu May 28 03:52:56 2020] BUG: KCSAN: data-race in dd_has_work /<br>
-deadline_remove_request<br>
-[Thu May 28 03:52:59 2020] BUG: KCSAN: data-race in<br>
-blk_mq_sched_dispatch_requests / blk_mq_sched_dispatch_requests<br>
-[Thu May 28 03:53:25 2020] BUG: KCSAN: data-race in<br>
-rwsem_spin_on_owner+0x102/0x1a0<br>
-[Thu May 28 03:53:25 2020] BUG: KCSAN: data-race in<br>
-page_counter_try_charge / page_counter_try_charge<br>
-[Thu May 28 03:53:39 2020] BUG: KCSAN: data-race in do_epoll_wait /<br>
-ep_poll_callback<br>
-[Thu May 28 03:53:39 2020] BUG: KCSAN: data-race in find_next_and_bit+0x30/=
-0xd0<br>
-[Thu May 28 03:53:41 2020] BUG: KCSAN: data-race in dd_has_work /<br>
-dd_insert_requests<br>
-[Thu May 28 03:53:43 2020] BUG: KCSAN: data-race in do_epoll_wait /<br>
-ep_poll_callback<br>
-[Thu May 28 03:53:45 2020] BUG: KCSAN: data-race in dd_has_work /<br>
-dd_insert_requests<br>
-[Thu May 28 03:53:46 2020] BUG: KCSAN: data-race in<br>
-blk_mq_sched_dispatch_requests / blk_mq_sched_dispatch_requests<br>
-[Thu May 28 03:53:47 2020] BUG: KCSAN: data-race in<br>
-rwsem_spin_on_owner+0x102/0x1a0<br>
-[Thu May 28 03:54:02 2020] BUG: KCSAN: data-race in dd_has_work /<br>
-deadline_remove_request<br>
-[Thu May 28 03:54:11 2020] BUG: KCSAN: data-race in find_next_and_bit+0x30/=
-0xd0<br>
-[Thu May 28 03:54:19 2020] BUG: KCSAN: data-race in<br>
-rwsem_spin_on_owner+0x102/0x1a0<br>
-[Thu May 28 03:55:00 2020] BUG: KCSAN: data-race in<br>
-mutex_spin_on_owner+0xe0/0x1b0<br>
-[Thu May 28 03:56:14 2020] BUG: KCSAN: data-race in dd_has_work /<br>
-deadline_remove_request<br>
-[Thu May 28 03:56:50 2020] BUG: KCSAN: data-race in dd_has_work /<br>
-deadline_remove_request<br>
-[Thu May 28 03:56:50 2020] BUG: KCSAN: data-race in dd_has_work /<br>
-deadline_remove_request<br>
-[Thu May 28 03:56:52 2020] BUG: KCSAN: data-race in<br>
-tick_nohz_next_event / tick_nohz_stop_tick<br>
-[Thu May 28 03:56:58 2020] BUG: KCSAN: data-race in<br>
-blk_mq_sched_dispatch_requests / blk_mq_sched_dispatch_requests<br>
-[Thu May 28 03:57:58 2020] BUG: KCSAN: data-race in<br>
-blk_mq_sched_dispatch_requests / blk_mq_sched_dispatch_requests<br>
-[Thu May 28 03:58:00 2020] BUG: KCSAN: data-race in dd_has_work /<br>
-deadline_remove_request<br>
-[Thu May 28 03:58:07 2020] BUG: KCSAN: data-race in<br>
-tick_nohz_next_event / tick_nohz_stop_tick<br>
-[Thu May 28 03:58:44 2020] BUG: KCSAN: data-race in<br>
-mutex_spin_on_owner+0xe0/0x1b0<br>
-[Thu May 28 03:58:49 2020] BUG: KCSAN: data-race in __bitmap_subset+0x38/0x=
-d0<br>
-[Thu May 28 03:59:46 2020] BUG: KCSAN: data-race in<br>
-tick_nohz_next_event / tick_nohz_stop_tick<br>
-[Thu May 28 04:00:25 2020] BUG: KCSAN: data-race in dd_has_work /<br>
-deadline_remove_request<br>
-[Thu May 28 04:00:26 2020] BUG: KCSAN: data-race in<br>
-tick_nohz_next_event / tick_nohz_stop_tick<br>
-<br>
-Full dmesg output and linux-config attached.<br>
-<br>
-- Sedat -<br>
-</blockquote></div>
+-----BEGIN PGP SIGNATURE-----
 
-<p></p>
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl7PtFAACgkQAVBC80lX
+0GwShgf/WE8dBTWi5LGlN07/ZZepqF0bEYhRDibb43csv7ZTlkh/o57GpSMNFz5P
+WTFPsP/oiD6mNhZVkuu5vZfNTocZo/r4f5n4CsIF5Tn9PSHVXw8nSYmC9GmLV/+K
+LCSNsc6d/TQQRBPY7fSMlSh12NxhQ2nE1LbbxRZpnZT852NnCncBfFsKMGEb1ue0
+AVzcq4+iModfjf2dqRJKUgBwpD8VxfBPgV9zjmH3U4BW9NgYVTndW5E/ceXCM6Yd
+cOQCADKJP4qWLETMrC4oTiXMwRP5pHjZ7oXOccD7XsKnPWrHLFET8G5KAySIiA9e
+Xz7rs85KHwGG5zkogSTDHVkNUkg0vA==
+=YOpz
+-----END PGP SIGNATURE-----
 
--- <br />
-You received this message because you are subscribed to the Google Groups &=
-quot;kasan-dev&quot; group.<br />
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
-+unsubscribe@googlegroups.com</a>.<br />
-To view this discussion on the web visit <a href=3D"https://groups.google.c=
-om/d/msgid/kasan-dev/CA%2BicZUVogqZzSP9Kemgfe7CQ31Exn8vzzfUccJ-mCXQyUGBeMw%=
-40mail.gmail.com?utm_medium=3Demail&utm_source=3Dfooter">https://groups.goo=
-gle.com/d/msgid/kasan-dev/CA%2BicZUVogqZzSP9Kemgfe7CQ31Exn8vzzfUccJ-mCXQyUG=
-BeMw%40mail.gmail.com</a>.<br />
-
---00000000000053cdf505a6af5a0e--
+--Sig_/=gXnD5Mwv9r7w5Lq6vJ+mEE--
