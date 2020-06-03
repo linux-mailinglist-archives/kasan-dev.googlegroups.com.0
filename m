@@ -1,138 +1,144 @@
-Return-Path: <kasan-dev+bncBCV5TUXXRUIBBPUV373AKGQE2ZGLFPI@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABB7U7373AKGQERPN3WGY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pl1-x637.google.com (mail-pl1-x637.google.com [IPv6:2607:f8b0:4864:20::637])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F1AB1ED3EE
-	for <lists+kasan-dev@lfdr.de>; Wed,  3 Jun 2020 18:07:28 +0200 (CEST)
-Received: by mail-pl1-x637.google.com with SMTP id x4sf2276278pll.19
-        for <lists+kasan-dev@lfdr.de>; Wed, 03 Jun 2020 09:07:28 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1591200447; cv=pass;
+Received: from mail-pg1-x53e.google.com (mail-pg1-x53e.google.com [IPv6:2607:f8b0:4864:20::53e])
+	by mail.lfdr.de (Postfix) with ESMTPS id CCE851ED460
+	for <lists+kasan-dev@lfdr.de>; Wed,  3 Jun 2020 18:29:51 +0200 (CEST)
+Received: by mail-pg1-x53e.google.com with SMTP id r2sf2882039pgd.23
+        for <lists+kasan-dev@lfdr.de>; Wed, 03 Jun 2020 09:29:51 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1591201790; cv=pass;
         d=google.com; s=arc-20160816;
-        b=eYH/GxJ5j4jO3aqs7YxbqKSVovqVKZLPy26iS7BbiuUNQ+p5ASQfDw5r74BNXU778o
-         mSVCIwPihZBnMqBaR/Dn83ofoVcCEOLK5Jk/d9mPfpm0aIeafrrk9hNORHW0mwZ7cbeF
-         65nY1S+RtC/Y5crzytzJDNsJV4xtShxr2yaCxcoM/nTlPMwvBo287J715N/WZUzlEwVc
-         sWAE4AIgBkHrrQ6F5nGV8Vv9iuj1t2rLbhcKZykxpdF9W/juZ4xYz6LMCbjFkipH3vWd
-         qZopyVnY03+kmOBsrpDiZK++7qyR1TbAlyb+DkkPat7onJ/xnENmPpadGf8rA+Wz4rnl
-         2rNg==
+        b=XZ/xta5UdDX6TZNHcsbQi9QmOa60dE7RU7JjLSEjugmSbFJod8yv6KwbCQs5F3Oq5u
+         CDX40CJKyZJpkoq5hDiL6Dz2BWWIvxt6ZEc4w49mAcOs3Nh5XvorL/qln6XwMpqB4uXt
+         W0r321V4f98PxvBrif17k5z7V5KzGUKbJnrtD8X3dLKg8CHK5zeHMyChyfSN9Jzlszsk
+         bicuVQPYs7i51RUOwTOz5hL9Zl7x8A2Xa5JmH/UxluFk/T+xBYjJ0kDsfXRiBvjhUlJ+
+         5bQh19uJayt3c6R7k5OQ4e1xFccMCvMkkDWD4OsgzvZjsvDDEbUQLs0bQbaW6IWo9uyC
+         ZDcA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=fug5ttuOmiOYJfQ6LluJT9KuJ+VNRzR7p5Ve1PCJCxM=;
-        b=I6fmJJd7FEPM8Qu1iO40cg6YehbdX4dia/qyJzlc7zbfhSrdwrSK5kj5aVxC9f257w
-         JtquFaULPpPdrcd8vncvvj8jlN2Od29LKlidjafvssA8lOpqM55e8wENuNHEdt2Q/D5P
-         TR+XiWE3Km1ybciy4uiBqKL8ggtgVnpAmYn4JL7f/i1rt27Hk4+Nc7VbKEB62xmUXE50
-         BQssWNJwkfR65WDW6C3Fij8F5IzH11mtwHVg2fH02T6OAHNRfPQLdZZKjMm2f6Ff0ork
-         AbmwMfu3UkXT27PPAAU4+EzgGZjcnZqYyedYjphqJsqI71q+HK04CnqiOVQ9/Nkcv1EP
-         skQg==
+         :list-id:mailing-list:precedence:user-agent:in-reply-to
+         :content-disposition:mime-version:references:reply-to:message-id
+         :subject:cc:to:from:date:sender:dkim-signature;
+        bh=OiAL1RIpnVFTtH9VEUhxXUfYvFZ+eV5xCwGgdWn2j94=;
+        b=cSjv61NEoBJiQ6/zX7GP5wvP/F7uDZowHD0ffzBuaKpILF2UYJ95Ge29rL/dhrUmJt
+         xbhgrQYND3g9gXBj0cEpVPRZ38vFv3/1muzfsqotDm3j1nhfkK17kYYE0BWPU1rfK2Px
+         Dq3qkY+e/VE3q9AtQQvNeOV88iSdiA55BizxKv8whRmT2Ac7oDfF6Mkryz1LM5hKQPlm
+         VOXOiIi+/b9Ewhzhl/C8KQJiFhlsqGqDyu57Q180qBF5IBmW6+Inc0nusoPNAzC5QYq0
+         AHyJ11rvyZYqBp+BrDygtpN2ZOUi+7r60LpQmtpcaL1XoXaJzbn6nInG8oUAA1T3jjKd
+         VCRQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=bombadil.20170209 header.b=qUTdWW7g;
-       spf=pass (google.com: best guess record for domain of peterz@infradead.org designates 2607:7c80:54:e::133 as permitted sender) smtp.mailfrom=peterz@infradead.org
+       dkim=pass header.i=@kernel.org header.s=default header.b="TSOOj/h7";
+       spf=pass (google.com: domain of srs0=w7he=7q=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=w7he=7Q=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=fug5ttuOmiOYJfQ6LluJT9KuJ+VNRzR7p5Ve1PCJCxM=;
-        b=JAXgFFxpaheVbSbwgxohBFfoOL326j6l9AWXUGrOPlBtyTvL/5BUtYxA1jfqiKlSxY
-         58r4UAh83zZUGYZG2folGw4686qTxNed6X8+Y4v2flY1gwSQ0IAQEg10EPQVIsdqL1IE
-         AVhXQaeU8x4ezX3qmeOAwNDOLHNOayx3Rd7Vi8eyfxClZ29eNIwJKBgbDBcrx/DuYz8I
-         1AcpuadynabRcYHb/A6GCPMW6j+xR49+RuvKi8zC8CQlPhU/scwGEkSGaZ8pnTs549PQ
-         0VQOuVH3p6RGQTq17alFD6AeExllMwxH/GC1rqthRrYwF2Zr2yx1+HNzkyX+REbEyqn0
-         03nQ==
+        h=sender:date:from:to:cc:subject:message-id:reply-to:references
+         :mime-version:content-disposition:in-reply-to:user-agent
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=OiAL1RIpnVFTtH9VEUhxXUfYvFZ+eV5xCwGgdWn2j94=;
+        b=eY8vkYoppriEQTUgkj2G2KSS4vE23jQtVWUEG/x/YyexxcsRc1D1KZ5Bw/ks9SXhWJ
+         c+JvMGDnFQaROTZPG4EG+JlxMLCFLuhCTHYOhrowe0UGk34bRTEHw1gicQF8zDnsUcSJ
+         HVVtshUR9SvR5EllyNgwTU2IuNOq0st9QXOBMFISTJJs4zGGYFA2IqFK6uhM85a/8YaD
+         xvSsL4+LhVsqq9QgoXzaSNmgHnjD+A9g3mDfnnKOIvg+La9P8m/DdS4ZOjLqUg54yLsZ
+         4Lb6kJhFQ742tocCCljfaWSHf8lcGR19DTFk1bwZ+RuPup3X2A+OpcICeYCBWRM3LPpr
+         /kIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=fug5ttuOmiOYJfQ6LluJT9KuJ+VNRzR7p5Ve1PCJCxM=;
-        b=BRPQCisPBWqR8r3hqajuebK1TjRgm+Zou98IUGO5hTHPCaRvg+KeFInYtT9/qTVjc7
-         xyR1Gu5hoZHY8h9uCrY8Fk/4W13qf2RXnn1XSVCIsU2lfZ7PMgsdfwVq+f8xRsSzTQ92
-         krARC+Py8ocUGdvL1SfaJY9nzGg7fxNqff0zvt7f+Hezkbz9UBZVjN+WYgTV1k+teRBj
-         bGsFUDdLGU4nlO93uyiLRD8vqedkzIeU/nwEfzJ+zFmNvjvYpNn82+JMLDEhwwLSf7rJ
-         cogJv0sW3W51hl+0zQZcGsh4T6r88x0ao9ls1LVLwbm4Ac6pgHYxlGMjzvYEmNLsfEtS
-         Ms0g==
+         :reply-to:references:mime-version:content-disposition:in-reply-to
+         :user-agent:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=OiAL1RIpnVFTtH9VEUhxXUfYvFZ+eV5xCwGgdWn2j94=;
+        b=nWRs7kk0bGO/2w/OOZcxMyN3ZVTqgv5HH5yC4nZzDdGiRFgRuRzI+O3qQXLHZQyFkD
+         XhovYilxGW71D4mf13KTRUaVYRN42ORKmO7vITg/6Th/9/92TKuuVYdxV+gQI7XJY8RA
+         +yH4DpUyDoZ7r/plXFU9lFY6aaGLxXgcs4qoi5KboDmhVkgRsV6RLanxwmeK/pdTFwhB
+         5N6DNRJXnt0mVoll7rexWSN8bF2GnFx2/rrxGjA1JamSfR1viMH1SWL++Gm2+392eJc+
+         K1x3C4s/f/KN1tfFs4XuZ6EDVIo/CyrqFEW7kL3D+mNNcS+V8cslf1hC8O+5XCbb+rNL
+         /MJg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM533OZEvEl+kWBEYt8zK5TWB0KlMmAz4Exwaa/luk0cD8T1rrs6Tc
-	V7Tb/2KPDJ5Z1ap7btNHXvQ=
-X-Google-Smtp-Source: ABdhPJxLu9NzAixxSOZ2H0yxvd0EDgEfLiUsCumtziQHerSaRQKW21nbW36PONVMF8FhjN4FcL0D2Q==
-X-Received: by 2002:a17:90a:22cc:: with SMTP id s70mr568756pjc.2.1591200447062;
-        Wed, 03 Jun 2020 09:07:27 -0700 (PDT)
+X-Gm-Message-State: AOAM531Odv3hcu3TehuGxeQMD3zYfGekEJamsCNI6iyatdvV9qhxQJnl
+	7la96YvgOoPWlwEC4IArGxA=
+X-Google-Smtp-Source: ABdhPJwBEvSHXLTMcsmcthyf53dOAzERwIaAYBx08IomQ+Tey1aX5kc4Z9+uu7T6fGzzkSoy5sDN9Q==
+X-Received: by 2002:a17:90a:aa8d:: with SMTP id l13mr706465pjq.92.1591201790500;
+        Wed, 03 Jun 2020 09:29:50 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:aa7:94b5:: with SMTP id a21ls886948pfl.5.gmail; Wed, 03 Jun
- 2020 09:07:26 -0700 (PDT)
-X-Received: by 2002:a63:1e4c:: with SMTP id p12mr91443pgm.355.1591200446453;
-        Wed, 03 Jun 2020 09:07:26 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1591200446; cv=none;
+Received: by 2002:a62:178e:: with SMTP id 136ls829184pfx.2.gmail; Wed, 03 Jun
+ 2020 09:29:50 -0700 (PDT)
+X-Received: by 2002:aa7:8ecd:: with SMTP id b13mr15631522pfr.297.1591201790121;
+        Wed, 03 Jun 2020 09:29:50 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1591201790; cv=none;
         d=google.com; s=arc-20160816;
-        b=Oh9NTEIM3X4DUZSxH47/M4MkhHqlgtVG5D3VbuaK7N3n2BLmObg91OYhqt4oYKqlrF
-         2eR0L9AUnSPSIP1vV1jNc815LprupjBLVP9Q4RU39/tAlHwt3NWc/LY9vtKdaJtSn5n6
-         TJkR6rdd8KQPO8yDbOVd7cOENPeI8i3bXMldMJ+axnydnOIfvZ4abP/+0SoPe4b3OwrJ
-         AtEmPpORnZP/D/Osu6WXJJPB6nlcIXA7FIQl+W/4QA/AwUaJ/ANNe9SBU/fAmtnZy5jA
-         H4lQHuQeD2MjAmN7uXsM5TiFZQu3Pevfu+RDHNoW8B4+fa2dkrLE6V5KI7GkOxIikego
-         OyMQ==
+        b=x+IkiUIIIlTnl+73TJlriEaxLUj9cdu/AQKXgPKOhLO4GG6KyAcu+NjbeZXyWm8VK3
+         fW8eA+JnnczF4UQgjExPDGloDZ6X9kjSZGoFLAEle3GgTxdQJJC5q3tmNbeoDeaXsj3S
+         0hcD/W2fH4fUrz7y+6r83w2031lgZugr7RqC4CuB4d/67rJqeDKuCd8qSpMqvzmNPLF5
+         Fgv+i25QiBSYs1QK0uMYJlpQinG9E8Brt/AfrR2bkAqt6kThlEUpBGk8ZWLGo7FpiiXl
+         /m7WKVXqqG2QHuwrcI3b/L8J+yCws12osl82GaXtzGh8OVQTkoF6i9LgVDnGv+eFg6BS
+         e5Bg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=I0LdSJBp4zoME7tY6bpA1Q8Wf4c6QK8RY6BCgD6eGqY=;
-        b=J/RqhQI+bSkECRTmCkIA6IwSVpGd1ZiK7YHtkfZeXWo6JdmFPxzS4oREou/kxUbiar
-         +cWVbr662OMQ1pTKrmfQEO//YzncT0Ue+HFeR004StGiNbD4wTJHHqW6+IG8vMInAm9L
-         89+btjH8KIipnxLDqtfsIdnd5/VhdC/lC24QcfTxQM60kQxQhp7Sp8dxMDxSg/EKbW0y
-         ftE3FOe6XRXjKTJ1LuS0Q19+Iu3g4N6teiL+Q28Ut4TJU1rMwyTEza/sZaFsyyYaFVeO
-         65ZrJbRI3dt6ieAvi9Om7H3wXSugCX3pI+GiTvuzdclVzvt+sE+yxaXpsYSt9sbovORj
-         YYLw==
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :reply-to:message-id:subject:cc:to:from:date:dkim-signature;
+        bh=pGtn01Ejxv4U5A8NN+buYh4/UyvofPXF8HV+4s2Dc8A=;
+        b=QfGBDHCHYhdoOx18xoxeYnY11YThFrNyU0Tiw3qbPapT27hH8Y+lCqGeSrNdMDqBew
+         +4QYrvl5BkXNP0Q+Na+ywdYKqnYHqLPaEXZZB/EXhtMyfiEKNkDbrTYLwjWpHqjcFMaL
+         Vafc60cDfTER8krNIM6Xa5igQ270oVsw4/hKp07/qi9m/YoBQZPQ5gyOVJdw2mUmaWpf
+         kQHMpZwS257YJTuf+rTj8HoXSby8mrvBL3MKCTqVhNmHW/E9y8YhPlxL5p9mIuOSes9e
+         4/WsIYWbCv2+5+mx3UNso8nlyGZ804n1Jt8WZ57KPcXusKrObTMrPBqnVT4EgIVPqBtl
+         XLPw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=bombadil.20170209 header.b=qUTdWW7g;
-       spf=pass (google.com: best guess record for domain of peterz@infradead.org designates 2607:7c80:54:e::133 as permitted sender) smtp.mailfrom=peterz@infradead.org
-Received: from bombadil.infradead.org (bombadil.infradead.org. [2607:7c80:54:e::133])
-        by gmr-mx.google.com with ESMTPS id l9si252170pjw.2.2020.06.03.09.07.26
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Jun 2020 09:07:26 -0700 (PDT)
-Received-SPF: pass (google.com: best guess record for domain of peterz@infradead.org designates 2607:7c80:54:e::133 as permitted sender) client-ip=2607:7c80:54:e::133;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-	by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jgVvI-0003p3-Up; Wed, 03 Jun 2020 16:07:25 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+       dkim=pass header.i=@kernel.org header.s=default header.b="TSOOj/h7";
+       spf=pass (google.com: domain of srs0=w7he=7q=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=w7he=7Q=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
+        by gmr-mx.google.com with ESMTPS id gv9si270641pjb.3.2020.06.03.09.29.50
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 03 Jun 2020 09:29:50 -0700 (PDT)
+Received-SPF: pass (google.com: domain of srs0=w7he=7q=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
+Received: from paulmck-ThinkPad-P72.home (50-39-105-78.bvtn.or.frontiernet.net [50.39.105.78])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(Client did not present a certificate)
-	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 5B0E930008D;
-	Wed,  3 Jun 2020 18:07:22 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 4657320707D4F; Wed,  3 Jun 2020 18:07:22 +0200 (CEST)
-Date: Wed, 3 Jun 2020 18:07:22 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: Marco Elver <elver@google.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>,
-	the arch/x86 maintainers <x86@kernel.org>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	kasan-dev <kasan-dev@googlegroups.com>,
-	LKML <linux-kernel@vger.kernel.org>, Will Deacon <will@kernel.org>,
+	(No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPSA id C70CF20659;
+	Wed,  3 Jun 2020 16:29:49 +0000 (UTC)
+Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
+	id AD32D35209C5; Wed,  3 Jun 2020 09:29:49 -0700 (PDT)
+Date: Wed, 3 Jun 2020 09:29:49 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Marco Elver <elver@google.com>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Will Deacon <will@kernel.org>, Borislav Petkov <bp@alien8.de>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@kernel.org>,
+	clang-built-linux <clang-built-linux@googlegroups.com>,
 	Dmitry Vyukov <dvyukov@google.com>,
 	Alexander Potapenko <glider@google.com>,
-	Andrey Konovalov <andreyknvl@google.com>
-Subject: Re: [PATCH 0/9] x86/entry fixes
-Message-ID: <20200603160722.GD2570@hirez.programming.kicks-ass.net>
-References: <20200603114014.152292216@infradead.org>
- <20200603120037.GA2570@hirez.programming.kicks-ass.net>
- <20200603120818.GC2627@hirez.programming.kicks-ass.net>
- <CANpmjNOxLkqh=qpHQjUC_bZ0GCjkoJ4NxF3UuNGKhJSvcjavaA@mail.gmail.com>
- <20200603121815.GC2570@hirez.programming.kicks-ass.net>
- <CANpmjNPxMo0sNmkbMHmVYn=WJJwtmYR03ZtFDyPhmiMuR1ug=w@mail.gmail.com>
- <CANpmjNPzmynV2X+e76roUmt_3oq8KDDKyLLsgn__qtAb8i0aXQ@mail.gmail.com>
+	Andrey Konovalov <andreyknvl@google.com>,
+	kasan-dev <kasan-dev@googlegroups.com>,
+	LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] rcu: Fixup noinstr warnings
+Message-ID: <20200603162949.GP29598@paulmck-ThinkPad-P72>
+Reply-To: paulmck@kernel.org
+References: <20200602184409.22142-1-elver@google.com>
+ <CAKwvOd=5_pgx2+yQt=V_6h7YKiCnVp_L4nsRhz=EzawU1Kf1zg@mail.gmail.com>
+ <20200602191936.GE2604@hirez.programming.kicks-ass.net>
+ <CANpmjNP3kAZt3kXuABVqJLAJAW0u9-=kzr-QKDLmO6V_S7qXvQ@mail.gmail.com>
+ <20200602193853.GF2604@hirez.programming.kicks-ass.net>
+ <20200603084818.GB2627@hirez.programming.kicks-ass.net>
+ <20200603095932.GM29598@paulmck-ThinkPad-P72>
+ <20200603105206.GG2604@hirez.programming.kicks-ass.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <CANpmjNPzmynV2X+e76roUmt_3oq8KDDKyLLsgn__qtAb8i0aXQ@mail.gmail.com>
-X-Original-Sender: peterz@infradead.org
+In-Reply-To: <20200603105206.GG2604@hirez.programming.kicks-ass.net>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Original-Sender: paulmck@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@infradead.org header.s=bombadil.20170209 header.b=qUTdWW7g;
-       spf=pass (google.com: best guess record for domain of
- peterz@infradead.org designates 2607:7c80:54:e::133 as permitted sender) smtp.mailfrom=peterz@infradead.org
+ header.i=@kernel.org header.s=default header.b="TSOOj/h7";       spf=pass
+ (google.com: domain of srs0=w7he=7q=paulmck-thinkpad-p72.home=paulmck@kernel.org
+ designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=w7he=7Q=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -145,63 +151,77 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Jun 03, 2020 at 04:47:54PM +0200, Marco Elver wrote:
-
-> This is fun: __always_inline functions inlined into
-> __no_sanitize_undefined *do* get instrumented because apparently UBSan
-> passes must run before the optimizer (before inlining), contrary to
-> what [ATM]SAN instrumentation does. Both GCC and Clang do this.
-
-That's just broken :-( You can keep it marked and then strip it out at
-the end if it turns out it wasn't needed after all (of course I do
-realize this might not be entirely as trivial as it sounds).
-
-> Some options to fix:
+On Wed, Jun 03, 2020 at 12:52:06PM +0200, Peter Zijlstra wrote:
+> On Wed, Jun 03, 2020 at 02:59:32AM -0700, Paul E. McKenney wrote:
+> > On Wed, Jun 03, 2020 at 10:48:18AM +0200, Peter Zijlstra wrote:
+> > > On Tue, Jun 02, 2020 at 09:38:53PM +0200, Peter Zijlstra wrote:
+> > > 
+> > > > That said; noinstr's __no_sanitize combined with atomic_t might be
+> > > > 'interesting', because the regular atomic things have explicit
+> > > > annotations in them. That should give validation warnings for the right
+> > > > .config, I'll have to go try -- so far I've made sure to never enable
+> > > > the *SAN stuff.
+> > > 
+> > > ---
+> > > Subject: rcu: Fixup noinstr warnings
+> > > 
+> > > A KCSAN build revealed we have explicit annoations through atomic_t
+> > > usage, switch to arch_atomic_*() for the respective functions.
+> > > 
+> > > vmlinux.o: warning: objtool: rcu_nmi_exit()+0x4d: call to __kcsan_check_access() leaves .noinstr.text section
+> > > vmlinux.o: warning: objtool: rcu_dynticks_eqs_enter()+0x25: call to __kcsan_check_access() leaves .noinstr.text section
+> > > vmlinux.o: warning: objtool: rcu_nmi_enter()+0x4f: call to __kcsan_check_access() leaves .noinstr.text section
+> > > vmlinux.o: warning: objtool: rcu_dynticks_eqs_exit()+0x2a: call to __kcsan_check_access() leaves .noinstr.text section
+> > > vmlinux.o: warning: objtool: __rcu_is_watching()+0x25: call to __kcsan_check_access() leaves .noinstr.text section
+> > > 
+> > > Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+> > 
+> > This one does not apply cleanly onto the -rcu tree's "dev" branch, so
+> > I am guessing that it is intended to be carried in -tip with yours and
+> > Thomas's patch series.
 > 
-> 1. Add __no_sanitize_undefined to the problematic __always_inline
-> functions. I don't know if a macro like '#define
-> __always_inline_noinstr __always_inline __no_sanitize_undefined' is
-> useful, but it's not an automatic fix either. This option isn't great,
-> because it doesn't really scale.
+> Right, I've not played patch tetris yet so see how it should all fit
+> together. I also didn't know you feel about loosing the instrumentation
+> in these functions.
 
-Agreed, that's quite horrible and fragile.
+It would be very good for KCSAN to be able to detect misuse of ->dynticks!
 
-> 2. If you look at the generated code for functions with
-> __ubsan_handle_*, all the calls are actually guarded by a branch. So
-> if we know that there is no UBSan violation in the function, AFAIK
-> we're fine. 
+> One option would be do add explicit: instrument_atomic_write() calls
+> before instrument_end() / after instrument_begin() in
+> the respective callers that have that.
 
-> What are the exact requirements for 'noinstr'?
+One good thing: The atomic_andnot() goes away in -rcu patches slated
+for v5.9.  However, the others remain.
 
-> Is it only "do not call anything I didn't tell you to call?" If that's
-> the case, and there is no bug in the function ;-), then for UBSan
-> we're fine.
+So if today's -next is any guide, this instrument_atomic_write()
+would be added (for one example) in the functions that invoke
+rcu_dynticks_eqs_enter(), since it is noinstr.  Rather annoying, and
+will require careful commenting.  But there are only two such calls and
+they are both in the same file and it is very low-level code, so this
+should be doable.
 
-This; any excursion out of noinstr for an unknown reason can have
-unknown side effects which we might not be able to deal with at that
-point.
+I should also add some commentary to the RCU requirements document
+say why all of this is happening.
 
-For instance, if we cause a #PF before the current #PF has read CR2,
-we're hosed. If we hit a hardware breakpoint before we're ready for it,
-we're hosed (and we explicitly disallow setting breakpoints on noinstr,
-but not stuff outside it).
+> Anyway, I'll shortly be posting a pile of patches resulting from various
+> KCSAN and KASAN builds. The good news is that GCC-KASAN seems to behave
+> quite well with Marco's patches, the bad news is that GCC-KASAN is
+> retarded wrt inline and needs a bunch of kicks.
+> 
+> That is, it out-of-lines:
+> 
+> static inline bool foo(..)
+> {
+> 	return false;
+> }
+> 
+> just because..
 
-So IFF UBSAN only calls out when things have gone wrong, as opposed to
-checking if things go wrong (say, an out-of-line bounds check), then,
-indeed, assuming no bug, no harm in having them.
+Compilers!!!  :-/
 
-And in that regard they're no different from all the WARN_ON() crud we
-have all over the place, those are deemed safe under the assumption they
-don't happen either.
-
-> With that in mind, you could whitelist "__ubsan_handle"-prefixed
-> functions in objtool. Given the __always_inline+noinstr+__ubsan_handle
-> case is quite rare, it might be reasonable.
-
-Yes, I think so. Let me go have dinner and then I'll try and do a patch
-to that effect.
+							Thanx, Paul
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200603160722.GD2570%40hirez.programming.kicks-ass.net.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200603162949.GP29598%40paulmck-ThinkPad-P72.
