@@ -1,46 +1,46 @@
-Return-Path: <kasan-dev+bncBCV5TUXXRUIBBJUZ333AKGQE3CYXAJI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCV5TUXXRUIBBJMZ333AKGQEZVDZC4I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x437.google.com (mail-pf1-x437.google.com [IPv6:2607:f8b0:4864:20::437])
-	by mail.lfdr.de (Postfix) with ESMTPS id E32531ECEAB
-	for <lists+kasan-dev@lfdr.de>; Wed,  3 Jun 2020 13:42:31 +0200 (CEST)
-Received: by mail-pf1-x437.google.com with SMTP id x123sf134581pfc.13
-        for <lists+kasan-dev@lfdr.de>; Wed, 03 Jun 2020 04:42:31 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1591184550; cv=pass;
+Received: from mail-ua1-x940.google.com (mail-ua1-x940.google.com [IPv6:2607:f8b0:4864:20::940])
+	by mail.lfdr.de (Postfix) with ESMTPS id 408721ECEA6
+	for <lists+kasan-dev@lfdr.de>; Wed,  3 Jun 2020 13:42:30 +0200 (CEST)
+Received: by mail-ua1-x940.google.com with SMTP id n22sf1009160uaq.10
+        for <lists+kasan-dev@lfdr.de>; Wed, 03 Jun 2020 04:42:30 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1591184549; cv=pass;
         d=google.com; s=arc-20160816;
-        b=CSj6E/8/HEQTB+v5U8ayPiwmU8qOwX7sCcBsaqX6AYAua19m1GN4zaaOM0i3BIr262
-         k5K5j+kZ7cPEMYkiSQr/tiWnZkRPiX+0n4TqnUOoEVq93/1iX6Op2xlB5SB13FALnoJ4
-         h5Kj1ajENDCQi/d5ZZnL923QHHKhoToxnLgzAHvXI3fKEucFPf4LH4yr6t78IS9jsGPw
-         e3seR2t5i3cooNTTt6wd0jbQaGkI+PYaiAB4i4wUl3OfGPXpeR6C2OvxCvrSPjo9xJx8
-         QPupp7rTOp7lHktO6nmqdIJFiyclGdQe7hWZemHvobQSMxesj6/pyeB5EnRkpXRmXvkZ
-         TLVg==
+        b=SyJ0dxtCeuTQyPTz3dWAd1Ku00SDJDheARYFjjC1FtQgjbQnmqbGUZYmnWk9WYDa52
+         wCi4p9U0g8rRSaAceP66LRM1atrp+zrNDjPJADG1mzffyeDWadkWXQjydiwj10ely7vM
+         UxcMJnELnw2AFS/KM/UqAmtFMB+wdzX4rUMfi0pB0DBydpIi7CNBLIYcYcosGiXGy96Y
+         yNp8HqOEHxxpgziB4e0b8jVAdR4aoCTptOihiGyHr3rMpceh7uLV8tMcWwe3D8VK5k8a
+         lKKOQmsGZlxEnvyp6lvOyaVzEl7PFYbaoGXK+YuuU77nFFM4v1yXAIKSx95EhF22mTFL
+         N4kQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:subject:cc
          :to:from:date:user-agent:message-id:sender:dkim-signature;
-        bh=I6M7HjxWB4QfRS4GmviNyJ2kFom8PWLQtx4JeS+CGMY=;
-        b=JXdD3HtDChMZP6gtU3XcWSbU9n2OHi72qNr8WeB7gkwIlCwUEauR4M76u1ZUme0ccB
-         B5Km/6EoW4E/Vts99TcoH9gZqgIEpebnTpvWQd55Y+AvSOY/DE0o+OdRDXYR05c5tMCM
-         WDtpfvu0q9hSI5+KIcP2cyaL1plSsCqbvOkPj3Azbvy4dfwTHmX5m7YTeYNe7gO3tdRJ
-         ZXgyKL8jhNRicXYpZRiWNIPgk8zEwGFb3sRL7s9f4SCE+jkWeOqQjPLljNAxSBltfI3D
-         Ofd1bDNVTs56+jIpEI5nEb5MJQL/4Ta306vR9wZJARQH5VduSnJyFP8D81qkHGhCdFyi
-         i4BQ==
+        bh=6LzcwtX+/S0U2+Zkt6u7gzXJTjHMayHHTOwRtjNlDf0=;
+        b=0RL+xHoBpil0o6zHz/Rf3NKItHTED7He7B6lMwi9Se14dy9LYgvDF00sIkpVMPuvUE
+         UxNAP1J7K6VHnXw5X5i8g7yn+8SyU847ZpVj7EhDYfmFgPcnBsuo8I7KOPmWIqGhlhm4
+         /gK+wmARx/hcxIb2pbrJWvmp7EuAYAmuVYDlW78AWd75+C17Gs3f00SIPDKTk6f2jKN/
+         j94imEKQ7QuNCQnyeehAPpdHfp65NFPhSLZsj6nKxylkYrkZOMlidERzM8GInmyxiNHq
+         PYvhgMtnAk6UGoGzqoL/KZM4jZ3HhgP2f0mjU9A9eJwFdjUh2U4nnVBYh1H3FiP64PId
+         EHwQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=merlin.20170209 header.b=nd5NSFf1;
-       spf=pass (google.com: best guess record for domain of peterz@infradead.org designates 2001:8b0:10b:1231::1 as permitted sender) smtp.mailfrom=peterz@infradead.org
+       dkim=pass header.i=@infradead.org header.s=bombadil.20170209 header.b=SlUqS3YP;
+       spf=pass (google.com: best guess record for domain of peterz@infradead.org designates 2607:7c80:54:e::133 as permitted sender) smtp.mailfrom=peterz@infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
         h=sender:message-id:user-agent:date:from:to:cc:subject:references
          :mime-version:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=I6M7HjxWB4QfRS4GmviNyJ2kFom8PWLQtx4JeS+CGMY=;
-        b=mh/jQRvN6f2BBblN8EuWfoE7d6rkJ++RptESsi6gLx4by/Xr9Xn2AXZT4ucX3n+nU5
-         TUDOAMPrBs84g7kSsfeELtgREL6gzt5CInhyKn7bxQ2gE+goi3Kzxl1PEFBpQEpeLaaV
-         QNFjAroR9RXq5q5ImTHoftUytS36RkGT5g78aF6j1LaD2fK/R72aJoxTWCbPGPA68OtQ
-         oEfvCEfntehkTX/PUx63Ml1qNlVxfcmJOLsSH4CwYhnHLBL5cXqTXDJ8BYKs3636vpJq
-         NRS32LizDI1qLhTE+lllO9XYV6E52QS2gSSZREEBXc2n/i2/ByrCNWzJ/6vkqrwNN6DZ
-         UpZQ==
+        bh=6LzcwtX+/S0U2+Zkt6u7gzXJTjHMayHHTOwRtjNlDf0=;
+        b=FJTExol+ZAFLH2FLGdxyRGioLyERYsGgTpIZDtbfrzq3mA0tW+ng28sLfhvmjilUsV
+         JhCI/GL3vBdJNwhMzWdhBj94R3nqWdlHPKSnLXdTI4erPLWxsPi5o6asMfI6uuHIRgxI
+         PIUl7PNMt/pIHeKTnvBzswFUUH8mZLnbzCHamPfaHy0MSrbH84tnTUWdktwJqNnwDg4l
+         2p3xchDSTz6sOo1OgOh9bfkbd40VupyV0aQan2IaEGP2IKUBMZOBhSmbP5rvMsyviWsZ
+         O0BWzRGU0iwGdrs27iLPL+8WTFsckxRwvUInZke8V4wpSrFO1lx5l3lvJPjvHKYGY/1G
+         pU4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:message-id:user-agent:date:from:to:cc
@@ -48,64 +48,64 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=I6M7HjxWB4QfRS4GmviNyJ2kFom8PWLQtx4JeS+CGMY=;
-        b=f2ZnrLVbfVQNaLm/bkEkoT/40Dp/cfGjIehRmnjDuc1wt1AevGoJdbC6DVtMJ7Iw57
-         bryo9xBU46K4m39LHUEvLW6ReVCXD/M/YnjS3OOouOQ0knGRaz/Cw3geBzs+BJr88D+p
-         U7WThPA1+ysExyMozTBK/0xbBXnckICaTSORtU4Zs8VoeZ+ME/L8qdPYjgKMo3vl7s0Q
-         OyfKFoiTg8E7kpKh4QxI1ZyO9bCXkNI8nPuWEb7IpnWk2hue/CoTZeRqrzVF+JPx6JUC
-         0kgcOPGA976WpOFB+dZ6/8squFZcnHfLMP5QytNInZNxBxGc4bunU+1IpChsdniwYlD6
-         kFNA==
+        bh=6LzcwtX+/S0U2+Zkt6u7gzXJTjHMayHHTOwRtjNlDf0=;
+        b=cLGuimyOTRHnYpJ+RerKQNS7l/iVWX/M3ObqlwO7IapKJab9CaqId7qoUh65zLKJuu
+         F8DdoELpCnve7PKax59kvXwm1AYxwwMa4FsA8Fm86OUTmUp3c2QbbBHYp4QAQ1eXWMdy
+         PeLy+Nf0c6qm72IXrS9xPKN55dG1ZumRNcBgg0A6O3yvFm09q4RuE/gF1RiIkdiP+eMK
+         r/1he5OA473aedSGfewA0bhZ1bFmTPm+eTmDjTnSIOVTpfqygUSnGQSKnLfQJb+63UyL
+         i4Tg9XPXNZ/1MRNRxbsHzYftaoXFsJKoPHa0wzOUDi9kY8uJKesWUU70zw7Xw+0TkuT7
+         pFTQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM530gUJ4Il5ixos71iRrre4N1mhkgR26HFKm+ALTg8Uqu6feAO0lo
-	GXyy9S2GMUI+kyKy23eY1bs=
-X-Google-Smtp-Source: ABdhPJxOIhjOj7drXRAL1W7p4PbuQV2gj3U8W5vodm5UjUiZJ4oKFBUIKNEyuUfCuBRxqJlaGGRldQ==
-X-Received: by 2002:a17:90a:f184:: with SMTP id bv4mr2372597pjb.57.1591184550669;
-        Wed, 03 Jun 2020 04:42:30 -0700 (PDT)
+X-Gm-Message-State: AOAM533hxCgIjmgSj0L6eNc2fcrSX1ubzUDzsCpC4kDi0ir+lunD0Wdn
+	3R/aB1E5XJ6YkaGNKC/ZR7Y=
+X-Google-Smtp-Source: ABdhPJzoS1uqEG0Flus2fEDcjMLKaSX7bpE7Ub7JJx9cVUtBEE4ndOoUxKYAKKUQQZ9cHDPPIsTpXQ==
+X-Received: by 2002:a67:a64c:: with SMTP id r12mr2239611vsh.127.1591184549263;
+        Wed, 03 Jun 2020 04:42:29 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:90a:d349:: with SMTP id i9ls1462569pjx.3.gmail; Wed, 03
- Jun 2020 04:42:30 -0700 (PDT)
-X-Received: by 2002:a17:90a:ce17:: with SMTP id f23mr5594174pju.51.1591184550291;
-        Wed, 03 Jun 2020 04:42:30 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1591184550; cv=none;
+Received: by 2002:ab0:5bc6:: with SMTP id z6ls146524uae.10.gmail; Wed, 03 Jun
+ 2020 04:42:28 -0700 (PDT)
+X-Received: by 2002:a9f:318b:: with SMTP id v11mr22217886uad.46.1591184548888;
+        Wed, 03 Jun 2020 04:42:28 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1591184548; cv=none;
         d=google.com; s=arc-20160816;
-        b=Ac5ZyDRpgcPLM8q26j/LoznXkan5WRkg9LrCRuCkr6mruqxEJfaDE5gSKwWE02WFlS
-         eNwlih8nCIpYpqRQS3npZAEN6TPhuCO/nkek1Ntnr9g87xNLD61y0GpJll+A3uhWGYGa
-         GwgZle/omPA1/ebhDXmgcMmzDISVDtOMoS8hsRRENMkFuVYOF0acsYwz2/vBhUNu3XBG
-         LOnn5W9p40SFtBDeZHcK8iKGxTjpoDQGfPvYwHG5WQ2RNKQgJsUr1KCmc+b7F/QKoG2E
-         T0aOsvon+kNIQkzW73RAEbQXitRHfzcmSxiNFIy6zsRFR/NOnACzLOTwUxGiPdwJr9xB
-         ITxA==
+        b=u8TrRK9wMzWlsqTCLoIeH++mPdR1fXS5L0zoBt2cZWFiKaAJkastVKxHDorE7spYrh
+         85zefWWsK+b9dzErGHb/OMTW3Wf51luQ+nLmQQumvnpdphwg2XxWT3fFjcHIuG6KER+l
+         gy85aWo/jZrLXFrnghdjssAJiXAO8wO/hCmqsTgrNuAEMMTIqbMny3KGac2ToAdL/v6V
+         ZVJ5iYfRSpa7Dkv/pgvD+qvLM4JUFbR5dFeCG2cRaDaigd1UBU5lYjaey5M3rx/6je+v
+         /Xba38RzC90qrwuzLIVDByEgYFTM1fdlh40ZoD4M+QRqo3ZBbdmEULgJxRNcfyj/6rhK
+         WaSg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=mime-version:references:subject:cc:to:from:date:user-agent
          :message-id:dkim-signature;
-        bh=/2QXn+atrvGmy2WDbzn5KMB/u9lheYoEWUB6ctzoU3g=;
-        b=b0s1jZZ98Cj310IVulAlxdrs+AXJ21GdY2DKYam9JnMBRcXMfKfOzCBtfvzDcU7jc1
-         auVg4cbS8fHcTU06K/GJ/bnjI4FFTeXIz2+xtTpJNiFQSAXsLGCq2Klpxp6ORtxFrXs5
-         x/Wjz8o1WuCdC0okMQL8bFejh4pAUo+9e/6LeRL3s4+0HcGdgqbf6yv5eTE0Hl8MbeyQ
-         xs+O/q8kfqzf0Lwc1snY00GjkwO5L8oUsh5fE/iDtiJVgJ+pMQ1iO1Ca89/ti2HxR6g8
-         jG7ApQPF50iCF8XeX7DIIxoc+TlvACiQBYM5WLVCApCCWd40rhmJSgWh1NpJMEcVzG/M
-         PLyQ==
+        bh=YtDsltKEuKDuBSNGU0EYICMCiPeDra4uCaDiVXYzdZw=;
+        b=IdtkpG6woH9QEXitK4T04ONAnvR0r+Ww1SUk33FNE+3peNX/9aDIlpmRnXG4UBjojb
+         VuJ2A7j76aibgWSUO3qkTrH/slE2QzhnTkKziMGj8xEH119MZsC/k8mSF7p2cLDTn0VN
+         u1hWTj5WcPx9FxbKfFbBVJy9jbTZ+fKz7GykrxAq0rVwUOX4EeDSlpMahrRca21NfhD0
+         Y4StK510imILWVtrfG9XizEkhejCtPf4yCAPADxyFaPC9/v1ABRDpCfmWTHoZmu4o+Zl
+         yLq9bLWvJtGmCl/dHb/rHwARASqMaSXxLCQ5Eq094AWzjuvfIA8dIPJtx14sHGEyObus
+         x9pg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=merlin.20170209 header.b=nd5NSFf1;
-       spf=pass (google.com: best guess record for domain of peterz@infradead.org designates 2001:8b0:10b:1231::1 as permitted sender) smtp.mailfrom=peterz@infradead.org
-Received: from merlin.infradead.org (merlin.infradead.org. [2001:8b0:10b:1231::1])
-        by gmr-mx.google.com with ESMTPS id r17si79203pgu.4.2020.06.03.04.42.30
+       dkim=pass header.i=@infradead.org header.s=bombadil.20170209 header.b=SlUqS3YP;
+       spf=pass (google.com: best guess record for domain of peterz@infradead.org designates 2607:7c80:54:e::133 as permitted sender) smtp.mailfrom=peterz@infradead.org
+Received: from bombadil.infradead.org (bombadil.infradead.org. [2607:7c80:54:e::133])
+        by gmr-mx.google.com with ESMTPS id q20si160455uas.1.2020.06.03.04.42.28
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Jun 2020 04:42:30 -0700 (PDT)
-Received-SPF: pass (google.com: best guess record for domain of peterz@infradead.org designates 2001:8b0:10b:1231::1 as permitted sender) client-ip=2001:8b0:10b:1231::1;
+        Wed, 03 Jun 2020 04:42:28 -0700 (PDT)
+Received-SPF: pass (google.com: best guess record for domain of peterz@infradead.org designates 2607:7c80:54:e::133 as permitted sender) client-ip=2607:7c80:54:e::133;
 Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-	by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jgRmr-0005oW-FJ; Wed, 03 Jun 2020 11:42:25 +0000
+	by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+	id 1jgRmr-0005jm-RH; Wed, 03 Jun 2020 11:42:26 +0000
 Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(Client did not present a certificate)
-	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id F266B306D6D;
-	Wed,  3 Jun 2020 13:42:23 +0200 (CEST)
+	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 0342C306E4A;
+	Wed,  3 Jun 2020 13:42:24 +0200 (CEST)
 Received: by hirez.programming.kicks-ass.net (Postfix, from userid 0)
-	id B4319209DB0D0; Wed,  3 Jun 2020 13:42:23 +0200 (CEST)
-Message-ID: <20200603114052.070166551@infradead.org>
+	id B6147209DB0CC; Wed,  3 Jun 2020 13:42:23 +0200 (CEST)
+Message-ID: <20200603114052.127756554@infradead.org>
 User-Agent: quilt/0.66
-Date: Wed, 03 Jun 2020 13:40:19 +0200
+Date: Wed, 03 Jun 2020 13:40:20 +0200
 From: Peter Zijlstra <peterz@infradead.org>
 To: tglx@linutronix.de
 Cc: x86@kernel.org,
@@ -118,15 +118,15 @@ Cc: x86@kernel.org,
  dvyukov@google.com,
  glider@google.com,
  andreyknvl@google.com
-Subject: [PATCH 5/9] x86/entry: __always_inline arch_atomic_* for noinstr
+Subject: [PATCH 6/9] x86/entry: Re-order #DB handler to avoid *SAN instrumentation
 References: <20200603114014.152292216@infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: peterz@infradead.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@infradead.org header.s=merlin.20170209 header.b=nd5NSFf1;
+ header.i=@infradead.org header.s=bombadil.20170209 header.b=SlUqS3YP;
        spf=pass (google.com: best guess record for domain of
- peterz@infradead.org designates 2001:8b0:10b:1231::1 as permitted sender) smtp.mailfrom=peterz@infradead.org
+ peterz@infradead.org designates 2607:7c80:54:e::133 as permitted sender) smtp.mailfrom=peterz@infradead.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -139,79 +139,129 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-vmlinux.o: warning: objtool: rcu_dynticks_eqs_exit()+0x33: call to arch_atomic_and.constprop.0() leaves .noinstr.text section
+vmlinux.o: warning: objtool: exc_debug()+0xbb: call to clear_ti_thread_flag.constprop.0() leaves .noinstr.text section
+vmlinux.o: warning: objtool: noist_exc_debug()+0x55: call to clear_ti_thread_flag.constprop.0() leaves .noinstr.text section
+
+Rework things so that handle_debug() looses the noinstr and move the
+clear_thread_flag() into that.
 
 Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 ---
- arch/x86/include/asm/atomic.h |   14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ arch/x86/kernel/traps.c |   55 +++++++++++++++++++++++-------------------------
+ 1 file changed, 27 insertions(+), 28 deletions(-)
 
---- a/arch/x86/include/asm/atomic.h
-+++ b/arch/x86/include/asm/atomic.h
-@@ -205,13 +205,13 @@ static __always_inline bool arch_atomic_
- }
- #define arch_atomic_try_cmpxchg arch_atomic_try_cmpxchg
- 
--static inline int arch_atomic_xchg(atomic_t *v, int new)
-+static __always_inline int arch_atomic_xchg(atomic_t *v, int new)
+--- a/arch/x86/kernel/traps.c
++++ b/arch/x86/kernel/traps.c
+@@ -775,26 +775,44 @@ static __always_inline void debug_exit(u
+  *
+  * May run on IST stack.
+  */
+-static void noinstr handle_debug(struct pt_regs *regs, unsigned long dr6,
+-				 bool user_icebp)
++static void handle_debug(struct pt_regs *regs, unsigned long dr6, bool user)
  {
- 	return arch_xchg(&v->counter, new);
+ 	struct task_struct *tsk = current;
++	bool user_icebp;
+ 	int si_code;
+ 
++	/*
++	 * The SDM says "The processor clears the BTF flag when it
++	 * generates a debug exception."  Clear TIF_BLOCKSTEP to keep
++	 * TIF_BLOCKSTEP in sync with the hardware BTF flag.
++	 */
++	clear_thread_flag(TIF_BLOCKSTEP);
++
++	/*
++	 * If DR6 is zero, no point in trying to handle it. The kernel is
++	 * not using INT1.
++	 */
++	if (!user && !dr6)
++		return;
++
++	/*
++	 * If dr6 has no reason to give us about the origin of this trap,
++	 * then it's very likely the result of an icebp/int01 trap.
++	 * User wants a sigtrap for that.
++	 */
++	user_icebp = user && !dr6;
++
+ 	/* Store the virtualized DR6 value */
+ 	tsk->thread.debugreg6 = dr6;
+ 
+-	instrumentation_begin();
+ #ifdef CONFIG_KPROBES
+ 	if (kprobe_debug_handler(regs)) {
+-		instrumentation_end();
+ 		return;
+ 	}
+ #endif
+ 
+ 	if (notify_die(DIE_DEBUG, "debug", regs, (long)&dr6, 0,
+ 		       SIGTRAP) == NOTIFY_STOP) {
+-		instrumentation_end();
+ 		return;
+ 	}
+ 
+@@ -825,7 +843,6 @@ static void noinstr handle_debug(struct
+ 
+ out:
+ 	cond_local_irq_disable(regs);
+-	instrumentation_end();
  }
- #define arch_atomic_xchg arch_atomic_xchg
  
--static inline void arch_atomic_and(int i, atomic_t *v)
-+static __always_inline void arch_atomic_and(int i, atomic_t *v)
+ static __always_inline void exc_debug_kernel(struct pt_regs *regs,
+@@ -834,14 +851,6 @@ static __always_inline void exc_debug_ke
+ 	nmi_enter();
+ 	instrumentation_begin();
+ 	trace_hardirqs_off_finish();
+-	instrumentation_end();
+-
+-	/*
+-	 * The SDM says "The processor clears the BTF flag when it
+-	 * generates a debug exception."  Clear TIF_BLOCKSTEP to keep
+-	 * TIF_BLOCKSTEP in sync with the hardware BTF flag.
+-	 */
+-	clear_thread_flag(TIF_BLOCKSTEP);
+ 
+ 	/*
+ 	 * Catch SYSENTER with TF set and clear DR_STEP. If this hit a
+@@ -850,14 +859,8 @@ static __always_inline void exc_debug_ke
+ 	if ((dr6 & DR_STEP) && is_sysenter_singlestep(regs))
+ 		dr6 &= ~DR_STEP;
+ 
+-	/*
+-	 * If DR6 is zero, no point in trying to handle it. The kernel is
+-	 * not using INT1.
+-	 */
+-	if (dr6)
+-		handle_debug(regs, dr6, false);
++	handle_debug(regs, dr6, false);
+ 
+-	instrumentation_begin();
+ 	if (regs->flags & X86_EFLAGS_IF)
+ 		trace_hardirqs_on_prepare();
+ 	instrumentation_end();
+@@ -868,14 +871,10 @@ static __always_inline void exc_debug_us
+ 					   unsigned long dr6)
  {
- 	asm volatile(LOCK_PREFIX "andl %1,%0"
- 			: "+m" (v->counter)
-@@ -219,7 +219,7 @@ static inline void arch_atomic_and(int i
- 			: "memory");
+ 	idtentry_enter_user(regs);
+-	clear_thread_flag(TIF_BLOCKSTEP);
++	instrumentation_begin();
+ 
+-	/*
+-	 * If dr6 has no reason to give us about the origin of this trap,
+-	 * then it's very likely the result of an icebp/int01 trap.
+-	 * User wants a sigtrap for that.
+-	 */
+-	handle_debug(regs, dr6, !dr6);
++	handle_debug(regs, dr6, true);
++	instrumentation_end();
+ 	idtentry_exit_user(regs);
  }
- 
--static inline int arch_atomic_fetch_and(int i, atomic_t *v)
-+static __always_inline int arch_atomic_fetch_and(int i, atomic_t *v)
- {
- 	int val = arch_atomic_read(v);
- 
-@@ -229,7 +229,7 @@ static inline int arch_atomic_fetch_and(
- }
- #define arch_atomic_fetch_and arch_atomic_fetch_and
- 
--static inline void arch_atomic_or(int i, atomic_t *v)
-+static __always_inline void arch_atomic_or(int i, atomic_t *v)
- {
- 	asm volatile(LOCK_PREFIX "orl %1,%0"
- 			: "+m" (v->counter)
-@@ -237,7 +237,7 @@ static inline void arch_atomic_or(int i,
- 			: "memory");
- }
- 
--static inline int arch_atomic_fetch_or(int i, atomic_t *v)
-+static __always_inline int arch_atomic_fetch_or(int i, atomic_t *v)
- {
- 	int val = arch_atomic_read(v);
- 
-@@ -247,7 +247,7 @@ static inline int arch_atomic_fetch_or(i
- }
- #define arch_atomic_fetch_or arch_atomic_fetch_or
- 
--static inline void arch_atomic_xor(int i, atomic_t *v)
-+static __always_inline void arch_atomic_xor(int i, atomic_t *v)
- {
- 	asm volatile(LOCK_PREFIX "xorl %1,%0"
- 			: "+m" (v->counter)
-@@ -255,7 +255,7 @@ static inline void arch_atomic_xor(int i
- 			: "memory");
- }
- 
--static inline int arch_atomic_fetch_xor(int i, atomic_t *v)
-+static __always_inline int arch_atomic_fetch_xor(int i, atomic_t *v)
- {
- 	int val = arch_atomic_read(v);
  
 
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200603114052.070166551%40infradead.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200603114052.127756554%40infradead.org.
