@@ -1,106 +1,110 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBLUX4T3AKGQEXCIQGRY@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBMMX4T3AKGQEAA72OSY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qk1-x73d.google.com (mail-qk1-x73d.google.com [IPv6:2607:f8b0:4864:20::73d])
-	by mail.lfdr.de (Postfix) with ESMTPS id A927A1EE70F
-	for <lists+kasan-dev@lfdr.de>; Thu,  4 Jun 2020 16:56:47 +0200 (CEST)
-Received: by mail-qk1-x73d.google.com with SMTP id d145sf4743619qkg.22
-        for <lists+kasan-dev@lfdr.de>; Thu, 04 Jun 2020 07:56:47 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1591282606; cv=pass;
+Received: from mail-pl1-x63b.google.com (mail-pl1-x63b.google.com [IPv6:2607:f8b0:4864:20::63b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 09F7B1EE711
+	for <lists+kasan-dev@lfdr.de>; Thu,  4 Jun 2020 16:56:51 +0200 (CEST)
+Received: by mail-pl1-x63b.google.com with SMTP id m2sf4800972plt.17
+        for <lists+kasan-dev@lfdr.de>; Thu, 04 Jun 2020 07:56:50 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1591282609; cv=pass;
         d=google.com; s=arc-20160816;
-        b=QkrcV+fv9VVcZA/Vt0MH8vFzHfy+97YGXXPjCj5Lur6DtLjDdzMM2Q4RWaPOypj1/n
-         YlfWSvHwkdg3xQePnTsCN6eOWdkAipcERasuhM6MPspQUlG8iMUMYZ293fq/se9STcsr
-         G0g5q7i0wbzaRtLFadObfZha1N8saphuImmVJZ3paALwDOlQ9pUC6c8do3wbh6EsnnpC
-         y9BSW8Ahfy0+iw0bsLbTiwQ41w+rIdvLBk/vGp+mrUWIRcJqJsAPg0tKsidw7vF/uVP7
-         Gg39LtRbrWSUtlEifsUOdLNDNifxor7K9OLVN06N8eM9f9e8mZosiSBPcnoUqWkLS69k
-         OWMw==
+        b=MS3YbpYz5yCNLHZpTORKPFuv++LWXvTxZzxCFg0h+/olIVQjz+PgQ2MYSizl4inS1N
+         O4cOiBaYoE2yqK6NRCQbI5XacqupqEuYzwLHO9icYB5zNohD4dnF3mId4rfSKO6jrnSH
+         fDxTymqysTZX994Eco6vEuRijxTx/hDoc1zBRqkSbiso1KHd76yhdRJeCK/CQN9uPIJP
+         Kt/qaTS9eSlLC+N2ucJGjPPe60i23Cc0GnEp+ZBhY6zON/wsMSnVjHTyHEF7nK9xlDmn
+         8McwSdM0K/o1vcd/hicgSWvRKpKBhyxR+vZ8rNDLeOWfz6GvURJop5AlgyE525a0JNdx
+         7kXQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
-         :mime-version:message-id:date:dkim-signature;
-        bh=zmav7cMLZPBmB5KgTwdkueJtOVKldA93kG7MeVAfXlE=;
-        b=dC5osyGRdMTWXOrGz7jDrIk0rbr0c9OJUN7vtRt0Sgj6MwHmy5YRxFi39biOMLJMj6
-         PGn5jjQet8OpRq/0YPHVV3EN5LiwJznQA77JwxfA6BC/kwnpdOODCubTYsz3uwCNF0Je
-         v6TKf/HVC8HIzkipCGuSveTKKjxAcljGwfIMlItpkxr1dZ7DMgoZEaaEhjljzfVp3KcX
-         c0RuUvH5UrgJ6k1mEj73VQFRQAf++4MAVNWBfx79FzqbNwJ1N5GlriPShSVo7B2ZMbGn
-         0hk3k0PHiqD3EyFFkgsQb5H9K1GeB15nDHIWHiYV5YDei2yxFwnXlPxG60FeLI0GLiog
-         KE5A==
+         :references:mime-version:message-id:in-reply-to:date:dkim-signature;
+        bh=aMzF9dJlJLA77iDZ5FRHpyw8/Qe4+thKe4LXxMawKz0=;
+        b=vaW/4KZro8EaGUQCmE9PV44o6SBJs6WnU8yyKtWAvjxXVDw0Uq8E0Rcs8qJghGTAxF
+         dSiQXoHd+jV8Kfordf9CVmteiO22IVPylBaTHNyISOY0yAknF5HN/kxk3jjt2bwHWVaM
+         59i6eGnMKWOTP7xv0EeBmSdb8lyq+j4PHqu52bUG3Abj0udApHeRBAWpYWVQ+o1ojvDX
+         f6GtZ0car6Ug1uZmFblXMSQWnEbsuMLsmNEEe3u9vSSKAhMk1MRaHo/qOHtKMqiVbPOI
+         TePAxo8sYmO6nqM7jnSX6sVZPzgqQooHR7Dmwjco6wW0Ld2BAJ5gcma17jAzby2PEbR2
+         4lxQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=WdAR16zY;
-       spf=pass (google.com: domain of 3rqvzxgukcsygnxgtiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::749 as permitted sender) smtp.mailfrom=3rQvZXgUKCSYGNXGTIQQING.EQOMCUCP-FGXIQQINGITQWRU.EQO@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=tFAsnU+f;
+       spf=pass (google.com: domain of 3savzxgukcskjqajwlttlqj.htrpfxfs-ijalttlqjlwtzux.htr@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::b49 as permitted sender) smtp.mailfrom=3sAvZXgUKCSkJQaJWLTTLQJ.HTRPFXFS-IJaLTTLQJLWTZUX.HTR@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=date:message-id:mime-version:subject:from:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:list-post:list-help:list-archive:list-subscribe
-         :list-unsubscribe;
-        bh=zmav7cMLZPBmB5KgTwdkueJtOVKldA93kG7MeVAfXlE=;
-        b=idCaS0yT9lfpR03nrg3D23/xe+H8vJgdu5hk710k4+VyxH9qVXG5vz5Yn3GrPx4fMl
-         7UJEbe0AxekBZ97c7w2kJqEZjBczo12nGIL8O5/9uTyE/DNEnzlvAxislLm1RXBaS0MK
-         gIHTZc2NZBUYjHTu0kwYvA3hiHkeZnT7C0vRFv/qiye21M1XYVQj0A8XfyaBWhXMS2hB
-         IhbPLlzfueqBJSvB6xXMlSwI8OBKwcg+JW7+wiA9BwLyhY0OniEjlmfqJdTMm6T9OGGl
-         YJtsHJms0ZGbK2xblsu6f14HlcBJu9AjOnkzFzDI1ii6b/++D49LJnA5dxmPG5LgDpbx
-         /2Qg==
+        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=aMzF9dJlJLA77iDZ5FRHpyw8/Qe4+thKe4LXxMawKz0=;
+        b=Y7Yw8iVN4uS8SKoxIZCIVvbRGRHEGCZBtHRQWGwdG7JyI88nW/Ef7SxJpOV1F4f3eS
+         dwBE+Nmc4zYKBOSZ9Aqa0imiKA7JW6gRovaCL8/wVW9VsIPXRDz0T9M/iY7ib+TlY9ur
+         5ZV9uysC3MvrnXW2mf3evo7EdV3nYEITD3+x5Wk12quq2h7bDYeCbGeFtDTrT1FrwQiN
+         pNPe+3COCC3yuy0+RyiHcT7aOYsobedWunUaIJYKZTqz3FNluAbL3XfRWXyxEbIUa3Ia
+         TJezGxmjgCJaFtcHmsimB2IdvXRxZ1G9gzJZiPQm8BotCoi8LxPkYT6DlbrXRIXW4Hyg
+         FLXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc
-         :x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=zmav7cMLZPBmB5KgTwdkueJtOVKldA93kG7MeVAfXlE=;
-        b=HTsXzlh6IXFCvfD2V1HoCtllYXTVoxMAuI9XOK6Wvfjir2HpeEj/ZU47cls40n2trM
-         1BFNPSaTMWBv8M304ipeBmLgLQ8K6O28a5SK5lWSG7HoA+f7/TU+ph7cjE4mlOT8/SEi
-         EWR1m8ehPdNYK1Lq5NriEOPscTer3KJyFGFXWEvO9lurAuz5CAFy/SDNV2OKL4nAr+6q
-         rX5UQOPKh1MgDZkCJP0hHdIvNvp2JZDC5FptqlBwRfqj+D13i0H10SPRN0PHI98VC5JK
-         iZup/0XmVucpxbUyCmjc2Pa4qjVRY1UQiEnetMNpBlwiyHywA3BDImd/ghdXtmHeAWq3
-         aeTQ==
-X-Gm-Message-State: AOAM530cWWViSQRoFsQkukIohfX0C2WgMotJTDgh28oX7mxihT1t8Q7+
-	Ba9iHqfS0QirAlbg6vJ2EDw=
-X-Google-Smtp-Source: ABdhPJyRar4BO+aCfDjDWIMYLHADU2zRtbmcMLU2FjuEDldIsaDCiuxnojQzqUQkibQJamgGPYltIQ==
-X-Received: by 2002:a37:a89:: with SMTP id 131mr4965476qkk.92.1591282606739;
-        Thu, 04 Jun 2020 07:56:46 -0700 (PDT)
+        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+         :references:subject:from:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=aMzF9dJlJLA77iDZ5FRHpyw8/Qe4+thKe4LXxMawKz0=;
+        b=kC73PJx1XpjDZOkqZiHSfIrUcvWEYhXAr9h1eY80qQ1IrRVviTc1+vwypvIwMI3CAa
+         I98HeJz0REcocbx6C653sk1gCWB23Vc6OVHUaFNLl8bBHNss86yo1r5aq2uBw78t6xu7
+         xyRsSohWsP2Pwit4Ump++hD22R5ShT+Qgox6md5bF/4Gw5Y6BSamU6UX3RWbWb3ytCE5
+         Q9Hee7MDkJP8cwS3iHtIx17anOqdkA0b9v8Q2qfLbvIcpMJjNjrPpw8DzEfMWDlwqvnZ
+         scQErC2uDoDXV00zmkOZgYJ+DagTW9DvGE8lnxyP5vUiC4dPVbO+eK8bOhR+AlHXCmqb
+         j4pQ==
+X-Gm-Message-State: AOAM532KxPYai/jwxLjbLFspRHszjDq7enu2ycYSWJy6wmRgTzXrjI3t
+	CooxtRKzSjmTqWTLWEp/Lzc=
+X-Google-Smtp-Source: ABdhPJxRS7t1xvEW/J7ci8Em/lltg2y0YRNsq1Qn/2qk2t0TSEXZsPQUrDT6IOJQm7UHLnAg3QtIQw==
+X-Received: by 2002:a62:2bc6:: with SMTP id r189mr3639392pfr.11.1591282609699;
+        Thu, 04 Jun 2020 07:56:49 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ac8:2978:: with SMTP id z53ls1996723qtz.1.gmail; Thu, 04 Jun
- 2020 07:56:46 -0700 (PDT)
-X-Received: by 2002:ac8:842:: with SMTP id x2mr4830226qth.233.1591282606364;
-        Thu, 04 Jun 2020 07:56:46 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1591282606; cv=none;
+Received: by 2002:a17:902:b702:: with SMTP id d2ls2268881pls.6.gmail; Thu, 04
+ Jun 2020 07:56:49 -0700 (PDT)
+X-Received: by 2002:a17:902:7847:: with SMTP id e7mr5219390pln.157.1591282609161;
+        Thu, 04 Jun 2020 07:56:49 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1591282609; cv=none;
         d=google.com; s=arc-20160816;
-        b=rc4EQz2FV0nmO1yb+Xv4BP0gK47E7sZ4lXK3rnU8ad5YItnP7UZbvS+qk369/T6vJ4
-         rKMJBJbI0VQQPsIkpcq/7IZXfCVY5mC2B8Z3jk6ygX4YNyhKcHg5aMHCH7VIGymlIzw7
-         JBxkrusGQe+S9txv/yaOR+s3Sk5GJsg0eCZefv1BCRTN74QfFoHbJXCS1d1vQY9I5+jo
-         +/pwaaU+cPUjiPKhasIs8rSBlGSWigap6FlxbZ5q1DNY3AR3mh2KJMEygCrxCoHgAA6r
-         uAJOymwq4/QPcHxosfbdYxqtHKfWwCq0tEy/xVmvHMqK1iAcmVq3wlZCPgCew/Jy5a3P
-         NiKw==
+        b=CCNBNOnzuXOHVfMX9jTYZBs+7oE/50qds5bQtD5ZWkjtbmf6SgvXqo3RMKKIuWUVza
+         x1G3+aEIEyrq3qBtmk9VNhVSH1zbhyZC/s1UVlCLA3oOlZ0gtmyAutSvwxvM289t6meI
+         mZZ8YPQlV84Kt6CFI6/aat0KWwkknwVJztRm+3/Z0tP7EuTrJCIZXcGjcr9ZVH47KvYH
+         KyGXMb+NWodCyVbUe0spk/BG5pMo75x5WkPu9DyD2F99JxtNJLMZjobLpusVzBnAsIwB
+         ITvDZYjKOitiEYdrj5erMOi/RZ0+J15OXcLnUy6XMaQpEY6upX7Tf63wCvrxfDF2knaE
+         Q9Yw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:from:subject:mime-version:message-id:date:dkim-signature;
-        bh=I7c54UO+jBDB8Mu0xGlRZFnGkQOtoIXkr80oIo5a6yg=;
-        b=MEJ3rVktTe3iA18IQf42jHFpHINj7l3r3MAvFtermtzij/v4JAKvVBgTbTOLPEgQ0k
-         R/2BLnGkD8yB+wBL4jRdvj42hYJKI8pqkwHf/C3NJlTwHuBh7Q5zinHZjRvsL6lcMEwe
-         5XXLKaDa4ORIzCxsHFXOzrEHF31W972iPStgMdXFDFRw6Jtb4q4wgVeKlBISRgY+sN5+
-         CJ7B36H4oMSmWFvWaVDl5ZzRmeztC+whz86retYpN2RhDFmS2bFpwMcv/fN5J2Y5MSkf
-         Ahr8dFLgySFUZi3bjYjIbCIz+DXSjctcN5AYi8kJeN7Ih1ZsCLPJ8koqdIq8JIx2RAcp
-         NQ7Q==
+        h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
+         :date:dkim-signature;
+        bh=8zjrUygx4E8TnS8rYes620O5p8GaLeCkMw8lBo+Hhy8=;
+        b=ls13BeyZpcWR/8FNQfiEkTBV4CCUslCOQJ57qE32uIh95oxjhvndZxZJKB5SkeGFXt
+         PnIo/GObZZlQIRDFViQ1udwU/+1XHesUieeKy8sUF47O8olmXcKPCY2xcbQ8Iha+EZSG
+         Qsk15BeBBS5BPM00IL1XSUbzW9/e/jthmi/+Y5B82Yudrq4g4gJqeHP/2dkccFigTpD2
+         2iDjYYn0zX2yUzTZHwYTEVdqdwtisjYGlTEMzfuFootS/1IfBUx2+eAOUo2MwZ5HacZw
+         9cxLJJHTQS+/6xFY0o1+PShnVabupARkPNeiyEXQ6Y4iu0WyP1qLxylkDmU8+phZ66e9
+         2QmQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=WdAR16zY;
-       spf=pass (google.com: domain of 3rqvzxgukcsygnxgtiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::749 as permitted sender) smtp.mailfrom=3rQvZXgUKCSYGNXGTIQQING.EQOMCUCP-FGXIQQINGITQWRU.EQO@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=tFAsnU+f;
+       spf=pass (google.com: domain of 3savzxgukcskjqajwlttlqj.htrpfxfs-ijalttlqjlwtzux.htr@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::b49 as permitted sender) smtp.mailfrom=3sAvZXgUKCSkJQaJWLTTLQJ.HTRPFXFS-IJaLTTLQJLWTZUX.HTR@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-qk1-x749.google.com (mail-qk1-x749.google.com. [2607:f8b0:4864:20::749])
-        by gmr-mx.google.com with ESMTPS id d64si294238qkb.0.2020.06.04.07.56.46
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com. [2607:f8b0:4864:20::b49])
+        by gmr-mx.google.com with ESMTPS id x70si305286pfc.6.2020.06.04.07.56.49
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 04 Jun 2020 07:56:46 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 3rqvzxgukcsygnxgtiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::749 as permitted sender) client-ip=2607:f8b0:4864:20::749;
-Received: by mail-qk1-x749.google.com with SMTP id l6so4776858qkk.14
-        for <kasan-dev@googlegroups.com>; Thu, 04 Jun 2020 07:56:46 -0700 (PDT)
-X-Received: by 2002:ad4:556b:: with SMTP id w11mr5001166qvy.171.1591282605967;
- Thu, 04 Jun 2020 07:56:45 -0700 (PDT)
-Date: Thu,  4 Jun 2020 16:56:34 +0200
-Message-Id: <20200604145635.21565-1-elver@google.com>
+        Thu, 04 Jun 2020 07:56:49 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 3savzxgukcskjqajwlttlqj.htrpfxfs-ijalttlqjlwtzux.htr@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::b49 as permitted sender) client-ip=2607:f8b0:4864:20::b49;
+Received: by mail-yb1-xb49.google.com with SMTP id y7so8244166ybj.15
+        for <kasan-dev@googlegroups.com>; Thu, 04 Jun 2020 07:56:49 -0700 (PDT)
+X-Received: by 2002:a25:6f44:: with SMTP id k65mr9347038ybc.101.1591282608295;
+ Thu, 04 Jun 2020 07:56:48 -0700 (PDT)
+Date: Thu,  4 Jun 2020 16:56:35 +0200
+In-Reply-To: <20200604145635.21565-1-elver@google.com>
+Message-Id: <20200604145635.21565-2-elver@google.com>
 Mime-Version: 1.0
+References: <20200604145635.21565-1-elver@google.com>
 X-Mailer: git-send-email 2.27.0.rc2.251.g90737beb825-goog
-Subject: [PATCH v2 1/2] kcov, objtool: Make runtime functions noinstr-compatible
+Subject: [PATCH v2 2/2] kcov: Pass -fno-stack-protector with Clang
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
 To: elver@google.com
 Cc: peterz@infradead.org, bp@alien8.de, tglx@linutronix.de, mingo@kernel.org, 
@@ -110,9 +114,9 @@ Cc: peterz@infradead.org, bp@alien8.de, tglx@linutronix.de, mingo@kernel.org,
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=WdAR16zY;       spf=pass
- (google.com: domain of 3rqvzxgukcsygnxgtiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--elver.bounces.google.com
- designates 2607:f8b0:4864:20::749 as permitted sender) smtp.mailfrom=3rQvZXgUKCSYGNXGTIQQING.EQOMCUCP-FGXIQQINGITQWRU.EQO@flex--elver.bounces.google.com;
+ header.i=@google.com header.s=20161025 header.b=tFAsnU+f;       spf=pass
+ (google.com: domain of 3savzxgukcskjqajwlttlqj.htrpfxfs-ijalttlqjlwtzux.htr@flex--elver.bounces.google.com
+ designates 2607:f8b0:4864:20::b49 as permitted sender) smtp.mailfrom=3sAvZXgUKCSkJQaJWLTTLQJ.HTRPFXFS-IJaLTTLQJLWTZUX.HTR@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Marco Elver <elver@google.com>
 Reply-To: Marco Elver <elver@google.com>
@@ -128,125 +132,31 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-While we lack a compiler attribute to add to noinstr that would disable
-KCOV, make the KCOV runtime functions return if the caller is in a
-noinstr section. We then whitelist __sanitizer_cov_*() functions in
-objtool. __sanitizer_cov_*() cannot safely become safe noinstr functions
-as-is, as they may fault due to accesses to vmalloc's memory.
-
-Declare write_comp_data() as __always_inline to ensure it is inlined,
-and reduce stack usage and remove one extra call from the fast-path.
-
-In future, our compilers may provide an attribute to implement
-__no_sanitize_coverage, which can then be added to noinstr, and the
-checks added in this patch can be guarded by an #ifdef checking if the
-compiler has such an attribute or not.
+For Clang, correctly pass -fno-stack-protector via a separate cc-option,
+as -fno-conserve-stack does not exist with Clang.
 
 Signed-off-by: Marco Elver <elver@google.com>
 ---
-Apply after:
-https://lkml.kernel.org/r/20200604102241.466509982@infradead.org
+ kernel/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-v2:
-* Rewrite based on Peter's and Andrey's feedback -- v1 worked because we
-  got lucky. Let's not rely on luck, as it will be difficult to ensure the
-  same conditions remain true in future.
-
-v1: https://lkml.kernel.org/r/20200604095057.259452-1-elver@google.com
-
-Note: There are a set of KCOV patches from Andrey in -next:
-https://lkml.kernel.org/r/cover.1585233617.git.andreyknvl@google.com --
-Git cleanly merges this patch with those patches, and no merge conflict
-is expected.
----
- kernel/kcov.c         | 19 +++++++++++++++++--
- tools/objtool/check.c |  7 +++++++
- 2 files changed, 24 insertions(+), 2 deletions(-)
-
-diff --git a/kernel/kcov.c b/kernel/kcov.c
-index 8accc9722a81..3329a0fdb868 100644
---- a/kernel/kcov.c
-+++ b/kernel/kcov.c
-@@ -24,6 +24,7 @@
- #include <linux/refcount.h>
- #include <linux/log2.h>
- #include <asm/setup.h>
-+#include <asm/sections.h>
+diff --git a/kernel/Makefile b/kernel/Makefile
+index ce8716a04d0e..82153c47d2a6 100644
+--- a/kernel/Makefile
++++ b/kernel/Makefile
+@@ -35,7 +35,7 @@ KCOV_INSTRUMENT_stacktrace.o := n
+ KCOV_INSTRUMENT_kcov.o := n
+ KASAN_SANITIZE_kcov.o := n
+ KCSAN_SANITIZE_kcov.o := n
+-CFLAGS_kcov.o := $(call cc-option, -fno-conserve-stack -fno-stack-protector)
++CFLAGS_kcov.o := $(call cc-option, -fno-conserve-stack) $(call cc-option, -fno-stack-protector)
  
- #define kcov_debug(fmt, ...) pr_debug("%s: " fmt, __func__, ##__VA_ARGS__)
- 
-@@ -172,6 +173,12 @@ static notrace unsigned long canonicalize_ip(unsigned long ip)
- 	return ip;
- }
- 
-+static __always_inline bool in_noinstr_section(unsigned long ip)
-+{
-+	return (unsigned long)__noinstr_text_start <= ip &&
-+	       ip < (unsigned long)__noinstr_text_end;
-+}
-+
- /*
-  * Entry point from instrumented code.
-  * This is called once per basic-block/edge.
-@@ -180,13 +187,18 @@ void notrace __sanitizer_cov_trace_pc(void)
- {
- 	struct task_struct *t;
- 	unsigned long *area;
--	unsigned long ip = canonicalize_ip(_RET_IP_);
-+	unsigned long ip;
- 	unsigned long pos;
- 
-+	if (unlikely(in_noinstr_section(_RET_IP_)))
-+		return;
-+
- 	t = current;
- 	if (!check_kcov_mode(KCOV_MODE_TRACE_PC, t))
- 		return;
- 
-+	ip = canonicalize_ip(_RET_IP_);
-+
- 	area = t->kcov_area;
- 	/* The first 64-bit word is the number of subsequent PCs. */
- 	pos = READ_ONCE(area[0]) + 1;
-@@ -198,12 +210,15 @@ void notrace __sanitizer_cov_trace_pc(void)
- EXPORT_SYMBOL(__sanitizer_cov_trace_pc);
- 
- #ifdef CONFIG_KCOV_ENABLE_COMPARISONS
--static void notrace write_comp_data(u64 type, u64 arg1, u64 arg2, u64 ip)
-+static __always_inline void write_comp_data(u64 type, u64 arg1, u64 arg2, u64 ip)
- {
- 	struct task_struct *t;
- 	u64 *area;
- 	u64 count, start_index, end_pos, max_pos;
- 
-+	if (unlikely(in_noinstr_section(ip)))
-+		return;
-+
- 	t = current;
- 	if (!check_kcov_mode(KCOV_MODE_TRACE_CMP, t))
- 		return;
-diff --git a/tools/objtool/check.c b/tools/objtool/check.c
-index 3e214f879ada..cb208959f560 100644
---- a/tools/objtool/check.c
-+++ b/tools/objtool/check.c
-@@ -2213,6 +2213,13 @@ static inline bool noinstr_call_dest(struct symbol *func)
- 	if (!strncmp(func->name, "__ubsan_handle_", 15))
- 		return true;
- 
-+	/*
-+	 * The __sanitizer_cov_*() calls include a check if the caller is in the
-+	 * noinstr section, and simply return if that is the case.
-+	 */
-+	if (!strncmp(func->name, "__sanitizer_cov_", 16))
-+		return true;
-+
- 	return false;
- }
- 
+ # cond_syscall is currently not LTO compatible
+ CFLAGS_sys_ni.o = $(DISABLE_LTO)
 -- 
 2.27.0.rc2.251.g90737beb825-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200604145635.21565-1-elver%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200604145635.21565-2-elver%40google.com.
