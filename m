@@ -1,32 +1,32 @@
-Return-Path: <kasan-dev+bncBCV5TUXXRUIBBCUY4P3AKGQEIANZBUY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCV5TUXXRUIBBCMY4P3AKGQEAG57UFA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yb1-xb3f.google.com (mail-yb1-xb3f.google.com [IPv6:2607:f8b0:4864:20::b3f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10D951EE25F
-	for <lists+kasan-dev@lfdr.de>; Thu,  4 Jun 2020 12:25:15 +0200 (CEST)
-Received: by mail-yb1-xb3f.google.com with SMTP id s90sf7378850ybi.6
-        for <lists+kasan-dev@lfdr.de>; Thu, 04 Jun 2020 03:25:15 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1591266314; cv=pass;
+Received: from mail-ua1-x93a.google.com (mail-ua1-x93a.google.com [IPv6:2607:f8b0:4864:20::93a])
+	by mail.lfdr.de (Postfix) with ESMTPS id BCF9D1EE25E
+	for <lists+kasan-dev@lfdr.de>; Thu,  4 Jun 2020 12:25:14 +0200 (CEST)
+Received: by mail-ua1-x93a.google.com with SMTP id q19sf1840188uad.21
+        for <lists+kasan-dev@lfdr.de>; Thu, 04 Jun 2020 03:25:14 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1591266313; cv=pass;
         d=google.com; s=arc-20160816;
-        b=gI7Ys84V/w1yz7f/d3iNPpzzfp9UWZvPnC8VdKw3tu/4lMk+V3f1VY8yAzqk5UJUkt
-         KxEFGYv2+jptfLMjM3ALJXyXcSpILWeBq8Ha3D+kmjdFGSE1ih4hhg5pCTaeReIagYgS
-         mS2ACtu7+jLciF5MCv8vMLcPXKulupZI1M34yc6rhAhiLlySit9khhSXwDxb1W44W38Z
-         NqdVGvyJoXC73uzyPp8NiQjxydIW2XZwt45p2jsq+cSi/qqJQc22rux4nGPJdmfimj3y
-         q0e9mY+eiPXQvfv37Dt4+7z6YAwhXQYEwLHiOMjDwjXo9UqZkCw/eIy+VoOyOb2zH5HC
-         MBEg==
+        b=DRFCYw2X8QJyUHZIFA4KKQXSalOcTuhoP62aNcM4Th61MuQOVFcqtVxyeheyzogjqk
+         XXK1N3BIcM/6Oxv1nQkmuoGMu/BB80nuuYwtawrv5irK1nHyrQ608G22cHFNuD49tW+v
+         evdMi8UCTpQ3+pXwchulsHg5ukBP2ODeYQkRDHQ3aO+xRPWc5gUW+tyHE8BVLMwt3K9R
+         b/K6Fo7VjAym1HCnfsOTnXq7eZ8q92Z1x+ZGQMUFmoXrFYC/4VGRhcFwQRGJdvzNB3Nh
+         d1meKIcCn7scv1wj9L93b8A9RQqcferLC8bRuEKH/K4DEeCdF6GZR9qh5PMXgey7FNTw
+         rlYA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:subject:cc
          :to:from:date:user-agent:message-id:sender:dkim-signature;
-        bh=nFzGLTUDLgLLalNMn9VtJxjN6LSMt1lUPIBz1Qr6TCs=;
-        b=y4Mwbuaq1iMMyi1z9HNKXjP8YMDv+8SUBCdtf6iqVCMukaDaaLdfrMl0boLreAD6od
-         uXem2t60aWydvC+rnHYMIxD5R2dcdg9jzqDQ7htst/QgOnszSUgyeGA6I9AHk5/281h0
-         0624YE8vl2I5lKe+MscaWCdL+jCOKAzLIQ2cMa6lbDaT5Xq5zbP2WPdp+25q7NLeJBOc
-         VJAC//nYKyRqChuSD8x+VXF85u8xbsCTH9aau4l/Vx2VsdwXTC4z7tLHyjVbwIjRuECQ
-         Ir6oy4L7qUhbMwdqaJzn5p+gWS083YBll7rzhxRol/RyXRo96hQ4wCjC8z3/T2Pko6UJ
-         6iJA==
+        bh=gq9RWczGZIvBo697oxkVY468AlixomrjPyPi+vEMsyU=;
+        b=Cb93RDy6jdn2X7BCRHwrkGhXQP+9eqPy/Qxz3SWengqL4D/as6GVeVjhr8Y1IRnaB3
+         PAulF1udYGQdjlOTY8GaeN4HInyS11F3/LwaVJKZzWr37lSWu4CuqaMsQp8HhWG/tyt3
+         qKGM1VZ2B396To8mBww2VdxKWbXxkqdqi9d2xip6KarJlmYNggwhuMkGNzar+Wydu5n4
+         L0yRu9WY+Unq59+ClQh3tg1J/v2nqpIYtU/ndH22K+CZG1leZgLyLw93D0gtO2Z+WOlZ
+         LrzzAoqMpgLQzM8bAnJKmk03xT3O7YqS1Dx+LqoJ3T2rRglXBm+T4Oh3TmQW8EH86r3L
+         ybcw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=bombadil.20170209 header.b=gRPfcB5K;
+       dkim=pass header.i=@infradead.org header.s=bombadil.20170209 header.b=AOpABfpS;
        spf=pass (google.com: best guess record for domain of peterz@infradead.org designates 2607:7c80:54:e::133 as permitted sender) smtp.mailfrom=peterz@infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
@@ -34,13 +34,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :mime-version:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=nFzGLTUDLgLLalNMn9VtJxjN6LSMt1lUPIBz1Qr6TCs=;
-        b=ZptBqc06R19e2xzdn9Y1aqn/u3XHttMpdJNFtfHoqQZ1lI74jrDgi/kRznf4yLV84K
-         KqDryHUf2hi3OAQi4Wwn/WngtDGT0raJFmhJ9ZWEClADyGFg61k/3ETiZjQYVkWv1a6e
-         5hUHeQhqDRE9bOy+Xa3S8O+Csy9FILUCAIGs+rR2GIBKZWFPp+7z24BmerxhhQJRTHY9
-         Xrjt+qf7mVhZcOmjOtfQS1hFAxkTlncVui8IOKa+CpoYgegHA4brnOjO4bIjm3PGsR0e
-         s+dsb3Hi/kCC/4bzQc1kVoyjqUqGl8gcOBzuQ23h+qp4qR39SNNT3t14SV0ZZSA/DDQb
-         1KQQ==
+        bh=gq9RWczGZIvBo697oxkVY468AlixomrjPyPi+vEMsyU=;
+        b=Tt9l1ddlVXydRz1KE3/2NLA054JBWmIuB8z9xIVuXRzJ1ixtlpgIt/RxVaFlL457Zs
+         fQMvgHCcvOpvXILpsAHClvYLq6ASzb/hfgGaoWMrysKXN5D/NiNpwpw2gf22DrGBB/Mq
+         iMeu1GCBr6MWZdFWF3nF1VWkNk/xYfaN9LbEDNL6R2dXtRzDxj5evotj5JKOav4FYGZ2
+         slq7QZACFPVde9SXC7gnVvbNyVWC+nt/OajDPhztjJemTAOq/5GTm94M0TpduTEUBfMv
+         GfbW7bMFLD5fiFLYheORkROLxdsDSwM3LJdwNgI1/zLGHfSFVtAqXKRJq0ciTzV2WXhB
+         oiuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:message-id:user-agent:date:from:to:cc
@@ -48,64 +48,64 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=nFzGLTUDLgLLalNMn9VtJxjN6LSMt1lUPIBz1Qr6TCs=;
-        b=TuNi5RS/Zi1qfYP6os1UD9rtzwDdmfncNYBIRG9SCGUYhfTeMBsO5LMKCANYzTjU8u
-         2G6Ecj2I8ciNqIM5OCJ8s/YX7IenqAb4P5KpsBkrX1f3y0SHo2hPXDSytYPnOvEB0xfa
-         mltaKNZfj1+aKgxvebzGeBmZTCQR4/TNH+q6xZ9+AtZTQCXG2yIzbDiVGb1Stb4XPz+R
-         kwVaStjUYzqE+IFaZhgPtrB/NiUSsT4D5c9gwtHWigSh1n7w/Ok05LCSiolc6E2QETDt
-         tCMDqnSgWnEgX+Y5LBJWzTma4qgoA5GK/pDT+Zyl8+nD58LTTj230hJVUwhrUS14y1qh
-         zzVw==
+        bh=gq9RWczGZIvBo697oxkVY468AlixomrjPyPi+vEMsyU=;
+        b=dlRYb48sNIP7785a2KtaTwgZ1jvW58F+6TvmhLqruYtikTGQjnIebUfVHjkhroXKsT
+         TM12y7vi1DRRYE5mIpYnN269fACqUicXqxzdItRKv1qqZUod5aSpSsqP45k+Mw1IRm1X
+         bNaPii0ucI96e96NDq14CAbvGLKwwTXafxdUeFkRHE6+mIW4nL0PU7L9MB5x717Bk1R2
+         Vdmo3nbFooEJbZSXO86q2ZoYd+PtH5lzdNa5razabo88DLREwbRNz/6pxVzyfWLiPKeO
+         hWqENpAPJ5ZG8/VQxY9y5qzEkkrN2CsmOj/NJldks5Nhi6qsicAjAs2atEuUdfATPZqu
+         oqeA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM532r0FzCXU1zKGJruQ+3U4E5BxGHyvznGdxWwf4Axy2lgST3iWTl
-	smbfim13VKKi5pE8r5zIET0=
-X-Google-Smtp-Source: ABdhPJygJ1HRY1MO3eLOw2vr+92NPmHTCOi5Go8rik/epa8F0DqcuOMmM0d5rCbWOv1DrOXBTpHvmw==
-X-Received: by 2002:a25:bdcb:: with SMTP id g11mr6795522ybk.256.1591266314094;
-        Thu, 04 Jun 2020 03:25:14 -0700 (PDT)
+X-Gm-Message-State: AOAM533fQjhyMke+G0LzMVV+fBAGjy9Z7ILf8CQq99Q4kezi9zzf7qe1
+	zoEmX7GscS4YSQ1KnCCDclQ=
+X-Google-Smtp-Source: ABdhPJx+zKTgDv6t+7BYK9dFkVpU6/um46ao5uZ60goowZs3d8SZ+4wIBM2drdlUEPXmxp3B1n1vdw==
+X-Received: by 2002:a1f:9a16:: with SMTP id c22mr2610318vke.83.1591266313417;
+        Thu, 04 Jun 2020 03:25:13 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a25:2057:: with SMTP id g84ls2292923ybg.7.gmail; Thu, 04 Jun
+Received: by 2002:a67:8717:: with SMTP id j23ls662433vsd.11.gmail; Thu, 04 Jun
  2020 03:25:13 -0700 (PDT)
-X-Received: by 2002:a25:8b83:: with SMTP id j3mr6788919ybl.318.1591266313760;
+X-Received: by 2002:a67:8c3:: with SMTP id 186mr2750717vsi.203.1591266313082;
         Thu, 04 Jun 2020 03:25:13 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; t=1591266313; cv=none;
         d=google.com; s=arc-20160816;
-        b=PA519zduBZMXz4QOMIusddukef5YeQZn7i/cc05e80zBLEtQX/lnZRE2ySgS6yoa+s
-         VwYyrX8LQjMt+2FIBDXkppBs4q1GdkY82ZglnJU6hi9shVXvpoNLIZe6vDjzwCbUPznb
-         Pp2tvjkEqM41g91Oaop1KDUXd9vIPYBMFtpsm6VNp1f7XbaJlp03GEsctGmgl2YulryE
-         lNG8KfpXgU5CN3rpczy2d54b8Iu29d9ETquFW0RBzHaPGIn4gXiJFYsUi83avBIU8CYN
-         Wvv33TEG2KB7ui0UvDSsSQvC1DYdTiK1sqbDosEQKrBqyeK3ikMUM5M+yduIOvSf75Aa
-         d/lw==
+        b=aiGZSXNrQmFghOMJ0ZyxQCq41L9HgrJXLfPK7isPsOTuToXmedIN6iDO95pGr4Uc0I
+         LvNgS+V2Lm7qV6MfYkTwiriJWEsScKZvFGNJZRkEB3W6sqdobhyGD+JecgbV4tBoynB1
+         IYfwfZUa6C4HTeQA2xCyQRxU7pH9Km2vu2XPROx24c0A95IIPvrroxyY8krOHY4kcNm0
+         1XLKo4xLnnEvbdbGLx/J4M5VdFD+IhJHiR1ekgM6nMUfeEuyGv8UBtFeO6Xv+CneTDX7
+         oIfOEuqIP0st6+1nRBKJ//BbOh/XKsKuKRhmRpyFD1xxrhW8uuwO3PcUuUF5B+nNOIuW
+         7yHA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=mime-version:references:subject:cc:to:from:date:user-agent
          :message-id:dkim-signature;
-        bh=qEEnCRuSkGqY17m970ZD2QMrdQ942DugTV6zA6aC45U=;
-        b=QNIjiAdkZ2SJkvK/ahCKvh81SlOxQxwl4Um3l5ZZEl8xw8pAFgHA/7YY06Ur+WyOQZ
-         8+BGtS51Mzxwy8e8ld3cP3D+HNqIC75jrqzNUqG0hnYd8Qlrv8yNp2Y9L0k7r5RDiUIL
-         3u7nGn++EE7iONDghodGCE2OWPBgwPHfEo9uvqE+qilmr/j9+LwbsAC2hRT46rT5OWQn
-         hWipus8p2W5wBhe8nCv44k8LCBapwWI3afMOTkuYEVPB2EdkamfqbVqD/rLS7D4CjN2a
-         bBG0L02uo4Tb6/jabiX7klotdgQlFxxfkVGXAMPqcbHQyfxjhm4osURRWZ9Pk2aAFY9T
-         w0LQ==
+        bh=zk2YSNLVDIg6CzFc7dqGugTGjUQyn9Y1fCSXYdtV1Fs=;
+        b=xjo4RTOLP4+fOK8el1d3X75oS3tHMlMus6sVE8S0zRHdY8SDHRF0n4/Js37B6LPm4w
+         YFVDAEgYjLd7Cr8R0v9ct9Hv068fF2gFjZDXtjdQgL+t1lWKK5zgqK62qCmlm6pn7nEq
+         iPQvD5CEvmajP0o0Rrsk76UFDWEGHLKeIX9IuCAnOiZEdZw/mzbWwhLEW2BXR6NiQ2+Q
+         0ktKzt3gYDeC8FXuxVC8G0S1+BEyHF/eYwtAFHNOmK3h5qfTpROhbPdW6Ggjst0m8cz6
+         +cTrob57ZpUIMvgt8SPF+OIgxJLd6ZI7U9YW6vRwanbLuCy29+I11aPS8HhKQGT+bmWy
+         DWyg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=bombadil.20170209 header.b=gRPfcB5K;
+       dkim=pass header.i=@infradead.org header.s=bombadil.20170209 header.b=AOpABfpS;
        spf=pass (google.com: best guess record for domain of peterz@infradead.org designates 2607:7c80:54:e::133 as permitted sender) smtp.mailfrom=peterz@infradead.org
 Received: from bombadil.infradead.org (bombadil.infradead.org. [2607:7c80:54:e::133])
-        by gmr-mx.google.com with ESMTPS id s63si329104yba.2.2020.06.04.03.25.13
+        by gmr-mx.google.com with ESMTPS id q20si234401uas.1.2020.06.04.03.25.12
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Jun 2020 03:25:13 -0700 (PDT)
+        Thu, 04 Jun 2020 03:25:12 -0700 (PDT)
 Received-SPF: pass (google.com: best guess record for domain of peterz@infradead.org designates 2607:7c80:54:e::133 as permitted sender) client-ip=2607:7c80:54:e::133;
 Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
 	by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jgn3e-0001r3-V7; Thu, 04 Jun 2020 10:25:11 +0000
+	id 1jgn3d-0001cD-M5; Thu, 04 Jun 2020 10:25:09 +0000
 Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(Client did not present a certificate)
-	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id EE4F630581E;
+	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id F03B0306064;
 	Thu,  4 Jun 2020 12:25:07 +0200 (CEST)
 Received: by hirez.programming.kicks-ass.net (Postfix, from userid 0)
-	id DB15520C8F8FD; Thu,  4 Jun 2020 12:25:07 +0200 (CEST)
-Message-ID: <20200604102428.077944145@infradead.org>
+	id DE92D20CAE764; Thu,  4 Jun 2020 12:25:07 +0200 (CEST)
+Message-ID: <20200604102428.135635542@infradead.org>
 User-Agent: quilt/0.66
-Date: Thu, 04 Jun 2020 12:22:44 +0200
+Date: Thu, 04 Jun 2020 12:22:45 +0200
 From: Peter Zijlstra <peterz@infradead.org>
 To: tglx@linutronix.de
 Cc: x86@kernel.org,
@@ -117,14 +117,15 @@ Cc: x86@kernel.org,
  will@kernel.org,
  dvyukov@google.com,
  glider@google.com,
- andreyknvl@google.com
-Subject: [PATCH 3/8] x86, kcsan: Add __no_kcsan to noinstr
+ andreyknvl@google.com,
+ Nick Desaulniers <ndesaulniers@google.com>
+Subject: [PATCH 4/8] kasan: Bump required compiler version
 References: <20200604102241.466509982@infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: peterz@infradead.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@infradead.org header.s=bombadil.20170209 header.b=gRPfcB5K;
+ header.i=@infradead.org header.s=bombadil.20170209 header.b=AOpABfpS;
        spf=pass (google.com: best guess record for domain of
  peterz@infradead.org designates 2607:7c80:54:e::133 as permitted sender) smtp.mailfrom=peterz@infradead.org
 Precedence: list
@@ -139,43 +140,59 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-The 'noinstr' function attribute means no-instrumentation, this should
-very much include *SAN. Because lots of that is broken at present,
-only include KCSAN for now, as that is limited to clang11, which has
-sane function attribute behaviour.
+From: Marco Elver <elver@google.com>
 
+Adds config variable CC_HAS_WORKING_NOSANITIZE_ADDRESS, which will be
+true if we have a compiler that does not fail builds due to
+no_sanitize_address functions. This does not yet mean they work as
+intended, but for automated build-tests, this is the minimum
+requirement.
+
+For example, we require that __always_inline functions used from
+no_sanitize_address functions do not generate instrumentation. On GCC <=
+7 this fails to build entirely, therefore we make the minimum version
+GCC 8.
+
+Suggested-by: Peter Zijlstra <peterz@infradead.org>
+Signed-off-by: Marco Elver <elver@google.com>
 Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+Acked-by: Andrey Konovalov <andreyknvl@google.com>
+Link: https://lkml.kernel.org/r/20200602175859.GC2604@hirez.programming.kicks-ass.net
 ---
- include/linux/compiler_types.h |    8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Apply after:
+https://lkml.kernel.org/r/20200602173103.931412766@infradead.org
 
---- a/include/linux/compiler_types.h
-+++ b/include/linux/compiler_types.h
-@@ -118,10 +118,6 @@ struct ftrace_likely_data {
- #define notrace			__attribute__((__no_instrument_function__))
- #endif
+v2:
+* No longer restrict UBSAN (and KCSAN), since the attributes behave
+  differently for different sanitizers. For UBSAN the above case with GCC
+  <= 7 actually works fine (no compiler error). So it seems that only
+  KASAN is affected by this -- let's limit our restriction to KASAN.
+---
+ lib/Kconfig.kasan |    4 ++++
+ 1 file changed, 4 insertions(+)
+
+--- a/lib/Kconfig.kasan
++++ b/lib/Kconfig.kasan
+@@ -15,11 +15,15 @@ config CC_HAS_KASAN_GENERIC
+ config CC_HAS_KASAN_SW_TAGS
+ 	def_bool $(cc-option, -fsanitize=kernel-hwaddress)
  
--/* Section for code which can't be instrumented at all */
--#define noinstr								\
--	noinline notrace __attribute((__section__(".noinstr.text")))
--
- /*
-  * it doesn't make sense on ARM (currently the only user of __naked)
-  * to trace naked functions because then mcount is called without
-@@ -200,6 +196,10 @@ struct ftrace_likely_data {
- #define __no_sanitize_or_inline __always_inline
- #endif
- 
-+/* Section for code which can't be instrumented at all */
-+#define noinstr								\
-+	noinline notrace __attribute((__section__(".noinstr.text"))) __no_kcsan
++config CC_HAS_WORKING_NOSANITIZE_ADDRESS
++	def_bool !CC_IS_GCC || GCC_VERSION >= 80000
 +
- #endif /* __KERNEL__ */
- 
- #endif /* __ASSEMBLY__ */
+ config KASAN
+ 	bool "KASAN: runtime memory debugger"
+ 	depends on (HAVE_ARCH_KASAN && CC_HAS_KASAN_GENERIC) || \
+ 		   (HAVE_ARCH_KASAN_SW_TAGS && CC_HAS_KASAN_SW_TAGS)
+ 	depends on (SLUB && SYSFS) || (SLAB && !DEBUG_SLAB)
++	depends on CC_HAS_WORKING_NOSANITIZE_ADDRESS
+ 	help
+ 	  Enables KASAN (KernelAddressSANitizer) - runtime memory debugger,
+ 	  designed to find out-of-bounds accesses and use-after-free bugs.
 
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200604102428.077944145%40infradead.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200604102428.135635542%40infradead.org.
