@@ -1,136 +1,127 @@
-Return-Path: <kasan-dev+bncBAABB54E4T3AKGQEMAAJNQA@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBB54H4T3AKGQERCRE2EQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pj1-x1038.google.com (mail-pj1-x1038.google.com [IPv6:2607:f8b0:4864:20::1038])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EA431EE672
-	for <lists+kasan-dev@lfdr.de>; Thu,  4 Jun 2020 16:17:28 +0200 (CEST)
-Received: by mail-pj1-x1038.google.com with SMTP id ga20sf2179491pjb.2
-        for <lists+kasan-dev@lfdr.de>; Thu, 04 Jun 2020 07:17:28 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1591280247; cv=pass;
+Received: from mail-il1-x138.google.com (mail-il1-x138.google.com [IPv6:2607:f8b0:4864:20::138])
+	by mail.lfdr.de (Postfix) with ESMTPS id EAF5A1EE68A
+	for <lists+kasan-dev@lfdr.de>; Thu,  4 Jun 2020 16:23:52 +0200 (CEST)
+Received: by mail-il1-x138.google.com with SMTP id y16sf4050842ilm.21
+        for <lists+kasan-dev@lfdr.de>; Thu, 04 Jun 2020 07:23:52 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1591280631; cv=pass;
         d=google.com; s=arc-20160816;
-        b=K0SHYutf3rjIIRl3hJrCIbK02yerQg/KDIFeMYMyZ9dpiiLBkH+ABl/kNTMyabT9h6
-         iRTFTpLqGJJppzVb+F0SjskQ/IptaAGkb/3cJXrQ4GHdtM0xYQgvrOInBST6NhnuTCKq
-         iZdlMyZ7F72o3FyP/hNlURxoOEg/LaE0y7T5w9PTLBBoHmZXddcSCYu3SX977scYjp3E
-         osJ91mA7UYIkERWKLaJT+8v+dtv9SDeBeemK406akjI0nePa/B9Frvz8Dk+N9DQFp5Jr
-         awiKUwV4n3hVDBZ6WU5dvJHtMg7ckVmwEzQEcBlq19OHbF1gswVEEcVtY0lnbW8PmYhv
-         4KPQ==
+        b=0cYEwGFt+NF00+yD5jEtLLa0poMXOTkY9TLj0M1Grllk6XAmhTSb5Hcl8pa/ltDiEZ
+         QWQChh521Jn1zDq+3GAjC8WGp9s2h+/vVwxCN44R7BO4SOjdeAYQF4/VWlCvqCIdcXhO
+         dG2I6yOxnPkqqocSL97ar3xl34l7XJ69kGhhnGIbDixX6xsyAXFsIJnsy5lP8DmbfF5S
+         DW/KtXtX2FIC5FRbxbc/b9aBjNegsZN+wbDoLvmWchbRon6KZiUxHIFnwRSzI14RyM8x
+         ApS1VSZZKcIwzCOp5fe0Y8o8N1Rqo49My1K75pKqNhxLasJrzBeIwIZYpoD/ldvY7crJ
+         Txmg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:user-agent:in-reply-to
-         :content-disposition:mime-version:references:reply-to:message-id
-         :subject:cc:to:from:date:sender:dkim-signature;
-        bh=Xx/d36rQxGfAsYiVUgytrmifICuPYnyffwugKu2t1e8=;
-        b=PtzNNTzPyaLquGsYAJZ2X8XoBPE7t4X1i1GNgrma9aBmoNw8CpbIFgaTu9+2iavYJv
-         oiCZD8Jian5/cYOfWojiSTGX5rE28tu+t7hi6+FF/+P0xdqQU5u2d/s8LqkdzToXvE6t
-         Vk1m8/odgodPzmVhxGLo1ddHClaW0ZAqxeP25ArpZF0AcOotKw0nkdJk3XGAk4zZZUZN
-         FDQLYtMWE+J/gpv37mbsTHoNZE2ezARBfRDrS9pfqVYHNLS8Onvct6vxmVvDrQOvQez7
-         HcWzmRNUIbWxAjesUOAFTvokWLBlJN3GUWH/NLmUiRfsmDzAwN79l9ZspU5YR5+pmjr3
-         K7rw==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=7jLeQl52rpqs5eDFXjkflQCspfoDjhJo0e1dRo/ZfvQ=;
+        b=zqESb8znBYipNn7eNzcXjVKj8sp7ACKkeTzuM9QwNXAL5QwKykVf4qLJR4OPLJe9b+
+         2yPHg7fg8ZCr0RUB9MxSM5MemwQlCRSaDUUBYNFYT1oi+XtZC6a4xXNxuy9LjLoOjja9
+         Tcjo3Wn4ZcqMp5iZFkO0MWKSlAZKnoSJGvGlbv5lVyB7ZKdpWxCTMcCgVN9Z3RZwT8fz
+         EMhgGK15A6cJFInhrlnfB/M+0h58QhxxcuZLan8hUNrXvOfXQm6E7cPC8OGb3jvt5aQE
+         dvavVf29X1HClIiLrX0YRm1yl3izJtN2LhC0usjFi6KUKyY1CkRc8NtIIYmBSM7HPvES
+         Jw3A==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=default header.b=EdPxM+57;
-       spf=pass (google.com: domain of srs0=yzmc=7r=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=YzMc=7R=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       dkim=pass header.i=@google.com header.s=20161025 header.b=HSfqxACh;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::344 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:reply-to:references
-         :mime-version:content-disposition:in-reply-to:user-agent
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=Xx/d36rQxGfAsYiVUgytrmifICuPYnyffwugKu2t1e8=;
-        b=qj6jg94bfa5u0jDyxILXW1WyN8/SsxNP6Csgnr/D9aBfvOsPZG6druDnUYzkiOO3R1
-         3m6toCRHZGUyyr2C/Q61W5mAphab6tl3O5MdOXGobqNR/R0U6JONSxzFmjflat0URR4T
-         uGvQLY+o1KtiGM3uYwwOhn0NoPXUNQw5qhe8Q74Du49YOVPACk9PsXM8njIpUGm2oXyr
-         5HncfkyBYBPF1VBdCVG783SCv1ebjkUAubjHvhp6uoh+j3DjfSrz1tD9PGd/rQ0y2hza
-         Nj3P8uEpqRh6oblRKs1hRUmFvsMh3JJeL2vC1/WDrSiAH8u2o4jvjW1ajEoWnGEceVxO
-         e/fg==
+        bh=7jLeQl52rpqs5eDFXjkflQCspfoDjhJo0e1dRo/ZfvQ=;
+        b=TAaNmFShbA29AB0iN/0xF7vvrg3c9ADX1OOCcJTCLrY35K1kJzrObn/Vg+tZhgM2lX
+         NAuIkAl3JB7ZPEUBgMjDgpLl0yGNyQ6cq/SQuYaf7/HdO2DdxLS1xNdwE3hQ0XEeLyYx
+         R/Bneo20ynK9UUoCxa1ZyCrsbRNUoP1zY+IiuLcE/hhFVb0X1Czb9mDsDPDypn2Ev/1L
+         +F80I9ZTUdt9angpvTX7DPsCwuIT4GmwWAjcBGqalDHQFnlXvk1RhbjFAXhQqXYByGby
+         hG1ddEJbbSH3leA2NrUFFOPK6uJQS+mp+YzAnrQXxMYGmltSBQswnTRwSNbg95rkIgvn
+         la7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :reply-to:references:mime-version:content-disposition:in-reply-to
-         :user-agent:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=Xx/d36rQxGfAsYiVUgytrmifICuPYnyffwugKu2t1e8=;
-        b=ZB/xSKXrtXm6y0AxPrsMufymbgGfOtxRh/NfkkwAMSKmo6QhDvaYOnGHZeecjcOqvj
-         zsxNRgyNZLn91qxLTUihr3KyQqVTwUtYZzLCe9fLnx05Aiuwba0ZeFzCraHNERzjZH+/
-         BW8EXjbi1rQsQ4yN97gO6Ob2NTRFc2TRzJY5xB06uv5Om3/kc3qmIKfOB0L4YDimJZd7
-         P4iV8AHJpixXE74ymhlghCwBsktfLUnhnh8Tp2vvLMHfwn+lxNVE/FKwTutHxoGsVx4R
-         5TtepM1tTV8Uktl4DyAc0Rk/GWXN4Pj84PEaLEeOo0kW+S9L6sqZs7rT1Opv8xEB5Pbx
-         IOzQ==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM533t10Ro3Hy223+QUGyr4rexHAHqTEBfCcPbDHQMERw+pjyC6jVK
-	jK86ofsUiRjfwoKDJKhb+7Q=
-X-Google-Smtp-Source: ABdhPJxAn45w7dzPmxUvR+nWPrsvYFTKGzpSDFUa6bhLWHEH+J/LrD4lkl0lgPFP2NUhItwLtwnSjg==
-X-Received: by 2002:a62:27c5:: with SMTP id n188mr1505465pfn.127.1591280247301;
-        Thu, 04 Jun 2020 07:17:27 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=7jLeQl52rpqs5eDFXjkflQCspfoDjhJo0e1dRo/ZfvQ=;
+        b=Ph4qZ4eQmQ65Hwiv8jCy+hT2mT/Pd/lBIVejTU4IpRk899ek6pfuuOm+fZBuJgRDZ0
+         6hvf+mec8rDY4Wov8LyZ5UjfIHLTez1w4KnZV4+DR6DrLVA9xbhS6Kba1dlgUJ6NEA+0
+         iH+2ijsRZiPtUGaLuqyrAC9NzTEHHUVlksa7IfX7et2Scp1ypvJ6A2ZIpImXDacobv0m
+         CtwZGQM3qu60JKNkZk6LP/0bT8Ie6oKEfdkHvYvvRhxahxNU8Xj5uX38IPENwpG/ZE9F
+         U/7Ech/soImHYkAVfTMdVufcQ6KDhAIzX5M20/M02VZ8wtxUpNDVRA9LphMExf+yYP3J
+         plqA==
+X-Gm-Message-State: AOAM532j4q9jjht9TaNYYcF2hzsJp/pwZtms4xxFJIO5SGBBsLZQ+kDv
+	Gl0r0DcSsR4RJ8DrLvzniCI=
+X-Google-Smtp-Source: ABdhPJzMNRfIW5kNt/ClOggyY4lmpEILWoCgFYK2QxSidyplkP0MmyuxfqWxjZc1yc7X6c2suIL/eg==
+X-Received: by 2002:a92:d185:: with SMTP id z5mr4415702ilz.167.1591280631737;
+        Thu, 04 Jun 2020 07:23:51 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a62:e312:: with SMTP id g18ls1898465pfh.9.gmail; Thu, 04 Jun
- 2020 07:17:27 -0700 (PDT)
-X-Received: by 2002:a63:f856:: with SMTP id v22mr4820374pgj.64.1591280246944;
-        Thu, 04 Jun 2020 07:17:26 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1591280246; cv=none;
+Received: by 2002:a02:a784:: with SMTP id e4ls767381jaj.1.gmail; Thu, 04 Jun
+ 2020 07:23:51 -0700 (PDT)
+X-Received: by 2002:a02:b782:: with SMTP id f2mr4485416jam.91.1591280631370;
+        Thu, 04 Jun 2020 07:23:51 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1591280631; cv=none;
         d=google.com; s=arc-20160816;
-        b=rnTE/KPV57zaN4rFimtavDl24DDeZUSyPtg6u8RFPrHCFWogWyM2p/p00GfA3zPVzD
-         bptuS/5PW39OWbBfJ4OhcMxfCRKTao4TB2qKZ1bxtqTszcsQbsy49Zg4DHBrix31Csfo
-         OGuMTDeKUocCCLNi/rGpCU85VHmxD9GdVVmIObkpKW61rj9wYEqpglEVBDsVtao0HWC6
-         5nt0nbjSbGbtXzf8SIVzUVNGimo/JMtv5lPUTTqrTqIdMx992q/0H3Mmk7wF9A1+bKhA
-         yG8eWLDB64f0ybPlps00xpmir4lwg1f9sdbayfw82EclCtXu7KA6AeUBTG+elnvYcbYb
-         zpFg==
+        b=wttS0PshZUtZ/JOULLBpIs5hJLTMVJtTMMM9Yrf1NvMn6sE8Qlik1rPA8cyYVWfORa
+         j2fTcbkGdRa9tx0Th/mrZpToKWT2yZX+UEToW1UVEfNOnN4f6fSb9Dc/uV/4tClTOKv6
+         RHPm0KDOeSU1eddI/Yhw/WKf0jskYdYBcjOP90uxEENhouvEinF+gDpFBwjdxJQTK/2B
+         SANqMv/cFvwFUZNkL2kSBcMecHiIUdnDcqsClFHQl0YoX0Z+w29VS+SKZSkD555qeGT2
+         lPka3g3y0i91Kkb9ntZ43vKh8On/foeFFDGpT9TRwp7MudmJsxUoUcg+vhEj3YXth+3T
+         MijA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :reply-to:message-id:subject:cc:to:from:date:dkim-signature;
-        bh=+pobFWs+0DvFU7cQug1zqKnLi3uIERafZOrjN1r5sfw=;
-        b=FInB+rDBY8VWQiieNRb4kVCAL0MVq2Dk5yce+3CeGN9ftiojLM5LzuMuw1qaS42mf9
-         JjrdH5VeLbi8sKxdF/jxZ3+/iAxTnyHGM7K21/aha6aA+RyiW6I7cXVnbv1qpP5n0+rA
-         Q9e/jWNH0NOGkvr7OVaxApfYC4o8Lf6OyjvOG/BZjWEs9P8f8zfFID/+wd7tqfF9Oz1u
-         1DTZ+eXtAqqQfJenw4d3Iy7P1e44/S24pa01qTq5nSHnyRZ9lKM28DBkmhie3peiaSFB
-         COzY8aoe8+HPr/ePZG1QsSrd2lIEV6fT25NgzUcbloI1dUbIWi+v8E0EwmCahWmEK51a
-         lPgg==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=0yy5MHljbkaYpaeAQHYcaCMNZgb1qOOCz2cvx6JmiYQ=;
+        b=UR+JJVLRS6rzXiBYsbQNXqFH+UxbBDdpdlFAzFTD+HEjj0ZgzNNbmK7Ir0OD7Gl05o
+         JIR4oBYhiukEsyE2RF5OvkKX3BYgAwvpj+uffL1l6Sq/RNOQ29J4McFtIHbc1m5sJJp6
+         SeaxDtyY0CbrreDWIT6jmuAgmY8gd26wldrY+1EtHQhuHRRvkRgyi/7ZKVJihHoBowoC
+         6/s+WjPWj4HHtzT0Kab6VyxP0NtG1Mo8oeFb1krSkPBd1vmsDGiEvG92+v/OkmyiU3rb
+         k7K2S7GZ3DJP6AFWwaY2gj3gaz0lTaSk/BXNdrMKvByyX0idcqOzUSTQ4r2XyGctY9Mx
+         vzYg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=default header.b=EdPxM+57;
-       spf=pass (google.com: domain of srs0=yzmc=7r=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=YzMc=7R=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id i4si231182pgl.0.2020.06.04.07.17.26
+       dkim=pass header.i=@google.com header.s=20161025 header.b=HSfqxACh;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::344 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com. [2607:f8b0:4864:20::344])
+        by gmr-mx.google.com with ESMTPS id x10si71224ila.3.2020.06.04.07.23.51
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 04 Jun 2020 07:17:26 -0700 (PDT)
-Received-SPF: pass (google.com: domain of srs0=yzmc=7r=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
-Received: from paulmck-ThinkPad-P72.home (50-39-105-78.bvtn.or.frontiernet.net [50.39.105.78])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id 9D86920663;
-	Thu,  4 Jun 2020 14:17:26 +0000 (UTC)
-Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
-	id 8558935228BC; Thu,  4 Jun 2020 07:17:26 -0700 (PDT)
-Date: Thu, 4 Jun 2020 07:17:26 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: tglx@linutronix.de, x86@kernel.org, elver@google.com,
-	kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org,
-	will@kernel.org, dvyukov@google.com, glider@google.com,
-	andreyknvl@google.com
-Subject: Re: [PATCH 2/9] rcu: Fixup noinstr warnings
-Message-ID: <20200604141726.GZ29598@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
-References: <20200603114014.152292216@infradead.org>
- <20200603114051.896465666@infradead.org>
- <20200603164600.GQ29598@paulmck-ThinkPad-P72>
- <20200603171320.GE2570@hirez.programming.kicks-ass.net>
- <20200604033409.GX29598@paulmck-ThinkPad-P72>
- <20200604080512.GA2587@hirez.programming.kicks-ass.net>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 04 Jun 2020 07:23:51 -0700 (PDT)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::344 as permitted sender) client-ip=2607:f8b0:4864:20::344;
+Received: by mail-ot1-x344.google.com with SMTP id e5so4856808ote.11
+        for <kasan-dev@googlegroups.com>; Thu, 04 Jun 2020 07:23:51 -0700 (PDT)
+X-Received: by 2002:a9d:6958:: with SMTP id p24mr4127585oto.17.1591280630632;
+ Thu, 04 Jun 2020 07:23:50 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200604095057.259452-1-elver@google.com> <20200604110918.GA2750@hirez.programming.kicks-ass.net>
+ <CAAeHK+wRDk7LnpKShdUmXo54ij9T0sN9eG4BZXqbVovvbz5LTQ@mail.gmail.com>
+In-Reply-To: <CAAeHK+wRDk7LnpKShdUmXo54ij9T0sN9eG4BZXqbVovvbz5LTQ@mail.gmail.com>
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Thu, 4 Jun 2020 16:23:38 +0200
+Message-ID: <CANpmjNML7hBNpYGL81M1-=rrYn5PAJPTxFc_Jn0DVhUgwJV8Hg@mail.gmail.com>
+Subject: Re: [PATCH -tip] kcov: Make runtime functions noinstr-compatible
+To: Andrey Konovalov <andreyknvl@google.com>
+Cc: Peter Zijlstra <peterz@infradead.org>, Borislav Petkov <bp@alien8.de>, 
+	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@kernel.org>, 
+	clang-built-linux <clang-built-linux@googlegroups.com>, 
+	"Paul E . McKenney" <paulmck@kernel.org>, Dmitry Vyukov <dvyukov@google.com>, 
+	Alexander Potapenko <glider@google.com>, kasan-dev <kasan-dev@googlegroups.com>, 
+	LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <20200604080512.GA2587@hirez.programming.kicks-ass.net>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Original-Sender: paulmck@kernel.org
+X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=default header.b=EdPxM+57;       spf=pass
- (google.com: domain of srs0=yzmc=7r=paulmck-thinkpad-p72.home=paulmck@kernel.org
- designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=YzMc=7R=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+ header.i=@google.com header.s=20161025 header.b=HSfqxACh;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::344 as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -143,60 +134,102 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Jun 04, 2020 at 10:05:12AM +0200, Peter Zijlstra wrote:
-> On Wed, Jun 03, 2020 at 08:34:09PM -0700, Paul E. McKenney wrote:
-> > On Wed, Jun 03, 2020 at 07:13:20PM +0200, Peter Zijlstra wrote:
-> > > On Wed, Jun 03, 2020 at 09:46:00AM -0700, Paul E. McKenney wrote:
-> 
-> > > > > @@ -313,7 +313,7 @@ static __always_inline bool rcu_dynticks
-> > > > >  {
-> > > > >  	struct rcu_data *rdp = this_cpu_ptr(&rcu_data);
-> > > > >  
-> > > > > -	return !(atomic_read(&rdp->dynticks) & RCU_DYNTICK_CTRL_CTR);
-> > > > > +	return !(arch_atomic_read(&rdp->dynticks) & RCU_DYNTICK_CTRL_CTR);
-> > > 
-> > > The above is actually instrumented by KCSAN, due to arch_atomic_read()
-> > > being a READ_ONCE() and it now understanding volatile.
-> > > 
-> > > > Also instrument_atomic_write(&rdp->dynticks, sizeof(rdp->dynticks)) as
-> > 
-> > Right, this should instead be instrument_read(...).
-> > 
-> > Though if KCSAN is unconditionally instrumenting volatile, how does
-> > this help?  Or does KCSAN's instrumentation of volatile somehow avoid
-> > causing trouble?
-> 
-> As Marco already explained, when used inside noinstr no instrumentation
-> will be emitted, when used outside noinstr it will emit the right
-> instrumentation.
-> 
-> > > > o	In theory in rcu_irq_exit_preempt(), but as this generates code
-> > > > 	only in lockdep builds, it might not be worth worrying about.
-> > > > 
-> > > > o	Ditto for rcu_irq_exit_check_preempt().
-> > > > 
-> > > > o	Ditto for __rcu_irq_enter_check_tick().
-> > > 
-> > > Not these, afaict they're all the above arch_atomic_read(), which is
-> > > instrumented due to volatile in these cases.
-> 
-> I this case, the above call-sites are all not noinstr (double negative!)
-> and will thus cause instrumentation to be emitted.
-> 
-> This is all a 'special' case for arch_atomic_read() (and _set()),
-> because they're basically READ_ONCE() (and WRITE_ONCE() resp.). The
-> normal atomics are asm() and it doesn't do anything for those (although
-> I suppose clang could, since it has this internal assembler to parse the
-> inline asm, but afaiu that's not something GCC ever wants to do).
+On Thu, 4 Jun 2020 at 16:03, Andrey Konovalov <andreyknvl@google.com> wrote:
+>
+> On Thu, Jun 4, 2020 at 1:09 PM Peter Zijlstra <peterz@infradead.org> wrote:
+> >
+> > On Thu, Jun 04, 2020 at 11:50:57AM +0200, Marco Elver wrote:
+> > > The KCOV runtime is very minimal, only updating a field in 'current',
+> > > and none of __sanitizer_cov-functions generates reports nor calls any
+> > > other external functions.
+> >
+> > Not quite true; it writes to t->kcov_area, and we need to make
+> > absolutely sure that doesn't take faults or triggers anything else
+> > untowards.
+> >
+> > > Therefore we can make the KCOV runtime noinstr-compatible by:
+> > >
+> > >   1. always-inlining internal functions and marking
+> > >      __sanitizer_cov-functions noinstr. The function write_comp_data() is
+> > >      now guaranteed to be inlined into __sanitize_cov_trace_*cmp()
+> > >      functions, which saves a call in the fast-path and reduces stack
+> > >      pressure due to the first argument being a constant.
+>
+> Maybe we could do CFLAGS_REMOVE_kcov.o = $(CC_FLAGS_FTRACE) the same
+> way we do it for KASAN? And drop notrace/noinstr from kcov. Would it
+> resolve the issue? I'm not sure which solution is better though.
 
-Got it, and I had missed the inlining.
+Sadly no. 'noinstr' implies 'notrace', but also places the function in
+the .noinstr.text section for the purpose of objtool checking. But: we
+should only mark a function 'noinstr' if it (and its callees)
+satisfies the requirements that Peter outlined (are the requirements
+documented somewhere?). In particular, we need to worry about vmalloc
+faults.
 
-Again, commenting this will be interesting.  And your earlier comment
-about the compiler refusing to inline now makes sense...
+[...]
+> > > -static void notrace write_comp_data(u64 type, u64 arg1, u64 arg2, u64 ip)
+> > > +static __always_inline void write_comp_data(u64 type, u64 arg1, u64 arg2, u64 ip)
+> > >  {
+> > >       struct task_struct *t;
+> > >       u64 *area;
+> > > @@ -231,59 +231,59 @@ static void notrace write_comp_data(u64 type, u64 arg1, u64 arg2, u64 ip)
+> > >       }
+> > >  }
+> >
+> > This thing; that appears to be the meat of it, right?
+> >
+> > I can't find where t->kcov_area comes from.. is that always
+> > kcov_mmap()'s vmalloc_user() ?
+> >
+> > That whole kcov_remote stuff confuses me.
+> >
+> > KCOV_ENABLE() has kcov_fault_in_area(), which supposedly takes the
+> > vmalloc faults for the current task, but who does it for the remote?
+>
+> Hm, no one. This might be an issue, thanks for noticing!
+>
+> > Now, luckily Joerg went and ripped out the vmalloc faults, let me check
+> > where those patches are... w00t, they're upstream in this merge window.
+>
+> Could you point me to those patches?
+>
+> Even though it might work fine now, we might get issues if we backport
+> remote kcov to older kernels.
+>
+> >
+> > So no #PF from writing to t->kcov_area then, under the assumption that
+> > the vmalloc_user() is the only allocation site.
+> >
+> > But then there's hardware watchpoints, if someone goes and sets a data
+> > watchpoint in the kcov_area we're screwed. Nothing actively prevents
+> > that from happening. Then again, the same is currently true for much of
+> > current :/
+> >
+> > Also, I think you need __always_inline on kaslr_offset()
+> >
+> >
+> > And, unrelated to this patch in specific, I suppose I'm going to have to
+> > extend objtool to look for data that is used from noinstr, to make sure
+> > we exclude it from inspection and stuff, like that kaslr offset crud for
+> > example.
+> >
+> > Anyway, yes, it appears you're lucky (for having Joerg remove vmalloc
+> > faults) and this mostly should work as is.
 
-							Thanx, Paul
+Now I am a bit worried that, even though we're lucky today, with what
+Andrey said about e.g. kcov_remote faults, it'll be hard to ensure we
+won't break in future. The exact set of conditions that mean we're
+lucky today may change and we have no way of checking this.
+
+I'll try to roll a v2 based on the "if (_RET_IP_ in noinstr section)
+return;" and whitelist in objtool approach. Unless you see something
+very wrong with that. And I do hope we'll get compiler attributes
+eventually.
+
+Thanks,
+-- Marco
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200604141726.GZ29598%40paulmck-ThinkPad-P72.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNML7hBNpYGL81M1-%3DrrYn5PAJPTxFc_Jn0DVhUgwJV8Hg%40mail.gmail.com.
