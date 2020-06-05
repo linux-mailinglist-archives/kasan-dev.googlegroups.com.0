@@ -1,127 +1,137 @@
-Return-Path: <kasan-dev+bncBCMIZB7QWENRBGGK5D3AKGQEDKTZYKI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCV5TUXXRUIBBPHJ5D3AKGQEWESN5XI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pl1-x63c.google.com (mail-pl1-x63c.google.com [IPv6:2607:f8b0:4864:20::63c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 775611EF5EA
-	for <lists+kasan-dev@lfdr.de>; Fri,  5 Jun 2020 12:57:30 +0200 (CEST)
-Received: by mail-pl1-x63c.google.com with SMTP id x8sf1088079pll.19
-        for <lists+kasan-dev@lfdr.de>; Fri, 05 Jun 2020 03:57:30 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1591354648; cv=pass;
+Received: from mail-yb1-xb3a.google.com (mail-yb1-xb3a.google.com [IPv6:2607:f8b0:4864:20::b3a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 114861EF6FB
+	for <lists+kasan-dev@lfdr.de>; Fri,  5 Jun 2020 14:04:14 +0200 (CEST)
+Received: by mail-yb1-xb3a.google.com with SMTP id f1sf11508822ybg.22
+        for <lists+kasan-dev@lfdr.de>; Fri, 05 Jun 2020 05:04:14 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1591358653; cv=pass;
         d=google.com; s=arc-20160816;
-        b=Uy9hzvXBORHJ5djBl1xUuV5VvNdMKzLgAGazcxxwNlSeZUNnwjaIgweju6pTLy2b/g
-         sFXn5VLTRYlkcXNF0LiKjGs1IBUC5Nqo/rX+oYYmqQctaUDWDmvj10yW9YNAmzNCW003
-         qimJcoTmiBYIunwUm8wsVMtuWAhymBN/FP4fovXlC0U1VwV8mOQl+iIQgJjHTAna1yoW
-         aBlFEHbu0Q2hMtbii/CsqVruZbgkqlRxE4ui1Est8gqiLoeMuwOXyZA7G7wyn6W/gXjA
-         bgQ2TNKM94MnjmrjM+wmOOAYDltX8QfZswvimL2QMFORy1Rl3+a4BBvbo3D/6gVzRMA4
-         WZ1w==
+        b=OoUYO6mtGGwJxbk2oeyVO/Eq5YSUSsQW4yA+acO5XKa1WS5o2SMgrHVV8JNxoSpE7u
+         FaLWLKFUov+7Op1F4ymvvBWU08zUGfKuHm/4jpWYedzE9ypvVSjZ56RJ5rO+21LNnsfK
+         bz0LrWMtRHx0D3f00eDOCk4KO9KJ+eSnJcqoIUiU+S8ckfFGBepxIGU1El8DcU1SpJqU
+         4OrDzV4DZ4qcsYFWh/0iLi6ejw7WFBxELu9F1lflBcVWuCrwD/+GGQC+iARNJZLCoIf0
+         4EJ1z4sKc7uKwPQXkiBOWHY7yz26Gp3EGSF0JlsMvw7wu7CuwNj9/HGWUKfqQmw/ZMxx
+         sx4Q==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=jZci16vti8LwdbUS0lXCLvXnkvSc5RRcT3d1nwER7rE=;
-        b=x8udBDY5v5PeAFoGoqrPqbuPpBLxpn1ONxR8QFUVqMLO0CeBNm8Ubq1/L1yxT/F6Ff
-         iUHaVmeVCTBXTiFUeBOa9tfj9lmgdKU2I27YdAQcBdFZvzXEqa07JB4gNW3iGbh1Pgkl
-         foGRsFPCrwTaHI8EVRgniCSMKL2sLej+p7S9aTjvBZX+nA150/n5LcTz6NLtRJBMItSq
-         X2o4qixt066NgjtpbdvUnEyYv0RxlJFw9A7ygQO/tTRuOZ/3RiiseSoPZte8FKxeUD+t
-         HPVuNwUcg+lwAFDnVDLCQpk05A5B6YtlUq8TLx1tmaIe2jAOIe5p9TCSYmTKw30RjLRS
-         phuw==
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature;
+        bh=y/9ziUif8WtxWjnuhuIOWuv24UAZZqWigY/PoNc/Xlw=;
+        b=VV5Zw9mjg/aJj5pQbYEppxCa79LWcEeG1MuKpbaBiUq6ajQ8z7Iay1tf4ycpZLvOUl
+         oUuyVjMxqUsGPXbXcx410FYGPP+kza1bdO/XAx9dn/BagZkHbDiA0MqfcLgKsgmSTUbU
+         wVpOYrbL2dYocadXoDLlOyBAbxXlEtjPdF4mj13jAZ283K7hhlHQn/KR4LDogIgzYTE8
+         qDjX0qAZmi9IhYYT/MqZSbq+WPl8ll7LE4XDA/NkZh+QqxIB//icZzJO8JAJBDYL9DuY
+         MoVYewj6Lz1ukJ0/UzTZMUEWAzNMqvPeFAtRLcA6neZSSx1CakPIe3KJl+MhdoswFPs6
+         1i5g==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=G4xOIGIT;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::844 as permitted sender) smtp.mailfrom=dvyukov@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@infradead.org header.s=merlin.20170209 header.b=KaWM5eMS;
+       spf=pass (google.com: best guess record for domain of peterz@infradead.org designates 2001:8b0:10b:1231::1 as permitted sender) smtp.mailfrom=peterz@infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=jZci16vti8LwdbUS0lXCLvXnkvSc5RRcT3d1nwER7rE=;
-        b=W9/bGBZlh5EAX7W8/NWzZPU39GOb+X5sxpRLmJmWlwSNzXsYWynJZQ5/hWdgtY9nUx
-         inGkt5iaChuLWQC/Z15lrRV9xv/WtIa4dnreWTJuFh0wZVt2Iv1IiZljd6VYXYyFIdfQ
-         ZcZEpZLVboEISJuw8LLzWtKpWgArJ9+dkSQyz5Hhag+IKNZ5nGYi7/gc18xzmbjpeWHm
-         AthOTDYsPWrc33Uk+dGkTzwGgy/rqJmiY4FAPd6v2sMYOmWMD1iq9fJ8J+Z23CIXS/c4
-         KcvUHauPQO9Non9HgPN+GXDgEJp3mJZhZVHs/Kovk9Q6pN9IqY+iEVtRexF3xXyR3G9U
-         Dmyw==
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=y/9ziUif8WtxWjnuhuIOWuv24UAZZqWigY/PoNc/Xlw=;
+        b=R/Q0UtjEqTQ7gysi7VpqqIO+qavWhvp8BxrmB5aV9qaH9X0gPHonTXH5bPeSwws/rO
+         2y53m6FFFDadFA1c7mP+88E3TcWweHYqTqhF4vUQpt4jg2JLCK5CsDP9NzK50wmYVgl1
+         alD42aTMkDlzj6wNatk6i4ncUsMdPOwJUXLWLjZlCcvj9+WHB+SKwcoMaiepyPldQYsS
+         F6zAvEdZtYtHOz/Sx524rbFQRT6TdLRBT/TJ/GwCHpA3T9ZuadwFTa3O0WGtg1TiL0Ft
+         Y2UFhTGQwFipw+diP/XpKFMETtagqfm6zEajRQ5GzarcwtK5Wz/RhEQevIiB1ebgqfW6
+         6V9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=jZci16vti8LwdbUS0lXCLvXnkvSc5RRcT3d1nwER7rE=;
-        b=U4Zg8NClIpgBA9PTe58sgIJ3DkcinvujGfynNYGcBVA+6Y7uaO8YNnrrJqjCL3Vwsj
-         WRbOcykXqlIwBEtmCnUBwhqDwh9+SZ9ld2orwt7a2uPwyo4lNGKwmPiR0/CAinMXP3Jk
-         3HFUgv8glxBzfh3c7lv6saQBCvi8Wk8frV19FGTEGYg8TnnUciL8tyGvEM50qRzyLB0L
-         3IXsKoRxNxBhoOtn3kSDs3ZKhMivzzUYi90cqXoecqWxjM/Njlwa61qUcYo2cNlzuR0Y
-         fNRrEPv+9Vt53vLzq1+F7WObcuE+OQCu7BBztbMJ3KBH2OX3frtesDgxusimUbpA1BLX
-         Hx9Q==
-X-Gm-Message-State: AOAM530oL2mGdGrOFm/uDGYSbKOjm9qgM8R48LNQT+R2NC8QSOX1Gw12
-	nIMH9F0ybVtaEYS9GINTF/g=
-X-Google-Smtp-Source: ABdhPJzfob0djpTpPjjQoaYJ7JDemsGVj+ysJhUQgXq/F1ZsWWxHZu8z/zvGkXOAJJTX24pDzOe9lA==
-X-Received: by 2002:a05:6a00:2ae:: with SMTP id q14mr3578601pfs.255.1591354648712;
-        Fri, 05 Jun 2020 03:57:28 -0700 (PDT)
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=y/9ziUif8WtxWjnuhuIOWuv24UAZZqWigY/PoNc/Xlw=;
+        b=Zpjnx981crJzuuRmmuU9ZLfzr13pcAz3Go+dxMKQBhVf4tjzHgeiKwj01tmUcTMLdB
+         QDVFcidX8WksPEBpjujQTrPGg0vZukAIYq9v0RHXrpH30YKyIQgHx25QazZvz91QvdYd
+         aYt5G3l+23huPBv8uUPm6QAIM1mqjfsEd4TgQQXhFOnNvnNvrsM3Molf3BMRVooksKUG
+         KaZa+n1z+mcog9XHFBtV2QROU30gkdwK0Y6MNcl+ib1NcLjKbVFD5XDhTV3NvLNOkPdt
+         ZxsgvDwcDDHbcesfIR/+os0b1x1SGx5BGORB68vF1ZeYI23N90OLFyyssGSvCObr8t3d
+         VHKg==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM532jSKoo22Wq93xx/CoHzsM7aFPON/Wkj4grGnUMzZOomRkS2kZz
+	Fepe1M0lLqBZVK+Gzp6Pqs0=
+X-Google-Smtp-Source: ABdhPJw+8MnI6W4VvyIpXFHWQNMR7afroV4mBH3FGnsHNmXF8itXWEaqrMS9wblTWPuFsk4QLCIcsg==
+X-Received: by 2002:a5b:5c3:: with SMTP id w3mr9127152ybp.15.1591358652942;
+        Fri, 05 Jun 2020 05:04:12 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:902:ab89:: with SMTP id f9ls3405007plr.3.gmail; Fri, 05
- Jun 2020 03:57:28 -0700 (PDT)
-X-Received: by 2002:a17:90b:e05:: with SMTP id ge5mr2376034pjb.49.1591354648295;
-        Fri, 05 Jun 2020 03:57:28 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1591354648; cv=none;
+Received: by 2002:a25:b18b:: with SMTP id h11ls655351ybj.4.gmail; Fri, 05 Jun
+ 2020 05:04:12 -0700 (PDT)
+X-Received: by 2002:a25:ba13:: with SMTP id t19mr16619298ybg.8.1591358652642;
+        Fri, 05 Jun 2020 05:04:12 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1591358652; cv=none;
         d=google.com; s=arc-20160816;
-        b=GyV+kSuKhPHNHkdD0LrqJR7/zW77CWRdhrr1rruFrFJFqWFoDnFV4nLOCdPjvX0YSC
-         nf+EFuQZBk+YJn2BCRnnv63bgn5yU/XX1aJTcbQVLWFvlk19d6yExVGl1WIf2Md+oegy
-         zaMacJpKMfLnHxCEioznY7ClaXviFBDgL31HTp/5PVeKJXN+6E8x6zvjk3bwfm1K+z8b
-         h6eso2KX1aKK4vdL95Vh/lW8aVDMeCXZXsLXJdenP5BUPzL34WY/o0vsART+Eyvty28o
-         PGtTbjqvu3lFrrHsfbD2vN728/8KonqirV8t+x5HM1CGXoujptEHczQ7hYSLmEyDgAPh
-         AvsQ==
+        b=uLgc7FFAqigppPKPHgnU7PR+7WdCz7lhf/zXnZX9rGfBoOZvYzsioEMW/om1rXtnuk
+         A8DxsUHuIWPtNRtRYzUoUvD5JNxlhKgM0JDI4SAkArM2ICdK18y118JE4xbFYJ4G4RzO
+         x+ulAx3cwJaFgqQOJsg7KtH2sEEC2f+YaTIpDO1cYYf44lpL3DvY8ficjDG2VeUq3skG
+         X0QfUU/xtDBK++piEmNFAgF1KDB5Pmzq1TU74PlkucXDhu8w8IVZiTZswXP0+rTDVhB7
+         L/KQDdvACpTTTg7l1b/L9aQE6W4V7+Sj06ZZLyA5530qxhT2gn0CYc/ma2NitaBkgS4N
+         CEbA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=l+FRzkDxx24cf0JvfqgWOwJXwQpB0rcy5gXQ1S61x5s=;
-        b=EAXHjrt2fyEiKko+9hx2m7mrwFZCYEi8dKd3TlsjhOvNprcvlFmx4m62zlgm8wa639
-         V2FH6BewxIICzxfhTsK0SZY1EqMxDQ/VaxyevJqKkVWo5QIqCF2mQJ4/uy+77+UshSBZ
-         cuh7oTbba5i6n3GDszTsBhM5ylE+LGENYi7HjAf32QiWKaSDGydeFFIzeFtsQsEinqxU
-         UWznZaBBDRtXBxFDCShgu/NMZJisVGE81Py+HUiVydnDy3dAykErpiiQfEvTCVVzSzJP
-         bMHdaqo9VJ2FIc6Xci23oFvvyVxndAVEUOZlw+dotMmeGtjbp1u/X0SwRypfh0qKlavn
-         3AUQ==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:dkim-signature;
+        bh=KZz+sQK4LPHja6YFeoddpUkcV49dBXnT6yLG+sR4tCM=;
+        b=bAaaJgboISQUKTjYUbjQ5mGUoOolHgcHxiTnRhJ0EyZlG2irPYXhfcCmRVePLE++iy
+         o9+HJrvswO/dVpTCFdYOfEBTrHibyX9CqTVksx6LQZT7ClYmFpcHlLaxm3f1AEhSbksg
+         Ap1WoEYlZqtafsNzR98jE3T9qin6fPBmaKVf53OB44SXQDl58SFQzTmhujqj+EOCsQ6A
+         7LRLWSYP4kyOikTz6JaJvdyckXNOm7yq/nqfyquiItkK35m7Znx2he7CuAzsk9+abWwJ
+         I55KnNBYOGMoKabee5OjGDyXkhbL8uhCB9amlrYtWv4hJW4WmHRMCpXpJZwUUherD9Q4
+         nzdw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=G4xOIGIT;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::844 as permitted sender) smtp.mailfrom=dvyukov@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com. [2607:f8b0:4864:20::844])
-        by gmr-mx.google.com with ESMTPS id t72si569766pfc.5.2020.06.05.03.57.28
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 05 Jun 2020 03:57:28 -0700 (PDT)
-Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::844 as permitted sender) client-ip=2607:f8b0:4864:20::844;
-Received: by mail-qt1-x844.google.com with SMTP id y1so8016541qtv.12
-        for <kasan-dev@googlegroups.com>; Fri, 05 Jun 2020 03:57:28 -0700 (PDT)
-X-Received: by 2002:ac8:260b:: with SMTP id u11mr9415205qtu.380.1591354647018;
- Fri, 05 Jun 2020 03:57:27 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200605082839.226418-1-elver@google.com>
-In-Reply-To: <20200605082839.226418-1-elver@google.com>
-From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Fri, 5 Jun 2020 12:57:15 +0200
-Message-ID: <CACT4Y+ZqdZD0YsPHf8UFJT94yq5KGgbDOXSiJYS0+pjgYDsx+A@mail.gmail.com>
-Subject: Re: [PATCH -tip v3 1/2] kcov: Make runtime functions noinstr-compatible
-To: Marco Elver <elver@google.com>, Mark Rutland <mark.rutland@arm.com>
-Cc: Peter Zijlstra <peterz@infradead.org>, Borislav Petkov <bp@alien8.de>, 
-	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@kernel.org>, 
-	clang-built-linux <clang-built-linux@googlegroups.com>, 
-	"Paul E. McKenney" <paulmck@kernel.org>, Alexander Potapenko <glider@google.com>, 
-	Andrey Konovalov <andreyknvl@google.com>, kasan-dev <kasan-dev@googlegroups.com>, 
-	LKML <linux-kernel@vger.kernel.org>, "the arch/x86 maintainers" <x86@kernel.org>, 
+       dkim=pass header.i=@infradead.org header.s=merlin.20170209 header.b=KaWM5eMS;
+       spf=pass (google.com: best guess record for domain of peterz@infradead.org designates 2001:8b0:10b:1231::1 as permitted sender) smtp.mailfrom=peterz@infradead.org
+Received: from merlin.infradead.org ([2001:8b0:10b:1231::1])
+        by gmr-mx.google.com with ESMTPS id u126si659473ybg.0.2020.06.05.05.04.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 Jun 2020 05:04:12 -0700 (PDT)
+Received-SPF: pass (google.com: best guess record for domain of peterz@infradead.org designates 2001:8b0:10b:1231::1 as permitted sender) client-ip=2001:8b0:10b:1231::1;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+	by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+	id 1jhB4l-00084B-Iy; Fri, 05 Jun 2020 12:03:56 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(Client did not present a certificate)
+	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id BFF74301A7A;
+	Fri,  5 Jun 2020 14:03:52 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 8847A21A75216; Fri,  5 Jun 2020 14:03:52 +0200 (CEST)
+Date: Fri, 5 Jun 2020 14:03:52 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: Dmitry Vyukov <dvyukov@google.com>
+Cc: Marco Elver <elver@google.com>, Mark Rutland <mark.rutland@arm.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@kernel.org>,
+	clang-built-linux <clang-built-linux@googlegroups.com>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Alexander Potapenko <glider@google.com>,
+	Andrey Konovalov <andreyknvl@google.com>,
+	kasan-dev <kasan-dev@googlegroups.com>,
+	LKML <linux-kernel@vger.kernel.org>,
+	the arch/x86 maintainers <x86@kernel.org>,
 	Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [PATCH -tip v3 1/2] kcov: Make runtime functions
+ noinstr-compatible
+Message-ID: <20200605120352.GJ3976@hirez.programming.kicks-ass.net>
+References: <20200605082839.226418-1-elver@google.com>
+ <CACT4Y+ZqdZD0YsPHf8UFJT94yq5KGgbDOXSiJYS0+pjgYDsx+A@mail.gmail.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: dvyukov@google.com
+Content-Disposition: inline
+In-Reply-To: <CACT4Y+ZqdZD0YsPHf8UFJT94yq5KGgbDOXSiJYS0+pjgYDsx+A@mail.gmail.com>
+X-Original-Sender: peterz@infradead.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=G4xOIGIT;       spf=pass
- (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::844
- as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
- (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Dmitry Vyukov <dvyukov@google.com>
-Reply-To: Dmitry Vyukov <dvyukov@google.com>
+ header.i=@infradead.org header.s=merlin.20170209 header.b=KaWM5eMS;
+       spf=pass (google.com: best guess record for domain of
+ peterz@infradead.org designates 2001:8b0:10b:1231::1 as permitted sender) smtp.mailfrom=peterz@infradead.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -134,241 +144,61 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, Jun 5, 2020 at 10:28 AM Marco Elver <elver@google.com> wrote:
->
-> While we lack a compiler attribute to add to noinstr that would disable
-> KCOV, make the KCOV runtime functions return if the caller is in a
-> noinstr section, and mark them noinstr.
->
-> Declare write_comp_data() as __always_inline to ensure it is inlined,
-> which also reduces stack usage and removes one extra call from the
-> fast-path.
->
-> In future, our compilers may provide an attribute to implement
-> __no_sanitize_coverage, which can then be added to noinstr, and the
-> checks added in this patch can be guarded by an #ifdef checking if the
-> compiler has such an attribute or not.
+On Fri, Jun 05, 2020 at 12:57:15PM +0200, Dmitry Vyukov wrote:
+> On Fri, Jun 5, 2020 at 10:28 AM Marco Elver <elver@google.com> wrote:
+> >
+> > While we lack a compiler attribute to add to noinstr that would disable
+> > KCOV, make the KCOV runtime functions return if the caller is in a
+> > noinstr section, and mark them noinstr.
+> >
+> > Declare write_comp_data() as __always_inline to ensure it is inlined,
+> > which also reduces stack usage and removes one extra call from the
+> > fast-path.
+> >
+> > In future, our compilers may provide an attribute to implement
+> > __no_sanitize_coverage, which can then be added to noinstr, and the
+> > checks added in this patch can be guarded by an #ifdef checking if the
+> > compiler has such an attribute or not.
+> 
+> Adding noinstr attribute to instrumentation callbacks looks fine to me.
+> 
+> But I don't understand the within_noinstr_section part.
+> As the cover letter mentions, kcov callbacks don't do much and we
+> already have it inserted and called. What is the benefit of bailing
+> out a bit earlier rather than letting it run to completion?
+> Is the only reason for potential faults on access to the vmalloc-ed
+> region? 
 
-Adding noinstr attribute to instrumentation callbacks looks fine to me.
+Vmalloc faults (on x86, the only arch that had them IIRC) are gone, per
+this merge window.
 
-But I don't understand the within_noinstr_section part.
-As the cover letter mentions, kcov callbacks don't do much and we
-already have it inserted and called. What is the benefit of bailing
-out a bit earlier rather than letting it run to completion?
-Is the only reason for potential faults on access to the vmalloc-ed
-region? If so, I think the right approach is to eliminate the faults
-(if it's possible). We don't want faults for other reasons: they
-caused recursion on ARM and these callbacks are inserted into lots of
-sensitive code, so I am not sure checking only noinstr will resolve
-all potential issues. E.g. we may get a deadlock if we fault from a
-code that holds some lock, or we still can get that recursion on ARM (
-I don't think all of page fault handling code is noinstr).
-The fact that we started getting faults again (did we?) looks like a
-regression related to remote KCOV.
-Andrey, Mark, do you know if it's possible to pre-fault these areas?
-The difference is that they run in a context of kernel threads. Maybe
-we could do kcov_fault_in_area when we activate and remove KCOV on an
-area? This way we get all faults in a very well-defined place (which
-is not noinstr and holds known locks).
+The reason I mentioned them is because it is important that they are
+gone, and that this hard relies on them being gone, and the patch didn't
+call that out.
 
+There is one additional issue though; you can set hardware breakpoint on
+vmalloc space, and that would trigger #DB and then we'd be dead when we
+were already in #DB (IST recursion FTW).
 
+And that is not something you can trivially fix, because you can set the
+breakpoint before the allocation (or perhaps on a previous allocation).
 
-> Signed-off-by: Marco Elver <elver@google.com>
-> ---
-> Applies to -tip only currently, because of the use of instrumentation.h
-> markers.
->
-> v3:
-> * Remove objtool hack, and instead properly mark __sanitizer_cov
->   functions as noinstr.
-> * Add comment about .entry.text.
->
-> v2: https://lkml.kernel.org/r/20200604145635.21565-1-elver@google.com
-> * Rewrite based on Peter's and Andrey's feedback -- v1 worked because we
->   got lucky. Let's not rely on luck, as it will be difficult to ensure the
->   same conditions remain true in future.
->
-> v1: https://lkml.kernel.org/r/20200604095057.259452-1-elver@google.com
->
-> Note: There are a set of KCOV patches from Andrey in -next:
-> https://lkml.kernel.org/r/cover.1585233617.git.andreyknvl@google.com --
-> Git cleanly merges this patch with those patches, and no merge conflict
-> is expected.
-> ---
->  kernel/kcov.c | 59 +++++++++++++++++++++++++++++++++++++++------------
->  1 file changed, 45 insertions(+), 14 deletions(-)
->
-> diff --git a/kernel/kcov.c b/kernel/kcov.c
-> index 8accc9722a81..84cdc30d478e 100644
-> --- a/kernel/kcov.c
-> +++ b/kernel/kcov.c
-> @@ -6,6 +6,7 @@
->  #include <linux/compiler.h>
->  #include <linux/errno.h>
->  #include <linux/export.h>
-> +#include <linux/instrumentation.h>
->  #include <linux/types.h>
->  #include <linux/file.h>
->  #include <linux/fs.h>
-> @@ -24,6 +25,7 @@
->  #include <linux/refcount.h>
->  #include <linux/log2.h>
->  #include <asm/setup.h>
-> +#include <asm/sections.h>
->
->  #define kcov_debug(fmt, ...) pr_debug("%s: " fmt, __func__, ##__VA_ARGS__)
->
-> @@ -172,20 +174,38 @@ static notrace unsigned long canonicalize_ip(unsigned long ip)
->         return ip;
->  }
->
-> +/* Return true if @ip is within a noinstr section. */
-> +static __always_inline bool within_noinstr_section(unsigned long ip)
-> +{
-> +       /*
-> +        * Note: .entry.text is also considered noinstr, but for now, since all
-> +        * .entry.text code lives in .S files, these are never instrumented.
-> +        */
-> +       return (unsigned long)__noinstr_text_start <= ip &&
-> +              ip < (unsigned long)__noinstr_text_end;
-> +}
-> +
->  /*
->   * Entry point from instrumented code.
->   * This is called once per basic-block/edge.
->   */
-> -void notrace __sanitizer_cov_trace_pc(void)
-> +void noinstr __sanitizer_cov_trace_pc(void)
->  {
->         struct task_struct *t;
->         unsigned long *area;
-> -       unsigned long ip = canonicalize_ip(_RET_IP_);
-> +       unsigned long ip;
->         unsigned long pos;
->
-> +       if (unlikely(within_noinstr_section(_RET_IP_)))
-> +               return;
-> +
-> +       instrumentation_begin();
-> +
->         t = current;
->         if (!check_kcov_mode(KCOV_MODE_TRACE_PC, t))
-> -               return;
-> +               goto out;
-> +
-> +       ip = canonicalize_ip(_RET_IP_);
->
->         area = t->kcov_area;
->         /* The first 64-bit word is the number of subsequent PCs. */
-> @@ -194,19 +214,27 @@ void notrace __sanitizer_cov_trace_pc(void)
->                 area[pos] = ip;
->                 WRITE_ONCE(area[0], pos);
->         }
-> +
-> +out:
-> +       instrumentation_end();
->  }
->  EXPORT_SYMBOL(__sanitizer_cov_trace_pc);
->
->  #ifdef CONFIG_KCOV_ENABLE_COMPARISONS
-> -static void notrace write_comp_data(u64 type, u64 arg1, u64 arg2, u64 ip)
-> +static __always_inline void write_comp_data(u64 type, u64 arg1, u64 arg2, u64 ip)
->  {
->         struct task_struct *t;
->         u64 *area;
->         u64 count, start_index, end_pos, max_pos;
->
-> +       if (unlikely(within_noinstr_section(ip)))
-> +               return;
-> +
-> +       instrumentation_begin();
-> +
->         t = current;
->         if (!check_kcov_mode(KCOV_MODE_TRACE_CMP, t))
-> -               return;
-> +               goto out;
->
->         ip = canonicalize_ip(ip);
->
-> @@ -229,61 +257,64 @@ static void notrace write_comp_data(u64 type, u64 arg1, u64 arg2, u64 ip)
->                 area[start_index + 3] = ip;
->                 WRITE_ONCE(area[0], count + 1);
->         }
-> +
-> +out:
-> +       instrumentation_end();
->  }
->
-> -void notrace __sanitizer_cov_trace_cmp1(u8 arg1, u8 arg2)
-> +void noinstr __sanitizer_cov_trace_cmp1(u8 arg1, u8 arg2)
->  {
->         write_comp_data(KCOV_CMP_SIZE(0), arg1, arg2, _RET_IP_);
->  }
->  EXPORT_SYMBOL(__sanitizer_cov_trace_cmp1);
->
-> -void notrace __sanitizer_cov_trace_cmp2(u16 arg1, u16 arg2)
-> +void noinstr __sanitizer_cov_trace_cmp2(u16 arg1, u16 arg2)
->  {
->         write_comp_data(KCOV_CMP_SIZE(1), arg1, arg2, _RET_IP_);
->  }
->  EXPORT_SYMBOL(__sanitizer_cov_trace_cmp2);
->
-> -void notrace __sanitizer_cov_trace_cmp4(u32 arg1, u32 arg2)
-> +void noinstr __sanitizer_cov_trace_cmp4(u32 arg1, u32 arg2)
->  {
->         write_comp_data(KCOV_CMP_SIZE(2), arg1, arg2, _RET_IP_);
->  }
->  EXPORT_SYMBOL(__sanitizer_cov_trace_cmp4);
->
-> -void notrace __sanitizer_cov_trace_cmp8(u64 arg1, u64 arg2)
-> +void noinstr __sanitizer_cov_trace_cmp8(u64 arg1, u64 arg2)
->  {
->         write_comp_data(KCOV_CMP_SIZE(3), arg1, arg2, _RET_IP_);
->  }
->  EXPORT_SYMBOL(__sanitizer_cov_trace_cmp8);
->
-> -void notrace __sanitizer_cov_trace_const_cmp1(u8 arg1, u8 arg2)
-> +void noinstr __sanitizer_cov_trace_const_cmp1(u8 arg1, u8 arg2)
->  {
->         write_comp_data(KCOV_CMP_SIZE(0) | KCOV_CMP_CONST, arg1, arg2,
->                         _RET_IP_);
->  }
->  EXPORT_SYMBOL(__sanitizer_cov_trace_const_cmp1);
->
-> -void notrace __sanitizer_cov_trace_const_cmp2(u16 arg1, u16 arg2)
-> +void noinstr __sanitizer_cov_trace_const_cmp2(u16 arg1, u16 arg2)
->  {
->         write_comp_data(KCOV_CMP_SIZE(1) | KCOV_CMP_CONST, arg1, arg2,
->                         _RET_IP_);
->  }
->  EXPORT_SYMBOL(__sanitizer_cov_trace_const_cmp2);
->
-> -void notrace __sanitizer_cov_trace_const_cmp4(u32 arg1, u32 arg2)
-> +void noinstr __sanitizer_cov_trace_const_cmp4(u32 arg1, u32 arg2)
->  {
->         write_comp_data(KCOV_CMP_SIZE(2) | KCOV_CMP_CONST, arg1, arg2,
->                         _RET_IP_);
->  }
->  EXPORT_SYMBOL(__sanitizer_cov_trace_const_cmp4);
->
-> -void notrace __sanitizer_cov_trace_const_cmp8(u64 arg1, u64 arg2)
-> +void noinstr __sanitizer_cov_trace_const_cmp8(u64 arg1, u64 arg2)
->  {
->         write_comp_data(KCOV_CMP_SIZE(3) | KCOV_CMP_CONST, arg1, arg2,
->                         _RET_IP_);
->  }
->  EXPORT_SYMBOL(__sanitizer_cov_trace_const_cmp8);
->
-> -void notrace __sanitizer_cov_trace_switch(u64 val, u64 *cases)
-> +void noinstr __sanitizer_cov_trace_switch(u64 val, u64 *cases)
->  {
->         u64 i;
->         u64 count = cases[0];
-> --
-> 2.27.0.278.ge193c7cf3a9-goog
->
+That said; we already have this problem with task_struct (and
+task_stack). IIRC Andy wants to fix the task_stack issue by making all
+of noinstr run on the entry stack, but we're not there yet.
+
+There are no good proposals for random allocations like task_struct or
+in your case kcov_area.
+
+> Andrey, Mark, do you know if it's possible to pre-fault these areas?
+
+Under the assumption that vmalloc faults are still a thing:
+
+You cannot pre-fault the remote area thing, kernel threads use the mm of
+the previous user task, and there is no guarantee that mm will have had
+the vmalloc fault.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BZqdZD0YsPHf8UFJT94yq5KGgbDOXSiJYS0%2BpjgYDsx%2BA%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200605120352.GJ3976%40hirez.programming.kicks-ass.net.
