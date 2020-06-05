@@ -1,118 +1,105 @@
-Return-Path: <kasan-dev+bncBCFLDU5RYAIRB7E4433AKGQEKKZWN3I@googlegroups.com>
+Return-Path: <kasan-dev+bncBDX4HWEMTEBRBYM7433AKGQE3KVQQVA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wr1-x43e.google.com (mail-wr1-x43e.google.com [IPv6:2a00:1450:4864:20::43e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25BA61EEEB3
-	for <lists+kasan-dev@lfdr.de>; Fri,  5 Jun 2020 02:14:53 +0200 (CEST)
-Received: by mail-wr1-x43e.google.com with SMTP id s17sf2997973wrt.7
-        for <lists+kasan-dev@lfdr.de>; Thu, 04 Jun 2020 17:14:53 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1591316093; cv=pass;
+Received: from mail-pf1-x440.google.com (mail-pf1-x440.google.com [IPv6:2607:f8b0:4864:20::440])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1240D1EEEB7
+	for <lists+kasan-dev@lfdr.de>; Fri,  5 Jun 2020 02:20:51 +0200 (CEST)
+Received: by mail-pf1-x440.google.com with SMTP id e143sf6081792pfh.4
+        for <lists+kasan-dev@lfdr.de>; Thu, 04 Jun 2020 17:20:50 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1591316449; cv=pass;
         d=google.com; s=arc-20160816;
-        b=p9XPfbf6R/WLGEihXlASZTc0gzfHcr9OMF0w/G+gb360apR9Aw9GoKSt2r1heiF/PH
-         ThDfi0jp9qAk202z7wDWIav6GRifLaIYePK0CsjvkdEH7Vizljymwqo8TMA9VXMcxQd0
-         ASGO0itulCH5Su6W3BIV+78jx8FKdxFJ2QlF2OsqrBPUsluMQAmPNpHvTpnyKYAagbfs
-         xzZsxkNyH+vh447pJlWe/iBtE+bB+5Yp+enNrkGb1O4t3fnu+yRCEr9H9GP6cR/Dicak
-         feVH3z+OUHcFaMg3wPwxB8r3J8hkMAwmzTQqDAshicC4uD4+yJjZLTDFs4PqujDHfkDx
-         Vvvg==
+        b=vEkrJyw5v15MWZ1lSXKcjwj8Gtt/jyWNB86iC+m0WevnMQaQOv+7ox/qR7SZVEHSTY
+         oYYDsDdZCs2DeTfGc/FwGT6vlK5eAQSGMuq3QJuVtbUQiy0ndsOp5ZXiP0fwoefUrOk6
+         dv64YZuDS5WtT9vSljgGZ8ySbUSJl2RIgNyo8g6YvXf2hhfibtAKa++DPF03Uys6xbFT
+         JvDz9VsHgXqrgyFWI8rYyyo497ud+j5QWgvQur+ueD3quGk6seKCrrrJXO0IGGTwUDrx
+         sdSelE+FQQ/e59afaESPjoiUlNCjFltxgU+5R2BrwtA/XFZ0QCmSenFddQkRy3dZMGo7
+         QgKg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:sender:dkim-signature
-         :dkim-signature;
-        bh=OqK2zzsmtCaHjpNhFXCeFv+PPbmrWXlBiX02wUs9wxs=;
-        b=mLneC28szk2B4edqtvAioxWuvLl+XZrUZha35Dm4LOAn12iCPgCYxUsKjEPo1bEFds
-         k/xQTyPztGuIXQJfICUxjcR9ZAjwcWHY3nFpMvVoL6ate2OxJlzrby3g8gAQa+BMUa6I
-         LZLPuz6JDxKhH0pN0ljsYpFVabnwMMCmcMCHGf7JV5y6C2eCKgcZMDyZ/05M9x0GVWMf
-         Ab2vWeUavd9bRzHuhe+fh+UFBfvk46d1LVd8GCG4dlYJm7cP4mW96j2fd0JmLfmPeLNv
-         oRgi6g4Usu4wvz5Rox6MGVe8aIitR60TXAPeWkZioE3y4Wf/m4QR1KAH/BdGAUy4e7do
-         d4jQ==
+         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
+         :cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=1Z2GV0Gl9sZpKKIqfR5cMwtWGIQDtjjt6THkaUJnylo=;
+        b=a/fqs1dxkH2S2t475+nQDUywjG9SD9E0uQp+kiMe6n7clpQtm1JRGTI/w+fzW7qHWq
+         mM9EYflT+1rS9Eb98umPCBjciF810PNuX8c+RU9EYszRaL/pQcm48pR1V1PQlGukEBLv
+         1SvHwU3d/LQ4s4W3ihVvGkzZLBcQPpfshOx4O8X5ANSXbur+XrvagNiX2DaKYCBQoiY0
+         xDy/6wuOxNtdGaC2I/1y1Ib9nCV3re4ap1+VNIfr0nsMZ+VsyiY3rbvf+66AXiocBifF
+         WG8jhB3oamzUOVr7+ouk04tLFSP9qH3FA0+1uCu59ti5jbnb6FdEdBA4pIMSlViYslOr
+         U8iw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20161025 header.b=PSODGXTn;
-       spf=pass (google.com: domain of venkat.rajuece@gmail.com designates 2a00:1450:4864:20::232 as permitted sender) smtp.mailfrom=venkat.rajuece@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+       dkim=pass header.i=@google.com header.s=20161025 header.b=Zux4DUE6;
+       spf=pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::544 as permitted sender) smtp.mailfrom=andreyknvl@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:mime-version:references:in-reply-to:from:date:message-id
-         :subject:to:cc:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=OqK2zzsmtCaHjpNhFXCeFv+PPbmrWXlBiX02wUs9wxs=;
-        b=ivz9h5an7RDkmB2VC0sEEpWuCVYRI9DN5zEE6AURwOabTI25chtxxQQXCk/kebDFmS
-         v53gn2+9br1JHZr2LwvNDt18ujsAysFAHEcCF4aBdTLy/8VuIHyZ3N2pVzQ410Mk8RvR
-         4CZPE/eqALFhlBLHb5o2FuSRq1jIDZ8jMZZ/OiVJNJ7iI30G5KqFB77PQBwE6r/CaHdX
-         xPYdCsYJpQZuZ/rrwaPrUBYUeYUijJxTkz2TkpjEvnztY0mOSjv+tJy1qobOKeXYsg+A
-         La7oq73Iai5ZMPCUN0tJ2RD8Ozsxwufi1psV6/bu+YQ0OStPxZvBYg36sUNieND4L3VG
-         TjOw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=OqK2zzsmtCaHjpNhFXCeFv+PPbmrWXlBiX02wUs9wxs=;
-        b=RvPYioh3gcOLJm7WOdDC7XkBxf2YjIFLPE81UoXz6SXcFmhsWIZCmalBBKHyNrmuza
-         MrEbLlrffhOxPdtXPCQnd+ZU5yrGg9UsKDLu2injlTfGzayKtF8PrYaeKyPlDiNqoHO/
-         t8LuKnHtUo4gxjDkuIdqSs6GKOH9yisYP2risxh9EtJRJBpooojzf1Byz2hhBVTUbJFZ
-         XmtQnsuby+HFYFjE0eZptaykldXt5rQ9Bq+BhEhQRFI0XamJxYq0h5LMPw0ejYfuH2zj
-         gTlIQ2BR5th5gzhvb9p2y/DQ5zZ/Fs+LFG9NOaCdSigPsPX8j6FktYznpVul3IIu4C61
-         pCiw==
+         :cc:content-transfer-encoding:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:list-post:list-help:list-archive:list-subscribe
+         :list-unsubscribe;
+        bh=1Z2GV0Gl9sZpKKIqfR5cMwtWGIQDtjjt6THkaUJnylo=;
+        b=M8SMHffFgxyAhWUw74w1vrVHIudF774uT2cLKA9GnZnEmZqcz3EoLWEa5Ep+/CG4Jp
+         lERuV/g0bSfdwId/1/Jxe9qLf0d7L85UX6LD8ATik0tn03FO4YXWMsRKiIRMwJtO/G+u
+         DhfA99H7BAR18Fxb7gZfHGkd4hQWUnU1ub1zv9YH+rIIyMGgR2tnEBN/Gy0yTHnnhCLx
+         OHPwfasq0HSYlOexdAD018iQa2PptjbDh3BflB4PDxUBRqfexlKaE3Cx5UunrRyW3Hcg
+         MuQXwqjAbYUFNB1RaWFhfUNBDVG7ixtNKAjiYT4yPBIQQooH0ixntiy3vIZzexHSrA4q
+         I2lg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
-         :date:message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=OqK2zzsmtCaHjpNhFXCeFv+PPbmrWXlBiX02wUs9wxs=;
-        b=DzUqsUjjml/v/Rwbu0rp02i3Uu3LnQhTXIKpaq0wtNbw4aTuri7pka9zOi1rSgQNk6
-         OKRvFVvWiTzyLxdYmBiifo4V897y05l+tZHBwkatGUwXRjHHPAppAA1Lt3Mb6dCEe4d8
-         RbtsEOJml7bgiUPduyCBvVVZefKcfoDRZ7MWTtTyZraNDk2TaSSmj4Hr0WgwrBDTsIL8
-         HZIOz1O5TLljUj97sg3i8wpwfwZQiuH7SyRtCdShHRx8R0rbE8V/RCaGX2NmTpaA95bt
-         BCzSzNxNbyNbCKvUA5+4IZTqmCMouI9yYHHbi5JXO6JlTlqv08/Nktn6IxPXdpXo768P
-         hbww==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM531aHC0/vh4zxL38+2jkMdmXTojf+79p24OKxaXqxwVjUUKKiC49
-	wl6GNc7kstoLHdTLej+rhyk=
-X-Google-Smtp-Source: ABdhPJzOmd1mb+EBuK9N5jOhn2f93MXeUIQcbW/7kdy52b/GHyrvpAxTVpG+MrQTMzz2aqZqHce5bg==
-X-Received: by 2002:adf:9795:: with SMTP id s21mr7282510wrb.166.1591316092753;
-        Thu, 04 Jun 2020 17:14:52 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding
+         :x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=1Z2GV0Gl9sZpKKIqfR5cMwtWGIQDtjjt6THkaUJnylo=;
+        b=gKpglIbJV3MY9UmJk1tQuZk+LrxOM1nv/U+fuH+3u0JmQuawFYYFWEew3GWKyBy1Q2
+         JnzYqCccxIhbUpli24cH9iiY2YolIRVnMWs/uEW9oghkln3fL+UyF/Y+7SEsT7kMzUeo
+         QxoGrlTaHhXYZOYx+0byHP2QjDKhE3yCUylQq3a3V3S6CF33CLolwewl+qmAs4EfLtZk
+         vW1hR2Hq0IRt4E5BmjeTapTMnmDpzscw1/6YKJLPMmc+hZQkx8wQYhEsSZbbgrKFzhrA
+         mkuEUSZxTtp3Yung8M86lLJ3qzZ03mmJ8ZXARtTJIxL3LzY19LAWdRE9nEylP81EZs1a
+         rh9Q==
+X-Gm-Message-State: AOAM533aHWAroEc4VYS/2+m3ZgvuM5OmzrngLn2t9llJRg9mIRfAaopK
+	SgJyehqWXLfbW+u3ZpEgPpU=
+X-Google-Smtp-Source: ABdhPJyt72v7I++w5k3GUneCSYGocguvANnEgBm/sXwQxXHgAio8N7g3Hd9MhvOdsb8sju/rOZVRdw==
+X-Received: by 2002:a63:ad0b:: with SMTP id g11mr6916252pgf.275.1591316449214;
+        Thu, 04 Jun 2020 17:20:49 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a1c:62d6:: with SMTP id w205ls3579107wmb.1.canary-gmail;
- Thu, 04 Jun 2020 17:14:52 -0700 (PDT)
-X-Received: by 2002:a7b:c40e:: with SMTP id k14mr5583722wmi.59.1591316092099;
-        Thu, 04 Jun 2020 17:14:52 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1591316092; cv=none;
+Received: by 2002:a17:902:bc4a:: with SMTP id t10ls2720626plz.4.gmail; Thu, 04
+ Jun 2020 17:20:48 -0700 (PDT)
+X-Received: by 2002:a17:902:9043:: with SMTP id w3mr6862787plz.250.1591316448639;
+        Thu, 04 Jun 2020 17:20:48 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1591316448; cv=none;
         d=google.com; s=arc-20160816;
-        b=M9awo9fIG0e04s0N5tKvbHoi4OUVjGL8EKcAR3RAHy8HSNLqyD3h0Tvr39V6rHykXq
-         jt5xRZSo0N3/bvAhKCgTkzlqvXmsx+rcZDaNFfdggAkOFV2evHbCS3DKBNDl9pCvvT+9
-         BT+XBwFLoHursEaIJ6qz+zpSSAv+70UlwOM67ravH3iBTahSc40F5A3c2CNycnlH+n5Z
-         6yhyJm3DPtsEFa48RnkBhDkAkI8ThYX+Z1N3/CqdOyHWbPEx+If2x4+nn3U1ND0rGb1u
-         qYF3OYqj5rkzDGe4oJsSiRPjiy05ByqhI0gTCPedI/Tsi0a4cZNHF86/znC6JF7uqVgB
-         Q4KQ==
+        b=HetBG85Jp6CnQSG68F9U7XogKtc6EJjt5kfQWIxHYMfA5bZI78TNn8qdA8EaSqHZtP
+         8Ydh4tzM4rzltg3Gt4A0uE1tw9ZVieJWEzCtXJtnlHp6OkjAKNL/R4pSO06pxygOQtd9
+         xklwGo1HmP5fHJ2ZmcbQolE9RGOjdWB16XWn6nLFBJQdFQy+rT8q1S6lbKeEuRg736w/
+         7Aa9rISO1OfkR3RI41I1pdlIZtodrXKNAaAk4JHZtwIEaQM3Ja0A2dyLM/1XwKCgnKXm
+         ob/UINcwBthrN+pH230Lq5iP1tCs2YJpk2+OL6tqgGwEc2OacgxZfZ8oo27v2xom9AEB
+         3FAQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=DdtB4XFIcfGRISPvIFQp9RceA5KAcxL7XvUqCSfYSjQ=;
-        b=zQiod5wIvs1R8UHOSboorEkVGhwuqZ+/Xth1d/en2ww8ZH6aYAPVaK8WTK/ksov+Zo
-         359DQJTnRBDKLwnBWO3EywiF/e7ruTAtqtA2WOkafo8c5223IcaGhLDdiVREyIcOFN1A
-         j29X/SMnebfxDYNY4w9i05zfUDw6ad7822KX0K6x7u7muV26rVqz7u/pfFnwr4ml3seM
-         adGCApgXbdd4auZYPRsBefV8e9flxx4NKwCnKl+Db61fb9zKHHCycuvNQ6n2kfB+Vzor
-         pY2jQiqW5pQ0hLyjJYZZYuolPc51dceGET5EuWiMD70k0kfPaEV2A/ydGNTjg/3x/ll0
-         O38A==
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=2RYP+RudF/nyEKA/rCkh4BQbZTC+SmjOsZisXvVJcaI=;
+        b=QHJgHEZJeSxbqf1BgoFIdYRZSRZ65eayMYZEnltakMAzOqwE5ydsJ94QpSg5VXDJoU
+         k9Vajy2NwnTsHTlrLkajueTHh5PEvHKKojmknmW7/QSmndJe+rFR4tDYPNVq1fcN45hD
+         HPBs6XBZMKxIaksGrdw3w/AtkQUqDOuIbzPZdAwstp+1DRBZr/UwR06hxq3fTekNpgI2
+         GOcDRyj+3vLidQdc4e8eLfWH2iCVrslhTTZwS6/Pbp/r+uwINQculA7Foq44i1OVf5BU
+         601x/ILfXZifvBb/n7+s6v8ga5hFgzyewcYDYyI5xUtc4KqC31s/KvKuIKwLPDl4MoZ7
+         GI9Q==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20161025 header.b=PSODGXTn;
-       spf=pass (google.com: domain of venkat.rajuece@gmail.com designates 2a00:1450:4864:20::232 as permitted sender) smtp.mailfrom=venkat.rajuece@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com. [2a00:1450:4864:20::232])
-        by gmr-mx.google.com with ESMTPS id y65si313451wmb.0.2020.06.04.17.14.52
+       dkim=pass header.i=@google.com header.s=20161025 header.b=Zux4DUE6;
+       spf=pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::544 as permitted sender) smtp.mailfrom=andreyknvl@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com. [2607:f8b0:4864:20::544])
+        by gmr-mx.google.com with ESMTPS id q1si375862pgg.5.2020.06.04.17.20.48
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 04 Jun 2020 17:14:52 -0700 (PDT)
-Received-SPF: pass (google.com: domain of venkat.rajuece@gmail.com designates 2a00:1450:4864:20::232 as permitted sender) client-ip=2a00:1450:4864:20::232;
-Received: by mail-lj1-x232.google.com with SMTP id c17so9504975lji.11
-        for <kasan-dev@googlegroups.com>; Thu, 04 Jun 2020 17:14:52 -0700 (PDT)
-X-Received: by 2002:a2e:b529:: with SMTP id z9mr3457061ljm.390.1591316091355;
- Thu, 04 Jun 2020 17:14:51 -0700 (PDT)
+        Thu, 04 Jun 2020 17:20:48 -0700 (PDT)
+Received-SPF: pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::544 as permitted sender) client-ip=2607:f8b0:4864:20::544;
+Received: by mail-pg1-x544.google.com with SMTP id r10so4267274pgv.8
+        for <kasan-dev@googlegroups.com>; Thu, 04 Jun 2020 17:20:48 -0700 (PDT)
+X-Received: by 2002:a62:7ccb:: with SMTP id x194mr7124773pfc.318.1591316448031;
+ Thu, 04 Jun 2020 17:20:48 -0700 (PDT)
 MIME-Version: 1.0
 References: <CA+dZkamtaXi8yr=khO+E9SKe9QBR-Z0e0kdH4DzhQdzo8o-+Eg@mail.gmail.com>
  <CACT4Y+YS5b2PokFVvw69Mfo-jjE13jGAqYmtEJQa7tVHm=CjgQ@mail.gmail.com>
@@ -124,22 +111,27 @@ References: <CA+dZkamtaXi8yr=khO+E9SKe9QBR-Z0e0kdH4DzhQdzo8o-+Eg@mail.gmail.com>
  <CA+dZkako-AaeWJ71eHHLnJVWxbCUWkrc7b9sSWZPUSLL-ty=-w@mail.gmail.com>
  <CA+dZkakg-PpowaqknoKcoy3RDWSNbEAqSVm01SOOYDxZKV-WOA@mail.gmail.com>
  <CACRpkdY9pbM--gBU2F_3Q=AdB1Fsx4vHzc5O-3Fq0M105SQWLg@mail.gmail.com>
- <CA+dZkann4Z1TavtJ+iq9oBrAiAaohZfke8aoyhcqvs_CYSuirA@mail.gmail.com> <CAG_fn=XjmgyxDANUN0a8kY2CuucQ2gHFfQqsk6TF_XpiqWGCgw@mail.gmail.com>
-In-Reply-To: <CAG_fn=XjmgyxDANUN0a8kY2CuucQ2gHFfQqsk6TF_XpiqWGCgw@mail.gmail.com>
-From: Raju Sana <venkat.rajuece@gmail.com>
-Date: Thu, 4 Jun 2020 17:14:40 -0700
-Message-ID: <CA+dZkakFEJZLtfe7L2oN4w4O=T+x1L2WxZyKtSyofs8m3wLEzw@mail.gmail.com>
+ <CA+dZkann4Z1TavtJ+iq9oBrAiAaohZfke8aoyhcqvs_CYSuirA@mail.gmail.com>
+ <CAG_fn=XjmgyxDANUN0a8kY2CuucQ2gHFfQqsk6TF_XpiqWGCgw@mail.gmail.com> <CA+dZkakFEJZLtfe7L2oN4w4O=T+x1L2WxZyKtSyofs8m3wLEzw@mail.gmail.com>
+In-Reply-To: <CA+dZkakFEJZLtfe7L2oN4w4O=T+x1L2WxZyKtSyofs8m3wLEzw@mail.gmail.com>
+From: "'Andrey Konovalov' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Fri, 5 Jun 2020 02:20:37 +0200
+Message-ID: <CAAeHK+xA6NaC0d36OtAhMgbA=sCvKHa1bN-a4zQZkzLh+EMGDQ@mail.gmail.com>
 Subject: Re: Need help in porting KASAN for 32 bit ARM on 5.4 kernel
-To: Alexander Potapenko <glider@google.com>
-Cc: Linus Walleij <linus.walleij@linaro.org>, Dmitry Vyukov <dvyukov@google.com>, 
-	kasan-dev <kasan-dev@googlegroups.com>, Abbott Liu <liuwenliang@huawei.com>
-Content-Type: multipart/alternative; boundary="00000000000059cc7805a74b2605"
-X-Original-Sender: venkat.rajuece@gmail.com
+To: Raju Sana <venkat.rajuece@gmail.com>
+Cc: Alexander Potapenko <glider@google.com>, Linus Walleij <linus.walleij@linaro.org>, 
+	Dmitry Vyukov <dvyukov@google.com>, kasan-dev <kasan-dev@googlegroups.com>, 
+	Abbott Liu <liuwenliang@huawei.com>, Daniel Axtens <dja@axtens.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: andreyknvl@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20161025 header.b=PSODGXTn;       spf=pass
- (google.com: domain of venkat.rajuece@gmail.com designates
- 2a00:1450:4864:20::232 as permitted sender) smtp.mailfrom=venkat.rajuece@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+ header.i=@google.com header.s=20161025 header.b=Zux4DUE6;       spf=pass
+ (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::544
+ as permitted sender) smtp.mailfrom=andreyknvl@google.com;       dmarc=pass
+ (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Andrey Konovalov <andreyknvl@google.com>
+Reply-To: Andrey Konovalov <andreyknvl@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -152,115 +144,125 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
---00000000000059cc7805a74b2605
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Fri, Jun 5, 2020 at 2:14 AM Raju Sana <venkat.rajuece@gmail.com> wrote:
+>
+> Hello ALL,
+>
+> Thanks Alexander, I did attach to lauterbach  and debugging this now.. to=
+ see where exactly failures..
+>
+> Initial Issue  behind memcpy failure is due to  FORTIFY  is enabled in my=
+ build, after turning off the FORTIFY  like below  , I was bale to gte pass=
+ memcpy issue.
+>
+> index 947f93037d87..64f0c81ac9a0 100644
+> --- a/arch/arm/include/asm/string.h
+> +++ b/arch/arm/include/asm/string.h
+> @@ -58,6 +58,9 @@ static inline void *memset64(uint64_t *p, uint64_t v, _=
+_kernel_size_t n)
+>  #define memcpy(dst, src, len) __memcpy(dst, src, len)
+>  #define memmove(dst, src, len) __memmove(dst, src, len)
+>  #define memset(s, c, n) __memset(s, c, n)
+> +#ifndef __NO_FORTIFY
+> +#define __NO_FORTIFY /* FORTIFY_SOURCE uses __builtin_memcpy, etc. */
+> +#endif
+>  #endif
+>
+>
+> Is  KASAN expected to  work when  FORTIFY enabled  ?
 
-Hello ALL,
+There's a series from Daniel related to KASAN + FORTIFY_SOURCE [1]
+btw, which might help you here.
 
-Thanks Alexander, I did attach to lauterbach  and debugging this now.. to
-see where exactly failures..
+[1] https://lkml.org/lkml/2020/4/24/729
 
-Initial Issue  behind memcpy failure is due to  FORTIFY  is enabled in my
-build, after turning off the FORTIFY  like below  , I was bale to gte pass
-memcpy issue.
-
-index 947f93037d87..64f0c81ac9a0 100644
---- a/arch/arm/include/asm/string.h
-+++ b/arch/arm/include/asm/string.h
-@@ -58,6 +58,9 @@ static inline void *memset64(uint64_t *p, uint64_t v,
-__kernel_size_t n)
- #define memcpy(dst, src, len) __memcpy(dst, src, len)
- #define memmove(dst, src, len) __memmove(dst, src, len)
- #define memset(s, c, n) __memset(s, c, n)
-+#ifndef __NO_FORTIFY
-+#define __NO_FORTIFY /* FORTIFY_SOURCE uses __builtin_memcpy, etc. */
-+#endif
- #endif
-
-
-Is  KASAN expected to  work when  FORTIFY enabled  ?
-
-After above change , I was  table to succeed with all  early init calls
-and also was able to dump the cmd_line args using lauterbach it was showing
-as accurate.
-
-Now I ran into  READ_ONCE and JUMP_LABEL issues  while running arch
-specific CPU hooks   ?  aAe these two related ? Appreciate any pointers
-here.
-
-Thanks
-Venkat Sana.
-
-
-
-
-
-
-BTW,  is this tested with FORTIFY
-
-
-On Tue, Jun 2, 2020 at 5:55 AM Alexander Potapenko <glider@google.com>
-wrote:
-
-> On Mon, Jun 1, 2020 at 10:18 PM Raju Sana <venkat.rajuece@gmail.com>
+>
+> After above change , I was  table to succeed with all  early init calls  =
+and also was able to dump the cmd_line args using lauterbach it was showing=
+ as accurate.
+>
+> Now I ran into  READ_ONCE and JUMP_LABEL issues  while running arch speci=
+fic CPU hooks   ?  aAe these two related ? Appreciate any pointers here.
+>
+> Thanks
+> Venkat Sana.
+>
+>
+>
+>
+>
+>
+> BTW,  is this tested with FORTIFY
+>
+>
+> On Tue, Jun 2, 2020 at 5:55 AM Alexander Potapenko <glider@google.com> wr=
+ote:
+>>
+>> On Mon, Jun 1, 2020 at 10:18 PM Raju Sana <venkat.rajuece@gmail.com> wro=
+te:
+>> >
+>> > Thank you Walleij.
+>> >
+>> > I tried booting form 0x50000000,  but  hit the same issue.
+>> > I tried disabling instrumentation by passing KASAN_SANITIZE :=3Dn  @ a=
+rch/arm/Makefile , but still no luck.
+>>
+>> This only disables instrumentation for files in arch/arm, which might
+>> be not enough.
+>> Try removing the -fsanitize=3Dkernel-address flag from scripts/Makefile.=
+kasan
+>>
+>> > Thanks,
+>> > Venkat Sana.
+>> >
+>> > On Mon, Jun 1, 2020 at 1:57 AM Linus Walleij <linus.walleij@linaro.org=
 > wrote:
-> >
-> > Thank you Walleij.
-> >
-> > I tried booting form 0x50000000,  but  hit the same issue.
-> > I tried disabling instrumentation by passing KASAN_SANITIZE :=3Dn  @
-> arch/arm/Makefile , but still no luck.
->
-> This only disables instrumentation for files in arch/arm, which might
-> be not enough.
-> Try removing the -fsanitize=3Dkernel-address flag from scripts/Makefile.k=
-asan
->
-> > Thanks,
-> > Venkat Sana.
-> >
-> > On Mon, Jun 1, 2020 at 1:57 AM Linus Walleij <linus.walleij@linaro.org>
-> wrote:
-> >>
-> >> On Mon, Jun 1, 2020 at 1:07 AM Raju Sana <venkat.rajuece@gmail.com>
-> wrote:
-> >>
-> >>> And I am  loading image @ 0x44000000 in DDR and boot  using  "bootm
->  0x44000000"
-> >>
-> >>
-> >> Hm... can you try loading it at 0x50000000 and see what happens?
-> >>
-> >> We had issues with non-aligned physical base.
-> >>
-> >> Yours,
-> >> Linus Walleij
-> >
-> > --
-> > You received this message because you are subscribed to the Google
-> Groups "kasan-dev" group.
-> > To unsubscribe from this group and stop receiving emails from it, send
-> an email to kasan-dev+unsubscribe@googlegroups.com.
-> > To view this discussion on the web visit
-> https://groups.google.com/d/msgid/kasan-dev/CA%2BdZkann4Z1TavtJ%2Biq9oBrA=
-iAaohZfke8aoyhcqvs_CYSuirA%40mail.gmail.com
-> .
->
->
+>> >>
+>> >> On Mon, Jun 1, 2020 at 1:07 AM Raju Sana <venkat.rajuece@gmail.com> w=
+rote:
+>> >>
+>> >>> And I am  loading image @ 0x44000000 in DDR and boot  using  "bootm =
+  0x44000000"
+>> >>
+>> >>
+>> >> Hm... can you try loading it at 0x50000000 and see what happens?
+>> >>
+>> >> We had issues with non-aligned physical base.
+>> >>
+>> >> Yours,
+>> >> Linus Walleij
+>> >
+>> > --
+>> > You received this message because you are subscribed to the Google Gro=
+ups "kasan-dev" group.
+>> > To unsubscribe from this group and stop receiving emails from it, send=
+ an email to kasan-dev+unsubscribe@googlegroups.com.
+>> > To view this discussion on the web visit https://groups.google.com/d/m=
+sgid/kasan-dev/CA%2BdZkann4Z1TavtJ%2Biq9oBrAiAaohZfke8aoyhcqvs_CYSuirA%40ma=
+il.gmail.com.
+>>
+>>
+>>
+>> --
+>> Alexander Potapenko
+>> Software Engineer
+>>
+>> Google Germany GmbH
+>> Erika-Mann-Stra=C3=9Fe, 33
+>> 80636 M=C3=BCnchen
+>>
+>> Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Halimah DeLaine Prado
+>> Registergericht und -nummer: Hamburg, HRB 86891
+>> Sitz der Gesellschaft: Hamburg
 >
 > --
-> Alexander Potapenko
-> Software Engineer
->
-> Google Germany GmbH
-> Erika-Mann-Stra=C3=9Fe, 33
-> 80636 M=C3=BCnchen
->
-> Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Halimah DeLaine Prado
-> Registergericht und -nummer: Hamburg, HRB 86891
-> Sitz der Gesellschaft: Hamburg
->
+> You received this message because you are subscribed to the Google Groups=
+ "kasan-dev" group.
+> To unsubscribe from this group and stop receiving emails from it, send an=
+ email to kasan-dev+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgi=
+d/kasan-dev/CA%2BdZkakFEJZLtfe7L2oN4w4O%3DT%2Bx1L2WxZyKtSyofs8m3wLEzw%40mai=
+l.gmail.com.
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
@@ -268,117 +270,5 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CA%2BdZkakFEJZLtfe7L2oN4w4O%3DT%2Bx1L2WxZyKtSyofs8m3wLEzw%40mail.=
+kasan-dev/CAAeHK%2BxA6NaC0d36OtAhMgbA%3DsCvKHa1bN-a4zQZkzLh%2BEMGDQ%40mail.=
 gmail.com.
-
---00000000000059cc7805a74b2605
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hello ALL,<div><br></div><div>Thanks Alexander, I did atta=
-ch=C2=A0to lauterbach=C2=A0 and debugging=C2=A0this now.. to see where exac=
-tly failures..</div><div><br></div><div>Initial Issue=C2=A0=C2=A0behind=C2=
-=A0memcpy failure is due to=C2=A0 FORTIFY=C2=A0 is enabled in my build, aft=
-er turning off the FORTIFY=C2=A0 like below=C2=A0 , I was bale to gte=C2=A0=
-pass memcpy issue.</div><div><br></div><div>index 947f93037d87..64f0c81ac9a=
-0 100644<br>--- a/arch/arm/include/asm/string.h<br>+++ b/arch/arm/include/a=
-sm/string.h<br>@@ -58,6 +58,9 @@ static inline void *memset64(uint64_t *p, =
-uint64_t v, __kernel_size_t n)<br>=C2=A0#define memcpy(dst, src, len) __mem=
-cpy(dst, src, len)<br>=C2=A0#define memmove(dst, src, len) __memmove(dst, s=
-rc, len)<br>=C2=A0#define memset(s, c, n) __memset(s, c, n)<br>+#ifndef __N=
-O_FORTIFY<br>+#define __NO_FORTIFY /* FORTIFY_SOURCE uses __builtin_memcpy,=
- etc. */<br>+#endif<br>=C2=A0#endif<br></div><div><br></div><div><br></div>=
-<div>Is=C2=A0 KASAN expected to=C2=A0 work when=C2=A0 FORTIFY enabled=C2=A0=
- ?</div><div><br></div><div>After above change , I was=C2=A0 table to succe=
-ed=C2=A0with all=C2=A0 early init calls=C2=A0 and also was able to dump the=
- cmd_line args using lauterbach it was showing as accurate.</div><div><br><=
-/div><div>Now I ran into=C2=A0 READ_ONCE and JUMP_LABEL issues=C2=A0 while =
-running arch specific CPU hooks=C2=A0 =C2=A0?=C2=A0 aAe these two related ?=
- Appreciate any pointers here.</div><div><br></div><div>Thanks</div><div>Ve=
-nkat Sana.</div><div><br></div><div><br></div><div><br></div><div><br></div=
-><div><br></div><div><br></div><div>BTW,=C2=A0 is this tested with FORTIFY=
-=C2=A0</div><div><br></div></div><br><div class=3D"gmail_quote"><div dir=3D=
-"ltr" class=3D"gmail_attr">On Tue, Jun 2, 2020 at 5:55 AM Alexander Potapen=
-ko &lt;<a href=3D"mailto:glider@google.com">glider@google.com</a>&gt; wrote=
-:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
-8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Mon, Jun 1,=
- 2020 at 10:18 PM Raju Sana &lt;<a href=3D"mailto:venkat.rajuece@gmail.com"=
- target=3D"_blank">venkat.rajuece@gmail.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; Thank you Walleij.<br>
-&gt;<br>
-&gt; I tried booting form 0x50000000,=C2=A0 but=C2=A0 hit the same issue.<b=
-r>
-&gt; I tried disabling instrumentation by passing KASAN_SANITIZE :=3Dn=C2=
-=A0 @ arch/arm/Makefile , but still no luck.<br>
-<br>
-This only disables instrumentation for files in arch/arm, which might<br>
-be not enough.<br>
-Try removing the -fsanitize=3Dkernel-address flag from scripts/Makefile.kas=
-an<br>
-<br>
-&gt; Thanks,<br>
-&gt; Venkat Sana.<br>
-&gt;<br>
-&gt; On Mon, Jun 1, 2020 at 1:57 AM Linus Walleij &lt;<a href=3D"mailto:lin=
-us.walleij@linaro.org" target=3D"_blank">linus.walleij@linaro.org</a>&gt; w=
-rote:<br>
-&gt;&gt;<br>
-&gt;&gt; On Mon, Jun 1, 2020 at 1:07 AM Raju Sana &lt;<a href=3D"mailto:ven=
-kat.rajuece@gmail.com" target=3D"_blank">venkat.rajuece@gmail.com</a>&gt; w=
-rote:<br>
-&gt;&gt;<br>
-&gt;&gt;&gt; And I am=C2=A0 loading image @ 0x44000000 in DDR and boot=C2=
-=A0 using=C2=A0 &quot;bootm=C2=A0 =C2=A00x44000000&quot;<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; Hm... can you try loading it at 0x50000000 and see what happens?<b=
-r>
-&gt;&gt;<br>
-&gt;&gt; We had issues with non-aligned physical base.<br>
-&gt;&gt;<br>
-&gt;&gt; Yours,<br>
-&gt;&gt; Linus Walleij<br>
-&gt;<br>
-&gt; --<br>
-&gt; You received this message because you are subscribed to the Google Gro=
-ups &quot;kasan-dev&quot; group.<br>
-&gt; To unsubscribe from this group and stop receiving emails from it, send=
- an email to <a href=3D"mailto:kasan-dev%2Bunsubscribe@googlegroups.com" ta=
-rget=3D"_blank">kasan-dev+unsubscribe@googlegroups.com</a>.<br>
-&gt; To view this discussion on the web visit <a href=3D"https://groups.goo=
-gle.com/d/msgid/kasan-dev/CA%2BdZkann4Z1TavtJ%2Biq9oBrAiAaohZfke8aoyhcqvs_C=
-YSuirA%40mail.gmail.com" rel=3D"noreferrer" target=3D"_blank">https://group=
-s.google.com/d/msgid/kasan-dev/CA%2BdZkann4Z1TavtJ%2Biq9oBrAiAaohZfke8aoyhc=
-qvs_CYSuirA%40mail.gmail.com</a>.<br>
-<br>
-<br>
-<br>
--- <br>
-Alexander Potapenko<br>
-Software Engineer<br>
-<br>
-Google Germany GmbH<br>
-Erika-Mann-Stra=C3=9Fe, 33<br>
-80636 M=C3=BCnchen<br>
-<br>
-Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Halimah DeLaine Prado<br>
-Registergericht und -nummer: Hamburg, HRB 86891<br>
-Sitz der Gesellschaft: Hamburg<br>
-</blockquote></div>
-
-<p></p>
-
--- <br />
-You received this message because you are subscribed to the Google Groups &=
-quot;kasan-dev&quot; group.<br />
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
-+unsubscribe@googlegroups.com</a>.<br />
-To view this discussion on the web visit <a href=3D"https://groups.google.c=
-om/d/msgid/kasan-dev/CA%2BdZkakFEJZLtfe7L2oN4w4O%3DT%2Bx1L2WxZyKtSyofs8m3wL=
-Ezw%40mail.gmail.com?utm_medium=3Demail&utm_source=3Dfooter">https://groups=
-.google.com/d/msgid/kasan-dev/CA%2BdZkakFEJZLtfe7L2oN4w4O%3DT%2Bx1L2WxZyKtS=
-yofs8m3wLEzw%40mail.gmail.com</a>.<br />
-
---00000000000059cc7805a74b2605--
