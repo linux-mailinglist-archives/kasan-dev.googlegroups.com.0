@@ -1,134 +1,119 @@
-Return-Path: <kasan-dev+bncBDTZTRGMXIFBBPEQ7P3AKGQESZIQKOY@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBB2H57T3AKGQEQE6N63Q@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qv1-xf37.google.com (mail-qv1-xf37.google.com [IPv6:2607:f8b0:4864:20::f37])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDB9A1F2488
-	for <lists+kasan-dev@lfdr.de>; Tue,  9 Jun 2020 01:22:37 +0200 (CEST)
-Received: by mail-qv1-xf37.google.com with SMTP id w3sf15316460qvl.9
-        for <lists+kasan-dev@lfdr.de>; Mon, 08 Jun 2020 16:22:37 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1591658557; cv=pass;
+Received: from mail-oi1-x23c.google.com (mail-oi1-x23c.google.com [IPv6:2607:f8b0:4864:20::23c])
+	by mail.lfdr.de (Postfix) with ESMTPS id D509B1F356C
+	for <lists+kasan-dev@lfdr.de>; Tue,  9 Jun 2020 09:48:57 +0200 (CEST)
+Received: by mail-oi1-x23c.google.com with SMTP id n130sf9445712oig.9
+        for <lists+kasan-dev@lfdr.de>; Tue, 09 Jun 2020 00:48:57 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1591688936; cv=pass;
         d=google.com; s=arc-20160816;
-        b=y4Yzo4pm/s2nbLiSMOoa8yXRvQO446QB9z5dLnqO4qUcTSGyyhZy8z5YmhZRZMBxhf
-         r9z4i/k1a4hkbJtyW4m8ab6dIQWOfhyxlKWgFThv/6aU2bzdiOepcDmn6L/VGSzmhVOx
-         RGOBPsNYhs0ZKPUJ74gen+3oXBivcQrMSqQj8kCZCrD2yi2WJ2nBpwvmOGu/YrE78GqM
-         NA0wgoTXgocFk4Gw0EVYPAqaaXJIvvmPd0Y7VhXFstn0B6BqR9ManQt+jjG0qsinF+44
-         gBQEsyVgngOZEmm8ofUDlQ97PkL6PGBmsR2mrQfrEAKZmM/6Ojcpu2fgWp5gzajN6i1F
-         AHtg==
+        b=fLOxEVcHtIlEmHsHEvwHP95Ck4w7lQGUnM64Aqrbd8JrM25NgEq/T7HVuQXNqvhsqr
+         Dg8mBBDdoI5QGuSRYJP3TG5vZ86EYzPQ768YHld9X8T9cN2OfmGNosGkzEzZXrHbpIEW
+         Ar0m3mVHSxdtd3yaW8uKgNy3UA9b9ppd95fYTHgh/UgdSSTKRAseIvpvZ+P/GjNOF/jh
+         /aw1PVnl4IRZiudDFfbCKnQ61rPmUG+ccp/NDPXlfV07/UhaUbPute+ERjGeO8wO4nAE
+         BxWCrYtCpbtke25LWUiso5HEUy6wJg2OXc3IssWhQ9QM36w1YwqnMkD0Isn9AhzJIpTc
+         /uOQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=1VKcp4CpkFXLGgaCog4QAb4LLKfQimNR+7lK0OJQTQY=;
-        b=McupaG1+TKUIrLRAs9GwRnw7nxpoPF8nzc9lOCdMdO5Wgx6K0OdkGFmbCL4/XunAjg
-         EqF3TmhIqDQku7BmFVcbbxtAKiy79kub31BZK1ljQoyvVkNdyt41yCdIYncFFaeQXmOa
-         J5N0UbFwUCB+S2vEDt2S24YEfCnL0Zsw2NQNzeMgSatqKbQIHQmO1n2sIX7CljdNcvwJ
-         pKRwbA/gJFecPWEzAjHCfbGAJb2Xi+qBEeNqRcnt+lA1Ck8ryc9KAxvnqvvz+jwVF/5T
-         Fh/EC56k1kNiJ6T5vfo2yzHpJBPoU65cUb27tgw/8ThZRUtqnV/XY7sget8Yu4qIu2hu
-         rPcw==
+         :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
+         :mime-version:message-id:date:dkim-signature;
+        bh=v8gVRWHFx2UdmsL4ZpW0BD+1xc3h7C6VX0fAiBYUz8Q=;
+        b=T5W9hPs5agdxxk0M8387gMqiCjAl8zdXfoz4patZE1uLoo06sjfuNNTpZI8sEtEFib
+         fV/RVz0KsAM18epwkeevf7QOo+RLHz2J79YlFBAE7RCxGkPX68Bd/WhsrPc9OyfAXU6r
+         aVsKfj2rjevWFaD94W+4q1LSCsHKk96ZAaRzUaM+xoo9c7AlgP9zZ/7HR1vObP3frv06
+         v0OxrZy2mvpdP0EFOnt2yqpFt5++8p8ofL+xMOioOc5TGJkrPTW5rg9mc3NlDqCLG+lE
+         o++BNDr02MO7D5q6Py4KvyXUFApV5UmVgw0XWLhL8Mf8PLXshW0oKJ+B0TzcvD+/kS1x
+         oS6Q==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=default header.b=ChFaNaiM;
-       spf=pass (google.com: domain of sashal@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=sashal@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       dkim=pass header.i=@google.com header.s=20161025 header.b=qu7dQ32B;
+       spf=pass (google.com: domain of 35z7fxgukcd4elvergoogle.comkasan-devgooglegroups.com@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::749 as permitted sender) smtp.mailfrom=35z7fXgUKCd4ELVERGOOGLE.COMKASAN-DEVGOOGLEGROUPS.COM@flex--elver.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=1VKcp4CpkFXLGgaCog4QAb4LLKfQimNR+7lK0OJQTQY=;
-        b=sblUMmYA17WQ05InawoDzICnE50U4k2qy3QYnYeUGy1y+pqAwKGee7i6QYwZ4YIC2s
-         mBeBcr3TQnL2R3cYqEVVYlidPcrtRG1HJ8N4BZEomzLDi0OiLj3eWaEnhBQYhNIqNSC8
-         z7UIhalQljlyJ1mS4Ru1yh+/Rzu5hFxeNeT4tPxMbjDGN0ksKzYhmWHgkiTpSah0xZog
-         eYlJRBxOsyvM3U8vPZANC8eu1klzFwOU7KQNsy7O+2GdaPwR0jwAHYlsQ0tR6T3FX3Tt
-         ekRinEqvYUyHPF9lGc1rjluyki1dCvKFY22IDh/fp4MzG+P+5Mew957gd2Ci5Q3I1JAK
-         04jw==
+        h=date:message-id:mime-version:subject:from:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:list-post:list-help:list-archive:list-subscribe
+         :list-unsubscribe;
+        bh=v8gVRWHFx2UdmsL4ZpW0BD+1xc3h7C6VX0fAiBYUz8Q=;
+        b=TF+nsyzaCfnoAQtA0gAOBsRhxAjmy8Obd7eemcx7lKtlcyUri10w0UHYrIfIG2zvKt
+         oPm+Bz1D4CNR4duP+rwwl40ce+GAGkKxNvcM8bRIlYE9gDk6jT6A9yOlZfLgrSurR7qy
+         09XEfiy1jwkVutpKAzWbg1zQVVffAZO2nr0FvFJbjUgI9DclRUEYu+EShRtgGyZOUvsQ
+         4kcgfckml/xkoqBCvvAeHppGXlK7y63vdhFg4A07G7MxMSvS6+T6BXQybRPtWDTR8jtU
+         Avxyz011QwHLoxejaCMMUvFy0yC0JUmeYFeUH43hjWBoFT48LU+9t8NWSInCAWJEBYTr
+         oLkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :in-reply-to:references:mime-version:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=1VKcp4CpkFXLGgaCog4QAb4LLKfQimNR+7lK0OJQTQY=;
-        b=d7NjCkXFtuoIzUTKuOwUcn/wtvkfQWYxSoxqQ0ff0f2z0dKyeuR/U+BUuidCXxr38i
-         pdkE/OS+tmq1usZgYEv1muN8A7KR71MVXpVBlnF1ECSLIx5XRQiNOc1LBv/ymKLXg7zU
-         N30KbXnXKdpPnqpIW3gWFtP2/squ3O4v3GsRElkD1KqA2y0BzYXTl0DzmMByFXuojRLX
-         xDKXYc3dA8X7Rhfp5ywBdqOqw2dStyUD6Puv/G/CTEhbcK8sYsW0kStXZvV0INOxwWNC
-         H7wXsNYNYnZBsXHwP+3nC37IjgCv4saL3q2d9fHjp2B6xIFdgieLqaWf7bKeVJdX0QAz
-         NpHg==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM5331psTVLlG4unNYe0Ft2+bAPnTyf0PNtm7Zt3u90pXMWE2Crcfh
-	YPX17+hmoCgh4F3ZNE3V++g=
-X-Google-Smtp-Source: ABdhPJwnCLi/ayytrGL05YnPIbbUklyb0RMZlB16oNZ+DS01+rEoZVyBMXa3LTryM2+cvHTQYj23aA==
-X-Received: by 2002:a05:620a:22c5:: with SMTP id o5mr23603970qki.421.1591658556814;
-        Mon, 08 Jun 2020 16:22:36 -0700 (PDT)
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc
+         :x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=v8gVRWHFx2UdmsL4ZpW0BD+1xc3h7C6VX0fAiBYUz8Q=;
+        b=VtmR5S7XUT6z8C1/qUBGr6TO7WRHEGYKDj30ZMVnB8mBrAgIWaEixvevnke+Wf0jIk
+         XcC1NI/F8JjY+3A2rE3dGo105H8l+rPgjt5Wa3zt+5bwTNVY1jeR9Qi7jDaPZ5bImVKa
+         Y7+t4XSfeH3su4KsCdgnRQqPE/UFZYXWymGUx/rQi05TUGR38a8vEC8jNDlQYywTv4ca
+         8fbcLvO++WAPwSNXP94tPiz+qhBp9HA4Zg7slyFxM/NheSSFF1gNWCNfHwMVBbd25uBV
+         XvE0gQrizSOe8f4WMZi9WoYkF63uDpc8jssumWdJQGK/vxaaJH6avFxXzSMT34+C3jAs
+         YxHQ==
+X-Gm-Message-State: AOAM530pz+jZndNVUyy6mcATcevwCtZT8gaBx19oa2Jx2U/zomzJhXt3
+	65fE7NRyUEJA3609g930yoY=
+X-Google-Smtp-Source: ABdhPJyrWryQjyRC7gxjbf97iNG22SqgyZK8eRFNJ7FYghQaduRGs/yRGFjrcaIaMkay/ggSH6wF/g==
+X-Received: by 2002:aca:d510:: with SMTP id m16mr2431880oig.13.1591688936427;
+        Tue, 09 Jun 2020 00:48:56 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:aed:3f02:: with SMTP id p2ls7045227qtf.8.gmail; Mon, 08 Jun
- 2020 16:22:36 -0700 (PDT)
-X-Received: by 2002:ac8:4b50:: with SMTP id e16mr26848853qts.159.1591658556431;
-        Mon, 08 Jun 2020 16:22:36 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1591658556; cv=none;
+Received: by 2002:aca:4fc3:: with SMTP id d186ls3702442oib.1.gmail; Tue, 09
+ Jun 2020 00:48:56 -0700 (PDT)
+X-Received: by 2002:aca:b706:: with SMTP id h6mr2433661oif.121.1591688936089;
+        Tue, 09 Jun 2020 00:48:56 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1591688936; cv=none;
         d=google.com; s=arc-20160816;
-        b=irfwXDUk/W/lnnID18yegoJfkprsieadGa6kAhlqWagj4E+7SCkdsepcR8DGL1hiMg
-         cyWWDA85RDcsK+KkAhmsyYK8frVqN7hDs2KFDlr1EjNHtuIXwdILAGsxD82nVnKaT7Ed
-         2lDAg425v8k+5R0qToluglORyrtmqR9MifU/mmmwklzhM4iAlpiEk0w1EdUflYC9LwZf
-         IujbFUmjy2et3K5gCYFYkoIK9am3LJUEwmBRAOM6cMvn7cr2mK9zcWVMzRoRbYeipKdS
-         iC86XlWqGrxkkuXwC/LAsUzK2yV5ieVJKCm5heHyMK6jGU13lXNy1mrH5hxCgg7ETC2p
-         QCoQ==
+        b=HRL7yDe6XOYxTT8LjD5XPLMRLQrvuG+n/tB5CIQINUd58iq3bYYaM9i+asL6oMim8j
+         yLaOR523OfrSSre7kCMSWC3SnNB3qG/t03q2kEVRh6lKiPpIPguo0vaqmIQM+h9xakF6
+         OjL0zGReU+XL2n+O1D2VENuF1TfW4Xcia1OwvS4+4BSMUtmPYSZMW+tgcPTYEtbUTOOQ
+         yi56CIK3pIrLl03cUN2zhIxvyzaqO/eO0oz0kd8gbOFA1qSRd6oBvnOfGT3HzqxoQIYC
+         xA0qiibwYwJqWijGfdJ5rlzdBRbZCbzY35ge4blzJrb/UKKHIhlRSeimRD0Qrg+dN5E/
+         DX0w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=jV10bcSa4Lm5eGzwvrp1y5fJTzKq13MMksTcfzghAUk=;
-        b=UC1ujf/89HpLGoFL2WaOq1jUqIEMPxaEaLqDNDg4JZDQ86DTusvf/aj1U3Yrv3ZTC/
-         SBPtMQOkVL2W2TwJzKe7764oiSvKV+Z5c9VaSgq+omEuB+6s/95Ih+LRaJ7YYk2N6Ykt
-         zO3E2DQqwmCAzCjU9Z4mTQeQecAImftFq6gts6+AudVZounHF46EmzXLCzkUNXJzOqJv
-         xWb+tZ6J0cCw1lITNj8WIsHGWloTWRCkbJkx+CzYSWiYJ5TUNKPE8/vLTi8+LVcvNPT3
-         mopKdkMXQdxiFwGtZXD3v/qzbfCiiLiaCP9As0mnHpxUYK0o8FSrPYX2tk2xS1EIPo4C
-         Jq6Q==
+        h=cc:to:from:subject:mime-version:message-id:date:dkim-signature;
+        bh=ozhFgVYs8Dn30CIS1D97NALmc19CQxn6RRMJYTF7bpI=;
+        b=heZniK9mJnyyJjKIOwttRtcAj3oSmKHz5JRGDPSnedjfPBJrC2UmiMwvfmANMVG9Tv
+         MXtKe8PlDZW6KQEL8GzsjZMT447i/QW/dJ8UhwZfbfLsSMPBdzruV6Xap1DmXRa8btyX
+         MFcCgpEAtHuizg585HsBUAqsuLeGQhSAcMKyPqRZc43/ie6jWLwcHWR9DGLExCrpcVoX
+         7+a9O9kex36KG6MFwQ3w3otHKVa7iOgNILR6oKaVvMoHtBKhByWP8l2pcaoE/r8dtzG9
+         7AnqMh+8QUoAHGBez5wcQ9ThKfEVjYG7YsXeneo18MbA5hBqrKGWMCmuxQVY7EJH6d+w
+         Y/eg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=default header.b=ChFaNaiM;
-       spf=pass (google.com: domain of sashal@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=sashal@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id y21si668967qka.2.2020.06.08.16.22.36
+       dkim=pass header.i=@google.com header.s=20161025 header.b=qu7dQ32B;
+       spf=pass (google.com: domain of 35z7fxgukcd4elvergoogle.comkasan-devgooglegroups.com@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::749 as permitted sender) smtp.mailfrom=35z7fXgUKCd4ELVERGOOGLE.COMKASAN-DEVGOOGLEGROUPS.COM@flex--elver.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-qk1-x749.google.com (mail-qk1-x749.google.com. [2607:f8b0:4864:20::749])
+        by gmr-mx.google.com with ESMTPS id k65si721728oib.2.2020.06.09.00.48.56
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 08 Jun 2020 16:22:36 -0700 (PDT)
-Received-SPF: pass (google.com: domain of sashal@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id 4E8CC208A7;
-	Mon,  8 Jun 2020 23:22:34 +0000 (UTC)
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Daniel Axtens <dja@axtens.net>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Gow <davidgow@google.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Daniel Micay <danielmicay@gmail.com>,
-	Andrey Ryabinin <aryabinin@virtuozzo.com>,
-	Alexander Potapenko <glider@google.com>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Sasha Levin <sashal@kernel.org>,
-	kasan-dev@googlegroups.com
-Subject: [PATCH AUTOSEL 5.4 174/175] kasan: stop tests being eliminated as dead code with FORTIFY_SOURCE
-Date: Mon,  8 Jun 2020 19:18:47 -0400
-Message-Id: <20200608231848.3366970-174-sashal@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200608231848.3366970-1-sashal@kernel.org>
-References: <20200608231848.3366970-1-sashal@kernel.org>
-MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-Original-Sender: sashal@kernel.org
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=default header.b=ChFaNaiM;       spf=pass
- (google.com: domain of sashal@kernel.org designates 198.145.29.99 as
- permitted sender) smtp.mailfrom=sashal@kernel.org;       dmarc=pass (p=NONE
- sp=NONE dis=NONE) header.from=kernel.org
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 09 Jun 2020 00:48:56 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 35z7fxgukcd4elvergoogle.comkasan-devgooglegroups.com@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::749 as permitted sender) client-ip=2607:f8b0:4864:20::749;
+Received: by mail-qk1-x749.google.com with SMTP id a5so16454256qkk.12
+        for <kasan-dev@googlegroups.com>; Tue, 09 Jun 2020 00:48:56 -0700 (PDT)
+X-Received: by 2002:a05:6214:4af:: with SMTP id w15mr2568619qvz.11.1591688935520;
+ Tue, 09 Jun 2020 00:48:55 -0700 (PDT)
+Date: Tue,  9 Jun 2020 09:48:34 +0200
+Message-Id: <20200609074834.215975-1-elver@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.27.0.278.ge193c7cf3a9-goog
+Subject: [PATCH v2] tsan: Add optional support for distinguishing volatiles
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+To: gcc-patches@gcc.gnu.org, jakub@redhat.com, mliska@suse.cz
+Cc: elver@google.com, kasan-dev@googlegroups.com, dvyukov@google.com, 
+	bp@alien8.de, Dmitry Vyukov <dvuykov@google.com>
 Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: elver@google.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@google.com header.s=20161025 header.b=qu7dQ32B;       spf=pass
+ (google.com: domain of 35z7fxgukcd4elvergoogle.comkasan-devgooglegroups.com@flex--elver.bounces.google.com
+ designates 2607:f8b0:4864:20::749 as permitted sender) smtp.mailfrom=35z7fXgUKCd4ELVERGOOGLE.COMKASAN-DEVGOOGLEGROUPS.COM@flex--elver.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -141,182 +126,264 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-From: Daniel Axtens <dja@axtens.net>
+Add support to optionally emit different instrumentation for accesses to
+volatile variables. While the default TSAN runtime likely will never
+require this feature, other runtimes for different environments that
+have subtly different memory models or assumptions may require
+distinguishing volatiles.
 
-[ Upstream commit adb72ae1915db28f934e9e02c18bfcea2f3ed3b7 ]
+One such environment are OS kernels, where volatile is still used in
+various places, and often declare volatile to be
+appropriate even in multi-threaded contexts. One such example is the
+Linux kernel, which implements various synchronization primitives using
+volatile (READ_ONCE(), WRITE_ONCE()).
 
-Patch series "Fix some incompatibilites between KASAN and FORTIFY_SOURCE", v4.
+Here the Kernel Concurrency Sanitizer (KCSAN), is a runtime that uses
+TSAN instrumentation but otherwise implements a very different approach
+to race detection from TSAN:
 
-3 KASAN self-tests fail on a kernel with both KASAN and FORTIFY_SOURCE:
-memchr, memcmp and strlen.
+	https://github.com/google/ktsan/wiki/KCSAN
 
-When FORTIFY_SOURCE is on, a number of functions are replaced with
-fortified versions, which attempt to check the sizes of the operands.
-However, these functions often directly invoke __builtin_foo() once they
-have performed the fortify check.  The compiler can detect that the
-results of these functions are not used, and knows that they have no other
-side effects, and so can eliminate them as dead code.
+Due to recent changes in requirements by the Linux kernel, KCSAN
+requires that the compiler supports tsan-distinguish-volatile (among
+several new requirements):
 
-Why are only memchr, memcmp and strlen affected?
-================================================
+	https://lore.kernel.org/lkml/20200521142047.169334-7-elver@google.com/
 
-Of string and string-like functions, kasan_test tests:
+gcc/
+	* params.opt: Define --param=tsan-distinguish-volatile=[0,1].
+	* sanitizer.def (BUILT_IN_TSAN_VOLATILE_READ1): Define new
+	builtin for volatile instrumentation of reads/writes.
+	(BUILT_IN_TSAN_VOLATILE_READ2): Likewise.
+	(BUILT_IN_TSAN_VOLATILE_READ4): Likewise.
+	(BUILT_IN_TSAN_VOLATILE_READ8): Likewise.
+	(BUILT_IN_TSAN_VOLATILE_READ16): Likewise.
+	(BUILT_IN_TSAN_VOLATILE_WRITE1): Likewise.
+	(BUILT_IN_TSAN_VOLATILE_WRITE2): Likewise.
+	(BUILT_IN_TSAN_VOLATILE_WRITE4): Likewise.
+	(BUILT_IN_TSAN_VOLATILE_WRITE8): Likewise.
+	(BUILT_IN_TSAN_VOLATILE_WRITE16): Likewise.
+	* tsan.c (get_memory_access_decl): Argument if access is
+	volatile. If param tsan-distinguish-volatile is non-zero, and
+	access if volatile, return volatile instrumentation decl.
+	(instrument_expr): Check if access is volatile.
 
- * strchr  ->  not affected, no fortified version
- * strrchr ->  likewise
- * strcmp  ->  likewise
- * strncmp ->  likewise
+gcc/testsuite/
+	* c-c++-common/tsan/volatile.c: New test.
 
- * strnlen ->  not affected, the fortify source implementation calls the
-               underlying strnlen implementation which is instrumented, not
-               a builtin
-
- * strlen  ->  affected, the fortify souce implementation calls a __builtin
-               version which the compiler can determine is dead.
-
- * memchr  ->  likewise
- * memcmp  ->  likewise
-
- * memset ->   not affected, the compiler knows that memset writes to its
-	       first argument and therefore is not dead.
-
-Why does this not affect the functions normally?
-================================================
-
-In string.h, these functions are not marked as __pure, so the compiler
-cannot know that they do not have side effects.  If relevant functions are
-marked as __pure in string.h, we see the following warnings and the
-functions are elided:
-
-lib/test_kasan.c: In function `kasan_memchr':
-lib/test_kasan.c:606:2: warning: statement with no effect [-Wunused-value]
-  memchr(ptr, '1', size + 1);
-  ^~~~~~~~~~~~~~~~~~~~~~~~~~
-lib/test_kasan.c: In function `kasan_memcmp':
-lib/test_kasan.c:622:2: warning: statement with no effect [-Wunused-value]
-  memcmp(ptr, arr, size+1);
-  ^~~~~~~~~~~~~~~~~~~~~~~~
-lib/test_kasan.c: In function `kasan_strings':
-lib/test_kasan.c:645:2: warning: statement with no effect [-Wunused-value]
-  strchr(ptr, '1');
-  ^~~~~~~~~~~~~~~~
-...
-
-This annotation would make sense to add and could be added at any point,
-so the behaviour of test_kasan.c should change.
-
-The fix
-=======
-
-Make all the functions that are pure write their results to a global,
-which makes them live.  The strlen and memchr tests now pass.
-
-The memcmp test still fails to trigger, which is addressed in the next
-patch.
-
-[dja@axtens.net: drop patch 3]
-  Link: http://lkml.kernel.org/r/20200424145521.8203-2-dja@axtens.net
-Fixes: 0c96350a2d2f ("lib/test_kasan.c: add tests for several string/memory API functions")
-Signed-off-by: Daniel Axtens <dja@axtens.net>
-Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
-Tested-by: David Gow <davidgow@google.com>
-Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
-Cc: Daniel Micay <danielmicay@gmail.com>
-Cc: Andrey Ryabinin <aryabinin@virtuozzo.com>
-Cc: Alexander Potapenko <glider@google.com>
-Link: http://lkml.kernel.org/r/20200423154503.5103-1-dja@axtens.net
-Link: http://lkml.kernel.org/r/20200423154503.5103-2-dja@axtens.net
-Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Acked-by: Dmitry Vyukov <dvuykov@google.com>
 ---
- lib/test_kasan.c | 29 +++++++++++++++++++----------
- 1 file changed, 19 insertions(+), 10 deletions(-)
+v2:
+* Add Optimization keyword to -param=tsan-distinguish-volatile= as the
+  parameter can be different per TU.
+* Add tree-dump check to test.
+---
+ gcc/params.opt                             |  4 ++
+ gcc/sanitizer.def                          | 21 +++++++
+ gcc/testsuite/c-c++-common/tsan/volatile.c | 67 ++++++++++++++++++++++
+ gcc/tsan.c                                 | 53 +++++++++++------
+ 4 files changed, 128 insertions(+), 17 deletions(-)
+ create mode 100644 gcc/testsuite/c-c++-common/tsan/volatile.c
 
-diff --git a/lib/test_kasan.c b/lib/test_kasan.c
-index bd3d9ef7d39e..83344c9c38f4 100644
---- a/lib/test_kasan.c
-+++ b/lib/test_kasan.c
-@@ -22,6 +22,14 @@
+diff --git a/gcc/params.opt b/gcc/params.opt
+index 4aec480798b..c751416bcad 100644
+--- a/gcc/params.opt
++++ b/gcc/params.opt
+@@ -908,6 +908,10 @@ Stop reverse growth if the reverse probability of best edge is less than this th
+ Common Joined UInteger Var(param_tree_reassoc_width) Param Optimization
+ Set the maximum number of instructions executed in parallel in reassociated tree.  If 0, use the target dependent heuristic.
  
- #include <asm/page.h>
- 
-+/*
-+ * We assign some test results to these globals to make sure the tests
-+ * are not eliminated as dead code.
-+ */
++-param=tsan-distinguish-volatile=
++Common Joined UInteger Var(param_tsan_distinguish_volatile) IntegerRange(0, 1) Param Optimization
++Emit special instrumentation for accesses to volatiles.
 +
-+int kasan_int_result;
-+void *kasan_ptr_result;
+ -param=uninit-control-dep-attempts=
+ Common Joined UInteger Var(param_uninit_control_dep_attempts) Init(1000) IntegerRange(1, 65536) Param Optimization
+ Maximum number of nested calls to search for control dependencies during uninitialized variable analysis.
+diff --git a/gcc/sanitizer.def b/gcc/sanitizer.def
+index 11eb6467eba..a32715ddb92 100644
+--- a/gcc/sanitizer.def
++++ b/gcc/sanitizer.def
+@@ -214,6 +214,27 @@ DEF_SANITIZER_BUILTIN(BUILT_IN_TSAN_READ_RANGE, "__tsan_read_range",
+ DEF_SANITIZER_BUILTIN(BUILT_IN_TSAN_WRITE_RANGE, "__tsan_write_range",
+ 		      BT_FN_VOID_PTR_PTRMODE, ATTR_NOTHROW_LEAF_LIST)
+ 
++DEF_SANITIZER_BUILTIN(BUILT_IN_TSAN_VOLATILE_READ1, "__tsan_volatile_read1",
++		      BT_FN_VOID_PTR, ATTR_NOTHROW_LEAF_LIST)
++DEF_SANITIZER_BUILTIN(BUILT_IN_TSAN_VOLATILE_READ2, "__tsan_volatile_read2",
++		      BT_FN_VOID_PTR, ATTR_NOTHROW_LEAF_LIST)
++DEF_SANITIZER_BUILTIN(BUILT_IN_TSAN_VOLATILE_READ4, "__tsan_volatile_read4",
++		      BT_FN_VOID_PTR, ATTR_NOTHROW_LEAF_LIST)
++DEF_SANITIZER_BUILTIN(BUILT_IN_TSAN_VOLATILE_READ8, "__tsan_volatile_read8",
++		      BT_FN_VOID_PTR, ATTR_NOTHROW_LEAF_LIST)
++DEF_SANITIZER_BUILTIN(BUILT_IN_TSAN_VOLATILE_READ16, "__tsan_volatile_read16",
++		      BT_FN_VOID_PTR, ATTR_NOTHROW_LEAF_LIST)
++DEF_SANITIZER_BUILTIN(BUILT_IN_TSAN_VOLATILE_WRITE1, "__tsan_volatile_write1",
++		      BT_FN_VOID_PTR, ATTR_NOTHROW_LEAF_LIST)
++DEF_SANITIZER_BUILTIN(BUILT_IN_TSAN_VOLATILE_WRITE2, "__tsan_volatile_write2",
++		      BT_FN_VOID_PTR, ATTR_NOTHROW_LEAF_LIST)
++DEF_SANITIZER_BUILTIN(BUILT_IN_TSAN_VOLATILE_WRITE4, "__tsan_volatile_write4",
++		      BT_FN_VOID_PTR, ATTR_NOTHROW_LEAF_LIST)
++DEF_SANITIZER_BUILTIN(BUILT_IN_TSAN_VOLATILE_WRITE8, "__tsan_volatile_write8",
++		      BT_FN_VOID_PTR, ATTR_NOTHROW_LEAF_LIST)
++DEF_SANITIZER_BUILTIN(BUILT_IN_TSAN_VOLATILE_WRITE16, "__tsan_volatile_write16",
++		      BT_FN_VOID_PTR, ATTR_NOTHROW_LEAF_LIST)
 +
- /*
-  * Note: test functions are marked noinline so that their names appear in
-  * reports.
-@@ -603,7 +611,7 @@ static noinline void __init kasan_memchr(void)
- 	if (!ptr)
- 		return;
+ DEF_SANITIZER_BUILTIN(BUILT_IN_TSAN_ATOMIC8_LOAD,
+ 		      "__tsan_atomic8_load",
+ 		      BT_FN_I1_CONST_VPTR_INT, ATTR_NOTHROW_LEAF_LIST)
+diff --git a/gcc/testsuite/c-c++-common/tsan/volatile.c b/gcc/testsuite/c-c++-common/tsan/volatile.c
+new file mode 100644
+index 00000000000..68379921685
+--- /dev/null
++++ b/gcc/testsuite/c-c++-common/tsan/volatile.c
+@@ -0,0 +1,67 @@
++/* { dg-options "--param=tsan-distinguish-volatile=1 -fdump-tree-optimized" } */
++
++#include <assert.h>
++#include <stdint.h>
++#include <stdio.h>
++
++int32_t Global4;
++volatile int32_t VolatileGlobal4;
++volatile int64_t VolatileGlobal8;
++
++static int nvolatile_reads;
++static int nvolatile_writes;
++
++#ifdef __cplusplus
++extern "C" {
++#endif
++
++__attribute__((no_sanitize_thread))
++void __tsan_volatile_read4(void *addr) {
++  assert(addr == &VolatileGlobal4);
++  nvolatile_reads++;
++}
++__attribute__((no_sanitize_thread))
++void __tsan_volatile_write4(void *addr) {
++  assert(addr == &VolatileGlobal4);
++  nvolatile_writes++;
++}
++__attribute__((no_sanitize_thread))
++void __tsan_volatile_read8(void *addr) {
++  assert(addr == &VolatileGlobal8);
++  nvolatile_reads++;
++}
++__attribute__((no_sanitize_thread))
++void __tsan_volatile_write8(void *addr) {
++  assert(addr == &VolatileGlobal8);
++  nvolatile_writes++;
++}
++
++#ifdef __cplusplus
++}
++#endif
++
++__attribute__((no_sanitize_thread))
++static void check() {
++  assert(nvolatile_reads == 4);
++  assert(nvolatile_writes == 4);
++}
++
++int main() {
++  Global4 = 1;
++
++  VolatileGlobal4 = 1;
++  Global4 = VolatileGlobal4;
++  VolatileGlobal4 = 1 + VolatileGlobal4;
++
++  VolatileGlobal8 = 1;
++  Global4 = (int32_t)VolatileGlobal8;
++  VolatileGlobal8 = 1 + VolatileGlobal8;
++
++  check();
++  return 0;
++}
++
++// { dg-final { scan-tree-dump-times "__tsan_volatile_read4 \\(&VolatileGlobal4" 2 "optimized" } }
++// { dg-final { scan-tree-dump-times "__tsan_volatile_read8 \\(&VolatileGlobal8" 2 "optimized" } }
++// { dg-final { scan-tree-dump-times "__tsan_volatile_write4 \\(&VolatileGlobal4" 2 "optimized" } }
++// { dg-final { scan-tree-dump-times "__tsan_volatile_write8 \\(&VolatileGlobal8" 2 "optimized" } }
+diff --git a/gcc/tsan.c b/gcc/tsan.c
+index 8d22a776377..04e92559584 100644
+--- a/gcc/tsan.c
++++ b/gcc/tsan.c
+@@ -52,25 +52,41 @@ along with GCC; see the file COPYING3.  If not see
+    void __tsan_read/writeX (void *addr);  */
  
--	memchr(ptr, '1', size + 1);
-+	kasan_ptr_result = memchr(ptr, '1', size + 1);
- 	kfree(ptr);
+ static tree
+-get_memory_access_decl (bool is_write, unsigned size)
++get_memory_access_decl (bool is_write, unsigned size, bool volatilep)
+ {
+   enum built_in_function fcode;
+ 
+-  if (size <= 1)
+-    fcode = is_write ? BUILT_IN_TSAN_WRITE1
+-		     : BUILT_IN_TSAN_READ1;
+-  else if (size <= 3)
+-    fcode = is_write ? BUILT_IN_TSAN_WRITE2
+-		     : BUILT_IN_TSAN_READ2;
+-  else if (size <= 7)
+-    fcode = is_write ? BUILT_IN_TSAN_WRITE4
+-		     : BUILT_IN_TSAN_READ4;
+-  else if (size <= 15)
+-    fcode = is_write ? BUILT_IN_TSAN_WRITE8
+-		     : BUILT_IN_TSAN_READ8;
++  if (param_tsan_distinguish_volatile && volatilep)
++    {
++      if (size <= 1)
++        fcode = is_write ? BUILT_IN_TSAN_VOLATILE_WRITE1
++            : BUILT_IN_TSAN_VOLATILE_READ1;
++      else if (size <= 3)
++        fcode = is_write ? BUILT_IN_TSAN_VOLATILE_WRITE2
++            : BUILT_IN_TSAN_VOLATILE_READ2;
++      else if (size <= 7)
++        fcode = is_write ? BUILT_IN_TSAN_VOLATILE_WRITE4
++            : BUILT_IN_TSAN_VOLATILE_READ4;
++      else if (size <= 15)
++        fcode = is_write ? BUILT_IN_TSAN_VOLATILE_WRITE8
++            : BUILT_IN_TSAN_VOLATILE_READ8;
++      else
++        fcode = is_write ? BUILT_IN_TSAN_VOLATILE_WRITE16
++            : BUILT_IN_TSAN_VOLATILE_READ16;
++    }
+   else
+-    fcode = is_write ? BUILT_IN_TSAN_WRITE16
+-		     : BUILT_IN_TSAN_READ16;
++    {
++      if (size <= 1)
++        fcode = is_write ? BUILT_IN_TSAN_WRITE1 : BUILT_IN_TSAN_READ1;
++      else if (size <= 3)
++        fcode = is_write ? BUILT_IN_TSAN_WRITE2 : BUILT_IN_TSAN_READ2;
++      else if (size <= 7)
++        fcode = is_write ? BUILT_IN_TSAN_WRITE4 : BUILT_IN_TSAN_READ4;
++      else if (size <= 15)
++        fcode = is_write ? BUILT_IN_TSAN_WRITE8 : BUILT_IN_TSAN_READ8;
++      else
++        fcode = is_write ? BUILT_IN_TSAN_WRITE16 : BUILT_IN_TSAN_READ16;
++    }
+ 
+   return builtin_decl_implicit (fcode);
  }
- 
-@@ -619,7 +627,7 @@ static noinline void __init kasan_memcmp(void)
- 		return;
- 
- 	memset(arr, 0, sizeof(arr));
--	memcmp(ptr, arr, size+1);
-+	kasan_int_result = memcmp(ptr, arr, size + 1);
- 	kfree(ptr);
- }
- 
-@@ -642,22 +650,22 @@ static noinline void __init kasan_strings(void)
- 	 * will likely point to zeroed byte.
- 	 */
- 	ptr += 16;
--	strchr(ptr, '1');
-+	kasan_ptr_result = strchr(ptr, '1');
- 
- 	pr_info("use-after-free in strrchr\n");
--	strrchr(ptr, '1');
-+	kasan_ptr_result = strrchr(ptr, '1');
- 
- 	pr_info("use-after-free in strcmp\n");
--	strcmp(ptr, "2");
-+	kasan_int_result = strcmp(ptr, "2");
- 
- 	pr_info("use-after-free in strncmp\n");
--	strncmp(ptr, "2", 1);
-+	kasan_int_result = strncmp(ptr, "2", 1);
- 
- 	pr_info("use-after-free in strlen\n");
--	strlen(ptr);
-+	kasan_int_result = strlen(ptr);
- 
- 	pr_info("use-after-free in strnlen\n");
--	strnlen(ptr, 1);
-+	kasan_int_result = strnlen(ptr, 1);
- }
- 
- static noinline void __init kasan_bitops(void)
-@@ -724,11 +732,12 @@ static noinline void __init kasan_bitops(void)
- 	__test_and_change_bit(BITS_PER_LONG + BITS_PER_BYTE, bits);
- 
- 	pr_info("out-of-bounds in test_bit\n");
--	(void)test_bit(BITS_PER_LONG + BITS_PER_BYTE, bits);
-+	kasan_int_result = test_bit(BITS_PER_LONG + BITS_PER_BYTE, bits);
- 
- #if defined(clear_bit_unlock_is_negative_byte)
- 	pr_info("out-of-bounds in clear_bit_unlock_is_negative_byte\n");
--	clear_bit_unlock_is_negative_byte(BITS_PER_LONG + BITS_PER_BYTE, bits);
-+	kasan_int_result = clear_bit_unlock_is_negative_byte(BITS_PER_LONG +
-+		BITS_PER_BYTE, bits);
- #endif
- 	kfree(bits);
- }
+@@ -204,8 +220,11 @@ instrument_expr (gimple_stmt_iterator gsi, tree expr, bool is_write)
+       g = gimple_build_call (builtin_decl, 2, expr_ptr, size_int (size));
+     }
+   else if (rhs == NULL)
+-    g = gimple_build_call (get_memory_access_decl (is_write, size),
+-			   1, expr_ptr);
++    {
++      builtin_decl = get_memory_access_decl (is_write, size,
++                                             TREE_THIS_VOLATILE(expr));
++      g = gimple_build_call (builtin_decl, 1, expr_ptr);
++    }
+   else
+     {
+       builtin_decl = builtin_decl_implicit (BUILT_IN_TSAN_VPTR_UPDATE);
 -- 
-2.25.1
+2.27.0.278.ge193c7cf3a9-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200608231848.3366970-174-sashal%40kernel.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200609074834.215975-1-elver%40google.com.
