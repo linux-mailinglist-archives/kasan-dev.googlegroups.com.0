@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBCV5TUXXRUIBBZOQRL3QKGQEW32JDRQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCV5TUXXRUIBB66RRL3QKGQEDWMUEVI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qt1-x83f.google.com (mail-qt1-x83f.google.com [IPv6:2607:f8b0:4864:20::83f])
-	by mail.lfdr.de (Postfix) with ESMTPS id E03251F6FA0
-	for <lists+kasan-dev@lfdr.de>; Thu, 11 Jun 2020 23:55:50 +0200 (CEST)
-Received: by mail-qt1-x83f.google.com with SMTP id k23sf5937839qtb.2
-        for <lists+kasan-dev@lfdr.de>; Thu, 11 Jun 2020 14:55:50 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1591912549; cv=pass;
+Received: from mail-oi1-x23b.google.com (mail-oi1-x23b.google.com [IPv6:2607:f8b0:4864:20::23b])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE8BA1F6FA5
+	for <lists+kasan-dev@lfdr.de>; Thu, 11 Jun 2020 23:58:20 +0200 (CEST)
+Received: by mail-oi1-x23b.google.com with SMTP id d63sf3371455oig.18
+        for <lists+kasan-dev@lfdr.de>; Thu, 11 Jun 2020 14:58:20 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1591912699; cv=pass;
         d=google.com; s=arc-20160816;
-        b=znjhynjnzwH8c7nGs7Y7D8F+kOL/zzZiS3T6/IRRU+zZ5XDfIQN6s3im43OnhMEhR0
-         hj3Z5CRMXzX6u3JbSPNqwz4AvhY1fAhwl0IuiqPEfuHg/GGi+Kpmv7LlGFkG4OuUI8Nn
-         OYsseer7wKaQuFw7jwQ4mbW+0WMBmV1FF9MKaO5kqNy8XVYVdB4GYM4yifUPiaDsZVBI
-         fJTAm4osua8Lk2UrEo/7+EY9ExcDkY8bHnXXYB6dxQttq/HF5cz+kOVk0hnd5X0194MV
-         eY1L7uVJNkiRh4ljdroaygQbAfiGv96ZfBjKIGMvaKeE2v+6rdkSggtqOj1C5U+QWPEE
-         PFjg==
+        b=BU2gIfqHoEhhInT4HGOzSKIKlZOY5ZYK/E1CkfUGHNwDTX4o5IT7XSyllJmblLo01Y
+         hhVBTKJEBqJlMqtANEHH48hU0HzBtZ9+3uJ/rZuecf2tWG/rxivcc05HaJFGoWZcFhtw
+         PffQ7VktteDlQzl55VsKysUrwM1guFUkAUufGJ44EIIZS1OP8ld6oUkkeeL1nGN8WIUb
+         5EJkfKfQmKnDHFd4HIiwsVAQuhA9BbNl3S4kaIOvcPYPn4GII+CWfRi7yDQP/2pF1CXH
+         k1aT7U+X9P0esiBlhqpFWoUgjvsOGYbr+/c+dHuIDgMCmP+79U8av3hJ7taL17r2P+qw
+         EUaA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:user-agent:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:sender:dkim-signature;
-        bh=nOsK46MCn7K8FZ3kXbxb165Ggu6AZ3PQ8CceKMzCWAE=;
-        b=MoVwgOqwhuMAa/goVDsNR9AccLMZYQXFih/B0kHpbfU7usJDvsvlg3Ijg5Ic0tWJlz
-         54g0SVVcQV7spfy42Sf2U6mw0Vu+I/0ZL6o81xm3Oe2fngzJ7U7na4j+OB1SM1FE/qXZ
-         ddGoIu5ubcoJ98Z9WMLB/J4pkGJXO18ZH0j+3dXfnD2K63ZnXFTrlXfDLP+h5BhSxdCv
-         7MkWzvtzOxfS5vv2M/WIZxD1OwsZyAViaZchPP41QcvoMzXOzmMfZ5Mg7QDdpfjjZ56f
-         +dVunp7OpzD1qsVJHoSJoFw9ECO9MCO20ENvQRDL6K0fJS7c8R9RZmttiZ0/7paOhybP
-         C+GQ==
+        bh=QyO4kokxElkC3YpucSGDNMieh0/MQjIOS5kjioK/Ptg=;
+        b=y8Vmc53B8kdFCtxy9SsXx4V/XFvY/QlLWtFIf6pLESNwlrMz2J+AiY0twoN4mwacAz
+         GdFLK96asWjKkdjAJvTWgXid8w9O4ciWsHoUVI+W02swlJOSa1LxesSp9NHvJyhTi4yg
+         sTqBZMU7OvjJh/er4x7xY3bdB0MVeN4RwHu3mvM4wWKkv+xb1gn8ChBxkFWDfpO8oGCa
+         MtjAEq+At7VBsgFmzhKrU2M/PdoeP94c4ZGubjLSDrP/wSKIT0zO5ZP1MBMmrui6xOUk
+         lmUv23nGy34FOGu3jNsw7dOQbQ/ettU7JENV7FKKD7bXCpv3RfzohlcKD2S3PXIQ/Yif
+         6Upg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=bombadil.20170209 header.b=e8Frfs00;
+       dkim=pass header.i=@infradead.org header.s=bombadil.20170209 header.b=UKvh5qNT;
        spf=pass (google.com: best guess record for domain of peterz@infradead.org designates 2607:7c80:54:e::133 as permitted sender) smtp.mailfrom=peterz@infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :content-disposition:in-reply-to:user-agent:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=nOsK46MCn7K8FZ3kXbxb165Ggu6AZ3PQ8CceKMzCWAE=;
-        b=X6FjkVMH4GbyIq4/GoQ+pl6Fz/MG5q6WPdlXLbWDsjU+eq+CUDDdikyyhdEquW+3ay
-         6g75kG5trS+M2kd6zItBx+Qp7gT0iPZLqqchb+iXMYY3+z9G0FRxiSGWq1oFCdpnENZ0
-         K89FTYeJShW43vvfne/dtgk/1M9OJuFkjBgo0abYl94zs3sA0V46pKblKi5LrLlZzrvs
-         y7m7baPnr7tw4KyLii6NKw0C9yn/JuFE9+KXAZ3RsHJxww8cNW5M0RJe5G6yJ3/Xzai+
-         CSOQqGwsPVGcr/IWSaVryF5BhGyjQJg5uEA1JtOpDYGqF7Cqeto2mJS/b+wfAnKFIogH
-         IGbA==
+        bh=QyO4kokxElkC3YpucSGDNMieh0/MQjIOS5kjioK/Ptg=;
+        b=GLF9DPeXX+jGFtm3q+wvS1NGMPMC6cWffBPBfv95NPe8V+4GE0BBtLPW7dgJpvgNOA
+         rL3EdlCxsbP81ieN+kxue8vVow7orzGzN4qPBdEcdq0u244dSytyWecXYFZw+lm8hmDJ
+         /kKoR6QO+1f4Zm2i2RIw2VQCWJgMw00Izzzk1SBvUyUbWtr0kN+ZAOcco1cTvzz5QZw9
+         XUvkdJ933LJSr5vsSHlsFFpeJlTPqUc26fS8AjvlHU4zRMyKVEMfVZUhsme3S7JMOgog
+         H0eSI4/ee9sXrwQgc6WyLy7j/eXEh9TVhw4Vsm89LQ8QusEuymMY7ABpZGeTgNXzGZCZ
+         +9Yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
@@ -49,56 +49,56 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=nOsK46MCn7K8FZ3kXbxb165Ggu6AZ3PQ8CceKMzCWAE=;
-        b=PR8yJpVXRTo4NjOuwaSuL70Jsx++1YCWPWBqwS3ZWetZWVGodXuxvzVJ/2bmbIbQuG
-         xnASDeDklS6l+nNYdKYrATQO1RLQtKwwue6MsqHaC7GG3dxFDi5Cd2btdsS9Do9Hq1fp
-         4Muxk0/GzoF/FXnJZCiFbAZR2E6OaDTvLjeQLWWv7u10BRd76qpq6zo83tiHNnx0WAKN
-         GC+8/stFYWb1qTZiWUwnowqv8XvpChjCy8kxbX628M4wlYo8DXJSwFFPNZmKWyOiSLKK
-         WxOjZQaY2Oh/+etYZGJmP+UZUP5WSXbGPJFbNccL3cKmGbISWJGs4Fb/otVJwVoVB3qv
-         12XQ==
+        bh=QyO4kokxElkC3YpucSGDNMieh0/MQjIOS5kjioK/Ptg=;
+        b=LegLosjImOGTq1wkATU/FyfX7bV3CPBYYzbrwjHg1n4ur9Bg0cx058cnMLZlUBoSsu
+         gXpS/bsXg3DJDPoCsIVwKcpnF3WiUboYQGWkuHUBHO09TMWqKlC6RQ09ln3TLsgcu6o3
+         vDQVegY4FPVSTTtOLzKmi2X4/ILhWWwulFYDEHnWbKooYoYkQ7bezmxUmplmn6D5gOsD
+         YV8zzeBazcaCx4BaXYZyXPgxjzGhZJpMd66UlJar6aVARqp9GIvJirZY0jyViLtRy9vJ
+         A8mJlfgE8Aj2dNinYOvtQ1oe+IN423WtUpvzdbY2a1dkqrU7cGj3LZqbJjSfCN4+BiCx
+         9gug==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM531fsKQWfZRgPZgwT8d8hfVTKc0jUDHZMOpPc+D3ATvf1z2azto0
-	vYUrMcKEWw4i6DbmBMsmZ5Q=
-X-Google-Smtp-Source: ABdhPJz7VnInCAk6cZZae5mGz4gW+vbcRDVqVLPpIllOGPVoeC6B92JQYJD5P/iNi7WoTqLi03moNg==
-X-Received: by 2002:a37:644d:: with SMTP id y74mr37525qkb.477.1591912549433;
-        Thu, 11 Jun 2020 14:55:49 -0700 (PDT)
+X-Gm-Message-State: AOAM531OfT8gLndoxawYT42sPBlItLUY7FlOlh6CmyPGtoa4FoL1XS0y
+	YWV0+FRMC9Ydr1YoeUZ5Zek=
+X-Google-Smtp-Source: ABdhPJwBKmOHArRW7Nj2JSSWw4KOWEPqLtMFgtBwmP9JncRWnj3ptK4Aw025rP1EUm1wuHtwpMZalA==
+X-Received: by 2002:a9d:3b8b:: with SMTP id k11mr8461934otc.208.1591912699347;
+        Thu, 11 Jun 2020 14:58:19 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6214:38d:: with SMTP id l13ls776241qvy.4.gmail; Thu, 11
- Jun 2020 14:55:49 -0700 (PDT)
-X-Received: by 2002:a0c:f888:: with SMTP id u8mr9710794qvn.130.1591912549049;
-        Thu, 11 Jun 2020 14:55:49 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1591912549; cv=none;
+Received: by 2002:aca:524f:: with SMTP id g76ls741285oib.6.gmail; Thu, 11 Jun
+ 2020 14:58:19 -0700 (PDT)
+X-Received: by 2002:aca:f0c:: with SMTP id 12mr49510oip.93.1591912698936;
+        Thu, 11 Jun 2020 14:58:18 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1591912698; cv=none;
         d=google.com; s=arc-20160816;
-        b=jD9wjskumzcOaZmH9wg17ZM0bNhn7xp0oh7Ip7chPgk083TeAOjObk7UB8qwLG2sGn
-         UVMOTIWaKvQqjS+VxEsHnatQRTWApfkj19yHzN3hiJ2Hao/bsuYL3oafe1ylzM6SfxMh
-         g2LFrYJ9YQNRmZPb/8UqlF2eulh5ia3wu5DVvAnHCSo4suJ+GPrT2fBcMuHX60/+6u0q
-         RywG1GtXuYR4ItDKty6em5fy3wPUyBlKMCrpPUwUx7Oc2N7+HSeb2PBp8XuF3b6jVoDC
-         aLlcxYlOtnoyRdH8XxSTkAHjO9lBPQGMC6AF2scsf79cz1ZAyiK9xqGdepYFOCmRSiFq
-         yBqw==
+        b=ERAe3GCmIyuma+1k1Qd2CFx5OFOBNUPagOAUkFmvVLaTqke51S5hQGD5Cjb8sTYveS
+         m18yyCJztKgXvcdsQZA2qCp8sVxvz0LR4RZD2gLavLshXsOFf3XdCv3SHhRkCO+VPsV2
+         AdUfDLsH1jBPjDRi2MU1dRHEnZ3cvbP0uhiZ/se4KEfhNb8kJ8+/QeuSITzAd+tonn9Q
+         fJd6jQNUgZqmYyg6kKaTz+Fus8jFrWVAE3D+QH6Kdn5yfF7iM8y3V/jaeU5VqbSHD4aZ
+         0GMTwFVcAHr9SKz6TVRaLp9SJRqjewNV4SNMCjwjq7JRWUQaatMnFL6vT27lBA6MmXbX
+         JKwg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=user-agent:in-reply-to:content-disposition:mime-version:references
          :message-id:subject:cc:to:from:date:dkim-signature;
-        bh=+D9mFCAnJgtDS6+KSuSp9KevNloc9SQBHaGYlbUhzxw=;
-        b=eTlnfPk+OuM3ux0igIz+2Dz74kuTuYx/BtJ6TvEj7zjvtEt2xtf5aW9Foq2fPZAdOk
-         DPFyy0dwPK743XLAZNEYrBRdpNN9xfXs7HfEu200rlBqq2pYY1wDye5817AWtN+dC5NE
-         5IyA51wHWkHtsdeR00S/Rl1n6GzonmVJRbAxLiRfZozeoQHGG4AFhrAG5lsLmekV9qFv
-         X0oO8aliKglwERR1TDkJ5NRTGr78DfMPvgdPFz/nMp3Uv2O+IpkkgSDTt3/lIogV2BJf
-         gJEEnre1gNcQ2UqHiPBJtHkjVLlm3LZAVpqZBXSPoLZVQA+W0F5cHsSoV3gMBpGvWNgl
-         hwZQ==
+        bh=gCgkOxrFSDScVIugp6mPkt7Cs9XB/HFiGbAVt90jm4w=;
+        b=0lve3krMQJsrsS10+zLbsHRGeI6Z2RMrZzlIm61KOVP9Q1z6zwpbDHj7bwhKg7Jw8W
+         mG9fNP6t1f21Lim2zBSV0yd6Wjued5DymXfVEaoR4e0jq8DOfsg4y4Ir6qHwwjuiNhpc
+         0g3MJdhsIiw/JOhSI4GTPtw6ix5iJQ0DiOfnlqsIi991ocKDvePTJeIDc7BOxGJsJLwp
+         DKbNaZzGg6AoKgYh7JJ2XIPxzAsfElLCXZsj8vr++bBrb0aLwL6rvZHlrbC/q3Vu1F+A
+         Vg7VsZZGgYF25WQPMzqIQVSNcaWVWBA6VJvT0J+x8UEMnqLE9EGFrkiCIX/9yxsNZ8k7
+         deBg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=bombadil.20170209 header.b=e8Frfs00;
+       dkim=pass header.i=@infradead.org header.s=bombadil.20170209 header.b=UKvh5qNT;
        spf=pass (google.com: best guess record for domain of peterz@infradead.org designates 2607:7c80:54:e::133 as permitted sender) smtp.mailfrom=peterz@infradead.org
 Received: from bombadil.infradead.org (bombadil.infradead.org. [2607:7c80:54:e::133])
-        by gmr-mx.google.com with ESMTPS id x78si224611qka.4.2020.06.11.14.55.48
+        by gmr-mx.google.com with ESMTPS id f133si139680oib.5.2020.06.11.14.58.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Jun 2020 14:55:48 -0700 (PDT)
+        Thu, 11 Jun 2020 14:58:18 -0700 (PDT)
 Received-SPF: pass (google.com: best guess record for domain of peterz@infradead.org designates 2607:7c80:54:e::133 as permitted sender) client-ip=2607:7c80:54:e::133;
 Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=worktop.programming.kicks-ass.net)
 	by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jjVAi-0001nI-WD; Thu, 11 Jun 2020 21:55:41 +0000
+	id 1jjVDC-00024w-T7; Thu, 11 Jun 2020 21:58:15 +0000
 Received: by worktop.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 755FB984C19; Thu, 11 Jun 2020 23:55:38 +0200 (CEST)
-Date: Thu, 11 Jun 2020 23:55:38 +0200
+	id E42F0984C19; Thu, 11 Jun 2020 23:58:12 +0200 (CEST)
+Date: Thu, 11 Jun 2020 23:58:12 +0200
 From: Peter Zijlstra <peterz@infradead.org>
 To: Dmitry Vyukov <dvyukov@google.com>
 Cc: Marco Elver <elver@google.com>,
@@ -116,7 +116,7 @@ Cc: Marco Elver <elver@google.com>,
 	Josh Poimboeuf <jpoimboe@redhat.com>
 Subject: Re: [PATCH -tip v3 1/2] kcov: Make runtime functions
  noinstr-compatible
-Message-ID: <20200611215538.GE4496@worktop.programming.kicks-ass.net>
+Message-ID: <20200611215812.GF4496@worktop.programming.kicks-ass.net>
 References: <20200605082839.226418-1-elver@google.com>
  <CACT4Y+ZqdZD0YsPHf8UFJT94yq5KGgbDOXSiJYS0+pjgYDsx+A@mail.gmail.com>
  <20200605120352.GJ3976@hirez.programming.kicks-ass.net>
@@ -125,14 +125,15 @@ References: <20200605082839.226418-1-elver@google.com>
  <CANpmjNPNa2f=kAF6c199oYVJ0iSyirQRGxeOBLxa9PmakSXRbA@mail.gmail.com>
  <CACT4Y+Z+FFHFGSgEJGkd+zCBgUOck_odOf9_=5YQLNJQVMGNdw@mail.gmail.com>
  <20200608110108.GB2497@hirez.programming.kicks-ass.net>
+ <20200611215538.GE4496@worktop.programming.kicks-ass.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <20200608110108.GB2497@hirez.programming.kicks-ass.net>
+In-Reply-To: <20200611215538.GE4496@worktop.programming.kicks-ass.net>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-Original-Sender: peterz@infradead.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@infradead.org header.s=bombadil.20170209 header.b=e8Frfs00;
+ header.i=@infradead.org header.s=bombadil.20170209 header.b=UKvh5qNT;
        spf=pass (google.com: best guess record for domain of
  peterz@infradead.org designates 2607:7c80:54:e::133 as permitted sender) smtp.mailfrom=peterz@infradead.org
 Precedence: list
@@ -147,56 +148,59 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, Jun 08, 2020 at 01:01:08PM +0200, Peter Zijlstra wrote:
-> On Mon, Jun 08, 2020 at 09:57:39AM +0200, Dmitry Vyukov wrote:
+On Thu, Jun 11, 2020 at 11:55:38PM +0200, Peter Zijlstra wrote:
+> On Mon, Jun 08, 2020 at 01:01:08PM +0200, Peter Zijlstra wrote:
+> > On Mon, Jun 08, 2020 at 09:57:39AM +0200, Dmitry Vyukov wrote:
+> > 
+> > > As a crazy idea: is it possible to employ objtool (linker script?) to
+> > > rewrite all coverage calls to nops in the noinstr section? Or relocate
+> > > to nop function?
+> > > What we are trying to do is very static, it _should_ have been done
+> > > during build. We don't have means in existing _compilers_ to do this,
+> > > but maybe we could do it elsewhere during build?...
+> > 
+> > Let me try and figure out how to make objtool actually rewrite code.
 > 
-> > As a crazy idea: is it possible to employ objtool (linker script?) to
-> > rewrite all coverage calls to nops in the noinstr section? Or relocate
-> > to nop function?
-> > What we are trying to do is very static, it _should_ have been done
-> > during build. We don't have means in existing _compilers_ to do this,
-> > but maybe we could do it elsewhere during build?...
+> The below is quite horrific but seems to sorta work.
 > 
-> Let me try and figure out how to make objtool actually rewrite code.
+> 
+> It turns this:
+> 
+>   12:   e8 00 00 00 00          callq  17 <lockdep_hardirqs_on+0x17>
+>                         13: R_X86_64_PLT32      __sanitizer_cov_trace_pc-0x4
+> 
+> Into this:
+> 
+>   12:   90                      nop
+>   13:   90                      nop
+>                         13: R_X86_64_NONE       __sanitizer_cov_trace_pc-0x4
+>   14:   90                      nop
+>   15:   90                      nop
+>   16:   90                      nop
+> 
+> 
+> I'll have to dig around a little more to see if I can't get rid of the
+> relocation entirely. Also, I need to steal better arch_nop_insn() from
+> the kernel :-)
 
-The below is quite horrific but seems to sorta work.
-
-
-It turns this:
-
-  12:   e8 00 00 00 00          callq  17 <lockdep_hardirqs_on+0x17>
-                        13: R_X86_64_PLT32      __sanitizer_cov_trace_pc-0x4
-
-Into this:
-
-  12:   90                      nop
-  13:   90                      nop
-                        13: R_X86_64_NONE       __sanitizer_cov_trace_pc-0x4
-  14:   90                      nop
-  15:   90                      nop
-  16:   90                      nop
-
-
-I'll have to dig around a little more to see if I can't get rid of the
-relocation entirely. Also, I need to steal better arch_nop_insn() from
-the kernel :-)
+Damn, paste buffer confusion, this is the right version.
 
 ---
  tools/objtool/arch.h            |  2 ++
  tools/objtool/arch/x86/decode.c | 24 ++++++++++++++++++++++
- tools/objtool/check.c           | 15 +++++++++++++-
+ tools/objtool/check.c           | 17 +++++++++++++++-
  tools/objtool/elf.c             | 45 ++++++++++++++++++++++++++++++++++++++++-
  tools/objtool/elf.h             | 11 ++++++++--
- 5 files changed, 93 insertions(+), 4 deletions(-)
+ 5 files changed, 95 insertions(+), 4 deletions(-)
 
 diff --git a/tools/objtool/arch.h b/tools/objtool/arch.h
 index eda15a5a285e..3c5967748abb 100644
 --- a/tools/objtool/arch.h
 +++ b/tools/objtool/arch.h
 @@ -84,4 +84,6 @@ unsigned long arch_jump_destination(struct instruction *insn);
-
+ 
  unsigned long arch_dest_rela_offset(int addend);
-
+ 
 +const char *arch_nop_insn(int len);
 +
  #endif /* _ARCH_H */
@@ -233,17 +237,19 @@ index 4b504fc90bbb..b615c32e21db 100644
 +	return insn;
 +}
 diff --git a/tools/objtool/check.c b/tools/objtool/check.c
-index 5fbb90a80d23..487b4dc3d122 100644
+index 5fbb90a80d23..6f5e9c9465cb 100644
 --- a/tools/objtool/check.c
 +++ b/tools/objtool/check.c
-@@ -765,6 +765,17 @@ static int add_call_destinations(struct objtool_file *file)
+@@ -765,6 +765,19 @@ static int add_call_destinations(struct objtool_file *file)
  		} else
  			insn->call_dest = rela->sym;
-
+ 
 +		if (insn->sec->noinstr &&
 +		    !strncmp(insn->call_dest->name, "__sanitizer_cov_", 16)) {
-+			if (rela)
++			if (rela) {
++				rela->type = R_X86_64_NONE;
 +				elf_write_rela(file->elf, rela);
++			}
 +
 +			elf_write_insn(file->elf, insn->sec,
 +				       insn->offset, insn->len,
@@ -254,10 +260,10 @@ index 5fbb90a80d23..487b4dc3d122 100644
  		/*
  		 * Whatever stack impact regular CALLs have, should be undone
  		 * by the RETURN of the called function.
-@@ -2802,11 +2813,13 @@ int check(const char *_objname, bool orc)
+@@ -2802,11 +2815,13 @@ int check(const char *_objname, bool orc)
  		if (ret < 0)
  			goto out;
-
+ 
 +	}
 +
 +	if (file.elf->changed) {
@@ -270,13 +276,13 @@ index 5fbb90a80d23..487b4dc3d122 100644
  	if (ret < 0) {
  		/*
 diff --git a/tools/objtool/elf.c b/tools/objtool/elf.c
-index 84225679f96d..705582729374 100644
+index 84225679f96d..6f8021a5076a 100644
 --- a/tools/objtool/elf.c
 +++ b/tools/objtool/elf.c
 @@ -525,6 +525,7 @@ static int read_relas(struct elf *elf)
  				return -1;
  			}
-
+ 
 +			rela->idx = i;
  			rela->type = GELF_R_TYPE(rela->rela.r_info);
  			rela->addend = rela->rela.r_addend;
@@ -284,16 +290,16 @@ index 84225679f96d..705582729374 100644
 @@ -713,6 +714,8 @@ struct section *elf_create_section(struct elf *elf, const char *name,
  	elf_hash_add(elf->section_hash, &sec->hash, sec->idx);
  	elf_hash_add(elf->section_name_hash, &sec->name_hash, str_hash(sec->name));
-
+ 
 +	elf->changed = true;
 +
  	return sec;
  }
-
+ 
 @@ -779,7 +782,43 @@ int elf_rebuild_rela_section(struct section *sec)
  	return 0;
  }
-
+ 
 -int elf_write(const struct elf *elf)
 +int elf_write_insn(struct elf *elf, struct section *sec,
 +		   unsigned long offset, unsigned int len,
@@ -320,8 +326,8 @@ index 84225679f96d..705582729374 100644
 +{
 +	struct section *sec = rela->sec;
 +
-+	rela->rela.r_info = 0;
-+	rela->rela.r_addend = 0;
++	rela->rela.r_info = GELF_R_INFO(rela->sym->idx, rela->type);
++	rela->rela.r_addend = rela->addend;
 +
 +	gelf_update_rela(sec->data, rela->idx, &rela->rela);
 +
@@ -343,16 +349,16 @@ index 84225679f96d..705582729374 100644
 +			sec->changed = false;
  		}
  	}
-
+ 
 @@ -808,6 +849,8 @@ int elf_write(const struct elf *elf)
  		return -1;
  	}
-
+ 
 +	elf->changed = false;
 +
  	return 0;
  }
-
+ 
 diff --git a/tools/objtool/elf.h b/tools/objtool/elf.h
 index f4fe1d6ea392..4a3fe4f455c5 100644
 --- a/tools/objtool/elf.h
@@ -368,7 +374,7 @@ index f4fe1d6ea392..4a3fe4f455c5 100644
 +	int idx;
  	bool jump_table_start;
  };
-
+ 
 @@ -76,6 +77,7 @@ struct elf {
  	Elf *elf;
  	GElf_Ehdr ehdr;
@@ -384,12 +390,12 @@ index f4fe1d6ea392..4a3fe4f455c5 100644
 -int elf_write(const struct elf *elf);
 +int elf_write(struct elf *elf);
  void elf_close(struct elf *elf);
-
+ 
  struct section *find_section_by_name(const struct elf *elf, const char *name);
 @@ -132,6 +134,11 @@ struct rela *find_rela_by_dest_range(const struct elf *elf, struct section *sec,
  struct symbol *find_func_containing(struct section *sec, unsigned long offset);
  int elf_rebuild_rela_section(struct section *sec);
-
+ 
 +int elf_write_rela(struct elf *elf, struct rela *rela);
 +int elf_write_insn(struct elf *elf, struct section *sec,
 +		   unsigned long offset, unsigned int len,
@@ -397,9 +403,9 @@ index f4fe1d6ea392..4a3fe4f455c5 100644
 +
  #define for_each_sec(file, sec)						\
  	list_for_each_entry(sec, &file->elf->sections, list)
-
+ 
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200611215538.GE4496%40worktop.programming.kicks-ass.net.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200611215812.GF4496%40worktop.programming.kicks-ass.net.
