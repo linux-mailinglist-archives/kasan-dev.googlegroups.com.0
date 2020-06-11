@@ -1,134 +1,140 @@
-Return-Path: <kasan-dev+bncBCD3NZ4T2IKRBZFDQP3QKGQEIBGVYEQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCV5TUXXRUIBBZOQRL3QKGQEW32JDRQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yb1-xb3e.google.com (mail-yb1-xb3e.google.com [IPv6:2607:f8b0:4864:20::b3e])
-	by mail.lfdr.de (Postfix) with ESMTPS id B147A1F54CC
-	for <lists+kasan-dev@lfdr.de>; Wed, 10 Jun 2020 14:28:21 +0200 (CEST)
-Received: by mail-yb1-xb3e.google.com with SMTP id o140sf1991595yba.16
-        for <lists+kasan-dev@lfdr.de>; Wed, 10 Jun 2020 05:28:21 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1591792100; cv=pass;
+Received: from mail-qt1-x83f.google.com (mail-qt1-x83f.google.com [IPv6:2607:f8b0:4864:20::83f])
+	by mail.lfdr.de (Postfix) with ESMTPS id E03251F6FA0
+	for <lists+kasan-dev@lfdr.de>; Thu, 11 Jun 2020 23:55:50 +0200 (CEST)
+Received: by mail-qt1-x83f.google.com with SMTP id k23sf5937839qtb.2
+        for <lists+kasan-dev@lfdr.de>; Thu, 11 Jun 2020 14:55:50 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1591912549; cv=pass;
         d=google.com; s=arc-20160816;
-        b=ZBHKXshLenMzKc8Rxx++V93FbgSFbdvFRv7XJ4Gnrs8j78PYwOw6+oB+YffiQF49GS
-         APolluzzetFyM6YDmO0UwxxpZO7eFC5EzuZZn8LKiArfiU/miOWTWBXIVmHcDPq2/0Hr
-         oc5FySiilLfe08OuREkhFqIjR4v8KQOTV1r1y1l+x9htJokn/1r9u3hKsX7mF4wHJIMS
-         XfTtqYeSOhud2BYpYzqZuPMmTIjk8f42EnXWURvKUbrQ0jwJViWzM13rWlJVrgxkJDI9
-         MwOhJgp3Cb6dyvrLLUG8xpDVnfJe3Tmbm/4inCWU81kH2RKfZYrueT/+O+ZL8RSA1LBJ
-         HQCA==
+        b=znjhynjnzwH8c7nGs7Y7D8F+kOL/zzZiS3T6/IRRU+zZ5XDfIQN6s3im43OnhMEhR0
+         hj3Z5CRMXzX6u3JbSPNqwz4AvhY1fAhwl0IuiqPEfuHg/GGi+Kpmv7LlGFkG4OuUI8Nn
+         OYsseer7wKaQuFw7jwQ4mbW+0WMBmV1FF9MKaO5kqNy8XVYVdB4GYM4yifUPiaDsZVBI
+         fJTAm4osua8Lk2UrEo/7+EY9ExcDkY8bHnXXYB6dxQttq/HF5cz+kOVk0hnd5X0194MV
+         eY1L7uVJNkiRh4ljdroaygQbAfiGv96ZfBjKIGMvaKeE2v+6rdkSggtqOj1C5U+QWPEE
+         PFjg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=nTN7mOKW4KjTx3YGHyuxZq24js7Ye/iA9fZ7KleM7o4=;
-        b=tMHJaI4rbvSvJQuKMXpAvhgL0+saFL4ymvZSBsWDxs1lRveAMnfOxDCQEMDQTwlozk
-         cPkJb3C1EPpW0R0AnXswcb5eGj0HOfL9m3ZKVROkEJwc7U5WoKDNWPIbiHg+WSeNNWVu
-         7rIvrJdiNNtihdAkGnwsx8Hb9QV2+p8PVREo8IpP80n0T2vSvoHjglH+EibJ33gfX0a4
-         G1etnhUW+xkc3Pw923HLsqBzci/GyUZjDRxRkscqO9s2TRX+HszYcYn8uKLHTP2pvM7g
-         R3K4ycJ8aVsu79LtKPjVu6psTvzbRjbYByqkHqCptUSqasOI2z9yAOiZBixfMpikoLKL
-         TEZw==
+         :list-id:mailing-list:precedence:user-agent:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:sender:dkim-signature;
+        bh=nOsK46MCn7K8FZ3kXbxb165Ggu6AZ3PQ8CceKMzCWAE=;
+        b=MoVwgOqwhuMAa/goVDsNR9AccLMZYQXFih/B0kHpbfU7usJDvsvlg3Ijg5Ic0tWJlz
+         54g0SVVcQV7spfy42Sf2U6mw0Vu+I/0ZL6o81xm3Oe2fngzJ7U7na4j+OB1SM1FE/qXZ
+         ddGoIu5ubcoJ98Z9WMLB/J4pkGJXO18ZH0j+3dXfnD2K63ZnXFTrlXfDLP+h5BhSxdCv
+         7MkWzvtzOxfS5vv2M/WIZxD1OwsZyAViaZchPP41QcvoMzXOzmMfZ5Mg7QDdpfjjZ56f
+         +dVunp7OpzD1qsVJHoSJoFw9ECO9MCO20ENvQRDL6K0fJS7c8R9RZmttiZ0/7paOhybP
+         C+GQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@lca.pw header.s=google header.b=rhC0j4t2;
-       spf=pass (google.com: domain of cai@lca.pw designates 2607:f8b0:4864:20::844 as permitted sender) smtp.mailfrom=cai@lca.pw
+       dkim=pass header.i=@infradead.org header.s=bombadil.20170209 header.b=e8Frfs00;
+       spf=pass (google.com: best guess record for domain of peterz@infradead.org designates 2607:7c80:54:e::133 as permitted sender) smtp.mailfrom=peterz@infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
         h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:x-original-sender
+         :content-disposition:in-reply-to:user-agent:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=nTN7mOKW4KjTx3YGHyuxZq24js7Ye/iA9fZ7KleM7o4=;
-        b=ULS2pUQkMpJmiSmI0fiPI0CqSNE3Hi2Ogx8Jyp2xOgWRk3NWEVyhsY17EcPKYPDNSF
-         tj1KR602sHQZVLkSgOCc3+aMRS+fbZ7PUnx3fBZOMByjpzo1Qw6xBVpmKvF1LiKVBOeR
-         +0LsdkE2M3IP9rkVHVrXMtTg/o/MNQ7ecQR3nfZJI5uXvgaoJ7UmtkIzFA7U78alsWbf
-         rk2UrawCVI9TA8pxQZO6IYVev1cyIYHKabjoP5keKzkvh9CsJpjqaGwVk6KqEdXV+J9m
-         KWkkTCdiZHLetvxRYsmvQtOfuS4aNv+VAIk/GF7cUjTxPBJrN6W92hpivQMUulW7WeY1
-         UqMQ==
+        bh=nOsK46MCn7K8FZ3kXbxb165Ggu6AZ3PQ8CceKMzCWAE=;
+        b=X6FjkVMH4GbyIq4/GoQ+pl6Fz/MG5q6WPdlXLbWDsjU+eq+CUDDdikyyhdEquW+3ay
+         6g75kG5trS+M2kd6zItBx+Qp7gT0iPZLqqchb+iXMYY3+z9G0FRxiSGWq1oFCdpnENZ0
+         K89FTYeJShW43vvfne/dtgk/1M9OJuFkjBgo0abYl94zs3sA0V46pKblKi5LrLlZzrvs
+         y7m7baPnr7tw4KyLii6NKw0C9yn/JuFE9+KXAZ3RsHJxww8cNW5M0RJe5G6yJ3/Xzai+
+         CSOQqGwsPVGcr/IWSaVryF5BhGyjQJg5uEA1JtOpDYGqF7Cqeto2mJS/b+wfAnKFIogH
+         IGbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to
+         :references:mime-version:content-disposition:in-reply-to:user-agent
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=nTN7mOKW4KjTx3YGHyuxZq24js7Ye/iA9fZ7KleM7o4=;
-        b=oq7/uXBiTvuvPjFcbsQUBmR97KYzrfm7uovdi5tYwgkYZXxcCdO3AI9YPrjUdyQWDC
-         DDfBbKCJiARuQUvfuWL/cru2Ykft3fStN71kGsT1puMDK701HRXzGfcmosbLQEdOLd/u
-         I03s+col1X2aPddjdfqZtYGSdQ0wi79jagrLINDQiUvK7UZ8aCI1kdkDxdgY+kW+NAry
-         fprZ+3uBxJxm5hzn4oNbau3LqSbPQNoLKqhGQ2Sr/yQ3W/KSKmG/4UOr244QMlYCDl0Q
-         ddtqepWNI3lDfn3uUtiqRCjtpDJmIDtVqRHxssksslHiWPX44wiPFXxxgAO/KfzGJ1oc
-         Df+Q==
+        bh=nOsK46MCn7K8FZ3kXbxb165Ggu6AZ3PQ8CceKMzCWAE=;
+        b=PR8yJpVXRTo4NjOuwaSuL70Jsx++1YCWPWBqwS3ZWetZWVGodXuxvzVJ/2bmbIbQuG
+         xnASDeDklS6l+nNYdKYrATQO1RLQtKwwue6MsqHaC7GG3dxFDi5Cd2btdsS9Do9Hq1fp
+         4Muxk0/GzoF/FXnJZCiFbAZR2E6OaDTvLjeQLWWv7u10BRd76qpq6zo83tiHNnx0WAKN
+         GC+8/stFYWb1qTZiWUwnowqv8XvpChjCy8kxbX628M4wlYo8DXJSwFFPNZmKWyOiSLKK
+         WxOjZQaY2Oh/+etYZGJmP+UZUP5WSXbGPJFbNccL3cKmGbISWJGs4Fb/otVJwVoVB3qv
+         12XQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM533a/ESpxyvVcN1exYSpOIbMNzRPG+9HGQcslP/qm3H+KZikMpEi
-	o63rq4/7frsCpNZHW5TIvbs=
-X-Google-Smtp-Source: ABdhPJyGFVLYmpOkG1udP9HwZIpKQ63uqc6CC4AfR1VLZdbZmNAOBuRGtHlbCEWdxn3a1Mumya4HVQ==
-X-Received: by 2002:a25:b909:: with SMTP id x9mr4931277ybj.163.1591792100731;
-        Wed, 10 Jun 2020 05:28:20 -0700 (PDT)
+X-Gm-Message-State: AOAM531fsKQWfZRgPZgwT8d8hfVTKc0jUDHZMOpPc+D3ATvf1z2azto0
+	vYUrMcKEWw4i6DbmBMsmZ5Q=
+X-Google-Smtp-Source: ABdhPJz7VnInCAk6cZZae5mGz4gW+vbcRDVqVLPpIllOGPVoeC6B92JQYJD5P/iNi7WoTqLi03moNg==
+X-Received: by 2002:a37:644d:: with SMTP id y74mr37525qkb.477.1591912549433;
+        Thu, 11 Jun 2020 14:55:49 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a25:b18b:: with SMTP id h11ls5057647ybj.4.gmail; Wed, 10 Jun
- 2020 05:28:20 -0700 (PDT)
-X-Received: by 2002:a25:9a04:: with SMTP id x4mr5285531ybn.137.1591792100467;
-        Wed, 10 Jun 2020 05:28:20 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1591792100; cv=none;
+Received: by 2002:a05:6214:38d:: with SMTP id l13ls776241qvy.4.gmail; Thu, 11
+ Jun 2020 14:55:49 -0700 (PDT)
+X-Received: by 2002:a0c:f888:: with SMTP id u8mr9710794qvn.130.1591912549049;
+        Thu, 11 Jun 2020 14:55:49 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1591912549; cv=none;
         d=google.com; s=arc-20160816;
-        b=NBGHWkPSzch1OpN0ahj762aGwd2I63ELYZFm6olpCbkH6ofr9oMNLozTF3JKiVktsW
-         mU3PkxJw9+2gWdVs+R+bKngyVSc88+hqCGhIeEl2hCLqvFspoa8YZco3vwZCzfKho/nn
-         rRsJkHt+rT7zXEbxQsBy/nRg0s6c5bGW0NLfQLHJazCTryUZyPutCv+Aa7ipG0Hu5UOE
-         aQPrixMNuSYeIlEzfuJ6/hDWh2JTsN/mkhWeHE+SqLM/KpduJ8QJIAHg9UHi+UyEXdbf
-         oiX0Q7eLvubeWuEBNaHSHqtM7O1qUVV3kVdXP/U32C3wD5EstEj9P4hJy0E5e26/0XeR
-         8gBA==
+        b=jD9wjskumzcOaZmH9wg17ZM0bNhn7xp0oh7Ip7chPgk083TeAOjObk7UB8qwLG2sGn
+         UVMOTIWaKvQqjS+VxEsHnatQRTWApfkj19yHzN3hiJ2Hao/bsuYL3oafe1ylzM6SfxMh
+         g2LFrYJ9YQNRmZPb/8UqlF2eulh5ia3wu5DVvAnHCSo4suJ+GPrT2fBcMuHX60/+6u0q
+         RywG1GtXuYR4ItDKty6em5fy3wPUyBlKMCrpPUwUx7Oc2N7+HSeb2PBp8XuF3b6jVoDC
+         aLlcxYlOtnoyRdH8XxSTkAHjO9lBPQGMC6AF2scsf79cz1ZAyiK9xqGdepYFOCmRSiFq
+         yBqw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=+g/QNFEcpPiOwSyTtWV6UhK4FMdUVFtGGz85G+f+/28=;
-        b=KHWxBIwJ25ftZu3AsdQ7Ev/s/76fkajo5lM3Z66T2Kp+tFT5L0S6cn/jeORwIkOiBP
-         0BlE/L8PtjeC5mliHOUute1SMfEt3UaioXPheWn+grr8qC/yYexVFzXqWBgWixrdpiJd
-         4A3WRpeNpwAYGRPjAmD13EsnEMfrUXel2AOq7O1PBlUoyhT7n57JPGl3rWS3VKlcRm7f
-         4Vs2xQlTdM/3fvGoACIPH8Wf1n16aukDf8L2KDCuC0DJkT6fesT3PbZvAupMKdhmQgU6
-         4OJg4De9aewE6Gtshluu0buPkAq7SilHlNncASuzWILLg6Fga26xD7ngNR3oe54foSKJ
-         PeIQ==
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:dkim-signature;
+        bh=+D9mFCAnJgtDS6+KSuSp9KevNloc9SQBHaGYlbUhzxw=;
+        b=eTlnfPk+OuM3ux0igIz+2Dz74kuTuYx/BtJ6TvEj7zjvtEt2xtf5aW9Foq2fPZAdOk
+         DPFyy0dwPK743XLAZNEYrBRdpNN9xfXs7HfEu200rlBqq2pYY1wDye5817AWtN+dC5NE
+         5IyA51wHWkHtsdeR00S/Rl1n6GzonmVJRbAxLiRfZozeoQHGG4AFhrAG5lsLmekV9qFv
+         X0oO8aliKglwERR1TDkJ5NRTGr78DfMPvgdPFz/nMp3Uv2O+IpkkgSDTt3/lIogV2BJf
+         gJEEnre1gNcQ2UqHiPBJtHkjVLlm3LZAVpqZBXSPoLZVQA+W0F5cHsSoV3gMBpGvWNgl
+         hwZQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@lca.pw header.s=google header.b=rhC0j4t2;
-       spf=pass (google.com: domain of cai@lca.pw designates 2607:f8b0:4864:20::844 as permitted sender) smtp.mailfrom=cai@lca.pw
-Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com. [2607:f8b0:4864:20::844])
-        by gmr-mx.google.com with ESMTPS id n82si226786ybc.3.2020.06.10.05.28.20
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Jun 2020 05:28:20 -0700 (PDT)
-Received-SPF: pass (google.com: domain of cai@lca.pw designates 2607:f8b0:4864:20::844 as permitted sender) client-ip=2607:f8b0:4864:20::844;
-Received: by mail-qt1-x844.google.com with SMTP id j32so1500258qte.10
-        for <kasan-dev@googlegroups.com>; Wed, 10 Jun 2020 05:28:20 -0700 (PDT)
-X-Received: by 2002:ac8:fa7:: with SMTP id b36mr2997242qtk.100.1591792100186;
-        Wed, 10 Jun 2020 05:28:20 -0700 (PDT)
-Received: from lca.pw (pool-71-184-117-43.bstnma.fios.verizon.net. [71.184.117.43])
-        by smtp.gmail.com with ESMTPSA id h64sm11681352qkf.46.2020.06.10.05.28.19
+       dkim=pass header.i=@infradead.org header.s=bombadil.20170209 header.b=e8Frfs00;
+       spf=pass (google.com: best guess record for domain of peterz@infradead.org designates 2607:7c80:54:e::133 as permitted sender) smtp.mailfrom=peterz@infradead.org
+Received: from bombadil.infradead.org (bombadil.infradead.org. [2607:7c80:54:e::133])
+        by gmr-mx.google.com with ESMTPS id x78si224611qka.4.2020.06.11.14.55.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jun 2020 05:28:19 -0700 (PDT)
-Date: Wed, 10 Jun 2020 08:28:17 -0400
-From: Qian Cai <cai@lca.pw>
-To: Alexander Potapenko <glider@google.com>
-Cc: Dmitry Vyukov <dvyukov@google.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Christian Borntraeger <borntraeger@de.ibm.com>,
-	Kees Cook <keescook@chromium.org>,
+        Thu, 11 Jun 2020 14:55:48 -0700 (PDT)
+Received-SPF: pass (google.com: best guess record for domain of peterz@infradead.org designates 2607:7c80:54:e::133 as permitted sender) client-ip=2607:7c80:54:e::133;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=worktop.programming.kicks-ass.net)
+	by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+	id 1jjVAi-0001nI-WD; Thu, 11 Jun 2020 21:55:41 +0000
+Received: by worktop.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 755FB984C19; Thu, 11 Jun 2020 23:55:38 +0200 (CEST)
+Date: Thu, 11 Jun 2020 23:55:38 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: Dmitry Vyukov <dvyukov@google.com>
+Cc: Marco Elver <elver@google.com>,
+	Andrey Konovalov <andreyknvl@google.com>,
+	Mark Rutland <mark.rutland@arm.com>, Borislav Petkov <bp@alien8.de>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@kernel.org>,
+	clang-built-linux <clang-built-linux@googlegroups.com>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Alexander Potapenko <glider@google.com>,
 	kasan-dev <kasan-dev@googlegroups.com>,
-	Linux-MM <linux-mm@kvack.org>,
-	linux-s390 <linux-s390@vger.kernel.org>,
 	LKML <linux-kernel@vger.kernel.org>,
-	Heiko Carstens <heiko.carstens@de.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>
-Subject: Re: [PATCH] mm/page_alloc: silence a KASAN false positive
-Message-ID: <20200610122817.GC954@lca.pw>
-References: <20200610052154.5180-1-cai@lca.pw>
- <CACT4Y+Ze=cddKcU_bYf4L=GaHuJRUjY=AdFFpM7aKy2+aZrmyQ@mail.gmail.com>
- <CAG_fn=X-da3V0OC-Bzd2rmkNuZ_bVpH_n7Sp5P_hSGXD4ryyBA@mail.gmail.com>
+	the arch/x86 maintainers <x86@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Josh Poimboeuf <jpoimboe@redhat.com>
+Subject: Re: [PATCH -tip v3 1/2] kcov: Make runtime functions
+ noinstr-compatible
+Message-ID: <20200611215538.GE4496@worktop.programming.kicks-ass.net>
+References: <20200605082839.226418-1-elver@google.com>
+ <CACT4Y+ZqdZD0YsPHf8UFJT94yq5KGgbDOXSiJYS0+pjgYDsx+A@mail.gmail.com>
+ <20200605120352.GJ3976@hirez.programming.kicks-ass.net>
+ <CAAeHK+zErjaB64bTRqjH3qHyo9QstDSHWiMxqvmNYwfPDWSuXQ@mail.gmail.com>
+ <CACT4Y+Zwm47qs8yco0nNoD_hFzHccoGyPznLHkBjAeg9REZ3gA@mail.gmail.com>
+ <CANpmjNPNa2f=kAF6c199oYVJ0iSyirQRGxeOBLxa9PmakSXRbA@mail.gmail.com>
+ <CACT4Y+Z+FFHFGSgEJGkd+zCBgUOck_odOf9_=5YQLNJQVMGNdw@mail.gmail.com>
+ <20200608110108.GB2497@hirez.programming.kicks-ass.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <CAG_fn=X-da3V0OC-Bzd2rmkNuZ_bVpH_n7Sp5P_hSGXD4ryyBA@mail.gmail.com>
-X-Original-Sender: cai@lca.pw
+In-Reply-To: <20200608110108.GB2497@hirez.programming.kicks-ass.net>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Original-Sender: peterz@infradead.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@lca.pw header.s=google header.b=rhC0j4t2;       spf=pass
- (google.com: domain of cai@lca.pw designates 2607:f8b0:4864:20::844 as
- permitted sender) smtp.mailfrom=cai@lca.pw
+ header.i=@infradead.org header.s=bombadil.20170209 header.b=e8Frfs00;
+       spf=pass (google.com: best guess record for domain of
+ peterz@infradead.org designates 2607:7c80:54:e::133 as permitted sender) smtp.mailfrom=peterz@infradead.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -141,29 +147,259 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Jun 10, 2020 at 01:02:04PM +0200, Alexander Potapenko wrote:
-> On Wed, Jun 10, 2020 at 7:55 AM Dmitry Vyukov <dvyukov@google.com> wrote:
-> >
-> > On Wed, Jun 10, 2020 at 7:22 AM Qian Cai <cai@lca.pw> wrote:
-> > >
-> > > kernel_init_free_pages() will use memset() on s390 to clear all pages
-> > > from kmalloc_order() which will override KASAN redzones because a
-> > > redzone was setup from the end of the allocation size to the end of the
-> > > last page. Silence it by not reporting it there. An example of the
-> > > report is,
-> >
-> > Interesting. The reason why we did not hit it on x86_64 is because
-> > clear_page is implemented in asm (arch/x86/lib/clear_page_64.S) and
-> > thus is not instrumented. Arm64 probably does the same. However, on
-> > s390 clear_page is defined to memset.
+On Mon, Jun 08, 2020 at 01:01:08PM +0200, Peter Zijlstra wrote:
+> On Mon, Jun 08, 2020 at 09:57:39AM +0200, Dmitry Vyukov wrote:
 > 
-> Can we define it to __memset() instead?
-> __memset() is supposed to be ignored by KASAN, e.g. KASAN runtime uses
-> it in the places where we don't care about bugs.
+> > As a crazy idea: is it possible to employ objtool (linker script?) to
+> > rewrite all coverage calls to nops in the noinstr section? Or relocate
+> > to nop function?
+> > What we are trying to do is very static, it _should_ have been done
+> > during build. We don't have means in existing _compilers_ to do this,
+> > but maybe we could do it elsewhere during build?...
+> 
+> Let me try and figure out how to make objtool actually rewrite code.
 
-I suppose that could work if s390 maintains perfer this way.
+The below is quite horrific but seems to sorta work.
+
+
+It turns this:
+
+  12:   e8 00 00 00 00          callq  17 <lockdep_hardirqs_on+0x17>
+                        13: R_X86_64_PLT32      __sanitizer_cov_trace_pc-0x4
+
+Into this:
+
+  12:   90                      nop
+  13:   90                      nop
+                        13: R_X86_64_NONE       __sanitizer_cov_trace_pc-0x4
+  14:   90                      nop
+  15:   90                      nop
+  16:   90                      nop
+
+
+I'll have to dig around a little more to see if I can't get rid of the
+relocation entirely. Also, I need to steal better arch_nop_insn() from
+the kernel :-)
+
+---
+ tools/objtool/arch.h            |  2 ++
+ tools/objtool/arch/x86/decode.c | 24 ++++++++++++++++++++++
+ tools/objtool/check.c           | 15 +++++++++++++-
+ tools/objtool/elf.c             | 45 ++++++++++++++++++++++++++++++++++++++++-
+ tools/objtool/elf.h             | 11 ++++++++--
+ 5 files changed, 93 insertions(+), 4 deletions(-)
+
+diff --git a/tools/objtool/arch.h b/tools/objtool/arch.h
+index eda15a5a285e..3c5967748abb 100644
+--- a/tools/objtool/arch.h
++++ b/tools/objtool/arch.h
+@@ -84,4 +84,6 @@ unsigned long arch_jump_destination(struct instruction *insn);
+
+ unsigned long arch_dest_rela_offset(int addend);
+
++const char *arch_nop_insn(int len);
++
+ #endif /* _ARCH_H */
+diff --git a/tools/objtool/arch/x86/decode.c b/tools/objtool/arch/x86/decode.c
+index 4b504fc90bbb..b615c32e21db 100644
+--- a/tools/objtool/arch/x86/decode.c
++++ b/tools/objtool/arch/x86/decode.c
+@@ -565,3 +565,27 @@ void arch_initial_func_cfi_state(struct cfi_init_state *state)
+ 	state->regs[16].base = CFI_CFA;
+ 	state->regs[16].offset = -8;
+ }
++
++const char *arch_nop_insn(int len)
++{
++	static const char insn[16] = {
++		0x90,
++		0x90,
++		0x90,
++		0x90,
++		0x90,
++		0x90,
++		0x90,
++		0x90,
++		0x90,
++		0x90,
++		0x90,
++		0x90,
++		0x90,
++		0x90,
++		0x90,
++		0x90,
++	};
++
++	return insn;
++}
+diff --git a/tools/objtool/check.c b/tools/objtool/check.c
+index 5fbb90a80d23..487b4dc3d122 100644
+--- a/tools/objtool/check.c
++++ b/tools/objtool/check.c
+@@ -765,6 +765,17 @@ static int add_call_destinations(struct objtool_file *file)
+ 		} else
+ 			insn->call_dest = rela->sym;
+
++		if (insn->sec->noinstr &&
++		    !strncmp(insn->call_dest->name, "__sanitizer_cov_", 16)) {
++			if (rela)
++				elf_write_rela(file->elf, rela);
++
++			elf_write_insn(file->elf, insn->sec,
++				       insn->offset, insn->len,
++				       arch_nop_insn(insn->len));
++			insn->type = INSN_NOP;
++		}
++
+ 		/*
+ 		 * Whatever stack impact regular CALLs have, should be undone
+ 		 * by the RETURN of the called function.
+@@ -2802,11 +2813,13 @@ int check(const char *_objname, bool orc)
+ 		if (ret < 0)
+ 			goto out;
+
++	}
++
++	if (file.elf->changed) {
+ 		ret = elf_write(file.elf);
+ 		if (ret < 0)
+ 			goto out;
+ 	}
+-
+ out:
+ 	if (ret < 0) {
+ 		/*
+diff --git a/tools/objtool/elf.c b/tools/objtool/elf.c
+index 84225679f96d..705582729374 100644
+--- a/tools/objtool/elf.c
++++ b/tools/objtool/elf.c
+@@ -525,6 +525,7 @@ static int read_relas(struct elf *elf)
+ 				return -1;
+ 			}
+
++			rela->idx = i;
+ 			rela->type = GELF_R_TYPE(rela->rela.r_info);
+ 			rela->addend = rela->rela.r_addend;
+ 			rela->offset = rela->rela.r_offset;
+@@ -713,6 +714,8 @@ struct section *elf_create_section(struct elf *elf, const char *name,
+ 	elf_hash_add(elf->section_hash, &sec->hash, sec->idx);
+ 	elf_hash_add(elf->section_name_hash, &sec->name_hash, str_hash(sec->name));
+
++	elf->changed = true;
++
+ 	return sec;
+ }
+
+@@ -779,7 +782,43 @@ int elf_rebuild_rela_section(struct section *sec)
+ 	return 0;
+ }
+
+-int elf_write(const struct elf *elf)
++int elf_write_insn(struct elf *elf, struct section *sec,
++		   unsigned long offset, unsigned int len,
++		   const char *insn)
++{
++	Elf_Data *data = sec->data;
++
++	if (data->d_type != ELF_T_BYTE || data->d_off) {
++		printf("ponies\n");
++		return -1;
++	}
++
++	memcpy(sec->data->d_buf + offset, insn, len);
++
++	elf_flagdata(data, ELF_C_SET, ELF_F_DIRTY);
++
++	sec->changed = true;
++	elf->changed = true;
++
++	return 0;
++}
++
++int elf_write_rela(struct elf *elf, struct rela *rela)
++{
++	struct section *sec = rela->sec;
++
++	rela->rela.r_info = 0;
++	rela->rela.r_addend = 0;
++
++	gelf_update_rela(sec->data, rela->idx, &rela->rela);
++
++	sec->changed = true;
++	elf->changed = true;
++
++	return 0;
++}
++
++int elf_write(struct elf *elf)
+ {
+ 	struct section *sec;
+ 	Elf_Scn *s;
+@@ -796,6 +835,8 @@ int elf_write(const struct elf *elf)
+ 				WARN_ELF("gelf_update_shdr");
+ 				return -1;
+ 			}
++
++			sec->changed = false;
+ 		}
+ 	}
+
+@@ -808,6 +849,8 @@ int elf_write(const struct elf *elf)
+ 		return -1;
+ 	}
+
++	elf->changed = false;
++
+ 	return 0;
+ }
+
+diff --git a/tools/objtool/elf.h b/tools/objtool/elf.h
+index f4fe1d6ea392..4a3fe4f455c5 100644
+--- a/tools/objtool/elf.h
++++ b/tools/objtool/elf.h
+@@ -64,9 +64,10 @@ struct rela {
+ 	GElf_Rela rela;
+ 	struct section *sec;
+ 	struct symbol *sym;
+-	unsigned int type;
+ 	unsigned long offset;
++	unsigned int type;
+ 	int addend;
++	int idx;
+ 	bool jump_table_start;
+ };
+
+@@ -76,6 +77,7 @@ struct elf {
+ 	Elf *elf;
+ 	GElf_Ehdr ehdr;
+ 	int fd;
++	bool changed;
+ 	char *name;
+ 	struct list_head sections;
+ 	DECLARE_HASHTABLE(symbol_hash, ELF_HASH_BITS);
+@@ -118,7 +120,7 @@ struct elf *elf_open_read(const char *name, int flags);
+ struct section *elf_create_section(struct elf *elf, const char *name, size_t entsize, int nr);
+ struct section *elf_create_rela_section(struct elf *elf, struct section *base);
+ void elf_add_rela(struct elf *elf, struct rela *rela);
+-int elf_write(const struct elf *elf);
++int elf_write(struct elf *elf);
+ void elf_close(struct elf *elf);
+
+ struct section *find_section_by_name(const struct elf *elf, const char *name);
+@@ -132,6 +134,11 @@ struct rela *find_rela_by_dest_range(const struct elf *elf, struct section *sec,
+ struct symbol *find_func_containing(struct section *sec, unsigned long offset);
+ int elf_rebuild_rela_section(struct section *sec);
+
++int elf_write_rela(struct elf *elf, struct rela *rela);
++int elf_write_insn(struct elf *elf, struct section *sec,
++		   unsigned long offset, unsigned int len,
++		   const char *insn);
++
+ #define for_each_sec(file, sec)						\
+ 	list_for_each_entry(sec, &file->elf->sections, list)
+
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200610122817.GC954%40lca.pw.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200611215538.GE4496%40worktop.programming.kicks-ass.net.
