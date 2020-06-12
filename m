@@ -1,121 +1,127 @@
-Return-Path: <kasan-dev+bncBCG6FGHT7ALRBWN5R33QKGQEOWZJHKA@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBS6AR33QKGQEYSVUGAI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13b.google.com (mail-lf1-x13b.google.com [IPv6:2a00:1450:4864:20::13b])
-	by mail.lfdr.de (Postfix) with ESMTPS id A96001F7ADB
-	for <lists+kasan-dev@lfdr.de>; Fri, 12 Jun 2020 17:27:21 +0200 (CEST)
-Received: by mail-lf1-x13b.google.com with SMTP id c12sf2803416lfk.12
-        for <lists+kasan-dev@lfdr.de>; Fri, 12 Jun 2020 08:27:21 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1591975641; cv=pass;
+Received: from mail-vk1-xa3e.google.com (mail-vk1-xa3e.google.com [IPv6:2607:f8b0:4864:20::a3e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 10D811F7AF6
+	for <lists+kasan-dev@lfdr.de>; Fri, 12 Jun 2020 17:33:33 +0200 (CEST)
+Received: by mail-vk1-xa3e.google.com with SMTP id b10sf2645720vkn.22
+        for <lists+kasan-dev@lfdr.de>; Fri, 12 Jun 2020 08:33:33 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1591976012; cv=pass;
         d=google.com; s=arc-20160816;
-        b=IY76XpQSB3bHZRTB6Z7RaiO/0gqqhCDMT7JFWcJDNdOXq+yGSBzlbFPJDy5DEaEXAt
-         nwHFpotdqmP8Cno7qbyA8/giHc9Z1gDhXiueBklJXppOjNsm5qc64gC1g5ouWWBTj718
-         5i2CEu+jeTrL9Sc3Y/gd8SIj3E6EMOC0AO3MKiIvVzLgXqNcjcYBjdBQvS5CcvjHccGM
-         ea0Sp10QazXZuJxUEH/PukngzMpHgHSkeS2Kq64hzZR/NQFLLa6vEEuoQpEkeT4cBN/P
-         X4h3c2m+lCejTGAkuO9JJ0n7AXy8Ufw1AmSWiny1sAapsJv4Yf7vlXsV1aopMIsj9ICM
-         /TOg==
+        b=XTFCed7uQ0f6b51Q4CiI8rs0HIvkHK1GuMzVouB2th042ttf/2eowIN3326OmkbmjT
+         vVDJ6MuHXLQ9ynIzT9bpTFLNizbo8qWG070INP9I/r3Sjlgw7q/VZEDRAN1gn3hDLBb0
+         la5jA3bSO+QPsWlqZ2Jd5nInD4F9jBXC74rRZX5hadlCFh2YrypDeM2d9ys7asyWowpr
+         FmlydhMUROZd8btTyisf3ukiLBv7Q8ZElobpxUG/P79kThn7hX8wPQBxBtnUc7BvCYQd
+         K7IcRwP8Sw5Fvx5OdSPaK4JGjF1d6naUyq96UXHYJEZJXCyVOanom2zdTjMZFY5ViOjL
+         axpg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-language:in-reply-to
-         :mime-version:user-agent:date:message-id:from:references:cc:to
-         :subject:sender:dkim-signature;
-        bh=OK3iCKEU4HPJioQu5TCLElrazIg7/685MgnNWxspdGQ=;
-        b=P9CQoCJkt/aaPf7o3d0vdAW/idCSHk+4ZMu3HKUDjCL+7rpLWGkUbDsW9Q24G0yEXF
-         gw8GC85L7X31HPvxYzHQTFTXPxosfm9XN1FKbMf76sckZX1Fi8Xyy/xn5539mg+zZZYj
-         frxWnMzFdjGpiBeWeYqyWFHzQIhb6owTu2x++R+PxchuwkT/Wfr1ldcGyTiiVZmJtkcY
-         dJNvMFMNOEwx67qrAEUVB/sDOViLghy2gEguXvxK0yTk104jwrgQQJa4fj6dDL3PEhwh
-         qIpIXKZkOs6rbNdTk/306QryEL8NknUaN6Cq/giStDRix3p0vXvaaSE/OISagKGh9qVw
-         CP+w==
+         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
+         :cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=CbyPDGblBAN2HHcYJexGRRfmLLmuOSUZR11aweVoBgw=;
+        b=bLDv7LDn4P0hHkPRXfKWIj4AfJ5zXcHPJJMk3abePR3bMweXPitOAhsq7k/XReJnhL
+         v+O/U4uAScjlUkZsvUq9GuhsVnK2y4LBI72J+txJyuuxDzp2z0/ZwRv1IM0+BVaW+a3E
+         q4lMmYA2fmcBtFabPjHEwYxdttfw6/ohkLM4mXoRKbXh6fIv4tQadNt1kzsKdFcL8qIs
+         J9v+I0zx5yzc/+4vhAR9kORc3orcwDZ+PBWqhDKz1hQy904+qMBBzBtICUsk92rccsUL
+         bpushxpgo7kzq1uAsyJJAzdDApLnizAJcw40I3HxLvvaR0e0aSZeeAzkG9AYHryR4aBz
+         bx+g==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of mliska@suse.cz designates 195.135.220.15 as permitted sender) smtp.mailfrom=mliska@suse.cz
+       dkim=pass header.i=@google.com header.s=20161025 header.b=tdC51OFY;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::c41 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=OK3iCKEU4HPJioQu5TCLElrazIg7/685MgnNWxspdGQ=;
-        b=nHJ1E2bOvmznchKXaVkEH+I8L4RFfTmU85FiyPf34vhelsqFNkDjlUWAnSvhPJDotr
-         +9t+s5z9uSgd/UWuoMALUfi522oJ3NmOWn3N7mrvgnmFu//ulyDKGD0r7wY+E3O70A6g
-         QCY1GvmahCBwJmlCyiwhcfNSBQZQ3WCGgIq0oDZS5iHjNGxwnCLJfk34gSlOxW3dmc2l
-         I3Q4Edf0vF3AA6iB5oeUuz83Pj9QKhz9kZpLb5cT/66gh0dMK1zn84LMSSfZ54mY/Rk6
-         Srw4GboTlvQpmuESvWruO+KvbvLGinMcGl2DZXwcFg6GABN33lraVNS+4Krdemf1kVUH
-         eejw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:list-post:list-help:list-archive:list-subscribe
+         :list-unsubscribe;
+        bh=CbyPDGblBAN2HHcYJexGRRfmLLmuOSUZR11aweVoBgw=;
+        b=Sgf81TBom0KgLT1PowCbGQxacD4sgVwt7tR9XVqmMa0BmKySer5pOvmQpbicw/Wvnb
+         1BA/CsfDZ+EMCIdT9ecxOdyrzUUDKSBxNQ7MJXOs/KhdXL/vp4NENmWDJANrPtnC9TB+
+         nZpS+BzbDgNcsBt3ZLY4Vf148a4hVDDhq0MV/tYkQKst325bh3+8FqW1C+ruUe8J7CNd
+         Ww0CcoiGfeOU6HED2OGQbuxHwfuKjCjrRMLBVagoZKyOEb+cSZTmxpe7XB5KaTijOL1A
+         bmInUb3qUXN6olAayO44ZkrFeEZ8ROEdpURyRBjPJjt8hqx/jg0gYsexNKAfvATTzDOm
+         URbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=OK3iCKEU4HPJioQu5TCLElrazIg7/685MgnNWxspdGQ=;
-        b=R9QTsTu8bFvFZdPGFUeOv9/tbAF2ftMHqgXOnwRjlGvQ3N/m9K4rZ4OS3dqjhKWzIp
-         T+MqRaF0mt+oNQt6+fOnzY2m9BXPSbEpxrIwiThHHzWYmKN+shu/BitiSOrbA2PEjtPr
-         l5B2wNwnid6RPSRyJ9KS9NTH3jzw2wT20iUrl0EpdlAUX2XQEBSZJX64Y3xwyH+jqqXx
-         AC9yVG4V64IP/vWZTU+eZjCfDtELcMYTboqu9ygGZ1FgfX0f7UfCP7L85s+Ciov5/mA8
-         s37OuUN1asNpa7upJbiQACpIpJry/lzNhA5lFKtvw4KfGMSB6+D0zq2GMrVmvMV5mQ7u
-         RpMA==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM531qE8Ti9SRCkJM73dfrhO7+9A2VL9bmiCJl27igfU+oOSa9/q42
-	I2E3yXhWFbu7yirh7dAfPok=
-X-Google-Smtp-Source: ABdhPJybcp+i/XH08xXAW6FDMYgNbiXe3SrCHVPUGXqdulflFToYUl/gEUJmJEOwn4t/RvvQ8BqyJg==
-X-Received: by 2002:a2e:b0e3:: with SMTP id h3mr7676837ljl.16.1591975641197;
-        Fri, 12 Jun 2020 08:27:21 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding
+         :x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=CbyPDGblBAN2HHcYJexGRRfmLLmuOSUZR11aweVoBgw=;
+        b=Hs3xSO69xKhmkdOMylNpLD6ipyyX692+iPpOy4X772yWsUU2fg+SNYfSs9Yn3cDNWW
+         wCDvS+42HV9EONrF6gjlQOYES8e0KFHRdjwy46vwViDmEHYcIZozXMqMOxRL+dyACkyB
+         SqZG0WiXtHmVBx3GW6RnYzd4yOkvZb0uMndiA2ADQzgFaEIffFhFyrvEU7D8jR3EzYS4
+         Lu1+LGu8au7Lg/Vvr9yU+5E7W5RLqR2Wqa6jQ5JFbwr6BNkHWc8O+/0uHCzVRvohbkce
+         +jJZjfvVwqoZuMH/R/RK3Ccw6b7CtB83cxm0eVu7UjPgajN8q3+PCMkGqhD1gGJd54cW
+         +llw==
+X-Gm-Message-State: AOAM533lAJlewAlB8g0OZ3xE4BfzXgD04W/QreDsn5zzoipDW+bT/BVH
+	gWNXeQH2Khe4ELzyczsIass=
+X-Google-Smtp-Source: ABdhPJy4aUM57PxEAaLP0De1oBjxSG8NCE3FRcubB0MAngJ9u5ErF/7JeUzbARjCZ+d2WvRW3p2FIA==
+X-Received: by 2002:a67:d381:: with SMTP id b1mr10747699vsj.148.1591976011840;
+        Fri, 12 Jun 2020 08:33:31 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a2e:9718:: with SMTP id r24ls1292788lji.3.gmail; Fri, 12 Jun
- 2020 08:27:20 -0700 (PDT)
-X-Received: by 2002:a2e:9d48:: with SMTP id y8mr7151590ljj.419.1591975640648;
-        Fri, 12 Jun 2020 08:27:20 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1591975640; cv=none;
+Received: by 2002:a67:e417:: with SMTP id d23ls719676vsf.8.gmail; Fri, 12 Jun
+ 2020 08:33:31 -0700 (PDT)
+X-Received: by 2002:a05:6102:672:: with SMTP id z18mr5236774vsf.100.1591976011453;
+        Fri, 12 Jun 2020 08:33:31 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1591976011; cv=none;
         d=google.com; s=arc-20160816;
-        b=qMrS/ttbgw4zKR5NmVKvaqDoB+CBhGEoTsMdKi2JWPvVS7xN0dmNriGODVIEHUrNxz
-         SbeICcy0dmoRaq9T5phdA6iP5Smh6tBQ/dzvPnjPMYqud06s5Ga5ivbY1hOGFnANisAi
-         GXzz4F+0OS4uyt+RqKm4ZdIIZHu9RBg7vr+bp33MkDobxdOiabERF+BKQBq2/6rQXtfV
-         pzo+iIGvq5dupj44dD3K02DjNErt9ua17KaClWRy7LfoM2thZZoTmZglDCzRwBWNU/Pf
-         kcnsrM5P3jrLNKB8iYAG/sQDxkvG1eM8QI7s0D8RQZTCkpQqlrjwKs8t0QNdsMnBEZaO
-         qcZg==
+        b=vdX3dVvDpMZb14XdQVCfjHEjfOGh+8B3zdX4BsneMCC1/zQgdukIhjOTmpM3WsxpqR
+         O2/Icf3G3oDNK9QWkmgNqQgNZTIArGuMDjBUAYuiuh3sN3GDmNi7YBaW1tlVC++p9BFB
+         UtflTk9MOrmylZ/LyfMYPGetmSL3mWTHQPMn5AqPjjVT5iuf+8qGr4YIywqY1DHVrd5X
+         ph5WajaCTXhwHw35bjhSrpVgQajdFTC1jJC+mpuTzzr0LQF82ZGej9/PDr4cQM32yEY+
+         MDhdndsYizPIIFVXGHrdQpFOWVBwLUQBp46cl7YMMnaJTm+1piTEH7Pivt2GiCcsLEc/
+         PdFw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject;
-        bh=O0TpoxuN9F3MhpumUttVrmFmfJfMIJUj61RqcD78IKo=;
-        b=K7yAxWSB7ahnogyAaYJGDaGVk3TfluT3Stqtw/7R3LB59/9attHF/P8sQS1tx+ZIbw
-         XFtBVinWOQGpUfi83c+POOU+v/dBEbT1zRoYu534LVEM3zbV3QFHh61eEpweZqPlUWr8
-         NvmwjKNr0iuRf3xNUovLqmMx5EKoHmrLDqleJi8YUWF4UNiWuw3psr9dh3K6XbcdJtj2
-         J2rAcvXVYWQLtw2Cq7gamd69W7n9TBFojic1rZIpUtuW7k9HjeiEcXHT/mjtoSItgj6j
-         7nxJ3OCwDammIyOfv/SWE+/DVj8xqUcX+WdVghRkS9Ny949al85xVHlUi+nn+1HufSJS
-         uYaw==
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=dL6cfbdxNbzwAwfTaM272YkAAUiX5SbJA5349TtzV98=;
+        b=lYlfoChsbVjieXkXKZ/ZBpjeQyc2G49AYjHl2GFrf0Q56PhI3TsAXN2ACFFmWJkJ/x
+         ww4OUFn37BKOv6Meq/P6NyvL7uhsSV3TPYnrTTHiVlZCcrWZJhQfXE3vV5x84kOAz4Yo
+         42Ji1Wbx5BsxMldfgQSCeGDQXNOQYrzGdUVX2W/jJFTn4ndKUbBwLj/dWA7pSE/mcMYK
+         iNSne8PCZjnMOYR1/+mmmoRrLWAtVzwlSMls4O/I3+RBLbtq8fKk0URDfgZxD9nW3K3j
+         NmSUVnTrMkFl7ft2FPJvRn1EirEGpRLYtf1GrhJl7avQnUUmikVtAIq/Fx5E/YZDwbCS
+         E+Xg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of mliska@suse.cz designates 195.135.220.15 as permitted sender) smtp.mailfrom=mliska@suse.cz
-Received: from mx2.suse.de (mx2.suse.de. [195.135.220.15])
-        by gmr-mx.google.com with ESMTPS id r21si449678ljp.0.2020.06.12.08.27.20
+       dkim=pass header.i=@google.com header.s=20161025 header.b=tdC51OFY;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::c41 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-oo1-xc41.google.com (mail-oo1-xc41.google.com. [2607:f8b0:4864:20::c41])
+        by gmr-mx.google.com with ESMTPS id q20si81769uas.1.2020.06.12.08.33.31
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 12 Jun 2020 08:27:20 -0700 (PDT)
-Received-SPF: pass (google.com: domain of mliska@suse.cz designates 195.135.220.15 as permitted sender) client-ip=195.135.220.15;
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-	by mx2.suse.de (Postfix) with ESMTP id 52490AAF1;
-	Fri, 12 Jun 2020 15:27:23 +0000 (UTC)
-Subject: Re: [PATCH v2] tsan: Add param to disable func-entry-exit
- instrumentation
-To: Marco Elver <elver@google.com>, Jakub Jelinek <jakub@redhat.com>
-Cc: gcc-patches@gcc.gnu.org, kasan-dev@googlegroups.com, dvyukov@google.com,
- bp@alien8.de
-References: <20200612140757.246773-1-elver@google.com>
- <20200612141138.GK8462@tucnak> <20200612141955.GA251548@google.com>
-From: =?UTF-8?Q?Martin_Li=c5=a1ka?= <mliska@suse.cz>
-Message-ID: <966abdc1-23c1-08dd-87e8-401ead7a868b@suse.cz>
-Date: Fri, 12 Jun 2020 17:27:18 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 12 Jun 2020 08:33:31 -0700 (PDT)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::c41 as permitted sender) client-ip=2607:f8b0:4864:20::c41;
+Received: by mail-oo1-xc41.google.com with SMTP id e12so2014537oou.2
+        for <kasan-dev@googlegroups.com>; Fri, 12 Jun 2020 08:33:31 -0700 (PDT)
+X-Received: by 2002:a4a:e89a:: with SMTP id g26mr11165663ooe.14.1591976010720;
+ Fri, 12 Jun 2020 08:33:30 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200612141955.GA251548@google.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Language: en-US
-X-Original-Sender: mliska@suse.cz
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of mliska@suse.cz designates 195.135.220.15 as permitted
- sender) smtp.mailfrom=mliska@suse.cz
+References: <20200612140757.246773-1-elver@google.com> <20200612141138.GK8462@tucnak>
+ <20200612141955.GA251548@google.com> <966abdc1-23c1-08dd-87e8-401ead7a868b@suse.cz>
+In-Reply-To: <966abdc1-23c1-08dd-87e8-401ead7a868b@suse.cz>
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Fri, 12 Jun 2020 17:33:19 +0200
+Message-ID: <CANpmjNPCgFk0Ax+0R-AVzaT+19SUpM+E0TPo7H15gEo6rBA8Ng@mail.gmail.com>
+Subject: Re: [PATCH v2] tsan: Add param to disable func-entry-exit instrumentation
+To: =?UTF-8?Q?Martin_Li=C5=A1ka?= <mliska@suse.cz>
+Cc: Jakub Jelinek <jakub@redhat.com>, GCC Patches <gcc-patches@gcc.gnu.org>, 
+	kasan-dev <kasan-dev@googlegroups.com>, Dmitry Vyukov <dvyukov@google.com>, 
+	Borislav Petkov <bp@alien8.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: elver@google.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@google.com header.s=20161025 header.b=tdC51OFY;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::c41 as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -128,50 +134,59 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 6/12/20 4:19 PM, Marco Elver wrote:
-> On Fri, 12 Jun 2020, Jakub Jelinek wrote:
-> 
->> On Fri, Jun 12, 2020 at 04:07:57PM +0200, Marco Elver wrote:
->>> gcc/ChangeLog:
->>>
->>> 	* params.opt: Add --param=tsan-instrument-func-entry-exit=.
->>> 	* tsan.c (instrument_gimple): Make return value if func entry
->>> 	and exit should be instrumented dependent on param.
->>>
->>> gcc/testsuite/ChangeLog:
->>>
->>> 	* c-c++-common/tsan/func_entry_exit.c: New test.
->>> 	* c-c++-common/tsan/func_entry_exit_disabled.c: New test.
->>
->> Ok.
-> 
-> Thanks!
-> 
-> Somehow the commit message contained the old changelog entry, this is
-> the new one:
-> 
-> gcc/ChangeLog:
-> 
-> 	* gimplify.c (gimplify_function_tree): Optimize and do not emit
-> 	IFN_TSAN_FUNC_EXIT in a finally block if we do not need it.
-> 	* params.opt: Add --param=tsan-instrument-func-entry-exit=.
-> 	* tsan.c (instrument_memory_accesses): Make
-> 	fentry_exit_instrument bool depend on new param.
-> 
-> gcc/testsuite/ChangeLog:
-> 
-> 	* c-c++-common/tsan/func_entry_exit.c: New test.
-> 	* c-c++-common/tsan/func_entry_exit_disabled.c: New test.
-> 
-> 
-> -- Marco
-> 
+On Fri, 12 Jun 2020 at 17:27, Martin Li=C5=A1ka <mliska@suse.cz> wrote:
+>
+> On 6/12/20 4:19 PM, Marco Elver wrote:
+> > On Fri, 12 Jun 2020, Jakub Jelinek wrote:
+> >
+> >> On Fri, Jun 12, 2020 at 04:07:57PM +0200, Marco Elver wrote:
+> >>> gcc/ChangeLog:
+> >>>
+> >>>     * params.opt: Add --param=3Dtsan-instrument-func-entry-exit=3D.
+> >>>     * tsan.c (instrument_gimple): Make return value if func entry
+> >>>     and exit should be instrumented dependent on param.
+> >>>
+> >>> gcc/testsuite/ChangeLog:
+> >>>
+> >>>     * c-c++-common/tsan/func_entry_exit.c: New test.
+> >>>     * c-c++-common/tsan/func_entry_exit_disabled.c: New test.
+> >>
+> >> Ok.
+> >
+> > Thanks!
+> >
+> > Somehow the commit message contained the old changelog entry, this is
+> > the new one:
+> >
+> > gcc/ChangeLog:
+> >
+> >       * gimplify.c (gimplify_function_tree): Optimize and do not emit
+> >       IFN_TSAN_FUNC_EXIT in a finally block if we do not need it.
+> >       * params.opt: Add --param=3Dtsan-instrument-func-entry-exit=3D.
+> >       * tsan.c (instrument_memory_accesses): Make
+> >       fentry_exit_instrument bool depend on new param.
+> >
+> > gcc/testsuite/ChangeLog:
+> >
+> >       * c-c++-common/tsan/func_entry_exit.c: New test.
+> >       * c-c++-common/tsan/func_entry_exit_disabled.c: New test.
+> >
+> >
+> > -- Marco
+> >
+>
+> Do you already have a write access or should I install the patch?
 
-Do you already have a write access or should I install the patch?
+I do -- I just pushed it.
 
-Martin
+Thanks,
+-- Marco
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/966abdc1-23c1-08dd-87e8-401ead7a868b%40suse.cz.
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/CANpmjNPCgFk0Ax%2B0R-AVzaT%2B19SUpM%2BE0TPo7H15gEo6rBA8Ng%40mail.=
+gmail.com.
