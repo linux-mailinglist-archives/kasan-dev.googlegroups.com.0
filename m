@@ -1,134 +1,230 @@
-Return-Path: <kasan-dev+bncBCMIZB7QWENRBW4XST3QKGQECM3QAQY@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABB5FSTT3QKGQEEC3C76A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-vk1-xa40.google.com (mail-vk1-xa40.google.com [IPv6:2607:f8b0:4864:20::a40])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77A1E1F8468
-	for <lists+kasan-dev@lfdr.de>; Sat, 13 Jun 2020 19:24:44 +0200 (CEST)
-Received: by mail-vk1-xa40.google.com with SMTP id t5sf3337685vkk.11
-        for <lists+kasan-dev@lfdr.de>; Sat, 13 Jun 2020 10:24:44 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1592069083; cv=pass;
+Received: from mail-pl1-f185.google.com (mail-pl1-f185.google.com [209.85.214.185])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CA3D1F8E10
+	for <lists+kasan-dev@lfdr.de>; Mon, 15 Jun 2020 08:47:17 +0200 (CEST)
+Received: by mail-pl1-f185.google.com with SMTP id p3sf10394116plr.3
+        for <lists+kasan-dev@lfdr.de>; Sun, 14 Jun 2020 23:47:17 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1592203636; cv=pass;
         d=google.com; s=arc-20160816;
-        b=RvWrp+V0wCSJ6blbcmprhJcpGzzIevj5XBSOEDVop3Jw+N8wDSK83hHPCZfCsWdp0O
-         2lda9+Uw/3ABPG3d7IOxdoNG/wCukSVFQMK9nVmxVC+tbg8Ul9RJQ5uwoivEvOPB3ik+
-         Ji4XbiO11R80FQeNj8dSGQjtchBVscYjHL43jLBOsmJM7khicP1iQQy04TcrnHYhnTjM
-         XCpJAhmpxhxLOKoDeA47KfOSfPX90ixO+hjPaZhQcrzIkDpRXIpv7iLgjQddJKgpRY+E
-         0gNPEo/n6JbGfaUqc/zXPPE5sMuKwPm3eYHUCZnpXZQCTKv6Al6c7FfNj91+BftOVt0B
-         +Pgg==
+        b=NTBvx5FG4JvHicYrL1t6plB2cJavZ8a8rkQBmqrvp0GdzKsnmirs9sl0wpe7884dE0
+         uMUjGLE5O6Vxgc+ia0/3zgMvD6+1k3AvbpD4pCRuKWZivuiOck2rj0rmCQzJ/YRQJ3EO
+         oMD3WiNYNVq8nRimtuqOoV8cUNZRTpqhRmzLNUmBzOL4SXBD2wuIVfTQKQNpGEGDQ0ji
+         eAF8lwv9ZYTNt1bMaaVdJovoZlurOM99qyAgCt9GRXqAZ98OM2r1ql4qkdd2G/tMr+bM
+         P7dpQN8SMQebkq8Ir7zwoOzrDuT2VLW81J+ejh3ldELHNPc77beN6MdBU6OCU7WfjRp8
+         zpuQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=zJusZNHCs8Jp2Lk6HDis5crwj2IINOJuK0Sl+hxRiXA=;
-        b=yojPT5jW1UiAH+H/pWLNtDqpovuW3wNCc/XbLTU0T9/6yHGQAkeIuhBlIFi/FCvI47
-         mVwBW+0czrPh9XfwV86JHBjA/P5iWb1FDGZc6opvxFULIPlDa0B8eez4ze0tkpbeUGu0
-         jl3qF634O6Ds6LY4TltOXjvXkiqjbh+YBInAfM5tvwCS43DguO1PGyNiSOn1R9vtBSpK
-         b0U8k+jlegSM6t9pQ+luxmeGrm4UrY/B4aqZ8SADpNegW4z4nucB0BofRvUW4pEDp7NQ
-         AGLCEtbserIvbB4WpQ3tof+nAwS+yqM9vkrQk4whM9LLRiSmB1OpXHpLoWxRiX5KErI5
-         GfYA==
+         :list-id:mailing-list:precedence:sender:mime-version:message-id:date
+         :subject:cc:to:from;
+        bh=B40SkJuQAD9SShZ1LuAv3Enbp4fuE6J0Mz/xP1SVFmQ=;
+        b=MciQU7R2sOjAvGcD7mmJmBqXANaVhB6e6yOglw4jg54uEyPbfOXgzNUKItqLGMf+iv
+         QqvHCrc2HwsrRLRky4eAVvkD0QMLzjcTwNJOlx+YeztCw2Ac7cw8q0rc5nanN7WvS78C
+         VyZt8SjdOQyrMYNR/UWJwG7grie4A+/g8lOplFslNpEXeWk97U3zcRmYwBj35LFkd91G
+         Moyw+oXVnRBNcEjV7hgQ3ThZtqLmOcRiIpFKoyUmhTBuRKkCiXhjqQ5cKX92Z5r3wQ3q
+         qFEoc2lgfTPM3Jp/xn0/3twmdin+7etieWT1mlAUN/m8kTqjpp+XwC0MZeABXjXIvTdg
+         CzyQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=my06dzPh;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::743 as permitted sender) smtp.mailfrom=dvyukov@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=zJusZNHCs8Jp2Lk6HDis5crwj2IINOJuK0Sl+hxRiXA=;
-        b=ePs3dIe+X9LvEa6kgzcVAciTgyZvfF8wnQJCrkx02u1qFp65TwY44Folk8ndLggDoN
-         U8J4ttDxYqeDJo8efbGWdHJ3it5Yi1HDiTb4OKxmTwqPdllOClYtxpsxAbgmXUoHKYg8
-         VoRMQ2Dw7dbeDY2t8GELd0nhU/3NYm2AeSHb/rJ+++u0dXh2DGM1/8KGK4JzHY0zNeoo
-         kld/QlLCybK/ZHhK8gyeRCYsT0fDaWRfA7BvGHAhhVGJGmAz1BS0PEY9ufaf7MAMfP55
-         A3qBjlFF6wrk8255Mk2zxATJT754rkUPHQsxzo43+X0Z2o3QtPtwx8DRycqCDmeqiv3o
-         JGPg==
+       dkim=pass header.i=@kernel.org header.s=default header.b=fkfERACX;
+       spf=pass (google.com: domain of mchehab@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=mchehab@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=zJusZNHCs8Jp2Lk6HDis5crwj2IINOJuK0Sl+hxRiXA=;
-        b=MSztjriO/Edb7Jnsuu2tXtt844mi7LsKu/hPng2iwGt1xSB5/hAebb0MMAz1mkye5F
-         om+cfbMCH7vr+PzDqwo9hCmI9YoodKChrwsU9u+1T57dHiJu9ums7+J/m1W3T0ivrvxr
-         IvTYUJIyttQXZf5PbOifi6dsac83MKpOZOR+dcO8KGgI/+4BEcjfQFBPAEfKeCuuxzPe
-         OZbzVf28KVNWfORMfUNuWLGPHjo9fSoNAlqbDI0qpL5IwlKmQBdxa3Kke5//IwcP+4T7
-         EuLMq4Dqo0MIWgVdlzPDug9nXoUrUAcWTek54QHsUQ/+joXccGD/GggmBTkq+E7mFCXI
-         Oe5A==
-X-Gm-Message-State: AOAM5313SRApzMtboHPSB7YGPHTqeCHr5FgA3iIATkMWRkIEq+Aki1i3
-	L1QvTjeq3l3qg1yKRtQeYWk=
-X-Google-Smtp-Source: ABdhPJxEDxx7QOGi40I5oM69bfo6tfi13Z0ZQZOsp/m7Z6WX5DROWnlp0rKMpLmK2xKlvip+pxICJQ==
-X-Received: by 2002:a05:6102:3098:: with SMTP id l24mr13047810vsb.86.1592069083138;
-        Sat, 13 Jun 2020 10:24:43 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :sender:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=B40SkJuQAD9SShZ1LuAv3Enbp4fuE6J0Mz/xP1SVFmQ=;
+        b=oIGxycZwGlzPeBMLZNPAVwL8vp0Mpyhv5gSx8Bhmywffycb0WGxXEKYUkqA7aCf7HL
+         iBwemzFllGgHzWgJubu718dbCZSTWeEhkwndyyzNBs6i7aonVnASOIgTdn2RjRXHy+XQ
+         IRtzu6clXNwk5bIOOtJwngOZ7hIsedQnwGGQejQ2yJ/sIzoCMLbWEccq8pV/r74F3AQW
+         3SQPXfDIvism0tCVfbCGMdDhfqlDTNwAeZ9h/Sa5PC36txka3iIEKVe579xS8ZqOJerS
+         2iKhnCfRYEPo4DJZXmXAbW+BSqLux3ZH3l3Z3rqKa1DgUm0kH9TIsKVwv16BbUAjxYVZ
+         jxag==
+X-Gm-Message-State: AOAM533ZNT2QLuXA2tS1T9pn7hKDHsbSnoIoVpKkSmdxibU2Ne4CoGmY
+	xNaXA5/ecA5+ssoZHyW1Ybo=
+X-Google-Smtp-Source: ABdhPJyOQ24Kom8G5pBaOPXlUK2HK/4D1ej6I5ZYT36/gx4HCF9Jp2HjLzGx9oRLJXqorjXGUojyYQ==
+X-Received: by 2002:a17:902:b60e:: with SMTP id b14mr21158372pls.81.1592203636279;
+        Sun, 14 Jun 2020 23:47:16 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a67:8717:: with SMTP id j23ls1022117vsd.11.gmail; Sat, 13
- Jun 2020 10:24:42 -0700 (PDT)
-X-Received: by 2002:a67:2c4c:: with SMTP id s73mr14746261vss.233.1592069082689;
-        Sat, 13 Jun 2020 10:24:42 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1592069082; cv=none;
+Received: by 2002:aa7:820e:: with SMTP id k14ls3213628pfi.8.gmail; Sun, 14 Jun
+ 2020 23:47:16 -0700 (PDT)
+X-Received: by 2002:a63:455c:: with SMTP id u28mr11171595pgk.374.1592203635969;
+        Sun, 14 Jun 2020 23:47:15 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1592203635; cv=none;
         d=google.com; s=arc-20160816;
-        b=xlQQFpRXZEczr9JUhkl26VCIGvKvT2U2eeFRLiIZfzaeXBde1F762ohfKV3inVkYWs
-         SjN4z60ywvi/ZSGRuj4vLPrMJBIJBCr072ca4JI5NJdGVql/dwQ/6myWOxZsBB7Tgb2a
-         k3sDqpqu+GwIZOk6hDhTqutGMlzoi4GWPF77CbiKKVf50dBzFCoySARfCJWs/WELBb8M
-         c7PQVzliK/WiWj4leLCWgUh3MvEZGuOG427RjEnVJeXfWt28w2sRhPWyt98qegJ6xSmh
-         hlnsiEGwiAUloQZ/ZrSskPFXmSJO2jXbWyx+YF3ieabOus2W5ZzdajVe3SGprSRlBFnG
-         6niQ==
+        b=wtRK8ECftsVPS+B1O8+sX2cLsIb4ZoMjkaS1BIrrvQSIZ0UmM7ZomC4XzuqLpU3WuB
+         Eqy560d+8YsMXSBgDX2fy5xg57FNAewQ8jm8VN9WQ04gmjxwqMLLGTZGTs0ORBsXVR5d
+         zlWHGk3zP2XXPA3wMnnHGNnwtvThLR08bQ0/EEpJ2/uzCZywRLIxPCIFFDrb8QLl9IyO
+         KErg/91kkL47ntNNbt6k7BWJX+CDEmB08kScKSV9L0Llc8a9btkvLN321znc30/K/sM5
+         TL98SZZ99hbS/a/ITvyxNRFnolb/5Fgg4PZJ7jZloBjduHdxzGhVh8I/HxBRbExLSnAX
+         +dHQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=Cf1LQ5fNlVaS52D8jPent3DcteJDu/0EEO4v1tjBzHI=;
-        b=ARg2PNxhGQ/W/0N5f52i2woRklg7aAW9+E6+M3Owf8Jljmwjp2GKJmf2KU8I50OE1K
-         5H04j7gHiT+ijpdh1KGjoTDyeJwmaZOVifoM2N4l/gNlqJYGrFMB8/JQb4mET+7jF1+N
-         z5azSc1Vn3gispPwNCQQkzaJQlkt8w+vueIiCrV26RwAgz7wi4UJw8EykoQ1LE3A1zG9
-         sJ9bT7cwdsdcfLhcBk2MjG8oPtzDq5KI4Kfok8YsK1WD0BV8U4wckPjouP0b9/srcGnx
-         bG6AKS2v5+L9Fv8uSw4pOFMWZvw4eWIeb3q0EPf7mLA48M5+7RyjElRvPuUzWhovPX68
-         3VFQ==
+        h=sender:content-transfer-encoding:mime-version:message-id:date
+         :subject:cc:to:from:dkim-signature;
+        bh=NM9B5cLok6jXcY4Ox9DT1pLFN5xhmuT2OpZKyoOfihM=;
+        b=kke4nlWdcILZpDtMEHh0aDVf1v6tJ6dF4lbESg3Pkp84a98VLXWyYyEoXwfrzijDZs
+         4r2G1WroCMSm18eCYavtd35m0HGHo2WoD7U+cNpKxhBfV/m/Kl5AQTox7TDf7/K/g4UG
+         I7LEzd4YtdTFsxUp69xyHyWD4dFdi7+FaE/2sG+Buu33orJhnu0IAsvoh6RwTkkvZC17
+         wo/9UQ+3D3hEE7F54JiyQsouBfWV3qYH3+a98CZdgo8PfPTx7KQqGcnq62MB8a0keLyo
+         0XaL2Su4VLncqr63vLpwZWZooowAySLJyiFAdRYU/jQTkqfZ0j1MHHZv7KoE6Ts3VXQU
+         soqA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=my06dzPh;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::743 as permitted sender) smtp.mailfrom=dvyukov@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-qk1-x743.google.com (mail-qk1-x743.google.com. [2607:f8b0:4864:20::743])
-        by gmr-mx.google.com with ESMTPS id t9si639808vkb.1.2020.06.13.10.24.42
+       dkim=pass header.i=@kernel.org header.s=default header.b=fkfERACX;
+       spf=pass (google.com: domain of mchehab@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=mchehab@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
+        by gmr-mx.google.com with ESMTPS id v197si934899pfc.0.2020.06.14.23.47.15
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 13 Jun 2020 10:24:42 -0700 (PDT)
-Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::743 as permitted sender) client-ip=2607:f8b0:4864:20::743;
-Received: by mail-qk1-x743.google.com with SMTP id c14so11985626qka.11
-        for <kasan-dev@googlegroups.com>; Sat, 13 Jun 2020 10:24:42 -0700 (PDT)
-X-Received: by 2002:a05:620a:786:: with SMTP id 6mr7223882qka.407.1592069081942;
- Sat, 13 Jun 2020 10:24:41 -0700 (PDT)
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 14 Jun 2020 23:47:15 -0700 (PDT)
+Received-SPF: pass (google.com: domain of mchehab@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
+Received: from mail.kernel.org (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPSA id 75D7A2074D;
+	Mon, 15 Jun 2020 06:47:15 +0000 (UTC)
+Received: from mchehab by mail.kernel.org with local (Exim 4.93)
+	(envelope-from <mchehab@kernel.org>)
+	id 1jkith-009nlx-C3; Mon, 15 Jun 2020 08:47:09 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	Alasdair Kergon <agk@redhat.com>,
+	Mark Brown <broonie@kernel.org>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	linux-kselftest@vger.kernel.org,
+	Jade Alglave <j.alglave@ucl.ac.uk>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Mike Snitzer <snitzer@redhat.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	linux-ia64@vger.kernel.org,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	devicetree@vger.kernel.org,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Jaegeuk Kim <jaegeuk@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	linux-gpio@vger.kernel.org,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Sukadev Bhattiprolu <sukadev@linux.ibm.com>,
+	linux-renesas-soc@vger.kernel.org,
+	Will Deacon <will@kernel.org>,
+	linux-rockchip@lists.infradead.org,
+	linux-media@vger.kernel.org,
+	Andy Gross <agross@kernel.org>,
+	linux-arm-kernel@lists.infradead.org,
+	Stephen Rothwell <sfr@canb.auug.org.au>,
+	keyrings@vger.kernel.org,
+	Sandy Huang <hjc@rock-chips.com>,
+	Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
+	Christoph Hellwig <hch@lst.de>,
+	linux-arch@vger.kernel.org,
+	Ingo Molnar <mingo@redhat.com>,
+	Federico Vaga <federico.vaga@vaga.pv.it>,
+	alsa-devel@alsa-project.org,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+	linux-mm@kvack.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-fsdevel@vger.kernel.org,
+	Sandipan Das <sandipan@linux.ibm.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Joel Fernandes <joel@joelfernandes.org>,
+	Arnaud Pouliquen <arnaud.pouliquen@st.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Sean Wang <sean.wang@mediatek.com>,
+	"Eric W. Biederman" <ebiederm@xmission.com>,
+	Luc Maranget <luc.maranget@inria.fr>,
+	x86@kernel.org,
+	linux-mediatek@lists.infradead.org,
+	Lubomir Rintel <lkundrak@v3.sk>,
+	linux-pci@vger.kernel.org,
+	Tony Luck <tony.luck@intel.com>,
+	Dave Hansen <dave.hansen@intel.com>,
+	rcu@vger.kernel.org,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Bjorn Andersson <bjorn.andersson@linaro.org>,
+	=?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Alexey Dobriyan <adobriyan@gmail.com>,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Gerald Schaefer <gerald.schaefer@de.ibm.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Marco Elver <elver@google.com>,
+	Helge Deller <deller@gmx.de>,
+	Russell King <linux@armlinux.org.uk>,
+	linux-mips@vger.kernel.org,
+	Haren Myneni <haren@linux.ibm.com>,
+	linux-bluetooth@vger.kernel.org,
+	Eric Dumazet <edumazet@google.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	dm-devel@redhat.com,
+	linux-f2fs-devel@lists.sourceforge.net,
+	Shuah Khan <shuah@kernel.org>,
+	Daniel Kiss <daniel.kiss@arm.com>,
+	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+	David Howells <dhowells@redhat.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Fabio Estevam <festevam@gmail.com>,
+	Mike Kravetz <mike.kravetz@oracle.com>,
+	Paul Mackerras <paulus@samba.org>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	linux-arm-msm@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	"Peter Zijlstra (Intel)" <peterz@infradead.org>,
+	kasan-dev@googlegroups.com,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Jan Kara <jack@suse.cz>,
+	linux-parisc@vger.kernel.org,
+	Fenghua Yu <fenghua.yu@intel.com>,
+	Akira Yokosawa <akiyks@gmail.com>,
+	Kees Cook <keescook@chromium.org>,
+	Daniel Lustig <dlustig@nvidia.com>,
+	Chao Yu <chao@kernel.org>,
+	Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Alexey Gladkov <gladkov.alexey@gmail.com>,
+	Thiago Jung Bauermann <bauerman@linux.ibm.com>,
+	Akira Shimahara <akira215corp@gmail.com>,
+	linux-spi@vger.kernel.org,
+	Robin Murphy <robin.murphy@arm.com>,
+	Andrea Parri <parri.andrea@gmail.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	David Airlie <airlied@linux.ie>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Rob Herring <robh+dt@kernel.org>,
+	Borislav Petkov <bp@alien8.de>,
+	iommu@lists.linux-foundation.org,
+	netdev@vger.kernel.org,
+	Jeff Layton <jlayton@kernel.org>
+Subject: [PATCH 00/29] Documentation fixes
+Date: Mon, 15 Jun 2020 08:46:39 +0200
+Message-Id: <cover.1592203542.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-References: <20200605082839.226418-1-elver@google.com> <CACT4Y+ZqdZD0YsPHf8UFJT94yq5KGgbDOXSiJYS0+pjgYDsx+A@mail.gmail.com>
- <20200605120352.GJ3976@hirez.programming.kicks-ass.net> <CAAeHK+zErjaB64bTRqjH3qHyo9QstDSHWiMxqvmNYwfPDWSuXQ@mail.gmail.com>
- <CACT4Y+Zwm47qs8yco0nNoD_hFzHccoGyPznLHkBjAeg9REZ3gA@mail.gmail.com>
- <CANpmjNPNa2f=kAF6c199oYVJ0iSyirQRGxeOBLxa9PmakSXRbA@mail.gmail.com>
- <CACT4Y+Z+FFHFGSgEJGkd+zCBgUOck_odOf9_=5YQLNJQVMGNdw@mail.gmail.com>
- <20200608110108.GB2497@hirez.programming.kicks-ass.net> <20200611215538.GE4496@worktop.programming.kicks-ass.net>
- <CACT4Y+aKVKEp1yoBYSH0ebJxeqKj8TPR9MVtHC1Mh=jgX0ZvLw@mail.gmail.com> <20200612114900.GA187027@google.com>
-In-Reply-To: <20200612114900.GA187027@google.com>
-From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Sat, 13 Jun 2020 19:24:29 +0200
-Message-ID: <CACT4Y+bBtCbEk2tg60gn5bgfBjARQFBgtqkQg8VnLLg5JwyL5g@mail.gmail.com>
-Subject: Re: [PATCH -tip v3 1/2] kcov: Make runtime functions noinstr-compatible
-To: Marco Elver <elver@google.com>
-Cc: Peter Zijlstra <peterz@infradead.org>, Andrey Konovalov <andreyknvl@google.com>, 
-	Mark Rutland <mark.rutland@arm.com>, Borislav Petkov <bp@alien8.de>, 
-	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@kernel.org>, 
-	clang-built-linux <clang-built-linux@googlegroups.com>, 
-	"Paul E. McKenney" <paulmck@kernel.org>, Alexander Potapenko <glider@google.com>, 
-	kasan-dev <kasan-dev@googlegroups.com>, LKML <linux-kernel@vger.kernel.org>, 
-	"the arch/x86 maintainers" <x86@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Josh Poimboeuf <jpoimboe@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: dvyukov@google.com
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+X-Original-Sender: mchehab+huawei@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=my06dzPh;       spf=pass
- (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::743
- as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
- (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Dmitry Vyukov <dvyukov@google.com>
-Reply-To: Dmitry Vyukov <dvyukov@google.com>
+ header.i=@kernel.org header.s=default header.b=fkfERACX;       spf=pass
+ (google.com: domain of mchehab@kernel.org designates 198.145.29.99 as
+ permitted sender) smtp.mailfrom=mchehab@kernel.org;       dmarc=pass (p=NONE
+ sp=NONE dis=NONE) header.from=kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -141,171 +237,112 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, Jun 12, 2020 at 1:49 PM Marco Elver <elver@google.com> wrote:
-> On Fri, 12 Jun 2020, Dmitry Vyukov wrote:
->
-> > On Thu, Jun 11, 2020 at 11:55 PM Peter Zijlstra <peterz@infradead.org> wrote:
-> > >
-> > > On Mon, Jun 08, 2020 at 01:01:08PM +0200, Peter Zijlstra wrote:
-> > > > On Mon, Jun 08, 2020 at 09:57:39AM +0200, Dmitry Vyukov wrote:
-> > > >
-> > > > > As a crazy idea: is it possible to employ objtool (linker script?) to
-> > > > > rewrite all coverage calls to nops in the noinstr section? Or relocate
-> > > > > to nop function?
-> > > > > What we are trying to do is very static, it _should_ have been done
-> > > > > during build. We don't have means in existing _compilers_ to do this,
-> > > > > but maybe we could do it elsewhere during build?...
-> > > >
-> > > > Let me try and figure out how to make objtool actually rewrite code.
-> > >
-> > > The below is quite horrific but seems to sorta work.
-> > >
-> > > It turns this:
-> > >
-> > >   12:   e8 00 00 00 00          callq  17 <lockdep_hardirqs_on+0x17>
-> > >                         13: R_X86_64_PLT32      __sanitizer_cov_trace_pc-0x4
-> > >
-> > > Into this:
-> > >
-> > >   12:   90                      nop
-> > >   13:   90                      nop
-> > >                         13: R_X86_64_NONE       __sanitizer_cov_trace_pc-0x4
-> > >   14:   90                      nop
-> > >   15:   90                      nop
-> > >   16:   90                      nop
-> > >
-> > >
-> > > I'll have to dig around a little more to see if I can't get rid of the
-> > > relocation entirely. Also, I need to steal better arch_nop_insn() from
-> > > the kernel :-)
-> >
-> > Wow! Cool!
-> > Thanks for resolving this. I guess this can be used to wipe more
-> > unwanted things in future :)
-> >
-> > Marco double checked and his patch did not actually fix the existing
-> > crash under KCSAN. The call itself was the problem or something,
-> > returning early did not really help. This should hopefully fix it.
-> > Marco, please double check.
-> >
-> > Re better nop insn, I don't know how much work it is (or how much you
-> > are striving for perfection :)). But from KCOV point of view, I think
-> > we can live with more or less any nop insn. The main thing was
-> > removing overhead from all other (not noinstr) cases, I would assume
-> > the noinstr cases where we use nops are very rare. I mean don't spend
-> > too much time on it, if it's not needed for something else.
-> >
-> > Thanks again!
->
-> This is great, thanks! To make noinstr not call into KCOV, this
-> definitely seems to do the job.
->
-> Though sadly it doesn't fix the problem I'm seeing. The problem occurs
-> when I compile using Clang, and enable either KASAN or KCSAN together
-> with KCOV. Actually, turning off KCOV also shows this... a stacktrace is
-> below.
+Hi Jon,
 
-I can't reproduce this after tuning off KCOV. Just KASAN works for me.
-Also the following helps (at least for my config):
+That's a bunch of files I have to be applied on the top of v5.8-rc1 fixing
+documentation warnings. I already removed some duplicated stuff.
 
-diff --git a/lib/Makefile b/lib/Makefile
-index b1c42c10073b9..8514519bc5bcb 100644
---- a/lib/Makefile
-+++ b/lib/Makefile
-@@ -17,6 +17,7 @@ KCOV_INSTRUMENT_list_debug.o := n
- KCOV_INSTRUMENT_debugobjects.o := n
- KCOV_INSTRUMENT_dynamic_debug.o := n
- KCOV_INSTRUMENT_fault-inject.o := n
-+KCOV_INSTRUMENT_smp_processor_id.o := n
+Regards,
+Mauro
 
+Mauro Carvalho Chehab (29):
+  mm: vmalloc.c: remove a kernel-doc annotation from a removed parameter
+  net: dev: add a missing kernel-doc annotation
+  net: netdevice.h: add a description for napi_defer_hard_irqs
+  scripts/kernel-doc: parse __ETHTOOL_DECLARE_LINK_MODE_MASK
+  net: pylink.h: add kernel-doc descriptions for new fields at
+    phylink_config
+  scripts/kernel-doc: handle function pointer prototypes
+  fs: fs.h: fix a kernel-doc parameter description
+  gpio: driver.h: fix kernel-doc markup
+  kcsan: fix a kernel-doc warning
+  rcu: fix some kernel-doc warnings
+  fs: docs: f2fs.rst: fix a broken table
+  dt: update a reference for reneases pcar file renamed to yaml
+  dt: fix broken links due to txt->yaml renames
+  dt: Fix broken references to renamed docs
+  dt: fix reference to olpc,xo1.75-ec.txt
+  selftests/vm/keys: fix a broken reference at protection_keys.c
+  docs: hugetlbpage.rst: fix some warnings
+  docs: powerpc: fix some issues at vas-api.rst
+  docs: driver-model: remove a duplicated markup at driver.rst
+  docs: watch_queue.rst: supress some Sphinx warnings and move to
+    core-api
+  docs: device-mapper: add dm-ebs.rst to an index file
+  docs: it_IT: add two missing references
+  docs: ABI: fix a typo when pointing to w1-generic.rst
+  docs: fs: locking.rst: fix a broken table
+  docs: add bus-virt-phys-mapping.txt to core-api
+  docs: fix references for DMA*.txt files
+  docs: dt: minor adjustments at writing-schema.rst
+  docs: fs: proc.rst: fix a warning due to a merge conflict
+  docs: fs: proc.rst: convert a new chapter to ReST
 
-Btw, do you use inline instrumentation for KASAN or outline?
-I use inline KASAN, so maybe it's a function call that's the problem.
-KCOV uses calls and KCSAN also uses calls.
+ .../ABI/testing/sysfs-driver-w1_therm         |   2 +-
+ Documentation/PCI/pci.rst                     |   6 +-
+ .../admin-guide/device-mapper/index.rst       |   1 +
+ Documentation/admin-guide/mm/hugetlbpage.rst  |  25 ++-
+ Documentation/block/biodoc.rst                |   2 +-
+ .../bus-virt-phys-mapping.rst}                |   2 +-
+ Documentation/core-api/dma-api.rst            |   6 +-
+ Documentation/core-api/dma-isa-lpc.rst        |   2 +-
+ Documentation/core-api/index.rst              |   2 +
+ Documentation/{ => core-api}/watch_queue.rst  |  34 ++--
+ .../bindings/arm/freescale/fsl,scu.txt        |   2 +-
+ .../bindings/display/bridge/sii902x.txt       |   2 +-
+ .../bindings/display/imx/fsl-imx-drm.txt      |   4 +-
+ .../devicetree/bindings/display/imx/ldb.txt   |   4 +-
+ .../display/rockchip/rockchip-drm.yaml        |   2 +-
+ .../bindings/misc/olpc,xo1.75-ec.txt          |   2 +-
+ .../bindings/net/mediatek-bluetooth.txt       |   2 +-
+ .../bindings/pinctrl/renesas,pfc-pinctrl.txt  |   2 +-
+ .../bindings/sound/audio-graph-card.txt       |   2 +-
+ .../bindings/sound/st,sti-asoc-card.txt       |   2 +-
+ .../bindings/spi/qcom,spi-geni-qcom.txt       |   2 +-
+ Documentation/devicetree/writing-schema.rst   |   9 +-
+ .../driver-api/driver-model/driver.rst        |   2 -
+ Documentation/driver-api/usb/dma.rst          |   6 +-
+ Documentation/filesystems/f2fs.rst            | 150 ++++++++++++------
+ Documentation/filesystems/locking.rst         |   6 +-
+ Documentation/filesystems/proc.rst            |  46 +++---
+ Documentation/memory-barriers.txt             |   6 +-
+ Documentation/mips/ingenic-tcu.rst            |   2 +-
+ Documentation/powerpc/vas-api.rst             |  23 ++-
+ Documentation/security/keys/core.rst          |   2 +-
+ .../it_IT/process/management-style.rst        |   2 +
+ .../it_IT/process/submitting-patches.rst      |   2 +
+ .../translations/ko_KR/memory-barriers.txt    |   6 +-
+ MAINTAINERS                                   |   8 +-
+ arch/ia64/hp/common/sba_iommu.c               |  12 +-
+ arch/parisc/kernel/pci-dma.c                  |   2 +-
+ arch/x86/include/asm/dma-mapping.h            |   4 +-
+ arch/x86/kernel/amd_gart_64.c                 |   2 +-
+ drivers/parisc/sba_iommu.c                    |  14 +-
+ include/linux/dma-mapping.h                   |   2 +-
+ include/linux/fs.h                            |   2 +-
+ include/linux/gpio/driver.h                   |   2 +-
+ include/linux/kcsan-checks.h                  |  10 +-
+ include/linux/netdevice.h                     |   2 +
+ include/linux/phylink.h                       |   4 +
+ include/linux/rculist.h                       |   2 +-
+ include/linux/watch_queue.h                   |   2 +-
+ include/media/videobuf-dma-sg.h               |   2 +-
+ init/Kconfig                                  |   2 +-
+ kernel/dma/debug.c                            |   2 +-
+ kernel/watch_queue.c                          |   2 +-
+ mm/vmalloc.c                                  |   1 -
+ net/core/dev.c                                |   1 +
+ scripts/kernel-doc                            |   7 +
+ tools/testing/selftests/vm/protection_keys.c  |   2 +-
+ 56 files changed, 282 insertions(+), 175 deletions(-)
+ rename Documentation/{bus-virt-phys-mapping.txt => core-api/bus-virt-phys-mapping.rst} (99%)
+ rename Documentation/{ => core-api}/watch_queue.rst (94%)
 
-And it's not that we are getting that "BUG:", right? Otherwise we
-would see it in non-KCOV builds as well. So it must be something in
-the very beginning of the function...
+-- 
+2.26.2
 
-
-
-
-> The repro is this one: https://syzkaller.appspot.com/x/repro.c?x=1017ef06100000
->
-> I don't quite understand what's going on here. Maybe the inserted
-> instrumentation causes the compiler to spill more things onto the stack
-> and somehow blow that? The nops obviously won't help with that. :-/
->
-> I'll try to debug and understand this some more. Also this is of course
-> on top of:
-> https://lore.kernel.org/lkml/20200604102241.466509982@infradead.org/
->
-> But, again, for disabling KCOV instrumentation in noinstr, I believe
-> your patch does what we want. In future, when we get compiler support
-> for __no_sanitize_coverage, the logic you're adding to objtool can
-> probably stay but shouldn't be invoked if the compiler is doing its job.
->
-> Thanks,
-> -- Marco
->
-> ------ >8 ------
->
-> traps: PANIC: double fault, error_code: 0x0
-> double fault: 0000 [#1] PREEMPT SMP PTI
-> CPU: 3 PID: 513 Comm: a.out Not tainted 5.7.0+ #1
-> Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.13.0-1 04/01/2014
-> RIP: 0010:native_save_fl arch/x86/include/asm/irqflags.h:29 [inline]
-> RIP: 0010:arch_local_save_flags arch/x86/include/asm/irqflags.h:79 [inline]
-> RIP: 0010:check_preemption_disabled+0x60/0x120 lib/smp_processor_id.c:19
-> Code: 7f 74 27 90 90 90 90 90 65 48 8b 04 25 28 00 00 00 48 3b 44 24 08 0f 85 c6 00 00 00 89 d8 48 83 c4 10 5b 41 5c 41 5e 41 5f c3 <9c> 8f 04 24 f7 04 24 00 02 00 00 75 07 90 90 90 90 90 eb ca 65 4c
-> RSP: 0018:fffffe0000094ff8 EFLAGS: 00010046
-> RAX: 0000000080000000 RBX: 0000000000000003 RCX: ffffffffacc00ef7
-> RDX: 0000000000000000 RSI: ffffffffad29c4f2 RDI: ffffffffad21fe08
-> RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
-> R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
-> R13: 0000000000000000 R14: ffffffffad29c4f2 R15: ffffffffad21fe08
-> FS:  0000000001d26880(0000) GS:ffffa16e5fcc0000(0000) knlGS:0000000000000000
-> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> CR2: fffffe0000094fe8 CR3: 00000008147bc002 CR4: 0000000000760ee0
-> DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-> DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-> PKRU: 55555554
-> Call Trace:
->  <ENTRY_TRAMPOLINE>
->  __this_cpu_preempt_check+0x18/0x1a lib/smp_processor_id.c:65
->  fixup_bad_iret+0x2e/0xe0 arch/x86/kernel/traps.c:678
->  error_entry+0xd5/0xe0 arch/x86/entry/entry_64.S:937
-> RIP: 0010:native_irq_return_iret+0x0/0x2
-> Code: 5d 41 5c 5d 5b 41 5b 41 5a 41 59 41 58 58 59 5a 5e 5f 48 83 c4 08 eb 0b 66 66 2e 0f 1f 84 00 00 00 00 00 f6 44 24 20 04 75 02 <48> cf 57 0f 01 f8 66 90 0f 20 df 48 0f ba ef 3f 48 81 e7 ff e7 ff
-> RSP: 0018:fffffe00000951d8 EFLAGS: 00010046 ORIG_RAX: 0000000000000000
-> RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000000
-> RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000020000100
-> RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
-> R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
-> R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
-> RIP: 0033:0x3bfd19e0df38d197
-> Code: Bad RIP value.
-> RSP: 002b:00007ffd10c4c948 EFLAGS: 00000313 </ENTRY_TRAMPOLINE>
-> Modules linked in:
-> ---[ end trace df1b33281490ebc3 ]---
-> RIP: 0010:native_save_fl arch/x86/include/asm/irqflags.h:29 [inline]
-> RIP: 0010:arch_local_save_flags arch/x86/include/asm/irqflags.h:79 [inline]
-> RIP: 0010:check_preemption_disabled+0x60/0x120 lib/smp_processor_id.c:19
-> Code: 7f 74 27 90 90 90 90 90 65 48 8b 04 25 28 00 00 00 48 3b 44 24 08 0f 85 c6 00 00 00 89 d8 48 83 c4 10 5b 41 5c 41 5e 41 5f c3 <9c> 8f 04 24 f7 04 24 00 02 00 00 75 07 90 90 90 90 90 eb ca 65 4c
-> RSP: 0018:fffffe0000094ff8 EFLAGS: 00010046
-> RAX: 0000000080000000 RBX: 0000000000000003 RCX: ffffffffacc00ef7
-> RDX: 0000000000000000 RSI: ffffffffad29c4f2 RDI: ffffffffad21fe08
-> RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
-> R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
-> R13: 0000000000000000 R14: ffffffffad29c4f2 R15: ffffffffad21fe08
-> FS:  0000000001d26880(0000) GS:ffffa16e5fcc0000(0000) knlGS:0000000000000000
-> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> CR2: fffffe0000094fe8 CR3: 00000008147bc002 CR4: 0000000000760ee0
-> DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-> DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-> PKRU: 55555554
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BbBtCbEk2tg60gn5bgfBjARQFBgtqkQg8VnLLg5JwyL5g%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/cover.1592203542.git.mchehab%2Bhuawei%40kernel.org.
