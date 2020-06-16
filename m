@@ -1,151 +1,175 @@
-Return-Path: <kasan-dev+bncBC4LN7MPQ4HRBRGTUH3QKGQEUUH4J5Q@googlegroups.com>
+Return-Path: <kasan-dev+bncBDIZTUWNWICRBEEZUL3QKGQEZY5RL3A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x137.google.com (mail-lf1-x137.google.com [IPv6:2a00:1450:4864:20::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id E46A41FA8E7
-	for <lists+kasan-dev@lfdr.de>; Tue, 16 Jun 2020 08:42:12 +0200 (CEST)
-Received: by mail-lf1-x137.google.com with SMTP id y23sf5945998lfy.0
-        for <lists+kasan-dev@lfdr.de>; Mon, 15 Jun 2020 23:42:12 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1592289732; cv=pass;
+Received: from mail-il1-x13e.google.com (mail-il1-x13e.google.com [IPv6:2607:f8b0:4864:20::13e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B9D51FABF2
+	for <lists+kasan-dev@lfdr.de>; Tue, 16 Jun 2020 11:10:41 +0200 (CEST)
+Received: by mail-il1-x13e.google.com with SMTP id t69sf10618427ilk.13
+        for <lists+kasan-dev@lfdr.de>; Tue, 16 Jun 2020 02:10:41 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1592298640; cv=pass;
         d=google.com; s=arc-20160816;
-        b=lonAEpHZa/DZnMa54844oKfVctbEwb/5b1sREFP3KcOj+V+CktKCVfjtcZBkdPS1+S
-         ILTmCTiTlFddn3BResd299dB5vyaruKROpAJW0Wh/Hg8jARGQq6tCKfFjELZi4Qlruem
-         trilS0bI7agr1HtzJ+EBFfl8OtkFbp3O+wtx4D8ZpU4pMFkHp8K/9ig+SPH/eFaK+O9C
-         zhLqk3mnuDrT+uYaK4eT1SPazTB/WTp+rObLyerfraBLZIw9t3yRbij6yBBOho5E9A0j
-         /ZtbLBIWUxi5GC74HQjESsqM5J2u7j21fVg68j/Xn+cwvsCukFJicymEMdXJjs3t/+5T
-         OAuA==
+        b=QyqMbtPu83UDGPZUqhKzQhvAPHYdjbKotHa/S4qJiviglJVkTtoVAb1ruInuY7EPYw
+         AJegQpIB28bVm645w1lshLBnS/JByHkuFjDg2Q9jztKO8WQSEet/dd9ur20TIqtrsWLM
+         sE09vr0Xjzx3FVIR21JsXOwueZQI4D9XBYluOKp0LI3dPMiMs+axvv4NVeyCd4UGjX1d
+         JIPYBVsIBFAXs2x6MuK1x/A3WLL1uI9bHWUN5U3Eif4gQdr4UWXEbl1cco2DKr5EIIg6
+         Q76Xd/Ay3z0v4oxwazpoJw/YwLzVWXdDSH8uVbgteNsQ5vJ0yvLI4oSsHhKy1qA3x9gl
+         XXJg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=mtwSF8jtPb24v7MKLWRPztSQbuwK8xXp1EXJTcr7YbE=;
-        b=ZJvGkPRVwOXx9P/UZEZywfpuzbQltmyyCfdtrW6/DHfhWAVOqjxS3TnVFJkvSh5CLl
-         kz5zdnvl6pOmSCVgT1N4TuUYZ5JoptK5wUGeDNuVLx/E4nCe3jOwGhOFsBjmAgQaPtLg
-         kB340sBkiXSPczIhxEIWqNwPgEqCeyA08bEm6d3CXJIFmJO7gExhBXhzHWckLeJG9xK/
-         nNMi5kHjUtt2LW/iB6hCzr86KpGE+c3yqoXN1y2R9QwVpUygH7TG1+EGVEAyIqZG5xXX
-         XnU8idQtS3l8DBDe9JIaw//SIZTW3aRVfdkCFSZMiW9aYDPWYq9wy4oAVD9c1PHxguXt
-         wGeQ==
+         :list-id:mailing-list:precedence:user-agent:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:sender:dkim-signature;
+        bh=UZROBc5jyQ+USryjsKmbLegkyu1wcJF86u7Oaw2wfq4=;
+        b=ABWTVSvgaSQAB4uorr2tEVxTVCCX87xNXUq16Skg2T2JHKiw2PyV7Zlf9JuswHp44h
+         5XpHMxjTR5Ae4dorI64T9rfZ1wdHnAMZi/ER01R4F571TomO8LjT5lUDcWSuLuzSlLJw
+         OqnemgyqTXgccPR7H+afTKY8XG0gtumPf9NcAF/BfGqpXiK6h3szWaPdn89rCSNwztFU
+         lFIzPhPsyTqdzLMoVxYWRHGKBofSiMb5UHrhpHlELXWcxcSHy2Kahnv7DrBJke9PZmFX
+         J2f5o8m6QxcxQHM79pxyF4yi9u8pm2WwgXMDPE6P9RiGCm/ZCLVLux/JtiqEBRhv5Hpx
+         qsrg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of mstsxfx@gmail.com designates 209.85.218.65 as permitted sender) smtp.mailfrom=mstsxfx@gmail.com;
-       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       dkim=pass header.i=@oracle.com header.s=corp-2020-01-29 header.b=cVx0KE5h;
+       spf=pass (google.com: domain of dan.carpenter@oracle.com designates 156.151.31.85 as permitted sender) smtp.mailfrom=dan.carpenter@oracle.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=oracle.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
         h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:x-original-sender
+         :content-disposition:in-reply-to:user-agent:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=mtwSF8jtPb24v7MKLWRPztSQbuwK8xXp1EXJTcr7YbE=;
-        b=CVCHHizGjK9jZ1+bd/rEyfRrBWgbBPOEGkRaHrhGrmn7Cbo4ViqedzNx194aLXfkAK
-         cCn3aLq7Y51hlx2t5qJFiTQ2Q95oj8A9hpOHlhviSiT5ToHSj4k81hnvW84GDMV5LUkL
-         zLWwkXWJAXjsIUgOg/y2agbd4W8SVg+AP8Iezm+d66oeq1CjCwJqzCsWlWT4541PxGAf
-         zaf4Qxs64iXAmPrTq1aLLI9MrNsjWBFXNwnz9GmB7g4pR0kmIjcVXxF2KPKLX6WAYXSS
-         TXnzA4CdSCB0SiipJPSGUg7KAGT/06SNziSWj0LrjZHO954S3+C9+vj3ew3FStlyE/E2
-         P0AQ==
+        bh=UZROBc5jyQ+USryjsKmbLegkyu1wcJF86u7Oaw2wfq4=;
+        b=IY4EjOmVt/gG1YxblVBCaGfDNkn4d1DP748HrZDIsM/DfcKjF0zaN51E+6qilZyos8
+         1r3Vw392fRiyvamDdThXjMkdRt7u7SdPrRsNxGinb8TFr4Kg0OljBeZ8bHbqmhe5KLNn
+         IHJgMzWO8DHz+gVFt+xeTAjHcQDzAgMp56+1EU2gzgee4qt+UAAKyOZMlOBiKB9O6k5z
+         Lot0m06oh9MhCExyubsDyCAprya+XEL4Xfk0r1H2T3cLYXqVG0sMcEs+DyalLWJvkb3u
+         urKg9njRW37LOGJGWJO2xqDTWWVVTDLbbsPFL7r5EkmR8ekLpNJbG2XHijr7KNb9Oiem
+         eRQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to
+         :references:mime-version:content-disposition:in-reply-to:user-agent
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=mtwSF8jtPb24v7MKLWRPztSQbuwK8xXp1EXJTcr7YbE=;
-        b=pFuDeXr6lkEjco/PYUkqnmt8DPaMyLAUQJT9e8VeNvYV8WxG9XdY+8vacxSCwK6liT
-         XO9LanepFPj5Z2hz43cBYB/uovf8kyXm/0hJrQ7oVDljW6yOuW/KOSR6W1zG3PO1tPlO
-         FEU7d5KQ0fae544lvlFKSBPV5r1DY6WF9c+WMq1Ta7mQJANpFaqISCCMElql0uziahnd
-         VI8Dmoth1rG7zJ+027TXUtVR48lhzsa5nmvH5hkhNQzjLcE+iRgez2vIdtZDRl2fJVmS
-         KdaUIxCGgR9rvzeaDxk1d9Cy94WGAXeAB7U8XzNOqNri2ofleT+Zdpz4ofTg/1xfXWnq
-         hbHw==
+        bh=UZROBc5jyQ+USryjsKmbLegkyu1wcJF86u7Oaw2wfq4=;
+        b=gtMG21DrIrHtudjKUdWXUOmVvkWpAVWDKPjAoQz1nCB5BTQzUUp9dGhj50FvmAOI4Z
+         CyWKvpX8WCY4SNYLTYvbJQc4ZuAia2iUmXhUVbxMQQmotguYRzvHtp9F8KdIFLgi/qWb
+         R6Qgv/bUKQPdPgss2Q5PJzNLEkLvoXgfAF/xK78s/9C4b9w8iZ4aUywpR613YJQQk8OO
+         PN5ilj2WJ0SsFrPSZyzV6+yLOsdbDaFuMYItrcTgaDhA6FSqbW+Cfp5sryLG/chmBv69
+         6192cHm70D7aKhjFzrRzXdH91sbyAw7jkBFiQlfICNWZSh/vi9kbQ+Ah+77OBPgGyZpd
+         3C/Q==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM530ghApDjH79dTo7ro1mXF+Ec2zRAOOG3zNE+TGd/xOBUORzOA3J
-	ePjxR7TMvF1Urep0Wixlj9I=
-X-Google-Smtp-Source: ABdhPJyQHNKSpi43WOATgNguhHKQQdnLDnbNbQFk3r8aQaX0P5qklgVxKuU5VSx2X9UsR+4+EEJGqQ==
-X-Received: by 2002:a2e:8002:: with SMTP id j2mr665081ljg.158.1592289732397;
-        Mon, 15 Jun 2020 23:42:12 -0700 (PDT)
+X-Gm-Message-State: AOAM530x8U7stKT65kKkunPo37QceX/u/BTVGeasFnG+zVgVNrx5uMs4
+	IC9djSxdKk9ngrCe5ySURuY=
+X-Google-Smtp-Source: ABdhPJycax2TJWrCO50N5POGrN25U4dLz/gvR1ndYShdDZ09qZKXY/EXZdlIOcATD1oVAc/vujNRIQ==
+X-Received: by 2002:a05:6602:2817:: with SMTP id d23mr1608094ioe.206.1592298640466;
+        Tue, 16 Jun 2020 02:10:40 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a2e:3a02:: with SMTP id h2ls3112557lja.6.gmail; Mon, 15 Jun
- 2020 23:42:11 -0700 (PDT)
-X-Received: by 2002:a2e:8953:: with SMTP id b19mr694666ljk.187.1592289731721;
-        Mon, 15 Jun 2020 23:42:11 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1592289731; cv=none;
+Received: by 2002:a6b:e216:: with SMTP id z22ls3131170ioc.5.gmail; Tue, 16 Jun
+ 2020 02:10:40 -0700 (PDT)
+X-Received: by 2002:a6b:91d4:: with SMTP id t203mr1576443iod.149.1592298640189;
+        Tue, 16 Jun 2020 02:10:40 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1592298640; cv=none;
         d=google.com; s=arc-20160816;
-        b=yaMah8VDq7p4XdKzoLfpQo+4xS6xf3yc36CJPkCLfvB0Lmzmx4Fhb+nH3y/ztZsdlC
-         NHE4PudJqYfDyht91maz1ToIBdGiFC/bKKwzTYOt064XAOAk60Va+gvwvSCzOJlhsGaz
-         k1aEUZWXlwnDYVWRjPoH1WrdbqOyUXGHmlgR5DcboXdeDNvzoIZ3fWgeY08zo2kP2rKG
-         CrfkNyYPXQ7umoyL3plwr848lrCmOwMnFltXnxZnGaI3EAiSvNd8bTOAv3OLaqdW0vnc
-         mGKeTA346x2eg6zZUumoMBq6w4LDCOzRFaNHvA9g6eT7I2kqpoNNsWCj4MUM7A7xWzAQ
-         zc3Q==
+        b=tsXqIY4Rx3rvwNOSMYNurQXUNaWJP6zlze8zUIPram9iJNkz6RApIuQ66PFpYTuVq8
+         5Q/aqEXl9h1LjeqpoIkXcplRAEEJmfgLX4n4C/Fzy1eoL0qYalpnuTm5sJfLazgWD2vT
+         mfELWvtUnEFSdyvxtRnCsXbLclKVVEJb4+dwS4axdOj3bi3Bvs772ldFlFIWcQ2UfSEL
+         CFODUY4XGMzyxxfYkCw83fibT9tot6tLk0BiBCPf4zrQLw/LQxF2mO0UtErjQZs4XApo
+         ir/JCSrVCW1WYrIbFTB/EMt90+7ah/Na6QSOFTYv52w58bNKPTT4Yti7AIKEAS/lNHms
+         qzkg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date;
-        bh=8yT+7Ta/B3BUGUR35Fz/0p22bghMwTUAxgTnwepounI=;
-        b=sQzEsHesYcY/fjIRT5/C3Umvj98OTPh2dzI0Sutsy3nwshH5pjcF1jAHYmYRNVcMkA
-         vJLRj3DrwrSu0zYOswwOnrnTyTKA2lzJypdzGhoTUejft0zEhjbCCQ9jlA3Ru8e+JzHk
-         YL06m64EvQ2srvuoTXoOQV2beqEPYyk0oUfSIvCtY1qQFXLZucZSAFHajiNhsNcFYBAy
-         j6frVbOhaUHxFeNq/fVfNuLnAgEOWDIDHTHa0kZMJWvvlkwtvYXe4SAtlynjX3vqMQjc
-         MEnFmYt8kMm2uMQ2Q1Iy8xeXJ/MqfVndG8BzPXAdKLHeFWHfUUkb5ybAyrVLiPdlWCzb
-         Tjxw==
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:dkim-signature;
+        bh=vHFhOuRLkm8vQDg8Dof4S5HKAiKznh8tBQ+Mr1OID/Q=;
+        b=LXQvqsJ2blgoBtYDeALEcfZdswxKO8/qY6zkN3G782DD+AymcR8u3sLqVTczthjcjS
+         9WJr/MFXu0kUOMe8ihyi2olAU6gjPlCqwtgveeQUZD1LnOxhi6w40F5SbehbwKq3cDmk
+         KNVdemF8Cws21qbTZ0Vqp/a+GwaO9sx6ZtsV5TkUCpYGUtO2k1w+MQ+wlvmb6F6U75eK
+         mijJGe7sdsOb5r7/v4rqshVTJRVSJsctUfQrQ4CNCj7M2qHTBCGHwDoKrAV4egpw4q+U
+         ioxeIGLGhM7Jg2uYvk6tfJsbz45zBzSz2eTIACJOFNHhs3exws30D9qOj0sG567oWUzy
+         q8jQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of mstsxfx@gmail.com designates 209.85.218.65 as permitted sender) smtp.mailfrom=mstsxfx@gmail.com;
-       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com. [209.85.218.65])
-        by gmr-mx.google.com with ESMTPS id a15si256094lfb.3.2020.06.15.23.42.11
+       dkim=pass header.i=@oracle.com header.s=corp-2020-01-29 header.b=cVx0KE5h;
+       spf=pass (google.com: domain of dan.carpenter@oracle.com designates 156.151.31.85 as permitted sender) smtp.mailfrom=dan.carpenter@oracle.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=oracle.com
+Received: from userp2120.oracle.com (userp2120.oracle.com. [156.151.31.85])
+        by gmr-mx.google.com with ESMTPS id k1si1067756ilr.0.2020.06.16.02.10.40
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 15 Jun 2020 23:42:11 -0700 (PDT)
-Received-SPF: pass (google.com: domain of mstsxfx@gmail.com designates 209.85.218.65 as permitted sender) client-ip=209.85.218.65;
-Received: by mail-ej1-f65.google.com with SMTP id w16so19715274ejj.5
-        for <kasan-dev@googlegroups.com>; Mon, 15 Jun 2020 23:42:11 -0700 (PDT)
-X-Received: by 2002:a17:906:ce2f:: with SMTP id sd15mr1306745ejb.445.1592289731375;
-        Mon, 15 Jun 2020 23:42:11 -0700 (PDT)
-Received: from localhost (ip-37-188-174-201.eurotel.cz. [37.188.174.201])
-        by smtp.gmail.com with ESMTPSA id j10sm9734428edf.97.2020.06.15.23.42.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Jun 2020 23:42:10 -0700 (PDT)
-Date: Tue, 16 Jun 2020 08:42:08 +0200
-From: Michal Hocko <mhocko@kernel.org>
-To: Waiman Long <longman@redhat.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	David Howells <dhowells@redhat.com>,
-	Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
-	James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Joe Perches <joe@perches.com>, Matthew Wilcox <willy@infradead.org>,
-	David Rientjes <rientjes@google.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Dan Carpenter <dan.carpenter@oracle.com>,
-	David Sterba <dsterba@suse.cz>,
-	"Jason A . Donenfeld" <Jason@zx2c4.com>, linux-mm@kvack.org,
-	keyrings@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-crypto@vger.kernel.org, linux-pm@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-amlogic@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
-	virtualization@lists.linux-foundation.org, netdev@vger.kernel.org,
-	linux-ppp@vger.kernel.org, wireguard@lists.zx2c4.com,
-	linux-wireless@vger.kernel.org, devel@driverdev.osuosl.org,
-	linux-scsi@vger.kernel.org, target-devel@vger.kernel.org,
-	linux-btrfs@vger.kernel.org, linux-cifs@vger.kernel.org,
-	linux-fscrypt@vger.kernel.org, ecryptfs@vger.kernel.org,
-	kasan-dev@googlegroups.com, linux-bluetooth@vger.kernel.org,
-	linux-wpan@vger.kernel.org, linux-sctp@vger.kernel.org,
-	linux-nfs@vger.kernel.org, tipc-discussion@lists.sourceforge.net,
-	linux-security-module@vger.kernel.org,
-	linux-integrity@vger.kernel.org, stable@vger.kernel.org
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 16 Jun 2020 02:10:40 -0700 (PDT)
+Received-SPF: pass (google.com: domain of dan.carpenter@oracle.com designates 156.151.31.85 as permitted sender) client-ip=156.151.31.85;
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+	by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 05G93Vcj108652;
+	Tue, 16 Jun 2020 09:10:36 GMT
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+	by userp2120.oracle.com with ESMTP id 31p6e5wptp-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Tue, 16 Jun 2020 09:10:36 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+	by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 05G933ih037660;
+	Tue, 16 Jun 2020 09:08:35 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+	by aserp3030.oracle.com with ESMTP id 31p6s6w4s2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 16 Jun 2020 09:08:35 +0000
+Received: from abhmp0019.oracle.com (abhmp0019.oracle.com [141.146.116.25])
+	by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 05G98O1L002227;
+	Tue, 16 Jun 2020 09:08:25 GMT
+Received: from kadam (/41.57.98.10)
+	by default (Oracle Beehive Gateway v4.0)
+	with ESMTP ; Tue, 16 Jun 2020 02:08:24 -0700
+Date: Tue, 16 Jun 2020 12:08:07 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Michal Hocko <mhocko@kernel.org>
+Cc: Waiman Long <longman@redhat.com>, "Jason A . Donenfeld" <Jason@zx2c4.com>,
+        linux-btrfs@vger.kernel.org,
+        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
+        David Sterba <dsterba@suse.cz>, David Howells <dhowells@redhat.com>,
+        linux-mm@kvack.org, linux-sctp@vger.kernel.org,
+        keyrings@vger.kernel.org, kasan-dev@googlegroups.com,
+        linux-stm32@st-md-mailman.stormreply.com, devel@driverdev.osuosl.org,
+        linux-cifs@vger.kernel.org, linux-scsi@vger.kernel.org,
+        James Morris <jmorris@namei.org>, Matthew Wilcox <willy@infradead.org>,
+        linux-wpan@vger.kernel.org, David Rientjes <rientjes@google.com>,
+        linux-pm@vger.kernel.org, ecryptfs@vger.kernel.org,
+        linux-fscrypt@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        linux-amlogic@lists.infradead.org,
+        virtualization@lists.linux-foundation.org,
+        linux-integrity@vger.kernel.org, linux-nfs@vger.kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
+        stable@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+        linux-security-module@vger.kernel.org, target-devel@vger.kernel.org,
+        tipc-discussion@lists.sourceforge.net, linux-crypto@vger.kernel.org,
+        Johannes Weiner <hannes@cmpxchg.org>, Joe Perches <joe@perches.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
+        wireguard@lists.zx2c4.com, linux-ppp@vger.kernel.org
 Subject: Re: [PATCH v4 1/3] mm/slab: Use memzero_explicit() in kzfree()
-Message-ID: <20200616064208.GA9499@dhcp22.suse.cz>
+Message-ID: <20200616090807.GK4151@kadam>
 References: <20200616015718.7812-1-longman@redhat.com>
  <20200616015718.7812-2-longman@redhat.com>
+ <20200616064208.GA9499@dhcp22.suse.cz>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <20200616015718.7812-2-longman@redhat.com>
-X-Original-Sender: mhocko@kernel.org
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of mstsxfx@gmail.com designates 209.85.218.65 as
- permitted sender) smtp.mailfrom=mstsxfx@gmail.com;       dmarc=fail (p=NONE
- sp=NONE dis=NONE) header.from=kernel.org
+In-Reply-To: <20200616064208.GA9499@dhcp22.suse.cz>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9653 signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 malwarescore=0 mlxscore=0
+ suspectscore=0 mlxlogscore=781 phishscore=0 bulkscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2004280000
+ definitions=main-2006160066
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9653 signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 adultscore=0
+ mlxscore=0 phishscore=0 mlxlogscore=814 lowpriorityscore=0 clxscore=1011
+ suspectscore=0 spamscore=0 bulkscore=0 malwarescore=0 impostorscore=0
+ cotscore=-2147483648 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2004280000 definitions=main-2006160066
+X-Original-Sender: dan.carpenter@oracle.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@oracle.com header.s=corp-2020-01-29 header.b=cVx0KE5h;
+       spf=pass (google.com: domain of dan.carpenter@oracle.com designates
+ 156.151.31.85 as permitted sender) smtp.mailfrom=dan.carpenter@oracle.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=oracle.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -158,50 +182,32 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon 15-06-20 21:57:16, Waiman Long wrote:
-> The kzfree() function is normally used to clear some sensitive
-> information, like encryption keys, in the buffer before freeing it back
-> to the pool. Memset() is currently used for the buffer clearing. However,
-> it is entirely possible that the compiler may choose to optimize away the
-> memory clearing especially if LTO is being used. To make sure that this
-> optimization will not happen, memzero_explicit(), which is introduced
-> in v3.18, is now used in kzfree() to do the clearing.
+On Tue, Jun 16, 2020 at 08:42:08AM +0200, Michal Hocko wrote:
+> On Mon 15-06-20 21:57:16, Waiman Long wrote:
+> > The kzfree() function is normally used to clear some sensitive
+> > information, like encryption keys, in the buffer before freeing it back
+> > to the pool. Memset() is currently used for the buffer clearing. However,
+> > it is entirely possible that the compiler may choose to optimize away the
+> > memory clearing especially if LTO is being used. To make sure that this
+> > optimization will not happen, memzero_explicit(), which is introduced
+> > in v3.18, is now used in kzfree() to do the clearing.
+> > 
+> > Fixes: 3ef0e5ba4673 ("slab: introduce kzfree()")
+> > Cc: stable@vger.kernel.org
+> > Signed-off-by: Waiman Long <longman@redhat.com>
 > 
-> Fixes: 3ef0e5ba4673 ("slab: introduce kzfree()")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Waiman Long <longman@redhat.com>
-
-Acked-by: Michal Hocko <mhocko@suse.com>
-
-Although I am not really sure this is a stable material. Is there any
-known instance where the memset was optimized out from kzfree?
-
-> ---
->  mm/slab_common.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Acked-by: Michal Hocko <mhocko@suse.com>
 > 
-> diff --git a/mm/slab_common.c b/mm/slab_common.c
-> index 9e72ba224175..37d48a56431d 100644
-> --- a/mm/slab_common.c
-> +++ b/mm/slab_common.c
-> @@ -1726,7 +1726,7 @@ void kzfree(const void *p)
->  	if (unlikely(ZERO_OR_NULL_PTR(mem)))
->  		return;
->  	ks = ksize(mem);
-> -	memset(mem, 0, ks);
-> +	memzero_explicit(mem, ks);
->  	kfree(mem);
->  }
->  EXPORT_SYMBOL(kzfree);
-> -- 
-> 2.18.1
-> 
+> Although I am not really sure this is a stable material. Is there any
+> known instance where the memset was optimized out from kzfree?
 
--- 
-Michal Hocko
-SUSE Labs
+I told him to add the stable.  Otherwise it will just get reported to
+me again.  It's a just safer to backport it before we forget.
+
+regards,
+dan carpenter
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200616064208.GA9499%40dhcp22.suse.cz.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200616090807.GK4151%40kadam.
