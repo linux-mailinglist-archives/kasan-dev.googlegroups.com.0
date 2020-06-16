@@ -1,174 +1,181 @@
-Return-Path: <kasan-dev+bncBDIZTUWNWICRBNVNUP3QKGQEFVRBASA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCIJL6NQQ4CRBMVXUP3QKGQEL4EVBJQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qv1-xf37.google.com (mail-qv1-xf37.google.com [IPv6:2607:f8b0:4864:20::f37])
-	by mail.lfdr.de (Postfix) with ESMTPS id 138BA1FB442
-	for <lists+kasan-dev@lfdr.de>; Tue, 16 Jun 2020 16:27:04 +0200 (CEST)
-Received: by mail-qv1-xf37.google.com with SMTP id 59sf15707614qvb.4
-        for <lists+kasan-dev@lfdr.de>; Tue, 16 Jun 2020 07:27:04 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1592317623; cv=pass;
+Received: from mail-lf1-x13b.google.com (mail-lf1-x13b.google.com [IPv6:2a00:1450:4864:20::13b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 370E01FB4DB
+	for <lists+kasan-dev@lfdr.de>; Tue, 16 Jun 2020 16:48:19 +0200 (CEST)
+Received: by mail-lf1-x13b.google.com with SMTP id y133sf213080lff.20
+        for <lists+kasan-dev@lfdr.de>; Tue, 16 Jun 2020 07:48:19 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1592318898; cv=pass;
         d=google.com; s=arc-20160816;
-        b=yvbFfmkiJ8aSKlF0cIy6J95BYS/n4HkZDtWmVAh049e1MMqTjErkX0t1EEqXFjh1jI
-         hC8237LrOKn+UpcXAQsi8VhDsD5f8ORgZsBJCz7Guaz+kj+aKm1uhUsklHN7LRsJmmJW
-         kr9/ZD19xayqKvAnkDL+BVhyiXgdP/j9SuNxw2ZWphmrtMJ2Gv34p550QbUPxrIrfLZN
-         D98v6sak/z1FUb4prIlRgcTvp2kHu6f20Xwa+Pmc7zDOduB/UQHHdMYKZ7PuLx8gWnds
-         Q65cGxQ506+2w1PRTHngg63XvSf+PJ+VdcCMTLPnzJEsRKfNKZLLpe3ezNb8QXNI3ZYT
-         Xk6Q==
+        b=Oxht9pyRb2Sa3KXG2s4nlDWt+DkFqvsVojZtd2E4F+w8dGy12ElXbuV2PhR61PEY7w
+         qhQnnn/gIHJYk4lV1oyZATBFNlIEGK6yVfFvdt2O7xDrfPOz1ZJKCndWo+F0YiZm0tqc
+         +cwxXOwGQYpbeZ6BIPqZaENYuUI78gyjQ0jqxQD9MtNpUl2XhTFkJfPIFLlfrrpIygRO
+         lW41DUyy/Nx9hTDGhhapN66ozBtQQTxoZZw6AXOvyZkhy1b4PteZA7tKOksmXIkR7ShZ
+         0KxDrzuQzFDRiTZEOMrSgbMJqTAosLibBu/H7meMDxDNZfcW2qBStTTF0055mReDiKzl
+         VnXQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:user-agent:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:sender:dkim-signature;
-        bh=oWdWZ5mQKyQjRdpind5dCLpNvbkHwqcR07k9EWhQt68=;
-        b=pFyiFbcKPUDraPFmt4aveT3ANm+AvNZ6uwh6IwJ3Rh1Iu3eBOJuBXzGktlfeRxB8gh
-         VvA7pB40u/TGm2q5tR2NsiMh0+8ju37LkL40RYjjjdt3niQLq412z2namDVL6MQnR4QU
-         oCNEKrDi6gX0aJoQXl7AU5BfM4bUfabucwzMtf1pSodQJ2VpUx50fSvP7Fm3NHLy6WJC
-         LPyH9JmuMHilqqn+M+nG2hI2XheBtiNeFFeQLIN9kxQpAMrbsvZTOm63hmt2Xv/eeeny
-         K3PpAnLLqQwGXeB2/FU17CT5mLz57cRZZpkvfR7D0KWEPVIMR2xhAh96RhB4l2ZyzKD0
-         XP4A==
+         :content-disposition:mime-version:references:mail-followup-to
+         :reply-to:message-id:subject:cc:to:from:date:sender:dkim-signature;
+        bh=it2AimjyLusrPGYMqIf2kWtxnLq296cjLXdiHClwnPA=;
+        b=Ll1FmmJWyeuxbaYlkNX5OarBn1r9D1AGB+gzyBW+km5sXx91XU5zA88aXlx7YsS8D0
+         KQSmBRoR/qa7HtnuS6m0hUmAnzuv0Nb/yNI4A+9MC/RTu6btKeZF51BqvMUACLAFJOLg
+         AOgkZmHcL++sqlJ1IhOc3zGCxwvO/3GSCGfq57FeQn839VLBdGee7CtkOPSIgjC7Pqj0
+         dR5vmHmqJRim1/Z7csHPGt9fX20bOpZY6fWLNqiF2/thDzE928zechRFDCmjwZ4qZkx2
+         w2evwgexXMFdCIPRUYyPUiPvWL9X+huHVJB7oBy/eF7YYjzuUaKOUn5SkNkAxEPahtb+
+         h3og==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@oracle.com header.s=corp-2020-01-29 header.b=WvEeJyFm;
-       spf=pass (google.com: domain of dan.carpenter@oracle.com designates 156.151.31.85 as permitted sender) smtp.mailfrom=dan.carpenter@oracle.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=oracle.com
+       spf=pass (google.com: domain of dsterba@suse.cz designates 195.135.220.15 as permitted sender) smtp.mailfrom=dsterba@suse.cz
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=oWdWZ5mQKyQjRdpind5dCLpNvbkHwqcR07k9EWhQt68=;
-        b=g4RYzluW0YH8C/MFbBDANlyyvdqd2tnpmY8qj5QI6FcC6UlNOVwpnYH2Cm6DV98qjm
-         VDr5ZEaF+ERtIQkUeJxQTHp7bi9GMde0IYX3F2bsArX1ADoW8Xeki2XMUkE+MWDVFbnb
-         d8rW8e9cRExwAEqPaRapCP2RXBB7MPdiVcAvNoxOTjT6mAVu00nYbFSnZDUmx594nFsr
-         Q5rdY4GepwOV/TrXs0HrE3e/LCbAd/SRl1zo3ovY1MV9YbqWNNz4vYoXUJFEFffGWG1J
-         Wob7ZrwUFY+9wUjdHZG8flnKtreoK/8qiuTpGO1ZBkID1yT9Wx91RwHnBUeCWbF1iiC5
-         X1cg==
+        h=sender:date:from:to:cc:subject:message-id:reply-to:mail-followup-to
+         :references:mime-version:content-disposition:in-reply-to:user-agent
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=it2AimjyLusrPGYMqIf2kWtxnLq296cjLXdiHClwnPA=;
+        b=WPipZ5uKK2LXPd4BxQlaoZ4qt6AHOpWjKgI7Hh3PvlPjLjxSvQB7oogmI1vrbatTaR
+         AUgK5yjxmmIfAf9O9xdA6I152Xwjbcau7Gt76Ym7pih4eerGEF3FxjYahRWuaB34NKQK
+         CHvy+xJJlWz1g+2mKDo3z3jRaEmC57L9agELxvGyYLekJxbeLWIre9h672XxeIdbt9HY
+         /z0VzdbHoAFck6/VhftnId+UheuwFrLXLjYAH8xrO/jkzFilWYKshXyXfNSndH2S5Ad3
+         V/QIK89KBufCPJJSrElCnVMIcxS/py/aPpbLTfPvbEG2ugWZTZGD4kc5oQdI/x7a9MaS
+         Ae8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=oWdWZ5mQKyQjRdpind5dCLpNvbkHwqcR07k9EWhQt68=;
-        b=j2KlpPZCZjM79A+iEDav8u+yPFKIhFTC4MWefLYMpCYD8rh+uY0kAajSrbk3fSKxxC
-         Vzk1JOkTXf6AoRee5u0M8uuZcyoAZzy7cIK+fkz39ARhCuTgjL8pwIfbX+1q5esHpzuS
-         jJwj/mwRgu1EkGrjmAq6Ct0et6CarS4FmBuYRIo2z0i3XsafKqcS0fqfns3KP0C9llqq
-         AHz7q4JYTkpziGCSN35m5Y47JamjL2DyDRskMDfHBNeDHRPWxsCUgYD7Ev14/Jng1EIe
-         LuhrbeX+0z2SZrLLZXh/+xtB4InY0wQ6go43SpHkC60KatqimOSYPyetD4PcChNnzjLO
-         p+Dg==
+         :reply-to:mail-followup-to:references:mime-version
+         :content-disposition:in-reply-to:user-agent:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=it2AimjyLusrPGYMqIf2kWtxnLq296cjLXdiHClwnPA=;
+        b=d9XG6U0+EwcdkO45AaBeuTwt1q5R5Dlk8MCyo0eiv+wmmM8RpKT1UxHu6iuJWJ/iOP
+         /stToAYQ4XkAtlLq+h15SRVMbR3vM3/0+Q2NZ+WR1m4MS1KJaCFD1L5vWpYZZNj0aQ6r
+         Oj9eBPQWGR85nDq4ZC1bnDxbCayqjShIBoy09p8wjg/Whex9iSwxNaOsCjqBrpFCd81B
+         4Doj7ojl4A3RdHTAsnW1Zdn+D5eQXMCfvUyzVPgpJVb+mNKAf49bhx5eU7L43Umuj/V2
+         RkAZQ3P8j9fUpWYPLJjDN8IY/npMdvShKW2almJHU6Z+OOHwfC1y+fs/QGeircrb15NS
+         XeWg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM531PigcB3+QrVFeU60I0B+9hvNLDj5YILkVvmPibMuyC7moGQo+r
-	wlNi5/A4W0/UfwjoNJJi9bU=
-X-Google-Smtp-Source: ABdhPJydgFzbL0gkq3Cj2Nd6ruXfor/rsJdC4Z72vntl+qtGn9uoilmMy2moja8+9FOuzE0uR0wddg==
-X-Received: by 2002:aed:3344:: with SMTP id u62mr21197251qtd.174.1592317622865;
-        Tue, 16 Jun 2020 07:27:02 -0700 (PDT)
+X-Gm-Message-State: AOAM533xUw6Vng/C4KUqKUo9QUlK7bRmc5d/5Tp9bHvqRsAOxFt6C70u
+	1Y0B2HVS3RL9KAWXmz+fViM=
+X-Google-Smtp-Source: ABdhPJxB2P3j1owrvGBBA51LUg1ekoH9DvCk0WEK/LUtyibxQX3C/gmnE0vsgFTNXj3iG8L9lUyXww==
+X-Received: by 2002:ac2:51a1:: with SMTP id f1mr1956784lfk.173.1592318898685;
+        Tue, 16 Jun 2020 07:48:18 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a37:78d:: with SMTP id 135ls8344769qkh.8.gmail; Tue, 16 Jun
- 2020 07:27:02 -0700 (PDT)
-X-Received: by 2002:a05:620a:753:: with SMTP id i19mr21187303qki.357.1592317622409;
-        Tue, 16 Jun 2020 07:27:02 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1592317622; cv=none;
+Received: by 2002:ac2:43bb:: with SMTP id t27ls1261728lfl.3.gmail; Tue, 16 Jun
+ 2020 07:48:18 -0700 (PDT)
+X-Received: by 2002:ac2:5f07:: with SMTP id 7mr1977636lfq.132.1592318897993;
+        Tue, 16 Jun 2020 07:48:17 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1592318897; cv=none;
         d=google.com; s=arc-20160816;
-        b=WCYsFdNR2ZxgHDAr7TU0uico8kIRUx+1vLHfovNv2Yq95XcrwcnYV/YKhp2YDvGs71
-         l+i51+4OlL4VPhbqayIYwpU3FsA+aTMVpaIe2TEX9nNI5r2wzxH5Wqq9N5pET+bXp1f3
-         wrDo+zO32HMldiqdgne3oWakwXglGWLj12diwDK1vk9iztMQP/UZQXBmH5wG2ccFQo/P
-         bKe7UbUPriqKaFZFFjmaeXLdVbAhKEQTjE2gzKds5Mtgyqs5DKo/0aEQbhYJdNkHMvYf
-         iNRFRB1uhCo8o3zrD32CL3zze3D1QDSf5jnA7IFGlX4gywfIiBM2h5Oj3oXRv+EPORvB
-         qmYw==
+        b=TItn9/wJ0qyp/CE8YUuFN0OA8NqMxa1UomFniATqeUx+75//BrG5Ch7NRr9D2wzSkT
+         nDR+bODo63JNCNLP97VRjWsVFmwcnSviQo1W65H1g4Pi0fh0KmgiDEQ/2JGz2qwE5COu
+         tAu/r4AYEnFRkVqL2Y9XloR/iQIXjS4b2iK62GVjApnEYHk+eaCna+MKeqcWUPZlNNYv
+         EiEpAp92KYZAtxNjK+BNJYcEhxzl5nPaJGBGJU57N0CQrpbUV9QG8zj2cfTNfFtKKsz/
+         TabR58GP60mzslS8wqxv407i/z6EtvyqCO2GHDxXscdvKeiQK5HgWkvZSgzQLHp77B3U
+         VfSw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:dkim-signature;
-        bh=UepsmQC/DlQFZ6+UxfaNjoC9RmBOSxOKZ2W1AkmRQd8=;
-        b=fYeqcjKJpX2+bmlR+8SFWlYC5c6eoQqEYv1di/SXKdciDpM0dJZlciiE9ttYf01dtH
-         7572LbXQVN0XfuM++CEU2bSTnTBEUmQjplYPAOMj1HKCMJ8KOVxsaNMekWFVqwDCgU7c
-         uMYgWESLCF6Cpmsw1Htp4HeXBGbMokDM+6lAy9YXshsR0LKyBpqtOvMTiYVflNHOLXu7
-         K1rQSEAs+pWBI2/MvlDsu0zf0aXkJptxz7UXtYCX3TrQMNIMT+lnk4eGCHpdyIsGcrGr
-         yyVmf72NJ8XkQakcQKq4IQaun1ak2N/sbYLGeMszEImfW3Nv9c+k+eCsRjzZu86quBQq
-         AELA==
+         :mail-followup-to:reply-to:message-id:subject:cc:to:from:date;
+        bh=4K0eW0ggifXqVlYAC35Vz14GwOf9aNQMjH56rndewAg=;
+        b=AJ/aTZn6qtDjNFU1Y5m330iyNSqbzRl/oBRsUlDmbBrgJWnCk7iv8B83B91KVvvQVt
+         GQNXnMSkrInmg3/C6bCF2tiSd0gwn8miUtPfOb6YC8XjMlws9OxJ+lodf616doa4srKA
+         kzKdxwKWgpP0Rq3QLWO+mVsmgVjd1Bdl4L35JSAuIMpxN44eYq52yfGR/Re9JIhxBLgw
+         9y2bWClzjyooOx29NHUnJkTFGLvMNoZw9YCGR7dSKttc0wyn8pOz4uBfwQFZ183o1Q64
+         TAMwlG3n8nNnCy4Qmz+QJdCutyTUbo9+2QwhfFo28i+mlCvIOAZrfleT5gR2jJEsT2cj
+         THNw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@oracle.com header.s=corp-2020-01-29 header.b=WvEeJyFm;
-       spf=pass (google.com: domain of dan.carpenter@oracle.com designates 156.151.31.85 as permitted sender) smtp.mailfrom=dan.carpenter@oracle.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=oracle.com
-Received: from userp2120.oracle.com (userp2120.oracle.com. [156.151.31.85])
-        by gmr-mx.google.com with ESMTPS id d3si739736qtg.0.2020.06.16.07.27.02
+       spf=pass (google.com: domain of dsterba@suse.cz designates 195.135.220.15 as permitted sender) smtp.mailfrom=dsterba@suse.cz
+Received: from mx2.suse.de (mx2.suse.de. [195.135.220.15])
+        by gmr-mx.google.com with ESMTPS id i17si1390204ljj.5.2020.06.16.07.48.17
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 16 Jun 2020 07:27:02 -0700 (PDT)
-Received-SPF: pass (google.com: domain of dan.carpenter@oracle.com designates 156.151.31.85 as permitted sender) client-ip=156.151.31.85;
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
-	by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 05GELOZQ057447;
-	Tue, 16 Jun 2020 14:26:56 GMT
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-	by userp2120.oracle.com with ESMTP id 31p6e5y3y1-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Tue, 16 Jun 2020 14:26:56 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-	by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 05GEODoW027404;
-	Tue, 16 Jun 2020 14:26:56 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
-	by userp3030.oracle.com with ESMTP id 31p6s7kbhq-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 16 Jun 2020 14:26:56 +0000
-Received: from abhmp0017.oracle.com (abhmp0017.oracle.com [141.146.116.23])
-	by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 05GEQfNL026862;
-	Tue, 16 Jun 2020 14:26:42 GMT
-Received: from kadam (/41.57.98.10)
-	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Tue, 16 Jun 2020 07:26:41 -0700
-Date: Tue, 16 Jun 2020 17:26:24 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 16 Jun 2020 07:48:17 -0700 (PDT)
+Received-SPF: pass (google.com: domain of dsterba@suse.cz designates 195.135.220.15 as permitted sender) client-ip=195.135.220.15;
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+	by mx2.suse.de (Postfix) with ESMTP id 3F73AAAE8;
+	Tue, 16 Jun 2020 14:48:18 +0000 (UTC)
+Received: by ds.suse.cz (Postfix, from userid 10065)
+	id 50CC9DA7C3; Tue, 16 Jun 2020 16:48:04 +0200 (CEST)
+Date: Tue, 16 Jun 2020 16:48:04 +0200
+From: David Sterba <dsterba@suse.cz>
 To: Waiman Long <longman@redhat.com>
 Cc: Andrew Morton <akpm@linux-foundation.org>,
-        David Howells <dhowells@redhat.com>,
-        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
-        James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Joe Perches <joe@perches.com>, Matthew Wilcox <willy@infradead.org>,
-        David Rientjes <rientjes@google.com>, Michal Hocko <mhocko@suse.com>,
-        Johannes Weiner <hannes@cmpxchg.org>, David Sterba <dsterba@suse.cz>,
-        "Jason A . Donenfeld" <Jason@zx2c4.com>, linux-mm@kvack.org,
-        keyrings@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-crypto@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-amlogic@lists.infradead.org, linux-mediatek@lists.infradead.org,
-        linuxppc-dev@lists.ozlabs.org,
-        virtualization@lists.linux-foundation.org, netdev@vger.kernel.org,
-        linux-ppp@vger.kernel.org, wireguard@lists.zx2c4.com,
-        linux-wireless@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-scsi@vger.kernel.org, target-devel@vger.kernel.org,
-        linux-btrfs@vger.kernel.org, linux-cifs@vger.kernel.org,
-        linux-fscrypt@vger.kernel.org, ecryptfs@vger.kernel.org,
-        kasan-dev@googlegroups.com, linux-bluetooth@vger.kernel.org,
-        linux-wpan@vger.kernel.org, linux-sctp@vger.kernel.org,
-        linux-nfs@vger.kernel.org, tipc-discussion@lists.sourceforge.net,
-        linux-security-module@vger.kernel.org, linux-integrity@vger.kernel.org
-Subject: Re: [PATCH v4 2/3] mm, treewide: Rename kzfree() to kfree_sensitive()
-Message-ID: <20200616142624.GO4282@kadam>
+	David Howells <dhowells@redhat.com>,
+	Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
+	James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Joe Perches <joe@perches.com>, Matthew Wilcox <willy@infradead.org>,
+	David Rientjes <rientjes@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Dan Carpenter <dan.carpenter@oracle.com>,
+	David Sterba <dsterba@suse.cz>,
+	"Jason A . Donenfeld" <Jason@zx2c4.com>, linux-mm@kvack.org,
+	keyrings@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-crypto@vger.kernel.org, linux-pm@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-amlogic@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+	virtualization@lists.linux-foundation.org, netdev@vger.kernel.org,
+	linux-ppp@vger.kernel.org, wireguard@lists.zx2c4.com,
+	linux-wireless@vger.kernel.org, devel@driverdev.osuosl.org,
+	linux-scsi@vger.kernel.org, target-devel@vger.kernel.org,
+	linux-btrfs@vger.kernel.org, linux-cifs@vger.kernel.org,
+	linux-fscrypt@vger.kernel.org, ecryptfs@vger.kernel.org,
+	kasan-dev@googlegroups.com, linux-bluetooth@vger.kernel.org,
+	linux-wpan@vger.kernel.org, linux-sctp@vger.kernel.org,
+	linux-nfs@vger.kernel.org, tipc-discussion@lists.sourceforge.net,
+	linux-security-module@vger.kernel.org,
+	linux-integrity@vger.kernel.org
+Subject: Re: [PATCH v4 3/3] btrfs: Use kfree() in
+ btrfs_ioctl_get_subvol_info()
+Message-ID: <20200616144804.GD27795@twin.jikos.cz>
+Reply-To: dsterba@suse.cz
+Mail-Followup-To: dsterba@suse.cz, Waiman Long <longman@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Howells <dhowells@redhat.com>,
+	Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
+	James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Joe Perches <joe@perches.com>, Matthew Wilcox <willy@infradead.org>,
+	David Rientjes <rientjes@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Dan Carpenter <dan.carpenter@oracle.com>,
+	"Jason A . Donenfeld" <Jason@zx2c4.com>, linux-mm@kvack.org,
+	keyrings@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-crypto@vger.kernel.org, linux-pm@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-amlogic@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+	virtualization@lists.linux-foundation.org, netdev@vger.kernel.org,
+	linux-ppp@vger.kernel.org, wireguard@lists.zx2c4.com,
+	linux-wireless@vger.kernel.org, devel@driverdev.osuosl.org,
+	linux-scsi@vger.kernel.org, target-devel@vger.kernel.org,
+	linux-btrfs@vger.kernel.org, linux-cifs@vger.kernel.org,
+	linux-fscrypt@vger.kernel.org, ecryptfs@vger.kernel.org,
+	kasan-dev@googlegroups.com, linux-bluetooth@vger.kernel.org,
+	linux-wpan@vger.kernel.org, linux-sctp@vger.kernel.org,
+	linux-nfs@vger.kernel.org, tipc-discussion@lists.sourceforge.net,
+	linux-security-module@vger.kernel.org,
+	linux-integrity@vger.kernel.org
 References: <20200616015718.7812-1-longman@redhat.com>
- <20200616015718.7812-3-longman@redhat.com>
+ <20200616015718.7812-4-longman@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <20200616015718.7812-3-longman@redhat.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9653 signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 suspectscore=0
- mlxlogscore=886 adultscore=0 phishscore=0 bulkscore=0 spamscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2004280000 definitions=main-2006160106
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9653 signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 adultscore=0
- mlxscore=0 phishscore=0 mlxlogscore=893 lowpriorityscore=0 clxscore=1011
- suspectscore=0 spamscore=0 bulkscore=0 malwarescore=0 impostorscore=0
- cotscore=-2147483648 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2004280000 definitions=main-2006160106
-X-Original-Sender: dan.carpenter@oracle.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@oracle.com header.s=corp-2020-01-29 header.b=WvEeJyFm;
-       spf=pass (google.com: domain of dan.carpenter@oracle.com designates
- 156.151.31.85 as permitted sender) smtp.mailfrom=dan.carpenter@oracle.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=oracle.com
+In-Reply-To: <20200616015718.7812-4-longman@redhat.com>
+User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
+X-Original-Sender: dsterba@suse.cz
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of dsterba@suse.cz designates 195.135.220.15 as permitted
+ sender) smtp.mailfrom=dsterba@suse.cz
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -181,19 +188,37 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Last time you sent this we couldn't decide which tree it should go
-through.  Either the crypto tree or through Andrew seems like the right
-thing to me.
+On Mon, Jun 15, 2020 at 09:57:18PM -0400, Waiman Long wrote:
+> In btrfs_ioctl_get_subvol_info(), there is a classic case where kzalloc()
+> was incorrectly paired with kzfree(). According to David Sterba, there
+> isn't any sensitive information in the subvol_info that needs to be
+> cleared before freeing. So kfree_sensitive() isn't really needed,
+> use kfree() instead.
+> 
+> Reported-by: David Sterba <dsterba@suse.cz>
+> Signed-off-by: Waiman Long <longman@redhat.com>
+> ---
+>  fs/btrfs/ioctl.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/fs/btrfs/ioctl.c b/fs/btrfs/ioctl.c
+> index f1dd9e4271e9..e8f7c5f00894 100644
+> --- a/fs/btrfs/ioctl.c
+> +++ b/fs/btrfs/ioctl.c
+> @@ -2692,7 +2692,7 @@ static int btrfs_ioctl_get_subvol_info(struct file *file, void __user *argp)
+>  	btrfs_put_root(root);
+>  out_free:
+>  	btrfs_free_path(path);
+> -	kfree_sensitive(subvol_info);
+> +	kfree(subvol_info);
 
-Also the other issue is that it risks breaking things if people add
-new kzfree() instances while we are doing the transition.  Could you
-just add a "#define kzfree kfree_sensitive" so that things continue to
-compile and we can remove it in the next kernel release?
-
-regards,
-dan carpenter
+I would rather merge a patch doing to kzfree -> kfree instead of doing
+the middle step to switch it to kfree_sensitive. If it would help
+integration of your patchset I can push it to the next rc so there are
+no kzfree left in the btrfs code. Treewide change like that can take
+time so it would be one less problem to care about for you.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200616142624.GO4282%40kadam.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200616144804.GD27795%40twin.jikos.cz.
