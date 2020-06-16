@@ -1,161 +1,146 @@
-Return-Path: <kasan-dev+bncBCPILY4NUAFBBLVCUT3QKGQE4XC6D5I@googlegroups.com>
+Return-Path: <kasan-dev+bncBDY3NC743AGBBR5KUT3QKGQEAYAYAKI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pg1-x53c.google.com (mail-pg1-x53c.google.com [IPv6:2607:f8b0:4864:20::53c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78E701FBE1A
-	for <lists+kasan-dev@lfdr.de>; Tue, 16 Jun 2020 20:36:32 +0200 (CEST)
-Received: by mail-pg1-x53c.google.com with SMTP id v15sf10171916pgi.3
-        for <lists+kasan-dev@lfdr.de>; Tue, 16 Jun 2020 11:36:32 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1592332591; cv=pass;
+Received: from mail-pg1-x539.google.com (mail-pg1-x539.google.com [IPv6:2607:f8b0:4864:20::539])
+	by mail.lfdr.de (Postfix) with ESMTPS id 23B481FBE78
+	for <lists+kasan-dev@lfdr.de>; Tue, 16 Jun 2020 20:54:01 +0200 (CEST)
+Received: by mail-pg1-x539.google.com with SMTP id k16sf14966343pgg.7
+        for <lists+kasan-dev@lfdr.de>; Tue, 16 Jun 2020 11:54:01 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1592333640; cv=pass;
         d=google.com; s=arc-20160816;
-        b=kuf6pj8Qqk+tvA/kalfHEqtnQpPCZ3BUpsm+zmNPw+xaO4+XAIkQCfQqmkAPQl0OTT
-         f/8hTQO6AfZZpF/2de0EaI3QqIqZ/mntTKNSF2LR0yxWws6R1CB/ppbumdy9ZZOhoPMb
-         x231EJa1zXN5djkYB6ywidGq2u3jz0tI3Th995YOLVthgqblwRXoxP9XbJw6MQb6xH29
-         /KlLcEIG356CW6faiQ+qE3jBl42lkvI2u+H6bgnbL6woCknQ8DUwbABhDa7ugtEkC64j
-         IZBeZQHVj+wwjKwOZg/87NFti3lewsVEeiDOVLzTHBoPmmTGgGVgAqC4sZPIlxYAd7lS
-         k4aw==
+        b=Ct+JaA9lT+2lwjwRCFASbQK9nLHvzevikjnXdczp9mlZrQt/a0wYmpai8HSZxHsvd8
+         jRV1k5vukHMTft5CtFsrCSLGVJVn99IE+b6tH1yoKw+NntKr2jmNEN6S7Hto6e4SXGIV
+         FHCPJ146jZbYLnY34q4TjTusvDHsIX3G/Katfgb8uGm7KZF2tesxp0FZIWfEsxGXJK9N
+         5FtCPXyGC+JAou4ZZy93g8P8lA4uWvhlJNibaIMsr4tOfS+xzCBJlLfHIbdaruBg556T
+         xFKYbPQ65zSkN4aPxTImRZ1OP+L+rFy5b1iZN96nyzoRQmOYIo6hLQrKi3GvioALI+7p
+         eSjA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-language:in-reply-to
-         :mime-version:user-agent:date:message-id:organization:from
-         :references:cc:to:subject:sender:dkim-signature;
-        bh=/LYKxoWrDcrTQZrd9SMNTK2bL48wdjMaMumYaqvngZ0=;
-        b=jfHnqB4PO2MNOVnRPoC2uKoWJ9OzjHVdQ6RP1bOmMtmqKZbBGVOarRZCVpkwqceTLs
-         TwjErJUQ7v4bjKvwXr1NBka/zNGCEF3qGWKv4gLEHWOK13p+zGHw67qd8O1Fq6wqf82f
-         NXb6fxqVCv/ffSCCQlM8kzwNtebakc3iHvcvfDSOjbZvTti/B4yYVyA/mUe6sQIn0nBE
-         2PSUMMAyr6QIDih+IuPRi0rfHT/OY7n7h14mAx3T0PfqE4xVtf3oCob7bi310VXI/S74
-         FXkPxptbBqNtQfEHI7TzokKk7VaZkrvyngHrVCFAn4x5n0KOHPixTRdel3UaVyJzthHH
-         uYKg==
+         :list-id:mailing-list:precedence:mime-version:user-agent:references
+         :in-reply-to:date:cc:to:from:subject:message-id:sender
+         :dkim-signature;
+        bh=HoJXyI9PYWfft2ZX0SjrE269+IS8RckYsXtc2Z25ddU=;
+        b=hExntfJs3GX2RMLjwzUk0tmvW+jK4bSPhSVvTmEzITftAKCA6RWjYtwApCFdRRuFzy
+         8iavq9zPRzfjpIne4Oq5ZW+42H8EJFJ8sVvNDD9xIw/ly+IGdPyyFGbn0brKn5xcYHA4
+         2YbleeAfRW01p/TZlFMez1NqIXAGNTaWISdXGhMfMaA4EMFIqu6iMACYX4coVIRxZfOk
+         sdTdAJFKC7LSwmS5x1HDvE3MEhSwWpW4cLix/ipUEPgONOzGwy44Ck69dbrjjFX9mZNa
+         gTuUno+2MjXfiYWas4ALwwzneCA9rHycepllbH0RhOea/VnS1e6lja/BeeiFkIIn69Y+
+         tkBw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=jC1SVPU+;
-       spf=pass (google.com: domain of longman@redhat.com designates 207.211.31.120 as permitted sender) smtp.mailfrom=longman@redhat.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
+       spf=neutral (google.com: 216.40.44.204 is neither permitted nor denied by best guess record for domain of joe@perches.com) smtp.mailfrom=joe@perches.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:subject:to:cc:references:from:organization:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=/LYKxoWrDcrTQZrd9SMNTK2bL48wdjMaMumYaqvngZ0=;
-        b=QotIpekZcugc8RqVavJ5g/3oglGw/7pi/zeMMPVh0LIPL6ooUuUey9wOho9Hy4Eg7F
-         OClECfYsQ3rslJWLTQ8K+SZC2MTEKGVfFCEXPuhx9nZqdT2ErCAmqcea8FTHZhPv0knQ
-         cYEemCTCJRQm0gQ+OalWwGFvhsZEVo/+BV8zKJuw6zRxGo/2gJYuqI3KI0IWXYGv6IYY
-         4Q9yZe2ex3jQzM8GMavdxD6AWKhUq4J+B1Ll0lyyaQq61ZX7wCYAWVYygp9kHTarF35P
-         ZpKZO7MV+YN2rOsY6sffgGxALyfcKy590zJ7aGogqRvMl76oqTm5/DN4f91YPaA2BTp8
-         PurA==
+        h=sender:message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=HoJXyI9PYWfft2ZX0SjrE269+IS8RckYsXtc2Z25ddU=;
+        b=CrGR9nt51wTQP0t5QCTeowoQRnspb8SjNcbHvM708t9MFN5TQV5zQQJczBlda21K/q
+         9uK4hRB4VZ+4X42gASFZ4EUE5DoU4hg5N6pgIYJrc1QV0hZBy+1MET8IiLxD/EpIz9zy
+         lNKjmS4d9pSzzfjOT98KERSwsorXQhJru8Q0Y246Vv6daT7nFarMJv4rl0zlpKPBIn5t
+         J2hLr7TyrF/HsWQwR9Y6CpOzEW2lIT4w7epU0LatijaEJzAePqEx9l7kOMGW03jMCAvi
+         qszRS+B/GAk3meOxY8x7ZYht8spbo3XWiXCaPxobUvidWx9ydRr3EyeAxe5jSmWB/2In
+         basg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:subject:to:cc:references:from
-         :organization:message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:x-original-sender
+        h=sender:x-gm-message-state:message-id:subject:from:to:cc:date
+         :in-reply-to:references:user-agent:mime-version:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=/LYKxoWrDcrTQZrd9SMNTK2bL48wdjMaMumYaqvngZ0=;
-        b=YMmuv7RuKJH+rF01cF8rfLpXkgTHtDeQ6opgmFGJ6R3t1B9+ZFtq1QWtFepUimGoby
-         LShKY2SMpkOzVg2s6+aaLCuEkufe6Ckn4zgnBwj0uZCzTMuJOblLKbPOQc1YDuxHm6kk
-         Mnlh8DVTEO98DP/bZzYNWjTAc1b/yBJe/EJfVNGFOywojoWjO+Y5M4GxuNkNHeYBGl/a
-         Yh9pdKykAPqjfEqPhGQ1gj7exALUy+slHlsDX+VBLRt0PZpZZ51IF1Zeb9UudzK/VPbs
-         dY8oAq75smVJ+avaDg0xUcdf9LRs46C3wkcOSxrX3IxUvApR6hG9TyCq2kFrFqU9Sgv1
-         YHqQ==
+        bh=HoJXyI9PYWfft2ZX0SjrE269+IS8RckYsXtc2Z25ddU=;
+        b=VFqB4zamoMDhzISxEWMKOx2liVQzfZXUXh3+93QfWcgYAsrMG8i2sORrgVknWOJbiz
+         CHruGME61VdfjkgboKDGTlOZ4T24lNKZFIJfuuKg0wH0SYtgbu236qbJPn2dw9rgrT4k
+         8qUTFZ1Dzt2a99b7afTRE9IaNWKo4XCXTy7BaDn+H/zNwEQs9Wld7fPk4ZeyBq5tdaNW
+         Ai1VCcUWb18vAzvAobH2q3MnNOZ+rS6IpCla7FmeBc422Hxt4MZiz5oSHP9bONnP3KZs
+         2rWOTaSMcve8I6OlJzwVmrrEKEQSm8BvAS9VSVPQTlRSJjpjWpcQOeOzmYoHlTapDw28
+         fvXw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM533PJ4USIhWToqzChNwXFDICyNqgedx56QdG0m4ve+2QZtlsDH4t
-	S8DahMPXgcpOQilU9GOmRvU=
-X-Google-Smtp-Source: ABdhPJwSolDWtndRo//T/B8hW+02gzwJo6s5ebi4bL5CjiOKw01/sSA/WwbH0HA0aYEfxmoCtCDf2A==
-X-Received: by 2002:a65:5302:: with SMTP id m2mr3116066pgq.88.1592332590898;
-        Tue, 16 Jun 2020 11:36:30 -0700 (PDT)
+X-Gm-Message-State: AOAM531/AHCPuS1bo7P1t0DT6IH7u2moxmahn2k5hUTV0tc6UM0DbjZ1
+	x5WC5UsjCxyqKTs+MNLsfk8=
+X-Google-Smtp-Source: ABdhPJxgi0dpHng0Jqc7Ecu3h1d1FgMG2LykJsRQfBvek+Vq9icGeP8t57HSACFyQgkZ4+W2roxGkA==
+X-Received: by 2002:a17:90a:250b:: with SMTP id j11mr4566716pje.194.1592333639807;
+        Tue, 16 Jun 2020 11:53:59 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:902:d34b:: with SMTP id l11ls1738558plk.6.gmail; Tue, 16
- Jun 2020 11:36:30 -0700 (PDT)
-X-Received: by 2002:a17:902:9e0c:: with SMTP id d12mr3217894plq.197.1592332590474;
-        Tue, 16 Jun 2020 11:36:30 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1592332590; cv=none;
+Received: by 2002:a17:90a:e28d:: with SMTP id d13ls242149pjz.3.gmail; Tue, 16
+ Jun 2020 11:53:59 -0700 (PDT)
+X-Received: by 2002:a17:90a:9d8b:: with SMTP id k11mr4509129pjp.10.1592333639233;
+        Tue, 16 Jun 2020 11:53:59 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1592333639; cv=none;
         d=google.com; s=arc-20160816;
-        b=sQswLFOsGhH+rfrAkxM6Nl8DkgKoA2IiqS/lvZmhfwXdRhy9VkBrTXtQh+UgQjzCHV
-         SGjjRZJve0MLWJY1YG5Ji5H7ZWk3GjGYRoTiv+k+oeocqcvvH7uKH+V3iWE53BuptR4O
-         dH/NcjxEl/e6ft5MVkXf5cokzdGoZpMAmZn7BbBJfGOnwIC/lXY9DvuFwiX0uHXAteQ5
-         ISMPOyGIu39SqkgYKwHrTHwK2fuywy3WTLoYKf/bF5EGaALZLpykjdwpNt+FykPJZcES
-         BjRcO9rleLdIDiuv2VVE/Uy99SzMz2XKysnQC0fKDMFDu3aqLntUP9+JcLgk7B5W9IQW
-         LrJQ==
+        b=ifkEGJN/I+EPz6M9Zi12p5rmKewCA8pCpUt5qqKELRI8004c7lWsFJ6zo5vFgQlahj
+         F9lFYE6g6Acc3k/DqC8vqJsqVaCMO4PMFvrpy7E1V2lT5gjT3ozLUCJEZRGMZgziMqi2
+         qDgWF9rAzJxFAd0Dorhp5j3zw6oE0R5PdBpOo4XkrXckcRJDC4FAaLkCSoIpp8HvklBH
+         mpUSqYSSOJGHCVfv6JeoC1uRKzV6T0t804yszNuXWCqKU2KIG7/WazKU6Z7yo3EjneVf
+         Y+F5FBDTthQW53DLXgPqQyOIHMdMDH1o6FUXq+f9YNdoBfYQPRw22CKXYrUMgzbQwhnX
+         Ku9Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-language:content-transfer-encoding:in-reply-to:mime-version
-         :user-agent:date:message-id:organization:from:references:cc:to
-         :subject:dkim-signature;
-        bh=7/6v2jfN6UIDhJeosnSs1R4UAP7mOiLuFVPEnJvGTnM=;
-        b=bGcze7ywKg5pFhdQBzbyEmgMpmF+iuPYDsiNq9F9Chc3cCNSCbTzej2qKCiu47yjRH
-         pDqgl+hTznptES/ithPPEVLEiLSosUI9R3IY/15aa1xjNqkL35CVUgccVcy4nxsRDHRh
-         LsnhYaa75gJq3K+bEGN6hKzSMeEREeGK70SXDq2NTOC4ynFnuI3MQ2IeKSpXqEb1KKug
-         FUGdEOhvn0djG5b70XTEYGhGKdiE/WYcPJpuuIC+LZRiYsCO2OKtXXEwUhJ6J5EzlDSZ
-         slAqfiB3hzuY7PECj5mL+nhiZr7t1Upvq+Kvi+RPCc4PCZECz8PVMD1rGDHiSFqbAwvO
-         ywtw==
+        h=content-transfer-encoding:mime-version:user-agent:references
+         :in-reply-to:date:cc:to:from:subject:message-id;
+        bh=gUCYLrg3WYifyrKyhHwoSpquLHjmg6Wambj9qBiH15o=;
+        b=TMOkMoX/dIzBdUEKWquHTepjPtmoS1FOMuTqxUu05LNjkfTkAIn44zcblmw1yXF7VN
+         PKQnDpTB0/G27CvAerqagNCW5Y0efhLjYtfP2+yWSLAbT15eON8rTE8YEa5Qt0S6nSO7
+         DM/+3iyffnvJ+lca9Qmc+Mm6OLkyQSmKEfaiuxVy7FU71OUEuyilY6HHGR6IyvZLIliz
+         8ryXxW5G+5T2an5OcKLzcYus9NFK+r9cc+7yLxqU/1jmYKsgz9Xr3ta2pOzFgUievdYK
+         5BbvJtmdN+iKX8eLmi8t24NusuLOzzkLnOqonMZyPKrJN+NqOTik7DpyV7tkZOiofSHD
+         bMXg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=jC1SVPU+;
-       spf=pass (google.com: domain of longman@redhat.com designates 207.211.31.120 as permitted sender) smtp.mailfrom=longman@redhat.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com. [207.211.31.120])
-        by gmr-mx.google.com with ESMTPS id q194si1235358pfq.4.2020.06.16.11.36.30
+       spf=neutral (google.com: 216.40.44.204 is neither permitted nor denied by best guess record for domain of joe@perches.com) smtp.mailfrom=joe@perches.com
+Received: from smtprelay.hostedemail.com (smtprelay0204.hostedemail.com. [216.40.44.204])
+        by gmr-mx.google.com with ESMTPS id t72si1248839pfc.5.2020.06.16.11.53.58
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 16 Jun 2020 11:36:30 -0700 (PDT)
-Received-SPF: pass (google.com: domain of longman@redhat.com designates 207.211.31.120 as permitted sender) client-ip=207.211.31.120;
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-73-AXrSOJCONRyyvrghDqFtvA-1; Tue, 16 Jun 2020 14:36:27 -0400
-X-MC-Unique: AXrSOJCONRyyvrghDqFtvA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2578680332A;
-	Tue, 16 Jun 2020 18:36:22 +0000 (UTC)
-Received: from llong.remote.csb (ovpn-114-156.rdu2.redhat.com [10.10.114.156])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 3B77519C71;
-	Tue, 16 Jun 2020 18:36:16 +0000 (UTC)
-Subject: Re: [PATCH v5 2/2] mm, treewide: Rename kzfree() to kfree_sensitive()
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: David Howells <dhowells@redhat.com>,
- Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
- James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>,
- Linus Torvalds <torvalds@linux-foundation.org>, Joe Perches
- <joe@perches.com>, Matthew Wilcox <willy@infradead.org>,
- David Rientjes <rientjes@google.com>, Michal Hocko <mhocko@suse.com>,
- Johannes Weiner <hannes@cmpxchg.org>,
- Dan Carpenter <dan.carpenter@oracle.com>,
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Jun 2020 11:53:59 -0700 (PDT)
+Received-SPF: neutral (google.com: 216.40.44.204 is neither permitted nor denied by best guess record for domain of joe@perches.com) client-ip=216.40.44.204;
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+	by smtprelay01.hostedemail.com (Postfix) with ESMTP id 1290410050792;
+	Tue, 16 Jun 2020 18:53:58 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Spam-Summary: 50,0,0,,d41d8cd98f00b204,joe@perches.com,,RULES_HIT:41:355:379:599:800:965:966:967:968:973:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1541:1593:1594:1711:1730:1747:1777:1792:2194:2196:2198:2199:2200:2201:2393:2525:2560:2563:2682:2685:2693:2740:2828:2859:2933:2937:2939:2942:2945:2947:2951:2954:3022:3138:3139:3140:3141:3142:3352:3622:3743:3865:3866:3867:3868:3871:3872:3874:3934:3936:3938:3941:3944:3947:3950:3953:3956:3959:4321:4385:4390:4395:5007:6248:6691:6742:6743:7807:7808:7875:7903:9025:9108:10004:10400:10848:11026:11658:11914:12043:12048:12050:12295:12296:12297:12438:12555:12740:12760:12895:13069:13311:13357:13439:13845:14096:14097:14181:14659:14721:14777:21080:21433:21451:21627:21811:21990:30054:30070:30091,0,RBL:none,CacheIP:none,Bayesian:0.5,0.5,0.5,Netcheck:none,DomainCache:0,MSF:not bulk,SPF:,MSBL:0,DNSBL:none,Custom_rules:0:0:0,LFtime:1,LUA_SUMMARY:none
+X-HE-Tag: cent55_291055a26e01
+X-Filterd-Recvd-Size: 3364
+Received: from XPS-9350.home (unknown [47.151.136.130])
+	(Authenticated sender: joe@perches.com)
+	by omf13.hostedemail.com (Postfix) with ESMTPA;
+	Tue, 16 Jun 2020 18:53:51 +0000 (UTC)
+Message-ID: <fe3b9a437be4aeab3bac68f04193cb6daaa5bee4.camel@perches.com>
+Subject: Re: [PATCH v4 0/3] mm, treewide: Rename kzfree() to
+ kfree_sensitive()
+From: Joe Perches <joe@perches.com>
+To: Waiman Long <longman@redhat.com>, Andrew Morton
+ <akpm@linux-foundation.org>,  David Howells <dhowells@redhat.com>, Jarkko
+ Sakkinen <jarkko.sakkinen@linux.intel.com>, James Morris
+ <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, Linus Torvalds
+ <torvalds@linux-foundation.org>, Matthew Wilcox <willy@infradead.org>,
+ David Rientjes <rientjes@google.com>
+Cc: Michal Hocko <mhocko@suse.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+ Dan Carpenter <dan.carpenter@oracle.com>, David Sterba <dsterba@suse.cz>,
  "Jason A . Donenfeld" <Jason@zx2c4.com>, linux-mm@kvack.org,
- keyrings@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-crypto@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-amlogic@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
- virtualization@lists.linux-foundation.org, netdev@vger.kernel.org,
- linux-ppp@vger.kernel.org, wireguard@lists.zx2c4.com,
- linux-wireless@vger.kernel.org, devel@driverdev.osuosl.org,
- linux-scsi@vger.kernel.org, target-devel@vger.kernel.org,
- linux-cifs@vger.kernel.org, linux-fscrypt@vger.kernel.org,
- ecryptfs@vger.kernel.org, kasan-dev@googlegroups.com,
- linux-bluetooth@vger.kernel.org, linux-wpan@vger.kernel.org,
- linux-sctp@vger.kernel.org, linux-nfs@vger.kernel.org,
- tipc-discussion@lists.sourceforge.net,
+ keyrings@vger.kernel.org,  linux-kernel@vger.kernel.org,
+ linux-crypto@vger.kernel.org,  linux-pm@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com, 
+ linux-amlogic@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+ linuxppc-dev@lists.ozlabs.org, virtualization@lists.linux-foundation.org, 
+ netdev@vger.kernel.org, linux-ppp@vger.kernel.org,
+ wireguard@lists.zx2c4.com,  linux-wireless@vger.kernel.org,
+ devel@driverdev.osuosl.org,  linux-scsi@vger.kernel.org,
+ target-devel@vger.kernel.org,  linux-btrfs@vger.kernel.org,
+ linux-cifs@vger.kernel.org,  linux-fscrypt@vger.kernel.org,
+ ecryptfs@vger.kernel.org,  kasan-dev@googlegroups.com,
+ linux-bluetooth@vger.kernel.org,  linux-wpan@vger.kernel.org,
+ linux-sctp@vger.kernel.org,  linux-nfs@vger.kernel.org,
+ tipc-discussion@lists.sourceforge.net, 
  linux-security-module@vger.kernel.org, linux-integrity@vger.kernel.org
-References: <20200616154311.12314-1-longman@redhat.com>
- <20200616154311.12314-3-longman@redhat.com>
- <20200616110944.c13f221e5c3f54e775190afe@linux-foundation.org>
-From: Waiman Long <longman@redhat.com>
-Organization: Red Hat
-Message-ID: <65002c1e-5e31-1f4e-283c-186e06e55ef0@redhat.com>
-Date: Tue, 16 Jun 2020 14:36:15 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+Date: Tue, 16 Jun 2020 11:53:50 -0700
+In-Reply-To: <20200616015718.7812-1-longman@redhat.com>
+References: <20200616015718.7812-1-longman@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.2-0ubuntu1
 MIME-Version: 1.0
-In-Reply-To: <20200616110944.c13f221e5c3f54e775190afe@linux-foundation.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Original-Sender: longman@redhat.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@redhat.com header.s=mimecast20190719 header.b=jC1SVPU+;
-       spf=pass (google.com: domain of longman@redhat.com designates
- 207.211.31.120 as permitted sender) smtp.mailfrom=longman@redhat.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
+X-Original-Sender: joe@perches.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=neutral
+ (google.com: 216.40.44.204 is neither permitted nor denied by best guess
+ record for domain of joe@perches.com) smtp.mailfrom=joe@perches.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -168,69 +153,45 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 6/16/20 2:09 PM, Andrew Morton wrote:
-> On Tue, 16 Jun 2020 11:43:11 -0400 Waiman Long <longman@redhat.com> wrote:
->
->> As said by Linus:
->>
->>    A symmetric naming is only helpful if it implies symmetries in use.
->>    Otherwise it's actively misleading.
->>
->>    In "kzalloc()", the z is meaningful and an important part of what the
->>    caller wants.
->>
->>    In "kzfree()", the z is actively detrimental, because maybe in the
->>    future we really _might_ want to use that "memfill(0xdeadbeef)" or
->>    something. The "zero" part of the interface isn't even _relevant_.
->>
->> The main reason that kzfree() exists is to clear sensitive information
->> that should not be leaked to other future users of the same memory
->> objects.
->>
->> Rename kzfree() to kfree_sensitive() to follow the example of the
->> recently added kvfree_sensitive() and make the intention of the API
->> more explicit. In addition, memzero_explicit() is used to clear the
->> memory to make sure that it won't get optimized away by the compiler.
->>
->> The renaming is done by using the command sequence:
->>
->>    git grep -w --name-only kzfree |\
->>    xargs sed -i 's/\bkzfree\b/kfree_sensitive/'
->>
->> followed by some editing of the kfree_sensitive() kerneldoc and adding
->> a kzfree backward compatibility macro in slab.h.
->>
->> ...
->>
->> --- a/include/linux/slab.h
->> +++ b/include/linux/slab.h
->> @@ -186,10 +186,12 @@ void memcg_deactivate_kmem_caches(struct mem_cgroup *, struct mem_cgroup *);
->>    */
->>   void * __must_check krealloc(const void *, size_t, gfp_t);
->>   void kfree(const void *);
->> -void kzfree(const void *);
->> +void kfree_sensitive(const void *);
->>   size_t __ksize(const void *);
->>   size_t ksize(const void *);
->>   
->> +#define kzfree(x)	kfree_sensitive(x)	/* For backward compatibility */
->> +
-> What was the thinking here?  Is this really necessary?
->
-> I suppose we could keep this around for a while to ease migration.  But
-> not for too long, please.
->
-It should be there just for 1 release cycle. I have broken out the btrfs 
-patch to the btrfs list and I didn't make the kzfree to kfree_sensitive 
-conversion there as that patch was in front in my patch list. So 
-depending on which one lands first, there can be a window where the 
-compilation may fail without this workaround. I am going to send out 
-another patch in the next release cycle to remove it.
+On Mon, 2020-06-15 at 21:57 -0400, Waiman Long wrote:
+>  v4:
+>   - Break out the memzero_explicit() change as suggested by Dan Carpenter
+>     so that it can be backported to stable.
+>   - Drop the "crypto: Remove unnecessary memzero_explicit()" patch for
+>     now as there can be a bit more discussion on what is best. It will be
+>     introduced as a separate patch later on after this one is merged.
 
-Cheers,
-Longman
+To this larger audience and last week without reply:
+https://lore.kernel.org/lkml/573b3fbd5927c643920e1364230c296b23e7584d.camel@perches.com/
+
+Are there _any_ fastpath uses of kfree or vfree?
+
+Many patches have been posted recently to fix mispairings
+of specific types of alloc and free functions.
+
+To eliminate these mispairings at a runtime cost of four
+comparisons, should the kfree/vfree/kvfree/kfree_const
+functions be consolidated into a single kfree?
+
+Something like the below:
+
+   void kfree(const void *addr)
+   {
+   	if (is_kernel_rodata((unsigned long)addr))
+   		return;
+
+   	if (is_vmalloc_addr(addr))
+   		_vfree(addr);
+   	else
+   		_kfree(addr);
+   }
+
+   #define kvfree		kfree
+   #define vfree		kfree
+   #define kfree_const	kfree
+
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/65002c1e-5e31-1f4e-283c-186e06e55ef0%40redhat.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/fe3b9a437be4aeab3bac68f04193cb6daaa5bee4.camel%40perches.com.
