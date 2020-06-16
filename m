@@ -1,121 +1,163 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBAEDUP3QKGQEKS2GGXQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCPILY4NUAFBBEEHUP3QKGQEQDEUN4Q@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oi1-x23c.google.com (mail-oi1-x23c.google.com [IPv6:2607:f8b0:4864:20::23c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CD5E1FB13E
-	for <lists+kasan-dev@lfdr.de>; Tue, 16 Jun 2020 14:56:33 +0200 (CEST)
-Received: by mail-oi1-x23c.google.com with SMTP id n184sf10536159oih.17
-        for <lists+kasan-dev@lfdr.de>; Tue, 16 Jun 2020 05:56:33 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1592312192; cv=pass;
+Received: from mail-il1-x13d.google.com (mail-il1-x13d.google.com [IPv6:2607:f8b0:4864:20::13d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 399F71FB188
+	for <lists+kasan-dev@lfdr.de>; Tue, 16 Jun 2020 15:05:21 +0200 (CEST)
+Received: by mail-il1-x13d.google.com with SMTP id l11sf14467356ils.11
+        for <lists+kasan-dev@lfdr.de>; Tue, 16 Jun 2020 06:05:21 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1592312720; cv=pass;
         d=google.com; s=arc-20160816;
-        b=IP+iDi65dbt3sDozQDQ79oU1EkoluWQAzsUjoLDcXwMiEMhB80ryq9dz9fDDnTSDJV
-         5S7rFCyHJIHyRkV6Bo5LAqruNqD3/sZciNXqz8lpz5FkK8KirzkSbT/tdtjpOyLj5Kw9
-         FG394kCDQk9/n1e6ie1rY4g2jCqf5zzR5DFd6JMJ9nDxELunVJaTe7pkpnrGDHwduDQ4
-         tasaL/xFitNQvB4YY1qIqBldG7U2K9m+G7JYBhrvexDUTVM8ZgJUNA1NcEGqBt/QsWLl
-         VZTeAwCwrSWMNnyHWki+JfYgCqufXkouzI78CtFWXDd+oeJnyukFD9fLGSJU75uK3mgr
-         VKtQ==
+        b=QQ2gLITJyqnCANMhCIvSOrycGMGRDAaCNNGqlZuF86/86ozBY1t11N4H9us8VZTdG5
+         Jy0NwFF2SG8RD/uXmNd1oR7CRM1ZT3qo+eLS6do7gEqknuACuPSEGiqs+MNKlHyCtajW
+         CQudd1pOlZL+drjjcRxT7G90IfqKGkDm7kRKBgybDKoFc719Bwznp7PQbuMi6d3vmJj+
+         xtW/0RvHDuK3x/M6nwGWTF/dawvNWwfIMYa4gnPI1fBUQ/nVcjb5mYDDX/iUiKSi2HfT
+         BK6uUaxwnwIh+lc4Xu5WgjodyUnNEeNDsf/CBIPOc7e7lC/0up7urUGlSB+JsQh48zmR
+         lfzA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
-         :mime-version:message-id:date:dkim-signature;
-        bh=r9xfcISEV5EDC59C0m2FrQwGD80WsTuLMAi81pZFs0Q=;
-        b=iH35EQXTJjK79+e66mp5JSs+j1yqc80puTbZzHziIbtQdSs3u9qFZfwzPsk2iOaHWX
-         /fSHQ3grR7LvhKIZi2IdBtbpNoJiXpJkIt4qy0cq7E+6y8tlBWlwmkIySHbFiFe2n9rI
-         50X1tJBlwvtg1gDhBsqcEPh+oSy72V+UMi0oy6YQmW+AFBM2CnTx5pTtJDuQ/6dOvTh1
-         xbYQmizCfc1mOsCIWukZqngq4SAvw7OA8NmZ3S8vfr8gtp/XFHctEQtYFcem3mwbXxaa
-         eSomJ5bpzhhJhyMGTqDLbNcAZWbvAOHs32CnwpEwHsi0PNLAZVP8svaau3Q/yCrDHwiz
-         wJ9A==
+         :list-id:mailing-list:precedence:content-language:in-reply-to
+         :mime-version:user-agent:date:message-id:organization:from
+         :references:cc:to:subject:sender:dkim-signature;
+        bh=cYNVRMAAg81Lk09asrAizvDAkaBOIvxflBtiJRyNfVo=;
+        b=eCG/DMinXF66lgluTDOqEjQraBXkfK1VQkhsOs2H21sPfi+68BMtQURvb6kX050FEe
+         93sJ+Q+ysrF30+upbeD4DLO86EREdUPzEIUNuR/uYQ9EXDb217uSH60crTQcFyiFQf5i
+         dXU+7nloSy3WqDAf9L+IqHytptaG3QCohtg2MvmjetfOF0FP6yV4eVwBcA9AO/ck88IP
+         L9B6CEWKBIQf+IGfAsw/d3kQetscuB4kzlCrXl37D/wc+aAFbmBl6jW+Scht7HPk51pA
+         6tM766oQTRStxDOD4somqh31M7VFcG0aU5r82DoCmsT0l2sCKazGVnYXX3TUd4ypZs20
+         F7nQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=sSHE2J4H;
-       spf=pass (google.com: domain of 3f8hoxgukcaignxgtiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::74a as permitted sender) smtp.mailfrom=3f8HoXgUKCaIGNXGTIQQING.EQOMCUCP-FGXIQQINGITQWRU.EQO@flex--elver.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=DrTWSdc5;
+       spf=pass (google.com: domain of longman@redhat.com designates 207.211.31.81 as permitted sender) smtp.mailfrom=longman@redhat.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=date:message-id:mime-version:subject:from:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:list-post:list-help:list-archive:list-subscribe
-         :list-unsubscribe;
-        bh=r9xfcISEV5EDC59C0m2FrQwGD80WsTuLMAi81pZFs0Q=;
-        b=FA6gqlCIFSxjdZ+BCHOoJqiwsPV5kOKKQwwn5WhKzw2/LnnlG2tuOOUtdYpGakYs4k
-         XsBDRGFQDDEASBIdd6axgEOhxBX7pXjI/YkElwpjSDkOnL0RfpizS6oMFdmAxjLF47FB
-         LFCprlcaEaDBcsxX2f0byuPTMgWcYOtCk5j2VL0LyihoIo2IwvwXgBeE7OTQfPs7kiou
-         B9bHedDvEo+uPVHWP8g/1YoLZdncs1C6LYML/RC02ri9YT5KFcWCbJazCLhxZvqFyyTa
-         0nhJ0Y/75IiyNysvokdVIEzQCY6c6kJS6CjQuRRkQSRsHWrRf+dtgHS5LVCQrv7SCvJl
-         ta4g==
+        h=sender:subject:to:cc:references:from:organization:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=cYNVRMAAg81Lk09asrAizvDAkaBOIvxflBtiJRyNfVo=;
+        b=emPI048E2Nto39/kgdRwO7MJU8A+tuGR5iBmw1Samlr7U4R3k4i2aWjRriNps6aoVc
+         vawQ6sJDcgr+4xlyruux5MP85RebLMKzBPKQ+ZXeo1Nz0JsmX3tnRUwtkpf6BtPCp0vR
+         ZwWLy1WkTg7isD5jVdo8yYr7F+/GXkTaU5fkvFpbuJaMsyMf1Ys7TsUPHZmu/9CxkHDL
+         EJH8RI6TqYJXpU6AY/U/62ZKICEm5y4SL3pmePxrESSgI5PfK3uEYiCkJRrlKOcxUAvg
+         pJXRwwBmNgXiLKgWykXFU7DO/FL1XenhsBLq/0JFI6C9GAb9nQGZ2DdKwWNCBOVknRej
+         +abQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc
-         :x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=r9xfcISEV5EDC59C0m2FrQwGD80WsTuLMAi81pZFs0Q=;
-        b=bkcXZanrnnPgxPFG5QctqY4ny3FrIxD8H3d4x+1+8c0QxQmFBm5duavbvprdScIo9O
-         bxUbxExkOVcdq4SzhK9ssisip1Lu6cjWcCoJNU6fYTuhFBGFuZ/gqGUQtgMfTssoIFC5
-         GviVQjlxq74wPef0GMBbBODd5Y9xK7eJ+R+APzkj6Rb8SHxFDtmfvZbiMmAVuRMGM7K/
-         AAQXD6JIBRbGOIbANL/oeCCNdGDMVH31ERW8p2sHsjFMtso/DoXvaXYqsOJEaWKjcOCF
-         nn7hXGHXTxtH5YyQNP02LcMDNWf7EVz1NS4u9Jlt7d6Z7qT8xzdW5cBSf5ZDj6K/+JG2
-         HiMg==
-X-Gm-Message-State: AOAM531ozwS5ZY2e8zDvZ7qxtel9m1dj21vY91oiayvLQmygLpDZk3DY
-	0iN9XpkBWMsiFBobX8z8XII=
-X-Google-Smtp-Source: ABdhPJzc2UHfQbsnRfHpmxBCn88GUPz6kjxhgoO4GKwUCugoVqNiqJCj+j5SK9IMISgbGkVFOC6CPQ==
-X-Received: by 2002:a4a:2412:: with SMTP id m18mr2260391oof.36.1592312192598;
-        Tue, 16 Jun 2020 05:56:32 -0700 (PDT)
+        h=sender:x-gm-message-state:subject:to:cc:references:from
+         :organization:message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=cYNVRMAAg81Lk09asrAizvDAkaBOIvxflBtiJRyNfVo=;
+        b=EHqG12XpblC4FNOn13JBLgZZowyUSFRWXH719gWUFDf4fX15fElDQIq+xpDqgTViJB
+         1Bd4+13szWGuk5jOO581QkA7vI+OCKg4DfemTO0f07bHLM1QCEpHrH9vV6OwNrN+jMZC
+         qvj8O+e9z+rxhhIoAgjvA8gP87oa24fhbT0BBuhpxoAZ4+XRALDAdmsR+OiFQLshvYJh
+         HuDISS3jMF/3AiNtMK8ULh909YSqgvQr2xa8jXARn25zlpC/VWU/h8u1zbQZZSIw5AfO
+         slP0Aherl2Ka5KHTdJtasryXvAUmWkb5rIALTsPL3qFZrG63HmX7tQL1f/zvjSQdSnT5
+         8QSw==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM530IncLINPdTXW82ILR2Vlr99bR2CDZVKFcuwJ8GtLtWvsHb0UZL
+	PDzRJ7onHig+n/xR7HDS58o=
+X-Google-Smtp-Source: ABdhPJz9sxtJYYLrpQB/7/5fQ+xe4dVJc16XkQ/sUs94W/F4yZY6tfIpcfXFWHXyK6PC6rYpf2ZS+w==
+X-Received: by 2002:a92:cf4d:: with SMTP id c13mr2958904ilr.207.1592312720182;
+        Tue, 16 Jun 2020 06:05:20 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a9d:2c46:: with SMTP id f64ls3812058otb.2.gmail; Tue, 16 Jun
- 2020 05:56:32 -0700 (PDT)
-X-Received: by 2002:a9d:1296:: with SMTP id g22mr2400750otg.102.1592312192282;
-        Tue, 16 Jun 2020 05:56:32 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1592312192; cv=none;
+Received: by 2002:a92:c205:: with SMTP id j5ls4560023ilo.11.gmail; Tue, 16 Jun
+ 2020 06:05:19 -0700 (PDT)
+X-Received: by 2002:a92:2906:: with SMTP id l6mr3100776ilg.105.1592312719859;
+        Tue, 16 Jun 2020 06:05:19 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1592312719; cv=none;
         d=google.com; s=arc-20160816;
-        b=F8VmM3icZwxu80jpHAGmPvE6PZBgvq/K8y7NJc2eoOORrI7JP0EWK+7zHyp3c26KVE
-         RJdm3u4ZhUjSH09Qxtwc2f8iC+VYPTDId5le0ySg+8pugal3Zl+1GdMZkEQGuWB/Y27r
-         9zABgI+CuSMEtCoCRRQ2+jZFCjx5zn8AlodmIjZmprkKvFhKbhQ/q2na1+g7glwslnXN
-         JDSA6GaR6YbU6/gfFSXVrJmJ81kuE4+eDV1ENv6LHsL5JjSlc+uAdGiTD9HICq9q/QwL
-         4UwxF7MYF3Ww5MEdTfBQg14rMyfMZ8M/Qo08S9F8yw/I2GoWWNENO9p1V4F6ZWZTg6uY
-         DVMg==
+        b=AlXCBl+dfcd/0lOnf/wflaOqHDlzvU/T63Fucb2yntaGkAPa8LaU0Irx6nVBPlowuU
+         mXkukvjq/NA5YY7/j7hHHe6+UoHMCgQxdl/nOWCBQhPahdja5y+ccBTKL2rU6NRa0siH
+         94VaNoE6GJMnN8T8mlw0jtjMHJRP+vCuxowLSSBRIEChdRPEZ2jvWHxht/+h05fp+YoM
+         7Cb3uWl2j3PZYjENM1/XzZA8T8oQ1JNwjmEoj5KcZITuIYqsooju2Zl6XiFfG5HRr9bk
+         oef2/XtpBwqZJSsAa7J/Y12sgTCYlCxDjMo9V832p0cjd6dW7xdBcej2N7IWvB8lJu+t
+         5THw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:from:subject:mime-version:message-id:date:dkim-signature;
-        bh=JEQhTwQYPsGwAzZzLRu7bODyjB8wxGLamvh49Pujfk0=;
-        b=g5etS91CBY11mHqXyHygbRsWNxzru63CWbHLZhWvJflHYW0ziKvJpYGW0qaE0WPezq
-         SWYlMh8S8nrklwjuB3+T0z9TA+DTi6lhEUO3GphL6v1DY5/W5AnQUFJVXxbPQMHqk2Bt
-         iZFNAjNpRiH1Q4yR4FNv0ClankJvqpYSQeM+ok3fayb01kSckD3X1xoa72RCNL6im6hn
-         iNXzz1RDh+U28cmvUCG0hLG99vHg5MsLnOkgxsy4tyv26tY0qrMdIv5YWK0AYPI7jhvw
-         chtG6/QOpyC385AVX9d85TVVpno+i0SikGco8XwHZRddaXENRF+YIpILKDulqmMwA4zt
-         WLOw==
+        h=content-language:content-transfer-encoding:in-reply-to:mime-version
+         :user-agent:date:message-id:organization:from:references:cc:to
+         :subject:dkim-signature;
+        bh=7nZX/JZoMn+I5qsocsgLqRgQUtpNpbf+EHIybmwJtOc=;
+        b=wgv5XRy1WjaNhzvOtdbSN4w2NGvCdWWEYz0Y462u7GcUxRcytGijxRbZBxApEh24nk
+         PwgNUWjCPm1obJtM+aB1iBO6QMErRt0jZITtcgllFFye0tv3DXlkXjyFBYLpcgU9phVR
+         3rJiaxACqSo7zwXtnGuUovlJEfkgMXe1Mppi9jVhi/pt68lnSpc9KZ5uVclrYkKta525
+         snro5UX/EegvgT+Da6WoNfgfqZhuQ6zFLFXFTuNbnfbWgj9GBAnWxdDfwzLjrZ5MZAlX
+         OTZWKEbsyrzeMqQ8GSrHzT+2hW34wTe9YJOLjgcyBitaEtur8cX58nnMkZksgZgoWyhc
+         B6Cg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=sSHE2J4H;
-       spf=pass (google.com: domain of 3f8hoxgukcaignxgtiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::74a as permitted sender) smtp.mailfrom=3f8HoXgUKCaIGNXGTIQQING.EQOMCUCP-FGXIQQINGITQWRU.EQO@flex--elver.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-qk1-x74a.google.com (mail-qk1-x74a.google.com. [2607:f8b0:4864:20::74a])
-        by gmr-mx.google.com with ESMTPS id h13si1699398otk.1.2020.06.16.05.56.32
+       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=DrTWSdc5;
+       spf=pass (google.com: domain of longman@redhat.com designates 207.211.31.81 as permitted sender) smtp.mailfrom=longman@redhat.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com. [207.211.31.81])
+        by gmr-mx.google.com with ESMTPS id x10si1017194ila.3.2020.06.16.06.05.19
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 16 Jun 2020 05:56:32 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 3f8hoxgukcaignxgtiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::74a as permitted sender) client-ip=2607:f8b0:4864:20::74a;
-Received: by mail-qk1-x74a.google.com with SMTP id d145so16688823qkg.22
-        for <kasan-dev@googlegroups.com>; Tue, 16 Jun 2020 05:56:32 -0700 (PDT)
-X-Received: by 2002:a0c:e5c1:: with SMTP id u1mr2081593qvm.140.1592312191743;
- Tue, 16 Jun 2020 05:56:31 -0700 (PDT)
-Date: Tue, 16 Jun 2020 14:56:17 +0200
-Message-Id: <20200616125617.237428-1-elver@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.27.0.290.gba653c62da-goog
-Subject: [PATCH] mm, kcsan: Instrument SLAB/SLUB free with "ASSERT_EXCLUSIVE_ACCESS"
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-To: elver@google.com, akpm@linux-foundation.org
-Cc: dvyukov@google.com, glider@google.com, andreyknvl@google.com, 
-	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com, cl@linux.com, 
-	penberg@kernel.org, rientjes@google.com, iamjoonsoo.kim@lge.com, 
-	linux-mm@kvack.org
-Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 16 Jun 2020 06:05:19 -0700 (PDT)
+Received-SPF: pass (google.com: domain of longman@redhat.com designates 207.211.31.81 as permitted sender) client-ip=207.211.31.81;
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-395-9xOyBG-QPzmPq6osX1JXvA-1; Tue, 16 Jun 2020 09:05:14 -0400
+X-MC-Unique: 9xOyBG-QPzmPq6osX1JXvA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 108C8107B7CB;
+	Tue, 16 Jun 2020 13:05:07 +0000 (UTC)
+Received: from llong.remote.csb (ovpn-114-156.rdu2.redhat.com [10.10.114.156])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 3337D5D9E4;
+	Tue, 16 Jun 2020 13:05:01 +0000 (UTC)
+Subject: Re: [PATCH v4 1/3] mm/slab: Use memzero_explicit() in kzfree()
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ David Howells <dhowells@redhat.com>,
+ Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
+ James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>, Joe Perches
+ <joe@perches.com>, Matthew Wilcox <willy@infradead.org>,
+ David Rientjes <rientjes@google.com>, Michal Hocko <mhocko@suse.com>,
+ Johannes Weiner <hannes@cmpxchg.org>,
+ Dan Carpenter <dan.carpenter@oracle.com>, David Sterba <dsterba@suse.cz>,
+ "Jason A . Donenfeld" <Jason@zx2c4.com>, linux-mm@kvack.org,
+ keyrings@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-crypto@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-amlogic@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+ virtualization@lists.linux-foundation.org, netdev@vger.kernel.org,
+ linux-ppp@vger.kernel.org, wireguard@lists.zx2c4.com,
+ linux-wireless@vger.kernel.org, devel@driverdev.osuosl.org,
+ linux-scsi@vger.kernel.org, target-devel@vger.kernel.org,
+ linux-btrfs@vger.kernel.org, linux-cifs@vger.kernel.org,
+ linux-fscrypt@vger.kernel.org, ecryptfs@vger.kernel.org,
+ kasan-dev@googlegroups.com, linux-bluetooth@vger.kernel.org,
+ linux-wpan@vger.kernel.org, linux-sctp@vger.kernel.org,
+ linux-nfs@vger.kernel.org, tipc-discussion@lists.sourceforge.net,
+ linux-security-module@vger.kernel.org, linux-integrity@vger.kernel.org,
+ stable@vger.kernel.org
+References: <20200616015718.7812-1-longman@redhat.com>
+ <20200616015718.7812-2-longman@redhat.com>
+ <20200616033035.GB902@sol.localdomain>
+From: Waiman Long <longman@redhat.com>
+Organization: Red Hat
+Message-ID: <56c2304c-73cc-8f48-d8d0-5dd6c39f33f3@redhat.com>
+Date: Tue, 16 Jun 2020 09:05:00 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
+MIME-Version: 1.0
+In-Reply-To: <20200616033035.GB902@sol.localdomain>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Original-Sender: longman@redhat.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=sSHE2J4H;       spf=pass
- (google.com: domain of 3f8hoxgukcaignxgtiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--elver.bounces.google.com
- designates 2607:f8b0:4864:20::74a as permitted sender) smtp.mailfrom=3f8HoXgUKCaIGNXGTIQQING.EQOMCUCP-FGXIQQINGITQWRU.EQO@flex--elver.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+ header.i=@redhat.com header.s=mimecast20190719 header.b=DrTWSdc5;
+       spf=pass (google.com: domain of longman@redhat.com designates
+ 207.211.31.81 as permitted sender) smtp.mailfrom=longman@redhat.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -128,56 +170,63 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Provide the necessary KCSAN checks to assist with debugging racy
-use-after-frees. While KASAN is more reliable at generally catching such
-use-after-frees (due to its use of a quarantine), it can be difficult to
-debug racy use-after-frees. If a reliable reproducer exists, KCSAN can
-assist in debugging such issues.
+On 6/15/20 11:30 PM, Eric Biggers wrote:
+> On Mon, Jun 15, 2020 at 09:57:16PM -0400, Waiman Long wrote:
+>> The kzfree() function is normally used to clear some sensitive
+>> information, like encryption keys, in the buffer before freeing it back
+>> to the pool. Memset() is currently used for the buffer clearing. However,
+>> it is entirely possible that the compiler may choose to optimize away the
+>> memory clearing especially if LTO is being used. To make sure that this
+>> optimization will not happen, memzero_explicit(), which is introduced
+>> in v3.18, is now used in kzfree() to do the clearing.
+>>
+>> Fixes: 3ef0e5ba4673 ("slab: introduce kzfree()")
+>> Cc: stable@vger.kernel.org
+>> Signed-off-by: Waiman Long <longman@redhat.com>
+>> ---
+>>   mm/slab_common.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/mm/slab_common.c b/mm/slab_common.c
+>> index 9e72ba224175..37d48a56431d 100644
+>> --- a/mm/slab_common.c
+>> +++ b/mm/slab_common.c
+>> @@ -1726,7 +1726,7 @@ void kzfree(const void *p)
+>>   	if (unlikely(ZERO_OR_NULL_PTR(mem)))
+>>   		return;
+>>   	ks = ksize(mem);
+>> -	memset(mem, 0, ks);
+>> +	memzero_explicit(mem, ks);
+>>   	kfree(mem);
+>>   }
+>>   EXPORT_SYMBOL(kzfree);
+> This is a good change, but the commit message isn't really accurate.  AFAIK, no
+> one has found any case where this memset() gets optimized out.  And even with
+> LTO, it would be virtually impossible due to all the synchronization and global
+> data structures that kfree() uses.  (Remember that this isn't the C standard
+> function "free()", so the compiler can't assign it any special meaning.)
+> Not to mention that LTO support isn't actually upstream yet.
+>
+> I still agree with the change, but it might be helpful if the commit message
+> were honest that this is really a hardening measure and about properly conveying
+> the intent.  As-is this sounds like a critical fix, which might confuse people.
 
-Note: ASSERT_EXCLUSIVE_ACCESS is a convenience wrapper if the size is
-simply sizeof(var). Instead, here we just use __kcsan_check_access()
-explicitly to pass the correct size.
+Yes, I agree that the commit log may look a bit scary. How about the 
+following:
 
-Signed-off-by: Marco Elver <elver@google.com>
----
- mm/slab.c | 4 ++++
- mm/slub.c | 4 ++++
- 2 files changed, 8 insertions(+)
+The kzfree() function is normally used to clear some sensitive
+information, like encryption keys, in the buffer before freeing it back
+to the pool. Memset() is currently used for buffer clearing. However
+unlikely, there is still a non-zero probability that the compiler may
+choose to optimize away the memory clearing especially if LTO is being
+used in the future. To make sure that this optimization will never
+happen, memzero_explicit(), which is introduced in v3.18, is now used
+in kzfree() to future-proof it.
 
-diff --git a/mm/slab.c b/mm/slab.c
-index 9350062ffc1a..4c7013eeacd9 100644
---- a/mm/slab.c
-+++ b/mm/slab.c
-@@ -3426,6 +3426,10 @@ static __always_inline void __cache_free(struct kmem_cache *cachep, void *objp,
- 	if (kasan_slab_free(cachep, objp, _RET_IP_))
- 		return;
- 
-+	/* Use KCSAN to help debug racy use-after-free. */
-+	__kcsan_check_access(objp, cachep->object_size,
-+			     KCSAN_ACCESS_WRITE | KCSAN_ACCESS_ASSERT);
-+
- 	___cache_free(cachep, objp, caller);
- }
- 
-diff --git a/mm/slub.c b/mm/slub.c
-index b8f798b50d44..57db6ca2e0dc 100644
---- a/mm/slub.c
-+++ b/mm/slub.c
-@@ -1470,6 +1470,10 @@ static __always_inline bool slab_free_hook(struct kmem_cache *s, void *x)
- 	if (!(s->flags & SLAB_DEBUG_OBJECTS))
- 		debug_check_no_obj_freed(x, s->object_size);
- 
-+	/* Use KCSAN to help debug racy use-after-free. */
-+	__kcsan_check_access(x, s->object_size,
-+			     KCSAN_ACCESS_WRITE | KCSAN_ACCESS_ASSERT);
-+
- 	/* KASAN might put x into memory quarantine, delaying its reuse */
- 	return kasan_slab_free(s, x, _RET_IP_);
- }
--- 
-2.27.0.290.gba653c62da-goog
+Cheers,
+Longman
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200616125617.237428-1-elver%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/56c2304c-73cc-8f48-d8d0-5dd6c39f33f3%40redhat.com.
