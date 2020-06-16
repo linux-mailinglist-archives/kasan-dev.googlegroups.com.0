@@ -1,111 +1,113 @@
-Return-Path: <kasan-dev+bncBCPILY4NUAFBBKOOUD3QKGQEBUVIWBA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCPILY4NUAFBBMGOUD3QKGQEE4B3U6Q@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yb1-xb3b.google.com (mail-yb1-xb3b.google.com [IPv6:2607:f8b0:4864:20::b3b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 028411FA5D0
-	for <lists+kasan-dev@lfdr.de>; Tue, 16 Jun 2020 03:58:02 +0200 (CEST)
-Received: by mail-yb1-xb3b.google.com with SMTP id e82sf22629008ybh.12
-        for <lists+kasan-dev@lfdr.de>; Mon, 15 Jun 2020 18:58:02 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1592272682; cv=pass;
+Received: from mail-oo1-xc3d.google.com (mail-oo1-xc3d.google.com [IPv6:2607:f8b0:4864:20::c3d])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA0851FA5D8
+	for <lists+kasan-dev@lfdr.de>; Tue, 16 Jun 2020 03:58:09 +0200 (CEST)
+Received: by mail-oo1-xc3d.google.com with SMTP id k27sf8962563ook.9
+        for <lists+kasan-dev@lfdr.de>; Mon, 15 Jun 2020 18:58:09 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1592272688; cv=pass;
         d=google.com; s=arc-20160816;
-        b=cijIiHVVvxQUeOh8+nfB0792sFNaiUgyXaA9Xuv9WIvYMkb/xb2HAHLNH1YOvr+YZL
-         aLLmXHoWuohcTkm778HKfDe7sOMim8ZoUxLJzdl8b1o4z68pV+T1dtPmGgl6/nRWKD3b
-         P5voXQRdi0e5zcQ5ZuXKj0wjYAFIlIPAa2pgK542Pp8H2R/AoAssMtvHWOnON+dIlgI/
-         LzubtLJkeJ1G9PDhKZAJ4fxxwg+gEpP2zyEAkKhRaaUX2y5s0HD62KbrhJwhSImt1rAX
-         gFjNWi8pBOhGd8Z8cBkPxa+rOwE0BdsMbgMjsLrxlZ+bIXFnvJ9WDi84mPvJhtODazkD
-         /AQw==
+        b=QRRWNfCkeIBvMXQydDNfOFYfc77ISsnYQNZuTa96tYxFqfLlpxtC5LTqKuZm3nOyMi
+         jPANWvi7OLYpC+ft9OXidcNLmCdNQ9Zzk4ovPXNTc52GPOSBWnOKuZ/3ZmxR/FS21M/h
+         ovgcsBqTzBfVvb4GCqtV4QcJLRrWIVWRs/ildJ4/8ztviinKaI2q4xw0fYrgBnnTTnhP
+         uB7M+3/lzNz9BJd62GDTaF6j8jdt638yEHuToa+5ZS2UFO7CqIYZE9lES8WmvD5oMyGd
+         JDdE2ONci+vJQvohxtWAFJnpl7sGStSdN1PkBMb4Kdqxvli3Z8JTovyqEuNjoD0sVPXJ
+         BWMQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:message-id:date:subject:cc:to:from
-         :mime-version:sender:dkim-signature;
-        bh=dGNRjPdZCdn5yjfSkXhnHz9ttFv6O8z9J2oCj4Dowuw=;
-        b=SYgAioHo4hz5YmoF7/8FDmNHQkg8Wn+8ItBKQs0NEh9XjHsPLIqFbwGFtcWdOtTdmZ
-         Ogd12uoL6Xkx8HxOWk7MnpyZTYk8IlQ2z8ZfgmK7VFZjrpb9HRJOn7qItEYzov/G9M4C
-         7lQK7isjZdLyk1LHVy+Oss2T49+5R3xuWVia/HApVUr4hJF3G7YeUVHVwwYixQd4YmSx
-         aToMO7ZAv9HONzoGBte7RuI5Qu/geTFQr5RZktj7xSzcoH04oBC/NNqXW1XV5y4vnNej
-         arXUUtcIe3sIi9O52Rye2M2kBuXc4B7P1M3w5/VlVISd5PQKmnw+YF+Qyg1YgR93JVRj
-         HSnA==
+         :list-id:mailing-list:precedence:references:in-reply-to:message-id
+         :date:subject:cc:to:from:mime-version:sender:dkim-signature;
+        bh=rjhto8o6xTrlJemCzHF6PcHvgo9W+/w8vpxrbHZIUKo=;
+        b=yTq2dmRWg9E1MEPMHgeP/MsGWCebjdLJ4pZKZxoWfvZ5Bp0wUQuFrF1n479M2iI/j5
+         +ovLGspiPlBp/T/z53xqHTINGkYpYxrcug+37RCmPG4OR7BosXTzFI1fcahMPZpPd1AO
+         S1dnhrcxvzJKW69P2Lst0mSu5kJv9jynQrJeXTuqmtZsum6xl3NWgGELllPYSovNW+E9
+         fNXglXFIkg9SjXOyEvg3x9SHOjigJL0Xd6C6yIZP5k3U8tATH61Ia8y/eTveIUL9Z7kS
+         etc+M5sZOC1ZkyHCwrNTNiXbd9Bl7/+lHkqxdSTOjNheZFGDY72BueguJdeatfAP7sQp
+         NGsw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=f2FwiIn7;
-       spf=pass (google.com: domain of longman@redhat.com designates 207.211.31.81 as permitted sender) smtp.mailfrom=longman@redhat.com;
+       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=FrvAOJRx;
+       spf=pass (google.com: domain of longman@redhat.com designates 207.211.31.120 as permitted sender) smtp.mailfrom=longman@redhat.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:mime-version:from:to:cc:subject:date:message-id
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
+        h=sender:mime-version:from:to:cc:subject:date:message-id:in-reply-to
+         :references:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=dGNRjPdZCdn5yjfSkXhnHz9ttFv6O8z9J2oCj4Dowuw=;
-        b=cM3sK89xDeAFejXlI7NtQi1S4w51S9la4CnzdePFLf5XHQR2Oz+numrkTIbtGLXnSY
-         giR0ay0Zq+QgToyY9rJef7f0kcCCP7qpU7aXE+az9TunPgnFG9cpnelW9TTWZznsXtuU
-         saRuKZvP050WKbVG+n5SWasFljs7Z+dfs10IDX2N1DY2QkKJ24j25pmbm/ZSzk/rDCKY
-         8L2vlcb4KaO8dN4+Hv9w+OcIoXufoAOxRJFAnqX1TdSxXCaRZFT+5j1a52gAl/N6yDMP
-         4yzj6szgfuwpsu/yF6sqfj6bdmWRCdLXkraKeISOx8ewnd/eJ0M/CIZFNdUbUEUFPL0U
-         nDqw==
+        bh=rjhto8o6xTrlJemCzHF6PcHvgo9W+/w8vpxrbHZIUKo=;
+        b=q9+Ly1fEuwZDngMuAzL1PemTHcR6Ov8BnavbGZkJb2FLGkFbPZr2twrEQi27a9Qy1t
+         OOwNaAlluPd0QGxHevnJoJ0T5qRF55r/4HqXRO8Ln+TKXgIk3EGSwHN7eg7EQpF39w4X
+         y6KToko7/9vCHe2vkQtpJZm8+vkmLBH0CyLom2JS6enoH9IAE5lcvpK1DpB33IXZ8Xzz
+         9X+mtEjqL0lGGhL+e8/0kFZtMKieYqAWN9CWKvMITj6j8I8R2WCK0pOa5ybRpEP7Urn0
+         gvDqCsPSecA4n7eTPcBMb6/qLNHQQfIku3t92Ika/3+pbaDsHXJ4ssPpr3kLd8/ZDUHK
+         K//g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:mime-version:from:to:cc:subject:date
-         :message-id:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=dGNRjPdZCdn5yjfSkXhnHz9ttFv6O8z9J2oCj4Dowuw=;
-        b=TSegL88tZKyKGXQVu+2+qrvaoH8Q86NWF9fo3aDo4j3zR9Al8X27H83EuZQEz5+zyM
-         SA8ggkMRi7s9vU5tocXIlygq6utuqcGJRw/VBDFPWQCf30sVQ0l0GlopFcyH5GtR+Zq9
-         YJ+GZXE2ryRoAaB7tEkLOk37lZcZUqaT1nOGFjcSUL6dWg4ZLf+n/lp5Fq/dh7i+WzxW
-         DhK4d8pkevzEJjd2ZKgnrzuLT5/gYVB0hDR0rkGbd4fQnCjnS4EKMiyQmZBk6YDm5lAJ
-         ffRXaLwH8EiRmx8XrknQIzGulOxOuPX89VJR+o5wzzl+/lD/7/unoYPG0zfKdKfhg7H9
-         oHVg==
+         :message-id:in-reply-to:references:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=rjhto8o6xTrlJemCzHF6PcHvgo9W+/w8vpxrbHZIUKo=;
+        b=erOL2iqAgSJR84VxRi1WpXDMpmW4pxDd6wLDU2lRbcgADu2acqCVn9ALKmalOgbzII
+         Rjy9Maaxd/L/FaLmzBXkYryK/HYczULlvEFQkiQvPbuDfZZgk1tMuzRx2NgsiPzmXcs9
+         QJ9b7YwaIi3BzGuun3XVm2QYVkOwRzWxs+Kj+DdHBO0ouJwxDOZeqZk4Fr9P5/vmv7fE
+         vi/eRB4/3tRk5UOAywWVpejqNTC4zHuRV7U0xXmhKq3347Ho+uCGcE6ktrzOMKTm+OEJ
+         /pzjr8SVn+R/ugTLNfyiaujlJ1SI47w9fzw+8hAbKaULmsx+To+G34RfI2XSVgeNwD+g
+         NrRg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM531JBuM19WO8MvYxjCRSMQxvvMAllvasw1/lP1lS5sK+Rz7G58KN
-	rTEj7zGEsNbA4gDl89qfhQM=
-X-Google-Smtp-Source: ABdhPJwY4CdJ/oJ+Wl/qQU8lMM7gszx/m3f5yKZ9hX7fs3EuBFLvV0QbdqL381sy9oyo0AiydwTvxg==
-X-Received: by 2002:a25:408:: with SMTP id 8mr658415ybe.500.1592272681999;
-        Mon, 15 Jun 2020 18:58:01 -0700 (PDT)
+X-Gm-Message-State: AOAM532gOr2tzTzH7kaajLPn8/NEMnJ4rdeZAR0OEs2WqQf6P/FOiZRl
+	5GF3B5d4JyHfG2cEC2HSf8I=
+X-Google-Smtp-Source: ABdhPJwYowvc950RYzYN/OuICGHvcfnTIOkDtLX+yl6MfYKN6sFV/qQzlg8eLeHLvAr9NvIkzx/Okg==
+X-Received: by 2002:aca:4c15:: with SMTP id z21mr1814043oia.85.1592272688427;
+        Mon, 15 Jun 2020 18:58:08 -0700 (PDT)
 MIME-Version: 1.0
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a25:6602:: with SMTP id a2ls6777043ybc.0.gmail; Mon, 15 Jun
- 2020 18:58:01 -0700 (PDT)
-X-Received: by 2002:a25:244a:: with SMTP id k71mr713870ybk.143.1592272681597;
-        Mon, 15 Jun 2020 18:58:01 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1592272681; cv=none;
+Received: by 2002:a05:6830:11ce:: with SMTP id v14ls3502279otq.0.gmail; Mon,
+ 15 Jun 2020 18:58:08 -0700 (PDT)
+X-Received: by 2002:a9d:6a58:: with SMTP id h24mr699815otn.277.1592272688056;
+        Mon, 15 Jun 2020 18:58:08 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1592272688; cv=none;
         d=google.com; s=arc-20160816;
-        b=iMXYO7SKCVof2xByoAglhd7AQyi//fzD4yyb4l66fSlmbrcu51USh8z1K40H3nL6Tx
-         J1nWj1GDwrAGt5WXDEciFFf7IZE2EenGYw8zPygzEH+yBL0azOuPbMPp/1aCk+/PL/Y6
-         YKnk7YoR9ya0WMrJ0FmUlpq1UHlKGMMdDRAy3YZAVzXdohmVI4nNYflt9uOzd526X1d2
-         jrRA/GjHUc1qR0IgU23iX/F7CgpsEki1GXvpX3m6EaSnsE9eEwvyVpwzRxXkhIpU1YGD
-         SvqU3Eb0IPhX84bzaRf3GV8UqDC/WkvFV1D7jRBcNby6jPRyKw8O6bjvPV+udH8iCStV
-         nutA==
+        b=sSYGzJ1/iQZhtYBSBj8+p1iyinN6TP8krKuSm4mvD+qfBsAqtlVm4DzPMb32wf5QPw
+         WvSnY89GZOB+edASkrNLhenavrp84G5QJBYAvCAvsoZfQh6hjhV+yld1hh/b16qgqPOw
+         uXnedQ/fzDPZQau+OnJ2ml7Vg/Z+MkVNYM7duKF/nhkzS70u/Xepw/E4Hca/4NbG4v++
+         cj5oaClz/pLH/CbbaxaoDmmnXER1jBFWCfxWXGRxHFxU1PTIZKqRTsZGANGg74Mclmrr
+         KPo2P0qC/pfOOSBgApJ2VQmk2C0LazUyYHf5C1J+0BkrlnxS7CuRqVZxX0z2PJ1BrQgb
+         E+0A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=message-id:date:subject:cc:to:from:dkim-signature;
-        bh=MZUCLAMZdmO5EM+jCfqRymLIPQ+NHghkczuzn6RqHtY=;
-        b=zM4GYe2uz1FhwdnBSn0roK5GsfWXFAOVW2epAIAoJfeNzQwhM3EDDEp8H5TdOfC4+t
-         PzG1KagDZVr0Gv+x9EAP2mdVLjkJugDho3iKwNeQgsBSxpwiEa722WlTRkpFfM2yv/77
-         om7VFq6OM/SFnnpAJFsN4K0IZ8Ry/+YdtFuGzJEmi0OH0A7f5LiaOQA4w1BccRLE1Ruf
-         q0NHfeTtbXGj6sdtkMlTO89S9nhbBypOk6/GwkKsSyzR5KExxfd27TEkq+HXd1qhR1Y3
-         m4eMIA8Rs1jzPkAMY4HQCToZ9sN/27YUoY75Sp/KKhy2kXjz5PvQSEERGT6nqmiU9Wk2
-         vc9w==
+        h=references:in-reply-to:message-id:date:subject:cc:to:from
+         :dkim-signature;
+        bh=w0ZJeQQk3EMaWCq5vRe2fLP4T7LhSgQGKZa9FTUZAA4=;
+        b=qa+IPMmEDF9UkAAG6wafE6lw8tVDfO5Ot6WaG3Y9w1oe51M7dN+eJw0CWwZ9L8pfe2
+         8TE6Hq+AtKUCve5nhvAMx3J1eg5mFejbp5wSWltzRrNkfopdjHmefQFEgMl3RLuCp2by
+         JB3/NXGINkdUjAv2XEXhsveEbkgr7BpQgZ8xl1Nibo7lj7kZHfBZVIgRtH5IyvjPVf4y
+         hRBlU0Gdw+zvdHM3FkmpzeNpz9/328BzYnYjZqgGwSU1dHRjxGwMCMim/rFvi1kTNoo2
+         WOhZ7wlBFhBBE13FYFxXwl7SzhqFTFQ81WTdGpPrJcpB//0gf+pWmyEMDNk8Z0OcT6hO
+         5LqA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=f2FwiIn7;
-       spf=pass (google.com: domain of longman@redhat.com designates 207.211.31.81 as permitted sender) smtp.mailfrom=longman@redhat.com;
+       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=FrvAOJRx;
+       spf=pass (google.com: domain of longman@redhat.com designates 207.211.31.120 as permitted sender) smtp.mailfrom=longman@redhat.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com. [207.211.31.81])
-        by gmr-mx.google.com with ESMTPS id n63si974409ybb.1.2020.06.15.18.58.01
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com. [207.211.31.120])
+        by gmr-mx.google.com with ESMTPS id o199si803011ooo.0.2020.06.15.18.58.07
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 15 Jun 2020 18:58:01 -0700 (PDT)
-Received-SPF: pass (google.com: domain of longman@redhat.com designates 207.211.31.81 as permitted sender) client-ip=207.211.31.81;
+        Mon, 15 Jun 2020 18:58:08 -0700 (PDT)
+Received-SPF: pass (google.com: domain of longman@redhat.com designates 207.211.31.120 as permitted sender) client-ip=207.211.31.120;
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-343-kG50-M7xPwedRKQDZzJkIQ-1; Mon, 15 Jun 2020 21:57:57 -0400
-X-MC-Unique: kG50-M7xPwedRKQDZzJkIQ-1
+ us-mta-271-siDUOdYEMkuGDz0Coifxdg-1; Mon, 15 Jun 2020 21:58:05 -0400
+X-MC-Unique: siDUOdYEMkuGDz0Coifxdg-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 182E77BB2;
-	Tue, 16 Jun 2020 01:57:52 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6856710059B7;
+	Tue, 16 Jun 2020 01:58:00 +0000 (UTC)
 Received: from llong.com (ovpn-117-41.rdu2.redhat.com [10.10.117.41])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 96E15768AE;
-	Tue, 16 Jun 2020 01:57:43 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 45E126ED96;
+	Tue, 16 Jun 2020 01:57:52 +0000 (UTC)
 From: Waiman Long <longman@redhat.com>
 To: Andrew Morton <akpm@linux-foundation.org>,
 	David Howells <dhowells@redhat.com>,
@@ -150,16 +152,19 @@ Cc: Michal Hocko <mhocko@suse.com>,
 	tipc-discussion@lists.sourceforge.net,
 	linux-security-module@vger.kernel.org,
 	linux-integrity@vger.kernel.org,
-	Waiman Long <longman@redhat.com>
-Subject: [PATCH v4 0/3] mm, treewide: Rename kzfree() to kfree_sensitive()
-Date: Mon, 15 Jun 2020 21:57:15 -0400
-Message-Id: <20200616015718.7812-1-longman@redhat.com>
+	Waiman Long <longman@redhat.com>,
+	stable@vger.kernel.org
+Subject: [PATCH v4 1/3] mm/slab: Use memzero_explicit() in kzfree()
+Date: Mon, 15 Jun 2020 21:57:16 -0400
+Message-Id: <20200616015718.7812-2-longman@redhat.com>
+In-Reply-To: <20200616015718.7812-1-longman@redhat.com>
+References: <20200616015718.7812-1-longman@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Original-Sender: longman@redhat.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@redhat.com header.s=mimecast20190719 header.b=f2FwiIn7;
+ header.i=@redhat.com header.s=mimecast20190719 header.b=FrvAOJRx;
        spf=pass (google.com: domain of longman@redhat.com designates
- 207.211.31.81 as permitted sender) smtp.mailfrom=longman@redhat.com;
+ 207.211.31.120 as permitted sender) smtp.mailfrom=longman@redhat.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Precedence: list
@@ -174,148 +179,38 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
- v4:
-  - Break out the memzero_explicit() change as suggested by Dan Carpenter
-    so that it can be backported to stable.
-  - Drop the "crypto: Remove unnecessary memzero_explicit()" patch for
-    now as there can be a bit more discussion on what is best. It will be
-    introduced as a separate patch later on after this one is merged.
+The kzfree() function is normally used to clear some sensitive
+information, like encryption keys, in the buffer before freeing it back
+to the pool. Memset() is currently used for the buffer clearing. However,
+it is entirely possible that the compiler may choose to optimize away the
+memory clearing especially if LTO is being used. To make sure that this
+optimization will not happen, memzero_explicit(), which is introduced
+in v3.18, is now used in kzfree() to do the clearing.
 
-This patchset makes a global rename of the kzfree() to kfree_sensitive()
-to highlight the fact buffer clearing is only needed if the data objects
-contain sensitive information like encrpytion key. The fact that kzfree()
-uses memset() to do the clearing isn't totally safe either as compiler
-may compile out the clearing in their optimizer especially if LTO is
-used. Instead, the new kfree_sensitive() uses memzero_explicit() which
-won't get compiled out.
+Fixes: 3ef0e5ba4673 ("slab: introduce kzfree()")
+Cc: stable@vger.kernel.org
+Signed-off-by: Waiman Long <longman@redhat.com>
+---
+ mm/slab_common.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Waiman Long (3):
-  mm/slab: Use memzero_explicit() in kzfree()
-  mm, treewide: Rename kzfree() to kfree_sensitive()
-  btrfs: Use kfree() in btrfs_ioctl_get_subvol_info()
-
- arch/s390/crypto/prng.c                       |  4 +--
- arch/x86/power/hibernate.c                    |  2 +-
- crypto/adiantum.c                             |  2 +-
- crypto/ahash.c                                |  4 +--
- crypto/api.c                                  |  2 +-
- crypto/asymmetric_keys/verify_pefile.c        |  4 +--
- crypto/deflate.c                              |  2 +-
- crypto/drbg.c                                 | 10 +++---
- crypto/ecc.c                                  |  8 ++---
- crypto/ecdh.c                                 |  2 +-
- crypto/gcm.c                                  |  2 +-
- crypto/gf128mul.c                             |  4 +--
- crypto/jitterentropy-kcapi.c                  |  2 +-
- crypto/rng.c                                  |  2 +-
- crypto/rsa-pkcs1pad.c                         |  6 ++--
- crypto/seqiv.c                                |  2 +-
- crypto/shash.c                                |  2 +-
- crypto/skcipher.c                             |  2 +-
- crypto/testmgr.c                              |  6 ++--
- crypto/zstd.c                                 |  2 +-
- .../allwinner/sun8i-ce/sun8i-ce-cipher.c      |  2 +-
- .../allwinner/sun8i-ss/sun8i-ss-cipher.c      |  2 +-
- drivers/crypto/amlogic/amlogic-gxl-cipher.c   |  4 +--
- drivers/crypto/atmel-ecc.c                    |  2 +-
- drivers/crypto/caam/caampkc.c                 | 28 +++++++--------
- drivers/crypto/cavium/cpt/cptvf_main.c        |  6 ++--
- drivers/crypto/cavium/cpt/cptvf_reqmanager.c  | 12 +++----
- drivers/crypto/cavium/nitrox/nitrox_lib.c     |  4 +--
- drivers/crypto/cavium/zip/zip_crypto.c        |  6 ++--
- drivers/crypto/ccp/ccp-crypto-rsa.c           |  6 ++--
- drivers/crypto/ccree/cc_aead.c                |  4 +--
- drivers/crypto/ccree/cc_buffer_mgr.c          |  4 +--
- drivers/crypto/ccree/cc_cipher.c              |  6 ++--
- drivers/crypto/ccree/cc_hash.c                |  8 ++---
- drivers/crypto/ccree/cc_request_mgr.c         |  2 +-
- drivers/crypto/marvell/cesa/hash.c            |  2 +-
- .../crypto/marvell/octeontx/otx_cptvf_main.c  |  6 ++--
- .../marvell/octeontx/otx_cptvf_reqmgr.h       |  2 +-
- drivers/crypto/mediatek/mtk-aes.c             |  2 +-
- drivers/crypto/nx/nx.c                        |  4 +--
- drivers/crypto/virtio/virtio_crypto_algs.c    | 12 +++----
- drivers/crypto/virtio/virtio_crypto_core.c    |  2 +-
- drivers/md/dm-crypt.c                         | 32 ++++++++---------
- drivers/md/dm-integrity.c                     |  6 ++--
- drivers/misc/ibmvmc.c                         |  6 ++--
- .../hisilicon/hns3/hns3pf/hclge_mbx.c         |  2 +-
- .../net/ethernet/intel/ixgbe/ixgbe_ipsec.c    |  6 ++--
- drivers/net/ppp/ppp_mppe.c                    |  6 ++--
- drivers/net/wireguard/noise.c                 |  4 +--
- drivers/net/wireguard/peer.c                  |  2 +-
- drivers/net/wireless/intel/iwlwifi/pcie/rx.c  |  2 +-
- .../net/wireless/intel/iwlwifi/pcie/tx-gen2.c |  6 ++--
- drivers/net/wireless/intel/iwlwifi/pcie/tx.c  |  6 ++--
- drivers/net/wireless/intersil/orinoco/wext.c  |  4 +--
- drivers/s390/crypto/ap_bus.h                  |  4 +--
- drivers/staging/ks7010/ks_hostif.c            |  2 +-
- drivers/staging/rtl8723bs/core/rtw_security.c |  2 +-
- drivers/staging/wlan-ng/p80211netdev.c        |  2 +-
- drivers/target/iscsi/iscsi_target_auth.c      |  2 +-
- fs/btrfs/ioctl.c                              |  2 +-
- fs/cifs/cifsencrypt.c                         |  2 +-
- fs/cifs/connect.c                             | 10 +++---
- fs/cifs/dfs_cache.c                           |  2 +-
- fs/cifs/misc.c                                |  8 ++---
- fs/crypto/keyring.c                           |  6 ++--
- fs/crypto/keysetup_v1.c                       |  4 +--
- fs/ecryptfs/keystore.c                        |  4 +--
- fs/ecryptfs/messaging.c                       |  2 +-
- include/crypto/aead.h                         |  2 +-
- include/crypto/akcipher.h                     |  2 +-
- include/crypto/gf128mul.h                     |  2 +-
- include/crypto/hash.h                         |  2 +-
- include/crypto/internal/acompress.h           |  2 +-
- include/crypto/kpp.h                          |  2 +-
- include/crypto/skcipher.h                     |  2 +-
- include/linux/slab.h                          |  2 +-
- lib/mpi/mpiutil.c                             |  6 ++--
- lib/test_kasan.c                              |  6 ++--
- mm/slab_common.c                              | 10 +++---
- net/atm/mpoa_caches.c                         |  4 +--
- net/bluetooth/ecdh_helper.c                   |  6 ++--
- net/bluetooth/smp.c                           | 24 ++++++-------
- net/core/sock.c                               |  2 +-
- net/ipv4/tcp_fastopen.c                       |  2 +-
- net/mac80211/aead_api.c                       |  4 +--
- net/mac80211/aes_gmac.c                       |  2 +-
- net/mac80211/key.c                            |  2 +-
- net/mac802154/llsec.c                         | 20 +++++------
- net/sctp/auth.c                               |  2 +-
- net/sctp/socket.c                             |  2 +-
- net/sunrpc/auth_gss/gss_krb5_crypto.c         |  4 +--
- net/sunrpc/auth_gss/gss_krb5_keys.c           |  6 ++--
- net/sunrpc/auth_gss/gss_krb5_mech.c           |  2 +-
- net/tipc/crypto.c                             | 10 +++---
- net/wireless/core.c                           |  2 +-
- net/wireless/ibss.c                           |  4 +--
- net/wireless/lib80211_crypt_tkip.c            |  2 +-
- net/wireless/lib80211_crypt_wep.c             |  2 +-
- net/wireless/nl80211.c                        | 24 ++++++-------
- net/wireless/sme.c                            |  6 ++--
- net/wireless/util.c                           |  2 +-
- net/wireless/wext-sme.c                       |  2 +-
- scripts/coccinelle/free/devm_free.cocci       |  4 +--
- scripts/coccinelle/free/ifnullfree.cocci      |  4 +--
- scripts/coccinelle/free/kfree.cocci           |  6 ++--
- scripts/coccinelle/free/kfreeaddr.cocci       |  2 +-
- security/apparmor/domain.c                    |  4 +--
- security/apparmor/include/file.h              |  2 +-
- security/apparmor/policy.c                    | 24 ++++++-------
- security/apparmor/policy_ns.c                 |  6 ++--
- security/apparmor/policy_unpack.c             | 14 ++++----
- security/keys/big_key.c                       |  6 ++--
- security/keys/dh.c                            | 14 ++++----
- security/keys/encrypted-keys/encrypted.c      | 14 ++++----
- security/keys/trusted-keys/trusted_tpm1.c     | 34 +++++++++----------
- security/keys/user_defined.c                  |  6 ++--
- 116 files changed, 322 insertions(+), 322 deletions(-)
-
+diff --git a/mm/slab_common.c b/mm/slab_common.c
+index 9e72ba224175..37d48a56431d 100644
+--- a/mm/slab_common.c
++++ b/mm/slab_common.c
+@@ -1726,7 +1726,7 @@ void kzfree(const void *p)
+ 	if (unlikely(ZERO_OR_NULL_PTR(mem)))
+ 		return;
+ 	ks = ksize(mem);
+-	memset(mem, 0, ks);
++	memzero_explicit(mem, ks);
+ 	kfree(mem);
+ }
+ EXPORT_SYMBOL(kzfree);
 -- 
 2.18.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200616015718.7812-1-longman%40redhat.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200616015718.7812-2-longman%40redhat.com.
