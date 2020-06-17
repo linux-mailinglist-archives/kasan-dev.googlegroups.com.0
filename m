@@ -1,130 +1,153 @@
-Return-Path: <kasan-dev+bncBC24VNFHTMIBBLUUU33QKGQE3ULJJTQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBC4LN7MPQ4HRBT4EU73QKGQEXYP7CUQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pg1-x53d.google.com (mail-pg1-x53d.google.com [IPv6:2607:f8b0:4864:20::53d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20D6F1FC489
-	for <lists+kasan-dev@lfdr.de>; Wed, 17 Jun 2020 05:12:48 +0200 (CEST)
-Received: by mail-pg1-x53d.google.com with SMTP id o34sf660256pgm.18
-        for <lists+kasan-dev@lfdr.de>; Tue, 16 Jun 2020 20:12:48 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1592363566; cv=pass;
+Received: from mail-wr1-x43c.google.com (mail-wr1-x43c.google.com [IPv6:2a00:1450:4864:20::43c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E28C1FC6C9
+	for <lists+kasan-dev@lfdr.de>; Wed, 17 Jun 2020 09:12:15 +0200 (CEST)
+Received: by mail-wr1-x43c.google.com with SMTP id l1sf587718wrc.8
+        for <lists+kasan-dev@lfdr.de>; Wed, 17 Jun 2020 00:12:15 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1592377935; cv=pass;
         d=google.com; s=arc-20160816;
-        b=ZbWOb47CAZqRoGlPKiHJduMEAclIumunfkOb15F7+dhd7mgPKcnI7CQsaXpdzdK0+m
-         YRz5aE+cksDGRRlTipuiIcuytmhJQ7nWbClh54kA/UYu1A4NXSWF9C9ploMNXUOBK+S2
-         Y0dwExRCDIH8Q5S36l2wFlrwWPs63gtyp/o/Z8uzvwZUFvICKs4RRqiriyL3X0blhuwe
-         YoIxMd2JyH5pEQ1p0auPk7O76nWSw+7FaCm2aQmlxKBYnzvhw0roFmlfxdLpxWEg0WSi
-         c7n2QQoXYEFRg+GfxhTlIVsVqrvx/f+iG7HPkIqjSJS3B0/fMSLIrZymJMHDTzvEA1/K
-         6Bow==
+        b=o94v/VQevaXvixPcMUWtEciG03iN/aMIwH4W0E1hEevpw6wHGCrn+2qv30nEPEb3WQ
+         yruccxKD6QAJ37EWM5GAltGYIfW9C46fTFrrwKw5Ydr9sA/JVIS4tndtz7xLYCANSThW
+         0yCYlnkVSBz6oOAI6LvoD+rcOET834l4RwJIJeyqNyT4fYQXt5z1YFLjybDGj0HsiA7x
+         H3a5IfdgqlPEQ1bd/e5pXCDTqvOKda392TYfM+eiQtmsbMLsbW2J4jIUCUtutZ2ez6Oi
+         zos5rBHaQCql3HHdSyDtRgvV6oNDlnXof043Se/ILUmAV2zgJVNfjEUBDcnXSBsiEXXv
+         Be3Q==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:auto-submitted
-         :references:in-reply-to:message-id:date:subject:to:from:sender
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
          :dkim-signature;
-        bh=35J1V0ydf+G8vez01TxEqbYE2dcaEMIAISWTi57sRI4=;
-        b=dvBPd3K+UUsz02GSjr7Yftz//jxxSTbcyUUtkYAG4ZWUkfybtPH2/fjIUfSUltXI/E
-         KASjI6Fg0X59BgDakwB2PbRZtZCD0byiktQHR79WumBZAhBR8jQat1d5PK0J7/JiAcOP
-         jRmguDakszAw8s3hM/6kRq2VCTu805R4+HCVbn7z+PRYxgMNlS6h8OZdXlCE5OFqiWC8
-         B+5Bb/B9cmCY9XaBrA3CEcZprePzjYoBwNWRhuMMv41RgXAxH7uJ5AlLAD2W7WMqxM4y
-         mPgvBTKqFdsGs6IcZDGIhWmmg3MR2GUCQzxGjscdEKF/CzrL5uyfLrkXleK/Vy0hdDzy
-         jBVw==
+        bh=/AohkLET54+m/zzy6Aq21Mbg1p569QRaieYHC6gt/lg=;
+        b=IfEj0cN54nfWPQ1DCodyg7UUlDMCJZ3nOCxykvW9fpiNTmhBnt8CdM0SWJ1eXN9vSv
+         3hizQADcvbeXJg0uGjoytLrt0UIJtnnlUyC4RUgFOhCMRhc8FAzxZmwnEqRapkq4MWbR
+         3fPJGL+/N8awFtQ/hR736+QPJwfIu4EcuyLBxSh6miyOYZGkaI2W0Tgfy0OK58PHEtuU
+         PSYlM31afVCbwJjawgMQ01evtEZpGNqucfocD6qTGb7QyyJ814ppNdPRvqVpwsxYJ5ON
+         zi+hwDJXyqrNetGfH9geLz9VkpODsLpGDz13uE6psE45O0kaA2CsxunkuI8Xppq7+5S9
+         jafA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of srs0=zyjl=76=bugzilla.kernel.org=bugzilla-daemon@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=ZyJL=76=bugzilla.kernel.org=bugzilla-daemon@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       spf=pass (google.com: domain of mstsxfx@gmail.com designates 209.85.218.67 as permitted sender) smtp.mailfrom=mstsxfx@gmail.com;
+       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:from:to:subject:date:message-id:in-reply-to:references
-         :auto-submitted:mime-version:x-original-sender
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=35J1V0ydf+G8vez01TxEqbYE2dcaEMIAISWTi57sRI4=;
-        b=CJDv+7TZdPVZ5s1KRXJ46tt81BfWUAkKiNxHHXOtq7fg1Ou6fhEZh+VAvhpvsxCK8U
-         8mjdP5d3WYEjBD6Yj+gWxD4S//CZj7medChsK4iShOLOXndQrt9au9MN6AR5AEwFBsHK
-         Qhc9stOgjrhENePHMMmoPvA+XUeA6RBQ9ClrWWlPtxNO3YYJRcRJw+Xj8tOuOzv/uHKN
-         ihZMnnO+gSsPMl41elCm4HHyP12HybuH+tpOWBcaNM1saXqnGwbONf3qOmcuWqOUXbZy
-         QOYXZ3uox+zr0RsAvE/6rNG2iBJ0cPzzsF9oEusA1+8wHfjDvcH0pqtn0W8paL5VGDG1
-         1kkQ==
+        bh=/AohkLET54+m/zzy6Aq21Mbg1p569QRaieYHC6gt/lg=;
+        b=grXnEn6qmhkRPvcdMwyQltwfkvk6Muj5e5kHqQq47a5mROYTxMmDNY2AYf2GaSQmUL
+         +Cxdkb/Yn+YH2P7EtPDJrRRDo2hreiaIW1/il0UlINHWMMsiTprLaY9JXf8+CGmiN8IB
+         DPOqY76RqgH5WCNNL5cdM8R1jcdnx3vgXCTRljdQ7lM/3toj+7Uri7QCMnFTGpb4kCux
+         5zrLwJS/Eyqd9RAXM+sVypp8JfLE1kpXgqgBMQlY1QOaya6WNGI0Sv55jd+8ByvuAvEe
+         bI0rTTWv0lAZy6mbIWguwKpADdcIe0s2pMv5oV+er1soV8JZiNOmp3S+rlEKaHfg0qg9
+         U0aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:from:to:subject:date:message-id
-         :in-reply-to:references:auto-submitted:mime-version
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=35J1V0ydf+G8vez01TxEqbYE2dcaEMIAISWTi57sRI4=;
-        b=mlodh8lThuefHSKaB2uwxHAkNpsBwXSv4+ewyyIZk+j0+Dg3EFIODmqt+NOjFqo0pJ
-         vijJ0e1U0dqsUFT2ZL0uCL/ryYdXQ1GLhdlAoIb7Cm2W7oVpeTgLBpi39xLkVTaWHWq4
-         RdEb34UxJGgt+ws2V9M9ZlNmvS9ZeY6uXn2az5yEGOW9nTREHD0cUMUF6L5/n4o3bqab
-         QNrEL6ftyJqxYONgR9FTd2PAhRaIYJIu6iCF/2mK6twnr5k0y8G6zQjxUaMP59pgnned
-         cBI1gY3p1hcYnJX1nFsT+zVjpDEpHOW7Xzc8RiRi3HQGu/a2/jJJ79079s6I4CsRf3ZL
-         jjjQ==
+        bh=/AohkLET54+m/zzy6Aq21Mbg1p569QRaieYHC6gt/lg=;
+        b=Q5SQEuQKPdIGo418Jq3Sf5CeAHC8NwaIxxX7B8Qbp/O5qXq+CT73qkXdthkH4VBLwr
+         4Zaju15+fXe6io94kd1NJX23xvCXKlxMwlXoRfQSXniWQBFCrH0ia2kmgTmkjjXSAscC
+         1yquEIXEOSBbdHtEjdKPbJfhq8Qp1x8KZmiVgwg9dLAv9A10pDij+bQqn6enYhFvhACz
+         QJG9KQ2QPF8CBFSFpNqgsQXWe/c4AwtrxdWarNohHY6+9kiNHxYwOU1WLC2znDS5WgU/
+         56O4R4ycjegygMmqDJyaL0lOcGKJVwSQYp9YZy1ZDv4h1iHSYV0cw7EpyCcNjYVC91O+
+         cKKw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM531O7vx2sPtg4NfVeGr+ZBov4b5YEwiOD1IbO9Iu9tbu0g9jCge+
-	Akpxcc3Tzray6yVvI5Y1dIo=
-X-Google-Smtp-Source: ABdhPJyUqyX0/ZAZQmIebxIkFxQp2S5b3NZPV/dLAMM5o2OJWgbOt8zaTwrhcc+PEYTSWIXy/G8bkg==
-X-Received: by 2002:a63:482:: with SMTP id 124mr4537386pge.169.1592363566481;
-        Tue, 16 Jun 2020 20:12:46 -0700 (PDT)
+X-Gm-Message-State: AOAM53392EQK1Px2m/dlM9eIlg6RQhq4pPLa9KGXSdIrdYI41Gcaynmh
+	PsKlj9Nu7DpGoNPNnQTllmQ=
+X-Google-Smtp-Source: ABdhPJw/c2Nh5lvg/T0equOuz1UsEajy8Veh/gW9Ij/ztG+Px7Faidn7IPywWjUxq0WDsP9lGBwsdQ==
+X-Received: by 2002:adf:ef47:: with SMTP id c7mr7398762wrp.57.1592377935391;
+        Wed, 17 Jun 2020 00:12:15 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:aa7:9a84:: with SMTP id w4ls314130pfi.7.gmail; Tue, 16 Jun
- 2020 20:12:46 -0700 (PDT)
-X-Received: by 2002:a62:685:: with SMTP id 127mr3015960pfg.316.1592363566085;
-        Tue, 16 Jun 2020 20:12:46 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1592363566; cv=none;
+Received: by 2002:a1c:1d84:: with SMTP id d126ls533358wmd.1.gmail; Wed, 17 Jun
+ 2020 00:12:14 -0700 (PDT)
+X-Received: by 2002:a05:600c:2215:: with SMTP id z21mr7144423wml.48.1592377934737;
+        Wed, 17 Jun 2020 00:12:14 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1592377934; cv=none;
         d=google.com; s=arc-20160816;
-        b=PQibZgjBTZPBOfbla6DCu+8hw5VxGjaJuGAjNtX2LUYA6Er3QoyhDiTpbnu8N5PeY9
-         ausKs5FF5AsjwMoocvw4klRJKBvXjgO0aPKww9ZeTle1/VbusbdgB5SZAxslgNvCJaUR
-         wM+qmDekfC/ArpHBGPUixNEXR94ocgPaYjKyCJc9Hv2lnOl9hDRwWLjivFaA8tXNGIIE
-         qNObNkTvIBbB5GnZj0ohbULqtnAThznrrFJI152fQ8KoIdOOQ4KKdBtuCDUtbPCb/JwV
-         i+qMB4bUZv7HQUuoGuNTo1IDUa9UW6NhObSO0j26k4yRekWTKc7nuiwm28vxOMO2N/FL
-         ScoA==
+        b=K3mvXKQn+Di+pqg9Z84FPNCkzEqKZfURg3/G0HUprxtGp2pXcktVwaT+vlAv6WDl0x
+         IUeprJg2SL/uCo0Rl4IQrHqBG2YhKoB29Uflot2MpPiYO+qh7t3afWZHRcniRNBDsK2p
+         Z2gblpOV7z+s8CbyKuXnGJArVSB1bQH731LwY/aVCoZp9ndmZuWiERC0twIPAOf1SYg3
+         AT79I4gww/ogrLRrNPHYa5ZxXYoE+E5SrG9pds0b3eBGqazcD3VQl5aW8NmqYQ7TsqSl
+         cDgKHqUPGQEqOUJwOdrybWTUaBa34aaGf2gD3r5Y4D3vOPElOGS5tFIGn8wIgJfZ2qve
+         mKSg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=mime-version:auto-submitted:content-transfer-encoding:references
-         :in-reply-to:message-id:date:subject:to:from;
-        bh=5fAc1Hu+zo/3ZDi7l76JAB4m5+1LSF+E5LbYlQe5Rlw=;
-        b=o2eVgNXqLtoADLkam/XvOC1eJ7D9RXL3ZcAyaRKye1s/VDFegqS7aOi8mGIzbmBmy8
-         z8DD5eLzTbxdlaIdv4icjApBEXEE21r2CtG+8PfN+gVjh5G7bfdV6YxlT+mz5TziwDpl
-         YDNrBLTiwnZlgUUka8jHJG+lRkjAEv/S8O3x20Yjet5RLr7IuOuReL3jD95IpIQFlrIl
-         V65WGkBGUZN2zkRnx0zcwRjn9nVA3aFOPItkWrAzj2fGH4IYEMHbw7cI3EAiW2TbjhEN
-         7wj2UyyDmGZEInZsh91gQLaOeOJ21OL0sz8HdY8zyrwDKz4jlZm5GoDBKNgOWxsvlY0J
-         Dszw==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date;
+        bh=E5EcWVbc+7tsS+GAmjqiwsU8zuC9ZQ4KDsXaJSfWulo=;
+        b=TtAfpi+ql1E6FbCIDI/JJXff6bK/9PmPTp+Hg/h8/jWc8aaNI/iOEvnaXGKsfmWehU
+         Dv/ZpQ3DnRCPN6/AaQgE2OuDXICQol8BVub/yg2IWDytfVhUmhgd35/qy3NyIm2/Z7Jt
+         2HtgtShr7PFNUeZoVWSZXv/gwNy4ZJ3lNjNaXNEguIlnVfvYdkreKwB0CXEhCFuSiXWU
+         IXFd1GyVfYl70yXxc4fbiO47v24GJ+2Z1JzNQzrCr0vwnH930KMbKdbBAvwVP5kvdlRD
+         PbR0HP+VY4S1qOxYwXFHrODVw4IvyN7as4E80jHNC16mBJq1jzD+foACYgI4wTEq8meG
+         Dr5w==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of srs0=zyjl=76=bugzilla.kernel.org=bugzilla-daemon@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=ZyJL=76=bugzilla.kernel.org=bugzilla-daemon@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id gv9si154584pjb.3.2020.06.16.20.12.46
+       spf=pass (google.com: domain of mstsxfx@gmail.com designates 209.85.218.67 as permitted sender) smtp.mailfrom=mstsxfx@gmail.com;
+       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Received: from mail-ej1-f67.google.com (mail-ej1-f67.google.com. [209.85.218.67])
+        by gmr-mx.google.com with ESMTPS id f1si1095958wrp.4.2020.06.17.00.12.14
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 16 Jun 2020 20:12:46 -0700 (PDT)
-Received-SPF: pass (google.com: domain of srs0=zyjl=76=bugzilla.kernel.org=bugzilla-daemon@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
-From: bugzilla-daemon@bugzilla.kernel.org
-To: kasan-dev@googlegroups.com
-Subject: [Bug 203497] KASAN (tags): support stack instrumentation
-Date: Wed, 17 Jun 2020 03:12:45 +0000
-X-Bugzilla-Reason: CC
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Memory Management
-X-Bugzilla-Component: Sanitizers
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: walter-zh.wu@mediatek.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: mm_sanitizers@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-203497-199747-BIKcsmPPew@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-203497-199747@https.bugzilla.kernel.org/>
-References: <bug-203497-199747@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 17 Jun 2020 00:12:14 -0700 (PDT)
+Received-SPF: pass (google.com: domain of mstsxfx@gmail.com designates 209.85.218.67 as permitted sender) client-ip=209.85.218.67;
+Received: by mail-ej1-f67.google.com with SMTP id l12so1133580ejn.10
+        for <kasan-dev@googlegroups.com>; Wed, 17 Jun 2020 00:12:14 -0700 (PDT)
+X-Received: by 2002:a17:906:2581:: with SMTP id m1mr6681797ejb.89.1592377934427;
+        Wed, 17 Jun 2020 00:12:14 -0700 (PDT)
+Received: from localhost (ip-37-188-158-19.eurotel.cz. [37.188.158.19])
+        by smtp.gmail.com with ESMTPSA id g22sm12516138ejo.1.2020.06.17.00.12.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Jun 2020 00:12:13 -0700 (PDT)
+Date: Wed, 17 Jun 2020 09:12:12 +0200
+From: Michal Hocko <mhocko@kernel.org>
+To: Matthew Wilcox <willy@infradead.org>
+Cc: dsterba@suse.cz, Joe Perches <joe@perches.com>,
+	Waiman Long <longman@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Howells <dhowells@redhat.com>,
+	Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
+	James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	David Rientjes <rientjes@google.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Dan Carpenter <dan.carpenter@oracle.com>,
+	"Jason A . Donenfeld" <Jason@zx2c4.com>, linux-mm@kvack.org,
+	keyrings@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-crypto@vger.kernel.org, linux-pm@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-amlogic@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+	virtualization@lists.linux-foundation.org, netdev@vger.kernel.org,
+	linux-ppp@vger.kernel.org, wireguard@lists.zx2c4.com,
+	linux-wireless@vger.kernel.org, devel@driverdev.osuosl.org,
+	linux-scsi@vger.kernel.org, target-devel@vger.kernel.org,
+	linux-btrfs@vger.kernel.org, linux-cifs@vger.kernel.org,
+	linux-fscrypt@vger.kernel.org, ecryptfs@vger.kernel.org,
+	kasan-dev@googlegroups.com, linux-bluetooth@vger.kernel.org,
+	linux-wpan@vger.kernel.org, linux-sctp@vger.kernel.org,
+	linux-nfs@vger.kernel.org, tipc-discussion@lists.sourceforge.net,
+	linux-security-module@vger.kernel.org,
+	linux-integrity@vger.kernel.org
+Subject: Re: [PATCH v4 0/3] mm, treewide: Rename kzfree() to kfree_sensitive()
+Message-ID: <20200617071212.GJ9499@dhcp22.suse.cz>
+References: <20200616015718.7812-1-longman@redhat.com>
+ <fe3b9a437be4aeab3bac68f04193cb6daaa5bee4.camel@perches.com>
+ <20200616230130.GJ27795@twin.jikos.cz>
+ <20200617003711.GD8681@bombadil.infradead.org>
 MIME-Version: 1.0
-X-Original-Sender: bugzilla-daemon@bugzilla.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+In-Reply-To: <20200617003711.GD8681@bombadil.infradead.org>
+X-Original-Sender: mhocko@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of srs0=zyjl=76=bugzilla.kernel.org=bugzilla-daemon@kernel.org
- designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=ZyJL=76=bugzilla.kernel.org=bugzilla-daemon@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+ (google.com: domain of mstsxfx@gmail.com designates 209.85.218.67 as
+ permitted sender) smtp.mailfrom=mstsxfx@gmail.com;       dmarc=fail (p=NONE
+ sp=NONE dis=NONE) header.from=kernel.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -137,80 +160,42 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=203497
+On Tue 16-06-20 17:37:11, Matthew Wilcox wrote:
+> On Wed, Jun 17, 2020 at 01:01:30AM +0200, David Sterba wrote:
+> > On Tue, Jun 16, 2020 at 11:53:50AM -0700, Joe Perches wrote:
+> > > On Mon, 2020-06-15 at 21:57 -0400, Waiman Long wrote:
+> > > >  v4:
+> > > >   - Break out the memzero_explicit() change as suggested by Dan Carpenter
+> > > >     so that it can be backported to stable.
+> > > >   - Drop the "crypto: Remove unnecessary memzero_explicit()" patch for
+> > > >     now as there can be a bit more discussion on what is best. It will be
+> > > >     introduced as a separate patch later on after this one is merged.
+> > > 
+> > > To this larger audience and last week without reply:
+> > > https://lore.kernel.org/lkml/573b3fbd5927c643920e1364230c296b23e7584d.camel@perches.com/
+> > > 
+> > > Are there _any_ fastpath uses of kfree or vfree?
+> > 
+> > I'd consider kfree performance critical for cases where it is called
+> > under locks. If possible the kfree is moved outside of the critical
+> > section, but we have rbtrees or lists that get deleted under locks and
+> > restructuring the code to do eg. splice and free it outside of the lock
+> > is not always possible.
+> 
+> Not just performance critical, but correctness critical.  Since kvfree()
+> may allocate from the vmalloc allocator, I really think that kvfree()
+> should assert that it's !in_atomic().  Otherwise we can get into trouble
+> if we end up calling vfree() and have to take the mutex.
 
---- Comment #5 from Walter Wu (walter-zh.wu@mediatek.com) ---
-Agree, It makes sense that kernel and user have the same instrumentation.
-
-I try to trace code and reproduce this issue after only modify untagging kernel
-stack, I found below code need to untag the sp?
-
---- a/kernel/fork.c
-+++ b/kernel/fork.c
-@@ -2575,7 +2576,7 @@ SYSCALL_DEFINE5(clone, unsigned long, clone_flags,
-unsigned long, newsp,
-                .child_tid      = child_tidptr,
-                .parent_tid     = parent_tidptr,
-                .exit_signal    = (clone_flags & CSIGNAL),
--               .stack          = newsp,
-+               .stack          = kasan_reset_tag(newsp),
-                .tls            = tls,
-        };
-
-
-After apply your and my patch, it always trigger the following one report
-during boot. I will see why it always is triggered.
-
-==================================================================
-[    0.002285] BUG: KASAN: invalid-access in format_decode+0x90/0x10fc
-[    0.002306] Read of size 8 at addr 74ff900015447a00 by task swapper/0
-[    0.002324] Pointer tag: [74], memory tag: [08]
-[    0.002347]
-[    0.002375] CPU: 0 PID: 0 Comm: swapper Not tainted
-5.6.0-next-20200408-dirty #4
-[    0.002395] Hardware name: linux,dummy-virt (DT)
-[    0.002412] Call trace:
-[    0.002430]  dump_backtrace+0x0/0x578
-[    0.002447]  show_stack+0x14/0x1c
-[    0.002464]  dump_stack+0x188/0x260
-[    0.002481]  print_address_description+0x8c/0x398
-[    0.002498]  __kasan_report+0x14c/0x1dc
-[    0.002515]  kasan_report+0x3c/0x58
-[    0.002533]  check_memory_region+0x98/0xa0
-[    0.002551]  __hwasan_loadN_noabort+0x14/0x1c
-[    0.002568]  format_decode+0x90/0x10fc
-[    0.002585]  vsnprintf+0x184/0x31e4
-[    0.002602]  vscnprintf+0x80/0xd4
-[    0.002619]  vprintk_store+0x98/0x93c
-[    0.002636]  vprintk_emit+0x168/0x79c
-[    0.002653]  vprintk_default+0x78/0xa8
-[    0.002670]  vprintk_func+0x918/0x9a0
-[    0.002687]  printk+0xb8/0xf0
-[    0.002704]  kasan_init+0x2b8/0x2d8
-[    0.002721]  setup_arch+0x460/0xbc8
-[    0.002738]  start_kernel+0xe4/0xb88
-[    0.002755]
-[    0.002771]
-[    0.002789] Memory state around the buggy address:
-[    0.002807]  ffff900015447800: 00 00 00 ff ff ff ff ff ff ff ff ff ff ff ff
-ff
-[    0.002826]  ffff900015447900: ff ff ff ff ff 08 ff ff ff ff ff ff ff ff ff
-ff
-[    0.002844] >ffff900015447a00: 08 ff ff ff ff ff ff ff e4 e4 ff ff ff ff ff
-ff
-[    0.002861]                    ^
-[    0.002879]  ffff900015447b00: ff 14 14 ff ff ff ff ff ff ff ff ff a4 a4 ff
-ff
-[    0.002898]  ffff900015447c00: ff ff ff ff ff d4 d4 ff ff ff ff ff ff 94 94
-d4
-[    0.002916]
-==================================================================
+FWIW __vfree already checks for atomic context and put the work into a
+deferred context. So this should be safe. It should be used as a last
+resort, though.
 
 -- 
-You are receiving this mail because:
-You are on the CC list for the bug.
+Michal Hocko
+SUSE Labs
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/bug-203497-199747-BIKcsmPPew%40https.bugzilla.kernel.org/.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200617071212.GJ9499%40dhcp22.suse.cz.
