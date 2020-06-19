@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBAABBTXFWT3QKGQE5642BYI@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBHHSWT3QKGQEZ5FESNA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-io1-xd38.google.com (mail-io1-xd38.google.com [IPv6:2607:f8b0:4864:20::d38])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B6DA201D48
-	for <lists+kasan-dev@lfdr.de>; Fri, 19 Jun 2020 23:49:04 +0200 (CEST)
-Received: by mail-io1-xd38.google.com with SMTP id d64sf1348141iof.12
-        for <lists+kasan-dev@lfdr.de>; Fri, 19 Jun 2020 14:49:04 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1592603343; cv=pass;
+Received: from mail-ua1-x93b.google.com (mail-ua1-x93b.google.com [IPv6:2607:f8b0:4864:20::93b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 39101201DE9
+	for <lists+kasan-dev@lfdr.de>; Sat, 20 Jun 2020 00:15:58 +0200 (CEST)
+Received: by mail-ua1-x93b.google.com with SMTP id s13sf3924025uar.17
+        for <lists+kasan-dev@lfdr.de>; Fri, 19 Jun 2020 15:15:58 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1592604957; cv=pass;
         d=google.com; s=arc-20160816;
-        b=YDsorcnp+G+kaWFGVvwJuHWAThexmzD807m3VLZIGz4+ncPYIdSANU0y/kUBI+/qFv
-         RzrL7gMB5ywSOmRnH5af4ddZ8u5K3DO5firnhLlyEZEHczQ6iRJPsxGP65g3EpdluK0T
-         Mvbvt1o91B/4h5GlMmopQIqeAS9SaETGxfQe6BCvUh7ct1BTjMWABM775WBd+sFePZYb
-         OxsxvTXr1eZM0GXwo7Ec2+P+bbGw6OW4+XPQYw7lHO51BS/WmpotL+6YeLpa/8pys43W
-         2P1HWLXSOpr9rMsCcP4+wS2Yfg7NB5rYW4ghajIt/wyiXPu8RgfDlpo3cPVOIcf5l2ja
-         T2/A==
+        b=zo9Nt5HxHTRNYeeXDhmZq7YtNxE3u2jTtmcZxXMg1QcYWygFhz/4HCUj9qS7bOfNZ6
+         QouDxOf6ecMQUqRkGL5zhCzHyi2SlPGaAwGN0IlnjXOrro4ZO5VpFNLtu5ylVyE2rXQ5
+         hbLh/AsQxVnTc7keSBJSCQal3XQo7+B/QqFY1GyCsOdN9q7NA6F0OSRtbdJsp81EUnjg
+         pIR1pvb90x1yeRLQSfBxO7vwSVWNgMFc7i4Y+odxJ4QwVX60WHTKthO+SRo0QFIAXQV8
+         XbYIsN0jFuugfixZMYPDLIpK+0atB2F+v4g8rKwu62UYR0Dd5tLr4saLPQ73HXJGhf/4
+         IXMw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:user-agent:in-reply-to
          :content-disposition:mime-version:references:reply-to:message-id
          :subject:cc:to:from:date:sender:dkim-signature;
-        bh=zTO8T+4diR2oJ6kEYOKfhZZESLRjajG0NXsQgLzk+Lg=;
-        b=aXGeBmmxcHu+JNQhNRca53c544YHfmscaScmdJHPzu85kbI3kCbCibiOMccJ1kxkaB
-         EDNuMq9mIuc6R94d7q1903refwfaoxsDGJBTYHqzMq+AmXsHJvVPrCqvNatr2ggHwfjE
-         j9wqSta1UQ6ZE3MDjIL/6sErAGpkBDFZuRdJu0RnF9jGBp8v30xfa+Ohk4/1wz8mIyJj
-         2unaTygR7mYt4tHWgxd+TEKA7vCplJv61AhNh4l0BivdXvQrypNlxy4CWKt4d/H6DRHw
-         lNkFi4c9cPZ0pjoJ/RmGMh4CJgCqumzjM68415mcHHAy2nzducMeKS5sll5hjFUfLcNL
-         ur/w==
+        bh=dFTWh7896AytdnjdkNo64jYcjgl4GPlnOYHg/GoH/rI=;
+        b=CBskB/8B8NgQaVfU5lqkfxS9fcF+WoJQJQ4hAJoo4XMdrs8GDvef2jFkgCwkQ/qNhb
+         sZkKogNzpiHOJRFP7AyM4im4HnPg0mykNYv2DbijAnh2lF+VJ3wKHRiXyE3E3sUkO8Tm
+         71TS1ZvfGlZXAavARsxikt80uys5ZhCyMSCXD70J8ztYm9wzg05/UYNjkOZBsLPYKCkQ
+         +vOr/Ohft1ed28vt/MFcBmMOgxTRAtQwBbR54WB5H4f0j6/aa6RxoRDt1QyE7HBD4rHX
+         8jXuLmxl6u9fO2gu49W2GdSFgVbCk+6e+R+U+mrYIZAZTjiAI9xVHuqNz2bREJxgwUjm
+         YJcw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=default header.b="CDDEq/aB";
+       dkim=pass header.i=@kernel.org header.s=default header.b=emfRRWgr;
        spf=pass (google.com: domain of srs0=m+cg=aa=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=M+cG=AA=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
@@ -37,13 +37,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=zTO8T+4diR2oJ6kEYOKfhZZESLRjajG0NXsQgLzk+Lg=;
-        b=NT84XDgmZpm5lOhWlJwt4b1TjecbjgD3yNCxcZeRv5C50zZUeHdu6/f5TNb9HF087M
-         AS29SZORDtIuBjG2DYqSDjD4zMkJwK3vnUAmfU3XktwXXy7DbF+srsDU9N2AsBRr44F7
-         ALnHDvmDGsHXqdali9dqMIX1WwP0S8Myx99ZRn+stz0Ha8Uz6MVCFFu5GnWWYd7H0Qdg
-         Ae27xVNZxERUZEiK7CD2cZpq9zliG2yGXh1ccYRFfTIFoXtwWVcEmV1e7dUyv27ntX4t
-         RgW5Zk69vBY/+GOB1GnK++uZLwr9XkS/8+saDSrRdHLNse3X52oyTwyQFdP/9k87a5Lm
-         H7qw==
+        bh=dFTWh7896AytdnjdkNo64jYcjgl4GPlnOYHg/GoH/rI=;
+        b=dBwyyZcDtLpzSxEZErG2PnlXUlqOHYGWm0XtOOPFCcK6IXgX+j+TF38In/ADif/oi2
+         RkeBn2fQairV8L+Qd/EfYnpJGHqeospHPE7YbatL8CBW9Ysf7SnTOPS5BffY04OCXZu9
+         1j+cw/0V15BY3k7zNs0v4lAzyLP5rJ8oYcvVcUw2dcB2kVY9MRlRvNUdCpSpX39cNH38
+         y+PIHWoPvx2Q/EEGsPe/E0kf7q/xOcvzNTcaFTz8cPYT1on9J8ZYHRp/vlvjAdLf4UL3
+         RZLBKEdOOZCutQkBQMePu4rlZnc2osB4mkZ+TBipkYXVXtxOFU/Y0I1Ekvffqdy+w5xV
+         miwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
@@ -51,79 +51,83 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :user-agent:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
          :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=zTO8T+4diR2oJ6kEYOKfhZZESLRjajG0NXsQgLzk+Lg=;
-        b=EqpVxhWzUrKPxaZTIC0EgM+RyI64d5Yjwar+5U4sDFHbhpin7yj18/r8kM2btHMfJp
-         6BvT38Dx8LA4vQtRd5UnHpNxnCgK60+VWIoyaJjQ44ZZJTQTfyIk2k5JWRX1HM3TP3F+
-         +ldAgkNiW2x/2J08zvcTxKn0c7Hb2IcSPSh1SMjPNBR+IK375UuZ3/cZ8bnwIxw+T8FY
-         YOVAaDthlY4w8iHEShbV7WzDYP1Gmm13V4BAtOQpccEJrRg6EOK7fEyFE9wqv/aZ79Zf
-         q+JzmNRS4sAUj5mr5XZThrRjyOkyuGYpsAlHFtpQBHfVBjgxZdFatecDEMS+xHWQ2rDx
-         IsjA==
+        bh=dFTWh7896AytdnjdkNo64jYcjgl4GPlnOYHg/GoH/rI=;
+        b=nJCYIKbz3UH86k8l5KU6syebE8kkItzzd4n2TD1JP3uEc6vTjTsq04uxEvofwvAFnz
+         23oJN8Ef5+2rE2nJyrCKDNRG/8p5wsu4cUf1Tn26LbuPXf3Z+KnqR8UPPwyIDTda5R0B
+         NLuj1An3upAuaoV/epoEJy2o/UtYN68hNVs6s7NOy03CHE7yawYvNYG72EfgyQkaWSvn
+         dkNuAJVrvayuYo7OeTOHhY5jGoqTSTiAwjK1XkVInEfxWJVQldHuCe13bUN65i00y2/g
+         xzisGvfE0CWhByUkwnWhovVx/mGr5PgYIcODRg0JIqEI8oe3fkj9IApsLtEhf+zAQQeh
+         dp0Q==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM533oAVtPKVoN4p002ivIGeOSad2TtiXIS+hREpc3RWrCTOet+H73
-	yQ26kvSMK1+tKuV8gGtD1/Y=
-X-Google-Smtp-Source: ABdhPJzGVHxozFQ2jCIpOGmHC+PEvuHfddPQqIxvjdfYau4k5BH6Y5c/Ry2FTY7PMUfbNBQCa1FigA==
-X-Received: by 2002:a05:6e02:4d:: with SMTP id i13mr5899556ilr.227.1592603342903;
-        Fri, 19 Jun 2020 14:49:02 -0700 (PDT)
+X-Gm-Message-State: AOAM531gRzp4kSUizKXGSHRZvafPE5XE1706DpLz6AaXbR+isGCJ0fxU
+	+FK7EdoCRmKe5gF6bYDHKbc=
+X-Google-Smtp-Source: ABdhPJx4XfPOI60Lup/MA4+Dm683toZRGJShENWQG3uZ1vdYofJL7a4jAQrrObkGbe0ECtHqAutnGw==
+X-Received: by 2002:a67:3311:: with SMTP id z17mr9479554vsz.52.1592604957075;
+        Fri, 19 Jun 2020 15:15:57 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a6b:7207:: with SMTP id n7ls2181564ioc.3.gmail; Fri, 19 Jun
- 2020 14:49:02 -0700 (PDT)
-X-Received: by 2002:a6b:ba8b:: with SMTP id k133mr2691241iof.204.1592603342639;
-        Fri, 19 Jun 2020 14:49:02 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1592603342; cv=none;
+Received: by 2002:a67:f993:: with SMTP id b19ls1340598vsq.5.gmail; Fri, 19 Jun
+ 2020 15:15:56 -0700 (PDT)
+X-Received: by 2002:a67:fc0b:: with SMTP id o11mr8993763vsq.114.1592604956735;
+        Fri, 19 Jun 2020 15:15:56 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1592604956; cv=none;
         d=google.com; s=arc-20160816;
-        b=tNamK93JwR0FmN8tU5uCmEhIhyXTXztUumeCL6v2JhLc4wPtXwc4WmiqW39Nh6iy/5
-         bncygCM9YhCp8E4ZL13kXw4rhBBMO8B+fn+iYXJY5qJNtle4720jnM/9zgczLVTHbgdP
-         0vi2qbq38qBC/stcypmTvTJDQxDqzgtGKXYhsF6FTiZjDouFqm2/21qNv8SG165hACJJ
-         OK+Xpv4ExPWTjtaOCoMo6H9xBPPyrbPFhbjCyigvtKdSZ6+88dBIGtLwg7BykbFTvz8n
-         upFMd8O0ZHJ81vq/yqcHCbgnpjC1/lJV2rHs1aKSmpBKTT09VTIpby2MWJgICAobc37A
-         NjCQ==
+        b=iYNeXUhW5VGgrdsY+Oek3qnxQKEXymHfbscpqIswHSjKNVXhCXu9yE+0jEwArLVJx4
+         HHDZLjwLVBnUgG/57IbY7XROOAGA99HEF/p3AzwhwXGN5N7HhahJJ6MCWKwHg4UZ50M9
+         rzDFz4hydOGzqiJgYkyV51avEZUVh7jauXmh5UPSSxNHCTD8/uqvB3NvCJ4aiI+ECD6x
+         AR2QDlpnWZNUqp6FOVq21bX6VJ4jagJ4M+GWR1xLosM1YDLN6GmHy5xAKaexwBdz/TQJ
+         xzsCO+PCGjg1SOf77MV5aN8I90Xr06HeLQVQabORDPeqW0NzzDOJxkD6R+ZX7BvzVaRI
+         8ZyQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=user-agent:in-reply-to:content-disposition:mime-version:references
          :reply-to:message-id:subject:cc:to:from:date:dkim-signature;
-        bh=TSY6ayRawTnSVEtUI63+aatos+d3e+gryARyXiUey+0=;
-        b=aLlbcVSpdXUtJnHVgFyuEsn9w4qJrRZyxRaBrym6+w14m0uUnIV/gMdhZIFEdn17Z8
-         CI4OF7vGhLV/E+n3A72fIXk3B4U5FsLZvpzIUdopBTIuqXLBA0stQzCHxRxapBhXMxe0
-         paxuPxjqBIGYFvuayRCn8Sc45MfzpveXTfOJEsoznLgcayQ4K2Pec/fxSpoDceYzG5MO
-         RdV91dgGuAEq036iFQsX1rvlqAES60EcQ5p/sRBIubFQk2/O8IWM5lvFyxZO6tLl7i25
-         1T33NHd/ODNQt1+nr1RnAEyZlXu7ETT4UhUetBmOmtxcn425fGGXHctHNTF4Nk8k9SJf
-         8QhA==
+        bh=DxOMilel3/edrWLLJd9hJLwFdh3qTeBKoB2vRZNsls8=;
+        b=sx68Ppg5HfmXyUi9yoaIgRsHl9nzEf0k/cCmPddRnb4PVop3315n+GUULn4777ehhB
+         PQfLDlVPTbe3nCpcoaq2PZxd3zSy3Et1yVvK8ZGLZUtp6spZbtZyawCtreqIpCYxufoR
+         p4OBO5bqgXPHoyM5EindYKXyr+jTG15+TyqXeVn0xl2TUZYXSgIE8cQHaCK7xHXaEBfm
+         +Jb/ap42FZle8su4leWzyDaX4L46pF2bkNI7AT5QOBzvGN97/fXFNqMJsJsLxwoVGc4E
+         Nzv6SvBNcp1BwpLADgYTeaqqGSOlIMrF4kMETpdxSz+riWIShMpYNewFcgy9tZ3h+Cnh
+         XCwQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=default header.b="CDDEq/aB";
+       dkim=pass header.i=@kernel.org header.s=default header.b=emfRRWgr;
        spf=pass (google.com: domain of srs0=m+cg=aa=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=M+cG=AA=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id z17si503528iod.1.2020.06.19.14.49.02
+        by gmr-mx.google.com with ESMTPS id f12si392717vsr.0.2020.06.19.15.15.56
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 19 Jun 2020 14:49:02 -0700 (PDT)
+        Fri, 19 Jun 2020 15:15:56 -0700 (PDT)
 Received-SPF: pass (google.com: domain of srs0=m+cg=aa=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
 Received: from paulmck-ThinkPad-P72.home (50-39-105-78.bvtn.or.frontiernet.net [50.39.105.78])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id D4841221F2;
-	Fri, 19 Jun 2020 21:49:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPSA id 8BBD622277;
+	Fri, 19 Jun 2020 22:15:55 +0000 (UTC)
 Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
-	id 74B913522B50; Fri, 19 Jun 2020 14:49:01 -0700 (PDT)
-Date: Fri, 19 Jun 2020 14:49:01 -0700
+	id 5CEF93522B50; Fri, 19 Jun 2020 15:15:55 -0700 (PDT)
+Date: Fri, 19 Jun 2020 15:15:55 -0700
 From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Marco Elver <elver@google.com>
-Cc: will@kernel.org, peterz@infradead.org, bp@alien8.de, tglx@linutronix.de,
-	mingo@kernel.org, dvyukov@google.com, cai@lca.pw,
-	kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/3] kcsan: Re-add GCC support, and compiler flags
- improvements
-Message-ID: <20200619214901.GA12084@paulmck-ThinkPad-P72>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: tglx@linutronix.de, x86@kernel.org, elver@google.com,
+	kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org,
+	will@kernel.org, dvyukov@google.com, glider@google.com,
+	andreyknvl@google.com
+Subject: Re: [PATCH 2/9] rcu: Fixup noinstr warnings
+Message-ID: <20200619221555.GA12280@paulmck-ThinkPad-P72>
 Reply-To: paulmck@kernel.org
-References: <20200618093118.247375-1-elver@google.com>
- <20200619032530.GI2723@paulmck-ThinkPad-P72>
+References: <20200603114014.152292216@infradead.org>
+ <20200603114051.896465666@infradead.org>
+ <20200615154905.GZ2531@hirez.programming.kicks-ass.net>
+ <20200615155513.GG2554@hirez.programming.kicks-ass.net>
+ <20200615162427.GI2554@hirez.programming.kicks-ass.net>
+ <20200615171404.GI2723@paulmck-ThinkPad-P72>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <20200619032530.GI2723@paulmck-ThinkPad-P72>
+In-Reply-To: <20200615171404.GI2723@paulmck-ThinkPad-P72>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 X-Original-Sender: paulmck@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=default header.b="CDDEq/aB";       spf=pass
+ header.i=@kernel.org header.s=default header.b=emfRRWgr;       spf=pass
  (google.com: domain of srs0=m+cg=aa=paulmck-thinkpad-p72.home=paulmck@kernel.org
  designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=M+cG=AA=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
@@ -139,45 +143,195 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Jun 18, 2020 at 08:25:30PM -0700, Paul E. McKenney wrote:
-> On Thu, Jun 18, 2020 at 11:31:15AM +0200, Marco Elver wrote:
-> > Re-add GCC as a supported compiler and clean up compiler flags.
-> > 
-> > To use KCSAN with GCC before GCC 11 is released, the following will get
-> > a stable GCC 10 and cherry-pick the patches required for KCSAN support:
-> > 
-> > 	git clone git://gcc.gnu.org/git/gcc.git && cd gcc
-> > 	git checkout -b gcc-10-for-kcsan releases/gcc-10.1.0
-> > 	git cherry-pick \
-> > 	    4089df8ef4a63126b0774c39b6638845244c20d2 \
-> > 	    ab2789ec507a94f1a75a6534bca51c7b39037ce0 \
-> > 	    06712fc68dc9843d9af7c7ac10047f49d305ad76
-> > 	./configure --prefix <your-prefix> --enable-languages=c,c++
-> > 	make -j$(nproc) && make install
+On Mon, Jun 15, 2020 at 10:14:04AM -0700, Paul E. McKenney wrote:
+> On Mon, Jun 15, 2020 at 06:24:27PM +0200, Peter Zijlstra wrote:
+> > On Mon, Jun 15, 2020 at 05:55:13PM +0200, Peter Zijlstra wrote:
+> > > On Mon, Jun 15, 2020 at 05:49:05PM +0200, Peter Zijlstra wrote:
+> > > > @@ -983,13 +993,17 @@ noinstr void rcu_nmi_enter(void)
+> > > >  		if (!in_nmi())
+> > > >  			rcu_cleanup_after_idle();
+> > > >  
+> > > > +		instrumentation_begin();
+> > > > +		// instrumentation for the noinstr rcu_dynticks_curr_cpu_in_eqs()
+> > > > +		instrument_atomic_read(&rdp->dynticks, sizeof(rdp->dynticks));
+> > > > +		// instrumentation for the noinstr rcu_dynticks_eqs_exit()
+> > > > +		instrument_atomic_write(&rdp->dynticks, sizeof(rdp->dynticks));
+> > > > +
+> > > >  		incby = 1;
+> > > >  	} else if (!in_nmi()) {
+> > > >  		instrumentation_begin();
+> > > >  		rcu_irq_enter_check_tick();
+> > > > -		instrumentation_end();
+> > > >  	}
+> > > > -	instrumentation_begin();
+> > > >  	trace_rcu_dyntick(incby == 1 ? TPS("Endirq") : TPS("++="),
+> > > >  			  rdp->dynticks_nmi_nesting,
+> > > >  			  rdp->dynticks_nmi_nesting + incby, atomic_read(&rdp->dynticks));
+> > > 
+> > > Oh, that's lost a possible instrumentation_begin() :/ But weirdly
+> > > objtool didn't complain about that... Let me poke at that.
 > 
-> Unless there are objections, I will pull this in Friday (tomorrow)
-> afternoon, Pacific Time.
+> This merge window has been quite the trainwreck, hasn't it?  :-/
+> 
+> > Like so then...
+> 
+> Looks plausible, firing up some tests.
 
-Hearing no objections, queued and pushd, thank you!
+Just following up because I don't see this anywhere.  If I am supposed
+to take this (which is more plausible now that v5.8-rc1 is out), please
+let me know.
 
 							Thanx, Paul
 
-> > Marco Elver (3):
-> >   kcsan: Re-add GCC as a supported compiler
-> >   kcsan: Simplify compiler flags
-> >   kcsan: Disable branch tracing in core runtime
+> > ---
+> > Subject: rcu: Fixup noinstr warnings
 > > 
-> >  Documentation/dev-tools/kcsan.rst | 3 ++-
-> >  kernel/kcsan/Makefile             | 4 ++--
-> >  lib/Kconfig.kcsan                 | 3 ++-
-> >  scripts/Makefile.kcsan            | 2 +-
-> >  4 files changed, 7 insertions(+), 5 deletions(-)
+> > A KCSAN build revealed we have explicit annoations through atomic_*()
+> > usage, switch to arch_atomic_*() for the respective functions.
 > > 
-> > -- 
-> > 2.27.0.290.gba653c62da-goog
+> > vmlinux.o: warning: objtool: rcu_nmi_exit()+0x4d: call to __kcsan_check_access() leaves .noinstr.text section
+> > vmlinux.o: warning: objtool: rcu_dynticks_eqs_enter()+0x25: call to __kcsan_check_access() leaves .noinstr.text section
+> > vmlinux.o: warning: objtool: rcu_nmi_enter()+0x4f: call to __kcsan_check_access() leaves .noinstr.text section
+> > vmlinux.o: warning: objtool: rcu_dynticks_eqs_exit()+0x2a: call to __kcsan_check_access() leaves .noinstr.text section
+> > vmlinux.o: warning: objtool: __rcu_is_watching()+0x25: call to __kcsan_check_access() leaves .noinstr.text section
 > > 
+> > Additionally, without the NOP in instrumentation_begin(), objtool would
+> > not detect the lack of the 'else instrumentation_begin();' branch in
+> > rcu_nmi_enter().
+> > 
+> > Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+> > ---
+> >  include/linux/compiler.h |    2 +-
+> >  kernel/rcu/tree.c        |   33 +++++++++++++++++++++++++--------
+> >  2 files changed, 26 insertions(+), 9 deletions(-)
+> > 
+> > --- a/include/linux/compiler.h
+> > +++ b/include/linux/compiler.h
+> > @@ -123,7 +123,7 @@ void ftrace_likely_update(struct ftrace_
+> >  #ifdef CONFIG_DEBUG_ENTRY
+> >  /* Begin/end of an instrumentation safe region */
+> >  #define instrumentation_begin() ({					\
+> > -	asm volatile("%c0:\n\t"						\
+> > +	asm volatile("%c0: nop\n\t"						\
+> >  		     ".pushsection .discard.instr_begin\n\t"		\
+> >  		     ".long %c0b - .\n\t"				\
+> >  		     ".popsection\n\t" : : "i" (__COUNTER__));		\
+> > --- a/kernel/rcu/tree.c
+> > +++ b/kernel/rcu/tree.c
+> > @@ -250,7 +250,7 @@ static noinstr void rcu_dynticks_eqs_ent
+> >  	 * next idle sojourn.
+> >  	 */
+> >  	rcu_dynticks_task_trace_enter();  // Before ->dynticks update!
+> > -	seq = atomic_add_return(RCU_DYNTICK_CTRL_CTR, &rdp->dynticks);
+> > +	seq = arch_atomic_add_return(RCU_DYNTICK_CTRL_CTR, &rdp->dynticks);
+> >  	// RCU is no longer watching.  Better be in extended quiescent state!
+> >  	WARN_ON_ONCE(IS_ENABLED(CONFIG_RCU_EQS_DEBUG) &&
+> >  		     (seq & RCU_DYNTICK_CTRL_CTR));
+> > @@ -274,13 +274,13 @@ static noinstr void rcu_dynticks_eqs_exi
+> >  	 * and we also must force ordering with the next RCU read-side
+> >  	 * critical section.
+> >  	 */
+> > -	seq = atomic_add_return(RCU_DYNTICK_CTRL_CTR, &rdp->dynticks);
+> > +	seq = arch_atomic_add_return(RCU_DYNTICK_CTRL_CTR, &rdp->dynticks);
+> >  	// RCU is now watching.  Better not be in an extended quiescent state!
+> >  	rcu_dynticks_task_trace_exit();  // After ->dynticks update!
+> >  	WARN_ON_ONCE(IS_ENABLED(CONFIG_RCU_EQS_DEBUG) &&
+> >  		     !(seq & RCU_DYNTICK_CTRL_CTR));
+> >  	if (seq & RCU_DYNTICK_CTRL_MASK) {
+> > -		atomic_andnot(RCU_DYNTICK_CTRL_MASK, &rdp->dynticks);
+> > +		arch_atomic_andnot(RCU_DYNTICK_CTRL_MASK, &rdp->dynticks);
+> >  		smp_mb__after_atomic(); /* _exit after clearing mask. */
+> >  	}
+> >  }
+> > @@ -313,7 +313,7 @@ static __always_inline bool rcu_dynticks
+> >  {
+> >  	struct rcu_data *rdp = this_cpu_ptr(&rcu_data);
+> >  
+> > -	return !(atomic_read(&rdp->dynticks) & RCU_DYNTICK_CTRL_CTR);
+> > +	return !(arch_atomic_read(&rdp->dynticks) & RCU_DYNTICK_CTRL_CTR);
+> >  }
+> >  
+> >  /*
+> > @@ -633,6 +633,10 @@ static noinstr void rcu_eqs_enter(bool u
+> >  	do_nocb_deferred_wakeup(rdp);
+> >  	rcu_prepare_for_idle();
+> >  	rcu_preempt_deferred_qs(current);
+> > +
+> > +	// instrumentation for the noinstr rcu_dynticks_eqs_enter()
+> > +	instrument_atomic_write(&rdp->dynticks, sizeof(rdp->dynticks));
+> > +
+> >  	instrumentation_end();
+> >  	WRITE_ONCE(rdp->dynticks_nesting, 0); /* Avoid irq-access tearing. */
+> >  	// RCU is watching here ...
+> > @@ -692,6 +696,7 @@ noinstr void rcu_nmi_exit(void)
+> >  {
+> >  	struct rcu_data *rdp = this_cpu_ptr(&rcu_data);
+> >  
+> > +	instrumentation_begin();
+> >  	/*
+> >  	 * Check for ->dynticks_nmi_nesting underflow and bad ->dynticks.
+> >  	 * (We are exiting an NMI handler, so RCU better be paying attention
+> > @@ -705,7 +710,6 @@ noinstr void rcu_nmi_exit(void)
+> >  	 * leave it in non-RCU-idle state.
+> >  	 */
+> >  	if (rdp->dynticks_nmi_nesting != 1) {
+> > -		instrumentation_begin();
+> >  		trace_rcu_dyntick(TPS("--="), rdp->dynticks_nmi_nesting, rdp->dynticks_nmi_nesting - 2,
+> >  				  atomic_read(&rdp->dynticks));
+> >  		WRITE_ONCE(rdp->dynticks_nmi_nesting, /* No store tearing. */
+> > @@ -714,13 +718,15 @@ noinstr void rcu_nmi_exit(void)
+> >  		return;
+> >  	}
+> >  
+> > -	instrumentation_begin();
+> >  	/* This NMI interrupted an RCU-idle CPU, restore RCU-idleness. */
+> >  	trace_rcu_dyntick(TPS("Startirq"), rdp->dynticks_nmi_nesting, 0, atomic_read(&rdp->dynticks));
+> >  	WRITE_ONCE(rdp->dynticks_nmi_nesting, 0); /* Avoid store tearing. */
+> >  
+> >  	if (!in_nmi())
+> >  		rcu_prepare_for_idle();
+> > +
+> > +	// instrumentation for the noinstr rcu_dynticks_eqs_enter()
+> > +	instrument_atomic_write(&rdp->dynticks, sizeof(rdp->dynticks));
+> >  	instrumentation_end();
+> >  
+> >  	// RCU is watching here ...
+> > @@ -838,6 +844,10 @@ static void noinstr rcu_eqs_exit(bool us
+> >  	rcu_dynticks_eqs_exit();
+> >  	// ... but is watching here.
+> >  	instrumentation_begin();
+> > +
+> > +	// instrumentation for the noinstr rcu_dynticks_eqs_exit()
+> > +	instrument_atomic_write(&rdp->dynticks, sizeof(rdp->dynticks));
+> > +
+> >  	rcu_cleanup_after_idle();
+> >  	trace_rcu_dyntick(TPS("End"), rdp->dynticks_nesting, 1, atomic_read(&rdp->dynticks));
+> >  	WARN_ON_ONCE(IS_ENABLED(CONFIG_RCU_EQS_DEBUG) && !user && !is_idle_task(current));
+> > @@ -983,13 +993,20 @@ noinstr void rcu_nmi_enter(void)
+> >  		if (!in_nmi())
+> >  			rcu_cleanup_after_idle();
+> >  
+> > +		instrumentation_begin();
+> > +		// instrumentation for the noinstr rcu_dynticks_curr_cpu_in_eqs()
+> > +		instrument_atomic_read(&rdp->dynticks, sizeof(rdp->dynticks));
+> > +		// instrumentation for the noinstr rcu_dynticks_eqs_exit()
+> > +		instrument_atomic_write(&rdp->dynticks, sizeof(rdp->dynticks));
+> > +
+> >  		incby = 1;
+> >  	} else if (!in_nmi()) {
+> >  		instrumentation_begin();
+> >  		rcu_irq_enter_check_tick();
+> > -		instrumentation_end();
+> > +	} else {
+> > +		instrumentation_begin();
+> >  	}
+> > -	instrumentation_begin();
+> > +
+> >  	trace_rcu_dyntick(incby == 1 ? TPS("Endirq") : TPS("++="),
+> >  			  rdp->dynticks_nmi_nesting,
+> >  			  rdp->dynticks_nmi_nesting + incby, atomic_read(&rdp->dynticks));
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200619214901.GA12084%40paulmck-ThinkPad-P72.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200619221555.GA12280%40paulmck-ThinkPad-P72.
