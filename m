@@ -1,136 +1,138 @@
-Return-Path: <kasan-dev+bncBAABBHHSWT3QKGQEZ5FESNA@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBHOQYD3QKGQEWPNWTWA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ua1-x93b.google.com (mail-ua1-x93b.google.com [IPv6:2607:f8b0:4864:20::93b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39101201DE9
-	for <lists+kasan-dev@lfdr.de>; Sat, 20 Jun 2020 00:15:58 +0200 (CEST)
-Received: by mail-ua1-x93b.google.com with SMTP id s13sf3924025uar.17
-        for <lists+kasan-dev@lfdr.de>; Fri, 19 Jun 2020 15:15:58 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1592604957; cv=pass;
+Received: from mail-pl1-x637.google.com (mail-pl1-x637.google.com [IPv6:2607:f8b0:4864:20::637])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5573E202EE8
+	for <lists+kasan-dev@lfdr.de>; Mon, 22 Jun 2020 05:40:15 +0200 (CEST)
+Received: by mail-pl1-x637.google.com with SMTP id c4sf11060754plo.6
+        for <lists+kasan-dev@lfdr.de>; Sun, 21 Jun 2020 20:40:15 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1592797214; cv=pass;
         d=google.com; s=arc-20160816;
-        b=zo9Nt5HxHTRNYeeXDhmZq7YtNxE3u2jTtmcZxXMg1QcYWygFhz/4HCUj9qS7bOfNZ6
-         QouDxOf6ecMQUqRkGL5zhCzHyi2SlPGaAwGN0IlnjXOrro4ZO5VpFNLtu5ylVyE2rXQ5
-         hbLh/AsQxVnTc7keSBJSCQal3XQo7+B/QqFY1GyCsOdN9q7NA6F0OSRtbdJsp81EUnjg
-         pIR1pvb90x1yeRLQSfBxO7vwSVWNgMFc7i4Y+odxJ4QwVX60WHTKthO+SRo0QFIAXQV8
-         XbYIsN0jFuugfixZMYPDLIpK+0atB2F+v4g8rKwu62UYR0Dd5tLr4saLPQ73HXJGhf/4
-         IXMw==
+        b=SD3uwjlIbOt9MXZj1S8CmPnWwwp1HKLlyKESgMe7Eh+BCwNxH3yuyQCvWCcQ7tcavb
+         Eo2xTq0+WlPtQNAZeZzMOT/xb6rPMjxnRVuRQoSOn5hzCkzISxWfyvZYp/bQttU4Nas5
+         5aAUthp4MroJ4xJRuKenLCTQYS4/cZwQxv1UjK1eNaetBVkh2DzUAF0eGTgSZrIFrV4k
+         Gjeg7wGviQDnjPlp59nl92kjZEgAEmn2xAy58Kf1Ubcnqb3QtgP+DB1GmmJPR0iChoiS
+         Oe3+hkqaXRQEZcgU0UZMJOGCV6MQwHkGxQPnI9/olGBrUdG9S7niTML+Jjt75lZhN00C
+         iLrg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:user-agent:in-reply-to
-         :content-disposition:mime-version:references:reply-to:message-id
-         :subject:cc:to:from:date:sender:dkim-signature;
-        bh=dFTWh7896AytdnjdkNo64jYcjgl4GPlnOYHg/GoH/rI=;
-        b=CBskB/8B8NgQaVfU5lqkfxS9fcF+WoJQJQ4hAJoo4XMdrs8GDvef2jFkgCwkQ/qNhb
-         sZkKogNzpiHOJRFP7AyM4im4HnPg0mykNYv2DbijAnh2lF+VJ3wKHRiXyE3E3sUkO8Tm
-         71TS1ZvfGlZXAavARsxikt80uys5ZhCyMSCXD70J8ztYm9wzg05/UYNjkOZBsLPYKCkQ
-         +vOr/Ohft1ed28vt/MFcBmMOgxTRAtQwBbR54WB5H4f0j6/aa6RxoRDt1QyE7HBD4rHX
-         8jXuLmxl6u9fO2gu49W2GdSFgVbCk+6e+R+U+mrYIZAZTjiAI9xVHuqNz2bREJxgwUjm
-         YJcw==
+         :list-id:mailing-list:precedence:mime-version:subject:references
+         :in-reply-to:message-id:to:reply-to:from:date:dkim-signature;
+        bh=MaR+OOCejowGT8X/gXT5XxpgT2laQSQYyHO5YBRU7RA=;
+        b=L+RcDcXzyTH16ib/RU7qOTd3SAby68pbhJOJ5cLz7rZa3fBqNND/MV6thwEZBNBbOi
+         1xbN5zq37nW/d68hQCgek0pmPHrD0EAJroIT7uNrAKBvz3gOlFthV/3db7HdJxgAERwi
+         eJ+eTH3pqGQqyj0FgXabc4HePZ2oZnFco47pyzBWM6lSf/z42xWgXrq7BALDBykJLLfx
+         EXFVvOOw/7wgsnHCEQjJ88h8zRHGucqqZvw8Fs4O0DpRcMjIWhD3gIOMKx0qBOX2qxVl
+         1QUu+Xsp5+0mPrVhj4iGFpGDcpc1q2g9ijErElWW3FebLb6CkgG/A4TFkz1I5mT1ejVE
+         ZMsg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=default header.b=emfRRWgr;
-       spf=pass (google.com: domain of srs0=m+cg=aa=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=M+cG=AA=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       dkim=pass header.i=@yahoo.com header.s=s2048 header.b=UV+D5871;
+       spf=pass (google.com: domain of c72728@yahoo.com designates 74.6.133.125 as permitted sender) smtp.mailfrom=c72728@yahoo.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=yahoo.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:reply-to:references
-         :mime-version:content-disposition:in-reply-to:user-agent
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
+        h=date:from:reply-to:to:message-id:in-reply-to:references:subject
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=dFTWh7896AytdnjdkNo64jYcjgl4GPlnOYHg/GoH/rI=;
-        b=dBwyyZcDtLpzSxEZErG2PnlXUlqOHYGWm0XtOOPFCcK6IXgX+j+TF38In/ADif/oi2
-         RkeBn2fQairV8L+Qd/EfYnpJGHqeospHPE7YbatL8CBW9Ysf7SnTOPS5BffY04OCXZu9
-         1j+cw/0V15BY3k7zNs0v4lAzyLP5rJ8oYcvVcUw2dcB2kVY9MRlRvNUdCpSpX39cNH38
-         y+PIHWoPvx2Q/EEGsPe/E0kf7q/xOcvzNTcaFTz8cPYT1on9J8ZYHRp/vlvjAdLf4UL3
-         RZLBKEdOOZCutQkBQMePu4rlZnc2osB4mkZ+TBipkYXVXtxOFU/Y0I1Ekvffqdy+w5xV
-         miwA==
+        bh=MaR+OOCejowGT8X/gXT5XxpgT2laQSQYyHO5YBRU7RA=;
+        b=ePhczY4o75Nd+swHcm1Z59XTA3siUUJWAB7TL8N9YuoRCtQbqDUCMvhZDrp8CVF/wi
+         KiXXtVHj4wt5icTVf6BRXOykJDXYD8tO3OXmmeDUCOQ5oH5NKJwk5RX99D95PwQdm2wU
+         P0wHuokZ2TcuOBB/MHAb7shKxuXPqjT7TywHuAYnEF+RAUS2FNZEAEwK2aSxwwdw6zJ0
+         9f4+urTjbnyQmeijTHXXPcWudexWLDEGCRY0Kf/Ckla9wtue9WPG06g1s3j+KEFbi+O5
+         +qp4tp7GLscdlPLFpPMeXFGL+Wqm7h5CGelrj57TWeyWNiZ+Kmhjk63+jK6C1LuazaAc
+         +Ezw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :reply-to:references:mime-version:content-disposition:in-reply-to
-         :user-agent:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=dFTWh7896AytdnjdkNo64jYcjgl4GPlnOYHg/GoH/rI=;
-        b=nJCYIKbz3UH86k8l5KU6syebE8kkItzzd4n2TD1JP3uEc6vTjTsq04uxEvofwvAFnz
-         23oJN8Ef5+2rE2nJyrCKDNRG/8p5wsu4cUf1Tn26LbuPXf3Z+KnqR8UPPwyIDTda5R0B
-         NLuj1An3upAuaoV/epoEJy2o/UtYN68hNVs6s7NOy03CHE7yawYvNYG72EfgyQkaWSvn
-         dkNuAJVrvayuYo7OeTOHhY5jGoqTSTiAwjK1XkVInEfxWJVQldHuCe13bUN65i00y2/g
-         xzisGvfE0CWhByUkwnWhovVx/mGr5PgYIcODRg0JIqEI8oe3fkj9IApsLtEhf+zAQQeh
-         dp0Q==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM531gRzp4kSUizKXGSHRZvafPE5XE1706DpLz6AaXbR+isGCJ0fxU
-	+FK7EdoCRmKe5gF6bYDHKbc=
-X-Google-Smtp-Source: ABdhPJx4XfPOI60Lup/MA4+Dm683toZRGJShENWQG3uZ1vdYofJL7a4jAQrrObkGbe0ECtHqAutnGw==
-X-Received: by 2002:a67:3311:: with SMTP id z17mr9479554vsz.52.1592604957075;
-        Fri, 19 Jun 2020 15:15:57 -0700 (PDT)
+        h=x-gm-message-state:date:from:reply-to:to:message-id:in-reply-to
+         :references:subject:mime-version:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=MaR+OOCejowGT8X/gXT5XxpgT2laQSQYyHO5YBRU7RA=;
+        b=QUjQ18G1PDELgo/2t018Ufm4BCJMF8bHHVpFROEc/WCSjQOOOVaRngHySbCHAL9sh9
+         kptUIGpIU7IwZmYVl6H0sKDPxnEbNTGPlA7USdJqGRzpGAphQuuvfahsjFTIt0lVLRpL
+         Gh/kWEwycIKSJAQjC2tYcaiAc4KpZtR0lmA9DvWk5RMExqfPWsuIT2nCJMReWC5rnHi3
+         QiZCIroq2fCzSGZn3NDSGGiOZWGgvb5XzqxZr5v0yIcQOFUYoDfFaJLxFBnQIkZFBxe7
+         tHG5KpSlvoQdPOmZOHZQ5ORXL/BpuOlbaoZFTyGyVhZmWuWduJPUMzCc/Yl/QDqYNlwS
+         CS7Q==
+X-Gm-Message-State: AOAM531rNJNoHXwm1bh9BW65gVoLDL/oizc+NJmdnZYLHXLfI2zNOP/x
+	IbafE1ZP7bvVYBpN8ORefks=
+X-Google-Smtp-Source: ABdhPJwKonJL2ZvBzJNTYUhmCU169vz3zjidYVkD8LZHQtAb7oJzCqxJVxJU12ngKPfh/ByqkI2ILQ==
+X-Received: by 2002:a17:90a:f184:: with SMTP id bv4mr16370179pjb.57.1592797213838;
+        Sun, 21 Jun 2020 20:40:13 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a67:f993:: with SMTP id b19ls1340598vsq.5.gmail; Fri, 19 Jun
- 2020 15:15:56 -0700 (PDT)
-X-Received: by 2002:a67:fc0b:: with SMTP id o11mr8993763vsq.114.1592604956735;
-        Fri, 19 Jun 2020 15:15:56 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1592604956; cv=none;
+Received: by 2002:a17:902:9007:: with SMTP id a7ls5865216plp.3.gmail; Sun, 21
+ Jun 2020 20:40:13 -0700 (PDT)
+X-Received: by 2002:a17:90a:b013:: with SMTP id x19mr16669198pjq.229.1592797213562;
+        Sun, 21 Jun 2020 20:40:13 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1592797213; cv=none;
         d=google.com; s=arc-20160816;
-        b=iYNeXUhW5VGgrdsY+Oek3qnxQKEXymHfbscpqIswHSjKNVXhCXu9yE+0jEwArLVJx4
-         HHDZLjwLVBnUgG/57IbY7XROOAGA99HEF/p3AzwhwXGN5N7HhahJJ6MCWKwHg4UZ50M9
-         rzDFz4hydOGzqiJgYkyV51avEZUVh7jauXmh5UPSSxNHCTD8/uqvB3NvCJ4aiI+ECD6x
-         AR2QDlpnWZNUqp6FOVq21bX6VJ4jagJ4M+GWR1xLosM1YDLN6GmHy5xAKaexwBdz/TQJ
-         xzsCO+PCGjg1SOf77MV5aN8I90Xr06HeLQVQabORDPeqW0NzzDOJxkD6R+ZX7BvzVaRI
-         8ZyQ==
+        b=bxLuXWUbrq5gbqibF830SjglGro6mvlcbQdSow97bO+i/p4pJiQ/H0N67NrPpjDbY1
+         rlk+e+SqGPQF5Qv4IHdkU1t8jxgzexkvzLweAf3BwTLENgWkfnpEdALE9ZNqSKqDViQl
+         3MHvkVtvBsIZ31xu7WFdFMfn8Cn50vQVY6b0NJZHpP9VcHaRrRCqXRxVRyAxDV7tILMK
+         0C2MvBjYf8TxuMrzZEHqxrk3SYQ1GDL/r5PHWdrdEOUdLfYa311MOOdBGmEwpq2cUzjI
+         8ECqg68bN96Tv/ry5Zgr5aAouS8uZ6da8EQsDgOCpEhWEhGILGu/M0XKrXJkhI0OTuO4
+         4bzw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :reply-to:message-id:subject:cc:to:from:date:dkim-signature;
-        bh=DxOMilel3/edrWLLJd9hJLwFdh3qTeBKoB2vRZNsls8=;
-        b=sx68Ppg5HfmXyUi9yoaIgRsHl9nzEf0k/cCmPddRnb4PVop3315n+GUULn4777ehhB
-         PQfLDlVPTbe3nCpcoaq2PZxd3zSy3Et1yVvK8ZGLZUtp6spZbtZyawCtreqIpCYxufoR
-         p4OBO5bqgXPHoyM5EindYKXyr+jTG15+TyqXeVn0xl2TUZYXSgIE8cQHaCK7xHXaEBfm
-         +Jb/ap42FZle8su4leWzyDaX4L46pF2bkNI7AT5QOBzvGN97/fXFNqMJsJsLxwoVGc4E
-         Nzv6SvBNcp1BwpLADgYTeaqqGSOlIMrF4kMETpdxSz+riWIShMpYNewFcgy9tZ3h+Cnh
-         XCwQ==
+        h=mime-version:subject:references:in-reply-to:message-id:to:reply-to
+         :from:date:dkim-signature;
+        bh=X7c4WiLPoiXcFLJRl1K222EaId4Olunz6y9AQ+aPjGA=;
+        b=tmpcLP4TB3QcBeN1Gvv+arnhsXWiwXq7asoNjaNhk4pxHcWu1JEjLbCglNRNOoEINJ
+         jevdvM7vsICbeumaR1N8j9Q2klTgmkZAYY7+ZxZ+9rvfizjyqGRt1jT/kFwWhRXi/ZmI
+         yKrr3tPB+FdLbBw/As+IQOe20CgP9YpM4hpIv1HcUtzMRqLD9Q2ImFTo5O/aaJcEPD4G
+         tt5vB83YQrTrgrUksjjYz0eWSCjeavrXzxf878Jbigw5rBUwCvPtD5Z7vodNqe1VOXQ4
+         WF0RoxOyhQmHNJcuxWitlbPkUyugdYXm2rfBmxXPLEo6V9+Lq7vowFc49cK7emzXyn1i
+         fJVw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=default header.b=emfRRWgr;
-       spf=pass (google.com: domain of srs0=m+cg=aa=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=M+cG=AA=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id f12si392717vsr.0.2020.06.19.15.15.56
+       dkim=pass header.i=@yahoo.com header.s=s2048 header.b=UV+D5871;
+       spf=pass (google.com: domain of c72728@yahoo.com designates 74.6.133.125 as permitted sender) smtp.mailfrom=c72728@yahoo.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=yahoo.com
+Received: from sonic313-15.consmr.mail.bf2.yahoo.com (sonic313-15.consmr.mail.bf2.yahoo.com. [74.6.133.125])
+        by gmr-mx.google.com with ESMTPS id a22si943642pjv.3.2020.06.21.20.40.13
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 19 Jun 2020 15:15:56 -0700 (PDT)
-Received-SPF: pass (google.com: domain of srs0=m+cg=aa=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
-Received: from paulmck-ThinkPad-P72.home (50-39-105-78.bvtn.or.frontiernet.net [50.39.105.78])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id 8BBD622277;
-	Fri, 19 Jun 2020 22:15:55 +0000 (UTC)
-Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
-	id 5CEF93522B50; Fri, 19 Jun 2020 15:15:55 -0700 (PDT)
-Date: Fri, 19 Jun 2020 15:15:55 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: tglx@linutronix.de, x86@kernel.org, elver@google.com,
-	kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org,
-	will@kernel.org, dvyukov@google.com, glider@google.com,
-	andreyknvl@google.com
-Subject: Re: [PATCH 2/9] rcu: Fixup noinstr warnings
-Message-ID: <20200619221555.GA12280@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
-References: <20200603114014.152292216@infradead.org>
- <20200603114051.896465666@infradead.org>
- <20200615154905.GZ2531@hirez.programming.kicks-ass.net>
- <20200615155513.GG2554@hirez.programming.kicks-ass.net>
- <20200615162427.GI2554@hirez.programming.kicks-ass.net>
- <20200615171404.GI2723@paulmck-ThinkPad-P72>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 21 Jun 2020 20:40:13 -0700 (PDT)
+Received-SPF: pass (google.com: domain of c72728@yahoo.com designates 74.6.133.125 as permitted sender) client-ip=74.6.133.125;
+X-YMail-OSG: YLHPHNQVM1nMG802pe4FM27MmWP0Ifuh_c_MPp50m3S2wXc6Mfczu033c_UGF1d
+ x2kFM0Xic_m27orZpcAnV.I8jsz3v05KCoEFlg63ULcNrdmX3_xRo5CwIoH2kf4J5XVvwa9CnxTU
+ L3ED7icMfh6wOLDF0cfnZ2AkYsHTo6gzLvC4p14uJXyz5wFi4kiN34qH1U58ECX3BJEe0Slmi6Z2
+ 2bdJ.XXOHUs73YJd3Cu48DADh5tl8.seI.H3ebaKQq3XSD9bGD1oj7CuUbFTw0TSNHISiBZ99Ks2
+ HJXgbYncLsofbXWoJgkS9OgL71koSrGEp5Z0yPwF0TlmNU0q.vY.WtA9sr0Nkhs1OYkr6lzBxR1O
+ Xncne0lQ2kUI3f2b6KJ7idJ4aBVA5MoN_ZftInwBDGTlpAAv47W.CnPj.gFgcL3P59pFWmxV2xJ0
+ uG4.5TiQr1zfEYbX2IwnijbQpfNPWvB9MM6ocqi7RU0y7Rpw3i5WtcKAojxYG.NGnIKu8zbxQfeK
+ hqA.U7iceXlYNgTmb3puhQXGAmOVbJi.QO5vZOHfp1QlOuFNknJo389CGYIqNuVdQ_pIUUZeI5lT
+ U6MeViXq4vrn5VyZ23RQHjaEjOck_9mVjrczlqcaJz7LIejVJ2xvXs0SFRGWzaZ0gxWVXqn_kWvV
+ hvIq21HRuI9rL0pCcqpSzHtQanFBqzW32skN6PEFEQwJvCrSXvBAWUjdyGXMWQlKviMK4FNJD1Zu
+ vsXGZ2lkOc2RPnySGwoWc90KdevFVBLQFSJLjHAaKLRHz4WCUzmoOnTfIOcz3Gy5v4HH42mkzTG9
+ YTK49qLEmdOx2bQvYLMsmNylXTzH7hPkKa1FMZJXYkEHcgjvKaJv5m5IpDQu0WlifsxCwugwmLbZ
+ BdQ0lvB7a6uJeiK.nCuox187U4VUZTpT_uEa8WKxzAmsutqFmmcdH0Pa24_.ofv4ymb35Nug1rDc
+ gU79wvO0y50TY5rTwkOxxquhl7LdGykS3XDnK4RRGBeedjD8Wex086VP_fNMAZiP_HsPRTw9q4GN
+ a54qqDHVWWEjcbBXTAWHE6e631ghlKYfDiZeZcizJNLa7MnqJ_4E.VZzEMVA1nv_KIiK23cf_Xwa
+ cXL9Y.dAUwr7k9yCxOIG54rsIvovN1Tsx7Gvv1uaEHllRj0VGc0Jwfgh0gsTj0D.KFiINr_qDegG
+ teDKtkBGMcdZJTay6hMy9JA7wGf.gjw9b0WVPIy6IXYC94od1oquaLNps6kqArmXMMy.xJyRdc_1
+ NSZ_p_qPCbkP2rlwIHI_pEkUOmpgHZMecB8._G4XPveWsr7GvnZZvNGx8_YkU65FuKJWxUy7jeb2
+ ohdnr4dvBrI.OAeHeVmk4HD4jFHQi
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic313.consmr.mail.bf2.yahoo.com with HTTP; Mon, 22 Jun 2020 03:40:12 +0000
+Date: Mon, 22 Jun 2020 03:40:08 +0000 (UTC)
+From: "'Christy Wilcox' via kasan-dev" <kasan-dev@googlegroups.com>
+Reply-To: c72728@yahoo.com
+To: c72728@yahoo.com
+Message-ID: <782527173.1143749.1592797208205@mail.yahoo.com>
+In-Reply-To: <1705927180.1154180.1592797171602@mail.yahoo.com>
+References: <1408139245.1302051.1591161262589.ref@mail.yahoo.com> <1408139245.1302051.1591161262589@mail.yahoo.com> <368102206.1302961.1591161296756@mail.yahoo.com> <662368049.94387.1591161344870@mail.yahoo.com> <1705927180.1154180.1592797171602@mail.yahoo.com>
+Subject: Re: Hello
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <20200615171404.GI2723@paulmck-ThinkPad-P72>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Original-Sender: paulmck@kernel.org
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_1143748_2091053298.1592797208204"
+X-Mailer: WebService/1.1.16138 YMailNodin Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0
+X-Original-Sender: c72728@yahoo.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=default header.b=emfRRWgr;       spf=pass
- (google.com: domain of srs0=m+cg=aa=paulmck-thinkpad-p72.home=paulmck@kernel.org
- designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=M+cG=AA=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+ header.i=@yahoo.com header.s=s2048 header.b=UV+D5871;       spf=pass
+ (google.com: domain of c72728@yahoo.com designates 74.6.133.125 as permitted
+ sender) smtp.mailfrom=c72728@yahoo.com;       dmarc=pass (p=REJECT sp=REJECT
+ dis=NONE) header.from=yahoo.com
+X-Original-From: Christy Wilcox <c72728@yahoo.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -143,195 +145,37 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, Jun 15, 2020 at 10:14:04AM -0700, Paul E. McKenney wrote:
-> On Mon, Jun 15, 2020 at 06:24:27PM +0200, Peter Zijlstra wrote:
-> > On Mon, Jun 15, 2020 at 05:55:13PM +0200, Peter Zijlstra wrote:
-> > > On Mon, Jun 15, 2020 at 05:49:05PM +0200, Peter Zijlstra wrote:
-> > > > @@ -983,13 +993,17 @@ noinstr void rcu_nmi_enter(void)
-> > > >  		if (!in_nmi())
-> > > >  			rcu_cleanup_after_idle();
-> > > >  
-> > > > +		instrumentation_begin();
-> > > > +		// instrumentation for the noinstr rcu_dynticks_curr_cpu_in_eqs()
-> > > > +		instrument_atomic_read(&rdp->dynticks, sizeof(rdp->dynticks));
-> > > > +		// instrumentation for the noinstr rcu_dynticks_eqs_exit()
-> > > > +		instrument_atomic_write(&rdp->dynticks, sizeof(rdp->dynticks));
-> > > > +
-> > > >  		incby = 1;
-> > > >  	} else if (!in_nmi()) {
-> > > >  		instrumentation_begin();
-> > > >  		rcu_irq_enter_check_tick();
-> > > > -		instrumentation_end();
-> > > >  	}
-> > > > -	instrumentation_begin();
-> > > >  	trace_rcu_dyntick(incby == 1 ? TPS("Endirq") : TPS("++="),
-> > > >  			  rdp->dynticks_nmi_nesting,
-> > > >  			  rdp->dynticks_nmi_nesting + incby, atomic_read(&rdp->dynticks));
-> > > 
-> > > Oh, that's lost a possible instrumentation_begin() :/ But weirdly
-> > > objtool didn't complain about that... Let me poke at that.
-> 
-> This merge window has been quite the trainwreck, hasn't it?  :-/
-> 
-> > Like so then...
-> 
-> Looks plausible, firing up some tests.
+------=_Part_1143748_2091053298.1592797208204
+Content-Type: text/plain; charset="UTF-8"
 
-Just following up because I don't see this anywhere.  If I am supposed
-to take this (which is more plausible now that v5.8-rc1 is out), please
-let me know.
+ Hi,
 
-							Thanx, Paul
-
-> > ---
-> > Subject: rcu: Fixup noinstr warnings
-> > 
-> > A KCSAN build revealed we have explicit annoations through atomic_*()
-> > usage, switch to arch_atomic_*() for the respective functions.
-> > 
-> > vmlinux.o: warning: objtool: rcu_nmi_exit()+0x4d: call to __kcsan_check_access() leaves .noinstr.text section
-> > vmlinux.o: warning: objtool: rcu_dynticks_eqs_enter()+0x25: call to __kcsan_check_access() leaves .noinstr.text section
-> > vmlinux.o: warning: objtool: rcu_nmi_enter()+0x4f: call to __kcsan_check_access() leaves .noinstr.text section
-> > vmlinux.o: warning: objtool: rcu_dynticks_eqs_exit()+0x2a: call to __kcsan_check_access() leaves .noinstr.text section
-> > vmlinux.o: warning: objtool: __rcu_is_watching()+0x25: call to __kcsan_check_access() leaves .noinstr.text section
-> > 
-> > Additionally, without the NOP in instrumentation_begin(), objtool would
-> > not detect the lack of the 'else instrumentation_begin();' branch in
-> > rcu_nmi_enter().
-> > 
-> > Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-> > ---
-> >  include/linux/compiler.h |    2 +-
-> >  kernel/rcu/tree.c        |   33 +++++++++++++++++++++++++--------
-> >  2 files changed, 26 insertions(+), 9 deletions(-)
-> > 
-> > --- a/include/linux/compiler.h
-> > +++ b/include/linux/compiler.h
-> > @@ -123,7 +123,7 @@ void ftrace_likely_update(struct ftrace_
-> >  #ifdef CONFIG_DEBUG_ENTRY
-> >  /* Begin/end of an instrumentation safe region */
-> >  #define instrumentation_begin() ({					\
-> > -	asm volatile("%c0:\n\t"						\
-> > +	asm volatile("%c0: nop\n\t"						\
-> >  		     ".pushsection .discard.instr_begin\n\t"		\
-> >  		     ".long %c0b - .\n\t"				\
-> >  		     ".popsection\n\t" : : "i" (__COUNTER__));		\
-> > --- a/kernel/rcu/tree.c
-> > +++ b/kernel/rcu/tree.c
-> > @@ -250,7 +250,7 @@ static noinstr void rcu_dynticks_eqs_ent
-> >  	 * next idle sojourn.
-> >  	 */
-> >  	rcu_dynticks_task_trace_enter();  // Before ->dynticks update!
-> > -	seq = atomic_add_return(RCU_DYNTICK_CTRL_CTR, &rdp->dynticks);
-> > +	seq = arch_atomic_add_return(RCU_DYNTICK_CTRL_CTR, &rdp->dynticks);
-> >  	// RCU is no longer watching.  Better be in extended quiescent state!
-> >  	WARN_ON_ONCE(IS_ENABLED(CONFIG_RCU_EQS_DEBUG) &&
-> >  		     (seq & RCU_DYNTICK_CTRL_CTR));
-> > @@ -274,13 +274,13 @@ static noinstr void rcu_dynticks_eqs_exi
-> >  	 * and we also must force ordering with the next RCU read-side
-> >  	 * critical section.
-> >  	 */
-> > -	seq = atomic_add_return(RCU_DYNTICK_CTRL_CTR, &rdp->dynticks);
-> > +	seq = arch_atomic_add_return(RCU_DYNTICK_CTRL_CTR, &rdp->dynticks);
-> >  	// RCU is now watching.  Better not be in an extended quiescent state!
-> >  	rcu_dynticks_task_trace_exit();  // After ->dynticks update!
-> >  	WARN_ON_ONCE(IS_ENABLED(CONFIG_RCU_EQS_DEBUG) &&
-> >  		     !(seq & RCU_DYNTICK_CTRL_CTR));
-> >  	if (seq & RCU_DYNTICK_CTRL_MASK) {
-> > -		atomic_andnot(RCU_DYNTICK_CTRL_MASK, &rdp->dynticks);
-> > +		arch_atomic_andnot(RCU_DYNTICK_CTRL_MASK, &rdp->dynticks);
-> >  		smp_mb__after_atomic(); /* _exit after clearing mask. */
-> >  	}
-> >  }
-> > @@ -313,7 +313,7 @@ static __always_inline bool rcu_dynticks
-> >  {
-> >  	struct rcu_data *rdp = this_cpu_ptr(&rcu_data);
-> >  
-> > -	return !(atomic_read(&rdp->dynticks) & RCU_DYNTICK_CTRL_CTR);
-> > +	return !(arch_atomic_read(&rdp->dynticks) & RCU_DYNTICK_CTRL_CTR);
-> >  }
-> >  
-> >  /*
-> > @@ -633,6 +633,10 @@ static noinstr void rcu_eqs_enter(bool u
-> >  	do_nocb_deferred_wakeup(rdp);
-> >  	rcu_prepare_for_idle();
-> >  	rcu_preempt_deferred_qs(current);
-> > +
-> > +	// instrumentation for the noinstr rcu_dynticks_eqs_enter()
-> > +	instrument_atomic_write(&rdp->dynticks, sizeof(rdp->dynticks));
-> > +
-> >  	instrumentation_end();
-> >  	WRITE_ONCE(rdp->dynticks_nesting, 0); /* Avoid irq-access tearing. */
-> >  	// RCU is watching here ...
-> > @@ -692,6 +696,7 @@ noinstr void rcu_nmi_exit(void)
-> >  {
-> >  	struct rcu_data *rdp = this_cpu_ptr(&rcu_data);
-> >  
-> > +	instrumentation_begin();
-> >  	/*
-> >  	 * Check for ->dynticks_nmi_nesting underflow and bad ->dynticks.
-> >  	 * (We are exiting an NMI handler, so RCU better be paying attention
-> > @@ -705,7 +710,6 @@ noinstr void rcu_nmi_exit(void)
-> >  	 * leave it in non-RCU-idle state.
-> >  	 */
-> >  	if (rdp->dynticks_nmi_nesting != 1) {
-> > -		instrumentation_begin();
-> >  		trace_rcu_dyntick(TPS("--="), rdp->dynticks_nmi_nesting, rdp->dynticks_nmi_nesting - 2,
-> >  				  atomic_read(&rdp->dynticks));
-> >  		WRITE_ONCE(rdp->dynticks_nmi_nesting, /* No store tearing. */
-> > @@ -714,13 +718,15 @@ noinstr void rcu_nmi_exit(void)
-> >  		return;
-> >  	}
-> >  
-> > -	instrumentation_begin();
-> >  	/* This NMI interrupted an RCU-idle CPU, restore RCU-idleness. */
-> >  	trace_rcu_dyntick(TPS("Startirq"), rdp->dynticks_nmi_nesting, 0, atomic_read(&rdp->dynticks));
-> >  	WRITE_ONCE(rdp->dynticks_nmi_nesting, 0); /* Avoid store tearing. */
-> >  
-> >  	if (!in_nmi())
-> >  		rcu_prepare_for_idle();
-> > +
-> > +	// instrumentation for the noinstr rcu_dynticks_eqs_enter()
-> > +	instrument_atomic_write(&rdp->dynticks, sizeof(rdp->dynticks));
-> >  	instrumentation_end();
-> >  
-> >  	// RCU is watching here ...
-> > @@ -838,6 +844,10 @@ static void noinstr rcu_eqs_exit(bool us
-> >  	rcu_dynticks_eqs_exit();
-> >  	// ... but is watching here.
-> >  	instrumentation_begin();
-> > +
-> > +	// instrumentation for the noinstr rcu_dynticks_eqs_exit()
-> > +	instrument_atomic_write(&rdp->dynticks, sizeof(rdp->dynticks));
-> > +
-> >  	rcu_cleanup_after_idle();
-> >  	trace_rcu_dyntick(TPS("End"), rdp->dynticks_nesting, 1, atomic_read(&rdp->dynticks));
-> >  	WARN_ON_ONCE(IS_ENABLED(CONFIG_RCU_EQS_DEBUG) && !user && !is_idle_task(current));
-> > @@ -983,13 +993,20 @@ noinstr void rcu_nmi_enter(void)
-> >  		if (!in_nmi())
-> >  			rcu_cleanup_after_idle();
-> >  
-> > +		instrumentation_begin();
-> > +		// instrumentation for the noinstr rcu_dynticks_curr_cpu_in_eqs()
-> > +		instrument_atomic_read(&rdp->dynticks, sizeof(rdp->dynticks));
-> > +		// instrumentation for the noinstr rcu_dynticks_eqs_exit()
-> > +		instrument_atomic_write(&rdp->dynticks, sizeof(rdp->dynticks));
-> > +
-> >  		incby = 1;
-> >  	} else if (!in_nmi()) {
-> >  		instrumentation_begin();
-> >  		rcu_irq_enter_check_tick();
-> > -		instrumentation_end();
-> > +	} else {
-> > +		instrumentation_begin();
-> >  	}
-> > -	instrumentation_begin();
-> > +
-> >  	trace_rcu_dyntick(incby == 1 ? TPS("Endirq") : TPS("++="),
-> >  			  rdp->dynticks_nmi_nesting,
-> >  			  rdp->dynticks_nmi_nesting + incby, atomic_read(&rdp->dynticks));
+This is Christy, I hope you are alright. I have been trying to reach you, did you get my message? please respond back to me as soon as possible thanks.  
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200619221555.GA12280%40paulmck-ThinkPad-P72.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/782527173.1143749.1592797208205%40mail.yahoo.com.
+
+------=_Part_1143748_2091053298.1592797208204
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div>                Hi,<br><br>This is Christy, I hope you are alright. I =
+have been trying to reach you, did you get my message? please respond back =
+to me as soon as possible thanks.             </div>           =20
+
+<p></p>
+
+-- <br />
+You received this message because you are subscribed to the Google Groups &=
+quot;kasan-dev&quot; group.<br />
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
++unsubscribe@googlegroups.com</a>.<br />
+To view this discussion on the web visit <a href=3D"https://groups.google.c=
+om/d/msgid/kasan-dev/782527173.1143749.1592797208205%40mail.yahoo.com?utm_m=
+edium=3Demail&utm_source=3Dfooter">https://groups.google.com/d/msgid/kasan-=
+dev/782527173.1143749.1592797208205%40mail.yahoo.com</a>.<br />
+
+------=_Part_1143748_2091053298.1592797208204--
