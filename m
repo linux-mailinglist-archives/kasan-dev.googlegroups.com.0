@@ -1,138 +1,131 @@
-Return-Path: <kasan-dev+bncBAABBHOQYD3QKGQEWPNWTWA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCO4HLFLUAOBBKPIYH3QKGQECKIU3JA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pl1-x637.google.com (mail-pl1-x637.google.com [IPv6:2607:f8b0:4864:20::637])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5573E202EE8
-	for <lists+kasan-dev@lfdr.de>; Mon, 22 Jun 2020 05:40:15 +0200 (CEST)
-Received: by mail-pl1-x637.google.com with SMTP id c4sf11060754plo.6
-        for <lists+kasan-dev@lfdr.de>; Sun, 21 Jun 2020 20:40:15 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1592797214; cv=pass;
+Received: from mail-wm1-x338.google.com (mail-wm1-x338.google.com [IPv6:2a00:1450:4864:20::338])
+	by mail.lfdr.de (Postfix) with ESMTPS id AAB912032CA
+	for <lists+kasan-dev@lfdr.de>; Mon, 22 Jun 2020 11:04:41 +0200 (CEST)
+Received: by mail-wm1-x338.google.com with SMTP id t145sf9084419wmt.2
+        for <lists+kasan-dev@lfdr.de>; Mon, 22 Jun 2020 02:04:41 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1592816681; cv=pass;
         d=google.com; s=arc-20160816;
-        b=SD3uwjlIbOt9MXZj1S8CmPnWwwp1HKLlyKESgMe7Eh+BCwNxH3yuyQCvWCcQ7tcavb
-         Eo2xTq0+WlPtQNAZeZzMOT/xb6rPMjxnRVuRQoSOn5hzCkzISxWfyvZYp/bQttU4Nas5
-         5aAUthp4MroJ4xJRuKenLCTQYS4/cZwQxv1UjK1eNaetBVkh2DzUAF0eGTgSZrIFrV4k
-         Gjeg7wGviQDnjPlp59nl92kjZEgAEmn2xAy58Kf1Ubcnqb3QtgP+DB1GmmJPR0iChoiS
-         Oe3+hkqaXRQEZcgU0UZMJOGCV6MQwHkGxQPnI9/olGBrUdG9S7niTML+Jjt75lZhN00C
-         iLrg==
+        b=j+cXUZqA8pDhm+gUZsGA6J2hCMjYnpQJ2aShi18JP8Ro4Fd/8KVB0Vf+rFGyS5BjVx
+         XCKs6BjC13IghCKqOsyjze62/EGoNs7I9tKrvNHv0T2RMZ1LW9R++nu4iWYyybgYP7AE
+         vj20Y7y/G2xfCegl/L2+tmlpcOhPje31H+QHjIxq1wIvSsAYFehaRuwOSaAP9mXejON3
+         agVGgNVDUnUocR03n5am+sGhxQ8ELvppTv3jTmXW7X93gfJpQYC2Uzfe262Urc2dFs/i
+         g1XrjTnIDcavCdJjx7CzBoPNuxUMbkiqXgpHTjSd3uZZOl0/jLKnoUqFZxjXdoZ01DhV
+         IZCg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:subject:references
-         :in-reply-to:message-id:to:reply-to:from:date:dkim-signature;
-        bh=MaR+OOCejowGT8X/gXT5XxpgT2laQSQYyHO5YBRU7RA=;
-        b=L+RcDcXzyTH16ib/RU7qOTd3SAby68pbhJOJ5cLz7rZa3fBqNND/MV6thwEZBNBbOi
-         1xbN5zq37nW/d68hQCgek0pmPHrD0EAJroIT7uNrAKBvz3gOlFthV/3db7HdJxgAERwi
-         eJ+eTH3pqGQqyj0FgXabc4HePZ2oZnFco47pyzBWM6lSf/z42xWgXrq7BALDBykJLLfx
-         EXFVvOOw/7wgsnHCEQjJ88h8zRHGucqqZvw8Fs4O0DpRcMjIWhD3gIOMKx0qBOX2qxVl
-         1QUu+Xsp5+0mPrVhj4iGFpGDcpc1q2g9ijErElWW3FebLb6CkgG/A4TFkz1I5mT1ejVE
-         ZMsg==
+         :list-id:mailing-list:precedence:in-reply-to
+         :content-transfer-encoding:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:dkim-signature;
+        bh=9j0WA3p7Pal3D1bxevqGNtISQT3ZEmc3bLqvguBfkzY=;
+        b=omxgdYI85Uh8opyxsmhqvmjZkufPawG3fIbMgLOmBj1FPes2umBx5Qb7f0rXzjPet/
+         G3byicPqnnewWirc31myNNwTdS80U92Q3X9OhdK6e3lte8rSLwwdE7h93kGGcs9adMlK
+         V3TF3iU9a0HPpEF0S+XXnv2jx03NRdqeaQ8ln5JvV3oRwquIPrLVg9eAsAL3F/K42sR8
+         daMcQKEb966Srvzp4Rn86pvY0jIUKCwftuEDfp9OeVhvEggQiHrukHEfnpRD1Wpgmgon
+         uSqf9r/1bqG7vB8wf9xDhbadLCU2oGn3VCp+69mxvwAN0ffY4IoazWW/ZC/tduQ6YIsC
+         ze1g==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@yahoo.com header.s=s2048 header.b=UV+D5871;
-       spf=pass (google.com: domain of c72728@yahoo.com designates 74.6.133.125 as permitted sender) smtp.mailfrom=c72728@yahoo.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=yahoo.com
+       spf=neutral (google.com: 91.189.89.112 is neither permitted nor denied by best guess record for domain of christian.brauner@ubuntu.com) smtp.mailfrom=christian.brauner@ubuntu.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=date:from:reply-to:to:message-id:in-reply-to:references:subject
-         :mime-version:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=MaR+OOCejowGT8X/gXT5XxpgT2laQSQYyHO5YBRU7RA=;
-        b=ePhczY4o75Nd+swHcm1Z59XTA3siUUJWAB7TL8N9YuoRCtQbqDUCMvhZDrp8CVF/wi
-         KiXXtVHj4wt5icTVf6BRXOykJDXYD8tO3OXmmeDUCOQ5oH5NKJwk5RX99D95PwQdm2wU
-         P0wHuokZ2TcuOBB/MHAb7shKxuXPqjT7TywHuAYnEF+RAUS2FNZEAEwK2aSxwwdw6zJ0
-         9f4+urTjbnyQmeijTHXXPcWudexWLDEGCRY0Kf/Ckla9wtue9WPG06g1s3j+KEFbi+O5
-         +qp4tp7GLscdlPLFpPMeXFGL+Wqm7h5CGelrj57TWeyWNiZ+Kmhjk63+jK6C1LuazaAc
-         +Ezw==
+        bh=9j0WA3p7Pal3D1bxevqGNtISQT3ZEmc3bLqvguBfkzY=;
+        b=KfaZAROd9CnEbsumD/5fy/ynxCKKL9xU4/fta51MnckCi4JVgIugjw8Fh15bQyAVym
+         7J0VUPQec5XYVlSjzbcYqjzJrRNAzTzsGJZ0jdfdtJ6l5PeTg1r2Bl1Gpwb0/fxlGuUq
+         yha09x8DUuVTqsFtVpHGG4JHEww16tp17ppRt3YdV7ypgllEhKKgDWUzhQfTZCIyZaRy
+         xhDhjJEFNLWjy5Wm9dgXxLe87S2AqhXXzYBaolYHsw1gRf0IBXwPk3t4xwVEI7u4EHJl
+         t2NH2aQUGxrt2uaidrSCeTY5rTUMtTMrM3GnUWMI57TTEX3e31i9nX22WfGC7kbkHqst
+         U7kA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:reply-to:to:message-id:in-reply-to
-         :references:subject:mime-version:x-original-sender
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition
+         :content-transfer-encoding:in-reply-to:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=MaR+OOCejowGT8X/gXT5XxpgT2laQSQYyHO5YBRU7RA=;
-        b=QUjQ18G1PDELgo/2t018Ufm4BCJMF8bHHVpFROEc/WCSjQOOOVaRngHySbCHAL9sh9
-         kptUIGpIU7IwZmYVl6H0sKDPxnEbNTGPlA7USdJqGRzpGAphQuuvfahsjFTIt0lVLRpL
-         Gh/kWEwycIKSJAQjC2tYcaiAc4KpZtR0lmA9DvWk5RMExqfPWsuIT2nCJMReWC5rnHi3
-         QiZCIroq2fCzSGZn3NDSGGiOZWGgvb5XzqxZr5v0yIcQOFUYoDfFaJLxFBnQIkZFBxe7
-         tHG5KpSlvoQdPOmZOHZQ5ORXL/BpuOlbaoZFTyGyVhZmWuWduJPUMzCc/Yl/QDqYNlwS
-         CS7Q==
-X-Gm-Message-State: AOAM531rNJNoHXwm1bh9BW65gVoLDL/oizc+NJmdnZYLHXLfI2zNOP/x
-	IbafE1ZP7bvVYBpN8ORefks=
-X-Google-Smtp-Source: ABdhPJwKonJL2ZvBzJNTYUhmCU169vz3zjidYVkD8LZHQtAb7oJzCqxJVxJU12ngKPfh/ByqkI2ILQ==
-X-Received: by 2002:a17:90a:f184:: with SMTP id bv4mr16370179pjb.57.1592797213838;
-        Sun, 21 Jun 2020 20:40:13 -0700 (PDT)
+        bh=9j0WA3p7Pal3D1bxevqGNtISQT3ZEmc3bLqvguBfkzY=;
+        b=PkK+d2TKtp2KTbr3Om2hylxfxDS4pgefkOmx4NJhjplj5Jy6x8ZXVeUYqfLbSVL7Bo
+         WXG8uSMewqDBkF0npJXIevzQ0aG/2k8KTaeldvoAwiPDhnQE5h3JJGs8DjHoZn7qaxCJ
+         aXoAqCWrMX9bUTwPoeQp53a/agl9H8CD8rgw4a/TzwacvShoA91xaI7lqamQe5I27Gpv
+         Aed7pOSYCr95wF6y/pY8+wTTWKw3Y68peQ1uUsYY9S+Pxq5ssemEz6eFBjB3UxCROuR8
+         hbKkLmroklYK8ISyKoLNHTxa6nlbsqfCr9+iIHVwihcPM1MTQwEbqXl1W1QGQXcw37vV
+         m4mQ==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM530FHOr3yV+d7rVIQIFP+4fBcJHN7j265u1VgqkDgluDsuZZ8r+U
+	rqRGHPqor8llIReJ0/LsHjU=
+X-Google-Smtp-Source: ABdhPJygVm9o8CmBJCD1rBzY7YuOvRkMn+6CaI5CezTSrdmlJuW6Qvtj1X1HO8Cs1omHqJdhdawfnA==
+X-Received: by 2002:a05:600c:2144:: with SMTP id v4mr6139270wml.128.1592816681351;
+        Mon, 22 Jun 2020 02:04:41 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:902:9007:: with SMTP id a7ls5865216plp.3.gmail; Sun, 21
- Jun 2020 20:40:13 -0700 (PDT)
-X-Received: by 2002:a17:90a:b013:: with SMTP id x19mr16669198pjq.229.1592797213562;
-        Sun, 21 Jun 2020 20:40:13 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1592797213; cv=none;
+Received: by 2002:a05:600c:2301:: with SMTP id 1ls2417090wmo.0.gmail; Mon, 22
+ Jun 2020 02:04:40 -0700 (PDT)
+X-Received: by 2002:a1c:8049:: with SMTP id b70mr17967892wmd.145.1592816680816;
+        Mon, 22 Jun 2020 02:04:40 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1592816680; cv=none;
         d=google.com; s=arc-20160816;
-        b=bxLuXWUbrq5gbqibF830SjglGro6mvlcbQdSow97bO+i/p4pJiQ/H0N67NrPpjDbY1
-         rlk+e+SqGPQF5Qv4IHdkU1t8jxgzexkvzLweAf3BwTLENgWkfnpEdALE9ZNqSKqDViQl
-         3MHvkVtvBsIZ31xu7WFdFMfn8Cn50vQVY6b0NJZHpP9VcHaRrRCqXRxVRyAxDV7tILMK
-         0C2MvBjYf8TxuMrzZEHqxrk3SYQ1GDL/r5PHWdrdEOUdLfYa311MOOdBGmEwpq2cUzjI
-         8ECqg68bN96Tv/ry5Zgr5aAouS8uZ6da8EQsDgOCpEhWEhGILGu/M0XKrXJkhI0OTuO4
-         4bzw==
+        b=ktPdNm0ZutU1TPU9H7dEJ8heJ+a8BpLR+6lrRXsf/YsItK2moNzDcLiX7im/rK+iiT
+         GLskjTKfOgRjMlQlXgMOVhsKhZBPgz4k4LIyxcfZwslSMMPIjGb5k4FAxYK84BY5vKC9
+         B7j5KE3nX6ZsvFvXJGHhMsNkfmSdiqlNxBKiEiDzvSZECOHbSZ+thmGdEIKsyAYDDJnP
+         0GDuXFugIIeDhPxpbcjDZ0M2z2LLs2CcR0UumluEmnuwGPVdQtpvaV1Ihvu9WTnrhj/y
+         Hk2w9jMlvW9za2oj900U/4pIBRKysmx8lsr/9hYTybqeKYCr3dqipC21Ztpb+b9hdPAu
+         L5IQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=mime-version:subject:references:in-reply-to:message-id:to:reply-to
-         :from:date:dkim-signature;
-        bh=X7c4WiLPoiXcFLJRl1K222EaId4Olunz6y9AQ+aPjGA=;
-        b=tmpcLP4TB3QcBeN1Gvv+arnhsXWiwXq7asoNjaNhk4pxHcWu1JEjLbCglNRNOoEINJ
-         jevdvM7vsICbeumaR1N8j9Q2klTgmkZAYY7+ZxZ+9rvfizjyqGRt1jT/kFwWhRXi/ZmI
-         yKrr3tPB+FdLbBw/As+IQOe20CgP9YpM4hpIv1HcUtzMRqLD9Q2ImFTo5O/aaJcEPD4G
-         tt5vB83YQrTrgrUksjjYz0eWSCjeavrXzxf878Jbigw5rBUwCvPtD5Z7vodNqe1VOXQ4
-         WF0RoxOyhQmHNJcuxWitlbPkUyugdYXm2rfBmxXPLEo6V9+Lq7vowFc49cK7emzXyn1i
-         fJVw==
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date;
+        bh=CfS12Xt3oQY4oSnb2jQniPUdS8fvrZ8eF1jqLdm7tho=;
+        b=LOSrPa/YqWCeoZUFD9hco8EHrHzRMbuGdWrJMYyhaS5KcO7A3ggKFPPufQVFNnNTO+
+         7T9NAoK7kcYqKXc21tpQQG1aFshGue5CmfOLWkYCMHDIbqs/+kSrUs0kJL65YRkKJaWs
+         +w6VQQKCyFK8Y51TrIG0PU6BIY4neV1B5cDaKm1jp3J0uf10AtJ2CcPNhp+0XZpMwOl7
+         Yib0LLCBDnzOyIInUS+HXvwqGojgsrepCj4Oa0ZofZsXlQ5qIASz6wHdC9QMUFeoXquu
+         QCd36tmWEIKBMGHrmo3gyFaWvE1XJ/ywu3Qfg2Qv1Fx/6+O4pQZ0WvjhvF7vJIwtxecG
+         9RLA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@yahoo.com header.s=s2048 header.b=UV+D5871;
-       spf=pass (google.com: domain of c72728@yahoo.com designates 74.6.133.125 as permitted sender) smtp.mailfrom=c72728@yahoo.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=yahoo.com
-Received: from sonic313-15.consmr.mail.bf2.yahoo.com (sonic313-15.consmr.mail.bf2.yahoo.com. [74.6.133.125])
-        by gmr-mx.google.com with ESMTPS id a22si943642pjv.3.2020.06.21.20.40.13
+       spf=neutral (google.com: 91.189.89.112 is neither permitted nor denied by best guess record for domain of christian.brauner@ubuntu.com) smtp.mailfrom=christian.brauner@ubuntu.com
+Received: from youngberry.canonical.com (youngberry.canonical.com. [91.189.89.112])
+        by gmr-mx.google.com with ESMTPS id h21si343455wmb.0.2020.06.22.02.04.40
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 21 Jun 2020 20:40:13 -0700 (PDT)
-Received-SPF: pass (google.com: domain of c72728@yahoo.com designates 74.6.133.125 as permitted sender) client-ip=74.6.133.125;
-X-YMail-OSG: YLHPHNQVM1nMG802pe4FM27MmWP0Ifuh_c_MPp50m3S2wXc6Mfczu033c_UGF1d
- x2kFM0Xic_m27orZpcAnV.I8jsz3v05KCoEFlg63ULcNrdmX3_xRo5CwIoH2kf4J5XVvwa9CnxTU
- L3ED7icMfh6wOLDF0cfnZ2AkYsHTo6gzLvC4p14uJXyz5wFi4kiN34qH1U58ECX3BJEe0Slmi6Z2
- 2bdJ.XXOHUs73YJd3Cu48DADh5tl8.seI.H3ebaKQq3XSD9bGD1oj7CuUbFTw0TSNHISiBZ99Ks2
- HJXgbYncLsofbXWoJgkS9OgL71koSrGEp5Z0yPwF0TlmNU0q.vY.WtA9sr0Nkhs1OYkr6lzBxR1O
- Xncne0lQ2kUI3f2b6KJ7idJ4aBVA5MoN_ZftInwBDGTlpAAv47W.CnPj.gFgcL3P59pFWmxV2xJ0
- uG4.5TiQr1zfEYbX2IwnijbQpfNPWvB9MM6ocqi7RU0y7Rpw3i5WtcKAojxYG.NGnIKu8zbxQfeK
- hqA.U7iceXlYNgTmb3puhQXGAmOVbJi.QO5vZOHfp1QlOuFNknJo389CGYIqNuVdQ_pIUUZeI5lT
- U6MeViXq4vrn5VyZ23RQHjaEjOck_9mVjrczlqcaJz7LIejVJ2xvXs0SFRGWzaZ0gxWVXqn_kWvV
- hvIq21HRuI9rL0pCcqpSzHtQanFBqzW32skN6PEFEQwJvCrSXvBAWUjdyGXMWQlKviMK4FNJD1Zu
- vsXGZ2lkOc2RPnySGwoWc90KdevFVBLQFSJLjHAaKLRHz4WCUzmoOnTfIOcz3Gy5v4HH42mkzTG9
- YTK49qLEmdOx2bQvYLMsmNylXTzH7hPkKa1FMZJXYkEHcgjvKaJv5m5IpDQu0WlifsxCwugwmLbZ
- BdQ0lvB7a6uJeiK.nCuox187U4VUZTpT_uEa8WKxzAmsutqFmmcdH0Pa24_.ofv4ymb35Nug1rDc
- gU79wvO0y50TY5rTwkOxxquhl7LdGykS3XDnK4RRGBeedjD8Wex086VP_fNMAZiP_HsPRTw9q4GN
- a54qqDHVWWEjcbBXTAWHE6e631ghlKYfDiZeZcizJNLa7MnqJ_4E.VZzEMVA1nv_KIiK23cf_Xwa
- cXL9Y.dAUwr7k9yCxOIG54rsIvovN1Tsx7Gvv1uaEHllRj0VGc0Jwfgh0gsTj0D.KFiINr_qDegG
- teDKtkBGMcdZJTay6hMy9JA7wGf.gjw9b0WVPIy6IXYC94od1oquaLNps6kqArmXMMy.xJyRdc_1
- NSZ_p_qPCbkP2rlwIHI_pEkUOmpgHZMecB8._G4XPveWsr7GvnZZvNGx8_YkU65FuKJWxUy7jeb2
- ohdnr4dvBrI.OAeHeVmk4HD4jFHQi
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic313.consmr.mail.bf2.yahoo.com with HTTP; Mon, 22 Jun 2020 03:40:12 +0000
-Date: Mon, 22 Jun 2020 03:40:08 +0000 (UTC)
-From: "'Christy Wilcox' via kasan-dev" <kasan-dev@googlegroups.com>
-Reply-To: c72728@yahoo.com
-To: c72728@yahoo.com
-Message-ID: <782527173.1143749.1592797208205@mail.yahoo.com>
-In-Reply-To: <1705927180.1154180.1592797171602@mail.yahoo.com>
-References: <1408139245.1302051.1591161262589.ref@mail.yahoo.com> <1408139245.1302051.1591161262589@mail.yahoo.com> <368102206.1302961.1591161296756@mail.yahoo.com> <662368049.94387.1591161344870@mail.yahoo.com> <1705927180.1154180.1592797171602@mail.yahoo.com>
-Subject: Re: Hello
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 22 Jun 2020 02:04:40 -0700 (PDT)
+Received-SPF: neutral (google.com: 91.189.89.112 is neither permitted nor denied by best guess record for domain of christian.brauner@ubuntu.com) client-ip=91.189.89.112;
+Received: from ip5f5af08c.dynamic.kabel-deutschland.de ([95.90.240.140] helo=wittgenstein)
+	by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	(Exim 4.86_2)
+	(envelope-from <christian.brauner@ubuntu.com>)
+	id 1jnINK-0007G9-AL; Mon, 22 Jun 2020 09:04:22 +0000
+Date: Mon, 22 Jun 2020 11:04:21 +0200
+From: Christian Brauner <christian.brauner@ubuntu.com>
+To: Marco Elver <elver@google.com>
+Cc: Weilong Chen <chenweilong@huawei.com>, akpm@linux-foundation.org,
+	mm-commits@vger.kernel.org, tglx@linutronix.de, paulmck@kernel.org,
+	oleg@redhat.com, lizefan@huawei.com, cai@lca.pw, will@kernel.org,
+	dvyukov@google.com, kasan-dev@googlegroups.com
+Subject: Re: + kernel-forkc-annotate-data-races-for-copy_process.patch added
+ to -mm tree
+Message-ID: <20200622090421.cw5r2ta3juizvkmq@wittgenstein>
+References: <20200618011657.hCkkO%akpm@linux-foundation.org>
+ <20200618081736.4uvvc3lrvaoigt3w@wittgenstein>
+ <20200618082632.c2diaradzdo2val2@wittgenstein>
+ <263d23f1-fe38-8cb4-71ee-62a6a189b095@huawei.com>
+ <9BFEC318-05AE-40E1-8A1F-215A9F78EDC2@ubuntu.com>
+ <20200618121545.GA61498@elver.google.com>
+ <20200618165035.wpu7n7bud7rwczyt@wittgenstein>
+ <20200619112006.GB222848@elver.google.com>
 MIME-Version: 1.0
-Content-Type: multipart/alternative; 
-	boundary="----=_Part_1143748_2091053298.1592797208204"
-X-Mailer: WebService/1.1.16138 YMailNodin Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0
-X-Original-Sender: c72728@yahoo.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@yahoo.com header.s=s2048 header.b=UV+D5871;       spf=pass
- (google.com: domain of c72728@yahoo.com designates 74.6.133.125 as permitted
- sender) smtp.mailfrom=c72728@yahoo.com;       dmarc=pass (p=REJECT sp=REJECT
- dis=NONE) header.from=yahoo.com
-X-Original-From: Christy Wilcox <c72728@yahoo.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20200619112006.GB222848@elver.google.com>
+X-Original-Sender: christian.brauner@ubuntu.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=neutral
+ (google.com: 91.189.89.112 is neither permitted nor denied by best guess
+ record for domain of christian.brauner@ubuntu.com) smtp.mailfrom=christian.brauner@ubuntu.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -145,37 +138,128 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-------=_Part_1143748_2091053298.1592797208204
-Content-Type: text/plain; charset="UTF-8"
+On Fri, Jun 19, 2020 at 01:20:06PM +0200, Marco Elver wrote:
+> On Thu, Jun 18, 2020 at 06:50PM +0200, Christian Brauner wrote:
+> > On Thu, Jun 18, 2020 at 02:15:45PM +0200, Marco Elver wrote:
+> > > On Thu, Jun 18, 2020 at 01:38PM +0200, Christian Brauner wrote:
+> [...]
+> > > >=20
+> > > > Both mails seem to have been caught by spam at least I don't see th=
+em anywhere in my mails.
+> > > > I'd also need to check what protects nr_threads and I'm confused wh=
+y that data race would exist if it's protected by the lock pointed at in th=
+e second response but I'm not near a computer until late tonight.
+> > > >=20
+> > > > That commit log still isn't anywhere near clear enough for this to =
+be included.
+> > > >=20
+> > > > The report also isn't coming from kcsan upstream and apparently bas=
+ed on a local test.
+> > > > What does that test look like and how can it be reproduced?
+> > > > Unless we see a proper report from syzbot/kcsan upstream about this=
+ I think we can simply ignore this.
+> > >=20
+> > > We have this report, back from January:
+> > > =C2=A0
+> > > 	https://syzkaller.appspot.com/bug?extid=3D52fced2d288f8ecd2b20
+> > > 	https://groups.google.com/forum/#!msg/syzkaller-upstream-moderation/=
+thvp7AHs5Ew/aPdYLXfYBQAJ
+> > >=20
+> > > So if this patch is amended, it'd be useful to also add for syzbot's
+> > > benefit:
+> > >=20
+> > > 	Reported-by: syzbot+52fced2d288f8ecd2b20@syzkaller.appspotmail.com
+> > >=20
+> > > The line numbers of that report match what's shown in the patch (they
+> > > seem to be from 5.7-rc1), but definitely don't match mainline anymore=
+!
+> > >=20
+> > > We're in the process of switching the syzbot KCSAN instance to use
+> > > mainline, because all the reports right now are out-of-date (either t=
+hey
+> > > moved or some were fixed, etc.). Once that's done, more reports shoul=
+d
+> > > be sent to LKML directly again.
+> >=20
+> > Hey Marco,
+> >=20
+> > Ok, good. What's the overall strategy here? This seems to be a generic
+> > problem with sysctls and a quite few global variables too. Is the
+> > strategy to amend these all with data_race() most of the time where we
+> > don't care? Has there been some discussion around this already and
+> > should there be some before we start doing this?
+>=20
+> For the change here, I would almost say 'data_race(nr_threads)' is
+> adequate, because it seems to be a best-effort check as suggested by the
+> comment above it. All other accesses are under the lock, and if they
 
- Hi,
+If we take this patch it needs to:
+- have a link to the upstream KCSAN bug report (see below why I think
+  that's important)
+- explain in clear terms why marking this as data_race() makes sense
+  (Doesn't need to be perfect, I'm happy to end up editing commit
+  messages when necessary.)
 
-This is Christy, I hope you are alright. I have been trying to reach you, did you get my message? please respond back to me as soon as possible thanks.  
+> weren't KCSAN would tell you.
+>=20
+> But, for most of the apparently "benign" races like here, it's back to
+> the question about assumptions we make about the architecture and
+> compiler.  Although it's nearly impossible to prove that on all
+> architectures with all compilers, a data race won't break intended
+> behaviour, a simple question I would ask is:
+>=20
+> 	If 'data_race(nr_threads)' was replaced with
+> 	'random_if_concurrent_writers(nr_threads)', what will break?
+>=20
+> Even if the data race is meant to stay today, IMHO simply marking it
+> 'data_race()' is better than leaving it alone, because at least then we
+> have a list of accesses we should be suspicious of in case things break
+> around there.
+>=20
+> In an ideal world we end up eliminating all unintentional data races by
+> marking (whether it be *ONCE, data_race, atomic, etc.) because it makes
+> the code more readable and the tools then know what the intent is.
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/782527173.1143749.1592797208205%40mail.yahoo.com.
+Right, the problem is that in quite a few places this also means a lot
+of additional information needs to be processed when reading kernel
+code. So there needs to be some balance.
 
-------=_Part_1143748_2091053298.1592797208204
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+>=20
+> Some of what I said above is probably better discussed in
+> https://lwn.net/Articles/816854/ in the section "Developer/Maintainer
+> data-race strategies".
+>=20
+> Thoughts?
+>=20
+> Another thing that would be good to figure out is, if we send individual
+> reports one-by-one to LKML, or some alternative. One alternative would
 
-<div>                Hi,<br><br>This is Christy, I hope you are alright. I =
-have been trying to reach you, did you get my message? please respond back =
-to me as soon as possible thanks.             </div>           =20
+I'm not sure I can answer this. It seems like something that could be a
+great kernel summit discussion.
 
-<p></p>
+> be to go check the syzbot dashboard and have a look through reports in
+> code that is of interest before they're sent to LKML. Although a lot of
+> the data races are still hidden in some moderation queue, would it be
+> useful to somehow make this visible?
 
--- <br />
-You received this message because you are subscribed to the Google Groups &=
-quot;kasan-dev&quot; group.<br />
+Yes, I think it would help to have them visible or at least let people
+request access?
+
+The problem that I have right now is when I receive a data-race patch
+like this I'm not inclined to ack and take it unless I see this is a bug
+report from an agreed upon upstream tool like syzbot or kcsan. Not just
+can I then link to a standard bug report that everyone recognizes, I can
+also be sure that this is based on a consensus that these types of bugs
+are worth fixing. The latter part is quite important, I think. Most of
+these (benign) races have existed for such a long time that sending
+patches for them better be thoroughly justified.
+
+Christian
+
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
-+unsubscribe@googlegroups.com</a>.<br />
-To view this discussion on the web visit <a href=3D"https://groups.google.c=
-om/d/msgid/kasan-dev/782527173.1143749.1592797208205%40mail.yahoo.com?utm_m=
-edium=3Demail&utm_source=3Dfooter">https://groups.google.com/d/msgid/kasan-=
-dev/782527173.1143749.1592797208205%40mail.yahoo.com</a>.<br />
-
-------=_Part_1143748_2091053298.1592797208204--
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/20200622090421.cw5r2ta3juizvkmq%40wittgenstein.
