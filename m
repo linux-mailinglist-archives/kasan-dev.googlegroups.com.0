@@ -1,134 +1,167 @@
-Return-Path: <kasan-dev+bncBCCMH5WKTMGRB5X6Y33QKGQE2C7XCBA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCJJPO575UBBBYMDY73QKGQE4UHNU3Y@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13b.google.com (mail-lf1-x13b.google.com [IPv6:2a00:1450:4864:20::13b])
-	by mail.lfdr.de (Postfix) with ESMTPS id A33AC204C8B
-	for <lists+kasan-dev@lfdr.de>; Tue, 23 Jun 2020 10:38:14 +0200 (CEST)
-Received: by mail-lf1-x13b.google.com with SMTP id r10sf7739061lfc.6
-        for <lists+kasan-dev@lfdr.de>; Tue, 23 Jun 2020 01:38:14 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1592901494; cv=pass;
+Received: from mail-pg1-x53f.google.com (mail-pg1-x53f.google.com [IPv6:2607:f8b0:4864:20::53f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 101E0204CDF
+	for <lists+kasan-dev@lfdr.de>; Tue, 23 Jun 2020 10:48:35 +0200 (CEST)
+Received: by mail-pg1-x53f.google.com with SMTP id s7sf11468637pgm.4
+        for <lists+kasan-dev@lfdr.de>; Tue, 23 Jun 2020 01:48:34 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1592902113; cv=pass;
         d=google.com; s=arc-20160816;
-        b=VjjQDEIfyTOoaYAsAJalt+BWDVIZB8Q9TBztW33oJzJb+/3JmdDPpKHiAc7yu3rRL4
-         OfTODzwU5F8DeWHLkUS1ZKbotfLSWkCGenFm5j+hxUuxNirJSk6Px9xZESk4ikwigIJZ
-         sF/pLDFFPcQ0zIz94ETN//VGp24qD5COOr2KaWYPU+2KsQLOchRcHB/TqNvrKc1qdKLH
-         vmbzeer2jtJwDsJuyrYvZ7266RQr2tmZW3z3xGEh8Czm1QuMQALTWm9SJ1i0w3hi7dWN
-         5E/mtSLpzmcP+HT1hrBdvn2jmUBmgCD0T6YpqOC1Z2Ldpnhke/DQVWxxD9bAImOn+O9t
-         ZpYQ==
+        b=m6EEe04CuwXHY+2mcirjK1IknAjEpWZgiMU7ORE1dBbzX0V8wn4Fr3vbIJWTBpXLaO
+         uTy5aoo0iPa4JOK5FbQIbmqhRtjvBrfTBIxYeRGzl/amNAkL5WLuVXQm1FWh3Xt3p2C1
+         iAgRufqimZfHvBIGYm3F+6Bvv10Ns7yjrqwOU2tC2L1H+gL0iy7/5hk0M4PoXOz8rqmd
+         18rcOh8FJB1x7RkEy5D1MHRhfwnEzPjshGTyzscmFf3HJka49B+51uDh6FvHRoliRlGh
+         MqpdqWRuOuVR/8w0bwb5UmvSjCNypDv8Cfd2vWNtabTApBHtkneAjZwHRS0/Ki3vojwS
+         Krkg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
-         :cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=21JblqEi2XZKhc7Jc6GOodbx5qKscLgvLNippYokyOY=;
-        b=SqimyRSu2azLo39WM7kKq4m/m5SQSfB/hAXeZNjX24lDtS50MbKeOM7Snap+jrWQYS
-         pGvkp4FStTF5gfPkhy+Sb4fT4dWBkQBpvgc5cY2M7NR3FPsHLrmwZCx47hmdVc0XTglQ
-         Hwg7ieGykwNPJxJgHE83/RKSWNBGF7KlDBXO/hvNybUkkMCJ0Tx2uJJkRkua0SsjCGte
-         pr5/vqWNpWr/k6YdCbGNOGfDgN6NiaNi1d014kp0vLDovs7Pq31gAVDRHUgAePovpQWn
-         tVhjtZ0Od68C39JX0HrZgcmCFo55zxkLdzkw8cvDjiomBQ3uz4toQj55DmrLiIFHup5n
-         oGDQ==
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature;
+        bh=umGsqQ8GIAx9gZAOf13sB1uiX4RxldYWYIllylWTZxA=;
+        b=pygFbjZY3al8at9Lt4SeRXbP+SZ5g6/NqtytzMWwokk8A7i0xtqC4Q6PtRjRsW6i1L
+         h9fuDLsyOGKw3fnNx9r+mtk/dZEL6KpEEutztkM1o5/PxwxcBtu7kmhheF2JkDDlT+4Y
+         3lkRduJCrD/QUE1Erbvb6c+HruLDHtUS/go1hShruJDoTR74/LKIM/nmRD3wVNlx/KJw
+         +/fFt/SEFYLD023KILh0nP3M0Qby5uVyusb42vGK22QL50hScL2OXdd5hz+S4UyPTgJg
+         70kvNtiA5RNLFakBIM2AJQVfv+Cl01KZSmx706WoWyv6sQC4HQDXZlk25r4MrXWS/PBS
+         fRvA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=NNOEMG0S;
-       spf=pass (google.com: domain of glider@google.com designates 2a00:1450:4864:20::444 as permitted sender) smtp.mailfrom=glider@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       spf=pass (google.com: domain of heiko.carstens@de.ibm.com designates 148.163.158.5 as permitted sender) smtp.mailfrom=heiko.carstens@de.ibm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=ibm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:list-post:list-help:list-archive:list-subscribe
-         :list-unsubscribe;
-        bh=21JblqEi2XZKhc7Jc6GOodbx5qKscLgvLNippYokyOY=;
-        b=pRFzLh1iybzf2VOsimCkSU7jtDkssTMF4sEu43d627cwpeKUh7cNtWUEATcofFnKVE
-         u3lnTtawbvpzKlnxhmVcNEl5+KIbEbHrGMvn9xIxGRQBcpSsqVhK5TkwsFVXpka6CetS
-         LJTXPKNc93BoOW7uvNIk+InRP621bplCRcnf1qPkgyZurardHOVchcskrYowLMiqtpPa
-         867r+2h8dR83tzSsmb0ooGLo5H50TWSTc/mPFkzZogOl075bcjmbfJug9/mfU+RHOgHH
-         Vh30FO4Ri/Y1XTc9ucEkLYdBXzTINLCnAO9a9q81V5jz3TU5+ZmOPCLyeKGhGFJHJ9D+
-         ITrQ==
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=umGsqQ8GIAx9gZAOf13sB1uiX4RxldYWYIllylWTZxA=;
+        b=cGFqlhnPoOnUzZMS/I/vDrnXk84UdKOUhGI85iJls1jMg8Nj+UxHt9EiPt+ngEGPAi
+         S9z241L/El6vy+4FPalqXXPEIRPgNafNwRmHCaPkvbc1i9AihrZKWnKWr+IA0ZFVuJ1g
+         uANtVx9STTjD9+OduxebfX8zIB7beI5xDDVj0CJqMPNVzHL8nIyjUh6sg7WB9Geh/ev5
+         50XVMTC0stKYEjkEB/1wRuQAPXood4pHMESu+9zJTYZ3rGEWu66k5vR3YfD1n/9wPk5L
+         VQXvTJXKD/WL8NHd8R2wuUjjmA/tSkKhsIwRgTqQB6HVAAt1CMY9dHjuETA99NEbJ8ZB
+         iFVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding
-         :x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=21JblqEi2XZKhc7Jc6GOodbx5qKscLgvLNippYokyOY=;
-        b=Tk/CK9YzBRP6irmXAA/3TXm0NGZpGNEYr/WpW4V8bDI3GxGxWOtlKc0Pe/rh/fUGL/
-         jVuWdOuoJC/hXxTPdACjCXE6UNdS8sEoJRJIgOMaOB6fe+jYXDKHEHqphYk1T1qUmAG9
-         8rwdFHotYRHLjeGn5dmjaMJvkhYfP2OttXv48/N1SQ8yZQDKHhvDGes7WsQTO1pV/YwU
-         TUB/SEJ1nNUNpnLqssh91NmtqLQqIQQmnO/A4eYF8dUe58XBBCpCbPP4l9NUGROjFT5k
-         7ZgtIySJ/zwHQenX1F0AfoPfela1UwuJOl2uQrYnOmFta8o0TAPqwFOxBcm8JJIz2hOK
-         MIPg==
-X-Gm-Message-State: AOAM530ud/pGdVq4mguw7xxkZZn1WFTFCmWoT0zRrUw2K8QVXgl4EZ4H
-	BJtVKfswPD0QEm0V8VSXYWY=
-X-Google-Smtp-Source: ABdhPJyn8tt0f3YCufa1EKXhViDIfTaJul6uOVNblfbfvlUyM040tJFlxMT/zS+k9VPUvaZRYhjmvA==
-X-Received: by 2002:a2e:b4da:: with SMTP id r26mr11018922ljm.28.1592901494192;
-        Tue, 23 Jun 2020 01:38:14 -0700 (PDT)
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=umGsqQ8GIAx9gZAOf13sB1uiX4RxldYWYIllylWTZxA=;
+        b=Jc4RqMPtQx7ty2keR1Bbsp3Bwuzt/ApSEo98RC8n/+8MbRjn9gFnAq9nJKIVLVEjG7
+         cJYB3hJWfxp5He1g1Z3Tsox6BqBGCqiIE84hql6F/eZr7Hl5NSU+kMeLSdsc0lGb0KxO
+         zpwsGX4gDz6ysehtP1a3rKWWA+f9WdiDIoZ6PeYdiaD2dn2ZtComHDauyNcnBn7FZVN4
+         cgnkIaiz4GXnmbvznHu5TT2Uait7gJhF86M6f3cX+TAsRgewQkUmbInfz+rev8HNqZQK
+         a3xCgJIsMEDZNc8YVED0gAixde/vB8YR0vx4sPVvMDoGTlcYUvrdKAC7C+fqnYhHMGaS
+         35kw==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM5318smxcIc8oS6+39rC+vYYU06QZ/yRqd2CRGlv8Z0Fdw9Yw3J5U
+	4rJGkIEYGowCnVe0dvOBoiE=
+X-Google-Smtp-Source: ABdhPJzxdn66bOfrfc4Ef0I3NOFryrQTyXHS0308RJry/gLqWG0z4W3/OfQJh4YoQKrVhZyCaLFChw==
+X-Received: by 2002:a63:29c8:: with SMTP id p191mr16983370pgp.333.1592902113532;
+        Tue, 23 Jun 2020 01:48:33 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ac2:5f95:: with SMTP id r21ls2759152lfe.3.gmail; Tue, 23 Jun
- 2020 01:38:13 -0700 (PDT)
-X-Received: by 2002:a19:435b:: with SMTP id m27mr12259779lfj.40.1592901493571;
-        Tue, 23 Jun 2020 01:38:13 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1592901493; cv=none;
+Received: by 2002:a17:90a:7143:: with SMTP id g3ls1074899pjs.1.gmail; Tue, 23
+ Jun 2020 01:48:33 -0700 (PDT)
+X-Received: by 2002:a17:90b:809:: with SMTP id bk9mr22773559pjb.53.1592902113148;
+        Tue, 23 Jun 2020 01:48:33 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1592902113; cv=none;
         d=google.com; s=arc-20160816;
-        b=DphzfVcZlyOtrcpBEoxHonclMhGlazDVIpJrMXI+ZgVZDRL8Pgz4Qd4fUPgPsQ6s8C
-         22pOU6MDvvBJfLjnJj0vaMgJbdYJAsM2Hv480zWaaPl8dka3lBtrvL0M9+p0HCH+2oOn
-         fl//6ao96cfJO9KStAThiFApgUQFPBiIlgtQr3SNqYXIG9PRlIa/QAG5qnFVpIz7I3SA
-         61XBLfUr7bc2YoUKzwReTLyGmqcXXDFrVQ4rCUcIotqVWn6rm+yHyBLLbRQA9fTcI1sD
-         1/XoJJqYFPnjdtrBXLNDJd88UTZHUkS/nkmbhAm5nHUbFGBZ2elqr32KLNZzmz+0t3aq
-         8C2A==
+        b=ncixypm1dVa5Us4t+GkYSZktUCP+3evDP8mtxUreguhy87cAGIXdKlrRyiWW0ZyHUo
+         UOKgzYdzsIuKOj6fiSK0Zvi5Ev5UTg+sRdViDL+GshNG0GofuynPeh7fjiTUdyDVFsQG
+         IPn62KXGK6IUQi6IV+wQLNIcsLpZkzGQMNqPjENKWnnlMf0zFkf3r1nDYfyvWFW9cFxt
+         3eLw2Sg78PK5BaegoVmPC6RJSwCk7++BUokd0nccGwxtm7Wu7a49zXB8lkqBpxtjX/56
+         yywZTfGJNeAFG9YQ6u1D5lJjh2cyp4N5eix4uRo2YUzRGakDRRBrxPiTThrlR7FMD6vq
+         9kpg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=4WsWkj4zSWAAdD1NjDPTNdEL45zLPcQEEtkDieAodAA=;
-        b=zAdFpQPDncCTNKWoFhgbtnkhZp9sTqWYscLKFqFKT571x0ZM7ez+tOxb7fYHoK+AG5
-         kmz4egos0VkQYeLBM5DDfxewR6hyJaMZL79vG7tixLzOSRBVyciBUXeWqk5G1lqPIYzS
-         sTQt7LEEieejhSkZfS9uuy4KaM0uZyMXSRTimEZDv9O+qTeQ7TJ1gxFyDM17bd4+njlm
-         0bjME7uHoj+MmGDBTx0RmDZcjLgT/5v2jGLDjAlxJhXQ6W1E3vmARIv9TQO2Km9X3NVI
-         dWGk4Yxe0/5oVYA72MjzS9AeOKynPzt7Netjrroo32bycIWwBhSsnvrSm7puunnDrwju
-         cOhA==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date;
+        bh=hOFZROz1GcB3XE2yENNgVWLQ2R7fqOJ30/qeOXf9AQQ=;
+        b=Oge7q+Hp1V2EQBTaKgr0gxAzyd/eNJglPEbUOgPRBDv9zTce90dG6t+Y4IQcHpe50r
+         p8sk6AuSWqFtnIebJYMobCWoxYQlOOSxtamLNcw6Qy4OmWUWrSc0vVm0z1pNG+xvlM9u
+         TRpaoGeM1mM/FMNeAzU1KVLR3iVtj1t4YOapLatuVmOvAhjzgb1qK6ZEQk8ZXGYe5z1f
+         mOU6yR2TGPks0qU3Yl1Ja77KE1aZLNamxYgobD7vsMZrP1hme+RyklpzRGec+uA72PVP
+         sBRs0W/i2ljHNl/P8A+BmunV06fz2YwbFROm/hf8rqV3NTFJSyiVB/SHbzSkodqwIVoB
+         VcrQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=NNOEMG0S;
-       spf=pass (google.com: domain of glider@google.com designates 2a00:1450:4864:20::444 as permitted sender) smtp.mailfrom=glider@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com. [2a00:1450:4864:20::444])
-        by gmr-mx.google.com with ESMTPS id b26si200983ljo.6.2020.06.23.01.38.13
+       spf=pass (google.com: domain of heiko.carstens@de.ibm.com designates 148.163.158.5 as permitted sender) smtp.mailfrom=heiko.carstens@de.ibm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=ibm.com
+Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com. [148.163.158.5])
+        by gmr-mx.google.com with ESMTPS id t23si709419plr.4.2020.06.23.01.48.33
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 23 Jun 2020 01:38:13 -0700 (PDT)
-Received-SPF: pass (google.com: domain of glider@google.com designates 2a00:1450:4864:20::444 as permitted sender) client-ip=2a00:1450:4864:20::444;
-Received: by mail-wr1-x444.google.com with SMTP id q5so7195350wru.6
-        for <kasan-dev@googlegroups.com>; Tue, 23 Jun 2020 01:38:13 -0700 (PDT)
-X-Received: by 2002:adf:97cb:: with SMTP id t11mr23818010wrb.314.1592901492799;
- Tue, 23 Jun 2020 01:38:12 -0700 (PDT)
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 23 Jun 2020 01:48:33 -0700 (PDT)
+Received-SPF: pass (google.com: domain of heiko.carstens@de.ibm.com designates 148.163.158.5 as permitted sender) client-ip=148.163.158.5;
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+	by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 05N8XEsU052824;
+	Tue, 23 Jun 2020 04:48:32 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0b-001b2d01.pphosted.com with ESMTP id 31ud982nqh-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 23 Jun 2020 04:48:31 -0400
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 05N8XeG7055496;
+	Tue, 23 Jun 2020 04:48:31 -0400
+Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com [149.81.74.106])
+	by mx0b-001b2d01.pphosted.com with ESMTP id 31ud982npp-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 23 Jun 2020 04:48:31 -0400
+Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
+	by ppma04fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 05N8fdtL029890;
+	Tue, 23 Jun 2020 08:48:29 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+	by ppma04fra.de.ibm.com with ESMTP id 31sa381w8u-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 23 Jun 2020 08:48:29 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
+	by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 05N8mQG562390426
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 23 Jun 2020 08:48:26 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 96D684204B;
+	Tue, 23 Jun 2020 08:48:26 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 25E7642041;
+	Tue, 23 Jun 2020 08:48:26 +0000 (GMT)
+Received: from osiris (unknown [9.171.83.193])
+	by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+	Tue, 23 Jun 2020 08:48:26 +0000 (GMT)
+Date: Tue, 23 Jun 2020 10:48:24 +0200
+From: Heiko Carstens <heiko.carstens@de.ibm.com>
+To: Qian Cai <cai@lca.pw>
+Cc: Dmitry Vyukov <dvyukov@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Alexander Potapenko <glider@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        kasan-dev <kasan-dev@googlegroups.com>, Linux-MM <linux-mm@kvack.org>,
+        linux-s390 <linux-s390@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, Vasily Gorbik <gor@linux.ibm.com>
+Subject: Re: [PATCH] mm/page_alloc: silence a KASAN false positive
+Message-ID: <20200623084824.GB5665@osiris>
+References: <20200610052154.5180-1-cai@lca.pw>
+ <CACT4Y+Ze=cddKcU_bYf4L=GaHuJRUjY=AdFFpM7aKy2+aZrmyQ@mail.gmail.com>
+ <20200610122600.GB954@lca.pw>
 MIME-Version: 1.0
-References: <CAG48ez2OrzBW9Cy13fJ2YHpYvAcn+2SbEmv_0MdrCufot65XUw@mail.gmail.com>
- <CACT4Y+acW32ng++GOfjkX=8Fe73u+DMhN=E0ffs13bHxa+_B5w@mail.gmail.com>
- <CANpmjNMDHmLDWgR_YYBK-sgp9jHpN0et1X=UkQ4wt2SbtFAjHA@mail.gmail.com>
- <CAG_fn=XDtJuSZ9o6P9LeS4AfSkbP38Mc3AQxEWd+u4wakSG+xQ@mail.gmail.com> <CACT4Y+ZfDfMGWn1wk6jq0VdkGdC2H7NifYpVCCXwCmX42m4Thg@mail.gmail.com>
-In-Reply-To: <CACT4Y+ZfDfMGWn1wk6jq0VdkGdC2H7NifYpVCCXwCmX42m4Thg@mail.gmail.com>
-From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Tue, 23 Jun 2020 10:38:01 +0200
-Message-ID: <CAG_fn=VEb7XYwi0ZnOXRx-Yss++OhnpKCO-7tFvCOp4pi4MLcA@mail.gmail.com>
-Subject: Re: Kernel hardening project suggestion: Normalizing ->ctor slabs and
- TYPESAFE_BY_RCU slabs
-To: Dmitry Vyukov <dvyukov@google.com>
-Cc: Marco Elver <elver@google.com>, Jann Horn <jannh@google.com>, 
-	Kernel Hardening <kernel-hardening@lists.openwall.com>, Christoph Lameter <cl@linux.com>, 
-	Pekka Enberg <penberg@kernel.org>, David Rientjes <rientjes@google.com>, 
-	Joonsoo Kim <iamjoonsoo.kim@lge.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Linux-MM <linux-mm@kvack.org>, Andrey Konovalov <andreyknvl@google.com>, 
-	Will Deacon <will@kernel.org>, kasan-dev <kasan-dev@googlegroups.com>, 
-	Kees Cook <keescook@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: glider@google.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=NNOEMG0S;       spf=pass
- (google.com: domain of glider@google.com designates 2a00:1450:4864:20::444 as
- permitted sender) smtp.mailfrom=glider@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Alexander Potapenko <glider@google.com>
-Reply-To: Alexander Potapenko <glider@google.com>
+Content-Disposition: inline
+In-Reply-To: <20200610122600.GB954@lca.pw>
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216,18.0.687
+ definitions=2020-06-23_04:2020-06-22,2020-06-23 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 mlxscore=0
+ malwarescore=0 spamscore=0 cotscore=-2147483648 mlxlogscore=851
+ lowpriorityscore=0 impostorscore=0 clxscore=1011 priorityscore=1501
+ bulkscore=0 adultscore=0 suspectscore=84 classifier=spam adjust=0
+ reason=mlx scancount=1 engine=8.12.0-2004280000
+ definitions=main-2006230064
+X-Original-Sender: heiko.carstens@de.ibm.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of heiko.carstens@de.ibm.com designates 148.163.158.5 as
+ permitted sender) smtp.mailfrom=heiko.carstens@de.ibm.com;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=ibm.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -141,142 +174,38 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Jun 23, 2020 at 10:31 AM Dmitry Vyukov <dvyukov@google.com> wrote:
->
-> On Tue, Jun 23, 2020 at 9:24 AM Alexander Potapenko <glider@google.com> w=
-rote:
-> >
-> > KFENCE also has to ignore both TYPESAFE_BY_RCU and ctors.
-> > For ctors it should be pretty straightforward to fix (and won't
-> > require any changes to SL[AU]B). Not sure if your proposal for RCU
-> > will also work for KFENCE.
->
-> Does it work for objects freed by call_rcu in normal slabs?
-> If yes, then I would assume it will work for TYPESAFE_BY_RCU after
-> this change, or is there a difference?
-
-If my understanding is correct, TYPESAFE_BY_RCU means that the object
-may be used after it has been freed, that's why we cannot further
-reuse or wipe it before ensuring they aren't used anymore.
-Objects allocated from normal slabs cannot be used after they've been
-freed, so I don't see how this change applies to them.
-
-> > Another beneficiary of RCU/ctor normalization would be
-> > init_on_alloc/init_on_free, which also ignore such slabs.
-> >
-> > On Tue, Jun 23, 2020 at 9:18 AM Marco Elver <elver@google.com> wrote:
+On Wed, Jun 10, 2020 at 08:26:00AM -0400, Qian Cai wrote:
+> On Wed, Jun 10, 2020 at 07:54:50AM +0200, Dmitry Vyukov wrote:
+> > On Wed, Jun 10, 2020 at 7:22 AM Qian Cai <cai@lca.pw> wrote:
 > > >
-> > > On Tue, 23 Jun 2020 at 08:45, Dmitry Vyukov <dvyukov@google.com> wrot=
-e:
-> > > >
-> > > > On Tue, Jun 23, 2020 at 8:26 AM Jann Horn <jannh@google.com> wrote:
-> > > > >
-> > > > > Hi!
-> > > > >
-> > > > > Here's a project idea for the kernel-hardening folks:
-> > > > >
-> > > > > The slab allocator interface has two features that are problemati=
-c for
-> > > > > security testing and/or hardening:
-> > > > >
-> > > > >  - constructor slabs: These things come with an object constructo=
-r
-> > > > > that doesn't run when an object is allocated, but instead when th=
-e
-> > > > > slab allocator grabs a new page from the page allocator. This is
-> > > > > problematic for use-after-free detection mechanisms such as HWASA=
-N and
-> > > > > Memory Tagging, which can only do their job properly if the addre=
-ss of
-> > > > > an object is allowed to change every time the object is
-> > > > > freed/reallocated. (You can't change the address of an object wit=
-hout
-> > > > > reinitializing the entire object because e.g. an empty list_head
-> > > > > points to itself.)
-> > > > >
-> > > > >  - RCU slabs: These things basically permit use-after-frees by de=
-sign,
-> > > > > and stuff like ASAN/HWASAN/Memory Tagging essentially doesn't wor=
-k on
-> > > > > them.
-> > > > >
-> > > > >
-> > > > > It would be nice to have a config flag or so that changes the SLU=
-B
-> > > > > allocator's behavior such that these slabs can be instrumented
-> > > > > properly. Something like:
-> > > > >
-> > > > >  - Let calculate_sizes() reserve space for an rcu_head on each ob=
-ject
-> > > > > in TYPESAFE_BY_RCU slabs, make kmem_cache_free() redirect to
-> > > > > call_rcu() for these slabs, and remove most of the other
-> > > > > special-casing, so that KASAN can instrument these slabs.
-> > > > >  - For all constructor slabs, let slab_post_alloc_hook() call the
-> > > > > ->ctor() function on each allocated object, so that Memory Taggin=
-g and
-> > > > > HWASAN will work on them.
-> > > >
-> > > > Hi Jann,
-> > > >
-> > > > Both things sound good to me. I think we considered doing the ctor'=
-s
-> > > > change with KASAN, but we did not get anywhere. The only argument
-> > > > against it I remember now was "performance", but it's not that
-> > > > important if this mode is enabled only with KASAN and other debuggi=
-ng
-> > > > tools. Performance is definitely not as important as missing bugs. =
-The
-> > > > additional code complexity for ctors change should be minimal.
-> > > > The rcu change would also be useful, but I would assume it will be =
-larger.
-> > > > Please add them to [1], that's KASAN laundry list.
-> > > >
-> > > > +Alex, Marco, will it be useful for KFENCE [2] as well? Do ctors/rc=
-u
-> > > > affect KFENCE? Will we need any special handling for KFENCE?
-> > > > I assume it will also be useful for KMSAN b/c we can re-mark object=
-s
-> > > > as uninitialized only after they have been reallocated.
-> > >
-> > > Yes, we definitely need to handle TYPESAFE_BY_RCU.
-> > >
-> > > > [1] https://bugzilla.kernel.org/buglist.cgi?bug_status=3D__open__&c=
-omponent=3DSanitizers&list_id=3D1063981&product=3DMemory%20Management
-> > > > [2] https://github.com/google/kasan/commits/kfence
-> >
-> >
-> >
-> > --
-> > Alexander Potapenko
-> > Software Engineer
-> >
-> > Google Germany GmbH
-> > Erika-Mann-Stra=C3=9Fe, 33
-> > 80636 M=C3=BCnchen
-> >
-> > Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Halimah DeLaine Prado
-> > Registergericht und -nummer: Hamburg, HRB 86891
-> > Sitz der Gesellschaft: Hamburg
+> > > kernel_init_free_pages() will use memset() on s390 to clear all pages
+> > > from kmalloc_order() which will override KASAN redzones because a
+> > > redzone was setup from the end of the allocation size to the end of the
+> > > last page. Silence it by not reporting it there. An example of the
+> > > report is,
+> > 
+> > Interesting. The reason why we did not hit it on x86_64 is because
+> > clear_page is implemented in asm (arch/x86/lib/clear_page_64.S) and
+> > thus is not instrumented. Arm64 probably does the same. However, on
+> > s390 clear_page is defined to memset.
+> > clear_[high]page are pretty extensively used in the kernel.
+> > We can either do this, or make clear_page non instrumented on s390 as
+> > well to match the existing implicit assumption. The benefit of the
+> > current approach is that we can find some real use-after-free's and
+> > maybe out-of-bounds on clear_page. The downside is that we may need
+> > more of these annotations. Thoughts?
+> 
+> Since we had already done the same thing in poison_page(), I suppose we
+> could do the same here. Also, clear_page() has been used in many places
+> on s390, and it is not clear to me if those are all safe like this.
+> 
+> There might be more annotations required, so it probably up to s390
+> maintainers (CC'ed) if they prefer not instrumenting clear_page() like
+> other arches.
 
+Vasily will look into this and come up with a proper solution for s390.
 
-
---=20
-Alexander Potapenko
-Software Engineer
-
-Google Germany GmbH
-Erika-Mann-Stra=C3=9Fe, 33
-80636 M=C3=BCnchen
-
-Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Halimah DeLaine Prado
-Registergericht und -nummer: Hamburg, HRB 86891
-Sitz der Gesellschaft: Hamburg
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CAG_fn%3DVEb7XYwi0ZnOXRx-Yss%2B%2BOhnpKCO-7tFvCOp4pi4MLcA%40mail.=
-gmail.com.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200623084824.GB5665%40osiris.
