@@ -1,32 +1,32 @@
 Return-Path: <kasan-dev+bncBAABBOFAYX3QKGQE7TCNIVI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qk1-x73f.google.com (mail-qk1-x73f.google.com [IPv6:2607:f8b0:4864:20::73f])
-	by mail.lfdr.de (Postfix) with ESMTPS id D52F62045FB
+Received: from mail-qk1-x739.google.com (mail-qk1-x739.google.com [IPv6:2607:f8b0:4864:20::739])
+	by mail.lfdr.de (Postfix) with ESMTPS id A68442045F9
 	for <lists+kasan-dev@lfdr.de>; Tue, 23 Jun 2020 02:43:37 +0200 (CEST)
-Received: by mail-qk1-x73f.google.com with SMTP id t22sf13507987qkg.3
+Received: by mail-qk1-x739.google.com with SMTP id x22sf14156101qkj.6
         for <lists+kasan-dev@lfdr.de>; Mon, 22 Jun 2020 17:43:37 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1592873017; cv=pass;
+ARC-Seal: i=2; a=rsa-sha256; t=1592873016; cv=pass;
         d=google.com; s=arc-20160816;
-        b=DIE70v4piE9tIlSIx9ndD/egOdjqw21K3+SVYo8PBldr9aq3F4mSviUnPpmg/eUkwf
-         vq5+Svskr6s0lfCxjyBruO/tutPzskULlLSQzA4MbwAJSJgSFNKIdF8B6Lo0H3P18TAs
-         XPQuu2mrD/QZQ/Isw06iQF1xR4UqaQDMw9TQxsGTSTlUSczsN7pm3I7o0nXZFcyvdw+A
-         w0mPtbsG04sG6RFtwFXnqNk5QlZRjmBOgrBrlKRcKNGyID5Is5q2RXq1jUbFHdg7FMtG
-         T++FpIsUF0TtnoDIs/JteDuZFL5EZ034ntivSeFUBVx2jzwk86YaKxBAFFyF3Yf1FWDt
-         97UQ==
+        b=iP4+X2OPUiNwTkBLywQhcy8q2uWAmlfZAjomfGGsEuTWnrlXbXxu4gaPkEitU8l6dT
+         ZaioKNFnVHez1M0jCOdGmH31CG9fbbs55b1CHREIbWL8ul3/5MgzvJlTfpSsX+b21TRE
+         fCSSLhHJYZPjsjj2erm+6A2I/7ZNA6X1x3asEI7R4H/UvGxGz0T2c0GdKy4VA15GfyGF
+         WEGPCIn1FvRn6nvGzVd6wHG936If1X7WpmP80qQcSfIhXUKplBKuSzZfFeXjDUJf8jtD
+         4hPEFT/5K6c5vKLb9Ao+lyee7POvKQOQSWVGwipbbgVuay14+SxYPt5oF37XRoVyzi25
+         eNvQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:references:in-reply-to:message-id
          :date:subject:cc:to:from:mime-version:sender:dkim-signature;
-        bh=t9tQWdyhhyjkR3XiFGmS0CWSuFMtI/2Jnb+A5nQ2Hdg=;
-        b=OXiPHyj/BQEc2ZonAS6fHgYO/i/uhD8kqkXNSKyfZQBDyRaHEdhkYZpLWZIhHorMYK
-         sGB21cDpDMuAR6MdZoOgzdPmlxYdI21Jw2qkrGInQjZJrW5bBqHcbZDyd+pEWmu2GKQf
-         KxoLpaecsYVOzynnpxsuSr9RNRegNN9fa5EjyCtYzNCMEHD19ZLDWU4bbCXdg/hhnSZ/
-         FcqrmVmswDssJNnz/DfyN1TTxIZoTrkoe2iKqF9y4mRFSRgjLjxJX+P7zKaTbkCZP9S5
-         t0A0f0UgpmuxoTjsJ0IuXCouZQ+0Cq5TVbsDUmOlXqTemEMOlq47xZb3e1FzKdKThJIw
-         VxzQ==
+        bh=7kOiqxteaud5LCMweE1M9qibutY7PdsGme6UaSA93j4=;
+        b=dUiBUu312IBi+rRaE6nV4M+Ing2ADX6TajLwwjQG4zFFLxVEVd/egfGV+5XGkcNO8C
+         4esttO2/fp0TdKHP6N2LfpdB6XXTXz/dDYj+TQe03xlI9SktWOSxiUHD2HGBbKHYmweY
+         V4IpXBfCi7M8aoUmRKkmQDKdSs0UHxMxfYIn66crGpZHCyrIS7QSuiUhpHKTjlI2BKBP
+         p+fvVFdJdeQ/L82GNMG2Y4i2P6iPvGh79WS0H3ESmuWp55ci+DQbIeQh0C9G+Ke/BtpV
+         F15sq0pbKAalKWkfOBUlQs3oESzT1qz2zKDPpNnKxaEhK5Z7Jr8e7JuhD49/1wORvxEs
+         lVvw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=default header.b=r3mLacsz;
+       dkim=pass header.i=@kernel.org header.s=default header.b=rnEmpZkI;
        spf=pass (google.com: domain of paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=paulmck@kernel.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :references:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=t9tQWdyhhyjkR3XiFGmS0CWSuFMtI/2Jnb+A5nQ2Hdg=;
-        b=S8hu+hF90KBQVCMcAaqF1EzWrGqFOGisKm2dqpkaAn++G5FVIZoXmhiVuERYDULbYi
-         09T+vsS1whSRGVLMEYxvi2HnNTXeTkl6vNOOcbdoHy0B+yNDh1F4Y4zaRvxe8yFXPYt/
-         OrysmEAnLkSghmoQJOAYTJwrB10g/T578G5DoqW/fUeKbqW2ddYtfxFejg8k4p4w7HNj
-         q3ldETRGNE4OzeJJq1beKZexuCRp8ZvjM5Sn5B6aFMXrjEi5yt3Hak5mRzJuVxZk3r6k
-         bLzpIaIokvoK6b789vlt7+ciiznvW49yYryQzZHYHChyv2OZ3pACRxPIGqVhYhQ96EQm
-         OTJA==
+        bh=7kOiqxteaud5LCMweE1M9qibutY7PdsGme6UaSA93j4=;
+        b=OOG0gIjuNdhTH8WtjC95fZ7J8NmoAq4sAhjB6irFrB37BEN/2SxLhRjithaLGtEyUb
+         wjaov2DY7vfZ0dnXRRwC8dvVtvKRztCmHnpfYADzHiT9Y+YIVOYWec8wEu33O5bVcOIt
+         USh7vz2EWBBpzIP9zV1/lV0j/7XrLUO9u+YgvBYQ4V3VDafaZGoPX7L3+UbVff9iTXUO
+         NHx7cjuZ5A01CReJbLP78mIZ3ATaZGMeHJZt1dlUVis2UtNF/oKIiTM6kM39/6nSvAYK
+         B6qLG8cMFy9+m/PdCNula07GeT4VMd3yloFW9QmJ4CURIojEcm5RG52DB/rp8hUEgy7C
+         INQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:mime-version:from:to:cc:subject:date
@@ -49,49 +49,49 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=t9tQWdyhhyjkR3XiFGmS0CWSuFMtI/2Jnb+A5nQ2Hdg=;
-        b=fETtIjMDldxMPrnFAQ2woOW5dq3Z4Q2TYF3f0mqqP/axBuDSdNZTT7JoYh1fEkzgQ8
-         QPqdxxB3z2o66X1FB6yLdJ3QqiczZnFWoFQxZM0KgrLoXFSWFlUZZxgxCK+megFp3nuR
-         jgusLxuL+QYAg7iImTkKpWhXJVmHhk86Q1nANru+tJ26hBr3d2y7jMpnlcp0v4TebtNr
-         dOIQ/S5PwpinuwhzPZj4SQMTlXjgNGfs018+XQ54m2cyROBtzbsOF7DMse/WeaFrjjuS
-         i5U6j0zaFSOKBsUZOCs9rUVo1qUOQpdGACoQD0oXOszup12y5jFp/WOxiT40IBLrItVG
-         idQA==
+        bh=7kOiqxteaud5LCMweE1M9qibutY7PdsGme6UaSA93j4=;
+        b=UILHAdKgg/oUVDTmvHBxKPF2DRePdImDvzXCIFfDZBQgQq/UDS/maXW7pZ3aFhHJRK
+         phdjelQ9w2+eb59RUo7rfcP0HdBu80XZhrE0LkGozKx1kItu+PJpvY3Z2Ug0bGdfNc8F
+         h8PU5Q9/71c5X3L2bQTeEN4J0IZMhkly8k77giORsIccFwGlI8EC9qySZJlvM70zHiUD
+         L2Qg9mMRks3vyeSP74XX9PuCRhP8N7Eu2ZoHMtVhs40mAOL4JtzLP/LJjc2mUFFHfGng
+         UP8L+TG0lUMtBzCcUeFzeBko0QaYQadpJrFNcsyRdoFHLiP08NzixsSCM4nU5mf17+9q
+         CTyQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM533QqCL2AkR9Bk/AdLUZMzpqCRKDUma5D/Ons4sSyr8oxFojScDm
-	RWSg4hWjeSZNZYu0uvMroLc=
-X-Google-Smtp-Source: ABdhPJyZwzrcP2+JmgE8I+CFl6fv6zpFXRCsUTi8+Qgc6MYPzihcq/7H6dSdXpf7SBPPwjlcEs6YDQ==
-X-Received: by 2002:aed:3201:: with SMTP id y1mr531667qtd.156.1592873016710;
+X-Gm-Message-State: AOAM53264JiKdIQqXEYr5c8uB4R7If+r5H5ANH5oWWFhwOY0HmmNMB4F
+	2Cux3PrU4eyMNSTq/OMyV4o=
+X-Google-Smtp-Source: ABdhPJyhu30idxfS2qDQuBCvS1Leqp6YtYcdRvuPxnnps4eDh1MRdXF73VCIsP8+kibvB7dRCt/AEA==
+X-Received: by 2002:a37:8505:: with SMTP id h5mr10776144qkd.331.1592873016734;
         Mon, 22 Jun 2020 17:43:36 -0700 (PDT)
 MIME-Version: 1.0
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a0c:cd07:: with SMTP id b7ls4364516qvm.10.gmail; Mon, 22 Jun
+Received: by 2002:aed:3eec:: with SMTP id o41ls2412756qtf.8.gmail; Mon, 22 Jun
  2020 17:43:36 -0700 (PDT)
-X-Received: by 2002:a05:6214:852:: with SMTP id dg18mr23270645qvb.97.1592873016461;
+X-Received: by 2002:ac8:895:: with SMTP id v21mr19167170qth.185.1592873016459;
         Mon, 22 Jun 2020 17:43:36 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; t=1592873016; cv=none;
         d=google.com; s=arc-20160816;
-        b=GtvFVRg/Q3hzQe/7OMLL1+aUP1KfYbm2KgGmsOXRNTnIIZwXPXfDPh1iNoupzjEdrK
-         9sooSRf7MVg3oA7yffwL1wAY8BUibYcTVvbdsVWy7UgZUU/OUswnm/MOoftoXmhIOwKu
-         KStlNEuWXIOxWevsmFzQSS2aKG3+oX0zT0cPxFShdA7g9KObT++NiK0n9MochP0hOfnT
-         0ND8K/NZ6GjACr3YyNMFtJOnH/6Jj9o4vVHkozh8C5is+TGPZrkYWJcFYcqUczF56Rqp
-         Bmf9ck7VNyIGGLK+V8bOv6MTibsFxj+AeoZc1pIk3HEyhg5mYZ9b12o+eTFzyg6jaWST
-         80Uw==
+        b=HriRQiAtgvBKjNLSDomxEw40KWyTGBW1H7LSBysiYsP5XVx+kJ4WK+mmMJy6RHIQni
+         qFV8ySq1ufVC8eyeYNkC8e3bYd39FL57jZi+sEH+WiOQTTiuaY25dxeXNTkgILBrENpx
+         rhClwXQ/uSwWlIF/WnwJ//rq5zAD4Kmdhv8UgMN10Um7jhkkbIMbBRE073YFJBWBOq8X
+         LC7E3jWI1a94EgFwtcOMd26XE692qkvfviMHLeqyUQmaA42tdyQ8ADdr336kMhiGqBgl
+         ORnmKu2GXvtQ+NUkAY5pjijTRfOdiqTSZnnWYQWQFrrKg6W3AjMLOwn5irorM5x9kwVM
+         pLwA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=references:in-reply-to:message-id:date:subject:cc:to:from
          :dkim-signature;
-        bh=oZ/nVkFJA50fOEBZroLhYWJvzM3f4CYy0U0lJu1lBpY=;
-        b=kL5PYZSkslOLNIHx69w/JdpisZI3a9HB/4q1HJIJZdNi02x4XImWwYulAUCsa7YPbf
-         R1DGQgJ85S0aNrjyyAZNbxOQ1C4AtmMftIjUHTf4/MeRnCF0nLMgAdjLaZN588/UayJS
-         RQ4J6m/IfhDsfVKmzBELtyqIfAGbsZREqRq76gYtTRCiFb/WyraeI4T8gHiGagd2Jeyc
-         83DVp3+8pyv0Sh304+XfYEsqpuiaGIvih4cTh/fiB4nYqajtTYZPDCDaNKSv9tlZmIvz
-         xI4JyuP4Y/WUaXQ6RddQDd31itKCfgyiL7on1HgvK7FhE+4uJJOtYfP/mFrHOOS1FNWB
-         NL7g==
+        bh=sxEstT+T9HK1IkvKqJeQUqFcfJPzxvJkHsEgYxTz7nA=;
+        b=Pw7p2S0GMF/16EJW+oNXRKIuSs7JxLqQA57YSyMrB3jZAIHXOT8NCZDIIWesn5J7Pl
+         brxNBUDBcOUYdG7nX2ibPpXJowpxqM5KVxUXquSr+652lacF54m/9P4dBV9hUZlnq2Q7
+         51mT7poWMJwp8qaVxNL5fXN5R9U2qyfm1Teb0S+ixA8fMu0S/UCekMOOBkZ79F8GSgQL
+         UFuQEaVDhHUrEUEvQetds2ej2YBKs3obgV7mYHsZzej0X8dH22t8Zvy774YTCfCnFgie
+         AMWqeD9uqvXSnMOv+/u+LP4MsXbTYF51XHc7ZYCHODXX5GgjTUsljbeyDGSfS+YHmV8G
+         IpGQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=default header.b=r3mLacsz;
+       dkim=pass header.i=@kernel.org header.s=default header.b=rnEmpZkI;
        spf=pass (google.com: domain of paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=paulmck@kernel.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id z202si529507qka.6.2020.06.22.17.43.36
+        by gmr-mx.google.com with ESMTPS id c67si886234qkb.7.2020.06.22.17.43.36
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
         Mon, 22 Jun 2020 17:43:36 -0700 (PDT)
@@ -99,7 +99,7 @@ Received-SPF: pass (google.com: domain of paulmck@kernel.org designates 198.145.
 Received: from paulmck-ThinkPad-P72.home (50-39-105-78.bvtn.or.frontiernet.net [50.39.105.78])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id 614CF20706;
+	by mail.kernel.org (Postfix) with ESMTPSA id 8BD5C20780;
 	Tue, 23 Jun 2020 00:43:35 +0000 (UTC)
 From: paulmck@kernel.org
 To: linux-kernel@vger.kernel.org,
@@ -113,15 +113,15 @@ Cc: elver@google.com,
 	cai@lca.pw,
 	boqun.feng@gmail.com,
 	"Paul E . McKenney" <paulmck@kernel.org>
-Subject: [PATCH tip/core/rcu 01/10] fork: Annotate a data race in vm_area_dup()
-Date: Mon, 22 Jun 2020 17:43:24 -0700
-Message-Id: <20200623004333.27227-1-paulmck@kernel.org>
+Subject: [PATCH tip/core/rcu 02/10] x86/mm/pat: Mark an intentional data race
+Date: Mon, 22 Jun 2020 17:43:25 -0700
+Message-Id: <20200623004333.27227-2-paulmck@kernel.org>
 X-Mailer: git-send-email 2.9.5
 In-Reply-To: <20200623003731.GA26717@paulmck-ThinkPad-P72>
 References: <20200623003731.GA26717@paulmck-ThinkPad-P72>
 X-Original-Sender: paulmck@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=default header.b=r3mLacsz;       spf=pass
+ header.i=@kernel.org header.s=default header.b=rnEmpZkI;       spf=pass
  (google.com: domain of paulmck@kernel.org designates 198.145.29.99 as
  permitted sender) smtp.mailfrom=paulmck@kernel.org;       dmarc=pass (p=NONE
  sp=NONE dis=NONE) header.from=kernel.org
@@ -140,72 +140,57 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 From: Qian Cai <cai@lca.pw>
 
-struct vm_area_struct could be accessed concurrently as noticed by
-KCSAN,
+cpa_4k_install could be accessed concurrently as noticed by KCSAN,
 
- write to 0xffff9cf8bba08ad8 of 8 bytes by task 14263 on cpu 35:
-  vma_interval_tree_insert+0x101/0x150:
-  rb_insert_augmented_cached at include/linux/rbtree_augmented.h:58
-  (inlined by) vma_interval_tree_insert at mm/interval_tree.c:23
-  __vma_link_file+0x6e/0xe0
-  __vma_link_file at mm/mmap.c:629
-  vma_link+0xa2/0x120
-  mmap_region+0x753/0xb90
-  do_mmap+0x45c/0x710
-  vm_mmap_pgoff+0xc0/0x130
-  ksys_mmap_pgoff+0x1d1/0x300
-  __x64_sys_mmap+0x33/0x40
-  do_syscall_64+0x91/0xc44
-  entry_SYSCALL_64_after_hwframe+0x49/0xbe
+read to 0xffffffffaa59a000 of 8 bytes by interrupt on cpu 7:
+cpa_inc_4k_install arch/x86/mm/pat/set_memory.c:131 [inline]
+__change_page_attr+0x10cf/0x1840 arch/x86/mm/pat/set_memory.c:1514
+__change_page_attr_set_clr+0xce/0x490 arch/x86/mm/pat/set_memory.c:1636
+__set_pages_np+0xc4/0xf0 arch/x86/mm/pat/set_memory.c:2148
+__kernel_map_pages+0xb0/0xc8 arch/x86/mm/pat/set_memory.c:2178
+kernel_map_pages include/linux/mm.h:2719 [inline] <snip>
 
- read to 0xffff9cf8bba08a80 of 200 bytes by task 14262 on cpu 122:
-  vm_area_dup+0x6a/0xe0
-  vm_area_dup at kernel/fork.c:362
-  __split_vma+0x72/0x2a0
-  __split_vma at mm/mmap.c:2661
-  split_vma+0x5a/0x80
-  mprotect_fixup+0x368/0x3f0
-  do_mprotect_pkey+0x263/0x420
-  __x64_sys_mprotect+0x51/0x70
-  do_syscall_64+0x91/0xc44
-  entry_SYSCALL_64_after_hwframe+0x49/0xbe
+write to 0xffffffffaa59a000 of 8 bytes by task 1 on cpu 6:
+cpa_inc_4k_install arch/x86/mm/pat/set_memory.c:131 [inline]
+__change_page_attr+0x10ea/0x1840 arch/x86/mm/pat/set_memory.c:1514
+__change_page_attr_set_clr+0xce/0x490 arch/x86/mm/pat/set_memory.c:1636
+__set_pages_p+0xc4/0xf0 arch/x86/mm/pat/set_memory.c:2129
+__kernel_map_pages+0x2e/0xc8 arch/x86/mm/pat/set_memory.c:2176
+kernel_map_pages include/linux/mm.h:2719 [inline] <snip>
 
-vm_area_dup() blindly copies all fields of original VMA to the new one.
-This includes coping vm_area_struct::shared.rb which is normally
-protected by i_mmap_lock. But this is fine because the read value will
-be overwritten on the following __vma_link_file() under proper
-protection. Thus, mark it as an intentional data race and insert a few
-assertions for the fields that should not be modified concurrently.
+Both accesses are due to the same "cpa_4k_install++" in
+cpa_inc_4k_install. A data race here could be potentially undesirable:
+depending on compiler optimizations or how x86 executes a non-LOCK'd
+increment, it may lose increments, corrupt the counter, etc. Since this
+counter only seems to be used for printing some stats, this data race
+itself is unlikely to cause harm to the system though. Thus, mark this
+intentional data race using the data_race() marco.
 
+Suggested-by: Macro Elver <elver@google.com>
 Signed-off-by: Qian Cai <cai@lca.pw>
+Acked-by: Borislav Petkov <bp@suse.de>
 Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
 ---
- kernel/fork.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ arch/x86/mm/pat/set_memory.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/kernel/fork.c b/kernel/fork.c
-index 142b236..bba10fb 100644
---- a/kernel/fork.c
-+++ b/kernel/fork.c
-@@ -359,7 +359,13 @@ struct vm_area_struct *vm_area_dup(struct vm_area_struct *orig)
- 	struct vm_area_struct *new = kmem_cache_alloc(vm_area_cachep, GFP_KERNEL);
+diff --git a/arch/x86/mm/pat/set_memory.c b/arch/x86/mm/pat/set_memory.c
+index 77e0430..d1b2a88 100644
+--- a/arch/x86/mm/pat/set_memory.c
++++ b/arch/x86/mm/pat/set_memory.c
+@@ -135,7 +135,7 @@ static inline void cpa_inc_2m_checked(void)
  
- 	if (new) {
--		*new = *orig;
-+		ASSERT_EXCLUSIVE_WRITER(orig->vm_flags);
-+		ASSERT_EXCLUSIVE_WRITER(orig->vm_file);
-+		/*
-+		 * orig->shared.rb may be modified concurrently, but the clone
-+		 * will be reinitialized.
-+		 */
-+		*new = data_race(*orig);
- 		INIT_LIST_HEAD(&new->anon_vma_chain);
- 		new->vm_next = new->vm_prev = NULL;
- 	}
+ static inline void cpa_inc_4k_install(void)
+ {
+-	cpa_4k_install++;
++	data_race(cpa_4k_install++);
+ }
+ 
+ static inline void cpa_inc_lp_sameprot(int level)
 -- 
 2.9.5
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200623004333.27227-1-paulmck%40kernel.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200623004333.27227-2-paulmck%40kernel.org.
