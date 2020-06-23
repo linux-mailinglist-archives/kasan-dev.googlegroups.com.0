@@ -1,136 +1,135 @@
-Return-Path: <kasan-dev+bncBCCMH5WKTMGRBNUUY73QKGQE2YTEANQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABB3UNZD3QKGQEEQZLC2A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33e.google.com (mail-wm1-x33e.google.com [IPv6:2a00:1450:4864:20::33e])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7E9F204DE0
-	for <lists+kasan-dev@lfdr.de>; Tue, 23 Jun 2020 11:24:06 +0200 (CEST)
-Received: by mail-wm1-x33e.google.com with SMTP id t145sf3355783wmt.2
-        for <lists+kasan-dev@lfdr.de>; Tue, 23 Jun 2020 02:24:06 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1592904246; cv=pass;
+Received: from mail-ot1-x33d.google.com (mail-ot1-x33d.google.com [IPv6:2607:f8b0:4864:20::33d])
+	by mail.lfdr.de (Postfix) with ESMTPS id A12CD2053B7
+	for <lists+kasan-dev@lfdr.de>; Tue, 23 Jun 2020 15:43:11 +0200 (CEST)
+Received: by mail-ot1-x33d.google.com with SMTP id y4sf10389393oto.15
+        for <lists+kasan-dev@lfdr.de>; Tue, 23 Jun 2020 06:43:11 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1592919790; cv=pass;
         d=google.com; s=arc-20160816;
-        b=aAAVyXW7R3A3mzqfpUru7WgR28NqW52sTmR1R2RePUVQlAdLC/bUHUpen2mjtBQvQ9
-         QmJ+u70YX/dPj125PVjGLoQDoSne6/NcMP8OO5eIYj41sUjBp1q9vzNR/7RACYmh7fPZ
-         Gf/tVm+NvW2EWIAQehayqZpU2HOHeK4QD447PhSZ/3+WAyfUYOsUcYHxwfM4t6Wl+4W0
-         cBd4oM0jqcsaVBnITniaEG9TuouMDxdBYzQGanQtRbPzW0NBtE1hlLRwCTtTqvdmW/i8
-         k67uHW2yv70HtGlqcXe7pFvw0dtNga/suVTkchTfL3djjkAiwMkZeYYK4AmQOav9r//C
-         J34Q==
+        b=LUfXBDGD/IlvcSDHTvHBIDZbN1RTetrNVs96hpTb4NucpWEln9BoBvW7frKZUa7yGa
+         Rv/imvfSkW+ITSxcpcHhJN35TI3BA00s0ZkYJj3j/hB1uVJdgq+BJcMbq8cseM7JXkL/
+         Jy2uzvXqhPHfNRBABAYHa7A2mHAWCXjF1Y950eXin2EIVwcsu2tk6sA/gTtpT8UwHFdY
+         80DyIw+96BonsNQLFJUPRT21+kZHJSBZm6z2z0vonvRBpqMW25oiXcS17cN3iRcKmosk
+         wYCo+rTR8GdL2DOut1cRmII1iSuLOq5bOWkzT0uOzxD0IS8aJZh+SC8Tq53Q1eduR7D4
+         mOJg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
-         :cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=izM9KX8CxlkDT/eBkaxr2mGU3ehfTZMeiUSnYRVLb2o=;
-        b=ESPNvdTP6zrw4cXruzmSXk2KqnNKMOlhhyALaXcE+Rf0emzQj2ZrV44asI464xAR3D
-         f7kKeUlvqTVNaAlW61yO9wjeHTgoVJN/joQ7jLuNx/jFt+psR9+PxTOszB43vZHzRXor
-         AQ7jRxFt1PADERiU1+n6aznLPYweaFTy6CJg9X/Rg0jmwI99rS78GNijohVByualbus1
-         04VD3Jliv+W8C1yCTvMGsHVGy7JIeHf8bdDNav/W2/M1zuIblYU5wXc0qTcBBHPdN7bW
-         8bTqFmsl96CZBm02AvgVIlwap9fzU3sbh7eXKQgg34XnORz5VKgZOOsNfZaujXgFAi07
-         QuyA==
+         :list-id:mailing-list:precedence:user-agent:in-reply-to
+         :content-disposition:mime-version:references:reply-to:message-id
+         :subject:cc:to:from:date:sender:dkim-signature;
+        bh=NPlNohNePLxFckLgIaSSjD3dYwKtWDn5toFikCb0yZY=;
+        b=Bo7WujSBgS+kNCp41MXCTwhnfr4SI0Hj2m+n1OGwsjxhKeMZXVYVffihPlr9/VNa6S
+         OyBWVeOc6cuC7NgtNSWQNLY25cb56/YgSjUBguMR3qmhKDHRD1zkcqFekuu8REmbO+Mp
+         0biRT8Q1WV/j6WRYHHldZmWIQnyIYf5DBfpLv1uj9PyAysR4IBt1rQL7/ndh3v6yuZyQ
+         Y6Bk1iKpfkFmWMpvB5vqIB9Wu38eUSlwW7apOp+ugGy/W3r92SakZmSga/QIYFyTc30h
+         YP7ftAhgPOMPgJJmiBCL247RViTFIloPmPRbU16a9sbHsxxNtCWnY04/0OKpwjDJnlmT
+         Tn3g==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=P5j+klQm;
-       spf=pass (google.com: domain of glider@google.com designates 2a00:1450:4864:20::443 as permitted sender) smtp.mailfrom=glider@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@kernel.org header.s=default header.b=qcAuHWsD;
+       spf=pass (google.com: domain of srs0=ovfg=ae=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=ovfG=AE=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:list-post:list-help:list-archive:list-subscribe
-         :list-unsubscribe;
-        bh=izM9KX8CxlkDT/eBkaxr2mGU3ehfTZMeiUSnYRVLb2o=;
-        b=F6bX/Wl8mzCHlEcy230wvlEU6ZruJUBjmY+aTzIuK43pwZQVx8Vu5HstPJ61YOchMT
-         lid7zzXe5R/b70mvlanHS77Kz3iX4JG7pkgEe8iQBOe8AtDICBlvlzDTRC0P1gT7xD2V
-         BgmiFnaMzEu6YjtNWrJGXPBXt6kaaKcBR3mUTjQjvMBk4nPcA+GJVmC2/7Svrr9HEQqU
-         MKP4rqhY7LwcLZ14lPZaoM1Qhurk/nXbbFa+nnN65D+3/1Lma20eC0K4uTDGOweC8WSi
-         SsX7fqC9Hr2b7maMeRpYma2QCbUZOdJoRLRLI9Ad0IchxX4qzEpDcBWFfW6dvGNUd+gk
-         c4FQ==
+        h=sender:date:from:to:cc:subject:message-id:reply-to:references
+         :mime-version:content-disposition:in-reply-to:user-agent
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=NPlNohNePLxFckLgIaSSjD3dYwKtWDn5toFikCb0yZY=;
+        b=fZbR/VgbkRA27wZrI71injlvdg9PudOcJHra+74XwCR2vJWY0OkSvwWa2LTDvFof/D
+         r7srYCFqlsv3A2pfg8O7OvvkpY3EI/ocj9pkluz/ckgyprqV+0ByYSm5OtBVqhKaiONY
+         FUBZYZsA/SpTL0HDdcyTv0fw+dc+xTT8iuC45cHSqT64o2jOkTviR71KC2Vjo9Wnm7W0
+         ByArX9ZZSEF3RVAScxg1mG6jZv1XGB1Xg0mgcnf2uSn+5YqC7Rl0H/EfVp0CZFtGBI3/
+         WCWl1lxd32rI6zJzK7sUOw0f3R1l/ewBjigF3t84FqOxXu19oE/3GViIxVWGYv6ICONr
+         04GA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding
-         :x-original-sender:x-original-authentication-results:reply-to
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :reply-to:references:mime-version:content-disposition:in-reply-to
+         :user-agent:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
          :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=izM9KX8CxlkDT/eBkaxr2mGU3ehfTZMeiUSnYRVLb2o=;
-        b=h8QoDWUdZ2SvX1n9dyeTtFyAAUQgFYaQxWvfqPp7CE7YRqI5W0LmIaIvHDTpgjryCQ
-         qu741E/QWc/ndR4WJtb2C/R4u+q7pzAnKQZtERGGCytBfqvph9J3sRigviuv9tMN7IfR
-         42BaBWyeUvXRhtd+C39e1+DQ8Yat/67WSmKp2VSzhq08Q0roEemKCtoUWlXT4M8R3IFb
-         FWUBLE/KJhhwuk+Alk9UU5UhGhofy/K67SgF8VIr0pGfiBX/+2To8pUo8u6efpwuD8ac
-         qsJJ4+r2jsBLuetvWYFGlzQjpbR4qKyX326el4oPuCsENdhGWdEPdWfg0gYdpPMxC+VO
-         j1og==
-X-Gm-Message-State: AOAM530fHdWRkocdGeLCXF73BYd3PJ1lEbRHVhKqpSGIuxUPrMY4E31h
-	q193DiK2ucbmSYnYeU3SX5Y=
-X-Google-Smtp-Source: ABdhPJwgdi+50eMgRS4caxSw16PdCI4z/GNlE3Ct9dqUplujjtwUzq0/Z1Tbg+qNdNWF/js85VLR7g==
-X-Received: by 2002:a1c:acc3:: with SMTP id v186mr6043285wme.79.1592904246480;
-        Tue, 23 Jun 2020 02:24:06 -0700 (PDT)
+        bh=NPlNohNePLxFckLgIaSSjD3dYwKtWDn5toFikCb0yZY=;
+        b=DtYC9a5rh/dpC7FVhlYdo3F6yGlVO6q+KZ5cIEQZnvQqP2KxzJO4QuU+USq9fSM/Mt
+         6bqPW2WsMsMPtR6zbtTU2Tz0INNWT7hvpxOVzzelkoA1Jue7beF+/A0Y7oT1OJ2lOwS0
+         0rcYePQHJQ/mvDNunFGVkHy2ciwqNXbBNqQH4WytzWbsBAaHV1XPw/db07i1TTBv4qn9
+         xurkZUZ+X+VCVI5vJxJRn4V9q5hsAIK5EX5nKAiMItqqLgEcbxdKlwWLnTSxR83HZwfT
+         +9O5c2TgzbA8MmwiR/OwQFNaQtV2ZVqy0U6OBsRPK+0sjd47HYVSVcykoKyeuPL+H6d9
+         JxNA==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM531tvC6ALXXB4a69CJ0YoEdIKE+RwlFCl6Pv5UiF8KLUaDOu8PPb
+	RCmlT4un1kGAMg0qscPKXhA=
+X-Google-Smtp-Source: ABdhPJyzXNGJ4xvmzcaExPPRnlzyC89Vz7YKThIfkYGoXkbxvPuhIFv85HHcHxUs/gL6gJH29pBSrA==
+X-Received: by 2002:a4a:d219:: with SMTP id c25mr10714509oos.32.1592919790317;
+        Tue, 23 Jun 2020 06:43:10 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a1c:2885:: with SMTP id o127ls1119793wmo.0.canary-gmail;
- Tue, 23 Jun 2020 02:24:06 -0700 (PDT)
-X-Received: by 2002:a7b:c043:: with SMTP id u3mr24316070wmc.185.1592904245908;
-        Tue, 23 Jun 2020 02:24:05 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1592904245; cv=none;
+Received: by 2002:a9d:7d0d:: with SMTP id v13ls4408764otn.3.gmail; Tue, 23 Jun
+ 2020 06:43:10 -0700 (PDT)
+X-Received: by 2002:a9d:2038:: with SMTP id n53mr608190ota.22.1592919790071;
+        Tue, 23 Jun 2020 06:43:10 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1592919790; cv=none;
         d=google.com; s=arc-20160816;
-        b=X+ExzR8soT+Y/V0VPx67jxYuddYC+HlsL2oeYI2t45b0gpsGWADQXvvzG3ZFXsNoEp
-         1xXXOhGQ9JtuPQH4QjmyH01AhGqOSGL2ETnifE7PvuADhQupkkOFDlD28IQa73qVbJWL
-         G20saWLGKd3r00c8YNvSPFsCp/SQvqsSr2YrPM6/8NI63VE9ajnG+dIwuwCHa0RSWWBM
-         kd4tHUP3dvMekZLXsJBfSAb2hiYqL1FRXZuD2nDPZlM3w/f/oBQEKSL7GCfV875Yuhbz
-         CExJR4iIzLTPtBxTJhUwlJA/jqzQrKzu6gYBv9w/gJrQqEOmIEsScyVSqvsp5p4BpBhh
-         x1pw==
+        b=WQSc3R2EcU05E49WQbo1UyDiltNwNym6G0U8NKmiRnMbHPuJ4+PhWL/n9zsdEiPFMi
+         mV4vIBMAjDPP6ECUkCXsZn/q7bWqPvo2ltkgIjhEoWTenz7YyE0PVlGSXrY2pPrGyYh2
+         5uQ1pAnb7S8LPPel9i3CixFs41UJV87qlijtFgDsLB2Rho8xQ2P/5u4ZsPseZfr5NuZD
+         rHPWVlLrp7uGzWjYhY5eDQxQivQyqHYiHXjLkjefVNHg1Go1Z8vqpDUGMLlyEn0PMxX1
+         Kz6WE7lHNmjAoEgM3Cs8edC/pxA+vkrgP0LfFDJn4l68bf2bUShdfpanNBs+Fkb28IW/
+         Bndg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=wxjhgLY6Z/ti9Feqdaan9z5FrH6qnMdHUeGIKwlfPu8=;
-        b=e3vuBVOCV505T1h5ZYZejx+Q1NJ4D0uRCPAHMgwwnTuRurjxpmgCUv08b6kY5ufOQ3
-         qQ+QKqOQZOfUoMdszBb7lukPwqKqG8grQwvDuTtnyFuwprml2hosC/IOK0dI1M9posZp
-         go9f7RTe9ZhE5wtOANt9kvVV+IyBd3uD2MnvOlsB8Go+5DvguApsKnKtu5TYXnKQMu5V
-         cbHIT32uOEjej2Bqbj2IGhsHWRB65UVxkgrda4ElX6eQeaXwjDijU85S4iDKH+uXA6Ju
-         hEAbfIn1FULHmDmVmdXSkuf/RN352Mu2rCwlI65p9usqSh8fCt27OS09HzyT/MjUfYMu
-         5xVQ==
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :reply-to:message-id:subject:cc:to:from:date:dkim-signature;
+        bh=jYaH5qV6XOSouH9EkRcv6eW6o/aQlJgcY7OIxPWY/B8=;
+        b=zYxQVI7eUlOR0mA+eBn+TVtsw6vusV1eidRF1DFjMxsFSCaOIUjqYoisvLhwj1NqOy
+         kCmR+ZZJA4k7+IQQhCFjmmtSVKJCyGGauRAD41oYj6shoGdVOodLNAvhkMViMS/OhB14
+         xpzsVc/OjY5Vy6v0wPVAgqMsF7/bE2h6EL7Vat2hmzq9DnCP+8JX6b5gvqtzwKbjM/lC
+         VvcBi243D0m91Q4xrtKTipSb1Gc/IsqDMaC4EHp+g7p1sJ9ZqoERt1JJ30D42q2PNHcj
+         BituOty4pN30d5Ia7b19wJP2sav9HDL6JTvkgOxpt4QUIKXgzLwkzep8UhGoviMV5iuN
+         Fyeg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=P5j+klQm;
-       spf=pass (google.com: domain of glider@google.com designates 2a00:1450:4864:20::443 as permitted sender) smtp.mailfrom=glider@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com. [2a00:1450:4864:20::443])
-        by gmr-mx.google.com with ESMTPS id u17si915782wrq.1.2020.06.23.02.24.05
+       dkim=pass header.i=@kernel.org header.s=default header.b=qcAuHWsD;
+       spf=pass (google.com: domain of srs0=ovfg=ae=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=ovfG=AE=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
+        by gmr-mx.google.com with ESMTPS id c22si1469399oto.3.2020.06.23.06.43.09
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 23 Jun 2020 02:24:05 -0700 (PDT)
-Received-SPF: pass (google.com: domain of glider@google.com designates 2a00:1450:4864:20::443 as permitted sender) client-ip=2a00:1450:4864:20::443;
-Received: by mail-wr1-x443.google.com with SMTP id a6so17770084wrm.4
-        for <kasan-dev@googlegroups.com>; Tue, 23 Jun 2020 02:24:05 -0700 (PDT)
-X-Received: by 2002:adf:82b8:: with SMTP id 53mr3937384wrc.172.1592904245346;
- Tue, 23 Jun 2020 02:24:05 -0700 (PDT)
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 23 Jun 2020 06:43:10 -0700 (PDT)
+Received-SPF: pass (google.com: domain of srs0=ovfg=ae=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
+Received: from paulmck-ThinkPad-P72.home (50-39-105-78.bvtn.or.frontiernet.net [50.39.105.78])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPSA id 391BF2070E;
+	Tue, 23 Jun 2020 13:43:09 +0000 (UTC)
+Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
+	id 1E5CE352265E; Tue, 23 Jun 2020 06:43:09 -0700 (PDT)
+Date: Tue, 23 Jun 2020 06:43:09 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Marco Elver <elver@google.com>
+Cc: LKML <linux-kernel@vger.kernel.org>,
+	kasan-dev <kasan-dev@googlegroups.com>, kernel-team@fb.com,
+	Ingo Molnar <mingo@kernel.org>,
+	Andrey Konovalov <andreyknvl@google.com>,
+	Alexander Potapenko <glider@google.com>,
+	Dmitry Vyukov <dvyukov@google.com>, Qian Cai <cai@lca.pw>,
+	Boqun Feng <boqun.feng@gmail.com>
+Subject: Re: [PATCH kcsan 0/10] KCSAN updates for v5.9
+Message-ID: <20200623134309.GB9247@paulmck-ThinkPad-P72>
+Reply-To: paulmck@kernel.org
+References: <20200623004310.GA26995@paulmck-ThinkPad-P72>
+ <CANpmjNOV=rGaDmvU+neSe8Pyz-Jezm6c45LS0-DJHADNU9H_QA@mail.gmail.com>
 MIME-Version: 1.0
-References: <CAG48ez2OrzBW9Cy13fJ2YHpYvAcn+2SbEmv_0MdrCufot65XUw@mail.gmail.com>
- <CACT4Y+acW32ng++GOfjkX=8Fe73u+DMhN=E0ffs13bHxa+_B5w@mail.gmail.com>
- <CANpmjNMDHmLDWgR_YYBK-sgp9jHpN0et1X=UkQ4wt2SbtFAjHA@mail.gmail.com>
- <CAG_fn=XDtJuSZ9o6P9LeS4AfSkbP38Mc3AQxEWd+u4wakSG+xQ@mail.gmail.com>
- <CACT4Y+ZfDfMGWn1wk6jq0VdkGdC2H7NifYpVCCXwCmX42m4Thg@mail.gmail.com>
- <CAG_fn=VEb7XYwi0ZnOXRx-Yss++OhnpKCO-7tFvCOp4pi4MLcA@mail.gmail.com> <CACT4Y+ZHoQ5ZPfsvaiQMXrrTxv9-LgP+v_o5Ah2gFBwqQjv-+g@mail.gmail.com>
-In-Reply-To: <CACT4Y+ZHoQ5ZPfsvaiQMXrrTxv9-LgP+v_o5Ah2gFBwqQjv-+g@mail.gmail.com>
-From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Tue, 23 Jun 2020 11:23:54 +0200
-Message-ID: <CAG_fn=VWwfpn6HNNm3V8woK7BcLgAJ9k8WYNghwxz7FF6+QZRg@mail.gmail.com>
-Subject: Re: Kernel hardening project suggestion: Normalizing ->ctor slabs and
- TYPESAFE_BY_RCU slabs
-To: Dmitry Vyukov <dvyukov@google.com>
-Cc: Marco Elver <elver@google.com>, Jann Horn <jannh@google.com>, 
-	Kernel Hardening <kernel-hardening@lists.openwall.com>, Christoph Lameter <cl@linux.com>, 
-	Pekka Enberg <penberg@kernel.org>, David Rientjes <rientjes@google.com>, 
-	Joonsoo Kim <iamjoonsoo.kim@lge.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Linux-MM <linux-mm@kvack.org>, Andrey Konovalov <andreyknvl@google.com>, 
-	Will Deacon <will@kernel.org>, kasan-dev <kasan-dev@googlegroups.com>, 
-	Kees Cook <keescook@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: glider@google.com
+Content-Disposition: inline
+In-Reply-To: <CANpmjNOV=rGaDmvU+neSe8Pyz-Jezm6c45LS0-DJHADNU9H_QA@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Original-Sender: paulmck@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=P5j+klQm;       spf=pass
- (google.com: domain of glider@google.com designates 2a00:1450:4864:20::443 as
- permitted sender) smtp.mailfrom=glider@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Alexander Potapenko <glider@google.com>
-Reply-To: Alexander Potapenko <glider@google.com>
+ header.i=@kernel.org header.s=default header.b=qcAuHWsD;       spf=pass
+ (google.com: domain of srs0=ovfg=ae=paulmck-thinkpad-p72.home=paulmck@kernel.org
+ designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=ovfG=AE=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -143,172 +142,53 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Jun 23, 2020 at 11:14 AM Dmitry Vyukov <dvyukov@google.com> wrote:
->
-> On Tue, Jun 23, 2020 at 10:38 AM Alexander Potapenko <glider@google.com> =
-wrote:
-> > > > KFENCE also has to ignore both TYPESAFE_BY_RCU and ctors.
-> > > > For ctors it should be pretty straightforward to fix (and won't
-> > > > require any changes to SL[AU]B). Not sure if your proposal for RCU
-> > > > will also work for KFENCE.
-> > >
-> > > Does it work for objects freed by call_rcu in normal slabs?
-> > > If yes, then I would assume it will work for TYPESAFE_BY_RCU after
-> > > this change, or is there a difference?
+On Tue, Jun 23, 2020 at 08:31:15AM +0200, Marco Elver wrote:
+> On Tue, 23 Jun 2020 at 02:43, Paul E. McKenney <paulmck@kernel.org> wrote:
 > >
-> > If my understanding is correct, TYPESAFE_BY_RCU means that the object
-> > may be used after it has been freed, that's why we cannot further
-> > reuse or wipe it before ensuring they aren't used anymore.
->
-> Yes, but only within an rcu grace period.
-> And this proposal will take care of this: from the point of view of
-> slab, the object is freed after an additional rcu grace period. So
-> when it reaches slab free, it must not be used anymore.
-
-Thanks for clarifying!
-Then both KFENCE and init_on_free should work fine with that change.
-
-
-> > Objects allocated from normal slabs cannot be used after they've been
-> > freed, so I don't see how this change applies to them.
+> > Hello!
 > >
-> > > > Another beneficiary of RCU/ctor normalization would be
-> > > > init_on_alloc/init_on_free, which also ignore such slabs.
-> > > >
-> > > > On Tue, Jun 23, 2020 at 9:18 AM Marco Elver <elver@google.com> wrot=
-e:
-> > > > >
-> > > > > On Tue, 23 Jun 2020 at 08:45, Dmitry Vyukov <dvyukov@google.com> =
-wrote:
-> > > > > >
-> > > > > > On Tue, Jun 23, 2020 at 8:26 AM Jann Horn <jannh@google.com> wr=
-ote:
-> > > > > > >
-> > > > > > > Hi!
-> > > > > > >
-> > > > > > > Here's a project idea for the kernel-hardening folks:
-> > > > > > >
-> > > > > > > The slab allocator interface has two features that are proble=
-matic for
-> > > > > > > security testing and/or hardening:
-> > > > > > >
-> > > > > > >  - constructor slabs: These things come with an object constr=
-uctor
-> > > > > > > that doesn't run when an object is allocated, but instead whe=
-n the
-> > > > > > > slab allocator grabs a new page from the page allocator. This=
- is
-> > > > > > > problematic for use-after-free detection mechanisms such as H=
-WASAN and
-> > > > > > > Memory Tagging, which can only do their job properly if the a=
-ddress of
-> > > > > > > an object is allowed to change every time the object is
-> > > > > > > freed/reallocated. (You can't change the address of an object=
- without
-> > > > > > > reinitializing the entire object because e.g. an empty list_h=
-ead
-> > > > > > > points to itself.)
-> > > > > > >
-> > > > > > >  - RCU slabs: These things basically permit use-after-frees b=
-y design,
-> > > > > > > and stuff like ASAN/HWASAN/Memory Tagging essentially doesn't=
- work on
-> > > > > > > them.
-> > > > > > >
-> > > > > > >
-> > > > > > > It would be nice to have a config flag or so that changes the=
- SLUB
-> > > > > > > allocator's behavior such that these slabs can be instrumente=
-d
-> > > > > > > properly. Something like:
-> > > > > > >
-> > > > > > >  - Let calculate_sizes() reserve space for an rcu_head on eac=
-h object
-> > > > > > > in TYPESAFE_BY_RCU slabs, make kmem_cache_free() redirect to
-> > > > > > > call_rcu() for these slabs, and remove most of the other
-> > > > > > > special-casing, so that KASAN can instrument these slabs.
-> > > > > > >  - For all constructor slabs, let slab_post_alloc_hook() call=
- the
-> > > > > > > ->ctor() function on each allocated object, so that Memory Ta=
-gging and
-> > > > > > > HWASAN will work on them.
-> > > > > >
-> > > > > > Hi Jann,
-> > > > > >
-> > > > > > Both things sound good to me. I think we considered doing the c=
-tor's
-> > > > > > change with KASAN, but we did not get anywhere. The only argume=
-nt
-> > > > > > against it I remember now was "performance", but it's not that
-> > > > > > important if this mode is enabled only with KASAN and other deb=
-ugging
-> > > > > > tools. Performance is definitely not as important as missing bu=
-gs. The
-> > > > > > additional code complexity for ctors change should be minimal.
-> > > > > > The rcu change would also be useful, but I would assume it will=
- be larger.
-> > > > > > Please add them to [1], that's KASAN laundry list.
-> > > > > >
-> > > > > > +Alex, Marco, will it be useful for KFENCE [2] as well? Do ctor=
-s/rcu
-> > > > > > affect KFENCE? Will we need any special handling for KFENCE?
-> > > > > > I assume it will also be useful for KMSAN b/c we can re-mark ob=
-jects
-> > > > > > as uninitialized only after they have been reallocated.
-> > > > >
-> > > > > Yes, we definitely need to handle TYPESAFE_BY_RCU.
-> > > > >
-> > > > > > [1] https://bugzilla.kernel.org/buglist.cgi?bug_status=3D__open=
-__&component=3DSanitizers&list_id=3D1063981&product=3DMemory%20Management
-> > > > > > [2] https://github.com/google/kasan/commits/kfence
-> > > >
-> > > >
-> > > >
-> > > > --
-> > > > Alexander Potapenko
-> > > > Software Engineer
-> > > >
-> > > > Google Germany GmbH
-> > > > Erika-Mann-Stra=C3=9Fe, 33
-> > > > 80636 M=C3=BCnchen
-> > > >
-> > > > Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Halimah DeLaine Prado
-> > > > Registergericht und -nummer: Hamburg, HRB 86891
-> > > > Sitz der Gesellschaft: Hamburg
+> > This series provides KCSAN updates:
 > >
+> > 1.      Annotate a data race in vm_area_dup(), courtesy of Qian Cai.
 > >
+> > 2.      x86/mm/pat: Mark an intentional data race, courtesy of Qian Cai.
 > >
-> > --
-> > Alexander Potapenko
-> > Software Engineer
+> > 3.      Add ASSERT_EXCLUSIVE_ACCESS() to __list_splice_init_rcu().
 > >
-> > Google Germany GmbH
-> > Erika-Mann-Stra=C3=9Fe, 33
-> > 80636 M=C3=BCnchen
+> > 4.      Add test suite, courtesy of Marco Elver.
 > >
-> > Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Halimah DeLaine Prado
-> > Registergericht und -nummer: Hamburg, HRB 86891
-> > Sitz der Gesellschaft: Hamburg
+> > 5.      locking/osq_lock: Annotate a data race in osq_lock.
+> >
+> > 6.      Prefer '__no_kcsan inline' in test, courtesy of Marco Elver.
+> >
+> > 7.      Silence -Wmissing-prototypes warning with W=1, courtesy of Qian Cai.
+> >
+> > 8.      Rename test.c to selftest.c, courtesy of Marco Elver.
+> >
+> > 9.      Remove existing special atomic rules, courtesy of Marco Elver.
+> >
+> > 10.     Add jiffies test to test suite, courtesy of Marco Elver.
+> 
+> Do we want GCC support back for 5.9?
+> 
+>    https://lkml.kernel.org/r/20200618093118.247375-1-elver@google.com
+> 
+> I was hoping it could go into 5.9, because it makes a big difference
+> in terms of usability as it provides more compiler choice. The only
+> significant change for GCC support is the addition of the checking of
+> (CC_IS_GCC && (....)).
 
+Very good, I will rebase the following into the KCSAN branch for v5.9:
 
+	3e490e3 kcsan: Re-add GCC as a supported compiler
+	03296de kcsan: Simplify compiler flags
+	d831090 kcsan: Disable branch tracing in core runtime
 
---
-Alexander Potapenko
-Software Engineer
+Please let me know if any other adjustments are needed.
 
-Google Germany GmbH
-Erika-Mann-Stra=C3=9Fe, 33
-80636 M=C3=BCnchen
+							Thanx, Paul
 
-Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Halimah DeLaine Prado
-Registergericht und -nummer: Hamburg, HRB 86891
-Sitz der Gesellschaft: Hamburg
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CAG_fn%3DVWwfpn6HNNm3V8woK7BcLgAJ9k8WYNghwxz7FF6%2BQZRg%40mail.gm=
-ail.com.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200623134309.GB9247%40paulmck-ThinkPad-P72.
