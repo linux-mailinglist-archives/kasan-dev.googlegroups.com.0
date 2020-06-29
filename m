@@ -1,127 +1,124 @@
-Return-Path: <kasan-dev+bncBCSPV64IYUKBBTXZ473QKGQEI7C7LQA@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBIUB5D3QKGQEOBSKETY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ed1-f60.google.com (mail-ed1-f60.google.com [209.85.208.60])
-	by mail.lfdr.de (Postfix) with ESMTPS id B087020CF31
-	for <lists+kasan-dev@lfdr.de>; Mon, 29 Jun 2020 16:38:06 +0200 (CEST)
-Received: by mail-ed1-f60.google.com with SMTP id y66sf7071637ede.19
-        for <lists+kasan-dev@lfdr.de>; Mon, 29 Jun 2020 07:38:06 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1593441486; cv=pass;
+Received: from mail-ot1-x33c.google.com (mail-ot1-x33c.google.com [IPv6:2607:f8b0:4864:20::33c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5807520CF46
+	for <lists+kasan-dev@lfdr.de>; Mon, 29 Jun 2020 16:54:27 +0200 (CEST)
+Received: by mail-ot1-x33c.google.com with SMTP id 73sf2310358oti.21
+        for <lists+kasan-dev@lfdr.de>; Mon, 29 Jun 2020 07:54:27 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1593442466; cv=pass;
         d=google.com; s=arc-20160816;
-        b=guPra8p8BdkxyW1cwnBGjBtNSRcTGhKbfdGGGSemmjDCxMUcQqMfHXkbgnsR4yX3xA
-         cms6jJCVIe05FDIy39OoWFC968swJ4jTUK3aaQzAfHCw7WB+YoQvzPJCTHC2UfO7Aa6k
-         5t6tJBeb6vrMepfDEEqnjrm0Kh7IwEao9S7epT92zni750FIaQrDAEjccuyY5PGGRRfV
-         hFmkgTuayaKae8xQMRBf03sdRWk8+HqFkHbPvS5QkwNj9333gOhVsbnj3ll21Kdko5Xn
-         sfXeoKgB0WExdM+77v2QFTg8/Zs9WdZkDgAkOODo0cE7cq0ObZJAzM85UQiBAbOtFVSY
-         eVAg==
+        b=FnrB5Bw5BOLASvs+phUKzQJXV8/UXvC7Pcv4eSELf+NwwoqvOqWTHzlzU/k2P5nwnF
+         pET3j8QROIgc33IMlD9tolzwJhCCU7VeLwZAMPtzOjaBHIndGB04hFlQeImW8lBIBnvw
+         N2s+2b9q73dOKwhZiGiQp7p57ux1W038zzbFSIXwM0SpZXorXwfzZ23mHHUDdInN4zqe
+         xA/MbF9Mpp4ixn4nR+zMSqG2JL38Lh+3nnmBs74Pq/IkRVShCTEduKSG1ExuD7MgkLCr
+         E35IDsoYqnHg2+leEyy8/Bp7QKviHepOUt15Mjx75JniJYZoc5CJW9icySdZK8cM5ss/
+         tV4w==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:sender:user-agent:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date;
-        bh=eARF0mpr9M9bQufl5UkszcQuO7dzk2vyd2Nhk7p+5qk=;
-        b=GUXo9Hop8EN+GO/O6uHxwUMvqTPZ7S9FW6F94iNnEiQOTHj9ZcWwpCZp7SpeJg3Ouh
-         8R/vxo0iqbKPuG14fT1aCEt/UyE1ebcfS2GOLaBm/cPjfMz39rdlVr9SQe8XyhGiQDOL
-         sIMVHOmhL5NUbOSE6LXQcLCckC3kanVuIsDnjjBM461u0D5UO0FeKPm7Tz07S/44rNsx
-         AyQydF8qXz6whResXZjwe6ZkavMMnWAaBQZCLVFRHMg2ZZ7kV/bYScSi6a4eHeE+QzPO
-         XVY1GtFVATa7lXEa5vGPaw3dwvQYDbuWmQx/MoLXWel8H/WvYcK44+RQ50BGWc5r4Opv
-         G6Cg==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=wZIXNyM+S/Xb9V7UwrJQ5KoFIXSLKYvNEArfg9MLWSg=;
+        b=TMae/geqY9Yw0oI08ZKJa6zEATSsJ0dz8RB1xrnxmSsbsAjnuPWCJOHf04OLLwRzjp
+         L26TutjlQmXitjG6tutZgn6xdnHyL01IuWqNcQVshp0gyVsZh5BPPTcuv1uP99rQrzpO
+         upp2X+vu8WRUvxueiMGkCJ3p3Co04GI/75bFjGcPvjTKK2QPQyC07oJJMsAUZsliK0Z3
+         lfBiPiq8a/+etFpETL9F9x1BktSTb1l0J8iJJnoaCz4UFay+csYVdLQ/JRTc7p0mYr3H
+         taHNkOSjF7wPRIesZ1grWU1Q9I5e+J2L0WbJegXD/OQ6RLGCc2ju8CFDR5h3o2i3M0qJ
+         APOA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass (test mode) header.i=@armlinux.org.uk header.s=pandora-2019 header.b=n8pI6Aqb;
-       spf=pass (google.com: best guess record for domain of linux+kasan-dev=googlegroups.com@armlinux.org.uk designates 2001:4d48:ad52:32c8:5054:ff:fe00:142 as permitted sender) smtp.mailfrom="linux+kasan-dev=googlegroups.com@armlinux.org.uk";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=armlinux.org.uk
+       dkim=pass header.i=@google.com header.s=20161025 header.b=LEw0pNBj;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::344 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=googlegroups.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=wZIXNyM+S/Xb9V7UwrJQ5KoFIXSLKYvNEArfg9MLWSg=;
+        b=RlRJZVCDLzQhNp3LrxdnhSFPBIQWAOfTt6qx/8c92ntwGMFtz44XIo60w3xi6e/1l0
+         9yyXXTYt4lOB+7p5Em41falzzMW4d8a8mrZURcL0ATIKpBSAKykX/vz+/2g39pIC7W4y
+         /chmMlXORt/d6DiwzI+onRpV+RiH94hLyIPW/d43ZWq13ktUTcfHwfZzn+LMQzfTlJc+
+         VISgYhKcsMJH0JLsDMIBz/R+xdDRJw6z3pKFE10aOSY46t++YIPTVgrg3JupGBfTEQY6
+         jg6x1M0QaTzS8/QNOtOYzQLU/OhgsDSqkjnObIKY5OQSH+JDogG+IjpPootnwb7HDaRH
+         h3xw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent:sender
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=eARF0mpr9M9bQufl5UkszcQuO7dzk2vyd2Nhk7p+5qk=;
-        b=fDUmmzq7nBUglAuFUdbqYAbs66n9hX8IaeV+2Z3TtO4FuxjK0gJe3e1/GCAy8u75E9
-         Ef5IC7HEOYJ2sVGYW3EuyufS7Rk84Oxovqe1TWx8szn48YyEf2sQGY4fRilEM7wc01Sw
-         51+Zk3NwfnmQJ0EwyNFn55x/hAMbVvfNJEReH8neLbxF56gWupB2JQuW6K4LPFL/i5J0
-         GAi/523dS8LGdR4LiAIgJxuxXJo/fDURsQHf1xJ5bDBlSyXKkmaUKcH1o2wj2MasB33T
-         fiI+Vk5JVS+a8Yc2ghBIAfHncFhYKofDMKYEznKkV1uAgSEEuKl7yIoVplFVnDScm5VZ
-         myaA==
-X-Gm-Message-State: AOAM531aRk4wcL/Yd41uzcEFmli0nENfKWZhJQSymN5ImnjUYhSnF5fH
-	P2r8m4OpgYDVTD1lnK8k7y0=
-X-Google-Smtp-Source: ABdhPJzFZWugq0R1qnEvTzdd74CmpqgWjF1XnXRYKAOH/xura26zUrrYxh5liU9+bZRMX3OhJJI4cw==
-X-Received: by 2002:a17:906:700f:: with SMTP id n15mr2759595ejj.390.1593441486395;
-        Mon, 29 Jun 2020 07:38:06 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=wZIXNyM+S/Xb9V7UwrJQ5KoFIXSLKYvNEArfg9MLWSg=;
+        b=VBHSja7k1FTAhsGWTYPlop40nCmMmG557tWHl9f6CWEuPzPYqV6Cf44hovFL0nkME0
+         7SYu1fXtPjM2xt8Se6EwLCVut/g9d/BeXvhMjf88vL+mA5nRs23qpotiBUwYOr4qSPA7
+         pelqTrr2qFZVZG4B72Grxv+/LveNdm8d6w9sFESHoqsqnG7tWuvzY3st6TTGqEqcQ7gf
+         S7jOIK7y1qFhJPadW85D9srFdB8n2AXgH2iVmYr2SN6Y1LmnDiuMla3AoDG58NpjdFR4
+         tqXUzah5TMJj6Y/Gmx5kcecgdFv3jsAfygcBzFTakE8N84oOiV0icRQn8bjyldrDImSN
+         GbLA==
+X-Gm-Message-State: AOAM532P0FzOL2fxB/+NT14F8KF7aQFA1tYg57uJqAiZbB73wyM7eJh5
+	b/+Y67hgyEP005eEfvg8nt0=
+X-Google-Smtp-Source: ABdhPJz3hfHz8YekwbqOS0MqyS2Q1TDM8AaSFUBHX8KRJadtdIMi+CjPe/NV9lyqrPbAMfMm/mZNNQ==
+X-Received: by 2002:a05:6830:1093:: with SMTP id y19mr14168884oto.204.1593442466250;
+        Mon, 29 Jun 2020 07:54:26 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:906:9147:: with SMTP id y7ls4929252ejw.6.gmail; Mon, 29
- Jun 2020 07:38:05 -0700 (PDT)
-X-Received: by 2002:a17:907:42d0:: with SMTP id nz24mr15182980ejb.135.1593441485942;
-        Mon, 29 Jun 2020 07:38:05 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1593441485; cv=none;
+Received: by 2002:aca:dbd7:: with SMTP id s206ls3335672oig.6.gmail; Mon, 29
+ Jun 2020 07:54:25 -0700 (PDT)
+X-Received: by 2002:aca:6004:: with SMTP id u4mr12833074oib.106.1593442465816;
+        Mon, 29 Jun 2020 07:54:25 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1593442465; cv=none;
         d=google.com; s=arc-20160816;
-        b=hnljthr2OHb1ozVhA7DwrbksVnyx/pkY2LBK9JZz6w0xGp5/sIRbntJWrZGb09O/hL
-         J7rTG0qyJW4PJ4+JEzaDh6s2DrcEMdxKdhD98+dkf3f12LsM0LLMSh7ASSedywPM9a9u
-         s7oaF/DQj4+/YowjOEQuLbhF4NCAaAB7nyGvaBqTpURA05C8ZVgO+ZgdASda07/NNvam
-         Z3UThbMyggGV1ZmXDz7qggH2mH2sKVP93ACiE39hua8hiUMOORTmUi0zTsIYRpToCSDy
-         TyA3Y6v+Fw1/Y46Sl4bh+YhRUCAnINxMi8VA6t+8KAmKKadSBkDkDibhzp1FmpB5vU3y
-         Co5g==
+        b=vtzRouqN4PvDQLbGFZ2M+AfM3GKGTSOT4EiVBukqF5WCpLC+QMfBSZSIqULivx5HWq
+         lIEhczqx83VveqtNKZ0Kqo4wy4iLwXMnD1opUwgbmCeJXQpTWve9W119tGA890mz7s+U
+         Kh4a2qEynwqp5hnw+palXhVDSSMgMyeptd2WWutoWzJGK08E4ZsCQgJ4FOLSEDJdw61u
+         9hvlMCqWSiIu2JC2c6LxGdPSmP2WsPpPO1wsr2XLj4Ex8i96PiSXk/7YGawL6n+P9e6H
+         7xtZmIOYVUlgamxqLCNiBLxofKAqIBQ2bBCP3NnaFft2adqpN81Z5+jXCVNok2DDKija
+         ZS1Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=sender:user-agent:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:dkim-signature;
-        bh=ImkFE8JbJAI6KDvvRlrXlVaOSFSsL9bPvC0VRq8yxjs=;
-        b=tbth2OixJvoOTpVzUzYzBhiXSq+ImeH/zoMxznnjNZcnMUBj8FL93zlOE79AsU2uui
-         59xPmhfd1L7S7dVaDnmUK6Wn7VHOmwEmfdS70+/8e0NG1mZddgK9js9movLGB9C5CaYf
-         yPEw8EcZ8cn2NX+xjC438fHIpN344DfuXAcHgvsb2BYD6WKjA3N2+wTn90dV7fjFPYTy
-         bexrf/6kGKBmEPGkWTXef3Q4a82Izlrq6Ty/1AS+ucfTt9HJ62fKGXI2D+9Yss/JAPm6
-         7s4yWobaGjQCB6F7Bm6l7TTICITeyKxSWECW2kWOk5pvbHJsKPKslK0PIgdVoS+/8XAD
-         NQSA==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=VYgNM/DVHPEkntLU/yBA/5PMKk3x04iIvLdywNiIUKs=;
+        b=IFvzK43/sc9RsaMeJwDDkWHzh2PdJLeKScqYI3ofPPuYJCyyBQcc2vScZlPTFUojL7
+         Sq7isD0awo4haMF5dzq+pHEDn9JPtJ6IgTyV0TWdllhQJA9W3hKYGOsghz/sfyt/02fL
+         1+N1kqtd7cPuGcXpRBURDpApjb0NqdIhMIconp3UqJLjJVTe5BQLHbCEme6//Lhm7e6Q
+         BdNrBj4hFJPfNfiY6kkG4lIL6vFpoe+jlz74WHiQURYonVxIHicc/HE/vv/1VhP7vF6y
+         2fP+Pf2/npPzl4KkCtX5GKxjVm0KpcU+D1jaOP5QoduwlwWKMbPUAHwasoAFuI4/kYiW
+         Bktg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass (test mode) header.i=@armlinux.org.uk header.s=pandora-2019 header.b=n8pI6Aqb;
-       spf=pass (google.com: best guess record for domain of linux+kasan-dev=googlegroups.com@armlinux.org.uk designates 2001:4d48:ad52:32c8:5054:ff:fe00:142 as permitted sender) smtp.mailfrom="linux+kasan-dev=googlegroups.com@armlinux.org.uk";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=armlinux.org.uk
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk. [2001:4d48:ad52:32c8:5054:ff:fe00:142])
-        by gmr-mx.google.com with ESMTPS id i18si3235edr.1.2020.06.29.07.38.05
+       dkim=pass header.i=@google.com header.s=20161025 header.b=LEw0pNBj;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::344 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com. [2607:f8b0:4864:20::344])
+        by gmr-mx.google.com with ESMTPS id l14si2140otn.5.2020.06.29.07.54.25
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jun 2020 07:38:05 -0700 (PDT)
-Received-SPF: pass (google.com: best guess record for domain of linux+kasan-dev=googlegroups.com@armlinux.org.uk designates 2001:4d48:ad52:32c8:5054:ff:fe00:142 as permitted sender) client-ip=2001:4d48:ad52:32c8:5054:ff:fe00:142;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:33122)
-	by pandora.armlinux.org.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1jpuuw-0007kd-Iz; Mon, 29 Jun 2020 15:37:54 +0100
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1jpuut-0007Br-Q1; Mon, 29 Jun 2020 15:37:51 +0100
-Date: Mon, 29 Jun 2020 15:37:51 +0100
-From: Russell King - ARM Linux admin <linux@armlinux.org.uk>
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: Florian Fainelli <f.fainelli@gmail.com>,
-	Abbott Liu <liuwenliang@huawei.com>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Andrey Ryabinin <aryabinin@virtuozzo.com>,
-	Mike Rapoport <rppt@linux.ibm.com>, Will Deacon <will@kernel.org>,
-	Linux ARM <linux-arm-kernel@lists.infradead.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Alexander Potapenko <glider@google.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	kasan-dev <kasan-dev@googlegroups.com>
-Subject: Re: [PATCH 4/5 v10] ARM: Initialize the mapping of KASan shadow
- memory
-Message-ID: <20200629143751.GV1551@shell.armlinux.org.uk>
-References: <20200615090247.5218-1-linus.walleij@linaro.org>
- <20200615090247.5218-5-linus.walleij@linaro.org>
- <CACRpkdbuRCXvnaKvAcqQPCWBWmJYQ9orVhWNrOdhUVJUD2Zbbw@mail.gmail.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 29 Jun 2020 07:54:25 -0700 (PDT)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::344 as permitted sender) client-ip=2607:f8b0:4864:20::344;
+Received: by mail-ot1-x344.google.com with SMTP id 76so1335418otu.9
+        for <kasan-dev@googlegroups.com>; Mon, 29 Jun 2020 07:54:25 -0700 (PDT)
+X-Received: by 2002:a9d:638c:: with SMTP id w12mr12713578otk.251.1593442465246;
+ Mon, 29 Jun 2020 07:54:25 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200624014940.1204448-5-keescook@chromium.org>
+ <202006250240.J1VuMKoC%lkp@intel.com> <202006270840.E0BC752A72@keescook>
+In-Reply-To: <202006270840.E0BC752A72@keescook>
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Mon, 29 Jun 2020 16:54:13 +0200
+Message-ID: <CANpmjNMtFbc_jQU6iNfNx-4wwQF4DY3uaOB1dCPZ3dMqXx6smg@mail.gmail.com>
+Subject: Re: [PATCH v3 4/9] x86/build: Warn on orphan section placement
+To: Kees Cook <keescook@chromium.org>
+Cc: kernel test robot <lkp@intel.com>, kbuild-all@lists.01.org, 
+	clang-built-linux <clang-built-linux@googlegroups.com>, LKML <linux-kernel@vger.kernel.org>, 
+	Dmitry Vyukov <dvyukov@google.com>, kasan-dev <kasan-dev@googlegroups.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <CACRpkdbuRCXvnaKvAcqQPCWBWmJYQ9orVhWNrOdhUVJUD2Zbbw@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Sender: Russell King - ARM Linux admin <linux@armlinux.org.uk>
-X-Original-Sender: linux@armlinux.org.uk
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass (test
- mode) header.i=@armlinux.org.uk header.s=pandora-2019 header.b=n8pI6Aqb;
-       spf=pass (google.com: best guess record for domain of
- linux+kasan-dev=googlegroups.com@armlinux.org.uk designates
- 2001:4d48:ad52:32c8:5054:ff:fe00:142 as permitted sender) smtp.mailfrom="linux+kasan-dev=googlegroups.com@armlinux.org.uk";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=armlinux.org.uk
+X-Original-Sender: elver@google.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@google.com header.s=20161025 header.b=LEw0pNBj;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::344 as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -134,65 +131,111 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, Jun 29, 2020 at 04:07:06PM +0200, Linus Walleij wrote:
-> Asking for help here!
-> 
-> I have a problem with populating PTEs for the LPAE usecase using
-> Versatile Express Cortex A15 (TC1) in QEMU.
-> 
-> In this loop of the patch:
-> 
-> On Mon, Jun 15, 2020 at 11:05 AM Linus Walleij <linus.walleij@linaro.org> wrote:
-> 
-> > +static void __init kasan_pte_populate(pmd_t *pmdp, unsigned long addr,
-> > +                                     unsigned long end, int node, bool early)
-> > +{
-> > +       unsigned long next;
-> > +       pte_t *ptep = pte_offset_kernel(pmdp, addr);
-> 
-> (...)
-> 
-> > +       do {
-> > +               next = pmd_addr_end(addr, end);
-> > +               kasan_pte_populate(pmdp, addr, next, node, early);
-> > +       } while (pmdp++, addr = next, addr != end && pmd_none(READ_ONCE(*pmdp)));
-> 
-> I first populate the PMD for 0x6ee00000 .. 0x6f000000
-> and this works fine, and the PTEs are all initialized.
-> pte_offset_kernel() returns something reasonable.
-> (0x815F5000).
-> 
-> Next the kernel processes the PMD for
-> 0x6f000000 .. 0x6f200000 and now I run into trouble,
-> because pte_offset_kernel() suddenly returns a NULL
-> pointer 0x00000000.
+On Sat, 27 Jun 2020 at 17:44, Kees Cook <keescook@chromium.org> wrote:
+>
+> On Thu, Jun 25, 2020 at 02:36:27AM +0800, kernel test robot wrote:
+> > I love your patch! Perhaps something to improve:
+> > [...]
+> > config: x86_64-randconfig-a012-20200624 (attached as .config)
+>
+> CONFIG_KCSAN=y
+>
+> > compiler: clang version 11.0.0 (https://github.com/llvm/llvm-project 1d4c87335d5236ea1f35937e1014980ba961ae34)
+> > [...]
+> > All warnings (new ones prefixed by >>):
+> >
+> >    ld.lld: warning: drivers/built-in.a(mfd/mt6397-irq.o):(.init_array.0) is being placed in '.init_array.0'
+>
+> As far as I can tell, this is a Clang bug. But I don't know the
+> internals here, so I've opened:
+> https://bugs.llvm.org/show_bug.cgi?id=46478
+>
+> and created a work-around patch for the kernel:
 
-That means there is no PTE table allocated which covers 0x6f000000.
+Thanks, minor comments below.
 
-"pmdp" points at the previous level's table entry that points at the
-pte, and all pte_offset*() does is load that entry, convert it to a
-pte_t pointer type, and point it to the appropriate entry for the
-address.  So, pte_offset*() is an accessor that takes a pointer to
-the preceding level's entry for "addr", and returns a pointer to
-the pte_t entry in the last level of page table for "addr".
+With KCSAN this is:
 
-It is the responsibility of the caller to pte_offset*() to ensure
-either by explicit tests, or prior knowledge, that pmd_val(*pmdp)
-is a valid PTE table entry.
+Tested-by: Marco Elver <elver@google.com>
 
-Since generic kernel code can't use "prior knowledge", it has to do
-the full checks (see, mm/vmalloc.c vunmap_pte_range() and higher
-levels etc using pmd_none_or_clear_bad() for example - whether you
-can use _clear_bad() depends whether you intend to clear "bad" entries.
-Beware that the 1MB sections on non-LPAE will appear as "bad" entries
-since we can't "walk" them to PTE level, and they're certainly not
-"none" entries.)
 
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
+> commit 915f2c343e59a14f00c68f4d7afcfdc621de0674
+> Author: Kees Cook <keescook@chromium.org>
+> Date:   Sat Jun 27 08:07:54 2020 -0700
+>
+>     vmlinux.lds.h: Avoid KCSAN's unwanted sections
+
+Since you found that it's also KASAN, this probably wants updating.
+
+>     KCSAN (-fsanitize=thread) produces unwanted[1] .eh_frame and .init_array.*
+>     sections. Add them to DISCARDS, except with CONFIG_CONSTRUCTORS, which
+>     wants to keep .init_array.* sections.
+>
+>     [1] https://bugs.llvm.org/show_bug.cgi?id=46478
+>
+>     Signed-off-by: Kees Cook <keescook@chromium.org>
+>
+> diff --git a/arch/x86/Makefile b/arch/x86/Makefile
+> index f8a5b2333729..41c8c73de6c4 100644
+> --- a/arch/x86/Makefile
+> +++ b/arch/x86/Makefile
+> @@ -195,7 +195,9 @@ endif
+>  # Workaround for a gcc prelease that unfortunately was shipped in a suse release
+>  KBUILD_CFLAGS += -Wno-sign-compare
+>  #
+> -KBUILD_CFLAGS += -fno-asynchronous-unwind-tables
+> +KBUILD_AFLAGS += -fno-asynchronous-unwind-tables -fno-unwind-tables
+> +KBUILD_CFLAGS += -fno-asynchronous-unwind-tables -fno-unwind-tables
+> +KBUILD_LDFLAGS += $(call ld-option,--no-ld-generated-unwind-info)
+
+Why are they needed? They are not mentioned in the commit message.
+
+>  # Avoid indirect branches in kernel to deal with Spectre
+>  ifdef CONFIG_RETPOLINE
+> diff --git a/include/asm-generic/vmlinux.lds.h b/include/asm-generic/vmlinux.lds.h
+> index b1dca0762fc5..a44ee16abc78 100644
+> --- a/include/asm-generic/vmlinux.lds.h
+> +++ b/include/asm-generic/vmlinux.lds.h
+> @@ -934,10 +934,28 @@
+>         EXIT_DATA
+>  #endif
+>
+> +/*
+> + * Clang's -fsanitize=thread produces unwanted sections (.eh_frame
+> + * and .init_array.*), but CONFIG_CONSTRUCTORS wants to keep any
+> + * .init_array.* sections.
+> + * https://bugs.llvm.org/show_bug.cgi?id=46478
+> + */
+> +#if defined(CONFIG_KCSAN) && !defined(CONFIG_CONSTRUCTORS)
+
+CONFIG_KASAN as well?
+
+> +#define KCSAN_DISCARDS                                                 \
+> +       *(.init_array) *(.init_array.*)                                 \
+> +       *(.eh_frame)
+> +#elif defined(CONFIG_KCSAN) && defined(CONFIG_CONSTRUCTORS)
+> +#define KCSAN_DISCARDS                                                 \
+> +       *(.eh_frame)
+> +#else
+> +#define KCSAN_DISCARDS
+> +#endif
+> +
+>  #define DISCARDS                                                       \
+>         /DISCARD/ : {                                                   \
+>         EXIT_DISCARDS                                                   \
+>         EXIT_CALL                                                       \
+> +       KCSAN_DISCARDS                                                  \
+
+Maybe just 'SANITIZER_DISCARDS'?
+
+>         *(.discard)                                                     \
+>         *(.discard.*)                                                   \
+>         *(.modinfo)                                                     \
+>
+> --
+> Kees Cook
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200629143751.GV1551%40shell.armlinux.org.uk.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNMtFbc_jQU6iNfNx-4wwQF4DY3uaOB1dCPZ3dMqXx6smg%40mail.gmail.com.
