@@ -1,125 +1,127 @@
-Return-Path: <kasan-dev+bncBAABBI665L3QKGQE3XP2LQQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDE6RCFOWIARBLMQ5T3QKGQENCY2SQQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-il1-x13a.google.com (mail-il1-x13a.google.com [IPv6:2607:f8b0:4864:20::13a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2487A20EBE9
-	for <lists+kasan-dev@lfdr.de>; Tue, 30 Jun 2020 05:19:01 +0200 (CEST)
-Received: by mail-il1-x13a.google.com with SMTP id l17sf13776731ilj.17
-        for <lists+kasan-dev@lfdr.de>; Mon, 29 Jun 2020 20:19:01 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1593487140; cv=pass;
+Received: from mail-lf1-x13f.google.com (mail-lf1-x13f.google.com [IPv6:2a00:1450:4864:20::13f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6496620F1C3
+	for <lists+kasan-dev@lfdr.de>; Tue, 30 Jun 2020 11:38:54 +0200 (CEST)
+Received: by mail-lf1-x13f.google.com with SMTP id m24sf11555710lfh.2
+        for <lists+kasan-dev@lfdr.de>; Tue, 30 Jun 2020 02:38:54 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1593509934; cv=pass;
         d=google.com; s=arc-20160816;
-        b=JgTHmRwn1/Rm00JsNgCeFGsxZb4wFyoCgjBe22NBHzxqcpG7cJKgO4/ENZVbVpPYhP
-         jZ7zv921rtXynCK94IYgKvoNNKnMRjRLOmtdQ5f9f+BFbn3CGBok1+UjcFkI7UpEnB00
-         tEGG5CHj5ti9quTTCyKv/O0FyhICw3QjwOYXXvkEgipg+BQai7yNA22pU0C+688LpPbb
-         QzPGyq75TVB4ndbOxxMkOXoQP4ImsqHIyTMJ6tPSzhBqVT8xSpzctLBk8K5UuYSQDOde
-         3L8qMCNqkPGbT1iXkiK8Gp6mqXz/JAj9dq6p8/aWqHU+Y9R3F+lbcLYQw3FbFL3gGjv+
-         qNAQ==
+        b=kWHcvEq/wO+nB9jlcU/bQu4ZYMDCD3wp47K2x7wz3ajMK61D2J7deghY9VeDiKOMsI
+         WmVr4KykVPejtrn+Wsv7EeqSlUvB9UpTcrykrosq5l0p15fhMWwMm7GpESD00cQUvfuO
+         BWsBezVBweUtGJM+Fm0JTMck+TQO4yNvR74tvtUo9IFMfzvVs0YpXzIQHQ/P6dfZLsk4
+         /93Ya4YCU92FvL7AtnR8PvIprJ423a/mIp0b4nHBkQAzb+30zJvDVv5s+hqqNYz5uQVv
+         00B51oMAGUMiJrEDnU3nFVQNk4mz8x7535TO6YFiAFi+D82O+rZHx4IXZEYI7sWkZP4k
+         ySRA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:message-id:date
-         :subject:cc:to:from:sender:dkim-signature;
-        bh=sJVhquc1Zak+tX38TxJVSTRi7RgUpFco/M+T+PjbM0s=;
-        b=URS5z4oPKr7TcSQm+ib7gUNrFKpIm3q4OjbPku2B4z+hYWnT8kxKHSvJUmlLwWPlE7
-         GjgwXBLevb+O3IJJCgm10cMGoSCSFOubyVPwnUE6Ex6LkgQ20aJVksQB0+E9iztROcml
-         8OGZ2btq1ps1iIl2r/qtf7SLh1mXgHx/osFGMHo+IXUAy209PhFtOoLLH8NfuI6AF4Ly
-         qFXgw1bVZzqWaQpF7Hx6GC7UySZhZkDoEI/qRfJuA+J17CaWmB8sy09Dtjmuwxl3kkfC
-         /4B3rnfCmTCwClLYVvs2MBREFBLHiDEyPWHdz8Qp+hPI8OW9q6sEy3KKeE2GIjct77hA
-         cTlg==
+         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:sender:dkim-signature;
+        bh=J7RrCzPy032M0Q24rUep+BC9ZQ5c6poT2OduiB+J6Og=;
+        b=Vd+Bvm76Qd51MCPG55EXeIchzesCRdyspAXJr1H1q8SJHtdLMzcgJ3f6ULkWbbYLzi
+         jOdTW9G2MolOh55REj+/r6LmEwDjR736EG5T7eJibgueNnRAtfhRpUev5OKt75rqjUuv
+         gCgZkPpnRXWi0Ujylv00ABnhZnMmWBc5eCPBPOy5Bq7uR8EmWEZUPoJ/uV3Sxt7z9DNs
+         Z9vBP3tO7OCmrVzPouYVqdPp5HGW5iXkm3VglEJ4C6+0MQ6GkEdwaV35iwxLGSCn7MKp
+         hC7pvQFborHXwbPjnrSyajJkMWqfVGng+XOnBwSbB/OwyIp6RhBKnLO9RiYVWfjZ//kS
+         cruQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of richard.weiyang@linux.alibaba.com designates 115.124.30.131 as permitted sender) smtp.mailfrom=richard.weiyang@linux.alibaba.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=alibaba.com
+       dkim=pass header.i=@linaro.org header.s=google header.b="fqd4DR/Z";
+       spf=pass (google.com: domain of linus.walleij@linaro.org designates 2a00:1450:4864:20::642 as permitted sender) smtp.mailfrom=linus.walleij@linaro.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id:mime-version
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
+        h=sender:mime-version:references:in-reply-to:from:date:message-id
+         :subject:to:cc:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=sJVhquc1Zak+tX38TxJVSTRi7RgUpFco/M+T+PjbM0s=;
-        b=esLu3vso+VlDzFvFfYyz5qNUd/AI/k1yCVIuGyKRnUUjo7bl1CI9EzAfNS1dgTK7Ft
-         QyUD3kARM5doWYWXYa3z6TiEa/eWydLy0NvcpKgcu4fhVT9ueRf1hSAgprsfOmvIEYKn
-         rQb2T6APsdQiurCdrBzpBFCZT63if1WikrYbPqVxOY4fFVESOQibNUy/VrJO2uCSCrMr
-         Ds2LLRiXsfpEz4YKSCs+pzKZBODfJmNGhzPchW+qq7VNSgdbUBfsrUjbKXPG+BuF01ev
-         +Wf+DtL80wkKwhvUe/Bx3aP7jHcixRsPCxEXRzeZsXi1CC4xq81UuykSlpcP3xtB0J6G
-         w13g==
+        bh=J7RrCzPy032M0Q24rUep+BC9ZQ5c6poT2OduiB+J6Og=;
+        b=m5X07cjO121U2Xyx/949292Bmn0jrBYTjMKBicEX6VD2Ycg4hoPkJNO1mJ7atL/95P
+         IwAZ1FvWbojxWi49BT1SLEF6Nh8wDJ/GWhEbgJxOnMLZ+ShfVQjIkYZuNxLyhTYDWIUJ
+         hBBmeUBhffcOgg5VJFWsamstII+EIM9dDprk1bVBCVQa3SxVV3a7OJOR7DB5F08CIbxE
+         Qgcogi4VPd/W8KpIEZybWv8JrvuFrPIKo/+6Z/hZNMT3137aC/M0CFu1xrfORIEb0q2w
+         wyOJJEzrO/zztt7YB1Poh+Jose+zMJMhojJ8snU0JtmCdo+KsOoGPe8CjUqaF9kDGraZ
+         wmHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :mime-version:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=sJVhquc1Zak+tX38TxJVSTRi7RgUpFco/M+T+PjbM0s=;
-        b=RKi4YT0PRpo4AsllNpgpc+gFMeYxkOEw2OwbpvNI8uXuZqKRgWBy5HE3LhzI696BJw
-         +1ZKV/ZWRG9Vj25hxbziXgCe7DAaiAN9IyBqyKYVTNuTx7MXXuhBqNDrje6lJtaWHEM9
-         kaVuL/Qx/DfxwD3Ac53hqrQdFLyH+pnRBUCbR1d6KrbRUa3W+iDnejRHT5qda0c5unPg
-         kW43Zmi9kT63yXIi4b09OXAxxRR9Fa+NNZio2rkmvSLbpdjEX1P9TfQiXBPYJMvKm/7K
-         mFogLPo8PU0krE6SB9d4BjwY4FS4Qxpm43druK5pnV+ff480n1Yms2WMuFuCCbH46sgd
-         9NlQ==
+        h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
+         :date:message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=J7RrCzPy032M0Q24rUep+BC9ZQ5c6poT2OduiB+J6Og=;
+        b=qagVdkOKhdTAxeWHy54z36SrUeRpuWTb2cyAQnLJ/ozjxw4zf7yUa34O7nt8Y8fNo1
+         GTSKCLZ2ZbemwYtApFn0DH7vy5zWGRW62S66/hDtJE5G91JbxKRaGIWiqMddvikQNeHE
+         fnWNeuFIUBLBBZKPhGrTwqLMWHj5KmuwZCnLL+u9WeaCchVKA852ZNeyb16ZuYABAgNz
+         JtONz05DG0OfPmQY5DybMbfQreboLOWO0rXD9PU2osQnxPyKpYfNkC5iDx7AmeRdQpjq
+         yRAXdEuVFlL40bR3Rhc4/WFAz+yQc/cFwTDSihe/g67+fsCWeELEY344irBwfQxPmMxT
+         Xcow==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM530QE6SauqmkZQbfqkAwNgcPeQy++i3zwCKshMHvMQM/QJCYSNsX
-	HW1/LBLk4CWOiDS7URigFIs=
-X-Google-Smtp-Source: ABdhPJzYsXVomSeJ5pywBohxLen95/5Go6Gkva6ZzrkjKTwgxj0QoOfGyDMwfxooV3CKcYDkICC+dQ==
-X-Received: by 2002:a6b:600c:: with SMTP id r12mr19726531iog.174.1593487140038;
-        Mon, 29 Jun 2020 20:19:00 -0700 (PDT)
+X-Gm-Message-State: AOAM5323denE0F3CVIaaLdDeb/rmB3oo+ZEb7eh271R24Q5vGsE87tPc
+	UR9fIzTMFoTB3NazzHGq/JE=
+X-Google-Smtp-Source: ABdhPJzCppZhkkgbdJFjPerXgH371u1PaDXV0nW6NVimRxjQXwgQno/kcpv4zonZSlFWOFRlAUSVKQ==
+X-Received: by 2002:a2e:810a:: with SMTP id d10mr4526750ljg.144.1593509933925;
+        Tue, 30 Jun 2020 02:38:53 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a92:9a89:: with SMTP id c9ls4623608ill.7.gmail; Mon, 29 Jun
- 2020 20:18:59 -0700 (PDT)
-X-Received: by 2002:a92:c0c8:: with SMTP id t8mr660893ilf.229.1593487139758;
-        Mon, 29 Jun 2020 20:18:59 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1593487139; cv=none;
+Received: by 2002:a2e:9190:: with SMTP id f16ls1489832ljg.11.gmail; Tue, 30
+ Jun 2020 02:38:53 -0700 (PDT)
+X-Received: by 2002:a2e:a54a:: with SMTP id e10mr10357247ljn.198.1593509933258;
+        Tue, 30 Jun 2020 02:38:53 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1593509933; cv=none;
         d=google.com; s=arc-20160816;
-        b=vRnTYKlYVNnsqAA/fVxp93T3z57SyOXXFwi0UVnhNMQLB3vAWpqsYlDWhJ0MULQ4ee
-         Qt3xIl+RfrntXV1sgz3W8YhvYhzJSIaWkkoJUWwp4FejDf/Q3h471bn/2hLwU/yxn7sA
-         xl0rvWwRH5J0liE/OI/ep/7nDFsqrIaKUbJ9Ekbx7I0MKqw1hjtA+a6fX40WDWaK+B1b
-         InhzfxXRK//Y4Sw86J+N8xgZ9WUZQN7hZ0dXuOj5sIxY51h8iT5EBUUXf0xhFpUD1rOf
-         mRLM8kmdtWUqtJfqA76hY44r6MeBgNE0/WkEumzb7JjysFREDfuPHVul0gSP1qbxGUQB
-         DJ0A==
+        b=NzBlBQoffvAXQLEilKyW2ztZG42QqZgjqI+r5rsUcFjn4As5GNoU6vPJj7pIoJMCLa
+         JGjt5Gk6hWQHsSmq6hYgT5zPPQEaeFYtd/FlP5vL+GjXMAAl4T/GrNtuKfM4vUgFRy3Y
+         21MBfSi3ePOGnH9u3/XIGJvfHdzkxYtUVJmsC3dgWKxGjVN3OaasDsMwjaiNWkRWYTkW
+         r5kR/Gwi7rCvq8s/nNivbFmAcGYSV6Mle/WQnrCNtogUHzdo2uBgrUJrwcNnqIwimYxX
+         wm4A8JR304lfStgD2mwwiEF431WYQbjvGLbejEhCOXEljzblTEr1m7ULqxHycKWdzrSC
+         iNvQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from;
-        bh=wcR+iWl/QFbdhs8ixanWpTlaup1RNa5WFQfx2oXg0cw=;
-        b=d+2SGNPm5wfC1d+x6uSUTVTIrFyw31sHRPFJLi4GYy8HhmFCdifb8FypPQD9HSmB32
-         CzkFWgk+EGExBm2Hrj17I7sb1NjGUObxJ8+p6+//j/DavxqWgklsh+Npy77O58ErcBlL
-         NCqHfI+OAAqlzJ9Hrfw3Hc+mpO7znz9T9VEyTzb5SHuEP6CynfjidM0EJEE59ok7LaSN
-         LfrgDD1st7HWAW5gGgF9+JvLsKHjpa0c8cBhJTGTR8Qwpa63bDmdBHuah+qKQDwqVXVB
-         QxIBR7qf5JVQvdZimLFwMUodC8UuGqpe+KJq+7lpUoLb/Zg456lLV/a7zukzCEglztdL
-         gCGQ==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=fmaWewzOpMepreT+cZhaZQ/NoiEUDZB/QrMGwxTrguE=;
+        b=C9PU1Ba/M068x6eRt/I4aleI0fJlZw6KYuBp9tpuwVK0LnnLOA1qAVONXlOtN445SM
+         Ic6jf8SNYDMtkQIfUT+pbyOuaJhRXyJbq0uuw/wnixdtHJkgBiIwgKG6cHh73+tvKPWH
+         fjpPGLjQZrq2tvqiWSTk0Up91ZsNAScS4DE6y00WsJvC4Lp9adAsnSOZY3RGsaOodNRs
+         H9c/BDD8+UlDnMXWgFl/ZhaT6KEsIO2tOrxZDfM+Xk59W0SDzU3nXu0knYXyHVMtvhDr
+         QFENKl6ZjH2qfv4o6th86FFw9axW/qZnCXQhmAFixyijIu+7vw+Wx5fs+JNquGb+NJ8Q
+         5EMg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of richard.weiyang@linux.alibaba.com designates 115.124.30.131 as permitted sender) smtp.mailfrom=richard.weiyang@linux.alibaba.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=alibaba.com
-Received: from out30-131.freemail.mail.aliyun.com (out30-131.freemail.mail.aliyun.com. [115.124.30.131])
-        by gmr-mx.google.com with ESMTPS id f15si101781ilr.0.2020.06.29.20.18.58
+       dkim=pass header.i=@linaro.org header.s=google header.b="fqd4DR/Z";
+       spf=pass (google.com: domain of linus.walleij@linaro.org designates 2a00:1450:4864:20::642 as permitted sender) smtp.mailfrom=linus.walleij@linaro.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org
+Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com. [2a00:1450:4864:20::642])
+        by gmr-mx.google.com with ESMTPS id a15si158991lfb.3.2020.06.30.02.38.53
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 29 Jun 2020 20:18:59 -0700 (PDT)
-Received-SPF: pass (google.com: domain of richard.weiyang@linux.alibaba.com designates 115.124.30.131 as permitted sender) client-ip=115.124.30.131;
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R151e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01f04397;MF=richard.weiyang@linux.alibaba.com;NM=1;PH=DS;RN=12;SR=0;TI=SMTPD_---0U175Gc6_1593487136;
-Received: from localhost(mailfrom:richard.weiyang@linux.alibaba.com fp:SMTPD_---0U175Gc6_1593487136)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Tue, 30 Jun 2020 11:18:56 +0800
-From: Wei Yang <richard.weiyang@linux.alibaba.com>
-To: dave.hansen@linux.intel.com,
-	luto@kernel.org,
-	peterz@infradead.org,
-	tglx@linutronix.de,
-	mingo@redhat.com,
-	bp@alien8.de,
-	akpm@linux-foundation.org
-Cc: x86@kernel.org,
-	linux-kernel@vger.kernel.org,
-	kasan-dev@googlegroups.com,
-	linux-mm@kvack.org,
-	Wei Yang <richard.weiyang@linux.alibaba.com>
-Subject: [PATCH] mm: define pte_add_end for consistency
-Date: Tue, 30 Jun 2020 11:18:52 +0800
-Message-Id: <20200630031852.45383-1-richard.weiyang@linux.alibaba.com>
-X-Mailer: git-send-email 2.20.1 (Apple Git-117)
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 30 Jun 2020 02:38:53 -0700 (PDT)
+Received-SPF: pass (google.com: domain of linus.walleij@linaro.org designates 2a00:1450:4864:20::642 as permitted sender) client-ip=2a00:1450:4864:20::642;
+Received: by mail-ej1-x642.google.com with SMTP id y10so19858287eje.1
+        for <kasan-dev@googlegroups.com>; Tue, 30 Jun 2020 02:38:53 -0700 (PDT)
+X-Received: by 2002:a17:906:c943:: with SMTP id fw3mr17214298ejb.55.1593509932782;
+ Tue, 30 Jun 2020 02:38:52 -0700 (PDT)
 MIME-Version: 1.0
-X-Original-Sender: richard.weiyang@linux.alibaba.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of richard.weiyang@linux.alibaba.com designates
- 115.124.30.131 as permitted sender) smtp.mailfrom=richard.weiyang@linux.alibaba.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=alibaba.com
+References: <20200615090247.5218-1-linus.walleij@linaro.org>
+ <20200615090247.5218-5-linus.walleij@linaro.org> <CACRpkdbuRCXvnaKvAcqQPCWBWmJYQ9orVhWNrOdhUVJUD2Zbbw@mail.gmail.com>
+ <20200629143751.GV1551@shell.armlinux.org.uk>
+In-Reply-To: <20200629143751.GV1551@shell.armlinux.org.uk>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Tue, 30 Jun 2020 11:38:41 +0200
+Message-ID: <CACRpkdb-sHJDRhP-WT+1z3wsVXEvO6_imQvzoosgwLLzNUS60Q@mail.gmail.com>
+Subject: Re: [PATCH 4/5 v10] ARM: Initialize the mapping of KASan shadow memory
+To: Russell King - ARM Linux admin <linux@armlinux.org.uk>
+Cc: Florian Fainelli <f.fainelli@gmail.com>, Abbott Liu <liuwenliang@huawei.com>, 
+	Ard Biesheuvel <ardb@kernel.org>, Andrey Ryabinin <aryabinin@virtuozzo.com>, 
+	Mike Rapoport <rppt@linux.ibm.com>, Will Deacon <will@kernel.org>, 
+	Linux ARM <linux-arm-kernel@lists.infradead.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>, 
+	kasan-dev <kasan-dev@googlegroups.com>
 Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: linus.walleij@linaro.org
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@linaro.org header.s=google header.b="fqd4DR/Z";       spf=pass
+ (google.com: domain of linus.walleij@linaro.org designates
+ 2a00:1450:4864:20::642 as permitted sender) smtp.mailfrom=linus.walleij@linaro.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -132,79 +134,98 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-When walking page tables, we define several helpers to get the address of
-the next boundary. But we don't have one for pte level.
+On Mon, Jun 29, 2020 at 4:37 PM Russell King - ARM Linux admin
+<linux@armlinux.org.uk> wrote:
+> On Mon, Jun 29, 2020 at 04:07:06PM +0200, Linus Walleij wrote:
+> > Asking for help here!
+> >
+> > I have a problem with populating PTEs for the LPAE usecase using
+> > Versatile Express Cortex A15 (TC1) in QEMU.
+> >
+> > In this loop of the patch:
+> >
+> > On Mon, Jun 15, 2020 at 11:05 AM Linus Walleij <linus.walleij@linaro.org> wrote:
+> >
+> > > +static void __init kasan_pte_populate(pmd_t *pmdp, unsigned long addr,
+> > > +                                     unsigned long end, int node, bool early)
+> > > +{
+> > > +       unsigned long next;
+> > > +       pte_t *ptep = pte_offset_kernel(pmdp, addr);
+> >
+> > (...)
+> >
+> > > +       do {
+> > > +               next = pmd_addr_end(addr, end);
+> > > +               kasan_pte_populate(pmdp, addr, next, node, early);
+> > > +       } while (pmdp++, addr = next, addr != end && pmd_none(READ_ONCE(*pmdp)));
+> >
+> > I first populate the PMD for 0x6ee00000 .. 0x6f000000
+> > and this works fine, and the PTEs are all initialized.
+> > pte_offset_kernel() returns something reasonable.
+> > (0x815F5000).
+> >
+> > Next the kernel processes the PMD for
+> > 0x6f000000 .. 0x6f200000 and now I run into trouble,
+> > because pte_offset_kernel() suddenly returns a NULL
+> > pointer 0x00000000.
+>
+> That means there is no PTE table allocated which covers 0x6f000000.
+>
+> "pmdp" points at the previous level's table entry that points at the
+> pte, and all pte_offset*() does is load that entry, convert it to a
+> pte_t pointer type, and point it to the appropriate entry for the
+> address.  So, pte_offset*() is an accessor that takes a pointer to
+> the preceding level's entry for "addr", and returns a pointer to
+> the pte_t entry in the last level of page table for "addr".
+>
+> It is the responsibility of the caller to pte_offset*() to ensure
+> either by explicit tests, or prior knowledge, that pmd_val(*pmdp)
+> is a valid PTE table entry.
+>
+> Since generic kernel code can't use "prior knowledge", it has to do
+> the full checks (see, mm/vmalloc.c vunmap_pte_range() and higher
+> levels etc using pmd_none_or_clear_bad() for example - whether you
+> can use _clear_bad() depends whether you intend to clear "bad" entries.
+> Beware that the 1MB sections on non-LPAE will appear as "bad" entries
+> since we can't "walk" them to PTE level, and they're certainly not
+> "none" entries.)
 
-Let's define it and consolidate the code in several places.
+Spot on! I figured it out quickly with this hint.
 
-Signed-off-by: Wei Yang <richard.weiyang@linux.alibaba.com>
----
- arch/x86/mm/init_64.c   | 6 ++----
- include/linux/pgtable.h | 7 +++++++
- mm/kasan/init.c         | 4 +---
- 3 files changed, 10 insertions(+), 7 deletions(-)
+Essentially I have some loops like this:
 
-diff --git a/arch/x86/mm/init_64.c b/arch/x86/mm/init_64.c
-index dbae185511cd..f902fbd17f27 100644
---- a/arch/x86/mm/init_64.c
-+++ b/arch/x86/mm/init_64.c
-@@ -973,9 +973,7 @@ remove_pte_table(pte_t *pte_start, unsigned long addr, unsigned long end,
- 
- 	pte = pte_start + pte_index(addr);
- 	for (; addr < end; addr = next, pte++) {
--		next = (addr + PAGE_SIZE) & PAGE_MASK;
--		if (next > end)
--			next = end;
-+		next = pte_addr_end(addr, end);
- 
- 		if (!pte_present(*pte))
- 			continue;
-@@ -1558,7 +1556,7 @@ void register_page_bootmem_memmap(unsigned long section_nr,
- 		get_page_bootmem(section_nr, pud_page(*pud), MIX_SECTION_INFO);
- 
- 		if (!boot_cpu_has(X86_FEATURE_PSE)) {
--			next = (addr + PAGE_SIZE) & PAGE_MASK;
-+			next = pte_addr_end(addr, end);
- 			pmd = pmd_offset(pud, addr);
- 			if (pmd_none(*pmd))
- 				continue;
-diff --git a/include/linux/pgtable.h b/include/linux/pgtable.h
-index 32b6c52d41b9..0de09c6c89d2 100644
---- a/include/linux/pgtable.h
-+++ b/include/linux/pgtable.h
-@@ -706,6 +706,13 @@ static inline pgprot_t pgprot_modify(pgprot_t oldprot, pgprot_t newprot)
- })
- #endif
- 
-+#ifndef pte_addr_end
-+#define pte_addr_end(addr, end)						\
-+({	unsigned long __boundary = ((addr) + PAGE_SIZE) & PAGE_MASK;	\
-+	(__boundary - 1 < (end) - 1) ? __boundary : (end);		\
-+})
-+#endif
-+
- /*
-  * When walking page tables, we usually want to skip any p?d_none entries;
-  * and any p?d_bad entries - reporting the error before resetting to none.
-diff --git a/mm/kasan/init.c b/mm/kasan/init.c
-index fe6be0be1f76..89f748601f74 100644
---- a/mm/kasan/init.c
-+++ b/mm/kasan/init.c
-@@ -349,9 +349,7 @@ static void kasan_remove_pte_table(pte_t *pte, unsigned long addr,
- 	unsigned long next;
- 
- 	for (; addr < end; addr = next, pte++) {
--		next = (addr + PAGE_SIZE) & PAGE_MASK;
--		if (next > end)
--			next = end;
-+		next = pte_addr_end(addr, end);
- 
- 		if (!pte_present(*pte))
- 			continue;
--- 
-2.20.1 (Apple Git-117)
+pmd_t *pmdp = pmd_offset(pudp, addr);
+
+if (pmd_none(*pmdp)) {
+    void *p = early ? kasan_early_shadow_pte :
+kasan_alloc_block(PAGE_SIZE, node);
+    ....
+}
+
+do {
+    pmd_populate_kernel(&init_mm, pmdp, p);
+    flush_pmd_entry(pmdp);
+    next = pmd_addr_end(addr, end);
+    kasan_pte_populate(pmdp, addr, next, node, early);
+} while (pmdp++, addr = next, addr != end && pmd_none(READ_ONCE(*pmdp)));
+
+I just had to move the i (pmd_node(*pmdp)) inside the loop and it all
+starts working
+fine.
+
+What confuses me is that arm64 does it this way (checking pmdp outside the loop)
+for all levels of the cache and it works (I suppose?) for them, but I
+suspect it is
+formally wrong.
+
+I'll rewrite with the check inside the loop at all levels and retest
+and resend, then
+I hope this starts to work and look reasonable, finally.
+
+Yours,
+Linus Walleij
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200630031852.45383-1-richard.weiyang%40linux.alibaba.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACRpkdb-sHJDRhP-WT%2B1z3wsVXEvO6_imQvzoosgwLLzNUS60Q%40mail.gmail.com.
