@@ -1,126 +1,185 @@
-Return-Path: <kasan-dev+bncBAABBRPB573QKGQEXOVWJCA@googlegroups.com>
+Return-Path: <kasan-dev+bncBC32535MUICBBYES6H3QKGQEXPXR3KY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ot1-x33e.google.com (mail-ot1-x33e.google.com [IPv6:2607:f8b0:4864:20::33e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A5D92101BF
-	for <lists+kasan-dev@lfdr.de>; Wed,  1 Jul 2020 04:11:18 +0200 (CEST)
-Received: by mail-ot1-x33e.google.com with SMTP id w21sf14118563oti.16
-        for <lists+kasan-dev@lfdr.de>; Tue, 30 Jun 2020 19:11:18 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1593569477; cv=pass;
+Received: from mail-qk1-x740.google.com (mail-qk1-x740.google.com [IPv6:2607:f8b0:4864:20::740])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AADE210627
+	for <lists+kasan-dev@lfdr.de>; Wed,  1 Jul 2020 10:29:21 +0200 (CEST)
+Received: by mail-qk1-x740.google.com with SMTP id h4sf15757686qkl.23
+        for <lists+kasan-dev@lfdr.de>; Wed, 01 Jul 2020 01:29:21 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1593592160; cv=pass;
         d=google.com; s=arc-20160816;
-        b=GY0Edwss3hIir0QQ/QftlDpY1yXzbdGFnxwWCFU0Wven9+KSjrtUY14Y1xINMToOdg
-         YlyWvPLjC0zDs5iRV1iWA1l9E2jEhnCgsaZ9u+DR/NPd9iVBBgm7sGortY2g+VGOJsdx
-         4kYMwflEtVnLT+40oms+XaPhFS/G09jzL1pPyKxSfS/khsKjbwCBOIAv9Aj7seNtxwEV
-         6emg5V1s0uf80fuBs2+vfNxfTrXLacZPUgbi+EsWLozDwVrvsMcjOXW5qPxSvljPjVLg
-         tHz4mo674snksaYv36w7Bzf2Dfwz9Ew0eWPpvq7vsvF+5J4VFLmPlf0/JKdyLgg8ejkm
-         pqpw==
+        b=crnTGeNmYJ3LUN3Ib0U7sPFJ8EYiqQh7QrVDfRAGBy/9NBaTUHHwUdVmVLMiZTISmv
+         KpcBzvaspZzFrBLL29tHji3Z1bpNdC7srdy6/eM1z8QDfHs2F7Z/O7k9ccs5p+fJb3jG
+         FYkDuf9lGZLA9g8p2xF5IeuGuSP3uf+eooB9rMTFEgNFnxcbPNziWQgfnTZW/JJ/FkSX
+         MCzrPns0VBbenMCRpfiWX0m4UEQwX2Lw0/U9Nqdo0VdPf/1/FeYbMGbIAg4stQsLrgXn
+         8kjrHrQcbPiRyKujo8yisiwyBzfNMwAA1JJFlCGMVSt/wTcOW7OVfqkO/lzk1tcOm0/Z
+         5hlQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:reply-to:message-id:subject:cc:to:from:date
-         :sender:dkim-signature;
-        bh=xP595efsrXPmIrjdzYkYvpsjNxoQ/FN8brwFNd8TVzc=;
-        b=dFSZwa9CI0s5GhuyffMSOOw7wbzr3TSwwOrhvg6EjBQckXtM6uHDkvEuku8L5NUbly
-         XCckG58LxIBg/lxgJpWYMty/0zxryzM2y8EDaCXd7un55fJEWVMTBkoQni1q5NVgYdSZ
-         kRqM8KUXDeUlq3lKcpZVzy56S/bNQvYYbyZSzng6BlT+zMBxQR8mxo/soz1L2JCGJ18T
-         ydJZKMBmwJhie6UkueeGZl7OO0vKOoXSWr/XV90v+tBw5aPQvk1O3qlwKGHq9AyoTN4f
-         hRqaMTKtYuTggaIxINvxGRoWP1exJ087ndrTORDgxOOGRimTiyyPH/ZxmWDWssUx8fRn
-         wwhw==
+         :list-id:mailing-list:precedence:content-language:in-reply-to
+         :mime-version:user-agent:date:message-id:organization:autocrypt:from
+         :references:cc:to:subject:sender:dkim-signature;
+        bh=9WX7IR+VTaf5RxVUSaywj5gRdTAT2hM0Sp9wd15PtSg=;
+        b=NKtwVSnp7IvjpRX5FLYKZmsBsHr6N+Ii2qlYifxyLsN0YzjTXDoKz0FRL++AwnK7Nt
+         mLcVbXFLMt2ivbaBU82qwnHcJzNzASMDqBN6uU4ZJXbrghoROIYEdm8a/jSDhrf6L3Yl
+         omHZVia6V8GIWwnJsrZdMLuzv+O+8C9SD8UOKV2S8RMbErOXAeejfryDQtImQagRRi66
+         3EhobP+Q4oLueKMHPKM6hVSLVOjuy8qigjrIv+vKGPhSD5pye4wt3DnDgtz2nGRq0qAF
+         WcCx7K4CU7YrxP1mMQcA8FarNH9ZmYHuyyy+QaLRUwf3Ot6OAlb++ZZHZ3labjeQD5i6
+         x4wQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of richard.weiyang@linux.alibaba.com designates 115.124.30.132 as permitted sender) smtp.mailfrom=richard.weiyang@linux.alibaba.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=alibaba.com
+       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=DcoMP3al;
+       spf=pass (google.com: domain of david@redhat.com designates 207.211.31.81 as permitted sender) smtp.mailfrom=david@redhat.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:reply-to:references
-         :mime-version:content-disposition:in-reply-to:x-original-sender
+        h=sender:subject:to:cc:references:from:autocrypt:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=xP595efsrXPmIrjdzYkYvpsjNxoQ/FN8brwFNd8TVzc=;
-        b=AzV+nf+iOq3Khofw1p1P1czGrJIbf1et0fUmRyWZ89uIyq8ocHy8ONpUs5AZwBX+tu
-         wd3+ExVEVbuLROCGcl3LsY2+qec1EewFW+1wdsAkCBwZanyOXCQocmqxV3bNlU+muzeL
-         d2zJdPxDOlGGKMrFTkmOlmczGIX4afisz6ra04Td+my4tP4c3rN4F/zH1iVRA9u/Ptov
-         KVFxigxl6xDCQw7UCOCdC7g3KH+MLkgDYOae0C/Etmh+u+3CBdDKresUHnqK0C9NQrUP
-         MiafG65YTUxZ2hW7Tgfufm6l5eg9HOUkc6zYC+IHLvq7u3DsBMDs+NGayXZfXEL8q5Ip
-         f/6w==
+        bh=9WX7IR+VTaf5RxVUSaywj5gRdTAT2hM0Sp9wd15PtSg=;
+        b=fsxYLCdFCF29yZw5hUzxs7s599/crWTuCp8fHwPEUzBpuS4fgtdxcMB9RcU6ZZoMwF
+         swrh0NzSQJXF+bB4XJrHSwQ/rCTXREJChebVt5qUxxciCiapHhU5iInDfBCK9qbl1ope
+         YkyoVyBDQVtzpMd/x4h5jIMFTAyUn4DBpDMLde7FTYfrzmt37pcFbfeaHGX3BBTUg7Mc
+         H1Mmv6o12fyEYZpiuMVH1Lx6Npr4p8A4YhNAhCH3Hp69HQIjRzbDbUQ/gudvWJO5N/Y7
+         kZzbV9PF7XaKHRbjJvWAazjRC5aeNCZ4BIUMvEpyf5KF03Rzr3edLrZAtu4rtnBIIgZd
+         rcLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :reply-to:references:mime-version:content-disposition:in-reply-to
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=xP595efsrXPmIrjdzYkYvpsjNxoQ/FN8brwFNd8TVzc=;
-        b=IdPmCrUFwj+yT/VtY/ues4g6opmyFqp1QBjprzUln0YznSeBAL3Ym/f/uQT/ZU+KUd
-         MBoCP5XVLixEX5MQ7NwIb35WSNZ8+C+GfXdiimhFieFs6i/4MBnvBjBCo6hrHG2ZNKQs
-         tDr8To6qM7l0apLVpwmKmjjqOd83pz/sOoIz89kiXCloxDbc7BeL6j8ciUiwTQt9A3AN
-         E/iEJ49Lz0o6YMlbBJciYaArvk/yaX9M9U2mP+1FwznfNT/vJ39sljYgoXvQ871NQlMR
-         DUHuvNNQ0EEQ7kyXWAeoEuAXCD0nYJrAK3cmlRJavu65tN95r0vATXhTXiGYKO7rqzNW
-         2Dhg==
+        h=sender:x-gm-message-state:subject:to:cc:references:from:autocrypt
+         :organization:message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=9WX7IR+VTaf5RxVUSaywj5gRdTAT2hM0Sp9wd15PtSg=;
+        b=VAmptRF2TYt//NFSepOJOZR/6HZiy4iaNwhezQsQjX3z4FDGhHaG8pGijN3BfDWG8h
+         dqwAR4KT0HUw6BwiDBkzpgmTNZRJQ/9CEXGZIADEWmuVoERoPRsu4Bi8ESvI+1bNN7uI
+         zPJ9UVrksYg1W9COpTTsXSbFpuj1saS8Si4Wz7LS2bAUEyunfx+hYE4mWPsXWGCJxJ1p
+         sC5MLGATBam0dCf4DlpN0GPtfzvk2ZGUQG41ASfVzQUdJ5/yQQ8Cb1LlYJnPS8fMZgWK
+         ckvClSccI4ooRTLGYjf9LMf/KmmNOEcvp9QIJ+3m5nmYi4v2Qs5TwMjXWrkLqBVaq6Xn
+         AAgQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM533mtty9HaYWuqtvSxASPHAYYCxjXtagZqmgTAxNHqBXWtpIrMFR
-	GDw253DlBLybVNTMCZaU38A=
-X-Google-Smtp-Source: ABdhPJyw2XoLhZAkK9zOcfOPP3kaqz/w7xxE/ei8CyM+b8oMNPKIFPI65jE8+Sc0Skzvu1l1zFpGNw==
-X-Received: by 2002:a9d:77d0:: with SMTP id w16mr12796200otl.235.1593569477271;
-        Tue, 30 Jun 2020 19:11:17 -0700 (PDT)
+X-Gm-Message-State: AOAM531hQ1nxD8Y68p3fz4vc1hdHCS9//d1RqwvKkQQGB7gn/fNsgjkg
+	1mA4V5Wf/EacnmsQWfIXhDk=
+X-Google-Smtp-Source: ABdhPJwkyeGiaR4CsjToCC6lkzbsU6r6gEtSlkKvME5o4xvrRTjpDf2LwbhteRpubydha8abGvEtDg==
+X-Received: by 2002:a37:5bc4:: with SMTP id p187mr24652822qkb.166.1593592160099;
+        Wed, 01 Jul 2020 01:29:20 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:aca:cfc3:: with SMTP id f186ls182550oig.11.gmail; Tue, 30
- Jun 2020 19:11:17 -0700 (PDT)
-X-Received: by 2002:aca:bb86:: with SMTP id l128mr17882657oif.85.1593569476981;
-        Tue, 30 Jun 2020 19:11:16 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1593569476; cv=none;
+Received: by 2002:ac8:3612:: with SMTP id m18ls633578qtb.9.gmail; Wed, 01 Jul
+ 2020 01:29:19 -0700 (PDT)
+X-Received: by 2002:ac8:5303:: with SMTP id t3mr24452017qtn.108.1593592159743;
+        Wed, 01 Jul 2020 01:29:19 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1593592159; cv=none;
         d=google.com; s=arc-20160816;
-        b=QjzByBquKj8KMZCe8MpbJmlgagQgxB+exN3ZHEQLXv1trmywTIDwvyke2xE51M/TAC
-         FfsiVeMCU2xvcaKZoIexvshUyL9wd5oQFD44wWsF668XLdWQ414BF8iXU2e/DI7vjq3c
-         X0KtIR4spGkTgqCCmlloql0Z+RFfEaEXOTjp/56NnaWY2sk/e3CJeliY00VEWq6eWaS3
-         f+fWnVzIVz20xftYOgkg2ahftvBsgHDmSrdNdPkpchL8VSJ0JvHKtMdPYHXDslgxqVC7
-         nsxloMGSk+SCHoUF0YGy7EzsM0fRKYW3e9+cI7IgmMrn1NkAPvMfKByQDgInWqyC7fpe
-         fARg==
+        b=rzhqtCDI7l9l2L+wfeL+BCHCrkI6gxkPrY7V0nZGgM4PJmeZt05XOcyAkMyV+kujqA
+         GsOl6TgjJ3butybqOschSDiJPdn1oOiTXEi/sscSPUN6Q/Xbozglgbxk500fTYHHYIlm
+         r1ll/tgA5SXTUjk1oYXLE5bjMia6Qjgw1bwA4Egve+3Fr4tq64LpMJZkmr0us4hJTTaf
+         hKrM5iQjaU1PJiQ6KEi1Qi0HzMZ+TJLCuR7kEASphvYmK5gFe4jKc/Js8oDelz4wd+4d
+         D9B68t2NlodgtITye8ecrlX74UJ4nLF99eMushmdVpOg3BXCqLxY0P52/R5SihEkZZvO
+         C7TA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:reply-to
-         :message-id:subject:cc:to:from:date;
-        bh=xLNUuGlJoIvS4DQUGhLqbVMzWyQpP11n3ZgWOfwY+PY=;
-        b=zAjCAabA4/GGP1gL2JOyZWm8/gphsE3/4ttDZTy0MxtJa4iX6W9Fe9uZLdiYQ9jj8m
-         sT1xj9uJmaL+9x4sV88h8YakONkMbVruXJUwjAjhwXyRQDQEVYvadi8W334+ddCjqhwX
-         KUdJnCd3RDNy6gexugmqeIcp5NdfDxwE9iEJJq88rRPVuhcg5Bu9uQRe8VCasnLWTCQK
-         Z75S4gt+PM3e+C5NvuXNQxyO5jKaUDo5U7gkDPSazB+iyZxUag5i3UCpSW5qCfn7NqcT
-         XYOKaceMThxL6xU9LEyt8js/nET0hjWoweAQBf4rIzQbGo8qUrbRG8HcTTUBzopFW5El
-         uFKA==
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:organization:autocrypt:from:references
+         :cc:to:subject:dkim-signature;
+        bh=rOccC/nMWU0M4+XO6d1YsLmlKl8IhBukUbLvPQ9C0os=;
+        b=i1hXBM3cFo8fuE7gT63IMNKTk6CHchY7ni2bQwny9A1e3zLhzzJ1DthZ87ulyFGkFF
+         lVqOOqgkH/OIi7FfyE3jx4JpwMi0sTaJlY30nr0XvjSvvuSuVyW8BUtHjZ04R/8WtJr0
+         t2AvmzqmIvBYKBcxMLCkiqhPI1qVga7zslcCECCFK+JwbGmQCEcnEoFlw8bRvB7je1t4
+         p4zoEIoQbA2COfM1JoCSRLAlAyrEfE/JV9R2q2dcIQBJuVK3Jkh/GLqHzR2bBVsYT3MD
+         Oj7g1uR63NVE9xaFSJHWB774RjaIFic9o1XleE4PFM8qau9SScG30c27DgN7QnAhXjU7
+         ueAg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of richard.weiyang@linux.alibaba.com designates 115.124.30.132 as permitted sender) smtp.mailfrom=richard.weiyang@linux.alibaba.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=alibaba.com
-Received: from out30-132.freemail.mail.aliyun.com (out30-132.freemail.mail.aliyun.com. [115.124.30.132])
-        by gmr-mx.google.com with ESMTPS id j2si222219otr.0.2020.06.30.19.11.16
+       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=DcoMP3al;
+       spf=pass (google.com: domain of david@redhat.com designates 207.211.31.81 as permitted sender) smtp.mailfrom=david@redhat.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com. [207.211.31.81])
+        by gmr-mx.google.com with ESMTPS id y21si271441qka.2.2020.07.01.01.29.19
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 30 Jun 2020 19:11:16 -0700 (PDT)
-Received-SPF: pass (google.com: domain of richard.weiyang@linux.alibaba.com designates 115.124.30.132 as permitted sender) client-ip=115.124.30.132;
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R161e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e01355;MF=richard.weiyang@linux.alibaba.com;NM=1;PH=DS;RN=13;SR=0;TI=SMTPD_---0U1E10Wi_1593569473;
-Received: from localhost(mailfrom:richard.weiyang@linux.alibaba.com fp:SMTPD_---0U1E10Wi_1593569473)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Wed, 01 Jul 2020 10:11:13 +0800
-Date: Wed, 1 Jul 2020 10:11:13 +0800
-From: Wei Yang <richard.weiyang@linux.alibaba.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: Wei Yang <richard.weiyang@linux.alibaba.com>,
-	dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
-	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-	akpm@linux-foundation.org, x86@kernel.org,
-	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
-	linux-mm@kvack.org
+        Wed, 01 Jul 2020 01:29:19 -0700 (PDT)
+Received-SPF: pass (google.com: domain of david@redhat.com designates 207.211.31.81 as permitted sender) client-ip=207.211.31.81;
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-381-X6NjWalSOliMFEI7Q2laIg-1; Wed, 01 Jul 2020 04:29:17 -0400
+X-MC-Unique: X6NjWalSOliMFEI7Q2laIg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6BA228015F4;
+	Wed,  1 Jul 2020 08:29:15 +0000 (UTC)
+Received: from [10.36.112.52] (ovpn-112-52.ams2.redhat.com [10.36.112.52])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id A2E2D2B5BF;
+	Wed,  1 Jul 2020 08:29:09 +0000 (UTC)
 Subject: Re: [PATCH] mm: define pte_add_end for consistency
-Message-ID: <20200701021113.GA51306@L-31X9LVDL-1304.local>
-Reply-To: Wei Yang <richard.weiyang@linux.alibaba.com>
+To: Wei Yang <richard.weiyang@linux.alibaba.com>
+Cc: dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
+ tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+ akpm@linux-foundation.org, x86@kernel.org, linux-kernel@vger.kernel.org,
+ kasan-dev@googlegroups.com, linux-mm@kvack.org
 References: <20200630031852.45383-1-richard.weiyang@linux.alibaba.com>
  <40362e99-a354-c44f-8645-e2326a6df680@redhat.com>
+ <20200701021113.GA51306@L-31X9LVDL-1304.local>
+From: David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Organization: Red Hat GmbH
+Message-ID: <da4a470e-f34c-fbf8-c95a-93a7d30a215b@redhat.com>
+Date: Wed, 1 Jul 2020 10:29:08 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
+In-Reply-To: <20200701021113.GA51306@L-31X9LVDL-1304.local>
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <40362e99-a354-c44f-8645-e2326a6df680@redhat.com>
-X-Original-Sender: richard.weiyang@linux.alibaba.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of richard.weiyang@linux.alibaba.com designates
- 115.124.30.132 as permitted sender) smtp.mailfrom=richard.weiyang@linux.alibaba.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=alibaba.com
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Original-Sender: david@redhat.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@redhat.com header.s=mimecast20190719 header.b=DcoMP3al;
+       spf=pass (google.com: domain of david@redhat.com designates
+ 207.211.31.81 as permitted sender) smtp.mailfrom=david@redhat.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -133,106 +192,133 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Jun 30, 2020 at 02:44:00PM +0200, David Hildenbrand wrote:
->On 30.06.20 05:18, Wei Yang wrote:
->> When walking page tables, we define several helpers to get the address of
->> the next boundary. But we don't have one for pte level.
->> 
->> Let's define it and consolidate the code in several places.
->> 
->> Signed-off-by: Wei Yang <richard.weiyang@linux.alibaba.com>
->> ---
->>  arch/x86/mm/init_64.c   | 6 ++----
->>  include/linux/pgtable.h | 7 +++++++
->>  mm/kasan/init.c         | 4 +---
->>  3 files changed, 10 insertions(+), 7 deletions(-)
->> 
->> diff --git a/arch/x86/mm/init_64.c b/arch/x86/mm/init_64.c
->> index dbae185511cd..f902fbd17f27 100644
->> --- a/arch/x86/mm/init_64.c
->> +++ b/arch/x86/mm/init_64.c
->> @@ -973,9 +973,7 @@ remove_pte_table(pte_t *pte_start, unsigned long addr, unsigned long end,
->>  
->>  	pte = pte_start + pte_index(addr);
->>  	for (; addr < end; addr = next, pte++) {
->> -		next = (addr + PAGE_SIZE) & PAGE_MASK;
->> -		if (next > end)
->> -			next = end;
->> +		next = pte_addr_end(addr, end);
->>  
->>  		if (!pte_present(*pte))
->>  			continue;
->> @@ -1558,7 +1556,7 @@ void register_page_bootmem_memmap(unsigned long section_nr,
->>  		get_page_bootmem(section_nr, pud_page(*pud), MIX_SECTION_INFO);
->>  
->>  		if (!boot_cpu_has(X86_FEATURE_PSE)) {
->> -			next = (addr + PAGE_SIZE) & PAGE_MASK;
->> +			next = pte_addr_end(addr, end);
->>  			pmd = pmd_offset(pud, addr);
->>  			if (pmd_none(*pmd))
->>  				continue;
->> diff --git a/include/linux/pgtable.h b/include/linux/pgtable.h
->> index 32b6c52d41b9..0de09c6c89d2 100644
->> --- a/include/linux/pgtable.h
->> +++ b/include/linux/pgtable.h
->> @@ -706,6 +706,13 @@ static inline pgprot_t pgprot_modify(pgprot_t oldprot, pgprot_t newprot)
->>  })
->>  #endif
->>  
->> +#ifndef pte_addr_end
->> +#define pte_addr_end(addr, end)						\
->> +({	unsigned long __boundary = ((addr) + PAGE_SIZE) & PAGE_MASK;	\
->> +	(__boundary - 1 < (end) - 1) ? __boundary : (end);		\
->> +})
->> +#endif
->> +
->>  /*
->>   * When walking page tables, we usually want to skip any p?d_none entries;
->>   * and any p?d_bad entries - reporting the error before resetting to none.
->> diff --git a/mm/kasan/init.c b/mm/kasan/init.c
->> index fe6be0be1f76..89f748601f74 100644
->> --- a/mm/kasan/init.c
->> +++ b/mm/kasan/init.c
->> @@ -349,9 +349,7 @@ static void kasan_remove_pte_table(pte_t *pte, unsigned long addr,
->>  	unsigned long next;
->>  
->>  	for (; addr < end; addr = next, pte++) {
->> -		next = (addr + PAGE_SIZE) & PAGE_MASK;
->> -		if (next > end)
->> -			next = end;
->> +		next = pte_addr_end(addr, end);
->>  
->>  		if (!pte_present(*pte))
->>  			continue;
->> 
->
->I'm not really a friend of this I have to say. We're simply iterating
->over single pages, not much magic ....
+On 01.07.20 04:11, Wei Yang wrote:
+> On Tue, Jun 30, 2020 at 02:44:00PM +0200, David Hildenbrand wrote:
+>> On 30.06.20 05:18, Wei Yang wrote:
+>>> When walking page tables, we define several helpers to get the address of
+>>> the next boundary. But we don't have one for pte level.
+>>>
+>>> Let's define it and consolidate the code in several places.
+>>>
+>>> Signed-off-by: Wei Yang <richard.weiyang@linux.alibaba.com>
+>>> ---
+>>>  arch/x86/mm/init_64.c   | 6 ++----
+>>>  include/linux/pgtable.h | 7 +++++++
+>>>  mm/kasan/init.c         | 4 +---
+>>>  3 files changed, 10 insertions(+), 7 deletions(-)
+>>>
+>>> diff --git a/arch/x86/mm/init_64.c b/arch/x86/mm/init_64.c
+>>> index dbae185511cd..f902fbd17f27 100644
+>>> --- a/arch/x86/mm/init_64.c
+>>> +++ b/arch/x86/mm/init_64.c
+>>> @@ -973,9 +973,7 @@ remove_pte_table(pte_t *pte_start, unsigned long addr, unsigned long end,
+>>>  
+>>>  	pte = pte_start + pte_index(addr);
+>>>  	for (; addr < end; addr = next, pte++) {
+>>> -		next = (addr + PAGE_SIZE) & PAGE_MASK;
+>>> -		if (next > end)
+>>> -			next = end;
+>>> +		next = pte_addr_end(addr, end);
+>>>  
+>>>  		if (!pte_present(*pte))
+>>>  			continue;
+>>> @@ -1558,7 +1556,7 @@ void register_page_bootmem_memmap(unsigned long section_nr,
+>>>  		get_page_bootmem(section_nr, pud_page(*pud), MIX_SECTION_INFO);
+>>>  
+>>>  		if (!boot_cpu_has(X86_FEATURE_PSE)) {
+>>> -			next = (addr + PAGE_SIZE) & PAGE_MASK;
+>>> +			next = pte_addr_end(addr, end);
+>>>  			pmd = pmd_offset(pud, addr);
+>>>  			if (pmd_none(*pmd))
+>>>  				continue;
+>>> diff --git a/include/linux/pgtable.h b/include/linux/pgtable.h
+>>> index 32b6c52d41b9..0de09c6c89d2 100644
+>>> --- a/include/linux/pgtable.h
+>>> +++ b/include/linux/pgtable.h
+>>> @@ -706,6 +706,13 @@ static inline pgprot_t pgprot_modify(pgprot_t oldprot, pgprot_t newprot)
+>>>  })
+>>>  #endif
+>>>  
+>>> +#ifndef pte_addr_end
+>>> +#define pte_addr_end(addr, end)						\
+>>> +({	unsigned long __boundary = ((addr) + PAGE_SIZE) & PAGE_MASK;	\
+>>> +	(__boundary - 1 < (end) - 1) ? __boundary : (end);		\
+>>> +})
+>>> +#endif
+>>> +
+>>>  /*
+>>>   * When walking page tables, we usually want to skip any p?d_none entries;
+>>>   * and any p?d_bad entries - reporting the error before resetting to none.
+>>> diff --git a/mm/kasan/init.c b/mm/kasan/init.c
+>>> index fe6be0be1f76..89f748601f74 100644
+>>> --- a/mm/kasan/init.c
+>>> +++ b/mm/kasan/init.c
+>>> @@ -349,9 +349,7 @@ static void kasan_remove_pte_table(pte_t *pte, unsigned long addr,
+>>>  	unsigned long next;
+>>>  
+>>>  	for (; addr < end; addr = next, pte++) {
+>>> -		next = (addr + PAGE_SIZE) & PAGE_MASK;
+>>> -		if (next > end)
+>>> -			next = end;
+>>> +		next = pte_addr_end(addr, end);
+>>>  
+>>>  		if (!pte_present(*pte))
+>>>  			continue;
+>>>
+>>
+>> I'm not really a friend of this I have to say. We're simply iterating
+>> over single pages, not much magic ....
+> 
+> Hmm... yes, we are iterating on Page boundary, while we many have the case
+> when addr or end is not PAGE_ALIGN.
 
-Hmm... yes, we are iterating on Page boundary, while we many have the case
-when addr or end is not PAGE_ALIGN.
+I really do wonder if not having page aligned addresses actually happens
+in real life. Page tables operate on page granularity, and
+adding/removing unaligned parts feels wrong ... and that's also why I
+dislike such a helper.
 
->
->What would definitely make sense is replacing (addr + PAGE_SIZE) &
->PAGE_MASK; by PAGE_ALIGN() ...
->
+1. kasan_add_zero_shadow()/kasan_remove_zero_shadow(). If I understand
+the logic (WARN_ON()) correctly, we bail out in case we would ever end
+up in such a scenario, where we would want to add/remove things not
+aligned to PAGE_SIZE.
 
-No, PAGE_ALIGN() is expanded to be 
+2. remove_pagetable()...->remove_pte_table()
 
-	(addr + PAGE_SIZE - 1) & PAGE_MASK;
+vmemmap_free() should never try to de-populate sub-pages. Even with
+sub-section hot-add/remove (2MB / 512 pages), with valid struct page
+sizes (56, 64, 72, 80), we always end up with full pages.
 
-If we change the code to PAGE_ALIGN(), we would end up with infinite loop.
+kernel_physical_mapping_remove() is only called via
+arch_remove_memory(). That will never remove unaligned parts.
 
->-- 
->Thanks,
->
->David / dhildenb
+3. register_page_bootmem_memmap()
+
+It operates on full pages only.
+
+
+This needs in-depth analysis, but my gut feeling is that this alignment
+is unnecessary.
+
+> 
+>>
+>> What would definitely make sense is replacing (addr + PAGE_SIZE) &
+>> PAGE_MASK; by PAGE_ALIGN() ...
+>>
+> 
+> No, PAGE_ALIGN() is expanded to be 
+> 
+> 	(addr + PAGE_SIZE - 1) & PAGE_MASK;
+> 
+> If we change the code to PAGE_ALIGN(), we would end up with infinite loop.
+
+Very right, it would have to be PAGE_ALIGN(addr + 1).
 
 -- 
-Wei Yang
-Help you, Help me
+Thanks,
+
+David / dhildenb
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200701021113.GA51306%40L-31X9LVDL-1304.local.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/da4a470e-f34c-fbf8-c95a-93a7d30a215b%40redhat.com.
