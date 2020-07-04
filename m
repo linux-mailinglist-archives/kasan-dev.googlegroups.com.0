@@ -1,123 +1,130 @@
-Return-Path: <kasan-dev+bncBCMIZB7QWENRB2EE7X3QKGQEMXXRQ3Y@googlegroups.com>
+Return-Path: <kasan-dev+bncBC24VNFHTMIBBIE3QL4AKGQEM4GVCDI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-io1-xd39.google.com (mail-io1-xd39.google.com [IPv6:2607:f8b0:4864:20::d39])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF463213BE3
-	for <lists+kasan-dev@lfdr.de>; Fri,  3 Jul 2020 16:36:25 +0200 (CEST)
-Received: by mail-io1-xd39.google.com with SMTP id t23sf19687476iog.21
-        for <lists+kasan-dev@lfdr.de>; Fri, 03 Jul 2020 07:36:25 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1593786985; cv=pass;
+Received: from mail-il1-x13b.google.com (mail-il1-x13b.google.com [IPv6:2607:f8b0:4864:20::13b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C57321465B
+	for <lists+kasan-dev@lfdr.de>; Sat,  4 Jul 2020 16:09:38 +0200 (CEST)
+Received: by mail-il1-x13b.google.com with SMTP id l17sf24089101ilj.17
+        for <lists+kasan-dev@lfdr.de>; Sat, 04 Jul 2020 07:09:37 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1593871776; cv=pass;
         d=google.com; s=arc-20160816;
-        b=i5hqm+P3I4giJvaP4MBEYALpRCcr7IWuQgWhtKJPNnAfzrGZoSlViqG+wbyuljL8fq
-         sQG8iIQ1EFfc5nHZ5+7CaZDiE4W+p+NpxJsF4lmOEEhF0HRQRWUw5PRXsAX+oRLymSPC
-         l88aOEtN8QQaLcr5/yxJwgUPxFFqRxojM4ZvB1PVUK1x5pFX25XIcE2w9Y8NvCAem10f
-         z6NhbHvOuWLtrKmfLg03g8Uxb0/UCsUhf1M+J1zcnb3bFfNo/MOmkK807egYdoxIz/Ar
-         1j7xf31tohGNzgJYzqpLOCyMkev1zDKyZT5VOnD0CvlV4o53LGYAqo8Pw5JumXA3s0kJ
-         adiA==
+        b=J8v37nubz7XgvD6Lo3RxT+erJeNeAQt+lDlc7RRJcqh0XieMuLztQAMlvSkase6eVL
+         wJ2155R42Xngx/vxhkNS2CEabGoJ81Ai+SSfuOoOPzR8CeEcQH+Li2xxwvCtQ+au/aRm
+         aXES6Tox50zB6w+Quy6vVKKEQE0cnnvz+STDDtbUy4/V6CRNjis840RVp66jBWH39NRK
+         6f4283mL679svLEw83ijgGd2UhgpR8SpdexjYThMxHAb6jgbjyI1FsYmNU7X416i6E8g
+         Kv7iP+wQbH2OFTdKsTSDFCaPTzB7Gygk/bsj8j9UGhHuxUThH26A/faKh0Le/9zi+XT0
+         JhtA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=HRM17vWOmEr6wIaOJCd9zGsj6cZ3Lq84CT5zqHxzfHI=;
-        b=T7wVE3M1lL6SnctKnJus/ltGe2KBfMQhHvz+rSYbxq8paeuRU1jfKzsZzHpXgJBwsH
-         l3v77HniB/8GOrvO/AYcYfDqboROm+ZwFswngDVv5WAi3IYUr1Myc0fetBHuAKhYKSFY
-         LdaO9LZI8BKbMG5xsSW2pePdjZ3SXI3HobXOTgBElcJdDJs9vm2F/6xTH8QXUYIzc8ur
-         kYtrpuDr6NdJ2ugyszI339yvUT6de3PRInOmWNoncLqHtHBON+bySGF1V3s/JnmkHee/
-         EMP/ZGjCbuS9sALONI14VAc9v9xmy+1QbdYFxUwtgniO8fAWrKe0QY1Q18E8T9YkFA1K
-         ps/w==
+         :list-id:mailing-list:precedence:mime-version:auto-submitted
+         :references:in-reply-to:message-id:date:subject:to:from:sender
+         :dkim-signature;
+        bh=DcJTGQMVbFmFdOJKIAvyKGxBkPzny6AKnUqttVJrUD8=;
+        b=CzfxLz2vAMQNio3XKeX/sSk5GJv3nvDsK+P5rfAVMq1NRXAmaXVfanlzel2BCMoZ/U
+         FxhcD3aV1kJATM3suctdvfaC4g2u2oMVJrIgGMSPPChqOvxpkp4GPqao0CwCJjKYelVB
+         9ChtNnMmkTIy86IRc6hoCWoOWm7w/hdx3U2xzl/Wa2cusT3vpgEGlI9ITnP5QRNiPs8/
+         b9c7zr4PuEZdeA9osvsiKBw8z5kd5bSlqMQrwuQ/4Z2w/1s/Dp1cb5M1poMZerZOAe2r
+         0S8bx9LxRsCkFnqYOIv+4t66ySNvlbUkEu/xrfGIISwSr/wXVbEJO5vdZf8+Vd6zS3mo
+         4HYA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b="ua3/jOaY";
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::742 as permitted sender) smtp.mailfrom=dvyukov@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       spf=pass (google.com: domain of srs0=xml2=ap=bugzilla.kernel.org=bugzilla-daemon@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=xmL2=AP=bugzilla.kernel.org=bugzilla-daemon@kernel.org";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=HRM17vWOmEr6wIaOJCd9zGsj6cZ3Lq84CT5zqHxzfHI=;
-        b=i77miZ8WRJLXT/CrQnb9B5nNQGKNiDncYMj/oWHZyHCyPSU4m74bOF2T9EVRqrw865
-         ZzPq/PYZPQhm2rFFW5BYJ0Gwwanng3j6XiWotIgfK60v1SQenkIW33BmeC/x1KGPT8N9
-         UtD+/N2xWO7lV6vL2BJDndgHn7vExVWmX+5pQHoqBNh9/HmFh8oA8JzkIVbAz0ObVmSD
-         KIXiF3NusLJ5hyT7PDUJUcM5rQNuFe9cvJ5aS7I/zuRV10Q0bGLwmzYjOx0gKxmn4qu5
-         5vVwyiAWQI4lunSB4XUFCQzcZLG8SfXsSJCBwg0tJfqHVsVpaO545GCfXKYTgDSngWrt
-         zTRQ==
+        h=sender:from:to:subject:date:message-id:in-reply-to:references
+         :auto-submitted:mime-version:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=DcJTGQMVbFmFdOJKIAvyKGxBkPzny6AKnUqttVJrUD8=;
+        b=Eo0c+lbvbssIl6s+DWSLnH3k7fhwe301eKSa0jTDEcu67Cjo7JiRPRCc4zYKodxQlK
+         OfEx66FaKJhs2iVAigYq8yOJSzjNSuaZ5OvI4JUfk7U4jpGF4JJTIw7jb7UjDpRmz1Ij
+         9/NUz1d+STu3mk36goSfLSt/zu4vt7gMTO3/bbQqaJRDAQ6IzvZLGeN7APGakX4ZR8O5
+         6ZWot7zNdfYiagmV/N4M7MbZ7pPtTC4S10MRdLqf+n9pT7PCTr/HK487EDoGXSxTWFWm
+         t7+A6CnRXKCKwodw5vQJ+Krm2tzBSO86LtfxUGGNQF6vdKaQIHS2wtHoqQ5s/31JE82j
+         PLPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=HRM17vWOmEr6wIaOJCd9zGsj6cZ3Lq84CT5zqHxzfHI=;
-        b=grV/dhdbe6mz3uHW3nKl1ICHbaDskdkIqPqad/rdtudPcDYhVNxBbKS6DqZJpzHePt
-         lICYR3froJaQ6TJBDuy5LRjaEzJgbMvLFy9b84W4akACuZ+HTViE71e7wJ2TIxyol/lI
-         RdmY+30tgw71PNdX1IMTEDJLIxTJJPghjv4Ysf3Qlb5aeTJ5SSpnZtGIKoMYjnV4Mg2O
-         p1pwTFtvsmkjsLXKpVHiNzRPPfdPVAg5UXERgNico72VVT0TVRkWEzq4iuhq3BcWtOWs
-         5Bun/DnbVhvbAwQ2aZvKhGhmAGLw372sYVsZYd53r9XwtWZbuLUQO0iusWQwWDcAo2lp
-         yozg==
-X-Gm-Message-State: AOAM5338sCuCJbqnVT+KfP1hVJ651DEzWJMeFgAe0GmtUkp5c1amzsFC
-	oFFfIDmyipSb56DGdQf3czo=
-X-Google-Smtp-Source: ABdhPJy+YQcgP4xuV0X8098wjJVRwgLXRh2VDxnBAZcc12e2EVRGBzhvXOgN0/+1w7/H4JOHeQc+/w==
-X-Received: by 2002:a05:6602:45:: with SMTP id z5mr12544389ioz.112.1593786984816;
-        Fri, 03 Jul 2020 07:36:24 -0700 (PDT)
+        h=sender:x-gm-message-state:from:to:subject:date:message-id
+         :in-reply-to:references:auto-submitted:mime-version
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=DcJTGQMVbFmFdOJKIAvyKGxBkPzny6AKnUqttVJrUD8=;
+        b=lltWh83Zr/UtMe6AfgE4+MXDEWK4bbMlprBh9ABGxbsO/PP34cdeNb8eotHkG9VZ2o
+         8thS2rC+yJI1OX7Bqmwt71jkqaRftI9r4Qp0WLA/spa6rtWfejmio9GjWcL+r407tenE
+         nCYWvDYZQ6Rs1K/Uz4IMTi33hXiUbCi/t9XGgvG5/dY0FHXqyEdUR07wYT4zsCil7U2l
+         hiZEpRpVgFaYljfyehdqMzGHAQnMNk3rz9ZVl4BTBFHwgjElxI2RSyU8EsMoxmPKMPhU
+         ifkSUl4DSv7TtX+JTxk5yXfUZteqUJgoAM2hawWiAe8q2OfmfVm1J7vet13RoytG+/ZI
+         iOXg==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM533eR6Hjzk+rpz4oDgN33HDxwmnI4E2K7FOz+6JackYzGrgdelbE
+	lMeWgtK1Y2w+ujSOEcBt8Ks=
+X-Google-Smtp-Source: ABdhPJxc4RW/vLcvi/5EgEKjZtsG7YoQrIURA6rIAnB6tGIVBix6PPkTMwZ/cXguCflyW6k8yl3e9g==
+X-Received: by 2002:a02:9f8e:: with SMTP id a14mr45286252jam.95.1593871776600;
+        Sat, 04 Jul 2020 07:09:36 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a92:9a89:: with SMTP id c9ls2654476ill.7.gmail; Fri, 03 Jul
- 2020 07:36:24 -0700 (PDT)
-X-Received: by 2002:a92:5a05:: with SMTP id o5mr12382432ilb.237.1593786984531;
-        Fri, 03 Jul 2020 07:36:24 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1593786984; cv=none;
+Received: by 2002:a02:9a03:: with SMTP id b3ls1709476jal.3.gmail; Sat, 04 Jul
+ 2020 07:09:36 -0700 (PDT)
+X-Received: by 2002:a02:cd28:: with SMTP id h8mr31961330jaq.40.1593871776325;
+        Sat, 04 Jul 2020 07:09:36 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1593871776; cv=none;
         d=google.com; s=arc-20160816;
-        b=wTzeCa8uA2rUQ58q4j463aoqIzO79p3g7BA/S0RsYIoWfonKx16KR70OjbkgcihS/Y
-         KEqtiAShhZNuHddwFrkm8NoAqiBvVXa4QCOY3Yieh+J/qZ+jsLcLhpHoHeR2niSLckDY
-         BgVoTbc7VdYoJxI80a3snFm3fOtJrdhW7SrsGWoMWmloN71o5YdkNV/yMvRyHi1WQEOr
-         QX+B1Ec4MoT4tZw0WS5+yMz9X1/ShgxeP1jPZUEfn+lDOLpQYKLuOWoeqeMvAmYjDsvF
-         e0MBlD8kdyM51/NHpljAGWmUnOQqi8JJ7NBxyUY94VUBzWbeKmTkg9fa4H+bfBVnw+0S
-         3aFA==
+        b=yOFQK4KIAgsjDEkVg/u/TpJM28p0nQoWHYRsiKu3D2qjqO10O8cNvx2CKTMi/4jUE9
+         ZWKggpJ9zeARm42IgH9MXn/PCFZ2vqxbu1X1odh6zsUtE7FEOEoBPF184k3ogiUOL8kR
+         8fM00dcglyNcQL1RSzp6m7r30xzrLcMNA4BajhSJO7WRHLSXHEMhnDkXGNVmLbujYYva
+         Ag75tbC6x2jQ4qbXJJhJN56bLZf/2Nnn4/sDtjeTT0nKGOORlZRD5uuv76W1niaj5r22
+         MEH3vPkXpe2AphQTmsa/jaCRKIBvh64gNOrpBas4oGFmVgNDRA+y0lLhkrPwaoFI7brS
+         UhwA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=C0p6+MkcMCuJnYjdDnNybQAxnSXPvknTUY7McNjJwwE=;
-        b=mQl2v6vv6bm4jthMutqej+tacccdaZ3l4my3pbBK4wzcLuuIuMIf1NQPS/R+Z4qEGW
-         lnh1Mkgipi4tmif/urNaaP10BfAueKw4EuDOOXkXZlAmEHVwOnzZRAvEZX2NBFZF9eJM
-         0aPwnkUaPedxx/l7id5CniKwm+OASHWL5/wZ//SjRE3SNZ8UGkfvEDMgRexYtbPxAnso
-         f8D4p8pB3y/DME6PmRmbjGflP94aMeTB+GWid1wnZbCMCYnFHyxKINdnnuv65eVstuba
-         qpGaEBuqsziD7QOGsMZVqmEO3Plcmd/EA+bc7YeEgd60mIbjhKnaBpfS33YAbHSRu8Us
-         TJcQ==
+        h=mime-version:auto-submitted:content-transfer-encoding:references
+         :in-reply-to:message-id:date:subject:to:from;
+        bh=NIX/bdq4BP22KeEmTyRluWPStFcAFXGSsWlfWePAU+g=;
+        b=WIwIzOtryd7Zv+ENfqMwYFvu5uWsMX/Wu/HB8ccswSB/8IEBnFVgp95q4NTX3XYONC
+         YDsF2YXo8C6oZfmQ8jGx8vR525ga9BAttVBPloF4aYwIeIhYgvKmkXG/m+tEz+qxTEj4
+         vn61LGCJ1oeIRETPfCo8bB2PiQGbEHfUTgtVOJdT0p7XNHeEU05N7o4rTZDyytZfUyT2
+         gA+5Y6esFUJPKMQbO3vLJnBTXVvQ/wCr/qZwkAlI4hxG2AYa+flX2iNQZUDhFst3T2uF
+         bCPPfsZZLXQp2JyZd/BUOhR6WbStzx+BWMfuamadBVpeHreFNSggpUfB89QriKzaIn8g
+         +/Fg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b="ua3/jOaY";
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::742 as permitted sender) smtp.mailfrom=dvyukov@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com. [2607:f8b0:4864:20::742])
-        by gmr-mx.google.com with ESMTPS id q80si740852iod.0.2020.07.03.07.36.24
+       spf=pass (google.com: domain of srs0=xml2=ap=bugzilla.kernel.org=bugzilla-daemon@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=xmL2=AP=bugzilla.kernel.org=bugzilla-daemon@kernel.org";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
+        by gmr-mx.google.com with ESMTPS id b2si1336528ile.1.2020.07.04.07.09.36
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 03 Jul 2020 07:36:24 -0700 (PDT)
-Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::742 as permitted sender) client-ip=2607:f8b0:4864:20::742;
-Received: by mail-qk1-x742.google.com with SMTP id q198so28946441qka.2
-        for <kasan-dev@googlegroups.com>; Fri, 03 Jul 2020 07:36:24 -0700 (PDT)
-X-Received: by 2002:a37:7682:: with SMTP id r124mr17230924qkc.43.1593786983628;
- Fri, 03 Jul 2020 07:36:23 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200703134031.3298135-1-elver@google.com>
-In-Reply-To: <20200703134031.3298135-1-elver@google.com>
-From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Fri, 3 Jul 2020 16:36:11 +0200
-Message-ID: <CACT4Y+YoicOtXEGsV9fJwfA7PpQY0sKbyWq1gY27P-oaXDJ3RA@mail.gmail.com>
-Subject: Re: [PATCH 1/3] kcsan: Add support for atomic builtins
-To: Marco Elver <elver@google.com>
-Cc: "Paul E. McKenney" <paulmck@kernel.org>, Alexander Potapenko <glider@google.com>, 
-	Andrey Konovalov <andreyknvl@google.com>, kasan-dev <kasan-dev@googlegroups.com>, 
-	LKML <linux-kernel@vger.kernel.org>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Sat, 04 Jul 2020 07:09:36 -0700 (PDT)
+Received-SPF: pass (google.com: domain of srs0=xml2=ap=bugzilla.kernel.org=bugzilla-daemon@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
+From: bugzilla-daemon@bugzilla.kernel.org
+To: kasan-dev@googlegroups.com
+Subject: [Bug 203499] KASAN (tags): add tagging to kasan_kmalloc_large
+Date: Sat, 04 Jul 2020 14:09:35 +0000
+X-Bugzilla-Reason: CC
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Memory Management
+X-Bugzilla-Component: Sanitizers
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: andreyknvl@gmail.com
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: CODE_FIX
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: mm_sanitizers@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-203499-199747-yuuCg9fBS8@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-203499-199747@https.bugzilla.kernel.org/>
+References: <bug-203499-199747@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: dvyukov@google.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b="ua3/jOaY";       spf=pass
- (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::742
- as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
- (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Dmitry Vyukov <dvyukov@google.com>
-Reply-To: Dmitry Vyukov <dvyukov@google.com>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
+X-Original-Sender: bugzilla-daemon@bugzilla.kernel.org
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of srs0=xml2=ap=bugzilla.kernel.org=bugzilla-daemon@kernel.org
+ designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=xmL2=AP=bugzilla.kernel.org=bugzilla-daemon@kernel.org";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -130,155 +137,24 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, Jul 3, 2020 at 3:40 PM Marco Elver <elver@google.com> wrote:
->
-> Some architectures (currently e.g. s390 partially) implement atomics
-> using the compiler's atomic builtins (__atomic_*, __sync_*). To support
-> enabling KCSAN on such architectures in future, or support experimental
-> use of these builtins, implement support for them.
->
-> We should also avoid breaking KCSAN kernels due to use (accidental or
-> otherwise) of atomic builtins in drivers, as has happened in the past:
-> https://lkml.kernel.org/r/5231d2c0-41d9-6721-e15f-a7eedf3ce69e@infradead.org
->
-> The instrumentation is subtly different from regular reads/writes: TSAN
-> instrumentation replaces the use of atomic builtins with a call into the
-> runtime, and the runtime's job is to also execute the desired atomic
-> operation. We rely on the __atomic_* compiler builtins, available with
-> all KCSAN-supported compilers, to implement each TSAN atomic
-> instrumentation function.
->
-> Signed-off-by: Marco Elver <elver@google.com>
+https://bugzilla.kernel.org/show_bug.cgi?id=203499
 
-Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
+Andrey Konovalov (andreyknvl@gmail.com) changed:
 
-> ---
->  kernel/kcsan/core.c | 110 ++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 110 insertions(+)
->
-> diff --git a/kernel/kcsan/core.c b/kernel/kcsan/core.c
-> index d803765603fb..6843169da759 100644
-> --- a/kernel/kcsan/core.c
-> +++ b/kernel/kcsan/core.c
-> @@ -856,3 +856,113 @@ void __tsan_init(void)
->  {
->  }
->  EXPORT_SYMBOL(__tsan_init);
-> +
-> +/*
-> + * Instrumentation for atomic builtins (__atomic_*, __sync_*).
-> + *
-> + * Normal kernel code _should not_ be using them directly, but some
-> + * architectures may implement some or all atomics using the compilers'
-> + * builtins.
-> + *
-> + * Note: If an architecture decides to fully implement atomics using the
-> + * builtins, because they are implicitly instrumented by KCSAN (and KASAN,
-> + * etc.), implementing the ARCH_ATOMIC interface (to get instrumentation via
-> + * atomic-instrumented) is no longer necessary.
-> + *
-> + * TSAN instrumentation replaces atomic accesses with calls to any of the below
-> + * functions, whose job is to also execute the operation itself.
-> + */
-> +
-> +#define DEFINE_TSAN_ATOMIC_LOAD_STORE(bits)                                                        \
-> +       u##bits __tsan_atomic##bits##_load(const u##bits *ptr, int memorder);                      \
-> +       u##bits __tsan_atomic##bits##_load(const u##bits *ptr, int memorder)                       \
-> +       {                                                                                          \
-> +               check_access(ptr, bits / BITS_PER_BYTE, KCSAN_ACCESS_ATOMIC);                      \
-> +               return __atomic_load_n(ptr, memorder);                                             \
-> +       }                                                                                          \
-> +       EXPORT_SYMBOL(__tsan_atomic##bits##_load);                                                 \
-> +       void __tsan_atomic##bits##_store(u##bits *ptr, u##bits v, int memorder);                   \
-> +       void __tsan_atomic##bits##_store(u##bits *ptr, u##bits v, int memorder)                    \
-> +       {                                                                                          \
-> +               check_access(ptr, bits / BITS_PER_BYTE, KCSAN_ACCESS_WRITE | KCSAN_ACCESS_ATOMIC); \
-> +               __atomic_store_n(ptr, v, memorder);                                                \
-> +       }                                                                                          \
-> +       EXPORT_SYMBOL(__tsan_atomic##bits##_store)
-> +
-> +#define DEFINE_TSAN_ATOMIC_RMW(op, bits, suffix)                                                   \
-> +       u##bits __tsan_atomic##bits##_##op(u##bits *ptr, u##bits v, int memorder);                 \
-> +       u##bits __tsan_atomic##bits##_##op(u##bits *ptr, u##bits v, int memorder)                  \
-> +       {                                                                                          \
-> +               check_access(ptr, bits / BITS_PER_BYTE, KCSAN_ACCESS_WRITE | KCSAN_ACCESS_ATOMIC); \
-> +               return __atomic_##op##suffix(ptr, v, memorder);                                    \
-> +       }                                                                                          \
-> +       EXPORT_SYMBOL(__tsan_atomic##bits##_##op)
-> +
-> +/*
-> + * Note: CAS operations are always classified as write, even in case they
-> + * fail. We cannot perform check_access() after a write, as it might lead to
-> + * false positives, in cases such as:
-> + *
-> + *     T0: __atomic_compare_exchange_n(&p->flag, &old, 1, ...)
-> + *
-> + *     T1: if (__atomic_load_n(&p->flag, ...)) {
-> + *             modify *p;
-> + *             p->flag = 0;
-> + *         }
-> + *
-> + * The only downside is that, if there are 3 threads, with one CAS that
-> + * succeeds, another CAS that fails, and an unmarked racing operation, we may
-> + * point at the wrong CAS as the source of the race. However, if we assume that
-> + * all CAS can succeed in some other execution, the data race is still valid.
-> + */
-> +#define DEFINE_TSAN_ATOMIC_CMPXCHG(bits, strength, weak)                                           \
-> +       int __tsan_atomic##bits##_compare_exchange_##strength(u##bits *ptr, u##bits *exp,          \
-> +                                                             u##bits val, int mo, int fail_mo);   \
-> +       int __tsan_atomic##bits##_compare_exchange_##strength(u##bits *ptr, u##bits *exp,          \
-> +                                                             u##bits val, int mo, int fail_mo)    \
-> +       {                                                                                          \
-> +               check_access(ptr, bits / BITS_PER_BYTE, KCSAN_ACCESS_WRITE | KCSAN_ACCESS_ATOMIC); \
-> +               return __atomic_compare_exchange_n(ptr, exp, val, weak, mo, fail_mo);              \
-> +       }                                                                                          \
-> +       EXPORT_SYMBOL(__tsan_atomic##bits##_compare_exchange_##strength)
-> +
-> +#define DEFINE_TSAN_ATOMIC_CMPXCHG_VAL(bits)                                                       \
-> +       u##bits __tsan_atomic##bits##_compare_exchange_val(u##bits *ptr, u##bits exp, u##bits val, \
-> +                                                          int mo, int fail_mo);                   \
-> +       u##bits __tsan_atomic##bits##_compare_exchange_val(u##bits *ptr, u##bits exp, u##bits val, \
-> +                                                          int mo, int fail_mo)                    \
-> +       {                                                                                          \
-> +               check_access(ptr, bits / BITS_PER_BYTE, KCSAN_ACCESS_WRITE | KCSAN_ACCESS_ATOMIC); \
-> +               __atomic_compare_exchange_n(ptr, &exp, val, 0, mo, fail_mo);                       \
-> +               return exp;                                                                        \
-> +       }                                                                                          \
-> +       EXPORT_SYMBOL(__tsan_atomic##bits##_compare_exchange_val)
-> +
-> +#define DEFINE_TSAN_ATOMIC_OPS(bits)                                                               \
-> +       DEFINE_TSAN_ATOMIC_LOAD_STORE(bits);                                                       \
-> +       DEFINE_TSAN_ATOMIC_RMW(exchange, bits, _n);                                                \
-> +       DEFINE_TSAN_ATOMIC_RMW(fetch_add, bits, );                                                 \
-> +       DEFINE_TSAN_ATOMIC_RMW(fetch_sub, bits, );                                                 \
-> +       DEFINE_TSAN_ATOMIC_RMW(fetch_and, bits, );                                                 \
-> +       DEFINE_TSAN_ATOMIC_RMW(fetch_or, bits, );                                                  \
-> +       DEFINE_TSAN_ATOMIC_RMW(fetch_xor, bits, );                                                 \
-> +       DEFINE_TSAN_ATOMIC_RMW(fetch_nand, bits, );                                                \
-> +       DEFINE_TSAN_ATOMIC_CMPXCHG(bits, strong, 0);                                               \
-> +       DEFINE_TSAN_ATOMIC_CMPXCHG(bits, weak, 1);                                                 \
-> +       DEFINE_TSAN_ATOMIC_CMPXCHG_VAL(bits)
-> +
-> +DEFINE_TSAN_ATOMIC_OPS(8);
-> +DEFINE_TSAN_ATOMIC_OPS(16);
-> +DEFINE_TSAN_ATOMIC_OPS(32);
-> +DEFINE_TSAN_ATOMIC_OPS(64);
-> +
-> +void __tsan_atomic_thread_fence(int memorder);
-> +void __tsan_atomic_thread_fence(int memorder)
-> +{
-> +       __atomic_thread_fence(memorder);
-> +}
-> +EXPORT_SYMBOL(__tsan_atomic_thread_fence);
-> +
-> +void __tsan_atomic_signal_fence(int memorder);
-> +void __tsan_atomic_signal_fence(int memorder) { }
-> +EXPORT_SYMBOL(__tsan_atomic_signal_fence);
-> --
-> 2.27.0.212.ge8ba1cc988-goog
->
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+         Resolution|---                         |CODE_FIX
+
+--- Comment #1 from Andrey Konovalov (andreyknvl@gmail.com) ---
+I don't remember what's the story with this bug, but currently
+kasan_kmalloc_large() memory comes from alloc_pages(), so the tagging is there.
+
+-- 
+You are receiving this mail because:
+You are on the CC list for the bug.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BYoicOtXEGsV9fJwfA7PpQY0sKbyWq1gY27P-oaXDJ3RA%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/bug-203499-199747-yuuCg9fBS8%40https.bugzilla.kernel.org/.
