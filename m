@@ -1,138 +1,129 @@
-Return-Path: <kasan-dev+bncBDGPTM5BQUDRBSUXRP4AKGQEIKE2QSY@googlegroups.com>
+Return-Path: <kasan-dev+bncBC24VNFHTMIBBRNQRP4AKGQEFGPYBMI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-vs1-xe39.google.com (mail-vs1-xe39.google.com [IPv6:2607:f8b0:4864:20::e39])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88A252152D1
-	for <lists+kasan-dev@lfdr.de>; Mon,  6 Jul 2020 08:59:23 +0200 (CEST)
-Received: by mail-vs1-xe39.google.com with SMTP id l26sf273482vsb.23
-        for <lists+kasan-dev@lfdr.de>; Sun, 05 Jul 2020 23:59:23 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1594018762; cv=pass;
+Received: from mail-ua1-x938.google.com (mail-ua1-x938.google.com [IPv6:2607:f8b0:4864:20::938])
+	by mail.lfdr.de (Postfix) with ESMTPS id D2364215383
+	for <lists+kasan-dev@lfdr.de>; Mon,  6 Jul 2020 09:52:38 +0200 (CEST)
+Received: by mail-ua1-x938.google.com with SMTP id 75sf12800627uai.21
+        for <lists+kasan-dev@lfdr.de>; Mon, 06 Jul 2020 00:52:38 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1594021958; cv=pass;
         d=google.com; s=arc-20160816;
-        b=JnhGY/x7W1HiurC0vHydfMoTTnY73a5UssmbhN2Kwy4MV8vEkw+A78E7tsNtxT7qzQ
-         4sSexaVsDwK7PIbAM5j/qFKH0lbcXV3E894gJyinTQ+Rs7BDSdboqZQoLFi8uHyfNMq7
-         hsK+H/KgX/GlaV5IkfoZYuOlcl8uBlySWcdG0SXtXwNtIXjevXd1H91Sq7rdHHDtM99v
-         FEDQ1y/jIQDorqGUNukf1p0iv1COrTkz0lQ0qmVOiSax7gR169Rk1biA9mdbEd9zrKr2
-         bNqda9iiMEgqxQq8OzkKSFsubxiRv5vnt3zOHjexBMTQhAclkuFwIc6/gcTh/t0slBDj
-         VBcA==
+        b=FDPEeLB0rjFIXMAaty48/Lri5QiNkbsXIgDYWmHHPFSymy16/3dQ+z1KNduHeBT9Kr
+         HFdNM2efSoEbd+NEr76CLBuh+4LtWIirZ7FDqLC2X0Ocq2FjlJvcWno8gHBndmrxs4bw
+         M9C0I1j+Lp6rbZr18YdcjglP5m+QNek+5Oc/4at5OtGQMA+Ni2mIJVLQsMbb0+sNN5YW
+         cbo8ye3u2kwYMSkwX2o7zVkZl3UpfsKx02B9kOYhDvTg+i2JFy53xV/25BXL4VqXWBYL
+         NwvmIOTlbQ8kLD8brSNKYOUmQwh791ZpM/2jNuv15IvGBhhMSEAR5w/ayZ8intkz03Vq
+         MYfg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding
-         :mime-version:references:in-reply-to:date:cc:to:from:subject
-         :message-id:sender:dkim-signature;
-        bh=ecD04ySvnQfO8M7akJjGLlCi/Ir3tlqoQY5Az70thAc=;
-        b=ulYaUUcE/9Lb6vl3vvuDAc8w/knbyNPxAWKh0NfnvR4Dcr+zYxhqTG506gqWr0tk5t
-         E4B0mvRmLeTjMZWA0xbBdQlm+6UTawgdwiEOKq/jbUUwKfHzZjVPsi4YicuWPapPeQhn
-         zvpfbaALeHgi7HxB0qMUtVPYLePvdo37XpMNz/27+2ml2vtHx8+AYVSuQ5Fzf4jWSVgl
-         6k7Wk85GY9scsIQBEEqRYq4czZSxqX/Sftl9t1Z2MnUBANHHpn9f2SYB2eAIANHKrL+x
-         bZU/3z/2FYC8ecYir6JOE5FbRZqNO0wy1/ltjSRL/Iz4bJ2cJXYrlqqaGNQxzamlfhpi
-         qYhw==
+         :list-id:mailing-list:precedence:mime-version:auto-submitted
+         :message-id:date:subject:to:from:sender:dkim-signature;
+        bh=ZCvzlYR/8TecUy/TvSMEjlNMTF3H1kqsDQzX4cLJSXY=;
+        b=UMUrmi7lP/JK+rz0Syq9F+T+PrN50QjvT1hVJTw0QYXvfjwzZZy9thTvvT7NB3OnkD
+         NiI3ZTrMITlbTDeYlZG8GtFZF6DivOEf24bv543CiGzxld8kaQtEApIIwvPJYek3a8ZF
+         qGurzUOiWqB+loieSm6sgS/MncmLAgZ5jXBtjX9tjnfKHJ+rKBhI//klJIloXO8gZ8Y9
+         JC9PeNvXldoZOeJ560kfxrf6Zn8CfMgFCdAprzsEzc/LOkcEeLVaNYNVI31CgR7Pxb9z
+         IlbP+w6BcZH8Cv3Nk6C+aM+a0e69fQF8v7jXYZPlc0aZpRPERhNA8Un7kYmatuj98uwc
+         bPIw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@mediatek.com header.s=dk header.b=ZWXHNQeH;
-       spf=pass (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.183 as permitted sender) smtp.mailfrom=walter-zh.wu@mediatek.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
+       spf=pass (google.com: domain of srs0=ck6p=ar=bugzilla.kernel.org=bugzilla-daemon@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=Ck6p=AR=bugzilla.kernel.org=bugzilla-daemon@kernel.org";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:message-id:subject:from:to:cc:date:in-reply-to:references
-         :mime-version:content-transfer-encoding:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=ecD04ySvnQfO8M7akJjGLlCi/Ir3tlqoQY5Az70thAc=;
-        b=HjCBRv6BRHMSKn61FuWVv5hU0Tdbh1nKHCTBzqg++zR8SDedMM+ip5Xg7M3R5pjl7o
-         kO+nuvd19ugdwr/xvSRuthO3dOAL9lVRkkOVGeENZh4kWI3Es4VTLqIEZhUw2E1pd7tz
-         fCIYrsIjc3ps1s8tP7X/UqfvIFItGoRT5M5arYr4l+BIUICQcJeBY4dl+6hqOhS5BEpq
-         P6fTrFLF4G05PxEwLwZNB+ue82xyPXkPvvT9pAWHzl3YpTIbLEjmsLER0iugvfJaE1Wa
-         OXFVg3Jh2UU9l9sV2gucThzJ6IfGYKwUSKT6R7msR78eb4/GQ9gt+26JHZQgS92iXe+v
-         1uRQ==
+        h=sender:from:to:subject:date:message-id:auto-submitted:mime-version
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=ZCvzlYR/8TecUy/TvSMEjlNMTF3H1kqsDQzX4cLJSXY=;
+        b=CGe/CfHMOg4Ie8vyeVY+aMOSrMS2jzbwrHzwJ+zV9sYsfbshm+oF5l7xJRKHKO1QXL
+         jiUXAqb/0bkuqL6fgvaaNQ2PX9irrl31FG2DHIxKriBiG9SFMsJL08rQDHtdpfgKgyRS
+         HM0AX62cM/2e440f6BJ9mEs08nPcgyX6LXbGilHCn2t2TKUdSzHHnQ4nc5G4hiMFXpJK
+         Accu9uDtnjniSKrJWbOVyyJPPDrbEZi2XjuzGKaU0cx8d+Yi3/ROm7s44R9ietvb1dkG
+         ZvvzWwMLciYReVf+QsGu2hUbJqRGD06BiGzFwZa6owXxOEtzYFAUYgoFpNW5nuMtMaUh
+         6+ww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:message-id:subject:from:to:cc:date
-         :in-reply-to:references:mime-version:content-transfer-encoding
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=ecD04ySvnQfO8M7akJjGLlCi/Ir3tlqoQY5Az70thAc=;
-        b=tix9t2VVEnMNNpdFQB6CPeuyBq9YC+tdHsx4IIb5V5xSw0OZ18ZpMv92Ui80J8JdPe
-         cOzvZBiLYXDotU22i3ca2j2dTcpONz7u8U5joqqJlKY3W1MQPmMJ9X1MBPlZ6eVKrgBG
-         EZTXk/PmkoW9WegKhPDDlqmK6Yj6fK1bL/vnU+qPeCLApcjQ0NTrgZ4QKn8Xj8aVw1qD
-         WMCVxHnHfyhC/H8YCX8LIBSzLlyQlmOEIQw3wu7cy12lVkzmyue+yr8f/EnJ7GVgWXxL
-         IbnUU/N1JEs/3WIA7R0r6o/5va+14K82q4Z0Pkz4HzpRmjjPkLhIIsYHoiO0QRyo6Y7z
-         Ay/A==
+        h=sender:x-gm-message-state:from:to:subject:date:message-id
+         :auto-submitted:mime-version:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=ZCvzlYR/8TecUy/TvSMEjlNMTF3H1kqsDQzX4cLJSXY=;
+        b=nmPbc7TlXOR7PxLSEF5f4NbDa/fgA10szfzErQNheNayPDHDfHL7CcMqxdCRS6iLoj
+         YMa+m8CbaHspzprBu/BiG3mitleftsRNp/CLBG4MfpVYqnB5JfMP4AdyV+XvhYiw8t2y
+         pcJMPTXjgkFmUcVaRV6XcMyXiD6x9ZQJA4w1Lz3oXs4OXy9g6ouA8XPUEedGW7xwTR1I
+         QeXeMd/kQmEOEroOReQQDQ9Oi4HoT5wIK6IU/ijf2dBaCZ30LUAia+6reJq2fXbvPAmP
+         9Bg2VW520Kwxnj1YDxsHbGH8rYUoHlvaDsfpKJF9PgkoKHs23E41f/1CDVuNtpBHK5PS
+         77yQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM533JVDwIoTfWsHhEY5VGqzQFjBHLBtx+mv+wgma/80vfgTsvSkYY
-	JoNO7jScnkjZArQrHBssLLo=
-X-Google-Smtp-Source: ABdhPJy4EuTN6INzcQp0P5UfspZjYJ+pgDcv5UCToqyJv6+QN3NUbZiv9pvEidZotXMh6MGYyQ8FUg==
-X-Received: by 2002:a1f:eec8:: with SMTP id m191mr32912908vkh.47.1594018762439;
-        Sun, 05 Jul 2020 23:59:22 -0700 (PDT)
+X-Gm-Message-State: AOAM531HL2y2Tc5jBgHM3UUkRs1o9eabRR3SfCXLQ5vWY8eUTfQq6Juo
+	T4I8IhvII6XYseYPoPO7bNs=
+X-Google-Smtp-Source: ABdhPJweWSa4fScA/S6dU1ERWTsvhe5GAuHsH8EPd638G7Z+QsH8k6E1iOzOOXTYFKfW5u+tI2EvQQ==
+X-Received: by 2002:ab0:28d1:: with SMTP id g17mr12825508uaq.57.1594021957908;
+        Mon, 06 Jul 2020 00:52:37 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a67:7241:: with SMTP id n62ls592166vsc.2.gmail; Sun, 05 Jul
- 2020 23:59:22 -0700 (PDT)
-X-Received: by 2002:a67:c011:: with SMTP id v17mr37854302vsi.56.1594018761999;
-        Sun, 05 Jul 2020 23:59:21 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1594018761; cv=none;
+Received: by 2002:ab0:2787:: with SMTP id t7ls1061550uap.11.gmail; Mon, 06 Jul
+ 2020 00:52:37 -0700 (PDT)
+X-Received: by 2002:ab0:3753:: with SMTP id i19mr28977372uat.58.1594021957535;
+        Mon, 06 Jul 2020 00:52:37 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1594021957; cv=none;
         d=google.com; s=arc-20160816;
-        b=YaEjhozkyYqIu7aKz6eOgQ6IflUXNH/jOqadaeOPs+HCvuZIEkUWfS3tdE3xC2b1dA
-         OPS9hys0AMOp1aOZjcES7WWEVZbB6CGixMvZLg6QZxtVvHly8n3qfc5X55eVC+7L6zGJ
-         eovpuo4LTEhf4lNEm3YiY/Dn9dRyDDXFCUteoa3qT9AIgRrCeJndhPFI87o+Wg8dxDUz
-         JrFynS4107T8jBsQ786iji77Gj9flic/bC1wOMJfpAv6+x5xgatMWVJYWpdtCAmQonFk
-         MX+iHdsFsEr1otaTVqn40WEBE0BtIf9798dn6kUk8u0GqRBDAxXZG1zqMnQ/kj1fVIOZ
-         sMFA==
+        b=PCuyXMFueCZsUufm4TFgCDbqdQXLWM2lZDse0baGMYydkqRJPDmf+stw8RBg26Dioh
+         MIn75rajGp1I774jTgwFva9LxZFZXdrZRCk9N5cLjehdzK6Tzh8M1nViDIB7Q1oJM8y3
+         MoXY8Wmlg/llEyhm3FRtmvt0TviEkCPticvfBZC4OyYXoGJaZA7Hgt90q5q1qLAfATDf
+         GuWBmvFwVttdX10xU+g955aeFaNi53nO8LL3Bu5xl2Cgclwd34iBUq1fy1j82N88mzaf
+         9KZHkEoMFoFxVkaViGvsRcEtdlU5Du/OxDIqkBT2sE+lgCu8NtYFOhTggoJ5GYfWPO4v
+         EJ3Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:references:in-reply-to:date
-         :cc:to:from:subject:message-id:dkim-signature;
-        bh=nPZqNQDBxsg4ytdwwt0Endr8/iEUUms3Rc4LlN2aaeY=;
-        b=AI/+AwTh5akAkpw5ivE0TGM4QtJimQkMd0I10DFru5T1q+1m73VcEoE41+WK2d4xok
-         dgScQ9HmV+p5eG5VRM/FUgTOC2Nd+HJr98u2OTckjzkCUZtSjKZ+UEXF0dfhcJlDKzL4
-         3mHNjqNoxgtwRakF9EL2rO9zcHHmBf5/uaEsWoUHLQzEh+rIfj0lDWqA10OozikLy9wm
-         fb/fbEC56j9G5igOQtwIlZWK18QzmQipCAvmRDr60azkNe+MHjVPZFFclIRcQUfbRJ/P
-         G5Be9NqD/hX9RxnqaJRVKmbjsv4vKTzDW4YfaTA2vkRVg4q8vXhjqcswmbvKrA6IW1aF
-         4mKw==
+        h=mime-version:auto-submitted:content-transfer-encoding:message-id
+         :date:subject:to:from;
+        bh=lyB3UE8QKlTFMdtXMjmw+MSNx3Vr3WZeqk01bIh/ARc=;
+        b=Lwu1tw0g8eVOma9/ZjU3G5c/Pu1Tl4Hos0zN0jYGHEpGgPRY1k9453j74VRLa1papa
+         qqipMlP0VWwmnBzkeBxAPOO4aXrwTrHOkHYJDMdZP7kHqaTO1+8FN4TH4QLZOc0m5J7b
+         7IqWjeeXaPEAMmFUp1g83dXAwk/G51s4+myURuhkVOMfme/OMhNSy1DOuitgNyb7q3J+
+         iMoJw59hi+Rg0DBHN5/AiPWXyDZPvF0fW323+PgDObozhYz9KYd+KNuK13xhchrokkoz
+         U6lfaTfO+WLrdo3ceSaNinEGSXGdVYYa3TxId3Ek0gNSiOQf/3AmELgJEXiAWiRmRANA
+         I2kQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@mediatek.com header.s=dk header.b=ZWXHNQeH;
-       spf=pass (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.183 as permitted sender) smtp.mailfrom=walter-zh.wu@mediatek.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
-Received: from mailgw01.mediatek.com ([210.61.82.183])
-        by gmr-mx.google.com with ESMTP id y197si1029420vky.3.2020.07.05.23.59.20
-        for <kasan-dev@googlegroups.com>;
-        Sun, 05 Jul 2020 23:59:21 -0700 (PDT)
-Received-SPF: pass (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.183 as permitted sender) client-ip=210.61.82.183;
-X-UUID: 9bf760c3df2f4e80aff10f4192957e77-20200706
-X-UUID: 9bf760c3df2f4e80aff10f4192957e77-20200706
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
-	(envelope-from <walter-zh.wu@mediatek.com>)
-	(Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
-	with ESMTP id 393689281; Mon, 06 Jul 2020 14:59:17 +0800
-Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
- mtkmbs01n1.mediatek.inc (172.21.101.68) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Mon, 6 Jul 2020 14:59:13 +0800
-Received: from [172.21.84.99] (172.21.84.99) by MTKCAS06.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Mon, 6 Jul 2020 14:59:13 +0800
-Message-ID: <1594018755.1706.3.camel@mtksdccf07>
-Subject: Re: [PATCH v2] kasan: fix KASAN unit tests for tag-based KASAN
-From: Walter Wu <walter-zh.wu@mediatek.com>
-To: Dmitry Vyukov <dvyukov@google.com>
-CC: Andrey Ryabinin <aryabinin@virtuozzo.com>, Alexander Potapenko
-	<glider@google.com>, Matthias Brugger <matthias.bgg@gmail.com>, kasan-dev
-	<kasan-dev@googlegroups.com>, Linux-MM <linux-mm@kvack.org>, LKML
-	<linux-kernel@vger.kernel.org>, Linux ARM
-	<linux-arm-kernel@lists.infradead.org>, wsd_upstream
-	<wsd_upstream@mediatek.com>, <linux-mediatek@lists.infradead.org>, "Andrey
- Konovalov" <andreyknvl@google.com>, Andrew Morton <akpm@linux-foundation.org>
-Date: Mon, 6 Jul 2020 14:59:15 +0800
-In-Reply-To: <CACT4Y+akZ5iu2ohQhRqiUd8zkew-NmrUPrA=xYtS1xxHWZ60Og@mail.gmail.com>
-References: <20200706022150.20848-1-walter-zh.wu@mediatek.com>
-	 <CACT4Y+akZ5iu2ohQhRqiUd8zkew-NmrUPrA=xYtS1xxHWZ60Og@mail.gmail.com>
+       spf=pass (google.com: domain of srs0=ck6p=ar=bugzilla.kernel.org=bugzilla-daemon@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=Ck6p=AR=bugzilla.kernel.org=bugzilla-daemon@kernel.org";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
+        by gmr-mx.google.com with ESMTPS id o66si1323085vkc.0.2020.07.06.00.52.37
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 06 Jul 2020 00:52:37 -0700 (PDT)
+Received-SPF: pass (google.com: domain of srs0=ck6p=ar=bugzilla.kernel.org=bugzilla-daemon@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
+From: bugzilla-daemon@bugzilla.kernel.org
+To: kasan-dev@googlegroups.com
+Subject: [Bug 208461] New: FAULT_INJECTION: fail copy_to/from_user
+Date: Mon, 06 Jul 2020 07:52:36 +0000
+X-Bugzilla-Reason: CC
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Memory Management
+X-Bugzilla-Component: Sanitizers
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: dvyukov@google.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: mm_sanitizers@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cc cf_regression
+Message-ID: <bug-208461-199747@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.2.3-0ubuntu6
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-MTK: N
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: walter-zh.wu@mediatek.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@mediatek.com header.s=dk header.b=ZWXHNQeH;       spf=pass
- (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.183 as
- permitted sender) smtp.mailfrom=walter-zh.wu@mediatek.com;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
+X-Original-Sender: bugzilla-daemon@bugzilla.kernel.org
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of srs0=ck6p=ar=bugzilla.kernel.org=bugzilla-daemon@kernel.org
+ designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=Ck6p=AR=bugzilla.kernel.org=bugzilla-daemon@kernel.org";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -145,272 +136,46 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, 2020-07-06 at 08:19 +0200, Dmitry Vyukov wrote:
-> On Mon, Jul 6, 2020 at 4:21 AM Walter Wu <walter-zh.wu@mediatek.com> wrot=
-e:
-> >
-> > We use tag-based KASAN, then KASAN unit tests don't detect out-of-bound=
-s
-> > memory access. They need to be fixed.
-> >
-> > With tag-based KASAN, the state of each 16 aligned bytes of memory is
-> > encoded in one shadow byte and the shadow value is tag of pointer, so
-> > we need to read next shadow byte, the shadow value is not equal to tag
-> > value of pointer, so that tag-based KASAN will detect out-of-bounds
-> > memory access.
-> >
-> > Signed-off-by: Walter Wu <walter-zh.wu@mediatek.com>
-> > Cc: Andrey Ryabinin <aryabinin@virtuozzo.com>
-> > Cc: Dmitry Vyukov <dvyukov@google.com>
-> > Cc: Alexander Potapenko <glider@google.com>
-> > Cc: Matthias Brugger <matthias.bgg@gmail.com>
-> > Cc: Andrey Konovalov <andreyknvl@google.com>
-> > Cc: Andrew Morton <akpm@linux-foundation.org>
-> > ---
-> >
-> > changes since v1:
-> > - Reduce amount of non-compiled code.
-> > - KUnit-KASAN Integration patchset are not merged yet. My patch should
-> >   have conflict with it, if needed, we can continue to wait it.
-> >
-> > ---
-> >
-> >  lib/test_kasan.c | 81 ++++++++++++++++++++++++++++++++++++++----------
-> >  1 file changed, 64 insertions(+), 17 deletions(-)
-> >
-> > diff --git a/lib/test_kasan.c b/lib/test_kasan.c
-> > index e3087d90e00d..660664439d52 100644
-> > --- a/lib/test_kasan.c
-> > +++ b/lib/test_kasan.c
-> > @@ -40,7 +40,11 @@ static noinline void __init kmalloc_oob_right(void)
-> >                 return;
-> >         }
-> >
-> > -       ptr[size] =3D 'x';
-> > +       if (IS_ENABLED(CONFIG_KASAN_GENERIC))
-> > +               ptr[size] =3D 'x';
-> > +       else
-> > +               ptr[size + 5] =3D 'x';
-> > +
->=20
-> Hi Walter,
->=20
-> Would if be possible to introduce something like:
->=20
-> #define OOB_TAG_OFF (IS_ENABLED(CONFIG_KASAN_GENERIC) ? 0 : 8)
->=20
+https://bugzilla.kernel.org/show_bug.cgi?id=208461
 
-It is good suggestion. Thanks.
+            Bug ID: 208461
+           Summary: FAULT_INJECTION: fail copy_to/from_user
+           Product: Memory Management
+           Version: 2.5
+    Kernel Version: ALL
+          Hardware: All
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: Sanitizers
+          Assignee: mm_sanitizers@kernel-bugs.kernel.org
+          Reporter: dvyukov@google.com
+                CC: kasan-dev@googlegroups.com
+        Regression: No
 
-> and then add it throughout as
->=20
->         ptr[size + OOB_TAG_OFF] =3D 'x';
->=20
-> ?
-> The current version results in quite some amount of additional code
-> that needs to be read, extended  and maintained in the future. So I am
-> thinking if it's possible to minimize it somehow...
->=20
+See https://lkml.org/lkml/2020/4/13/870 for motivation.
+copy_to/from_user is another very common set of infrastructure functions that
+can fail. It would be useful to support them in the fault injection facility
+for testing purposes. As opposed to most other failure sites, these are easily
+triggerable by user, so any bugs uncovered are higher-severity.
 
-Ok, I will send next patch by your suggestion.
+copy_to/from_user return not just an error, but also number of bytes that were
+not copied. While returning different number of values may result in new code
+paths/bugs, this does not seem to be widely used. I found one case where the
+returned number is really used -- kfifo_copy_from_user. But generally all
+callers just check for success/failure. So I don't think it's worth supporting
+in systematic mode. These subtler cases should be tested with unit-tests.
 
-Thanks.
+Need to be careful to handle all variations of copy_to/from_user: put/get, with
+underscores, etc.
 
-> >         kfree(ptr);
-> >  }
-> >
-> > @@ -92,7 +96,11 @@ static noinline void __init kmalloc_pagealloc_oob_ri=
-ght(void)
-> >                 return;
-> >         }
-> >
-> > -       ptr[size] =3D 0;
-> > +       if (IS_ENABLED(CONFIG_KASAN_GENERIC))
-> > +               ptr[size] =3D 0;
-> > +       else
-> > +               ptr[size + 6] =3D 0;
-> > +
-> >         kfree(ptr);
-> >  }
-> >
-> > @@ -162,7 +170,11 @@ static noinline void __init kmalloc_oob_krealloc_m=
-ore(void)
-> >                 return;
-> >         }
-> >
-> > -       ptr2[size2] =3D 'x';
-> > +       if (IS_ENABLED(CONFIG_KASAN_GENERIC))
-> > +               ptr2[size2] =3D 'x';
-> > +       else
-> > +               ptr2[size2 + 13] =3D 'x';
-> > +
-> >         kfree(ptr2);
-> >  }
-> >
-> > @@ -180,7 +192,12 @@ static noinline void __init kmalloc_oob_krealloc_l=
-ess(void)
-> >                 kfree(ptr1);
-> >                 return;
-> >         }
-> > -       ptr2[size2] =3D 'x';
-> > +
-> > +       if (IS_ENABLED(CONFIG_KASAN_GENERIC))
-> > +               ptr2[size2] =3D 'x';
-> > +       else
-> > +               ptr2[size2 + 2] =3D 'x';
-> > +
-> >         kfree(ptr2);
-> >  }
-> >
-> > @@ -216,7 +233,11 @@ static noinline void __init kmalloc_oob_memset_2(v=
-oid)
-> >                 return;
-> >         }
-> >
-> > -       memset(ptr+7, 0, 2);
-> > +       if (IS_ENABLED(CONFIG_KASAN_GENERIC))
-> > +               memset(ptr+7, 0, 2);
-> > +       else
-> > +               memset(ptr+15, 0, 2);
-> > +
-> >         kfree(ptr);
-> >  }
-> >
-> > @@ -232,7 +253,11 @@ static noinline void __init kmalloc_oob_memset_4(v=
-oid)
-> >                 return;
-> >         }
-> >
-> > -       memset(ptr+5, 0, 4);
-> > +       if (IS_ENABLED(CONFIG_KASAN_GENERIC))
-> > +               memset(ptr+5, 0, 4);
-> > +       else
-> > +               memset(ptr+15, 0, 4);
-> > +
-> >         kfree(ptr);
-> >  }
-> >
-> > @@ -249,7 +274,11 @@ static noinline void __init kmalloc_oob_memset_8(v=
-oid)
-> >                 return;
-> >         }
-> >
-> > -       memset(ptr+1, 0, 8);
-> > +       if (IS_ENABLED(CONFIG_KASAN_GENERIC))
-> > +               memset(ptr+1, 0, 8);
-> > +       else
-> > +               memset(ptr+15, 0, 8);
-> > +
-> >         kfree(ptr);
-> >  }
-> >
-> > @@ -265,7 +294,11 @@ static noinline void __init kmalloc_oob_memset_16(=
-void)
-> >                 return;
-> >         }
-> >
-> > -       memset(ptr+1, 0, 16);
-> > +       if (IS_ENABLED(CONFIG_KASAN_GENERIC))
-> > +               memset(ptr+1, 0, 16);
-> > +       else
-> > +               memset(ptr+15, 0, 16);
-> > +
-> >         kfree(ptr);
-> >  }
-> >
-> > @@ -281,7 +314,11 @@ static noinline void __init kmalloc_oob_in_memset(=
-void)
-> >                 return;
-> >         }
-> >
-> > -       memset(ptr, 0, size+5);
-> > +       if (IS_ENABLED(CONFIG_KASAN_GENERIC))
-> > +               memset(ptr, 0, size+5);
-> > +       else
-> > +               memset(ptr, 0, size+7);
-> > +
-> >         kfree(ptr);
-> >  }
-> >
-> > @@ -415,7 +452,11 @@ static noinline void __init kmem_cache_oob(void)
-> >                 return;
-> >         }
-> >
-> > -       *p =3D p[size];
-> > +       if (IS_ENABLED(CONFIG_KASAN_GENERIC))
-> > +               *p =3D p[size];
-> > +       else
-> > +               *p =3D p[size + 8];
-> > +
-> >         kmem_cache_free(cache, p);
-> >         kmem_cache_destroy(cache);
-> >  }
-> > @@ -497,6 +538,7 @@ static noinline void __init copy_user_test(void)
-> >         char __user *usermem;
-> >         size_t size =3D 10;
-> >         int unused;
-> > +       size_t oob_size;
-> >
-> >         kmem =3D kmalloc(size, GFP_KERNEL);
-> >         if (!kmem)
-> > @@ -511,26 +553,31 @@ static noinline void __init copy_user_test(void)
-> >                 return;
-> >         }
-> >
-> > +       if (IS_ENABLED(CONFIG_KASAN_GENERIC))
-> > +               oob_size =3D 1;
-> > +       else
-> > +               oob_size =3D 7;
-> > +
-> >         pr_info("out-of-bounds in copy_from_user()\n");
-> > -       unused =3D copy_from_user(kmem, usermem, size + 1);
-> > +       unused =3D copy_from_user(kmem, usermem, size + oob_size);
-> >
-> >         pr_info("out-of-bounds in copy_to_user()\n");
-> > -       unused =3D copy_to_user(usermem, kmem, size + 1);
-> > +       unused =3D copy_to_user(usermem, kmem, size + oob_size);
-> >
-> >         pr_info("out-of-bounds in __copy_from_user()\n");
-> > -       unused =3D __copy_from_user(kmem, usermem, size + 1);
-> > +       unused =3D __copy_from_user(kmem, usermem, size + oob_size);
-> >
-> >         pr_info("out-of-bounds in __copy_to_user()\n");
-> > -       unused =3D __copy_to_user(usermem, kmem, size + 1);
-> > +       unused =3D __copy_to_user(usermem, kmem, size + oob_size);
-> >
-> >         pr_info("out-of-bounds in __copy_from_user_inatomic()\n");
-> > -       unused =3D __copy_from_user_inatomic(kmem, usermem, size + 1);
-> > +       unused =3D __copy_from_user_inatomic(kmem, usermem, size + oob_=
-size);
-> >
-> >         pr_info("out-of-bounds in __copy_to_user_inatomic()\n");
-> > -       unused =3D __copy_to_user_inatomic(usermem, kmem, size + 1);
-> > +       unused =3D __copy_to_user_inatomic(usermem, kmem, size + oob_si=
-ze);
-> >
-> >         pr_info("out-of-bounds in strncpy_from_user()\n");
-> > -       unused =3D strncpy_from_user(kmem, usermem, size + 1);
-> > +       unused =3D strncpy_from_user(kmem, usermem, size + oob_size);
-> >
-> >         vm_munmap((unsigned long)usermem, PAGE_SIZE);
-> >         kfree(kmem);
-> > --
-> > 2.18.0
-> >
-> > --
-> > You received this message because you are subscribed to the Google Grou=
-ps "kasan-dev" group.
-> > To unsubscribe from this group and stop receiving emails from it, send =
-an email to kasan-dev+unsubscribe@googlegroups.com.
-> > To view this discussion on the web visit https://urldefense.com/v3/__ht=
-tps://groups.google.com/d/msgid/kasan-dev/20200706022150.20848-1-walter-zh.=
-wu*40mediatek.com__;JQ!!CTRNKA9wMg0ARbw!zqGS_g-oLI7o6850GjV_P7YQPr8SufdeC8f=
-bnt27o4WtvhX5PZ8-eZ6BWyF3bwm7Tizipw$ .
+-- 
+You are receiving this mail because:
+You are on the CC list for the bug.
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/1594018755.1706.3.camel%40mtksdccf07.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/bug-208461-199747%40https.bugzilla.kernel.org/.
