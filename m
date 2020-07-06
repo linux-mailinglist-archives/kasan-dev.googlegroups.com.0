@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBDE6RCFOWIARBMFRRT4AKGQEA4L4SDQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDE6RCFOWIARBMNRRT4AKGQEJZVFUCA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x337.google.com (mail-wm1-x337.google.com [IPv6:2a00:1450:4864:20::337])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE00E215732
-	for <lists+kasan-dev@lfdr.de>; Mon,  6 Jul 2020 14:27:28 +0200 (CEST)
-Received: by mail-wm1-x337.google.com with SMTP id c124sf13728682wme.0
-        for <lists+kasan-dev@lfdr.de>; Mon, 06 Jul 2020 05:27:28 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1594038448; cv=pass;
+Received: from mail-lj1-x240.google.com (mail-lj1-x240.google.com [IPv6:2a00:1450:4864:20::240])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20442215733
+	for <lists+kasan-dev@lfdr.de>; Mon,  6 Jul 2020 14:27:30 +0200 (CEST)
+Received: by mail-lj1-x240.google.com with SMTP id s1sf5861354ljo.17
+        for <lists+kasan-dev@lfdr.de>; Mon, 06 Jul 2020 05:27:30 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1594038449; cv=pass;
         d=google.com; s=arc-20160816;
-        b=CeR2/KmvALDsrQPXfxatOEe5B6CaosOdGjEZLUdNEb8nLHmf52ccpKJBtLAimMS41h
-         XWmxb468v/kODN0r2yg9/N4EyaOsBLwkD8hwjtgBh/zScOg8sEnsNLt/w2VM++0iEeE4
-         S03I/7V7xcpJaZL2/xOuDUprbmXq73DxBuh8lWYeVrswNusNNR0VmbFobtwA+q177Xq2
-         kPOD/IopAusnCiUUizmNZiwzCZ/9O40my525XStbasNtJF/zLVdj7h+K15BKuJSN27Tx
-         rrAQO2X4Rfb4vv/Ui8X14yPA7GclbY8RxI7ROBx0feJ4cApFxSCgkTOEgWpbRzLd/8TQ
-         jSxw==
+        b=PAlli17sfdSFGlUKiuYyn7Oeglp/wuYntdC2iX/Gwu4jDIHOc+s4DdXDEkwNisZRdt
+         cBVY2mH6W/MKk3hxQzEk8YWieIjv4CIlGeJFRXXsG/P9d4WAHGAHx8D26hSQvD772Hvw
+         F7ZEf2jtJO6o6K5IKWpZ/yPenZq0Ag6DNBAcTPiQfFWUN95iQcg8dDDgj6E/femTxQ4Q
+         tJB+w9sZZuumjVQh2+34yijWpaRGRR1BRXybGEStsu9wF6Eyl+RveVs9rpjyUEFKceKR
+         kpd2GzKm2cGezxaPoPGREv7pJaqIvlipVMQm9yMIhK/+1mzSBA0eTBFSPfqWLDmWAUyX
+         PE4Q==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=gZSo1Avu72CFiHohglcvxxWbnTt9QdRzNsplwpM6/W8=;
-        b=w4J6F1p6t47aGf4YHGsHr3BBzN/FBOrMJZP9q9L7DCH68WUBewqwPnP8rTFXSzDve2
-         AbKx2Aq1Xl6scVk121NlilMzFjUOdMaeAON4kB4rJe374xllXOI3xKBKTzSL9Xp3JL9a
-         KLBGAikB9zEHVv64JD561FDQx7VJhCl97rjrPGp4/7Z6RUiA6kvGfU/LEhHCSz20zv1U
-         Kaz/2j36m58ruRArRA8IJM446XEYfjfxsNJmdqlfWqJvpl4uAxRxtEY+W4vAqTd8KRgu
-         90PlF5FoCgnnqQhO+xfPKuYlY5aLMpFfbcNMqtPL08W158eY9/hBXaMumhGd5DgZYQWq
-         3spA==
+        bh=6x2YZgbH9NIh1kkkIAXOnFFooXlz40IctTk6Jprxq7Q=;
+        b=nax+yn7AxWpEHFjyB4KUSgaNFyYKHqGbNSBYLQVhNS1x9OAWNQxsh1mnRlgbNO8sMm
+         jdMc/RKsVM4qxnIldoFPWh6iY2VkvuW7NDgy7yxdBo/9xHU6FzLi/OkQouVALmamr/hX
+         MrxhwdvQ8HOH+nK19YqGTuNqUbPhqEiGRlchzLrvT9Op3nJIUSuAo+TKSyecI1SGhn5d
+         PBHUux2ohBNepojKmb3dSagmgTDFpxbzY+Do5iXv5RaNGPNw16vaj00ECkdZuz87rbi/
+         sPdBtfy47BIsnZu5ek2d31IdzOzcD6PtUsuPxZi2qixmg8DaCUimeGuCGbMs+oH4qC1N
+         PKsw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linaro.org header.s=google header.b="bmSgSD/K";
-       spf=pass (google.com: domain of linus.walleij@linaro.org designates 2a00:1450:4864:20::241 as permitted sender) smtp.mailfrom=linus.walleij@linaro.org;
+       dkim=pass header.i=@linaro.org header.s=google header.b=U8cmE1A7;
+       spf=pass (google.com: domain of linus.walleij@linaro.org designates 2a00:1450:4864:20::144 as permitted sender) smtp.mailfrom=linus.walleij@linaro.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :mime-version:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=gZSo1Avu72CFiHohglcvxxWbnTt9QdRzNsplwpM6/W8=;
-        b=j7UdNaij4Yh3NY/w4sJoRajWxWZ4kLu09FtzWP8Dd/Pke4yQBNRnVY2ATNx6sFUqm1
-         iQkN+Y/yCzlIVFVfjcvReerVyzHMws2z02AuaSFeUVQB5f8Po3uKRU+EiJIJhrIvs0sV
-         qG3cL86achMNnvPwzVjkoMKzG3m4fHQHVgAFE0q6hbfPz7sxkd/jZdUXSIi57sIf0U+m
-         qZCwKfhNsemw/KDqK27mc0Ay9VjqqZa0vzKF5EHIKTOi7yt++0eaRoX7qaQSqtp17JfC
-         bSYtmr1Jih+6/U+Lm/ZNoaoEl2f5hEbkb2Cw2alZw+PmERemUHBR5T5w6Ukir4tC5beU
-         eDZA==
+        bh=6x2YZgbH9NIh1kkkIAXOnFFooXlz40IctTk6Jprxq7Q=;
+        b=R7F0SovPQzT8xjFcpnt/1oO+bxMwjvK+DEI1hv9RN9fstg/BRYzwPk+2JpnJpElj6Y
+         4BYh2gPKr8CDa5Lf0dPLNsO/YertMYsCbZsTyl3P/q9s3T6aXnn25pzqDhQN6KE3u3ga
+         73Hf6HWMs+vVMxYGQuEazr/FBU4uC8IyYrzM6GgNwr3iXJbyeSbSXO1vPGHwRq9jXWmr
+         Ep7JsEaRjVURRK7O6UAGcTuA8AFoNsNYDLtk787Oq1/I2ae1ljBs+/UnkcJJqKkNkB1J
+         pBORe3+WEXoo6N4zGbfGjNyqdLQ0Wtzmi0DAigthD11aEUT6n8vEsd6MBULiLVTeX3b6
+         KPVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
@@ -49,60 +49,60 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=gZSo1Avu72CFiHohglcvxxWbnTt9QdRzNsplwpM6/W8=;
-        b=rFv9jLPd7T9PaZWNf3ya4iuC6+ZyC7bSZHQms5dYR4x4tOu9CDKPGmjfp6U4iBKFwH
-         rQcdwoOVU2MhEfpRoRdFPGXnrdte85TDO/IN0jPks8i0vuAVpZVpfxHLGgu39vmDIrMx
-         5SOO50PvtjfWjgWdBL4NJdyMYotwMrUqWF5Wz5JrFBdg0iQ014iw7D+2/DC2TgCb2gM0
-         kOby7jd32hny+E06MV6z30PZ+pPW4seZUZ1Ra8TLW0Nuai0PvdJgd7DxQ5pZ5/O1r247
-         nGBsjG2Ulp6NzT1SPWGS7/Sxp8B2mSDcCZzDDkypbwsM2CKHhtH5gyzYPgLKV8t+aoBO
-         qNVw==
+        bh=6x2YZgbH9NIh1kkkIAXOnFFooXlz40IctTk6Jprxq7Q=;
+        b=f5nW8b1b4VABDsHA+8QL9JHSG7CsWi/bnRqJybj4RTHg6rsvMOUtAooi6Aw69pAgOf
+         pG58DU4COWb/l7nxYT7XIoPpfyfSnx+x+qK/hQQ1alol5AYYpcReylGo6wsX4NKe2CNN
+         WIiKmDO/2iC4Jsb0v94wPHe7rhkrsB6ia20Q2UOXQJZUIzLxjDOe7a3FmhefBhAGGSgb
+         OKoM2fO63bQL/Ioc2cAGDU9+tE9egMcHaTt2+FskYX+4zijCJjEzBKCNT2mBQG+RtCtg
+         ywIueEVXJSaAZc/HfuQmaslZi9EN9dJ+xf+4lPKlIEz5L3ywyn7SKwKQiOVh2+SxdwSr
+         0piA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM531Lt7KNlIJtVK9aZ35uLhOvRXa+jZXKtXQL5A5XwSoCt+7whrnW
-	2e6+r6FDklrK1/PDHVtVJv8=
-X-Google-Smtp-Source: ABdhPJxtBwAB6aJsU029I/11pBt+aKvvHLdRdqj6gJGSj3TJgHLehyWyIS9zc/uPH3kz1f1rqXwC1Q==
-X-Received: by 2002:a1c:e355:: with SMTP id a82mr50933776wmh.165.1594038448149;
-        Mon, 06 Jul 2020 05:27:28 -0700 (PDT)
+X-Gm-Message-State: AOAM5333BkSK37MoUdiH8pQ3VEwy78QAyG1VRvQAsf8qXHNz4dtpvdrR
+	YpuBAbYz3YkqDKt1eBwFcQw=
+X-Google-Smtp-Source: ABdhPJx9Q9oCQ+C/4V4Aygco2DOJDfxVQdQsHr+LEdatmNMU/VmO+h3R4d6rY0YoomLio8igABHf3g==
+X-Received: by 2002:a2e:9acc:: with SMTP id p12mr4166163ljj.363.1594038449561;
+        Mon, 06 Jul 2020 05:27:29 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a1c:a587:: with SMTP id o129ls8224061wme.2.canary-gmail;
- Mon, 06 Jul 2020 05:27:27 -0700 (PDT)
-X-Received: by 2002:a1c:9a02:: with SMTP id c2mr21186291wme.16.1594038447632;
-        Mon, 06 Jul 2020 05:27:27 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1594038447; cv=none;
+Received: by 2002:a2e:9809:: with SMTP id a9ls1192501ljj.2.gmail; Mon, 06 Jul
+ 2020 05:27:29 -0700 (PDT)
+X-Received: by 2002:a2e:9857:: with SMTP id e23mr24138078ljj.411.1594038448979;
+        Mon, 06 Jul 2020 05:27:28 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1594038448; cv=none;
         d=google.com; s=arc-20160816;
-        b=o05fPjA2ic0svlqM7yO8QZqIocTh3TrdwX9ig8cuIeaEOmRSMj9xSQ+qLRR9OPrQ4U
-         8WvOTcWVPYsM9aeqmJDywceVAIZDqrX1xOsqrRTjAWGDQ6DZdp6O8rJOi3K8a8TFVneb
-         bR7ZLzxQQl4BBD3TyfNYGJdZYp+J2zfMBwcAC18XA7QXAjChOjVwYf303UgoBCgmvHik
-         6iSjL0ST+s7T9npXBP9yoQG5P/km8oTa2mrVOQYv0uov04fTIF16DrG0O2QNFrjKFtDj
-         3BCWOwri5pdCYaE0DUpKsOmIRztlJhwzvArA3OjFYd8MLK+nVqUBUpGz83TOsLN7wOVK
-         aPLQ==
+        b=hXvYA1cBHG/Cnr/DeFxY+wwnwiAlPVKOo7RSf8nh67iHUt+RaG1Ram31VnXSuMVIbs
+         yYDxi+skJnGLhi/pqSt5nu8d5+9IyRhiQtF/7ic1wea1PGlrNOPbxx6F8/gDcEEK8YIz
+         dOXaAz+lWMsBIKzl7OQB2ztwB6LLPe8HqaBD6WSTay5U29ZWNkhG+1g66Kq3hxzVlbW4
+         s6fSAJy41s5NV4WlAoQVuPCDIa30PyRYOiVAUMK+iSyI45919qf7Xfn8I75O0ER55Ylq
+         M33xD7pqYFsnLIHoow2s0iPS2re3xWb2UGI4zQlHQIOjUhWqDK4H4mvvBNQlScH6ZwHh
+         ElWA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=f/C71RN3h4v4uYwnG7UoSsXOtVMsTKlvllSWIOMLtDE=;
-        b=X0ueyBbkefUlTSrIEccpwzHQNaSajCt61uxTDGEAt4EbnGhuMLuPxouk56kXakraWX
-         NeATPAtH8ZSkizl5WFidpEjjHuw7D7CBLjajRJWspUkv7ghVOsuEm3QWfQ4V0ruQVsZ4
-         ZKRJ6aTlY9kzSacAv7jPqCCvHqUhvhMqec9Or4cUaowqu8cLY7zZOHg4pIpJnUoXd/wb
-         472GwxGriYzxrs2dyHuKjSS2m5E5w2GnHFLyTG1vpkG4FUNPvN3tyDwAHNnAEnXmPntR
-         r/T9+oJMdyoCIM3KvbDFPflz2yJptc/ZxzQbi/06OrL/dTpIVRaW6l2TJnPavX/8iY2A
-         uhjw==
+        bh=zrZeijvKclD0LoRMeuFsiIbPHQb2TJSstZW6Stmx2xg=;
+        b=bSfr7PXBzhWNmtGl+WJ2yT0i94LpSUaP/hBkdIrUX5tKLMNy/99ZuDP/e/vHMvnav3
+         OCGGtGG9ydj50YhltpHVymK2QWgJpT1aJqi8ryHMJeFSR3zOeJhbir9tff90VbeAdmmO
+         LuQpzFEAeVirquodZUvg0+6RX6/Ouem2Q+R1JEIg9u7WXNnbVLqkJDxovUIzil06bclz
+         s4pXpCiLO1dHwqT5XBvWbq/VuvKJUpsnzfpoRulejiCMwRKNLrGkiv7itNbX7tOdz2QI
+         Hlln2Zwp5h2luK2gTomHW5j56eFm3jfgkNY+3zsaNckNpJnuFGiGFzFw0bxyZImmog6w
+         QCjw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linaro.org header.s=google header.b="bmSgSD/K";
-       spf=pass (google.com: domain of linus.walleij@linaro.org designates 2a00:1450:4864:20::241 as permitted sender) smtp.mailfrom=linus.walleij@linaro.org;
+       dkim=pass header.i=@linaro.org header.s=google header.b=U8cmE1A7;
+       spf=pass (google.com: domain of linus.walleij@linaro.org designates 2a00:1450:4864:20::144 as permitted sender) smtp.mailfrom=linus.walleij@linaro.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com. [2a00:1450:4864:20::241])
-        by gmr-mx.google.com with ESMTPS id r8si1063253wrm.0.2020.07.06.05.27.27
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com. [2a00:1450:4864:20::144])
+        by gmr-mx.google.com with ESMTPS id z3si996809lfe.5.2020.07.06.05.27.28
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 06 Jul 2020 05:27:27 -0700 (PDT)
-Received-SPF: pass (google.com: domain of linus.walleij@linaro.org designates 2a00:1450:4864:20::241 as permitted sender) client-ip=2a00:1450:4864:20::241;
-Received: by mail-lj1-x241.google.com with SMTP id h19so45076492ljg.13
-        for <kasan-dev@googlegroups.com>; Mon, 06 Jul 2020 05:27:27 -0700 (PDT)
-X-Received: by 2002:a2e:91ca:: with SMTP id u10mr21806516ljg.101.1594038446983;
-        Mon, 06 Jul 2020 05:27:26 -0700 (PDT)
+        Mon, 06 Jul 2020 05:27:28 -0700 (PDT)
+Received-SPF: pass (google.com: domain of linus.walleij@linaro.org designates 2a00:1450:4864:20::144 as permitted sender) client-ip=2a00:1450:4864:20::144;
+Received: by mail-lf1-x144.google.com with SMTP id k17so9670761lfg.3
+        for <kasan-dev@googlegroups.com>; Mon, 06 Jul 2020 05:27:28 -0700 (PDT)
+X-Received: by 2002:a19:7407:: with SMTP id v7mr28396547lfe.4.1594038448737;
+        Mon, 06 Jul 2020 05:27:28 -0700 (PDT)
 Received: from localhost.localdomain (c-92d7225c.014-348-6c756e10.bbcust.telenor.se. [92.34.215.146])
-        by smtp.gmail.com with ESMTPSA id v20sm8534223lfr.74.2020.07.06.05.27.26
+        by smtp.gmail.com with ESMTPSA id v20sm8534223lfr.74.2020.07.06.05.27.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jul 2020 05:27:26 -0700 (PDT)
+        Mon, 06 Jul 2020 05:27:28 -0700 (PDT)
 From: Linus Walleij <linus.walleij@linaro.org>
 To: Florian Fainelli <f.fainelli@gmail.com>,
 	Abbott Liu <liuwenliang@huawei.com>,
@@ -112,22 +112,23 @@ To: Florian Fainelli <f.fainelli@gmail.com>,
 	Mike Rapoport <rppt@linux.ibm.com>
 Cc: linux-arm-kernel@lists.infradead.org,
 	Arnd Bergmann <arnd@arndb.de>,
-	Linus Walleij <linus.walleij@linaro.org>,
+	Andrey Ryabinin <ryabinin@virtuozzo.com>,
 	Alexander Potapenko <glider@google.com>,
 	Dmitry Vyukov <dvyukov@google.com>,
-	kasan-dev@googlegroups.com
-Subject: [PATCH 4/5 v12] ARM: Initialize the mapping of KASan shadow memory
-Date: Mon,  6 Jul 2020 14:24:46 +0200
-Message-Id: <20200706122447.696786-5-linus.walleij@linaro.org>
+	kasan-dev@googlegroups.com,
+	Linus Walleij <linus.walleij@linaro.org>
+Subject: [PATCH 5/5 v12] ARM: Enable KASan for ARM
+Date: Mon,  6 Jul 2020 14:24:47 +0200
+Message-Id: <20200706122447.696786-6-linus.walleij@linaro.org>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <20200706122447.696786-1-linus.walleij@linaro.org>
 References: <20200706122447.696786-1-linus.walleij@linaro.org>
 MIME-Version: 1.0
 X-Original-Sender: linus.walleij@linaro.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linaro.org header.s=google header.b="bmSgSD/K";       spf=pass
+ header.i=@linaro.org header.s=google header.b=U8cmE1A7;       spf=pass
  (google.com: domain of linus.walleij@linaro.org designates
- 2a00:1450:4864:20::241 as permitted sender) smtp.mailfrom=linus.walleij@linaro.org;
+ 2a00:1450:4864:20::144 as permitted sender) smtp.mailfrom=linus.walleij@linaro.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: list
@@ -142,564 +143,87 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-This patch initializes KASan shadow region's page table and memory.
-There are two stage for KASan initializing:
+From: Andrey Ryabinin <ryabinin@virtuozzo.com>
 
-1. At early boot stage the whole shadow region is mapped to just
-   one physical page (kasan_zero_page). It is finished by the function
-   kasan_early_init which is called by __mmap_switched(arch/arm/kernel/
-   head-common.S)
+This patch enables the kernel address sanitizer for ARM. XIP_KERNEL
+has not been tested and is therefore not allowed for now.
 
-2. After the calling of paging_init, we use kasan_zero_page as zero
-   shadow for some memory that KASan does not need to track, and we
-   allocate a new shadow space for the other memory that KASan need to
-   track. These issues are finished by the function kasan_init which is
-   call by setup_arch.
-
-When using KASan we also need to increase the THREAD_SIZE_ORDER
-from 1 to 2 as the extra calls for shadow memory uses quite a bit
-of stack.
-
-As we need to make a temporary copy of the PGD when setting up
-shadow memory we create a helpful PGD_SIZE definition for both
-LPAE and non-LPAE setups.
-
-The KASan core code unconditionally calls pud_populate() so this
-needs to be changed from BUG() to do {} while (0) when building
-with KASan enabled.
-
-After the initial development by Andre Ryabinin several modifications
-have been made to this code:
-
-Abbott Liu <liuwenliang@huawei.com>
-- Add support ARM LPAE: If LPAE is enabled, KASan shadow region's
-  mapping table need be copied in the pgd_alloc() function.
-- Change kasan_pte_populate,kasan_pmd_populate,kasan_pud_populate,
-  kasan_pgd_populate from .meminit.text section to .init.text section.
-  Reported by Florian Fainelli <f.fainelli@gmail.com>
-
-Linus Walleij <linus.walleij@linaro.org>:
-- Drop the custom mainpulation of TTBR0 and just use
-  cpu_switch_mm() to switch the pgd table.
-- Adopt to handle 4th level page tabel folding.
-- Rewrite the entire page directory and page entry initialization
-  sequence to be recursive based on ARM64:s kasan_init.c.
-
+Cc: Andrey Ryabinin <aryabinin@virtuozzo.com>
 Cc: Alexander Potapenko <glider@google.com>
 Cc: Dmitry Vyukov <dvyukov@google.com>
 Cc: kasan-dev@googlegroups.com
-Cc: Mike Rapoport <rppt@linux.ibm.com>
-Co-developed-by: Andrey Ryabinin <aryabinin@virtuozzo.com>
-Co-developed-by: Abbott Liu <liuwenliang@huawei.com>
-Co-developed-by: Ard Biesheuvel <ardb@kernel.org>
+Acked-by: Dmitry Vyukov <dvyukov@google.com>
 Reviewed-by: Ard Biesheuvel <ardb@kernel.org>
 Tested-by: Ard Biesheuvel <ardb@kernel.org> # QEMU/KVM/mach-virt/LPAE/8G
-Reported-by: Russell King - ARM Linux <linux@armlinux.org.uk>
-Reported-by: Florian Fainelli <f.fainelli@gmail.com>
-Signed-off-by: Andrey Ryabinin <aryabinin@virtuozzo.com>
 Signed-off-by: Abbott Liu <liuwenliang@huawei.com>
 Signed-off-by: Florian Fainelli <f.fainelli@gmail.com>
 Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 ---
 ChangeLog v11->v12:
-- Do not try to shadow highmem memory blocks. (Ard)
-- Provoke a build bug if the entire shadow memory doesn't fit
-  inside a single pgd_index() (Ard)
-- Move the pointer to (unsigned long) casts into the create_mapping()
-  function. (Ard)
-- After setting up the shadow memory make sure to issue
-  local_flush_tlb_all() so that we refresh all the global mappings. (Ard)
-- Simplify pte_populate() (Ard)
-- Skip over pud population as well as p4d. (Ard)
-- Drop the stop condition pmd_none(*pmdp) in the pmd population
-  loop. (Ard)
-- Stop passing around the node (NUMA) parameter in the init code,
-  we are not expecting any NUMA architectures to be introduced into
-  ARM32 so just hardcode NUMA_NO_NODE when calling
-  memblock_alloc_try_nid().
+- Resend with the other changes.
 ChangeLog v10->v11:
-- Fix compilation on LPAE systems.
-- Move the check for valid pgdp, pudp and pmdp into the loop for
-  each level moving over the directory pointers: we were just lucky
-  that we just needed one directory for each level so this fixes
-  the pmdp issue with LPAE and KASan now works like a charm on
-  LPAE as well.
-- Fold fourth level page directory (p4d) into the global page directory
-  pgd and just skip into the page upper directory (pud) directly. We
-  do not anticipate that ARM32 will every use 5-level page tables.
-- Simplify the ifdeffery around the temporary pgd.
-- Insert a comment about pud_populate() that is unconditionally called
-  by the KASan core code.
+- Resend with the other changes.
 ChangeLog v9->v10:
-- Rebase onto v5.8-rc1
-- add support for folded p4d page tables, use the primitives necessary
-  for the 4th level folding, add (empty) walks of p4d level.
-- Use the <linux/pgtable.h> header file that has now appeared as part
-  of the VM consolidation series.
-- Use a recursive method to walk pgd/p4d/pud/pmd/pte instead of the
-  separate early/main calls and the flat call structure used in the
-  old code. This was inspired by the ARM64 KASan init code.
-- Assume authorship of this code, I have now written the majority of
-  it so the blame is on me and noone else.
+- Rebase on v5.8-rc1
 ChangeLog v8->v9:
-- Drop the custom CP15 manipulation and cache flushing for swapping
-  TTBR0 and instead just use cpu_switch_mm().
+- Fix the arch feature matrix for Arm to include KASan.
 - Collect Ard's tags.
 ChangeLog v7->v8:
-- Rebased.
-ChangeLog v6->v7:
-- Use SPDX identifer for the license.
-- Move the TTBR0 accessor calls into this patch.
+- Moved the hacks to __ADDRESS_SANITIZE__ to the patch
+  replacing the memory access functions.
+- Moved the definition of KASAN_OFFSET out of this patch
+  and to the patch that defines the virtual memory used by
+  KASan.
 ---
- arch/arm/include/asm/kasan.h       |  32 ++++
- arch/arm/include/asm/pgalloc.h     |   8 +-
- arch/arm/include/asm/thread_info.h |   8 +
- arch/arm/kernel/head-common.S      |   3 +
- arch/arm/kernel/setup.c            |   2 +
- arch/arm/mm/Makefile               |   3 +
- arch/arm/mm/kasan_init.c           | 264 +++++++++++++++++++++++++++++
- arch/arm/mm/pgd.c                  |  16 +-
- 8 files changed, 334 insertions(+), 2 deletions(-)
- create mode 100644 arch/arm/include/asm/kasan.h
- create mode 100644 arch/arm/mm/kasan_init.c
+ Documentation/dev-tools/kasan.rst                   | 4 ++--
+ Documentation/features/debug/KASAN/arch-support.txt | 2 +-
+ arch/arm/Kconfig                                    | 1 +
+ 3 files changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/arch/arm/include/asm/kasan.h b/arch/arm/include/asm/kasan.h
-new file mode 100644
-index 000000000000..56b954db160e
---- /dev/null
-+++ b/arch/arm/include/asm/kasan.h
-@@ -0,0 +1,32 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * arch/arm/include/asm/kasan.h
-+ *
-+ * Copyright (c) 2015 Samsung Electronics Co., Ltd.
-+ * Author: Andrey Ryabinin <ryabinin.a.a@gmail.com>
-+ *
-+ */
-+
-+#ifndef __ASM_KASAN_H
-+#define __ASM_KASAN_H
-+
-+#ifdef CONFIG_KASAN
-+
-+#include <asm/kasan_def.h>
-+
-+#define KASAN_SHADOW_SCALE_SHIFT 3
-+
-+/*
-+ * The compiler uses a shadow offset assuming that addresses start
-+ * from 0. Kernel addresses don't start from 0, so shadow
-+ * for kernel really starts from 'compiler's shadow offset' +
-+ * ('kernel address space start' >> KASAN_SHADOW_SCALE_SHIFT)
-+ */
-+
-+extern void kasan_init(void);
-+
-+#else
-+static inline void kasan_init(void) { }
-+#endif
-+
-+#endif
-diff --git a/arch/arm/include/asm/pgalloc.h b/arch/arm/include/asm/pgalloc.h
-index 069da393110c..3bf1905df9c3 100644
---- a/arch/arm/include/asm/pgalloc.h
-+++ b/arch/arm/include/asm/pgalloc.h
-@@ -21,6 +21,7 @@
- #define _PAGE_KERNEL_TABLE	(PMD_TYPE_TABLE | PMD_BIT4 | PMD_DOMAIN(DOMAIN_KERNEL))
+diff --git a/Documentation/dev-tools/kasan.rst b/Documentation/dev-tools/kasan.rst
+index c652d740735d..0962365e1405 100644
+--- a/Documentation/dev-tools/kasan.rst
++++ b/Documentation/dev-tools/kasan.rst
+@@ -21,8 +21,8 @@ global variables yet.
  
- #ifdef CONFIG_ARM_LPAE
-+#define PGD_SIZE		(PTRS_PER_PGD * sizeof(pgd_t))
+ Tag-based KASAN is only supported in Clang and requires version 7.0.0 or later.
  
- static inline pmd_t *pmd_alloc_one(struct mm_struct *mm, unsigned long addr)
- {
-@@ -39,14 +40,19 @@ static inline void pud_populate(struct mm_struct *mm, pud_t *pud, pmd_t *pmd)
- }
+-Currently generic KASAN is supported for the x86_64, arm64, xtensa, s390 and
+-riscv architectures, and tag-based KASAN is supported only for arm64.
++Currently generic KASAN is supported for the x86_64, arm, arm64, xtensa, s390
++and riscv architectures, and tag-based KASAN is supported only for arm64.
  
- #else	/* !CONFIG_ARM_LPAE */
-+#define PGD_SIZE		(PAGE_SIZE << 2)
- 
- /*
-  * Since we have only two-level page tables, these are trivial
-  */
- #define pmd_alloc_one(mm,addr)		({ BUG(); ((pmd_t *)2); })
- #define pmd_free(mm, pmd)		do { } while (0)
-+#ifdef CONFIG_KASAN
-+/* The KASan core unconditionally calls pud_populate() on all architectures */
-+#define pud_populate(mm,pmd,pte)	do { } while (0)
-+#else
- #define pud_populate(mm,pmd,pte)	BUG()
--
-+#endif
- #endif	/* CONFIG_ARM_LPAE */
- 
- extern pgd_t *pgd_alloc(struct mm_struct *mm);
-diff --git a/arch/arm/include/asm/thread_info.h b/arch/arm/include/asm/thread_info.h
-index 3609a6980c34..02813a5d9e10 100644
---- a/arch/arm/include/asm/thread_info.h
-+++ b/arch/arm/include/asm/thread_info.h
-@@ -13,7 +13,15 @@
- #include <asm/fpstate.h>
- #include <asm/page.h>
- 
-+#ifdef CONFIG_KASAN
-+/*
-+ * KASan uses a lot of extra stack space so the thread size order needs to
-+ * be increased.
-+ */
-+#define THREAD_SIZE_ORDER	2
-+#else
- #define THREAD_SIZE_ORDER	1
-+#endif
- #define THREAD_SIZE		(PAGE_SIZE << THREAD_SIZE_ORDER)
- #define THREAD_START_SP		(THREAD_SIZE - 8)
- 
-diff --git a/arch/arm/kernel/head-common.S b/arch/arm/kernel/head-common.S
-index 6840c7c60a85..89c80154b9ef 100644
---- a/arch/arm/kernel/head-common.S
-+++ b/arch/arm/kernel/head-common.S
-@@ -111,6 +111,9 @@ __mmap_switched:
- 	str	r8, [r2]			@ Save atags pointer
- 	cmp	r3, #0
- 	strne	r10, [r3]			@ Save control register values
-+#ifdef CONFIG_KASAN
-+	bl	kasan_early_init
-+#endif
- 	mov	lr, #0
- 	b	start_kernel
- ENDPROC(__mmap_switched)
-diff --git a/arch/arm/kernel/setup.c b/arch/arm/kernel/setup.c
-index d8e18cdd96d3..b0820847bb92 100644
---- a/arch/arm/kernel/setup.c
-+++ b/arch/arm/kernel/setup.c
-@@ -58,6 +58,7 @@
- #include <asm/unwind.h>
- #include <asm/memblock.h>
- #include <asm/virt.h>
-+#include <asm/kasan.h>
- 
- #include "atags.h"
- 
-@@ -1130,6 +1131,7 @@ void __init setup_arch(char **cmdline_p)
- 	early_ioremap_reset();
- 
- 	paging_init(mdesc);
-+	kasan_init();
- 	request_standard_resources(mdesc);
- 
- 	if (mdesc->restart)
-diff --git a/arch/arm/mm/Makefile b/arch/arm/mm/Makefile
-index 99699c32d8a5..4536159bc8fa 100644
---- a/arch/arm/mm/Makefile
-+++ b/arch/arm/mm/Makefile
-@@ -113,3 +113,6 @@ obj-$(CONFIG_CACHE_L2X0_PMU)	+= cache-l2x0-pmu.o
- obj-$(CONFIG_CACHE_XSC3L2)	+= cache-xsc3l2.o
- obj-$(CONFIG_CACHE_TAUROS2)	+= cache-tauros2.o
- obj-$(CONFIG_CACHE_UNIPHIER)	+= cache-uniphier.o
-+
-+KASAN_SANITIZE_kasan_init.o	:= n
-+obj-$(CONFIG_KASAN)		+= kasan_init.o
-diff --git a/arch/arm/mm/kasan_init.c b/arch/arm/mm/kasan_init.c
-new file mode 100644
-index 000000000000..b040f4de6b15
---- /dev/null
-+++ b/arch/arm/mm/kasan_init.c
-@@ -0,0 +1,264 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * This file contains kasan initialization code for ARM.
-+ *
-+ * Copyright (c) 2018 Samsung Electronics Co., Ltd.
-+ * Author: Andrey Ryabinin <ryabinin.a.a@gmail.com>
-+ * Author: Linus Walleij <linus.walleij@linaro.org>
-+ */
-+
-+#define pr_fmt(fmt) "kasan: " fmt
-+#include <linux/kasan.h>
-+#include <linux/kernel.h>
-+#include <linux/memblock.h>
-+#include <linux/sched/task.h>
-+#include <linux/start_kernel.h>
-+#include <linux/pgtable.h>
-+#include <asm/cputype.h>
-+#include <asm/highmem.h>
-+#include <asm/mach/map.h>
-+#include <asm/memory.h>
-+#include <asm/page.h>
-+#include <asm/pgalloc.h>
-+#include <asm/procinfo.h>
-+#include <asm/proc-fns.h>
-+
-+#include "mm.h"
-+
-+static pgd_t tmp_pgd_table[PTRS_PER_PGD] __initdata __aligned(PGD_SIZE);
-+
-+pmd_t tmp_pmd_table[PTRS_PER_PMD] __page_aligned_bss;
-+
-+static __init void *kasan_alloc_block(size_t size)
-+{
-+	return memblock_alloc_try_nid(size, size, __pa(MAX_DMA_ADDRESS),
-+				      MEMBLOCK_ALLOC_KASAN, NUMA_NO_NODE);
-+}
-+
-+static void __init kasan_pte_populate(pmd_t *pmdp, unsigned long addr,
-+				      unsigned long end, bool early)
-+{
-+	unsigned long next;
-+	pte_t *ptep = pte_offset_kernel(pmdp, addr);
-+
-+	do {
-+		pte_t entry;
-+
-+		next = addr + PAGE_SIZE;
-+
-+		if (!early) {
-+			void *p = kasan_alloc_block(PAGE_SIZE);
-+			if (!p) {
-+				panic("%s failed to alloc pte for address 0x%lx\n",
-+				      __func__, addr);
-+				return;
-+			}
-+			memset(p, KASAN_SHADOW_INIT, PAGE_SIZE);
-+			entry = pfn_pte(virt_to_pfn(p),
-+					__pgprot(pgprot_val(PAGE_KERNEL)));
-+		} else if (pte_none(READ_ONCE(*ptep))) {
-+			/*
-+			 * The early shadow memory is mapping all KASan
-+			 * operations to one and the same page in memory,
-+			 * "kasan_early_shadow_page" so that the instrumentation
-+			 * will work on a scratch area until we can set up the
-+			 * proper KASan shadow memory.
-+			 */
-+			entry = pfn_pte(virt_to_pfn(kasan_early_shadow_page),
-+					__pgprot(_L_PTE_DEFAULT | L_PTE_DIRTY | L_PTE_XN));
-+		} else {
-+			/*
-+			 * Early shadow mappings are PMD_SIZE aligned, so if the
-+			 * first entry is already set, they must all be set.
-+			 */
-+			return;
-+		}
-+
-+		set_pte_at(&init_mm, addr, ptep, entry);
-+	} while (ptep++, addr = next, addr != end);
-+}
-+
-+/*
-+ * The pmd (page middle directory) is only used on LPAE
-+ */
-+static void __init kasan_pmd_populate(pud_t *pudp, unsigned long addr,
-+				      unsigned long end, bool early)
-+{
-+	unsigned long next;
-+	pmd_t *pmdp = pmd_offset(pudp, addr);
-+
-+	do {
-+		if (pmd_none(*pmdp)) {
-+			void *p = early ? kasan_early_shadow_pte :
-+				kasan_alloc_block(PAGE_SIZE);
-+
-+			if (!p) {
-+				panic("%s failed to allocate pmd for address 0x%lx\n",
-+				      __func__, addr);
-+				return;
-+			}
-+			pmd_populate_kernel(&init_mm, pmdp, p);
-+			flush_pmd_entry(pmdp);
-+		}
-+
-+		next = pmd_addr_end(addr, end);
-+		kasan_pte_populate(pmdp, addr, next, early);
-+	} while (pmdp++, addr = next, addr != end);
-+}
-+
-+static void __init kasan_pgd_populate(unsigned long addr, unsigned long end,
-+				      bool early)
-+{
-+	unsigned long next;
-+	pgd_t *pgdp;
-+	p4d_t *p4dp;
-+	pud_t *pudp;
-+
-+	pgdp = pgd_offset_k(addr);
-+
-+	do {
-+		/* Allocate and populate the PGD if it doesn't already exist */
-+		if (!early && pgd_none(*pgdp)) {
-+			void *p = kasan_alloc_block(PAGE_SIZE);
-+
-+			if (!p) {
-+				panic("%s failed to allocate pgd for address 0x%lx\n",
-+				      __func__, addr);
-+				return;
-+			}
-+			pgd_populate(&init_mm, pgdp, p);
-+		}
-+
-+		next = pgd_addr_end(addr, end);
-+		/*
-+		 * We just immediately jump over the p4d and pud page
-+		 * directories since we believe ARM32 will never gain four
-+		 * nor five level page tables.
-+		 */
-+		p4dp = p4d_offset(pgdp, addr);
-+		pudp = pud_offset(p4dp, addr);
-+
-+		kasan_pmd_populate(pudp, addr, next, early);
-+	} while (pgdp++, addr = next, addr != end);
-+}
-+
-+extern struct proc_info_list *lookup_processor_type(unsigned int);
-+
-+void __init kasan_early_init(void)
-+{
-+	struct proc_info_list *list;
-+
-+	/*
-+	 * locate processor in the list of supported processor
-+	 * types.  The linker builds this table for us from the
-+	 * entries in arch/arm/mm/proc-*.S
-+	 */
-+	list = lookup_processor_type(read_cpuid_id());
-+	if (list) {
-+#ifdef MULTI_CPU
-+		processor = *list->proc;
-+#endif
-+	}
-+
-+	BUILD_BUG_ON((KASAN_SHADOW_END - (1UL << 29)) != KASAN_SHADOW_OFFSET);
-+	/*
-+	 * We walk the page table and set all of the shadow memory to point
-+	 * to the scratch page.
-+	 */
-+	kasan_pgd_populate(KASAN_SHADOW_START, KASAN_SHADOW_END, true);
-+}
-+
-+static void __init clear_pgds(unsigned long start,
-+			unsigned long end)
-+{
-+	for (; start && start < end; start += PMD_SIZE)
-+		pmd_clear(pmd_off_k(start));
-+}
-+
-+static int __init create_mapping(void *start, void *end)
-+{
-+	pr_info("populating shadow for %px to %px\n", start, end);
-+	kasan_pgd_populate((unsigned long)start & PAGE_MASK,
-+			   (unsigned long)end, false);
-+	return 0;
-+}
-+
-+void __init kasan_init(void)
-+{
-+	struct memblock_region *reg;
-+	int i;
-+
-+	/*
-+	 * We are going to perform proper setup of shadow memory.
-+	 *
-+	 * At first we should unmap early shadow (clear_pgds() call bellow).
-+	 * However, instrumented code couldn't execute without shadow memory.
-+	 *
-+	 * To keep the early shadow memory MMU tables around while setting up
-+	 * the proper shadow memory, we copy swapper_pg_dir (the initial page
-+	 * table) to tmp_pgd_table and use that to keep the early shadow memory
-+	 * mapped until the full shadow setup is finished. Then we swap back
-+	 * to the proper swapper_pg_dir.
-+	 */
-+
-+	memcpy(tmp_pgd_table, swapper_pg_dir, sizeof(tmp_pgd_table));
-+#ifdef CONFIG_ARM_LPAE
-+	/* We need to be in the same PGD or this won't work */
-+	BUILD_BUG_ON(pgd_index(KASAN_SHADOW_START) !=
-+		     pgd_index(KASAN_SHADOW_END));
-+	memcpy(tmp_pmd_table,
-+	       pgd_page_vaddr(*pgd_offset_k(KASAN_SHADOW_START)),
-+	       sizeof(tmp_pmd_table));
-+	set_pgd(&tmp_pgd_table[pgd_index(KASAN_SHADOW_START)],
-+		__pgd(__pa(tmp_pmd_table) | PMD_TYPE_TABLE | L_PGD_SWAPPER));
-+#endif
-+	cpu_switch_mm(tmp_pgd_table, &init_mm);
-+	clear_pgds(KASAN_SHADOW_START, KASAN_SHADOW_END);
-+
-+	kasan_populate_early_shadow(kasan_mem_to_shadow((void *)VMALLOC_START),
-+				    kasan_mem_to_shadow((void *)-1UL) + 1);
-+
-+	for_each_memblock(memory, reg) {
-+		void *start = __va(reg->base);
-+		void *end = __va(reg->base + reg->size);
-+
-+		/* Do not attempt to shadow highmem */
-+		if (reg->base >= arm_lowmem_limit)
-+			continue;
-+		if (reg->base + reg->size > arm_lowmem_limit)
-+			end = __va(arm_lowmem_limit);
-+		if (start >= end)
-+			continue;
-+
-+		create_mapping(kasan_mem_to_shadow(start),
-+			       kasan_mem_to_shadow(end));
-+	}
-+
-+	/*
-+	 * 1. The module global variables are in MODULES_VADDR ~ MODULES_END,
-+	 *    so we need to map this area.
-+	 * 2. PKMAP_BASE ~ PKMAP_BASE+PMD_SIZE's shadow and MODULES_VADDR
-+	 *    ~ MODULES_END's shadow is in the same PMD_SIZE, so we can't
-+	 *    use kasan_populate_zero_shadow.
-+	 */
-+	create_mapping(
-+		kasan_mem_to_shadow((void *)MODULES_VADDR),
-+		kasan_mem_to_shadow((void *)(PKMAP_BASE + PMD_SIZE)));
-+
-+	/*
-+	 * KAsan may reuse the contents of kasan_early_shadow_pte directly, so
-+	 * we should make sure that it maps the zero page read-only.
-+	 */
-+	for (i = 0; i < PTRS_PER_PTE; i++)
-+		set_pte_at(&init_mm, KASAN_SHADOW_START + i*PAGE_SIZE,
-+			   &kasan_early_shadow_pte[i],
-+			   pfn_pte(virt_to_pfn(kasan_early_shadow_page),
-+				__pgprot(pgprot_val(PAGE_KERNEL)
-+					 | L_PTE_RDONLY)));
-+	local_flush_tlb_all();
-+
-+	memset(kasan_early_shadow_page, 0, PAGE_SIZE);
-+	cpu_switch_mm(swapper_pg_dir, &init_mm);
-+	pr_info("Kernel address sanitizer initialized\n");
-+	init_task.kasan_depth = 0;
-+}
-diff --git a/arch/arm/mm/pgd.c b/arch/arm/mm/pgd.c
-index c5e1b27046a8..f8e9bc58a84f 100644
---- a/arch/arm/mm/pgd.c
-+++ b/arch/arm/mm/pgd.c
-@@ -66,7 +66,21 @@ pgd_t *pgd_alloc(struct mm_struct *mm)
- 	new_pmd = pmd_alloc(mm, new_pud, 0);
- 	if (!new_pmd)
- 		goto no_pmd;
--#endif
-+#ifdef CONFIG_KASAN
-+	/*
-+	 * Copy PMD table for KASAN shadow mappings.
-+	 */
-+	init_pgd = pgd_offset_k(TASK_SIZE);
-+	init_p4d = p4d_offset(init_pgd, TASK_SIZE);
-+	init_pud = pud_offset(init_p4d, TASK_SIZE);
-+	init_pmd = pmd_offset(init_pud, TASK_SIZE);
-+	new_pmd = pmd_offset(new_pud, TASK_SIZE);
-+	memcpy(new_pmd, init_pmd,
-+	       (pmd_index(MODULES_VADDR) - pmd_index(TASK_SIZE))
-+	       * sizeof(pmd_t));
-+	clean_dcache_area(new_pmd, PTRS_PER_PMD * sizeof(pmd_t));
-+#endif /* CONFIG_KASAN */
-+#endif /* CONFIG_LPAE */
- 
- 	if (!vectors_high()) {
- 		/*
+ Usage
+ -----
+diff --git a/Documentation/features/debug/KASAN/arch-support.txt b/Documentation/features/debug/KASAN/arch-support.txt
+index 6ff38548923e..a73c55fb76e6 100644
+--- a/Documentation/features/debug/KASAN/arch-support.txt
++++ b/Documentation/features/debug/KASAN/arch-support.txt
+@@ -8,7 +8,7 @@
+     -----------------------
+     |       alpha: | TODO |
+     |         arc: | TODO |
+-    |         arm: | TODO |
++    |         arm: |  ok  |
+     |       arm64: |  ok  |
+     |         c6x: | TODO |
+     |        csky: | TODO |
+diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
+index d291cdb84c9d..6a6059f8bab9 100644
+--- a/arch/arm/Kconfig
++++ b/arch/arm/Kconfig
+@@ -65,6 +65,7 @@ config ARM
+ 	select HAVE_ARCH_BITREVERSE if (CPU_32v7M || CPU_32v7) && !CPU_32v6
+ 	select HAVE_ARCH_JUMP_LABEL if !XIP_KERNEL && !CPU_ENDIAN_BE32 && MMU
+ 	select HAVE_ARCH_KGDB if !CPU_ENDIAN_BE32 && MMU
++	select HAVE_ARCH_KASAN if MMU && !XIP_KERNEL
+ 	select HAVE_ARCH_MMAP_RND_BITS if MMU
+ 	select HAVE_ARCH_SECCOMP_FILTER if AEABI && !OABI_COMPAT
+ 	select HAVE_ARCH_THREAD_STRUCT_WHITELIST
 -- 
 2.25.4
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200706122447.696786-5-linus.walleij%40linaro.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200706122447.696786-6-linus.walleij%40linaro.org.
