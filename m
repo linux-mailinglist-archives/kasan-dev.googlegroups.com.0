@@ -1,57 +1,130 @@
-Return-Path: <kasan-dev+bncBCVLFUWIZIBBBTHYV74AKGQETLEZDCA@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBB2WZWD4AKGQEWHAK7CQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oo1-xc3a.google.com (mail-oo1-xc3a.google.com [IPv6:2607:f8b0:4864:20::c3a])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC70121CF73
-	for <lists+kasan-dev@lfdr.de>; Mon, 13 Jul 2020 08:16:45 +0200 (CEST)
-Received: by mail-oo1-xc3a.google.com with SMTP id a24sf8663200oos.10
-        for <lists+kasan-dev@lfdr.de>; Sun, 12 Jul 2020 23:16:45 -0700 (PDT)
+Received: from mail-ua1-x93d.google.com (mail-ua1-x93d.google.com [IPv6:2607:f8b0:4864:20::93d])
+	by mail.lfdr.de (Postfix) with ESMTPS id BEEF521D30F
+	for <lists+kasan-dev@lfdr.de>; Mon, 13 Jul 2020 11:44:11 +0200 (CEST)
+Received: by mail-ua1-x93d.google.com with SMTP id 75sf6340963uai.21
+        for <lists+kasan-dev@lfdr.de>; Mon, 13 Jul 2020 02:44:11 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1594633450; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=akuSM6hkGqp/1oiC9EON3JuP/18RpqwtWAd7BOhIjesYL0ZRNuUymApT8IRYlpcBfU
+         sINn7RT3V7AJ+JVC3txkTsB898z5R9DLSPWPumMws1Fl5Sy/IY4uHF8DS3u/Z+JtrTvY
+         PsckaaJ32H+7rIqOKOJhDjZivRfB+vAG50b/xgNZQisu3q12KJlPKaZ0BqtmPXXSH+Wg
+         NYNHCloO53SpwNQOUx3de0XDfyUK4AGn2MohJtrVTdefRHm53SLPSnEd2T8tPFgHn4gf
+         k9trHJnh537UtIbqH2cttn+Q9J75q5GMgt330uA22rR0Za5Be/PkGLTTDIPQvj3jlJ7q
+         Y1PA==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=fbG36vvwZRL+nKmaDxVJm45M0b8DTXt5DFMW20CN6Dg=;
+        b=Li6rkJnp/6HVCiQug+uEIYBz2gPQyxAbp18FHIhKXlr2/BbsciG2LIStLtk9D3BxVh
+         nz5DOjuTS9ikIKlRKQDcololvJ9g4dkj2OCQl/IUA1hRlhqbauTa5Vm4eAk/s4+z6vHh
+         7eZexK9G5Y0a2cdcOOVEqu3PRxvot9M+cXs20X61VuFNhP4PHfi7jb1MELvG2jnvl+0x
+         4m2UJXrwzrzZYVKSTHmFqU7l/08tavFjR4uxKkd63jiVcjPkiiKbutaIxI6w7PThLRj0
+         FXFLRr+XKbaePyiIFwb5jvO079pV4Fav4++KcXejSZPv8SnUE5+OiaQ5C6ArWvsj9y/P
+         6TZw==
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=NSMgQy5y;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::344 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:date:from:to:message-id:subject:mime-version
-         :x-original-sender:precedence:mailing-list:list-id:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=0TpUu1PhxrocUSfDTapqF0bdtynGyBCNZwx0a2lzG+4=;
-        b=OrR/+q+Qfyi+hn7YHeBr8XW6k9TjjpvSmKb8PPZnwE8BCgKrnNdbxsfoi9xBPpeYDM
-         86du1S10t++LYaRO0NSrjQfDUNGRDMla81Oa4sQmJpIVpzJRvjVzxX9QmXBsR22PR/Kj
-         r5G88LR2lROpLat46Khmsl7DVOw38rPj2NGo+qcOFh16bFMU8OQVQEucc6tHyzlIZdW7
-         FKz7tLjodmcQ9sQig0mPaQpLZdyr1VGSfSiRrUlW0cQEH8I65I29wwNgxRm9ABMWjI/9
-         ZIsvVgrfBYhzBgEYZ1zEsgyCbmEWbLtbeN9TLIq3haGvYrY0Rj6ssNG4d63oy2yJSlyO
-         XDFw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=fbG36vvwZRL+nKmaDxVJm45M0b8DTXt5DFMW20CN6Dg=;
+        b=QG0ElJgD1B82QY5VmN0TqzAsmLvnsJifZSnpvi5OoofDS09U+G2q7f2rOxkrGLsPBe
+         dPZSURhWDvRgWPmKqd9VsO/a+LdSxssE/9ODip2lWUwJANngLl25anJ9Rmjg/DjCzpl3
+         sDpwydN4SHSwCrR2PqipRpdERiHeBts2ebg7nQo9/CMpvkFH6LUSv8wiyGT+eSG9ORyi
+         Bpf14N6+fmDLCsMIcadgwHYR8weNIdgQKNpH1EtaKd9rnkW8HvHBhCnCyWYmGKgVUOZX
+         cIWfv8OHF9V8qsh+aIZPPAuWMn8xkWA5dbgspSFgBdF7xFi5OtWqaGBGyEVYvP90gpI4
+         MT9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:date:from:to:message-id:subject
-         :mime-version:x-original-sender:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=0TpUu1PhxrocUSfDTapqF0bdtynGyBCNZwx0a2lzG+4=;
-        b=Nghj/Hqr5iE06aLEQ1OvrKNWq8ehP0d/9KGdCvtzluX6B6PIuonDcvpfTNLe9zqquC
-         8tm83d3wsJVwHmJRBwSEYyOjy6kAupv4ha4IHt5Bah1zneN9touGtRfJV5MnRFjRbhW2
-         28OM1w2MiBTTc/qKF3e4RA5j5xu0WP1ZFMzrv85qZd1YSz1v6Q6nDqrRT2K1TldGP+tD
-         EeGYPwjf7t4ZkazakxYqclCgiZuAbQxmMEoXD2mjiAMbjkyUJanOIlRuRXX3VmKwvB3X
-         QDl3GXOoGVaTtgd8EQUXDO4PiWN7K0RC2VYsDmuPI1/eWyhdxyOIsA0rKHCYmNCLDukF
-         E+KA==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM531Kudzl3sgOUWWJO6i5tuj6ClQuqbo0oQZmDYYq94xlimsKlMYg
-	6YYbmqIUvAdXALgth/enHS4=
-X-Google-Smtp-Source: ABdhPJw3d8iYSFWtAq5zRyMiMfnOqf2kZWYFTmBg9Ef9jd9z6vsEmOjpLZW/0ufzN6Dm+uvqmYiFxw==
-X-Received: by 2002:a9d:6f85:: with SMTP id h5mr23458455otq.81.1594621004664;
-        Sun, 12 Jul 2020 23:16:44 -0700 (PDT)
+        bh=fbG36vvwZRL+nKmaDxVJm45M0b8DTXt5DFMW20CN6Dg=;
+        b=CnVRxPpJQpm+ZAd66pQhij2q4p6ThI4gaUVDI0unk+j+7gtYxgsO+R2hg82o23bGei
+         DnKKoauq+S9c/GzdbJP2Myaf98U971/IdeEkYwmoCWLm2YQhjYYoL2EAJ0kliPFehTXx
+         ebGTu9upIjXZJzVprhoZN4CXw6/EoLGOTvrVi7B2F0UdN5wcl6mKWSXmcC86uGMqjJio
+         gEHqlZiPfWDSXXWZ8GsFmCjVwWQF5C57B3YcS5tWg6l5fFFwc6TKWRO+QKSaVGGM31UB
+         J/jPQUt+q5ebfKnLbC+Mor0D7TdzXxCYp6kGjwFMRszpUtegBIZxy76XDCibhyMpRvAz
+         dk6Q==
+X-Gm-Message-State: AOAM532GLMZlyTQebTMBgupWN+OovMPkY8kEz/9hjDeJbO7s7fFnRTjm
+	hCAL0d/ZorU+QP8kNLdoYbQ=
+X-Google-Smtp-Source: ABdhPJwOPkDVHivVO7/QYZeaQnX5KgVe0oKTahpsikEczn+EqHNHaIJDw+mZ6LCmopRrGwEyp6Q85A==
+X-Received: by 2002:a9f:3ed4:: with SMTP id n20mr55791604uaj.39.1594633450582;
+        Mon, 13 Jul 2020 02:44:10 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6808:3c9:: with SMTP id o9ls3120759oie.6.gmail; Sun, 12
- Jul 2020 23:16:44 -0700 (PDT)
-X-Received: by 2002:aca:5693:: with SMTP id k141mr12426826oib.35.1594621004227;
-        Sun, 12 Jul 2020 23:16:44 -0700 (PDT)
-Date: Sun, 12 Jul 2020 23:16:43 -0700 (PDT)
-From: hyouyan@126.com
-To: kasan-dev <kasan-dev@googlegroups.com>
-Message-Id: <f98a41c3-2748-4dff-970a-fd656c40e0fdo@googlegroups.com>
-Subject: Porting kasan for arm v2 to kernel 4.14, appear crash on
- kasan_pte_populate
+Received: by 2002:ab0:634b:: with SMTP id f11ls1084158uap.5.gmail; Mon, 13 Jul
+ 2020 02:44:10 -0700 (PDT)
+X-Received: by 2002:ab0:2408:: with SMTP id f8mr49713572uan.91.1594633450179;
+        Mon, 13 Jul 2020 02:44:10 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1594633450; cv=none;
+        d=google.com; s=arc-20160816;
+        b=Gcj3/NOKzUz6B8EUdk8w5Ox8BjsrwYz2Sk/ThChGiy7m8GD2sUxh9Xty+4xzPIz341
+         Cnl+QxNcbqZR6haIgdrCmahmsoYrvft2t3YlAWr4aFFJU9TT3rb0NAbBK+ESi/KBk1aU
+         3iJsKaOIgjNsXscnme9QJptOscTSI8BZwRQDyVekJUTXhYvgN5dFF9/bMuSUqo5v5n1T
+         gIqlKw94mpiQxW3Wq14eAIskKc5VBv5pRS+ihDuyscSIJydBuRcECLLeoIuKCdtRKABs
+         FByKBjFJV1O25Z1N/y995PeijlRdc+fKHnEXkLlCcAwhTqsMjyyst53D9pOr8ep4/PcZ
+         /Www==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=6jaIJflUL9k2e2UMM+JSLx1wjPZ/zAPnXmkJg4wz7mQ=;
+        b=NnMju+U2Z7lmeso9IJB9M3sgDOVAmgnwIfcWlR0iAz0Kj6j9nMVadn546x8nNF5dId
+         m7nOl9RYYKpPqlEpOUevfZobKVtT+z+63DIDdnWO1rBujRRFgVeG9G9UJsH0e/LQCIhm
+         pMi93eLqmfygeBSci2K1lUWksn1PCAxKuBRwsfhm7l8tWhQqVOnDSKMqWzQtH9UKXZ3d
+         EPugzmNgWbo5YjYXBvuN5+sscrS3PxGWoaQfuFHFXw+V2JWEgIIN1IxUm5CpFYsZTXaH
+         SB4G3qyhcpeCfRPDDR8dDqz2jgurN/HJ+ovQIMEIk0LGBwDZBJfpMJa48iaVCFg7ckVH
+         DCkg==
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=NSMgQy5y;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::344 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com. [2607:f8b0:4864:20::344])
+        by gmr-mx.google.com with ESMTPS id q20si660434uas.1.2020.07.13.02.44.10
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 13 Jul 2020 02:44:10 -0700 (PDT)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::344 as permitted sender) client-ip=2607:f8b0:4864:20::344;
+Received: by mail-ot1-x344.google.com with SMTP id h13so9079947otr.0
+        for <kasan-dev@googlegroups.com>; Mon, 13 Jul 2020 02:44:10 -0700 (PDT)
+X-Received: by 2002:a9d:4b01:: with SMTP id q1mr53019086otf.17.1594633449383;
+ Mon, 13 Jul 2020 02:44:09 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/mixed; 
-	boundary="----=_Part_844_204313078.1594621003678"
-X-Original-Sender: hyouyan@126.com
+References: <000001d5824d$c8b2a060$5a17e120$@codeaurora.org>
+ <CACT4Y+aAicvQ1FYyOVbhJy62F4U6R_PXr+myNghFh8PZixfYLQ@mail.gmail.com>
+ <CANpmjNOx7fuLLBasdEgnOCJepeufY4zo_FijsoSg0hfVgN7Ong@mail.gmail.com>
+ <002801d58271$f5d01db0$e1705910$@codeaurora.org> <CANpmjNPVK00wsrpcVPFjudpqE-4-AVnZY0Pk-WMXTtqZTMXoOw@mail.gmail.com>
+ <CANpmjNM9RhZ_V7vPBLp146m_JRqajeHgRT3h3gSBz3OH4Ya_Yg@mail.gmail.com>
+ <000801d656bb$64aada40$2e008ec0$@codeaurora.org> <CANpmjNMEtocM7f1UG6OFTmAudcFJaa22WTc7aM=YGYn6SMY6HQ@mail.gmail.com>
+ <20200710135747.GA29727@C02TD0UTHF1T.local> <CANpmjNNPL65y23Qz3pHHqqdQrkK6CqTDSsD+zO_3C0P0xjYXYw@mail.gmail.com>
+ <20200710175300.GA31697@C02TD0UTHF1T.local>
+In-Reply-To: <20200710175300.GA31697@C02TD0UTHF1T.local>
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Mon, 13 Jul 2020 11:43:57 +0200
+Message-ID: <CANpmjNNetBqbqDbRS8OQ9z5P=73vAXG2xys6HKSg_dzqp9ksqA@mail.gmail.com>
+Subject: Re: KCSAN Support on ARM64 Kernel
+To: Mark Rutland <mark.rutland@arm.com>
+Cc: sgrover@codeaurora.org, Will Deacon <will@kernel.org>, 
+	Dmitry Vyukov <dvyukov@google.com>, kasan-dev <kasan-dev@googlegroups.com>, 
+	clang-built-linux <clang-built-linux@googlegroups.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: elver@google.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@google.com header.s=20161025 header.b=NSMgQy5y;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::344 as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -64,191 +137,52 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-------=_Part_844_204313078.1594621003678
-Content-Type: multipart/alternative; 
-	boundary="----=_Part_845_383446880.1594621003678"
+[+Cc clang-built-linux]
 
-------=_Part_845_383446880.1594621003678
-Content-Type: text/plain; charset="UTF-8"
+On Fri, 10 Jul 2020 at 19:53, Mark Rutland <mark.rutland@arm.com> wrote:
+> On Fri, Jul 10, 2020 at 05:12:02PM +0200, Marco Elver wrote:
+> > On Fri, 10 Jul 2020 at 15:57, Mark Rutland <mark.rutland@arm.com> wrote:
+> > > As a heads-up, since KCSAN now requires clang 11, I was waiting for the
+> > > release before sending the arm64 patch. I'd wanted to stress the result
+> > > locally with my arm64 Syzkaller instsance etc before sending it out, and
+> > > didn't fancy doing that from a locally-built clang on an arbitrary
+> > > commit.
+> > >
+> > > If you think there'sa a sufficiently stable clang commit to test from,
+> > > I'm happy to give that a go.
+> >
+> > Thanks, Mark. LLVM/Clang is usually quite stable even the pre-release
+> > (famous last words ;-)). We've been using LLVM commit
+> > ca2dcbd030eadbf0aa9b660efe864ff08af6e18b
+> > (https://github.com/llvm/llvm-project/commit/ca2dcbd030eadbf0aa9b660efe864ff08af6e18b).
+>
+> I built that locally, and rebased my arm64 enablement patches, but it
+> looks like there's a dodgy interaction with BTI, as the majority of
+> files produce a build-time warning:
+>
+> |   CC      arch/arm64/kernel/psci.o
+> | warning: some functions compiled with BTI and some compiled without BTI
+> | warning: not setting BTI in feature flags
+>
+> Regardless of whether the kernel has BTI and BTI_KERNEL selected it
+> doesn't produce any console output, but that may be something I need to
+> fix up and I haven't tried to debug it yet.
+>
+> For now I've pushed out my rebased (and currently broken) patch to my
+> arm64/kcsan-new branch:
+>
+> git://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git arm64/kcsan-new
+>
+> ... with a note as to the brokenness.
 
-Hi admin:
-     I plan to port kasan for arm v2 patch to arm kernel 4.14. But appear 
-crash, fellow is the crash log:
+Seems it's not KCSAN specific:
+https://lore.kernel.org/linux-arm-kernel/20200507143332.GB1422@willie-the-truck/
+and https://lore.kernel.org/lkml/202006191840.qO8NnNsK%25lkp@intel.com/
 
-     0.000000] c0 kasan: base end 80000000, bffc0000
-[    0.000000] c0 kasan: populating shadow for b7000000, bc200000
-[    0.000000] c0 kasan:  create_mapping addr b7000000,
-[    0.000000] c0 Unable to handle kernel paging request at virtual address 
-a86f7000
-[    0.000000] c0 pgd = (ptrval)
-[    0.000000] c0 [a86f7000] *pgd=00000000
-[    0.000000] c0 Internal error: Oops: 5 [#1] PREEMPT SMP ARM
-[    0.000000] c0 Modules linked in:
-[    0.000000] c0 CPU: 0 PID: 0 Comm: swapper Not tainted 4.14.133+ #83
-[    0.000000] c0 Hardware name: Generic DT based system
-[    0.000000] c0 task: (ptrval) task.stack: (ptrval)
-[    0.000000] c0 PC is at kasan_pte_populate+0x2c/0xcc
-[    0.000000] c0 LR is at kasan_init+0x258/0x2b0
-[    0.000000] c0 pc : [<c170b8cc>]    lr : [<c170bc7c>]    psr: a00000d3
-[    0.000000] c0 sp : c1803d88  ip : c170b8b4  fp : c1803da4
-[    0.000000] c0 r10: c14c2354  r9 : b7000000  r8 : c18b3280
-[    0.000000] c0 r7 : c18b3e00  r6 : b7000000  r5 : c1545034  r4 : bc200000
-[    0.000000] c0 r3 : a86f7000  r2 : ffffffff  r1 : 00000000  r0 : c0006dc0
-[    0.000000] c0 Flags: NzCv  IRQs off  FIQs off  Mode SVC_32  ISA ARM  
-Segment none
-[    0.000000] c0 Control: 10c5383d  Table: 817a4000  DAC: 00000051
-[    0.000000] c0 Process swapper (pid: 0, stack limit = 0x(ptrval))
-[    0.000000] c0 Stack: (0xc1803d88 to 0xc1804000)
-[    0.000000] c0 3d80:                   bc200000 c1545034 c1c60ee0 
-c18b3e00 c1803ddc c1803da8
-[    0.000000] c0 3da0: c170bc7c c170b8ac c15452ec 8000406a 00000000 
-c1790ec0 c1803ec0 c1bc08c0
-[    0.000000] c0 3dc0: c1803f40 c179d23c 80008000 c20e43a0 c1803eec 
-c1803de0 c1706020 c170ba30
-[    0.000000] c0 3de0: 0000006c 10c5383d c1803e0c c1803df8 c01c7a3c 
-c01c759c 00000024 b73007c4
-[    0.000000] c0 3e00: c1803e44 c1803e10 c01c94f4 c01c7a18 00000001 
-00000030 c1803e44 b73007cc
-[    0.000000] c0 3e20: 41b58ab3 c14c01b0 c1705990 00040e85 c180b200 
-00000000 c1803edc c1803e48
-[    0.000000] c0 3e40: c01c89c8 c01c92bc c1803e6c c1803e58 c0f08478 
-c0358a94 c1817348 c1856440
-[    0.000000] c0 3e60: 41b58ab3 c14c30bd c01c894c c0f08458 00000001 
-c18564e0 c1803e9c c1803e88
-[    0.000000] c0 3e80: c1803ee4 c03588c4 c1879240 00000005 c1803eec 
-c1803ea0 c1803eec c1803ea8
-[    0.000000] c0 3ea0: c0275760 c0358b34 c1803eec c1803ec8 c1705578 
-c01c895c c1879284 00000000
-[    0.000000] c0 3ec0: c1803eec b73007e4 c180b21c c1803fc0 c180b208 
-00040e85 c180b200 00000000
-[    0.000000] c0 3ee0: c1803ff4 c1803ef0 c1700c18 c170599c 00000000 
-00000000 00000000 00000000
-[    0.000000] c0 3f00: 00000000 00000000 00000000 00000000 00000000 
-00000000 00000000 00000000
-[    0.000000] c0 3f20: 41b58ab3 c14bf229 c1700b64 00000000 00000000 
-00000000 00000000 00000000
-[    0.000000] c0 3f40: c179d23c 00000000 00000000 00000000 00000000 
-00000000 00000000 00000000
-[    0.000000] c0 3f60: 00000000 00000000 00000000 00000000 00000000 
-00000000 00000000 00000000
-[    0.000000] c0 3f80: 00000000 00000000 00000000 00000000 00000000 
-00000000 00000000 00000000
-[    0.000000] c0 3fa0: 00000000 00000000 00000000 00000000 00000000 
-00000000 00000000 c170b894
-[    0.000000] c0 3fc0: c1bc0ba0 00000000 c179d238 c1bc0ba0 c180b21c 
-c179d238 c181c344 8000406a
-[    0.000000] c0 3fe0: 410fd034 00000000 00000000 c1803ff8 c0006fc0 
-c1700b70 00000000 00000000
-[    0.000000] c0 [<c170b8cc>] (kasan_pte_populate) from [<c170bc7c>] 
-(kasan_init+0x258/0x2b0)
-[    0.000000] c0 [<c170bc7c>] (kasan_init) from [<c1706020>] 
-(setup_arch+0x690/0xd64)
-[    0.000000] c0 [<c1706020>] (setup_arch) from [<c1700c18>] 
-(start_kernel+0xb4/0x514)
-[    0.000000] c0 [<c1700c18>] (start_kernel) from [<c0006fc0>] (0xc0006fc0)
-
-
-Is there any config wrong?
-
-
-thanks and best regards
-youyan
-    
+Thanks,
+-- Marco
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/f98a41c3-2748-4dff-970a-fd656c40e0fdo%40googlegroups.com.
-
-------=_Part_845_383446880.1594621003678
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hi admin:<div>=C2=A0 =C2=A0 =C2=A0I plan to port=C2=A0kasa=
-n for arm v2 patch to arm=C2=A0kernel 4.14. But appear crash, fellow is the=
- crash log:</div><div><br></div><div><div>=C2=A0 =C2=A0 =C2=A00.000000] c0 =
-kasan: base end 80000000, bffc0000</div><div>[=C2=A0 =C2=A0 0.000000] c0 ka=
-san: populating shadow for b7000000, bc200000</div><div>[=C2=A0 =C2=A0 0.00=
-0000] c0 kasan:=C2=A0 create_mapping addr b7000000,</div><div>[=C2=A0 =C2=
-=A0 0.000000] c0 Unable to handle kernel paging request at virtual address =
-a86f7000</div><div>[=C2=A0 =C2=A0 0.000000] c0 pgd =3D (ptrval)</div><div>[=
-=C2=A0 =C2=A0 0.000000] c0 [a86f7000] *pgd=3D00000000</div><div>[=C2=A0 =C2=
-=A0 0.000000] c0 Internal error: Oops: 5 [#1] PREEMPT SMP ARM</div><div>[=
-=C2=A0 =C2=A0 0.000000] c0 Modules linked in:</div><div>[=C2=A0 =C2=A0 0.00=
-0000] c0 CPU: 0 PID: 0 Comm: swapper Not tainted 4.14.133+ #83</div><div>[=
-=C2=A0 =C2=A0 0.000000] c0 Hardware name: Generic DT based system</div><div=
->[=C2=A0 =C2=A0 0.000000] c0 task: (ptrval) task.stack: (ptrval)</div><div>=
-[=C2=A0 =C2=A0 0.000000] c0 PC is at kasan_pte_populate+0x2c/0xcc</div><div=
->[=C2=A0 =C2=A0 0.000000] c0 LR is at kasan_init+0x258/0x2b0</div><div>[=C2=
-=A0 =C2=A0 0.000000] c0 pc : [&lt;c170b8cc&gt;]=C2=A0 =C2=A0 lr : [&lt;c170=
-bc7c&gt;]=C2=A0 =C2=A0 psr: a00000d3</div><div>[=C2=A0 =C2=A0 0.000000] c0 =
-sp : c1803d88=C2=A0 ip : c170b8b4=C2=A0 fp : c1803da4</div><div>[=C2=A0 =C2=
-=A0 0.000000] c0 r10: c14c2354=C2=A0 r9 : b7000000=C2=A0 r8 : c18b3280</div=
-><div>[=C2=A0 =C2=A0 0.000000] c0 r7 : c18b3e00=C2=A0 r6 : b7000000=C2=A0 r=
-5 : c1545034=C2=A0 r4 : bc200000</div><div>[=C2=A0 =C2=A0 0.000000] c0 r3 :=
- a86f7000=C2=A0 r2 : ffffffff=C2=A0 r1 : 00000000=C2=A0 r0 : c0006dc0</div>=
-<div>[=C2=A0 =C2=A0 0.000000] c0 Flags: NzCv=C2=A0 IRQs off=C2=A0 FIQs off=
-=C2=A0 Mode SVC_32=C2=A0 ISA ARM=C2=A0 Segment none</div><div>[=C2=A0 =C2=
-=A0 0.000000] c0 Control: 10c5383d=C2=A0 Table: 817a4000=C2=A0 DAC: 0000005=
-1</div><div><div>[=C2=A0 =C2=A0 0.000000] c0 Process swapper (pid: 0, stack=
- limit =3D 0x(ptrval))</div><div><div>[=C2=A0 =C2=A0 0.000000] c0 Stack: (0=
-xc1803d88 to 0xc1804000)</div><div>[=C2=A0 =C2=A0 0.000000] c0 3d80:=C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bc200000 c154=
-5034 c1c60ee0 c18b3e00 c1803ddc c1803da8</div><div>[=C2=A0 =C2=A0 0.000000]=
- c0 3da0: c170bc7c c170b8ac c15452ec 8000406a 00000000 c1790ec0 c1803ec0 c1=
-bc08c0</div><div>[=C2=A0 =C2=A0 0.000000] c0 3dc0: c1803f40 c179d23c 800080=
-00 c20e43a0 c1803eec c1803de0 c1706020 c170ba30</div><div>[=C2=A0 =C2=A0 0.=
-000000] c0 3de0: 0000006c 10c5383d c1803e0c c1803df8 c01c7a3c c01c759c 0000=
-0024 b73007c4</div><div>[=C2=A0 =C2=A0 0.000000] c0 3e00: c1803e44 c1803e10=
- c01c94f4 c01c7a18 00000001 00000030 c1803e44 b73007cc</div><div>[=C2=A0 =
-=C2=A0 0.000000] c0 3e20: 41b58ab3 c14c01b0 c1705990 00040e85 c180b200 0000=
-0000 c1803edc c1803e48</div><div>[=C2=A0 =C2=A0 0.000000] c0 3e40: c01c89c8=
- c01c92bc c1803e6c c1803e58 c0f08478 c0358a94 c1817348 c1856440</div><div>[=
-=C2=A0 =C2=A0 0.000000] c0 3e60: 41b58ab3 c14c30bd c01c894c c0f08458 000000=
-01 c18564e0 c1803e9c c1803e88</div><div>[=C2=A0 =C2=A0 0.000000] c0 3e80: c=
-1803ee4 c03588c4 c1879240 00000005 c1803eec c1803ea0 c1803eec c1803ea8</div=
-><div>[=C2=A0 =C2=A0 0.000000] c0 3ea0: c0275760 c0358b34 c1803eec c1803ec8=
- c1705578 c01c895c c1879284 00000000</div><div>[=C2=A0 =C2=A0 0.000000] c0 =
-3ec0: c1803eec b73007e4 c180b21c c1803fc0 c180b208 00040e85 c180b200 000000=
-00</div><div>[=C2=A0 =C2=A0 0.000000] c0 3ee0: c1803ff4 c1803ef0 c1700c18 c=
-170599c 00000000 00000000 00000000 00000000</div><div>[=C2=A0 =C2=A0 0.0000=
-00] c0 3f00: 00000000 00000000 00000000 00000000 00000000 00000000 00000000=
- 00000000</div><div>[=C2=A0 =C2=A0 0.000000] c0 3f20: 41b58ab3 c14bf229 c17=
-00b64 00000000 00000000 00000000 00000000 00000000</div><div>[=C2=A0 =C2=A0=
- 0.000000] c0 3f40: c179d23c 00000000 00000000 00000000 00000000 00000000 0=
-0000000 00000000</div><div>[=C2=A0 =C2=A0 0.000000] c0 3f60: 00000000 00000=
-000 00000000 00000000 00000000 00000000 00000000 00000000</div><div>[=C2=A0=
- =C2=A0 0.000000] c0 3f80: 00000000 00000000 00000000 00000000 00000000 000=
-00000 00000000 00000000</div><div>[=C2=A0 =C2=A0 0.000000] c0 3fa0: 0000000=
-0 00000000 00000000 00000000 00000000 00000000 00000000 c170b894</div><div>=
-[=C2=A0 =C2=A0 0.000000] c0 3fc0: c1bc0ba0 00000000 c179d238 c1bc0ba0 c180b=
-21c c179d238 c181c344 8000406a</div><div>[=C2=A0 =C2=A0 0.000000] c0 3fe0: =
-410fd034 00000000 00000000 c1803ff8 c0006fc0 c1700b70 00000000 00000000</di=
-v><div>[=C2=A0 =C2=A0 0.000000] c0 [&lt;c170b8cc&gt;] (kasan_pte_populate) =
-from [&lt;c170bc7c&gt;] (kasan_init+0x258/0x2b0)</div><div>[=C2=A0 =C2=A0 0=
-.000000] c0 [&lt;c170bc7c&gt;] (kasan_init) from [&lt;c1706020&gt;] (setup_=
-arch+0x690/0xd64)</div><div>[=C2=A0 =C2=A0 0.000000] c0 [&lt;c1706020&gt;] =
-(setup_arch) from [&lt;c1700c18&gt;] (start_kernel+0xb4/0x514)</div><div>[=
-=C2=A0 =C2=A0 0.000000] c0 [&lt;c1700c18&gt;] (start_kernel) from [&lt;c000=
-6fc0&gt;] (0xc0006fc0)</div></div></div><div><br></div><div><br></div><div>=
-Is there any config wrong?</div><div><br></div><div><br></div><div>thanks a=
-nd best regards</div><div>youyan</div><div>=C2=A0 =C2=A0=C2=A0</div></div><=
-/div>
-
-<p></p>
-
--- <br />
-You received this message because you are subscribed to the Google Groups &=
-quot;kasan-dev&quot; group.<br />
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
-+unsubscribe@googlegroups.com</a>.<br />
-To view this discussion on the web visit <a href=3D"https://groups.google.c=
-om/d/msgid/kasan-dev/f98a41c3-2748-4dff-970a-fd656c40e0fdo%40googlegroups.c=
-om?utm_medium=3Demail&utm_source=3Dfooter">https://groups.google.com/d/msgi=
-d/kasan-dev/f98a41c3-2748-4dff-970a-fd656c40e0fdo%40googlegroups.com</a>.<b=
-r />
-
-------=_Part_845_383446880.1594621003678--
-
-------=_Part_844_204313078.1594621003678--
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNNetBqbqDbRS8OQ9z5P%3D73vAXG2xys6HKSg_dzqp9ksqA%40mail.gmail.com.
