@@ -1,47 +1,47 @@
-Return-Path: <kasan-dev+bncBCV5TUXXRUIBBH7O3P4AKGQELAPS6UY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCV5TUXXRUIBBXHS3P4AKGQE6PQQBRI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x337.google.com (mail-wm1-x337.google.com [IPv6:2a00:1450:4864:20::337])
-	by mail.lfdr.de (Postfix) with ESMTPS id 107602281A7
-	for <lists+kasan-dev@lfdr.de>; Tue, 21 Jul 2020 16:09:36 +0200 (CEST)
-Received: by mail-wm1-x337.google.com with SMTP id b13sf1277502wme.9
-        for <lists+kasan-dev@lfdr.de>; Tue, 21 Jul 2020 07:09:36 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1595340575; cv=pass;
+Received: from mail-io1-xd3e.google.com (mail-io1-xd3e.google.com [IPv6:2607:f8b0:4864:20::d3e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 01E702281DA
+	for <lists+kasan-dev@lfdr.de>; Tue, 21 Jul 2020 16:19:10 +0200 (CEST)
+Received: by mail-io1-xd3e.google.com with SMTP id r19sf13514403iod.6
+        for <lists+kasan-dev@lfdr.de>; Tue, 21 Jul 2020 07:19:09 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1595341148; cv=pass;
         d=google.com; s=arc-20160816;
-        b=ncFp1h8fQAPWYH+SBqAaeeY5e2HZBL8zCfpF9Zf9JRgIvLUSJdWOkpXz8bq089ZTlX
-         QPkbtcJ2JjL9EDYcJxBpi9A+uxzgs4AFxNZPYVXZBTK2Q1KX4uE44uAo8IyY2hsSFqD7
-         nKKn9fzbVikdC0vjq7TTDUdpI+VZKUy+T/8IKP1kE6aWGL5mSsXSyMROlxYCvPQ+WaWP
-         LIssJ4I16ROODPxgd81nVTTWSNChQo2qrvKjW4QbYtB0/NNA7mrJzeGhDdtcI2mNMUF6
-         /EyO0scbfM66/kvHDkdP16xeJiJdTXtexiPschYI71/Swfgo8RMZJ1zdop2rr1nblPRK
-         SVbA==
+        b=uufI/eAZGWybKXQZLqnnt9f3nwQGU3+BEAHy3ZFOGSw0mjdUcB7xyv0OPHk18SPflg
+         7sJipwVV7mKuFfRSFsILDxWVqvq+WfFZJ7MskeHFWA3UMKTsXl3Ho5xY5dki/VUHEjq3
+         gBQQqcZaZpL3lQ4mUHyLXhWj/UmqS0pnR37E7ErKzdGSACIPEs4fhpE+lte0ZccCtX3Z
+         pLxUVjGW6cNzZpU6SvDrTPT850FB+YVICzk9JgNVvz2WUkHP5W56+kWunm/VrRLNIYqk
+         p96esGh1B0MuF9Qg34od2zjKv1o2ZugWV+kWNehWEqVslVfJh3dzE4aEnzeunQNQYFhK
+         Ic4w==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:in-reply-to:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:sender
          :dkim-signature;
-        bh=hA/HRtyyuv/zUT2XLpiu+ib8Ju33vaV+IiBKeItpalA=;
-        b=jdcY+1pF9h5qglCMijq6o35n3sXFob0RC3UTcW/BL5JSS2UyIbhYmVdUmcnl95Fi9l
-         XkcFJmYMeky1Dc16TgisqqDV01r3MZWJrRswczE/bpjrT5nDXcvlM7kt5OriTge16xXl
-         aafA+44KxrjjCcO8t5hoWr1x3P8ztvbgk1lzSu3HGTwkZLZCcaQ2yPiLFitXTLV8Gj49
-         mLjzkkJXpucLWFB/Ab2PMjDkz/TxW2iZHjmWECmo6JdhPYjDFR7BVXqapdinWv2OMAlw
-         KsQJG3LMmkqfA5rz8oIyBaVNNeWIFViHMTmO6gVS6JFvWt3UcdoacQC/hQ+tFq41oLMO
-         ++UQ==
+        bh=vviBIl+vuBWPEbLpBFnMDw126SeZYBHR9b9kVDCbsdA=;
+        b=MrihkePKZdDMS1NBZCyHwbQM15ZAPqFEOd2/fbtCuGLK8e1Gls2O2q64jOyVN3CCZ0
+         mKfewQ6WZagL7Zc/sGn8CoOinW5PSb9w5siD+4GadKK0q1bwKmqofnIMH3hUamBDvssi
+         cLfYbSwzfi5LnTYwRHnA3Qp7RulITYckP6qVUKNOhGDPxdxPch1ENmMU1L3kN/qqR8Qd
+         UXwR5pRpohpWfDvAXsn3kCw2CLmSDIpqzwwFTOmyFmB+ezILIKftWVOQalTsy9llPtxm
+         PcR849MCoyRL40HrXdRRcxMeruj183fT/xakPvCngqm8TCTB86bm9FfcfgbvMUfI+ctl
+         oeMQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=casper.20170209 header.b=DG5AbKr2;
-       spf=pass (google.com: best guess record for domain of peterz@infradead.org designates 2001:8b0:10b:1236::1 as permitted sender) smtp.mailfrom=peterz@infradead.org
+       dkim=pass header.i=@infradead.org header.s=merlin.20170209 header.b=dAhgFPlV;
+       spf=pass (google.com: best guess record for domain of peterz@infradead.org designates 2001:8b0:10b:1231::1 as permitted sender) smtp.mailfrom=peterz@infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
         h=sender:date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=hA/HRtyyuv/zUT2XLpiu+ib8Ju33vaV+IiBKeItpalA=;
-        b=dff+k2jPaT5mk7iQuLS4M7BRRrQKVwPawz9LFo4yDyicSCIzPmbqLAHk7zGrdvbIk9
-         ApNJ24vVEVWjyhDkZ372dA5jfUCnKZTv0Hi398QHUuqbe/OS84aeS3A+dy3+JB7B8sLT
-         vcqI4ibvc6N0ljmEsc/KVk9ujsbwqLP9uB49hv0K/ABywV/mGEgvmkxQi3RTIF86UOeS
-         haGCYNY4SRmDAp/xUx8+Kqjf1i1ikCLEKU+icB6hC2y9BfA4iPbZnLckdkxhIrkPljPH
-         mJSwsp/6SiRRDQWsvuB6rW+JdQjZj34aIm4Yj3k9pv2kI3Eawx1Zow8OoFZy7LcSA674
-         YC4w==
+        bh=vviBIl+vuBWPEbLpBFnMDw126SeZYBHR9b9kVDCbsdA=;
+        b=ZWK1lqCXUesGHEdT7aNkkhhd1ixM0ZePwc/OYBb9b/8N56DvDr7uA2MvAfs6CRagSJ
+         RQYcSsv+s6Nha3MadGYspUB2FucMNq8tArhHIzW+1cyXsg4kgmUfX0IfmWJtsekdZkwX
+         pop7ZU1SQ1MGR7P14ARks6HXXU26gx5LgMpG+Kld2UP/Ol11HwotcFj2hrHtH8HcBvzL
+         bLfNysrJXsVNGfaThLC/+mDkpJo1bxMdCEC+d2K5lP0PFfxTL22VmdUxMxWPCxtqm2FZ
+         tZ6Wydn+bCssQMnsL7fGRs0I0yh+UEXdB4cySSP+yedoWxQ47rouVOlV79S20D80kLQR
+         ra+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
@@ -49,81 +49,82 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=hA/HRtyyuv/zUT2XLpiu+ib8Ju33vaV+IiBKeItpalA=;
-        b=DCrOptbR5cvr/Xvyefqg2tZjyp8OcUJmsuxdDngBT2mTIPFw1Rq2UC7Mn+Yfyj48wf
-         ZSl7GgqToZpc8MzNVQbnZn9rxCGuuLXp/6hfcX4M1Q0kHvqFQ5d2HL/vhIM3MNwgzy92
-         2bypxEQEBrUNl4+WvVz/xKUdEeR6gvsXfySEzVyQ/HoChRwQkmTLgRULyU53e1064wjV
-         zLNUJ2GfZtQAod9m/d0Wn1Ovn5a+r3vB+VIXV1ldCuFkGD+gVk2dTOYd2HbTsUTaiV43
-         17pfe8Pihd1/KpZVJI8casxBSE0WPpE2nVksqLPxYTFsWEof0afYjQP1yFNslUz+6YEX
-         SaqQ==
+        bh=vviBIl+vuBWPEbLpBFnMDw126SeZYBHR9b9kVDCbsdA=;
+        b=mk7MuEAXHlNrdU7sPRTxwokncquVmi6EYndljq/y4WxVbJmnMNikiyso8DRBN8tOFU
+         mu7XvBzd1nSSn0Z9M6yqjyqdd5iMbQFw9dj2sJ+pElK+wPNHLbT9sgj3jICooCGsNMFY
+         m9hWfsIZekfuBvG91Oe4NzQXvfQ8kwTMqKbrW1jfXAGEBPusRpwRzs6LZRQ8xR86cPt0
+         5i+83Ri3ne3iBzQXy/dUDHHVhuYb1gqPf/dKSQRvhq2wcJlggqCeX5BP0J/P5oHRV1t8
+         910Vm4ebZOJmMjyOanzpMPNIdoCyOnKpqbvFtxvQ1WYX1Vg4k1HsqVW8vnBPGew7bX+9
+         7Q0A==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM533VMlLYgnHzTvFQeMx/56H5rhPsBy0s8m3aPEnBwF+j+o26lrp7
-	DTP4g//sGxeaTnXsfjoJypE=
-X-Google-Smtp-Source: ABdhPJyY0xq8nNdQgBBN2/aG23RLy4WZzVkQlRi+otn/dXM9BzGkxYtjF67/TUPbM9D7Ya24AhjMEQ==
-X-Received: by 2002:adf:edd0:: with SMTP id v16mr7068387wro.271.1595340575634;
-        Tue, 21 Jul 2020 07:09:35 -0700 (PDT)
+X-Gm-Message-State: AOAM531LlVg8ZtjPK6DFeCrywCBN6sSvanYMH+K7RAXQqGIZjRqUof4Y
+	3SbPlZDtwbW0ukZfpqBxzWI=
+X-Google-Smtp-Source: ABdhPJypj3TOiZoqH/UzAbpn13qNkAWXHiJ9LTF2vtCRnmfccofytAV2DCvFh+Bfr9EzzFuEfXd4jQ==
+X-Received: by 2002:a05:6638:1696:: with SMTP id f22mr765527jat.60.1595341148625;
+        Tue, 21 Jul 2020 07:19:08 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a1c:2049:: with SMTP id g70ls1368834wmg.0.gmail; Tue, 21 Jul
- 2020 07:09:35 -0700 (PDT)
-X-Received: by 2002:a1c:e405:: with SMTP id b5mr4554976wmh.54.1595340575174;
-        Tue, 21 Jul 2020 07:09:35 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1595340575; cv=none;
+Received: by 2002:a05:6638:1118:: with SMTP id n24ls24672jal.3.gmail; Tue, 21
+ Jul 2020 07:19:08 -0700 (PDT)
+X-Received: by 2002:a02:6d62:: with SMTP id e34mr31417175jaf.77.1595341148275;
+        Tue, 21 Jul 2020 07:19:08 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1595341148; cv=none;
         d=google.com; s=arc-20160816;
-        b=XWetPCoGUSLzxbAeyZdZPpTTKQiNDXjkUYZUZdzQymf72ZB5lZbTHelzsc+vkMNgh2
-         GeM6PVkYZvNUziR7bBLWMGH7ucqSY0hKu5FVzBlcTu29IA+EYHnjHtisnzydrtaEecHf
-         Mywz26CT8gDMu6gip8CmU5HO8gaM99Q9dlV5fjhrlsrbPocx8ZGcMSwWvBit1YXgTDjK
-         CoIhQV+EOl5pYHccE4dmm564demkvfOEv6mrB1Rc6XtJwxRYMev0NPEmZ9yYGY949kMQ
-         Dr4R5zNCdcEBBfNe8WPvjdonBB0xnjgwrInEos6964OwR1Z66bdMaMTREjnbXEnNyqfP
-         IonQ==
+        b=nXU8DMWugT05buyPCgofgAzJ3ZrJHCZ2Y/Eap1oDyhty++D8zbJCbD64uHgIzpSQRe
+         4DpO3IX8TTiVG+uYAwho1NtJAHWbq/hLMZgfYmqVz7PXSXhUhCOvqc3fgxi3GW4CObQp
+         9ldhXeXLADSdsLwYtuAe569ZyQZ2xbXNVn8REHvA58OV0pPi5Qmg8J41BTi0QRU3nDZX
+         5Swy+YRg46jTj1sN6fTjibP05xj+YSUUMkGL86QG/7MqweItpS0Ly72I5EL+XTjR/GvU
+         +rhPV09P1eQGLMAPFXCwt3j9OI5g/wnFr0/6VnaP2oxWyzjaXm7EG8EbVDbDACQl3Luo
+         King==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:dkim-signature;
-        bh=bck5iFe0qNEfND6yPrfltx4XHg11WKlZZGgqWSXEbeM=;
-        b=lRUB/hPQLKAPuH9to5abVtyWhoC7tekH3k6nkR8L7neMOZquuAF9QMKVpK18NBs9Fq
-         Et5NQX1q7XRWRSWH/1QN2wi6uZ6RTPe6khmFfzMxUeNuKTRqTp7gHPaRfefn1/fEzAaK
-         jWGQ77FkQSNh7ZNwdmxFjW1AxJWEweTSoRXWaNdisXw2l39rcQ3ORmc2QmLVqDpaEjgO
-         Sn9/e0prgIMmcrhE6WO8s/Vm4dc+SViF5lyQnP7DhS4BwIxbqsQebLGoee0OVvFkayE5
-         4eFK9YwFnV/BbHVfhih82EYpDZ6nFqilaQ0310uWZAdYCIb+PBuGPSuYcB82LuxzW7vl
-         LmLw==
+        bh=eXpfk1ooDp9WmjVCuYrQskrwc9qrONU71/gOTT/8jIs=;
+        b=zYkTZj9fewFCwf6lsJ5naql9FMPPxHyaQ/tvMn0ddkzU27TJiOoj0w7EP0cGFL3EK7
+         8CNEgN3wjk3J4g+qr+rWxWGhGxQ+inqKno4rdKi5utWUgfxUPlo1X8as+ke4Fv+tsaaG
+         NfcEAJ5u8cYxF51gbX6j4E4798GO4ibKs8mvnvKc5WHQwEXDc39ltqRLrj86RG3a0yX9
+         r9aszju9EclfWLt/sEazCeOX0H+k5+cYGLxRGRMjYhVGYKySUm1caBuuwNLcW5+s7TZr
+         F88oeNGmgRos37uzFYDxo+dxIYV7LlGv+MCVJobCTdfCdH6/UGhedTANPPrTHAoWVk40
+         PBpg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=casper.20170209 header.b=DG5AbKr2;
-       spf=pass (google.com: best guess record for domain of peterz@infradead.org designates 2001:8b0:10b:1236::1 as permitted sender) smtp.mailfrom=peterz@infradead.org
-Received: from casper.infradead.org (casper.infradead.org. [2001:8b0:10b:1236::1])
-        by gmr-mx.google.com with ESMTPS id m3si138396wme.0.2020.07.21.07.09.35
+       dkim=pass header.i=@infradead.org header.s=merlin.20170209 header.b=dAhgFPlV;
+       spf=pass (google.com: best guess record for domain of peterz@infradead.org designates 2001:8b0:10b:1231::1 as permitted sender) smtp.mailfrom=peterz@infradead.org
+Received: from merlin.infradead.org (merlin.infradead.org. [2001:8b0:10b:1231::1])
+        by gmr-mx.google.com with ESMTPS id p1si1116952ioh.3.2020.07.21.07.19.08
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Jul 2020 07:09:35 -0700 (PDT)
-Received-SPF: pass (google.com: best guess record for domain of peterz@infradead.org designates 2001:8b0:10b:1236::1 as permitted sender) client-ip=2001:8b0:10b:1236::1;
+        Tue, 21 Jul 2020 07:19:08 -0700 (PDT)
+Received-SPF: pass (google.com: best guess record for domain of peterz@infradead.org designates 2001:8b0:10b:1231::1 as permitted sender) client-ip=2001:8b0:10b:1231::1;
 Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-	by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jxsxW-0007Zu-U5; Tue, 21 Jul 2020 14:09:31 +0000
+	by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+	id 1jxt6j-0000fh-HN; Tue, 21 Jul 2020 14:19:01 +0000
 Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(Client did not present a certificate)
-	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 18E353011C6;
-	Tue, 21 Jul 2020 16:09:30 +0200 (CEST)
+	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 2B0323060EF;
+	Tue, 21 Jul 2020 16:18:59 +0200 (CEST)
 Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 03D43203C0597; Tue, 21 Jul 2020 16:09:29 +0200 (CEST)
-Date: Tue, 21 Jul 2020 16:09:29 +0200
+	id 15E50203B8783; Tue, 21 Jul 2020 16:18:59 +0200 (CEST)
+Date: Tue, 21 Jul 2020 16:18:59 +0200
 From: Peter Zijlstra <peterz@infradead.org>
 To: Marco Elver <elver@google.com>
 Cc: paulmck@kernel.org, will@kernel.org, arnd@arndb.de,
 	mark.rutland@arm.com, dvyukov@google.com, glider@google.com,
 	kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org,
 	linux-arch@vger.kernel.org
-Subject: Re: [PATCH 4/8] kcsan: Add missing CONFIG_KCSAN_IGNORE_ATOMICS checks
-Message-ID: <20200721140929.GB10769@hirez.programming.kicks-ass.net>
+Subject: Re: [PATCH 8/8] locking/atomics: Use read-write instrumentation for
+ atomic RMWs
+Message-ID: <20200721141859.GC10769@hirez.programming.kicks-ass.net>
 References: <20200721103016.3287832-1-elver@google.com>
- <20200721103016.3287832-5-elver@google.com>
+ <20200721103016.3287832-9-elver@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <20200721103016.3287832-5-elver@google.com>
+In-Reply-To: <20200721103016.3287832-9-elver@google.com>
 X-Original-Sender: peterz@infradead.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@infradead.org header.s=casper.20170209 header.b=DG5AbKr2;
+ header.i=@infradead.org header.s=merlin.20170209 header.b=dAhgFPlV;
        spf=pass (google.com: best guess record for domain of
- peterz@infradead.org designates 2001:8b0:10b:1236::1 as permitted sender) smtp.mailfrom=peterz@infradead.org
+ peterz@infradead.org designates 2001:8b0:10b:1231::1 as permitted sender) smtp.mailfrom=peterz@infradead.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -136,88 +137,71 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Jul 21, 2020 at 12:30:12PM +0200, Marco Elver wrote:
-> Add missing CONFIG_KCSAN_IGNORE_ATOMICS checks for the builtin atomics
-> instrumentation.
-> 
-> Signed-off-by: Marco Elver <elver@google.com>
-> ---
-> Added to this series, as it would otherwise cause patch conflicts.
-> ---
->  kernel/kcsan/core.c | 25 +++++++++++++++++--------
->  1 file changed, 17 insertions(+), 8 deletions(-)
-> 
-> diff --git a/kernel/kcsan/core.c b/kernel/kcsan/core.c
-> index 4633baebf84e..f53524ea0292 100644
-> --- a/kernel/kcsan/core.c
-> +++ b/kernel/kcsan/core.c
-> @@ -892,14 +892,17 @@ EXPORT_SYMBOL(__tsan_init);
->  	u##bits __tsan_atomic##bits##_load(const u##bits *ptr, int memorder);                      \
->  	u##bits __tsan_atomic##bits##_load(const u##bits *ptr, int memorder)                       \
->  	{                                                                                          \
-> -		check_access(ptr, bits / BITS_PER_BYTE, KCSAN_ACCESS_ATOMIC);                      \
-> +		if (!IS_ENABLED(CONFIG_KCSAN_IGNORE_ATOMICS))                                      \
-> +			check_access(ptr, bits / BITS_PER_BYTE, KCSAN_ACCESS_ATOMIC);              \
->  		return __atomic_load_n(ptr, memorder);                                             \
->  	}                                                                                          \
->  	EXPORT_SYMBOL(__tsan_atomic##bits##_load);                                                 \
->  	void __tsan_atomic##bits##_store(u##bits *ptr, u##bits v, int memorder);                   \
->  	void __tsan_atomic##bits##_store(u##bits *ptr, u##bits v, int memorder)                    \
->  	{                                                                                          \
-> -		check_access(ptr, bits / BITS_PER_BYTE, KCSAN_ACCESS_WRITE | KCSAN_ACCESS_ATOMIC); \
-> +		if (!IS_ENABLED(CONFIG_KCSAN_IGNORE_ATOMICS))                                      \
-> +			check_access(ptr, bits / BITS_PER_BYTE,                                    \
-> +				     KCSAN_ACCESS_WRITE | KCSAN_ACCESS_ATOMIC);                    \
->  		__atomic_store_n(ptr, v, memorder);                                                \
->  	}                                                                                          \
->  	EXPORT_SYMBOL(__tsan_atomic##bits##_store)
-> @@ -908,8 +911,10 @@ EXPORT_SYMBOL(__tsan_init);
->  	u##bits __tsan_atomic##bits##_##op(u##bits *ptr, u##bits v, int memorder);                 \
->  	u##bits __tsan_atomic##bits##_##op(u##bits *ptr, u##bits v, int memorder)                  \
->  	{                                                                                          \
-> -		check_access(ptr, bits / BITS_PER_BYTE,                                            \
-> -			     KCSAN_ACCESS_COMPOUND | KCSAN_ACCESS_WRITE | KCSAN_ACCESS_ATOMIC);    \
-> +		if (!IS_ENABLED(CONFIG_KCSAN_IGNORE_ATOMICS))                                      \
-> +			check_access(ptr, bits / BITS_PER_BYTE,                                    \
-> +				     KCSAN_ACCESS_COMPOUND | KCSAN_ACCESS_WRITE |                  \
-> +					     KCSAN_ACCESS_ATOMIC);                                 \
->  		return __atomic_##op##suffix(ptr, v, memorder);                                    \
->  	}                                                                                          \
->  	EXPORT_SYMBOL(__tsan_atomic##bits##_##op)
-> @@ -937,8 +942,10 @@ EXPORT_SYMBOL(__tsan_init);
->  	int __tsan_atomic##bits##_compare_exchange_##strength(u##bits *ptr, u##bits *exp,          \
->  							      u##bits val, int mo, int fail_mo)    \
->  	{                                                                                          \
-> -		check_access(ptr, bits / BITS_PER_BYTE,                                            \
-> -			     KCSAN_ACCESS_COMPOUND | KCSAN_ACCESS_WRITE | KCSAN_ACCESS_ATOMIC);    \
-> +		if (!IS_ENABLED(CONFIG_KCSAN_IGNORE_ATOMICS))                                      \
-> +			check_access(ptr, bits / BITS_PER_BYTE,                                    \
-> +				     KCSAN_ACCESS_COMPOUND | KCSAN_ACCESS_WRITE |                  \
-> +					     KCSAN_ACCESS_ATOMIC);                                 \
->  		return __atomic_compare_exchange_n(ptr, exp, val, weak, mo, fail_mo);              \
->  	}                                                                                          \
->  	EXPORT_SYMBOL(__tsan_atomic##bits##_compare_exchange_##strength)
-> @@ -949,8 +956,10 @@ EXPORT_SYMBOL(__tsan_init);
->  	u##bits __tsan_atomic##bits##_compare_exchange_val(u##bits *ptr, u##bits exp, u##bits val, \
->  							   int mo, int fail_mo)                    \
->  	{                                                                                          \
-> -		check_access(ptr, bits / BITS_PER_BYTE,                                            \
-> -			     KCSAN_ACCESS_COMPOUND | KCSAN_ACCESS_WRITE | KCSAN_ACCESS_ATOMIC);    \
-> +		if (!IS_ENABLED(CONFIG_KCSAN_IGNORE_ATOMICS))                                      \
-> +			check_access(ptr, bits / BITS_PER_BYTE,                                    \
-> +				     KCSAN_ACCESS_COMPOUND | KCSAN_ACCESS_WRITE |                  \
-> +					     KCSAN_ACCESS_ATOMIC);                                 \
->  		__atomic_compare_exchange_n(ptr, &exp, val, 0, mo, fail_mo);                       \
->  		return exp;                                                                        \
->  	}                                                                                          \
+On Tue, Jul 21, 2020 at 12:30:16PM +0200, Marco Elver wrote:
 
+> diff --git a/scripts/atomic/gen-atomic-instrumented.sh b/scripts/atomic/gen-atomic-instrumented.sh
+> index 6afadf73da17..5cdcce703660 100755
+> --- a/scripts/atomic/gen-atomic-instrumented.sh
+> +++ b/scripts/atomic/gen-atomic-instrumented.sh
+> @@ -5,9 +5,10 @@ ATOMICDIR=$(dirname $0)
+>  
+>  . ${ATOMICDIR}/atomic-tbl.sh
+>  
+> -#gen_param_check(arg)
+> +#gen_param_check(meta, arg)
+>  gen_param_check()
+>  {
+> +	local meta="$1"; shift
+>  	local arg="$1"; shift
+>  	local type="${arg%%:*}"
+>  	local name="$(gen_param_name "${arg}")"
+> @@ -17,17 +18,24 @@ gen_param_check()
+>  	i) return;;
+>  	esac
+>  
+> -	# We don't write to constant parameters
+> -	[ ${type#c} != ${type} ] && rw="read"
+> +	if [ ${type#c} != ${type} ]; then
+> +		# We don't write to constant parameters
+> +		rw="read"
+> +	elif [ "${meta}" != "s" ]; then
+> +		# Atomic RMW
+> +		rw="read_write"
+> +	fi
 
-*groan*, that could really do with a bucket of '{', '}'. Also, it is
-inconsistent in style with the existing use in
-DEFINE_TSAN_VOLATILE_READ_WRITE() where the define causes an early
-return.
+If we have meta, should we then not be consistent and use it for read
+too? Mark?
+
+>  
+>  	printf "\tinstrument_atomic_${rw}(${name}, sizeof(*${name}));\n"
+>  }
+>  
+> -#gen_param_check(arg...)
+> +#gen_params_checks(meta, arg...)
+>  gen_params_checks()
+>  {
+> +	local meta="$1"; shift
+> +
+>  	while [ "$#" -gt 0 ]; do
+> -		gen_param_check "$1"
+> +		gen_param_check "$meta" "$1"
+>  		shift;
+>  	done
+>  }
+> @@ -77,7 +85,7 @@ gen_proto_order_variant()
+>  
+>  	local ret="$(gen_ret_type "${meta}" "${int}")"
+>  	local params="$(gen_params "${int}" "${atomic}" "$@")"
+> -	local checks="$(gen_params_checks "$@")"
+> +	local checks="$(gen_params_checks "${meta}" "$@")"
+>  	local args="$(gen_args "$@")"
+>  	local retstmt="$(gen_ret_stmt "${meta}")"
+>  
+> -- 
+> 2.28.0.rc0.105.gf9edc3c819-goog
+> 
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200721140929.GB10769%40hirez.programming.kicks-ass.net.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200721141859.GC10769%40hirez.programming.kicks-ass.net.
