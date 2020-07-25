@@ -1,124 +1,134 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBJE26H4AKGQEIVBYXPA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCV5TUXXRUIBBAW76H4AKGQECLIDCBY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yb1-xb3f.google.com (mail-yb1-xb3f.google.com [IPv6:2607:f8b0:4864:20::b3f])
-	by mail.lfdr.de (Postfix) with ESMTPS id E175F22D868
-	for <lists+kasan-dev@lfdr.de>; Sat, 25 Jul 2020 17:17:57 +0200 (CEST)
-Received: by mail-yb1-xb3f.google.com with SMTP id j207sf8362697ybg.20
-        for <lists+kasan-dev@lfdr.de>; Sat, 25 Jul 2020 08:17:57 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1595690276; cv=pass;
+Received: from mail-qk1-x73d.google.com (mail-qk1-x73d.google.com [IPv6:2607:f8b0:4864:20::73d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BDC222D908
+	for <lists+kasan-dev@lfdr.de>; Sat, 25 Jul 2020 19:44:36 +0200 (CEST)
+Received: by mail-qk1-x73d.google.com with SMTP id i3sf8778620qkf.0
+        for <lists+kasan-dev@lfdr.de>; Sat, 25 Jul 2020 10:44:36 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1595699075; cv=pass;
         d=google.com; s=arc-20160816;
-        b=QFtWPpbHCER42wTXzs2prnfgkwCAvRX+QgwFxs8JBsP3q0KH0stX4OTHadRELIPqX1
-         JzZPDzJEKzhA8O05X/AwQfKtv9UV2u8nVg/xgZ6pNQKMpcuIYpArOLJ284F3bnGgq7LH
-         12LAcsgOyMRRBT31IfIQRxwZxNivo7ZmkX+VbMJckOEAOhFc8Jt7XKTqZavG9j/mzSCk
-         2JL6gGyqABSx9bpVqqqgQPaRQTyZ2539trIIPgdjlmO+WCZ/dMMtdhtmUrV14kLlWXoV
-         aJQ+g4vJFjlbkDg3EJ7bgFJygrZm+Cj5ZfjkJq3VY5IwLeaf53dVyOd91FLPR9II2EtO
-         3wXw==
+        b=ls/x7PM0SuaivZyRZ9lwfxKpZC0ZHmFabqfRUXt/CLhdC4jYByPP/BdZujnpA6haQ/
+         Cv2RSope5pu0R7nzp7oC6dFtKFMrxXUH30cTtbXPgFUgoml/GUlmbxawTMF+0FOvtOlm
+         DXYiAkMTWZ/qdvlB4SOduEKDKwSCmwiBz/Pyh2phvwGR8Tu3xpp4YXnYKd0HoUDGwRgp
+         yxRH4aMMzPT9I3vv2JoZd9YAkG36tNP40RmleS7tFDmpuVyfhyyPu9oeutWisgcGjQJw
+         qu9HKON5jFBGQPH+3reYpLTSdejHvDVOIEB4qW+gcmXEqdlRs2W8e26Vm567fDCvr2oA
+         3AZQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=xqLsV3gjK/ymEZ7+7rNA5ELY/0GkkHqe36BR6zuS1QA=;
-        b=o2jQXyoAIZcV4uxdBiYOfAQ5ydzjeEbfsOsetYCBGBiwUpaRporL//WHsLu8lbdqr5
-         nbZ7u63DjUq/gvX2DE2n7EuUKqppqW7drNCAdFrH/S62TDfPSteRgGk6Nz67nHG30SxP
-         KlE3mhaFtsW9dboS7l7y8dg5kFsLqV4C5xBB65b1wNcC8+Dft8McmuG0wKGP2JEQCmeH
-         9XsqH9pbskVnX3LKAXHe0hWpJN+DeC0XHjwtCH8kj+pJG9CdqyHSnwMT7hsCIG4RluKo
-         H1ANUSK8ES0NXuRxqIXQsdlUzPGqzb5yAs2YZgQd2gSPWykUqSj4bR5P9oMm4BgLgKK0
-         X+Tw==
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature;
+        bh=fYbLOr0WG2Sy4iT+G8/KJ54A3cjQsUO1jF8Uo/pO9vw=;
+        b=Cmo06MSzY9U4ml0oobLlNmVGxM4okYNm7z0T5YXzqnCF3XrjaRd3P0QkgHOGA3983/
+         lPbCiMxBwdPPxspbFZXYbieCTwXyeCNi7ztKI5Vz03t+XrxnRpMXnlCk4KfcxA6VFzZc
+         XUvyv71L20lrvRSHf9U8dd+pHPstJ+VzmBP2jpCZiDQYyncGuBGlDyX3Wi1zfHP8kRS1
+         z86LU+FpCFqb/wNtJwnxNZtSCkBCCS2xpGxShafTJI5BdMOp8vd79wUoB8JBzEGwdNMz
+         IOwKBHL+mmbh5FNszBL3WwKBXWE2rYdxr9D99rsy/ePw0JFzCHH05e0bRSj9P9WBI36A
+         Bk8w==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=iuCaR7FL;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::342 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@infradead.org header.s=merlin.20170209 header.b=2UQhjcBh;
+       spf=pass (google.com: best guess record for domain of peterz@infradead.org designates 2001:8b0:10b:1231::1 as permitted sender) smtp.mailfrom=peterz@infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=xqLsV3gjK/ymEZ7+7rNA5ELY/0GkkHqe36BR6zuS1QA=;
-        b=YeDGt9u7/Qa1JTMHI7VLGspPFmfKg21l+r+SWs60ZcOmyavkr0UnrQTwNZHl6AMZHq
-         kaZHAxrGjnwjhBSQetpjdZcSmBuTskgirRLohtyFbqDchWL9rxFhjlwCY/sYPk/aL9Rz
-         F8pq88ftiP1xJd5jB7881JbWuYJzSDdaGUIvxIOqVilPKZh4MG/vhBn6tEJORxCscj7D
-         XeiyWSsRMAdRYxvN45ciYHBCxJ/IfFvUb85hT3jutG7kO3GLSvdWUV477AG/Z+xGIZSa
-         Dgvh+az/E4GKPPLi+xykPx8LZuDf9gqw4IfcDok0OujPwT4YI61tLsBbQDYrjpeeinMN
-         W2yg==
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=fYbLOr0WG2Sy4iT+G8/KJ54A3cjQsUO1jF8Uo/pO9vw=;
+        b=I66SuE/t8XjlakUKGXb40j2jcld1atRpqk3CTr1mBdiKQtwau3oAulm2ghc3XSyIiN
+         /wyTEU8aivQtpX3wR6wPvjJVDBQjQSMlxSi+8InXuVMzaf2wOqeWd9u+QlQTsWtHh80A
+         Aa4qzlZi04px0lREYewHHSjYd6R+kwcW8H/BdKN69rKYw+fOOIMTDp6zaKrQ2NI5/nBa
+         t3gmEbf4GE6a2WQkGxk3lCtrYE3ZP/8lEuEpjd3QPh8UNzVDIR1h2HD5vhqfvm+EN4kw
+         BGLZDNmNHNsRZPK8wiSoPfaSg0JEOGP5K1j/5Fg+xcrgMH2FO+phvq/BQAz1LPxTi6bt
+         /3/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=xqLsV3gjK/ymEZ7+7rNA5ELY/0GkkHqe36BR6zuS1QA=;
-        b=KmfUHxRGzDRbmBRFuMuczzN2NkNAVBoJS6rAfj7DiLMMYTeOj+WrTgYpuTCzkhq2d+
-         ixhWs5pD3K52iGLwtOWHTTQ4vffe+fkuSksPh5uBC5LwbXVyoXwhljpd4G8gj3vcufbX
-         o13HFwj57WrRswny/ouLdGLMs/H2vU2ZwORHYPLu2Yxof1bACRW9XGbcaEQjjynzHFLB
-         sPJBacW3ls2jCMu+FWIlCm/o1r0CTe4osZUpewXSlTCP6u8DtJOCkOT8ObAvACZJxWMG
-         WDppXRbJGCA3Pvowali/OqlLU4QOslA5HStp8gEI2t/bQpHaw7R7A08iGBk0N0JUxWu0
-         Imjg==
-X-Gm-Message-State: AOAM530r1bDzEC6KpbRKnC1lI/YJVmcofKLc5fv2vMmmu6GewuWdSN5h
-	5rQMBFSivBsgMrtXceHTDWE=
-X-Google-Smtp-Source: ABdhPJxUW24uZ4+YDLvHNcEWcgIpSVfqXDTKqkqAm/zs6nTT5GnxtvoNrpNkfG2g8YQKANYRDLJBIA==
-X-Received: by 2002:a25:a104:: with SMTP id z4mr24324697ybh.40.1595690276714;
-        Sat, 25 Jul 2020 08:17:56 -0700 (PDT)
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=fYbLOr0WG2Sy4iT+G8/KJ54A3cjQsUO1jF8Uo/pO9vw=;
+        b=MzlbRmchzF6czkhpDSH+YGFMslgyiI12qBdolLefKxu5Lvf4kwvk9UPif82L6qPmq+
+         cNUW+1PSSesyv/wfWxWulJ9JwShlgk5ifTsVM0Fr6rEMsi6G16wFXQ5bEc/Y3v4ta0J0
+         X+JFweJpKXGGqz2Rqw2tLdk2GI4BBoY8B43SIUOH7wYt4KYVme3Fml/JGzl6JzpNrdCw
+         7+/IYuA4B6cfkgIAGtRP0oQKgcOE4ukHsiM3Ep3yndzw+SWYZtzP3VcWBOs0NfRYkDXX
+         FcALks6xjmfZdLZSJkG5vV7xh1uRkmGaHYmMAH+GpkN3JEYSP5G7a0fSq+pPBTGij/Wd
+         1asg==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM533vVubFi3ob+DYyDs5rSqAwhq6jfkLltX3ehxXkmWuVXhzsrxOC
+	4XWZWgMY0/WdK/+aJjGJqQc=
+X-Google-Smtp-Source: ABdhPJyI0lzhr+rBZMAsEJV+bE9TTMEkUfzSqHGbRQy9m82iwIXAs9lXgqCmyhupIhgs1B5On/NZMA==
+X-Received: by 2002:a05:620a:12cf:: with SMTP id e15mr12317276qkl.459.1595699074959;
+        Sat, 25 Jul 2020 10:44:34 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a25:3812:: with SMTP id f18ls3168478yba.6.gmail; Sat, 25 Jul
- 2020 08:17:56 -0700 (PDT)
-X-Received: by 2002:a5b:449:: with SMTP id s9mr11569795ybp.465.1595690276130;
-        Sat, 25 Jul 2020 08:17:56 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1595690276; cv=none;
+Received: by 2002:a05:6214:2a2:: with SMTP id m2ls2862319qvv.11.gmail; Sat, 25
+ Jul 2020 10:44:34 -0700 (PDT)
+X-Received: by 2002:a05:6214:140d:: with SMTP id n13mr3634388qvx.69.1595699074566;
+        Sat, 25 Jul 2020 10:44:34 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1595699074; cv=none;
         d=google.com; s=arc-20160816;
-        b=szClmPzfUGK6opPDVjlUgDLmxTy7qqKKazHP7D5oBxkuH2KM4zPr/bZGhSY7xPSwsa
-         CNNpxE0lIZW2Uk9pcq74lUzmp69cLvbB1tfDTdS8Y7yl1Sal03Lt5Wsvj8c/Thpc0ypk
-         vocQWzfDA7iZalOApagdCay6cS/MdXJ1Aqc9jHIGxW8thEif16nmp/C9CEe7BNK9rdcb
-         7Rhoz1K9xWT6x9o/l8PEv//M6F/jQ/Uu+Emn24nwDtA5muflqg/T+qYZacq0dqSCJOt9
-         imkO6UMrjdKSfIQ8AG5TE6rhfZMzpqmtRDwrHCPCzPpwyBjOPMen/PYnIuT0+c4rSHGc
-         5Hxw==
+        b=GHgZF+b3jCNdoOzkTe7wfhn2fC3/4y30DUz8Em93aMmatNM+WYh8J74GKHIo5N6sjG
+         TUHJ4Il5pQx+axJ+38gz96xSxr0LnlNT0jTM9Ds9xtI+KZ6OJDBvEph29vNw9YANSd6V
+         tdeB2dvrsPLCYUje7hox1f1GEQ8sUVx5O4vluZW4NnvgbLag+1ceYtqjbfl9fot3Mv16
+         fSHMOkL5KdXAi/Oy0MONVfEMkteSEGoC/2cCemFT85xZpfUTHnxBY+dTFSCyVnLmfj6r
+         PJIYvmTYxa96sFqgVR9M6z1nxTNnlNAve7KT3YBA9xqrfPX8XCe6X46W4sKj7K6sOdZ3
+         MWCA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=ltOnyPTnPyHESFo1zHjbKU6HFj1ufxds9tDCUi8zQHY=;
-        b=qRQ/KI4TAgBSm/b9zViI3IiUYu2RcM1V0eLwXQ2JSFNxKj7nT+Ib1fp3vee2jqsV0K
-         44XHxYwB2mqR1eAzl6liDKDVBXALnyQmDAHOM5o21WYTaTGQDS7Z9Q4lCa09zvoE+Tn0
-         RHqMBzVAv2aV92ckeITRjpZ0+hX68PP2DfDQlz4PdnObLM6X3iBA9qShU0NanstSSYs7
-         uaLaN9wqT7UdsIkAG/MR99Br0gHJ2yxLRdnNHblQAAdGTjV9+wqMRAVCLKaMCIXsHyiW
-         h717WHNUYvNZBC10mq1VJ07Vyv99oUjP99lO/XRJ+CDCluHriMbTtktVdiEqth3eKqOe
-         zLXw==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:dkim-signature;
+        bh=IzlB8C4ebbWL5U23JeDEz95EVKPJZOd57Pw+Ihb9yS4=;
+        b=FRP3UdlZ/WQDwZFd+AdVkOOdUo3OBjW+kRsuoqTbkpaKpZ4Set3l+8ST77tYX+p0fn
+         wY6NbttPQsL3qTYU+vBzIdjA/v7TBZtxwFiscjS+t7AzOjwB6wIitRKBwTQlMFlmxZMB
+         ELN18iPAEnB97MN52GZrPVB/MoV9YleiqFozJlXZD0QOpLFUTgXxQ/ByiDbmYN3F53Yj
+         KAYkEjD7Dz8nm62XpByONtdvjOTXQrc2/MO7U13sLiQvrr8yU34eqRYPJRWXVuZFF+96
+         THoPlynzNozhmBmQ1M5dI1j3YLKqmmnLJyFgDrZq3G7xradGuHMbUHvibw4PIW9Vc3rO
+         MRnA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=iuCaR7FL;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::342 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com. [2607:f8b0:4864:20::342])
-        by gmr-mx.google.com with ESMTPS id l10si218088ybt.5.2020.07.25.08.17.56
+       dkim=pass header.i=@infradead.org header.s=merlin.20170209 header.b=2UQhjcBh;
+       spf=pass (google.com: best guess record for domain of peterz@infradead.org designates 2001:8b0:10b:1231::1 as permitted sender) smtp.mailfrom=peterz@infradead.org
+Received: from merlin.infradead.org (merlin.infradead.org. [2001:8b0:10b:1231::1])
+        by gmr-mx.google.com with ESMTPS id w5si681133qki.1.2020.07.25.10.44.34
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 25 Jul 2020 08:17:56 -0700 (PDT)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::342 as permitted sender) client-ip=2607:f8b0:4864:20::342;
-Received: by mail-ot1-x342.google.com with SMTP id h1so9178994otq.12
-        for <kasan-dev@googlegroups.com>; Sat, 25 Jul 2020 08:17:56 -0700 (PDT)
-X-Received: by 2002:a9d:4b01:: with SMTP id q1mr14243995otf.17.1595690275384;
- Sat, 25 Jul 2020 08:17:55 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200220141551.166537-1-elver@google.com> <20200220185855.GY2935@paulmck-ThinkPad-P72>
- <20200220213317.GA35033@google.com> <20200725145623.GZ9247@paulmck-ThinkPad-P72>
-In-Reply-To: <20200725145623.GZ9247@paulmck-ThinkPad-P72>
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Sat, 25 Jul 2020 17:17:43 +0200
-Message-ID: <CANpmjNPhuvrhRHAiuv2Zju1VNSe7dO0aaYn+1TB99OF2Hv0S_A@mail.gmail.com>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 25 Jul 2020 10:44:34 -0700 (PDT)
+Received-SPF: pass (google.com: best guess record for domain of peterz@infradead.org designates 2001:8b0:10b:1231::1 as permitted sender) client-ip=2001:8b0:10b:1231::1;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+	by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+	id 1jzODo-0008IH-Qa; Sat, 25 Jul 2020 17:44:33 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(Client did not present a certificate)
+	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 1283E301179;
+	Sat, 25 Jul 2020 19:44:31 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+	id EC37120104627; Sat, 25 Jul 2020 19:44:30 +0200 (CEST)
+Date: Sat, 25 Jul 2020 19:44:30 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: Marco Elver <elver@google.com>
+Cc: "Paul E. McKenney" <paulmck@kernel.org>,
+	Andrey Konovalov <andreyknvl@google.com>,
+	Alexander Potapenko <glider@google.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	kasan-dev <kasan-dev@googlegroups.com>,
+	LKML <linux-kernel@vger.kernel.org>
 Subject: Re: [PATCH] kcsan: Add option to allow watcher interruptions
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: Andrey Konovalov <andreyknvl@google.com>, Alexander Potapenko <glider@google.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, kasan-dev <kasan-dev@googlegroups.com>, 
-	LKML <linux-kernel@vger.kernel.org>, Peter Zijlstra <peterz@infradead.org>
+Message-ID: <20200725174430.GH10769@hirez.programming.kicks-ass.net>
+References: <20200220141551.166537-1-elver@google.com>
+ <20200220185855.GY2935@paulmck-ThinkPad-P72>
+ <20200220213317.GA35033@google.com>
+ <20200725145623.GZ9247@paulmck-ThinkPad-P72>
+ <CANpmjNPhuvrhRHAiuv2Zju1VNSe7dO0aaYn+1TB99OF2Hv0S_A@mail.gmail.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
+Content-Disposition: inline
+In-Reply-To: <CANpmjNPhuvrhRHAiuv2Zju1VNSe7dO0aaYn+1TB99OF2Hv0S_A@mail.gmail.com>
+X-Original-Sender: peterz@infradead.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=iuCaR7FL;       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::342 as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+ header.i=@infradead.org header.s=merlin.20170209 header.b=2UQhjcBh;
+       spf=pass (google.com: best guess record for domain of
+ peterz@infradead.org designates 2001:8b0:10b:1231::1 as permitted sender) smtp.mailfrom=peterz@infradead.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -131,175 +141,99 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-[+Peter]
-
-On Sat, 25 Jul 2020 at 16:56, Paul E. McKenney <paulmck@kernel.org> wrote:
->
-> On Thu, Feb 20, 2020 at 10:33:17PM +0100, Marco Elver wrote:
-> > On Thu, 20 Feb 2020, Paul E. McKenney wrote:
->
-> I am clearly not keeping up...  :-/
-
-Not to worry, I think the local_t idea was discarded based on Peter's
-feedback anyway at one point.
-
-> > > On Thu, Feb 20, 2020 at 03:15:51PM +0100, Marco Elver wrote:
-> > > > Add option to allow interrupts while a watchpoint is set up. This can be
-> > > > enabled either via CONFIG_KCSAN_INTERRUPT_WATCHER or via the boot
-> > > > parameter 'kcsan.interrupt_watcher=1'.
-[...]
-> > > > As an example, the first data race that this found:
+On Sat, Jul 25, 2020 at 05:17:43PM +0200, Marco Elver wrote:
+> On Sat, 25 Jul 2020 at 16:56, Paul E. McKenney <paulmck@kernel.org> wrote:
+> > On Thu, Feb 20, 2020 at 10:33:17PM +0100, Marco Elver wrote:
+> > > On Thu, 20 Feb 2020, Paul E. McKenney wrote:
+> > > > On Thu, Feb 20, 2020 at 03:15:51PM +0100, Marco Elver wrote:
+> > > > > Add option to allow interrupts while a watchpoint is set up. This can be
+> > > > > enabled either via CONFIG_KCSAN_INTERRUPT_WATCHER or via the boot
+> > > > > parameter 'kcsan.interrupt_watcher=1'.
+> [...]
+> > > > > As an example, the first data race that this found:
+> > > > >
+> > > > > write to 0xffff88806b3324b8 of 4 bytes by interrupt on cpu 0:
+> > > > >  rcu_preempt_read_enter kernel/rcu/tree_plugin.h:353 [inline]
+> > > > >  __rcu_read_lock+0x3c/0x50 kernel/rcu/tree_plugin.h:373
+> [...]
+> > > > > read to 0xffff88806b3324b8 of 4 bytes by task 6131 on cpu 0:       |
+> > > > >  rcu_preempt_read_enter kernel/rcu/tree_plugin.h:353 [inline]  ----+
+> [...]
+> > > > >
+> > > > > The writer is doing 'current->rcu_read_lock_nesting++'. The read is as
+> > > > > vulnerable to compiler optimizations and would therefore conclude this
+> > > > > is a valid data race.
 > > > >
-> > > > write to 0xffff88806b3324b8 of 4 bytes by interrupt on cpu 0:
-> > > >  rcu_preempt_read_enter kernel/rcu/tree_plugin.h:353 [inline]
-> > > >  __rcu_read_lock+0x3c/0x50 kernel/rcu/tree_plugin.h:373
-[...]
-> > > > read to 0xffff88806b3324b8 of 4 bytes by task 6131 on cpu 0:       |
-> > > >  rcu_preempt_read_enter kernel/rcu/tree_plugin.h:353 [inline]  ----+
-[...]
+> > > > Heh!  That one is a fun one!  It is on a very hot fastpath.  READ_ONCE()
+> > > > and WRITE_ONCE() are likely to be measurable at the system level.
 > > > >
-> > > > The writer is doing 'current->rcu_read_lock_nesting++'. The read is as
-> > > > vulnerable to compiler optimizations and would therefore conclude this
-> > > > is a valid data race.
+> > > > Thoughts on other options?
+
+> > > diff --git a/kernel/rcu/tree_plugin.h b/kernel/rcu/tree_plugin.h
+> > > index c6ea81cd41890..e0595abd50c0f 100644
+> > > --- a/kernel/rcu/tree_plugin.h
+> > > +++ b/kernel/rcu/tree_plugin.h
+> > > @@ -350,17 +350,17 @@ static int rcu_preempt_blocked_readers_cgp(struct rcu_node *rnp)
 > > >
-> > > Heh!  That one is a fun one!  It is on a very hot fastpath.  READ_ONCE()
-> > > and WRITE_ONCE() are likely to be measurable at the system level.
+> > >  static void rcu_preempt_read_enter(void)
+> > >  {
+> > > -     current->rcu_read_lock_nesting++;
+> > > +     local_inc(&current->rcu_read_lock_nesting);
+> > >  }
 > > >
-> > > Thoughts on other options?
+> > >  static void rcu_preempt_read_exit(void)
+> > >  {
+> > > -     current->rcu_read_lock_nesting--;
+> > > +     local_dec(&current->rcu_read_lock_nesting);
+> > >  }
+> > >
+> > >  static void rcu_preempt_depth_set(int val)
+> > >  {
+> > > -     current->rcu_read_lock_nesting = val;
+> > > +     local_set(&current->rcu_read_lock_nesting, val);
+> 
+> > I agree that this removes the data races, and that the code for x86 is
+> > quite nice, but aren't rcu_read_lock() and rcu_read_unlock() going to
+> > have heavyweight atomic operations on many CPUs?
 > >
-> > Would this be a use-case for local_t? Don't think this_cpu ops work
-> > here.
-> >
-> > See below idea. This would avoid the data race (KCSAN stopped
-> > complaining) and seems to generate reasonable code.
-> >
-> > Version before:
-> >
-> >  <__rcu_read_lock>:
-> >      130      mov    %gs:0x0,%rax
-> >      137
-> >      139      addl   $0x1,0x370(%rax)
-> >      140      retq
-> >      141      data16 nopw %cs:0x0(%rax,%rax,1)
-> >      148
-> >      14c      nopl   0x0(%rax)
-> >
-> > Version after:
-> >
-> >  <__rcu_read_lock>:
-> >      130      mov    %gs:0x0,%rax
-> >      137
-> >      139      incq   0x370(%rax)
-> >      140      retq
-> >      141      data16 nopw %cs:0x0(%rax,%rax,1)
-> >      148
-> >      14c      nopl   0x0(%rax)
-> >
-> > I haven't checked the other places where it is used, though.
-> > (Can send it as a patch if you think this might work.)
-> >
-> > Thanks,
-> > -- Marco
-> >
-> > diff --git a/include/linux/rcupdate.h b/include/linux/rcupdate.h
-> > index 2678a37c31696..3d8586ee7ae64 100644
-> > --- a/include/linux/rcupdate.h
-> > +++ b/include/linux/rcupdate.h
-> > @@ -50,7 +50,7 @@ void __rcu_read_unlock(void);
-> >   * nesting depth, but makes sense only if CONFIG_PREEMPT_RCU -- in other
-> >   * types of kernel builds, the rcu_read_lock() nesting depth is unknowable.
-> >   */
-> > -#define rcu_preempt_depth() (current->rcu_read_lock_nesting)
-> > +#define rcu_preempt_depth() local_read(&current->rcu_read_lock_nesting)
-> >
-> >  #else /* #ifdef CONFIG_PREEMPT_RCU */
-> >
-> > diff --git a/include/linux/sched.h b/include/linux/sched.h
-> > index 0918904c939d2..70d7e3257feed 100644
-> > --- a/include/linux/sched.h
-> > +++ b/include/linux/sched.h
-> > @@ -10,6 +10,7 @@
-> >  #include <uapi/linux/sched.h>
-> >
-> >  #include <asm/current.h>
-> > +#include <asm/local.h>
-> >
-> >  #include <linux/pid.h>
-> >  #include <linux/sem.h>
-> > @@ -708,7 +709,7 @@ struct task_struct {
-> >       cpumask_t                       cpus_mask;
-> >
-> >  #ifdef CONFIG_PREEMPT_RCU
-> > -     int                             rcu_read_lock_nesting;
-> > +     local_t                         rcu_read_lock_nesting;
-> >       union rcu_special               rcu_read_unlock_special;
-> >       struct list_head                rcu_node_entry;
-> >       struct rcu_node                 *rcu_blocked_node;
-> > diff --git a/init/init_task.c b/init/init_task.c
-> > index 096191d177d5c..941777fce11e5 100644
-> > --- a/init/init_task.c
-> > +++ b/init/init_task.c
-> > @@ -130,7 +130,7 @@ struct task_struct init_task
-> >       .perf_event_list = LIST_HEAD_INIT(init_task.perf_event_list),
-> >  #endif
-> >  #ifdef CONFIG_PREEMPT_RCU
-> > -     .rcu_read_lock_nesting = 0,
-> > +     .rcu_read_lock_nesting = LOCAL_INIT(0),
-> >       .rcu_read_unlock_special.s = 0,
-> >       .rcu_node_entry = LIST_HEAD_INIT(init_task.rcu_node_entry),
-> >       .rcu_blocked_node = NULL,
-> > diff --git a/kernel/fork.c b/kernel/fork.c
-> > index 60a1295f43843..43af326081b06 100644
-> > --- a/kernel/fork.c
-> > +++ b/kernel/fork.c
-> > @@ -1669,7 +1669,7 @@ init_task_pid(struct task_struct *task, enum pid_type type, struct pid *pid)
-> >  static inline void rcu_copy_process(struct task_struct *p)
-> >  {
-> >  #ifdef CONFIG_PREEMPT_RCU
-> > -     p->rcu_read_lock_nesting = 0;
-> > +     local_set(&p->rcu_read_lock_nesting, 0);
-> >       p->rcu_read_unlock_special.s = 0;
-> >       p->rcu_blocked_node = NULL;
-> >       INIT_LIST_HEAD(&p->rcu_node_entry);
-> > diff --git a/kernel/rcu/tree_plugin.h b/kernel/rcu/tree_plugin.h
-> > index c6ea81cd41890..e0595abd50c0f 100644
-> > --- a/kernel/rcu/tree_plugin.h
-> > +++ b/kernel/rcu/tree_plugin.h
-> > @@ -350,17 +350,17 @@ static int rcu_preempt_blocked_readers_cgp(struct rcu_node *rnp)
-> >
-> >  static void rcu_preempt_read_enter(void)
-> >  {
-> > -     current->rcu_read_lock_nesting++;
-> > +     local_inc(&current->rcu_read_lock_nesting);
-> >  }
-> >
-> >  static void rcu_preempt_read_exit(void)
-> >  {
-> > -     current->rcu_read_lock_nesting--;
-> > +     local_dec(&current->rcu_read_lock_nesting);
-> >  }
-> >
-> >  static void rcu_preempt_depth_set(int val)
-> >  {
-> > -     current->rcu_read_lock_nesting = val;
-> > +     local_set(&current->rcu_read_lock_nesting, val);
+> > Maybe I am stuck with arch-specific code in rcu_read_lock() and
+> > rcu_preempt_read_exit().  I suppose worse things could happen.
+> 
+> Peter also mentioned to me that while local_t on x86 generates
+> reasonable code, on other architectures it's terrible. So I think
+> something else is needed, and feel free to discard the above idea.
+> With sufficient enough reasoning, how bad would a 'data_race(..)' be?
 
-> I agree that this removes the data races, and that the code for x86 is
-> quite nice, but aren't rcu_read_lock() and rcu_read_unlock() going to
-> have heavyweight atomic operations on many CPUs?
->
-> Maybe I am stuck with arch-specific code in rcu_read_lock() and
-> rcu_preempt_read_exit().  I suppose worse things could happen.
+Right, so local_t it atrocious on many architectures, they fall back to
+atomic_t.
 
-Peter also mentioned to me that while local_t on x86 generates
-reasonable code, on other architectures it's terrible. So I think
-something else is needed, and feel free to discard the above idea.
-With sufficient enough reasoning, how bad would a 'data_race(..)' be?
+Even architectures that have optimized variants (eg. Power), they're
+quite a lot more expensive than what we actually need here.
 
-Thanks,
--- Marco
+Only architectures like x86 that have single instruction memops can
+generate anywhere near the code that we'd want here.
+
+So the thing is, since RCU count is 0 per context (an IRQ must have an
+equal amount of rcu_read_unlock() as it has rcu_read_lock()), interrupts
+are not in fact a problem, even on load-store (RISC) architectures
+(preempt_count has the same thing).
+
+So the addition/subtraction in rcu_preempt_read_{enter,exit}() doesn't
+need to be atomic vs interrupts. The only thing we really do need is
+them being single-copy-atomic.
+
+The problem with READ/WRITE_ONCE is that if we were to use it, we'd end
+up with a load-store, even on x86, which is sub-optimal.
+
+I suppose the 'correct' code here would be something like:
+
+	*((volatile int *)&current->rcu_read_lock_nesting)++;
+
+then the compiler can either do a single memop (x86 and the like) or a
+load-store that is free from tearing.
+
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNPhuvrhRHAiuv2Zju1VNSe7dO0aaYn%2B1TB99OF2Hv0S_A%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200725174430.GH10769%40hirez.programming.kicks-ass.net.
