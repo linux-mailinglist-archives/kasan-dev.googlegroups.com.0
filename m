@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBC6OLHHDVUOBBVFKST4QKGQEWC6K7HY@googlegroups.com>
+Return-Path: <kasan-dev+bncBC6OLHHDVUOBBVNKST4QKGQEKGLVWCA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qk1-x73f.google.com (mail-qk1-x73f.google.com [IPv6:2607:f8b0:4864:20::73f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3935E2350EE
-	for <lists+kasan-dev@lfdr.de>; Sat,  1 Aug 2020 09:10:13 +0200 (CEST)
-Received: by mail-qk1-x73f.google.com with SMTP id d131sf22454907qke.3
-        for <lists+kasan-dev@lfdr.de>; Sat, 01 Aug 2020 00:10:13 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1596265812; cv=pass;
+Received: from mail-il1-x138.google.com (mail-il1-x138.google.com [IPv6:2607:f8b0:4864:20::138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BC2A2350EF
+	for <lists+kasan-dev@lfdr.de>; Sat,  1 Aug 2020 09:10:14 +0200 (CEST)
+Received: by mail-il1-x138.google.com with SMTP id z16sf23280355ill.7
+        for <lists+kasan-dev@lfdr.de>; Sat, 01 Aug 2020 00:10:14 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1596265813; cv=pass;
         d=google.com; s=arc-20160816;
-        b=EHkG0hgZrarxQ2sIJXdkBOT5qp1qvE9Bb1kqrbw8Pfic/LwH+yB8ZSAgg64XQIO3nQ
-         raXlyDH8gpKbTZad2zJl1UY46zjGsnvkMb+8eT/t88VepkOsKwdVMBHt5Mq7hejSVQlF
-         zUtkBTHIl99+lCtEbLSg6fi1EfIKdv2EzUU+jVCCh3HEGGheCzY/FsS3SFKW1zNhNME/
-         RntRCWC9Gv4ZIe+4y+133ZiG7zDY2i2GTUfWnOjWAG8KqX9MaSXWc5xcv5yctfMRO9O4
-         Hs1JCDsdXzPyfA+WpXtWqvsFjnbjlvBRDJioEYX6v6QRFZXELmaTE7YiGNv+HonjUIfg
-         Ssuw==
+        b=BWR3f7PIPlPPVPcX5usi3OATMZrxHyrj7Igfy4W+cIHaVmaR+VDw2SGrnkjD6N2Gt7
+         Va0cJ2xVPDBI2KMmIlg4/0CrN1QL4logeCDLW1NDsSx7lkp8c25JdnkjnbvYyQHUHwOI
+         N+aOH8yadcHInSe6YK3cy+HGTb7YwzkzHmVSNdCMqO6yTvC8+IoHWNmKHmMsdrwnauew
+         k4yJQ8rTpz+XhxNMsfdyW5lZj0DbsAoXAKkfjPXxPR1YG4OsRS3U2sZi4Z5puWQzxWZv
+         utNVbSKdEUIViCEU47cdGVdleu2TtGD4nbFw8FKJHHrYbzUQUYUlqfa4wWdD8p0/9wV2
+         AYAw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
          :references:mime-version:message-id:in-reply-to:date:dkim-signature;
-        bh=z8iKxbL+UwOSYPcjc6i5hJB+cQqVKP/pn9Ig+zqB2tw=;
-        b=qo5AhNcFFO0UUQWFH0zH4Y2nD66HA9fRqHvSiFF6rbQ1BgvYnm/MpfZoMhuDCNn+qC
-         BBYyzDfIYIyX3rfOXBJo0QcMNjFWeUQJtpZ97eOK0gkaBtOn7fuFldon0RBOxuLkFA9H
-         8zpbeoU8836K35z7M+V0PulL5LECwyJPqJLM5Gzkxhokpu1uy1E79SqM1Z/tDO2oo3Vm
-         2kW+gPke7Pm6o6AuXkCpd5I7J/8zL9udV6a2o4q4pYx1uOUZLYGMO6yBOaTLe0t5Fn9m
-         nA3EEgTZCz7dADcrE8XZwV4bUyyLnjMTadOpZZOrZ4YGj/qohRhbsj1lkkAF6cLDsQgQ
-         7J+w==
+        bh=qun+953+MlTu2pDYS4HGrOEo11V0uFOV4PG8K5ZiUhU=;
+        b=ORuZWd4krW7HtUP95gy4I+t+NfYBsclycNJ3ke21+WsFISgay+VgC0eNCVgWQfA07o
+         KooiXuO3cbSUE5RViJ2plBbGoHADwffj2Z3Vv3eNBhZJk7EUZx3CY+CGMtswEKVTqjlV
+         vDkTZNZPgn19DCjdqAmhobx3YF/mR6LgwFaber5DTTchIHWsYgM+M6T4x6+jZzexz9qm
+         jSp1h8gMGLLM/Iw0eTaX+ksVnK+t1CnPoSWdOngIcAwbP/7BzlfeRfR0QsoPPeloNkp9
+         mW4O7EyZgtkD10IbnwaFJmWXJlNLoK1RmssoU2D+S1uw/qVZlu/kMx+Iw39V4zbXRXQN
+         z4dA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b="V/FGzNDH";
-       spf=pass (google.com: domain of 3uhulxwgkcreurczux5dx55x2v.t531r9r4-uvcx55x2vx85b69.t53@flex--davidgow.bounces.google.com designates 2607:f8b0:4864:20::44a as permitted sender) smtp.mailfrom=3UhUlXwgKCREurCzux5Dx55x2v.t531r9r4-uvCx55x2vx85B69.t53@flex--davidgow.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=p06i0vZE;
+       spf=pass (google.com: domain of 3vbulxwgkcrmwte1wz7fz77z4x.v753tbt6-wxez77z4xza7d8b.v75@flex--davidgow.bounces.google.com designates 2607:f8b0:4864:20::f49 as permitted sender) smtp.mailfrom=3VBUlXwgKCRMwtE1wz7Fz77z4x.v753tBt6-wxEz77z4xzA7D8B.v75@flex--davidgow.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=z8iKxbL+UwOSYPcjc6i5hJB+cQqVKP/pn9Ig+zqB2tw=;
-        b=MsSVpmZU6vNBMMZkfJrauwRFDCKi9ZejHy4Z8bj7YTUgap9TB1bfv8JY5KO1ayQxSU
-         VneN6jrzxB+wQ4QpZKpaEcVN8dfBKNyxQoLkAw/iao4CukSe6L8+h4iGs8+V5GFkcIU3
-         4urAdfsVxtf7ld+c7dYsX5eebBEGCbbyjX6wbdKCht7JV280/JlR4FYg12EZmo1nYVJd
-         Dg+Coi0VTUCJVvOg/+mxAWjjmMC9xIFh7guSitxaM3cpp5vhBelVDVjt2u09WQEzRia7
-         mIrbouacucIm0tMUYU1uT/piILf1J1HnrFj/F6QYYBzm4wCL7wSQD/8LoP4nK4PmddLb
-         VV2w==
+        bh=qun+953+MlTu2pDYS4HGrOEo11V0uFOV4PG8K5ZiUhU=;
+        b=Qn/Xhd7fnAOP8KXBfJCQIX3Wf2ZLlVc4cF2gbEOMpo/tVouKQhgdjum2PPmpbnxp90
+         k4BBiYVoBphsLMudHxjnJPb+j4vyD8Gg3Kh841Lp/oV42XDeGcDxOx/27K9duJUbCzZH
+         fFT213kZprBhtP6OEnEZTG44gAkkym7FEq9PBzKW2hnnnNXpqcXb5WaTsoEVlyFtd8bS
+         sscwN29RyH8ypHEMFfnCBmVDQzimIpG++Ntq1pp8K7VC/esApLsMDeAEkEC6gRyXghDE
+         egjbmebfa1VgOuY6QwizSFqDuNZFeBuAJSZMS0rQBQeoIZCHpj6nddydenXDSGIo5O4Q
+         ACsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
@@ -49,76 +49,77 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=z8iKxbL+UwOSYPcjc6i5hJB+cQqVKP/pn9Ig+zqB2tw=;
-        b=c7oPFz5MCDW9DtH6N6qfl5zLyizSvX4jJMW0+Lhe5FnC4Trks1OSCS/0V1+7ol3Ntf
-         Dj/z4PgKi9tpBW8ZTuEqDlmBQYiT+BONwbRBqLQcSpSw/d7YSqouMjxC+fhAMxpBiARP
-         0YKFZ4hM5gYeI7GH4Zr3KXfkpktAFMOKZClGcMEzXZTItzisG7y7kqBwXZh6LbmxC+NW
-         RJSC7ZjsvJl9NVGkrW/wR+JAzTTcfRpB/U9SYaxlRwobKrbnO3+CaTRn8bjTwEor2QZA
-         zs09cPsnGW/jyILbTTn5Jo0YZtfEiTsAK4PyN/tUC7ba2Gf35a6bCEhAKFVF/RC1zIiJ
-         vMCQ==
-X-Gm-Message-State: AOAM533gXUc90FvmUJKf8GSStfxZO6jVCqEu/+crG1zOzeSDOX56V71n
-	OMUdTN5Z9ZxLcnec+92Y0gw=
-X-Google-Smtp-Source: ABdhPJwjAMjszE1P5jqvjGPCEYMxZpentRXQehk0uwDipsk8p4gyhLaXZBUohq1As2mZgmCvDqmRAg==
-X-Received: by 2002:ac8:7751:: with SMTP id g17mr7545174qtu.392.1596265812118;
-        Sat, 01 Aug 2020 00:10:12 -0700 (PDT)
+        bh=qun+953+MlTu2pDYS4HGrOEo11V0uFOV4PG8K5ZiUhU=;
+        b=bSAC13wk6sbECRfuiy4LLiqrHgl2UljzGjvhapaK5USNbJ5N1JThhhQNQflw8qMfPF
+         svPEfRdyCsqIhO5lzkgG6EWPP9frpG0Azvp90JNppIk5Fu0PwqM0vqECgPeignJEC5WJ
+         JRilvDH5bHBgLdJGdRav+AY96jOiFsOBCdKHzyaM/zorDvmnfcXJPA2Dhb9iHPy73YJO
+         ONqT7eIFpCo3txqHGp5CICyLnlKjA3v8ffYd6SCqwEnmhB9IKpTNuohcVkXych3YUW1P
+         Fqecd768RJHPgY0SocLOBruH/p6blBkDEfFghw1Jx/2lUJ9tof47q9Mad9bataysG4+7
+         A3+A==
+X-Gm-Message-State: AOAM530wFSaQYJfvTdWk/3VB8h1rsyB5RuFd7g3RNA779ru7DLbT7GIf
+	UD+bNMSz1voqSQASnnCUVVo=
+X-Google-Smtp-Source: ABdhPJzQAzAaCw1f+o855ZARvs9uU51+fkIM5Jp+ROp1ySHxGe7zVFGGr+2lPikh6EOW+v7bCPd06w==
+X-Received: by 2002:a92:bbda:: with SMTP id x87mr7673083ilk.242.1596265813459;
+        Sat, 01 Aug 2020 00:10:13 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a0c:c38d:: with SMTP id o13ls1608085qvi.5.gmail; Sat, 01 Aug
- 2020 00:10:11 -0700 (PDT)
-X-Received: by 2002:a0c:9b85:: with SMTP id o5mr7640840qve.11.1596265811771;
-        Sat, 01 Aug 2020 00:10:11 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1596265811; cv=none;
+Received: by 2002:a05:6e02:974:: with SMTP id q20ls1935106ilt.1.gmail; Sat, 01
+ Aug 2020 00:10:13 -0700 (PDT)
+X-Received: by 2002:a92:db10:: with SMTP id b16mr7510071iln.288.1596265813148;
+        Sat, 01 Aug 2020 00:10:13 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1596265813; cv=none;
         d=google.com; s=arc-20160816;
-        b=p/C9x7B/lInUY7gGtFJ1i+RuHBmJoZavh4ZubXv0sts3k/vXzFnGn+HPBtzJ9dMBzi
-         Q+pJVNkU2Zyh/in4N1C4hmVoiRnQGRHJhhURuDZ+ZfaIemTK9MF3m9Lp7vyZsWdm0TfF
-         Ex2daU0tKn0hYn/aHXq4AWOKp8wUY/tXOHz7DMhiCNYO5dYUsFHhPtQl1qkanPqCx4nZ
-         UcmR+ey+e5xhx8VbcIMYJZTmls3WHX16RVBiLMpAvMcZu0MzZzL6ewv2jgmN5bVw5vJQ
-         MItbCSzcN2HoaETPGWQ/qgLaX/tOUTq5ChXrhNzphQYaMpQQigH5ixCe4XcHtZf4Xoh8
-         tAig==
+        b=PTCUgDD0tqTsdPGMfgHtuut9ISnL5obl1IIpDonX+UGASZx/mRYbg0aOi9nbxVaJ9o
+         uvSPQLUjxwvj8MfPLmXAu76Dmzy494R+YHiaOko8/mrVRyYEt+E7Z7LOBqKOVL2WCxRf
+         +MaTV9MGoWREIrj2jb0TzJT8utBJwStL8h0b1c+5De4RTqwL6CBCEucMD9RCOWGMed6o
+         u8BEvRGV5+zPWx2ecfMUZTdOqiIvuhNeXNapHBuhKXpPBr16ZcOzgXnxEIFAQc2F4foD
+         mvvNoiOpMYK0AT5kOzrbu8akSAvueSzl9Rreep1san03ydMcN4iv2jZlC2dYj4Xv9HvG
+         9EPA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
          :date:dkim-signature;
-        bh=nr8mXyqoppq75z/FRAmv2PARhpMnaUiNjcYddLk+74Y=;
-        b=C+XxVJ79ZqE1+XwNGlnTB85sjWx33DK4UVdW1hSLiNa7UrlKvAQpT6yemjZCHZrHgw
-         a6sEKM5mWMSeNWYxxPe+DSVPP8yyTOTCaCt7AZWcrg8p/b/xC8BUBRxPJQ6U48QCj9uv
-         GgFK8S6rmOZDsUVS+w8rTizO/3g/FFbtIX4+2sToRtoADNdnzJvC0MSVRPafsrsyHxnT
-         7RQEFYzE4OPkmBbV5Ql230XnsO6TrTucBloaaJMpYoBHwwuyFxJ03g+pqt+roLA/Bziv
-         CP4jwc/bRudM69H9BjQqHbDr+WQn+b8tMmL/RdCEjgsDCZzIXHSaxdWtYGs/SM9myfEL
-         1JbA==
+        bh=Y00REmw7cW2Ho0KOM1NABcGJpQIr8u0gXHD6A1O7ZXc=;
+        b=j/yEUuQ1B+Ycwj8Q9ZYv9DyWLr5CWHuMT1ASdCTHgJZ640SlKo0EhedGL9yZSC1KPM
+         ulr7R9OAhw5mnX2zP5Se2tAk87IdlGyzk1Yt4JLuN9ZqYoLTMRCgBwtLyfI9coZuaIAp
+         m4Udpj6NV3SvsEUy3xplh0I3jzs2pG606gOuWp7PnS/jVbetnC2bWFlwjrhBpESsERrQ
+         0v+Eo+VF4eGscwh2QFIOTzlZkLK6DpUwS2bqU3gjCuRbyu/FYph6LyeudOEfnNaAfUAW
+         VwhzBbc0SftsGy6NlgR8xvxk8WYvyiPw23w30sJ1ytHD+amzli9RPO8sM2D9cS/LtbTb
+         XOrg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b="V/FGzNDH";
-       spf=pass (google.com: domain of 3uhulxwgkcreurczux5dx55x2v.t531r9r4-uvcx55x2vx85b69.t53@flex--davidgow.bounces.google.com designates 2607:f8b0:4864:20::44a as permitted sender) smtp.mailfrom=3UhUlXwgKCREurCzux5Dx55x2v.t531r9r4-uvCx55x2vx85B69.t53@flex--davidgow.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=p06i0vZE;
+       spf=pass (google.com: domain of 3vbulxwgkcrmwte1wz7fz77z4x.v753tbt6-wxez77z4xza7d8b.v75@flex--davidgow.bounces.google.com designates 2607:f8b0:4864:20::f49 as permitted sender) smtp.mailfrom=3VBUlXwgKCRMwtE1wz7Fz77z4x.v753tBt6-wxEz77z4xzA7D8B.v75@flex--davidgow.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-pf1-x44a.google.com (mail-pf1-x44a.google.com. [2607:f8b0:4864:20::44a])
-        by gmr-mx.google.com with ESMTPS id f38si543646qte.4.2020.08.01.00.10.11
+Received: from mail-qv1-xf49.google.com (mail-qv1-xf49.google.com. [2607:f8b0:4864:20::f49])
+        by gmr-mx.google.com with ESMTPS id p1si565677ioh.3.2020.08.01.00.10.13
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 01 Aug 2020 00:10:11 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 3uhulxwgkcreurczux5dx55x2v.t531r9r4-uvcx55x2vx85b69.t53@flex--davidgow.bounces.google.com designates 2607:f8b0:4864:20::44a as permitted sender) client-ip=2607:f8b0:4864:20::44a;
-Received: by mail-pf1-x44a.google.com with SMTP id y20so9027058pfr.1
-        for <kasan-dev@googlegroups.com>; Sat, 01 Aug 2020 00:10:11 -0700 (PDT)
-X-Received: by 2002:a17:90a:1fcb:: with SMTP id z11mr1131477pjz.1.1596265810438;
- Sat, 01 Aug 2020 00:10:10 -0700 (PDT)
-Date: Sat,  1 Aug 2020 00:09:23 -0700
+        Sat, 01 Aug 2020 00:10:13 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 3vbulxwgkcrmwte1wz7fz77z4x.v753tbt6-wxez77z4xza7d8b.v75@flex--davidgow.bounces.google.com designates 2607:f8b0:4864:20::f49 as permitted sender) client-ip=2607:f8b0:4864:20::f49;
+Received: by mail-qv1-xf49.google.com with SMTP id d19so583434qvm.23
+        for <kasan-dev@googlegroups.com>; Sat, 01 Aug 2020 00:10:13 -0700 (PDT)
+X-Received: by 2002:ad4:4089:: with SMTP id l9mr7569682qvp.175.1596265812531;
+ Sat, 01 Aug 2020 00:10:12 -0700 (PDT)
+Date: Sat,  1 Aug 2020 00:09:24 -0700
 In-Reply-To: <20200801070924.1786166-1-davidgow@google.com>
-Message-Id: <20200801070924.1786166-5-davidgow@google.com>
+Message-Id: <20200801070924.1786166-6-davidgow@google.com>
 Mime-Version: 1.0
 References: <20200801070924.1786166-1-davidgow@google.com>
 X-Mailer: git-send-email 2.28.0.163.g6104cc2f0b6-goog
-Subject: [PATCH v10 4/5] KASAN: Testing Documentation
+Subject: [PATCH v10 5/5] mm: kasan: Do not panic if both panic_on_warn and
+ kasan_multishot set
 From: "'David Gow' via kasan-dev" <kasan-dev@googlegroups.com>
 To: trishalfonso@google.com, brendanhiggins@google.com, 
 	aryabinin@virtuozzo.com, dvyukov@google.com, mingo@redhat.com, 
 	peterz@infradead.org, juri.lelli@redhat.com, vincent.guittot@linaro.org, 
 	andreyknvl@google.com, shuah@kernel.org
-Cc: linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com, 
-	kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org, 
-	David Gow <davidgow@google.com>
+Cc: David Gow <davidgow@google.com>, linux-kernel@vger.kernel.org, 
+	kasan-dev@googlegroups.com, kunit-dev@googlegroups.com, 
+	linux-kselftest@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: davidgow@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b="V/FGzNDH";       spf=pass
- (google.com: domain of 3uhulxwgkcreurczux5dx55x2v.t531r9r4-uvcx55x2vx85b69.t53@flex--davidgow.bounces.google.com
- designates 2607:f8b0:4864:20::44a as permitted sender) smtp.mailfrom=3UhUlXwgKCREurCzux5Dx55x2v.t531r9r4-uvCx55x2vx85B69.t53@flex--davidgow.bounces.google.com;
+ header.i=@google.com header.s=20161025 header.b=p06i0vZE;       spf=pass
+ (google.com: domain of 3vbulxwgkcrmwte1wz7fz77z4x.v753tbt6-wxez77z4xza7d8b.v75@flex--davidgow.bounces.google.com
+ designates 2607:f8b0:4864:20::f49 as permitted sender) smtp.mailfrom=3VBUlXwgKCRMwtE1wz7Fz77z4x.v753tBt6-wxEz77z4xzA7D8B.v75@flex--davidgow.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: David Gow <davidgow@google.com>
 Reply-To: David Gow <davidgow@google.com>
@@ -134,102 +135,42 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-From: Patricia Alfonso <trishalfonso@google.com>
+KASAN errors will currently trigger a panic when panic_on_warn is set.
+This renders kasan_multishot useless, as further KASAN errors won't be
+reported if the kernel has already paniced. By making kasan_multishot
+disable this behaviour for KASAN errors, we can still have the benefits
+of panic_on_warn for non-KASAN warnings, yet be able to use
+kasan_multishot.
 
-Include documentation on how to test KASAN using CONFIG_TEST_KASAN_KUNIT
-and CONFIG_TEST_KASAN_MODULE.
+This is particularly important when running KASAN tests, which need to
+trigger multiple KASAN errors: previously these would panic the system
+if panic_on_warn was set, now they can run (and will panic the system
+should non-KASAN warnings show up).
 
-Signed-off-by: Patricia Alfonso <trishalfonso@google.com>
 Signed-off-by: David Gow <davidgow@google.com>
 Reviewed-by: Andrey Konovalov <andreyknvl@google.com>
-Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
-Acked-by: Brendan Higgins <brendanhiggins@google.com>
+Reviewed-by: Brendan Higgins <brendanhiggins@google.com>
 ---
- Documentation/dev-tools/kasan.rst | 70 +++++++++++++++++++++++++++++++
- 1 file changed, 70 insertions(+)
+ mm/kasan/report.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/dev-tools/kasan.rst b/Documentation/dev-tools/kasan.rst
-index 38fd5681fade..42991e40cbe1 100644
---- a/Documentation/dev-tools/kasan.rst
-+++ b/Documentation/dev-tools/kasan.rst
-@@ -281,3 +281,73 @@ unmapped. This will require changes in arch-specific code.
- 
- This allows ``VMAP_STACK`` support on x86, and can simplify support of
- architectures that do not have a fixed module region.
-+
-+CONFIG_KASAN_KUNIT_TEST & CONFIG_TEST_KASAN_MODULE
-+--------------------------------------------------
-+
-+``CONFIG_KASAN_KUNIT_TEST`` utilizes the KUnit Test Framework for testing.
-+This means each test focuses on a small unit of functionality and
-+there are a few ways these tests can be run.
-+
-+Each test will print the KASAN report if an error is detected and then
-+print the number of the test and the status of the test:
-+
-+pass::
-+
-+        ok 28 - kmalloc_double_kzfree
-+or, if kmalloc failed::
-+
-+        # kmalloc_large_oob_right: ASSERTION FAILED at lib/test_kasan.c:163
-+        Expected ptr is not null, but is
-+        not ok 4 - kmalloc_large_oob_right
-+or, if a KASAN report was expected, but not found::
-+
-+        # kmalloc_double_kzfree: EXPECTATION FAILED at lib/test_kasan.c:629
-+        Expected kasan_data->report_expected == kasan_data->report_found, but
-+        kasan_data->report_expected == 1
-+        kasan_data->report_found == 0
-+        not ok 28 - kmalloc_double_kzfree
-+
-+All test statuses are tracked as they run and an overall status will
-+be printed at the end::
-+
-+        ok 1 - kasan_kunit_test
-+
-+or::
-+
-+        not ok 1 - kasan_kunit_test
-+
-+(1) Loadable Module
-+~~~~~~~~~~~~~~~~~~~~
-+
-+With ``CONFIG_KUNIT`` enabled, ``CONFIG_KASAN_KUNIT_TEST`` can be built as
-+a loadable module and run on any architecture that supports KASAN
-+using something like insmod or modprobe.
-+
-+(2) Built-In
-+~~~~~~~~~~~~~
-+
-+With ``CONFIG_KUNIT`` built-in, ``CONFIG_KASAN_KUNIT_TEST`` can be built-in
-+on any architecure that supports KASAN. These and any other KUnit
-+tests enabled will run and print the results at boot as a late-init
-+call.
-+
-+(3) Using kunit_tool
-+~~~~~~~~~~~~~~~~~~~~~
-+
-+With ``CONFIG_KUNIT`` and ``CONFIG_KASAN_KUNIT_TEST`` built-in, we can also
-+use kunit_tool to see the results of these along with other KUnit
-+tests in a more readable way. This will not print the KASAN reports
-+of tests that passed. Use `KUnit documentation <https://www.kernel.org/doc/html/latest/dev-tools/kunit/index.html>`_ for more up-to-date
-+information on kunit_tool.
-+
-+.. _KUnit: https://www.kernel.org/doc/html/latest/dev-tools/kunit/index.html
-+
-+``CONFIG_TEST_KASAN_MODULE`` is a set of KASAN tests that could not be
-+converted to KUnit. These tests can be run only as a module with
-+``CONFIG_TEST_KASAN_MODULE`` built as a loadable module and
-+``CONFIG_KASAN`` built-in. The type of error expected and the
-+function being run is printed before the expression expected to give
-+an error. Then the error is printed, if found, and that test
-+should be interpretted to pass only if the error was the one expected
-+by the test.
+diff --git a/mm/kasan/report.c b/mm/kasan/report.c
+index e2c14b10bc81..00a53f1355ae 100644
+--- a/mm/kasan/report.c
++++ b/mm/kasan/report.c
+@@ -95,7 +95,7 @@ static void end_report(unsigned long *flags)
+ 	pr_err("==================================================================\n");
+ 	add_taint(TAINT_BAD_PAGE, LOCKDEP_NOW_UNRELIABLE);
+ 	spin_unlock_irqrestore(&report_lock, *flags);
+-	if (panic_on_warn) {
++	if (panic_on_warn && !test_bit(KASAN_BIT_MULTI_SHOT, &kasan_flags)) {
+ 		/*
+ 		 * This thread may hit another WARN() in the panic path.
+ 		 * Resetting this prevents additional WARN() from panicking the
 -- 
 2.28.0.163.g6104cc2f0b6-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200801070924.1786166-5-davidgow%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200801070924.1786166-6-davidgow%40google.com.
