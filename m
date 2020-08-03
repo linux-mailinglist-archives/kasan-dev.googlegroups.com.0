@@ -1,122 +1,121 @@
-Return-Path: <kasan-dev+bncBDT2NE7U5UFRBU4HS34QKGQEQRF2BPA@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBHXGT34QKGQERDKBTEQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-vs1-xe40.google.com (mail-vs1-xe40.google.com [IPv6:2607:f8b0:4864:20::e40])
-	by mail.lfdr.de (Postfix) with ESMTPS id 090352352DE
-	for <lists+kasan-dev@lfdr.de>; Sat,  1 Aug 2020 17:01:41 +0200 (CEST)
-Received: by mail-vs1-xe40.google.com with SMTP id v20sf606610vsi.6
-        for <lists+kasan-dev@lfdr.de>; Sat, 01 Aug 2020 08:01:40 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1596294100; cv=pass;
+Received: from mail-qt1-x83d.google.com (mail-qt1-x83d.google.com [IPv6:2607:f8b0:4864:20::83d])
+	by mail.lfdr.de (Postfix) with ESMTPS id E3DC5239FC0
+	for <lists+kasan-dev@lfdr.de>; Mon,  3 Aug 2020 08:47:59 +0200 (CEST)
+Received: by mail-qt1-x83d.google.com with SMTP id q7sf22485948qtd.1
+        for <lists+kasan-dev@lfdr.de>; Sun, 02 Aug 2020 23:47:59 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1596437279; cv=pass;
         d=google.com; s=arc-20160816;
-        b=CqQCBOosWBS7slcIARpxU4D91yS+5Axt+0WFpjBnCwEj2zgloXo25hqQEN/Fl3O7fF
-         ZNs7tinXXFBD9Ph/jEnW614MQxBdQicWH2xM62nlry9GgFajlhq7rSLOi03vtuoMatzE
-         v1ya0T1Rns91MxgUBUjFdQtus3m5KKwLD6p5k6hgopzj0bVz0MW206cGI3iRrb+g0Gt7
-         hyF7iqe3RICRmqnAiVBJoWfBQABJyGRmXAJwnOWzjSIJKFb4wFbriYcgVd7/7sWOeeuj
-         LLitanCXugUDCu/6nFOAr3m/5hCzbQwKhMhoxG63EcYDL3OxroOr+pobqViMGGDO3gPZ
-         TDUQ==
+        b=GWmgXa/gt3G4vPs/IKcHTxI04FzvRQGnuZcZyH9faGfoWFKXgOTdyq9wooc30Gwu1j
+         eGapX8LvBtQ1oznfSGfkSLIM3l0lU8U6lE5k2nztvvORKwEqukAPxsxKDrlNK5nrCCCG
+         WWcIxukBvxPcqZbUY6FmVUdyQecFPuJ3INdDDoWZcy7eFFUfmOLa3ecKgWYPCJI1baVh
+         jQcY5BX4km7p3MdCDDTNFPhm1nHdJ2dYAytSWtGnIQ3lN7VH7mwKBa7dFUOLXYc8DLzO
+         CQZlm+LCwdtfIyw4SosCyt8e1JPRoaD0aoD0WhRL47f+5EuJAvcM+ih03JUtPcaKSYO4
+         wJ0g==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:message-id:date
-         :subject:cc:to:from:dkim-filter:sender:dkim-signature;
-        bh=44M8QdhQlQsT0oU8uSE7ri69p/1NbNwBWKrWolyP/Fw=;
-        b=awE1RnpJfU0WN9X47rLZKrtxDyrwk5zLuJpBZiBCfTxmZnUgZRoiSXQJnBOKPqDtqI
-         TlzWqhF1ahlWZFG1xhMrZw+bKiwhmppmJ57x/HW+kd4hv5LqHMHXC150RdB0vHL9kGvG
-         EeWFgGSZytJfZt/nOWM8MOevn3BeLyoUcKnCWtCfHDzkxEjCJbOimgMf5JQ32YrSNUCB
-         ElVadi0Qi9JqXdvm8XzK6HlPQ/ZjvVt+J7G6CEBeN/XyMLAV3jx7azcFi/PicAHPyppc
-         s5Nb2ABRD9/BYdIO+lliM3DNWkVL0gmQ/EdgsQUBsTRQmxymrjkVPWdlj55OJBdDRXMN
-         0tDQ==
+         :list-id:mailing-list:precedence:message-id:date:subject:cc:to:from
+         :mime-version:sender:dkim-signature;
+        bh=GLJjFyPm7iAPVapZf+QO6GHrFhAFSvV+xOQyKtASKEs=;
+        b=HUKIaJrVYxHZ3QOJO9tdssNCZm2LSDJgd4cfggU/qYkLbGpxRKqn7DqgnNNBzgUIJp
+         7bvZvXV7EbBTPvojhprSAoX+6yNZvQ3HUPEI9HqmrENCNCHeijmBNLnDoJaZQNZqs6Zu
+         FpqZOOIoefHw50Wttvz0YoUn3TSZNtS1XNw4PpFIOkrvoUChlyzfxJyp1A8tRp5TCa/F
+         ajhQQc8DSIgDOz/BrnCCnJzWXnm9qjPiabTMcgiCipesEhJrlk54xackekCHnBlU4zYq
+         rstrV9wR0bNS7Yt2hO7iVIvtGVxwtEeVmrsfhKjwFZJSWwGhBR1k0PypHdsZWE1WhMem
+         ZbUQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@nifty.com header.s=dec2015msa header.b=c0JKLZBN;
-       spf=softfail (google.com: domain of transitioning masahiroy@kernel.org does not designate 210.131.2.78 as permitted sender) smtp.mailfrom=masahiroy@kernel.org;
-       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       spf=pass (google.com: domain of wenhu.wang@vivo.com designates 103.129.252.23 as permitted sender) smtp.mailfrom=wenhu.wang@vivo.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:dkim-filter:from:to:cc:subject:date:message-id:mime-version
+        h=sender:mime-version:from:to:cc:subject:date:message-id
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=44M8QdhQlQsT0oU8uSE7ri69p/1NbNwBWKrWolyP/Fw=;
-        b=coxFFj+hmurxzkwY3VTj/TYTJMcZRzL5mmngpaLgyyv+JNxOxWq3q1mIoY27AlQUZ9
-         jkldvrWgB2ZBBm/IiGc3290x0+LA5lhpIQwOcjv6KihrJvEZ+4hfm4Rd+PWKvokKleT3
-         Kx/hp9bIqHqqXHohEGqQw3Wr59l2UIknpo5Ixv5h97RSmoQFTVfUoe4uMFDQhl1PHtzc
-         J/+/ZHzxZ+3zQc5i/oh6buJy0Nt2bYSUJOGw+7+55Ow2VbUOcIxz5Wsqi2L3ffQ4NRly
-         NwCZf1SL222LZyZ/VnjD8WncC3eCey6UWURlxGyMDdMzagsFB51YLmZ+AuqKF3wrX/NC
-         8lzw==
+        bh=GLJjFyPm7iAPVapZf+QO6GHrFhAFSvV+xOQyKtASKEs=;
+        b=gchRqzA/GAZVdW+M2AurbzRdtHe4ys91T4M2GMoQusK0Q1CfrW+dc13zCPeXy0rHR3
+         L9wfQSuOghrzrW4HTye0h67i5Uuk1QkbDHwLdUK6QvjT9uWm0gkGgxvDdaTzbVAHlXlT
+         4EJWB038OWygc1qHUSadH+Hwuh6EYpoVxwwkSKmN/RyEwbeH3U4/gDjdap9JkiY+KQ8V
+         bjxLxBKBmACnJ+Gp28qg3nEGRBcMV9Rg4fOgSCAsmwdhoJy3AliNTYxhcNrVirI/J148
+         VSfFcLykjHQxjZP613Mr/0fVRIfuH3tz+wat9fpA4Edcp7n7nDpxG1UABHyePKqpyakd
+         /0tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:dkim-filter:from:to:cc:subject:date
-         :message-id:mime-version:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=44M8QdhQlQsT0oU8uSE7ri69p/1NbNwBWKrWolyP/Fw=;
-        b=ADI67kQi0E+TusgSaMu0kawo+pYB9OU4Yv/3+kOhbRF1aMg+3zhxAkPZj7XDdQ9szS
-         OyZMUd0JRPg5nO+1SJPEuct6XqwDQPlbQPJOJs4+zhzYpWG+ToPFBRqiT3Gx13B4Sblf
-         LvUgLpMLywmwwp3njqsiywi/D1TAIt2mnOugLESybEodZTFaQJyl5U5qfSAlY6uy2iNM
-         84XHrEU0tf1XowHH0IjSEgXXbBtf9eTobMibzK4gBRU9fkMF9bmdPD6w6C8s+wFMIhal
-         W7n3ec8530fqhKBN2vCg5OzIJNRAsT1fRkKdlUwG0MVic07ecouaibqoXHYZvzlYb7D1
-         ku8A==
+        h=sender:x-gm-message-state:mime-version:from:to:cc:subject:date
+         :message-id:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=GLJjFyPm7iAPVapZf+QO6GHrFhAFSvV+xOQyKtASKEs=;
+        b=AgCKyvor1LezrB3uAymdPgklSpcr7P2KXYjiv31lrlz+4tcsafJhSu34kmZkQshy95
+         7qzZtimTji2s+hoHuuPu1h+xqBu+QqmcuVdJe0vbmKPrxLrejQDdCGXjTcuKZjJh5czo
+         4N9FaU/8lgbwA0cblx4PqL38MzO3asAxTjFIR2cdzzxvK0q7mrorwDL4fxplYSYux7ax
+         SSzW4QDrOZralwcaiJP+sA3R4LPABHJCGLA4WQZW9PIkbInmXWLSgs1uEh3WerXPuFJz
+         yQ64Pe+877Zq5hz5TpqhqWmVe/fVCv31NDqEz3apwQfkY2x/a1fOo/eKatOm3DVjUKtM
+         nrBw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM533hHVZik2c6fB6sp5aVsbVUxwOPgNC9NiVJvsWpGQ9GY7eBtqjr
-	KMNbKbrwCJy+Leur70DtRts=
-X-Google-Smtp-Source: ABdhPJwZb/r2Ln35dZwGrWukpqKQqVyd30Bv/aCqygWcup1Q7GAy6HvPnkIlfxW1Eaqk5XYflsPVdQ==
-X-Received: by 2002:a67:ffca:: with SMTP id w10mr6311108vsq.142.1596294099839;
-        Sat, 01 Aug 2020 08:01:39 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ab0:4d6c:: with SMTP id k44ls846085uag.2.gmail; Sat, 01 Aug
- 2020 08:01:39 -0700 (PDT)
-X-Received: by 2002:ab0:2bcc:: with SMTP id s12mr5808874uar.117.1596294099476;
-        Sat, 01 Aug 2020 08:01:39 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1596294099; cv=none;
-        d=google.com; s=arc-20160816;
-        b=jwPg0MP8RmvNIzQ7F6oDIliQT5UJdENXbRoG29dtnqxYiuGNPGPNA4MkYaIWM/o/v5
-         u9h2PkiJktmSrJLgcimNiCUnvnO6u65YnU/NDZVoQGqC8/MBcUnlV7NQMe3IOMQtAThC
-         p63mP+c01bonK1dnvw6EccQi5IzWy7IfdPSmJPvk0pOvWI3OL+nNWHM6qSfJKBSI3fUb
-         MOMHinx8fO3XeI9pDvAk3fcSImiLBio4MfHVGxgH+naxsfsgJMhCaHCWrGNMyAJK6VfO
-         ZAPWOeu5f1CHgc4YozNWug20olRm9nvF7YiQyMJRQPIbTPIgLGoRrlJ+fwnKxvDQvQsi
-         7LYA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:dkim-signature:dkim-filter;
-        bh=iB+4Axh/LScTu6iv9y46G7fJslW+Ej8Wjx6mPd1aNvk=;
-        b=ewRhEb8LL7Ls0YOnha7dzywevvdVydyWSV4uXmWNKjwSzc3umTOW9zq75zdlOrtn+A
-         68gckD2iJ4W7wSgmLiRFgMmAhcKb1VeT9pa00xv6ALLHPfnkb04DRFo3qOoTs5Lky/el
-         RSiZPWsrBIHfdKwqti9+wNCmAeqSBnOjAa6N8zd68VKDTYfHfkf6QvQUYo/A+li8L5Q+
-         SBAhGSv4L8diJT66ZMBQeQaSaJaInUWzO7UlYstfbZAZxBJ7RWvr0447o7mpAO3quZyO
-         MxgRkBPX909ahF9jrndpFndCjpgxf8ql4rXunpVF6p/DkP4iD3ZyrzDDGzZDcg8Ow2A+
-         ouiw==
-ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@nifty.com header.s=dec2015msa header.b=c0JKLZBN;
-       spf=softfail (google.com: domain of transitioning masahiroy@kernel.org does not designate 210.131.2.78 as permitted sender) smtp.mailfrom=masahiroy@kernel.org;
-       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from conuserg-11.nifty.com (conuserg-11.nifty.com. [210.131.2.78])
-        by gmr-mx.google.com with ESMTPS id x6si391168vko.1.2020.08.01.08.01.38
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 01 Aug 2020 08:01:39 -0700 (PDT)
-Received-SPF: softfail (google.com: domain of transitioning masahiroy@kernel.org does not designate 210.131.2.78 as permitted sender) client-ip=210.131.2.78;
-Received: from oscar.flets-west.jp (softbank126025067101.bbtec.net [126.25.67.101]) (authenticated)
-	by conuserg-11.nifty.com with ESMTP id 071F0q51015446;
-	Sun, 2 Aug 2020 00:00:53 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-11.nifty.com 071F0q51015446
-X-Nifty-SrcIP: [126.25.67.101]
-From: Masahiro Yamada <masahiroy@kernel.org>
-To: linux-kbuild@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, Kees Cook <keescook@chromium.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Dmitry Vyukov <dvyukov@google.com>, Marco Elver <elver@google.com>,
-        Michal Marek <michal.lkml@markovi.net>, kasan-dev@googlegroups.com
-Subject: [PATCH 1/2] kbuild: include scripts/Makefile.* only when relevant CONFIG is enabled
-Date: Sun,  2 Aug 2020 00:00:49 +0900
-Message-Id: <20200801150050.767038-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.25.1
+X-Gm-Message-State: AOAM5303Cmk3c6TppIlKsfUS17UALaSyFVi7XYRo7/5XgPQYRdwDJakW
+	91fQXLIJlBP/R6iNfYGftNA=
+X-Google-Smtp-Source: ABdhPJy2dQQKmTuXU18qrUHic9TmMpCh/e3xCXAygqUO/UPB3kE3qApCQ1E/dyhuK+3gReGt0gX+EA==
+X-Received: by 2002:a05:620a:789:: with SMTP id 9mr14451843qka.199.1596437278949;
+        Sun, 02 Aug 2020 23:47:58 -0700 (PDT)
 MIME-Version: 1.0
-X-Original-Sender: masahiroy@kernel.org
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@nifty.com header.s=dec2015msa header.b=c0JKLZBN;       spf=softfail
- (google.com: domain of transitioning masahiroy@kernel.org does not designate
- 210.131.2.78 as permitted sender) smtp.mailfrom=masahiroy@kernel.org;
-       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+X-BeenThere: kasan-dev@googlegroups.com
+Received: by 2002:a05:6214:7d2:: with SMTP id bb18ls3776299qvb.6.gmail; Sun,
+ 02 Aug 2020 23:47:58 -0700 (PDT)
+X-Received: by 2002:ad4:49a1:: with SMTP id u1mr15141281qvx.245.1596437278332;
+        Sun, 02 Aug 2020 23:47:58 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1596437278; cv=none;
+        d=google.com; s=arc-20160816;
+        b=gLTrAmFlafk1DgamnqQPEBLLJkmPE2IZnPWRfqgXHKkZ4FyujiEmy+/QE5z3K3jsPV
+         8Fiw2XbCxEh9IeO7XSnPvo0Rzds68h92Bgw8Q+Ei6Upb0rwoZOY+R+nYvZU1bfzaloFy
+         4VYkxb9ThzbqtNv6zv2DGJJvoXOKhqv9WWQ5XEXnilBSN6b7XNlpYJyZxTfNpACAmcBN
+         7ZHkhciavvnUXvfQc/Kutziny0QrWV5C+jm6nySUKlECHRTGwlebWOWlZksuoREIqceZ
+         WB2Sqqbayh/cWrAZHVpR1mpENlIthAnWfBpVzSPzFaj8t+S/83W/WdUrdXLc568aNyTh
+         ITIw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=message-id:date:subject:cc:to:from;
+        bh=YsOUs1nuiWDcyrMgW/htuREcmf3p+5QnFvAu2GQ/Nac=;
+        b=Sfbs3D1CPQjYBUOsWW1AiO1U8q6s3ITDmQq5hAE9q815fip9d/VbuK+Ul5XwbocnKI
+         BS6TweHZgfcUa5E/ofK5Ga2KA1BbGZjaRypExDEIwnUQRmjcySfwNXDW3Ta79ga/Y7ya
+         LaiAGfmNpSbcet8oNI9l+ZrIRsJqSn7qoZmiA8MkFjNmtpyEaH9/Lpi7S8msB4nCLWdK
+         lnpdekYKB0TMdniP8UdGCGEQywT2SxmoVbNzwoM29mNDfh4+KGDs5Wkd2+Pbz0RvYL9N
+         XgMElTvLaO7EK+N9wkKzdWu4xYT10povTfidMxElT3g46vrzRob7CsehNq8rZnP0yvZk
+         7ixw==
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       spf=pass (google.com: domain of wenhu.wang@vivo.com designates 103.129.252.23 as permitted sender) smtp.mailfrom=wenhu.wang@vivo.com
+Received: from mail-proxy25224.qiye.163.com (mail-proxy25223.qiye.163.com. [103.129.252.23])
+        by gmr-mx.google.com with ESMTPS id o2si768273qkj.4.2020.08.02.23.47.58
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 02 Aug 2020 23:47:58 -0700 (PDT)
+Received-SPF: pass (google.com: domain of wenhu.wang@vivo.com designates 103.129.252.23 as permitted sender) client-ip=103.129.252.23;
+Received: from wwh-vos.localdomain (unknown [58.251.74.226])
+	by m17616.mail.qiye.163.com (Hmail) with ESMTPA id AB959108499;
+	Mon,  3 Aug 2020 14:45:48 +0800 (CST)
+From: Wang Wenhu <wenhu.wang@vivo.com>
+To: Marco Elver <elver@google.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	kasan-dev@googlegroups.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	clang-built-linux@googlegroups.com
+Cc: Wang Wenhu <wenhu.wang@vivo.com>
+Subject: [PATCH] doc: kcsan: add support info of gcc for kcsan
+Date: Mon,  3 Aug 2020 14:45:12 +0800
+Message-Id: <20200803064512.85589-1-wenhu.wang@vivo.com>
+X-Mailer: git-send-email 2.17.1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
+	oVCBIfWUFZGkJPSB4dHUlITB5CVkpOQk1PSExKT0JLQkpVEwETFhoSFyQUDg9ZV1kWGg8SFR0UWU
+	FZT0tIVUpKS09ISFVKS0tZBg++
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6PFE6FRw4Cz8eDwEjIQMxCT4T
+	Dx5PC01VSlVKTkJNT0hMSk9CTU5JVTMWGhIXVQweFRMOVQwaFRw7DRINFFUYFBZFWVdZEgtZQVlO
+	Q1VJTkpVTE9VSUlNWVdZCAFZQUpMQ0s3Bg++
+X-HM-Tid: 0a73b311b53f9374kuwsab959108499
+X-Original-Sender: wenhu.wang@vivo.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of wenhu.wang@vivo.com designates 103.129.252.23 as
+ permitted sender) smtp.mailfrom=wenhu.wang@vivo.com
 Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
@@ -130,109 +129,32 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Currently, the top Makefile includes all of scripts/Makefile.<feature>
-even if the associated CONFIG option is disabled.
+KCSAN is also supported in GCC version 7.3.0 or later.
+For Clang, the supported versions are 7.0.0 and later.
 
-Do not include unneeded Makefiles in order to slightly optimize the
-parse stage.
-
-Include $(include-y), and ignore $(include-).
-
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+Signed-off-by: Wang Wenhu <wenhu.wang@vivo.com>
 ---
+ Documentation/dev-tools/kcsan.rst | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
- Makefile               | 16 +++++++++-------
- scripts/Makefile.kcov  |  4 ----
- scripts/Makefile.kcsan |  4 ----
- scripts/Makefile.ubsan |  3 ---
- 4 files changed, 9 insertions(+), 18 deletions(-)
-
-diff --git a/Makefile b/Makefile
-index ebf4d3ce492c..483456d5dd3e 100644
---- a/Makefile
-+++ b/Makefile
-@@ -745,9 +745,6 @@ endif
- KBUILD_CFLAGS	+= $(call cc-option,--param=allow-store-data-races=0)
- KBUILD_CFLAGS	+= $(call cc-option,-fno-allow-store-data-races)
+diff --git a/Documentation/dev-tools/kcsan.rst b/Documentation/dev-tools/kcsan.rst
+index b38379f06194..05a4578839cf 100644
+--- a/Documentation/dev-tools/kcsan.rst
++++ b/Documentation/dev-tools/kcsan.rst
+@@ -8,7 +8,8 @@ approach to detect races. KCSAN's primary purpose is to detect `data races`_.
+ Usage
+ -----
  
--include scripts/Makefile.kcov
--include scripts/Makefile.gcc-plugins
--
- ifdef CONFIG_READABLE_ASM
- # Disable optimizations that make assembler listings hard to read.
- # reorder blocks reorders the control in the function
-@@ -948,10 +945,15 @@ ifdef CONFIG_RETPOLINE
- KBUILD_CFLAGS += $(call cc-option,-fcf-protection=none)
- endif
+-KCSAN requires Clang version 11 or later.
++KCSAN is supported in both GCC and Clang. With GCC it requires version 7.3.0
++or later. With Clang it requires version 7.0.0 or later.
  
--include scripts/Makefile.kasan
--include scripts/Makefile.extrawarn
--include scripts/Makefile.ubsan
--include scripts/Makefile.kcsan
-+# include additional Makefiles when needed
-+include-y			:= scripts/Makefile.extrawarn
-+include-$(CONFIG_KASAN)		+= scripts/Makefile.kasan
-+include-$(CONFIG_KCSAN)		+= scripts/Makefile.kcsan
-+include-$(CONFIG_UBSAN)		+= scripts/Makefile.ubsan
-+include-$(CONFIG_KCOV)		+= scripts/Makefile.kcov
-+include-$(CONFIG_GCC_PLUGINS)	+= scripts/Makefile.gcc-plugins
-+
-+include $(addprefix $(srctree)/, $(include-y))
+ To enable KCSAN configure the kernel with::
  
- # Add user supplied CPPFLAGS, AFLAGS and CFLAGS as the last assignments
- KBUILD_CPPFLAGS += $(KCPPFLAGS)
-diff --git a/scripts/Makefile.kcov b/scripts/Makefile.kcov
-index 52b113302443..67e8cfe3474b 100644
---- a/scripts/Makefile.kcov
-+++ b/scripts/Makefile.kcov
-@@ -1,10 +1,6 @@
- # SPDX-License-Identifier: GPL-2.0-only
--ifdef CONFIG_KCOV
--
- kcov-flags-$(CONFIG_CC_HAS_SANCOV_TRACE_PC)	+= -fsanitize-coverage=trace-pc
- kcov-flags-$(CONFIG_KCOV_ENABLE_COMPARISONS)	+= -fsanitize-coverage=trace-cmp
- kcov-flags-$(CONFIG_GCC_PLUGIN_SANCOV)		+= -fplugin=$(objtree)/scripts/gcc-plugins/sancov_plugin.so
- 
- export CFLAGS_KCOV := $(kcov-flags-y)
--
--endif
-diff --git a/scripts/Makefile.kcsan b/scripts/Makefile.kcsan
-index bd4da1af5953..2b0743e6566e 100644
---- a/scripts/Makefile.kcsan
-+++ b/scripts/Makefile.kcsan
-@@ -1,6 +1,4 @@
- # SPDX-License-Identifier: GPL-2.0
--ifdef CONFIG_KCSAN
--
- # GCC and Clang accept backend options differently. Do not wrap in cc-option,
- # because Clang accepts "--param" even if it is unused.
- ifdef CONFIG_CC_IS_CLANG
-@@ -15,5 +13,3 @@ CFLAGS_KCSAN := -fsanitize=thread \
- 	$(call cc-option,$(call cc-param,tsan-instrument-func-entry-exit=0) -fno-optimize-sibling-calls) \
- 	$(call cc-option,$(call cc-param,tsan-instrument-read-before-write=1)) \
- 	$(call cc-param,tsan-distinguish-volatile=1)
--
--endif # CONFIG_KCSAN
-diff --git a/scripts/Makefile.ubsan b/scripts/Makefile.ubsan
-index 5b15bc425ec9..27348029b2b8 100644
---- a/scripts/Makefile.ubsan
-+++ b/scripts/Makefile.ubsan
-@@ -1,6 +1,4 @@
- # SPDX-License-Identifier: GPL-2.0
--ifdef CONFIG_UBSAN
--
- ifdef CONFIG_UBSAN_ALIGNMENT
-       CFLAGS_UBSAN += $(call cc-option, -fsanitize=alignment)
- endif
-@@ -26,4 +24,3 @@ endif
-       # -fsanitize=* options makes GCC less smart than usual and
-       # increase number of 'maybe-uninitialized false-positives
-       CFLAGS_UBSAN += $(call cc-option, -Wno-maybe-uninitialized)
--endif
 -- 
-2.25.1
+2.17.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200801150050.767038-1-masahiroy%40kernel.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200803064512.85589-1-wenhu.wang%40vivo.com.
