@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBDX4HWEMTEBRBSG6UD4QKGQEAXVQWEQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDX4HWEMTEBRBD7VUD4QKGQEK4YE5PY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-il1-x13e.google.com (mail-il1-x13e.google.com [IPv6:2607:f8b0:4864:20::13e])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC7C023A980
-	for <lists+kasan-dev@lfdr.de>; Mon,  3 Aug 2020 17:37:45 +0200 (CEST)
-Received: by mail-il1-x13e.google.com with SMTP id e4sf14001837ilr.0
-        for <lists+kasan-dev@lfdr.de>; Mon, 03 Aug 2020 08:37:45 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1596469064; cv=pass;
+Received: from mail-pf1-x43e.google.com (mail-pf1-x43e.google.com [IPv6:2607:f8b0:4864:20::43e])
+	by mail.lfdr.de (Postfix) with ESMTPS id E276823AA6D
+	for <lists+kasan-dev@lfdr.de>; Mon,  3 Aug 2020 18:25:52 +0200 (CEST)
+Received: by mail-pf1-x43e.google.com with SMTP id t11sf14830205pfq.21
+        for <lists+kasan-dev@lfdr.de>; Mon, 03 Aug 2020 09:25:52 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1596471951; cv=pass;
         d=google.com; s=arc-20160816;
-        b=wj9vUXdKfdl8lfh6EnwIhLoy/0QlEsWMGWVu6YaJFtdJJK37GIJUzihPWy4TWO9RcC
-         ht4GvyMtFpMz+xySpVhS2JZVJ0LYN2ZjXSTSRt8VsTHVAONjjABU+JHNQRdhR/pqYPGZ
-         1oqOgVfMgNFsvuGCl8Oh9ElDNJogmhpamq5mm4cWcjXhUL/cOxXCZmV8anpqQZBL54yz
-         xtg2gDKcpcyJo+6yfMy9KG5n7DXiXnQI9a4EVeFyMk3BSrmdXmESXe5GJKfH4NsqQiYi
-         Z21FNiluSB3HhwHNtDxxMF03EfMrFUMenXc4Nw9KJF1aDZGzbHbbDtLilGBaq9BZGsBJ
-         cRvA==
+        b=DPq+uLqD1Mi0aPS8pLiy8e/FtgwAYjh0qty14pw6eW8yJTsCiNuCdR2DSaQyctqRae
+         qwjNHRSfMQiqzpJr85H6pekEWY1gUMCnDZJRLCTrN2ao0eZnR4xBp21Iv3OaxDfmbQY/
+         i1lzfSuYi1u2RwaQ4jJsjscL7iKmI1mbEp0nr9Kmda7enyb8ga4XGbVT4FoEyaYMdX+p
+         GvHARSMI7EBjkitdoouX7oG1cN8U4J0iBbL6RiXMszJWPoQA1oZP6jFgfnRDu0fnIv9J
+         kwh5yRdrBo7iQX1fyXe/NwHmToXTy45o0VytqMJP9aV9P+1a/6qQ4AuwCACwBhaWTaTD
+         5Htg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=+dVY78ZwKQ/J0gylD6AyZeLL6clvP/UiQEZ20MLhukE=;
-        b=W9qRoU2f2PkD+wIfdGc4jA/IU2T3C6GOm/vVfRCQO5dZeW/C73XelqIhSNnJakeYlQ
-         +q+oK/d3DTG0mYBgLEjQzrTWNF/dIBJnUE6tddjgCNaijO3kVg4OH7cdPXF3tGNgqqzZ
-         S3/V34JKjexYOfhIC/U40n1yroCCnk4qr6sTTNan4OKzonlbU2F3jLvZq/OCnzJFbmE0
-         A0Zc6uFtaZKSMASSRPFFObd8uWMSG1I0F5Rgtus3nPS+3IK//0coq8wdDYneM4S/3NzZ
-         mHqV8UvxnmwNINQp1bJbpQH8J2Y0RUqEPG7lPAzELZ+mKhk+fiKfo/3/frK8hdQ8Fn47
-         g+PQ==
+        bh=7AERy1jTjktpHnZ+AHdEYMzB6Ji0RHXH197oIq+Ci4A=;
+        b=r2kIC78Mx8PmonCa7hkBP5llHQ9CrflYlcbzFscoLmH+YOWNQxVIiLNx3gwo7zhS/P
+         q4rC7ZYd8Fje6QHPCXsmcQy/5AJwyj6z73oqqKU5pNpNOjGpDz9pv0QiCNHhdkCUo7+U
+         ishStr6O2XJC9dDdyhCbxV1aBFitqILKeFIUIUNYk+3m+eVQLv8h0aPfGzCOny0AYQZ/
+         Mfb9x2w4xXtapjSfeMACkNj8YcTQtePj8IzS+acEoJwfKx5E4BFce5nxu1SopGJfVL8S
+         V3cJAdhPzACDCYQemivKb2H75E4qaeTOAZE3iy38BOFWNdmQpF9Q2QaYm2pq8ED2KFLH
+         ABsg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=W7lLcF0H;
-       spf=pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::642 as permitted sender) smtp.mailfrom=andreyknvl@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=WJtI6scH;
+       spf=pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::444 as permitted sender) smtp.mailfrom=andreyknvl@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=+dVY78ZwKQ/J0gylD6AyZeLL6clvP/UiQEZ20MLhukE=;
-        b=GBXF81oLPJsBZvdYUIFIoajPGPfObWgSI4nor6iYPE8j0vtbkeK1ds8y38WqVhHkHt
-         Kp8etUpV2WgBloPp8jz/RbmVYCbJx4zcvx0ixonIF7clXmFMD6dc2ccg0j0ibWjpSf5/
-         3FwWgCIh6cC0UFIXw6IE4t7kSVF8/W2feOHcxqeaE0QtUNICyMLXo2jbosrE10QiWu7K
-         mXfSKMgUkWzS7phkYobBwwavCnBr+FfZvh3fIOI/m6Kj7kldkzwrD6FZua53BvmaqXpu
-         bXC97fvnvBmp+C4X4lt5y1tHY0SxEkKsd9mhu8JST67tBJ0ZPiSO/UgSMo9VQZkeLSnn
-         a10Q==
+        bh=7AERy1jTjktpHnZ+AHdEYMzB6Ji0RHXH197oIq+Ci4A=;
+        b=BCKbkia/ysCf/n/OZfHoxXg5uaMUVRuuZgFn6ztLghthOCGtLxHTf6anwQ8Egaze1s
+         /4f0vNZdY2JWfRZVZgD3Omp/EhcZxOItotv5d49vHXyNjkYL3YiR42dCC98SEkfY3MpB
+         SzmCN4xPhVJTLsy1XrZ1X5S2/U+BzVLJ6wNmQZeWfCIFVK4FrtLBrn9swswKhMstTJ5d
+         pUTVjeufKxdeNyxZ6h0w6WwEAw065FupXrGEKnV/ts5SDPseSIp+wV7W2e3CgIrjZZ6Z
+         F3WCHWmdypbEZ6K9sb3CfRTdVahwXqwB3QDZx0Wptbk+w6vFnqPcYer4DgOgVnQ1d1vI
+         vqkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
@@ -49,74 +49,77 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=+dVY78ZwKQ/J0gylD6AyZeLL6clvP/UiQEZ20MLhukE=;
-        b=ZIBw2XiCCV0HZzKoph8jf6hGAWi+SOppb+6PMO7uI++oQXwqEN1yIjxQAetEAbQpBu
-         4B/bw+7fl6c9TwM4KPgvZdS47YJnDM1PNI2K0nmYENv5yN663+SrIrYvTURTPPUaat9r
-         H6u6P1s4+n/nu7QDlrQ9HBVQu7zweH7FDftw70gctFO15bfYSkDRCRRbvEtRySpvF3PL
-         4jqVolMfImYuI3eMcTscLKloRQkJWXMEp9gIqKG87nao+ugVsdg82/t5WRJnBt3ilRBk
-         xAybGrY47uTbd3zOhFzX69DaswOKDKTQK7wzW2/hssE8VApEwwQbhSjSOtboFBLWUrtO
-         Y4fA==
-X-Gm-Message-State: AOAM533Ma8V+dJSccXCULKsO9mD2KcwhYZRVhsdurF1V3mvyFZJuJpW9
-	PFDODQXpGXXbaJlmV00CBWA=
-X-Google-Smtp-Source: ABdhPJwSy1X4QU1xrsBd7DY11hXL1okwrmpYUJxTr2n8vXAVMJFHTbUgpfO53RnmNOHHRw0wo2YKOg==
-X-Received: by 2002:a05:6e02:54e:: with SMTP id i14mr6439094ils.33.1596469064495;
-        Mon, 03 Aug 2020 08:37:44 -0700 (PDT)
+        bh=7AERy1jTjktpHnZ+AHdEYMzB6Ji0RHXH197oIq+Ci4A=;
+        b=fWr1SEm8wlt/ySF6uEkoTdPbqJyGnFaKj0cfi6460EeRRVmOscJ9rLkbsTwB6wplmV
+         2W4bpUqPVnLcRjwI9PQvYQRSmCigYs4i9GjreEBX9/pYBoj3RtU1yFM5ZnbHRa6kbAU3
+         RQ2WMYbl2gv8hW5i+U8dYp45TP6DVxPf8L2Mah56zk2AKyzGUwM3eC/rmveBtLYX/hep
+         scVDsECiCGfPxSP8F8kMe9r1hAak8cxhFkQ/oXwpfRApKA4iTL2s/GMHhN2GKQVyHugP
+         8zSLzp+Xf7YGDgRJqjl6dM2Te0wG5Wj83WjipK10LoO54eiD6fq3ueTRMVhUTFXAoKx8
+         pCjQ==
+X-Gm-Message-State: AOAM533uPx1pNREjWMORu812b8tqPoD4C6TNO8mX4PeFjc+NZ/cSvppX
+	Z40mfzOzzZUO+1EsTJVSxsI=
+X-Google-Smtp-Source: ABdhPJwx8jgAzmFkyOU9trpnw7ejjkv/5hRakFjUU/9RwlMgkZqDtEhbhWaBAZgIobCdObtVFdS/6A==
+X-Received: by 2002:a63:3587:: with SMTP id c129mr16097786pga.322.1596471951323;
+        Mon, 03 Aug 2020 09:25:51 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a92:d34c:: with SMTP id a12ls3806400ilh.5.gmail; Mon, 03 Aug
- 2020 08:37:44 -0700 (PDT)
-X-Received: by 2002:a92:9a84:: with SMTP id c4mr18213481ill.1.1596469064094;
-        Mon, 03 Aug 2020 08:37:44 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1596469064; cv=none;
+Received: by 2002:a62:7593:: with SMTP id q141ls5762133pfc.0.gmail; Mon, 03
+ Aug 2020 09:25:50 -0700 (PDT)
+X-Received: by 2002:a63:ce41:: with SMTP id r1mr16008910pgi.203.1596471950632;
+        Mon, 03 Aug 2020 09:25:50 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1596471950; cv=none;
         d=google.com; s=arc-20160816;
-        b=lCFsW36D4I/OI21nNkBinvCzfbpcc8VCebIidai1E1B6YbesWc3OrRtwCGU2SRjZiJ
-         2fryoEokuPhqZweTPTWvW5TPFXLabLuLvS7xGoTLa1pYDzCes+6ChC/PBnIMZsuJKK4Q
-         b/bC6JcL8nylgraEfOvq0tPMIB0aNoXKUAcsbOwNs76WmZgOxTrRE52zzV/XZDpYehL0
-         xwy8R5DPjuKJ2a9hEMew24WmzAaXmvmqmUY1RspJH188E/nP+qbgn6D3qctaDQ+tBGGc
-         /vOD4uCjq8cadlogooOzeFQsGXmX5jKpRGvxY/HNqxEmVUN5ikX+s0Z0QfmHntmPBRS8
-         zCKQ==
+        b=WtNRGOoz40ag/v/e48QVG0T5Z5Bp3kMUt2j9yPaO3QT4qcspv4tbY7eqD9U8QJZvBj
+         ck7tJcfl4e4+cWRwbJZpo/HVUXHKnQmUohrmdQv0hfoZVjxhdkvSbMmFx9mA7GyR5wmH
+         E3BAW+bIbo2zcrrbX5ugYNOpCn5qVmi5W3RBvCgyPfdCoDM8308uyUTRuuEGBfHaSxfQ
+         5Rb/ZuSkQcJ+oLtjLQUxwak5V6qTefNZ9zcr/kwUOXRHdAANQKFXKa+lqqOUJFgpfeNO
+         x1QToMRMe8meU0o2CYnTttSn4lHQ/Ij8UcQ1fSuZSHQLNwUXoWUqJ8cxdtNRkAVw3Wzb
+         nJAQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=UmX7pB6yi6itJGZjNe/1neOiyvbDkoAdg0wCqdj9cMU=;
-        b=TvDoRwsrwHgRrD0GEg3nUwn7pI5+doOhPB/MFQAEFHS7GhIYInXLQcGWhmNO/XL2Qq
-         rTqxhErFWJb9hSC/jBD8vQkIILPNciZHiA0oOeHI1kaIdjs1II7u3IG/dYQEAw3iiCqq
-         QRSxZQGfSd79DIMfyPUIDY0u9s+lyMUblMPAgK60xSOABX29MC3hjzFTE1dISiU9BES/
-         5yMs2I75iyqa/dC1yr8VZNqmUhw3Hb3oOZdMXGBSlR/HfpjxH7NViWxvKIxji/0cDW0E
-         78cfs7D036HdiNecIAkmY+GMIaPLOrlzCEMoFeTDPaUWDp/trilrXOyKultkvVgV47Rz
-         zYDg==
+        bh=IN89B/Ojkw/pvP1l4s5A6ia3yKGl9XfJ2ORu0fQjOxU=;
+        b=g/rZ8WbOLBR+nxuQUnPxpvh3aT72bSaXwjKrDz1hGVG6YgEM5Hultj3/atW8JPDIQN
+         134L657OeNdFLibF7Kf/ImdI5eZqf31K0nZwMQMonWlDmRGAvVSoReyq091uBZmZ1AqG
+         xJyPKUlAxayYsmqqH4d2dEHCc9nvwYVFN9HejQGazHUFtzTzB+N5cwshIiSRbBEU+o0G
+         E13o6bJWO4qReW2kBu1ZgIWU46EvO/vy4pTWtDpIQtUH7Y/82m0ONoIF/eOId6v+6pJe
+         /TuBfIiHhTw7mTCaIjSRSvf+JP330N+LeOh7utZrmSz5io2YST6jgUmBuOtD1zUoF8tX
+         Nr5w==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=W7lLcF0H;
-       spf=pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::642 as permitted sender) smtp.mailfrom=andreyknvl@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=WJtI6scH;
+       spf=pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::444 as permitted sender) smtp.mailfrom=andreyknvl@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com. [2607:f8b0:4864:20::642])
-        by gmr-mx.google.com with ESMTPS id t6si945407ioi.1.2020.08.03.08.37.44
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com. [2607:f8b0:4864:20::444])
+        by gmr-mx.google.com with ESMTPS id k12si846283pls.1.2020.08.03.09.25.50
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 Aug 2020 08:37:44 -0700 (PDT)
-Received-SPF: pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::642 as permitted sender) client-ip=2607:f8b0:4864:20::642;
-Received: by mail-pl1-x642.google.com with SMTP id g19so8288556plq.0
-        for <kasan-dev@googlegroups.com>; Mon, 03 Aug 2020 08:37:44 -0700 (PDT)
-X-Received: by 2002:a17:902:904c:: with SMTP id w12mr15912972plz.147.1596469063049;
- Mon, 03 Aug 2020 08:37:43 -0700 (PDT)
+        Mon, 03 Aug 2020 09:25:50 -0700 (PDT)
+Received-SPF: pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::444 as permitted sender) client-ip=2607:f8b0:4864:20::444;
+Received: by mail-pf1-x444.google.com with SMTP id a79so2616016pfa.8
+        for <kasan-dev@googlegroups.com>; Mon, 03 Aug 2020 09:25:50 -0700 (PDT)
+X-Received: by 2002:aa7:97a3:: with SMTP id d3mr16432430pfq.178.1596471949983;
+ Mon, 03 Aug 2020 09:25:49 -0700 (PDT)
 MIME-Version: 1.0
-References: <202008020649.TJ8Zu7ei%lkp@intel.com>
-In-Reply-To: <202008020649.TJ8Zu7ei%lkp@intel.com>
+References: <20200801070924.1786166-1-davidgow@google.com>
+In-Reply-To: <20200801070924.1786166-1-davidgow@google.com>
 From: "'Andrey Konovalov' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Mon, 3 Aug 2020 17:37:32 +0200
-Message-ID: <CAAeHK+zbBF0YVveGNZo0bJ8fWHVZRcrr6n90eYLDCov2vcfZyg@mail.gmail.com>
-Subject: Re: [hnaz-linux-mm:master 168/421] init/main.c:1012: undefined
- reference to `efi_enter_virtual_mode'
-To: Ard Biesheuvel <ardb@kernel.org>, linux-efi@vger.kernel.org, 
-	Dmitry Vyukov <dvyukov@google.com>, Alexander Potapenko <glider@google.com>, 
-	kasan-dev <kasan-dev@googlegroups.com>, Andrey Ryabinin <aryabinin@virtuozzo.com>
-Cc: kbuild-all@lists.01.org, Johannes Weiner <hannes@cmpxchg.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, 
-	Linux Memory Management List <linux-mm@kvack.org>, kernel test robot <lkp@intel.com>
+Date: Mon, 3 Aug 2020 18:25:38 +0200
+Message-ID: <CAAeHK+wpt+Pko3pCBwO3Q=6Su7chVj+xhAGgHiVabbzC58rgDw@mail.gmail.com>
+Subject: Re: [PATCH v10 0/5] KASAN-KUnit Integration
+To: Andrew Morton <akpm@linux-foundation.org>, 
+	Linux Memory Management List <linux-mm@kvack.org>
+Cc: Patricia Alfonso <trishalfonso@google.com>, Brendan Higgins <brendanhiggins@google.com>, 
+	Andrey Ryabinin <aryabinin@virtuozzo.com>, Dmitry Vyukov <dvyukov@google.com>, 
+	Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>, 
+	Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, 
+	Shuah Khan <shuah@kernel.org>, David Gow <davidgow@google.com>, 
+	LKML <linux-kernel@vger.kernel.org>, kasan-dev <kasan-dev@googlegroups.com>, 
+	kunit-dev@googlegroups.com, 
+	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: andreyknvl@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=W7lLcF0H;       spf=pass
- (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::642
+ header.i=@google.com header.s=20161025 header.b=WJtI6scH;       spf=pass
+ (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::444
  as permitted sender) smtp.mailfrom=andreyknvl@google.com;       dmarc=pass
  (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Andrey Konovalov <andreyknvl@google.com>
@@ -133,274 +136,152 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Sun, Aug 2, 2020 at 12:25 AM kernel test robot <lkp@intel.com> wrote:
+On Sat, Aug 1, 2020 at 9:09 AM David Gow <davidgow@google.com> wrote:
 >
-> tree:   https://github.com/hnaz/linux-mm master
-> head:   2932a9e66c580f3c8d95ec27716d437198fb4c94
-> commit: 7c0265f304de3c3acd02d0015b56a076357bcce3 [168/421] kasan, arm64: don't instrument functions that enable kasan
-> config: x86_64-randconfig-r036-20200802 (attached as .config)
-> compiler: gcc-9 (Debian 9.3.0-14) 9.3.0
-> reproduce (this is a W=1 build):
->         git checkout 7c0265f304de3c3acd02d0015b56a076357bcce3
->         # save the attached .config to linux build tree
->         make W=1 ARCH=x86_64
+> This patchset contains everything needed to integrate KASAN and KUnit.
 >
-> If you fix the issue, kindly add following tag as appropriate
-> Reported-by: kernel test robot <lkp@intel.com>
+> KUnit will be able to:
+> (1) Fail tests when an unexpected KASAN error occurs
+> (2) Pass tests when an expected KASAN error occurs
 >
-> All errors (new ones prefixed by >>):
+> Convert KASAN tests to KUnit with the exception of copy_user_test
+> because KUnit is unable to test those.
 >
->    ld: init/main.o: in function `start_kernel':
-> >> init/main.c:1012: undefined reference to `efi_enter_virtual_mode'
+> Add documentation on how to run the KASAN tests with KUnit and what to
+> expect when running these tests.
+>
+> This patchset depends on:
+> - "kunit: extend kunit resources API" [1]
+>  - This is already present in the kselftest/kunit branch
+>
+> I'd _really_ like to get this into 5.9 if possible: we also have some
+> other changes which depend on some things here.
 
-Hm, I can reproduce the issue, but I don't understand why it happens.
++Andew, could you PTAL at this patchset?
 
-+EFI and KASAN people, maybe someone has an idea.
-
-This is the guilty patch:
-
-https://github.com/hnaz/linux-mm/commit/7c0265f304de3c3acd02d0015b56a076357bcce3
-
-The issue is only with efi_enter_virtual_mode() AFAIU, not with any of
-the other functions.
-
-Thanks!
-
-
+> Changes from v9:
+>  - Rebased on top of linux-next (20200731) + kselftest/kunit and [7]
+>  - Note that the kasan_rcu_uaf test has not been ported to KUnit, and
+>    remains in test_kasan_module. This is because:
+>    (a) KUnit's expect failure will not check if the RCU stacktraces
+>        show.
+>    (b) KUnit is unable to link the failure to the test, as it occurs in
+>        an RCU callback.
 >
-> vim +1012 init/main.c
+> Changes from v8:
+>  - Rebased on top of kselftest/kunit
+>  - (Which, with this patchset, should rebase cleanly on 5.8-rc7)
+>  - Renamed the KUnit test suite, config name to patch the proposed
+>    naming guidelines for KUnit tests[6]
 >
-> 53c99bd665a2649 Martin Schwidefsky       2018-08-31   829
-> 7c0265f304de3c3 Andrey Konovalov         2020-08-01   830  asmlinkage __visible __no_sanitize_address void __init start_kernel(void)
-> ^1da177e4c3f415 Linus Torvalds           2005-04-16   831  {
-> dd4d9fecbeba893 Fabian Frederick         2014-08-08   832       char *command_line;
-> dd4d9fecbeba893 Fabian Frederick         2014-08-08   833       char *after_dashes;
-> 033ab7f8e5c655f Andrew Morton            2006-06-30   834
-> d4311ff1a8da48d Aaron Tomlin             2014-09-12   835       set_task_stack_end_magic(&init_task);
-> 73839c5b2eacc15 Ming Lei                 2011-11-17   836       smp_setup_processor_id();
-> 3ac7fe5a4aab409 Thomas Gleixner          2008-04-30   837       debug_objects_early_init();
-> 420594296838fdc Ingo Molnar              2008-02-14   838
-> ddbcc7e8e50aefe Paul Menage              2007-10-18   839       cgroup_init_early();
-> fbb9ce9530fd9b6 Ingo Molnar              2006-07-03   840
-> fbb9ce9530fd9b6 Ingo Molnar              2006-07-03   841       local_irq_disable();
-> 2ce802f62ba32a7 Tejun Heo                2011-01-20   842       early_boot_irqs_disabled = true;
-> fbb9ce9530fd9b6 Ingo Molnar              2006-07-03   843
-> ^1da177e4c3f415 Linus Torvalds           2005-04-16   844       /*
-> ^1da177e4c3f415 Linus Torvalds           2005-04-16   845        * Interrupts are still disabled. Do necessary setups, then
-> 1b3b3b49b996140 Viresh Kumar             2017-03-23   846        * enable them.
-> ^1da177e4c3f415 Linus Torvalds           2005-04-16   847        */
-> 44fd22992cb76dc Stas Sergeev             2006-03-23   848       boot_cpu_init();
-> ^1da177e4c3f415 Linus Torvalds           2005-04-16   849       page_address_init();
-> ea676e846a8171b Andrew Morton            2013-04-29   850       pr_notice("%s", linux_banner);
-> e6b1db98cf4d54d Matthew Garrett          2019-08-19   851       early_security_init();
-> ^1da177e4c3f415 Linus Torvalds           2005-04-16   852       setup_arch(&command_line);
-> 7495e0926fdf302 Steven Rostedt (VMware   2020-02-04   853)      setup_boot_config(command_line);
-> 30d7e0d466b3ac0 Alon Bar-Lev             2007-02-12   854       setup_command_line(command_line);
-> e0982e90cd1ecf5 Mike Travis              2008-03-26   855       setup_nr_cpu_ids();
-> d6647bdf98a0de1 Tejun Heo                2009-07-21   856       setup_per_cpu_areas();
-> 44fd22992cb76dc Stas Sergeev             2006-03-23   857       smp_prepare_boot_cpu(); /* arch-specific boot-cpu hooks */
-> b5b1404d0815894 Linus Torvalds           2018-08-12   858       boot_cpu_hotplug_init();
-> ^1da177e4c3f415 Linus Torvalds           2005-04-16   859
-> 72675e131eb418c Michal Hocko             2017-09-06   860       build_all_zonelists(NULL);
-> 83b519e8b9572c3 Pekka Enberg             2009-06-10   861       page_alloc_init();
-> 83b519e8b9572c3 Pekka Enberg             2009-06-10   862
-> 51887d03aca101a Masami Hiramatsu         2020-01-11   863       pr_notice("Kernel command line: %s\n", saved_command_line);
-> 6041186a32585fc Dan Williams             2019-04-18   864       /* parameters may set static keys */
-> 6041186a32585fc Dan Williams             2019-04-18   865       jump_label_init();
-> 83b519e8b9572c3 Pekka Enberg             2009-06-10   866       parse_early_param();
-> 51e158c12aca3c9 Rusty Russell            2014-04-28   867       after_dashes = parse_args("Booting kernel",
-> 51e158c12aca3c9 Rusty Russell            2014-04-28   868                                 static_command_line, __start___param,
-> 83b519e8b9572c3 Pekka Enberg             2009-06-10   869                                 __stop___param - __start___param,
-> ecc8617053e0a97 Luis R. Rodriguez        2015-03-30   870                                 -1, -1, NULL, &unknown_bootoption);
-> 3438cf549d2f3ee Daniel Thompson          2014-11-11   871       if (!IS_ERR_OR_NULL(after_dashes))
-> 51e158c12aca3c9 Rusty Russell            2014-04-28   872               parse_args("Setting init args", after_dashes, NULL, 0, -1, -1,
-> ecc8617053e0a97 Luis R. Rodriguez        2015-03-30   873                          NULL, set_init_arg);
-> 1319916209ce8f5 Masami Hiramatsu         2020-01-11   874       if (extra_init_args)
-> 1319916209ce8f5 Masami Hiramatsu         2020-01-11   875               parse_args("Setting extra init args", extra_init_args,
-> 1319916209ce8f5 Masami Hiramatsu         2020-01-11   876                          NULL, 0, -1, -1, NULL, set_init_arg);
-> 97ce2c88f9ad42e Jeremy Fitzhardinge      2011-10-12   877
-> 83b519e8b9572c3 Pekka Enberg             2009-06-10   878       /*
-> 83b519e8b9572c3 Pekka Enberg             2009-06-10   879        * These use large bootmem allocations and must precede
-> 83b519e8b9572c3 Pekka Enberg             2009-06-10   880        * kmem_cache_init()
-> 83b519e8b9572c3 Pekka Enberg             2009-06-10   881        */
-> 162a7e7500f9664 Mike Travis              2011-05-24   882       setup_log_buf(0);
-> 83b519e8b9572c3 Pekka Enberg             2009-06-10   883       vfs_caches_init_early();
-> 83b519e8b9572c3 Pekka Enberg             2009-06-10   884       sort_main_extable();
-> 83b519e8b9572c3 Pekka Enberg             2009-06-10   885       trap_init();
-> 444f478f65c7ca4 Pekka Enberg             2009-06-11   886       mm_init();
-> de03c72cfce5b26 KOSAKI Motohiro          2011-05-24   887
-> f631718de3ca24a Steven Rostedt (VMware   2017-03-03   888)      ftrace_init();
-> f631718de3ca24a Steven Rostedt (VMware   2017-03-03   889)
-> e725c731e3bb1e8 Steven Rostedt (VMware   2017-03-03   890)      /* trace_printk can be enabled here */
-> e725c731e3bb1e8 Steven Rostedt (VMware   2017-03-03   891)      early_trace_init();
-> e725c731e3bb1e8 Steven Rostedt (VMware   2017-03-03   892)
-> ^1da177e4c3f415 Linus Torvalds           2005-04-16   893       /*
-> ^1da177e4c3f415 Linus Torvalds           2005-04-16   894        * Set up the scheduler prior starting any interrupts (such as the
-> ^1da177e4c3f415 Linus Torvalds           2005-04-16   895        * timer interrupt). Full topology setup happens at smp_init()
-> ^1da177e4c3f415 Linus Torvalds           2005-04-16   896        * time - but meanwhile we still have a functioning scheduler.
-> ^1da177e4c3f415 Linus Torvalds           2005-04-16   897        */
-> ^1da177e4c3f415 Linus Torvalds           2005-04-16   898       sched_init();
-> ^1da177e4c3f415 Linus Torvalds           2005-04-16   899       /*
-> ^1da177e4c3f415 Linus Torvalds           2005-04-16   900        * Disable preemption - early bootup scheduling is extremely
-> ^1da177e4c3f415 Linus Torvalds           2005-04-16   901        * fragile until we cpu_idle() for the first time.
-> ^1da177e4c3f415 Linus Torvalds           2005-04-16   902        */
-> ^1da177e4c3f415 Linus Torvalds           2005-04-16   903       preempt_disable();
-> dd4d9fecbeba893 Fabian Frederick         2014-08-08   904       if (WARN(!irqs_disabled(),
-> dd4d9fecbeba893 Fabian Frederick         2014-08-08   905                "Interrupts were enabled *very* early, fixing it\n"))
-> c4a68306b9c0939 Ard van Breemen          2007-01-05   906               local_irq_disable();
-> 0a835c4f090af2c Matthew Wilcox           2016-12-20   907       radix_tree_init();
-> 3347fa0928210d9 Tejun Heo                2016-09-16   908
-> 7d229c668a114e8 Tal Shorer               2017-11-03   909       /*
-> 7d229c668a114e8 Tal Shorer               2017-11-03   910        * Set up housekeeping before setting up workqueues to allow the unbound
-> 7d229c668a114e8 Tal Shorer               2017-11-03   911        * workqueue to take non-housekeeping into account.
-> 7d229c668a114e8 Tal Shorer               2017-11-03   912        */
-> 7d229c668a114e8 Tal Shorer               2017-11-03   913       housekeeping_init();
-> 7d229c668a114e8 Tal Shorer               2017-11-03   914
-> 3347fa0928210d9 Tejun Heo                2016-09-16   915       /*
-> 3347fa0928210d9 Tejun Heo                2016-09-16   916        * Allow workqueue creation and work item queueing/cancelling
-> 3347fa0928210d9 Tejun Heo                2016-09-16   917        * early.  Work item execution depends on kthreads and starts after
-> 3347fa0928210d9 Tejun Heo                2016-09-16   918        * workqueue_init().
-> 3347fa0928210d9 Tejun Heo                2016-09-16   919        */
-> 3347fa0928210d9 Tejun Heo                2016-09-16   920       workqueue_init_early();
-> 3347fa0928210d9 Tejun Heo                2016-09-16   921
-> ^1da177e4c3f415 Linus Torvalds           2005-04-16   922       rcu_init();
-> 5f893b2639b21ff Steven Rostedt (Red Hat  2014-12-12   923)
-> e725c731e3bb1e8 Steven Rostedt (VMware   2017-03-03   924)      /* Trace events are available after this */
-> 5f893b2639b21ff Steven Rostedt (Red Hat  2014-12-12   925)      trace_init();
-> 5f893b2639b21ff Steven Rostedt (Red Hat  2014-12-12   926)
-> 4e37958d1288ce9 Steven Rostedt (VMware   2018-03-26   927)      if (initcall_debug)
-> 4e37958d1288ce9 Steven Rostedt (VMware   2018-03-26   928)              initcall_debug_enable();
-> 4e37958d1288ce9 Steven Rostedt (VMware   2018-03-26   929)
-> 65f382fd0c8fa48 Frederic Weisbecker      2013-07-11   930       context_tracking_init();
-> 0b8f1efad30bd58 Yinghai Lu               2008-12-05   931       /* init some links before init_ISA_irqs() */
-> 0b8f1efad30bd58 Yinghai Lu               2008-12-05   932       early_irq_init();
-> ^1da177e4c3f415 Linus Torvalds           2005-04-16   933       init_IRQ();
-> ad2b13536ace08d Thomas Gleixner          2013-03-05   934       tick_init();
-> d6dd50e07c5bec0 Linus Torvalds           2014-10-13   935       rcu_init_nohz();
-> ^1da177e4c3f415 Linus Torvalds           2005-04-16   936       init_timers();
-> c0a3132963db68f Thomas Gleixner          2006-01-09   937       hrtimers_init();
-> ^1da177e4c3f415 Linus Torvalds           2005-04-16   938       softirq_init();
-> ad596171ed635c5 John Stultz              2006-06-26   939       timekeeping_init();
-> d55535232c3dbde Kees Cook                2019-04-19   940
-> d55535232c3dbde Kees Cook                2019-04-19   941       /*
-> d55535232c3dbde Kees Cook                2019-04-19   942        * For best initial stack canary entropy, prepare it after:
-> d55535232c3dbde Kees Cook                2019-04-19   943        * - setup_arch() for any UEFI RNG entropy and boot cmdline access
-> d55535232c3dbde Kees Cook                2019-04-19   944        * - timekeeping_init() for ktime entropy used in rand_initialize()
-> d55535232c3dbde Kees Cook                2019-04-19   945        * - rand_initialize() to get any arch-specific entropy like RDRAND
-> d55535232c3dbde Kees Cook                2019-04-19   946        * - add_latent_entropy() to get any latent entropy
-> d55535232c3dbde Kees Cook                2019-04-19   947        * - adding command line entropy
-> d55535232c3dbde Kees Cook                2019-04-19   948        */
-> d55535232c3dbde Kees Cook                2019-04-19   949       rand_initialize();
-> d55535232c3dbde Kees Cook                2019-04-19   950       add_latent_entropy();
-> d55535232c3dbde Kees Cook                2019-04-19   951       add_device_randomness(command_line, strlen(command_line));
-> d55535232c3dbde Kees Cook                2019-04-19   952       boot_init_stack_canary();
-> d55535232c3dbde Kees Cook                2019-04-19   953
-> 88fecaa27f398d9 John Stultz              2006-07-03   954       time_init();
-> 9e6302056f8029f Stephane Eranian         2013-04-03   955       perf_event_init();
-> 93e028148fce0be Heiko Carstens           2006-07-03   956       profile_init();
-> d8ad7d1123a960c Takao Indoh              2011-03-29   957       call_function_init();
-> f91eb62f71b31e6 Steven Rostedt           2013-04-29   958       WARN(!irqs_disabled(), "Interrupts were enabled early\n");
-> c3bc8fd637a9623 Joel Fernandes (Google   2018-07-30   959)
-> 2ce802f62ba32a7 Tejun Heo                2011-01-20   960       early_boot_irqs_disabled = false;
-> 93e028148fce0be Heiko Carstens           2006-07-03   961       local_irq_enable();
-> dcce284a259373f Benjamin Herrenschmidt   2009-06-18   962
-> 7e85ee0c1d15ca5 Pekka Enberg             2009-06-12   963       kmem_cache_init_late();
-> ^1da177e4c3f415 Linus Torvalds           2005-04-16   964
-> ^1da177e4c3f415 Linus Torvalds           2005-04-16   965       /*
-> ^1da177e4c3f415 Linus Torvalds           2005-04-16   966        * HACK ALERT! This is early. We're enabling the console before
-> ^1da177e4c3f415 Linus Torvalds           2005-04-16   967        * we've done PCI setups etc, and console_init() must be aware of
-> ^1da177e4c3f415 Linus Torvalds           2005-04-16   968        * this. But we do want output early, in case something goes wrong.
-> ^1da177e4c3f415 Linus Torvalds           2005-04-16   969        */
-> ^1da177e4c3f415 Linus Torvalds           2005-04-16   970       console_init();
-> ^1da177e4c3f415 Linus Torvalds           2005-04-16   971       if (panic_later)
-> 499a4584d7f817d Tetsuo Handa             2014-01-23   972               panic("Too many boot %s vars at `%s'", panic_later,
-> 499a4584d7f817d Tetsuo Handa             2014-01-23   973                     panic_param);
-> fbb9ce9530fd9b6 Ingo Molnar              2006-07-03   974
-> c3bc8fd637a9623 Joel Fernandes (Google   2018-07-30   975)      lockdep_init();
-> fbb9ce9530fd9b6 Ingo Molnar              2006-07-03   976
-> 9a11b49a805665e Ingo Molnar              2006-07-03   977       /*
-> 9a11b49a805665e Ingo Molnar              2006-07-03   978        * Need to run this when irqs are enabled, because it wants
-> 9a11b49a805665e Ingo Molnar              2006-07-03   979        * to self-test [hard/soft]-irqs on/off lock inversion bugs
-> 9a11b49a805665e Ingo Molnar              2006-07-03   980        * too:
-> 9a11b49a805665e Ingo Molnar              2006-07-03   981        */
-> 9a11b49a805665e Ingo Molnar              2006-07-03   982       locking_selftest();
-> 9a11b49a805665e Ingo Molnar              2006-07-03   983
-> c7753208a94c73d Tom Lendacky             2017-07-17   984       /*
-> c7753208a94c73d Tom Lendacky             2017-07-17   985        * This needs to be called before any devices perform DMA
-> c7753208a94c73d Tom Lendacky             2017-07-17   986        * operations that might use the SWIOTLB bounce buffers. It will
-> c7753208a94c73d Tom Lendacky             2017-07-17   987        * mark the bounce buffers as decrypted so that their usage will
-> c7753208a94c73d Tom Lendacky             2017-07-17   988        * not cause "plain-text" data to be decrypted when accessed.
-> c7753208a94c73d Tom Lendacky             2017-07-17   989        */
-> c7753208a94c73d Tom Lendacky             2017-07-17   990       mem_encrypt_init();
-> c7753208a94c73d Tom Lendacky             2017-07-17   991
-> ^1da177e4c3f415 Linus Torvalds           2005-04-16   992  #ifdef CONFIG_BLK_DEV_INITRD
-> ^1da177e4c3f415 Linus Torvalds           2005-04-16   993       if (initrd_start && !initrd_below_start_ok &&
-> bd673c7c3b1681d Geert Uytterhoeven       2008-07-29   994           page_to_pfn(virt_to_page((void *)initrd_start)) < min_low_pfn) {
-> ea676e846a8171b Andrew Morton            2013-04-29   995               pr_crit("initrd overwritten (0x%08lx < 0x%08lx) - disabling it.\n",
-> bd673c7c3b1681d Geert Uytterhoeven       2008-07-29   996                   page_to_pfn(virt_to_page((void *)initrd_start)),
-> bd673c7c3b1681d Geert Uytterhoeven       2008-07-29   997                   min_low_pfn);
-> ^1da177e4c3f415 Linus Torvalds           2005-04-16   998               initrd_start = 0;
-> ^1da177e4c3f415 Linus Torvalds           2005-04-16   999       }
-> ^1da177e4c3f415 Linus Torvalds           2005-04-16  1000  #endif
-> e7c8d5c9955a4d2 Christoph Lameter        2005-06-21  1001       setup_per_cpu_pageset();
-> ^1da177e4c3f415 Linus Torvalds           2005-04-16  1002       numa_policy_init();
-> 9c71206d060d4e8 Dou Liyang               2017-09-13  1003       acpi_early_init();
-> ^1da177e4c3f415 Linus Torvalds           2005-04-16  1004       if (late_time_init)
-> ^1da177e4c3f415 Linus Torvalds           2005-04-16  1005               late_time_init();
-> 857baa87b6422bc Pavel Tatashin           2018-07-19  1006       sched_clock_init();
-> ^1da177e4c3f415 Linus Torvalds           2005-04-16  1007       calibrate_delay();
-> 95846ecf9dac508 Gargi Sharma             2017-11-17  1008       pid_idr_init();
-> ^1da177e4c3f415 Linus Torvalds           2005-04-16  1009       anon_vma_init();
-> 11520e5e7c1855f Linus Torvalds           2012-12-15  1010  #ifdef CONFIG_X86
-> 83e68189745ad93 Matt Fleming             2012-11-14  1011       if (efi_enabled(EFI_RUNTIME_SERVICES))
-> 11520e5e7c1855f Linus Torvalds           2012-12-15 @1012               efi_enter_virtual_mode();
-> 11520e5e7c1855f Linus Torvalds           2012-12-15  1013  #endif
-> b235beea9e996a4 Linus Torvalds           2016-06-24  1014       thread_stack_cache_init();
-> d84f4f992cbd76e David Howells            2008-11-14  1015       cred_init();
-> ff691f6e03815dc Heinrich Schuchardt      2015-04-16  1016       fork_init();
-> ^1da177e4c3f415 Linus Torvalds           2005-04-16  1017       proc_caches_init();
-> 3ea056c50476f87 Alexey Dobriyan          2018-04-10  1018       uts_ns_init();
-> ^1da177e4c3f415 Linus Torvalds           2005-04-16  1019       buffer_init();
-> ^1da177e4c3f415 Linus Torvalds           2005-04-16  1020       key_init();
-> ^1da177e4c3f415 Linus Torvalds           2005-04-16  1021       security_init();
-> 0b4b3827db386ec Jason Wessel             2010-05-20  1022       dbg_late_init();
-> 4248b0da460839e Mel Gorman               2015-08-06  1023       vfs_caches_init();
-> 62906027091f1d0 Nicholas Piggin          2016-12-25  1024       pagecache_init();
-> ^1da177e4c3f415 Linus Torvalds           2005-04-16  1025       signals_init();
-> 0965232035cfa59 Alexey Dobriyan          2018-04-10  1026       seq_file_init();
-> ^1da177e4c3f415 Linus Torvalds           2005-04-16  1027       proc_root_init();
-> e149ed2b805fefd Al Viro                  2014-11-01  1028       nsfs_init();
-> ^1da177e4c3f415 Linus Torvalds           2005-04-16  1029       cpuset_init();
-> 695df2132cfe378 Zefan Li                 2015-03-04  1030       cgroup_init();
-> c757249af152c59 Shailabh Nagar           2006-07-14  1031       taskstats_init_early();
-> ca74e92b4698276 Shailabh Nagar           2006-07-14  1032       delayacct_init();
-> ^1da177e4c3f415 Linus Torvalds           2005-04-16  1033
-> 4fc19708b165c1c Nadav Amit               2019-04-26  1034       poking_init();
-> ^1da177e4c3f415 Linus Torvalds           2005-04-16  1035       check_bugs();
-> ^1da177e4c3f415 Linus Torvalds           2005-04-16  1036
-> b064a8fa77dfead Rafael J. Wysocki        2015-06-10  1037       acpi_subsystem_init();
-> e7ff3a47630d951 Thomas Gleixner          2016-12-09  1038       arch_post_acpi_subsys_init();
-> 6ae6996a466e14b Feng Tang                2009-08-14  1039       sfi_init_late();
-> dfd402a4c4baae4 Marco Elver              2019-11-14  1040       kcsan_init();
-> ^1da177e4c3f415 Linus Torvalds           2005-04-16  1041
-> ^1da177e4c3f415 Linus Torvalds           2005-04-16  1042       /* Do the rest non-__init'ed, we're now alive */
-> 53c99bd665a2649 Martin Schwidefsky       2018-08-31  1043       arch_call_rest_init();
-> a9a3ed1eff3601b Borislav Petkov          2020-04-22  1044
-> a9a3ed1eff3601b Borislav Petkov          2020-04-22  1045       prevent_tail_call_optimization();
-> ^1da177e4c3f415 Linus Torvalds           2005-04-16  1046  }
-> ^1da177e4c3f415 Linus Torvalds           2005-04-16  1047
+> Changes from v7:
+>  - Rebased on top of kselftest/kunit
+>  - Rebased on top of v4 of the kunit resources API[1]
+>  - Rebased on top of v4 of the FORTIFY_SOURCE fix[2,3,4]
+>  - Updated the Kconfig entry to support KUNIT_ALL_TESTS
 >
-> :::::: The code at line 1012 was first introduced by commit
-> :::::: 11520e5e7c1855fc3bf202bb3be35a39d9efa034 Revert "x86-64/efi: Use EFI to deal with platform wall clock (again)"
+> Changes from v6:
+>  - Rebased on top of kselftest/kunit
+>  - Rebased on top of Daniel Axtens' fix for FORTIFY_SOURCE
+>    incompatibilites [2]
+>  - Removed a redundant report_enabled() check.
+>  - Fixed some places with out of date Kconfig names in the
+>    documentation.
 >
-> :::::: TO: Linus Torvalds <torvalds@linux-foundation.org>
-> :::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+> Changes from v5:
+>  - Split out the panic_on_warn changes to a separate patch.
+>  - Fix documentation to fewer to the new Kconfig names.
+>  - Fix some changes which were in the wrong patch.
+>  - Rebase on top of kselftest/kunit (currently identical to 5.7-rc1)
 >
-> ---
-> 0-DAY CI Kernel Test Service, Intel Corporation
-> https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+> Changes from v4:
+>  - KASAN no longer will panic on errors if both panic_on_warn and
+>    kasan_multishot are enabled.
+>  - As a result, the KASAN tests will no-longer disable panic_on_warn.
+>  - This also means panic_on_warn no-longer needs to be exported.
+>  - The use of temporary "kasan_data" variables has been cleaned up
+>    somewhat.
+>  - A potential refcount/resource leak should multiple KASAN errors
+>    appear during an assertion was fixed.
+>  - Some wording changes to the KASAN test Kconfig entries.
+>
+> Changes from v3:
+>  - KUNIT_SET_KASAN_DATA and KUNIT_DO_EXPECT_KASAN_FAIL have been
+>  combined and included in KUNIT_DO_EXPECT_KASAN_FAIL() instead.
+>  - Reordered logic in kasan_update_kunit_status() in report.c to be
+>  easier to read.
+>  - Added comment to not use the name "kasan_data" for any kunit tests
+>  outside of KUNIT_EXPECT_KASAN_FAIL().
+>
+> Changes since v2:
+>  - Due to Alan's changes in [1], KUnit can be built as a module.
+>  - The name of the tests that could not be run with KUnit has been
+>  changed to be more generic: test_kasan_module.
+>  - Documentation on how to run the new KASAN tests and what to expect
+>  when running them has been added.
+>  - Some variables and functions are now static.
+>  - Now save/restore panic_on_warn in a similar way to kasan_multi_shot
+>  and renamed the init/exit functions to be more generic to accommodate.
+>  - Due to [4] in kasan_strings, kasan_memchr, and
+>  kasan_memcmp will fail if CONFIG_AMD_MEM_ENCRYPT is enabled so return
+>  early and print message explaining this circumstance.
+>  - Changed preprocessor checks to C checks where applicable.
+>
+> Changes since v1:
+>  - Make use of Alan Maguire's suggestion to use his patch that allows
+>    static resources for integration instead of adding a new attribute to
+>    the kunit struct
+>  - All KUNIT_EXPECT_KASAN_FAIL statements are local to each test
+>  - The definition of KUNIT_EXPECT_KASAN_FAIL is local to the
+>    test_kasan.c file since it seems this is the only place this will
+>    be used.
+>  - Integration relies on KUnit being builtin
+>  - copy_user_test has been separated into its own file since KUnit
+>    is unable to test these. This can be run as a module just as before,
+>    using CONFIG_TEST_KASAN_USER
+>  - The addition to the current task has been separated into its own
+>    patch as this is a significant enough change to be on its own.
+>
+>
+> [1] https://lore.kernel.org/linux-kselftest/CAFd5g46Uu_5TG89uOm0Dj5CMq+11cwjBnsd-k_CVy6bQUeU4Jw@mail.gmail.com/T/#t
+> [2] https://lore.kernel.org/linux-mm/20200424145521.8203-1-dja@axtens.net/
+> [3] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=adb72ae1915db28f934e9e02c18bfcea2f3ed3b7
+> [4] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=47227d27e2fcb01a9e8f5958d8997cf47a820afc
+> [5] https://bugzilla.kernel.org/show_bug.cgi?id=206337
+> [6] https://lore.kernel.org/linux-kselftest/20200620054944.167330-1-davidgow@google.com/
+> [7] https://lkml.org/lkml/2020/7/31/571
+>
+>
+> David Gow (1):
+>   mm: kasan: Do not panic if both panic_on_warn and kasan_multishot set
+>
+> Patricia Alfonso (4):
+>   Add KUnit Struct to Current Task
+>   KUnit: KASAN Integration
+>   KASAN: Port KASAN Tests to KUnit
+>   KASAN: Testing Documentation
+>
+>  Documentation/dev-tools/kasan.rst |  70 +++
+>  include/kunit/test.h              |   5 +
+>  include/linux/kasan.h             |   6 +
+>  include/linux/sched.h             |   4 +
+>  lib/Kconfig.kasan                 |  22 +-
+>  lib/Makefile                      |   7 +-
+>  lib/kasan_kunit.c                 | 770 +++++++++++++++++++++++++
+>  lib/kunit/test.c                  |  13 +-
+>  lib/test_kasan.c                  | 903 ------------------------------
+>  lib/test_kasan_module.c           | 111 ++++
+>  mm/kasan/report.c                 |  34 +-
+>  11 files changed, 1028 insertions(+), 917 deletions(-)
+>  create mode 100644 lib/kasan_kunit.c
+>  delete mode 100644 lib/test_kasan.c
+>  create mode 100644 lib/test_kasan_module.c
+>
+> --
+> 2.28.0.163.g6104cc2f0b6-goog
+>
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAAeHK%2BzbBF0YVveGNZo0bJ8fWHVZRcrr6n90eYLDCov2vcfZyg%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAAeHK%2Bwpt%2BPko3pCBwO3Q%3D6Su7chVj%2BxhAGgHiVabbzC58rgDw%40mail.gmail.com.
