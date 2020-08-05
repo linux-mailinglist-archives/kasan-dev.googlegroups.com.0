@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBB2UHVP4QKGQECJ6XX2Q@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBZ6ZVP4QKGQEW7IVA5A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pl1-x63a.google.com (mail-pl1-x63a.google.com [IPv6:2607:f8b0:4864:20::63a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09CA323CB86
-	for <lists+kasan-dev@lfdr.de>; Wed,  5 Aug 2020 16:36:28 +0200 (CEST)
-Received: by mail-pl1-x63a.google.com with SMTP id t2sf18507070plq.10
-        for <lists+kasan-dev@lfdr.de>; Wed, 05 Aug 2020 07:36:27 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1596638186; cv=pass;
+Received: from mail-yb1-xb38.google.com (mail-yb1-xb38.google.com [IPv6:2607:f8b0:4864:20::b38])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC0D123CD70
+	for <lists+kasan-dev@lfdr.de>; Wed,  5 Aug 2020 19:31:20 +0200 (CEST)
+Received: by mail-yb1-xb38.google.com with SMTP id k11sf30047207ybp.1
+        for <lists+kasan-dev@lfdr.de>; Wed, 05 Aug 2020 10:31:20 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1596648679; cv=pass;
         d=google.com; s=arc-20160816;
-        b=o7oBAIdOzfp3wZIXdRuLFkSGKKpO8U2B0zRs5hfJq5CweDqxcow0IJrYohp47pCeLV
-         SN+R9Z0AbTt0eUnDJEq5jgfnMQ0flv59zzr4fkO6du06YJchdkSGpJRb2YXPhtK0uBif
-         x4WxUY7XLT6a155oGFA0p6HamuU8nxNRhef3J9EBkSz1unhe1mg9ESRBeCAHONKsXLbJ
-         3+U0sjQgF0onMjwQZ3W5XEn6Y/8qCUeSupFmObrEyj5PRKGR4tVYZaD9KdSrXJU3TVyA
-         VrroBE6T5TFwAEOaM06NGr6hWtRdI80+lg0PvwvulP/u2ACOT3qOYeR3jnCFk9kvFDo8
-         XInA==
+        b=RJKzRa7cGCurtjAcl77vCNmb+pJNxZAs8MCXvXtkTM9wSHPpVPl+mYVPG78GIFEVrT
+         7E/rIdsdk7TDbDgAgz6zBg9N/AI1zPKSAvYdZwhyEnN2fMvCqMsRbkUME+jRTDaELl4y
+         F7zGc+bqKE7LTfR/TCHhqOcQvt8+dgje/xNK2eLDqJH/hR90SUEpCKUpnBnW3U37PQTk
+         fhxYbeVhl+BsElqy0U2EFIA0K+KSpczsUSkPgzxA5pHwbwBkF50cqp7hy5sfPyA/FPEm
+         gBn7RLjqsm7o4+6hZ9tjtViKIctB6nCDqasqyzoc5gkq0a9QUG2UGS2g5j2VJPtKzQRU
+         mFNA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=+uczM4O6ECVIpoB3K4GkIZ4ofu76zGvCb3Og09jLcXE=;
-        b=E+ftwEA8xSldN/N0jHJUHHh6D3Q3BJ4/yFWNEdlf2dNQWLBmlrGS9Cj2GmWQmmAXBW
-         wdtDUd9CeLygU6Lg/azK/bHos+7+p2MSU5g44XOXUG4x9w4Z7A0Y4bsV3nhrDUkSJjor
-         ZAEsu2Cb8kRplWcfL03nnkYD13j1Z0tavmUuz3qmrGE+64BULAIwdoLv7MAOJhFG3tm6
-         hp+LL1G7DCZbGqQq8PDY5AW5sDqrm6KgCwpWOUghHnEq67MDO2Lucs5XPk7jEH5qKrTL
-         uPFCIpW+TfQCAEfPUAa9VrMlXiM1L131M73N6BwYpGlgvHueZ/bNr9hctXSF2n225kVo
-         /svw==
+        bh=GsSsLAyeD9tjMQCC2mW3nmchYS49adV6z0FtlZUV9hk=;
+        b=dik4DTkMAzahpasoE35jZTCS2krumYKOQGFGrVpJIN+0mBAqgoRV6iOGbQS2bWyMVh
+         1qDhR9f3Li1uwGq/PvWLQ0MJCoqS46EvNXFgJKWw4sK7ZY2kRQoNvf4lYZcLj5kU6uiR
+         p1ADL+Hwmr4iVBkJVRes5h3ONPZPUliZpC4m4wsA7D8DINo4Jo+nnl/F8zuYkz6KjBXV
+         hHx0iNpufrw0fZJOChpv++GMOYTuy6oJAsRKd4IBMy0H1OAzE/Isyf0kvo9QbgRVrCRl
+         7AQGs7BdgLfUiMkj5z7A0TgD38M+0vP/XfW8YJxQTB+sDAhDsqtdadwysiU4y3GEXOet
+         nQ3Q==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=j1JMhs8V;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::c41 as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=ghcoPHMA;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::243 as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=+uczM4O6ECVIpoB3K4GkIZ4ofu76zGvCb3Og09jLcXE=;
-        b=ZZOO9mHd+PPrO2MzwLGRRqj98NQdzGv71eyvkDgYhtituzjP82H3RK7FnhOxE+wJGl
-         s87Hq28wYSO9Q85O7pME/QbD8enyEk4PGiyrDydGGh8JjfWFsAq77frAny0giuPIATES
-         Gcgb95Lor/eR5wSY/t6Mp24hVxe05nqxvbUh1CYZ59q39fC+l4YwonM6uELO+eBM44GJ
-         gL5lNT5L/tBRiysmHRx8M/oOdMMoGdZ0pEI+Ra2ApUJNTzr2PC1710lVBpnHE+aQJBMk
-         l0HrG9yhq/NtR4YcXtCwWSskYK3AafnEaZpJqerOKG8I26LlOQq7V6vXfCyMXiOtu48B
-         Z10Q==
+        bh=GsSsLAyeD9tjMQCC2mW3nmchYS49adV6z0FtlZUV9hk=;
+        b=gfiKfNYUTg07/tAhnI9N5goJb6N2/7S/fOWl4vUCBcIXji5Mt6MWm1TJAxcHC82iu0
+         HgV7G021R2G0xHg/RUVhoMMFuD/xwfZ13Kboyd+rnElDdObesOmkKzaxXSLgLdblWQ6u
+         d5t4TLt2gyHS7h7GBXs+PKTpbkWp9K6uS8TFfeH9q5rP6QpI+WZG4t3VvMUFcG0jpnq1
+         4ZoHcdC518hSuiId22LIjbmlRexkNAp+1f4tdshrmVIeUUbto38qr69cxmEyxH3a5f1a
+         hPpr403E3SjIdQe16WEDwMJ8SJk29SDpad8UQ0Wa4R2VCkTAAB2z5JYhCQXto2TNhCHb
+         od5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
@@ -49,63 +49,64 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=+uczM4O6ECVIpoB3K4GkIZ4ofu76zGvCb3Og09jLcXE=;
-        b=LrfbNVq5By7y8pbqUN++CXQY86m0xlsiQ1tnV8nZdxcFzph+VchKg9H5+PiPIwbk5U
-         njYODxvoIC/35PG/v6jjEHv1uLKN81oC2dJoj/L53mykIdGQ8PQqGm9qSA3Ntcx5xpM4
-         jh274x25/C58KjThWqpSJ7ed5r0SMfWQsNzkCkJuqiZrX8axZAegZbNVn1UXpqHCgHP1
-         0vXeRq3ZeezdxtiK0YIc26m5TknNfGJIiQoMJHrj2nZ++cnMr4U8Ds75lrpm+b7XnDD/
-         8ttNE0FZ2SH0S5gsS9H+jnZCcLHdAI3cWtv4Fbj00OoUJkNeKjJ8Vyv0sk5M30s/N5qO
-         H3IA==
-X-Gm-Message-State: AOAM532kgUkpkk4gvCs3fhgKQE6t4QVziqBlneNznm1VWGLTuz3chkQi
-	Vc9qJEhbAN0xUQ/45xMa8aE=
-X-Google-Smtp-Source: ABdhPJy/Tcm956gY8FWGx4lFQpz8VE3Os/YQMKx3cvqfF0Od59dH0rqqWL3VJhv6aH1b9ZEZIxqHEw==
-X-Received: by 2002:aa7:9519:: with SMTP id b25mr3620907pfp.292.1596638186723;
-        Wed, 05 Aug 2020 07:36:26 -0700 (PDT)
+        bh=GsSsLAyeD9tjMQCC2mW3nmchYS49adV6z0FtlZUV9hk=;
+        b=eMzKKHndp7oeLXTHO7/fSW4wbpAJSCs05VKYheoqYdNBlyPOUGUgWSD1wqSqr5mKDn
+         8Co3mq2/kKllBwPOmJareqwYxxD8OOPknUOwmokZHMG6qYJXGwgCwuSWHK+A30Ar8bgA
+         hNeyr/BqJsBc54faklSBnS90vthZeL9EKZqj1c89llnpW8YifGA23jjt65872X7gAtlu
+         Zr8EoXwDfl+w9fAegl8UzVyqH1ZcubrNUvGWsRV7zgvZjCziBEaRAVaOQ11sa0+os4DN
+         f7WWMpK1UlmQfM8uRI9AwD/JgE5zyC8tKwaXUKNoKcnyp1Ctd5vQB2+WBxEfg6cuuPVH
+         KoBw==
+X-Gm-Message-State: AOAM53023I19DjOceYrOi2UT/89XZ6l7zO3SnSL+9lX4visH5Zg2C973
+	65R7hIZAyFIkxhH6ijcW0/E=
+X-Google-Smtp-Source: ABdhPJzDBu1L/HL/hLrMW1lTYQ3z6ByIaBm+PATIgPDSEsi/2edffHWGHCPRkFYSgc82myRTnDkBng==
+X-Received: by 2002:a25:8411:: with SMTP id u17mr5085456ybk.95.1596648679655;
+        Wed, 05 Aug 2020 10:31:19 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:902:b602:: with SMTP id b2ls1147404pls.11.gmail; Wed, 05
- Aug 2020 07:36:26 -0700 (PDT)
-X-Received: by 2002:a17:90a:3509:: with SMTP id q9mr3859034pjb.190.1596638186287;
-        Wed, 05 Aug 2020 07:36:26 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1596638186; cv=none;
+Received: by 2002:a25:dad5:: with SMTP id n204ls1184683ybf.8.gmail; Wed, 05
+ Aug 2020 10:31:19 -0700 (PDT)
+X-Received: by 2002:a25:5f0c:: with SMTP id t12mr6550861ybb.54.1596648679284;
+        Wed, 05 Aug 2020 10:31:19 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1596648679; cv=none;
         d=google.com; s=arc-20160816;
-        b=ob+boEBsXilxK7Qjc2FBrUsovez0TxQTCH98zazToY+VKkYA8jTPAnWWqF89pMy75C
-         lsIhZqgOCi8Q7r+COMjKNuUHsU1U+tjFMGV89oBASH/PP7wdvb5cnbirGva49JOsIhv9
-         XdENrY0DO2xtkygXC6YADvXTerqTG1EWqlyELBfMdXV9pV5j4omAEdMvNhdGJqOrSuPz
-         eXojDKIxi6YUEyDpp7s4FFWnrvgCn6ePuqSEnZOYO+FEZIpmI+sfZKJiWuxMlZ10s6xM
-         ntDcwKlB2mQ/fi836B5lL9R/Eqhk9+SkLLgbU6jWbgCoxmX5zjBpRSUsu4TWEqLLVixQ
-         7jpw==
+        b=Rxypf6br1KIzmIQstHK4lw15GSqpRy9SAQMvO1Omiz2o7o/zR3tKsQ3TLT6EpTiEPU
+         PAZOxNejho4o7AF/blBvCFS/0TQfCIiU3pI4OYDQSQmcgTjC3LXoERX6TLJR8589AgHW
+         uqJTXtPSl1RTKXA8nvIJF8+tXb9hdzzSXH/uHmoDREEaXcSG1YRwgTeaQNrLSMlHOyRo
+         urer4aQt23daYc1BmhFbFVGqSQb/iKDbQ+V2LP+AsI5OupVx3m+MFGTAI/ReMPvfg5yf
+         KLwq213JVshZRzDFOT03+4wiyymhXJ0lU0aCRei7Ppozc3hC69cIlbFlqj+0XJjXfb28
+         cTew==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=nPbiD7579GQktE8TnDJJA8yObifQYqFq9LVQt+NlZPM=;
-        b=K+L5RZVB8IihiZPWLd25RXm8EWTy97aTc18ofST/vblo4BjiLJHcxlEMt7m888vxVP
-         QvjsH9ef1YvyNThxqJMQnV4OU2CWczOQHsG32C6HUilclKWN93mARbkIuz9owzlW3U+t
-         MWCwHcmj1p3z1eU6IqUQjhX/eb68gSAko57eRpcuiWY8c4tLUtcU8A+3hLpdyj0xBEVf
-         SsqWTgOVlASSl/3/kaNOyh7qW7qsKKVndYeCKDGsApG6NjG5+YW7+wiTFdTZi1WAET22
-         DNPH7dfd0TRICcjtIpBe+/0DC4ysUcW/CkWO9PaqspewRuwjTy9z0K9z+jmKJgUXdrR+
-         D4CA==
+        bh=S/ISdwGRB2GCE/7Xam1/dQaAy+/JGNh8/9LD5lfT6Q8=;
+        b=JzFDKNp1INdi2RVW2v0xQnaridxoUaBm1y4igr6krW6P0hWxsFEwFyYwEtflCgKkZ0
+         bWzC6m0lFSL9UQ/yneW1jujktlyzPuBouxE37S59IrMzeI/e0qBzd5CmiXD2L1heghNJ
+         Iu+EepQszP1sVzdAq99jj3eRYl4w+8DhQ3tAVxpNY70sGnqKDTlVUbIhsyt15edp0AqV
+         AIpyBqfQC4zt31C+mjGdy0na1MrepqmB2nODaQvZAauNgLyaXekvzvCnkpxsEJu7Q9jG
+         1y0Z13GYSbikMMoO2DekVPeXL2C2u6+fid3XLvdS9hTZXVj4lKmpB/oK3yWyQ95N4KTz
+         3thQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=j1JMhs8V;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::c41 as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=ghcoPHMA;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::243 as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-oo1-xc41.google.com (mail-oo1-xc41.google.com. [2607:f8b0:4864:20::c41])
-        by gmr-mx.google.com with ESMTPS id h41si337058pje.0.2020.08.05.07.36.26
+Received: from mail-oi1-x243.google.com (mail-oi1-x243.google.com. [2607:f8b0:4864:20::243])
+        by gmr-mx.google.com with ESMTPS id k129si186729ybk.1.2020.08.05.10.31.19
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 05 Aug 2020 07:36:26 -0700 (PDT)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::c41 as permitted sender) client-ip=2607:f8b0:4864:20::c41;
-Received: by mail-oo1-xc41.google.com with SMTP id k63so5972831oob.1
-        for <kasan-dev@googlegroups.com>; Wed, 05 Aug 2020 07:36:26 -0700 (PDT)
-X-Received: by 2002:a4a:a648:: with SMTP id j8mr3132445oom.36.1596638185370;
- Wed, 05 Aug 2020 07:36:25 -0700 (PDT)
+        Wed, 05 Aug 2020 10:31:19 -0700 (PDT)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::243 as permitted sender) client-ip=2607:f8b0:4864:20::243;
+Received: by mail-oi1-x243.google.com with SMTP id z22so9721448oid.1
+        for <kasan-dev@googlegroups.com>; Wed, 05 Aug 2020 10:31:19 -0700 (PDT)
+X-Received: by 2002:aca:d4d5:: with SMTP id l204mr3765321oig.70.1596648678688;
+ Wed, 05 Aug 2020 10:31:18 -0700 (PDT)
 MIME-Version: 1.0
 References: <0000000000007d3b2d05ac1c303e@google.com> <20200805132629.GA87338@elver.google.com>
  <20200805134232.GR2674@hirez.programming.kicks-ass.net> <20200805135940.GA156343@elver.google.com>
  <20200805141237.GS2674@hirez.programming.kicks-ass.net> <20200805141709.GD35926@hirez.programming.kicks-ass.net>
-In-Reply-To: <20200805141709.GD35926@hirez.programming.kicks-ass.net>
+ <CANpmjNN6FWZ+MsAn3Pj+WEez97diHzqF8hjONtHG15C2gSpSgw@mail.gmail.com>
+In-Reply-To: <CANpmjNN6FWZ+MsAn3Pj+WEez97diHzqF8hjONtHG15C2gSpSgw@mail.gmail.com>
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Wed, 5 Aug 2020 16:36:12 +0200
-Message-ID: <CANpmjNN6FWZ+MsAn3Pj+WEez97diHzqF8hjONtHG15C2gSpSgw@mail.gmail.com>
+Date: Wed, 5 Aug 2020 19:31:07 +0200
+Message-ID: <CANpmjNNy3XKQqgrjGPPKKvXhAoF=mae7dk8hmoS4k4oNnnB=KA@mail.gmail.com>
 Subject: Re: [PATCH] x86/paravirt: Add missing noinstr to arch_local*() helpers
 To: Peter Zijlstra <peterz@infradead.org>
 Cc: Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, fenghua.yu@intel.com, 
@@ -119,8 +120,8 @@ Cc: Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, f
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=j1JMhs8V;       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::c41 as
+ header.i=@google.com header.s=20161025 header.b=ghcoPHMA;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::243 as
  permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
  sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Marco Elver <elver@google.com>
@@ -137,65 +138,76 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, 5 Aug 2020 at 16:17, <peterz@infradead.org> wrote:
+On Wed, 5 Aug 2020 at 16:36, Marco Elver <elver@google.com> wrote:
 >
-> On Wed, Aug 05, 2020 at 04:12:37PM +0200, peterz@infradead.org wrote:
-> > On Wed, Aug 05, 2020 at 03:59:40PM +0200, Marco Elver wrote:
-> > > On Wed, Aug 05, 2020 at 03:42PM +0200, peterz@infradead.org wrote:
+> On Wed, 5 Aug 2020 at 16:17, <peterz@infradead.org> wrote:
 > >
-> > > > Shouldn't we __always_inline those? They're going to be really small.
+> > On Wed, Aug 05, 2020 at 04:12:37PM +0200, peterz@infradead.org wrote:
+> > > On Wed, Aug 05, 2020 at 03:59:40PM +0200, Marco Elver wrote:
+> > > > On Wed, Aug 05, 2020 at 03:42PM +0200, peterz@infradead.org wrote:
 > > >
-> > > I can send a v2, and you can choose. For reference, though:
+> > > > > Shouldn't we __always_inline those? They're going to be really small.
+> > > >
+> > > > I can send a v2, and you can choose. For reference, though:
+> > > >
+> > > >     ffffffff86271ee0 <arch_local_save_flags>:
+> > > >     ffffffff86271ee0:       0f 1f 44 00 00          nopl   0x0(%rax,%rax,1)
+> > > >     ffffffff86271ee5:       48 83 3d 43 87 e4 01    cmpq   $0x0,0x1e48743(%rip)        # ffffffff880ba630 <pv_ops+0x120>
+> > > >     ffffffff86271eec:       00
+> > > >     ffffffff86271eed:       74 0d                   je     ffffffff86271efc <arch_local_save_flags+0x1c>
+> > > >     ffffffff86271eef:       0f 1f 44 00 00          nopl   0x0(%rax,%rax,1)
+> > > >     ffffffff86271ef4:       ff 14 25 30 a6 0b 88    callq  *0xffffffff880ba630
+> > > >     ffffffff86271efb:       c3                      retq
+> > > >     ffffffff86271efc:       0f 1f 44 00 00          nopl   0x0(%rax,%rax,1)
+> > > >     ffffffff86271f01:       0f 0b                   ud2
 > > >
-> > >     ffffffff86271ee0 <arch_local_save_flags>:
-> > >     ffffffff86271ee0:       0f 1f 44 00 00          nopl   0x0(%rax,%rax,1)
-> > >     ffffffff86271ee5:       48 83 3d 43 87 e4 01    cmpq   $0x0,0x1e48743(%rip)        # ffffffff880ba630 <pv_ops+0x120>
-> > >     ffffffff86271eec:       00
-> > >     ffffffff86271eed:       74 0d                   je     ffffffff86271efc <arch_local_save_flags+0x1c>
-> > >     ffffffff86271eef:       0f 1f 44 00 00          nopl   0x0(%rax,%rax,1)
-> > >     ffffffff86271ef4:       ff 14 25 30 a6 0b 88    callq  *0xffffffff880ba630
-> > >     ffffffff86271efb:       c3                      retq
-> > >     ffffffff86271efc:       0f 1f 44 00 00          nopl   0x0(%rax,%rax,1)
-> > >     ffffffff86271f01:       0f 0b                   ud2
+> > > >     ffffffff86271a90 <arch_local_irq_restore>:
+> > > >     ffffffff86271a90:       53                      push   %rbx
+> > > >     ffffffff86271a91:       48 89 fb                mov    %rdi,%rbx
+> > > >     ffffffff86271a94:       0f 1f 44 00 00          nopl   0x0(%rax,%rax,1)
+> > > >     ffffffff86271a99:       48 83 3d 97 8b e4 01    cmpq   $0x0,0x1e48b97(%rip)        # ffffffff880ba638 <pv_ops+0x128>
+> > > >     ffffffff86271aa0:       00
+> > > >     ffffffff86271aa1:       74 11                   je     ffffffff86271ab4 <arch_local_irq_restore+0x24>
+> > > >     ffffffff86271aa3:       0f 1f 44 00 00          nopl   0x0(%rax,%rax,1)
+> > > >     ffffffff86271aa8:       48 89 df                mov    %rbx,%rdi
+> > > >     ffffffff86271aab:       ff 14 25 38 a6 0b 88    callq  *0xffffffff880ba638
+> > > >     ffffffff86271ab2:       5b                      pop    %rbx
+> > > >     ffffffff86271ab3:       c3                      retq
+> > > >     ffffffff86271ab4:       0f 1f 44 00 00          nopl   0x0(%rax,%rax,1)
+> > > >     ffffffff86271ab9:       0f 0b                   ud2
+> > >
+> > >
+> > > Blergh, that's abysmall. In part I suspect because you have
+> > > CONFIG_PARAVIRT_DEBUG, let me try and untangle that PV macro maze.
 > >
-> > >     ffffffff86271a90 <arch_local_irq_restore>:
-> > >     ffffffff86271a90:       53                      push   %rbx
-> > >     ffffffff86271a91:       48 89 fb                mov    %rdi,%rbx
-> > >     ffffffff86271a94:       0f 1f 44 00 00          nopl   0x0(%rax,%rax,1)
-> > >     ffffffff86271a99:       48 83 3d 97 8b e4 01    cmpq   $0x0,0x1e48b97(%rip)        # ffffffff880ba638 <pv_ops+0x128>
-> > >     ffffffff86271aa0:       00
-> > >     ffffffff86271aa1:       74 11                   je     ffffffff86271ab4 <arch_local_irq_restore+0x24>
-> > >     ffffffff86271aa3:       0f 1f 44 00 00          nopl   0x0(%rax,%rax,1)
-> > >     ffffffff86271aa8:       48 89 df                mov    %rbx,%rdi
-> > >     ffffffff86271aab:       ff 14 25 38 a6 0b 88    callq  *0xffffffff880ba638
-> > >     ffffffff86271ab2:       5b                      pop    %rbx
-> > >     ffffffff86271ab3:       c3                      retq
-> > >     ffffffff86271ab4:       0f 1f 44 00 00          nopl   0x0(%rax,%rax,1)
-> > >     ffffffff86271ab9:       0f 0b                   ud2
+> > Yeah, look here:
+> >
+> > 0000 0000000000462149 <arch_local_save_flags>:
+> > 0000   462149:  ff 14 25 00 00 00 00    callq  *0x0
+> > 0003                    46214c: R_X86_64_32S    pv_ops+0x120
+> > 0007   462150:  c3                      retq
 > >
 > >
-> > Blergh, that's abysmall. In part I suspect because you have
-> > CONFIG_PARAVIRT_DEBUG, let me try and untangle that PV macro maze.
+> > That's exactly what I was expecting.
 >
-> Yeah, look here:
->
-> 0000 0000000000462149 <arch_local_save_flags>:
-> 0000   462149:  ff 14 25 00 00 00 00    callq  *0x0
-> 0003                    46214c: R_X86_64_32S    pv_ops+0x120
-> 0007   462150:  c3                      retq
->
->
-> That's exactly what I was expecting.
+> Ah, for some reason the __always_inline version does *not* work with
+> KCSAN -- I'm getting various warnings, including the same lockdep
+> warning. I think there is some weirdness when this stuff gets inlined
+> into instrumented functions. At least with KCSAN, when any accesses
+> here are instrumented, and then KCSAN disable/enables interrupts,
+> things break. So, these functions should never be instrumented,
+> noinstr or not. Marking them 'inline noinstr' seems like the safest
+> option. Without CONFIG_PARAVIRT_DEBUG, any compiler should hopefully
+> inline them?
 
-Ah, for some reason the __always_inline version does *not* work with
-KCSAN -- I'm getting various warnings, including the same lockdep
-warning. I think there is some weirdness when this stuff gets inlined
-into instrumented functions. At least with KCSAN, when any accesses
-here are instrumented, and then KCSAN disable/enables interrupts,
-things break. So, these functions should never be instrumented,
-noinstr or not. Marking them 'inline noinstr' seems like the safest
-option. Without CONFIG_PARAVIRT_DEBUG, any compiler should hopefully
-inline them?
+Oh well, it seems that KCSAN on syzbot still crashes even with this
+"fix". It's harder to reproduce though, and I don't have a clear
+reproducer other than "fuzz the kernel" right now. I think the new IRQ
+state tracking code is still not compatible with KCSAN, even though we
+thought it would be. Most likely there are still ways to get recursion
+lockdep->KCSAN. An alternative would be to deal with the recursion
+like we did before, instead of trying to squash all of it. I'll try to
+investigate -- Peter, if you have ideas, help is appreciated.
 
 Thanks,
 -- Marco
@@ -203,4 +215,4 @@ Thanks,
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNN6FWZ%2BMsAn3Pj%2BWEez97diHzqF8hjONtHG15C2gSpSgw%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNNy3XKQqgrjGPPKKvXhAoF%3Dmae7dk8hmoS4k4oNnnB%3DKA%40mail.gmail.com.
