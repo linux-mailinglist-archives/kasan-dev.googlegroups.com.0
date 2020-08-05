@@ -1,111 +1,112 @@
-Return-Path: <kasan-dev+bncBCV5TUXXRUIBBT7OVL4QKGQEQLCGKSY@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBU7WVL4QKGQE4Y45MAY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13f.google.com (mail-lf1-x13f.google.com [IPv6:2a00:1450:4864:20::13f])
-	by mail.lfdr.de (Postfix) with ESMTPS id C14D723CB13
-	for <lists+kasan-dev@lfdr.de>; Wed,  5 Aug 2020 15:42:39 +0200 (CEST)
-Received: by mail-lf1-x13f.google.com with SMTP id c204sf12269770lfg.16
-        for <lists+kasan-dev@lfdr.de>; Wed, 05 Aug 2020 06:42:39 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1596634959; cv=pass;
+Received: from mail-wm1-x33b.google.com (mail-wm1-x33b.google.com [IPv6:2a00:1450:4864:20::33b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D9B123CB4F
+	for <lists+kasan-dev@lfdr.de>; Wed,  5 Aug 2020 15:59:48 +0200 (CEST)
+Received: by mail-wm1-x33b.google.com with SMTP id u68sf2493910wmu.3
+        for <lists+kasan-dev@lfdr.de>; Wed, 05 Aug 2020 06:59:48 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1596635988; cv=pass;
         d=google.com; s=arc-20160816;
-        b=s5mSCiljyulMhjWi5YviS3NmAEQbaHLsW1K0eE3OSnLpLA/wGSR5vf+huaLyPWp5jA
-         4aYapoqAdKcILB9Fje5c36NeYjA1c3vTXZc2sid2YK0vdOeCNprzU2clgqhK/yE4m/RD
-         aCvoy7VbBeyjAUbABUax/P6nr60gxa+sdc49nEzaFP3xYYTbKQ47x2rG7rpT82NS/OKz
-         LwgV2xEVExTb20VVbd3QpfngpLNUHEAark3PLY+kVKMGK2CVdgLndrtqDFNqSxegYXyc
-         jKybO1NcbppnmIBGUz7Uc9CN1p4ZUEeRESVwxIcQB2mrc56WYfB05CEHIzRj5ZLlmGma
-         uMyg==
+        b=WQgwvPBlcjFRY25Xx0yflBj+AqbuBZe5398AECBzcddceZuy6rvKsKI8Esigr3zDqe
+         MNxR9MUzLgGuSvbtHfykr+Yem23NC1ZPinKIefmrPb676lZPtPtIbi8Faz9lkXNycCaA
+         Xd0oEabrgDE1UeC9VHpblwkTzhYJNBf58a7rndMOS+ROBfyuXu7Xilkee/eyaazhCVU0
+         j20uL4P3uFh5HvhTGQFnTXOp+Ogfz0OabFwTZrFt0Gx3xNQ0wAdH/YAbKC8sY79anceQ
+         IWEmepEZeTH1GvWlG0J7x8z0leFK3QOxd6RtZ7sGWNaXmft8ZA0N1T5XzFnbGHwLwVNa
+         PeEQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=Lx17CEeRc5UulJ7UO82/vBePw5Csg9RW/3QaeQafuI8=;
-        b=Bx2aQ1VumNIw0ZV8CgnHsAIuib2bfyWPJpv+1a+r5RG90QeRnD553jz25Ds81DyNGR
-         H/+aBd+8uU4YwBvgy4tW6wfuxr3MMfbR2GuA90KuyKqOE7SYS7igstLHLUTEurqk2b3U
-         V0GllYFT0uJREiumCJomWyKdiGwZET2qcMTffQUpJYnY0nTS25+abMcwpu+DjPH+K0gt
-         D+TxmLUiqMRfzmGvMRFgpknFzvsMQ4RQw7ovcbxlNl1FxmQnRyUYcr3g+hKbTiH7+yZO
-         wRpb+lAKA1S6e15fuhIb14hCm2RF+jYLhWPEjDT8hsv+iO1tqEjkCDUkEBnNzcwH8feV
-         g6PA==
+         :list-id:mailing-list:precedence:reply-to:user-agent:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:dkim-signature;
+        bh=C+3zEamedk9Lbtm//CsqZyxeDiNecDKtRnLXSC+0J/8=;
+        b=Jmp/B6zLV9oyCmn/9gz0KpcXIQlMcgD24s+qxvd1LGDH1EfKSTnFX7n2m8DCoyRuHr
+         PtwD6P7hzvZjFt3WfvnTA+q0XjxmNy1fspMMTBntWn0nfQtUghVX9PfhSMYXulN7cXvn
+         i2agmXtz52gokap0VEBkOd7WxvMgKIAxGR+1RtrWrcwQwS1K75cp5kdoS5O4IsKKduXF
+         B2A1cvX1mT5rjrRmjlW0Is4PYn4RAAKCXiEKiDCjZeU3UHI9USoGZLH8DhZg+05C3M4O
+         zD4X+oi5oKyBfOzDh/05JSw9E+PlJLnUwr7RzPTZ0epjGVh8uPhnr14zomKK5Bbv3+TS
+         Dnag==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=casper.20170209 header.b=DxVHatqg;
-       spf=pass (google.com: best guess record for domain of peterz@infradead.org designates 2001:8b0:10b:1236::1 as permitted sender) smtp.mailfrom=peterz@infradead.org
+       dkim=pass header.i=@google.com header.s=20161025 header.b=Z5kHZzSn;
+       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::344 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=Lx17CEeRc5UulJ7UO82/vBePw5Csg9RW/3QaeQafuI8=;
-        b=Uzi8FvI6GwDflSQjMtmvxRTALB7+Z5amIXYEEPpoou+k13IGbl+bN/7Xl0zWWdRTiN
-         NXG0JNjLvku0L11BoB1+wHhs6jNmZNegNh24wN3nO1YKqjtuD4bj4HsXkHBFzAd/yehj
-         bqltaCWbMhIxafWEhb5pAw6NgnxH0ZmT89aT2qPjzIb8pbkIz/mRmy5MHnxgDtsZ07LZ
-         HJSZnQI3r0XJdPkxrWAe1eMhlivy9fLXiw2sQ9HCEtYoC+uouDv2Du5MPTOGEO1lSu1v
-         szr4Vp4l4hCuYArGa67djoqHYs9R3xJqSruXRvgYGmuXB7F7uGImlghOxd8o/Yw1r0yz
-         +oBQ==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:list-post:list-help:list-archive:list-subscribe
+         :list-unsubscribe;
+        bh=C+3zEamedk9Lbtm//CsqZyxeDiNecDKtRnLXSC+0J/8=;
+        b=VxcpJ/H0IxTvhXaxeiX/LZb0t589tT4k3r9JP/m/cvH9Qd/KpsLToLgSkZ98yIs4qo
+         IR0W9WyuoT/lnwwhKY8VUvZJ/6FnZAjG1RZ64NwgOEjwCd7WiiWuLcvqEj1dCbauIeKX
+         uPUhmJHh7colP1TLeQvr/L37ZORxTdfvMWyPru1Tz8oSKySq3ba8CASj52lqheKOG9fc
+         1X8X5PBHlOrMA91LinAK8Ts7jhM07jljUoqglwnS/0UZc6HZbdRgjhZEG01zoKgiAF6M
+         kiODhrL90yxvZgCWg6PKxSlJ43hnOcpqrQh/BIuqzpQzri7RlugIzEotnMQ2sOjB3AvK
+         rXJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=Lx17CEeRc5UulJ7UO82/vBePw5Csg9RW/3QaeQafuI8=;
-        b=TvIcDYLXZaNQELXaFXf+mw+9lHatfRGwwi4J83cZetN8h4d6LEBGqU5EheH4tXd6pb
-         miP/UadkRq+/4p0Fd2yNBsuZC9OdO+TnYxAtfl4IJHp8S4miVNTTXq4HKZ9Mh1SfI8YO
-         NF/LyG284PPYFI5Q5u2EUx5AnawaPVXMZSnvrcv90IKk57dsNqHDJR+aYr1LvUndATPl
-         5ojT/wzSD1YD2EPwfuuvgVoBUF/07wqWiQnEGAMv5dMosTOUH6KGjrsRCQzFWxCuYuDi
-         H4/Pn/Kt6Pnej4sfloOvSubrwSYtZzUE4erufPUygn0UUddn/B8Kw0hb9o0fS6R3TFq2
-         T6ZA==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM531iCCt8VnS77S23h2WVpSGOnj+2/WKGxfnwf3pqLOFPn28QXUFu
-	3g7/upKHdLjycVsiGNLT/Kc=
-X-Google-Smtp-Source: ABdhPJwPC8pBhb6iAr/vJewhJAbRdnK7L2sfORPqRe5NSCC0mWNbHJWlzbiI83uigkhHYd7mc968MA==
-X-Received: by 2002:a2e:910d:: with SMTP id m13mr1630848ljg.240.1596634959306;
-        Wed, 05 Aug 2020 06:42:39 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent
+         :x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=C+3zEamedk9Lbtm//CsqZyxeDiNecDKtRnLXSC+0J/8=;
+        b=uiHPfpz1/l5vQ6tzmNeazXQGXpuFV6o6lgUhR257W3K2ixzR1wnfFtgYQYH6/Wol71
+         i6/gRtQkzvoIxH0OhyI2lNwCkKCr0Y0h55DwUzBhmIPmM2vbPDS1xzFLQfDAfAMASwld
+         iSs5vQ/dyWeP3mYEn93DUvH9Yj+4h28UNYr/aQF8x5iCuNkUNnnxl8pIiSTCz9eJZBWj
+         8fyFg6/Rplra9HLrx1bnL49OVQUc72oyzYNDEhYOQvu2slnMqxMtqmHI8na4F9sa0eFj
+         Hfxw9v/cDOj/JW1U25MrXim5wKceWrRKEwgBM3xwFJIknImG7HPu0JlIIvy+V0lMe6Gd
+         4GhQ==
+X-Gm-Message-State: AOAM532bOdjC6LsdJM8Kp+7Z1Q4kx3XOpwk1yqZIguGMV8ltUKhoaoda
+	2ICV6CJ7Vq/jdD4tP8RcM1Y=
+X-Google-Smtp-Source: ABdhPJweUB+UowLhnhYZ2O9R2Z3j+TaD2fUvGZfG1/ylSCO7YMWqQ3NCE55NlcYTptTKLJEj68CMPQ==
+X-Received: by 2002:a1c:43c3:: with SMTP id q186mr3652546wma.144.1596635987822;
+        Wed, 05 Aug 2020 06:59:47 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a2e:300f:: with SMTP id w15ls292054ljw.1.gmail; Wed, 05 Aug
- 2020 06:42:38 -0700 (PDT)
-X-Received: by 2002:a2e:8105:: with SMTP id d5mr1504884ljg.299.1596634958744;
-        Wed, 05 Aug 2020 06:42:38 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1596634958; cv=none;
+Received: by 2002:adf:a3ca:: with SMTP id m10ls376134wrb.1.gmail; Wed, 05 Aug
+ 2020 06:59:47 -0700 (PDT)
+X-Received: by 2002:adf:82f6:: with SMTP id 109mr3211378wrc.25.1596635987152;
+        Wed, 05 Aug 2020 06:59:47 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1596635987; cv=none;
         d=google.com; s=arc-20160816;
-        b=xS9Ldf6TS8H96Ui6UyY/81uE1Jgn0GPZCVfCztrGsuzBUSO0zspp+HIYHP+yItU2tu
-         A9XP3KPLiJ2BRs/RnzMbHAjB0+DsxLXVYdvjXzgKVlR0LugzPXBAPUcxl6KtpIBPXffi
-         bODVd9kcES6gMtm9I8MDbHHx55TYIitxmReKsuaauG57wcnf3rVextQKr/ml2tZH2GjD
-         O25B8tUjoA1GYYRjGCnMhnwGtklgmrFGmvcAURQbv/INIowrJNPMEPPBov1tmldGuJVR
-         2ZcGtuqvV52CkiYlCiHrZvHKSHAmBuARg1s/0yjzJ8ZBfzztBKXcU2pbuCDpa2JmqBgw
-         RI/A==
+        b=RgebS1t7S56bnendXdw2WzLC03WgiSLfvIynDzIUZvELVaxrRVjsh/O5ftS+sVfS1p
+         rw9xWiZHeuxEgy+1V+xHDT3zE+X4pMQbXRv9POJT+ZGA7rKmAMojvDUAaQxtcNKV090t
+         6oVukhCDEuLbT7YW9rQ7qPiNQlj6rlGcyyjzwYhPkr2oQ3h3m6vrrkI5qDY+aaHpdPFv
+         B7ziCvLwOc1veB9Ay8KfCO2dhUjlEDDPKcWH6V+eOFyL1AVxLGX0QrARjJAu2/xUnF6C
+         Y2IUeHjw9nCG7ahWWf+vMUREt80pPUvRzQY2HpiRmFtjAdTGVfiHt+z+nTLkFcktonvz
+         N30A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=+g3sbWo8Ja9JxjGyq6mVY0ZEJVqeXUqG7DKAaCqdzBs=;
-        b=k+GLf9OTbblakjzPOV9CjuqYuBu6GgiO86/9Mc9vkY26GX2gXD8nvtIAHyLAZ7IXpi
-         8Ym0mHLNm15QAOkdldKAVuUBTsTAEa0cbPrFrPy8tpWKp1JLXmNXC5AxBXvKKuRwdSId
-         O/IcIw1b2Le0Tk35IUvx0Ar3n2irjX2MwZLkxp0bcu/pe3iX5E5BaQKny7L3F5m1Ptem
-         fDXONRpT0zFwyR3TZp1r0M4jDGlYS74hD4+cWQ6SOCmfDMIgIAFyta7A6dvtA70j/sua
-         FiUEW8mnYVdgbZZ1pkFKu5H+rybzFGRQh8JQyovkq+yQlC6dtpcpBfoJFgwsWbhNUl3E
-         tvow==
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:dkim-signature;
+        bh=YePFlbgRyxtaEPeLEBJjJwQHaLa9kCxqtVKAjxXaA4s=;
+        b=BCV27avaCIl1ep+WPY4kyiWgrAstdpnff9VOonCXBbhQmSaqJLsAFz3uUAyOu7bYIf
+         7AR4J2IjI3IaoP2RamTZSScWohcaICeDjLqyRd0AXvr0H8CCxM6SgExZzYjP6rXjuX4y
+         t4pXRUdYYjvciKemHPUg+vp2KblWb4v7honI9LiVQgrT+Y3cDC8aFT8N767kAGETzve4
+         hZD6wDtgXTOtq2V2ASD8yuINIOIiukOBSxbBQ5RaJx1ybF900pijUpTevZqcZ+p0/3H/
+         Gobpq+Z0X7mYWa7z9H5kPCj6p21ftCPf+quUExXzITmUkKXCWrbbPnd/TQI92FV6jL5Y
+         n/4A==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=casper.20170209 header.b=DxVHatqg;
-       spf=pass (google.com: best guess record for domain of peterz@infradead.org designates 2001:8b0:10b:1236::1 as permitted sender) smtp.mailfrom=peterz@infradead.org
-Received: from casper.infradead.org (casper.infradead.org. [2001:8b0:10b:1236::1])
-        by gmr-mx.google.com with ESMTPS id c27si127277ljn.3.2020.08.05.06.42.38
+       dkim=pass header.i=@google.com header.s=20161025 header.b=Z5kHZzSn;
+       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::344 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com. [2a00:1450:4864:20::344])
+        by gmr-mx.google.com with ESMTPS id m3si122324wme.0.2020.08.05.06.59.47
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 05 Aug 2020 06:59:47 -0700 (PDT)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::344 as permitted sender) client-ip=2a00:1450:4864:20::344;
+Received: by mail-wm1-x344.google.com with SMTP id g8so5921484wmk.3
+        for <kasan-dev@googlegroups.com>; Wed, 05 Aug 2020 06:59:47 -0700 (PDT)
+X-Received: by 2002:a1c:96d7:: with SMTP id y206mr3357845wmd.9.1596635986525;
+        Wed, 05 Aug 2020 06:59:46 -0700 (PDT)
+Received: from elver.google.com ([100.105.32.75])
+        by smtp.gmail.com with ESMTPSA id p15sm2823841wrj.61.2020.08.05.06.59.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Aug 2020 06:42:38 -0700 (PDT)
-Received-SPF: pass (google.com: best guess record for domain of peterz@infradead.org designates 2001:8b0:10b:1236::1 as permitted sender) client-ip=2001:8b0:10b:1236::1;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-	by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k3Jgf-0005Ka-Cp; Wed, 05 Aug 2020 13:42:33 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(Client did not present a certificate)
-	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 846953012DC;
-	Wed,  5 Aug 2020 15:42:32 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 71A9A22B957CE; Wed,  5 Aug 2020 15:42:32 +0200 (CEST)
-Date: Wed, 5 Aug 2020 15:42:32 +0200
-From: peterz@infradead.org
-To: Marco Elver <elver@google.com>
+        Wed, 05 Aug 2020 06:59:45 -0700 (PDT)
+Date: Wed, 5 Aug 2020 15:59:40 +0200
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+To: peterz@infradead.org
 Cc: bp@alien8.de, dave.hansen@linux.intel.com, fenghua.yu@intel.com,
 	hpa@zytor.com, linux-kernel@vger.kernel.org, mingo@redhat.com,
 	syzkaller-bugs@googlegroups.com, tglx@linutronix.de,
@@ -116,18 +117,23 @@ Cc: bp@alien8.de, dave.hansen@linux.intel.com, fenghua.yu@intel.com,
 	syzbot <syzbot+8db9e1ecde74e590a657@syzkaller.appspotmail.com>
 Subject: Re: [PATCH] x86/paravirt: Add missing noinstr to arch_local*()
  helpers
-Message-ID: <20200805134232.GR2674@hirez.programming.kicks-ass.net>
+Message-ID: <20200805135940.GA156343@elver.google.com>
 References: <0000000000007d3b2d05ac1c303e@google.com>
  <20200805132629.GA87338@elver.google.com>
+ <20200805134232.GR2674@hirez.programming.kicks-ass.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <20200805132629.GA87338@elver.google.com>
-X-Original-Sender: peterz@infradead.org
+In-Reply-To: <20200805134232.GR2674@hirez.programming.kicks-ass.net>
+User-Agent: Mutt/1.14.4 (2020-06-18)
+X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@infradead.org header.s=casper.20170209 header.b=DxVHatqg;
-       spf=pass (google.com: best guess record for domain of
- peterz@infradead.org designates 2001:8b0:10b:1236::1 as permitted sender) smtp.mailfrom=peterz@infradead.org
+ header.i=@google.com header.s=20161025 header.b=Z5kHZzSn;       spf=pass
+ (google.com: domain of elver@google.com designates 2a00:1450:4864:20::344 as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -140,57 +146,101 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Aug 05, 2020 at 03:26:29PM +0200, Marco Elver wrote:
-> Add missing noinstr to arch_local*() helpers, as they may be called from
-> noinstr code.
+On Wed, Aug 05, 2020 at 03:42PM +0200, peterz@infradead.org wrote:
+> On Wed, Aug 05, 2020 at 03:26:29PM +0200, Marco Elver wrote:
+> > Add missing noinstr to arch_local*() helpers, as they may be called from
+> > noinstr code.
+> > 
+> > On a KCSAN config with CONFIG_PARAVIRT=y, syzbot stumbled across corrupt
 > 
-> On a KCSAN config with CONFIG_PARAVIRT=y, syzbot stumbled across corrupt
+> Cute, so I've been working on adding objtool support for this a little:
+> 
+>   https://lkml.kernel.org/r/20200803143231.GE2674@hirez.programming.kicks-ass.net
+> 
+> > diff --git a/arch/x86/include/asm/paravirt.h b/arch/x86/include/asm/paravirt.h
+> > index 3d2afecde50c..a606f2ba2b5e 100644
+> > --- a/arch/x86/include/asm/paravirt.h
+> > +++ b/arch/x86/include/asm/paravirt.h
+> > @@ -760,27 +760,27 @@ bool __raw_callee_save___native_vcpu_is_preempted(long cpu);
+> >  	((struct paravirt_callee_save) { func })
+> >  
+> >  #ifdef CONFIG_PARAVIRT_XXL
+> > -static inline notrace unsigned long arch_local_save_flags(void)
+> > +static inline noinstr unsigned long arch_local_save_flags(void)
+> >  {
+> >  	return PVOP_CALLEE0(unsigned long, irq.save_fl);
+> >  }
+> >  
+> > -static inline notrace void arch_local_irq_restore(unsigned long f)
+> > +static inline noinstr void arch_local_irq_restore(unsigned long f)
+> >  {
+> >  	PVOP_VCALLEE1(irq.restore_fl, f);
+> >  }
+> >  
+> > -static inline notrace void arch_local_irq_disable(void)
+> > +static inline noinstr void arch_local_irq_disable(void)
+> >  {
+> >  	PVOP_VCALLEE0(irq.irq_disable);
+> >  }
+> >  
+> > -static inline notrace void arch_local_irq_enable(void)
+> > +static inline noinstr void arch_local_irq_enable(void)
+> >  {
+> >  	PVOP_VCALLEE0(irq.irq_enable);
+> >  }
+> >  
+> > -static inline notrace unsigned long arch_local_irq_save(void)
+> > +static inline noinstr unsigned long arch_local_irq_save(void)
+> >  {
+> >  	unsigned long f;
+> >  
+> 
+> Shouldn't we __always_inline those? They're going to be really small.
 
-Cute, so I've been working on adding objtool support for this a little:
+I can send a v2, and you can choose. For reference, though:
 
-  https://lkml.kernel.org/r/20200803143231.GE2674@hirez.programming.kicks-ass.net
+	ffffffff86271ee0 <arch_local_save_flags>:
+	ffffffff86271ee0:       0f 1f 44 00 00          nopl   0x0(%rax,%rax,1)
+	ffffffff86271ee5:       48 83 3d 43 87 e4 01    cmpq   $0x0,0x1e48743(%rip)        # ffffffff880ba630 <pv_ops+0x120>
+	ffffffff86271eec:       00
+	ffffffff86271eed:       74 0d                   je     ffffffff86271efc <arch_local_save_flags+0x1c>
+	ffffffff86271eef:       0f 1f 44 00 00          nopl   0x0(%rax,%rax,1)
+	ffffffff86271ef4:       ff 14 25 30 a6 0b 88    callq  *0xffffffff880ba630
+	ffffffff86271efb:       c3                      retq
+	ffffffff86271efc:       0f 1f 44 00 00          nopl   0x0(%rax,%rax,1)
+	ffffffff86271f01:       0f 0b                   ud2
+	ffffffff86271f03:       66 66 2e 0f 1f 84 00    data16 nopw %cs:0x0(%rax,%rax,1)
+	ffffffff86271f0a:       00 00 00 00
+	ffffffff86271f0e:       66 90                   xchg   %ax,%ax
 
-> diff --git a/arch/x86/include/asm/paravirt.h b/arch/x86/include/asm/paravirt.h
-> index 3d2afecde50c..a606f2ba2b5e 100644
-> --- a/arch/x86/include/asm/paravirt.h
-> +++ b/arch/x86/include/asm/paravirt.h
-> @@ -760,27 +760,27 @@ bool __raw_callee_save___native_vcpu_is_preempted(long cpu);
->  	((struct paravirt_callee_save) { func })
->  
->  #ifdef CONFIG_PARAVIRT_XXL
-> -static inline notrace unsigned long arch_local_save_flags(void)
-> +static inline noinstr unsigned long arch_local_save_flags(void)
->  {
->  	return PVOP_CALLEE0(unsigned long, irq.save_fl);
->  }
->  
-> -static inline notrace void arch_local_irq_restore(unsigned long f)
-> +static inline noinstr void arch_local_irq_restore(unsigned long f)
->  {
->  	PVOP_VCALLEE1(irq.restore_fl, f);
->  }
->  
-> -static inline notrace void arch_local_irq_disable(void)
-> +static inline noinstr void arch_local_irq_disable(void)
->  {
->  	PVOP_VCALLEE0(irq.irq_disable);
->  }
->  
-> -static inline notrace void arch_local_irq_enable(void)
-> +static inline noinstr void arch_local_irq_enable(void)
->  {
->  	PVOP_VCALLEE0(irq.irq_enable);
->  }
->  
-> -static inline notrace unsigned long arch_local_irq_save(void)
-> +static inline noinstr unsigned long arch_local_irq_save(void)
->  {
->  	unsigned long f;
->  
+	[...]
 
-Shouldn't we __always_inline those? They're going to be really small.
+	ffffffff86271a90 <arch_local_irq_restore>:
+	ffffffff86271a90:       53                      push   %rbx
+	ffffffff86271a91:       48 89 fb                mov    %rdi,%rbx
+	ffffffff86271a94:       0f 1f 44 00 00          nopl   0x0(%rax,%rax,1)
+	ffffffff86271a99:       48 83 3d 97 8b e4 01    cmpq   $0x0,0x1e48b97(%rip)        # ffffffff880ba638 <pv_ops+0x128>
+	ffffffff86271aa0:       00
+	ffffffff86271aa1:       74 11                   je     ffffffff86271ab4 <arch_local_irq_restore+0x24>
+	ffffffff86271aa3:       0f 1f 44 00 00          nopl   0x0(%rax,%rax,1)
+	ffffffff86271aa8:       48 89 df                mov    %rbx,%rdi
+	ffffffff86271aab:       ff 14 25 38 a6 0b 88    callq  *0xffffffff880ba638
+	ffffffff86271ab2:       5b                      pop    %rbx
+	ffffffff86271ab3:       c3                      retq
+	ffffffff86271ab4:       0f 1f 44 00 00          nopl   0x0(%rax,%rax,1)
+	ffffffff86271ab9:       0f 0b                   ud2
+	ffffffff86271abb:       cc                      int3
+	ffffffff86271abc:       cc                      int3
+	ffffffff86271abd:       cc                      int3
+	ffffffff86271abe:       cc                      int3
+	ffffffff86271abf:       cc                      int3
+
+	[... and the rest looking of similar size.]
+
+Thanks,
+-- Marco
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200805134232.GR2674%40hirez.programming.kicks-ass.net.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200805135940.GA156343%40elver.google.com.
