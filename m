@@ -1,126 +1,131 @@
-Return-Path: <kasan-dev+bncBCMIZB7QWENRB4UJWD4QKGQEVHEIYII@googlegroups.com>
+Return-Path: <kasan-dev+bncBC24VNFHTMIBBBMKWD4QKGQETNQALWA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-vs1-xe3e.google.com (mail-vs1-xe3e.google.com [IPv6:2607:f8b0:4864:20::e3e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4806A23DAB2
-	for <lists+kasan-dev@lfdr.de>; Thu,  6 Aug 2020 15:26:11 +0200 (CEST)
-Received: by mail-vs1-xe3e.google.com with SMTP id j205sf10688647vsd.5
-        for <lists+kasan-dev@lfdr.de>; Thu, 06 Aug 2020 06:26:11 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1596720370; cv=pass;
+Received: from mail-vs1-xe3b.google.com (mail-vs1-xe3b.google.com [IPv6:2607:f8b0:4864:20::e3b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 779AF23DAB3
+	for <lists+kasan-dev@lfdr.de>; Thu,  6 Aug 2020 15:26:30 +0200 (CEST)
+Received: by mail-vs1-xe3b.google.com with SMTP id z8sf10388775vsj.15
+        for <lists+kasan-dev@lfdr.de>; Thu, 06 Aug 2020 06:26:30 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1596720389; cv=pass;
         d=google.com; s=arc-20160816;
-        b=ySF1a0UDR5hllt2v47zeBvOgoVhoqhXmAF0APvPoSvhssFZSug/RtRCx91eUQaRxIn
-         xQUJ7rpf8NRkLOgOTQs0c04YGFRL3m9GGb4Ue9eEyLZWT99jF78DOdZjKOLX3904cvFA
-         EsJX9W0HODBhFQ6nt1kmPnrTnTe0cCy5l/sFNEXF0A1sW1YT0fcjFf2XyLK3CzdkxSH7
-         hcmZo9q0GvdrCtQHacxzE1sX7LF2TDRVY/F3hCPHQ+JP5Vgyi1pL/hudpJ8KKElgEcX4
-         HBKkN2VZelk1JhFGrwnnxARaSiczmQFf2WYL2hhMLGdox+YuyZO7TBVQjRLcql4GbpOX
-         xvqw==
+        b=XtAvoEycLTwd4Sx5mM7Gkoe3tcdB/yLftVHUoQv6Cz1dAr6sJvFdiJFVIy4GdVXPnK
+         TCCC3q6vVpnt/eM9TCwNItvA082g704fCMrWyoKvCsvQJs73CX+dri6pldaIsqGDOnmg
+         62tIMK3JFFcoYr3fAyqhi3c+War2uwaHRilxU/6kB2zIR1HKMFlFsHFKR0n+VA4fJTkO
+         GlQSb3Y1gGtE3ao1aS5g5BPmBQsxnJU6kWrNJbomAFe3SCfvcGIfbsx48pS2nrlRBQSC
+         Y3Vu4Ec6un8uCivdezVIOgsp5tfvFwwmK/qt+lSi6gSuAL5Ii5z/4VNbCyYo/94Q9+S6
+         eS2g==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=cffuNjJKVPbcCD+n9g5peUV1PLGOmFBUhRn5tiGumq4=;
-        b=Bc8oDOgCB/umvBJX7yehVAFAbQaMtd4gZo4chAzKQT3DZC2EPwCx5peUBvn/RZQ4Gu
-         WxBG3/pIKZfSZn6xTowZ5isgzoMRzG+WQ9NkCtLXKC4uhvfUnJlJ8Y6as+b2oD5snwcd
-         IiOncTEFTjQJ4PYUAHpBTr3i7b02H9YN10RmrlVAfmNa/oKdSUgLS3hRQDXEM8GJ1EPw
-         Af6xYtTaMFRP9mLlyTGGOaIVP4wsoEVFJ1NODyfRzrFH/RZaahlHTB7Jn/DWF4H6gYuJ
-         5PSd+yeNPoiTxA3oJwD4fpV7qqaaTS2QeeqCigH6gG3Fn+tiF3qHzeNiMEBovsQSuSEX
-         oitg==
+         :list-id:mailing-list:precedence:mime-version:auto-submitted
+         :references:in-reply-to:message-id:date:subject:to:from:sender
+         :dkim-signature;
+        bh=0fh3MgoK5u8c2skcncW/s6iFmqhbhwXWL4HDJn2yHag=;
+        b=YCBGGUebooNULdyi3VskKTLUVIrssQ6D21N3evjYQT2gaqOBh8ZTlGQcrPcemBzMCR
+         nPEkJZwjC3FmsEIlvtA7hHQnPytZlEEKFZ+jFcXTd3w0LABYm2B3ohuz7cbrSBMtf8YF
+         gpOdA6o0Mnczftwetw/fp+9Wt+NX7ccaC74cuu+cfoVt4e9xHBOVTew6NcDZo1zR8jcB
+         98MPxqeVaCX8E0fO90W8XwQsEkagnl5eEq9IgJ+c9LmFEDqROmoGsR9l4p7TR/wWJC/M
+         +Zhxe/ODPNBjpiBLY1lL5TYFRB/uQcO2bPJQ6IKKcQQ5ey0R4/OCoE8YWAOlJgugbrlG
+         +2bA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=Y4ynlCXK;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::742 as permitted sender) smtp.mailfrom=dvyukov@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       spf=pass (google.com: domain of srs0=ac95=bq=bugzilla.kernel.org=bugzilla-daemon@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=AC95=BQ=bugzilla.kernel.org=bugzilla-daemon@kernel.org";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=cffuNjJKVPbcCD+n9g5peUV1PLGOmFBUhRn5tiGumq4=;
-        b=YrgABUhd/zRnQOk0xKshc0KhuzeLYndE29osviyYb/efOg0YZYtlJDARDtAsbbNbm7
-         r6rEV/SmB8NYsTahSC8xuNKXj//q3PVSyJMCH92ESglAefMWSqGNCXFUvPUXqkmZ3R0V
-         b/oTD7XIcheyXMsZhl/SCE9a9EaNjOA79cMkv02FYsD1KfF7PVxuqsW8xr4ItaViatbe
-         BHdYmI4GlbM6enQAlvlGzbormp6hi93cObbtJlMbAoPwaKqMA+Y69zXsPQ5cmI/ihqyA
-         4obUKMre34MdiF5VkhS8uz/UR96RRVWAelY1JVDvp8CXAktrSQaUhufE8TxuYg5Y5TdU
-         0f3g==
+        h=sender:from:to:subject:date:message-id:in-reply-to:references
+         :auto-submitted:mime-version:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=0fh3MgoK5u8c2skcncW/s6iFmqhbhwXWL4HDJn2yHag=;
+        b=DkuQJh+PSV0DfvU6G6tXyTR+mZvch4DyFxfTqYhFzQvvUeBoe7KCvHMVXymaEdzIec
+         tmXd+8C1cNqxpacLEM+v5sEOaw4kd612MCrnbiYBlkwMgUW/tgRxB2R7R+DJtmRhDraQ
+         Rqv/3VvM+mHWU7ECo1Cq0omji0S1IWd3nxFWcXmxfGwMPHWTE4LGL0o7reGdRDfA0CuA
+         jzCSLXvDhIaPtDa5od2rCxqSU8qHUdbEdNM5H4DF+2uIDLPs0v4PIw3N4KmNvTAxMP0z
+         CfyheglEKTS7z4VoRhQVddYsUVWn4+TvYkauaPG6g5CLYJT8EWbkrKmDynyo34gbunkP
+         kcWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=cffuNjJKVPbcCD+n9g5peUV1PLGOmFBUhRn5tiGumq4=;
-        b=ZUeXuC9wJzhWzLbeSu7rkf8yHNBc3lojw55HgQid8TOZq3pSIXr0ByluiSD9yUAWfJ
-         lPsJGbKRS4mOGq3cyexXlHjz6uP6iLN/PNaGZWGtoVTcDpwRwbzl3JBDeHd6ErtzyEdy
-         Uj12PBMlP07DrdiK8AjIIPTI6Jk0lwH/4NG+tm7LbWCNWP/rlWolTx6KVmG14ggfJUeE
-         xVDgDPBrRTK6tZ4sTMTLaUNoiee5lmCsv1+8W7MatHCwoL6AIzrypf1DmzD3NacMBPd6
-         lq65nzGDwRydKYfI+Gjfb7aDBo52rmcdnRAe8p1MsiZEfZ5wtIhx0p7Rp1z5sPXvd9oj
-         yWpw==
-X-Gm-Message-State: AOAM532QudIF/aY1hC7+5EwbfPIX7FnsY5JsqyN26QSQi5t3kK2xDzDy
-	GYQ3rhmoN0xWEmDO+lTu4t8=
-X-Google-Smtp-Source: ABdhPJxxyDKS/5cRA1Mc7ehPjdPfPcPktpJlktFnbVg5fvYO1rsiYSl3VB30Jy09IVnsemIW9uLXGw==
-X-Received: by 2002:a67:f544:: with SMTP id z4mr5909937vsn.217.1596720370355;
-        Thu, 06 Aug 2020 06:26:10 -0700 (PDT)
+        h=sender:x-gm-message-state:from:to:subject:date:message-id
+         :in-reply-to:references:auto-submitted:mime-version
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=0fh3MgoK5u8c2skcncW/s6iFmqhbhwXWL4HDJn2yHag=;
+        b=sQZZHiy9SkrB26vqQRELyRHSPrscDIHw2zKKobcf1iRd2iyVY5vjpZxOXmMM36KvB6
+         CNC8Xi2dIUjtyZvP1LT6YR7NG6kOYy/QT+w8cilRnvs+eRoIgDIrnSWdQKq9k7kZSBKm
+         My1OAhZ8glMHdO5sQt1iBsxnxwrRLGIRBIilmdgzt2n6k0tNGdePmGHuhCaNFo3/aFK3
+         Vezi1isfYof617AQXbHatY82L3MilCs8kz4BschLFWWiqwfes1Akc4mUJDr6vhtYiJBy
+         l7VTkj/+WFmrtb9j/fmMLUgFPl8iKxXdYNqWZnXllnTC1SgfjOnQYW/5rrjKlScQA760
+         +jYA==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM530tT8WNpURSq97CQTOGTp1qEL2dtjkmJrAViroanrfk6k0hF435
+	hVq3XrSSaj3k4r6LPBtnPBg=
+X-Google-Smtp-Source: ABdhPJzXzLU+qN05ScJ+PHwM0zOmXsI2adUzcwNsdXzUhbQ5RixBKx67Gx8Xa8p1jtZranUMqeETTA==
+X-Received: by 2002:a67:1bc7:: with SMTP id b190mr6030789vsb.211.1596720389552;
+        Thu, 06 Aug 2020 06:26:29 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ab0:1d84:: with SMTP id l4ls281543uak.9.gmail; Thu, 06 Aug
- 2020 06:26:10 -0700 (PDT)
-X-Received: by 2002:ab0:1d18:: with SMTP id j24mr6266066uak.30.1596720369975;
-        Thu, 06 Aug 2020 06:26:09 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1596720369; cv=none;
+Received: by 2002:a67:f415:: with SMTP id p21ls505531vsn.7.gmail; Thu, 06 Aug
+ 2020 06:26:29 -0700 (PDT)
+X-Received: by 2002:a67:7d50:: with SMTP id y77mr6449385vsc.207.1596720389103;
+        Thu, 06 Aug 2020 06:26:29 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1596720389; cv=none;
         d=google.com; s=arc-20160816;
-        b=hc0cPzPrjPMQbual8yTteDIp1WK5Cc4XTUFzCzp1szXssEpDrKiRVVhzMEip2sWpXs
-         c5dyMU81LOuCSs7n62GVP693gGGkfxNQRxp7FimZNcicqkRjMp6xG6FNlSFB0Ix5v5L3
-         H4Dssb4BfFp2oxvhEAnE2h+EjDgHfuqMYQzsJGoCeXoY92DcuQ5YBDHuecK2Mc/ETzWK
-         1NtRap4+JW8tKdnQgq64lwXotjVdhebJ4gE0L9CW2Ev/RtnQwsZ6EOCmiDmI5UzOFf0N
-         o9yEZwTusqbHs3HcgUYsvc4jKvifuInjHcxUX/n7Bfb1lga/CG4P2+Y7L4pwT1uuogEY
-         YNmw==
+        b=QCX3N4puxFcuv7WsQcvUDlgyrd63XJ4G+i1AIIs56JKwnQvdYPptD40UVZNBeMQ2GO
+         JjpKfZ+hr8zCNY/n5DtgfEpyriKW9Sssb2AuxRTxnV1SEAjoyrKC3u33Gxit/szPCxJu
+         aFUM/QZpopVa8N6GRPBpG2q3SvV6czXmTduuZdsWnzGPqt3cm3VMhOhXWNERd9s/Z1Lh
+         dRoPX+EUs7lRNYwk0JELYqb7shdMysTqp7SD9eczPfK1QiolzIgb/Pl6On9gpnvgUogb
+         ecnPOpUSFO0CxPHygrfuxSWZhgmvyE7afIqTbyqYKkwe7utADZ+yxbJQEcQL+hRgHUI3
+         nr/w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=T2iPfxLBjVspZYrNz+huCOCqkAd+X2FNwnJZLpWw+hM=;
-        b=sMvRkxXusLT2PCd1s+tg9v0ybaQO+LKHuWNxxJ+gtCUttf560V+2k2wIDxxJWcENi2
-         Wd4pbKe5M/BZGNcvkRQSCF4l3INx32dlat/Til73sZD+UgWf6a+vMC3/zAj9XYAtO1FR
-         mkrdiR0NC1kJSR4/cs0D0P+VUmiNNVEll/b+ReWHMXNpuAwlCugqY38F2TZ8bt4XYkx9
-         3v4DQXnzIhQKIIuY3qFhmAzfXMZjgHMMbzru+a2I8rVzsa9VqD61UYFkBUj2SPDPuSNr
-         zHt1cwnoaMBDZbSrZmhO/LQA0S/0AvGKu6/zQRTW+YUsPhcLMRsQ/IOirQDDFDh0QtzC
-         7uOg==
+        h=mime-version:auto-submitted:content-transfer-encoding:references
+         :in-reply-to:message-id:date:subject:to:from;
+        bh=TK/sTQoHqZsdRnhJ/LNhO7dkXOV6DXZIc6EfxFwUv4M=;
+        b=geoqEb6DT9dsA7OYdRGMyDtHJxtPE9fy2rHnCjyuseJFMULShDtopg6cSbrmyuDOSX
+         XylO8TvNYpQK7ePQWeHjmIL1vqjAO72iN7C2b3fRSebD4wWLUewCMZArRLS1d1RO3iDT
+         6OW+5ZdaB/enxu7usuXL3sYyurAyrTmwev91xGhH3Y9qGk63bXVzwEhiuz7kwoCmx9f2
+         dHxA+ETKefJep+XisIiUPHjNGBFluBH5aoZ5EXvRLY9SD3lEkRER37s2k5cKKuIF/l2S
+         LB+SNGZonb8g5lokn2FAFB5bBz2yMcoQbL9AKQzzO590WaUI/WWpu02uNmZ+aDGBw5BJ
+         yA1w==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=Y4ynlCXK;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::742 as permitted sender) smtp.mailfrom=dvyukov@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com. [2607:f8b0:4864:20::742])
-        by gmr-mx.google.com with ESMTPS id l129si421361vkg.2.2020.08.06.06.26.09
+       spf=pass (google.com: domain of srs0=ac95=bq=bugzilla.kernel.org=bugzilla-daemon@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=AC95=BQ=bugzilla.kernel.org=bugzilla-daemon@kernel.org";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
+        by gmr-mx.google.com with ESMTPS id j18si279033vki.3.2020.08.06.06.26.28
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 06 Aug 2020 06:26:09 -0700 (PDT)
-Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::742 as permitted sender) client-ip=2607:f8b0:4864:20::742;
-Received: by mail-qk1-x742.google.com with SMTP id d14so44851733qke.13
-        for <kasan-dev@googlegroups.com>; Thu, 06 Aug 2020 06:26:09 -0700 (PDT)
-X-Received: by 2002:a05:620a:676:: with SMTP id a22mr8706700qkh.8.1596720369262;
- Thu, 06 Aug 2020 06:26:09 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200805230852.GA28727@paulmck-ThinkPad-P72> <CANpmjNPxzOFC+VQujipFaPmAV8evU2LnB4X-iXuHah45o-7pfw@mail.gmail.com>
- <CACT4Y+Ye7j-scb-thp2ubORCoEnuJPHL7W6Wh_DLP_4cux-0SQ@mail.gmail.com>
-In-Reply-To: <CACT4Y+Ye7j-scb-thp2ubORCoEnuJPHL7W6Wh_DLP_4cux-0SQ@mail.gmail.com>
-From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Thu, 6 Aug 2020 15:25:57 +0200
-Message-ID: <CACT4Y+aF=Y-b7Lm7+UAD7Zb1kS1uWF+G_3yBbXsY6YO3k2dBuw@mail.gmail.com>
-Subject: Re: Finally starting on short RCU grace periods, but...
-To: Marco Elver <elver@google.com>
-Cc: "Paul E. McKenney" <paulmck@kernel.org>, Kostya Serebryany <kcc@google.com>, 
-	LKML <linux-kernel@vger.kernel.org>, kasan-dev <kasan-dev@googlegroups.com>, 
-	Alexander Potapenko <glider@google.com>, Andrey Konovalov <andreyknvl@google.com>, 
-	"'Dmitry Vyukov' via syzkaller-upstream-moderation" <syzkaller-upstream-moderation@googlegroups.com>, 
-	Jann Horn <jannh@google.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 06 Aug 2020 06:26:29 -0700 (PDT)
+Received-SPF: pass (google.com: domain of srs0=ac95=bq=bugzilla.kernel.org=bugzilla-daemon@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
+From: bugzilla-daemon@bugzilla.kernel.org
+To: kasan-dev@googlegroups.com
+Subject: [Bug 208299] Add fuzzing-optimized RCU mode that invokes RCU
+ callbacks ASAP
+Date: Thu, 06 Aug 2020 13:26:27 +0000
+X-Bugzilla-Reason: CC
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Memory Management
+X-Bugzilla-Component: Sanitizers
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: dvyukov@google.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: mm_sanitizers@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-208299-199747-c3n5PqFbBL@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-208299-199747@https.bugzilla.kernel.org/>
+References: <bug-208299-199747@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: dvyukov@google.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=Y4ynlCXK;       spf=pass
- (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::742
- as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
- (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Dmitry Vyukov <dvyukov@google.com>
-Reply-To: Dmitry Vyukov <dvyukov@google.com>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
+X-Original-Sender: bugzilla-daemon@bugzilla.kernel.org
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of srs0=ac95=bq=bugzilla.kernel.org=bugzilla-daemon@kernel.org
+ designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=AC95=BQ=bugzilla.kernel.org=bugzilla-daemon@kernel.org";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -133,79 +138,27 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Aug 6, 2020 at 3:22 PM Dmitry Vyukov <dvyukov@google.com> wrote:
->
-> On Thu, Aug 6, 2020 at 12:31 PM Marco Elver <elver@google.com> wrote:
-> >
-> > +Cc kasan-dev
-> >
-> > On Thu, 6 Aug 2020 at 01:08, Paul E. McKenney <paulmck@kernel.org> wrote:
-> > >
-> > > Hello!
-> > >
-> > > If I remember correctly, one of you asked for a way to shorten RCU
-> > > grace periods so that KASAN would have a better chance of detecting bugs
-> > > such as pointers being leaked out of RCU read-side critical sections.
-> > > I am finally starting entering and testing code for this, but realized
-> > > that I had forgotten a couple of things:
-> > >
-> > > 1.      I don't remember exactly who asked, but I suspect that it was
-> > >         Kostya.  I am using his Reported-by as a placeholder for the
-> > >         moment, but please let me know if this should be adjusted.
-> >
-> > It certainly was not me.
-> >
-> > > 2.      Although this work is necessary to detect situtions where
-> > >         call_rcu() is used to initiate a grace period, there already
-> > >         exists a way to make short grace periods that are initiated by
-> > >         synchronize_rcu(), namely, the rcupdate.rcu_expedited kernel
-> > >         boot parameter.  This will cause all calls to synchronize_rcu()
-> > >         to act like synchronize_rcu_expedited(), resulting in about 2-3
-> > >         orders of magnitude reduction in grace-period latency on small
-> > >         systems (say 16 CPUs).
-> > >
-> > > In addition, I plan to make a few other adjustments that will
-> > > increase the probability of KASAN spotting a pointer leak even in the
-> > > rcupdate.rcu_expedited case.
-> >
-> > Thank you, that'll be useful I think.
-> >
-> > > But if you would like to start this sort of testing on current mainline,
-> > > rcupdate.rcu_expedited is your friend!
->
-> Hi Paul,
->
-> This is great!
->
-> I understand it's not a sufficiently challenging way of tracking
-> things, but it's simply here ;)
-> https://bugzilla.kernel.org/show_bug.cgi?id=208299
-> (now we also know who asked for this, +Jann)
->
-> I've tested on the latest mainline and with rcupdate.rcu_expedited=1
-> it boots to ssh successfully and I see:
-> [    0.369258][    T0] All grace periods are expedited (rcu_expedited).
->
-> I have created https://github.com/google/syzkaller/pull/2021 to enable
-> it on syzbot.
-> On syzbot we generally use only 2-4 CPUs per VM, so it should be even better.
->
-> > Do any of you remember some bugs we missed due to this? Can we find
-> > them if we add this option?
->
-> The problem is that it's hard to remember bugs that were not caught :)
-> Here is an approximation of UAFs with free in rcu callback:
-> https://groups.google.com/forum/#!searchin/syzkaller-bugs/KASAN$20use-after-free$20rcu_do_batch%7Csort:date
-> The ones with low hit count are the ones that we almost did not catch.
-> That's the best estimation I can think of. Also potentially we can get
-> reproducers for such bugs without reproducers.
-> Maybe we will be able to correlate some bugs/reproducers that appear
-> soon with this change.
+https://bugzilla.kernel.org/show_bug.cgi?id=208299
 
-Wait, it was added in 2012?
+Dmitry Vyukov (dvyukov@google.com) changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |dvyukov@google.com
+
+--- Comment #1 from Dmitry Vyukov (dvyukov@google.com) ---
+This now exists as rcupdate.rcu_expedited=1 and was enabled on syzbot:
+https://github.com/google/syzkaller/pull/2021
+
+...which was added in 2012...
 https://github.com/torvalds/linux/commit/3705b88db0d7cc4
+Paul?
+
+-- 
+You are receiving this mail because:
+You are on the CC list for the bug.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BaF%3DY-b7Lm7%2BUAD7Zb1kS1uWF%2BG_3yBbXsY6YO3k2dBuw%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/bug-208299-199747-c3n5PqFbBL%40https.bugzilla.kernel.org/.
