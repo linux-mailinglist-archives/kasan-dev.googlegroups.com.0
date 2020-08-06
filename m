@@ -1,111 +1,112 @@
-Return-Path: <kasan-dev+bncBCV5TUXXRUIBBX6UV74QKGQEZQRSAHI@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBV4FWD4QKGQE4VALV6A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pj1-x103f.google.com (mail-pj1-x103f.google.com [IPv6:2607:f8b0:4864:20::103f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C29923D9F7
-	for <lists+kasan-dev@lfdr.de>; Thu,  6 Aug 2020 13:32:49 +0200 (CEST)
-Received: by mail-pj1-x103f.google.com with SMTP id 4sf7398713pjf.5
-        for <lists+kasan-dev@lfdr.de>; Thu, 06 Aug 2020 04:32:49 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1596713568; cv=pass;
+Received: from mail-lf1-x13a.google.com (mail-lf1-x13a.google.com [IPv6:2a00:1450:4864:20::13a])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC0A523DA9F
+	for <lists+kasan-dev@lfdr.de>; Thu,  6 Aug 2020 15:17:11 +0200 (CEST)
+Received: by mail-lf1-x13a.google.com with SMTP id u11sf12529291lfg.11
+        for <lists+kasan-dev@lfdr.de>; Thu, 06 Aug 2020 06:17:11 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1596719831; cv=pass;
         d=google.com; s=arc-20160816;
-        b=iPYL3v8eluB2OlWpoj4kZP39BuOoLMrJ+c57bfvqndbC/smBVc83xizDhnxSiUCNtp
-         2jQW90zW3lW3jWxd0Ql2a5KiuWYk2r1TrW1UknooU75dHNfJ781z0G+GDWezK4LCORga
-         Z2VeInBnLFFrKDI+IVoEFVlU+uORvajwcJzArlZFsG0edtMi8PI9qoIM70t8quZ1WkSO
-         MGnuJntyQbsjCZr6o+YtKrHl+ZrhgJCwmX5ELxyMl0P+REy+VobXpQzM0B+nZ0Dl8wXj
-         G/9ctGMMARt49EPjFOhnYB/LcLp5446EJwvQjbtbSNnZk/S1Lm1cw0LCi0vrpAegMKXW
-         gDIw==
+        b=yEk9ZXpvXnCyOHxjCZfbAWR0Jn3J8SQoSItWuQ74FEOuZyebrrWDCepfrdxpWxeg/M
+         VvIM2cAbAj1GLIkSWkkeq5JX1nMbSbqWE+4Z0rUx+MtTTvgqQdHZnf0iZlrB/XmBUqyS
+         k+qlaN/OU6ccGmeq7nhcGJIaj/9Kmeo5U7US5f/swEKjxmiTrzk/A5IRIFmYgvErgRTb
+         vLgDHn+xoZFiHc+EiAZz5ROzG5Yi7mUhfTAkihyOdv75YEuyszNRz8C9vBlzyMgpGsaF
+         SxKQ5W6ApjxfgdWENMGMes8yPTmubAJCBGt3F2N76JDpzXfx84UBH+tv0+rJyH6RetEY
+         tBlQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=nZzACEAQuCP1DwPNX22qKUR4cyegUOxvNQdOR8sE2JE=;
-        b=jD7G7BxAEaXM6Vo7kwPtsgWTAHY3bTvmzZTfzdC34txoUSqssgCi3xghrynI+iXDSU
-         ArBbv41+wlEMPoI4/c6Biw9fHsIduOvXgNRmkfJGukspHOUR+BfbV8p2vQF4ciJuUZqT
-         EUdAX6vOBkojmdpJvAPHbC5dKFd8lRH90IdrcqLgAXR7j16x5mkNwA4Kc/x/Oi4onqW7
-         F3jLIhUxbYW+wBy/5TZ+Xgx/RVQUsNMpGpnLzf6tU9K6LmyLv1X8RbZ5j2UopiA4KNo0
-         1tHEbyM8xd6ibHDwuL7tl+y83kJwtlBUllmruMGtozuM/rB7jUgKpjRnL7BOE6FJWWJs
-         8lhQ==
+         :list-id:mailing-list:precedence:reply-to:user-agent:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:dkim-signature;
+        bh=0AQRNceYqitVwrIAOJPtIXnAEsHlqrwlXyLEDRNEcEA=;
+        b=yb4iYRDNWF8fIy48852sn5m+HFz+V08VLBj3z4i7GnPS9G88XtLzs4VxJGJ7TALtM8
+         KcZ5qtxvUoJT43KiYkQlkA8OK21lbRA6KaNsHgDW+Wy0cxrNDwzv8YGi/uykRB1OR+ac
+         lAY8CynNC1rmoiqOTv8cWEMcAuEieB6V8abICmXPCKxxINezMIs7XUcTVAxZIBrDPIj4
+         CowMpzKWRdmqwBlVWQV6GYuP6tSEQKmYcxfQ4WkIvk0lQ0i5sG4OefDgiHaP1rFVNalP
+         RGE+N/d1+gZwJaN871d2uAa48hIxD0wX2AqR1oTWXwjnhjiY/NsVcIuIJAfYB27W7GTq
+         gUMg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=merlin.20170209 header.b=0sTLMzAi;
-       spf=pass (google.com: best guess record for domain of peterz@infradead.org designates 2001:8b0:10b:1231::1 as permitted sender) smtp.mailfrom=peterz@infradead.org
+       dkim=pass header.i=@google.com header.s=20161025 header.b=kBP+hi0Q;
+       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::441 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=nZzACEAQuCP1DwPNX22qKUR4cyegUOxvNQdOR8sE2JE=;
-        b=ONu1kwp7c6RtZSl+RDi036mvkhDDCNmEisYAGJpR2K3usDvYu6oPFEn5/kPLjAvznS
-         zvanzERdWmJML3lcXvZJgX3RyUc6uuEs9MHOCmat+h8bb5eEZn4+ZC2T+nagNRIYBlGr
-         IAX11m4R6Yv2OYW5mU6mRVDOYGhN2UoXwRyYs81wsQ/9DKg2BEHPEYXQM/3yBW/UgsKD
-         R8ZpaIoaDySqsDSG1U4EVHVkgCOZ9vVLqvpsm+6okAZpZvxeq5bpCOsKEwdq8E8RZTs6
-         wIvsn6Qi0BvOnkW9DpTD2rfhB99vvra//bXUXtaYDibML7WrQEG1WUmiMiUx1yrKITfv
-         2IEg==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:list-post:list-help:list-archive:list-subscribe
+         :list-unsubscribe;
+        bh=0AQRNceYqitVwrIAOJPtIXnAEsHlqrwlXyLEDRNEcEA=;
+        b=gpeZhX1T4mkXRvH0B0ItNW2UvVwbbmxyoc7/NPP0LP1u3ht9EOOwUnA8F+jr3fIB6o
+         fNNjcNwDyZpBYSqOFQWH7Lv4ICkLI4hNdrNdMDtHU0aMzooVhrBjIMMKA7FDvboUSpkH
+         IQxlEWnYkCBOCKZ020ecOMoq0q5tN1hpLmmgfwgzuLmVnoat8Wb7NnOv0ko4ZQ/XvMYu
+         ptMOy1hjp9Tw3ZCRM5+65G4tmrbtznGyhCDDDC8/ceAQVHUUm1aQ36nbx+S25lzBolGF
+         jM8Kd9pPOmApmkvkWLci4rR4CA7Vp1ItVK/yP78v38vhfop3wCTu6d6UnXeZ2af5kItL
+         bnTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=nZzACEAQuCP1DwPNX22qKUR4cyegUOxvNQdOR8sE2JE=;
-        b=NdJla1a/dN+JqmBDY4fZ569gap4uPOYvYit4Y+YsbBZACPoYaxiCP+rPbccp7/++ky
-         SVn/naHzBtwhOIuYlrgtbTNRxx0ac/pfOIHSkQk/Gu7LdTyZK1KcfXF1FBUmsrno2ZXB
-         mHJhLVQDEEk2UDMaqOU2aDu//wxtYS6GwWzTE+sMEwYijt8BS5rDcGYDXB/ngkscGNHe
-         LZOwALweRT6rO4FkA3mnAY0q2JMDIZCxccQ9KOSFIc9cFlGPfd1SyNntBNkhV9KzG/oz
-         7nErlaenmPBN2MCAmVhGElosa3bCjUViMkZn7o8+6Qz6Bgtx3OoeTB5gyZJC/f6Ljhw2
-         QMKA==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM5328+jAxjNBX/tZ12ugOyPfJ+1mU86CJmKL0Czla0K+5DqmmHlkE
-	QQCILwPHVVFlLh5HMqxhPJE=
-X-Google-Smtp-Source: ABdhPJzBEd2r/wHIeRgmitkWTToAoZJZRzgYYLolCMWeTWT9evaOzvOmWjYto1LzfKMXciGhRAvrRA==
-X-Received: by 2002:a17:90b:803:: with SMTP id bk3mr8132138pjb.57.1596713567841;
-        Thu, 06 Aug 2020 04:32:47 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent
+         :x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=0AQRNceYqitVwrIAOJPtIXnAEsHlqrwlXyLEDRNEcEA=;
+        b=LyrMrsNJpHqcitaYC4n3n/V4zYwgZdiGDlTnkHza5+Nim1iaU+DqreQjrX0VfA4+4y
+         brmoD6l64ZOhdm5jjxvp4GRWTauIvcGrFnnLaAlAd9QWHuTBJbqFIPlhW6WPgMCFWB84
+         4tgMCainr6TunfG7jtSeJddOSTBJ1WAFbdhAvLHqOJLX8ODOSF6W3YduDjlX9xT8nXiH
+         LYA6qaeBhsexhwcsvoAhQS085DQuLWS+4/NDoTBV8DuP+WC0z6wK+GNC9wbbtqOE11Ct
+         JTnbnePKNG40pNn9d5AFr38gUc4S/4tixJ+CKnZJ78HDcK68lFjT1qUwaqgxqmxen/RH
+         zThA==
+X-Gm-Message-State: AOAM5336ZD7ear7OTx9dy3XWCLAJ0HyOODiFMMHCfLcQvrri8Zh1vsfE
+	OKmyxwyGtBdkEKvR3epzgBw=
+X-Google-Smtp-Source: ABdhPJwUKlI2nAm6CpKOAJ9nCmM5ctdSIb4z8RTEKBYR7qliCUklV2FA0qmJ106iu+K+kEEyYwc1GA==
+X-Received: by 2002:a2e:9acc:: with SMTP id p12mr4111731ljj.363.1596719831266;
+        Thu, 06 Aug 2020 06:17:11 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:902:bb8f:: with SMTP id m15ls2463915pls.5.gmail; Thu, 06
- Aug 2020 04:32:47 -0700 (PDT)
-X-Received: by 2002:a17:90a:7a83:: with SMTP id q3mr8198969pjf.178.1596713567329;
-        Thu, 06 Aug 2020 04:32:47 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1596713567; cv=none;
+Received: by 2002:ac2:4845:: with SMTP id 5ls1648999lfy.2.gmail; Thu, 06 Aug
+ 2020 06:17:10 -0700 (PDT)
+X-Received: by 2002:a19:8095:: with SMTP id b143mr3911839lfd.175.1596719830568;
+        Thu, 06 Aug 2020 06:17:10 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1596719830; cv=none;
         d=google.com; s=arc-20160816;
-        b=nJX53mDq8AR21LqNgh+vPifycwlsxCZH9AELlUVwQs2Uah1XhhAo3fsXs5nR2M7bU9
-         XmU0rtc1fP8MYxC1i7pGHH+9ZkpbJW49v6q6zVnHVIARJ+iZv8K3hlOUDYqKDPpL1T2Q
-         jSNYdtiJc49IAgnPTRVA3E5wj3vNHL5f5lGByrQEI3unaOMBbjevD26eQq/rCicUMiSx
-         kLA9hWHlobPtrDW6nUcm/5fEoc6eNbaQa+s9v2GsdfD1lmCslJbaU73mP21U+qdzjuVf
-         RKYRhxLx0aOxmgXgG2bB7HMvmXKjUS+LSDWBn2UJcW+gX3q9+qWnnrdjftwlu6qmB/Bc
-         n21A==
+        b=IZBJe5o+rU+Trv9/TFvgaA9g21QBLFWhh9DtTh/ZIIbu5J0gKfQtCZLFuTIPbU2W60
+         lrhcGZIWX6yV9JElHMTVE8Q5JQfMqKjX3FD3L2QwVtAIB1rV4JWzTxaUfOOsAR/cZuzW
+         6Eca0eH/FCl+f1Xc3pKOP5c8cfRXJtbpGd10h4BFIG9viJBXgMooZoTqS21ZAatZX6Xt
+         hFKIEotyD4sP33FilSY6zwT9QZcjFn+2Pb7ojMeXBPbyfA+546t1eXdHJkFSRRLm3TOc
+         +g14u1H92EFuaewH/FSx3PczoHRSwLTfTxR21eTINMAU1vnz76b4XbHRRzhjBrLbhO3e
+         G5nw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=HOHNK/Wwh4r+dLOwnbPsU+//UraXJR2JWx5StwnIbMY=;
-        b=Ann7QXKXubr6wA8W8Zy9nl3P8t5X4i9U+TarI46EUshsijVEnN33Pc9w8gy2sEsO5f
-         5cd9LTJ4jWtwh55z9IhWOeLjnM6qkUkcS+AyfnzkwpOrH0bDD4ByJBE1AbwPiXpNVqVw
-         ByzhSH4uw+d3lp1+us55es21UfZOpcqkagLxTh11TCrDdR8ecjclzer9DjyeE8O9XRou
-         oPyr98CaSlMBAHqvIBEQapIGKG0WreFVaNjinZUWLzNbpAz7O1eEpvmwpNXVRvGJeZPp
-         TjDqYTJSzt1ZF3rDdRya43OCRJU7s/uJ0NV02QlT8toh2X9gJ+fuzZtaWeytq5FEE6G+
-         FfkQ==
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:dkim-signature;
+        bh=C+eYpjO9tZjVIJJgZzQi1cMIXwcXEBDu4nry89JkOG4=;
+        b=B4/epNTw9J1lMXHvCyJYWfQmEAWj800KKoMg09dfJgg788tmv2CA5ETw5m5FfTY3S+
+         sURdzj0U50ZuRAB7wzUtfrxwtLpQIfbq3059E2IXisU6sJbKNE81JKF43wiktwCAipd6
+         vti/HRJq9eAsowUAkZYfTmepHqh3fOhwL7rn8+a/8TNgapNPtWgGCCwFVbpB1j3XexaB
+         3m1Ypl2zx+j6xYfwiuGZbXzmc0byz2B+CRcnh/KzbBjih7LUyNiuvAkJSZ3plYDoR7Po
+         iw6FZQrWnwy8wLztrdU/8m5cMzXLn8bx6wZn4Q++ewaa+wTGmdyXpqyfp8khdVNt+9jn
+         wT9w==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=merlin.20170209 header.b=0sTLMzAi;
-       spf=pass (google.com: best guess record for domain of peterz@infradead.org designates 2001:8b0:10b:1231::1 as permitted sender) smtp.mailfrom=peterz@infradead.org
-Received: from merlin.infradead.org (merlin.infradead.org. [2001:8b0:10b:1231::1])
-        by gmr-mx.google.com with ESMTPS id 90si14973plb.3.2020.08.06.04.32.47
+       dkim=pass header.i=@google.com header.s=20161025 header.b=kBP+hi0Q;
+       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::441 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com. [2a00:1450:4864:20::441])
+        by gmr-mx.google.com with ESMTPS id a7si147695ljp.2.2020.08.06.06.17.10
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 06 Aug 2020 06:17:10 -0700 (PDT)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::441 as permitted sender) client-ip=2a00:1450:4864:20::441;
+Received: by mail-wr1-x441.google.com with SMTP id f12so8130726wru.13
+        for <kasan-dev@googlegroups.com>; Thu, 06 Aug 2020 06:17:10 -0700 (PDT)
+X-Received: by 2002:a5d:5682:: with SMTP id f2mr7283059wrv.248.1596719829770;
+        Thu, 06 Aug 2020 06:17:09 -0700 (PDT)
+Received: from elver.google.com ([100.105.32.75])
+        by smtp.gmail.com with ESMTPSA id a10sm6529088wrx.15.2020.08.06.06.17.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Aug 2020 04:32:47 -0700 (PDT)
-Received-SPF: pass (google.com: best guess record for domain of peterz@infradead.org designates 2001:8b0:10b:1231::1 as permitted sender) client-ip=2001:8b0:10b:1231::1;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-	by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k3e8V-0006OU-91; Thu, 06 Aug 2020 11:32:39 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(Client did not present a certificate)
-	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 33BE7300446;
-	Thu,  6 Aug 2020 13:32:36 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 0DD6F2B61F1E7; Thu,  6 Aug 2020 13:32:36 +0200 (CEST)
-Date: Thu, 6 Aug 2020 13:32:36 +0200
-From: peterz@infradead.org
-To: Marco Elver <elver@google.com>
+        Thu, 06 Aug 2020 06:17:07 -0700 (PDT)
+Date: Thu, 6 Aug 2020 15:17:02 +0200
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+To: peterz@infradead.org
 Cc: Borislav Petkov <bp@alien8.de>,
 	Dave Hansen <dave.hansen@linux.intel.com>, fenghua.yu@intel.com,
 	"H. Peter Anvin" <hpa@zytor.com>,
@@ -120,7 +121,7 @@ Cc: Borislav Petkov <bp@alien8.de>,
 	syzbot <syzbot+8db9e1ecde74e590a657@syzkaller.appspotmail.com>
 Subject: Re: [PATCH] x86/paravirt: Add missing noinstr to arch_local*()
  helpers
-Message-ID: <20200806113236.GZ2674@hirez.programming.kicks-ass.net>
+Message-ID: <20200806131702.GA3029162@elver.google.com>
 References: <0000000000007d3b2d05ac1c303e@google.com>
  <20200805132629.GA87338@elver.google.com>
  <20200805134232.GR2674@hirez.programming.kicks-ass.net>
@@ -130,15 +131,20 @@ References: <0000000000007d3b2d05ac1c303e@google.com>
  <CANpmjNN6FWZ+MsAn3Pj+WEez97diHzqF8hjONtHG15C2gSpSgw@mail.gmail.com>
  <CANpmjNNy3XKQqgrjGPPKKvXhAoF=mae7dk8hmoS4k4oNnnB=KA@mail.gmail.com>
  <20200806074723.GA2364872@elver.google.com>
+ <20200806113236.GZ2674@hirez.programming.kicks-ass.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <20200806074723.GA2364872@elver.google.com>
-X-Original-Sender: peterz@infradead.org
+In-Reply-To: <20200806113236.GZ2674@hirez.programming.kicks-ass.net>
+User-Agent: Mutt/1.14.4 (2020-06-18)
+X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@infradead.org header.s=merlin.20170209 header.b=0sTLMzAi;
-       spf=pass (google.com: best guess record for domain of
- peterz@infradead.org designates 2001:8b0:10b:1231::1 as permitted sender) smtp.mailfrom=peterz@infradead.org
+ header.i=@google.com header.s=20161025 header.b=kBP+hi0Q;       spf=pass
+ (google.com: domain of elver@google.com designates 2a00:1450:4864:20::441 as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -151,94 +157,62 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Aug 06, 2020 at 09:47:23AM +0200, Marco Elver wrote:
-> Testing my hypothesis that raw then nested non-raw
-> local_irq_save/restore() breaks IRQ state tracking -- see the reproducer
-> below. This is at least 1 case I can think of that we're bound to hit.
+On Thu, Aug 06, 2020 at 01:32PM +0200, peterz@infradead.org wrote:
+> On Thu, Aug 06, 2020 at 09:47:23AM +0200, Marco Elver wrote:
+> > Testing my hypothesis that raw then nested non-raw
+> > local_irq_save/restore() breaks IRQ state tracking -- see the reproducer
+> > below. This is at least 1 case I can think of that we're bound to hit.
+...
+> 
+> /me goes ponder things...
+> 
+> How's something like this then?
+> 
+> ---
+>  include/linux/sched.h |  3 ---
+>  kernel/kcsan/core.c   | 62 ++++++++++++++++++++++++++++++++++++---------------
+>  2 files changed, 44 insertions(+), 21 deletions(-)
 
-Aaargh!
+Thank you! That approach seems to pass syzbot (also with
+CONFIG_PARAVIRT) and kcsan-test tests.
 
-> diff --git a/init/main.c b/init/main.c
-> index 15bd0efff3df..0873319dcff4 100644
-> --- a/init/main.c
-> +++ b/init/main.c
-> @@ -1041,6 +1041,22 @@ asmlinkage __visible void __init start_kernel(void)
->  	sfi_init_late();
->  	kcsan_init();
->  
-> +	/* DEBUG CODE */
-> +	lockdep_assert_irqs_enabled(); /* Pass. */
-> +	{
-> +		unsigned long flags1;
-> +		raw_local_irq_save(flags1);
+I had to modify it some, so that report.c's use of the restore logic
+works and not mess up the IRQ trace printed on KCSAN reports (with
+CONFIG_KCSAN_VERBOSE).
 
-This disables IRQs but doesn't trace..
+I still need to fully convince myself all is well now and we don't end
+up with more fixes. :-) If it passes further testing, I'll send it as a
+real patch (I want to add you as Co-developed-by, but would need your
+Signed-off-by for the code you pasted, I think.)
 
-> +		{
-> +			unsigned long flags2;
-> +			lockdep_assert_irqs_enabled(); /* Pass - expectedly blind. */
+Thanks,
+-- Marco
 
-Indeed, we didn't trace the above disable, so software state is still
-on.
+------ >8 ------
 
-> +			local_irq_save(flags2);
-
-So here we save IRQ state, and unconditionally disable IRQs and trace
-them disabled.
-
-> +			lockdep_assert_irqs_disabled(); /* Pass. */
-> +			local_irq_restore(flags2);
-
-But here, we restore IRQ state to 'disabled' and explicitly trace it
-disabled *again* (which is a bit daft, but whatever).
-
-> +		}
-> +		raw_local_irq_restore(flags1);
-
-This then restores the IRQ state to enable, but no tracing.
-
-> +	}
-> +	lockdep_assert_irqs_enabled(); /* FAIL! */
-
-And we're out of sync... :/
-
-/me goes ponder things...
-
-How's something like this then?
-
----
- include/linux/sched.h |  3 ---
- kernel/kcsan/core.c   | 62 ++++++++++++++++++++++++++++++++++++---------------
- 2 files changed, 44 insertions(+), 21 deletions(-)
-
-diff --git a/include/linux/sched.h b/include/linux/sched.h
-index 06ec60462af0..2f5aef57e687 100644
---- a/include/linux/sched.h
-+++ b/include/linux/sched.h
-@@ -1193,9 +1193,6 @@ struct task_struct {
- 
- #ifdef CONFIG_KCSAN
- 	struct kcsan_ctx		kcsan_ctx;
--#ifdef CONFIG_TRACE_IRQFLAGS
--	struct irqtrace_events		kcsan_save_irqtrace;
--#endif
- #endif
- 
- #ifdef CONFIG_FUNCTION_GRAPH_TRACER
 diff --git a/kernel/kcsan/core.c b/kernel/kcsan/core.c
-index 9147ff6a12e5..9c4436bf0561 100644
+index 9147ff6a12e5..b1d5dca10aa5 100644
 --- a/kernel/kcsan/core.c
 +++ b/kernel/kcsan/core.c
-@@ -291,17 +291,50 @@ static inline unsigned int get_delay(void)
+@@ -4,6 +4,7 @@
+ #include <linux/bug.h>
+ #include <linux/delay.h>
+ #include <linux/export.h>
++#include <linux/ftrace.h>
+ #include <linux/init.h>
+ #include <linux/kernel.h>
+ #include <linux/list.h>
+@@ -291,13 +292,28 @@ static inline unsigned int get_delay(void)
  				0);
  }
  
 -void kcsan_save_irqtrace(struct task_struct *task)
+-{
 +/*
-+ * KCSAN hooks are everywhere, which means they're NMI like for interrupt
-+ * tracing. In order to present a 'normal' as possible context to the code
-+ * called by KCSAN when reporting errors we need to update the irq-tracing
-+ * state.
++ * KCSAN instrumentation is everywhere, which means we must treat the hooks
++ * NMI-like for interrupt tracing. In order to present a 'normal' as possible
++ * context to the code called by KCSAN when reporting errors we need to update
++ * the IRQ-tracing state.
 + *
 + * Save and restore the IRQ state trace touched by KCSAN, since KCSAN's
 + * runtime is entered for every memory access, and potentially useful
@@ -247,60 +221,72 @@ index 9147ff6a12e5..9c4436bf0561 100644
 +
 +struct kcsan_irq_state {
 +	unsigned long		flags;
-+#ifdef CONFIG_TRACE_IRQFLAGS
-+	int			hardirqs;
-+	struct irqtrace_events	irqtrace;
-+#endif
-+};
-+
-+void kcsan_save_irqtrace(struct kcsan_irq_state *irq_state)
- {
  #ifdef CONFIG_TRACE_IRQFLAGS
 -	task->kcsan_save_irqtrace = task->irqtrace;
-+	irq_state->irqtrace = task->irqtrace;
-+	irq_state->hardirq = lockdep_hardirqs_enabled();
++	int			hardirqs;
  #endif
-+	if (!kcsan_interrupt_watcher) {
-+		raw_local_irq_save(irq_state->flags);
-+		lockdep_hardirqs_off(CALLER_ADDR0);
-+	}
+-}
++};
+ 
++/*
++ * This is also called by the reporting task for the other task, to generate the
++ * right report with CONFIG_KCSAN_VERBOSE. No harm in restoring more than once.
++ */
+ void kcsan_restore_irqtrace(struct task_struct *task)
+ {
+ #ifdef CONFIG_TRACE_IRQFLAGS
+@@ -305,6 +321,34 @@ void kcsan_restore_irqtrace(struct task_struct *task)
+ #endif
  }
  
--void kcsan_restore_irqtrace(struct task_struct *task)
-+void kcsan_restore_irqtrace(struct kcsan_irq_state *irq_state)
- {
++static void kcsan_irq_save(struct kcsan_irq_state *irq_state) {
++#ifdef CONFIG_TRACE_IRQFLAGS
++	current->kcsan_save_irqtrace = current->irqtrace;
++	irq_state->hardirqs = lockdep_hardirqs_enabled();
++#endif
++	if (!kcsan_interrupt_watcher) {
++		raw_local_irq_save(irq_state->flags);
++		kcsan_disable_current(); /* Lockdep might WARN. */
++		lockdep_hardirqs_off(CALLER_ADDR0);
++		kcsan_enable_current();
++	}
++}
++
++static void kcsan_irq_restore(struct kcsan_irq_state *irq_state) {
 +	if (!kcsan_interrupt_watcher) {
 +#ifdef CONFIG_TRACE_IRQFLAGS
 +		if (irq_state->hardirqs) {
++			kcsan_disable_current(); /* Lockdep might WARN. */
 +			lockdep_hardirqs_on_prepare(CALLER_ADDR0);
 +			lockdep_hardirqs_on(CALLER_ADDR0);
++			kcsan_enable_current();
 +		}
 +#endif
 +		raw_local_irq_restore(irq_state->flags);
 +	}
- #ifdef CONFIG_TRACE_IRQFLAGS
--	task->irqtrace = task->kcsan_save_irqtrace;
-+	task->irqtrace = irq_state->irqtrace;
- #endif
- }
- 
-@@ -350,11 +383,13 @@ static noinline void kcsan_found_watchpoint(const volatile void *ptr,
++	kcsan_restore_irqtrace(current);
++}
++
+ /*
+  * Pull everything together: check_access() below contains the performance
+  * critical operations; the fast-path (including check_access) functions should
+@@ -350,11 +394,13 @@ static noinline void kcsan_found_watchpoint(const volatile void *ptr,
  	flags = user_access_save();
  
  	if (consumed) {
 -		kcsan_save_irqtrace(current);
 +		struct kcsan_irq_state irqstate;
 +
-+		kcsan_save_irqtrace(&irqstate);
++		kcsan_irq_save(&irqstate);
  		kcsan_report(ptr, size, type, KCSAN_VALUE_CHANGE_MAYBE,
  			     KCSAN_REPORT_CONSUMED_WATCHPOINT,
  			     watchpoint - watchpoints);
 -		kcsan_restore_irqtrace(current);
-+		kcsan_restore_irqtrace(&irqstate);
++		kcsan_irq_restore(&irqstate);
  	} else {
  		/*
  		 * The other thread may not print any diagnostics, as it has
-@@ -387,7 +422,7 @@ kcsan_setup_watchpoint(const volatile void *ptr, size_t size, int type)
+@@ -387,7 +433,7 @@ kcsan_setup_watchpoint(const volatile void *ptr, size_t size, int type)
  	unsigned long access_mask;
  	enum kcsan_value_change value_change = KCSAN_VALUE_CHANGE_MAYBE;
  	unsigned long ua_flags = user_access_save();
@@ -309,7 +295,7 @@ index 9147ff6a12e5..9c4436bf0561 100644
  
  	/*
  	 * Always reset kcsan_skip counter in slow-path to avoid underflow; see
-@@ -412,14 +447,7 @@ kcsan_setup_watchpoint(const volatile void *ptr, size_t size, int type)
+@@ -412,14 +458,7 @@ kcsan_setup_watchpoint(const volatile void *ptr, size_t size, int type)
  		goto out;
  	}
  
@@ -321,24 +307,38 @@ index 9147ff6a12e5..9c4436bf0561 100644
 -	kcsan_save_irqtrace(current);
 -	if (!kcsan_interrupt_watcher)
 -		local_irq_save(irq_flags);
-+	kcsan_save_irqtrace(&irqstate);
++	kcsan_irq_save(&irqstate);
  
  	watchpoint = insert_watchpoint((unsigned long)ptr, size, is_write);
  	if (watchpoint == NULL) {
-@@ -559,9 +587,7 @@ kcsan_setup_watchpoint(const volatile void *ptr, size_t size, int type)
+@@ -559,9 +598,7 @@ kcsan_setup_watchpoint(const volatile void *ptr, size_t size, int type)
  	remove_watchpoint(watchpoint);
  	kcsan_counter_dec(KCSAN_COUNTER_USED_WATCHPOINTS);
  out_unlock:
 -	if (!kcsan_interrupt_watcher)
 -		local_irq_restore(irq_flags);
 -	kcsan_restore_irqtrace(current);
-+	kcsan_restore_irqtrace(&irqstate);
++	kcsan_irq_restore(&irqstate);
  out:
  	user_access_restore(ua_flags);
  }
-
+diff --git a/kernel/kcsan/kcsan.h b/kernel/kcsan/kcsan.h
+index 29480010dc30..6eb35a9514d8 100644
+--- a/kernel/kcsan/kcsan.h
++++ b/kernel/kcsan/kcsan.h
+@@ -24,9 +24,8 @@ extern unsigned int kcsan_udelay_interrupt;
+ extern bool kcsan_enabled;
+ 
+ /*
+- * Save/restore IRQ flags state trace dirtied by KCSAN.
++ * Restore IRQ flags state trace dirtied by KCSAN.
+  */
+-void kcsan_save_irqtrace(struct task_struct *task);
+ void kcsan_restore_irqtrace(struct task_struct *task);
+ 
+ /*
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200806113236.GZ2674%40hirez.programming.kicks-ass.net.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200806131702.GA3029162%40elver.google.com.
