@@ -1,150 +1,125 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBV4FWD4QKGQE4VALV6A@googlegroups.com>
+Return-Path: <kasan-dev+bncBCMIZB7QWENRBLUIWD4QKGQEOKVTW3A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13a.google.com (mail-lf1-x13a.google.com [IPv6:2a00:1450:4864:20::13a])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC0A523DA9F
-	for <lists+kasan-dev@lfdr.de>; Thu,  6 Aug 2020 15:17:11 +0200 (CEST)
-Received: by mail-lf1-x13a.google.com with SMTP id u11sf12529291lfg.11
-        for <lists+kasan-dev@lfdr.de>; Thu, 06 Aug 2020 06:17:11 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1596719831; cv=pass;
+Received: from mail-qk1-x738.google.com (mail-qk1-x738.google.com [IPv6:2607:f8b0:4864:20::738])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A33E23DAAB
+	for <lists+kasan-dev@lfdr.de>; Thu,  6 Aug 2020 15:22:56 +0200 (CEST)
+Received: by mail-qk1-x738.google.com with SMTP id v16sf33484735qka.18
+        for <lists+kasan-dev@lfdr.de>; Thu, 06 Aug 2020 06:22:55 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1596720175; cv=pass;
         d=google.com; s=arc-20160816;
-        b=yEk9ZXpvXnCyOHxjCZfbAWR0Jn3J8SQoSItWuQ74FEOuZyebrrWDCepfrdxpWxeg/M
-         VvIM2cAbAj1GLIkSWkkeq5JX1nMbSbqWE+4Z0rUx+MtTTvgqQdHZnf0iZlrB/XmBUqyS
-         k+qlaN/OU6ccGmeq7nhcGJIaj/9Kmeo5U7US5f/swEKjxmiTrzk/A5IRIFmYgvErgRTb
-         vLgDHn+xoZFiHc+EiAZz5ROzG5Yi7mUhfTAkihyOdv75YEuyszNRz8C9vBlzyMgpGsaF
-         SxKQ5W6ApjxfgdWENMGMes8yPTmubAJCBGt3F2N76JDpzXfx84UBH+tv0+rJyH6RetEY
-         tBlQ==
+        b=BmZOxdFVT47ZQ/2YFUQ8YwPMopyZiVsvWJShPgBUaw8chzT8IFb+BAkqMWwbhxwljo
+         9hCVUwbV2t8ofoRGQQ0+AEMTH9SVWh33u4rmluQupr+93mxsF0kiBRUpenagezgNrsBu
+         f/AGBPw/K+QhVavIkK/yJsnjT9TYwGpRYZh4DkXIhF77Hq1DD8yqsu1spBW3ABGlL55b
+         wLMqeOZaal1Wl4MyqusiO+OUFjkH7pmW6JXI5N1yp879dz4y29amoboacZWPBfAiMDCC
+         9PHx+/LqrXEy39zecjxKiUa4jgF6R3+FjgzSJtKDPuIOklPrcDE/ON9NYCRRziyFLIZ/
+         aYYA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:user-agent:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:dkim-signature;
-        bh=0AQRNceYqitVwrIAOJPtIXnAEsHlqrwlXyLEDRNEcEA=;
-        b=yb4iYRDNWF8fIy48852sn5m+HFz+V08VLBj3z4i7GnPS9G88XtLzs4VxJGJ7TALtM8
-         KcZ5qtxvUoJT43KiYkQlkA8OK21lbRA6KaNsHgDW+Wy0cxrNDwzv8YGi/uykRB1OR+ac
-         lAY8CynNC1rmoiqOTv8cWEMcAuEieB6V8abICmXPCKxxINezMIs7XUcTVAxZIBrDPIj4
-         CowMpzKWRdmqwBlVWQV6GYuP6tSEQKmYcxfQ4WkIvk0lQ0i5sG4OefDgiHaP1rFVNalP
-         RGE+N/d1+gZwJaN871d2uAa48hIxD0wX2AqR1oTWXwjnhjiY/NsVcIuIJAfYB27W7GTq
-         gUMg==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=eezoRCSp+HIhlOvdgGhWmGutl+egjG7jdYvzls8hS+Q=;
+        b=l5lBTriBU8DpqbzCq0FyR1lcqWT1ZIX9wG5v474L6vw0XJLlhNv//je11vJExzpADI
+         CijoT4heDxou6WjA+dHwHGyoEmciJtGvTTNBYvNrZqve4iYdnRegvqDU/A2jAgG6jXIa
+         IC60+8z9n+EpkZ38XlVS8LBixT4Srb9ovMEr5kbQ5krPUiM/22wq4GQEJQotwykwMCnu
+         IcBBHce/FtbkGDVou5qsg9jqMiCJsqiVAIoWeBQSSvn+o1NGdcR+EvbW9MYjxsN6cYw2
+         eM7o8b0WooafWWI3E2AebYdDsziLFvj9Jep8PUPauR5wmMmReH/8LV+51q5AbqNFHplN
+         9A3Q==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=kBP+hi0Q;
-       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::441 as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b="Mg6HboN/";
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::841 as permitted sender) smtp.mailfrom=dvyukov@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:list-post:list-help:list-archive:list-subscribe
-         :list-unsubscribe;
-        bh=0AQRNceYqitVwrIAOJPtIXnAEsHlqrwlXyLEDRNEcEA=;
-        b=gpeZhX1T4mkXRvH0B0ItNW2UvVwbbmxyoc7/NPP0LP1u3ht9EOOwUnA8F+jr3fIB6o
-         fNNjcNwDyZpBYSqOFQWH7Lv4ICkLI4hNdrNdMDtHU0aMzooVhrBjIMMKA7FDvboUSpkH
-         IQxlEWnYkCBOCKZ020ecOMoq0q5tN1hpLmmgfwgzuLmVnoat8Wb7NnOv0ko4ZQ/XvMYu
-         ptMOy1hjp9Tw3ZCRM5+65G4tmrbtznGyhCDDDC8/ceAQVHUUm1aQ36nbx+S25lzBolGF
-         jM8Kd9pPOmApmkvkWLci4rR4CA7Vp1ItVK/yP78v38vhfop3wCTu6d6UnXeZ2af5kItL
-         bnTA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=eezoRCSp+HIhlOvdgGhWmGutl+egjG7jdYvzls8hS+Q=;
+        b=LifGjS9SX+q88tTM99iacQnHbD1eZgm2JK6FcqDEK/Zx99m7dDxOFTl+YxkoXauy7P
+         Ln5tggSt9bhFWaqN1gAU6cl6gKErmpfW9vb2zBQQsTUzf2e8346opNyjLmA29kr5o6DA
+         nJRWZ0jjFlGXv0Ey3fObSSFsejCUvGH7QWuXxTLiyY8/B9AtAS7thAoThoH0JHqgLrx9
+         RXY3jDCsUMlwYeCMnJVbX4zu1h+r3C4+RxlXiRnTU++z1PvUtJE0rvJ/tqEYknzEIGHD
+         ln13KGl6yq0AzW/q3c9+Ase79Fl6f85n40kQ37R5MeemusajJdIRGznac38fFzxcNLOC
+         OArQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent
-         :x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=0AQRNceYqitVwrIAOJPtIXnAEsHlqrwlXyLEDRNEcEA=;
-        b=LyrMrsNJpHqcitaYC4n3n/V4zYwgZdiGDlTnkHza5+Nim1iaU+DqreQjrX0VfA4+4y
-         brmoD6l64ZOhdm5jjxvp4GRWTauIvcGrFnnLaAlAd9QWHuTBJbqFIPlhW6WPgMCFWB84
-         4tgMCainr6TunfG7jtSeJddOSTBJ1WAFbdhAvLHqOJLX8ODOSF6W3YduDjlX9xT8nXiH
-         LYA6qaeBhsexhwcsvoAhQS085DQuLWS+4/NDoTBV8DuP+WC0z6wK+GNC9wbbtqOE11Ct
-         JTnbnePKNG40pNn9d5AFr38gUc4S/4tixJ+CKnZJ78HDcK68lFjT1qUwaqgxqmxen/RH
-         zThA==
-X-Gm-Message-State: AOAM5336ZD7ear7OTx9dy3XWCLAJ0HyOODiFMMHCfLcQvrri8Zh1vsfE
-	OKmyxwyGtBdkEKvR3epzgBw=
-X-Google-Smtp-Source: ABdhPJwUKlI2nAm6CpKOAJ9nCmM5ctdSIb4z8RTEKBYR7qliCUklV2FA0qmJ106iu+K+kEEyYwc1GA==
-X-Received: by 2002:a2e:9acc:: with SMTP id p12mr4111731ljj.363.1596719831266;
-        Thu, 06 Aug 2020 06:17:11 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=eezoRCSp+HIhlOvdgGhWmGutl+egjG7jdYvzls8hS+Q=;
+        b=jX51tERyIuCntIB32qbHvM3Sz4ErSfMRVFpVgajIKni784Yoxiz86GJeGZeRjKZ5Ex
+         skwu8pfyFGzi6PXO314hk5jAe4dbnHG8k/aRSAclgPcIcLSqK10sXiu3Ek0yXJ1r+SLk
+         Z6cYvaSGtgyiIcN3gkkk06V/g2U/RL9nAx6uKp6JHZzj7ttDZwHx7fIys4MaXcr3RnE/
+         NvFZl22RlafkQzqmhEspGdF0jrHEDE9jq7ezE0z1BHCtcsne4E6TcsMuUCOFzr/+yhLp
+         0bp2zqeTxVYxD8p0l7yzJKrvHH5BHdCK4lmyXC2+r2EQVuyamzHDnTmh7nL+iSaQRHil
+         70zA==
+X-Gm-Message-State: AOAM532PXi9R9caVQuT5VLq/VspGquHjJwDSkLDeiHkqte9yXzyEsglP
+	ayT+KQqPFNl/Spa0u9KzEeY=
+X-Google-Smtp-Source: ABdhPJyjinaa3Un7O81srr2ZE8GD8mrO0v26nPqxSYBatR57FxE5jZdCI7voStkwOouLqzhCwcgbjw==
+X-Received: by 2002:a37:714:: with SMTP id 20mr8796535qkh.367.1596720174815;
+        Thu, 06 Aug 2020 06:22:54 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ac2:4845:: with SMTP id 5ls1648999lfy.2.gmail; Thu, 06 Aug
- 2020 06:17:10 -0700 (PDT)
-X-Received: by 2002:a19:8095:: with SMTP id b143mr3911839lfd.175.1596719830568;
-        Thu, 06 Aug 2020 06:17:10 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1596719830; cv=none;
+Received: by 2002:a05:620a:120e:: with SMTP id u14ls2683062qkj.3.gmail; Thu,
+ 06 Aug 2020 06:22:54 -0700 (PDT)
+X-Received: by 2002:a37:bc87:: with SMTP id m129mr8419800qkf.47.1596720174461;
+        Thu, 06 Aug 2020 06:22:54 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1596720174; cv=none;
         d=google.com; s=arc-20160816;
-        b=IZBJe5o+rU+Trv9/TFvgaA9g21QBLFWhh9DtTh/ZIIbu5J0gKfQtCZLFuTIPbU2W60
-         lrhcGZIWX6yV9JElHMTVE8Q5JQfMqKjX3FD3L2QwVtAIB1rV4JWzTxaUfOOsAR/cZuzW
-         6Eca0eH/FCl+f1Xc3pKOP5c8cfRXJtbpGd10h4BFIG9viJBXgMooZoTqS21ZAatZX6Xt
-         hFKIEotyD4sP33FilSY6zwT9QZcjFn+2Pb7ojMeXBPbyfA+546t1eXdHJkFSRRLm3TOc
-         +g14u1H92EFuaewH/FSx3PczoHRSwLTfTxR21eTINMAU1vnz76b4XbHRRzhjBrLbhO3e
-         G5nw==
+        b=S8Wai994a9rY2nN1Fggfj9rc7cjCRGNKYdfocW2JbAlsIL1F7P6TR9WLmxak1+Pv3b
+         JqSdMZ1bvjsxAJO4J0xpws7rFE87u+kkfH7rRblRJCyiWuIy/U2RXgecDiOjlGUjuJ4t
+         hbxzAAmLwU+8mjNhsktxbpFdqWEMvRDA2SHaLKz0obJhCYCJaUALFVQjyJk1VA1SspDG
+         1ppZMJ3sQXWgAMWAOcsKWylSdX6vNS8yOnQqSDy6SAlgYwKaQFcbpIf//CPRw1MevI/n
+         B1llOF2gEnA3yEGj3RaMFf2T8NcrLDSelxzaUKS3R6rPCWFP9nGpqoVDEAfpOTj0/feh
+         RAQg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:dkim-signature;
-        bh=C+eYpjO9tZjVIJJgZzQi1cMIXwcXEBDu4nry89JkOG4=;
-        b=B4/epNTw9J1lMXHvCyJYWfQmEAWj800KKoMg09dfJgg788tmv2CA5ETw5m5FfTY3S+
-         sURdzj0U50ZuRAB7wzUtfrxwtLpQIfbq3059E2IXisU6sJbKNE81JKF43wiktwCAipd6
-         vti/HRJq9eAsowUAkZYfTmepHqh3fOhwL7rn8+a/8TNgapNPtWgGCCwFVbpB1j3XexaB
-         3m1Ypl2zx+j6xYfwiuGZbXzmc0byz2B+CRcnh/KzbBjih7LUyNiuvAkJSZ3plYDoR7Po
-         iw6FZQrWnwy8wLztrdU/8m5cMzXLn8bx6wZn4Q++ewaa+wTGmdyXpqyfp8khdVNt+9jn
-         wT9w==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=l452q3QF9j1q5B+O8g1DRoVbZw8RLr9ADl2JOygRsek=;
+        b=iS1eMbtFhYDKSN0rbQa3eHWpw8m/uNgjKr/39T7lLdnL9L7JddOsOKgNDHUeSYQ2H8
+         7wV0cTN09tQkTDmsMZ3s/zer6wlXD9A9G3VB0ilrPssbHP2YIgsgmD1EQLz6YMQGQ6D9
+         kj+A8kaaVDmqqr5fO19zB6O7wUjhp0mX6W9tr5sIymYAebu+O8ihyuYNpEYAfduRBt3l
+         TUf0bV6qvvM/+ofwcRoU9ICotuSNb2AgnlEaXHuM2ci66FZihjYBq9X6jys2CgrLaoHJ
+         kR1XesWBHQR1lV5LFKzH/xOFsAPVlEMVtajejAQswmC1vIBShE4dFB8ja1s1qucaP+Je
+         Zzsg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=kBP+hi0Q;
-       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::441 as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b="Mg6HboN/";
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::841 as permitted sender) smtp.mailfrom=dvyukov@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com. [2a00:1450:4864:20::441])
-        by gmr-mx.google.com with ESMTPS id a7si147695ljp.2.2020.08.06.06.17.10
+Received: from mail-qt1-x841.google.com (mail-qt1-x841.google.com. [2607:f8b0:4864:20::841])
+        by gmr-mx.google.com with ESMTPS id s124si294492qke.3.2020.08.06.06.22.54
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 06 Aug 2020 06:17:10 -0700 (PDT)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::441 as permitted sender) client-ip=2a00:1450:4864:20::441;
-Received: by mail-wr1-x441.google.com with SMTP id f12so8130726wru.13
-        for <kasan-dev@googlegroups.com>; Thu, 06 Aug 2020 06:17:10 -0700 (PDT)
-X-Received: by 2002:a5d:5682:: with SMTP id f2mr7283059wrv.248.1596719829770;
-        Thu, 06 Aug 2020 06:17:09 -0700 (PDT)
-Received: from elver.google.com ([100.105.32.75])
-        by smtp.gmail.com with ESMTPSA id a10sm6529088wrx.15.2020.08.06.06.17.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Aug 2020 06:17:07 -0700 (PDT)
-Date: Thu, 6 Aug 2020 15:17:02 +0200
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-To: peterz@infradead.org
-Cc: Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, fenghua.yu@intel.com,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	LKML <linux-kernel@vger.kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	"Luck, Tony" <tony.luck@intel.com>,
-	the arch/x86 maintainers <x86@kernel.org>, yu-cheng.yu@intel.com,
-	jgross@suse.com, sdeep@vmware.com,
-	virtualization@lists.linux-foundation.org,
-	kasan-dev <kasan-dev@googlegroups.com>,
-	syzbot <syzbot+8db9e1ecde74e590a657@syzkaller.appspotmail.com>
-Subject: Re: [PATCH] x86/paravirt: Add missing noinstr to arch_local*()
- helpers
-Message-ID: <20200806131702.GA3029162@elver.google.com>
-References: <0000000000007d3b2d05ac1c303e@google.com>
- <20200805132629.GA87338@elver.google.com>
- <20200805134232.GR2674@hirez.programming.kicks-ass.net>
- <20200805135940.GA156343@elver.google.com>
- <20200805141237.GS2674@hirez.programming.kicks-ass.net>
- <20200805141709.GD35926@hirez.programming.kicks-ass.net>
- <CANpmjNN6FWZ+MsAn3Pj+WEez97diHzqF8hjONtHG15C2gSpSgw@mail.gmail.com>
- <CANpmjNNy3XKQqgrjGPPKKvXhAoF=mae7dk8hmoS4k4oNnnB=KA@mail.gmail.com>
- <20200806074723.GA2364872@elver.google.com>
- <20200806113236.GZ2674@hirez.programming.kicks-ass.net>
+        Thu, 06 Aug 2020 06:22:54 -0700 (PDT)
+Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::841 as permitted sender) client-ip=2607:f8b0:4864:20::841;
+Received: by mail-qt1-x841.google.com with SMTP id w9so36268348qts.6
+        for <kasan-dev@googlegroups.com>; Thu, 06 Aug 2020 06:22:54 -0700 (PDT)
+X-Received: by 2002:ac8:154:: with SMTP id f20mr8501217qtg.57.1596720173806;
+ Thu, 06 Aug 2020 06:22:53 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200805230852.GA28727@paulmck-ThinkPad-P72> <CANpmjNPxzOFC+VQujipFaPmAV8evU2LnB4X-iXuHah45o-7pfw@mail.gmail.com>
+In-Reply-To: <CANpmjNPxzOFC+VQujipFaPmAV8evU2LnB4X-iXuHah45o-7pfw@mail.gmail.com>
+From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Thu, 6 Aug 2020 15:22:42 +0200
+Message-ID: <CACT4Y+Ye7j-scb-thp2ubORCoEnuJPHL7W6Wh_DLP_4cux-0SQ@mail.gmail.com>
+Subject: Re: Finally starting on short RCU grace periods, but...
+To: Marco Elver <elver@google.com>
+Cc: "Paul E. McKenney" <paulmck@kernel.org>, Kostya Serebryany <kcc@google.com>, 
+	LKML <linux-kernel@vger.kernel.org>, kasan-dev <kasan-dev@googlegroups.com>, 
+	Alexander Potapenko <glider@google.com>, Andrey Konovalov <andreyknvl@google.com>, 
+	"'Dmitry Vyukov' via syzkaller-upstream-moderation" <syzkaller-upstream-moderation@googlegroups.com>, 
+	Jann Horn <jannh@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <20200806113236.GZ2674@hirez.programming.kicks-ass.net>
-User-Agent: Mutt/1.14.4 (2020-06-18)
-X-Original-Sender: elver@google.com
+X-Original-Sender: dvyukov@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=kBP+hi0Q;       spf=pass
- (google.com: domain of elver@google.com designates 2a00:1450:4864:20::441 as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+ header.i=@google.com header.s=20161025 header.b="Mg6HboN/";       spf=pass
+ (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::841
+ as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
+ (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Dmitry Vyukov <dvyukov@google.com>
+Reply-To: Dmitry Vyukov <dvyukov@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -157,188 +132,74 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Aug 06, 2020 at 01:32PM +0200, peterz@infradead.org wrote:
-> On Thu, Aug 06, 2020 at 09:47:23AM +0200, Marco Elver wrote:
-> > Testing my hypothesis that raw then nested non-raw
-> > local_irq_save/restore() breaks IRQ state tracking -- see the reproducer
-> > below. This is at least 1 case I can think of that we're bound to hit.
-...
-> 
-> /me goes ponder things...
-> 
-> How's something like this then?
-> 
-> ---
->  include/linux/sched.h |  3 ---
->  kernel/kcsan/core.c   | 62 ++++++++++++++++++++++++++++++++++++---------------
->  2 files changed, 44 insertions(+), 21 deletions(-)
+On Thu, Aug 6, 2020 at 12:31 PM Marco Elver <elver@google.com> wrote:
+>
+> +Cc kasan-dev
+>
+> On Thu, 6 Aug 2020 at 01:08, Paul E. McKenney <paulmck@kernel.org> wrote:
+> >
+> > Hello!
+> >
+> > If I remember correctly, one of you asked for a way to shorten RCU
+> > grace periods so that KASAN would have a better chance of detecting bugs
+> > such as pointers being leaked out of RCU read-side critical sections.
+> > I am finally starting entering and testing code for this, but realized
+> > that I had forgotten a couple of things:
+> >
+> > 1.      I don't remember exactly who asked, but I suspect that it was
+> >         Kostya.  I am using his Reported-by as a placeholder for the
+> >         moment, but please let me know if this should be adjusted.
+>
+> It certainly was not me.
+>
+> > 2.      Although this work is necessary to detect situtions where
+> >         call_rcu() is used to initiate a grace period, there already
+> >         exists a way to make short grace periods that are initiated by
+> >         synchronize_rcu(), namely, the rcupdate.rcu_expedited kernel
+> >         boot parameter.  This will cause all calls to synchronize_rcu()
+> >         to act like synchronize_rcu_expedited(), resulting in about 2-3
+> >         orders of magnitude reduction in grace-period latency on small
+> >         systems (say 16 CPUs).
+> >
+> > In addition, I plan to make a few other adjustments that will
+> > increase the probability of KASAN spotting a pointer leak even in the
+> > rcupdate.rcu_expedited case.
+>
+> Thank you, that'll be useful I think.
+>
+> > But if you would like to start this sort of testing on current mainline,
+> > rcupdate.rcu_expedited is your friend!
 
-Thank you! That approach seems to pass syzbot (also with
-CONFIG_PARAVIRT) and kcsan-test tests.
+Hi Paul,
 
-I had to modify it some, so that report.c's use of the restore logic
-works and not mess up the IRQ trace printed on KCSAN reports (with
-CONFIG_KCSAN_VERBOSE).
+This is great!
 
-I still need to fully convince myself all is well now and we don't end
-up with more fixes. :-) If it passes further testing, I'll send it as a
-real patch (I want to add you as Co-developed-by, but would need your
-Signed-off-by for the code you pasted, I think.)
+I understand it's not a sufficiently challenging way of tracking
+things, but it's simply here ;)
+https://bugzilla.kernel.org/show_bug.cgi?id=208299
+(now we also know who asked for this, +Jann)
 
-Thanks,
--- Marco
+I've tested on the latest mainline and with rcupdate.rcu_expedited=1
+it boots to ssh successfully and I see:
+[    0.369258][    T0] All grace periods are expedited (rcu_expedited).
 
------- >8 ------
+I have created https://github.com/google/syzkaller/pull/2021 to enable
+it on syzbot.
+On syzbot we generally use only 2-4 CPUs per VM, so it should be even better.
 
-diff --git a/kernel/kcsan/core.c b/kernel/kcsan/core.c
-index 9147ff6a12e5..b1d5dca10aa5 100644
---- a/kernel/kcsan/core.c
-+++ b/kernel/kcsan/core.c
-@@ -4,6 +4,7 @@
- #include <linux/bug.h>
- #include <linux/delay.h>
- #include <linux/export.h>
-+#include <linux/ftrace.h>
- #include <linux/init.h>
- #include <linux/kernel.h>
- #include <linux/list.h>
-@@ -291,13 +292,28 @@ static inline unsigned int get_delay(void)
- 				0);
- }
- 
--void kcsan_save_irqtrace(struct task_struct *task)
--{
-+/*
-+ * KCSAN instrumentation is everywhere, which means we must treat the hooks
-+ * NMI-like for interrupt tracing. In order to present a 'normal' as possible
-+ * context to the code called by KCSAN when reporting errors we need to update
-+ * the IRQ-tracing state.
-+ *
-+ * Save and restore the IRQ state trace touched by KCSAN, since KCSAN's
-+ * runtime is entered for every memory access, and potentially useful
-+ * information is lost if dirtied by KCSAN.
-+ */
-+
-+struct kcsan_irq_state {
-+	unsigned long		flags;
- #ifdef CONFIG_TRACE_IRQFLAGS
--	task->kcsan_save_irqtrace = task->irqtrace;
-+	int			hardirqs;
- #endif
--}
-+};
- 
-+/*
-+ * This is also called by the reporting task for the other task, to generate the
-+ * right report with CONFIG_KCSAN_VERBOSE. No harm in restoring more than once.
-+ */
- void kcsan_restore_irqtrace(struct task_struct *task)
- {
- #ifdef CONFIG_TRACE_IRQFLAGS
-@@ -305,6 +321,34 @@ void kcsan_restore_irqtrace(struct task_struct *task)
- #endif
- }
- 
-+static void kcsan_irq_save(struct kcsan_irq_state *irq_state) {
-+#ifdef CONFIG_TRACE_IRQFLAGS
-+	current->kcsan_save_irqtrace = current->irqtrace;
-+	irq_state->hardirqs = lockdep_hardirqs_enabled();
-+#endif
-+	if (!kcsan_interrupt_watcher) {
-+		raw_local_irq_save(irq_state->flags);
-+		kcsan_disable_current(); /* Lockdep might WARN. */
-+		lockdep_hardirqs_off(CALLER_ADDR0);
-+		kcsan_enable_current();
-+	}
-+}
-+
-+static void kcsan_irq_restore(struct kcsan_irq_state *irq_state) {
-+	if (!kcsan_interrupt_watcher) {
-+#ifdef CONFIG_TRACE_IRQFLAGS
-+		if (irq_state->hardirqs) {
-+			kcsan_disable_current(); /* Lockdep might WARN. */
-+			lockdep_hardirqs_on_prepare(CALLER_ADDR0);
-+			lockdep_hardirqs_on(CALLER_ADDR0);
-+			kcsan_enable_current();
-+		}
-+#endif
-+		raw_local_irq_restore(irq_state->flags);
-+	}
-+	kcsan_restore_irqtrace(current);
-+}
-+
- /*
-  * Pull everything together: check_access() below contains the performance
-  * critical operations; the fast-path (including check_access) functions should
-@@ -350,11 +394,13 @@ static noinline void kcsan_found_watchpoint(const volatile void *ptr,
- 	flags = user_access_save();
- 
- 	if (consumed) {
--		kcsan_save_irqtrace(current);
-+		struct kcsan_irq_state irqstate;
-+
-+		kcsan_irq_save(&irqstate);
- 		kcsan_report(ptr, size, type, KCSAN_VALUE_CHANGE_MAYBE,
- 			     KCSAN_REPORT_CONSUMED_WATCHPOINT,
- 			     watchpoint - watchpoints);
--		kcsan_restore_irqtrace(current);
-+		kcsan_irq_restore(&irqstate);
- 	} else {
- 		/*
- 		 * The other thread may not print any diagnostics, as it has
-@@ -387,7 +433,7 @@ kcsan_setup_watchpoint(const volatile void *ptr, size_t size, int type)
- 	unsigned long access_mask;
- 	enum kcsan_value_change value_change = KCSAN_VALUE_CHANGE_MAYBE;
- 	unsigned long ua_flags = user_access_save();
--	unsigned long irq_flags = 0;
-+	struct kcsan_irq_state irqstate;
- 
- 	/*
- 	 * Always reset kcsan_skip counter in slow-path to avoid underflow; see
-@@ -412,14 +458,7 @@ kcsan_setup_watchpoint(const volatile void *ptr, size_t size, int type)
- 		goto out;
- 	}
- 
--	/*
--	 * Save and restore the IRQ state trace touched by KCSAN, since KCSAN's
--	 * runtime is entered for every memory access, and potentially useful
--	 * information is lost if dirtied by KCSAN.
--	 */
--	kcsan_save_irqtrace(current);
--	if (!kcsan_interrupt_watcher)
--		local_irq_save(irq_flags);
-+	kcsan_irq_save(&irqstate);
- 
- 	watchpoint = insert_watchpoint((unsigned long)ptr, size, is_write);
- 	if (watchpoint == NULL) {
-@@ -559,9 +598,7 @@ kcsan_setup_watchpoint(const volatile void *ptr, size_t size, int type)
- 	remove_watchpoint(watchpoint);
- 	kcsan_counter_dec(KCSAN_COUNTER_USED_WATCHPOINTS);
- out_unlock:
--	if (!kcsan_interrupt_watcher)
--		local_irq_restore(irq_flags);
--	kcsan_restore_irqtrace(current);
-+	kcsan_irq_restore(&irqstate);
- out:
- 	user_access_restore(ua_flags);
- }
-diff --git a/kernel/kcsan/kcsan.h b/kernel/kcsan/kcsan.h
-index 29480010dc30..6eb35a9514d8 100644
---- a/kernel/kcsan/kcsan.h
-+++ b/kernel/kcsan/kcsan.h
-@@ -24,9 +24,8 @@ extern unsigned int kcsan_udelay_interrupt;
- extern bool kcsan_enabled;
- 
- /*
-- * Save/restore IRQ flags state trace dirtied by KCSAN.
-+ * Restore IRQ flags state trace dirtied by KCSAN.
-  */
--void kcsan_save_irqtrace(struct task_struct *task);
- void kcsan_restore_irqtrace(struct task_struct *task);
- 
- /*
+> Do any of you remember some bugs we missed due to this? Can we find
+> them if we add this option?
+
+The problem is that it's hard to remember bugs that were not caught :)
+Here is an approximation of UAFs with free in rcu callback:
+https://groups.google.com/forum/#!searchin/syzkaller-bugs/KASAN$20use-after-free$20rcu_do_batch%7Csort:date
+The ones with low hit count are the ones that we almost did not catch.
+That's the best estimation I can think of. Also potentially we can get
+reproducers for such bugs without reproducers.
+Maybe we will be able to correlate some bugs/reproducers that appear
+soon with this change.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200806131702.GA3029162%40elver.google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BYe7j-scb-thp2ubORCoEnuJPHL7W6Wh_DLP_4cux-0SQ%40mail.gmail.com.
