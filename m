@@ -1,149 +1,128 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBB37BWX4QKGQESKXJ3HY@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBC7YWX4QKGQE4ZSOTOA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wr1-x43e.google.com (mail-wr1-x43e.google.com [IPv6:2a00:1450:4864:20::43e])
-	by mail.lfdr.de (Postfix) with ESMTPS id E53BF23EFE0
-	for <lists+kasan-dev@lfdr.de>; Fri,  7 Aug 2020 17:19:11 +0200 (CEST)
-Received: by mail-wr1-x43e.google.com with SMTP id t3sf863185wrr.5
-        for <lists+kasan-dev@lfdr.de>; Fri, 07 Aug 2020 08:19:11 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1596813551; cv=pass;
+Received: from mail-wm1-x33c.google.com (mail-wm1-x33c.google.com [IPv6:2a00:1450:4864:20::33c])
+	by mail.lfdr.de (Postfix) with ESMTPS id B597623F07B
+	for <lists+kasan-dev@lfdr.de>; Fri,  7 Aug 2020 18:06:35 +0200 (CEST)
+Received: by mail-wm1-x33c.google.com with SMTP id u68sf858591wmu.3
+        for <lists+kasan-dev@lfdr.de>; Fri, 07 Aug 2020 09:06:35 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1596816395; cv=pass;
         d=google.com; s=arc-20160816;
-        b=ukTkszLH4J46ybsvznFyuwHj1cPVNH+RTkY3FSta2G7kett4sphj0wRVWnCYYjg+l+
-         CldiFJziMkNSxCnK2xsTKvY2PxUlkgApso7eqAxcBje0GrTsKohXMXS++pbrvBEPFoko
-         lB8vy7LGx1NX6VLI92nhSq4TYXwFXDfNeSUp0fbSpJHZAB4gDZgfP+Kc8oPtML9eX8kp
-         4HFnvcJtK+1KDfVPSWlarqpl3Px+RIFwltPJzN4Xhv6ldQQXySlsXOHxCg7LB5BbP48I
-         wQyehB0v0TSK3emkBl/9DwKhx13tXDSGBuRrh0RapIBDbJIhXYqoIol1GByfW1FhmOCx
-         5DoQ==
+        b=f6w/uv04F43sYcS9pw2qeRiQ2o7mPK6KhaU4+lD+u3DWBfJL3Ec5zkkidR7W9itbr1
+         HtWaT1fMGTG0ePsKT5a+NvquPM/obzrTRa7EjYy2miLSIEqdAkd2TPlQM5dsasB/wiEq
+         wa9TRupU1EMRXKj4JEpoRildjzKJamWJeMYVGE+GPltiEg7/KcDi0BkcgHgqvrmM1MEf
+         p7Ya0qzGHuMC8/xbD9jZLUuPa7ScMwJaESf/jMpiMB8QyD8PiqYNI6SZ4/P5xfreMAD7
+         yX7jdrK0e/1v5pZC5r71G0iGr6LgXF+rH5ZkVmC1KqbJfQrTL/dYs0J1LvK8zFVVeSAW
+         6L/A==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:user-agent:in-reply-to
-         :content-transfer-encoding:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:dkim-signature;
-        bh=UWBieXcs9JNnDyo76oAMOWVqp8+Qavy2uqycuV/gABo=;
-        b=OKilOnRBllTkav1Xs4fzHeuP/z2wY7msdywl8VJbtbI6BqQmupr6Mf8b902iKL4/uE
-         6tY4Pj2ajtcEesJP1Cfaarkx2gCxdLMZ7FlOEz2LZS6/0b8m1k9oGkutRiDY/qgvsoYD
-         Tqy6QGyUmlb5wMro/7YJcM++n96riqtU7q5RxwQaqw6DGWGDdRUaLPCtb2yvqSKGFTY8
-         oMFagz0oodWPkQS4YkBv0CVlJ0GgSDZek9qxOVnN1VaHbhUUHxlb+F1bPsASphIp4VZh
-         FQjixvRguAVtWWoqc/OoEQZKLo2cXXbD8vRphMqwZ0RwtR6jXLHtc9aEltJqSkePQaaE
-         +V3g==
+         :list-id:mailing-list:precedence:reply-to:user-agent
+         :content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :dkim-signature;
+        bh=JFRggZ45JtChvaaIwCVE6TCtYagKdlg1dyTJiDx3Y7k=;
+        b=n+FL9UASOmfGY7BV2Ntp+7Zzfn74oAx/+jeOtuMydOQ0jbqplhI+D0LEdaJ3jWgypj
+         u5HQxDszd84Yp/3M9OA0Y1qHUFknSQ2t2+gP0Ektk57Kp4sz5JnrlMx1bCqxR2s1GA/A
+         M9U8wd8WJsp8gKuT1mN1EfZxh4mAHZDHR3/6YwyyOPw2IFko8rInKa7FpFM2fd5S7K/u
+         BEzSXWwoXPdWLD+VJk/PDsG6YQoF6wtdHn64ApkjcgJ20YVM5jyld/TtzEAghHNlwXXs
+         +0m19/c9Ic8k7Tb7QIDWjBnJDTnGi3G/v6WNYWi0dmpQ7ojbHJzZCSk9MXyGwkTkUFau
+         3paQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=TujP8TuZ;
-       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::443 as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=Pv653W5Z;
+       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::441 as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
          :user-agent:x-original-sender:x-original-authentication-results
          :reply-to:precedence:mailing-list:list-id:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=UWBieXcs9JNnDyo76oAMOWVqp8+Qavy2uqycuV/gABo=;
-        b=aSGtvG5HmdVTyMkTOqbM+Metdz2ASwxN79Q9FM8T+feHsMJgZFE/Z3D8mRaOW+8Y1L
-         ep/EncqCj/m/cahAuX0y2ykajpraG3mRVNoyzqFq/PuV9E4X51CPS4ygJO6HsulAX6iR
-         UxcaZVRjpxNRZhJcl4EwdUFqBzFb7/TUAYBUOlGtXQmCNOExBYyt650+QZHGpWQ0wvs+
-         Lg39fjPmuTnco4oyguFRQL64+XCKL3sxT+E5Y2NqbUqIH4TxTaWU/cYGOOjyQFBWmqTV
-         KjJUVSHZz4LteZPtk0rs6z9aQqtPVljPRPvpSPpcHCmBv3qqLAQNxnPxYE3kUuPHGXc6
-         8RbQ==
+        bh=JFRggZ45JtChvaaIwCVE6TCtYagKdlg1dyTJiDx3Y7k=;
+        b=GEybf/7gXd6YFmbK3eIBDG14nSdejtojaXzaKRnX1ZQz+xIe39qs/47VIyRWPMRR+Y
+         8eT5pf5EPiaMtaPjFpx6qwXvKAT98KpLcG6OkW1mW2ZG6hDfn/BfziA63jXDFUbj22xN
+         YKiZtGr+xiOzt5OmaOgN8+Ed3x+aK6E0cr8o/C1LGAxtFjS5VuaqO7E2QQUH2OkpY3du
+         k4RBW+GY5dNURIbvzDiWk0AuRtrw+DR00N/0o2LRBCXvjdgX2nAG0iK8QAEkjCdlf0da
+         a0xgVnvpqEoS8DDh6ozHMnla+Z9V2bryOFKepGgeaN8xGFQnqt6OIZDuXvSuLkknreGz
+         aXgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent:x-original-sender
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:user-agent:x-original-sender
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=UWBieXcs9JNnDyo76oAMOWVqp8+Qavy2uqycuV/gABo=;
-        b=YDAXF0uQ5ovKuwXo2DKV4mbWHHGW25ZObsAyhl7VAYpDD++rlKEhuZTK4x3JQMRNQW
-         eQTPrZatyVWGcu41gSz869+BJXTKI2n3PZmUkX+Spjnf4fnQWgYMK2Df8Po4sb9WAEri
-         FGfy1A2G8jXWieWRWx+ySH7KXcVBeB19DRPtXYSmEpZk9saCi12vmIWdya5hevnuIh1F
-         k8dQUfW5FlwXIq0CtDt0FBcQ2m8bwpNFCyilXhJK8cBf3CJKLP9FQrcfIuappsB+7vcA
-         Ic2NbnkHdGl74L+UwAPTyMv62fk1NN6T02Cuxc2McLKsbnqIX2Ulz75kCPb5C+9+9Dfs
-         Ydog==
-X-Gm-Message-State: AOAM533VLj/UAAF6IUYExa0Mv7jNQ090o4+C7QbiPKXmpmVuwqT3V9Rp
-	oB12xKonpkEazI7wjqhxGLQ=
-X-Google-Smtp-Source: ABdhPJzmWTOTh2gEC+xNzEmSMq4j/yuSO4EHoM4oUKWlp4JpN8kbgaiVmYUEJvWWOP2PEyWf8uau7A==
-X-Received: by 2002:a5d:618e:: with SMTP id j14mr13027512wru.374.1596813551547;
-        Fri, 07 Aug 2020 08:19:11 -0700 (PDT)
+        bh=JFRggZ45JtChvaaIwCVE6TCtYagKdlg1dyTJiDx3Y7k=;
+        b=NfrjUIjAdjT/tGgXQwwtXmnnMx/ZVTxEeaGV0XUHo/3nQV8/rtuBQe+oVaKMHy+Oq9
+         niU3FfNt9mWjJLMgg+D0P9y23bBox4wPwPGlb948JMeonSj6d9wflc530f2/fji6EbJN
+         g0Jd5uIG74KRPNbCsLbDsFMocJie03LgBouZTsEbX3xuMKyONy8/ry+70BzpnyLQqyku
+         3M2Zs7/fO10C7bSYh2XCvSUcxoNVX3UR+t64rW+bSiBEByCj9gsJopEkKgcMCUyji/J/
+         8JP8rLpWNpzL+ONwBIQVmA+IVv3e1CM3sSX82mUl0F0mpZal4nyiJkRDPKlOOLzGvCrE
+         FT9w==
+X-Gm-Message-State: AOAM532rmsPgCzFSBc8Q3x4L64m9WbScvEvkSPodFf+NK1sDMpjNE81v
+	8tYqfRj6kPVLaAOCjlkkfNs=
+X-Google-Smtp-Source: ABdhPJwQeW4HQ9o1KJSdyI2un6ZHYR9Nc6RVMU6O8L6THNl7tXXh3TOpzVARdKV3o1DlhE7uiUM4lw==
+X-Received: by 2002:adf:dfd0:: with SMTP id q16mr14024577wrn.60.1596816395421;
+        Fri, 07 Aug 2020 09:06:35 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:adf:81f4:: with SMTP id 107ls1115675wra.2.gmail; Fri, 07 Aug
- 2020 08:19:10 -0700 (PDT)
-X-Received: by 2002:a5d:4610:: with SMTP id t16mr13223173wrq.101.1596813550833;
-        Fri, 07 Aug 2020 08:19:10 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1596813550; cv=none;
+Received: by 2002:a1c:2049:: with SMTP id g70ls4721774wmg.0.gmail; Fri, 07 Aug
+ 2020 09:06:34 -0700 (PDT)
+X-Received: by 2002:a1c:e0d7:: with SMTP id x206mr14519209wmg.91.1596816394855;
+        Fri, 07 Aug 2020 09:06:34 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1596816394; cv=none;
         d=google.com; s=arc-20160816;
-        b=0tfR5hrXqkG6WpFH1iraQSL3kmpg9mMP7IsXQd5ubCeh7HQRMqRJzRCHqUhb0vr6Qy
-         QIMvQOdOicLXWFkWGO2FIdnH5LiBX/sZ1n+XahLS/DKS2o7izIKeU78zF3RhI5flKV+k
-         djqvUVBUX9m305MMKm+nqx4ZlF4/3FgukOU1q0m8TW7+LSGLKMeEsu3s8KNxcnRCFs0/
-         xUxhPvmFs38nk5CpFvKxf6oULgSv0P2bNZp8UpcojUxSouTKOSdlsRDhx814AnXEoMmf
-         PIWFt9kse0EMnpS7rHyZ0r9Kam3XFs4awM+40te6hispbYJnbDjl4O8ORucVcK2pi9Mt
-         nFVA==
+        b=v8UTmIKD9ITgtUmo9HyzEqDR/nKb6Tjvr/8+Scx0E/8w7YpKsbTdIK0SyfJxAsBU8v
+         dP+3XF8tlSov8ZZnLm/SQESIpYq81y7EYxfndXSPdjbfgc3BHQmT7d54IPzRjaIGF8+y
+         4AQayJE74DWKfA7XE92g10nOS9JjJStQfdGo//Y+XZeHNVThUPqOWNtZ7GI8nXNFFDMO
+         1Cnbxxrt+YesCxDQYX8+oSdp3eU1KiTTp9YSRfwg16wQJ0IKk+zpKXImFK78TatJQHvS
+         cQa+TA6EAvbzdMnOy+6W2Ri/JfOFozrR67a7xXfzRd0ik/QZdz60VPff0y4Fh8AP1CIq
+         P4nQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=user-agent:in-reply-to:content-transfer-encoding
-         :content-disposition:mime-version:references:message-id:subject:cc
+        h=user-agent:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:dkim-signature;
-        bh=jHwuEBD3ANfATNEay78Qrd/CFOLdfE4qFBZzKEVtZCA=;
-        b=ZVjce9F7tK9v67QuTz0/bGmyMpbRprRgh1QkuSqQ8yY/FjjvRGU92XRuvv9jdoVIFY
-         gEoosBIq0EvgNB4yw9fwvMIdT1sxZTxT/zhRQ4tBe0D4LItpf+8otsffHcmcmMhkKfX4
-         URZqC5626/dbaJ3Gmep7wg/NfQFjJhhzVy1XjnvOU1szP8RIJgrssFVTOHq7PprQ2bvo
-         wnhwIJXvHQAz5JMpa0w+gM2pbmY9grMdqPy/qzbIbdM1JClw/O9wUDpsjcl4bjjS22U1
-         i7PotACZx1/OMXb5EF4w46hb9QXBLZ1bM7N+/VspYyaOL/ZPL7auhurYxve/IoHWFvxW
-         nNpA==
+        bh=lB0exDTiK20r9BbG9hUJ8sI2xKN99bAKX09J/wOfYgY=;
+        b=r8sdmMy6ji3LLmRH8T5s6bkRnq7G6YDbuzxG5zC9enI8VlVduZoIn2M50584NBEuWq
+         a0xQZxQL3cL2LPuRmjG/WF1mE3MaDRzGU3SCIpSDXS1B3x8dkWW05coPs51b1NocpsTv
+         Iff/fBQTto7gCx42f2jO7ib75IQGiBiN69JX/Ei1/MkLtR+pK6xNO3hH4WVbMAz5gXmw
+         iHV85oapO6t0k/F6tTfiIDiPwsaJ+Yix0vymoaq6Hi/P5J6miwUfpm+vgnx0TzpDb/XE
+         hvWXA+uitcy3p4wGDrxLJW8mEtWHgthAU/eWl61auz+IupFeW+BXQL5RrAPnl7qYhGD7
+         EY0g==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=TujP8TuZ;
-       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::443 as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=Pv653W5Z;
+       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::441 as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com. [2a00:1450:4864:20::443])
-        by gmr-mx.google.com with ESMTPS id i11si500039wra.3.2020.08.07.08.19.10
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com. [2a00:1450:4864:20::441])
+        by gmr-mx.google.com with ESMTPS id m3si495935wme.0.2020.08.07.09.06.34
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 07 Aug 2020 08:19:10 -0700 (PDT)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::443 as permitted sender) client-ip=2a00:1450:4864:20::443;
-Received: by mail-wr1-x443.google.com with SMTP id a14so2020872wra.5
-        for <kasan-dev@googlegroups.com>; Fri, 07 Aug 2020 08:19:10 -0700 (PDT)
-X-Received: by 2002:a5d:4401:: with SMTP id z1mr12196021wrq.305.1596813550150;
-        Fri, 07 Aug 2020 08:19:10 -0700 (PDT)
+        Fri, 07 Aug 2020 09:06:34 -0700 (PDT)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::441 as permitted sender) client-ip=2a00:1450:4864:20::441;
+Received: by mail-wr1-x441.google.com with SMTP id r2so2149003wrs.8
+        for <kasan-dev@googlegroups.com>; Fri, 07 Aug 2020 09:06:34 -0700 (PDT)
+X-Received: by 2002:a5d:4a41:: with SMTP id v1mr13852053wrs.371.1596816394436;
+        Fri, 07 Aug 2020 09:06:34 -0700 (PDT)
 Received: from elver.google.com ([100.105.32.75])
-        by smtp.gmail.com with ESMTPSA id 111sm10899976wrc.53.2020.08.07.08.19.08
+        by smtp.gmail.com with ESMTPSA id t133sm18135689wmf.0.2020.08.07.09.06.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Aug 2020 08:19:08 -0700 (PDT)
-Date: Fri, 7 Aug 2020 17:19:03 +0200
+        Fri, 07 Aug 2020 09:06:33 -0700 (PDT)
+Date: Fri, 7 Aug 2020 18:06:27 +0200
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-To: =?iso-8859-1?Q?J=FCrgen_Gro=DF?= <jgross@suse.com>
-Cc: Peter Zijlstra <peterz@infradead.org>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, fenghua.yu@intel.com,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	LKML <linux-kernel@vger.kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	"Luck, Tony" <tony.luck@intel.com>,
-	the arch/x86 maintainers <x86@kernel.org>, yu-cheng.yu@intel.com,
-	sdeep@vmware.com, virtualization@lists.linux-foundation.org,
-	kasan-dev <kasan-dev@googlegroups.com>,
-	syzbot <syzbot+8db9e1ecde74e590a657@syzkaller.appspotmail.com>,
-	"Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH] x86/paravirt: Add missing noinstr to arch_local*()
- helpers
-Message-ID: <20200807151903.GA1263469@elver.google.com>
-References: <20200806113236.GZ2674@hirez.programming.kicks-ass.net>
- <20200806131702.GA3029162@elver.google.com>
- <CANpmjNNqt8YrCad4WqgCoXvH47pRXtSLpnTKhD8W8+UpoYJ+jQ@mail.gmail.com>
- <CANpmjNO860SHpNve+vaoAOgarU1SWy8o--tUWCqNhn82OLCiew@mail.gmail.com>
- <fe2bfa7f-132f-7581-a967-d01d58be1588@suse.com>
- <20200807095032.GA3528289@elver.google.com>
- <16671cf3-3885-eb06-79ff-4cbfaeeaea79@suse.com>
- <20200807113838.GA3547125@elver.google.com>
- <e5bf3e6a-efff-7170-5ee6-1798008393a2@suse.com>
- <CANpmjNPau_DEYadey9OL+iFZKEaUTqnFnyFs1dU12o00mg7ofA@mail.gmail.com>
+To: elver@google.com
+Cc: Alexander Potapenko <glider@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Rientjes <rientjes@google.com>,
+	Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+	Pekka Enberg <penberg@kernel.org>, Christoph Lameter <cl@linux.com>,
+	Kees Cook <keescook@chromium.org>, kasan-dev@googlegroups.com,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Subject: Odd-sized kmem_cache_alloc and slub_debug=Z
+Message-ID: <20200807160627.GA1420741@elver.google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <CANpmjNPau_DEYadey9OL+iFZKEaUTqnFnyFs1dU12o00mg7ofA@mail.gmail.com>
 User-Agent: Mutt/1.14.4 (2020-06-18)
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=TujP8TuZ;       spf=pass
- (google.com: domain of elver@google.com designates 2a00:1450:4864:20::443 as
+ header.i=@google.com header.s=20161025 header.b=Pv653W5Z;       spf=pass
+ (google.com: domain of elver@google.com designates 2a00:1450:4864:20::441 as
  permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
  sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Marco Elver <elver@google.com>
@@ -160,180 +139,71 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, Aug 07, 2020 at 02:08PM +0200, Marco Elver wrote:
-> On Fri, 7 Aug 2020 at 14:04, J=C3=BCrgen Gro=C3=9F <jgross@suse.com> wrot=
-e:
-> >
-> > On 07.08.20 13:38, Marco Elver wrote:
-> > > On Fri, Aug 07, 2020 at 12:35PM +0200, J=C3=BCrgen Gro=C3=9F wrote:
-> > >> On 07.08.20 11:50, Marco Elver wrote:
-> > >>> On Fri, Aug 07, 2020 at 11:24AM +0200, J=C3=BCrgen Gro=C3=9F wrote:
-> > >>>> On 07.08.20 11:01, Marco Elver wrote:
-> > >>>>> On Thu, 6 Aug 2020 at 18:06, Marco Elver <elver@google.com> wrote=
-:
-> > >>>>>> On Thu, 6 Aug 2020 at 15:17, Marco Elver <elver@google.com> wrot=
-e:
-> > >>>>>>> On Thu, Aug 06, 2020 at 01:32PM +0200, peterz@infradead.org wro=
-te:
-> > >>>>>>>> On Thu, Aug 06, 2020 at 09:47:23AM +0200, Marco Elver wrote:
-> > >>>>>>>>> Testing my hypothesis that raw then nested non-raw
-> > >>>>>>>>> local_irq_save/restore() breaks IRQ state tracking -- see the=
- reproducer
-> > >>>>>>>>> below. This is at least 1 case I can think of that we're boun=
-d to hit.
-> > >>>>>>> ...
-> > >>>>>>>>
-> > >>>>>>>> /me goes ponder things...
-> > >>>>>>>>
-> > >>>>>>>> How's something like this then?
-> > >>>>>>>>
-> > >>>>>>>> ---
-> > >>>>>>>>     include/linux/sched.h |  3 ---
-> > >>>>>>>>     kernel/kcsan/core.c   | 62 +++++++++++++++++++++++++++++++=
-+++++---------------
-> > >>>>>>>>     2 files changed, 44 insertions(+), 21 deletions(-)
-> > >>>>>>>
-> > >>>>>>> Thank you! That approach seems to pass syzbot (also with
-> > >>>>>>> CONFIG_PARAVIRT) and kcsan-test tests.
-> > >>>>>>>
-> > >>>>>>> I had to modify it some, so that report.c's use of the restore =
-logic
-> > >>>>>>> works and not mess up the IRQ trace printed on KCSAN reports (w=
-ith
-> > >>>>>>> CONFIG_KCSAN_VERBOSE).
-> > >>>>>>>
-> > >>>>>>> I still need to fully convince myself all is well now and we do=
-n't end
-> > >>>>>>> up with more fixes. :-) If it passes further testing, I'll send=
- it as a
-> > >>>>>>> real patch (I want to add you as Co-developed-by, but would nee=
-d your
-> > >>>>>>> Signed-off-by for the code you pasted, I think.)
-> > >>>>>
-> > >>>>> I let it run on syzbot through the night, and it's fine without
-> > >>>>> PARAVIRT (see below). I have sent the patch (need your Signed-off=
--by
-> > >>>>> as it's based on your code, thank you!):
-> > >>>>> https://lkml.kernel.org/r/20200807090031.3506555-1-elver@google.c=
-om
-> > >>>>>
-> > >>>>>> With CONFIG_PARAVIRT=3Dy (without the notrace->noinstr patch), I=
- still
-> > >>>>>> get lockdep DEBUG_LOCKS_WARN_ON(!lockdep_hardirqs_enabled()), al=
-though
-> > >>>>>> it takes longer for syzbot to hit them. But I think that's expec=
-ted
-> > >>>>>> because we can still get the recursion that I pointed out, and w=
-ill
-> > >>>>>> need that patch.
-> > >>>>>
-> > >>>>> Never mind, I get these warnings even if I don't turn on KCSAN
-> > >>>>> (CONFIG_KCSAN=3Dn). Something else is going on with PARAVIRT=3Dy =
-that
-> > >>>>> throws off IRQ state tracking. :-/
-> > >>>>
-> > >>>> What are the settings of CONFIG_PARAVIRT_XXL and
-> > >>>> CONFIG_PARAVIRT_SPINLOCKS in this case?
-> > >>>
-> > >>> I attached a config.
-> > >>>
-> > >>>     $> grep PARAVIRT .config
-> > >>>     CONFIG_PARAVIRT=3Dy
-> > >>>     CONFIG_PARAVIRT_XXL=3Dy
-> > >>>     # CONFIG_PARAVIRT_DEBUG is not set
-> > >>>     CONFIG_PARAVIRT_SPINLOCKS=3Dy
-> > >>>     # CONFIG_PARAVIRT_TIME_ACCOUNTING is not set
-> > >>>     CONFIG_PARAVIRT_CLOCK=3Dy
-> > >>
-> > >> Anything special I need to do to reproduce the problem? Or would you=
- be
-> > >> willing to do some more rounds with different config settings?
-> > >
-> > > I can only test it with syzkaller, but that probably doesn't help if =
-you
-> > > don't already have it set up. It can't seem to find a C reproducer.
-> > >
-> > > I did some more rounds with different configs.
-> > >
-> > >> I think CONFIG_PARAVIRT_XXL shouldn't matter, but I'm not completely
-> > >> sure about that. CONFIG_PARAVIRT_SPINLOCKS would be my primary suspe=
-ct.
-> > >
-> > > Yes, PARAVIRT_XXL doesn't make a different. When disabling
-> > > PARAVIRT_SPINLOCKS, however, the warnings go away.
-> >
-> > Thanks for testing!
-> >
-> > I take it you are doing the tests in a KVM guest?
->=20
-> Yes, correct.
->=20
-> > If so I have a gut feeling that the use of local_irq_save() and
-> > local_irq_restore() in kvm_wait() might be fishy. I might be completely
-> > wrong here, though.
->=20
-> Happy to help debug more, although I might need patches or pointers
-> what to play with.
->=20
-> > BTW, I think Xen's variant of pv spinlocks is fine (no playing with IRQ
-> > on/off).
-> >
-> > Hyper-V seems to do the same as KVM, and kicking another vcpu could be
-> > problematic as well, as it is just using IPI.
+Hi,
 
-I experimented a bit more, and the below patch seems to solve the
-warnings. However, that was based on your pointer about kvm_wait(), and
-I can't quite tell if it is the right solution.
+I found that the below debug-code using kmem_cache_alloc(), when using
+slub_debug=Z, results in the following crash:
 
-My hypothesis here is simply that kvm_wait() may be called in a place
-where we get the same case I mentioned to Peter,
+	general protection fault, probably for non-canonical address 0xcccccca41caea170: 0000 [#1] PREEMPT SMP PTI
+	CPU: 0 PID: 0 Comm: swapper/0 Not tainted 5.8.0+ #1
+	Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.13.0-1 04/01/2014
+	RIP: 0010:freelist_dereference mm/slub.c:272 [inline]
+	RIP: 0010:get_freepointer mm/slub.c:278 [inline]
+	RIP: 0010:deactivate_slab+0x54/0x460 mm/slub.c:2111
+	Code: 8b bc c7 e0 00 00 00 48 85 d2 0f 84 00 01 00 00 49 89 d5 31 c0 48 89 44 24 08 66 66 2e 0f 1f 84 00 00 00 00 00 90 44 8b 43 20 <4b> 8b 44 05 00 48 85 c0 0f 84 1e 01 00 00 4c 89 ed 49 89 c5 8b 43
+	RSP: 0000:ffffffffa7e03e18 EFLAGS: 00010046
+	RAX: 0000000000000000 RBX: ffffa3a41c972340 RCX: 0000000000000000
+	RDX: cccccca41caea160 RSI: ffffe7c6a072ba80 RDI: ffffa3a41c972340
+	RBP: ffffa3a41caea008 R08: 0000000000000010 R09: ffffa3a41caea01d
+	R10: ffffffffa7f8dc50 R11: ffffffffa68f44c0 R12: ffffa3a41c972340
+	R13: cccccca41caea160 R14: ffffe7c6a072ba80 R15: ffffa3a41c96d540
+	FS:  0000000000000000(0000) GS:ffffa3a41fc00000(0000) knlGS:0000000000000000
+	CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+	CR2: ffffa3a051c01000 CR3: 000000045140a001 CR4: 0000000000770ef0
+	DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+	DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+	PKRU: 00000000
+	Call Trace:
+	 ___slab_alloc+0x336/0x340 mm/slub.c:2690
+	 __slab_alloc mm/slub.c:2714 [inline]
+	 slab_alloc_node mm/slub.c:2788 [inline]
+	 slab_alloc mm/slub.c:2832 [inline]
+	 kmem_cache_alloc+0x135/0x200 mm/slub.c:2837
+	 start_kernel+0x3d6/0x44e init/main.c:1049
+	 secondary_startup_64+0xb6/0xc0 arch/x86/kernel/head_64.S:243
 
-	raw_local_irq_save(); /* or other IRQs off without tracing */
-	...
-	kvm_wait() /* IRQ state tracing gets confused */
-	...
-	raw_local_irq_restore();
+Any ideas what might be wrong?
 
-and therefore, using raw variants in kvm_wait() works. It's also safe
-because it doesn't call any other libraries that would result in corrupt
-IRQ state AFAIK.
+This does not crash when redzones are not enabled.
 
 Thanks,
 -- Marco
 
 ------ >8 ------
 
-diff --git a/arch/x86/kernel/kvm.c b/arch/x86/kernel/kvm.c
-index 233c77d056c9..1d412d1466f0 100644
---- a/arch/x86/kernel/kvm.c
-+++ b/arch/x86/kernel/kvm.c
-@@ -797,7 +797,7 @@ static void kvm_wait(u8 *ptr, u8 val)
- 	if (in_nmi())
- 		return;
-=20
--	local_irq_save(flags);
-+	raw_local_irq_save(flags);
-=20
- 	if (READ_ONCE(*ptr) !=3D val)
- 		goto out;
-@@ -810,10 +810,10 @@ static void kvm_wait(u8 *ptr, u8 val)
- 	if (arch_irqs_disabled_flags(flags))
- 		halt();
- 	else
--		safe_halt();
-+		raw_safe_halt();
-=20
- out:
--	local_irq_restore(flags);
-+	raw_local_irq_restore(flags);
- }
-=20
- #ifdef CONFIG_X86_32
+diff --git a/init/main.c b/init/main.c
+index 15bd0efff3df..f4aa5bb3f2ec 100644
+--- a/init/main.c
++++ b/init/main.c
+@@ -1041,6 +1041,16 @@ asmlinkage __visible void __init start_kernel(void)
+ 	sfi_init_late();
+ 	kcsan_init();
+ 
++	/* DEBUG CODE */
++	{
++		struct kmem_cache *c = kmem_cache_create("test", 21, 1, 0, NULL);
++		char *buf;
++		BUG_ON(!c);
++		buf = kmem_cache_alloc(c, GFP_KERNEL);
++		kmem_cache_free(c, buf);
++		kmem_cache_destroy(c);
++	}
++
+ 	/* Do the rest non-__init'ed, we're now alive */
+ 	arch_call_rest_init();
+ 
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/20200807151903.GA1263469%40elver.google.com.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200807160627.GA1420741%40elver.google.com.
