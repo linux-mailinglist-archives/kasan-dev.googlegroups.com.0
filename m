@@ -1,129 +1,169 @@
-Return-Path: <kasan-dev+bncBC6OLHHDVUOBBD5XXD4QKGQERH6AQIY@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBIHBXX4QKGQEENMTZ7I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x23d.google.com (mail-lj1-x23d.google.com [IPv6:2a00:1450:4864:20::23d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C06C23F625
-	for <lists+kasan-dev@lfdr.de>; Sat,  8 Aug 2020 05:27:12 +0200 (CEST)
-Received: by mail-lj1-x23d.google.com with SMTP id a12sf758288ljn.12
-        for <lists+kasan-dev@lfdr.de>; Fri, 07 Aug 2020 20:27:12 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1596857232; cv=pass;
+Received: from mail-lf1-x13a.google.com (mail-lf1-x13a.google.com [IPv6:2a00:1450:4864:20::13a])
+	by mail.lfdr.de (Postfix) with ESMTPS id A850D23FC4F
+	for <lists+kasan-dev@lfdr.de>; Sun,  9 Aug 2020 05:42:24 +0200 (CEST)
+Received: by mail-lf1-x13a.google.com with SMTP id o9sf1906332lfi.23
+        for <lists+kasan-dev@lfdr.de>; Sat, 08 Aug 2020 20:42:24 -0700 (PDT)
+ARC-Seal: i=3; a=rsa-sha256; t=1596944544; cv=pass;
         d=google.com; s=arc-20160816;
-        b=Tx1BQCbhr3rgtP7AycDOxiB0H6MYotZXhB2NJ6kJINysOStHROvT01t/sB0uCEYhub
-         kI+1dnUGaiE2GOFZoVJrpVnr3kfeR/PJwhYfCDXhjRllgWqTG6dq3QNA2WiODaX6l1rc
-         pEyMTAjZ9XXKcjbmkvNUvaJJgKIHVLV5mlV+8XA9CQKB9kknpwlu/LHikpI73z83J9WC
-         /XwY0mGVyHM8IAtlvVK2MyCD87+S/3tvF85O+KZoRjPaB2tzkpakmBHICWXV/wgzuBRB
-         /a9sZwML6w6u5c8iwQi4le1h2XFjE3SzHyyMsg8QWwZX4of2+VFk3+5s94i3pDLJ5pp6
-         YIsg==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        b=Q5pBqARzH3ZfZx6pF5BpwXKY85fUkbrQIc4EC2XwtPiZ1YRo0kwcMEZxM49TcaBwb7
+         h28vyr8zqKQtPcdBorwVIvW1a7GBGH9v+M3GTXhdq/KANUJPL3m3r+zra4x/J7Cal3ka
+         39wg4l98mLn8XL+2eB77TDuZppWuxi/xShewmadygdbP2AblQBaJgx2wZH7GGTSFbpS/
+         qamSTde3O2VOg17M1TI4BQxxJvq8imMkehBVZdbo05KGIyiJXRWCBowpFHn5C4MJBmMk
+         QszLuQSJFbcM+WuVS9MflcK2ty9+KL2YdBgFWptSQe8ekZxE/DMs0SgTpZ/HqxmoGUrG
+         dvHw==
+ARC-Message-Signature: i=3; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=1W57spunnfxJBn1STRIYo+ZOHhKUh0DkeYrVyKN+waw=;
-        b=SjKPXxP780KWdMa8tS+qQFH27ZzfGaqD3HHYQ57PpwH7LJtLigSDQyGgP3loZOdLiV
-         sGT0Xexal7C7X/6Iq3UEyIKlYfL18fIoxRjLXM5UpFwA+STViyjsK4zBltTAv1Lalt7k
-         agKFFkhxbxrzu4yPA5I7yoNq6fkOC7K+PhHjTKf+VMPVR9LyMO8xJAkQR6piW+Ox7W9e
-         72hA1Yt2Ooei8PeAryAkyvw9VsATEGT8ZSk6dsoR67LbsdaYkEZ/+6MhKGDKxjRmckJ7
-         HUKXlHf9LNZWFXJ4OnLNWed2q18+9asyo/xSGMd0/uaA+FJ+vXM5zhZbS1MuyX5fRtjU
-         UzJw==
-ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=mYnRitoD;
-       spf=pass (google.com: domain of davidgow@google.com designates 2a00:1450:4864:20::344 as permitted sender) smtp.mailfrom=davidgow@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+         :list-id:mailing-list:precedence:mime-version:content-language
+         :accept-language:message-id:date:thread-index:thread-topic:subject
+         :from:sender:dkim-signature;
+        bh=3MKP8BzLyucMn4XCqBs7k2RobJecDshayRjzMAwlqo8=;
+        b=ISG5H87w+wFQbn2qx6AZQFaUl0b+3P8omu2CgCAQ8Z3K7RnFvRxDqZ0CX9BdszPQbH
+         k1q2XEwArNY63yQbPlWHrsMoR6atCNSwV2vOo+62TU7w5D4LH4wfz6J9HBCo0R+b9G3a
+         3ZmmvxZEVm4imeE4Gca8DFKwFqb4kzjRtNnlUqLvU1QVEPWwwrLiwIB/2GfkE4N5UxVH
+         kuecaZ15WQoApv9NDAHW7jzM4vgZb7C8ZJqIo2moKvuYFy+t5pw9W1OMLZ8y56ytMVdp
+         6aHbTqZtGgLO6M4FKlbUTrC6TLb06v099QzQFf9AxCmykw7Kr2nioYzoEwPnd/bj6GH0
+         KvAQ==
+ARC-Authentication-Results: i=3; gmr-mx.google.com;
+       dkim=pass header.i=@hotmail.com header.s=selector1 header.b=pHwG3zdX;
+       arc=pass (i=1);
+       spf=pass (google.com: domain of patrickmmgomez63@hotmail.com designates 40.92.91.27 as permitted sender) smtp.mailfrom=patrickmmgomez63@hotmail.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=hotmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=1W57spunnfxJBn1STRIYo+ZOHhKUh0DkeYrVyKN+waw=;
-        b=LyApqX9D9VJ2OorQRCJltj/mdj3ESUoZJo2qAeeABpCfo+5RW1Tz2Ox/+5PdktG73g
-         2Mm26RRP/OY5gHT+aY2l57odhIb2Tvtmu2CZHe+ly9QceTz9PRTXbaqUODNu1JpPd9SV
-         QuEkDqkziTw3NOumA5q6nn908XyrG+xvYBHS6M1Om+ltvyB/bfeUeD161105qMs93eK9
-         hMhk4yvrtCu7BzHMsmnym9dvrMwQJwFUP6cxpa4i7HmewzGgdmZuTfDZ05IZsNPNgPSs
-         MSZ9oQ/6l7ZDlIk3O89+bVIiz4hJAM+lW16S2gPB+UVoLd5C5vJs00s36jvDbZzzIpAe
-         HZQQ==
+        h=sender:from:subject:thread-topic:thread-index:date:message-id
+         :accept-language:content-language:mime-version:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=3MKP8BzLyucMn4XCqBs7k2RobJecDshayRjzMAwlqo8=;
+        b=fRxsJ6auEEtmSLTZCnHINt1HfEADREqKg6H3aAFMu2+aLrd6ychmWWM7XgjqnIKRFW
+         CxuZSUyrQixjTzzYSV4YIK+yxVR0kM9mNk3bRq7mB2SC8RlCAaHp6ZYOydDoEZEWPbCj
+         OCEKir9Gu6bQKZGOdXf1asO29Br+InZk7KLh3EWEYX+zYG6m3lBMQ1q5rCOvumHysfl8
+         QTFiLyQOCQP3YEQbcRFZ70mc/rR5C1gfjl7KjGnYLsz2cowT1zFc7f7ZjvbCHSwB1MUb
+         2DKE9Co4aBF/Yf/pP9y0ZexHM3l5+rcCK0DWdle/gWbUe525JIR5LIXsZ2cay3vpyezV
+         1nZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=1W57spunnfxJBn1STRIYo+ZOHhKUh0DkeYrVyKN+waw=;
-        b=qU6zWPKXgUBOFn/t9wRZMYn3LCNWHgmBMRcpLUDiUrnsSKNsuHOS3M4mE6MNNDIiJM
-         IyZwAPNWvGdiIsVasYAOy4ys3UsgJGxzlXLKwQOeLiI94rIqP7TVT88TDZgGKbVZKoJG
-         WYJV6oLVGFRwVUbJ03lKjEBbP5WHmxCzIbbk8gq6VEZPm9ei/Kqm2Qi4PQ2TpCPveYMJ
-         iQ8Mnlzey9wPHmtD1ReFryzyqc7TGnTbAuHdGSMWm6loh5+VPRbc4wVne5pfw6Trnlg4
-         aEBRtr8GihtwMNGWt1BluHBdyuVTSzeotjSbk8O+GPQaUuLQRYC7Fxc4M7ktrPDM9rIS
-         l4lg==
-X-Gm-Message-State: AOAM5309KBUb5ShZ8LKM+9W66nLxPgP7NhRbbVLIXDuNBxVK4qPDcp5x
-	+D5XaNsjhNoOhcoygq9iZ2U=
-X-Google-Smtp-Source: ABdhPJwVUkDiro3Slwvsf/LQfnjfmvGB430ByRZyep6djRVLBfVbTL9oe3uMdyPVWisKdVJyaqp/pA==
-X-Received: by 2002:a2e:9d8e:: with SMTP id c14mr7928615ljj.332.1596857231857;
-        Fri, 07 Aug 2020 20:27:11 -0700 (PDT)
+        h=sender:x-gm-message-state:from:subject:thread-topic:thread-index
+         :date:message-id:accept-language:content-language:mime-version
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=3MKP8BzLyucMn4XCqBs7k2RobJecDshayRjzMAwlqo8=;
+        b=mX5FgxWkpLdmYo2lezI5KRDl14W8L1WO3sQGTtZPe6KK3TELjf4CMd4TJt+7osl5dr
+         2q/hqUcUh6CDsPWsQokHU5c8qI4tCL3rD/giB04tX2nqYtA/fV/cYXx2YTdbNgrzgTLm
+         838UmIatLccXFPCiTwkHLxVMlgcQx3eVMfRevvwzb5vL1xMKfFKP1fGIbIaWQEcDIeGs
+         sc3bo4HbSetFNKNKZ40anrejhU8mmC/r7JpN3A2Ak5Qyig8tphPMR7yinFU/mo1ib0Rd
+         HjuURoXMmS20pmQ4RHXDitW9GjIY8wvYNMnZlDMo8oxXopVOvI0DKVZ6AMEgiyCsVQp3
+         61/Q==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM530V1wpETVQPn5IjkqoWTlDodwehou3HT8tLiSj1SbntWOxxv6fH
+	OSHL/Vqi+zLeWtx04wm6UNs=
+X-Google-Smtp-Source: ABdhPJzyLdPg0XComPuHKoGmsCW3eeYAletBXtTxckWoHDUimmqbebXeSt0RXxJJJD/UWO4fY5gs5A==
+X-Received: by 2002:a2e:990c:: with SMTP id v12mr4782449lji.449.1596944544113;
+        Sat, 08 Aug 2020 20:42:24 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:651c:1182:: with SMTP id w2ls460958ljo.2.gmail; Fri, 07
- Aug 2020 20:27:11 -0700 (PDT)
-X-Received: by 2002:a05:651c:204f:: with SMTP id t15mr8235389ljo.308.1596857231032;
-        Fri, 07 Aug 2020 20:27:11 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1596857231; cv=none;
+Received: by 2002:a2e:6c18:: with SMTP id h24ls776477ljc.6.gmail; Sat, 08 Aug
+ 2020 20:42:23 -0700 (PDT)
+X-Received: by 2002:a05:651c:d0:: with SMTP id 16mr9800641ljr.313.1596944543752;
+        Sat, 08 Aug 2020 20:42:23 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1596944543; cv=pass;
         d=google.com; s=arc-20160816;
-        b=UG+u2jus3Z3HCs6Iy5IBVGm+8o4AfBBgNvb3NmxP/Okc9scCSuqftqRZmxW861GRk1
-         M/YisBIzhX0Wuas8eTsVz5ZDUn69yEjNWsWRZHwFqlv18JhVedRZj20qB+CZRHMrEUY+
-         TTtjINe7UMK0nf4V1YpzUmmt8Qo6/gVTM65jfz8S374lfXK66qBMQ+82nKL8sfzYWQCW
-         DfSNYZDJunbSqJZD6ZDcpVjN/uOi04lmHv7SMxnvcasv580DmbaXdzb17dCE7pkYbkqz
-         LWta+A0tV9o/HPZwk1E6L4rCA7+zGotaNStFmsmQ//dCztAVsKu9kKqop9DkbWRvXXo6
-         Ct1w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=I0+G3ptAFziJUCT/18IT+zTZUcvz/66QmwQnq2ejpjY=;
-        b=wR70r30rHcvpPpGbOaTSfpFW1dyoOmsH3Gj2savfbN4DWqFMv+IGQBF9hkraO1Mr0v
-         f1ezvxXlrqvf/BsratlaQ1fPkOPHkxOuqB7FTragaI9nbpGUBRR+xJ1eyclwRYH+qTL8
-         ZFwGbysiMevilCwt7U0bccv+T62KlJxWFlTK6FY1enEw8vxlklqYXnmLQb7We39OoHVo
-         2N4c047Ua1l0G1HSAM4YB/wdsWi54R23nhhxuZ1Owdus8if16QBUgpoliv1Wz/9nPJ6e
-         MfuDmRTxdyLekIlky4qQyEu8ey1Ef1hosnwRavAJaX/QogScE3HMmvgq+hhPwnuxV3g/
-         agRA==
-ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=mYnRitoD;
-       spf=pass (google.com: domain of davidgow@google.com designates 2a00:1450:4864:20::344 as permitted sender) smtp.mailfrom=davidgow@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com. [2a00:1450:4864:20::344])
-        by gmr-mx.google.com with ESMTPS id z22si385922lfd.1.2020.08.07.20.27.11
+        b=B6U3urGpryj5mpU/TqHBKpahXR47ojVTR++LuWyoMxYIBE7IZnx/n9rm+ykH6hio0L
+         Aca/MA9akCcYlKiaIjVWXY6yM09scg1XPphKJG0gKkhrGnLJdT0Oy6+8EXBpp9l2TDDy
+         F+gtlfm9VjCuUQTtWqeE6k9dd5YBSmTpAeSPusrvJKsh4kfb3VbhJ29DqqW5t2kHQJ3M
+         k6RA/+pnZnVCoTgeqbjKG4xYMV7O++t13k0/sc1Y/jKOQnU9CIWGM1uAGwtNe0xdEW8q
+         FgFdpvazfHdrK8YBrGtwHBQsUckBPNNvSIy3S3va7zqNihXRXNnJhkHjv2z5K6YeSseu
+         gc9A==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=mime-version:content-language:accept-language:message-id:date
+         :thread-index:thread-topic:subject:from:dkim-signature;
+        bh=ZZVgqPRdHa3mYC6h77JNf5U8WJjmc6pLcloPrHOl+M0=;
+        b=lY8x/6uYJmjmHVGp0TzQP+c0Ow3O/l+LMlwIldnNs+enUHIZ1qKDJWB56l5t4Z5fJp
+         ZypEgIle+npc0WP4pj/O1krEAcbhNk0hQ86FhrIy6YndmDvq8IjYf5odi69IZrcfRRv+
+         CSuLHzdS6C/NbAtAZ3Y0wMjuCcARj2TJhV5TEboJCrYhYKAVkm2SRyEQfIKB2GOy2DIW
+         d0m7D/loDGeoOyyHOEI5Z54OMHjZ0cIlDi5H493l15DXk3FX3NEh2P7R0YD2CddYvASa
+         SFvkkuNML3oZNaYHwxchihmjQc4B9ts/6LVyQ3hBquwdcJbv+yHPbPEBFX1W6kIjjzrP
+         7H6g==
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@hotmail.com header.s=selector1 header.b=pHwG3zdX;
+       arc=pass (i=1);
+       spf=pass (google.com: domain of patrickmmgomez63@hotmail.com designates 40.92.91.27 as permitted sender) smtp.mailfrom=patrickmmgomez63@hotmail.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=hotmail.com
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (mail-am6eur05olkn2027.outbound.protection.outlook.com. [40.92.91.27])
+        by gmr-mx.google.com with ESMTPS id f16si367733ljk.5.2020.08.08.20.42.23
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 07 Aug 2020 20:27:11 -0700 (PDT)
-Received-SPF: pass (google.com: domain of davidgow@google.com designates 2a00:1450:4864:20::344 as permitted sender) client-ip=2a00:1450:4864:20::344;
-Received: by mail-wm1-x344.google.com with SMTP id c80so3252704wme.0
-        for <kasan-dev@googlegroups.com>; Fri, 07 Aug 2020 20:27:10 -0700 (PDT)
-X-Received: by 2002:a1c:2485:: with SMTP id k127mr14768659wmk.138.1596857230126;
- Fri, 07 Aug 2020 20:27:10 -0700 (PDT)
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Sat, 08 Aug 2020 20:42:23 -0700 (PDT)
+Received-SPF: pass (google.com: domain of patrickmmgomez63@hotmail.com designates 40.92.91.27 as permitted sender) client-ip=40.92.91.27;
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=j8uJRlQSiZgP2dg8S4w98M4Z0IzIfyD8NoMuVUIqD2mwNvRK46JgDDIeqddcPS4d8KuR9NfXPxyzLVKocs7qk6i5mIrxYmN8MIRmJYFTIpIa5APDP1iyA8RaHBhDevFFcfunaKvxEufU6UT7R3XR/x+GIKClwjt3OeTlAjHhQxm8tSv4tWu+MKSGjN6oH8WDUNsf+6d0tM10GZojHnsiChH+j+VFgaHxTDInQ1Dk/nsSwXgLwEravPS2pKC+eCNploSvODFDo/mM8V9xOveGNfJz3pW8VGsBvbBU6psY+yjFPn/SooYzeUAHXTEKqYSY/yP2H0u7/W+HN8B6fyYOJQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZZVgqPRdHa3mYC6h77JNf5U8WJjmc6pLcloPrHOl+M0=;
+ b=m79eWDj4bJE9l+JPP5rWcjalfBEjPUEoKKPZuWPKmLsep/DxOGHZl+QLOmpa/gdnAc0AubvX4UBz9uNSNRE4dEv8c4rI0Ri+HNRUOa34agbrtwrYi0MgFHjKfGkjgtr55wIAZ5jI6c0ko82mZ1AppqohO4UnMQtrVm0ggDm/UVd5oV5Xwin+3WzzeqHRCb+C0gkFQJgmeOhJ1M1ud5qczJfS8CvTlzOArRnk1pWUvbp+m0UlePqcJ/B33zyiI/G+EJ8y8T3ETR1ZRp5yFRkk5OJUesGMQpgiW8unsVYjmSqloGQODIgHwV+UZXXA03Ijq9plITybtBe0UQ8u8mgcLQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+Received: from VI1EUR05FT008.eop-eur05.prod.protection.outlook.com
+ (2a01:111:e400:fc12::43) by
+ VI1EUR05HT043.eop-eur05.prod.protection.outlook.com (2a01:111:e400:fc12::280)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3261.16; Sun, 9 Aug
+ 2020 03:42:21 +0000
+Received: from AM4PR0202MB2962.eurprd02.prod.outlook.com
+ (2a01:111:e400:fc12::52) by VI1EUR05FT008.mail.protection.outlook.com
+ (2a01:111:e400:fc12::437) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3261.16 via Frontend
+ Transport; Sun, 9 Aug 2020 03:42:21 +0000
+Received: from AM4PR0202MB2962.eurprd02.prod.outlook.com
+ ([fe80::a03b:db92:1e25:20f1]) by AM4PR0202MB2962.eurprd02.prod.outlook.com
+ ([fe80::a03b:db92:1e25:20f1%6]) with mapi id 15.20.3261.022; Sun, 9 Aug 2020
+ 03:42:21 +0000
+From: Patrick M Gomez <patrickmmgomez63@hotmail.com>
+Subject: Re
+Thread-Topic: Re
+Thread-Index: AQHWbf8WYJJPl+uBuUeJP8wXY9ucFA==
+Date: Sun, 9 Aug 2020 03:42:20 +0000
+Message-ID: <AM4PR0202MB2962B44030A5937F363BCA03C6470@AM4PR0202MB2962.eurprd02.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-incomingtopheadermarker: OriginalChecksum:56E1FC2206B9EECC82B96AE8744A21D1FC7E155AB86DB577BB2E9E23AE4A9F92;UpperCasedChecksum:43AC20586C5CCE4CD52333AB8A8E02668D714A2F02246008D5BE1EFCB51C533D;SizeAsReceived:9046;Count:40
+x-tmn: [zZUWOi8sqqAAE2sgPyu3dAzVNUvMn0bF]
+x-ms-publictraffictype: Email
+x-incomingheadercount: 40
+x-eopattributedmessage: 0
+x-ms-office365-filtering-correlation-id: 7789c1e2-429f-4d22-0e8c-08d83c1638b4
+x-ms-traffictypediagnostic: VI1EUR05HT043:
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: W8cpyeUODPUBBQpRh7efs+PBf9Clen8o02deT8Tse/q0TzxeKw0AULTizvn68PiHfql0Tn/JGpCS3JgrRMjr0Bs9+3NWP0Ks7VBnX9RB1f4o+GjQ4Ai+ZMTrhou+zojs7Nn1Ws3Fb8w1zWoDSWiFZDYbvEh4l78xRJiEs2KLYCUTi5BFifgw0De4KjIq+aTobdisO9K09ft6TtGWaRHfMg==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:0;SRV:;IPV:NLI;SFV:NSPM;H:AM4PR0202MB2962.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:;DIR:OUT;SFP:1901;
+x-ms-exchange-antispam-messagedata: PA3/kMCHsXbOhzEsXzGJpROSXum0vbPSNPRA8/PUFFUVAxFjGlLwO0zVXoQJxa3qHasGZWPlMyRx+tZRAx/rT6siOZA/aqZXDvHO70eUavi3seOWN8+C79cAIv0bu33/a8UepnQqZNj9HlyAVaHIgw==
+x-ms-exchange-transport-forked: True
+Content-Type: multipart/alternative;
+	boundary="_000_AM4PR0202MB2962B44030A5937F363BCA03C6470AM4PR0202MB2962_"
 MIME-Version: 1.0
-References: <20200805042938.2961494-1-davidgow@google.com> <CAAeHK+wPt46879AnV3n3d7+JZqkv2Vo652OPBAjHcuyru56h9w@mail.gmail.com>
-In-Reply-To: <CAAeHK+wPt46879AnV3n3d7+JZqkv2Vo652OPBAjHcuyru56h9w@mail.gmail.com>
-From: "'David Gow' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Sat, 8 Aug 2020 11:26:58 +0800
-Message-ID: <CABVgOSmveFxFq-Kvtq9+EQa61ko-wQ4CTJ2WCfJWbjUWzBaQrg@mail.gmail.com>
-Subject: Re: [PATCH v11 0/6] KASAN-KUnit Integration
-To: Andrey Konovalov <andreyknvl@google.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Patricia Alfonso <trishalfonso@google.com>, 
-	Brendan Higgins <brendanhiggins@google.com>, Andrey Ryabinin <aryabinin@virtuozzo.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, Ingo Molnar <mingo@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>, 
-	Vincent Guittot <vincent.guittot@linaro.org>, Shuah Khan <shuah@kernel.org>, 
-	LKML <linux-kernel@vger.kernel.org>, kasan-dev <kasan-dev@googlegroups.com>, 
-	KUnit Development <kunit-dev@googlegroups.com>, 
-	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>, 
-	Linux Memory Management List <linux-mm@kvack.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: davidgow@google.com
+X-OriginatorOrg: hotmail.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-AuthSource: VI1EUR05FT008.eop-eur05.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7789c1e2-429f-4d22-0e8c-08d83c1638b4
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Aug 2020 03:42:21.0047
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Internet
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1EUR05HT043
+X-Original-Sender: patrickmmgomez63@hotmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=mYnRitoD;       spf=pass
- (google.com: domain of davidgow@google.com designates 2a00:1450:4864:20::344
- as permitted sender) smtp.mailfrom=davidgow@google.com;       dmarc=pass
- (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: David Gow <davidgow@google.com>
-Reply-To: David Gow <davidgow@google.com>
+ header.i=@hotmail.com header.s=selector1 header.b=pHwG3zdX;       arc=pass
+ (i=1);       spf=pass (google.com: domain of patrickmmgomez63@hotmail.com
+ designates 40.92.91.27 as permitted sender) smtp.mailfrom=patrickmmgomez63@hotmail.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=hotmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -136,188 +176,47 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, Aug 7, 2020 at 9:15 PM 'Andrey Konovalov' via kasan-dev
-<kasan-dev@googlegroups.com> wrote:
->
-> On Wed, Aug 5, 2020 at 6:29 AM David Gow <davidgow@google.com> wrote:
-> >
-> > This patchset contains everything needed to integrate KASAN and KUnit.
-> >
-> > KUnit will be able to:
-> > (1) Fail tests when an unexpected KASAN error occurs
-> > (2) Pass tests when an expected KASAN error occurs
-> >
-> > Convert KASAN tests to KUnit with the exception of copy_user_test
-> > because KUnit is unable to test those.
-> >
-> > Add documentation on how to run the KASAN tests with KUnit and what to
-> > expect when running these tests.
-> >
-> > This patchset depends on:
-> > - "kunit: extend kunit resources API" [1]
-> >  - This is included in the KUnit 5.9-rci pull request[8]
-> >
-> > I'd _really_ like to get this into 5.9 if possible: we also have some
-> > other changes which depend on some things here.
->
-> Found a small issue in patch #3, but otherwise:
->
-> Tested-by: Andrey Konovalov <andreyknvl@google.com>
->
-> for the series.
+--_000_AM4PR0202MB2962B44030A5937F363BCA03C6470AM4PR0202MB2962_
+Content-Type: text/plain; charset="UTF-8"
 
-Cheers! The issue in #3 looks to be a rebase issue: I'll send a fixed
-version out soon.
->
-> The patches apply cleanly on top of the latest linux-next/akpm branch.
->
-> There are some tests that fail for tag-based mode, but those are
-> unrelated to this series, and require KASAN improvements.
->
-Do you think it's worth disabling these tests if tag-based mode is
-disabled? Personally, I'm leaning "no", but if the planned support for
-explicitly skipping tests existed, this could be a good case for it: a
-test which is expected to fail due to a feature not existing in the
-current config.
-
-Thanks,
--- David
-
-> >
-> > Changes from v10:
-> >  - Fixed some whitespace issues in patch 2.
-> >  - Split out the renaming of the KUnit test suite into a separate patch.
-> >
-> > Changes from v9:
-> >  - Rebased on top of linux-next (20200731) + kselftest/kunit and [7]
-> >  - Note that the kasan_rcu_uaf test has not been ported to KUnit, and
-> >    remains in test_kasan_module. This is because:
-> >    (a) KUnit's expect failure will not check if the RCU stacktraces
-> >        show.
-> >    (b) KUnit is unable to link the failure to the test, as it occurs in
-> >        an RCU callback.
-> >
-> > Changes from v8:
-> >  - Rebased on top of kselftest/kunit
-> >  - (Which, with this patchset, should rebase cleanly on 5.8-rc7)
-> >  - Renamed the KUnit test suite, config name to patch the proposed
-> >    naming guidelines for KUnit tests[6]
-> >
-> > Changes from v7:
-> >  - Rebased on top of kselftest/kunit
-> >  - Rebased on top of v4 of the kunit resources API[1]
-> >  - Rebased on top of v4 of the FORTIFY_SOURCE fix[2,3,4]
-> >  - Updated the Kconfig entry to support KUNIT_ALL_TESTS
-> >
-> > Changes from v6:
-> >  - Rebased on top of kselftest/kunit
-> >  - Rebased on top of Daniel Axtens' fix for FORTIFY_SOURCE
-> >    incompatibilites [2]
-> >  - Removed a redundant report_enabled() check.
-> >  - Fixed some places with out of date Kconfig names in the
-> >    documentation.
-> >
-> > Changes from v5:
-> >  - Split out the panic_on_warn changes to a separate patch.
-> >  - Fix documentation to fewer to the new Kconfig names.
-> >  - Fix some changes which were in the wrong patch.
-> >  - Rebase on top of kselftest/kunit (currently identical to 5.7-rc1)
-> >
-> > Changes from v4:
-> >  - KASAN no longer will panic on errors if both panic_on_warn and
-> >    kasan_multishot are enabled.
-> >  - As a result, the KASAN tests will no-longer disable panic_on_warn.
-> >  - This also means panic_on_warn no-longer needs to be exported.
-> >  - The use of temporary "kasan_data" variables has been cleaned up
-> >    somewhat.
-> >  - A potential refcount/resource leak should multiple KASAN errors
-> >    appear during an assertion was fixed.
-> >  - Some wording changes to the KASAN test Kconfig entries.
-> >
-> > Changes from v3:
-> >  - KUNIT_SET_KASAN_DATA and KUNIT_DO_EXPECT_KASAN_FAIL have been
-> >  combined and included in KUNIT_DO_EXPECT_KASAN_FAIL() instead.
-> >  - Reordered logic in kasan_update_kunit_status() in report.c to be
-> >  easier to read.
-> >  - Added comment to not use the name "kasan_data" for any kunit tests
-> >  outside of KUNIT_EXPECT_KASAN_FAIL().
-> >
-> > Changes since v2:
-> >  - Due to Alan's changes in [1], KUnit can be built as a module.
-> >  - The name of the tests that could not be run with KUnit has been
-> >  changed to be more generic: test_kasan_module.
-> >  - Documentation on how to run the new KASAN tests and what to expect
-> >  when running them has been added.
-> >  - Some variables and functions are now static.
-> >  - Now save/restore panic_on_warn in a similar way to kasan_multi_shot
-> >  and renamed the init/exit functions to be more generic to accommodate.
-> >  - Due to [4] in kasan_strings, kasan_memchr, and
-> >  kasan_memcmp will fail if CONFIG_AMD_MEM_ENCRYPT is enabled so return
-> >  early and print message explaining this circumstance.
-> >  - Changed preprocessor checks to C checks where applicable.
-> >
-> > Changes since v1:
-> >  - Make use of Alan Maguire's suggestion to use his patch that allows
-> >    static resources for integration instead of adding a new attribute to
-> >    the kunit struct
-> >  - All KUNIT_EXPECT_KASAN_FAIL statements are local to each test
-> >  - The definition of KUNIT_EXPECT_KASAN_FAIL is local to the
-> >    test_kasan.c file since it seems this is the only place this will
-> >    be used.
-> >  - Integration relies on KUnit being builtin
-> >  - copy_user_test has been separated into its own file since KUnit
-> >    is unable to test these. This can be run as a module just as before,
-> >    using CONFIG_TEST_KASAN_USER
-> >  - The addition to the current task has been separated into its own
-> >    patch as this is a significant enough change to be on its own.
-> >
-> >
-> > [1] https://lore.kernel.org/linux-kselftest/CAFd5g46Uu_5TG89uOm0Dj5CMq+11cwjBnsd-k_CVy6bQUeU4Jw@mail.gmail.com/T/#t
-> > [2] https://lore.kernel.org/linux-mm/20200424145521.8203-1-dja@axtens.net/
-> > [3] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=adb72ae1915db28f934e9e02c18bfcea2f3ed3b7
-> > [4] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=47227d27e2fcb01a9e8f5958d8997cf47a820afc
-> > [5] https://bugzilla.kernel.org/show_bug.cgi?id=206337
-> > [6] https://lore.kernel.org/linux-kselftest/20200620054944.167330-1-davidgow@google.com/
-> > [7] https://lkml.org/lkml/2020/7/31/571
-> > [8] https://lore.kernel.org/linux-kselftest/8d43e88e-1356-cd63-9152-209b81b16746@linuxfoundation.org/T/#u
-> >
-> >
-> > David Gow (2):
-> >   kasan: test: Make KASAN KUnit test comply with naming guidelines
-> >   mm: kasan: Do not panic if both panic_on_warn and kasan_multishot set
-> >
-> > Patricia Alfonso (4):
-> >   Add KUnit Struct to Current Task
-> >   KUnit: KASAN Integration
-> >   KASAN: Port KASAN Tests to KUnit
-> >   KASAN: Testing Documentation
-> >
-> >  Documentation/dev-tools/kasan.rst |  70 +++
-> >  include/kunit/test.h              |   5 +
-> >  include/linux/kasan.h             |   6 +
-> >  include/linux/sched.h             |   4 +
-> >  lib/Kconfig.kasan                 |  22 +-
-> >  lib/Makefile                      |   7 +-
-> >  lib/kasan_kunit.c                 | 770 +++++++++++++++++++++++++
-> >  lib/kunit/test.c                  |  13 +-
-> >  lib/test_kasan.c                  | 903 ------------------------------
-> >  lib/test_kasan_module.c           | 111 ++++
-> >  mm/kasan/report.c                 |  34 +-
-> >  11 files changed, 1028 insertions(+), 917 deletions(-)
-> >  create mode 100644 lib/kasan_kunit.c
-> >  delete mode 100644 lib/test_kasan.c
-> >  create mode 100644 lib/test_kasan_module.c
-> >
-> > --
-> > 2.28.0.163.g6104cc2f0b6-goog
-> >
->
-> --
-> You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAAeHK%2BwPt46879AnV3n3d7%2BJZqkv2Vo652OPBAjHcuyru56h9w%40mail.gmail.com.
+Is this a Business or Private Email?
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CABVgOSmveFxFq-Kvtq9%2BEQa61ko-wQ4CTJ2WCfJWbjUWzBaQrg%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/AM4PR0202MB2962B44030A5937F363BCA03C6470%40AM4PR0202MB2962.eurprd02.prod.outlook.com.
+
+--_000_AM4PR0202MB2962B44030A5937F363BCA03C6470AM4PR0202MB2962_
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+1">
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+Is this a Business or Private Email?<br>
+</div>
+</body>
+</html>
+
+<p></p>
+
+-- <br />
+You received this message because you are subscribed to the Google Groups &=
+quot;kasan-dev&quot; group.<br />
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
++unsubscribe@googlegroups.com</a>.<br />
+To view this discussion on the web visit <a href=3D"https://groups.google.c=
+om/d/msgid/kasan-dev/AM4PR0202MB2962B44030A5937F363BCA03C6470%40AM4PR0202MB=
+2962.eurprd02.prod.outlook.com?utm_medium=3Demail&utm_source=3Dfooter">http=
+s://groups.google.com/d/msgid/kasan-dev/AM4PR0202MB2962B44030A5937F363BCA03=
+C6470%40AM4PR0202MB2962.eurprd02.prod.outlook.com</a>.<br />
+
+--_000_AM4PR0202MB2962B44030A5937F363BCA03C6470AM4PR0202MB2962_--
