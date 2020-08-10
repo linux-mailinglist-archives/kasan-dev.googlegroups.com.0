@@ -1,126 +1,134 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBXMAYT4QKGQEJMFTYYA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCD3NZ4T2IKRBS62YT4QKGQEHFNP3CI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x43d.google.com (mail-pf1-x43d.google.com [IPv6:2607:f8b0:4864:20::43d])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBD8B240332
-	for <lists+kasan-dev@lfdr.de>; Mon, 10 Aug 2020 10:07:58 +0200 (CEST)
-Received: by mail-pf1-x43d.google.com with SMTP id f5sf7253009pfe.2
-        for <lists+kasan-dev@lfdr.de>; Mon, 10 Aug 2020 01:07:58 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1597046877; cv=pass;
+Received: from mail-oi1-x23a.google.com (mail-oi1-x23a.google.com [IPv6:2607:f8b0:4864:20::23a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B14C24052B
+	for <lists+kasan-dev@lfdr.de>; Mon, 10 Aug 2020 13:19:40 +0200 (CEST)
+Received: by mail-oi1-x23a.google.com with SMTP id j63sf5368168oih.1
+        for <lists+kasan-dev@lfdr.de>; Mon, 10 Aug 2020 04:19:40 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1597058379; cv=pass;
         d=google.com; s=arc-20160816;
-        b=II5liRYHgun/jV+UWdPz/TbZHQGfsFohqGgXBvmWmymaikBuTHJkGI8/DwAjAR/Vgu
-         qw4Oa25dWCtr65JQOuqpc5R4vd9jliwePqTOWAjIDejJG3jOD98bu/BspEcxasDH3Rid
-         8fjwIrPMfbewY4niFe0qlbGtPKc1Dj5MHGGrwD1dS5KvCWHmDImwdCzaGqoC8ddfCoDH
-         /tzrmApShCmJ9866P8B+e6oXhV36Im1YjLjsWnioQeOrnOZ2+9Hk+2jT+/mzeCMQR4zo
-         OOfOpw0psS6su7XaGGPjNMDoKXPZUzDrZyYZkfKdjekpeDvowQUJNF5FzI6jAn/PbVjJ
-         jJIQ==
+        b=x1eZM4P+wjYIsiLzSEWahAJjr90/iV1mHwfZjRzkJPNXjZpWWSRCnO0R9R4Z/ELktm
+         ckGxV1m0BsCyET08CH1VxKwIitqwCFb3c1qgrcpGiAnEVxzLHgiLOINgloeuW7hzzmOK
+         2t/e4IZQAe/f7HyBG/iv8QCayJbL4yNkGCVe3jLM5AC/AUann8qApRVOjwEhJwSh/1GH
+         SiQYsjatR1OrkFrOV/3DL0fJ5uZgKDej7ajrTMDtzg3a48IR75lpCjryJFA+NlhyzKXb
+         h2Er5OuwXNwsN9VYyXFT/B5oHU/nKyUL5PXbnRb6Vx3rpi0+j3HWMIlO3yAJ8E2KOaqf
+         uYGw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=I2KzTSniOtIAeLlFGqBN3oqJDKN0dHqIATJf5mSZoQY=;
-        b=rfKrJATIao8GfSd4gC1O4ZR+uRbtlyYgjgw08jdhElCm4MVeV1A00LuskrPqMmXYo1
-         v0bT2yLKUhQeAtPjIR5rvpGRr6zWlPAX3wku1zcRGT43lI5Tf/Iy6RyaxBeuVzqplGOF
-         azBX6wcWk1a8Nqw/LKjNNP0BcGshjmCrTtbuRGn579+F8XEE9ROL7VC7sCAeaBBZh7J9
-         Gegt5Oqd4nVEUjpNI9IS0hq2Y0bgDN80DmxqjcJIJBm7zrUH4VSQDHKKnhWJtLfhCRP4
-         xE1lMxXobXjfjaFpNV2BrCngoP4cz14sOy2s7cP1gcPr7LLB1ofYvByvCEzrjlZ9CKDh
-         Kr/w==
+         :list-id:mailing-list:precedence:to:in-reply-to:cc:references
+         :message-id:date:subject:mime-version:from:content-transfer-encoding
+         :sender:dkim-signature;
+        bh=cjKPw6DOqpKFcObvHjfFInKB5yuMjl2/45W12YHNjco=;
+        b=rIdbjbmCj+Veq/301gtNaRGNjHAGcGZks4BfAuOhHcz2bXj26tYwzXmj5JAs6Zj1ak
+         S3raoWScAeeNLNH+eWuV+Mb3mU9oX6CJktTFYqIVeZnaa+xCHod7mOyCFYmLci1NI0uL
+         CmTFcxm29gIAlbpS14kvMPvN5pCfSpquaZA6BcvnsCsjz+lV2xuVBUXg6Y8z/7TWHCpd
+         /3FAfK/5Kk9YnXHE8yQ4COt8HUffZU3tNSYjOe8p4omKNmtLVxU1k7ggB6Yn48nTY72i
+         9ePz5jNoVk/Ve7LdJXUr4G8h9rlCl4B9o7+XIOv0t97P6YmMDG3k3ObrK08NRudHpV7E
+         8oUQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=FXtn7Xam;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::242 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@lca.pw header.s=google header.b=AC8ZVjcV;
+       spf=pass (google.com: domain of cai@lca.pw designates 2607:f8b0:4864:20::741 as permitted sender) smtp.mailfrom=cai@lca.pw
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=I2KzTSniOtIAeLlFGqBN3oqJDKN0dHqIATJf5mSZoQY=;
-        b=AV1j6xjggpL+fFbUP8KGvzaA0XW8Xyh3dSOPaa0VGIM339zSuggPgFdgnVN2ynyXjp
-         x3flNmCkWXKO3XJmU2SpHxEcU2vkjX8/iMBcGbi1+cmv52l693r7OcOtccb0ePGf7atV
-         pZ5M1QbBjmBt47bqnWqUgBykVjkI1acS24wiY22f7IjMjtygjjZYFjZqpkX0dFUf/gjY
-         52LBcgV4uAwMdXm8BW2eXYYr11TbcLKuSt/yParF3Kz/uIQyI9lptxCSK5svymgdENoG
-         YS2i8uqwgvoCNC0VzIpxILISFnjKMNyxLsPU1pztCHCQqvELMkSIbt1rEt0Olb8O1GZG
-         hraw==
+        h=sender:content-transfer-encoding:from:mime-version:subject:date
+         :message-id:references:cc:in-reply-to:to:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=cjKPw6DOqpKFcObvHjfFInKB5yuMjl2/45W12YHNjco=;
+        b=J85v4vVV8SyxwW8V7oekdVb0ePaTWZgKOySI83TN9QHHVuwLjyqjf+8XfiRldl+eHR
+         uFwxOStuPuLTivFAQbJGV4TlwNhlLMod4hf2qHgCK7ERuyt9jWxgAGfW6xV1V1RV+U2t
+         PyoLpMEoWU7Ep4DXGZ+dUukeTrczkkFc7eYZaRqnlIYQJ1Yvgg6VISQD6RLjNGKmjQZo
+         s5t0wsrdGA+nizg/NaugTwoMVyhgTNyxAXx4Qp3BLx/Ee9Qxdv1r9vH1M54drpPyI0N6
+         CeFSuhEfeOGF414KhP0i+1ddVAA6FLJjgkcVR7gp6B6SyW6sjehmLGKaiHJcwK5fZIlR
+         kXXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=I2KzTSniOtIAeLlFGqBN3oqJDKN0dHqIATJf5mSZoQY=;
-        b=eN+Cg59p8poEzBjp/Aw5o1HUjTte+r1HtEGM35rqOrHJGRqTfXG+gAn6NnA/r8kdTx
-         8t9mCOnN+yZaYNV2nzi3BSlzpjSRRoSAhtDhKYtm2Qjr+Jdt51JYDCXg4m7bUZyalZ/6
-         mY+v9DiNm/JsgE4v/E9VLHxNvKV6zKYM1PYi3HzSZZq73V6ZjWUfTssa/rJ+coIUuhC3
-         G3YP1nA2hUkVwcrAAgjAT3H419qy/onc+WAmmxGc6kZO/qoBbzgqxyfrb36FD99Cg/SB
-         3IH2bTAmXcSHiPGBdvU5Y5rf+lP4SC1Er5pnFp2EEWmI0c0pgvr1AtD+zkGW1ysNk2AA
-         pdiw==
-X-Gm-Message-State: AOAM532uc/Q2peHSghlU/H5fXgeZ1H7+4BJhLYU17+cEJaXU4uquQY5t
-	5qqjAp0kzUvedXsPCDSYgvs=
-X-Google-Smtp-Source: ABdhPJzd3A9sj8g+xZhG6IWx5xmJvTeMlDVF2f4XZF7DzJ1c9Rt6khQ1McFtCGxaXlYEm4h6iAtTTQ==
-X-Received: by 2002:a63:9dc2:: with SMTP id i185mr13433811pgd.203.1597046877370;
-        Mon, 10 Aug 2020 01:07:57 -0700 (PDT)
+        h=sender:x-gm-message-state:content-transfer-encoding:from
+         :mime-version:subject:date:message-id:references:cc:in-reply-to:to
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=cjKPw6DOqpKFcObvHjfFInKB5yuMjl2/45W12YHNjco=;
+        b=XBbRG4pLiu9YItcqe+2xse0GBSBUXeL0YtYDUSqU9Yxyp+jprkG87qYXq3DiYyTKZ8
+         JNDqxuwV6/3UIldfJAM5Vuu+ltiNkdTjaIlwRj+MLzRLpAdjVIRQacUJK3NZ+N/RKJSI
+         YvK1be3QQ9xm2nwQEgQDeeFLXI2DGZVGg7Jk4Wi0R/L0J3uV6WQadCTncmxvs3mUl5Io
+         yd7VE1KZ1eLOsO1D7eAUS9285cDiZsNaHsAILssL8nngNa3u385VpDkdMdYFqJ2lBm4v
+         //WsRZd7BobuqAuvqPXmieUzbtcO5vUXFR9D5ehPo8iZ9kCPwV3RMsZ0yRinZUmt1X0K
+         smmQ==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM532mkqj1O0/6bBme5ENug0NssdfVT2/wV9ZG9oUMh6KwsQAPB1c0
+	+m70bKwZU1pS4h6B7gbVm4M=
+X-Google-Smtp-Source: ABdhPJzdynmfjYO3eKBlET85l1pbE3741vMx1ktGxDu36OtXiGbp5B2S1BPedFmAHDRRrnjRsV7ESQ==
+X-Received: by 2002:a9d:6218:: with SMTP id g24mr364810otj.48.1597058379222;
+        Mon, 10 Aug 2020 04:19:39 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:90a:3367:: with SMTP id m94ls6615044pjb.1.canary-gmail;
- Mon, 10 Aug 2020 01:07:57 -0700 (PDT)
-X-Received: by 2002:a17:90a:b107:: with SMTP id z7mr26938970pjq.4.1597046876874;
-        Mon, 10 Aug 2020 01:07:56 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1597046876; cv=none;
+Received: by 2002:aca:c78d:: with SMTP id x135ls3510666oif.1.gmail; Mon, 10
+ Aug 2020 04:19:38 -0700 (PDT)
+X-Received: by 2002:aca:4b54:: with SMTP id y81mr279443oia.54.1597058378818;
+        Mon, 10 Aug 2020 04:19:38 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1597058378; cv=none;
         d=google.com; s=arc-20160816;
-        b=gVV7JnakIk0mKaOIFwShkfug5G4ZTyPuWnbHl9CLn/6zpqo80vim6rJ3iW2PG1nQ4A
-         tLuApn6vKxpzWQxMdywvYJ6cqx+m6RLSl7pCWgSAPyYWt8CelJEHHmyatejT0Cvuz1Zn
-         r5XQ8ivCWUaS45wKAqlixSWtI6VrHXDrgmnOlPbt0HBOIsIL+rQPo31qSBmd6rBPFm4/
-         EtGpJcRahPmEElrTFX6FPDJJswWusxZA1pd5eentEwGc7/jdEEngro/R89L31zHKnti6
-         UO2x/GiyZGwFSm+fj3YhVWLLmmSGj1UxrHJyLfyoI6oMRm9+4dSFCstPKeilW4eMBfxE
-         Txaw==
+        b=t0YEaLfMhEIRJYBuQQwVz1mtGhucje1ttlW7Y/P9eg/RxLNR8ggecwrY2MM0ML84HK
+         jKACATsrSSC0kzxhzU0jnJs2rHiP9krwvkQs1lEG1I8JAOoic8kZQY/4ABgcRlWu4KAl
+         PXA8/QzXN5lIPqdtHTYl5WwFw8+QfbBnMuKjOpPhH+qNoyhiccRhUDnIdxghLaEIqLBo
+         3s57r3HXEYEkd3nnURXV43TplfCuJrIruL3vkEbC6A5vuZxstuRgzBLdJV0VZi/FTO69
+         5o3H69HD61vuFrUJ3KK79Gj9zu+y1UN++6Cxw1eLGbtyP47MY4+Ej1BeHWy4bIeHAsDY
+         yqug==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=hGTCJkoIKMtHtW/Pwvl8SwnSj7DsdCNAqdhJNP6CKQo=;
-        b=PFb6WO/mbaDt/xxXDCLqUaJTTEXBTzaP+tZ3xiv67A8qtBXQi0RV3NbOV/uqrbOCuv
-         +cE9E5ZD1C06dznkHtt/+CGmudg1CLlQ9km6oMjMEI4Hj+Gq9a3ZPkLK0Gm1xfmG3tCK
-         ij5qjYg1mS6J0m8jeHGWsMy02t69y4r+KIgisMX1XUFp94utbwdjEwLf2735ueAZFT1o
-         NFV8NN5SlCckQdI0sa6zkTgBK/sKha10D7/LWmaxt6PMV+yCfVSwtCKy0drIaEyHqpe8
-         AaCm1utcjkz6wRpyx7Dda9aAvLRBDJawrmN4qenqsZEBWN7GKQSNQurw6TRj7v8IOnws
-         m/6g==
+        h=to:in-reply-to:cc:references:message-id:date:subject:mime-version
+         :from:content-transfer-encoding:dkim-signature;
+        bh=jBoqTcJjXqs5aO9SnK52GQyuo0v59XIXZ4pSXxs8r7w=;
+        b=jeFeMk2/HnVlRVHv1+vGFAd2WBiAaB/oLRXzwcS8GgUWOu6Mb8Y/2vb6/QoxT/w38F
+         I4hG7mtr+avmEKOXrhNVERjLEe07XCAr/PeMXnupzNzO9XOo5v/Rxicf906z444l06a/
+         9u515TOIadvtGgUF68ertGZwn6qBKRXr+iDaZpHvi8Wyu9IU7lb9l/RJX2zyItEFAh1j
+         cLMvNa3qxraGCYgPvx3Xm09hWxVJ7shvyL51j3IL8gaP0wTlW9h0mtXaLhlK4qDesIa/
+         RswLF2r0EtD+HhrzlS4wMV5rf+VwzACafmTBbNUursmXvqrmTD2/8wLZGx3pt64IxuPL
+         bGyw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=FXtn7Xam;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::242 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com. [2607:f8b0:4864:20::242])
-        by gmr-mx.google.com with ESMTPS id l26si641390pfe.2.2020.08.10.01.07.56
+       dkim=pass header.i=@lca.pw header.s=google header.b=AC8ZVjcV;
+       spf=pass (google.com: domain of cai@lca.pw designates 2607:f8b0:4864:20::741 as permitted sender) smtp.mailfrom=cai@lca.pw
+Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com. [2607:f8b0:4864:20::741])
+        by gmr-mx.google.com with ESMTPS id w1si968588otm.5.2020.08.10.04.19.38
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 10 Aug 2020 01:07:56 -0700 (PDT)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::242 as permitted sender) client-ip=2607:f8b0:4864:20::242;
-Received: by mail-oi1-x242.google.com with SMTP id e6so8164960oii.4
-        for <kasan-dev@googlegroups.com>; Mon, 10 Aug 2020 01:07:56 -0700 (PDT)
-X-Received: by 2002:aca:d4d5:: with SMTP id l204mr21041277oig.70.1597046875877;
- Mon, 10 Aug 2020 01:07:55 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200807090031.3506555-1-elver@google.com> <20200807170618.GW4295@paulmck-ThinkPad-P72>
-In-Reply-To: <20200807170618.GW4295@paulmck-ThinkPad-P72>
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Mon, 10 Aug 2020 10:07:44 +0200
-Message-ID: <CANpmjNPqEeQvg53wJ5EsyfssSqyOqCsPG+YTV6ytj6wsc+5BPQ@mail.gmail.com>
-Subject: Re: [PATCH] kcsan: Treat runtime as NMI-like with interrupt tracing
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: Peter Zijlstra <peterz@infradead.org>, Borislav Petkov <bp@alien8.de>, 
-	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Dmitry Vyukov <dvyukov@google.com>, 
-	Alexander Potapenko <glider@google.com>, Andrey Konovalov <andreyknvl@google.com>, 
-	kasan-dev <kasan-dev@googlegroups.com>, LKML <linux-kernel@vger.kernel.org>, 
-	syzbot <syzbot+8db9e1ecde74e590a657@syzkaller.appspotmail.com>
+        Mon, 10 Aug 2020 04:19:38 -0700 (PDT)
+Received-SPF: pass (google.com: domain of cai@lca.pw designates 2607:f8b0:4864:20::741 as permitted sender) client-ip=2607:f8b0:4864:20::741;
+Received: by mail-qk1-x741.google.com with SMTP id m7so7878238qki.12
+        for <kasan-dev@googlegroups.com>; Mon, 10 Aug 2020 04:19:38 -0700 (PDT)
+X-Received: by 2002:a05:620a:142:: with SMTP id e2mr25276476qkn.418.1597058378182;
+        Mon, 10 Aug 2020 04:19:38 -0700 (PDT)
+Received: from [192.168.1.183] (pool-71-184-117-43.bstnma.fios.verizon.net. [71.184.117.43])
+        by smtp.gmail.com with ESMTPSA id 78sm13980983qke.81.2020.08.10.04.19.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 10 Aug 2020 04:19:36 -0700 (PDT)
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
+Content-Transfer-Encoding: quoted-printable
+From: Qian Cai <cai@lca.pw>
+Mime-Version: 1.0 (1.0)
+Subject: Re: [PATCH 0/5] kasan: add workqueue and timer stack for generic KASAN
+Date: Mon, 10 Aug 2020 07:19:35 -0400
+Message-Id: <B873B364-FF03-4819-8F9C-79F3C4EF47CE@lca.pw>
+References: <20200810072115.429-1-walter-zh.wu@mediatek.com>
+Cc: Andrey Ryabinin <aryabinin@virtuozzo.com>,
+ Alexander Potapenko <glider@google.com>,
+ Dmitry Vyukov <dvyukov@google.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ John Stultz <john.stultz@linaro.org>, Stephen Boyd <sboyd@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Tejun Heo <tj@kernel.org>,
+ Lai Jiangshan <jiangshanlai@gmail.com>, kasan-dev@googlegroups.com,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,
+ wsd_upstream <wsd_upstream@mediatek.com>,
+ linux-mediatek@lists.infradead.org
+In-Reply-To: <20200810072115.429-1-walter-zh.wu@mediatek.com>
+To: Walter Wu <walter-zh.wu@mediatek.com>
+X-Mailer: iPhone Mail (17F80)
+X-Original-Sender: cai@lca.pw
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=FXtn7Xam;       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::242 as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+ header.i=@lca.pw header.s=google header.b=AC8ZVjcV;       spf=pass
+ (google.com: domain of cai@lca.pw designates 2607:f8b0:4864:20::741 as
+ permitted sender) smtp.mailfrom=cai@lca.pw
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -133,211 +141,77 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, 7 Aug 2020 at 19:06, Paul E. McKenney <paulmck@kernel.org> wrote:
-> On Fri, Aug 07, 2020 at 11:00:31AM +0200, Marco Elver wrote:
-> > Since KCSAN instrumentation is everywhere, we need to treat the hooks
-> > NMI-like for interrupt tracing. In order to present an as 'normal' as
-> > possible context to the code called by KCSAN when reporting errors, we
-> > need to update the IRQ-tracing state.
-> >
-> > Tested: Several runs through kcsan-test with different configuration
-> > (PROVE_LOCKING on/off), as well as hours of syzbot testing with the
-> > original config that caught the problem (without CONFIG_PARAVIRT=y,
-> > which appears to cause IRQ state tracking inconsistencies even when
-> > KCSAN remains off, see Link).
-> >
-> > Link: https://lkml.kernel.org/r/0000000000007d3b2d05ac1c303e@google.com
-> > Fixes: 248591f5d257 ("kcsan: Make KCSAN compatible with new IRQ state tracking")
-> > Reported-by: syzbot+8db9e1ecde74e590a657@syzkaller.appspotmail.com
-> > Co-developed-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 
-Peter, if you're fine with it, I think we'll require your
-Signed-off-by (since Co-developed-by).
 
-> > Signed-off-by: Marco Elver <elver@google.com>
-> > ---
-> > Patch Note: This patch applies to latest mainline. While current
-> > mainline suffers from the above problem, the configs required to hit the
-> > issue are likely not enabled too often (of course with PROVE_LOCKING on;
-> > we hit it on syzbot though). It'll probably be wise to queue this as
-> > normal on -rcu, just in case something is still off, given the
-> > non-trivial nature of the issue. (If it should instead go to mainline
-> > right now as a fix, I'd like some more test time on syzbot.)
->
-> The usual, please let me know when/if you would like me to apply
-> to -rcu.  And have a great weekend!
+> On Aug 10, 2020, at 3:21 AM, Walter Wu <walter-zh.wu@mediatek.com> wrote:
+>=20
+> =EF=BB=BFSyzbot reports many UAF issues for workqueue or timer, see [1] a=
+nd [2].
+> In some of these access/allocation happened in process_one_work(),
+> we see the free stack is useless in KASAN report, it doesn't help
+> programmers to solve UAF on workqueue. The same may stand for times.
+>=20
+> This patchset improves KASAN reports by making them to have workqueue
+> queueing stack and timer queueing stack information. It is useful for
+> programmers to solve use-after-free or double-free memory issue.
+>=20
+> Generic KASAN will record the last two workqueue and timer stacks,
+> print them in KASAN report. It is only suitable for generic KASAN.
+>=20
+> In order to print the last two workqueue and timer stacks, so that
+> we add new members in struct kasan_alloc_meta.
+> - two workqueue queueing work stacks, total size is 8 bytes.
+> - two timer queueing stacks, total size is 8 bytes.
+>=20
+> Orignial struct kasan_alloc_meta size is 16 bytes. After add new
+> members, then the struct kasan_alloc_meta total size is 32 bytes,
+> It is a good number of alignment. Let it get better memory consumption.
 
-I think we need to wait until you have rebased -rcu to 5.9-rc1 some
-time next week. I will send a reminder after, and if it doesn't apply
-cleanly, I'll send a rebased patch.
+Getting debugging tools complicated surely is the best way to kill it. I wo=
+uld argue that it only make sense to complicate it if it is useful most of =
+the time which I never feel or hear that is the case. This reminds me your =
+recent call_rcu() stacks that most of time just makes parsing the report cu=
+mbersome. Thus, I urge this exercise to over-engineer on special cases need=
+ to stop entirely.
 
-Thank you!
+>=20
+> [1]https://groups.google.com/g/syzkaller-bugs/search?q=3D%22use-after-fre=
+e%22+process_one_work
+> [2]https://groups.google.com/g/syzkaller-bugs/search?q=3D%22use-after-fre=
+e%22%20expire_timers
+> [3]https://bugzilla.kernel.org/show_bug.cgi?id=3D198437
+>=20
+> Walter Wu (5):
+> timer: kasan: record and print timer stack
+> workqueue: kasan: record and print workqueue stack
+> lib/test_kasan.c: add timer test case
+> lib/test_kasan.c: add workqueue test case
+> kasan: update documentation for generic kasan
+>=20
+> Documentation/dev-tools/kasan.rst |  4 ++--
+> include/linux/kasan.h             |  4 ++++
+> kernel/time/timer.c               |  2 ++
+> kernel/workqueue.c                |  3 +++
+> lib/test_kasan.c                  | 54 ++++++++++++++++++++++++++++++++++=
+++++++++++++++++++++
+> mm/kasan/generic.c                | 42 ++++++++++++++++++++++++++++++++++=
+++++++++
+> mm/kasan/kasan.h                  |  6 +++++-
+> mm/kasan/report.c                 | 22 ++++++++++++++++++++++
+> 8 files changed, 134 insertions(+), 3 deletions(-)
+>=20
+> --=20
+> You received this message because you are subscribed to the Google Groups=
+ "kasan-dev" group.
+> To unsubscribe from this group and stop receiving emails from it, send an=
+ email to kasan-dev+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgi=
+d/kasan-dev/20200810072115.429-1-walter-zh.wu%40mediatek.com.
 
--- Marco
-
->                                                 Thanx, Paul
->
-> > ---
-> >  kernel/kcsan/core.c  | 79 ++++++++++++++++++++++++++++++++++----------
-> >  kernel/kcsan/kcsan.h |  3 +-
-> >  2 files changed, 62 insertions(+), 20 deletions(-)
-> >
-> > diff --git a/kernel/kcsan/core.c b/kernel/kcsan/core.c
-> > index 9147ff6a12e5..6202a645f1e2 100644
-> > --- a/kernel/kcsan/core.c
-> > +++ b/kernel/kcsan/core.c
-> > @@ -291,13 +291,28 @@ static inline unsigned int get_delay(void)
-> >                               0);
-> >  }
-> >
-> > -void kcsan_save_irqtrace(struct task_struct *task)
-> > -{
-> > +/*
-> > + * KCSAN instrumentation is everywhere, which means we must treat the hooks
-> > + * NMI-like for interrupt tracing. In order to present a 'normal' as possible
-> > + * context to the code called by KCSAN when reporting errors we need to update
-> > + * the IRQ-tracing state.
-> > + *
-> > + * Save and restore the IRQ state trace touched by KCSAN, since KCSAN's
-> > + * runtime is entered for every memory access, and potentially useful
-> > + * information is lost if dirtied by KCSAN.
-> > + */
-> > +
-> > +struct kcsan_irq_state {
-> > +     unsigned long           flags;
-> >  #ifdef CONFIG_TRACE_IRQFLAGS
-> > -     task->kcsan_save_irqtrace = task->irqtrace;
-> > +     int                     hardirqs_enabled;
-> >  #endif
-> > -}
-> > +};
-> >
-> > +/*
-> > + * This is also called by the reporting task for the other task, to generate the
-> > + * right report with CONFIG_KCSAN_VERBOSE. No harm in restoring more than once.
-> > + */
-> >  void kcsan_restore_irqtrace(struct task_struct *task)
-> >  {
-> >  #ifdef CONFIG_TRACE_IRQFLAGS
-> > @@ -305,6 +320,41 @@ void kcsan_restore_irqtrace(struct task_struct *task)
-> >  #endif
-> >  }
-> >
-> > +/*
-> > + * Saves/restores IRQ state (see comment above). Need noinline to work around
-> > + * unfortunate code-gen upon inlining, resulting in objtool getting confused as
-> > + * well as losing stack trace information.
-> > + */
-> > +static noinline void kcsan_irq_save(struct kcsan_irq_state *irq_state)
-> > +{
-> > +#ifdef CONFIG_TRACE_IRQFLAGS
-> > +     current->kcsan_save_irqtrace = current->irqtrace;
-> > +     irq_state->hardirqs_enabled = lockdep_hardirqs_enabled();
-> > +#endif
-> > +     if (!kcsan_interrupt_watcher) {
-> > +             kcsan_disable_current(); /* Lockdep might WARN, etc. */
-> > +             raw_local_irq_save(irq_state->flags);
-> > +             lockdep_hardirqs_off(_RET_IP_);
-> > +             kcsan_enable_current();
-> > +     }
-> > +}
-> > +
-> > +static noinline void kcsan_irq_restore(struct kcsan_irq_state *irq_state)
-> > +{
-> > +     if (!kcsan_interrupt_watcher) {
-> > +             kcsan_disable_current(); /* Lockdep might WARN, etc. */
-> > +#ifdef CONFIG_TRACE_IRQFLAGS
-> > +             if (irq_state->hardirqs_enabled) {
-> > +                     lockdep_hardirqs_on_prepare(_RET_IP_);
-> > +                     lockdep_hardirqs_on(_RET_IP_);
-> > +             }
-> > +#endif
-> > +             raw_local_irq_restore(irq_state->flags);
-> > +             kcsan_enable_current();
-> > +     }
-> > +     kcsan_restore_irqtrace(current);
-> > +}
-> > +
-> >  /*
-> >   * Pull everything together: check_access() below contains the performance
-> >   * critical operations; the fast-path (including check_access) functions should
-> > @@ -350,11 +400,13 @@ static noinline void kcsan_found_watchpoint(const volatile void *ptr,
-> >       flags = user_access_save();
-> >
-> >       if (consumed) {
-> > -             kcsan_save_irqtrace(current);
-> > +             struct kcsan_irq_state irqstate;
-> > +
-> > +             kcsan_irq_save(&irqstate);
-> >               kcsan_report(ptr, size, type, KCSAN_VALUE_CHANGE_MAYBE,
-> >                            KCSAN_REPORT_CONSUMED_WATCHPOINT,
-> >                            watchpoint - watchpoints);
-> > -             kcsan_restore_irqtrace(current);
-> > +             kcsan_irq_restore(&irqstate);
-> >       } else {
-> >               /*
-> >                * The other thread may not print any diagnostics, as it has
-> > @@ -387,7 +439,7 @@ kcsan_setup_watchpoint(const volatile void *ptr, size_t size, int type)
-> >       unsigned long access_mask;
-> >       enum kcsan_value_change value_change = KCSAN_VALUE_CHANGE_MAYBE;
-> >       unsigned long ua_flags = user_access_save();
-> > -     unsigned long irq_flags = 0;
-> > +     struct kcsan_irq_state irqstate;
-> >
-> >       /*
-> >        * Always reset kcsan_skip counter in slow-path to avoid underflow; see
-> > @@ -412,14 +464,7 @@ kcsan_setup_watchpoint(const volatile void *ptr, size_t size, int type)
-> >               goto out;
-> >       }
-> >
-> > -     /*
-> > -      * Save and restore the IRQ state trace touched by KCSAN, since KCSAN's
-> > -      * runtime is entered for every memory access, and potentially useful
-> > -      * information is lost if dirtied by KCSAN.
-> > -      */
-> > -     kcsan_save_irqtrace(current);
-> > -     if (!kcsan_interrupt_watcher)
-> > -             local_irq_save(irq_flags);
-> > +     kcsan_irq_save(&irqstate);
-> >
-> >       watchpoint = insert_watchpoint((unsigned long)ptr, size, is_write);
-> >       if (watchpoint == NULL) {
-> > @@ -559,9 +604,7 @@ kcsan_setup_watchpoint(const volatile void *ptr, size_t size, int type)
-> >       remove_watchpoint(watchpoint);
-> >       kcsan_counter_dec(KCSAN_COUNTER_USED_WATCHPOINTS);
-> >  out_unlock:
-> > -     if (!kcsan_interrupt_watcher)
-> > -             local_irq_restore(irq_flags);
-> > -     kcsan_restore_irqtrace(current);
-> > +     kcsan_irq_restore(&irqstate);
-> >  out:
-> >       user_access_restore(ua_flags);
-> >  }
-> > diff --git a/kernel/kcsan/kcsan.h b/kernel/kcsan/kcsan.h
-> > index 29480010dc30..6eb35a9514d8 100644
-> > --- a/kernel/kcsan/kcsan.h
-> > +++ b/kernel/kcsan/kcsan.h
-> > @@ -24,9 +24,8 @@ extern unsigned int kcsan_udelay_interrupt;
-> >  extern bool kcsan_enabled;
-> >
-> >  /*
-> > - * Save/restore IRQ flags state trace dirtied by KCSAN.
-> > + * Restore IRQ flags state trace dirtied by KCSAN.
-> >   */
-> > -void kcsan_save_irqtrace(struct task_struct *task);
-> >  void kcsan_restore_irqtrace(struct task_struct *task);
-> >
-> >  /*
-> > --
-> > 2.28.0.236.gb10cc79966-goog
-> >
->
-> --
-> You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200807170618.GW4295%40paulmck-ThinkPad-P72.
-
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNPqEeQvg53wJ5EsyfssSqyOqCsPG%2BYTV6ytj6wsc%2B5BPQ%40mail.gmail.com.
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/B873B364-FF03-4819-8F9C-79F3C4EF47CE%40lca.pw.
