@@ -1,118 +1,123 @@
-Return-Path: <kasan-dev+bncBAABBEUGZH4QKGQE26M4VDY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCV5TUXXRUIBBMUXZH4QKGQEUQS4I5Q@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33d.google.com (mail-wm1-x33d.google.com [IPv6:2a00:1450:4864:20::33d])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAF092416DB
-	for <lists+kasan-dev@lfdr.de>; Tue, 11 Aug 2020 09:04:50 +0200 (CEST)
-Received: by mail-wm1-x33d.google.com with SMTP id c186sf590167wmd.9
-        for <lists+kasan-dev@lfdr.de>; Tue, 11 Aug 2020 00:04:50 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1597129490; cv=pass;
+Received: from mail-io1-xd3a.google.com (mail-io1-xd3a.google.com [IPv6:2607:f8b0:4864:20::d3a])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF5B9241778
+	for <lists+kasan-dev@lfdr.de>; Tue, 11 Aug 2020 09:41:39 +0200 (CEST)
+Received: by mail-io1-xd3a.google.com with SMTP id p12sf4333272iom.18
+        for <lists+kasan-dev@lfdr.de>; Tue, 11 Aug 2020 00:41:39 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1597131699; cv=pass;
         d=google.com; s=arc-20160816;
-        b=N1EDokSqyvpV87rFV0sNwhMSoFzJWshD/Cv+Iachiw3RbDWg2jjqkS7hNv56jRCWdz
-         gTBeHYTzCp6SJS1Jw4N7GVjb5Q21SQvyJiym6p7WH4CCi+FpFziXyDA9H5ow5RCC3cHW
-         YXOTXyvgs0D5vmJCkIo2ADj219ATIi2KYiSRhthFvtW9dxysrMBgPXx4l6OSjJgOs9bu
-         +MTNLwSqNKj5+aIpd7xETi5/fQviqHca/64jvTuc4aj4va7IZGRwHuBY97w9GMuxH2Lr
-         neOB0ZwXn5JTPYK/9UMmiV7B7fISEjp6TFMOvwUQYclQ+OrP2YJrt29QjsMKxNvm1L42
-         knWA==
+        b=wsWnFx2m6gOL3Q5aud09Ei+5XhOfshIUbjG/ce+SUxtVcF0KlJtOzmIOszlSsuDqY6
+         tRDXD1hEXtQRlWXDMNQh2FjtQVZrdEOco0+7+xvkLMr0SE4IGDXYFs1BHzVAA7cmWjS8
+         QMQ6stjGSuzEhorkDLDBd32C+Xclx71l47M3qY1yN1DtzLt0O1BPHeBGsWrSo2yOmm1j
+         aA0ifRz07GRqKqMJytj/4NjIro72xHxTe94V6IPowotmorNaAjH4cuU5K2UnKLSwmRfV
+         flAkKHj3s4tLTBoarpUaiXOooqTRLp8gA3c+zRQDYZNQOECwBC41stsgwR4psdUwevus
+         7LUg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding
-         :content-language:in-reply-to:mime-version:user-agent:date
-         :message-id:from:references:cc:to:subject:sender:dkim-signature;
-        bh=r1ecKr6BT6fkfmwOt672ocqT3Q53uXhi5XZlp0xekIM=;
-        b=BPK7M/HMta1/1qjhMPtcSr095VXTLUxybei2ojkI1c7KXWjJNfYDFTNNF7fwu0TKdm
-         Ge+w9F3qEgJxSqucpnw4+joIKVc0Ktvv9cjWzVvpy8sPubsird33ecgvCo4mlJhEY4bR
-         jAg+Mx1s4Y6uHMHt/OBxJonB8C3eO7HSzULDB9bL9SXhjCThb44Kd45nwN9Mt6A0pSar
-         RAD08m2IknFqQW4kkehEfqiZ8t1hRO1ZSpoFyuXV0eVJwsIKofkqj3IRHuQIWjcfAzkO
-         MwQBYqce+sN16gcNzFyQ2t+HeH3lIHikTiyfckzKGeC9KEAmoB0oBrsClTET+OIWnRof
-         RWYA==
+         :list-id:mailing-list:precedence:user-agent:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:sender:dkim-signature;
+        bh=HRn+lrpzN6jDBHYP9ZYcKw9QUD/11foabWlL8fFKsME=;
+        b=pnOMabOFAXzgHD3cL3afnwNgFm8all2ZvFj/94gFt4nAywSjZ9w0MeynOW+skBq8ct
+         9wGTeGBPoqca0o5DjhrYn0CktXXAAdHF1tNAgpFrM7ueSGoKEBTVkb4q2p8EQiD5k33/
+         QmHVFvH4So1mKEV3tLX8ReKETdzYrNJt4LjrTf0x6q8q9inTgnmwjxMG42mAyvDys5jU
+         3X/RfowJcaYWPWGstvCo1JANgihQDZIu8c1/HKiYRiiFW0Aw+POrNuTzDdj6/0L2GLSJ
+         VdyCYbhQ2PVF1Wq3IT9BOdJMwoAIAkjg71mS3mZ8QiHnrLzJB5XMwvylWp+XSOSFy2uG
+         qxgg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of jgross@suse.com designates 195.135.220.15 as permitted sender) smtp.mailfrom=jgross@suse.com
+       dkim=pass header.i=@infradead.org header.s=merlin.20170209 header.b=c46YpCUa;
+       spf=pass (google.com: best guess record for domain of peterz@infradead.org designates 2001:8b0:10b:1231::1 as permitted sender) smtp.mailfrom=peterz@infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=r1ecKr6BT6fkfmwOt672ocqT3Q53uXhi5XZlp0xekIM=;
-        b=Hx1dsNpFEIaiCB5IB4hbqkbMrt0fwzGSaCvQpGIvP0du01mg4ysRIQACcZDziho59u
-         QM4OzeQuUJVCKBwTCos+dPFYcrYAqmNKY3m6TiU9SOz2++cX9NlWNciBV7KQfJw4A8A/
-         1XKrhcx62cO6kRxVvcOq+djQLXPJbPdbmo50/pf/sKwd+BZiwpOnBAxmVpsCsljPlL2X
-         kaMqVIKgw7xmV8K/2cNUaWsGF8GhcqgvuO8nU1hIkCyAsS8KfWJML4QsNXPDSM8d9VQ4
-         zqNpYmJuyDe4aYKuvUztLu9XTFkucM4cQhx7QmLmKcg8sTUP3lglqMECgP9cS5EnvKoW
-         eymg==
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=HRn+lrpzN6jDBHYP9ZYcKw9QUD/11foabWlL8fFKsME=;
+        b=CJVIY1vZE1jQ03fViYclYuhKkb/sJgFhRg+qVZLxHpeTUSlH6tbpGSyuF4GQOCGm/I
+         13kHt6RzlLYqxP8lpZINfOoozkYwK1nEa1BphWrtrS4tiPZh1LN7hK/CRYbfBYUwFeeT
+         bGWnH/c7R9KztMPigb3rlg1EJsOTeJvi5X74HW+1QHLqIThYlkl50hVNh+kmoyZAgYay
+         HaH3XZNLtTVGjU7qqk7LfytzTE6MigzEapgBK7ekYj/MohFqiBWa9ivsQo0nroHLXs4l
+         Z0HUXi0/Dr/zr+cXWJcl62ICvjfqjqLiKLRrMmd0IgMJ/Q5ZTUT1/LiKx+CWjVrMdz7O
+         5uHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=r1ecKr6BT6fkfmwOt672ocqT3Q53uXhi5XZlp0xekIM=;
-        b=d22gFlJ60uki7m1wG7S/aL5rpxRzI61/bXzDlO3o7jHSyaSX7Z2rpDGlRJ55uADfOk
-         P/hIyWzUQFpPej0C0YT2KBEH0q4FogfTE49K8oTYhW1sZ7INltJtZ8FgfW1G+lKi2FDx
-         osYMoemBrfcr0wMPn4hQE5U0PZxYIYbsPbPVg49g5wFGL3DpduiuNVXiKTyTtbtKdFn5
-         s4ARfZyX+gD86ywu9KfEFT7ZWw+2YOJGAfj2kst+ndylkj3IGvEFVBH1EK7YB0l/usyn
-         fHCxkdbxXkNctqE46GtExsAdRHfZ5TpLE94CmrcpUnuu8y48oi7LjWeoi9CgY4C/djI+
-         ibzA==
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=HRn+lrpzN6jDBHYP9ZYcKw9QUD/11foabWlL8fFKsME=;
+        b=D2ip6dBxVWEmt0+WiUGGCu21DQUHW15+qzzYWlSAIVg81ZiA5jaE4Hs6BgIXa92Kn0
+         WRrM2hPhZ+B6cUajY+DHBcfVjN/2je3bR9VTq0Ou9DYR0+JczzryzkToNbIP1nkn64M9
+         gBMjXpyUv6H0JmEoX91fzM3Lz11e7S5Tza7QaMClidLZbND5gXwZ5wAE9G+aQNNHhTl9
+         Lkr9JvRFLsn3YmurC8Ule1SVOzahhFNSrxCPlDEyFulLTXWollzhbAppLp/VSkKCVXD1
+         kEUgKFzrpZQVcNQSlQWUyY6VhjapNJPOCOF6yDt/GEYcXuN6+34ZcbLtMWiL/ParFXKe
+         mDGg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM531JlDCEEYEkl6LnoxSfGsSspYZgIzCcdxJiXyxb8hy3xf5LgQVQ
-	qeezl3zX2Ib08xTvuzxYz1c=
-X-Google-Smtp-Source: ABdhPJyp0q3FUauUEBDIFkyl1QeI7j6vZbiypKvBG1kaA539Q7TpKJrUIKOSwfWx6Tva4WKA4a0ljg==
-X-Received: by 2002:adf:ea85:: with SMTP id s5mr30144734wrm.55.1597129490436;
-        Tue, 11 Aug 2020 00:04:50 -0700 (PDT)
+X-Gm-Message-State: AOAM531W0AaKuBM2MuF5K6vat8koGlMVOLCKIwlZuThSdk3MvzqbYqoa
+	dQXk5+dnd7QuWJ2U1nks+dg=
+X-Google-Smtp-Source: ABdhPJyoHAt5mz5+yHzNjYOtZrNX+TDXL29IkMP05AHw29p3D4HlV2egTTTT79g3PsrLENUTKK6hrA==
+X-Received: by 2002:a05:6e02:92d:: with SMTP id o13mr22149445ilt.76.1597131698898;
+        Tue, 11 Aug 2020 00:41:38 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a1c:804f:: with SMTP id b76ls474013wmd.2.gmail; Tue, 11 Aug
- 2020 00:04:50 -0700 (PDT)
-X-Received: by 2002:a1c:7407:: with SMTP id p7mr2684395wmc.117.1597129490129;
-        Tue, 11 Aug 2020 00:04:50 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1597129490; cv=none;
+Received: by 2002:a92:ab10:: with SMTP id v16ls4851389ilh.10.gmail; Tue, 11
+ Aug 2020 00:41:38 -0700 (PDT)
+X-Received: by 2002:a92:cd42:: with SMTP id v2mr22077255ilq.241.1597131698180;
+        Tue, 11 Aug 2020 00:41:38 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1597131698; cv=none;
         d=google.com; s=arc-20160816;
-        b=xGI5XZizieIoImnYvFRa0nnTMAg8xtwCsTmsh+cxLuCH04pNtcEVf8m4mc4HMII6lI
-         szT86bWPFkGAoebKNV5zLTkYhxrQbyYI0MI/LmoVvr16X863gRzLoG+gUcjQBVDtr++d
-         ue6KAQLaDuJ7Onzqt60ADNTkPa/a0PfIeYSwj/a25WSs/9FFnxm/pmxbr6UtgJK2+4Jg
-         63sBGJ+JMsBiCBg4QAV6D8y0WWRR5cXjWw7Zff+VAhWU2g5+e6S/CFkdA78yE7ukrgUR
-         jRx/5uOt0mIfYt6tahoHWk/i/Jg6nvPrWFsQ/OJGd/z3pH8JM5De5mbmjspuDGU54/pi
-         srfQ==
+        b=QWh7XyMyxYm7OPoxn74joFZQk2yKCEfupuRc9Fc3/itiTUYtk7Scb5Z7CskNfxJFEp
+         TCsK/JEge0Zflh/F0cmCIluqlupOofTjA9uDCHUzXbkc5IfVGq3J9UfGlV+Gwfii1xjA
+         lECJiZAG9llqL2P0yff/GRdDLaQyocOmxoe5oovrZKvFd8+AmcpTX3evdLovKg6CvhhW
+         g5gqJg3zkcgPiIPFD3646EToxyLHQKEK+P3IouvGXlDTBU5gxmp0IS1KI3zIp37hYyst
+         it0tjKTwrU8b7YkCILWp3X0tQ/Yve3SqcpsX7SFWX+rbwR/sdEKhEO72HbzdivzXPW79
+         id3g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject;
-        bh=ZhNUIj6rmGABNgZ7/zudkw64aC6gy4gsxotgHFPqbo0=;
-        b=gLZAEHQWf0G1LTeMPsoPYSCBBQdWi0bvJzY2HLRf9a8yCf9rKS7Cx4rJ12lTupwefX
-         IQDWx6+enOcys8w2eHdZoeaKI+tY4ja9QLd3/7cB4K4hi67Ty2uxc21vxi9Z/K86CGN9
-         aa2yJxsJE5ZY6SLpolES5urB9qRyoeK/fwtx/TPFedFG08KXlXYfc7Xii68UpVwN+SeU
-         m6egwdshwtieJRAvbs3wVNVHA0jfft138+4w5RUKq41aWUTnbL8oIBDh9Kw9rxOvuhpp
-         Nroe5YyrGtB3TJWwTwfR0KSHiFjQ0w0kHL1VW8451rt3bh/+JoO6leUNkq22ljdeBdwE
-         xiPg==
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:dkim-signature;
+        bh=H1ur41PMwJaDcTMSo/nD4VartbQ+qRn6j+If8bFfsJQ=;
+        b=fhFro5gO3Omb69mbXqDBh3hHU2lwRQBJDZNn8ZGCmsirUq9T3KJDaM63rWJLAc52ZB
+         M4hFBFAKcSqAG9KF2673IjFFsBh4ERVyyiTrHvDMZ8G1RpGt6ax4L7ocNgzbgKa75CZi
+         zp7tsFeqy6F5p94HiVT7pK1/1Jm02rl5ofKGNY3X5z6NBctMhZaGrF6L5hcleaNP6syo
+         kdfqoY4YFsms5zwwDRq7K3vaoQ6gu0MBTu0tnN0ybSU4J9cO25EaVSo9w3Nv/0cbokq9
+         9RXqEa9L0YNHCL9fniJDVSuEbQmrlPQ+EdNRZXtYWQsvEPwOfr6nsCEWx3iAH5lKNlmY
+         n/CA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of jgross@suse.com designates 195.135.220.15 as permitted sender) smtp.mailfrom=jgross@suse.com
-Received: from mx2.suse.de (mx2.suse.de. [195.135.220.15])
-        by gmr-mx.google.com with ESMTPS id j16si931924wrs.5.2020.08.11.00.04.50
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 11 Aug 2020 00:04:50 -0700 (PDT)
-Received-SPF: pass (google.com: domain of jgross@suse.com designates 195.135.220.15 as permitted sender) client-ip=195.135.220.15;
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-	by mx2.suse.de (Postfix) with ESMTP id 588C8AC7D;
-	Tue, 11 Aug 2020 07:05:10 +0000 (UTC)
+       dkim=pass header.i=@infradead.org header.s=merlin.20170209 header.b=c46YpCUa;
+       spf=pass (google.com: best guess record for domain of peterz@infradead.org designates 2001:8b0:10b:1231::1 as permitted sender) smtp.mailfrom=peterz@infradead.org
+Received: from merlin.infradead.org (merlin.infradead.org. [2001:8b0:10b:1231::1])
+        by gmr-mx.google.com with ESMTPS id o3si167065ilc.4.2020.08.11.00.41.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Aug 2020 00:41:37 -0700 (PDT)
+Received-SPF: pass (google.com: best guess record for domain of peterz@infradead.org designates 2001:8b0:10b:1231::1 as permitted sender) client-ip=2001:8b0:10b:1231::1;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=worktop.programming.kicks-ass.net)
+	by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+	id 1k5OuZ-00067x-1O; Tue, 11 Aug 2020 07:41:31 +0000
+Received: by worktop.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 56841980C9D; Tue, 11 Aug 2020 09:41:27 +0200 (CEST)
+Date: Tue, 11 Aug 2020 09:41:27 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: Marco Elver <elver@google.com>
+Cc: =?iso-8859-1?Q?J=FCrgen_Gro=DF?= <jgross@suse.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, fenghua.yu@intel.com,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	LKML <linux-kernel@vger.kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	"Luck, Tony" <tony.luck@intel.com>,
+	the arch/x86 maintainers <x86@kernel.org>, yu-cheng.yu@intel.com,
+	sdeep@vmware.com, virtualization@lists.linux-foundation.org,
+	kasan-dev <kasan-dev@googlegroups.com>,
+	syzbot <syzbot+8db9e1ecde74e590a657@syzkaller.appspotmail.com>,
+	"Paul E. McKenney" <paulmck@kernel.org>
 Subject: Re: [PATCH] x86/paravirt: Add missing noinstr to arch_local*()
  helpers
-To: Marco Elver <elver@google.com>
-Cc: Peter Zijlstra <peterz@infradead.org>, Borislav Petkov <bp@alien8.de>,
- Dave Hansen <dave.hansen@linux.intel.com>, fenghua.yu@intel.com,
- "H. Peter Anvin" <hpa@zytor.com>, LKML <linux-kernel@vger.kernel.org>,
- Ingo Molnar <mingo@redhat.com>,
- syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
- Thomas Gleixner <tglx@linutronix.de>, "Luck, Tony" <tony.luck@intel.com>,
- the arch/x86 maintainers <x86@kernel.org>, yu-cheng.yu@intel.com,
- sdeep@vmware.com, virtualization@lists.linux-foundation.org,
- kasan-dev <kasan-dev@googlegroups.com>,
- syzbot <syzbot+8db9e1ecde74e590a657@syzkaller.appspotmail.com>,
- "Paul E. McKenney" <paulmck@kernel.org>, Wei Liu <wei.liu@kernel.org>
-References: <20200806113236.GZ2674@hirez.programming.kicks-ass.net>
- <20200806131702.GA3029162@elver.google.com>
+Message-ID: <20200811074127.GR3982@worktop.programming.kicks-ass.net>
+References: <20200806131702.GA3029162@elver.google.com>
  <CANpmjNNqt8YrCad4WqgCoXvH47pRXtSLpnTKhD8W8+UpoYJ+jQ@mail.gmail.com>
  <CANpmjNO860SHpNve+vaoAOgarU1SWy8o--tUWCqNhn82OLCiew@mail.gmail.com>
  <fe2bfa7f-132f-7581-a967-d01d58be1588@suse.com>
@@ -122,21 +127,16 @@ References: <20200806113236.GZ2674@hirez.programming.kicks-ass.net>
  <e5bf3e6a-efff-7170-5ee6-1798008393a2@suse.com>
  <CANpmjNPau_DEYadey9OL+iFZKEaUTqnFnyFs1dU12o00mg7ofA@mail.gmail.com>
  <20200807151903.GA1263469@elver.google.com>
- <CANpmjNM1jASqCFYZpteVrZCa2V2D_DbXaqvoCV_Ac2boYfDXnQ@mail.gmail.com>
-From: =?UTF-8?B?SsO8cmdlbiBHcm/Dnw==?= <jgross@suse.com>
-Message-ID: <26c3214f-7d8a-7b1f-22fc-e864291f50ce@suse.com>
-Date: Tue, 11 Aug 2020 09:04:48 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <CANpmjNM1jASqCFYZpteVrZCa2V2D_DbXaqvoCV_Ac2boYfDXnQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: jgross@suse.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of jgross@suse.com designates 195.135.220.15 as permitted
- sender) smtp.mailfrom=jgross@suse.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+In-Reply-To: <20200807151903.GA1263469@elver.google.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Original-Sender: peterz@infradead.org
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@infradead.org header.s=merlin.20170209 header.b=c46YpCUa;
+       spf=pass (google.com: best guess record for domain of
+ peterz@infradead.org designates 2001:8b0:10b:1231::1 as permitted sender) smtp.mailfrom=peterz@infradead.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -149,112 +149,168 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 11.08.20 09:00, Marco Elver wrote:
-> On Fri, 7 Aug 2020 at 17:19, Marco Elver <elver@google.com> wrote:
->> On Fri, Aug 07, 2020 at 02:08PM +0200, Marco Elver wrote:
->>> On Fri, 7 Aug 2020 at 14:04, J=C3=BCrgen Gro=C3=9F <jgross@suse.com> wr=
-ote:
->>>>
->>>> On 07.08.20 13:38, Marco Elver wrote:
->>>>> On Fri, Aug 07, 2020 at 12:35PM +0200, J=C3=BCrgen Gro=C3=9F wrote:
-> ...
->>>>>> I think CONFIG_PARAVIRT_XXL shouldn't matter, but I'm not completely
->>>>>> sure about that. CONFIG_PARAVIRT_SPINLOCKS would be my primary suspe=
-ct.
->>>>>
->>>>> Yes, PARAVIRT_XXL doesn't make a different. When disabling
->>>>> PARAVIRT_SPINLOCKS, however, the warnings go away.
->>>>
->>>> Thanks for testing!
->>>>
->>>> I take it you are doing the tests in a KVM guest?
->>>
->>> Yes, correct.
->>>
->>>> If so I have a gut feeling that the use of local_irq_save() and
->>>> local_irq_restore() in kvm_wait() might be fishy. I might be completel=
-y
->>>> wrong here, though.
->>>
->>> Happy to help debug more, although I might need patches or pointers
->>> what to play with.
->>>
->>>> BTW, I think Xen's variant of pv spinlocks is fine (no playing with IR=
-Q
->>>> on/off).
->>>>
->>>> Hyper-V seems to do the same as KVM, and kicking another vcpu could be
->>>> problematic as well, as it is just using IPI.
->>
->> I experimented a bit more, and the below patch seems to solve the
->> warnings. However, that was based on your pointer about kvm_wait(), and
->> I can't quite tell if it is the right solution.
->>
->> My hypothesis here is simply that kvm_wait() may be called in a place
->> where we get the same case I mentioned to Peter,
->>
->>          raw_local_irq_save(); /* or other IRQs off without tracing */
->>          ...
->>          kvm_wait() /* IRQ state tracing gets confused */
->>          ...
->>          raw_local_irq_restore();
->>
->> and therefore, using raw variants in kvm_wait() works. It's also safe
->> because it doesn't call any other libraries that would result in corrupt
->> IRQ state AFAIK.
->=20
-> Just to follow-up, it'd still be nice to fix this. Suggestions?
->=20
-> I could send the below as a patch, but can only go off my above
-> hypothesis and the fact that syzbot is happier, so not entirely
-> convincing.
+On Fri, Aug 07, 2020 at 05:19:03PM +0200, Marco Elver wrote:
 
-Peter has told me via IRC he will look soon further into this.
+> My hypothesis here is simply that kvm_wait() may be called in a place
+> where we get the same case I mentioned to Peter,
+> 
+> 	raw_local_irq_save(); /* or other IRQs off without tracing */
+> 	...
+> 	kvm_wait() /* IRQ state tracing gets confused */
+> 	...
+> 	raw_local_irq_restore();
+> 
+> and therefore, using raw variants in kvm_wait() works. It's also safe
+> because it doesn't call any other libraries that would result in corrupt
 
-Your finding suggests that the pv-lock implementation for Hyper-V
-needs some tweaking, too. For that purpose I'm adding Wei to Cc.
+Yes, this is definitely an issue.
+
+Tracing, we also musn't call into tracing when using raw_local_irq_*().
+Because then we re-intoduce this same issue all over again.
+
+Both halt() and safe_halt() are more paravirt calls, but given we're in
+a KVM paravirt call already, I suppose we can directly use native_*()
+here.
+
+Something like so then... I suppose, but then the Xen variants need TLC
+too.
+
+---
+ arch/x86/include/asm/irqflags.h |  4 ++--
+ arch/x86/include/asm/kvm_para.h | 18 +++++++++---------
+ arch/x86/kernel/kvm.c           | 14 +++++++-------
+ 3 files changed, 18 insertions(+), 18 deletions(-)
+
+diff --git a/arch/x86/include/asm/irqflags.h b/arch/x86/include/asm/irqflags.h
+index 02a0cf547d7b..7c614db25274 100644
+--- a/arch/x86/include/asm/irqflags.h
++++ b/arch/x86/include/asm/irqflags.h
+@@ -54,13 +54,13 @@ static __always_inline void native_irq_enable(void)
+ 	asm volatile("sti": : :"memory");
+ }
+
+-static inline __cpuidle void native_safe_halt(void)
++static __always_inline __cpuidle void native_safe_halt(void)
+ {
+ 	mds_idle_clear_cpu_buffers();
+ 	asm volatile("sti; hlt": : :"memory");
+ }
+
+-static inline __cpuidle void native_halt(void)
++static __always_inline __cpuidle void native_halt(void)
+ {
+ 	mds_idle_clear_cpu_buffers();
+ 	asm volatile("hlt": : :"memory");
+diff --git a/arch/x86/include/asm/kvm_para.h b/arch/x86/include/asm/kvm_para.h
+index 49d3a9edb06f..90f7ea58ebb0 100644
+--- a/arch/x86/include/asm/kvm_para.h
++++ b/arch/x86/include/asm/kvm_para.h
+@@ -30,7 +30,7 @@ static inline bool kvm_check_and_clear_guest_paused(void)
+  * noted by the particular hypercall.
+  */
+
+-static inline long kvm_hypercall0(unsigned int nr)
++static __always_inline long kvm_hypercall0(unsigned int nr)
+ {
+ 	long ret;
+ 	asm volatile(KVM_HYPERCALL
+@@ -40,7 +40,7 @@ static inline long kvm_hypercall0(unsigned int nr)
+ 	return ret;
+ }
+
+-static inline long kvm_hypercall1(unsigned int nr, unsigned long p1)
++static __always_inline long kvm_hypercall1(unsigned int nr, unsigned long p1)
+ {
+ 	long ret;
+ 	asm volatile(KVM_HYPERCALL
+@@ -50,8 +50,8 @@ static inline long kvm_hypercall1(unsigned int nr, unsigned long p1)
+ 	return ret;
+ }
+
+-static inline long kvm_hypercall2(unsigned int nr, unsigned long p1,
+-				  unsigned long p2)
++static __always_inline long kvm_hypercall2(unsigned int nr, unsigned long p1,
++					   unsigned long p2)
+ {
+ 	long ret;
+ 	asm volatile(KVM_HYPERCALL
+@@ -61,8 +61,8 @@ static inline long kvm_hypercall2(unsigned int nr, unsigned long p1,
+ 	return ret;
+ }
+
+-static inline long kvm_hypercall3(unsigned int nr, unsigned long p1,
+-				  unsigned long p2, unsigned long p3)
++static __always_inline long kvm_hypercall3(unsigned int nr, unsigned long p1,
++					   unsigned long p2, unsigned long p3)
+ {
+ 	long ret;
+ 	asm volatile(KVM_HYPERCALL
+@@ -72,9 +72,9 @@ static inline long kvm_hypercall3(unsigned int nr, unsigned long p1,
+ 	return ret;
+ }
+
+-static inline long kvm_hypercall4(unsigned int nr, unsigned long p1,
+-				  unsigned long p2, unsigned long p3,
+-				  unsigned long p4)
++static __always_inline long kvm_hypercall4(unsigned int nr, unsigned long p1,
++					   unsigned long p2, unsigned long p3,
++					   unsigned long p4)
+ {
+ 	long ret;
+ 	asm volatile(KVM_HYPERCALL
+diff --git a/arch/x86/kernel/kvm.c b/arch/x86/kernel/kvm.c
+index 233c77d056c9..15f8dfd8812d 100644
+--- a/arch/x86/kernel/kvm.c
++++ b/arch/x86/kernel/kvm.c
+@@ -779,7 +779,7 @@ arch_initcall(kvm_alloc_cpumask);
+ #ifdef CONFIG_PARAVIRT_SPINLOCKS
+
+ /* Kick a cpu by its apicid. Used to wake up a halted vcpu */
+-static void kvm_kick_cpu(int cpu)
++static notrace kvm_kick_cpu(int cpu)
+ {
+ 	int apicid;
+ 	unsigned long flags = 0;
+@@ -790,14 +790,14 @@ static void kvm_kick_cpu(int cpu)
+
+ #include <asm/qspinlock.h>
+
+-static void kvm_wait(u8 *ptr, u8 val)
++static notrace kvm_wait(u8 *ptr, u8 val)
+ {
+ 	unsigned long flags;
+
+ 	if (in_nmi())
+ 		return;
+
+-	local_irq_save(flags);
++	raw_local_irq_save(flags);
+
+ 	if (READ_ONCE(*ptr) != val)
+ 		goto out;
+@@ -808,16 +808,16 @@ static void kvm_wait(u8 *ptr, u8 val)
+ 	 * in irq spinlock slowpath and no spurious interrupt occur to save us.
+ 	 */
+ 	if (arch_irqs_disabled_flags(flags))
+-		halt();
++		native_halt();
+ 	else
+-		safe_halt();
++		native_safe_halt();
+
+ out:
+-	local_irq_restore(flags);
++	raw_local_irq_restore(flags);
+ }
+
+ #ifdef CONFIG_X86_32
+-__visible bool __kvm_vcpu_is_preempted(long cpu)
++__visible notrace bool __kvm_vcpu_is_preempted(long cpu)
+ {
+ 	struct kvm_steal_time *src = &per_cpu(steal_time, cpu);
 
 
-Juergen
-
->=20
-> Thanks,
-> -- Marco
->=20
->> ------ >8 ------
->>
->> diff --git a/arch/x86/kernel/kvm.c b/arch/x86/kernel/kvm.c
->> index 233c77d056c9..1d412d1466f0 100644
->> --- a/arch/x86/kernel/kvm.c
->> +++ b/arch/x86/kernel/kvm.c
->> @@ -797,7 +797,7 @@ static void kvm_wait(u8 *ptr, u8 val)
->>          if (in_nmi())
->>                  return;
->>
->> -       local_irq_save(flags);
->> +       raw_local_irq_save(flags);
->>
->>          if (READ_ONCE(*ptr) !=3D val)
->>                  goto out;
->> @@ -810,10 +810,10 @@ static void kvm_wait(u8 *ptr, u8 val)
->>          if (arch_irqs_disabled_flags(flags))
->>                  halt();
->>          else
->> -               safe_halt();
->> +               raw_safe_halt();
->>
->>   out:
->> -       local_irq_restore(flags);
->> +       raw_local_irq_restore(flags);
->>   }
->>
->>   #ifdef CONFIG_X86_32
->=20
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/26c3214f-7d8a-7b1f-22fc-e864291f50ce%40suse.com.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200811074127.GR3982%40worktop.programming.kicks-ass.net.
