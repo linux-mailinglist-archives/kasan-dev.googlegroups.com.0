@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBZOQZ74QKGQEMVZ5SDI@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBBHSZ74QKGQEUL2SVWQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pl1-x63e.google.com (mail-pl1-x63e.google.com [IPv6:2607:f8b0:4864:20::63e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73D252429EC
-	for <lists+kasan-dev@lfdr.de>; Wed, 12 Aug 2020 15:02:31 +0200 (CEST)
-Received: by mail-pl1-x63e.google.com with SMTP id y10sf1561335plp.6
-        for <lists+kasan-dev@lfdr.de>; Wed, 12 Aug 2020 06:02:31 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1597237350; cv=pass;
+Received: from mail-pj1-x103a.google.com (mail-pj1-x103a.google.com [IPv6:2607:f8b0:4864:20::103a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CE3D242B0D
+	for <lists+kasan-dev@lfdr.de>; Wed, 12 Aug 2020 16:13:25 +0200 (CEST)
+Received: by mail-pj1-x103a.google.com with SMTP id t13sf1915794pjd.0
+        for <lists+kasan-dev@lfdr.de>; Wed, 12 Aug 2020 07:13:25 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1597241604; cv=pass;
         d=google.com; s=arc-20160816;
-        b=GTLCYLr9QwZq8CxTkiOI9wxfM4mpZg0FUdxi3HounVgIFkrAIjiM7hI2+8GU6iXBjO
-         o+SM7yJX1ffcf8Vj6f0pCiTgTdiQMTAPGP5GOMA/e4MCGCgI80S+PmlyUYMmPtaiIfyk
-         lSX/QcRqksICV391M/2QpMfjWyThC6dZGWol9MBYO8P3q69r/EtHiS5LvwFc6QmLG6VE
-         fSyrkN1NrTLsF+Ya4ijsH2F4lCwpqfLk9fAtX1WWlPc2T36P1NCiy8j2nY5gr4fmxzIM
-         ClpPalG18wwq3CaWp7UNTwhF+9th7lvMo90Q3qyWxe9QQwx4VH/5ungu+dAg5D/G1iw7
-         02DA==
+        b=yDUe3q1hfvpZ8dbTl3zq/+YNw0b+WOu9SWQO/SE4tvkuZ4a1h/nizRXlCfWh8oq16C
+         Z+5ijy0LGjNcgK8HXTUx341D+b3BnyUpgWfcl0cO6yB03/HOHIRjMV3HYx0rWdF2p9OO
+         5s1BlsVCL2HrysXaUm5hbnpC5vtnq/AM4/V5S5eAjA5FNprz3yP2IEd52BL/SAA6w4Ew
+         TBsi4jSLWtiPyQm+DHskXOwfrL3TPjalCOt9w7J5+0io6S6NxZXBPUIBwRZy6L3Y50Tg
+         86s/efuMteEyJFVBHm9oyU+p/9ObM1jhwzJXWEE41SJyeiRbgfhd/rjd8wnSvDlq8pcT
+         +XaA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=gHyoV8Mxwb/fLGX5InfbVvWzvpC7oSjhnWSvks77jpw=;
-        b=DXfF616xBSb21Su3SdZEgRfuGl80AdF6hIuU6bUZjkZeSHSJmPUn6FBvl/txNwh0lT
-         XkQUF/7FmujoMdp3opHgwt+cgt+xacyizOSvvfuKh6dDZA8NYBW0H5D9LdthgQ1NnwDw
-         1qhLz5POx/jXNBdGFJtTAs3ArQhCHgd1V3WH4osStDSEiqZhAr++UueJ6XWevE9PjB9Z
-         ZeEbR/RLtNhy4LY+Y149p0tOa1/OcxE+2F5nHuSWqrw++W0V3/8R+pBBgTHjnb4nBhEV
-         PcPJFz2Db7sjV+37vQm26V4OkOIg0GXj9R/o3F1aDXRSCGlU4oxy8Vu69aSTqiDp4LIS
-         +3gw==
+        bh=+/GM0TzmRpQCwXdo+fMkLlup6o0JxABEVb+e0tImn+E=;
+        b=VI8lO7TYCLC7g94DP1o/VpqjXkupZhi4XeI0+qhelM2a0sgrq5TQLLQB91S5i4XAjy
+         wFZAc1HW1Nlda/7KzDeQ4zwfg5cAj5P2XSzPJz7cd/sOGyR/6YV4NGXTEOrgEU+Y94G8
+         FE92j+ry9gF3uDWLgC8NajnmvDkdhJVoHkJolupMi9V/lMkodfRonD8O//KwJemn/fJZ
+         4nK6FL8QI9SQIq7hlfQiByMz3EW3J9RtEYj+tbT31ux5cQQ4iUkSCjmswY3euKPnBfU6
+         Yp+NwWgNKtJ+YO3jjSQsyCsDLMHc6JINyR40/7X1N9cZJ9JhSvkzQ4tdRaCB9tcxam4I
+         qkSQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=Ejh9JhTd;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::342 as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b="ZyrDNv/E";
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::242 as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=gHyoV8Mxwb/fLGX5InfbVvWzvpC7oSjhnWSvks77jpw=;
-        b=bJ/4PMuT7WZB5yBMIVxZdeihWUk6coYPrnfl1mTHa461gmYLj55Uwl1/SXIrYMvp8R
-         e+4alj4biojV1ZTdoPi6hUdj8deLM699WIj+mFhCFa/LN1lY+tkvoVOu4v/Ej0UHNCvk
-         XaAqqQJHBra1QRwjorDBY7KHiOOiyvNbTtnNru9MiWXXmEjuMj4J1dNM2a6sL77UcPPG
-         w5A70e38Q39gmUxb0a5DPSV6X8x8NwkmGn7CxV1M6XHvXI77p1en5Q5+h4t11oCM0xJO
-         ydPbQdFYqCgtcmG97jDh3/LgaP2RqbH0jUBjDA5eATh6/hUh+kZuN6/QbGSgnkyh7+bx
-         bKow==
+        bh=+/GM0TzmRpQCwXdo+fMkLlup6o0JxABEVb+e0tImn+E=;
+        b=qAjZtPC97ovy2eENA/1RAuqV0aRxxzQMkbOlwCiOa13ObQSbGIWiwxwDWmyjnboWSo
+         M6Ssa94zIK6nahBqeJoBP/2jn4dxV7VQBwzO72kLZc2o8XNfRosw8zdR+JyZxJ5IkFOn
+         pPIAnkUuXfxRXPmouM8N/OTAUTVThY1Ckvt/58mPS/vX8Krl34VpDMJxsNSrW3/qiEUC
+         4cch0ZjQoeQCVy9kK7VleK3bE16iKfXFo2A3oxfPfEnaQat4mP8K8l0wFwRdwLu49j+W
+         00BJaBW2v02O5k4p7Qu7Ri2XW8Z0ML0JaC+PLt7FUwpIk37KDCM8bVRO4G8Asz9LIjO2
+         gggg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
@@ -49,69 +49,76 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=gHyoV8Mxwb/fLGX5InfbVvWzvpC7oSjhnWSvks77jpw=;
-        b=mP+d75QuL7FKJ+BPmIKZ9FYbkEzfY8aShEOhKeewLC8NAovER4xuL7SF0zE91Esu+H
-         MLJEX6P+Y2EqNEnx7aoGepwUEA8E+DlI1St3bp4YI4mP9n19FCtBqV2SXgMcdlzATwJl
-         ZsNel3rf+MmWF+Pcm/Blr91VTMFX6JwzQbYA4cz+hC3MXG366BJ86+6WZwgOgDzhgVdl
-         bHFn1GgInmTH6fzCEBwrkQ5uIJjwHzEkuWNWlJRjGDivWkmXx8a7Wo+G2rsa0+oeLIie
-         lYvA+T2H+bitI25j6dRiqmLxFUXnJzt00NOdtMJ66VeNU1hrdMTTbOQyFZ5zswbN0y6l
-         sG3A==
-X-Gm-Message-State: AOAM530ycm8ftNZ1zaSUl2PAR7Qho4FjWRDigzicJOp+u8jiOZxczffp
-	/qLxjg6lG8DVGvIb5ipvzeY=
-X-Google-Smtp-Source: ABdhPJwSG6jRmy/sBYCHT0VkFlbfIorQfsMjx2lGmg1eovg8fyWMobSdxjdP4glMh2AIgOwpgF/cVg==
-X-Received: by 2002:a17:90b:154:: with SMTP id em20mr6384413pjb.173.1597237349632;
-        Wed, 12 Aug 2020 06:02:29 -0700 (PDT)
+        bh=+/GM0TzmRpQCwXdo+fMkLlup6o0JxABEVb+e0tImn+E=;
+        b=A3bLjG4FO6ueV5ICcEiTq/Pki9YrIVfqm784RgZcHEwjwaIu2ATKVjB0uGl7iObr/M
+         T0YBtgBKACPJJiMS9VJqW+x8fim8Hc9Pk1wu71sKcZxN/MICmo2Z3FB1pchi0PN1fYuH
+         MwqYLfNJECKP7hdbUtZgKK0zorw1GEzdHFx8rOirssv0IPT8IAT2g0q9jbwmGr6eYXn/
+         yo/i/JYiyx/6QQAcbDtwh7HZLjfOSEVAA8ATw3fCNf2O+jImTcHXMH3o5HZaB6sWhqHR
+         cUayU9cSUe/dTCFW6FhXUfmsg6/7DFBd6g8GBanpXA8jpLYATiv6aDmJ3xP1lfaVPCDf
+         q0pA==
+X-Gm-Message-State: AOAM530Z2od3L19tEBrMxArc6x6BzCnl75t2oqM6ySArxe2MtA5Wqk2A
+	tK0GVU4taotzZ7CIZUTKgEQ=
+X-Google-Smtp-Source: ABdhPJxcBZc8jHK+q2sAbekyTyKMpWW8gH/ecYP0bXVTSB8zmp6602m79Xw0KoMkweuRMSZsldnc7g==
+X-Received: by 2002:a17:902:768a:: with SMTP id m10mr5587392pll.125.1597241604078;
+        Wed, 12 Aug 2020 07:13:24 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:902:442:: with SMTP id 60ls966320ple.4.gmail; Wed, 12
- Aug 2020 06:02:29 -0700 (PDT)
-X-Received: by 2002:a17:902:b193:: with SMTP id s19mr5127915plr.72.1597237348642;
-        Wed, 12 Aug 2020 06:02:28 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1597237348; cv=none;
+Received: by 2002:a17:902:bb8f:: with SMTP id m15ls1031782pls.5.gmail; Wed, 12
+ Aug 2020 07:13:23 -0700 (PDT)
+X-Received: by 2002:a17:902:bd47:: with SMTP id b7mr5716541plx.144.1597241603404;
+        Wed, 12 Aug 2020 07:13:23 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1597241603; cv=none;
         d=google.com; s=arc-20160816;
-        b=JZecwXXtMVVMyTPxgQ1rsjtEwzV9XBdKLV1CPaG8cGQWVA80VENqYMeKQIjcAJ1qVD
-         Xoov8yDz0Zxr/TlEpthVlZJUZkkiNOo4aszJG0mFvPLy8MI1dUDuW/SgEbRHvgevVpPp
-         WL2nicJeQX0hbQ1LddNcKlFpQYoiL0DR72CELD9ELkGx/yXrsFau0/TbiIKOxNHMXyNO
-         VS3xml0tEhYuFqP/QWCGbHiAAYOheBAXRva2iC7vBxlj7X/Gt+osVtV6iMtr2SuNvQyt
-         esGGvP9BuO1O+Aifz7zcktKasJeWGqqqZlr86pSmVdl8qlyykBphEkyDmrNx1xVpZn5Z
-         f/IQ==
+        b=HRuFnUrFy0cmiy/Os7XkqvMbiEyM6EpBkCoS4zkwGv3uhkui2gRzwnsyb1fVUUxfIu
+         oVMWX2E3rjiReSIqOyTgJCwIx6Wp17ljkOfwHmLLu7DovyutcfodlNw+og1RdUtzd5+8
+         9swZE/6EmQft/pyM6DBePtYaLgcJN6BsVeuHWROwylGSB9CldIEX93p3ei4KphpgLaT2
+         3OLWM2yKHJGcXmYg4+Fr/QxOjrfhhrmPC41XWTZeZZakHG0LPXzmjQDTu5wGONPDmyAn
+         9tBREaQKsag6dF/uklVMwpTMAEkyP1KL+o35W608fueWiish63ATS35ewn8qPReWaoZh
+         M7HQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=/FYTOQHYFNoSSfeNhMyajUD/P2m5h59FWjXl7Kq1d4Y=;
-        b=leNvHwTLe5p8pHsZ06/8Yi8eTQnpY1583BwPrN1EdELcX7kUwN7GN35OT6BasIJk+h
-         e8Ad+10+gQxoKn1mbgbGHVYGqth/pB8n3AK99FQwpw55rCcAgH7gZGu3X6aG4UyuiCPB
-         I0+IhmQmFiuyCV2cR1clOpakanFamCKuz9GTwPCXiy66IJQeSQ4/D1je/tQsGvx6DRlo
-         qCjqiRUFn9xFgQUz/6cbB2JihaUCKA41HlDlHycBxejR/Nh4pakVso9+N19MHmfBTIpR
-         vPtccvOVaZtg2CBraGHGusYClzmZMCCuTZKiIMxt8B1RAcMVHffbN+mGf/hIE5tsbLWJ
-         sFrw==
+        bh=Eny7GtW3fheHTjAaLnI+U+IUiSf5L2wZMby5TEt/uUU=;
+        b=UQYLjikikquL+WQbCFqxGHeITAC24j5+OGTSe7phW8+6BjYvgxbYC8aNJWzt6vnqjI
+         Xphk4i31EhCzqWsYB0HAXsLTr7bQPRRUkp/Flq6dPUdUAD/KhC8m1p21eF/kW5pIKMhO
+         P8vcmbdzECfm8hH/vebV2kDCsKf7LfM4nh0hmPhgyDoMspqDx1XXLAGCvBIYO3aL9ULy
+         kFcXlgQN+iYrT2B8ERQx7KAudrzgGbaXUDaKWSTDlfEZLccmlQ11Kjx8vovtB2LXXetb
+         61NWn5c49cy82vGCl0NSvSnMxy3TX1+bSY7tHBwE7RfIeKrjafc/j2lTePf57+xDAvfQ
+         AjzA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=Ejh9JhTd;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::342 as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b="ZyrDNv/E";
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::242 as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com. [2607:f8b0:4864:20::342])
-        by gmr-mx.google.com with ESMTPS id v127si56089pfc.0.2020.08.12.06.02.28
+Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com. [2607:f8b0:4864:20::242])
+        by gmr-mx.google.com with ESMTPS id q137si78459pfc.4.2020.08.12.07.13.23
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 12 Aug 2020 06:02:28 -0700 (PDT)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::342 as permitted sender) client-ip=2607:f8b0:4864:20::342;
-Received: by mail-ot1-x342.google.com with SMTP id x24so1842816otp.3
-        for <kasan-dev@googlegroups.com>; Wed, 12 Aug 2020 06:02:28 -0700 (PDT)
-X-Received: by 2002:a9d:3da1:: with SMTP id l30mr9650285otc.233.1597237346320;
- Wed, 12 Aug 2020 06:02:26 -0700 (PDT)
+        Wed, 12 Aug 2020 07:13:23 -0700 (PDT)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::242 as permitted sender) client-ip=2607:f8b0:4864:20::242;
+Received: by mail-oi1-x242.google.com with SMTP id o21so1891303oie.12
+        for <kasan-dev@googlegroups.com>; Wed, 12 Aug 2020 07:13:23 -0700 (PDT)
+X-Received: by 2002:aca:d4d5:: with SMTP id l204mr7728838oig.70.1597241602391;
+ Wed, 12 Aug 2020 07:13:22 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200810080625.1428045-1-elver@google.com>
-In-Reply-To: <20200810080625.1428045-1-elver@google.com>
+References: <20200810072313.529-1-walter-zh.wu@mediatek.com>
+In-Reply-To: <20200810072313.529-1-walter-zh.wu@mediatek.com>
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Wed, 12 Aug 2020 15:02:14 +0200
-Message-ID: <CANpmjNP5WpDyfXDc=v6cerd5=GpKyCmBKAKH+6qLT6JrBGPqnw@mail.gmail.com>
-Subject: Re: [PATCH] kcsan: Optimize debugfs stats counters
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: kasan-dev <kasan-dev@googlegroups.com>, LKML <linux-kernel@vger.kernel.org>
+Date: Wed, 12 Aug 2020 16:13:09 +0200
+Message-ID: <CANpmjNO9=JBcSV-nif9a=4Zt7gTCp6e5c2jVXMCSFgP3v2P9-w@mail.gmail.com>
+Subject: Re: [PATCH 1/5] timer: kasan: record and print timer stack
+To: Walter Wu <walter-zh.wu@mediatek.com>
+Cc: Andrey Ryabinin <aryabinin@virtuozzo.com>, Alexander Potapenko <glider@google.com>, 
+	Dmitry Vyukov <dvyukov@google.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	John Stultz <john.stultz@linaro.org>, Stephen Boyd <sboyd@kernel.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, kasan-dev <kasan-dev@googlegroups.com>, 
+	Linux Memory Management List <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>, 
+	Linux ARM <linux-arm-kernel@lists.infradead.org>, 
+	wsd_upstream <wsd_upstream@mediatek.com>, linux-mediatek@lists.infradead.org, 
+	Thomas Gleixner <tglx@linutronix.de>
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=Ejh9JhTd;       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::342 as
+ header.i=@google.com header.s=20161025 header.b="ZyrDNv/E";       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::242 as
  permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
  sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Marco Elver <elver@google.com>
@@ -128,26 +135,150 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, 10 Aug 2020 at 10:06, Marco Elver <elver@google.com> wrote:
-> Remove kcsan_counter_inc/dec() functions, as they perform no other
-> logic, and are no longer needed.
+On Mon, 10 Aug 2020 at 09:23, Walter Wu <walter-zh.wu@mediatek.com> wrote:
+> This patch records the last two timer queueing stacks and prints
+> up to 2 timer stacks in KASAN report. It is useful for programmers
+> to solve use-after-free or double-free memory timer issues.
 >
-> This avoids several calls in kcsan_setup_watchpoint() and
-> kcsan_found_watchpoint(), as well as lets the compiler warn us about
-> potential out-of-bounds accesses as the array's size is known at all
-> usage sites at compile-time.
+> When timer_setup() or timer_setup_on_stack() is called, then it
+> prepares to use this timer and sets timer callback, we store
+> this call stack in order to print it in KASAN report.
 >
-> Signed-off-by: Marco Elver <elver@google.com>
+> Signed-off-by: Walter Wu <walter-zh.wu@mediatek.com>
+> Cc: Andrey Ryabinin <aryabinin@virtuozzo.com>
+> Cc: Dmitry Vyukov <dvyukov@google.com>
+> Cc: Alexander Potapenko <glider@google.com>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: John Stultz <john.stultz@linaro.org>
+> Cc: Stephen Boyd <sboyd@kernel.org>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
 > ---
->  kernel/kcsan/core.c    | 22 +++++++++++-----------
->  kernel/kcsan/debugfs.c | 21 +++++----------------
->  kernel/kcsan/kcsan.h   | 12 ++++++------
->  kernel/kcsan/report.c  |  2 +-
->  4 files changed, 23 insertions(+), 34 deletions(-)
+>  include/linux/kasan.h |  2 ++
+>  kernel/time/timer.c   |  2 ++
+>  mm/kasan/generic.c    | 21 +++++++++++++++++++++
+>  mm/kasan/kasan.h      |  4 +++-
+>  mm/kasan/report.c     | 11 +++++++++++
+>  5 files changed, 39 insertions(+), 1 deletion(-)
 
-Hi Paul,
+I'm commenting on the code here, but it also applies to patch 2/5, as
+it's almost a copy-paste.
 
-I think this one is good to apply. I do not expect conflicts with current -rcu.
+In general, I'd say the solution to get this feature is poorly
+designed, resulting in excessive LOC added. The logic added already
+exists for the aux stacks.
+
+> diff --git a/include/linux/kasan.h b/include/linux/kasan.h
+> index 23b7ee00572d..763664b36dc6 100644
+> --- a/include/linux/kasan.h
+> +++ b/include/linux/kasan.h
+> @@ -175,12 +175,14 @@ static inline size_t kasan_metadata_size(struct kmem_cache *cache) { return 0; }
+>  void kasan_cache_shrink(struct kmem_cache *cache);
+>  void kasan_cache_shutdown(struct kmem_cache *cache);
+>  void kasan_record_aux_stack(void *ptr);
+> +void kasan_record_tmr_stack(void *ptr);
+>
+>  #else /* CONFIG_KASAN_GENERIC */
+>
+>  static inline void kasan_cache_shrink(struct kmem_cache *cache) {}
+>  static inline void kasan_cache_shutdown(struct kmem_cache *cache) {}
+>  static inline void kasan_record_aux_stack(void *ptr) {}
+> +static inline void kasan_record_tmr_stack(void *ptr) {}
+
+It appears that the 'aux' stack is currently only used for call_rcu
+stacks, but this interface does not inherently tie it to call_rcu. The
+only thing tying it to call_rcu is the fact that the report calls out
+call_rcu.
+
+>  /**
+> diff --git a/mm/kasan/generic.c b/mm/kasan/generic.c
+> index 4b3cbad7431b..f35dcec990ab 100644
+> --- a/mm/kasan/generic.c
+> +++ b/mm/kasan/generic.c
+> @@ -347,6 +347,27 @@ void kasan_record_aux_stack(void *addr)
+>         alloc_info->aux_stack[0] = kasan_save_stack(GFP_NOWAIT);
+>  }
+>
+> +void kasan_record_tmr_stack(void *addr)
+> +{
+> +       struct page *page = kasan_addr_to_page(addr);
+> +       struct kmem_cache *cache;
+> +       struct kasan_alloc_meta *alloc_info;
+> +       void *object;
+> +
+> +       if (!(page && PageSlab(page)))
+> +               return;
+> +
+> +       cache = page->slab_cache;
+> +       object = nearest_obj(cache, page, addr);
+> +       alloc_info = get_alloc_info(cache, object);
+> +
+> +       /*
+> +        * record the last two timer stacks.
+> +        */
+> +       alloc_info->tmr_stack[1] = alloc_info->tmr_stack[0];
+> +       alloc_info->tmr_stack[0] = kasan_save_stack(GFP_NOWAIT);
+> +}
+
+The solution here is, unfortunately, poorly designed. This is a
+copy-paste of the kasan_record_aux_stack() function.
+
+>  void kasan_set_free_info(struct kmem_cache *cache,
+>                                 void *object, u8 tag)
+>  {
+> diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
+> index ef655a1c6e15..c50827f388a3 100644
+> --- a/mm/kasan/kasan.h
+> +++ b/mm/kasan/kasan.h
+> @@ -108,10 +108,12 @@ struct kasan_alloc_meta {
+>         struct kasan_track alloc_track;
+>  #ifdef CONFIG_KASAN_GENERIC
+>         /*
+> -        * call_rcu() call stack is stored into struct kasan_alloc_meta.
+> +        * call_rcu() call stack and timer queueing stack are stored
+> +        * into struct kasan_alloc_meta.
+>          * The free stack is stored into struct kasan_free_meta.
+>          */
+>         depot_stack_handle_t aux_stack[2];
+> +       depot_stack_handle_t tmr_stack[2];
+>  #else
+>         struct kasan_track free_track[KASAN_NR_FREE_STACKS];
+>  #endif
+> diff --git a/mm/kasan/report.c b/mm/kasan/report.c
+> index fed3c8fdfd25..6fa3bfee381f 100644
+> --- a/mm/kasan/report.c
+> +++ b/mm/kasan/report.c
+> @@ -191,6 +191,17 @@ static void describe_object(struct kmem_cache *cache, void *object,
+>                         print_stack(alloc_info->aux_stack[1]);
+>                         pr_err("\n");
+>                 }
+> +
+> +               if (alloc_info->tmr_stack[0]) {
+> +                       pr_err("Last timer stack:\n");
+> +                       print_stack(alloc_info->tmr_stack[0]);
+> +                       pr_err("\n");
+> +               }
+> +               if (alloc_info->tmr_stack[1]) {
+> +                       pr_err("Second to last timer stack:\n");
+> +                       print_stack(alloc_info->tmr_stack[1]);
+> +                       pr_err("\n");
+> +               }
+
+Why can't we just use the aux stack for everything, and simply change
+the message printed in the report. After all, the stack trace will
+include all the information to tell if it's call_rcu, timer, or
+workqueue.
+
+The reporting code would simply have to be changed to say something
+like "Last potentially related work creation:" -- because what the
+"aux" thing is trying to abstract are stack traces to work creations
+that took an address that is closely related. Whether or not you want
+to call it "work" is up to you, but that's the most generic term I
+could think of right now (any better terms?).
+
+Another argument for this consolidation is that it's highly unlikely
+that aux_stack[a] && tmr_stack[b] && wq_stack[c], and you need to
+print all the stacks. If you are worried we need more aux stacks, just
+make the array size 3+ (but I think it's not necessary).
 
 Thanks,
 -- Marco
@@ -155,4 +286,4 @@ Thanks,
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNP5WpDyfXDc%3Dv6cerd5%3DGpKyCmBKAKH%2B6qLT6JrBGPqnw%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNO9%3DJBcSV-nif9a%3D4Zt7gTCp6e5c2jVXMCSFgP3v2P9-w%40mail.gmail.com.
