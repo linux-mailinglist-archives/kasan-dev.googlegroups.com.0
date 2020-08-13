@@ -1,146 +1,121 @@
-Return-Path: <kasan-dev+bncBCS37NMQ3YHBBEVU2X4QKGQECGRFQIA@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBLOZ2X4QKGQE4FMR4YI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ed1-x539.google.com (mail-ed1-x539.google.com [IPv6:2a00:1450:4864:20::539])
-	by mail.lfdr.de (Postfix) with ESMTPS id 586AA243C5C
-	for <lists+kasan-dev@lfdr.de>; Thu, 13 Aug 2020 17:19:47 +0200 (CEST)
-Received: by mail-ed1-x539.google.com with SMTP id z19sf2129071edr.10
-        for <lists+kasan-dev@lfdr.de>; Thu, 13 Aug 2020 08:19:47 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1597331987; cv=pass;
+Received: from mail-vk1-xa3e.google.com (mail-vk1-xa3e.google.com [IPv6:2607:f8b0:4864:20::a3e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2854D243D8D
+	for <lists+kasan-dev@lfdr.de>; Thu, 13 Aug 2020 18:39:11 +0200 (CEST)
+Received: by mail-vk1-xa3e.google.com with SMTP id o26sf1680541vkn.21
+        for <lists+kasan-dev@lfdr.de>; Thu, 13 Aug 2020 09:39:11 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1597336750; cv=pass;
         d=google.com; s=arc-20160816;
-        b=Wvtg+v5/stHH+tEktuTFwHldtdRXGfuhnPFF3OMQ8iiAuScRIQJU4r7FksXGyyVP/B
-         p0Tvt2jwyGmR6vyNtYF7a3CG2SyQ2YNKfT7vcNPYZiKhK1Y+BT4fYvpdusE2s03HwHtT
-         g84s2pf3kYGt729Wo1k87Dw9zPC7AYMUd+XLrv3pa6t9IPVdjNAREdLj8KVxgqhmIT/Y
-         9KBTcy08rtDWD1eVFurLpPSzSD2+0ZtsUqUsxdRduaidyWqN67RCS9ZGDyy5W2w2QLli
-         +obKhHzaAUQywzxZ2Hp3bINomgwSho5xifFEpfW/dbAqjBsAob1J0Xbhh3hDwMPiKsuV
-         eaaw==
+        b=I/1EOPN0pRPEftp5h4+8EtPTKIaQ3sw0SutZ3oGpsC6a4XT9dUUdyUTostX+D4nSc3
+         NzZycOR6nwoPk69pcVVJnT6/8TQ9NUDVrNWRE7JsDgBH+HbmOCjio8+4U12i4GdWZLdz
+         UrW2XHVsFd4DwaN1NTFKrzcXv0EcHG6GW+DGX0HKmBw1CTWIpjAvg4pdjzXkaoufDlYz
+         UQHZAfR5DkSNhIpFjnCfOHceDxOS5jGkXY4JpktzUN5o+/kVfdl1KapbYaTpmmH7RaKK
+         J2E2wj7k3qkiuBI+F3NesVoMcGVlzssjYN6ID0b1IQv81qMsWPeTaDANqV5BbDaH95o7
+         RUrg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=wxrC2l2Y8RdtlUVm0fRAU+uJ8E79JpJV5C/B6b9H4Ik=;
-        b=N8ldrHDZ77LlxNIcc3NyJ1fhXIAIyFeDetz5T3eALoWNuhUoPjDbtJBc5SMq3G9lBZ
-         Q9kLg4Xf20WGw0Grew0Mzf5hoWvZWloBdtRoYnrsvWMHg16AlTksIRL4PjZOVqhGPm+g
-         5aK4B6AITW+9fUhXT5x2w9pHAUMPYogJ6AMGVUfYfWXpSOscDVhW6zP4l8Sc7SYLLJ06
-         2KWi6IymERHT7mT5zEst69q8xDXWJZ/x9nBjnSxmcOtANMa1tUvxr5/+J0HYXlrRBU9F
-         OCoIlpMEKCLtUkMa0a5B+e/5xR3J7DU7w700vLP57ckm5EksNsHBNqPA/AlAycc85vfZ
-         +2Iw==
+         :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
+         :mime-version:message-id:date:dkim-signature;
+        bh=//qQtEzv9kLCnnmUTlbp5lP1q1Lp2br5WHCDO7qChqg=;
+        b=mWF2Gi1mjFq8KMzO9wsATZy2IuFFC0gBChFhl8n+yt3BSZIznVYMOS/oIXWHk3B/IR
+         rJl9KUwLj51Ve7ZtIS1mDI/MZJR4OuYjbpi5SuFL8fDiJdMC2ypovXYhk/PXSBNYXBxW
+         J88KDEx90slop8hoQ2woBPVlW/s+v9VWU0ZeiBug3zVg7TolMUxNvvPUwWXQAeUttOYi
+         GC0Fbl4saqcIHQGEhwIpn3+WbSs+hM9MqQ5qIrkow3/Vj/cZ7IUIKlxGYwIU1LmBUUSv
+         u69yyLvm0ezGJLHq2262EK39wREcUSurt8g4FPiPOTHyOf7emMeOXIghCzuf7S0EN8Fm
+         4RgQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of a13xp0p0v88@gmail.com designates 209.85.128.66 as permitted sender) smtp.mailfrom=a13xp0p0v88@gmail.com
+       dkim=pass header.i=@google.com header.s=20161025 header.b=kbQXXy2B;
+       spf=pass (google.com: domain of 3rgw1xwukcvs7eo7k9hh9e7.5hfd3l3g-67o9hh9e79khnil.5hf@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::b49 as permitted sender) smtp.mailfrom=3rGw1XwUKCVs7EO7K9HH9E7.5HFD3L3G-67O9HH9E79KHNIL.5HF@flex--elver.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=wxrC2l2Y8RdtlUVm0fRAU+uJ8E79JpJV5C/B6b9H4Ik=;
-        b=koRJ3UCnfom/Rd4ugBVQoZQTAslH/vUsknKVDneob9a2NlEVamo7wS6Go6fptiUm2a
-         jpXlvtBWZi0/2ZaFApFM4/sAGoucht6K+7kFT12OErhellpZasVFgVlL7Czy3DbBqYl5
-         RPPFn7E6vhwBlCP5jfftXZLmJfq2kjaRf1Dw3gxeH/ufAdUxq60lOI8vrok5qAw2XntT
-         N4Ps1xCxk+j4VNK23qzjzoGzipVWmKL3k5zNbyHHTEcgtNIZB0Gy3WZzm+fzcJoYftvX
-         WGICA17/j0ETKO4fL8SgeHa/qFAi470uRu46NPR29itDPZn1YB2i191WOjTIpKbPLuw9
-         pAhA==
+        h=date:message-id:mime-version:subject:from:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:list-post:list-help:list-archive:list-subscribe
+         :list-unsubscribe;
+        bh=//qQtEzv9kLCnnmUTlbp5lP1q1Lp2br5WHCDO7qChqg=;
+        b=tJjLx1U8RrPL+t9RbXocOzHdS5QC9xcpfraoLB8K6z8t5feJgmQQsID2s+pX3wpmhs
+         rlZXG4fCMgsInlASlEplGLiqWtbZRMvwP0ARnBUAonn36b2tYnR9iSBXIFXeLJ4o2iUg
+         q2pcDBa8x1+dA6tvtn1mGxc7Pyd0bFL7xmjwThzE8dxmC83JeH2S7D4LzOZTGGHSeQZd
+         sYG2xbpgO7Moy1DM+e57z6lN+L9wOJL/XSeZDQHoDDSHxzMll+dEJDT0LhNxdzr6Vdkm
+         LGVNDFMo54/z8+zWwMCppnST6feiWVeDfw1tWkgqRjqvp4ERwpaBdf8jy7vBQRQsdMKA
+         Kwhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :in-reply-to:references:mime-version:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=wxrC2l2Y8RdtlUVm0fRAU+uJ8E79JpJV5C/B6b9H4Ik=;
-        b=LSVWWM2O5kLgn879kE2on25EiO7qRrULUh54Em97R/QnTKZoQ9J8+IteXUv0zl6SVb
-         whi2d1reWdguGfhwiMAUUI+ghetbiJdCDeH+Vl121DwhxR9cd0T/hlf4ohDC5fGrjG5P
-         RFWvixz0wjJo5rmcsyupM6qMwtX9u7t1hGaAvJOPrJmkf99qnTypsEK7sQKSPi5Vm6kd
-         EB0/bSBO2UXrYyQjJRrOljKuaZsEMvzMtywhb2XOn7F/z1+2qAfQOGuL7Ea6M3rJ2Ser
-         GaNbPXzFi5z6070WeUqFrqBgQi5rR4sWD9xJdlc9x4pvmnDVkkzVuW8VRBldKCw86KoH
-         XQGQ==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM530uSmZZz4/xDS5wCXFoWs29m1bgLVVsicoakQH1g9bi6KNjyWe5
-	wQf+pEWdc39hz1XZGU/9QiY=
-X-Google-Smtp-Source: ABdhPJyq8YaceFTh47Kux28rgYjFoN+l4jqeGDVwCE7Vlw5KInKmmHQ8YVY/E6hmvP4auMXAL5bgfw==
-X-Received: by 2002:aa7:dd91:: with SMTP id g17mr5411228edv.186.1597331987044;
-        Thu, 13 Aug 2020 08:19:47 -0700 (PDT)
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc
+         :x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=//qQtEzv9kLCnnmUTlbp5lP1q1Lp2br5WHCDO7qChqg=;
+        b=NeRzX2v/1q8aS/5tg1w54pY2/GUEvIyFtdzEbRxivdrsh8tk1ciLS39XuZGMBIKELe
+         S1D4nmw6BfWrVxFPNxxuqPSDBYSUL0puLa/XxcuqSpChrTxJ+WJD2H8H5D+dbo5D6O/q
+         5RhIFEkrjjiGPGnKd/AovTJ5WbZHnDo2S+L+TDXtm6yHqqYT2HThPm5ewz8y7H7SoHwE
+         OTzkn/r6b8sIGK3ubocUcbQUztQt79ppE7R5uhVU5ulKyh2eSrcLiB5Pew/i/sbYk8TJ
+         tHQAHCT+iw4esTGXYy6PWiSi94pYY6Od+yc2J9KyHJ19MJN+bdm2vI7GU1TSg9jFfRIQ
+         rhsA==
+X-Gm-Message-State: AOAM532d3Cc2bBmKV+uyZqcbF5vPMUFqaADrDe/YCQvzvC+3Z9k0SuGb
+	yzCcs/M+5ocuKmeN3BGRqAU=
+X-Google-Smtp-Source: ABdhPJxBf0N6RwJumr9l/bIXUy4Pvn2OtKXIPGe+fCPF+cla8ADUzuqKjn5C0dqVPED0EX7r9ZWyGA==
+X-Received: by 2002:a67:f555:: with SMTP id z21mr4209811vsn.187.1597336749911;
+        Thu, 13 Aug 2020 09:39:09 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a50:baa2:: with SMTP id x31ls6202800ede.0.gmail; Thu, 13 Aug
- 2020 08:19:46 -0700 (PDT)
-X-Received: by 2002:a50:e087:: with SMTP id f7mr5413870edl.174.1597331986592;
-        Thu, 13 Aug 2020 08:19:46 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1597331986; cv=none;
+Received: by 2002:a1f:6e0b:: with SMTP id j11ls314851vkc.1.gmail; Thu, 13 Aug
+ 2020 09:39:09 -0700 (PDT)
+X-Received: by 2002:a1f:3d97:: with SMTP id k145mr4442509vka.8.1597336749418;
+        Thu, 13 Aug 2020 09:39:09 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1597336749; cv=none;
         d=google.com; s=arc-20160816;
-        b=hA5V6CldcMj11Xief5OpJ7SCmeKRJGaKF5ejFeC+0eYtAb5uuj5sXRVfcCyjyb+pT5
-         lZuJDIOrhL+jtpX3DIrTv+vKkIRd+oZ/yOVPKT/SVojIyE7CEIUSlAwTQCGrHW/Hr/o2
-         F7bXqd2ZMwyFftN1RH+0Rr1UyEes77kfht2JcKlF2dhj4zJU+N92F7zIVEvIbCPM3Mro
-         Sk8lxjNNJkQ/Rgmhyx0wGF85iVKAM3a3+/oFebbnLCzxw4J4W+k9Ka7VeoAlqkVvyMGD
-         YxhH2C+hzpgLBpTe6szjADZsWdvrdooTqqp4HMRuZB2od2hJ3V2KqjaMp6BRMbMJNTjr
-         kffQ==
+        b=ml7t0GTuhVVJ4BHI3O/GtD0CJtEzwxZhVjDLMIdizVDWU/SDqbxRj0IOpCR2fqHw6O
+         SwIPGCV/QlO5be3nb1fdxET3crB2HNR3viU6obH07WzYlcVFBQ4vUVltOE6Utr2sIANi
+         5ioHy6F7Y2EsEAccrJlyvM6Jb6/3ngNDo1aISx1No7GjIAjsOEfonc0NvpI80+KFJHac
+         IGpctQjACydXRj+Lt35tL3jl7y9ShC2YLhOYwkZ8OW9znpxegKLeFBBZt4UUI36YObNC
+         mKGYeKbegHx32e2At3T8Q6BHwythbtaEggBxKMZSKoO/GIqToXIqXMYA24covydU3B8R
+         fKYA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from;
-        bh=sWVYbnLUoQh2/bQ8PJoxS/2ocrG/gYbDVzBuksdzAMQ=;
-        b=VpjvAUeqHIS7vwD5qmgokuuRZxCw1FlhHW0ILuN7cJ383rSYupjPOokNCw+iZBjpTR
-         mahR/X6xJ31z3W14M8NYIyblOY4GSrisKgOefprW4oC1ImRLu84SgFoKrS/OzW3CZ+Xi
-         1UmbQYrisTPL4z1N9jKAT7X8oBoR17aMqg2JxDDID5FdYaeF4K5PEwPG97uM8Y4ZV1hh
-         NwWbJlJnDm5KPMI3sraosPwagin4kKiu3Hyy8UgN2XOih91jzBA8SI0VHf5lTHiIeV44
-         O4DiAb8DaXhlrQR+T9BEoueBMfuDdt1NYWacwUTbQwSj4WqIim5Xi9cj4chQn9a68fNZ
-         bgiQ==
+        h=cc:to:from:subject:mime-version:message-id:date:dkim-signature;
+        bh=EXiQM+OwcDwzJXyrdpXsirkqETQSrhVgpmlZfZrdtjc=;
+        b=0wsfaBK+/DUKcO5seGrB5mjs3bVvLQJbFWzf4z8c6EbdM9pu0Ur08ZK8B+0ZBdNk/U
+         YxCu66dG2zd3AKTV+dPNYdGFQL3oJrq561kCozbl4tenGJJL8PvXwSumDnfUSPXDS8TP
+         1rh5pelu7J/xNPF4PqIaTlICXQ96Eg2a+ORwzAXxZV+QyFwfQVbuAI8gBOO+beDYHzV6
+         9agi58yOa7FdL3G4j4jBCFB3BZkNkKPYbm5gARa3MZGr1DfuQ31vjSXUtEkipNX/SwvS
+         PkOJ7RlbK6f/dvv2USsyeMnt9MNBT9loVczwN0Mak5Mz4GcAlo4g5qAiTxLQwPw0A0wN
+         bpDA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of a13xp0p0v88@gmail.com designates 209.85.128.66 as permitted sender) smtp.mailfrom=a13xp0p0v88@gmail.com
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com. [209.85.128.66])
-        by gmr-mx.google.com with ESMTPS id b5si285773edx.4.2020.08.13.08.19.46
+       dkim=pass header.i=@google.com header.s=20161025 header.b=kbQXXy2B;
+       spf=pass (google.com: domain of 3rgw1xwukcvs7eo7k9hh9e7.5hfd3l3g-67o9hh9e79khnil.5hf@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::b49 as permitted sender) smtp.mailfrom=3rGw1XwUKCVs7EO7K9HH9E7.5HFD3L3G-67O9HH9E79KHNIL.5HF@flex--elver.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com. [2607:f8b0:4864:20::b49])
+        by gmr-mx.google.com with ESMTPS id p19si460529vsn.2.2020.08.13.09.39.09
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 13 Aug 2020 08:19:46 -0700 (PDT)
-Received-SPF: pass (google.com: domain of a13xp0p0v88@gmail.com designates 209.85.128.66 as permitted sender) client-ip=209.85.128.66;
-Received: by mail-wm1-f66.google.com with SMTP id g75so5380630wme.4
-        for <kasan-dev@googlegroups.com>; Thu, 13 Aug 2020 08:19:46 -0700 (PDT)
-X-Received: by 2002:a1c:de88:: with SMTP id v130mr4675656wmg.98.1597331986347;
-        Thu, 13 Aug 2020 08:19:46 -0700 (PDT)
-Received: from localhost.localdomain ([185.248.161.177])
-        by smtp.gmail.com with ESMTPSA id d23sm10394044wmd.27.2020.08.13.08.19.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Aug 2020 08:19:45 -0700 (PDT)
-From: Alexander Popov <alex.popov@linux.com>
-To: Kees Cook <keescook@chromium.org>,
-	Jann Horn <jannh@google.com>,
-	Will Deacon <will@kernel.org>,
-	Andrey Ryabinin <aryabinin@virtuozzo.com>,
-	Alexander Potapenko <glider@google.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Christoph Lameter <cl@linux.com>,
-	Pekka Enberg <penberg@kernel.org>,
-	David Rientjes <rientjes@google.com>,
-	Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Patrick Bellasi <patrick.bellasi@arm.com>,
-	David Howells <dhowells@redhat.com>,
-	Eric Biederman <ebiederm@xmission.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Laura Abbott <labbott@redhat.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	kasan-dev@googlegroups.com,
-	linux-mm@kvack.org,
-	kernel-hardening@lists.openwall.com,
-	linux-kernel@vger.kernel.org,
-	Alexander Popov <alex.popov@linux.com>
-Cc: notify@kernel.org
-Subject: [PATCH RFC 2/2] lkdtm: Add heap spraying test
-Date: Thu, 13 Aug 2020 18:19:22 +0300
-Message-Id: <20200813151922.1093791-3-alex.popov@linux.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200813151922.1093791-1-alex.popov@linux.com>
-References: <20200813151922.1093791-1-alex.popov@linux.com>
-MIME-Version: 1.0
-X-Original-Sender: a13xp0p0v88@gmail.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of a13xp0p0v88@gmail.com designates 209.85.128.66 as
- permitted sender) smtp.mailfrom=a13xp0p0v88@gmail.com
+        Thu, 13 Aug 2020 09:39:09 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 3rgw1xwukcvs7eo7k9hh9e7.5hfd3l3g-67o9hh9e79khnil.5hf@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::b49 as permitted sender) client-ip=2607:f8b0:4864:20::b49;
+Received: by mail-yb1-xb49.google.com with SMTP id a14so7295062ybm.13
+        for <kasan-dev@googlegroups.com>; Thu, 13 Aug 2020 09:39:09 -0700 (PDT)
+X-Received: by 2002:a25:d1ce:: with SMTP id i197mr8653927ybg.100.1597336748940;
+ Thu, 13 Aug 2020 09:39:08 -0700 (PDT)
+Date: Thu, 13 Aug 2020 18:38:59 +0200
+Message-Id: <20200813163859.1542009-1-elver@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.28.0.220.ged08abb693-goog
+Subject: [PATCH] bitops, kcsan: Partially revert instrumentation for
+ non-atomic bitops
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+To: elver@google.com, paulmck@kernel.org
+Cc: will@kernel.org, arnd@arndb.de, mark.rutland@arm.com, 
+	linux-arch@vger.kernel.org, dvyukov@google.com, kasan-dev@googlegroups.com, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: elver@google.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@google.com header.s=20161025 header.b=kbQXXy2B;       spf=pass
+ (google.com: domain of 3rgw1xwukcvs7eo7k9hh9e7.5hfd3l3g-67o9hh9e79khnil.5hf@flex--elver.bounces.google.com
+ designates 2607:f8b0:4864:20::b49 as permitted sender) smtp.mailfrom=3rGw1XwUKCVs7EO7K9HH9E7.5HFD3L3G-67O9HH9E79KHNIL.5HF@flex--elver.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -153,101 +128,122 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Add a simple test for CONFIG_SLAB_QUARANTINE.
+Previous to the change to distinguish read-write accesses, when
+CONFIG_KCSAN_ASSUME_PLAIN_WRITES_ATOMIC=y is set, KCSAN would consider
+the non-atomic bitops as atomic. We want to partially revert to this
+behaviour, but with one important distinction: report racing
+modifications, since lost bits due to non-atomicity are certainly
+possible.
 
-It performs heap spraying that aims to reallocate the recently freed heap
-object. This technique is used for exploiting use-after-free
-vulnerabilities in the kernel code.
+Given the operations here only modify a single bit, assuming
+non-atomicity of the writer is sufficient may be reasonable for certain
+usage (and follows the permissible nature of the "assume plain writes
+atomic" rule). In other words:
 
-This test shows that CONFIG_SLAB_QUARANTINE breaks heap spraying
-exploitation technique.
+	1. We want non-atomic read-modify-write races to be reported;
+	   this is accomplished by kcsan_check_read(), where any
+	   concurrent write (atomic or not) will generate a report.
 
-Signed-off-by: Alexander Popov <alex.popov@linux.com>
+	2. We do not want to report races with marked readers, but -do-
+	   want to report races with unmarked readers; this is
+	   accomplished by the instrument_write() ("assume atomic
+	   write" with Kconfig option set).
+
+With the above rules, when KCSAN_ASSUME_PLAIN_WRITES_ATOMIC is selected,
+it is hoped that KCSAN's reporting behaviour is better aligned with
+current expected permissible usage for non-atomic bitops.
+
+Note that, a side-effect of not telling KCSAN that the accesses are
+read-writes, is that this information is not displayed in the access
+summary in the report. It is, however, visible in inline-expanded stack
+traces. For now, it does not make sense to introduce yet another special
+case to KCSAN's runtime, only to cater to the case here.
+
+Signed-off-by: Marco Elver <elver@google.com>
+Cc: Dmitry Vyukov <dvyukov@google.com>
+Cc: Paul E. McKenney <paulmck@kernel.org>
+Cc: Will Deacon <will@kernel.org>
 ---
- drivers/misc/lkdtm/core.c  |  1 +
- drivers/misc/lkdtm/heap.c  | 40 ++++++++++++++++++++++++++++++++++++++
- drivers/misc/lkdtm/lkdtm.h |  1 +
- 3 files changed, 42 insertions(+)
+As discussed, partially reverting behaviour for non-atomic bitops when
+KCSAN_ASSUME_PLAIN_WRITES_ATOMIC is selected.
 
-diff --git a/drivers/misc/lkdtm/core.c b/drivers/misc/lkdtm/core.c
-index a5e344df9166..78b7669c35eb 100644
---- a/drivers/misc/lkdtm/core.c
-+++ b/drivers/misc/lkdtm/core.c
-@@ -126,6 +126,7 @@ static const struct crashtype crashtypes[] = {
- 	CRASHTYPE(SLAB_FREE_DOUBLE),
- 	CRASHTYPE(SLAB_FREE_CROSS),
- 	CRASHTYPE(SLAB_FREE_PAGE),
-+	CRASHTYPE(HEAP_SPRAY),
- 	CRASHTYPE(SOFTLOCKUP),
- 	CRASHTYPE(HARDLOCKUP),
- 	CRASHTYPE(SPINLOCKUP),
-diff --git a/drivers/misc/lkdtm/heap.c b/drivers/misc/lkdtm/heap.c
-index 1323bc16f113..a72a241e314a 100644
---- a/drivers/misc/lkdtm/heap.c
-+++ b/drivers/misc/lkdtm/heap.c
-@@ -205,6 +205,46 @@ static void ctor_a(void *region)
- static void ctor_b(void *region)
- { }
+I'd like to avoid more special cases in KCSAN's runtime to cater to
+cases like this, not only because it adds more complexity, but it
+invites more special cases to be added. If there are other such
+primitives, we likely have to do it on a case-by-case basis as well, and
+justify carefully for each such case. But currently, as far as I can
+tell, the bitops are truly special, simply because we do know each op
+just touches a single bit.
+---
+ .../bitops/instrumented-non-atomic.h          | 30 +++++++++++++++++--
+ 1 file changed, 27 insertions(+), 3 deletions(-)
+
+diff --git a/include/asm-generic/bitops/instrumented-non-atomic.h b/include/asm-generic/bitops/instrumented-non-atomic.h
+index f86234c7c10c..37363d570b9b 100644
+--- a/include/asm-generic/bitops/instrumented-non-atomic.h
++++ b/include/asm-generic/bitops/instrumented-non-atomic.h
+@@ -58,6 +58,30 @@ static inline void __change_bit(long nr, volatile unsigned long *addr)
+ 	arch___change_bit(nr, addr);
+ }
  
-+#define HEAP_SPRAY_SIZE 128
-+
-+void lkdtm_HEAP_SPRAY(void)
++static inline void __instrument_read_write_bitop(long nr, volatile unsigned long *addr)
 +{
-+	int *addr;
-+	int *spray_addrs[HEAP_SPRAY_SIZE] = { 0 };
-+	unsigned long i = 0;
-+
-+	addr = kmem_cache_alloc(a_cache, GFP_KERNEL);
-+	if (!addr) {
-+		pr_info("Unable to allocate memory in lkdtm-heap-a cache\n");
-+		return;
-+	}
-+
-+	*addr = 0x31337;
-+	kmem_cache_free(a_cache, addr);
-+
-+	pr_info("Performing heap spraying...\n");
-+	for (i = 0; i < HEAP_SPRAY_SIZE; i++) {
-+		spray_addrs[i] = kmem_cache_alloc(a_cache, GFP_KERNEL);
-+		*spray_addrs[i] = 0x31337;
-+		pr_info("attempt %lu: spray alloc addr %p vs freed addr %p\n",
-+						i, spray_addrs[i], addr);
-+		if (spray_addrs[i] == addr) {
-+			pr_info("freed addr is reallocated!\n");
-+			break;
-+		}
-+	}
-+
-+	if (i < HEAP_SPRAY_SIZE)
-+		pr_info("FAIL! Heap spraying succeed :(\n");
-+	else
-+		pr_info("OK! Heap spraying hasn't succeed :)\n");
-+
-+	for (i = 0; i < HEAP_SPRAY_SIZE; i++) {
-+		if (spray_addrs[i])
-+			kmem_cache_free(a_cache, spray_addrs[i]);
++	if (IS_ENABLED(CONFIG_KCSAN_ASSUME_PLAIN_WRITES_ATOMIC)) {
++		/*
++		 * We treat non-atomic read-write bitops a little more special.
++		 * Given the operations here only modify a single bit, assuming
++		 * non-atomicity of the writer is sufficient may be reasonable
++		 * for certain usage (and follows the permissible nature of the
++		 * assume-plain-writes-atomic rule):
++		 * 1. report read-modify-write races -> check read;
++		 * 2. do not report races with marked readers, but do report
++		 *    races with unmarked readers -> check "atomic" write.
++		 */
++		kcsan_check_read(addr + BIT_WORD(nr), sizeof(long));
++		/*
++		 * Use generic write instrumentation, in case other sanitizers
++		 * or tools are enabled alongside KCSAN.
++		 */
++		instrument_write(addr + BIT_WORD(nr), sizeof(long));
++	} else {
++		instrument_read_write(addr + BIT_WORD(nr), sizeof(long));
 +	}
 +}
 +
- void __init lkdtm_heap_init(void)
+ /**
+  * __test_and_set_bit - Set a bit and return its old value
+  * @nr: Bit to set
+@@ -68,7 +92,7 @@ static inline void __change_bit(long nr, volatile unsigned long *addr)
+  */
+ static inline bool __test_and_set_bit(long nr, volatile unsigned long *addr)
  {
- 	double_free_cache = kmem_cache_create("lkdtm-heap-double_free",
-diff --git a/drivers/misc/lkdtm/lkdtm.h b/drivers/misc/lkdtm/lkdtm.h
-index 8878538b2c13..dfafb4ae6f3a 100644
---- a/drivers/misc/lkdtm/lkdtm.h
-+++ b/drivers/misc/lkdtm/lkdtm.h
-@@ -45,6 +45,7 @@ void lkdtm_READ_BUDDY_AFTER_FREE(void);
- void lkdtm_SLAB_FREE_DOUBLE(void);
- void lkdtm_SLAB_FREE_CROSS(void);
- void lkdtm_SLAB_FREE_PAGE(void);
-+void lkdtm_HEAP_SPRAY(void);
+-	instrument_read_write(addr + BIT_WORD(nr), sizeof(long));
++	__instrument_read_write_bitop(nr, addr);
+ 	return arch___test_and_set_bit(nr, addr);
+ }
  
- /* lkdtm_perms.c */
- void __init lkdtm_perms_init(void);
+@@ -82,7 +106,7 @@ static inline bool __test_and_set_bit(long nr, volatile unsigned long *addr)
+  */
+ static inline bool __test_and_clear_bit(long nr, volatile unsigned long *addr)
+ {
+-	instrument_read_write(addr + BIT_WORD(nr), sizeof(long));
++	__instrument_read_write_bitop(nr, addr);
+ 	return arch___test_and_clear_bit(nr, addr);
+ }
+ 
+@@ -96,7 +120,7 @@ static inline bool __test_and_clear_bit(long nr, volatile unsigned long *addr)
+  */
+ static inline bool __test_and_change_bit(long nr, volatile unsigned long *addr)
+ {
+-	instrument_read_write(addr + BIT_WORD(nr), sizeof(long));
++	__instrument_read_write_bitop(nr, addr);
+ 	return arch___test_and_change_bit(nr, addr);
+ }
+ 
 -- 
-2.26.2
+2.28.0.220.ged08abb693-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200813151922.1093791-3-alex.popov%40linux.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200813163859.1542009-1-elver%40google.com.
