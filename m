@@ -1,137 +1,143 @@
-Return-Path: <kasan-dev+bncBDGPTM5BQUDRBPPN2T4QKGQE2G2ZXFY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCS37NMQ3YHBBCNU2X4QKGQEGETY23A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x43b.google.com (mail-pf1-x43b.google.com [IPv6:2607:f8b0:4864:20::43b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F6492439FE
-	for <lists+kasan-dev@lfdr.de>; Thu, 13 Aug 2020 14:49:03 +0200 (CEST)
-Received: by mail-pf1-x43b.google.com with SMTP id y13sf4280601pfp.5
-        for <lists+kasan-dev@lfdr.de>; Thu, 13 Aug 2020 05:49:03 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1597322942; cv=pass;
+Received: from mail-wm1-x33d.google.com (mail-wm1-x33d.google.com [IPv6:2a00:1450:4864:20::33d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B4D4243C57
+	for <lists+kasan-dev@lfdr.de>; Thu, 13 Aug 2020 17:19:38 +0200 (CEST)
+Received: by mail-wm1-x33d.google.com with SMTP id c186sf2076036wmd.9
+        for <lists+kasan-dev@lfdr.de>; Thu, 13 Aug 2020 08:19:38 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1597331978; cv=pass;
         d=google.com; s=arc-20160816;
-        b=blESysNq0gvV8DuW9BJzqXeZl6ntWdR0LTc2CCh+pyM00H3NNxYPpMeGxEts6hB6Ay
-         2RVkYqvIWibMnn2fHVIHWM9Uj+lTVDxnMA+96s48eB2Stc4HansACIpuP+vqaU1BNQix
-         Me3TT8ieYObCx5xrgXn18cosBpI+nIzrYDrJxEClhWbXzLD8PAvDE1rjlkaef3R18XmA
-         izH7O0S03iJH0dOP9FD35yIA874i4d27PhTKJj55xNQt8ewMbo4x6eaKkUOmDf9grvFP
-         5t3oOdr8nk87+ywiCLIwku9MGOWVT+e7QeCeBHfG5TJxJjW7IY7oYX2Ak7GdM5pE5niV
-         E0sA==
+        b=gbrJD+tHBPOudO/euwugt5JPCMZyub4gOQ3SJqK8O6qgcXMTkFlj4UP+xBYRZHW0cE
+         nmReLzMQX6ooHTsAXXRWOwCrLdJVNDhXpF93WprIh5LW2RUd4HuuTejRBvCUYFZzhHnV
+         StRJeOLnbBkhlfgqSNegEglTBstD0ci+Nf6Zr+80OwdiG7ppYvrFZKPrHisORhxhiGng
+         /KeOlfEUS3z1DQoiNx0YGtyh8yUmXMowwrnXh5h9cYzoR7IkXaVYOxt96/KXgfz5Omf1
+         7JB8L+TAfhyp6tGFunopGuDSd5Mb4zVaFw0Ljpg47xIc9YNiAZufqWDAMu5CuOCKSZLe
+         UrIA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
-         :date:cc:to:from:subject:message-id:sender:dkim-signature;
-        bh=w7kghWgVv4AiJ9Azq1nH/dDHciAyP5p/48pptHi5dS0=;
-        b=KI35bDkFuDvhsnkpcF29vk7j4OLcPhPhSg2JIRJGtKTu3UdXQiThLyBrw3z/v9caHf
-         Q0f26S3//j9/Dv7m3ukFRpbSG0s91v1sXueXt3DD676LhVU4BEMFNqOtR5g/mVsTGEWU
-         y0YtYbwTtZmcSBgcHpYs1NYu1ca6Ht+640Udh1x/2xJDPBIV9RUPNyv7eRNty0s8krGX
-         M8Id/mvai8i47MbMgTp38N6MlMrJrdpK7P6VS72bXtHBZEBv1avzN3N/H7B5gHSFR2Dk
-         Ro8Jf7ckOfzrI4RTPdyX177wK9ZqDF8KThilADmcDhdBGNFzWqytoK9KCqyGrvHI4juh
-         1NrQ==
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :subject:cc:to:from:sender:dkim-signature;
+        bh=tWK0oUv5Ll4YRV1mlvtvtXI3b1diQiV1FbiLsWavRAM=;
+        b=z4MRKE42w+L2Dl9tSIr609X9x1JL52L0cchoEnNz6pxA2MwP6X+2fAQQ5ILX1BgOe5
+         it6kTb5fy24jTyKvqUUp5zHQX+bDJHGaPqHvA4gd72GtYmDICdDSDNdrccmKWS+0hRl6
+         2m86bg1vE3SWyJZ5/EVvyLddtUyBWkv3DQigtn1WsO1MO0G0vM+ELQGu3eTFEXHYsZfu
+         CLDZQWd09KeY2GwXSwhZpU6KUKC7p42R/Vys6vv5yDlxTAppWWPSlWPTunxmXBvSqat5
+         4infkCn05uQ726/+Tpx+y93hIXoZ/cn37hiCfP773msEGvBAJS/Y8NYaG9v8RmtdXKjr
+         CW7g==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@mediatek.com header.s=dk header.b=BOIL1Rth;
-       spf=pass (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.184 as permitted sender) smtp.mailfrom=walter-zh.wu@mediatek.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
+       spf=pass (google.com: domain of a13xp0p0v88@gmail.com designates 209.85.221.67 as permitted sender) smtp.mailfrom=a13xp0p0v88@gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:message-id:subject:from:to:cc:date:in-reply-to:references
-         :mime-version:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=w7kghWgVv4AiJ9Azq1nH/dDHciAyP5p/48pptHi5dS0=;
-        b=Ei+uHQsSXBis017TqQYSZst0SfCoLV7Q4gMeyjz9nyctYYUXBucKWH0LTEhO4D3suf
-         0wusJiuCmGo0Ua73qe/lSi1uaNpMms4a4cn/Mqq2Fi7BHGQIbH5BNot8kkqcZ986MfmW
-         3vTUoF1TDkZ5rbkOhFLm1IIsBeQ9GJW9tLAowp95r67ghzlmhAGANUVBHSZACXpf08sp
-         fd16qAxFZ3CW0nh4QeRhau7XlMwGR6ZbMivmtckbgTZdRp85UCQ1MLnmF61LuWm9zQ74
-         RO3ozECtMVCu6Olzr6ISw2yg4pdS8tS+xQ2t//1EpYoOPWGRoJ1LRITzq49DDjBbk8Il
-         +DRw==
+        bh=tWK0oUv5Ll4YRV1mlvtvtXI3b1diQiV1FbiLsWavRAM=;
+        b=Y9/dYeoeAMUQt7jLhG3VcXd0GOcZv9N42WJetfERfJV3p4kms/wYt1TVrR8Ihu+JQU
+         ePBrvsuHVjhZyNE4RktXZrC3fVvwto27dY51khr+Z+PPkp8JgFi+6DL6HCKcKEn3LV4g
+         TgRc1vfZI6MaN2mGq8JgTnvVarkL3ftEVoP4lmURcflxIAC9ntOmy5jE1/hnrIBIMwDj
+         HdHLsGHtHEy9BkQo2dygseuNTYgOm49z4nadCKwUnHDY8LTz10NmPVFTu6I0moyhwdKK
+         Z1fRYaN1S/oGUR2ztlRT6S+2gVIS1bYEYxk3KTuXEC2uSTbttUKzDrI0YSJ681FOmm3P
+         FkBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:message-id:subject:from:to:cc:date
-         :in-reply-to:references:mime-version:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=w7kghWgVv4AiJ9Azq1nH/dDHciAyP5p/48pptHi5dS0=;
-        b=iHzUIwLCi5zaQ+XgbFhAbQOC+V6OMDzcX/WiKm6rCm57L6RXfsLehR1EXS34cYlblF
-         J2foNl+g0qqBpVO3tfDCWwfEQ6lPAhd4woKCeyOhG6Xq1rI8BkbYbHg11TC1lA7gMG2Q
-         OihCTNNHhcWybh2sRfr7ApA3GsKu0cgj9qlg84och98bPBupec7MKSZp9aJHLb/2ppIH
-         ixVxK0yObVKvhOlISLWQaB4Q/Aegm+0ogaiyDwRQupFlgbXsaIT2AQiWiLTq34fnTiBB
-         MKblhwzVYf9cKq3wR3LVbKS6Gyf6Pn3pZ+oaACU/DileNjxwJjWA/ic2Z4aWcUpyPW3x
-         o+gw==
+        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=tWK0oUv5Ll4YRV1mlvtvtXI3b1diQiV1FbiLsWavRAM=;
+        b=pV3RAPdb4GlRBHAPF1XVxXgof25E3kcqzMyvr1F6yu8L+JQ/YDOYu1VGfCqgbDqPwj
+         YTd+yCSYxydQisVtanJSUXLEDqDupsVHvbdaEReSaLZNSUvA+bQfYhxf8g8qVmbatq4u
+         T496Hcxw+9CpqTvqrfIB1WoYLgAkiAOQliwBKnC8SQ3RPz9/E1xAGRkrRgRVTmyHhoeQ
+         61WV5pILtWc0apkWUFWJ/O2aw2WNOS2NcTKxCSEu3wv7AhSdYqdO//AdokkRwY5VOrst
+         T6YvvjBQb0jCmK0mQ+mMKFHu4E0xAYqB9FlYNQY9g6uiujwOj56YyUvUjDxOGgHMasZj
+         EfnQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM532776BbplDE4F1iYFInUZ/SloKLHi8eBxAJ3hHjHUcrxVsiZybm
-	6ztrqzromD/WZEFfJ9Z6G3Q=
-X-Google-Smtp-Source: ABdhPJw5AKc9j+/LhkrBTJC7J4Ygdfvu8fiJAzTM00mh/qJAfTWGpePjSneMPS1GxIR+ykuEOO0+Vw==
-X-Received: by 2002:a62:7f06:: with SMTP id a6mr1201741pfd.300.1597322942013;
-        Thu, 13 Aug 2020 05:49:02 -0700 (PDT)
+X-Gm-Message-State: AOAM533kBE1ApGbt24GjOn5ob/CqjP4p/5Y7Pe2CPXAP8yk6kRIGJ2zD
+	dct1TjpB8gOiQXG+pX7yXbk=
+X-Google-Smtp-Source: ABdhPJxUPO+SraBJssQTni0wZot2EfZFMeoy/jj3SxDtxed6631AJ7UOekaWoaK3jkK900eUNCvrHw==
+X-Received: by 2002:adf:e9cd:: with SMTP id l13mr4992054wrn.340.1597331977852;
+        Thu, 13 Aug 2020 08:19:37 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:902:720b:: with SMTP id ba11ls2279749plb.0.gmail; Thu,
- 13 Aug 2020 05:49:01 -0700 (PDT)
-X-Received: by 2002:a17:90a:ea83:: with SMTP id h3mr5263952pjz.170.1597322941474;
-        Thu, 13 Aug 2020 05:49:01 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1597322941; cv=none;
+Received: by 2002:adf:e78f:: with SMTP id n15ls1693191wrm.1.gmail; Thu, 13 Aug
+ 2020 08:19:37 -0700 (PDT)
+X-Received: by 2002:a5d:6a4e:: with SMTP id t14mr4618661wrw.135.1597331977408;
+        Thu, 13 Aug 2020 08:19:37 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1597331977; cv=none;
         d=google.com; s=arc-20160816;
-        b=plmpnYvXGx8pU6G+gnabt6w817g5sHzVcR7EVksKfahsx/PzZnmykN+t2PfZVot+0h
-         5xv4YNXMTCCrcgUw6IiVB7CNsS3dwnqWSbuvdSML5xQqWxQ+LZYnT2wjt77s6TqHntZs
-         DMD46Vbg/rt0QJxgcf+bm0NzJNd6HKFwVd3tJiwiejClC/cMZLRl7wHEYpDXFU1oG9Js
-         8Vc9BTX9WwyH1+a6ZcS4UWOUgw01WEyas2ljUjH7VXNTLQn3lQjs3Ul+kxskdMFK6Dx9
-         ovx76srBhv809UEkUOf1GAf9U/37l9A/87YA6IL54gDzP4VNQpkLhJedhocIifYeHDRf
-         kjtw==
+        b=UCc+SEIx+wE19wcYu2gjhVKmTZmKG97sYaLINlASEgjbxmifBsYHVE/4zmtaX5ujYn
+         N23+YDSMKQV3ETkKjThkKGCCya6TfbSgL0ZZImxlVvgvTOLWcqnihSDqNlH0pEi+iRG0
+         9sTjBVIIqOoyjWOq1TotnWcTkPcFD7aRm7iUnUrDT5chJHSG2ld7G+Nd4Ea2DKvNw65D
+         gT2Is5Qq0fOzlI1vWH1qGiE0ll9+HrnWK4img0e6VqidYQ8WKwXsecanFjHRceZS5sTk
+         oHDx19Vbv8LmDr0WCo3BV3BQx48GYlY7KslbW0R6zQGO6NeIfht7DL8KLwAsfWc8W4lt
+         Cbgw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:references:in-reply-to:date
-         :cc:to:from:subject:message-id:dkim-signature;
-        bh=aaE6HcSMNBLCW8HhXQtINfxBXNzqkMSqUtGQrGAVPSM=;
-        b=qDDVyF4175OWpp8gL1RYK7DqkVKyzOzBK+FaDRSip+ju4E5d/BnEtoTwnUWSp4vZ6p
-         juyJh7diMgYDmVeXWuv9OPjwhoiqZEGN2RxrUnzgLMtg8M0m6x3zZ4LDxjeIuSgTDxCp
-         St5dx9MwxXP5XvrFfMrqnIZp1pIgkApaW1qw3MK8EmBIPi2PEH+7EmcPtjCvP2+Qoc/B
-         9cqskv8SPygNumu1AaFPk3g7v5xSNz4dsLV8meqwchYjOjNhtYsSAjuaQK/ESiLIlcFe
-         ccc/4vRJdBv4xZtYOJwosiKLr+8m3LSzrihwv57R3xJE3UhWYMzE6xVFafmpWgfNwlBb
-         +ExA==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from;
+        bh=kHpviHVAWFum71m9T91C+ViCrMTffHDaBIsRm4hTUyU=;
+        b=jkFLryl2DT+BO9gDHWIoB3H8sd9cBhP4nh3BjTawpqKDdUIT27+cv4gYxkoDQALR+I
+         gMheazvD7ws7diEIYpMmImu/BuaDcKqb7rHO3o2DItQcrw1NpiHdta12WseG6ebZIkE9
+         bdX/6FMJ/B60RF4uh5pBBgDNqh2BmBc5joDbFK5IpWDfwdDdlYGrnnhFsJV+X/EBIrfT
+         dyxXo+p3dZ8i2x1tFyvyYsyEf3vf0WBGShwB2QnOh9w3VfOyCfy3zWtxmztDuUjWxK2s
+         3hsr4tz17L8I2HxVcSW7DiFWJ4fFKl894PMGD88+T08+fTzYR3C7STHaPT1eO2UMp7VL
+         oMSg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@mediatek.com header.s=dk header.b=BOIL1Rth;
-       spf=pass (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.184 as permitted sender) smtp.mailfrom=walter-zh.wu@mediatek.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
-Received: from mailgw02.mediatek.com ([210.61.82.184])
-        by gmr-mx.google.com with ESMTP id s76si229092pfc.1.2020.08.13.05.49.00
-        for <kasan-dev@googlegroups.com>;
-        Thu, 13 Aug 2020 05:49:01 -0700 (PDT)
-Received-SPF: pass (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.184 as permitted sender) client-ip=210.61.82.184;
-X-UUID: f4c7400723df461b99ba43db2a1c039f-20200813
-X-UUID: f4c7400723df461b99ba43db2a1c039f-20200813
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
-	(envelope-from <walter-zh.wu@mediatek.com>)
-	(Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
-	with ESMTP id 388844126; Thu, 13 Aug 2020 20:48:58 +0800
-Received: from mtkcas07.mediatek.inc (172.21.101.84) by
- mtkmbs01n1.mediatek.inc (172.21.101.68) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 13 Aug 2020 20:48:55 +0800
-Received: from [172.21.84.99] (172.21.84.99) by mtkcas07.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 13 Aug 2020 20:48:57 +0800
-Message-ID: <1597322937.9999.42.camel@mtksdccf07>
-Subject: Re: [PATCH 1/5] timer: kasan: record and print timer stack
-From: Walter Wu <walter-zh.wu@mediatek.com>
-To: Thomas Gleixner <tglx@linutronix.de>
-CC: Andrey Ryabinin <aryabinin@virtuozzo.com>, Alexander Potapenko
-	<glider@google.com>, Dmitry Vyukov <dvyukov@google.com>, Matthias Brugger
-	<matthias.bgg@gmail.com>, John Stultz <john.stultz@linaro.org>, "Stephen
- Boyd" <sboyd@kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
-	<kasan-dev@googlegroups.com>, <linux-mm@kvack.org>,
-	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	wsd_upstream <wsd_upstream@mediatek.com>,
-	<linux-mediatek@lists.infradead.org>
-Date: Thu, 13 Aug 2020 20:48:57 +0800
-In-Reply-To: <87d03ulqbp.fsf@nanos.tec.linutronix.de>
-References: <20200810072313.529-1-walter-zh.wu@mediatek.com>
-	 <87d03ulqbp.fsf@nanos.tec.linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.2.3-0ubuntu6
+       spf=pass (google.com: domain of a13xp0p0v88@gmail.com designates 209.85.221.67 as permitted sender) smtp.mailfrom=a13xp0p0v88@gmail.com
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com. [209.85.221.67])
+        by gmr-mx.google.com with ESMTPS id o134si220747wme.0.2020.08.13.08.19.37
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 13 Aug 2020 08:19:37 -0700 (PDT)
+Received-SPF: pass (google.com: domain of a13xp0p0v88@gmail.com designates 209.85.221.67 as permitted sender) client-ip=209.85.221.67;
+Received: by mail-wr1-f67.google.com with SMTP id f1so5656571wro.2
+        for <kasan-dev@googlegroups.com>; Thu, 13 Aug 2020 08:19:37 -0700 (PDT)
+X-Received: by 2002:a5d:6505:: with SMTP id x5mr4470670wru.336.1597331977069;
+        Thu, 13 Aug 2020 08:19:37 -0700 (PDT)
+Received: from localhost.localdomain ([185.248.161.177])
+        by smtp.gmail.com with ESMTPSA id d23sm10394044wmd.27.2020.08.13.08.19.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Aug 2020 08:19:36 -0700 (PDT)
+From: Alexander Popov <alex.popov@linux.com>
+To: Kees Cook <keescook@chromium.org>,
+	Jann Horn <jannh@google.com>,
+	Will Deacon <will@kernel.org>,
+	Andrey Ryabinin <aryabinin@virtuozzo.com>,
+	Alexander Potapenko <glider@google.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Christoph Lameter <cl@linux.com>,
+	Pekka Enberg <penberg@kernel.org>,
+	David Rientjes <rientjes@google.com>,
+	Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Patrick Bellasi <patrick.bellasi@arm.com>,
+	David Howells <dhowells@redhat.com>,
+	Eric Biederman <ebiederm@xmission.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Laura Abbott <labbott@redhat.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	kasan-dev@googlegroups.com,
+	linux-mm@kvack.org,
+	kernel-hardening@lists.openwall.com,
+	linux-kernel@vger.kernel.org,
+	Alexander Popov <alex.popov@linux.com>
+Cc: notify@kernel.org
+Subject: [PATCH RFC 0/2] Break heap spraying needed for exploiting use-after-free
+Date: Thu, 13 Aug 2020 18:19:20 +0300
+Message-Id: <20200813151922.1093791-1-alex.popov@linux.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-X-MTK: N
-X-Original-Sender: walter-zh.wu@mediatek.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@mediatek.com header.s=dk header.b=BOIL1Rth;       spf=pass
- (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.184 as
- permitted sender) smtp.mailfrom=walter-zh.wu@mediatek.com;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
+X-Original-Sender: a13xp0p0v88@gmail.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of a13xp0p0v88@gmail.com designates 209.85.221.67 as
+ permitted sender) smtp.mailfrom=a13xp0p0v88@gmail.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -144,142 +150,109 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hi Thomas,
+Hello everyone! Requesting for your comments.
 
-Please ignore my previous mail. Thanks.
+Use-after-free vulnerabilities in the Linux kernel are very popular for
+exploitation. A few examples:
+ https://googleprojectzero.blogspot.com/2018/09/a-cache-invalidation-bug-in-linux.html
+ https://googleprojectzero.blogspot.com/2019/11/bad-binder-android-in-wild-exploit.html?m=1
+ https://a13xp0p0v.github.io/2020/02/15/CVE-2019-18683.html
 
+Use-after-free exploits usually employ heap spraying technique.
+Generally it aims to put controlled bytes at a predetermined memory
+location on the heap. Heap spraying for exploiting use-after-free in
+the Linux kernel relies on the fact that on kmalloc(), the slab allocator
+returns the address of the memory that was recently freed. So allocating
+a kernel object with the same size and controlled contents allows
+overwriting the vulnerable freed object.
 
-On Thu, 2020-08-13 at 13:48 +0200, Thomas Gleixner wrote:
-> Walter,
-> 
-> Walter Wu <walter-zh.wu@mediatek.com> writes:
-> > This patch records the last two timer queueing stacks and prints
-> 
-> "This patch" is useless information as we already know from the subject
-> line that this is a patch.
-> 
-> git grep 'This patch' Documentation/process/
-> 
+I've found an easy way to break heap spraying for use-after-free
+exploitation. I simply extracted slab freelist quarantine from KASAN
+functionality and called it CONFIG_SLAB_QUARANTINE. Please see patch 1.
 
-Thanks for your information.
+If this feature is enabled, freed allocations are stored in the quarantine
+and can't be instantly reallocated and overwritten by the exploit
+performing heap spraying.
 
-> > up to 2 timer stacks in KASAN report. It is useful for programmers
-> > to solve use-after-free or double-free memory timer issues.
-> >
-> > When timer_setup() or timer_setup_on_stack() is called, then it
-> > prepares to use this timer and sets timer callback, we store
-> > this call stack in order to print it in KASAN report.
-> 
-> we store nothing. Don't impersonate code please.
-> 
-> Also please structure the changelog in a way that it's easy to
-> understand what this is about instead of telling first what the patch
-> does and then some half baken information why this is useful followed by
-> more information about what it does.
-> 
-> Something like this:
-> 
->   For analysing use after free or double free of objects it is helpful
->   to preserve usage history which potentially gives a hint about the
->   affected code.
-> 
->   For timers it has turned out to be useful to record the stack trace
->   of the timer init call. <ADD technical explanation why this is useful>
->  
->   Record the most recent two timer init calls in KASAN which are printed
->   on failure in the KASAN report.
-> 
-> See, this gives a clear context, an explanation why it is useful and a
-> high level description of what it does. The details are in the patch
-> ifself and do not have to be epxlained in the changelog.
-> 
+In patch 2 you can see the lkdtm test showing how CONFIG_SLAB_QUARANTINE
+prevents immediate reallocation of a freed heap object.
 
-Thanks for your explanation, Our patch will use this as a template from
-now on.
+I tested this patch series both for CONFIG_SLUB and CONFIG_SLAB.
 
-> For the technical explanation which you need to add, you really need to
-> tell what's the advantage or additional coverage vs. existing debug
-> facilities like debugobjects. Just claiming that it's useful does not
-> make an argument.
-> 
+CONFIG_SLAB_QUARANTINE disabled:
+  # echo HEAP_SPRAY > /sys/kernel/debug/provoke-crash/DIRECT
+  lkdtm: Performing direct entry HEAP_SPRAY
+  lkdtm: Performing heap spraying...
+  lkdtm: attempt 0: spray alloc addr 00000000f8699c7d vs freed addr 00000000f8699c7d
+  lkdtm: freed addr is reallocated!
+  lkdtm: FAIL! Heap spraying succeed :(
 
-We originally wanted him to have similar functions. Maybe he can't
-completely replace, but KASAN can ave this ability.
+CONFIG_SLAB_QUARANTINE enabled:
+  # echo HEAP_SPRAY > /sys/kernel/debug/provoke-crash/DIRECT
+  lkdtm: Performing direct entry HEAP_SPRAY
+  lkdtm: Performing heap spraying...
+  lkdtm: attempt 0: spray alloc addr 000000009cafb63f vs freed addr 00000000173cce94
+  lkdtm: attempt 1: spray alloc addr 000000003096911f vs freed addr 00000000173cce94
+  lkdtm: attempt 2: spray alloc addr 00000000da60d755 vs freed addr 00000000173cce94
+  lkdtm: attempt 3: spray alloc addr 000000000b415070 vs freed addr 00000000173cce94
+  ...
+  lkdtm: attempt 126: spray alloc addr 00000000e80ef807 vs freed addr 00000000173cce94
+  lkdtm: attempt 127: spray alloc addr 00000000398fe535 vs freed addr 00000000173cce94
+  lkdtm: OK! Heap spraying hasn't succeed :)
 
-> The UAF problem with timers is nasty because if you free an active timer
-> then either the softirq which expires the timer will corrupt potentially
-> reused memory or the reuse will corrupt the linked list which makes the
-> softirq or some unrelated code which adds/removes a different timer
-> explode in undebuggable ways. debugobject prevents that because it
-> tracks per timer state and invokes the fixup function which keeps the
-> system alive and also tells you exactly where the free of the active
-> object happens which is the really interesting place to look at. The
-> init function is pretty uninteresting in that case because you really
-> want to know where the freeing of the active object happens.
-> 
-> So if KASAN detects UAF in the timer softirq then the init trace is not
-> giving any information especially not in cases where the timer is part
-> of a common and frequently allocated/freed other data structure.
-> 
+I did a brief performance evaluation of this feature.
 
-I don't have experience using this tool, but I will survey it.
+1. Memory consumption. KASAN quarantine uses 1/32 of the memory.
+CONFIG_SLAB_QUARANTINE disabled:
+  # free -m
+                total        used        free      shared  buff/cache   available
+  Mem:           1987          39        1862          10          86        1907
+  Swap:             0           0           0
+CONFIG_SLAB_QUARANTINE enabled:
+  # free -m
+                total        used        free      shared  buff/cache   available
+  Mem:           1987         140        1760          10          87        1805
+  Swap:             0           0           0
 
-> >  static inline void kasan_cache_shrink(struct kmem_cache *cache) {}
-> >  static inline void kasan_cache_shutdown(struct kmem_cache *cache) {}
-> >  static inline void kasan_record_aux_stack(void *ptr) {}
-> > +static inline void kasan_record_tmr_stack(void *ptr) {}
-> 
-> Duh, so you are adding per object type functions and storage? That's
-> going to be a huge copy and pasta orgy as every object requires the same
-> code and extra storage space.
-> 
-> Why not just using kasan_record_aux_stack() for all of this?
-> 
-> The 'call_rcu' 'timer' 'whatever next' printout is not really required
-> because the stack trace already tells you the function which was
-> invoked. If TOS is call_rcu() or do_timer_init() then it's entirely
-> clear which object is affected. If the two aux records are not enough
-> then making the array larger is not the end of the world.
-> 
+2. Performance penalty. I used `hackbench -s 256 -l 200 -g 15 -f 25 -P`.
+CONFIG_SLAB_QUARANTINE disabled (x86_64, CONFIG_SLUB):
+  Times: 3.088, 3.103, 3.068, 3.103, 3.107
+  Mean: 3.0938
+  Standard deviation: 0.0144
+CONFIG_SLAB_QUARANTINE enabled (x86_64, CONFIG_SLUB):
+  Times: 3.303, 3.329, 3.356, 3.314, 3.292
+  Mean: 3.3188 (+7.3%)
+  Standard deviation: 0.0223
 
-My previous mail say that we will re-use kasan_record_aux_stack() and
-only have aux_stack.
+I would appreciate your feedback!
 
-> >  #endif /* CONFIG_KASAN_GENERIC */
-> >  
-> > diff --git a/kernel/time/timer.c b/kernel/time/timer.c
-> > index a5221abb4594..ef2da9ddfac7 100644
-> > --- a/kernel/time/timer.c
-> > +++ b/kernel/time/timer.c
-> > @@ -783,6 +783,8 @@ static void do_init_timer(struct timer_list *timer,
-> >  	timer->function = func;
-> >  	timer->flags = flags | raw_smp_processor_id();
-> >  	lockdep_init_map(&timer->lockdep_map, name, key, 0);
-> > +
-> > +	kasan_record_tmr_stack(timer);
-> >  }
-> 
-> Are you sure this is correct for all timers?
-> 
-> This is also called for timers which are temporarily allocated on stack
-> and for timers which are statically allocated at compile time. How is
-> that supposed to work?
-> 
+Best regards,
+Alexander
 
-If I understand correctly, KASAN report have this record only for slub
-variable. So what you said shouldn't be a problem.
+Alexander Popov (2):
+  mm: Extract SLAB_QUARANTINE from KASAN
+  lkdtm: Add heap spraying test
 
-> These kind of things want to be explained upfront an not left to the
-> reviewer as an exercise.
-> 
+ drivers/misc/lkdtm/core.c  |   1 +
+ drivers/misc/lkdtm/heap.c  |  40 ++++++++++++++
+ drivers/misc/lkdtm/lkdtm.h |   1 +
+ include/linux/kasan.h      | 107 ++++++++++++++++++++-----------------
+ include/linux/slab_def.h   |   2 +-
+ include/linux/slub_def.h   |   2 +-
+ init/Kconfig               |  11 ++++
+ mm/Makefile                |   3 +-
+ mm/kasan/Makefile          |   2 +
+ mm/kasan/kasan.h           |  75 +++++++++++++-------------
+ mm/kasan/quarantine.c      |   2 +
+ mm/kasan/slab_quarantine.c |  99 ++++++++++++++++++++++++++++++++++
+ mm/slub.c                  |   2 +-
+ 13 files changed, 258 insertions(+), 89 deletions(-)
+ create mode 100644 mm/kasan/slab_quarantine.c
 
-Sorry, My fault. Later we will be more cautious to send patch.
-
-> Thanks,
-> 
->         tglx
+-- 
+2.26.2
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/1597322937.9999.42.camel%40mtksdccf07.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200813151922.1093791-1-alex.popov%40linux.com.
