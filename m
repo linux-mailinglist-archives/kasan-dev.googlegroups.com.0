@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBDX4HWEMTEBRBDET3P4QKGQEDPLSISA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDX4HWEMTEBRBDUT3P4QKGQECB4MDTY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x140.google.com (mail-lf1-x140.google.com [IPv6:2a00:1450:4864:20::140])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D2F5244DBA
-	for <lists+kasan-dev@lfdr.de>; Fri, 14 Aug 2020 19:27:40 +0200 (CEST)
-Received: by mail-lf1-x140.google.com with SMTP id 136sf2173580lfa.19
-        for <lists+kasan-dev@lfdr.de>; Fri, 14 Aug 2020 10:27:40 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1597426060; cv=pass;
+Received: from mail-ej1-x63f.google.com (mail-ej1-x63f.google.com [IPv6:2a00:1450:4864:20::63f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 17770244DBC
+	for <lists+kasan-dev@lfdr.de>; Fri, 14 Aug 2020 19:27:43 +0200 (CEST)
+Received: by mail-ej1-x63f.google.com with SMTP id g18sf3604836ejm.4
+        for <lists+kasan-dev@lfdr.de>; Fri, 14 Aug 2020 10:27:43 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1597426062; cv=pass;
         d=google.com; s=arc-20160816;
-        b=jcQvf/y/f0xuOvxustEKjzKCa0v14WmzumrYkSvSMW4sTAe0PC0BJptb0/1woxyTta
-         vWmhU51uJlSdUQgPuwn7BAAD4Bi4Pa9vxlyVpnQYL6OHDaGqpbZJ7tK4xjrl8U5cTrY7
-         1aapNlF/8YrXPighfZKQrttHTQCltAdZC84F2nk+nePpqgpOBczL5RCXpXTMGrIRSxVO
-         DaV5457HHiLDPe7T8YR+j1j1Ct2RZojZszoCSYzt6K816OSmK5wakcCV7gn+y5rThaLX
-         DSytCaGkOH9zkRtWoyv8+FiM6eFA9XlSDYKGdbTSqNmIE3BcDtoI1toZsrot67FqI+dX
-         w3Xw==
+        b=bNg1Qp7nkP7J/wD05dP+Li6ifg4Ckagd0+7NTzLbyR1NejXCJlqb4UzD/Jr5NTjBje
+         oj+qZFCbH3zJ092hx2NgkjhpzhHgXZFA6TRY/tdiO9sfQFCHIm3lSwRUCMawA2GsGWgO
+         Vf7Yip+CFI8iMKKzEJTKsWDp92rstioqpmtQW9g34rzgphZO8JdvSjn/tXpcTdxxzzs2
+         X5aLKafq7e9ErWxuRAI3MhoQ3Rfo8IhHeQpCqqBZ0tc1sciySJ/H6L65QTdOScPuQr0X
+         EN2qfgADpubCX5iE2xo9BBLv6RbBnS857ekDBI/rqfTs45VxoIjBIG/DqUIcrM4AaLWN
+         lSuw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
          :references:mime-version:message-id:in-reply-to:date:dkim-signature;
-        bh=y4Ytm+4UYCmW3Hsti05Z6DF4vZUaHZeRKheLPtaLx3g=;
-        b=EQy3S6Tq07EyFoOOMSWiMzt4u7W9pXGxKFZ4PUh8NDb1/vD28CAgDGPpFev3njN8Hi
-         INNXw/PZi8F68gVnqcB2u0KbA0aBaUDep6DSb4UsuQXP0DOkgBYYRI77Be7mRsrqgIkm
-         lELS30ldkJYH4uKtnwPpGDxy6TCrMnQGPeB7FvDr3CioUiF9CjVvYY+n2YUdKwvCFjeO
-         np+UdetNE9rGwb3Ge5afBI96wCQIgj82MUUgPBnRYPs/q9aV+zih1cq9UIL/sDXhaqYq
-         UKOvIIMfMidlYHe9MOfMOcio/HByda4hgwf4MoTYGKw2kqk2qNLd7pIPGatDyiS3sTaM
-         NMfw==
+        bh=dxeDXUhnMvVLc9479NImAoKfi/ucv+fkv29v5Kr/+I0=;
+        b=U4vofUtUohabhqIrJZ3ObMLbCamSRFJpFYUTtIfYjGL7JK/vbMfPJ5yt5pfDVrPLQk
+         yxLiPhm/if3tqZdwz6umx44eVRljkiBtccZTC58OGvmxJ3KjYuIRhuPcH0lPtgHTYBmk
+         rVM7k/aWbBqzafmsSjepaESErJX0l1OgPSMgLyhutSAL3Owg4KdnmGEW6Muo740J/QMV
+         1tI1ygDe2QJsuV9HD+L/oiuYkJAGuotYhEO4icPZohTtrSK//d4ipFRbS3rRUIbjh07I
+         pqkTOioutg4ovSw2kcQC7put/xE0Xg3b76N98yD7uUpTjN66MTFiijk67WWwWmIyEWlO
+         whnA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=NlQYWVk4;
-       spf=pass (google.com: domain of 3isk2xwokcfczmcqdxjmukfnnfkd.bnljzrzm-cdufnnfkdfqntor.bnl@flex--andreyknvl.bounces.google.com designates 2a00:1450:4864:20::44a as permitted sender) smtp.mailfrom=3isk2XwoKCfcZmcqdxjmukfnnfkd.bnljZrZm-cdufnnfkdfqntor.bnl@flex--andreyknvl.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=ughLKdlu;
+       spf=pass (google.com: domain of 3jck2xwokcfocpftg0mpxniqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--andreyknvl.bounces.google.com designates 2a00:1450:4864:20::44a as permitted sender) smtp.mailfrom=3jck2XwoKCfocpftg0mpxniqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--andreyknvl.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=y4Ytm+4UYCmW3Hsti05Z6DF4vZUaHZeRKheLPtaLx3g=;
-        b=YpWiHQiMDzBk8ik+/RghWZ0Wmoafn00u9rJqZ1wjcaExOMS4nkUD0723MnoIvile/T
-         YFYlKEG2fdGbTgafidFWu4N67bJGsI/fxdiSWdxF0vGbBgOgqNr/lBFtZUhIDhnv1KDC
-         +73E00+ekKAIuPf0p5bX3sk0DJRO2BXkcSOftIDA7NH3+8F3xK61WpAIHVmjoX7rQu2U
-         9aViuJ9F4VzKhCm5GhB8FNgWlv42nUE+GTJ2Fg5+HEzYo9cw7IMNJrUFIXldtKW/Tk51
-         Y2iYHvesAPfcWbkTHHfO/hOVIzDhtoNZHx117Jik4ZLi5rq/cQKlKs6RBiA28fgCglxi
-         pn2w==
+        bh=dxeDXUhnMvVLc9479NImAoKfi/ucv+fkv29v5Kr/+I0=;
+        b=Ge03+hYjaXfAUH2CM5mML+SYq7W6zfxE6/+ztMYGwP/z60ajIS9uwfS1m99sVADKIN
+         K9TeBrvLrJBPqDT9fsbfiimHgla6C4D03T9sHozCeMn4S+hoCSOxhlKtjbzmKb+gnijO
+         aVty4hE5Dl3OYnjvnhhxhhzQeiSz/poi9niBAqFReoBC3TWULHcFatV5XOCIQdcieFGH
+         vpBAw38atL/3iGdKvU5j3+Vf6nfYC/YIyaVCHnp7bKBLGJPKfbIJGAslu2YpOx6MtScb
+         aGIyHDSIzNC3zqIwtkvgcQJswWMXM5ugHAqk27t5T6IiZM/3PKSqB+vZihHOG3V3p0V0
+         gqrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
@@ -49,62 +49,62 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=y4Ytm+4UYCmW3Hsti05Z6DF4vZUaHZeRKheLPtaLx3g=;
-        b=aq6Kkd3DrJ4GYyfabznwMXZcVrec1lzkHxCJfA2GHLeGX5dJTBBDVRe0qYu8IHie6A
-         k4JCPxTgbt74NW4N2/f/5q7Vj//m2AKGCCFBhpyBghHdaWD/BdoYpAIPLR/pJAKFzdjs
-         E3yqe/E/gi1fBKS+aIo62QriS2EjcBN8Xcyj8IAmLkmbCkbxJsua4XWb5NHAq5KUGVW8
-         9JZgjywS37+B9Gs4lniRayNQSuFVHqba7eiaPxdNd60a/vx6Z3bdqQv+dvhBNPUgIAoK
-         corqE8ZNumznZkxO7oSf7eXuZMKYTFQDfG7N/XjNXvSJdiY3+zVnNhR8spV147sWnmij
-         oZXQ==
-X-Gm-Message-State: AOAM530u3txuEthBNQa+SPDm7WAEqDfhjDiCnoXs98xM6L+u+2rl0e1u
-	y5RcyJBMxbwA1yqknfwiUSY=
-X-Google-Smtp-Source: ABdhPJxt+JT6CqKIr36XdpLTd4okJCWtasoehME0EIsRVR4wlFrcEJx461mso6z4uB7hRMHzJgezkQ==
-X-Received: by 2002:a2e:9595:: with SMTP id w21mr1849000ljh.334.1597426060118;
-        Fri, 14 Aug 2020 10:27:40 -0700 (PDT)
+        bh=dxeDXUhnMvVLc9479NImAoKfi/ucv+fkv29v5Kr/+I0=;
+        b=phXUKW/HJ5GuiF8OkflhE+LaQjaB6XT4VMaUtxqkDfX6KfveYW1FjYoKWuhnvrhWPy
+         WscwDKMewwx+Y4mqKRi5P4b6uaAkd5ZtU2PB4HgdwcCsY5tFGRr0Nxdmq3WZuGEVDsfi
+         upDYqtsmKYJ5cR2d0p3BCHfq6isPQhmuB63x5Z7O8YHO8LaIyRouP91thyN0U+Elo1LG
+         hAJ2aKlYXIq5Vek2RIX3ASBfkNydh7O/imxrZnEXVxezQHv7QQRR/tWAe3e1K58ANJC4
+         AeN7SEauQuk7Yp7954mVeh6aYK7G50Rj/RUQZXUxOVSA4ETyAr41MGTRtX1vMGi1xPd3
+         IiHQ==
+X-Gm-Message-State: AOAM5308Nz1estaTXsLz9t9OhO/Y1VPukJfzNWeB6WA+p/LsTg3NQYm2
+	R74nx8BXdGz9OVwf6pj5eXU=
+X-Google-Smtp-Source: ABdhPJxGmYFXl3dJVzDG1ij4hDv/B+2sRlfwc/MZ2T0yonh2GJkdHBKY6AY6Z/rfr21b2lk9tynbWw==
+X-Received: by 2002:a17:906:8506:: with SMTP id i6mr3390768ejx.446.1597426062777;
+        Fri, 14 Aug 2020 10:27:42 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ac2:4845:: with SMTP id 5ls246953lfy.2.gmail; Fri, 14 Aug
- 2020 10:27:39 -0700 (PDT)
-X-Received: by 2002:ac2:568b:: with SMTP id 11mr1718455lfr.87.1597426059511;
-        Fri, 14 Aug 2020 10:27:39 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1597426059; cv=none;
+Received: by 2002:a17:906:e299:: with SMTP id gg25ls4642964ejb.11.gmail; Fri,
+ 14 Aug 2020 10:27:42 -0700 (PDT)
+X-Received: by 2002:a17:906:4c46:: with SMTP id d6mr3591435ejw.14.1597426062083;
+        Fri, 14 Aug 2020 10:27:42 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1597426062; cv=none;
         d=google.com; s=arc-20160816;
-        b=NvB8yctaTvki1PVkpGZWwsVKwoWoFOadhvZ7At/VquNl7EpZl3IIKsr9p+5SETOImX
-         X2j0xGnl3VaTqXxQN1EwkZoNvFD5Aj7X6XDvFtTaw1dZPlq7KL7iKQiQEjC9DDNDXGfZ
-         C+FP8irRTm00qFA5zvIzLCPLThkxN3qG/HCoNXZ/9KeVIMW30ODhk4DoyXptjmBE9BTp
-         boK1jJZ/7Y8u4AX9O0GBw+C7ujtsZEWcivFcxyI3GiKX+/czj/sQyUZ34hd2dRBLoiB/
-         SkiJeNnJtlMpvbuTXEK/VP3oJpOjDaazwz0dbjgORx2yaAv4Xs3kiAmn4qbPIpzp862W
-         7H4Q==
+        b=EAwth8VOsB5uMgABOwt5b87uhJqmikW1ZYvaq7AvvlCAdIxfIvXPSGgWfBwvlulcbg
+         mcVQhfGKjjUb3l0JCBz7/9D11Q4L4N679MMjnnoMdXbb1nAf3CBOC6tg5QmuJB5e1qIa
+         cU3l5wqzBI4ilzFE67Eezri4ob/v2gKhorRO5/BiJALznKheEn49Asi9VHOWI3VGVuh0
+         mXWuG8Ty9BiT3nbz31EhJNnMWgAXKZN651yTkOgSEnfAOiqsZp+DvOoh43/WgVn8t8Cr
+         2MukIUc7M5cOqiULy8TjWnnwItUDdZGgd0AguC9vpXmMaRQIPBopyMDMNX02vikMyiRi
+         FxUw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
          :date:dkim-signature;
-        bh=D1t27xMSdSDZAXG6XnkOmwCyZLvn/GNAn2saMjUMSxo=;
-        b=Rgxp3F860QyCaX3cAvhzVTZ+DYCVH4B6LjHwAaORy7jBaFpE8sR1lamdc+4GQE4Ggy
-         XxekOX9sGpyNJO/5gsKe+Fcuyi+eeTH8aVhwYIynm2O7VfHSduSjRMlLlpeFgvcRUAUw
-         /qKFa4n7yN5/5wmff32kpIQFVJ2YsVZv6m8xYJUt4xCwHaSKTe5zs0xLqtbDMz9Z4dM/
-         nvp5KdYIoB9tegDel50bQ3LG+oZAo/quCYU0+38GurCL9ImesP8937rM/lEjvLDKlPBm
-         mAmz7hhcvXhSQvkcO25wQtKbrtAWIsOCSdzV7/pgYNEqOdbMeOS04nxXeu6e1LefogoO
-         ne9w==
+        bh=EayMx4N+49F/tUBImVqsp+nwIZa8nVOZvklPLes1km8=;
+        b=F9a04PYz7ihwkB/bMvROxXeix6sc8N96hmw9qKdYbQq8VL7WNRn4/ka0rh+E1qDU5o
+         Irhu+guJduB+GI+ZDKNbFIwMGsQyRrgCoN+a44Qt72Q7P+lOFKoULxmk+w0z1UOqhadV
+         jje6JcQUsx+XerZS/jef7UfQTnZyy3KV4MhAU3DNuqNGart3kSJEybzlrmNe2bOwQbYu
+         V9xv32EoO+rVg1VlwrbM1BadVrexEBLKxcfTdHpUE3rSGo+05VbzPs1BuqDYh8jupWte
+         Jhb5PkbBngWSA5RVDcC3gQFDUtRY0OVVuFsfTUNXCYEbFXqyuBrx5lzutOhe6qwoX9vO
+         oiAQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=NlQYWVk4;
-       spf=pass (google.com: domain of 3isk2xwokcfczmcqdxjmukfnnfkd.bnljzrzm-cdufnnfkdfqntor.bnl@flex--andreyknvl.bounces.google.com designates 2a00:1450:4864:20::44a as permitted sender) smtp.mailfrom=3isk2XwoKCfcZmcqdxjmukfnnfkd.bnljZrZm-cdufnnfkdfqntor.bnl@flex--andreyknvl.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=ughLKdlu;
+       spf=pass (google.com: domain of 3jck2xwokcfocpftg0mpxniqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--andreyknvl.bounces.google.com designates 2a00:1450:4864:20::44a as permitted sender) smtp.mailfrom=3jck2XwoKCfocpftg0mpxniqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--andreyknvl.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 Received: from mail-wr1-x44a.google.com (mail-wr1-x44a.google.com. [2a00:1450:4864:20::44a])
-        by gmr-mx.google.com with ESMTPS id c27si566662ljn.3.2020.08.14.10.27.39
+        by gmr-mx.google.com with ESMTPS id q14si373613ejo.0.2020.08.14.10.27.42
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 Aug 2020 10:27:39 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 3isk2xwokcfczmcqdxjmukfnnfkd.bnljzrzm-cdufnnfkdfqntor.bnl@flex--andreyknvl.bounces.google.com designates 2a00:1450:4864:20::44a as permitted sender) client-ip=2a00:1450:4864:20::44a;
-Received: by mail-wr1-x44a.google.com with SMTP id e12so3602007wra.13
-        for <kasan-dev@googlegroups.com>; Fri, 14 Aug 2020 10:27:39 -0700 (PDT)
-X-Received: by 2002:a05:600c:c3:: with SMTP id u3mr423906wmm.1.1597426058434;
- Fri, 14 Aug 2020 10:27:38 -0700 (PDT)
-Date: Fri, 14 Aug 2020 19:26:48 +0200
+        Fri, 14 Aug 2020 10:27:42 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 3jck2xwokcfocpftg0mpxniqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--andreyknvl.bounces.google.com designates 2a00:1450:4864:20::44a as permitted sender) client-ip=2a00:1450:4864:20::44a;
+Received: by mail-wr1-x44a.google.com with SMTP id o10so3597465wrs.21
+        for <kasan-dev@googlegroups.com>; Fri, 14 Aug 2020 10:27:42 -0700 (PDT)
+X-Received: by 2002:adf:f8d2:: with SMTP id f18mr3492779wrq.261.1597426061574;
+ Fri, 14 Aug 2020 10:27:41 -0700 (PDT)
+Date: Fri, 14 Aug 2020 19:26:49 +0200
 In-Reply-To: <cover.1597425745.git.andreyknvl@google.com>
-Message-Id: <f6f402d4f5251f7413755724e2479e2042bf01e8.1597425745.git.andreyknvl@google.com>
+Message-Id: <1286b689a658ed6ba08cd4c15b79ffb572368117.1597425745.git.andreyknvl@google.com>
 Mime-Version: 1.0
 References: <cover.1597425745.git.andreyknvl@google.com>
 X-Mailer: git-send-email 2.28.0.220.ged08abb693-goog
-Subject: [PATCH 06/35] kasan: only build init.c for software modes
+Subject: [PATCH 07/35] kasan: split out shadow.c from common.c
 From: "'Andrey Konovalov' via kasan-dev" <kasan-dev@googlegroups.com>
 To: Dmitry Vyukov <dvyukov@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, 
 	Catalin Marinas <catalin.marinas@arm.com>, kasan-dev@googlegroups.com
@@ -118,9 +118,9 @@ Cc: Andrey Ryabinin <aryabinin@virtuozzo.com>, Alexander Potapenko <glider@googl
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: andreyknvl@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=NlQYWVk4;       spf=pass
- (google.com: domain of 3isk2xwokcfczmcqdxjmukfnnfkd.bnljzrzm-cdufnnfkdfqntor.bnl@flex--andreyknvl.bounces.google.com
- designates 2a00:1450:4864:20::44a as permitted sender) smtp.mailfrom=3isk2XwoKCfcZmcqdxjmukfnnfkd.bnljZrZm-cdufnnfkdfqntor.bnl@flex--andreyknvl.bounces.google.com;
+ header.i=@google.com header.s=20161025 header.b=ughLKdlu;       spf=pass
+ (google.com: domain of 3jck2xwokcfocpftg0mpxniqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--andreyknvl.bounces.google.com
+ designates 2a00:1450:4864:20::44a as permitted sender) smtp.mailfrom=3jck2XwoKCfocpftg0mpxniqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--andreyknvl.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Andrey Konovalov <andreyknvl@google.com>
 Reply-To: Andrey Konovalov <andreyknvl@google.com>
@@ -139,47 +139,1087 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 This is a preparatory commit for the upcoming addition of a new hardware
 tag-based (MTE-based) KASAN mode.
 
-The new mode won't be using shadow memory, so only build init.c that
-contains shadow initialization code for software modes.
+The new mode won't be using shadow memory. Move all shadow-related code
+to shadow.c, which is only enabled for software KASAN modes that use
+shadow memory.
 
 No functional changes for software modes.
 
 Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 ---
- mm/kasan/Makefile | 6 +++---
- mm/kasan/init.c   | 2 +-
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ mm/kasan/Makefile |   6 +-
+ mm/kasan/common.c | 486 +------------------------------------------
+ mm/kasan/shadow.c | 509 ++++++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 514 insertions(+), 487 deletions(-)
+ create mode 100644 mm/kasan/shadow.c
 
 diff --git a/mm/kasan/Makefile b/mm/kasan/Makefile
-index d532c2587731..b5517de7fc87 100644
+index b5517de7fc87..40366d706b7c 100644
 --- a/mm/kasan/Makefile
 +++ b/mm/kasan/Makefile
-@@ -29,6 +29,6 @@ CFLAGS_report.o := $(CC_FLAGS_KASAN_RUNTIME)
+@@ -10,6 +10,7 @@ CFLAGS_REMOVE_generic_report.o = $(CC_FLAGS_FTRACE)
+ CFLAGS_REMOVE_init.o = $(CC_FLAGS_FTRACE)
+ CFLAGS_REMOVE_quarantine.o = $(CC_FLAGS_FTRACE)
+ CFLAGS_REMOVE_report.o = $(CC_FLAGS_FTRACE)
++CFLAGS_REMOVE_shadow.o = $(CC_FLAGS_FTRACE)
+ CFLAGS_REMOVE_tags.o = $(CC_FLAGS_FTRACE)
+ CFLAGS_REMOVE_tags_report.o = $(CC_FLAGS_FTRACE)
+ 
+@@ -26,9 +27,10 @@ CFLAGS_generic_report.o := $(CC_FLAGS_KASAN_RUNTIME)
+ CFLAGS_init.o := $(CC_FLAGS_KASAN_RUNTIME)
+ CFLAGS_quarantine.o := $(CC_FLAGS_KASAN_RUNTIME)
+ CFLAGS_report.o := $(CC_FLAGS_KASAN_RUNTIME)
++CFLAGS_shadow.o := $(CC_FLAGS_KASAN_RUNTIME)
  CFLAGS_tags.o := $(CC_FLAGS_KASAN_RUNTIME)
  CFLAGS_tags_report.o := $(CC_FLAGS_KASAN_RUNTIME)
  
--obj-$(CONFIG_KASAN) := common.o init.o report.o
--obj-$(CONFIG_KASAN_GENERIC) += generic.o generic_report.o quarantine.o
--obj-$(CONFIG_KASAN_SW_TAGS) += tags.o tags_report.o
-+obj-$(CONFIG_KASAN) := common.o report.o
-+obj-$(CONFIG_KASAN_GENERIC) += init.o generic.o generic_report.o quarantine.o
-+obj-$(CONFIG_KASAN_SW_TAGS) += init.o tags.o tags_report.o
-diff --git a/mm/kasan/init.c b/mm/kasan/init.c
-index 754b641c83c7..20f5e1ab8d95 100644
---- a/mm/kasan/init.c
-+++ b/mm/kasan/init.c
+ obj-$(CONFIG_KASAN) := common.o report.o
+-obj-$(CONFIG_KASAN_GENERIC) += init.o generic.o generic_report.o quarantine.o
+-obj-$(CONFIG_KASAN_SW_TAGS) += init.o tags.o tags_report.o
++obj-$(CONFIG_KASAN_GENERIC) += init.o generic.o generic_report.o shadow.o quarantine.o
++obj-$(CONFIG_KASAN_SW_TAGS) += init.o shadow.o tags.o tags_report.o
+diff --git a/mm/kasan/common.c b/mm/kasan/common.c
+index c9daf2c33651..43a927e70067 100644
+--- a/mm/kasan/common.c
++++ b/mm/kasan/common.c
 @@ -1,6 +1,6 @@
  // SPDX-License-Identifier: GPL-2.0
  /*
-- * This file contains some kasan initialization code.
-+ * This file contains KASAN shadow initialization code.
+- * This file contains common generic and tag-based KASAN code.
++ * This file contains common KASAN code.
   *
-  * Copyright (c) 2015 Samsung Electronics Co., Ltd.
+  * Copyright (c) 2014 Samsung Electronics Co., Ltd.
   * Author: Andrey Ryabinin <ryabinin.a.a@gmail.com>
+@@ -18,7 +18,6 @@
+ #include <linux/init.h>
+ #include <linux/kasan.h>
+ #include <linux/kernel.h>
+-#include <linux/kmemleak.h>
+ #include <linux/linkage.h>
+ #include <linux/memblock.h>
+ #include <linux/memory.h>
+@@ -31,12 +30,8 @@
+ #include <linux/stacktrace.h>
+ #include <linux/string.h>
+ #include <linux/types.h>
+-#include <linux/vmalloc.h>
+ #include <linux/bug.h>
+ 
+-#include <asm/cacheflush.h>
+-#include <asm/tlbflush.h>
+-
+ #include "kasan.h"
+ #include "../slab.h"
+ 
+@@ -66,93 +61,6 @@ void kasan_disable_current(void)
+ 	current->kasan_depth--;
+ }
+ 
+-bool __kasan_check_read(const volatile void *p, unsigned int size)
+-{
+-	return check_memory_region((unsigned long)p, size, false, _RET_IP_);
+-}
+-EXPORT_SYMBOL(__kasan_check_read);
+-
+-bool __kasan_check_write(const volatile void *p, unsigned int size)
+-{
+-	return check_memory_region((unsigned long)p, size, true, _RET_IP_);
+-}
+-EXPORT_SYMBOL(__kasan_check_write);
+-
+-#undef memset
+-void *memset(void *addr, int c, size_t len)
+-{
+-	if (!check_memory_region((unsigned long)addr, len, true, _RET_IP_))
+-		return NULL;
+-
+-	return __memset(addr, c, len);
+-}
+-
+-#ifdef __HAVE_ARCH_MEMMOVE
+-#undef memmove
+-void *memmove(void *dest, const void *src, size_t len)
+-{
+-	if (!check_memory_region((unsigned long)src, len, false, _RET_IP_) ||
+-	    !check_memory_region((unsigned long)dest, len, true, _RET_IP_))
+-		return NULL;
+-
+-	return __memmove(dest, src, len);
+-}
+-#endif
+-
+-#undef memcpy
+-void *memcpy(void *dest, const void *src, size_t len)
+-{
+-	if (!check_memory_region((unsigned long)src, len, false, _RET_IP_) ||
+-	    !check_memory_region((unsigned long)dest, len, true, _RET_IP_))
+-		return NULL;
+-
+-	return __memcpy(dest, src, len);
+-}
+-
+-/*
+- * Poisons the shadow memory for 'size' bytes starting from 'addr'.
+- * Memory addresses should be aligned to KASAN_GRANULE_SIZE.
+- */
+-void kasan_poison_memory(const void *address, size_t size, u8 value)
+-{
+-	void *shadow_start, *shadow_end;
+-
+-	/*
+-	 * Perform shadow offset calculation based on untagged address, as
+-	 * some of the callers (e.g. kasan_poison_object_data) pass tagged
+-	 * addresses to this function.
+-	 */
+-	address = reset_tag(address);
+-
+-	shadow_start = kasan_mem_to_shadow(address);
+-	shadow_end = kasan_mem_to_shadow(address + size);
+-
+-	__memset(shadow_start, value, shadow_end - shadow_start);
+-}
+-
+-void kasan_unpoison_memory(const void *address, size_t size)
+-{
+-	u8 tag = get_tag(address);
+-
+-	/*
+-	 * Perform shadow offset calculation based on untagged address, as
+-	 * some of the callers (e.g. kasan_unpoison_object_data) pass tagged
+-	 * addresses to this function.
+-	 */
+-	address = reset_tag(address);
+-
+-	kasan_poison_memory(address, size, tag);
+-
+-	if (size & KASAN_GRANULE_MASK) {
+-		u8 *shadow = (u8 *)kasan_mem_to_shadow(address + size);
+-
+-		if (IS_ENABLED(CONFIG_KASAN_SW_TAGS))
+-			*shadow = tag;
+-		else
+-			*shadow = size & KASAN_GRANULE_MASK;
+-	}
+-}
+-
+ static void __kasan_unpoison_stack(struct task_struct *task, const void *sp)
+ {
+ 	void *base = task_stack_page(task);
+@@ -540,395 +448,3 @@ void kasan_kfree_large(void *ptr, unsigned long ip)
+ 		kasan_report_invalid_free(ptr, ip);
+ 	/* The object will be poisoned by page_alloc. */
+ }
+-
+-#ifdef CONFIG_MEMORY_HOTPLUG
+-static bool shadow_mapped(unsigned long addr)
+-{
+-	pgd_t *pgd = pgd_offset_k(addr);
+-	p4d_t *p4d;
+-	pud_t *pud;
+-	pmd_t *pmd;
+-	pte_t *pte;
+-
+-	if (pgd_none(*pgd))
+-		return false;
+-	p4d = p4d_offset(pgd, addr);
+-	if (p4d_none(*p4d))
+-		return false;
+-	pud = pud_offset(p4d, addr);
+-	if (pud_none(*pud))
+-		return false;
+-
+-	/*
+-	 * We can't use pud_large() or pud_huge(), the first one is
+-	 * arch-specific, the last one depends on HUGETLB_PAGE.  So let's abuse
+-	 * pud_bad(), if pud is bad then it's bad because it's huge.
+-	 */
+-	if (pud_bad(*pud))
+-		return true;
+-	pmd = pmd_offset(pud, addr);
+-	if (pmd_none(*pmd))
+-		return false;
+-
+-	if (pmd_bad(*pmd))
+-		return true;
+-	pte = pte_offset_kernel(pmd, addr);
+-	return !pte_none(*pte);
+-}
+-
+-static int __meminit kasan_mem_notifier(struct notifier_block *nb,
+-			unsigned long action, void *data)
+-{
+-	struct memory_notify *mem_data = data;
+-	unsigned long nr_shadow_pages, start_kaddr, shadow_start;
+-	unsigned long shadow_end, shadow_size;
+-
+-	nr_shadow_pages = mem_data->nr_pages >> KASAN_SHADOW_SCALE_SHIFT;
+-	start_kaddr = (unsigned long)pfn_to_kaddr(mem_data->start_pfn);
+-	shadow_start = (unsigned long)kasan_mem_to_shadow((void *)start_kaddr);
+-	shadow_size = nr_shadow_pages << PAGE_SHIFT;
+-	shadow_end = shadow_start + shadow_size;
+-
+-	if (WARN_ON(mem_data->nr_pages % KASAN_GRANULE_SIZE) ||
+-		WARN_ON(start_kaddr % (KASAN_GRANULE_SIZE << PAGE_SHIFT)))
+-		return NOTIFY_BAD;
+-
+-	switch (action) {
+-	case MEM_GOING_ONLINE: {
+-		void *ret;
+-
+-		/*
+-		 * If shadow is mapped already than it must have been mapped
+-		 * during the boot. This could happen if we onlining previously
+-		 * offlined memory.
+-		 */
+-		if (shadow_mapped(shadow_start))
+-			return NOTIFY_OK;
+-
+-		ret = __vmalloc_node_range(shadow_size, PAGE_SIZE, shadow_start,
+-					shadow_end, GFP_KERNEL,
+-					PAGE_KERNEL, VM_NO_GUARD,
+-					pfn_to_nid(mem_data->start_pfn),
+-					__builtin_return_address(0));
+-		if (!ret)
+-			return NOTIFY_BAD;
+-
+-		kmemleak_ignore(ret);
+-		return NOTIFY_OK;
+-	}
+-	case MEM_CANCEL_ONLINE:
+-	case MEM_OFFLINE: {
+-		struct vm_struct *vm;
+-
+-		/*
+-		 * shadow_start was either mapped during boot by kasan_init()
+-		 * or during memory online by __vmalloc_node_range().
+-		 * In the latter case we can use vfree() to free shadow.
+-		 * Non-NULL result of the find_vm_area() will tell us if
+-		 * that was the second case.
+-		 *
+-		 * Currently it's not possible to free shadow mapped
+-		 * during boot by kasan_init(). It's because the code
+-		 * to do that hasn't been written yet. So we'll just
+-		 * leak the memory.
+-		 */
+-		vm = find_vm_area((void *)shadow_start);
+-		if (vm)
+-			vfree((void *)shadow_start);
+-	}
+-	}
+-
+-	return NOTIFY_OK;
+-}
+-
+-static int __init kasan_memhotplug_init(void)
+-{
+-	hotplug_memory_notifier(kasan_mem_notifier, 0);
+-
+-	return 0;
+-}
+-
+-core_initcall(kasan_memhotplug_init);
+-#endif
+-
+-#ifdef CONFIG_KASAN_VMALLOC
+-
+-static int kasan_populate_vmalloc_pte(pte_t *ptep, unsigned long addr,
+-				      void *unused)
+-{
+-	unsigned long page;
+-	pte_t pte;
+-
+-	if (likely(!pte_none(*ptep)))
+-		return 0;
+-
+-	page = __get_free_page(GFP_KERNEL);
+-	if (!page)
+-		return -ENOMEM;
+-
+-	memset((void *)page, KASAN_VMALLOC_INVALID, PAGE_SIZE);
+-	pte = pfn_pte(PFN_DOWN(__pa(page)), PAGE_KERNEL);
+-
+-	spin_lock(&init_mm.page_table_lock);
+-	if (likely(pte_none(*ptep))) {
+-		set_pte_at(&init_mm, addr, ptep, pte);
+-		page = 0;
+-	}
+-	spin_unlock(&init_mm.page_table_lock);
+-	if (page)
+-		free_page(page);
+-	return 0;
+-}
+-
+-int kasan_populate_vmalloc(unsigned long addr, unsigned long size)
+-{
+-	unsigned long shadow_start, shadow_end;
+-	int ret;
+-
+-	if (!is_vmalloc_or_module_addr((void *)addr))
+-		return 0;
+-
+-	shadow_start = (unsigned long)kasan_mem_to_shadow((void *)addr);
+-	shadow_start = ALIGN_DOWN(shadow_start, PAGE_SIZE);
+-	shadow_end = (unsigned long)kasan_mem_to_shadow((void *)addr + size);
+-	shadow_end = ALIGN(shadow_end, PAGE_SIZE);
+-
+-	ret = apply_to_page_range(&init_mm, shadow_start,
+-				  shadow_end - shadow_start,
+-				  kasan_populate_vmalloc_pte, NULL);
+-	if (ret)
+-		return ret;
+-
+-	flush_cache_vmap(shadow_start, shadow_end);
+-
+-	/*
+-	 * We need to be careful about inter-cpu effects here. Consider:
+-	 *
+-	 *   CPU#0				  CPU#1
+-	 * WRITE_ONCE(p, vmalloc(100));		while (x = READ_ONCE(p)) ;
+-	 *					p[99] = 1;
+-	 *
+-	 * With compiler instrumentation, that ends up looking like this:
+-	 *
+-	 *   CPU#0				  CPU#1
+-	 * // vmalloc() allocates memory
+-	 * // let a = area->addr
+-	 * // we reach kasan_populate_vmalloc
+-	 * // and call kasan_unpoison_memory:
+-	 * STORE shadow(a), unpoison_val
+-	 * ...
+-	 * STORE shadow(a+99), unpoison_val	x = LOAD p
+-	 * // rest of vmalloc process		<data dependency>
+-	 * STORE p, a				LOAD shadow(x+99)
+-	 *
+-	 * If there is no barrier between the end of unpoisioning the shadow
+-	 * and the store of the result to p, the stores could be committed
+-	 * in a different order by CPU#0, and CPU#1 could erroneously observe
+-	 * poison in the shadow.
+-	 *
+-	 * We need some sort of barrier between the stores.
+-	 *
+-	 * In the vmalloc() case, this is provided by a smp_wmb() in
+-	 * clear_vm_uninitialized_flag(). In the per-cpu allocator and in
+-	 * get_vm_area() and friends, the caller gets shadow allocated but
+-	 * doesn't have any pages mapped into the virtual address space that
+-	 * has been reserved. Mapping those pages in will involve taking and
+-	 * releasing a page-table lock, which will provide the barrier.
+-	 */
+-
+-	return 0;
+-}
+-
+-/*
+- * Poison the shadow for a vmalloc region. Called as part of the
+- * freeing process at the time the region is freed.
+- */
+-void kasan_poison_vmalloc(const void *start, unsigned long size)
+-{
+-	if (!is_vmalloc_or_module_addr(start))
+-		return;
+-
+-	size = round_up(size, KASAN_GRANULE_SIZE);
+-	kasan_poison_memory(start, size, KASAN_VMALLOC_INVALID);
+-}
+-
+-void kasan_unpoison_vmalloc(const void *start, unsigned long size)
+-{
+-	if (!is_vmalloc_or_module_addr(start))
+-		return;
+-
+-	kasan_unpoison_memory(start, size);
+-}
+-
+-static int kasan_depopulate_vmalloc_pte(pte_t *ptep, unsigned long addr,
+-					void *unused)
+-{
+-	unsigned long page;
+-
+-	page = (unsigned long)__va(pte_pfn(*ptep) << PAGE_SHIFT);
+-
+-	spin_lock(&init_mm.page_table_lock);
+-
+-	if (likely(!pte_none(*ptep))) {
+-		pte_clear(&init_mm, addr, ptep);
+-		free_page(page);
+-	}
+-	spin_unlock(&init_mm.page_table_lock);
+-
+-	return 0;
+-}
+-
+-/*
+- * Release the backing for the vmalloc region [start, end), which
+- * lies within the free region [free_region_start, free_region_end).
+- *
+- * This can be run lazily, long after the region was freed. It runs
+- * under vmap_area_lock, so it's not safe to interact with the vmalloc/vmap
+- * infrastructure.
+- *
+- * How does this work?
+- * -------------------
+- *
+- * We have a region that is page aligned, labelled as A.
+- * That might not map onto the shadow in a way that is page-aligned:
+- *
+- *                    start                     end
+- *                    v                         v
+- * |????????|????????|AAAAAAAA|AA....AA|AAAAAAAA|????????| < vmalloc
+- *  -------- -------- --------          -------- --------
+- *      |        |       |                 |        |
+- *      |        |       |         /-------/        |
+- *      \-------\|/------/         |/---------------/
+- *              |||                ||
+- *             |??AAAAAA|AAAAAAAA|AA??????|                < shadow
+- *                 (1)      (2)      (3)
+- *
+- * First we align the start upwards and the end downwards, so that the
+- * shadow of the region aligns with shadow page boundaries. In the
+- * example, this gives us the shadow page (2). This is the shadow entirely
+- * covered by this allocation.
+- *
+- * Then we have the tricky bits. We want to know if we can free the
+- * partially covered shadow pages - (1) and (3) in the example. For this,
+- * we are given the start and end of the free region that contains this
+- * allocation. Extending our previous example, we could have:
+- *
+- *  free_region_start                                    free_region_end
+- *  |                 start                     end      |
+- *  v                 v                         v        v
+- * |FFFFFFFF|FFFFFFFF|AAAAAAAA|AA....AA|AAAAAAAA|FFFFFFFF| < vmalloc
+- *  -------- -------- --------          -------- --------
+- *      |        |       |                 |        |
+- *      |        |       |         /-------/        |
+- *      \-------\|/------/         |/---------------/
+- *              |||                ||
+- *             |FFAAAAAA|AAAAAAAA|AAF?????|                < shadow
+- *                 (1)      (2)      (3)
+- *
+- * Once again, we align the start of the free region up, and the end of
+- * the free region down so that the shadow is page aligned. So we can free
+- * page (1) - we know no allocation currently uses anything in that page,
+- * because all of it is in the vmalloc free region. But we cannot free
+- * page (3), because we can't be sure that the rest of it is unused.
+- *
+- * We only consider pages that contain part of the original region for
+- * freeing: we don't try to free other pages from the free region or we'd
+- * end up trying to free huge chunks of virtual address space.
+- *
+- * Concurrency
+- * -----------
+- *
+- * How do we know that we're not freeing a page that is simultaneously
+- * being used for a fresh allocation in kasan_populate_vmalloc(_pte)?
+- *
+- * We _can_ have kasan_release_vmalloc and kasan_populate_vmalloc running
+- * at the same time. While we run under free_vmap_area_lock, the population
+- * code does not.
+- *
+- * free_vmap_area_lock instead operates to ensure that the larger range
+- * [free_region_start, free_region_end) is safe: because __alloc_vmap_area and
+- * the per-cpu region-finding algorithm both run under free_vmap_area_lock,
+- * no space identified as free will become used while we are running. This
+- * means that so long as we are careful with alignment and only free shadow
+- * pages entirely covered by the free region, we will not run in to any
+- * trouble - any simultaneous allocations will be for disjoint regions.
+- */
+-void kasan_release_vmalloc(unsigned long start, unsigned long end,
+-			   unsigned long free_region_start,
+-			   unsigned long free_region_end)
+-{
+-	void *shadow_start, *shadow_end;
+-	unsigned long region_start, region_end;
+-	unsigned long size;
+-
+-	region_start = ALIGN(start, PAGE_SIZE * KASAN_GRANULE_SIZE);
+-	region_end = ALIGN_DOWN(end, PAGE_SIZE * KASAN_GRANULE_SIZE);
+-
+-	free_region_start = ALIGN(free_region_start,
+-				  PAGE_SIZE * KASAN_GRANULE_SIZE);
+-
+-	if (start != region_start &&
+-	    free_region_start < region_start)
+-		region_start -= PAGE_SIZE * KASAN_GRANULE_SIZE;
+-
+-	free_region_end = ALIGN_DOWN(free_region_end,
+-				     PAGE_SIZE * KASAN_GRANULE_SIZE);
+-
+-	if (end != region_end &&
+-	    free_region_end > region_end)
+-		region_end += PAGE_SIZE * KASAN_GRANULE_SIZE;
+-
+-	shadow_start = kasan_mem_to_shadow((void *)region_start);
+-	shadow_end = kasan_mem_to_shadow((void *)region_end);
+-
+-	if (shadow_end > shadow_start) {
+-		size = shadow_end - shadow_start;
+-		apply_to_existing_page_range(&init_mm,
+-					     (unsigned long)shadow_start,
+-					     size, kasan_depopulate_vmalloc_pte,
+-					     NULL);
+-		flush_tlb_kernel_range((unsigned long)shadow_start,
+-				       (unsigned long)shadow_end);
+-	}
+-}
+-
+-#else /* CONFIG_KASAN_VMALLOC */
+-
+-int kasan_module_alloc(void *addr, size_t size)
+-{
+-	void *ret;
+-	size_t scaled_size;
+-	size_t shadow_size;
+-	unsigned long shadow_start;
+-
+-	shadow_start = (unsigned long)kasan_mem_to_shadow(addr);
+-	scaled_size = (size + KASAN_GRANULE_SIZE - 1) >>
+-				KASAN_SHADOW_SCALE_SHIFT;
+-	shadow_size = round_up(scaled_size, PAGE_SIZE);
+-
+-	if (WARN_ON(!PAGE_ALIGNED(shadow_start)))
+-		return -EINVAL;
+-
+-	ret = __vmalloc_node_range(shadow_size, 1, shadow_start,
+-			shadow_start + shadow_size,
+-			GFP_KERNEL,
+-			PAGE_KERNEL, VM_NO_GUARD, NUMA_NO_NODE,
+-			__builtin_return_address(0));
+-
+-	if (ret) {
+-		__memset(ret, KASAN_SHADOW_INIT, shadow_size);
+-		find_vm_area(addr)->flags |= VM_KASAN;
+-		kmemleak_ignore(ret);
+-		return 0;
+-	}
+-
+-	return -ENOMEM;
+-}
+-
+-void kasan_free_shadow(const struct vm_struct *vm)
+-{
+-	if (vm->flags & VM_KASAN)
+-		vfree(kasan_mem_to_shadow(vm->addr));
+-}
+-
+-#endif
+diff --git a/mm/kasan/shadow.c b/mm/kasan/shadow.c
+new file mode 100644
+index 000000000000..4888084ecdfc
+--- /dev/null
++++ b/mm/kasan/shadow.c
+@@ -0,0 +1,509 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * This file contains KASAN shadow runtime code.
++ *
++ * Copyright (c) 2014 Samsung Electronics Co., Ltd.
++ * Author: Andrey Ryabinin <ryabinin.a.a@gmail.com>
++ *
++ * Some code borrowed from https://github.com/xairy/kasan-prototype by
++ *        Andrey Konovalov <andreyknvl@gmail.com>
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License version 2 as
++ * published by the Free Software Foundation.
++ *
++ */
++
++#include <linux/init.h>
++#include <linux/kasan.h>
++#include <linux/kernel.h>
++#include <linux/kmemleak.h>
++#include <linux/memory.h>
++#include <linux/mm.h>
++#include <linux/string.h>
++#include <linux/types.h>
++#include <linux/vmalloc.h>
++
++#include <asm/cacheflush.h>
++#include <asm/tlbflush.h>
++
++#include "kasan.h"
++
++bool __kasan_check_read(const volatile void *p, unsigned int size)
++{
++	return check_memory_region((unsigned long)p, size, false, _RET_IP_);
++}
++EXPORT_SYMBOL(__kasan_check_read);
++
++bool __kasan_check_write(const volatile void *p, unsigned int size)
++{
++	return check_memory_region((unsigned long)p, size, true, _RET_IP_);
++}
++EXPORT_SYMBOL(__kasan_check_write);
++
++#undef memset
++void *memset(void *addr, int c, size_t len)
++{
++	if (!check_memory_region((unsigned long)addr, len, true, _RET_IP_))
++		return NULL;
++
++	return __memset(addr, c, len);
++}
++
++#ifdef __HAVE_ARCH_MEMMOVE
++#undef memmove
++void *memmove(void *dest, const void *src, size_t len)
++{
++	if (!check_memory_region((unsigned long)src, len, false, _RET_IP_) ||
++	    !check_memory_region((unsigned long)dest, len, true, _RET_IP_))
++		return NULL;
++
++	return __memmove(dest, src, len);
++}
++#endif
++
++#undef memcpy
++void *memcpy(void *dest, const void *src, size_t len)
++{
++	if (!check_memory_region((unsigned long)src, len, false, _RET_IP_) ||
++	    !check_memory_region((unsigned long)dest, len, true, _RET_IP_))
++		return NULL;
++
++	return __memcpy(dest, src, len);
++}
++
++/*
++ * Poisons the shadow memory for 'size' bytes starting from 'addr'.
++ * Memory addresses should be aligned to KASAN_GRANULE_SIZE.
++ */
++void kasan_poison_memory(const void *address, size_t size, u8 value)
++{
++	void *shadow_start, *shadow_end;
++
++	/*
++	 * Perform shadow offset calculation based on untagged address, as
++	 * some of the callers (e.g. kasan_poison_object_data) pass tagged
++	 * addresses to this function.
++	 */
++	address = reset_tag(address);
++
++	shadow_start = kasan_mem_to_shadow(address);
++	shadow_end = kasan_mem_to_shadow(address + size);
++
++	__memset(shadow_start, value, shadow_end - shadow_start);
++}
++
++void kasan_unpoison_memory(const void *address, size_t size)
++{
++	u8 tag = get_tag(address);
++
++	/*
++	 * Perform shadow offset calculation based on untagged address, as
++	 * some of the callers (e.g. kasan_unpoison_object_data) pass tagged
++	 * addresses to this function.
++	 */
++	address = reset_tag(address);
++
++	kasan_poison_memory(address, size, tag);
++
++	if (size & KASAN_GRANULE_MASK) {
++		u8 *shadow = (u8 *)kasan_mem_to_shadow(address + size);
++
++		if (IS_ENABLED(CONFIG_KASAN_SW_TAGS))
++			*shadow = tag;
++		else
++			*shadow = size & KASAN_GRANULE_MASK;
++	}
++}
++
++#ifdef CONFIG_MEMORY_HOTPLUG
++static bool shadow_mapped(unsigned long addr)
++{
++	pgd_t *pgd = pgd_offset_k(addr);
++	p4d_t *p4d;
++	pud_t *pud;
++	pmd_t *pmd;
++	pte_t *pte;
++
++	if (pgd_none(*pgd))
++		return false;
++	p4d = p4d_offset(pgd, addr);
++	if (p4d_none(*p4d))
++		return false;
++	pud = pud_offset(p4d, addr);
++	if (pud_none(*pud))
++		return false;
++
++	/*
++	 * We can't use pud_large() or pud_huge(), the first one is
++	 * arch-specific, the last one depends on HUGETLB_PAGE.  So let's abuse
++	 * pud_bad(), if pud is bad then it's bad because it's huge.
++	 */
++	if (pud_bad(*pud))
++		return true;
++	pmd = pmd_offset(pud, addr);
++	if (pmd_none(*pmd))
++		return false;
++
++	if (pmd_bad(*pmd))
++		return true;
++	pte = pte_offset_kernel(pmd, addr);
++	return !pte_none(*pte);
++}
++
++static int __meminit kasan_mem_notifier(struct notifier_block *nb,
++			unsigned long action, void *data)
++{
++	struct memory_notify *mem_data = data;
++	unsigned long nr_shadow_pages, start_kaddr, shadow_start;
++	unsigned long shadow_end, shadow_size;
++
++	nr_shadow_pages = mem_data->nr_pages >> KASAN_SHADOW_SCALE_SHIFT;
++	start_kaddr = (unsigned long)pfn_to_kaddr(mem_data->start_pfn);
++	shadow_start = (unsigned long)kasan_mem_to_shadow((void *)start_kaddr);
++	shadow_size = nr_shadow_pages << PAGE_SHIFT;
++	shadow_end = shadow_start + shadow_size;
++
++	if (WARN_ON(mem_data->nr_pages % KASAN_GRANULE_SIZE) ||
++		WARN_ON(start_kaddr % (KASAN_GRANULE_SIZE << PAGE_SHIFT)))
++		return NOTIFY_BAD;
++
++	switch (action) {
++	case MEM_GOING_ONLINE: {
++		void *ret;
++
++		/*
++		 * If shadow is mapped already than it must have been mapped
++		 * during the boot. This could happen if we onlining previously
++		 * offlined memory.
++		 */
++		if (shadow_mapped(shadow_start))
++			return NOTIFY_OK;
++
++		ret = __vmalloc_node_range(shadow_size, PAGE_SIZE, shadow_start,
++					shadow_end, GFP_KERNEL,
++					PAGE_KERNEL, VM_NO_GUARD,
++					pfn_to_nid(mem_data->start_pfn),
++					__builtin_return_address(0));
++		if (!ret)
++			return NOTIFY_BAD;
++
++		kmemleak_ignore(ret);
++		return NOTIFY_OK;
++	}
++	case MEM_CANCEL_ONLINE:
++	case MEM_OFFLINE: {
++		struct vm_struct *vm;
++
++		/*
++		 * shadow_start was either mapped during boot by kasan_init()
++		 * or during memory online by __vmalloc_node_range().
++		 * In the latter case we can use vfree() to free shadow.
++		 * Non-NULL result of the find_vm_area() will tell us if
++		 * that was the second case.
++		 *
++		 * Currently it's not possible to free shadow mapped
++		 * during boot by kasan_init(). It's because the code
++		 * to do that hasn't been written yet. So we'll just
++		 * leak the memory.
++		 */
++		vm = find_vm_area((void *)shadow_start);
++		if (vm)
++			vfree((void *)shadow_start);
++	}
++	}
++
++	return NOTIFY_OK;
++}
++
++static int __init kasan_memhotplug_init(void)
++{
++	hotplug_memory_notifier(kasan_mem_notifier, 0);
++
++	return 0;
++}
++
++core_initcall(kasan_memhotplug_init);
++#endif
++
++#ifdef CONFIG_KASAN_VMALLOC
++
++static int kasan_populate_vmalloc_pte(pte_t *ptep, unsigned long addr,
++				      void *unused)
++{
++	unsigned long page;
++	pte_t pte;
++
++	if (likely(!pte_none(*ptep)))
++		return 0;
++
++	page = __get_free_page(GFP_KERNEL);
++	if (!page)
++		return -ENOMEM;
++
++	memset((void *)page, KASAN_VMALLOC_INVALID, PAGE_SIZE);
++	pte = pfn_pte(PFN_DOWN(__pa(page)), PAGE_KERNEL);
++
++	spin_lock(&init_mm.page_table_lock);
++	if (likely(pte_none(*ptep))) {
++		set_pte_at(&init_mm, addr, ptep, pte);
++		page = 0;
++	}
++	spin_unlock(&init_mm.page_table_lock);
++	if (page)
++		free_page(page);
++	return 0;
++}
++
++int kasan_populate_vmalloc(unsigned long addr, unsigned long size)
++{
++	unsigned long shadow_start, shadow_end;
++	int ret;
++
++	if (!is_vmalloc_or_module_addr((void *)addr))
++		return 0;
++
++	shadow_start = (unsigned long)kasan_mem_to_shadow((void *)addr);
++	shadow_start = ALIGN_DOWN(shadow_start, PAGE_SIZE);
++	shadow_end = (unsigned long)kasan_mem_to_shadow((void *)addr + size);
++	shadow_end = ALIGN(shadow_end, PAGE_SIZE);
++
++	ret = apply_to_page_range(&init_mm, shadow_start,
++				  shadow_end - shadow_start,
++				  kasan_populate_vmalloc_pte, NULL);
++	if (ret)
++		return ret;
++
++	flush_cache_vmap(shadow_start, shadow_end);
++
++	/*
++	 * We need to be careful about inter-cpu effects here. Consider:
++	 *
++	 *   CPU#0				  CPU#1
++	 * WRITE_ONCE(p, vmalloc(100));		while (x = READ_ONCE(p)) ;
++	 *					p[99] = 1;
++	 *
++	 * With compiler instrumentation, that ends up looking like this:
++	 *
++	 *   CPU#0				  CPU#1
++	 * // vmalloc() allocates memory
++	 * // let a = area->addr
++	 * // we reach kasan_populate_vmalloc
++	 * // and call kasan_unpoison_memory:
++	 * STORE shadow(a), unpoison_val
++	 * ...
++	 * STORE shadow(a+99), unpoison_val	x = LOAD p
++	 * // rest of vmalloc process		<data dependency>
++	 * STORE p, a				LOAD shadow(x+99)
++	 *
++	 * If there is no barrier between the end of unpoisioning the shadow
++	 * and the store of the result to p, the stores could be committed
++	 * in a different order by CPU#0, and CPU#1 could erroneously observe
++	 * poison in the shadow.
++	 *
++	 * We need some sort of barrier between the stores.
++	 *
++	 * In the vmalloc() case, this is provided by a smp_wmb() in
++	 * clear_vm_uninitialized_flag(). In the per-cpu allocator and in
++	 * get_vm_area() and friends, the caller gets shadow allocated but
++	 * doesn't have any pages mapped into the virtual address space that
++	 * has been reserved. Mapping those pages in will involve taking and
++	 * releasing a page-table lock, which will provide the barrier.
++	 */
++
++	return 0;
++}
++
++/*
++ * Poison the shadow for a vmalloc region. Called as part of the
++ * freeing process at the time the region is freed.
++ */
++void kasan_poison_vmalloc(const void *start, unsigned long size)
++{
++	if (!is_vmalloc_or_module_addr(start))
++		return;
++
++	size = round_up(size, KASAN_GRANULE_SIZE);
++	kasan_poison_memory(start, size, KASAN_VMALLOC_INVALID);
++}
++
++void kasan_unpoison_vmalloc(const void *start, unsigned long size)
++{
++	if (!is_vmalloc_or_module_addr(start))
++		return;
++
++	kasan_unpoison_memory(start, size);
++}
++
++static int kasan_depopulate_vmalloc_pte(pte_t *ptep, unsigned long addr,
++					void *unused)
++{
++	unsigned long page;
++
++	page = (unsigned long)__va(pte_pfn(*ptep) << PAGE_SHIFT);
++
++	spin_lock(&init_mm.page_table_lock);
++
++	if (likely(!pte_none(*ptep))) {
++		pte_clear(&init_mm, addr, ptep);
++		free_page(page);
++	}
++	spin_unlock(&init_mm.page_table_lock);
++
++	return 0;
++}
++
++/*
++ * Release the backing for the vmalloc region [start, end), which
++ * lies within the free region [free_region_start, free_region_end).
++ *
++ * This can be run lazily, long after the region was freed. It runs
++ * under vmap_area_lock, so it's not safe to interact with the vmalloc/vmap
++ * infrastructure.
++ *
++ * How does this work?
++ * -------------------
++ *
++ * We have a region that is page aligned, labelled as A.
++ * That might not map onto the shadow in a way that is page-aligned:
++ *
++ *                    start                     end
++ *                    v                         v
++ * |????????|????????|AAAAAAAA|AA....AA|AAAAAAAA|????????| < vmalloc
++ *  -------- -------- --------          -------- --------
++ *      |        |       |                 |        |
++ *      |        |       |         /-------/        |
++ *      \-------\|/------/         |/---------------/
++ *              |||                ||
++ *             |??AAAAAA|AAAAAAAA|AA??????|                < shadow
++ *                 (1)      (2)      (3)
++ *
++ * First we align the start upwards and the end downwards, so that the
++ * shadow of the region aligns with shadow page boundaries. In the
++ * example, this gives us the shadow page (2). This is the shadow entirely
++ * covered by this allocation.
++ *
++ * Then we have the tricky bits. We want to know if we can free the
++ * partially covered shadow pages - (1) and (3) in the example. For this,
++ * we are given the start and end of the free region that contains this
++ * allocation. Extending our previous example, we could have:
++ *
++ *  free_region_start                                    free_region_end
++ *  |                 start                     end      |
++ *  v                 v                         v        v
++ * |FFFFFFFF|FFFFFFFF|AAAAAAAA|AA....AA|AAAAAAAA|FFFFFFFF| < vmalloc
++ *  -------- -------- --------          -------- --------
++ *      |        |       |                 |        |
++ *      |        |       |         /-------/        |
++ *      \-------\|/------/         |/---------------/
++ *              |||                ||
++ *             |FFAAAAAA|AAAAAAAA|AAF?????|                < shadow
++ *                 (1)      (2)      (3)
++ *
++ * Once again, we align the start of the free region up, and the end of
++ * the free region down so that the shadow is page aligned. So we can free
++ * page (1) - we know no allocation currently uses anything in that page,
++ * because all of it is in the vmalloc free region. But we cannot free
++ * page (3), because we can't be sure that the rest of it is unused.
++ *
++ * We only consider pages that contain part of the original region for
++ * freeing: we don't try to free other pages from the free region or we'd
++ * end up trying to free huge chunks of virtual address space.
++ *
++ * Concurrency
++ * -----------
++ *
++ * How do we know that we're not freeing a page that is simultaneously
++ * being used for a fresh allocation in kasan_populate_vmalloc(_pte)?
++ *
++ * We _can_ have kasan_release_vmalloc and kasan_populate_vmalloc running
++ * at the same time. While we run under free_vmap_area_lock, the population
++ * code does not.
++ *
++ * free_vmap_area_lock instead operates to ensure that the larger range
++ * [free_region_start, free_region_end) is safe: because __alloc_vmap_area and
++ * the per-cpu region-finding algorithm both run under free_vmap_area_lock,
++ * no space identified as free will become used while we are running. This
++ * means that so long as we are careful with alignment and only free shadow
++ * pages entirely covered by the free region, we will not run in to any
++ * trouble - any simultaneous allocations will be for disjoint regions.
++ */
++void kasan_release_vmalloc(unsigned long start, unsigned long end,
++			   unsigned long free_region_start,
++			   unsigned long free_region_end)
++{
++	void *shadow_start, *shadow_end;
++	unsigned long region_start, region_end;
++	unsigned long size;
++
++	region_start = ALIGN(start, PAGE_SIZE * KASAN_GRANULE_SIZE);
++	region_end = ALIGN_DOWN(end, PAGE_SIZE * KASAN_GRANULE_SIZE);
++
++	free_region_start = ALIGN(free_region_start,
++				  PAGE_SIZE * KASAN_GRANULE_SIZE);
++
++	if (start != region_start &&
++	    free_region_start < region_start)
++		region_start -= PAGE_SIZE * KASAN_GRANULE_SIZE;
++
++	free_region_end = ALIGN_DOWN(free_region_end,
++				     PAGE_SIZE * KASAN_GRANULE_SIZE);
++
++	if (end != region_end &&
++	    free_region_end > region_end)
++		region_end += PAGE_SIZE * KASAN_GRANULE_SIZE;
++
++	shadow_start = kasan_mem_to_shadow((void *)region_start);
++	shadow_end = kasan_mem_to_shadow((void *)region_end);
++
++	if (shadow_end > shadow_start) {
++		size = shadow_end - shadow_start;
++		apply_to_existing_page_range(&init_mm,
++					     (unsigned long)shadow_start,
++					     size, kasan_depopulate_vmalloc_pte,
++					     NULL);
++		flush_tlb_kernel_range((unsigned long)shadow_start,
++				       (unsigned long)shadow_end);
++	}
++}
++
++#else /* CONFIG_KASAN_VMALLOC */
++
++int kasan_module_alloc(void *addr, size_t size)
++{
++	void *ret;
++	size_t scaled_size;
++	size_t shadow_size;
++	unsigned long shadow_start;
++
++	shadow_start = (unsigned long)kasan_mem_to_shadow(addr);
++	scaled_size = (size + KASAN_GRANULE_SIZE - 1) >>
++				KASAN_SHADOW_SCALE_SHIFT;
++	shadow_size = round_up(scaled_size, PAGE_SIZE);
++
++	if (WARN_ON(!PAGE_ALIGNED(shadow_start)))
++		return -EINVAL;
++
++	ret = __vmalloc_node_range(shadow_size, 1, shadow_start,
++			shadow_start + shadow_size,
++			GFP_KERNEL,
++			PAGE_KERNEL, VM_NO_GUARD, NUMA_NO_NODE,
++			__builtin_return_address(0));
++
++	if (ret) {
++		__memset(ret, KASAN_SHADOW_INIT, shadow_size);
++		find_vm_area(addr)->flags |= VM_KASAN;
++		kmemleak_ignore(ret);
++		return 0;
++	}
++
++	return -ENOMEM;
++}
++
++void kasan_free_shadow(const struct vm_struct *vm)
++{
++	if (vm->flags & VM_KASAN)
++		vfree(kasan_mem_to_shadow(vm->addr));
++}
++
++#endif
 -- 
 2.28.0.220.ged08abb693-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/f6f402d4f5251f7413755724e2479e2042bf01e8.1597425745.git.andreyknvl%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/1286b689a658ed6ba08cd4c15b79ffb572368117.1597425745.git.andreyknvl%40google.com.
