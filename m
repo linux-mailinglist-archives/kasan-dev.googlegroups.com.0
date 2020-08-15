@@ -1,34 +1,34 @@
-Return-Path: <kasan-dev+bncBCF5XGNWYQBRBKM74D4QKGQEKWJV7NY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCF5XGNWYQBRBUFF4D4QKGQEVAVXM4A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-vs1-xe38.google.com (mail-vs1-xe38.google.com [IPv6:2607:f8b0:4864:20::e38])
-	by mail.lfdr.de (Postfix) with ESMTPS id E552E245178
-	for <lists+kasan-dev@lfdr.de>; Sat, 15 Aug 2020 18:39:06 +0200 (CEST)
-Received: by mail-vs1-xe38.google.com with SMTP id s14sf1916676vsp.14
-        for <lists+kasan-dev@lfdr.de>; Sat, 15 Aug 2020 09:39:06 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1597509546; cv=pass;
+Received: from mail-ot1-x33b.google.com (mail-ot1-x33b.google.com [IPv6:2607:f8b0:4864:20::33b])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4B3C245182
+	for <lists+kasan-dev@lfdr.de>; Sat, 15 Aug 2020 18:52:33 +0200 (CEST)
+Received: by mail-ot1-x33b.google.com with SMTP id t9sf5095668otk.22
+        for <lists+kasan-dev@lfdr.de>; Sat, 15 Aug 2020 09:52:33 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1597510352; cv=pass;
         d=google.com; s=arc-20160816;
-        b=yQJkwqr/79WyKEpHGEbsTvKV4ztd87l4ck71+S0/RnEDhrLRFeK6oGQYEsjNDdCVlt
-         kONA3kKu6S3QxGUN3ZFq3JFYsFqf1GlFahX4kJvzhom2xt6lYEaPDhYuoyuAwHxfguF1
-         wGoV5/LwoynWV8+NtBvro8sRkQ9jJ+3Q9mP0yxhSwOuENAzQQbJdQZ641NILR9jyIJjs
-         MC6MjjiZRIzqH57ipxlYsmznJRe9BYWn8XYsYV+4+wr2w6bl0CgagZ0Fi4d1Uy7loK2u
-         7OOFBNHZ8HQ6Ve1gbBSM7BWFC19xtagHQ0dqVQOmaw1U0gHYLHyLxPsbry6vpuP1DoWz
-         zP3Q==
+        b=l8KAz7cJg/h3X71yGMp6zOJaMgxOt4SpKU6u8Nit5TLyj4NaEspqZLBEtBkUwMu6eN
+         SNYeQW8rv2xTv7ndJin+7FRTI/qgzeZwgyWYea2hA/sXUGV+JMIzDcm+v46Crl0o4+VE
+         5AsEiZD8hYrQzL2dFFYy3PieJPrPVdlFLuFJ305foHeFtkqGyxP+vEVDorl2FmcIyXpy
+         XdlpsVuSnEsV3RBHo/WQLtjZ4IgVI34N/N+HD6/VoaQKK/1p5e5jxgXIfe37wiK0NfST
+         RvJTjhwBR9d+xeCjyxLDAXGQPqTJGYBc38kH6a1exNuoBSJym/K6mN7Y4A+U9bLG9zl1
+         WKdw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:in-reply-to:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:sender
          :dkim-signature;
-        bh=CrNlQ8oZk0KyaC894QFfbEpFaLzBJihJ4/cBHutw2CQ=;
-        b=SKv9/D3H1G/iZmFuvHTSNNuGtHf2k3moMnSact7syjg5X6RFyUpcGm8BayKwKxa30m
-         Q9XYf5nG1XF4PPyWlDrKYsWqbCRCik7t5TJ4gXAkdBiDFggAPTxlauNd3FGn7MlTI4sW
-         zhJL+7EHBeywqoQ2gsyb42kOx/Ywbr44fzQsh7L/zr0gy/DDq++/Gk2ZJaBvdTTuqbnG
-         JCOF9fwpt/Ec8CBdX/BJ2/WpieF2zh+eDjzL2Y2X1/cIylq9GDMi3u/Ee0bKb1WOb0ik
-         P+6dzEBoKpwPlPGdj00FWbIDI3oSCUvjfiQ8jTuIKVbxu2qtaID5YS9hYXBJ1I7bZe0s
-         470A==
+        bh=SFeotdUxJo4tBwtXms0uZxdo55ElSrh6b7Y/wg3aHic=;
+        b=N5q1LSb9oz5C7D8259BIO7XZCAMt1baKRYzqbSZxmzuCj1QrvGMpGTWcju1P7DG7ND
+         ZTPn6aiOnsPoH/uYaq44njENvf/iUHxJXFqFK+44+3ZDf0/l9Zgvj5AC0hLpaPy+ERuj
+         YenhsPGoWrCOEFkkYj+PXPRTQ10BDpK8k7qZYSWVhggKGF5DKltM+GnRR4VOuFulNuIA
+         cHNFzt52ek/AWT1Nkt5lghkO552s5C/yuzX1w1X3jI4gUoWN6pQln0Pk5fVG7GUyAdS4
+         bQp0im1RR11qGE1DDNbMMSTBXVRolSPAYsUkUL+ZrZk9Y3qL1QqkQ6I+0joAHdbBlXFw
+         hTuQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@chromium.org header.s=google header.b=hyCX5dk0;
-       spf=pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::643 as permitted sender) smtp.mailfrom=keescook@chromium.org;
+       dkim=pass header.i=@chromium.org header.s=google header.b=hujs8iqh;
+       spf=pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::641 as permitted sender) smtp.mailfrom=keescook@chromium.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=chromium.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
@@ -36,13 +36,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :content-disposition:in-reply-to:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=CrNlQ8oZk0KyaC894QFfbEpFaLzBJihJ4/cBHutw2CQ=;
-        b=HeSOrF7EMNzqmVVxrgj4wbIg6ZCmQ+6vcOaLPf939/AkyEGmqNqQVeC+RJb5MGoR6u
-         OzyNpnAJxYOVm0OOAKrnDrllyWxVZ/K3ugl+tpYC1A72W4bia0kpQ8INmZo7VWU8pXnq
-         VnYhewG9cI6Nce4dAs3Cftm5m1bA/AEiS7uqqebmMQpd/eWm0D5Cy7uO28BhZmqRhYNt
-         55477G1aqM8YsqznQdXL3+lPHAtUHytZ+m3uPD/CQv58LN4YEabnHPPrPsA8ECxZrqRL
-         /TqrdE1vzwjNqkyGqdUdl9LDY7SP3MSTZ9JImg6CiFiOuZeLF+1qb5PJcw0cBlpkBKaH
-         T/BA==
+        bh=SFeotdUxJo4tBwtXms0uZxdo55ElSrh6b7Y/wg3aHic=;
+        b=Fjdqt2iu055X4CT86P/1yB1YCV5R+T5jizIULWuD4kbeWAl/efpGrVaF9klcWscgzX
+         9SduftP96Y+LxuIOJMDKErqwbGGJtJJMOD0RqtR4lPiZKLsT7S0wCkTrf2HgIDqt2zXy
+         TfcW004mv7jebT+66EXe1V8vZoxVrVcKBhuuY68z7wJR2skCBTHKtZTdZ6zmNVtTZfTh
+         tnrhn/7kquCy39xA0/4bKojQVBlESpbva8IjMUqcmBPatDQb08aIi3w23atJWQuXA7tV
+         dBkpcqir/Zhozb2e14ceCGcqVwGYgYc7LLdXi6l/2Sw2lLsTz0PkS46hAQkxenk0a9m7
+         hgNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
@@ -50,61 +50,61 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=CrNlQ8oZk0KyaC894QFfbEpFaLzBJihJ4/cBHutw2CQ=;
-        b=IocfjzjQRbax1knUKvVeWEc+zNObxyTQwDa7WjwLAJITRHaANk4rS5mKWVbA0pzsHb
-         5pilhXt1bBBMSBar6LsJAjV6o4bLQuen4lmPbVCXq6aMiyDKe8IgPOSUKWr6AtL12wgh
-         Y5VmF9jP157Jl4Xjv2oh4scavQxRgMDtG9ZcxaoSKZXLJ+v9RhzyTuUDsQqfLF8bS4Nw
-         EHTrYTiONihLbKO5s24TW7y+cScc0RR8mezPRz4+e1W+RTNdpWu4qXWtWSIbGjFufWd0
-         ioJxGTVSfEQgCXNt6Jn6kkrCi1Cfontxrn3K72C71AUK6/WaTZxh+4hkKjY2QWw7sLOp
-         7G+g==
+        bh=SFeotdUxJo4tBwtXms0uZxdo55ElSrh6b7Y/wg3aHic=;
+        b=SsXTC16FopWxh3H3/+Qjfla6OlF/XI1WQ0fxcnMaWsr/IAN9yCxZFetoq0Ui+D6tzA
+         mvOzjwj7Td6m7U+lntQk19mSbFJEcCo2/zZpa0Xd4iYj3eKVEOXyQrW+JQsI9GJloUx0
+         DITzvZ097MhwuY5qEzxinUOw5vUg/1i8+1fp0tTrpIYPOg1I3MEwlMoaJtV/0mHMKK2x
+         dnLaNhWEB5xz+KO/IbpqNh0M8j/+SGcPOPbgAlFBUKGgv/4LNK2bQmeMxIANfUS5CPO3
+         Q3f5IFflPzsQiBBhfMQbkDOm26BoxTku0Tl7MD8afbdl6rPKnVSLrDrSbY0rxN8BivqY
+         nDDw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM531s3XKEfyjwY2dTOUo06C720RL9VE/aJml94b3a+3wgPTxRZKw+
-	kopN4Dk8lsdXByw6OcIlC/w=
-X-Google-Smtp-Source: ABdhPJwpuo5TxG1KgRYAwhF7ELsuYUdUlNsdWEE2ldYyW1Ts4qfQesMG8ktk6IldXuiKeO4JHyswxw==
-X-Received: by 2002:a05:6102:213a:: with SMTP id f26mr4460818vsg.6.1597509545991;
-        Sat, 15 Aug 2020 09:39:05 -0700 (PDT)
+X-Gm-Message-State: AOAM530KICHAIsHSRb7YvJvhYVigTjTfQB7H7jb7qADUFWDybXrfE3wQ
+	jIVgs0U0SEHO2ZBFV2Ie6KA=
+X-Google-Smtp-Source: ABdhPJzEUfR+XIo0qZmk2qV+sQ7y/YRghjRqJXx2DcK/e7JsxlpqQsXv4Nj8QOVdd3PPifbwewzXbQ==
+X-Received: by 2002:a05:6830:1305:: with SMTP id p5mr5953598otq.135.1597510352618;
+        Sat, 15 Aug 2020 09:52:32 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a67:cf4a:: with SMTP id f10ls1420021vsm.3.gmail; Sat, 15 Aug
- 2020 09:39:05 -0700 (PDT)
-X-Received: by 2002:a67:2d4d:: with SMTP id t74mr4752783vst.111.1597509545644;
-        Sat, 15 Aug 2020 09:39:05 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1597509545; cv=none;
+Received: by 2002:a9d:66d7:: with SMTP id t23ls2674946otm.1.gmail; Sat, 15 Aug
+ 2020 09:52:32 -0700 (PDT)
+X-Received: by 2002:a05:6830:60f:: with SMTP id w15mr5762899oti.85.1597510352264;
+        Sat, 15 Aug 2020 09:52:32 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1597510352; cv=none;
         d=google.com; s=arc-20160816;
-        b=egsk5r5O4ugGhG3Ky8OdEcaTmYAgX7egIwMb9u8mqAXkuxE5dkSObH9SmwpMEZ+N5D
-         t2is60XQ7g9ZsiSOvg8QSu0MO0CzPvh9Ee2fJp3iPvDfufgdZxiFXW8OAyksxLE3JNAm
-         dQWqUVGRH8iAsVvFlCE/ad5K8jGVTZ1JC7nvF0zM771sP4jVetQEWh9jXrCwdlSF5sCN
-         vktBNQsANqyQM/jjyDSGw8ZZexYmXD6bI8mf9+4JNum4KHMEzKVPpEbjjC9hHMxoBjbJ
-         GT3/bZxNDtgt3KUDHjgmLHZ5QFT/Q2naBiH8SmdYZEcf+oRX9cSyYFR8hPMbu5wdajaz
-         hT+Q==
+        b=IjiBo42nKsqC00RmnL1FiepQKx/dZHQcSOpCGjrOdo3bzYi/cPb2GFEgnGY8vjApnA
+         0NlWqV8lHDp/99rsuQW3jX/gWRXIeiYj1ElCiKLJRR8apGuQAELNPudnAMXWzY4oGkO/
+         pP+gZy4USpBBWpC4v9qcZCXLLr605IjFSUzyvnYo7CHrJ4Hn0BJxbfENLeIRZ9Gfn/JX
+         k13BjNskggJ8ot8ACRXFixLpj60guCbmynHWIgtt/PpreKCwKONvyyCPZWSbgob/Ze99
+         mVwjzUdlX4wT5wws+A0HhRA1DYNEcuICxfdCGXxf24g8ZXflv9z0f572/0hihBQUxRzM
+         57sw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:dkim-signature;
-        bh=4J3Q2ehkUro4Gqm1OJFrAMNOhAG6pUBKwcsUWslCw24=;
-        b=yuDZ5O1ukhECFeyndTRscbvO4gFjBlIwp+XOxZTqSSgqYpDvyCeO2LeX7VzrKib85q
-         +AIcGw/LF6ziRxD0ad4bgInJaxdajy+vBisPgW/JkVjZSEqfPXCw1S0Sy15kcrLFH27U
-         PrETYfTqCKhVrtoU5AfEtxSCqWVoUvgiFVG5EA6Xge/ihANRqbT0noVk23ymAPXyME32
-         TBYrjDeF1vSvc/qOrVHC0MtqkitnBnLLPm4MciEStxOKX9iMYq0TnxwlFje3CmmMzflF
-         MiANn3AE1lJ2ZiagI1RSweq977WfFFEuQpj2Krbz5DU2mb/q1z9y/twxyvII1rOa3/jF
-         zQsQ==
+        bh=DkuPBAVHx3cth8w3eFKEZSaG/hl3FQz11+r5yt96mWw=;
+        b=o4YdV7GaW/nxgIL/Y45AmMv9WnyygR/6xspUtJphBV1zzLJr3IQInPsM/4QpM5g6rz
+         U2OPkH2HYm1HV++w3826kyU5REJyiVB9UiB97/FmPUpQvRXKpyV2zLMY+nHHD1RMWhiR
+         ri+CXIykM0MIK+s+Zd1GsTE0Nz6ToFP8qQ+c2BLJIv4Tty4+LSnlDgzvbZbqBXTgNmHd
+         wm76+9DO8Va0uFc+3QcRxK/h0nPY1CVRE9LufC9Cgv5wtpMAFlU6F/tnTECeJk3bFElq
+         diG0UOfQkted0/YBMnAGM+4eNdMGUAAvMVFVIIEwpcpARn8qA4E3b+dgndEam8DKXKjS
+         ezRw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@chromium.org header.s=google header.b=hyCX5dk0;
-       spf=pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::643 as permitted sender) smtp.mailfrom=keescook@chromium.org;
+       dkim=pass header.i=@chromium.org header.s=google header.b=hujs8iqh;
+       spf=pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::641 as permitted sender) smtp.mailfrom=keescook@chromium.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=chromium.org
-Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com. [2607:f8b0:4864:20::643])
-        by gmr-mx.google.com with ESMTPS id j18si942235vki.3.2020.08.15.09.39.05
+Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com. [2607:f8b0:4864:20::641])
+        by gmr-mx.google.com with ESMTPS id t21si323910oif.4.2020.08.15.09.52.32
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 15 Aug 2020 09:39:05 -0700 (PDT)
-Received-SPF: pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::643 as permitted sender) client-ip=2607:f8b0:4864:20::643;
-Received: by mail-pl1-x643.google.com with SMTP id t11so5500548plr.5
-        for <kasan-dev@googlegroups.com>; Sat, 15 Aug 2020 09:39:05 -0700 (PDT)
-X-Received: by 2002:a17:90a:148:: with SMTP id z8mr6733727pje.197.1597509544802;
-        Sat, 15 Aug 2020 09:39:04 -0700 (PDT)
+        Sat, 15 Aug 2020 09:52:32 -0700 (PDT)
+Received-SPF: pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::641 as permitted sender) client-ip=2607:f8b0:4864:20::641;
+Received: by mail-pl1-x641.google.com with SMTP id g15so1605713plj.6
+        for <kasan-dev@googlegroups.com>; Sat, 15 Aug 2020 09:52:32 -0700 (PDT)
+X-Received: by 2002:a17:90a:1749:: with SMTP id 9mr6560678pjm.127.1597510351412;
+        Sat, 15 Aug 2020 09:52:31 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id e3sm11269389pgu.40.2020.08.15.09.39.03
+        by smtp.gmail.com with ESMTPSA id n1sm12732251pfu.2.2020.08.15.09.52.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 15 Aug 2020 09:39:03 -0700 (PDT)
-Date: Sat, 15 Aug 2020 09:39:02 -0700
+        Sat, 15 Aug 2020 09:52:30 -0700 (PDT)
+Date: Sat, 15 Aug 2020 09:52:29 -0700
 From: Kees Cook <keescook@chromium.org>
 To: Alexander Popov <alex.popov@linux.com>
 Cc: Jann Horn <jannh@google.com>, Will Deacon <will@kernel.org>,
@@ -129,18 +129,18 @@ Cc: Jann Horn <jannh@google.com>, Will Deacon <will@kernel.org>,
 	kasan-dev@googlegroups.com, linux-mm@kvack.org,
 	kernel-hardening@lists.openwall.com, linux-kernel@vger.kernel.org,
 	notify@kernel.org
-Subject: Re: [PATCH RFC 0/2] Break heap spraying needed for exploiting
- use-after-free
-Message-ID: <202008150935.4C2F32559F@keescook>
+Subject: Re: [PATCH RFC 1/2] mm: Extract SLAB_QUARANTINE from KASAN
+Message-ID: <202008150939.A994680@keescook>
 References: <20200813151922.1093791-1-alex.popov@linux.com>
+ <20200813151922.1093791-2-alex.popov@linux.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <20200813151922.1093791-1-alex.popov@linux.com>
+In-Reply-To: <20200813151922.1093791-2-alex.popov@linux.com>
 X-Original-Sender: keescook@chromium.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@chromium.org header.s=google header.b=hyCX5dk0;       spf=pass
- (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::643
+ header.i=@chromium.org header.s=google header.b=hujs8iqh;       spf=pass
+ (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::641
  as permitted sender) smtp.mailfrom=keescook@chromium.org;       dmarc=pass
  (p=NONE sp=NONE dis=NONE) header.from=chromium.org
 Precedence: list
@@ -155,47 +155,331 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Aug 13, 2020 at 06:19:20PM +0300, Alexander Popov wrote:
-> I've found an easy way to break heap spraying for use-after-free
-> exploitation. I simply extracted slab freelist quarantine from KASAN
-> functionality and called it CONFIG_SLAB_QUARANTINE. Please see patch 1.
+On Thu, Aug 13, 2020 at 06:19:21PM +0300, Alexander Popov wrote:
+> Heap spraying is an exploitation technique that aims to put controlled
+> bytes at a predetermined memory location on the heap. Heap spraying for
+> exploiting use-after-free in the Linux kernel relies on the fact that on
+> kmalloc(), the slab allocator returns the address of the memory that was
+> recently freed. Allocating a kernel object with the same size and
+> controlled contents allows overwriting the vulnerable freed object.
+> 
+> Let's extract slab freelist quarantine from KASAN functionality and
+> call it CONFIG_SLAB_QUARANTINE. This feature breaks widespread heap
+> spraying technique used for exploiting use-after-free vulnerabilities
+> in the kernel code.
+> 
+> If this feature is enabled, freed allocations are stored in the quarantine
+> and can't be instantly reallocated and overwritten by the exploit
+> performing heap spraying.
 
-Ah yeah, good idea. :)
+It may be worth clarifying that this is specifically only direct UAF and
+doesn't help with spray-and-overflow-into-a-neighboring-object attacks
+(i.e. both tend to use sprays, but the former doesn't depend on a write
+overflow).
+
+> Signed-off-by: Alexander Popov <alex.popov@linux.com>
+> ---
+>  include/linux/kasan.h      | 107 ++++++++++++++++++++-----------------
+>  include/linux/slab_def.h   |   2 +-
+>  include/linux/slub_def.h   |   2 +-
+>  init/Kconfig               |  11 ++++
+>  mm/Makefile                |   3 +-
+>  mm/kasan/Makefile          |   2 +
+>  mm/kasan/kasan.h           |  75 +++++++++++++-------------
+>  mm/kasan/quarantine.c      |   2 +
+>  mm/kasan/slab_quarantine.c |  99 ++++++++++++++++++++++++++++++++++
+>  mm/slub.c                  |   2 +-
+>  10 files changed, 216 insertions(+), 89 deletions(-)
+>  create mode 100644 mm/kasan/slab_quarantine.c
+> 
+> diff --git a/include/linux/kasan.h b/include/linux/kasan.h
+> index 087fba34b209..b837216f760c 100644
+> --- a/include/linux/kasan.h
+> +++ b/include/linux/kasan.h
+> @@ -42,32 +42,14 @@ void kasan_unpoison_task_stack(struct task_struct *task);
+>  void kasan_alloc_pages(struct page *page, unsigned int order);
+>  void kasan_free_pages(struct page *page, unsigned int order);
+>  
+> -void kasan_cache_create(struct kmem_cache *cache, unsigned int *size,
+> -			slab_flags_t *flags);
+> -
+>  void kasan_poison_slab(struct page *page);
+>  void kasan_unpoison_object_data(struct kmem_cache *cache, void *object);
+>  void kasan_poison_object_data(struct kmem_cache *cache, void *object);
+>  void * __must_check kasan_init_slab_obj(struct kmem_cache *cache,
+>  					const void *object);
+>  
+> -void * __must_check kasan_kmalloc_large(const void *ptr, size_t size,
+> -						gfp_t flags);
+>  void kasan_kfree_large(void *ptr, unsigned long ip);
+>  void kasan_poison_kfree(void *ptr, unsigned long ip);
+> -void * __must_check kasan_kmalloc(struct kmem_cache *s, const void *object,
+> -					size_t size, gfp_t flags);
+> -void * __must_check kasan_krealloc(const void *object, size_t new_size,
+> -					gfp_t flags);
+> -
+> -void * __must_check kasan_slab_alloc(struct kmem_cache *s, void *object,
+> -					gfp_t flags);
+> -bool kasan_slab_free(struct kmem_cache *s, void *object, unsigned long ip);
+> -
+> -struct kasan_cache {
+> -	int alloc_meta_offset;
+> -	int free_meta_offset;
+> -};
+>  
+>  /*
+>   * These functions provide a special case to support backing module
+> @@ -107,10 +89,6 @@ static inline void kasan_disable_current(void) {}
+>  static inline void kasan_alloc_pages(struct page *page, unsigned int order) {}
+>  static inline void kasan_free_pages(struct page *page, unsigned int order) {}
+>  
+> -static inline void kasan_cache_create(struct kmem_cache *cache,
+> -				      unsigned int *size,
+> -				      slab_flags_t *flags) {}
+> -
+>  static inline void kasan_poison_slab(struct page *page) {}
+>  static inline void kasan_unpoison_object_data(struct kmem_cache *cache,
+>  					void *object) {}
+> @@ -122,17 +100,65 @@ static inline void *kasan_init_slab_obj(struct kmem_cache *cache,
+>  	return (void *)object;
+>  }
+>  
+> +static inline void kasan_kfree_large(void *ptr, unsigned long ip) {}
+> +static inline void kasan_poison_kfree(void *ptr, unsigned long ip) {}
+> +static inline void kasan_free_shadow(const struct vm_struct *vm) {}
+> +static inline void kasan_remove_zero_shadow(void *start, unsigned long size) {}
+> +static inline void kasan_unpoison_slab(const void *ptr) {}
+> +
+> +static inline int kasan_module_alloc(void *addr, size_t size)
+> +{
+> +	return 0;
+> +}
+> +
+> +static inline int kasan_add_zero_shadow(void *start, unsigned long size)
+> +{
+> +	return 0;
+> +}
+> +
+> +static inline size_t kasan_metadata_size(struct kmem_cache *cache)
+> +{
+> +	return 0;
+> +}
+> +
+> +#endif /* CONFIG_KASAN */
+> +
+> +struct kasan_cache {
+> +	int alloc_meta_offset;
+> +	int free_meta_offset;
+> +};
+> +
+> +#if defined(CONFIG_KASAN) || defined(CONFIG_SLAB_QUARANTINE)
+> +
+> +void kasan_cache_create(struct kmem_cache *cache, unsigned int *size,
+> +			slab_flags_t *flags);
+> +void * __must_check kasan_kmalloc_large(const void *ptr, size_t size,
+> +						gfp_t flags);
+> +void * __must_check kasan_kmalloc(struct kmem_cache *s, const void *object,
+> +					size_t size, gfp_t flags);
+> +void * __must_check kasan_krealloc(const void *object, size_t new_size,
+> +					gfp_t flags);
+> +void * __must_check kasan_slab_alloc(struct kmem_cache *s, void *object,
+> +					gfp_t flags);
+> +bool kasan_slab_free(struct kmem_cache *s, void *object, unsigned long ip);
+> +
+> +#else /* CONFIG_KASAN || CONFIG_SLAB_QUARANTINE */
+> +
+> +static inline void kasan_cache_create(struct kmem_cache *cache,
+> +				      unsigned int *size,
+> +				      slab_flags_t *flags) {}
+> +
+>  static inline void *kasan_kmalloc_large(void *ptr, size_t size, gfp_t flags)
+>  {
+>  	return ptr;
+>  }
+> -static inline void kasan_kfree_large(void *ptr, unsigned long ip) {}
+> -static inline void kasan_poison_kfree(void *ptr, unsigned long ip) {}
+> +
+>  static inline void *kasan_kmalloc(struct kmem_cache *s, const void *object,
+>  				size_t size, gfp_t flags)
+>  {
+>  	return (void *)object;
+>  }
+> +
+>  static inline void *kasan_krealloc(const void *object, size_t new_size,
+>  				 gfp_t flags)
+>  {
+> @@ -144,43 +170,28 @@ static inline void *kasan_slab_alloc(struct kmem_cache *s, void *object,
+>  {
+>  	return object;
+>  }
+> +
+>  static inline bool kasan_slab_free(struct kmem_cache *s, void *object,
+>  				   unsigned long ip)
+>  {
+>  	return false;
+>  }
+> -
+> -static inline int kasan_module_alloc(void *addr, size_t size) { return 0; }
+> -static inline void kasan_free_shadow(const struct vm_struct *vm) {}
+> -
+> -static inline int kasan_add_zero_shadow(void *start, unsigned long size)
+> -{
+> -	return 0;
+> -}
+> -static inline void kasan_remove_zero_shadow(void *start,
+> -					unsigned long size)
+> -{}
+> -
+> -static inline void kasan_unpoison_slab(const void *ptr) { }
+> -static inline size_t kasan_metadata_size(struct kmem_cache *cache) { return 0; }
+> -
+> -#endif /* CONFIG_KASAN */
+> +#endif /* CONFIG_KASAN || CONFIG_SLAB_QUARANTINE */
+>  
+>  #ifdef CONFIG_KASAN_GENERIC
+> -
+>  #define KASAN_SHADOW_INIT 0
+> -
+> -void kasan_cache_shrink(struct kmem_cache *cache);
+> -void kasan_cache_shutdown(struct kmem_cache *cache);
+>  void kasan_record_aux_stack(void *ptr);
+> -
+>  #else /* CONFIG_KASAN_GENERIC */
+> +static inline void kasan_record_aux_stack(void *ptr) {}
+> +#endif /* CONFIG_KASAN_GENERIC */
+>  
+> +#if defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_SLAB_QUARANTINE)
+> +void kasan_cache_shrink(struct kmem_cache *cache);
+> +void kasan_cache_shutdown(struct kmem_cache *cache);
+> +#else /* CONFIG_KASAN_GENERIC || CONFIG_SLAB_QUARANTINE */
+>  static inline void kasan_cache_shrink(struct kmem_cache *cache) {}
+>  static inline void kasan_cache_shutdown(struct kmem_cache *cache) {}
+> -static inline void kasan_record_aux_stack(void *ptr) {}
+> -
+> -#endif /* CONFIG_KASAN_GENERIC */
+> +#endif /* CONFIG_KASAN_GENERIC || CONFIG_SLAB_QUARANTINE */
+
+In doing this extraction, I wonder if function naming should be changed?
+If it's going to live a new life outside of KASAN proper, maybe call
+these functions quarantine_cache_*()? But perhaps that's too much
+churn...
+
+>  #ifdef CONFIG_KASAN_SW_TAGS
+>  
+> diff --git a/include/linux/slab_def.h b/include/linux/slab_def.h
+> index 9eb430c163c2..fc7548f27512 100644
+> --- a/include/linux/slab_def.h
+> +++ b/include/linux/slab_def.h
+> @@ -72,7 +72,7 @@ struct kmem_cache {
+>  	int obj_offset;
+>  #endif /* CONFIG_DEBUG_SLAB */
+>  
+> -#ifdef CONFIG_KASAN
+> +#if defined(CONFIG_KASAN) || defined(CONFIG_SLAB_QUARANTINE)
+>  	struct kasan_cache kasan_info;
+>  #endif
+>  
+> diff --git a/include/linux/slub_def.h b/include/linux/slub_def.h
+> index 1be0ed5befa1..71020cee9fd2 100644
+> --- a/include/linux/slub_def.h
+> +++ b/include/linux/slub_def.h
+> @@ -124,7 +124,7 @@ struct kmem_cache {
+>  	unsigned int *random_seq;
+>  #endif
+>  
+> -#ifdef CONFIG_KASAN
+> +#if defined(CONFIG_KASAN) || defined(CONFIG_SLAB_QUARANTINE)
+>  	struct kasan_cache kasan_info;
+>  #endif
+>  
+> diff --git a/init/Kconfig b/init/Kconfig
+> index d6a0b31b13dc..de5aa061762f 100644
+> --- a/init/Kconfig
+> +++ b/init/Kconfig
+> @@ -1931,6 +1931,17 @@ config SLAB_FREELIST_HARDENED
+>  	  sanity-checking than others. This option is most effective with
+>  	  CONFIG_SLUB.
+>  
+> +config SLAB_QUARANTINE
+> +	bool "Enable slab freelist quarantine"
+> +	depends on !KASAN && (SLAB || SLUB)
+> +	help
+> +	  Enable slab freelist quarantine to break heap spraying technique
+> +	  used for exploiting use-after-free vulnerabilities in the kernel
+> +	  code. If this feature is enabled, freed allocations are stored
+> +	  in the quarantine and can't be instantly reallocated and
+> +	  overwritten by the exploit performing heap spraying.
+> +	  This feature is a part of KASAN functionality.
+> +
+
+To make this available to distros, I think this needs to be more than
+just a CONFIG. I'd love to see this CONFIG control the availability, but
+have a boot param control a ro-after-init static branch for these
+functions (like is done for init_on_alloc, hardened usercopy, etc). Then
+the branch can be off by default for regular distro users, and more
+cautious folks could enable it with a boot param without having to roll
+their own kernels.
 
 > [...]
-> I did a brief performance evaluation of this feature.
-> 
-> 1. Memory consumption. KASAN quarantine uses 1/32 of the memory.
-> CONFIG_SLAB_QUARANTINE disabled:
->   # free -m
->                 total        used        free      shared  buff/cache   available
->   Mem:           1987          39        1862          10          86        1907
->   Swap:             0           0           0
-> CONFIG_SLAB_QUARANTINE enabled:
->   # free -m
->                 total        used        free      shared  buff/cache   available
->   Mem:           1987         140        1760          10          87        1805
->   Swap:             0           0           0
+> +struct kasan_track {
+> +	u32 pid;
 
-1/32 of memory doesn't seem too bad for someone interested in this defense.
+pid_t?
 
-> 2. Performance penalty. I used `hackbench -s 256 -l 200 -g 15 -f 25 -P`.
-> CONFIG_SLAB_QUARANTINE disabled (x86_64, CONFIG_SLUB):
->   Times: 3.088, 3.103, 3.068, 3.103, 3.107
->   Mean: 3.0938
->   Standard deviation: 0.0144
-> CONFIG_SLAB_QUARANTINE enabled (x86_64, CONFIG_SLUB):
->   Times: 3.303, 3.329, 3.356, 3.314, 3.292
->   Mean: 3.3188 (+7.3%)
->   Standard deviation: 0.0223
+> +	depot_stack_handle_t stack;
+> +};
+> [...]
+> +#if defined(CONFIG_KASAN_GENERIC) && \
+> +	(defined(CONFIG_SLAB) || defined(CONFIG_SLUB)) || \
+> +	defined(CONFIG_SLAB_QUARANTINE)
 
-That's rather painful, but hackbench can produce some big deltas given
-it can be an unrealistic workload for most systems. I'd be curious to
-see the "building a kernel" timings, which tends to be much more
-realistic for "busy system" without hammering one particular subsystem
-(though it's a bit VFS heavy, obviously).
+This seems a bit messy. Perhaps an invisible CONFIG to do this logic and
+then the files can test for that? CONFIG_USE_SLAB_QUARANTINE or
+something?
 
-More notes in the patches...
+> [...]
+> + * Heap spraying is an exploitation technique that aims to put controlled
+> + * bytes at a predetermined memory location on the heap. Heap spraying for
+> + * exploiting use-after-free in the Linux kernel relies on the fact that on
+> + * kmalloc(), the slab allocator returns the address of the memory that was
+> + * recently freed. Allocating a kernel object with the same size and
+> + * controlled contents allows overwriting the vulnerable freed object.
+> + *
+> + * If freed allocations are stored in the quarantine, they can't be
+> + * instantly reallocated and overwritten by the exploit performing
+> + * heap spraying.
+
+I would clarify this with the details of what is actually happening: the
+allocation isn't _moved_ to a quarantine, yes? It's only marked as not
+available for allocation?
+
+> + */
+> +
+> +#include <linux/kasan.h>
+> +#include <linux/bug.h>
+> +#include <linux/slab.h>
+> +#include <linux/mm.h>
+> +#include "../slab.h"
+> +#include "kasan.h"
+> +
+> +void kasan_cache_create(struct kmem_cache *cache, unsigned int *size,
+> +			slab_flags_t *flags)
+> +{
+> +	cache->kasan_info.alloc_meta_offset = 0;
+> +
+> +	if (cache->flags & SLAB_TYPESAFE_BY_RCU || cache->ctor ||
+> +	     cache->object_size < sizeof(struct kasan_free_meta)) {
+> +		cache->kasan_info.free_meta_offset = *size;
+> +		*size += sizeof(struct kasan_free_meta);
+> +		BUG_ON(*size > KMALLOC_MAX_SIZE);
+
+Please don't use BUG_ON()[1].
+
+Interesting!
+
+-Kees
+
+[1] https://www.kernel.org/doc/html/latest/process/deprecated.html#bug-and-bug-on
 
 -- 
 Kees Cook
@@ -203,4 +487,4 @@ Kees Cook
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/202008150935.4C2F32559F%40keescook.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/202008150939.A994680%40keescook.
