@@ -1,189 +1,181 @@
-Return-Path: <kasan-dev+bncBCS37NMQ3YHBBQ4I5P4QKGQEFJBGE5Q@googlegroups.com>
+Return-Path: <kasan-dev+bncBCALX3WVYQORBUEY5P4QKGQERVW25YQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x23d.google.com (mail-lj1-x23d.google.com [IPv6:2a00:1450:4864:20::23d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F053246FCD
-	for <lists+kasan-dev@lfdr.de>; Mon, 17 Aug 2020 19:54:12 +0200 (CEST)
-Received: by mail-lj1-x23d.google.com with SMTP id f14sf3016027ljg.23
-        for <lists+kasan-dev@lfdr.de>; Mon, 17 Aug 2020 10:54:12 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1597686851; cv=pass;
+Received: from mail-ot1-x33a.google.com (mail-ot1-x33a.google.com [IPv6:2607:f8b0:4864:20::33a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CF46247179
+	for <lists+kasan-dev@lfdr.de>; Mon, 17 Aug 2020 20:28:34 +0200 (CEST)
+Received: by mail-ot1-x33a.google.com with SMTP id g3sf8089688otq.7
+        for <lists+kasan-dev@lfdr.de>; Mon, 17 Aug 2020 11:28:34 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1597688913; cv=pass;
         d=google.com; s=arc-20160816;
-        b=lIIWzzCoX3WCTmIRhxIhRvab+nsl5WanO/lqTwp9DsjdaF8WFeEOh5M8ztv3LuGM4j
-         eTfGhQIgS7uH1ZygJgf5UD5Pz1GPxs8o/061cztpTnLBS8EgwqAmL4yxkO8Rg3Ojd0Xe
-         JJm0bRiuMNbuw6NxiJCPo+u7UEZ/BThfk5iHg/fCW5SfLGfF3z5NUurE0nFVd75ytQj4
-         vpukKnWVZ99zz/nzMuY3/ggj25ehskkDsCCyPcT7a/fVsxh1YgxxN1ymvVnQ22+KeDWj
-         cs6NZZ4fL6V298OsvIyMgpP6D3VnRnwz1DYO217lY6ETXvcIUv1YpPEedqQVMHpqLjS+
-         7X9A==
+        b=zIJ2SCAxlJXi06JzaiyOwmCxN3Ofq0WqFWLfN3T+psrGom/bQ++52llk7c3mTCfXsg
+         jinLjPfoQsTxhKGcFtQWQ83zGkBGMvinTaZoBZW27Vj46sKg5UkCLduIlvoxEKt/JTmb
+         U7lW2woLukXfH/cOceoyGVV6ANQN9Sxb29OfYh+WgBBxJDL0aPm4Sguxu21vgYEWWsDv
+         qlYMc9lVSc/IXLIMWJw4bUT78doe3e+Yy1k5DtAonsf82do2X+zGEP1afhClr0lCfkLj
+         WXDYQ0/UYnqGR+9L1yBHMatGYCX4YrP6gyinA66QO7Xtvo9Qbh7RcqHYq1fSn31N8rR1
+         o6Ig==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-language:in-reply-to
-         :mime-version:user-agent:date:message-id:autocrypt:from:references
-         :cc:to:subject:reply-to:sender:dkim-signature;
-        bh=pFFI3blTOVNGAs583gPBtPbix6qg5O5odwxC6tVZZjs=;
-        b=ymr0SXvn6RDu1WDVoF7TtAbcb6OC7CwGQ1y7HlDrPeK/fggtDNnugwdJ8L2NRtcGoU
-         TASXPBfbh3eZjN7LLQxIs/lZzqwUgASff9Ta23IHqFEhOSdo7GxJMQrCRjyNK2QfYNj7
-         nMNUGMwUpxirpFiM/ISO5uFwvoTlx+oo/ld8+9cylRfHk5zLG5D1c7IAysJpz4cqZ3mF
-         JucwHbKF47ewluI76ogPnJR1fsEES1NVFukH4IbwadtJae5dgLQxev8xB7ZZ+0kCYJBP
-         V0vnYQ82ypNGDBYJPzqZGrFvDUYPWZSoD4v5kAQEPERBVqESO8nmnKd583Zoas7ZBm7R
-         lSlQ==
+         :list-id:mailing-list:precedence:subject:mime-version:user-agent
+         :message-id:in-reply-to:date:references:cc:to:from:sender
+         :dkim-signature;
+        bh=iDDrrprHrI4S3jjgS1RpgBqth+Fmk6KIcCJnJVcE6qQ=;
+        b=V6V7J4Rrm1OLXk1tJV4oSlu1N0GWP/KPaoqMF8ZHnN1IqMXKJTBccoJ83APb1jRF4M
+         mfoB2XyCQ79QbSBaXDo4K6NJQea1nVE4YZ2v52eexptVo90G7ks8TNeL072Jv0bxBmyn
+         B9V4V0VIyWUjt1AZR1vnUgPiMRinXSqLw4xUlhyzbGavtfQbHGRbw4j7hHjCEc5+ZjGp
+         mtX655OzD00j9fLCAIN9TvzoQJTDMaQnUJNdURjpEuCtQQDHm4bKNzixbUFULpQafHbu
+         zknXRqsmrz2Trav0kDaOwGKC2rPWQHdU7CqOaE8Rqiko/+Dr7X5TJGX2+kQ2IaG3zdPM
+         bGiQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of a13xp0p0v88@gmail.com designates 209.85.218.68 as permitted sender) smtp.mailfrom=a13xp0p0v88@gmail.com
+       spf=pass (google.com: domain of ebiederm@xmission.com designates 166.70.13.232 as permitted sender) smtp.mailfrom=ebiederm@xmission.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=xmission.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:reply-to:subject:to:cc:references:from:autocrypt:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=pFFI3blTOVNGAs583gPBtPbix6qg5O5odwxC6tVZZjs=;
-        b=tF0t1aB+zZmWg6l+ZkVbDsJ7h6oYtbF9FB2w8m9kZhQf0W6Gp5JaL3tEmpq4I4mUV4
-         kf8O/U1lz7ATQIfP6exF8sesvID+Kf5n38BEzuHqkuHJJdxm4LDXBRlAPnw+Up2N6LRT
-         ZXcfay23VgD73jKHHgnucLXS/nClybqT9dz5K5yFj138jl+cT/uKl1mLLrMGnwHt8f71
-         gWtfJrSjKOoe58cr8WdSzR2voOznHey4jvOUX6q4ln/oOSYorPN0SuP34Pq8wUd+MjDp
-         +Uw/f8CBy7VQUlPZ0FNtgzktttfNTppC/Ull86Blhpbd9scqobZbQnUjhhUGbyLCClSZ
-         w7gg==
+        h=sender:from:to:cc:references:date:in-reply-to:message-id:user-agent
+         :mime-version:subject:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=iDDrrprHrI4S3jjgS1RpgBqth+Fmk6KIcCJnJVcE6qQ=;
+        b=qM1gEdAfZzGNG+MmgSaYdD1y1H4kVlq5nTd6x/uNZ8hKpeUHjw5s7ZO+cP6aUA1V8q
+         EGRrso7csQLhU893WGnyzSSEZD/ixX1T5yyBzimB7/ZpqKuh9tcsEfru+fmj4SIiRqn1
+         hC4Cy6XWDYxAZsrAPcD9JiWu0ebQSb4gWy7ClKmOPPtLsh8fmLrc+fP1g0S9TtIRaSGb
+         gTFtrfSs7+So28St3ywHpDBpFgaUHnAacxdymae+RSs7KWojZNl0VQwrpQllMiCt08Qb
+         F2FtKVJmfuU9CU4CYPQtgbuJnhG8qlziQEyqmtKpg6n+Pi9qVAf7mBBiRRQNlD4ilK/A
+         xEFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:reply-to:subject:to:cc:references:from
-         :autocrypt:message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:x-original-sender
+        h=sender:x-gm-message-state:from:to:cc:references:date:in-reply-to
+         :message-id:user-agent:mime-version:subject:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=pFFI3blTOVNGAs583gPBtPbix6qg5O5odwxC6tVZZjs=;
-        b=qBcfXsn5eM791uCbAdmo78od6a93sjXPSuOzU2SlJu6wNrSnd8a9mpaomtAY6WcpWi
-         ukU/OVHijXNkuQFgECQcSQBWI+0MEzy82VZDUinxaHYE7OpxLdarRFxGUxZ94MXEawJb
-         YnMfPnSgipJS1qx7BoDj2Z8YyhxOCuB7buuWOGU+737pBV3OiARovudi9hjjRlH5hmp9
-         EVzqB4tXekzJlwjnu7se4jvRZpkdVIid2z1SAY7WTfTjuUBKPQL5PzeUIn5Q2sUeUJfK
-         /zQfFgjIfQAo5ZBUKHUPcHgASh+1XXRM5jf7EtCsOo6CbHHhLOobiv3exEyVMWdNEmOC
-         rYyg==
+        bh=iDDrrprHrI4S3jjgS1RpgBqth+Fmk6KIcCJnJVcE6qQ=;
+        b=H6vx9y+Of63BAJzE+4Q2KNX+ni6gJvSN6kHubGcauzv+99q2ux2+BR36uRlT0TfbdV
+         HtSP9PjXxQSNzhyodSGYCq6Gaea0yUaANEkfJSfiJE+2RTb/wck6R0Vogi6m6cBWvtNp
+         dGZne8O74P9aDQz5JWa8LQo4/h+jQmHvNTuP4KKLvCGQJcggCZThUEDMD6cSB7bqTTy6
+         zjV7CM4MdEnhuBagSW1v8kC0BtoPgu5tdrmAl4sdHpWbI2K1tt2Bm8vugUHsYVN7inJv
+         KGqFM0g35GeWIYLkdeclJAEC2Kjwsyii934MaLZkqEzVTJNCgQhZ79c7HF2JNMn/K/e5
+         GuSQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM530Y6qcWAnRl6aP4HO3CXnDhgztYr09v8v8ihafH44kGY6n08Oy5
-	K55Upt7Diz4queeNc3eCR4I=
-X-Google-Smtp-Source: ABdhPJwGmX5zce/K8DjU1AtBG9cBboGTvGPSaIoSFAUrbCNvkcTcBOjzP3eCimJzOU0W3JwGUfnkUA==
-X-Received: by 2002:a19:c653:: with SMTP id w80mr7966898lff.167.1597686851755;
-        Mon, 17 Aug 2020 10:54:11 -0700 (PDT)
+X-Gm-Message-State: AOAM531UaqVGuHs77eDbOs+RyfWYVhjwCpme+M4z13ydBzknKqo3o+5M
+	GxLsJ5TlazYNRfL1gkg24Bs=
+X-Google-Smtp-Source: ABdhPJx40ylFJ03j0MbaDTLQ2X4FWcvS2aPapc9ac20ioWFKgqZez+NDmRMrfIj8Ffxfju6k8l9ZfA==
+X-Received: by 2002:a05:6808:b03:: with SMTP id s3mr10608266oij.154.1597688912805;
+        Mon, 17 Aug 2020 11:28:32 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a2e:9a58:: with SMTP id k24ls197398ljj.4.gmail; Mon, 17 Aug
- 2020 10:54:11 -0700 (PDT)
-X-Received: by 2002:a05:651c:1136:: with SMTP id e22mr2283895ljo.422.1597686851029;
-        Mon, 17 Aug 2020 10:54:11 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1597686851; cv=none;
+Received: by 2002:aca:42c5:: with SMTP id p188ls3514611oia.3.gmail; Mon, 17
+ Aug 2020 11:28:32 -0700 (PDT)
+X-Received: by 2002:aca:5857:: with SMTP id m84mr10225892oib.59.1597688912493;
+        Mon, 17 Aug 2020 11:28:32 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1597688912; cv=none;
         d=google.com; s=arc-20160816;
-        b=Y52DfhKgbD4ThY8J2nAsYytohJZKebW/RrchQ6QrJSSXVYf1KKhqoQ3wswtoLqMBtJ
-         TS3mzqqNfpRyFkPqMrnuxxRycNi+A7xv/S7J/w2lPynGF0gT1hjzrXifGMdX2VhaUqXP
-         Pt0r2oOz4kJZ+tw2WHegZlHPAYHiEPDD2NwsJpGoscvjivnFRXc6JjehaONMDsWHdnIv
-         MWZB6HOFHGlxI8B2StaI4EYEYQhgFp1n6GTKvuAFTJGzXirY/5OIcFie9/de8AVDMDJ7
-         4JSJOyXjN0bXWRkYT/y1FGBVyVmxym5r9k2T9+z6SP1Y8DRIcq/T/8dY/3UR88bnqZPB
-         0Jgw==
+        b=bniM6WA7SYIev6nfhq+CZ2wjQvFQ6K504vIXDcgcCeqz0g9Wk6hROFcLpE4lsfhK2q
+         jCgkuDZnsQ5MGKIgttm2Y584kRiEO7kHIYN1R0XhRwomR/D8tix89AmM5lbu0vMLef7l
+         QqzS2+/3l7ZIStfmth6BJ3ZhiJPuq258r4lcclvh1sYVmSZbrC22KwDmXL/73TqsmEzv
+         FfZwoNUaSYEDe/UqNrLe2jZS2Et0IBOTEzb7QeA85IEgt8/OyqWlTGuVGDtnid8vfQsy
+         JdyUPiYLQHFWN21f8KEFh/gewEq34/dDQ/6JvHm/NiRxMyLonrIR3gme+ihrjf/SsfLB
+         N/pA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:autocrypt:from:references:cc:to:subject
-         :reply-to;
-        bh=zioXayb3aZ1+dwOWJvBfiHPq2HNW4QALEO2XKd3ld70=;
-        b=IU28GROBqb21iEspLx+bvvWCY6RS1kBsooBGqzJfyawxApAo8A1/LxnUI1aWE1KqUX
-         ax36tJW5HSNIAHt+rkk2iRj4k8fv5dXQxnbq/GaGQlKMuRaf7y07ADN2wSIn53HmkSiG
-         B8/v/1e3W0tR8ef5oyo9ttIj71ivrTcfDtdS/81Q3N1+3W8Vc0vQHRtaPZYYKh/KWbEr
-         8iFUshj3H6mcnVtOEdzmFqFf+DHpo9Gu2Ex+h2lE65PrwC/Emu/FMjwsmYMAh4J89gti
-         yqknZkg4l9XzSKeG+UEM/PSBUJ4NJ/X3CuGp8tJ+axUbw2GYaIAm9BdKOyucow5eMHBs
-         5WEw==
+        h=subject:mime-version:user-agent:message-id:in-reply-to:date
+         :references:cc:to:from;
+        bh=VBqKzsLDMaW2ERJxaGSqalEzujrBfb0P1g5Ju4X/8uo=;
+        b=otGsk533vBuKAbx58XQg+luY+z4tpbMH0yCNGMMfZVzQP+Atx1akGVhS/zTCZfb6GZ
+         f7gaNGAcSarg/xQOJFAWqJXJ0qFKQVq+/mnmAsOMpppCqpmOgjQsRN5fJo8O9vJ0qtmw
+         4/+kBIED2rUjCwm28GCQF/y+J91K640wzwE5wN838Dk3lQdx8OPtiqNkLnDuLMEPE0bh
+         9eGUsde1RvLSi5ATh5qmp5Qu6ghbB48DC5WDogShtTV0xNaKZOhy5sWAHaVrVRgCsgGQ
+         dsgbMf5IDk+MrdTJAHwEKTziJnWeSNdGJPaEsejiUPNj8AelzbdmAd/EHy19JcPze2kg
+         hK1w==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of a13xp0p0v88@gmail.com designates 209.85.218.68 as permitted sender) smtp.mailfrom=a13xp0p0v88@gmail.com
-Received: from mail-ej1-f68.google.com (mail-ej1-f68.google.com. [209.85.218.68])
-        by gmr-mx.google.com with ESMTPS id u9si854552ljg.8.2020.08.17.10.54.10
+       spf=pass (google.com: domain of ebiederm@xmission.com designates 166.70.13.232 as permitted sender) smtp.mailfrom=ebiederm@xmission.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=xmission.com
+Received: from out02.mta.xmission.com (out02.mta.xmission.com. [166.70.13.232])
+        by gmr-mx.google.com with ESMTPS id 22si1017694oiy.5.2020.08.17.11.28.32
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 Aug 2020 10:54:10 -0700 (PDT)
-Received-SPF: pass (google.com: domain of a13xp0p0v88@gmail.com designates 209.85.218.68 as permitted sender) client-ip=209.85.218.68;
-Received: by mail-ej1-f68.google.com with SMTP id a26so18807848ejc.2
-        for <kasan-dev@googlegroups.com>; Mon, 17 Aug 2020 10:54:10 -0700 (PDT)
-X-Received: by 2002:a17:906:528d:: with SMTP id c13mr16654442ejm.61.1597686850290;
-        Mon, 17 Aug 2020 10:54:10 -0700 (PDT)
-Received: from [10.9.0.18] ([185.248.161.177])
-        by smtp.gmail.com with ESMTPSA id m12sm10332353eda.51.2020.08.17.10.54.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 Aug 2020 10:54:09 -0700 (PDT)
-Reply-To: alex.popov@linux.com
-Subject: Re: [PATCH RFC 2/2] lkdtm: Add heap spraying test
-To: Kees Cook <keescook@chromium.org>
-Cc: Jann Horn <jannh@google.com>, Will Deacon <will@kernel.org>,
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Aug 2020 11:28:32 -0700 (PDT)
+Received-SPF: pass (google.com: domain of ebiederm@xmission.com designates 166.70.13.232 as permitted sender) client-ip=166.70.13.232;
+Received: from in02.mta.xmission.com ([166.70.13.52])
+	by out02.mta.xmission.com with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	(Exim 4.93)
+	(envelope-from <ebiederm@xmission.com>)
+	id 1k7jrk-001UEg-5B; Mon, 17 Aug 2020 12:28:16 -0600
+Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95] helo=x220.xmission.com)
+	by in02.mta.xmission.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.87)
+	(envelope-from <ebiederm@xmission.com>)
+	id 1k7jrj-0003E9-5O; Mon, 17 Aug 2020 12:28:15 -0600
+From: ebiederm@xmission.com (Eric W. Biederman)
+To: Alexander Popov <alex.popov@linux.com>
+Cc: Kees Cook <keescook@chromium.org>,  Jann Horn <jannh@google.com>,
+ Will Deacon <will@kernel.org>,
  Andrey Ryabinin <aryabinin@virtuozzo.com>,
- Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>,
- Christoph Lameter <cl@linux.com>, Pekka Enberg <penberg@kernel.org>,
- David Rientjes <rientjes@google.com>, Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+ Alexander Potapenko <glider@google.com>,
+ Dmitry Vyukov <dvyukov@google.com>,  Christoph Lameter <cl@linux.com>,
+ Pekka Enberg <penberg@kernel.org>,
+ David Rientjes <rientjes@google.com>,
+ Joonsoo Kim <iamjoonsoo.kim@lge.com>,
  Andrew Morton <akpm@linux-foundation.org>,
  Masahiro Yamada <masahiroy@kernel.org>,
- Masami Hiramatsu <mhiramat@kernel.org>, Steven Rostedt
- <rostedt@goodmis.org>, Peter Zijlstra <peterz@infradead.org>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ Peter Zijlstra <peterz@infradead.org>,
  Krzysztof Kozlowski <krzk@kernel.org>,
  Patrick Bellasi <patrick.bellasi@arm.com>,
- David Howells <dhowells@redhat.com>, Eric Biederman <ebiederm@xmission.com>,
- Johannes Weiner <hannes@cmpxchg.org>, Laura Abbott <labbott@redhat.com>,
- Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, kasan-dev@googlegroups.com,
- linux-mm@kvack.org, kernel-hardening@lists.openwall.com,
- linux-kernel@vger.kernel.org, notify@kernel.org,
- Andrey Konovalov <andreyknvl@google.com>
+ David Howells <dhowells@redhat.com>,
+ Johannes Weiner <hannes@cmpxchg.org>,
+ Laura Abbott <labbott@redhat.com>,  Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ kasan-dev@googlegroups.com,  linux-mm@kvack.org,
+ kernel-hardening@lists.openwall.com,  linux-kernel@vger.kernel.org,
+ notify@kernel.org, Kexec Mailing List <kexec@lists.infradead.org>
 References: <20200813151922.1093791-1-alex.popov@linux.com>
- <20200813151922.1093791-3-alex.popov@linux.com>
- <202008150952.E81C4A52F@keescook>
-From: Alexander Popov <alex.popov@linux.com>
-Autocrypt: addr=alex.popov@linux.com; prefer-encrypt=mutual; keydata=
- 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
- j3lCqPk=
-Message-ID: <37ec713d-10c8-0222-f624-27815b96da7a@linux.com>
-Date: Mon, 17 Aug 2020 20:54:04 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+	<20200813151922.1093791-3-alex.popov@linux.com>
+Date: Mon, 17 Aug 2020 13:24:37 -0500
+In-Reply-To: <20200813151922.1093791-3-alex.popov@linux.com> (Alexander
+	Popov's message of "Thu, 13 Aug 2020 18:19:22 +0300")
+Message-ID: <87zh6t9llm.fsf@x220.int.ebiederm.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <202008150952.E81C4A52F@keescook>
 Content-Type: text/plain; charset="UTF-8"
-Content-Language: en-US
-X-Original-Sender: a13xp0p0v88@gmail.com
+X-XM-SPF: eid=1k7jrj-0003E9-5O;;;mid=<87zh6t9llm.fsf@x220.int.ebiederm.org>;;;hst=in02.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
+X-XM-AID: U2FsdGVkX1+IYzzebB5ZnTtqYaH62lkbTUMdTHJJuM0=
+X-SA-Exim-Connect-IP: 68.227.160.95
+X-SA-Exim-Mail-From: ebiederm@xmission.com
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on sa03.xmission.com
+X-Spam-Level: 
+X-Spam-Status: No, score=0.5 required=8.0 tests=ALL_TRUSTED,BAYES_40,
+	DCC_CHECK_NEGATIVE,T_TM2_M_HEADER_IN_MSG,XMNoVowels autolearn=disabled
+	version=3.4.2
+X-Spam-Virus: No
+X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+	* -0.0 BAYES_40 BODY: Bayes spam probability is 20 to 40%
+	*      [score: 0.3847]
+	*  1.5 XMNoVowels Alpha-numberic number with no vowels
+	*  0.0 T_TM2_M_HEADER_IN_MSG BODY: No description available.
+	* -0.0 DCC_CHECK_NEGATIVE Not listed in DCC
+	*      [sa03 0; Body=1 Fuz1=1 Fuz2=1]
+X-Spam-DCC: ; sa03 0; Body=1 Fuz1=1 Fuz2=1
+X-Spam-Combo: ;Alexander Popov <alex.popov@linux.com>
+X-Spam-Relay-Country: 
+X-Spam-Timing: total 567 ms - load_scoreonly_sql: 0.03 (0.0%),
+	signal_user_changed: 3.6 (0.6%), b_tie_ro: 2.4 (0.4%), parse: 1.22
+	(0.2%), extract_message_metadata: 14 (2.5%), get_uri_detail_list: 2.4
+	(0.4%), tests_pri_-1000: 9 (1.5%), tests_pri_-950: 1.47 (0.3%),
+	tests_pri_-900: 1.36 (0.2%), tests_pri_-90: 236 (41.6%), check_bayes:
+	226 (39.9%), b_tokenize: 16 (2.7%), b_tok_get_all: 59 (10.4%),
+	b_comp_prob: 3.1 (0.5%), b_tok_touch_all: 145 (25.6%), b_finish: 0.71
+	(0.1%), tests_pri_0: 290 (51.1%), check_dkim_signature: 0.41 (0.1%),
+	check_dkim_adsp: 2.0 (0.4%), poll_dns_idle: 0.76 (0.1%), tests_pri_10:
+	1.72 (0.3%), tests_pri_500: 5.0 (0.9%), rewrite_mail: 0.00 (0.0%)
+Subject: Re: [PATCH RFC 2/2] lkdtm: Add heap spraying test
+X-Spam-Flag: No
+X-SA-Exim-Version: 4.2.1 (built Thu, 05 May 2016 13:38:54 -0600)
+X-SA-Exim-Scanned: Yes (on in02.mta.xmission.com)
+X-Original-Sender: ebiederm@xmission.com
 X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of a13xp0p0v88@gmail.com designates 209.85.218.68 as
- permitted sender) smtp.mailfrom=a13xp0p0v88@gmail.com
+ (google.com: domain of ebiederm@xmission.com designates 166.70.13.232 as
+ permitted sender) smtp.mailfrom=ebiederm@xmission.com;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=xmission.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -196,147 +188,112 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 15.08.2020 19:59, Kees Cook wrote:
-> On Thu, Aug 13, 2020 at 06:19:22PM +0300, Alexander Popov wrote:
->> Add a simple test for CONFIG_SLAB_QUARANTINE.
->>
->> It performs heap spraying that aims to reallocate the recently freed heap
->> object. This technique is used for exploiting use-after-free
->> vulnerabilities in the kernel code.
->>
->> This test shows that CONFIG_SLAB_QUARANTINE breaks heap spraying
->> exploitation technique.
-> 
-> Yay tests!
+Alexander Popov <alex.popov@linux.com> writes:
 
-Yes :)
-I'm going to improve it to demonstrate the quarantine security properties.
+> Add a simple test for CONFIG_SLAB_QUARANTINE.
+>
+> It performs heap spraying that aims to reallocate the recently freed heap
+> object. This technique is used for exploiting use-after-free
+> vulnerabilities in the kernel code.
+>
+> This test shows that CONFIG_SLAB_QUARANTINE breaks heap spraying
+> exploitation technique.
+>
+> Signed-off-by: Alexander Popov <alex.popov@linux.com>
 
->> Signed-off-by: Alexander Popov <alex.popov@linux.com>
->> ---
->>  drivers/misc/lkdtm/core.c  |  1 +
->>  drivers/misc/lkdtm/heap.c  | 40 ++++++++++++++++++++++++++++++++++++++
->>  drivers/misc/lkdtm/lkdtm.h |  1 +
->>  3 files changed, 42 insertions(+)
->>
->> diff --git a/drivers/misc/lkdtm/core.c b/drivers/misc/lkdtm/core.c
->> index a5e344df9166..78b7669c35eb 100644
->> --- a/drivers/misc/lkdtm/core.c
->> +++ b/drivers/misc/lkdtm/core.c
->> @@ -126,6 +126,7 @@ static const struct crashtype crashtypes[] = {
->>  	CRASHTYPE(SLAB_FREE_DOUBLE),
->>  	CRASHTYPE(SLAB_FREE_CROSS),
->>  	CRASHTYPE(SLAB_FREE_PAGE),
->> +	CRASHTYPE(HEAP_SPRAY),
->>  	CRASHTYPE(SOFTLOCKUP),
->>  	CRASHTYPE(HARDLOCKUP),
->>  	CRASHTYPE(SPINLOCKUP),
->> diff --git a/drivers/misc/lkdtm/heap.c b/drivers/misc/lkdtm/heap.c
->> index 1323bc16f113..a72a241e314a 100644
->> --- a/drivers/misc/lkdtm/heap.c
->> +++ b/drivers/misc/lkdtm/heap.c
->> @@ -205,6 +205,46 @@ static void ctor_a(void *region)
->>  static void ctor_b(void *region)
->>  { }
->>  
->> +#define HEAP_SPRAY_SIZE 128
->> +
->> +void lkdtm_HEAP_SPRAY(void)
->> +{
->> +	int *addr;
->> +	int *spray_addrs[HEAP_SPRAY_SIZE] = { 0 };
-> 
-> (the 0 isn't needed -- and it was left there, it should be NULL)
+Why put this test in the linux kernel dump test module?
 
-It is used in tear-down below.
-I'll change it to { NULL }.
+I have no problem with tests, and I may be wrong but this
+does not look like you are testing to see if heap corruption
+triggers a crash dump.  Which is what the rest of the tests
+in lkdtm are about.  Seeing if the test triggers successfully
+triggers a crash dump.
 
->> +	unsigned long i = 0;
->> +
->> +	addr = kmem_cache_alloc(a_cache, GFP_KERNEL);
-> 
-> I would prefer this test add its own cache (e.g. spray_cache), to avoid
-> misbehaviors between tests. (e.g. the a and b caches already run the
-> risk of getting corrupted weirdly.)
+Eric
 
-Ok, I'll do that.
-
->> +	if (!addr) {
->> +		pr_info("Unable to allocate memory in lkdtm-heap-a cache\n");
->> +		return;
->> +	}
->> +
->> +	*addr = 0x31337;
->> +	kmem_cache_free(a_cache, addr);
->> +
->> +	pr_info("Performing heap spraying...\n");
->> +	for (i = 0; i < HEAP_SPRAY_SIZE; i++) {
->> +		spray_addrs[i] = kmem_cache_alloc(a_cache, GFP_KERNEL);
->> +		*spray_addrs[i] = 0x31337;
->> +		pr_info("attempt %lu: spray alloc addr %p vs freed addr %p\n",
->> +						i, spray_addrs[i], addr);
-> 
-> That's 128 lines spewed into dmesg... I would leave this out.
-
-Ok.
-
->> +		if (spray_addrs[i] == addr) {
->> +			pr_info("freed addr is reallocated!\n");
->> +			break;
->> +		}
->> +	}
->> +
->> +	if (i < HEAP_SPRAY_SIZE)
->> +		pr_info("FAIL! Heap spraying succeed :(\n");
-> 
-> I'd move this into the "if (spray_addrs[i] == addr)" test instead of the
-> pr_info() that is there.
-> 
->> +	else
->> +		pr_info("OK! Heap spraying hasn't succeed :)\n");
-> 
-> And then make this an "if (i == HEAP_SPRAY_SIZE)" test
-
-Do you mean that I need to avoid the additional line in the test output,
-printing only the final result?
-
->> +
->> +	for (i = 0; i < HEAP_SPRAY_SIZE; i++) {
->> +		if (spray_addrs[i])
->> +			kmem_cache_free(a_cache, spray_addrs[i]);
->> +	}
->> +}
->> +
->>  void __init lkdtm_heap_init(void)
->>  {
->>  	double_free_cache = kmem_cache_create("lkdtm-heap-double_free",
->> diff --git a/drivers/misc/lkdtm/lkdtm.h b/drivers/misc/lkdtm/lkdtm.h
->> index 8878538b2c13..dfafb4ae6f3a 100644
->> --- a/drivers/misc/lkdtm/lkdtm.h
->> +++ b/drivers/misc/lkdtm/lkdtm.h
->> @@ -45,6 +45,7 @@ void lkdtm_READ_BUDDY_AFTER_FREE(void);
->>  void lkdtm_SLAB_FREE_DOUBLE(void);
->>  void lkdtm_SLAB_FREE_CROSS(void);
->>  void lkdtm_SLAB_FREE_PAGE(void);
->> +void lkdtm_HEAP_SPRAY(void);
->>  
->>  /* lkdtm_perms.c */
->>  void __init lkdtm_perms_init(void);
->> -- 
->> 2.26.2
->>
-> 
-> I assume enabling the quarantine defense also ends up being seen in the
-> SLAB_FREE_DOUBLE LKDTM test too, yes?
-
-I'll experiment with that.
-
-Thank you!
-
-Best regards,
-Alexander
+> ---
+>  drivers/misc/lkdtm/core.c  |  1 +
+>  drivers/misc/lkdtm/heap.c  | 40 ++++++++++++++++++++++++++++++++++++++
+>  drivers/misc/lkdtm/lkdtm.h |  1 +
+>  3 files changed, 42 insertions(+)
+>
+> diff --git a/drivers/misc/lkdtm/core.c b/drivers/misc/lkdtm/core.c
+> index a5e344df9166..78b7669c35eb 100644
+> --- a/drivers/misc/lkdtm/core.c
+> +++ b/drivers/misc/lkdtm/core.c
+> @@ -126,6 +126,7 @@ static const struct crashtype crashtypes[] = {
+>  	CRASHTYPE(SLAB_FREE_DOUBLE),
+>  	CRASHTYPE(SLAB_FREE_CROSS),
+>  	CRASHTYPE(SLAB_FREE_PAGE),
+> +	CRASHTYPE(HEAP_SPRAY),
+>  	CRASHTYPE(SOFTLOCKUP),
+>  	CRASHTYPE(HARDLOCKUP),
+>  	CRASHTYPE(SPINLOCKUP),
+> diff --git a/drivers/misc/lkdtm/heap.c b/drivers/misc/lkdtm/heap.c
+> index 1323bc16f113..a72a241e314a 100644
+> --- a/drivers/misc/lkdtm/heap.c
+> +++ b/drivers/misc/lkdtm/heap.c
+> @@ -205,6 +205,46 @@ static void ctor_a(void *region)
+>  static void ctor_b(void *region)
+>  { }
+>  
+> +#define HEAP_SPRAY_SIZE 128
+> +
+> +void lkdtm_HEAP_SPRAY(void)
+> +{
+> +	int *addr;
+> +	int *spray_addrs[HEAP_SPRAY_SIZE] = { 0 };
+> +	unsigned long i = 0;
+> +
+> +	addr = kmem_cache_alloc(a_cache, GFP_KERNEL);
+> +	if (!addr) {
+> +		pr_info("Unable to allocate memory in lkdtm-heap-a cache\n");
+> +		return;
+> +	}
+> +
+> +	*addr = 0x31337;
+> +	kmem_cache_free(a_cache, addr);
+> +
+> +	pr_info("Performing heap spraying...\n");
+> +	for (i = 0; i < HEAP_SPRAY_SIZE; i++) {
+> +		spray_addrs[i] = kmem_cache_alloc(a_cache, GFP_KERNEL);
+> +		*spray_addrs[i] = 0x31337;
+> +		pr_info("attempt %lu: spray alloc addr %p vs freed addr %p\n",
+> +						i, spray_addrs[i], addr);
+> +		if (spray_addrs[i] == addr) {
+> +			pr_info("freed addr is reallocated!\n");
+> +			break;
+> +		}
+> +	}
+> +
+> +	if (i < HEAP_SPRAY_SIZE)
+> +		pr_info("FAIL! Heap spraying succeed :(\n");
+> +	else
+> +		pr_info("OK! Heap spraying hasn't succeed :)\n");
+> +
+> +	for (i = 0; i < HEAP_SPRAY_SIZE; i++) {
+> +		if (spray_addrs[i])
+> +			kmem_cache_free(a_cache, spray_addrs[i]);
+> +	}
+> +}
+> +
+>  void __init lkdtm_heap_init(void)
+>  {
+>  	double_free_cache = kmem_cache_create("lkdtm-heap-double_free",
+> diff --git a/drivers/misc/lkdtm/lkdtm.h b/drivers/misc/lkdtm/lkdtm.h
+> index 8878538b2c13..dfafb4ae6f3a 100644
+> --- a/drivers/misc/lkdtm/lkdtm.h
+> +++ b/drivers/misc/lkdtm/lkdtm.h
+> @@ -45,6 +45,7 @@ void lkdtm_READ_BUDDY_AFTER_FREE(void);
+>  void lkdtm_SLAB_FREE_DOUBLE(void);
+>  void lkdtm_SLAB_FREE_CROSS(void);
+>  void lkdtm_SLAB_FREE_PAGE(void);
+> +void lkdtm_HEAP_SPRAY(void);
+>  
+>  /* lkdtm_perms.c */
+>  void __init lkdtm_perms_init(void);
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/37ec713d-10c8-0222-f624-27815b96da7a%40linux.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/87zh6t9llm.fsf%40x220.int.ebiederm.org.
