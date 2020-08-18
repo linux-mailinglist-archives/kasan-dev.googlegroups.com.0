@@ -1,136 +1,135 @@
-Return-Path: <kasan-dev+bncBDX4HWEMTEBRBPHP574QKGQE3ZBIJ5A@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBNUC6D4QKGQELOVFI2Y@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ua1-x937.google.com (mail-ua1-x937.google.com [IPv6:2607:f8b0:4864:20::937])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0001248A53
-	for <lists+kasan-dev@lfdr.de>; Tue, 18 Aug 2020 17:46:05 +0200 (CEST)
-Received: by mail-ua1-x937.google.com with SMTP id r17sf3782046uah.5
-        for <lists+kasan-dev@lfdr.de>; Tue, 18 Aug 2020 08:46:05 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1597765564; cv=pass;
+Received: from mail-il1-x13e.google.com (mail-il1-x13e.google.com [IPv6:2607:f8b0:4864:20::13e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55D6A248B89
+	for <lists+kasan-dev@lfdr.de>; Tue, 18 Aug 2020 18:26:31 +0200 (CEST)
+Received: by mail-il1-x13e.google.com with SMTP id z1sf14752996ilz.9
+        for <lists+kasan-dev@lfdr.de>; Tue, 18 Aug 2020 09:26:31 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1597767990; cv=pass;
         d=google.com; s=arc-20160816;
-        b=lTjzDdtHr19nj7qBlaIEkLYzniI8++9QHvMTZDfxxM9wAAW/AXSB6liZJ+7oD7h5ZP
-         U8bXVSuBKKazVB8/JZciVZ+sMDM1lMC0tuCcciK9pQ4QpvO5Cxb8AMwfQ8LPR5ILRn3d
-         izBgbKjINrHq6srt5s2HiWQA/d64S1JbHhKZj6+ZsiVcx870ambLEJCU9jC3SlQZFNGi
-         nUF+69Vq3ef/LerFgQ6HoLP9haVIrnc4MXvTnuG5tt+xGTtmHA3DIsHx+J5+O/nu2m7S
-         iKWsVflF6GC85hAPLEw+FmmNfESI8Z9XGaGmZWV4LXdFGzK5+si+A+zHn0ahAejhvR4n
-         Q96Q==
+        b=gp8e9umJTwvKFau4DKVfPS+sPKEZ7HuYW9p/gG2ELcUNAWE+SghKutat27cSXlzW2h
+         cF37bnkRIWYXRlGkKP47cCenFr19L6YWf5s7Zo2GGy2dQ60qVctGI3uaBTsh/sQdv+FL
+         UwOptmQtBdzus1ULT7jmXoJZxympVj3dxHx6mwGtDW89R8dAXd3zTsRxRD9DCBO5TmZt
+         FG7Gp8rbmYxowOFnuKKia6NinkTny40GogimMNeE1s6eRhgIsi3DU9IAyEbP1d4M1Uhf
+         ILaG1WGu0r4HlFf/nRoRwy0ugRB7F7NI6+Zxaa+r6U3pJTdrsL4Tcg26P93bogf+hKhW
+         vFUQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=17YEaqEUVPN21hMZXan4TYLmTpTnNya0SKkuCNziIe4=;
-        b=qYH6pewxRY1/MkMQXvBhbWBwEXjwGtD5ohSzXTCyu4pOpiDr/e2Zo8sApWCYnwGeZw
-         83s8rFPhzT0V6ptwuPIZY5CfCXFfhT7Gq3tlihAST5+ypg7cnvRjDhKjveM0nwb65aWI
-         sYcJb0FAJohQZHNCh/H791XMXIb94M2ILaEQC9kFcn8Q8y3d6xnSKdloLHoto9hVmgG4
-         Xw3Oty8Td7eBxBBn/FSKtt/hyah5AnZDpiIUje2q+asLPPXYG6NYSFaCX15r17nJ+qtg
-         TrTBLoz99+VjgT+yEpD+pqZaAT48hWwMYneiDFkivSjVC5m5rxLd8xDUG/dGBgtM6Wpm
-         Lllw==
+         :list-id:mailing-list:precedence:user-agent:in-reply-to
+         :content-disposition:mime-version:references:reply-to:message-id
+         :subject:cc:to:from:date:sender:dkim-signature;
+        bh=qkM4lJ5SM84zCTwtycr5AyeRdlK00Ym2tzoVeSpf6UE=;
+        b=gDc1B5b4+yn4iKdvGlV84yDyHLMe1pQlmQ5IlqEp9litBR2YKXCp3Vdzt/hbnaLSCM
+         QvjLzg9hWh9j/LWajquEhdXyiToAvHdRx9jl2xNmKN5sI1/MzNuen2RvnB7iZHlp/YGf
+         /u2sgc0sIOTf/JFaWC6wsKuY+Krj4JHnT8eGtT/11PjbkU7vwNnrD0udpPhmbA7JjlsV
+         4J1TLB4Hk3zxUvYD4BxLzpoJLe8CVSvWbRoLn3Kv/nz/5h6OFx/c8LoY1s7A91wUnoTK
+         3JveCwWMtftvfkvnZCsberTGOhrvVqtzUEyeeGayyKdnqsAknkw+rEBn8Ddb2vzkhCQj
+         Re7w==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=ee8Rbkby;
-       spf=pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::544 as permitted sender) smtp.mailfrom=andreyknvl@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@kernel.org header.s=default header.b=Reyv3GJb;
+       spf=pass (google.com: domain of srs0=pqwx=b4=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=PqwX=B4=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+        h=sender:date:from:to:cc:subject:message-id:reply-to:references
+         :mime-version:content-disposition:in-reply-to:user-agent
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=17YEaqEUVPN21hMZXan4TYLmTpTnNya0SKkuCNziIe4=;
-        b=IP0UaPOB5ZPqtEJaChnY1XcGrosrym79//bb1iNyV0R1UE14ve0ttT34vbFqozHOXV
-         AtH0zsRi0JyPoUP1S8z8BC+5nQrX7HnqOus5osOSVvgu1JqDODlQG7o8Z/V3tPnGiQOk
-         npQi2hWNQyYqTArgW/5taFG+cScsjvSVdL52ESzg0Yn7poMsM3tC1hyxeJvERunSFa0e
-         /XjbD56kgB6lCb51L/YeWEzhVOQGTY9KC6/C0xxlLTf/FDXOazDpi6Bbe+vqlht994QT
-         +sLL6vrWL+h+TzE0DaRGQH+S3uqLUnRb5b71W9lfYMKFteBulQMalWJ2Mtw7hJaC0YtT
-         ObLg==
+        bh=qkM4lJ5SM84zCTwtycr5AyeRdlK00Ym2tzoVeSpf6UE=;
+        b=BjfX+xSwMk8YUoABMamQKA2kqwWOpXaNubGKzGqK/HRhSoTS7LFIEgBs4aVb9nC6x7
+         exAfF16fXL+Xs3L8a/DE8brLKFDN8Wlg7TzqB5EONxv1FTHtBo5jCrg1NY7dIUlN53xx
+         xxTs+Yv/a1MD4w2V9ooMSlwf9/KuTKg3/qOScZKasT6/fKBbpTG8pDKm43DoexQ9zSp/
+         DlwB/Tpxu0rdMqbE7mWJMFcNQwBRZ8/LlPwvNmxGOl1aUbbiFB9k2iFfNrM+Z4zTcwcJ
+         Q/9YS6sJEWKVoFQVT5lhyjLwg2VdWyaJrb52QZeEnQaNTsqUrim3SEEckC+83h++3T8T
+         cb1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=17YEaqEUVPN21hMZXan4TYLmTpTnNya0SKkuCNziIe4=;
-        b=Pxemn8+ptdxHPnDiz4uYb5zUKOZnCwsx3z9dbf++WZ3/ejmPXtcjyOV7pwm79TwEci
-         n725YWDvBjHglrLARulL34Gc6Xziaor1lCGkswh2DZqYH03qdbiYOGsHZBs6XNCrPSHG
-         /H1QR1oGwZAOm5fgqvtvFOqgkAnz3ardhatLsaYzzrs2ErzYeLxJoCzrqUfgnzLdv8wh
-         FsOD7r9CsD8bsopkk6dSOF6Sm1Hez29mVJ0pbprjYik5SKxxEuHB/IxOkwW9T4Jfttrc
-         mfmkhPE0UwXvsDC5e5/oiXIQZw+WJlEcxdkR42i60x2p5gIQt6F/3CV3WRtwxqf0Pvam
-         iKSA==
-X-Gm-Message-State: AOAM532HhHaCrJtf+SxqJVqZapp00NaYX3n3k/OmCzUXj1Ip7RMyILAu
-	poGuIKOFlnX0hggtHuW0FzA=
-X-Google-Smtp-Source: ABdhPJzpkvFciALbHl6Lk/8muuQ9epnMc/psPPbJ/rXSGSJZ0qKLd+4FECjJiMUWgEfKMgSBeDioxg==
-X-Received: by 2002:a67:fe16:: with SMTP id l22mr11466625vsr.67.1597765564784;
-        Tue, 18 Aug 2020 08:46:04 -0700 (PDT)
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :reply-to:references:mime-version:content-disposition:in-reply-to
+         :user-agent:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=qkM4lJ5SM84zCTwtycr5AyeRdlK00Ym2tzoVeSpf6UE=;
+        b=MKDJjDTVYzfcG0Pgk8TY57nrjbB2ETlgHuz1U0x/se3jAGaG5TJlV5DA3QWsQCNwif
+         YArdz8VhDgydoeymYg/AtLzu6rNUh1duLGsb8Ivkxo3rPI9z8mMftYnVEOHtL6L5hiRt
+         SZCibOKfu9DTOOhNiQpT8xiqbxE2npOTgmzb3vLYL5kesD79TZT8jPg48+crLXSU9SSg
+         rwVWswRgN6k/tpnZQJ4PgQd9jtl3cohmYjH3W6EqLtnMipMQpHuDEk28X47fVcffh9oS
+         VqZeuf4yknvCnVSFLHJabKfwhyHT042pzAMNPayN/RWTFzGhHNsuEyqMH10qtpeJ4OnB
+         t7jg==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM5330NQpH4QgTp7p+fdFP3F/P6gaCBfdfjvSP6huWPCa0Ni4eZfYm
+	zk85ldrAO3LVyybaL/Vp8x8=
+X-Google-Smtp-Source: ABdhPJyOsT2XvPbRPbxD2lmwr8Xlc1kHPHWTDjdT/rRgj1CZ+G1pnDqMoOVyZsL4Nc8pQsSPACwrrQ==
+X-Received: by 2002:a6b:c8ca:: with SMTP id y193mr16951092iof.62.1597767990288;
+        Tue, 18 Aug 2020 09:26:30 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6102:3cc:: with SMTP id n12ls2400383vsq.8.gmail; Tue, 18
- Aug 2020 08:46:04 -0700 (PDT)
-X-Received: by 2002:a67:f302:: with SMTP id p2mr11698359vsf.0.1597765564330;
-        Tue, 18 Aug 2020 08:46:04 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1597765564; cv=none;
+Received: by 2002:a6b:8d10:: with SMTP id p16ls3271442iod.3.gmail; Tue, 18 Aug
+ 2020 09:26:29 -0700 (PDT)
+X-Received: by 2002:a05:6602:26c1:: with SMTP id g1mr17096146ioo.10.1597767989832;
+        Tue, 18 Aug 2020 09:26:29 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1597767989; cv=none;
         d=google.com; s=arc-20160816;
-        b=MrYp8q4g+/MhEfurSN+9VNoo4BkvAFgQxYvUlr40mSRfDABQW0aHzYJkexM4pBkA0n
-         vrBpX+Fqtocqokd9kxI7Sq99StSfn4dnnXI28s4iFBunh1mIyimOmJi7owGZue7zKc4E
-         8MF0q30xuL72AQ7BgCL6m8EJ3f6712TOjtydEX6HYk/UkPLIZtq/0kplrE5VkUuE7Bl0
-         eTBcAZTZ0vF0QsTpyP583c1jCwwjWAH3fzxDenlvzz03dv1y4BlnhxmOIy9Yqiwha5ce
-         cbGowwBcNizRH6zwafpScDCJsNmRT3qgIZmJ9cvk+XhDQ1LecEAxDIJD+5NGZ50EdPx1
-         Hk2g==
+        b=Y4PN7ZviFbKi9P8CnMVY+jVSNA/p2x5ODQYHGmCtqkFyOKdI/Uq40pO33lng/yNSGB
+         AvnuV3TMa6dsiBN4ZBJ8mUidIbInK0NfjjRH8Z17ZdJUnUMxLFWtUEhDE6e3sPU/2TaT
+         bFEfQyL38afjimwaHGP8IPzDdB0vnKU5X/U9Qob1qZbapeuSqNIv8I7R7IR/cyj71BI/
+         Wv0oB8wgSQ3Zd9/4AMYZmTlvZb0o5xrjgl8J2aAI4XPp+2oNyuMDR+OUPJidxhoWVThS
+         7InM9iII5fn6IEtOJA1AxnWeVWvs9CzsICVYJDlXtItca+31yPFTkX5ZrqXTG/yhR4n8
+         aAHA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=LaWl8Zpiv/jFVXO3m0WashM5ldm/W64kfnal4k5ac3s=;
-        b=p6kv7NQo7EzhLmdf0zjmiRdOXiCSF1mx9s/D7d18erXFm9OEBLDYJX8Do1lZ/O0gMk
-         nz/s+q4dn8DxPHHuixpmaZ7l9y6DOuf0F9TltDHny1UDBAoEpgMQhgq9I/To0jaCqOZ9
-         qRZWZmCIf7IvB6EnKgv6hOV8dpb/ug05a1G5SQEp6qsVUqZWTidSLP/J0K9/CoLH11KL
-         u1+nEXESMPn/bLQoLn+o8ou8SJiHd+XRFSUYVnPfSCOX9GQNC9435LNiFgBd+VJnfOHg
-         ROemDHIozlaf9LGCbmA5QlG4CaZ9bb/hgGV7Bw4HXk5JHnW5uenOimM7rY4eys9Q3Zzt
-         si4Q==
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :reply-to:message-id:subject:cc:to:from:date:dkim-signature;
+        bh=XSDfqCIibTXJuViNjXM/j6PL9nsPJ0ACoqEmexwpKYI=;
+        b=pYVYaz1bya5c/5jnQHGdeK+aHQ6Qi4aqPtaET8HbqIMf5nnGOFRbVaxsV7kSFJa6OX
+         eQ4qOTREQcYlOi/H+7dLrmAdu26ECtEwvmZAekX+mVfo376WtjWdCzBzwh0yL0Azko3U
+         ivcElG0M7MbSlurQCkYla/RUEwEAbrMnAFHDAmM1oDbC2fL+sNGjiV2U4BGfIuw6FJaO
+         nULXFlUjj7e+Ud/LPnKSNrOtb9JfGWUCTA759eis5wEZl5/rage74timHMg7sJkJkQK8
+         UGEtc4eWFFdTiSqZ2lJCy+zHtmdqNkwAHgop3HIZXo48rFUOr3zLJrB1j29yCNXqjcPg
+         LsgQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=ee8Rbkby;
-       spf=pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::544 as permitted sender) smtp.mailfrom=andreyknvl@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com. [2607:f8b0:4864:20::544])
-        by gmr-mx.google.com with ESMTPS id q1si1537095ual.0.2020.08.18.08.46.04
+       dkim=pass header.i=@kernel.org header.s=default header.b=Reyv3GJb;
+       spf=pass (google.com: domain of srs0=pqwx=b4=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=PqwX=B4=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
+        by gmr-mx.google.com with ESMTPS id t6si1107175ioi.1.2020.08.18.09.26.29
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 18 Aug 2020 08:46:04 -0700 (PDT)
-Received-SPF: pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::544 as permitted sender) client-ip=2607:f8b0:4864:20::544;
-Received: by mail-pg1-x544.google.com with SMTP id 128so9935747pgd.5
-        for <kasan-dev@googlegroups.com>; Tue, 18 Aug 2020 08:46:04 -0700 (PDT)
-X-Received: by 2002:a65:680b:: with SMTP id l11mr7436248pgt.440.1597765563163;
- Tue, 18 Aug 2020 08:46:03 -0700 (PDT)
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 18 Aug 2020 09:26:29 -0700 (PDT)
+Received-SPF: pass (google.com: domain of srs0=pqwx=b4=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
+Received: from paulmck-ThinkPad-P72.home (unknown [50.45.173.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPSA id 048802067C;
+	Tue, 18 Aug 2020 16:26:29 +0000 (UTC)
+Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
+	id D84E535228F5; Tue, 18 Aug 2020 09:26:28 -0700 (PDT)
+Date: Tue, 18 Aug 2020 09:26:28 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Marco Elver <elver@google.com>
+Cc: Will Deacon <will@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+	Mark Rutland <mark.rutland@arm.com>,
+	linux-arch <linux-arch@vger.kernel.org>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	kasan-dev <kasan-dev@googlegroups.com>,
+	LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] bitops, kcsan: Partially revert instrumentation for
+ non-atomic bitops
+Message-ID: <20200818162628.GG27891@paulmck-ThinkPad-P72>
+Reply-To: paulmck@kernel.org
+References: <20200813163859.1542009-1-elver@google.com>
+ <CANpmjNOvS2FbvAk+j8N0uSuUJgbi=L2_zfK_koOKvJCuys7r7Q@mail.gmail.com>
 MIME-Version: 1.0
-References: <20200813151922.1093791-1-alex.popov@linux.com>
- <20200813151922.1093791-2-alex.popov@linux.com> <202008150939.A994680@keescook>
- <82edcbac-a856-cf9e-b86d-69a4315ea8e4@linux.com>
-In-Reply-To: <82edcbac-a856-cf9e-b86d-69a4315ea8e4@linux.com>
-From: "'Andrey Konovalov' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Tue, 18 Aug 2020 17:45:50 +0200
-Message-ID: <CAAeHK+z9FPc9dqHwLA7sXTdpjt-iQweaQGQjq8L=eTYe2WdJ+g@mail.gmail.com>
-Subject: Re: [PATCH RFC 1/2] mm: Extract SLAB_QUARANTINE from KASAN
-To: Alexander Popov <alex.popov@linux.com>, Dmitry Vyukov <dvyukov@google.com>, 
-	Alexander Potapenko <glider@google.com>, Andrey Ryabinin <aryabinin@virtuozzo.com>, 
-	kasan-dev <kasan-dev@googlegroups.com>
-Cc: Kees Cook <keescook@chromium.org>, Jann Horn <jannh@google.com>, 
-	Will Deacon <will@kernel.org>, Christoph Lameter <cl@linux.com>, Pekka Enberg <penberg@kernel.org>, 
-	David Rientjes <rientjes@google.com>, Joonsoo Kim <iamjoonsoo.kim@lge.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Peter Zijlstra <peterz@infradead.org>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Patrick Bellasi <patrick.bellasi@arm.com>, David Howells <dhowells@redhat.com>, 
-	Eric Biederman <ebiederm@xmission.com>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Laura Abbott <labbott@redhat.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Linux Memory Management List <linux-mm@kvack.org>, kernel-hardening@lists.openwall.com, 
-	LKML <linux-kernel@vger.kernel.org>, notify@kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: andreyknvl@google.com
+Content-Disposition: inline
+In-Reply-To: <CANpmjNOvS2FbvAk+j8N0uSuUJgbi=L2_zfK_koOKvJCuys7r7Q@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Original-Sender: paulmck@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=ee8Rbkby;       spf=pass
- (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::544
- as permitted sender) smtp.mailfrom=andreyknvl@google.com;       dmarc=pass
- (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Andrey Konovalov <andreyknvl@google.com>
-Reply-To: Andrey Konovalov <andreyknvl@google.com>
+ header.i=@kernel.org header.s=default header.b=Reyv3GJb;       spf=pass
+ (google.com: domain of srs0=pqwx=b4=paulmck-thinkpad-p72.home=paulmck@kernel.org
+ designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=PqwX=B4=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -143,81 +142,65 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, Aug 17, 2020 at 7:32 PM Alexander Popov <alex.popov@linux.com> wrote:
->
-> On 15.08.2020 19:52, Kees Cook wrote:
-> > On Thu, Aug 13, 2020 at 06:19:21PM +0300, Alexander Popov wrote:
-> >> Heap spraying is an exploitation technique that aims to put controlled
-> >> bytes at a predetermined memory location on the heap. Heap spraying for
-> >> exploiting use-after-free in the Linux kernel relies on the fact that on
-> >> kmalloc(), the slab allocator returns the address of the memory that was
-> >> recently freed. Allocating a kernel object with the same size and
-> >> controlled contents allows overwriting the vulnerable freed object.
-> >>
-> >> Let's extract slab freelist quarantine from KASAN functionality and
-> >> call it CONFIG_SLAB_QUARANTINE. This feature breaks widespread heap
-> >> spraying technique used for exploiting use-after-free vulnerabilities
-> >> in the kernel code.
-> >>
-> >> If this feature is enabled, freed allocations are stored in the quarantine
-> >> and can't be instantly reallocated and overwritten by the exploit
-> >> performing heap spraying.
+On Tue, Aug 18, 2020 at 10:34:28AM +0200, Marco Elver wrote:
+> On Thu, 13 Aug 2020 at 18:39, Marco Elver <elver@google.com> wrote:
+> > Previous to the change to distinguish read-write accesses, when
+> > CONFIG_KCSAN_ASSUME_PLAIN_WRITES_ATOMIC=y is set, KCSAN would consider
+> > the non-atomic bitops as atomic. We want to partially revert to this
+> > behaviour, but with one important distinction: report racing
+> > modifications, since lost bits due to non-atomicity are certainly
+> > possible.
 > >
-> > It may be worth clarifying that this is specifically only direct UAF and
-> > doesn't help with spray-and-overflow-into-a-neighboring-object attacks
-> > (i.e. both tend to use sprays, but the former doesn't depend on a write
-> > overflow).
->
-> Andrey Konovalov wrote:
-> > If quarantine is to be used without the rest of KASAN, I'd prefer for
-> > it to be separated from KASAN completely: move to e.g. mm/quarantine.c
-> > and don't mention KASAN in function/config names.
->
-> Hmm, making quarantine completely separate from KASAN would bring troubles.
->
-> Currently, in many special places the allocator calls KASAN handlers:
->   kasan_cache_create()
->   kasan_slab_free()
->   kasan_kmalloc_large()
->   kasan_krealloc()
->   kasan_slab_alloc()
->   kasan_kmalloc()
->   kasan_cache_shrink()
->   kasan_cache_shutdown()
->   and some others.
-> These functions do a lot of interesting things and also work with the quarantine
-> using these helpers:
->   quarantine_put()
->   quarantine_reduce()
->   quarantine_remove_cache()
->
-> Making quarantine completely separate from KASAN would require to move some
-> internal logic of these KASAN handlers to allocator code.
+> > Given the operations here only modify a single bit, assuming
+> > non-atomicity of the writer is sufficient may be reasonable for certain
+> > usage (and follows the permissible nature of the "assume plain writes
+> > atomic" rule). In other words:
+> >
+> >         1. We want non-atomic read-modify-write races to be reported;
+> >            this is accomplished by kcsan_check_read(), where any
+> >            concurrent write (atomic or not) will generate a report.
+> >
+> >         2. We do not want to report races with marked readers, but -do-
+> >            want to report races with unmarked readers; this is
+> >            accomplished by the instrument_write() ("assume atomic
+> >            write" with Kconfig option set).
+> >
+> > With the above rules, when KCSAN_ASSUME_PLAIN_WRITES_ATOMIC is selected,
+> > it is hoped that KCSAN's reporting behaviour is better aligned with
+> > current expected permissible usage for non-atomic bitops.
+> >
+> > Note that, a side-effect of not telling KCSAN that the accesses are
+> > read-writes, is that this information is not displayed in the access
+> > summary in the report. It is, however, visible in inline-expanded stack
+> > traces. For now, it does not make sense to introduce yet another special
+> > case to KCSAN's runtime, only to cater to the case here.
+> >
+> > Signed-off-by: Marco Elver <elver@google.com>
+> > Cc: Dmitry Vyukov <dvyukov@google.com>
+> > Cc: Paul E. McKenney <paulmck@kernel.org>
+> > Cc: Will Deacon <will@kernel.org>
+> > ---
+> > As discussed, partially reverting behaviour for non-atomic bitops when
+> > KCSAN_ASSUME_PLAIN_WRITES_ATOMIC is selected.
+> >
+> > I'd like to avoid more special cases in KCSAN's runtime to cater to
+> > cases like this, not only because it adds more complexity, but it
+> > invites more special cases to be added. If there are other such
+> > primitives, we likely have to do it on a case-by-case basis as well, and
+> > justify carefully for each such case. But currently, as far as I can
+> > tell, the bitops are truly special, simply because we do know each op
+> > just touches a single bit.
+> > ---
+> >  .../bitops/instrumented-non-atomic.h          | 30 +++++++++++++++++--
+> >  1 file changed, 27 insertions(+), 3 deletions(-)
+> 
+> Paul, if it looks good to you, feel free to pick it up.
 
-It doesn't look like there's quite a lot of KASAN-specific logic there.
+Queued, thank you!
 
-All those quarantine_*() calls are either at the beginning or at the
-end of some kasan annotations, so it should be quite easy to move
-those out. E.g. quarantine_reduce() can be moved together with the
-gfpflags_allow_blocking(flags) check and put before kasan_kmalloc()
-calls (or maybe also into some other places?), quarantine_put() can be
-put after kasan_slab_free(), etc.
-
-> In this patch I used another approach, that doesn't require changing the API
-> between allocators and KASAN. I added linux/mm/kasan/slab_quarantine.c with slim
-> KASAN handlers that implement the minimal functionality needed for quarantine.
->
-> Do you think that it's a bad solution?
-
-This solution doesn't look clean. Here you provide a second KASAN
-runtime implementation, parallel to the original one, which only does
-quarantine. It seems much cleaner to put quarantine logic into a
-separate module, which can be either used independently, or together
-with KASAN built on top of it.
-
-Maybe other KASAN contributors have an opinion on this?
+							Thanx, Paul
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAAeHK%2Bz9FPc9dqHwLA7sXTdpjt-iQweaQGQjq8L%3DeTYe2WdJ%2Bg%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200818162628.GG27891%40paulmck-ThinkPad-P72.
