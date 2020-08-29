@@ -1,67 +1,67 @@
-Return-Path: <kasan-dev+bncBCO7HLFT34EBBOX6U75AKGQENIOJ6IQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCO7HLFT34EBBSH6U75AKGQEQFHPMNA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oo1-xc3c.google.com (mail-oo1-xc3c.google.com [IPv6:2607:f8b0:4864:20::c3c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D41525658C
-	for <lists+kasan-dev@lfdr.de>; Sat, 29 Aug 2020 09:09:47 +0200 (CEST)
-Received: by mail-oo1-xc3c.google.com with SMTP id h21sf853966oov.16
-        for <lists+kasan-dev@lfdr.de>; Sat, 29 Aug 2020 00:09:47 -0700 (PDT)
+Received: from mail-ot1-x340.google.com (mail-ot1-x340.google.com [IPv6:2607:f8b0:4864:20::340])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5510925658D
+	for <lists+kasan-dev@lfdr.de>; Sat, 29 Aug 2020 09:10:01 +0200 (CEST)
+Received: by mail-ot1-x340.google.com with SMTP id m3sf827908otm.2
+        for <lists+kasan-dev@lfdr.de>; Sat, 29 Aug 2020 00:10:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
         h=sender:date:from:to:message-id:subject:mime-version
          :x-original-sender:precedence:mailing-list:list-id:list-post
          :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=tnTrjwRfatez4QfgIeK3amfZjTOfTK3Z3RAhCY++ZLg=;
-        b=FSh9lSbU0y6s2NtUNLCS56EdEHAlVYgnZWEiu0ViWbKuSmMKmIszpGCcLX074PGOjb
-         5rWoOHaYdQru568jDG39O+Te2wVwAzGzTeRrWU7l2o2tSJy1rL5jo/1BeZvn/jFuTCx9
-         mzVGVl5M0YZH3zv8sE+qgxXgayCdwWrxdL+JQkCRwG9mRRSAx3ch7kNBbhs9X0bdDTpj
-         KCKCeJI56qQYx9cQq5d06eUYQUbJrvxgxPytdVT7iMBlU2K2ZUPEobPBxo2kOG0Yf8Wo
-         Z5XH17jqYq4fEzUQzoq2CPSweaYFz97ld7Z3GTqO2+mOWzPbs5sWEcSfRHkZKdeM0DYv
-         m20g==
+        bh=7aVylPhc3CE6S7lzccIR8FieRRmWBTz4QX8QkdAUxf0=;
+        b=DKpHwkU/Icb/FJDaNhP9l5vWYUH9inRdgIskfw3S8j/7iI8cBAq7j09XkCtv46vAAJ
+         6W2RcyQyxGTJsXM6jiJbbMMv2U9+Tg1YF83XA0qlVZW4EmrNPxOIkzTL6ZgDeIlsMANS
+         5U0VyNoucJnBx/2VGGSHFp31HFXm/JERdYqMoSs4rWZ6BDyo8dHq8tVDI2IBztf0YCw7
+         3RUY6xJNnWxnslOwJwIWiBTETR7QzsatfciE8uQzC8hABs7CRPGB3XNpRYG07gzYH5mr
+         8mqEfpUNIhbcM/cbsjUYmQqirtvUf9szxVboxdvj3ExQ0qLlOKhmS2TXkGgiUemS98cF
+         r3aQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:message-id:subject:mime-version:x-original-sender
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=tnTrjwRfatez4QfgIeK3amfZjTOfTK3Z3RAhCY++ZLg=;
-        b=e0l3FsHO9xHkdisNfeKy5+x+o9C5Frhz2hrl3pQWX8ogIX8Hp/3vhQPh75P7Q8Ou0R
-         sQ1CmASyJNwwkoZ8IkgmAkZIstskPTf5loNckjKglCh2JLvrNQrheVDAJHlci82TF/e3
-         wXukaFdBsRrm5DIE8H/oVitVAheJ9ZHRXG7lHA9K9QyxpnQTewxqxSiss9pm+Yk7XWh9
-         fZ9OxUrowXaPwJrKI/Su9etYuXUCrbg5obwxyOe+zGhbt9juW+pCNdmoy848YO9w0wGS
-         3eMDbwZIuSW2PF+617bor3lSxjsxqH06JwlgBLXwC3J0R5mrF0ThE5FVqwd12mIA6yGp
-         8i3Q==
+        bh=7aVylPhc3CE6S7lzccIR8FieRRmWBTz4QX8QkdAUxf0=;
+        b=djf8g7zyVx+IEEAUUc7vIhoBwXZaBPDVPkeBBCa1NMGjkc3lBYBunl27rrHneLB6L3
+         SgV68zUHgD8D0fXi0OsBWf2LslsdOms62QURaDNyYsSDuWOL2ux8ppFGq12mxQyOjbs7
+         41UZBfiKd6RTuRiwLLIhgP5Vc7a8jV6rkMwF4mzJXnbxkRpaO0bRmA1D5OjEdDA6l8Kg
+         mK37A++wVzHhKHxw6K+MixTzhWIZH1xzTNXq+6pFNxbA1MKSknttSmS/WeVDES2SzI55
+         wP3fBL4jIv0zrnoPxVqOKKM6/ArikO2VzhtAHcz6HHWa3XFDbsMNOpwz2/PK3TD9ds3+
+         tFxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:date:from:to:message-id:subject
          :mime-version:x-original-sender:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=tnTrjwRfatez4QfgIeK3amfZjTOfTK3Z3RAhCY++ZLg=;
-        b=n5AgPorDR45p5I7aeNjjSOa6LTdOCkIYNanIuu/4utUWm47UrbeZQRsjbn/vckmg3Q
-         26lrBuHAr/ZXo3MD4HgN90uhz2WJwjBqsyfraAMZYiZ8yQZEAik1OAtVcpir4JNFnCFe
-         cE9I6RMEpFl0WC+Kq32dNeX6eSdBjgp8R5UXzHZKlTN3UB0YRr1HpcbUraNR+S/OwiUk
-         69TobKV9wVeofB98xqNdVM6bCQj7l2vkVd2kCVdgYAhe+OduHDrmpY1TMEvd1AK0XRe7
-         FhRK6Go8lywZvchw19CMPzYSz5MEEltfm+MII5uoubcRXVXEee0gaevS/tUMiVNDb1pX
-         B4mQ==
+        bh=7aVylPhc3CE6S7lzccIR8FieRRmWBTz4QX8QkdAUxf0=;
+        b=WpHU9sd2xV3NalL1/UNNtCkk2fPy/f3TGDDzz3CdqObAaiZvMWsfx+sr8fD6AI82aB
+         5oCaFnMLVMoR3p9qAp7uxtRMPLa3SYhXVPfUWxQlQOoHRCGxWOyQsni7Ynoh7PGTX4Oq
+         wHjRNBuTr9Tg++CqqY+gbMTFNQNE1YeO8nnoIqbFqu/FnDiGO8BcAtTXgH1qO6LcTBP/
+         xOQaoo2ZKc/rzJSZhH8BOlVXB0OiQMY1jFYxLcTB0HzWu63UZrkpklYb3WtPinL+VRf5
+         LhZdKKl3nA5Yt6IGkaNJ5A1YiCxL1sE+HLmIG4rKMgWhr2bgHUPy60KWIV/XEXjwaj/x
+         cpEg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM531JA5+9dBMazohSqTZ15CBXkhAgPBNeEFDPXNpHOQ47FClTqysC
-	t5fuKIFNHb3HMFFLBAUgRvY=
-X-Google-Smtp-Source: ABdhPJztJGbCymeH5+RcODK6Ng9r7h3T/UIvvOg4dI4/RhM7WGDG2sgIxm2HTK00AR//Qorv5a5eYQ==
-X-Received: by 2002:a05:6830:188:: with SMTP id q8mr1417677ota.10.1598684986078;
-        Sat, 29 Aug 2020 00:09:46 -0700 (PDT)
+X-Gm-Message-State: AOAM532PqyS3FK4iiz5WJQreCTQvp7bpOjcbZGZCBPhDtcOI1Y5ydkEQ
+	9cDqL5mH7A6yovEx/JpobMM=
+X-Google-Smtp-Source: ABdhPJw6FSSJhnK6ZfIE+JVYlEqOBASCZa16s9L+M3wlWqF5CXGovRl98AJqz8JRNKhp+p+h+68xYQ==
+X-Received: by 2002:a05:6830:10c4:: with SMTP id z4mr1383934oto.263.1598685000307;
+        Sat, 29 Aug 2020 00:10:00 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a9d:5f98:: with SMTP id g24ls355469oti.10.gmail; Sat, 29 Aug
- 2020 00:09:45 -0700 (PDT)
-X-Received: by 2002:a9d:6751:: with SMTP id w17mr1576482otm.128.1598684985394;
-        Sat, 29 Aug 2020 00:09:45 -0700 (PDT)
-Date: Sat, 29 Aug 2020 00:09:44 -0700 (PDT)
+Received: by 2002:a05:6808:181:: with SMTP id w1ls668912oic.9.gmail; Sat, 29
+ Aug 2020 00:10:00 -0700 (PDT)
+X-Received: by 2002:aca:4b57:: with SMTP id y84mr1358552oia.35.1598684999937;
+        Sat, 29 Aug 2020 00:09:59 -0700 (PDT)
+Date: Sat, 29 Aug 2020 00:09:59 -0700 (PDT)
 From: samdane456@gmail.com
 To: kasan-dev <kasan-dev@googlegroups.com>
-Message-Id: <20b35764-2be9-492c-8d29-b8b49b01a1f7o@googlegroups.com>
-Subject: cheap prescription meds online
+Message-Id: <acc469b0-08de-4212-8bf8-489b4b12b7aco@googlegroups.com>
+Subject: diazepam 10mg online/bulk orders
 MIME-Version: 1.0
 Content-Type: multipart/mixed; 
-	boundary="----=_Part_392_907849085.1598684984952"
+	boundary="----=_Part_410_2136725061.1598684999468"
 X-Original-Sender: samdane456@gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
@@ -75,11 +75,11 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-------=_Part_392_907849085.1598684984952
+------=_Part_410_2136725061.1598684999468
 Content-Type: multipart/alternative; 
-	boundary="----=_Part_393_707386169.1598684984952"
+	boundary="----=_Part_411_1416633239.1598684999468"
 
-------=_Part_393_707386169.1598684984952
+------=_Part_411_1416633239.1598684999468
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -149,9 +149,9 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/20b35764-2be9-492c-8d29-b8b49b01a1f7o%40googlegroups.com.
+kasan-dev/acc469b0-08de-4212-8bf8-489b4b12b7aco%40googlegroups.com.
 
-------=_Part_393_707386169.1598684984952
+------=_Part_411_1416633239.1598684999468
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -194,11 +194,11 @@ To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
 +unsubscribe@googlegroups.com</a>.<br />
 To view this discussion on the web visit <a href=3D"https://groups.google.c=
-om/d/msgid/kasan-dev/20b35764-2be9-492c-8d29-b8b49b01a1f7o%40googlegroups.c=
+om/d/msgid/kasan-dev/acc469b0-08de-4212-8bf8-489b4b12b7aco%40googlegroups.c=
 om?utm_medium=3Demail&utm_source=3Dfooter">https://groups.google.com/d/msgi=
-d/kasan-dev/20b35764-2be9-492c-8d29-b8b49b01a1f7o%40googlegroups.com</a>.<b=
+d/kasan-dev/acc469b0-08de-4212-8bf8-489b4b12b7aco%40googlegroups.com</a>.<b=
 r />
 
-------=_Part_393_707386169.1598684984952--
+------=_Part_411_1416633239.1598684999468--
 
-------=_Part_392_907849085.1598684984952--
+------=_Part_410_2136725061.1598684999468--
