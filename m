@@ -1,32 +1,32 @@
 Return-Path: <kasan-dev+bncBAABBYH5WT5AKGQEXAV6IBA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yb1-xb3c.google.com (mail-yb1-xb3c.google.com [IPv6:2607:f8b0:4864:20::b3c])
-	by mail.lfdr.de (Postfix) with ESMTPS id B65F72580A2
+Received: from mail-ua1-x937.google.com (mail-ua1-x937.google.com [IPv6:2607:f8b0:4864:20::937])
+	by mail.lfdr.de (Postfix) with ESMTPS id F29572580A4
 	for <lists+kasan-dev@lfdr.de>; Mon, 31 Aug 2020 20:18:09 +0200 (CEST)
-Received: by mail-yb1-xb3c.google.com with SMTP id y9sf10066146ybp.8
+Received: by mail-ua1-x937.google.com with SMTP id f8sf1349968uao.11
         for <lists+kasan-dev@lfdr.de>; Mon, 31 Aug 2020 11:18:09 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1598897888; cv=pass;
+ARC-Seal: i=2; a=rsa-sha256; t=1598897889; cv=pass;
         d=google.com; s=arc-20160816;
-        b=ZjkMPn6woFa9RxTPvSTC3PApBSsfF6OKc8A7yhDTOFJWCV9BE3zrU+Lfax8i2P2VYg
-         oVvPrEsekc5R//AOQBD6HgHKB2oUvuawe53KvNOgUMX+AzzfjjS/jSjYSrYzUKcec8F6
-         2ry12lRD2HYtsJfbJyQ7NjZ5NQb8dW8+z+uxo6okUWuA7LonhxtrvXAm5JcTBWwLxUBN
-         9Jjl9IF9bmU67V6vD5E4vNhusaJfLiT15Zr0Gy+1rVeyC48r0IhRSpRUvX63IInWjEmY
-         6RHsFBIVapyG1693HGUGkYDn+LmPaHFJBwea3SULK8ei30zAeim5lnbe2Lloa6IpJOhj
-         YWTw==
+        b=Y+LUvGVCahxXoqEh0itGQqbtEqeKQd50oXz8+3LMkWXI8wWG7SlmVZpb2KeTPfYBi+
+         4krLaEJ9+2ktXRlRY0iY0EALOmQ95GbjooL328/+jUL6uZEREklsI8vDXbuZ5B/spCv/
+         I7s6QTRN+Wyr/gw5tYCXUiT+ck3UL57dEYhmJLQzQJm3Bt8UZNRBax8ybnEwTGKoEnZv
+         HN6Le4jCOy6+xS7DaLgRj6ioLuLCa13XYF76i3XGGJuVoLL0MYIfFHm0iQGUkwrVGTvQ
+         7OdBEKbpdj+I+T3FlK+hp7B7bLOxoe/XNdPE/Z4wXIxbdDKs3WoLRwImkTwiKP4BHHI1
+         aZhA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:references:in-reply-to:message-id
          :date:subject:cc:to:from:mime-version:sender:dkim-signature;
-        bh=UK4AqCjZTfq7wKOR/8pekfdFuW5m9VhRNk25VFacjL8=;
-        b=IWBx8XdGAhBtdMiyF2wPAL1wDCP6gaCJ97nLVsu9WqOqhnzNWisyb/TRbQfEvxGZ1k
-         5GZ4ImJm/iCRFw5dxn9fIXUzcUuOxZgjk9DP4aqWE4UFMETC1coZ3lkEzxZQowtrclU5
-         vG+2ACvha9mOUA+nELeSkmdPIxN3N3Svg2gQ9R5YDf+V91LXvEx4EypUtHSURiwZAMPf
-         3CGtItecAVVJZUcCOQhg7h/Vm+AZvH4Djw2v5z84r3NX0KH7LMsGhzAkHaDpAo8jqE5Z
-         ML0xyrIt3XUUcXrw1D+snN5C3TQ/RNK7wGCg7RjEbl8k4T66XgPIRVLzCaH2+81UJNiv
-         eFBw==
+        bh=9GXEZHPWDLvw1cQW64678HB96r6rjEY2EGQVzlNA9pk=;
+        b=RwOl2lWVzB8lrP8HmjyYv4UvErBymtux7BjmqaPnN8woDwlJTi26fJQwqmk7xlSZJ6
+         Vu5EJa9qk83INOckK6fDThcDuA4O/D0gqOAC1ye7u3+pvkw0jinHAa3C8T1ysJwJ8Ruj
+         XI7R2Kv2ryUkw0DNa/AaZu5WrsD91IJEZo+uf4e/eIB8A4RUmPEY/72prFGewnTu+S2l
+         BaGonadNiKEpnbW2OBt81zjpdYys0L4KgP0ySLoTBLiSC+02e4GAzb/stdvJ+vrRSpsz
+         Pyk22b5CqAGv1H1GzORLJYp1EsMPjYlh7jq+wny69B1b+a4QOGT80wQufXYeUEmCzuZo
+         F2/A==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=default header.b=Wvc088uw;
+       dkim=pass header.i=@kernel.org header.s=default header.b=krx4K0jk;
        spf=pass (google.com: domain of paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=paulmck@kernel.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :references:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=UK4AqCjZTfq7wKOR/8pekfdFuW5m9VhRNk25VFacjL8=;
-        b=icRMk28LHbBOP1EccrhKEeI/7s7SnNg2BIkvXImVhqTunk9m94nmY052oQBgimY+IY
-         SwNVt15l0Vbe6OrhNtObSrBZg+Xv9XrVT5hVswQc3L7wk7xADbTrcVf7F70rUsJc5Ncj
-         PGnO+94pxpNcwQSzVD09xRB4431lCj6LTjfHG5pDXDtlICzJShS8IOIdhSkch7QMsurK
-         cmc4F0myIYaXYHZBMOSwtBv30lLmGyz0WWbuGsGt9omGjWbF0r637afwNqjGwYZo5qvW
-         4Y3FBUK1yez7OMr+VUvNbr4MOHL05RzrX24/UNJdtIiEudIHGIb+TCc1tBLBngsaGjZX
-         h9OQ==
+        bh=9GXEZHPWDLvw1cQW64678HB96r6rjEY2EGQVzlNA9pk=;
+        b=nSYcRK90ZDDDwUTn1UkCEiUNGssvzqeX2+i9pDa/iDAWGJovpoW/9ItXc6EH8Uv+uH
+         7s6yTI6UjFK+igtuB4EQ3kqSjCsTCnk6T6+BqTqScsw4b6hSkM3cjhiLfzSF6Wj2n3qR
+         5srJGeVK4qPgHYafH/xypq8FMNxbEITHkeljqEo3qhVl1onwfoIYTYYoXqZ2HmYoJihQ
+         /jAd1jB1TMRVdk1Eipv9mW/fGTdVhT3yrgasYBg7xi1hECkex94S3uYhT36ffHfWDW5t
+         w21C4Nqi5bfaFqaCmq9lFj+LTSaXFvZGy04BNGAReXyjeaJ7ereOFt42I6/aIgmQ9IcF
+         hldg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:mime-version:from:to:cc:subject:date
@@ -49,49 +49,49 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=UK4AqCjZTfq7wKOR/8pekfdFuW5m9VhRNk25VFacjL8=;
-        b=REbwfzOlmC5GZl47RLNu8B5jcLAccUKUDc38hMg18kchWBN7NqvTu/Z8RwDykFzHia
-         jJ/rarfoK3eH24A+MmXKdM2O5cGSlBm/eaJOexN6zhynnoK9w4sQpq+RM3z2eru9rFlm
-         k544mRfCZDAmc4PaV7nBGzF9c7U7xrconThKUwe6iwmPrbggU8TLYMwGuRRRG6HkGwtH
-         9YSY8M++tgxJlKhOFgIkUcLtWMmSy/o/MHIuQ+w+FeKrs+0r+Y8E9gFEbvh9RP5Wi0ne
-         /k/+HzaPoc5yrUMwvCxNBlflRsz9WpR84rIgVIpxvgMjXu+U+FMoLyxLDLMnA0ChGfMU
-         B1gw==
+        bh=9GXEZHPWDLvw1cQW64678HB96r6rjEY2EGQVzlNA9pk=;
+        b=SvxdOaA/Fa/7qfDVK/5IbLnsNVm7ojbUHMEvIMdwwqnhisqIWtheTimPV5DQWyyefx
+         YMgOnlI/F3FXeiuinTshdmEhgqQwFEVV0ppI8A43KRzxjgCIQskPQxQsG/xdscnTcDjH
+         Z25lJF/Bn5LfjZmR8EZGcsiMrJIg6+Mq8E0gJVTFZX9aQ8r+c7LxLETLaQoAO26q/xJD
+         6X3cgVjXleIuzAtEd7zWVmnCye4zUR/ybpGg2aMkVKZaetW4i0KykfakE+4Ku4qgVH2p
+         YhraX33dD5T9HJXcihnmMb2kHhCl/lstGvKuR+3nwci64PZIK1z+bHYSq60R3ZWTWtob
+         SmvA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM53095PwzArmp3gPBdi2dzj8EZOGLldb3k9w6mbhF3toIAoEYprIs
-	JVbK76MhCxJw5fz02azES1s=
-X-Google-Smtp-Source: ABdhPJxew4v5yYI0S9ckIR+OyZ/NFVMUTqmWcT3fKSaw/mjwp7T9yxiiMZehy544mHubWWO1BK39lA==
-X-Received: by 2002:a25:aaf3:: with SMTP id t106mr3734295ybi.56.1598897888555;
-        Mon, 31 Aug 2020 11:18:08 -0700 (PDT)
+X-Gm-Message-State: AOAM533Vy9xyZ5hnABz7baLqoWCizQwQpbxFlLBtHCs67nG4lagb/2Fw
+	EX9UpwjWkbf6VaR3KWder0I=
+X-Google-Smtp-Source: ABdhPJyI1F62F024VnRwrmxJNzeuyMic4QrI/M+uPLPbgqsrWiCtmukiC31PpBSFPprmZ0vqvjcXfg==
+X-Received: by 2002:a05:6102:141:: with SMTP id a1mr2390390vsr.10.1598897889074;
+        Mon, 31 Aug 2020 11:18:09 -0700 (PDT)
 MIME-Version: 1.0
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6902:70d:: with SMTP id k13ls3429264ybt.9.gmail; Mon, 31
+Received: by 2002:a05:6102:20c5:: with SMTP id i5ls626292vsr.6.gmail; Mon, 31
  Aug 2020 11:18:08 -0700 (PDT)
-X-Received: by 2002:a25:a081:: with SMTP id y1mr4110639ybh.370.1598897888278;
+X-Received: by 2002:a05:6102:30ba:: with SMTP id y26mr2229468vsd.122.1598897888627;
         Mon, 31 Aug 2020 11:18:08 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; t=1598897888; cv=none;
         d=google.com; s=arc-20160816;
-        b=hDXzKYQS0vf4btcY9GgDVqnFrVsQJJFX1ENcKEuQcJi+Uafeoygfv8eWMW45rSUP/q
-         uhzdOm6fU5DBpKijkwqm9l4d6gI88+5s2n3/AwrSnrS1pgsCCbPANMAR6mMEg+iYse+N
-         ZKrClt8ZcMcqJX4A97L3TN8lX8n3lqyH+V0CpexmSak4I7i45XRIsCqP5KFx42jJYVHO
-         DcSsYyeJSUhp1xd4id7TbfBsPtJNDeLmhfAfFnSUFyd/MPCkQZiJAI/klvFeRMJiUbRz
-         pZVPBEg3EdLkMuwI17xUSBgnGoGWAq6gsrvpn/rOFebWSxMFYcrG9CZ+efLF110gOSrp
-         ijeQ==
+        b=j12Jeoyv3Fb/v9qsv3sIBrtbOaJYTN7ha7ednFyK86z/yPerN0GVkGtblmIqEZBwXL
+         cTheJcESNuG4FVz3rGNbQ+MuIXRs6kZAfQz3WpUIOqYQwOLtEfsrHc7/C7CPcpJ+Xc4V
+         5QktWou6q37JNdNPl2uxD9QHeC9kAWAKpNOZDa77kYMIH7d5NJJhspYZaYFcw2S60gen
+         ac6xflkwu1jssXqLGjVAl6ZIrzZrqb8Q0rm60U3a7KQ4vCtIKy8Z2/AYyPi2mNUNfAWi
+         ftKUoxQ5g5IIKSh+YSOMqP4keDIyhWAGnw/JPgIfl5X19XNgCuZTFiq3t90/WpySfRWa
+         0Imw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=references:in-reply-to:message-id:date:subject:cc:to:from
          :dkim-signature;
-        bh=4xZVSm/TW+P4Tm0gNrwt/UfJ0S4uCIgQhoQysUX7Hls=;
-        b=A7VIiTMwt6ICDGMa12hgAK/tloDI+WToY3TY4sWHcb+E/5gMoDzqFhCp2X7T5Gdss+
-         yqtXYNnNLaxguq76O7N3Drglb0Qb4JhWkAl18UrhdAr5BEWfQxFQfaZ+2WArquVAkrXd
-         FlJaaBFiSOrIBsKqjxo4IGmZNR5QzW8VYBzkK75+HQs/qFIjGHGlcMklt0RK3Y4G3bxa
-         qjYVe8To5VRDzMK0wFlgeiY9gHVlktU5zmxtm+oOqw/s3qW95owt5EhfwbA/0zHKUMLD
-         mPFlvxGJMx0lr4LuzL9hozS9SHEmIkiBIhZfRHdQZOxYZZEULm7gwNcZHDe7HvjUozqX
-         P3Uw==
+        bh=yvSc+zMhUiUFJwUhVMRNSqROrUJ6aW9EH2eUaXNq7Ys=;
+        b=geyDGmPTjqyx+t0Fs1lqPO6vO9fqgtz5R7uACkBa0E+hvXLjBIYb3YK10sYqtDM114
+         oWh//qtVKJDlPymp7DnEjvPMzoQaJZI5/i55t/NAXOE+W4LOBnlNGeIcMqVIkf4QOSO2
+         +eA59Q08lWJasSXpSfshM6fJPi6oi+PlqgtbayW8huDDdyvKU8pRqylmgESKqenbzlkq
+         KwJQDQNZ8WSIND3os77iN9XsGpbve51dsMLDRzidR3yhhiodUCHRQntduF0MpJAV3LnD
+         Pz7ytLaAzRngXVUP4docgy8UEcVsPNBJrxn0LJBH4P0Kk+r7yEVlm/dgbJn6jNw4KL+v
+         /IfA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=default header.b=Wvc088uw;
+       dkim=pass header.i=@kernel.org header.s=default header.b=krx4K0jk;
        spf=pass (google.com: domain of paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=paulmck@kernel.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id o14si420643ybm.5.2020.08.31.11.18.08
+        by gmr-mx.google.com with ESMTPS id s10si77220vsn.2.2020.08.31.11.18.08
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
         Mon, 31 Aug 2020 11:18:08 -0700 (PDT)
@@ -99,7 +99,7 @@ Received-SPF: pass (google.com: domain of paulmck@kernel.org designates 198.145.
 Received: from paulmck-ThinkPad-P72.home (unknown [50.45.173.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id 7328221534;
+	by mail.kernel.org (Postfix) with ESMTPSA id 9A0E621548;
 	Mon, 31 Aug 2020 18:18:07 +0000 (UTC)
 From: paulmck@kernel.org
 To: linux-kernel@vger.kernel.org,
@@ -113,15 +113,15 @@ Cc: elver@google.com,
 	cai@lca.pw,
 	boqun.feng@gmail.com,
 	"Paul E . McKenney" <paulmck@kernel.org>
-Subject: [PATCH kcsan 08/19] kcsan: Test support for compound instrumentation
-Date: Mon, 31 Aug 2020 11:17:54 -0700
-Message-Id: <20200831181805.1833-8-paulmck@kernel.org>
+Subject: [PATCH kcsan 09/19] instrumented.h: Introduce read-write instrumentation hooks
+Date: Mon, 31 Aug 2020 11:17:55 -0700
+Message-Id: <20200831181805.1833-9-paulmck@kernel.org>
 X-Mailer: git-send-email 2.9.5
 In-Reply-To: <20200831181715.GA1530@paulmck-ThinkPad-P72>
 References: <20200831181715.GA1530@paulmck-ThinkPad-P72>
 X-Original-Sender: paulmck@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=default header.b=Wvc088uw;       spf=pass
+ header.i=@kernel.org header.s=default header.b=krx4K0jk;       spf=pass
  (google.com: domain of paulmck@kernel.org designates 198.145.29.99 as
  permitted sender) smtp.mailfrom=paulmck@kernel.org;       dmarc=pass (p=NONE
  sp=NONE dis=NONE) header.from=kernel.org
@@ -140,152 +140,73 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 From: Marco Elver <elver@google.com>
 
-Changes kcsan-test module to support checking reports that include
-compound instrumentation. Since we should not fail the test if this
-support is unavailable, we have to add a config variable that the test
-can use to decide what to check for.
+Introduce read-write instrumentation hooks, to more precisely denote an
+operation's behaviour.
+
+KCSAN is able to distinguish compound instrumentation, and with the new
+instrumentation we then benefit from improved reporting. More
+importantly, read-write compound operations should not implicitly be
+treated as atomic, if they aren't actually atomic.
 
 Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 Signed-off-by: Marco Elver <elver@google.com>
 Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
 ---
- kernel/kcsan/kcsan-test.c | 65 +++++++++++++++++++++++++++++++++++++----------
- lib/Kconfig.kcsan         |  5 ++++
- 2 files changed, 56 insertions(+), 14 deletions(-)
+ include/linux/instrumented.h | 30 ++++++++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
 
-diff --git a/kernel/kcsan/kcsan-test.c b/kernel/kcsan/kcsan-test.c
-index 721180c..ebe7fd2 100644
---- a/kernel/kcsan/kcsan-test.c
-+++ b/kernel/kcsan/kcsan-test.c
-@@ -27,6 +27,12 @@
- #include <linux/types.h>
- #include <trace/events/printk.h>
- 
-+#ifdef CONFIG_CC_HAS_TSAN_COMPOUND_READ_BEFORE_WRITE
-+#define __KCSAN_ACCESS_RW(alt) (KCSAN_ACCESS_COMPOUND | KCSAN_ACCESS_WRITE)
-+#else
-+#define __KCSAN_ACCESS_RW(alt) (alt)
-+#endif
-+
- /* Points to current test-case memory access "kernels". */
- static void (*access_kernels[2])(void);
- 
-@@ -186,20 +192,21 @@ static bool report_matches(const struct expect_report *r)
- 
- 	/* Access 1 & 2 */
- 	for (i = 0; i < 2; ++i) {
-+		const int ty = r->access[i].type;
- 		const char *const access_type =
--			(r->access[i].type & KCSAN_ACCESS_ASSERT) ?
--				((r->access[i].type & KCSAN_ACCESS_WRITE) ?
--					 "assert no accesses" :
--					 "assert no writes") :
--				((r->access[i].type & KCSAN_ACCESS_WRITE) ?
--					 "write" :
--					 "read");
-+			(ty & KCSAN_ACCESS_ASSERT) ?
-+				      ((ty & KCSAN_ACCESS_WRITE) ?
-+					       "assert no accesses" :
-+					       "assert no writes") :
-+				      ((ty & KCSAN_ACCESS_WRITE) ?
-+					       ((ty & KCSAN_ACCESS_COMPOUND) ?
-+							"read-write" :
-+							"write") :
-+					       "read");
- 		const char *const access_type_aux =
--			(r->access[i].type & KCSAN_ACCESS_ATOMIC) ?
--				" (marked)" :
--				((r->access[i].type & KCSAN_ACCESS_SCOPED) ?
--					 " (scoped)" :
--					 "");
-+			(ty & KCSAN_ACCESS_ATOMIC) ?
-+				      " (marked)" :
-+				      ((ty & KCSAN_ACCESS_SCOPED) ? " (scoped)" : "");
- 
- 		if (i == 1) {
- 			/* Access 2 */
-@@ -277,6 +284,12 @@ static noinline void test_kernel_write_atomic(void)
- 	WRITE_ONCE(test_var, READ_ONCE_NOCHECK(test_sink) + 1);
+diff --git a/include/linux/instrumented.h b/include/linux/instrumented.h
+index 43e6ea5..42faebb 100644
+--- a/include/linux/instrumented.h
++++ b/include/linux/instrumented.h
+@@ -43,6 +43,21 @@ static __always_inline void instrument_write(const volatile void *v, size_t size
  }
  
-+static noinline void test_kernel_atomic_rmw(void)
+ /**
++ * instrument_read_write - instrument regular read-write access
++ *
++ * Instrument a regular write access. The instrumentation should be inserted
++ * before the actual write happens.
++ *
++ * @ptr address of access
++ * @size size of access
++ */
++static __always_inline void instrument_read_write(const volatile void *v, size_t size)
 +{
-+	/* Use builtin, so we can set up the "bad" atomic/non-atomic scenario. */
-+	__atomic_fetch_add(&test_var, 1, __ATOMIC_RELAXED);
++	kasan_check_write(v, size);
++	kcsan_check_read_write(v, size);
 +}
 +
- __no_kcsan
- static noinline void test_kernel_write_uninstrumented(void) { test_var++; }
- 
-@@ -439,8 +452,8 @@ static void test_concurrent_races(struct kunit *test)
- 	const struct expect_report expect = {
- 		.access = {
- 			/* NULL will match any address. */
--			{ test_kernel_rmw_array, NULL, 0, KCSAN_ACCESS_WRITE },
--			{ test_kernel_rmw_array, NULL, 0, 0 },
-+			{ test_kernel_rmw_array, NULL, 0, __KCSAN_ACCESS_RW(KCSAN_ACCESS_WRITE) },
-+			{ test_kernel_rmw_array, NULL, 0, __KCSAN_ACCESS_RW(0) },
- 		},
- 	};
- 	static const struct expect_report never = {
-@@ -629,6 +642,29 @@ static void test_read_plain_atomic_write(struct kunit *test)
- 	KUNIT_EXPECT_TRUE(test, match_expect);
++/**
+  * instrument_atomic_read - instrument atomic read access
+  *
+  * Instrument an atomic read access. The instrumentation should be inserted
+@@ -73,6 +88,21 @@ static __always_inline void instrument_atomic_write(const volatile void *v, size
  }
  
-+/* Test that atomic RMWs generate correct report. */
-+__no_kcsan
-+static void test_read_plain_atomic_rmw(struct kunit *test)
+ /**
++ * instrument_atomic_read_write - instrument atomic read-write access
++ *
++ * Instrument an atomic read-write access. The instrumentation should be
++ * inserted before the actual write happens.
++ *
++ * @ptr address of access
++ * @size size of access
++ */
++static __always_inline void instrument_atomic_read_write(const volatile void *v, size_t size)
 +{
-+	const struct expect_report expect = {
-+		.access = {
-+			{ test_kernel_read, &test_var, sizeof(test_var), 0 },
-+			{ test_kernel_atomic_rmw, &test_var, sizeof(test_var),
-+				KCSAN_ACCESS_COMPOUND | KCSAN_ACCESS_WRITE | KCSAN_ACCESS_ATOMIC },
-+		},
-+	};
-+	bool match_expect = false;
-+
-+	if (IS_ENABLED(CONFIG_KCSAN_IGNORE_ATOMICS))
-+		return;
-+
-+	begin_test_checks(test_kernel_read, test_kernel_atomic_rmw);
-+	do {
-+		match_expect = report_matches(&expect);
-+	} while (!end_test_checks(match_expect));
-+	KUNIT_EXPECT_TRUE(test, match_expect);
++	kasan_check_write(v, size);
++	kcsan_check_atomic_read_write(v, size);
 +}
 +
- /* Zero-sized accesses should never cause data race reports. */
- __no_kcsan
- static void test_zero_size_access(struct kunit *test)
-@@ -942,6 +978,7 @@ static struct kunit_case kcsan_test_cases[] = {
- 	KCSAN_KUNIT_CASE(test_write_write_struct_part),
- 	KCSAN_KUNIT_CASE(test_read_atomic_write_atomic),
- 	KCSAN_KUNIT_CASE(test_read_plain_atomic_write),
-+	KCSAN_KUNIT_CASE(test_read_plain_atomic_rmw),
- 	KCSAN_KUNIT_CASE(test_zero_size_access),
- 	KCSAN_KUNIT_CASE(test_data_race),
- 	KCSAN_KUNIT_CASE(test_assert_exclusive_writer),
-diff --git a/lib/Kconfig.kcsan b/lib/Kconfig.kcsan
-index 3d282d5..f271ff5 100644
---- a/lib/Kconfig.kcsan
-+++ b/lib/Kconfig.kcsan
-@@ -40,6 +40,11 @@ menuconfig KCSAN
- 
- if KCSAN
- 
-+# Compiler capabilities that should not fail the test if they are unavailable.
-+config CC_HAS_TSAN_COMPOUND_READ_BEFORE_WRITE
-+	def_bool (CC_IS_CLANG && $(cc-option,-fsanitize=thread -mllvm -tsan-compound-read-before-write=1)) || \
-+		 (CC_IS_GCC && $(cc-option,-fsanitize=thread --param tsan-compound-read-before-write=1))
-+
- config KCSAN_VERBOSE
- 	bool "Show verbose reports with more information about system state"
- 	depends on PROVE_LOCKING
++/**
+  * instrument_copy_to_user - instrument reads of copy_to_user
+  *
+  * Instrument reads from kernel memory, that are due to copy_to_user (and
 -- 
 2.9.5
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200831181805.1833-8-paulmck%40kernel.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200831181805.1833-9-paulmck%40kernel.org.
