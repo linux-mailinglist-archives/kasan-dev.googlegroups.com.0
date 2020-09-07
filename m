@@ -1,135 +1,136 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBEHR3D5AKGQETXK5OVQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDX4HWEMTEBRB7NF3H5AKGQEK2PKRGA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oo1-xc3a.google.com (mail-oo1-xc3a.google.com [IPv6:2607:f8b0:4864:20::c3a])
-	by mail.lfdr.de (Postfix) with ESMTPS id F40E225FB95
-	for <lists+kasan-dev@lfdr.de>; Mon,  7 Sep 2020 15:41:38 +0200 (CEST)
-Received: by mail-oo1-xc3a.google.com with SMTP id s22sf6549465oot.1
-        for <lists+kasan-dev@lfdr.de>; Mon, 07 Sep 2020 06:41:38 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1599486096; cv=pass;
+Received: from mail-pl1-x638.google.com (mail-pl1-x638.google.com [IPv6:2607:f8b0:4864:20::638])
+	by mail.lfdr.de (Postfix) with ESMTPS id D75B325FD39
+	for <lists+kasan-dev@lfdr.de>; Mon,  7 Sep 2020 17:34:22 +0200 (CEST)
+Received: by mail-pl1-x638.google.com with SMTP id u6sf3991372plq.2
+        for <lists+kasan-dev@lfdr.de>; Mon, 07 Sep 2020 08:34:22 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1599492861; cv=pass;
         d=google.com; s=arc-20160816;
-        b=cNK4usKP0GtuIYUUE7+SlrT8ijhGP8AAhuSkWGBEnE6DtMgtIhS7sHQ/r7SOH8Zmd2
-         F619fiz8AmKY8NFV35r6m+W8v/zq7W2BiRacvpg/hKd7wPudGcPse7Sa3rQoQ0MjR7Lg
-         90srMFuViQz7NlBK6mqMKcVu8my3MHpTBBs4uwvs/N6BVHhvdFGxiqiME02GTQYNF+ni
-         B/8ZqQc28a2ATCTJa45e6M6XsCfwrq3/VBZFK5A9VeGOe3hjEm1pAcBwbhA9td+C7h74
-         REKhgwBQxB2QqaNp/QvS/gT9kIQRzatKQXLbj5c2pbHYjmVuhfVrj5plmm2rWcdhscr+
-         VB3g==
+        b=l9ERdnW0nmB8QAK00HYdIPykyIVi29q/SLD4hR5HA382fX2iaifVLfQkBBYg9rAPcx
+         c7MV2f8y55fX4IXdHeQlpxLSBWa/UQ1P/Ds7o4osPEj9kckFoxu9AYyKE0fD9apwcU9D
+         SJfWm2yiN5XWBwawMe4mwuSiZByD8Mz0eDyu4PZ4rOE/OnFKp+z0JLGpk7sL1gemfimz
+         5FerVFf6+SusVLmoekIyw+8zeogn/rdPvpNp5Tn3g31mRIRRV7fOed6vhubKoX1RmMFr
+         Kno9nh97oXhqKuAy2SIX3xQWcXZDHwFG3Y0UL4vJRiL8vULFoCScLKzcc+cqD38EQhUM
+         BG8A==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
-         :references:mime-version:message-id:in-reply-to:date:sender
-         :dkim-signature;
-        bh=ZQxFfvH2hmV6pw1QNA5Cc50sFYiHsAjKN0WRr5A1uwU=;
-        b=RmlV8WedEuVxAbQObMvJ1N1PBQTTpojDRBji9pWW8Q4Jm0Nqq+cpmL5LSm50d42Y16
-         MMocuzSpsYBb8dhkp7LM081f4KjOwSEfbGFsQOCzJ4UpkU+rMIIQGGRfFbfpXbPTc+K6
-         Vl3f06QFltxgsybijEZ7z7XTRN67zGHiPnGwvpOsyaEZ0rXtrTuXsORlXDI29MA5EzjJ
-         ke9K07hJG1lmVu5dmtDSUmhs040YulRAT0CdGXk1Ac+7efyci1JXGl7iCjxDPU9z7IbF
-         N2pNT08hGyxvJNsHI+bagTyLgNYvZeTRhRIGrtuhyY36RzlKa4kk1prn1J8NHxM9/l3Z
-         I/LA==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=zkMfR85D57b17J0owW0Owpj5T0eQJkQ3UALYW8ilJWw=;
+        b=b4dWHO6q/InPmyIRavjt3g2BTyKcGbg2EARHWgHjPjz0aGTR0SaizbWMjPvJdETbI/
+         tHknDrG2r7yeL5bIYsSEFQbDxuBIKQkTE6iIJN8W0Ph6SFKOfDyNfhT6HaJO1mKA2ac/
+         XTb0icXcfX5/mHHReohIFDPCd4khwFoR4JCb1aSgqk3t8dIRFRCbNpsVrC/r2kSn0cNf
+         DhMEXtYC8N49aCvcS01AIDX8o4WAFvvRReuIbyW456siqmapze8YQKNmmdbfyRJZCzps
+         LS70p9bFwX4vnm8jo0C4Ij3M7R9j0Briuqo0oKzxdPRX2njs3UK6M/Z6gbF+iJ9arIWL
+         yk/Q==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=bm+f0jEc;
-       spf=pass (google.com: domain of 3jjhwxwukcvk5cm5i7ff7c5.3fdb1j1e-45m7ff7c57iflgj.3fd@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::84a as permitted sender) smtp.mailfrom=3jjhWXwUKCVk5CM5I7FF7C5.3FDB1J1E-45M7FF7C57IFLGJ.3FD@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=C77BjO4d;
+       spf=pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::541 as permitted sender) smtp.mailfrom=andreyknvl@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:date:in-reply-to:message-id:mime-version:references:subject
-         :from:to:cc:x-original-sender:x-original-authentication-results
-         :reply-to:precedence:mailing-list:list-id:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=ZQxFfvH2hmV6pw1QNA5Cc50sFYiHsAjKN0WRr5A1uwU=;
-        b=eplzpDTvAiaeXcPNNZrjJ7oG1MK+/wvXG65HyHmaR6qDv+T+JHcyqjUpUsMhNoSGQO
-         z4z2kxGhWwDLcgv/xUzR8nTr8T8jo2gZTXMypyLvLEc5bNIYXg4o+KcjmnhtuiPLV3vY
-         Vt/g0622zq/ABhEBcwQfBNmZJI2/Dn9iXpxuoXIZkwGjcEvEUlrPFalWdJjiFJ0kudGO
-         bxdMnVs28hrCgADXDjYs274FqhiGbD/6Xv7T+QsrhNBYd6bhaTIlFF5NqIjgxxguZ4Eq
-         0GAsI8vNlMLvV2XSuXVFrdsHLYnE3MuxZT0e6dr9p6fLux4XhSyAes2gCPGRLNPVx03+
-         Adyw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=zkMfR85D57b17J0owW0Owpj5T0eQJkQ3UALYW8ilJWw=;
+        b=Bekmb17ENoXYeWlsl5iQQfTmz2Neffpl5vd/WUsfUYpoyv0ASC6qCWGlWOtjHIKSO4
+         hQur6VSKFZn4VrYOtc4QuLwoWW8nhzcKeZ4p0rI7Vmbf1vE8yNRqdx1Y8DZOS40tGWVW
+         hztaCg9m4whlARg+oWBiMDSkcnEsRgWKF2/8gRUxuw6pafISzS15gOd1QF1993BXeaSY
+         vyp+UsH2ISA3cvVrm0At0tJ1heQYYUaWwAGiCPk2Ma6cQELOcG1m444MkRW40ff6iPjZ
+         j9hh8mujaClwW9hzkAxfNO0KAXaQnNihaVJwW6gRkkrW+F/uar7avo3DNWp+EWPQ8O9q
+         1NEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc:x-original-sender
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=ZQxFfvH2hmV6pw1QNA5Cc50sFYiHsAjKN0WRr5A1uwU=;
-        b=FtR7dc6HIBnewBKMLRQaCWBoJCx7mb7h/Qn73XJ92JPlIkxjSKfs3BryaWOcHgVDgL
-         a0PRAV8JrK938/o5oa4qupllLA9cXrARa8mkYQeb7bN8i4RMvSv1FBxzzHHMz9LjzIvM
-         xg8qqwaYWhXIxOYJnvfEtw7OAaVneoHMGJecMBeBOBjNaDJ0SGNvw3Gj/+BfDrWlm716
-         I2UvBSYAuFDuukzNjAvTBjaIxN6zNzHiyp+VdsOmahpZ55mPj6YMbeOfm5heCqWnPZ29
-         tb1Yxx6jXCOlUvQXsFZ27vLRlHzi4Q1/Xeo2v5/cLm/ucYPkLDJMikBqm4miIYwgd7pB
-         Ehdg==
-X-Gm-Message-State: AOAM5335J6zPbNddw9Sb9Kik5ZMJqLrqJahDZlBABYAOLXNXct6GwQbn
-	lldY2YAeF/WHQEmMr3SmFak=
-X-Google-Smtp-Source: ABdhPJz7JsaNTanwuB01m4OT+cbLuKL9zagxOsLFJU/dP2HnjIJtFTKqCrA1IeIhu2W+6Ue3tYpN9A==
-X-Received: by 2002:aca:4d91:: with SMTP id a139mr3012218oib.151.1599486096707;
-        Mon, 07 Sep 2020 06:41:36 -0700 (PDT)
+        bh=zkMfR85D57b17J0owW0Owpj5T0eQJkQ3UALYW8ilJWw=;
+        b=aJY8RPKSOyCZh9AlPAhkJl/QD54wixt0gB0TIfk9mhTM2p5M/W06836VDy/YLX6dM5
+         taR4SoR1w8+5x7QGNlF8r2zLLAvOap2jwuvdkmlQFCMAL/YPt46srDrqYMvy97qy37UM
+         HOou2c0ZB5vSWTJccFhz5l3oOmJEh/476x2wu+l7Nw1AMUIfxp4Wnd0mYSBECadzGtPp
+         6ARMOgB2zgiew5vK2DfAOW6wFced+ZfQTXPOJsj0b2L/AE2LtFx4qrlnNKWhvGL1ZMHy
+         zHnt7JTaPdLzVf76lbOopU1Ow9B/VPBGk+T/apwxNQtVA4fvkTvOd5S7wX82uUJECXiJ
+         htCA==
+X-Gm-Message-State: AOAM531uXL94RvHbB1GoDO4Rd7RdESYH08syU8gbHirFE5hnAeElmB1b
+	HzMvAHXmgLv4yTpG3gSBxkc=
+X-Google-Smtp-Source: ABdhPJxF/GMmYltD71Ov2P9OlbALPDkcsDdKrScnD49/xoq9c5OnrT7lGZdaerq9brtYncgcSgxFjw==
+X-Received: by 2002:a63:5043:: with SMTP id q3mr16759992pgl.293.1599492861502;
+        Mon, 07 Sep 2020 08:34:21 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6830:85:: with SMTP id a5ls4326519oto.10.gmail; Mon, 07
- Sep 2020 06:41:35 -0700 (PDT)
-X-Received: by 2002:a9d:3443:: with SMTP id v61mr15262798otb.139.1599486095270;
-        Mon, 07 Sep 2020 06:41:35 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1599486095; cv=none;
+Received: by 2002:a17:90b:3590:: with SMTP id mm16ls7426238pjb.3.canary-gmail;
+ Mon, 07 Sep 2020 08:34:21 -0700 (PDT)
+X-Received: by 2002:a17:902:7b83:: with SMTP id w3mr20451823pll.28.1599492860983;
+        Mon, 07 Sep 2020 08:34:20 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1599492860; cv=none;
         d=google.com; s=arc-20160816;
-        b=LIauwrvw2jvx5Dd0ehJAERongzK65o/G+Hz9h6WM7YIfTQrfwVIt0ht4S8nyIaKppS
-         8CLQEMMMxESVK4HH59+y7TkdYlMyL0mUa7Llx5B7nBc2cIDmflS67vIQcZwr+EFXM2y3
-         o7CJikF/v0LCt13SyIgU6Ln2xxOoJk1SdgHV0FCy28EcT6BK8XwBTyV3DnQe5r7X6x4W
-         +9TbpgCNVJkSwkgmk2B0ccQrv18Spm+KwV3T+FJbG1pLDdtUvpePwpzEynKnAXiaM8rB
-         17LH2MgfJsQWhhKRJrx2HxqdbFfN+X2y9WR8Y08EnEdqH+CXnLJAbdZ9SNF4uG1vpgYR
-         okFQ==
+        b=zm15xQKfb4/ltq3uIpsJqGRkF2cwo3qGMJmPb2a43ERiUm4/G6ra5N5vR2yupVdimn
+         ZUX9DZjYTEsAE4BZMgk2UY8ri1+9H8juJMgFt/oftOx+sHm26FnJUg2kUQmqiMc0W1A3
+         MBMA9wgePx+ylnPR/pxR4zzDf2IAvqW2ocIbAErIeJDIITVzb7qJ68M+/f7oPTK6Lqf3
+         /OTtBtbdQANMZrYLLQN7yOtKZQP3vfEN3+ze/QbC84ACmMSSN1NiY4LuarYehjYOYvoi
+         4Cf8JrD1ixMOFlfCZrd8g4kbPZqtpnE3jo4GJ+jhn0UslgyAjNdIq8XgCj3FD3wN8u9R
+         Fmug==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
-         :date:sender:dkim-signature;
-        bh=EfD2mukgtJ4aRPx51F673PTTAg9GhuXZLUcCkcKZuoE=;
-        b=XasnOEaddtq7lchQG5eZo5XCaTrFkHHlpOHKITj1ww+2cA9j99Yb/OXVI/oeT7h55T
-         qZBLsJLseWfCmRklZkLEZOP9F9ALueK1XTT+MjTGlpdnGVzQuAexWp9fexKPnUDliALI
-         ES7IAVCa+IIvdvfpaiW4ylSOHlyUNSBt0IKjEZQ+CsP97s/PSKyvSR5afWToyPjB6BIs
-         ICZVpkiCZZ8fonWn85HwHEa+yo/PAD4ijyiTql1387dkvIyTE2NCfK7lhh5hoBr/a0Ez
-         U+5CENZ2QhUA/qixqENywVtPMxflIOWgkMTseSS8W75rZljMUPXtvBCvH1EDpgXBFgXh
-         dSUw==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=sRGlK8jjy1/wDdSe4iD14HDBzDdtA2CSB57wVBddJ3M=;
+        b=HOFGx3NSwDZ1dK4QkcLtU4wba9HKVlMlkJrnGIuYWhiyuZAuuEZaRMFO+9lQrPmulm
+         9QOVskzkjrRoJvLYJTRROMdFVAhoR8W7cUeOx2285eSGurl/qIcR1E6xxQFmehdl3X2+
+         tPHDeBuoA4llareecxmcLfwPvkV4aGPlphGQkC3olBZ9Wo1q9V1IkVrw/kVj/vWJgQlV
+         hN5W+7CRpd00EeCsV70cmNK+EFp8nXv4PxrvALs7tUL3M19x9lsdM36Hnya+fL1KPc6H
+         zHKQ9Xtbh7AnAXIoJTX+P9gby5zGQ3/ce8LmN9bjmEWOFIkuJMqALL29W0C0MTYCNHhE
+         Hxhg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=bm+f0jEc;
-       spf=pass (google.com: domain of 3jjhwxwukcvk5cm5i7ff7c5.3fdb1j1e-45m7ff7c57iflgj.3fd@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::84a as permitted sender) smtp.mailfrom=3jjhWXwUKCVk5CM5I7FF7C5.3FDB1J1E-45M7FF7C57IFLGJ.3FD@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=C77BjO4d;
+       spf=pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::541 as permitted sender) smtp.mailfrom=andreyknvl@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-qt1-x84a.google.com (mail-qt1-x84a.google.com. [2607:f8b0:4864:20::84a])
-        by gmr-mx.google.com with ESMTPS id b6si1052609ooq.2.2020.09.07.06.41.35
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com. [2607:f8b0:4864:20::541])
+        by gmr-mx.google.com with ESMTPS id o98si781548pjo.1.2020.09.07.08.34.20
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 07 Sep 2020 06:41:35 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 3jjhwxwukcvk5cm5i7ff7c5.3fdb1j1e-45m7ff7c57iflgj.3fd@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::84a as permitted sender) client-ip=2607:f8b0:4864:20::84a;
-Received: by mail-qt1-x84a.google.com with SMTP id a14so8931974qtp.15
-        for <kasan-dev@googlegroups.com>; Mon, 07 Sep 2020 06:41:35 -0700 (PDT)
-Sender: "elver via sendgmr" <elver@elver.muc.corp.google.com>
-X-Received: from elver.muc.corp.google.com ([2a00:79e0:15:13:f693:9fff:fef4:2449])
- (user=elver job=sendgmr) by 2002:a0c:b2d4:: with SMTP id d20mr18889583qvf.1.1599486094476;
- Mon, 07 Sep 2020 06:41:34 -0700 (PDT)
-Date: Mon,  7 Sep 2020 15:40:55 +0200
-In-Reply-To: <20200907134055.2878499-1-elver@google.com>
-Message-Id: <20200907134055.2878499-11-elver@google.com>
-Mime-Version: 1.0
-References: <20200907134055.2878499-1-elver@google.com>
-X-Mailer: git-send-email 2.28.0.526.ge36021eeef-goog
-Subject: [PATCH RFC 10/10] kfence: add test suite
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-To: elver@google.com, glider@google.com, akpm@linux-foundation.org, 
-	catalin.marinas@arm.com, cl@linux.com, rientjes@google.com, 
-	iamjoonsoo.kim@lge.com, mark.rutland@arm.com, penberg@kernel.org
-Cc: hpa@zytor.com, paulmck@kernel.org, andreyknvl@google.com, 
-	aryabinin@virtuozzo.com, luto@kernel.org, bp@alien8.de, 
-	dave.hansen@linux.intel.com, dvyukov@google.com, edumazet@google.com, 
-	gregkh@linuxfoundation.org, mingo@redhat.com, jannh@google.com, 
-	corbet@lwn.net, keescook@chromium.org, peterz@infradead.org, cai@lca.pw, 
-	tglx@linutronix.de, will@kernel.org, x86@kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	kasan-dev@googlegroups.com, linux-arm-kernel@lists.infradead.org, 
-	linux-mm@kvack.org
+        Mon, 07 Sep 2020 08:34:20 -0700 (PDT)
+Received-SPF: pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::541 as permitted sender) client-ip=2607:f8b0:4864:20::541;
+Received: by mail-pg1-x541.google.com with SMTP id t14so2737438pgl.10
+        for <kasan-dev@googlegroups.com>; Mon, 07 Sep 2020 08:34:20 -0700 (PDT)
+X-Received: by 2002:a62:343:: with SMTP id 64mr1933040pfd.136.1599492860070;
+ Mon, 07 Sep 2020 08:34:20 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200907134055.2878499-1-elver@google.com> <20200907134055.2878499-10-elver@google.com>
+In-Reply-To: <20200907134055.2878499-10-elver@google.com>
+From: "'Andrey Konovalov' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Mon, 7 Sep 2020 17:33:48 +0200
+Message-ID: <CAAeHK+zGpJd6szPounYz6wogO9TMT18TmQu_mfXUWQd65QTf0w@mail.gmail.com>
+Subject: Re: [PATCH RFC 09/10] kfence, Documentation: add KFENCE documentation
+To: Marco Elver <elver@google.com>
+Cc: Alexander Potapenko <glider@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Christoph Lameter <cl@linux.com>, 
+	David Rientjes <rientjes@google.com>, Joonsoo Kim <iamjoonsoo.kim@lge.com>, 
+	Mark Rutland <mark.rutland@arm.com>, Pekka Enberg <penberg@kernel.org>, 
+	"H. Peter Anvin" <hpa@zytor.com>, "Paul E . McKenney" <paulmck@kernel.org>, 
+	Andrey Ryabinin <aryabinin@virtuozzo.com>, Andy Lutomirski <luto@kernel.org>, 
+	Borislav Petkov <bp@alien8.de>, dave.hansen@linux.intel.com, 
+	Dmitry Vyukov <dvyukov@google.com>, Eric Dumazet <edumazet@google.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Ingo Molnar <mingo@redhat.com>, 
+	Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>, Kees Cook <keescook@chromium.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Qian Cai <cai@lca.pw>, Thomas Gleixner <tglx@linutronix.de>, 
+	Will Deacon <will@kernel.org>, "the arch/x86 maintainers" <x86@kernel.org>, 
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
+	kasan-dev <kasan-dev@googlegroups.com>, 
+	Linux ARM <linux-arm-kernel@lists.infradead.org>, 
+	Linux Memory Management List <linux-mm@kvack.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
+X-Original-Sender: andreyknvl@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=bm+f0jEc;       spf=pass
- (google.com: domain of 3jjhwxwukcvk5cm5i7ff7c5.3fdb1j1e-45m7ff7c57iflgj.3fd@flex--elver.bounces.google.com
- designates 2607:f8b0:4864:20::84a as permitted sender) smtp.mailfrom=3jjhWXwUKCVk5CM5I7FF7C5.3FDB1J1E-45M7FF7C57IFLGJ.3FD@flex--elver.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+ header.i=@google.com header.s=20161025 header.b=C77BjO4d;       spf=pass
+ (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::541
+ as permitted sender) smtp.mailfrom=andreyknvl@google.com;       dmarc=pass
+ (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Andrey Konovalov <andreyknvl@google.com>
+Reply-To: Andrey Konovalov <andreyknvl@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -142,840 +143,367 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Add KFENCE test suite, testing various error detection scenarios. Makes
-use of KUnit for test organization. Since KFENCE's interface to obtain
-error reports is via the console, the test verifies that KFENCE outputs
-expected reports to the console.
+On Mon, Sep 7, 2020 at 3:41 PM Marco Elver <elver@google.com> wrote:
+>
+> Add KFENCE documentation in dev-tools/kfence.rst, and add to index.
+>
+> Co-developed-by: Alexander Potapenko <glider@google.com>
+> Signed-off-by: Alexander Potapenko <glider@google.com>
+> Signed-off-by: Marco Elver <elver@google.com>
+> ---
+>  Documentation/dev-tools/index.rst  |   1 +
+>  Documentation/dev-tools/kfence.rst | 285 +++++++++++++++++++++++++++++
+>  2 files changed, 286 insertions(+)
+>  create mode 100644 Documentation/dev-tools/kfence.rst
+>
+> diff --git a/Documentation/dev-tools/index.rst b/Documentation/dev-tools/index.rst
+> index f7809c7b1ba9..1b1cf4f5c9d9 100644
+> --- a/Documentation/dev-tools/index.rst
+> +++ b/Documentation/dev-tools/index.rst
+> @@ -22,6 +22,7 @@ whole; patches welcome!
+>     ubsan
+>     kmemleak
+>     kcsan
+> +   kfence
+>     gdb-kernel-debugging
+>     kgdb
+>     kselftest
+> diff --git a/Documentation/dev-tools/kfence.rst b/Documentation/dev-tools/kfence.rst
+> new file mode 100644
+> index 000000000000..254f4f089104
+> --- /dev/null
+> +++ b/Documentation/dev-tools/kfence.rst
+> @@ -0,0 +1,285 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +Kernel Electric-Fence (KFENCE)
+> +==============================
+> +
+> +Kernel Electric-Fence (KFENCE) is a low-overhead sampling-based memory safety
+> +error detector. KFENCE detects heap out-of-bounds access, use-after-free, and
+> +invalid-free errors.
+> +
+> +KFENCE is designed to be enabled in production kernels, and has near zero
+> +performance overhead. Compared to KASAN, KFENCE trades performance for
+> +precision. The main motivation behind KFENCE's design, is that with enough
+> +total uptime KFENCE will detect bugs in code paths not typically exercised by
+> +non-production test workloads. One way to quickly achieve a large enough total
+> +uptime is when the tool is deployed across a large fleet of machines.
+> +
+> +Usage
+> +-----
+> +
+> +To enable KFENCE, configure the kernel with::
+> +
+> +    CONFIG_KFENCE=y
+> +
+> +KFENCE provides several other configuration options to customize behaviour (see
+> +the respective help text in ``lib/Kconfig.kfence`` for more info).
+> +
+> +Tuning performance
+> +~~~~~~~~~~~~~~~~~~
+> +
+> +The most important parameter is KFENCE's sample interval, which can be set via
+> +the kernel boot parameter ``kfence.sample_interval`` in milliseconds. The
+> +sample interval determines the frequency with which heap allocations will be
+> +guarded by KFENCE. The default is configurable via the Kconfig option
+> +``CONFIG_KFENCE_SAMPLE_INTERVAL``. Setting ``kfence.sample_interval=0``
+> +disables KFENCE.
+> +
+> +With the Kconfig option ``CONFIG_KFENCE_NUM_OBJECTS`` (default 255), the number
+> +of available guarded objects can be controlled. Each object requires 2 pages,
+> +one for the object itself and the other one used as a guard page; object pages
+> +are interleaved with guard pages, and every object page is therefore surrounded
+> +by two guard pages.
+> +
+> +The total memory dedicated to the KFENCE memory pool can be computed as::
+> +
+> +    ( #objects + 1 ) * 2 * PAGE_SIZE
+> +
+> +Using the default config, and assuming a page size of 4 KiB, results in
+> +dedicating 2 MiB to the KFENCE memory pool.
+> +
+> +Error reports
+> +~~~~~~~~~~~~~
+> +
+> +A typical out-of-bounds access looks like this::
+> +
+> +    ==================================================================
+> +    BUG: KFENCE: out-of-bounds in test_out_of_bounds_read+0xa3/0x22b
+> +
+> +    Out-of-bounds access at 0xffffffffb672efff (left of kfence-#17):
+> +     test_out_of_bounds_read+0xa3/0x22b
+> +     kunit_try_run_case+0x51/0x85
+> +     kunit_generic_run_threadfn_adapter+0x16/0x30
+> +     kthread+0x137/0x160
+> +     ret_from_fork+0x22/0x30
+> +
+> +    kfence-#17 [0xffffffffb672f000-0xffffffffb672f01f, size=32, cache=kmalloc-32] allocated in:
 
-Co-developed-by: Alexander Potapenko <glider@google.com>
-Signed-off-by: Alexander Potapenko <glider@google.com>
-Signed-off-by: Marco Elver <elver@google.com>
----
- lib/Kconfig.kfence      |  12 +
- mm/kfence/Makefile      |   3 +
- mm/kfence/kfence-test.c | 777 ++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 792 insertions(+)
- create mode 100644 mm/kfence/kfence-test.c
+Does the user need to know that this is object #17? This doesn't seem
+like something that can be useful for anything.
 
-diff --git a/lib/Kconfig.kfence b/lib/Kconfig.kfence
-index b080e49e15d4..c5e3ef87aa67 100644
---- a/lib/Kconfig.kfence
-+++ b/lib/Kconfig.kfence
-@@ -55,4 +55,16 @@ config KFENCE_FAULT_INJECTION
- 	  this option is to stress-test KFENCE with concurrent error reports
- 	  and allocations/frees. A value of 0 disables fault injection.
- 
-+config KFENCE_TEST
-+	tristate "KFENCE test suite"
-+	depends on TRACEPOINTS && KUNIT
-+	help
-+	  Test suite for KFENCE, testing various error detection scenarios with
-+	  various allocation types, and checking that reports are correctly
-+	  output to console.
-+
-+	  Say Y here if you want the test to be built into the kernel and run
-+	  during boot; say M if you want the test to build as a module; say N
-+	  if you are unsure.
-+
- endif # KFENCE
-diff --git a/mm/kfence/Makefile b/mm/kfence/Makefile
-index d991e9a349f0..0ce5f772f9b3 100644
---- a/mm/kfence/Makefile
-+++ b/mm/kfence/Makefile
-@@ -1,3 +1,6 @@
- # SPDX-License-Identifier: GPL-2.0
- 
- obj-$(CONFIG_KFENCE) := core.o report.o
-+
-+CFLAGS_kfence-test.o := -g -fno-omit-frame-pointer -fno-optimize-sibling-calls
-+obj-$(CONFIG_KFENCE_TEST) += kfence-test.o
-diff --git a/mm/kfence/kfence-test.c b/mm/kfence/kfence-test.c
-new file mode 100644
-index 000000000000..6c6b713638de
---- /dev/null
-+++ b/mm/kfence/kfence-test.c
-@@ -0,0 +1,777 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Test cases for KFENCE memory safety error detector. Since the interface with
-+ * which KFENCE's reports are obtained is via the console, this is the output we
-+ * should verify. For each test case checks the presence (or absence) of
-+ * generated reports. Relies on 'console' tracepoint to capture reports as they
-+ * appear in the kernel log.
-+ *
-+ * Copyright (C) 2020, Google LLC.
-+ * Author: Alexander Potapenko <glider@google.com>
-+ *         Marco Elver <elver@google.com>
-+ */
-+
-+#include <kunit/test.h>
-+#include <linux/jiffies.h>
-+#include <linux/kernel.h>
-+#include <linux/kfence.h>
-+#include <linux/mm.h>
-+#include <linux/random.h>
-+#include <linux/slab.h>
-+#include <linux/string.h>
-+#include <linux/tracepoint.h>
-+#include <trace/events/printk.h>
-+
-+#include "kfence.h"
-+
-+/* Report as observed from console. */
-+static struct {
-+	spinlock_t lock;
-+	int nlines;
-+	char lines[2][512];
-+} observed = {
-+	.lock = __SPIN_LOCK_UNLOCKED(observed.lock),
-+};
-+
-+/* Probe for console output: obtains observed lines of interest. */
-+static void probe_console(void *ignore, const char *buf, size_t len)
-+{
-+	unsigned long flags;
-+	int nlines;
-+
-+	spin_lock_irqsave(&observed.lock, flags);
-+	nlines = observed.nlines;
-+
-+	if (strnstr(buf, "BUG: KFENCE: ", len) && strnstr(buf, "test_", len)) {
-+		/*
-+		 * KFENCE report and related to the test.
-+		 *
-+		 * The provided @buf is not NUL-terminated; copy no more than
-+		 * @len bytes and let strscpy() add the missing NUL-terminator.
-+		 */
-+		strscpy(observed.lines[0], buf, min(len + 1, sizeof(observed.lines[0])));
-+		nlines = 1;
-+	} else if (nlines == 1 && (strnstr(buf, "at 0x", len) || strnstr(buf, "of 0x", len))) {
-+		strscpy(observed.lines[nlines++], buf, min(len + 1, sizeof(observed.lines[0])));
-+	}
-+
-+	WRITE_ONCE(observed.nlines, nlines); /* Publish new nlines. */
-+	spin_unlock_irqrestore(&observed.lock, flags);
-+}
-+
-+/* Check if a report related to the test exists. */
-+static bool report_available(void)
-+{
-+	return READ_ONCE(observed.nlines) == ARRAY_SIZE(observed.lines);
-+}
-+
-+/* Information we expect in a report. */
-+struct expect_report {
-+	enum kfence_error_type type; /* The type or error. */
-+	void *fn; /* Function pointer to expected function where access occurred. */
-+	char *addr; /* Address at which the bad access occurred. */
-+};
-+
-+/* Check observed report matches information in @r. */
-+static bool report_matches(const struct expect_report *r)
-+{
-+	bool ret = false;
-+	unsigned long flags;
-+	typeof(observed.lines) expect;
-+	const char *end;
-+	char *cur;
-+
-+	/* Doubled-checked locking. */
-+	if (!report_available())
-+		return false;
-+
-+	/* Generate expected report contents. */
-+
-+	/* Title */
-+	cur = expect[0];
-+	end = &expect[0][sizeof(expect[0]) - 1];
-+	switch (r->type) {
-+	case KFENCE_ERROR_OOB:
-+		cur += scnprintf(cur, end - cur, "BUG: KFENCE: out-of-bounds");
-+		break;
-+	case KFENCE_ERROR_UAF:
-+		cur += scnprintf(cur, end - cur, "BUG: KFENCE: use-after-free");
-+		break;
-+	case KFENCE_ERROR_CORRUPTION:
-+		cur += scnprintf(cur, end - cur, "BUG: KFENCE: memory corruption");
-+		break;
-+	case KFENCE_ERROR_INVALID:
-+		cur += scnprintf(cur, end - cur, "BUG: KFENCE: invalid access");
-+		break;
-+	case KFENCE_ERROR_INVALID_FREE:
-+		cur += scnprintf(cur, end - cur, "BUG: KFENCE: invalid free");
-+		break;
-+	}
-+
-+	scnprintf(cur, end - cur, " in %pS", r->fn);
-+	/* The exact offset won't match, remove it; also strip module name. */
-+	cur = strchr(expect[0], '+');
-+	if (cur)
-+		*cur = '\0';
-+
-+	/* Access information */
-+	cur = expect[1];
-+	end = &expect[1][sizeof(expect[1]) - 1];
-+
-+	switch (r->type) {
-+	case KFENCE_ERROR_OOB:
-+		cur += scnprintf(cur, end - cur, "Out-of-bounds access at");
-+		break;
-+	case KFENCE_ERROR_UAF:
-+		cur += scnprintf(cur, end - cur, "Use-after-free access at");
-+		break;
-+	case KFENCE_ERROR_CORRUPTION:
-+		cur += scnprintf(cur, end - cur, "Detected corrupted memory at");
-+		break;
-+	case KFENCE_ERROR_INVALID:
-+		cur += scnprintf(cur, end - cur, "Invalid access at");
-+		break;
-+	case KFENCE_ERROR_INVALID_FREE:
-+		cur += scnprintf(cur, end - cur, "Invalid free of");
-+		break;
-+	}
-+
-+	cur += scnprintf(cur, end - cur, " 0x" PTR_FMT, (void *)r->addr);
-+
-+	spin_lock_irqsave(&observed.lock, flags);
-+	if (!report_available())
-+		goto out; /* A new report is being captured. */
-+
-+	/* Finally match expected output to what we actually observed. */
-+	ret = strstr(observed.lines[0], expect[0]) && strstr(observed.lines[1], expect[1]);
-+out:
-+	spin_unlock_irqrestore(&observed.lock, flags);
-+	return ret;
-+}
-+
-+/* ===== Test cases ===== */
-+
-+#define TEST_PRIV_WANT_MEMCACHE ((void *)1)
-+
-+/* Cache used by tests; if NULL, allocate from kmalloc instead. */
-+static struct kmem_cache *test_cache;
-+
-+static size_t setup_test_cache(struct kunit *test, size_t size, slab_flags_t flags,
-+			       void (*ctor)(void *))
-+{
-+	if (test->priv != TEST_PRIV_WANT_MEMCACHE)
-+		return size;
-+
-+	kunit_info(test, "%s: size=%zu, ctor=%ps\n", __func__, size, ctor);
-+
-+	/*
-+	 * Use SLAB_NOLEAKTRACE to prevent merging with existing caches. Any
-+	 * other flag in SLAB_NEVER_MERGE also works. Use SLAB_ACCOUNT to
-+	 * allocate via memcg, if enabled.
-+	 */
-+	flags |= SLAB_NOLEAKTRACE | SLAB_ACCOUNT;
-+	test_cache = kmem_cache_create("test", size, 1, flags, ctor);
-+	KUNIT_ASSERT_TRUE_MSG(test, test_cache, "could not create cache");
-+
-+	return size;
-+}
-+
-+static void test_cache_destroy(void)
-+{
-+	if (!test_cache)
-+		return;
-+
-+	kmem_cache_destroy(test_cache);
-+	test_cache = NULL;
-+}
-+
-+static inline size_t kmalloc_cache_alignment(size_t size)
-+{
-+	return kmalloc_caches[kmalloc_type(GFP_KERNEL)][kmalloc_index(size)]->align;
-+}
-+
-+/* Must always inline to match stack trace against caller. */
-+static __always_inline void test_free(void *ptr)
-+{
-+	if (test_cache)
-+		kmem_cache_free(test_cache, ptr);
-+	else
-+		kfree(ptr);
-+}
-+
-+/*
-+ * If this should be a KFENCE allocation, and on which side the allocation and
-+ * the closest guard page should be.
-+ */
-+enum allocation_policy {
-+	ALLOCATE_ANY, /* KFENCE, any side. */
-+	ALLOCATE_LEFT, /* KFENCE, left side of page. */
-+	ALLOCATE_RIGHT, /* KFENCE, right side of page. */
-+	ALLOCATE_NONE, /* No KFENCE allocation. */
-+};
-+
-+/*
-+ * Try to get a guarded allocation from KFENCE. Uses either kmalloc() or the
-+ * current test_cache if set up.
-+ */
-+static void *test_alloc(struct kunit *test, size_t size, gfp_t gfp, enum allocation_policy policy)
-+{
-+	void *alloc;
-+	unsigned long timeout, resched_after;
-+	const char *policy_name;
-+
-+	switch (policy) {
-+	case ALLOCATE_ANY:
-+		policy_name = "any";
-+		break;
-+	case ALLOCATE_LEFT:
-+		policy_name = "left";
-+		break;
-+	case ALLOCATE_RIGHT:
-+		policy_name = "right";
-+		break;
-+	case ALLOCATE_NONE:
-+		policy_name = "none";
-+		break;
-+	}
-+
-+	kunit_info(test, "%s: size=%zu, gfp=%x, policy=%s, cache=%i\n", __func__, size, gfp,
-+		   policy_name, !!test_cache);
-+
-+	/*
-+	 * 100x the sample interval should be more than enough to ensure we get
-+	 * a KFENCE allocation eventually.
-+	 */
-+	timeout = jiffies + msecs_to_jiffies(100 * CONFIG_KFENCE_SAMPLE_INTERVAL);
-+	/*
-+	 * Especially for non-preemption kernels, ensure the allocation-gate
-+	 * timer has time to catch up.
-+	 */
-+	resched_after = jiffies + msecs_to_jiffies(CONFIG_KFENCE_SAMPLE_INTERVAL);
-+	do {
-+		if (test_cache)
-+			alloc = kmem_cache_alloc(test_cache, gfp);
-+		else
-+			alloc = kmalloc(size, gfp);
-+
-+		if (is_kfence_address(alloc)) {
-+			if (policy == ALLOCATE_ANY)
-+				return alloc;
-+			if (policy == ALLOCATE_LEFT && IS_ALIGNED((unsigned long)alloc, PAGE_SIZE))
-+				return alloc;
-+			if (policy == ALLOCATE_RIGHT &&
-+			    !IS_ALIGNED((unsigned long)alloc, PAGE_SIZE))
-+				return alloc;
-+		} else if (policy == ALLOCATE_NONE)
-+			return alloc;
-+
-+		test_free(alloc);
-+
-+		if (time_after(jiffies, resched_after))
-+			cond_resched();
-+	} while (time_before(jiffies, timeout));
-+
-+	KUNIT_ASSERT_TRUE_MSG(test, false, "failed to allocate from KFENCE");
-+	return NULL; /* Unreachable. */
-+}
-+
-+static void test_out_of_bounds_read(struct kunit *test)
-+{
-+	size_t size = 32;
-+	struct expect_report expect = {
-+		.type = KFENCE_ERROR_OOB,
-+		.fn = test_out_of_bounds_read,
-+	};
-+	char *buf;
-+
-+	setup_test_cache(test, size, 0, NULL);
-+
-+	/*
-+	 * If we don't have our own cache, adjust based on alignment, so that we
-+	 * actually access guard pages on either side.
-+	 */
-+	if (!test_cache)
-+		size = kmalloc_cache_alignment(size);
-+
-+	/* Test both sides. */
-+
-+	buf = test_alloc(test, size, GFP_KERNEL, ALLOCATE_LEFT);
-+	expect.addr = buf - 1;
-+	READ_ONCE(*expect.addr);
-+	KUNIT_EXPECT_TRUE(test, report_matches(&expect));
-+	test_free(buf);
-+
-+	buf = test_alloc(test, size, GFP_KERNEL, ALLOCATE_RIGHT);
-+	expect.addr = buf + size;
-+	READ_ONCE(*expect.addr);
-+	KUNIT_EXPECT_TRUE(test, report_matches(&expect));
-+	test_free(buf);
-+}
-+
-+static void test_use_after_free_read(struct kunit *test)
-+{
-+	const size_t size = 32;
-+	struct expect_report expect = {
-+		.type = KFENCE_ERROR_UAF,
-+		.fn = test_use_after_free_read,
-+	};
-+
-+	setup_test_cache(test, size, 0, NULL);
-+	expect.addr = test_alloc(test, size, GFP_KERNEL, ALLOCATE_ANY);
-+	test_free(expect.addr);
-+	READ_ONCE(*expect.addr);
-+	KUNIT_EXPECT_TRUE(test, report_matches(&expect));
-+}
-+
-+static void test_double_free(struct kunit *test)
-+{
-+	const size_t size = 32;
-+	struct expect_report expect = {
-+		.type = KFENCE_ERROR_INVALID_FREE,
-+		.fn = test_double_free,
-+	};
-+
-+	setup_test_cache(test, size, 0, NULL);
-+	expect.addr = test_alloc(test, size, GFP_KERNEL, ALLOCATE_ANY);
-+	test_free(expect.addr);
-+	test_free(expect.addr); /* Double-free. */
-+	KUNIT_EXPECT_TRUE(test, report_matches(&expect));
-+}
-+
-+static void test_invalid_addr_free(struct kunit *test)
-+{
-+	const size_t size = 32;
-+	struct expect_report expect = {
-+		.type = KFENCE_ERROR_INVALID_FREE,
-+		.fn = test_invalid_addr_free,
-+	};
-+	char *buf;
-+
-+	setup_test_cache(test, size, 0, NULL);
-+	buf = test_alloc(test, size, GFP_KERNEL, ALLOCATE_ANY);
-+	expect.addr = buf + 1; /* Free on invalid address. */
-+	test_free(expect.addr); /* Invalid address free. */
-+	test_free(buf); /* No error. */
-+	KUNIT_EXPECT_TRUE(test, report_matches(&expect));
-+}
-+
-+/*
-+ * KFENCE is unable to detect an OOB if the allocation's alignment requirements
-+ * leave a gap between the object and the guard page. Specifically, an
-+ * allocation of e.g. 73 bytes is aligned on 8 and 128 bytes for SLUB or SLAB
-+ * respectively. Therefore it is impossible for the allocated object to adhere
-+ * to either of the page boundaries.
-+ *
-+ * However, we test that an access to memory beyond the gap result in KFENCE
-+ * detecting an OOB access.
-+ */
-+static void test_kmalloc_aligned_oob_read(struct kunit *test)
-+{
-+	const size_t size = 73;
-+	const size_t align = kmalloc_cache_alignment(size);
-+	struct expect_report expect = {
-+		.type = KFENCE_ERROR_OOB,
-+		.fn = test_kmalloc_aligned_oob_read,
-+	};
-+	char *buf;
-+
-+	buf = test_alloc(test, size, GFP_KERNEL, ALLOCATE_RIGHT);
-+
-+	/*
-+	 * The object is offset to the right, so there won't be an OOB to the
-+	 * left of it.
-+	 */
-+	READ_ONCE(*(buf - 1));
-+	KUNIT_EXPECT_FALSE(test, report_available());
-+
-+	/*
-+	 * @buf must be aligned on @align, therefore buf + size belongs to the
-+	 * same page -> no OOB.
-+	 */
-+	READ_ONCE(*(buf + size));
-+	KUNIT_EXPECT_FALSE(test, report_available());
-+
-+	/* Overflowing by @align bytes will result in an OOB. */
-+	expect.addr = buf + size + align;
-+	READ_ONCE(*expect.addr);
-+	KUNIT_EXPECT_TRUE(test, report_matches(&expect));
-+
-+	test_free(buf);
-+}
-+
-+static void test_kmalloc_aligned_oob_write(struct kunit *test)
-+{
-+	const size_t size = 73;
-+	struct expect_report expect = {
-+		.type = KFENCE_ERROR_CORRUPTION,
-+		.fn = test_kmalloc_aligned_oob_write,
-+	};
-+	char *buf;
-+
-+	buf = test_alloc(test, size, GFP_KERNEL, ALLOCATE_RIGHT);
-+	/*
-+	 * The object is offset to the right, so we won't get a page
-+	 * fault immediately after it.
-+	 */
-+	expect.addr = buf + size;
-+	WRITE_ONCE(*expect.addr, READ_ONCE(*expect.addr) + 1);
-+	KUNIT_EXPECT_FALSE(test, report_available());
-+	test_free(buf);
-+	KUNIT_EXPECT_TRUE(test, report_matches(&expect));
-+}
-+
-+/* Test cache shrinking and destroying with KFENCE. */
-+static void test_shrink_memcache(struct kunit *test)
-+{
-+	const size_t size = 32;
-+	void *buf;
-+
-+	setup_test_cache(test, size, 0, NULL);
-+	KUNIT_EXPECT_TRUE(test, test_cache);
-+	buf = test_alloc(test, size, GFP_KERNEL, ALLOCATE_ANY);
-+	kmem_cache_shrink(test_cache);
-+	test_free(buf);
-+
-+	KUNIT_EXPECT_FALSE(test, report_available());
-+}
-+
-+static void ctor_set_x(void *obj)
-+{
-+	/* Every object has at least 8 bytes. */
-+	memset(obj, 'x', 8);
-+}
-+
-+/* Ensure that SL*B does not modify KFENCE objects on bulk free. */
-+static void test_free_bulk(struct kunit *test)
-+{
-+	int iter;
-+
-+	for (iter = 0; iter < 5; iter++) {
-+		const size_t size = setup_test_cache(test, 8 + prandom_u32_max(300), 0,
-+						     (iter & 1) ? ctor_set_x : NULL);
-+		void *objects[] = {
-+			test_alloc(test, size, GFP_KERNEL, ALLOCATE_RIGHT),
-+			test_alloc(test, size, GFP_KERNEL, ALLOCATE_NONE),
-+			test_alloc(test, size, GFP_KERNEL, ALLOCATE_LEFT),
-+			test_alloc(test, size, GFP_KERNEL, ALLOCATE_NONE),
-+			test_alloc(test, size, GFP_KERNEL, ALLOCATE_NONE),
-+		};
-+
-+		kmem_cache_free_bulk(test_cache, ARRAY_SIZE(objects), objects);
-+		KUNIT_ASSERT_FALSE(test, report_available());
-+		test_cache_destroy();
-+	}
-+}
-+
-+/* Test init-on-free works. */
-+static void test_init_on_free(struct kunit *test)
-+{
-+	const size_t size = 32;
-+	struct expect_report expect = {
-+		.type = KFENCE_ERROR_UAF,
-+		.fn = test_init_on_free,
-+	};
-+	int i;
-+
-+	if (!IS_ENABLED(CONFIG_INIT_ON_FREE_DEFAULT_ON))
-+		return;
-+	/* Assume it hasn't been disabled on command line. */
-+
-+	setup_test_cache(test, size, 0, NULL);
-+	expect.addr = test_alloc(test, size, GFP_KERNEL, ALLOCATE_ANY);
-+	for (i = 0; i < size; i++)
-+		expect.addr[i] = i + 1;
-+	test_free(expect.addr);
-+
-+	for (i = 0; i < size; i++) {
-+		/*
-+		 * This may fail if the page was recycled by KFENCE and then
-+		 * written to again -- this however, is near impossible with a
-+		 * default config.
-+		 */
-+		KUNIT_EXPECT_EQ(test, expect.addr[i], (char)0);
-+
-+		if (!i) /* Only check first access to not fail test if page is ever re-protected. */
-+			KUNIT_EXPECT_TRUE(test, report_matches(&expect));
-+	}
-+}
-+
-+/* Ensure that constructors work properly. */
-+static void test_memcache_ctor(struct kunit *test)
-+{
-+	const size_t size = 32;
-+	char *buf;
-+	int i;
-+
-+	setup_test_cache(test, size, 0, ctor_set_x);
-+	buf = test_alloc(test, size, GFP_KERNEL, ALLOCATE_ANY);
-+
-+	for (i = 0; i < 8; i++)
-+		KUNIT_EXPECT_EQ(test, buf[i], (char)'x');
-+
-+	test_free(buf);
-+
-+	KUNIT_EXPECT_FALSE(test, report_available());
-+}
-+
-+/* Test that memory is zeroed if requested. */
-+static void test_gfpzero(struct kunit *test)
-+{
-+	const size_t size = PAGE_SIZE; /* PAGE_SIZE so we can use ALLOCATE_ANY. */
-+	char *buf1, *buf2;
-+	int i;
-+
-+	if (CONFIG_KFENCE_SAMPLE_INTERVAL > 100) {
-+		kunit_warn(test, "skipping ... would take too long\n");
-+		return;
-+	}
-+
-+	setup_test_cache(test, size, 0, NULL);
-+	buf1 = test_alloc(test, size, GFP_KERNEL, ALLOCATE_ANY);
-+	for (i = 0; i < size; i++)
-+		buf1[i] = i + 1;
-+	test_free(buf1);
-+
-+	/* Try to get same address again -- this can take a while. */
-+	for (i = 0;; i++) {
-+		buf2 = test_alloc(test, size, GFP_KERNEL | __GFP_ZERO, ALLOCATE_ANY);
-+		if (buf1 == buf2)
-+			break;
-+		test_free(buf2);
-+
-+		if (i == CONFIG_KFENCE_NUM_OBJECTS) {
-+			kunit_warn(test, "giving up ... cannot get same object back\n");
-+			return;
-+		}
-+	}
-+
-+	for (i = 0; i < size; i++)
-+		KUNIT_EXPECT_EQ(test, buf2[i], (char)0);
-+
-+	test_free(buf2);
-+
-+	KUNIT_EXPECT_FALSE(test, report_available());
-+}
-+
-+static void test_invalid_access(struct kunit *test)
-+{
-+	const struct expect_report expect = {
-+		.type = KFENCE_ERROR_INVALID,
-+		.fn = test_invalid_access,
-+		.addr = &__kfence_pool[10],
-+	};
-+
-+	READ_ONCE(__kfence_pool[10]);
-+	KUNIT_EXPECT_TRUE(test, report_matches(&expect));
-+}
-+
-+/* Test SLAB_TYPESAFE_BY_RCU works. */
-+static void test_memcache_typesafe_by_rcu(struct kunit *test)
-+{
-+	const size_t size = 32;
-+	struct expect_report expect = {
-+		.type = KFENCE_ERROR_UAF,
-+		.fn = test_memcache_typesafe_by_rcu,
-+	};
-+
-+	setup_test_cache(test, size, SLAB_TYPESAFE_BY_RCU, NULL);
-+	KUNIT_EXPECT_TRUE(test, test_cache); /* Want memcache. */
-+
-+	expect.addr = test_alloc(test, size, GFP_KERNEL, ALLOCATE_ANY);
-+	*expect.addr = 42;
-+
-+	rcu_read_lock();
-+	test_free(expect.addr);
-+	KUNIT_EXPECT_EQ(test, *expect.addr, (char)42);
-+	rcu_read_unlock();
-+
-+	/* No reports yet, memory should not have been freed on access. */
-+	KUNIT_EXPECT_FALSE(test, report_available());
-+	rcu_barrier(); /* Wait for free to happen. */
-+
-+	/* Expect use-after-free. */
-+	KUNIT_EXPECT_EQ(test, *expect.addr, (char)42);
-+	KUNIT_EXPECT_TRUE(test, report_matches(&expect));
-+}
-+
-+/* Test krealloc(). */
-+static void test_krealloc(struct kunit *test)
-+{
-+	const size_t size = 32;
-+	const struct expect_report expect = {
-+		.type = KFENCE_ERROR_UAF,
-+		.fn = test_krealloc,
-+		.addr = test_alloc(test, size, GFP_KERNEL, ALLOCATE_ANY),
-+	};
-+	char *buf = expect.addr;
-+	int i;
-+
-+	KUNIT_EXPECT_FALSE(test, test_cache);
-+	KUNIT_EXPECT_EQ(test, ksize(buf), size); /* Precise size match after KFENCE alloc. */
-+	for (i = 0; i < size; i++)
-+		buf[i] = i + 1;
-+
-+	/* Check that we successfully change the size. */
-+	buf = krealloc(buf, size * 3, GFP_KERNEL); /* Grow. */
-+	/* Note: Might no longer be a KFENCE alloc. */
-+	KUNIT_EXPECT_GE(test, ksize(buf), size * 3);
-+	for (i = 0; i < size; i++)
-+		KUNIT_EXPECT_EQ(test, buf[i], (char)(i + 1));
-+	for (; i < size * 3; i++) /* Fill to extra bytes. */
-+		buf[i] = i + 1;
-+
-+	buf = krealloc(buf, size * 2, GFP_KERNEL * 2); /* Shrink. */
-+	KUNIT_EXPECT_GE(test, ksize(buf), size * 2);
-+	for (i = 0; i < size * 2; i++)
-+		KUNIT_EXPECT_EQ(test, buf[i], (char)(i + 1));
-+
-+	buf = krealloc(buf, 0, GFP_KERNEL); /* Free. */
-+	KUNIT_EXPECT_EQ(test, (unsigned long)buf, (unsigned long)ZERO_SIZE_PTR);
-+	KUNIT_ASSERT_FALSE(test, report_available()); /* No reports yet! */
-+
-+	READ_ONCE(*expect.addr); /* Ensure krealloc() actually freed earlier KFENCE object. */
-+	KUNIT_ASSERT_TRUE(test, report_matches(&expect));
-+}
-+
-+/* Test that some objects from a bulk allocation belong to KFENCE pool. */
-+static void test_memcache_alloc_bulk(struct kunit *test)
-+{
-+	const size_t size = 32;
-+	bool pass = false;
-+	unsigned long timeout;
-+
-+	setup_test_cache(test, size, 0, NULL);
-+	KUNIT_EXPECT_TRUE(test, test_cache); /* Want memcache. */
-+	/*
-+	 * 100x the sample interval should be more than enough to ensure we get
-+	 * a KFENCE allocation eventually.
-+	 */
-+	timeout = jiffies + msecs_to_jiffies(100 * CONFIG_KFENCE_SAMPLE_INTERVAL);
-+	do {
-+		void *objects[100];
-+		int i, num = kmem_cache_alloc_bulk(test_cache, GFP_ATOMIC, ARRAY_SIZE(objects),
-+						   objects);
-+		if (!num)
-+			continue;
-+		for (i = 0; i < ARRAY_SIZE(objects); i++) {
-+			if (is_kfence_address(objects[i])) {
-+				pass = true;
-+				break;
-+			}
-+		}
-+		kmem_cache_free_bulk(test_cache, num, objects);
-+		/*
-+		 * kmem_cache_alloc_bulk() disables interrupts, and calling it
-+		 * in a tight loop may not give KFENCE a chance to switch the
-+		 * static branch. Call cond_resched() to let KFENCE chime in.
-+		 */
-+		cond_resched();
-+	} while (!pass && time_before(jiffies, timeout));
-+
-+	KUNIT_EXPECT_TRUE(test, pass);
-+	KUNIT_EXPECT_FALSE(test, report_available());
-+}
-+
-+/*
-+ * KUnit does not provide a way to provide arguments to tests, and we encode
-+ * additional info in the name. Set up 2 tests per test case, one using the
-+ * default allocator, and another using a custom memcache (suffix '-memcache').
-+ */
-+#define KFENCE_KUNIT_CASE(test_name)						\
-+	{ .run_case = test_name, .name = #test_name },				\
-+	{ .run_case = test_name, .name = #test_name "-memcache" }
-+
-+static struct kunit_case kfence_test_cases[] = {
-+	KFENCE_KUNIT_CASE(test_out_of_bounds_read),
-+	KFENCE_KUNIT_CASE(test_use_after_free_read),
-+	KFENCE_KUNIT_CASE(test_double_free),
-+	KFENCE_KUNIT_CASE(test_invalid_addr_free),
-+	KFENCE_KUNIT_CASE(test_free_bulk),
-+	KFENCE_KUNIT_CASE(test_init_on_free),
-+	KUNIT_CASE(test_kmalloc_aligned_oob_read),
-+	KUNIT_CASE(test_kmalloc_aligned_oob_write),
-+	KUNIT_CASE(test_shrink_memcache),
-+	KUNIT_CASE(test_memcache_ctor),
-+	KUNIT_CASE(test_invalid_access),
-+	KUNIT_CASE(test_gfpzero),
-+	KUNIT_CASE(test_memcache_typesafe_by_rcu),
-+	KUNIT_CASE(test_krealloc),
-+	KUNIT_CASE(test_memcache_alloc_bulk),
-+	{},
-+};
-+
-+/* ===== End test cases ===== */
-+
-+static int test_init(struct kunit *test)
-+{
-+	unsigned long flags;
-+	int i;
-+
-+	spin_lock_irqsave(&observed.lock, flags);
-+	for (i = 0; i < ARRAY_SIZE(observed.lines); i++)
-+		observed.lines[i][0] = '\0';
-+	observed.nlines = 0;
-+	spin_unlock_irqrestore(&observed.lock, flags);
-+
-+	/* Any test with 'memcache' in its name will want a memcache. */
-+	if (strstr(test->name, "memcache"))
-+		test->priv = TEST_PRIV_WANT_MEMCACHE;
-+	else
-+		test->priv = NULL;
-+
-+	return 0;
-+}
-+
-+static void test_exit(struct kunit *test)
-+{
-+	test_cache_destroy();
-+}
-+
-+static struct kunit_suite kfence_test_suite = {
-+	.name = "kfence-test",
-+	.test_cases = kfence_test_cases,
-+	.init = test_init,
-+	.exit = test_exit,
-+};
-+static struct kunit_suite *kfence_test_suites[] = { &kfence_test_suite, NULL };
-+
-+static void register_tracepoints(struct tracepoint *tp, void *ignore)
-+{
-+	check_trace_callback_type_console(probe_console);
-+	if (!strcmp(tp->name, "console"))
-+		WARN_ON(tracepoint_probe_register(tp, probe_console, NULL));
-+}
-+
-+static void unregister_tracepoints(struct tracepoint *tp, void *ignore)
-+{
-+	if (!strcmp(tp->name, "console"))
-+		tracepoint_probe_unregister(tp, probe_console, NULL);
-+}
-+
-+/*
-+ * We only want to do tracepoints setup and teardown once, therefore we have to
-+ * customize the init and exit functions and cannot rely on kunit_test_suite().
-+ */
-+static int __init kfence_test_init(void)
-+{
-+	/*
-+	 * Because we want to be able to build the test as a module, we need to
-+	 * iterate through all known tracepoints, since the static registration
-+	 * won't work here.
-+	 */
-+	for_each_kernel_tracepoint(register_tracepoints, NULL);
-+	return __kunit_test_suites_init(kfence_test_suites);
-+}
-+
-+static void kfence_test_exit(void)
-+{
-+	__kunit_test_suites_exit(kfence_test_suites);
-+	for_each_kernel_tracepoint(unregister_tracepoints, NULL);
-+	tracepoint_synchronize_unregister();
-+}
-+
-+late_initcall(kfence_test_init);
-+module_exit(kfence_test_exit);
-+
-+MODULE_LICENSE("GPL v2");
-+MODULE_AUTHOR("Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>");
--- 
-2.28.0.526.ge36021eeef-goog
+> +     __kfence_alloc+0x42d/0x4c0
+> +     __kmalloc+0x133/0x200
+> +     test_alloc+0xf3/0x25b
+> +     test_out_of_bounds_read+0x98/0x22b
+> +     kunit_try_run_case+0x51/0x85
+> +     kunit_generic_run_threadfn_adapter+0x16/0x30
+> +     kthread+0x137/0x160
+> +     ret_from_fork+0x22/0x30
+> +
+> +    CPU: 4 PID: 107 Comm: kunit_try_catch Not tainted 5.8.0-rc6+ #7
+> +    Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.13.0-1 04/01/2014
+> +    ==================================================================
+> +
+> +The header of the report provides a short summary of the function involved in
+> +the access. It is followed by more detailed information about the access and
+> +its origin.
+> +
+> +Use-after-free accesses are reported as::
+> +
+> +    ==================================================================
+> +    BUG: KFENCE: use-after-free in test_use_after_free_read+0xb3/0x143
+> +
+> +    Use-after-free access at 0xffffffffb673dfe0:
+> +     test_use_after_free_read+0xb3/0x143
+> +     kunit_try_run_case+0x51/0x85
+> +     kunit_generic_run_threadfn_adapter+0x16/0x30
+> +     kthread+0x137/0x160
+> +     ret_from_fork+0x22/0x30
+> +
+> +    kfence-#24 [0xffffffffb673dfe0-0xffffffffb673dfff, size=32, cache=kmalloc-32] allocated in:
+
+Same here.
+
+Also, this says object #24, but the stack trace above doesn't mention
+which object it is. Is it the same one?
+
+> +     __kfence_alloc+0x277/0x4c0
+> +     __kmalloc+0x133/0x200
+> +     test_alloc+0xf3/0x25b
+> +     test_use_after_free_read+0x76/0x143
+> +     kunit_try_run_case+0x51/0x85
+> +     kunit_generic_run_threadfn_adapter+0x16/0x30
+> +     kthread+0x137/0x160
+> +     ret_from_fork+0x22/0x30
+> +    freed in:
+> +     kfence_guarded_free+0x158/0x380
+> +     __kfence_free+0x38/0xc0
+> +     test_use_after_free_read+0xa8/0x143
+> +     kunit_try_run_case+0x51/0x85
+> +     kunit_generic_run_threadfn_adapter+0x16/0x30
+> +     kthread+0x137/0x160
+> +     ret_from_fork+0x22/0x30
+> +
+> +    CPU: 4 PID: 109 Comm: kunit_try_catch Tainted: G        W         5.8.0-rc6+ #7
+> +    Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.13.0-1 04/01/2014
+> +    ==================================================================
+> +
+> +KFENCE also reports on invalid frees, such as double-frees::
+> +
+> +    ==================================================================
+> +    BUG: KFENCE: invalid free in test_double_free+0xdc/0x171
+> +
+> +    Invalid free of 0xffffffffb6741000:
+> +     test_double_free+0xdc/0x171
+> +     kunit_try_run_case+0x51/0x85
+> +     kunit_generic_run_threadfn_adapter+0x16/0x30
+> +     kthread+0x137/0x160
+> +     ret_from_fork+0x22/0x30
+> +
+> +    kfence-#26 [0xffffffffb6741000-0xffffffffb674101f, size=32, cache=kmalloc-32] allocated in:
+> +     __kfence_alloc+0x42d/0x4c0
+> +     __kmalloc+0x133/0x200
+> +     test_alloc+0xf3/0x25b
+> +     test_double_free+0x76/0x171
+> +     kunit_try_run_case+0x51/0x85
+> +     kunit_generic_run_threadfn_adapter+0x16/0x30
+> +     kthread+0x137/0x160
+> +     ret_from_fork+0x22/0x30
+> +    freed in:
+> +     kfence_guarded_free+0x158/0x380
+> +     __kfence_free+0x38/0xc0
+> +     test_double_free+0xa8/0x171
+> +     kunit_try_run_case+0x51/0x85
+> +     kunit_generic_run_threadfn_adapter+0x16/0x30
+> +     kthread+0x137/0x160
+> +     ret_from_fork+0x22/0x30
+> +
+> +    CPU: 4 PID: 111 Comm: kunit_try_catch Tainted: G        W         5.8.0-rc6+ #7
+> +    Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.13.0-1 04/01/2014
+> +    ==================================================================
+> +
+> +KFENCE also uses pattern-based redzones on the other side of an object's guard
+> +page, to detect out-of-bounds writes on the unprotected side of the object.
+> +These are reported on frees::
+> +
+> +    ==================================================================
+> +    BUG: KFENCE: memory corruption in test_kmalloc_aligned_oob_write+0xef/0x184
+> +
+> +    Detected corrupted memory at 0xffffffffb6797ff9 [ 0xac . . . . . . ]:
+
+It's not really clear what is 0xac here. Value of the corrupted byte?
+What does '.' stand for?
+
+Also, if this is to be used in production, printing kernel memory
+bytes might lead to info-leaks.
+
+> +     test_kmalloc_aligned_oob_write+0xef/0x184
+> +     kunit_try_run_case+0x51/0x85
+> +     kunit_generic_run_threadfn_adapter+0x16/0x30
+> +     kthread+0x137/0x160
+> +     ret_from_fork+0x22/0x30
+> +
+> +    kfence-#69 [0xffffffffb6797fb0-0xffffffffb6797ff8, size=73, cache=kmalloc-96] allocated in:
+> +     __kfence_alloc+0x277/0x4c0
+> +     __kmalloc+0x133/0x200
+> +     test_alloc+0xf3/0x25b
+> +     test_kmalloc_aligned_oob_write+0x57/0x184
+> +     kunit_try_run_case+0x51/0x85
+> +     kunit_generic_run_threadfn_adapter+0x16/0x30
+> +     kthread+0x137/0x160
+> +     ret_from_fork+0x22/0x30
+> +
+> +    CPU: 4 PID: 120 Comm: kunit_try_catch Tainted: G        W         5.8.0-rc6+ #7
+> +    Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.13.0-1 04/01/2014
+> +    ==================================================================
+> +
+> +For such errors, the address where the corruption as well as the corrupt bytes
+> +are shown.
+> +
+> +And finally, KFENCE may also report on invalid accesses to any protected page
+> +where it was not possible to determine an associated object, e.g. if adjacent
+> +object pages had not yet been allocated::
+> +
+> +    ==================================================================
+> +    BUG: KFENCE: invalid access in test_invalid_access+0x26/0xe0
+> +
+> +    Invalid access at 0xffffffffb670b00a:
+> +     test_invalid_access+0x26/0xe0
+> +     kunit_try_run_case+0x51/0x85
+> +     kunit_generic_run_threadfn_adapter+0x16/0x30
+> +     kthread+0x137/0x160
+> +     ret_from_fork+0x22/0x30
+> +
+> +    CPU: 4 PID: 124 Comm: kunit_try_catch Tainted: G        W         5.8.0-rc6+ #7
+> +    Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.13.0-1 04/01/2014
+> +    ==================================================================
+> +
+> +DebugFS interface
+> +~~~~~~~~~~~~~~~~~
+> +
+> +Some debugging information is exposed via debugfs:
+> +
+> +* The file ``/sys/kernel/debug/kfence/stats`` provides runtime statistics.
+> +
+> +* The file ``/sys/kernel/debug/kfence/objects`` provides a list of objects
+> +  allocated via KFENCE, including those already freed but protected.
+> +
+> +Implementation Details
+> +----------------------
+> +
+> +Guarded allocations are set up based on the sample interval. After expiration
+> +of the sample interval, a guarded allocation from the KFENCE object pool is
+> +returned to the main allocator (SLAB or SLUB).
+
+Only for freed allocations, right?
+
+> At this point, the timer is
+> +reset, and the next allocation is set up after the expiration of the interval.
+> +To "gate" a KFENCE allocation through the main allocator's fast-path without
+> +overhead, KFENCE relies on static branches via the static keys infrastructure.
+> +The static branch is toggled to redirect the allocation to KFENCE.
+> +
+> +KFENCE objects each reside on a dedicated page, at either the left or right
+> +page boundaries selected at random. The pages to the left and right of the
+> +object page are "guard pages", whose attributes are changed to a protected
+> +state, and cause page faults on any attempted access. Such page faults are then
+> +intercepted by KFENCE, which handles the fault gracefully by reporting an
+> +out-of-bounds access.
+
+I'd start a new paragraph here:
+
+> The side opposite of an object's guard page is used as a
+
+Not a native speaker, but "The side opposite _to_" sounds better. Or
+"The opposite side of".
+
+> +pattern-based redzone, to detect out-of-bounds writes on the unprotected sed of
+
+"sed"?
+
+> +the object on frees (for special alignment and size combinations, both sides of
+> +the object are redzoned).
+> +
+> +KFENCE also uses pattern-based redzones on the other side of an object's guard
+> +page, to detect out-of-bounds writes on the unprotected side of the object;
+> +these are reported on frees.
+
+Not really clear, what is "other side" and how it's different from the
+"opposite side" mentioned above. The figure doesn't really help.
+
+> +
+> +The following figure illustrates the page layout::
+> +
+> +    ---+-----------+-----------+-----------+-----------+-----------+---
+> +       | xxxxxxxxx | O :       | xxxxxxxxx |       : O | xxxxxxxxx |
+> +       | xxxxxxxxx | B :       | xxxxxxxxx |       : B | xxxxxxxxx |
+> +       | x GUARD x | J : RED-  | x GUARD x | RED-  : J | x GUARD x |
+> +       | xxxxxxxxx | E :  ZONE | xxxxxxxxx |  ZONE : E | xxxxxxxxx |
+> +       | xxxxxxxxx | C :       | xxxxxxxxx |       : C | xxxxxxxxx |
+> +       | xxxxxxxxx | T :       | xxxxxxxxx |       : T | xxxxxxxxx |
+> +    ---+-----------+-----------+-----------+-----------+-----------+---
+> +
+> +Upon deallocation of a KFENCE object, the object's page is again protected and
+> +the object is marked as freed. Any further access to the object causes a fault
+> +and KFENCE reports a use-after-free access. Freed objects are inserted at the
+> +tail of KFENCE's freelist, so that the least recently freed objects are reused
+> +first, and the chances of detecting use-after-frees of recently freed objects
+> +is increased.
+
+Seems really similar to KASAN's quarantine? Is the implementation much
+different?
+
+> +
+> +Interface
+> +---------
+> +
+> +The following describes the functions which are used by allocators as well page
+> +handling code to set up and deal with KFENCE allocations.
+> +
+> +.. kernel-doc:: include/linux/kfence.h
+> +   :functions: is_kfence_address
+> +               kfence_shutdown_cache
+> +               kfence_alloc kfence_free
+> +               kfence_ksize kfence_object_start
+> +               kfence_handle_page_fault
+> +
+> +Related Tools
+> +-------------
+> +
+> +In userspace, a similar approach is taken by `GWP-ASan
+> +<http://llvm.org/docs/GwpAsan.html>`_. GWP-ASan also relies on guard pages and
+> +a sampling strategy to detect memory unsafety bugs at scale. KFENCE's design is
+> +directly influenced by GWP-ASan, and can be seen as its kernel sibling. Another
+> +similar but non-sampling approach, that also inspired the name "KFENCE", can be
+> +found in the userspace `Electric Fence Malloc Debugger
+> +<https://linux.die.net/man/3/efence>`_.
+> +
+> +In the kernel, several tools exist to debug memory access errors, and in
+> +particular KASAN can detect all bug classes that KFENCE can detect. While KASAN
+> +is more precise, relying on compiler instrumentation, this comes at a
+> +performance cost. We want to highlight that KASAN and KFENCE are complementary,
+> +with different target environments. For instance, KASAN is the better
+> +debugging-aid, where a simple reproducer exists: due to the lower chance to
+> +detect the error, it would require more effort using KFENCE to debug.
+> +Deployments at scale, however, would benefit from using KFENCE to discover bugs
+> +due to code paths not exercised by test cases or fuzzers.
+> --
+> 2.28.0.526.ge36021eeef-goog
+>
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200907134055.2878499-11-elver%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAAeHK%2BzGpJd6szPounYz6wogO9TMT18TmQu_mfXUWQd65QTf0w%40mail.gmail.com.
