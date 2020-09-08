@@ -1,190 +1,134 @@
-Return-Path: <kasan-dev+bncBD22BAF5REGBBK5V335AKGQE7A5NHMQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDDL3KWR4EBRBPFV335AKGQECLZC4CQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qk1-x737.google.com (mail-qk1-x737.google.com [IPv6:2607:f8b0:4864:20::737])
-	by mail.lfdr.de (Postfix) with ESMTPS id 559F02612FC
-	for <lists+kasan-dev@lfdr.de>; Tue,  8 Sep 2020 16:52:28 +0200 (CEST)
-Received: by mail-qk1-x737.google.com with SMTP id 196sf9261511qkn.6
-        for <lists+kasan-dev@lfdr.de>; Tue, 08 Sep 2020 07:52:28 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1599576747; cv=pass;
+Received: from mail-vs1-xe40.google.com (mail-vs1-xe40.google.com [IPv6:2607:f8b0:4864:20::e40])
+	by mail.lfdr.de (Postfix) with ESMTPS id 754A22612FE
+	for <lists+kasan-dev@lfdr.de>; Tue,  8 Sep 2020 16:52:45 +0200 (CEST)
+Received: by mail-vs1-xe40.google.com with SMTP id u206sf3345070vsc.15
+        for <lists+kasan-dev@lfdr.de>; Tue, 08 Sep 2020 07:52:45 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1599576764; cv=pass;
         d=google.com; s=arc-20160816;
-        b=dKj/+Ikac3lxUyYooiDl6QC/61Hv4cOhyafNy2688AXGf4/JVPNLDm6hfxp3Z/FzxW
-         pqmyZc/5GiqjQ8iZKY/0iNIORG60X0ku1HPlwwCNnpzKVrG4bSrxb2qQZ1Vt1JY0Of+g
-         d+VbhvVlkV4ughH6XgZDtOLdCi0Hg2c+yYGBk/siba8tr3Ls8vbkt9ACgIeVtzFtrnyH
-         l8woXK1SudEJsNBIaKrHXKUDXjOaU3a754tAn5N9/75cnvKNXoT+kEWCNz5pOgznoYME
-         3HY1xN+BNQhWV4lvJk4bW6W93LMG59qu9KoJazOgg2tQ7ZVD6bc9UGygxBw/44d0rhpP
-         xRhQ==
+        b=GkF5c5yHZZvJNvt9CDygvBR+InfDH6iCfulkmVAXCoNrlh1/9NQLzF4DeokgIKFNXC
+         j0ZWuOg8AtgiRMEDLxNe0OfBfbnWeiN8STq9VV7o2h+mbqfvCzZ8j00QLWpOXHcxWR4M
+         gOSTvv1NsszODDFtOYyn7BM778EpWJuP6CaANkZh0kyU5dQR8ANIp5k0AJrlWuP53fGY
+         hFvbTUCm+0lVgr5QpdvfQvSMXCU7n3uzvX3hj6+8MHF8r9LKMqeZw48JtLYrgFWhejLy
+         8hjI7R7w5yUny5tJDTd/efCHaEppF8VUzSrHGDC09Y4Sp8xvhop6Pplzz8+E0y87AHNo
+         k9sA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-language:in-reply-to
-         :mime-version:user-agent:date:message-id:autocrypt:from:references
-         :cc:to:subject:ironport-sdr:ironport-sdr:sender:dkim-signature;
-        bh=WCOfb6aXzgPDbNfVCVTI0PoF22Vc6EP0z57gflxsn+w=;
-        b=aTrhF0H0BtmZpQEmzZ5vo1rRbJ4XxZHGU6o5qvYiL+otYnAJwQAtOuaCppaceZ6J+3
-         yWFVol/e8JpH8TND8Qzhut31lDJRA+Z59Oztsx9dzGFmmU7D6aWTv3WARvRtFkGYPfAF
-         2FsQ6a3P/mFibS7CKRoVzcd3bp/kiAk7lBcrP5H7uQ4FqpS2jqPpOC60aOf87x50mQqb
-         qEJU7E0HrKKXSx1j87bLBU2/zcuogC4O1WvcOSB5n1Z0Mb/Y3mc/vSQOo4fjox1U8O6k
-         sa6/SreJvVZp2+NP09DH4AezJ1BakjCHRAQaNkkW1xK9SsU3G8w2hdwZiI4g8qKsc/pe
-         GmDw==
+         :list-id:mailing-list:precedence:user-agent:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:sender:dkim-signature;
+        bh=xrbpQTWdRoN3u+s8R7cDIXItOAt/VAHMPIOQeR2dqjU=;
+        b=lV4OglDf+oaubl9pm/GOLmsak3XK9qXgEhM3ptfpcLKJnqE9nvUkv0fRxlzCeiAPYq
+         cxztf1TGcWSuaLHPrOdafJVcmiuqD05g+YVVFYZ6VCLzav+nHjbabdoMnwx0yYfsZJh/
+         h+pmagHOa78sPZT9geJeDwVeEnXHkm2Js21+9d156inE8Dg5vLFv7nTIz9qB9toOxXnp
+         Fj/wR5I+0Igg84sp9TK9hS1OCm7RMH8a9BDrjFDfKebih7INT6Nt62xY1/N/5etsFNJA
+         hXAWe8U5uJBzb9BY09DmctWqJtHG6Av5f9EMiJ5ePdSntkJLH0FV7sPZN+0ZFRmyRPIW
+         R8tQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of dave.hansen@intel.com designates 192.55.52.151 as permitted sender) smtp.mailfrom=dave.hansen@intel.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
+       spf=pass (google.com: domain of cmarinas@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=cmarinas@kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:ironport-sdr:ironport-sdr:subject:to:cc:references:from
-         :autocrypt:message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:x-original-sender
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=WCOfb6aXzgPDbNfVCVTI0PoF22Vc6EP0z57gflxsn+w=;
-        b=Chr1yfpsXNQ2XSNIIjZF/IKvGPyYhE1xPpfSgT/Xf26fmVg3BgJcz0aIGGaR5dKzVc
-         UYA/rTuii9ve13bWR6b8CwCIJwoAkC/mlS2ng0BCAWAFb1oqwzjxl1F80UfpesQS5nxf
-         sW/4CRcwelDTrXzlw+wuG2FI1k1keDV9NvsOjdVv4v4E0hiE/xhDd5DHqJDpJXcL7K0s
-         YihmwXb2eTrrBkyB7S34TBh8mnjcH5sNMVMXqh0pu2Hn8KTudZi9LpXCcwF+bIsQoMg1
-         o2Bc6uTUmswleX3++E0wU1X/OF4ZuzKEpfZIKnF00e9f0oteplQovkN2TKss2ukUOkIh
-         ggAg==
+        bh=xrbpQTWdRoN3u+s8R7cDIXItOAt/VAHMPIOQeR2dqjU=;
+        b=TzUQ3SLrzEVCtowfN17DQgerLxk+4Ops24Nsn0/25dNgIj8K6JRM3R0G2zXZHeKdUA
+         59IrMymry3Hf2zdsr9Mjq1+jmmF2IiEbHRV1W7exUF1oNrf/Tr0nrTZK8p0tvVd9wC0X
+         zehmwnICKXSKwYO0ZDIa5tKy6B7b6ekAXfNnKmCCYo8kfy7QMfjRLJHzP5MaDJFBiAL6
+         ooEdFZj/TEd5kvairDp98d3iaduwjEvqKZP19ISDAI8qf3rlWwDeHW0sXPGupvAP3Mfy
+         gmIYKI49uRCWu7TtnFRT9APaigyO8ma8BE8HmyJoMmOUev9xBhmmlFnHBRC0n3rLT5QD
+         TZWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:ironport-sdr:ironport-sdr:subject:to:cc
-         :references:from:autocrypt:message-id:date:user-agent:mime-version
-         :in-reply-to:content-language:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=WCOfb6aXzgPDbNfVCVTI0PoF22Vc6EP0z57gflxsn+w=;
-        b=OPbdGqvKmZ5qc2oAWGi404skWFFvC5SMZHy6zLCf0nbLPbL/KePt7cmFe67R+UfZH9
-         VEB821VV8b2o6XetEmPjYlSiD1nRPBLqB+jiil32t5d70IP5WirkeW97iE1ayjWXqDHi
-         Ps/Pao59Ho9eSn5oEE1Q/W8v+HRauVoSR9St9nAWQuLf6wewmteYl/E8GjUJ3KqI2Vih
-         vu3mUtxM0Mcj8oBxrsTC09Dfl423mAQRtdAiMAgVZ0Qsdm+pziRjUFGNM3SoLDKlwAsp
-         M2RNx+5Es2i912pnnuLUIEzNrVbgkOkqfyJLPXQdDRjrKsuZPnr4Cw8A53NAmeQAMy8T
-         rjjQ==
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=xrbpQTWdRoN3u+s8R7cDIXItOAt/VAHMPIOQeR2dqjU=;
+        b=gYlBNj3a9RAO1WQcrMvKc4Mt/SheQ0O/GlIkudtv8ktX4kUUFxkaWmm3+0up1DWWUd
+         1X3Ew+Znac+LA8nnmqubjfG4xFZ9ECg7hFt3gWkr+zef1JG4/emMWvnvRdVh5c1sk2ZE
+         9yI7H80i+VadBaEsdqrODbMMmejZPtNAmIev7wJwnIHt9oaXpQ40iFkqztQqlq4EiZDL
+         2ZxkDn6Rs6R/5Pq8twHWIeRIpoHuvvhV9ImT+OFgAS5DtbaP9Xe/BF662tl7mwX8+hkj
+         M5ZJMGsERQydjuqPvb6IY1P2uT8IUAnhWLUsZ1dPsEzKJhbp5Vf7OOuEOUm/A7kGMcIh
+         670A==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM530yuuxjHj/JbuXSJrofadKRaTH0u2ydKcrKX4aDwSxkE7W0e0hc
-	DNyqJptDRoTG1lzMrB9J8bM=
-X-Google-Smtp-Source: ABdhPJz9bB/AyzBwpqF2ZB2+lAjSjG/IBHOO4zoKPXyuSFLqhNTEF4fW+IisKDLTFFQ6SLm8PkN9yQ==
-X-Received: by 2002:ac8:7388:: with SMTP id t8mr407332qtp.187.1599576747257;
-        Tue, 08 Sep 2020 07:52:27 -0700 (PDT)
+X-Gm-Message-State: AOAM532l1KfExR86z2MEgvQkG2x2GlysPqTzYm0ar0RU7OcGN2z1q9Is
+	cS5Ltdk87F058YBMsYwfGsY=
+X-Google-Smtp-Source: ABdhPJyspBWdPz97gNwSEaqsRXLepiZIezp6lJrcFdHlRiXAq8o01gaiTTudIUaT5/SLBbtvjd1quw==
+X-Received: by 2002:a67:d193:: with SMTP id w19mr1036347vsi.17.1599576764538;
+        Tue, 08 Sep 2020 07:52:44 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ae9:f303:: with SMTP id p3ls3265706qkg.10.gmail; Tue, 08 Sep
- 2020 07:52:26 -0700 (PDT)
-X-Received: by 2002:a05:620a:cd7:: with SMTP id b23mr458419qkj.192.1599576746830;
-        Tue, 08 Sep 2020 07:52:26 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1599576746; cv=none;
+Received: by 2002:ab0:604c:: with SMTP id o12ls406517ual.6.gmail; Tue, 08 Sep
+ 2020 07:52:44 -0700 (PDT)
+X-Received: by 2002:ab0:2904:: with SMTP id v4mr13099288uap.15.1599576763898;
+        Tue, 08 Sep 2020 07:52:43 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1599576763; cv=none;
         d=google.com; s=arc-20160816;
-        b=Wnjd8SjK+dhilsdMmW9iEAFFQwf3PZVtwBIAVVe8LaGcGm8ZWRhYaGlYDewGEjkJby
-         o3AFhe0FkZiulIaDzMT76ejeT0v38IjNC+3VrsI+EffXWcIovIzn08awubXAuIo3pkCs
-         w3q6Z+F09VaeAe+iXAfr7PAkVVY1PcWgM3wDn1pZVufJiabngIwvdXhJ28Wgx2X6fVg1
-         Ha/HeS3FaPGJFeSfqpBnBj9PV7QtS1cLbw5K9FpDFG9fu2xN6yJ+NJ7DsVaLsu+GzVRJ
-         tNQwvNyxtMUEHjqDXMCCAgrM3bemTn8J+GtXyxgd8JHek6s/BylapjPzXiRb2wWncldq
-         Ybow==
+        b=ZsHhSSPuxlw87HhSmHbaBvghrbtk43sxJoGQxnuRZT6BXdHbnbRNFa/cgH7EnLmhDa
+         Rm2HgYyDZZk6nzlypS0PrIDHmC7Iz1A54DcoZ69bV6HNrKKvqizJny5Osj/jaPZjUqeJ
+         trnpBnyKzhMpr4WxodnKg+4mc7gnIuWHgp3KACY32Bsnimi1b80RkKyXXn8OYBrI2rOG
+         VF0x165n1sh37aoKk/xKvxn+TzP+TJHZmD2aM1ajBXSQLYGmvwwC8ScZpnr1NgTKZ7LO
+         gLDUYFxABfwChIA/PBJnSxvjA2dQFgh7gjhSEqYft3ZW56KgtPsa3iMbamJezO9WnVim
+         eKRw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:autocrypt:from:references:cc:to:subject
-         :ironport-sdr:ironport-sdr;
-        bh=IuiPIgU6/CPyvdhrx8TmaQ4tUgqwF7H9B1slCJbVqok=;
-        b=ERuX3dHq4nPbSlZXErp1jRFCdeCYv3tnCSt/w6KLtIvLqgkZk1pc+OQ3w2oAVMxX7o
-         V3b81m5DmOSFWLrDXxD4plVaBIkJpvYxhniEePCiP7deAtvtfA3xvnb2PReAb/qhBA7Q
-         JwgaUGueHg00Qk23pEOsveUyW8EQgxJ6mRaRrstM/fC+dsN3Kck/B5pnDOeyM8xp/MFk
-         Jy5+tJs4775d6/WItoxEwhHxBdHWcIpWrA2hZygLdQN4Od1BhlL0A0UKWJw6Q7TZ0TVp
-         mMTnYHs+4OJ5A5sEsvz5xGn4kSabwdf6OClHU3RmtcInYYZWApscxC770QK3enKYMemq
-         Nsww==
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date;
+        bh=BpqtfenlTX83+6Cjb2uL5fTK+xGqR469d9bEpaF0aWc=;
+        b=bBYnorVKQq7uImsNOZdal+fJm3Dc91Qb3V6MOambIdTuV1ESI7qm6WtOY9T4ohVbjI
+         n48xoCZ6oXFCigWAqeYvsv/XtompJigtnDwNTtaCopm6xvwZ/3bTc7NqwHeoIu32Q1M2
+         JjSd4h7LrB9SwLIJ9VdZiguEaMTbduDQ+Qu7D+buLabyHBVViMDoKDRddJEVtSpvcY/r
+         0Vmi1NvHp7z3p2jCSltduBpO8gPY4S5yDzrvxgOyObNwNGBSEF4pgMg7p3mTfQd3aIAy
+         ebgy6sswASYfXgdln/SPkufcsTYWGgvRJm7iyhvVVNTY9Ei3b8ZdpEH0Sq2004iiHyTF
+         qMNg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of dave.hansen@intel.com designates 192.55.52.151 as permitted sender) smtp.mailfrom=dave.hansen@intel.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
-Received: from mga17.intel.com (mga17.intel.com. [192.55.52.151])
-        by gmr-mx.google.com with ESMTPS id h17si794294qtu.2.2020.09.08.07.52.26
+       spf=pass (google.com: domain of cmarinas@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=cmarinas@kernel.org
+Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
+        by gmr-mx.google.com with ESMTPS id u19si977720vsl.0.2020.09.08.07.52.43
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 08 Sep 2020 07:52:26 -0700 (PDT)
-Received-SPF: pass (google.com: domain of dave.hansen@intel.com designates 192.55.52.151 as permitted sender) client-ip=192.55.52.151;
-IronPort-SDR: VlZkCDdQaq4dQ2+lWUOfW/ICyjtX3o5XqV9RKZB3Nj4Zxy8SOQZ3f2PtyC4rXfH4hWwH6o+f7V
- JBjNQpiZ4ijQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9738"; a="138188459"
-X-IronPort-AV: E=Sophos;i="5.76,406,1592895600"; 
-   d="scan'208";a="138188459"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2020 07:52:24 -0700
-IronPort-SDR: cF4qspwrWPTljoE8NCBQQk2v89rOLtcknOBa7JrhGhb9jR0+sbSiSqviGAmBxjGghA5eV08ucx
- cLguvrY2fPLg==
-X-IronPort-AV: E=Sophos;i="5.76,406,1592895600"; 
-   d="scan'208";a="505096844"
-Received: from sparasa-mobl1.amr.corp.intel.com (HELO [10.251.10.231]) ([10.251.10.231])
-  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2020 07:52:22 -0700
-Subject: Re: [PATCH RFC 00/10] KFENCE: A low-overhead sampling-based memory
- safety error detector
-To: Marco Elver <elver@google.com>, glider@google.com,
- akpm@linux-foundation.org, catalin.marinas@arm.com, cl@linux.com,
- rientjes@google.com, iamjoonsoo.kim@lge.com, mark.rutland@arm.com,
- penberg@kernel.org
-Cc: hpa@zytor.com, paulmck@kernel.org, andreyknvl@google.com,
- aryabinin@virtuozzo.com, luto@kernel.org, bp@alien8.de,
- dave.hansen@linux.intel.com, dvyukov@google.com, edumazet@google.com,
- gregkh@linuxfoundation.org, mingo@redhat.com, jannh@google.com,
- corbet@lwn.net, keescook@chromium.org, peterz@infradead.org, cai@lca.pw,
- tglx@linutronix.de, will@kernel.org, x86@kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- kasan-dev@googlegroups.com, linux-arm-kernel@lists.infradead.org,
- linux-mm@kvack.org
-References: <20200907134055.2878499-1-elver@google.com>
-From: Dave Hansen <dave.hansen@intel.com>
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
- z5cecg==
-Message-ID: <e399d8d5-03c2-3c13-2a43-3bb8e842c55a@intel.com>
-Date: Tue, 8 Sep 2020 07:52:21 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Tue, 08 Sep 2020 07:52:43 -0700 (PDT)
+Received-SPF: pass (google.com: domain of cmarinas@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
+Received: from gaia (unknown [46.69.195.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPSA id 3E3942074D;
+	Tue,  8 Sep 2020 14:52:40 +0000 (UTC)
+Date: Tue, 8 Sep 2020 15:52:37 +0100
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: Andrey Konovalov <andreyknvl@google.com>
+Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Andrey Ryabinin <aryabinin@virtuozzo.com>,
+	Alexander Potapenko <glider@google.com>,
+	Marco Elver <elver@google.com>,
+	Evgenii Stepanov <eugenis@google.com>,
+	Elena Petrova <lenaptr@google.com>,
+	Branislav Rankov <Branislav.Rankov@arm.com>,
+	Kevin Brodsky <kevin.brodsky@arm.com>,
+	Will Deacon <will.deacon@arm.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux ARM <linux-arm-kernel@lists.infradead.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	LKML <linux-kernel@vger.kernel.org>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	kasan-dev <kasan-dev@googlegroups.com>
+Subject: Re: [PATCH 22/35] arm64: mte: Enable in-kernel MTE
+Message-ID: <20200908145237.GI25591@gaia>
+References: <cover.1597425745.git.andreyknvl@google.com>
+ <6a83a47d9954935d37a654978e96c951cc56a2f6.1597425745.git.andreyknvl@google.com>
+ <CAAeHK+y-gJ5JKcGZYfZutKtb=BoM3qfkOyoTi7CtW6apHUcCAw@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200907134055.2878499-1-elver@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Language: en-US
-X-Original-Sender: dave.hansen@intel.com
+Content-Disposition: inline
+In-Reply-To: <CAAeHK+y-gJ5JKcGZYfZutKtb=BoM3qfkOyoTi7CtW6apHUcCAw@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Original-Sender: catalin.marinas@arm.com
 X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of dave.hansen@intel.com designates 192.55.52.151 as
- permitted sender) smtp.mailfrom=dave.hansen@intel.com;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=intel.com
+ (google.com: domain of cmarinas@kernel.org designates 198.145.29.99 as
+ permitted sender) smtp.mailfrom=cmarinas@kernel.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -197,27 +141,71 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 9/7/20 6:40 AM, Marco Elver wrote:
-> KFENCE is designed to be enabled in production kernels, and has near
-> zero performance overhead. Compared to KASAN, KFENCE trades performance
-> for precision. 
+On Tue, Sep 08, 2020 at 04:39:35PM +0200, Andrey Konovalov wrote:
+> On Fri, Aug 14, 2020 at 7:28 PM Andrey Konovalov <andreyknvl@google.com> wrote:
+> > From: Vincenzo Frascino <vincenzo.frascino@arm.com>
+> >
+> > The Tag Checking operation causes a synchronous data abort as
+> > a consequence of a tag check fault when MTE is configured in
+> > synchronous mode.
+> >
+> > Enable MTE in Synchronous mode in EL1 to provide a more immediate
+> > way of tag check failure detection in the kernel.
+> >
+> > As part of this change enable match-all tag for EL1 to allow the
+> > kernel to access user pages without faulting. This is required because
+> > the kernel does not have knowledge of the tags set by the user in a
+> > page.
+> >
+> > Note: For MTE, the TCF bit field in SCTLR_EL1 affects only EL1 in a
+> > similar way as TCF0 affects EL0.
+> >
+> > Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
+> > ---
+> >  arch/arm64/kernel/cpufeature.c | 6 ++++++
+> >  1 file changed, 6 insertions(+)
+> >
+> > diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeature.c
+> > index 4d3abb51f7d4..4d94af19d8f6 100644
+> > --- a/arch/arm64/kernel/cpufeature.c
+> > +++ b/arch/arm64/kernel/cpufeature.c
+> > @@ -1670,6 +1670,9 @@ static void cpu_enable_mte(struct arm64_cpu_capabilities const *cap)
+> >         write_sysreg_s(0, SYS_TFSR_EL1);
+> >         write_sysreg_s(0, SYS_TFSRE0_EL1);
+> >
+> > +       /* Enable Match-All at EL1 */
+> > +       sysreg_clear_set(tcr_el1, 0, SYS_TCR_EL1_TCMA1);
+> > +
+> >         /*
+> >          * CnP must be enabled only after the MAIR_EL1 register has been set
+> >          * up. Inconsistent MAIR_EL1 between CPUs sharing the same TLB may
+> > @@ -1687,6 +1690,9 @@ static void cpu_enable_mte(struct arm64_cpu_capabilities const *cap)
+> >         mair &= ~MAIR_ATTRIDX(MAIR_ATTR_MASK, MT_NORMAL_TAGGED);
+> >         mair |= MAIR_ATTRIDX(MAIR_ATTR_NORMAL_TAGGED, MT_NORMAL_TAGGED);
+> >         write_sysreg_s(mair, SYS_MAIR_EL1);
+> > +
+> > +       /* Enable MTE Sync Mode for EL1 */
+> > +       sysreg_clear_set(sctlr_el1, SCTLR_ELx_TCF_MASK, SCTLR_ELx_TCF_SYNC);
+> >         isb();
+> >
+> >         local_flush_tlb_all();
+> > --
+> > 2.28.0.220.ged08abb693-goog
+> >
+> 
+> Should we change this commit to enable in-kernel MTE only if
+> KASAN_HW_TAGS is enabled?
 
-Could you talk a little bit about where you expect folks to continue to
-use KASAN?  How would a developer or a tester choose which one to use?
+I think so. We don't currently have any patchset decoupling MTE from
+KASAN.
 
-> KFENCE objects each reside on a dedicated page, at either the left or
-> right page boundaries. The pages to the left and right of the object
-> page are "guard pages", whose attributes are changed to a protected
-> state, and cause page faults on any attempted access to them. Such page
-> faults are then intercepted by KFENCE, which handles the fault
-> gracefully by reporting a memory access error.
+See my other comment on TCR_EL1.TBI1, you'd need to set TCMA1 as well in
+the same proc.S file.
 
-How much memory overhead does this end up having?  I know it depends on
-the object size and so forth.  But, could you give some real-world
-examples of memory consumption?  Also, what's the worst case?  Say I
-have a ton of worst-case-sized (32b) slab objects.  Will I notice?
+-- 
+Catalin
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/e399d8d5-03c2-3c13-2a43-3bb8e842c55a%40intel.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200908145237.GI25591%40gaia.
