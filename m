@@ -1,128 +1,126 @@
-Return-Path: <kasan-dev+bncBDT2NE7U5UFRB6W35D5AKGQE5DUF6IY@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBPXI5D5AKGQE2RQ3XAA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-vs1-xe39.google.com (mail-vs1-xe39.google.com [IPv6:2607:f8b0:4864:20::e39])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F9BD264732
-	for <lists+kasan-dev@lfdr.de>; Thu, 10 Sep 2020 15:45:31 +0200 (CEST)
-Received: by mail-vs1-xe39.google.com with SMTP id v67sf1717271vsb.12
-        for <lists+kasan-dev@lfdr.de>; Thu, 10 Sep 2020 06:45:31 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1599745530; cv=pass;
+Received: from mail-pf1-x438.google.com (mail-pf1-x438.google.com [IPv6:2607:f8b0:4864:20::438])
+	by mail.lfdr.de (Postfix) with ESMTPS id 777112647C6
+	for <lists+kasan-dev@lfdr.de>; Thu, 10 Sep 2020 16:12:16 +0200 (CEST)
+Received: by mail-pf1-x438.google.com with SMTP id 82sf4502100pfz.20
+        for <lists+kasan-dev@lfdr.de>; Thu, 10 Sep 2020 07:12:16 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1599747135; cv=pass;
         d=google.com; s=arc-20160816;
-        b=BtXrgx3L2Bbz8GJPF0vx+GVxi/MVMrZY1+oxEldBMimoq+hlCTQ9qOSieNThyQpy9K
-         RTdktSWdnmzsRBnASFX7NjMcsbeV3IS3u97BCUQQkrvpTuOzjYtZmp6DATE4EiZKY/fD
-         dkxUg3KV6t87+CzBYv70AKAUpBEE0neF4qd2NGvKc805xeocEzbvwn4WvYvFQDUKVtDV
-         lFkMxets9IkawdFanMPv9giEl4D2aW6JpjvnhRSotBn0dasT2L4A5mPYuy+C/fZd4Jjh
-         w7DqBUZ1D/sAWQ9pawU4uwSRFPdUQzrBXyV/1pcT1nI/cflTyVRPYvvMW1T+R4arUS55
-         rs6w==
+        b=VYqc3lXeeaVZ2Sal9wNDKHnuB+pp5+y5m5Ry3S+5U1qnD7jvF0ALfGsdov48X6dFBU
+         VVWyI9m7dhY/vzDxgEmdECNVPW2XmVLx2KGyiiR0oFQgkh/9kk0XYpBxC08GvUNAoXkF
+         KGdWT7OHWdeCYPE07sZH2p6Jn81IyaM7YCSAt1QRHVU99o3M/NqNJBkrYSrA44MWzN2f
+         Se65RsAxMMMa16snkY60RJf63l9j8YhBk3TTtiSQhXPyOrMzkg6M9Prd5KNEaDlpD5Ff
+         k3qSi1ZnDcflwk8Rc8rC/6I92I4J11q0WqSXrq7gWJcOzqZmwHSMnAwkltqhMEuh+9zz
+         r4tg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:dkim-filter:sender
-         :dkim-signature;
-        bh=o5qam4NWUgWXhAZw/zROWjCxg3/aIpYYtcGFhdY4oMo=;
-        b=ZbXx9zc1AG5trbberOaRnuu0mPY26NlIYTtVuzRo4tmjS/0BHzmOou3/aSr2ztNgdH
-         3ERRIkDE+4zbqcvDkTP2pWm8bkWaXSduG79iiykuEBYrGoMd9lw64mga+hYM2T9TMo63
-         P3inWGrrZ+JJqbxtQoGt60yzNRYxoZ76L1K4A9qbaQcPVvsIR7x2Rtibti6j8dsFZuPa
-         p30ZqeUBFTCTOu/yjjadBwBpi6g69xKgR6HwTzgZvEKYXDuTKTZREZQoV7PuEDAV7RD+
-         QysLCuCLrMe509xApZeiJOHp8VHT5+ihfeqXrWEiPjanw30OgX109vWA9smBds2xld7W
-         pT+w==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=7LaZMOY4cZNOAfv5lUzyV5AiefQir+VmKc52YBoxGWI=;
+        b=ItCLLDHee17Htm8OCw7zC+Z3i5hvUykLEZoQm5+MGOjm11MBA9US1LInY5YHA10o+Q
+         BwCoSOYPe3WL8TfFLfuflTq+IGjNfWQ6RnIs4pffjoU+TuE1ZvgxAwYTQLNR1/kVL9Te
+         cgGqV0h3nIJutUdRNgFALPKuslqG1JB1ZqqbetX5VJ1WTWghJFM24EynhzMJjbyGTFNk
+         b3idc4XiqDyfohyXHDZyc1lACecsLcfjEYmRZi0EMA/4Ueg3OouuoeMVViN+dTPpUrI/
+         eeLoC5M/RSLqiQn8A/CnJA890yTY6M1gycUTkeTsY4lQgCKaEKvNJT7soDm/euVMf4BY
+         HOaw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@nifty.com header.s=dec2015msa header.b=bN2HusAT;
-       spf=softfail (google.com: domain of transitioning masahiroy@kernel.org does not designate 210.131.2.76 as permitted sender) smtp.mailfrom=masahiroy@kernel.org;
-       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       dkim=pass header.i=@google.com header.s=20161025 header.b="c/e5qR7L";
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::344 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:dkim-filter:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=o5qam4NWUgWXhAZw/zROWjCxg3/aIpYYtcGFhdY4oMo=;
-        b=CGlfl4tZ8Zw9q5j2zs+sPdkziyqC+nL4/WEQIZ+UngrTuDCaREVDG9PC49CLhcXD1k
-         LiRVWQ8SNYi2gaV9gNlQq6vJtOTVcM960eTIabZyHnxRemFoIcQ6TS+xRs8Horg7XipB
-         bBoMX52sk/7ayLu8diOTXYC6a3bNeAAKzUkaRpRT79mLufNrtPTItj3+cOrO0x9Y0jSB
-         btWaaOBcbTGNqjd8WAOrU7UhgrXItCQM6zq74rpOtlUPPqfDjXwv64Guu1lzyPUEoz+z
-         jlbpk8R73H/NspS61ZWpD1honE8VqbKo+Z/fR9tNp/hfmpDPF4iGeiFzpJ46Mw2GL6ms
-         Ubpw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=7LaZMOY4cZNOAfv5lUzyV5AiefQir+VmKc52YBoxGWI=;
+        b=ASpyYOaRt2d5HS61cUYsUXyw/orxX2TxETEsnWOsq8D7L82sRg15KoWnizPgjnucjb
+         kSsOqL5JaYCYoYcoExNq0kYOYBUvBDkeMuQiMrq/PDuotmrj8TA2qmjo3qcWwvukZFE4
+         XMEJymtWBS3uE9xmQWSxFd2LBRQ9qPUlZ6YtsWDyGsmh6dmQ31v76C3RM8HJUhHWGOBB
+         SGqcsYkdwuQDd2HMvIn6a3ON8Pm3VRUUCIpyPWNrB9hQmyyXaao41RO2mLyJEZf1bVPr
+         ZfOBRAgYCARWCqYWLSMrVk65eTmmhCH8HneA+BcxYJVdowX2nwmwV9bm+BO9wDaP6Gbh
+         ySfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:dkim-filter:from:to:cc:subject:date
-         :message-id:in-reply-to:references:mime-version:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=o5qam4NWUgWXhAZw/zROWjCxg3/aIpYYtcGFhdY4oMo=;
-        b=e5t9y/bBQG8cHroA4TuIxK91Oufv4xc5TNpMwIZuwBaiKjxp/EOkz8nKUo+7JpnJgE
-         lyV3KIgQQ6BIJ7tn80BAnqSWydzsGLdDRcA/z1FEB7mJrJLjjwk7uACIh/ENi37DzKdM
-         kcNUOGK0rKD/FSIqejxEZqve6yLu81IeD09UBysJM03QpeRt1skhDP0OnoApXJoEMN0D
-         d538eN+JjYlso/EsmooFG+iN+2bvEyYNnxOwFeuKXSLSZsEJicDLtLTSDu8/yzw9KnaY
-         o/sjGAsgnRxpoxiy1ZvkOZaDFupZD0vET+MLV1MlU0aNu8z+fVZDEDAWV1CMjtFVJzju
-         RsMg==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM530htaHZaJ1C2Wt6CiY8Q2uuSOScPdsKF/5yLvW10/iKUZCY+6Ld
-	zXkfIr2rvOm81Wn6OgIixOs=
-X-Google-Smtp-Source: ABdhPJzH+bZaNdQh/Z1N0ewjI+AeYMQvekSaEaE1jS7ym/m56NLEnB9n2mx6gE2E66538aAYzQjHbQ==
-X-Received: by 2002:a1f:2cc:: with SMTP id 195mr4016029vkc.2.1599745530245;
-        Thu, 10 Sep 2020 06:45:30 -0700 (PDT)
+        bh=7LaZMOY4cZNOAfv5lUzyV5AiefQir+VmKc52YBoxGWI=;
+        b=FE+jqdOTuGVCb1Ups1WC1/z8JoI7IHBs80f5ND+ktTYlKZlGYpby8Tfe17ppwy1oBR
+         dDF10oBwhFeiwNDrit9jYzw728lbor+ByNtWIKHQRT4C682ybgE2XHrUeaQzsBZfuJ4M
+         MnrT/Fc21zCeiW5wpQwSIVC9u05iEhZzy65GzBJPiBhv4PAlsQfCf0oK63E+Ypl42DCz
+         aHEAfsMElgh/AvVMEZoyb3CqZj0k0EaM15TBbIp2yQbNuJa5O8Y0TiKuAsrE2qK/Q+sy
+         tEs66a7A8tWxwMB2elP8SRooeEsN3rIIvv0T6HhfU/CtqJTomg7I43VNJmLlWvcQTKkw
+         KSjw==
+X-Gm-Message-State: AOAM5301ldxCh5/8n7b5VwNP7vA4M/0YoJ5zL01QkaloVP1ZMKVHw0Oh
+	yarHo1vXOBydVniC6hRkSrA=
+X-Google-Smtp-Source: ABdhPJya+QUxwDEv6L/KWzOXOgTF83aDvAWdKEVFwptbRFvD0FWdJkxLDEU7TqGDWAA/nIDhdU+mrw==
+X-Received: by 2002:aa7:911a:0:b029:13e:d13d:a13d with SMTP id 26-20020aa7911a0000b029013ed13da13dmr5653523pfh.37.1599747135116;
+        Thu, 10 Sep 2020 07:12:15 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ab0:604c:: with SMTP id o12ls467105ual.6.gmail; Thu, 10 Sep
- 2020 06:45:29 -0700 (PDT)
-X-Received: by 2002:a9f:2648:: with SMTP id 66mr3459955uag.37.1599745529696;
-        Thu, 10 Sep 2020 06:45:29 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1599745529; cv=none;
+Received: by 2002:a65:4bca:: with SMTP id p10ls795636pgr.5.gmail; Thu, 10 Sep
+ 2020 07:12:14 -0700 (PDT)
+X-Received: by 2002:a62:7616:: with SMTP id r22mr5733097pfc.48.1599747134406;
+        Thu, 10 Sep 2020 07:12:14 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1599747134; cv=none;
         d=google.com; s=arc-20160816;
-        b=dBmu9kg4F1P4FY2LKtxccrlSZzerD5ZXy/lnKjY44uZuVHNN7aA1aVxCqqmzWT9Zdm
-         qEHTBicmqSNhV9hdO7HI1W9kwY4LtqbVfhnN3ULuGLr2Y/50kiex2ESRpr1yW5djnQEs
-         rnQpyYDSXEkH60DB8qM0Ses5QPiTvMjvMjWmHKeZzXNWeDycz3H3d5hdYjsZg64ujXJg
-         TkYodeXRrEJzJUNKNNFLlMy7TOtInUeBXlKcSG3hJ0k4NnaTS4o2tENNUNtBej3OzT0N
-         uqVq9fr88Q6EDdwm0ehI+4WhhmhrvLK3FzEG8hlFpKNEWXgg9lJILmPI2s11Oc8vQVoy
-         3xYw==
+        b=uV06k+37ZRYT3sJjn61GL6j9yWYMUhyTRRmzTk2AbkDX2KL2CvLJrrN9lwzlttCyf8
+         5B8emO/OA1QOJn9+VCbWo+7EQUyNg/ciDYNhU1bRA5ky+PjQiTby5i0AcWdBCE+yJ4Oc
+         WToxtn4IC0TapluLgfbRBaG9elQSGKQk3W2wzWs/smCX9VvUFlpOdtLvstd3VWnPYdHq
+         YXBOD08pXUpcPxZFCu0kZaGJvcDk18cP7d222sVdVGa3DurRTKB07ueM5dnflmzT4/fe
+         KvF7VQ1ggpZnwbNzVy6zD9YRRgcMSXt01y+frhzB9DLe5kYAXYfFsuZRs83v8QJghA8T
+         pMTg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:dkim-signature:dkim-filter;
-        bh=QXPqbgb/jFPOd/TSdAMnz6TSWN+Q2fIoPVXFknMy17s=;
-        b=PPY9lYYy/YAX1hkfkHHskLTP9W2/fqg7k8BZYVHz9b0Vnxz6gOKXAB3ncHiRL9L1bp
-         31w2Vko2TlBef5iMGm5WmqQq+j5kMh0EbIvOpGZknAgCTp4PN/e4rybmnjl/jD1a+MtS
-         0OL8kFW1MSbCATnADC8QqD6dna8sRNmz5s2vzufMclk21xGYG/P7ojzy7EHbpQ0hwVG9
-         JY6Z7NejrEvtBUrrre/qe5Cednl+IYwKRfwrLLQu6ESGFhP4s7EUuK4kmEjfxKa8xaWZ
-         tJXph8pcPxWrTkDLWO3u81Iou2NiDdbT84L7fgRHYa0sB2bTUujendqwMmIJj5X4gwVP
-         rTdQ==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=kcGVZn8a+TssCx5V7/oWyKJ/qM6HLG6mmAZ+V9sySx8=;
+        b=TGjT9vwk2UzpQm+QUkRurFnNJRKzt0Ut2Nk2bIF3tCWv3CDI+YvbE5wVIMSg6HRn1G
+         eTFAJw0funNqSoCSIo2AKTyw5Z08JgzpZyGXh0wNEY/us3ni3kTCLXe1xFfGda0Jjq3d
+         APHSEltscra+XA/HTGRxa3eSrX3giCl815gsQRQgbvo265nWELvjZ7ycvkstHN+m+j99
+         3RadDY3auxyjhzF5Qv+UbPt8C9ZrlM1ydAlUD+tw43WPEMdOE+obmWvJfCRvullnMRuf
+         bqog7UkhxUInDvQ4c4b5v5uNENmWKo2bMkXDZqunWlXx2IV/44HTQgJYybFIHJZPMgB8
+         BRGw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@nifty.com header.s=dec2015msa header.b=bN2HusAT;
-       spf=softfail (google.com: domain of transitioning masahiroy@kernel.org does not designate 210.131.2.76 as permitted sender) smtp.mailfrom=masahiroy@kernel.org;
-       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from conuserg-09.nifty.com (conuserg-09.nifty.com. [210.131.2.76])
-        by gmr-mx.google.com with ESMTPS id t1si279761vsk.2.2020.09.10.06.45.29
+       dkim=pass header.i=@google.com header.s=20161025 header.b="c/e5qR7L";
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::344 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com. [2607:f8b0:4864:20::344])
+        by gmr-mx.google.com with ESMTPS id lx5si87549pjb.2.2020.09.10.07.12.14
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 10 Sep 2020 06:45:29 -0700 (PDT)
-Received-SPF: softfail (google.com: domain of transitioning masahiroy@kernel.org does not designate 210.131.2.76 as permitted sender) client-ip=210.131.2.76;
-Received: from oscar.flets-west.jp (softbank126090211135.bbtec.net [126.90.211.135]) (authenticated)
-	by conuserg-09.nifty.com with ESMTP id 08ADiY4V001894;
-	Thu, 10 Sep 2020 22:44:35 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com 08ADiY4V001894
-X-Nifty-SrcIP: [126.90.211.135]
-From: Masahiro Yamada <masahiroy@kernel.org>
-To: linux-kbuild@vger.kernel.org
-Cc: Ingo Molnar <mingo@redhat.com>, Masahiro Yamada <masahiroy@kernel.org>,
-        Alexander Potapenko <glider@google.com>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Dmitry Vyukov <dvyukov@google.com>, Marco Elver <elver@google.com>,
-        Michal Marek <michal.lkml@markovi.net>, kasan-dev@googlegroups.com,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] kbuild: move CFLAGS_{KASAN,UBSAN,KCSAN} exports to relevant Makefiles
-Date: Thu, 10 Sep 2020 22:44:29 +0900
-Message-Id: <20200910134429.3525408-2-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200910134429.3525408-1-masahiroy@kernel.org>
-References: <20200910134429.3525408-1-masahiroy@kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 10 Sep 2020 07:12:14 -0700 (PDT)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::344 as permitted sender) client-ip=2607:f8b0:4864:20::344;
+Received: by mail-ot1-x344.google.com with SMTP id 60so5458871otw.3
+        for <kasan-dev@googlegroups.com>; Thu, 10 Sep 2020 07:12:14 -0700 (PDT)
+X-Received: by 2002:a9d:3da1:: with SMTP id l30mr4255115otc.233.1599747133357;
+ Thu, 10 Sep 2020 07:12:13 -0700 (PDT)
 MIME-Version: 1.0
-X-Original-Sender: masahiroy@kernel.org
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@nifty.com header.s=dec2015msa header.b=bN2HusAT;       spf=softfail
- (google.com: domain of transitioning masahiroy@kernel.org does not designate
- 210.131.2.76 as permitted sender) smtp.mailfrom=masahiroy@kernel.org;
-       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+References: <20200910134429.3525408-1-masahiroy@kernel.org> <20200910134429.3525408-2-masahiroy@kernel.org>
+In-Reply-To: <20200910134429.3525408-2-masahiroy@kernel.org>
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Thu, 10 Sep 2020 16:12:01 +0200
+Message-ID: <CANpmjNOcpNLe3T-Qf1gVkqxpLCPQ+yjJZ0wM79jCUrmet_QH0Q@mail.gmail.com>
+Subject: Re: [PATCH 2/2] kbuild: move CFLAGS_{KASAN,UBSAN,KCSAN} exports to
+ relevant Makefiles
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+	Alexander Potapenko <glider@google.com>, Andrey Ryabinin <aryabinin@virtuozzo.com>, 
+	Dmitry Vyukov <dvyukov@google.com>, Michal Marek <michal.lkml@markovi.net>, 
+	kasan-dev <kasan-dev@googlegroups.com>, LKML <linux-kernel@vger.kernel.org>, 
+	"Paul E. McKenney" <paulmck@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: elver@google.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@google.com header.s=20161025 header.b="c/e5qR7L";       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::344 as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -135,82 +133,96 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Move CFLAGS_KASAN*, CFLAGS_UBSAN, CFLAGS_KCSAN to Makefile.kasan,
-Makefile.ubsan, Makefile.kcsan, respectively.
+On Thu, 10 Sep 2020 at 15:45, Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> Move CFLAGS_KASAN*, CFLAGS_UBSAN, CFLAGS_KCSAN to Makefile.kasan,
+> Makefile.ubsan, Makefile.kcsan, respectively.
+>
+> This commit also avoids the same -fsanitize=* flags being added to
+> CFLAGS_UBSAN multiple times.
+>
+> Prior to this commit, the ubsan flags were appended by the '+='
+> operator, without any initialization. Some build targets such as
+> 'make bindeb-pkg' recurses to the top Makefile, and ended up with
+> adding the same flags to CFLAGS_UBSAN twice.
+>
+> Clear CFLAGS_UBSAN with ':=' to make it a simply expanded variable.
+> This is better than a recursively expanded variable, which evaluates
+> $(call cc-option, ...) multiple times before Kbuild starts descending
+> to subdirectories.
+>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
+>
+>  Makefile               | 1 -
+>  scripts/Makefile.kasan | 2 ++
+>  scripts/Makefile.kcsan | 2 +-
+>  scripts/Makefile.ubsan | 3 +++
+>  4 files changed, 6 insertions(+), 2 deletions(-)
+>
+> diff --git a/Makefile b/Makefile
+> index ec2330ce0fc5..4b5a305e30d2 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -517,7 +517,6 @@ export KBUILD_HOSTCXXFLAGS KBUILD_HOSTLDFLAGS KBUILD_HOSTLDLIBS LDFLAGS_MODULE
+>
+>  export KBUILD_CPPFLAGS NOSTDINC_FLAGS LINUXINCLUDE OBJCOPYFLAGS KBUILD_LDFLAGS
+>  export KBUILD_CFLAGS CFLAGS_KERNEL CFLAGS_MODULE
+> -export CFLAGS_KASAN CFLAGS_KASAN_NOSANITIZE CFLAGS_UBSAN CFLAGS_KCSAN
+>  export KBUILD_AFLAGS AFLAGS_KERNEL AFLAGS_MODULE
+>  export KBUILD_AFLAGS_MODULE KBUILD_CFLAGS_MODULE KBUILD_LDFLAGS_MODULE
+>  export KBUILD_AFLAGS_KERNEL KBUILD_CFLAGS_KERNEL
+> diff --git a/scripts/Makefile.kasan b/scripts/Makefile.kasan
+> index 1532f1a41a8f..1e000cc2e7b4 100644
+> --- a/scripts/Makefile.kasan
+> +++ b/scripts/Makefile.kasan
+> @@ -47,3 +47,5 @@ CFLAGS_KASAN := -fsanitize=kernel-hwaddress \
+>                 $(instrumentation_flags)
+>
+>  endif # CONFIG_KASAN_SW_TAGS
+> +
+> +export CFLAGS_KASAN CFLAGS_KASAN_NOSANITIZE
+> diff --git a/scripts/Makefile.kcsan b/scripts/Makefile.kcsan
+> index c50f27b3ac56..cec50d74e0d0 100644
+> --- a/scripts/Makefile.kcsan
+> +++ b/scripts/Makefile.kcsan
+> @@ -9,7 +9,7 @@ endif
+>
+>  # Keep most options here optional, to allow enabling more compilers if absence
+>  # of some options does not break KCSAN nor causes false positive reports.
+> -CFLAGS_KCSAN := -fsanitize=thread \
+> +export CFLAGS_KCSAN := -fsanitize=thread \
+>         $(call cc-option,$(call cc-param,tsan-instrument-func-entry-exit=0) -fno-optimize-sibling-calls) \
+>         $(call cc-option,$(call cc-param,tsan-instrument-read-before-write=1)) \
+>         $(call cc-param,tsan-distinguish-volatile=1)
 
-This commit also avoids the same -fsanitize=* flags being added to
-CFLAGS_UBSAN multiple times.
+This doesn't apply to -next, which has some KCSAN changes for the next
+merge window. Although it seems git-merge figures out the resolution
+for the conflict automatically.
 
-Prior to this commit, the ubsan flags were appended by the '+='
-operator, without any initialization. Some build targets such as
-'make bindeb-pkg' recurses to the top Makefile, and ended up with
-adding the same flags to CFLAGS_UBSAN twice.
+Other than that,
 
-Clear CFLAGS_UBSAN with ':=' to make it a simply expanded variable.
-This is better than a recursively expanded variable, which evaluates
-$(call cc-option, ...) multiple times before Kbuild starts descending
-to subdirectories.
+Acked-by: Marco Elver <elver@google.com>
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
+Thank you!
 
- Makefile               | 1 -
- scripts/Makefile.kasan | 2 ++
- scripts/Makefile.kcsan | 2 +-
- scripts/Makefile.ubsan | 3 +++
- 4 files changed, 6 insertions(+), 2 deletions(-)
-
-diff --git a/Makefile b/Makefile
-index ec2330ce0fc5..4b5a305e30d2 100644
---- a/Makefile
-+++ b/Makefile
-@@ -517,7 +517,6 @@ export KBUILD_HOSTCXXFLAGS KBUILD_HOSTLDFLAGS KBUILD_HOSTLDLIBS LDFLAGS_MODULE
- 
- export KBUILD_CPPFLAGS NOSTDINC_FLAGS LINUXINCLUDE OBJCOPYFLAGS KBUILD_LDFLAGS
- export KBUILD_CFLAGS CFLAGS_KERNEL CFLAGS_MODULE
--export CFLAGS_KASAN CFLAGS_KASAN_NOSANITIZE CFLAGS_UBSAN CFLAGS_KCSAN
- export KBUILD_AFLAGS AFLAGS_KERNEL AFLAGS_MODULE
- export KBUILD_AFLAGS_MODULE KBUILD_CFLAGS_MODULE KBUILD_LDFLAGS_MODULE
- export KBUILD_AFLAGS_KERNEL KBUILD_CFLAGS_KERNEL
-diff --git a/scripts/Makefile.kasan b/scripts/Makefile.kasan
-index 1532f1a41a8f..1e000cc2e7b4 100644
---- a/scripts/Makefile.kasan
-+++ b/scripts/Makefile.kasan
-@@ -47,3 +47,5 @@ CFLAGS_KASAN := -fsanitize=kernel-hwaddress \
- 		$(instrumentation_flags)
- 
- endif # CONFIG_KASAN_SW_TAGS
-+
-+export CFLAGS_KASAN CFLAGS_KASAN_NOSANITIZE
-diff --git a/scripts/Makefile.kcsan b/scripts/Makefile.kcsan
-index c50f27b3ac56..cec50d74e0d0 100644
---- a/scripts/Makefile.kcsan
-+++ b/scripts/Makefile.kcsan
-@@ -9,7 +9,7 @@ endif
- 
- # Keep most options here optional, to allow enabling more compilers if absence
- # of some options does not break KCSAN nor causes false positive reports.
--CFLAGS_KCSAN := -fsanitize=thread \
-+export CFLAGS_KCSAN := -fsanitize=thread \
- 	$(call cc-option,$(call cc-param,tsan-instrument-func-entry-exit=0) -fno-optimize-sibling-calls) \
- 	$(call cc-option,$(call cc-param,tsan-instrument-read-before-write=1)) \
- 	$(call cc-param,tsan-distinguish-volatile=1)
-diff --git a/scripts/Makefile.ubsan b/scripts/Makefile.ubsan
-index 27348029b2b8..c661484ee01f 100644
---- a/scripts/Makefile.ubsan
-+++ b/scripts/Makefile.ubsan
-@@ -1,4 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0
-+
-+export CFLAGS_UBSAN :=
-+
- ifdef CONFIG_UBSAN_ALIGNMENT
-       CFLAGS_UBSAN += $(call cc-option, -fsanitize=alignment)
- endif
--- 
-2.25.1
+> diff --git a/scripts/Makefile.ubsan b/scripts/Makefile.ubsan
+> index 27348029b2b8..c661484ee01f 100644
+> --- a/scripts/Makefile.ubsan
+> +++ b/scripts/Makefile.ubsan
+> @@ -1,4 +1,7 @@
+>  # SPDX-License-Identifier: GPL-2.0
+> +
+> +export CFLAGS_UBSAN :=
+> +
+>  ifdef CONFIG_UBSAN_ALIGNMENT
+>        CFLAGS_UBSAN += $(call cc-option, -fsanitize=alignment)
+>  endif
+> --
+> 2.25.1
+>
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200910134429.3525408-2-masahiroy%40kernel.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNOcpNLe3T-Qf1gVkqxpLCPQ%2ByjJZ0wM79jCUrmet_QH0Q%40mail.gmail.com.
