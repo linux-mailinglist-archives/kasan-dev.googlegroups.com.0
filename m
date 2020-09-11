@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBRWW5T5AKGQEMSQR2MA@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBBOP5X5AKGQEUTLCA5A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x438.google.com (mail-pf1-x438.google.com [IPv6:2607:f8b0:4864:20::438])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D794265ABB
-	for <lists+kasan-dev@lfdr.de>; Fri, 11 Sep 2020 09:46:16 +0200 (CEST)
-Received: by mail-pf1-x438.google.com with SMTP id o184sf6379808pfb.12
-        for <lists+kasan-dev@lfdr.de>; Fri, 11 Sep 2020 00:46:16 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1599810374; cv=pass;
+Received: from mail-vs1-xe3b.google.com (mail-vs1-xe3b.google.com [IPv6:2607:f8b0:4864:20::e3b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D53D265F2C
+	for <lists+kasan-dev@lfdr.de>; Fri, 11 Sep 2020 14:03:18 +0200 (CEST)
+Received: by mail-vs1-xe3b.google.com with SMTP id j125sf2769843vsc.20
+        for <lists+kasan-dev@lfdr.de>; Fri, 11 Sep 2020 05:03:18 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1599825797; cv=pass;
         d=google.com; s=arc-20160816;
-        b=jb/Jqwpa5uhvoxWPK0nO5EXlcC51NlJ0DHgjE6uUHNesuoTXFd1ICibITPaSV4Mjp5
-         BMypSBcWnY8PUCVLPHIuafLTpPDTFSqW1lJ6EvxrH2AqTaoabzmNV1l/fp2qCgoJEXrT
-         LdqoNaQOvO8eCMQ1vfPat8dumH6wuMirzyVddNxD4/AVVxAbSg9TN9EChGcMBFL0e8/y
-         l4IA035W+IR+jsWmFPmQRRBQsmpxW6JSuNJSVClTrzy4mxtSzg1ofQ1CgLYtiKGYIQg4
-         EeDy2WwEqEApS7uxtx+oFQt/Iv93C9Sx/alyS6dOFmPlakVDywmNhjO5lsKxlbWaaMdj
-         ffdQ==
+        b=bQR+g5FHT0920i4RKqz9rmt8FOJM6cIfDD9f8IGiFs8IOBKfiiU23GdUEQ83ucXy74
+         bH20hvIE4XkXj6tE/0PsoGkXnamxAOuacLn7OpySJvSNJbQ4sIetQmUMyXTf8UmKdHcV
+         wP0Pb8/u9iSIwgG9B9ULLmVnSOjf3MtE7fB5RPQgHoc19rBG8ftCyd7+PhuX2iz3gOFS
+         DEMVy4Tnf9fo52G0Us46rO7+dgDDB2lzle2jtyGpGEpdQqmB3XzOx7bK2SN28cpYX0fy
+         kjI9zSvl60/pcGd3i6S9LLc5ucuVgMREkybyi3ggS8V4eEwn1TWokKTDrn5698QClSvK
+         +vIA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=G57uxx120emaOkbyWGBzsuiWBHXrD+QmMg0PhKlkPCA=;
-        b=aDeY0XqupRYCi8+KooBb7p3WGNTeNfFL3q58OmD6T5qcG/rbsJlX0adiJGbAobUD6L
-         U5wFep63Mm0QkWmIdOCUbXFTfpbCFUYFYFlXeHBFgwkKf9szTbpurwVvRkhYBrW+ZD+V
-         0fWLaWAhD4pKuGZdRDUa0DmrqfrIIZ7nOrBwvGVeDHGkZzbUaN1XYclBPKEAXkCw7rxe
-         JccatkDKA02jxS670E29T+OKL6yVdAAxr0g6y/O6QJQnE1DUyGLrdw8N9nO4C8RJEOtv
-         RvmVhUTYSsNS46lpZbPQn34oEe1vr2C/vaKRjgf7YcU23uW2J9UftsuHMAmXNN4MWLdl
-         Zr9g==
+        bh=TBZGLujYrEuWnkHUFPf+/5vk5BGxTsaz5h2BwE1VaMs=;
+        b=NXMpM0bpmL3JaqUs0b5NufZZGXcPPPU/yzApLkkUmwRALMfto+vXsLWBQi3B3ZDdlj
+         0/DPD34Lg+X5EvrUfDvq91AA8wZ6UzgAh8ohSnN2Joj8/jT6nbBCuzgCs6wKDieJL6S0
+         YePoZvIqH9y4XgDKBH6DnpJOHKOsBnptX5wphw3azdKgmQfyokWrV2bQhb/SEyaCe7GB
+         N0u4uNtuCm7qoxs4vMomVRbaI36oQRxRhkxIQAJ1A3PcRrgXA+PM+k5YbUlFC2HDqiXl
+         KMSJvYTtujZs7ZzxmBdC9n4qnZjVjUV6ScLMuZNOU+nKW+cyTzOS5LaU2RXbw0auRffk
+         TtfA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=A5Thz3ng;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::344 as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=a620psJv;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::241 as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=G57uxx120emaOkbyWGBzsuiWBHXrD+QmMg0PhKlkPCA=;
-        b=FzVwZnBGP/tRc7xpoNNFA3bswYhFoVyunizP3iKyrT0Pd8BUIOZhhHdJ5moyKkMlDx
-         0ZLyg2icUadaCCAtMoDsZRtXjXYmDr/5OQR+08j2M98N4sUIIPuuapquuxv5iNFK5gok
-         Pj+96n/7BAuXJE38X0KF2gsKQAKeEpSDqAe+pEQw+5AraclNDRSG9pjUEyGlXuZFpguB
-         rRqQJUlQLpuL+IP1jih+nh5xrALZFgGxV8IAwzrvRCtA1flEgvHUNLRI3qPPGzutcjf8
-         SCxy9Rn8yOd7+V+kPL3d7AoG7w5hI55N16LdBAt3lPHmHJdcpjc0kjpOxyI4M7jTYgKx
-         AwLQ==
+        bh=TBZGLujYrEuWnkHUFPf+/5vk5BGxTsaz5h2BwE1VaMs=;
+        b=ezNgc5swWsTrXyBJz9J47jogazBR4gZt8+A1kr5Tk6mDaQSLIX+KPcIbKvKqh0G2uK
+         Qo3qtXqqCqePrtuJwH+YUL6GmHwG8AgrQ8QCWOpt8Ghxy59PRSXxNzXlNAXb4tE2eFVf
+         ivx3kfx0z9rKM2sRKK6LH96sqaxDS6lQUN6FE+9u9FGdNanLFxiSj7lpvI+Qrx03KAvU
+         D6gvSxkW6uF66diaO/CpJDywtAoOTqtl/5I+qnAcRgsWxgLwyfi54e3Iq6WYHJe/jeWD
+         CWaHk7BoP5GZVMVFOc3xLpibdjM5tfBNixDfSI16IO/WJqZ+OT7Yk5eWGTdViLOnnKLe
+         GeKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
@@ -49,65 +49,68 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=G57uxx120emaOkbyWGBzsuiWBHXrD+QmMg0PhKlkPCA=;
-        b=Q2MXgwwcSDa6ZQsW1rx2rqVa79oed3Z6IYXftlNf1WxLAYO9OLDkWxlMEFfoSz22us
-         EU822gdUkMxbGaZZW5wNJncl513joJhUMjHrVnfDs2a+rxDSEwibpAatdhQkLS81o3fn
-         pa4uVmVTBAWQr5JZZzFdWhRu3A5v+S4crLlBO91jntIxjyCNcKFhp4ADWY8bilhb6IJl
-         YOYl1xtcfw6eez5GfNv9M81ES20pGMS8c2xz2teMutSgdkpTA9LrKicrvSrreCTUpPvT
-         Cav2b81UL4ocfnZWrCQ4ZIvp+bbyEvYXk/ASttcO3SZ7Jzp16CgVEiuPY6IgVRHoyRuX
-         fQSw==
-X-Gm-Message-State: AOAM530Knj7iSLoUoVPxj+N2SlQWne99JqMK1aDRL07Rjg6YARRJ9sPu
-	9jyKJxqe0tkBlmtrxAI7Wzg=
-X-Google-Smtp-Source: ABdhPJzkIBYYPW1H0WczZsQv+CUG4OWIIds8qmtlr7e6h1yaD2QMt5u6fHi9hdUo2r3TBqQa7hxi9w==
-X-Received: by 2002:a17:902:8605:b029:d0:cbe1:e773 with SMTP id f5-20020a1709028605b02900d0cbe1e773mr1198717plo.26.1599810374727;
-        Fri, 11 Sep 2020 00:46:14 -0700 (PDT)
+        bh=TBZGLujYrEuWnkHUFPf+/5vk5BGxTsaz5h2BwE1VaMs=;
+        b=Ho18tb9QTnwb/OOXP7LoGQhn+xDPX6TU0XfwjcGiXbs3+Sm2aHhV/HDMLUGlUH5XoB
+         Ti4XnjnW4lkcIM6XVW6ZSd3h8GIfJBg9RQtGxzN+zxwrh5zpNhf96eToqJlvN1l66gOQ
+         Juvxc4erS4XyixHTkMgL/pQCQZve2yiAeQIr6CAnpdpfA4tEXpQjJwZ5V5aHY2+E2l3z
+         wrYZfh1dSRef+k+HTVUxtl4h5LmSSO0xRApZpjYH60aWUVc0bIs9INtsQlxRkuLA67/J
+         XvhwoMNhO2SGTHCy8/T/HP4bs0X6rg7ohj52cBx1kV0E689GUggpdp2WH0KBH3BB9bEG
+         1wfQ==
+X-Gm-Message-State: AOAM533Twmp9AjdjiDnGp82G6EhcYNiVfybnHN6NLqjvA9IN/pJ+8YW/
+	XdjP4HEpD1nz+PpMryn1+qI=
+X-Google-Smtp-Source: ABdhPJzRr6XfuWsKosktcCV6ZMUqrSowbW0NYrEoueoDs1BbTmYEjgAuFXgyQRPwGy4uMVdJVCwk/A==
+X-Received: by 2002:ab0:4e25:: with SMTP id g37mr659506uah.106.1599825797583;
+        Fri, 11 Sep 2020 05:03:17 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:aa7:96cd:: with SMTP id h13ls659859pfq.0.gmail; Fri, 11 Sep
- 2020 00:46:14 -0700 (PDT)
-X-Received: by 2002:a63:410:: with SMTP id 16mr790950pge.189.1599810374019;
-        Fri, 11 Sep 2020 00:46:14 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1599810374; cv=none;
+Received: by 2002:a1f:bfcb:: with SMTP id p194ls83297vkf.8.gmail; Fri, 11 Sep
+ 2020 05:03:17 -0700 (PDT)
+X-Received: by 2002:a1f:a4ce:: with SMTP id n197mr581525vke.25.1599825797043;
+        Fri, 11 Sep 2020 05:03:17 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1599825797; cv=none;
         d=google.com; s=arc-20160816;
-        b=qlwyUy/XgXlE8yF6EneAl7i/e5TTHg5PvQ3Tak/HMfwYPqbimyBKudogvJnR74fBhG
-         9FkV0LDP8wzOAINlzjQmF9eyK2awdJ1MB19Sk/p/FKSjrhoubh3VnspssNWA/zgLYWKr
-         LSx4v8xVsL5qipCv1Yn1t82JwMV7f+UF4lahrnkCqIid0yfixJPLXUu2vo51UBd54++X
-         EXjVKeRUCnbGtJXscRl0MnHAV3i9Vwnfmp20Iof7RRi1hAv2rRtZhz9Z6FX9IeZW63BJ
-         Ckj7bilP8JInGd7dwwiILKEroUkt1sqv4YN2cnwOg2j8bwzKfZYP6PpDwNK4ql+ENZ4U
-         VRAg==
+        b=RHOUSR9rEjVPCxjxgTffOj1CxYHnanmS3OnWOeGhFMJZblq9ya5TIvJ5yZVOxjhaMd
+         w92nqBQkVX/CyTt2kFmKkJjFygaHaygfMCvzsVt10zfKCqBj2xP1w2PkRlA59faBVd5Y
+         a5flusGrL5Xz8AduNyKMT7IIZwi1hMwETZsxt2TtfLwx95evrxjCK0aiUfK36ROvrKHe
+         JTTe9QMeETFVSsZ5dAtx1+6ns7BUx7++N48SOq/LxPbtRdphr7UOh9tt/+dMFktPIyRC
+         N+oz43AtXaJoMSTbI9kbOSA6unRhi7LeobH8+PEHj2fmHcfddGF41oIUmMMlPYUeaIzm
+         RN9w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=xAMAwKSgCkhLU1+HorKufuFkvoMc/AqgwnyXt9BkPkw=;
-        b=cX13h6WrGhaZ7Rbd6QrbcqiLUFMJ42HcepRTeSOSMJ9/KlYf8TX7BPxYNf4/qS5PWW
-         v0076uz+keNK9ev6pYJWez2ygIiND7TTtc23c5BgQ9FRGBe/EuQS/Qm1Clv0PG7u0mSZ
-         ur3eXNIllfmUSugFqd+zHM0FATVprAbLmWvtI47e8uEwaNyKJcm0jn/GPzXlUMc9AYBt
-         IwNdjVOt0cQEWKImhfTBJKEbflw59W+GT12TKIAwnlArqqFnq6Xa7j4Mwv0qFjmB6O1B
-         pQkP0KsGfsOR3amkHrx6Tre0m3N3++ma2BLmPqsVcKRM6RbX0T1MS0wrOWilXZK42lcR
-         rRWw==
+        bh=hZRenMhRkxQrqJ0KxaG3JuIL2Afy5FWfAugoFYemeVE=;
+        b=G1Hok6WvQ5GIu46nFNyqPoF93+pXoOBcwNt9dIJCwpL6Ds1e7oREiGwfaoQu/A6oXg
+         KJjuwY0w+ummxOjcxhKrSNoTb7tn0wkitw/ZyBWq/fd28H+DleeACEJNGMkfKqhaZpH6
+         mmZDAdcfhpaY9W4kIIbt54HZh8FwyxMONITAHV3TPYWPD6srvtYe/zvKmIIV/T0nawim
+         7INP7kxw0yviUKqVHeKE2NEeVU3EOaCCyFLNYwtcHBvShAqsDCUkx7f6/a6CifwJudNj
+         xyQ97N1/sbM37FaQpeGb0Pn2FOSwIjiSBgTRL6/qODBMLzTPMKgOZuEoi1nIQijs/7Db
+         hWxg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=A5Thz3ng;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::344 as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=a620psJv;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::241 as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com. [2607:f8b0:4864:20::344])
-        by gmr-mx.google.com with ESMTPS id w15si92091pfu.6.2020.09.11.00.46.13
+Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com. [2607:f8b0:4864:20::241])
+        by gmr-mx.google.com with ESMTPS id t1si149013vsk.2.2020.09.11.05.03.17
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 11 Sep 2020 00:46:14 -0700 (PDT)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::344 as permitted sender) client-ip=2607:f8b0:4864:20::344;
-Received: by mail-ot1-x344.google.com with SMTP id g10so7596052otq.9
-        for <kasan-dev@googlegroups.com>; Fri, 11 Sep 2020 00:46:13 -0700 (PDT)
-X-Received: by 2002:a9d:3da1:: with SMTP id l30mr459810otc.233.1599810372977;
- Fri, 11 Sep 2020 00:46:12 -0700 (PDT)
+        Fri, 11 Sep 2020 05:03:17 -0700 (PDT)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::241 as permitted sender) client-ip=2607:f8b0:4864:20::241;
+Received: by mail-oi1-x241.google.com with SMTP id x69so9179419oia.8
+        for <kasan-dev@googlegroups.com>; Fri, 11 Sep 2020 05:03:17 -0700 (PDT)
+X-Received: by 2002:aca:5158:: with SMTP id f85mr1079246oib.121.1599825796209;
+ Fri, 11 Sep 2020 05:03:16 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200907134055.2878499-1-elver@google.com> <20200907134055.2878499-10-elver@google.com>
- <CACT4Y+b-RPYpqErLVPh+qtiuv_LhCyxLE_DJqbM0jegFd_nOKQ@mail.gmail.com>
-In-Reply-To: <CACT4Y+b-RPYpqErLVPh+qtiuv_LhCyxLE_DJqbM0jegFd_nOKQ@mail.gmail.com>
+References: <20200907134055.2878499-1-elver@google.com> <e399d8d5-03c2-3c13-2a43-3bb8e842c55a@intel.com>
+ <20200908153102.GB61807@elver.google.com> <feb73053-17a6-8b43-5b2b-51a813e81622@suse.cz>
+ <20200908155631.GC61807@elver.google.com> <CACT4Y+YZqj0CJTumpHr-g9HcRgs+JHwWP5eg1nYHP0E-Zw25DQ@mail.gmail.com>
+In-Reply-To: <CACT4Y+YZqj0CJTumpHr-g9HcRgs+JHwWP5eg1nYHP0E-Zw25DQ@mail.gmail.com>
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Fri, 11 Sep 2020 09:46:01 +0200
-Message-ID: <CANpmjNOkGChKcav-zRLUTS1tsobXNkounFGSVp0srEk5BDGweg@mail.gmail.com>
-Subject: Re: [PATCH RFC 09/10] kfence, Documentation: add KFENCE documentation
+Date: Fri, 11 Sep 2020 14:03:04 +0200
+Message-ID: <CANpmjNO7XwhefA+NKszVkNqj8a60QY45n-=EUtGns+ysNYV9mQ@mail.gmail.com>
+Subject: Re: [PATCH RFC 00/10] KFENCE: A low-overhead sampling-based memory
+ safety error detector
 To: Dmitry Vyukov <dvyukov@google.com>
-Cc: Alexander Potapenko <glider@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
+Cc: Vlastimil Babka <vbabka@suse.cz>, Dave Hansen <dave.hansen@intel.com>, 
+	Alexander Potapenko <glider@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
 	Catalin Marinas <catalin.marinas@arm.com>, Christoph Lameter <cl@linux.com>, 
 	David Rientjes <rientjes@google.com>, Joonsoo Kim <iamjoonsoo.kim@lge.com>, 
 	Mark Rutland <mark.rutland@arm.com>, Pekka Enberg <penberg@kernel.org>, 
@@ -125,8 +128,8 @@ Cc: Alexander Potapenko <glider@google.com>, Andrew Morton <akpm@linux-foundatio
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=A5Thz3ng;       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::344 as
+ header.i=@google.com header.s=20161025 header.b=a620psJv;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::241 as
  permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
  sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Marco Elver <elver@google.com>
@@ -143,273 +146,140 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, 11 Sep 2020 at 09:14, Dmitry Vyukov <dvyukov@google.com> wrote:
->
-> On Mon, Sep 7, 2020 at 3:41 PM Marco Elver <elver@google.com> wrote:
+On Fri, 11 Sep 2020 at 09:36, Dmitry Vyukov <dvyukov@google.com> wrote:
+> On Tue, Sep 8, 2020 at 5:56 PM Marco Elver <elver@google.com> wrote:
+> > On Tue, Sep 08, 2020 at 05:36PM +0200, Vlastimil Babka wrote:
+[...]
+> > > Hmm did you observe that with this limit, a long-running system would eventually
+> > > converge to KFENCE memory pool being filled with long-aged objects, so there
+> > > would be no space to sample new ones?
 > >
-> > Add KFENCE documentation in dev-tools/kfence.rst, and add to index.
+> > Sure, that's a possibility. But remember that we're not trying to
+> > deterministically detect bugs on 1 system (if you wanted that, you
+> > should use KASAN), but a fleet of machines! The non-determinism of which
+> > allocations will end up in KFENCE, will ensure we won't end up with a
+> > fleet of machines of identical allocations. That's exactly what we're
+> > after. Even if we eventually exhaust the pool, you'll still detect bugs
+> > if there are any.
 > >
-> > Co-developed-by: Alexander Potapenko <glider@google.com>
-> > Signed-off-by: Alexander Potapenko <glider@google.com>
-> > Signed-off-by: Marco Elver <elver@google.com>
-> > ---
-> >  Documentation/dev-tools/index.rst  |   1 +
-> >  Documentation/dev-tools/kfence.rst | 285 +++++++++++++++++++++++++++++
-> >  2 files changed, 286 insertions(+)
-> >  create mode 100644 Documentation/dev-tools/kfence.rst
-> >
-> > diff --git a/Documentation/dev-tools/index.rst b/Documentation/dev-tools/index.rst
-> > index f7809c7b1ba9..1b1cf4f5c9d9 100644
-> > --- a/Documentation/dev-tools/index.rst
-> > +++ b/Documentation/dev-tools/index.rst
-> > @@ -22,6 +22,7 @@ whole; patches welcome!
-> >     ubsan
-> >     kmemleak
-> >     kcsan
-> > +   kfence
-> >     gdb-kernel-debugging
-> >     kgdb
-> >     kselftest
-> > diff --git a/Documentation/dev-tools/kfence.rst b/Documentation/dev-tools/kfence.rst
-> > new file mode 100644
-> > index 000000000000..254f4f089104
-> > --- /dev/null
-> > +++ b/Documentation/dev-tools/kfence.rst
-> > @@ -0,0 +1,285 @@
-> > +.. SPDX-License-Identifier: GPL-2.0
-> > +
-> > +Kernel Electric-Fence (KFENCE)
-> > +==============================
-> > +
-> > +Kernel Electric-Fence (KFENCE) is a low-overhead sampling-based memory safety
-> > +error detector. KFENCE detects heap out-of-bounds access, use-after-free, and
-> > +invalid-free errors.
-> > +
-> > +KFENCE is designed to be enabled in production kernels, and has near zero
-> > +performance overhead. Compared to KASAN, KFENCE trades performance for
-> > +precision. The main motivation behind KFENCE's design, is that with enough
-> > +total uptime KFENCE will detect bugs in code paths not typically exercised by
-> > +non-production test workloads. One way to quickly achieve a large enough total
-> > +uptime is when the tool is deployed across a large fleet of machines.
-> > +
-> > +Usage
-> > +-----
-> > +
-> > +To enable KFENCE, configure the kernel with::
-> > +
-> > +    CONFIG_KFENCE=y
-> > +
-> > +KFENCE provides several other configuration options to customize behaviour (see
-> > +the respective help text in ``lib/Kconfig.kfence`` for more info).
-> > +
-> > +Tuning performance
-> > +~~~~~~~~~~~~~~~~~~
-> > +
-> > +The most important parameter is KFENCE's sample interval, which can be set via
-> > +the kernel boot parameter ``kfence.sample_interval`` in milliseconds. The
-> > +sample interval determines the frequency with which heap allocations will be
-> > +guarded by KFENCE. The default is configurable via the Kconfig option
-> > +``CONFIG_KFENCE_SAMPLE_INTERVAL``. Setting ``kfence.sample_interval=0``
-> > +disables KFENCE.
-> > +
-> > +With the Kconfig option ``CONFIG_KFENCE_NUM_OBJECTS`` (default 255), the number
-> > +of available guarded objects can be controlled. Each object requires 2 pages,
-> > +one for the object itself and the other one used as a guard page; object pages
-> > +are interleaved with guard pages, and every object page is therefore surrounded
-> > +by two guard pages.
-> > +
-> > +The total memory dedicated to the KFENCE memory pool can be computed as::
-> > +
-> > +    ( #objects + 1 ) * 2 * PAGE_SIZE
-> > +
-> > +Using the default config, and assuming a page size of 4 KiB, results in
-> > +dedicating 2 MiB to the KFENCE memory pool.
-> > +
-> > +Error reports
-> > +~~~~~~~~~~~~~
-> > +
-> > +A typical out-of-bounds access looks like this::
-> > +
-> > +    ==================================================================
-> > +    BUG: KFENCE: out-of-bounds in test_out_of_bounds_read+0xa3/0x22b
-> > +
-> > +    Out-of-bounds access at 0xffffffffb672efff (left of kfence-#17):
-> > +     test_out_of_bounds_read+0xa3/0x22b
-> > +     kunit_try_run_case+0x51/0x85
-> > +     kunit_generic_run_threadfn_adapter+0x16/0x30
-> > +     kthread+0x137/0x160
-> > +     ret_from_fork+0x22/0x30
-> > +
-> > +    kfence-#17 [0xffffffffb672f000-0xffffffffb672f01f, size=32, cache=kmalloc-32] allocated in:
-> > +     __kfence_alloc+0x42d/0x4c0
-> > +     __kmalloc+0x133/0x200
-> > +     test_alloc+0xf3/0x25b
-> > +     test_out_of_bounds_read+0x98/0x22b
-> > +     kunit_try_run_case+0x51/0x85
-> > +     kunit_generic_run_threadfn_adapter+0x16/0x30
-> > +     kthread+0x137/0x160
-> > +     ret_from_fork+0x22/0x30
-> > +
-> > +    CPU: 4 PID: 107 Comm: kunit_try_catch Not tainted 5.8.0-rc6+ #7
-> > +    Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.13.0-1 04/01/2014
-> > +    ==================================================================
-> > +
-> > +The header of the report provides a short summary of the function involved in
-> > +the access. It is followed by more detailed information about the access and
-> > +its origin.
-> > +
-> > +Use-after-free accesses are reported as::
-> > +
-> > +    ==================================================================
-> > +    BUG: KFENCE: use-after-free in test_use_after_free_read+0xb3/0x143
-> > +
-> > +    Use-after-free access at 0xffffffffb673dfe0:
-> > +     test_use_after_free_read+0xb3/0x143
-> > +     kunit_try_run_case+0x51/0x85
-> > +     kunit_generic_run_threadfn_adapter+0x16/0x30
-> > +     kthread+0x137/0x160
-> > +     ret_from_fork+0x22/0x30
-> > +
-> > +    kfence-#24 [0xffffffffb673dfe0-0xffffffffb673dfff, size=32, cache=kmalloc-32] allocated in:
-> > +     __kfence_alloc+0x277/0x4c0
-> > +     __kmalloc+0x133/0x200
-> > +     test_alloc+0xf3/0x25b
-> > +     test_use_after_free_read+0x76/0x143
-> > +     kunit_try_run_case+0x51/0x85
-> > +     kunit_generic_run_threadfn_adapter+0x16/0x30
-> > +     kthread+0x137/0x160
-> > +     ret_from_fork+0x22/0x30
+> > If you are overly worried, either the sample interval or number of
+> > available objects needs to be tweaked to be larger. The default of 255
+> > is quite conservative, and even using something larger on a modern
+> > system is hardly noticeable. Choosing a sample interval & number of
+> > objects should also factor in how many machines you plan to deploy this
+> > on. Monitoring /sys/kernel/debug/kfence/stats can help you here.
 >
-> Empty line between stacks for consistency and readability.
-
-Done for v2.
-
-> > +    freed in:
-> > +     kfence_guarded_free+0x158/0x380
-> > +     __kfence_free+0x38/0xc0
-> > +     test_use_after_free_read+0xa8/0x143
-> > +     kunit_try_run_case+0x51/0x85
-> > +     kunit_generic_run_threadfn_adapter+0x16/0x30
-> > +     kthread+0x137/0x160
-> > +     ret_from_fork+0x22/0x30
-> > +
-> > +    CPU: 4 PID: 109 Comm: kunit_try_catch Tainted: G        W         5.8.0-rc6+ #7
-> > +    Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.13.0-1 04/01/2014
-> > +    ==================================================================
-> > +
-> > +KFENCE also reports on invalid frees, such as double-frees::
-> > +
-> > +    ==================================================================
-> > +    BUG: KFENCE: invalid free in test_double_free+0xdc/0x171
-> > +
-> > +    Invalid free of 0xffffffffb6741000:
-> > +     test_double_free+0xdc/0x171
-> > +     kunit_try_run_case+0x51/0x85
-> > +     kunit_generic_run_threadfn_adapter+0x16/0x30
-> > +     kthread+0x137/0x160
-> > +     ret_from_fork+0x22/0x30
-> > +
-> > +    kfence-#26 [0xffffffffb6741000-0xffffffffb674101f, size=32, cache=kmalloc-32] allocated in:
-> > +     __kfence_alloc+0x42d/0x4c0
-> > +     __kmalloc+0x133/0x200
-> > +     test_alloc+0xf3/0x25b
-> > +     test_double_free+0x76/0x171
-> > +     kunit_try_run_case+0x51/0x85
-> > +     kunit_generic_run_threadfn_adapter+0x16/0x30
-> > +     kthread+0x137/0x160
-> > +     ret_from_fork+0x22/0x30
-> > +    freed in:
-> > +     kfence_guarded_free+0x158/0x380
-> > +     __kfence_free+0x38/0xc0
-> > +     test_double_free+0xa8/0x171
-> > +     kunit_try_run_case+0x51/0x85
-> > +     kunit_generic_run_threadfn_adapter+0x16/0x30
-> > +     kthread+0x137/0x160
-> > +     ret_from_fork+0x22/0x30
-> > +
-> > +    CPU: 4 PID: 111 Comm: kunit_try_catch Tainted: G        W         5.8.0-rc6+ #7
-> > +    Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.13.0-1 04/01/2014
-> > +    ==================================================================
-> > +
-> > +KFENCE also uses pattern-based redzones on the other side of an object's guard
-> > +page, to detect out-of-bounds writes on the unprotected side of the object.
-> > +These are reported on frees::
-> > +
-> > +    ==================================================================
-> > +    BUG: KFENCE: memory corruption in test_kmalloc_aligned_oob_write+0xef/0x184
-> > +
-> > +    Detected corrupted memory at 0xffffffffb6797ff9 [ 0xac . . . . . . ]:
-> > +     test_kmalloc_aligned_oob_write+0xef/0x184
-> > +     kunit_try_run_case+0x51/0x85
-> > +     kunit_generic_run_threadfn_adapter+0x16/0x30
-> > +     kthread+0x137/0x160
-> > +     ret_from_fork+0x22/0x30
-> > +
-> > +    kfence-#69 [0xffffffffb6797fb0-0xffffffffb6797ff8, size=73, cache=kmalloc-96] allocated in:
-> > +     __kfence_alloc+0x277/0x4c0
-> > +     __kmalloc+0x133/0x200
-> > +     test_alloc+0xf3/0x25b
-> > +     test_kmalloc_aligned_oob_write+0x57/0x184
-> > +     kunit_try_run_case+0x51/0x85
-> > +     kunit_generic_run_threadfn_adapter+0x16/0x30
-> > +     kthread+0x137/0x160
-> > +     ret_from_fork+0x22/0x30
-> > +
-> > +    CPU: 4 PID: 120 Comm: kunit_try_catch Tainted: G        W         5.8.0-rc6+ #7
-> > +    Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.13.0-1 04/01/2014
-> > +    ==================================================================
-> > +
-> > +For such errors, the address where the corruption as well as the corrupt bytes
-> > +are shown.
-> > +
-> > +And finally, KFENCE may also report on invalid accesses to any protected page
-> > +where it was not possible to determine an associated object, e.g. if adjacent
-> > +object pages had not yet been allocated::
-> > +
-> > +    ==================================================================
-> > +    BUG: KFENCE: invalid access in test_invalid_access+0x26/0xe0
-> > +
-> > +    Invalid access at 0xffffffffb670b00a:
-> > +     test_invalid_access+0x26/0xe0
-> > +     kunit_try_run_case+0x51/0x85
-> > +     kunit_generic_run_threadfn_adapter+0x16/0x30
-> > +     kthread+0x137/0x160
-> > +     ret_from_fork+0x22/0x30
-> > +
-> > +    CPU: 4 PID: 124 Comm: kunit_try_catch Tainted: G        W         5.8.0-rc6+ #7
-> > +    Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.13.0-1 04/01/2014
-> > +    ==================================================================
-> > +
-> > +DebugFS interface
-> > +~~~~~~~~~~~~~~~~~
-> > +
-> > +Some debugging information is exposed via debugfs:
-> > +
-> > +* The file ``/sys/kernel/debug/kfence/stats`` provides runtime statistics.
-> > +
-> > +* The file ``/sys/kernel/debug/kfence/objects`` provides a list of objects
-> > +  allocated via KFENCE, including those already freed but protected.
-> > +
-> > +Implementation Details
-> > +----------------------
-> > +
-> > +Guarded allocations are set up based on the sample interval. After expiration
-> > +of the sample interval, a guarded allocation from the KFENCE object pool is
-> > +returned to the main allocator (SLAB or SLUB). At this point, the timer is
-> > +reset, and the next allocation is set up after the expiration of the interval.
-> > +To "gate" a KFENCE allocation through the main allocator's fast-path without
-> > +overhead, KFENCE relies on static branches via the static keys infrastructure.
-> > +The static branch is toggled to redirect the allocation to KFENCE.
-> > +
-> > +KFENCE objects each reside on a dedicated page, at either the left or right
+> Hi Marco,
 >
-> Do we mention anywhere explicitly that KFENCE currently only supports
-> allocations <=page_size?
-> May be worth mentioning. It kinda follows from implementation but
-> quite implicitly. One may also be confused assuming KFENCE handles
-> larger allocations, but then not being able to figure out.
+> I reviewed patches and they look good to me (minus some local comments
+> that I've left).
 
-We can add a note that "allocation sizes up to PAGE_SIZE are supported".
+Thank you.
+
+> The main question/concern I have is what Vlastimil mentioned re
+> long-aged objects.
+> Is the default sample interval values reasonable for typical
+> workloads? Do we have any guidelines on choosing the sample interval?
+> Should it depend on workload/use pattern?
+
+As I hinted at before, the sample interval & number of objects needs
+to depend on:
+- number of machines,
+- workload,
+- acceptable overhead (performance, memory).
+
+However, workload can vary greatly, and something more dynamic may be
+needed. We do have the option to monitor
+/sys/kernel/debug/kfence/stats and even change the sample interval at
+runtime, e.g. from a user space tool that checks the currently used
+objects, and as the pool is closer to exhausted, starts increasing
+/sys/module/kfence/parameters/sample_interval.
+
+Of course, if we figure out the best dynamic policy, we can add this
+policy into the kernel. But I don't think it makes sense to hard-code
+such a policy right now.
+
+> By "reasonable" I mean if the pool will last long enough to still
+> sample something after hours/days? Have you tried any experiments with
+> some workload (both short-lived processes and long-lived
+> processes/namespaces) capturing state of the pool? It can make sense
+> to do to better understand dynamics. I suspect that the rate may need
+> to be orders of magnitude lower.
+
+Yes, the current default sample interval is a lower bound, and is also
+a reasonable default for testing. I expect real deployments to use
+much higher sample intervals (lower rate).
+
+So here's some data (with CONFIG_KFENCE_NUM_OBJECTS=1000, so that
+allocated KFENCE objects isn't artificially capped):
+
+-- With a mostly vanilla config + KFENCE (sample interval 100 ms),
+after ~40 min uptime (only boot, then idle) I see ~60 KFENCE objects
+(total allocations >600). Those aren't always the same objects, with
+roughly ~2 allocations/frees per second.
+
+-- Then running sysbench I/O benchmark, KFENCE objects allocated peak
+at 82. During the benchmark, allocations/frees per second are closer
+to 10-15. After the benchmark, the KFENCE objects allocated remain at
+82, and allocations/frees per second fall back to ~2.
+
+-- For the same system, changing the sample interval to 1 ms (echo 1 >
+/sys/module/kfence/parameters/sample_interval), and re-running the
+benchmark gives me: KFENCE objects allocated peak at exactly 500, with
+~500 allocations/frees per second. After that, allocated KFENCE
+objects dropped a little to 496, and allocations/frees per second fell
+back to ~2.
+
+-- The long-lived objects are due to caches, and just running 'echo 1
+> /proc/sys/vm/drop_caches' reduced allocated KFENCE objects back to
+45.
+
+> Also I am wondering about the boot process (both kernel and init).
+> It's both inherently almost the same for the whole population of
+> machines and inherently produces persistent objects. Should we lower
+> the rate for the first minute of uptime? Or maybe make it proportional
+> to uptime?
+
+It should depend on current usage, which is dependent on the workload.
+I don't think uptime helps much, as seen above. If we imagine a user
+space tool that tweaks this for us, we can initialize KFENCE with a
+very large sample interval, and once booted, this user space
+tool/script adjusts /sys/module/kfence/parameters/sample_interval.
+
+At the very least, I think I'll just make
+/sys/module/kfence/parameters/sample_interval root-writable
+unconditionally, so that we can experiment with such a tool.
+
+Lowering the rate for the first minute of uptime might also be an
+option, although if we do that, we can also just move kfence_init() to
+the end of start_kernel(). IMHO, I think it still makes sense to
+sample normally during boot, because who knows how those allocations
+are used with different workloads once the kernel is live. With a
+sample interval of 1000 ms (which is closer to what we probably want
+in production), I see no more than 20 KFENCE objects allocated after
+boot. I think we can live with that.
+
+> I feel it's quite an important aspect. We can have this awesome idea
+> and implementation, but radically lower its utility by using bad
+> sampling value (which will have silent "failure mode" -- no bugs
+> detected).
+
+As a first step, I think monitoring the entire fleet here is key here
+(collect /sys/kernel/debug/kfence/stats). Essentially, as long as
+allocations/frees per second remains >0, we're probably fine, even if
+we always run at max. KFENCE objects allocated.
+
+An improvement over allocations/frees per second >0 would be
+dynamically tweaking sample_interval based on how close we get to max
+KFENCE objects allocated.
+
+Yet another option is to skip KFENCE allocations based on the memcache
+name, e.g. for those caches dedicated to long-lived allocations.
+
+> But to make it clear: all of this does not conflict with the merge of
+> the first version. Just having tunable sampling interval is good
+> enough. We will get the ultimate understanding only when we start
+> using it widely anyway.
 
 Thanks,
 -- Marco
@@ -417,4 +287,4 @@ Thanks,
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNOkGChKcav-zRLUTS1tsobXNkounFGSVp0srEk5BDGweg%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNO7XwhefA%2BNKszVkNqj8a60QY45n-%3DEUtGns%2BysNYV9mQ%40mail.gmail.com.
