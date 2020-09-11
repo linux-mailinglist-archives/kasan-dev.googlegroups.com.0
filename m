@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBCMIZB7QWENRBPXL5X5AKGQEPEQRH3I@googlegroups.com>
+Return-Path: <kasan-dev+bncBCMIZB7QWENRBKHO5X5AKGQE7CPNEVI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-vk1-xa40.google.com (mail-vk1-xa40.google.com [IPv6:2607:f8b0:4864:20::a40])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07DD7266001
-	for <lists+kasan-dev@lfdr.de>; Fri, 11 Sep 2020 15:04:00 +0200 (CEST)
-Received: by mail-vk1-xa40.google.com with SMTP id w126sf2258351vkb.6
-        for <lists+kasan-dev@lfdr.de>; Fri, 11 Sep 2020 06:03:59 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1599829439; cv=pass;
+Received: from mail-yb1-xb37.google.com (mail-yb1-xb37.google.com [IPv6:2607:f8b0:4864:20::b37])
+	by mail.lfdr.de (Postfix) with ESMTPS id D6A4E266007
+	for <lists+kasan-dev@lfdr.de>; Fri, 11 Sep 2020 15:10:01 +0200 (CEST)
+Received: by mail-yb1-xb37.google.com with SMTP id u18sf8937449ybu.0
+        for <lists+kasan-dev@lfdr.de>; Fri, 11 Sep 2020 06:10:01 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1599829800; cv=pass;
         d=google.com; s=arc-20160816;
-        b=CBfkiRDlvNlOw5ZJN+l/Kv3HRur/kyGXOnINGYe5YD9il8JLsFS83vP2g7c2enZjSp
-         1dLrqSljkStl5YEkq+iu31wkjLVgiXYHhRtTziQKhf7wwA9hoYxpONOOkcRnqZed/0WD
-         sntGDxaOO/KZTeGaW8wFrFg/HPTvr9q4Bbmz3zfHQBopMxlufG9llBelYE3hfIEZY16x
-         5Po8unWUppJ5vC7vRAkde+BeKHpKFgTQ6rDEWEBcJ3eL4Aw45V+QcQs5cLVygbfwf/OL
-         SIDHgcwBa8Oqt8Iy8NJBzqRJu8eaPS+Bja/pDLXfu6IlqYe0L/KGcrFjtTmWa5kx2cJH
-         aOjw==
+        b=W50Fc82M09HsTzWMW9Jo/6KrckNBPbiINnP6lEWup0xzf0+GvoG5FzpE+zq5dhF7IB
+         /e2pOxXCplI1+AUKBxEnpcKBVIUckByqtQV0w55jfhntBNZN+Z8q5acbPh5u9+KrIDX5
+         +3dPXOA0VqAMNNNTAurGFrtVwOB+l38w/BxlMqfJHMTN5goK+gB/uyDAZvd90KBqxx/I
+         GOhGNyVCfhKXVqRXZOGJmF9FDCDyfB9cOt8HT7JwCcUV9ESF2a1LEQ4dCH7rzXFapQYV
+         NYDZ39kkVjfpK7Of8TAKePlsBR8/mptEbbkO3waNlrxP1oU79ypeL4TpHMI5pfB/XOhv
+         PiPg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=e5dX1pclkFgjmaH9Cz+LebUNEvfsdZH4zKY/owj+Z3o=;
-        b=Xycdqgh8uQPfM2DGj3Hw+jk+JArHfzPYSP6by68y1bLTzbJU3KKci1CsTiNBLFG3kY
-         AiKeniQxqiCyrwupmrol9zmcRn7pUbEKmFMqEPDJbUEhhnEHtdt/yGF6wv2VoXlS1ywS
-         QLffqkI1F/RNTCh9dR5oYRVyyYGPGyubA67CF9YtB5btnIF8V3ClJuHBrl0PQRQaoeVZ
-         Jkvh3O85nJSqfOVxbCLwLHoAvaDctylK8wsASCBXkKXcwtzg9zUJUsAWQGQWKlOk9Q3V
-         0DQsv/Dn1fPvSGaa65+lSd1b2CalhQ/7/VDJGK8ID6fESHUKTsrzR+pmedEUqsUJzMz3
-         ewEg==
+        bh=NWGOrMyWIOxxp4Cg8Gw/f2RPRv+qfTb5uIDLsMWTpzA=;
+        b=MUrGB8KJLNXmI9iBfwC1Kozv8LVqqCSInNw3DHndZev6HtIpIWxqN+FgsMWH3PkmX/
+         H4lxGyWlgbm1YlLGbtmBxqQYmGu2DOzDS1Z41uqsiq/W1juzc4Wx+jzLccj9djV0m2x+
+         U51KtctHM/peLuPDbDzCBsx9V06A/QaQ/VkviVx9a0wyOkY+USdJmOxUv9Hy1t7T0ZWX
+         RrdIJWmJHpjEvkLcbR+S0AVDkGQyeABeA2By9ytitDIGT+R8nIvWQLlvH91N5jDLXWH1
+         yYdFU4XUGlOkrw0M3LiQC8eZNmAIzyFbI8LuIbjHn5R+o1jC9DR+QHP7YJkb95707TjE
+         34zA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=Byv0FemA;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::844 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=oMdmCnlt;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::842 as permitted sender) smtp.mailfrom=dvyukov@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=e5dX1pclkFgjmaH9Cz+LebUNEvfsdZH4zKY/owj+Z3o=;
-        b=JCUuTH2s7/bPIwjoQeUuHElG8YKFxHCRFo2IPIIJBi5hMWmQjyuxx/HU0e13P3/bq8
-         apULyo+liXgb8eyLbPuXRp7ePMZyb2rAIG+LAtj86o3NMSO/lT+KcHLgHWKzR54CVPQ+
-         l1uTiCrwxT78y9sdBE6oC4529BF6h9VTUdlgH1QUFXvDW0ZMc9/StpNtDr28+U5VFx60
-         O8iLSmWL/dZ8VCatJlsHvjqBy+awXUdVDHk5l6OtvoUbjeyGmdLn/0LyvwYhGmhakPqR
-         clUQeEIp9RxKXArDFIQ3xGPv+iJDfvcETFp3SBK2qiW+S4oNFj22kiQUSvFCdQtuMxOY
-         QaqA==
+        bh=NWGOrMyWIOxxp4Cg8Gw/f2RPRv+qfTb5uIDLsMWTpzA=;
+        b=sH8Dvoyfqg2M/kWeT7KNdMd55ZN6TPKs2mDqhF2+9gOr/vBWg/hrwZ2oTv/CZLSZlW
+         GqYx6JQPC2bfpvH3SQMXuWv5M4mdE3kkgkV9+OXXFl1OXYhFwPDm2RuMwfYIH0nhpZKi
+         S/DbdnCGivgSj2UeDFFuOdF6g7jX9FcmYy2HhL6Jn0f37nVU0RQhMrto1mXPLW55qDQI
+         r60ZH5NibZHWcc1iR/6lzsqd/I7qWrySC5OaWQqHR6lhEM4oWdPSgBJ36cga7hjh/5jm
+         jHeetZO2K6KwcoLAPOqkLz7Nr+rOkZxbPLh9R/tLatzwVDxpsTSdN9L9lbIR4OYPeYpT
+         BPSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
@@ -49,65 +49,69 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=e5dX1pclkFgjmaH9Cz+LebUNEvfsdZH4zKY/owj+Z3o=;
-        b=LIZyibkAABKibGX5fvVdFhCe9+jatYb0U2u6froJCuWhZOU4DPue0TP3VWxbkWAj8W
-         dMYiG0HD7q6CPblfW7UvFlSegvXUvWY30gO2T5mMZtnFdrJ6Z31jNCabk0n39MRyPKv2
-         +f1bLY/ve127G53a+exblurOER3n9rLE/CRP75ooNEkRzuP+a4voK5HKgFHD+dVIHcgO
-         ewJS9VGjVcUJ2/V2tdfSyg9cdYxrpmjTBvFXtmGSIOMYDUauKXzPELPDIhpYm8Gwrb6m
-         ZvJj3EfSf4d8xlko++1ETKtfHbj9JVDkaKUnIthodWDqIEBwn8SkyodR8MfHGtHk6/X7
-         VpGg==
-X-Gm-Message-State: AOAM530uldpniscKITy7UsGusGFPdYpP5ekBTIBdw6Wvshilr5Ohksvi
-	Pk8/Wu/4dS8t0jzTYF+UtlM=
-X-Google-Smtp-Source: ABdhPJxjqRtzklVjkEziPEJGTlElqq9ZhFMSabdK/faad/DbQKFCYsv+4BvDLSOIYoesU30Fr99nhw==
-X-Received: by 2002:a67:2d48:: with SMTP id t69mr931746vst.27.1599829439033;
-        Fri, 11 Sep 2020 06:03:59 -0700 (PDT)
+        bh=NWGOrMyWIOxxp4Cg8Gw/f2RPRv+qfTb5uIDLsMWTpzA=;
+        b=Z/O4+UAqvEI99YZh+Rrvy6d+0ye6WVWjYXm4nJ8AtHfDFl35XG8NUEB465l4mz7jmF
+         m404/bTAb74jQqTtH5z1OE26Un75UVTY8bNiGiU2HYpSTeuApn8DBdDMraFLp13i6fSo
+         fiYjLdVdRB8HSkE7lzD6ccb1ndGHENS6RMsbbJD/c7awmH6sn2ItvKb62vXnWPBxNgRT
+         oxAFmTYcf0I9MquwJJsfZaGkaUdHyVh0Yi2LynPZzz2yPbE3Gxi7eBxollUzLTXQ3Ue3
+         pkQ9xQUX64u3OBlisIKxy9kLenmixcF5DXYD3mtwtgEIkfXGLlK9K/vKprfsOvpmHmn/
+         ijVw==
+X-Gm-Message-State: AOAM5339VDUAg1BIe1RHstOMkIbQnrRDsRUlfCaltEmXqusmSWUUPXG2
+	P9Wcf1lrHUFxHu9mkw7eGxg=
+X-Google-Smtp-Source: ABdhPJyQJTXgeJRJQy2vma2MXqsXclT+/IvH+QrBnxFkcG2JfdxszTZmz5wAl1TbRTXCBsrgtSG1aA==
+X-Received: by 2002:a25:a125:: with SMTP id z34mr2275759ybh.390.1599829800631;
+        Fri, 11 Sep 2020 06:10:00 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ab0:172:: with SMTP id 105ls145717uak.11.gmail; Fri, 11 Sep
- 2020 06:03:58 -0700 (PDT)
-X-Received: by 2002:a9f:2655:: with SMTP id 79mr784634uag.140.1599829437926;
-        Fri, 11 Sep 2020 06:03:57 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1599829437; cv=none;
+Received: by 2002:a25:c550:: with SMTP id v77ls930737ybe.8.gmail; Fri, 11 Sep
+ 2020 06:10:00 -0700 (PDT)
+X-Received: by 2002:a25:6b4e:: with SMTP id o14mr2281843ybm.23.1599829800184;
+        Fri, 11 Sep 2020 06:10:00 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1599829800; cv=none;
         d=google.com; s=arc-20160816;
-        b=o5WzNauxS9Kujc0zwZ5LLSDLoHemBQcjlqUWH85c9nbdesDVdBmk5iD+IPnOa53mr5
-         QvRmeR+Sxl40S9kdv1eHWurbL0uDL6BnuQXqwjnljSKMEJ6dqQTFTk2pH8TZPf9vwHfd
-         Dy5+0FdKmrjyblIoEyuMwaM1J5qB0YHE92fuamVnPT4BW1bMY6YFCp74uhusM5ecQQW6
-         p9J0vp2UuMZHYjufGNQnOwXBAvwyrfNwyjZ54txlypOu8k2+tS08DSJWyuzp5ZYew5Xf
-         AJG9dq7Whi58IAeogm7gwbg5KJTBmZYrxIwKXCno1v50R4Hx1drQBicqzGtqE32JvkkC
-         7dlg==
+        b=ycf/zC0LQscZSGq2wecz7LyOD+wayE47aD68KM8My9Y41trTByPqOzUlk7jPQ/2JIb
+         fkxPyH22tLSQ7w/oMEyfxb+1wfYOzi2oqJ+WD4reG+tn3dZ9YcsHzL5vTTKVlQecMjOf
+         Qu/5mG9WbQCqMPU6wWXI+5ERHIAwsZbxWXHfDYCWeYBEC1joI8TUFRNqNKODtLLtKJnO
+         uAAZvhZBUET8gIS9kQ1uDxYiEMets4xEjL5dmZHEHIaB6hdsTxHJ6oVv0WVqUhTMGUEL
+         mnV81qCmfGhkMbQ9BoqL5Q2TLTkr/BBFNRvspgEVAioKATXzp4uNGSm1ambGdyRC8T3k
+         Y0iQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=UXp+wN/Ry6nApS13CcvCEGTyxqKSfC2ghriIPUG6Irg=;
-        b=Lu/Zg1r6vcC+CZ4afslASP+IPdBpHzquFCvJka2IegnzhH4xxcIgtmHB4rbn3zp0NH
-         cEU4zTSaSf+cWMX9iErKJbkAT5Ggq0RiKUm3ucdh4EjrOZWcxf8923v2lzpWnd18hM4K
-         wysQrRob318nPAJl/k0mIbCHWyL6Kz9nAN95H8va2K4Ehpnl1Z6upJKoCb6BdMiOGnsU
-         /8pGn76uaA09n4sDkduz6JdQNrCXed9211/giAobTqV8MyOFBLa+wTUOIEs3ppXETlDW
-         7rsfkFm0wpqbBVHnipp2LMoa95VIfbDNDSrdjFE75cHlQ94Kvu0j2ppEGFY/06/zK1/3
-         YcyQ==
+        bh=cdR3w46F1Dqn8ODmMx+KwCNXsWHRoDripL6i3lIvacY=;
+        b=bApNDwfdRb8JsXTBP99vMXFGZETscrat3OwcIQh5Or6jWN9+S5U1yA1i0pBb2TIGv3
+         UcgfnUcJ6qV+lfmyC2AwciBrHIiva2V6KGh/VekcJogs+rwwpduTarBaGw33E969xays
+         +UkoARDIAiRKaMcqoTkcRW0m041xzjN4DAseZUplIPTIdDoj7sq1dkEOWTRvyAzdSJE4
+         VmK7rJOa3OV2XRLSJ6AJN/U1mxTZmZt2pkzLO13s2p4ZEpuSMspGzQw0c9kqp3CvDaA/
+         Ng+mFs9DGGOjlN91u8ks3lGOwJvrGUGlvWDAHkMtoUadvDT2uwmvGb1zpnn/2XuuxiQa
+         GxlQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=Byv0FemA;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::844 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=oMdmCnlt;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::842 as permitted sender) smtp.mailfrom=dvyukov@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com. [2607:f8b0:4864:20::844])
-        by gmr-mx.google.com with ESMTPS id 134si163022vkx.0.2020.09.11.06.03.57
+Received: from mail-qt1-x842.google.com (mail-qt1-x842.google.com. [2607:f8b0:4864:20::842])
+        by gmr-mx.google.com with ESMTPS id v129si111918ybe.2.2020.09.11.06.10.00
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 11 Sep 2020 06:03:57 -0700 (PDT)
-Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::844 as permitted sender) client-ip=2607:f8b0:4864:20::844;
-Received: by mail-qt1-x844.google.com with SMTP id r8so7685511qtp.13
-        for <kasan-dev@googlegroups.com>; Fri, 11 Sep 2020 06:03:57 -0700 (PDT)
-X-Received: by 2002:ac8:4806:: with SMTP id g6mr1747161qtq.380.1599829437150;
- Fri, 11 Sep 2020 06:03:57 -0700 (PDT)
+        Fri, 11 Sep 2020 06:10:00 -0700 (PDT)
+Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::842 as permitted sender) client-ip=2607:f8b0:4864:20::842;
+Received: by mail-qt1-x842.google.com with SMTP id e7so7734818qtj.11
+        for <kasan-dev@googlegroups.com>; Fri, 11 Sep 2020 06:10:00 -0700 (PDT)
+X-Received: by 2002:ac8:4658:: with SMTP id f24mr1770470qto.158.1599829799395;
+ Fri, 11 Sep 2020 06:09:59 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200907134055.2878499-1-elver@google.com> <20200907134055.2878499-5-elver@google.com>
- <CACT4Y+aXNmQzp6J+mP+ELj8kUHmRPkibc1--KtV9a3ud_X8miw@mail.gmail.com> <CANpmjNNGZ-bnzzG+nbnCMCNCWGxakJ3wq+pmDjsD5LyWmwmyoQ@mail.gmail.com>
-In-Reply-To: <CANpmjNNGZ-bnzzG+nbnCMCNCWGxakJ3wq+pmDjsD5LyWmwmyoQ@mail.gmail.com>
+References: <20200907134055.2878499-1-elver@google.com> <e399d8d5-03c2-3c13-2a43-3bb8e842c55a@intel.com>
+ <20200908153102.GB61807@elver.google.com> <feb73053-17a6-8b43-5b2b-51a813e81622@suse.cz>
+ <20200908155631.GC61807@elver.google.com> <CACT4Y+YZqj0CJTumpHr-g9HcRgs+JHwWP5eg1nYHP0E-Zw25DQ@mail.gmail.com>
+ <CANpmjNO7XwhefA+NKszVkNqj8a60QY45n-=EUtGns+ysNYV9mQ@mail.gmail.com>
+In-Reply-To: <CANpmjNO7XwhefA+NKszVkNqj8a60QY45n-=EUtGns+ysNYV9mQ@mail.gmail.com>
 From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Fri, 11 Sep 2020 15:03:45 +0200
-Message-ID: <CACT4Y+ZGASbeN-O9yzYo6TP_43x-XTpTQ7smK5viM5+E6i5JyQ@mail.gmail.com>
-Subject: Re: [PATCH RFC 04/10] mm, kfence: insert KFENCE hooks for SLAB
+Date: Fri, 11 Sep 2020 15:09:48 +0200
+Message-ID: <CACT4Y+YSQDjEh6+XMXiHvMaKAT8bA=JkC8xY3AXfcSk+f9yR+g@mail.gmail.com>
+Subject: Re: [PATCH RFC 00/10] KFENCE: A low-overhead sampling-based memory
+ safety error detector
 To: Marco Elver <elver@google.com>
-Cc: Alexander Potapenko <glider@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
+Cc: Vlastimil Babka <vbabka@suse.cz>, Dave Hansen <dave.hansen@intel.com>, 
+	Alexander Potapenko <glider@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
 	Catalin Marinas <catalin.marinas@arm.com>, Christoph Lameter <cl@linux.com>, 
 	David Rientjes <rientjes@google.com>, Joonsoo Kim <iamjoonsoo.kim@lge.com>, 
 	Mark Rutland <mark.rutland@arm.com>, Pekka Enberg <penberg@kernel.org>, 
@@ -125,8 +129,8 @@ Cc: Alexander Potapenko <glider@google.com>, Andrew Morton <akpm@linux-foundatio
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: dvyukov@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=Byv0FemA;       spf=pass
- (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::844
+ header.i=@google.com header.s=20161025 header.b=oMdmCnlt;       spf=pass
+ (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::842
  as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
  (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Dmitry Vyukov <dvyukov@google.com>
@@ -143,132 +147,151 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, Sep 11, 2020 at 2:24 PM Marco Elver <elver@google.com> wrote:
-> > > From: Alexander Potapenko <glider@google.com>
-> > >
-> > > Inserts KFENCE hooks into the SLAB allocator.
-> > >
-> > > We note the addition of the 'orig_size' argument to slab_alloc*()
-> > > functions, to be able to pass the originally requested size to KFENCE.
-> > > When KFENCE is disabled, there is no additional overhead, since these
-> > > functions are __always_inline.
-> > >
-> > > Co-developed-by: Marco Elver <elver@google.com>
-> > > Signed-off-by: Marco Elver <elver@google.com>
-> > > Signed-off-by: Alexander Potapenko <glider@google.com>
-> > > ---
-> > >  mm/slab.c        | 46 ++++++++++++++++++++++++++++++++++------------
-> > >  mm/slab_common.c |  6 +++++-
-> > >  2 files changed, 39 insertions(+), 13 deletions(-)
-> > >
-> > > diff --git a/mm/slab.c b/mm/slab.c
-> > > index 3160dff6fd76..30aba06ae02b 100644
-> > > --- a/mm/slab.c
-> > > +++ b/mm/slab.c
-> > > @@ -100,6 +100,7 @@
-> > >  #include       <linux/seq_file.h>
-> > >  #include       <linux/notifier.h>
-> > >  #include       <linux/kallsyms.h>
-> > > +#include       <linux/kfence.h>
-> > >  #include       <linux/cpu.h>
-> > >  #include       <linux/sysctl.h>
-> > >  #include       <linux/module.h>
-> > > @@ -3206,7 +3207,7 @@ static void *____cache_alloc_node(struct kmem_cache *cachep, gfp_t flags,
-> > >  }
-> > >
-> > >  static __always_inline void *
-> > > -slab_alloc_node(struct kmem_cache *cachep, gfp_t flags, int nodeid,
-> > > +slab_alloc_node(struct kmem_cache *cachep, gfp_t flags, int nodeid, size_t orig_size,
-> > >                    unsigned long caller)
-> > >  {
-> > >         unsigned long save_flags;
-> > > @@ -3219,6 +3220,10 @@ slab_alloc_node(struct kmem_cache *cachep, gfp_t flags, int nodeid,
-> > >         if (unlikely(!cachep))
-> > >                 return NULL;
-> > >
-> > > +       ptr = kfence_alloc(cachep, orig_size, flags);
-> > > +       if (unlikely(ptr))
-> > > +               goto out_hooks;
-> > > +
-> > >         cache_alloc_debugcheck_before(cachep, flags);
-> > >         local_irq_save(save_flags);
-> > >
-> > > @@ -3251,6 +3256,7 @@ slab_alloc_node(struct kmem_cache *cachep, gfp_t flags, int nodeid,
-> > >         if (unlikely(slab_want_init_on_alloc(flags, cachep)) && ptr)
-> > >                 memset(ptr, 0, cachep->object_size);
-> > >
-> > > +out_hooks:
-> > >         slab_post_alloc_hook(cachep, objcg, flags, 1, &ptr);
-> > >         return ptr;
-> > >  }
-> > > @@ -3288,7 +3294,7 @@ __do_cache_alloc(struct kmem_cache *cachep, gfp_t flags)
-> > >  #endif /* CONFIG_NUMA */
-> > >
-> > >  static __always_inline void *
-> > > -slab_alloc(struct kmem_cache *cachep, gfp_t flags, unsigned long caller)
-> > > +slab_alloc(struct kmem_cache *cachep, gfp_t flags, size_t orig_size, unsigned long caller)
-> > >  {
-> > >         unsigned long save_flags;
-> > >         void *objp;
-> > > @@ -3299,6 +3305,10 @@ slab_alloc(struct kmem_cache *cachep, gfp_t flags, unsigned long caller)
-> > >         if (unlikely(!cachep))
-> > >                 return NULL;
-> > >
-> > > +       objp = kfence_alloc(cachep, orig_size, flags);
-> > > +       if (unlikely(objp))
-> > > +               goto leave;
-> > > +
-> > >         cache_alloc_debugcheck_before(cachep, flags);
-> > >         local_irq_save(save_flags);
-> > >         objp = __do_cache_alloc(cachep, flags);
-> > > @@ -3309,6 +3319,7 @@ slab_alloc(struct kmem_cache *cachep, gfp_t flags, unsigned long caller)
-> > >         if (unlikely(slab_want_init_on_alloc(flags, cachep)) && objp)
-> > >                 memset(objp, 0, cachep->object_size);
-> > >
-> > > +leave:
-> > >         slab_post_alloc_hook(cachep, objcg, flags, 1, &objp);
-> > >         return objp;
-> > >  }
-> > > @@ -3414,6 +3425,11 @@ static void cache_flusharray(struct kmem_cache *cachep, struct array_cache *ac)
-> > >  static __always_inline void __cache_free(struct kmem_cache *cachep, void *objp,
-> > >                                          unsigned long caller)
-> > >  {
-> > > +       if (kfence_free(objp)) {
-> > > +               kmemleak_free_recursive(objp, cachep->flags);
-> > > +               return;
-> > > +       }
-> > > +
-> > >         /* Put the object into the quarantine, don't touch it for now. */
-> > >         if (kasan_slab_free(cachep, objp, _RET_IP_))
-> > >                 return;
-> > > @@ -3479,7 +3495,7 @@ void ___cache_free(struct kmem_cache *cachep, void *objp,
-> > >   */
-> > >  void *kmem_cache_alloc(struct kmem_cache *cachep, gfp_t flags)
-> > >  {
-> > > -       void *ret = slab_alloc(cachep, flags, _RET_IP_);
-> > > +       void *ret = slab_alloc(cachep, flags, cachep->object_size, _RET_IP_);
-> >
-> >
-> > It's kinda minor, but since we are talking about malloc fast path:
-> > will passing 0 instead of cachep->object_size (here and everywhere
-> > else) and then using cachep->object_size on the slow path if 0 is
-> > passed as size improve codegen?
+On Fri, Sep 11, 2020 at 2:03 PM Marco Elver <elver@google.com> wrote:
 >
-> It doesn't save us much, maybe 1 instruction based on what I'm looking
-> at right now. The main worry I have is that the 'orig_size' argument
-> is now part of slab_alloc, and changing its semantics may cause
-> problems in future if it's no longer just passed to kfence_alloc().
-> Today, we can do the 'size = size ?: cache->object_size' trick inside
-> kfence_alloc(), but at the cost breaking the intuitive semantics of
-> slab_alloc's orig_size argument for future users. Is it worth it?
+> On Fri, 11 Sep 2020 at 09:36, Dmitry Vyukov <dvyukov@google.com> wrote:
+> > On Tue, Sep 8, 2020 at 5:56 PM Marco Elver <elver@google.com> wrote:
+> > > On Tue, Sep 08, 2020 at 05:36PM +0200, Vlastimil Babka wrote:
+> [...]
+> > > > Hmm did you observe that with this limit, a long-running system would eventually
+> > > > converge to KFENCE memory pool being filled with long-aged objects, so there
+> > > > would be no space to sample new ones?
+> > >
+> > > Sure, that's a possibility. But remember that we're not trying to
+> > > deterministically detect bugs on 1 system (if you wanted that, you
+> > > should use KASAN), but a fleet of machines! The non-determinism of which
+> > > allocations will end up in KFENCE, will ensure we won't end up with a
+> > > fleet of machines of identical allocations. That's exactly what we're
+> > > after. Even if we eventually exhaust the pool, you'll still detect bugs
+> > > if there are any.
+> > >
+> > > If you are overly worried, either the sample interval or number of
+> > > available objects needs to be tweaked to be larger. The default of 255
+> > > is quite conservative, and even using something larger on a modern
+> > > system is hardly noticeable. Choosing a sample interval & number of
+> > > objects should also factor in how many machines you plan to deploy this
+> > > on. Monitoring /sys/kernel/debug/kfence/stats can help you here.
+> >
+> > Hi Marco,
+> >
+> > I reviewed patches and they look good to me (minus some local comments
+> > that I've left).
+>
+> Thank you.
+>
+> > The main question/concern I have is what Vlastimil mentioned re
+> > long-aged objects.
+> > Is the default sample interval values reasonable for typical
+> > workloads? Do we have any guidelines on choosing the sample interval?
+> > Should it depend on workload/use pattern?
+>
+> As I hinted at before, the sample interval & number of objects needs
+> to depend on:
+> - number of machines,
+> - workload,
+> - acceptable overhead (performance, memory).
+>
+> However, workload can vary greatly, and something more dynamic may be
+> needed. We do have the option to monitor
+> /sys/kernel/debug/kfence/stats and even change the sample interval at
+> runtime, e.g. from a user space tool that checks the currently used
+> objects, and as the pool is closer to exhausted, starts increasing
+> /sys/module/kfence/parameters/sample_interval.
+>
+> Of course, if we figure out the best dynamic policy, we can add this
+> policy into the kernel. But I don't think it makes sense to hard-code
+> such a policy right now.
+>
+> > By "reasonable" I mean if the pool will last long enough to still
+> > sample something after hours/days? Have you tried any experiments with
+> > some workload (both short-lived processes and long-lived
+> > processes/namespaces) capturing state of the pool? It can make sense
+> > to do to better understand dynamics. I suspect that the rate may need
+> > to be orders of magnitude lower.
+>
+> Yes, the current default sample interval is a lower bound, and is also
+> a reasonable default for testing. I expect real deployments to use
+> much higher sample intervals (lower rate).
+>
+> So here's some data (with CONFIG_KFENCE_NUM_OBJECTS=1000, so that
+> allocated KFENCE objects isn't artificially capped):
+>
+> -- With a mostly vanilla config + KFENCE (sample interval 100 ms),
+> after ~40 min uptime (only boot, then idle) I see ~60 KFENCE objects
+> (total allocations >600). Those aren't always the same objects, with
+> roughly ~2 allocations/frees per second.
+>
+> -- Then running sysbench I/O benchmark, KFENCE objects allocated peak
+> at 82. During the benchmark, allocations/frees per second are closer
+> to 10-15. After the benchmark, the KFENCE objects allocated remain at
+> 82, and allocations/frees per second fall back to ~2.
+>
+> -- For the same system, changing the sample interval to 1 ms (echo 1 >
+> /sys/module/kfence/parameters/sample_interval), and re-running the
+> benchmark gives me: KFENCE objects allocated peak at exactly 500, with
+> ~500 allocations/frees per second. After that, allocated KFENCE
+> objects dropped a little to 496, and allocations/frees per second fell
+> back to ~2.
+>
+> -- The long-lived objects are due to caches, and just running 'echo 1
+> > /proc/sys/vm/drop_caches' reduced allocated KFENCE objects back to
+> 45.
 
-I don't have an answer to this question. I will leave this to others.
-If nobody has strong support for changing semantics, let's leave it as
-is. Maybe keep in mind as potential ballast.
-FWIW most likely misuse of 0 size for other future purposes should
-manifest itself in a quite straightforward way.
+Interesting. What type of caches is this? If there is some type of
+cache that caches particularly lots of sampled objects, we could
+potentially change the cache to release sampled objects eagerly.
+
+> > Also I am wondering about the boot process (both kernel and init).
+> > It's both inherently almost the same for the whole population of
+> > machines and inherently produces persistent objects. Should we lower
+> > the rate for the first minute of uptime? Or maybe make it proportional
+> > to uptime?
+>
+> It should depend on current usage, which is dependent on the workload.
+> I don't think uptime helps much, as seen above. If we imagine a user
+> space tool that tweaks this for us, we can initialize KFENCE with a
+> very large sample interval, and once booted, this user space
+> tool/script adjusts /sys/module/kfence/parameters/sample_interval.
+>
+> At the very least, I think I'll just make
+> /sys/module/kfence/parameters/sample_interval root-writable
+> unconditionally, so that we can experiment with such a tool.
+>
+> Lowering the rate for the first minute of uptime might also be an
+> option, although if we do that, we can also just move kfence_init() to
+> the end of start_kernel(). IMHO, I think it still makes sense to
+> sample normally during boot, because who knows how those allocations
+> are used with different workloads once the kernel is live. With a
+> sample interval of 1000 ms (which is closer to what we probably want
+> in production), I see no more than 20 KFENCE objects allocated after
+> boot. I think we can live with that.
+>
+> > I feel it's quite an important aspect. We can have this awesome idea
+> > and implementation, but radically lower its utility by using bad
+> > sampling value (which will have silent "failure mode" -- no bugs
+> > detected).
+>
+> As a first step, I think monitoring the entire fleet here is key here
+> (collect /sys/kernel/debug/kfence/stats). Essentially, as long as
+> allocations/frees per second remains >0, we're probably fine, even if
+> we always run at max. KFENCE objects allocated.
+>
+> An improvement over allocations/frees per second >0 would be
+> dynamically tweaking sample_interval based on how close we get to max
+> KFENCE objects allocated.
+>
+> Yet another option is to skip KFENCE allocations based on the memcache
+> name, e.g. for those caches dedicated to long-lived allocations.
+>
+> > But to make it clear: all of this does not conflict with the merge of
+> > the first version. Just having tunable sampling interval is good
+> > enough. We will get the ultimate understanding only when we start
+> > using it widely anyway.
+>
+> Thanks,
+> -- Marco
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BZGASbeN-O9yzYo6TP_43x-XTpTQ7smK5viM5%2BE6i5JyQ%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BYSQDjEh6%2BXMXiHvMaKAT8bA%3DJkC8xY3AXfcSk%2Bf9yR%2Bg%40mail.gmail.com.
