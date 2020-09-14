@@ -1,161 +1,126 @@
-Return-Path: <kasan-dev+bncBCALX3WVYQORB66M7X5AKGQEG6ITW4I@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBJ63735AKGQECGJ423Y@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oo1-xc3e.google.com (mail-oo1-xc3e.google.com [IPv6:2607:f8b0:4864:20::c3e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BE1C268B65
-	for <lists+kasan-dev@lfdr.de>; Mon, 14 Sep 2020 14:47:57 +0200 (CEST)
-Received: by mail-oo1-xc3e.google.com with SMTP id p6sf8652917ooo.0
-        for <lists+kasan-dev@lfdr.de>; Mon, 14 Sep 2020 05:47:57 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1600087675; cv=pass;
+Received: from mail-vs1-xe38.google.com (mail-vs1-xe38.google.com [IPv6:2607:f8b0:4864:20::e38])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8C55269421
+	for <lists+kasan-dev@lfdr.de>; Mon, 14 Sep 2020 19:51:36 +0200 (CEST)
+Received: by mail-vs1-xe38.google.com with SMTP id n128sf249266vsd.5
+        for <lists+kasan-dev@lfdr.de>; Mon, 14 Sep 2020 10:51:36 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1600105895; cv=pass;
         d=google.com; s=arc-20160816;
-        b=HcsobT1tnngZqrwwW/4rSw/eRzhW2VOXheF0Syrbpk8V8I6ZNOtrOxRjJNDiZnTan+
-         u9oyy+gphtjrXwAzIflv2r/kruDv4RZoHeUTbf8AhsE3nMD/XzDDUJkYdQWTfYKF+oiY
-         5NVu0nQxsc1qt3iHGtGdi0W5oZHDSvHHernO8gFbTozXy9oDGU4eXhhJpm5knCsj2/gu
-         GrAnXq7po/z9HETKj1OtUOPlsclQ4xDhMsRtuRtPMms12we7pV7Oz/Wu1rHmnTIkFe5t
-         TcqY5Zwd0EZNkGxyMw8XEuhIw+rH10oaDPWc3puoaiN1U0qBkD0lQpjI4Y845LrCVDHt
-         7AdA==
+        b=tEKGZCnF/g1bHvndGxYD4v7/INFw5K2p1saadw2d1jIvVoWHNN0sJ10Di5kyQEb8o9
+         54zURyAO2fMt21Bh58lM2kK1WtOJ80ywP+oR48hISc5IjUnY/QVB+LTHZOZxFWpuejRX
+         L53zAT5rcGcZ29NBAUblkDfpbY+xUcYOPToN8ChS+k9MYClW77dg1eQOuZtE0FwXEAPh
+         TE465IuU6CQlxKST9jozQp4FJwqRWaERZ8alBnuHaZ5SIluE9ItQbWMQuTCKvj8qwhMm
+         lV68tFrVDQOp/S/YSjM/Lm0iGR1sWlNN9LM7HAvnnGxdnkxwWWIFA8+HDO3PhJlkk5iN
+         Kbaw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:subject:mime-version:user-agent
-         :message-id:in-reply-to:date:references:cc:to:from:sender
+         :list-id:mailing-list:precedence:user-agent:content-disposition
+         :mime-version:reply-to:message-id:subject:cc:to:from:date:sender
          :dkim-signature;
-        bh=4ykzStL0bVAmurieZYK8/iU/3v2f5kMrMqwzn9g09yA=;
-        b=d9JqGsek1pY3dD4T3UkYq6Y3GtDufO2FzZ6aa4CXgCykvDKenw6dppD+EMF0mvF6H4
-         OZn9tmvseYFB3W9WJ6Kz3Pw47lbC9N5yRkCi/d1BgA3EtZZnmq7PA7Tpaj1Y8Kkt3MQN
-         uY+SEd+TzavYSHn57t11jzLX6Pa0piMLbvp6sLvD07ahHezti+htbN7D3TsVEnoztr+f
-         vmMe44Jo9OetBti66V40J/dbvZAsDoKjxFm1LLSkrduRd9G46mZr2Un3OaRXJ1A2yML4
-         DHAAcvIkaCFqswKIeePwEGOHxUNp2nB20tihN5QqEoUp+WZyaSinNbm1y0pBlnxWXuKZ
-         PHFw==
+        bh=Kjx2A7i6Etn3CqMP+WlXvzE2MMoVQWQ4uRI9+wFSHEA=;
+        b=KJWYY+x3HLm8OU9WrrDVcP9DaVWfSAHKZ90JNof22wOCx85tc4lVhGZbwwWfvDt0UO
+         kTw/o/syNF+i7gZfliA2yjfSmdvqXGmnzqkBP8VSs2nHxPSWGz3LowoflxWQ63hckTrU
+         Exgy4S380saBrH5fipVGF6AYJN8evUu4/z33KcSdegsaQuKqaQ2fN9gatgKnII+6VpMU
+         HP+4OsgiQFFASbWKq4Jcoi5GMm7ZL5TTcJ1WGZGh8Dtzmim1mjAOWV0L8jXbN4roPbAm
+         YILZOmA8eKECPtVEPZAGgoUAIvC+kcRcZMCT8Q+UOGvdafYq6HEiOEbGXgia9I0S0FpF
+         vM6Q==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of ebiederm@xmission.com designates 166.70.13.233 as permitted sender) smtp.mailfrom=ebiederm@xmission.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=xmission.com
+       dkim=pass header.i=@kernel.org header.s=default header.b=1AE29D7G;
+       spf=pass (google.com: domain of srs0=xikf=cx=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=XikF=CX=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:from:to:cc:references:date:in-reply-to:message-id:user-agent
-         :mime-version:subject:x-original-sender
+        h=sender:date:from:to:cc:subject:message-id:reply-to:mime-version
+         :content-disposition:user-agent:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=4ykzStL0bVAmurieZYK8/iU/3v2f5kMrMqwzn9g09yA=;
-        b=j6zJVqHTETQUBPSWErV+KR0dNgxu/bGBjxF+A89HzhbHuoqYV78yQs1D5tyTfZcr4t
-         cEWUdY5sMYXb8b8GmS/gdSi8TMeUdeyZL18/4Oy5O0SZPzn1u9mJdlVg1yg6aTeYTyQG
-         wfb2h1+bTEOekd2eU01SgQbKM7mlibaKLpvMmnZjQY6kYZoWScD9d70/uP0xeLZnkPEZ
-         SNc6ilFBYgs6lc842xj2OxYYvH3md8+DguwNmO8Hm7iFQs3y6kKYlv3yB3evLLb5Yw/4
-         tPDRnW/JoSS2CN50UtyK/29cPFgoB/o5syIHq/ZLlXocx+MUd51qLeMgmPJz6IpD1Oys
-         +2Pw==
+        bh=Kjx2A7i6Etn3CqMP+WlXvzE2MMoVQWQ4uRI9+wFSHEA=;
+        b=bzZzs3n8GYT2a69u660iMXb/gvpjIwmMViV5f6bCx3hut67MVWP+u0meD60A5t2N18
+         4Vj6VXN5HGMyPP6x4GiZyysAxEjU0b8rifcK8xsTJSX++BoNEIEoY4r8DYiJKCAjcLv2
+         ggk+1ecgqfcDlWeXXiBG/GzmNpaLqvGEFRtvPrE/++gVh6VT1iUwfzCMiaCEhfbdZezM
+         EaqR44gjYrC9IJJN1xFm222VQFo0OY47dYn6iEZhOxz7pRmnKhDlPdLGz83+u0eQhR56
+         w3ysPMEYVrvSaroeJ8N2DuVqf/FHwhd/x5YtGOUUCmpqilO9R1xCapJwsZ8HIU+t4oPV
+         hZDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:from:to:cc:references:date:in-reply-to
-         :message-id:user-agent:mime-version:subject:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=4ykzStL0bVAmurieZYK8/iU/3v2f5kMrMqwzn9g09yA=;
-        b=f3M9zLTxXht1Qu/YULc1uFqsLnLkB8Zo25LTq/8WoMG8HrzDnf9fbQ4yiTtfcmf5c7
-         WwldmiEZ9EOK5YEy98BA2Xm/pLbtMQyjvJ7Upc2alfmRppcMX+PXhXMWcux4xd8auvLp
-         psOG/jvyz5VyVdjZNqGFkT0yIsSHIIHPBLeQKJ1ytKo558YprqjGeLGcPNlllpQ/Yyey
-         6su/M/7LTz25V4PWDzp458WHvJa+fQw4CWanFHvM7mdtDgjgzLdO1WCYpP0KxmD8V592
-         l0+SZOegwQKBTdBmhP6cTVxzyRnBKbN2OPbLboL1sh3DZT/9jOOjZCfHTHHeQhjiRWYz
-         jbxA==
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :reply-to:mime-version:content-disposition:user-agent
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=Kjx2A7i6Etn3CqMP+WlXvzE2MMoVQWQ4uRI9+wFSHEA=;
+        b=coG9uXMjLqD5uxpDzfgDmMiwcDcL1JL0HF7kJqN1v0FYojSmLh9bKm60TsKGNDzxhH
+         PHa/FjKpyynsdYOP5bN7ieAi01E+pnIKTYqvdn6V+5sQBdFRT/lrmeaLDDwUFv0ElQh9
+         3ovIwwpijbGuAsFLL8KXU0Pw3huaY0x+JwHo0worPG+uxfz+mcux8mcQByjnuwZ8FrTu
+         JZU+JaebrAACpkPTFI0EfGX4GPeEoUSyGUNO4w5P38BZB2SZNflvbn37YWaYOkx8M2cO
+         QcXebNUB9YlwDrz1fh3VlxBAJoSmN5G6OcTkPMJHYgEyizu9KHLhRFrIXjtMSczsarN8
+         BV+A==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM533vO8qbgp5nMEaNTtJjUNom/jJX/Fs9azuNBWxaDH1fgidOM2mH
-	eXgwwhgPFRWaWWalV4p4rb4=
-X-Google-Smtp-Source: ABdhPJyOLOVwwUoP0yPJFuiRnLT4tIx1ks1ChfEqLsFuMd7k1gs6gCbl8iAMBVaUzRFPHrif/XznHQ==
-X-Received: by 2002:a05:6830:1d1:: with SMTP id r17mr9480663ota.311.1600087675504;
-        Mon, 14 Sep 2020 05:47:55 -0700 (PDT)
+X-Gm-Message-State: AOAM532JV+Ikg4T4rP1YVxQncPZp1M8ECWrLnPDxEbPEyRqNXGOenrzd
+	R2ocOvN7hqxOBmm633BDbn8=
+X-Google-Smtp-Source: ABdhPJyhKtEb/E2sFeYOdB8jhYA7PJ7NOLMUF+VPGpnS8toZqibuFXV9hfxdxNZ7pAkSlzQPzZR2Pw==
+X-Received: by 2002:a9f:3491:: with SMTP id r17mr7379591uab.113.1600105895474;
+        Mon, 14 Sep 2020 10:51:35 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6830:4d2:: with SMTP id s18ls1983928otd.0.gmail; Mon, 14
- Sep 2020 05:47:55 -0700 (PDT)
-X-Received: by 2002:a9d:65c8:: with SMTP id z8mr8959896oth.5.1600087675046;
-        Mon, 14 Sep 2020 05:47:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1600087675; cv=none;
+Received: by 2002:ac5:c899:: with SMTP id n25ls506643vkl.1.gmail; Mon, 14 Sep
+ 2020 10:51:35 -0700 (PDT)
+X-Received: by 2002:a1f:b486:: with SMTP id d128mr7739001vkf.1.1600105894989;
+        Mon, 14 Sep 2020 10:51:34 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1600105894; cv=none;
         d=google.com; s=arc-20160816;
-        b=ldtrVkee3OrCH+M8GVLp9v69jULSmfODKzqmCgVPsXUkM17jDHXB6Esy7tXnpM5evG
-         m1WwOQX7pmgquT6VdXjxTMKCuh+wdjBq1hObhXpG+zuH80I/n6CtPgw5Dc+Ftn1MdeHf
-         2TvMM7jFdz1FkLGvX9QokiYD/pjhqlA0A7FaF8oXxtmE72GICRbA1i78RIrUFyzaELns
-         AEpvP7IcB/HkTq4Z8dfa99lWOa/+VGFg7jgB5QfaPYaAFNgzSjCEAMnzdSJz1Bre/X1r
-         lAOhGghkfw7wp755Uj52CNLgVNRnl2U/WXNT5EKrRpteCb7PVxEwN3kEVeFDX4gDZ0iH
-         UYSw==
+        b=sgAnlXjtI7GBJxrbW3mNHLM8eK/6gXyU3DkIMF9qDkXmXWYAzEg5J/zxpRCxukYPsi
+         s3O9Kj1SFHWwISOPVrE1BUJLBynNTo91pSp51aaX58JzoncrfLFyBCBALF7L3jY/7/N3
+         V37poi8u21ectEF447flOGbPfCFBmsCX1ok8c4re/JJY1aQbErr39hicE7N3Opid8114
+         fhfgq7fFDO6OMFnlC+96c77ximPp3MNSHeiLEETXr7FB2tDEbMXV/MQjYlNH9sTBykgI
+         xSqqrB0oWYtxJ6BP5Sofshx5b+CMwPyHg+UKDQAFHoOZNOQ7S6wEoxBZvyM+0YoOz6KF
+         onLA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=subject:mime-version:user-agent:message-id:in-reply-to:date
-         :references:cc:to:from;
-        bh=Z20YkbdU3tZLOy0vv7fIkkuQc2taLYZHhNDQUINED+M=;
-        b=ucV6wolbhro6Kt22jSZO5GS8GZt/JFI2nlVyl2HRXR7Cu03F1k8r9QZ7gCdMg/bWMh
-         qcS0AaRxEM1BAvH+A8lnKoMvPor81FpSj33ypdny+Y/xzwE7+SqElbfYejdIYka27PUf
-         s9/b8HzkdS9t7v5Z731+aMVNJMYb9bKdSv5WntEVtbwtI+/JsUiSLGUuKib68kCOV27E
-         /uzS1syh2K2+CCi3iUJmyEcQQ/lc35hcHFRgD/GhpNp7na0+9j/7tMJU9o7NLWPAZbUC
-         cy+00JDmjIeU+TAxuk/seFFusi3mniRLu2/r+gIcsy4CPzuWVzGHmk6d5rRQb/aBXnz7
-         Rxxg==
+        h=user-agent:content-disposition:mime-version:reply-to:message-id
+         :subject:cc:to:from:date:dkim-signature;
+        bh=QM8Sqvlx7cYWr4+NC/bHaZRZ8ixkpYgxAF7POnW2Yrs=;
+        b=e12Azm8XJHJjhGAuRRWlNxIBhcF2W9zpwtWkf93oJPhm/Zwdm4QCi1UJ2XvzbNW3cf
+         DAxsuOF4C13Q8fMXq0EnrfqpCbvYNeq+dCJjixJLwqHZG31W1nvx67HrozWU2obi7t83
+         Lz10NcCvaOuVdL66ihPKPFx9itdITngfX4b0e7Rjaq2aoXxdAT7+Gb3GmzeRDZwmRePL
+         eNCnlQSb29TeRL7EONklGCNwZOiU4quZxktJsmEHQ1fDkmareuXqYoZ9/czjtHLDgd7H
+         Ipv+Vj1FORatd/S7rXqDkFc3dWzo+lwjeqgRuME3sq0AYVVtqlbrg8zot1TUIPyM9MFj
+         XQBw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of ebiederm@xmission.com designates 166.70.13.233 as permitted sender) smtp.mailfrom=ebiederm@xmission.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=xmission.com
-Received: from out03.mta.xmission.com (out03.mta.xmission.com. [166.70.13.233])
-        by gmr-mx.google.com with ESMTPS id m3si871187otk.4.2020.09.14.05.47.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Sep 2020 05:47:54 -0700 (PDT)
-Received-SPF: pass (google.com: domain of ebiederm@xmission.com designates 166.70.13.233 as permitted sender) client-ip=166.70.13.233;
-Received: from in01.mta.xmission.com ([166.70.13.51])
-	by out03.mta.xmission.com with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.93)
-	(envelope-from <ebiederm@xmission.com>)
-	id 1kHntg-00ABqm-0Z; Mon, 14 Sep 2020 06:47:52 -0600
-Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95] helo=x220.xmission.com)
-	by in01.mta.xmission.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.87)
-	(envelope-from <ebiederm@xmission.com>)
-	id 1kHnte-0002Hj-Mj; Mon, 14 Sep 2020 06:47:51 -0600
-From: ebiederm@xmission.com (Eric W. Biederman)
-To: Dmitry Vyukov <dvyukov@google.com>
-Cc: syzbot <syzbot+d9ae84069cff753e94bf@syzkaller.appspotmail.com>,  Andrew Morton <akpm@linux-foundation.org>,  Christian Brauner <christian@brauner.io>,  LKML <linux-kernel@vger.kernel.org>,  Ingo Molnar <mingo@kernel.org>,  Peter Zijlstra <peterz@infradead.org>,  syzkaller-bugs <syzkaller-bugs@googlegroups.com>,  Thomas Gleixner <tglx@linutronix.de>,  Eric Sandeen <sandeen@sandeen.net>,  Andrey Ryabinin <aryabinin@virtuozzo.com>,  Alexander Potapenko <glider@google.com>,  kasan-dev <kasan-dev@googlegroups.com>
-References: <00000000000005f0b605af42ab4e@google.com>
-	<87zh5stv04.fsf@x220.int.ebiederm.org>
-	<CACT4Y+ZcrHFS45-NFxZKWdoesCdLwk-_1YvMJr01FRL1sG-ZeQ@mail.gmail.com>
-Date: Mon, 14 Sep 2020 07:47:30 -0500
-In-Reply-To: <CACT4Y+ZcrHFS45-NFxZKWdoesCdLwk-_1YvMJr01FRL1sG-ZeQ@mail.gmail.com>
-	(Dmitry Vyukov's message of "Mon, 14 Sep 2020 14:23:01 +0200")
-Message-ID: <87imcgtti5.fsf@x220.int.ebiederm.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+       dkim=pass header.i=@kernel.org header.s=default header.b=1AE29D7G;
+       spf=pass (google.com: domain of srs0=xikf=cx=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=XikF=CX=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
+        by gmr-mx.google.com with ESMTPS id y65si789415vkf.1.2020.09.14.10.51.34
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 14 Sep 2020 10:51:34 -0700 (PDT)
+Received-SPF: pass (google.com: domain of srs0=xikf=cx=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
+Received: from paulmck-ThinkPad-P72.home (unknown [50.45.173.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPSA id D412D20EDD;
+	Mon, 14 Sep 2020 17:51:33 +0000 (UTC)
+Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
+	id 9C58F3522BA0; Mon, 14 Sep 2020 10:51:33 -0700 (PDT)
+Date: Mon, 14 Sep 2020 10:51:33 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: mingo@kernel.org
+Cc: linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
+	kernel-team@fb.com, elver@google.com
+Subject: [GIT PULL kcsan] KCSAN commits for v5.10
+Message-ID: <20200914175133.GA14094@paulmck-ThinkPad-P72>
+Reply-To: paulmck@kernel.org
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-XM-SPF: eid=1kHnte-0002Hj-Mj;;;mid=<87imcgtti5.fsf@x220.int.ebiederm.org>;;;hst=in01.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
-X-XM-AID: U2FsdGVkX19LXviMypYNBasGVGCTSKwCdfsubmY84mc=
-X-SA-Exim-Connect-IP: 68.227.160.95
-X-SA-Exim-Mail-From: ebiederm@xmission.com
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on sa05.xmission.com
-X-Spam-Level: *
-X-Spam-Status: No, score=1.2 required=8.0 tests=ALL_TRUSTED,BAYES_40,
-	DCC_CHECK_NEGATIVE,LotsOfNums_01,T_TM2_M_HEADER_IN_MSG,
-	XM_B_SpammyWords,XM_B_SpammyWords2 autolearn=disabled version=3.4.2
-X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-	* -0.0 BAYES_40 BODY: Bayes spam probability is 20 to 40%
-	*      [score: 0.3594]
-	*  0.0 T_TM2_M_HEADER_IN_MSG BODY: No description available.
-	*  1.2 LotsOfNums_01 BODY: Lots of long strings of numbers
-	* -0.0 DCC_CHECK_NEGATIVE Not listed in DCC
-	*      [sa05 1397; Body=1 Fuz1=1 Fuz2=1]
-	*  0.8 XM_B_SpammyWords2 Two or more commony used spammy words
-	*  0.2 XM_B_SpammyWords One or more commonly used spammy words
-X-Spam-DCC: XMission; sa05 1397; Body=1 Fuz1=1 Fuz2=1
-X-Spam-Combo: *;Dmitry Vyukov <dvyukov@google.com>
-X-Spam-Relay-Country: 
-X-Spam-Timing: total 979 ms - load_scoreonly_sql: 0.04 (0.0%),
-	signal_user_changed: 12 (1.2%), b_tie_ro: 10 (1.1%), parse: 1.46
-	(0.1%), extract_message_metadata: 35 (3.6%), get_uri_detail_list: 9
-	(0.9%), tests_pri_-1000: 30 (3.1%), tests_pri_-950: 1.38 (0.1%),
-	tests_pri_-900: 1.08 (0.1%), tests_pri_-90: 231 (23.6%), check_bayes:
-	218 (22.3%), b_tokenize: 25 (2.6%), b_tok_get_all: 14 (1.4%),
-	b_comp_prob: 5 (0.5%), b_tok_touch_all: 168 (17.2%), b_finish: 2.7
-	(0.3%), tests_pri_0: 648 (66.2%), check_dkim_signature: 1.07 (0.1%),
-	check_dkim_adsp: 2.4 (0.2%), poll_dns_idle: 0.58 (0.1%), tests_pri_10:
-	2.2 (0.2%), tests_pri_500: 12 (1.3%), rewrite_mail: 0.00 (0.0%)
-Subject: Re: KASAN: unknown-crash Read in do_exit
-X-Spam-Flag: No
-X-SA-Exim-Version: 4.2.1 (built Thu, 05 May 2016 13:38:54 -0600)
-X-SA-Exim-Scanned: Yes (on in01.mta.xmission.com)
-X-Original-Sender: ebiederm@xmission.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of ebiederm@xmission.com designates 166.70.13.233 as
- permitted sender) smtp.mailfrom=ebiederm@xmission.com;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=xmission.com
+Content-Disposition: inline
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Original-Sender: paulmck@kernel.org
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@kernel.org header.s=default header.b=1AE29D7G;       spf=pass
+ (google.com: domain of srs0=xikf=cx=paulmck-thinkpad-p72.home=paulmck@kernel.org
+ designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=XikF=CX=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -168,138 +133,64 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Dmitry Vyukov <dvyukov@google.com> writes:
+Hello, Ingo!
 
-> On Mon, Sep 14, 2020 at 2:15 PM Eric W. Biederman <ebiederm@xmission.com> wrote:
->>
->> syzbot <syzbot+d9ae84069cff753e94bf@syzkaller.appspotmail.com> writes:
->>
->> > Hello,
->> >
->> > syzbot found the following issue on:
->>
->> Skimming the code it appears this is a feature not a bug.
->>
->> The stack_not_used code deliberately reads the unused/unitiailized
->> portion of the stack, to see if that part of the stack was used.
->>
->> Perhaps someone wants to make this play nice with KASAN?
->>
->> KASAN should be able to provide better information than reading the
->> stack to see if it is still zeroed out.
->>
->> Eric
->
-> Hi Eric,
->
-> Thanks for looking into this.
->
-> There may be something else in play here. Unused parts of the stack
-> are supposed to have zero shadow. The stack instrumentation code
-> assumes that. If there is some garbage left in the shadow (like these
-> "70 07 00 00 77" in this case), then it will lead to very obscure
-> false positives later (e.g. some out-of-bounds on stack which can't be
-> explained easily).
-> If some code does something like "jongjmp", then we should clear the
-> stack at the point of longjmp. I think we did something similar for
-> something called jprobles, but jprobes were removed at some point.
->
-> Oh, wait, the reproducer uses /dev/fb. And as far as I understand
-> /dev/fd smashes kernel memory left and right. So most likely it's some
-> wild out of bounds write in /dev/fb.
+This pull request contains KCSAN updates for v5.10.  These have been
+subjected to LKML review, most recently here:
 
-So I am confused.  The output in the console does not match the log
-below.  Further the memory addresses in the report don't make a bit
-of sense.  Incrementing by 0x80 and only printing 16 bytes which is 0x10.
+	https://lore.kernel.org/lkml/20200831181715.GA1530@paulmck-ThinkPad-P72
 
-I am simply responding to the fact that KASAN is complaining about an
-out of bounds/uniitialized access in stack_not_used.
+All of these have also been subjected to the kbuild test robot and
+-next testing.  The following changes since v5.9-rc1 are available in
+the git repository at:
 
-Which seems a legitimate thing to do, but that seems to indicate
-two debugging primitives are fighting each other.
+  git://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git kcsan
 
-So why we have several very different traces I don't understand.
-Unless you are right and something is causing corruption.
+for you to fetch changes up to cd290ec24633f51029dab0d25505fae7da0e1eda:
 
-At which point this needs to be delivered to whomever can dig into this.
+  kcsan: Use tracing-safe version of prandom (2020-08-30 21:50:13 -0700)
 
+----------------------------------------------------------------
+Marco Elver (19):
+      kcsan: Add support for atomic builtins
+      objtool: Add atomic builtin TSAN instrumentation to uaccess whitelist
+      kcsan: Add atomic builtin test case
+      kcsan: Support compounded read-write instrumentation
+      objtool, kcsan: Add __tsan_read_write to uaccess whitelist
+      kcsan: Skew delay to be longer for certain access types
+      kcsan: Add missing CONFIG_KCSAN_IGNORE_ATOMICS checks
+      kcsan: Test support for compound instrumentation
+      instrumented.h: Introduce read-write instrumentation hooks
+      asm-generic/bitops: Use instrument_read_write() where appropriate
+      locking/atomics: Use read-write instrumentation for atomic RMWs
+      kcsan: Simplify debugfs counter to name mapping
+      kcsan: Simplify constant string handling
+      kcsan: Remove debugfs test command
+      kcsan: Show message if enabled early
+      kcsan: Use pr_fmt for consistency
+      kcsan: Optimize debugfs stats counters
+      bitops, kcsan: Partially revert instrumentation for non-atomic bitops
+      kcsan: Use tracing-safe version of prandom
 
-Eric
-
->> > HEAD commit:    729e3d09 Merge tag 'ceph-for-5.9-rc5' of git://github.com/..
->> > git tree:       upstream
->> > console output: https://syzkaller.appspot.com/x/log.txt?x=170a7cf1900000
->> > kernel config:  https://syzkaller.appspot.com/x/.config?x=c61610091f4ca8c4
->> > dashboard link: https://syzkaller.appspot.com/bug?extid=d9ae84069cff753e94bf
->> > compiler:       gcc (GCC) 10.1.0-syz 20200507
->> > syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=10642545900000
->> > C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=141f2bed900000
->> >
->> > Bisection is inconclusive: the issue happens on the oldest tested release.
->> >
->> > bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=17b9ffcd900000
->> > final oops:     https://syzkaller.appspot.com/x/report.txt?x=1479ffcd900000
->> > console output: https://syzkaller.appspot.com/x/log.txt?x=1079ffcd900000
->> >
->> > IMPORTANT: if you fix the issue, please add the following tag to the commit:
->> > Reported-by: syzbot+d9ae84069cff753e94bf@syzkaller.appspotmail.com
->> >
->> > ==================================================================
->> > BUG: KASAN: unknown-crash in stack_not_used include/linux/sched/task_stack.h:101 [inline]
->> > BUG: KASAN: unknown-crash in check_stack_usage kernel/exit.c:692 [inline]
->> > BUG: KASAN: unknown-crash in do_exit+0x24a6/0x29f0 kernel/exit.c:849
->> > Read of size 8 at addr ffffc9000cf30130 by task syz-executor624/10359
->> >
->> > CPU: 1 PID: 10359 Comm: syz-executor624 Not tainted 5.9.0-rc4-syzkaller #0
->> > Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
->> > Call Trace:
->> >  __dump_stack lib/dump_stack.c:77 [inline]
->> >  dump_stack+0x198/0x1fd lib/dump_stack.c:118
->> >  print_address_description.constprop.0.cold+0x5/0x497 mm/kasan/report.c:383
->> >  __kasan_report mm/kasan/report.c:513 [inline]
->> >  kasan_report.cold+0x1f/0x37 mm/kasan/report.c:530
->> >  stack_not_used include/linux/sched/task_stack.h:101 [inline]
->> >  check_stack_usage kernel/exit.c:692 [inline]
->> >  do_exit+0x24a6/0x29f0 kernel/exit.c:849
->> >  do_group_exit+0x125/0x310 kernel/exit.c:903
->> >  get_signal+0x428/0x1f00 kernel/signal.c:2757
->> >  arch_do_signal+0x82/0x2520 arch/x86/kernel/signal.c:811
->> >  exit_to_user_mode_loop kernel/entry/common.c:159 [inline]
->> >  exit_to_user_mode_prepare+0x1ae/0x200 kernel/entry/common.c:190
->> >  syscall_exit_to_user_mode+0x7e/0x2e0 kernel/entry/common.c:265
->> >  entry_SYSCALL_64_after_hwframe+0x44/0xa9
->> > RIP: 0033:0x446b99
->> > Code: Bad RIP value.
->> > RSP: 002b:00007f70f5ed9d18 EFLAGS: 00000246 ORIG_RAX: 0000000000000038
->> > RAX: 0000000000002878 RBX: 00000000006dbc58 RCX: 0000000000446b99
->> > RDX: 9999999999999999 RSI: 0000000000000000 RDI: 0000020002004ffc
->> > RBP: 00000000006dbc50 R08: ffffffffffffffff R09: 0000000000000000
->> > R10: 0000000000000000 R11: 0000000000000246 R12: 00000000006dbc5c
->> > R13: 00007f70f5ed9d20 R14: 00007f70f5ed9d20 R15: 000000000000002d
->> >
->> >
->> > Memory state around the buggy address:
->> >  ffffc9000cf30000: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->> >  ffffc9000cf30080: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->> >>ffffc9000cf30100: 00 00 00 00 00 00 70 07 00 00 77 00 00 00 00 00
->> >                                      ^
->> >  ffffc9000cf30180: 00 00 70 07 00 00 70 07 00 00 00 00 77 00 70 07
->> >  ffffc9000cf30200: 00 70 07 00 77 00 00 00 00 00 70 07 00 00 00 00
->> > ==================================================================
->> >
->> >
->> > ---
->> > This report is generated by a bot. It may contain errors.
->> > See https://goo.gl/tpsmEJ for more information about syzbot.
->> > syzbot engineers can be reached at syzkaller@googlegroups.com.
->> >
->> > syzbot will keep track of this issue. See:
->> > https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
->> > For information about bisection process see: https://goo.gl/tpsmEJ#bisection
->> > syzbot can test patches for this issue, for details see:
->> > https://goo.gl/tpsmEJ#testing-patches
+ include/asm-generic/atomic-instrumented.h          | 330 ++++++++++-----------
+ include/asm-generic/bitops/instrumented-atomic.h   |   6 +-
+ include/asm-generic/bitops/instrumented-lock.h     |   2 +-
+ .../asm-generic/bitops/instrumented-non-atomic.h   |  30 +-
+ include/linux/instrumented.h                       |  30 ++
+ include/linux/kcsan-checks.h                       |  45 ++-
+ kernel/kcsan/core.c                                | 210 +++++++++++--
+ kernel/kcsan/debugfs.c                             | 130 ++------
+ kernel/kcsan/kcsan-test.c                          | 128 +++++++-
+ kernel/kcsan/kcsan.h                               |  12 +-
+ kernel/kcsan/report.c                              |  10 +-
+ kernel/kcsan/selftest.c                            |   8 +-
+ lib/Kconfig.kcsan                                  |   5 +
+ scripts/Makefile.kcsan                             |   2 +-
+ scripts/atomic/gen-atomic-instrumented.sh          |  21 +-
+ tools/objtool/check.c                              |  55 ++++
+ 16 files changed, 677 insertions(+), 347 deletions(-)
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/87imcgtti5.fsf%40x220.int.ebiederm.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200914175133.GA14094%40paulmck-ThinkPad-P72.
