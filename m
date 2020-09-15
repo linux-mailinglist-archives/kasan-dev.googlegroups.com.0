@@ -1,124 +1,124 @@
-Return-Path: <kasan-dev+bncBC6OLHHDVUOBBCP2QD5QKGQEXGNSUPQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCQ6FHMJVICRBFMAQH5QKGQE4WXGSEI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wr1-x440.google.com (mail-wr1-x440.google.com [IPv6:2a00:1450:4864:20::440])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0F10269CD2
-	for <lists+kasan-dev@lfdr.de>; Tue, 15 Sep 2020 06:03:21 +0200 (CEST)
-Received: by mail-wr1-x440.google.com with SMTP id w7sf689616wrp.2
-        for <lists+kasan-dev@lfdr.de>; Mon, 14 Sep 2020 21:03:21 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1600142601; cv=pass;
+Received: from mail-qt1-x83e.google.com (mail-qt1-x83e.google.com [IPv6:2607:f8b0:4864:20::83e])
+	by mail.lfdr.de (Postfix) with ESMTPS id B2EAA269CEA
+	for <lists+kasan-dev@lfdr.de>; Tue, 15 Sep 2020 06:16:22 +0200 (CEST)
+Received: by mail-qt1-x83e.google.com with SMTP id m13sf1882841qtu.10
+        for <lists+kasan-dev@lfdr.de>; Mon, 14 Sep 2020 21:16:22 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1600143381; cv=pass;
         d=google.com; s=arc-20160816;
-        b=oTMQnEDuH0hkDfgb3yr7C2IQq6tlDx/FjQIAAl8iM8RQABgt4MsWogLEuSbQ/2u8n3
-         3VpmQSky33mensShoCWLhbgYXB4BnQ6CC5i5doqkhbs6P9hjirltWeiCupGpBiBe1DqA
-         VDkfenoSvVEaDWd0gA8pRcfV7YSUvjcWhybrZXc5Wmd83iw22W7j+yP6dpBIpA+YKxXQ
-         DX0bIKr4qtli6yNV4K17WRFRaMOj3FVQTuVgWi9frTEpyDH7P2j7xMs4ZaGg9oydum1N
-         BN45XWO/QN6Wi/YIL2AM6hl0HEA4fVPuzU1hBxFFYiu4yvi1mKmxcu8daIGoaEdgEd5I
-         WL8Q==
+        b=O98wTMGeAzm9Ku8hiIdGr+ufKq4aC4VjT1jkOOU1sCvg7qULhaS1FK73FdohiMWr/l
+         eK4RdHboYgzFJ9aGOqR/KJvmANuIoaT4fzZLm6D4fLjNHNy+MpN0lWUEAHzmcEW4/JCX
+         9xNk5AWWm3OzRlP5B4XCka3qpSdP21yOr67eNmA0Rr0CDQlXr6neGWBI6DbEecpPVZcD
+         P1SVyNvFjC+y98FA8oNHRxh14/D0OW7xtAelMMXvkRQcvlDKqWj/VL/62T2tkWH54iSu
+         dIVsj3sxChKALvEbi32Iw/vFXlVDFEyDsUqUP7F7qghvqg6x7KNmwfXgugVCSBjxdUui
+         ZyFQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=OdCUZgf5bZoabXWV1xEeyqq2k5DjpOgbkZxT1K09WGY=;
-        b=Ce7cwFUyYpZBh7EoT5B7uwgkXltHC1y5/siPHGFJJAJC7wL51mhnKqPbHkuH6k8VYS
-         QOOO8tyhU6fFa2qDzuZQq+W4QWpfZxrnnBZMkXFKRiY8XkG/H/+SlBxnxTzZvMfXnN7I
-         Jc3NVwhP8fBqZOBRWlCGIxWaiV2e3+1ewsVG4kg562/7a2pBnQF/VnPnTblDoyAYmmFg
-         4i+Ar0eSQP+/07td5cOU2Ep/V1M5/EvWxUG5VsDBbGxSByDIPYtYO08L85vBLkJrHV8V
-         r4bvklR894HkRaiLB3VBuP1jIwf/EGV+loFgBY9BVzkfCYZyfketRofYyrJAWUXIGMpi
-         FRjA==
+         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:sender:dkim-signature;
+        bh=r3LxTFtrQ+awtf690/+iVRtjq88T8YBCeyPdqFkjhVo=;
+        b=pZ/7E0xc6t8JWntkNg934PmY8jl2sf9f/WLUDAYE5tTAWdmqfmWGJn1dkRN0Gg/Yhe
+         YrKmIWyLCIukaI2l+GzJRl3XCWWl+Jic/oGm8xcu8VQ1gRQhUFgJf9UlNMOeVefwEEwH
+         yQW8tJfCWEcbZg+UjmVHatVPrkLr4t6Kp3Kzz4uKNgszNVFvTnmWzbte0ect8yIX0Ab+
+         6C/wtlpa1/Vak1RWGoKjW2bzas9J5LJYEdDRlD7ra7Idt52+6YfSUylmVGQmoXbQ0z0E
+         1d75fqMvJgxNXaf0M4KrZQklMllbpnw5NgTOoXKNg93eCWFsFCyKUcrmoo0IzP/N3bTA
+         rQlA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=hahHnwMl;
-       spf=pass (google.com: domain of davidgow@google.com designates 2a00:1450:4864:20::342 as permitted sender) smtp.mailfrom=davidgow@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@canb.auug.org.au header.s=201702 header.b="iyD/lMZ9";
+       spf=pass (google.com: domain of sfr@canb.auug.org.au designates 203.11.71.1 as permitted sender) smtp.mailfrom=sfr@canb.auug.org.au
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
+        h=sender:date:from:to:cc:subject:message-id:in-reply-to:references
+         :mime-version:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=OdCUZgf5bZoabXWV1xEeyqq2k5DjpOgbkZxT1K09WGY=;
-        b=DgDD8XkRbyYA18o9uKYuZFZksgTclUehsS6Z0MApDGhDYACmj8PR37iRVtsOaQMDxl
-         rIRZhbYV2YlUyYmkRfKxNnNhOxecss30kEmcwt9eZ6mdmB95aYuVE6iW7m1rVFa0anCo
-         mSwCOH06QAqKvjBhuv7hX9OY165WR0P7/qlTOhUrn3sCUbJaMB9mjUhaacMALZhW38a9
-         wwZEI0iKh4rqOsbW3mv+IrX5/hTxWUZvTDcFaoRcVsjI9IxQg7MzRCAi9kEc3+i4X3VV
-         1vaKBOs0lVACpAyT2ZKXpFrpfMRmYWVK3YJIh0uqasxy2LoOcLI6t1h/qaFl9uGVc07Q
-         60nA==
+        bh=r3LxTFtrQ+awtf690/+iVRtjq88T8YBCeyPdqFkjhVo=;
+        b=TAXeaRXe7jqtLR0nmFBAXSFE2+PtVehLWNVGrY4vyMEGBoCAGgvuqJ2CXZA5TBLqjJ
+         jm+TgEbA9V1ap3U0LUwcO6jUp7+vLzFOGYEJwz3Kpx+gGPh+HVtMzW3yinyRzJfmgMHU
+         cst0xM73WVCxvcUF8hcPuaoptaCq7Qm5b3Xo6Le6+DSDX8sPx+5l78RoI1SpdsaeGTyk
+         JzTgdjprGnjC/IZb0rKrksoJxNIWlKWWGFnF7LT7p4z3wOIPuWaOKeh41vkjd1c7CUhX
+         MSqdtSZaVXv7GL8AAC5HgFeGe9LOPGJhGAjO0fRLAMr675FSLBoLPs9MfddR1rkXDFAE
+         Xijg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :in-reply-to:references:mime-version:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=OdCUZgf5bZoabXWV1xEeyqq2k5DjpOgbkZxT1K09WGY=;
-        b=fm2gve19HLgQAxNQobm6QH7U0QBTAOiEO+Xl2GjFQg7i5iu6Rs8esrXbiElTS/450U
-         ha2D+dYxmmGPIr0Mbt7ywnNP425anV++ZqHB4vrs7WDSDLG4qxU/gs7/uOCg43jZbQmZ
-         lWmgVu0EvSVPQ3S5vBPO4u9UG1IxrZ5iZbBW+i9lE7E5q+CsolUDHKlJC89tK0y+07pZ
-         wrG/WSvaLEEVYTmPBkjfTw/Oxt/ChYgW4q4r/N9Sf3sFSwsBGHd/amzVd1znXZ/PEveT
-         sVwc1bnJEyeERSP8ycutu8YoaUOpzkBAjlar1YGQpytgkJC5nUq3PTOqFc4Wu9s0HhgU
-         3mDw==
-X-Gm-Message-State: AOAM533orMLuMJVkoNcAwbJK/Hmr6yn8NhglMbFA7LgC1Pge1GqeNtX+
-	+5b5tCH1/+svuzsp4MExSlo=
-X-Google-Smtp-Source: ABdhPJxZZPRpbrc7NDnjn2eSeflRX4GaI63HlFuDMYjCp/Aqt/fcYicv8P7Gf6O6fa26OXN8QI0oWQ==
-X-Received: by 2002:a1c:7302:: with SMTP id d2mr2536034wmb.133.1600142601603;
-        Mon, 14 Sep 2020 21:03:21 -0700 (PDT)
+        bh=r3LxTFtrQ+awtf690/+iVRtjq88T8YBCeyPdqFkjhVo=;
+        b=fbSIH7Z8KlADkjBfRng462Hvi0hbp3bTrhGh89fYfu3PN9x63P9EY6Jqju5SxVgeNt
+         PW/3Z2vtzUkPc+3s8B88GccPf61glvBxrqbcFu6GOacKjobonPu5uqsGlDWDfnIhAW3S
+         /nhJLoqxOJAK7hNAXB3rdMtX6h3A5GJ0TR8W5y2knSDnKi8nGL+epsfip4e0hX4wJDzI
+         Kf7IdvrgJNvZ3lIbGXsiw+lf8mD9iidrnxOTl16K6qih7Ga6rRjbCw2708J2G7oHx4KF
+         Bx3eKU4pX55yaJVtZrkIoZ8/MW3blw7hD7/rWqi7pFl6jTbL2I+5qPPTuvDIh8zf+1Km
+         28Fw==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM531TmyK076JkfT1fqwT+oMLgItv/pxH/Ei/Dl4SokYot5+pG1i5I
+	jzqXqu0VdslVgtEwOMiLqrE=
+X-Google-Smtp-Source: ABdhPJzrGx2TcZ9xjMeyPSmHAxaljKS0gVhVMHleMbmJmmVo/IMULJSCjAPCuUIevoy6ZKOhNRwSrg==
+X-Received: by 2002:ac8:4e86:: with SMTP id 6mr15736407qtp.331.1600143381718;
+        Mon, 14 Sep 2020 21:16:21 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6000:8:: with SMTP id h8ls1372849wrx.3.gmail; Mon, 14
- Sep 2020 21:03:20 -0700 (PDT)
-X-Received: by 2002:adf:dd82:: with SMTP id x2mr20176351wrl.419.1600142600616;
-        Mon, 14 Sep 2020 21:03:20 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1600142600; cv=none;
+Received: by 2002:ac8:1abd:: with SMTP id x58ls4834045qtj.10.gmail; Mon, 14
+ Sep 2020 21:16:20 -0700 (PDT)
+X-Received: by 2002:ac8:3845:: with SMTP id r5mr16638602qtb.223.1600143380864;
+        Mon, 14 Sep 2020 21:16:20 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1600143380; cv=none;
         d=google.com; s=arc-20160816;
-        b=E9ixZcZyN3yudivCRBKhrFAHmRSglLmg+rs4UkrCgnda5UMKhEQ9j3LeJEBZuVS6M2
-         l3cgkoT0cIPq51GWlkXw6fkbtDYCwE55Zn+DNUH5VppV5+LkfOBEExZqtyz6Vaq615nG
-         2FrwfYvFdeZrFePp/amaIrOEgEey0vRL5N0Aaqjo4u0VYpUAhhu/cJVS4j4kll2ebqlq
-         w6sD8IQa3SNhvfbC1ep21kGUXtJJb6uIpiHGlJ7nP6bGBD1oY4qgPeHQn4CpPbR0NR4J
-         xxV6RRmTRIy2zPjxLfciu1i+R62WCVowfAWDqRgqkMEGGlnV5F5jp8nI7u4fZQccMqla
-         cpTw==
+        b=V8OZlD0jV4I1x+JHMMmiuzoYHCs1aCtJtqwHOb8q0+uGBzBZysZEDq3XrW4epUc6xt
+         84xvJu4VfQlpqTuIboUWkovUoyhHn3VgRXFnhy2bfmfah6X/6/RFEhS78pG4oNEHeUzY
+         hBbaqF7kk8nVzMSTa2ph/aI0Da310hg55maVWKABHS20HcKo5r+XQsRhteLzM7wsZ2Vd
+         hfqkkA/9D7lfawGzqXthm9gAD3zpit7luMSyMYinIW+ls4VGiySFKfTEYyEqylZN+f5W
+         RQcX0Z/BKkB6MErsUmxKGe2IY/upCaBeihNSUSPzSF5L7/9BOE18qEqVSnZfLpPKoWda
+         pp1Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=IdWyBJyS0oKhGVRiD+UrbYCxAhuM82RyBR7Rd+xcd8M=;
-        b=s4LsrUm8RGLXxBBLuAXEthWm5VJn2/RFY8N2xqG5XAsQLnmLvPDRf6dv5DEY2ZbHib
-         cmlNTR2COdgQCV9ETOkKnRT79nFtERM5zaVI5W0yKN21Exq8taZSCvcFMyZpW+aDvbtS
-         XZpFqa+VieTH4En/KCiD/rhB5B4KCBvsRtC4Q+l4rsCM4Grk/boj0j7KwNOTugFJA8vw
-         SpDD1+gUubQfj8PxonU4oXeRPIQI0d31EMNcfRfPpZImWXyGdUbRf5FxkEVGy4cEdzIy
-         g84yB0W/pVzMnPR0Hr8IwzFY1h/xSwYF6yyGA8bKq8rWlDRVANzT+YtwaGXlWOdX9vdJ
-         BMXg==
+        h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+         :date:dkim-signature;
+        bh=39NzKKl99oYkPv0qjsWaYZRqhmYdp5PgjEaFoE7+4mk=;
+        b=w9nnKNUtXp77LODAdsEzuLQPfNgxGxgnfYt4gEO4kjE0X3C95AOCsFi568+JdFO+jE
+         Vp2EbM1RiJCj7L7KUMoTjxcWZvofl2cuClovKs6zHysgy4EKMk8b79maLh+fFyoegRqD
+         on7VWMLYH1wjc6QZivxaIwmdXe4KxLSTZmM8VW1zjZkM33GX9MnUrqnd8KfLg5CTQfo+
+         Cdm3CUGwayJEzDv32F311n1/yEaMevR5lOoIUniRnxpgklLdNcGf0mxheg7seaXisYX0
+         +rwv2GusRfkmUv4kGDGzfgd1QMzYTYsQ9hb4AXDNGx+MijLK63qjzD8Rpwg3TThXeLDA
+         IOpQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=hahHnwMl;
-       spf=pass (google.com: domain of davidgow@google.com designates 2a00:1450:4864:20::342 as permitted sender) smtp.mailfrom=davidgow@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com. [2a00:1450:4864:20::342])
-        by gmr-mx.google.com with ESMTPS id s69si319895wme.2.2020.09.14.21.03.20
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 14 Sep 2020 21:03:20 -0700 (PDT)
-Received-SPF: pass (google.com: domain of davidgow@google.com designates 2a00:1450:4864:20::342 as permitted sender) client-ip=2a00:1450:4864:20::342;
-Received: by mail-wm1-x342.google.com with SMTP id z9so1983631wmk.1
-        for <kasan-dev@googlegroups.com>; Mon, 14 Sep 2020 21:03:20 -0700 (PDT)
-X-Received: by 2002:a7b:c2aa:: with SMTP id c10mr2445837wmk.86.1600142600065;
- Mon, 14 Sep 2020 21:03:20 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200914170055.45a02b55@canb.auug.org.au>
-In-Reply-To: <20200914170055.45a02b55@canb.auug.org.au>
-From: "'David Gow' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Tue, 15 Sep 2020 12:03:08 +0800
-Message-ID: <CABVgOSko2FDCgEhCBD4Nm5ExEa9vLQrRiHMh+89nPYjqGjegFw@mail.gmail.com>
+       dkim=pass header.i=@canb.auug.org.au header.s=201702 header.b="iyD/lMZ9";
+       spf=pass (google.com: domain of sfr@canb.auug.org.au designates 203.11.71.1 as permitted sender) smtp.mailfrom=sfr@canb.auug.org.au
+Received: from ozlabs.org (bilbo.ozlabs.org. [203.11.71.1])
+        by gmr-mx.google.com with ESMTPS id n26si667075qkg.5.2020.09.14.21.16.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Sep 2020 21:16:19 -0700 (PDT)
+Received-SPF: pass (google.com: domain of sfr@canb.auug.org.au designates 203.11.71.1 as permitted sender) client-ip=203.11.71.1;
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.ozlabs.org (Postfix) with ESMTPSA id 4Br8zy4QyYz9sVB;
+	Tue, 15 Sep 2020 14:16:14 +1000 (AEST)
+Date: Tue, 15 Sep 2020 14:16:13 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: David Gow <davidgow@google.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Patricia Alfonso
+ <trishalfonso@google.com>, Linux Next Mailing List
+ <linux-next@vger.kernel.org>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, kasan-dev <kasan-dev@googlegroups.com>,
+ KUnit Development <kunit-dev@googlegroups.com>
 Subject: Re: linux-next: build warning after merge of the akpm-current tree
-To: Stephen Rothwell <sfr@canb.auug.org.au>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Patricia Alfonso <trishalfonso@google.com>, 
-	Linux Next Mailing List <linux-next@vger.kernel.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, kasan-dev <kasan-dev@googlegroups.com>, 
-	KUnit Development <kunit-dev@googlegroups.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: davidgow@google.com
+Message-ID: <20200915141613.09dba80c@canb.auug.org.au>
+In-Reply-To: <CABVgOSko2FDCgEhCBD4Nm5ExEa9vLQrRiHMh+89nPYjqGjegFw@mail.gmail.com>
+References: <20200914170055.45a02b55@canb.auug.org.au>
+	<CABVgOSko2FDCgEhCBD4Nm5ExEa9vLQrRiHMh+89nPYjqGjegFw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; boundary="Sig_/z2knM/TUP8H9wxwd02Y46Ya";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-Original-Sender: sfr@canb.auug.org.au
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=hahHnwMl;       spf=pass
- (google.com: domain of davidgow@google.com designates 2a00:1450:4864:20::342
- as permitted sender) smtp.mailfrom=davidgow@google.com;       dmarc=pass
- (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: David Gow <davidgow@google.com>
-Reply-To: David Gow <davidgow@google.com>
+ header.i=@canb.auug.org.au header.s=201702 header.b="iyD/lMZ9";
+       spf=pass (google.com: domain of sfr@canb.auug.org.au designates
+ 203.11.71.1 as permitted sender) smtp.mailfrom=sfr@canb.auug.org.au
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -131,77 +131,47 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-[+kasan-dev, +kunit-dev]
+--Sig_/z2knM/TUP8H9wxwd02Y46Ya
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Sep 14, 2020 at 3:01 PM Stephen Rothwell <sfr@canb.auug.org.au> wrote:
+Hi David,
+
+On Tue, 15 Sep 2020 12:03:08 +0800 David Gow <davidgow@google.com> wrote:
 >
-> Hi all,
->
-> After merging the akpm-current tree, today's linux-next build (x86_64
-> allmodconfig) produced this warning:
->
-> In file included from lib/test_kasan_module.c:16:
-> lib/../mm/kasan/kasan.h:232:6: warning: conflicting types for built-in function '__asan_register_globals'; expected 'void(void *, long int)' [-Wbuiltin-declaration-mismatch]
->   232 | void __asan_register_globals(struct kasan_global *globals, size_t size);
->       |      ^~~~~~~~~~~~~~~~~~~~~~~
-> lib/../mm/kasan/kasan.h:233:6: warning: conflicting types for built-in function '__asan_unregister_globals'; expected 'void(void *, long int)' [-Wbuiltin-declaration-mismatch]
->   233 | void __asan_unregister_globals(struct kasan_global *globals, size_t size);
->       |      ^~~~~~~~~~~~~~~~~~~~~~~~~
-> lib/../mm/kasan/kasan.h:235:6: warning: conflicting types for built-in function '__asan_alloca_poison'; expected 'void(void *, long int)' [-Wbuiltin-declaration-mismatch]
->   235 | void __asan_alloca_poison(unsigned long addr, size_t size);
->       |      ^~~~~~~~~~~~~~~~~~~~
-> lib/../mm/kasan/kasan.h:236:6: warning: conflicting types for built-in function '__asan_allocas_unpoison'; expected 'void(void *, long int)' [-Wbuiltin-declaration-mismatch]
->   236 | void __asan_allocas_unpoison(const void *stack_top, const void *stack_bottom);
->       |      ^~~~~~~~~~~~~~~~~~~~~~~
-> lib/../mm/kasan/kasan.h:238:6: warning: conflicting types for built-in function '__asan_load1'; expected 'void(void *)' [-Wbuiltin-declaration-mismatch]
->   238 | void __asan_load1(unsigned long addr);
->       |      ^~~~~~~~~~~~
-[...some more similar warnings truncated...]
+> > drivers/mtd/nand/raw/gpmi-nand/gpmi-nand.c: In function 'common_nfc_set_geometry':
+> > drivers/mtd/nand/raw/gpmi-nand/gpmi-nand.c:514:3: warning: initialization discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+> >   514 |   nanddev_get_ecc_requirements(&chip->base);
+> >       |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> >  
+> 
+> I was unable to reproduce this warning: it looks unrelated, so I'm
+> assuming it was attributed.
 
-Whoops -- these are an issue with the patch: the test_kasan_module.c
-file should be built with -fno-builtin. I've out a new version of the
-series which fixes this:
-https://lore.kernel.org/linux-mm/20200915035828.570483-1-davidgow@google.com/T/#t
+Yeah, sorry, that was included by accident.
 
-Basically, the fix is just:
-
-diff --git a/lib/Makefile b/lib/Makefile
-index 8c94cad26db7..d4af75136c54 100644
---- a/lib/Makefile
-+++ b/lib/Makefile
-@@ -69,6 +69,7 @@ obj-$(CONFIG_KASAN_KUNIT_TEST) += test_kasan.o
- CFLAGS_test_kasan.o += -fno-builtin
- CFLAGS_test_kasan.o += $(call cc-disable-warning, vla)
- obj-$(CONFIG_TEST_KASAN_MODULE) += test_kasan_module.o
-+CFLAGS_test_kasan_module.o += -fno-builtin
- obj-$(CONFIG_TEST_UBSAN) += test_ubsan.o
- CFLAGS_test_ubsan.o += $(call cc-disable-warning, vla)
- UBSAN_SANITIZE_test_ubsan.o := y
 -- 
-2.28.0.618.gf4bc123cb7-goog
-
-
-> drivers/mtd/nand/raw/gpmi-nand/gpmi-nand.c: In function 'common_nfc_set_geometry':
-> drivers/mtd/nand/raw/gpmi-nand/gpmi-nand.c:514:3: warning: initialization discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
->   514 |   nanddev_get_ecc_requirements(&chip->base);
->       |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->
-
-I was unable to reproduce this warning: it looks unrelated, so I'm
-assuming it was attributed.
-
-> Introduced by commit
->
->   77e7d1c8c356 ("KASAN: Port KASAN Tests to KUnit")
->
-> --
-> Cheers,
-> Stephen Rothwell
-
-Sorry for the mess,
--- David
+Cheers,
+Stephen Rothwell
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CABVgOSko2FDCgEhCBD4Nm5ExEa9vLQrRiHMh%2B89nPYjqGjegFw%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200915141613.09dba80c%40canb.auug.org.au.
+
+--Sig_/z2knM/TUP8H9wxwd02Y46Ya
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl9gQA0ACgkQAVBC80lX
+0GxqDQf/fGxucLLY3tmR4qE2OIiFf7aAcXMvI5w1rjnvS8yH4ptRBt0+Iln2ov7A
+2GFZ7QcsUTmMZ7a86pjnbu/3fyOcQQc8rTXZlPI04eP0+iRXOZLbRq73vsVKENdl
+6aYcCDdDn092Et5C4C0a41nYiEb4lNi1l4DKS+DBnuBHruhsKUuUrH1Lhk3DgDHt
+VKbnPOgcEHtu8W6uSU3rllre9qQ+OfQ6KRsSDFY5VLH9+yVvElk1e4ZRs0ZdRfVV
+80ZfZDRnou09BMMY9C8Fk1+B/cPuAObvX3rGUoFwiUv0MYribQtrVLaI6gEhjTdF
+UE4QNst1BeyAc7sd1AhkrZrbql9Isg==
+=OB08
+-----END PGP SIGNATURE-----
+
+--Sig_/z2knM/TUP8H9wxwd02Y46Ya--
