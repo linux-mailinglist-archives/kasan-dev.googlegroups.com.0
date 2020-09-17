@@ -1,151 +1,139 @@
-Return-Path: <kasan-dev+bncBCS7XUWOUULBBC6ERP5QKGQEQMLRNFA@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBIMIRT5QKGQEQ7C4E2Y@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yb1-xb39.google.com (mail-yb1-xb39.google.com [IPv6:2607:f8b0:4864:20::b39])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B95D26D216
-	for <lists+kasan-dev@lfdr.de>; Thu, 17 Sep 2020 06:11:57 +0200 (CEST)
-Received: by mail-yb1-xb39.google.com with SMTP id d15sf1054165ybk.0
-        for <lists+kasan-dev@lfdr.de>; Wed, 16 Sep 2020 21:11:57 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1600315916; cv=pass;
+Received: from mail-qv1-xf3d.google.com (mail-qv1-xf3d.google.com [IPv6:2607:f8b0:4864:20::f3d])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD20E26D3C0
+	for <lists+kasan-dev@lfdr.de>; Thu, 17 Sep 2020 08:37:22 +0200 (CEST)
+Received: by mail-qv1-xf3d.google.com with SMTP id l29sf807205qve.18
+        for <lists+kasan-dev@lfdr.de>; Wed, 16 Sep 2020 23:37:22 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1600324641; cv=pass;
         d=google.com; s=arc-20160816;
-        b=RG2GirTgSF+RGybv1X08D9fcBEyOcldxWGDY9LuOuz0LCqK6x4I6bRJhfpGBsgtRn3
-         F1qG5iEjKuvsL69urEa+Tni6chy6QCUgHBOs7nqmhZc6tLrXA2I6jAFdLNP4poV9c2uR
-         mvPpho6ge/sf3dPtCktPKtLj48uO180U5xZunq8yT36MnwjZbHqhpYkTkzPJoTvyQ8kX
-         J6jKgcWYuI+ZXCeR9iio3nhr79aroQykS9copgnxUVLdrbENsKSAwpRTpqBE/ax3w7eD
-         9WLKuVgN3Qq7Quyl61jvcYEf3KA4n6gDpJFmYJHY2EMxHEwDi+xcWrwK1ju9wFQINz6t
-         mZAg==
+        b=uK0PnaDfh6fvA2xkUWq0XkAzZKsq3SjMY6DRWc7zOedWRoKv/khMWvaGh219bKySjS
+         OW2iRnIJmYYwIYL0glKm1TO5wSV0NdiMep7wRqyK6Rd4Vng5EeE6Amp3B9i7TCiafie8
+         atTEBgt9ComRUAJeR5xvPciuG1FAwPMChmwqkmmUY28ICjaPYtfu4Tbqj93HlXRfCuiv
+         TQGcMAsaQMAltMMkcWUFN+/S0qFCrQ13TTImriP/y9RJmftd4k8pzq8Ca5kRV/d0Gbav
+         wchmlXhvzjNS+e5bmkXjFxG6p3JCQavStg2YrzSHN74SDLc28LkGlRnVFhlN1uS/wfeG
+         qHyg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:dkim-signature;
-        bh=uV9sNoqhmwF6wZ+2fA6dvPcKsIxVtGJ/LnZB+ws/kXc=;
-        b=IAEyPdcC9gi5wg8Xi4gFG3yzVtOd0ik2bXh83AdmpNlcFdTH00/ywSZ7q0FpbKJThm
-         TQFCKFp8zY9FeX9Z/rVl3vp8yGQWl3LEwmTAYaYbh/AgmrYYEGG8TL6QKuRiaQI3MWJo
-         /gJtc1LatbrEHZrEGWA6CL78xsXFCJdbZsrCKuv7NREBXWsbgfZvQacxqwzWbJ9un86Y
-         1SYqtfs1gfFUu0EEmZ25G66L1WE1znt/VGD5RwCHlg3P8XBCDe2Muna58rqjU3RnNNJs
-         7T2+oCYbFqyfHrVtZNxceLhdncsugs1rap7vOX59hZCsXA1a+niJSemEBfMGPBCzad2e
-         0m/w==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=bn2gG4w0gOK5D4OJTPAL7L5XlpcZiFvDlvCwSXNEnWM=;
+        b=qynGKMZ/vuEtuJqukOgxTTGFObvKAENOTOWdUpwXNDbOqScoLSyCQKkdLnpGb76i7r
+         wuNmpsNvaxGCB1uajAMDpVRTRlqisv9QpBx0PhlF6y+P/Lpz62NCymaVxJegims7y1uY
+         l+RsaaGX+QeV7cyn4xXm5+hFPAMJe4dScMw98yxHPE7FlXtRLq2qFF8gDG6jp0Sxxnbz
+         6g3cmj4zOtlRjSd9YLPQG8mTz86zMGVLpb/gUysPVmBq5Gx0ZCOjIdEcJvjz94+/xRsw
+         XWnIER+PJaKBPgciX/lAHDsoA49JOs4/1d7w1fPff8t3k1cNkvVHb0YIXRnaN8XKpBj/
+         M1Yw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=lcsH9qwk;
-       spf=pass (google.com: domain of maskray@google.com designates 2607:f8b0:4864:20::42b as permitted sender) smtp.mailfrom=maskray@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=dyKzxUO8;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::241 as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:list-post:list-help:list-archive:list-subscribe
-         :list-unsubscribe;
-        bh=uV9sNoqhmwF6wZ+2fA6dvPcKsIxVtGJ/LnZB+ws/kXc=;
-        b=TFQsf+1LX8ui32w3+r/1OLDyvCyD7HcN25ZrvMW6PPT+dpQ+AT1+i9ymalJOOxDEfi
-         ZapwoM2ZG52JCpUh61bWtOxSP4/BWHk3Bt4y+m5+eG0ilL8fDB9LG/xj3vTTmCGGVUz3
-         jJnSzDXCCLY52KmmSzj8DhkLWv/99bTtjGBkn4kn2o/fXgHwOvwLIEhWIdvv2K6XAC8I
-         u4/5+89gst9vaLvs8k07cvPtae3gqMX3WObyGodzbFpyrXJuoK5JJBRhueJPmqYGt+lr
-         1yNNWwexbL+Hxh9MhYOX1EN6bibJK1e4vZ9/PSY4C17HP3rU4Bnof5DO7gQRcQbLWw4g
-         /PAQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=bn2gG4w0gOK5D4OJTPAL7L5XlpcZiFvDlvCwSXNEnWM=;
+        b=MKNNiTr5Q+mmDbUCwNRn+koN2FtXlA7frun3S6pacYiFLmzsbX9zQz9eol4G9DSxJY
+         EwTM87Tg143kybRhu4sEy+gigF1YXx81Rec96ZPkFJHvutmbVCXSl4j241olqCjSebFV
+         sYRSxYaDz3lpm0WxG/l+Rue49830znwW7d206Z+8aGwbn8XyfBcbKEl47mO/Hb0OWIkF
+         B1KHkOiLJjg9VjDAR2sJIPGtmuf+DWRz191ajxgzNOgs27ruRHgjOc4Jaro0POnv3W97
+         njKs8UZkCvgh4jvoDZHqPYuWXanPjHayVxNsEeIX534Y+u5sEoN4YDd3NwOw4sg011Rd
+         XwxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:x-original-sender
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=uV9sNoqhmwF6wZ+2fA6dvPcKsIxVtGJ/LnZB+ws/kXc=;
-        b=kETuKrfsxi3JkJ4aWmOUnBcBEZ45dJGlwnogkBj/y73NdrnxhICuUDBHUI0aYXYL+m
-         gCWDZTYcyv5SpqDKZfvNE0MkaJqFbW/RSGwV3fgYXOHBSBhVkpmK2Jw2lqHiEuA8oqD/
-         /zz4GujE28wOwYzAaFDbx5Th2N7miZCGFAJbK06UedoHe3ZokiiPaSAzuTJ9/8loXRtx
-         j8ekSK+4wWhOh9Llf8TsBxMbTYdyYT8Mlf0Ih/Ygw3frTbF6AkLfPdVnX49zc1mtzww3
-         l/X2eWZzCaHLZ7C0NtEts1Wf757q2tpmwXJZ7svK4DMEe1Srj/AtCNv934jWzq03ZyLx
-         ZkSQ==
-X-Gm-Message-State: AOAM531Bpby+jQxSdqcGdJF9TaABbZwaTL2ItnL6MJCOlgrmD0fPbdZQ
-	tQHfHvqMuEoY+wNiRZu0Ht8=
-X-Google-Smtp-Source: ABdhPJxWL/NdjcvPTKQpO3EZ7QO4ZnFR2qxdQR2SpsPXyWSt4cDyGHq3ko3Sfg71tjNLBnTXoQ0J5A==
-X-Received: by 2002:a25:d34b:: with SMTP id e72mr18903524ybf.167.1600315916126;
-        Wed, 16 Sep 2020 21:11:56 -0700 (PDT)
+        bh=bn2gG4w0gOK5D4OJTPAL7L5XlpcZiFvDlvCwSXNEnWM=;
+        b=p42VQXLgpI8mFk6jj/wSEdw3qkJTS0kcdgTACsu7OJQFI/5tiIPXCrbZ0uW61/x6cj
+         fdvy5Z2TrHWIafQcw6Y/dxV9QUt2v8CfTbxUSTdK+BO0kdphxVVhz0lavqy3IhG5pUot
+         /BB7UDiZE9hgYli/eok6CuuWfIuqKtP9sGM3fqLZaBtia2655+SHJYEmmXpSN5MhyVP/
+         3+NsIVUW/8SufuAAjWZRM2/y8CgbKySeQifq86AJCHF+7TqlbvjQJ3jVXBMnaB5xms1M
+         DCSqDHAn2ZzA4u1Zgl1u0UwiRq4H83iFn4V/jl6A+JKUfLRIdAguKtEt8SH1qG4scb9J
+         weEA==
+X-Gm-Message-State: AOAM5322fTzKuJPnpsH1xNG+CGLmeuw4ZuKP4/y5DfkXxQBozQcCpf6Q
+	hckhjQ5M3RZh2ubrAtl43a8=
+X-Google-Smtp-Source: ABdhPJyhD71xOEuoGATpp+10f0GdZB0uixGHeyF9DZENjeqNfrPzUUbRryMQcXifrHk9aQeoYXofOQ==
+X-Received: by 2002:a05:620a:2055:: with SMTP id d21mr27979963qka.202.1600324641251;
+        Wed, 16 Sep 2020 23:37:21 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a25:c550:: with SMTP id v77ls343723ybe.8.gmail; Wed, 16 Sep
- 2020 21:11:55 -0700 (PDT)
-X-Received: by 2002:a5b:585:: with SMTP id l5mr18451597ybp.473.1600315915487;
-        Wed, 16 Sep 2020 21:11:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1600315915; cv=none;
+Received: by 2002:ad4:4c91:: with SMTP id bs17ls301300qvb.3.gmail; Wed, 16 Sep
+ 2020 23:37:20 -0700 (PDT)
+X-Received: by 2002:a0c:d443:: with SMTP id r3mr27308426qvh.20.1600324640334;
+        Wed, 16 Sep 2020 23:37:20 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1600324640; cv=none;
         d=google.com; s=arc-20160816;
-        b=03igFD+ianfowYBrT/BwB/trCPbH7twwyHAdgAfLohxnKjuO5fNLDyeudiNERznAwz
-         th77HfSrnFN+E3Nk40Q9n8rzsZDKbyJ4ZXvGRonRYAX1tGyB1cCxdkTIqOZaHNsWwdy6
-         Xg0HzlI0LKqsmFg3ool3UuDifnhper0Nry6XE4fajkKKr2OO9iyHnOJfIbflZt4Njy7E
-         DcwN3BwED5I0K2jn5qM3OkHRBeoxt0NnA+u1NaeRnlv2FFDXcmBvet3/rMH2ALz+Qhiv
-         GXpmhOUjskXY3gqIL9zClLjc2YAkLufD1YCdB/w1kQkzBgMv7bUan21QRb+K21ZzZYI2
-         Wx9A==
+        b=LPLTqQjqFa5EVrs8PHYJm9SAgQZOR6F82y19reXNvbzXuKGrfGh/8e/KLps2uP5L6d
+         KPGohV9qHnTaSjlJqmfUJ12/GLHmVhxL3KTt7No/coza4TO7ftANS5c1MAUu3E7eat/H
+         Z5ShBlPvlHWu6eGmqEC12NeMT98a1Z+oq534gln+SEHLKIC0vJbzX7Ywpi+rq2RlNY7m
+         C1DinbVDbRLEkYbzHp+h1US/ozR+ecXeGA8D6A9b1aJ1xtzdlfLcZlhz6xjhpXwz6j2m
+         a3ehNfMX2nk0ebWNkORaTJ/Z++CZjzLhgSvOOE4rJwoXQr6HOwxGbMNzN1ie1C1n2Urw
+         Jy1Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=hmyX2VLobpv/xATMsYUo+l7NUXTBFoGrvmN52O6thLs=;
-        b=p6rXng0jb8IIq2HhzscZIQpgRZM1H0EmzeU97Nu3QzyYM/oDC1VK6s9m4TTe8jB68S
-         pDq3yJVrAQMmLpmsSvTbMA6F59YNmaP2xBFmRexglDwmjcIxBZGfUUN6ifuakHMSVl9o
-         WIEKC7ABeAFnU7nrTwbd964MyfyrEiAIEvqZmKlvtRRUEoMwQkj8sH4qulA5QA7OQTDC
-         XIMboZCJoKC8JtNIBdS3fIL28yjs2TMAGaftArFzAwqRpKbwU1FLEV6XBCU/EtIf0OHG
-         VgMr60HJ+FwDRXk5gQMKQcc6qDn4Z9bc3xqSdazcgZyLZu5MWnDhX/PawNHutjYIztvh
-         cGsA==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=DmH7lVb417eXI2VeqeItQgKBp0xKHSxQ9iYZKyDox1E=;
+        b=t502QaihhqsLMma0uPVKIxMnnSxD9xmVesdGPWLOL3a0ztQuxkRmTaFO4R2NN2oY+8
+         YoCb65J49oXyThzMc3T1wPzX4T1S4BZB0bu9z8T41s1mROf6MSenK9ztF4JH9+TOO0PU
+         lOpfM/CFRPTkeJtcY9pKASLtUoxHpvmBIHR1spyBTVExnyGLZvyZb2uVqHnlsaW8FZqT
+         B4FdFAaMFBszEMVJtD9RWkp0iMlIdnNXgHgF/WjCceYMG6GJgl5KoJuMUxnxknPPdrcx
+         cX77J5NlDi7jGMYUTVD0AX/IKcybV1YnSLTNsijfDv8ZfmuZN2ctF0C/L2xe9HaSXO5B
+         HMpg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=lcsH9qwk;
-       spf=pass (google.com: domain of maskray@google.com designates 2607:f8b0:4864:20::42b as permitted sender) smtp.mailfrom=maskray@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=dyKzxUO8;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::241 as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com. [2607:f8b0:4864:20::42b])
-        by gmr-mx.google.com with ESMTPS id e17si613453ybp.1.2020.09.16.21.11.55
+Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com. [2607:f8b0:4864:20::241])
+        by gmr-mx.google.com with ESMTPS id k6si1229323qkg.1.2020.09.16.23.37.20
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 16 Sep 2020 21:11:55 -0700 (PDT)
-Received-SPF: pass (google.com: domain of maskray@google.com designates 2607:f8b0:4864:20::42b as permitted sender) client-ip=2607:f8b0:4864:20::42b;
-Received: by mail-pf1-x42b.google.com with SMTP id n14so387967pff.6
-        for <kasan-dev@googlegroups.com>; Wed, 16 Sep 2020 21:11:55 -0700 (PDT)
-X-Received: by 2002:a63:5f87:: with SMTP id t129mr2413690pgb.288.1600315914506;
-        Wed, 16 Sep 2020 21:11:54 -0700 (PDT)
-Received: from google.com ([2620:15c:2ce:0:a6ae:11ff:fe11:4abb])
-        by smtp.gmail.com with ESMTPSA id a13sm15937462pgq.41.2020.09.16.21.11.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Sep 2020 21:11:53 -0700 (PDT)
-Date: Wed, 16 Sep 2020 21:11:50 -0700
-From: "'Fangrui Song' via kasan-dev" <kasan-dev@googlegroups.com>
-To: Marco Elver <elver@google.com>
-Cc: Nick Desaulniers <ndesaulniers@google.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Josh Poimboeuf <jpoimboe@redhat.com>,
-	Borislav Petkov <bp@alien8.de>, Rong Chen <rong.a.chen@intel.com>,
-	kernel test robot <lkp@intel.com>,
-	"Li, Philip" <philip.li@intel.com>, x86-ml <x86@kernel.org>,
-	LKML <linux-kernel@vger.kernel.org>,
-	clang-built-linux <clang-built-linux@googlegroups.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Kees Cook <keescook@chromium.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	kasan-dev <kasan-dev@googlegroups.com>,
-	Daniel Kiss <daniel.kiss@arm.com>, momchil.velikov@arm.com,
-	Mark Rutland <mark.rutland@arm.com>
-Subject: Re: [tip:x86/seves] BUILD SUCCESS WITH WARNING
- e6eb15c9ba3165698488ae5c34920eea20eaa38e
-Message-ID: <20200917041150.3xfmi5pqyd7qm2fg@google.com>
-References: <20200915141816.GC28738@shao2-debian>
- <20200915160554.GN14436@zn.tnic>
- <20200915170248.gcv54pvyckteyhk3@treble>
- <20200915172152.GR14436@zn.tnic>
- <CAKwvOdkh=bZE6uY8zk_QePq5B3fY1ue9VjEguJ_cQi4CtZ4xgw@mail.gmail.com>
- <CANpmjNPWOus2WnMLSAXnzaXC5U5RDM3TTeV8vFDtvuZvrkoWtA@mail.gmail.com>
- <20200916083032.GL2674@hirez.programming.kicks-ass.net>
- <CANpmjNOBUp0kRTODJMuSLteE=-woFZ2nUzk1=H8wqcusvi+T_g@mail.gmail.com>
- <CAKwvOd=T3w1eqwBkpa8_dJjbOLMTTDshfevT3EuQD4aNn4e_ZQ@mail.gmail.com>
- <CANpmjNPGZnwJVN6ZuBiRUocGPp8c3rnx1v7iGfYna9t8c3ty0w@mail.gmail.com>
+        Wed, 16 Sep 2020 23:37:20 -0700 (PDT)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::241 as permitted sender) client-ip=2607:f8b0:4864:20::241;
+Received: by mail-oi1-x241.google.com with SMTP id v20so1274102oiv.3
+        for <kasan-dev@googlegroups.com>; Wed, 16 Sep 2020 23:37:20 -0700 (PDT)
+X-Received: by 2002:aca:5158:: with SMTP id f85mr5592894oib.121.1600324639579;
+ Wed, 16 Sep 2020 23:37:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Disposition: inline
-In-Reply-To: <CANpmjNPGZnwJVN6ZuBiRUocGPp8c3rnx1v7iGfYna9t8c3ty0w@mail.gmail.com>
-X-Original-Sender: maskray@google.com
+References: <20200914172750.852684-1-georgepope@google.com>
+ <20200914172750.852684-7-georgepope@google.com> <202009141509.CDDC8C8@keescook>
+ <20200915102458.GA1650630@google.com> <CANpmjNOTcS_vvZ1swh1iHYaRbTvGKnPAe4Q2DpR1MGhk_oZDeA@mail.gmail.com>
+ <20200915120105.GA2294884@google.com> <CANpmjNPpq7LfTHYesz2wTVw6Pqv0FQ2gc-vmSB6Mdov+XWPZiw@mail.gmail.com>
+ <20200916074027.GA2946587@google.com> <CANpmjNMT9-a8qKZSvGWBPAb9x9y1DkrZMSvHGq++_TcEv=7AuA@mail.gmail.com>
+ <20200916121401.GA3362356@google.com> <20200916134029.GA1146904@elver.google.com>
+In-Reply-To: <20200916134029.GA1146904@elver.google.com>
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Thu, 17 Sep 2020 08:37:07 +0200
+Message-ID: <CANpmjNOfgeR0zpL-4AtOt0FL56BFZ_sud-mR3CrYB7OCMg0PaA@mail.gmail.com>
+Subject: Re: [PATCH 06/14] Fix CFLAGS for UBSAN_BOUNDS on Clang
+To: George Popescu <georgepope@google.com>
+Cc: Kees Cook <keescook@chromium.org>, maz@kernel.org, 
+	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+	Masahiro Yamada <masahiroy@kernel.org>, Michal Marek <michal.lkml@markovi.net>, 
+	Linux ARM <linux-arm-kernel@lists.infradead.org>, kvmarm@lists.cs.columbia.edu, 
+	LKML <linux-kernel@vger.kernel.org>, 
+	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>, 
+	clang-built-linux <clang-built-linux@googlegroups.com>, james.morse@arm.com, 
+	julien.thierry.kdev@gmail.com, suzuki.poulose@arm.com, 
+	Nathan Chancellor <natechancellor@gmail.com>, Nick Desaulniers <ndesaulniers@google.com>, 
+	David Brazdil <dbrazdil@google.com>, broonie@kernel.org, Fangrui Song <maskray@google.com>, 
+	Andrew Scull <ascull@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Dmitry Vyukov <dvyukov@google.com>, Thomas Gleixner <tglx@linutronix.de>, Arnd Bergmann <arnd@arndb.de>, 
+	kasan-dev <kasan-dev@googlegroups.com>, Andrey Konovalov <andreyknvl@google.com>, 
+	Alexander Potapenko <glider@google.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=lcsH9qwk;       spf=pass
- (google.com: domain of maskray@google.com designates 2607:f8b0:4864:20::42b
- as permitted sender) smtp.mailfrom=maskray@google.com;       dmarc=pass
- (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Fangrui Song <maskray@google.com>
-Reply-To: Fangrui Song <maskray@google.com>
+ header.i=@google.com header.s=20161025 header.b=dyKzxUO8;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::241 as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -158,110 +146,92 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 2020-09-16, 'Marco Elver' via Clang Built Linux wrote:
->On Wed, 16 Sep 2020 at 20:22, 'Nick Desaulniers' via kasan-dev
-><kasan-dev@googlegroups.com> wrote:
->>
->> On Wed, Sep 16, 2020 at 1:46 AM Marco Elver <elver@google.com> wrote:
->> >
->> > On Wed, 16 Sep 2020 at 10:30, <peterz@infradead.org> wrote:
->> > > On Tue, Sep 15, 2020 at 08:09:16PM +0200, Marco Elver wrote:
->> > > > On Tue, 15 Sep 2020 at 19:40, Nick Desaulniers <ndesaulniers@google.com> wrote:
->> > > > > On Tue, Sep 15, 2020 at 10:21 AM Borislav Petkov <bp@alien8.de> wrote:
->> > >
->> > > > > > init/calibrate.o: warning: objtool: asan.module_ctor()+0xc: call without frame pointer save/setup
->> > > > > > init/calibrate.o: warning: objtool: asan.module_dtor()+0xc: call without frame pointer save/setup
->> > > > > > init/version.o: warning: objtool: asan.module_ctor()+0xc: call without frame pointer save/setup
->> > > > > > init/version.o: warning: objtool: asan.module_dtor()+0xc: call without frame pointer save/setup
->> > > > > > certs/system_keyring.o: warning: objtool: asan.module_ctor()+0xc: call without frame pointer save/setup
->> > > > > > certs/system_keyring.o: warning: objtool: asan.module_dtor()+0xc: call without frame pointer save/setup
->> > > >
->> > > > This one also appears with Clang 11. This is new I think because we
->> > > > started emitting ASAN ctors for globals redzone initialization.
->> > > >
->> > > > I think we really do not care about precise stack frames in these
->> > > > compiler-generated functions. So, would it be reasonable to make
->> > > > objtool ignore all *san.module_ctor and *san.module_dtor functions (we
->> > > > have them for ASAN, TSAN, MSAN)?
->> > >
->> > > The thing is, if objtool cannot follow, it cannot generate ORC data and
->> > > our unwinder cannot unwind through the instrumentation, and that is a
->> > > fail.
->> > >
->> > > Or am I missing something here?
->> >
->> > They aren't about the actual instrumentation. The warnings are about
->> > module_ctor/module_dtor functions which are compiler-generated, and
->> > these are only called on initialization/destruction (dtors only for
->> > modules I guess).
->> >
->> > E.g. for KASAN it's the calls to __asan_register_globals that are
->> > called from asan.module_ctor. For KCSAN the tsan.module_ctor is
->> > effectively a noop (because __tsan_init() is a noop), so it really
->> > doesn't matter much.
->> >
->> > Is my assumption correct that the only effect would be if something
->> > called by them fails, we just don't see the full stack trace? I think
->> > we can live with that, there are only few central places that deal
->> > with ctors/dtors (do_ctors(), ...?).
->> >
->> > The "real" fix would be to teach the compilers about "frame pointer
->> > save/setup" for generated functions, but I don't think that's
->> > realistic.
->>
->> So this has come up before, specifically in the context of gcov:
->> https://github.com/ClangBuiltLinux/linux/issues/955.
->>
->> I looked into this a bit, and IIRC, the issue was that compiler
->> generated functions aren't very good about keeping track of whether
->> they should or should not emit framepointer setup/teardown
->> prolog/epilogs.  In LLVM's IR, -fno-omit-frame-pointer gets attached
->> to every function as a function level attribute.
->> https://godbolt.org/z/fcn9c6 ("frame-pointer"="all").
->>
->> There were some recent LLVM patches for BTI (arm64) that made some BTI
->> related command line flags module level attributes, which I thought
->> was interesting; I was wondering last night if -fno-omit-frame-pointer
->> and maybe even the level of stack protector should be?  I guess LTO
->> would complicate things; not sure it would be good to merge modules
->> with different attributes; I'm not sure how that's handled today in
->> LLVM.
->>
->> Basically, when the compiler is synthesizing a new function
->> definition, it should check whether a frame pointer should be emitted
->> or not.  We could do that today by maybe scanning all other function
->> definitions for the presence of "frame-pointer"="all" fn attr,
->> breaking early if we find one, and emitting the frame pointer setup in
->> that case.  Though I guess it's "frame-pointer"="none" otherwise, so
->> maybe checking any other fn def would be fine; I don't see any C fn
->> attr's that allow you to keep frame pointers or not.  What's tricky is
->> that the front end flag was resolved much earlier than where this code
->> gets generated, so it would need to look for traces that the flag ever
->> existed, which sounds brittle on paper to me.
+On Wed, 16 Sep 2020 at 15:40, Marco Elver <elver@google.com> wrote:
+> On Wed, Sep 16, 2020 at 12:14PM +0000, George Popescu wrote:
+> > On Wed, Sep 16, 2020 at 10:32:40AM +0200, Marco Elver wrote:
+> > > On Wed, 16 Sep 2020 at 09:40, George Popescu <georgepope@google.com> wrote:
+> > > > On Tue, Sep 15, 2020 at 07:32:28PM +0200, Marco Elver wrote:
+> > > > > On Tue, 15 Sep 2020 at 14:01, George Popescu <georgepope@google.com> wrote:
+> > > > > > On Tue, Sep 15, 2020 at 01:18:11PM +0200, Marco Elver wrote:
+> > > > > > > On Tue, 15 Sep 2020 at 12:25, George Popescu <georgepope@google.com> wrote:
+> > > > > > > > On Mon, Sep 14, 2020 at 03:13:14PM -0700, Kees Cook wrote:
+> > > > > > > > > On Mon, Sep 14, 2020 at 05:27:42PM +0000, George-Aurelian Popescu wrote:
+> > > > > > > > > > From: George Popescu <georgepope@google.com>
+> > > > > > > > > >
+> > > > > > > > > > When the kernel is compiled with Clang, UBSAN_BOUNDS inserts a brk after
+> > > > > > > > > > the handler call, preventing it from printing any information processed
+> > > > > > > > > > inside the buffer.
+> > > > > > > > > > For Clang -fsanitize=bounds expands to -fsanitize=array-bounds and
+> > > > > > > > > > -fsanitize=local-bounds, and the latter adds a brk after the handler
+> > > > > > > > > > call
+> > > > > > > > >
+> > > > > > > > This would mean losing the local-bounds coverage. I tried to  test it without
+> > > > > > > > local-bounds and with a locally defined array on the stack and it works fine
+> > > > > > > > (the handler is called and the error reported). For me it feels like
+> > > > > > > > --array-bounds and --local-bounds are triggered for the same type of
+> > > > > > > > undefined_behaviours but they are handling them different.
+> > > > > > >
+> > > > > > > Does -fno-sanitize-trap=bounds help?
+> [...]
+> > > Your full config would be good, because it includes compiler version etc.
+> > My full config is:
 >
->Thanks for the summary -- yeah, that was my suspicion, that some
->attribute was being lost somewhere. And I think if we generalize this,
->and don't just try to attach "frame-pointer" attr to the function, we
->probably also solve the BTI issue that Mark still pointed out with
->these module_ctor/dtors.
+> Thanks. Yes, I can reproduce, and the longer I keep digging I start
+> wondering why we have local-bounds at all.
 >
->I was trying to see if there was a generic way to attach all the
->common attributes to the function generated here:
->https://github.com/llvm/llvm-project/blob/master/llvm/lib/Transforms/Utils/ModuleUtils.cpp#L122
->-- but we probably can't attach all attributes, and need to remove a
->bunch of them again like the sanitizers (or alternatively just select
->the ones we need). But, I'm still digging for the function that
->attaches all the common attributes...
+> It appears that local-bounds finds a tiny subset of the issues that
+> KASAN finds:
 >
->Thanks,
->-- Marco
+>         http://lists.llvm.org/pipermail/cfe-commits/Week-of-Mon-20131021/091536.html
+>         http://llvm.org/viewvc/llvm-project?view=revision&revision=193205
+>
+> fsanitize=undefined also does not include local-bounds:
+>
+>         https://clang.llvm.org/docs/UndefinedBehaviorSanitizer.html#available-checks
+>
+> And the reason is that we do want to enable KASAN and UBSAN together;
+> but local-bounds is useless overhead if we already have KASAN.
+>
+> I'm inclined to say that what you propose is reasonable (but the commit
+> message needs to be more detailed explaining the relationship with
+> KASAN) -- but I have no idea if this is going to break somebody's
+> usecase (e.g. find some OOB bugs, but without KASAN -- but then why not
+> use KASAN?!)
 
-Speaking of gcov, do people know whether frame pointers in
-kernel's libgcov implementation help?
+So, it seems that local-bounds can still catch some rare OOB accesses,
+where KASAN fails to catch it because the access might skip over the
+redzone.
 
-https://gcc.gnu.org/bugzilla/show_bug.cgi?id=94394 "random kernel panic during collecting kernel code coverage"
+The other more interesting bit of history is that
+-fsanitize=local-bounds used to be -fbounds-checking, and meant for
+production use as a hardening feature:
+http://lists.llvm.org/pipermail/llvm-dev/2012-May/049972.html
+
+And local-bounds just does not behave like any other sanitizer as a
+result, it just traps. The fact that it's enabled via
+-fsanitize=local-bounds (or just bounds) but hasn't much changed in
+behaviour is a little unfortunate.
+
+I suppose there are 3 options:
+
+1. George implements trap handling somehow. Is this feasible? If not,
+why not? Maybe that should also have been explained in the commit
+message.
+
+2. Only enable -fsanitize=local-bounds if UBSAN_TRAP was selected, at
+least for as long as Clang traps for local-bounds. I think this makes
+sense either way, because if we do not expect UBSAN to trap, it really
+should not trap!
+
+3. Change the compiler. As always, this will take a while to implement
+and then to reach whoever should have that updated compiler.
+
+Preferences?
+
+Thanks,
+-- Marco
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200917041150.3xfmi5pqyd7qm2fg%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNOfgeR0zpL-4AtOt0FL56BFZ_sud-mR3CrYB7OCMg0PaA%40mail.gmail.com.
