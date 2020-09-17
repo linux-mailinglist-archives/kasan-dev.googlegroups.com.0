@@ -1,81 +1,82 @@
-Return-Path: <kasan-dev+bncBAABBEFRRT5QKGQESMXQ7UI@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBD5RRT5QKGQEGHVDK7A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oo1-f64.google.com (mail-oo1-f64.google.com [209.85.161.64])
-	by mail.lfdr.de (Postfix) with ESMTPS id 800AB26D591
+Received: from mail-il1-f184.google.com (mail-il1-f184.google.com [209.85.166.184])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ECFC26D590
 	for <lists+kasan-dev@lfdr.de>; Thu, 17 Sep 2020 10:04:33 +0200 (CEST)
-Received: by mail-oo1-f64.google.com with SMTP id e9sf783525oos.3
+Received: by mail-il1-f184.google.com with SMTP id v16sf960777ilh.15
         for <lists+kasan-dev@lfdr.de>; Thu, 17 Sep 2020 01:04:33 -0700 (PDT)
 ARC-Seal: i=2; a=rsa-sha256; t=1600329872; cv=pass;
         d=google.com; s=arc-20160816;
-        b=VlQNhHFgG+rWMlN3tRTasEmowIXahTRoyMC1zvd604fwuVOOauXpkVfoWFRTkUYors
-         dSO8NiqSriDNpqlqh7pTfRQWdotHwT51s/EEaSNQLIWjQWm+l76lhRAm2oCdVo4fVZjb
-         sjfWTi7Iih7LSaJrPOf1yvhhSdCYkq2Gc7LXEOXFTkbyEh2CxkaOWC/+GS/MgoQ8hWZi
-         oksV4Xr+Xnm5LgaBXOM6hcE6L3kQ2wfJr7S+G6PzPyZf/KScQHBim4qcfInJkqvozKim
-         pQrDAodKaR3TPpcyxFkmNIkX1GR3r6cqCPZgf407pULUP9Vm7Eqtl1czPmHPCakCNXzU
-         BpGw==
+        b=rxjp3h9AjyasuKUgNt37L1jVWa215ut0VtDRCJXg+3e/dUz9Sdxpl6tmOSyfncjjTS
+         klhWeyJ/dMVUU3Ki84P2uKNbmtwJmXlCCO3OPIwvc9u+BAtMO4k+wfp1Nt2frQH0u5Vf
+         ui44IfDWKaanz0sykBNDmA07O7pBsOaBJ99nrT7aDKMEVtLQnRbwvB44rKtsjM8QAwgV
+         pumq0SObf/h/h9lqGPmF8y39y7w17opb4JypGqJtVTXlembOvqdZWfOAmzbCI/D0hP6f
+         POfFAEjVFcwuVnLnLRarAvaZY33UWIvNuwu3mRNhwGcKJRKRc6Cz7hiHSwyW2rCYza+Z
+         eETA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:sender:mime-version:message-id:date
-         :subject:cc:to:from;
-        bh=4ZfFaUO3fMdVcHLeG/f3bmquR1ZYMcBs51Ehi/lDhm4=;
-        b=vjQofj68e0UKCI4eW/t8QF8zfn4GXCpGHhPlhKaVZ97t1QfL1tatjIBxzixEY51jxZ
-         LtccTxsQo9mLvSVDVLVY00sK2/cbsGklOK4CP+fd1v+f5hzcwS/aJBakC2yXI3piYe8d
-         E5sqni7fEpJ7BQNAmvoCCz1v/wNM31iPOV9gGylq0GoJBfjITmsJyh2AR6Ju9j8+IS5y
-         suXaK004ETHXwjRguSsuSC9366x7AHBxAThAFDSkFdKKHHT5EhHGY9+uE92a2cHonE7/
-         RNvL8Ey3FD1HMM7lqjPb/SJdMif8ekurAviE6XpSZUHlaX1Pmid8lXG/Fs6U9UcFg3jc
-         gP/w==
+         :list-id:mailing-list:precedence:sender:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from;
+        bh=pdgWn6kt+nH9ZqMj2qBCtpsL4qkGKyljaEjoOg6eJYU=;
+        b=t5d5MrHbVcQBbmNCTQUacgA/wtP+9gRk++v41Xf8grAyk1rcZYWk4ObgJeWxMEIBF3
+         j/8K+bLv24zc+NVcaYXHP7lNrYYCEq4OzzvyN0DeisGHzO0rsXQ6oFHvaDljBKWYWeKY
+         yvxCn0YMLxpY/RCdG/HTKC/AvryYu2P970upEXluL2/FtspsMn1Q6kGacDlsYvpKu+TK
+         WdsPN7E1QgK+PLFnHojl2Do+fOk+sqObl3+WQGRk9uwZPmRVYyexxGGzcVSu+zwtvub2
+         JP4dfYIPwgrYjE+z2CJiJOsyVndSTKlvLG3BRi7mcXHSzWIWNs0W9oyAjyt2SgoAdyza
+         ozkg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=default header.b=JwMinYkF;
+       dkim=pass header.i=@kernel.org header.s=default header.b=PU5+IVwo;
        spf=pass (google.com: domain of mchehab@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=mchehab@kernel.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :sender:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=4ZfFaUO3fMdVcHLeG/f3bmquR1ZYMcBs51Ehi/lDhm4=;
-        b=AcCIHhUqawSyQSe6Ss61g5ih0oh37lZC5+5z+pCPLXrDjJXxaWsrA09jdkBmCe3cL/
-         UVGTv/6We9afYhLhiDiUaFXVJ5kdcj0U2SkLwBkgRFqQ6NXNlsarPI7CzLzQotf80q5F
-         SfFiaCIMQhkTBCxwSXQyUgGziLNPEqJFdWZ/BmZCSOeQzCcv7ITdVUe8BjmnUudXPx4I
-         /HtxwUAw/s8Gz+8eMiKgy1YMULuc9omxgoZjppFCqBDehjuWH10ke0FXo8jkWqsCD7xO
-         R19SOH36rv9AUmGnK1oEbCwL9zU7ve0H6jpWdbOWOPwB5yd9wBawC596UAFeiy822/C/
-         FpAQ==
-X-Gm-Message-State: AOAM531cY7rCgy3fBn1VYU3is4gC/Tkx4EKBBi6TmO213u1S/4P6d3qi
-	7O74bDn3Q49v7n8TIHea224=
-X-Google-Smtp-Source: ABdhPJwXY9JND29ke6ZYrnNOTDP6M8YLU5DPrLCpjcQJniraDRA705iK5bGkhdZ5mxb4spqHuGlTUg==
-X-Received: by 2002:a05:6830:453:: with SMTP id d19mr6070927otc.130.1600329872186;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:sender:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=pdgWn6kt+nH9ZqMj2qBCtpsL4qkGKyljaEjoOg6eJYU=;
+        b=WplHf0054tneN5AGFPCQP94W3z/Hq8sDF6kt8RxpfSPiOhmPdrPkoBAEqAbBkaH95F
+         pqqJYUZ7FdKUqSnOMjhhobfTUz12wUx32u99c2dH7w/s4bZPBZp6eud4Bv9q+sjmlvNF
+         +uYXl/8FtfVlvR+Ao6MLAPSUxWp5kf7fuszHJN46wZY065vbxarZP8PZoAOiiMrNc/2/
+         DMd8Vrlr8g2hADSux8UsuUgao4r3V3xpeerO5YF33CUyDbPptt21D5BBbEoeCwRo88vN
+         rnB48+Pw6TZqeNFie3U0VosFBeacbVaWEiqK0N3XVE8EBOu3JdkDKLxtV2iB51d5fFzI
+         gDnA==
+X-Gm-Message-State: AOAM530gOXH63RVDzsk9qWNOMMt7eySo7uFJ5ghlwtEn809BBZv+n7S2
+	EKbq6To/4cGyAqK5721/0vo=
+X-Google-Smtp-Source: ABdhPJw0/yMJ7VOYu+LisjnmJY8ryJfcHM8csHj+80rxGqscIJ5pnJ+tuoXITpQxaD9mV0YVXFSmOg==
+X-Received: by 2002:a92:c7b0:: with SMTP id f16mr25170637ilk.137.1600329872081;
         Thu, 17 Sep 2020 01:04:32 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:aca:3a07:: with SMTP id h7ls275024oia.1.gmail; Thu, 17 Sep
+Received: by 2002:a5e:c648:: with SMTP id s8ls196665ioo.5.gmail; Thu, 17 Sep
  2020 01:04:31 -0700 (PDT)
-X-Received: by 2002:a05:6808:b03:: with SMTP id s3mr5750628oij.28.1600329871849;
+X-Received: by 2002:a05:6602:6c9:: with SMTP id n9mr22089875iox.91.1600329871674;
         Thu, 17 Sep 2020 01:04:31 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; t=1600329871; cv=none;
         d=google.com; s=arc-20160816;
-        b=Xl0S+8Ny6/xy7fIJiMYzqViKP4QT9JTMBlZONjRp6ycC08s5uZspDJ9GgVFP/3OzwT
-         fiPwOJHqaw9DJEO0+kfr63czt1KdzDBn8/aUCsxR9C4KooLHsS6zs0nWW6nuokudO5hN
-         Hb56sBMckYce0X6z4sEliUgI7ob0YHeqOvtyRP5r58w6dWlUo0u1BFLmqydomphbExww
-         6oHhBvqcnqCUmVXQQiWJfCDxwK4fgXpanB6lhoZa5tmLSnDyI4JIQ3ThTJMlVwi4Gohg
-         2BWpn6a44x1F/Kw+XSopDq4qLGWOGWaEyrNVFW0F6Ms0c3CFw2fkBDunlcgRS1L1Ledb
-         bTtw==
+        b=IzRHNgN5srOX0PgGooK+6L3pfyfnJcH0dveKg66/Efq4Bb/Cb58tcnQXylzJ+yoMOX
+         f2Bi0QLB38+BrfC+aoORJCPQhcjgydgMSGxf2taMR1sDzkeUThHzQOkWmyNvTlcH0Hjb
+         YAyAVszf2amIyZjO3J1Q0qZQQnViTCyyZmeNhYRnlq0Ap3AMHiwDWBlcN+gxp3hLfjSb
+         3O3P82VEE1n3RX6q+HHwTKfMEA4HmwFbDZmt6BleMt5tDQn/K6V45ABbmC3VipqkSDRm
+         bVPcRbkRUEmvhB4gADEQ1faGNliXm8NHH3SSPJdyAmkhblhkITcJhTEH9nCwA2bBhi2x
+         MlUA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=sender:content-transfer-encoding:mime-version:message-id:date
-         :subject:cc:to:from:dkim-signature;
-        bh=MRUWLuD3Kucl+PKAgp1jMstJi6HI4ov4qpe3oBcRKDc=;
-        b=Qq569c23RSYe0W72nEA/qJscK1xU51s/2nCiXJ0HisF7arKhJxPbkYvVVeTA573RSl
-         Lmv0gf4VKIswLdBEczt8pvaK7Z+b1oyBWwP3dBUtsotMMd7SZOqrfG24KP8M8Y6axFME
-         sFkg6pKoZZHO2xyBj2ME2DkC/j6IQo84jXl2+L5QYYM2v7bNJxuy9BlS6ZnEy5RpGBaJ
-         f4qwY4IrfecCv1CQG37FAdnoj7CdlqeAam6ojHXzDjOlIOOFXuvnuHUGTNUbnjXAcBJk
-         rQ0gGS1KHMGENKmJ/Hg0yysrcG9+zo3w+pgshu95q94i71tBkA69l7Mg22jd7NXmn9lM
-         qjZA==
+        h=sender:content-transfer-encoding:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:dkim-signature;
+        bh=x5Rkqhb6ZRtF85IZlSr1BZ8pdGwUd4OikvOx8ovizXo=;
+        b=CTHFm+6l1FoSfiMHLW37qnxdY5/+U0/Yf0WTMg32a2Xmd2Tn8vgtMTzZ0SujmClDtf
+         JDJafeioFWlIGILZGMLr+7BttKR7URcHFc8hHytiq0S2lxWyP9hf+D2dX8C/CfdawIrx
+         x5SVd2avy8v5iEWGlDMpC2EUk8bsCtNUcO2unvfsvMotBNNqq+Xlb1JinNojwkZQg0WM
+         Efygb1gipq2e4ybGHSeXlo38a2dVaUa0EMmtqWxIXy88KzHuy0bAnOwHYGCIsxblye4D
+         YOevZqxk4uYZAmYaV2fpeiIsLLgwEss8eYujOEtjzUEUM+ZJG217ihXmJ/fidBkYM9z5
+         xvTw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=default header.b=JwMinYkF;
+       dkim=pass header.i=@kernel.org header.s=default header.b=PU5+IVwo;
        spf=pass (google.com: domain of mchehab@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=mchehab@kernel.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id d11si1860839oti.2.2020.09.17.01.04.31
+        by gmr-mx.google.com with ESMTPS id c10si285586iow.3.2020.09.17.01.04.31
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
         Thu, 17 Sep 2020 01:04:31 -0700 (PDT)
@@ -83,48 +84,31 @@ Received-SPF: pass (google.com: domain of mchehab@kernel.org designates 198.145.
 Received: from mail.kernel.org (ip5f5ad5d2.dynamic.kabel-deutschland.de [95.90.213.210])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id BC07920707;
+	by mail.kernel.org (Postfix) with ESMTPSA id BB001206B2;
 	Thu, 17 Sep 2020 08:04:30 +0000 (UTC)
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
 	(envelope-from <mchehab@kernel.org>)
-	id 1kIou4-0051LO-6j; Thu, 17 Sep 2020 10:04:28 +0200
+	id 1kIou4-0051LQ-8q; Thu, 17 Sep 2020 10:04:28 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	"Jonathan Corbet" <corbet@lwn.net>,
 	Alexander Potapenko <glider@google.com>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Andreas Gruenbacher <agruenba@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
 	Andrey Ryabinin <aryabinin@virtuozzo.com>,
-	Andrii Nakryiko <andriin@fb.com>,
-	Daniel Borkmann <daniel@iogearbox.net>,
 	Dmitry Vyukov <dvyukov@google.com>,
-	Guoqing Jiang <guoqing.jiang@cloud.ionos.com>,
-	Jens Axboe <axboe@kernel.dk>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	John Fastabend <john.fastabend@gmail.com>,
-	KP Singh <kpsingh@chromium.org>,
-	Martin KaFai Lau <kafai@fb.com>,
-	Song Liu <songliubraving@fb.com>,
-	Stephen Rothwell <sfr@canb.auug.org.au>,
-	William Kucharski <william.kucharski@oracle.com>,
-	Yang Shi <yang.shi@linux.alibaba.com>,
-	Yonghong Song <yhs@fb.com>,
-	bpf@vger.kernel.org,
 	kasan-dev@googlegroups.com,
-	netdev@vger.kernel.org
-Subject: [PATCH 0/3] Additional doc warning fixes for issues at next-20200915
-Date: Thu, 17 Sep 2020 10:04:24 +0200
-Message-Id: <cover.1600328701.git.mchehab+huawei@kernel.org>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 1/3] docs: kasan.rst: add two missing blank lines
+Date: Thu, 17 Sep 2020 10:04:25 +0200
+Message-Id: <53f6987c1a4b032ff636a95e3fce53ff8bfef630.1600328701.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <cover.1600328701.git.mchehab+huawei@kernel.org>
+References: <cover.1600328701.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 X-Original-Sender: mchehab+huawei@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=default header.b=JwMinYkF;       spf=pass
+ header.i=@kernel.org header.s=default header.b=PU5+IVwo;       spf=pass
  (google.com: domain of mchehab@kernel.org designates 198.145.29.99 as
  permitted sender) smtp.mailfrom=mchehab@kernel.org;       dmarc=pass (p=NONE
  sp=NONE dis=NONE) header.from=kernel.org
@@ -141,32 +125,40 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-There are a couple of new warnings introduced at linux-next.
+literal blocks should start and end with a blank line,
+as otherwise the parser complains and may do the wrong
+thing, as warned by Sphinx:
 
-This small patch series address them.
+	Documentation/dev-tools/kasan.rst:298: WARNING: Literal block ends without a blank line; unexpected unindent.
+	Documentation/dev-tools/kasan.rst:303: WARNING: Literal block ends without a blank line; unexpected unindent.
 
-The complete series addressing (almost) all doc warnings is at:
-
-	https://git.linuxtv.org/mchehab/experimental.git/log/?h=doc-fixes
-
-I'll keep rebasing such tree until we get rid of all doc warnings upstream,
-hopefully in time for Kernel 5.10.
-
-Mauro Carvalho Chehab (3):
-  docs: kasan.rst: add two missing blank lines
-  mm: pagemap.h: fix two kernel-doc markups
-  docs: bpf: ringbuf.rst: fix a broken cross-reference
-
- Documentation/bpf/ringbuf.rst     | 2 +-
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
  Documentation/dev-tools/kasan.rst | 2 ++
- include/linux/pagemap.h           | 8 ++++----
- 3 files changed, 7 insertions(+), 5 deletions(-)
+ 1 file changed, 2 insertions(+)
 
+diff --git a/Documentation/dev-tools/kasan.rst b/Documentation/dev-tools/kasan.rst
+index c09c9ca2ff1c..2b68addaadcd 100644
+--- a/Documentation/dev-tools/kasan.rst
++++ b/Documentation/dev-tools/kasan.rst
+@@ -295,11 +295,13 @@ print the number of the test and the status of the test:
+ pass::
+ 
+         ok 28 - kmalloc_double_kzfree
++
+ or, if kmalloc failed::
+ 
+         # kmalloc_large_oob_right: ASSERTION FAILED at lib/test_kasan.c:163
+         Expected ptr is not null, but is
+         not ok 4 - kmalloc_large_oob_right
++
+ or, if a KASAN report was expected, but not found::
+ 
+         # kmalloc_double_kzfree: EXPECTATION FAILED at lib/test_kasan.c:629
 -- 
 2.26.2
-
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/cover.1600328701.git.mchehab%2Bhuawei%40kernel.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/53f6987c1a4b032ff636a95e3fce53ff8bfef630.1600328701.git.mchehab%2Bhuawei%40kernel.org.
