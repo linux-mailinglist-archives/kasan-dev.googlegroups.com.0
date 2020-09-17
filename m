@@ -1,182 +1,132 @@
-Return-Path: <kasan-dev+bncBCD4PZ7MGEII5CEK7MCRUBGO65KC2@googlegroups.com>
+Return-Path: <kasan-dev+bncBCS7XUWOUULBBC6ERP5QKGQEQMLRNFA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wr1-x440.google.com (mail-wr1-x440.google.com [IPv6:2a00:1450:4864:20::440])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F9BF26CE2E
-	for <lists+kasan-dev@lfdr.de>; Wed, 16 Sep 2020 23:30:55 +0200 (CEST)
-Received: by mail-wr1-x440.google.com with SMTP id o6sf3053906wrp.1
-        for <lists+kasan-dev@lfdr.de>; Wed, 16 Sep 2020 14:30:55 -0700 (PDT)
-ARC-Seal: i=3; a=rsa-sha256; t=1600291855; cv=pass;
+Received: from mail-yb1-xb39.google.com (mail-yb1-xb39.google.com [IPv6:2607:f8b0:4864:20::b39])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B95D26D216
+	for <lists+kasan-dev@lfdr.de>; Thu, 17 Sep 2020 06:11:57 +0200 (CEST)
+Received: by mail-yb1-xb39.google.com with SMTP id d15sf1054165ybk.0
+        for <lists+kasan-dev@lfdr.de>; Wed, 16 Sep 2020 21:11:57 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1600315916; cv=pass;
         d=google.com; s=arc-20160816;
-        b=dyn1uW4rYNQx+M9DQFqDIIOG25Rc8pPWouKSXDgq02QYZx/07wRs97SUaiDtxC+rX9
-         pepRQdN9MtHOvEqF2VpGwqo/TytB222ZOiuekTF6Jp9KxjV2bPS4T7qk5/fnwRhSFjOT
-         2P2MmRP1IfKnonJB3PdgosR+Tx3sPrCmPjOFxOXFxST9++dSunUx7D8KVG8dkpMhmOW0
-         70X7vltK/TtjMgOf14rNnIn95si4s1aB/jXGGIgN+0LDAYEU/G+2tuobnHSieYOYXwQR
-         kHVhUT+44Z0L4TpSSZImzVn/1H4SrcXD0pp56JHO/usLCiUlHyNxpjMPdi0xjPssMxGM
-         8Ovw==
-ARC-Message-Signature: i=3; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        b=RG2GirTgSF+RGybv1X08D9fcBEyOcldxWGDY9LuOuz0LCqK6x4I6bRJhfpGBsgtRn3
+         F1qG5iEjKuvsL69urEa+Tni6chy6QCUgHBOs7nqmhZc6tLrXA2I6jAFdLNP4poV9c2uR
+         mvPpho6ge/sf3dPtCktPKtLj48uO180U5xZunq8yT36MnwjZbHqhpYkTkzPJoTvyQ8kX
+         J6jKgcWYuI+ZXCeR9iio3nhr79aroQykS9copgnxUVLdrbENsKSAwpRTpqBE/ax3w7eD
+         9WLKuVgN3Qq7Quyl61jvcYEf3KA4n6gDpJFmYJHY2EMxHEwDi+xcWrwK1ju9wFQINz6t
+         mZAg==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:original-authentication-results
-         :mime-version:nodisclaimer:content-language:accept-language
-         :in-reply-to:references:message-id:date:thread-index:thread-topic
-         :subject:cc:to:from:sender:dkim-signature;
-        bh=kTZF+bfK7jsNgVORfdXeJTr+/zKxkALlXY4eiIJNH8I=;
-        b=CHQhRtcydGtkz+9yxZWVZKFwd5Sl0COXXpdn3tcQgW77lq42eFDbtbqf3QefChnrA9
-         VmnAnWomBdeArkFdwVR+EXsaWo5tsMsnu7gmXDtfpPUg/fhz66EKZrYUJlw7gcm98fbK
-         Wwf5upv6SielJNjuu1spy6cpKeCw7Dp0HsBpE7Hn7dvEMWEspS6eZjWamLGrSfzynkis
-         V5kjzBkxshVzfHNCpz/dfrcAG+tavHHU+l8IFphiHkcldn5jW5wrZp62FG46pXFl1UNs
-         WrZqZeYsl8cO3HqzF6bIJfWcQtlQ0fFB43kGtUK1nQ4AxHMsmrVVIRKnVaIsuGwzaSCS
-         f49A==
-ARC-Authentication-Results: i=3; gmr-mx.google.com;
-       dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=pFTmPFS9;
-       dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=pFTmPFS9;
-       arc=pass (i=1 spf=pass spfdomain=arm.com dkim=pass dkdomain=arm.com dmarc=pass fromdomain=arm.com);
-       spf=pass (google.com: domain of daniel.kiss@arm.com designates 40.107.4.48 as permitted sender) smtp.mailfrom=Daniel.Kiss@arm.com
+         :list-id:mailing-list:precedence:reply-to:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:dkim-signature;
+        bh=uV9sNoqhmwF6wZ+2fA6dvPcKsIxVtGJ/LnZB+ws/kXc=;
+        b=IAEyPdcC9gi5wg8Xi4gFG3yzVtOd0ik2bXh83AdmpNlcFdTH00/ywSZ7q0FpbKJThm
+         TQFCKFp8zY9FeX9Z/rVl3vp8yGQWl3LEwmTAYaYbh/AgmrYYEGG8TL6QKuRiaQI3MWJo
+         /gJtc1LatbrEHZrEGWA6CL78xsXFCJdbZsrCKuv7NREBXWsbgfZvQacxqwzWbJ9un86Y
+         1SYqtfs1gfFUu0EEmZ25G66L1WE1znt/VGD5RwCHlg3P8XBCDe2Muna58rqjU3RnNNJs
+         7T2+oCYbFqyfHrVtZNxceLhdncsugs1rap7vOX59hZCsXA1a+niJSemEBfMGPBCzad2e
+         0m/w==
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=lcsH9qwk;
+       spf=pass (google.com: domain of maskray@google.com designates 2607:f8b0:4864:20::42b as permitted sender) smtp.mailfrom=maskray@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:from:to:cc:subject:thread-topic:thread-index:date:message-id
-         :references:in-reply-to:accept-language:content-language
-         :nodisclaimer:mime-version:original-authentication-results
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=kTZF+bfK7jsNgVORfdXeJTr+/zKxkALlXY4eiIJNH8I=;
-        b=Ts4aoEoZM+SIRTdQyDt1OqoAEPgLIx0q1aTdhHrlB02bFUo98V5IzH+LiDrhFB25zm
-         zrdV4Axx+n8LMxfgrrq632vlpx7p0f+cdRmVEV8mYzyCY0s2daRBOtLLd+bjQDjbdWjj
-         u+eHttN8BTtj1M5whhPbU/sFMnKWpDs7liL1bz2wxQKNJtFWSPq7DTb7O8JWzQgPY9PI
-         RVKHWJOPO+aVTPR1rjta21hrB6W1V3jlVJW3wk4jsoV2RDaSppPRML2UE89ruIzMi6ON
-         G3VruVfQgye3/xK0EfVsqUVj1JAFTbxLaYdV+if1qaCqy0bi+eapvuv37j2o/VMCqYE9
-         BWTQ==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:list-post:list-help:list-archive:list-subscribe
+         :list-unsubscribe;
+        bh=uV9sNoqhmwF6wZ+2fA6dvPcKsIxVtGJ/LnZB+ws/kXc=;
+        b=TFQsf+1LX8ui32w3+r/1OLDyvCyD7HcN25ZrvMW6PPT+dpQ+AT1+i9ymalJOOxDEfi
+         ZapwoM2ZG52JCpUh61bWtOxSP4/BWHk3Bt4y+m5+eG0ilL8fDB9LG/xj3vTTmCGGVUz3
+         jJnSzDXCCLY52KmmSzj8DhkLWv/99bTtjGBkn4kn2o/fXgHwOvwLIEhWIdvv2K6XAC8I
+         u4/5+89gst9vaLvs8k07cvPtae3gqMX3WObyGodzbFpyrXJuoK5JJBRhueJPmqYGt+lr
+         1yNNWwexbL+Hxh9MhYOX1EN6bibJK1e4vZ9/PSY4C17HP3rU4Bnof5DO7gQRcQbLWw4g
+         /PAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:from:to:cc:subject:thread-topic
-         :thread-index:date:message-id:references:in-reply-to:accept-language
-         :content-language:nodisclaimer:mime-version
-         :original-authentication-results:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=kTZF+bfK7jsNgVORfdXeJTr+/zKxkALlXY4eiIJNH8I=;
-        b=gdU6oHG1/gKbEV2vzo7DV1jByxJzyJmOZSIYU5isxxsCTQ/Jh/hq4TjuYtfl/oV+nL
-         7BpOqmw4cqJ/+96Urn7nOVx2NjdwFcWiM/iJHEDoMo280R45BDEKc9F0hAaxYCmu8ohN
-         djAA5HiBFMssxQe+fqGXb9Ix9ZGnMOw9YxZVqoiP1bRCtSdwlbbjFDowNMCAtsgI1Tpo
-         BEjn8A6+cZovBuU3L+voRZ3u2ZnX8VZgDCVby62EBOMsWherr2msYMESMyYuuiL1mfcw
-         G2KBuldLDnq34J/7/VYDk76ILxYNWn1m+fBMHcE28kDZEWpBbr3kwEmTfOW7iRikj7A2
-         1G6Q==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM533KV23SNKuQlxLYXAraefY9a4SP3Mr8dx9MWqyru1i0qZ693Nyh
-	K8Vn2ZPWu7voBgo3Q5yXRBs=
-X-Google-Smtp-Source: ABdhPJxsQJNO75x0gIA7p+nU1ASRjvhK3ck8G8o0DgqDeuPF87n9tPoW491qyF9KrDbpqz2LBNuphw==
-X-Received: by 2002:adf:e852:: with SMTP id d18mr30468771wrn.40.1600291854875;
-        Wed, 16 Sep 2020 14:30:54 -0700 (PDT)
+        bh=uV9sNoqhmwF6wZ+2fA6dvPcKsIxVtGJ/LnZB+ws/kXc=;
+        b=kETuKrfsxi3JkJ4aWmOUnBcBEZ45dJGlwnogkBj/y73NdrnxhICuUDBHUI0aYXYL+m
+         gCWDZTYcyv5SpqDKZfvNE0MkaJqFbW/RSGwV3fgYXOHBSBhVkpmK2Jw2lqHiEuA8oqD/
+         /zz4GujE28wOwYzAaFDbx5Th2N7miZCGFAJbK06UedoHe3ZokiiPaSAzuTJ9/8loXRtx
+         j8ekSK+4wWhOh9Llf8TsBxMbTYdyYT8Mlf0Ih/Ygw3frTbF6AkLfPdVnX49zc1mtzww3
+         l/X2eWZzCaHLZ7C0NtEts1Wf757q2tpmwXJZ7svK4DMEe1Srj/AtCNv934jWzq03ZyLx
+         ZkSQ==
+X-Gm-Message-State: AOAM531Bpby+jQxSdqcGdJF9TaABbZwaTL2ItnL6MJCOlgrmD0fPbdZQ
+	tQHfHvqMuEoY+wNiRZu0Ht8=
+X-Google-Smtp-Source: ABdhPJxWL/NdjcvPTKQpO3EZ7QO4ZnFR2qxdQR2SpsPXyWSt4cDyGHq3ko3Sfg71tjNLBnTXoQ0J5A==
+X-Received: by 2002:a25:d34b:: with SMTP id e72mr18903524ybf.167.1600315916126;
+        Wed, 16 Sep 2020 21:11:56 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:adf:dd0a:: with SMTP id a10ls3956275wrm.2.gmail; Wed, 16 Sep
- 2020 14:30:54 -0700 (PDT)
-X-Received: by 2002:adf:ec45:: with SMTP id w5mr30297952wrn.357.1600291854068;
-        Wed, 16 Sep 2020 14:30:54 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1600291854; cv=pass;
+Received: by 2002:a25:c550:: with SMTP id v77ls343723ybe.8.gmail; Wed, 16 Sep
+ 2020 21:11:55 -0700 (PDT)
+X-Received: by 2002:a5b:585:: with SMTP id l5mr18451597ybp.473.1600315915487;
+        Wed, 16 Sep 2020 21:11:55 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1600315915; cv=none;
         d=google.com; s=arc-20160816;
-        b=in+8+9As6MUexz5Qs9Pne7xaqYQ8cvrWgosmW0OtQtq3Y55bLFYNCPqwfd6EWAXdm5
-         9zz3MgThP/QfXYoAECsXToYB4i8oLwZ/TP9P0d2HyLBDaaYgcFYbi/x86LX3t05bC/ez
-         f7IW2pUhiTZI6uMLeQkoWP8F2rLgDyuv8AK5Jc46ljO23OB5tCO60Ae5w3z04YwmgU5S
-         efSq1zSsra/MMPj3+6DtEUyOexsfHFQX1PNclCltgPOFJb6aJZDITHb+2HtO26wq4gBB
-         m7JbO6xTr5X7DqIKjpxaEcVV12lnFJ3lywD0Xs7NGdfbo7v49byxbowsqFXJKMGVIoK3
-         Fx3g==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=original-authentication-results:mime-version:nodisclaimer
-         :authentication-results-original:content-language:accept-language
-         :in-reply-to:references:message-id:date:thread-index:thread-topic
-         :subject:cc:to:from:dkim-signature:dkim-signature;
-        bh=kfjPSYms8QTEvGWCn0PWxTVT2/XIQSTkmk8EAPz62QM=;
-        b=hb2EkaV6cMhUK+r3JpO/fsPzEypsRwbIAgeynnbQU5qDcIwvkZ6Czfugo26aoKSRnb
-         +7RtPCi7aTXI8SSn1igdfb36qYpDdOTanZR3gLwNp93Tu4/eXh7SetbH436rbOyhmEx9
-         Psx9sTwDbVgDCR7wvhH/Unt9tL0w0s6PJBz/jVvAUemMAApTbCEfVZdiNe4atHXTHKVg
-         eszyNBXr5AaUKG9bxR5CYrq+ZlcW9QJWvqn3y3zkVYmQ6oBibLMwNfbi4GvJ5JqZFu0g
-         xHG+fqjgmWYRb1Gfz9xDWpf97DeROI31H5rwWKmr8olqoYKixCzAqMeFwRO2SmAwSwGO
-         u4NA==
-ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=pFTmPFS9;
-       dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=pFTmPFS9;
-       arc=pass (i=1 spf=pass spfdomain=arm.com dkim=pass dkdomain=arm.com dmarc=pass fromdomain=arm.com);
-       spf=pass (google.com: domain of daniel.kiss@arm.com designates 40.107.4.48 as permitted sender) smtp.mailfrom=Daniel.Kiss@arm.com
-Received: from EUR03-DB5-obe.outbound.protection.outlook.com (mail-eopbgr40048.outbound.protection.outlook.com. [40.107.4.48])
-        by gmr-mx.google.com with ESMTPS id b1si111443wmj.1.2020.09.16.14.30.53
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 16 Sep 2020 14:30:54 -0700 (PDT)
-Received-SPF: pass (google.com: domain of daniel.kiss@arm.com designates 40.107.4.48 as permitted sender) client-ip=40.107.4.48;
-Received: from AM5PR1001CA0068.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:206:15::45) by DB6PR08MB2935.eurprd08.prod.outlook.com
- (2603:10a6:6:1f::14) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.19; Wed, 16 Sep
- 2020 21:30:50 +0000
-Received: from VE1EUR03FT037.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:206:15:cafe::86) by AM5PR1001CA0068.outlook.office365.com
- (2603:10a6:206:15::45) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3391.13 via Frontend
- Transport; Wed, 16 Sep 2020 21:30:50 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; googlegroups.com; dkim=pass (signature was verified)
- header.d=armh.onmicrosoft.com;googlegroups.com; dmarc=bestguesspass
- action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- VE1EUR03FT037.mail.protection.outlook.com (10.152.19.70) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3391.15 via Frontend Transport; Wed, 16 Sep 2020 21:30:50 +0000
-Received: ("Tessian outbound 195a290eb161:v64"); Wed, 16 Sep 2020 21:30:49 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: 73202a2dd8deef6c
-X-CR-MTA-TID: 64aa7808
-Received: from 246aff0792f0.2
-	by 64aa7808-outbound-1.mta.getcheckrecipient.com id AEFAF6F4-3769-4FF3-AD87-816155207095.1;
-	Wed, 16 Sep 2020 21:30:44 +0000
-Received: from EUR02-AM5-obe.outbound.protection.outlook.com
-    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 246aff0792f0.2
-    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
-    Wed, 16 Sep 2020 21:30:44 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UOwnPofr0pH8UxBxEyFYVSzqzMJ9jBvSQPJfDz32K4buT9Ub6XJ3vFNaVfrimRngvI5knlPqnDZxFzQEyvAyv62hfWCkysTb1JxCLin/kFl9ZSKrTXBozmkVJW1cHDmwsmoVpnGHaLXIYrh61P8AWGrCKb5EQ9G11vT2TttLHEqgxO41FvJg2jghpt+0nskckRo/O0+SZCyF+8SY9pUdRnulEHLEghCyQezT6buR3meNVwQiB+falUP95Nm2WLT8nn1rhhTwY9ESxk6uT/v2VW+gTsSynBS1zHMDua41iFge6+aYZIr3grBzFgbhzivkpa81uZH/dXKluwbUhl9btw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kfjPSYms8QTEvGWCn0PWxTVT2/XIQSTkmk8EAPz62QM=;
- b=AoBNJwk1kj2AhKf6ef8nAupTBbuLbrHVomShmiAI7nbUI9ROcTGsnLLPli70VnV+RLVqaIQFOBZ32eZoHfSXwq0m/fyz6YZ7uZtYJSKiOnR8uo9T6oQGlYy3pKF60lQGcmmPR4VURxkS8t+ikCxdccMnmAJhyoABUmufm6VTpZbpWwp+7HXXYtL7UwIvMGbChSHlXaU30j5L0sUDHp2uGUBa8TKJmRSN4ov92edQiyD1SkeFhfbwnW6ln+1qHS6+q9oji9c4psY2N+BHWKSyyClZecSkZohjC+0ehJxAbP1HK9QIx8vNhXu7VdlRrCWLHd6rUyLme8rEFC7dnEQ6PA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-Received: from AM6PR08MB5256.eurprd08.prod.outlook.com (2603:10a6:20b:e7::32)
- by AM6PR08MB3544.eurprd08.prod.outlook.com (2603:10a6:20b:4e::30) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.17; Wed, 16 Sep
- 2020 21:30:42 +0000
-Received: from AM6PR08MB5256.eurprd08.prod.outlook.com
- ([fe80::edd3:6ed9:f739:d26]) by AM6PR08MB5256.eurprd08.prod.outlook.com
- ([fe80::edd3:6ed9:f739:d26%6]) with mapi id 15.20.3370.019; Wed, 16 Sep 2020
- 21:30:42 +0000
-From: Daniel Kiss <Daniel.Kiss@arm.com>
+        b=03igFD+ianfowYBrT/BwB/trCPbH7twwyHAdgAfLohxnKjuO5fNLDyeudiNERznAwz
+         th77HfSrnFN+E3Nk40Q9n8rzsZDKbyJ4ZXvGRonRYAX1tGyB1cCxdkTIqOZaHNsWwdy6
+         Xg0HzlI0LKqsmFg3ool3UuDifnhper0Nry6XE4fajkKKr2OO9iyHnOJfIbflZt4Njy7E
+         DcwN3BwED5I0K2jn5qM3OkHRBeoxt0NnA+u1NaeRnlv2FFDXcmBvet3/rMH2ALz+Qhiv
+         GXpmhOUjskXY3gqIL9zClLjc2YAkLufD1YCdB/w1kQkzBgMv7bUan21QRb+K21ZzZYI2
+         Wx9A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:dkim-signature;
+        bh=hmyX2VLobpv/xATMsYUo+l7NUXTBFoGrvmN52O6thLs=;
+        b=p6rXng0jb8IIq2HhzscZIQpgRZM1H0EmzeU97Nu3QzyYM/oDC1VK6s9m4TTe8jB68S
+         pDq3yJVrAQMmLpmsSvTbMA6F59YNmaP2xBFmRexglDwmjcIxBZGfUUN6ifuakHMSVl9o
+         WIEKC7ABeAFnU7nrTwbd964MyfyrEiAIEvqZmKlvtRRUEoMwQkj8sH4qulA5QA7OQTDC
+         XIMboZCJoKC8JtNIBdS3fIL28yjs2TMAGaftArFzAwqRpKbwU1FLEV6XBCU/EtIf0OHG
+         VgMr60HJ+FwDRXk5gQMKQcc6qDn4Z9bc3xqSdazcgZyLZu5MWnDhX/PawNHutjYIztvh
+         cGsA==
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=lcsH9qwk;
+       spf=pass (google.com: domain of maskray@google.com designates 2607:f8b0:4864:20::42b as permitted sender) smtp.mailfrom=maskray@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com. [2607:f8b0:4864:20::42b])
+        by gmr-mx.google.com with ESMTPS id e17si613453ybp.1.2020.09.16.21.11.55
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 16 Sep 2020 21:11:55 -0700 (PDT)
+Received-SPF: pass (google.com: domain of maskray@google.com designates 2607:f8b0:4864:20::42b as permitted sender) client-ip=2607:f8b0:4864:20::42b;
+Received: by mail-pf1-x42b.google.com with SMTP id n14so387967pff.6
+        for <kasan-dev@googlegroups.com>; Wed, 16 Sep 2020 21:11:55 -0700 (PDT)
+X-Received: by 2002:a63:5f87:: with SMTP id t129mr2413690pgb.288.1600315914506;
+        Wed, 16 Sep 2020 21:11:54 -0700 (PDT)
+Received: from google.com ([2620:15c:2ce:0:a6ae:11ff:fe11:4abb])
+        by smtp.gmail.com with ESMTPSA id a13sm15937462pgq.41.2020.09.16.21.11.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Sep 2020 21:11:53 -0700 (PDT)
+Date: Wed, 16 Sep 2020 21:11:50 -0700
+From: "'Fangrui Song' via kasan-dev" <kasan-dev@googlegroups.com>
 To: Marco Elver <elver@google.com>
-CC: Nick Desaulniers <ndesaulniers@google.com>, Peter Zijlstra
-	<peterz@infradead.org>, Josh Poimboeuf <jpoimboe@redhat.com>, Borislav Petkov
-	<bp@alien8.de>, Rong Chen <rong.a.chen@intel.com>, kernel test robot
-	<lkp@intel.com>, "Li, Philip" <philip.li@intel.com>, x86-ml <x86@kernel.org>,
-	LKML <linux-kernel@vger.kernel.org>, clang-built-linux
-	<clang-built-linux@googlegroups.com>, Andrew Morton
-	<akpm@linux-foundation.org>, Kees Cook <keescook@chromium.org>, Masahiro
- Yamada <masahiroy@kernel.org>, kasan-dev <kasan-dev@googlegroups.com>,
-	Momchil Velikov <Momchil.Velikov@arm.com>, Mark Rutland
-	<Mark.Rutland@arm.com>
+Cc: Nick Desaulniers <ndesaulniers@google.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Josh Poimboeuf <jpoimboe@redhat.com>,
+	Borislav Petkov <bp@alien8.de>, Rong Chen <rong.a.chen@intel.com>,
+	kernel test robot <lkp@intel.com>,
+	"Li, Philip" <philip.li@intel.com>, x86-ml <x86@kernel.org>,
+	LKML <linux-kernel@vger.kernel.org>,
+	clang-built-linux <clang-built-linux@googlegroups.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Kees Cook <keescook@chromium.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	kasan-dev <kasan-dev@googlegroups.com>,
+	Daniel Kiss <daniel.kiss@arm.com>, momchil.velikov@arm.com,
+	Mark Rutland <mark.rutland@arm.com>
 Subject: Re: [tip:x86/seves] BUILD SUCCESS WITH WARNING
  e6eb15c9ba3165698488ae5c34920eea20eaa38e
-Thread-Topic: [tip:x86/seves] BUILD SUCCESS WITH WARNING
- e6eb15c9ba3165698488ae5c34920eea20eaa38e
-Thread-Index: AQHWjFZWUnFC6JY89kqBV7Fktz5UKqlrnB8AgAAsdYA=
-Date: Wed, 16 Sep 2020 21:30:42 +0000
-Message-ID: <333D40A0-4550-4309-9693-1ABA4AC75399@arm.com>
-References: <5f60c4e0.Ru0MTgSE9A7mqhpG%lkp@intel.com>
- <20200915135519.GJ14436@zn.tnic> <20200915141816.GC28738@shao2-debian>
- <20200915160554.GN14436@zn.tnic> <20200915170248.gcv54pvyckteyhk3@treble>
+Message-ID: <20200917041150.3xfmi5pqyd7qm2fg@google.com>
+References: <20200915141816.GC28738@shao2-debian>
+ <20200915160554.GN14436@zn.tnic>
+ <20200915170248.gcv54pvyckteyhk3@treble>
  <20200915172152.GR14436@zn.tnic>
  <CAKwvOdkh=bZE6uY8zk_QePq5B3fY1ue9VjEguJ_cQi4CtZ4xgw@mail.gmail.com>
  <CANpmjNPWOus2WnMLSAXnzaXC5U5RDM3TTeV8vFDtvuZvrkoWtA@mail.gmail.com>
@@ -184,57 +134,18 @@ References: <5f60c4e0.Ru0MTgSE9A7mqhpG%lkp@intel.com>
  <CANpmjNOBUp0kRTODJMuSLteE=-woFZ2nUzk1=H8wqcusvi+T_g@mail.gmail.com>
  <CAKwvOd=T3w1eqwBkpa8_dJjbOLMTTDshfevT3EuQD4aNn4e_ZQ@mail.gmail.com>
  <CANpmjNPGZnwJVN6ZuBiRUocGPp8c3rnx1v7iGfYna9t8c3ty0w@mail.gmail.com>
-In-Reply-To: <CANpmjNPGZnwJVN6ZuBiRUocGPp8c3rnx1v7iGfYna9t8c3ty0w@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3608.120.23.2.1)
-x-originating-ip: [2001:4c4c:1b2a:1000:393f:3642:1f2a:863b]
-x-ms-publictraffictype: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 4d4a2920-8909-4b68-f91f-08d85a87c897
-x-ms-traffictypediagnostic: AM6PR08MB3544:|DB6PR08MB2935:
-x-ms-exchange-transport-forked: True
-X-Microsoft-Antispam-PRVS: <DB6PR08MB29359A3DBAE0885B27A4B3D7EC210@DB6PR08MB2935.eurprd08.prod.outlook.com>
-x-checkrecipientrouted: true
-nodisclaimer: true
-x-ms-oob-tlc-oobclassifiers: OLM:7219;OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: r3Fb+9jLrgJFwXq4zedhSUd28MgfbOLP4oYs/12aGyJ0q8PseozuhKgeXwmgp1ANW/5bNJ/PNCIRL+pQTX1qbhwgc3W1ymoHPvwG8AwwUpp7UOpG3m89iUiDXnh7DV3EJEAN542v9V5pqX68bXlSKixIP+eHy83BMQGhgbkhLruNpNWBlk3c6NZ3tNN1/VREug5qbsFQQAUl66XWJ962Mn96JL+o/K9hUtlTOAlEUY4Q9t9bpUvoEYEp9irTsd4jdPRK5o0mmaBEwZAMpliydHYKpJLYZEr0cy7bqUm95yy0JjgeE7SBxgBfyDNJPMLKPiTswzG5F+y4CJl4nmVJgrbL5buVnHtOyLo6w2pGVeydmoeWEXfQRs3MOSq1lVQ6f73tQydDlurWknZBaj5hiA==
-X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR08MB5256.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(136003)(376002)(396003)(39850400004)(346002)(71200400001)(166002)(2906002)(478600001)(8936002)(33656002)(316002)(83380400001)(36756003)(7416002)(966005)(86362001)(6486002)(4326008)(6512007)(54906003)(8676002)(5660300002)(2616005)(91956017)(76116006)(64756008)(66476007)(66556008)(66446008)(186003)(6916009)(6506007)(66946007);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata: YZ6JHNQCJBYeTXqHWcs8NqvDc7v6qKTjECol9ify0LD2fN5niyQiUsR0GGiDY8Wk8rl4Z60EVgIraFX2RxjlIZjKZbne8gnDVjiN7uVIa3ywm/S1JXi7oEsjsjDMo+ym4YW5graQdn7GmsiY49OFpSGSKuULUhHgIUpi2OP8FLfGoAKjMAcN/JTh9vAo3HUWxJn0jhh8am2CdqaHuD11xvmbRSefxv0JkpAdhl5zAzk3Ay6WlSiCVPX89JdMCjndB6hX4AeoOOZKnGV32Pj9KRu9ZNDrvN2a8rADQJnwej9FxfUL89vRsVE7H9B2xKS8yXtdC/caNnae15VO09+HS8tQ/KvJj5qImKsdYB84g9L5/jb3B+rFss8id8mHC1sySKbohYS70rthsfM+FvhvyiaX+Zj7jZPGS7HhYO5I7jCqfFW4EYzZaxNKqjBsqg9k9cMe5tnui+Lm6qQjR2TfzGC20vzy/3SfSV38iQuWu9gwE5qQG3nt/Zb8P6JC5U5e6usvWKxUwc/xyjpPEDyB1a5oeMykbhwoUlSNJ83U+XJFJ97dkHibOv+hbEmQ4cwdoWkEY+Wy89lv5MibtXr7G5WQFK7ArgYwDsVwCGeDZFG3uwIdQWEqSG38ELeGjKXVgH0dZyvSms+nIG5zhqSZwP2vIr6xDlaIovJemfmbh8KNWiszlCm3HE3QWRRTa4k0dWq4BcxEGK9Bd8rT/acfgw==
-Content-Type: multipart/alternative;
-	boundary="_000_333D40A04550430996931ABA4AC75399armcom_"
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3544
-Original-Authentication-Results: google.com; dkim=none (message not signed)
- header.d=none;google.com; dmarc=none action=none header.from=arm.com;
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: VE1EUR03FT037.eop-EUR03.prod.protection.outlook.com
-X-MS-Office365-Filtering-Correlation-Id-Prvs: d1b42ec5-deae-4d3e-e6a7-08d85a87c398
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 4JSwVRaOCMbpl/09Cnvyk3i5AX98JxJV8lDRFsi2UCr/8ShNuPXbDAka9/UlabnQIh4lxJEn/nF7KpBKk/SKIqdIedwT9FzoeKkFVh6eHYYg6oLbRlcd7WAvXy4KeocWZzgmU/3VlOEKC5VDLGIRYwmsIbSfaBErByhRbaGdtmSLo9twTiUD++Os+NOV14ROU1lK3XpawX4Vi42fpVkXoG51XnAWjsYqEamQ1TM7c0z6sBXhXJwDI9rBYrDnavshEd4YPi1KWWLuBZvGpy0iHjhQ0ywvWrAxAaTtNqOmIjcTdHY/o6J+Zbs3kU7vxxHfcceIy6IPrNJrpozBiZOmzYfugmzxjg/y+rO3Hy+1yS9q3vvPev1T35IxQpaHfUM0ZG4U69QAvi+va2zHQGjOthbcyDl89GhziGs4xz+I+nMpuyrd1he/yyU1ArwR0cXVc/Ov/C1u20KtwfktOSAI3kjGeKmj4aUg0SxS9908TDI=
-X-Forefront-Antispam-Report: CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(4636009)(396003)(346002)(136003)(376002)(39850400004)(46966005)(450100002)(8936002)(356005)(82310400003)(166002)(83380400001)(81166007)(70206006)(70586007)(5660300002)(966005)(186003)(2616005)(6862004)(82740400003)(4326008)(47076004)(6512007)(26005)(45080400002)(54906003)(336012)(33656002)(316002)(36756003)(33964004)(8676002)(86362001)(2906002)(6506007)(478600001)(36906005)(6486002);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Sep 2020 21:30:50.3953
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4d4a2920-8909-4b68-f91f-08d85a87c897
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: VE1EUR03FT037.eop-EUR03.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB6PR08MB2935
-X-Original-Sender: daniel.kiss@arm.com
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Disposition: inline
+In-Reply-To: <CANpmjNPGZnwJVN6ZuBiRUocGPp8c3rnx1v7iGfYna9t8c3ty0w@mail.gmail.com>
+X-Original-Sender: maskray@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com
- header.b=pFTmPFS9;       dkim=pass header.i=@armh.onmicrosoft.com
- header.s=selector2-armh-onmicrosoft-com header.b=pFTmPFS9;       arc=pass
- (i=1 spf=pass spfdomain=arm.com dkim=pass dkdomain=arm.com dmarc=pass
- fromdomain=arm.com);       spf=pass (google.com: domain of
- daniel.kiss@arm.com designates 40.107.4.48 as permitted sender) smtp.mailfrom=Daniel.Kiss@arm.com
+ header.i=@google.com header.s=20161025 header.b=lcsH9qwk;       spf=pass
+ (google.com: domain of maskray@google.com designates 2607:f8b0:4864:20::42b
+ as permitted sender) smtp.mailfrom=maskray@google.com;       dmarc=pass
+ (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Fangrui Song <maskray@google.com>
+Reply-To: Fangrui Song <maskray@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -247,272 +158,110 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
---_000_333D40A04550430996931ABA4AC75399armcom_
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 2020-09-16, 'Marco Elver' via Clang Built Linux wrote:
+>On Wed, 16 Sep 2020 at 20:22, 'Nick Desaulniers' via kasan-dev
+><kasan-dev@googlegroups.com> wrote:
+>>
+>> On Wed, Sep 16, 2020 at 1:46 AM Marco Elver <elver@google.com> wrote:
+>> >
+>> > On Wed, 16 Sep 2020 at 10:30, <peterz@infradead.org> wrote:
+>> > > On Tue, Sep 15, 2020 at 08:09:16PM +0200, Marco Elver wrote:
+>> > > > On Tue, 15 Sep 2020 at 19:40, Nick Desaulniers <ndesaulniers@google.com> wrote:
+>> > > > > On Tue, Sep 15, 2020 at 10:21 AM Borislav Petkov <bp@alien8.de> wrote:
+>> > >
+>> > > > > > init/calibrate.o: warning: objtool: asan.module_ctor()+0xc: call without frame pointer save/setup
+>> > > > > > init/calibrate.o: warning: objtool: asan.module_dtor()+0xc: call without frame pointer save/setup
+>> > > > > > init/version.o: warning: objtool: asan.module_ctor()+0xc: call without frame pointer save/setup
+>> > > > > > init/version.o: warning: objtool: asan.module_dtor()+0xc: call without frame pointer save/setup
+>> > > > > > certs/system_keyring.o: warning: objtool: asan.module_ctor()+0xc: call without frame pointer save/setup
+>> > > > > > certs/system_keyring.o: warning: objtool: asan.module_dtor()+0xc: call without frame pointer save/setup
+>> > > >
+>> > > > This one also appears with Clang 11. This is new I think because we
+>> > > > started emitting ASAN ctors for globals redzone initialization.
+>> > > >
+>> > > > I think we really do not care about precise stack frames in these
+>> > > > compiler-generated functions. So, would it be reasonable to make
+>> > > > objtool ignore all *san.module_ctor and *san.module_dtor functions (we
+>> > > > have them for ASAN, TSAN, MSAN)?
+>> > >
+>> > > The thing is, if objtool cannot follow, it cannot generate ORC data and
+>> > > our unwinder cannot unwind through the instrumentation, and that is a
+>> > > fail.
+>> > >
+>> > > Or am I missing something here?
+>> >
+>> > They aren't about the actual instrumentation. The warnings are about
+>> > module_ctor/module_dtor functions which are compiler-generated, and
+>> > these are only called on initialization/destruction (dtors only for
+>> > modules I guess).
+>> >
+>> > E.g. for KASAN it's the calls to __asan_register_globals that are
+>> > called from asan.module_ctor. For KCSAN the tsan.module_ctor is
+>> > effectively a noop (because __tsan_init() is a noop), so it really
+>> > doesn't matter much.
+>> >
+>> > Is my assumption correct that the only effect would be if something
+>> > called by them fails, we just don't see the full stack trace? I think
+>> > we can live with that, there are only few central places that deal
+>> > with ctors/dtors (do_ctors(), ...?).
+>> >
+>> > The "real" fix would be to teach the compilers about "frame pointer
+>> > save/setup" for generated functions, but I don't think that's
+>> > realistic.
+>>
+>> So this has come up before, specifically in the context of gcov:
+>> https://github.com/ClangBuiltLinux/linux/issues/955.
+>>
+>> I looked into this a bit, and IIRC, the issue was that compiler
+>> generated functions aren't very good about keeping track of whether
+>> they should or should not emit framepointer setup/teardown
+>> prolog/epilogs.  In LLVM's IR, -fno-omit-frame-pointer gets attached
+>> to every function as a function level attribute.
+>> https://godbolt.org/z/fcn9c6 ("frame-pointer"="all").
+>>
+>> There were some recent LLVM patches for BTI (arm64) that made some BTI
+>> related command line flags module level attributes, which I thought
+>> was interesting; I was wondering last night if -fno-omit-frame-pointer
+>> and maybe even the level of stack protector should be?  I guess LTO
+>> would complicate things; not sure it would be good to merge modules
+>> with different attributes; I'm not sure how that's handled today in
+>> LLVM.
+>>
+>> Basically, when the compiler is synthesizing a new function
+>> definition, it should check whether a frame pointer should be emitted
+>> or not.  We could do that today by maybe scanning all other function
+>> definitions for the presence of "frame-pointer"="all" fn attr,
+>> breaking early if we find one, and emitting the frame pointer setup in
+>> that case.  Though I guess it's "frame-pointer"="none" otherwise, so
+>> maybe checking any other fn def would be fine; I don't see any C fn
+>> attr's that allow you to keep frame pointers or not.  What's tricky is
+>> that the front end flag was resolved much earlier than where this code
+>> gets generated, so it would need to look for traces that the flag ever
+>> existed, which sounds brittle on paper to me.
+>
+>Thanks for the summary -- yeah, that was my suspicion, that some
+>attribute was being lost somewhere. And I think if we generalize this,
+>and don't just try to attach "frame-pointer" attr to the function, we
+>probably also solve the BTI issue that Mark still pointed out with
+>these module_ctor/dtors.
+>
+>I was trying to see if there was a generic way to attach all the
+>common attributes to the function generated here:
+>https://github.com/llvm/llvm-project/blob/master/llvm/lib/Transforms/Utils/ModuleUtils.cpp#L122
+>-- but we probably can't attach all attributes, and need to remove a
+>bunch of them again like the sanitizers (or alternatively just select
+>the ones we need). But, I'm still digging for the function that
+>attaches all the common attributes...
+>
+>Thanks,
+>-- Marco
 
+Speaking of gcov, do people know whether frame pointers in
+kernel's libgcov implementation help?
 
-Thanks for the summary -- yeah, that was my suspicion, that some
-attribute was being lost somewhere. And I think if we generalize this,
-and don't just try to attach "frame-pointer" attr to the function, we
-probably also solve the BTI issue that Mark still pointed out with
-these module_ctor/dtors.
+https://gcc.gnu.org/bugzilla/show_bug.cgi?id=94394 "random kernel panic during collecting kernel code coverage"
 
-I was trying to see if there was a generic way to attach all the
-common attributes to the function generated here:
-https://github.com/llvm/llvm-project/blob/master/llvm/lib/Transforms/Utils/=
-ModuleUtils.cpp#L122
--- but we probably can't attach all attributes, and need to remove a
-bunch of them again like the sanitizers (or alternatively just select
-the ones we need). But, I'm still digging for the function that
-attaches all the common attributes=E2=80=A6
-
-We had the problem with not just the sanitisers.  Same problem pops with fu=
-nctions
-that created elsewhere in clang (e.g _clang_call_terminate ) or llvm.
-
-In case of BTI the flag even controllable by function attributes which make=
-s it more trickier so
-the module flags found the only reliable way to pass this information down.
-Scanning existing functions is fragile for data only compilation units for =
-example.
-
-Our solution, not generic enough but might help.
-https://reviews.llvm.org/D85649
-
-I looked for while for a generic solution, so I=E2=80=99m interested in if =
-there is one :)
-
-Thanks,
-Daniel
-
-IMPORTANT NOTICE: The contents of this email and any attachments are confid=
-ential and may also be privileged. If you are not the intended recipient, p=
-lease notify the sender immediately and do not disclose the contents to any=
- other person, use it for any purpose, or store or copy the information in =
-any medium. Thank you.
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/333D40A0-4550-4309-9693-1ABA4AC75399%40arm.com.
-
---_000_333D40A04550430996931ABA4AC75399armcom_
-Content-Type: text/html; charset="UTF-8"
-Content-ID: <E8BB8EF32B38734395AA10366292947B@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8">
-</head>
-<body style=3D"word-wrap: break-word; -webkit-nbsp-mode: space; line-break:=
- after-white-space;" class=3D"">
-<div><br class=3D"">
-<blockquote type=3D"cite" class=3D"">
-<div class=3D""><span style=3D"caret-color: rgb(0, 0, 0); font-family: Helv=
-etica; font-size: 12px; font-style: normal; font-variant-caps: normal; font=
--weight: normal; letter-spacing: normal; text-align: start; text-indent: 0p=
-x; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-te=
-xt-stroke-width: 0px; text-decoration: none; float: none; display: inline !=
-important;" class=3D"">Thanks
- for the summary -- yeah, that was my suspicion, that some</span><br style=
-=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: 12px; fon=
-t-style: normal; font-variant-caps: normal; font-weight: normal; letter-spa=
-cing: normal; text-align: start; text-indent: 0px; text-transform: none; wh=
-ite-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-=
-decoration: none;" class=3D"">
-<span style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size=
-: 12px; font-style: normal; font-variant-caps: normal; font-weight: normal;=
- letter-spacing: normal; text-align: start; text-indent: 0px; text-transfor=
-m: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width:=
- 0px; text-decoration: none; float: none; display: inline !important;" clas=
-s=3D"">attribute
- was being lost somewhere. And I think if we generalize this,</span><br sty=
-le=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: 12px; f=
-ont-style: normal; font-variant-caps: normal; font-weight: normal; letter-s=
-pacing: normal; text-align: start; text-indent: 0px; text-transform: none; =
-white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; tex=
-t-decoration: none;" class=3D"">
-<span style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size=
-: 12px; font-style: normal; font-variant-caps: normal; font-weight: normal;=
- letter-spacing: normal; text-align: start; text-indent: 0px; text-transfor=
-m: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width:=
- 0px; text-decoration: none; float: none; display: inline !important;" clas=
-s=3D"">and
- don't just try to attach &quot;frame-pointer&quot; attr to the function, w=
-e</span><br style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; fon=
-t-size: 12px; font-style: normal; font-variant-caps: normal; font-weight: n=
-ormal; letter-spacing: normal; text-align: start; text-indent: 0px; text-tr=
-ansform: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-=
-width: 0px; text-decoration: none;" class=3D"">
-<span style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size=
-: 12px; font-style: normal; font-variant-caps: normal; font-weight: normal;=
- letter-spacing: normal; text-align: start; text-indent: 0px; text-transfor=
-m: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width:=
- 0px; text-decoration: none; float: none; display: inline !important;" clas=
-s=3D"">probably
- also solve the BTI issue that Mark still pointed out with</span><br style=
-=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: 12px; fon=
-t-style: normal; font-variant-caps: normal; font-weight: normal; letter-spa=
-cing: normal; text-align: start; text-indent: 0px; text-transform: none; wh=
-ite-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-=
-decoration: none;" class=3D"">
-<span style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size=
-: 12px; font-style: normal; font-variant-caps: normal; font-weight: normal;=
- letter-spacing: normal; text-align: start; text-indent: 0px; text-transfor=
-m: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width:=
- 0px; text-decoration: none; float: none; display: inline !important;" clas=
-s=3D"">these
- module_ctor/dtors.</span><br style=3D"caret-color: rgb(0, 0, 0); font-fami=
-ly: Helvetica; font-size: 12px; font-style: normal; font-variant-caps: norm=
-al; font-weight: normal; letter-spacing: normal; text-align: start; text-in=
-dent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -w=
-ebkit-text-stroke-width: 0px; text-decoration: none;" class=3D"">
-<br style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-12px; font-style: normal; font-variant-caps: normal; font-weight: normal; l=
-etter-spacing: normal; text-align: start; text-indent: 0px; text-transform:=
- none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0=
-px; text-decoration: none;" class=3D"">
-<span style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size=
-: 12px; font-style: normal; font-variant-caps: normal; font-weight: normal;=
- letter-spacing: normal; text-align: start; text-indent: 0px; text-transfor=
-m: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width:=
- 0px; text-decoration: none; float: none; display: inline !important;" clas=
-s=3D"">I
- was trying to see if there was a generic way to attach all the</span><br s=
-tyle=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: 12px;=
- font-style: normal; font-variant-caps: normal; font-weight: normal; letter=
--spacing: normal; text-align: start; text-indent: 0px; text-transform: none=
-; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; t=
-ext-decoration: none;" class=3D"">
-<span style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size=
-: 12px; font-style: normal; font-variant-caps: normal; font-weight: normal;=
- letter-spacing: normal; text-align: start; text-indent: 0px; text-transfor=
-m: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width:=
- 0px; text-decoration: none; float: none; display: inline !important;" clas=
-s=3D"">common
- attributes to the function generated here:</span><br style=3D"caret-color:=
- rgb(0, 0, 0); font-family: Helvetica; font-size: 12px; font-style: normal;=
- font-variant-caps: normal; font-weight: normal; letter-spacing: normal; te=
-xt-align: start; text-indent: 0px; text-transform: none; white-space: norma=
-l; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration: none=
-;" class=3D"">
-<a href=3D"https://github.com/llvm/llvm-project/blob/master/llvm/lib/Transf=
-orms/Utils/ModuleUtils.cpp#L122" style=3D"font-family: Helvetica; font-size=
-: 12px; font-style: normal; font-variant-caps: normal; font-weight: normal;=
- letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px=
-; text-transform: none; white-space: normal; widows: auto; word-spacing: 0p=
-x; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px;" class=
-=3D"">https://github.com/llvm/llvm-project/blob/master/llvm/lib/Transforms/=
-Utils/ModuleUtils.cpp#L122</a><br style=3D"caret-color: rgb(0, 0, 0); font-=
-family: Helvetica; font-size: 12px; font-style: normal; font-variant-caps: =
-normal; font-weight: normal; letter-spacing: normal; text-align: start; tex=
-t-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px=
-; -webkit-text-stroke-width: 0px; text-decoration: none;" class=3D"">
-<span style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size=
-: 12px; font-style: normal; font-variant-caps: normal; font-weight: normal;=
- letter-spacing: normal; text-align: start; text-indent: 0px; text-transfor=
-m: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width:=
- 0px; text-decoration: none; float: none; display: inline !important;" clas=
-s=3D"">--
- but we probably can't attach all attributes, and need to remove a</span><b=
-r style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: 12=
-px; font-style: normal; font-variant-caps: normal; font-weight: normal; let=
-ter-spacing: normal; text-align: start; text-indent: 0px; text-transform: n=
-one; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px=
-; text-decoration: none;" class=3D"">
-<span style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size=
-: 12px; font-style: normal; font-variant-caps: normal; font-weight: normal;=
- letter-spacing: normal; text-align: start; text-indent: 0px; text-transfor=
-m: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width:=
- 0px; text-decoration: none; float: none; display: inline !important;" clas=
-s=3D"">bunch
- of them again like the sanitizers (or alternatively just select</span><br =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: 12px=
-; font-style: normal; font-variant-caps: normal; font-weight: normal; lette=
-r-spacing: normal; text-align: start; text-indent: 0px; text-transform: non=
-e; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
-text-decoration: none;" class=3D"">
-<span style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size=
-: 12px; font-style: normal; font-variant-caps: normal; font-weight: normal;=
- letter-spacing: normal; text-align: start; text-indent: 0px; text-transfor=
-m: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width:=
- 0px; text-decoration: none; float: none; display: inline !important;" clas=
-s=3D"">the
- ones we need). But, I'm still digging for the function that</span><br styl=
-e=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: 12px; fo=
-nt-style: normal; font-variant-caps: normal; font-weight: normal; letter-sp=
-acing: normal; text-align: start; text-indent: 0px; text-transform: none; w=
-hite-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; text=
--decoration: none;" class=3D"">
-<span style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size=
-: 12px; font-style: normal; font-variant-caps: normal; font-weight: normal;=
- letter-spacing: normal; text-align: start; text-indent: 0px; text-transfor=
-m: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width:=
- 0px; text-decoration: none; float: none; display: inline !important;" clas=
-s=3D"">attaches
- all the common attributes=E2=80=A6</span></div>
-</blockquote>
-</div>
-<div class=3D""><br class=3D"">
-</div>
-We had the problem with not just the sanitisers. &nbsp;Same problem pops wi=
-th functions&nbsp;
-<div class=3D"">that created elsewhere in clang (e.g _clang_call_terminate =
-) or llvm.
-<div class=3D""><br class=3D"">
-</div>
-<div class=3D""><span style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, =
-0);" class=3D"">In case of BTI the flag even controllable by function attri=
-butes which makes it more trickier so</span></div>
-<div class=3D"">the module flags found the only reliable way to pass this i=
-nformation down.&nbsp;</div>
-<div class=3D"">Scanning existing functions is fragile for data only compil=
-ation units for example.</div>
-<div class=3D""><br class=3D"">
-</div>
-<div class=3D"">Our solution, not generic enough but might help.</div>
-<div class=3D""><span style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, =
-0);" class=3D""><a href=3D"https://reviews.llvm.org/D85649" class=3D"">http=
-s://reviews.llvm.org/D85649</a>&nbsp;</span></div>
-<div class=3D""><span style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, =
-0);" class=3D""><br class=3D"">
-</span></div>
-<div class=3D""><font color=3D"#000000" class=3D""><span style=3D"caret-col=
-or: rgb(0, 0, 0);" class=3D"">I looked for while for a generic solution, so=
- I=E2=80=99m interested in if there is one :)</span></font></div>
-<div class=3D""><span style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, =
-0);" class=3D""><br class=3D"">
-</span></div>
-<div class=3D"">Thanks,</div>
-<div class=3D"">Daniel<br class=3D"">
-<div class=3D""><br class=3D"">
-</div>
-</div>
-</div>
-IMPORTANT NOTICE: The contents of this email and any attachments are confid=
-ential and may also be privileged. If you are not the intended recipient, p=
-lease notify the sender immediately and do not disclose the contents to any=
- other person, use it for any purpose,
- or store or copy the information in any medium. Thank you.
-</body>
-</html>
-
-<p></p>
-
--- <br />
-You received this message because you are subscribed to the Google Groups &=
-quot;kasan-dev&quot; group.<br />
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
-+unsubscribe@googlegroups.com</a>.<br />
-To view this discussion on the web visit <a href=3D"https://groups.google.c=
-om/d/msgid/kasan-dev/333D40A0-4550-4309-9693-1ABA4AC75399%40arm.com?utm_med=
-ium=3Demail&utm_source=3Dfooter">https://groups.google.com/d/msgid/kasan-de=
-v/333D40A0-4550-4309-9693-1ABA4AC75399%40arm.com</a>.<br />
-
---_000_333D40A04550430996931ABA4AC75399armcom_--
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200917041150.3xfmi5pqyd7qm2fg%40google.com.
