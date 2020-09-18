@@ -1,129 +1,143 @@
-Return-Path: <kasan-dev+bncBDX4HWEMTEBRBZ6PSL5QKGQEUP32TCA@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBB6ORSL5QKGQEIEXPDLI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pj1-x103c.google.com (mail-pj1-x103c.google.com [IPv6:2607:f8b0:4864:20::103c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AEBE26FC79
-	for <lists+kasan-dev@lfdr.de>; Fri, 18 Sep 2020 14:28:25 +0200 (CEST)
-Received: by mail-pj1-x103c.google.com with SMTP id fy7sf3017722pjb.6
-        for <lists+kasan-dev@lfdr.de>; Fri, 18 Sep 2020 05:28:25 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1600432104; cv=pass;
+Received: from mail-ed1-x53f.google.com (mail-ed1-x53f.google.com [IPv6:2a00:1450:4864:20::53f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 87C7326FC8A
+	for <lists+kasan-dev@lfdr.de>; Fri, 18 Sep 2020 14:32:57 +0200 (CEST)
+Received: by mail-ed1-x53f.google.com with SMTP id r8sf2207204edy.17
+        for <lists+kasan-dev@lfdr.de>; Fri, 18 Sep 2020 05:32:57 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1600432377; cv=pass;
         d=google.com; s=arc-20160816;
-        b=GSjtjjksOi8QmfErn7EHqXYYN2iuSUUdPNtMG4Bn6/8Ga6Hu2fo7EU3r1gAs8wRABC
-         lApBVX8M1ZizQGMABB7Y3mIzS28lv/5W58W7YLRxz5eQ1CN24XeRcEyrt7N9I3PgIyGb
-         Fy6hzAw6nHxi3+p+EWAOQ1wakZEQHftTtFktBjkc4OxBkxamVcpQ7FIgIL+0KAvdKqbg
-         Q/zsStAZXJiS9p9e2IWPNonMx1fitM4OvWvjZiyuDdZ9mt661pIwF9lb8b2xS0g8AoCg
-         xS9azxwrUOOpT7lrVE8qBZTSgMs9LYhRDenV1TDxh1fCTSWVeBOKQJ+3AjhpC2VptlSu
-         hE7g==
+        b=arRagQmlufINxGfTsno26jsF5uZoNaYPiP1QwptnBOp9uv+/yjWzuyF0vL1cJrG6ao
+         c6fBeVtc/str4zMKqG1oVZXyFlkMQOhdJVd+IkAsuvxyPG4gj7KbTpGiNjgCfMEvvwBT
+         mDMaU60EMvJoISU58q1gyYLNw1vqucSp6kwPJGHCxDRdWx6Pi9XJH5bJ6Q6sa4wI2r4i
+         K0cdhLmI35Fqez5pUtp61yE1Up46mWcPX/+nROcIBAiERN6cHx4TZim1bC+22hsuSQoS
+         1ufc5Jzgnp68lmQIr3cSy2IImtkzWDJTNWsdMxGVuB0Z+NLf6wgiyP5AWHTnkfRgZQDZ
+         mZpA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=Oq8Exg3SKswTWANB1hcVdnaK0CFa/xvZZPwHk+1zlbY=;
-        b=ouCPg5B0IMltejrSQdZtEhM5S2lBfLzvAgU8Vk4U1Gfl6XDAPhlPZIOEDTmznSlNw3
-         AUHX0WF5+HLUWv8GKo1y8Ewu01BqV1i3QD6N8f8v/8kVYUGtV8mev9BU++Arg5eBXtgD
-         iYaZ3o1TT321PCOR2qEBMGxJCXEi4M45szLMR9/YsRuONS8TQjPl4IDBqd1en9VMOMP4
-         Bh1RgaoMv1AI/3eavHdEgUAdaUtqQPJ5YBrtAebs+Jc5cLvfpf6hQP19kflt6as2Nf+x
-         I2FQD2xphO+UW7NxBg/ahe0pPuPhUzKAbxT7+cLdAzZygekVl2E3ZZTKeJTFk1x7NkBD
-         8JnQ==
+         :list-id:mailing-list:precedence:reply-to:user-agent:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:dkim-signature;
+        bh=huVaFsZutrLDtcRKWri2k5jkmYf7FOfpzgvg9uPdvl4=;
+        b=XwyN72Jcjl1Z9J8V1VSCU/47L16hNtQiP3L5gkdFAdanUjg3RwGS3r0hVK4WdJ0zsa
+         2Snj5EjtdAO6XbcwK6/CjnFT4rBaoD5POZKoBpEjyn9HLfrb6JSCRwPiqMJTHKJt1Hwo
+         cXVtkq2WBOIj3etPpJaGahiB17RY5cqotg9tHd0HYlNXw/x68AOUvYbAaziYqGLoW1Wo
+         Mj/p/S7qAxQhsAouRIbRV7jYujKn5/Zr7RS3nHLlpHn6Scynr+QhB1/I+uj2TJnqGuWo
+         H3pXSgcTbdpglMOYUjC9RQCx0D0o1e3PleoAULTThKAsNDDGesQDs/uOu6UNCFibMTrZ
+         /A4w==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b="u/tah1Kn";
-       spf=pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::542 as permitted sender) smtp.mailfrom=andreyknvl@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=qL4mSxuD;
+       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::341 as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=Oq8Exg3SKswTWANB1hcVdnaK0CFa/xvZZPwHk+1zlbY=;
-        b=fI4z76K/2SUsvVeyVyfYrPwZ9m5d8nhU5ZkT5+OGizhUrvI+RZe4UvLDFFzTR/uTcI
-         /lV4BxVo/XFyEUEq5c6210nLNQL5VAUJ2ZMcWcGVnGWxe0i4svZKCZGlbOVR7RE164I8
-         9+I5uqrnjDDajRgmLYzucBdsS0phpNWRQm00CjcGaRnEUREDjsbuZFBWVluMTvLsRjYf
-         XzftuaZv5Nw3kwdJToBYUz3JNdyPsUOkJarqnXcm3hM5ZM1C3GOlLXtjYoISJRuC851U
-         aYGAPI53qHgJ2VI8TJOkDMt1imEhb69pUFsmgKC95TSNl0pP3TMrmi6pxeXh4WI3pDM6
-         X+vg==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:list-post:list-help:list-archive:list-subscribe
+         :list-unsubscribe;
+        bh=huVaFsZutrLDtcRKWri2k5jkmYf7FOfpzgvg9uPdvl4=;
+        b=dPkUGbP4Og9C8112B6YRk5cTVj8bbJqlwoy3G6CLhxPx3Y6SvqQFLEoCRD6BCcUzsd
+         Z4IH7SYhcuXumQeF5+Kk3tf/vdtvIrrYpb5J5RYYnIwkLAw4/FPBjERaj27pozpRPP6Z
+         ugdxvmSID9Y8UmqdBTP2R9nprgy7WAQDOW+tZ3LIEXlCuInif2CRMSKNU28I/76Y7EOr
+         zdSXh4atGeO5COTyWsFe+K5OFyy2Z5ejcmqFs3S+Y5ygueR3CJD57dFfYCWTGlx3h4gX
+         dK0xfSxOP7S/O9NaS7vOTqgkEMIeNFsxgnwe1FwtJJbhngOyPoAH4d7Uhzz3SaTSSCjO
+         Mh4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=Oq8Exg3SKswTWANB1hcVdnaK0CFa/xvZZPwHk+1zlbY=;
-        b=OQspo/1puydQWOer28HvtKVO3SOA4BllYuvw7pkerFvE1aZ9qWSqx0ss32z5xNRcvg
-         hSQMGaq4eLC0K98Z5Oc8Buu86gDOLt6/DspqbQ6DcDgo9cLnQM5ryh6uDqGQnBDVq3zW
-         T6EefCno2TGc2bA2S7f1FuQWPM997eDE767A+61v1iaRRWUcN47mBNSjUHeoLh63nQO4
-         MQ1M4It6lWFKYvA29JcmJMqp7FGO0RCmfX3Bz1yq/Y+PSfF+D09G6kgDNIhogU/Gln2f
-         uK2IZIWmIEUoRr5H4BNiR+oTPQAICGerhgOCRr0DPjO+lf0lql59PjD2a9UPbcysRj+d
-         cCRg==
-X-Gm-Message-State: AOAM533oypDYj17IAkFWfxRsRhnopI9a2KW7/WoJxxa1gxu5o2KF5c0e
-	Wp9blTgmwRN4QvvzMUvGvGc=
-X-Google-Smtp-Source: ABdhPJykQvSLl5xQkWO2Amw3/blMT/gsYQMKbyeQqNB7l8I3TVn1tKU/2BYUZRertP67l5SgwrMasQ==
-X-Received: by 2002:a17:902:6bc1:b029:d0:cbe1:e706 with SMTP id m1-20020a1709026bc1b02900d0cbe1e706mr33267799plt.20.1600432104082;
-        Fri, 18 Sep 2020 05:28:24 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent
+         :x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=huVaFsZutrLDtcRKWri2k5jkmYf7FOfpzgvg9uPdvl4=;
+        b=e3RKnH3xFvRsD79+KjZGQDD8gltLK0Pp+Su6ixRdNkHZxEurPzSVeN7gZQb7qkY9Yh
+         UmP5U135CkMM38WdbQ3Qv+HA8uQAc3PTOu8q3m4BELg4x8s8+OOs6jWEnXSjyu8nu5hA
+         ixyWZZeUztPjQpL+b5WrMMErfRSc7hHYf9crcBgJRYgBnaHrRbD/bmkChSBSL4pzXVfX
+         NpoY/mFoQbRFjJi+ZWkOUi3LZDo3tjVeRFmEdMYS+eyVtVyYIzbAIrnhJ93Rf0C3Lcr8
+         QuEcXtbHmljcBBodRqc7pFwXJpbsjkDnKoKRGYXiwnbkY51y2M+T54culTjzr9Buv2t3
+         gfAA==
+X-Gm-Message-State: AOAM5310OZIIcaGiFSAY+tinsXKtbODmMOF55doIfNqdov/7e8Pc3m2E
+	0qV+OZhjTSClafhxlxs02m4=
+X-Google-Smtp-Source: ABdhPJzol1YPDOVA+EGEP0HDRCn74wn5NLhhgu1Tu1JsmMoK/J+pZ1Yx/4xpDwWG01b3RmU9/ldS0w==
+X-Received: by 2002:a17:906:c348:: with SMTP id ci8mr36980833ejb.417.1600432377251;
+        Fri, 18 Sep 2020 05:32:57 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:902:8d89:: with SMTP id v9ls2692039plo.4.gmail; Fri, 18
- Sep 2020 05:28:23 -0700 (PDT)
-X-Received: by 2002:a17:90a:de81:: with SMTP id n1mr13048386pjv.92.1600432103500;
-        Fri, 18 Sep 2020 05:28:23 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1600432103; cv=none;
+Received: by 2002:a50:bc05:: with SMTP id j5ls315118edh.0.gmail; Fri, 18 Sep
+ 2020 05:32:56 -0700 (PDT)
+X-Received: by 2002:aa7:d30b:: with SMTP id p11mr38516179edq.80.1600432376189;
+        Fri, 18 Sep 2020 05:32:56 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1600432376; cv=none;
         d=google.com; s=arc-20160816;
-        b=EvLaSLdtP64yV2CHji1XbA9gtQOFWgJrnAvuiraq/Mi+5H3Wc2lbZMEYv+q5FqIsTf
-         D1FRkaUgEKC7H9JxGEAR66JvOzHLXajwwqnuntopR71SJ0meVNEBBzsFuhSuZD8CuM9e
-         2Zetc5tmc9Nl0Hv/NSMmc+NT9YlXIpOpf1sBjdJOdWrrf+l6Uss3rXmrjphC5BIfCpkK
-         F4pFx+uBeSXiA5YOnTOqek6A/sgZblrvV8+u0QrzYOUzT5OdUTNVc2eKUXctQEOEccNt
-         sCDTJrNp0NbPjJQFAAStcMiNgB1cAsGT/p7gLbvg5oUNkpuHGuBMyE7Pq2jqSsfN+qjr
-         4Ycg==
+        b=jCzrn6vw0YhJEHVy81440+QnvtDM7+4tyZwYJwvhFBprwjQ/deGCR2ANKQbchil17S
+         J3Z/LWW6AojxrQZ/o5FoO6OYKjgDTPnnrqQaY6AQXpPr390QwddPILo28Vj7TievJGVL
+         w2VNpzSR1EUPcIO6SyP5yCfcXJ0QYO/W+ZEWV/kSlLRh5iZOApLSolaOTK1qvKEPuLVI
+         yVPTvi046MNksn+v0LYwzLBcsD+lrbPA52x0UOsCNQ7XZgQaRaycvRqBU80OXjBHS9/y
+         xkv9f4fECiV62FkH6D7KMLItdRSqdaWoMbe9qHdXlUfMaKxb7Ist8ux7J0Vjds8P2dD4
+         8WoQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=P7ycjQB8Qf5Z6caxe0rnViEryCtRi9d3yDaiZcexIRY=;
-        b=Yi/JuYMpD0CVcSoxAJ/YMNPR3kGAPO9g0dGXGr2TmjMfGUcK90TGdRpnQ3pknQCo1d
-         as8C9uzDdZbz0F/UnaNF0d7fgTDcMYUmlakp8s64X++kx7TDGWqJ+mFVE7s52L9868ve
-         go8XQoxyAqF9bj25x9+Uo1EftkOpl46tzZchetcb6M059iY7lBvW5INZaaPEFRbjgPIe
-         e6m5jwgFEO7EqRd4Gv3pMu5baxS93MfelBz0LMxUOyEF5Qo0lEegJj6TVY8Xei7ABT0Y
-         4lSGnWgQ1fzvkUVwQN9hVKavyZ0Gw7W5lIEP9RWRze8zMJ3i5h1qeYgYnmAysOiuzP7O
-         GO3Q==
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:dkim-signature;
+        bh=RW3V/7rc9G+S8I7/pZacY9c5WPGbtuzmcvpRc7I+JUM=;
+        b=PNqTjkrnIG085LNfKg1UU5PAk8Bia1b3JBE9G06iuudWKJ2lfznHjASqErYtAh2yzU
+         euXfeLoJhcg0yWmyQlphyvXDpV2aJInCIiJF+p4M77Mrv9jXTuH+nJ68dTStcCfma/9d
+         gafIMnmz+EFlr0oaJQpCTljPKmfk77vDolj7TYPk9dW1UUET4aC3Cqb2R15vHbs3ClXJ
+         E2J1f23UPmYff3TcdL9WyVrVluj8iyemHyjE3jTAPseMCyWchGgYkOIu9D2506fN0W2O
+         jeI9hFnjzausTEe91yOPhebDeKqYl0Nlnqe1vdzQpLV6d8U6H3Zme3DX1V/qthET5Oyt
+         RC0w==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b="u/tah1Kn";
-       spf=pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::542 as permitted sender) smtp.mailfrom=andreyknvl@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=qL4mSxuD;
+       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::341 as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com. [2607:f8b0:4864:20::542])
-        by gmr-mx.google.com with ESMTPS id 17si73834plg.2.2020.09.18.05.28.23
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com. [2a00:1450:4864:20::341])
+        by gmr-mx.google.com with ESMTPS id a16si138485ejk.1.2020.09.18.05.32.56
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 18 Sep 2020 05:28:23 -0700 (PDT)
-Received-SPF: pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::542 as permitted sender) client-ip=2607:f8b0:4864:20::542;
-Received: by mail-pg1-x542.google.com with SMTP id k14so3376423pgi.9
-        for <kasan-dev@googlegroups.com>; Fri, 18 Sep 2020 05:28:23 -0700 (PDT)
-X-Received: by 2002:a63:2209:: with SMTP id i9mr21795613pgi.130.1600432101917;
- Fri, 18 Sep 2020 05:28:21 -0700 (PDT)
+        Fri, 18 Sep 2020 05:32:56 -0700 (PDT)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::341 as permitted sender) client-ip=2a00:1450:4864:20::341;
+Received: by mail-wm1-x341.google.com with SMTP id q9so5174046wmj.2
+        for <kasan-dev@googlegroups.com>; Fri, 18 Sep 2020 05:32:56 -0700 (PDT)
+X-Received: by 2002:a1c:7e15:: with SMTP id z21mr15195514wmc.21.1600432375666;
+        Fri, 18 Sep 2020 05:32:55 -0700 (PDT)
+Received: from elver.google.com ([100.105.32.75])
+        by smtp.gmail.com with ESMTPSA id y6sm4995614wrt.80.2020.09.18.05.32.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Sep 2020 05:32:54 -0700 (PDT)
+Date: Fri, 18 Sep 2020 14:32:49 +0200
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+To: Andrey Konovalov <andreyknvl@google.com>
+Cc: Dmitry Vyukov <dvyukov@google.com>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	kasan-dev@googlegroups.com,
+	Andrey Ryabinin <aryabinin@virtuozzo.com>,
+	Alexander Potapenko <glider@google.com>,
+	Evgenii Stepanov <eugenis@google.com>,
+	Elena Petrova <lenaptr@google.com>,
+	Branislav Rankov <Branislav.Rankov@arm.com>,
+	Kevin Brodsky <kevin.brodsky@arm.com>,
+	Will Deacon <will.deacon@arm.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 21/37] kasan: introduce CONFIG_KASAN_HW_TAGS
+Message-ID: <20200918123249.GC2384246@elver.google.com>
+References: <cover.1600204505.git.andreyknvl@google.com>
+ <329ece34759c5208ae32a126dc5c978695ab1776.1600204505.git.andreyknvl@google.com>
 MIME-Version: 1.0
-References: <cover.1600204505.git.andreyknvl@google.com> <74133d1a57c47cb8fec791dd5d1e6417b0579fc3.1600204505.git.andreyknvl@google.com>
- <20200918104650.GA2384246@elver.google.com>
-In-Reply-To: <20200918104650.GA2384246@elver.google.com>
-From: "'Andrey Konovalov' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Fri, 18 Sep 2020 14:28:11 +0200
-Message-ID: <CAAeHK+zxJqQ3v_K7UkMMMrz73+3LQwZctDGngrJabXtiXU5YvA@mail.gmail.com>
-Subject: Re: [PATCH v2 33/37] kasan, arm64: implement HW_TAGS runtime
-To: Marco Elver <elver@google.com>
-Cc: Dmitry Vyukov <dvyukov@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, kasan-dev <kasan-dev@googlegroups.com>, 
-	Andrey Ryabinin <aryabinin@virtuozzo.com>, Alexander Potapenko <glider@google.com>, 
-	Evgenii Stepanov <eugenis@google.com>, Elena Petrova <lenaptr@google.com>, 
-	Branislav Rankov <Branislav.Rankov@arm.com>, Kevin Brodsky <kevin.brodsky@arm.com>, 
-	Will Deacon <will.deacon@arm.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Linux ARM <linux-arm-kernel@lists.infradead.org>, 
-	Linux Memory Management List <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: andreyknvl@google.com
+Content-Disposition: inline
+In-Reply-To: <329ece34759c5208ae32a126dc5c978695ab1776.1600204505.git.andreyknvl@google.com>
+User-Agent: Mutt/1.14.4 (2020-06-18)
+X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b="u/tah1Kn";       spf=pass
- (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::542
- as permitted sender) smtp.mailfrom=andreyknvl@google.com;       dmarc=pass
- (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Andrey Konovalov <andreyknvl@google.com>
-Reply-To: Andrey Konovalov <andreyknvl@google.com>
+ header.i=@google.com header.s=20161025 header.b=qL4mSxuD;       spf=pass
+ (google.com: domain of elver@google.com designates 2a00:1450:4864:20::341 as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -136,42 +150,175 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, Sep 18, 2020 at 12:46 PM Marco Elver <elver@google.com> wrote:
->
-> On Tue, Sep 15, 2020 at 11:16PM +0200, Andrey Konovalov wrote:
-> [...]
-> >  arch/arm64/include/asm/memory.h   |  4 +-
-> >  arch/arm64/kernel/setup.c         |  1 -
-> >  include/linux/kasan.h             |  6 +--
-> >  include/linux/mm.h                |  2 +-
-> >  include/linux/page-flags-layout.h |  2 +-
-> >  mm/kasan/Makefile                 |  5 ++
-> >  mm/kasan/common.c                 | 14 +++---
-> >  mm/kasan/kasan.h                  | 17 +++++--
-> >  mm/kasan/report_tags_hw.c         | 47 +++++++++++++++++++
-> >  mm/kasan/report_tags_sw.c         |  2 +-
-> >  mm/kasan/shadow.c                 |  2 +-
-> >  mm/kasan/tags_hw.c                | 78 +++++++++++++++++++++++++++++++
-> >  mm/kasan/tags_sw.c                |  2 +-
-> >  13 files changed, 162 insertions(+), 20 deletions(-)
-> >  create mode 100644 mm/kasan/report_tags_hw.c
-> >  create mode 100644 mm/kasan/tags_hw.c
-> [...]
-> > diff --git a/arch/arm64/kernel/setup.c b/arch/arm64/kernel/setup.c
-> > index 77c4c9bad1b8..5985be8af2c6 100644
-> > --- a/arch/arm64/kernel/setup.c
-> > +++ b/arch/arm64/kernel/setup.c
-> > @@ -358,7 +358,6 @@ void __init __no_sanitize_address setup_arch(char **cmdline_p)
-> >       smp_init_cpus();
-> >       smp_build_mpidr_hash();
-> >
-> > -     /* Init percpu seeds for random tags after cpus are set up. */
->
-> Why was the comment removed and not updated?
+On Tue, Sep 15, 2020 at 11:16PM +0200, Andrey Konovalov wrote:
+> This patch adds a configuration option for a new KASAN mode called
+> hardware tag-based KASAN. This mode uses the memory tagging approach
+> like the software tag-based mode, but relies on arm64 Memory Tagging
+> Extension feature for tag management and access checking.
+> 
+> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+> Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
+> ---
+> Change-Id: I246c2def9fffa6563278db1bddfbe742ca7bdefe
+> ---
+>  lib/Kconfig.kasan | 56 +++++++++++++++++++++++++++++++++--------------
+>  1 file changed, 39 insertions(+), 17 deletions(-)
+> 
+> diff --git a/lib/Kconfig.kasan b/lib/Kconfig.kasan
+> index b4cf6c519d71..17c9ecfaecb9 100644
+> --- a/lib/Kconfig.kasan
+> +++ b/lib/Kconfig.kasan
+> @@ -6,7 +6,10 @@ config HAVE_ARCH_KASAN
+>  config HAVE_ARCH_KASAN_SW_TAGS
+>  	bool
+>  
+> -config	HAVE_ARCH_KASAN_VMALLOC
+> +config HAVE_ARCH_KASAN_HW_TAGS
+> +	bool
+> +
+> +config HAVE_ARCH_KASAN_VMALLOC
+>  	bool
+>  
+>  config CC_HAS_KASAN_GENERIC
+> @@ -20,10 +23,11 @@ config CC_HAS_WORKING_NOSANITIZE_ADDRESS
+>  
+>  menuconfig KASAN
+>  	bool "KASAN: runtime memory debugger"
+> -	depends on (HAVE_ARCH_KASAN && CC_HAS_KASAN_GENERIC) || \
+> -		   (HAVE_ARCH_KASAN_SW_TAGS && CC_HAS_KASAN_SW_TAGS)
+> +	depends on (((HAVE_ARCH_KASAN && CC_HAS_KASAN_GENERIC) || \
+> +		     (HAVE_ARCH_KASAN_SW_TAGS && CC_HAS_KASAN_SW_TAGS)) && \
+> +		    CC_HAS_WORKING_NOSANITIZE_ADDRESS) || \
+> +		   HAVE_ARCH_KASAN_HW_TAGS
+>  	depends on (SLUB && SYSFS) || (SLAB && !DEBUG_SLAB)
+> -	depends on CC_HAS_WORKING_NOSANITIZE_ADDRESS
+>  	select SLUB_DEBUG if SLUB
 
-Will fix in v3, thanks!
+Is SLUB_DEBUG necessary with HW_TAGS?
+
+>  	select CONSTRUCTORS
+>  	select STACKDEPOT
+> @@ -38,13 +42,18 @@ choice
+>  	prompt "KASAN mode"
+>  	default KASAN_GENERIC
+>  	help
+> -	  KASAN has two modes: generic KASAN (similar to userspace ASan,
+> -	  x86_64/arm64/xtensa, enabled with CONFIG_KASAN_GENERIC) and
+> -	  software tag-based KASAN (a version based on software memory
+> -	  tagging, arm64 only, similar to userspace HWASan, enabled with
+> -	  CONFIG_KASAN_SW_TAGS).
+> +	  KASAN has three modes:
+> +	  1. generic KASAN (similar to userspace ASan,
+> +	     x86_64/arm64/xtensa, enabled with CONFIG_KASAN_GENERIC),
+> +	  2. software tag-based KASAN (arm64 only, based on software
+> +	     memory tagging (similar to userspace HWASan), enabled with
+> +	     CONFIG_KASAN_SW_TAGS), and
+> +	  3. hardware tag-based KASAN (arm64 only, based on hardware
+> +	     memory tagging, enabled with CONFIG_KASAN_HW_TAGS).
+>  
+> -	  Both generic and tag-based KASAN are strictly debugging features.
+> +	  All KASAN modes are strictly debugging features.
+> +
+> +	  For better error detection enable CONFIG_STACKTRACE.
+
+I don't think CONFIG_STACKTRACE improves error detection, right? It only
+makes the reports more readable
+
+>  
+>  config KASAN_GENERIC
+>  	bool "Generic mode"
+> @@ -61,8 +70,6 @@ config KASAN_GENERIC
+>  	  and introduces an overhead of ~x1.5 for the rest of the allocations.
+>  	  The performance slowdown is ~x3.
+>  
+> -	  For better error detection enable CONFIG_STACKTRACE.
+> -
+>  	  Currently CONFIG_KASAN_GENERIC doesn't work with CONFIG_DEBUG_SLAB
+>  	  (the resulting kernel does not boot).
+>  
+> @@ -72,9 +79,11 @@ config KASAN_SW_TAGS
+>  	help
+>  	  Enables software tag-based KASAN mode.
+>  
+> -	  This mode requires Top Byte Ignore support by the CPU and therefore
+> -	  is only supported for arm64. This mode requires Clang version 7.0.0
+> -	  or later.
+> +	  This mode require software memory tagging support in the form of
+> +	  HWASan-like compiler instrumentation.
+> +
+> +	  Currently this mode is only implemented for arm64 CPUs and relies on
+> +	  Top Byte Ignore. This mode requires Clang version 7.0.0 or later.
+>  
+>  	  This mode consumes about 1/16th of available memory at kernel start
+>  	  and introduces an overhead of ~20% for the rest of the allocations.
+> @@ -82,15 +91,27 @@ config KASAN_SW_TAGS
+>  	  casting and comparison, as it embeds tags into the top byte of each
+>  	  pointer.
+>  
+> -	  For better error detection enable CONFIG_STACKTRACE.
+> -
+>  	  Currently CONFIG_KASAN_SW_TAGS doesn't work with CONFIG_DEBUG_SLAB
+>  	  (the resulting kernel does not boot).
+>  
+> +config KASAN_HW_TAGS
+> +	bool "Hardware tag-based mode"
+> +	depends on HAVE_ARCH_KASAN_HW_TAGS
+> +	depends on SLUB
+> +	help
+> +	  Enables hardware tag-based KASAN mode.
+> +
+> +	  This mode requires hardware memory tagging support, and can be used
+> +	  by any architecture that provides it.
+> +
+> +	  Currently this mode is only implemented for arm64 CPUs starting from
+> +	  ARMv8.5 and relies on Memory Tagging Extension and Top Byte Ignore.
+> +
+>  endchoice
+>  
+>  choice
+>  	prompt "Instrumentation type"
+> +	depends on KASAN_GENERIC || KASAN_SW_TAGS
+>  	default KASAN_OUTLINE
+>  
+>  config KASAN_OUTLINE
+> @@ -114,6 +135,7 @@ endchoice
+>  
+>  config KASAN_STACK_ENABLE
+>  	bool "Enable stack instrumentation (unsafe)" if CC_IS_CLANG && !COMPILE_TEST
+> +	depends on KASAN_GENERIC || KASAN_SW_TAGS
+>  	help
+>  	  The LLVM stack address sanitizer has a know problem that
+>  	  causes excessive stack usage in a lot of functions, see
+
+How about something like the below change (introduce KASAN_INSTRUMENTED
+Kconfig var) to avoid the repeated "KASAN_GENERIC || KASAN_SW_TAGS".
+This could then also be used in the various .c/.h files (and make some
+of the code more readable hopefully).
+
++config KASAN_INSTRUMENTED
++	def_bool KASAN_GENERIC || KASAN_SW_TAGS
++
+ choice
+ 	prompt "Instrumentation type"
+-	depends on KASAN_GENERIC || KASAN_SW_TAGS
++	depends on KASAN_INSTRUMENTED
+ 	default KASAN_OUTLINE
+ 
+ config KASAN_OUTLINE
+@@ -135,7 +141,7 @@ endchoice
+ 
+ config KASAN_STACK_ENABLE
+ 	bool "Enable stack instrumentation (unsafe)" if CC_IS_CLANG && !COMPILE_TEST
+-	depends on KASAN_GENERIC || KASAN_SW_TAGS
++	depends on KASAN_INSTRUMENTED
+ 	help
+ 	  The LLVM stack address sanitizer has a know problem that
+ 	  causes excessive stack usage in a lot of functions, see
+
+Thanks,
+-- Marco
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAAeHK%2BzxJqQ3v_K7UkMMMrz73%2B3LQwZctDGngrJabXtiXU5YvA%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200918123249.GC2384246%40elver.google.com.
