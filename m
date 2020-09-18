@@ -1,141 +1,124 @@
-Return-Path: <kasan-dev+bncBDKJVFPCVIJBBQFOSL5QKGQED7GR3CY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDX4HWEMTEBRBFV3SL5QKGQE7OQ5IHQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-vs1-xe3d.google.com (mail-vs1-xe3d.google.com [IPv6:2607:f8b0:4864:20::e3d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F83826FB3E
-	for <lists+kasan-dev@lfdr.de>; Fri, 18 Sep 2020 13:17:22 +0200 (CEST)
-Received: by mail-vs1-xe3d.google.com with SMTP id e202sf1574050vsc.4
-        for <lists+kasan-dev@lfdr.de>; Fri, 18 Sep 2020 04:17:22 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1600427841; cv=pass;
+Received: from mail-pl1-x639.google.com (mail-pl1-x639.google.com [IPv6:2607:f8b0:4864:20::639])
+	by mail.lfdr.de (Postfix) with ESMTPS id E424926FBC0
+	for <lists+kasan-dev@lfdr.de>; Fri, 18 Sep 2020 13:44:23 +0200 (CEST)
+Received: by mail-pl1-x639.google.com with SMTP id f12sf3196404plj.10
+        for <lists+kasan-dev@lfdr.de>; Fri, 18 Sep 2020 04:44:23 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1600429462; cv=pass;
         d=google.com; s=arc-20160816;
-        b=oQkWmmei47lscXl5/3nq9m9BXv2ppct7+sbSYKv50o+GUaWmNN97YuL32Et7ccPjSD
-         E/0QznxduRTgeETvjCF/pFSxn8c/cOEIlNpgkFSEa+G26n28ZSNw/OqQcpNoQkm8XfWt
-         8ttkgeDBAce2+bXQwBwQe44pRl1iH7zlHWCfFCTehAl1y7iNALpOz++1uGthGj+6i+Jz
-         bIcDaFoU/OIJUzjU+S0Ynn5DyErwzny2qIo6BPYklEcUil36xqANi+ZlLEoJKUfsGtcB
-         66eO8Ktr43kUEQYNdkB1FiKt+RBMBVZTrjEqbSjMgyr/QJ5tVKxbd0e3fzcYVLvf0oXE
-         yz0w==
+        b=lyr7VONlpMeS9xy8DMFdKHn2C1EZ/wfSTk6moiG1VOpk/E5t6PxXqBFU6dEaV1WNFQ
+         9qMAy5qDL22Kbr5g2N6CIOe9jmIaI3h/edKlrIhnhopErrwfoUCq5LFf4L6On5BNNmgj
+         7DgQtCdEvs5iLl1Nfm5c9tSIgL0d42rrgnUkXIRzF0R0Jk3Vq2JNye9JKDwR76OOZaGP
+         Hf5XQa494WcUlErQO3RnkAZ9G1a71ltr2qfgAuzrJ356xuHJ4p6k35isqMDTdPIzDdGt
+         w0Hh+O3/qpXxT3QrnnRBQImUaBas6bpx65YesJpFMmYg/mc2DItFY+N09FtimkczBPi2
+         +CMA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
-         :date:cc:to:from:subject:message-id:sender:dkim-signature;
-        bh=/3lOZGDzVcPK16sMEkGoDyvu+oRrHXyASqD3NtVbGZY=;
-        b=CZjcJ2SU9UWRxlj0RGhxtVE/zF/h9ePPX4mWWsUiO/ywZf9gkqHZSWpS3S8oh1y6wA
-         d/cmTFW4eeHfW4FLzxMYa9NR3G+kGsWGOwead5xzCB5XifLT6jMHxNgK1ziW+We3zQ07
-         zgvbTcS8uhuQ1GU4LiW3sRjkbVqN/qJPPUwQZILj9+sH7W1VOnqGkCaByalrhhq1Kdj9
-         95X63r5kC9QQXA2ejosGcCan4YNEmThKO1uJ2B0iCLXOnT+1CMywUo7tMSyYX9fgLn43
-         mL9+19r8rLIrhsPJ8xPYbPlatwvXn7p5sCoz3zLY5RzFgE7tFyOOdBP3QDlEii3ydvLs
-         G2gw==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=AMCWyqTHr2/KjnFvtGbPg0hIMAFI5DKEVDvInx02HYE=;
+        b=PxMIKn5LrlwhCaYgFLx75T0A0XA99VwdfHTbCkoL3Tpin0ffxRQ+4XgRNVghOsPVXd
+         1TSrMtlWe+Ezsu++GrmPfdRmfq0TooeXqgB5TmuzUgl+ui1huuir9ut5txBWZsxLBI0P
+         +8X7QLpRLGwUOeP7H8X4UDKfcgFYjjRRJRT0cgixBj5xZnJp1Tjb/AxM+mupqAJExZiA
+         Qrhiyxq95iq+/seyPOqM7hJolq/MQBHypOBnizT0J5E2dLIR+luBHknkXTqB1GlVlSlT
+         x841U+Z4XAca4pMTfY0FKgM5cAwsUAj1LFggTKeCVkih8g+71cSmHtD7yG18V5S25zxe
+         m6jQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=VYV+5Dnk;
-       spf=pass (google.com: domain of cai@redhat.com designates 205.139.110.120 as permitted sender) smtp.mailfrom=cai@redhat.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
+       dkim=pass header.i=@google.com header.s=20161025 header.b=TpjzFHO4;
+       spf=pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::1044 as permitted sender) smtp.mailfrom=andreyknvl@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:message-id:subject:from:to:cc:date:in-reply-to:references
-         :mime-version:x-original-sender:x-original-authentication-results
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=/3lOZGDzVcPK16sMEkGoDyvu+oRrHXyASqD3NtVbGZY=;
-        b=QE236Q5PL0fUFguhTydaksfmoo9YrD6AD/rgAtAa+vaALsZgLAZFXnhfn2qD3bRIrU
-         fc9ucCGY05+Kym0khWKJmsB0VF+sg82WGCyIR1LfdCw+2lvhL+ASbWC4YxSrSbykFTs0
-         r77t4Zv1pYVr6UXvGZdeQ17ctd+CI6KG4h82NlRIXUaXDDkwwQvvsqSLe5oUQRr9ybOM
-         5xRnnQgQd3Q0Kk5qkjiiFJsqtbRaPCN3nZZDiZU0fnWsWRcVsmZuoEILynPl0O2zNt/m
-         j4iWoE2m2f1YWwdhxvWdtqP93RI+C9SoAVJILku5YRonfoA1JoctZ91bC6UO64Pb1Fca
-         bNAA==
+        bh=AMCWyqTHr2/KjnFvtGbPg0hIMAFI5DKEVDvInx02HYE=;
+        b=FUjxtlPAE91tg53zsXVdCyoSkQY6YVihxIQMpfeCX2Ml02ZoCCFXZX/B+1lLGORX8f
+         /JcCeyKFHd83wgKTWrS2F7yNag/GysCK6CRUOQ9immxFpuzCyBdwNG6NZ9CYbP3tUCOz
+         lbf5p9IIWlcMBIlp/RGVjkIM+w5m6/c9+X0s/zrcqMNTCdwvkX8foIMntg4ZXqkRrvPt
+         SilMsJPt62ks32YH4HA097kJGGDqOhQd/W8zBlN6OdUlLmhMqVdX6r7dyktvzrFjT1fP
+         Ml01RK+kM2512FA5vmxsoEaOofsx4uLREkl8X0f5fV5g79CFAKqtdHyJuV+0lGY0YTup
+         /9Sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:message-id:subject:from:to:cc:date
-         :in-reply-to:references:mime-version:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=/3lOZGDzVcPK16sMEkGoDyvu+oRrHXyASqD3NtVbGZY=;
-        b=e4bDyUqiBO1nuLahCgauTZtfQu2DlSztmwyeI7NkRQYCOZmZ63IbTdS3m5zkd3n6q+
-         gvLHmM8WKN2UiOq1MoOSv0CdHDo+mIROtNBZNFIGvoYjXBNaBCv+ki5d47/TasRQg6Lu
-         tv0JMTBGV0dzcIRiiaEt4cYsODnWbcE7TC23N9e1JK1NNAk3mCyY0kVOBTBcnrhyk+RC
-         jRCkqr1yf0KS220Jc6T7aXB/FXNooluEg533LdzikIVAH2bOgfF6qg7ZXFdcaVqIl6ii
-         k1b1lWlrl9mHJz8MUCAGtiV+/f42ZpA9j0KMIQaZLdnLbciCLE5a3Kbc0B+Nty1ZRlU0
-         LwNg==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM530HeftgCp+WnHH43wc1UJ7vopwtWBQDf99PHMBbCe/080rP2sjf
-	JoR8qvwwXKOxe/PLKhdLRJw=
-X-Google-Smtp-Source: ABdhPJzOg0g7g9mfW5qIC4pyD+GoaOdvTMEAbM7N/BZ4uhSzPS3S6jUaWVc+95iSxZyFIATgX6+YcQ==
-X-Received: by 2002:a67:b34d:: with SMTP id b13mr11135834vsm.31.1600427841149;
-        Fri, 18 Sep 2020 04:17:21 -0700 (PDT)
+        bh=AMCWyqTHr2/KjnFvtGbPg0hIMAFI5DKEVDvInx02HYE=;
+        b=Y/sW3eK2qrnLU9o+kBcPMehywjWlAKKGyXuBw4JumbknaabZuuVx8J7Wtu1qSw6CWt
+         2OYrRimWTF9FrTyfmIvX1wNoko85gb9Mhgqr+sKbXt4IFdPPpu8HtbH+L6Eo8PjDXR4n
+         FHNvWrjUD6IQL35L/0LHFsvQEDedPrp3rpUGTAe7We2+1BGbB5iXPBS6/ZhErnFLyZxE
+         z0BBG+TVWONmXqa59aPdObAu0QxMWGzen9koixE5mTi+mperrV9SBQ4kR5Xu972jxJxx
+         w3G82lTnCBX9ZD+xUUh5+ZVfJfLqqAbWLa9vlL8zenwzxGhkl1Zqk7KjSVxTnVzEAXD8
+         +pNw==
+X-Gm-Message-State: AOAM53260mVDHlhJVN8JE+O4e8cJeVrLf1c9tFIADmovhKSCB4rIdwiJ
+	Bh9l70hEDn7bpXB5eOqxWDU=
+X-Google-Smtp-Source: ABdhPJyb42QCM4F4+6y4P8uP1WhmZMnd+p+aydgRXGThx3g6+avSuIm+gcNIvbCjJMEwcJRtwnV3pw==
+X-Received: by 2002:a05:6a00:808:b029:13e:d13d:a05d with SMTP id m8-20020a056a000808b029013ed13da05dmr30610401pfk.35.1600429462637;
+        Fri, 18 Sep 2020 04:44:22 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ab0:1f6:: with SMTP id 109ls342010ual.2.gmail; Fri, 18 Sep
- 2020 04:17:20 -0700 (PDT)
-X-Received: by 2002:ab0:4387:: with SMTP id l7mr18169661ual.133.1600427840554;
-        Fri, 18 Sep 2020 04:17:20 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1600427840; cv=none;
+Received: by 2002:a17:902:7612:: with SMTP id k18ls2634487pll.8.gmail; Fri, 18
+ Sep 2020 04:44:22 -0700 (PDT)
+X-Received: by 2002:a17:902:7d95:b029:d1:c91f:5675 with SMTP id a21-20020a1709027d95b02900d1c91f5675mr23052351plm.34.1600429462030;
+        Fri, 18 Sep 2020 04:44:22 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1600429462; cv=none;
         d=google.com; s=arc-20160816;
-        b=lyScfDQz8rEc92KJLW77s4uQKUdSmzhxfMWZFDvpltA/iSUbIAT6l1R8Qrw34Ji3La
-         A1lSs3Bl5kJgPTQ2n+J+Xc3XWUHiQ1lGcBGn6/8KBb7QlspvkkIfwrzloN7AoLDfZXd8
-         7qyFoK39nhs5LZSZJGArYonUi6wLi1GyWbseCgZ5j/DOhHDNAeQrOlYHMcmmjMWYcGPi
-         iEtqohXLuuGok/FfAe+FRhHlSapRN9nrr5kCL4aQMxH8uuNCta0+QGsoA3wDNFuKByzb
-         slyj9IqfHr/+Xl9pdjIZU4RwpJb+UsRMbDzbFbBxmy3BXOU1M4JPPpcVlGMkSU0m3eYm
-         cZLA==
+        b=oMLbxbPYWiOCaK+GZu5CcwKAry6dlCm6hLPMqlR2ShP+cNdjtP5urOLMc+WEssB17o
+         vsGppy8Vk/NwD+ORsLwx6bXjNQiKz8EWRQtxzG8iHj2AzusnWe+0h0dlWKPot0MS0awb
+         vkSuRuf/Jy13/X6IdkcsdhtpWqxB07kpl0hm8ZzxumK9TY5jV/4x2zKktUDda9REdJaV
+         qwFTaoAp0HkEgM9efVkIvZ3UCjpIkRQSGkK086wjdfy5oFW8EylXUTL8O84/ufvQHPe5
+         f6hXTpZYy1QTGnY+HaNtgfuQjKFYCsDENNDHZREG7CWYq+kb2EUOCqWHDPLcCSnzzBpR
+         nPNQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:references:in-reply-to:date
-         :cc:to:from:subject:message-id:dkim-signature;
-        bh=JZQ2aUpYbOfI0OBbojrEaiyX2uk+A76utcy0JxZ4CmM=;
-        b=kZEjkpZTHP/63LbqKMFEhX/4+ec8Q7dBX2jTY6g/gO7BtuYpZK8qDprxiwZBiPhXIj
-         RvrjvtJsrpTUkhQK5AAsYM8lnEvuqGISVBuZcosD/wJ968t/9+G1qda4BwxCSeekjkZM
-         2UGN7Lg6/GF2mIDF1KLivNZWRwzQ4LiTFQabnPHsuad2Bs7lS7Pu/cw+fFb1kfV2W7SN
-         5E72JR/m6+U1V4BMo1G2XDNPZfuCj7bWZzbwoCKxhXlPPXwKGf1kMuO+3LcGfkGPLr2P
-         07lkv/aGULNfqlEZgjLwxOOjSxibe5HpAClpY/R3d6fpnxfHPa/KNOd7ECCz+xyEXCLM
-         9COg==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=qnYIT2Fro5rrEPZwxE6ivwPIktYrQuk+TOWeG9l01y0=;
+        b=qRKPbuvB6io72mj6w7MrtxU5WRze7pj2oGEeIlM3UtG1P0urZbXKfrEE2KCCMOWVRs
+         4yK3Zkzuh1VnbvH/fwgkZLugx96fnQgR8sVBz//AkRDBYEOQKparMbLacZHVUmUtFjzn
+         KlPPuwC9G+BABdfhDo8t5QgG/lZmUgb3SIEL7DP6QXGgnPcL7GKrMUOQgOtVvUdl0Vzp
+         4rs32agasjhED/llHGMa/rv6+GqRuu5NTOvhuSOB3/vFOpf8mqh8YSnCZi6e6eF1nSls
+         U+G1Tbe9L8gaLKa3Cn8uRGhWQXkQgK7rwUv6+3bBM1QI5ynMzvMNsGTFTEhuYf2SaUvR
+         To1g==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=VYV+5Dnk;
-       spf=pass (google.com: domain of cai@redhat.com designates 205.139.110.120 as permitted sender) smtp.mailfrom=cai@redhat.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com. [205.139.110.120])
-        by gmr-mx.google.com with ESMTPS id p129si167743vkg.3.2020.09.18.04.17.20
+       dkim=pass header.i=@google.com header.s=20161025 header.b=TpjzFHO4;
+       spf=pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::1044 as permitted sender) smtp.mailfrom=andreyknvl@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com. [2607:f8b0:4864:20::1044])
+        by gmr-mx.google.com with ESMTPS id q125si249486pfc.2.2020.09.18.04.44.22
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 18 Sep 2020 04:17:20 -0700 (PDT)
-Received-SPF: pass (google.com: domain of cai@redhat.com designates 205.139.110.120 as permitted sender) client-ip=205.139.110.120;
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-204-qLTXgoXWNA2FodMSDim9VQ-1; Fri, 18 Sep 2020 07:17:15 -0400
-X-MC-Unique: qLTXgoXWNA2FodMSDim9VQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0BC5D186DD41;
-	Fri, 18 Sep 2020 11:17:12 +0000 (UTC)
-Received: from ovpn-113-208.rdu2.redhat.com (ovpn-113-208.rdu2.redhat.com [10.10.113.208])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id C09C55DEBF;
-	Fri, 18 Sep 2020 11:17:06 +0000 (UTC)
-Message-ID: <115e74b249417340b5c411f286768dbdb916fd12.camel@redhat.com>
-Subject: Re: [PATCH v2 00/10] KFENCE: A low-overhead sampling-based memory
- safety error detector
-From: Qian Cai <cai@redhat.com>
-To: Marco Elver <elver@google.com>, akpm@linux-foundation.org, 
-	glider@google.com
-Cc: hpa@zytor.com, paulmck@kernel.org, andreyknvl@google.com, 
- aryabinin@virtuozzo.com, luto@kernel.org, bp@alien8.de,
- catalin.marinas@arm.com,  cl@linux.com, dave.hansen@linux.intel.com,
- rientjes@google.com, dvyukov@google.com,  edumazet@google.com,
- gregkh@linuxfoundation.org, mingo@redhat.com,  jannh@google.com,
- Jonathan.Cameron@huawei.com, corbet@lwn.net,  iamjoonsoo.kim@lge.com,
- keescook@chromium.org, mark.rutland@arm.com,  penberg@kernel.org,
- peterz@infradead.org, tglx@linutronix.de, vbabka@suse.cz,  will@kernel.org,
- x86@kernel.org, linux-doc@vger.kernel.org,  linux-kernel@vger.kernel.org,
- kasan-dev@googlegroups.com,  linux-arm-kernel@lists.infradead.org,
- linux-mm@kvack.org
-Date: Fri, 18 Sep 2020 07:17:06 -0400
-In-Reply-To: <20200915132046.3332537-1-elver@google.com>
-References: <20200915132046.3332537-1-elver@google.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 18 Sep 2020 04:44:22 -0700 (PDT)
+Received-SPF: pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::1044 as permitted sender) client-ip=2607:f8b0:4864:20::1044;
+Received: by mail-pj1-x1044.google.com with SMTP id fa1so3040958pjb.0
+        for <kasan-dev@googlegroups.com>; Fri, 18 Sep 2020 04:44:22 -0700 (PDT)
+X-Received: by 2002:a17:90a:cc0e:: with SMTP id b14mr12117134pju.166.1600429461570;
+ Fri, 18 Sep 2020 04:44:21 -0700 (PDT)
+MIME-Version: 1.0
+References: <cover.1600328701.git.mchehab+huawei@kernel.org> <53f6987c1a4b032ff636a95e3fce53ff8bfef630.1600328701.git.mchehab+huawei@kernel.org>
+In-Reply-To: <53f6987c1a4b032ff636a95e3fce53ff8bfef630.1600328701.git.mchehab+huawei@kernel.org>
+From: "'Andrey Konovalov' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Fri, 18 Sep 2020 13:44:10 +0200
+Message-ID: <CAAeHK+x-pDCWZX+vwiib6VH8mLJDD+Fbe6xeBA-_7OCcuLg_Ug@mail.gmail.com>
+Subject: Re: [PATCH 1/3] docs: kasan.rst: add two missing blank lines
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Alexander Potapenko <glider@google.com>, Andrey Ryabinin <aryabinin@virtuozzo.com>, 
+	Dmitry Vyukov <dvyukov@google.com>, kasan-dev <kasan-dev@googlegroups.com>, 
+	LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Mime-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Original-Sender: cai@redhat.com
+X-Original-Sender: andreyknvl@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@redhat.com header.s=mimecast20190719 header.b=VYV+5Dnk;
-       spf=pass (google.com: domain of cai@redhat.com designates
- 205.139.110.120 as permitted sender) smtp.mailfrom=cai@redhat.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
+ header.i=@google.com header.s=20161025 header.b=TpjzFHO4;       spf=pass
+ (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::1044
+ as permitted sender) smtp.mailfrom=andreyknvl@google.com;       dmarc=pass
+ (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Andrey Konovalov <andreyknvl@google.com>
+Reply-To: Andrey Konovalov <andreyknvl@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -148,64 +131,43 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, 2020-09-15 at 15:20 +0200, Marco Elver wrote:
-> This adds the Kernel Electric-Fence (KFENCE) infrastructure. KFENCE is a
-> low-overhead sampling-based memory safety error detector of heap
-> use-after-free, invalid-free, and out-of-bounds access errors.  This
-> series enables KFENCE for the x86 and arm64 architectures, and adds
-> KFENCE hooks to the SLAB and SLUB allocators.
-> 
-> KFENCE is designed to be enabled in production kernels, and has near
-> zero performance overhead. Compared to KASAN, KFENCE trades performance
-> for precision. The main motivation behind KFENCE's design, is that with
-> enough total uptime KFENCE will detect bugs in code paths not typically
-> exercised by non-production test workloads. One way to quickly achieve a
-> large enough total uptime is when the tool is deployed across a large
-> fleet of machines.
-> 
-> KFENCE objects each reside on a dedicated page, at either the left or
-> right page boundaries. The pages to the left and right of the object
-> page are "guard pages", whose attributes are changed to a protected
-> state, and cause page faults on any attempted access to them. Such page
-> faults are then intercepted by KFENCE, which handles the fault
-> gracefully by reporting a memory access error.
-> 
-> Guarded allocations are set up based on a sample interval (can be set
-> via kfence.sample_interval). After expiration of the sample interval,
-> the next allocation through the main allocator (SLAB or SLUB) returns a
-> guarded allocation from the KFENCE object pool. At this point, the timer
-> is reset, and the next allocation is set up after the expiration of the
-> interval.
-> 
-> To enable/disable a KFENCE allocation through the main allocator's
-> fast-path without overhead, KFENCE relies on static branches via the
-> static keys infrastructure. The static branch is toggled to redirect the
-> allocation to KFENCE.
-> 
-> The KFENCE memory pool is of fixed size, and if the pool is exhausted no
-> further KFENCE allocations occur. The default config is conservative
-> with only 255 objects, resulting in a pool size of 2 MiB (with 4 KiB
-> pages).
-> 
-> We have verified by running synthetic benchmarks (sysbench I/O,
-> hackbench) that a kernel with KFENCE is performance-neutral compared to
-> a non-KFENCE baseline kernel.
-> 
-> KFENCE is inspired by GWP-ASan [1], a userspace tool with similar
-> properties. The name "KFENCE" is a homage to the Electric Fence Malloc
-> Debugger [2].
-> 
-> For more details, see Documentation/dev-tools/kfence.rst added in the
-> series -- also viewable here:
+On Thu, Sep 17, 2020 at 10:04 AM Mauro Carvalho Chehab
+<mchehab+huawei@kernel.org> wrote:
+>
+> literal blocks should start and end with a blank line,
+> as otherwise the parser complains and may do the wrong
+> thing, as warned by Sphinx:
+>
+>         Documentation/dev-tools/kasan.rst:298: WARNING: Literal block ends without a blank line; unexpected unindent.
+>         Documentation/dev-tools/kasan.rst:303: WARNING: Literal block ends without a blank line; unexpected unindent.
+>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  Documentation/dev-tools/kasan.rst | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/Documentation/dev-tools/kasan.rst b/Documentation/dev-tools/kasan.rst
+> index c09c9ca2ff1c..2b68addaadcd 100644
+> --- a/Documentation/dev-tools/kasan.rst
+> +++ b/Documentation/dev-tools/kasan.rst
+> @@ -295,11 +295,13 @@ print the number of the test and the status of the test:
+>  pass::
+>
+>          ok 28 - kmalloc_double_kzfree
+> +
+>  or, if kmalloc failed::
+>
+>          # kmalloc_large_oob_right: ASSERTION FAILED at lib/test_kasan.c:163
+>          Expected ptr is not null, but is
+>          not ok 4 - kmalloc_large_oob_right
+> +
+>  or, if a KASAN report was expected, but not found::
+>
+>          # kmalloc_double_kzfree: EXPECTATION FAILED at lib/test_kasan.c:629
 
-Does anybody else grow tried of all those different *imperfect* versions of in-
-kernel memory safety error detectors? KASAN-generic, KFENCE, KASAN-tag-based
-etc. Then, we have old things like page_poison, SLUB debugging, debug_pagealloc
-etc which are pretty much inefficient to detect bugs those days compared to
-KASAN. Can't we work towards having a single implementation and clean up all
-those mess?
+Reviewed-by: Andrey Konovalov <andreyknvl@google.com>
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/115e74b249417340b5c411f286768dbdb916fd12.camel%40redhat.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAAeHK%2Bx-pDCWZX%2Bvwiib6VH8mLJDD%2BFbe6xeBA-_7OCcuLg_Ug%40mail.gmail.com.
