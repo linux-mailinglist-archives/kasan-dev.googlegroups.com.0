@@ -1,129 +1,150 @@
-Return-Path: <kasan-dev+bncBDX4HWEMTEBRBQFPSP5QKGQEKUD3Z7I@googlegroups.com>
+Return-Path: <kasan-dev+bncBCM33EFK7EJRBLGQS35QKGQERB7ZLXI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x43e.google.com (mail-pf1-x43e.google.com [IPv6:2607:f8b0:4864:20::43e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 536AF27015F
-	for <lists+kasan-dev@lfdr.de>; Fri, 18 Sep 2020 17:52:34 +0200 (CEST)
-Received: by mail-pf1-x43e.google.com with SMTP id s204sf3935003pfs.18
-        for <lists+kasan-dev@lfdr.de>; Fri, 18 Sep 2020 08:52:34 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1600444353; cv=pass;
+Received: from mail-lj1-x238.google.com (mail-lj1-x238.google.com [IPv6:2a00:1450:4864:20::238])
+	by mail.lfdr.de (Postfix) with ESMTPS id D2D36270B2D
+	for <lists+kasan-dev@lfdr.de>; Sat, 19 Sep 2020 08:41:48 +0200 (CEST)
+Received: by mail-lj1-x238.google.com with SMTP id b17sf2791406ljp.3
+        for <lists+kasan-dev@lfdr.de>; Fri, 18 Sep 2020 23:41:48 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1600497708; cv=pass;
         d=google.com; s=arc-20160816;
-        b=cTQUzsvQROu9n6z4S2cR0BziFIYJmog/KFnKT+FASk30PCAg9gPIfLy9F30/wbWpZc
-         I3RDGLvdP/ItXD0NjbvNhOjidGcebdxX9ZJJHmOrvQy3R91BGuPm1+XJRm2LSRyNWSiP
-         lBZ8ysI29LNxMLjlEi9Ln2X/tEr1BExEfbw0459yu23HGInPDdZzmlSMVQihncCqQ/k4
-         YijKWmDl6J0iExOhRRibA1FPJecT3+FT2ghU2iBJUfng3vyoV6ohTvJqjpKy+pwU4L1N
-         JUnaFN3HeMY7cDCvSSudx8ycuw3f+oPZB2XRu0A+m0G6G04ozXU4VR6ppjEptTNt/8Ro
-         8XJg==
+        b=UW7LP+3A/sLYBXo/qbsU+8ZKHmc2Rx6SZMqZyVArymt/4o8yDjXXCvW/iJDrhXI26L
+         RbruHoPr3eGJyFMBo0SFkhFp9amCxO3xn+CVW0938PfLuxKyyEUszbIsJw0SuDmSLIVI
+         yThjpWflNySvQaFINnQvXP7Zy53K+n49XtIwJZM2iHR+qJW4inTBxHQGyhJ1+jTa2YxU
+         orfW90QwmCrjlIxeXM3zh1RUpHLgBfH7i1bhZFAXijx9yhe1eKA+HNNP26PKlW2oCE7C
+         i7BtZbSsGE5xCLUwfFBupVXf3v0ushMhDdo1l3mU7Dn1mnwj3UfuZq/Ist9lqkPJFscP
+         Gp/w==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=5Jg/i2E8QXWFdqT/mpmV4En1xkZUPJAXkMLiluUWuko=;
-        b=hrww7waFjkaM0fh1T6iK0ZnUqn7g9/5Y22EwRt7aYsC6GNVoFLw6mGGgJqf624sjU+
-         ct/ujco87cqpcNfVwIhWQKhStUZm3ju/rt3JC0h0QAXTXreU38d0sAoktfl5TOhsYLbw
-         KnY/oZoszjbpQYtP/k1BShvfK+3MEhrS96T575O1oVYORbV6t7D8QRFSm4hiGEm0c/L0
-         pihmN8L6xBxZ6Ob5u3bMTExePnp+bAU3P7QNwhDwsmHpGsp9s1NEyR2goRMmDUq7oj8v
-         UmJJTywzV1xgAEioxzGHtf5435VnlStOHARLEgeosws8F+2D99BkfhQkwdru1AQuL00s
-         dr0A==
+         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:sender:dkim-signature
+         :dkim-signature;
+        bh=FOYrTmTKP4BtkaxYBZe2TziWdCp4s/Ne8at/ggerGe8=;
+        b=Js9Rr0Jj3tqmCLiiNNGlvBItFErfdiafmV6e1Xppln7OtoYCv5XvV6AevBrFYuM5wz
+         HN/L/c4mjK6LiV2M150yJkGl0pQPgNzsiNAgtzXWHU//zzpDyzaSDZyo/Yu6Lvv34RKR
+         QI4oHOhv8plTwnkZOvyE4dnP7xp/fq7tjd7d1j9KHbG+TpfxuyEeuGhdsKDlaoWdEkf3
+         Q8O89xrm5BSEhXwRGjsJBgIShIVXO2GeZQbVe9id6me6bU1chZVlUKu3Lp5Fnl9G5vx1
+         ra2Wb5fT6yc81NxCOnMRm6XceRuWDS5/MauuMDql5Qswzt0IzJbb9JIEG1eDM5qOda8j
+         qWVw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b="cV5/3df6";
-       spf=pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::1042 as permitted sender) smtp.mailfrom=andreyknvl@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@gmail.com header.s=20161025 header.b=gcOYcGHH;
+       spf=pass (google.com: domain of ilie.halip@gmail.com designates 2a00:1450:4864:20::342 as permitted sender) smtp.mailfrom=ilie.halip@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
+        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=5Jg/i2E8QXWFdqT/mpmV4En1xkZUPJAXkMLiluUWuko=;
-        b=EGAs37Li59ocXae6Ekjp67cJfIrwaJewDDLqYAT8koA5iMums3FXo9RHospedTWYjc
-         vcpeQaphFoRmjxW7uzo1jI+JEaat77koI/imo9doUtmArzkgMUe3n52t9TtNsxJBFA38
-         sevFVpyprCWm2DAauq+PW4xUtDR6QKvAkh8mUQGWhE3lezkH67gfLhO5IKp6REhUH9o8
-         lfmYOq4dTGySX8WdTOc2w5tFQi8Gu7202WF/i6fC84tMxXO38g+KiQdAQ/FgSlPH96YO
-         waqkw7VJ7mdkV4vaF6dRdE5JtD60GT02w+AkgnDu8YILKKIV68vAuTDUplhSUor3zMbR
-         3Q/Q==
+        bh=FOYrTmTKP4BtkaxYBZe2TziWdCp4s/Ne8at/ggerGe8=;
+        b=dQ35Xwbph6Xy6iQkYUMLsrxtmtN2HVbA5zr6byHfbxGh0WOOkUsjbseoIdDQwv4WOH
+         bp10LBYE46wP/DI3VVScvVpsrw5BU8j2KYatJsvlizyZORn9+7YQTLf5Pq/EFpq0JyqD
+         hp6IOQhzgmLMq2kC3RC4THoE3uBHP69Em9eG2TaiN4KWzolDtRA65CL6tcwMDgcoDiK5
+         18QIAKsCtaVoJPZhWo7hner6OutEKEhFY4Z+d1B7RkoflD1+h66aNYhwI0BqXOnHllmm
+         YBNjXr82TTCxnOsV6Zs+jDr9gp1TE+vT7B+vWg/UbRWJN78EOTxDwDLS4j3jqKivCzm/
+         aPxQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=FOYrTmTKP4BtkaxYBZe2TziWdCp4s/Ne8at/ggerGe8=;
+        b=GdYvppjkFoh1ylGl/OoFZkjGFZZ0K+c/aRlzmV8ur5uRO2IaNGUO0llF5XwUW+Ne5W
+         XZ+MuobnQc1IFHHOMyRjIKLY3b//i8rXNbydcr6NF6305y2KpdDe4aoOV7Xe7qJfv2GH
+         Cpu2M+69Z+AYi5ZJP9zqjzBFEpYWEq/x79Hho+C4F9b9XzzcyJT5psH8KrFAoFET8SJf
+         fI770JxZeUmMUbF10Du3ChgjY9x3s5B38MHOm3B4MMxO2c7f0yCFIJozf6WtjacYXzWD
+         jh2wy2tugQWecfYXDkaoAOZFZbn+jqKr9w8wwB69//xJMUkbfnoNCPV6I3V7N8Rro5zE
+         6h1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :in-reply-to:references:mime-version:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=5Jg/i2E8QXWFdqT/mpmV4En1xkZUPJAXkMLiluUWuko=;
-        b=lm5sOLbVH47sjptfbiKVEyDEJ0Cxhsj74Owd0I5VKcIY5w+AhU4Dj6ITLGxcOCtqJO
-         1ylGJ6jufd/5W2qqCWB1atXUF1KtBKKmN+CJUUVhRE1+Ei7eGN6jtts2kEbQ+XpYeTwB
-         swzRpWEisW2iBR7T9UQMU7/BMxUGwB2oAzBHitF178Zd9RyVBLbszwTr2hJzyJ7kjV2e
-         k/j/bDT5+NRmk8IH3gJ/3fpadiwgmQB3FIs++FhNm6j/NB4ifyNCjDsJleJFflDJMUqt
-         QZKbYA9G+GvLYFKc5sTMV6F4zgn/mYjrVGcK0mgAvWY0gpuFkx5XjAgr+VrrN4YjFgOl
-         gkeA==
-X-Gm-Message-State: AOAM532SkiurgUND4cdL5N/6lL2remJNZe4vSUdBDmGcY2+uI4pB6VLw
-	dJ6gjk45CGfJT2KdazDx1zw=
-X-Google-Smtp-Source: ABdhPJyD4gcFyweWRpEW/PkHlhXgc0ja9zJgOOgVZATEHCnTXMdXIEEN0y/WHlTzyEw2m3LbSLaWPQ==
-X-Received: by 2002:a17:90a:9317:: with SMTP id p23mr13347128pjo.160.1600444352776;
-        Fri, 18 Sep 2020 08:52:32 -0700 (PDT)
+        bh=FOYrTmTKP4BtkaxYBZe2TziWdCp4s/Ne8at/ggerGe8=;
+        b=WsuEiwBJnwTe8RBY1+a1McQeHVS6HkHjoBs5U8um+vF2zCIJNvLYnoj/GrpcsEqus/
+         GUYS+H7Ec1y/BCfJLPe2/INU4oflDFVnY5PbURf+22haOGwI2hm5qZd2F04A4WUkKhJo
+         f5HY/owpLOI8o/kwjACDOHbykiU2pv+XBO1fC6XuCrpqrohUujKeHW1uhdQ0clCnRSte
+         Tb432rNbBWRS1biApwPzjY+ckigzmGmeQjygQmReq/3sPCvadkcVho0/UzYAb+dOP7Ls
+         igGKTsvDafIC1j8bzOe2DEFj7teFhwDBF3oPU651lb/gIeRB+f64wlVNPt5HOr1zgKwa
+         vBJQ==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM5307Qlt/N0O5XXGsaChV/nwL0tr9kMgQbdXKVDfDYtQ7ty7pTlnX
+	jJIODbOAmrDajFgOzT9N88Y=
+X-Google-Smtp-Source: ABdhPJwvGRcdlllq45jmNUxPXYSY6UF9iAatm37e/0C0mbPrickr1r//569M3jorBPxUHD/5hk09kw==
+X-Received: by 2002:a2e:99c4:: with SMTP id l4mr13736614ljj.428.1600497708326;
+        Fri, 18 Sep 2020 23:41:48 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:902:7612:: with SMTP id k18ls2904496pll.8.gmail; Fri, 18
- Sep 2020 08:52:32 -0700 (PDT)
-X-Received: by 2002:a17:90a:72c7:: with SMTP id l7mr14259179pjk.19.1600444352207;
-        Fri, 18 Sep 2020 08:52:32 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1600444352; cv=none;
+Received: by 2002:a2e:b0e9:: with SMTP id h9ls1103883ljl.5.gmail; Fri, 18 Sep
+ 2020 23:41:47 -0700 (PDT)
+X-Received: by 2002:a2e:b4a5:: with SMTP id q5mr13988714ljm.200.1600497707118;
+        Fri, 18 Sep 2020 23:41:47 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1600497707; cv=none;
         d=google.com; s=arc-20160816;
-        b=IBQJo8LuomqPjUhZLBoX63UXWC7BZ4jPJ2tDuuBSURk4ib9EcPukSvR4W6dr2yk/8+
-         j/bkxkLHaQ3eMlnIUN/xIJNhKT0SqJbb+dhRb5tra8yWMIxn9EoRGfpxvhqvv5qWUxvb
-         shX5wn4nPUKNVNbqy9Hs6yVtJQfP8bq91kzLfxN8PmS6WHo6cbuBeb4r4JT/AeR5Wwq2
-         ykkaJocrvG8VwHtuL4vmtKN1SQp96+FMkXb3Dwquaf1Nm9I+sCUhBiqEYZNjrkoE3QGa
-         Z3PbvlM28T5ZfQps6maB0U19tA5V/chKGSe4YF0G642BsMH0uKJE7r6MvcGZdtdv0HgN
-         Z5Qg==
+        b=LH61M+xI/y64cKwFSNUgLt2Ieaqp40laXVv4ZY1UIhdR85GWGnajd7/H+jo8XbjjNE
+         Ov+A8jVvX/j/Jw5z+U6aZl3E4yGS5xKBgdrtvOLC4Ru7Be0Jh29G31HLOKOqt67ikSlW
+         ZbybFerPnW3iF3aqRqqIKxkUWrCXIn4wo+FA2Njtb7nRQtl3OZW7N8tcSfnF1KBMn3xp
+         y41e5A379jgTYiGdUq3oNkP13TqxN501XvOFaAN7Y61lQVogMLr1KQr5CDUNHQyiHaMk
+         wDkokFmAJg2KHRmd37MXPilq4R4CoQC4I/bHscr7Lg8QG1XwjINl3DROdnnwCWvlPuVA
+         +/Eg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=omeCvyN2X/k16jy28HRYjKOUfMdEZR+hVsENqh7IFVI=;
-        b=TgOdz7g9xhS1MLfDE767IIcM/Bw1UMbeg6yPOv48J+RTYPTrCVe+ggfiEyFKuMtC0I
-         0RnRA8WZ7uOOJspRdfi0WETu/MjP08lm85yEmLLX2Fl2N+4ToGgRvOuOq4jk18IrtMik
-         VsI8w0sQmk5thtJKojxugxgoGVj3psZW5+2HxJxUAL2w2gOKXxF6T4OZvqqqBfoiiEfj
-         0HATuHhGpiZXFcjVhuLqcJVY8rAVjCEAaFXrxEOgC1rgB8KUF+InypZx0vzdeACUVt2o
-         75lWSZyLlNGkAaFrWCY4JtlekJI7TvtIBoNI2ry+ZdSz4De4+XdBeKCvhsjeHFH4P5O1
-         soxw==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:dkim-signature;
+        bh=g5DNwEJpdlREbpxxNUWXwnzTcfAjTXzmIWah8QsBFAI=;
+        b=NE4K9Ss9wV3YbQtS+W+g6C/KCdavr1EvkPi07q2smjn5lKHMmTWwR135/aPslPpP+j
+         Kr4MHDnZRqSaZs+INI/iXauoWRhoW/o2RSY6djaUT8PZ+whVD/cl16hVFFgVwHdZ+dd+
+         Gky0id23ZdZZQq1d7lwegKDKUWNaPG9vphsFZp+ykXyeNrhpEuoxsb6BCfLfvVjZargD
+         J1h30fKaJYc07ua/s1+XgtdA7BR9pFTEeBQmsgUOhe9r/w2FlWbVTr7t3VoC6GyZCp/e
+         IBGmWltJ9tRG1dCgBR8ZOv5NVGQF/egblIfSMIjN5zdT9SoS6i8OhEcDIwY7TScxFgjQ
+         iJCw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b="cV5/3df6";
-       spf=pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::1042 as permitted sender) smtp.mailfrom=andreyknvl@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com. [2607:f8b0:4864:20::1042])
-        by gmr-mx.google.com with ESMTPS id lj12si235832pjb.0.2020.09.18.08.52.32
-        for <kasan-dev@googlegroups.com>
+       dkim=pass header.i=@gmail.com header.s=20161025 header.b=gcOYcGHH;
+       spf=pass (google.com: domain of ilie.halip@gmail.com designates 2a00:1450:4864:20::342 as permitted sender) smtp.mailfrom=ilie.halip@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com. [2a00:1450:4864:20::342])
+        by gmr-mx.google.com with ESMTPS id y75si127053lfa.3.2020.09.18.23.41.47
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 18 Sep 2020 08:52:32 -0700 (PDT)
-Received-SPF: pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::1042 as permitted sender) client-ip=2607:f8b0:4864:20::1042;
-Received: by mail-pj1-x1042.google.com with SMTP id q4so3387886pjh.5
-        for <kasan-dev@googlegroups.com>; Fri, 18 Sep 2020 08:52:32 -0700 (PDT)
-X-Received: by 2002:a17:90a:cc0e:: with SMTP id b14mr12998779pju.166.1600444351596;
- Fri, 18 Sep 2020 08:52:31 -0700 (PDT)
+        Fri, 18 Sep 2020 23:41:47 -0700 (PDT)
+Received-SPF: pass (google.com: domain of ilie.halip@gmail.com designates 2a00:1450:4864:20::342 as permitted sender) client-ip=2a00:1450:4864:20::342;
+Received: by mail-wm1-x342.google.com with SMTP id b79so7550348wmb.4;
+        Fri, 18 Sep 2020 23:41:47 -0700 (PDT)
+X-Received: by 2002:a1c:9e0e:: with SMTP id h14mr18723255wme.18.1600497706567;
+        Fri, 18 Sep 2020 23:41:46 -0700 (PDT)
+Received: from localhost.localdomain ([2a02:a58:8532:8700:329c:23ff:fea8:6c81])
+        by smtp.gmail.com with ESMTPSA id l5sm9218927wmf.10.2020.09.18.23.41.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Sep 2020 23:41:45 -0700 (PDT)
+From: Ilie Halip <ilie.halip@gmail.com>
+To: linux-kernel@vger.kernel.org
+Cc: Ilie Halip <ilie.halip@gmail.com>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Rong Chen <rong.a.chen@intel.com>,
+	Marco Elver <elver@google.com>,
+	Philip Li <philip.li@intel.com>,
+	Borislav Petkov <bp@alien8.de>,
+	kasan-dev@googlegroups.com,
+	x86@kernel.org,
+	clang-built-linux@googlegroups.com,
+	kbuild test robot <lkp@intel.com>,
+	Josh Poimboeuf <jpoimboe@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Nathan Chancellor <natechancellor@gmail.com>
+Subject: [PATCH v2] objtool: ignore unreachable trap after call to noreturn functions
+Date: Sat, 19 Sep 2020 09:41:18 +0300
+Message-Id: <20200919064118.1899325-1-ilie.halip@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200918154840.h3xbspb5jq7zw755@treble>
+References: <20200918154840.h3xbspb5jq7zw755@treble>
 MIME-Version: 1.0
-References: <cover.1600204505.git.andreyknvl@google.com> <74133d1a57c47cb8fec791dd5d1e6417b0579fc3.1600204505.git.andreyknvl@google.com>
- <20200918151939.GA2465533@elver.google.com>
-In-Reply-To: <20200918151939.GA2465533@elver.google.com>
-From: "'Andrey Konovalov' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Fri, 18 Sep 2020 17:52:20 +0200
-Message-ID: <CAAeHK+ywW5S3fg=1=i4qXRNH_G3spXgV+f9XSAwtX1BUndyoKQ@mail.gmail.com>
-Subject: Re: [PATCH v2 33/37] kasan, arm64: implement HW_TAGS runtime
-To: Marco Elver <elver@google.com>
-Cc: Dmitry Vyukov <dvyukov@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, kasan-dev <kasan-dev@googlegroups.com>, 
-	Andrey Ryabinin <aryabinin@virtuozzo.com>, Alexander Potapenko <glider@google.com>, 
-	Evgenii Stepanov <eugenis@google.com>, Elena Petrova <lenaptr@google.com>, 
-	Branislav Rankov <Branislav.Rankov@arm.com>, Kevin Brodsky <kevin.brodsky@arm.com>, 
-	Will Deacon <will.deacon@arm.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Linux ARM <linux-arm-kernel@lists.infradead.org>, 
-	Linux Memory Management List <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: andreyknvl@google.com
+X-Original-Sender: ilie.halip@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b="cV5/3df6";       spf=pass
- (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::1042
- as permitted sender) smtp.mailfrom=andreyknvl@google.com;       dmarc=pass
- (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Andrey Konovalov <andreyknvl@google.com>
-Reply-To: Andrey Konovalov <andreyknvl@google.com>
+ header.i=@gmail.com header.s=20161025 header.b=gcOYcGHH;       spf=pass
+ (google.com: domain of ilie.halip@gmail.com designates 2a00:1450:4864:20::342
+ as permitted sender) smtp.mailfrom=ilie.halip@gmail.com;       dmarc=pass
+ (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -136,85 +157,84 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, Sep 18, 2020 at 5:19 PM Marco Elver <elver@google.com> wrote:
->
-> On Tue, Sep 15, 2020 at 11:16PM +0200, Andrey Konovalov wrote:
->
-> > diff --git a/include/linux/kasan.h b/include/linux/kasan.h
-> > index 875bbcedd994..613c9d38eee5 100644
-> > --- a/include/linux/kasan.h
-> > +++ b/include/linux/kasan.h
-> > @@ -184,7 +184,7 @@ static inline void kasan_record_aux_stack(void *ptr) {}
-> >
-> >  #endif /* CONFIG_KASAN_GENERIC */
-> >
-> > -#ifdef CONFIG_KASAN_SW_TAGS
-> > +#if defined(CONFIG_KASAN_SW_TAGS) || defined(CONFIG_KASAN_HW_TAGS)
-> >
-> >  void kasan_init_tags(void);
-> >
-> > @@ -193,7 +193,7 @@ void *kasan_reset_tag(const void *addr);
-> >  bool kasan_report(unsigned long addr, size_t size,
-> >               bool is_write, unsigned long ip);
-> >
-> > -#else /* CONFIG_KASAN_SW_TAGS */
-> > +#else /* CONFIG_KASAN_SW_TAGS || CONFIG_KASAN_HW_TAGS */
-> >
-> >  static inline void kasan_init_tags(void) { }
-> >
-> > @@ -202,7 +202,7 @@ static inline void *kasan_reset_tag(const void *addr)
-> >       return (void *)addr;
-> >  }
-> >
-> > -#endif /* CONFIG_KASAN_SW_TAGS */
-> > +#endif /* CONFIG_KASAN_SW_TAGS || CONFIG_KASAN_HW_TAGS*/
-> >
-> >  #ifdef CONFIG_KASAN_VMALLOC
->
-> It's not visible by looking at this diff, but there is some
-> #ifdef-redundancy that I do not understand where it came from.
->
-> This is what I have to fix it:
->
-> diff --git a/include/linux/kasan.h b/include/linux/kasan.h
-> index 613c9d38eee5..80a0e5b11f2b 100644
-> --- a/include/linux/kasan.h
-> +++ b/include/linux/kasan.h
-> @@ -40,6 +40,12 @@ static inline void *kasan_mem_to_shadow(const void *addr)
->  int kasan_add_zero_shadow(void *start, unsigned long size);
->  void kasan_remove_zero_shadow(void *start, unsigned long size);
->
-> +/* Enable reporting bugs after kasan_disable_current() */
-> +extern void kasan_enable_current(void);
-> +
-> +/* Disable reporting bugs for current task */
-> +extern void kasan_disable_current(void);
-> +
->  #else /* CONFIG_KASAN_GENERIC || CONFIG_KASAN_SW_TAGS */
->
->  static inline int kasan_add_zero_shadow(void *start, unsigned long size)
-> @@ -50,18 +56,6 @@ static inline void kasan_remove_zero_shadow(void *start,
->                                         unsigned long size)
->  {}
->
-> -#endif /* CONFIG_KASAN_GENERIC || CONFIG_KASAN_SW_TAGS */
-> -
-> -#if defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS)
-> -
-> -/* Enable reporting bugs after kasan_disable_current() */
-> -extern void kasan_enable_current(void);
-> -
-> -/* Disable reporting bugs for current task */
-> -extern void kasan_disable_current(void);
-> -
-> -#else /* CONFIG_KASAN_GENERIC || CONFIG_KASAN_SW_TAGS */
-> -
->  static inline void kasan_enable_current(void) {}
->  static inline void kasan_disable_current(void) {}
+With CONFIG_UBSAN_TRAP enabled, the compiler may insert a trap instruction
+after a call to a noreturn function. In this case, objtool warns that the
+ud2 instruction is unreachable.
 
-Oh yeah, I'll fix this, thanks!
+This is a behavior seen with clang, from the oldest version capable of
+building the mainline x64_64 kernel (9.0), to the latest experimental
+version (12.0).
+
+objtool silences similar warnings (trap after dead end instructions), so
+so expand that check to include dead end functions.
+
+Cc: Nick Desaulniers <ndesaulniers@google.com>
+Cc: Rong Chen <rong.a.chen@intel.com>
+Cc: Marco Elver <elver@google.com>
+Cc: Philip Li <philip.li@intel.com>
+Cc: Borislav Petkov <bp@alien8.de>
+Cc: kasan-dev@googlegroups.com
+Cc: x86@kernel.org
+Cc: clang-built-linux@googlegroups.com
+BugLink: https://github.com/ClangBuiltLinux/linux/issues/1148
+Link: https://lore.kernel.org/lkml/CAKwvOdmptEpi8fiOyWUo=AiZJiX+Z+VHJOM2buLPrWsMTwLnyw@mail.gmail.com
+Suggested-by: Nick Desaulniers <ndesaulniers@google.com>
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+Tested-by: Nick Desaulniers <ndesaulniers@google.com>
+Reported-by: kbuild test robot <lkp@intel.com>
+Signed-off-by: Ilie Halip <ilie.halip@gmail.com>
+---
+
+Changed in v2:
+ - added a mention that this is a clang issue across all versions
+ - added Nick's Reviewed-by, Tested-by
+ - added Reported-by
+
+ tools/objtool/check.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
+
+diff --git a/tools/objtool/check.c b/tools/objtool/check.c
+index e034a8f24f46..eddf8bf16b05 100644
+--- a/tools/objtool/check.c
++++ b/tools/objtool/check.c
+@@ -2612,9 +2612,10 @@ static bool is_ubsan_insn(struct instruction *insn)
+ 			"__ubsan_handle_builtin_unreachable"));
+ }
+ 
+-static bool ignore_unreachable_insn(struct instruction *insn)
++static bool ignore_unreachable_insn(struct objtool_file *file, struct instruction *insn)
+ {
+ 	int i;
++	struct instruction *prev_insn;
+ 
+ 	if (insn->ignore || insn->type == INSN_NOP)
+ 		return true;
+@@ -2639,8 +2640,11 @@ static bool ignore_unreachable_insn(struct instruction *insn)
+ 	 * __builtin_unreachable().  The BUG() macro has an unreachable() after
+ 	 * the UD2, which causes GCC's undefined trap logic to emit another UD2
+ 	 * (or occasionally a JMP to UD2).
++	 * CONFIG_UBSAN_TRAP may also insert a UD2 after calling a __noreturn
++	 * function.
+ 	 */
+-	if (list_prev_entry(insn, list)->dead_end &&
++	prev_insn = list_prev_entry(insn, list);
++	if ((prev_insn->dead_end || dead_end_function(file, prev_insn->call_dest)) &&
+ 	    (insn->type == INSN_BUG ||
+ 	     (insn->type == INSN_JUMP_UNCONDITIONAL &&
+ 	      insn->jump_dest && insn->jump_dest->type == INSN_BUG)))
+@@ -2767,7 +2771,7 @@ static int validate_reachable_instructions(struct objtool_file *file)
+ 		return 0;
+ 
+ 	for_each_insn(file, insn) {
+-		if (insn->visited || ignore_unreachable_insn(insn))
++		if (insn->visited || ignore_unreachable_insn(file, insn))
+ 			continue;
+ 
+ 		WARN_FUNC("unreachable instruction", insn->sec, insn->offset);
+-- 
+2.25.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAAeHK%2BywW5S3fg%3D1%3Di4qXRNH_G3spXgV%2Bf9XSAwtX1BUndyoKQ%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200919064118.1899325-1-ilie.halip%40gmail.com.
