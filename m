@@ -1,138 +1,157 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBVOJUP5QKGQEM5ZJFNY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDAZZCVNSYPBB2GMUP5QKGQEQQ3WFAI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x440.google.com (mail-pf1-x440.google.com [IPv6:2607:f8b0:4864:20::440])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E7442730EC
-	for <lists+kasan-dev@lfdr.de>; Mon, 21 Sep 2020 19:37:27 +0200 (CEST)
-Received: by mail-pf1-x440.google.com with SMTP id c197sf9137411pfb.23
-        for <lists+kasan-dev@lfdr.de>; Mon, 21 Sep 2020 10:37:27 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1600709846; cv=pass;
+Received: from mail-oi1-x23b.google.com (mail-oi1-x23b.google.com [IPv6:2607:f8b0:4864:20::23b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 11FD92730FE
+	for <lists+kasan-dev@lfdr.de>; Mon, 21 Sep 2020 19:44:10 +0200 (CEST)
+Received: by mail-oi1-x23b.google.com with SMTP id n9sf6717737oib.7
+        for <lists+kasan-dev@lfdr.de>; Mon, 21 Sep 2020 10:44:10 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1600710248; cv=pass;
         d=google.com; s=arc-20160816;
-        b=qNF/kB6Lc4tRA+fPyOvny69lIUC7IuH5yrGSDpUfPiBOCz7JM4C3iOnbiU/03Htg3W
-         T6CA6Xo+wiumHYBtpY4aurpABb83HlWlmcaQDks7L0asmQa1P00qehl5TshhDpSjBUzG
-         aZRVryy/UVWtmDX7NoiT5uIkLFKOzAkHbmXv2jh/D1GOTWGipx/gwHTnvxhItljrSjxu
-         5Ps5OmKTJuON1UFnTDwg/Cr7+F0TlaJF+pSiZQxquxMbRAd/3U8EYyH2+5IQtfOmBJAT
-         iyW56Lifz2F1+HNm3xUPKJ4b/ZT6qbIWBoMOixFv33b9Eb56SQC14G/iqmMHB4ZWfijp
-         EMoA==
+        b=MIGHO4bwc8GXYo5aMOzZGttNoAj8ggLfv/QYt7IzTLdc7fhDItaCajSKLA7JlfUJhR
+         5n1XSwdXuDfvDYpK6KI4T991Xt6/35oLUfO79AgZ2rJWJLjUXJxhjc5t4iJ4G0IW+VEb
+         a94NyJRicmKBVVqSBJcrrAqvQmYhFU/SHy5xm3yN+qhYaL6kr9snvvkb42vKsZiZLD55
+         anpPAnvk9gW+gTJ921PLifDkmK2MjrlJFxYWhQ25ZSBJvNmFzL+ydPd+Fhh80HIAl7fa
+         +Ga1x31ar4cebXsBtMQNwZG6vh2HonVcd83G+270L99Ca1mmD97ixjh4oLxnWaDc+K65
+         TTuA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=rwg6IOPLWYyGeKnPoAUwX4xrHuH/lYw4Q+N5KtfSTZ0=;
-        b=Xl8CP1rhuuiKmHUBbw/meEb7bBnQPRGQ+CXg6fdHSUXB6RPHfzn1AfVM9jUxB2chVz
-         6dmJl34GkVehvH5EnvHMtfIVGW14Q4Ag+2oHzZkc4TQg3lVO2of2pcWYYE/arkmvhhdl
-         OFpEq7MejooggFitSfc+g16TvLoZr9u78+7yrTfYl2VwlRE1rn/NSUz2Ko2oOtGLX5wc
-         hrYFQrszMcm9Un6mN8jXC2pmAQldvxTAcIHvzp6b6t5fgVsGL3NvwGQbDG5LWuMxdfef
-         K6tDZhpVGRBRT2J10KbMAmcw2AeFWHgt9SoGZOnivuSINeCRHlCo4HQTtiUUChyc5KBO
-         u7Fw==
+         :list-id:mailing-list:precedence:user-agent:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:sender:dkim-signature;
+        bh=d9IrUDdGAksxAmFZl6dkdp0wdmkp4iTkssd3f+iw164=;
+        b=alL15h+zUGvzXSVAPcHcsyonq15/SAk5xuM4f77VuYyAunOk8BXqE7+UVv2GGeQoe0
+         qD8swQad4hGX+dPu8YCpl3kp1UfROSEJGDorpMdWApwb3p3IMhicSWT32cYVRRmPrSm4
+         ITLOK09gNAXXbEXIOnmjOLWkPFCDIABwIBX1oedfISt98Sjb6SZpU/K4acnD1u2tDOa5
+         AF7GANlSsQ0FUPjEolbaCObvRCtRpJHuZwuvbgBUZguSh9fu+t557QMucc6rwU9si9mV
+         O3WrV7m3jzAp0I3dJM05dumYugAspVMauuXw0qGcQKNt4G9I+GouxFtraxiAmrbL9dIh
+         pPhA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=pamzCqMF;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::243 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@kernel.org header.s=default header.b=xdj8QUY3;
+       spf=pass (google.com: domain of will@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=will@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=rwg6IOPLWYyGeKnPoAUwX4xrHuH/lYw4Q+N5KtfSTZ0=;
-        b=ECsCJdUYsthhGVrdwKoLmniv0ux/wWeID23wqLCi+OWlSXzSLzoHqNmbnNmWVpjmDo
-         z/Pe6oUTblbcH10vQC6Dvu1NFlaLIYiNbkRwVt5Rv5TRxwsUs0ShUQDKgch6+rGUrPB+
-         +8UYrnD/lGErWMPW+E31of2WliFM9NG+GBJax8y/+lnz24mUZsJN9Bum+W9UeWz2xy8k
-         nbHfN1RgHY08MhrNGh1X3UHIxaK7cxfpwZTo1SvrkYbHmvFm4CepnPdOxFAoICeV7xnq
-         +7gb4NMkGeTVU6C2K/tz9xNKAC0oR5fGEVVGaCR79hsALI4SwjFIl/ZrOiJsrnEiOZ76
-         giDg==
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=d9IrUDdGAksxAmFZl6dkdp0wdmkp4iTkssd3f+iw164=;
+        b=aLaScXcjLUpUqp/ui9cFFu5iF9seYQ62DQ428yZfU/b1CJCaTgQIAQWrukvKAV6vpN
+         BXO3KuIFcdakbvFZtd1sABOgsWlDRdFg3Y0KTkNXMKDUkjUsJK+qsGfUsMgJDMBX7r0N
+         4BlJGnqhpjNu0KlqdB3bl2/qvBU9G81561LDiDQDkCZo8vKTqwivQE1f6wHSuvJL+mPh
+         +G1/FfVrgedYuprsdCdHgyAzi9yoGPD0dR2ZzjKy7JtOLTkXlrxOAb8Cs5wYzbCFUaMl
+         aXOpYfhghrXuqh6JYLd/Hs7lwVABxYYfgEYaGm2D/n/mS2OuhHyosYOVb5ZdYz32UgLw
+         sh/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=rwg6IOPLWYyGeKnPoAUwX4xrHuH/lYw4Q+N5KtfSTZ0=;
-        b=suJ2VDzKUFarKJ36/f5bOhYzu4AFsTAOke2uIYSvlcu25gP/bssv/ztay8iNf/Gyxf
-         Jcuj7wdRm1rRQisvWMBvAFcPAfYiasGuN+tyPicwwlUzPr+fKfqCvoAOPg9Yfjk6KzCr
-         NSBH1WAJYKJ7MbCib0aHUUG7Ay2+nIiwuix5W2fzRQaJa7TZPJFrSLmLzN1wz+etD6Wn
-         NHIWpBfRflz2WU8pYkNmrP9LbQn+bUhN5VvhlrALm9DaRp2GheMf+yni0uWxxCxlhpMS
-         ev019Redl1VQWzoqRFYjllPghjN9AFC++NejNe4eKeiN1wYsWdcSr7TGf2us5j+8PDYr
-         9psQ==
-X-Gm-Message-State: AOAM531w0d1SiCRBQPRT/Vim5jxDgMPOiX3Q6FNyCb3U03BoZ+N70WHP
-	PISZtEKUkurwYTudsoHi+CU=
-X-Google-Smtp-Source: ABdhPJzWWBS3GxNwOCdar7rzcsre8WfO30q2WXm3SL+mqU7cqyu22dL8mz3N2ftloZxot/EFuHEfQw==
-X-Received: by 2002:a63:d242:: with SMTP id t2mr573575pgi.47.1600709846134;
-        Mon, 21 Sep 2020 10:37:26 -0700 (PDT)
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=d9IrUDdGAksxAmFZl6dkdp0wdmkp4iTkssd3f+iw164=;
+        b=ulnuHBiQKW1BPalMFmEPu0EZzus6AxBbKXWYLoQpLVxiKNLaJDrCHgCneLlB9ZuDtL
+         A9OKJllMd7zcFsz7wIYMPJ72TA02BVY9vNtrN+i6ljYtHpA8m/MssL8ncBTqte9MzVuO
+         /emwO/B0uCic4v30Irv21K703F/E6Ht8GjV5OdS617xHHXPED1exwhEHKgejZV1U2ss2
+         oX+TlX4QJzZa1Gep5y19x5uEfRZcoUnaC16mYwkMqVxPIOdW5x2cO7sKD64TWjMWcz9u
+         0d2RtKEdqVTIivyyP5Cloy2TWQfFhj4MuERZVPEyVbLIaQY0YaVnnDy4p7+IKlTMCd5u
+         obDQ==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM5336gkBwkk5+YsZ19NpoCR+V5aePAKnJo6PObzlhEygqVaifaIkU
+	s9ZqTa4AN9zqdYE3JR9wyjA=
+X-Google-Smtp-Source: ABdhPJxc/7HcIdEHSj2NRa+lqme86ZWy2ObtR77hSlcmNuvSGr+QHUxNg9UPyMK7UQGx0HlNfP+2qQ==
+X-Received: by 2002:a9d:4818:: with SMTP id c24mr441495otf.128.1600710248800;
+        Mon, 21 Sep 2020 10:44:08 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6a00:2a2:: with SMTP id q2ls4862563pfs.5.gmail; Mon, 21
- Sep 2020 10:37:25 -0700 (PDT)
-X-Received: by 2002:a65:68c8:: with SMTP id k8mr612770pgt.0.1600709845441;
-        Mon, 21 Sep 2020 10:37:25 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1600709845; cv=none;
+Received: by 2002:a05:6830:1f0b:: with SMTP id u11ls3062891otg.3.gmail; Mon,
+ 21 Sep 2020 10:44:08 -0700 (PDT)
+X-Received: by 2002:a9d:4c97:: with SMTP id m23mr416516otf.218.1600710248301;
+        Mon, 21 Sep 2020 10:44:08 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1600710248; cv=none;
         d=google.com; s=arc-20160816;
-        b=H3GbfSJv6wOY26CV3I6c6AyyIhYmok6p/VhvC8NJnl3w252tIK/S4KSjqz8+T6UaHi
-         iWdMkvl32Uyi/qewRSucFfaLTh5OuteirMA0EqRsq+UiAQku3F84Q+2ilkUOcpdPgjmr
-         1WfITVcWpIeP/9xiudUi7TjtPNtGss65rB5DfltbRuV46wbuMDlW9IVroxh2xpHOs7fj
-         iGLQE4Z7sejrrIJ6lGKQZ0Cjj+TL0/iyAsMCw6WufjzAl3/94gPkCRqgRgeu3lQvKudh
-         muc6TOk/ltMlgOkXtFN/GU54Zna3cnlmtQbrevyeIqWLPtijIWr2OTEnv282H+i9vVMw
-         XNMQ==
+        b=jigooUBwVaR/4K90ityCdxMj3iAI7UpZsDgKBhRzRWgjtiUHhmjT2VZ2tdpU670Yr0
+         SjGQ/z0L9ASBWj0tYU1zd9ms/JTeyQP+W29dA6cH5p2vPCByyoC2tzzxPSwCvQbtLjG5
+         R8QNFdxkuArsORFjmJg6jj03/V3a+/F0VT7AMsegYl6je3jjIsskM9AeY7Tk76cVzsSg
+         xi2FXkNPB5fXoiTtEP1poLSC66rbZPAW7aPRmY5KFk3CPBh7qTqzzf/o4ypXyVwXZY3G
+         hUNzBv8TvFTNJC6uRXu/+I9UtBBcu07heA7M5oeWjaxsCluZllY6YifsO7jnUhTuVxyM
+         1pXw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=SSZ5KD0dn5jNkyMg9eCMzr2gsc7k3aZ4lV6MBn/HzxM=;
-        b=MdbXNyuB7PE/bWzbscsrRL9V6ewqerJYpbKK4Wp2rWSVZ5k1RDdIJY7fK4Q7M2uGGt
-         TnYADcLPNYHnJsrhFVFTIS6fiIB3V2evEG33YUQOk/LApGMZ7MyXC+yxkvWepUh8ZT8Y
-         AlTapE7UGCXiGQg/Hyf1ToJREKkiXxwypJSKQFYSY1NiEiHoFMs/IdLHvF+jlHVjMHPe
-         fVjH9jCzqBQ5LmMCa3NTJRm2qa0efi/xgg3VYCZC1u0Wvm/CM/szsw47UGbQlsIFwfUY
-         4jIUjZy29YYTHGduA8+1whzglRJpiMY59hWgaXp4I63AfglkuHIPDAMtMYuo2bxY50MN
-         NVjA==
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:dkim-signature;
+        bh=k3ZAse6fBHZTtGXuZq3UGtFKC8B+GnwZPbMc364KEqo=;
+        b=sKGDFNp7OW14ePzz8tBzMN0qdoM5LXhIRAoNYle7hGhh42d6hrHGRSMPqFYDxMBjqP
+         jSBG3UYtUyXUYotjq0x01LpJwwGA/CID+8a40B2ISsvubhlm1UTR7vQf4MnG0hh/3lfB
+         WZ15n9rhGE4D04vJYY1nn7OeOZFIV1ENzQtdEFq6xOX7KoiTBgwEx3SeNbxf+D4d0k8u
+         eGQcs5gp7X/tPUU47CiwRztdBc/PcahEtd7SpO1nTstnY2WPWDNrwTdnRhHPLd1KlewM
+         P5WMHQfXnV2Z1IrDDM5F+GRyhQlWn4dNGHhc+wcHZCQ7iGP+Vs/q4+ZoIlOwHfQK1kYE
+         gIPQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=pamzCqMF;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::243 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-oi1-x243.google.com (mail-oi1-x243.google.com. [2607:f8b0:4864:20::243])
-        by gmr-mx.google.com with ESMTPS id bk9si15839pjb.1.2020.09.21.10.37.25
+       dkim=pass header.i=@kernel.org header.s=default header.b=xdj8QUY3;
+       spf=pass (google.com: domain of will@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=will@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
+        by gmr-mx.google.com with ESMTPS id i66si7069oih.4.2020.09.21.10.44.08
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Sep 2020 10:37:25 -0700 (PDT)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::243 as permitted sender) client-ip=2607:f8b0:4864:20::243;
-Received: by mail-oi1-x243.google.com with SMTP id 185so17846879oie.11
-        for <kasan-dev@googlegroups.com>; Mon, 21 Sep 2020 10:37:25 -0700 (PDT)
-X-Received: by 2002:aca:5158:: with SMTP id f85mr303275oib.121.1600709844512;
- Mon, 21 Sep 2020 10:37:24 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200921132611.1700350-1-elver@google.com> <20200921132611.1700350-11-elver@google.com>
- <20200921171325.GE29330@paulmck-ThinkPad-P72>
-In-Reply-To: <20200921171325.GE29330@paulmck-ThinkPad-P72>
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Mon, 21 Sep 2020 19:37:13 +0200
-Message-ID: <CANpmjNPiAvyn+oARU39yOx7zxMxV8JHiSS_41H+65D_-MKmk7A@mail.gmail.com>
-Subject: Re: [PATCH v3 10/10] kfence: add test suite
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Alexander Potapenko <glider@google.com>, 
-	"H. Peter Anvin" <hpa@zytor.com>, Andrey Konovalov <andreyknvl@google.com>, 
-	Andrey Ryabinin <aryabinin@virtuozzo.com>, Andy Lutomirski <luto@kernel.org>, 
-	Borislav Petkov <bp@alien8.de>, Catalin Marinas <catalin.marinas@arm.com>, Christoph Lameter <cl@linux.com>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, David Rientjes <rientjes@google.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, Eric Dumazet <edumazet@google.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Hillf Danton <hdanton@sina.com>, 
-	Ingo Molnar <mingo@redhat.com>, Jann Horn <jannh@google.com>, 
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Joonsoo Kim <iamjoonsoo.kim@lge.com>, Kees Cook <keescook@chromium.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Pekka Enberg <penberg@kernel.org>, 
-	Peter Zijlstra <peterz@infradead.org>, SeongJae Park <sjpark@amazon.com>, 
-	Thomas Gleixner <tglx@linutronix.de>, Vlastimil Babka <vbabka@suse.cz>, Will Deacon <will@kernel.org>, 
-	"the arch/x86 maintainers" <x86@kernel.org>, "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, 
-	LKML <linux-kernel@vger.kernel.org>, kasan-dev <kasan-dev@googlegroups.com>, 
-	Linux ARM <linux-arm-kernel@lists.infradead.org>, 
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 21 Sep 2020 10:44:08 -0700 (PDT)
+Received-SPF: pass (google.com: domain of will@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
+Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPSA id 2313C2151B;
+	Mon, 21 Sep 2020 17:44:02 +0000 (UTC)
+Date: Mon, 21 Sep 2020 18:43:59 +0100
+From: Will Deacon <will@kernel.org>
+To: Alexander Potapenko <glider@google.com>
+Cc: Marco Elver <elver@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Andrey Konovalov <andreyknvl@google.com>,
+	Andrey Ryabinin <aryabinin@virtuozzo.com>,
+	Andy Lutomirski <luto@kernel.org>, Borislav Petkov <bp@alien8.de>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Christoph Lameter <cl@linux.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	David Rientjes <rientjes@google.com>,
+	Dmitriy Vyukov <dvyukov@google.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hillf Danton <hdanton@sina.com>, Ingo Molnar <mingo@redhat.com>,
+	Jann Horn <jannh@google.com>, Jonathan.Cameron@huawei.com,
+	Jonathan Corbet <corbet@lwn.net>,
+	Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+	Kees Cook <keescook@chromium.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Pekka Enberg <penberg@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>, sjpark@amazon.com,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	the arch/x86 maintainers <x86@kernel.org>,
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+	LKML <linux-kernel@vger.kernel.org>,
+	kasan-dev <kasan-dev@googlegroups.com>,
+	Linux ARM <linux-arm-kernel@lists.infradead.org>,
 	Linux Memory Management List <linux-mm@kvack.org>
+Subject: Re: [PATCH v3 03/10] arm64, kfence: enable KFENCE for ARM64
+Message-ID: <20200921174357.GB3141@willie-the-truck>
+References: <20200921132611.1700350-1-elver@google.com>
+ <20200921132611.1700350-4-elver@google.com>
+ <20200921143059.GO2139@willie-the-truck>
+ <CAG_fn=WKaY9MVmbpkgoN4vaJYD_T_A3z2Lgqn+2o8-irmCKywg@mail.gmail.com>
+ <CAG_fn=XV7JfJDK+t1X6bnV6gRoiogNXsHfww0jvcEtJ2WZpR7Q@mail.gmail.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
+Content-Disposition: inline
+In-Reply-To: <CAG_fn=XV7JfJDK+t1X6bnV6gRoiogNXsHfww0jvcEtJ2WZpR7Q@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Original-Sender: will@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=pamzCqMF;       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::243 as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+ header.i=@kernel.org header.s=default header.b=xdj8QUY3;       spf=pass
+ (google.com: domain of will@kernel.org designates 198.145.29.99 as permitted
+ sender) smtp.mailfrom=will@kernel.org;       dmarc=pass (p=NONE sp=NONE
+ dis=NONE) header.from=kernel.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -145,67 +164,51 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, 21 Sep 2020 at 19:13, Paul E. McKenney <paulmck@kernel.org> wrote:
->
-> On Mon, Sep 21, 2020 at 03:26:11PM +0200, Marco Elver wrote:
-> > Add KFENCE test suite, testing various error detection scenarios. Makes
-> > use of KUnit for test organization. Since KFENCE's interface to obtain
-> > error reports is via the console, the test verifies that KFENCE outputs
-> > expected reports to the console.
+On Mon, Sep 21, 2020 at 05:37:10PM +0200, Alexander Potapenko wrote:
+> On Mon, Sep 21, 2020 at 4:58 PM Alexander Potapenko <glider@google.com> wrote:
 > >
-> > Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
-> > Co-developed-by: Alexander Potapenko <glider@google.com>
-> > Signed-off-by: Alexander Potapenko <glider@google.com>
-> > Signed-off-by: Marco Elver <elver@google.com>
->
-> [ . . . ]
->
-> > +/* Test SLAB_TYPESAFE_BY_RCU works. */
-> > +static void test_memcache_typesafe_by_rcu(struct kunit *test)
-> > +{
-> > +     const size_t size = 32;
-> > +     struct expect_report expect = {
-> > +             .type = KFENCE_ERROR_UAF,
-> > +             .fn = test_memcache_typesafe_by_rcu,
-> > +     };
-> > +
-> > +     setup_test_cache(test, size, SLAB_TYPESAFE_BY_RCU, NULL);
-> > +     KUNIT_EXPECT_TRUE(test, test_cache); /* Want memcache. */
-> > +
-> > +     expect.addr = test_alloc(test, size, GFP_KERNEL, ALLOCATE_ANY);
-> > +     *expect.addr = 42;
-> > +
-> > +     rcu_read_lock();
-> > +     test_free(expect.addr);
-> > +     KUNIT_EXPECT_EQ(test, *expect.addr, (char)42);
-> > +     rcu_read_unlock();
->
-> It won't happen very often, but memory really could be freed at this point,
-> especially in CONFIG_RCU_STRICT_GRACE_PERIOD=y kernels ...
+> > On Mon, Sep 21, 2020 at 4:31 PM Will Deacon <will@kernel.org> wrote:
+> > >
+> > > On Mon, Sep 21, 2020 at 03:26:04PM +0200, Marco Elver wrote:
+> > > > Add architecture specific implementation details for KFENCE and enable
+> > > > KFENCE for the arm64 architecture. In particular, this implements the
+> > > > required interface in <asm/kfence.h>. Currently, the arm64 version does
+> > > > not yet use a statically allocated memory pool, at the cost of a pointer
+> > > > load for each is_kfence_address().
+> > > >
+> > > > Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
+> > > > Co-developed-by: Alexander Potapenko <glider@google.com>
+> > > > Signed-off-by: Alexander Potapenko <glider@google.com>
+> > > > Signed-off-by: Marco Elver <elver@google.com>
+> > > > ---
+> > > > For ARM64, we would like to solicit feedback on what the best option is
+> > > > to obtain a constant address for __kfence_pool. One option is to declare
+> > > > a memory range in the memory layout to be dedicated to KFENCE (like is
+> > > > done for KASAN), however, it is unclear if this is the best available
+> > > > option. We would like to avoid touching the memory layout.
+> > >
+> > > Sorry for the delay on this.
+> >
+> > NP, thanks for looking!
+> >
+> > > Given that the pool is relatively small (i.e. when compared with our virtual
+> > > address space), dedicating an area of virtual space sounds like it makes
+> > > the most sense here. How early do you need it to be available?
+> >
+> > Yes, having a dedicated address sounds good.
+> > We're inserting kfence_init() into start_kernel() after timekeeping_init().
+> > So way after mm_init(), if that matters.
+> 
+> The question is though, how big should that dedicated area be?
+> Right now KFENCE_NUM_OBJECTS can be up to 16383 (which makes the pool
+> size 64MB), but this number actually comes from the limitation on
+> static objects, so we might want to increase that number on arm64.
 
-Ah, thanks for pointing it out.
+What happens on x86 and why would we do something different?
 
-> > +     /* No reports yet, memory should not have been freed on access. */
-> > +     KUNIT_EXPECT_FALSE(test, report_available());
->
-> ... so the above statement needs to go before the rcu_read_unlock().
-
-You mean the comment (and not the KUNIT_EXPECT_FALSE that no reports
-were generated), correct?
-
-Admittedly, the whole comment is a bit imprecise, so I'll reword.
-
-> > +     rcu_barrier(); /* Wait for free to happen. */
->
-> But you are quite right that the memory is not -guaranteed- to be freed
-> until we get here.
-
-Right, I'll update the comment.
-
-Thanks,
--- Marco
+Will
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNPiAvyn%2BoARU39yOx7zxMxV8JHiSS_41H%2B65D_-MKmk7A%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200921174357.GB3141%40willie-the-truck.
