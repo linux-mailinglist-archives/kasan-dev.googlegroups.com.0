@@ -1,139 +1,119 @@
-Return-Path: <kasan-dev+bncBCCMH5WKTMGRBM4RUP5QKGQEB7TGVPI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDJKZSEQ3YKRBAVUUP5QKGQEQIPNCAQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x238.google.com (mail-lj1-x238.google.com [IPv6:2a00:1450:4864:20::238])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DE67272A56
-	for <lists+kasan-dev@lfdr.de>; Mon, 21 Sep 2020 17:37:24 +0200 (CEST)
-Received: by mail-lj1-x238.google.com with SMTP id b17sf4289060ljp.3
-        for <lists+kasan-dev@lfdr.de>; Mon, 21 Sep 2020 08:37:24 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1600702644; cv=pass;
+Received: from mail-lj1-f183.google.com (mail-lj1-f183.google.com [209.85.208.183])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D637272EA1
+	for <lists+kasan-dev@lfdr.de>; Mon, 21 Sep 2020 18:51:15 +0200 (CEST)
+Received: by mail-lj1-f183.google.com with SMTP id l1sf4331492ljj.2
+        for <lists+kasan-dev@lfdr.de>; Mon, 21 Sep 2020 09:51:15 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1600707074; cv=pass;
         d=google.com; s=arc-20160816;
-        b=hb+JKFf8SSIy1zZ3WFPVWbjx/MxtxMuUQyhyaKlCQBHitVUQYDBctQQmSia3bXcuvS
-         cHQIWy93KQpuVLUV2rs7HqA94ctO4ABzcTNvLgh03jXj/j77xpfQ3xrWZX/Nv1WiWMx+
-         BUccZldAWitPFnPxUKmfMtNcIpAfL6c4LGyYoLKXtRC4uNL0oeishuN6gtgXstJEdAOl
-         IZE7vL/7T0m11OJmmuglddwIC//dLXAnYgGvbXubIwQ1Q8119OldDYa65u6sF+SlAgS5
-         9kzxt0h2+GlB0x0K10ypA7XGl/TjWvPV0l6+4xmDVJOM8nXktuF9iSXpz0AOXZc3nNap
-         evkg==
+        b=rE5zofdH9W+2HfLF2Fp90XIsw44rxvqIUGytU0FJV/kx2RLcOarJAl3KaBzOkFZvvY
+         NrpuWia8dOMJQbicNDtttsrgglJnYZO7SpWEgZ1vJocyzfB2lpXAX5egeMS3yXkyocS9
+         zQ5LiD+v+FbBBBTBeoiImWXaj8GwfHhbPS8L4sMkYSCvr0D9THevJrqN7O1HEHwQsWsV
+         mEvbinTY56ysp7CXREVnwTm2itpa7f3iVaOR3y2jyMg3UmFbcowbwSCP9wdUeo+6twCP
+         RSznCckm81H83CMcZwjU3VqPxzfw+jm0NlnMEnmA9wi9k/7GwWgmQroVPtrQiE15vI1T
+         U7jw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=ZeoMTV7nmCzmZszpl/3tmk529dTy11IbB7QWjHSVJeA=;
-        b=sQJGBzpM9FCjRcsRPOldQSMj/EBzFCP4vU7Kr1ElELTmhol9GpBFLWnQDb8eqBUG6v
-         JQZYGsP9DAfLTA+vYcZOmy8qFcgCjJQKfD34UU4+lC7o/z/Qy0xPT8/DNEMatiUNz/2y
-         0yrEEC+cB+V7JxwJTpWLa3bJzRqU36MbEMhybn4AZJ2tLHkRWdxdPt5cGb73cXa4tLqc
-         D/olR3bQMnCG75nkpVCos4vT70/Dp6HbcXWIjvQklP2xoearzu6DKrQ23vaLJ5K3Mc/e
-         zCQtHzTqmLVBQM6DdkLplOl8k9X4it4PEUAM/LQtD5JswNaL/8lnwwKCnK+izN8sjMUx
-         mv8w==
+         :list-id:mailing-list:precedence:robot-unsubscribe:robot-id
+         :message-id:mime-version:references:in-reply-to:cc:subject:to
+         :reply-to:sender:from:date;
+        bh=5WtwtptILIar+gNsHmk7n8QRGQRfod1D38WYKAWR/9w=;
+        b=RP+7KbWL8IzrPumivxPYKKERrzqv/g4uCK0ImEErC4eNs/kwrOsMspqX3KqmK5W1tW
+         i6NtwSZuNmQ9FipNkcgfMSC+Ab4TQtkNPj5eU8XuB8pMgl8V9i3jeLtvOCn7lxuziYN8
+         suIw90pWpl7NPfX1o4NYo3LZo6nSr8gHsjGZtTgGrrBCVk7KeHTn1uNwIeVnzx+CIdnj
+         8gXAjm6JYyVFp42uSWEx0bNemqMuV6RvNyoNFKloB9wQXU00xscPEZnSWoi48NLIPnf/
+         FJMcs9zO4hn06ge9k22foiJay3wSHYqY1D6m63RgbBCjOg5hId98Fmn3+tTty/WKh1v/
+         w65g==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=BYc74rVc;
-       spf=pass (google.com: domain of glider@google.com designates 2a00:1450:4864:20::342 as permitted sender) smtp.mailfrom=glider@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=ZeoMTV7nmCzmZszpl/3tmk529dTy11IbB7QWjHSVJeA=;
-        b=gv6NCyrT4bC6PWsXeba/1lKUrVfJ+3+mrJ4+PbCUlUw5ZkKRmtWr9fCyGtBUgyKlSz
-         aNt7KL4Y7o9HhGJntSnzvhuOB4Xi53nGdSovM512KuVg7uEDjEgKWnBa213Wox8ouMUF
-         FApgllru886+a+6XSYp8cfvRRo7pfB4JMNSM3oI/RTtR/TlpBG23Ez7SUvOX3REP8ynS
-         Svsr0sFiPv0KkzWPoPKM4bm2Lmysi0MNHoSWO8Uiw7iKwQLTNXQasSbrM2NsI9l7jbL0
-         kzEe2RtBONxRGL7kLIcoXblVbEG8BIV5NQzEqHWpIw24fZV1Vl3aur8Svj3Xi8hnSm4e
-         419Q==
+       dkim=pass header.i=@linutronix.de header.s=2020 header.b=lA42DkUt;
+       dkim=neutral (no key) header.i=@linutronix.de header.b=rPGj3exW;
+       spf=pass (google.com: domain of tip-bot2@linutronix.de designates 193.142.43.55 as permitted sender) smtp.mailfrom=tip-bot2@linutronix.de;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=linutronix.de
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+        h=x-gm-message-state:date:from:sender:reply-to:to:subject:cc
+         :in-reply-to:references:mime-version:message-id:robot-id
+         :robot-unsubscribe:precedence:x-original-sender
+         :x-original-authentication-results:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=ZeoMTV7nmCzmZszpl/3tmk529dTy11IbB7QWjHSVJeA=;
-        b=OWaIO5IMIlqCYsViGkLuG8jpz2YGofW4nMXrGVRf1DEeK6tjkwI0xztFlBugCvDZee
-         B0JtkVNuI7HTiaEO7UyWhApSo1fySfvlt2kRUR1oQBdffxmnxT0ofP2UZh83z2JxhndG
-         B2fpr3yEPk1INaTjoEDu8N0rot9/VSOtQouB2qRS+3nebJfVHf8bAkFpmQZOy9nc806G
-         RpHHo9MCAf6YhsP3X73wgsfqAzUaQRbaNBgK4b5Xgyjl7dNfcSuUEVc+y4k9ORR3gDyp
-         Kl1yy8gFOu7RWkdxtvDVGQjUafN+RjsZP9P3MCi7HDD0gyburs2klJJW/NI+581rR37g
-         TvzQ==
-X-Gm-Message-State: AOAM5320Q5klM4WMkwuvp+yPCc2QPfT0gO/sITNLIRi9+QFXZ6TTSl5l
-	4+pfOyZhtX4txRMlngbfCls=
-X-Google-Smtp-Source: ABdhPJy4GbQ4BkO8gRMJ6++Q704Q4ivRrf2R50KRq4pXoucpCyixH6+Osgd+1RjJkkh3/S7itEe/8w==
-X-Received: by 2002:a19:8c4a:: with SMTP id i10mr184327lfj.566.1600702643945;
-        Mon, 21 Sep 2020 08:37:23 -0700 (PDT)
+        bh=5WtwtptILIar+gNsHmk7n8QRGQRfod1D38WYKAWR/9w=;
+        b=lYshN5itawGEN3nSI73gva/6/ZOoVz5eqwEMdBH+nudtgp/wHrzft2+0d1W2XU6tLr
+         iGmwWUuTzMG98kT5fO1mjwrtLFcLP4pe4ZcJQ/dSKIlE17wl96toSntt7tXDsJzyyOO5
+         +rr473H1l87f8OFDxxxNFDn27J7kw3GJHCW793ZUlea4HP5NLmtuIgUVa2FSjSGebQ4+
+         VZM2Hlj5TUVO1YNWxhRn0lGrCWHhomg94YHH7R7n9EuNgrm6Sdru96B5LxHs63UuEGjR
+         Y8qzfkdkkSvtliPJW+mGxwzQ3MHh7jE32Yhcola4tcUIdUlXIaCPQoL3+bZPZ5TCjqo0
+         740g==
+X-Gm-Message-State: AOAM532BSI8Qeckf4bhv4PBUvtyryVYJylEi0HyOnFYm82RNjDX8lQUA
+	tRc7DlHhJSbg+cTZLX3TvVY=
+X-Google-Smtp-Source: ABdhPJyr2fKFhLHM0K15/Oj9uxc9NSFUCulgKX/mvc0x5Tm6L5C+EOZVsm7M1a9TKZbJdcCp9nX5AA==
+X-Received: by 2002:a19:6147:: with SMTP id m7mr311597lfk.108.1600707074707;
+        Mon, 21 Sep 2020 09:51:14 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a2e:7c08:: with SMTP id x8ls1752344ljc.6.gmail; Mon, 21 Sep
- 2020 08:37:22 -0700 (PDT)
-X-Received: by 2002:a2e:808a:: with SMTP id i10mr90484ljg.313.1600702642756;
-        Mon, 21 Sep 2020 08:37:22 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1600702642; cv=none;
+Received: by 2002:ac2:5c44:: with SMTP id s4ls582009lfp.3.gmail; Mon, 21 Sep
+ 2020 09:51:13 -0700 (PDT)
+X-Received: by 2002:ac2:54b4:: with SMTP id w20mr285597lfk.13.1600707073536;
+        Mon, 21 Sep 2020 09:51:13 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1600707073; cv=none;
         d=google.com; s=arc-20160816;
-        b=OzukM2K24zqE0RQrqI/1tP02FOgJkITEKvfg2/jsaR66HTy95WvBbfCmdqXJCYdu7+
-         2eFZM8Yej6WKP94sEoCE15J+fonjMwvzbbk2Fj+bDVzTCYaUOaTk7QuFqLgI++N1/DMh
-         DCiAhszD8r1Pf3Y/zJ8JEITFdOBZONJkRF24XCjgS+omX5aB8P2rOpu/jtdkp6YcH3oK
-         5ghGwSL3NzzqfFjwkVPpZ3wEScnNi61v/YbhzQs9kvebcoB+sTUfLEyh0aSGvwwrasPs
-         IBu9w7s4AIebjVzT8uzFsacj7u64h7jhFTNVDaw1JDVdfZOsjWG4gsOb7aReLhm255Me
-         ZimQ==
+        b=dEecvWG4HLjFjoaw26yOPfFap8jcFZEi/O71mKwFiWg09EQXl3eC+ttRGr40FOE/ow
+         N7duF0TS/zokNOIC+ehQsLikQD4IyFir641h45rmvsBO/ETn1V9AAIgGNTvBXyQr9PQw
+         GSSjWnx2f9MMx3GdmlPLpv8YaKVejDWKHRy3sMJRxWaxnPtuYgGQ8Dy/Vjtw+/iB4gq8
+         fih+QvgKo3xcifmYcxk+zABFsy8mdPVyqTpMmWbK/e3qtBj2O5vMus0f+tMpUiqVdPfW
+         5Do3A1GkmYFVYbC0FV+fLElmp8CgZ+mCn56LQvL9ghlynQzdlfPNG9/Tx0Z/iorAbyro
+         K9Ew==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=kVxfXE34UyHx4a9aedDaVHUi6pKMiF4098HvY7EGT4c=;
-        b=AQin80/eVqfPnBC4rdHqhrBem9IJiCI4w0ckjahicjwUiwy9/mB0rXjONBp4TSQDLE
-         +8WQsTSjTb2mQDQMGir76PvokQsrav8GrtJEcwK4Z+/21u0EJ32pEHoGjOv94K93d3Yj
-         eM/6PSrkz9Rq94teUepNMb2ZZCHO5iR6XLvD23cKdt+gqpoekeJFhGYLlzr1HVCbML2F
-         3JJriWW5iWOikiXiucA2WTeZsIAwYN5pNjV+jh4uLqBF6Jn5A4rmVWmdo+Hl5qNIZoLj
-         CMPyNRv8xMNp8NqJWjEyH0vZxHUxWtxF/RRPuC9ABTT5+W0meKwNpSueIZM0YBRl52jC
-         VKYw==
+        h=content-transfer-encoding:precedence:robot-unsubscribe:robot-id
+         :message-id:mime-version:references:in-reply-to:cc:subject:to
+         :reply-to:sender:from:dkim-signature:dkim-signature:date;
+        bh=gVfzDlgm3AjlhLPfD/PKu06jc0A49KijvnhM+NCvAtE=;
+        b=lGEatiCrj9rRGlQ59o1aw17B2GguYuWCn55xORYpD2AlJqCqyS6u0v6FlWjDlODIlD
+         sZuO/+T02pNsthTZh6TR0JH0cFBQmVY/Lw4hwArqOv6a3z37XBwLiwPr2fbr5cKdmgUO
+         xOs8ZWW6zZdyule4R0Y867q4pfWXS9rwJc/E5NcuYpnAhZ1qsu+Y0Y8V3BpceEyOA8YF
+         KSKKhWwi6KN/MYG/DftIe0emUY8KHZ5mIQT21ou2MBLYx8qZo0RTntXlWH6LIE3sHjrS
+         OX6PsVreE7anCGI45dqL+mWLlvxZTLh6Z3Cw4na60K2sYURNt5hs2ZuJsvutwFY5cTh8
+         LSLg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=BYc74rVc;
-       spf=pass (google.com: domain of glider@google.com designates 2a00:1450:4864:20::342 as permitted sender) smtp.mailfrom=glider@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com. [2a00:1450:4864:20::342])
-        by gmr-mx.google.com with ESMTPS id j75si322263lfj.5.2020.09.21.08.37.22
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Sep 2020 08:37:22 -0700 (PDT)
-Received-SPF: pass (google.com: domain of glider@google.com designates 2a00:1450:4864:20::342 as permitted sender) client-ip=2a00:1450:4864:20::342;
-Received: by mail-wm1-x342.google.com with SMTP id z9so13213241wmk.1
-        for <kasan-dev@googlegroups.com>; Mon, 21 Sep 2020 08:37:22 -0700 (PDT)
-X-Received: by 2002:a7b:c4d3:: with SMTP id g19mr199189wmk.165.1600702641972;
- Mon, 21 Sep 2020 08:37:21 -0700 (PDT)
+       dkim=pass header.i=@linutronix.de header.s=2020 header.b=lA42DkUt;
+       dkim=neutral (no key) header.i=@linutronix.de header.b=rPGj3exW;
+       spf=pass (google.com: domain of tip-bot2@linutronix.de designates 193.142.43.55 as permitted sender) smtp.mailfrom=tip-bot2@linutronix.de;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=linutronix.de
+Received: from galois.linutronix.de (Galois.linutronix.de. [193.142.43.55])
+        by gmr-mx.google.com with ESMTPS id 11si277595lfl.4.2020.09.21.09.51.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Sep 2020 09:51:13 -0700 (PDT)
+Received-SPF: pass (google.com: domain of tip-bot2@linutronix.de designates 193.142.43.55 as permitted sender) client-ip=193.142.43.55;
+Date: Mon, 21 Sep 2020 16:51:11 -0000
+From: "tip-bot2 for Ilie Halip" <tip-bot2@linutronix.de>
+Sender: tip-bot2@linutronix.de
+Reply-to: linux-kernel@vger.kernel.org
+To: linux-tip-commits@vger.kernel.org
+Subject: [tip: objtool/core] objtool: Ignore unreachable trap after call to
+ noreturn functions
+Cc: Nick Desaulniers <ndesaulniers@google.com>,
+ Rong Chen <rong.a.chen@intel.com>, Marco Elver <elver@google.com>,
+ Philip Li <philip.li@intel.com>, Borislav Petkov <bp@alien8.de>,
+ kasan-dev@googlegroups.com, x86@kernel.org,
+ clang-built-linux@googlegroups.com, kbuild test robot <lkp@intel.com>,
+ Ilie Halip <ilie.halip@gmail.com>, Sedat Dilek <sedat.dilek@gmail.com>,
+ Josh Poimboeuf <jpoimboe@redhat.com>, LKML <linux-kernel@vger.kernel.org>
+In-Reply-To: <CAKwvOdmptEpi8fiOyWUo=AiZJiX+Z+VHJOM2buLPrWsMTwLnyw@mail.gmail.com>
+References: <CAKwvOdmptEpi8fiOyWUo=AiZJiX+Z+VHJOM2buLPrWsMTwLnyw@mail.gmail.com>
 MIME-Version: 1.0
-References: <20200921132611.1700350-1-elver@google.com> <20200921132611.1700350-4-elver@google.com>
- <20200921143059.GO2139@willie-the-truck> <CAG_fn=WKaY9MVmbpkgoN4vaJYD_T_A3z2Lgqn+2o8-irmCKywg@mail.gmail.com>
-In-Reply-To: <CAG_fn=WKaY9MVmbpkgoN4vaJYD_T_A3z2Lgqn+2o8-irmCKywg@mail.gmail.com>
-From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Mon, 21 Sep 2020 17:37:10 +0200
-Message-ID: <CAG_fn=XV7JfJDK+t1X6bnV6gRoiogNXsHfww0jvcEtJ2WZpR7Q@mail.gmail.com>
-Subject: Re: [PATCH v3 03/10] arm64, kfence: enable KFENCE for ARM64
-To: Will Deacon <will@kernel.org>
-Cc: Marco Elver <elver@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	"H. Peter Anvin" <hpa@zytor.com>, "Paul E. McKenney" <paulmck@kernel.org>, 
-	Andrey Konovalov <andreyknvl@google.com>, Andrey Ryabinin <aryabinin@virtuozzo.com>, 
-	Andy Lutomirski <luto@kernel.org>, Borislav Petkov <bp@alien8.de>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Christoph Lameter <cl@linux.com>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, David Rientjes <rientjes@google.com>, 
-	Dmitriy Vyukov <dvyukov@google.com>, Eric Dumazet <edumazet@google.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Hillf Danton <hdanton@sina.com>, 
-	Ingo Molnar <mingo@redhat.com>, Jann Horn <jannh@google.com>, Jonathan.Cameron@huawei.com, 
-	Jonathan Corbet <corbet@lwn.net>, Joonsoo Kim <iamjoonsoo.kim@lge.com>, 
-	Kees Cook <keescook@chromium.org>, Mark Rutland <mark.rutland@arm.com>, 
-	Pekka Enberg <penberg@kernel.org>, Peter Zijlstra <peterz@infradead.org>, sjpark@amazon.com, 
-	Thomas Gleixner <tglx@linutronix.de>, Vlastimil Babka <vbabka@suse.cz>, 
-	"the arch/x86 maintainers" <x86@kernel.org>, "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, 
-	LKML <linux-kernel@vger.kernel.org>, kasan-dev <kasan-dev@googlegroups.com>, 
-	Linux ARM <linux-arm-kernel@lists.infradead.org>, 
-	Linux Memory Management List <linux-mm@kvack.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: glider@google.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=BYc74rVc;       spf=pass
- (google.com: domain of glider@google.com designates 2a00:1450:4864:20::342 as
- permitted sender) smtp.mailfrom=glider@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Alexander Potapenko <glider@google.com>
-Reply-To: Alexander Potapenko <glider@google.com>
+Message-ID: <160070707105.15536.14094674309505985856.tip-bot2@tip-bot2>
+Robot-ID: <tip-bot2.linutronix.de>
+Robot-Unsubscribe: Contact <mailto:tglx@linutronix.de> to get blacklisted from these emails
 Precedence: list
+Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: tip-bot2@linutronix.de
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@linutronix.de header.s=2020 header.b=lA42DkUt;       dkim=neutral
+ (no key) header.i=@linutronix.de header.b=rPGj3exW;       spf=pass
+ (google.com: domain of tip-bot2@linutronix.de designates 193.142.43.55 as
+ permitted sender) smtp.mailfrom=tip-bot2@linutronix.de;       dmarc=pass
+ (p=NONE sp=QUARANTINE dis=NONE) header.from=linutronix.de
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
 X-Spam-Checked-In-Group: kasan-dev@googlegroups.com
@@ -145,46 +125,89 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, Sep 21, 2020 at 4:58 PM Alexander Potapenko <glider@google.com> wrote:
->
-> On Mon, Sep 21, 2020 at 4:31 PM Will Deacon <will@kernel.org> wrote:
-> >
-> > On Mon, Sep 21, 2020 at 03:26:04PM +0200, Marco Elver wrote:
-> > > Add architecture specific implementation details for KFENCE and enable
-> > > KFENCE for the arm64 architecture. In particular, this implements the
-> > > required interface in <asm/kfence.h>. Currently, the arm64 version does
-> > > not yet use a statically allocated memory pool, at the cost of a pointer
-> > > load for each is_kfence_address().
-> > >
-> > > Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
-> > > Co-developed-by: Alexander Potapenko <glider@google.com>
-> > > Signed-off-by: Alexander Potapenko <glider@google.com>
-> > > Signed-off-by: Marco Elver <elver@google.com>
-> > > ---
-> > > For ARM64, we would like to solicit feedback on what the best option is
-> > > to obtain a constant address for __kfence_pool. One option is to declare
-> > > a memory range in the memory layout to be dedicated to KFENCE (like is
-> > > done for KASAN), however, it is unclear if this is the best available
-> > > option. We would like to avoid touching the memory layout.
-> >
-> > Sorry for the delay on this.
->
-> NP, thanks for looking!
->
-> > Given that the pool is relatively small (i.e. when compared with our virtual
-> > address space), dedicating an area of virtual space sounds like it makes
-> > the most sense here. How early do you need it to be available?
->
-> Yes, having a dedicated address sounds good.
-> We're inserting kfence_init() into start_kernel() after timekeeping_init().
-> So way after mm_init(), if that matters.
+The following commit has been merged into the objtool/core branch of tip:
 
-The question is though, how big should that dedicated area be?
-Right now KFENCE_NUM_OBJECTS can be up to 16383 (which makes the pool
-size 64MB), but this number actually comes from the limitation on
-static objects, so we might want to increase that number on arm64.
+Commit-ID:     14db1f0a93331d0958e90da522c429ff0890d2d6
+Gitweb:        https://git.kernel.org/tip/14db1f0a93331d0958e90da522c429ff0890d2d6
+Author:        Ilie Halip <ilie.halip@gmail.com>
+AuthorDate:    Sat, 19 Sep 2020 09:41:18 +03:00
+Committer:     Josh Poimboeuf <jpoimboe@redhat.com>
+CommitterDate: Mon, 21 Sep 2020 10:20:10 -05:00
+
+objtool: Ignore unreachable trap after call to noreturn functions
+
+With CONFIG_UBSAN_TRAP enabled, the compiler may insert a trap
+instruction after a call to a noreturn function. In this case, objtool
+warns that the UD2 instruction is unreachable.
+
+This is a behavior seen with Clang, from the oldest version capable of
+building the mainline x64_64 kernel (9.0), to the latest experimental
+version (12.0).
+
+Objtool silences similar warnings (trap after dead end instructions), so
+so expand that check to include dead end functions.
+
+Cc: Nick Desaulniers <ndesaulniers@google.com>
+Cc: Rong Chen <rong.a.chen@intel.com>
+Cc: Marco Elver <elver@google.com>
+Cc: Philip Li <philip.li@intel.com>
+Cc: Borislav Petkov <bp@alien8.de>
+Cc: kasan-dev@googlegroups.com
+Cc: x86@kernel.org
+Cc: clang-built-linux@googlegroups.com
+BugLink: https://github.com/ClangBuiltLinux/linux/issues/1148
+Link: https://lore.kernel.org/lkml/CAKwvOdmptEpi8fiOyWUo=AiZJiX+Z+VHJOM2buLPrWsMTwLnyw@mail.gmail.com
+Suggested-by: Nick Desaulniers <ndesaulniers@google.com>
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+Tested-by: Nick Desaulniers <ndesaulniers@google.com>
+Reported-by: kbuild test robot <lkp@intel.com>
+Signed-off-by: Ilie Halip <ilie.halip@gmail.com>
+Tested-by: Sedat Dilek <sedat.dilek@gmail.com>
+Signed-off-by: Josh Poimboeuf <jpoimboe@redhat.com>
+---
+ tools/objtool/check.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
+
+diff --git a/tools/objtool/check.c b/tools/objtool/check.c
+index a4796e3..2df9f76 100644
+--- a/tools/objtool/check.c
++++ b/tools/objtool/check.c
+@@ -2638,9 +2638,10 @@ static bool is_ubsan_insn(struct instruction *insn)
+ 			"__ubsan_handle_builtin_unreachable"));
+ }
+ 
+-static bool ignore_unreachable_insn(struct instruction *insn)
++static bool ignore_unreachable_insn(struct objtool_file *file, struct instruction *insn)
+ {
+ 	int i;
++	struct instruction *prev_insn;
+ 
+ 	if (insn->ignore || insn->type == INSN_NOP)
+ 		return true;
+@@ -2668,8 +2669,11 @@ static bool ignore_unreachable_insn(struct instruction *insn)
+ 	 * __builtin_unreachable().  The BUG() macro has an unreachable() after
+ 	 * the UD2, which causes GCC's undefined trap logic to emit another UD2
+ 	 * (or occasionally a JMP to UD2).
++	 *
++	 * It may also insert a UD2 after calling a __noreturn function.
+ 	 */
+-	if (list_prev_entry(insn, list)->dead_end &&
++	prev_insn = list_prev_entry(insn, list);
++	if ((prev_insn->dead_end || dead_end_function(file, prev_insn->call_dest)) &&
+ 	    (insn->type == INSN_BUG ||
+ 	     (insn->type == INSN_JUMP_UNCONDITIONAL &&
+ 	      insn->jump_dest && insn->jump_dest->type == INSN_BUG)))
+@@ -2796,7 +2800,7 @@ static int validate_reachable_instructions(struct objtool_file *file)
+ 		return 0;
+ 
+ 	for_each_insn(file, insn) {
+-		if (insn->visited || ignore_unreachable_insn(insn))
++		if (insn->visited || ignore_unreachable_insn(file, insn))
+ 			continue;
+ 
+ 		WARN_FUNC("unreachable instruction", insn->sec, insn->offset);
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAG_fn%3DXV7JfJDK%2Bt1X6bnV6gRoiogNXsHfww0jvcEtJ2WZpR7Q%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/160070707105.15536.14094674309505985856.tip-bot2%40tip-bot2.
