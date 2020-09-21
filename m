@@ -1,34 +1,34 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBF6UUL5QKGQEBUUYYCY@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBGWUUL5QKGQEXN3EVNQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13f.google.com (mail-lf1-x13f.google.com [IPv6:2a00:1450:4864:20::13f])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBAFD272562
-	for <lists+kasan-dev@lfdr.de>; Mon, 21 Sep 2020 15:26:48 +0200 (CEST)
-Received: by mail-lf1-x13f.google.com with SMTP id v128sf2463851lfa.5
-        for <lists+kasan-dev@lfdr.de>; Mon, 21 Sep 2020 06:26:48 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1600694808; cv=pass;
+Received: from mail-pj1-x103e.google.com (mail-pj1-x103e.google.com [IPv6:2607:f8b0:4864:20::103e])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8B6A272569
+	for <lists+kasan-dev@lfdr.de>; Mon, 21 Sep 2020 15:26:55 +0200 (CEST)
+Received: by mail-pj1-x103e.google.com with SMTP id p11sf7949714pjv.2
+        for <lists+kasan-dev@lfdr.de>; Mon, 21 Sep 2020 06:26:55 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1600694814; cv=pass;
         d=google.com; s=arc-20160816;
-        b=h4x0UKYyEkPr+zh+8YvbAD96qokLITpQiUHOMSaUJlh5cTfj/xdVOxEnohi9GaUvMK
-         Mq9HAroUNVuZ8ZTDB+RGd4PChsoOJAeEu/W3iAKDluRmXovsgMnOp78NoaJbf3yJJmul
-         ITn6RBScO/mTmCe3k2Xxb4iPrl1vWGODB2DrrB83bIC5l1ssghKgWOcHTqb8H0ewtG0/
-         IahxnClcBgSByBZzwthPzDx7ASpbyxIri8og7eMe5xRtYNeSlVC0Mn+t2YiGzhRPKAXm
-         mjUW+AbRSX6hK1eNVweR2UkDB2wpkssefxHhGECtCxW1iPMDApRx+VUVZbpDrLO+g8Sy
-         nDXw==
+        b=uW8tswoR9cOHJDjgl1E1jlIxVKNanpkhO7kNpOohzPBar/Em6OHj3xh2/gnslhxlsm
+         TLNsBdaPsWBnJ8KUTXucoVjREOP5b93aa+0CYpylg1SsZsCfm3BD6TKjlPszNShI5Yb5
+         dKeqMOsDj3BdD5i8K+Zyef40Ml51NBJnRCOeZnyQK6L5Q9tMhBBRLL0C7CmEOUur0vJp
+         YDqpi3kp+nfnGJRfOKv3npQysdaLX0SwuxWxBz2WlW7Xu4byHS3dLS/hoFEKrUolTgkY
+         wHIN+Y1293Vt1GWFfclR9D+SMHrUwuBigOIFtOU+WUHITVuMEI3hmuihNPN2dQ2Oykpp
+         6pag==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
          :references:mime-version:message-id:in-reply-to:date:sender
          :dkim-signature;
-        bh=tAho4EdkhHC3Vev+LvzQYb0HpXcJBDClOk2uqHMn1ek=;
-        b=vQe2SnyoCwiTZeqZLQkXLmgOCmsHVK64zrqAlPqi/PvPRSv5IaXt3GYjmmGdWUczeb
-         cCjyZXsTlVGLBABzcgLrYj8olLj8VfUQB/BG4cjCD4mH11MhuoJgrNbT7gx/MNTi5P34
-         IaN59HaaDeESga4KsTBg/XvJSGbp/vliQ+Yg5+rjUB8/JpXvmgzjCY6toqR9y/V6gXm3
-         Fnbg05cb/AendZ8s3wi2xNg7OsViYqapvesg81BIttqhSBOzH3Ade/ZtJgU7KitoxYqJ
-         bLhdx6n4LPgBpSQcqyYhCx6YH/qKC5CS41yLxIZb1UYSOndElgHPb+vx4VRa2FRu7XG6
-         y1fQ==
+        bh=12ccZGVoxO2uT63aa9WBm4bNnNhVn2t/L5Y86fonE6k=;
+        b=YiOoXIUCyEb8Ct8bh5W1i0LyPUu4r4v+uSDuUrtSOp27c2iuZRu6hqRTmnt1nSqTPi
+         urDxHGWFdwtqnAaO4mqTqxZXe6StXet1MtabfMOmuE1y/Wr1ZBlREWksTotbUrqqulV9
+         GS6dXkdldUdb00kxMUMB3KU3VL8puO9mE0hktbfHhSXdUnWlGfMvfBu7AWyoXA6ozv1F
+         sCu26vVtrv7YzPmsFvbjsa+Mk2UA5N8Sk6izb9A7Ph+rrhTfKG6dGeWs9TMa89F8oSVF
+         OUeCKmjSD8LU/4yGgzrCrW9u9m7o62F50XwCkQdaGtkySoMzuRYxTAXd/dWHNXqVnn1G
+         1yVw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=LQuPh8rZ;
-       spf=pass (google.com: domain of 3fqpoxwukcq8t0at6v33v0t.r31zp7p2-stav33v0tv63947.r31@flex--elver.bounces.google.com designates 2a00:1450:4864:20::449 as permitted sender) smtp.mailfrom=3FqpoXwUKCQ8t0At6v33v0t.r31zp7p2-stAv33v0tv63947.r31@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=hylJXImg;
+       spf=pass (google.com: domain of 3gkpoxwukcrev2cv8x55x2v.t531r9r4-uvcx55x2vx85b69.t53@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::849 as permitted sender) smtp.mailfrom=3GKpoXwUKCREv2Cv8x55x2v.t531r9r4-uvCx55x2vx85B69.t53@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
@@ -36,13 +36,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :from:to:cc:x-original-sender:x-original-authentication-results
          :reply-to:precedence:mailing-list:list-id:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=tAho4EdkhHC3Vev+LvzQYb0HpXcJBDClOk2uqHMn1ek=;
-        b=g1vnqOBOKBTkkGOAzJumYCl0/BuFgOeX1GV2aNdUNrjbjKsyWJtSBuu+xG0qXWQV2E
-         tHlGD3e22GdZtvEvIKcNmpvMQxChXRISD6HXhkx6Fyvu8lvmbFG4e9ZGw+gH6fZf9HGZ
-         tK/lWFi91NHbf1SOkuQ2P1axsHJyK5SyuAskTbONx0zBr6fYbGhHwJSnoecBlROyVfPU
-         pbRCI/HTOMMdhonWGMrGzdV54Lhfv3R7D6iWg57Lqc21+G+wCd0y22p3HMtEJzBLnVEG
-         hZjCQVgb9aMld1z9+cTHo3ot6O2N0iKkJoOctOFlq3ew7k940ga//64KSaGpAgQYdwmh
-         OdYA==
+        bh=12ccZGVoxO2uT63aa9WBm4bNnNhVn2t/L5Y86fonE6k=;
+        b=oRIrMHMpg79/DsbU1KbZKgB0MOFs6tOVVqAd3F+oOb536vmfuaprmvYlOSnzojNGbQ
+         AxB/6M5x6vYeCGGKwjGHgdDRKguTJiP91SmB9/Ow7q41+7g+IfDqRCxfD0/zeAgvOECP
+         ZR0j9zjgOsbP0f856am4R5JOgH7lGDpW1IQcNUo92tsEdQ7wUicKFrAcoGMVFIIUatGp
+         EdgOlKlLHm5AEqbxP4Qte4C+K6hkZjDC19xv/oHaI+2wlOEZEDuxVR9a7kRgbi8E3M+E
+         cxRIgBJg9ctUaDJPN6BzbQrvAzDq5F/pHo4zrQwnLqPD5h7o1iW/JjljT3BgNvPg1FAv
+         3jDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
@@ -50,64 +50,64 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=tAho4EdkhHC3Vev+LvzQYb0HpXcJBDClOk2uqHMn1ek=;
-        b=snmI1mOdJ45HLxRBi4b3SlqlxX4idkYry2eh6wx0go9tPMmG4k3BWhXB6TDcnnxtAX
-         sAZh271EuWyY4ADaPseCQ70hJFfJurK3SCBAzDiRfa4N9AmqigXqv/Zy+oak7985NTmq
-         x11TBgM55FzG1zxrAEHiKI2P+ofxi+xAF6STtSLTFk+u+eEWH6mp8pmhdOvompqYZvGQ
-         ctoJCdgiYzP5iPNwroV/aEje2OY7do7WyIStFTUx2Jvr6qfv00d+Dy3sOWHYJMsTX3nq
-         GV9e3PoEzQXl3d2SALV0b7sGHTBL4P1yibmI9qPbwr3I0N0CAHQv2cvK9kvB+oYtrD33
-         gWyA==
-X-Gm-Message-State: AOAM530epvRyKnMLHR3sxIJaYdN6gJsi3nUPu95IvUZ2JmrXkzrwQCYX
-	h5tPk/DT1sRAQ/pRfFvVBOA=
-X-Google-Smtp-Source: ABdhPJwpewhCa/EbY1GYqx8HwaGGleTU2Uzw5CnhdfXnE1XqC2FlJrbZ+VL0HISWGYM+SpDLJimg3A==
-X-Received: by 2002:a05:651c:50c:: with SMTP id o12mr17553286ljp.40.1600694808189;
-        Mon, 21 Sep 2020 06:26:48 -0700 (PDT)
+        bh=12ccZGVoxO2uT63aa9WBm4bNnNhVn2t/L5Y86fonE6k=;
+        b=eB6AW3lq5uzsdcbCDlw4ezFd5kBAegTgJ83dfJ2Duk4IDfNnC3kT5uK8FnaL5tW8wz
+         Uf23FTLeD97fnQdYMO8EBQtZldZYuC0hBSXGtjOCwrmy2EZPNEngvsw3nRIG5g21Mp7n
+         u9TaCDCUgdPzuZyw7882V+aIpLUj1KzC64Ln0flM46bXv+k9FHYtDLa/NwOMjs8W12sq
+         6i37me7KqXG3S7VCIltKm6U1jGU3wiwABBzXuQPCwzwvnRq2FgO9qJ+ea5vOpDPhReNJ
+         1QlMXp64bhmeNoqHYoLkeJL86zHXTBwXkDFyh7HE45v9ri9FtNk9NEaUYvFg7V0Sr6/l
+         mN0A==
+X-Gm-Message-State: AOAM530snsEOyP0U8wguDdiKzAYubJTCMjcA6SebennO1GX4mBY6aH3s
+	u/0bIBtzQdyJQYlCnDPoo0Q=
+X-Google-Smtp-Source: ABdhPJyyUVWz2u9w1c93AZ9A3dfo/bcTUSDG99NEtS0/+WpCN2PMWJo9quT1VHjBXGe61d3TDibYNg==
+X-Received: by 2002:a17:902:7:b029:d1:e5e7:be08 with SMTP id 7-20020a1709020007b02900d1e5e7be08mr28127432pla.59.1600694811004;
+        Mon, 21 Sep 2020 06:26:51 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a19:554:: with SMTP id 81ls158323lff.1.gmail; Mon, 21 Sep
- 2020 06:26:47 -0700 (PDT)
-X-Received: by 2002:a05:6512:1dd:: with SMTP id f29mr14431082lfp.311.1600694807007;
-        Mon, 21 Sep 2020 06:26:47 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1600694807; cv=none;
+Received: by 2002:a17:902:70cc:: with SMTP id l12ls1789490plt.1.gmail; Mon, 21
+ Sep 2020 06:26:50 -0700 (PDT)
+X-Received: by 2002:a17:902:6bc1:b029:d0:cbe1:e706 with SMTP id m1-20020a1709026bc1b02900d0cbe1e706mr8905plt.20.1600694810369;
+        Mon, 21 Sep 2020 06:26:50 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1600694810; cv=none;
         d=google.com; s=arc-20160816;
-        b=nyKqgO7LSt5CWOOp0bjStNIfCEGYaZM6V7QpbnpnmaQoivXdfZ/XOwNlla+YlHUmrR
-         kJcuWZGuhbXKmMzcmaMvFm1WmXzZUkWkjpL6jvOGvU0HtS3l3lYk9K2zkwOp4X3QQ9sK
-         7NfD19bJlKzRltzpfH5D7ot3ujOgk3WGPlC7dnyNy10ufx9/k+t7YfrUl2MWGkXUukfz
-         kEzpUjvZCjuL/l4ipfcHCPaXXKDetZnBb2lEc8cngg+ijyFtx7m55tbx68Pd0ReieanJ
-         dNR5VXm4mq5jO4w8FSSddu8fo/rIgZKMBcTmim/Iqcq2AGhlVRhgZF89gTsCHOwxhQZU
-         4f4g==
+        b=lHn5cF45sYRuDcDedtCx7+0xLatjLSxbIr3pA9/mcAEun7yVQANiskDhNqqSitB5Jg
+         1ephgPJySiUkdg5o8d1iGuL8wa9aJ0OfrZCMuyrzkU2FXNkQTHBQ2qBBSHBF58FMLtDU
+         6wV8BbUe1565+Bt1Ujed5WB5zlUjndKSzlIUu/fHacClgRacZ1SoGYk4CIo+pw7qv61+
+         FFFj3LhzWntk0GwG9yQh0+0qJ4NEiaszGXZ8d98iw+XkugKFQ5RWRTENEliFjX371V5s
+         SGpawafPNt+J8NIfp/Z/u45jqsmwB5qy50RZsPDrI+FIms/8FdJi1O6pB2KKtylRrADM
+         ggaA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
          :date:sender:dkim-signature;
-        bh=YUr1bmlWANV2b/dG0X2XD3v8dg8UYcKH+3szEZKa0xQ=;
-        b=aXSUvsyBvh+42Wl0oTkfReV8QA3OlZTo6UiHehmdwzJVQqikd9iqQpbTutTFFX69/r
-         JeK0plAWhytDGWJzvrTkf6Ag384T9Stb1A5aky+FGK0Fhp+ioLybYkqy4QDZ0fh75Tkk
-         1JIHxx9UX87rEzc9WUuVydTppL+cY0ZIVp0eXH0j5UwGXGwXk74ilhabkqtIi5hibfTJ
-         ZxltPhNCf50HcaLTSC+8wPwQR6Q5ecgxWM96Ed2sBY//OJVaL/x7ZPwQ6kiu78yktMOB
-         pA0I97pSmFemmcckw+42YcVJaj/iH/mPCELL1Qk8O3nKM7VQ4gEkD0Msg47vy+opJLuA
-         S0fg==
+        bh=nx7aUN0/yJCS5xZtnIlKbyXxp8Cu5NaBFGXr6KIFiV8=;
+        b=rtWfwq4pOdN+JW/HwNnTd5eZm/GAOe/UPZK0ZmYzyJj9wVIsfYO1kF19+EsN9nqWl8
+         GXhDDRoLxqr4IhPyf5uO3wxweggyk5CCZhgrHj9mil6sM95SddL0VzjJwmXV1o8QGD2Y
+         bHMdzhGbCY6eoCP3bKbyRFtDR6cR0zcPGLt9b0p6pvoptVpOo3FjrXtDBYHX7Naj39gf
+         I7gPNQfIvNZNhWr/FtRFMHp6+6N8bbuTf7Dh8UoTI2PaEi7l+pQUlJi7z6JU3F8gn8QV
+         Y9xlc5aaY49oxHF0iIDQzOeyBDtuOQB5uKEjBCKSOFzsmfleAhTM1qk6eb2UUuM8ooFB
+         eJRg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=LQuPh8rZ;
-       spf=pass (google.com: domain of 3fqpoxwukcq8t0at6v33v0t.r31zp7p2-stav33v0tv63947.r31@flex--elver.bounces.google.com designates 2a00:1450:4864:20::449 as permitted sender) smtp.mailfrom=3FqpoXwUKCQ8t0At6v33v0t.r31zp7p2-stAv33v0tv63947.r31@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=hylJXImg;
+       spf=pass (google.com: domain of 3gkpoxwukcrev2cv8x55x2v.t531r9r4-uvcx55x2vx85b69.t53@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::849 as permitted sender) smtp.mailfrom=3GKpoXwUKCREv2Cv8x55x2v.t531r9r4-uvCx55x2vx85B69.t53@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-wr1-x449.google.com (mail-wr1-x449.google.com. [2a00:1450:4864:20::449])
-        by gmr-mx.google.com with ESMTPS id p25si382820lji.8.2020.09.21.06.26.46
+Received: from mail-qt1-x849.google.com (mail-qt1-x849.google.com. [2607:f8b0:4864:20::849])
+        by gmr-mx.google.com with ESMTPS id n8si688265pfd.4.2020.09.21.06.26.50
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Sep 2020 06:26:46 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 3fqpoxwukcq8t0at6v33v0t.r31zp7p2-stav33v0tv63947.r31@flex--elver.bounces.google.com designates 2a00:1450:4864:20::449 as permitted sender) client-ip=2a00:1450:4864:20::449;
-Received: by mail-wr1-x449.google.com with SMTP id y3so5856774wrl.21
-        for <kasan-dev@googlegroups.com>; Mon, 21 Sep 2020 06:26:46 -0700 (PDT)
+        Mon, 21 Sep 2020 06:26:50 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 3gkpoxwukcrev2cv8x55x2v.t531r9r4-uvcx55x2vx85b69.t53@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::849 as permitted sender) client-ip=2607:f8b0:4864:20::849;
+Received: by mail-qt1-x849.google.com with SMTP id y53so12889100qth.2
+        for <kasan-dev@googlegroups.com>; Mon, 21 Sep 2020 06:26:50 -0700 (PDT)
 Sender: "elver via sendgmr" <elver@elver.muc.corp.google.com>
 X-Received: from elver.muc.corp.google.com ([2a00:79e0:15:13:f693:9fff:fef4:2449])
- (user=elver job=sendgmr) by 2002:a1c:59c2:: with SMTP id n185mr29928677wmb.43.1600694806274;
- Mon, 21 Sep 2020 06:26:46 -0700 (PDT)
-Date: Mon, 21 Sep 2020 15:26:05 +0200
+ (user=elver job=sendgmr) by 2002:ad4:5565:: with SMTP id w5mr45433176qvy.24.1600694808773;
+ Mon, 21 Sep 2020 06:26:48 -0700 (PDT)
+Date: Mon, 21 Sep 2020 15:26:06 +0200
 In-Reply-To: <20200921132611.1700350-1-elver@google.com>
-Message-Id: <20200921132611.1700350-5-elver@google.com>
+Message-Id: <20200921132611.1700350-6-elver@google.com>
 Mime-Version: 1.0
 References: <20200921132611.1700350-1-elver@google.com>
 X-Mailer: git-send-email 2.28.0.681.g6f77f65b4e-goog
-Subject: [PATCH v3 04/10] mm, kfence: insert KFENCE hooks for SLAB
+Subject: [PATCH v3 05/10] mm, kfence: insert KFENCE hooks for SLUB
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
 To: elver@google.com, akpm@linux-foundation.org, glider@google.com
 Cc: hpa@zytor.com, paulmck@kernel.org, andreyknvl@google.com, 
@@ -125,9 +125,9 @@ Cc: hpa@zytor.com, paulmck@kernel.org, andreyknvl@google.com,
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=LQuPh8rZ;       spf=pass
- (google.com: domain of 3fqpoxwukcq8t0at6v33v0t.r31zp7p2-stav33v0tv63947.r31@flex--elver.bounces.google.com
- designates 2a00:1450:4864:20::449 as permitted sender) smtp.mailfrom=3FqpoXwUKCQ8t0At6v33v0t.r31zp7p2-stAv33v0tv63947.r31@flex--elver.bounces.google.com;
+ header.i=@google.com header.s=20161025 header.b=hylJXImg;       spf=pass
+ (google.com: domain of 3gkpoxwukcrev2cv8x55x2v.t531r9r4-uvcx55x2vx85b69.t53@flex--elver.bounces.google.com
+ designates 2607:f8b0:4864:20::849 as permitted sender) smtp.mailfrom=3GKpoXwUKCREv2Cv8x55x2v.t531r9r4-uvCx55x2vx85B69.t53@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Marco Elver <elver@google.com>
 Reply-To: Marco Elver <elver@google.com>
@@ -145,7 +145,7 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 From: Alexander Potapenko <glider@google.com>
 
-Inserts KFENCE hooks into the SLAB allocator.
+Inserts KFENCE hooks into the SLUB allocator.
 
 To pass the originally requested size to KFENCE, add an argument
 'orig_size' to slab_alloc*(). The additional argument is required to
@@ -172,208 +172,257 @@ v3:
 * Rewrite patch description to clarify need for 'orig_size'
   [reported by Christopher Lameter].
 ---
- mm/slab.c        | 46 ++++++++++++++++++++++++++++++++++------------
- mm/slab_common.c |  6 +++++-
- 2 files changed, 39 insertions(+), 13 deletions(-)
+ mm/slub.c | 72 ++++++++++++++++++++++++++++++++++++++++---------------
+ 1 file changed, 53 insertions(+), 19 deletions(-)
 
-diff --git a/mm/slab.c b/mm/slab.c
-index 3160dff6fd76..30aba06ae02b 100644
---- a/mm/slab.c
-+++ b/mm/slab.c
-@@ -100,6 +100,7 @@
- #include	<linux/seq_file.h>
- #include	<linux/notifier.h>
- #include	<linux/kallsyms.h>
-+#include	<linux/kfence.h>
- #include	<linux/cpu.h>
- #include	<linux/sysctl.h>
- #include	<linux/module.h>
-@@ -3206,7 +3207,7 @@ static void *____cache_alloc_node(struct kmem_cache *cachep, gfp_t flags,
- }
+diff --git a/mm/slub.c b/mm/slub.c
+index d4177aecedf6..5c5a13a7857c 100644
+--- a/mm/slub.c
++++ b/mm/slub.c
+@@ -27,6 +27,7 @@
+ #include <linux/ctype.h>
+ #include <linux/debugobjects.h>
+ #include <linux/kallsyms.h>
++#include <linux/kfence.h>
+ #include <linux/memory.h>
+ #include <linux/math64.h>
+ #include <linux/fault-inject.h>
+@@ -1557,6 +1558,11 @@ static inline bool slab_free_freelist_hook(struct kmem_cache *s,
+ 	void *old_tail = *tail ? *tail : *head;
+ 	int rsize;
  
- static __always_inline void *
--slab_alloc_node(struct kmem_cache *cachep, gfp_t flags, int nodeid,
-+slab_alloc_node(struct kmem_cache *cachep, gfp_t flags, int nodeid, size_t orig_size,
- 		   unsigned long caller)
- {
- 	unsigned long save_flags;
-@@ -3219,6 +3220,10 @@ slab_alloc_node(struct kmem_cache *cachep, gfp_t flags, int nodeid,
- 	if (unlikely(!cachep))
- 		return NULL;
- 
-+	ptr = kfence_alloc(cachep, orig_size, flags);
-+	if (unlikely(ptr))
-+		goto out_hooks;
-+
- 	cache_alloc_debugcheck_before(cachep, flags);
- 	local_irq_save(save_flags);
- 
-@@ -3251,6 +3256,7 @@ slab_alloc_node(struct kmem_cache *cachep, gfp_t flags, int nodeid,
- 	if (unlikely(slab_want_init_on_alloc(flags, cachep)) && ptr)
- 		memset(ptr, 0, cachep->object_size);
- 
-+out_hooks:
- 	slab_post_alloc_hook(cachep, objcg, flags, 1, &ptr);
- 	return ptr;
- }
-@@ -3288,7 +3294,7 @@ __do_cache_alloc(struct kmem_cache *cachep, gfp_t flags)
- #endif /* CONFIG_NUMA */
- 
- static __always_inline void *
--slab_alloc(struct kmem_cache *cachep, gfp_t flags, unsigned long caller)
-+slab_alloc(struct kmem_cache *cachep, gfp_t flags, size_t orig_size, unsigned long caller)
- {
- 	unsigned long save_flags;
- 	void *objp;
-@@ -3299,6 +3305,10 @@ slab_alloc(struct kmem_cache *cachep, gfp_t flags, unsigned long caller)
- 	if (unlikely(!cachep))
- 		return NULL;
- 
-+	objp = kfence_alloc(cachep, orig_size, flags);
-+	if (unlikely(objp))
-+		goto leave;
-+
- 	cache_alloc_debugcheck_before(cachep, flags);
- 	local_irq_save(save_flags);
- 	objp = __do_cache_alloc(cachep, flags);
-@@ -3309,6 +3319,7 @@ slab_alloc(struct kmem_cache *cachep, gfp_t flags, unsigned long caller)
- 	if (unlikely(slab_want_init_on_alloc(flags, cachep)) && objp)
- 		memset(objp, 0, cachep->object_size);
- 
-+leave:
- 	slab_post_alloc_hook(cachep, objcg, flags, 1, &objp);
- 	return objp;
- }
-@@ -3414,6 +3425,11 @@ static void cache_flusharray(struct kmem_cache *cachep, struct array_cache *ac)
- static __always_inline void __cache_free(struct kmem_cache *cachep, void *objp,
- 					 unsigned long caller)
- {
-+	if (kfence_free(objp)) {
-+		kmemleak_free_recursive(objp, cachep->flags);
-+		return;
++	if (is_kfence_address(next)) {
++		slab_free_hook(s, next);
++		return true;
 +	}
 +
- 	/* Put the object into the quarantine, don't touch it for now. */
- 	if (kasan_slab_free(cachep, objp, _RET_IP_))
- 		return;
-@@ -3479,7 +3495,7 @@ void ___cache_free(struct kmem_cache *cachep, void *objp,
+ 	/* Head and tail of the reconstructed freelist */
+ 	*head = NULL;
+ 	*tail = NULL;
+@@ -2660,7 +2666,8 @@ static inline void *get_freelist(struct kmem_cache *s, struct page *page)
+  * already disabled (which is the case for bulk allocation).
   */
- void *kmem_cache_alloc(struct kmem_cache *cachep, gfp_t flags)
+ static void *___slab_alloc(struct kmem_cache *s, gfp_t gfpflags, int node,
+-			  unsigned long addr, struct kmem_cache_cpu *c)
++			  unsigned long addr, struct kmem_cache_cpu *c,
++			  size_t orig_size)
  {
--	void *ret = slab_alloc(cachep, flags, _RET_IP_);
-+	void *ret = slab_alloc(cachep, flags, cachep->object_size, _RET_IP_);
- 
- 	trace_kmem_cache_alloc(_RET_IP_, ret,
- 			       cachep->object_size, cachep->size, flags);
-@@ -3512,7 +3528,7 @@ int kmem_cache_alloc_bulk(struct kmem_cache *s, gfp_t flags, size_t size,
- 
- 	local_irq_disable();
- 	for (i = 0; i < size; i++) {
--		void *objp = __do_cache_alloc(s, flags);
-+		void *objp = kfence_alloc(s, s->object_size, flags) ?: __do_cache_alloc(s, flags);
- 
- 		if (unlikely(!objp))
- 			goto error;
-@@ -3545,7 +3561,7 @@ kmem_cache_alloc_trace(struct kmem_cache *cachep, gfp_t flags, size_t size)
- {
- 	void *ret;
- 
--	ret = slab_alloc(cachep, flags, _RET_IP_);
-+	ret = slab_alloc(cachep, flags, size, _RET_IP_);
- 
- 	ret = kasan_kmalloc(cachep, ret, size, flags);
- 	trace_kmalloc(_RET_IP_, ret,
-@@ -3571,7 +3587,7 @@ EXPORT_SYMBOL(kmem_cache_alloc_trace);
+ 	void *freelist;
+ 	struct page *page;
+@@ -2763,7 +2770,8 @@ static void *___slab_alloc(struct kmem_cache *s, gfp_t gfpflags, int node,
+  * cpu changes by refetching the per cpu area pointer.
   */
- void *kmem_cache_alloc_node(struct kmem_cache *cachep, gfp_t flags, int nodeid)
+ static void *__slab_alloc(struct kmem_cache *s, gfp_t gfpflags, int node,
+-			  unsigned long addr, struct kmem_cache_cpu *c)
++			  unsigned long addr, struct kmem_cache_cpu *c,
++			  size_t orig_size)
  {
--	void *ret = slab_alloc_node(cachep, flags, nodeid, _RET_IP_);
-+	void *ret = slab_alloc_node(cachep, flags, nodeid, cachep->object_size, _RET_IP_);
+ 	void *p;
+ 	unsigned long flags;
+@@ -2778,7 +2786,7 @@ static void *__slab_alloc(struct kmem_cache *s, gfp_t gfpflags, int node,
+ 	c = this_cpu_ptr(s->cpu_slab);
+ #endif
+ 
+-	p = ___slab_alloc(s, gfpflags, node, addr, c);
++	p = ___slab_alloc(s, gfpflags, node, addr, c, orig_size);
+ 	local_irq_restore(flags);
+ 	return p;
+ }
+@@ -2805,7 +2813,7 @@ static __always_inline void maybe_wipe_obj_freeptr(struct kmem_cache *s,
+  * Otherwise we can simply pick the next object from the lockless free list.
+  */
+ static __always_inline void *slab_alloc_node(struct kmem_cache *s,
+-		gfp_t gfpflags, int node, unsigned long addr)
++		gfp_t gfpflags, int node, unsigned long addr, size_t orig_size)
+ {
+ 	void *object;
+ 	struct kmem_cache_cpu *c;
+@@ -2816,6 +2824,11 @@ static __always_inline void *slab_alloc_node(struct kmem_cache *s,
+ 	s = slab_pre_alloc_hook(s, &objcg, 1, gfpflags);
+ 	if (!s)
+ 		return NULL;
++
++	object = kfence_alloc(s, orig_size, gfpflags);
++	if (unlikely(object))
++		goto out;
++
+ redo:
+ 	/*
+ 	 * Must read kmem_cache cpu data via this cpu ptr. Preemption is
+@@ -2853,7 +2866,7 @@ static __always_inline void *slab_alloc_node(struct kmem_cache *s,
+ 	object = c->freelist;
+ 	page = c->page;
+ 	if (unlikely(!object || !node_match(page, node))) {
+-		object = __slab_alloc(s, gfpflags, node, addr, c);
++		object = __slab_alloc(s, gfpflags, node, addr, c, orig_size);
+ 		stat(s, ALLOC_SLOWPATH);
+ 	} else {
+ 		void *next_object = get_freepointer_safe(s, object);
+@@ -2889,20 +2902,21 @@ static __always_inline void *slab_alloc_node(struct kmem_cache *s,
+ 	if (unlikely(slab_want_init_on_alloc(gfpflags, s)) && object)
+ 		memset(object, 0, s->object_size);
+ 
++out:
+ 	slab_post_alloc_hook(s, objcg, gfpflags, 1, &object);
+ 
+ 	return object;
+ }
+ 
+ static __always_inline void *slab_alloc(struct kmem_cache *s,
+-		gfp_t gfpflags, unsigned long addr)
++		gfp_t gfpflags, unsigned long addr, size_t orig_size)
+ {
+-	return slab_alloc_node(s, gfpflags, NUMA_NO_NODE, addr);
++	return slab_alloc_node(s, gfpflags, NUMA_NO_NODE, addr, orig_size);
+ }
+ 
+ void *kmem_cache_alloc(struct kmem_cache *s, gfp_t gfpflags)
+ {
+-	void *ret = slab_alloc(s, gfpflags, _RET_IP_);
++	void *ret = slab_alloc(s, gfpflags, _RET_IP_, s->object_size);
+ 
+ 	trace_kmem_cache_alloc(_RET_IP_, ret, s->object_size,
+ 				s->size, gfpflags);
+@@ -2914,7 +2928,7 @@ EXPORT_SYMBOL(kmem_cache_alloc);
+ #ifdef CONFIG_TRACING
+ void *kmem_cache_alloc_trace(struct kmem_cache *s, gfp_t gfpflags, size_t size)
+ {
+-	void *ret = slab_alloc(s, gfpflags, _RET_IP_);
++	void *ret = slab_alloc(s, gfpflags, _RET_IP_, size);
+ 	trace_kmalloc(_RET_IP_, ret, size, s->size, gfpflags);
+ 	ret = kasan_kmalloc(s, ret, size, gfpflags);
+ 	return ret;
+@@ -2925,7 +2939,7 @@ EXPORT_SYMBOL(kmem_cache_alloc_trace);
+ #ifdef CONFIG_NUMA
+ void *kmem_cache_alloc_node(struct kmem_cache *s, gfp_t gfpflags, int node)
+ {
+-	void *ret = slab_alloc_node(s, gfpflags, node, _RET_IP_);
++	void *ret = slab_alloc_node(s, gfpflags, node, _RET_IP_, s->object_size);
  
  	trace_kmem_cache_alloc_node(_RET_IP_, ret,
- 				    cachep->object_size, cachep->size,
-@@ -3589,7 +3605,7 @@ void *kmem_cache_alloc_node_trace(struct kmem_cache *cachep,
+ 				    s->object_size, s->size, gfpflags, node);
+@@ -2939,7 +2953,7 @@ void *kmem_cache_alloc_node_trace(struct kmem_cache *s,
+ 				    gfp_t gfpflags,
+ 				    int node, size_t size)
  {
- 	void *ret;
+-	void *ret = slab_alloc_node(s, gfpflags, node, _RET_IP_);
++	void *ret = slab_alloc_node(s, gfpflags, node, _RET_IP_, size);
  
--	ret = slab_alloc_node(cachep, flags, nodeid, _RET_IP_);
-+	ret = slab_alloc_node(cachep, flags, nodeid, size, _RET_IP_);
- 
- 	ret = kasan_kmalloc(cachep, ret, size, flags);
  	trace_kmalloc_node(_RET_IP_, ret,
-@@ -3650,7 +3666,7 @@ static __always_inline void *__do_kmalloc(size_t size, gfp_t flags,
- 	cachep = kmalloc_slab(size, flags);
- 	if (unlikely(ZERO_OR_NULL_PTR(cachep)))
- 		return cachep;
--	ret = slab_alloc(cachep, flags, caller);
-+	ret = slab_alloc(cachep, flags, size, caller);
+ 			   size, s->size, gfpflags, node);
+@@ -2973,6 +2987,9 @@ static void __slab_free(struct kmem_cache *s, struct page *page,
  
- 	ret = kasan_kmalloc(cachep, ret, size, flags);
- 	trace_kmalloc(caller, ret,
-@@ -4138,18 +4154,24 @@ void __check_heap_object(const void *ptr, unsigned long n, struct page *page,
- 			 bool to_user)
- {
- 	struct kmem_cache *cachep;
--	unsigned int objnr;
-+	unsigned int objnr = 0;
- 	unsigned long offset;
+ 	stat(s, FREE_SLOWPATH);
+ 
++	if (kfence_free(head))
++		return;
++
+ 	if (kmem_cache_debug(s) &&
+ 	    !free_debug_processing(s, page, head, tail, cnt, addr))
+ 		return;
+@@ -3216,6 +3233,13 @@ int build_detached_freelist(struct kmem_cache *s, size_t size,
+ 		df->s = cache_from_obj(s, object); /* Support for memcg */
+ 	}
+ 
++	if (is_kfence_address(object)) {
++		slab_free_hook(df->s, object);
++		WARN_ON(!kfence_free(object));
++		p[size] = NULL; /* mark object processed */
++		return size;
++	}
++
+ 	/* Start new detached freelist */
+ 	df->page = page;
+ 	set_freepointer(df->s, object, NULL);
+@@ -3290,8 +3314,14 @@ int kmem_cache_alloc_bulk(struct kmem_cache *s, gfp_t flags, size_t size,
+ 	c = this_cpu_ptr(s->cpu_slab);
+ 
+ 	for (i = 0; i < size; i++) {
+-		void *object = c->freelist;
++		void *object = kfence_alloc(s, s->object_size, flags);
+ 
++		if (unlikely(object)) {
++			p[i] = object;
++			continue;
++		}
++
++		object = c->freelist;
+ 		if (unlikely(!object)) {
+ 			/*
+ 			 * We may have removed an object from c->freelist using
+@@ -3307,7 +3337,7 @@ int kmem_cache_alloc_bulk(struct kmem_cache *s, gfp_t flags, size_t size,
+ 			 * of re-populating per CPU c->freelist
+ 			 */
+ 			p[i] = ___slab_alloc(s, flags, NUMA_NO_NODE,
+-					    _RET_IP_, c);
++					    _RET_IP_, c, size);
+ 			if (unlikely(!p[i]))
+ 				goto error;
+ 
+@@ -3962,7 +3992,7 @@ void *__kmalloc(size_t size, gfp_t flags)
+ 	if (unlikely(ZERO_OR_NULL_PTR(s)))
+ 		return s;
+ 
+-	ret = slab_alloc(s, flags, _RET_IP_);
++	ret = slab_alloc(s, flags, _RET_IP_, size);
+ 
+ 	trace_kmalloc(_RET_IP_, ret, size, s->size, flags);
+ 
+@@ -4010,7 +4040,7 @@ void *__kmalloc_node(size_t size, gfp_t flags, int node)
+ 	if (unlikely(ZERO_OR_NULL_PTR(s)))
+ 		return s;
+ 
+-	ret = slab_alloc_node(s, flags, node, _RET_IP_);
++	ret = slab_alloc_node(s, flags, node, _RET_IP_, size);
+ 
+ 	trace_kmalloc_node(_RET_IP_, ret, size, s->size, flags, node);
+ 
+@@ -4036,6 +4066,7 @@ void __check_heap_object(const void *ptr, unsigned long n, struct page *page,
+ 	struct kmem_cache *s;
+ 	unsigned int offset;
+ 	size_t object_size;
 +	bool is_kfence = is_kfence_address(ptr);
  
  	ptr = kasan_reset_tag(ptr);
  
- 	/* Find and validate object. */
- 	cachep = page->slab_cache;
--	objnr = obj_to_index(cachep, page, (void *)ptr);
--	BUG_ON(objnr >= cachep->num);
-+	if (!is_kfence) {
-+		objnr = obj_to_index(cachep, page, (void *)ptr);
-+		BUG_ON(objnr >= cachep->num);
-+	}
+@@ -4048,10 +4079,13 @@ void __check_heap_object(const void *ptr, unsigned long n, struct page *page,
+ 			       to_user, 0, n);
  
  	/* Find offset within object. */
--	offset = ptr - index_to_obj(cachep, page, objnr) - obj_offset(cachep);
-+	if (is_kfence_address(ptr))
+-	offset = (ptr - page_address(page)) % s->size;
++	if (is_kfence)
 +		offset = ptr - kfence_object_start(ptr);
 +	else
-+		offset = ptr - index_to_obj(cachep, page, objnr) - obj_offset(cachep);
++		offset = (ptr - page_address(page)) % s->size;
  
- 	/* Allow address range falling entirely within usercopy region. */
- 	if (offset >= cachep->useroffset &&
-diff --git a/mm/slab_common.c b/mm/slab_common.c
-index f9ccd5dc13f3..6e35e273681a 100644
---- a/mm/slab_common.c
-+++ b/mm/slab_common.c
-@@ -12,6 +12,7 @@
- #include <linux/memory.h>
- #include <linux/cache.h>
- #include <linux/compiler.h>
-+#include <linux/kfence.h>
- #include <linux/module.h>
- #include <linux/cpu.h>
- #include <linux/uaccess.h>
-@@ -448,6 +449,9 @@ static int shutdown_cache(struct kmem_cache *s)
- 	/* free asan quarantined objects */
- 	kasan_cache_shutdown(s);
+ 	/* Adjust for redzone and reject if within the redzone. */
+-	if (kmem_cache_debug_flags(s, SLAB_RED_ZONE)) {
++	if (!is_kfence && kmem_cache_debug_flags(s, SLAB_RED_ZONE)) {
+ 		if (offset < s->red_left_pad)
+ 			usercopy_abort("SLUB object in left red zone",
+ 				       s->name, to_user, offset, n);
+@@ -4460,7 +4494,7 @@ void *__kmalloc_track_caller(size_t size, gfp_t gfpflags, unsigned long caller)
+ 	if (unlikely(ZERO_OR_NULL_PTR(s)))
+ 		return s;
  
-+	if (!kfence_shutdown_cache(s))
-+		return -EBUSY;
-+
- 	if (__kmem_cache_shutdown(s) != 0)
- 		return -EBUSY;
+-	ret = slab_alloc(s, gfpflags, caller);
++	ret = slab_alloc(s, gfpflags, caller, size);
  
-@@ -1171,7 +1175,7 @@ size_t ksize(const void *objp)
- 	if (unlikely(ZERO_OR_NULL_PTR(objp)) || !__kasan_check_read(objp, 1))
- 		return 0;
+ 	/* Honor the call site pointer we received. */
+ 	trace_kmalloc(caller, ret, size, s->size, gfpflags);
+@@ -4491,7 +4525,7 @@ void *__kmalloc_node_track_caller(size_t size, gfp_t gfpflags,
+ 	if (unlikely(ZERO_OR_NULL_PTR(s)))
+ 		return s;
  
--	size = __ksize(objp);
-+	size = kfence_ksize(objp) ?: __ksize(objp);
- 	/*
- 	 * We assume that ksize callers could use whole allocated area,
- 	 * so we need to unpoison this area.
+-	ret = slab_alloc_node(s, gfpflags, node, caller);
++	ret = slab_alloc_node(s, gfpflags, node, caller, size);
+ 
+ 	/* Honor the call site pointer we received. */
+ 	trace_kmalloc_node(caller, ret, size, s->size, gfpflags, node);
 -- 
 2.28.0.681.g6f77f65b4e-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200921132611.1700350-5-elver%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200921132611.1700350-6-elver%40google.com.
