@@ -1,119 +1,142 @@
-Return-Path: <kasan-dev+bncBDJKZSEQ3YKRBAVUUP5QKGQEQIPNCAQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBN56UP5QKGQEDNO7IQQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-f183.google.com (mail-lj1-f183.google.com [209.85.208.183])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D637272EA1
-	for <lists+kasan-dev@lfdr.de>; Mon, 21 Sep 2020 18:51:15 +0200 (CEST)
-Received: by mail-lj1-f183.google.com with SMTP id l1sf4331492ljj.2
-        for <lists+kasan-dev@lfdr.de>; Mon, 21 Sep 2020 09:51:15 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1600707074; cv=pass;
+Received: from mail-oo1-xc38.google.com (mail-oo1-xc38.google.com [IPv6:2607:f8b0:4864:20::c38])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A08A2730AD
+	for <lists+kasan-dev@lfdr.de>; Mon, 21 Sep 2020 19:13:28 +0200 (CEST)
+Received: by mail-oo1-xc38.google.com with SMTP id z75sf7159386ooa.21
+        for <lists+kasan-dev@lfdr.de>; Mon, 21 Sep 2020 10:13:28 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1600708407; cv=pass;
         d=google.com; s=arc-20160816;
-        b=rE5zofdH9W+2HfLF2Fp90XIsw44rxvqIUGytU0FJV/kx2RLcOarJAl3KaBzOkFZvvY
-         NrpuWia8dOMJQbicNDtttsrgglJnYZO7SpWEgZ1vJocyzfB2lpXAX5egeMS3yXkyocS9
-         zQ5LiD+v+FbBBBTBeoiImWXaj8GwfHhbPS8L4sMkYSCvr0D9THevJrqN7O1HEHwQsWsV
-         mEvbinTY56ysp7CXREVnwTm2itpa7f3iVaOR3y2jyMg3UmFbcowbwSCP9wdUeo+6twCP
-         RSznCckm81H83CMcZwjU3VqPxzfw+jm0NlnMEnmA9wi9k/7GwWgmQroVPtrQiE15vI1T
-         U7jw==
+        b=JGjpjsW+1kcJ+7nA+/8p8F8nIzDyejzqyeo2Lamujh9m0nJLbB2fevW4Ev9ljEWh50
+         oIUZymtzL5s4s/hRlOo7vbe4NirFPgMmD7/7rJWQzXOB4JfWTk3TS/tXgiuhK/OQQYSD
+         2cAnWwKVPgTyHUDGY8gJM8y59Gp7mS4+Y0MgrQTYqJIfvHXfZ/b0sUc4knre/Jo0ydEc
+         oUgYPuwVBCrKIsWiU1dcwgor3v/lZKPQH/kAmopGSt6m0FOTTKr/1OeXnAPZi9d0vMHF
+         Za4iIukuOjAeUFnUAVIZlAJRqG6wbVFX37ACAS4rqFrwXN+4T8jzBo1ASmypLFq6c6p3
+         JVYg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:robot-unsubscribe:robot-id
-         :message-id:mime-version:references:in-reply-to:cc:subject:to
-         :reply-to:sender:from:date;
-        bh=5WtwtptILIar+gNsHmk7n8QRGQRfod1D38WYKAWR/9w=;
-        b=RP+7KbWL8IzrPumivxPYKKERrzqv/g4uCK0ImEErC4eNs/kwrOsMspqX3KqmK5W1tW
-         i6NtwSZuNmQ9FipNkcgfMSC+Ab4TQtkNPj5eU8XuB8pMgl8V9i3jeLtvOCn7lxuziYN8
-         suIw90pWpl7NPfX1o4NYo3LZo6nSr8gHsjGZtTgGrrBCVk7KeHTn1uNwIeVnzx+CIdnj
-         8gXAjm6JYyVFp42uSWEx0bNemqMuV6RvNyoNFKloB9wQXU00xscPEZnSWoi48NLIPnf/
-         FJMcs9zO4hn06ge9k22foiJay3wSHYqY1D6m63RgbBCjOg5hId98Fmn3+tTty/WKh1v/
-         w65g==
+         :list-id:mailing-list:precedence:user-agent:in-reply-to
+         :content-disposition:mime-version:references:reply-to:message-id
+         :subject:cc:to:from:date:sender:dkim-signature;
+        bh=QnOZ06m+HSf9zF2uC6S6n7WLilhNhlV/jmV72ySH5dM=;
+        b=sQ/VNqayeh5MlRWjQhYAZ/oXFTLP63QIDmLcEz+vFxR+oLg2+HySfdKbdwmsnDUDnT
+         mhlh3U/WqEamwLY8cUkIuFc6xGlprBBzkXF8lUz7vnOF7Kxo87Rg2uPnLcFhbuYEUuiW
+         eNQf0BXfC6S2GvpkLOv1c/UpdVuMQAR0HAQRu4qHhQ8WemFtCKupbJPPtyeUb6A+sruR
+         8ivPup4x+Xif9VyJFzZX1eI4MByBqUUM3L3MtVPxc9gsxk4JG6VGGMhD7n9TL+J9iFS+
+         d2WyazgkzOTH4sdrPRinL0d2IX6Zhr6EA07VuIRcrNyPRM8NKb1sM3QgCVh9mF6zrvFb
+         73Cw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linutronix.de header.s=2020 header.b=lA42DkUt;
-       dkim=neutral (no key) header.i=@linutronix.de header.b=rPGj3exW;
-       spf=pass (google.com: domain of tip-bot2@linutronix.de designates 193.142.43.55 as permitted sender) smtp.mailfrom=tip-bot2@linutronix.de;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=linutronix.de
+       dkim=pass header.i=@kernel.org header.s=default header.b=1ijNGgPZ;
+       spf=pass (google.com: domain of srs0=dqke=c6=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=dqke=C6=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=googlegroups.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:reply-to:references
+         :mime-version:content-disposition:in-reply-to:user-agent
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=QnOZ06m+HSf9zF2uC6S6n7WLilhNhlV/jmV72ySH5dM=;
+        b=WVE+2p7nAJw6Sc7Xkpx/OE7dNQoj2ZSYSgJxyr8OoFwQy+6H3RyKk2ByIkMY9MMlhz
+         zezoU36EVb0nDkE+h3Yloebcw0WKNQpbbvAH0jPUaXY1tHrBqkFWEhuWHY4v0uuBXQNt
+         D/VeibaK5tbHkT4D6KhVmF0Y+YkoT8RJPhbi5yiOt1prTJp5V58kD0ufx19hSmRtWUxe
+         Tc6wWAM7tY9bbCSAJVwLiJkItmDxnUgRMC2+DzwzwvKYLM5sZUai4NJ2caZiy5ukv5TY
+         lrZbH4cK8VUrPbRH/P99XTcGTx0G7GW9UcuAZMlPoChRMjgwhBvfGGMpDSjUZ7ikvHMZ
+         cQCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:sender:reply-to:to:subject:cc
-         :in-reply-to:references:mime-version:message-id:robot-id
-         :robot-unsubscribe:precedence:x-original-sender
-         :x-original-authentication-results:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=5WtwtptILIar+gNsHmk7n8QRGQRfod1D38WYKAWR/9w=;
-        b=lYshN5itawGEN3nSI73gva/6/ZOoVz5eqwEMdBH+nudtgp/wHrzft2+0d1W2XU6tLr
-         iGmwWUuTzMG98kT5fO1mjwrtLFcLP4pe4ZcJQ/dSKIlE17wl96toSntt7tXDsJzyyOO5
-         +rr473H1l87f8OFDxxxNFDn27J7kw3GJHCW793ZUlea4HP5NLmtuIgUVa2FSjSGebQ4+
-         VZM2Hlj5TUVO1YNWxhRn0lGrCWHhomg94YHH7R7n9EuNgrm6Sdru96B5LxHs63UuEGjR
-         Y8qzfkdkkSvtliPJW+mGxwzQ3MHh7jE32Yhcola4tcUIdUlXIaCPQoL3+bZPZ5TCjqo0
-         740g==
-X-Gm-Message-State: AOAM532BSI8Qeckf4bhv4PBUvtyryVYJylEi0HyOnFYm82RNjDX8lQUA
-	tRc7DlHhJSbg+cTZLX3TvVY=
-X-Google-Smtp-Source: ABdhPJyr2fKFhLHM0K15/Oj9uxc9NSFUCulgKX/mvc0x5Tm6L5C+EOZVsm7M1a9TKZbJdcCp9nX5AA==
-X-Received: by 2002:a19:6147:: with SMTP id m7mr311597lfk.108.1600707074707;
-        Mon, 21 Sep 2020 09:51:14 -0700 (PDT)
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :reply-to:references:mime-version:content-disposition:in-reply-to
+         :user-agent:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=QnOZ06m+HSf9zF2uC6S6n7WLilhNhlV/jmV72ySH5dM=;
+        b=QG//+kVlUYOVzrdnA03fGQF/McFvQeo+3/6J9Ca9Ce2UnURJBRQxjdhJsf0fKygClF
+         WyNqNaUxizCduUD+buLxRwzbPpjOfxV1S9eYMwWj/pK6coCFGnoGVJplcAef6V5gSEr2
+         a22dkuSO+Szk6KxT2D+7V+OeX2QBdhnYsdHqehnk5QZepsRE1fvmdqu5t9IgxcW8SL5P
+         SAz1UE3RFmqoBuSDmCfXxyOD3iSJm4GtapEu5OZftxdk5hU7Us64uLn0cNyP8rCzy+pd
+         z5NUo+yZvzg2PDS34pVhNfFzTS1bnyDLcxTWXPUReSTwtodngtR7LZqT3KlQwdvxmSyY
+         ESdQ==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM533oehRGlUNd8z95Vg2lJwVTuKCbnDMwXumn7sxr5GK57GWQ2gid
+	bB3JUW77j0vmlvjp/kpjcHE=
+X-Google-Smtp-Source: ABdhPJwLm1eYH7qBD5Dl/PezOVXc8TFOujsSWNmP+ni2fKew/SaZymo0mUXyRSpVpbuPtW4SM/YLzg==
+X-Received: by 2002:a54:408d:: with SMTP id i13mr241121oii.156.1600708407200;
+        Mon, 21 Sep 2020 10:13:27 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ac2:5c44:: with SMTP id s4ls582009lfp.3.gmail; Mon, 21 Sep
- 2020 09:51:13 -0700 (PDT)
-X-Received: by 2002:ac2:54b4:: with SMTP id w20mr285597lfk.13.1600707073536;
-        Mon, 21 Sep 2020 09:51:13 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1600707073; cv=none;
+Received: by 2002:a9d:7ad8:: with SMTP id m24ls3046683otn.8.gmail; Mon, 21 Sep
+ 2020 10:13:26 -0700 (PDT)
+X-Received: by 2002:a9d:7dd8:: with SMTP id k24mr356769otn.160.1600708406854;
+        Mon, 21 Sep 2020 10:13:26 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1600708406; cv=none;
         d=google.com; s=arc-20160816;
-        b=dEecvWG4HLjFjoaw26yOPfFap8jcFZEi/O71mKwFiWg09EQXl3eC+ttRGr40FOE/ow
-         N7duF0TS/zokNOIC+ehQsLikQD4IyFir641h45rmvsBO/ETn1V9AAIgGNTvBXyQr9PQw
-         GSSjWnx2f9MMx3GdmlPLpv8YaKVejDWKHRy3sMJRxWaxnPtuYgGQ8Dy/Vjtw+/iB4gq8
-         fih+QvgKo3xcifmYcxk+zABFsy8mdPVyqTpMmWbK/e3qtBj2O5vMus0f+tMpUiqVdPfW
-         5Do3A1GkmYFVYbC0FV+fLElmp8CgZ+mCn56LQvL9ghlynQzdlfPNG9/Tx0Z/iorAbyro
-         K9Ew==
+        b=sE6dGOkDvdKpHCBvEdO7kVxWIHNvCzr++CtfLgJEmGJK/bC7aT24LXzY+52XgCYvZ3
+         5ZgBQhwbctOBFms7EWLMXYAGIbLQPaSLEf4laWfsjnQbd1DhWWLHlvu0hzCpMPptEkB0
+         ReeL4JuE4t0dxAC9SHA98DYWCz+G/muh63dfXyl+yXud75pa/oNTsK3tBTZEsHnHrZ6r
+         U3Q/IAvQ3YBxubkZHbKOAJibxuuwhKZmlHpBOq6rzpevdUdbXtjThX8eSWYbBaR43NxG
+         T0Pi2mRew5FSIUrAheFPgEqVd5PLCNALFTHzUBrEfbKThuHNsZHsC2P31LcbRA7XIOyJ
+         553Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:precedence:robot-unsubscribe:robot-id
-         :message-id:mime-version:references:in-reply-to:cc:subject:to
-         :reply-to:sender:from:dkim-signature:dkim-signature:date;
-        bh=gVfzDlgm3AjlhLPfD/PKu06jc0A49KijvnhM+NCvAtE=;
-        b=lGEatiCrj9rRGlQ59o1aw17B2GguYuWCn55xORYpD2AlJqCqyS6u0v6FlWjDlODIlD
-         sZuO/+T02pNsthTZh6TR0JH0cFBQmVY/Lw4hwArqOv6a3z37XBwLiwPr2fbr5cKdmgUO
-         xOs8ZWW6zZdyule4R0Y867q4pfWXS9rwJc/E5NcuYpnAhZ1qsu+Y0Y8V3BpceEyOA8YF
-         KSKKhWwi6KN/MYG/DftIe0emUY8KHZ5mIQT21ou2MBLYx8qZo0RTntXlWH6LIE3sHjrS
-         OX6PsVreE7anCGI45dqL+mWLlvxZTLh6Z3Cw4na60K2sYURNt5hs2ZuJsvutwFY5cTh8
-         LSLg==
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :reply-to:message-id:subject:cc:to:from:date:dkim-signature;
+        bh=pR+KXBQDolnTwvcjsxqeGpHvkdNbMhlvFuzpuFiWQqQ=;
+        b=O+lWn4umfFUWumuSFPZHunCFOtDoGmgZlX3Ak5Kbx2mqmnAyKtyZMBimvXiXfQkuBO
+         95ASMmnaPjKApTE3IqsrWNBznsLw0Q6gK9Zozps6cBMA54fYUq5u4/r53N2+oXwCHeo/
+         hkauimCoGaJbrfGezmGX+NSPqt9/xI4PzUQQ8unGR5Yj6sD1niRpXmhpNki7qfYelP6s
+         UnWYRW51BhMZA2OvIuIROPl/ZIUMl/8SZNHVyziaQcCMuuOO4QrsT1T3uI/L+3MUGoEU
+         N94WKTF3MGnP2cDEi4XxtJ8HnGu/VA7Q+w4oJCtr/I5f8Z4s3OOQqwteIVmlcGDPnrv7
+         IcEQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linutronix.de header.s=2020 header.b=lA42DkUt;
-       dkim=neutral (no key) header.i=@linutronix.de header.b=rPGj3exW;
-       spf=pass (google.com: domain of tip-bot2@linutronix.de designates 193.142.43.55 as permitted sender) smtp.mailfrom=tip-bot2@linutronix.de;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=linutronix.de
-Received: from galois.linutronix.de (Galois.linutronix.de. [193.142.43.55])
-        by gmr-mx.google.com with ESMTPS id 11si277595lfl.4.2020.09.21.09.51.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Sep 2020 09:51:13 -0700 (PDT)
-Received-SPF: pass (google.com: domain of tip-bot2@linutronix.de designates 193.142.43.55 as permitted sender) client-ip=193.142.43.55;
-Date: Mon, 21 Sep 2020 16:51:11 -0000
-From: "tip-bot2 for Ilie Halip" <tip-bot2@linutronix.de>
-Sender: tip-bot2@linutronix.de
-Reply-to: linux-kernel@vger.kernel.org
-To: linux-tip-commits@vger.kernel.org
-Subject: [tip: objtool/core] objtool: Ignore unreachable trap after call to
- noreturn functions
-Cc: Nick Desaulniers <ndesaulniers@google.com>,
- Rong Chen <rong.a.chen@intel.com>, Marco Elver <elver@google.com>,
- Philip Li <philip.li@intel.com>, Borislav Petkov <bp@alien8.de>,
- kasan-dev@googlegroups.com, x86@kernel.org,
- clang-built-linux@googlegroups.com, kbuild test robot <lkp@intel.com>,
- Ilie Halip <ilie.halip@gmail.com>, Sedat Dilek <sedat.dilek@gmail.com>,
- Josh Poimboeuf <jpoimboe@redhat.com>, LKML <linux-kernel@vger.kernel.org>
-In-Reply-To: <CAKwvOdmptEpi8fiOyWUo=AiZJiX+Z+VHJOM2buLPrWsMTwLnyw@mail.gmail.com>
-References: <CAKwvOdmptEpi8fiOyWUo=AiZJiX+Z+VHJOM2buLPrWsMTwLnyw@mail.gmail.com>
+       dkim=pass header.i=@kernel.org header.s=default header.b=1ijNGgPZ;
+       spf=pass (google.com: domain of srs0=dqke=c6=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=dqke=C6=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
+        by gmr-mx.google.com with ESMTPS id o22si726411otk.2.2020.09.21.10.13.26
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 21 Sep 2020 10:13:26 -0700 (PDT)
+Received-SPF: pass (google.com: domain of srs0=dqke=c6=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
+Received: from paulmck-ThinkPad-P72.home (unknown [50.45.173.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPSA id 1305520758;
+	Mon, 21 Sep 2020 17:13:26 +0000 (UTC)
+Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
+	id D2C8D352303A; Mon, 21 Sep 2020 10:13:25 -0700 (PDT)
+Date: Mon, 21 Sep 2020 10:13:25 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Marco Elver <elver@google.com>
+Cc: akpm@linux-foundation.org, glider@google.com, hpa@zytor.com,
+	andreyknvl@google.com, aryabinin@virtuozzo.com, luto@kernel.org,
+	bp@alien8.de, catalin.marinas@arm.com, cl@linux.com,
+	dave.hansen@linux.intel.com, rientjes@google.com,
+	dvyukov@google.com, edumazet@google.com, gregkh@linuxfoundation.org,
+	hdanton@sina.com, mingo@redhat.com, jannh@google.com,
+	Jonathan.Cameron@huawei.com, corbet@lwn.net, iamjoonsoo.kim@lge.com,
+	keescook@chromium.org, mark.rutland@arm.com, penberg@kernel.org,
+	peterz@infradead.org, sjpark@amazon.com, tglx@linutronix.de,
+	vbabka@suse.cz, will@kernel.org, x86@kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	kasan-dev@googlegroups.com, linux-arm-kernel@lists.infradead.org,
+	linux-mm@kvack.org
+Subject: Re: [PATCH v3 10/10] kfence: add test suite
+Message-ID: <20200921171325.GE29330@paulmck-ThinkPad-P72>
+Reply-To: paulmck@kernel.org
+References: <20200921132611.1700350-1-elver@google.com>
+ <20200921132611.1700350-11-elver@google.com>
 MIME-Version: 1.0
-Message-ID: <160070707105.15536.14094674309505985856.tip-bot2@tip-bot2>
-Robot-ID: <tip-bot2.linutronix.de>
-Robot-Unsubscribe: Contact <mailto:tglx@linutronix.de> to get blacklisted from these emails
-Precedence: list
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: tip-bot2@linutronix.de
+Content-Disposition: inline
+In-Reply-To: <20200921132611.1700350-11-elver@google.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Original-Sender: paulmck@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linutronix.de header.s=2020 header.b=lA42DkUt;       dkim=neutral
- (no key) header.i=@linutronix.de header.b=rPGj3exW;       spf=pass
- (google.com: domain of tip-bot2@linutronix.de designates 193.142.43.55 as
- permitted sender) smtp.mailfrom=tip-bot2@linutronix.de;       dmarc=pass
- (p=NONE sp=QUARANTINE dis=NONE) header.from=linutronix.de
+ header.i=@kernel.org header.s=default header.b=1ijNGgPZ;       spf=pass
+ (google.com: domain of srs0=dqke=c6=paulmck-thinkpad-p72.home=paulmck@kernel.org
+ designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=dqke=C6=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
 X-Spam-Checked-In-Group: kasan-dev@googlegroups.com
@@ -125,89 +148,55 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-The following commit has been merged into the objtool/core branch of tip:
+On Mon, Sep 21, 2020 at 03:26:11PM +0200, Marco Elver wrote:
+> Add KFENCE test suite, testing various error detection scenarios. Makes
+> use of KUnit for test organization. Since KFENCE's interface to obtain
+> error reports is via the console, the test verifies that KFENCE outputs
+> expected reports to the console.
+> 
+> Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
+> Co-developed-by: Alexander Potapenko <glider@google.com>
+> Signed-off-by: Alexander Potapenko <glider@google.com>
+> Signed-off-by: Marco Elver <elver@google.com>
 
-Commit-ID:     14db1f0a93331d0958e90da522c429ff0890d2d6
-Gitweb:        https://git.kernel.org/tip/14db1f0a93331d0958e90da522c429ff0890d2d6
-Author:        Ilie Halip <ilie.halip@gmail.com>
-AuthorDate:    Sat, 19 Sep 2020 09:41:18 +03:00
-Committer:     Josh Poimboeuf <jpoimboe@redhat.com>
-CommitterDate: Mon, 21 Sep 2020 10:20:10 -05:00
+[ . . . ]
 
-objtool: Ignore unreachable trap after call to noreturn functions
+> +/* Test SLAB_TYPESAFE_BY_RCU works. */
+> +static void test_memcache_typesafe_by_rcu(struct kunit *test)
+> +{
+> +	const size_t size = 32;
+> +	struct expect_report expect = {
+> +		.type = KFENCE_ERROR_UAF,
+> +		.fn = test_memcache_typesafe_by_rcu,
+> +	};
+> +
+> +	setup_test_cache(test, size, SLAB_TYPESAFE_BY_RCU, NULL);
+> +	KUNIT_EXPECT_TRUE(test, test_cache); /* Want memcache. */
+> +
+> +	expect.addr = test_alloc(test, size, GFP_KERNEL, ALLOCATE_ANY);
+> +	*expect.addr = 42;
+> +
+> +	rcu_read_lock();
+> +	test_free(expect.addr);
+> +	KUNIT_EXPECT_EQ(test, *expect.addr, (char)42);
+> +	rcu_read_unlock();
 
-With CONFIG_UBSAN_TRAP enabled, the compiler may insert a trap
-instruction after a call to a noreturn function. In this case, objtool
-warns that the UD2 instruction is unreachable.
+It won't happen very often, but memory really could be freed at this point,
+especially in CONFIG_RCU_STRICT_GRACE_PERIOD=y kernels ...
 
-This is a behavior seen with Clang, from the oldest version capable of
-building the mainline x64_64 kernel (9.0), to the latest experimental
-version (12.0).
+> +	/* No reports yet, memory should not have been freed on access. */
+> +	KUNIT_EXPECT_FALSE(test, report_available());
 
-Objtool silences similar warnings (trap after dead end instructions), so
-so expand that check to include dead end functions.
+... so the above statement needs to go before the rcu_read_unlock().
 
-Cc: Nick Desaulniers <ndesaulniers@google.com>
-Cc: Rong Chen <rong.a.chen@intel.com>
-Cc: Marco Elver <elver@google.com>
-Cc: Philip Li <philip.li@intel.com>
-Cc: Borislav Petkov <bp@alien8.de>
-Cc: kasan-dev@googlegroups.com
-Cc: x86@kernel.org
-Cc: clang-built-linux@googlegroups.com
-BugLink: https://github.com/ClangBuiltLinux/linux/issues/1148
-Link: https://lore.kernel.org/lkml/CAKwvOdmptEpi8fiOyWUo=AiZJiX+Z+VHJOM2buLPrWsMTwLnyw@mail.gmail.com
-Suggested-by: Nick Desaulniers <ndesaulniers@google.com>
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
-Tested-by: Nick Desaulniers <ndesaulniers@google.com>
-Reported-by: kbuild test robot <lkp@intel.com>
-Signed-off-by: Ilie Halip <ilie.halip@gmail.com>
-Tested-by: Sedat Dilek <sedat.dilek@gmail.com>
-Signed-off-by: Josh Poimboeuf <jpoimboe@redhat.com>
----
- tools/objtool/check.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+> +	rcu_barrier(); /* Wait for free to happen. */
 
-diff --git a/tools/objtool/check.c b/tools/objtool/check.c
-index a4796e3..2df9f76 100644
---- a/tools/objtool/check.c
-+++ b/tools/objtool/check.c
-@@ -2638,9 +2638,10 @@ static bool is_ubsan_insn(struct instruction *insn)
- 			"__ubsan_handle_builtin_unreachable"));
- }
- 
--static bool ignore_unreachable_insn(struct instruction *insn)
-+static bool ignore_unreachable_insn(struct objtool_file *file, struct instruction *insn)
- {
- 	int i;
-+	struct instruction *prev_insn;
- 
- 	if (insn->ignore || insn->type == INSN_NOP)
- 		return true;
-@@ -2668,8 +2669,11 @@ static bool ignore_unreachable_insn(struct instruction *insn)
- 	 * __builtin_unreachable().  The BUG() macro has an unreachable() after
- 	 * the UD2, which causes GCC's undefined trap logic to emit another UD2
- 	 * (or occasionally a JMP to UD2).
-+	 *
-+	 * It may also insert a UD2 after calling a __noreturn function.
- 	 */
--	if (list_prev_entry(insn, list)->dead_end &&
-+	prev_insn = list_prev_entry(insn, list);
-+	if ((prev_insn->dead_end || dead_end_function(file, prev_insn->call_dest)) &&
- 	    (insn->type == INSN_BUG ||
- 	     (insn->type == INSN_JUMP_UNCONDITIONAL &&
- 	      insn->jump_dest && insn->jump_dest->type == INSN_BUG)))
-@@ -2796,7 +2800,7 @@ static int validate_reachable_instructions(struct objtool_file *file)
- 		return 0;
- 
- 	for_each_insn(file, insn) {
--		if (insn->visited || ignore_unreachable_insn(insn))
-+		if (insn->visited || ignore_unreachable_insn(file, insn))
- 			continue;
- 
- 		WARN_FUNC("unreachable instruction", insn->sec, insn->offset);
+But you are quite right that the memory is not -guaranteed- to be freed
+until we get here.
+
+							Thanx, Paul
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/160070707105.15536.14094674309505985856.tip-bot2%40tip-bot2.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200921171325.GE29330%40paulmck-ThinkPad-P72.
