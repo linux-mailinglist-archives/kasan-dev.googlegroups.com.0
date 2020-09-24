@@ -1,134 +1,127 @@
-Return-Path: <kasan-dev+bncBDGPTM5BQUDRBYVWWD5QKGQEBYH3NGY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCCMH5WKTMGRBXEOWL5QKGQE6PWEE6Q@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-io1-xd3a.google.com (mail-io1-xd3a.google.com [IPv6:2607:f8b0:4864:20::d3a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5ECDD276786
-	for <lists+kasan-dev@lfdr.de>; Thu, 24 Sep 2020 06:06:59 +0200 (CEST)
-Received: by mail-io1-xd3a.google.com with SMTP id w3sf1568577iou.9
-        for <lists+kasan-dev@lfdr.de>; Wed, 23 Sep 2020 21:06:59 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1600920418; cv=pass;
+Received: from mail-ej1-x63c.google.com (mail-ej1-x63c.google.com [IPv6:2a00:1450:4864:20::63c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F73D277037
+	for <lists+kasan-dev@lfdr.de>; Thu, 24 Sep 2020 13:47:41 +0200 (CEST)
+Received: by mail-ej1-x63c.google.com with SMTP id rs9sf1173987ejb.17
+        for <lists+kasan-dev@lfdr.de>; Thu, 24 Sep 2020 04:47:41 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1600948061; cv=pass;
         d=google.com; s=arc-20160816;
-        b=k7nx00VBftwK+awgLtc5q68obtuMAwyIted0CyQ9Nd0LZUEEwEHKg2p/EB+T9bNzRn
-         kZY+6boB4y+1rbqHP3VCBSSkxQqkhqTqHCNFTjHoGLb/OF+Jx4lJVpmSrNjvSQ+qKj2W
-         Qi4zNL7Ns12q4FMCbNq6vFr2tUWTDC5z5NslAwcC8m0BfSyNvOZukMVmqw6Pxn3jHJ9z
-         fwNwBmKH8qjEAsIoIONAOzjb8Sly0wU+SSRK8kgAGaLyJxb8YVdEsbY6KpyCqpMK6PMw
-         yUAHEJxHzGF87x0ge+DTj50mkoDJeNhPvTIoGfLVrh/FwVgQpgai+a+gH/h+68Etn3Q6
-         wO/g==
+        b=m0JvYNMCDkYaQHMRQFy+NfLwWt5LWZvqAfJo+CgYtj/O15uMxf2F7U8BE4M0xE6P8s
+         xg/NcX63eQhPQx8RflvQxui93VJenNP42k3eXZMOTNTZGEsVYoycjXn1nNrJ3+BLRME1
+         oiZiaG95kLb/NlJ0Q0JmIkzzdWi5bLyJ8iDFrRkdpzdUHE/eF2UDW4ot2qer6DgMtLFK
+         l4UWkoqBnR5jUbsKVIxslYRaRJV8MF28e+2Y0FRoDZCg4vvYsqeVw6xXRgpYcwz7X1e7
+         iJU0rJhSbBgb+jVtd5P8hrMR2Ca9F6N9UHR8ZBJKfLf83aJNphalhy0irccF7v4SX3bD
+         ShBw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:message-id:date
-         :subject:cc:to:from:sender:dkim-signature;
-        bh=wXKuc4Tgp7+PQipP2KoYmE2rxpbgqErVVXm1WkixBaQ=;
-        b=Ani42X0QHqcT932mNxMVthHG7AC9p/1og18el/0wGig3I5oc7ymMHdVbJomRF+1m5Q
-         rxCkdzkdAmQmMn304+TnW+/7R87QCYZzGJawhsWyQjnNk4Og6azwp3ZgAiwgQnMx2E23
-         uE7nS5/5GAcTc7VPtrLQwlNYYOsL/qeFofjTy2J373MMaOUIhmPQK1S82cgIv4NQ3v7Y
-         UK5meN4g4hVM3gQtlslF/oCVXzFXJA4BbfXj6hAFs6K7lMt7dzhWHSXyXPpNHycX1/rm
-         Z0ncJHRclyd1xAEJWRnJpcASv8tgzTEe5UP8Nsz8OglDzxapmkp4z77a0Hx22Ftn32or
-         3U9g==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=wQYJrtnruyRFWx+nTjgRNb0olyDKGmmG6AhVpzGE4uc=;
+        b=KjzuGSwX4BDr3HGerepBabIyxXurPeNzGxCnAWU+e/U1fFnnF33t4I2bYvYKbiQMI7
+         jrwtx3Wpy5dS4X0AqKrr1/scIHFG7jHU6jZld+mEe8q4EYHvEt7NvUTUiHAHCH7EKhP1
+         w55i7zC42bUdPWhCxx1EdM4IcT7gRWpV4sVeimtFVfWP6oRCd4TBzCMuqXpn7apf3iuA
+         t9gfTxtWhaxC3ZUKnAYRADiEjPdaKHTmTw1GLNrr+Tasg2asIDSALO6IIiHp26fjK+6i
+         XNAr0vJ4sjuq7YchRdx9Xq1MBrq7e3CrhT9iSQ+h3T0OfLcHt/VOW+Q66sAiFqlK7ucC
+         m4qA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@mediatek.com header.s=dk header.b=ZWXXixq7;
-       spf=pass (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.184 as permitted sender) smtp.mailfrom=walter-zh.wu@mediatek.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
+       dkim=pass header.i=@google.com header.s=20161025 header.b="TqfH7ms/";
+       spf=pass (google.com: domain of glider@google.com designates 2a00:1450:4864:20::343 as permitted sender) smtp.mailfrom=glider@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id:mime-version
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=wXKuc4Tgp7+PQipP2KoYmE2rxpbgqErVVXm1WkixBaQ=;
-        b=r9nx3MoUFb+JXKYDVmtrj1DDHFVwpTiYTRT2rEd8Zr0Cpi/f0m3thUqzsp4k+avHEe
-         /vANRtMksEpAF7f9WnxXTbw6KeilYEo/DhgtEzI0MbdqjLmUUJfwbQYQPxmw4sNXL9Vl
-         elMYOXRUVtPSNyad2R/PgmvOFv1t26pUnphdXvG8tnyMUVdmAWQ1zkaGMDh8eYKiCJTa
-         eWsYfjmETN6bZCOX4nRI+iiUyG4fJSD8wmAK2/x61A9cHByH9l7KxnBOiMNFxn08YvWR
-         vQlRk9O7rsji7RjVIL1zUe9A/G+bt3KNKL7A76ursQd926SACqxkNCWuw8IWzXjtsrDe
-         fU/Q==
+        bh=wQYJrtnruyRFWx+nTjgRNb0olyDKGmmG6AhVpzGE4uc=;
+        b=mTMT6cs69PGXOU7rfizF7Ioh3DZ72mgMWUx5CxvvHaQmt8u2mpzNmzRwI4M5sfTkbw
+         H3Et5g4+HfomjJfJNL6tOCjI1wLITuTdyrPUkf4+clxBYTah/9+75X8Xlae5xdtbwNFW
+         mEH6poR1Fk5zM5ng4EMP2N8ZP2T10Sinr511qOfowC1tcCtz/PMkjR9JSZkCA3cp25zG
+         +XVdS8lgzq/YJ7U860DyhtbnCQ2SqAG7tZghzYSg02d4+OvD6lujdAFqRw2zhXwza4pp
+         KfY9z1UBNpVoQZafTJstC0xKeQRkdV9MS0PR23dOWkN7MqpPmbyEfGbLMWtafIkBasAV
+         /MAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :mime-version:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=wXKuc4Tgp7+PQipP2KoYmE2rxpbgqErVVXm1WkixBaQ=;
-        b=KjyjukWDZAER6aUNNePxkCsx+HYfm4wBAHLFvsspt12ipJiEFLUiDHWpWq8WNpgaBQ
-         d7HAoNnX8n0I3cG4YL/V8H1ASn8IgfE9e7AqG1hwiProUVJm67TATuDaUJ0lMOeUgBCO
-         OJCFlHYZjQfwuXMV/duKxUn0P1+dh+ksjusRScypUn8xFXOMzhjYK7XAgM5oY7A51gHM
-         jb6gw4bgCUStPQdAvVY2Ad4v2Lu+eZU/4tAQhyMIMZZGUfyrkx1dDC0kUdTY6UQeA2hL
-         MpF/A1N7dPK7/JaJL/es195uZHOHeWIJWn8FEA/EqI6WRj0JFFJqnm/+XIvUutAw/W1j
-         DvTw==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM530PDpLgJr8liTZCXxi5IefQWkKpqCVEz6pE2x8zeGW0LohN6mRZ
-	8qhIErAjUFoKOFajUGiiCpk=
-X-Google-Smtp-Source: ABdhPJzU+aN0pxLLNgrXO/T1xCjaP889/hhsoeOha0kUAQCn1YKlM+qreQNwQj9GJMPDf0GofsIPPA==
-X-Received: by 2002:a92:d14b:: with SMTP id t11mr2388537ilg.75.1600920418349;
-        Wed, 23 Sep 2020 21:06:58 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=wQYJrtnruyRFWx+nTjgRNb0olyDKGmmG6AhVpzGE4uc=;
+        b=OAB2K2BzXWWnAluXFsQoSr35+9G4+L9hfxYPSs0bsDXAmNaMBg+vEjM1gCsqFNQ2g2
+         uIxSKiG0UG/h4cXY6d1IxdmsVRizYIq1xfVerSZ6NxYlI4gyUU9bRRPfTBnqrmypcbxI
+         uQzgci+4ODNP2DNsqOVlfMpUoEoX1Y20gCjYy1ED8Vm3fmhIcm0VLBNmQ+2BHAg+c09Q
+         VdEm1uKQEvpHUur3TDXp3DNKR4iYU4jGvvb9hg4WDCe17EVCa0F5ODNsE5/Rbv9V5nB2
+         KJvgNJhODt4mAzimlB9+pQxyyn7U9x9cTXpPvL79Pmwq+4TUdK8GKBEDeAPdp0xYzlmb
+         8KHA==
+X-Gm-Message-State: AOAM531NJgo/dq00+hplfQpd83tLr7znyBHGrxQCtVBAoSBYf3x7ENfu
+	muskemIXzgG2XugOLePwvNc=
+X-Google-Smtp-Source: ABdhPJyYCj5XQgOb42f2sURZWfjrrL1CHujaR9F7o76tzUyCDBeHsGULjxLqFxlK0DIiYdeZtFoAAg==
+X-Received: by 2002:a50:e79c:: with SMTP id b28mr549337edn.371.1600948060952;
+        Thu, 24 Sep 2020 04:47:40 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6638:1307:: with SMTP id r7ls238053jad.7.gmail; Wed, 23
- Sep 2020 21:06:57 -0700 (PDT)
-X-Received: by 2002:a05:6638:d4e:: with SMTP id d14mr2089765jak.107.1600920417890;
-        Wed, 23 Sep 2020 21:06:57 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1600920417; cv=none;
+Received: by 2002:a17:906:4c8c:: with SMTP id q12ls1372758eju.2.gmail; Thu, 24
+ Sep 2020 04:47:40 -0700 (PDT)
+X-Received: by 2002:a17:906:4cc7:: with SMTP id q7mr543039ejt.437.1600948060013;
+        Thu, 24 Sep 2020 04:47:40 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1600948060; cv=none;
         d=google.com; s=arc-20160816;
-        b=WqOg2DUlBjaf2cIC/eq9oyux/tHeKXpI7T+jk88UFCMxg+Ep5804bCa9tVDQxzj/SF
-         tcMFZbsruB6RcAb5I38Knced0LTmOTX1niZBRbCFdLptV0jCthFmc6hHOv6lsVn9OA+A
-         BxaBOOIEClB8bbZZvNUx9ZfeGYZVaqKxPL+BkwzAW0pHiWId9YElw00bftv/eTGud2q6
-         czs9k6LFzdL9YfezgzZZaLpDowWzVa1t+IbSXyc/ZBCS/YPQRRWJysGWWBS7DfUeasre
-         j3gSIGt9AlD4WQDbrx0ePROr++A0d13HQMEsDJ1kGXh439le7QCwzhDCTC1lwKLDrSh5
-         MmXw==
+        b=j/DtZ21pmH8lXdVcO2NS11AvpSkcHFJbUUvvwMgLthOitxV5iu6ArvvsoQg/S5S1/O
+         a8wTYwhB7XdFVcD5JA4gKK8WCQ/V8r2RQy43LZptQPgeaLUJddspgNSW9SCcqFmNntqw
+         63xaL69HjUNH3gDJZQFdYb6kJeGFZOGN4pxwyChU9XYCN1rDWfAdePGO3PISco/IttME
+         5Ao4/96NHFghPY6U882rxQVvUbzePMYqpHkPNzgp3h5wUkrAbsEC+W3fX1WUZJJtQZZX
+         tpFVBnK+6Iz7dndxmUfmrFPdecIY+auUOaGvIIoMocU3XgXLfHH6z7DsAy2nFGgJi6px
+         kgFw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:dkim-signature;
-        bh=kgEyV8GPi8LIdYi4bGI7Bw0WJs3ADwMNIObdnpyN9FA=;
-        b=kPKk8S0E+DYx8fP8FsvZdRX2iDj78R/xOxRwoCxWU2ubuJCTDftgnjmA7lQju5PlqG
-         vW6kvVsjZr75wzf0IhDdJsi1NNsKyhhhPRlubJ82vX/vPzJ7a7xf3EjmtElEzA8nm4YU
-         tXhUxxcQI43NQKq1bBvsiR2ImqTJytHdppC9dTnk4If30nA9TEunXnR6R8gyi9f7E4pZ
-         jvA22dC8wRuEAHZDwPlrVMJGoDTPyBQw0HIHZBZXXV2D8a3y0YDDDcGMb5e3XjQNYzbH
-         0va91mWu8lOWEJPuhjGfmRgZRgf0pDIqYGpAxXZVdHjV6qtkg77BVjJtCup1+l/qI6Bs
-         ET1Q==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=gen+1cfeiOVlze5PT7LGWC4Io/Jy9zJpWLjYnIvdBUo=;
+        b=msw1unHunDPRIKaZRGv6k3A8ICQ+Vm5ZXrHoxD5BpPlV3qTEo8JyoX6viDizGYvnpl
+         tgnVvm7wMK20gW+rSVOWfjXHlGgJE691QCq9TjkGLTBRnj7CbLcAvR2eQ25ryzbhKzdn
+         sAfA4h+ctud1BuctXGKa8oL4Ro4pxHMUuN35CHLfZEVtT2YCqVijwU/acjN5PbPsQ2CU
+         ibLIyxexNRhixXUn9uehVw3vFhOFFGZH2D+0AioFpQ971iV+9Q3pPvFjySm78QXmAWFI
+         lKRE+63XvncN6ED3Iiun7WTyOBYob0PfJsaqvCG677tn2q95WEYA8RkQ++VrAXSls7Cd
+         rHKg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@mediatek.com header.s=dk header.b=ZWXXixq7;
-       spf=pass (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.184 as permitted sender) smtp.mailfrom=walter-zh.wu@mediatek.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
-Received: from mailgw02.mediatek.com ([210.61.82.184])
-        by gmr-mx.google.com with ESMTP id k18si119799ion.4.2020.09.23.21.06.57
-        for <kasan-dev@googlegroups.com>;
-        Wed, 23 Sep 2020 21:06:57 -0700 (PDT)
-Received-SPF: pass (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.184 as permitted sender) client-ip=210.61.82.184;
-X-UUID: b2f4419533d24dd5a6cdbfe760e02c2e-20200924
-X-UUID: b2f4419533d24dd5a6cdbfe760e02c2e-20200924
-Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw02.mediatek.com
-	(envelope-from <walter-zh.wu@mediatek.com>)
-	(Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-	with ESMTP id 1917049134; Thu, 24 Sep 2020 12:06:52 +0800
-Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
- mtkmbs01n2.mediatek.inc (172.21.101.79) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 24 Sep 2020 12:06:49 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by MTKCAS06.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 24 Sep 2020 12:06:49 +0800
-From: Walter Wu <walter-zh.wu@mediatek.com>
-To: Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet
-	<corbet@lwn.net>, Marco Elver <elver@google.com>, Andrey Ryabinin
-	<aryabinin@virtuozzo.com>, Alexander Potapenko <glider@google.com>, Dmitry
- Vyukov <dvyukov@google.com>, Andrey Konovalov <andreyknvl@google.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>
-CC: <kasan-dev@googlegroups.com>, <linux-mm@kvack.org>,
-	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	wsd_upstream <wsd_upstream@mediatek.com>,
-	<linux-mediatek@lists.infradead.org>, Walter Wu <walter-zh.wu@mediatek.com>
-Subject: [PATCH v4 6/6] kasan: update documentation for generic kasan
-Date: Thu, 24 Sep 2020 12:06:49 +0800
-Message-ID: <20200924040650.31221-1-walter-zh.wu@mediatek.com>
-X-Mailer: git-send-email 2.18.0
+       dkim=pass header.i=@google.com header.s=20161025 header.b="TqfH7ms/";
+       spf=pass (google.com: domain of glider@google.com designates 2a00:1450:4864:20::343 as permitted sender) smtp.mailfrom=glider@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com. [2a00:1450:4864:20::343])
+        by gmr-mx.google.com with ESMTPS id f17si78215edx.5.2020.09.24.04.47.39
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 24 Sep 2020 04:47:40 -0700 (PDT)
+Received-SPF: pass (google.com: domain of glider@google.com designates 2a00:1450:4864:20::343 as permitted sender) client-ip=2a00:1450:4864:20::343;
+Received: by mail-wm1-x343.google.com with SMTP id w2so3222837wmi.1
+        for <kasan-dev@googlegroups.com>; Thu, 24 Sep 2020 04:47:39 -0700 (PDT)
+X-Received: by 2002:a7b:c749:: with SMTP id w9mr4067938wmk.29.1600948059478;
+ Thu, 24 Sep 2020 04:47:39 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200924040513.31051-1-walter-zh.wu@mediatek.com>
+In-Reply-To: <20200924040513.31051-1-walter-zh.wu@mediatek.com>
+From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Thu, 24 Sep 2020 13:47:27 +0200
+Message-ID: <CAG_fn=W2dcGKFKHpDXzNvbPUp3USYyWi2DEpEewboqYBodnSsQ@mail.gmail.com>
+Subject: Re: [PATCH v4 3/6] kasan: print timer and workqueue stack
+To: Walter Wu <walter-zh.wu@mediatek.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Marco Elver <elver@google.com>, 
+	Andrey Ryabinin <aryabinin@virtuozzo.com>, Dmitry Vyukov <dvyukov@google.com>, 
+	Andrey Konovalov <andreyknvl@google.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	kasan-dev <kasan-dev@googlegroups.com>, 
+	Linux Memory Management List <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>, 
+	Linux ARM <linux-arm-kernel@lists.infradead.org>, 
+	wsd_upstream <wsd_upstream@mediatek.com>, linux-mediatek@lists.infradead.org
 Content-Type: text/plain; charset="UTF-8"
-X-TM-SNTS-SMTP: CD7E561389D179394336201CEA174E7F8D7E06FE8F5E04C5B1D4AD0B5E80F0E02000:8
-X-MTK: N
-X-Original-Sender: walter-zh.wu@mediatek.com
+X-Original-Sender: glider@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@mediatek.com header.s=dk header.b=ZWXXixq7;       spf=pass
- (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.184 as
- permitted sender) smtp.mailfrom=walter-zh.wu@mediatek.com;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
+ header.i=@google.com header.s=20161025 header.b="TqfH7ms/";       spf=pass
+ (google.com: domain of glider@google.com designates 2a00:1450:4864:20::343 as
+ permitted sender) smtp.mailfrom=glider@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Alexander Potapenko <glider@google.com>
+Reply-To: Alexander Potapenko <glider@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -141,47 +134,47 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Generic KASAN also supports to record the last two timer and workqueue
-stacks and print them in KASAN report. So that need to update
-documentation.
+On Thu, Sep 24, 2020 at 6:05 AM Walter Wu <walter-zh.wu@mediatek.com> wrote:
+>
+> The aux_stack[2] is reused to record the call_rcu() call stack,
+> timer init call stack, and enqueuing work call stacks. So that
+> we need to change the auxiliary stack title for common title,
+> print them in KASAN report.
+>
+> Signed-off-by: Walter Wu <walter-zh.wu@mediatek.com>
+> Suggested-by: Marco Elver <elver@google.com>
+> Acked-by: Marco Elver <elver@google.com>
+> Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
+> Reviewed-by: Andrey Konovalov <andreyknvl@google.com>
+> Cc: Andrey Ryabinin <aryabinin@virtuozzo.com>
+> Cc: Alexander Potapenko <glider@google.com>
+> ---
+>
+> v2:
+> - Thanks for Marco suggestion.
+> - We modify aux stack title name in KASAN report
+>   in order to print call_rcu()/timer/workqueue stack.
+>
+> ---
+>  mm/kasan/report.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/mm/kasan/report.c b/mm/kasan/report.c
+> index 4f49fa6cd1aa..886809d0a8dd 100644
+> --- a/mm/kasan/report.c
+> +++ b/mm/kasan/report.c
+> @@ -183,12 +183,12 @@ static void describe_object(struct kmem_cache *cache, void *object,
+>
+>  #ifdef CONFIG_KASAN_GENERIC
+>                 if (alloc_info->aux_stack[0]) {
+> -                       pr_err("Last call_rcu():\n");
+> +                       pr_err("Last potentially related work creation:\n");
 
-Signed-off-by: Walter Wu <walter-zh.wu@mediatek.com>
-Suggested-by: Marco Elver <elver@google.com>
-Acked-by: Marco Elver <elver@google.com>
-Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
-Reviewed-by: Andrey Konovalov <andreyknvl@google.com>
-Cc: Andrey Ryabinin <aryabinin@virtuozzo.com>
-Cc: Alexander Potapenko <glider@google.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
----
-
-v3:
-- Thanks for Marco suggestion
-
----
- Documentation/dev-tools/kasan.rst | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/Documentation/dev-tools/kasan.rst b/Documentation/dev-tools/kasan.rst
-index 38fd5681fade..698ccb65e634 100644
---- a/Documentation/dev-tools/kasan.rst
-+++ b/Documentation/dev-tools/kasan.rst
-@@ -190,8 +190,9 @@ function calls GCC directly inserts the code to check the shadow memory.
- This option significantly enlarges kernel but it gives x1.1-x2 performance
- boost over outline instrumented kernel.
- 
--Generic KASAN prints up to 2 call_rcu() call stacks in reports, the last one
--and the second to last.
-+Generic KASAN also reports the last 2 call stacks to creation of work that
-+potentially has access to an object. Call stacks for the following are shown:
-+call_rcu(), timer and workqueue queuing.
- 
- Software tag-based KASAN
- ~~~~~~~~~~~~~~~~~~~~~~~~
--- 
-2.18.0
+This doesn't have to be a work creation (expect more callers of
+kasan_record_aux_stack() in the future), so maybe change the wording
+here to "Last potentially related auxiliary stack"?
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200924040650.31221-1-walter-zh.wu%40mediatek.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAG_fn%3DW2dcGKFKHpDXzNvbPUp3USYyWi2DEpEewboqYBodnSsQ%40mail.gmail.com.
