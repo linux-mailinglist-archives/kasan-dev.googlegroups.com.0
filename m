@@ -1,34 +1,34 @@
-Return-Path: <kasan-dev+bncBDX4HWEMTEBRBDWGWT5QKGQEEMVZL6Y@googlegroups.com>
+Return-Path: <kasan-dev+bncBDX4HWEMTEBRBEOGWT5QKGQEXQ4JUEQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wr1-x43d.google.com (mail-wr1-x43d.google.com [IPv6:2a00:1450:4864:20::43d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 338A6277BEC
-	for <lists+kasan-dev@lfdr.de>; Fri, 25 Sep 2020 00:51:59 +0200 (CEST)
-Received: by mail-wr1-x43d.google.com with SMTP id i10sf293435wrq.5
-        for <lists+kasan-dev@lfdr.de>; Thu, 24 Sep 2020 15:51:59 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1600987919; cv=pass;
+Received: from mail-pj1-x103b.google.com (mail-pj1-x103b.google.com [IPv6:2607:f8b0:4864:20::103b])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF150277BED
+	for <lists+kasan-dev@lfdr.de>; Fri, 25 Sep 2020 00:52:02 +0200 (CEST)
+Received: by mail-pj1-x103b.google.com with SMTP id ic18sf385764pjb.3
+        for <lists+kasan-dev@lfdr.de>; Thu, 24 Sep 2020 15:52:02 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1600987921; cv=pass;
         d=google.com; s=arc-20160816;
-        b=s8o1tTk1Lx0Aq/lWiZ1sEZ0InHEDgHGDB//gkMtEdQl6fQBZ4Ly45uEM3I1pEK3Buj
-         CWFHhm5oFmBQISHqzaHtfHwgtTrucDMqXifFeyfeD+MMBJfatr2RuQi6Ih4/CitCw7MM
-         PaLk7bqL82Te8S/3rte6qsa39jytPz48GWEoKDncizW1aJxdplpXbJkb9OlGqg/whQyB
-         CR13VxE9Sbo65ySI1kjTbgQZj8woM6FOVnYtyIEeAFlxg7OhXf88og/gw1FhmAuaRwC9
-         Rjo/UQFyOSrYGJKOpx8upqPEQ7SS/JSukg5oRvGAPpF+r0mAD/hchsDhZwzNidueUw1Z
-         5AbQ==
+        b=zsxz34wNzqzvYJB0pkR2v93QeKkxJ/sP78jvkdxaBJ91ypNwt1i/3YX+r5ag9rOptu
+         H4TjKZ2772PC+4x81qXGkAsbsuH+ZHvIrSZsly1YawhxTJGkI9i/UgwyEMx3e6EUmTO5
+         +/NrcO8EoZ3s4Lbg9hSW2Zk0yggK3dCqlafKsZ5u57WDhi5BEpBTYHmgRvs7HL0ykRvn
+         YkKseRahCZAnfDSFVxdVtGcY/maiMrZ2GoQ92TGd/yhaxUnr8TQIcLKtchUjSEb7ibXw
+         3ncn1nw1gNj2eIQxOs93+Lqtb6rfWpbEUX2Fa1wf4r2y3IfzWkvKSKj+MIz6LUtqeLCK
+         t/0w==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
          :references:mime-version:message-id:in-reply-to:date:sender
          :dkim-signature;
-        bh=1khBgDiLklJshB8ABkVwPCh8AQ5a2s/XcfcBRt8CsOQ=;
-        b=FA6X2jugiOxE8R0uvPOsVMEUaWGmmPN6fy67WtFCIaGALwYaoBNqQgxN0PMCqh56DR
-         1D2Ss6H837nZ1KqoTBFfdDOgXQDF5hytf0j6twMbtnzCgO7qxfpkccChDRXzlO5BolHy
-         4TYlVpkYKrQQIKXeHnEUHa7OKud7+jiT9MJbrUeqm3I9+Ttj1U08miqb+iER6QElhFVR
-         50yzX8dK/sOHUR7FYJ0ejzovD3/1RHcO9dNzY0UZI3pVSIFfDfs5PLzCmy31R5Upxvla
-         6Wm6ZnVVZhTzNETXzgAPLIJ7YaA+98+QZkWx7UzY9fQn20WgHeSnppGqHMnFZtG8FXI3
-         f9ww==
+        bh=AZbu0/6xVnUQ9OR8P9DmcqpKLFZo10GoD0dLv2OZFrc=;
+        b=fxUgPr09FcljzuHejEMORmU50RYrVBiD9Vi417THKMYVs2Z7T74zvADXeiRA5DhdIm
+         aryLr0GcKvXqZK990UU8K6OGcMABsMaC9xrpy19RzMMwJLW6h/y51Ezl8iHV4GWD5Lj+
+         8lLf4Z74GEr9XuoNfYrPaw7pE0B9On2o035e9mcY9d+Aia8a+k/z+jx3AJaVWwP3KgzP
+         LnVoLBwgQP0gMT/RXS6xqA+3m+vOUEEhda2GTMoTLxBY88z2RaNdPEo3IiQ3LQZWnL4k
+         Y/ehoaOpih/bjq/W26k2HQWwE0YEHc8650tudT6YfPeLoFxgqwEIssTIYal/d4PTa2kH
+         OrSw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b="blC6/eUX";
-       spf=pass (google.com: domain of 3dsntxwokcqokxn1o8ux5vqyyqvo.mywuk2kx-no5qyyqvoq1y4z2.myw@flex--andreyknvl.bounces.google.com designates 2a00:1450:4864:20::449 as permitted sender) smtp.mailfrom=3DSNtXwoKCQokxn1o8ux5vqyyqvo.mywuk2kx-no5qyyqvoq1y4z2.myw@flex--andreyknvl.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=Z8L7kQ44;
+       spf=pass (google.com: domain of 3ecntxwokcq0n0q4rbx08yt11tyr.p1zxn5n0-qr8t11tyrt41725.p1z@flex--andreyknvl.bounces.google.com designates 2607:f8b0:4864:20::f49 as permitted sender) smtp.mailfrom=3ECNtXwoKCQ0n0q4rBx08yt11tyr.p1zxn5n0-qr8t11tyrt41725.p1z@flex--andreyknvl.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
@@ -36,13 +36,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :from:to:cc:x-original-sender:x-original-authentication-results
          :reply-to:precedence:mailing-list:list-id:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=1khBgDiLklJshB8ABkVwPCh8AQ5a2s/XcfcBRt8CsOQ=;
-        b=Xes4H1nIM7I1+dK416aCq4c/G0kxPVY3uC0AeoYRng1z/NHbhIRLl21w8Y128JgVl7
-         GUeRQonP7w9R8LRWYoUf2DY2LwnX0qfa5uxKXoLbcDNmdSODtPO52i2wK0eO1f3XsdVE
-         kZe7XAWDkip8buFqYEuVNl8sfzGtNYptss6Li6AW1ShrOkHgVlXfjIrJpYOzUp97okyA
-         OQgeYt0IgY6OE7sHxv7fk0NMW/ESc7L/FiCdlk5Ok6UylDs1rObb4QrVpUaf3uuYYTDA
-         Qladw4wwTSA1xgTLJJML2lz2baxXLVM8Mc0K4bLC+dfmUD/83u/KlVn2nnnBef84Mf46
-         w8ug==
+        bh=AZbu0/6xVnUQ9OR8P9DmcqpKLFZo10GoD0dLv2OZFrc=;
+        b=Nj3Nquftr/bko8ckU6OWSByvdnNRys5vst3IPs59/aGuDq4SGifkDGdsjSlU4LWt8T
+         43BGqS/ZkCkBy7nai52lDV+St2jEtxNrL5ybgeGWJE5v76Bt1Y9UcC7H/Bq5SkTJSpfc
+         zeD049Yyf2lRo6VuCWZuIfj14n4mamCsKjOM1zzgfeTgyalKzVxuDhrUlwFdITqteFtG
+         odJIiurIr9TmbVZeTrDN2EnNlaaf80DqZsLw6OjHYCu2HIU7N0bTwRSmfC6fbxZBMzEo
+         hvpERxqyDx0XSXdAgX2HZDZxeRKNEcW3cTDtwBEhjiBcyKahIbi/CJ1m0u4GMpB/ReUt
+         gmMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
@@ -50,64 +50,64 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=1khBgDiLklJshB8ABkVwPCh8AQ5a2s/XcfcBRt8CsOQ=;
-        b=TZ16FwqE5X3Ymtl4PYAd/0+GeL8g1uXAqHfj3YutevQRHIOf3uPKorr4cqjbU0ddYZ
-         FS5tj2tDn9zfYEdyKUGFcirPz56zuaUlCBPNgYsrAth6ci4qzTVcZ6lqd2zgnUyqkyqo
-         AOC+UrtkkA+VzTqDax9H0LYaqzeGzz1aW+dv3GjnJ9UqnvsQyq3ho/MD9N/VJSmz7Anf
-         zR/OrBt5VTH3/3ZnuHvNehvNlwrnUC02E4TwIWioyeY0BcjaczOpNhv/GIWXsB6J4yKu
-         K1ZKLUgUlCTxBbxa2VftZ3gblwj/Jac2QrQmRsKAZNnmCX6lU1JYi+T76TPCC1z9LO3l
-         nttQ==
-X-Gm-Message-State: AOAM532AAJb8KpQqS3Uxki7N0mVN/XaBIrPQP0bhNQiLgluAlDL32t2d
-	XATyb3m2DwJFfe7JkmNHSwY=
-X-Google-Smtp-Source: ABdhPJwYlXPZQxja3nOvCicilfwz4lTp+K+hPNFMiWmTGBLvp1jUrItYNodf1UR3RAJdVYqn6goWHg==
-X-Received: by 2002:a7b:c1c3:: with SMTP id a3mr947867wmj.68.1600987918932;
-        Thu, 24 Sep 2020 15:51:58 -0700 (PDT)
+        bh=AZbu0/6xVnUQ9OR8P9DmcqpKLFZo10GoD0dLv2OZFrc=;
+        b=EsCNtcU8kfFVRzd9NPvN7bQT8iWOS//FLzeidZA2URn/N3yV0Z9rnDGrpPjfaRryUI
+         lah/q3vlV8kx3JivxivPF/VNijqq5siGhx6bCu0c3JXl74epQw7UBflZVsNwPuHlQWYX
+         Klikqfu1NjW6mi61Y6oy4JQq29yvbMjYziT5dnZAmhL08509QdYacPoGXg+eQDvoqBlw
+         2pTVdRX7TWYS8L4xB+FFZuAyK0qr+hlHiyaT+npwsA+DKalrNtSnUhHw9gQa6bQHS+f0
+         tjfRTEMMWEooIEylKVndftGA51/PSe2saJMcSAARIttcUDDbusdujhjbvXZetVMS5TWu
+         hCfw==
+X-Gm-Message-State: AOAM530v9OsgTCnahJrfrJEbc4aCDOj+0rwR0iJ0xZj507xMIldgEQpg
+	yTKw1zRxQ0LHtHliots06eo=
+X-Google-Smtp-Source: ABdhPJzt0w8Esl8kbrTPUMmiySrCVGcTfibz1hGwYO6Fo4PVLaLa1gWJPnu0bu5iHqw2ye4iekIVvg==
+X-Received: by 2002:a17:90a:ca82:: with SMTP id y2mr1011146pjt.233.1600987921520;
+        Thu, 24 Sep 2020 15:52:01 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a5d:428e:: with SMTP id k14ls1055870wrq.0.gmail; Thu, 24 Sep
- 2020 15:51:58 -0700 (PDT)
-X-Received: by 2002:adf:efc9:: with SMTP id i9mr1210157wrp.187.1600987918129;
-        Thu, 24 Sep 2020 15:51:58 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1600987918; cv=none;
+Received: by 2002:a17:902:ead1:: with SMTP id p17ls405595pld.2.gmail; Thu, 24
+ Sep 2020 15:52:01 -0700 (PDT)
+X-Received: by 2002:a17:902:b686:b029:d1:e5e7:be0e with SMTP id c6-20020a170902b686b02900d1e5e7be0emr1357753pls.65.1600987920951;
+        Thu, 24 Sep 2020 15:52:00 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1600987920; cv=none;
         d=google.com; s=arc-20160816;
-        b=HxtJ5sfZ1fozMGdCmg5TIK6Lrd0+0DQuoXqdSrb7IHrvTJZtSWytZ1PDIVWSfKcKVg
-         d5admWGfVs0Rx+ZZ0YxJSCMa1bXuckFQ5U3SdOUBA1Y4ExTJ0lIKsMvSgvgOJvakpPPH
-         0v7UNwq4p0bDmeiRFHulcLRguLOYAy4KWA9puPjggvPe0wwii5XP4h9tWvYjl+89R6J/
-         dPvZ/NoMaNSW6vwBE4w/iEfc2yjE8Cnwt8ZamKCWqTci8i2XluMbf3keVQqh3OYqCFH+
-         IkoSqwFIiw+nQyXOwFsrpxbKu3rzjYeWjESKJqnJvB8etiLP/0u4JE+FsF/KRolf8l6e
-         K6Jw==
+        b=CmErb3vn3DxphCFZd1JWU6bi9+TWp/+GvqIrBv/RRhkrr5ifav7xdDQE2ci+UnohMB
+         lsXjpwxjtoUQv23r1FREOlkaIO0u3DmH3JuO7pxMv6KmE09wvoXwx+++9C51oa6DCJD2
+         CTqisMezZuh0V5XxKEE6NooMynWnhbMiYqi+xYKmG0aGLIpjcnIP3i94U1/PXULekYj7
+         jquKkb55iTv5pFyAg8Qj+cyhJ33Ef9cyx0HvnNEoOJvH29MhJ786gl5Qp97m+G0wT47U
+         w26RkFgFeGHFHhHvUC1yQ2pJPPsIgEJBYjzYPD2wwp/9UFKYp2Y5kmO/bF2BFOHS+OI7
+         vmMA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
          :date:sender:dkim-signature;
-        bh=aeL0Vc4/BKzUgRM3E0S3wSW/q500Qn2N9aeyIxmwibc=;
-        b=izVY2A2+33qV8i4Bc2gt+A3vChONL7xtWwfbrKKpqNfDSNA0evw49O/D9ZVi8lxYec
-         7KUu12L2GrrTzcQlU/rvbU3Zzeyc1A9uAIDLiNdX1D1KbLnAhg8MwhowujJ+C7ZWJ1mM
-         RCBvR9vLoYFA2urNKOY49VBcW10FUomeHnQrX0L/GAZaykB3rpTl1cv9b/+YNc5T0d3l
-         UyeyO/fDkHD4lDVkzqILVS/v/U6cVlYGwAsscbEZ76ASoh8SExLV2AR2IkjCXXiFLpPN
-         Nw0Z5HxspFaPg7r8O+m7yZ+tRs5Ti1T77C2Bbhgvc6nb/T1jfXn4Q+RcRx75KPa+ou2h
-         DuAw==
+        bh=2ZNxfm3ay5zbZVAoyeFT7OvnOs6QmAy2d7QmbFd4VOE=;
+        b=VHGL9oiNRU33fekCjmgzROqGObidUwCS9bU4fB4f9i5rdWDj7jGm84Adur5H7YEWKJ
+         lKUHWujRru+Dh4DIZQroYMvvL18xNnZ5Ft+UYHX/dlOqVA9kBqRbCt0JQRBmdpWgAL8e
+         D3LtzMmqR07s3CNqQZ+QSGK6WTAOoZR17qa3Tef2O7nBxYeDR4EZ3uBGsgMgkJXk/pLB
+         WwdAYwK0KlvNkT0mV9MQUapw+eaWWbnMkXpHlRi3RUzYxy+XHnRTO4NQHHrf52vJMKT7
+         C5kYiXgqT9C5F8rSwzaXXp9Lxxmz4n/KYvXvnWz2ImfBaQbatHcO8kTc2mtZWMkHh+zr
+         fgSA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b="blC6/eUX";
-       spf=pass (google.com: domain of 3dsntxwokcqokxn1o8ux5vqyyqvo.mywuk2kx-no5qyyqvoq1y4z2.myw@flex--andreyknvl.bounces.google.com designates 2a00:1450:4864:20::449 as permitted sender) smtp.mailfrom=3DSNtXwoKCQokxn1o8ux5vqyyqvo.mywuk2kx-no5qyyqvoq1y4z2.myw@flex--andreyknvl.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=Z8L7kQ44;
+       spf=pass (google.com: domain of 3ecntxwokcq0n0q4rbx08yt11tyr.p1zxn5n0-qr8t11tyrt41725.p1z@flex--andreyknvl.bounces.google.com designates 2607:f8b0:4864:20::f49 as permitted sender) smtp.mailfrom=3ECNtXwoKCQ0n0q4rBx08yt11tyr.p1zxn5n0-qr8t11tyrt41725.p1z@flex--andreyknvl.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-wr1-x449.google.com (mail-wr1-x449.google.com. [2a00:1450:4864:20::449])
-        by gmr-mx.google.com with ESMTPS id k14si25742wrx.1.2020.09.24.15.51.58
+Received: from mail-qv1-xf49.google.com (mail-qv1-xf49.google.com. [2607:f8b0:4864:20::f49])
+        by gmr-mx.google.com with ESMTPS id t16si82609pgu.1.2020.09.24.15.52.00
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 24 Sep 2020 15:51:58 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 3dsntxwokcqokxn1o8ux5vqyyqvo.mywuk2kx-no5qyyqvoq1y4z2.myw@flex--andreyknvl.bounces.google.com designates 2a00:1450:4864:20::449 as permitted sender) client-ip=2a00:1450:4864:20::449;
-Received: by mail-wr1-x449.google.com with SMTP id h4so295812wrb.4
-        for <kasan-dev@googlegroups.com>; Thu, 24 Sep 2020 15:51:58 -0700 (PDT)
+        Thu, 24 Sep 2020 15:52:00 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 3ecntxwokcq0n0q4rbx08yt11tyr.p1zxn5n0-qr8t11tyrt41725.p1z@flex--andreyknvl.bounces.google.com designates 2607:f8b0:4864:20::f49 as permitted sender) client-ip=2607:f8b0:4864:20::f49;
+Received: by mail-qv1-xf49.google.com with SMTP id 99so505136qva.1
+        for <kasan-dev@googlegroups.com>; Thu, 24 Sep 2020 15:52:00 -0700 (PDT)
 Sender: "andreyknvl via sendgmr" <andreyknvl@andreyknvl3.muc.corp.google.com>
 X-Received: from andreyknvl3.muc.corp.google.com ([2a00:79e0:15:13:7220:84ff:fe09:7e9d])
- (user=andreyknvl job=sendgmr) by 2002:adf:8b1d:: with SMTP id
- n29mr1105331wra.383.1600987917635; Thu, 24 Sep 2020 15:51:57 -0700 (PDT)
-Date: Fri, 25 Sep 2020 00:50:34 +0200
+ (user=andreyknvl job=sendgmr) by 2002:ad4:58aa:: with SMTP id
+ ea10mr1648526qvb.58.1600987920066; Thu, 24 Sep 2020 15:52:00 -0700 (PDT)
+Date: Fri, 25 Sep 2020 00:50:35 +0200
 In-Reply-To: <cover.1600987622.git.andreyknvl@google.com>
-Message-Id: <20326c060cd1535b15a0df43d1b9627a329f2277.1600987622.git.andreyknvl@google.com>
+Message-Id: <27e272bfd203cc0ff32181f07db588363ef3776b.1600987622.git.andreyknvl@google.com>
 Mime-Version: 1.0
 References: <cover.1600987622.git.andreyknvl@google.com>
 X-Mailer: git-send-email 2.28.0.681.g6f77f65b4e-goog
-Subject: [PATCH v3 27/39] arm64: kasan: Enable in-kernel MTE
+Subject: [PATCH v3 28/39] arm64: mte: Convert gcr_user into an exclude mask
 From: "'Andrey Konovalov' via kasan-dev" <kasan-dev@googlegroups.com>
 To: Dmitry Vyukov <dvyukov@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, 
 	Catalin Marinas <catalin.marinas@arm.com>, kasan-dev@googlegroups.com
@@ -121,9 +121,9 @@ Cc: Andrey Ryabinin <aryabinin@virtuozzo.com>, Alexander Potapenko <glider@googl
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: andreyknvl@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b="blC6/eUX";       spf=pass
- (google.com: domain of 3dsntxwokcqokxn1o8ux5vqyyqvo.mywuk2kx-no5qyyqvoq1y4z2.myw@flex--andreyknvl.bounces.google.com
- designates 2a00:1450:4864:20::449 as permitted sender) smtp.mailfrom=3DSNtXwoKCQokxn1o8ux5vqyyqvo.mywuk2kx-no5qyyqvoq1y4z2.myw@flex--andreyknvl.bounces.google.com;
+ header.i=@google.com header.s=20161025 header.b=Z8L7kQ44;       spf=pass
+ (google.com: domain of 3ecntxwokcq0n0q4rbx08yt11tyr.p1zxn5n0-qr8t11tyrt41725.p1z@flex--andreyknvl.bounces.google.com
+ designates 2607:f8b0:4864:20::f49 as permitted sender) smtp.mailfrom=3ECNtXwoKCQ0n0q4rBx08yt11tyr.p1zxn5n0-qr8t11tyrt41725.p1z@flex--andreyknvl.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Andrey Konovalov <andreyknvl@google.com>
 Reply-To: Andrey Konovalov <andreyknvl@google.com>
@@ -141,91 +141,144 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 From: Vincenzo Frascino <vincenzo.frascino@arm.com>
 
-Hardware tag-based KASAN relies on Memory Tagging Extension (MTE)
-feature and requires it to be enabled.
+The gcr_user mask is a per thread mask that represents the tags that are
+excluded from random generation when the Memory Tagging Extension is
+present and an 'irg' instruction is invoked.
 
-The Tag Checking operation causes a synchronous data abort as
-a consequence of a tag check fault when MTE is configured in
-synchronous mode.
+gcr_user affects the behavior on EL0 only.
 
-Enable MTE in Synchronous mode in EL1 to provide a more immediate
-way of tag check failure detection in the kernel.
+Currently that mask is an include mask and it is controlled by the user
+via prctl() while GCR_EL1 accepts an exclude mask.
 
-As part of this change enable match-all tag for EL1 to allow the
-kernel to access user pages without faulting. This is required because
-the kernel does not have knowledge of the tags set by the user in a
-page.
+Convert the include mask into an exclude one to make it easier the
+register setting.
 
-Note: For MTE, the TCF bit field in SCTLR_EL1 affects only EL1 in a
-similar way as TCF0 affects EL0.
+Note: This change will affect gcr_kernel (for EL1) introduced with a
+future patch.
 
 Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
 Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
 ---
-Change-Id: I4d67497268bb7f0c2fc5dcacefa1e273df4af71d
+Change-Id: Id15c0b47582fb51594bb26fb8353d78c7d0953c1
 ---
- arch/arm64/kernel/cpufeature.c |  7 +++++++
- arch/arm64/mm/proc.S           | 11 +++++++++++
- 2 files changed, 18 insertions(+)
+ arch/arm64/include/asm/processor.h |  2 +-
+ arch/arm64/kernel/mte.c            | 29 +++++++++++++++--------------
+ 2 files changed, 16 insertions(+), 15 deletions(-)
 
-diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeature.c
-index add9da5d8ea3..eca06b8c74db 100644
---- a/arch/arm64/kernel/cpufeature.c
-+++ b/arch/arm64/kernel/cpufeature.c
-@@ -1718,6 +1718,13 @@ static void cpu_enable_mte(struct arm64_cpu_capabilities const *cap)
- 		cleared_zero_page = true;
- 		mte_clear_page_tags(lm_alias(empty_zero_page));
- 	}
-+
-+	/* Enable in-kernel MTE only if KASAN_HW_TAGS is enabled */
-+	if (IS_ENABLED(CONFIG_KASAN_HW_TAGS)) {
-+		/* Enable MTE Sync Mode for EL1 */
-+		sysreg_clear_set(sctlr_el1, SCTLR_ELx_TCF_MASK, SCTLR_ELx_TCF_SYNC);
-+		isb();
-+	}
- }
- #endif /* CONFIG_ARM64_MTE */
- 
-diff --git a/arch/arm64/mm/proc.S b/arch/arm64/mm/proc.S
-index 23c326a06b2d..12ba98bc3b3f 100644
---- a/arch/arm64/mm/proc.S
-+++ b/arch/arm64/mm/proc.S
-@@ -427,6 +427,10 @@ SYM_FUNC_START(__cpu_setup)
- 	 */
- 	mov_q	x5, MAIR_EL1_SET
- #ifdef CONFIG_ARM64_MTE
-+	mte_tcr	.req	x20
-+
-+	mov	mte_tcr, #0
-+
- 	/*
- 	 * Update MAIR_EL1, GCR_EL1 and TFSR*_EL1 if MTE is supported
- 	 * (ID_AA64PFR1_EL1[11:8] > 1).
-@@ -447,6 +451,9 @@ SYM_FUNC_START(__cpu_setup)
- 	/* clear any pending tag check faults in TFSR*_EL1 */
- 	msr_s	SYS_TFSR_EL1, xzr
- 	msr_s	SYS_TFSRE0_EL1, xzr
-+
-+	/* set the TCR_EL1 bits */
-+	orr	mte_tcr, mte_tcr, #SYS_TCR_EL1_TCMA1
- 1:
+diff --git a/arch/arm64/include/asm/processor.h b/arch/arm64/include/asm/processor.h
+index fec204d28fce..ed9efa5be8eb 100644
+--- a/arch/arm64/include/asm/processor.h
++++ b/arch/arm64/include/asm/processor.h
+@@ -153,7 +153,7 @@ struct thread_struct {
  #endif
- 	msr	mair_el1, x5
-@@ -457,6 +464,10 @@ SYM_FUNC_START(__cpu_setup)
- 	mov_q	x10, TCR_TxSZ(VA_BITS) | TCR_CACHE_FLAGS | TCR_SMP_FLAGS | \
- 			TCR_TG_FLAGS | TCR_KASLR_FLAGS | TCR_ASID16 | \
- 			TCR_TBI0 | TCR_A1 | TCR_KASAN_FLAGS
-+#ifdef CONFIG_ARM64_MTE
-+	orr	x10, x10, mte_tcr
-+	.unreq	mte_tcr
-+#endif
- 	tcr_clear_errata_bits x10, x9, x5
+ #ifdef CONFIG_ARM64_MTE
+ 	u64			sctlr_tcf0;
+-	u64			gcr_user_incl;
++	u64			gcr_user_excl;
+ #endif
+ };
  
- #ifdef CONFIG_ARM64_VA_BITS_52
+diff --git a/arch/arm64/kernel/mte.c b/arch/arm64/kernel/mte.c
+index 833b63fdd5e2..393d0c794be4 100644
+--- a/arch/arm64/kernel/mte.c
++++ b/arch/arm64/kernel/mte.c
+@@ -136,23 +136,22 @@ static void set_sctlr_el1_tcf0(u64 tcf0)
+ 	preempt_enable();
+ }
+ 
+-static void update_gcr_el1_excl(u64 incl)
++static void update_gcr_el1_excl(u64 excl)
+ {
+-	u64 excl = ~incl & SYS_GCR_EL1_EXCL_MASK;
+ 
+ 	/*
+-	 * Note that 'incl' is an include mask (controlled by the user via
+-	 * prctl()) while GCR_EL1 accepts an exclude mask.
++	 * Note that the mask controlled by the user via prctl() is an
++	 * include while GCR_EL1 accepts an exclude mask.
+ 	 * No need for ISB since this only affects EL0 currently, implicit
+ 	 * with ERET.
+ 	 */
+ 	sysreg_clear_set_s(SYS_GCR_EL1, SYS_GCR_EL1_EXCL_MASK, excl);
+ }
+ 
+-static void set_gcr_el1_excl(u64 incl)
++static void set_gcr_el1_excl(u64 excl)
+ {
+-	current->thread.gcr_user_incl = incl;
+-	update_gcr_el1_excl(incl);
++	current->thread.gcr_user_excl = excl;
++	update_gcr_el1_excl(excl);
+ }
+ 
+ void flush_mte_state(void)
+@@ -167,7 +166,7 @@ void flush_mte_state(void)
+ 	/* disable tag checking */
+ 	set_sctlr_el1_tcf0(SCTLR_EL1_TCF0_NONE);
+ 	/* reset tag generation mask */
+-	set_gcr_el1_excl(0);
++	set_gcr_el1_excl(SYS_GCR_EL1_EXCL_MASK);
+ }
+ 
+ void mte_thread_switch(struct task_struct *next)
+@@ -178,7 +177,7 @@ void mte_thread_switch(struct task_struct *next)
+ 	/* avoid expensive SCTLR_EL1 accesses if no change */
+ 	if (current->thread.sctlr_tcf0 != next->thread.sctlr_tcf0)
+ 		update_sctlr_el1_tcf0(next->thread.sctlr_tcf0);
+-	update_gcr_el1_excl(next->thread.gcr_user_incl);
++	update_gcr_el1_excl(next->thread.gcr_user_excl);
+ }
+ 
+ void mte_suspend_exit(void)
+@@ -186,13 +185,14 @@ void mte_suspend_exit(void)
+ 	if (!system_supports_mte())
+ 		return;
+ 
+-	update_gcr_el1_excl(current->thread.gcr_user_incl);
++	update_gcr_el1_excl(current->thread.gcr_user_excl);
+ }
+ 
+ long set_mte_ctrl(struct task_struct *task, unsigned long arg)
+ {
+ 	u64 tcf0;
+-	u64 gcr_incl = (arg & PR_MTE_TAG_MASK) >> PR_MTE_TAG_SHIFT;
++	u64 gcr_excl = ~((arg & PR_MTE_TAG_MASK) >> PR_MTE_TAG_SHIFT) &
++		       SYS_GCR_EL1_EXCL_MASK;
+ 
+ 	if (!system_supports_mte())
+ 		return 0;
+@@ -213,10 +213,10 @@ long set_mte_ctrl(struct task_struct *task, unsigned long arg)
+ 
+ 	if (task != current) {
+ 		task->thread.sctlr_tcf0 = tcf0;
+-		task->thread.gcr_user_incl = gcr_incl;
++		task->thread.gcr_user_excl = gcr_excl;
+ 	} else {
+ 		set_sctlr_el1_tcf0(tcf0);
+-		set_gcr_el1_excl(gcr_incl);
++		set_gcr_el1_excl(gcr_excl);
+ 	}
+ 
+ 	return 0;
+@@ -225,11 +225,12 @@ long set_mte_ctrl(struct task_struct *task, unsigned long arg)
+ long get_mte_ctrl(struct task_struct *task)
+ {
+ 	unsigned long ret;
++	u64 incl = ~task->thread.gcr_user_excl & SYS_GCR_EL1_EXCL_MASK;
+ 
+ 	if (!system_supports_mte())
+ 		return 0;
+ 
+-	ret = task->thread.gcr_user_incl << PR_MTE_TAG_SHIFT;
++	ret = incl << PR_MTE_TAG_SHIFT;
+ 
+ 	switch (task->thread.sctlr_tcf0) {
+ 	case SCTLR_EL1_TCF0_NONE:
 -- 
 2.28.0.681.g6f77f65b4e-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20326c060cd1535b15a0df43d1b9627a329f2277.1600987622.git.andreyknvl%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/27e272bfd203cc0ff32181f07db588363ef3776b.1600987622.git.andreyknvl%40google.com.
