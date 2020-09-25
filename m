@@ -1,135 +1,131 @@
-Return-Path: <kasan-dev+bncBDDL3KWR4EBRBPVRW75QKGQE3YGY7IA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCOYZDMZ6UMRB2VRW75QKGQEDEN63XA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-io1-xd39.google.com (mail-io1-xd39.google.com [IPv6:2607:f8b0:4864:20::d39])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45E7427863B
-	for <lists+kasan-dev@lfdr.de>; Fri, 25 Sep 2020 13:47:11 +0200 (CEST)
-Received: by mail-io1-xd39.google.com with SMTP id l8sf1581390ioa.11
-        for <lists+kasan-dev@lfdr.de>; Fri, 25 Sep 2020 04:47:11 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1601034430; cv=pass;
+Received: from mail-vs1-xe37.google.com (mail-vs1-xe37.google.com [IPv6:2607:f8b0:4864:20::e37])
+	by mail.lfdr.de (Postfix) with ESMTPS id 01E0427863F
+	for <lists+kasan-dev@lfdr.de>; Fri, 25 Sep 2020 13:47:56 +0200 (CEST)
+Received: by mail-vs1-xe37.google.com with SMTP id s68sf611486vss.3
+        for <lists+kasan-dev@lfdr.de>; Fri, 25 Sep 2020 04:47:55 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1601034475; cv=pass;
         d=google.com; s=arc-20160816;
-        b=hFFvZ6/JIRWLxgtxzhprHmv7FFrgzeriVE2MEWWOdIatnSmyfNTj6bG/qPVzWZyu/r
-         slnbebCh50jGqMfdWv3ivk6KSbfC18VWPJ3fQW6OiTrd4lFAEgHrq++DBmn8CsQwZ+69
-         Y+pVfqcqQhSflKkxbSXfZMFjpXVpi+MaWXMJ7w2ZovoaIPJGKr4WqF69fLl3pjL2yEbD
-         p8jfcXtfBygehgySBi3d0XSi1LBwwhehBa4ROEUQytwdU79omWWuXtEzTF7bnzH3Cajg
-         3bOU77XjrKO8526yBj/dHkDrQSHmsk9PSYSdSTrL8Cjp6byudPcFUGUxYSG8uzqj3TN7
-         byXg==
+        b=sc8JgWMZsa4lZBAIrF2+qRrDuhVFBAmZZWZSCY9maVzMe++44WG8w1zmD89AwE7b/O
+         27Z+1l+0RB5gKwRltREnuB3FSjXSecv0DgasdiLar0nyEqnmPebCRsZRVlZI5K7w+rN6
+         ah8FT3x/9dhxsLbJ6ucDei5YNFYAWaNd6N9wKBtkuI9wshtB9EWDQUy5Z7HIMuCgrl0g
+         FZ4ipEK7JaMNBt9udUSPz476rqKgZTfSp8tD14uIkB0RSKl1X/xqFl4kUot4zkeCKjve
+         11aeMngxFsdaRvcXHeeIA4vTavV29poMv2uc29m7INMsnpJymaH5DNiPyL3E6yyRlWvn
+         9x4w==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:user-agent:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:sender:dkim-signature;
-        bh=FyZNQkxSSKwxtBtuHvMNMDNcDTs2Gn4xBJwHLJyjvK8=;
-        b=0GM5z9LZbn/iVXcL8WvSCXIRekMm4VKJCIifOSMjBTgNh/kLKtcPDuMC1NqnFN6dt+
-         l7Dp4ByFRkYrFss8Wruar1jL2v8rVHsRXBUrG2/DdNWYB8Ag14R5L0R1jnrDTFqBjgi9
-         qzQxLbBd0raPhixl89tV2wGbAXO/EbXLk+mgf25FzjabD2roNesUJBRjEzWStzJ1EVyt
-         DkmLU557jF6mYYa+dp3NjL0FooFGieEAXw0SG61nAGHAMti8Q29/Kij5q+tV9FxeG8oa
-         VBHbQgkMgTar9C2fxZ2/k4JrwHFxa4eIEXT15t05VJ7ATyvVMXXJNU4BHpj0/tPlm6uG
-         wafA==
+         :list-id:mailing-list:precedence:content-language:in-reply-to
+         :mime-version:user-agent:date:message-id:from:references:cc:to
+         :subject:sender:dkim-signature;
+        bh=Cg6U4WkMLmX/9+CCdaxjCFSdDYCZzt//bdODQMRcvP4=;
+        b=jfrlYlJm4gT2bcLoqqGgehgtYHg/NoSk6uU1wW0+RJTo5ORuE7Uqi9voyZbWLxek54
+         3XDp57JCMMMMGRVrqS7ZXNO5KmMqjT4Wuuiy5nwHotlKHdgI9OWqxousLftUo58dMlt5
+         8VcuAxZlX8JDnzR9AUNBO8YKeOoOUhlkSlukGmufQZduSejeSYDUbKF+/LeusmhwTNdL
+         eFSXU/p9Y7eMo5dHTv9fY/7nXFbC28ggH2vWx8UKtKT5NwjK/ovSNJ1a88nAKBtoK3cn
+         C15pp3bPJTCheH37DY6k6QJMPXgA5dIpNig9ZuBCcWDXnWK4vuFdZkZlbT7X888vzq9P
+         ZEdw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of cmarinas@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=cmarinas@kernel.org
+       spf=pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=vincenzo.frascino@arm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent:x-original-sender
+        h=sender:subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=FyZNQkxSSKwxtBtuHvMNMDNcDTs2Gn4xBJwHLJyjvK8=;
-        b=aWyxJYubwCGF/XbbiWcYRlHZeZ0jqGsDUaBtpjaVOlAlvfBQ1ppCN9L/p5eiA7goxN
-         qPwbMXy5fW8adDVfw8StBUotdpciOS165LkeqjHGfSp2ctup7ua6Ck9hDJO54xJkSHUy
-         zqUyi8iZvN4feC+7Af+k6RS1zCgdVpnrwLbkSoh7+GZovrve9NWx4Giil4dszKDyDnD6
-         7jIDoAyI4R7to/YUtVHJp6mWzlVXlevksV4tLujQJ/1LAfdpjF4mUqa5objUutu/rcEJ
-         BPy5SKx3yY0ZcKPYdtsoDIFmuOICqf2XRUNheMF4h5dNwa2ltX0J/FA4Gh2u9qDPVGG8
-         pLGg==
+        bh=Cg6U4WkMLmX/9+CCdaxjCFSdDYCZzt//bdODQMRcvP4=;
+        b=HLzCNXrVa4IryVboeFjbZCixZlpDMDOUun/w7uyVcSHoMJ+uqrciwivurdfHgtXXK6
+         dQPpBkUfNI1Il5ZobjSFTDa15lrO9KSbKtK44Zn9zNaEGpSg7MZovDzrScw3Qa3FvKOT
+         ByqsksecYILs05KRACMniVx3c+ARVzWa8LDrJ4wjUBJ6f2UDjhZ8qL81qPsdwnBG+NAi
+         QxI20EEBMLUNgcqI8CYwbiwtbM+X213NjkQy7kBdvAIiWW6DFMZqh1yaBInd3YXiqbTQ
+         jxif16NCagNnZlHJ1QHKHQciGBC0fHcZIqZR86BrDMAAVgfPYKtYDTRRsAsFBqIZ60YX
+         NZcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent
+        h=sender:x-gm-message-state:subject:to:cc:references:from:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=FyZNQkxSSKwxtBtuHvMNMDNcDTs2Gn4xBJwHLJyjvK8=;
-        b=h5NVPmxH/+Ik/buGuawqWQM10YTfWRB1PRdDbxEFlig9EeHiDsK5OtIKUqVltudv4i
-         PBtHztnD7W1nhUpsrWAh0Ecnz1tyWAZjMobDRyvxNus0yrw1Z15PV9TKdqon42E1/C+t
-         oiqmhxcsBCC7PljzkSt/cRA1sUnBrbMP5l3hhQkMYGtcHqFuVAegOT3WPWOJM/zaAAOO
-         3BUqIRKISNrUrRsnKGTcJYm4hyD9zAwQMOaGdN4e/wW7xkrL7A8HZ2gORbjD0v0yl4/C
-         Tp8ahT/G+cJiWSRG6UXT7jMmcZbZG4IlHTzUwMeBvVETfhQ3ywf9WZg13ELNNBspclpP
-         wpYw==
+        bh=Cg6U4WkMLmX/9+CCdaxjCFSdDYCZzt//bdODQMRcvP4=;
+        b=F6ReJ7Soi5Nr/TRktLI6gGSsYfLmWNocQhSSIJv5Hj2e+x8CEAazbn1ONezIkHMKFx
+         3YZSlP1pCM8X9uIVZG0HiTj0HmD0J2ZisxeRiFbrPJ9K8v+8yCe7EV3ga9GzRonwJNhU
+         gVf+wcEoIgkqWxUCN1XjJikSmqOIRLt3Y4TYsLdghtD0kxsjrM9qeoMBMPcC79LfYDCX
+         fshQhd58SEOXhKaTEczm7KIJT76yiKYBi2+KZ0ua16akuoNkM7kQHCFT1l4Kq1gcFrPL
+         tH6GEAoGmvImcGiQGuoa0oCq3uxs8iUKVqY1Iq0XEZ7qZWHWNU0r3Mhz6TSx9JOs8OIu
+         M7cQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM532dNBF7IpSNe23PHWq2luEEWJ7yIoSmgqrCjmWkIIxJzTBTDHbw
-	hEpxyjQimKwsksVl9bFSF4M=
-X-Google-Smtp-Source: ABdhPJyvxWONTWr+UTyoKU6O7SFKyEnfDYPXdReZ/21oR8xXbj7HtDfKXHtWc0O+iLpjAxWtmO5S8g==
-X-Received: by 2002:a92:d7ca:: with SMTP id g10mr2677840ilq.246.1601034430273;
-        Fri, 25 Sep 2020 04:47:10 -0700 (PDT)
+X-Gm-Message-State: AOAM531orn8JWeLtspmj7b8gIJkLpHX8JOWVaIxL/1evcU3iU2CDWfy7
+	B9A0FDV9lPyMFYNV3yrwKdE=
+X-Google-Smtp-Source: ABdhPJzAJg6P89mchl0DfSKhPH4zsUjVqh8x33mN5slo9M6JiJcG/gydwo+9quNcVDp4veGgym7bRg==
+X-Received: by 2002:a67:3009:: with SMTP id w9mr2488950vsw.19.1601034474976;
+        Fri, 25 Sep 2020 04:47:54 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a92:c148:: with SMTP id b8ls597043ilh.9.gmail; Fri, 25 Sep
- 2020 04:47:09 -0700 (PDT)
-X-Received: by 2002:a05:6e02:1206:: with SMTP id a6mr2943647ilq.108.1601034429844;
-        Fri, 25 Sep 2020 04:47:09 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1601034429; cv=none;
+Received: by 2002:a05:6102:3d1:: with SMTP id n17ls339104vsq.2.gmail; Fri, 25
+ Sep 2020 04:47:54 -0700 (PDT)
+X-Received: by 2002:a67:d601:: with SMTP id n1mr2483803vsj.2.1601034474506;
+        Fri, 25 Sep 2020 04:47:54 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1601034474; cv=none;
         d=google.com; s=arc-20160816;
-        b=T9K4OEdFZOfrzxtUQWXjSJjFLdtqb41gIdS61Unzy17khhPFsQZtKctCSRr/qFXHZ2
-         ZdjgrY2/fw39Pa4yqzBjD2jOkQMPjVnMGVsIGZZG8ORCqdp5WP+Qe8PbttE2PlhjnbGv
-         TBVOMBSvVvV0OArJM6fRoDEwaVwlkj0tMi+C4zznj2KvyVB1ARkz7MjpOFG/2YrpiOTM
-         V23uso4RIL0sjM0zw3oWTeFoRyLPd89L7AEKk9C8xFv2rXBlGeNPBtUG/zlzD9tbBLjr
-         BlNV8r8LDcf0MgtwAz7h6ySRxkyaWRXeockHIAL2r6CjAkRrPcGjOqpBVcAxoe7bkikb
-         tFjg==
+        b=Ays9Zxam6wmkqi7wa0aKDSbO8iCXZTmCcaxtQUC2L1gEGNa92IO9E3XKmfRv4za7ZQ
+         SCRkA32Gw9yG15cmsdsFm2T6L1tiiN0MXheIwJq9BPS5/o4Mq46n6pRxPephg2ylwsMS
+         c7LCEl0o+3fC6Koe0LQc22YEYdr/cy2dRyH0IzBzHSvsgPrd95hAaAcbfc4uMjyQBTPg
+         J/i+4SYzAbr1ej6bLkhLvIqk0PvQN8BKEa7xqvTPyIUa7avOUyPv7P3b0hoISgkext9p
+         dj+dUlENNoRgqF37Af6K+ldPkDSQe+yNDua15suHELS8RhKeAnjDVbS3KwXghWqrW9Ye
+         zrPA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date;
-        bh=dTRAJP5sT08cvrbBrEPFIOwj4KeDIoOAnQtFjx1XkgQ=;
-        b=YlIsyPwnpeTxMd8FFT09Mo2WAI6bxQ8M0p2fCdGwQYawZ5cfEBEcRF4x4nYIC5z0j7
-         RRgZnzVsOKNM85tHjryZmOETgNtSaSCDbp4gvMKIr32cFN/dZWUIgFG2W84+BRCos8BE
-         OHiAg4BIu+pzZ2VIWiVVVqCiCKhuoNiOq/12TneZ7A4HBQlepS/wPgKyozu8F8/21LkT
-         Xiz6kOr1XxrSypwpavHoNTe80Lg0lNLaRgPiQoi5wICaSS6lux+fqs6QiULmH/p/M8u9
-         ncp7/ySSSF0cuZZNMmD3SXtUHIwlpksuMOV8L1yW6Cc8D1rH5qw5I2X6ndDhlZ/cKpy7
-         3+mA==
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject;
+        bh=KcT21iROjtZOWeAnuTzW91g5olilWaNvgTdYroBiAmA=;
+        b=mMDjIblALZLXYe2PXyrVshzzxAbpywUvo3Z3oR5O7H8uEDgWVIrMN/wkr0UP7eYXF5
+         o75z20PJ0nJE6rLCMrYmZO88ygIA+Obe8dMCt9EIdvZDpr8JJcctWC+XPhHapfs/x8oH
+         mM/MuUYuFbsZ9VljpsgZq/ABW00ROOZH3QAkLFk1LVEyS99TB+njvSJLRvGqf4cbdyBN
+         v7HtvwOk9Q2tfznTWdrCg6WUmJk5iz4zrsDm6zGg6szZ8+KplvE6+aE9O5fbIS1kRDYX
+         HpYzB8Wk0b+e+bu2Yzwt8ewjjdhJktYfI50q3Xt2AllBlcij3/WBX/jfffcy5jNADs0K
+         6i2Q==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of cmarinas@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=cmarinas@kernel.org
-Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id a5si166800ilr.3.2020.09.25.04.47.09
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 25 Sep 2020 04:47:09 -0700 (PDT)
-Received-SPF: pass (google.com: domain of cmarinas@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
-Received: from gaia (unknown [31.124.44.166])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id A4A792083B;
-	Fri, 25 Sep 2020 11:47:06 +0000 (UTC)
-Date: Fri, 25 Sep 2020 12:47:04 +0100
-From: Catalin Marinas <catalin.marinas@arm.com>
-To: Andrey Konovalov <andreyknvl@google.com>
-Cc: Dmitry Vyukov <dvyukov@google.com>,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	kasan-dev <kasan-dev@googlegroups.com>,
-	Andrey Ryabinin <aryabinin@virtuozzo.com>,
-	Alexander Potapenko <glider@google.com>,
-	Marco Elver <elver@google.com>,
-	Evgenii Stepanov <eugenis@google.com>,
-	Elena Petrova <lenaptr@google.com>,
-	Branislav Rankov <Branislav.Rankov@arm.com>,
-	Kevin Brodsky <kevin.brodsky@arm.com>,
-	Will Deacon <will.deacon@arm.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux ARM <linux-arm-kernel@lists.infradead.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v3 26/39] arm64: mte: Add in-kernel tag fault handler
-Message-ID: <20200925114703.GI4846@gaia>
+       spf=pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=vincenzo.frascino@arm.com
+Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
+        by gmr-mx.google.com with ESMTP id u25si140578vkl.5.2020.09.25.04.47.54
+        for <kasan-dev@googlegroups.com>;
+        Fri, 25 Sep 2020 04:47:54 -0700 (PDT)
+Received-SPF: pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 95A77101E;
+	Fri, 25 Sep 2020 04:47:53 -0700 (PDT)
+Received: from [10.37.12.53] (unknown [10.37.12.53])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 872613F70D;
+	Fri, 25 Sep 2020 04:47:50 -0700 (PDT)
+Subject: Re: [PATCH v3 29/39] arm64: mte: Switch GCR_EL1 in kernel entry and
+ exit
+To: Catalin Marinas <catalin.marinas@arm.com>,
+ Andrey Konovalov <andreyknvl@google.com>
+Cc: Dmitry Vyukov <dvyukov@google.com>, kasan-dev@googlegroups.com,
+ Andrey Ryabinin <aryabinin@virtuozzo.com>,
+ Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>,
+ Evgenii Stepanov <eugenis@google.com>, Elena Petrova <lenaptr@google.com>,
+ Branislav Rankov <Branislav.Rankov@arm.com>,
+ Kevin Brodsky <kevin.brodsky@arm.com>, Will Deacon <will.deacon@arm.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org
 References: <cover.1600987622.git.andreyknvl@google.com>
- <17ec8af55dc0a4d3ade679feb0858f0df4c80d27.1600987622.git.andreyknvl@google.com>
- <20200925104933.GD4846@gaia>
- <CAAeHK+zLFRgR9eiLNyn7-iqbXJe6HGYpHYbBXXOVqOk4MyrhAA@mail.gmail.com>
+ <4e503a54297cf46ea1261f43aa325c598d9bd73e.1600987622.git.andreyknvl@google.com>
+ <20200925113433.GF4846@gaia>
+From: Vincenzo Frascino <vincenzo.frascino@arm.com>
+Message-ID: <e4624059-1598-17eb-2c64-3e7f26c2a1ba@arm.com>
+Date: Fri, 25 Sep 2020 12:50:23 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <20200925113433.GF4846@gaia>
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <CAAeHK+zLFRgR9eiLNyn7-iqbXJe6HGYpHYbBXXOVqOk4MyrhAA@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Original-Sender: catalin.marinas@arm.com
+Content-Language: en-US
+X-Original-Sender: vincenzo.frascino@arm.com
 X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of cmarinas@kernel.org designates 198.145.29.99 as
- permitted sender) smtp.mailfrom=cmarinas@kernel.org
+ (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172
+ as permitted sender) smtp.mailfrom=vincenzo.frascino@arm.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -142,73 +138,156 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, Sep 25, 2020 at 01:26:02PM +0200, Andrey Konovalov wrote:
-> On Fri, Sep 25, 2020 at 12:49 PM Catalin Marinas
-> <catalin.marinas@arm.com> wrote:
-> > > diff --git a/arch/arm64/mm/fault.c b/arch/arm64/mm/fault.c
-> > > index a3bd189602df..d110f382dacf 100644
-> > > --- a/arch/arm64/mm/fault.c
-> > > +++ b/arch/arm64/mm/fault.c
-> > > @@ -33,6 +33,7 @@
-> > >  #include <asm/debug-monitors.h>
-> > >  #include <asm/esr.h>
-> > >  #include <asm/kprobes.h>
-> > > +#include <asm/mte.h>
-> > >  #include <asm/processor.h>
-> > >  #include <asm/sysreg.h>
-> > >  #include <asm/system_misc.h>
-> > > @@ -294,6 +295,11 @@ static void die_kernel_fault(const char *msg, unsigned long addr,
-> > >       do_exit(SIGKILL);
-> > >  }
-> > >
-> > > +static void report_tag_fault(unsigned long addr, unsigned int esr,
-> > > +                          struct pt_regs *regs)
-> > > +{
-> > > +}
-> >
-> > Do we need to introduce report_tag_fault() in this patch? It's fine but
-> > add a note in the commit log that it will be populated in a subsequent
-> > patch.
+On 9/25/20 12:34 PM, Catalin Marinas wrote:
+> On Fri, Sep 25, 2020 at 12:50:36AM +0200, Andrey Konovalov wrote:
+>> diff --git a/arch/arm64/kernel/entry.S b/arch/arm64/kernel/entry.S
+>> index ff34461524d4..c7cc1fdfbd1a 100644
+>> --- a/arch/arm64/kernel/entry.S
+>> +++ b/arch/arm64/kernel/entry.S
+>> @@ -175,6 +175,49 @@ alternative_else_nop_endif
+>>  #endif
+>>  	.endm
+>>  
+>> +	.macro mte_set_gcr, tmp, tmp2
+>> +#ifdef CONFIG_ARM64_MTE
+>> +alternative_if_not ARM64_MTE
+>> +	b	1f
+>> +alternative_else_nop_endif
 > 
-> I did, see the last line of the commit description.
+> You don't need the alternative here. The macro is only invoked in an
+> alternative path already (I'd be surprised if it even works, we don't
+> handle nested alternatives well).
+>
 
-Sorry, I missed that.
+Yes, you are right. I forgot to remove it.
 
-> > > +
-> > >  static void __do_kernel_fault(unsigned long addr, unsigned int esr,
-> > >                             struct pt_regs *regs)
-> > >  {
-> > > @@ -641,10 +647,40 @@ static int do_sea(unsigned long addr, unsigned int esr, struct pt_regs *regs)
-> > >       return 0;
-> > >  }
-> > >
-> > > +static void do_tag_recovery(unsigned long addr, unsigned int esr,
-> > > +                        struct pt_regs *regs)
-> > > +{
-> > > +     static bool reported = false;
-> > > +
-> > > +     if (!READ_ONCE(reported)) {
-> > > +             report_tag_fault(addr, esr, regs);
-> > > +             WRITE_ONCE(reported, true);
-> > > +     }
-> >
-> > I don't mind the READ_ONCE/WRITE_ONCE here but not sure what they help
-> > with.
+>> +	/*
+>> +	 * Calculate and set the exclude mask preserving
+>> +	 * the RRND (bit[16]) setting.
+>> +	 */
+>> +	mrs_s	\tmp2, SYS_GCR_EL1
+>> +	bfi	\tmp2, \tmp, #0, #16
+>> +	msr_s	SYS_GCR_EL1, \tmp2
+>> +	isb
+>> +1:
+>> +#endif
+>> +	.endm
+>> +
+>> +	.macro mte_set_kernel_gcr, tsk, tmp, tmp2
 > 
-> The fault can happen on multiple cores at the same time, right? In
-> that case without READ/WRITE_ONCE() we'll have a data-race here.
+> What's the point of a 'tsk' argument here?
+> 
 
-READ/WRITE_ONCE won't magically solve such races. If two CPUs enter
-simultaneously in do_tag_recovery(), they'd both read 'reported' as
-false and both print the fault info.
+It is unused. I kept the interface same in between kernel and user.
+I can either add a comment or remove it. Which one do you prefer?
 
-If you really care about this race, you need to atomically both read and
-update the variable with an xchg() or cmpxchg().
+>> +#ifdef CONFIG_KASAN_HW_TAGS
+>> +#ifdef CONFIG_ARM64_MTE
+> 
+> Does KASAN_HW_TAGS depend on ARM64_MTE already? Just to avoid too may
+> ifdefs. Otherwise, you can always write it as:
+> 
+> #if defined(CONFIG_KASAN_HW_TAGS) && defined(CONFIG_ARM64_MTE)
+> 
+> to save two lines (and its easier to read).
+> 
+
+It is indeed. I forgot to remove CONFIG_ARM64_MTE.
+
+>> +alternative_if_not ARM64_MTE
+>> +	b	1f
+>> +alternative_else_nop_endif
+>> +	ldr_l	\tmp, gcr_kernel_excl
+>> +
+>> +	mte_set_gcr \tmp, \tmp2
+>> +1:
+>> +#endif
+>> +#endif
+>> +	.endm
+>> +
+>> +	.macro mte_set_user_gcr, tsk, tmp, tmp2
+>> +#ifdef CONFIG_ARM64_MTE
+>> +alternative_if_not ARM64_MTE
+>> +	b	1f
+>> +alternative_else_nop_endif
+>> +	ldr	\tmp, [\tsk, #THREAD_GCR_EL1_USER]
+>> +
+>> +	mte_set_gcr \tmp, \tmp2
+>> +1:
+>> +#endif
+>> +	.endm
+>> +
+>>  	.macro	kernel_entry, el, regsize = 64
+>>  	.if	\regsize == 32
+>>  	mov	w0, w0				// zero upper 32 bits of x0
+>> @@ -214,6 +257,8 @@ alternative_else_nop_endif
+>>  
+>>  	ptrauth_keys_install_kernel tsk, x20, x22, x23
+>>  
+>> +	mte_set_kernel_gcr tsk, x22, x23
+>> +
+>>  	scs_load tsk, x20
+>>  	.else
+>>  	add	x21, sp, #S_FRAME_SIZE
+>> @@ -332,6 +377,8 @@ alternative_else_nop_endif
+>>  	/* No kernel C function calls after this as user keys are set. */
+>>  	ptrauth_keys_install_user tsk, x0, x1, x2
+>>  
+>> +	mte_set_user_gcr tsk, x0, x1
+>> +
+>>  	apply_ssbd 0, x0, x1
+>>  	.endif
+>>  
+>> diff --git a/arch/arm64/kernel/mte.c b/arch/arm64/kernel/mte.c
+>> index 393d0c794be4..c3b4f056fc54 100644
+>> --- a/arch/arm64/kernel/mte.c
+>> +++ b/arch/arm64/kernel/mte.c
+>> @@ -22,6 +22,8 @@
+>>  #include <asm/ptrace.h>
+>>  #include <asm/sysreg.h>
+>>  
+>> +u64 gcr_kernel_excl __ro_after_init;
+>> +
+>>  static void mte_sync_page_tags(struct page *page, pte_t *ptep, bool check_swap)
+>>  {
+>>  	pte_t old_pte = READ_ONCE(*ptep);
+>> @@ -116,6 +118,13 @@ void *mte_set_mem_tag_range(void *addr, size_t size, u8 tag)
+>>  	return ptr;
+>>  }
+>>  
+>> +void mte_init_tags(u64 max_tag)
+>> +{
+>> +	u64 incl = GENMASK(max_tag & MTE_TAG_MAX, 0);
+>> +
+>> +	gcr_kernel_excl = ~incl & SYS_GCR_EL1_EXCL_MASK;
+>> +}
+>> +
+>>  static void update_sctlr_el1_tcf0(u64 tcf0)
+>>  {
+>>  	/* ISB required for the kernel uaccess routines */
+>> @@ -151,7 +160,11 @@ static void update_gcr_el1_excl(u64 excl)
+>>  static void set_gcr_el1_excl(u64 excl)
+>>  {
+>>  	current->thread.gcr_user_excl = excl;
+>> -	update_gcr_el1_excl(excl);
+>> +
+>> +	/*
+>> +	 * SYS_GCR_EL1 will be set to current->thread.gcr_user_incl value
+>                                                       ^^^^^^^^^^^^^
+> That's gcr_user_excl now.
+> 
+>> +	 * by mte_restore_gcr() in kernel_exit,
+> 
+> I don't think mte_restore_gcr is still around in this patch.
+> 
+
+This comment requires updating. I missed it.
 
 -- 
-Catalin
+Regards,
+Vincenzo
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200925114703.GI4846%40gaia.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/e4624059-1598-17eb-2c64-3e7f26c2a1ba%40arm.com.
