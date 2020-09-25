@@ -1,135 +1,133 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBMNKW75QKGQEXSX4BGA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDDL3KWR4EBRBUFLW75QKGQE3AEY5FA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-io1-xd3f.google.com (mail-io1-xd3f.google.com [IPv6:2607:f8b0:4864:20::d3f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C8952785DA
-	for <lists+kasan-dev@lfdr.de>; Fri, 25 Sep 2020 13:32:02 +0200 (CEST)
-Received: by mail-io1-xd3f.google.com with SMTP id u3sf1552747iow.15
-        for <lists+kasan-dev@lfdr.de>; Fri, 25 Sep 2020 04:32:02 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1601033521; cv=pass;
+Received: from mail-qt1-x83b.google.com (mail-qt1-x83b.google.com [IPv6:2607:f8b0:4864:20::83b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 66C712785F6
+	for <lists+kasan-dev@lfdr.de>; Fri, 25 Sep 2020 13:34:41 +0200 (CEST)
+Received: by mail-qt1-x83b.google.com with SMTP id w3sf1082739qtn.16
+        for <lists+kasan-dev@lfdr.de>; Fri, 25 Sep 2020 04:34:41 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1601033680; cv=pass;
         d=google.com; s=arc-20160816;
-        b=q/3E0LIbCDimcuaiebFixdX0pCt72+tBBq6E6eRIB9buWJ/POzTA9OSrxqNXXR/xK+
-         Z/lvOeXkhELG0FSJjHolzeAikJMMBdeOsxa1m/Q1P3j53uxLnQwT2y2Z6OmTAubgdSPa
-         RSmhyvV7NsbxBTDR+PyK+jV0VeuT7KCatUIEPd1INA1awnJvWPAsDesDVql8cXKFjWHA
-         IfaCxaGy9jrg+wZVomcR5AkiH2EbsRrnFakEs2f3gVfTcit5Pe5WjosU8OVMsrzIMshQ
-         3BhVavWBjMj1onn9F2Yqq9CtJ2JEUf1V7SGSwqmc0TUC0teH5qX14ydkfeyo0beaR46b
-         Gs9g==
+        b=ssw8g7Y/e6+dIMwNzYxOvEdz49qmLUrHfF+h07P9qPG24kKHPR3T2ZpmRlbg7rsZ0H
+         n/VzGivsGsd3D/oPB3WtmTBljw1FitDnAmJqoTg/qRSEQC6HmyPGjKFRZqhP1HzQb6VI
+         ronVgMyXAnylanacripUMIO8Soy1rAif9HiP4FwhSbSUchW1GuLBNqc53DPyff8lDDH8
+         2vJMFPGbroQ7UNXY/n6jFmUODloDgRIre3+eFpu7B/q83/bTr16F6e6p9EsfSyYAdWpI
+         dmo8XL4p3+v369ZeslmigGpkxUyqoS5sei06OPUqms9XHUyOfabYIUYJCBwFQeyeNX76
+         EJ1A==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=6R8pyTZKbY4Y6P/tvV3ttOicsN3Npfg+RydAWzy49ss=;
-        b=sO1VI+ImBM+Lc8j4CexbjNK1yI6hbOgKvm2X6vaL2C+o4LJYQfqEi5dNnmBF7cSZNQ
-         S5UAWYnAUEK3I9M10+A015M7lrX+F3AVJEh3EDNASdOnGhAUQ/vpXiLOIC71pV+VpTkg
-         bjwFUiluayK06kv7fGa0Ja+TCSh3MnmGdgPhqaQuHCyACCC3s/AZL1afx5362NpYfGkz
-         Bw2wAR2bUX2t4w9oYiXoSJ88J5kjUZvEjfPxO0J9wjrFkYXeIQWK6vSqKrPdM3+PJsyt
-         6J9TA/3K1gXiSB3J3kucUZGUqD2nJhvaSRFSdnRUdk0HE24x4jC0GmCAEa4Td6HY1tu1
-         tsew==
+         :list-id:mailing-list:precedence:user-agent:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:sender:dkim-signature;
+        bh=R28Atx534btWUlMjY6UpqYJxtoaVyX7oos+SIO4HJPQ=;
+        b=l7otA2slwA1qpxhH5Svopgty4y6dJC7BqgW7s8hW/AmXev32iS22mYVI1hb8KBUiXs
+         orz9QtTav6QndMsr+aNL2EcFeY8jhMM0XUwE7vXUklHzI9W8k5vLyMyp0NA1WRG/rKg2
+         vF1KL1Dor8tQe0YY5c21JP6I/FbAuhmlZuo8+79NR4PKMuQvJBw33A3V6KLY+l40HaoU
+         xPlvH0EbKARN0d4RsYk5wCQU8zVq38RZ7GTGNzkzU5IfzEctdrxM1d/nxEDtIh1TMzOL
+         i61qN/mkR0K5WjfbiPKiEG0uKKqSbYrqHJFaTF59QBaS1fFniAcW1fx6cPStdMdof3Dz
+         t0gg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=qyHbJgNn;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::341 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       spf=pass (google.com: domain of cmarinas@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=cmarinas@kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=6R8pyTZKbY4Y6P/tvV3ttOicsN3Npfg+RydAWzy49ss=;
-        b=QmKV2NZVdLjMyQpRl6xwqW+/joC0skMOmD/1WMLYFuYqAP5FhIzr5Zt8OVFYU3IUzW
-         ZFSITYi1PjZYcV2kLdHQEYUOot7U1rX1PmXgMkrADHbmlDNWzcy9OPeSN1ozW1irF+Na
-         LkXLEVpuApshwV4rsfVj/2b8up4Pd8ptb3yHV1+ZAM32Ze8s975k5k43U9agataa93qf
-         UaiajMryTy9pb9Pstl9sDCh1QS3Xia4zkEFBI9smsI4BaAfQ+oZL5idk50gAP5s32Lpd
-         D5xIs24j5R3oqlZKdxf7wHwMlVDXq1oS80gU5BHsJC4P5G6oOVTzQ14W/TIbtzoxofyc
-         wyQw==
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=R28Atx534btWUlMjY6UpqYJxtoaVyX7oos+SIO4HJPQ=;
+        b=UPt3EL+4n4TBQL0DPq/pDoZ8cF9Pk/iExPJ8EoN80gxd+Hcb7vsmh8rEaY0dMu5F7S
+         Rle4pYvEijj+hxCNvylvVAwfyRKQzpOhZ92qyBlM76pje4+sqc4tG73rpKWxB++DlDzK
+         Ir1m+xxpY+4FERZ+1TTh9Z/RAFpROkwU4257BSjnW/InLQzQqY6c628HZrLeTMZudgvw
+         irTe/KM4kyX5NasyyZlmNuIULbwkKzzLegJeN7K7n2ViaiY+abxrm86UVUTBFx/mY01w
+         dw5E8TZg1yzQOdSzDjXnF9kHynj28ViWNAILbAZ4hGQQQ8BPETL5gcJOd9rJnvDehKI0
+         CtKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=6R8pyTZKbY4Y6P/tvV3ttOicsN3Npfg+RydAWzy49ss=;
-        b=eg4Y1P+2EkAvBbb3TNW3ZI7k2MTT9IPZ5eMrkKH9ZR3ZDYkBmPvXoLMRqgZ84lTITy
-         3Cnax0XUggaXad0pL+qGCf6I/lTkqAJPAKPa7yjnb8HriKVXu9cH2htUXYZcH9tXyq4u
-         OVhZULD/sMtZRnYqzE1ibeRKaw/QYxbLZj4E+htAZFAGClsDkTuPjCEc4a28inoK5dst
-         vOUH9adPntc056Ud6hAH+L+nk5lhXgbKbd7Uv+9N0FFBTSPd/1KQyltxtbWT4KHDwgvs
-         0sN5pZDNjrm8HvlEh4qpw1BQsvd0IFGVCueW2G8C5Bm0YCr85SI85GEtulunPKc9G34l
-         e8rg==
-X-Gm-Message-State: AOAM533QERtcDatX/auQ4rK71FyA+N2YeQ7XjWeF/+jYo1QrOkYoi6lr
-	/1/P6qwHD9uY4R8edwb5a4w=
-X-Google-Smtp-Source: ABdhPJzQCROkLS2RssJ2PX7sFwtLJVINnYAmGfmd63ZaZxtoyFLPv2yPWxqLDXv9hUXgrCy9zN63hg==
-X-Received: by 2002:a6b:8dc7:: with SMTP id p190mr2831621iod.209.1601033521208;
-        Fri, 25 Sep 2020 04:32:01 -0700 (PDT)
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=R28Atx534btWUlMjY6UpqYJxtoaVyX7oos+SIO4HJPQ=;
+        b=bW4iejf00uzCcPkaeB44txLiOJwdrfPTUvNjID/ugf7ils8Y30UOULTFCcsaa0N5En
+         bYokzYxc7/hViqDknwf7Iubb8RRvSNltSuQ9A/iL8DcOU56D6nxebHPHqG4e//nP2XCF
+         0ICEpdDDaV+gwy4pzb0BBYpAZkRuIIfwN4WUrWn2xMEtHNxJF5/zkCZDXww6/E7RjNtl
+         mrcuk+RbPtPjssTvllDes2fDzhXgL1Nkfbkb5z2jaKKg+rhLBA/WT2RANPXWA/zT59qR
+         KPbJyXMqQnUSWJrPVCp8oKo+zT8fozjsw68sfkONMBlBu5pcyLAPD9J8gN+ufoQgfJqG
+         dJXA==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM532eOS42QM3QMd564/QbNVEPxr3GKVoOwP6CxtewmuOaiJV389+R
+	+CVW7O2JvPSyfU/m3FUF9dk=
+X-Google-Smtp-Source: ABdhPJyRpHpilC/N3fNRPTPqb6e8WDTjm7EYEc7kY47I5pM/wNq8483zrFonaakM4XTYEvLv3Vr9uA==
+X-Received: by 2002:aed:2794:: with SMTP id a20mr3758759qtd.387.1601033680349;
+        Fri, 25 Sep 2020 04:34:40 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6638:220c:: with SMTP id l12ls331833jas.6.gmail; Fri, 25
- Sep 2020 04:32:00 -0700 (PDT)
-X-Received: by 2002:a02:ccdb:: with SMTP id k27mr2733060jaq.103.1601033520772;
-        Fri, 25 Sep 2020 04:32:00 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1601033520; cv=none;
+Received: by 2002:a05:620a:1112:: with SMTP id o18ls1105015qkk.2.gmail; Fri,
+ 25 Sep 2020 04:34:39 -0700 (PDT)
+X-Received: by 2002:a37:4e45:: with SMTP id c66mr3649717qkb.36.1601033679688;
+        Fri, 25 Sep 2020 04:34:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1601033679; cv=none;
         d=google.com; s=arc-20160816;
-        b=FOwIBv9O+HiPwtWtGn2JEppNYGPNwPkxzdMJtgroEwvjQIS3fU0Oy2wTfANjXZW44v
-         dUWqFxUCCv3hrfLabOCE6lhgesnAvQgXSVK6WiTaoo1WY8uCELMZXtsx/TUXYNtlhZxI
-         Rh/vIGpFFRaUWettvd8QjIXwxe/mnlY4CW7WbLkdkHKYfV4nDi2Hh2p0ZNYawGbKGE3f
-         YgWIPnm7nDEhMdCkxfGoBVsdOn2rCRe4iDvmHQVGFrLjQ/lfZUcKb4JQ33KMaYUzE9fO
-         kHQzokRmit4AW+jRlNCOMBUua4F324pcRtw7wrxe9gH90pGHMu8fdb5pebP4Udcaakb+
-         +MVA==
+        b=CnP5tobIQjIRr88gikDJeEHTaQ+5T1iZEvU3aqBgUXbkDJ4DV5K88evN+ZmtPkPHX1
+         yO+eXavU7riZ34XBszUP0eVLN8fqhKFHtszjawAj5b/Q9GJi4tqT0E/XJowK4u30sEfk
+         WfcTzYr/n8F2qVYLmvpm+31ZtmCXOS4QvRyqMJvAZOqjHEi+kYbFd0p6rCfIytMDw14P
+         TeR4aUwBSVPj/SXevT2COie57PYRUMLFsANY5CZlNyYpmqmrnSl+eyXgeSxQLQ7h/7eC
+         2zqI+h9oqLgzCA1JlfxPa39ugVntw8xmInaLJnqk9lWfdx6iW8Dlp/ZZwf+Zr9/2XY9t
+         /sHg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=6L8pDz+HxatuOD/RjMAAdgwqh+b4jciwbLlL8vlXkeA=;
-        b=eq1lJ5aK0BF/8IB6PriOd3dLNR09XiBOydkIyu2ctFWS847trC2grYOu3IgH4gViP+
-         nYxHigCV5LBEcFyWvbO7Wojnw94527w4LKoxtRetUyxRq+31zzN7T5oTRwlm/WUWifNw
-         lnxOPUpL8ItM5emWSL5cUkV4xz+kWYHk4QB9enw1q8qJjn89eov7uTVxr1Fnf0UjmR1w
-         ikIDyeOMYpBd5HLj/K2cAoDCe2HNQeTYIFwNfbQOVtMEhtRVxmmQQbJQBeZejBo+UxAJ
-         3YJTSRk6zZ93F6/ra69DfRW6kIMi2NfNYPJ6i7c+6P68eBthb/cN7Y7xwywlzJIkVojM
-         6r/A==
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date;
+        bh=ueXHMeQ/RMtEtjZh4q3SmnKsrYqYhwEBEXAhovG/G58=;
+        b=hut/Clnd5Hzbpn7jd3Y/nnG/KaNZTEixj8BsaymRFPRZ81ErLP22GuGVV4A8gts4lT
+         v6SzjXBMQK1nl6xLglsOtQObgAAzG+hVE9P3fOli7bqxDiaPqMCGBaUlBNZxnu0/EpBz
+         K639MrJkS+3AljvS0fBc2viwGPKBffQ8+0mImTFD64Sy42uCa7Ol2r3qtV1minVBdFRw
+         0LzHPet8Of3DQ33ncyNzup7RuKlecUd1zx+2ow9VQTuxKvPm6ns5YoyGjTFB32FVyeq/
+         ryOLZCwpfdIX4M+lT16hv/QLqfxHDdffuypIkdrXQVQYElluFjQEa6P003OdQXIE7EZC
+         64CA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=qyHbJgNn;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::341 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com. [2607:f8b0:4864:20::341])
-        by gmr-mx.google.com with ESMTPS id k18si136693ion.4.2020.09.25.04.32.00
+       spf=pass (google.com: domain of cmarinas@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=cmarinas@kernel.org
+Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
+        by gmr-mx.google.com with ESMTPS id a27si137878qtw.4.2020.09.25.04.34.39
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 25 Sep 2020 04:32:00 -0700 (PDT)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::341 as permitted sender) client-ip=2607:f8b0:4864:20::341;
-Received: by mail-ot1-x341.google.com with SMTP id m12so1987843otr.0
-        for <kasan-dev@googlegroups.com>; Fri, 25 Sep 2020 04:32:00 -0700 (PDT)
-X-Received: by 2002:a9d:66a:: with SMTP id 97mr2621626otn.233.1601033519970;
- Fri, 25 Sep 2020 04:31:59 -0700 (PDT)
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 25 Sep 2020 04:34:39 -0700 (PDT)
+Received-SPF: pass (google.com: domain of cmarinas@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
+Received: from gaia (unknown [31.124.44.166])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPSA id 358C421741;
+	Fri, 25 Sep 2020 11:34:36 +0000 (UTC)
+Date: Fri, 25 Sep 2020 12:34:33 +0100
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: Andrey Konovalov <andreyknvl@google.com>
+Cc: Dmitry Vyukov <dvyukov@google.com>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	kasan-dev@googlegroups.com,
+	Andrey Ryabinin <aryabinin@virtuozzo.com>,
+	Alexander Potapenko <glider@google.com>,
+	Marco Elver <elver@google.com>,
+	Evgenii Stepanov <eugenis@google.com>,
+	Elena Petrova <lenaptr@google.com>,
+	Branislav Rankov <Branislav.Rankov@arm.com>,
+	Kevin Brodsky <kevin.brodsky@arm.com>,
+	Will Deacon <will.deacon@arm.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 29/39] arm64: mte: Switch GCR_EL1 in kernel entry and
+ exit
+Message-ID: <20200925113433.GF4846@gaia>
+References: <cover.1600987622.git.andreyknvl@google.com>
+ <4e503a54297cf46ea1261f43aa325c598d9bd73e.1600987622.git.andreyknvl@google.com>
 MIME-Version: 1.0
-References: <20200921132611.1700350-2-elver@google.com> <20200925112328.10057-1-sjpark@amazon.com>
-In-Reply-To: <20200925112328.10057-1-sjpark@amazon.com>
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Fri, 25 Sep 2020 13:31:48 +0200
-Message-ID: <CANpmjNMG+1Fiff+_PMFanRVc9SRoTKa-Z9SMM9eKTRL9MsoD0w@mail.gmail.com>
-Subject: Re: [PATCH v3 01/10] mm: add Kernel Electric-Fence infrastructure
-To: SeongJae Park <sjpark@amazon.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Alexander Potapenko <glider@google.com>, 
-	Mark Rutland <mark.rutland@arm.com>, Hillf Danton <hdanton@sina.com>, 
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Dave Hansen <dave.hansen@linux.intel.com>, 
-	Linux Memory Management List <linux-mm@kvack.org>, Eric Dumazet <edumazet@google.com>, 
-	"H. Peter Anvin" <hpa@zytor.com>, Christoph Lameter <cl@linux.com>, Will Deacon <will@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, "the arch/x86 maintainers" <x86@kernel.org>, kasan-dev <kasan-dev@googlegroups.com>, 
-	Ingo Molnar <mingo@redhat.com>, Vlastimil Babka <vbabka@suse.cz>, David Rientjes <rientjes@google.com>, 
-	Andrey Ryabinin <aryabinin@virtuozzo.com>, Kees Cook <keescook@chromium.org>, 
-	"Paul E. McKenney" <paulmck@kernel.org>, Jann Horn <jannh@google.com>, 
-	Andrey Konovalov <andreyknvl@google.com>, Borislav Petkov <bp@alien8.de>, Andy Lutomirski <luto@kernel.org>, 
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>, Thomas Gleixner <tglx@linutronix.de>, 
-	Dmitry Vyukov <dvyukov@google.com>, Linux ARM <linux-arm-kernel@lists.infradead.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, LKML <linux-kernel@vger.kernel.org>, 
-	Pekka Enberg <penberg@kernel.org>, Joonsoo Kim <iamjoonsoo.kim@lge.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=qyHbJgNn;       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::341 as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+Content-Disposition: inline
+In-Reply-To: <4e503a54297cf46ea1261f43aa325c598d9bd73e.1600987622.git.andreyknvl@google.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Original-Sender: catalin.marinas@arm.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of cmarinas@kernel.org designates 198.145.29.99 as
+ permitted sender) smtp.mailfrom=cmarinas@kernel.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -142,147 +140,141 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, 25 Sep 2020 at 13:24, 'SeongJae Park' via kasan-dev
-<kasan-dev@googlegroups.com> wrote:
->
-> On Mon, 21 Sep 2020 15:26:02 +0200 Marco Elver <elver@google.com> wrote:
->
-> > From: Alexander Potapenko <glider@google.com>
-> >
-> > This adds the Kernel Electric-Fence (KFENCE) infrastructure. KFENCE is a
-> > low-overhead sampling-based memory safety error detector of heap
-> > use-after-free, invalid-free, and out-of-bounds access errors.
-> >
-> > KFENCE is designed to be enabled in production kernels, and has near
-> > zero performance overhead. Compared to KASAN, KFENCE trades performance
-> > for precision. The main motivation behind KFENCE's design, is that with
-> > enough total uptime KFENCE will detect bugs in code paths not typically
-> > exercised by non-production test workloads. One way to quickly achieve a
-> > large enough total uptime is when the tool is deployed across a large
-> > fleet of machines.
-> >
-> > KFENCE objects each reside on a dedicated page, at either the left or
-> > right page boundaries. The pages to the left and right of the object
-> > page are "guard pages", whose attributes are changed to a protected
-> > state, and cause page faults on any attempted access to them. Such page
-> > faults are then intercepted by KFENCE, which handles the fault
-> > gracefully by reporting a memory access error. To detect out-of-bounds
-> > writes to memory within the object's page itself, KFENCE also uses
-> > pattern-based redzones. The following figure illustrates the page
-> > layout:
-> >
-> >   ---+-----------+-----------+-----------+-----------+-----------+---
-> >      | xxxxxxxxx | O :       | xxxxxxxxx |       : O | xxxxxxxxx |
-> >      | xxxxxxxxx | B :       | xxxxxxxxx |       : B | xxxxxxxxx |
-> >      | x GUARD x | J : RED-  | x GUARD x | RED-  : J | x GUARD x |
-> >      | xxxxxxxxx | E :  ZONE | xxxxxxxxx |  ZONE : E | xxxxxxxxx |
-> >      | xxxxxxxxx | C :       | xxxxxxxxx |       : C | xxxxxxxxx |
-> >      | xxxxxxxxx | T :       | xxxxxxxxx |       : T | xxxxxxxxx |
-> >   ---+-----------+-----------+-----------+-----------+-----------+---
-> >
-> > Guarded allocations are set up based on a sample interval (can be set
-> > via kfence.sample_interval). After expiration of the sample interval, a
-> > guarded allocation from the KFENCE object pool is returned to the main
-> > allocator (SLAB or SLUB). At this point, the timer is reset, and the
-> > next allocation is set up after the expiration of the interval.
-> >
-> > To enable/disable a KFENCE allocation through the main allocator's
-> > fast-path without overhead, KFENCE relies on static branches via the
-> > static keys infrastructure. The static branch is toggled to redirect the
-> > allocation to KFENCE. To date, we have verified by running synthetic
-> > benchmarks (sysbench I/O workloads) that a kernel compiled with KFENCE
-> > is performance-neutral compared to the non-KFENCE baseline.
-> >
-> > For more details, see Documentation/dev-tools/kfence.rst (added later in
-> > the series).
-> >
-> > Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
-> > Co-developed-by: Marco Elver <elver@google.com>
-> > Signed-off-by: Marco Elver <elver@google.com>
-> > Signed-off-by: Alexander Potapenko <glider@google.com>
-> > ---
-> > v3:
-> > * Reports by SeongJae Park:
-> >   * Remove reference to Documentation/dev-tools/kfence.rst.
-> >   * Remove redundant braces.
-> >   * Use CONFIG_KFENCE_NUM_OBJECTS instead of ARRAY_SIZE(...).
-> >   * Align some comments.
-> > * Add figure from Documentation/dev-tools/kfence.rst added later in
-> >   series to patch description.
-> >
-> > v2:
-> > * Add missing __printf attribute to seq_con_printf, and fix new warning.
-> >   [reported by kernel test robot <lkp@intel.com>]
-> > * Fix up some comments [reported by Jonathan Cameron].
-> > * Remove 2 cases of redundant stack variable initialization
-> >   [reported by Jonathan Cameron].
-> > * Fix printf format [reported by kernel test robot <lkp@intel.com>].
-> > * Print (in kfence-#nn) after address, to more clearly establish link
-> >   between first and second stacktrace [reported by Andrey Konovalov].
-> > * Make choice between KASAN and KFENCE clearer in Kconfig help text
-> >   [suggested by Dave Hansen].
-> > * Document CONFIG_KFENCE_SAMPLE_INTERVAL=0.
-> > * Shorten memory corruption report line length.
-> > * Make /sys/module/kfence/parameters/sample_interval root-writable for
-> >   all builds (to enable debugging, automatic dynamic tweaking).
-> > * Reports by Dmitry Vyukov:
-> >   * Do not store negative size for right-located objects
-> >   * Only cache-align addresses of right-located objects.
-> >   * Run toggle_allocation_gate() after KFENCE is enabled.
-> >   * Add empty line between allocation and free stacks.
-> >   * Add comment about SLAB_TYPESAFE_BY_RCU.
-> >   * Also skip internals for allocation/free stacks.
-> >   * s/KFENCE_FAULT_INJECTION/KFENCE_STRESS_TEST_FAULTS/ as FAULT_INJECTION
-> >     is already overloaded in different contexts.
-> >   * Parenthesis for macro variable.
-> >   * Lower max of KFENCE_NUM_OBJECTS config variable.
-> > ---
-> >  MAINTAINERS            |  11 +
-> >  include/linux/kfence.h | 174 ++++++++++
-> >  init/main.c            |   2 +
-> >  lib/Kconfig.debug      |   1 +
-> >  lib/Kconfig.kfence     |  63 ++++
-> >  mm/Makefile            |   1 +
-> >  mm/kfence/Makefile     |   3 +
-> >  mm/kfence/core.c       | 733 +++++++++++++++++++++++++++++++++++++++++
-> >  mm/kfence/kfence.h     | 102 ++++++
-> >  mm/kfence/report.c     | 219 ++++++++++++
-> >  10 files changed, 1309 insertions(+)
-> >  create mode 100644 include/linux/kfence.h
-> >  create mode 100644 lib/Kconfig.kfence
-> >  create mode 100644 mm/kfence/Makefile
-> >  create mode 100644 mm/kfence/core.c
-> >  create mode 100644 mm/kfence/kfence.h
-> >  create mode 100644 mm/kfence/report.c
-> >
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index b5cfab015bd6..863899ed9a29 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -9673,6 +9673,17 @@ F:     include/linux/keyctl.h
-> >  F:   include/uapi/linux/keyctl.h
-> >  F:   security/keys/
-> >
-> > +KFENCE
-> > +M:   Alexander Potapenko <glider@google.com>
-> > +M:   Marco Elver <elver@google.com>
-> > +R:   Dmitry Vyukov <dvyukov@google.com>
-> > +L:   kasan-dev@googlegroups.com
-> > +S:   Maintained
-> > +F:   Documentation/dev-tools/kfence.rst
->
-> This patch doesn't introduce this file yet, right?  How about using a separate
-> final patch for MAINTAINERS update?
+On Fri, Sep 25, 2020 at 12:50:36AM +0200, Andrey Konovalov wrote:
+> diff --git a/arch/arm64/kernel/entry.S b/arch/arm64/kernel/entry.S
+> index ff34461524d4..c7cc1fdfbd1a 100644
+> --- a/arch/arm64/kernel/entry.S
+> +++ b/arch/arm64/kernel/entry.S
+> @@ -175,6 +175,49 @@ alternative_else_nop_endif
+>  #endif
+>  	.endm
+>  
+> +	.macro mte_set_gcr, tmp, tmp2
+> +#ifdef CONFIG_ARM64_MTE
+> +alternative_if_not ARM64_MTE
+> +	b	1f
+> +alternative_else_nop_endif
 
-Sure.
+You don't need the alternative here. The macro is only invoked in an
+alternative path already (I'd be surprised if it even works, we don't
+handle nested alternatives well).
 
-> Other than that,
->
-> Reviewed-by: SeongJae Park <sjpark@amazon.de>
+> +	/*
+> +	 * Calculate and set the exclude mask preserving
+> +	 * the RRND (bit[16]) setting.
+> +	 */
+> +	mrs_s	\tmp2, SYS_GCR_EL1
+> +	bfi	\tmp2, \tmp, #0, #16
+> +	msr_s	SYS_GCR_EL1, \tmp2
+> +	isb
+> +1:
+> +#endif
+> +	.endm
+> +
+> +	.macro mte_set_kernel_gcr, tsk, tmp, tmp2
 
-Thanks!
+What's the point of a 'tsk' argument here?
+
+> +#ifdef CONFIG_KASAN_HW_TAGS
+> +#ifdef CONFIG_ARM64_MTE
+
+Does KASAN_HW_TAGS depend on ARM64_MTE already? Just to avoid too may
+ifdefs. Otherwise, you can always write it as:
+
+#if defined(CONFIG_KASAN_HW_TAGS) && defined(CONFIG_ARM64_MTE)
+
+to save two lines (and its easier to read).
+
+> +alternative_if_not ARM64_MTE
+> +	b	1f
+> +alternative_else_nop_endif
+> +	ldr_l	\tmp, gcr_kernel_excl
+> +
+> +	mte_set_gcr \tmp, \tmp2
+> +1:
+> +#endif
+> +#endif
+> +	.endm
+> +
+> +	.macro mte_set_user_gcr, tsk, tmp, tmp2
+> +#ifdef CONFIG_ARM64_MTE
+> +alternative_if_not ARM64_MTE
+> +	b	1f
+> +alternative_else_nop_endif
+> +	ldr	\tmp, [\tsk, #THREAD_GCR_EL1_USER]
+> +
+> +	mte_set_gcr \tmp, \tmp2
+> +1:
+> +#endif
+> +	.endm
+> +
+>  	.macro	kernel_entry, el, regsize = 64
+>  	.if	\regsize == 32
+>  	mov	w0, w0				// zero upper 32 bits of x0
+> @@ -214,6 +257,8 @@ alternative_else_nop_endif
+>  
+>  	ptrauth_keys_install_kernel tsk, x20, x22, x23
+>  
+> +	mte_set_kernel_gcr tsk, x22, x23
+> +
+>  	scs_load tsk, x20
+>  	.else
+>  	add	x21, sp, #S_FRAME_SIZE
+> @@ -332,6 +377,8 @@ alternative_else_nop_endif
+>  	/* No kernel C function calls after this as user keys are set. */
+>  	ptrauth_keys_install_user tsk, x0, x1, x2
+>  
+> +	mte_set_user_gcr tsk, x0, x1
+> +
+>  	apply_ssbd 0, x0, x1
+>  	.endif
+>  
+> diff --git a/arch/arm64/kernel/mte.c b/arch/arm64/kernel/mte.c
+> index 393d0c794be4..c3b4f056fc54 100644
+> --- a/arch/arm64/kernel/mte.c
+> +++ b/arch/arm64/kernel/mte.c
+> @@ -22,6 +22,8 @@
+>  #include <asm/ptrace.h>
+>  #include <asm/sysreg.h>
+>  
+> +u64 gcr_kernel_excl __ro_after_init;
+> +
+>  static void mte_sync_page_tags(struct page *page, pte_t *ptep, bool check_swap)
+>  {
+>  	pte_t old_pte = READ_ONCE(*ptep);
+> @@ -116,6 +118,13 @@ void *mte_set_mem_tag_range(void *addr, size_t size, u8 tag)
+>  	return ptr;
+>  }
+>  
+> +void mte_init_tags(u64 max_tag)
+> +{
+> +	u64 incl = GENMASK(max_tag & MTE_TAG_MAX, 0);
+> +
+> +	gcr_kernel_excl = ~incl & SYS_GCR_EL1_EXCL_MASK;
+> +}
+> +
+>  static void update_sctlr_el1_tcf0(u64 tcf0)
+>  {
+>  	/* ISB required for the kernel uaccess routines */
+> @@ -151,7 +160,11 @@ static void update_gcr_el1_excl(u64 excl)
+>  static void set_gcr_el1_excl(u64 excl)
+>  {
+>  	current->thread.gcr_user_excl = excl;
+> -	update_gcr_el1_excl(excl);
+> +
+> +	/*
+> +	 * SYS_GCR_EL1 will be set to current->thread.gcr_user_incl value
+                                                      ^^^^^^^^^^^^^
+That's gcr_user_excl now.
+
+> +	 * by mte_restore_gcr() in kernel_exit,
+
+I don't think mte_restore_gcr is still around in this patch.
+
+-- 
+Catalin
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNMG%2B1Fiff%2B_PMFanRVc9SRoTKa-Z9SMM9eKTRL9MsoD0w%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200925113433.GF4846%40gaia.
