@@ -1,130 +1,135 @@
-Return-Path: <kasan-dev+bncBCOYZDMZ6UMRBINQW75QKGQEYGRDSNA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDDL3KWR4EBRBPVRW75QKGQE3YGY7IA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pj1-x1037.google.com (mail-pj1-x1037.google.com [IPv6:2607:f8b0:4864:20::1037])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC6FA278630
-	for <lists+kasan-dev@lfdr.de>; Fri, 25 Sep 2020 13:44:34 +0200 (CEST)
-Received: by mail-pj1-x1037.google.com with SMTP id y7sf1752611pjt.1
-        for <lists+kasan-dev@lfdr.de>; Fri, 25 Sep 2020 04:44:34 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1601034273; cv=pass;
+Received: from mail-io1-xd39.google.com (mail-io1-xd39.google.com [IPv6:2607:f8b0:4864:20::d39])
+	by mail.lfdr.de (Postfix) with ESMTPS id 45E7427863B
+	for <lists+kasan-dev@lfdr.de>; Fri, 25 Sep 2020 13:47:11 +0200 (CEST)
+Received: by mail-io1-xd39.google.com with SMTP id l8sf1581390ioa.11
+        for <lists+kasan-dev@lfdr.de>; Fri, 25 Sep 2020 04:47:11 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1601034430; cv=pass;
         d=google.com; s=arc-20160816;
-        b=lnwgr/aNXzPhpLAjyFbdn7qyWWoCJxbuxaJrt8DfwhQuWqklBBfnk8BlvM8bRnbswE
-         f1nudLfepR3Neuz0hz8zoRQOSgQiTkceIaTEQaaPX3aaw2lcYet8ah83wS74ODKZgEyQ
-         ciJSSs8hmtm93yGio0Im0FLFu0dC1dUvuQzhGmHR9hItOLLhAGls8gYv7WSaWf8uPTLx
-         xRfr/l5jrATsfTLbh+tGnm8euYBVdxUrPVA3jr1fKM2ygzFOrWsVnreokO0QOYCyC2rB
-         LufpfY8Pzy42NtX9GfgK4pC1bQMDZCVGKrvnMnCkF3uxKJD1FHJ6cpTqGw8xZJ8uoYzB
-         uqVw==
+        b=hFFvZ6/JIRWLxgtxzhprHmv7FFrgzeriVE2MEWWOdIatnSmyfNTj6bG/qPVzWZyu/r
+         slnbebCh50jGqMfdWv3ivk6KSbfC18VWPJ3fQW6OiTrd4lFAEgHrq++DBmn8CsQwZ+69
+         Y+pVfqcqQhSflKkxbSXfZMFjpXVpi+MaWXMJ7w2ZovoaIPJGKr4WqF69fLl3pjL2yEbD
+         p8jfcXtfBygehgySBi3d0XSi1LBwwhehBa4ROEUQytwdU79omWWuXtEzTF7bnzH3Cajg
+         3bOU77XjrKO8526yBj/dHkDrQSHmsk9PSYSdSTrL8Cjp6byudPcFUGUxYSG8uzqj3TN7
+         byXg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-language:in-reply-to
-         :mime-version:user-agent:date:message-id:from:references:cc:to
-         :subject:sender:dkim-signature;
-        bh=3s9Ftx8MbQGzA3EMWRNKR+C2rui8WHBFHm3glRgtB4s=;
-        b=IuZNq1vOWXEjKrk1m+0vj91UBzc4p/8k3cPHBR2qc8kkUmEg580nww1cgTRKDsmzJ9
-         5jE5V0RAE+a1IiL586FlLOavJkiI6dARX5eFBA0Qq6dnqr9RxBzqE4bKM35OXJzWUJpW
-         Z7uZ8U77hY4SR64pTNk/9Bhfv1QlA1OyieF30xrFBh6yNvMhcqEnyvsmeo7bEh1MEwnI
-         wfRymfi9Ln8rElOfUQwbRnkoDKg0FWjfgBlmREEyi10KcZms5ozm2MlLFHjKIrmDxOo1
-         tR7ufanX7BoMtvJoEkurEws5GkXIT+CluAwwDzLXYf2ibIt/wUOyhz+mwcH1OKLb5D0M
-         NaOw==
+         :list-id:mailing-list:precedence:user-agent:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:sender:dkim-signature;
+        bh=FyZNQkxSSKwxtBtuHvMNMDNcDTs2Gn4xBJwHLJyjvK8=;
+        b=0GM5z9LZbn/iVXcL8WvSCXIRekMm4VKJCIifOSMjBTgNh/kLKtcPDuMC1NqnFN6dt+
+         l7Dp4ByFRkYrFss8Wruar1jL2v8rVHsRXBUrG2/DdNWYB8Ag14R5L0R1jnrDTFqBjgi9
+         qzQxLbBd0raPhixl89tV2wGbAXO/EbXLk+mgf25FzjabD2roNesUJBRjEzWStzJ1EVyt
+         DkmLU557jF6mYYa+dp3NjL0FooFGieEAXw0SG61nAGHAMti8Q29/Kij5q+tV9FxeG8oa
+         VBHbQgkMgTar9C2fxZ2/k4JrwHFxa4eIEXT15t05VJ7ATyvVMXXJNU4BHpj0/tPlm6uG
+         wafA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=vincenzo.frascino@arm.com
+       spf=pass (google.com: domain of cmarinas@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=cmarinas@kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:x-original-sender
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=3s9Ftx8MbQGzA3EMWRNKR+C2rui8WHBFHm3glRgtB4s=;
-        b=ca+cO+droIj6ED3Stp6oCf9hM9EXjueLJbcHhPr78i4LM/wQVuEcXbejDoCRJA3ITI
-         iK+pi/R9iJD3HFuZ6WFbLK+Gm8gVZPiWNj9tKfzm71phePm99rmZ59duTh6o91j//1jH
-         ICqVBNrHdU5F+SsiJHfZEUsOH+3Q0et7UV0af5Q6xQgM7Pg1GyesgP/hh/teJciDfsOg
-         kW6xBP9GXIf3SHoP6baOi/oHLZt7qvXmFCVVk9uLXnTw+fjWjt083P7fUYT3jlVwhfJ+
-         Xg8FYZmo7mwyP6JN080tKRAzC+xvqFJSbbak/gVzZc+WYsMWLGuFAqdfDJT4jaUHRoR1
-         Qo6g==
+        bh=FyZNQkxSSKwxtBtuHvMNMDNcDTs2Gn4xBJwHLJyjvK8=;
+        b=aWyxJYubwCGF/XbbiWcYRlHZeZ0jqGsDUaBtpjaVOlAlvfBQ1ppCN9L/p5eiA7goxN
+         qPwbMXy5fW8adDVfw8StBUotdpciOS165LkeqjHGfSp2ctup7ua6Ck9hDJO54xJkSHUy
+         zqUyi8iZvN4feC+7Af+k6RS1zCgdVpnrwLbkSoh7+GZovrve9NWx4Giil4dszKDyDnD6
+         7jIDoAyI4R7to/YUtVHJp6mWzlVXlevksV4tLujQJ/1LAfdpjF4mUqa5objUutu/rcEJ
+         BPy5SKx3yY0ZcKPYdtsoDIFmuOICqf2XRUNheMF4h5dNwa2ltX0J/FA4Gh2u9qDPVGG8
+         pLGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=3s9Ftx8MbQGzA3EMWRNKR+C2rui8WHBFHm3glRgtB4s=;
-        b=mPThMidotcD1KLc4XZYFvAvos3XZ91NmpGxJy7/527JYB+7C15BIGl0Mmc2XRrtwo2
-         Hivga4roIFDyCT2OJJ1XrW0adUXWpnEwYp+dJo1l4m5CyjPnvP7LHlqY5FY9wjLO26om
-         ZPX89N9UrnJxOAw6Wm1MCQ10uSmOIS67xFQg79HAM/LGgHrWqaGeZK7b+h8gQmgH6Vjs
-         QtvJ2Csm5P4mLQbysaJv43uiHkAWRshjaRQNwKcrsbp2vzAhsIB3VMKLX8a4/p/UQzHk
-         s9HH+ZLJ1y0s1JbwgZzlLG2sjIAzvw/OHBSKyCA+OZWG2As0AzWP+B1Mq36aM8UC2ExZ
-         G6mw==
+        bh=FyZNQkxSSKwxtBtuHvMNMDNcDTs2Gn4xBJwHLJyjvK8=;
+        b=h5NVPmxH/+Ik/buGuawqWQM10YTfWRB1PRdDbxEFlig9EeHiDsK5OtIKUqVltudv4i
+         PBtHztnD7W1nhUpsrWAh0Ecnz1tyWAZjMobDRyvxNus0yrw1Z15PV9TKdqon42E1/C+t
+         oiqmhxcsBCC7PljzkSt/cRA1sUnBrbMP5l3hhQkMYGtcHqFuVAegOT3WPWOJM/zaAAOO
+         3BUqIRKISNrUrRsnKGTcJYm4hyD9zAwQMOaGdN4e/wW7xkrL7A8HZ2gORbjD0v0yl4/C
+         Tp8ahT/G+cJiWSRG6UXT7jMmcZbZG4IlHTzUwMeBvVETfhQ3ywf9WZg13ELNNBspclpP
+         wpYw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM530TUnvJzAUd9t6Do8OyNuIPOODjPDQQN6aOoNRaqXKemIbLMtAh
-	Z5UqD3z4lYl/PXR86mnzWK4=
-X-Google-Smtp-Source: ABdhPJzwF2blIXLBktPPnP5OqoGAuKXfucTu+vr+zS+nKAN7groxTYMEbfL9o1ybV7jMZ2GjpTV/+Q==
-X-Received: by 2002:a17:902:c393:b029:d0:89f4:6228 with SMTP id g19-20020a170902c393b02900d089f46228mr4191310plg.16.1601034273487;
-        Fri, 25 Sep 2020 04:44:33 -0700 (PDT)
+X-Gm-Message-State: AOAM532dNBF7IpSNe23PHWq2luEEWJ7yIoSmgqrCjmWkIIxJzTBTDHbw
+	hEpxyjQimKwsksVl9bFSF4M=
+X-Google-Smtp-Source: ABdhPJyvxWONTWr+UTyoKU6O7SFKyEnfDYPXdReZ/21oR8xXbj7HtDfKXHtWc0O+iLpjAxWtmO5S8g==
+X-Received: by 2002:a92:d7ca:: with SMTP id g10mr2677840ilq.246.1601034430273;
+        Fri, 25 Sep 2020 04:47:10 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:902:7449:: with SMTP id e9ls1447203plt.0.gmail; Fri, 25
- Sep 2020 04:44:33 -0700 (PDT)
-X-Received: by 2002:a17:90a:e60d:: with SMTP id j13mr2268377pjy.61.1601034272891;
-        Fri, 25 Sep 2020 04:44:32 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1601034272; cv=none;
+Received: by 2002:a92:c148:: with SMTP id b8ls597043ilh.9.gmail; Fri, 25 Sep
+ 2020 04:47:09 -0700 (PDT)
+X-Received: by 2002:a05:6e02:1206:: with SMTP id a6mr2943647ilq.108.1601034429844;
+        Fri, 25 Sep 2020 04:47:09 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1601034429; cv=none;
         d=google.com; s=arc-20160816;
-        b=rFQ6YmcYBlJOLzSC6PvNeex5Cx3uH5BeSuM9GVTi8unRaF7Hsyf0BTLvgmts9irBXi
-         70c2uFDSznALVMO8rpzJ2g4LQ49PCSOTOO12YE3zIQp6Ainq16RV/13j8lSaK1nBV3lq
-         rGhv55eywxrvQ3aZui7cyA7Pewo/YBzPuonr4y7a0eYiYEoqf3tNd6xFhatR5/YgzJE2
-         rU4aae8DzbpBaAi01DFEt98Xl85cgE3QHyMJ/qIlZIGYBoeiJovdmJyeHvqMP07AbgJi
-         xNzUWutI/ymszvjdpuXqY7DEFMVK+BrM9KA6s7V9LqGTgIQC2Qkgx/OQnzRylIipnrGY
-         q8Pw==
+        b=T9K4OEdFZOfrzxtUQWXjSJjFLdtqb41gIdS61Unzy17khhPFsQZtKctCSRr/qFXHZ2
+         ZdjgrY2/fw39Pa4yqzBjD2jOkQMPjVnMGVsIGZZG8ORCqdp5WP+Qe8PbttE2PlhjnbGv
+         TBVOMBSvVvV0OArJM6fRoDEwaVwlkj0tMi+C4zznj2KvyVB1ARkz7MjpOFG/2YrpiOTM
+         V23uso4RIL0sjM0zw3oWTeFoRyLPd89L7AEKk9C8xFv2rXBlGeNPBtUG/zlzD9tbBLjr
+         BlNV8r8LDcf0MgtwAz7h6ySRxkyaWRXeockHIAL2r6CjAkRrPcGjOqpBVcAxoe7bkikb
+         tFjg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject;
-        bh=jMj/nypHuXtv7AtcMP8ctTMylo4XtP4+xsZpj9YShg4=;
-        b=vwdvq7KLXGjKOHPLD2b91k5c+pnSQDasdB1k1LvsUJ413oQFKry8Yc1KJ/yNOdFJhH
-         XLwM/cxV0GGqRAVP3MPfWX+0NsLYb2Z8CFYjwGeIabCMCFFZMpjVOB714w2uM9ECbcq/
-         s0bEA18pqMNIsUgaLcBnfSY6RjFf1s1Tj6XivTwyiEGm4lK4xplhe2ZTMvr0tNZ+XdH6
-         M7fRClD5drutaJGWTwb5lyVqR57soylYeqD5KuJKB6szX2Y/6F7AFS2oEwEQIRjmXbuC
-         K4F6zqz/WtoPw3psWbQTgsCcNclvCWrfansLs15fAUTZ43qx/0ZAe9JBikpjfZhkozwA
-         FINg==
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date;
+        bh=dTRAJP5sT08cvrbBrEPFIOwj4KeDIoOAnQtFjx1XkgQ=;
+        b=YlIsyPwnpeTxMd8FFT09Mo2WAI6bxQ8M0p2fCdGwQYawZ5cfEBEcRF4x4nYIC5z0j7
+         RRgZnzVsOKNM85tHjryZmOETgNtSaSCDbp4gvMKIr32cFN/dZWUIgFG2W84+BRCos8BE
+         OHiAg4BIu+pzZ2VIWiVVVqCiCKhuoNiOq/12TneZ7A4HBQlepS/wPgKyozu8F8/21LkT
+         Xiz6kOr1XxrSypwpavHoNTe80Lg0lNLaRgPiQoi5wICaSS6lux+fqs6QiULmH/p/M8u9
+         ncp7/ySSSF0cuZZNMmD3SXtUHIwlpksuMOV8L1yW6Cc8D1rH5qw5I2X6ndDhlZ/cKpy7
+         3+mA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=vincenzo.frascino@arm.com
-Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
-        by gmr-mx.google.com with ESMTP id t15si130575pjq.1.2020.09.25.04.44.32
-        for <kasan-dev@googlegroups.com>;
-        Fri, 25 Sep 2020 04:44:32 -0700 (PDT)
-Received-SPF: pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B9EAB101E;
-	Fri, 25 Sep 2020 04:44:31 -0700 (PDT)
-Received: from [10.37.12.53] (unknown [10.37.12.53])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 93BBE3F70D;
-	Fri, 25 Sep 2020 04:44:28 -0700 (PDT)
-Subject: Re: [PATCH v3 30/39] arm64: kasan: Enable TBI EL1
-To: Catalin Marinas <catalin.marinas@arm.com>,
- Andrey Konovalov <andreyknvl@google.com>
-Cc: Dmitry Vyukov <dvyukov@google.com>, kasan-dev@googlegroups.com,
- Andrey Ryabinin <aryabinin@virtuozzo.com>,
- Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>,
- Evgenii Stepanov <eugenis@google.com>, Elena Petrova <lenaptr@google.com>,
- Branislav Rankov <Branislav.Rankov@arm.com>,
- Kevin Brodsky <kevin.brodsky@arm.com>, Will Deacon <will.deacon@arm.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org
+       spf=pass (google.com: domain of cmarinas@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=cmarinas@kernel.org
+Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
+        by gmr-mx.google.com with ESMTPS id a5si166800ilr.3.2020.09.25.04.47.09
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 25 Sep 2020 04:47:09 -0700 (PDT)
+Received-SPF: pass (google.com: domain of cmarinas@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
+Received: from gaia (unknown [31.124.44.166])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPSA id A4A792083B;
+	Fri, 25 Sep 2020 11:47:06 +0000 (UTC)
+Date: Fri, 25 Sep 2020 12:47:04 +0100
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: Andrey Konovalov <andreyknvl@google.com>
+Cc: Dmitry Vyukov <dvyukov@google.com>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	kasan-dev <kasan-dev@googlegroups.com>,
+	Andrey Ryabinin <aryabinin@virtuozzo.com>,
+	Alexander Potapenko <glider@google.com>,
+	Marco Elver <elver@google.com>,
+	Evgenii Stepanov <eugenis@google.com>,
+	Elena Petrova <lenaptr@google.com>,
+	Branislav Rankov <Branislav.Rankov@arm.com>,
+	Kevin Brodsky <kevin.brodsky@arm.com>,
+	Will Deacon <will.deacon@arm.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux ARM <linux-arm-kernel@lists.infradead.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v3 26/39] arm64: mte: Add in-kernel tag fault handler
+Message-ID: <20200925114703.GI4846@gaia>
 References: <cover.1600987622.git.andreyknvl@google.com>
- <733e94d7368b54473b242bb6a38e421cf459c9ad.1600987622.git.andreyknvl@google.com>
- <20200925113748.GG4846@gaia>
-From: Vincenzo Frascino <vincenzo.frascino@arm.com>
-Message-ID: <59c25256-374e-9a13-8098-1543b1768248@arm.com>
-Date: Fri, 25 Sep 2020 12:47:01 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ <17ec8af55dc0a4d3ade679feb0858f0df4c80d27.1600987622.git.andreyknvl@google.com>
+ <20200925104933.GD4846@gaia>
+ <CAAeHK+zLFRgR9eiLNyn7-iqbXJe6HGYpHYbBXXOVqOk4MyrhAA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200925113748.GG4846@gaia>
 Content-Type: text/plain; charset="UTF-8"
-Content-Language: en-US
-X-Original-Sender: vincenzo.frascino@arm.com
+Content-Disposition: inline
+In-Reply-To: <CAAeHK+zLFRgR9eiLNyn7-iqbXJe6HGYpHYbBXXOVqOk4MyrhAA@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Original-Sender: catalin.marinas@arm.com
 X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172
- as permitted sender) smtp.mailfrom=vincenzo.frascino@arm.com
+ (google.com: domain of cmarinas@kernel.org designates 198.145.29.99 as
+ permitted sender) smtp.mailfrom=cmarinas@kernel.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -137,49 +142,73 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-
-
-On 9/25/20 12:37 PM, Catalin Marinas wrote:
-> On Fri, Sep 25, 2020 at 12:50:37AM +0200, Andrey Konovalov wrote:
->> diff --git a/arch/arm64/mm/proc.S b/arch/arm64/mm/proc.S
->> index 12ba98bc3b3f..dce06e553c7c 100644
->> --- a/arch/arm64/mm/proc.S
->> +++ b/arch/arm64/mm/proc.S
->> @@ -40,9 +40,13 @@
->>  #define TCR_CACHE_FLAGS	TCR_IRGN_WBWA | TCR_ORGN_WBWA
->>  
->>  #ifdef CONFIG_KASAN_SW_TAGS
->> -#define TCR_KASAN_FLAGS TCR_TBI1
->> +#define TCR_KASAN_SW_FLAGS TCR_TBI1
->>  #else
->> -#define TCR_KASAN_FLAGS 0
->> +#define TCR_KASAN_SW_FLAGS 0
->> +#endif
->> +
->> +#ifdef CONFIG_KASAN_HW_TAGS
->> +#define TCR_KASAN_HW_FLAGS TCR_TBI1
->>  #endif
->>  
->>  /*
->> @@ -454,6 +458,9 @@ SYM_FUNC_START(__cpu_setup)
->>  
->>  	/* set the TCR_EL1 bits */
->>  	orr	mte_tcr, mte_tcr, #SYS_TCR_EL1_TCMA1
->> +#ifdef CONFIG_KASAN_HW_TAGS
->> +	orr	mte_tcr, mte_tcr, #TCR_KASAN_HW_FLAGS
->> +#endif
+On Fri, Sep 25, 2020 at 01:26:02PM +0200, Andrey Konovalov wrote:
+> On Fri, Sep 25, 2020 at 12:49 PM Catalin Marinas
+> <catalin.marinas@arm.com> wrote:
+> > > diff --git a/arch/arm64/mm/fault.c b/arch/arm64/mm/fault.c
+> > > index a3bd189602df..d110f382dacf 100644
+> > > --- a/arch/arm64/mm/fault.c
+> > > +++ b/arch/arm64/mm/fault.c
+> > > @@ -33,6 +33,7 @@
+> > >  #include <asm/debug-monitors.h>
+> > >  #include <asm/esr.h>
+> > >  #include <asm/kprobes.h>
+> > > +#include <asm/mte.h>
+> > >  #include <asm/processor.h>
+> > >  #include <asm/sysreg.h>
+> > >  #include <asm/system_misc.h>
+> > > @@ -294,6 +295,11 @@ static void die_kernel_fault(const char *msg, unsigned long addr,
+> > >       do_exit(SIGKILL);
+> > >  }
+> > >
+> > > +static void report_tag_fault(unsigned long addr, unsigned int esr,
+> > > +                          struct pt_regs *regs)
+> > > +{
+> > > +}
+> >
+> > Do we need to introduce report_tag_fault() in this patch? It's fine but
+> > add a note in the commit log that it will be populated in a subsequent
+> > patch.
 > 
-> I missed this in an earlier patch. Do we need TCMA1 set without
-> KASAN_HW? If not, we could add them both to TCR_KASAN_HW_FLAGS.
-> 
+> I did, see the last line of the commit description.
 
-We don't. I will move the code around in the next version.
+Sorry, I missed that.
+
+> > > +
+> > >  static void __do_kernel_fault(unsigned long addr, unsigned int esr,
+> > >                             struct pt_regs *regs)
+> > >  {
+> > > @@ -641,10 +647,40 @@ static int do_sea(unsigned long addr, unsigned int esr, struct pt_regs *regs)
+> > >       return 0;
+> > >  }
+> > >
+> > > +static void do_tag_recovery(unsigned long addr, unsigned int esr,
+> > > +                        struct pt_regs *regs)
+> > > +{
+> > > +     static bool reported = false;
+> > > +
+> > > +     if (!READ_ONCE(reported)) {
+> > > +             report_tag_fault(addr, esr, regs);
+> > > +             WRITE_ONCE(reported, true);
+> > > +     }
+> >
+> > I don't mind the READ_ONCE/WRITE_ONCE here but not sure what they help
+> > with.
+> 
+> The fault can happen on multiple cores at the same time, right? In
+> that case without READ/WRITE_ONCE() we'll have a data-race here.
+
+READ/WRITE_ONCE won't magically solve such races. If two CPUs enter
+simultaneously in do_tag_recovery(), they'd both read 'reported' as
+false and both print the fault info.
+
+If you really care about this race, you need to atomically both read and
+update the variable with an xchg() or cmpxchg().
 
 -- 
-Regards,
-Vincenzo
+Catalin
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/59c25256-374e-9a13-8098-1543b1768248%40arm.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200925114703.GI4846%40gaia.
