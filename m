@@ -1,139 +1,129 @@
-Return-Path: <kasan-dev+bncBAABBQ4GZX5QKGQE7GHHIJA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDV37XP3XYDRBFEHZX5QKGQERGVICKY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pg1-x53a.google.com (mail-pg1-x53a.google.com [IPv6:2607:f8b0:4864:20::53a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3560A27D0FB
-	for <lists+kasan-dev@lfdr.de>; Tue, 29 Sep 2020 16:23:01 +0200 (CEST)
-Received: by mail-pg1-x53a.google.com with SMTP id v187sf3242347pgv.0
-        for <lists+kasan-dev@lfdr.de>; Tue, 29 Sep 2020 07:23:01 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1601389380; cv=pass;
+Received: from mail-pf1-x440.google.com (mail-pf1-x440.google.com [IPv6:2607:f8b0:4864:20::440])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DD8B27D101
+	for <lists+kasan-dev@lfdr.de>; Tue, 29 Sep 2020 16:24:22 +0200 (CEST)
+Received: by mail-pf1-x440.google.com with SMTP id i16sf3863516pfk.1
+        for <lists+kasan-dev@lfdr.de>; Tue, 29 Sep 2020 07:24:21 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1601389460; cv=pass;
         d=google.com; s=arc-20160816;
-        b=ZSNV7xJZAJc8aQaHU9wcTtSxEaHvQimrm/MsTMsHjMsjGYl/xk1Fn4StVTa2omiTdt
-         Tj2IE7Qz13fpQUn3jciDwttyRoPBHVwG1Zgt6vh0wwByRmGkGeURQVE3PnYPsi4SCm3m
-         wxWW3H/rRyoHSWITAPf9AP8mcttwtyDP2uADDzasyXnW6VXyN9UNNqF0s8yuWl3ywpe8
-         VV/7VGUl9TxnzYDao8nXsdgqFWB8vjsclElHgX8hidAB+mrL7E4zMxUBGX8q2CukaB0N
-         EGMvgBcBRrSi/BhPeZVytVvFDAOnMwup2G3VaqLoc1/7POSBJeDjuC7Ykj2edoAONyol
-         IEEw==
+        b=Rf+Vswtj+RrbRIksnkynnSF7hULQG+nu6fOVtGeEhpmgyplOKwMqohbd7VUfNhV+RX
+         jmmD3ohlVgiq45N0rvn92nmn7BRSODZSalUP0B370LT+bGLtIsAbH96F1b2yNmNE7g/l
+         PD1GHDvseCBffJnbObsDdH+0kXnaUoVqIlBSvMNtw83+MKMCzlpRJTjERml0Vh1Z7kzO
+         AZlyUhmt4Njm+gIi23E4U8Dx18B9dJX19erZ+hIg42wINz2h9fmMhfGbwhId/fA2grEF
+         8sYMKE4peyHa6YelbY7Mc0BRU5MyZhOYt/Dngpa099vbx7WHm+1Uv4IYH36O4Ad/nvHl
+         lAtw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:mime-version:in-reply-to
-         :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=TgDZiwc8EY5oIDg/BEZGvVWDE5MLJBmp070voFGjWho=;
-        b=q7P+EQsdv8+ZIXFLEhzOm1Tu53boQGvz/HsWYqT6mFOAr2dZTaVBWp0tHroyeRtOxm
-         ELTVNP1IqCUo4ab8IAncPzYqzuWUmb2og/MsAdFdepfSTxqCteqjQdvHSl9MSXl7SUcX
-         5d+esrecu4z4N5Cm4AY+x+1C8eDYpIQFfPA6mVyMw/b01y5D8cHoXXXi0c40VcRLrI2C
-         dbcrPGtS9dtxwdGexpGp0Y3dxivr4T3WA3dZkIJT6fW5tfQR8LsHI1pr76401ztfoRyP
-         WNfzsRDBCkk2Bgr/dSNIXMFrqFxgioKg+V8sdgtKBXsrOqgAiAW7mbEZbN1A0qIObmMQ
-         7l/A==
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature;
+        bh=EGMUJBtI7Lt336owloHt35N1Pbbo2ooDUuRnhgDCGW8=;
+        b=NO26GmZqN7mTpwyfTPflEqXfmFgP9dmCooM26muW5btFbxzj16mmNjM8S74qM3LeYy
+         GbtIia7fGDGjZT0UedhmI2znw+E6xucQ4+BJcqbPsgN2J5XePLYPf1QEaYUlGEmEh1+k
+         Z4KON6a3Xb7iqzya61Mg5k9c801BAUv6zQ4zFVSY4z5FtBe8XKUR/h1ZDYlLOsAsZUBk
+         4K+BUXcIkMyNceiJGM1HNROr+kOZJy/7aJOoKQi4W45KU52MLQU5YixwO/rDee3BSkFv
+         EqKakv7/kZ4pjbx5Q9f+i70hUpU5T+ne96G1R1lUt7J3GV/qtdJBzSAsP4lpmkl0pLkn
+         xLNQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@amazon.com header.s=amazon201209 header.b=NuT4zzrj;
-       spf=pass (google.com: domain of prvs=5343bc49e=sjpark@amazon.com designates 207.171.190.10 as permitted sender) smtp.mailfrom="prvs=5343bc49e=sjpark@amazon.com";
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=amazon.com
+       spf=pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=mark.rutland@arm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:mime-version
-         :x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=TgDZiwc8EY5oIDg/BEZGvVWDE5MLJBmp070voFGjWho=;
-        b=BNlM2jl40p8ArRkzhYkidmY3+LXJ3t5Vto7AmKZ5Wb/ZlnT/3Zko3evcVAwhqsqumM
-         OTToo9zyjBOnxpC1mkICmAydUGxGWX+/4gRTGH2cbvOFOlfINBpIsESx+xo8p9SGS6aT
-         3e/PS6BhquKmMcbfkwZ2sBsrT3DQ6dlRYfsfSrs91UFccNEHYx/sKJWiWoxIkODSNj0T
-         Gh3qNGmEPG1MAi5vLqfJ+hzTlOoNZtWZiAS2q7MeIAIcBu/1g+fEpfgnG4X202jNkT+G
-         +htQ1aWUf3e3hwzLxVSkmykOGcXNb0YiT3aeF5WcClBdrsR6n86HR7DNbmafO+/pi6Bt
-         ZycA==
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=EGMUJBtI7Lt336owloHt35N1Pbbo2ooDUuRnhgDCGW8=;
+        b=ODlzQZYKiVTqqLqWqQ/kNlX1c1yu/Yj+WhYUODq/aWbJVr3gJWOHZCIEUz5ZsL/6cW
+         PdqjR8tkijN3rOOOpE2FCtI5XDNmIjvtWr4qUjcJvtHxcV67WpTnbrAHfwHR9zaVWtHQ
+         /5CoJbtUCo2BEKbp50UTpTqze6MSKdDwfa0hWb8nb77X1+q1R51PHgYtmabc3RQCTOgG
+         KTOLwqX2Wv7iTufSDjKVo4MxaqbalMXgwD6tkAgSp9zmYQXctAzaC0N8XYpLsyH48aoZ
+         R4ubEgwpyLGZ7SVD/plyagnHomeQcHS1PDIzuyv48wlsjbyCIJFaMn/lQQ99lBEjSfOf
+         nXkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :mime-version:x-original-sender:x-original-authentication-results
-         :reply-to:precedence:mailing-list:list-id:x-spam-checked-in-group
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=TgDZiwc8EY5oIDg/BEZGvVWDE5MLJBmp070voFGjWho=;
-        b=pzdQyP40eD1XuG071K3a31b7j3tTIqDCaBeRJmvVF3wh31+uNn0XIadgrCTmYtSi7c
-         fTy7hEcgbQ2nAk7AkRvSfsJM6q4MdlohdgoaW1KLsBajZEW8efCljs46cEKj6/DvjmEy
-         z1RLp+gzQVPpV1Dg4nJTd/NWBSsSPaXQtZRvD3WkzuL/6JvsvDNrfsyuWFsc/lRjDImJ
-         +m4X9YaIVqUFfNukl/ZJ0rKktKOmyms24yx2NVjaWAK7aF7c3uAFLTaLOd3h5nZwEyZw
-         7BMb/K6PNcuj2wod0tZzejqygko5II/PswudIxM8AOWc7yr4E+mLqWJN9fJCjxfOloEP
-         sHUg==
-X-Gm-Message-State: AOAM53072Pgp0XTSq3sVBXb4T/eAA0VQ1nbLyf3sFb4psIEH36vNUvRQ
-	MlPHijmo69Y9WPDlpM7Mlbo=
-X-Google-Smtp-Source: ABdhPJycQc3fHzQsKWEfA5zgRGpomjbM8KKsLcgId/p5l40koO4vCsaTMMIHFk7T5/m84yIpPXqsfw==
-X-Received: by 2002:a17:90a:f695:: with SMTP id cl21mr2389607pjb.117.1601389379721;
-        Tue, 29 Sep 2020 07:22:59 -0700 (PDT)
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=EGMUJBtI7Lt336owloHt35N1Pbbo2ooDUuRnhgDCGW8=;
+        b=hUnN0uWXXCh17kHE4ZQaZTnKtLO8TKlJbemfPolCCaNrzThJI2KCHHz6p0Lisx4Ho9
+         C5EDYvVcMe4Zr5mxSpCYe6ckuS7yW2diLzvfDz/vi4PXQ2My8sNiQvoDXBFH5PUXCMOs
+         zEiK4Y4KUW/QMnJeRPYiCn++QzA0KsgChhjtqI86MPyHtL1wdGRziUgeptZEXW7h112O
+         rV98ccig/Wgm92eTU4dsepV5SEjeuv+ocbFH3JcZKjoDF6GQecEjOKXZoFPkgMSJt4CP
+         zPqMYq8HXqhbDj65yS0/xq+7ebDsaek8hmrAxWlRvYX9eT1kI7SZ7lRhqYwUwxn9Y3w/
+         w5DA==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM531Of4zF/V7brT+QWL4BGk4bNox98qfi7AqM9FvMpfr/HBi4apU1
+	4StejD4ka4be49VnANxKso0=
+X-Google-Smtp-Source: ABdhPJxdtWkCQ5lDk/AXFrLZso/0LiXY8CDgZHxOc1nZmk0+AFCqn+5ghFEVpYuQIDCf/ECKfao80g==
+X-Received: by 2002:a17:90b:a53:: with SMTP id gw19mr4232351pjb.53.1601389460720;
+        Tue, 29 Sep 2020 07:24:20 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:90a:bc89:: with SMTP id x9ls1490051pjr.1.canary-gmail;
- Tue, 29 Sep 2020 07:22:58 -0700 (PDT)
-X-Received: by 2002:a17:902:704a:b029:d2:950a:d816 with SMTP id h10-20020a170902704ab02900d2950ad816mr3368140plt.74.1601389378884;
-        Tue, 29 Sep 2020 07:22:58 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1601389378; cv=none;
+Received: by 2002:a17:902:562:: with SMTP id 89ls5148526plf.4.gmail; Tue, 29
+ Sep 2020 07:24:20 -0700 (PDT)
+X-Received: by 2002:a17:90b:357:: with SMTP id fh23mr4040918pjb.221.1601389459953;
+        Tue, 29 Sep 2020 07:24:19 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1601389459; cv=none;
         d=google.com; s=arc-20160816;
-        b=aaNIUej12L5oT1fQrxaPMG9U6yESZSjr/roAoeG/eQpWhmsU653zk/yMX+tAvUxiO+
-         oskFGRH7IqeTgotoZUzCI+R92fjDMUwOrWmB+4pXH3uNoc8colYSaLj1zXbUCh1daKrz
-         MCx0+NTf2VZy3MY1CBCU/LSKpaaiqLEeuEY0VNrvYdxpHCiRNqNDVV5fpkBAJPUgga+A
-         7n0e0lCB4PSLjMAVchE5CwkOofV7A059PEEwktSM54FfJY0CXMxruVCsgZASAvzgtJ0I
-         D5lhjxq3mFnOCaT6DxOGpZugv1vwaLersbKut5vFcClF8ZLDZ4wASgzb9bzrF6Ilxicm
-         Orpw==
+        b=DQaoyRuuIo1jpR1viDDMFaw1n3DEgVbXl7NPZUGjv+fv0GzTIXIz31n5ZXHltRPyer
+         kIMwagUnNXLsuF3KMuv9P4sX4qRlflv5v+63VA9qyCz3S4dmRs3Ohx2LLkxBYOKhtNMR
+         3IWLF42h1PtTAHogMb6Ydjdu4c+9Lw3HjVfkjBMpbJf87ljo0dZ9maPeljyOl2fP0Syq
+         1qPKHFSSsXJoKkftf9Ttc5UG35u689F/FR7uP+6Y37+ewytW4MejDJaseOpamDe/ySEd
+         u/+iBUOy6uqZO7qV5yl6wzEUleVdcqf3HETKMpVf9QXQWip++FtDjzWnhyRu9obbu0X/
+         4fpw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=mime-version:in-reply-to:message-id:date:subject:cc:to:from
-         :dkim-signature;
-        bh=JACM4vdUV33y9yliaH0/j1OWR+5VHZd1rr/Na9ivV5M=;
-        b=e1jcMTfq/u8MnIz17D4m9dRy9XhiH1TtAMUZwdggLRKKyIgPPYxlSNF05Bcg5mO8Vf
-         a0z7sycOg0IbNAmPsijuBAnfpC8iFmhcDm7VEc5nsFG2lg3XzGtnpetbNULUY799BOCu
-         EcE4Y/JXdhSWOIJil2l5aspf24LK0jglU+KJKfHT92sAl1DcJ36lmT9gscyJW5KvXEBL
-         5pVh2RoTlb2zjKsG0oIPR24CoU+RRIlkTskyrpUk0Iok3HTpCN2eIWM+F0LvxqN3Gj2L
-         JGotN8PIG/iACb6N2OI8OqE6hQzCSOTULsoXC+SdHRs5YY0bPeBoB+r4f3m/gqnzlT0Y
-         JYaA==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date;
+        bh=ZW+4NwmacTrZa2z5dSmMLmft55ZJ3zPWHeEX67t+K9U=;
+        b=daqyTYQ+JDG+VChLqzqXLn9Natl2ucTiZRYkKfRY2A7I28qxpWB4RXgLSeczzsejM8
+         xUU79L5RX1jFoseGJGR7WEcdcuwrQhRJEABlJN892D5cfb7bodRw8FQ6/Vig0UGeVjgv
+         rztTSS73KDGBM1gTsud8WVnihOiuo9c/EpSQeCLBdezrqSLrGo9ZsgeY6dubJy/aO66C
+         Cu347HsIDDoiot2Lxixi2LNp5vK+179pIqSvZme1r0LR5x9iadnTEJOstJMwa2V1s9t/
+         LwVPRdJhjouk41m29f+SjkkgGbK2ZUev2RSPReZjnVv+ReH4S7a4jb2H1pujNDyM7WM8
+         QELQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@amazon.com header.s=amazon201209 header.b=NuT4zzrj;
-       spf=pass (google.com: domain of prvs=5343bc49e=sjpark@amazon.com designates 207.171.190.10 as permitted sender) smtp.mailfrom="prvs=5343bc49e=sjpark@amazon.com";
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=amazon.com
-Received: from smtp-fw-33001.amazon.com (smtp-fw-33001.amazon.com. [207.171.190.10])
-        by gmr-mx.google.com with ESMTP id t15si573755pjq.1.2020.09.29.07.22.58
+       spf=pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=mark.rutland@arm.com
+Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
+        by gmr-mx.google.com with ESMTP id mj1si722464pjb.3.2020.09.29.07.24.19
         for <kasan-dev@googlegroups.com>;
-        Tue, 29 Sep 2020 07:22:58 -0700 (PDT)
-Received-SPF: pass (google.com: domain of prvs=5343bc49e=sjpark@amazon.com designates 207.171.190.10 as permitted sender) client-ip=207.171.190.10;
-X-IronPort-AV: E=Sophos;i="5.77,318,1596499200"; 
-   d="scan'208";a="78932031"
-Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-2b-81e76b79.us-west-2.amazon.com) ([10.47.23.38])
-  by smtp-border-fw-out-33001.sea14.amazon.com with ESMTP; 29 Sep 2020 14:21:45 +0000
-Received: from EX13D31EUA001.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan3.pdx.amazon.com [10.170.41.166])
-	by email-inbound-relay-2b-81e76b79.us-west-2.amazon.com (Postfix) with ESMTPS id 20059A17E7;
-	Tue, 29 Sep 2020 14:21:41 +0000 (UTC)
-Received: from u3f2cd687b01c55.ant.amazon.com (10.43.160.185) by
- EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Tue, 29 Sep 2020 14:21:28 +0000
-From: "'SeongJae Park' via kasan-dev" <kasan-dev@googlegroups.com>
+        Tue, 29 Sep 2020 07:24:19 -0700 (PDT)
+Received-SPF: pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C3E5331B;
+	Tue, 29 Sep 2020 07:24:18 -0700 (PDT)
+Received: from C02TD0UTHF1T.local (unknown [10.57.51.69])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D59CA3F6CF;
+	Tue, 29 Sep 2020 07:24:13 -0700 (PDT)
+Date: Tue, 29 Sep 2020 15:24:11 +0100
+From: Mark Rutland <mark.rutland@arm.com>
 To: Marco Elver <elver@google.com>
-CC: <akpm@linux-foundation.org>, <glider@google.com>, <hpa@zytor.com>,
-	<paulmck@kernel.org>, <andreyknvl@google.com>, <aryabinin@virtuozzo.com>,
-	<luto@kernel.org>, <bp@alien8.de>, <catalin.marinas@arm.com>, <cl@linux.com>,
-	<dave.hansen@linux.intel.com>, <rientjes@google.com>, <dvyukov@google.com>,
-	<edumazet@google.com>, <gregkh@linuxfoundation.org>, <hdanton@sina.com>,
-	<mingo@redhat.com>, <jannh@google.com>, <Jonathan.Cameron@huawei.com>,
-	<corbet@lwn.net>, <iamjoonsoo.kim@lge.com>, <keescook@chromium.org>,
-	<mark.rutland@arm.com>, <penberg@kernel.org>, <peterz@infradead.org>,
-	<sjpark@amazon.com>, <tglx@linutronix.de>, <vbabka@suse.cz>,
-	<will@kernel.org>, <x86@kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <kasan-dev@googlegroups.com>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-mm@kvack.org>
-Subject: Re: [PATCH v4 11/11] MAINTAINERS: Add entry for KFENCE
-Date: Tue, 29 Sep 2020 16:21:13 +0200
-Message-ID: <20200929142113.26993-1-sjpark@amazon.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200929133814.2834621-12-elver@google.com>
+Cc: akpm@linux-foundation.org, glider@google.com, hpa@zytor.com,
+	paulmck@kernel.org, andreyknvl@google.com, aryabinin@virtuozzo.com,
+	luto@kernel.org, bp@alien8.de, catalin.marinas@arm.com,
+	cl@linux.com, dave.hansen@linux.intel.com, rientjes@google.com,
+	dvyukov@google.com, edumazet@google.com, gregkh@linuxfoundation.org,
+	hdanton@sina.com, mingo@redhat.com, jannh@google.com,
+	Jonathan.Cameron@huawei.com, corbet@lwn.net, iamjoonsoo.kim@lge.com,
+	keescook@chromium.org, penberg@kernel.org, peterz@infradead.org,
+	sjpark@amazon.com, tglx@linutronix.de, vbabka@suse.cz,
+	will@kernel.org, x86@kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
+	linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org
+Subject: Re: [PATCH v3 01/10] mm: add Kernel Electric-Fence infrastructure
+Message-ID: <20200929142411.GC53442@C02TD0UTHF1T.local>
+References: <20200921132611.1700350-1-elver@google.com>
+ <20200921132611.1700350-2-elver@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-Originating-IP: [10.43.160.185]
-X-ClientProxiedBy: EX13D19UWA004.ant.amazon.com (10.43.160.102) To
- EX13D31EUA001.ant.amazon.com (10.43.165.15)
-X-Original-Sender: sjpark@amazon.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@amazon.com header.s=amazon201209 header.b=NuT4zzrj;       spf=pass
- (google.com: domain of prvs=5343bc49e=sjpark@amazon.com designates
- 207.171.190.10 as permitted sender) smtp.mailfrom="prvs=5343bc49e=sjpark@amazon.com";
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=amazon.com
-X-Original-From: SeongJae Park <sjpark@amazon.com>
-Reply-To: SeongJae Park <sjpark@amazon.com>
+Content-Disposition: inline
+In-Reply-To: <20200921132611.1700350-2-elver@google.com>
+X-Original-Sender: mark.rutland@arm.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as
+ permitted sender) smtp.mailfrom=mark.rutland@arm.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -146,22 +136,80 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, 29 Sep 2020 15:38:14 +0200 Marco Elver <elver@google.com> wrote:
-
-> Add entry for KFENCE maintainers.
+On Mon, Sep 21, 2020 at 03:26:02PM +0200, Marco Elver wrote:
+> From: Alexander Potapenko <glider@google.com>
 > 
-> Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
-> Co-developed-by: Alexander Potapenko <glider@google.com>
-> Signed-off-by: Alexander Potapenko <glider@google.com>
-> Signed-off-by: Marco Elver <elver@google.com>
+> This adds the Kernel Electric-Fence (KFENCE) infrastructure. KFENCE is a
+> low-overhead sampling-based memory safety error detector of heap
+> use-after-free, invalid-free, and out-of-bounds access errors.
+> 
+> KFENCE is designed to be enabled in production kernels, and has near
+> zero performance overhead. Compared to KASAN, KFENCE trades performance
+> for precision. The main motivation behind KFENCE's design, is that with
+> enough total uptime KFENCE will detect bugs in code paths not typically
+> exercised by non-production test workloads. One way to quickly achieve a
+> large enough total uptime is when the tool is deployed across a large
+> fleet of machines.
+> 
+> KFENCE objects each reside on a dedicated page, at either the left or
+> right page boundaries. The pages to the left and right of the object
+> page are "guard pages", whose attributes are changed to a protected
+> state, and cause page faults on any attempted access to them. Such page
+> faults are then intercepted by KFENCE, which handles the fault
+> gracefully by reporting a memory access error. To detect out-of-bounds
+> writes to memory within the object's page itself, KFENCE also uses
+> pattern-based redzones. The following figure illustrates the page
+> layout:
+> 
+>   ---+-----------+-----------+-----------+-----------+-----------+---
+>      | xxxxxxxxx | O :       | xxxxxxxxx |       : O | xxxxxxxxx |
+>      | xxxxxxxxx | B :       | xxxxxxxxx |       : B | xxxxxxxxx |
+>      | x GUARD x | J : RED-  | x GUARD x | RED-  : J | x GUARD x |
+>      | xxxxxxxxx | E :  ZONE | xxxxxxxxx |  ZONE : E | xxxxxxxxx |
+>      | xxxxxxxxx | C :       | xxxxxxxxx |       : C | xxxxxxxxx |
+>      | xxxxxxxxx | T :       | xxxxxxxxx |       : T | xxxxxxxxx |
+>   ---+-----------+-----------+-----------+-----------+-----------+---
+> 
+> Guarded allocations are set up based on a sample interval (can be set
+> via kfence.sample_interval). After expiration of the sample interval, a
+> guarded allocation from the KFENCE object pool is returned to the main
+> allocator (SLAB or SLUB). At this point, the timer is reset, and the
+> next allocation is set up after the expiration of the interval.
 
-Reviewed-by: SeongJae Park <sjpark@amazon.de>
+From other sub-threads it sounds like these addresses are not part of
+the linear/direct map. Having kmalloc return addresses outside of the
+linear map is going to break anything that relies on virt<->phys
+conversions, and is liable to make DMA corrupt memory. There were
+problems of that sort with VMAP_STACK, and this is why kvmalloc() is
+separate from kmalloc().
 
+Have you tested with CONFIG_DEBUG_VIRTUAL? I'd expect that to scream.
+
+I strongly suspect this isn't going to be safe unless you always use an
+in-place carevout from the linear map (which could be the linear alias
+of a static carevout).
+
+[...]
+
+> +static __always_inline void *kfence_alloc(struct kmem_cache *s, size_t size, gfp_t flags)
+> +{
+> +	return static_branch_unlikely(&kfence_allocation_key) ? __kfence_alloc(s, size, flags) :
+> +								      NULL;
+> +}
+
+Minor (unrelated) nit, but this would be easier to read as:
+
+static __always_inline void *kfence_alloc(struct kmem_cache *s, size_t size, gfp_t flags)
+{
+	if (static_branch_unlikely(&kfence_allocation_key))
+		return __kfence_alloc(s, size, flags);
+	return NULL;
+}
 
 Thanks,
-SeongJae Park
+Mark.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200929142113.26993-1-sjpark%40amazon.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200929142411.GC53442%40C02TD0UTHF1T.local.
