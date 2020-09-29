@@ -1,45 +1,45 @@
-Return-Path: <kasan-dev+bncBCS37NMQ3YHBBDX5ZX5QKGQETRXXLUQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCS37NMQ3YHBBEX5ZX5QKGQELB3GWVI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x237.google.com (mail-lj1-x237.google.com [IPv6:2a00:1450:4864:20::237])
-	by mail.lfdr.de (Postfix) with ESMTPS id D37E727D5DB
-	for <lists+kasan-dev@lfdr.de>; Tue, 29 Sep 2020 20:35:58 +0200 (CEST)
-Received: by mail-lj1-x237.google.com with SMTP id d9sf1448705lja.5
-        for <lists+kasan-dev@lfdr.de>; Tue, 29 Sep 2020 11:35:58 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1601404558; cv=pass;
+Received: from mail-wm1-x340.google.com (mail-wm1-x340.google.com [IPv6:2a00:1450:4864:20::340])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA02B27D5DC
+	for <lists+kasan-dev@lfdr.de>; Tue, 29 Sep 2020 20:36:02 +0200 (CEST)
+Received: by mail-wm1-x340.google.com with SMTP id m25sf2190267wmi.0
+        for <lists+kasan-dev@lfdr.de>; Tue, 29 Sep 2020 11:36:02 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1601404562; cv=pass;
         d=google.com; s=arc-20160816;
-        b=RZsSwP5Gr4MKusev3gF2yV8gIcM2fcC8KgOVUkk174W3hAEOdES9li/Pys35QwiLxB
-         wWrdQ2Pd/aJAFefgoD2/DJgMQERZvnwv178E4cdktj33WOxNw2tOgbaulzXT7LG5ilW/
-         y017xMsjF4YuRsKtxAZbVCJN/QgrAoy046eYHBJQfPPPG7UeLL2S91aUpieLxmjATGlg
-         NSArJ/YiMLTPjaw9mspA0zF0B2RO/tsbxoJn6aiqSbfqQukaZuyMWnM+RdmbsDl/SLRj
-         P7PEH2ls41T13fW0W7iW5H6Jgw7mQPNUcuj0fhmC2BP34Go3k/HI+LDqA+CcJzKw+TgR
-         4KeA==
+        b=fmS0u5n4CFwqDC9fU9hi1kZK6Eyzz13aMvrDHQaPXgaWb2hyRZ6ZXFx4DG3BRM2LkW
+         yUC4iJxZYAjcSTEgU3k1kYY0ja545gAyEqmcIZs9MxbshxuuLSiq6sewNHLC/xIDvbbd
+         tei9KRw/JZmo+ZhMFhEQblyZZ0wzK83+5IhI00DzAT1VQiihOhi2ehTUjeVGH4c7Ojrb
+         glJZW6b9bZnZ8xHHmliXA3R5yjIxVzua8p3ffAggrEtCzQqrtGgC5O7IMicp5sgar8HR
+         EaGF+rpoPvujECNHngScd7IMAU0AeFMEt8gnUABIm0lwH6G+XEKBr6WrAcTeu14xucAL
+         dQ7w==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=fEzFEQ1LCMs5SIBQfz7JUhIAIXB1qubsgwTWNnwHMQ8=;
-        b=GLTCqc2BqOw0c/fUX/Z5kkK2Ay2yj3CZk5v91OMpqT3g39QrTmC1vV6bH+GmiftQAW
-         1usCfsUAWl9JXOwxBRkX/rreanshv+KcpLe6Jmh2eoDRrJBg5uJNPBJoeTfoEmcr8ssC
-         RTTRw9nt0nNIarBAQ+qrZuHAIyNQFWCip2hte/bhDoCKJMhw7FMUMZGwhQnKt9UaLel2
-         lXxJeCcwGn1VQ30Xx6STOuPX/lQPE1+QeeWRvs/iA9fXW5+7gpO2M4RXcfOyshxQ+SJN
-         PLCtsGiYvEl7am4Jqxg7opo2EShHDHW/6GEeyLJbs+xjkz4TRS+RzkOObMUSXb1Jpj6x
-         jMyA==
+        bh=+tnnNYFkAPsBF/BO5js+JqffMD0r5qemsPWXjS7oBJg=;
+        b=z0U5IGBjAt43HMYTEpNdyb7NorFm2iFkp/bt35AP0Sr30bVP3z/7jBhrZnsZGh8Ize
+         wFd1zrtYUsRtjiXfHsaNKNSVQX63FIY28aU7MLrNAxpA+X5aZtdqesjHHlYkbTa16a8V
+         xPyal0uwgZ54YZl5jJZhjAwUQ4Ao2QB6OX7duHPUUs0anU5dajK37SFrK3L7/hW9pVYn
+         I7tbXTUcRX+sW+DH8Hv7dRTV1O79sUwiptZmYVPJk98CshwI3foFsgB4ogxuFUZiPCDG
+         o2uscnTW2JzA5z1GfonB2kVt4RmWwViZJbJ2H3V9xOpUMTbFK/u5cM2PNhiIX4NbW0ii
+         U6GQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of a13xp0p0v88@gmail.com designates 209.85.128.65 as permitted sender) smtp.mailfrom=a13xp0p0v88@gmail.com
+       spf=pass (google.com: domain of a13xp0p0v88@gmail.com designates 209.85.128.68 as permitted sender) smtp.mailfrom=a13xp0p0v88@gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
         h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=fEzFEQ1LCMs5SIBQfz7JUhIAIXB1qubsgwTWNnwHMQ8=;
-        b=UG1dcpkfbN54kQ9kYgWEicHkJJrQpfqUvRY8gYSZM4qxN3ZF/WdxFQ6lIuPlM7yP4K
-         Y8SFzxxvJUKz3s/th6KRuMXeAOv5i9GkBVBUMIzIwkdla9UNRFz41eIvfYe/+xHl90iv
-         VpuTogDDKe/UaFF83gadGi35hdlBXsSNeHooCbgXAunekKCLn/cjAO7KV0kC3yevkSl3
-         cVJaHWg1kHmY/KaLNJWxOj6ncaBQPSwf3TPi5GXeWQf1wGGCLf7zj9oDGRHXhrL4+5qK
-         wySRBJ7wFvLM0xcLUL8edSGRTAOitYvyyYqKivcNbQ9zMr7qYBDFm0KTwsReAYQqJ8sp
-         h+cA==
+        bh=+tnnNYFkAPsBF/BO5js+JqffMD0r5qemsPWXjS7oBJg=;
+        b=ZRQ3YxNzwgDAqvDQsjgZAevsH5QV1CEWJN3Kkae7x9wElnWu0pO1cpAzg/kYdMB5zK
+         sH38ZaGnhujYnmP5FY6X8p1SttSk4XVQg8yIH9D/EbssgHCSg4PCwbfMhNlRbeP1iCoZ
+         Lt2dfUPgtkFhtXy5K4AG1vtE76bfGD2Arap0kysCOxJYXjWYowj3iZ4u4pxhCYA8W7tf
+         ugQTNfd+dIEpsaWYrBnxwg8IHaKnv6xG7Gr5dccKe2duOBCT/DHovZQfUcnM/kZN1Pwx
+         cRRKDihtW467l1tpAr9JnxfJRnRm6bU2O1/On9GCx7azqodtcFcA9rX2ooHqDcfjDBiq
+         bixQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
@@ -47,58 +47,58 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=fEzFEQ1LCMs5SIBQfz7JUhIAIXB1qubsgwTWNnwHMQ8=;
-        b=T1lp0ogXj7ulvBv7WQdfx2fuoefBvtf0LZGJsBDjKBdTUxp9Cqo8X4gwnZ4AV7OGtq
-         bv3IIQXyKev2jRZ0dOUZbp7twBzLq9P7SruZJYuSkET4z4VcAuyWVlvhEIEbXawEGYTo
-         ZKIjNQ/IciemAEBOA7jCurMSJolGUVfCh2TFsqWpLKnpq86oIIUvPgmUYx5pGdqYbp59
-         WfeGwdKjvqUHl3HIR8ECAc87U52V/tm0rIAS71mYQo8zUUDBGfY5Y8VnWeciS6rmr2Am
-         8GiKTib07EGzm5ieeYgM6S9IVFvsJi6fkm5mkgPi3PORdXHTomfw0021eBNduVMi4H1F
-         zJjw==
+        bh=+tnnNYFkAPsBF/BO5js+JqffMD0r5qemsPWXjS7oBJg=;
+        b=X7C0W4TjfjXaJuVyrtpPIE0OQf7K0+shTNXyTKNpRGLlna1lKqHd8Xcuh41PrRgQ7r
+         EFE2F2pG87DJSaq07H+ZfRakJHdarYe4kkdqyuIRz1js0u2RssTdcTTG5TJ/e4zJmJ+6
+         sqFzXk6MCLuhfhQ0sSKHIL49AVK3sdCiOsfACw6pqdX26F+4ctxdUi9/tfxgre51CD06
+         gIxZO/9c8V2ueRih/4f1y7AAAK//sGsykhm3EeRmFGJXtkeISRwZLb/GjqSEcx1k4Pae
+         sHCtfBrXUGdSv0/+qPJMR3CtuEjziz6CGPxm574AXNHhYrp50oi/ed66kqxUxGbqZ4eg
+         wdCA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM5336B0j71jcl4ruotfh1MyOGhfGM4iODM4kIk6sxg26hiuj/Yke8
-	OntsKHWzMDVnZs3YAMGwDWY=
-X-Google-Smtp-Source: ABdhPJw0+bT4JYYLQsRcvAsOQBpcLCEcbBfKd6ZvtTThIA9cjAK6ra48r33cnSiBlNtsQlOJjk8YbA==
-X-Received: by 2002:a19:2390:: with SMTP id j138mr1773355lfj.469.1601404558391;
-        Tue, 29 Sep 2020 11:35:58 -0700 (PDT)
+X-Gm-Message-State: AOAM533muY62u84BvO8d6+qsZW7v79IHw6aBToiG3rYnfJDJubwBRQDk
+	NG9mBY2KJOWFsI3H+bdMII0=
+X-Google-Smtp-Source: ABdhPJxFAq9N8YXpuvF403yDipJ4Xch3WDrtPqtLBvLXl7YKHbmOISUAUMUN3bdmMqjLYXVR5TaNqg==
+X-Received: by 2002:a5d:44cc:: with SMTP id z12mr5980870wrr.189.1601404562511;
+        Tue, 29 Sep 2020 11:36:02 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a2e:7c08:: with SMTP id x8ls308483ljc.6.gmail; Tue, 29 Sep
- 2020 11:35:57 -0700 (PDT)
-X-Received: by 2002:a2e:7a14:: with SMTP id v20mr1687512ljc.429.1601404557300;
-        Tue, 29 Sep 2020 11:35:57 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1601404557; cv=none;
+Received: by 2002:a7b:cbc4:: with SMTP id n4ls1190457wmi.3.gmail; Tue, 29 Sep
+ 2020 11:36:01 -0700 (PDT)
+X-Received: by 2002:a1c:f715:: with SMTP id v21mr6393744wmh.117.1601404561697;
+        Tue, 29 Sep 2020 11:36:01 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1601404561; cv=none;
         d=google.com; s=arc-20160816;
-        b=s7ws61lrX96gzzXKpEAdIAr/UEiHrGqulsHxga26zxJEZov0ZKUw+HEhYoRFBU2ocx
-         AbRUX8feoLb0th6x7reheaEBoFV5DT+mHYDwQWD0tXuc0tAo/MMoJoBcQ6CQ+8i52b/j
-         r6+zmoWLW431VkeL0klNJ/MM2C3HxPPzMNLF1C+6mWpzoA25w96ZPQoaq0yUKM+vaKrN
-         LEeYGQpLDBbpatJ470tV6OZSk+mPzdCCV3x10gs1w77VxlybRRgAPBKES8q0pu05T0ux
-         98LEPPWa7o/SFXeJhYNOnxl1teo+wWWMuugKNYrQi/6DWpp7UUltzaUYVfo6T7DA9uWe
-         rRmg==
+        b=uv0erfHlktNNOK4j3e/Xh8K3QnoJGOmzEBJmVrglBf+2I+XyKU1bQpBg/FcMy0J9zD
+         AJ3YkEKako8Gk1mk0FNYOUHz+uREIK8Ja+CAHJamj7ZjCIN1FoOO0P6K10yVyW7tf4R+
+         gkvr/MPKoPiBfmGdkKwnxmWGfW5JV/ZNOHMESyT14anHoB6AgWTEfeQZvOkDKSXNbRwt
+         C0dCZldZ65g/O4GxhYUYHahHz/i6NXXyXcLtuLKIbYCdC/RoGfIdyxujdVD/gXxB06Hc
+         lVCsCxWjNuUQwlktIGC34msHHJuaw4Bn8Vsqcg13bigFQH6dpNkRePe6OowY0pI0Ezbw
+         q0mw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from;
-        bh=H9FfRvaA+Wp3IJ0z7DJTjMPazUzC1jfP34QSVpIB8gM=;
-        b=kMTVWfQOhut7FOTvzFBEhTobPx//ACOCg9n1hO3VwuEpMkYfGu2sSpZUBcyq7foWY+
-         4sdutwA5djjvmVvJeTpKzX3CNfWDRyVY0FS3vqm/co2i4CTbP/P+aca9+9bTu9H3JIKE
-         czxXgb6cNu/fuVoo8xk/YuP7PfiLJkRDuwuoPFCNI1XpbWf6kJ+tlKepJAFU2tZNkl3I
-         AtFvsr9V3qH/FHBHH04kiX90WppJ/Pbegsjw7hW2tWmo6dqAO7UwNrJn86kAQCGlIdPR
-         2XKCsoJW//DRyLeP3KIDEoQTxtKG5k/8kRLqXKvOLvlsqxpFTPoJhQ81bXAYW7x1PUmw
-         OfJQ==
+        bh=1AriX1I1xNfjnxfNSmAKzK7wEz9F3HLx249hrusGBIU=;
+        b=GvdxpsKJzGx9qDkX5rGM1Fzx8W6ZT431X4TO5BsN7dbG4VCN8ncuiHOiyIJGXTbr4E
+         ag1o+/FvR/6/s108yMoOZNo9rPxqGwCyO4T2K+Fr45vXoI1Ek6SmumffbfFXntmyUUOg
+         D6BN2Fl3BDrAcaiejtJclAJJbxrxBsHn18Tww7dzObcmAQKJmQqHJJ6F6YH86i8fsyhm
+         BFmaiMwTd9Ue9Ag1uRGYiiwwKy9Mt+5hHOStWkNTk2Y8jfH1tPUJVRj5qlLGpW1vX8D0
+         B6X3gqRmAISNEKTIpatMn6Ur56wcPs1Et/PoD1wD5bJdnFpwYcOtp65eG3MnHfH5io4R
+         mPqw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of a13xp0p0v88@gmail.com designates 209.85.128.65 as permitted sender) smtp.mailfrom=a13xp0p0v88@gmail.com
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com. [209.85.128.65])
-        by gmr-mx.google.com with ESMTPS id 11si134115lfl.4.2020.09.29.11.35.57
+       spf=pass (google.com: domain of a13xp0p0v88@gmail.com designates 209.85.128.68 as permitted sender) smtp.mailfrom=a13xp0p0v88@gmail.com
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com. [209.85.128.68])
+        by gmr-mx.google.com with ESMTPS id d19si131566wmd.0.2020.09.29.11.36.01
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 29 Sep 2020 11:35:57 -0700 (PDT)
-Received-SPF: pass (google.com: domain of a13xp0p0v88@gmail.com designates 209.85.128.65 as permitted sender) client-ip=209.85.128.65;
-Received: by mail-wm1-f65.google.com with SMTP id d4so5628377wmd.5
-        for <kasan-dev@googlegroups.com>; Tue, 29 Sep 2020 11:35:57 -0700 (PDT)
-X-Received: by 2002:a05:600c:2909:: with SMTP id i9mr6280384wmd.160.1601404556735;
-        Tue, 29 Sep 2020 11:35:56 -0700 (PDT)
+        Tue, 29 Sep 2020 11:36:01 -0700 (PDT)
+Received-SPF: pass (google.com: domain of a13xp0p0v88@gmail.com designates 209.85.128.68 as permitted sender) client-ip=209.85.128.68;
+Received: by mail-wm1-f68.google.com with SMTP id l15so7221032wmh.1
+        for <kasan-dev@googlegroups.com>; Tue, 29 Sep 2020 11:36:01 -0700 (PDT)
+X-Received: by 2002:a1c:6a08:: with SMTP id f8mr6140532wmc.151.1601404561398;
+        Tue, 29 Sep 2020 11:36:01 -0700 (PDT)
 Received: from localhost.localdomain ([185.248.161.177])
-        by smtp.gmail.com with ESMTPSA id b188sm12151271wmb.2.2020.09.29.11.35.51
+        by smtp.gmail.com with ESMTPSA id b188sm12151271wmb.2.2020.09.29.11.35.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Sep 2020 11:35:56 -0700 (PDT)
+        Tue, 29 Sep 2020 11:36:00 -0700 (PDT)
 From: Alexander Popov <alex.popov@linux.com>
 To: Kees Cook <keescook@chromium.org>,
 	Jann Horn <jannh@google.com>,
@@ -134,16 +134,16 @@ To: Kees Cook <keescook@chromium.org>,
 	linux-kernel@vger.kernel.org,
 	Alexander Popov <alex.popov@linux.com>
 Cc: notify@kernel.org
-Subject: [PATCH RFC v2 4/6] mm: Implement slab quarantine randomization
-Date: Tue, 29 Sep 2020 21:35:11 +0300
-Message-Id: <20200929183513.380760-5-alex.popov@linux.com>
+Subject: [PATCH RFC v2 5/6] lkdtm: Add heap quarantine tests
+Date: Tue, 29 Sep 2020 21:35:12 +0300
+Message-Id: <20200929183513.380760-6-alex.popov@linux.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200929183513.380760-1-alex.popov@linux.com>
 References: <20200929183513.380760-1-alex.popov@linux.com>
 MIME-Version: 1.0
 X-Original-Sender: a13xp0p0v88@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of a13xp0p0v88@gmail.com designates 209.85.128.65 as
+ (google.com: domain of a13xp0p0v88@gmail.com designates 209.85.128.68 as
  permitted sender) smtp.mailfrom=a13xp0p0v88@gmail.com
 Content-Type: text/plain; charset="UTF-8"
 Precedence: list
@@ -158,178 +158,200 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-The randomization is very important for the slab quarantine security
-properties. Without it the number of kmalloc()+kfree() calls that are
-needed for overwriting the vulnerable object is almost the same.
-That would be good for stable use-after-free exploitation, and we
-should not allow that.
+Add tests for CONFIG_SLAB_QUARANTINE.
 
-This commit contains very compact and hackish changes that introduce
-the quarantine randomization. At first all quarantine batches are filled
-by objects. Then during the quarantine reducing we randomly choose and
-free 1/2 of objects from a randomly chosen batch. Now the randomized
-quarantine releases the freed object at an unpredictable moment, which
-is harmful for the heap spraying technique employed by use-after-free
-exploits.
+The HEAP_SPRAY test aims to reallocate a recently freed heap object.
+It allocates and frees an object from a separate kmem_cache and then
+allocates 400000 similar objects from it. I.e. this test performs an
+original heap spraying technique for use-after-free exploitation.
+If CONFIG_SLAB_QUARANTINE is disabled, the freed object is instantly
+reallocated and overwritten, which is required for a successful attack.
+
+The PUSH_THROUGH_QUARANTINE test allocates and frees an object from a
+separate kmem_cache and then performs kmem_cache_alloc()+kmem_cache_free()
+400000 times. This test pushes the object through the heap quarantine and
+reallocates it after it returns back to the allocator freelist.
+If CONFIG_SLAB_QUARANTINE is enabled, this test should show that the
+randomized quarantine will release the freed object at an unpredictable
+moment, which makes use-after-free exploitation much harder.
 
 Signed-off-by: Alexander Popov <alex.popov@linux.com>
 ---
- mm/kasan/quarantine.c | 79 +++++++++++++++++++++++++++++++++++++------
- 1 file changed, 69 insertions(+), 10 deletions(-)
+ drivers/misc/lkdtm/core.c  |   2 +
+ drivers/misc/lkdtm/heap.c  | 110 +++++++++++++++++++++++++++++++++++++
+ drivers/misc/lkdtm/lkdtm.h |   2 +
+ 3 files changed, 114 insertions(+)
 
-diff --git a/mm/kasan/quarantine.c b/mm/kasan/quarantine.c
-index 61666263c53e..4ce100605086 100644
---- a/mm/kasan/quarantine.c
-+++ b/mm/kasan/quarantine.c
-@@ -29,6 +29,7 @@
- #include <linux/srcu.h>
- #include <linux/string.h>
- #include <linux/types.h>
-+#include <linux/random.h>
+diff --git a/drivers/misc/lkdtm/core.c b/drivers/misc/lkdtm/core.c
+index a5e344df9166..6be5ca49ae6b 100644
+--- a/drivers/misc/lkdtm/core.c
++++ b/drivers/misc/lkdtm/core.c
+@@ -126,6 +126,8 @@ static const struct crashtype crashtypes[] = {
+ 	CRASHTYPE(SLAB_FREE_DOUBLE),
+ 	CRASHTYPE(SLAB_FREE_CROSS),
+ 	CRASHTYPE(SLAB_FREE_PAGE),
++	CRASHTYPE(HEAP_SPRAY),
++	CRASHTYPE(PUSH_THROUGH_QUARANTINE),
+ 	CRASHTYPE(SOFTLOCKUP),
+ 	CRASHTYPE(HARDLOCKUP),
+ 	CRASHTYPE(SPINLOCKUP),
+diff --git a/drivers/misc/lkdtm/heap.c b/drivers/misc/lkdtm/heap.c
+index 1323bc16f113..f666a08d9462 100644
+--- a/drivers/misc/lkdtm/heap.c
++++ b/drivers/misc/lkdtm/heap.c
+@@ -10,6 +10,7 @@
+ static struct kmem_cache *double_free_cache;
+ static struct kmem_cache *a_cache;
+ static struct kmem_cache *b_cache;
++static struct kmem_cache *spray_cache;
  
- #include "../slab.h"
- #include "kasan.h"
-@@ -89,8 +90,13 @@ static void qlist_move_all(struct qlist_head *from, struct qlist_head *to)
- }
- 
- #define QUARANTINE_PERCPU_SIZE (1 << 20)
+ /*
+  * This tries to stay within the next largest power-of-2 kmalloc cache
+@@ -204,6 +205,112 @@ static void ctor_a(void *region)
+ { }
+ static void ctor_b(void *region)
+ { }
++static void ctor_spray(void *region)
++{ }
 +
-+#ifdef CONFIG_KASAN
- #define QUARANTINE_BATCHES \
- 	(1024 > 4 * CONFIG_NR_CPUS ? 1024 : 4 * CONFIG_NR_CPUS)
-+#else
-+#define QUARANTINE_BATCHES 128
-+#endif
- 
- /*
-  * The object quarantine consists of per-cpu queues and a global queue,
-@@ -110,10 +116,7 @@ DEFINE_STATIC_SRCU(remove_cache_srcu);
- /* Maximum size of the global queue. */
- static unsigned long quarantine_max_size;
- 
--/*
-- * Target size of a batch in global_quarantine.
-- * Usually equal to QUARANTINE_PERCPU_SIZE unless we have too much RAM.
-- */
-+/* Target size of a batch in global_quarantine. */
- static unsigned long quarantine_batch_size;
- 
- /*
-@@ -191,7 +194,12 @@ void quarantine_put(struct kasan_free_meta *info, struct kmem_cache *cache)
- 
- 	q = this_cpu_ptr(&cpu_quarantine);
- 	qlist_put(q, &info->quarantine_link, cache->size);
-+#ifdef CONFIG_KASAN
- 	if (unlikely(q->bytes > QUARANTINE_PERCPU_SIZE)) {
-+#else
-+	if (unlikely(q->bytes > min_t(size_t, QUARANTINE_PERCPU_SIZE,
-+					READ_ONCE(quarantine_batch_size)))) {
-+#endif
- 		qlist_move_all(q, &temp);
- 
- 		raw_spin_lock(&quarantine_lock);
-@@ -204,7 +212,7 @@ void quarantine_put(struct kasan_free_meta *info, struct kmem_cache *cache)
- 			new_tail = quarantine_tail + 1;
- 			if (new_tail == QUARANTINE_BATCHES)
- 				new_tail = 0;
--			if (new_tail != quarantine_head)
-+			if (new_tail != quarantine_head || !IS_ENABLED(CONFIG_KASAN))
- 				quarantine_tail = new_tail;
- 		}
- 		raw_spin_unlock(&quarantine_lock);
-@@ -213,12 +221,43 @@ void quarantine_put(struct kasan_free_meta *info, struct kmem_cache *cache)
- 	local_irq_restore(flags);
- }
- 
-+static void qlist_move_random(struct qlist_head *from, struct qlist_head *to)
++#define SPRAY_LENGTH 400000
++#define SPRAY_ITEM_SIZE 333
++
++void lkdtm_HEAP_SPRAY(void)
 +{
-+	struct qlist_node *curr;
++	int *addr;
++	int **spray_addrs = NULL;
++	unsigned long i = 0;
 +
-+	if (unlikely(qlist_empty(from)))
++	addr = kmem_cache_alloc(spray_cache, GFP_KERNEL);
++	if (!addr) {
++		pr_info("Can't allocate memory in spray_cache cache\n");
 +		return;
-+
-+	curr = from->head;
-+	qlist_init(from);
-+	while (curr) {
-+		struct qlist_node *next = curr->next;
-+		struct kmem_cache *obj_cache = qlink_to_cache(curr);
-+		int rnd =  get_random_int();
-+
-+		/*
-+		 * Hackish quarantine randomization, part 2:
-+		 * move only 1/2 of objects to the destination list.
-+		 * TODO: use random bits sparingly for better performance.
-+		 */
-+		if (rnd % 2 == 0)
-+			qlist_put(to, curr, obj_cache->size);
-+		else
-+			qlist_put(from, curr, obj_cache->size);
-+
-+		curr = next;
 +	}
++
++	memset(addr, 0xA5, SPRAY_ITEM_SIZE);
++	kmem_cache_free(spray_cache, addr);
++	pr_info("Allocated and freed spray_cache object %p of size %d\n",
++					addr, SPRAY_ITEM_SIZE);
++
++	spray_addrs = kcalloc(SPRAY_LENGTH, sizeof(int *), GFP_KERNEL);
++	if (!spray_addrs) {
++		pr_info("Unable to allocate memory for spray_addrs\n");
++		return;
++	}
++
++	pr_info("Original heap spraying: allocate %d objects of size %d...\n",
++					SPRAY_LENGTH, SPRAY_ITEM_SIZE);
++	for (i = 0; i < SPRAY_LENGTH; i++) {
++		spray_addrs[i] = kmem_cache_alloc(spray_cache, GFP_KERNEL);
++		if (!spray_addrs[i]) {
++			pr_info("Can't allocate memory in spray_cache cache\n");
++			break;
++		}
++
++		memset(spray_addrs[i], 0x42, SPRAY_ITEM_SIZE);
++
++		if (spray_addrs[i] == addr) {
++			pr_info("FAIL: attempt %lu: freed object is reallocated\n", i);
++			break;
++		}
++	}
++
++	if (i == SPRAY_LENGTH)
++		pr_info("OK: original heap spraying hasn't succeed\n");
++
++	for (i = 0; i < SPRAY_LENGTH; i++) {
++		if (spray_addrs[i])
++			kmem_cache_free(spray_cache, spray_addrs[i]);
++	}
++
++	kfree(spray_addrs);
 +}
 +
- void quarantine_reduce(void)
- {
--	size_t total_size, new_quarantine_size, percpu_quarantines;
-+	size_t total_size;
- 	unsigned long flags;
- 	int srcu_idx;
- 	struct qlist_head to_free = QLIST_INIT;
-+#ifdef CONFIG_KASAN
-+	size_t new_quarantine_size, percpu_quarantines;
-+#endif
- 
- 	if (likely(READ_ONCE(quarantine_size) <=
- 		   READ_ONCE(quarantine_max_size)))
-@@ -236,12 +275,12 @@ void quarantine_reduce(void)
- 	srcu_idx = srcu_read_lock(&remove_cache_srcu);
- 	raw_spin_lock_irqsave(&quarantine_lock, flags);
- 
--	/*
--	 * Update quarantine size in case of hotplug. Allocate a fraction of
--	 * the installed memory to quarantine minus per-cpu queue limits.
--	 */
-+	/* Update quarantine size in case of hotplug */
- 	total_size = (totalram_pages() << PAGE_SHIFT) /
- 		QUARANTINE_FRACTION;
++/*
++ * Pushing an object through the quarantine requires both allocating and
++ * freeing memory. Objects are released from the quarantine on new memory
++ * allocations, but only when the quarantine size is over the limit.
++ * And the quarantine size grows on new memory freeing.
++ *
++ * This test should show that the randomized quarantine will release the
++ * freed object at an unpredictable moment.
++ */
++void lkdtm_PUSH_THROUGH_QUARANTINE(void)
++{
++	int *addr;
++	int *push_addr;
++	unsigned long i;
 +
-+#ifdef CONFIG_KASAN
-+	/* Subtract per-cpu queue limits from total quarantine size */
- 	percpu_quarantines = QUARANTINE_PERCPU_SIZE * num_online_cpus();
- 	new_quarantine_size = (total_size < percpu_quarantines) ?
- 		0 : total_size - percpu_quarantines;
-@@ -257,6 +296,26 @@ void quarantine_reduce(void)
- 		if (quarantine_head == QUARANTINE_BATCHES)
- 			quarantine_head = 0;
- 	}
-+#else /* CONFIG_KASAN */
-+	/*
-+	 * Don't subtract per-cpu queue limits from total quarantine
-+	 * size to consume all quarantine slots.
-+	 */
-+	WRITE_ONCE(quarantine_max_size, total_size);
-+	WRITE_ONCE(quarantine_batch_size, total_size / QUARANTINE_BATCHES);
-+
-+	/*
-+	 * Hackish quarantine randomization, part 1:
-+	 * pick a random batch for reducing.
-+	 */
-+	if (likely(quarantine_size > quarantine_max_size)) {
-+		do {
-+			quarantine_head = get_random_int() % QUARANTINE_BATCHES;
-+		} while (quarantine_head == quarantine_tail);
-+		qlist_move_random(&global_quarantine[quarantine_head], &to_free);
-+		WRITE_ONCE(quarantine_size, quarantine_size - to_free.bytes);
++	addr = kmem_cache_alloc(spray_cache, GFP_KERNEL);
++	if (!addr) {
++		pr_info("Can't allocate memory in spray_cache cache\n");
++		return;
 +	}
-+#endif
++
++	memset(addr, 0xA5, SPRAY_ITEM_SIZE);
++	kmem_cache_free(spray_cache, addr);
++	pr_info("Allocated and freed spray_cache object %p of size %d\n",
++					addr, SPRAY_ITEM_SIZE);
++
++	pr_info("Push through quarantine: allocate and free %d objects of size %d...\n",
++					SPRAY_LENGTH, SPRAY_ITEM_SIZE);
++	for (i = 0; i < SPRAY_LENGTH; i++) {
++		push_addr = kmem_cache_alloc(spray_cache, GFP_KERNEL);
++		if (!push_addr) {
++			pr_info("Can't allocate memory in spray_cache cache\n");
++			break;
++		}
++
++		memset(push_addr, 0x42, SPRAY_ITEM_SIZE);
++		kmem_cache_free(spray_cache, push_addr);
++
++		if (push_addr == addr) {
++			pr_info("Target object is reallocated at attempt %lu\n", i);
++			break;
++		}
++	}
++
++	if (i == SPRAY_LENGTH) {
++		pr_info("Target object is NOT reallocated in %d attempts\n",
++					SPRAY_LENGTH);
++	}
++}
  
- 	raw_spin_unlock_irqrestore(&quarantine_lock, flags);
+ void __init lkdtm_heap_init(void)
+ {
+@@ -211,6 +318,8 @@ void __init lkdtm_heap_init(void)
+ 					      64, 0, 0, ctor_double_free);
+ 	a_cache = kmem_cache_create("lkdtm-heap-a", 64, 0, 0, ctor_a);
+ 	b_cache = kmem_cache_create("lkdtm-heap-b", 64, 0, 0, ctor_b);
++	spray_cache = kmem_cache_create("lkdtm-heap-spray",
++					SPRAY_ITEM_SIZE, 0, 0, ctor_spray);
+ }
  
+ void __exit lkdtm_heap_exit(void)
+@@ -218,4 +327,5 @@ void __exit lkdtm_heap_exit(void)
+ 	kmem_cache_destroy(double_free_cache);
+ 	kmem_cache_destroy(a_cache);
+ 	kmem_cache_destroy(b_cache);
++	kmem_cache_destroy(spray_cache);
+ }
+diff --git a/drivers/misc/lkdtm/lkdtm.h b/drivers/misc/lkdtm/lkdtm.h
+index 8878538b2c13..d6b4b0708359 100644
+--- a/drivers/misc/lkdtm/lkdtm.h
++++ b/drivers/misc/lkdtm/lkdtm.h
+@@ -45,6 +45,8 @@ void lkdtm_READ_BUDDY_AFTER_FREE(void);
+ void lkdtm_SLAB_FREE_DOUBLE(void);
+ void lkdtm_SLAB_FREE_CROSS(void);
+ void lkdtm_SLAB_FREE_PAGE(void);
++void lkdtm_HEAP_SPRAY(void);
++void lkdtm_PUSH_THROUGH_QUARANTINE(void);
+ 
+ /* lkdtm_perms.c */
+ void __init lkdtm_perms_init(void);
 -- 
 2.26.2
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200929183513.380760-5-alex.popov%40linux.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20200929183513.380760-6-alex.popov%40linux.com.
