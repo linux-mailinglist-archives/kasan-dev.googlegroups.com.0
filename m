@@ -1,120 +1,139 @@
-Return-Path: <kasan-dev+bncBDAMN6NI5EERBUXC2D5QKGQE634ICWQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCCMH5WKTMGRBQH62H5QKGQEHGNG2AY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x23c.google.com (mail-lj1-x23c.google.com [IPv6:2a00:1450:4864:20::23c])
-	by mail.lfdr.de (Postfix) with ESMTPS id C748027E276
-	for <lists+kasan-dev@lfdr.de>; Wed, 30 Sep 2020 09:18:42 +0200 (CEST)
-Received: by mail-lj1-x23c.google.com with SMTP id 26sf277265ljp.19
-        for <lists+kasan-dev@lfdr.de>; Wed, 30 Sep 2020 00:18:42 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1601450322; cv=pass;
+Received: from mail-wr1-x43a.google.com (mail-wr1-x43a.google.com [IPv6:2a00:1450:4864:20::43a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9141627E8EF
+	for <lists+kasan-dev@lfdr.de>; Wed, 30 Sep 2020 14:51:13 +0200 (CEST)
+Received: by mail-wr1-x43a.google.com with SMTP id l15sf570425wro.10
+        for <lists+kasan-dev@lfdr.de>; Wed, 30 Sep 2020 05:51:13 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1601470273; cv=pass;
         d=google.com; s=arc-20160816;
-        b=p2t61zlHHxHTCp93P1HCgoeiyUXZyFhrsYRBbN+r38kfWMOQnQijdxsPX/yEGyhPrh
-         ArJI5IkMslLIUqIf0GhXTM2Z+B85FnOhe4Z7NI7bGj1kvnQEjIh5qyCtDJHGlotGsclC
-         5TGApIH7CwPFKAPEIGQ8vJmT00gqV1apfX9hy9lQRgi7FFofysBddewUGkslox4gg2uT
-         6p02P7DzK5Um2mxkj/416a9fRbxmnI2RkpvOJKVZVanr9Kmmbpul7tlblP0sR1mTj0vv
-         nTbPQ2OI3N1LAPZ8Au/Dpi8CO75HjwCz5wwhz1j8MfDzuNTTcywPB+jMlh6igpjVvNPs
-         6Smg==
+        b=MB84KieFXCmhpGOUC6+IQ9VVOlXCOXNMJzXxfUfNjdSkmyFPcPKkdN1GENBji2DFj3
+         W77M57QscdjZhX8gvzIpOSB/tk8ZvpnAwTN9CqGzjyGvQRdOYk0l0KOUuHFc0A9HsVUs
+         GomCmMbUvKvfCR/NMKzF0QPIy2e4s/jBestwg2FvtpD1xZK5gSATjf3Qwef+FIUnLCtZ
+         1ZWymVG9EE4cuPz/X+8VF+LlpS29zOaEibX1SqzGXAVAxQcf81pvee8QCM6EJcfe2XvB
+         QtY1HSGQglvrEH1O4/UF1Ecu7Kp5PuBvu4BCbTSBw/7k+wXDZAstJehEjXd6y62JN358
+         1K8A==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding
-         :mime-version:message-id:date:in-reply-to:subject:cc:to:from:sender
-         :dkim-signature;
-        bh=XTMOlmbE63L1xwgyDweKHHKwN+JbcAMjeImu/ONnPSo=;
-        b=lJFzNPJo7OeJXHBQ3GCzIUuteDQaEPIWkMCgSutKqw1AtXAIjb9mevk07hZXMVAXUy
-         nSzr21MIR4IM2AqfZwpNqU2j5qa/sykAg3MhItEayz2Jeb9nkWhkI2BGULS7K5PmKddg
-         BMtNU99T88yone8KaWFaOECjrNFVff5DdzEkZHJMEpjr76lW5QHsG/Mbi8auPUhGUWgk
-         x8ax/2AHiV9OkgTkABkStKspmo8V2me5S1QrVutxzbhxPW6DO4JdKy7zBA2caF8EjABJ
-         U9g/ocmIZ7tlXbljQjGbTDItZOCL3mnBGQm7f+37giYMUGX3Ahd63BqCW5W33ICjtSKg
-         tBuA==
+         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
+         :cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=WySpF6F+fg01WE39Jk2f5/UbC+kXwe9Uw2JMYArbjOM=;
+        b=O230+S+PrmqK8gTopu7yGvA9JJqqBziedte9t19i3hwRIn30qcx93UsAGukMU5hnzV
+         ncIgScCOdizvYwM1Gs6UkyYtKev5dsee576wxCySRtxMTpu2ybsduncNBzrvS71+emzv
+         /XC+xSyS963Lz4pHWRyNCdgJJdtpJqR6hkpbtv0Nizq5Vy1dahoVrjVa0efYz6ZnBDHk
+         2DyiLdiwTd2v4OLvh9D/UqE3/6KFZndsq8qcdGNVLH1KOoZlESawvWKaEQM44wJlCNmB
+         BwfiICydP/I2u0GbTkSu/s59QL38d+L+hsBCOD42HD5Zok6zJr308DsWP63YxRIr0jNP
+         Rdkw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linutronix.de header.s=2020 header.b=oiDx8cqR;
-       dkim=neutral (no key) header.i=@linutronix.de header.s=2020e;
-       spf=pass (google.com: domain of tglx@linutronix.de designates 2a0a:51c0:0:12e:550::1 as permitted sender) smtp.mailfrom=tglx@linutronix.de;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=linutronix.de
+       dkim=pass header.i=@google.com header.s=20161025 header.b=L7X6TOpx;
+       spf=pass (google.com: domain of glider@google.com designates 2a00:1450:4864:20::343 as permitted sender) smtp.mailfrom=glider@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:from:to:cc:subject:in-reply-to:date:message-id:mime-version
-         :content-transfer-encoding:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=XTMOlmbE63L1xwgyDweKHHKwN+JbcAMjeImu/ONnPSo=;
-        b=VRUldDMTX2TMLoOgdtiOS76pM7Rg2eKz0Mm6pPMhFZaihrOVvKgNfA30+mWbFY1/qa
-         tiJB/RwgVPnWrGkfBd7lLJRadgUccCUX9hoZbtBzmyeTASDhxlRwsjQLjWwF1PraHAFM
-         rTuleuJbGeqVB1Y9Lwjpai1ZTO3+o5i7ebtlQr2EaHLyo9MwA6DFJKKFX99uWf+J5cYs
-         i98Yy87bzLsKjMRzgzugdFaT5IegzFKqPw2SEZzoZt/OgttN9evxnW7kmFULQTigCv5N
-         2dd6CPJfsOZ6nltSicTabTLkY6DPpuC3dpaDiqq8yXxM+pX6rrjmAq8sfi5I+XZ0ajLp
-         s1EQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:list-post:list-help:list-archive:list-subscribe
+         :list-unsubscribe;
+        bh=WySpF6F+fg01WE39Jk2f5/UbC+kXwe9Uw2JMYArbjOM=;
+        b=c8XxO+ZnJOB3pC4W/xa1uh7iOgZ8VzNX8aeKo+CiOC5Lfw/OIDb8ctYEz/Tn05Effj
+         UeyCby/ZW4RG6gjkZgkE0coV+5Kr1+NuPv18TrJcHNCK3EsKQek8FS8dW2vZtkkkoc48
+         io3SymmjP6UKU0FJSrEz+w+zqZY12NWzQ2sA75jBfr67FECRnr7pxhc33jfN27JM5Tby
+         MgwY9Gi9LBDM3SHrXxYeHndjO1PJsPePioJeQBpM9xJxjN0e/vnkHAxJ+twhae73PS9q
+         y9o7sdzhk9Sb1NaHhUKdXqJZFekgNLaPQKNqyUJSaa81fguUqDF2r7xB743N0h1Rk5sk
+         xWzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:from:to:cc:subject:in-reply-to:date
-         :message-id:mime-version:content-transfer-encoding:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=XTMOlmbE63L1xwgyDweKHHKwN+JbcAMjeImu/ONnPSo=;
-        b=NOXFVKI95Y07aT9b77PzWGfFQd/Bn7lSh+M64Vp/p9tVhERthdACU1KH35BbaXIvJj
-         WcrsWSXDlGFUUd20ZDicklpMS0dKFgKTvVRt/Cx2D6RHWPtuYuWjg/fNC7zRZ3a2e3iN
-         07w3UAhKslk91bKXmxAAuyf6YQzhZrjZl+2oAYOSIVRbPCiTd3IPJ5x/1Lsay+YxhSKr
-         72fF8fQoaiASp6yL3iBUCitnG8NSWi7AOCyquNXGaWuhhMurOcPXYvaZoLXcjcTNYP38
-         DRzqCBlCmMJsDpr1Orhf3cY4xxpTgSRMlgGIaCd+mNvTNLtgwXUiZk6jZgj/Pr0V7F4C
-         vl2g==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM532jGXl77ZYj1noZVKkaJ/i6KiMSLenO+5RSopGhpiu/DtoYoItZ
-	uAQi3JiFhFvU5T9QjZdBSm4=
-X-Google-Smtp-Source: ABdhPJwn56H/giXgpsYOdfxl5Uv7iku/skbf3Ex+Vp2zznW7Kbwu1hr6esVxlYpdmn8Z0SiYB0FqqA==
-X-Received: by 2002:a2e:b4f5:: with SMTP id s21mr472471ljm.270.1601450322307;
-        Wed, 30 Sep 2020 00:18:42 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding
+         :x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=WySpF6F+fg01WE39Jk2f5/UbC+kXwe9Uw2JMYArbjOM=;
+        b=KyzGvetvcLNqNhQyiYxCndfU9fIwFmByVCdKn6JtSMFm/gFm1QvaAiHECmIarFzHE+
+         R42ueuVLjruQraPZWtGkQORDYM4aTzRx2dYTj5WW94/OBgri0FfX3tSaoxN65KSunVKE
+         ukkeAof3Z6ZsS/RtkdEPmjEa3flv/SuIr3e6ykkq3wU9WOimGfvQhyvHkvZVWd6Ai4GS
+         1N2/88isPxOpDF1IY4q4h0Vi+j7KMkou+7kF/L6Slj2MCFwoUQ0nIm7i43bUhb0rEBFB
+         spbntuprl353Qutkpb9Er4DJ2BQAFaZ1c/hbsmgBAclqTCD/ha93loDOExn7ZtFppzk0
+         JVfA==
+X-Gm-Message-State: AOAM533xbk3kUjGrsnbF3nxwGzhY0N4ttlbTBM23TvMPX2qhrBy8axGx
+	x0gpCwwWMHRvNbOt/K62kRQ=
+X-Google-Smtp-Source: ABdhPJzvuxovCCzNzdSrdlIbGrTA4seMfZ1m+o/hEbAgTiRpL0vjiNVnKCez3OAsWEEASR5S5tVyXA==
+X-Received: by 2002:a05:600c:214e:: with SMTP id v14mr3045907wml.118.1601470272326;
+        Wed, 30 Sep 2020 05:51:12 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a19:c7c8:: with SMTP id x191ls591353lff.0.gmail; Wed, 30 Sep
- 2020 00:18:41 -0700 (PDT)
-X-Received: by 2002:ac2:4315:: with SMTP id l21mr437281lfh.494.1601450321301;
-        Wed, 30 Sep 2020 00:18:41 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1601450321; cv=none;
+Received: by 2002:a1c:2e58:: with SMTP id u85ls1025928wmu.2.gmail; Wed, 30 Sep
+ 2020 05:51:11 -0700 (PDT)
+X-Received: by 2002:a1c:9d43:: with SMTP id g64mr3196309wme.16.1601470271443;
+        Wed, 30 Sep 2020 05:51:11 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1601470271; cv=none;
         d=google.com; s=arc-20160816;
-        b=ldGN8J/t4L4jbXd9xFEXiHR/0CvqLZDOMOLWsMms0xis5Ge6mPzcqirU9XC4l0v0Gt
-         5WVoRBbrkjx+51d1dux67g1m8imoxi8wBpcR/AnxxwBUqkBkB3ssVY1CJ0O1sXI3dTfq
-         IOg7gLs9ANRZNjVoT5A0kZZbqrHsSCOvaEzhoKjtNYHTL+ii17K32fd9/OSG5N1drxvK
-         A8DQAei1APwMNNmg5UwC0VDDCmEiZ2cdqWY8DmWCXs7uOxHwtp31zJtD5dLhnKNeBxIm
-         cWpRWJlZOxKizBbC4XD8KDTWRjd2jKA0aHouOc8WrhlPXsnOqk/NS2RugzClSWFZCMT7
-         YKXg==
+        b=SoJbVU6MFJ2q/s2xuyaZpPDeYir10kMud2QmUUN/SRegjdfY7AEK+mGneRS7Dk7Y+T
+         v3XUsYOZUCeFWAHs2U/QiUy3k2b80sPcZ/WpnOu+ZCRz7FFhC58CWYLCfjq2nEIXsAao
+         8iWyn2jjyVt/P3eGJrknk/NkCQ+nL+PfJWpAw+GMYyxpp7clbGnbp3BDPJcOJjLT1a2j
+         +ZoH6zkf5i1jFniDPdOynxnvAEk55wDQgMBKcPmQQZF7piB2KNYqfLyBJtVJ2OwpJRpK
+         1AHSVXAmGDKLQ+aKzTnjlANpdoVZyjljp3PbD8tngJnU/h/mLnN+M7LoCCGP0xZ6mOiT
+         56tA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:message-id:date:in-reply-to
-         :subject:cc:to:dkim-signature:dkim-signature:from;
-        bh=qszLRp610KM1evPqkHZZ4TULFEPMDDCHrKhOHL9Calg=;
-        b=EO0BBSU06Y3BNkdZqB0lcODNSmHSwLi4kURUy/T8YO2XLMBT4u8JeRR7eIcBX5wEhH
-         B4MbVfcyv6eiLujIsMNijEM+RKKSYndwOlQaPsu3Rr5n6BJyDdWahYyGkuO7esNbJPiA
-         sWfejCLlMZG9tX7XbNgMm/xD1jZNYq5KBA2Sws1s0g4jUGfJeWdnxhmIW9NlZW9TnuR4
-         gTBPAFGYHTomFmRnsokP3tM1Xbr940k4dOW+zCkna/q1tyql+9fIkOZSJyN9X1TDCJ+c
-         Jit+GjZBBCo0w2pfeRGYtYEZ4Lqgcu6y+hjiz47ORpgWjLPGdgOWXke06i0Y8FkkS34c
-         6quw==
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=061+j+6egSPgQBxcQTsTW5phFlVIKpu1EERfRNYFm3I=;
+        b=lJk2WSdnSMX8hY3BZfxOUwTMxyLjGIJbqoDLdz/cO6xJOesQmXgyvCfUgcZARv3sUa
+         j6bmjBC21IUEg8fRwM4I70c+WA9zXlL4aR81ZoktaaLsF8G9d5JNtcyBp3iivFYQvcOi
+         UFaqpkCGhiQplFwtUrLFmc4p2VWd9i4OvcCtYwEJcs81+BRwDvK33oKt5UJYq9xKD3Ig
+         GfC2rOaRm0OkFfpO/swDBWN971mH4bPuu2JDE2pLkSkwuNI6lOj7GioUIsqz+LSYWI1b
+         BmNN08LA46/+ZUcMDwTgc974UYPZ6JNMs+snMknXtaEyC9jSXU24rNHbOFF0REBy2cWF
+         8Z/g==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linutronix.de header.s=2020 header.b=oiDx8cqR;
-       dkim=neutral (no key) header.i=@linutronix.de header.s=2020e;
-       spf=pass (google.com: domain of tglx@linutronix.de designates 2a0a:51c0:0:12e:550::1 as permitted sender) smtp.mailfrom=tglx@linutronix.de;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=linutronix.de
-Received: from galois.linutronix.de (Galois.linutronix.de. [2a0a:51c0:0:12e:550::1])
-        by gmr-mx.google.com with ESMTPS id y75si21760lfa.3.2020.09.30.00.18.41
+       dkim=pass header.i=@google.com header.s=20161025 header.b=L7X6TOpx;
+       spf=pass (google.com: domain of glider@google.com designates 2a00:1450:4864:20::343 as permitted sender) smtp.mailfrom=glider@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com. [2a00:1450:4864:20::343])
+        by gmr-mx.google.com with ESMTPS id d19si39012wmd.0.2020.09.30.05.51.11
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Sep 2020 00:18:41 -0700 (PDT)
-Received-SPF: pass (google.com: domain of tglx@linutronix.de designates 2a0a:51c0:0:12e:550::1 as permitted sender) client-ip=2a0a:51c0:0:12e:550::1;
-From: Thomas Gleixner <tglx@linutronix.de>
-To: Walter Wu <walter-zh.wu@mediatek.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, John Stultz <john.stultz@linaro.org>, Stephen Boyd <sboyd@kernel.org>, Marco Elver <elver@google.com>, Andrey Ryabinin <aryabinin@virtuozzo.com>, Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>, Andrey Konovalov <andreyknvl@google.com>, Matthias Brugger <matthias.bgg@gmail.com>, kasan-dev@googlegroups.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, wsd_upstream <wsd_upstream@mediatek.com>, linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH v4 1/6] timer: kasan: record timer stack
-In-Reply-To: <1601140312.15228.12.camel@mtksdccf07>
-Date: Wed, 30 Sep 2020 09:18:40 +0200
-Message-ID: <87pn63ivfz.fsf@nanos.tec.linutronix.de>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 30 Sep 2020 05:51:11 -0700 (PDT)
+Received-SPF: pass (google.com: domain of glider@google.com designates 2a00:1450:4864:20::343 as permitted sender) client-ip=2a00:1450:4864:20::343;
+Received: by mail-wm1-x343.google.com with SMTP id e17so1575526wme.0
+        for <kasan-dev@googlegroups.com>; Wed, 30 Sep 2020 05:51:11 -0700 (PDT)
+X-Received: by 2002:a7b:cd93:: with SMTP id y19mr2785473wmj.112.1601470270876;
+ Wed, 30 Sep 2020 05:51:10 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200929183513.380760-1-alex.popov@linux.com> <20200929183513.380760-3-alex.popov@linux.com>
+In-Reply-To: <20200929183513.380760-3-alex.popov@linux.com>
+From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Wed, 30 Sep 2020 14:50:59 +0200
+Message-ID: <CAG_fn=WY9OFKuy6utMHOgyr+1DYNsuzVruGCGHMDnEnaLY6s9g@mail.gmail.com>
+Subject: Re: [PATCH RFC v2 2/6] mm/slab: Perform init_on_free earlier
+To: Alexander Popov <alex.popov@linux.com>
+Cc: Kees Cook <keescook@chromium.org>, Jann Horn <jannh@google.com>, 
+	Will Deacon <will@kernel.org>, Andrey Ryabinin <aryabinin@virtuozzo.com>, 
+	Dmitry Vyukov <dvyukov@google.com>, Christoph Lameter <cl@linux.com>, Pekka Enberg <penberg@kernel.org>, 
+	David Rientjes <rientjes@google.com>, Joonsoo Kim <iamjoonsoo.kim@lge.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Masahiro Yamada <masahiroy@kernel.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	Patrick Bellasi <patrick.bellasi@arm.com>, David Howells <dhowells@redhat.com>, 
+	Eric Biederman <ebiederm@xmission.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Laura Abbott <labbott@redhat.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Daniel Micay <danielmicay@gmail.com>, 
+	Andrey Konovalov <andreyknvl@google.com>, Matthew Wilcox <willy@infradead.org>, 
+	Pavel Machek <pavel@denx.de>, Valentin Schneider <valentin.schneider@arm.com>, 
+	kasan-dev <kasan-dev@googlegroups.com>, 
+	Linux Memory Management List <linux-mm@kvack.org>, Kernel Hardening <kernel-hardening@lists.openwall.com>, 
+	LKML <linux-kernel@vger.kernel.org>, notify@kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: tglx@linutronix.de
+X-Original-Sender: glider@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linutronix.de header.s=2020 header.b=oiDx8cqR;       dkim=neutral
- (no key) header.i=@linutronix.de header.s=2020e;       spf=pass (google.com:
- domain of tglx@linutronix.de designates 2a0a:51c0:0:12e:550::1 as permitted
- sender) smtp.mailfrom=tglx@linutronix.de;       dmarc=pass (p=NONE
- sp=QUARANTINE dis=NONE) header.from=linutronix.de
+ header.i=@google.com header.s=20161025 header.b=L7X6TOpx;       spf=pass
+ (google.com: domain of glider@google.com designates 2a00:1450:4864:20::343 as
+ permitted sender) smtp.mailfrom=glider@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Alexander Potapenko <glider@google.com>
+Reply-To: Alexander Potapenko <glider@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -127,57 +146,62 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Walter,
-
-On Sun, Sep 27 2020 at 01:11, Walter Wu wrote:
-> First, I think the commit log =E2=80=9CBecause if the UAF root cause is i=
-n timer
-> init =E2=80=A6=E2=80=9D needs to be removed, this patch hopes to help pro=
-grammer gets
-> timer callback is where is registered. It is useful only if free stack
-> is called from timer callback, because programmer can see why & where
-> register this function.
+On Tue, Sep 29, 2020 at 8:35 PM Alexander Popov <alex.popov@linux.com> wrot=
+e:
 >
-> Second, see [1], it should satisfies first point. The free stack is from
-> timer callback, if we know where register this function, then it should
-> be useful to solve UAF.
+> Currently in CONFIG_SLAB init_on_free happens too late, and heap
+> objects go to the heap quarantine being dirty. Lets move memory
+> clearing before calling kasan_slab_free() to fix that.
+>
+> Signed-off-by: Alexander Popov <alex.popov@linux.com>
+Reviewed-by: Alexander Potapenko <glider@google.com>
 
-No. It's completely useless.
+> ---
+>  mm/slab.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+>
+> diff --git a/mm/slab.c b/mm/slab.c
+> index 3160dff6fd76..5140203c5b76 100644
+> --- a/mm/slab.c
+> +++ b/mm/slab.c
+> @@ -3414,6 +3414,9 @@ static void cache_flusharray(struct kmem_cache *cac=
+hep, struct array_cache *ac)
+>  static __always_inline void __cache_free(struct kmem_cache *cachep, void=
+ *objp,
+>                                          unsigned long caller)
+>  {
+> +       if (unlikely(slab_want_init_on_free(cachep)))
+> +               memset(objp, 0, cachep->object_size);
+> +
+>         /* Put the object into the quarantine, don't touch it for now. */
+>         if (kasan_slab_free(cachep, objp, _RET_IP_))
+>                 return;
+> @@ -3432,8 +3435,6 @@ void ___cache_free(struct kmem_cache *cachep, void =
+*objp,
+>         struct array_cache *ac =3D cpu_cache_get(cachep);
+>
+>         check_irq_off();
+> -       if (unlikely(slab_want_init_on_free(cachep)))
+> -               memset(objp, 0, cachep->object_size);
+>         kmemleak_free_recursive(objp, cachep->flags);
+>         objp =3D cache_free_debugcheck(cachep, objp, caller);
+>         memcg_slab_free_hook(cachep, virt_to_head_page(objp), objp);
+> --
+> 2.26.2
+>
 
-The problem has absolutely nothing to do with the timer callback and the
-timer_init() invocation which set the timer's callback to 'dummy_timer'.
 
-The timer callback happens to free the object, but the worker thread has
-still a reference of some sort.
+--=20
+Alexander Potapenko
+Software Engineer
 
-So the problem is either missing refcounting which allows the timer
-callback to free the object or some missing serialization.
+Google Germany GmbH
+Erika-Mann-Stra=C3=9Fe, 33
+80636 M=C3=BCnchen
 
-Knowing the place which initialized the timer is absolutely not helping
-to figure out what's missing here.
-
-Aside of that it's trivial enough to do:
-
-  git grep dummy_timer drivers/usb/gadget/udc/dummy_hcd.c
-
-if you really want to know what initialized it:
-
- dummy_timer+0x1258/0x32ae drivers/usb/gadget/udc/dummy_hcd.c:1966
- call_timer_fn+0x195/0x6f0 kernel/time/timer.c:1404
- expire_timers kernel/time/timer.c:1449 [inline]
-
-That said, I'm all for adding useful information to KASAN or whatever
-reports, but I'm not agreeing with the approach of 'Let's sprinkle
-kasan_foo() all over tha place and claim it is useful to decode an UAF'.
-Adding irrelevant information to a report is actually counter productive
-because it makes people look at the wrong place.
-
-Again: Provide an analysis of such a dump where the timer_init()
-function is a key element of solving the problem.
-
-Thanks,
-
-        tglx
+Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Halimah DeLaine Prado
+Registergericht und -nummer: Hamburg, HRB 86891
+Sitz der Gesellschaft: Hamburg
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
@@ -185,4 +209,5 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/87pn63ivfz.fsf%40nanos.tec.linutronix.de.
+kasan-dev/CAG_fn%3DWY9OFKuy6utMHOgyr%2B1DYNsuzVruGCGHMDnEnaLY6s9g%40mail.gm=
+ail.com.
