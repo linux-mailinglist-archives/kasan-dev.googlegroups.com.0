@@ -1,34 +1,34 @@
-Return-Path: <kasan-dev+bncBDX4HWEMTEBRB6GD3H5QKGQEDU6J4FI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDX4HWEMTEBRB6WD3H5QKGQE6XRBXKY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13e.google.com (mail-lf1-x13e.google.com [IPv6:2a00:1450:4864:20::13e])
-	by mail.lfdr.de (Postfix) with ESMTPS id CED65280AEC
-	for <lists+kasan-dev@lfdr.de>; Fri,  2 Oct 2020 01:10:48 +0200 (CEST)
-Received: by mail-lf1-x13e.google.com with SMTP id n133sf51560lfa.19
-        for <lists+kasan-dev@lfdr.de>; Thu, 01 Oct 2020 16:10:48 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1601593848; cv=pass;
+Received: from mail-lf1-x13d.google.com (mail-lf1-x13d.google.com [IPv6:2a00:1450:4864:20::13d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 27C8D280AED
+	for <lists+kasan-dev@lfdr.de>; Fri,  2 Oct 2020 01:10:51 +0200 (CEST)
+Received: by mail-lf1-x13d.google.com with SMTP id 1sf51756lfq.18
+        for <lists+kasan-dev@lfdr.de>; Thu, 01 Oct 2020 16:10:51 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1601593850; cv=pass;
         d=google.com; s=arc-20160816;
-        b=yZfm5duvRlnph7qFb8RvGzaP8IyJUuztLPufwd9QrgCjvvPTYsqafUJqbOo549mVFG
-         xLTrv4mWlrpTxkKRl3PwtMeSU0gkT1Z06PI+gA/4iI6LgiAzJ5URVQ3XpxRJZGpZk5VB
-         5BkZvfWii+1PUYMRQNSEHZ7Y0+kmpxbJ+xQ7fhP3aILZYsK+nwFOZETMlNWOJmgBo/Lb
-         Nz8OGH9PGZGRA3rqaUXBDbS6R7bskwZWNw8dd8MKRYLPZ5Qr4crGW80r4CuEZqcdiyfK
-         WI5L31jXuwd7Siv/5CjGp7QMSsy12IsQZrNkygZTqf26rBZK6UWvRuiUthaNuVRMl/ty
-         0uhg==
+        b=lLEowv3ej6FYmJy1bY6hgKrBy6qWm2Rh8fEUyoyplvyoV9dO/LKu1SPtG7JIUX/pz3
+         fAgb5sMCI37raM1uqJj1q/TzO+L04MjaAM6FtROttgkeIxhasMruHn6YFvkS87mlbD6g
+         G/lNFrJyyrdLJ+c4W0GlVrS5s4eDfThb5KA9x6/uB/m6gkDNFEkd62IrSuombMOSOO/P
+         5jvfxXpHrjLOqU/4XM7keamd6sJLNfPoB2iZ544TiOSrwT7SY1KHfxeDLG2oOOqJRWjr
+         6dd86tbMxm63olMpANSJ42WaB+1iF/Z4MzSeOHbTu/u5nXWFWFBdiV+/RMcuHkqO9z4b
+         Gwjg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
          :references:mime-version:message-id:in-reply-to:date:sender
          :dkim-signature;
-        bh=zy/lbfhMq6fSbXL1WmDdjUgX2QCQHNv3AAoTr4HQU/Y=;
-        b=xjg1lDhbNIz3tsBIIqh3urm460lBWoeOIOOsoe0E2AMrhcoIoXtB2DSOFMYf6STB1g
-         8GoyPzo5QwgdrevJSSQUEP0mkPQ2d1RtmUCosDslzEzhYB+pl1gWD5nxLX1D6JYS52pT
-         I114mnm7PuMOasTCqMFlsEoZui+KaPNHzaIOff02iuR3HFMHbxcTXJxL9Pz2M7XZRZCC
-         ab4/mm8FFIC2PQNGAR6JCrN7PSPeT1yOX9Zm0J1a5iuvnh5pcsuKtgCzF3Hw1F9kwptJ
-         5Uq6NqEbMRPnNVSJTNT4P7m2nqK+La/2sVs+N0iRLG/iPfSg9XGcvEJN6R6SHhmWgBxU
-         Gymw==
+        bh=YrN6fEXkHEwlpxxv6kWJsmZ6uZH4BkIN0uSeD7xx5rc=;
+        b=MBx/98TRmCFgsU5QRs6iHMHNZ76LzcrSskNrBkrx6H66CD3o6TQp6y42eaiHwKneHO
+         g0nIfdMkj81JBSrl0d7JwTwb56k98NLqzQBeB7CDbOuqs8C/f6b6wza1F+Skl3WWuZON
+         6AsuuXSp45Wt37pcssyuvsLseZLgzrW4pm4dYfAzQfr5SUHcqvyNxKiK4oTQT1W4rdU5
+         lvfKLs7SAxRpxWnkPum5JUwVl8Qpw4yAKkr+4GR8swRB26Xo9f9a747ZAJlV5pNkeNbd
+         cRbpY15HtMdS3Noue43M4n579hDXmCE/8kfkC/7/9GYF02J5ktCstS2ohDgCHYa0tc0D
+         qh/w==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=AWWv4sDZ;
-       spf=pass (google.com: domain of 39mf2xwokczuzc2g3n9cka5dd5a3.1db9zhzc-23k5dd5a35gdjeh.1db@flex--andreyknvl.bounces.google.com designates 2a00:1450:4864:20::34a as permitted sender) smtp.mailfrom=39mF2XwoKCZUzC2G3N9CKA5DD5A3.1DB9zHzC-23K5DD5A35GDJEH.1DB@flex--andreyknvl.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=q1pZ45jU;
+       spf=pass (google.com: domain of 3-gf2xwokczc1e4i5pbemc7ff7c5.3fdb1j1e-45m7ff7c57iflgj.3fd@flex--andreyknvl.bounces.google.com designates 2a00:1450:4864:20::44a as permitted sender) smtp.mailfrom=3-GF2XwoKCZc1E4I5PBEMC7FF7C5.3FDB1J1E-45M7FF7C57IFLGJ.3FD@flex--andreyknvl.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
@@ -36,13 +36,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :from:to:cc:x-original-sender:x-original-authentication-results
          :reply-to:precedence:mailing-list:list-id:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=zy/lbfhMq6fSbXL1WmDdjUgX2QCQHNv3AAoTr4HQU/Y=;
-        b=iF9kcOG50iiAkL/7SMhorfURSd9a86E4kLmcexIBTfdGYVm0SgQvRubNwTkgiW6plL
-         HEGGMdsSJAybLLRwYsxY0NdfRuDS2F4ZnmSba5qU41ubs4SPNdUSzPpajc74jY+16Gr1
-         ONGRMtpW3tI3fRvM+chgR8l+L7Z+rlZYTJSqW4iANX+Snsa283Vy/IzNmNX0GNnaRAlx
-         fF7X43BJOhY50mSpScAh9z7/hYzrqUvSghzsIBGwSHmDzRb3IaQdd30Aa5bHIZieKNVV
-         3KkjhPoseC5oZaFwSsBWm/BgKqx0PeefWbkkha+JnYQ3cPe8ngTrdN0jGAyGBtVU9GT1
-         +0Ag==
+        bh=YrN6fEXkHEwlpxxv6kWJsmZ6uZH4BkIN0uSeD7xx5rc=;
+        b=IMBOz2INl2sFVbWTbN+lS05tTWLyUraBxnC9VBS+pi4jrw/PG/jskowH4awzyTX5Ff
+         rsKMYhFfW1rYpMaHVWUWKxfHfv3+8c72qVeA4OErx10UYdtPiJiymo/bjT0Q+pu3Ls+u
+         5ePt2tb7ZL4x1HOPJkhOExzlitx4Qrkt5qNV7qxnpIiMrEwybI1knOovaVDQI9Out5il
+         EKhNxr1hsADvjxI2hc7LlkGSBjEj+k8QRU8vw9GpRM+5buooN6TJZi3t8UjTrN9snG0y
+         L0LW/iICLNoHyl/ZUfRQuY2CoeUKJcD+cmjqWncVPMzvVhsA7CgcSHch081GsvgmSiQX
+         sitQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
@@ -50,64 +50,64 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=zy/lbfhMq6fSbXL1WmDdjUgX2QCQHNv3AAoTr4HQU/Y=;
-        b=aOZDBm4OY8s+HU/NphVTeUT11C+k5DxzFk9qSHu0RfIBpRLiQwMnnIZRaGOZpMpfXG
-         UQeejazJmVvJuJnyutaPgR3RD51O0BgSAmWOPirP7TRK2GZ8/wDwnQ7DVZOCWoW0I9En
-         P1BBdUNzrpFpy46ASgydXDfaKMJYhCoTpvwHNc+f+hH65nvE/htB023Q1l22cK8GAZ+P
-         9R5p9xaG02UqNdNHX3ofLxAS0GGjBu/6K10JDugWNtgvaNyuFtckiKpHvOhiYy/lquJf
-         bChwemaHIv+luWDGqIiH76kbvJPY6L9qFkxEK6zBLsKP+3/gNECjAwk+bvqiY1TetnGO
-         mnyQ==
-X-Gm-Message-State: AOAM532YKIVGN/4gf/1mH9U+FrXmIGVRUGDW+pqgQhJ0LXqFhOUz34Aq
-	Kw58FL7vc+TBDLtudcrRR5c=
-X-Google-Smtp-Source: ABdhPJzshRMU2VrcvLP0SvGnAPbiu0mhsk2Z/Ld1JL/vsnESscskCxaPhwzTGz1wl9/M4Bw47Dllqg==
-X-Received: by 2002:a2e:9b15:: with SMTP id u21mr3280166lji.283.1601593848384;
-        Thu, 01 Oct 2020 16:10:48 -0700 (PDT)
+        bh=YrN6fEXkHEwlpxxv6kWJsmZ6uZH4BkIN0uSeD7xx5rc=;
+        b=dacDgCXvZIYLTTUqD17JeRG8qSNX458lnt0T+AHvKbRS6FpFtDlhY6pFMuJgiqX1zp
+         A71GCInVZMLt04PysqpdPpo8uU/f8W100C6yC7zGI8DglkEbEjj1Nu7gixXJSa5rGv0Q
+         DHt8wGMdnCrOsRDquejy6Gb7sSdWqJbmtYhF+dXT/d3c7nrqrgax0kUFtRdlLJiMrntz
+         6AtLoJEJXwla7e9MbqBH42g3FHYICWF3KpYxhitF/FtR2JcGLBrrVWPxhnXFIOt/4EO4
+         qWwER1uuEZDDLzXWlVJ7W8KE7Elfv5yqfGAsmnw5N0g3avSdzvA12C36sRChmPz+7JB5
+         brEQ==
+X-Gm-Message-State: AOAM532bU26z9PPfeO8QTs5lxEDuTYLwMdalg5n+7MLpFH/xq7owfkIv
+	tN7nFJwyKRokiEN5ws2iIWA=
+X-Google-Smtp-Source: ABdhPJw83CvJQpsNHOkMixs5ntNHC1DOL81gY3FcPQQI1uwhQe87KtEdI72aoh85ZaQqDpj8VnSxyA==
+X-Received: by 2002:a19:457:: with SMTP id 84mr3246732lfe.205.1601593850677;
+        Thu, 01 Oct 2020 16:10:50 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a19:554:: with SMTP id 81ls2144635lff.1.gmail; Thu, 01 Oct
- 2020 16:10:47 -0700 (PDT)
-X-Received: by 2002:a19:c7d3:: with SMTP id x202mr3891344lff.66.1601593847292;
-        Thu, 01 Oct 2020 16:10:47 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1601593847; cv=none;
+Received: by 2002:a2e:3c13:: with SMTP id j19ls1070654lja.10.gmail; Thu, 01
+ Oct 2020 16:10:49 -0700 (PDT)
+X-Received: by 2002:a2e:7c14:: with SMTP id x20mr3336032ljc.220.1601593849568;
+        Thu, 01 Oct 2020 16:10:49 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1601593849; cv=none;
         d=google.com; s=arc-20160816;
-        b=BdRRwU3CeBQlbOq7xS0jOwclHJhRkDgPHtlYshUbszkhI2GaI3cQWeIDP2DpvmPotz
-         nGOOWjNFCcHt/rtPk7s47aln4bxrAqLHY3HlhkATR5j9SPDE7NaXjQlNEPsWNcPB6mSH
-         MlxLsSPkonQayCh+V2p0llAqVfiQ/oGe3O9gAYMFkDL1A4BkWtlu93A6wUfzEU1QryZ8
-         dM1MiyMfoNpB2GdwSkW/Z5jOfKFxh2AYjSMOzhwWuIaA9orE+Px4p0jbVLKCybh272EX
-         oFVsrF62htVTDY/1p4Fjmeb1mH8/CWzWYmkVPVZ5GHviLfDaRI9LzdZinBaJgl619Ve/
-         qSlQ==
+        b=s9aWb/UUmwKKcd3Fezkac1naMCg01PLXX2kfaYsIJWIqHczTm/CqWUJortE3b/eXpJ
+         N7UKcCrPswrDcgrMOVTAm+NFwXl0HDzzgBWHD5oCKQk38W9L0+AMHSWwuTrdRUpg+/DP
+         6SK8VsObtg3wDx2+ByL3VMsDj55uPlmf3x2QyVHDAEtLs04fUmbjOMUCSQoM2EPVvIo1
+         JIULMnUPaJo8KLiSEqCE2XCbiDxhC8OHAKccTb4S5fGetlJv8E5Xy/sV9vq+sy9fRfiF
+         VNPfjrN/2zSVg96S1pEgX8FLrS8mwoiO2O7VY1PuPSpN1Tjf7aQGwGTA4um6CMzg7rbv
+         tY4w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
          :date:sender:dkim-signature;
-        bh=H5RFba3mJUL9GPMJQGWmruVpmlYfNnrJ2Q5a3h16O78=;
-        b=QBE4a0vbcWWoeJQ+OV3qI4yVNTtOzGnoY7QdzFBY5A4ISsMVxtLBnJZDKVSqd1FAzM
-         1y1k4Q2b1w21+fEvKJUwFcy8LYNO/JaS+5G19Q6TgF0VsqJCqXgTE+bdwnwzDT2hPDns
-         tacruWOcMbhFtsoIm3Xbbntkyvl2eU0k5+nBn/R2R1ElVUnEC6oNiXWZBJdQLr1+tX+T
-         VpF9vG3wIKEuJtSZMOZmYVzAJe4YI+WfO3XRI31McdHhFv+7bCj5ElKPLrbvPETsqlCy
-         EDwY8dXBTTa5BYlUpnBqAxt33KhvTipFnT6BXFaX4htfDMYb0kYjKFuaZKpnpuyrvc5D
-         O4yA==
+        bh=Tqg/PaARbGGjCbcEwXf/kx8hqamrKXV0hm6ycbrMYh0=;
+        b=wwvwc2s75hov8Ed7FCJft/m+I8gQFDLcPnrKYRFCKl9I3HM/q2kWfapO858R4iCH6/
+         3n5+AvqNzV5v5xKn0lIFOmHhXb2X0Gj12kUZ+CW9Eji4kw39b/ydH8cUie0qb38e5ekS
+         RGwDUlOKXSlZWjIMlcmjC3H3wNUwfjwE/acN0p18NdKO3gIZgtgcRTEKtMEAeiQ/cU6V
+         h5o3fDZepCZ1kHFQVvvlDyA/6x0cYicy3HUKmsfgsClfK5+v8J8gCq2iY2I4Bqotm8cq
+         GWLeMSpDgI6ByPs39up9nNif332hMeukk069gvqDhoshemzw0kfGmV7tXqUAQ1d8gfyr
+         YIcQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=AWWv4sDZ;
-       spf=pass (google.com: domain of 39mf2xwokczuzc2g3n9cka5dd5a3.1db9zhzc-23k5dd5a35gdjeh.1db@flex--andreyknvl.bounces.google.com designates 2a00:1450:4864:20::34a as permitted sender) smtp.mailfrom=39mF2XwoKCZUzC2G3N9CKA5DD5A3.1DB9zHzC-23K5DD5A35GDJEH.1DB@flex--andreyknvl.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=q1pZ45jU;
+       spf=pass (google.com: domain of 3-gf2xwokczc1e4i5pbemc7ff7c5.3fdb1j1e-45m7ff7c57iflgj.3fd@flex--andreyknvl.bounces.google.com designates 2a00:1450:4864:20::44a as permitted sender) smtp.mailfrom=3-GF2XwoKCZc1E4I5PBEMC7FF7C5.3FDB1J1E-45M7FF7C57IFLGJ.3FD@flex--andreyknvl.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-wm1-x34a.google.com (mail-wm1-x34a.google.com. [2a00:1450:4864:20::34a])
-        by gmr-mx.google.com with ESMTPS id y17si207456lfg.2.2020.10.01.16.10.47
+Received: from mail-wr1-x44a.google.com (mail-wr1-x44a.google.com. [2a00:1450:4864:20::44a])
+        by gmr-mx.google.com with ESMTPS id f12si206116lfs.1.2020.10.01.16.10.49
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 01 Oct 2020 16:10:47 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 39mf2xwokczuzc2g3n9cka5dd5a3.1db9zhzc-23k5dd5a35gdjeh.1db@flex--andreyknvl.bounces.google.com designates 2a00:1450:4864:20::34a as permitted sender) client-ip=2a00:1450:4864:20::34a;
-Received: by mail-wm1-x34a.google.com with SMTP id d197so25466wmd.4
-        for <kasan-dev@googlegroups.com>; Thu, 01 Oct 2020 16:10:47 -0700 (PDT)
+        Thu, 01 Oct 2020 16:10:49 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 3-gf2xwokczc1e4i5pbemc7ff7c5.3fdb1j1e-45m7ff7c57iflgj.3fd@flex--andreyknvl.bounces.google.com designates 2a00:1450:4864:20::44a as permitted sender) client-ip=2a00:1450:4864:20::44a;
+Received: by mail-wr1-x44a.google.com with SMTP id a12so119629wrg.13
+        for <kasan-dev@googlegroups.com>; Thu, 01 Oct 2020 16:10:49 -0700 (PDT)
 Sender: "andreyknvl via sendgmr" <andreyknvl@andreyknvl3.muc.corp.google.com>
 X-Received: from andreyknvl3.muc.corp.google.com ([2a00:79e0:15:13:7220:84ff:fe09:7e9d])
- (user=andreyknvl job=sendgmr) by 2002:a1c:9a10:: with SMTP id
- c16mr2175130wme.96.1601593846859; Thu, 01 Oct 2020 16:10:46 -0700 (PDT)
-Date: Fri,  2 Oct 2020 01:10:02 +0200
+ (user=andreyknvl job=sendgmr) by 2002:a05:600c:2146:: with SMTP id
+ v6mr2207908wml.159.1601593848953; Thu, 01 Oct 2020 16:10:48 -0700 (PDT)
+Date: Fri,  2 Oct 2020 01:10:03 +0200
 In-Reply-To: <cover.1601593784.git.andreyknvl@google.com>
-Message-Id: <c06cdd029d859d2bbcfdd9a033ce75c92547ec8c.1601593784.git.andreyknvl@google.com>
+Message-Id: <ce172045681b07836b42e5d9761be8d2d6d98b06.1601593784.git.andreyknvl@google.com>
 Mime-Version: 1.0
 References: <cover.1601593784.git.andreyknvl@google.com>
 X-Mailer: git-send-email 2.28.0.709.gb0816b6eb0-goog
-Subject: [PATCH v4 01/39] kasan: drop unnecessary GPL text from comment headers
+Subject: [PATCH v4 02/39] kasan: KASAN_VMALLOC depends on KASAN_GENERIC
 From: "'Andrey Konovalov' via kasan-dev" <kasan-dev@googlegroups.com>
 To: Dmitry Vyukov <dvyukov@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, 
 	Catalin Marinas <catalin.marinas@arm.com>, kasan-dev@googlegroups.com
@@ -121,9 +121,9 @@ Cc: Andrey Ryabinin <aryabinin@virtuozzo.com>, Alexander Potapenko <glider@googl
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: andreyknvl@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=AWWv4sDZ;       spf=pass
- (google.com: domain of 39mf2xwokczuzc2g3n9cka5dd5a3.1db9zhzc-23k5dd5a35gdjeh.1db@flex--andreyknvl.bounces.google.com
- designates 2a00:1450:4864:20::34a as permitted sender) smtp.mailfrom=39mF2XwoKCZUzC2G3N9CKA5DD5A3.1DB9zHzC-23K5DD5A35GDJEH.1DB@flex--andreyknvl.bounces.google.com;
+ header.i=@google.com header.s=20161025 header.b=q1pZ45jU;       spf=pass
+ (google.com: domain of 3-gf2xwokczc1e4i5pbemc7ff7c5.3fdb1j1e-45m7ff7c57iflgj.3fd@flex--andreyknvl.bounces.google.com
+ designates 2a00:1450:4864:20::44a as permitted sender) smtp.mailfrom=3-GF2XwoKCZc1E4I5PBEMC7FF7C5.3FDB1J1E-45M7FF7C57IFLGJ.3FD@flex--andreyknvl.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Andrey Konovalov <andreyknvl@google.com>
 Reply-To: Andrey Konovalov <andreyknvl@google.com>
@@ -139,162 +139,35 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Don't mention "GNU General Public License version 2" text explicitly,
-as it's already covered by the SPDX-License-Identifier.
+Currently only generic KASAN mode supports vmalloc, reflect that
+in the config.
 
 Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
 Reviewed-by: Marco Elver <elver@google.com>
 ---
-Change-Id: If0a2690042a2aa0fca70cea601ae9aabe72fa233
+Change-Id: I1889e5b3bed28cc5d607802fb6ae43ba461c0dc1
 ---
- mm/kasan/common.c         |  5 -----
- mm/kasan/generic.c        |  5 -----
- mm/kasan/generic_report.c |  5 -----
- mm/kasan/init.c           |  5 -----
- mm/kasan/quarantine.c     | 10 ----------
- mm/kasan/report.c         |  5 -----
- mm/kasan/tags.c           |  5 -----
- mm/kasan/tags_report.c    |  5 -----
- 8 files changed, 45 deletions(-)
+ lib/Kconfig.kasan | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/mm/kasan/common.c b/mm/kasan/common.c
-index 950fd372a07e..33d863f55db1 100644
---- a/mm/kasan/common.c
-+++ b/mm/kasan/common.c
-@@ -7,11 +7,6 @@
-  *
-  * Some code borrowed from https://github.com/xairy/kasan-prototype by
-  *        Andrey Konovalov <andreyknvl@gmail.com>
-- *
-- * This program is free software; you can redistribute it and/or modify
-- * it under the terms of the GNU General Public License version 2 as
-- * published by the Free Software Foundation.
-- *
-  */
+diff --git a/lib/Kconfig.kasan b/lib/Kconfig.kasan
+index 047b53dbfd58..e1d55331b618 100644
+--- a/lib/Kconfig.kasan
++++ b/lib/Kconfig.kasan
+@@ -156,7 +156,7 @@ config KASAN_SW_TAGS_IDENTIFY
  
- #include <linux/export.h>
-diff --git a/mm/kasan/generic.c b/mm/kasan/generic.c
-index 248264b9cb76..37ccfadd3263 100644
---- a/mm/kasan/generic.c
-+++ b/mm/kasan/generic.c
-@@ -7,11 +7,6 @@
-  *
-  * Some code borrowed from https://github.com/xairy/kasan-prototype by
-  *        Andrey Konovalov <andreyknvl@gmail.com>
-- *
-- * This program is free software; you can redistribute it and/or modify
-- * it under the terms of the GNU General Public License version 2 as
-- * published by the Free Software Foundation.
-- *
-  */
- 
- #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-diff --git a/mm/kasan/generic_report.c b/mm/kasan/generic_report.c
-index a38c7a9e192a..6bb3f66992df 100644
---- a/mm/kasan/generic_report.c
-+++ b/mm/kasan/generic_report.c
-@@ -7,11 +7,6 @@
-  *
-  * Some code borrowed from https://github.com/xairy/kasan-prototype by
-  *        Andrey Konovalov <andreyknvl@gmail.com>
-- *
-- * This program is free software; you can redistribute it and/or modify
-- * it under the terms of the GNU General Public License version 2 as
-- * published by the Free Software Foundation.
-- *
-  */
- 
- #include <linux/bitops.h>
-diff --git a/mm/kasan/init.c b/mm/kasan/init.c
-index fe6be0be1f76..9ce8cc5b8621 100644
---- a/mm/kasan/init.c
-+++ b/mm/kasan/init.c
-@@ -4,11 +4,6 @@
-  *
-  * Copyright (c) 2015 Samsung Electronics Co., Ltd.
-  * Author: Andrey Ryabinin <ryabinin.a.a@gmail.com>
-- *
-- * This program is free software; you can redistribute it and/or modify
-- * it under the terms of the GNU General Public License version 2 as
-- * published by the Free Software Foundation.
-- *
-  */
- 
- #include <linux/memblock.h>
-diff --git a/mm/kasan/quarantine.c b/mm/kasan/quarantine.c
-index 4c5375810449..580ff5610fc1 100644
---- a/mm/kasan/quarantine.c
-+++ b/mm/kasan/quarantine.c
-@@ -6,16 +6,6 @@
-  * Copyright (C) 2016 Google, Inc.
-  *
-  * Based on code by Dmitry Chernenkov.
-- *
-- * This program is free software; you can redistribute it and/or
-- * modify it under the terms of the GNU General Public License
-- * version 2 as published by the Free Software Foundation.
-- *
-- * This program is distributed in the hope that it will be useful, but
-- * WITHOUT ANY WARRANTY; without even the implied warranty of
-- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-- * General Public License for more details.
-- *
-  */
- 
- #include <linux/gfp.h>
-diff --git a/mm/kasan/report.c b/mm/kasan/report.c
-index 4f49fa6cd1aa..c3031b4b4591 100644
---- a/mm/kasan/report.c
-+++ b/mm/kasan/report.c
-@@ -7,11 +7,6 @@
-  *
-  * Some code borrowed from https://github.com/xairy/kasan-prototype by
-  *        Andrey Konovalov <andreyknvl@gmail.com>
-- *
-- * This program is free software; you can redistribute it and/or modify
-- * it under the terms of the GNU General Public License version 2 as
-- * published by the Free Software Foundation.
-- *
-  */
- 
- #include <linux/bitops.h>
-diff --git a/mm/kasan/tags.c b/mm/kasan/tags.c
-index e02a36a51f42..5c8b08a25715 100644
---- a/mm/kasan/tags.c
-+++ b/mm/kasan/tags.c
-@@ -4,11 +4,6 @@
-  *
-  * Copyright (c) 2018 Google, Inc.
-  * Author: Andrey Konovalov <andreyknvl@google.com>
-- *
-- * This program is free software; you can redistribute it and/or modify
-- * it under the terms of the GNU General Public License version 2 as
-- * published by the Free Software Foundation.
-- *
-  */
- 
- #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-diff --git a/mm/kasan/tags_report.c b/mm/kasan/tags_report.c
-index bee43717d6f0..5f183501b871 100644
---- a/mm/kasan/tags_report.c
-+++ b/mm/kasan/tags_report.c
-@@ -7,11 +7,6 @@
-  *
-  * Some code borrowed from https://github.com/xairy/kasan-prototype by
-  *        Andrey Konovalov <andreyknvl@gmail.com>
-- *
-- * This program is free software; you can redistribute it and/or modify
-- * it under the terms of the GNU General Public License version 2 as
-- * published by the Free Software Foundation.
-- *
-  */
- 
- #include <linux/bitops.h>
+ config KASAN_VMALLOC
+ 	bool "Back mappings in vmalloc space with real shadow memory"
+-	depends on HAVE_ARCH_KASAN_VMALLOC
++	depends on KASAN_GENERIC && HAVE_ARCH_KASAN_VMALLOC
+ 	help
+ 	  By default, the shadow region for vmalloc space is the read-only
+ 	  zero page. This means that KASAN cannot detect errors involving
 -- 
 2.28.0.709.gb0816b6eb0-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/c06cdd029d859d2bbcfdd9a033ce75c92547ec8c.1601593784.git.andreyknvl%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/ce172045681b07836b42e5d9761be8d2d6d98b06.1601593784.git.andreyknvl%40google.com.
