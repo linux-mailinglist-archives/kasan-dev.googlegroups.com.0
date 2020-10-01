@@ -1,34 +1,34 @@
-Return-Path: <kasan-dev+bncBDX4HWEMTEBRBRWE3H5QKGQEES2KHJQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDX4HWEMTEBRBSGE3H5QKGQEYTG2IXI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-vs1-xe3d.google.com (mail-vs1-xe3d.google.com [IPv6:2607:f8b0:4864:20::e3d])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDACC280B1C
-	for <lists+kasan-dev@lfdr.de>; Fri,  2 Oct 2020 01:12:07 +0200 (CEST)
-Received: by mail-vs1-xe3d.google.com with SMTP id h8sf75708vsh.19
-        for <lists+kasan-dev@lfdr.de>; Thu, 01 Oct 2020 16:12:07 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1601593927; cv=pass;
+Received: from mail-qt1-x83c.google.com (mail-qt1-x83c.google.com [IPv6:2607:f8b0:4864:20::83c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E88A280B1D
+	for <lists+kasan-dev@lfdr.de>; Fri,  2 Oct 2020 01:12:10 +0200 (CEST)
+Received: by mail-qt1-x83c.google.com with SMTP id 7sf76173qtp.18
+        for <lists+kasan-dev@lfdr.de>; Thu, 01 Oct 2020 16:12:10 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1601593929; cv=pass;
         d=google.com; s=arc-20160816;
-        b=ztebSkiWzZgJ9MbQ/oZ6Z6no4eSJ7QjQyMrvnsCINLBJo5NLSJyA+Wzq+SiYPdzLpo
-         rHGyPow5hzGGt2czyEfk22StBVBAVqDvf0wa1CF5ZrTZFhEwXcaJFM9AI5jdAusN5UGh
-         +1sRu7bXA7K1ZbfwFyqs1z9wNVtyRy3MAEj4YFxjGJhm48bC/Sff2tuz3aFiJh9w7bUc
-         pSdODRuZgZbubNEikjNnR90hkvcLZ7tQ9UfF09NqUVhW7hceGnbfvjm3Y3sLKhDPqWVX
-         r0pQ1XijjF1a4plDIOkEtH5EDxGJVMK/iu9K/m5feo2VStP4uOo0V8T8A2KQSO4/zIV1
-         02BQ==
+        b=e415r3MtnicjWJKUpfgDVmm5Z66vDEQdw2zucUrpQZ6MgkVvChe+T8JOUNdIoHMTF+
+         BbdAAFryduvG8GBpGKSEOJBi8g7vSfAOObtoe3m1Gby+lJV6ssBbxeBvngeW5gBAAP6P
+         Nf70wjXs1I2IgzaWwtsEUaaZ3H9KZCXvBYKFcA7WSQaMxr+xWhPbY5k/O+QXDRz7HNBz
+         NP86K0DCHzl4IuI9u5WygIsxdlR0U5ZOyO2NkNrPHHsbFu1i/3xZuOvRDIRx3idtv97p
+         OaoQlHhFN8qsCRVvDwXAB7UAlcLl2SSpFjny7V4cru26kj9dUmJq7U1HKfApnG3rgUyl
+         raNw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
          :references:mime-version:message-id:in-reply-to:date:sender
          :dkim-signature;
-        bh=yRJlIKLsuiTqEz3DWHyI5WgYwKJ1BI2duRC9RTlv4eI=;
-        b=dUAnwx9o6E+zDjwrO+zS6emg4wG9Z7gT8cg7JMRV9GugNb4b416Vi0o1f61UsJj4CK
-         QZY2+3KC7W56jGPFRdGYV1ruYhu2aE4tHYVT9iHBr7WFvo5FFLnC4qSlFSv9wkMOBDUS
-         GKn84kCL9y+fyewxTX9G8FSRRYJV4VAviABrDc6rUz6RSDAUYdVaPkWgKSojZ/Ybu5pl
-         10R/Rifwc0AeLY4SulNQ8YAp2L48YMS6EajpP9fIbP17aqFz4iOziGwvMimPiyEgMd1L
-         P5Ga7G9aMhUe5k0m1dW82L8VqG1cItZ3i6BaHn4NLW8eZ8sRJ6zIsVyGJLQQPNwVlXLa
-         ks9w==
+        bh=XJawXKKiz9bVU2KcCUBkbwLz/+/9d9kQGR7XTX89tlg=;
+        b=o7ZDWjlWb9/8FE6l/3GJkm8cZ62O7+HEB0+RABhD7/Z0dE40vYcDrGf4eVLrGREjX1
+         /I61fLOtYx+bqNQxq8c7mlTDtXQGq6ZqfH1eIQM8FHpjxQa/A4HdeT2tdcVh5pRWYvAm
+         cpXG1qUo7qF4CR6C2YR7DC4emgOB1X+lZVkLBWG8HsrsvcrD4Mv3lIASbsEBBVW4tIHJ
+         Pg2JJfN26Kogm+Y13gfPRSm/GG2w3Y7+DS2OvpkHo6qLk27A7E8HdKfH90g+qPmE3Tvo
+         l2aF2TCkt5H7kd0H6bDq4BtH0XcrKuRsMkegipDHNIy1DFupQ807sFB1JF6e2JCeE3qy
+         B+HA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=B4p0ENox;
-       spf=pass (google.com: domain of 3rwj2xwokceqgtjxkeqtbrmuumrk.iusqgygt-jkbmuumrkmxuavy.ius@flex--andreyknvl.bounces.google.com designates 2607:f8b0:4864:20::84a as permitted sender) smtp.mailfrom=3RWJ2XwoKCeQGTJXKeQTbRMUUMRK.IUSQGYGT-JKbMUUMRKMXUaVY.IUS@flex--andreyknvl.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b="JHhAO/sR";
+       spf=pass (google.com: domain of 3sgj2xwokcecjwmanhtweupxxpun.lxvtjbjw-mnepxxpunpaxdyb.lxv@flex--andreyknvl.bounces.google.com designates 2607:f8b0:4864:20::f4a as permitted sender) smtp.mailfrom=3SGJ2XwoKCecJWMaNhTWeUPXXPUN.LXVTJbJW-MNePXXPUNPaXdYb.LXV@flex--andreyknvl.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
@@ -36,13 +36,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :from:to:cc:x-original-sender:x-original-authentication-results
          :reply-to:precedence:mailing-list:list-id:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=yRJlIKLsuiTqEz3DWHyI5WgYwKJ1BI2duRC9RTlv4eI=;
-        b=CrDRix4gnAhCEh1GLXhDVVkdKb9uI5VbhKebUqdJ5ResFIRT0BdciUOL2MG+D6+CGJ
-         UWEZhYB7SlehMc+nKai6RgpaxvaU+gDlBywphH/alg7h3j0ac9/H4ErPhY7HIiCSg2Dh
-         hsoii8I1j0NGXdcHhY9isepgdzG2Xw5VI6+q8wggCE+GD48hwbS/bhw76vMR43lsZmIe
-         +t/r3TRsFp5BS5yF7c+ipzK8jE10g9IDXtTIzcbiSQxxVPZoaDfj2OLD8IOsvHKal7gJ
-         ePj+WjZRhMoRmUIhcysAWXnxOCTGi7EVENR2Mgf60Us3E5muqVbU021wXP5NXU27+VEM
-         vn3Q==
+        bh=XJawXKKiz9bVU2KcCUBkbwLz/+/9d9kQGR7XTX89tlg=;
+        b=AsWxQtwBwf6NANqzMV6cFDtwNJ0GZo/GUwVnf35zWCkGpAOGPNQeYFL6HoVh39fsvL
+         gjbskywHcLMEjaELi8xGs7R3SOjQVcfpTQMPzigrJsgY/yRdkrZxrUb+E4be6vgTwK3v
+         5jywo9OMrC1ixJ/OO2r72AI38VAGLpca1XojdxOYz+7eIs0tpFmGa1oDkW2RW6ESjRzJ
+         g2LllE0e/Vtu0iP14LmtzLSsOdCss7L+H9Z50R+DlwxXzch74QlLSGnQLHosl/uhPEps
+         hKhqRw+e/wAwqEXQyN198zm64BvAIrlABotK11pyBVSyBKv85o8uxVNxeH2eK1T/Zcgq
+         AGew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
@@ -50,64 +50,64 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=yRJlIKLsuiTqEz3DWHyI5WgYwKJ1BI2duRC9RTlv4eI=;
-        b=pURgaOdxz8/blSEJc9ddgJZWI1qln/0IzV4MvrexqqVuFtiU6Vek7wS6DrD9ekdRG+
-         Ua3mRSRLf6B8gINfGHsIk6BleoGTUNqBwBwyoQYmf7oMyow4nQl0WK/1K6Z0JoGd8wbS
-         jU7skxsIBiBJNNYVuwYgu8IVI5eQBKrESGl1qDXnwSG1RqHtcTw1MOAH0oe978mxGgyv
-         cDsyhqBNZrsFVCpadPe8WzfJ8UIeEFBS4wv1DitYomdqC7fPtIkE0bBAnwaCXDDTpITy
-         pO4VOwTKE0dsnqTxJ5a6H1KhZ13p48mfCOCfb6v6h5Zeiwp8FIrj93cJSUDaNNqOwxOj
-         PCMw==
-X-Gm-Message-State: AOAM532N/CANex2ANUqXhk2w8jNyIvQX0vq1hl+KMPu9LG7D3YkbyjLw
-	8vQ8xzcIZdILbjX8Jy97kMk=
-X-Google-Smtp-Source: ABdhPJwoWAfJ0I9cBW6KNgDRtuBFoMrXVuf/xy/i6C/eiBVoNp+s/X/oFawYBE1ZRoUerE0YfIoE1w==
-X-Received: by 2002:a05:6102:22e9:: with SMTP id b9mr7374281vsh.55.1601593926910;
-        Thu, 01 Oct 2020 16:12:06 -0700 (PDT)
+        bh=XJawXKKiz9bVU2KcCUBkbwLz/+/9d9kQGR7XTX89tlg=;
+        b=emDoSgcZOYX5F/K6sSdJOGVVJO0RSyyZFd3Ry8KwsJJRGiOQgBvljYB2IN0risg9rK
+         ok/+4k5UPZ8K18fGS5LbGrPIYuBriO2jBOzfSVkyee4GQWK2Tydialuh0sWobstp+2W1
+         29xVXhLV9+EzCxwi1+20YXViFj3rfOfPGEL3KY9pEl3gTSZEVbsDbbGqwQL9C2XCUx3X
+         XPUqY4x/tan/z/ddGTDMDcCsuECdTYvXwPXhs3L8q0RsEeZAAJNN2hupVWtAIaCyJAFt
+         6OaM4+w8iRj3Q4UDPU0L/Bvrm5pDnE2eFiBYmyosVlIO6sdNtk6XppvsYzIjuJPCh9do
+         83pA==
+X-Gm-Message-State: AOAM531l8n59tAIdlJUFcu/9g+kpl02+YU/ZwHCbHNgq6loZrbqlhO9z
+	EQACrH/ju1oUXzYiW/uQYo8=
+X-Google-Smtp-Source: ABdhPJzUCzPJK/XMzXZO4RUCkwcmDt36PjzFAOCJMWmRm0JGc1q2cdO/uhuIVxry3XKPe0QapDTmsw==
+X-Received: by 2002:a05:620a:1275:: with SMTP id b21mr9566198qkl.135.1601593929088;
+        Thu, 01 Oct 2020 16:12:09 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a1f:bfcb:: with SMTP id p194ls384471vkf.8.gmail; Thu, 01 Oct
- 2020 16:12:06 -0700 (PDT)
-X-Received: by 2002:a1f:2d0c:: with SMTP id t12mr7205952vkt.0.1601593926397;
-        Thu, 01 Oct 2020 16:12:06 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1601593926; cv=none;
+Received: by 2002:ae9:e881:: with SMTP id a123ls3255226qkg.7.gmail; Thu, 01
+ Oct 2020 16:12:08 -0700 (PDT)
+X-Received: by 2002:a05:620a:74c:: with SMTP id i12mr10261483qki.438.1601593928468;
+        Thu, 01 Oct 2020 16:12:08 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1601593928; cv=none;
         d=google.com; s=arc-20160816;
-        b=aa68jswnlFabHNNIFqs1kE6w2VKtg7uEhA4Utbh4WhfupC6NQyRTs8TiAayE8hzaLU
-         VPvAXQ+T4SOCqb6IGJ0kJqusQtPCHsOwiLwxav9Fr8UxzBQq0Zdf8+ENC3aHBqBWocKv
-         BmaP0s/oksspnTnNgxtDfg8QH+naDEcn44JAquzEQguutvGdrEh6+/LozfTGFat+3hOp
-         SAYGWwaiAp/xFkI2Sd8Qo4QgN6GLkFl3naFL3ZkKi1Wyv18sZWYnE8kT9yUTSRc6nDUU
-         Z5yqQh11k0MRZQXqT+MTLSRp163MgVHMboCYwrB5mEzrFWJ6SlyyQa4lIvkb+1CAocgX
-         VZCA==
+        b=QcBmy+eDicwXNHXOwWb2do4Ppo8nRViDYCnlujWyZrlmAVaXAvglFdyEo5KED8PrL8
+         RuTdP6S5FcbYiZODYhnq0wRa7pzakpA1oItG/u7HZFcRJagLQ0X7akBlmUxwIZrnNWw3
+         iBRmLFT5swJHl20sma9NCUrx+njAV9Px7rwaceAKBYfcNOyahUjvi0xBDkXtWaEEuAMv
+         FbNZto6/rJloeY1ZNsnZFDHvtFw5Jw0zi1Eg0cOoYi9bEVJFEg1HE4jpagaYXTRa9x41
+         WxMrFPoLqKtGOf2pUi+GZ9iqZ9ZQJJhS4A9MMSEazv2l9xzx13cJd2ebmL6joTcBUzkR
+         WY6g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
          :date:sender:dkim-signature;
-        bh=HazAqDLqwzi07HDUh2QVNXHCL+TPoxiBGxH3BGK6KE4=;
-        b=vjjfWr7pKCMCeLjM1MlkBG5MuPb1PpQpqM/kNNzuIUzD9OOcCU3iGHvHPk2RSUTO+R
-         jgZwR/hcF8nJ9MEIAbBjB/WsYJZWwFzioc7jjV0xi+fWonyYtQRnS05jUPJTWbLK0O4c
-         IVBbQ3Zn3CmI6qk9pZajaIoEgHYyTAlpuHA9uyELk3C0rJdiB0CjlTxMhRtAW3+AD98A
-         +Bmh0bkoBzxf/nCUwP0LzoAKOOHhPwgr/ApnSc+JxugcHGz+1pA1Ut1NB9xy91JL1Ap7
-         WVZBt1xU8bp/JlVPG0J2c2anRFfI+HvornmBvGYyCkNuIOhR7q8DN+stOe2bkEqZ2VDb
-         4uxA==
+        bh=8Bdad0JzE7drybaFy1zVIa3IGfBrD9/ToXYP1uYsQKs=;
+        b=GyFW5XFTz+GoeTv0ckHs9Gbn14WiOEMgqvGCjuj+KAZxEnaYQRH13G4jYAv1z+bsIU
+         Sn+x8x50ccQC5gX/ugex84fM2j/vcmx9WIjQxppNmm8twUt2GCxfRU0mj/0nRxRPqZtL
+         m0OvaAE2IhZ8Y/Xfbx9vJeGVwyneKpvxoevp7ZVO83TYugSjSfcrZ5pVN7Qr5sIgxQ6v
+         F6PxtFyAQgsv/blCe03l9mBdl8QPH6nFXBvrcJmi8aoE+uqwg3RXtImV8FHvXC+p1f8+
+         ABMn8Cz4iLIDG9YB1IAbYtohPVFBZ+qwhJY8+mi80j1blMTHhsm8L+7lEWhZibBD/4g4
+         gMjQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=B4p0ENox;
-       spf=pass (google.com: domain of 3rwj2xwokceqgtjxkeqtbrmuumrk.iusqgygt-jkbmuumrkmxuavy.ius@flex--andreyknvl.bounces.google.com designates 2607:f8b0:4864:20::84a as permitted sender) smtp.mailfrom=3RWJ2XwoKCeQGTJXKeQTbRMUUMRK.IUSQGYGT-JKbMUUMRKMXUaVY.IUS@flex--andreyknvl.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b="JHhAO/sR";
+       spf=pass (google.com: domain of 3sgj2xwokcecjwmanhtweupxxpun.lxvtjbjw-mnepxxpunpaxdyb.lxv@flex--andreyknvl.bounces.google.com designates 2607:f8b0:4864:20::f4a as permitted sender) smtp.mailfrom=3SGJ2XwoKCecJWMaNhTWeUPXXPUN.LXVTJbJW-MNePXXPUNPaXdYb.LXV@flex--andreyknvl.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-qt1-x84a.google.com (mail-qt1-x84a.google.com. [2607:f8b0:4864:20::84a])
-        by gmr-mx.google.com with ESMTPS id 134si411080vkx.0.2020.10.01.16.12.06
+Received: from mail-qv1-xf4a.google.com (mail-qv1-xf4a.google.com. [2607:f8b0:4864:20::f4a])
+        by gmr-mx.google.com with ESMTPS id a27si497311qtw.4.2020.10.01.16.12.08
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 01 Oct 2020 16:12:06 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 3rwj2xwokceqgtjxkeqtbrmuumrk.iusqgygt-jkbmuumrkmxuavy.ius@flex--andreyknvl.bounces.google.com designates 2607:f8b0:4864:20::84a as permitted sender) client-ip=2607:f8b0:4864:20::84a;
-Received: by mail-qt1-x84a.google.com with SMTP id u6so92166qte.8
-        for <kasan-dev@googlegroups.com>; Thu, 01 Oct 2020 16:12:06 -0700 (PDT)
+        Thu, 01 Oct 2020 16:12:08 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 3sgj2xwokcecjwmanhtweupxxpun.lxvtjbjw-mnepxxpunpaxdyb.lxv@flex--andreyknvl.bounces.google.com designates 2607:f8b0:4864:20::f4a as permitted sender) client-ip=2607:f8b0:4864:20::f4a;
+Received: by mail-qv1-xf4a.google.com with SMTP id y2so236549qvs.14
+        for <kasan-dev@googlegroups.com>; Thu, 01 Oct 2020 16:12:08 -0700 (PDT)
 Sender: "andreyknvl via sendgmr" <andreyknvl@andreyknvl3.muc.corp.google.com>
 X-Received: from andreyknvl3.muc.corp.google.com ([2a00:79e0:15:13:7220:84ff:fe09:7e9d])
- (user=andreyknvl job=sendgmr) by 2002:ad4:4d87:: with SMTP id
- cv7mr10322568qvb.49.1601593925995; Thu, 01 Oct 2020 16:12:05 -0700 (PDT)
-Date: Fri,  2 Oct 2020 01:10:35 +0200
+ (user=andreyknvl job=sendgmr) by 2002:a0c:f2c1:: with SMTP id
+ c1mr10289150qvm.30.1601593928080; Thu, 01 Oct 2020 16:12:08 -0700 (PDT)
+Date: Fri,  2 Oct 2020 01:10:36 +0200
 In-Reply-To: <cover.1601593784.git.andreyknvl@google.com>
-Message-Id: <bdc74d751201e9c4731c6ef6d801bb1caafa3f42.1601593784.git.andreyknvl@google.com>
+Message-Id: <8bb80a7998496dfe38cf20f6418be017c847ef3a.1601593784.git.andreyknvl@google.com>
 Mime-Version: 1.0
 References: <cover.1601593784.git.andreyknvl@google.com>
 X-Mailer: git-send-email 2.28.0.709.gb0816b6eb0-goog
-Subject: [PATCH v4 34/39] kasan, arm64: expand CONFIG_KASAN checks
+Subject: [PATCH v4 35/39] kasan, arm64: implement HW_TAGS runtime
 From: "'Andrey Konovalov' via kasan-dev" <kasan-dev@googlegroups.com>
 To: Dmitry Vyukov <dvyukov@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, 
 	Catalin Marinas <catalin.marinas@arm.com>, kasan-dev@googlegroups.com
@@ -121,9 +121,9 @@ Cc: Andrey Ryabinin <aryabinin@virtuozzo.com>, Alexander Potapenko <glider@googl
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: andreyknvl@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=B4p0ENox;       spf=pass
- (google.com: domain of 3rwj2xwokceqgtjxkeqtbrmuumrk.iusqgygt-jkbmuumrkmxuavy.ius@flex--andreyknvl.bounces.google.com
- designates 2607:f8b0:4864:20::84a as permitted sender) smtp.mailfrom=3RWJ2XwoKCeQGTJXKeQTbRMUUMRK.IUSQGYGT-JKbMUUMRKMXUaVY.IUS@flex--andreyknvl.bounces.google.com;
+ header.i=@google.com header.s=20161025 header.b="JHhAO/sR";       spf=pass
+ (google.com: domain of 3sgj2xwokcecjwmanhtweupxxpun.lxvtjbjw-mnepxxpunpaxdyb.lxv@flex--andreyknvl.bounces.google.com
+ designates 2607:f8b0:4864:20::f4a as permitted sender) smtp.mailfrom=3SGJ2XwoKCecJWMaNhTWeUPXXPUN.LXVTJbJW-MNePXXPUNPaXdYb.LXV@flex--andreyknvl.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Andrey Konovalov <andreyknvl@google.com>
 Reply-To: Andrey Konovalov <andreyknvl@google.com>
@@ -139,306 +139,428 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Some #ifdef CONFIG_KASAN checks are only relevant for software KASAN
-modes (either related to shadow memory or compiler instrumentation).
-Expand those into CONFIG_KASAN_GENERIC || CONFIG_KASAN_SW_TAGS.
+Provide implementation of KASAN functions required for the hardware
+tag-based mode. Those include core functions for memory and pointer
+tagging (tags_hw.c) and bug reporting (report_tags_hw.c). Also adapt
+common KASAN code to support the new mode.
 
 Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
-Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
+Acked-by: Catalin Marinas <catalin.marinas@arm.com>
+Reviewed-by: Marco Elver <elver@google.com>
 ---
-Change-Id: I91e661e2c1627783cb845d877c6371dfc8779505
+Change-Id: I8a8689ba098174a4d0ef3f1d008178387c80ee1c
 ---
- arch/arm64/Kconfig                 |  2 +-
- arch/arm64/Makefile                |  2 +-
- arch/arm64/include/asm/assembler.h |  2 +-
- arch/arm64/include/asm/memory.h    |  2 +-
- arch/arm64/include/asm/string.h    |  5 +++--
- arch/arm64/kernel/head.S           |  2 +-
- arch/arm64/kernel/image-vars.h     |  2 +-
- arch/arm64/mm/dump.c               |  6 +++---
- include/linux/kasan-checks.h       |  2 +-
- include/linux/kasan.h              |  7 ++++---
- include/linux/moduleloader.h       |  3 ++-
- include/linux/string.h             |  2 +-
- mm/ptdump.c                        | 13 ++++++++-----
- scripts/Makefile.lib               |  2 ++
- 14 files changed, 30 insertions(+), 22 deletions(-)
+ arch/arm64/include/asm/memory.h   |  4 +-
+ arch/arm64/kernel/setup.c         |  5 ++-
+ include/linux/kasan.h             |  6 +--
+ include/linux/mm.h                |  2 +-
+ include/linux/page-flags-layout.h |  2 +-
+ mm/kasan/Makefile                 |  5 +++
+ mm/kasan/common.c                 | 15 ++++---
+ mm/kasan/hw_tags.c                | 70 +++++++++++++++++++++++++++++++
+ mm/kasan/kasan.h                  | 17 ++++++--
+ mm/kasan/report_hw_tags.c         | 42 +++++++++++++++++++
+ mm/kasan/report_sw_tags.c         |  2 +-
+ mm/kasan/shadow.c                 |  2 +-
+ mm/kasan/sw_tags.c                |  2 +-
+ 13 files changed, 152 insertions(+), 22 deletions(-)
+ create mode 100644 mm/kasan/hw_tags.c
+ create mode 100644 mm/kasan/report_hw_tags.c
 
-diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-index 192544fcd1a5..e28d49cc1400 100644
---- a/arch/arm64/Kconfig
-+++ b/arch/arm64/Kconfig
-@@ -320,7 +320,7 @@ config BROKEN_GAS_INST
- 
- config KASAN_SHADOW_OFFSET
- 	hex
--	depends on KASAN
-+	depends on KASAN_GENERIC || KASAN_SW_TAGS
- 	default 0xdfffa00000000000 if (ARM64_VA_BITS_48 || ARM64_VA_BITS_52) && !KASAN_SW_TAGS
- 	default 0xdfffd00000000000 if ARM64_VA_BITS_47 && !KASAN_SW_TAGS
- 	default 0xdffffe8000000000 if ARM64_VA_BITS_42 && !KASAN_SW_TAGS
-diff --git a/arch/arm64/Makefile b/arch/arm64/Makefile
-index afcd61f7d2b0..af556bfec5c3 100644
---- a/arch/arm64/Makefile
-+++ b/arch/arm64/Makefile
-@@ -142,7 +142,7 @@ TEXT_OFFSET := 0x0
- 
- ifeq ($(CONFIG_KASAN_SW_TAGS), y)
- KASAN_SHADOW_SCALE_SHIFT := 4
--else
-+else ifeq ($(CONFIG_KASAN_GENERIC), y)
- KASAN_SHADOW_SCALE_SHIFT := 3
- endif
- 
-diff --git a/arch/arm64/include/asm/assembler.h b/arch/arm64/include/asm/assembler.h
-index 54d181177656..bc9ace1e5f3a 100644
---- a/arch/arm64/include/asm/assembler.h
-+++ b/arch/arm64/include/asm/assembler.h
-@@ -464,7 +464,7 @@ USER(\label, ic	ivau, \tmp2)			// invalidate I line PoU
- #define NOKPROBE(x)
- #endif
- 
--#ifdef CONFIG_KASAN
-+#if defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS)
- #define EXPORT_SYMBOL_NOKASAN(name)
- #else
- #define EXPORT_SYMBOL_NOKASAN(name)	EXPORT_SYMBOL(name)
 diff --git a/arch/arm64/include/asm/memory.h b/arch/arm64/include/asm/memory.h
-index 268a3b6cebd2..de9af7bea90d 100644
+index de9af7bea90d..b5d6b824c21c 100644
 --- a/arch/arm64/include/asm/memory.h
 +++ b/arch/arm64/include/asm/memory.h
-@@ -72,7 +72,7 @@
-  * address space for the shadow region respectively. They can bloat the stack
-  * significantly, so double the (minimum) stack size when they are in use.
-  */
--#ifdef CONFIG_KASAN
-+#if defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS)
- #define KASAN_SHADOW_OFFSET	_AC(CONFIG_KASAN_SHADOW_OFFSET, UL)
- #define KASAN_SHADOW_END	((UL(1) << (64 - KASAN_SHADOW_SCALE_SHIFT)) \
- 					+ KASAN_SHADOW_OFFSET)
-diff --git a/arch/arm64/include/asm/string.h b/arch/arm64/include/asm/string.h
-index b31e8e87a0db..3a3264ff47b9 100644
---- a/arch/arm64/include/asm/string.h
-+++ b/arch/arm64/include/asm/string.h
-@@ -5,7 +5,7 @@
- #ifndef __ASM_STRING_H
- #define __ASM_STRING_H
+@@ -215,7 +215,7 @@ static inline unsigned long kaslr_offset(void)
+ 	(__force __typeof__(addr))__addr;				\
+ })
  
--#ifndef CONFIG_KASAN
-+#if !(defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS))
- #define __HAVE_ARCH_STRRCHR
- extern char *strrchr(const char *, int c);
+-#ifdef CONFIG_KASAN_SW_TAGS
++#if defined(CONFIG_KASAN_SW_TAGS) || defined(CONFIG_KASAN_HW_TAGS)
+ #define __tag_shifted(tag)	((u64)(tag) << 56)
+ #define __tag_reset(addr)	__untagged_addr(addr)
+ #define __tag_get(addr)		(__u8)((u64)(addr) >> 56)
+@@ -223,7 +223,7 @@ static inline unsigned long kaslr_offset(void)
+ #define __tag_shifted(tag)	0UL
+ #define __tag_reset(addr)	(addr)
+ #define __tag_get(addr)		0
+-#endif /* CONFIG_KASAN_SW_TAGS */
++#endif /* CONFIG_KASAN_SW_TAGS || CONFIG_KASAN_HW_TAGS */
  
-@@ -48,7 +48,8 @@ extern void *__memset(void *, int, __kernel_size_t);
- void memcpy_flushcache(void *dst, const void *src, size_t cnt);
- #endif
- 
--#if defined(CONFIG_KASAN) && !defined(__SANITIZE_ADDRESS__)
-+#if (defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS)) && \
-+	!defined(__SANITIZE_ADDRESS__)
- 
- /*
-  * For files that are not instrumented (e.g. mm/slub.c) we
-diff --git a/arch/arm64/kernel/head.S b/arch/arm64/kernel/head.S
-index 037421c66b14..427ded9e68e8 100644
---- a/arch/arm64/kernel/head.S
-+++ b/arch/arm64/kernel/head.S
-@@ -452,7 +452,7 @@ SYM_FUNC_START_LOCAL(__primary_switched)
- 	bl	__pi_memset
- 	dsb	ishst				// Make zero page visible to PTW
- 
--#ifdef CONFIG_KASAN
-+#if defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS)
- 	bl	kasan_early_init
- #endif
- #ifdef CONFIG_RANDOMIZE_BASE
-diff --git a/arch/arm64/kernel/image-vars.h b/arch/arm64/kernel/image-vars.h
-index 8982b68289b7..ed8d086d601c 100644
---- a/arch/arm64/kernel/image-vars.h
-+++ b/arch/arm64/kernel/image-vars.h
-@@ -37,7 +37,7 @@ __efistub_strncmp		= __pi_strncmp;
- __efistub_strrchr		= __pi_strrchr;
- __efistub___clean_dcache_area_poc = __pi___clean_dcache_area_poc;
- 
--#ifdef CONFIG_KASAN
-+#if defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS)
- __efistub___memcpy		= __pi_memcpy;
- __efistub___memmove		= __pi_memmove;
- __efistub___memset		= __pi_memset;
-diff --git a/arch/arm64/mm/dump.c b/arch/arm64/mm/dump.c
-index ba6d1d89f9b2..bf8ddeac5d8f 100644
---- a/arch/arm64/mm/dump.c
-+++ b/arch/arm64/mm/dump.c
-@@ -29,7 +29,7 @@
- enum address_markers_idx {
- 	PAGE_OFFSET_NR = 0,
- 	PAGE_END_NR,
--#ifdef CONFIG_KASAN
-+#if defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS)
- 	KASAN_START_NR,
- #endif
- };
-@@ -37,7 +37,7 @@ enum address_markers_idx {
- static struct addr_marker address_markers[] = {
- 	{ PAGE_OFFSET,			"Linear Mapping start" },
- 	{ 0 /* PAGE_END */,		"Linear Mapping end" },
--#ifdef CONFIG_KASAN
-+#if defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS)
- 	{ 0 /* KASAN_SHADOW_START */,	"Kasan shadow start" },
- 	{ KASAN_SHADOW_END,		"Kasan shadow end" },
- #endif
-@@ -381,7 +381,7 @@ void ptdump_check_wx(void)
- static int ptdump_init(void)
+ static inline const void *__tag_set(const void *addr, u8 tag)
  {
- 	address_markers[PAGE_END_NR].start_address = PAGE_END;
--#ifdef CONFIG_KASAN
-+#if defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS)
- 	address_markers[KASAN_START_NR].start_address = KASAN_SHADOW_START;
- #endif
- 	ptdump_initialize();
-diff --git a/include/linux/kasan-checks.h b/include/linux/kasan-checks.h
-index ac6aba632f2d..ca5e89fb10d3 100644
---- a/include/linux/kasan-checks.h
-+++ b/include/linux/kasan-checks.h
-@@ -9,7 +9,7 @@
-  * even in compilation units that selectively disable KASAN, but must use KASAN
-  * to validate access to an address.   Never use these in header files!
-  */
--#ifdef CONFIG_KASAN
-+#if defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS)
- bool __kasan_check_read(const volatile void *p, unsigned int size);
- bool __kasan_check_write(const volatile void *p, unsigned int size);
- #else
+diff --git a/arch/arm64/kernel/setup.c b/arch/arm64/kernel/setup.c
+index 77c4c9bad1b8..b07d9fbfa8b6 100644
+--- a/arch/arm64/kernel/setup.c
++++ b/arch/arm64/kernel/setup.c
+@@ -358,7 +358,10 @@ void __init __no_sanitize_address setup_arch(char **cmdline_p)
+ 	smp_init_cpus();
+ 	smp_build_mpidr_hash();
+ 
+-	/* Init percpu seeds for random tags after cpus are set up. */
++	/*
++	 * For CONFIG_KASAN_SW_TAGS this initializes percpu seeds and must
++	 * come after cpus are set up.
++	 */
+ 	kasan_init_tags();
+ 
+ #ifdef CONFIG_ARM64_SW_TTBR0_PAN
 diff --git a/include/linux/kasan.h b/include/linux/kasan.h
-index 2dadaf2be6d2..894eddf42168 100644
+index 894eddf42168..3f3f541e5d5f 100644
 --- a/include/linux/kasan.h
 +++ b/include/linux/kasan.h
-@@ -229,7 +229,8 @@ static inline void kasan_release_vmalloc(unsigned long start,
+@@ -181,7 +181,7 @@ static inline void kasan_record_aux_stack(void *ptr) {}
  
- #endif /* CONFIG_KASAN_VMALLOC */
+ #endif /* CONFIG_KASAN_GENERIC */
  
--#if defined(CONFIG_KASAN) && !defined(CONFIG_KASAN_VMALLOC)
-+#if (defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS)) && \
-+		!defined(CONFIG_KASAN_VMALLOC)
+-#ifdef CONFIG_KASAN_SW_TAGS
++#if defined(CONFIG_KASAN_SW_TAGS) || defined(CONFIG_KASAN_HW_TAGS)
  
- /*
-  * These functions provide a special case to support backing module
-@@ -239,12 +240,12 @@ static inline void kasan_release_vmalloc(unsigned long start,
- int kasan_module_alloc(void *addr, size_t size);
- void kasan_free_shadow(const struct vm_struct *vm);
+ void kasan_init_tags(void);
  
--#else /* CONFIG_KASAN && !CONFIG_KASAN_VMALLOC */
-+#else /* (CONFIG_KASAN_GENERIC || CONFIG_KASAN_SW_TAGS) && !CONFIG_KASAN_VMALLOC */
+@@ -190,7 +190,7 @@ void *kasan_reset_tag(const void *addr);
+ bool kasan_report(unsigned long addr, size_t size,
+ 		bool is_write, unsigned long ip);
  
- static inline int kasan_module_alloc(void *addr, size_t size) { return 0; }
- static inline void kasan_free_shadow(const struct vm_struct *vm) {}
+-#else /* CONFIG_KASAN_SW_TAGS */
++#else /* CONFIG_KASAN_SW_TAGS || CONFIG_KASAN_HW_TAGS */
  
--#endif /* CONFIG_KASAN && !CONFIG_KASAN_VMALLOC */
-+#endif /* (CONFIG_KASAN_GENERIC || CONFIG_KASAN_SW_TAGS) && !CONFIG_KASAN_VMALLOC */
+ static inline void kasan_init_tags(void) { }
  
- #ifdef CONFIG_KASAN_INLINE
- void kasan_non_canonical_hook(unsigned long addr);
-diff --git a/include/linux/moduleloader.h b/include/linux/moduleloader.h
-index 4fa67a8b2265..9e09d11ffe5b 100644
---- a/include/linux/moduleloader.h
-+++ b/include/linux/moduleloader.h
-@@ -96,7 +96,8 @@ void module_arch_cleanup(struct module *mod);
- /* Any cleanup before freeing mod->module_init */
- void module_arch_freeing_init(struct module *mod);
+@@ -199,7 +199,7 @@ static inline void *kasan_reset_tag(const void *addr)
+ 	return (void *)addr;
+ }
  
--#if defined(CONFIG_KASAN) && !defined(CONFIG_KASAN_VMALLOC)
-+#if (defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS)) && \
-+		!defined(CONFIG_KASAN_VMALLOC)
- #include <linux/kasan.h>
- #define MODULE_ALIGN (PAGE_SIZE << KASAN_SHADOW_SCALE_SHIFT)
+-#endif /* CONFIG_KASAN_SW_TAGS */
++#endif /* CONFIG_KASAN_SW_TAGS || CONFIG_KASAN_HW_TAGS*/
+ 
+ #ifdef CONFIG_KASAN_VMALLOC
+ 
+diff --git a/include/linux/mm.h b/include/linux/mm.h
+index 4312c6c808e9..a3cac68c737c 100644
+--- a/include/linux/mm.h
++++ b/include/linux/mm.h
+@@ -1411,7 +1411,7 @@ static inline bool cpupid_match_pid(struct task_struct *task, int cpupid)
+ }
+ #endif /* CONFIG_NUMA_BALANCING */
+ 
+-#ifdef CONFIG_KASAN_SW_TAGS
++#if defined(CONFIG_KASAN_SW_TAGS) || defined(CONFIG_KASAN_HW_TAGS)
+ static inline u8 page_kasan_tag(const struct page *page)
+ {
+ 	return (page->flags >> KASAN_TAG_PGSHIFT) & KASAN_TAG_MASK;
+diff --git a/include/linux/page-flags-layout.h b/include/linux/page-flags-layout.h
+index e200eef6a7fd..7d4ec26d8a3e 100644
+--- a/include/linux/page-flags-layout.h
++++ b/include/linux/page-flags-layout.h
+@@ -77,7 +77,7 @@
+ #define LAST_CPUPID_SHIFT 0
+ #endif
+ 
+-#ifdef CONFIG_KASAN_SW_TAGS
++#if defined(CONFIG_KASAN_SW_TAGS) || defined(CONFIG_KASAN_HW_TAGS)
+ #define KASAN_TAG_WIDTH 8
  #else
-diff --git a/include/linux/string.h b/include/linux/string.h
-index 9b7a0632e87a..607322616363 100644
---- a/include/linux/string.h
-+++ b/include/linux/string.h
-@@ -273,7 +273,7 @@ void __write_overflow(void) __compiletime_error("detected write beyond size of o
+ #define KASAN_TAG_WIDTH 0
+diff --git a/mm/kasan/Makefile b/mm/kasan/Makefile
+index f1d68a34f3c9..9fe39a66388a 100644
+--- a/mm/kasan/Makefile
++++ b/mm/kasan/Makefile
+@@ -10,8 +10,10 @@ CFLAGS_REMOVE_init.o = $(CC_FLAGS_FTRACE)
+ CFLAGS_REMOVE_quarantine.o = $(CC_FLAGS_FTRACE)
+ CFLAGS_REMOVE_report.o = $(CC_FLAGS_FTRACE)
+ CFLAGS_REMOVE_report_generic.o = $(CC_FLAGS_FTRACE)
++CFLAGS_REMOVE_report_hw_tags.o = $(CC_FLAGS_FTRACE)
+ CFLAGS_REMOVE_report_sw_tags.o = $(CC_FLAGS_FTRACE)
+ CFLAGS_REMOVE_shadow.o = $(CC_FLAGS_FTRACE)
++CFLAGS_REMOVE_hw_tags.o = $(CC_FLAGS_FTRACE)
+ CFLAGS_REMOVE_sw_tags.o = $(CC_FLAGS_FTRACE)
  
- #if !defined(__NO_FORTIFY) && defined(__OPTIMIZE__) && defined(CONFIG_FORTIFY_SOURCE)
+ # Function splitter causes unnecessary splits in __asan_load1/__asan_store1
+@@ -27,10 +29,13 @@ CFLAGS_init.o := $(CC_FLAGS_KASAN_RUNTIME)
+ CFLAGS_quarantine.o := $(CC_FLAGS_KASAN_RUNTIME)
+ CFLAGS_report.o := $(CC_FLAGS_KASAN_RUNTIME)
+ CFLAGS_report_generic.o := $(CC_FLAGS_KASAN_RUNTIME)
++CFLAGS_report_hw_tags.o := $(CC_FLAGS_KASAN_RUNTIME)
+ CFLAGS_report_sw_tags.o := $(CC_FLAGS_KASAN_RUNTIME)
+ CFLAGS_shadow.o := $(CC_FLAGS_KASAN_RUNTIME)
++CFLAGS_hw_tags.o := $(CC_FLAGS_KASAN_RUNTIME)
+ CFLAGS_sw_tags.o := $(CC_FLAGS_KASAN_RUNTIME)
  
--#ifdef CONFIG_KASAN
+ obj-$(CONFIG_KASAN) := common.o report.o
+ obj-$(CONFIG_KASAN_GENERIC) += init.o generic.o report_generic.o shadow.o quarantine.o
++obj-$(CONFIG_KASAN_HW_TAGS) += hw_tags.o report_hw_tags.o
+ obj-$(CONFIG_KASAN_SW_TAGS) += init.o report_sw_tags.o shadow.o sw_tags.o
+diff --git a/mm/kasan/common.c b/mm/kasan/common.c
+index d0b3ff410b0c..2bb0ef6da6bd 100644
+--- a/mm/kasan/common.c
++++ b/mm/kasan/common.c
+@@ -113,7 +113,7 @@ void kasan_free_pages(struct page *page, unsigned int order)
+  */
+ static inline unsigned int optimal_redzone(unsigned int object_size)
+ {
+-	if (IS_ENABLED(CONFIG_KASAN_SW_TAGS))
++	if (!IS_ENABLED(CONFIG_KASAN_GENERIC))
+ 		return 0;
+ 
+ 	return
+@@ -178,14 +178,14 @@ size_t kasan_metadata_size(struct kmem_cache *cache)
+ struct kasan_alloc_meta *get_alloc_info(struct kmem_cache *cache,
+ 					const void *object)
+ {
+-	return (void *)object + cache->kasan_info.alloc_meta_offset;
++	return (void *)reset_tag(object) + cache->kasan_info.alloc_meta_offset;
+ }
+ 
+ struct kasan_free_meta *get_free_info(struct kmem_cache *cache,
+ 				      const void *object)
+ {
+ 	BUILD_BUG_ON(sizeof(struct kasan_free_meta) > 32);
+-	return (void *)object + cache->kasan_info.free_meta_offset;
++	return (void *)reset_tag(object) + cache->kasan_info.free_meta_offset;
+ }
+ 
+ void kasan_poison_slab(struct page *page)
+@@ -267,9 +267,8 @@ void * __must_check kasan_init_slab_obj(struct kmem_cache *cache,
+ 	alloc_info = get_alloc_info(cache, object);
+ 	__memset(alloc_info, 0, sizeof(*alloc_info));
+ 
+-	if (IS_ENABLED(CONFIG_KASAN_SW_TAGS))
+-		object = set_tag(object,
+-				assign_tag(cache, object, true, false));
++	if (IS_ENABLED(CONFIG_KASAN_SW_TAGS) || IS_ENABLED(CONFIG_KASAN_HW_TAGS))
++		object = set_tag(object, assign_tag(cache, object, true, false));
+ 
+ 	return (void *)object;
+ }
+@@ -337,10 +336,10 @@ static void *__kasan_kmalloc(struct kmem_cache *cache, const void *object,
+ 	redzone_end = round_up((unsigned long)object + cache->object_size,
+ 				KASAN_GRANULE_SIZE);
+ 
+-	if (IS_ENABLED(CONFIG_KASAN_SW_TAGS))
++	if (IS_ENABLED(CONFIG_KASAN_SW_TAGS) || IS_ENABLED(CONFIG_KASAN_HW_TAGS))
+ 		tag = assign_tag(cache, object, false, keep_tag);
+ 
+-	/* Tag is ignored in set_tag without CONFIG_KASAN_SW_TAGS */
++	/* Tag is ignored in set_tag without CONFIG_KASAN_SW/HW_TAGS */
+ 	kasan_unpoison_memory(set_tag(object, tag), size);
+ 	kasan_poison_memory((void *)redzone_start, redzone_end - redzone_start,
+ 		KASAN_KMALLOC_REDZONE);
+diff --git a/mm/kasan/hw_tags.c b/mm/kasan/hw_tags.c
+new file mode 100644
+index 000000000000..7f0568df2a93
+--- /dev/null
++++ b/mm/kasan/hw_tags.c
+@@ -0,0 +1,70 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * This file contains core hardware tag-based KASAN code.
++ *
++ * Copyright (c) 2020 Google, Inc.
++ * Author: Andrey Konovalov <andreyknvl@google.com>
++ */
++
++#include <linux/kasan.h>
++#include <linux/kernel.h>
++#include <linux/memory.h>
++#include <linux/mm.h>
++#include <linux/string.h>
++#include <linux/types.h>
++
++#include "kasan.h"
++
++void kasan_init_tags(void)
++{
++	init_tags(KASAN_TAG_MAX);
++}
++
++void *kasan_reset_tag(const void *addr)
++{
++	return reset_tag(addr);
++}
++
++void kasan_poison_memory(const void *address, size_t size, u8 value)
++{
++	set_mem_tag_range(reset_tag(address),
++			  round_up(size, KASAN_GRANULE_SIZE), value);
++}
++
++void kasan_unpoison_memory(const void *address, size_t size)
++{
++	set_mem_tag_range(reset_tag(address),
++			  round_up(size, KASAN_GRANULE_SIZE), get_tag(address));
++}
++
++u8 random_tag(void)
++{
++	return get_random_tag();
++}
++
++bool check_invalid_free(void *addr)
++{
++	u8 ptr_tag = get_tag(addr);
++	u8 mem_tag = get_mem_tag(addr);
++
++	return (mem_tag == KASAN_TAG_INVALID) ||
++		(ptr_tag != KASAN_TAG_KERNEL && ptr_tag != mem_tag);
++}
++
++void kasan_set_free_info(struct kmem_cache *cache,
++				void *object, u8 tag)
++{
++	struct kasan_alloc_meta *alloc_meta;
++
++	alloc_meta = get_alloc_info(cache, object);
++	kasan_set_track(&alloc_meta->free_track[0], GFP_NOWAIT);
++}
++
++struct kasan_track *kasan_get_free_track(struct kmem_cache *cache,
++				void *object, u8 tag)
++{
++	struct kasan_alloc_meta *alloc_meta;
++
++	alloc_meta = get_alloc_info(cache, object);
++	return &alloc_meta->free_track[0];
++}
+diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
+index cf03640c8874..f6363d1d6d26 100644
+--- a/mm/kasan/kasan.h
++++ b/mm/kasan/kasan.h
+@@ -153,6 +153,10 @@ struct kasan_alloc_meta *get_alloc_info(struct kmem_cache *cache,
+ struct kasan_free_meta *get_free_info(struct kmem_cache *cache,
+ 					const void *object);
+ 
++void kasan_poison_memory(const void *address, size_t size, u8 value);
++
 +#if defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS)
- extern void *__underlying_memchr(const void *p, int c, __kernel_size_t size) __RENAME(memchr);
- extern int __underlying_memcmp(const void *p, const void *q, __kernel_size_t size) __RENAME(memcmp);
- extern void *__underlying_memcpy(void *p, const void *q, __kernel_size_t size) __RENAME(memcpy);
-diff --git a/mm/ptdump.c b/mm/ptdump.c
-index ba88ec43ff21..4354c1422d57 100644
---- a/mm/ptdump.c
-+++ b/mm/ptdump.c
-@@ -4,7 +4,7 @@
- #include <linux/ptdump.h>
- #include <linux/kasan.h>
++
+ static inline const void *kasan_shadow_to_mem(const void *shadow_addr)
+ {
+ 	return (void *)(((unsigned long)shadow_addr - KASAN_SHADOW_OFFSET)
+@@ -164,8 +168,6 @@ static inline bool addr_has_metadata(const void *addr)
+ 	return (addr >= kasan_shadow_to_mem((void *)KASAN_SHADOW_START));
+ }
  
--#ifdef CONFIG_KASAN
-+#if defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS)
+-void kasan_poison_memory(const void *address, size_t size, u8 value);
+-
+ /**
+  * check_memory_region - Check memory region, and report if invalid access.
+  * @addr: the accessed address
+@@ -177,6 +179,15 @@ void kasan_poison_memory(const void *address, size_t size, u8 value);
+ bool check_memory_region(unsigned long addr, size_t size, bool write,
+ 				unsigned long ret_ip);
+ 
++#else /* CONFIG_KASAN_GENERIC || CONFIG_KASAN_SW_TAGS */
++
++static inline bool addr_has_metadata(const void *addr)
++{
++	return true;
++}
++
++#endif /* CONFIG_KASAN_GENERIC || CONFIG_KASAN_SW_TAGS */
++
+ bool check_invalid_free(void *addr);
+ 
+ void *find_first_bad_addr(void *addr, size_t size);
+@@ -213,7 +224,7 @@ static inline void quarantine_reduce(void) { }
+ static inline void quarantine_remove_cache(struct kmem_cache *cache) { }
+ #endif
+ 
+-#ifdef CONFIG_KASAN_SW_TAGS
++#if defined(CONFIG_KASAN_SW_TAGS) || defined(CONFIG_KASAN_HW_TAGS)
+ 
+ void print_tags(u8 addr_tag, const void *addr);
+ 
+diff --git a/mm/kasan/report_hw_tags.c b/mm/kasan/report_hw_tags.c
+new file mode 100644
+index 000000000000..d8423d1e3b6b
+--- /dev/null
++++ b/mm/kasan/report_hw_tags.c
+@@ -0,0 +1,42 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * This file contains hardware tag-based KASAN specific error reporting code.
++ *
++ * Copyright (c) 2020 Google, Inc.
++ * Author: Andrey Konovalov <andreyknvl@google.com>
++ */
++
++#include <linux/kasan.h>
++#include <linux/kernel.h>
++#include <linux/memory.h>
++#include <linux/mm.h>
++#include <linux/string.h>
++#include <linux/types.h>
++
++#include "kasan.h"
++
++const char *get_bug_type(struct kasan_access_info *info)
++{
++	return "invalid-access";
++}
++
++void *find_first_bad_addr(void *addr, size_t size)
++{
++	return reset_tag(addr);
++}
++
++void metadata_fetch_row(char *buffer, void *row)
++{
++	int i;
++
++	for (i = 0; i < META_BYTES_PER_ROW; i++)
++		buffer[i] = mte_get_mem_tag(row + i * KASAN_GRANULE_SIZE);
++}
++
++void print_tags(u8 addr_tag, const void *addr)
++{
++	u8 memory_tag = mte_get_mem_tag((void *)addr);
++
++	pr_err("Pointer tag: [%02x], memory tag: [%02x]\n",
++		addr_tag, memory_tag);
++}
+diff --git a/mm/kasan/report_sw_tags.c b/mm/kasan/report_sw_tags.c
+index add2dfe6169c..aebc44a29e83 100644
+--- a/mm/kasan/report_sw_tags.c
++++ b/mm/kasan/report_sw_tags.c
+@@ -1,6 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0
  /*
-  * This is an optimization for KASAN=y case. Since all kasan page tables
-  * eventually point to the kasan_early_shadow_page we could call note_page()
-@@ -31,7 +31,8 @@ static int ptdump_pgd_entry(pgd_t *pgd, unsigned long addr,
- 	struct ptdump_state *st = walk->private;
- 	pgd_t val = READ_ONCE(*pgd);
+- * This file contains tag-based KASAN specific error reporting code.
++ * This file contains software tag-based KASAN specific error reporting code.
+  *
+  * Copyright (c) 2014 Samsung Electronics Co., Ltd.
+  * Author: Andrey Ryabinin <ryabinin.a.a@gmail.com>
+diff --git a/mm/kasan/shadow.c b/mm/kasan/shadow.c
+index 1fadd4930d54..616ac64c4a21 100644
+--- a/mm/kasan/shadow.c
++++ b/mm/kasan/shadow.c
+@@ -107,7 +107,7 @@ void kasan_unpoison_memory(const void *address, size_t size)
  
--#if CONFIG_PGTABLE_LEVELS > 4 && defined(CONFIG_KASAN)
-+#if CONFIG_PGTABLE_LEVELS > 4 && \
-+		(defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS))
- 	if (pgd_page(val) == virt_to_page(lm_alias(kasan_early_shadow_p4d)))
- 		return note_kasan_page_table(walk, addr);
- #endif
-@@ -51,7 +52,8 @@ static int ptdump_p4d_entry(p4d_t *p4d, unsigned long addr,
- 	struct ptdump_state *st = walk->private;
- 	p4d_t val = READ_ONCE(*p4d);
- 
--#if CONFIG_PGTABLE_LEVELS > 3 && defined(CONFIG_KASAN)
-+#if CONFIG_PGTABLE_LEVELS > 3 && \
-+		(defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS))
- 	if (p4d_page(val) == virt_to_page(lm_alias(kasan_early_shadow_pud)))
- 		return note_kasan_page_table(walk, addr);
- #endif
-@@ -71,7 +73,8 @@ static int ptdump_pud_entry(pud_t *pud, unsigned long addr,
- 	struct ptdump_state *st = walk->private;
- 	pud_t val = READ_ONCE(*pud);
- 
--#if CONFIG_PGTABLE_LEVELS > 2 && defined(CONFIG_KASAN)
-+#if CONFIG_PGTABLE_LEVELS > 2 && \
-+		(defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS))
- 	if (pud_page(val) == virt_to_page(lm_alias(kasan_early_shadow_pmd)))
- 		return note_kasan_page_table(walk, addr);
- #endif
-@@ -91,7 +94,7 @@ static int ptdump_pmd_entry(pmd_t *pmd, unsigned long addr,
- 	struct ptdump_state *st = walk->private;
- 	pmd_t val = READ_ONCE(*pmd);
- 
--#if defined(CONFIG_KASAN)
-+#if defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS)
- 	if (pmd_page(val) == virt_to_page(lm_alias(kasan_early_shadow_pte)))
- 		return note_kasan_page_table(walk, addr);
- #endif
-diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-index 3d599716940c..dc2d13c4455a 100644
---- a/scripts/Makefile.lib
-+++ b/scripts/Makefile.lib
-@@ -148,10 +148,12 @@ endif
- # we don't want to check (depends on variables KASAN_SANITIZE_obj.o, KASAN_SANITIZE)
- #
- ifeq ($(CONFIG_KASAN),y)
-+ifneq ($(CONFIG_KASAN_HW_TAGS),y)
- _c_flags += $(if $(patsubst n%,, \
- 		$(KASAN_SANITIZE_$(basetarget).o)$(KASAN_SANITIZE)y), \
- 		$(CFLAGS_KASAN), $(CFLAGS_KASAN_NOSANITIZE))
- endif
-+endif
- 
- ifeq ($(CONFIG_UBSAN),y)
- _c_flags += $(if $(patsubst n%,, \
+ 		if (IS_ENABLED(CONFIG_KASAN_SW_TAGS))
+ 			*shadow = tag;
+-		else
++		else /* CONFIG_KASAN_GENERIC */
+ 			*shadow = size & KASAN_GRANULE_MASK;
+ 	}
+ }
+diff --git a/mm/kasan/sw_tags.c b/mm/kasan/sw_tags.c
+index b2638c2cd58a..ccc35a311179 100644
+--- a/mm/kasan/sw_tags.c
++++ b/mm/kasan/sw_tags.c
+@@ -1,6 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0
+ /*
+- * This file contains core tag-based KASAN code.
++ * This file contains core software tag-based KASAN code.
+  *
+  * Copyright (c) 2018 Google, Inc.
+  * Author: Andrey Konovalov <andreyknvl@google.com>
 -- 
 2.28.0.709.gb0816b6eb0-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/bdc74d751201e9c4731c6ef6d801bb1caafa3f42.1601593784.git.andreyknvl%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/8bb80a7998496dfe38cf20f6418be017c847ef3a.1601593784.git.andreyknvl%40google.com.
