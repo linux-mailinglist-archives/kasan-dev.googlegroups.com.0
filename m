@@ -1,160 +1,139 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBR6C3X5QKGQEO5BWQTI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCQ2XPNX7EOBBS7C3X5QKGQEYR3VUAI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wr1-x440.google.com (mail-wr1-x440.google.com [IPv6:2a00:1450:4864:20::440])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C1D528190C
-	for <lists+kasan-dev@lfdr.de>; Fri,  2 Oct 2020 19:20:08 +0200 (CEST)
-Received: by mail-wr1-x440.google.com with SMTP id v5sf802160wrr.0
-        for <lists+kasan-dev@lfdr.de>; Fri, 02 Oct 2020 10:20:08 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1601659207; cv=pass;
+Received: from mail-ed1-x540.google.com (mail-ed1-x540.google.com [IPv6:2a00:1450:4864:20::540])
+	by mail.lfdr.de (Postfix) with ESMTPS id 44674281ADB
+	for <lists+kasan-dev@lfdr.de>; Fri,  2 Oct 2020 20:28:28 +0200 (CEST)
+Received: by mail-ed1-x540.google.com with SMTP id g16sf994839edy.22
+        for <lists+kasan-dev@lfdr.de>; Fri, 02 Oct 2020 11:28:28 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1601663308; cv=pass;
         d=google.com; s=arc-20160816;
-        b=dBAYEJZOD4SnwTmBtR1z6ys3SCzhQ8scYiiXqf7lQ/SSVvPHKehM49dRrlVRPz+pgR
-         oWCgshC1eD629N9EOa74OrEbucUkRIrvEain4O9rqGyDJL+DzDXiI4pHYwIZjlv8llfW
-         SnuxKraB8ouH+lHsRlWVXlQb2GvPDzf8kXhy44B4gyOr20Wd5zMnFBHuzhbaYnFGJupL
-         tVoGRh5gs4ID6pPElGqMNmvUQJteQ3ceh8/4Q5UPRhlTQPAvk9rANWgYVX8QEkpHPtKA
-         sdl0SoRHSjQWYTV9Kpflt9cRnCDV7DdNhXpnkaaxc/1/g1puVwQaQia1tsu6KrXZP+vL
-         a5Jg==
+        b=XsrhO2yuJVAFTSGQnB6kscb9J9pnjKKHKPwQpOpz3GPgSP9ZofKaBR9TumDnjfgazn
+         q30bkjOnnDqTNKRnGSo9/cjyCwkhXg4yI3HKMOJlTlpLcuk+fvxb68cQwNaHLfnNFSql
+         liswWhmKM5WMXtrT/D2HmbrkZpZSAoBFgIjo5iqD/gqBZPYjzE/h4Q9As3rXgA6OgmFv
+         c1/o/J8rTW+hfhlT1Vo3aWUw49uIIEwah8QjVzPwzu32QJPMszZCMlBOtdjfI4myNvkQ
+         5DjraNmCi19rCEzWTxL+G1LUkuPPgPEUaPKoJDm0LymiaBs3TH1ht1kYDBlRan6v9wT0
+         V2Vg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:user-agent:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:dkim-signature;
-        bh=OWNtI/EMqAjTIIX+uQc4Hbr4wq7AMFAHaH7TDiXQXbE=;
-        b=FKGuEsLVl9VJvZXoSdcuWusJjSXglL30YDMl3qzg7tr/yIowBpJNB7DG5DhRDOx58c
-         dXTdn3r88vfcms8kMLl8NiA6UMSfgUv9YwxlIiBh2lSPB1XP3/A7CBADT17HDel0Fz9A
-         81fiVTqdPV9ex+dMCsEmlf00LJkV8Oc7Ia3ZSxrjXW9w88kNQKbkJ6UZWTI+teOZqsHt
-         zXwHs1WHibZc9JUDW/pywOFhb7JyrOpuJF994Dla9df2mIyK/D89KwwdltmuZ/m+R17v
-         S/AKTlpKnAe1gzLcjRd2P1HQeP4/kNMiUwYnYJs29KrE1mqB3of0Zd3bQWBV8SvmC0oI
-         td3g==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=RrovbilTXT6NPORa455l2L4h9ydSHzMqM9YAsr8j7SU=;
+        b=kbm6dzmH2B0WDAmTGdxDjyRg3JTxEggPSAp5aR5MOQ1U4tPOi+23rJKJoLvU7YisZx
+         Ph6Wmfbk5W/Dmdk9bcCY73DzcLP62mbuTRS5OTJSEeL8J6R2Iij5UzOYRWpDbVjrs9VD
+         n/XMt//L0WQSZmzZ+HqamNYDXPls+yBFN1mbY23r8yQWuYycVAZKgucyf5TEn2ZNwEFN
+         x5Tt50ha2V2oLlFmKMP+ZykqaT8dLK0ckv0RDr05OR2tBIO5gqIjcplWHD25SBsZI483
+         YpmpLDy3Lwy5fDZLviO+LagGmtFMG4JC4BuYu4HNAy2A/higw/TToXeWN1HHJ18lNopN
+         +QNA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=TB7iBsky;
-       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::442 as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=iyd0xHn4;
+       spf=pass (google.com: domain of jannh@google.com designates 2a00:1450:4864:20::642 as permitted sender) smtp.mailfrom=jannh@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:list-post:list-help:list-archive:list-subscribe
-         :list-unsubscribe;
-        bh=OWNtI/EMqAjTIIX+uQc4Hbr4wq7AMFAHaH7TDiXQXbE=;
-        b=h7pfo/9BuAT1kPvDTxTqMJwNJstDVxybBVNFFRdO78yTBittJusomgCvWEYnZxJ9XJ
-         SMAlNtbYOA3mo2RxZU8zHnmaOyDhRdTexKhgGcoqVBaL0r70Xebvd2yQlKx7trUjJUAP
-         /OqKxv+WcgCObvg1BEHANc4oXw6pNs1lJdg1TmP5v5vzpp8BjwY8leXfCNmbzuGirLET
-         7Xi58+2u37PAHcCU3PP7BnfePocvnuywWL5RqQbPmA6QU09BatfwvQzeR3ihgpiQhCBz
-         Fjm6nEvQmcTH2/0kGczXwtZJZ4oOrAQPmmhZ4cKgTs+T0PVMdgcpNplaZHiviSM5GY64
-         mZZQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=RrovbilTXT6NPORa455l2L4h9ydSHzMqM9YAsr8j7SU=;
+        b=kqD3ByJdh6PdKb5WNZgmDIALLAuseQ9Kcnjm9PeGRWjYLuSQQsV7e5SXtij8vBRcfw
+         2U6Vf8wf93G9B/aqgHhVW3ryGtYH/mddvCb0DBQghKUTO4z9R3Dnn2VmJxQ9/uvQnzco
+         1ZyeL6zx8HlBj+mMRLWUZqUIgvoshLHYXZcNP+jcaiHiCQPuqIPEytSVGOHp7CUu5rKA
+         Eh+Afw8YCsHNekqQR5qmIiOiORSfqlx/fD1m2GOb1MDLkgYRjvqWoq4AhQSIt7bUcf48
+         tyM5JTBMablMedmAJ+JRpH6S14Z7s9bYKzvPMIvpa7uBeROuHIKk3hXzcy2MJZQ/AqGu
+         3txg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent
-         :x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=OWNtI/EMqAjTIIX+uQc4Hbr4wq7AMFAHaH7TDiXQXbE=;
-        b=A6atYp4XxlGdYg0lYxBPbNOOFuXdG8/RAZPoob2wgNuPe72Qms9DNczBPkNUmdZS79
-         nrn8ZGD1zkOEU4Zm/gHlpeIX93yE3EexVjTuHO2yRHY4FUYi010Uls08dhhUlBzMOh8V
-         H1xpOCTq2M3j/cR+6OTRdL8N/8K1LVHa8CniQx3cr6np0BHFnwUU/GsCcs3WYSbrky10
-         KDEZAU+hsYwvoAEwLPBQ6npgmSe9KwV9Z6PKbDGj+GCEaoNAeQSFdVU+up2R6ygFAWvc
-         P2Ox2xnzkSV4OjO+SkXQG90TMTXuchxEDpmCJqTK6a3eayIR4yuvI3bLiQjRFOtloyul
-         LUtA==
-X-Gm-Message-State: AOAM532Dr9XIrUmIpdI5YxZqDlhPRKxyWu9UymNmsW0hMcsc+DEjs4Cp
-	vcN3ZP2q1jxk4ixpjOh2TVs=
-X-Google-Smtp-Source: ABdhPJyDTpG3hTnWSeJebmoLoiGZ1QhJsZH+ekSq6CCyrs4mAHJsyvuAJLXnjvjPeGu0BRGpWjXNJA==
-X-Received: by 2002:a5d:6cb1:: with SMTP id a17mr4348825wra.386.1601659207778;
-        Fri, 02 Oct 2020 10:20:07 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=RrovbilTXT6NPORa455l2L4h9ydSHzMqM9YAsr8j7SU=;
+        b=aCY4GdHDZTsG4dObKdhDqSKm6oUPksuUmy35TpWvByxEU8mbIYLtCcoXDdhzTI5uSy
+         iD7BeA9WyRgFi61CoSUYpoPnWscp31poGHa6p5U/Aoyz3+dYcRq+I3MZRiNtoJUgRzuq
+         D+uf9/9hDAi3KhtbWyzNffrY2zIJ7/oGwYedPAoXEi0DBSvuuD1NvlDNHcaCuS4CbE37
+         ypA5TLnedYX+CY+0zuT5Qd53W5c4VqA2jHAQ6MgPRZma2lkzitjEzSWUYTTIRm3vOgqD
+         N56MVMzEwcf/zMv91IcHOtZS662sQgCBlGYsFEpuywzdRtmLPA8D4fBI6xxn/xD3xgn/
+         jKnw==
+X-Gm-Message-State: AOAM530IGheT7gi7EX7iJPZi8mznNUu+1QmYfRM9i6Y5YRoKDpXKYev+
+	vcG+5wm06VqP9pkFNSI6PxE=
+X-Google-Smtp-Source: ABdhPJxP1kl/T5X52M01T21vmigOtbKAe6lili5efJpmZmkIuMfUtaVfpBz2ls7qftkW1VU86bBlsg==
+X-Received: by 2002:aa7:dac5:: with SMTP id x5mr3892631eds.72.1601663307906;
+        Fri, 02 Oct 2020 11:28:27 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a1c:9e53:: with SMTP id h80ls1260905wme.1.canary-gmail; Fri,
- 02 Oct 2020 10:20:06 -0700 (PDT)
-X-Received: by 2002:a1c:b409:: with SMTP id d9mr4210222wmf.106.1601659206792;
-        Fri, 02 Oct 2020 10:20:06 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1601659206; cv=none;
+Received: by 2002:a17:906:af96:: with SMTP id mj22ls1141240ejb.5.gmail; Fri,
+ 02 Oct 2020 11:28:27 -0700 (PDT)
+X-Received: by 2002:a17:906:1485:: with SMTP id x5mr3648735ejc.163.1601663306265;
+        Fri, 02 Oct 2020 11:28:26 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1601663306; cv=none;
         d=google.com; s=arc-20160816;
-        b=rwuvsPck9It8NvMl8m5XpFb8oVhzkeQW4QpQBX/yIVTj0SpLjaj+jnx5Gb3DiDlVC1
-         AMMsZ394SPO3REr+46cyVGEfFqtOlBxlrPmUTcuLd6pE+O9wav25/FmjiWYP/QNykeyD
-         0levn9d2r/OCqfMycPrNde3TVhuUBmnA6KCFH88YKUXTDqXD8KSE5dMSfLGG2OewjaL9
-         LEp1YqZv0U/AIYq4FZjeZ9rQBjGPjAdA7Fm+Ia+DDp4fUqx+gCCk7oIx1EuA9KbKKkw8
-         CsEH4pO2o8VJLnOY/UhgBpFCsZ0etsXhMTKuVdIj3l22b5dh8Dd+rHD1sD6X2+YYE7vd
-         2oNg==
+        b=o2AfgPnHPUFAogCGeGf4L3olRTqqsZ8DgeOQjG7wauByVahfl7bb/tIPcYx6rEBmXa
+         9gg1/4dAyiltkGrbca/kqtzps3WDrSaKbKvVOaDzokD5otF5NwiUvthRhKn9EW2ERg8r
+         DvkvPLd8i11hgfw2TiD8nyAjjKWZ20HDoTuCKmV2JczN0papPvS1rJo6dueu/qVp7SnK
+         OQ29/hqttkHx+eGJaQq8+xDhJXmv665BC4DhGe4fj7fzuXa6UlXabbIPWvnLWyhapJzK
+         WQwPvudwWSLR7XYaI8lEaJRlDkkoJ74ZWE3B55idK6c5j/HVOUbsPwsfr7sSZ+xPPOye
+         vupw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=user-agent:in-reply-to:content-transfer-encoding
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:dkim-signature;
-        bh=v/hEFFtQ+0xxAg96E+/6Cxc0JK2K443dm/brFX78osE=;
-        b=XAX6oqWEWi6cxOMxGR4vsePrTjsNcgfaidcW+NLfhrVyY+uXlg/Lz14nFHuTrPIdAn
-         50y/nHXyO/zr37QQaQUI1rpPas5+chZil1eVDWk04zVgUOOSRhJKX+YhYgtKJFKuajlv
-         rXsTyDDEZnJD3CTjZeiLXPOHO6JJ5sZDOvD9PLIYQ4N91jVHNLjwpguIf3oXHWji1G9t
-         mx2dGAlMisNY7ZW0VCU77posc112K45lMaUwX5XIjsQeKuQjj7/8RaT2raBbANxVFxdo
-         PENqFPqFSwlj2hpRl+p6Jg6ccpTeUIklL/48N2eqUp4+/KvyIoFgpOCM5OHyPvdjr41p
-         35tg==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=BsYux+2mDidOv01anJDY4ry73gJii56cZfxQL8DhjP4=;
+        b=nINWafhBdJ2WUr7jI69aO/I2NoQ1utnKmA9qH+BD96/iZu+vIBhZWmluaglnEKMJn3
+         +DkVvwKaKqJtTXrDhLE8N1o/n6ocTEfQ/BJKORRpH6mAp98qK8EyA/rK0BfVnO3F9+vg
+         Cm/H5he/vPcVa5TenFrKMF4KfLX4q2IO5IYpTXxr+hyaN0RD0YOh14bi+GiFkk7syrf8
+         grwyfYg2R8MTKMXECvmJm19GI62C+KfC5NBKlW738t8m6mm6X58nnLrZowNRyPt+Ec/t
+         qgBVseJL9vjPflLXplSNvobu2J1JpTbYnolZXyPvCAtSg8hvNwAhoAXG2SN/6/fmAvbM
+         uwVw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=TB7iBsky;
-       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::442 as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=iyd0xHn4;
+       spf=pass (google.com: domain of jannh@google.com designates 2a00:1450:4864:20::642 as permitted sender) smtp.mailfrom=jannh@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com. [2a00:1450:4864:20::442])
-        by gmr-mx.google.com with ESMTPS id k14si68964wrx.1.2020.10.02.10.20.06
+Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com. [2a00:1450:4864:20::642])
+        by gmr-mx.google.com with ESMTPS id a16si108868ejk.1.2020.10.02.11.28.26
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 02 Oct 2020 10:20:06 -0700 (PDT)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::442 as permitted sender) client-ip=2a00:1450:4864:20::442;
-Received: by mail-wr1-x442.google.com with SMTP id g4so2629447wrs.5
-        for <kasan-dev@googlegroups.com>; Fri, 02 Oct 2020 10:20:06 -0700 (PDT)
-X-Received: by 2002:adf:fed1:: with SMTP id q17mr4073978wrs.85.1601659206022;
-        Fri, 02 Oct 2020 10:20:06 -0700 (PDT)
-Received: from elver.google.com ([100.105.32.75])
-        by smtp.gmail.com with ESMTPSA id f14sm2634897wme.22.2020.10.02.10.20.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Oct 2020 10:20:05 -0700 (PDT)
-Date: Fri, 2 Oct 2020 19:19:59 +0200
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-To: Jann Horn <jannh@google.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Alexander Potapenko <glider@google.com>,
-	"H . Peter Anvin" <hpa@zytor.com>,
-	"Paul E . McKenney" <paulmck@kernel.org>,
-	Andrey Konovalov <andreyknvl@google.com>,
-	Andrey Ryabinin <aryabinin@virtuozzo.com>,
-	Andy Lutomirski <luto@kernel.org>, Borislav Petkov <bp@alien8.de>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Christoph Lameter <cl@linux.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	David Rientjes <rientjes@google.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hillf Danton <hdanton@sina.com>, Ingo Molnar <mingo@redhat.com>,
-	Jonathan.Cameron@huawei.com, Jonathan Corbet <corbet@lwn.net>,
-	Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-	Kees Cook <keescook@chromium.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Pekka Enberg <penberg@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>, sjpark@amazon.com,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Vlastimil Babka <vbabka@suse.cz>, Will Deacon <will@kernel.org>,
-	"the arch/x86 maintainers" <x86@kernel.org>,
-	linux-doc@vger.kernel.org,
-	kernel list <linux-kernel@vger.kernel.org>,
-	kasan-dev <kasan-dev@googlegroups.com>,
-	Linux ARM <linux-arm-kernel@lists.infradead.org>,
-	Linux-MM <linux-mm@kvack.org>, SeongJae Park <sjpark@amazon.de>
-Subject: Re: [PATCH v4 01/11] mm: add Kernel Electric-Fence infrastructure
-Message-ID: <20201002171959.GA986344@elver.google.com>
-References: <20200929133814.2834621-1-elver@google.com>
- <20200929133814.2834621-2-elver@google.com>
- <CAG48ez3+_K6YXoXgKBkB8AMeSQj++Mxi5u2OT--B+mJgE7Cyfg@mail.gmail.com>
+        Fri, 02 Oct 2020 11:28:26 -0700 (PDT)
+Received-SPF: pass (google.com: domain of jannh@google.com designates 2a00:1450:4864:20::642 as permitted sender) client-ip=2a00:1450:4864:20::642;
+Received: by mail-ej1-x642.google.com with SMTP id c22so1916294ejx.0
+        for <kasan-dev@googlegroups.com>; Fri, 02 Oct 2020 11:28:26 -0700 (PDT)
+X-Received: by 2002:a17:906:394:: with SMTP id b20mr3465227eja.513.1601663305597;
+ Fri, 02 Oct 2020 11:28:25 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200929133814.2834621-1-elver@google.com> <20200929133814.2834621-2-elver@google.com>
+ <CAG48ez3+_K6YXoXgKBkB8AMeSQj++Mxi5u2OT--B+mJgE7Cyfg@mail.gmail.com>
+ <CAG48ez1MQks2na23g_q4=ADrjMYjRjiw+9k_Wp9hwGovFzZ01A@mail.gmail.com> <CACT4Y+a3hLF1ph1fw7xVz1bQDNKL8W0s6pXe7aKm9wTNrJH3=w@mail.gmail.com>
+In-Reply-To: <CACT4Y+a3hLF1ph1fw7xVz1bQDNKL8W0s6pXe7aKm9wTNrJH3=w@mail.gmail.com>
+From: "'Jann Horn' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Fri, 2 Oct 2020 20:27:59 +0200
+Message-ID: <CAG48ez1RYbpMFbGFB6=9Y3vVCGrMgLS3LbDdxzBfmxH6Kxddmw@mail.gmail.com>
+Subject: Re: [PATCH v4 01/11] mm: add Kernel Electric-Fence infrastructure
+To: Dmitry Vyukov <dvyukov@google.com>
+Cc: Marco Elver <elver@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Alexander Potapenko <glider@google.com>, "H . Peter Anvin" <hpa@zytor.com>, 
+	"Paul E . McKenney" <paulmck@kernel.org>, Andrey Konovalov <andreyknvl@google.com>, 
+	Andrey Ryabinin <aryabinin@virtuozzo.com>, Andy Lutomirski <luto@kernel.org>, 
+	Borislav Petkov <bp@alien8.de>, Catalin Marinas <catalin.marinas@arm.com>, Christoph Lameter <cl@linux.com>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, David Rientjes <rientjes@google.com>, 
+	Eric Dumazet <edumazet@google.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Hillf Danton <hdanton@sina.com>, Ingo Molnar <mingo@redhat.com>, 
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Joonsoo Kim <iamjoonsoo.kim@lge.com>, Kees Cook <keescook@chromium.org>, 
+	Mark Rutland <mark.rutland@arm.com>, Pekka Enberg <penberg@kernel.org>, 
+	Peter Zijlstra <peterz@infradead.org>, SeongJae Park <sjpark@amazon.com>, 
+	Thomas Gleixner <tglx@linutronix.de>, Vlastimil Babka <vbabka@suse.cz>, Will Deacon <will@kernel.org>, 
+	"the arch/x86 maintainers" <x86@kernel.org>, "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, 
+	kernel list <linux-kernel@vger.kernel.org>, kasan-dev <kasan-dev@googlegroups.com>, 
+	Linux ARM <linux-arm-kernel@lists.infradead.org>, Linux-MM <linux-mm@kvack.org>, 
+	SeongJae Park <sjpark@amazon.de>
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <CAG48ez3+_K6YXoXgKBkB8AMeSQj++Mxi5u2OT--B+mJgE7Cyfg@mail.gmail.com>
-User-Agent: Mutt/1.14.5 (2020-06-23)
-X-Original-Sender: elver@google.com
+X-Original-Sender: jannh@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=TB7iBsky;       spf=pass
- (google.com: domain of elver@google.com designates 2a00:1450:4864:20::442 as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ header.i=@google.com header.s=20161025 header.b=iyd0xHn4;       spf=pass
+ (google.com: domain of jannh@google.com designates 2a00:1450:4864:20::642 as
+ permitted sender) smtp.mailfrom=jannh@google.com;       dmarc=pass (p=REJECT
  sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+X-Original-From: Jann Horn <jannh@google.com>
+Reply-To: Jann Horn <jannh@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -167,370 +146,228 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hi Jann,
-
-Thanks for your comments!!
-
-On Fri, Oct 02, 2020 at 08:33AM +0200, Jann Horn wrote:
-> On Tue, Sep 29, 2020 at 3:38 PM Marco Elver <elver@google.com> wrote:
-> > This adds the Kernel Electric-Fence (KFENCE) infrastructure. KFENCE is a
-> > low-overhead sampling-based memory safety error detector of heap
-> > use-after-free, invalid-free, and out-of-bounds access errors.
+On Fri, Oct 2, 2020 at 4:23 PM Dmitry Vyukov <dvyukov@google.com> wrote:
+> On Fri, Oct 2, 2020 at 9:54 AM Jann Horn <jannh@google.com> wrote:
+> > On Fri, Oct 2, 2020 at 8:33 AM Jann Horn <jannh@google.com> wrote:
+> > > On Tue, Sep 29, 2020 at 3:38 PM Marco Elver <elver@google.com> wrote:
+> > > > This adds the Kernel Electric-Fence (KFENCE) infrastructure. KFENCE is a
+> > > > low-overhead sampling-based memory safety error detector of heap
+> > > > use-after-free, invalid-free, and out-of-bounds access errors.
+> > > >
+> > > > KFENCE is designed to be enabled in production kernels, and has near
+> > > > zero performance overhead. Compared to KASAN, KFENCE trades performance
+> > > > for precision. The main motivation behind KFENCE's design, is that with
+> > > > enough total uptime KFENCE will detect bugs in code paths not typically
+> > > > exercised by non-production test workloads. One way to quickly achieve a
+> > > > large enough total uptime is when the tool is deployed across a large
+> > > > fleet of machines.
+> > [...]
+> > > > +/*
+> > > > + * The pool of pages used for guard pages and objects. If supported, allocated
+> > > > + * statically, so that is_kfence_address() avoids a pointer load, and simply
+> > > > + * compares against a constant address. Assume that if KFENCE is compiled into
+> > > > + * the kernel, it is usually enabled, and the space is to be allocated one way
+> > > > + * or another.
+> > > > + */
+> > >
+> > > If this actually brings a performance win, the proper way to do this
+> > > would probably be to implement this as generic kernel infrastructure
+> > > that makes the compiler emit large-offset relocations (either through
+> > > compiler support or using inline asm statements that move an immediate
+> > > into a register output and register the location in a special section,
+> > > kinda like how e.g. static keys work) and patches them at boot time,
+> > > or something like that - there are other places in the kernel where
+> > > very hot code uses global pointers that are only ever written once
+> > > during boot, e.g. the dentry cache of the VFS and the futex hash
+> > > table. Those are probably far hotter than the kfence code.
+> > >
+> > > While I understand that that goes beyond the scope of this project, it
+> > > might be something to work on going forward - this kind of
+> > > special-case logic that turns the kernel data section into heap memory
+> > > would not be needed if we had that kind of infrastructure.
 > >
-> > KFENCE is designed to be enabled in production kernels, and has near
-> > zero performance overhead. Compared to KASAN, KFENCE trades performance
-> > for precision. The main motivation behind KFENCE's design, is that with
-> > enough total uptime KFENCE will detect bugs in code paths not typically
-> > exercised by non-production test workloads. One way to quickly achieve a
-> > large enough total uptime is when the tool is deployed across a large
-> > fleet of machines.
+> > After thinking about it a bit more, I'm not even convinced that this
+> > is a net positive in terms of overall performance - while it allows
+> > you to avoid one level of indirection in some parts of kfence, that
+> > kfence code by design only runs pretty infrequently. And to enable
+> > this indirection avoidance, your x86 arch_kfence_initialize_pool() is
+> > shattering potentially unrelated hugepages in the kernel data section,
+> > which might increase the TLB pressure (and therefore the number of
+> > memory loads that have to fall back to slow page walks) in code that
+> > is much hotter than yours.
 > >
-> > KFENCE objects each reside on a dedicated page, at either the left or
-> > right page boundaries.
-> 
-> (modulo slab alignment)
+> > And if this indirection is a real performance problem, that problem
+> > would be many times worse in the VFS and the futex subsystem, so
+> > developing a more generic framework for doing this cleanly would be
+> > far more important than designing special-case code to allow kfence to
+> > do this.
+> >
+> > And from what I've seen, a non-trivial chunk of the code in this
+> > series, especially the arch/ parts, is only necessary to enable this
+> > microoptimization.
+> >
+> > Do you have performance numbers or a description of why you believe
+> > that this part of kfence is exceptionally performance-sensitive? If
+> > not, it might be a good idea to remove this optimization, at least for
+> > the initial version of this code. (And even if the optimization is
+> > worthwhile, it might be a better idea to go for the generic version
+> > immediately.)
+>
+> This check is very hot, it happens on every free. For every freed
+> object we need to understand if it belongs to KFENCE or not.
 
-There are a bunch more details missing; this is just a high-level
-summary. Because as soon as we mention "modulo slab alignment" one may
-wonder about missed OOBs, which we solve with redzones. We should not
-replicate Documentation/dev-tools/kfence.rst; we do refer to it instead.
-;-)
+Ah, so the path you care about does not dereference __kfence_pool, it
+just compares it to the supplied pointer?
 
-> > The pages to the left and right of the object
-> > page are "guard pages", whose attributes are changed to a protected
-> > state, and cause page faults on any attempted access to them. Such page
-> > faults are then intercepted by KFENCE, which handles the fault
-> > gracefully by reporting a memory access error. To detect out-of-bounds
-> > writes to memory within the object's page itself, KFENCE also uses
-> > pattern-based redzones. The following figure illustrates the page
-> > layout:
-> [...]
-> > diff --git a/include/linux/kfence.h b/include/linux/kfence.h
-> [...]
-> > +/**
-> > + * is_kfence_address() - check if an address belongs to KFENCE pool
-> > + * @addr: address to check
-> > + *
-> > + * Return: true or false depending on whether the address is within the KFENCE
-> > + * object range.
-> > + *
-> > + * KFENCE objects live in a separate page range and are not to be intermixed
-> > + * with regular heap objects (e.g. KFENCE objects must never be added to the
-> > + * allocator freelists). Failing to do so may and will result in heap
-> > + * corruptions, therefore is_kfence_address() must be used to check whether
-> > + * an object requires specific handling.
-> > + */
-> > +static __always_inline bool is_kfence_address(const void *addr)
-> > +{
-> > +       return unlikely((char *)addr >= __kfence_pool &&
-> > +                       (char *)addr < __kfence_pool + KFENCE_POOL_SIZE);
-> > +}
-> 
-> If !CONFIG_HAVE_ARCH_KFENCE_STATIC_POOL, this should probably always
-> return false if __kfence_pool is NULL, right?
 
-That's another check; we don't want to make this more expensive.
+First off: The way you've written is_kfence_address(), GCC 10.2 at -O3
+seems to generate *utterly* *terrible* code (and the newest clang
+release isn't any better); something like this:
 
-This should never receive a NULL, given the places it's used from, which
-should only be allocator internals where we already know we have a
-non-NULL object. If it did receive a NULL, I think something else is
-wrong. Or did we miss a place where it can legally receive a NULL?
+kfree_inefficient:
+  mov rax, QWORD PTR __kfence_pool[rip]
+  cmp rax, rdi
+  jbe .L4
+.L2:
+  jmp kfree_not_kfence
+.L4:
+  add rax, 0x200000
+  cmp rax, rdi
+  jbe .L2
+  jmp kfree_kfence
 
-> [...]
-> > diff --git a/lib/Kconfig.kfence b/lib/Kconfig.kfence
-> [...]
-> > +menuconfig KFENCE
-> > +       bool "KFENCE: low-overhead sampling-based memory safety error detector"
-> > +       depends on HAVE_ARCH_KFENCE && !KASAN && (SLAB || SLUB)
-> > +       depends on JUMP_LABEL # To ensure performance, require jump labels
-> > +       select STACKTRACE
-> > +       help
-> > +         KFENCE is low-overhead sampling-based detector for heap out-of-bounds
-> 
-> nit: "is a"
+So pointers to the left of the region and pointers to the right of the
+region will take different branches, and so if you have a mix of
+objects on both sides of the kfence region, you'll get tons of branch
+mispredictions for no good reason. You'll want to rewrite that check
+as "unlikely(ptr - base <= SIZE)" instead of "unlikely(ptr >= base &&
+ptr < base + SIZE" unless you know that all the objects will be on one
+side. This would also reduce the performance impact of loading
+__kfence_pool from the data section, because the branch prediction can
+then speculate the branch that depends on the load properly and
+doesn't have to go roll back everything that happened when the object
+turns out to be on the opposite side of the kfence memory region - the
+latency of the load will hopefully become almost irrelevant.
 
-Done.
 
-> > +         access, use-after-free, and invalid-free errors. KFENCE is designed
-> > +         to have negligible cost to permit enabling it in production
-> > +         environments.
-> [...]
-> > diff --git a/mm/kfence/core.c b/mm/kfence/core.c
-> [...]
-> > +module_param_named(sample_interval, kfence_sample_interval, ulong, 0600);
-> 
-> This is a writable module parameter, but if the sample interval was 0
-> or a very large value, changing this value at runtime won't actually
-> change the effective interval because the work item will never get
-> kicked off again, right?
 
-When KFENCE has been enabled, setting this to 0 actually reschedules the
-work immediately; we do not disable KFENCE once it has been enabled.
+So in x86 intel assembly (assuming that we want to ensure that we only
+do a single branch on the object type), the straightforward and
+non-terrible version would be:
 
-Conversely, if KFENCE has been disabled at boot (this param is 0),
-changing this to anything else will not enable KFENCE.
 
-This simplifies a lot of things, in particular, if KFENCE was disabled
-we do not want to run initialization code and also do not want to kick
-off KFENCE initialization code were we to allow dynamically turning
-KFENCE on/off (it complicates a bunch of things, e.g. the various
-arch-specific initialization would need to be able to deal with all
-this).
+kfree_unoptimized:
+  mov rax, rdi
+  sub rax, QWORD PTR __kfence_pool[rip]
+  cmp rax, 0x200000
+  jbe 1f
+  /* non-kfence case goes here */
+1:
+  /* kfence case goes here */
 
-> Should this maybe use module_param_cb() instead, with a "set" callback
-> that not only changes the value, but also schedules the work item?
 
-Whether or not we want to reschedule the work if the value was changed
-from a huge value to a smaller one is another question. Probably...
-we'll consider it.
+while the version you want is:
 
-> [...]
-> > +/*
-> > + * The pool of pages used for guard pages and objects. If supported, allocated
-> > + * statically, so that is_kfence_address() avoids a pointer load, and simply
-> > + * compares against a constant address. Assume that if KFENCE is compiled into
-> > + * the kernel, it is usually enabled, and the space is to be allocated one way
-> > + * or another.
-> > + */
-> 
-> If this actually brings a performance win, the proper way to do this
-> would probably be to implement this as generic kernel infrastructure
-> that makes the compiler emit large-offset relocations (either through
-> compiler support or using inline asm statements that move an immediate
-> into a register output and register the location in a special section,
-> kinda like how e.g. static keys work) and patches them at boot time,
-> or something like that - there are other places in the kernel where
-> very hot code uses global pointers that are only ever written once
-> during boot, e.g. the dentry cache of the VFS and the futex hash
-> table. Those are probably far hotter than the kfence code.
-> 
-> While I understand that that goes beyond the scope of this project, it
-> might be something to work on going forward - this kind of
-> special-case logic that turns the kernel data section into heap memory
-> would not be needed if we had that kind of infrastructure.
-> 
-> > +#ifdef CONFIG_HAVE_ARCH_KFENCE_STATIC_POOL
-> > +char __kfence_pool[KFENCE_POOL_SIZE] __kfence_pool_attrs;
-> > +#else
-> > +char *__kfence_pool __read_mostly;
-> 
-> not __ro_after_init ?
 
-Changed, thanks.
+kfree_static:
+  mov rax, rdi
+  sub rax, OFFSET FLAT:__kfence_pool
+  cmp rax, 0x200000
+  jbe 1f
+  jmp kfree_not_kfence
+1:
+  jmp kfree_kfence
 
-> > +#endif
-> [...]
-> > +/* Freelist with available objects. */
-> > +static struct list_head kfence_freelist = LIST_HEAD_INIT(kfence_freelist);
-> > +static DEFINE_RAW_SPINLOCK(kfence_freelist_lock); /* Lock protecting freelist. */
-> [...]
-> > +/* Gates the allocation, ensuring only one succeeds in a given period. */
-> > +static atomic_t allocation_gate = ATOMIC_INIT(1);
-> 
-> I don't think you need to initialize this to anything?
-> toggle_allocation_gate() will set it to zero before enabling the
-> static key, so I don't think anyone will ever see this value.
 
-Sure. But does it hurt anyone? At least this way we don't need to think
-about yet another state that only exists on initialization; who knows
-what we'll change in future.
+If we instead use something like
 
-> [...]
-> > +/* Check canary byte at @addr. */
-> > +static inline bool check_canary_byte(u8 *addr)
-> > +{
-> > +       if (*addr == KFENCE_CANARY_PATTERN(addr))
-> 
-> You could maybe add a likely() hint here if you want.
+#define STATIC_VARIABLE_LOAD(variable) \
+({ \
+  typeof(variable) value; \
+  BUILD_BUG_ON(sizeof(variable) != sizeof(unsigned long)); \
+  asm( \
+    ".pushsection .static_variable_users\n\t" \
+    ".long "  #variable " - .\n\t" \
+    ".long 123f - .\n\t" /* offset to end of constant */ \
+    ".popsection\n\t" \
+    "movabs $0x0123456789abcdef, %0" \
+    "123:\n\t" \
+    :"=r"(value) \
+  ); \
+  value; \
+})
+static __always_inline bool is_kfence_address(const void *addr)
+{
+  return unlikely((char*)addr - STATIC_VARIABLE_LOAD(__kfence_pool) <
+KFENCE_POOL_SIZE);
+}
 
-Added; but none of this is in a hot path.
+to locate the pool (which could again be normally allocated with
+alloc_pages()), we'd get code like this, which is like the previous
+except that we need an extra "movabs" because x86's "sub" can only use
+immediates up to 32 bits:
 
-> > +               return true;
-> > +
-> > +       atomic_long_inc(&counters[KFENCE_COUNTER_BUGS]);
-> > +       kfence_report_error((unsigned long)addr, addr_to_metadata((unsigned long)addr),
-> > +                           KFENCE_ERROR_CORRUPTION);
-> > +       return false;
-> > +}
-> > +
-> > +static inline void for_each_canary(const struct kfence_metadata *meta, bool (*fn)(u8 *))
-> 
-> Given how horrendously slow this would be if the compiler decided to
-> disregard the "inline" hint and did an indirect call for every byte,
-> you may want to use __always_inline here.
+kfree_hotpatchable_bigreloc:
+  mov rax, rdi
+  movabs rdx, 0x0123456789abcdef
+  sub rax, rdx
+  cmp rax, 0x200000
+  jbe .1f
+  jmp kfree_not_kfence
+1:
+  jmp kfree_kfence
 
-Done.
+The arch-specific part of this could probably be packaged up pretty
+nicely into a generic interface. If it actually turns out to have a
+performance benefit, that is.
 
-> > +{
-> > +       unsigned long addr;
-> > +
-> > +       lockdep_assert_held(&meta->lock);
-> > +
-> > +       for (addr = ALIGN_DOWN(meta->addr, PAGE_SIZE); addr < meta->addr; addr++) {
-> > +               if (!fn((u8 *)addr))
-> > +                       break;
-> > +       }
-> > +
-> > +       for (addr = meta->addr + meta->size; addr < PAGE_ALIGN(meta->addr); addr++) {
-> 
-> Hmm... if the object is on the left side (meaning meta->addr is
-> page-aligned) and the padding is on the right side, won't
-> PAGE_ALIGN(meta->addr)==meta->addr , and therefore none of the padding
-> will be checked?
+If that one extra "movabs" is actually a problem, it would
+*theoretically* be possible to get rid of that by using module_alloc()
+to allocate virtual memory to which offsets from kernel text are 32
+bits, and using special-cased inline asm, but we probably shouldn't do
+that, because as Mark pointed out, we'd then risk getting extremely
+infrequent extra bugs when drivers use phys_to_virt() on allocations
+that were done through kfence. Adding new, extremely infrequent and
+sporadically occurring bugs to the kernel seems like the exact
+opposite of the goal of KFENCE. :P
 
-No, you're thinking of ALIGN_DOWN. PAGE_ALIGN gives us the next page.
+Overall my expectation would be that the MOVABS version should
+probably at worst be something like one cycle slower - it adds 5
+instruction bytes (and we pay 1 cycle in the frontend per 16 bytes of
+instructions, I think?) and 1 backend cycle (for the MOVABS - Agner
+Fog's tables seem to say that at least on Skylake, MOVABS is 1 cycle).
+But that backend cycle shouldn't even be on the critical path (and it
+has a wider choice of ports than e.g. a load, and I think typical
+kernel code isn't exactly highly parallelizable, so we can probably
+schedule on a port that would've been free otherwise?), and I think
+typical kernel code should be fairly light on the backend, so with the
+MOVABS version, compared to the version with __kfence_pool in the data
+section, we probably overall just pay a fraction of a cycle in
+execution cost? I'm not a professional performance engineer, but this
+sounds to me like the MOVABS version should probably perform roughly
+as well as your version.
 
-> > +               if (!fn((u8 *)addr))
-> > +                       break;
-> > +       }
-> > +}
-> > +
-> > +static void *kfence_guarded_alloc(struct kmem_cache *cache, size_t size, gfp_t gfp)
-> > +{
-> > +       struct kfence_metadata *meta = NULL;
-> > +       unsigned long flags;
-> > +       void *addr;
-> > +
-> > +       /* Try to obtain a free object. */
-> > +       raw_spin_lock_irqsave(&kfence_freelist_lock, flags);
-> > +       if (!list_empty(&kfence_freelist)) {
-> > +               meta = list_entry(kfence_freelist.next, struct kfence_metadata, list);
-> > +               list_del_init(&meta->list);
-> > +       }
-> > +       raw_spin_unlock_irqrestore(&kfence_freelist_lock, flags);
-> > +       if (!meta)
-> > +               return NULL;
-> 
-> Should this use pr_warn_once(), or something like that, to inform the
-> user that kfence might be stuck with all allocations used by
-> long-living objects and therefore no longer doing anything?
+Anyway, I guess this is all pretty vague without actually having
+concrete benchmark results. :P
 
-I don't think so; it might as well recover, and seeing this message once
-is no indication that we're stuck. Instead, we should (and plan to)
-monitor /sys/kernel/debug/kfence/stats.
+See <https://godbolt.org/z/Kev9dc> for examples of actual code
+generation for different options of writing this check.
 
-> [...]
-> > +}
-> [...]
-> > +/* === Allocation Gate Timer ================================================ */
-> > +
-> > +/*
-> > + * Set up delayed work, which will enable and disable the static key. We need to
-> > + * use a work queue (rather than a simple timer), since enabling and disabling a
-> > + * static key cannot be done from an interrupt.
-> > + */
-> > +static struct delayed_work kfence_timer;
-> > +static void toggle_allocation_gate(struct work_struct *work)
-> > +{
-> > +       if (!READ_ONCE(kfence_enabled))
-> > +               return;
-> > +
-> > +       /* Enable static key, and await allocation to happen. */
-> > +       atomic_set(&allocation_gate, 0);
-> > +       static_branch_enable(&kfence_allocation_key);
-> > +       wait_event(allocation_wait, atomic_read(&allocation_gate) != 0);
-> > +
-> > +       /* Disable static key and reset timer. */
-> > +       static_branch_disable(&kfence_allocation_key);
-> > +       schedule_delayed_work(&kfence_timer, msecs_to_jiffies(kfence_sample_interval));
-> 
-> We end up doing two IPIs to all CPU cores for each kfence allocation
-> because of those static branch calls, right? Might be worth adding a
-> comment to point that out, or something like that. (And if it ends up
-> being a problem in the future, we could probably get away with using
-> some variant that avoids the IPI, but flushes the instruction pipeline
-> if we observe the allocation_gate being nonzero, or something like
-> that. At the cost of not immediately capturing new allocations if the
-> relevant instructions are cached. But the current version is
-> definitely fine for an initial implementation, and for now, you should
-> probably *not* implement what I just described.)
+> The generic framework for this already exists -- you simply create a
+> global variable ;)
 
-Thanks, yeah, this is a good point, and I wondered if we could optimize
-this along these lines. We'll add a comment. Maybe somebody wants to
-optimize this in future. :-)
+Yeah, except for all the arch-specific bits you then need to twiddle
+with because nobody expects heap memory inside the data section...
 
-> > +}
-> > +static DECLARE_DELAYED_WORK(kfence_timer, toggle_allocation_gate);
-> > +
-> > +/* === Public interface ===================================================== */
-> > +
-> > +void __init kfence_init(void)
-> > +{
-> > +       /* Setting kfence_sample_interval to 0 on boot disables KFENCE. */
-> > +       if (!kfence_sample_interval)
-> > +               return;
-> > +
-> > +       if (!kfence_initialize_pool()) {
-> > +               pr_err("%s failed\n", __func__);
-> > +               return;
-> > +       }
-> > +
-> > +       WRITE_ONCE(kfence_enabled, true);
-> > +       schedule_delayed_work(&kfence_timer, 0);
-> 
-> This is schedule_work(&kfence_timer).
+> KFENCE needs the range to be covered by struct page's and that's what
+> creates problems for arm64. But I would assume most other users don't
+> need that.
 
-No, schedule_work() is not generic and does not take a struct delayed_work.
-
-> [...]
-> > +}
-> [...]
-> > diff --git a/mm/kfence/kfence.h b/mm/kfence/kfence.h
-> [...]
-> > +/* KFENCE metadata per guarded allocation. */
-> > +struct kfence_metadata {
-> [...]
-> > +       /*
-> > +        * In case of an invalid access, the page that was unprotected; we
-> > +        * optimistically only store address.
-> 
-> Is this supposed to say something like "only store one address"?
-
-Done.
-
-> > +        */
-> > +       unsigned long unprotected_page;
-> > +};
-> [...]
-> > +#endif /* MM_KFENCE_KFENCE_H */
-> > diff --git a/mm/kfence/report.c b/mm/kfence/report.c
-> [...]
-> > +void kfence_report_error(unsigned long address, const struct kfence_metadata *meta,
-> > +                        enum kfence_error_type type)
-> > +{
-> [...]
-> > +       pr_err("==================================================================\n");
-> > +       /* Print report header. */
-> > +       switch (type) {
-> [...]
-> > +       case KFENCE_ERROR_INVALID_FREE:
-> > +               pr_err("BUG: KFENCE: invalid free in %pS\n\n", (void *)stack_entries[skipnr]);
-> > +               pr_err("Invalid free of 0x" PTR_FMT " (in kfence-#%zd):\n", (void *)address,
-> > +                      object_index);
-> > +               break;
-> > +       }
-> > +
-> > +       /* Print stack trace and object info. */
-> > +       stack_trace_print(stack_entries + skipnr, num_stack_entries - skipnr, 0);
-> > +
-> > +       if (meta) {
-> > +               pr_err("\n");
-> > +               kfence_print_object(NULL, meta);
-> > +       }
-> > +
-> > +       /* Print report footer. */
-> > +       pr_err("\n");
-> > +       dump_stack_print_info(KERN_DEFAULT);
-> 
-> Shouldn't this be KERN_ERR, to keep the loglevel consistent with the
-> previous messages?
-
-Done.
-
-Thanks,
--- Marco
+Things like the big VFS dentry cache and the futex hashtable have
+their size chosen at boot time, so they also can't be placed in the
+data/bss section.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20201002171959.GA986344%40elver.google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAG48ez1RYbpMFbGFB6%3D9Y3vVCGrMgLS3LbDdxzBfmxH6Kxddmw%40mail.gmail.com.
