@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBB5H3635QKGQEOPIJKHQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCQ2XPNX7EOBBZU2675QKGQE5OPAONI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ua1-x939.google.com (mail-ua1-x939.google.com [IPv6:2607:f8b0:4864:20::939])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD2A0285FC9
-	for <lists+kasan-dev@lfdr.de>; Wed,  7 Oct 2020 15:09:10 +0200 (CEST)
-Received: by mail-ua1-x939.google.com with SMTP id o59sf576952uao.17
-        for <lists+kasan-dev@lfdr.de>; Wed, 07 Oct 2020 06:09:10 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1602076150; cv=pass;
+Received: from mail-ej1-x63e.google.com (mail-ej1-x63e.google.com [IPv6:2a00:1450:4864:20::63e])
+	by mail.lfdr.de (Postfix) with ESMTPS id E2B622860FD
+	for <lists+kasan-dev@lfdr.de>; Wed,  7 Oct 2020 16:15:02 +0200 (CEST)
+Received: by mail-ej1-x63e.google.com with SMTP id ga21sf842930ejb.14
+        for <lists+kasan-dev@lfdr.de>; Wed, 07 Oct 2020 07:15:02 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1602080102; cv=pass;
         d=google.com; s=arc-20160816;
-        b=qgXNm9KmPBmOUDtTnpYKpgzm2MHDxDfzEdqeZf9dRxf5JXdXuKlLgytxtK6PoQCdcl
-         l54kZd8kR9WF8RWqURuXU1LFDYka8QnXqApbXYVgWFSCOQ1TswwacUOuqlifg+4p+XNi
-         RiJon3ykhEB54M/1ZM+Q1j1GzhSfROg+bFEM2/AGJx5s5PWVeiPeKMXPTxHMOAvGIJIs
-         9sYBQJ7+PWW8Su7V2BiaQMFzxXTymuPU3rkWibYPIqUCf+mLlRGU1f0bJY21BhY+/D2S
-         qv6YQcDzdwZthz4fvvOlLsBj+9918MhCy76rr6qsQ1R9cXNJ76/r++hNjBQL+SPCyE4c
-         32BQ==
+        b=S1XUUxQaLuugRxmxUrCQVUdplfbDmtDLFSPilmBIl1i4IuYg2DUYCYlkXB0tssPmVq
+         rFNCfGGtUoC6ZhROS7jhyA3rKYDml8DAEnusg8IDS6IpN+lHbBe+1Nto4Pz0qGGjU4CZ
+         NgMmPPY73rHnr+Xa5S8B+gnepe+8etQN3AWKlj4LcnIKrHuSeLRMaocTesyiXPUMxxAg
+         McBnlk95XCc3owAaqzheF5mzu+k2cOUroPQEepsKFGYa2KqEem86icZ7JP8ieCrssTKm
+         efST5+MW5weeN0TaRCo41mHdKIVkKhd1ojGxYV+JA/ASIpjalinF3EB2T66/6vsOmGw2
+         evzg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=blf6pOb3TR8ENIoo2Mz+8CKo9sASotjKhaALtai5Png=;
-        b=l+YB97TEqkCO7kq4/kup8qtTPNkHBjpJJ3iwsOmLNWBWZ4TdU9CpZ8reav1Bj042UH
-         jvr5+6jU5T1HqLQKRsdT5OPv6LIX8pa6mYuV+2fHmkV/qSCY1djQeo6Rqs5PGEUe+xXg
-         gHdDaKZFAz9gbMI+AAvq8l8EnF2aonm2a0Zx+98L5nM28FmRGM5COi7I+eL5aFRBMCaY
-         11tOqMAOF3kpcilVpgD/DKhMIYtarfG5+q5G2EFGbaR74soXopVj/PlsDgolTLBA10De
-         WOLH0+udl7+QMfPzvlRBVwHBlvN1XN1Sla0X0cnQL3rifStPJ1oWLfKuVVXKsOhum5Va
-         2DDg==
+        bh=+bN4iQMdvEFSBN5puxmml56DbZ6Abd5RL84dTLQ/UKk=;
+        b=ZDz0PkzTYu1D8EMYa3zdxmk9GG9Z1e52njv/lMZR8PerO3X9DEZuTTs2mewyyLNIRm
+         FUiGx2zjI08Sn6HWuKzXNsfNb/soHTVOAHfl5Zu4bcUKxsgZgv+Lw9LLBHM/dJBaH6xy
+         +XvTc29EW8HJG96Rn5Q+YblBtGHHtMqzgNLlMlszYXeh3aOB3o1G2dAxPdLCWxi55b2M
+         k3u00InOIzFm+l7R2tBV12KI1l/2kr3Ucz9AqOlodsK6sKwK5BJ1bAqIe7szWM6NUYrp
+         87BVpQrEGeIemoVsuEQZcg8pq/BUc8Cd8EzR/+5Gaze3aV8VETLPvxyFTASznmAmv4MY
+         tn2g==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b="DA6B/QuW";
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::343 as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=WCPWazuY;
+       spf=pass (google.com: domain of jannh@google.com designates 2a00:1450:4864:20::543 as permitted sender) smtp.mailfrom=jannh@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=blf6pOb3TR8ENIoo2Mz+8CKo9sASotjKhaALtai5Png=;
-        b=BOnZs1MVURn3kFlhcLxeQ7+qODhYaEFnRzFTfSrGEKIm/ESC8U64dIlXPk/gmy68gu
-         z8EjTyLoaIrRNTpoVsfBz5inLHVw7ibuYHEqunqK3motf6TFcyEpXLva06ts9vLZ6RQk
-         I+DXjWjP7qW9xL85PaA+LW5ohufSh+5bFfMEj2RoNdAGgk+gNiqVt0Vpi5/H0zk4xmgh
-         uYWHqjR1U3Ym+DW+fmXTQ0WsmojixT0Fnsjw02z+QbFbWBbTCb7zN57BrNjqdHz81Pan
-         2xtbnlTa8qk5FyssplR039WQcnMndoXJNyLjOCnFcOpXNXvCF4Rb+MNkYaygBIZVwGde
-         7xjw==
+        bh=+bN4iQMdvEFSBN5puxmml56DbZ6Abd5RL84dTLQ/UKk=;
+        b=iC5GPkvuTHTAU1lNKoKa5UXJIsamr97AE2cu5DPA+tMscTSqo74lCw/3rWQ9ZVlAgZ
+         1+Vb7314EMEjrzynO2lVj6i5DB07HrhVN7CxonOPkFL8y4jHRwfJv36wbRuZw6aRbs1P
+         NgP2K8wtom1qkV1fkdqlRwHWVYFPRKlWLaMcMREIOzoQ8yszzBsb741e+MziVruCKY7v
+         TmoKOAtVkmeeZ25XroaxihpsqO+iX5xnClB1C4Rd4XHGDn7AuNcManexOb/n9mXeB8WP
+         56gaXUjN3R0oI3lDZNJlef/e+sNCHEWgZT1DLHycYTf/FMg95v81Xtinv4OfYee74f5V
+         V9ag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
@@ -49,64 +49,64 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=blf6pOb3TR8ENIoo2Mz+8CKo9sASotjKhaALtai5Png=;
-        b=G54q28tPpDew+hmQlEjs67WlVFibCH8DPjAonofRT1yJRTnbVXJfe2nq+qzJxyVeul
-         yV28VCNnM3BVQeHky3dcrHxCoieyhORHPSYk7V3LUSdPgQGqEUT5mve+B7cJRoJRbyVl
-         nRx+j0G6SK7tqq/Yu09SIHunDsMbJRSHfGjXzPDBeDcYxwLDXRHENT5t0YrCwRWbuu76
-         au4wHjwt+Smqg0bnXmLPo7fH6H0hieCQaU1uxRdCbCiiIzSwf1GX2jbLWw2hlwcJe6Eu
-         38bKveep4y60ZNmWkO6cJrlYgT9+RSXVzHscca3A3xGzN9JYZUxX92BWzPDtQam5OnCx
-         yPew==
-X-Gm-Message-State: AOAM5302guTzk6VOgjM+v0r7zqcDHGj2fn8JqcvqnT7EJOP/HyF1VGtY
-	8s+T0kKk8TRdK2yNnj8XT6w=
-X-Google-Smtp-Source: ABdhPJyzyZCYzgM6GKQiY8rwzJ/zFfThkUVhUkFwUj0yN1KLVvFk+7SQozXC7JCOV0DmNGlJVjt5+g==
-X-Received: by 2002:a67:2bc5:: with SMTP id r188mr1543614vsr.17.1602076149129;
-        Wed, 07 Oct 2020 06:09:09 -0700 (PDT)
+        bh=+bN4iQMdvEFSBN5puxmml56DbZ6Abd5RL84dTLQ/UKk=;
+        b=ALuq1zsikBH20PUxArNvKEdO8Bd+lOUuf7biMvN3z6Fhik5JnQUUB0gajq5MyU6Afa
+         o3BW84F5cCu9TUjQHku0Rf6WHBvoaxoPTkO9U/7xn4eVb5WXU2beKwsN0qMwLv0nG63A
+         E3nG/6ahR2eLIvgVH1X67g010cM1uQpHvCRx+TQxG72VbCIfgPivV8uevFd04Lc5O07o
+         vsDwTpScWCt1OadG8liUKiymq+7OtNGNY+QwFfsBGVNWSCDfie2QfBt6wSfglWhePXiO
+         TQNvwHxGMdcfMDMjpV2oFRs7e32sgSqzSi9WVHWr2gON6/aYMv4Py2k6gQDD/xkrSS3y
+         +0VQ==
+X-Gm-Message-State: AOAM530+G2qE/NPx8bK00r8cTMrkvu6TDc0tgjD4sAyuHmyRkHJ2ZfKL
+	h1ehwhGlNE6Nl91KW7PMPkY=
+X-Google-Smtp-Source: ABdhPJwRmO+zP0g3on/YpyfllBiKZGBy508VMh60GyqBzXCw5e//TYubfZkSSQ+CR2y4Az46cpmk1g==
+X-Received: by 2002:a17:906:1b01:: with SMTP id o1mr3739947ejg.539.1602080102524;
+        Wed, 07 Oct 2020 07:15:02 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ab0:4754:: with SMTP id i20ls133812uac.0.gmail; Wed, 07 Oct
- 2020 06:09:08 -0700 (PDT)
-X-Received: by 2002:ab0:72d8:: with SMTP id g24mr1363961uap.98.1602076148290;
-        Wed, 07 Oct 2020 06:09:08 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1602076148; cv=none;
+Received: by 2002:aa7:cc8b:: with SMTP id p11ls1105664edt.3.gmail; Wed, 07 Oct
+ 2020 07:15:01 -0700 (PDT)
+X-Received: by 2002:a05:6402:7d2:: with SMTP id u18mr3836050edy.69.1602080101612;
+        Wed, 07 Oct 2020 07:15:01 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1602080101; cv=none;
         d=google.com; s=arc-20160816;
-        b=Q29s5OSjogmJfyhYHH9bo9pjgPRcxJOW2s9DSYxM0R9B8rxjQ/kyuVxHqLz5qtlp4B
-         qJ2a0Crwo2fEMtEDvRyD64FM/+Vmg6+guf4ekGY677g3N1aNbZx6kFj9LbmAYo5uvLdV
-         7dQFqm4exXzXxyGFSrXCKdyFoDUtytRj6dlbcyZRErFHLbRO8ILh+yTdcf6K6yEyMrvo
-         RhqACYttchi6p4OLOqcZomSxH1PyvwuCzTYZabeRLBCai84iNA9L0lRWSov/mEXXaiKt
-         WVrmETO01O5mIAQQGxvwyOpcn3dCUFJzmr3opdu2TvF/JeFaaeSA2ho96AHKF4IyjC5K
-         vGUg==
+        b=r5xnzVcQo5ffN4tSJDnOkEN6afLp6pZET4CA7IuNPEyfDetNOaJlN7SuHVyTb/DWl6
+         qa9U6I5SBAYXuDtlU5DSFMyLyBWMGZbtyvDQ8e83gYVFt47j4z7bCd0vqQysfZViS7JS
+         huB9WQgTp2FRrVG79gs6ePboJczcsENs3jsyeskRAigavXPBisRC2B/J8Hb/DqudQi2h
+         VJqmhroJJoOI9x3MYBhh5PIVQS/zjTBXX7/vAxrzAq4fjKvVZJ+3vVT1RUpk1Ld3KMRe
+         BoxHAV+LlgK0Mm5HWiXIxSZad6CwTdi85BR5HNSUvdHSGzwURhAedsPfFVCGcjESlxzZ
+         MdPw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=A+vdTZV1rixc4rZMr4BboFv1cYBtz4vmBbW7LOKVMmM=;
-        b=uJ7r8HuwUa5gDMX7mKDDGkU1lUQi0dk08zFp/BFowuIILd9WpBtiOPUkdM+d1N+Muq
-         I05dXaBWR/VLYC+KJjv6vQNOPFwy9FwzW0hSDDGzcWNS8jxIGdgJA/rqn9cToEiemaNH
-         LPhDvi3ShROjBZK+pR3Y/XJMb3Ci3BxfAYKSL17oYGjNQSXSq8Dg1/+SDEXTnZifY47X
-         BLCqishXSjtER+PZb9ZPh3eTPD+lJSZLvqSZrMx39V6XERnRlAkk1n/PXhVg6I1Legfg
-         q0RfHxUudogKyWD5T4MhDrVlxCWDZWZp+xDdIg+lumPk3aKHJnzku6O0POiIOxHz4wzX
-         4geQ==
+        bh=MIy1jMlxCOJ0Y5mtMw96kWf8MP2ZqHwIF09OmCxHd/s=;
+        b=f8wH/ig2BiQPxPVZxU6o/BgCB5AwlN538n258A636ZGjRw94lvFFNUX+YTcDgTfe9I
+         1DlnndC8JYx/8qwlhSetDJv5mnH2LZyADouA72mcG8k21Ci+IMOCVORMYJyFAKODyBrg
+         94wQK4aj/rewqNKEWYYUMavLcNZlJh2q/rco/N1jWgi2lpxWf7rmXvG7prA7jOf7AEwy
+         hFKRaqOESbzSapyk2YZoG5P7AHdQ1mgfbZVnEc02m/jotkBSimxoeZUTgtqRt2hhglNP
+         GTdI4sNe9wSxi7GNrMYh+BLkHmwXfR5fij+yp4jyU5y5vxkHyhz+UHrBo8dJdkUbwI/K
+         G0OA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b="DA6B/QuW";
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::343 as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=WCPWazuY;
+       spf=pass (google.com: domain of jannh@google.com designates 2a00:1450:4864:20::543 as permitted sender) smtp.mailfrom=jannh@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com. [2607:f8b0:4864:20::343])
-        by gmr-mx.google.com with ESMTPS id y65si96231vkf.1.2020.10.07.06.09.08
+Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com. [2a00:1450:4864:20::543])
+        by gmr-mx.google.com with ESMTPS id dk15si83836edb.2.2020.10.07.07.15.01
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 07 Oct 2020 06:09:08 -0700 (PDT)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::343 as permitted sender) client-ip=2607:f8b0:4864:20::343;
-Received: by mail-ot1-x343.google.com with SMTP id q21so2093601ota.8
-        for <kasan-dev@googlegroups.com>; Wed, 07 Oct 2020 06:09:08 -0700 (PDT)
-X-Received: by 2002:a9d:66a:: with SMTP id 97mr1884792otn.233.1602076147446;
- Wed, 07 Oct 2020 06:09:07 -0700 (PDT)
+        Wed, 07 Oct 2020 07:15:01 -0700 (PDT)
+Received-SPF: pass (google.com: domain of jannh@google.com designates 2a00:1450:4864:20::543 as permitted sender) client-ip=2a00:1450:4864:20::543;
+Received: by mail-ed1-x543.google.com with SMTP id t21so2338659eds.6
+        for <kasan-dev@googlegroups.com>; Wed, 07 Oct 2020 07:15:01 -0700 (PDT)
+X-Received: by 2002:a05:6402:b0e:: with SMTP id bm14mr3934250edb.259.1602080101068;
+ Wed, 07 Oct 2020 07:15:01 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200929133814.2834621-1-elver@google.com> <20200929133814.2834621-3-elver@google.com>
- <CAG48ez3OKj5Y8BURmqU9BAYWFJH8E8B5Dj9c0=UHutqf7r3hhg@mail.gmail.com>
-In-Reply-To: <CAG48ez3OKj5Y8BURmqU9BAYWFJH8E8B5Dj9c0=UHutqf7r3hhg@mail.gmail.com>
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Wed, 7 Oct 2020 15:08:55 +0200
-Message-ID: <CANpmjNP6mukCZ931_aW9dDqbkOyv=a2zbS7MuEMkE+unb7nYeg@mail.gmail.com>
+ <CAG48ez3OKj5Y8BURmqU9BAYWFJH8E8B5Dj9c0=UHutqf7r3hhg@mail.gmail.com> <CANpmjNP6mukCZ931_aW9dDqbkOyv=a2zbS7MuEMkE+unb7nYeg@mail.gmail.com>
+In-Reply-To: <CANpmjNP6mukCZ931_aW9dDqbkOyv=a2zbS7MuEMkE+unb7nYeg@mail.gmail.com>
+From: "'Jann Horn' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Wed, 7 Oct 2020 16:14:34 +0200
+Message-ID: <CAG48ez0sYZof_PDdNrqPUnNOCz1wcauma+zWJbF+VdUuO6x31w@mail.gmail.com>
 Subject: Re: [PATCH v4 02/11] x86, kfence: enable KFENCE for x86
-To: Jann Horn <jannh@google.com>
+To: Marco Elver <elver@google.com>
 Cc: Andrew Morton <akpm@linux-foundation.org>, Alexander Potapenko <glider@google.com>, 
 	"H . Peter Anvin" <hpa@zytor.com>, "Paul E . McKenney" <paulmck@kernel.org>, 
 	Andrey Konovalov <andreyknvl@google.com>, Andrey Ryabinin <aryabinin@virtuozzo.com>, 
@@ -125,14 +125,14 @@ Cc: Andrew Morton <akpm@linux-foundation.org>, Alexander Potapenko <glider@googl
 	kasan-dev <kasan-dev@googlegroups.com>, 
 	Linux ARM <linux-arm-kernel@lists.infradead.org>, Linux-MM <linux-mm@kvack.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
+X-Original-Sender: jannh@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b="DA6B/QuW";       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::343 as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ header.i=@google.com header.s=20161025 header.b=WCPWazuY;       spf=pass
+ (google.com: domain of jannh@google.com designates 2a00:1450:4864:20::543 as
+ permitted sender) smtp.mailfrom=jannh@google.com;       dmarc=pass (p=REJECT
  sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+X-Original-From: Jann Horn <jannh@google.com>
+Reply-To: Jann Horn <jannh@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -145,191 +145,93 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, 2 Oct 2020 at 07:45, Jann Horn <jannh@google.com> wrote:
->
-> On Tue, Sep 29, 2020 at 3:38 PM Marco Elver <elver@google.com> wrote:
-> > Add architecture specific implementation details for KFENCE and enable
-> > KFENCE for the x86 architecture. In particular, this implements the
-> > required interface in <asm/kfence.h> for setting up the pool and
-> > providing helper functions for protecting and unprotecting pages.
+On Wed, Oct 7, 2020 at 3:09 PM Marco Elver <elver@google.com> wrote:
+> On Fri, 2 Oct 2020 at 07:45, Jann Horn <jannh@google.com> wrote:
+> > On Tue, Sep 29, 2020 at 3:38 PM Marco Elver <elver@google.com> wrote:
+> > > Add architecture specific implementation details for KFENCE and enable
+> > > KFENCE for the x86 architecture. In particular, this implements the
+> > > required interface in <asm/kfence.h> for setting up the pool and
+> > > providing helper functions for protecting and unprotecting pages.
+> > >
+> > > For x86, we need to ensure that the pool uses 4K pages, which is done
+> > > using the set_memory_4k() helper function.
+> > [...]
+> > > diff --git a/arch/x86/include/asm/kfence.h b/arch/x86/include/asm/kfence.h
+> > [...]
+> > > +/* Protect the given page and flush TLBs. */
+> > > +static inline bool kfence_protect_page(unsigned long addr, bool protect)
+> > > +{
+> > > +       unsigned int level;
+> > > +       pte_t *pte = lookup_address(addr, &level);
+> > > +
+> > > +       if (!pte || level != PG_LEVEL_4K)
 > >
-> > For x86, we need to ensure that the pool uses 4K pages, which is done
-> > using the set_memory_4k() helper function.
-> [...]
-> > diff --git a/arch/x86/include/asm/kfence.h b/arch/x86/include/asm/kfence.h
-> [...]
-> > +/* Protect the given page and flush TLBs. */
-> > +static inline bool kfence_protect_page(unsigned long addr, bool protect)
-> > +{
-> > +       unsigned int level;
-> > +       pte_t *pte = lookup_address(addr, &level);
-> > +
-> > +       if (!pte || level != PG_LEVEL_4K)
+> > Do we actually expect this to happen, or is this just a "robustness"
+> > check? If we don't expect this to happen, there should be a WARN_ON()
+> > around the condition.
 >
-> Do we actually expect this to happen, or is this just a "robustness"
-> check? If we don't expect this to happen, there should be a WARN_ON()
-> around the condition.
+> It's not obvious here, but we already have this covered with a WARN:
+> the core.c code has a KFENCE_WARN_ON, which disables KFENCE on a
+> warning.
 
-It's not obvious here, but we already have this covered with a WARN:
-the core.c code has a KFENCE_WARN_ON, which disables KFENCE on a
-warning.
+So for this specific branch: Can it ever happen? If not, please either
+remove it or add WARN_ON(). That serves two functions: It ensures that
+if something unexpected happens, we see a warning, and it hints to
+people reading the code "this isn't actually expected to happen, you
+don't have to wrack your brain trying to figure out for which scenario
+this branch is intended".
 
-> > +               return false;
-> > +
-> > +       if (protect)
-> > +               set_pte(pte, __pte(pte_val(*pte) & ~_PAGE_PRESENT));
-> > +       else
-> > +               set_pte(pte, __pte(pte_val(*pte) | _PAGE_PRESENT));
+> > > +               return false;
+> > > +
+> > > +       if (protect)
+> > > +               set_pte(pte, __pte(pte_val(*pte) & ~_PAGE_PRESENT));
+> > > +       else
+> > > +               set_pte(pte, __pte(pte_val(*pte) | _PAGE_PRESENT));
+> >
+> > Hmm... do we have this helper (instead of using the existing helpers
+> > for modifying memory permissions) to work around the allocation out of
+> > the data section?
 >
-> Hmm... do we have this helper (instead of using the existing helpers
-> for modifying memory permissions) to work around the allocation out of
-> the data section?
-
-I just played around with using the set_memory.c functions, to remind
-myself why this didn't work. I experimented with using
-set_memory_{np,p}() functions; set_memory_p() isn't implemented, but
-is easily added (which I did for below experiment). However, this
-didn't quite work:
-
-WARNING: CPU: 6 PID: 107 at kernel/smp.c:490
-smp_call_function_many_cond+0x9c/0x2a0 kernel/smp.c:490
+> I just played around with using the set_memory.c functions, to remind
+> myself why this didn't work. I experimented with using
+> set_memory_{np,p}() functions; set_memory_p() isn't implemented, but
+> is easily added (which I did for below experiment). However, this
+> didn't quite work:
 [...]
-Call Trace:
- smp_call_function_many kernel/smp.c:577 [inline]
- smp_call_function kernel/smp.c:599 [inline]
- on_each_cpu+0x3e/0x90 kernel/smp.c:698
- __purge_vmap_area_lazy+0x58/0x670 mm/vmalloc.c:1352
- _vm_unmap_aliases.part.0+0x10b/0x140 mm/vmalloc.c:1770
- change_page_attr_set_clr+0xb4/0x1c0 arch/x86/mm/pat/set_memory.c:1732
- change_page_attr_set arch/x86/mm/pat/set_memory.c:1782 [inline]
- set_memory_p+0x21/0x30 arch/x86/mm/pat/set_memory.c:1950
- kfence_protect_page arch/x86/include/asm/kfence.h:55 [inline]
- kfence_protect_page arch/x86/include/asm/kfence.h:43 [inline]
- kfence_unprotect+0x42/0x70 mm/kfence/core.c:139
- no_context+0x115/0x300 arch/x86/mm/fault.c:705
- handle_page_fault arch/x86/mm/fault.c:1431 [inline]
- exc_page_fault+0xa7/0x170 arch/x86/mm/fault.c:1486
- asm_exc_page_fault+0x1e/0x30 arch/x86/include/asm/idtentry.h:538
+> For one, smp_call_function_many_cond() doesn't want to be called with
+> interrupts disabled, and we may very well get a KFENCE allocation or
+> page fault with interrupts disabled / within interrupts.
+>
+> Therefore, to be safe, we should avoid IPIs.
 
-For one, smp_call_function_many_cond() doesn't want to be called with
-interrupts disabled, and we may very well get a KFENCE allocation or
-page fault with interrupts disabled / within interrupts.
+set_direct_map_invalid_noflush() does that, too, I think? And that's
+already implemented for both arm64 and x86.
 
-Therefore, to be safe, we should avoid IPIs. It follows that setting
-the page attribute is best-effort, and we can tolerate some
-inaccuracy. Lazy fault handling should take care of faults after we
-set the page as PRESENT.
+> It follows that setting
+> the page attribute is best-effort, and we can tolerate some
+> inaccuracy. Lazy fault handling should take care of faults after we
+> set the page as PRESENT.
+[...]
+> > Shouldn't kfence_handle_page_fault() happen after prefetch handling,
+> > at least? Maybe directly above the "oops" label?
+>
+> Good question. AFAIK it doesn't matter, as is_kfence_address() should
+> never apply for any of those that follow, right? In any case, it
+> shouldn't hurt to move it down.
 
-Which hopefully also answers your other comment:
-
-> flush_tlb_one_kernel() -> flush_tlb_one_user() ->
-> __flush_tlb_one_user() -> native_flush_tlb_one_user() only flushes on
-> the local CPU core, not on others. If you want to leave it this way, I
-> think this needs a comment explaining why we're not doing a global
-> flush (locking context / performance overhead / ... ?).
-
-We'll add a comment to clarify why it's done this way.
-
-> > +       flush_tlb_one_kernel(addr);
-> > +       return true;
-> > +}
-> > +
-> > +#endif /* _ASM_X86_KFENCE_H */
-> > diff --git a/arch/x86/mm/fault.c b/arch/x86/mm/fault.c
-> [...]
-> > @@ -701,6 +702,9 @@ no_context(struct pt_regs *regs, unsigned long error_code,
-> >         }
-> >  #endif
-> >
-> > +       if (kfence_handle_page_fault(address))
-> > +               return;
-> > +
-> >         /*
-> >          * 32-bit:
-> >          *
->
-> The standard 5 lines of diff context don't really make it obvious
-> what's going on here. Here's a diff with more context:
->
->
->         /*
->          * Stack overflow?  During boot, we can fault near the initial
->          * stack in the direct map, but that's not an overflow -- check
->          * that we're in vmalloc space to avoid this.
->          */
->         if (is_vmalloc_addr((void *)address) &&
->             (((unsigned long)tsk->stack - 1 - address < PAGE_SIZE) ||
->              address - ((unsigned long)tsk->stack + THREAD_SIZE) < PAGE_SIZE)) {
->                 unsigned long stack = __this_cpu_ist_top_va(DF) -
-> sizeof(void *);
->                 /*
->                  * We're likely to be running with very little stack space
->                  * left.  It's plausible that we'd hit this condition but
->                  * double-fault even before we get this far, in which case
->                  * we're fine: the double-fault handler will deal with it.
->                  *
->                  * We don't want to make it all the way into the oops code
->                  * and then double-fault, though, because we're likely to
->                  * break the console driver and lose most of the stack dump.
->                  */
->                 asm volatile ("movq %[stack], %%rsp\n\t"
->                               "call handle_stack_overflow\n\t"
->                               "1: jmp 1b"
->                               : ASM_CALL_CONSTRAINT
->                               : "D" ("kernel stack overflow (page fault)"),
->                                 "S" (regs), "d" (address),
->                                 [stack] "rm" (stack));
->                 unreachable();
->         }
->  #endif
->
-> +       if (kfence_handle_page_fault(address))
-> +               return;
-> +
->         /*
->          * 32-bit:
->          *
->          *   Valid to do another page fault here, because if this fault
->          *   had been triggered by is_prefetch fixup_exception would have
->          *   handled it.
->          *
->          * 64-bit:
->          *
->          *   Hall of shame of CPU/BIOS bugs.
->          */
->         if (is_prefetch(regs, error_code, address))
->                 return;
->
->         if (is_errata93(regs, address))
->                 return;
->
->         /*
->          * Buggy firmware could access regions which might page fault, try to
->          * recover from such faults.
->          */
->         if (IS_ENABLED(CONFIG_EFI))
->                 efi_recover_from_page_fault(address);
->
->  oops:
->         /*
->          * Oops. The kernel tried to access some bad page. We'll have to
->          * terminate things with extreme prejudice:
->          */
->         flags = oops_begin();
->
->
->
-> Shouldn't kfence_handle_page_fault() happen after prefetch handling,
-> at least? Maybe directly above the "oops" label?
-
-Good question. AFAIK it doesn't matter, as is_kfence_address() should
-never apply for any of those that follow, right? In any case, it
-shouldn't hurt to move it down.
-
-Thanks,
--- Marco
+is_prefetch() ignores any #PF not caused by instruction fetch if it
+comes from kernel mode and the faulting instruction is one of the
+PREFETCH* instructions. (Which is not supposed to happen - the
+processor should just be ignoring the fault for PREFETCH instead of
+generating an exception AFAIK. But the comments say that this is about
+CPU bugs and stuff.) While this is probably not a big deal anymore
+partly because the kernel doesn't use software prefetching in many
+places anymore, it seems to me like, in principle, this could also
+cause page faults that should be ignored in KFENCE regions if someone
+tries to do PREFETCH on an out-of-bounds array element or a dangling
+pointer or something.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNP6mukCZ931_aW9dDqbkOyv%3Da2zbS7MuEMkE%2Bunb7nYeg%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAG48ez0sYZof_PDdNrqPUnNOCz1wcauma%2BzWJbF%2BVdUuO6x31w%40mail.gmail.com.
