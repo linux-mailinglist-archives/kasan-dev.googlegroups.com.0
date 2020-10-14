@@ -1,118 +1,134 @@
-Return-Path: <kasan-dev+bncBAABBR5US36AKGQEXL6SKXQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBWNUTP6AKGQEYCUCPMY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-vs1-f64.google.com (mail-vs1-f64.google.com [209.85.217.64])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8434E28CDE6
-	for <lists+kasan-dev@lfdr.de>; Tue, 13 Oct 2020 14:15:04 +0200 (CEST)
-Received: by mail-vs1-f64.google.com with SMTP id d9sf4648911vsl.12
-        for <lists+kasan-dev@lfdr.de>; Tue, 13 Oct 2020 05:15:04 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1602591303; cv=pass;
+Received: from mail-lf1-x13e.google.com (mail-lf1-x13e.google.com [IPv6:2a00:1450:4864:20::13e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F52B28DF80
+	for <lists+kasan-dev@lfdr.de>; Wed, 14 Oct 2020 13:00:42 +0200 (CEST)
+Received: by mail-lf1-x13e.google.com with SMTP id v12sf359625lfo.0
+        for <lists+kasan-dev@lfdr.de>; Wed, 14 Oct 2020 04:00:42 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1602673241; cv=pass;
         d=google.com; s=arc-20160816;
-        b=vMEiaPoO3QDMJZsqymP3ceN64LymN/YXmbX9ArQyXmIw6TrYLQV8HophTztIAkPVoX
-         ygB9KroevKk9juIecm2/KQLNjMkyJDb9lbs8edudt4Izwuhjwhz7hb3moO1Y9Z/wSf2A
-         Sw3f7F/YtIKzOE0F3tVQ4H+5MMASbexdc0VCq2HNTdAUE9IgAQ3cyaWb1KRL8EW9mU6Q
-         u95pQ4gJKNwNc6q0J+7xJYt/vCUp18o3REJQqgjONQR2XGv6ifgTSgJBBaxMmTyMUjwk
-         g7XMJjLPjwjbsW6/sgjY+D3A5k1o5D/ohCQeX05lCTOeh32yrOxUmysv6Eq2QdAplNGO
-         forA==
+        b=tSn7D/Qyt344a3Wkx6K592tJxH+SEpuwD1fCnN/kEq7YqRasKPNcIj/Kc7EplhgG20
+         Xz5VYFtb4gB7z79oE4HvbTPdhmdRP2xGXSSs1sp2XtO6pK4V5U/AkHHZnxzc0wCHkQOY
+         c04eX6pRAt4md79LSfFq9pUW6RVLbRi4pzCmCxQQPTNDd9PfejkWfxyaNbbbBw4F1kNT
+         nT2xhFUDnbYa1CzCCPElyd5L0tOpruSiVZy1PBKPCPMnL+nLL1Dp6jxcYHihop5Rg/yF
+         gNJxNM21O0ya6BIn1goE5S4yuBLepaQtzlq9Anc+kj4TrYkws456CAyeJDscIB43pKQ9
+         eHfQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:sender:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from;
-        bh=o+ClDlJVVeOzcmaeHN29PMqfwYQaIUDc8k4v/5kW2CU=;
-        b=nXSK3UxpDLM8uAFH7hcdZYLISfKaU039OTa3sDi98YsSKR1/5pkhIzmezW3RJykkgW
-         afpl0glRCNL68lRugzPjQOqp10bEkNxJBn6VsMx07FhHXYUaoNPUhcSJSYl8KRD3i2aQ
-         plvVI2EVImHDipjqjD7JEfOFCX4lUksApyaJZ9AUomfsTI2bK3kPdobSjm6wQhAukvHY
-         /dIoUZ1rTen7CCpHbRFojCEsTDagMYyZFHnrbWKviDn5b9DR4T09/YBhk+3W6/fpWx5b
-         +T9WcUGJolbFDeJ5JP4BFaxUpNBXs3TNNaodtviPbEmQQUp82ctr32pdbv3xUHOZGJy/
-         pz9A==
+         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:sender:dkim-signature;
+        bh=fACdCj35zs+UUmCNgwcw++5Lg+9HKVt6SHlTiPFMakU=;
+        b=hxFqMGeUBZAaQfNIs+HONwfNydCjACycAeKs2ff0/MCeA51TBDDcdPl0deWZNrB1Rw
+         1WafsDWzMu9tR/Ivm1YtT9rQxSHe9OXXN9rH/w6K40IajPUlimaQI4C9jWJyvGXCBlme
+         Xxy1fW/342CjheVdir8UHLO+YSXhBevqqtuybgLf8m/O5LYlEeYauju/+CX8AdkjwP5j
+         oO0sFCVNqCP8FLuZJJJ+SjYGwAPWBEqIdLJijdpCbXExi9l2zgnGVvg1JsQlzpiEskqr
+         Ejv2XcyZjgaJ8KObkjLCg+f3C0ZPlZaJGI5X2euBCH8bLp24hTOqkMbEc8bE/rr+LcdI
+         vmgA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=default header.b=ZTYMaspF;
-       spf=pass (google.com: domain of mchehab@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=mchehab@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       spf=pass (google.com: domain of afa@pengutronix.de designates 2001:67c:670:201:290:27ff:fe1d:cc33 as permitted sender) smtp.mailfrom=afa@pengutronix.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=googlegroups.com; s=20161025;
+        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=fACdCj35zs+UUmCNgwcw++5Lg+9HKVt6SHlTiPFMakU=;
+        b=fxgAc/rCKF6B33GK0HkbCV5F7OujYJ6cNEXyR9XX6qiJ8+P1E6oyQBmKa4bPDOav45
+         hu5OIWNip4XDsgXkY7sgULAs2Jc65EeKJnqvZh6WKWyRqIpMSqrfcXeXkdDXgLkMxKYK
+         AS9SeENMz5gt1yOzIBlLAj5NDDtmD4+Y8NKgF3+d+D76OG9qHHYXMenAKOKmoPb/ONKl
+         OoHRjAdeWBpRI8EJjmUBzHMAkYiFRcCSCDWlGpCRD0BQ7d26/ItM10pYZNC5gxi/RZlu
+         T8F580/NOFFwjnSLTqlE3W6gnAaUuOP9WKLaRVUib5SfdDY4Jsnqs9uAkKMxCQEUAS8/
+         OWtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:sender:x-original-sender
+        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :in-reply-to:references:mime-version:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=o+ClDlJVVeOzcmaeHN29PMqfwYQaIUDc8k4v/5kW2CU=;
-        b=m6T+KGXLuyGR15+SdJYzfkozF2HrhmahSmY4BA8C0+Gxt8vOLWJG39ulsYMC7DYPCr
-         ESprof9xWVduUbTKTB6Den5R/hzJXPP7jFqTSrQWDLIFgD/NfEPTjdc8dV0MlJG9oi04
-         4g0OmzT0HImozPzg/Np6808TOnQizJL47RifRhbHigYNb761WFix0vXphcnNDDIalZpE
-         ZFpUvoqDMPh2WEMAoHjebEJXHxjZ2xD+2b5C/KiC0GQ1Cm8XAU6fKcACuobXmmWl+Y8b
-         zX/kZpmjfco7CLYt4zgO9Ff5SU6hHCJq4d1XWW/hfmj72fgo2a2bDViw01d2D2YPmPPc
-         9EAA==
-X-Gm-Message-State: AOAM531HBJ/1+sDHxFGSUoyWF42N3hP6B/o8Y3pAmvjN9eDovVq4XKFi
-	m26oSBMQdoFiKcaXCbsXClQ=
-X-Google-Smtp-Source: ABdhPJwvTTemkYfUYoOz9XQIGXwsPQHJ79qhuU7kKjM6ZE4b1cX9WRIgBg8hEFEnyM3510d+6/277Q==
-X-Received: by 2002:a67:d005:: with SMTP id r5mr16356570vsi.13.1602591303416;
-        Tue, 13 Oct 2020 05:15:03 -0700 (PDT)
+        bh=fACdCj35zs+UUmCNgwcw++5Lg+9HKVt6SHlTiPFMakU=;
+        b=ULZMjJuJb8dcf0w7m6O8rhB6WByTglvUgNKWSnyQh/45xNq4eqt24zrVmOxjBKSCff
+         5tkVHSBtYIRrIiSHRdKPd5DnD5xATFfWbfRtqilM7P8eo/+p6ULlcivBzsGdzrIcffkr
+         OlNM80OMZXsLdOPIHkajwSuSIUVYF5xvJmTAIrquFs58B1+tfhuR8WQJlnc86VGvLcbJ
+         qC6nLHozkmNvljsHObCNKQwtPxxTn+OXc9QpgfJ5OmSMgSI12rkvLi/a1v7YjGcwytts
+         d3zPhiLCOSnw+ED9WjaegJqaVKEaBqB58qKsePxAbGx45OiqadVJjhCPVub6wGaFudOS
+         o4pw==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM5329puBjx9JQ8My7g4qVj8zXqxF6Zgoa6v2VtZ7kPB1kByS0Ir2d
+	MG8PFORgKMwRBFY7NrSBlyk=
+X-Google-Smtp-Source: ABdhPJxTXh2gF2kLK/igS4K5FIWqMGhdU2EReJoc96bDIgxa95TsUHP0AT0VQlR7BEFbpQJ9qGGJBQ==
+X-Received: by 2002:a19:3f57:: with SMTP id m84mr118416lfa.17.1602673241587;
+        Wed, 14 Oct 2020 04:00:41 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a67:edda:: with SMTP id e26ls2256484vsp.5.gmail; Tue, 13 Oct
- 2020 05:14:57 -0700 (PDT)
-X-Received: by 2002:a67:8002:: with SMTP id b2mr1493425vsd.22.1602591297363;
-        Tue, 13 Oct 2020 05:14:57 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1602591297; cv=none;
+Received: by 2002:a2e:9a86:: with SMTP id p6ls581754lji.0.gmail; Wed, 14 Oct
+ 2020 04:00:40 -0700 (PDT)
+X-Received: by 2002:a2e:3016:: with SMTP id w22mr1505825ljw.248.1602673240657;
+        Wed, 14 Oct 2020 04:00:40 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1602673240; cv=none;
         d=google.com; s=arc-20160816;
-        b=0SXJ+DiCvwq4SZD5O3h5TONvde8rPRVnxspkxL4tpEWNLOMwjZjtmuBOOMvigJl3x0
-         VTipYMDEebLVScVtIlE7yDMURGpRAibDJuozuuK4w++45EeLJvBINeSa2ie5HzCNCQQq
-         cZwkcVPyfdDxCwAexIAHTL5pSzF0iKAjo1X90B33Ms3FM93RbHOQD3pur9r4E9+22ByZ
-         fqQ1s8U0gNAQWrxtLjvnIGMcirlpq/8MGv7b7Xso/0jR6zo4S1R/HWJ4ZKdKRkU4YJ7d
-         te7eSLwlv1DXqkj31GFmquUdJ8nWaOVuFh0+UuejUYbgDrkCEEt8Wufxzse3A8bDmq8W
-         xpIw==
+        b=JVlN25p+W7jlXlNq9wVBJLpDwNWDTv1CyvUrXIM4SLpn6h0r7iXiS70JeHdojGHyig
+         sepnl0CNqL8i5rBc6thvwyVh6gOIaJCb5jMDVeRvTgwTE2wJ2GqjHquumfxT79c+teYV
+         BKjp5RpsGXoS1B2LkFIkff/QD9WIotZYw4Tt7LC3SMe97pHg6YgSF/f/1agARNavhgay
+         H5Q3UznW36pAqRD1crqriNMF3Xhe4qcS9FtKjDf1pGYRvNUDD+9Qi0+rXPQ1vvZAfUCE
+         L7ubJy1QGb0rqRlVCLt2vsH0CG5oywGqYAg/hPY8uIQ5HH9UgT8GqDheqp7INh+NdnaM
+         whQw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=sender:content-transfer-encoding:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:dkim-signature;
-        bh=VjyfrCRdtpFGYB2Yo66fT4YY0ayYElgCncNCHIGB/8c=;
-        b=KkhtQx4INpTfAbCR4TXdjDgIVBVJiLMbkx4CuL3VlnRba2pls84tRhRG/UhaGp7z6s
-         ln17GZIWUhfBwoL4V7KZGMyDkAjRKCzwis5+gFDM6N7l++QIoKt3M9M3DslHTBZafrlK
-         j4iqNXLdbMxmIir8g0s0Im2pv+VikbQyukxWia2jk1p1xuia9MlsVzrdOhnkTNAb4y3N
-         hkjs9123On2i8XO4EKoTzUwuH0bEBuAOh2vwQDO3J3+PMvlo84K4maAGlzjWpjhVwA4w
-         inN40K2A9b1kWqs99C9gELFvJKpBCE3nhHeC12ZEBZXCEqfop+pZ+JBLdCK9zWX8V9e0
-         ClRg==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from;
+        bh=g3b9figtQY583yqsVtNWLlsDuepdYRyZ/P2LT3P47jQ=;
+        b=uCkN8PHqTo5ZOKJhr42LDWk4jBv7a+3jDiCNmwv1riobYBRACsrrqWAdOoH26x3GPB
+         yIEeQ2+Mr6TjXyFFUTD8qfsO2tDbLpiZp2ZnMCHu4UghF8oM2mcpNgEjaA+XEBC8pOFp
+         J0aqTJ7P9s9TTYpOOThrhUqOZ3gDgP81RQH+vpBn+oE8iNUvAt+d51BWo5OJZ1x5mv7z
+         km/DIOPWJOAIlRDIIXdWU2AtmLpQQ+uCb3YrFFZEBrYDEbO3XLXcSaFGpfULJ4tP45Ae
+         3LePLNsXj+9FOfTONYGzunPYzQTjKoIYLGkDmLjo+huI6BT46LEyfNZRIWtx/KxsutsY
+         CTZg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=default header.b=ZTYMaspF;
-       spf=pass (google.com: domain of mchehab@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=mchehab@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id g23si1101606vsa.0.2020.10.13.05.14.57
+       spf=pass (google.com: domain of afa@pengutronix.de designates 2001:67c:670:201:290:27ff:fe1d:cc33 as permitted sender) smtp.mailfrom=afa@pengutronix.de
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de. [2001:67c:670:201:290:27ff:fe1d:cc33])
+        by gmr-mx.google.com with ESMTPS id b4si57964lfp.13.2020.10.14.04.00.40
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 13 Oct 2020 05:14:57 -0700 (PDT)
-Received-SPF: pass (google.com: domain of mchehab@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
-Received: from mail.kernel.org (ip5f5ad5b2.dynamic.kabel-deutschland.de [95.90.213.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id 1C8C822265;
-	Tue, 13 Oct 2020 12:14:55 +0000 (UTC)
-Received: from mchehab by mail.kernel.org with local (Exim 4.94)
-	(envelope-from <mchehab@kernel.org>)
-	id 1kSJCe-006Co9-U8; Tue, 13 Oct 2020 14:14:52 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	"Jonathan Corbet" <corbet@lwn.net>,
-	Alexander Potapenko <glider@google.com>,
-	Andrey Ryabinin <aryabinin@virtuozzo.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Oct 2020 04:00:40 -0700 (PDT)
+Received-SPF: pass (google.com: domain of afa@pengutronix.de designates 2001:67c:670:201:290:27ff:fe1d:cc33 as permitted sender) client-ip=2001:67c:670:201:290:27ff:fe1d:cc33;
+Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <afa@pengutronix.de>)
+	id 1kSeWI-0005e1-4v; Wed, 14 Oct 2020 13:00:34 +0200
+Received: from afa by dude.hi.pengutronix.de with local (Exim 4.92)
+	(envelope-from <afa@pengutronix.de>)
+	id 1kSeWD-0000ZY-RO; Wed, 14 Oct 2020 13:00:29 +0200
+From: Ahmad Fatoum <a.fatoum@pengutronix.de>
+To: linus.walleij@linaro.org
+Cc: ardb@kernel.org,
+	arnd@arndb.de,
+	aryabinin@virtuozzo.com,
+	dvyukov@google.com,
+	f.fainelli@gmail.com,
+	glider@google.com,
 	kasan-dev@googlegroups.com,
-	linux-kernel@vger.kernel.org,
-	Andrey Konovalov <andreyknvl@google.com>
-Subject: [PATCH v2 09/24] docs: kasan.rst: add two missing blank lines
-Date: Tue, 13 Oct 2020 14:14:36 +0200
-Message-Id: <48293b76fddce2b2914592677bf5efdbb5b34859.1602590106.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <cover.1602590106.git.mchehab+huawei@kernel.org>
-References: <cover.1602590106.git.mchehab+huawei@kernel.org>
+	linux-arm-kernel@lists.infradead.org,
+	linux@armlinux.org.uk,
+	liuwenliang@huawei.com,
+	rppt@linux.ibm.com,
+	kernel@pengutronix.de,
+	Ahmad Fatoum <a.fatoum@pengutronix.de>
+Subject: [PATCH] fixup! ARM: Replace string mem* functions for KASan
+Date: Wed, 14 Oct 2020 12:59:59 +0200
+Message-Id: <20201014105958.21027-1-a.fatoum@pengutronix.de>
+X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20201012215701.123389-3-linus.walleij@linaro.org>
+References: <20201012215701.123389-3-linus.walleij@linaro.org>
 MIME-Version: 1.0
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
-X-Original-Sender: mchehab+huawei@kernel.org
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=default header.b=ZTYMaspF;       spf=pass
- (google.com: domain of mchehab@kernel.org designates 198.145.29.99 as
- permitted sender) smtp.mailfrom=mchehab@kernel.org;       dmarc=pass (p=NONE
- sp=NONE dis=NONE) header.from=kernel.org
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
+X-SA-Exim-Mail-From: afa@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: kasan-dev@googlegroups.com
+X-Original-Sender: a.fatoum@pengutronix.de
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of afa@pengutronix.de designates 2001:67c:670:201:290:27ff:fe1d:cc33
+ as permitted sender) smtp.mailfrom=afa@pengutronix.de
 Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
@@ -126,41 +142,44 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-literal blocks should start and end with a blank line,
-as otherwise the parser complains and may do the wrong
-thing, as warned by Sphinx:
+CONFIG_FORTIFY_SOURCE doesn't play nicely for files that are compiled
+with CONFIG_KASAN=y, but have sanitization disabled.
 
-	Documentation/dev-tools/kasan.rst:298: WARNING: Literal block ends without a blank line; unexpected unindent.
-	Documentation/dev-tools/kasan.rst:303: WARNING: Literal block ends without a blank line; unexpected unindent.
+This happens despite 47227d27e2fc ("string.h: fix incompatibility between
+FORTIFY_SOURCE and KASAN"). For now, do what ARM64 is already doing and
+disable FORTIFY_SOURCE for such files.
 
-Reviewed-by: Andrey Konovalov <andreyknvl@google.com>
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
 ---
- Documentation/dev-tools/kasan.rst | 2 ++
- 1 file changed, 2 insertions(+)
+CONFIG_FORTIFY_SOURCE kernel on i.MX6Q hangs indefinitely in a
+memcpy inside the very first printk without this patch.
 
-diff --git a/Documentation/dev-tools/kasan.rst b/Documentation/dev-tools/kasan.rst
-index c09c9ca2ff1c..2b68addaadcd 100644
---- a/Documentation/dev-tools/kasan.rst
-+++ b/Documentation/dev-tools/kasan.rst
-@@ -295,11 +295,13 @@ print the number of the test and the status of the test:
- pass::
- 
-         ok 28 - kmalloc_double_kzfree
+With this patch squashed:
+Tested-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
+---
+ arch/arm/include/asm/string.h | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/arch/arm/include/asm/string.h b/arch/arm/include/asm/string.h
+index 947f93037d87..6c607c68f3ad 100644
+--- a/arch/arm/include/asm/string.h
++++ b/arch/arm/include/asm/string.h
+@@ -58,6 +58,11 @@ static inline void *memset64(uint64_t *p, uint64_t v, __kernel_size_t n)
+ #define memcpy(dst, src, len) __memcpy(dst, src, len)
+ #define memmove(dst, src, len) __memmove(dst, src, len)
+ #define memset(s, c, n) __memset(s, c, n)
 +
- or, if kmalloc failed::
- 
-         # kmalloc_large_oob_right: ASSERTION FAILED at lib/test_kasan.c:163
-         Expected ptr is not null, but is
-         not ok 4 - kmalloc_large_oob_right
++#ifndef __NO_FORTIFY
++#define __NO_FORTIFY /* FORTIFY_SOURCE uses __builtin_memcpy, etc. */
++#endif
 +
- or, if a KASAN report was expected, but not found::
+ #endif
  
-         # kmalloc_double_kzfree: EXPECTATION FAILED at lib/test_kasan.c:629
+ #endif
 -- 
-2.26.2
+2.28.0
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/48293b76fddce2b2914592677bf5efdbb5b34859.1602590106.git.mchehab%2Bhuawei%40kernel.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20201014105958.21027-1-a.fatoum%40pengutronix.de.
