@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBIFKUH6AKGQE7CMW5AY@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBB5FSUH6AKGQEXPKUS4A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pj1-x103e.google.com (mail-pj1-x103e.google.com [IPv6:2607:f8b0:4864:20::103e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01A3228F405
-	for <lists+kasan-dev@lfdr.de>; Thu, 15 Oct 2020 15:56:50 +0200 (CEST)
-Received: by mail-pj1-x103e.google.com with SMTP id bo4sf2107897pjb.4
-        for <lists+kasan-dev@lfdr.de>; Thu, 15 Oct 2020 06:56:49 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1602770208; cv=pass;
+Received: from mail-qt1-x83c.google.com (mail-qt1-x83c.google.com [IPv6:2607:f8b0:4864:20::83c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C65028F485
+	for <lists+kasan-dev@lfdr.de>; Thu, 15 Oct 2020 16:15:17 +0200 (CEST)
+Received: by mail-qt1-x83c.google.com with SMTP id d22sf2035074qtn.0
+        for <lists+kasan-dev@lfdr.de>; Thu, 15 Oct 2020 07:15:17 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1602771316; cv=pass;
         d=google.com; s=arc-20160816;
-        b=uqob9KsgyunUr5eyY1o3ygarcpvvDAFNvOUjVBhI+TXVaR8KXAnPW59p6iQ/IF13lw
-         AUC7XSyHyu6mBoxDpsTqdb/ObMU4Rvupg9jlAfpFeZQchozRre+eCiMXVOj9/IY8+sdq
-         6oT7AXVlPmWMNH4zJbunalZUpaWUWIYr3JacbsXi0qvmUAWd5cFjG/sz5DU0YMBHzwFj
-         ktHmblbWjKleKB6sudar7Nr0ITwnDJI62ze0x7f2m7uWoSqyUHPRtpIVcT1NUGeEATou
-         9te/9BzvvGh74NhgJgcB3nHiRYT7gS+l3IwYnHYTaGFgRk1Ibkvg+WlH9CbhztUUuBbf
-         u0Rw==
+        b=tGzaReTLir8twApC1HJzHrNXwgEQIn131qPa++dJZf1fOfyHkpo76rLlXtIgLxbwN9
+         uR/+mkWvnkmXh6cA7M2Bm1qQNTstMJxgJCCa+g5mEThwOUfKrYGB4aFZuCl1vSAKv+gA
+         3slZNi5+3KudBMkd+JELw6iSCc4xwnVKtmKh51Pv19VJdHsvjwonC7EETghnKnDqVEDg
+         lk6v22booq+ZoNWQImrDJxize93qjZ49epsQGMKiaBd4ZjyJutV+XXErqgNx4HjPbE1H
+         IMtihgqOREp3fXh2xiIX4shE3HI/0HiHkxX6mJub0cIHGjgI3LJrAeHe3wbELTSxOGcU
+         qS7A==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=pkDGp1uBvv9A1Sdomns4VATNAb2YO4N0841P8i9s2tE=;
-        b=ugf74+1fAUl0OrYLOG+aa0sfQzmIdKVadDXUZmjr3qmglmf5NNsuSTqA3xyQ3ZWzTr
-         Y8XhsXX8t3gbhLU+XsOBd8X2iTHqKMl372XXxBnYl1x79xTUbfT7fHsNHBBwwNusjB+q
-         OylLCqpmkwIDufs734L5j3gEkIFfGlLH/gQG1wwdtcxe0XYGhbzOA9AYH8vCBi+yQcyD
-         N74mza8cvPAHJX+ZHG3KlKRmK5zXb0CF88aT3P48cVpfTKPjvSB3DImFc5vj6QCymC3d
-         OOUXo9ObuDsHJYYJzASxP84gYDI/V0y3AMaBb29Q3bc9jKG7PxsyIEo/+UMzXY3dDnah
-         midw==
+        bh=23grdDS5PbJMgorznO/BHi3C1Vg4c7s4l0RWYMuT8Po=;
+        b=L2mscsPG2BvPNf2J9vsJxgAFEoh/o/kU3ZHNi9kwD1Uy917gSOTw5108BLVtFRe365
+         YySIUkEy4CmV9EKPYf9XJwf1gBzGFzJEXg/0ajbvSizqdgU21e2Y1UXMra/WcmVYWzG/
+         tPeKTugg2vYQ5g51w0YXqzhxxzd6ImiUlZ95E+xXt6eqPR2GHkaZnf2cJ4WnqSfWAzA+
+         giQmw0tPqeJfp1TUuOPEWLk+2UOFZza8y0p29kDQtKZKIzCM61pyv5hX/ZhYKjJDz8Su
+         tmdOKzMVRzuyOWOY2qWVOSypHPqwHs5zmoPmuhEs1myCYRBHye7BYX02pV3LIlJxGODD
+         qOSQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=KiIrGHou;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::342 as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=ENts0Dm6;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::243 as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=pkDGp1uBvv9A1Sdomns4VATNAb2YO4N0841P8i9s2tE=;
-        b=ZnUuFn/rmP1n0o1vaFwrWOBQzDWRJRZaCrT2C8jZYuNwG6RnfmgMHWKTWjFltuqM4+
-         OSLVHKMhuOLrZu6Y4XqoNZwt466gdGj/2nhcdbp6CCdbGBKirJrC77+/SaPjW1EFwx77
-         n8Gm7QnFG1ctaYHvgqhu7hy12S19xJQtttlwek030MZtBo5OE5eEZQRytE+0qL1xaKKm
-         Bv18d1P6vob938Ad14Yj5wqte8WmyjxpOn//0H9georVd36bj/9Lzk5EihKPs7d/dchG
-         csdLAI8HfiNnqJadhuBESFV7yNR8YSyN85kNjPnGA779qHh/enayJZJpFgWF46tEWau2
-         Pr4w==
+        bh=23grdDS5PbJMgorznO/BHi3C1Vg4c7s4l0RWYMuT8Po=;
+        b=jgUjJ2QUimDRbqsxBXUgUbwuih7ErgKDWANKkQKZF68+HUK9BnI0I9E1KErgS2A3hu
+         q1ofHr3q3ffQyf15i9ehnH7BXfiSi8YUx3qSvoRHve9H6pli4klfYazGmCbCoNIXpqeN
+         J2cQYNljrIhm/2AelGYYZrwUJ6htGjClTAWjt4zqwYCB9e5TU/hSXfaOQ4yP+peiiKZF
+         ncuEqxf5TbB8fBX5N5ANTHMPLiYpZNMW964XtEUOu5X5juUIUwMRsC4aN4QrQ2KlmLZ2
+         33Jw6ChnX5FXiehHhB87qdVb3OQY/CNrAIOK+JGwwu/wjc+zdcyUZwE07Fh7fjFEEeEX
+         SS/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
@@ -49,76 +49,90 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=pkDGp1uBvv9A1Sdomns4VATNAb2YO4N0841P8i9s2tE=;
-        b=W3l3MEG8oEqw837qpWo88ZOfnMAtrNKmfNccadv3yWKs0+5u38drKvcgbTSRr12/Hx
-         Vz2xvckQD/BhlFNu6amcHE0qS67m7bq6D1SkkM87MGiRiXvns4tpykEqge1/YKJCHfE2
-         evw+2L15Z7zEsaPIdysMO+141daA0UgkDL3/G+ySIqXNCPVbsNtb6nG7VZHEQaa/KMJm
-         N9xNj9afB6ZLCZ6N74HGiBudI80yeHRk7IZlA16WSmrTYsarBf1myFb+6sKBNs5E35m1
-         gBUAMmHy+sqQRpQxz1HebAVQNhT6kZOMedu0YRpFtNQnbl0oMXMbCb9Ne/bzmZH8+Vb+
-         CfwA==
-X-Gm-Message-State: AOAM531QOhW0fjWXgfbZoeK0pJn3CABg7wLwxs3PFK9pUSkazawHb6kP
-	66bgtDtn3nv66tJy4MlvJnY=
-X-Google-Smtp-Source: ABdhPJx2K37ZU6KbUrmx7ZXhtZjv9FwIPrcSI0844GN/csk7wlpwfk4pgdMX24i/jpuNhcr3Z+yJdA==
-X-Received: by 2002:a17:90b:882:: with SMTP id bj2mr4542132pjb.126.1602770208563;
-        Thu, 15 Oct 2020 06:56:48 -0700 (PDT)
+        bh=23grdDS5PbJMgorznO/BHi3C1Vg4c7s4l0RWYMuT8Po=;
+        b=MiGHJpPwrYXHkEQAzTrfB/kaG1fKSZzi7aTW6R/1NLzZWZ4oevNj8WhTl20klUwqe2
+         f317xE7/LP/SAjtkNx4PZJjDkd6vEwDMiiZzm65VsIOpyBZwZPNZ4s9tZC5we9WJRBK4
+         zOxU/9AzUqNCkwDOIeX7dhand4Ww15H4X5hZZ+ga2LlvHnWLtw2Y2KOlnooSFrGs+oxE
+         Edtcvh2DYCnSXCYD5rwcTb3nMQq2g6ji1q3eNHm2DiLiSEV8OjL3hqzFWhGTn1L6jvQF
+         fn392tsNy1TVBH8azb9Ln+d5bFmGTWTynHMHcxsUFOhU1zaifCVK30ekUQTxQ8Xk4edg
+         beeg==
+X-Gm-Message-State: AOAM533LtJaXrT5lqGnybqcvz+xxaIpbpBPPNJ+U6RMFgpbSJHRsC3IZ
+	uYuhr5cAZSBgP7yu6mFwpNE=
+X-Google-Smtp-Source: ABdhPJxLioVDaW5o6NDbKi/6+0UhcNK2Dp1fJOFFzWE5ftcQl/r1kDlFfdrE2oz7xzZIaiAaxt6cIQ==
+X-Received: by 2002:a37:4bc5:: with SMTP id y188mr4195162qka.429.1602771316173;
+        Thu, 15 Oct 2020 07:15:16 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:902:b20f:: with SMTP id t15ls1353740plr.3.gmail; Thu, 15
- Oct 2020 06:56:47 -0700 (PDT)
-X-Received: by 2002:a17:902:b68d:b029:d3:e6e4:3d99 with SMTP id c13-20020a170902b68db02900d3e6e43d99mr4126800pls.62.1602770207408;
-        Thu, 15 Oct 2020 06:56:47 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1602770207; cv=none;
+Received: by 2002:a37:d07:: with SMTP id 7ls1342844qkn.3.gmail; Thu, 15 Oct
+ 2020 07:15:15 -0700 (PDT)
+X-Received: by 2002:ae9:c211:: with SMTP id j17mr4282418qkg.458.1602771315427;
+        Thu, 15 Oct 2020 07:15:15 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1602771315; cv=none;
         d=google.com; s=arc-20160816;
-        b=MEjt0gQUAveh3DPVlu6jl+B1hMadGhhaQp3yYAAcg7pMXXQ3ePz7xAIV21kaOE+v+2
-         pSz0kVijkDPF29+Imio95JcwK0oFQv/5JkMluEfLQYuW0uH6gxcV8yfBGY2s581yn1FB
-         qCaIN9HOeoGQil/4uiYpYDhRwy/Ed4RjTrN1Bk8qU8SvZbh3TaCjMzZOyXvo+y68xAeD
-         au4dgN8zVZ8f1p0znn8DhM32sQsFeFiObcKcrYB2xqtfL/qNCd+yxvp1tOhQ6jGrMqog
-         gguf1Ctf1RBZiifiAsPnM7ToOZ5Ow02qqPA0F1b3j8nR2TpFWk2hFgVfhVntcVboNnD/
-         WMCQ==
+        b=ngJMOdTJY1bbJslBwSkw72Fq81i4x5fNEhI2708Hwrh814/7nZ1d422n9rwVkYoHaW
+         pQsn3qqT17+DOOnvwqy/QhULZSy+pR8Ancv1G0dnwBr9azSDBpvgYAUULwUrWuzSg6Wb
+         JTVfUexkppoMSLJ9vN9s1xere2PcphEHfugjOUOcA91RanyE0oB2LM7mJHXZDVZB0MgL
+         f2JdvBKDY8QisqGqiiWO8/NjpNMOVrlJbWmvn4r8rNE/yrYT08mfwOvernHjYWXNzcG7
+         THrt/lBKMdi9lbWDQiD/w1UfdtKRhr9qnqtK47lm5LH1vTzJpqqN84E5TSzxGyLSv9Iz
+         aNIg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=azn7RcXRIW2AkXttJaklQSujumQoQGs8XWpCExsNCq0=;
-        b=VRMOfGkxgOt1J/V+VFg5+aJSH2QsqniPyUZKiJgqo+b/QrlaV1zKVrOKmJ284LRkn1
-         BDYMEQTec9FMCD8tLdFeNmdBqNAkmz/YhwX3Lol9qpTqWjZIv3q6FF/v9ta09LnWRZhf
-         RVWaBTRrOtEpzrng5EoVZLkRnJqhE0Iq7REYQB+vzBiFAtmenA5unWcJ4jWlcfjEJCSn
-         op/LNt3vIyIxktlAT9CwhDmgEdtBVGZgTz/UIZgJ4x/cgL0vAW666uI8/7xYDtIFj+/2
-         M9obBYg4mo0fwGJUUgftrIFbvAsj9ZJMV1IGrwPWQ8OyBF6gPjRGiDoMtePPe3tvXl0P
-         L/xQ==
+        bh=myXCOQxC7yXdiZx9nG9HTWtecWE6QzVgfe61cEeMHyM=;
+        b=Molzksxw2QXoi9b+79cgAsnOG9HULOrBxSqfW0gswPoOKCi9edsr6d40Robeb9P4xI
+         37Z0xuQtGbZyJmJ8ajfDQHDO0lxlZMB2xXr1MZjWn6e9t/l5sIae96mTAqSj52fvEJWE
+         9ADjevFJkzwUYn9abwfBeU5B3PE/ZMVZv+p69MzQ7a0N0fup31AVhTZxG5Hy6sdoiehs
+         t4WLNFbeHxujgdn8ud0JgMc4WArVoMt67XFxu/lcGF79J+kD2HsJ2Mk075Bh0dq6F440
+         fUJf299Wncyx+xyN7960A/kFaVLhCk7B3aHmaLY2fWXpcb4NK1QRl92RE2nAYKWfGqLv
+         U/fQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=KiIrGHou;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::342 as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=ENts0Dm6;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::243 as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com. [2607:f8b0:4864:20::342])
-        by gmr-mx.google.com with ESMTPS id m62si226177pgm.2.2020.10.15.06.56.47
+Received: from mail-oi1-x243.google.com (mail-oi1-x243.google.com. [2607:f8b0:4864:20::243])
+        by gmr-mx.google.com with ESMTPS id s76si148768qka.5.2020.10.15.07.15.15
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 15 Oct 2020 06:56:47 -0700 (PDT)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::342 as permitted sender) client-ip=2607:f8b0:4864:20::342;
-Received: by mail-ot1-x342.google.com with SMTP id e20so2927198otj.11
-        for <kasan-dev@googlegroups.com>; Thu, 15 Oct 2020 06:56:47 -0700 (PDT)
-X-Received: by 2002:a9d:649:: with SMTP id 67mr2884474otn.233.1602770206303;
- Thu, 15 Oct 2020 06:56:46 -0700 (PDT)
+        Thu, 15 Oct 2020 07:15:15 -0700 (PDT)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::243 as permitted sender) client-ip=2607:f8b0:4864:20::243;
+Received: by mail-oi1-x243.google.com with SMTP id w204so3282539oiw.1
+        for <kasan-dev@googlegroups.com>; Thu, 15 Oct 2020 07:15:15 -0700 (PDT)
+X-Received: by 2002:aca:6206:: with SMTP id w6mr1155830oib.121.1602771314808;
+ Thu, 15 Oct 2020 07:15:14 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1602708025.git.andreyknvl@google.com> <c44b27703fb2fa11029ecd92522a66988295dfb6.1602708025.git.andreyknvl@google.com>
-In-Reply-To: <c44b27703fb2fa11029ecd92522a66988295dfb6.1602708025.git.andreyknvl@google.com>
+References: <20200921132611.1700350-1-elver@google.com> <20200921132611.1700350-4-elver@google.com>
+ <20200921143059.GO2139@willie-the-truck> <CAG_fn=WXknUnNmyniy_UE7daivSNmy0Da2KzNmX4wcmXC2Z_Mg@mail.gmail.com>
+ <20200929140226.GB53442@C02TD0UTHF1T.local> <CAG_fn=VOR-3LgmLY-T2Fy6K_VYFgCHK0Hv+Y-atrvrVZ4mQE=Q@mail.gmail.com>
+ <20201001175716.GA89689@C02TD0UTHF1T.local> <CANpmjNMFrMZybOebFwJ1GRXpt8v39AN016UDgPZzE8J3zKh9RA@mail.gmail.com>
+ <20201008104501.GB72325@C02TD0UTHF1T.local> <CANpmjNOg2OeWpXn57_ikqv4KR0xVEooCDECUyRijgr0tt4+Ncw@mail.gmail.com>
+ <20201015133948.GB50416@C02TD0UTHF1T.local>
+In-Reply-To: <20201015133948.GB50416@C02TD0UTHF1T.local>
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Thu, 15 Oct 2020 15:56:34 +0200
-Message-ID: <CANpmjNMkZc6X+Z=Bw-hOXO3n9fzq4F3mOnHgieyifkoZM=_Mdw@mail.gmail.com>
-Subject: Re: [PATCH RFC 8/8] kasan: add and integrate kasan_mode boot param
-To: Andrey Konovalov <andreyknvl@google.com>
-Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will.deacon@arm.com>, 
-	Vincenzo Frascino <vincenzo.frascino@arm.com>, Dmitry Vyukov <dvyukov@google.com>, 
-	Alexander Potapenko <glider@google.com>, Evgenii Stepanov <eugenis@google.com>, 
-	Andrey Ryabinin <aryabinin@virtuozzo.com>, Elena Petrova <lenaptr@google.com>, 
-	Branislav Rankov <Branislav.Rankov@arm.com>, Kevin Brodsky <kevin.brodsky@arm.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, kasan-dev <kasan-dev@googlegroups.com>, 
+Date: Thu, 15 Oct 2020 16:15:03 +0200
+Message-ID: <CANpmjNO9Gw0-U+QynFWPPZYEVgnZA84VHi_XrXfa5aiAq3kPuQ@mail.gmail.com>
+Subject: Re: [PATCH v3 03/10] arm64, kfence: enable KFENCE for ARM64
+To: Mark Rutland <mark.rutland@arm.com>
+Cc: Alexander Potapenko <glider@google.com>, Will Deacon <will@kernel.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, "H. Peter Anvin" <hpa@zytor.com>, 
+	"Paul E. McKenney" <paulmck@kernel.org>, Andrey Konovalov <andreyknvl@google.com>, 
+	Andrey Ryabinin <aryabinin@virtuozzo.com>, Andy Lutomirski <luto@kernel.org>, 
+	Borislav Petkov <bp@alien8.de>, Catalin Marinas <catalin.marinas@arm.com>, Christoph Lameter <cl@linux.com>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, David Rientjes <rientjes@google.com>, 
+	Dmitriy Vyukov <dvyukov@google.com>, Eric Dumazet <edumazet@google.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Hillf Danton <hdanton@sina.com>, 
+	Ingo Molnar <mingo@redhat.com>, Jann Horn <jannh@google.com>, 
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Joonsoo Kim <iamjoonsoo.kim@lge.com>, Kees Cook <keescook@chromium.org>, 
+	Pekka Enberg <penberg@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
+	SeongJae Park <sjpark@amazon.com>, Thomas Gleixner <tglx@linutronix.de>, Vlastimil Babka <vbabka@suse.cz>, 
+	"the arch/x86 maintainers" <x86@kernel.org>, "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, 
+	LKML <linux-kernel@vger.kernel.org>, kasan-dev <kasan-dev@googlegroups.com>, 
 	Linux ARM <linux-arm-kernel@lists.infradead.org>, 
-	Linux Memory Management List <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>
+	Linux Memory Management List <linux-mm@kvack.org>
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=KiIrGHou;       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::342 as
+ header.i=@google.com header.s=20161025 header.b=ENts0Dm6;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::243 as
  permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
  sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Marco Elver <elver@google.com>
@@ -135,326 +149,52 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, 14 Oct 2020 at 22:45, Andrey Konovalov <andreyknvl@google.com> wrote:
+On Thu, 15 Oct 2020 at 15:39, Mark Rutland <mark.rutland@arm.com> wrote:
+> On Wed, Oct 14, 2020 at 09:12:37PM +0200, Marco Elver wrote:
+> > On Thu, 8 Oct 2020 at 12:45, Mark Rutland <mark.rutland@arm.com> wrote:
+> > > On Thu, Oct 08, 2020 at 11:40:52AM +0200, Marco Elver wrote:
+> > > > On Thu, 1 Oct 2020 at 19:58, Mark Rutland <mark.rutland@arm.com> wrote:
 >
-> TODO: no meaningful description here yet, please see the cover letter
->       for this RFC series.
+> > > > > > > If you need virt_to_page() to work, the address has to be part of the
+> > > > > > > linear/direct map.
 >
-> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
-> Link: https://linux-review.googlesource.com/id/If7d37003875b2ed3e0935702c8015c223d6416a4
-> ---
->  mm/kasan/common.c  | 69 +++++++++++++++++++++++++---------------------
->  mm/kasan/generic.c |  4 +++
->  mm/kasan/hw_tags.c | 53 +++++++++++++++++++++++++++++++++++
->  mm/kasan/kasan.h   |  8 ++++++
->  mm/kasan/report.c  | 10 +++++--
->  mm/kasan/sw_tags.c |  4 +++
->  6 files changed, 115 insertions(+), 33 deletions(-)
+> > > > We're going with dynamically allocating the pool (for both x86 and
+> > > > arm64),
 >
-> diff --git a/mm/kasan/common.c b/mm/kasan/common.c
-> index a3e67d49b893..d642d5fce1e5 100644
-> --- a/mm/kasan/common.c
-> +++ b/mm/kasan/common.c
-> @@ -135,35 +135,37 @@ void kasan_cache_create(struct kmem_cache *cache, unsigned int *size,
->         unsigned int redzone_size;
->         int redzone_adjust;
+> [...]
 >
-> -       /* Add alloc meta. */
-> -       cache->kasan_info.alloc_meta_offset = *size;
-> -       *size += sizeof(struct kasan_alloc_meta);
-> -
-> -       /* Add free meta. */
-> -       if (IS_ENABLED(CONFIG_KASAN_GENERIC) &&
-> -           (cache->flags & SLAB_TYPESAFE_BY_RCU || cache->ctor ||
-> -            cache->object_size < sizeof(struct kasan_free_meta))) {
-> -               cache->kasan_info.free_meta_offset = *size;
-> -               *size += sizeof(struct kasan_free_meta);
-> -       }
-> -
-> -       redzone_size = optimal_redzone(cache->object_size);
-> -       redzone_adjust = redzone_size - (*size - cache->object_size);
-> -       if (redzone_adjust > 0)
-> -               *size += redzone_adjust;
-> -
-> -       *size = min_t(unsigned int, KMALLOC_MAX_SIZE,
-> -                       max(*size, cache->object_size + redzone_size));
-> +       if (static_branch_unlikely(&kasan_debug)) {
-> +               /* Add alloc meta. */
-> +               cache->kasan_info.alloc_meta_offset = *size;
-> +               *size += sizeof(struct kasan_alloc_meta);
-> +
-> +               /* Add free meta. */
-> +               if (IS_ENABLED(CONFIG_KASAN_GENERIC) &&
-> +                   (cache->flags & SLAB_TYPESAFE_BY_RCU || cache->ctor ||
-> +                    cache->object_size < sizeof(struct kasan_free_meta))) {
-> +                       cache->kasan_info.free_meta_offset = *size;
-> +                       *size += sizeof(struct kasan_free_meta);
-> +               }
+> > We've got most of this sorted now for v5 -- thank you!
+> >
+> > The only thing we're wondering now, is if there are any corner cases
+> > with using memblock_alloc'd memory for the KFENCE pool? (We'd like to
+> > avoid page alloc's MAX_ORDER limit.) We have a version that passes
+> > tests on x86 and arm64, but checking just in case. :-)
 >
-> -       /*
-> -        * If the metadata doesn't fit, don't enable KASAN at all.
-> -        */
-> -       if (*size <= cache->kasan_info.alloc_meta_offset ||
-> -                       *size <= cache->kasan_info.free_meta_offset) {
-> -               cache->kasan_info.alloc_meta_offset = 0;
-> -               cache->kasan_info.free_meta_offset = 0;
-> -               *size = orig_size;
-> -               return;
-> +               redzone_size = optimal_redzone(cache->object_size);
-> +               redzone_adjust = redzone_size - (*size - cache->object_size);
-> +               if (redzone_adjust > 0)
-> +                       *size += redzone_adjust;
-> +
-> +               *size = min_t(unsigned int, KMALLOC_MAX_SIZE,
-> +                               max(*size, cache->object_size + redzone_size));
-> +
-> +               /*
-> +                * If the metadata doesn't fit, don't enable KASAN at all.
-> +                */
-> +               if (*size <= cache->kasan_info.alloc_meta_offset ||
-> +                               *size <= cache->kasan_info.free_meta_offset) {
-> +                       cache->kasan_info.alloc_meta_offset = 0;
-> +                       cache->kasan_info.free_meta_offset = 0;
-> +                       *size = orig_size;
-> +                       return;
-> +               }
->         }
->
->         *flags |= SLAB_KASAN;
-> @@ -180,6 +182,7 @@ size_t kasan_metadata_size(struct kmem_cache *cache)
->  struct kasan_alloc_meta *kasan_get_alloc_meta(struct kmem_cache *cache,
->                                               const void *object)
->  {
-> +       WARN_ON(!static_branch_unlikely(&kasan_debug));
+> AFAICT otherwise the only noticeable difference might be PageSlab(), if
+> that's clear for KFENCE allocated pages? A few helpers appear to check
+> that to determine how something was allocated (e.g. in the scatterlist
+> and hwpoison code), and I suspect that needs to behave the same.
 
-The WARN_ON condition itself should be unlikely, so that would imply
-that the static branch here should be likely since you're negating it.
-And AFAIK, this function should only be called if kasan_debug is true.
+We had to take care of setting PageSlab before, too. We do this during
+kfence_init().
 
->         return (void *)reset_tag(object) + cache->kasan_info.alloc_meta_offset;
->  }
+> Otherwise, I *think* using memblock_alloc should be fine on arm64; I'm
+> not entirely sure for x86 (but suspect it's similar). On arm64:
 >
-> @@ -187,6 +190,7 @@ struct kasan_free_meta *kasan_get_free_meta(struct kmem_cache *cache,
->                                             const void *object)
->  {
->         BUILD_BUG_ON(sizeof(struct kasan_free_meta) > 32);
-> +       WARN_ON(!static_branch_unlikely(&kasan_debug));
+> * All memory is given a struct page via memblocks_present() adding all
+>   memory memblocks. This includes memory allocated by memblock_alloc().
+>
+> * All memory is mapped into the linear map via arm64's map_mem() adding
+>   all (non-nomap) memory memblocks. This includes memory allocated by
+>   memblock_alloc().
 
-Same here.
+Very good, thank you. We'll send v5 with these changes rebased on
+5.10-rc1 (in ~2 weeks).
 
->         return (void *)reset_tag(object) + cache->kasan_info.free_meta_offset;
->  }
->
-> @@ -266,8 +270,10 @@ void * __must_check kasan_init_slab_obj(struct kmem_cache *cache,
->         if (!(cache->flags & SLAB_KASAN))
->                 return (void *)object;
->
-> -       alloc_meta = kasan_get_alloc_meta(cache, object);
-> -       __memset(alloc_meta, 0, sizeof(*alloc_meta));
-> +       if (static_branch_unlikely(&kasan_debug)) {
-> +               alloc_meta = kasan_get_alloc_meta(cache, object);
-> +               __memset(alloc_meta, 0, sizeof(*alloc_meta));
-> +       }
->
->         if (IS_ENABLED(CONFIG_KASAN_SW_TAGS) || IS_ENABLED(CONFIG_KASAN_HW_TAGS))
->                 object = set_tag(object, assign_tag(cache, object, true, false));
-> @@ -305,6 +311,7 @@ static bool __kasan_slab_free(struct kmem_cache *cache, void *object,
->         kasan_poison_memory(object, rounded_up_size, KASAN_KMALLOC_FREE);
->
->         if ((IS_ENABLED(CONFIG_KASAN_GENERIC) && !quarantine) ||
-> +                       !static_branch_unlikely(&kasan_debug) ||
->                         unlikely(!(cache->flags & SLAB_KASAN)))
->                 return false;
->
-> @@ -351,7 +358,7 @@ static void *__kasan_kmalloc(struct kmem_cache *cache, const void *object,
->         kasan_poison_memory((void *)redzone_start, redzone_end - redzone_start,
->                 KASAN_KMALLOC_REDZONE);
->
-> -       if (cache->flags & SLAB_KASAN)
-> +       if (static_branch_unlikely(&kasan_debug) && cache->flags & SLAB_KASAN)
->                 set_alloc_info(cache, (void *)object, flags);
->
->         return set_tag(object, tag);
-> diff --git a/mm/kasan/generic.c b/mm/kasan/generic.c
-> index d259e4c3aefd..9d968eaedc98 100644
-> --- a/mm/kasan/generic.c
-> +++ b/mm/kasan/generic.c
-> @@ -33,6 +33,10 @@
->  #include "kasan.h"
->  #include "../slab.h"
->
-> +/* See the comments in hw_tags.c */
-> +DEFINE_STATIC_KEY_TRUE_RO(kasan_enabled);
-> +DEFINE_STATIC_KEY_TRUE_RO(kasan_debug);
-> +
->  /*
->   * All functions below always inlined so compiler could
->   * perform better optimizations in each of __asan_loadX/__assn_storeX
-> diff --git a/mm/kasan/hw_tags.c b/mm/kasan/hw_tags.c
-> index b372421258c8..fc6ab1c8b155 100644
-> --- a/mm/kasan/hw_tags.c
-> +++ b/mm/kasan/hw_tags.c
-> @@ -8,6 +8,8 @@
->
->  #define pr_fmt(fmt) "kasan: " fmt
->
-> +#include <linux/init.h>
-> +#include <linux/jump_label.h>
->  #include <linux/kasan.h>
->  #include <linux/kernel.h>
->  #include <linux/memory.h>
-> @@ -17,8 +19,57 @@
->
->  #include "kasan.h"
->
-> +enum kasan_mode {
-> +       KASAN_MODE_OFF,
-> +       KASAN_MODE_ON,
-> +       KASAN_MODE_DEBUG,
-> +};
-> +
-> +static enum kasan_mode kasan_mode __ro_after_init;
-> +
-> +/* Whether KASAN is enabled at all. */
-> +/* TODO: ideally no KASAN callbacks when this is disabled. */
-> +DEFINE_STATIC_KEY_FALSE_RO(kasan_enabled);
-> +
-> +/* Whether to collect debugging info, e.g. alloc/free stack traces. */
-> +DEFINE_STATIC_KEY_FALSE_RO(kasan_debug);
-> +
-> +/* Whether to use syncronous or asynchronous tag checking. */
-> +static bool kasan_sync __ro_after_init;
-
-s/syncronous/synchronous/
-
-> +static int __init early_kasan_mode(char *arg)
-> +{
-> +       if (!arg)
-> +               return -EINVAL;
-> +
-> +       if (strcmp(arg, "on") == 0)
-> +               kasan_mode = KASAN_MODE_ON;
-> +       else if (strcmp(arg, "debug") == 0)
-
-s/strcmp(..) == 0/!strcmp(..)/  ?
-
-> +               kasan_mode = KASAN_MODE_DEBUG;
-> +       return 0;
-> +}
-> +early_param("kasan_mode", early_kasan_mode);
-> +
->  void __init kasan_init_tags(void)
->  {
-> +       /* TODO: system_supports_tags() always returns 0 here, fix. */
-> +       if (0 /*!system_supports_tags()*/)
-> +               return;
-> +
-> +       switch (kasan_mode) {
-> +       case KASAN_MODE_OFF:
-> +               return;
-> +       case KASAN_MODE_ON:
-> +               static_branch_enable(&kasan_enabled);
-> +               break;
-> +       case KASAN_MODE_DEBUG:
-> +               static_branch_enable(&kasan_enabled);
-> +               static_branch_enable(&kasan_debug);
-> +               kasan_sync = true;
-> +               break;
-> +       }
-> +
-> +       /* TODO: choose between sync and async based on kasan_sync. */
->         init_tags(KASAN_TAG_MAX);
->
->         pr_info("KernelAddressSanitizer initialized\n");
-> @@ -60,6 +111,7 @@ void kasan_set_free_info(struct kmem_cache *cache,
->  {
->         struct kasan_alloc_meta *alloc_meta;
->
-> +       WARN_ON(!static_branch_unlikely(&kasan_debug));
-
-What actually happens if any of these are called with !kasan_debug and
-the warning triggers? Is it still valid to execute the below, or
-should it bail out? Or possibly even disable KASAN entirely?
-
->         alloc_meta = kasan_get_alloc_meta(cache, object);
->         kasan_set_track(&alloc_meta->free_track[0], GFP_NOWAIT);
->  }
-> @@ -69,6 +121,7 @@ struct kasan_track *kasan_get_free_track(struct kmem_cache *cache,
->  {
->         struct kasan_alloc_meta *alloc_meta;
->
-> +       WARN_ON(!static_branch_unlikely(&kasan_debug));
->         alloc_meta = kasan_get_alloc_meta(cache, object);
->         return &alloc_meta->free_track[0];
->  }
-> diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
-> index 47d6074c7958..3712e7a39717 100644
-> --- a/mm/kasan/kasan.h
-> +++ b/mm/kasan/kasan.h
-> @@ -279,6 +279,14 @@ static inline const void *arch_kasan_set_tag(const void *addr, u8 tag)
->  #define get_mem_tag(addr)                      arch_get_mem_tag(addr)
->  #define set_mem_tag_range(addr, size, tag)     arch_set_mem_tag_range((addr), (size), (tag))
->
-> +#ifdef CONFIG_KASAN_HW_TAGS
-> +DECLARE_STATIC_KEY_FALSE(kasan_enabled);
-> +DECLARE_STATIC_KEY_FALSE(kasan_debug);
-> +#else
-> +DECLARE_STATIC_KEY_TRUE(kasan_enabled);
-> +DECLARE_STATIC_KEY_TRUE(kasan_debug);
-> +#endif
-> +
->  /*
->   * Exported functions for interfaces called from assembly or from generated
->   * code. Declarations here to avoid warning about missing declarations.
-> diff --git a/mm/kasan/report.c b/mm/kasan/report.c
-> index dee5350b459c..ae956a29ad4e 100644
-> --- a/mm/kasan/report.c
-> +++ b/mm/kasan/report.c
-> @@ -159,8 +159,8 @@ static void describe_object_addr(struct kmem_cache *cache, void *object,
->                 (void *)(object_addr + cache->object_size));
->  }
->
-> -static void describe_object(struct kmem_cache *cache, void *object,
-> -                               const void *addr, u8 tag)
-> +static void describe_object_stacks(struct kmem_cache *cache, void *object,
-> +                                       const void *addr, u8 tag)
->  {
->         struct kasan_alloc_meta *alloc_meta = kasan_get_alloc_meta(cache, object);
->
-> @@ -188,7 +188,13 @@ static void describe_object(struct kmem_cache *cache, void *object,
->                 }
->  #endif
->         }
-> +}
->
-> +static void describe_object(struct kmem_cache *cache, void *object,
-> +                               const void *addr, u8 tag)
-> +{
-> +       if (static_branch_unlikely(&kasan_debug))
-> +               describe_object_stacks(cache, object, addr, tag);
->         describe_object_addr(cache, object, addr);
->  }
->
-> diff --git a/mm/kasan/sw_tags.c b/mm/kasan/sw_tags.c
-> index 099af6dc8f7e..50e797a16e17 100644
-> --- a/mm/kasan/sw_tags.c
-> +++ b/mm/kasan/sw_tags.c
-> @@ -33,6 +33,10 @@
->  #include "kasan.h"
->  #include "../slab.h"
->
-> +/* See the comments in hw_tags.c */
-> +DEFINE_STATIC_KEY_TRUE_RO(kasan_enabled);
-> +DEFINE_STATIC_KEY_TRUE_RO(kasan_debug);
-> +
->  static DEFINE_PER_CPU(u32, prng_state);
->
->  void __init kasan_init_tags(void)
-> --
-> 2.28.0.1011.ga647a8990f-goog
->
+Thanks,
+-- Marco
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNMkZc6X%2BZ%3DBw-hOXO3n9fzq4F3mOnHgieyifkoZM%3D_Mdw%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNO9Gw0-U%2BQynFWPPZYEVgnZA84VHi_XrXfa5aiAq3kPuQ%40mail.gmail.com.
