@@ -1,131 +1,150 @@
-Return-Path: <kasan-dev+bncBDYJPJO25UGBBONRYL6AKGQEA7KDZ5Q@googlegroups.com>
+Return-Path: <kasan-dev+bncBC27HSOJ44LBBMWLYL6AKGQEKC3BNYA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ot1-x33a.google.com (mail-ot1-x33a.google.com [IPv6:2607:f8b0:4864:20::33a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 227D629536A
-	for <lists+kasan-dev@lfdr.de>; Wed, 21 Oct 2020 22:23:23 +0200 (CEST)
-Received: by mail-ot1-x33a.google.com with SMTP id s10sf1028829otq.4
-        for <lists+kasan-dev@lfdr.de>; Wed, 21 Oct 2020 13:23:23 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1603311802; cv=pass;
+Received: from mail-ed1-x539.google.com (mail-ed1-x539.google.com [IPv6:2a00:1450:4864:20::539])
+	by mail.lfdr.de (Postfix) with ESMTPS id 87DB5295407
+	for <lists+kasan-dev@lfdr.de>; Wed, 21 Oct 2020 23:18:42 +0200 (CEST)
+Received: by mail-ed1-x539.google.com with SMTP id i26sf1994802edv.0
+        for <lists+kasan-dev@lfdr.de>; Wed, 21 Oct 2020 14:18:42 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1603315122; cv=pass;
         d=google.com; s=arc-20160816;
-        b=AqtVEXCjmZ9Kgrsi/506xKCFp8WrE3c7g1wPdOJz9bbhYZerk5V6rnAxRrhlDZGl08
-         jPjCxeRBTdd5EN5sKwyv0G51VPXw2YIqYVSl0uC3yOOSK2TTyh94JEYndkWw8Guq/ziz
-         JCVpSB28tbf7gTgkk2zR73L1laY/vsBIdwS3AlhD/jZAgSgDS+rrbKLQVPPnYTPdCIJ9
-         UNA51duZNYONIYlPSe9mK5U1DWfsdySeCkD/ekncp85z0PiCTMKzEZp5DPFGWEwgeBez
-         WZ5YdgT7pwU6u/W8swnl/pTskIA10RIi/LAaDmfgXGWjzDIgZbULfLcS56447vxDqE64
-         7C7g==
+        b=MoqGXk+Rc1i4qpyq2/kT0yFCnud3j2deyIz5tttrEdBMLI/8n8FARuf02fLx0YrIma
+         OjooN1N50qVPJKT0vaQa6SNI3KVyxPm2bOQyKP0GN4PbRM1dqZKZdzvkTqvfWbyNE+6o
+         /FlNQcxUc72bmMSCmy8XyL8jcpuSNBiiSiUYjZX/A8ROOnCm4l/vDCrAy75hNWI0iO6e
+         BXk3ZvvBWu6anYz5wAptg6T3D3qiGvZmFvigdFoKiQfgifvOJ3/xKilx4DH5vdQ/gk44
+         arXPLk1/zFdbfatXtcw5Wx/fYlAQdTTg+1Nm5QtE6NHXaeGjFMVsbibKZ7x+HJremSl5
+         0fkA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=cfrRGVzfhJabIy+C2XEqwiB4Us35SS75VNuxH/wFz4s=;
-        b=yFewVnb6jbp7MXJOkI28cj4nig7IS2WrwS/D2J/+FxM7IOfPZcnLsauvgPyC2Qwga0
-         FeE0ZKtoYemQfgixOlZCYOvfG0VkleurY0tppa00hfcGTCsLadDSjoMRMU0AR7iZlces
-         mFcmQ75S9hx9WUt1H2fkXbnOtcyrlxHT2VDkFWZwI3jdZKnu4qqdN0X243dNij+PUBoh
-         eooDJL4trbn5DbksE/NzNU9NbJFwUrMrVJ/DjwacEecYikrKoqHIK6tp1ezH2W89vsl8
-         QcXkuwKkGTXncetdKtx8HtwX0AGUVHgYhgx6CclBc618W7Fy8MS3lq22eppANi/hETtL
-         wzIA==
+         :list-id:mailing-list:precedence:content-language:mime-version
+         :accept-language:in-reply-to:references:message-id:date:thread-index
+         :thread-topic:subject:cc:to:from:sender:dkim-signature;
+        bh=E/PZSwMMWNFx3mo2O6BJXOG6mRa/l8qzus7D3knU6wM=;
+        b=NgPsUmPjOGSFVHuVdL46N4zPbVlYn+qdY7AZuqA/ewaP+pD73RMCYPFoSdFAG0sUPy
+         NDnirmAX2r2Uu1YKCQJ47K9JFdM3uPV4wW/psPN5HC3WUjODdq2xhQYRwkWD8Y9Hqjnx
+         7on6ABU1M9fa0zbNbkNYEedXKmzZsD7vz9lWpyZ2rK7lTYbkGs0KklmLnrXoOUoZA0hy
+         8+rA9yoyTUObKNSm/+VPQ5hE8e9OGEa92lwJTwzN78XccNlcpSNFn71Ryyn5l5mpn/lM
+         9HEDtJ3SRNgadckdJAxF6pDUbQipjgmAUf62qOD0YBDCQL9fetmP2wzcExTkOJ4eUYgH
+         Gtrw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=u9o+ks4L;
-       spf=pass (google.com: domain of ndesaulniers@google.com designates 2607:f8b0:4864:20::42e as permitted sender) smtp.mailfrom=ndesaulniers@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       spf=pass (google.com: domain of david.laight@aculab.com designates 207.82.80.151 as permitted sender) smtp.mailfrom=david.laight@aculab.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=aculab.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=cfrRGVzfhJabIy+C2XEqwiB4Us35SS75VNuxH/wFz4s=;
-        b=io6yV5dZG1QgcHRd5mgF2DBmpL09C+JYryNdNJmdozaSFsYKff6NGrUZV2QUKkZ3QD
-         F1XtudJJunq+p2dwbadkg1ggyeRsOJFwWdMgvv4gpD84KORmlE4q3FoewQZ9EskxGErx
-         Q9/ssDD38XIvh63i4a+Zk+NJZj0VvYfkA2wYJkZ4otPy0EaAsmga4eHcj6i6CUmAZm/y
-         h5BAdUZ5Y39Is3N3wNhHES/orc9tCikbrCZm0rpQ10wMD27eDREpa58qELdOOxJ3n0RZ
-         GmpVXaJohz4Kanc2TtOKGOSIH1ehoruLLKCNNeg2mwIDCXng5JZZGDEf6jaNuokc9QxD
-         +t6Q==
+        h=sender:from:to:cc:subject:thread-topic:thread-index:date:message-id
+         :references:in-reply-to:accept-language:mime-version
+         :content-language:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=E/PZSwMMWNFx3mo2O6BJXOG6mRa/l8qzus7D3knU6wM=;
+        b=jy7ygmx+qfMDphr9oxF2emv/NiVYhRVZE7eQ8wo6jhIBS+Z9nYNhp5bt33veCts7Yv
+         or2sdZA9KJ0bExDK3dtr3fzehOo3c/IA2KSHrgrff71yuOvrVrRK/pQns3GdOtZZGNZg
+         bjmvDHsKcED2gNmQLQJSf38leUiOA6TO6A+YuZnbwvqT/J5Mmq6oXumbYdP/X5K6qJLQ
+         Ng1iP6WYVcDTZ2mbITkadUeIv70ixjZkwrBfkfqJ1hKnPKpBeXCSBl0lWf8mOc57KlSw
+         +VaTll3eP/YKnlyEzMBqNVIEQjYwUIYQa1+lnNSyPaIe5WY//6LDZIaEfd6T9y3UGe4Z
+         adoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+        h=sender:x-gm-message-state:from:to:cc:subject:thread-topic
+         :thread-index:date:message-id:references:in-reply-to:accept-language
+         :mime-version:content-language:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=cfrRGVzfhJabIy+C2XEqwiB4Us35SS75VNuxH/wFz4s=;
-        b=rjCFv4477IJve8F0wGwTipilW9N2vlI1ceATBoeNr8tfYOqjw6y3M5kAU1fcS++/fL
-         Y4rII6KqD7SVmjdwJv4euD4u5LQaG+pCxi54mXiqZRwFUUjEpO3xz7xjqfknkx1/i+4+
-         aKNtiZSnsSJuiIkDIJxC/IBlA/Tlm3nDnmQ6SDuSHnBsbp4tAmCtfwiXn5VDmKdl84y1
-         gFd/vbYiUZSXLt7UrxF0fP/UJCku6ii6MjpyxTlNZBm5g28AYLjZLwxui42SWFtwMWXf
-         9+21+puCcQIlj/wPLcKyLW50UiHO665TVEzMnzCkxSd9xZThZNYs+wb1Sljc+UgRaWke
-         YFyQ==
-X-Gm-Message-State: AOAM533ERiFfOMzdUWwixnKBsgg8r7RBNoWNiaxnW8MJhvAqa66xYawZ
-	O3TgMpxaXzswT9oDMn9xrCk=
-X-Google-Smtp-Source: ABdhPJyuP1DZ9HYf6/6nTiWyjv9Bw+vVudD9Zl5xYF5Hz3+cpMXp5EksGulM7Lkeert4DqXEFTCthw==
-X-Received: by 2002:a05:6830:2153:: with SMTP id r19mr3700719otd.207.1603311802051;
-        Wed, 21 Oct 2020 13:23:22 -0700 (PDT)
+        bh=E/PZSwMMWNFx3mo2O6BJXOG6mRa/l8qzus7D3knU6wM=;
+        b=nEPhyx2zTkgyNHtjrLFZQhxFLq+QPweaoHcyUIleOOub0YjHJpv3//J5lpJw/RvT4q
+         Y5J3rUTKkHqDesVfRZ9u2T38TFfPlpnvVH9jUdF7OWYGMa4xTYRL3qeOd++m4r5eu3cf
+         chBEeTMj4Lw/BdyS5J7eKRoZ7Pa2jASJBCsnWyFMlDtprRZpOIJXbU5qMzFnX3hAdSc4
+         9GB77/ODcGP9u5iFdNIsfvlf3SEW1muM7kW+Rvv3i49OejuUkEy1qasskGYk3CmlZnQi
+         mpQMGKAKH3t4/zuTcCoCeQmfTd6fuWqIvStNcWOKFpzbhkkH3iZvSjfbzGRIxme+4fpA
+         3Btw==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM532BBJfpWr9ZogqiRpZqd+q7snwtyKWR+1v2LQk3TBkoG/8/P4WS
+	FOAxD/+kNPJT+qVGkPFDTgQ=
+X-Google-Smtp-Source: ABdhPJyGOAd1+wRXW71P4KQSHGWyB4AbXXJHQqaRNzcbs/AWiBKPvSeEhCBioNCfnnF/VHEiMJJ3mw==
+X-Received: by 2002:a05:6402:1c8f:: with SMTP id cy15mr4996343edb.335.1603315122249;
+        Wed, 21 Oct 2020 14:18:42 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6830:310b:: with SMTP id b11ls308720ots.10.gmail; Wed,
- 21 Oct 2020 13:23:21 -0700 (PDT)
-X-Received: by 2002:a05:6830:2425:: with SMTP id k5mr3879936ots.86.1603311801573;
-        Wed, 21 Oct 2020 13:23:21 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1603311801; cv=none;
+Received: by 2002:aa7:c04e:: with SMTP id k14ls963440edo.1.gmail; Wed, 21 Oct
+ 2020 14:18:41 -0700 (PDT)
+X-Received: by 2002:a50:871d:: with SMTP id i29mr5030909edb.300.1603315121357;
+        Wed, 21 Oct 2020 14:18:41 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1603315121; cv=none;
         d=google.com; s=arc-20160816;
-        b=QGafhxnIXWE+Tt97n9wwgfyjbmfS8YkXWsyAjPaUKC27PPZ7pFQeszoEoZ+jydqJQZ
-         QqlaBgALqXBdiUxnEwVlodHC49zh5q8bMAWuKdT9Qjh0N/SM7JfKmtX+jqXoG3iwbRxO
-         D5bFhR9fCsIFWEhsoXocDR809vuE/up282XpX+aKB0W8Qw1EgXADqJIFxKqzu+dgb3Jk
-         kPu2cQQSknMB7nYIuuGlN4Gd/GGPZkYmuhJSjkGlTq4yEpx4Ewmiv02rQiSSQu5dlT/d
-         KlAeBBTGLPH/Og8SCyH9PhbjqM+T+dmkc220LHxSeA0oMu6SM+D+s8i99vXboqtKXUnQ
-         ftZA==
+        b=XaCiaySyTyjuQ6BTDgwUqXVY3BGSbaEt4YC7NhTaZk0OGpaOwgTds3rVgbUYf0CBOk
+         dvK8OTcBAgiE4IviZX4jM+Tryyje8nZDZxjL1vcxA+qa5mC+qJMOt9+ZL3KWiYwsv9dN
+         MSkoO+XfMOKV5m7f43Dfl30LHoCs2y8mGNog5zvfdjN2nxRFJmcJANJGjNcscR93XUsE
+         OtQu9u4t2Yzmsghl+a7opPcJMnDTsumlSssSJa0rzFfQAzOVKHQF9nhLKYalDlGxpcjg
+         vyHo7nASTD38rUC47V4NZq6pFuYUfRqC2o5AwHIKDZz6pUBFSGRPQSwDSNlta8Ehp5Oh
+         MWVg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=V+s7Ur1cmG5XqfTGOC/3u1pEc/MJLj9wk8CuInHNfl0=;
-        b=XA2JXs60vQ07e7Y4fy0ngKXsjpFVfEDNUv4kf+cZg+MdFkkJFjDPVcTVM6HjYa89qW
-         V7uuUnAh8um+mgkUGrCeWchvpy5gQbMEkghinPFcjt0piW+lZaE4vIQ1QigJ1pwGSYiw
-         Pkk6MISrWa3XTnpGD9xDtromg5wFpfIcv2BJ6v4rB07mudMvClLV03gqVcXfqql32rSZ
-         V/upvSxoxD7OPP7LCi8OT8uLTULGZeQ5Ni9rvS/A6XKeeeozaJoNsQ05TMsTne33kKqY
-         noVBOE/ehfnBevcW/O7qYgP/ag9+CuLPXDznkSuHWkZ4OTPn3AWIWE4EuiBPOvjm+zp4
-         6j1A==
+        h=content-transfer-encoding:content-language:mime-version
+         :accept-language:in-reply-to:references:message-id:date:thread-index
+         :thread-topic:subject:cc:to:from;
+        bh=8DRXNUWl7maY2ClnWcpsvuqalXaMcmL8Q1HX55i2wIs=;
+        b=Fix6yKDkdq8JJ/VEb3PAg1vJrdBgEXPatkkKtnEaEE5tNScqN96BgYFhBrFA069WUZ
+         MWkYyzuxGKIf7mCfGjMQZfdZIyNWnQV9PFlvYYt3VN4QdWOcHBD4nvARWsO07utnOddm
+         c0kAoHIrwfRZSfQf6Dtd8+skzee+mbKRbmc0mVIMCGPcfZSDTF6CFEkFe9KhKL+QMBJi
+         yc0G0hYGQilbRdOrNYI9JYC09c8j7xsOPvAWAuPYJrXWKVJuZvIouRiwWHshHeSLDgkt
+         oAqBK75DYB0jDk2P4IWmOi/XtCO4RNGtIBdLMQzO/xL4AAbeT0PNkuklKtvmiG7Vdy5n
+         spNg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=u9o+ks4L;
-       spf=pass (google.com: domain of ndesaulniers@google.com designates 2607:f8b0:4864:20::42e as permitted sender) smtp.mailfrom=ndesaulniers@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com. [2607:f8b0:4864:20::42e])
-        by gmr-mx.google.com with ESMTPS id a7si229660oie.4.2020.10.21.13.23.21
+       spf=pass (google.com: domain of david.laight@aculab.com designates 207.82.80.151 as permitted sender) smtp.mailfrom=david.laight@aculab.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=aculab.com
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com. [207.82.80.151])
+        by gmr-mx.google.com with ESMTPS id ba3si96602edb.2.2020.10.21.14.18.41
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 21 Oct 2020 13:23:21 -0700 (PDT)
-Received-SPF: pass (google.com: domain of ndesaulniers@google.com designates 2607:f8b0:4864:20::42e as permitted sender) client-ip=2607:f8b0:4864:20::42e;
-Received: by mail-pf1-x42e.google.com with SMTP id b26so2173403pff.3
-        for <kasan-dev@googlegroups.com>; Wed, 21 Oct 2020 13:23:21 -0700 (PDT)
-X-Received: by 2002:a62:1613:0:b029:152:743c:355c with SMTP id
- 19-20020a6216130000b0290152743c355cmr5213068pfw.15.1603311800680; Wed, 21 Oct
- 2020 13:23:20 -0700 (PDT)
-MIME-Version: 1.0
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 21 Oct 2020 14:18:41 -0700 (PDT)
+Received-SPF: pass (google.com: domain of david.laight@aculab.com designates 207.82.80.151 as permitted sender) client-ip=207.82.80.151;
+Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-190-mJ-rMIRbOpWxzbbz5YLg0w-1; Wed, 21 Oct 2020 22:18:39 +0100
+X-MC-Unique: mJ-rMIRbOpWxzbbz5YLg0w-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
+ Server (TLS) id 15.0.1347.2; Wed, 21 Oct 2020 22:18:38 +0100
+Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
+ AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000;
+ Wed, 21 Oct 2020 22:18:38 +0100
+From: David Laight <David.Laight@ACULAB.COM>
+To: 'Ard Biesheuvel' <ardb@kernel.org>, Joe Perches <joe@perches.com>
+CC: Thomas Gleixner <tglx@linutronix.de>, Borislav Petkov <bp@alien8.de>, "X86
+ ML" <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>, Miguel Ojeda
+	<miguel.ojeda.sandonis@gmail.com>, Marco Elver <elver@google.com>, "Dmitry
+ Vyukov" <dvyukov@google.com>, Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S. Miller" <davem@davemloft.net>, Andrey Ryabinin
+	<aryabinin@virtuozzo.com>, Alexander Potapenko <glider@google.com>, Andrew
+ Morton <akpm@linux-foundation.org>, Nick Desaulniers
+	<ndesaulniers@google.com>, Linux Kernel Mailing List
+	<linux-kernel@vger.kernel.org>, linux-efi <linux-efi@vger.kernel.org>,
+	kasan-dev <kasan-dev@googlegroups.com>, "Linux Crypto Mailing List"
+	<linux-crypto@vger.kernel.org>, linux-mm <linux-mm@kvack.org>
+Subject: RE: [PATCH -next] treewide: Remove stringification from __alias macro
+ definition
+Thread-Topic: [PATCH -next] treewide: Remove stringification from __alias
+ macro definition
+Thread-Index: AQHWp9zKqfE0UY1ZpUePerljMWlMOqmijyIw
+Date: Wed, 21 Oct 2020 21:18:38 +0000
+Message-ID: <1f487127202a49c09bc5db4fd95ec247@AcuMS.aculab.com>
 References: <e9b1ba517f06b81bd24e54c84f5e44d81c27c566.camel@perches.com>
- <CAMj1kXHe0hEDiGNMM_fg3_RYjM6B6mbKJ+1R7tsnA66ZzsiBgw@mail.gmail.com> <1cecfbfc853b2e71a96ab58661037c28a2f9280e.camel@perches.com>
-In-Reply-To: <1cecfbfc853b2e71a96ab58661037c28a2f9280e.camel@perches.com>
-From: "'Nick Desaulniers' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Wed, 21 Oct 2020 13:23:08 -0700
-Message-ID: <CAKwvOd=y4joNkmpvRNTiyRZuqqk1NrXXhAoSsh3e=PmGMsoC6A@mail.gmail.com>
-Subject: Re: [PATCH -next] treewide: Remove stringification from __alias macro definition
-To: Joe Perches <joe@perches.com>
-Cc: Ard Biesheuvel <ardb@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, Borislav Petkov <bp@alien8.de>, 
-	X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>, 
-	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Marco Elver <elver@google.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
-	"David S. Miller" <davem@davemloft.net>, Andrey Ryabinin <aryabinin@virtuozzo.com>, 
-	Alexander Potapenko <glider@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-efi <linux-efi@vger.kernel.org>, 
-	kasan-dev <kasan-dev@googlegroups.com>, 
-	Linux Crypto Mailing List <linux-crypto@vger.kernel.org>, linux-mm <linux-mm@kvack.org>
+ <CAMj1kXHe0hEDiGNMM_fg3_RYjM6B6mbKJ+1R7tsnA66ZzsiBgw@mail.gmail.com>
+In-Reply-To: <CAMj1kXHe0hEDiGNMM_fg3_RYjM6B6mbKJ+1R7tsnA66ZzsiBgw@mail.gmail.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
+MIME-Version: 1.0
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: ndesaulniers@google.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=u9o+ks4L;       spf=pass
- (google.com: domain of ndesaulniers@google.com designates 2607:f8b0:4864:20::42e
- as permitted sender) smtp.mailfrom=ndesaulniers@google.com;       dmarc=pass
- (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Nick Desaulniers <ndesaulniers@google.com>
-Reply-To: Nick Desaulniers <ndesaulniers@google.com>
+X-Original-Sender: david.laight@aculab.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of david.laight@aculab.com designates 207.82.80.151 as
+ permitted sender) smtp.mailfrom=david.laight@aculab.com;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=aculab.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -138,40 +157,30 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Oct 21, 2020 at 12:07 PM Joe Perches <joe@perches.com> wrote:
->
-> On Wed, 2020-10-21 at 21:02 +0200, Ard Biesheuvel wrote:
-> > On Wed, 21 Oct 2020 at 20:58, Joe Perches <joe@perches.com> wrote:
-> > > Like the __section macro, the __alias macro uses
-> > > macro # stringification to create quotes around
-> > > the section name used in the __attribute__.
-> > >
-> > > Remove the stringification and add quotes or a
-> > > stringification to the uses instead.
-> > >
+From: Ard Biesheuvel
+> Sent: 21 October 2020 20:03
+> 
+> On Wed, 21 Oct 2020 at 20:58, Joe Perches <joe@perches.com> wrote:
 > >
-> > Why?
->
-> Using quotes in __section caused/causes differences
-> between clang and gcc.
->
-> https://lkml.org/lkml/2020/9/29/2187
->
-> Using common styles for details like this is good.
+> > Like the __section macro, the __alias macro uses
+> > macro # stringification to create quotes around
+> > the section name used in the __attribute__.
+> >
+> > Remove the stringification and add quotes or a
+> > stringification to the uses instead.
+> >
+> 
+> Why?
 
-Luckily, there's no difference/issue here with alias as there exist
-with section: https://godbolt.org/z/eWxc7P
-So it's just a stylistic cleanup, not a bugfix.
-Acked-by: Nick Desaulniers <ndesaulniers@google.com>
+It allows the section name be made up of two concatenated strings.
 
-$ grep -rn __attribute__ | grep alias
+	David
 
-didn't turn up any other cases that look like they don't use strings.
--- 
-Thanks,
-~Nick Desaulniers
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+Registration No: 1397386 (Wales)
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAKwvOd%3Dy4joNkmpvRNTiyRZuqqk1NrXXhAoSsh3e%3DPmGMsoC6A%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/1f487127202a49c09bc5db4fd95ec247%40AcuMS.aculab.com.
