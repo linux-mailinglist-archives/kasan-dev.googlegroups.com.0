@@ -1,34 +1,34 @@
-Return-Path: <kasan-dev+bncBDX4HWEMTEBRB6UNY36AKGQEFBSLYHY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDX4HWEMTEBRB7ENY36AKGQEIYOM73Q@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ed1-x540.google.com (mail-ed1-x540.google.com [IPv6:2a00:1450:4864:20::540])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A43E295FB5
-	for <lists+kasan-dev@lfdr.de>; Thu, 22 Oct 2020 15:19:55 +0200 (CEST)
-Received: by mail-ed1-x540.google.com with SMTP id a73sf658151edf.16
-        for <lists+kasan-dev@lfdr.de>; Thu, 22 Oct 2020 06:19:55 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1603372795; cv=pass;
+Received: from mail-pg1-x537.google.com (mail-pg1-x537.google.com [IPv6:2607:f8b0:4864:20::537])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C56E295FB6
+	for <lists+kasan-dev@lfdr.de>; Thu, 22 Oct 2020 15:19:58 +0200 (CEST)
+Received: by mail-pg1-x537.google.com with SMTP id u4sf864993pgg.14
+        for <lists+kasan-dev@lfdr.de>; Thu, 22 Oct 2020 06:19:58 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1603372797; cv=pass;
         d=google.com; s=arc-20160816;
-        b=bgX2PVBp5QN3MafVhSikX4cLOGZcuYnh5UL09u2qx5Kdff5+5ZfneKZ78HpXvWjC8h
-         J0Ze7liSdjBv/RwQZQbYo4+f79KjhgxTLeQlp/1LXpWypWmuOPFxxxcNFJsifMW8M3GO
-         3EiEe9i210tW06tyepZbhn7dw48SzHTRjTgzp8iAFvl5XXN5bY9xduhwof65TtVgLDR1
-         KLuZaNMQWzYAObgSCNuxinxgs9UBpJr2Og/Jk9kqTmp7d7oHNReWCzNxPJpB14fMDMlO
-         hAB1CwS9QLowY9DSNsxk0A86fWDen99O5YNw9vNTQN9UU03H6mrT4ETBgqVsFhmFcS/a
-         /20w==
+        b=BEm6VGH/IOn8DaJl8zO4Wp6549v3fz2LPKrwy30bNdGpB0GSSLxiOQwbHvja8HKASB
+         isI0AoVhJlz4uyo/IA/0xvRYteR3YPlTuLRLmDI+TEHXkxLuo3QOOUZLjUX+XNx6kA/9
+         oEYfR3g+RcF2gHJhi7DwvrVYwtPXkPXLXLshVnxf2cvN85gocbc93IJ38PAt/jNY8UiY
+         P4cI6hnVhpNYvKyuIhkDjJDKX5vjJwFNEDyHIUGWA5luoxS9BusMABvOdtHSFSydzkLe
+         tVhK6wsTjPEv1zXet/PCVnesJna/76JGrAPArCymupbV8RomqdALOI3rkUj1JtBKGJSp
+         dhzw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
          :references:mime-version:message-id:in-reply-to:date:sender
          :dkim-signature;
-        bh=Fo5Ap3KYI3gYC5Zxf1m0nTb+XWW9lcnZq0asIkOi0/c=;
-        b=dCqVg0QVWPQiMfET61B3H9IKgZv1b+SM14C/dTfh/nGarAktx7O88pJ3lrwmhZdPGT
-         /lLwD1SmA+tekWhS7HyReYH2BgXe7dGS6KGfTnzCSTap6X9XRbAPUnv8heY5zlapoJ4l
-         fMIPgjXR1Sq6rjeELyyZkoljNIe7r5wpelHExOfRZ3KxLRpN/IrBVo1UiebVfipxJUv7
-         +IdIqHAjpeqA+eVwlLKTjRy9VHLEufD/+kztSLB3SLh/p7lNwWxUGJfZJo1w7uqrIQll
-         zTZb9zL5WOOYr5YIdzm9CbbDnjblzv9XEb+ACMqOVXKCY+GQh75Z9VTR0vCobqk6i7DT
-         em0w==
+        bh=y0Z0kZQCJ2VJUXBNZa6XOiJS+qCAR7gEdaOQWooPfgM=;
+        b=ThzXNRwLsbAE5haZXQE1LMxGStOPay0NTxBd5zCDIGq0vd4UyUQ34KVqCqaWUIGwtO
+         MTrF4xSptAUMaxuISxbzshHnEvdQLrFs6tvo04LAnT+JUfyMbw0Gm3OlEQMKhFZEgg9q
+         YX6nycrG142k39UwW2KJvOqmv8DJj1lZcUXiS0oxilTC/evokoe+56L6m4XKP4B4nymL
+         re4Cgv0iq4kagZ439Ty4DlaZafOHlYYTDCgiodVzuRnkqhW1U550bdE3ll+oGTysHJYm
+         KnM+NzjdolidiZv68iDwPglgZZQd7y3YoE7y+bd4TlmBihkh4xu0dzqtK2d+mFBgxJlx
+         XZIw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=JUPSUQCu;
-       spf=pass (google.com: domain of 3-yarxwokcvas5v9wg25d3y66y3w.u642sas5-vwdy66y3wy96c7a.u64@flex--andreyknvl.bounces.google.com designates 2a00:1450:4864:20::249 as permitted sender) smtp.mailfrom=3-YaRXwoKCVAs5v9wG25D3y66y3w.u642sAs5-vwDy66y3wy96C7A.u64@flex--andreyknvl.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b="hyg/yHWH";
+       spf=pass (google.com: domain of 3-4arxwokcviu7xbyi47f508805y.w864ucu7-xyf08805y0b8e9c.w86@flex--andreyknvl.bounces.google.com designates 2607:f8b0:4864:20::749 as permitted sender) smtp.mailfrom=3-4aRXwoKCVIu7xByI47F508805y.w864uCu7-xyF08805y0B8E9C.w86@flex--andreyknvl.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
@@ -36,13 +36,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :from:to:cc:x-original-sender:x-original-authentication-results
          :reply-to:precedence:mailing-list:list-id:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=Fo5Ap3KYI3gYC5Zxf1m0nTb+XWW9lcnZq0asIkOi0/c=;
-        b=MWKmqWF/seZ++fajhZQ98uBRExHDvZW8GncKWk87B7vmEtJspETQwHDP1Oq5kwrIWc
-         GSAEAt5BoyjLYcVDQDVGorArZWoe4LuLtf12YCVF1WFvcWFTNkeKTBo7vhccVW/Nl26L
-         YzZnEVWG1uc6rYOd0pN4CK+uMjBb+XVVgZ7srD2jkMBF+lfYki3WvPWFf+RfigYuOrBN
-         6qDej3aIYcIv0YsIiyQCG+CZI9uD4adVZ44ILDp7oTJyngUflBVSuj3zPpR28CzVyJES
-         az8DCV18zeIc5oei31dqbVFhdZNMW3UrnfIiZ5kdFw3A//lKgWShy3wkaQat0xhQfdGa
-         s37A==
+        bh=y0Z0kZQCJ2VJUXBNZa6XOiJS+qCAR7gEdaOQWooPfgM=;
+        b=FSK5cE7CVzFASbdpabIB86/5kZukB8nvVE4Exv7KZT9n2jNvIp+LH9ooqNe3kwPNbM
+         RI6qEGaxlhsCt/J7tIq3bGG/KaKp8A9/zdgKNHkA7OuJCMZiF+eHhH0SW8Z489/SfcFT
+         VykmZg3Oulg7YSpZGqwtvizbsofMVueWZHr9JwiE6foxD5e6JEvrzzlt22UBSJhYxu9D
+         BE/G7q+zVXkQdfpVxObx78nf7qtkBypHOTKWyiuNoxC6euTLlzkvl7qtJlKqMHC47Afz
+         Zp8sOo8NIPFuQL5CZIXnedPeRAuXslg105/C+B431Pq8l9pNnqc9QTxv7QbItRG65T+E
+         JxBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
@@ -50,64 +50,64 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=Fo5Ap3KYI3gYC5Zxf1m0nTb+XWW9lcnZq0asIkOi0/c=;
-        b=gPEE2LlHOgA5pER5sT6igDp1B2qr9POM6RYArpnI9oTbqEVQECJPf2bAg7+02PCnn0
-         EaIuM/RKz/stTaoJc9Gk1PIGUuo3VQCPBprc3FjBeJ/w3BIexRdDQdDDV9gh7r/0mTbW
-         W2HPD6gCr5VzEwcag09nOQOSg/ltNxmJFeehW8JDPx6xdrnnQnfdkXOXj3lRhhmorZrV
-         sEv2hByTwDvyev+OPE+YliziSXrQtUlWwLxRQEy9sUuLFQnzp63f37pEhu9GFYTnxSri
-         bqF2dPrvq53KN4G1ManHByeAmcY6XTkr6P8DrN0idXrEW/PZfYe0GoUZSSoV0KuJowb1
-         tMBQ==
-X-Gm-Message-State: AOAM531gOxT/fdY6nRj8HjICrDNdLewAGEARrQrCAto7pQzUDk18SrFX
-	ny4qMAoNePXJXFZW7vDXzzw=
-X-Google-Smtp-Source: ABdhPJyZKnKHec/hn4iHQJ+jRj8kAS+ygvrLGT/VoBRKOkiIyJXRoUykyU2ALr7+yqUQrOOb3wuscg==
-X-Received: by 2002:a50:ee19:: with SMTP id g25mr2286487eds.160.1603372794991;
-        Thu, 22 Oct 2020 06:19:54 -0700 (PDT)
+        bh=y0Z0kZQCJ2VJUXBNZa6XOiJS+qCAR7gEdaOQWooPfgM=;
+        b=HpCOIhEC5FfmNjQGbXBN6dqx5SyqnIGYbXXhp1xexZRksU+tiBQ0zzEy28TrdW61JF
+         JisLhbIGR3U9t14S+T/q+P7pebLwy//ARdbI/m8S9jJy9+odDWTDT2eR4SlPvKOQ+lsJ
+         1juLlj/gMkdpeC9nLmR6IrKyHcqg+Qstn6XCQViVTpovQIakHVd9qgpmuLL2Ei0GNPM+
+         XFOjoSACHL3z9/rA6YD9qCea0sbhU3DsypLqi2npm3wDUcyNxHZrylLnapmchAQowAXE
+         PPvugxFTVTmDsXKRp/Fs/5eRpWNcvIizpsjqo/DVu4hUGvTc9DmpS/zZp+0m8mlVssR2
+         ryZA==
+X-Gm-Message-State: AOAM530uzHxB2+KH/4yKhbkLY0PRqoq3KupvjamqwI2J7YQs4UG69pbl
+	4gddX/wcmXjju3lKcgpCIW4=
+X-Google-Smtp-Source: ABdhPJzX/xdocpe+8h2UCtDOGM4YjYlIW1ssTbIMhCutrUR6RdF4wc/zHTrTUGJ47fVXELl12tkaLA==
+X-Received: by 2002:a62:53c1:0:b029:156:438e:2d6c with SMTP id h184-20020a6253c10000b0290156438e2d6cmr2543934pfb.37.1603372797123;
+        Thu, 22 Oct 2020 06:19:57 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:aa7:cc8b:: with SMTP id p11ls337976edt.3.gmail; Thu, 22 Oct
- 2020 06:19:54 -0700 (PDT)
-X-Received: by 2002:a50:8acf:: with SMTP id k15mr2158409edk.351.1603372794056;
-        Thu, 22 Oct 2020 06:19:54 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1603372794; cv=none;
+Received: by 2002:a62:483:: with SMTP id 125ls749253pfe.6.gmail; Thu, 22 Oct
+ 2020 06:19:56 -0700 (PDT)
+X-Received: by 2002:a05:6a00:1504:b029:15d:4a76:5633 with SMTP id q4-20020a056a001504b029015d4a765633mr2663723pfu.17.1603372796548;
+        Thu, 22 Oct 2020 06:19:56 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1603372796; cv=none;
         d=google.com; s=arc-20160816;
-        b=MlHzF8r9fpEZZwh9R5f5Cc5x6U34bLxz/3l+t41alNjsyqTkCZfE++z7gSJ8gGCQKE
-         O6zyNG9JY3kqKyDq/VkIEBWURMN7VCdjT8sHVI8SMMNveJKU88+JODP3uJztBdY0jTEF
-         hnhGJF9heVO5X/t9Vl3PTN5Z9BfZn/m01h7CFpUyoQgNdnaECYTWdgqWUoKVesBciI3z
-         J8TFYHqEKICOuZ0NIdF2iqttR9jGAoB3qBePruV17zFuyrjITHnKdYVCVzTNgBHaVW1z
-         Ptv0MS+1Ph/izR/h0mYt5u8uhx23AdyNJ25j+CdeD6HoI0Trv3id+8NgGRHx9GqceoQP
-         EzKg==
+        b=jYJrsJn7earPg5Cl6saqUxULKUqZtfVyqnZEr43fLBsR3dzac5YWlhfXiopdX4viD1
+         zLAVldC08YrT8HDBKPumbUjESYBllGLn2JT+FcM2WKdyaJXK23D9EGM3UCSuBG++0O9t
+         ZadmX8FKE90z1arSHUu0suftLTK4rYqF6kMcd10ymzLRwsAe0v8JYyFQ3paltkKAfJpo
+         Wu+EYi+A/2brNuD7xyvTCsNIVl/6PjRNCDVcckO4KbVVrDo5qiUAo+9pxZNigTS5ZJr9
+         VxqSyfoh0/l1qiM5Fr8XX75xep3xkgujasOHC9CzSrWwuEduImVSlZeH0Maa0KrMX940
+         IvBQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
          :date:sender:dkim-signature;
-        bh=IcAE4Jyu1jclhjsbbav79rrFgX1+75/awDcEqCY54u8=;
-        b=hHRvUS7n0TLNEn/TRQo+2oystW0axKx2jZlyYMErHnFbHGRLDpgUCHE9IcPdrykg9H
-         mPUb54/bNbv4NUb4gpyHmyPIpnttaSk9kEgA6jw9Qwu6Vtzfzlu1V/170+1zh/VE0q0Z
-         QfPYfFA6T9R8TVZXl+zrPiMJgqXGHZ4oZEHrGPOK44WEc0BzS/9pyioQHkdXNNvWHuLe
-         bJKgSLtuZOoi2zF08eflHlZHN7QaDTPdqOiliHOn/iZWEEfEmydXEabkYJ7h0UmVySBU
-         JmUxiOX2l4sTo9k9GOr1IiHy4zjjsIHM1zI5tv+Ygr0xW+cHkZDL8rObuMPyT41Mf2ss
-         NI1A==
+        bh=ZoFNxYTX2w5xrKhT+4kOLYASUdfUPOoAnADKxtZ91BU=;
+        b=BEJ33ALy0xkS2/f3WTOWtbrbxeLcjEwduiTfgQOBCzePT3wPE8/QmVKzZRdikYfvxb
+         c00XinRy2cnh00RJ9xZGr28n3RjhuiyHt+VMy7L55RrBBRkaSavTKi3qBn3JzuP/20gt
+         hWpW8rB9yTwbgdf1jaKdGjjhjTYfPBsb5NA0YplAmBh5mP0TuhMFKcWlZ6UGohOltmFe
+         +pYCd1LOO8QeE9RfpcKfUAFFYS19mMQSr2hGXkJ2f4fzf8rGdyWd5tZwAZNVXi4pnku+
+         30nM9RQ44eJeYVTnstNRyH1IpEzsXTLMUIXUv9cPMGG4Kp+GO1LZjYY1T0Y78YLQflrs
+         +vTw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=JUPSUQCu;
-       spf=pass (google.com: domain of 3-yarxwokcvas5v9wg25d3y66y3w.u642sas5-vwdy66y3wy96c7a.u64@flex--andreyknvl.bounces.google.com designates 2a00:1450:4864:20::249 as permitted sender) smtp.mailfrom=3-YaRXwoKCVAs5v9wG25D3y66y3w.u642sAs5-vwDy66y3wy96C7A.u64@flex--andreyknvl.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b="hyg/yHWH";
+       spf=pass (google.com: domain of 3-4arxwokcviu7xbyi47f508805y.w864ucu7-xyf08805y0b8e9c.w86@flex--andreyknvl.bounces.google.com designates 2607:f8b0:4864:20::749 as permitted sender) smtp.mailfrom=3-4aRXwoKCVIu7xByI47F508805y.w864uCu7-xyF08805y0B8E9C.w86@flex--andreyknvl.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-lj1-x249.google.com (mail-lj1-x249.google.com. [2a00:1450:4864:20::249])
-        by gmr-mx.google.com with ESMTPS id u2si62699edp.5.2020.10.22.06.19.54
+Received: from mail-qk1-x749.google.com (mail-qk1-x749.google.com. [2607:f8b0:4864:20::749])
+        by gmr-mx.google.com with ESMTPS id h24si115625plr.0.2020.10.22.06.19.56
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 22 Oct 2020 06:19:54 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 3-yarxwokcvas5v9wg25d3y66y3w.u642sas5-vwdy66y3wy96c7a.u64@flex--andreyknvl.bounces.google.com designates 2a00:1450:4864:20::249 as permitted sender) client-ip=2a00:1450:4864:20::249;
-Received: by mail-lj1-x249.google.com with SMTP id z8so706952lji.0
-        for <kasan-dev@googlegroups.com>; Thu, 22 Oct 2020 06:19:54 -0700 (PDT)
+        Thu, 22 Oct 2020 06:19:56 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 3-4arxwokcviu7xbyi47f508805y.w864ucu7-xyf08805y0b8e9c.w86@flex--andreyknvl.bounces.google.com designates 2607:f8b0:4864:20::749 as permitted sender) client-ip=2607:f8b0:4864:20::749;
+Received: by mail-qk1-x749.google.com with SMTP id j20so462494qkl.7
+        for <kasan-dev@googlegroups.com>; Thu, 22 Oct 2020 06:19:56 -0700 (PDT)
 Sender: "andreyknvl via sendgmr" <andreyknvl@andreyknvl3.muc.corp.google.com>
 X-Received: from andreyknvl3.muc.corp.google.com ([2a00:79e0:15:13:7220:84ff:fe09:7e9d])
- (user=andreyknvl job=sendgmr) by 2002:a19:8a88:: with SMTP id
- m130mr896681lfd.503.1603372793217; Thu, 22 Oct 2020 06:19:53 -0700 (PDT)
-Date: Thu, 22 Oct 2020 15:19:04 +0200
+ (user=andreyknvl job=sendgmr) by 2002:a05:6214:1267:: with SMTP id
+ r7mr2283039qvv.50.1603372795643; Thu, 22 Oct 2020 06:19:55 -0700 (PDT)
+Date: Thu, 22 Oct 2020 15:19:05 +0200
 In-Reply-To: <cover.1603372719.git.andreyknvl@google.com>
-Message-Id: <6f87cb86aeeca9f4148d435ff01ad7d21af4bdfc.1603372719.git.andreyknvl@google.com>
+Message-Id: <ae2caac58051ea4182c0278a1c1e4a945c3a1529.1603372719.git.andreyknvl@google.com>
 Mime-Version: 1.0
 References: <cover.1603372719.git.andreyknvl@google.com>
 X-Mailer: git-send-email 2.29.0.rc1.297.gfa9743e501-goog
-Subject: [PATCH RFC v2 12/21] kasan: inline and rename kasan_unpoison_memory
+Subject: [PATCH RFC v2 13/21] arm64: kasan: Add cpu_supports_tags helper
 From: "'Andrey Konovalov' via kasan-dev" <kasan-dev@googlegroups.com>
 To: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will.deacon@arm.com>, 
 	Vincenzo Frascino <vincenzo.frascino@arm.com>, Dmitry Vyukov <dvyukov@google.com>, 
@@ -122,9 +122,9 @@ Cc: Evgenii Stepanov <eugenis@google.com>, Kostya Serebryany <kcc@google.com>,
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: andreyknvl@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=JUPSUQCu;       spf=pass
- (google.com: domain of 3-yarxwokcvas5v9wg25d3y66y3w.u642sas5-vwdy66y3wy96c7a.u64@flex--andreyknvl.bounces.google.com
- designates 2a00:1450:4864:20::249 as permitted sender) smtp.mailfrom=3-YaRXwoKCVAs5v9wG25D3y66y3w.u642sAs5-vwDy66y3wy96C7A.u64@flex--andreyknvl.bounces.google.com;
+ header.i=@google.com header.s=20161025 header.b="hyg/yHWH";       spf=pass
+ (google.com: domain of 3-4arxwokcviu7xbyi47f508805y.w864ucu7-xyf08805y0b8e9c.w86@flex--andreyknvl.bounces.google.com
+ designates 2607:f8b0:4864:20::749 as permitted sender) smtp.mailfrom=3-4aRXwoKCVIu7xByI47F508805y.w864uCu7-xyF08805y0B8E9C.w86@flex--andreyknvl.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Andrey Konovalov <andreyknvl@google.com>
 Reply-To: Andrey Konovalov <andreyknvl@google.com>
@@ -140,182 +140,122 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Currently kasan_unpoison_memory() is used as both an external annotation
-and as internal memory poisoning helper. Rename external annotation to
-kasan_unpoison_data() and inline the internal helper for for hardware
-tag-based mode to avoid undeeded function calls.
+Add an arm64 helper called cpu_supports_mte() that exposes information
+about whether the CPU supports memory tagging and that can be called
+during early boot (unlike system_supports_mte()).
 
-There's the external annotation kasan_unpoison_slab() that is currently
-defined as static inline and uses kasan_unpoison_memory(). With this
-change it's turned into a function call. Overall, this results in the
-same number of calls for hardware tag-based mode as
-kasan_unpoison_memory() is now inlined.
+Use that helper to implement a generic cpu_supports_tags() helper, that
+will be used by hardware tag-based KASAN.
 
 Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
-Link: https://linux-review.googlesource.com/id/Ia7c8b659f79209935cbaab3913bf7f082cc43a0e
+Link: https://linux-review.googlesource.com/id/Ib4b56a42c57c6293df29a0cdfee334c3ca7bdab4
 ---
- include/linux/kasan.h | 16 ++++++----------
- kernel/fork.c         |  2 +-
- mm/kasan/common.c     | 10 ++++++++++
- mm/kasan/hw_tags.c    |  6 ------
- mm/kasan/kasan.h      |  7 +++++++
- mm/slab_common.c      |  2 +-
- 6 files changed, 25 insertions(+), 18 deletions(-)
+ arch/arm64/include/asm/memory.h    |  1 +
+ arch/arm64/include/asm/mte-kasan.h |  6 ++++++
+ arch/arm64/kernel/mte.c            | 20 ++++++++++++++++++++
+ mm/kasan/kasan.h                   |  4 ++++
+ 4 files changed, 31 insertions(+)
 
-diff --git a/include/linux/kasan.h b/include/linux/kasan.h
-index 6377d7d3a951..2b9023224474 100644
---- a/include/linux/kasan.h
-+++ b/include/linux/kasan.h
-@@ -66,14 +66,15 @@ static inline void kasan_disable_current(void) {}
- 
- #ifdef CONFIG_KASAN
- 
--void kasan_unpoison_memory(const void *address, size_t size);
--
- void kasan_alloc_pages(struct page *page, unsigned int order);
- void kasan_free_pages(struct page *page, unsigned int order);
- 
- void kasan_cache_create(struct kmem_cache *cache, unsigned int *size,
- 			slab_flags_t *flags);
- 
-+void kasan_unpoison_data(const void *address, size_t size);
-+void kasan_unpoison_slab(const void *ptr);
-+
- void kasan_poison_slab(struct page *page);
- void kasan_unpoison_object_data(struct kmem_cache *cache, void *object);
- void kasan_poison_object_data(struct kmem_cache *cache, void *object);
-@@ -98,11 +99,6 @@ struct kasan_cache {
- 	int free_meta_offset;
- };
- 
--size_t __ksize(const void *);
--static inline void kasan_unpoison_slab(const void *ptr)
--{
--	kasan_unpoison_memory(ptr, __ksize(ptr));
--}
- size_t kasan_metadata_size(struct kmem_cache *cache);
- 
- bool kasan_save_enable_multi_shot(void);
-@@ -110,8 +106,6 @@ void kasan_restore_multi_shot(bool enabled);
- 
- #else /* CONFIG_KASAN */
- 
--static inline void kasan_unpoison_memory(const void *address, size_t size) {}
--
- static inline void kasan_alloc_pages(struct page *page, unsigned int order) {}
- static inline void kasan_free_pages(struct page *page, unsigned int order) {}
- 
-@@ -119,6 +113,9 @@ static inline void kasan_cache_create(struct kmem_cache *cache,
- 				      unsigned int *size,
- 				      slab_flags_t *flags) {}
- 
-+static inline void kasan_unpoison_data(const void *address, size_t size) { }
-+static inline void kasan_unpoison_slab(const void *ptr) { }
-+
- static inline void kasan_poison_slab(struct page *page) {}
- static inline void kasan_unpoison_object_data(struct kmem_cache *cache,
- 					void *object) {}
-@@ -158,7 +155,6 @@ static inline bool kasan_slab_free(struct kmem_cache *s, void *object,
- 	return false;
+diff --git a/arch/arm64/include/asm/memory.h b/arch/arm64/include/asm/memory.h
+index b5d6b824c21c..f496abfcf7f5 100644
+--- a/arch/arm64/include/asm/memory.h
++++ b/arch/arm64/include/asm/memory.h
+@@ -232,6 +232,7 @@ static inline const void *__tag_set(const void *addr, u8 tag)
  }
  
--static inline void kasan_unpoison_slab(const void *ptr) { }
- static inline size_t kasan_metadata_size(struct kmem_cache *cache) { return 0; }
+ #ifdef CONFIG_KASAN_HW_TAGS
++#define arch_cpu_supports_tags()		cpu_supports_mte()
+ #define arch_init_tags(max_tag)			mte_init_tags(max_tag)
+ #define arch_get_random_tag()			mte_get_random_tag()
+ #define arch_get_mem_tag(addr)			mte_get_mem_tag(addr)
+diff --git a/arch/arm64/include/asm/mte-kasan.h b/arch/arm64/include/asm/mte-kasan.h
+index a4c61b926d4a..4c3f2c6b4fe6 100644
+--- a/arch/arm64/include/asm/mte-kasan.h
++++ b/arch/arm64/include/asm/mte-kasan.h
+@@ -9,6 +9,7 @@
  
- #endif /* CONFIG_KASAN */
-diff --git a/kernel/fork.c b/kernel/fork.c
-index b41fecca59d7..858d78eee6ec 100644
---- a/kernel/fork.c
-+++ b/kernel/fork.c
-@@ -225,7 +225,7 @@ static unsigned long *alloc_thread_stack_node(struct task_struct *tsk, int node)
- 			continue;
+ #ifndef __ASSEMBLY__
  
- 		/* Mark stack accessible for KASAN. */
--		kasan_unpoison_memory(s->addr, THREAD_SIZE);
-+		kasan_unpoison_data(s->addr, THREAD_SIZE);
++#include <linux/init.h>
+ #include <linux/types.h>
  
- 		/* Clear stale pointers from reused stack. */
- 		memset(s->addr, 0, THREAD_SIZE);
-diff --git a/mm/kasan/common.c b/mm/kasan/common.c
-index 9008fc6b0810..1a5e6c279a72 100644
---- a/mm/kasan/common.c
-+++ b/mm/kasan/common.c
-@@ -184,6 +184,16 @@ struct kasan_free_meta *kasan_get_free_meta(struct kmem_cache *cache,
- 	return (void *)reset_tag(object) + cache->kasan_info.free_meta_offset;
+ /*
+@@ -30,6 +31,7 @@ u8 mte_get_random_tag(void);
+ void *mte_set_mem_tag_range(void *addr, size_t size, u8 tag);
+ 
+ void mte_init_tags(u64 max_tag);
++bool __init cpu_supports_mte(void);
+ 
+ #else /* CONFIG_ARM64_MTE */
+ 
+@@ -54,6 +56,10 @@ static inline void *mte_set_mem_tag_range(void *addr, size_t size, u8 tag)
+ static inline void mte_init_tags(u64 max_tag)
+ {
  }
- 
-+void kasan_unpoison_data(const void *address, size_t size)
++static inline bool cpu_supports_mte(void)
 +{
-+	kasan_unpoison_memory(address, size);
++	return false;
++}
+ 
+ #endif /* CONFIG_ARM64_MTE */
+ 
+diff --git a/arch/arm64/kernel/mte.c b/arch/arm64/kernel/mte.c
+index ca8206b7f9a6..8fcd17408515 100644
+--- a/arch/arm64/kernel/mte.c
++++ b/arch/arm64/kernel/mte.c
+@@ -134,6 +134,26 @@ void mte_init_tags(u64 max_tag)
+ 	gcr_kernel_excl = ~incl & SYS_GCR_EL1_EXCL_MASK;
+ }
+ 
++/*
++ * This function can be used during early boot to determine whether the CPU
++ * supports MTE. The alternative that must be used after boot is completed is
++ * system_supports_mte(), but it only works after the cpufeature framework
++ * learns about MTE.
++ */
++bool __init cpu_supports_mte(void)
++{
++	u64 pfr1;
++	u32 val;
++
++	if (!IS_ENABLED(CONFIG_ARM64_MTE))
++		return false;
++
++	pfr1 = read_cpuid(ID_AA64PFR1_EL1);
++	val = cpuid_feature_extract_unsigned_field(pfr1, ID_AA64PFR1_MTE_SHIFT);
++
++	return val >= ID_AA64PFR1_MTE;
 +}
 +
-+void kasan_unpoison_slab(const void *ptr)
-+{
-+	kasan_unpoison_memory(ptr, __ksize(ptr));
-+}
-+
- void kasan_poison_slab(struct page *page)
+ static void update_sctlr_el1_tcf0(u64 tcf0)
  {
- 	unsigned long i;
-diff --git a/mm/kasan/hw_tags.c b/mm/kasan/hw_tags.c
-index f03161f3da19..915142da6b57 100644
---- a/mm/kasan/hw_tags.c
-+++ b/mm/kasan/hw_tags.c
-@@ -24,12 +24,6 @@ void __init kasan_init_tags(void)
- 	pr_info("KernelAddressSanitizer initialized\n");
- }
- 
--void kasan_unpoison_memory(const void *address, size_t size)
--{
--	set_mem_tag_range(reset_tag(address),
--			  round_up(size, KASAN_GRANULE_SIZE), get_tag(address));
--}
--
- void kasan_set_free_info(struct kmem_cache *cache,
- 				void *object, u8 tag)
- {
+ 	/* ISB required for the kernel uaccess routines */
 diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
-index 8d84ae6f58f1..da08b2533d73 100644
+index da08b2533d73..f7ae0c23f023 100644
 --- a/mm/kasan/kasan.h
 +++ b/mm/kasan/kasan.h
-@@ -280,6 +280,12 @@ static inline void kasan_poison_memory(const void *address, size_t size, u8 valu
- 			  round_up(size, KASAN_GRANULE_SIZE), value);
- }
+@@ -240,6 +240,9 @@ static inline const void *arch_kasan_set_tag(const void *addr, u8 tag)
+ #define set_tag(addr, tag)	((void *)arch_kasan_set_tag((addr), (tag)))
+ #define get_tag(addr)		arch_kasan_get_tag(addr)
  
-+static inline void kasan_unpoison_memory(const void *address, size_t size)
-+{
-+	set_mem_tag_range(reset_tag(address),
-+			  round_up(size, KASAN_GRANULE_SIZE), get_tag(address));
-+}
-+
- static inline bool check_invalid_free(void *addr)
- {
- 	u8 ptr_tag = get_tag(addr);
-@@ -292,6 +298,7 @@ static inline bool check_invalid_free(void *addr)
- #else /* CONFIG_KASAN_HW_TAGS */
++#ifndef arch_cpu_supports_tags
++#define arch_cpu_supports_tags() (false)
++#endif
+ #ifndef arch_init_tags
+ #define arch_init_tags(max_tag)
+ #endif
+@@ -253,6 +256,7 @@ static inline const void *arch_kasan_set_tag(const void *addr, u8 tag)
+ #define arch_set_mem_tag_range(addr, size, tag) ((void *)(addr))
+ #endif
  
- void kasan_poison_memory(const void *address, size_t size, u8 value);
-+void kasan_unpoison_memory(const void *address, size_t size);
- bool check_invalid_free(void *addr);
- 
- #endif /* CONFIG_KASAN_HW_TAGS */
-diff --git a/mm/slab_common.c b/mm/slab_common.c
-index 53d0f8bb57ea..f1b0c4a22f08 100644
---- a/mm/slab_common.c
-+++ b/mm/slab_common.c
-@@ -1176,7 +1176,7 @@ size_t ksize(const void *objp)
- 	 * We assume that ksize callers could use whole allocated area,
- 	 * so we need to unpoison this area.
- 	 */
--	kasan_unpoison_memory(objp, size);
-+	kasan_unpoison_data(objp, size);
- 	return size;
- }
- EXPORT_SYMBOL(ksize);
++#define cpu_supports_tags()			arch_cpu_supports_tags()
+ #define init_tags(max_tag)			arch_init_tags(max_tag)
+ #define get_random_tag()			arch_get_random_tag()
+ #define get_mem_tag(addr)			arch_get_mem_tag(addr)
 -- 
 2.29.0.rc1.297.gfa9743e501-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/6f87cb86aeeca9f4148d435ff01ad7d21af4bdfc.1603372719.git.andreyknvl%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/ae2caac58051ea4182c0278a1c1e4a945c3a1529.1603372719.git.andreyknvl%40google.com.
