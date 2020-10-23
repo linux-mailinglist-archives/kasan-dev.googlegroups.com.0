@@ -1,105 +1,104 @@
-Return-Path: <kasan-dev+bncBCT6537ZTEKRBJ4YZT6AKGQENNLDGUA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCT6537ZTEKRBYNPZT6AKGQEKXBVQJA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-vs1-xe3b.google.com (mail-vs1-xe3b.google.com [IPv6:2607:f8b0:4864:20::e3b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2840129756E
-	for <lists+kasan-dev@lfdr.de>; Fri, 23 Oct 2020 19:00:25 +0200 (CEST)
-Received: by mail-vs1-xe3b.google.com with SMTP id s7sf397749vso.19
-        for <lists+kasan-dev@lfdr.de>; Fri, 23 Oct 2020 10:00:25 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1603472424; cv=pass;
+Received: from mail-vk1-xa3f.google.com (mail-vk1-xa3f.google.com [IPv6:2607:f8b0:4864:20::a3f])
+	by mail.lfdr.de (Postfix) with ESMTPS id A89EE297619
+	for <lists+kasan-dev@lfdr.de>; Fri, 23 Oct 2020 19:50:26 +0200 (CEST)
+Received: by mail-vk1-xa3f.google.com with SMTP id b14sf581227vka.21
+        for <lists+kasan-dev@lfdr.de>; Fri, 23 Oct 2020 10:50:26 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1603475425; cv=pass;
         d=google.com; s=arc-20160816;
-        b=exEQDR1Lf8k/oOXJxFFg6xWPptHIw592D34DEMKP/TNEnGZm4mFJd7hDP3jzApZzEd
-         MZ9hk+4odjaIq3TqucwL4IgrWOIgxGXvgvzOXjyuVYu5WW7LUkmDesQyvEZnOnGusY89
-         ie/S8BmebRDpw/Q5YcRmOLNFxmCxKSGcZzueRP7PLlfBt7XxRFH3o0qLtZwrv/ob/SdN
-         7FrxRtiF8ruLECUiYpKIbf8rlAHDbIRIp2vsx6Db+UTlpT+DosIRbiYUykmqWHd8lWTS
-         yOktvttGSp2WS4jpFaZ9xuxZRIuIbY4zsLWyCQykgkEvMGOO0gYy/Cuii8VvtXzlgYm5
-         jStw==
+        b=JBxG5OTmKt42zm8e1WFxY46prfq5FFa0E4uxbPNvaxauJkEXa5S+X8yR0dPrrDCZMI
+         d3bMNBetzP52tZBvg8qQtF4ZJnXfAkXWz6xu7cb7z3/h6JE07GVHVgNiIq/1Etlj9lzB
+         2kPm36RoU8N7UFhOCyDAlhBtke3I+4UKH1NQjkM5fBn6D28ZUkH5mY4OsTU6fX9ZKGy2
+         IP/m33exDIMU3lTbLeLSI20fGuKFb6WHK9cpF5GWQUGknBeqMtcSDd8SSsYbOjifbsHn
+         mOjNYoM/H2YPphnTyd7bZjaWPKzpuiE2MeTvkhedjtAJOCnvyW7DOJgZMu6OV/DjCMvf
+         c5VQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding:cc:to
-         :subject:message-id:date:from:in-reply-to:references:mime-version
-         :sender:dkim-signature;
-        bh=+CEMBvXyJJd4hZ6TBbx4pjmHEGMY2nZW+uVUT6KguGg=;
-        b=Ra/wUIQufMBGKEx5XB5y5vIhwjuK7cNoSaprULr7c5S2Z1CmtkuunCn4NoULdWHNQI
-         K7KUELl6OhMNkF26mbWO/u0V++5i6yn6zmTyuFiSDaS0qqmC598p0HroGTzNf9fFULne
-         YZaClT7Ji4/y9vNgbmk411KNAd0KctdjZ1CmBWnQ5i/RFcr8305W3I0EtUeF/AJn31y3
-         7JbWE7sxwYBn+a25vi+4JH1LNaRxh2nuw1GghqdvMeH7O12L3w2G9a97Rr+zhfnTHNBL
-         g6tzSPQcME8Lg0LCnRybFqsaSm77F2W3tEgxhayhYs6b2i3BvSiJEn1+XoU0fQnyBoAt
-         KePQ==
+         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:sender:dkim-signature;
+        bh=f7axBbf1HILdeg25PmQaQ8wQcpnPCXlKVjTVH8Q0rpQ=;
+        b=QVmqYCAIJWYPEqkWmDvqLF5/tbts7jwkT70RijS2GPpnueg9MZ+HPrrZ3AUuDIW5pO
+         P45L+WerSHPmHBcGVfTUMs8PoNp63eQhgrcHCf1dFLVs3cHJR62sY6OIiRzWtx3fsKLS
+         0k8me9f7H30IycPhptk7wfSh27f9JqbEejzpdx086OpKGab/LhtYz76gylTPtQhj5Yrw
+         BI6qXx3Dnc49aBFMyvdbiRlCeX8eXxXv1ttAqiEo+3ptI/YvhkrvYu37KV1dWsBfj1xD
+         wPs/3mO9HjR3hC2KeWZwqe+1UaQjl8fE5tdjUXjtlszLh4lD8M9FV1bstjXvMsabVPWj
+         aJSw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linaro.org header.s=google header.b=V+Gg9uIC;
-       spf=pass (google.com: domain of naresh.kamboju@linaro.org designates 2607:f8b0:4864:20::141 as permitted sender) smtp.mailfrom=naresh.kamboju@linaro.org;
+       dkim=pass header.i=@linaro.org header.s=google header.b=zC+oRhFa;
+       spf=pass (google.com: domain of naresh.kamboju@linaro.org designates 2607:f8b0:4864:20::d44 as permitted sender) smtp.mailfrom=naresh.kamboju@linaro.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
         h=sender:mime-version:references:in-reply-to:from:date:message-id
-         :subject:to:cc:content-transfer-encoding:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=+CEMBvXyJJd4hZ6TBbx4pjmHEGMY2nZW+uVUT6KguGg=;
-        b=spk1hOWyFi9TVmDSFW69xWlmdAPsctNF3yS2a+F3yZq9MdrJIIvCTqnzF5i0o6aZnO
-         +jETGJtWIh1ZwqH3lX9oiYLcqAzDCxGUbCe/XD4YGvqIu6efBQF30vTq+JhSEZ4vdzAm
-         Xn7k4qV3Iyn5tQkoaPwgt7qk8Bv0bF7WPWJ6qK0ovV9wzYAVhH2rQJ2k8eTk+I3r5L3Z
-         vMt7/d6KXZyxFVCnUeDAsKyLi9YIDWe09jLeJQRuQgarBOyeBxbRHy8PEVQLNDEy12E+
-         pkoxW+ecpiRE6GXRMbb/FPsPfE28r61F7IUrZbPJhvXQO8nBLEO/+usXymiGPpWP3edn
-         TOwg==
+         :subject:to:cc:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=f7axBbf1HILdeg25PmQaQ8wQcpnPCXlKVjTVH8Q0rpQ=;
+        b=tcKtFmMJO+IjkqZqjRHJzhvl3eyiYrr2Uq81M7pcxo9aY38vjPEkqcnO9pfiJRUVDT
+         jfK8pQj0hT2ZKfwAAnNvAeQSbEsNT/R5XP0dqW1xB1U3w6GyZspquol2KrEb9X1eaxwK
+         WWKNSBZ/IEmwiox7tt3BSRgbxnmTH3je6Brr3epag7QivjZcQi0dlJY0IeebquLz/iRf
+         2BC8c0xhqurMsWv9s1a1hbZ/A0nn3Hw9TYesHGFHU210MptRAmdpKZljOOQf3iRzwXls
+         iGk5f00Ay3OYZsVqTu2uvSBwYTFEBSVNDb3IfnSRXd0S1Lj6AHEr45TWwu6Ee+IPw8Pf
+         44sA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
-         :date:message-id:subject:to:cc:content-transfer-encoding
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=+CEMBvXyJJd4hZ6TBbx4pjmHEGMY2nZW+uVUT6KguGg=;
-        b=qbSfiiuF4ex1xVQaObiCNLmlcHNW4rq6fMV9JrZB8EpwkyZMK48cfajvM5NCLp/ErQ
-         DB4W+IHj2iISgSsE+CcHvqJem3XqEmQJ0OqRjYCRHCA1pubWo5BIAn+sGPNpmQfuGF3t
-         5vCxqUZG9DtG/xR7PvZRwra7cjloI0C+jx5UKR8Urlmz2wyIyyRKyfreoZuoRvAQwj+e
-         fyjp+yY9ZRC2XsGFFTVJnc7QDmt+/WVMZ06KMu27oKaZiLDLxHR+GZtgrJaE9aoU61MK
-         t5k4wqMV2Phwx0puxftN8llzzSk2kd06ucJMZuE7Ge5mGIIt1wGk7bx/OPj1om/EExuX
-         VekQ==
+         :date:message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=f7axBbf1HILdeg25PmQaQ8wQcpnPCXlKVjTVH8Q0rpQ=;
+        b=GyTvwXG+4+MGq8gHpQy6GPfIv8JtjYPwZ536xKcDqNuH9rp4KD938tGC8GHn87Vo5h
+         mG+/vOigY4pNXr2wF1u5Bvk56iHPQ+2nIGMHptib0eX0jHdagaYdPKa2kCUMzPrQQDfC
+         wahUAAZhiGX138qS3gqXeYtvzDZ49bSFZDYM1AQsSVaUGckjSh7s6b+LxHkrJ/DJMyKC
+         6JrMTldW87yjsf30G/wRfpdmGUX29TttpdPUsUsd7esG+26GhFRuS2n7DRTnQKhbNrPj
+         ujj0ovdZ6o2Aw9fZUpmLVm8D17J+cEe2spRA1SlgU57D+wrSpva8I589m2huS0kSmOEi
+         9qHA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM532ybfUUI5Wz8Tzqm8QNraM0k5RLtsdYhjMOUn75vooT1MICzUNp
-	NYgJsvd5vQgZ+sJd9HTdIi8=
-X-Google-Smtp-Source: ABdhPJxvffeEYbEtqYj5dXkCU7wWOO59q/hWVr1UkrOyNU521Hx7HB9ypSPA/FcQRPKsPqq3DsGp4g==
-X-Received: by 2002:ab0:2a8c:: with SMTP id h12mr2108131uar.26.1603472423999;
-        Fri, 23 Oct 2020 10:00:23 -0700 (PDT)
+X-Gm-Message-State: AOAM531PDwnwUnZK2gWvBAW3kdYPoODws6H8TeUPh2+2+Ny5J9psr4rV
+	YL3Ps0efhAT98rF3mFBVL7w=
+X-Google-Smtp-Source: ABdhPJwKX+bDUtX82A5s66FdOCoFyfpXcLpz5LBDPqSqNeq1a2XG2WjCV9brNKU9Yhj1VVo6iYhDXA==
+X-Received: by 2002:ab0:21d1:: with SMTP id u17mr2307018uan.85.1603475425594;
+        Fri, 23 Oct 2020 10:50:25 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a9f:30c5:: with SMTP id k5ls88026uab.3.gmail; Fri, 23 Oct
- 2020 10:00:23 -0700 (PDT)
-X-Received: by 2002:ab0:314b:: with SMTP id e11mr2082378uam.117.1603472423475;
-        Fri, 23 Oct 2020 10:00:23 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1603472423; cv=none;
+Received: by 2002:ab0:45c9:: with SMTP id u67ls111801uau.4.gmail; Fri, 23 Oct
+ 2020 10:50:25 -0700 (PDT)
+X-Received: by 2002:ab0:25c7:: with SMTP id y7mr2426463uan.137.1603475425021;
+        Fri, 23 Oct 2020 10:50:25 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1603475425; cv=none;
         d=google.com; s=arc-20160816;
-        b=isLVkqvmqL+tVHgRUWIV8aZsVzyqSB2ENlW2CJOmzE9eL4M5IwQJjRw8WSfm7iYZV6
-         0Uo9y7uTjrcNOlPuzbPukTNq1Iy1JlMC3bKCU3ik9YurA0nAPFsX/16ZAM6Yyh7iUFQn
-         BgHmAnKqNJwCloUG9A5LB2qF1w7VTB6lRCa+D95DhBVHUVYkv1M1klzwSTFEJRf3Z6Va
-         VNCqI3CqQXJKI7OnS3j7iopY+f4HogVgw2L+v7ygfDeAj8JfnUKDNWFVPzDgmixe0Hx0
-         L3RCFgM4pHLYGpa5dHHy8ZmO3bLheItHFEDrobfK9JBj0YrwGrUOi5j56d1ep8l/+fpJ
-         5Cwg==
+        b=QncyIbFmj3NvRRFNR86FxJRa95D6PdzQsPFjzXDDJGjuhTAhK+N7i/wGlE/PUWVF4z
+         sp5EaPBFvmzu6idba1d/4Io0lbT79ICov4kZWVEdu10B6a8oyDWi8JuwO/5DZW2/u1hh
+         rsheNh3z3xMeTm7rzrRwEGUJzce4xwpntruXGAd81BrBXdmsDoSCHXM24goCsli56dsy
+         wGvIj+JF1SoPt6lii7BPkKm6FYVdc+rf3r5OvZE865cpcGpWx7z7vwTh3+kxKtlBFooO
+         tzmvq2o24R3IqgBl9oU36MxsaMfehAqXKrnWMXlQ3P+XziTf8nxKWU+4v48k2hh0ohGq
+         eaHQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=o1VEizSN6TM+raklNtIXpsapMZWxETouBV0mamAPQo0=;
-        b=Vqi0kijM0yXONk1ahW6js2vYm0SXIfVq3m2J5TYuOvl12mih1L3266nimsBqIuctZF
-         eR172bO09THuKtF2Q9suVc0eyVKA+KLgH3XyMQfA5Xt6qZ05/5KRzPOzAuAac4z8wlE4
-         u9UoildBpvYI4h9yEbeBU1l1nWLwyyoT/E774InRBUFJLp5KTJuR4bGjXxclqgxvUtde
-         fEjbo+b8ypkJE8hNWxs4sR+J3J3wRFFboVY+L7QkXxRGpQMQS+aJPpgKF4Klupn6ia4+
-         W5cKK8om+B4Qwd88it8CbOEGA+6YYJPBdG7NbJDcfYDE/cdLDo+JeBzuDscS356Eli67
-         PWmg==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=VHLmS2i+xk5cy1+Hh+6vgNtXSGGSQNTTVydbxoIIvxM=;
+        b=Ri4iD6ThoLlZvrQB5Aei0P5Xpa4+8jnAhWgzmMP12VTtTacCnb5J//518jxZxMcRf4
+         6Ldk+kADO8mceTdbHw5ozCb5MP9w9zwgR3+ZHGOSqdzIDWUX6crHJiPfHBwKwPppb+GP
+         gxyKQ+XLQxrrvLOtTapV+lGdUCrVi12G7G1Rv3sN7ab15aYQxk095U8EfuEsTgI6C9QU
+         7hm0DSgGX945VcQUD9OrJHoMB8nn5QtfNjVtCAHna+G7uSkRi3F9wJE+uW4t2jIc7We7
+         CHj/Xl9P6tBYYetHRlFqjJdrWKNcRF3eHiY0jTv17fcNGa1u0/RwMgBkYcFKdt8RcH40
+         vNSA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linaro.org header.s=google header.b=V+Gg9uIC;
-       spf=pass (google.com: domain of naresh.kamboju@linaro.org designates 2607:f8b0:4864:20::141 as permitted sender) smtp.mailfrom=naresh.kamboju@linaro.org;
+       dkim=pass header.i=@linaro.org header.s=google header.b=zC+oRhFa;
+       spf=pass (google.com: domain of naresh.kamboju@linaro.org designates 2607:f8b0:4864:20::d44 as permitted sender) smtp.mailfrom=naresh.kamboju@linaro.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org
-Received: from mail-il1-x141.google.com (mail-il1-x141.google.com. [2607:f8b0:4864:20::141])
-        by gmr-mx.google.com with ESMTPS id j77si116671vkj.1.2020.10.23.10.00.23
+Received: from mail-io1-xd44.google.com (mail-io1-xd44.google.com. [2607:f8b0:4864:20::d44])
+        by gmr-mx.google.com with ESMTPS id b16si154866vkn.5.2020.10.23.10.50.24
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 23 Oct 2020 10:00:23 -0700 (PDT)
-Received-SPF: pass (google.com: domain of naresh.kamboju@linaro.org designates 2607:f8b0:4864:20::141 as permitted sender) client-ip=2607:f8b0:4864:20::141;
-Received: by mail-il1-x141.google.com with SMTP id y17so2036950ilg.4
-        for <kasan-dev@googlegroups.com>; Fri, 23 Oct 2020 10:00:23 -0700 (PDT)
-X-Received: by 2002:a92:b6d2:: with SMTP id m79mr1190406ill.216.1603472422474;
- Fri, 23 Oct 2020 10:00:22 -0700 (PDT)
+        Fri, 23 Oct 2020 10:50:24 -0700 (PDT)
+Received-SPF: pass (google.com: domain of naresh.kamboju@linaro.org designates 2607:f8b0:4864:20::d44 as permitted sender) client-ip=2607:f8b0:4864:20::d44;
+Received: by mail-io1-xd44.google.com with SMTP id y20so2826672iod.5
+        for <kasan-dev@googlegroups.com>; Fri, 23 Oct 2020 10:50:24 -0700 (PDT)
+X-Received: by 2002:a02:a910:: with SMTP id n16mr2826341jam.35.1603475424367;
+ Fri, 23 Oct 2020 10:50:24 -0700 (PDT)
 MIME-Version: 1.0
 References: <CA+G9fYvHze+hKROmiB0uL90S8h9ppO9S9Xe7RWwv808QwOd_Yw@mail.gmail.com>
  <CAHk-=wg5-P79Hr4iaC_disKR2P+7cRVqBA9Dsria9jdVwHo0+A@mail.gmail.com>
@@ -107,16 +106,20 @@ References: <CA+G9fYvHze+hKROmiB0uL90S8h9ppO9S9Xe7RWwv808QwOd_Yw@mail.gmail.com>
  <CA+G9fYudry0cXOuSfRTqHKkFKW-sMrA6Z9BdQFmtXsnzqaOgPg@mail.gmail.com>
  <CAHk-=who8WmkWuuOJeGKa-7QCtZHqp3PsOSJY0hadyywucPMcQ@mail.gmail.com>
  <CAHk-=wi=sf4WtmZXgGh=nAp4iQKftCKbdQqn56gjifxWNpnkxw@mail.gmail.com>
- <CAEUSe78A4fhsyF6+jWKVjd4isaUeuFWLiWqnhic87BF6cecN3w@mail.gmail.com> <CAHk-=wgqAp5B46SWzgBt6UkheVGFPs2rrE6H4aqLExXE1TXRfQ@mail.gmail.com>
-In-Reply-To: <CAHk-=wgqAp5B46SWzgBt6UkheVGFPs2rrE6H4aqLExXE1TXRfQ@mail.gmail.com>
+ <CAEUSe78A4fhsyF6+jWKVjd4isaUeuFWLiWqnhic87BF6cecN3w@mail.gmail.com>
+ <CAHk-=wgqAp5B46SWzgBt6UkheVGFPs2rrE6H4aqLExXE1TXRfQ@mail.gmail.com>
+ <20201023050214.GG23681@linux.intel.com> <356811ab-cb08-7685-ca01-fe58b5654953@rasmusvillemoes.dk>
+ <CAHk-=whFb3wk0ff8jb3BCyoNvNJ1TSZxoYRKaAoW=Y43iQFNkw@mail.gmail.com> <CAHk-=whGbM1E0BbSVvxGRj5nBaNRXXD-oKcgrM40s4gvYV_C+w@mail.gmail.com>
+In-Reply-To: <CAHk-=whGbM1E0BbSVvxGRj5nBaNRXXD-oKcgrM40s4gvYV_C+w@mail.gmail.com>
 From: Naresh Kamboju <naresh.kamboju@linaro.org>
-Date: Fri, 23 Oct 2020 22:30:11 +0530
-Message-ID: <CA+G9fYu5aGbMHaR1tewV9dPwXrUR5cbGHJC1BT=GSLsYYwN6Nw@mail.gmail.com>
+Date: Fri, 23 Oct 2020 23:20:13 +0530
+Message-ID: <CA+G9fYtR9p_OqYNT6=tKh=hsQDXC_1m1TgERPFH0ubuZGcg-DA@mail.gmail.com>
 Subject: Re: [LTP] mmstress[1309]: segfault at 7f3d71a36ee8 ip
  00007f3d77132bdf sp 00007f3d71a36ee8 error 4 in libc-2.27.so[7f3d77058000+1aa000]
 To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: =?UTF-8?B?RGFuaWVsIETDrWF6?= <daniel.diaz@linaro.org>, 
-	Stephen Rothwell <sfr@canb.auug.org.au>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
+Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
+	Sean Christopherson <sean.j.christopherson@intel.com>, =?UTF-8?B?RGFuaWVsIETDrWF6?= <daniel.diaz@linaro.org>, 
+	Stephen Rothwell <sfr@canb.auug.org.au>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, zenglg.jy@cn.fujitsu.com, 
 	"Peter Zijlstra (Intel)" <peterz@infradead.org>, Viresh Kumar <viresh.kumar@linaro.org>, X86 ML <x86@kernel.org>, 
 	open list <linux-kernel@vger.kernel.org>, lkft-triage@lists.linaro.org, 
 	"Eric W. Biederman" <ebiederm@xmission.com>, linux-mm <linux-mm@kvack.org>, 
@@ -126,12 +129,11 @@ Cc: =?UTF-8?B?RGFuaWVsIETDrWF6?= <daniel.diaz@linaro.org>,
 	Geert Uytterhoeven <geert@linux-m68k.org>, Christian Brauner <christian.brauner@ubuntu.com>, 
 	Ingo Molnar <mingo@redhat.com>, LTP List <ltp@lists.linux.it>, Al Viro <viro@zeniv.linux.org.uk>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-Original-Sender: naresh.kamboju@linaro.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linaro.org header.s=google header.b=V+Gg9uIC;       spf=pass
+ header.i=@linaro.org header.s=google header.b=zC+oRhFa;       spf=pass
  (google.com: domain of naresh.kamboju@linaro.org designates
- 2607:f8b0:4864:20::141 as permitted sender) smtp.mailfrom=naresh.kamboju@linaro.org;
+ 2607:f8b0:4864:20::d44 as permitted sender) smtp.mailfrom=naresh.kamboju@linaro.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
@@ -145,122 +147,64 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, 23 Oct 2020 at 08:35, Linus Torvalds
+On Fri, 23 Oct 2020 at 22:03, Linus Torvalds
 <torvalds@linux-foundation.org> wrote:
 >
-> On Thu, Oct 22, 2020 at 6:36 PM Daniel D=C3=ADaz <daniel.diaz@linaro.org>=
- wrote:
+> On Fri, Oct 23, 2020 at 8:54 AM Linus Torvalds
+> <torvalds@linux-foundation.org> wrote:
 > >
-> > The kernel Naresh originally referred to is here:
-> >   https://builds.tuxbuild.com/SCI7Xyjb7V2NbfQ2lbKBZw/
+> > On Fri, Oct 23, 2020 at 12:14 AM Rasmus Villemoes
+> > <linux@rasmusvillemoes.dk> wrote:
+> > >
+> > > That's certainly garbage. Now, I don't know if it's a sufficient fix (or
+> > > could break something else), but the obvious first step of rearranging
+> > > so that the ptr argument is evaluated before the assignment to __val_pu
+> >
+> > Ack. We could do that.
+> >
+> > I'm more inclined to just bite the bullet and go back to the ugly
+> > conditional on the size that I had hoped to avoid, but if that turns
+> > out too ugly, mind signing off on your patch and I'll have that as a
+> > fallback?
 >
-> is unnecessary (because the 8-byte case is still just a single
-> register, no %eax:%edx games needed), it would be interesting to hear
-> if the attached patch fixes it. That would confirm that the problem
-> really is due to some register allocation issue interaction (or,
-> alternatively, it would tell me that there's something else going on).
+> Actually, looking at that code, and the fact that we've used the
+> "register asm()" format forever for the get_user() side, I think your
+> approach is the right one.
+>
+> I'd rename the internal ptr variable to "__ptr_pu", and make sure the
+> assignments happen just before the asm call (with the __val_pu
+> assignment being the final thing).
+>
+> lso, it needs to be
+>
+>         void __user *__ptr_pu;
+>
+> instead of
+>
+>         __typeof__(ptr) __ptr = (ptr);
+>
+> because "ptr" may actually be an array, and we need to have the usual
+> C "array to pointer" conversions happen, rather than try to make
+> __ptr_pu be an array too.
+>
+> So the patch would become something like the appended instead, but I'd
+> still like your sign-off (and I'd put you as author of the fix).
+>
+> Narest, can you confirm that this patch fixes the issue for you?
 
-[Old patch from yesterday]
+This patch fixed the reported problem.
 
-After applying your patch on top on linux next tag 20201015
-there are two observations,
-  1) i386 build failed. please find build error build
-  2) x86_64 kasan test PASS and the reported error not found.
+Tested-by: Naresh Kamboju <naresh.kamboju@linaro.org>
 
+Build location:
+https://builds.tuxbuild.com/uDAiW8jkN61oWoyxZDkEYA/
 
-i386 build failure,
-----------------------
-make -sk KBUILD_BUILD_USER=3DTuxBuild -C/linux -j16 ARCH=3Di386 HOSTCC=3Dgc=
-c
-CC=3D"sccache gcc" O=3Dbuild
-#
-In file included from ../include/linux/uaccess.h:11,
-                 from ../arch/x86/include/asm/fpu/xstate.h:5,
-                 from ../arch/x86/include/asm/pgtable.h:26,
-                 from ../include/linux/pgtable.h:6,
-                 from ../include/linux/mm.h:33,
-                 from ../include/linux/memblock.h:13,
-                 from ../fs/proc/page.c:2:
-../fs/proc/page.c: In function =E2=80=98kpagecgroup_read=E2=80=99:
-../arch/x86/include/asm/uaccess.h:217:2: error: inconsistent operand
-constraints in an =E2=80=98asm=E2=80=99
-  217 |  asm volatile("call __" #fn "_%P[size]"    \
-      |  ^~~
-../arch/x86/include/asm/uaccess.h:244:44: note: in expansion of macro
-=E2=80=98do_put_user_call=E2=80=99
-  244 | #define put_user(x, ptr) ({ might_fault();
-do_put_user_call(put_user,x,ptr); })
-      |                                            ^~~~~~~~~~~~~~~~
-../fs/proc/page.c:307:7: note: in expansion of macro =E2=80=98put_user=E2=
-=80=99
-  307 |   if (put_user(ino, out)) {
-      |       ^~~~~~~~
-make[3]: *** [../scripts/Makefile.build:283: fs/proc/page.o] Error 1
-make[3]: Target '__build' not remade because of errors.
-make[2]: *** [../scripts/Makefile.build:500: fs/proc] Error 2
-In file included from ../include/linux/uaccess.h:11,
-                 from ../include/linux/sched/task.h:11,
-                 from ../include/linux/sched/signal.h:9,
-                 from ../include/linux/rcuwait.h:6,
-                 from ../include/linux/percpu-rwsem.h:7,
-                 from ../include/linux/fs.h:33,
-                 from ../include/linux/cgroup.h:17,
-                 from ../include/linux/memcontrol.h:13,
-                 from ../include/linux/swap.h:9,
-                 from ../include/linux/suspend.h:5,
-                 from ../kernel/power/user.c:10:
-../kernel/power/user.c: In function =E2=80=98snapshot_ioctl=E2=80=99:
-../arch/x86/include/asm/uaccess.h:217:2: error: inconsistent operand
-constraints in an =E2=80=98asm=E2=80=99
-  217 |  asm volatile("call __" #fn "_%P[size]"    \
-      |  ^~~
-../arch/x86/include/asm/uaccess.h:244:44: note: in expansion of macro
-=E2=80=98do_put_user_call=E2=80=99
-  244 | #define put_user(x, ptr) ({ might_fault();
-do_put_user_call(put_user,x,ptr); })
-      |                                            ^~~~~~~~~~~~~~~~
-../kernel/power/user.c:340:11: note: in expansion of macro =E2=80=98put_use=
-r=E2=80=99
-  340 |   error =3D put_user(size, (loff_t __user *)arg);
-      |           ^~~~~~~~
-../arch/x86/include/asm/uaccess.h:217:2: error: inconsistent operand
-constraints in an =E2=80=98asm=E2=80=99
-  217 |  asm volatile("call __" #fn "_%P[size]"    \
-      |  ^~~
-../arch/x86/include/asm/uaccess.h:244:44: note: in expansion of macro
-=E2=80=98do_put_user_call=E2=80=99
-  244 | #define put_user(x, ptr) ({ might_fault();
-do_put_user_call(put_user,x,ptr); })
-      |                                            ^~~~~~~~~~~~~~~~
-../kernel/power/user.c:346:11: note: in expansion of macro =E2=80=98put_use=
-r=E2=80=99
-  346 |   error =3D put_user(size, (loff_t __user *)arg);
-      |           ^~~~~~~~
-../arch/x86/include/asm/uaccess.h:217:2: error: inconsistent operand
-constraints in an =E2=80=98asm=E2=80=99
-  217 |  asm volatile("call __" #fn "_%P[size]"    \
-      |  ^~~
-../arch/x86/include/asm/uaccess.h:244:44: note: in expansion of macro
-=E2=80=98do_put_user_call=E2=80=99
-  244 | #define put_user(x, ptr) ({ might_fault();
-do_put_user_call(put_user,x,ptr); })
-      |                                            ^~~~~~~~~~~~~~~~
-../kernel/power/user.c:357:12: note: in expansion of macro =E2=80=98put_use=
-r=E2=80=99
-  357 |    error =3D put_user(offset, (loff_t __user *)arg);
-      |            ^~~~~~~~
-
-
-x86_64 Kasan tested and the reported issue not found.
-https://lkft.validation.linaro.org/scheduler/job/1868029#L2374
+Test logs,
+https://lkft.validation.linaro.org/scheduler/job/1868045#L1597
 
 - Naresh
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CA%2BG9fYu5aGbMHaR1tewV9dPwXrUR5cbGHJC1BT%3DGSLsYYwN6Nw%40mail.gm=
-ail.com.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CA%2BG9fYtR9p_OqYNT6%3DtKh%3DhsQDXC_1m1TgERPFH0ubuZGcg-DA%40mail.gmail.com.
