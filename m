@@ -1,144 +1,68 @@
-Return-Path: <kasan-dev+bncBAABBGEQZX6AKGQE23BGVVY@googlegroups.com>
+Return-Path: <kasan-dev+bncBC6ZN4WWW4NBBDXT3P6AKGQESLFYOJI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yb1-xb3b.google.com (mail-yb1-xb3b.google.com [IPv6:2607:f8b0:4864:20::b3b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 970A32978BC
-	for <lists+kasan-dev@lfdr.de>; Fri, 23 Oct 2020 23:16:09 +0200 (CEST)
-Received: by mail-yb1-xb3b.google.com with SMTP id m62sf3386200ybb.6
-        for <lists+kasan-dev@lfdr.de>; Fri, 23 Oct 2020 14:16:09 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1603487768; cv=pass;
-        d=google.com; s=arc-20160816;
-        b=Gmn+Qqd81kg1O3DafPvLM/3L80FhDC4bT6zL04KrkcAeTYi7+nfn/VAzghA/LmuFN8
-         ZeWSwK1oUz+i9ItVqQp84pF0QOxv/Pz50ehWf11kf10pK0RqQc3FihVlDTdDU0D6Zgld
-         fcNGz1YukGaWaQ8cglJJK1d4tYVX3MtiZQ0bNSaSjcFEjWEzahS9K0KABXnQ02SYQcSp
-         l/jRjhYYwEf79wwiW8wqJ3eIGsOLWrrTUeELE6Cs1VdRfLQlhE3x0AfBRgnmHH0oVv02
-         qZRddLdmGfmkuBOoUCCS7PqCQz7wLwshmhX9atbt3Gyus997vx2RPlVWmYPmX0JrAIIX
-         wrwg==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:sender:dkim-signature;
-        bh=akMbGlOWOaw8fDuzcZSZzYbbLr+jrs/xl67XAh12944=;
-        b=MOz5JAm1Ogg7mSFIzV5QBEOVyAUWMxu2SkLsV0e8mIFgT3LG9TT5Z54rdQBjMxd4rl
-         tSM6lZwOVyqWpCAwrfSQLJpS4f345iykKr9yw1URSj8Q/mHpZpllYXywGLe0LJh69T4Z
-         iPbGUInrK6WVdVz6NRpnqPHUM63AHEf0tV4xrawwazzXYcdyMPUQeYrDk43ObucU5JSl
-         k4ap6BJ7r8oPZXITX/IQYRFkhU6IIo0SgV805iORJmOK23y1NjXb2fFuyZ0OvwUENlV3
-         vt/CDUKmoIMtYiycAFtY0q2UpAUUqqbVxv0QUJ/srqEMkn0SqY1P8HNoWVgMmHjSWM4o
-         eyuw==
-ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=default header.b=ylYjv002;
-       spf=pass (google.com: domain of song@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=song@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Received: from mail-oo1-xc3e.google.com (mail-oo1-xc3e.google.com [IPv6:2607:f8b0:4864:20::c3e])
+	by mail.lfdr.de (Postfix) with ESMTPS id A541E29926B
+	for <lists+kasan-dev@lfdr.de>; Mon, 26 Oct 2020 17:30:07 +0100 (CET)
+Received: by mail-oo1-xc3e.google.com with SMTP id r25sf5917228oop.0
+        for <lists+kasan-dev@lfdr.de>; Mon, 26 Oct 2020 09:30:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:mime-version:references:in-reply-to:from:date:message-id
-         :subject:to:cc:x-original-sender:x-original-authentication-results
+        h=sender:date:from:to:message-id:subject:mime-version
+         :x-original-sender:precedence:mailing-list:list-id:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=XFcTjei5YzzqXTCWOrC3KIw1hgcheynqfG3yi62y47Q=;
+        b=Y2xE7GEfxHrKPhaHvxsPiruM4/ag9JH8kTf9m+/ATKoW/Heb4ndRRWB2kZaN2BjpOC
+         ZYe70KKqUid/0gP5nO9hxOxWm5f1z6ZKxHWfQpEdFu7qBluCdeH2sPlX7Tf4luV0g+AZ
+         MzZaCBQlYfPxxtJoPx6Gdm4IhTocFc60OUvOBsfil+t3OVdZaSEF7at3qU+9m0UeHe9i
+         vFyIKVHzoIrUFQ/AiEkuPU8YrKxw5DhCL4Jts5do07WG0tPPO9RqBlE/sRdo0iIuw1nZ
+         cLl6KTCe6EbkHqWG7WblbiNyCVLOk+E08l49d9y+KvWOeKwEaNWv7idh2h7zcDCAHTav
+         HNzg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:message-id:subject:mime-version:x-original-sender
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=akMbGlOWOaw8fDuzcZSZzYbbLr+jrs/xl67XAh12944=;
-        b=BsL7g0VAaBwd45UxkHWoHZ/6Nz7Scjce3HJpIqTMtlpXOq9PuNaKxtXJG1CQbE19xS
-         ZEcpA9HE1FRYRXVRBEQTF587Rk+dW7KtgBiHRrnsVx4J8+bd9yIiXsr9EBUSAH3w1W0J
-         rDgoezjRz7jLJtzURslffIW+zWotaIsqMUSA5wOYf2O5/f+Mu0pvxNbCWc5+86bHlLGX
-         VnVNBS5wP8WL7KmA95cphCLUUxpqaqXPTHcyow8CkqzCw0+7EQkemuWGi+2ZR5MMu+No
-         UPIR2zX88NzGP1wVRJ3lFUPe/pKD2F2SCaJGXRyc9YgSJCgfPMJkYTOBO+Uay2F4QaCI
-         6LNA==
+        bh=XFcTjei5YzzqXTCWOrC3KIw1hgcheynqfG3yi62y47Q=;
+        b=SHnwOm4AB6wjsFjjkQQ1zMgpBJI3MBbxfM3hmuRZ2LJZ/jlJlVlVOc9x/dP83XCmlz
+         U/pNVkTjBEQw3IunNnnPy33cClirZW71hWXTjMv2M2726tE2sMSev3YVTd4FBDROwQcA
+         HaFWCajSiqg5yadMt6uSehCV6pAJv185c06o6Nx3Po9nJ1f2W5NhI5Xt5JIocBtsDli6
+         uubsWjKyygW4CmOw8pFIZ/oDwAFcj297t/prCL5qBeFadHsDQUmfXShnMYD1y0FnNdKc
+         O/vsa8bOTWDAynjEc68PFsaRuOHBpHTOGdbxYNP+dBM2NZv56FPNDR4tuwDWSox8DDlB
+         tK0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
-         :date:message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
+        h=sender:x-gm-message-state:date:from:to:message-id:subject
+         :mime-version:x-original-sender:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=akMbGlOWOaw8fDuzcZSZzYbbLr+jrs/xl67XAh12944=;
-        b=Ge3Ifyrg0XIYM3FBJ8U2TmMq5j+d7aK+XnTikvuatpnduV0PamQ6M7DG0pb1azAAgQ
-         XEyuYxRaLhPcMVgxQHZb9Fwh6qAXKPDhPC7DwnY+1TsHkD0e5xvT8X/c1lUo7cxjulHv
-         bcKt0UQDOTp88mtZVM+VawkuC4uKeBDxaCImFuHL6OhD8WyFKKjFojfp0Bs6nIR1TPgn
-         givr+DkuYkPjANIez+GV8C4x9JrbJ7ZYXVKYGyjhQk/4PgimrNSA/6XjcDyJxrrjoqj2
-         AvrOZIrh+j3oI1CC3j/gzZ99rEo7UaS6l83SswfmmBkiOzCSfqLXQKOAa93cU74Q+S9L
-         fwEg==
+        bh=XFcTjei5YzzqXTCWOrC3KIw1hgcheynqfG3yi62y47Q=;
+        b=bMpX5t1jaDDYol2dswC9+OpdqYS8YVr86Kj8ddX3WPlv1RuMw0fIgb23365vhA+/C/
+         jyPSBbufoUTgEhWxb6N+Jv0ymiL5SItFsWPbgxEmvJna/ZE+MOuIxiSPA7q5591/CWw0
+         Fy8JbTwltvLreFLS+KyRrGZrdGzsaw+SccP4p32y9ga+WJS1p6r7fqmTZC6KUoi9VCug
+         T63eGSx/yrI7SvHK8rHvcQKllbsww26+qXP5f15Ix1gTOnhFqpXeMp9YmDVELZt3Dl/T
+         5chCeH7ncrkq366xiW1ww+LM+nK5ML+88Wtlynu2+yUgS589y1IBSCiDlQp/elhhQYSQ
+         3BMw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM530Y5ir+bK6IZF+VUK2axvKRlG5StB99rhaV1rxwCTUhwI1PyA/v
-	CHgozXl3Lj/xBC/8bKtSsOA=
-X-Google-Smtp-Source: ABdhPJyts1avfR9JwUbi7iuWVITgR3+Xh/qFtVjn1q+09yEW9Jm478bKAgQM5fJ8nHzwOF5K5hKspg==
-X-Received: by 2002:a5b:b86:: with SMTP id l6mr6124083ybq.258.1603487768667;
-        Fri, 23 Oct 2020 14:16:08 -0700 (PDT)
+X-Gm-Message-State: AOAM5334haWQ+dPQwmchdn/RBRsJXetQlo7O+VBrXBgkPjNFQlgMbZRN
+	C2/5MlUuBEo76xjVSlrAoog=
+X-Google-Smtp-Source: ABdhPJxOHB95MwPyL3EvtWx4HWKG903pkZ9fCTQHEuE/z7hROp6KdfScDx5kvEjbfVGRdjN0FnHcVw==
+X-Received: by 2002:a4a:ba10:: with SMTP id b16mr14213602oop.75.1603729806293;
+        Mon, 26 Oct 2020 09:30:06 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a25:2689:: with SMTP id m131ls1337212ybm.7.gmail; Fri, 23
- Oct 2020 14:16:08 -0700 (PDT)
-X-Received: by 2002:a25:d08e:: with SMTP id h136mr6819610ybg.20.1603487768239;
-        Fri, 23 Oct 2020 14:16:08 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1603487768; cv=none;
-        d=google.com; s=arc-20160816;
-        b=ipFV8LB76Q/yu9fXK/9unGUDYQOYGn/rd/G2HtEZnQ5v2Y6mN4TYzDXauMk0LrzFm2
-         E9b4jFpohXPibC9K2gdJKOBq+0PloD/iGUelLGIHWoL58Ym6HctS3CRI8xvylm0puWUC
-         fgOI1Eo8qi2gWc6esfSXQ3UofBNUcSNDMEbOI02yf/xByP7pb/1xLgp7cpl3m1Gj7U83
-         FT9b7s6/U+gHJriEqTe4t3mbGOppIobOKxKrUWjK0SSuhvaATrX9ljOeA1NqhEgtvo4c
-         wYec1PewSQBqMSUEqM1HoaY06wEVc8bJUpC7S0uqa3dqnm444bHigwGOmGwJD5yGA3qp
-         RvkQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=SIKXFbqTm+pSm6OfDyIbBjFu1rypT7X6yVZC0TmiM6w=;
-        b=zRk0yb2IXfvjEJ9TgzWK+549iQBmPHQ9kBdgV3H49vQGQ/p0Gp3AfOY3+uXuLINHD0
-         PoUnA7Ec29/dmc6NMZcdDTho8ITIIuacX9YV32CRZQfeHwmRPIt5pz0dw7Q52bknZvbF
-         n4jewJonrX1pqK6M5uAeAYPCvBaHGgvFEhiPM/ocyYAEgxNeR5HjcsR9uTzfxj/rHkE+
-         SaVu00LioWbS3E/iBat/ahglElOgZC9twSilAfTYpCunvejoFlJ/fcprO4smVGPgQTDU
-         KaklNW2+z0gt/fdbl8oNIdb7HzWOn+0pf7nkD+/Wbch5hyQPuxRVdQ2g/8YDv0Jj8zKb
-         AfwA==
-ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=default header.b=ylYjv002;
-       spf=pass (google.com: domain of song@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=song@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id q4si178344ybk.3.2020.10.23.14.16.08
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 23 Oct 2020 14:16:08 -0700 (PDT)
-Received-SPF: pass (google.com: domain of song@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id A49202466D
-	for <kasan-dev@googlegroups.com>; Fri, 23 Oct 2020 21:16:06 +0000 (UTC)
-Received: by mail-lj1-f174.google.com with SMTP id m16so3016484ljo.6
-        for <kasan-dev@googlegroups.com>; Fri, 23 Oct 2020 14:16:06 -0700 (PDT)
-X-Received: by 2002:a05:651c:cd:: with SMTP id 13mr1498277ljr.392.1603487764782;
- Fri, 23 Oct 2020 14:16:04 -0700 (PDT)
+Received: by 2002:a05:6830:1f59:: with SMTP id u25ls2288812oth.1.gmail; Mon,
+ 26 Oct 2020 09:30:06 -0700 (PDT)
+X-Received: by 2002:a9d:6005:: with SMTP id h5mr11459509otj.87.1603729805869;
+        Mon, 26 Oct 2020 09:30:05 -0700 (PDT)
+Date: Mon, 26 Oct 2020 09:30:05 -0700 (PDT)
+From: Jidong Xiao <jidong.xiao@gmail.com>
+To: kasan-dev <kasan-dev@googlegroups.com>
+Message-Id: <fbb6a417-0767-4ca5-8e1e-b6a8cc1ad11fn@googlegroups.com>
+Subject: How to change the quarantine size in Kasan?
 MIME-Version: 1.0
-References: <CA+G9fYvHze+hKROmiB0uL90S8h9ppO9S9Xe7RWwv808QwOd_Yw@mail.gmail.com>
- <CAHk-=wg5-P79Hr4iaC_disKR2P+7cRVqBA9Dsria9jdVwHo0+A@mail.gmail.com>
- <CA+G9fYv=DUanNfL2yza=y9kM7Y9bFpVv22Wd4L9NP28i0y7OzA@mail.gmail.com>
- <CA+G9fYudry0cXOuSfRTqHKkFKW-sMrA6Z9BdQFmtXsnzqaOgPg@mail.gmail.com>
- <CAHk-=who8WmkWuuOJeGKa-7QCtZHqp3PsOSJY0hadyywucPMcQ@mail.gmail.com>
- <CAHk-=wi=sf4WtmZXgGh=nAp4iQKftCKbdQqn56gjifxWNpnkxw@mail.gmail.com>
- <CAEUSe78A4fhsyF6+jWKVjd4isaUeuFWLiWqnhic87BF6cecN3w@mail.gmail.com>
- <CAHk-=wgqAp5B46SWzgBt6UkheVGFPs2rrE6H4aqLExXE1TXRfQ@mail.gmail.com>
- <CA+G9fYu5aGbMHaR1tewV9dPwXrUR5cbGHJC1BT=GSLsYYwN6Nw@mail.gmail.com> <CAHk-=wjyp3Y_vXJwvoieBJpmmTrs46kc4GKbq5x_nvonHvPJBw@mail.gmail.com>
-In-Reply-To: <CAHk-=wjyp3Y_vXJwvoieBJpmmTrs46kc4GKbq5x_nvonHvPJBw@mail.gmail.com>
-From: Song Liu <song@kernel.org>
-Date: Fri, 23 Oct 2020 14:15:53 -0700
-X-Gmail-Original-Message-ID: <CAPhsuW6wZRVoT3Bu6YBVjWVm6JBz9n6_RoZKGM7KrVAXx89SFQ@mail.gmail.com>
-Message-ID: <CAPhsuW6wZRVoT3Bu6YBVjWVm6JBz9n6_RoZKGM7KrVAXx89SFQ@mail.gmail.com>
-Subject: Re: [LTP] mmstress[1309]: segfault at 7f3d71a36ee8 ip
- 00007f3d77132bdf sp 00007f3d71a36ee8 error 4 in libc-2.27.so[7f3d77058000+1aa000]
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Naresh Kamboju <naresh.kamboju@linaro.org>, =?UTF-8?B?RGFuaWVsIETDrWF6?= <daniel.diaz@linaro.org>, 
-	Stephen Rothwell <sfr@canb.auug.org.au>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
-	"Peter Zijlstra (Intel)" <peterz@infradead.org>, Viresh Kumar <viresh.kumar@linaro.org>, X86 ML <x86@kernel.org>, 
-	open list <linux-kernel@vger.kernel.org>, lkft-triage@lists.linaro.org, 
-	"Eric W. Biederman" <ebiederm@xmission.com>, linux-mm <linux-mm@kvack.org>, 
-	linux-m68k <linux-m68k@lists.linux-m68k.org>, 
-	Linux-Next Mailing List <linux-next@vger.kernel.org>, Thomas Gleixner <tglx@linutronix.de>, 
-	kasan-dev <kasan-dev@googlegroups.com>, Dmitry Vyukov <dvyukov@google.com>, 
-	Geert Uytterhoeven <geert@linux-m68k.org>, Christian Brauner <christian.brauner@ubuntu.com>, 
-	Ingo Molnar <mingo@redhat.com>, LTP List <ltp@lists.linux.it>, Al Viro <viro@zeniv.linux.org.uk>
-Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: song@kernel.org
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=default header.b=ylYjv002;       spf=pass
- (google.com: domain of song@kernel.org designates 198.145.29.99 as permitted
- sender) smtp.mailfrom=song@kernel.org;       dmarc=pass (p=NONE sp=NONE
- dis=NONE) header.from=kernel.org
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_940_236441080.1603729805194"
+X-Original-Sender: jidong.xiao@gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -151,47 +75,61 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, Oct 23, 2020 at 10:51 AM Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
->
-> On Fri, Oct 23, 2020 at 10:00 AM Naresh Kamboju
-> <naresh.kamboju@linaro.org> wrote:
-> >
-> > [Old patch from yesterday]
-> >
-> > After applying your patch on top on linux next tag 20201015
-> > there are two observations,
-> >   1) i386 build failed. please find build error build
->
-> Yes, this was expected. That patch explicitly only works on x86-64,
-> because 32-bit needs the double register handling for 64-bit values
-> (mainly loff_t).
->
-> >   2) x86_64 kasan test PASS and the reported error not found.
->
-> Ok, good. That confirms that the problem you reported is indeed the
-> register allocation.
->
-> The patch I sent an hour ago (the one based on Rasmus' one from
-> yesterday) should fix things too, and - unlike yesterday's - work on
-> 32-bit.
->
-> But I'll wait for confirmation (and hopefully a sign-off from Rasmus
-> so that I can give him authorship) before actually committing it.
->
->               Linus
+------=_Part_940_236441080.1603729805194
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_941_1868714472.1603729805194"
 
-My test vm failed to boot since
+------=_Part_941_1868714472.1603729805194
+Content-Type: text/plain; charset="UTF-8"
 
-commit d55564cfc222326e944893eff0c4118353e349ec
-x86: Make __put_user() generate an out-of-line call
+Hi,
 
-The patch also fixed it.
+In asan, we can use the quarantine_size_mb parameter to change the 
+quarantine size. Like this:
 
-Thanks!
-Song
+ASAN_OPTIONS=quarantine_size_mb=128 ./a.out
+
+I wonder how to change this quarantine size in KASAN? Do I need to change 
+the kernel code in somewhere (mm/kasan/quarantine.c?) and recompile the 
+kernel? Like I saw in mm/kasan/quarantine.c,
+
+#define QUARANTINE_PERCPU_SIZE (1 << 20)
+
+Does this mean for each CPU 2^20=1MB is reserved for the quarantine region?
+
+-Jidong
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAPhsuW6wZRVoT3Bu6YBVjWVm6JBz9n6_RoZKGM7KrVAXx89SFQ%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/fbb6a417-0767-4ca5-8e1e-b6a8cc1ad11fn%40googlegroups.com.
+
+------=_Part_941_1868714472.1603729805194
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hi,<br><br>In asan, we can use the quarantine_size_mb parameter to change t=
+he quarantine size. Like this:<br><br>ASAN_OPTIONS=3Dquarantine_size_mb=3D1=
+28 ./a.out<br><br>I wonder how to change this quarantine size in KASAN? Do =
+I need to change the kernel code in somewhere (mm/kasan/quarantine.c?) and =
+recompile the kernel? Like&nbsp;I saw in mm/kasan/quarantine.c,<br><br>#def=
+ine QUARANTINE_PERCPU_SIZE (1 &lt;&lt; 20)<br><br>Does this mean for each C=
+PU 2^20=3D1MB is reserved for the quarantine region?<br><br>-Jidong<br>
+
+<p></p>
+
+-- <br />
+You received this message because you are subscribed to the Google Groups &=
+quot;kasan-dev&quot; group.<br />
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
++unsubscribe@googlegroups.com</a>.<br />
+To view this discussion on the web visit <a href=3D"https://groups.google.c=
+om/d/msgid/kasan-dev/fbb6a417-0767-4ca5-8e1e-b6a8cc1ad11fn%40googlegroups.c=
+om?utm_medium=3Demail&utm_source=3Dfooter">https://groups.google.com/d/msgi=
+d/kasan-dev/fbb6a417-0767-4ca5-8e1e-b6a8cc1ad11fn%40googlegroups.com</a>.<b=
+r />
+
+------=_Part_941_1868714472.1603729805194--
+
+------=_Part_940_236441080.1603729805194--
