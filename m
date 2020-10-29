@@ -1,34 +1,34 @@
-Return-Path: <kasan-dev+bncBDX4HWEMTEBRBUVO5T6AKGQEBBALEHQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDX4HWEMTEBRBVNO5T6AKGQEPRTZ6FQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oi1-x23d.google.com (mail-oi1-x23d.google.com [IPv6:2607:f8b0:4864:20::23d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9011C29F4DC
-	for <lists+kasan-dev@lfdr.de>; Thu, 29 Oct 2020 20:26:11 +0100 (CET)
-Received: by mail-oi1-x23d.google.com with SMTP id r83sf1538828oia.19
-        for <lists+kasan-dev@lfdr.de>; Thu, 29 Oct 2020 12:26:11 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1603999570; cv=pass;
+Received: from mail-wr1-x43b.google.com (mail-wr1-x43b.google.com [IPv6:2a00:1450:4864:20::43b])
+	by mail.lfdr.de (Postfix) with ESMTPS id B39F429F4DD
+	for <lists+kasan-dev@lfdr.de>; Thu, 29 Oct 2020 20:26:13 +0100 (CET)
+Received: by mail-wr1-x43b.google.com with SMTP id e3sf1678995wrn.19
+        for <lists+kasan-dev@lfdr.de>; Thu, 29 Oct 2020 12:26:13 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1603999573; cv=pass;
         d=google.com; s=arc-20160816;
-        b=jvffeHnxJx079YgdjOFstQ2BwQzEjG8Bof41K4lyq4kI5pWZCr49WzpdH5LK/pk45P
-         hiu8tOUIPcbOzURWkTExiXz8F5mP/v5D1FJd6bTR4m7wsUv5+1ORejEsu35CWnG46pgL
-         jpBuNvKB3ojQ8BANfQa5/4n9dI1VBQBgRe2u45FbMY+TS7yrUaWgGv+QuiB9RQo9RPYk
-         +rSTQqaWxLhMKQAXCLC8GTuhWcickV1qzBRGJj0msNV7S7drhZ70VGlOph4lShOMK2VD
-         hmcI+S4LwE9D1PISu+KucGhoCxj4oRkTIjcslecC3EsO97S0bqxjOWwuCdybLpjaY7ke
-         WleA==
+        b=YabKBUnQKQhrjhacE4ZCTGnL0uqzbjaE6HZtO22qyblD9hhzDhAOoa8w301BcFAcue
+         ZzLR0WQLSsy7zcquKT+yRAf4M3KPTAEKdOyHXe7GN/852GMmicyNz/m9n/yYOPeJjq17
+         UmyLad8MeOJIrg4G9nBfRARta3kR6v1YXSr0WlTnOxRHB5qTJZ1zElakjs+Utfet75C/
+         q5TG/5Eys3Y5pDg4tjvJnZKGsgKD+54naPvbfTv1s3mCi6vLya06lW+1d2S6cdqnuGUE
+         LrxMO+EXil5v6014+8vI7mNtp1NqWBhP2A/IZjRKYAGp1uIWC7syjCsA2N/r1O4yxCTm
+         qlrQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
          :references:mime-version:message-id:in-reply-to:date:sender
          :dkim-signature;
-        bh=86FiOeZ5mE6bNHu8Tq9fO+5frKacF0x5aQ+pwnyL6mE=;
-        b=otfnyoC0mUlAWw907+R1o4El9iKmc1tDCc4RjzEyWKo+Z/uZ1YzTZ8W3dqtu2MULqj
-         eVHQualvekfNMZVYqqo7AEsgKJeK1pbbFysB3zFbxP++hr5QWQ45hyZoDYRSw8jhi7Ml
-         LsNqBOBy/Q3c5UU991o1j6jssBKyKh4Kjzib/KbeTtn7aziS4tAezTtGlSo2SZtyX/ZT
-         bbL0f372A2tLvove3jy6IidXPA7ukrA0uFrLjY/C9lkjCtyLO72zerbOzh6rNCtTOW/a
-         y/+sJpMm/Tz4A743GsXVy/N4R0zhKwLSzZJZRsYGLkVgMerNKXtfBPMHXNdmTpHe+AdX
-         Vzow==
+        bh=T5cgZbdJzAw4L+mJXvFsNChudAh4hhMj8+aNZSW8/qw=;
+        b=nV0Iqj+fcBhcODUNMbw2S5gntRwHkMFJ5L96nGBDBT9EMJdR7vtdD3/j9e76WnezqY
+         9EVL1a9l4+u8IgO+ce+dY2k3fGgjOFO2Ik2SYeMEsvV/nSbkqF9dHY0P2d2YPqTR+7Yt
+         YuZRuZ7SU58zEeVNhfvY050GQcokMseWSD/sgGN3up67ww3vY1LGdK+6JSfb8UfnNvRX
+         tXmlkPC5EHEZFEow/WFMTY6VxkSqzjlPK0KQ7VbScT4/WPNzDXo9hTypdN7e7I3vI+Dl
+         2c6AMRy6ipZK+7zkhh9/D7NIiJtzz+IQBDkUjimHh6yS2QfQodtHak+XIExHNuDZZCRc
+         Ss/A==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=gGdqNoDG;
-       spf=pass (google.com: domain of 3urebxwokce4qdthuoadlbweewbu.secaqiqd-tulweewbuwhekfi.sec@flex--andreyknvl.bounces.google.com designates 2607:f8b0:4864:20::749 as permitted sender) smtp.mailfrom=3URebXwoKCe4QdThUoadlbWeeWbU.SecaQiQd-TUlWeeWbUWhekfi.Sec@flex--andreyknvl.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=TbXAhZtX;
+       spf=pass (google.com: domain of 3uxebxwokcfasfvjwqcfndyggydw.ugecsksf-vwnyggydwyjgmhk.uge@flex--andreyknvl.bounces.google.com designates 2a00:1450:4864:20::349 as permitted sender) smtp.mailfrom=3UxebXwoKCfASfVjWqcfndYggYdW.UgecSkSf-VWnYggYdWYjgmhk.Uge@flex--andreyknvl.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
@@ -36,13 +36,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :from:to:cc:x-original-sender:x-original-authentication-results
          :reply-to:precedence:mailing-list:list-id:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=86FiOeZ5mE6bNHu8Tq9fO+5frKacF0x5aQ+pwnyL6mE=;
-        b=EWWQAzIyHElX2GSr2157D0NeYGLlEBg9TkChUytPUMmJK5LnohRTLg4TwNzW8kxHJE
-         Y1rYByxf0DwJrS613GCh1dHOW5F97o2QuqWczn6eyE7H9wszAQSUcyZQsDfkFHuvD4L3
-         6TZcV5iRZV6FeQMUFkJ9YqpH6V6x1Uz+Xe91XHGlpSo4WzLg/XID34/fM398p9kNdpt3
-         x+y/Sl7w4Mrf7YAlmdFhSItgSaRibW55rFrP5tpA6SwcNv90MF5iyFmkd+CUb9cpGZUN
-         aYBgfHkicdZHHDTk0wizskBgpzjCeRShG0lee+ebZLBDysOM/LXT7DSeKCQBkQrM8GJ+
-         y1xQ==
+        bh=T5cgZbdJzAw4L+mJXvFsNChudAh4hhMj8+aNZSW8/qw=;
+        b=mChdaq7abYPCufubFNpRo8D3A0rrEonQLMcC+Zx9XawOnY71rVplilX0fw/hgn4ipq
+         bFXjo7pZm1U4h/5Yn+J0qNlIMxo+wGBb4Xk/XlCzFqtJR+cDOwdq+i41syV/CKGr7CYH
+         umDv6SlcI5GsUOBIL+GPclIJ024+Wu46k2+TUizyI6wq9bjLMs8EXMkbBM9/hOepkvRA
+         cBFhYLXSMKCGlu+4yxAlRJaOhcD5JeYQF5hT5CDKWEGgq75lWAwBqUWsx8KtcdijmK0n
+         sWtknl1+uCrHaf0siQAyhRI+qV1Mfm1k2GhoZx8NKBgh7IMZ87sMyovfhUDKYp3dd3Xo
+         Hb4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
@@ -50,64 +50,64 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=86FiOeZ5mE6bNHu8Tq9fO+5frKacF0x5aQ+pwnyL6mE=;
-        b=HqCCE8On2IYDjDn1INdOKv22p1PZN9Ef8JiAKMsuTU5EkTidrkzUCHwZHP8xL6nuhc
-         NRkNLMoEsoWdMTKUnVebfeJqHgM8EPriEgbrA0s33MBhNw5muxtQ3TINPptv2H/n5OYf
-         tn60d/d7HwNIc01EDjNLA/ZsHpwiCN2DDpBqyIjGS5DqhmtnW577oEnwgi+teV1B0K8p
-         XP9o14sZNIkKyCEEZdXMU9zEM7yUKQi+E0DhU4Qey7++qoQiMgTB3jXy1nZRXKUWQ80l
-         4onLjs9fV8Gra1td9OwhjDc/oWPcZroViH+prMfJImBb5CUqVzw37zjD4FC1MLwHUOpC
-         CBbw==
-X-Gm-Message-State: AOAM530Cu/3xJ6Hckioj1/oiIQ++9dJREa3BJhsCNcbSCiHIEq92Q1ux
-	W2JYRiN3Fm85D/jS4Y1fuEk=
-X-Google-Smtp-Source: ABdhPJxhRnnhvmcmVUkLBMC4Vxp6l6rF/MH7hPUO5zkWhxS7LMjABlyYN1snJVtNTEXklWfob5RozQ==
-X-Received: by 2002:a9d:2c62:: with SMTP id f89mr4215096otb.38.1603999570557;
-        Thu, 29 Oct 2020 12:26:10 -0700 (PDT)
+        bh=T5cgZbdJzAw4L+mJXvFsNChudAh4hhMj8+aNZSW8/qw=;
+        b=K2iWM66FaZ1qCZf2Ccs15OyyUhts9B6oUpeR+y6Z4UOXf3bsMsL+mzY2PPA+XobQiJ
+         vyxyZ8DMT39SFdndB1aMen8uCtCdHiDe6m5Pqv1Es/HJZU1dZdislrkwoHP9chHFWxN5
+         jJY2Js/CDCraTBEEfqX8guINsh7aGpXDVcuEghWab3f3FW/pX7sPIHg94Y4SqjVi2FC0
+         lfzg1t/wVG6Y6Gb4EF0bMWeqo684Qq6BIPsyw18/SB+5Bukr6udVXBPV3SZNMam2rm72
+         jVWVPH6HobILzMc/ojJlyddKfgb0bPxxLe4A1LSAzuBMqP92Sx3fESK50HXrKe9aziEr
+         zyKw==
+X-Gm-Message-State: AOAM530JeGzVc00tIEnBmG+oRbILpigdbgeDEjPvyH/0JEJh4A4wz6Bl
+	ojLJUC6OLcg7+5QMC1ZFzGc=
+X-Google-Smtp-Source: ABdhPJzzcEHftf2yeQBg0effMJ6XfuB84xJkSNFQq8ntwKoVmYhOhUUo2qkA9Xr3fLiBwBdZL8re1A==
+X-Received: by 2002:a1c:7707:: with SMTP id t7mr485610wmi.54.1603999573415;
+        Thu, 29 Oct 2020 12:26:13 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a9d:6b81:: with SMTP id b1ls988633otq.8.gmail; Thu, 29 Oct
- 2020 12:26:10 -0700 (PDT)
-X-Received: by 2002:a9d:5910:: with SMTP id t16mr4709056oth.155.1603999570181;
-        Thu, 29 Oct 2020 12:26:10 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1603999570; cv=none;
+Received: by 2002:a7b:cf0f:: with SMTP id l15ls96974wmg.0.experimental-gmail;
+ Thu, 29 Oct 2020 12:26:12 -0700 (PDT)
+X-Received: by 2002:a1c:bdc4:: with SMTP id n187mr404200wmf.185.1603999572265;
+        Thu, 29 Oct 2020 12:26:12 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1603999572; cv=none;
         d=google.com; s=arc-20160816;
-        b=nP3BM6S1yrHppgJsfvV7VgQoM+ptjtGnVoigwswrZIcu1tzX1BC2N3gX1lJbo2KiZJ
-         X7fPXXRn3zmKfn70AIxztjgDLZZKM+cayU4M1D2xyrWr2GZdY0FBly9iN5iMFF7mxg6m
-         NOnzg/nsyXODZa41EfFHINLr5SY3uGh6UUhEWUJ2wU+4Af6cOZse9lhuBKpxEgz4Mb2r
-         BdP7NOpe9FohcKqEmIUBx3cS3yvNAI9tvMh9wbqj/onYAWf7882cdvjP/ypIEP1DINnA
-         1L1mC7mof9bVD+RjEdMiC/GXYKJXXFc2WVNiS4PEGvRO57hdypJCt3ogJ255w3luQkNK
-         PgnQ==
+        b=txbXK1jHOdBNREpagzM962ey2GCjIS9kp2l2V4dtUn/QCluWdLun1g2tXE3fnPkrYW
+         XLLsF714kYTVlMwuQokk5kLO29tWzovOz0kd4YRdiawnM+7ysViRGY3rxVK59LGHhwHH
+         S46xZYojmEl9/0sA+5NnBQfUF1NNrsEknTRC0W5f0CDGfDQ32AKskdwDhhef7QzDhZM8
+         TPe4ZxMwGaXUwQnM1LZx+GLxajFsv18Xpvn/ayCSFNqC2Biy72wM/yKUCFuf3wgA5kUG
+         4WucE/CSgZ5nWJ2b46wjxIu9+GSKvMALwVu1FvUr9yrB/+aCZVXEUpan8VwBjAXVYs/H
+         ByzA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
          :date:sender:dkim-signature;
-        bh=E3nLeu64H5OkoX6I7J0ZTAruHDRmKSNURPLcLoePP7U=;
-        b=jkjMtqjYzqvkQPsVkLz9WhSDHcpjZ73wCudINWlQhyBd4pg7TsvoS8AOHHkcF35CtI
-         gJfSwYHfgYmdXkpgSoSOnX1BwaY5m6EsXJRnZsjIM/2y0xUWzgxZvahb7D1mU49xlO5G
-         qwM+GBRBrY2yKK9zgYf+asBCGqpqsUwAV7V8DRmBzTe+wlRrym7LZzwe2KMU8IwzvpzO
-         Qk7sb5ikEChK2ZdbfIzCmH1WAeINnW4yHv4+50FcdTVz5gqQB5x+nwPz3k0NXPnzy/30
-         3OZtwNho+22drplJ9LI/yBoF88VKGeWBbxIPKNOWILUcsiyO7iNi2DvbjrXsBM9W4Fxe
-         Dlbw==
+        bh=iKiZmQLw/RkryeoFhlFWSKbY6lm99BwbnzE2uZJZe40=;
+        b=LFdDcEV2cw0Pf1t9QHSVc8JQpm6R4hk4uroWttNWITxbRkZgQfLED6omnpJvy2Hho0
+         wRmTHea2nHrnN38JoFXMe1eEih43B69kgGLr4xj0eeDHr0r133wqTnOY/jsTlBnn5cUd
+         Kiizl0zgKjkHQYIRbkn5bC/2DVHdyqMwnJz7yFo9RgSGgmrtWoONVXv5YIZb3wKmQzdP
+         Bn/WItyde7oqSylAhMuW8pEJuMulreQ2Yb+Rf8A7gGHFDfQiRyvXpBl01XSdziCS65Tr
+         JRRg6DPvzt+JSaAfq+g+7g3a4JYy8LQR8xFMQIKhk2ETOWZ3FWKaeV/2boSbEI+CN+Vs
+         MZHQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=gGdqNoDG;
-       spf=pass (google.com: domain of 3urebxwokce4qdthuoadlbweewbu.secaqiqd-tulweewbuwhekfi.sec@flex--andreyknvl.bounces.google.com designates 2607:f8b0:4864:20::749 as permitted sender) smtp.mailfrom=3URebXwoKCe4QdThUoadlbWeeWbU.SecaQiQd-TUlWeeWbUWhekfi.Sec@flex--andreyknvl.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=TbXAhZtX;
+       spf=pass (google.com: domain of 3uxebxwokcfasfvjwqcfndyggydw.ugecsksf-vwnyggydwyjgmhk.uge@flex--andreyknvl.bounces.google.com designates 2a00:1450:4864:20::349 as permitted sender) smtp.mailfrom=3UxebXwoKCfASfVjWqcfndYggYdW.UgecSkSf-VWnYggYdWYjgmhk.Uge@flex--andreyknvl.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-qk1-x749.google.com (mail-qk1-x749.google.com. [2607:f8b0:4864:20::749])
-        by gmr-mx.google.com with ESMTPS id q10si326824oov.2.2020.10.29.12.26.10
+Received: from mail-wm1-x349.google.com (mail-wm1-x349.google.com. [2a00:1450:4864:20::349])
+        by gmr-mx.google.com with ESMTPS id n19si84092wmk.1.2020.10.29.12.26.12
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 Oct 2020 12:26:10 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 3urebxwokce4qdthuoadlbweewbu.secaqiqd-tulweewbuwhekfi.sec@flex--andreyknvl.bounces.google.com designates 2607:f8b0:4864:20::749 as permitted sender) client-ip=2607:f8b0:4864:20::749;
-Received: by mail-qk1-x749.google.com with SMTP id d124so2457789qke.4
-        for <kasan-dev@googlegroups.com>; Thu, 29 Oct 2020 12:26:10 -0700 (PDT)
+        Thu, 29 Oct 2020 12:26:12 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 3uxebxwokcfasfvjwqcfndyggydw.ugecsksf-vwnyggydwyjgmhk.uge@flex--andreyknvl.bounces.google.com designates 2a00:1450:4864:20::349 as permitted sender) client-ip=2a00:1450:4864:20::349;
+Received: by mail-wm1-x349.google.com with SMTP id s12so973251wmj.0
+        for <kasan-dev@googlegroups.com>; Thu, 29 Oct 2020 12:26:12 -0700 (PDT)
 Sender: "andreyknvl via sendgmr" <andreyknvl@andreyknvl3.muc.corp.google.com>
 X-Received: from andreyknvl3.muc.corp.google.com ([2a00:79e0:15:13:7220:84ff:fe09:7e9d])
- (user=andreyknvl job=sendgmr) by 2002:ad4:43c6:: with SMTP id
- o6mr5668120qvs.53.1603999569614; Thu, 29 Oct 2020 12:26:09 -0700 (PDT)
-Date: Thu, 29 Oct 2020 20:25:22 +0100
+ (user=andreyknvl job=sendgmr) by 2002:a7b:c309:: with SMTP id
+ k9mr381643wmj.125.1603999571854; Thu, 29 Oct 2020 12:26:11 -0700 (PDT)
+Date: Thu, 29 Oct 2020 20:25:23 +0100
 In-Reply-To: <cover.1603999489.git.andreyknvl@google.com>
-Message-Id: <15c4e9480d957318797d39d0ac1aae08f9efcb18.1603999489.git.andreyknvl@google.com>
+Message-Id: <22f5b596f86d0dd7a9ae8963f07cd21d7b6041c4.1603999489.git.andreyknvl@google.com>
 Mime-Version: 1.0
 References: <cover.1603999489.git.andreyknvl@google.com>
 X-Mailer: git-send-email 2.29.1.341.ge80a0c044ae-goog
-Subject: [PATCH v6 01/40] arm64: Enable armv8.5-a asm-arch option
+Subject: [PATCH v6 02/40] arm64: mte: Add in-kernel MTE helpers
 From: "'Andrey Konovalov' via kasan-dev" <kasan-dev@googlegroups.com>
 To: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will.deacon@arm.com>
 Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>, kasan-dev@googlegroups.com, 
@@ -121,9 +121,9 @@ Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>, kasan-dev@googlegroups.com,
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: andreyknvl@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=gGdqNoDG;       spf=pass
- (google.com: domain of 3urebxwokce4qdthuoadlbweewbu.secaqiqd-tulweewbuwhekfi.sec@flex--andreyknvl.bounces.google.com
- designates 2607:f8b0:4864:20::749 as permitted sender) smtp.mailfrom=3URebXwoKCe4QdThUoadlbWeeWbU.SecaQiQd-TUlWeeWbUWhekfi.Sec@flex--andreyknvl.bounces.google.com;
+ header.i=@google.com header.s=20161025 header.b=TbXAhZtX;       spf=pass
+ (google.com: domain of 3uxebxwokcfasfvjwqcfndyggydw.ugecsksf-vwnyggydwyjgmhk.uge@flex--andreyknvl.bounces.google.com
+ designates 2a00:1450:4864:20::349 as permitted sender) smtp.mailfrom=3UxebXwoKCfASfVjWqcfndYggYdW.UgecSkSf-VWnYggYdWYjgmhk.Uge@flex--andreyknvl.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Andrey Konovalov <andreyknvl@google.com>
 Reply-To: Andrey Konovalov <andreyknvl@google.com>
@@ -141,64 +141,277 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 From: Vincenzo Frascino <vincenzo.frascino@arm.com>
 
-Hardware tag-based KASAN relies on Memory Tagging Extension (MTE) which
-is an armv8.5-a architecture extension.
+Provide helper functions to manipulate allocation and pointer tags for
+kernel addresses.
 
-Enable the correct asm option when the compiler supports it in order to
-allow the usage of ALTERNATIVE()s with MTE instructions.
+Low-level helper functions (mte_assign_*, written in assembly) operate
+tag values from the [0x0, 0xF] range. High-level helper functions
+(mte_get/set_*) use the [0xF0, 0xFF] range to preserve compatibility
+with normal kernel pointers that have 0xFF in their top byte.
+
+MTE_GRANULE_SIZE and related definitions are moved to mte-def.h header
+that doesn't have any dependencies and is safe to include into any
+low-level header.
 
 Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
+Co-developed-by: Andrey Konovalov <andreyknvl@google.com>
 Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
 ---
-Change-Id: I172e15e4c189f073e4c14a10276b276092e76536
+Change-Id: I1b5230254f90dc21a913447cb17f07fea7944ece
 ---
- arch/arm64/Kconfig  | 4 ++++
- arch/arm64/Makefile | 5 +++++
- 2 files changed, 9 insertions(+)
+ arch/arm64/include/asm/esr.h       |  1 +
+ arch/arm64/include/asm/mte-def.h   | 15 ++++++++
+ arch/arm64/include/asm/mte-kasan.h | 56 ++++++++++++++++++++++++++++++
+ arch/arm64/include/asm/mte.h       | 20 +++++++----
+ arch/arm64/kernel/mte.c            | 48 +++++++++++++++++++++++++
+ arch/arm64/lib/mte.S               | 16 +++++++++
+ 6 files changed, 150 insertions(+), 6 deletions(-)
+ create mode 100644 arch/arm64/include/asm/mte-def.h
+ create mode 100644 arch/arm64/include/asm/mte-kasan.h
 
-diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-index f858c352f72a..9f13ab297b7a 100644
---- a/arch/arm64/Kconfig
-+++ b/arch/arm64/Kconfig
-@@ -1571,6 +1571,9 @@ endmenu
- 
- menu "ARMv8.5 architectural features"
- 
-+config AS_HAS_ARMV8_5
-+	def_bool $(cc-option,-Wa$(comma)-march=armv8.5-a)
+diff --git a/arch/arm64/include/asm/esr.h b/arch/arm64/include/asm/esr.h
+index 22c81f1edda2..971c20ddfed4 100644
+--- a/arch/arm64/include/asm/esr.h
++++ b/arch/arm64/include/asm/esr.h
+@@ -105,6 +105,7 @@
+ #define ESR_ELx_FSC		(0x3F)
+ #define ESR_ELx_FSC_TYPE	(0x3C)
+ #define ESR_ELx_FSC_EXTABT	(0x10)
++#define ESR_ELx_FSC_MTE		(0x11)
+ #define ESR_ELx_FSC_SERROR	(0x11)
+ #define ESR_ELx_FSC_ACCESS	(0x08)
+ #define ESR_ELx_FSC_FAULT	(0x04)
+diff --git a/arch/arm64/include/asm/mte-def.h b/arch/arm64/include/asm/mte-def.h
+new file mode 100644
+index 000000000000..8401ac5840c7
+--- /dev/null
++++ b/arch/arm64/include/asm/mte-def.h
+@@ -0,0 +1,15 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Copyright (C) 2020 ARM Ltd.
++ */
++#ifndef __ASM_MTE_DEF_H
++#define __ASM_MTE_DEF_H
 +
- config ARM64_BTI
- 	bool "Branch Target Identification support"
- 	default y
-@@ -1645,6 +1648,7 @@ config ARM64_MTE
- 	bool "Memory Tagging Extension support"
- 	default y
- 	depends on ARM64_AS_HAS_MTE && ARM64_TAGGED_ADDR_ABI
-+	depends on AS_HAS_ARMV8_5
- 	select ARCH_USES_HIGH_VMA_FLAGS
- 	help
- 	  Memory Tagging (part of the ARMv8.5 Extensions) provides
-diff --git a/arch/arm64/Makefile b/arch/arm64/Makefile
-index 5789c2d18d43..50ad9cbccb51 100644
---- a/arch/arm64/Makefile
-+++ b/arch/arm64/Makefile
-@@ -100,6 +100,11 @@ ifeq ($(CONFIG_AS_HAS_ARMV8_4), y)
- asm-arch := armv8.4-a
- endif
- 
-+ifeq ($(CONFIG_AS_HAS_ARMV8_5), y)
-+# make sure to pass the newest target architecture to -march.
-+asm-arch := armv8.5-a
-+endif
++#define MTE_GRANULE_SIZE	UL(16)
++#define MTE_GRANULE_MASK	(~(MTE_GRANULE_SIZE - 1))
++#define MTE_TAG_SHIFT		56
++#define MTE_TAG_SIZE		4
++#define MTE_TAG_MASK		GENMASK((MTE_TAG_SHIFT + (MTE_TAG_SIZE - 1)), MTE_TAG_SHIFT)
++#define MTE_TAG_MAX		(MTE_TAG_MASK >> MTE_TAG_SHIFT)
 +
- ifdef asm-arch
- KBUILD_CFLAGS	+= -Wa,-march=$(asm-arch) \
- 		   -DARM64_ASM_ARCH='"$(asm-arch)"'
++#endif /* __ASM_MTE_DEF_H  */
+diff --git a/arch/arm64/include/asm/mte-kasan.h b/arch/arm64/include/asm/mte-kasan.h
+new file mode 100644
+index 000000000000..3a70fb1807fd
+--- /dev/null
++++ b/arch/arm64/include/asm/mte-kasan.h
+@@ -0,0 +1,56 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Copyright (C) 2020 ARM Ltd.
++ */
++#ifndef __ASM_MTE_KASAN_H
++#define __ASM_MTE_KASAN_H
++
++#include <asm/mte-def.h>
++
++#ifndef __ASSEMBLY__
++
++#include <linux/types.h>
++
++/*
++ * The functions below are meant to be used only for the
++ * KASAN_HW_TAGS interface defined in asm/memory.h.
++ */
++#ifdef CONFIG_ARM64_MTE
++
++static inline u8 mte_get_ptr_tag(void *ptr)
++{
++	/* Note: The format of KASAN tags is 0xF<x> */
++	u8 tag = 0xF0 | (u8)(((u64)(ptr)) >> MTE_TAG_SHIFT);
++
++	return tag;
++}
++
++u8 mte_get_mem_tag(void *addr);
++u8 mte_get_random_tag(void);
++void *mte_set_mem_tag_range(void *addr, size_t size, u8 tag);
++
++#else /* CONFIG_ARM64_MTE */
++
++static inline u8 mte_get_ptr_tag(void *ptr)
++{
++	return 0xFF;
++}
++
++static inline u8 mte_get_mem_tag(void *addr)
++{
++	return 0xFF;
++}
++static inline u8 mte_get_random_tag(void)
++{
++	return 0xFF;
++}
++static inline void *mte_set_mem_tag_range(void *addr, size_t size, u8 tag)
++{
++	return addr;
++}
++
++#endif /* CONFIG_ARM64_MTE */
++
++#endif /* __ASSEMBLY__ */
++
++#endif /* __ASM_MTE_KASAN_H  */
+diff --git a/arch/arm64/include/asm/mte.h b/arch/arm64/include/asm/mte.h
+index 1c99fcadb58c..cf1cd181dcb2 100644
+--- a/arch/arm64/include/asm/mte.h
++++ b/arch/arm64/include/asm/mte.h
+@@ -5,14 +5,16 @@
+ #ifndef __ASM_MTE_H
+ #define __ASM_MTE_H
+ 
+-#define MTE_GRANULE_SIZE	UL(16)
+-#define MTE_GRANULE_MASK	(~(MTE_GRANULE_SIZE - 1))
+-#define MTE_TAG_SHIFT		56
+-#define MTE_TAG_SIZE		4
++#include <asm/compiler.h>
++#include <asm/mte-def.h>
++
++#define __MTE_PREAMBLE		ARM64_ASM_PREAMBLE ".arch_extension memtag\n"
+ 
+ #ifndef __ASSEMBLY__
+ 
++#include <linux/bitfield.h>
+ #include <linux/page-flags.h>
++#include <linux/types.h>
+ 
+ #include <asm/pgtable-types.h>
+ 
+@@ -45,7 +47,9 @@ long get_mte_ctrl(struct task_struct *task);
+ int mte_ptrace_copy_tags(struct task_struct *child, long request,
+ 			 unsigned long addr, unsigned long data);
+ 
+-#else
++void mte_assign_mem_tag_range(void *addr, size_t size);
++
++#else /* CONFIG_ARM64_MTE */
+ 
+ /* unused if !CONFIG_ARM64_MTE, silence the compiler */
+ #define PG_mte_tagged	0
+@@ -80,7 +84,11 @@ static inline int mte_ptrace_copy_tags(struct task_struct *child,
+ 	return -EIO;
+ }
+ 
+-#endif
++static inline void mte_assign_mem_tag_range(void *addr, size_t size)
++{
++}
++
++#endif /* CONFIG_ARM64_MTE */
+ 
+ #endif /* __ASSEMBLY__ */
+ #endif /* __ASM_MTE_H  */
+diff --git a/arch/arm64/kernel/mte.c b/arch/arm64/kernel/mte.c
+index 52a0638ed967..8f99c65837fd 100644
+--- a/arch/arm64/kernel/mte.c
++++ b/arch/arm64/kernel/mte.c
+@@ -13,10 +13,13 @@
+ #include <linux/swap.h>
+ #include <linux/swapops.h>
+ #include <linux/thread_info.h>
++#include <linux/types.h>
+ #include <linux/uio.h>
+ 
++#include <asm/barrier.h>
+ #include <asm/cpufeature.h>
+ #include <asm/mte.h>
++#include <asm/mte-kasan.h>
+ #include <asm/ptrace.h>
+ #include <asm/sysreg.h>
+ 
+@@ -72,6 +75,51 @@ int memcmp_pages(struct page *page1, struct page *page2)
+ 	return ret;
+ }
+ 
++u8 mte_get_mem_tag(void *addr)
++{
++	if (!system_supports_mte())
++		return 0xFF;
++
++	asm(__MTE_PREAMBLE "ldg %0, [%0]"
++	    : "+r" (addr));
++
++	return mte_get_ptr_tag(addr);
++}
++
++u8 mte_get_random_tag(void)
++{
++	void *addr;
++
++	if (!system_supports_mte())
++		return 0xFF;
++
++	asm(__MTE_PREAMBLE "irg %0, %0"
++	    : "+r" (addr));
++
++	return mte_get_ptr_tag(addr);
++}
++
++void *mte_set_mem_tag_range(void *addr, size_t size, u8 tag)
++{
++	void *ptr = addr;
++
++	if ((!system_supports_mte()) || (size == 0))
++		return addr;
++
++	/* Make sure that size is MTE granule aligned. */
++	WARN_ON(size & (MTE_GRANULE_SIZE - 1));
++
++	/* Make sure that the address is MTE granule aligned. */
++	WARN_ON((u64)addr & (MTE_GRANULE_SIZE - 1));
++
++	tag = 0xF0 | tag;
++	ptr = (void *)__tag_set(ptr, tag);
++
++	mte_assign_mem_tag_range(ptr, size);
++
++	return ptr;
++}
++
+ static void update_sctlr_el1_tcf0(u64 tcf0)
+ {
+ 	/* ISB required for the kernel uaccess routines */
+diff --git a/arch/arm64/lib/mte.S b/arch/arm64/lib/mte.S
+index 03ca6d8b8670..ede1ea65428c 100644
+--- a/arch/arm64/lib/mte.S
++++ b/arch/arm64/lib/mte.S
+@@ -149,3 +149,19 @@ SYM_FUNC_START(mte_restore_page_tags)
+ 
+ 	ret
+ SYM_FUNC_END(mte_restore_page_tags)
++
++/*
++ * Assign allocation tags for a region of memory based on the pointer tag
++ *   x0 - source pointer
++ *   x1 - size
++ *
++ * Note: The address must be non-NULL and MTE_GRANULE_SIZE aligned and
++ * size must be non-zero and MTE_GRANULE_SIZE aligned.
++ */
++SYM_FUNC_START(mte_assign_mem_tag_range)
++1:	stg	x0, [x0]
++	add	x0, x0, #MTE_GRANULE_SIZE
++	subs	x1, x1, #MTE_GRANULE_SIZE
++	b.gt	1b
++	ret
++SYM_FUNC_END(mte_assign_mem_tag_range)
 -- 
 2.29.1.341.ge80a0c044ae-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/15c4e9480d957318797d39d0ac1aae08f9efcb18.1603999489.git.andreyknvl%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/22f5b596f86d0dd7a9ae8963f07cd21d7b6041c4.1603999489.git.andreyknvl%40google.com.
