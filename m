@@ -1,133 +1,131 @@
-Return-Path: <kasan-dev+bncBDV37XP3XYDRBLHL6D6AKGQEL3DROCI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCEOFDUJ3EKRBQXL6D6AKGQEYBOCJHQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pl1-x63b.google.com (mail-pl1-x63b.google.com [IPv6:2607:f8b0:4864:20::63b])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7B1F2A0A32
-	for <lists+kasan-dev@lfdr.de>; Fri, 30 Oct 2020 16:47:57 +0100 (CET)
-Received: by mail-pl1-x63b.google.com with SMTP id m7sf1805982pls.12
-        for <lists+kasan-dev@lfdr.de>; Fri, 30 Oct 2020 08:47:57 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1604072876; cv=pass;
+Received: from mail-pg1-x53c.google.com (mail-pg1-x53c.google.com [IPv6:2607:f8b0:4864:20::53c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 033542A0A36
+	for <lists+kasan-dev@lfdr.de>; Fri, 30 Oct 2020 16:48:20 +0100 (CET)
+Received: by mail-pg1-x53c.google.com with SMTP id c16sf4939538pgn.3
+        for <lists+kasan-dev@lfdr.de>; Fri, 30 Oct 2020 08:48:19 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1604072898; cv=pass;
         d=google.com; s=arc-20160816;
-        b=i32eBTLaVvl8thG9OCnO44MoeYbIPLRhvifp5VDgkq/15DKSo6K5A5ZnKyMB4yaUnA
-         ddfKSS0TCU74C6PyQJEh0e24rRdUjWPamIHJsJeekkvTjVbhitV20uYGjmehSRC6GAus
-         6MPqPSJJrFiCgcCZsIr5My/gkBvjLZBg9YcopYSPIqUPqxtxlxQte0ZEWAEQo20UfN43
-         H522ge487nEuSi1sco7fWCck3UIARXIFThDJRx2wonyVpBi7u+IaGBfhFH36jvzwBldA
-         NTbQZ6SdlRDLEuWgQA2c0mW5znvTLDWoduy8XSVYO9VFFt8+z/OSEjrhEarv4o2le5OX
-         nhFA==
+        b=lkDjR8m5teOkNIyIsHfEzTtzBKKetwSU9NcpeLj2/UVrgpdvFiD79Rb/EZGPaoFWnv
+         h3QHq5nTpRRogWwPaVEikNqYrIYq6D3WJ9FgKzczsc26BJuRQA/2h16B3s7LHIS9X/+9
+         0+uKPG+NYr9sow+H2caMrf9fUAFAfGZQLFM4Z/BOv4mjTCH/LqOxQeyKz9zJHXzFSuB0
+         Tlq1zl8E8nx9SbovGQyELZWmqfTLVuFVTMDNzFZoyicG+NnPan+4A9Xfw8wp+pAl1xcQ
+         DNSRrOFY10wx0DHtisjkQmruRi3L953k3Rj57w8wHo6/oIw89+dPr66Z+33oT9dyxONN
+         qZZQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=yAf945NfimgTEvdjOdXP860ic4F3v0xY/OochDPRwC0=;
-        b=UvJnbEQF+gwWZ0SXOKEQVncU5HakVs1cdKYsr14yfXMoCpA3TnrU5z8aC7FtR/G/4t
-         qlBrXfn5w0SAnPpV1yfnxKbH7zYcwi1RS88pHjiOnowsBiYYoOdMQBUT1SYOFaoc5K0d
-         /vVKkqfGNK4yS8PY/DP5qKQhbTM1EEpMyoN7pODUrNvxZWKddcqd4Rag3vSvO03/ucgR
-         b8uN78Zp/YA51szzY3lgqwp8iv+b4XXN4MBgRoH3/aJQoVhmSP6hXGSHuAvXQbxp/7ec
-         POupBv35WjW5BCmCKpvN3wX1WdYjR+fEvPB4+Nek9GbWeMhvJjiufXY2oI5hHxHH6rPa
-         fGIA==
+         :list-id:mailing-list:precedence:to:from:subject:date:message-id
+         :reply-to:mime-version:sender:dkim-signature:dkim-signature;
+        bh=iD7FEJfGID4yvzD+7mNVgFWi+AHlVvd2FsgPv60C4EQ=;
+        b=w7IPQ5bD2rZbB6Xkoynoao1iPhm4DTeSGiFakQqRdROAi1TMeU7jjczDZrPduKknSa
+         Scp+Zwb1aTRNjijkP5746Q2bqN+ACTsX3Cg0N7IO5re8RswClo4c79vr1Lj0ZUg5Sw9B
+         uwtyILYGY6TQ/OiL0EngesjnZk+rr046lJC5Zfj5xugyd5IZiOVq4nqTph/9K5LomegB
+         mBwz+ufg8nDYPP++UkqiUL5H/lt7arnxyS6Gr109+etsrKVwpc/lzrdaju7wYLY90Qa7
+         gw9kuZcN7XXIlmhRuKUIL+6ukRerE3Yb40MEBI6cllDO+oY3EUvLxri1Wd5T89fRNzry
+         zWcA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=mark.rutland@arm.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
+       dkim=pass header.i=@gmail.com header.s=20161025 header.b=QSDhVxVz;
+       spf=pass (google.com: domain of 3wtwcxxejcaagabrielthomasjabagmail.comkasan-devgooglegroups.com@trix.bounces.google.com designates 2607:f8b0:4864:20::846 as permitted sender) smtp.mailfrom=3wTWcXxEJCaAGABRIELTHOMASjabaGMAIL.COMKASAN-DEVGOOGLEGROUPS.COM@trix.bounces.google.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=yAf945NfimgTEvdjOdXP860ic4F3v0xY/OochDPRwC0=;
-        b=iFct36h3SrDgLUhEVOvbuibuuYOIDqPx5zY0B8IuSRrwAeqTi23aLXt3bR8VlJkfCg
-         h+dT+4A5YzJBIEFespZBvDUbesMdu9+3g6FGeano+xkRt8mhRaQ2c/jHj1fLrDScK/J9
-         DZ+hyzY4f3et7S3WWlaNjs24UI3BHvJUjVsBDf7cRF0UT8HEKjNFrqK0fW7EpfKCSCH7
-         vPRVCPYrAplYqqdWZme6ojY2mi5ToYFlCzw6uq+G8CFQ4uSUJ0pOYrYCe7jMCBdEEEB4
-         6cKsBMckPy3DZZrFnNwi8wx/n7pcu07KjhtB+jvkbZSicBNWhoLSQCFmmussFDDeStct
-         Vnnw==
+        h=sender:mime-version:reply-to:message-id:date:subject:from:to
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=iD7FEJfGID4yvzD+7mNVgFWi+AHlVvd2FsgPv60C4EQ=;
+        b=CuEZT9+5YuF7pcXyYdotI61LCYhjt52/UAXER2+Y6v5JGWaMf9c63PAFnrpH/z8wIZ
+         Cbq5L7EMfNQDYkgECPeBWDxH01i3beJDu9eGQXGvTPRMmNC+40hKYsqNws21DbT9w7Fq
+         CyajqFv/SU/dff2oz5fXiMJkarKnxIxmxLGPT0HQyu7M6lS+lspcePixeX4RPBTr9FhB
+         vAq9N1uWbfk33jATBY/nHn+RZCVzjVHhmgVCTZ15SiAGpr77pf4f+NtlmzThcsCZb3nf
+         BNR166ErfvfIu39OEcOAXY9ErDnz9xULY/Yre4nXQS0ur2+a83Zr0Vqa+fnb4OjNUn1S
+         RXpw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:message-id:date:subject:from:to
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=iD7FEJfGID4yvzD+7mNVgFWi+AHlVvd2FsgPv60C4EQ=;
+        b=G8p4FuLMc6rGIsQmIxaC9rIN5ZQr+e5tBZNoAQ8cc3dYGr0HjtRQmoJGtRWEZT1QRs
+         NU8a8biolDlFuEpXKfJubcTn3NmipTLGSSbVCh9f/TUn4sBi9w5xd+2SBbmvsVMoQ1R+
+         l8ZMmarsCI72hnrzSUB2+IzV5w1Wvq5anRPGo0M13nbDn/R4RhDJcxlz3Wto1+HHmqiK
+         MAQckcfwfRqYclm0xF2KPK1sS0tWQViznVcjqf8cibm3YNljDstcRmpcjSCTTObXB6i1
+         VzqWjxe6DJOMlEOB6wBsbsLv0thsfraoxdne40jqX/s43uVsnnu5f8JjlPhym22GC7J5
+         K+Ng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=yAf945NfimgTEvdjOdXP860ic4F3v0xY/OochDPRwC0=;
-        b=ICI8axXlzkH7N/TV3RVbyOfiEJwEScwiZqd7lobnIPfaO8R3HGtRnvwrb+pm08dd8U
-         znuZ2XxTBW8PJV3EEHQS6Muaf4WHq3iKurS05Y+G+Cso9ttrA4v+STcso4JmeO6xKTqr
-         V/ScO4glYahdS2CiW2ir6/9uxXRPX8ypMBdhEbJiCnr1NkWWfZ6jV1RDvRG0fpJph26f
-         7j6XSDhrCqRXSO+Grwjq6uqzP8QjPANXRR5o3q0Vf33m9dAqZmFTAxiRbO44NRSMEBfS
-         YngEMEfke1R/yenexQNDfuOKfqZnukTqZkBea3e0ULr0ufuengIYl/vd9tX7UCJiwhrH
-         kFbA==
+        h=sender:x-gm-message-state:mime-version:reply-to:message-id:date
+         :subject:from:to:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=iD7FEJfGID4yvzD+7mNVgFWi+AHlVvd2FsgPv60C4EQ=;
+        b=GeTzbuczvdt/68YK9KxHC8kLvtKMPD649K5fLvLx/0yOh/sRpqjOYTVV7PYBx0OSbf
+         G1pQicm4jztxoi9IoKGna3w1DFOg4qoLJHBpguErPjorENItKH693T9nA2ALvAt6E4/Q
+         eVAwpYElTD/IatBy+gL23UX3TaXqlIHwubuV6G+yOv8h8944XMnBWKWiFR6cZCoRMf0P
+         iBql5ZExS3LM2yLLwF+lS3dsAmenTkutrG9XObjXLZ98P09qELEWShU2v2eo0kFGsTNr
+         uKqVlaNKRzADfcFhaJrJzHXt9/1+SwLhcd1g7O4hK2izrqhYotOm0DTUpW7brSXQ/miN
+         gXVQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM531elhyehcDJ/OKbXRO3mWFw70z9rWRD33DX9pNK77EOotLNk8Py
-	fThmGO5BAnb0pyznjdgMtrw=
-X-Google-Smtp-Source: ABdhPJxFvfAABRGf83hGVRN+mrvAPg1YsAbSB9FX+EA9egjVcWEF7bCfIkcREKRqdr/qhdFGBSPumw==
-X-Received: by 2002:a63:7c54:: with SMTP id l20mr2650644pgn.151.1604072876186;
-        Fri, 30 Oct 2020 08:47:56 -0700 (PDT)
+X-Gm-Message-State: AOAM530EE9Lq8kQco8qP1mX4X5lQ3nyY4Q9Mtc2vUUbp/qle2OVp76qD
+	/8dbrj+4YRUKwWKziuKvFFI=
+X-Google-Smtp-Source: ABdhPJzsWVPgnTAAbCVpQ6OB+3lf+E7OzaMhovaVFxEFwKPm/WOv3EB1VE2VVCfwT0X1Jxm6/MxLqA==
+X-Received: by 2002:a17:902:ed09:b029:d3:cbc3:8da8 with SMTP id b9-20020a170902ed09b02900d3cbc38da8mr9537621pld.33.1604072898590;
+        Fri, 30 Oct 2020 08:48:18 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a63:941a:: with SMTP id m26ls2432030pge.10.gmail; Fri, 30
- Oct 2020 08:47:55 -0700 (PDT)
-X-Received: by 2002:a63:7d07:: with SMTP id y7mr2746045pgc.437.1604072875427;
-        Fri, 30 Oct 2020 08:47:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1604072875; cv=none;
+Received: by 2002:a17:90a:5d03:: with SMTP id s3ls1468804pji.1.gmail; Fri, 30
+ Oct 2020 08:48:18 -0700 (PDT)
+X-Received: by 2002:a17:902:7606:b029:d3:d2dd:2b3b with SMTP id k6-20020a1709027606b02900d3d2dd2b3bmr9533721pll.67.1604072898014;
+        Fri, 30 Oct 2020 08:48:18 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1604072898; cv=none;
         d=google.com; s=arc-20160816;
-        b=w29kb57c31WOFRZB9yepMTWESn+GUppMnFcYc9tXylCO4H1ijGiePm+bH2kB9K84xZ
-         ewIjV7LY2VcmuEmIwe5ZIpM2q+tCltyXXXjRoy2q8k3c7ytBARIq5rXI0Nkn7i8hitai
-         c/iuR+HPZRHqDxNXnTlNwk1ZtIYYkObLTxcY9aZp+X9mrgdoZaB/adDerSHsWe0iyf3O
-         U2wBmZIhsjECfsNbRYq7yGRJBp1MmPn4Rq42u1Cdgo9BIKoVi9eXEsqrmczKUwYn99fj
-         9jmnpOVdWecQjlyzoB/FYMnKV+Ds50WufEVm10iPBLc45cXFemXGTxTLDmGhmtCHrgP5
-         JkgA==
+        b=y40B4t3NrgsNe3iszDiAPLTG6AaUouEgOATRuEWyLSTszCAdAjhKtKsLfom6liajHr
+         KZT28e9xv1Gl8PmK/3VVn1C721cIV6ah5xmHwQSgmmamWfGdldYAM6znR5zeV1Tt2XZ/
+         KXgEOx9RZonMYI9AVSlj6Bx8myWY9bU4PxdYTFbfqnHShgH/yZJd+uUQ2QTlGBGwC4Q6
+         7SZQTK98WPWNB1EjrRUBJ/1hojpXJ5QQpQ1vRxcvjejNRihHQ4MLj20UITVcziQn1WXY
+         uJDrYEWmuhhngSd59O4+W7mWKxXAEB82RZHk5qrPotDsiTzL3cdqcvs9H4j6GVYdMPkj
+         xD4g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date;
-        bh=u07wTeCGK2vDy14H9NwZatANJZITfF+Vjhlwyuzb8RQ=;
-        b=niuUk+sdjUTVWsbhnRqfarGIOHP8EEGhZG0fLj7954HY+z1q2G8/5zAM8lvXVnyDUk
-         XsVMFQEkYISL+H45aD7rAeq6bDyy+1aULY9T5yStvIJ5rHprUx8iY8Mw5pIzWl3eGFT7
-         ejnLK9S+FHbapvf3thSlJwuuDRE9eYHwUpl1wcZAFvCRyhO2PveFsRqNHgtHCWfDHNfz
-         njxyMEmFVOyA3Do6KYjGD0GNkdEMbZt/7v+TQVGleHVttnybpvAMHdkj9Vewi6r4p/Os
-         fYGKbFzSq+iNqlaY4gEKazYAejZO2GY6W1WPx0wskRxP0UylTPKWtBUo81xsDjpGKoza
-         BOnw==
+        h=to:from:subject:date:message-id:reply-to:mime-version
+         :dkim-signature;
+        bh=yglUuHV2AUUJ2fm9wItl5ONjogpf9InC3emOxIAuHS0=;
+        b=qU4d97hMliE5bZ6gbE5wbDgaawdFwZB4x5cVAuYDKpMzRMi82UHeDtE03pyL+87kgP
+         fsGiUJKg6JO8xSkRZaHk1KxkzWt8NbBf/GK906eYa/iEslq8XUJZNwKEroHOtysqazMM
+         FK8vR56Xlq7bJqkZunf9dfqFLxRxEF6KQzDaneoWCzpllG8bJ6pBT19ZoGUqR1yXCFnW
+         7ftmrBUbI3gA5guyAHTBC556N4XlK3X5hVT4IbBm9TxD3w/y5+X89ci7cuo5qmZ8AlVv
+         HYu/RM1UswjApKFY3kjlCpFdaGZdBVfUL2uaTh5FcajIZXUpWwonxfeepcvrp7IfSLY6
+         7lWA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=mark.rutland@arm.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
-Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
-        by gmr-mx.google.com with ESMTP id i4si363680pjj.2.2020.10.30.08.47.55
-        for <kasan-dev@googlegroups.com>;
-        Fri, 30 Oct 2020 08:47:55 -0700 (PDT)
-Received-SPF: pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 70122139F;
-	Fri, 30 Oct 2020 08:47:54 -0700 (PDT)
-Received: from C02TD0UTHF1T.local (unknown [10.57.53.28])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 164E83F719;
-	Fri, 30 Oct 2020 08:47:47 -0700 (PDT)
-Date: Fri, 30 Oct 2020 15:47:45 +0000
-From: Mark Rutland <mark.rutland@arm.com>
-To: Marco Elver <elver@google.com>
-Cc: akpm@linux-foundation.org, glider@google.com, hpa@zytor.com,
-	paulmck@kernel.org, andreyknvl@google.com, aryabinin@virtuozzo.com,
-	luto@kernel.org, bp@alien8.de, catalin.marinas@arm.com,
-	cl@linux.com, dave.hansen@linux.intel.com, rientjes@google.com,
-	dvyukov@google.com, edumazet@google.com, gregkh@linuxfoundation.org,
-	hdanton@sina.com, mingo@redhat.com, jannh@google.com,
-	Jonathan.Cameron@huawei.com, corbet@lwn.net, iamjoonsoo.kim@lge.com,
-	joern@purestorage.com, keescook@chromium.org, penberg@kernel.org,
-	peterz@infradead.org, sjpark@amazon.com, tglx@linutronix.de,
-	vbabka@suse.cz, will@kernel.org, x86@kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	kasan-dev@googlegroups.com, linux-arm-kernel@lists.infradead.org,
-	linux-mm@kvack.org
-Subject: Re: [PATCH v6 3/9] arm64, kfence: enable KFENCE for ARM64
-Message-ID: <20201030154745.GD50718@C02TD0UTHF1T.local>
-References: <20201029131649.182037-1-elver@google.com>
- <20201029131649.182037-4-elver@google.com>
+       dkim=pass header.i=@gmail.com header.s=20161025 header.b=QSDhVxVz;
+       spf=pass (google.com: domain of 3wtwcxxejcaagabrielthomasjabagmail.comkasan-devgooglegroups.com@trix.bounces.google.com designates 2607:f8b0:4864:20::846 as permitted sender) smtp.mailfrom=3wTWcXxEJCaAGABRIELTHOMASjabaGMAIL.COMKASAN-DEVGOOGLEGROUPS.COM@trix.bounces.google.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Received: from mail-qt1-x846.google.com (mail-qt1-x846.google.com. [2607:f8b0:4864:20::846])
+        by gmr-mx.google.com with ESMTPS id t13si420321ply.2.2020.10.30.08.48.18
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 30 Oct 2020 08:48:18 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 3wtwcxxejcaagabrielthomasjabagmail.comkasan-devgooglegroups.com@trix.bounces.google.com designates 2607:f8b0:4864:20::846 as permitted sender) client-ip=2607:f8b0:4864:20::846;
+Received: by mail-qt1-x846.google.com with SMTP id f10so4216337qtv.6
+        for <kasan-dev@googlegroups.com>; Fri, 30 Oct 2020 08:48:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <20201029131649.182037-4-elver@google.com>
-X-Original-Sender: mark.rutland@arm.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as
- permitted sender) smtp.mailfrom=mark.rutland@arm.com;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=arm.com
+X-Received: by 2002:a05:6214:308:: with SMTP id i8mt9480331qvu.46.1604072897779;
+ Fri, 30 Oct 2020 08:48:17 -0700 (PDT)
+Reply-To: gabrielthomas9010@gmail.com
+X-No-Auto-Attachment: 1
+Message-ID: <000000000000441f1505b2e553c0@google.com>
+Date: Fri, 30 Oct 2020 15:48:17 +0000
+Subject: Hi,
+From: gabrielthomas9010@gmail.com
+To: kasan-dev@googlegroups.com
+Content-Type: multipart/alternative; boundary="00000000000045291c05b2e5533c"
+X-Original-Sender: gabrielthomas9010@gmail.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@gmail.com header.s=20161025 header.b=QSDhVxVz;       spf=pass
+ (google.com: domain of 3wtwcxxejcaagabrielthomasjabagmail.comkasan-devgooglegroups.com@trix.bounces.google.com
+ designates 2607:f8b0:4864:20::846 as permitted sender) smtp.mailfrom=3wTWcXxEJCaAGABRIELTHOMASjabaGMAIL.COMKASAN-DEVGOOGLEGROUPS.COM@trix.bounces.google.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -140,58 +138,111 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Oct 29, 2020 at 02:16:43PM +0100, Marco Elver wrote:
-> Add architecture specific implementation details for KFENCE and enable
-> KFENCE for the arm64 architecture. In particular, this implements the
-> required interface in <asm/kfence.h>.
-> 
-> KFENCE requires that attributes for pages from its memory pool can
-> individually be set. Therefore, force the entire linear map to be mapped
-> at page granularity. Doing so may result in extra memory allocated for
-> page tables in case rodata=full is not set; however, currently
-> CONFIG_RODATA_FULL_DEFAULT_ENABLED=y is the default, and the common case
-> is therefore not affected by this change.
-> 
-> Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
-> Co-developed-by: Alexander Potapenko <glider@google.com>
-> Signed-off-by: Alexander Potapenko <glider@google.com>
-> Signed-off-by: Marco Elver <elver@google.com>
-> ---
-> v5:
-> * Move generic page allocation code to core.c [suggested by Jann Horn].
-> * Remove comment about HAVE_ARCH_KFENCE_STATIC_POOL, since we no longer
->   support static pools.
-> * Force page granularity for the linear map [suggested by Mark Rutland].
-> ---
->  arch/arm64/Kconfig              |  1 +
->  arch/arm64/include/asm/kfence.h | 19 +++++++++++++++++++
->  arch/arm64/mm/fault.c           |  4 ++++
->  arch/arm64/mm/mmu.c             |  7 ++++++-
->  4 files changed, 30 insertions(+), 1 deletion(-)
->  create mode 100644 arch/arm64/include/asm/kfence.h
-> 
-> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-> index f858c352f72a..2f8b32dddd8b 100644
-> --- a/arch/arm64/Kconfig
-> +++ b/arch/arm64/Kconfig
-> @@ -135,6 +135,7 @@ config ARM64
->  	select HAVE_ARCH_JUMP_LABEL_RELATIVE
->  	select HAVE_ARCH_KASAN if !(ARM64_16K_PAGES && ARM64_VA_BITS_48)
->  	select HAVE_ARCH_KASAN_SW_TAGS if HAVE_ARCH_KASAN
-> +	select HAVE_ARCH_KFENCE if (!ARM64_16K_PAGES && !ARM64_64K_PAGES)
+--00000000000045291c05b2e5533c
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 
-Why does this depend on the page size?
+I've invited you to fill out the following form:
+Untitled form
 
-If this is functional, but has a larger overhead on 16K or 64K, I'd
-suggest removing the dependency, and just updating the Kconfig help text
-to explain that.
+To fill it out, visit:
+https://docs.google.com/forms/d/e/1FAIpQLScuNN46De4NTNDuI_3Rm2L6CNABd5Ra0TyGG6ZxgVbAw2h7Ug/viewform?vc=0&amp;c=0&amp;w=1&amp;flr=0&amp;usp=mail_form_link
 
-Otherwise, this patch looks fine to me.
+  Hi,
+Hope I am not intruding on your space here.
+If you are interested in equity or loan financing,
+I would be glad to assist.
+We are a private financial firm that acquires well established small and  
+lower
+middle market businesses with predictable revenue and cash flow;
+typically partnering with industry professionals
+to operate them.
+We also have a Capital Formation Division that assists companies at
+all levels of development raise
+capital through hedge funds. We charge %1 commission at the successful
+closing of any deal.
+Additionally, we also fund
+secured as well as unsecured lines of credit and term loans.
+Would that be something of interest to you and your group?
+Please let me know your thoughts.
+Sorry if you get this message in your spam box, poor network
+connection may be responsible for such.
+Best regards...... Gennadiy Medovoy.
 
-Thanks,
-Mark.
+Google Forms: Create and analyze surveys.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20201030154745.GD50718%40C02TD0UTHF1T.local.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/000000000000441f1505b2e553c0%40google.com.
+
+--00000000000045291c05b2e5533c
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<html><body style=3D"font-family: Roboto,Helvetica,Arial,sans-serif; margin=
+: 0; padding: 0; height: 100%; width: 100%;"><table border=3D"0" cellpaddin=
+g=3D"0" cellspacing=3D"0" style=3D"background-color:rgb(103,58,183);" width=
+=3D"100%" role=3D"presentation"><tbody><tr height=3D"64px"><td style=3D"pad=
+ding: 0 24px;"><img alt=3D"Google Forms" height=3D"26px" style=3D"display: =
+inline-block; margin: 0; vertical-align: middle;" width=3D"143px" src=3D"ht=
+tps://www.gstatic.com/docs/forms/google_forms_logo_lockup_white_2x.png"></t=
+d></tr></tbody></table><div style=3D"padding: 24px; background-color:rgb(23=
+7,231,246)"><div align=3D"center" style=3D"background-color: #fff; border-b=
+ottom: 1px solid #e0e0e0;margin: 0 auto; max-width: 624px; min-width: 154px=
+;padding: 0 24px;"><table align=3D"center" cellpadding=3D"0" cellspacing=3D=
+"0" style=3D"background-color: #fff;" width=3D"100%" role=3D"presentation">=
+<tbody><tr height=3D"24px"><td></td></tr><tr><td><span style=3D"display: ta=
+ble-cell; vertical-align: top; font-size: 13px; line-height: 18px; color: #=
+424242;" dir=3D"auto"> Hi,<br>Hope I am not intruding on your space here.<b=
+r>If you are interested in equity or loan financing,<br>I would be glad to =
+assist.<br>We are a private financial firm that acquires well established s=
+mall and lower<br>middle market businesses with predictable revenue and cas=
+h flow;<br>typically partnering with industry professionals<br>to operate t=
+hem.<br>We also have a Capital Formation Division that assists companies at=
+<br>all levels of development raise<br>capital through hedge funds. We char=
+ge %1 commission at the successful<br>closing of any deal.<br>Additionally,=
+ we also fund<br>secured as well as unsecured lines of credit and term loan=
+s.<br>Would that be something of interest to you and your group?<br>Please =
+let me know your thoughts.<br>Sorry if you get this message in your spam bo=
+x, poor network<br>connection may be responsible for such.<br>Best regards.=
+..... Gennadiy Medovoy.</span></td></tr><tr height=3D"20px"><td></tr><tr st=
+yle=3D"font-size: 20px; line-height: 24px;"><td dir=3D"auto"><a href=3D"htt=
+ps://docs.google.com/forms/d/e/1FAIpQLScuNN46De4NTNDuI_3Rm2L6CNABd5Ra0TyGG6=
+ZxgVbAw2h7Ug/viewform?vc=3D0&amp;c=3D0&amp;w=3D1&amp;flr=3D0&amp;usp=3Dmail=
+_form_link" style=3D"color: rgb(103,58,183); text-decoration: none; vertica=
+l-align: middle; font-weight: 500">Untitled form</a><div itemprop=3D"action=
+" itemscope itemtype=3D"http://schema.org/ViewAction"><meta itemprop=3D"url=
+" content=3D"https://docs.google.com/forms/d/e/1FAIpQLScuNN46De4NTNDuI_3Rm2=
+L6CNABd5Ra0TyGG6ZxgVbAw2h7Ug/viewform?vc=3D0&amp;c=3D0&amp;w=3D1&amp;flr=3D=
+0&amp;usp=3Dmail_goto_form"><meta itemprop=3D"name" content=3D"Fill out for=
+m"></div></td></tr><tr height=3D"24px"></tr><tr><td><table border=3D"0" cel=
+lpadding=3D"0" cellspacing=3D"0" width=3D"100%"><tbody><tr><td><a href=3D"h=
+ttps://docs.google.com/forms/d/e/1FAIpQLScuNN46De4NTNDuI_3Rm2L6CNABd5Ra0TyG=
+G6ZxgVbAw2h7Ug/viewform?vc=3D0&amp;c=3D0&amp;w=3D1&amp;flr=3D0&amp;usp=3Dma=
+il_form_link" style=3D"border-radius: 3px; box-sizing: border-box; display:=
+ inline-block; font-size: 13px; font-weight: 700; height: 40px; line-height=
+: 40px; padding: 0 24px; text-align: center; text-decoration: none; text-tr=
+ansform: uppercase; vertical-align: middle; color: #fff; background-color: =
+rgb(103,58,183);" target=3D"_blank" rel=3D"noopener">Fill out form</a></td>=
+</tr></tbody></table></td></tr><tr height=3D"24px"></tr></tbody></table></d=
+iv><table align=3D"center" cellpadding=3D"0" cellspacing=3D"0" style=3D"max=
+-width: 672px; min-width: 154px;" width=3D"100%" role=3D"presentation"><tbo=
+dy><tr height=3D"24px"><td></td></tr><tr><td><a href=3D"https://docs.google=
+.com/forms?usp=3Dmail_form_link" style=3D"color: #424242; font-size: 13px;"=
+>Create your own Google Form</a></td></tr></tbody></table></div></body></ht=
+ml>
+
+<p></p>
+
+-- <br />
+You received this message because you are subscribed to the Google Groups &=
+quot;kasan-dev&quot; group.<br />
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
++unsubscribe@googlegroups.com</a>.<br />
+To view this discussion on the web visit <a href=3D"https://groups.google.c=
+om/d/msgid/kasan-dev/000000000000441f1505b2e553c0%40google.com?utm_medium=
+=3Demail&utm_source=3Dfooter">https://groups.google.com/d/msgid/kasan-dev/0=
+00000000000441f1505b2e553c0%40google.com</a>.<br />
+
+--00000000000045291c05b2e5533c--
