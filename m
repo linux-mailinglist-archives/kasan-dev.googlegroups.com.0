@@ -1,34 +1,34 @@
-Return-Path: <kasan-dev+bncBDX4HWEMTEBRB3G4QD6QKGQEUBFVNHA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDX4HWEMTEBRB3W4QD6QKGQEUS7CDCA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qt1-x840.google.com (mail-qt1-x840.google.com [IPv6:2607:f8b0:4864:20::840])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DF272A2F2E
-	for <lists+kasan-dev@lfdr.de>; Mon,  2 Nov 2020 17:06:05 +0100 (CET)
-Received: by mail-qt1-x840.google.com with SMTP id i15sf8289404qti.7
-        for <lists+kasan-dev@lfdr.de>; Mon, 02 Nov 2020 08:06:05 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1604333164; cv=pass;
+Received: from mail-wr1-x43c.google.com (mail-wr1-x43c.google.com [IPv6:2a00:1450:4864:20::43c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A4C42A2F2F
+	for <lists+kasan-dev@lfdr.de>; Mon,  2 Nov 2020 17:06:07 +0100 (CET)
+Received: by mail-wr1-x43c.google.com with SMTP id b6sf6558590wrn.17
+        for <lists+kasan-dev@lfdr.de>; Mon, 02 Nov 2020 08:06:07 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1604333167; cv=pass;
         d=google.com; s=arc-20160816;
-        b=0w/VKg8m+GNCvOD7GNGtRNLMJFxkkozDQrySJRgTSoZYkk0O2UzzV/L5DPSlFBJc+T
-         YsR6+oopBG4kZhagzX6pRXLMNnBoY8JaTW/ff9Rgzqm9yonB06qfBqJMq1Vf0vHnWhc1
-         pvR1ksKgDt76qLthLgphqKHmLQEhTEzqMzpc8qFoUYpIae1gXVsqORTJokuNngX9cvdQ
-         pE8KbDNTKN4FOCWoWBzaA27JdZhJaXuIc6AIsKEO9pT76V+QF5dyepXvqcCGxNlBNdMX
-         xIB9UtuzhQJyKcAWGxCEcH7UTxjmDNlHY77YYTF+Ufju1DJUSMKcf84aqIyWAIpzU+YH
-         jUCw==
+        b=VrnamjH8hGTlP/tkqZZ9yA1Cf0pU3SUV0Cf0RPkZxzjQhVs5QIZCNmffAEn9/VCTAJ
+         KdRpmLPHJuP59C1Aex43ulwpCDyEA/wkx0kCak1GMMGQqCbyMe22olKR/7bCgjkJcF8Q
+         pfzaFhKKCUmlCu3zTxbqIPs7AchCTv718BFPirf9yTWvBnZLU/umOWRTrz7EYxzcR9Qi
+         cJaKXKWrXBP7A75gdiXdYohD+45A9EQQoO7589lluDTaQzJ7W9z8cxbgB0Cr9o4/1BZa
+         DsVyJqNld+BiUgAnGvpf+F2C+O6kUdQZcPnFFBRyX3WCSINeIPKpozUeY4tiVDnMRpnp
+         wiAQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
          :references:mime-version:message-id:in-reply-to:date:sender
          :dkim-signature;
-        bh=pF/JzUKldSckDDtVY4MHPyWKFQFFM6dJF1Xx1uDJfp8=;
-        b=vFtv0nPJ/elExMjTR+FsFMtR7QSsRs8StjdoKAx6CuTezhq3g5P//mzyea31+JIAbQ
-         fQWB5gmCHflEBABj55BRdWr1aOa8Y4i9j4PPvSGkYEcFtkz4/I1mJDv456NoGSPY/XjK
-         AzKp4w3dTGOrgJwZgwp0hM7T7Z7eJevjSntBp2jze7swjZTITYpwwodTN3x/oNGtVDN7
-         sK8EqYW4yNZjtSkDEep7axjFDoFKNYVldAigNn4H5q0CJIdNEw9a2ykWoyHDihy86ezf
-         R3wCxdLtcnfXZ3hoIecmrLaLbh4kpiHyz8cfRzAW2b09OTsX3ftX0RWXtyLECv+OIcBz
-         jFAw==
+        bh=21AifCaGqESOfx4o26WtBWr2W2FyFX7dmXB7joZdiHA=;
+        b=sRfR1QpI2T32jfxurRzchuNSSKdSwJ0BKgNsObgiHcrw4C6FcaK404Lllv7HLxRhUD
+         JK3KYeEdGkzVNaJId46jkZe9/NBiBc2IDCU1hmFduVftUY5ZFleBBPQRZYiUz4/COBeg
+         2+f5zqUmMeMzU1gR2Kv87GchzxCa7grdVuHmBIqkcWgQr8FvNDKqpvzm3PNze/THPx8a
+         fqJGa5OqTxo8gb0YUrIOLWYBsTBJmBdfrssgYp+3OvOVXk8KPXov2/xXl6q6xoLzRVd9
+         1fyRYvKle8OcCaeeDVbwoCr8b/jzQyaHkbh8G+ht5EBp670J7HVt0CSQi0bsXyenaUtP
+         eEqw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=SPOwEKxi;
-       spf=pass (google.com: domain of 3ay6gxwokcuwo1r5scy19zu22uzs.q20yo6o1-rs9u22uzsu52836.q20@flex--andreyknvl.bounces.google.com designates 2607:f8b0:4864:20::84a as permitted sender) smtp.mailfrom=3ay6gXwoKCUwo1r5sCy19zu22uzs.q20yo6o1-rs9u22uzsu52836.q20@flex--andreyknvl.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=i9OgmUra;
+       spf=pass (google.com: domain of 3bs6gxwokcu4q3t7ue03b1w44w1u.s420q8q3-tubw44w1uw74a58.s42@flex--andreyknvl.bounces.google.com designates 2a00:1450:4864:20::449 as permitted sender) smtp.mailfrom=3bS6gXwoKCU4q3t7uE03B1w44w1u.s420q8q3-tuBw44w1uw74A58.s42@flex--andreyknvl.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
@@ -36,13 +36,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :from:to:cc:x-original-sender:x-original-authentication-results
          :reply-to:precedence:mailing-list:list-id:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=pF/JzUKldSckDDtVY4MHPyWKFQFFM6dJF1Xx1uDJfp8=;
-        b=i9O+8imAfcVzQeq7GJD6ddZKysDZE1czBY6pqUK8n4NJSsq3aocIioaAXTgQnr+x0v
-         ecA4mTStfsqbC1QZgOfRMZA7K86dNrZCF8tuY3UQV0kzX4E7N7F+ByCgi0i5XWX1OwJK
-         n2jyaMQAfRvP5Yl9rkGIrJB04K/H7OibmioyYb7ocZtmeMDUB4ZWuy/N9Bnqm9699vOI
-         5r6Yh2Lkbkbc8/HSHhzImvaClRuO2h9s2bAqyKnVGfubbx1WeKq5aftzgoOV3nzApkXv
-         iQrU/2bSFm9N44VLoEtMnTYkvbTreEz9uEFx4e9TvtZg0Sx+Mzqhqu+jjTIm940/DeW6
-         f65Q==
+        bh=21AifCaGqESOfx4o26WtBWr2W2FyFX7dmXB7joZdiHA=;
+        b=UCkPDzLrQ7hoPzNw5jGFgKV+y/2w05LtyI6rINOWNJlSlqzV33UXkbgAHrLQ/VVotv
+         9Lc/NfZoTwBSOCE7fdMohUjdMdkKkcpjRWjvacGaMCXayl4QTW5wuQFwb8xUPm6iX7to
+         PhFobTPLB6SbXCQmHM4HOn3PKRMZmE0z/CiUP/cU3ZdsLXdLQn2Y7ymm1uq/bC8e++WB
+         dqNYKwNoIn61Ue27A3lHUT9lU4ua31brFfxFYaZD5tsHKJdfgGdEGv+ZVkkKECo/1Y3Q
+         k22sn9mFTFob9MKD+uGVO+b55MtF5/Bqa99wgBRDLvf5vEBIHq/H1rTWAE0jLhGTdKtz
+         a4GA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
@@ -50,64 +50,64 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=pF/JzUKldSckDDtVY4MHPyWKFQFFM6dJF1Xx1uDJfp8=;
-        b=ArlJof9Hl8puWn7N+AombqB7s2nxQsuivnmFw4ERuv7Tnx1mZE7oQ8LOGaAYny/lsx
-         1b1b+CdrYSvnPpMwKbg8zq5V4DOI7n0sii07+9+8ws2g4zAGuAZ7t4zOM14SfAul13NG
-         uw2M1McMHF2atJS1WpwX/gkiGfDRnCHbbaDpQ/Hd4Pkx43uUwC9RMOUO+My+q0EDubHa
-         14TbZGhHuQXH4D+V+mcWIKg10Qg/x//z4EUanTtC3IS/utaY1fKgClqv9imk2IQqAlBP
-         2q8UWU0eHxxF+Q7bvrDhPT4jaiwgE5EzJZrczB3mtFGehv2QyBhAUMkD8PSSuZiCY4Rj
-         wnJA==
-X-Gm-Message-State: AOAM533VqekXHqRsliQIxClHRTCUZA9ClYUG8dFKgF2PJMYM78dR3Fmf
-	oltb4E0sv2ha4rLaA9cjU8A=
-X-Google-Smtp-Source: ABdhPJyT6Wav+2vT1q8wpzXs3sv23ZYjtRrETt8t4i+lYN/YBpHjbqFlucIVfReUTc6JaXRAwdImDg==
-X-Received: by 2002:a05:620a:4141:: with SMTP id k1mr16050578qko.60.1604333164211;
-        Mon, 02 Nov 2020 08:06:04 -0800 (PST)
+        bh=21AifCaGqESOfx4o26WtBWr2W2FyFX7dmXB7joZdiHA=;
+        b=SC7cu5rvHkVQ3ZOyNuFpnV3HfWrNPJjOd4B8RpZfdBtbmHeJuMo9iV5VTPkFK66WkK
+         UfVRxYGhN3XX+Se6n4cwHPofxoh4nYvKDZdBIbz/oYa+8gOCe06hALKa/XDNSUkpXVmM
+         vlJfUxtUdTKvCKGpV4rUaVGPB7WAsT3JjXIH4OBcBCxT1z7WnLLeJk1IavVcwPKnF/OW
+         cR4w4SXNK1aPgHyIFw0qejv4ghTtUJ6ebiurzWEHJm57jQRjdcnOhYn/l3r96lsWBKuD
+         /XIF0UkylaPlczRLQQNBOQOfCc2YbTZXRM+04jKjcQu5mDVBBvSdTxf40vlcx1PeDHyG
+         b6TA==
+X-Gm-Message-State: AOAM5315PTT/3CgfYHhuS7af1P+pYGmxiKfqKS5vSPqzCoDjBRSBuMt7
+	nhajZti//Eqsv5zQspDhvmo=
+X-Google-Smtp-Source: ABdhPJxJEz6mYPIyqvUAcl3IeJ+RX7JmUO/I78OC8SWyLXx6KRK1ROWd1Ibebg7syOtF2wiQKfy3RA==
+X-Received: by 2002:a5d:66c9:: with SMTP id k9mr22968962wrw.158.1604333167078;
+        Mon, 02 Nov 2020 08:06:07 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a37:8744:: with SMTP id j65ls7075208qkd.1.gmail; Mon, 02 Nov
- 2020 08:06:03 -0800 (PST)
-X-Received: by 2002:a37:a9cd:: with SMTP id s196mr15754189qke.30.1604333163593;
-        Mon, 02 Nov 2020 08:06:03 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1604333163; cv=none;
+Received: by 2002:a7b:cf0f:: with SMTP id l15ls8943wmg.0.experimental-gmail;
+ Mon, 02 Nov 2020 08:06:06 -0800 (PST)
+X-Received: by 2002:a7b:cc94:: with SMTP id p20mr8476003wma.100.1604333166012;
+        Mon, 02 Nov 2020 08:06:06 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1604333166; cv=none;
         d=google.com; s=arc-20160816;
-        b=BLEBuJizvaDYu2cOdc/wbdVr5sOQNZRBd8crFXvyOLTi4OJm756lHR4ZBMipXOpRIv
-         dBaaWT7S98nsWs9NucVExAr7z5uUCr3EocMMwzdaPcjceR7uBbZ8B2UdUYcoFMI94vrF
-         W4zdJWvL4YBh573Cj3TJhFvA8BQgjd3+SnuxQ63zTORjvLi26H/ku+KO3Q5v5OgSj8dv
-         zwdSSi7ono/X9/B5tx1msxxILvGfw8V5dNyZCEcbS4LbGf8ZPiQXoumqZhGlK0XtrfI6
-         Are3Tslxox6pyQi4TqJ5kVWxG0V9CbOttlpTd5DRFfFZMLTtUOwtn1F+YrTTqj9RotuV
-         C8FQ==
+        b=UlRcBv0A4oHngp6BTxxnI9bNQd06SSadH/rN/LrscHmy2zaMHXVE5iR+ZiP2MP6UJf
+         cHZ1p4ZJdPpQGCJUdfB+/QTNCTzgCOp308FiMJX25b2lCpQFHzm2gG1cRy/nXrE5KD1c
+         WUFsyNziEt9CL0Wtgm+e0FDlM46EeiorLMmVVPVh9LiF5Tu2a8E1AAc7K7mPzlAn1ncS
+         WCUcU2dET8GOgiXPeFLdqXPCcPiaEHPtTotoe8YF1AAjzEsJ5ADSyQK8qOYqR5qljwwn
+         XArwRuur25Sn5GzUpZs1HMpY6LXs5SjioepphEPJslpU2oh3UiXAMPqRiwUyPV9qtH3H
+         nWug==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
          :date:sender:dkim-signature;
-        bh=m61njPxPjXbU7KpGf2VpyrS3MAG/f/HeOixCOkKzSfs=;
-        b=ylCK9hMNoiNEcUdFZX6imEYL2twmgs1ho4UyGNKVAssqH+IUGJymup0iQ3WC+deoJh
-         zOb10BFJG5D5hqpSBRSRfphk6ETl29y+15mPBeDEgu2xPM2gslQ8BZS1XpqC/3FjmLWg
-         oO026kez4qNCRjMnP1TKRp6I8vTmlCJahwpjPwvxQ1to3Q9UNVzCn5NccSuvifV3Rqmt
-         tnpgOB+e+OSxo/edF9uJb2AXqlzsUZOyYXnJcToJSDxuVn8LJu6nu42vVQBRJNIDYZ39
-         boG6T1C2fTPPepOOtsruZlaCN35JxYdiNBzZgPcvv90pmE1aMjbF3rzYYZwR5kEIpP6U
-         ngpQ==
+        bh=DyRPETqC+6C7nrnJCiEiYsvRb/HkPFaD35372QKa3Vk=;
+        b=xdhibOzuctDdrBIXMhJrXlOKNgd4XLbKziqi3BAcmtEGvDH0QWauFEBhRGXkiz/EwM
+         KqJt3DtbrvJG2cYpiBqI4lXS7S+aoRqhxp/4sBOeF2BA2Nr4qkfrBCJfkhSt1EB2t43V
+         Baj+1Ts03z/7hRbn6O2GY8fFlBAoPd7dvl1wUp9iwfT4uV/ZF2rCLZlSnwvbUS3qhhlN
+         ffpW5MZ42cb+k9EuOMdabDksbvWpDXuNSfGNL9OEvmg+CF0c7ERvfgVXXu0n4m3Nt6q/
+         24mXDihS54utIDdtfpkzFTmi81Del2YxPniT2bfWCztvgpO13CKxJYK/5hF89Da+OdZY
+         Ixgg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=SPOwEKxi;
-       spf=pass (google.com: domain of 3ay6gxwokcuwo1r5scy19zu22uzs.q20yo6o1-rs9u22uzsu52836.q20@flex--andreyknvl.bounces.google.com designates 2607:f8b0:4864:20::84a as permitted sender) smtp.mailfrom=3ay6gXwoKCUwo1r5sCy19zu22uzs.q20yo6o1-rs9u22uzsu52836.q20@flex--andreyknvl.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=i9OgmUra;
+       spf=pass (google.com: domain of 3bs6gxwokcu4q3t7ue03b1w44w1u.s420q8q3-tubw44w1uw74a58.s42@flex--andreyknvl.bounces.google.com designates 2a00:1450:4864:20::449 as permitted sender) smtp.mailfrom=3bS6gXwoKCU4q3t7uE03B1w44w1u.s420q8q3-tuBw44w1uw74A58.s42@flex--andreyknvl.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-qt1-x84a.google.com (mail-qt1-x84a.google.com. [2607:f8b0:4864:20::84a])
-        by gmr-mx.google.com with ESMTPS id o11si897394qtq.5.2020.11.02.08.06.03
+Received: from mail-wr1-x449.google.com (mail-wr1-x449.google.com. [2a00:1450:4864:20::449])
+        by gmr-mx.google.com with ESMTPS id f131si294777wme.1.2020.11.02.08.06.05
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Nov 2020 08:06:03 -0800 (PST)
-Received-SPF: pass (google.com: domain of 3ay6gxwokcuwo1r5scy19zu22uzs.q20yo6o1-rs9u22uzsu52836.q20@flex--andreyknvl.bounces.google.com designates 2607:f8b0:4864:20::84a as permitted sender) client-ip=2607:f8b0:4864:20::84a;
-Received: by mail-qt1-x84a.google.com with SMTP id y14so8289155qtw.19
-        for <kasan-dev@googlegroups.com>; Mon, 02 Nov 2020 08:06:03 -0800 (PST)
+        Mon, 02 Nov 2020 08:06:06 -0800 (PST)
+Received-SPF: pass (google.com: domain of 3bs6gxwokcu4q3t7ue03b1w44w1u.s420q8q3-tubw44w1uw74a58.s42@flex--andreyknvl.bounces.google.com designates 2a00:1450:4864:20::449 as permitted sender) client-ip=2a00:1450:4864:20::449;
+Received: by mail-wr1-x449.google.com with SMTP id f11so6585579wro.15
+        for <kasan-dev@googlegroups.com>; Mon, 02 Nov 2020 08:06:05 -0800 (PST)
 Sender: "andreyknvl via sendgmr" <andreyknvl@andreyknvl3.muc.corp.google.com>
 X-Received: from andreyknvl3.muc.corp.google.com ([2a00:79e0:15:13:7220:84ff:fe09:7e9d])
- (user=andreyknvl job=sendgmr) by 2002:a0c:b525:: with SMTP id
- d37mr22911256qve.31.1604333163190; Mon, 02 Nov 2020 08:06:03 -0800 (PST)
-Date: Mon,  2 Nov 2020 17:04:20 +0100
+ (user=andreyknvl job=sendgmr) by 2002:a1c:9a83:: with SMTP id
+ c125mr16775191wme.116.1604333165725; Mon, 02 Nov 2020 08:06:05 -0800 (PST)
+Date: Mon,  2 Nov 2020 17:04:21 +0100
 In-Reply-To: <cover.1604333009.git.andreyknvl@google.com>
-Message-Id: <2948a9756e2659c5a5e9e94ad7519a9b9c88ed85.1604333009.git.andreyknvl@google.com>
+Message-Id: <8acb10b144678de32f1ec8fb5ed6c92246967285.1604333009.git.andreyknvl@google.com>
 Mime-Version: 1.0
 References: <cover.1604333009.git.andreyknvl@google.com>
 X-Mailer: git-send-email 2.29.1.341.ge80a0c044ae-goog
-Subject: [PATCH v7 40/41] kasan: add documentation for hardware tag-based mode
+Subject: [PATCH v7 41/41] kselftest/arm64: Check GCR_EL1 after context switch
 From: "'Andrey Konovalov' via kasan-dev" <kasan-dev@googlegroups.com>
 To: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will.deacon@arm.com>
 Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>, kasan-dev@googlegroups.com, 
@@ -121,9 +121,9 @@ Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>, kasan-dev@googlegroups.com,
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: andreyknvl@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=SPOwEKxi;       spf=pass
- (google.com: domain of 3ay6gxwokcuwo1r5scy19zu22uzs.q20yo6o1-rs9u22uzsu52836.q20@flex--andreyknvl.bounces.google.com
- designates 2607:f8b0:4864:20::84a as permitted sender) smtp.mailfrom=3ay6gXwoKCUwo1r5sCy19zu22uzs.q20yo6o1-rs9u22uzsu52836.q20@flex--andreyknvl.bounces.google.com;
+ header.i=@google.com header.s=20161025 header.b=i9OgmUra;       spf=pass
+ (google.com: domain of 3bs6gxwokcu4q3t7ue03b1w44w1u.s420q8q3-tubw44w1uw74a58.s42@flex--andreyknvl.bounces.google.com
+ designates 2a00:1450:4864:20::449 as permitted sender) smtp.mailfrom=3bS6gXwoKCU4q3t7uE03B1w44w1u.s420q8q3-tuBw44w1uw74A58.s42@flex--andreyknvl.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Andrey Konovalov <andreyknvl@google.com>
 Reply-To: Andrey Konovalov <andreyknvl@google.com>
@@ -139,147 +139,204 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Add documentation for hardware tag-based KASAN mode and also add some
-clarifications for software tag-based mode.
+From: Vincenzo Frascino <vincenzo.frascino@arm.com>
 
-Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+This test is specific to MTE and verifies that the GCR_EL1 register
+is context switched correctly.
+
+It spawn 1024 processes and each process spawns 5 threads. Each thread
+writes a random setting of GCR_EL1 through the prctl() system call and
+reads it back verifying that it is the same. If the values are not the
+same it reports a failure.
+
+Note: The test has been extended to verify that even SYNC and ASYNC mode
+setting is preserved correctly over context switching.
+
 Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
-Reviewed-by: Marco Elver <elver@google.com>
+Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 ---
-Change-Id: Ib46cb444cfdee44054628940a82f5139e10d0258
+Change-Id: Ia917684a2b8e5f29e705ca5cbf360b010df6f61e
 ---
- Documentation/dev-tools/kasan.rst | 78 ++++++++++++++++++++++---------
- 1 file changed, 57 insertions(+), 21 deletions(-)
+ tools/testing/selftests/arm64/mte/Makefile    |   2 +-
+ .../arm64/mte/check_gcr_el1_cswitch.c         | 152 ++++++++++++++++++
+ 2 files changed, 153 insertions(+), 1 deletion(-)
+ create mode 100644 tools/testing/selftests/arm64/mte/check_gcr_el1_cswitch.c
 
-diff --git a/Documentation/dev-tools/kasan.rst b/Documentation/dev-tools/kasan.rst
-index b6db715830f9..5bfafecfc033 100644
---- a/Documentation/dev-tools/kasan.rst
-+++ b/Documentation/dev-tools/kasan.rst
-@@ -5,12 +5,14 @@ Overview
- --------
+diff --git a/tools/testing/selftests/arm64/mte/Makefile b/tools/testing/selftests/arm64/mte/Makefile
+index 2480226dfe57..0b3af552632a 100644
+--- a/tools/testing/selftests/arm64/mte/Makefile
++++ b/tools/testing/selftests/arm64/mte/Makefile
+@@ -1,7 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0
+ # Copyright (C) 2020 ARM Limited
  
- KernelAddressSANitizer (KASAN) is a dynamic memory error detector designed to
--find out-of-bound and use-after-free bugs. KASAN has two modes: generic KASAN
--(similar to userspace ASan) and software tag-based KASAN (similar to userspace
--HWASan).
-+find out-of-bound and use-after-free bugs. KASAN has three modes:
-+1. generic KASAN (similar to userspace ASan),
-+2. software tag-based KASAN (similar to userspace HWASan),
-+3. hardware tag-based KASAN (based on hardware memory tagging).
+-CFLAGS += -std=gnu99 -I.
++CFLAGS += -std=gnu99 -I. -lpthread
+ SRCS := $(filter-out mte_common_util.c,$(wildcard *.c))
+ PROGS := $(patsubst %.c,%,$(SRCS))
  
--KASAN uses compile-time instrumentation to insert validity checks before every
--memory access, and therefore requires a compiler version that supports that.
-+Software KASAN modes (1 and 2) use compile-time instrumentation to insert
-+validity checks before every memory access, and therefore require a compiler
-+version that supports that.
- 
- Generic KASAN is supported in both GCC and Clang. With GCC it requires version
- 8.3.0 or later. Any supported Clang version is compatible, but detection of
-@@ -19,7 +21,7 @@ out-of-bounds accesses for global variables is only supported since Clang 11.
- Tag-based KASAN is only supported in Clang.
- 
- Currently generic KASAN is supported for the x86_64, arm64, xtensa, s390 and
--riscv architectures, and tag-based KASAN is supported only for arm64.
-+riscv architectures, and tag-based KASAN modes are supported only for arm64.
- 
- Usage
- -----
-@@ -28,14 +30,16 @@ To enable KASAN configure kernel with::
- 
- 	  CONFIG_KASAN = y
- 
--and choose between CONFIG_KASAN_GENERIC (to enable generic KASAN) and
--CONFIG_KASAN_SW_TAGS (to enable software tag-based KASAN).
-+and choose between CONFIG_KASAN_GENERIC (to enable generic KASAN),
-+CONFIG_KASAN_SW_TAGS (to enable software tag-based KASAN), and
-+CONFIG_KASAN_HW_TAGS (to enable hardware tag-based KASAN).
- 
--You also need to choose between CONFIG_KASAN_OUTLINE and CONFIG_KASAN_INLINE.
--Outline and inline are compiler instrumentation types. The former produces
--smaller binary while the latter is 1.1 - 2 times faster.
-+For software modes, you also need to choose between CONFIG_KASAN_OUTLINE and
-+CONFIG_KASAN_INLINE. Outline and inline are compiler instrumentation types.
-+The former produces smaller binary while the latter is 1.1 - 2 times faster.
- 
--Both KASAN modes work with both SLUB and SLAB memory allocators.
-+Both software KASAN modes work with both SLUB and SLAB memory allocators,
-+hardware tag-based KASAN currently only support SLUB.
- For better bug detection and nicer reporting, enable CONFIG_STACKTRACE.
- 
- To augment reports with last allocation and freeing stack of the physical page,
-@@ -196,17 +200,24 @@ and the second to last.
- Software tag-based KASAN
- ~~~~~~~~~~~~~~~~~~~~~~~~
- 
--Tag-based KASAN uses the Top Byte Ignore (TBI) feature of modern arm64 CPUs to
--store a pointer tag in the top byte of kernel pointers. Like generic KASAN it
--uses shadow memory to store memory tags associated with each 16-byte memory
-+Software tag-based KASAN requires software memory tagging support in the form
-+of HWASan-like compiler instrumentation (see HWASan documentation for details).
+diff --git a/tools/testing/selftests/arm64/mte/check_gcr_el1_cswitch.c b/tools/testing/selftests/arm64/mte/check_gcr_el1_cswitch.c
+new file mode 100644
+index 000000000000..55e33d96794c
+--- /dev/null
++++ b/tools/testing/selftests/arm64/mte/check_gcr_el1_cswitch.c
+@@ -0,0 +1,152 @@
++// SPDX-License-Identifier: GPL-2.0
++// Copyright (C) 2020 ARM Limited
 +
-+Software tag-based KASAN is currently only implemented for arm64 architecture.
++#define _GNU_SOURCE
 +
-+Software tag-based KASAN uses the Top Byte Ignore (TBI) feature of arm64 CPUs
-+to store a pointer tag in the top byte of kernel pointers. Like generic KASAN
-+it uses shadow memory to store memory tags associated with each 16-byte memory
- cell (therefore it dedicates 1/16th of the kernel memory for shadow memory).
- 
--On each memory allocation tag-based KASAN generates a random tag, tags the
--allocated memory with this tag, and embeds this tag into the returned pointer.
-+On each memory allocation software tag-based KASAN generates a random tag, tags
-+the allocated memory with this tag, and embeds this tag into the returned
-+pointer.
++#include <errno.h>
++#include <pthread.h>
++#include <stdint.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <time.h>
++#include <unistd.h>
++#include <sys/auxv.h>
++#include <sys/mman.h>
++#include <sys/prctl.h>
++#include <sys/types.h>
++#include <sys/wait.h>
 +
- Software tag-based KASAN uses compile-time instrumentation to insert checks
- before each memory access. These checks make sure that tag of the memory that
- is being accessed is equal to tag of the pointer that is used to access this
--memory. In case of a tag mismatch tag-based KASAN prints a bug report.
-+memory. In case of a tag mismatch software tag-based KASAN prints a bug report.
- 
- Software tag-based KASAN also has two instrumentation modes (outline, that
- emits callbacks to check memory accesses; and inline, that performs the shadow
-@@ -215,9 +226,34 @@ simply printed from the function that performs the access check. With inline
- instrumentation a brk instruction is emitted by the compiler, and a dedicated
- brk handler is used to print bug reports.
- 
--A potential expansion of this mode is a hardware tag-based mode, which would
--use hardware memory tagging support instead of compiler instrumentation and
--manual shadow memory manipulation.
-+Software tag-based KASAN uses 0xFF as a match-all pointer tag (accesses through
-+pointers with 0xFF pointer tag aren't checked). The value 0xFE is currently
-+reserved to tag freed memory regions.
++#include "kselftest.h"
++#include "mte_common_util.h"
 +
-+Software tag-based KASAN currently only supports tagging of slab memory.
++#define PR_SET_TAGGED_ADDR_CTRL 55
++#define PR_GET_TAGGED_ADDR_CTRL 56
++# define PR_TAGGED_ADDR_ENABLE  (1UL << 0)
++# define PR_MTE_TCF_SHIFT	1
++# define PR_MTE_TCF_NONE	(0UL << PR_MTE_TCF_SHIFT)
++# define PR_MTE_TCF_SYNC	(1UL << PR_MTE_TCF_SHIFT)
++# define PR_MTE_TCF_ASYNC	(2UL << PR_MTE_TCF_SHIFT)
++# define PR_MTE_TCF_MASK	(3UL << PR_MTE_TCF_SHIFT)
++# define PR_MTE_TAG_SHIFT	3
++# define PR_MTE_TAG_MASK	(0xffffUL << PR_MTE_TAG_SHIFT)
 +
-+Hardware tag-based KASAN
-+~~~~~~~~~~~~~~~~~~~~~~~~
++#include "mte_def.h"
 +
-+Hardware tag-based KASAN is similar to the software mode in concept, but uses
-+hardware memory tagging support instead of compiler instrumentation and
-+shadow memory.
++#define NUM_ITERATIONS		1024
++#define MAX_THREADS		5
++#define THREAD_ITERATIONS	1000
 +
-+Hardware tag-based KASAN is currently only implemented for arm64 architecture
-+and based on both arm64 Memory Tagging Extension (MTE) introduced in ARMv8.5
-+Instruction Set Architecture, and Top Byte Ignore (TBI).
++void *execute_thread(void *x)
++{
++	pid_t pid = *((pid_t *)x);
++	pid_t tid = gettid();
++	uint64_t prctl_tag_mask;
++	uint64_t prctl_set;
++	uint64_t prctl_get;
++	uint64_t prctl_tcf;
 +
-+Special arm64 instructions are used to assign memory tags for each allocation.
-+Same tags are assigned to pointers to those allocations. On every memory
-+access, hardware makes sure that tag of the memory that is being accessed is
-+equal to tag of the pointer that is used to access this memory. In case of a
-+tag mismatch a fault is generated and a report is printed.
++	srand(time(NULL) ^ (pid << 16) ^ (tid << 16));
 +
-+Hardware tag-based KASAN uses 0xFF as a match-all pointer tag (accesses through
-+pointers with 0xFF pointer tag aren't checked). The value 0xFE is currently
-+reserved to tag freed memory regions.
++	prctl_tag_mask = rand() % 0xffff;
 +
-+Hardware tag-based KASAN currently only supports tagging of slab memory.
- 
- What memory accesses are sanitised by KASAN?
- --------------------------------------------
++	if (prctl_tag_mask % 2)
++		prctl_tcf = PR_MTE_TCF_SYNC;
++	else
++		prctl_tcf = PR_MTE_TCF_ASYNC;
++
++	prctl_set = PR_TAGGED_ADDR_ENABLE | prctl_tcf | (prctl_tag_mask << PR_MTE_TAG_SHIFT);
++
++	for (int j = 0; j < THREAD_ITERATIONS; j++) {
++		if (prctl(PR_SET_TAGGED_ADDR_CTRL, prctl_set, 0, 0, 0)) {
++			perror("prctl() failed");
++			goto fail;
++		}
++
++		prctl_get = prctl(PR_GET_TAGGED_ADDR_CTRL, 0, 0, 0, 0);
++
++		if (prctl_set != prctl_get) {
++			ksft_print_msg("Error: prctl_set: 0x%lx != prctl_get: 0x%lx\n",
++						prctl_set, prctl_get);
++			goto fail;
++		}
++	}
++
++	return (void *)KSFT_PASS;
++
++fail:
++	return (void *)KSFT_FAIL;
++}
++
++int execute_test(pid_t pid)
++{
++	pthread_t thread_id[MAX_THREADS];
++	int thread_data[MAX_THREADS];
++
++	for (int i = 0; i < MAX_THREADS; i++)
++		pthread_create(&thread_id[i], NULL,
++			       execute_thread, (void *)&pid);
++
++	for (int i = 0; i < MAX_THREADS; i++)
++		pthread_join(thread_id[i], (void *)&thread_data[i]);
++
++	for (int i = 0; i < MAX_THREADS; i++)
++		if (thread_data[i] == KSFT_FAIL)
++			return KSFT_FAIL;
++
++	return KSFT_PASS;
++}
++
++int mte_gcr_fork_test()
++{
++	pid_t pid[NUM_ITERATIONS];
++	int results[NUM_ITERATIONS];
++	pid_t cpid;
++	int res;
++
++	for (int i = 0; i < NUM_ITERATIONS; i++) {
++		pid[i] = fork();
++
++		if (pid[i] == 0) {
++			cpid = getpid();
++
++			res = execute_test(cpid);
++
++			exit(res);
++		}
++	}
++
++	for (int i = 0; i < NUM_ITERATIONS; i++) {
++		wait(&res);
++
++		if(WIFEXITED(res))
++			results[i] = WEXITSTATUS(res);
++		else
++			--i;
++	}
++
++	for (int i = 0; i < NUM_ITERATIONS; i++)
++		if (results[i] == KSFT_FAIL)
++			return KSFT_FAIL;
++
++	return KSFT_PASS;
++}
++
++int main(int argc, char *argv[])
++{
++	int err;
++
++	err = mte_default_setup();
++	if (err)
++		return err;
++
++	ksft_set_plan(1);
++
++	evaluate_test(mte_gcr_fork_test(),
++		"Verify that GCR_EL1 is set correctly on context switch\n");
++
++	mte_restore_setup();
++	ksft_print_cnts();
++
++	return ksft_get_fail_cnt() == 0 ? KSFT_PASS : KSFT_FAIL;
++}
++
 -- 
 2.29.1.341.ge80a0c044ae-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/2948a9756e2659c5a5e9e94ad7519a9b9c88ed85.1604333009.git.andreyknvl%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/8acb10b144678de32f1ec8fb5ed6c92246967285.1604333009.git.andreyknvl%40google.com.
