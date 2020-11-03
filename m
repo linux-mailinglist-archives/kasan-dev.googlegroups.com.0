@@ -1,130 +1,129 @@
-Return-Path: <kasan-dev+bncBDX4HWEMTEBRB3W4QD6QKGQEUS7CDCA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDX4HWEMTEBRB3XQQX6QKGQE4OHIHYY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wr1-x43c.google.com (mail-wr1-x43c.google.com [IPv6:2a00:1450:4864:20::43c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A4C42A2F2F
-	for <lists+kasan-dev@lfdr.de>; Mon,  2 Nov 2020 17:06:07 +0100 (CET)
-Received: by mail-wr1-x43c.google.com with SMTP id b6sf6558590wrn.17
-        for <lists+kasan-dev@lfdr.de>; Mon, 02 Nov 2020 08:06:07 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1604333167; cv=pass;
+Received: from mail-io1-xd3e.google.com (mail-io1-xd3e.google.com [IPv6:2607:f8b0:4864:20::d3e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 824652A49F3
+	for <lists+kasan-dev@lfdr.de>; Tue,  3 Nov 2020 16:34:07 +0100 (CET)
+Received: by mail-io1-xd3e.google.com with SMTP id l17sf10711135iol.17
+        for <lists+kasan-dev@lfdr.de>; Tue, 03 Nov 2020 07:34:07 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1604417646; cv=pass;
         d=google.com; s=arc-20160816;
-        b=VrnamjH8hGTlP/tkqZZ9yA1Cf0pU3SUV0Cf0RPkZxzjQhVs5QIZCNmffAEn9/VCTAJ
-         KdRpmLPHJuP59C1Aex43ulwpCDyEA/wkx0kCak1GMMGQqCbyMe22olKR/7bCgjkJcF8Q
-         pfzaFhKKCUmlCu3zTxbqIPs7AchCTv718BFPirf9yTWvBnZLU/umOWRTrz7EYxzcR9Qi
-         cJaKXKWrXBP7A75gdiXdYohD+45A9EQQoO7589lluDTaQzJ7W9z8cxbgB0Cr9o4/1BZa
-         DsVyJqNld+BiUgAnGvpf+F2C+O6kUdQZcPnFFBRyX3WCSINeIPKpozUeY4tiVDnMRpnp
-         wiAQ==
+        b=TUNPnThFCaTz0bwlcitKfc70cRtE46gaEF27CJ9RL0a4bz2gEigfAm1dE+8uozjGrh
+         LoAHjCtY49WXMezedbhNM/8rvm4EzlACHY5FDh9yPQEnw7fwSGiIvUpHqWNbzRxZD7/F
+         IKVhxaytiClO0SgdQB/av0tGD7BDkVmMcigJ448HgZHDaSmf5FDEsoU0N+o/r43LIzOl
+         MpiFC6juG4xD5Rp2+AUQadJNTRTXD8LZqM/vJe4jG9/tmRqFZHRFWZ1uhxYfglA5l6g1
+         IUOFULsmvsc9RxYiaUZKDLELLK+0ifEJLPxsrRUJfKPtg0qySr4w4I8+1RWcFQSD+t93
+         dS0A==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
-         :references:mime-version:message-id:in-reply-to:date:sender
-         :dkim-signature;
-        bh=21AifCaGqESOfx4o26WtBWr2W2FyFX7dmXB7joZdiHA=;
-        b=sRfR1QpI2T32jfxurRzchuNSSKdSwJ0BKgNsObgiHcrw4C6FcaK404Lllv7HLxRhUD
-         JK3KYeEdGkzVNaJId46jkZe9/NBiBc2IDCU1hmFduVftUY5ZFleBBPQRZYiUz4/COBeg
-         2+f5zqUmMeMzU1gR2Kv87GchzxCa7grdVuHmBIqkcWgQr8FvNDKqpvzm3PNze/THPx8a
-         fqJGa5OqTxo8gb0YUrIOLWYBsTBJmBdfrssgYp+3OvOVXk8KPXov2/xXl6q6xoLzRVd9
-         1fyRYvKle8OcCaeeDVbwoCr8b/jzQyaHkbh8G+ht5EBp670J7HVt0CSQi0bsXyenaUtP
-         eEqw==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=wWRHTVuCgQDolk9NSr4uT3L7b+fMuMf8b7l13k2mxGM=;
+        b=Or74XcCRwlIhKVLjPhiclpKb6/wxiX6ZXGCbPkfluQBucjLK7sgvBmvmxYVoN1ETuI
+         F92lo/qZnDW+iqBdVLaLojWc2KyBPHmZ2Tn6omDKYVObOWARUEMcik0BNynvNBWfMgJF
+         SZpm2c//Tak+OD/ategaov7pftGoMtV8FAzz1y7d4JMKBLA8TYsffyrr4omflRuh5Cev
+         DvzGcpXYkpnAYfC3RQsyYa8/5vk7mxbclKG2Q2SDbREmpeLRmpoUyyn+Kq9xCH4Gle9G
+         x+SLpCwwZuJ/lwz2Ycr66ZUIU4t000M3Rbn9SCuqJ7eGaTvj5XcUh2G1+NPNaQlupUjT
+         8IXg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=i9OgmUra;
-       spf=pass (google.com: domain of 3bs6gxwokcu4q3t7ue03b1w44w1u.s420q8q3-tubw44w1uw74a58.s42@flex--andreyknvl.bounces.google.com designates 2a00:1450:4864:20::449 as permitted sender) smtp.mailfrom=3bS6gXwoKCU4q3t7uE03B1w44w1u.s420q8q3-tuBw44w1uw74A58.s42@flex--andreyknvl.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=iP5XPK46;
+       spf=pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::543 as permitted sender) smtp.mailfrom=andreyknvl@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:date:in-reply-to:message-id:mime-version:references:subject
-         :from:to:cc:x-original-sender:x-original-authentication-results
-         :reply-to:precedence:mailing-list:list-id:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=21AifCaGqESOfx4o26WtBWr2W2FyFX7dmXB7joZdiHA=;
-        b=UCkPDzLrQ7hoPzNw5jGFgKV+y/2w05LtyI6rINOWNJlSlqzV33UXkbgAHrLQ/VVotv
-         9Lc/NfZoTwBSOCE7fdMohUjdMdkKkcpjRWjvacGaMCXayl4QTW5wuQFwb8xUPm6iX7to
-         PhFobTPLB6SbXCQmHM4HOn3PKRMZmE0z/CiUP/cU3ZdsLXdLQn2Y7ymm1uq/bC8e++WB
-         dqNYKwNoIn61Ue27A3lHUT9lU4ua31brFfxFYaZD5tsHKJdfgGdEGv+ZVkkKECo/1Y3Q
-         k22sn9mFTFob9MKD+uGVO+b55MtF5/Bqa99wgBRDLvf5vEBIHq/H1rTWAE0jLhGTdKtz
-         a4GA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=wWRHTVuCgQDolk9NSr4uT3L7b+fMuMf8b7l13k2mxGM=;
+        b=ExSg7SITtvrQ84wT63zRr7wbY4Jr6V+98H3R7+ig9GH/+KU9ITtIAbe/TjJfAXmVSA
+         3zIsmmuHqmtiGS9Ee0KNQTTy6+z+lD6FROut2xYPm/GVW+KjvuxDYM1Wa5duNa9ggLMV
+         lHKLRP1CxlTVCaBLIj6YzVldfejYmHF1aamQxAMkojnv3avrqg36p1IQR6njScHkbnca
+         aNPKO45xETdWo6ZJPS5Lv6l79cTKIfbp5//F64fupfJ57gGlrzMfSyn77DA9bXs41dNB
+         rt0ipB9qC/H/NyshfXDCZ8xDTpnhagNIuK/KYQgJwxsI/8R0lpij6IHqjDDWSMyaAPf3
+         emFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc:x-original-sender
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=21AifCaGqESOfx4o26WtBWr2W2FyFX7dmXB7joZdiHA=;
-        b=SC7cu5rvHkVQ3ZOyNuFpnV3HfWrNPJjOd4B8RpZfdBtbmHeJuMo9iV5VTPkFK66WkK
-         UfVRxYGhN3XX+Se6n4cwHPofxoh4nYvKDZdBIbz/oYa+8gOCe06hALKa/XDNSUkpXVmM
-         vlJfUxtUdTKvCKGpV4rUaVGPB7WAsT3JjXIH4OBcBCxT1z7WnLLeJk1IavVcwPKnF/OW
-         cR4w4SXNK1aPgHyIFw0qejv4ghTtUJ6ebiurzWEHJm57jQRjdcnOhYn/l3r96lsWBKuD
-         /XIF0UkylaPlczRLQQNBOQOfCc2YbTZXRM+04jKjcQu5mDVBBvSdTxf40vlcx1PeDHyG
-         b6TA==
-X-Gm-Message-State: AOAM5315PTT/3CgfYHhuS7af1P+pYGmxiKfqKS5vSPqzCoDjBRSBuMt7
-	nhajZti//Eqsv5zQspDhvmo=
-X-Google-Smtp-Source: ABdhPJxJEz6mYPIyqvUAcl3IeJ+RX7JmUO/I78OC8SWyLXx6KRK1ROWd1Ibebg7syOtF2wiQKfy3RA==
-X-Received: by 2002:a5d:66c9:: with SMTP id k9mr22968962wrw.158.1604333167078;
-        Mon, 02 Nov 2020 08:06:07 -0800 (PST)
+        bh=wWRHTVuCgQDolk9NSr4uT3L7b+fMuMf8b7l13k2mxGM=;
+        b=bYtMj/SqqjnNVDnw91oepnWYNfD9AdAN89WG98Q1zTzV1y2/xmN7zVpb4s32fbdmMH
+         s2blkreuQEFDI2IqfSWJ9bsOnwFNtONWU8Q5TGR3zqOmWUWrV/i3pHbQvfqUSpD+G0R3
+         k6VeiYCFvP8mOKOXsAVkLY9PQ9xpZqFgiiKP0xKLpx7yJG5J5Sz/scStptANhw1GsR43
+         DHBBMqm2T/BxFWkSnFU2a6iHrKkS8dQQITB9vngEi0kJRnyn9VQ6ML7VWWXlPcw8j5MS
+         jEsMMcS88cdYAXRMe+DT6N12Vq25PVTQTzIoymkzXGlbeZozg6tNh5PXCiF/OLPGqief
+         XOBg==
+X-Gm-Message-State: AOAM533910LQdGwCd37le4Ke0enFj7Ed7Hxiujx7HLK7eoiCzl6uoD+Y
+	hU21YA2hhWjbCzQd1YiiPqo=
+X-Google-Smtp-Source: ABdhPJyRWTsKpcugi2oRWnyfC4V7ywXMhWIB+NvOWrNndLtmrAbAyl+y3PfvqAfHb8R1KOLxUD8EYg==
+X-Received: by 2002:a92:d449:: with SMTP id r9mr4739001ilm.276.1604417646250;
+        Tue, 03 Nov 2020 07:34:06 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a7b:cf0f:: with SMTP id l15ls8943wmg.0.experimental-gmail;
- Mon, 02 Nov 2020 08:06:06 -0800 (PST)
-X-Received: by 2002:a7b:cc94:: with SMTP id p20mr8476003wma.100.1604333166012;
-        Mon, 02 Nov 2020 08:06:06 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1604333166; cv=none;
+Received: by 2002:a92:84ce:: with SMTP id y75ls503221ilk.1.gmail; Tue, 03 Nov
+ 2020 07:34:05 -0800 (PST)
+X-Received: by 2002:a92:dc0f:: with SMTP id t15mr15434428iln.1.1604417645919;
+        Tue, 03 Nov 2020 07:34:05 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1604417645; cv=none;
         d=google.com; s=arc-20160816;
-        b=UlRcBv0A4oHngp6BTxxnI9bNQd06SSadH/rN/LrscHmy2zaMHXVE5iR+ZiP2MP6UJf
-         cHZ1p4ZJdPpQGCJUdfB+/QTNCTzgCOp308FiMJX25b2lCpQFHzm2gG1cRy/nXrE5KD1c
-         WUFsyNziEt9CL0Wtgm+e0FDlM46EeiorLMmVVPVh9LiF5Tu2a8E1AAc7K7mPzlAn1ncS
-         WCUcU2dET8GOgiXPeFLdqXPCcPiaEHPtTotoe8YF1AAjzEsJ5ADSyQK8qOYqR5qljwwn
-         XArwRuur25Sn5GzUpZs1HMpY6LXs5SjioepphEPJslpU2oh3UiXAMPqRiwUyPV9qtH3H
-         nWug==
+        b=dND5Lv63yrHGZkXs1+R2XaO6XQVY29BXgdQrnOCxR6X7TcVrKyhCjEs14fNCWre9XS
+         18l8Xr8Op/I1152G90aKEqxJoXlcxkXHCfSCYQZ+wZnnfEHQdNXcGIAFTLUP1K/i3QOH
+         8GwXKZJK9hLpsG4yh1h8SKX+PYKDDThOaBc3CkhGDLgaQTnDnjnvNLaYsFI1OSvMM0mG
+         isGO627Lvyna9eyzScIADgAfTTT0lOex+QgiDnKHQo+HdZLxOwLJ91neJcbEEOI4c1TZ
+         i7fL2Uj5YigNZf9FBi/s2JESNpYa4XmTXItX4VvKBZ3lTDUnCJ2mXY22PpxkftOAogiV
+         j4fA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
-         :date:sender:dkim-signature;
-        bh=DyRPETqC+6C7nrnJCiEiYsvRb/HkPFaD35372QKa3Vk=;
-        b=xdhibOzuctDdrBIXMhJrXlOKNgd4XLbKziqi3BAcmtEGvDH0QWauFEBhRGXkiz/EwM
-         KqJt3DtbrvJG2cYpiBqI4lXS7S+aoRqhxp/4sBOeF2BA2Nr4qkfrBCJfkhSt1EB2t43V
-         Baj+1Ts03z/7hRbn6O2GY8fFlBAoPd7dvl1wUp9iwfT4uV/ZF2rCLZlSnwvbUS3qhhlN
-         ffpW5MZ42cb+k9EuOMdabDksbvWpDXuNSfGNL9OEvmg+CF0c7ERvfgVXXu0n4m3Nt6q/
-         24mXDihS54utIDdtfpkzFTmi81Del2YxPniT2bfWCztvgpO13CKxJYK/5hF89Da+OdZY
-         Ixgg==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=HjUJI0OrjkWbAH3DienhZxTmqOna3ueAap2yYKG4ygM=;
+        b=kgTwflFa40ELF3Fc/MmT2B/6dbhtFst9+JYIdiMaiZ3pWUrvIQKvI2epdMjo073B3S
+         4f7mC7Wq2cg9gTfousACLO+D3mJi5iF5FElzCGa5JMNnofnWfm7zDBfTAOg1iLn9obOK
+         YBpSTKWpmOvrvMTOb8leqaeFtwlQghP8w4sSeEfkqjBJiPo40EXkngfChTADOULz0H1F
+         +PPvLTIlT3OMygZylZIYeB94q7y9lM8v9o1mClexY5DhpMBVy/LQkokiUfMQqK8fNsGP
+         nh6F5z7nfKZ/GryKuSROB0QhxLA9v7hu6hwPETfOAQQ//RuTe4EDlYFR36om5rHOMMpL
+         8scA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=i9OgmUra;
-       spf=pass (google.com: domain of 3bs6gxwokcu4q3t7ue03b1w44w1u.s420q8q3-tubw44w1uw74a58.s42@flex--andreyknvl.bounces.google.com designates 2a00:1450:4864:20::449 as permitted sender) smtp.mailfrom=3bS6gXwoKCU4q3t7uE03B1w44w1u.s420q8q3-tuBw44w1uw74A58.s42@flex--andreyknvl.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=iP5XPK46;
+       spf=pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::543 as permitted sender) smtp.mailfrom=andreyknvl@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-wr1-x449.google.com (mail-wr1-x449.google.com. [2a00:1450:4864:20::449])
-        by gmr-mx.google.com with ESMTPS id f131si294777wme.1.2020.11.02.08.06.05
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com. [2607:f8b0:4864:20::543])
+        by gmr-mx.google.com with ESMTPS id u15si1033852ilk.1.2020.11.03.07.34.05
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Nov 2020 08:06:06 -0800 (PST)
-Received-SPF: pass (google.com: domain of 3bs6gxwokcu4q3t7ue03b1w44w1u.s420q8q3-tubw44w1uw74a58.s42@flex--andreyknvl.bounces.google.com designates 2a00:1450:4864:20::449 as permitted sender) client-ip=2a00:1450:4864:20::449;
-Received: by mail-wr1-x449.google.com with SMTP id f11so6585579wro.15
-        for <kasan-dev@googlegroups.com>; Mon, 02 Nov 2020 08:06:05 -0800 (PST)
-Sender: "andreyknvl via sendgmr" <andreyknvl@andreyknvl3.muc.corp.google.com>
-X-Received: from andreyknvl3.muc.corp.google.com ([2a00:79e0:15:13:7220:84ff:fe09:7e9d])
- (user=andreyknvl job=sendgmr) by 2002:a1c:9a83:: with SMTP id
- c125mr16775191wme.116.1604333165725; Mon, 02 Nov 2020 08:06:05 -0800 (PST)
-Date: Mon,  2 Nov 2020 17:04:21 +0100
-In-Reply-To: <cover.1604333009.git.andreyknvl@google.com>
-Message-Id: <8acb10b144678de32f1ec8fb5ed6c92246967285.1604333009.git.andreyknvl@google.com>
-Mime-Version: 1.0
-References: <cover.1604333009.git.andreyknvl@google.com>
-X-Mailer: git-send-email 2.29.1.341.ge80a0c044ae-goog
-Subject: [PATCH v7 41/41] kselftest/arm64: Check GCR_EL1 after context switch
+        Tue, 03 Nov 2020 07:34:05 -0800 (PST)
+Received-SPF: pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::543 as permitted sender) client-ip=2607:f8b0:4864:20::543;
+Received: by mail-pg1-x543.google.com with SMTP id w4so3726905pgg.13
+        for <kasan-dev@googlegroups.com>; Tue, 03 Nov 2020 07:34:05 -0800 (PST)
+X-Received: by 2002:a17:90a:eb02:: with SMTP id j2mr356174pjz.136.1604417645395;
+ Tue, 03 Nov 2020 07:34:05 -0800 (PST)
+MIME-Version: 1.0
+References: <cover.1603372719.git.andreyknvl@google.com> <1d87f0d5a282d9e8d14d408ac6d63462129f524c.1603372719.git.andreyknvl@google.com>
+ <CACT4Y+Y6jbXh28U=9oK_1ihMhePRhZ6WP9vBwr8nVm_aU3BmNQ@mail.gmail.com> <CAAeHK+wqdtPkrhbxPanu79iCJxdYczKQ6k7+8u-hnC5JONEgNQ@mail.gmail.com>
+In-Reply-To: <CAAeHK+wqdtPkrhbxPanu79iCJxdYczKQ6k7+8u-hnC5JONEgNQ@mail.gmail.com>
 From: "'Andrey Konovalov' via kasan-dev" <kasan-dev@googlegroups.com>
-To: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will.deacon@arm.com>
-Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>, kasan-dev@googlegroups.com, 
-	Dmitry Vyukov <dvyukov@google.com>, Andrey Ryabinin <aryabinin@virtuozzo.com>, 
-	Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>, 
-	Evgenii Stepanov <eugenis@google.com>, Elena Petrova <lenaptr@google.com>, 
-	Branislav Rankov <Branislav.Rankov@arm.com>, Kevin Brodsky <kevin.brodsky@arm.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, linux-arm-kernel@lists.infradead.org, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	Andrey Konovalov <andreyknvl@google.com>
+Date: Tue, 3 Nov 2020 16:33:54 +0100
+Message-ID: <CAAeHK+xBZ_Rkew==1pj1YzU9XGdMJx5_uMP6n=BnnqdAH7LARw@mail.gmail.com>
+Subject: Re: [PATCH RFC v2 07/21] kasan, arm64: move initialization message
+To: Dmitry Vyukov <dvyukov@google.com>
+Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will.deacon@arm.com>, 
+	Vincenzo Frascino <vincenzo.frascino@arm.com>, Alexander Potapenko <glider@google.com>, 
+	Marco Elver <elver@google.com>, Evgenii Stepanov <eugenis@google.com>, 
+	Kostya Serebryany <kcc@google.com>, Peter Collingbourne <pcc@google.com>, 
+	Serban Constantinescu <serbanc@google.com>, Andrey Ryabinin <aryabinin@virtuozzo.com>, 
+	Elena Petrova <lenaptr@google.com>, Branislav Rankov <Branislav.Rankov@arm.com>, 
+	Kevin Brodsky <kevin.brodsky@arm.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	kasan-dev <kasan-dev@googlegroups.com>, 
+	Linux ARM <linux-arm-kernel@lists.infradead.org>, Linux-MM <linux-mm@kvack.org>, 
+	LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: andreyknvl@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=i9OgmUra;       spf=pass
- (google.com: domain of 3bs6gxwokcu4q3t7ue03b1w44w1u.s420q8q3-tubw44w1uw74a58.s42@flex--andreyknvl.bounces.google.com
- designates 2a00:1450:4864:20::449 as permitted sender) smtp.mailfrom=3bS6gXwoKCU4q3t7uE03B1w44w1u.s420q8q3-tuBw44w1uw74A58.s42@flex--andreyknvl.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+ header.i=@google.com header.s=20161025 header.b=iP5XPK46;       spf=pass
+ (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::543
+ as permitted sender) smtp.mailfrom=andreyknvl@google.com;       dmarc=pass
+ (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Andrey Konovalov <andreyknvl@google.com>
 Reply-To: Andrey Konovalov <andreyknvl@google.com>
 Precedence: list
@@ -139,204 +138,71 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-From: Vincenzo Frascino <vincenzo.frascino@arm.com>
+On Thu, Oct 29, 2020 at 9:14 PM Andrey Konovalov <andreyknvl@google.com> wrote:
+>
+> On Wed, Oct 28, 2020 at 11:56 AM Dmitry Vyukov <dvyukov@google.com> wrote:
+> >
+> > On Thu, Oct 22, 2020 at 3:19 PM Andrey Konovalov <andreyknvl@google.com> wrote:
+> > >
+> > > Tag-based KASAN modes are fully initialized with kasan_init_tags(),
+> > > while the generic mode only requireds kasan_init(). Move the
+> > > initialization message for tag-based modes into kasan_init_tags().
+> > >
+> > > Also fix pr_fmt() usage for KASAN code: generic mode doesn't need it,
+> >
+> > Why doesn't it need it? What's the difference with tag modes?
+>
+> I need to reword the patch descriptions: it's not the mode that
+> doesn't need it, it's the generic.c file, as it doesn't use any pr_*()
+> functions.
+>
+> >
+> > > tag-based modes should use "kasan:" instead of KBUILD_MODNAME.
+> >
+> > With generic KASAN I currently see:
+> >
+> > [    0.571473][    T0] kasan: KernelAddressSanitizer initialized
+> >
+> > So KBUILD_MODNAME somehow works. Is there some difference between files?
+>
+> That code is printed from arch/xxx/mm/kasan_init*.c, which has its own
+> pr_fmt defined.
+>
+> >
+> > > Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+> > > Link: https://linux-review.googlesource.com/id/Idfd1e50625ffdf42dfc3dbf7455b11bd200a0a49
+> > > ---
+> > >  arch/arm64/mm/kasan_init.c | 3 +++
+> > >  mm/kasan/generic.c         | 2 --
+> > >  mm/kasan/hw_tags.c         | 4 ++++
+> > >  mm/kasan/sw_tags.c         | 4 +++-
+> > >  4 files changed, 10 insertions(+), 3 deletions(-)
+> > >
+> > > diff --git a/arch/arm64/mm/kasan_init.c b/arch/arm64/mm/kasan_init.c
+> > > index b6b9d55bb72e..8f17fa834b62 100644
+> > > --- a/arch/arm64/mm/kasan_init.c
+> > > +++ b/arch/arm64/mm/kasan_init.c
+> > > @@ -290,5 +290,8 @@ void __init kasan_init(void)
+> > >  {
+> > >         kasan_init_shadow();
+> > >         kasan_init_depth();
+> > > +#if defined(CONFIG_KASAN_GENERIC)
+> > > +       /* CONFIG_KASAN_SW/HW_TAGS also requires kasan_init_tags(). */
+> >
+> > A bit cleaner way may be to introduce kasan_init_early() and
+> > kasan_init_late(). Late() will do tag init and always print the
+> > message.
+>
+> It appears we'll also need kasan_init_even_later() for some
+> MTE-related stuff. I'll try to figure out some sane naming scheme here
+> and include it into the next version.
 
-This test is specific to MTE and verifies that the GCR_EL1 register
-is context switched correctly.
-
-It spawn 1024 processes and each process spawns 5 threads. Each thread
-writes a random setting of GCR_EL1 through the prctl() system call and
-reads it back verifying that it is the same. If the values are not the
-same it reports a failure.
-
-Note: The test has been extended to verify that even SYNC and ASYNC mode
-setting is preserved correctly over context switching.
-
-Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
-Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
----
-Change-Id: Ia917684a2b8e5f29e705ca5cbf360b010df6f61e
----
- tools/testing/selftests/arm64/mte/Makefile    |   2 +-
- .../arm64/mte/check_gcr_el1_cswitch.c         | 152 ++++++++++++++++++
- 2 files changed, 153 insertions(+), 1 deletion(-)
- create mode 100644 tools/testing/selftests/arm64/mte/check_gcr_el1_cswitch.c
-
-diff --git a/tools/testing/selftests/arm64/mte/Makefile b/tools/testing/selftests/arm64/mte/Makefile
-index 2480226dfe57..0b3af552632a 100644
---- a/tools/testing/selftests/arm64/mte/Makefile
-+++ b/tools/testing/selftests/arm64/mte/Makefile
-@@ -1,7 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0
- # Copyright (C) 2020 ARM Limited
- 
--CFLAGS += -std=gnu99 -I.
-+CFLAGS += -std=gnu99 -I. -lpthread
- SRCS := $(filter-out mte_common_util.c,$(wildcard *.c))
- PROGS := $(patsubst %.c,%,$(SRCS))
- 
-diff --git a/tools/testing/selftests/arm64/mte/check_gcr_el1_cswitch.c b/tools/testing/selftests/arm64/mte/check_gcr_el1_cswitch.c
-new file mode 100644
-index 000000000000..55e33d96794c
---- /dev/null
-+++ b/tools/testing/selftests/arm64/mte/check_gcr_el1_cswitch.c
-@@ -0,0 +1,152 @@
-+// SPDX-License-Identifier: GPL-2.0
-+// Copyright (C) 2020 ARM Limited
-+
-+#define _GNU_SOURCE
-+
-+#include <errno.h>
-+#include <pthread.h>
-+#include <stdint.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <time.h>
-+#include <unistd.h>
-+#include <sys/auxv.h>
-+#include <sys/mman.h>
-+#include <sys/prctl.h>
-+#include <sys/types.h>
-+#include <sys/wait.h>
-+
-+#include "kselftest.h"
-+#include "mte_common_util.h"
-+
-+#define PR_SET_TAGGED_ADDR_CTRL 55
-+#define PR_GET_TAGGED_ADDR_CTRL 56
-+# define PR_TAGGED_ADDR_ENABLE  (1UL << 0)
-+# define PR_MTE_TCF_SHIFT	1
-+# define PR_MTE_TCF_NONE	(0UL << PR_MTE_TCF_SHIFT)
-+# define PR_MTE_TCF_SYNC	(1UL << PR_MTE_TCF_SHIFT)
-+# define PR_MTE_TCF_ASYNC	(2UL << PR_MTE_TCF_SHIFT)
-+# define PR_MTE_TCF_MASK	(3UL << PR_MTE_TCF_SHIFT)
-+# define PR_MTE_TAG_SHIFT	3
-+# define PR_MTE_TAG_MASK	(0xffffUL << PR_MTE_TAG_SHIFT)
-+
-+#include "mte_def.h"
-+
-+#define NUM_ITERATIONS		1024
-+#define MAX_THREADS		5
-+#define THREAD_ITERATIONS	1000
-+
-+void *execute_thread(void *x)
-+{
-+	pid_t pid = *((pid_t *)x);
-+	pid_t tid = gettid();
-+	uint64_t prctl_tag_mask;
-+	uint64_t prctl_set;
-+	uint64_t prctl_get;
-+	uint64_t prctl_tcf;
-+
-+	srand(time(NULL) ^ (pid << 16) ^ (tid << 16));
-+
-+	prctl_tag_mask = rand() % 0xffff;
-+
-+	if (prctl_tag_mask % 2)
-+		prctl_tcf = PR_MTE_TCF_SYNC;
-+	else
-+		prctl_tcf = PR_MTE_TCF_ASYNC;
-+
-+	prctl_set = PR_TAGGED_ADDR_ENABLE | prctl_tcf | (prctl_tag_mask << PR_MTE_TAG_SHIFT);
-+
-+	for (int j = 0; j < THREAD_ITERATIONS; j++) {
-+		if (prctl(PR_SET_TAGGED_ADDR_CTRL, prctl_set, 0, 0, 0)) {
-+			perror("prctl() failed");
-+			goto fail;
-+		}
-+
-+		prctl_get = prctl(PR_GET_TAGGED_ADDR_CTRL, 0, 0, 0, 0);
-+
-+		if (prctl_set != prctl_get) {
-+			ksft_print_msg("Error: prctl_set: 0x%lx != prctl_get: 0x%lx\n",
-+						prctl_set, prctl_get);
-+			goto fail;
-+		}
-+	}
-+
-+	return (void *)KSFT_PASS;
-+
-+fail:
-+	return (void *)KSFT_FAIL;
-+}
-+
-+int execute_test(pid_t pid)
-+{
-+	pthread_t thread_id[MAX_THREADS];
-+	int thread_data[MAX_THREADS];
-+
-+	for (int i = 0; i < MAX_THREADS; i++)
-+		pthread_create(&thread_id[i], NULL,
-+			       execute_thread, (void *)&pid);
-+
-+	for (int i = 0; i < MAX_THREADS; i++)
-+		pthread_join(thread_id[i], (void *)&thread_data[i]);
-+
-+	for (int i = 0; i < MAX_THREADS; i++)
-+		if (thread_data[i] == KSFT_FAIL)
-+			return KSFT_FAIL;
-+
-+	return KSFT_PASS;
-+}
-+
-+int mte_gcr_fork_test()
-+{
-+	pid_t pid[NUM_ITERATIONS];
-+	int results[NUM_ITERATIONS];
-+	pid_t cpid;
-+	int res;
-+
-+	for (int i = 0; i < NUM_ITERATIONS; i++) {
-+		pid[i] = fork();
-+
-+		if (pid[i] == 0) {
-+			cpid = getpid();
-+
-+			res = execute_test(cpid);
-+
-+			exit(res);
-+		}
-+	}
-+
-+	for (int i = 0; i < NUM_ITERATIONS; i++) {
-+		wait(&res);
-+
-+		if(WIFEXITED(res))
-+			results[i] = WEXITSTATUS(res);
-+		else
-+			--i;
-+	}
-+
-+	for (int i = 0; i < NUM_ITERATIONS; i++)
-+		if (results[i] == KSFT_FAIL)
-+			return KSFT_FAIL;
-+
-+	return KSFT_PASS;
-+}
-+
-+int main(int argc, char *argv[])
-+{
-+	int err;
-+
-+	err = mte_default_setup();
-+	if (err)
-+		return err;
-+
-+	ksft_set_plan(1);
-+
-+	evaluate_test(mte_gcr_fork_test(),
-+		"Verify that GCR_EL1 is set correctly on context switch\n");
-+
-+	mte_restore_setup();
-+	ksft_print_cnts();
-+
-+	return ksft_get_fail_cnt() == 0 ? KSFT_PASS : KSFT_FAIL;
-+}
-+
--- 
-2.29.1.341.ge80a0c044ae-goog
+Actually, it looks like some arches already have
+kasan_init_early/late() along with kasan_init(). I'd say we better
+keep those for generic KASAN mode, and kasan_init_tags() for tag-based
+modes.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/8acb10b144678de32f1ec8fb5ed6c92246967285.1604333009.git.andreyknvl%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAAeHK%2BxBZ_Rkew%3D%3D1pj1YzU9XGdMJx5_uMP6n%3DBnnqdAH7LARw%40mail.gmail.com.
