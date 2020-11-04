@@ -1,134 +1,172 @@
-Return-Path: <kasan-dev+bncBCOYZDMZ6UMRBZORRP6QKGQE2VNFMPI@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBU7ZRP6QKGQEQ7BXX3I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x43b.google.com (mail-pf1-x43b.google.com [IPv6:2607:f8b0:4864:20::43b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D3F92A6BF9
-	for <lists+kasan-dev@lfdr.de>; Wed,  4 Nov 2020 18:46:15 +0100 (CET)
-Received: by mail-pf1-x43b.google.com with SMTP id a27sf15282879pfl.17
-        for <lists+kasan-dev@lfdr.de>; Wed, 04 Nov 2020 09:46:15 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1604511974; cv=pass;
+Received: from mail-vk1-xa3e.google.com (mail-vk1-xa3e.google.com [IPv6:2607:f8b0:4864:20::a3e])
+	by mail.lfdr.de (Postfix) with ESMTPS id E85FF2A6D90
+	for <lists+kasan-dev@lfdr.de>; Wed,  4 Nov 2020 20:11:16 +0100 (CET)
+Received: by mail-vk1-xa3e.google.com with SMTP id s1sf3305530vks.6
+        for <lists+kasan-dev@lfdr.de>; Wed, 04 Nov 2020 11:11:16 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1604517076; cv=pass;
         d=google.com; s=arc-20160816;
-        b=YSEL84DDIWtzUj05RqFa2xO7S3dlz/eQQz+fdwFePeypfn0qSayvqI8NNTs/XC8/qA
-         7722IIa7LENMND+2zdb9qRRGWp+QZWOVPABv/pJQGeN6XcbLeRob5qCjGk1u+crnSct/
-         GRdiZhoEmLGPVt/FIMQKB7k3iN/j5Nfy6DJ4pZA+AVraYAO9D7HmPi0OiG4Jc/o/XxaI
-         sYeZ4TrdKB5IXCBNdqmR9qvsgn2eot524IDFEEYZWohZjchenddV4rPYacUDsmMWRZ7h
-         7oX0eBS3q+eub/+svOtA3yQxWCpCVTqMVABM4FWHeXknBDL+yFf6fEksBSGCIfriLTGd
-         /U5w==
+        b=qa9xVPaeYhmCjgxEGEu9tmt69CJ3BM/Jw5TreakkAI7uV1xL08yKK9wTGH267KvKv0
+         8RfnApWjcmJ/mDBiQS+ZEckfOtMOYxvcxvGSgJJON4LsgjyYQNx5xuGWh2gKVBSH8h6F
+         CUE4LXvl2IhDJ6wRbMClN0hVrjNsUUakjPVRhgE4oWwmVp4KFryz9id50Cyr4KRKrG/R
+         H60QNp/R7ouVhbOMQuvlPffQGnRHvHrOXkqyH+3jpmS0Nuc1SVufZBdMkLl1BDNGfeXf
+         3HxpwGZiplXyj6o7vz8y6pv5WCfYS/Bx23Y8+IH2UnH9weDLxh8hdzanWGyl5qJJ8H+L
+         gelQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-language:in-reply-to
-         :mime-version:user-agent:date:message-id:from:references:cc:to
-         :subject:sender:dkim-signature;
-        bh=aDxLLFPOeCUnizkv5Zxng9KyGd2n60gO4NNN8Nxy7gs=;
-        b=xvnIjq+i8uynLoNGBG6GuMbsanKYuDguEoP/vHLUgWNg26vKp9mw1tsLPnByPf+fj7
-         3vCmv6q/qv6gnQF878zOIQ+lRZ4bboYd2CNemzGNLB7AG+AwyHTOx0fQqpLHKW04nUqy
-         p0SYejWffMxJRfqShS6FhKlgT1gqjJtnYT02/rgtvyh3OTlfpd1eDj6pISW07YooDRWO
-         Qio0LYzT2SJzPTcTAiLT4GG0NmHBMOcWvRXAirQn3/kWnUM2RRt62laEuhMekpvMnHVF
-         bkwYQRJYjL5FvkPd5HagQJhVyULV8E21caScZibsK4bqD5alcH1GBfe+Ad+Mu4bvGHiy
-         1ihA==
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature;
+        bh=HW+i5TI4EteVOUtW/eZnsHudGzNUE2h4OpnIXNSz4PA=;
+        b=cA10lCYd0vntYW108NjmApuqF7LhmLeUxTyaWqup5+s2RzhwpAqzp/8Rtio33plvXu
+         qMlx4WUoPLIYGjNUGYC0itxihPd1qmySagHyjWoSQ3Vzh0bOows3KlLYFK4DtivkSEPo
+         1VowQeH+ThC3tBqDD4sYNza2TikiHts+dCyrRmgfxVdeT/LgXydPIuZp8yZam2TvFoGh
+         tOpz4esxHH+y/o6rtYHqgA2mV7bYGRm4170bUZKnUSmZMtSTP9Ot+IWmGmtyvGYmxhHV
+         kCYPZW4FVGxxotmT+kknIFqX4CwQTcqjRkHGpmwK3pJLhDoWQavad4K724FacXUfE5kx
+         BAOg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=vincenzo.frascino@arm.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
+       dkim=pass header.i=@ibm.com header.s=pp1 header.b=RvC4Qqbr;
+       spf=pass (google.com: domain of gor@linux.ibm.com designates 148.163.158.5 as permitted sender) smtp.mailfrom=gor@linux.ibm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=ibm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:x-original-sender
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=aDxLLFPOeCUnizkv5Zxng9KyGd2n60gO4NNN8Nxy7gs=;
-        b=ZMUlBCARh5+OAG1TehWv/2yL9z3wlH8CCalWRaQjz6MDZA6nqE7TXF/ffSTJU+nn7q
-         LqMg1u5SPR1RMuPbu6ro4gwXyL4Hg/FGIaRBclkbQoM4s4I+dPlOohxD1SEbeqxgP2by
-         SWu0aIF+Gfou+7YkkQe+Gquz4ROwhdpcHITBKha/lrerVkZ8FZHxZ8xGjgf4qUfyAZId
-         KPoRP1m1D3XPUSsTekO4jwQgrjp8iFJamG/SqZVR3Y26R6a09pqrzGzfA1J84BSWFWaN
-         rOH1OYc+/EDdQE/3Kc4PQDEOyj5tBeMqjbKSmUBClanI5LB3h0cF5fS+LrFb9zYag17t
-         xd1g==
+        bh=HW+i5TI4EteVOUtW/eZnsHudGzNUE2h4OpnIXNSz4PA=;
+        b=ZO3uOljvVkSDxZw4wR7dVcICtzjMfGw4ax0KSy2aHGkmQLiye5E1pYpE3bAudPWqF7
+         e0Xn6qYeC2SD5wAEbCq5blyD1PhXtDpRrVLdZB5h18W4GoCBHA36ExaeIuMn4rI49H6f
+         sPoS+PYFZ5fd4HMKkxlxf4TFwZK7gB3fJhtM3CCnpFnPCSjN3Q1BjSgPcoluWoP1rgL5
+         pUO1t0M7Z3u9ItjkmpIMYYAS+bX0e1pFc9x4Ot2VOKj1sTwFDZ6GEQo6+5Y6idcpqLeL
+         t7FhNydhtDQ1egX13N1/SJC2si5Yf9JbMprbu1e0buPBzsTbGDowHuvY6paClYvCtNcG
+         DpRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=aDxLLFPOeCUnizkv5Zxng9KyGd2n60gO4NNN8Nxy7gs=;
-        b=nw1NK2U5VPMx9BlVI/W1KKC+fvUsewydNACrTngnfSmvztjILeLMgEzZ3EKyDzWLM0
-         7HFBrBRIVfsw0tw64KcG/imXc+w3jR+rFrJOmfbSPxkypdHFan8X6tlLpptp6uS1WXaU
-         Ok0tF3/aCXt4Hczyj8PYBxJzOx8ujzD1xf56Iu752bwLka8lSMXfV7hU13jgo1TGzHaH
-         7QFFE3BL/7vSWxHljaNAypRoV1SiL6WPXaLzG2s9krgTX07TklliCz0a1Xtj5skZA0+1
-         PIzxaH5SRWIsI7DAVVos1oCzJBxehQlhzgqNrmmUBsrqEam7NueUzSC+20pefstIUi+x
-         3T/A==
+        bh=HW+i5TI4EteVOUtW/eZnsHudGzNUE2h4OpnIXNSz4PA=;
+        b=KjmWEe58EWTpv5pMKFAWw+flSrDaTVTBERXWmxlnffqpKBJlh3msMgerGr8ZVwof+m
+         BM5sNK9GolCm5T4HlIp04GB3VEoSiZyTGy9WZbTwJrYCcT6krPGn50wjtHV2lEAwt/lY
+         +2oybI7swGw4qNR27hZ+CtMQJPc4IdhDlAPS+DdOeaXkSrfpgw9SyoC1ZjKZtPqncHLS
+         flCwFuTTIhoY++gGPVA3fWBUe7ftOMkTHE/FPUAy16q1yeD54LTJBDkQBKTy53KdchHb
+         5ivkOTuLvyf0/38Mih1KTVIIeFMHxzKnmaVPXMfxwgB95FYiSLOcNrC1jF2copy5L6qg
+         +0dg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM531qhuNEOrJq6A8KCGakzEvGlNf3z6EBGEnfu+gfiyZjhde1liaj
-	LoNGIzK+dhM5GeklVHjcOjs=
-X-Google-Smtp-Source: ABdhPJxw0WiXn8M/eDfyPWyeZi6pGCZKY8nE3tDitJeZztQRJP11+BJZRgxLEW8l9B+Nq5TWof0HNg==
-X-Received: by 2002:aa7:84d5:0:b029:18a:ae45:54bc with SMTP id x21-20020aa784d50000b029018aae4554bcmr20065781pfn.27.1604511973906;
-        Wed, 04 Nov 2020 09:46:13 -0800 (PST)
+X-Gm-Message-State: AOAM533RJzseJjhtYF8QYGEkHixkLCbtapK77rRuhzkUuqjqGyB2dpji
+	byrUsH9EWBYzTzbHPV6EdnA=
+X-Google-Smtp-Source: ABdhPJwloxzc05uuJ5SBVDwhsxTMq4rFgPbDRRP0J3QAaEMWB5zvYwjhDxMkXyMBKkYXezccljR52A==
+X-Received: by 2002:a67:2647:: with SMTP id m68mr22977861vsm.39.1604517076045;
+        Wed, 04 Nov 2020 11:11:16 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a63:da56:: with SMTP id l22ls1196773pgj.9.gmail; Wed, 04 Nov
- 2020 09:46:13 -0800 (PST)
-X-Received: by 2002:a62:2c16:0:b029:15d:8d2:2e6d with SMTP id s22-20020a622c160000b029015d08d22e6dmr31637754pfs.52.1604511973346;
-        Wed, 04 Nov 2020 09:46:13 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1604511973; cv=none;
+Received: by 2002:ab0:24d7:: with SMTP id k23ls208723uan.5.gmail; Wed, 04 Nov
+ 2020 11:11:15 -0800 (PST)
+X-Received: by 2002:ab0:2745:: with SMTP id c5mr6099255uap.5.1604517075570;
+        Wed, 04 Nov 2020 11:11:15 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1604517075; cv=none;
         d=google.com; s=arc-20160816;
-        b=KTBZg177IMwaQRgK9TmW9Sop0M0erKT3N8dXgrw/9jNoDzTMBAZ8uJgvcHrbKfV/s1
-         /MabEuniFaN2vrgb5f+mdIfaAyUqeTJjOTGhPFGlpjoZmfumIgUfrQeHS30lh+pRL9B2
-         iIyqBmo1za9HNCPwF1vOxtnIHWFI9fdNyQkfBwbH2xXSCzPEpVcNvg0Eg62nQCfPDswx
-         qm01/mxSybEOQ3px4mbMopg9ecITqcJPUmqRQWeM3CqdTO7LsTHSaoogwFQqr8BRV17b
-         /U1ZerBG1odIQ+nHXo+2AmEaRRJXsCppyOT6LJT4DXSArqoYnbxh90DwLQAloVqT7MD7
-         I57A==
+        b=UJDR+MEd5Y4kel1DYbkMayTcS2S5mvkzSyesN1N2C3wY895Utc20es3SoKNcBXLMjJ
+         GCfwVCoB84SVje9YwB7d0FSSYIKvl86K3/j6grz398pu7u0ZdUPfRDO9utFGnVfQbHcr
+         Udkx/R12/wlTbPtjN7Bc8ps1EvATUp+ck9P6O33u8TVbDMm9pBW8H1rElEOvvIdQeLP2
+         l1UDzADzU8DSzQzho6mjXAIobVGJ3g3NwL1/bQCgsEQAwxXZdhyL6zHWA73MY407qesP
+         QTY9ctb3Lt5ic3lSU0Y1l52B6rq0KncmWDfkkzI2vjCoKNU+VHJ1s4278BngV5gA18NG
+         PDww==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject;
-        bh=8TJw62LS6b76uDSkKr2F3IBqwny3MN7E3+jF3OYyHmI=;
-        b=0wd2Xdr/+k0mFqWEujWu2HYrXVoIssbpItSBckDn/ZymMjXgxN8dvMi2Yb+UfkdQg0
-         dr7d+T2L8yoPhzjto+lSk+o0AlBc/z3PMPrT3IBj/AGuR4jUbfNL+0gqph8iAUQ+IoJC
-         eGaQBHTCi+vmD44Ab+8oU6UOecKaiKWspIE9uDgV19XpeuFAGX6zMBB8W6TjwBvcCPQK
-         pYRoXvuYOxkaW4f71VnySq14rNUzby1iWo1Ndgjkc+IhAO+4e+Y4eX+o1CPFrlYmzDTx
-         alwWFoU5S6KVWBqLexAclwx0qSQYRMDt7oNv0ON7Tj25z8fmj3pyEcTj4/hImcmZMZYr
-         5+Vw==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:dkim-signature;
+        bh=DqOTob3AwioDey1KiiTHJajU7QOQhnFPsLrIyrA03QM=;
+        b=AjFm44sQwJoPt9H2LwF5cNLM/jF1q0VIUWF0hEgfP0efbwNKJaiJdAeWoPirpoJMJT
+         //gcuLyfZ71+PGrujYIM3yQ9GzALULKHK9Ptl/QauvId9rkVrmNw541CmqAUW9Z9CZnY
+         v/B+8GT13ZRuZ3/UXXR4NYvNKykdwyaJbm/DDlocO9PmxrSF9+Mdght3qWbqcVW8dF27
+         cLK95DKa2u2XNuaPmo1WbepP+0YvKtB0sH5KGYY8cjf79F7CVU7txRJ73RMEb71aN6tl
+         KxG18z6UaAaEZe/JCc39xcgBjymjr8OUKlLT+R69BnMhkDRD44CNblqRhR7Vwi5v6YsS
+         MY6Q==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=vincenzo.frascino@arm.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
-Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
-        by gmr-mx.google.com with ESMTP id d2si227519pfr.4.2020.11.04.09.46.13
-        for <kasan-dev@googlegroups.com>;
-        Wed, 04 Nov 2020 09:46:13 -0800 (PST)
-Received-SPF: pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8B93A139F;
-	Wed,  4 Nov 2020 09:46:12 -0800 (PST)
-Received: from [10.37.12.41] (unknown [10.37.12.41])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A09DC3F718;
-	Wed,  4 Nov 2020 09:46:09 -0800 (PST)
-Subject: Re: [PATCH v5 02/40] arm64: mte: Add in-kernel MTE helpers
-To: Andrey Konovalov <andreyknvl@google.com>,
- Dmitry Vyukov <dvyukov@google.com>, Catalin Marinas <catalin.marinas@arm.com>
-Cc: Will Deacon <will.deacon@arm.com>, kasan-dev
- <kasan-dev@googlegroups.com>, Andrey Ryabinin <aryabinin@virtuozzo.com>,
- Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>,
- Evgenii Stepanov <eugenis@google.com>, Elena Petrova <lenaptr@google.com>,
- Branislav Rankov <Branislav.Rankov@arm.com>,
- Kevin Brodsky <kevin.brodsky@arm.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Linux-MM <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>
-References: <cover.1602535397.git.andreyknvl@google.com>
- <94dfda607f7f7a28a5df9ee68703922aa9a52a1e.1602535397.git.andreyknvl@google.com>
- <CACT4Y+YhWM0MhS8wVsAmFmpBf4A8yDTLuV-JXtFYr79FJ9GGrQ@mail.gmail.com>
- <CAAeHK+wCO+J7D1_T89DG+jJrPLk3X9RsGFKxJGd0ZcUFjQT-9Q@mail.gmail.com>
-From: Vincenzo Frascino <vincenzo.frascino@arm.com>
-Message-ID: <03d63c72-52fa-70e1-ecb9-657b2f300acd@arm.com>
-Date: Wed, 4 Nov 2020 17:49:10 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+       dkim=pass header.i=@ibm.com header.s=pp1 header.b=RvC4Qqbr;
+       spf=pass (google.com: domain of gor@linux.ibm.com designates 148.163.158.5 as permitted sender) smtp.mailfrom=gor@linux.ibm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=ibm.com
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com. [148.163.158.5])
+        by gmr-mx.google.com with ESMTPS id v18si225003uat.0.2020.11.04.11.11.15
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 04 Nov 2020 11:11:15 -0800 (PST)
+Received-SPF: pass (google.com: domain of gor@linux.ibm.com designates 148.163.158.5 as permitted sender) client-ip=148.163.158.5;
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 0A4J1IjH073873;
+	Wed, 4 Nov 2020 14:11:13 -0500
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com with ESMTP id 34kga5sp22-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 04 Nov 2020 14:11:13 -0500
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0A4J1daw075836;
+	Wed, 4 Nov 2020 14:11:13 -0500
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com [169.51.49.102])
+	by mx0a-001b2d01.pphosted.com with ESMTP id 34kga5sp14-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 04 Nov 2020 14:11:12 -0500
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+	by ppma06ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0A4J7FfV021411;
+	Wed, 4 Nov 2020 19:11:10 GMT
+Received: from b06cxnps4076.portsmouth.uk.ibm.com (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
+	by ppma06ams.nl.ibm.com with ESMTP id 34h0fcvn3v-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 04 Nov 2020 19:11:10 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com [9.149.105.58])
+	by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 0A4JB8vK7209622
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 4 Nov 2020 19:11:08 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 3B5764C044;
+	Wed,  4 Nov 2020 19:11:08 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 17A034C040;
+	Wed,  4 Nov 2020 19:11:07 +0000 (GMT)
+Received: from localhost (unknown [9.145.163.252])
+	by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+	Wed,  4 Nov 2020 19:11:06 +0000 (GMT)
+Date: Wed, 4 Nov 2020 20:11:05 +0100
+From: Vasily Gorbik <gor@linux.ibm.com>
+To: Andrey Konovalov <andreyknvl@google.com>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        kasan-dev@googlegroups.com, Dmitry Vyukov <dvyukov@google.com>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Alexander Potapenko <glider@google.com>,
+        Marco Elver <elver@google.com>, Evgenii Stepanov <eugenis@google.com>,
+        Elena Petrova <lenaptr@google.com>,
+        Branislav Rankov <Branislav.Rankov@arm.com>,
+        Kevin Brodsky <kevin.brodsky@arm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v7 16/41] kasan: rename KASAN_SHADOW_* to KASAN_GRANULE_*
+Message-ID: <your-ad-here.call-01604517065-ext-2603@work.hours>
+References: <cover.1604333009.git.andreyknvl@google.com>
+ <4dee872cf377e011290bbe2e90c7e7fd24e789dd.1604333009.git.andreyknvl@google.com>
 MIME-Version: 1.0
-In-Reply-To: <CAAeHK+wCO+J7D1_T89DG+jJrPLk3X9RsGFKxJGd0ZcUFjQT-9Q@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Language: en-US
-X-Original-Sender: vincenzo.frascino@arm.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172
- as permitted sender) smtp.mailfrom=vincenzo.frascino@arm.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
+Content-Disposition: inline
+In-Reply-To: <4dee872cf377e011290bbe2e90c7e7fd24e789dd.1604333009.git.andreyknvl@google.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312,18.0.737
+ definitions=2020-11-04_12:2020-11-04,2020-11-04 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 mlxscore=0
+ malwarescore=0 clxscore=1011 impostorscore=0 mlxlogscore=999 adultscore=0
+ bulkscore=0 priorityscore=1501 suspectscore=1 phishscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2011040135
+X-Original-Sender: gor@linux.ibm.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@ibm.com header.s=pp1 header.b=RvC4Qqbr;       spf=pass (google.com:
+ domain of gor@linux.ibm.com designates 148.163.158.5 as permitted sender)
+ smtp.mailfrom=gor@linux.ibm.com;       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=ibm.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -141,87 +179,46 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hi Andrey/Dmitry,
+On Mon, Nov 02, 2020 at 05:03:56PM +0100, Andrey Konovalov wrote:
+> This is a preparatory commit for the upcoming addition of a new hardware
+> tag-based (MTE-based) KASAN mode.
+> 
+> The new mode won't be using shadow memory, but will still use the concept
+> of memory granules. Each memory granule maps to a single metadata entry:
+> 8 bytes per one shadow byte for generic mode, 16 bytes per one shadow byte
+> for software tag-based mode, and 16 bytes per one allocation tag for
+> hardware tag-based mode.
+> 
+> Rename KASAN_SHADOW_SCALE_SIZE to KASAN_GRANULE_SIZE, and KASAN_SHADOW_MASK
+> to KASAN_GRANULE_MASK.
+> 
+> Also use MASK when used as a mask, otherwise use SIZE.
+> 
+> No functional changes.
+> 
+> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+> Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
+> Reviewed-by: Marco Elver <elver@google.com>
+> ---
+> Change-Id: Iac733e2248aa9d29f6fc425d8946ba07cca73ecf
+> ---
+>  Documentation/dev-tools/kasan.rst |  2 +-
+>  lib/test_kasan.c                  |  2 +-
+>  mm/kasan/common.c                 | 39 ++++++++++++++++---------------
+>  mm/kasan/generic.c                | 14 +++++------
+>  mm/kasan/generic_report.c         |  8 +++----
+>  mm/kasan/init.c                   |  8 +++----
+>  mm/kasan/kasan.h                  |  4 ++--
+>  mm/kasan/report.c                 | 10 ++++----
+>  mm/kasan/tags_report.c            |  2 +-
+>  9 files changed, 45 insertions(+), 44 deletions(-)
 
-sorry I missed this one.
+hm, this one got escaped somehow
 
-On 10/29/20 4:50 PM, Andrey Konovalov wrote:
-> On Wed, Oct 28, 2020 at 12:28 PM Dmitry Vyukov <dvyukov@google.com> wrote:
->>
-> 
-> [...]
-> 
->>> +void *mte_set_mem_tag_range(void *addr, size_t size, u8 tag)
->>> +{
->>> +       void *ptr = addr;
->>> +
->>> +       if ((!system_supports_mte()) || (size == 0))
->>> +               return addr;
->>> +
->>> +       /* Make sure that size is MTE granule aligned. */
->>> +       WARN_ON(size & (MTE_GRANULE_SIZE - 1));
->>> +
->>> +       /* Make sure that the address is MTE granule aligned. */
->>> +       WARN_ON((u64)addr & (MTE_GRANULE_SIZE - 1));
->>> +
->>> +       tag = 0xF0 | tag;
->>> +       ptr = (void *)__tag_set(ptr, tag);
->>> +
->>> +       mte_assign_mem_tag_range(ptr, size);
->>
->> This function will be called on production hot paths. I think it makes
->> sense to shave off some overheads here.
->>
->> The additional debug checks may be useful, so maybe we need an
->> additional debug mode (debug of MTE/KASAN itself)?
->>
->> Do we ever call this when !system_supports_mte()? I think we wanted to
->> have static_if's higher up the stack. Having additional checks
->> scattered across lower-level functions is overhead for every
->> malloc/free.
->>
->> Looking at how this is called from KASAN code.
->> KASAN code already ensures addr/size are properly aligned. I think we
->> should either remove the duplicate alignment checks, or do them only
->> in the additional debugging mode.
->> Does KASAN also ensure proper tag value (0xF0 mask)?
->>
->> KASAN wrapper is inlined in this patch:
->> https://linux-review.googlesource.com/c/linux/kernel/git/torvalds/linux/+/3699
->> but here we still have 2 non-inlined calls. The
->> mte_assign_mem_tag_range is kinda inherent since it's in .S. But then
->> I think this wrapper should be inlinable.
->>
->> Also, can we move mte_assign_mem_tag_range into inline asm in the
->> header? This would avoid register spills around the call in
->> malloc/free.
->>
->> The asm code seems to do the rounding of the size up at no additional
->> cost (checks remaining size > 0, right?). I think it makes sense to
->> document that as the contract and remove the additional round_up(size,
->> KASAN_GRANULE_SIZE) in KASAN code.
-> 
-> These are all valid concerns. It would be great to have inline asm
-> mte_assign_mem_tag_range() implementation. We can also call it
-> directly from KASAN code without all these additional checks.
-> 
-> Perhaps it makes sense to include this change into the other series
-> that adds the production mode. And then squash if we decide to put
-> both changes into a single one.
-> 
-> Vincenzo, could you write a patch that adds inline asm
-> mte_assign_mem_tag_range() implementation?
-> 
-
-As Andrey said those are valid concerns, this function was originally thought
-for the debugging version of kasan, but since we are planning to use it in
-production the inline optimization sounds a good approach.
-
--- 
-Regards,
-Vincenzo
+lib/test_kasan_module.c:
+18 #define OOB_TAG_OFF (IS_ENABLED(CONFIG_KASAN_GENERIC) ? 0 : KASAN_SHADOW_SCALE_SIZE)
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/03d63c72-52fa-70e1-ecb9-657b2f300acd%40arm.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/your-ad-here.call-01604517065-ext-2603%40work.hours.
