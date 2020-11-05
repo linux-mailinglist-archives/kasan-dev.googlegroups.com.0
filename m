@@ -1,124 +1,123 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBJUIR76QKGQEU2LJZ3Y@googlegroups.com>
+Return-Path: <kasan-dev+bncBDV37XP3XYDRB75SR76QKGQEMU64DSY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oo1-xc3c.google.com (mail-oo1-xc3c.google.com [IPv6:2607:f8b0:4864:20::c3c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 159F12A7A58
-	for <lists+kasan-dev@lfdr.de>; Thu,  5 Nov 2020 10:21:43 +0100 (CET)
-Received: by mail-oo1-xc3c.google.com with SMTP id d6sf464826ooi.7
-        for <lists+kasan-dev@lfdr.de>; Thu, 05 Nov 2020 01:21:43 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1604568102; cv=pass;
+Received: from mail-oo1-xc3d.google.com (mail-oo1-xc3d.google.com [IPv6:2607:f8b0:4864:20::c3d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A1A32A7C4C
+	for <lists+kasan-dev@lfdr.de>; Thu,  5 Nov 2020 11:52:48 +0100 (CET)
+Received: by mail-oo1-xc3d.google.com with SMTP id t9sf565178oon.9
+        for <lists+kasan-dev@lfdr.de>; Thu, 05 Nov 2020 02:52:48 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1604573567; cv=pass;
         d=google.com; s=arc-20160816;
-        b=joMWNb5JIZpJJJHkmv3DfElvuD5zQUKDJ1rQke5RNJFK413Sv0v0rUf6f/9+sgs2b8
-         EQK6GCuhFj+vQRSM0ZXItRl3UQGzhm+bREcVfcnBbbYO3tXnbfMoMpGUD3af4em8yKbd
-         onvmBCGoLBxsQiRKbri2+Nft1uaIXDeedpN1VcJxHOHKcitF5y1HydLUCObdpAIJKVyS
-         u11d3oGjxrmz7WMJM/78DFGoodZLhMc4DSuZmuvUTX758vq8UqlnIhtb13jdg9MZNMTK
-         3GUDzg58Cnrq6jxMXOAIAV6fiBo3tiYLGY6WtpSBDAZe9Xu4oFxwMlWdOaClVaqoLMTN
-         rJPw==
+        b=Cs59Li7OCQUy9KNiPb8GsUsLvX23J6bTSDyG+LLb/etzF8arFAshWolZW5H9sttidg
+         9rYWwR9DgOfXJ/0SoNbvshGPD8ktPcHE+EzawLs0DTjx/RhAlAjrGraNbxmyyXaBwOh4
+         K4BhPaV1ZqscBpODc0aV3zJHfigyIm9wD6F4jox74qPyUFdFBvj9EbZvGd/fbFHi8/Tn
+         MD6trTZilskRsCMRB+rmQEwPtOxdjnZIqt7eclWAHIjFDvHMSIJltYw7NmAjqafJlzxa
+         c8ZfT4JjXGNQ57ayX0zRMOU/Sm4HxpZn8JPmazOl1+aecL8hTdEkwHmlomDG6NpblJyk
+         dFeg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
-         :mime-version:message-id:date:sender:dkim-signature;
-        bh=PsSZHfnn/OuZhgfh9/pXUjMNkZBCAO44MIYX9oq84VE=;
-        b=0ugRQ+W8DS4Jayx1+rHfzRwv/uClORwbsFNLtkuQvyMoDYEV9DrPjcVoZQlz0vRVBd
-         tC6sD1gvG7sc1CtLHaewo4j7598mOrgM/1443GN5XiDCME1Rt3hZuz3/JBg4KM2RIWg8
-         6BDzLao9U8y1uoA4eLbp45v+9AbdwJLXD4ZCyPhJAQyVM1cU3IM8H28uDBUYihP4TLPY
-         ADPE4ExJHGCkyXMKzA+USrKaBmhRBXmPzdvwYtvbBLlwYtPrQQvBJLLwzctFZA6w2hp8
-         gqSVzHWpojmvExOO6xXcEBqU/3OGfeqBV3GM+621AcLlPyuttyosXi++BvqYN9TvhXgX
-         Jc1A==
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature;
+        bh=SB2lPkZrKj058lcGKXjzfdAsMIuZ/2MkDqWjLLMY/Uo=;
+        b=Z5IcOvZUoX58DM3PtspA2sHNI9dEsnlzs9s8QclJ9hnBnZcnL/St8Siid7Pc91Gyjs
+         CkcOIDFY6d1rRzLL+eTwjc0kzYWDmDFgEYlVijVO8CwK8f79sxXGTsVAyx7dd+NV0oLK
+         zODIwDdVCD42OaUvI3m511d7HgZJ1Io/qgkQFp1RPrl/5JhRIn77F65mHBY3QcqvshbK
+         HZdORlhegs8ruv3aC+uiXqUkgi/ydrgcrjp6Fo5LjFzsZU1QAZMni6Jm8NhgadgMQUJY
+         KsqalGw2Jy0TzHCr7bjPezwxwbKpKZRLQErKzl4x0WB7yqQjBnzgIJBbW5LRq6OzZHF2
+         4nOw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=t80j7HIk;
-       spf=pass (google.com: domain of 3jcsjxwukcuagnxgtiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::f4a as permitted sender) smtp.mailfrom=3JcSjXwUKCUAgnxgtiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--elver.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       spf=pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=mark.rutland@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:date:message-id:mime-version:subject:from:to:cc
-         :x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=PsSZHfnn/OuZhgfh9/pXUjMNkZBCAO44MIYX9oq84VE=;
-        b=HlQa18q8rhQwlBRNr9F8Jn5QYbZKKXzqtdpRQZgwEke5Q7UhsnfB40UF+rZHe81ItD
-         dMOZvs5sAeJtiWH1LH2dwSbpFWNJDPcdDDMZZNNuvT0HcxGexDPtvKwFQwkDa4sQ5TkA
-         XZglSIzN1iltxJhcyfnix7ywAzRV54U6jYa3+JVRDmEjAlTawC0FeEGDG8F6w0tW/axQ
-         4ibbOiepE5zrkCYh0cT7vw+OYw1wDMA4fTemrycdEe7JkbbDEoHw2z09IzQKo978MVOx
-         BgtL4j9wa20oVse4q9PhPPQpf/ceoPPpLpsR0bno2Nwy+Jw6XSjDDbvaXPlilUopIuBY
-         nJPA==
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=SB2lPkZrKj058lcGKXjzfdAsMIuZ/2MkDqWjLLMY/Uo=;
+        b=jCpf3XSz0D8/E7sZ1e4xrTcUCuiMRnajp0s2z4XoallzwigXm56gfu9YtQZeDOQxXq
+         K99OYwc6no/N17mZIkiT74otcp8loZe39E4+wfYOahfjX1hu0RvQ4TSEaLC2eAELRWjI
+         GF0TZR6pWpKwN7PeSFbmAmMpAByLAUa7Y9DMYlrtNNBdRTTrMhV6Bnfmqh2nKcFhh7YI
+         /bLlXfSBS/rUXoLlSunZfEf2ae47cAtpl3UUWBJJg3Dh7/QD9vqn6MBVzBeTMH5iBm32
+         //K5Rzy0gJ4fl6ShqB1+Ve5ymXW4cKfjHGXaxG0zkTz+KV8XPyvCqmRpTR80oF03h1ke
+         L5EQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
-         :to:cc:x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=PsSZHfnn/OuZhgfh9/pXUjMNkZBCAO44MIYX9oq84VE=;
-        b=XiQi95j4Yrt4gHabBZK4oau+jL2kPthCVvAD4iDxPUnVTsgIKqDoQNUzY7Jl+53dBQ
-         A7yZP7pFJKac8MC7xauAWhuf+z6QxsaYlWDXgDUTlP+iSQolbxgE6FQf/321WFBDQPo4
-         rZoAuS93E7N8K/GrxU1S2Zwhka9U4ekUkrKzV2DJrzhubpTaQlXN8NoJLbL7UZ6hzjoj
-         4ei5fQPwSyFdRvtI6+vTxQOpwanP38zhYDT3D5jqG+a4taPqPTKRZpgbZkmY/iEEiIi2
-         sI+6sbR7wU40QqDilOjTia0b77lJyzqn1gvnvhfCAT0dCPQoTQvprK7N9Md8AjIhC4XO
-         u6Hw==
-X-Gm-Message-State: AOAM533HUcNS6aY8T0oS0b2egKgtxdsRkG78JZsH7jPAKrhZ5x+/jmhq
-	N1dtPb411JYjAi6JbZJA24k=
-X-Google-Smtp-Source: ABdhPJzl7KR0M+lmxXJaHOMcd6nWR/qgRB9e8PILRfqw46NyS4JpSgWvf315HzbZUmDZC/i8WSSnKg==
-X-Received: by 2002:aca:5113:: with SMTP id f19mr919427oib.41.1604568102103;
-        Thu, 05 Nov 2020 01:21:42 -0800 (PST)
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=SB2lPkZrKj058lcGKXjzfdAsMIuZ/2MkDqWjLLMY/Uo=;
+        b=O71dv1htQKPyvqjcBhzzhagpXJNvyzNeWknFeQtDeMhonVjmkH06+cXDNe8DoXXitZ
+         oyUVEzMp91Bv+AUpwIoDYIgL830hZy9tT5ZhVa+HpJERAHyoh1901PbOLNbIepIdpBin
+         hTf09mUfRzMvxardJE3XloIzRzL7rVm2fLmEXIUG2Nj0+7nT2PGVBzkdUK1N0S0t9b3W
+         IECwAMt3JTY0SjxdLIAkRTe0bMAbNivRx/sqZH3Lg7ILreAidMQueJdO+ci0zr9yRCUm
+         CjERwthPzeiyjHYacAux9RKrXZ3OjG/vXvDzmcdCwicWiONEHD8WI0U2jGr7kRW9WyGF
+         sqNA==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM5326NIin16KYUtG2PQbRmQdeRm8ggkQ7YyoZQ9nSQ34CCNlGcTIW
+	6gxmrWfnWioJnLlnRZ1N35k=
+X-Google-Smtp-Source: ABdhPJzSVp6NUob09+kCC6eIRus5iO/7U9KB+99MZ5IKlWtDQBkg+GBNYxzPHtCwFjrcJj3zUXKrHg==
+X-Received: by 2002:a05:6830:1e18:: with SMTP id s24mr1316076otr.40.1604573567140;
+        Thu, 05 Nov 2020 02:52:47 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6808:14a:: with SMTP id h10ls238915oie.11.gmail; Thu, 05
- Nov 2020 01:21:41 -0800 (PST)
-X-Received: by 2002:aca:35d6:: with SMTP id c205mr1018639oia.115.1604568101693;
-        Thu, 05 Nov 2020 01:21:41 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1604568101; cv=none;
+Received: by 2002:a9d:198c:: with SMTP id k12ls327531otk.3.gmail; Thu, 05 Nov
+ 2020 02:52:46 -0800 (PST)
+X-Received: by 2002:a9d:bec:: with SMTP id 99mr1315565oth.103.1604573566752;
+        Thu, 05 Nov 2020 02:52:46 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1604573566; cv=none;
         d=google.com; s=arc-20160816;
-        b=BNNTIEF0sR4kh3VlWbER/HmhffxMwqTjDjb4KnW7lDisPlJg7jIK01avOMV6kJ0ULl
-         Zmw1BNZklHVNfbd5IQJIHwiqQP99rV2sIXywzePuxJXKtglGl0aZRk+L84NcVXaUz/2r
-         wa+GGhRnuxKMhz66ioc9exYgbZoeFZQY7/8cx5Hk7zz60ovpCnZv/Oy7if19mpuPZKc0
-         UMiq6GNgMeFQ0aWn1Sb7jxbOeMSbV9whYIuInP6V5ABw6JFewPpWjRgtSAjdGC+gqb0Q
-         4ajjKwKOr5d2zJ6umxTDb8WLnJzVfkcJVOYQpatB722bh6gBHpgW5IwpZuHXMr6l7omU
-         /FYA==
+        b=sGIBnOzW4lit9wQeJlCAO5HPx0YbI2F9EcP8miUhdmUfYQLCDBxDfsz3L7m13xnFHv
+         PZpcTwyPCr/SYorf7f4RfwC4Jao/XsjrejrFOV/f4vmp1rnsDlzTvSvdTVf7+ERuic1O
+         H0j6aT/1k1ZXsZZAN7u7oj2j/KA8HQs5627nZX55t0YVT+tJPV7Mp7efrJ3WHklAOnTI
+         Aoi1AJG+Xs5w7dhkY05C9Xl+ThzKTq4blwlbsUFgUIEFFcIA5VMG/itQ6cUKaF0/GXSR
+         QB62zYIZpamHOTycE+WE6Fk/U5MCPY+dCNwm8rI2/yWN6vQgNgQ93FBaD+ECUluilMy8
+         O/qw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:from:subject:mime-version:message-id:date:sender
-         :dkim-signature;
-        bh=bFemS5lF24Ay3Ly62yBwjbW4q0e7c3wKlLqU+bgvo/I=;
-        b=hazPkssny239nfDAQr3O8XRwom2uD/vkkGfowP6LgVphOg4HsJDshog6ABuhbwWf3U
-         Z9etcr3RxevKdX1+jKh79c5jPL99s6cnBdDPfbtNmvHaa7jnHjLOeEvK3q6/h3Cr4uIT
-         GDkfVlhzdRm3JUdUgoSRkdGt3/1/5e9GM0t0uUCphv1Rmi/fHV5CWLEBfaxIXpkpwGKD
-         WluDJsrjwIe4rnBg59VJiEizb3vJDK8UFpSB2A7u7V3v28ewO5icyVuJHpeZrn1a+rXQ
-         5+f6vMOiGfKBId4NiLqEq3HQk55Y+reBb5hbT9OB0PbZZd6owkPscMt7ivQJX/UWS6VU
-         +OTw==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date;
+        bh=u0NA5dPnRkR7m3lDgFsmUzkIoVs3muL8yffUFGL0FN8=;
+        b=GkkGG/oakgrj9OQXslS11xhw7nDbFZdEsl5mCpbIZDMJ2gqz9p0gGAzD90szI5f+iN
+         GsUGeiozMMl05RDuUVVkIjAg6X8eMyfNOkgvy8CJwTc2OYsU1HE0K1/HiG6U92QpyA1S
+         A0a8JQ8nh3fMhP/1D6/Nf+p+861Qdb+oXCdNzsjuMRzzHSuTFV8+1RPTbm0CYsi73gRN
+         0cixSXy8ZHXZsBQO3zKVMY0T2lO+xBoQnaTfmq9L3EJz9DqcGW0MRgFe5BI8046eouiQ
+         pTkcYuKa76uZAFDusfyj3EtkOFSd3Hr5CdMys0ClAHLogYjIFhPJcdrlpMMzB3nylXmn
+         mb5g==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=t80j7HIk;
-       spf=pass (google.com: domain of 3jcsjxwukcuagnxgtiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::f4a as permitted sender) smtp.mailfrom=3JcSjXwUKCUAgnxgtiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--elver.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-qv1-xf4a.google.com (mail-qv1-xf4a.google.com. [2607:f8b0:4864:20::f4a])
-        by gmr-mx.google.com with ESMTPS id p17si73729oot.0.2020.11.05.01.21.41
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 05 Nov 2020 01:21:41 -0800 (PST)
-Received-SPF: pass (google.com: domain of 3jcsjxwukcuagnxgtiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::f4a as permitted sender) client-ip=2607:f8b0:4864:20::f4a;
-Received: by mail-qv1-xf4a.google.com with SMTP id s9so497334qvt.13
-        for <kasan-dev@googlegroups.com>; Thu, 05 Nov 2020 01:21:41 -0800 (PST)
-Sender: "elver via sendgmr" <elver@elver.muc.corp.google.com>
-X-Received: from elver.muc.corp.google.com ([2a00:79e0:15:13:f693:9fff:fef4:2449])
- (user=elver job=sendgmr) by 2002:a0c:b44a:: with SMTP id e10mr1321540qvf.4.1604568101175;
- Thu, 05 Nov 2020 01:21:41 -0800 (PST)
-Date: Thu,  5 Nov 2020 10:21:33 +0100
-Message-Id: <20201105092133.2075331-1-elver@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.29.1.341.ge80a0c044ae-goog
-Subject: [PATCH] kfence: Use pt_regs to generate stack trace on faults
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-To: elver@google.com, akpm@linux-foundation.org
-Cc: glider@google.com, dvyukov@google.com, jannh@google.com, 
-	mark.rutland@arm.com, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	kasan-dev@googlegroups.com, x86@kernel.org, 
+       spf=pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=mark.rutland@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
+Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
+        by gmr-mx.google.com with ESMTP id n185si60736oih.3.2020.11.05.02.52.46
+        for <kasan-dev@googlegroups.com>;
+        Thu, 05 Nov 2020 02:52:46 -0800 (PST)
+Received-SPF: pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 63BAE142F;
+	Thu,  5 Nov 2020 02:52:46 -0800 (PST)
+Received: from C02TD0UTHF1T.local (unknown [10.57.58.72])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 848743F66E;
+	Thu,  5 Nov 2020 02:52:44 -0800 (PST)
+Date: Thu, 5 Nov 2020 10:52:41 +0000
+From: Mark Rutland <mark.rutland@arm.com>
+To: Marco Elver <elver@google.com>
+Cc: akpm@linux-foundation.org, glider@google.com, dvyukov@google.com,
+	jannh@google.com, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	kasan-dev@googlegroups.com, x86@kernel.org,
 	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH] kfence: Use pt_regs to generate stack trace on faults
+Message-ID: <20201105105241.GC82102@C02TD0UTHF1T.local>
+References: <20201105092133.2075331-1-elver@google.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=t80j7HIk;       spf=pass
- (google.com: domain of 3jcsjxwukcuagnxgtiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--elver.bounces.google.com
- designates 2607:f8b0:4864:20::f4a as permitted sender) smtp.mailfrom=3JcSjXwUKCUAgnxgtiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--elver.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+Content-Disposition: inline
+In-Reply-To: <20201105092133.2075331-1-elver@google.com>
+X-Original-Sender: mark.rutland@arm.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as
+ permitted sender) smtp.mailfrom=mark.rutland@arm.com;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=arm.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -131,293 +130,63 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Instead of removing the fault handling portion of the stack trace based
-on the fault handler's name, just use struct pt_regs directly.
+On Thu, Nov 05, 2020 at 10:21:33AM +0100, Marco Elver wrote:
+> Instead of removing the fault handling portion of the stack trace based
+> on the fault handler's name, just use struct pt_regs directly.
+> 
+> Change kfence_handle_page_fault() to take a struct pt_regs, and plumb it
+> through to kfence_report_error() for out-of-bounds, use-after-free, or
+> invalid access errors, where pt_regs is used to generate the stack
+> trace.
+> 
+> If the kernel is a DEBUG_KERNEL, also show registers for more
+> information.
+> 
+> Suggested-by: Mark Rutland <mark.rutland@arm.com>
+> Signed-off-by: Marco Elver <elver@google.com>
 
-Change kfence_handle_page_fault() to take a struct pt_regs, and plumb it
-through to kfence_report_error() for out-of-bounds, use-after-free, or
-invalid access errors, where pt_regs is used to generate the stack
-trace.
+Wow; I wasn't expecting this to be put together so quickly, thanks for
+doing this!
 
-If the kernel is a DEBUG_KERNEL, also show registers for more
-information.
+From a scan, this looks good to me -- just one question below.
 
-Suggested-by: Mark Rutland <mark.rutland@arm.com>
-Signed-off-by: Marco Elver <elver@google.com>
----
- arch/arm64/include/asm/kfence.h |  2 --
- arch/arm64/mm/fault.c           |  2 +-
- arch/x86/include/asm/kfence.h   |  6 ----
- arch/x86/mm/fault.c             |  2 +-
- include/linux/kfence.h          |  5 +--
- mm/kfence/core.c                | 10 +++---
- mm/kfence/kfence.h              |  4 +--
- mm/kfence/report.c              | 63 +++++++++++++++++++--------------
- 8 files changed, 48 insertions(+), 46 deletions(-)
+> diff --git a/include/linux/kfence.h b/include/linux/kfence.h
+> index ed2d48acdafe..98a97f9d43cd 100644
+> --- a/include/linux/kfence.h
+> +++ b/include/linux/kfence.h
+> @@ -171,6 +171,7 @@ static __always_inline __must_check bool kfence_free(void *addr)
+>  /**
+>   * kfence_handle_page_fault() - perform page fault handling for KFENCE pages
+>   * @addr: faulting address
+> + * @regs: current struct pt_regs (can be NULL, but shows full stack trace)
+>   *
+>   * Return:
+>   * * false - address outside KFENCE pool,
 
-diff --git a/arch/arm64/include/asm/kfence.h b/arch/arm64/include/asm/kfence.h
-index 5ac0f599cc9a..6c0afeeab635 100644
---- a/arch/arm64/include/asm/kfence.h
-+++ b/arch/arm64/include/asm/kfence.h
-@@ -5,8 +5,6 @@
- 
- #include <asm/cacheflush.h>
- 
--#define KFENCE_SKIP_ARCH_FAULT_HANDLER "el1_sync"
--
- static inline bool arch_kfence_init_pool(void) { return true; }
- 
- static inline bool kfence_protect_page(unsigned long addr, bool protect)
-diff --git a/arch/arm64/mm/fault.c b/arch/arm64/mm/fault.c
-index 2d60204b4ed2..183d1e6dd9e0 100644
---- a/arch/arm64/mm/fault.c
-+++ b/arch/arm64/mm/fault.c
-@@ -323,7 +323,7 @@ static void __do_kernel_fault(unsigned long addr, unsigned int esr,
- 	} else if (addr < PAGE_SIZE) {
- 		msg = "NULL pointer dereference";
- 	} else {
--		if (kfence_handle_page_fault(addr))
-+		if (kfence_handle_page_fault(addr, regs))
- 			return;
- 
- 		msg = "paging request";
-diff --git a/arch/x86/include/asm/kfence.h b/arch/x86/include/asm/kfence.h
-index beeac105dae7..2f3f877a7a5c 100644
---- a/arch/x86/include/asm/kfence.h
-+++ b/arch/x86/include/asm/kfence.h
-@@ -11,12 +11,6 @@
- #include <asm/set_memory.h>
- #include <asm/tlbflush.h>
- 
--/*
-- * The page fault handler entry function, up to which the stack trace is
-- * truncated in reports.
-- */
--#define KFENCE_SKIP_ARCH_FAULT_HANDLER "asm_exc_page_fault"
--
- /* Force 4K pages for __kfence_pool. */
- static inline bool arch_kfence_init_pool(void)
- {
-diff --git a/arch/x86/mm/fault.c b/arch/x86/mm/fault.c
-index e42db2836438..53d732161b4f 100644
---- a/arch/x86/mm/fault.c
-+++ b/arch/x86/mm/fault.c
-@@ -727,7 +727,7 @@ no_context(struct pt_regs *regs, unsigned long error_code,
- 		efi_recover_from_page_fault(address);
- 
- 	/* Only not-present faults should be handled by KFENCE. */
--	if (!(error_code & X86_PF_PROT) && kfence_handle_page_fault(address))
-+	if (!(error_code & X86_PF_PROT) && kfence_handle_page_fault(address, regs))
- 		return;
- 
- oops:
-diff --git a/include/linux/kfence.h b/include/linux/kfence.h
-index ed2d48acdafe..98a97f9d43cd 100644
---- a/include/linux/kfence.h
-+++ b/include/linux/kfence.h
-@@ -171,6 +171,7 @@ static __always_inline __must_check bool kfence_free(void *addr)
- /**
-  * kfence_handle_page_fault() - perform page fault handling for KFENCE pages
-  * @addr: faulting address
-+ * @regs: current struct pt_regs (can be NULL, but shows full stack trace)
-  *
-  * Return:
-  * * false - address outside KFENCE pool,
-@@ -181,7 +182,7 @@ static __always_inline __must_check bool kfence_free(void *addr)
-  * cases KFENCE prints an error message and marks the offending page as
-  * present, so that the kernel can proceed.
-  */
--bool __must_check kfence_handle_page_fault(unsigned long addr);
-+bool __must_check kfence_handle_page_fault(unsigned long addr, struct pt_regs *regs);
- 
- #else /* CONFIG_KFENCE */
- 
-@@ -194,7 +195,7 @@ static inline size_t kfence_ksize(const void *addr) { return 0; }
- static inline void *kfence_object_start(const void *addr) { return NULL; }
- static inline void __kfence_free(void *addr) { }
- static inline bool __must_check kfence_free(void *addr) { return false; }
--static inline bool __must_check kfence_handle_page_fault(unsigned long addr) { return false; }
-+static inline bool __must_check kfence_handle_page_fault(unsigned long addr, struct pt_regs *regs) { return false; }
- 
- #endif
- 
-diff --git a/mm/kfence/core.c b/mm/kfence/core.c
-index 9d597013cd5d..9358f42a9a9e 100644
---- a/mm/kfence/core.c
-+++ b/mm/kfence/core.c
-@@ -212,7 +212,7 @@ static inline bool check_canary_byte(u8 *addr)
- 		return true;
- 
- 	atomic_long_inc(&counters[KFENCE_COUNTER_BUGS]);
--	kfence_report_error((unsigned long)addr, addr_to_metadata((unsigned long)addr),
-+	kfence_report_error((unsigned long)addr, NULL, addr_to_metadata((unsigned long)addr),
- 			    KFENCE_ERROR_CORRUPTION);
- 	return false;
- }
-@@ -351,7 +351,7 @@ static void kfence_guarded_free(void *addr, struct kfence_metadata *meta, bool z
- 	if (meta->state != KFENCE_OBJECT_ALLOCATED || meta->addr != (unsigned long)addr) {
- 		/* Invalid or double-free, bail out. */
- 		atomic_long_inc(&counters[KFENCE_COUNTER_BUGS]);
--		kfence_report_error((unsigned long)addr, meta, KFENCE_ERROR_INVALID_FREE);
-+		kfence_report_error((unsigned long)addr, NULL, meta, KFENCE_ERROR_INVALID_FREE);
- 		raw_spin_unlock_irqrestore(&meta->lock, flags);
- 		return;
- 	}
-@@ -752,7 +752,7 @@ void __kfence_free(void *addr)
- 		kfence_guarded_free(addr, meta, false);
- }
- 
--bool kfence_handle_page_fault(unsigned long addr)
-+bool kfence_handle_page_fault(unsigned long addr, struct pt_regs *regs)
- {
- 	const int page_index = (addr - (unsigned long)__kfence_pool) / PAGE_SIZE;
- 	struct kfence_metadata *to_report = NULL;
-@@ -815,11 +815,11 @@ bool kfence_handle_page_fault(unsigned long addr)
- 
- out:
- 	if (to_report) {
--		kfence_report_error(addr, to_report, error_type);
-+		kfence_report_error(addr, regs, to_report, error_type);
- 		raw_spin_unlock_irqrestore(&to_report->lock, flags);
- 	} else {
- 		/* This may be a UAF or OOB access, but we can't be sure. */
--		kfence_report_error(addr, NULL, KFENCE_ERROR_INVALID);
-+		kfence_report_error(addr, regs, NULL, KFENCE_ERROR_INVALID);
- 	}
- 
- 	return kfence_unprotect(addr); /* Unprotect and let access proceed. */
-diff --git a/mm/kfence/kfence.h b/mm/kfence/kfence.h
-index f115aabc2052..fa3579d03089 100644
---- a/mm/kfence/kfence.h
-+++ b/mm/kfence/kfence.h
-@@ -99,8 +99,8 @@ enum kfence_error_type {
- 	KFENCE_ERROR_INVALID_FREE,	/* Invalid free. */
- };
- 
--void kfence_report_error(unsigned long address, const struct kfence_metadata *meta,
--			 enum kfence_error_type type);
-+void kfence_report_error(unsigned long address, struct pt_regs *regs,
-+			 const struct kfence_metadata *meta, enum kfence_error_type type);
- 
- void kfence_print_object(struct seq_file *seq, const struct kfence_metadata *meta);
- 
-diff --git a/mm/kfence/report.c b/mm/kfence/report.c
-index 0fdaa3ddf1b4..4dedc2ff8f28 100644
---- a/mm/kfence/report.c
-+++ b/mm/kfence/report.c
-@@ -5,6 +5,7 @@
- #include <linux/kernel.h>
- #include <linux/lockdep.h>
- #include <linux/printk.h>
-+#include <linux/sched/debug.h>
- #include <linux/seq_file.h>
- #include <linux/stacktrace.h>
- #include <linux/string.h>
-@@ -36,7 +37,6 @@ static int get_stack_skipnr(const unsigned long stack_entries[], int num_entries
- {
- 	char buf[64];
- 	int skipnr, fallback = 0;
--	bool is_access_fault = false;
- 
- 	if (type) {
- 		/* Depending on error type, find different stack entries. */
-@@ -44,8 +44,12 @@ static int get_stack_skipnr(const unsigned long stack_entries[], int num_entries
- 		case KFENCE_ERROR_UAF:
- 		case KFENCE_ERROR_OOB:
- 		case KFENCE_ERROR_INVALID:
--			is_access_fault = true;
--			break;
-+			/*
-+			 * kfence_handle_page_fault() may be called with pt_regs
-+			 * set to NULL; in that case we'll simply show the full
-+			 * stack trace.
-+			 */
-+			return 0;
- 		case KFENCE_ERROR_CORRUPTION:
- 		case KFENCE_ERROR_INVALID_FREE:
- 			break;
-@@ -55,26 +59,21 @@ static int get_stack_skipnr(const unsigned long stack_entries[], int num_entries
- 	for (skipnr = 0; skipnr < num_entries; skipnr++) {
- 		int len = scnprintf(buf, sizeof(buf), "%ps", (void *)stack_entries[skipnr]);
- 
--		if (is_access_fault) {
--			if (!strncmp(buf, KFENCE_SKIP_ARCH_FAULT_HANDLER, len))
--				goto found;
--		} else {
--			if (str_has_prefix(buf, "kfence_") || str_has_prefix(buf, "__kfence_") ||
--			    !strncmp(buf, "__slab_free", len)) {
--				/*
--				 * In case of tail calls from any of the below
--				 * to any of the above.
--				 */
--				fallback = skipnr + 1;
--			}
--
--			/* Also the *_bulk() variants by only checking prefixes. */
--			if (str_has_prefix(buf, "kfree") ||
--			    str_has_prefix(buf, "kmem_cache_free") ||
--			    str_has_prefix(buf, "__kmalloc") ||
--			    str_has_prefix(buf, "kmem_cache_alloc"))
--				goto found;
-+		if (str_has_prefix(buf, "kfence_") || str_has_prefix(buf, "__kfence_") ||
-+		    !strncmp(buf, "__slab_free", len)) {
-+			/*
-+			 * In case of tail calls from any of the below
-+			 * to any of the above.
-+			 */
-+			fallback = skipnr + 1;
- 		}
-+
-+		/* Also the *_bulk() variants by only checking prefixes. */
-+		if (str_has_prefix(buf, "kfree") ||
-+		    str_has_prefix(buf, "kmem_cache_free") ||
-+		    str_has_prefix(buf, "__kmalloc") ||
-+		    str_has_prefix(buf, "kmem_cache_alloc"))
-+			goto found;
- 	}
- 	if (fallback < num_entries)
- 		return fallback;
-@@ -152,13 +151,20 @@ static void print_diff_canary(unsigned long address, size_t bytes_to_show,
- 	pr_cont(" ]");
- }
- 
--void kfence_report_error(unsigned long address, const struct kfence_metadata *meta,
--			 enum kfence_error_type type)
-+void kfence_report_error(unsigned long address, struct pt_regs *regs,
-+			 const struct kfence_metadata *meta, enum kfence_error_type type)
- {
- 	unsigned long stack_entries[KFENCE_STACK_DEPTH] = { 0 };
--	int num_stack_entries = stack_trace_save(stack_entries, KFENCE_STACK_DEPTH, 1);
--	int skipnr = get_stack_skipnr(stack_entries, num_stack_entries, &type);
- 	const ptrdiff_t object_index = meta ? meta - kfence_metadata : -1;
-+	int num_stack_entries;
-+	int skipnr = 0;
-+
-+	if (regs) {
-+		num_stack_entries = stack_trace_save_regs(regs, stack_entries, KFENCE_STACK_DEPTH, 0);
-+	} else {
-+		num_stack_entries = stack_trace_save(stack_entries, KFENCE_STACK_DEPTH, 1);
-+		skipnr = get_stack_skipnr(stack_entries, num_stack_entries, &type);
-+	}
- 
- 	/* Require non-NULL meta, except if KFENCE_ERROR_INVALID. */
- 	if (WARN_ON(type != KFENCE_ERROR_INVALID && !meta))
-@@ -222,7 +228,10 @@ void kfence_report_error(unsigned long address, const struct kfence_metadata *me
- 
- 	/* Print report footer. */
- 	pr_err("\n");
--	dump_stack_print_info(KERN_ERR);
-+	if (IS_ENABLED(CONFIG_DEBUG_KERNEL) && regs)
-+		show_regs(regs);
-+	else
-+		dump_stack_print_info(KERN_ERR);
- 	pr_err("==================================================================\n");
- 
- 	lockdep_on();
--- 
-2.29.1.341.ge80a0c044ae-goog
+> @@ -44,8 +44,12 @@ static int get_stack_skipnr(const unsigned long stack_entries[], int num_entries
+>  		case KFENCE_ERROR_UAF:
+>  		case KFENCE_ERROR_OOB:
+>  		case KFENCE_ERROR_INVALID:
+> -			is_access_fault = true;
+> -			break;
+> +			/*
+> +			 * kfence_handle_page_fault() may be called with pt_regs
+> +			 * set to NULL; in that case we'll simply show the full
+> +			 * stack trace.
+> +			 */
+> +			return 0;
+
+For both the above comments, when/where is kfence_handle_page_fault()
+called with regs set to NULL? I couldn't spot that in this patch, so
+unless I mised it I'm guessing that's somewhere outside of the patch
+context?
+
+If this is a case we don't expect to happen, maybe add a WARN_ON_ONCE()?
+
+Thanks,
+Mark.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20201105092133.2075331-1-elver%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20201105105241.GC82102%40C02TD0UTHF1T.local.
