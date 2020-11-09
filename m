@@ -1,158 +1,156 @@
-Return-Path: <kasan-dev+bncBD4NDKWHQYDRBXFCS36QKGQE4D25DQQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBD4NDKWHQYDRBA4WUL6QKGQEOHTAGEY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ua1-x93b.google.com (mail-ua1-x93b.google.com [IPv6:2607:f8b0:4864:20::93b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D2272A9BA4
-	for <lists+kasan-dev@lfdr.de>; Fri,  6 Nov 2020 19:09:33 +0100 (CET)
-Received: by mail-ua1-x93b.google.com with SMTP id m3sf162868uak.9
-        for <lists+kasan-dev@lfdr.de>; Fri, 06 Nov 2020 10:09:33 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1604686172; cv=pass;
+Received: from mail-pf1-x440.google.com (mail-pf1-x440.google.com [IPv6:2607:f8b0:4864:20::440])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D0E72AAE7D
+	for <lists+kasan-dev@lfdr.de>; Mon,  9 Nov 2020 01:19:17 +0100 (CET)
+Received: by mail-pf1-x440.google.com with SMTP id m64sf5134599pfm.0
+        for <lists+kasan-dev@lfdr.de>; Sun, 08 Nov 2020 16:19:17 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1604881156; cv=pass;
         d=google.com; s=arc-20160816;
-        b=l0mZh11VMH+oGBGIoULJLRfgRcE5WpOMKlAXXR6/PDuy1+ughzT/661eCer2PiMrG7
-         K1oweozRxVCz2SdpQt4zNYJE+N6pF+CpXWjc7rzHS7JcA7YBv2+Z501HwrmIoo592pZ/
-         E66SU28FdVQkte2QSSbXfizfMdZGcB2JTihsx8272WKpdvamsiJGMqNDKepxDVTjWHUQ
-         v1JppOEPMKBlmVRb9tI1WVQai8kiYcBbBJCnDldlGr1Bxh4eyY42bCMTg4QYqkfnTDq+
-         fym/yD0jabNHvtI1BJhitLY11FmdM01DNvonZrG56dxwPTToukLZ+l0+IM5tMdl3/Brq
-         jv9g==
+        b=jxcZNGF9sG47+EDco6SNwrhsUeKAyIYgU313mc+dHUzdD0g6a9zGfhqXOLVbl1hPQw
+         m4WZeB4FyupY6QQJ1sjQ6aUY49eh57BffHH/Hbm/QJTdZloK1U4nnNFd1uCC+qk8peXk
+         0xnWduL8v9SMg+0mgTFvqhoZng7l9pRxNdkrrudaatyfRUbMJdI6zsT30AkZ99S3pnIM
+         BhfHV42p1E1tdtropBNqkGyZuZh0ge/0sFZh7ZJWPVE9QxFxNJlnnPrYlOmhuxJPXWHy
+         4AdjETVDF/4i13VysM+jpxBSPtkJbjHfkIy1j1B/YVw5LlI9Ff5uEuVtNn4tIiqelpNK
+         IaFQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature:dkim-signature;
-        bh=NRFWUg9aRdn1P+7rHWkbH3hp7KgG6Y3PHhZCu/h1QEA=;
-        b=BKNSCB+NjPMbix2vSzNpYhaeLcXLr0uddFdkBYVOBCQgHV2WlnylkceWKAiYEbES1X
-         bR8ugKVrmRrzzRUXucnmcECTki8sVYkoAjKGnLzG5TjI3TQIW0WE48L4Dz4nhQeuSXAH
-         rSYLgFezlL5x1YCYQup6QYFHk9pygJfkyGnGdVwwCvxvB/FzHReGdpHu1tcgjlNWACqt
-         cYfSgtcZUwhU7meYB1DrTJREJ82jDMNRGLY6TLdCKKI6x4HvUo91rR9lSiy890QvMOdB
-         4FwM8Kw1mGXlSklrSka1+7qzTdy1n9cr53y2V+Ux4VtOz8evInFcXYeNXzy5DwDHt2iQ
-         NueQ==
+         :list-id:mailing-list:precedence:content-transfer-encoding
+         :mime-version:references:in-reply-to:message-id:date:subject:cc:to
+         :from:sender:dkim-signature:dkim-signature;
+        bh=bnXwTL2/AXaEbA3Tpz1pDBoDl9d1p48TMMfDysS1BMg=;
+        b=RKAN4nUuHO1Jd7I9nEChUTpsCmHpADK8FuturPQGbsLId90Grednrq5Re+SgUZy1HX
+         MiHPQFmWQRzlgfABP3lq94UjUQ08UPPbbnHcCm9Fhuk/+S/m3Tmbqv/xrd1r/U35HoIv
+         uVJE1z/3FDJMWAWrRoaR1gs9XydcHA+WGV0d7/kfpLNPwGh3qleok1fFK4bV3z6m2sL5
+         B47udehAZF9Bpv3zcqFKZMn0zxNydSJn4sCAU+WeQAuMoBUFXE7NkzKkyG2vzwEVbFPC
+         1a2G53r6kCzh/0APdkrq4Y7h2f2DR2yqGCRO9+vAxXD6O5E0THaOpUtohYeoyrWJA92s
+         x0gQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20161025 header.b=O88uSA+p;
-       spf=pass (google.com: domain of natechancellor@gmail.com designates 2607:f8b0:4864:20::844 as permitted sender) smtp.mailfrom=natechancellor@gmail.com;
+       dkim=pass header.i=@gmail.com header.s=20161025 header.b=R8zuVCcd;
+       spf=pass (google.com: domain of natechancellor@gmail.com designates 2607:f8b0:4864:20::843 as permitted sender) smtp.mailfrom=natechancellor@gmail.com;
        dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:x-original-sender
+        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=NRFWUg9aRdn1P+7rHWkbH3hp7KgG6Y3PHhZCu/h1QEA=;
-        b=KDZDfXukbhGS8mwTYXmbJzkX26igOBPN4H0ZQVYKwrirorQ5n69vpHk/gl8L5yaCjN
-         4p/Q8QWA/CbmmyegHtoOiz5Q1HE1sLVRdNQrpEokcT64C9RqgNF8eB+I+c7qEK5LLqFN
-         lm52I3imV3Qu+wTZt8Est2HpsRzuiWRYh0d4yLOgE6qDpgti0lENEjN9045VuXqVy8TQ
-         PNgLmdpYbw9pRVmqTo9upBCN34vxHYL7hJ39h6ae62Ay36wSt8pRZhBPx0jhv1Pm+3zw
-         ouR3fpy1ThXftoh6Wcd7EDZ4cAIJxqCUce/Oj76jOr5bdOuifUT3FeMv62Vpj6RuwoDj
-         DOKA==
+        bh=bnXwTL2/AXaEbA3Tpz1pDBoDl9d1p48TMMfDysS1BMg=;
+        b=gBt+mSIRbjuIG376ege83q5WCWSyeM5cHw27oZhNCoqdam5dZgefFW7DtE6PhnAukK
+         5s65Su71B0B/t9FpKf6MEibVc8F2Zi3swVnPWUcOAOcm6psnnYr3zBNx5rZ0HqpURKCb
+         0mKjF2NBuuDtfPYq2sArB2NMtDH2LXeSbUWrPwb5f0AcGCmr2/O5yfqcA8z4It1pxIlm
+         sWM/pItXDECMFELxU9SLwxm3ekq/7IfWdn7CaTajUQxXwoGpFV2jZNdsbzgV97OZOvxJ
+         9yD7pBSUwR89s50OozspU0g+f1qKwnIGwh15n31IkVg9zSsRV1Mwm9v4D8ilFmVIKwcC
+         QlEg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:x-original-sender
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=NRFWUg9aRdn1P+7rHWkbH3hp7KgG6Y3PHhZCu/h1QEA=;
-        b=V4rAoq409CQnwtUewPr8VzgfarmtRa4+JwwggCPBou6WbV5MrPtZFF7m0QFQ53WHjy
-         Up1Ig5wndi/LYyXu3S8rpw9yE/OBJ+TINEr+mv8CZbng1c1YF+DpQx9PxjTo5kPzuTxt
-         GjulpnxIpGHSNDYb6JFOvsEwqkDll377oVxTxAueDTUV8OxXrzJ5imrJlDYXUiNmKI5C
-         ayMEPQYCAZ5ZMPEHzxGWJt8b3kidGgesOD/yTOAMNTjVthZFWiXv9hKoF6t6mnN0qJCb
-         3B7Zv3mqC1QEOLRWvXCk48wizHE29r+E/zYzHfcbjz8hR7Ms7YNjSXHVZWkEIKUe3eLa
-         hOFw==
+        bh=bnXwTL2/AXaEbA3Tpz1pDBoDl9d1p48TMMfDysS1BMg=;
+        b=D5zigcEycDbKLRYGA3dF7RrDcRSg7JcSf+YNhHmYsrbstaU4u1OH3LZxDRpljy845L
+         9QEOQB0NeE3nP96kRiGn2Jjz4RGfCxEuFSaJTPyecAG+/cErSG3PrWq7YApBWCmOaHUT
+         3Vk5Kkn3TbLptWPNjQ24O0g+USPRDVygwn8uneG1+M8BSiMAm3FBGzq5fj40Yl+2a+VV
+         1GbTigYbGsl8y7t0/PKoi13eOvkguX+yYTdlAOtFcOKf6fW7Qy6GvZeI2LAPFFbdCyH3
+         qwxVxOiFy6sE9D+3EjgFix0/KoGF/gsPCALuKGbz0H3S1RiXfS55/QtDEwYW+8FDZ1Wf
+         qSGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to
+        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :in-reply-to:references:mime-version:content-transfer-encoding
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=NRFWUg9aRdn1P+7rHWkbH3hp7KgG6Y3PHhZCu/h1QEA=;
-        b=TpbRR6apS2xn/vXDGtVnAhauDZ22b6EC2J/TB8YZ8tOoCYhP1s4GD1YqKYwnD950hs
-         ESScyjE9Y6IBOe3065Ibivv7OckH9Je1HT7mLvYqDy/mrX68nrODiVS1lXaRRj+A6aat
-         tre3UHlCAqqcXhJH+Q36D09uR8nEuJXgB3GKpbEM52B4wpUK9aC6Nk5iw0giDGuGKooK
-         XZRFdxwWCHsQGuxTYno7y4CVMnPh3rAuB2qJZgqg1HS51VK4Et1avjI2WBPttlTAIm4+
-         HpAdXAWhqGQDOZWoeHTacJBo1C7yHNu6pNPNtwDDCwixiPuJf/OVyx81sn4yOVY7odSG
-         ZcYw==
+        bh=bnXwTL2/AXaEbA3Tpz1pDBoDl9d1p48TMMfDysS1BMg=;
+        b=M3YYmrM/0haR9qZdgpCxfOamXHUSO75QyQ7fmX/8k1uwVgh4OcexrECwOnwjluUQhp
+         DYgOr9jY0/oeR5HuBkcG1HnnrpCses37F/HdDlFXYRVPhCiOY1lfdQOfpmenZXanP3YB
+         XQBGvtqVX/FBePKU+d0/pc7xLKKAWKTdfirNFBpSUsMllC+Nq2chqj91C0OMJrIprmZx
+         4CXC93tL4vgW1upE5s0H5XYsQARMqsuwDLsDajmhPuZQOxuXnCqz/+bEhwvb2rcoPD7s
+         Ep7JSdZQ/IdBWhkLvuvIQWLVlkWKCbOt2PkMbMWh33n3g/Uu3JqJZ98udNFKzac7LPSt
+         Vlcg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM531yg2h5gXHuyQBg2VKt1aUe4MA57lPxlexXterlcfm7zXcYoKhq
-	3yLm9BFADVvzVWCRNSBslz0=
-X-Google-Smtp-Source: ABdhPJx6lyx/2daYCwFV+izjSRXil+SgpVM94ejv16KC/4qHneBq2Q9D1FIfWfth4m8hResnpgU5jw==
-X-Received: by 2002:a67:8dc4:: with SMTP id p187mr2100213vsd.22.1604686172225;
-        Fri, 06 Nov 2020 10:09:32 -0800 (PST)
+X-Gm-Message-State: AOAM532O77bOyIIWhg/zKRwDRNfm0Dol4JllK8AzMFChoT4faduhhhf+
+	6We53uYB1c20NJiL7zfR0dE=
+X-Google-Smtp-Source: ABdhPJxm0456lEJM2aveAmEZTfrdma6BWIvGyMhXDYJBtJGK3DOXbqM+uZN1kuZhunZN+6jgj1VwmQ==
+X-Received: by 2002:a65:4b81:: with SMTP id t1mr11103346pgq.263.1604881156034;
+        Sun, 08 Nov 2020 16:19:16 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a1f:1145:: with SMTP id 66ls102839vkr.2.gmail; Fri, 06 Nov
- 2020 10:09:31 -0800 (PST)
-X-Received: by 2002:a1f:ab97:: with SMTP id u145mr1946392vke.12.1604686171766;
-        Fri, 06 Nov 2020 10:09:31 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1604686171; cv=none;
+Received: by 2002:a63:485d:: with SMTP id x29ls2341526pgk.3.gmail; Sun, 08 Nov
+ 2020 16:19:15 -0800 (PST)
+X-Received: by 2002:a63:7847:: with SMTP id t68mr5884880pgc.422.1604881155581;
+        Sun, 08 Nov 2020 16:19:15 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1604881155; cv=none;
         d=google.com; s=arc-20160816;
-        b=Z8PsrLbGAvPGSdvJDKbiQ7Y0GwyyqtsKXTlVG5r3K2olqIIRjCcVuPqfhP701I+/wG
-         fUZTvAV7ItY6NZFxNXU9ytXKfAZBg+XHcpCiAIFzmyAqFFNrU4dm8GK2ojC1iCHbv/SX
-         w53hAabuPXkIzTV1LzLc+cvGh7P6IM+HGl44gkNg8EivdHj/Stvu1lHN4KI1XG5xCJyc
-         QC4WNWZQVayaDwFLBTMUyrUSRqjk2mnI+9srK/4jM14+kgIeRS4OHZ3lUC5xCFTnqjag
-         +ibK13WiD1Oml/lgqNBwWLZr1G14qATuXUPKBQCVEFc11HTeGFCD0Bt3kaqvN6z7kaBD
-         uTjQ==
+        b=ChHF6b13fOZuBnpFIBi2wq1DJjFjPFyzbAdNpE//w0y2NOYF8BY0qKPM/vRVDCx849
+         HC9msOy2UkzHOTpfOZDwDJOxpM3uN4uwsCrDuQVXgFZMDSD3hprquR0sUdrREroj7csR
+         40V71snDa5mFp8tFqm+11Mol63yL8hvSc7aduceuIziTH6bxn0TEgcRn9991ZVcA9Lop
+         t2ZBXuVWCACFOqdjA/j4dx2RnmwlgagzHM0tmA1yUWowRZmnbD+HjO2qTKLrXcRN1pg1
+         3tisktoXos/vGsZdjm34D/3QYGmehKEvEdnjTLmys98BZwDeopdlXR0XNAg6kW3mz8Sj
+         Jhyw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=xthdb0sB+nBkUrNgfEbY4fZLBO1/mKnLmjZCET3QDvM=;
-        b=clzH0iNQjZ1uKgFoTXBljpx0VtBaRjyso6D4idLc8pgxDkYzBNG7tNFfCT9E6LzPR7
-         m4IrTv7ACSizf9G39LYeSw65cwqOolSJMk5TaJbZVxspUPyb9hjZX+qQMBohq9LWebbj
-         fogSOEomyxG5FwonXXhOIBXdWoIiCbAUi2/YDGtf19xYJF+Ewij/qksSMWMqlvy/Ksl/
-         1WLps7tEgtbmquNbI7rxnmIY8c3NBz77Nnqytc000tDAAx65g0a0vsVEBtFX7maApYY3
-         WGH5gPPPQLKyet22vtHGQUexOX8eBxTXGq5n9/b0ovKGQ6KOo0+avNNTB8z/n7qJourF
-         2ctA==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:dkim-signature;
+        bh=3LcMZKLiUPDXMEpD6ZsN+QTNJLzBAx+sHH3KFfJGyJ0=;
+        b=nU0cdlldn2r7zARMvHqnm2N5Ny1vB7NDb8JPlISPIftUAFzHYLuG5dag4JFK9XEyJL
+         zFuoW/viDkSnRFY+6+qoMBIhBIP6slQZlJQ51DsB+jd6OmJ7sEuV7IP1p3rCKurMyhQY
+         vIHFVov4l7g4SkacbZZ12FLa4r0Jf9F2/V4JDpdJ0d4jsBuFZkVJrMcAcmRHZbk6S03z
+         05ruasRjAV3MWzG+jqpNf4vj33Ci93+99B/BZBJ0Q3IC9dDyzQl8qw4pstQ84C9bYpYj
+         5JVepeENWy5oKyTvUXKEiQ6FdSyOzPKY5iNhsSyPeoeUpbnSfVlkdS3tg5FjUBYmvIPG
+         J9kw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20161025 header.b=O88uSA+p;
-       spf=pass (google.com: domain of natechancellor@gmail.com designates 2607:f8b0:4864:20::844 as permitted sender) smtp.mailfrom=natechancellor@gmail.com;
+       dkim=pass header.i=@gmail.com header.s=20161025 header.b=R8zuVCcd;
+       spf=pass (google.com: domain of natechancellor@gmail.com designates 2607:f8b0:4864:20::843 as permitted sender) smtp.mailfrom=natechancellor@gmail.com;
        dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com. [2607:f8b0:4864:20::844])
-        by gmr-mx.google.com with ESMTPS id v18si103035uat.0.2020.11.06.10.09.31
+Received: from mail-qt1-x843.google.com (mail-qt1-x843.google.com. [2607:f8b0:4864:20::843])
+        by gmr-mx.google.com with ESMTPS id f189si457195pgc.4.2020.11.08.16.19.15
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 06 Nov 2020 10:09:31 -0800 (PST)
-Received-SPF: pass (google.com: domain of natechancellor@gmail.com designates 2607:f8b0:4864:20::844 as permitted sender) client-ip=2607:f8b0:4864:20::844;
-Received: by mail-qt1-x844.google.com with SMTP id h12so1378772qtc.9
-        for <kasan-dev@googlegroups.com>; Fri, 06 Nov 2020 10:09:31 -0800 (PST)
-X-Received: by 2002:aed:32c7:: with SMTP id z65mr2713718qtd.266.1604686171309;
-        Fri, 06 Nov 2020 10:09:31 -0800 (PST)
-Received: from ubuntu-m3-large-x86 ([2604:1380:45f1:1d00::1])
-        by smtp.gmail.com with ESMTPSA id p8sm1067648qtc.37.2020.11.06.10.09.30
+        Sun, 08 Nov 2020 16:19:15 -0800 (PST)
+Received-SPF: pass (google.com: domain of natechancellor@gmail.com designates 2607:f8b0:4864:20::843 as permitted sender) client-ip=2607:f8b0:4864:20::843;
+Received: by mail-qt1-x843.google.com with SMTP id n63so4957053qte.4
+        for <kasan-dev@googlegroups.com>; Sun, 08 Nov 2020 16:19:15 -0800 (PST)
+X-Received: by 2002:ac8:13cb:: with SMTP id i11mr11094139qtj.390.1604881154657;
+        Sun, 08 Nov 2020 16:19:14 -0800 (PST)
+Received: from localhost.localdomain ([2604:1380:45f1:1d00::1])
+        by smtp.gmail.com with ESMTPSA id r19sm4851517qtm.4.2020.11.08.16.19.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Nov 2020 10:09:30 -0800 (PST)
-Date: Fri, 6 Nov 2020 11:09:29 -0700
+        Sun, 08 Nov 2020 16:19:13 -0800 (PST)
 From: Nathan Chancellor <natechancellor@gmail.com>
-To: Russell King - ARM Linux admin <linux@armlinux.org.uk>
-Cc: Linus Walleij <linus.walleij@linaro.org>,
-	Stephen Rothwell <sfr@canb.auug.org.au>,
-	Florian Fainelli <f.fainelli@gmail.com>,
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Abbott Liu <liuwenliang@huawei.com>,
 	Ahmad Fatoum <a.fatoum@pengutronix.de>,
-	Arnd Bergmann <arnd@arndb.de>, Abbott Liu <liuwenliang@huawei.com>,
-	Naresh Kamboju <naresh.kamboju@linaro.org>,
-	kasan-dev <kasan-dev@googlegroups.com>,
-	Mike Rapoport <rppt@linux.ibm.com>,
-	Linux-Next Mailing List <linux-next@vger.kernel.org>,
-	Alexander Potapenko <glider@google.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
 	Andrey Ryabinin <aryabinin@virtuozzo.com>,
 	Ard Biesheuvel <ardb@kernel.org>,
-	Linux ARM <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH 2/5 v16] ARM: Replace string mem* functions for KASan
-Message-ID: <20201106180929.GD2959494@ubuntu-m3-large-x86>
-References: <20201019084140.4532-1-linus.walleij@linaro.org>
- <20201019084140.4532-3-linus.walleij@linaro.org>
- <CA+G9fYvfL8QqFkNDK69KBBnougtJb5dj6LTy=xmhBz33fjssgQ@mail.gmail.com>
- <CACRpkdZL7=0U6ns3tV972si-fLu3F_A6GbaPcCa9=m28KFZK0w@mail.gmail.com>
- <CAMj1kXFTbPL6J+p7LucwP-+eJhk7aeFFjhJdLW_ktRX=KiaoWQ@mail.gmail.com>
- <20201106094434.GA3268933@ubuntu-m3-large-x86>
- <CACRpkdaBnLsQB-b8fYaXGV=_i2y7pyEaVX=8pCAdjPEVHtqV4Q@mail.gmail.com>
- <20201106151554.GU1551@shell.armlinux.org.uk>
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Joe Perches <joe@perches.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Stephen Rothwell <sfr@canb.auug.org.au>,
+	kasan-dev@googlegroups.com,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mm@kvack.org,
+	linux-next@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Nathan Chancellor <natechancellor@gmail.com>,
+	Naresh Kamboju <naresh.kamboju@linaro.org>,
+	=?UTF-8?q?Valdis=20Kl=C4=93tnieks?= <valdis.kletnieks@vt.edu>
+Subject: [PATCH] ARM: boot: Quote aliased symbol names in string.c
+Date: Sun,  8 Nov 2020 17:17:13 -0700
+Message-Id: <20201109001712.3384097-1-natechancellor@gmail.com>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20201108222156.GA1049451@ubuntu-m3-large-x86>
+References: <20201108222156.GA1049451@ubuntu-m3-large-x86>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <20201106151554.GU1551@shell.armlinux.org.uk>
+X-Patchwork-Bot: notify
+Content-Transfer-Encoding: quoted-printable
 X-Original-Sender: natechancellor@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20161025 header.b=O88uSA+p;       spf=pass
+ header.i=@gmail.com header.s=20161025 header.b=R8zuVCcd;       spf=pass
  (google.com: domain of natechancellor@gmail.com designates
- 2607:f8b0:4864:20::844 as permitted sender) smtp.mailfrom=natechancellor@gmail.com;
+ 2607:f8b0:4864:20::843 as permitted sender) smtp.mailfrom=natechancellor@gmail.com;
        dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
@@ -166,79 +164,77 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, Nov 06, 2020 at 03:15:54PM +0000, Russell King - ARM Linux admin wrote:
-> On Fri, Nov 06, 2020 at 02:37:21PM +0100, Linus Walleij wrote:
-> > On Fri, Nov 6, 2020 at 10:44 AM Nathan Chancellor
-> > <natechancellor@gmail.com> wrote:
-> > > On Fri, Nov 06, 2020 at 09:28:09AM +0100, Ard Biesheuvel wrote:
-> > 
-> > > > AFAIK there is an incompatible change in -next to change the
-> > > > definition of the __alias() macro
-> > >
-> > > Indeed. The following diff needs to be applied as a fixup to
-> > > treewide-remove-stringification-from-__alias-macro-definition.patch in
-> > > mmotm.
-> > >
-> > > Cheers,
-> > > Nathan
-> > >
-> > > diff --git a/arch/arm/boot/compressed/string.c b/arch/arm/boot/compressed/string.c
-> > > index 8c0fa276d994..cc6198f8a348 100644
-> > > --- a/arch/arm/boot/compressed/string.c
-> > > +++ b/arch/arm/boot/compressed/string.c
-> > > @@ -21,9 +21,9 @@
-> > >  #undef memcpy
-> > >  #undef memmove
-> > >  #undef memset
-> > > -void *__memcpy(void *__dest, __const void *__src, size_t __n) __alias(memcpy);
-> > > -void *__memmove(void *__dest, __const void *__src, size_t count) __alias(memmove);
-> > > -void *__memset(void *s, int c, size_t count) __alias(memset);
-> > > +void *__memcpy(void *__dest, __const void *__src, size_t __n) __alias("memcpy");
-> > > +void *__memmove(void *__dest, __const void *__src, size_t count) __alias("memmove");
-> > > +void *__memset(void *s, int c, size_t count) __alias("memset");
-> > >  #endif
-> > >
-> > >  void *memcpy(void *__dest, __const void *__src, size_t __n)
-> > 
-> > Aha. So shall we submit this to Russell? I figure that his git will not
-> > build *without* the changes from mmotm?
+Patch "treewide: Remove stringification from __alias macro definition"
+causes arguments to __alias to no longer be quoted automatically, which
+breaks CONFIG_KASAN on ARM after commit d6d51a96c7d6 ("ARM: 9014/2:
+Replace string mem* functions for KASan"):
 
-Yeah, I do not think that you can apply that diff to Russell's tree
-without the patch from -mm.
+arch/arm/boot/compressed/string.c:24:1: error: attribute 'alias' argument n=
+ot a string
+   24 | void *__memcpy(void *__dest, __const void *__src, size_t __n) __ali=
+as(memcpy);
+      | ^~~~
+arch/arm/boot/compressed/string.c:25:1: error: attribute 'alias' argument n=
+ot a string
+   25 | void *__memmove(void *__dest, __const void *__src, size_t count) __=
+alias(memmove);
+      | ^~~~
+arch/arm/boot/compressed/string.c:26:1: error: attribute 'alias' argument n=
+ot a string
+   26 | void *__memset(void *s, int c, size_t count) __alias(memset);
+      | ^~~~
+make[3]: *** [scripts/Makefile.build:283: arch/arm/boot/compressed/string.o=
+] Error 1
 
-> > That tree isn't using git either is it?
-> > 
-> > Is this one of those cases where we should ask Stephen R
-> > to carry this patch on top of -next until the merge window?
+Quote the names like the treewide patch does so there is no more error.
 
-I believe so, I do not think Stephen has any issues with carrying that
-diff to keep everything building properly (although I won't speak for
-him heh).
+Reported-by: Naresh Kamboju <naresh.kamboju@linaro.org>
+Reported-by: Valdis Kl=C4=93tnieks <valdis.kletnieks@vt.edu>
+Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
+---
 
-> Another solution would be to drop 9017/2 ("Enable KASan for ARM")
-> until the following merge window, and queue up the non-conflicing
-> ARM KASan fixes in my "misc" branch along with the rest of KASan,
-> and the conflicting patches along with 9017/2 in the following
-> merge window.
-> 
-> That means delaying KASan enablement another three months or so,
-> but should result in less headaches about how to avoid build
-> breakage with different bits going through different trees.
-> 
-> Comments?
+Hi Andrew,
 
-That could certainly work but as far as I am aware, that is really the
-only breakage. In theory, Andrew could just hold off on sending that
-patch until after yours is merged into Linus' tree so that it could be
-added to that patch and everything stays building properly. Requires a
-minor amount of coordination but that would avoid delaying KASAN
-enablement for three months. I do not have any preference since this is
-not my code.
+Stephen said I should send this along to you so that it can be applied
+as part of the post -next series. Please let me know if you need any
+more information or clarification, I tried to document it succinctly in
+the commit message.
 
 Cheers,
 Nathan
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20201106180929.GD2959494%40ubuntu-m3-large-x86.
+ arch/arm/boot/compressed/string.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/arch/arm/boot/compressed/string.c b/arch/arm/boot/compressed/s=
+tring.c
+index 8c0fa276d994..cc6198f8a348 100644
+--- a/arch/arm/boot/compressed/string.c
++++ b/arch/arm/boot/compressed/string.c
+@@ -21,9 +21,9 @@
+ #undef memcpy
+ #undef memmove
+ #undef memset
+-void *__memcpy(void *__dest, __const void *__src, size_t __n) __alias(memc=
+py);
+-void *__memmove(void *__dest, __const void *__src, size_t count) __alias(m=
+emmove);
+-void *__memset(void *s, int c, size_t count) __alias(memset);
++void *__memcpy(void *__dest, __const void *__src, size_t __n) __alias("mem=
+cpy");
++void *__memmove(void *__dest, __const void *__src, size_t count) __alias("=
+memmove");
++void *__memset(void *s, int c, size_t count) __alias("memset");
+ #endif
+=20
+ void *memcpy(void *__dest, __const void *__src, size_t __n)
+--=20
+2.29.2
+
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/20201109001712.3384097-1-natechancellor%40gmail.com.
