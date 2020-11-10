@@ -1,124 +1,124 @@
-Return-Path: <kasan-dev+bncBCMIZB7QWENRB2WHVL6QKGQEXZI6QRA@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBCGTVL6QKGQE6HYEGZI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pl1-x63d.google.com (mail-pl1-x63d.google.com [IPv6:2607:f8b0:4864:20::63d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F6EC2AD8CF
-	for <lists+kasan-dev@lfdr.de>; Tue, 10 Nov 2020 15:30:04 +0100 (CET)
-Received: by mail-pl1-x63d.google.com with SMTP id u14sf6764463plq.5
-        for <lists+kasan-dev@lfdr.de>; Tue, 10 Nov 2020 06:30:03 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1605018602; cv=pass;
+Received: from mail-oi1-x23a.google.com (mail-oi1-x23a.google.com [IPv6:2607:f8b0:4864:20::23a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D88C2AD94F
+	for <lists+kasan-dev@lfdr.de>; Tue, 10 Nov 2020 15:54:01 +0100 (CET)
+Received: by mail-oi1-x23a.google.com with SMTP id e82sf6266875oia.15
+        for <lists+kasan-dev@lfdr.de>; Tue, 10 Nov 2020 06:54:01 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1605020040; cv=pass;
         d=google.com; s=arc-20160816;
-        b=gJahKkutHP8+1ECxMdrs8qV+yDuBEWb6QCz7ET+SPw9RcCM8JhfdxVG6415EdUrJak
-         pKwHwM2JsIPnPf6aryfKPuUFN0aYAO+3R7wI9JOin07OOb5AqSZEd5uI1NbliXjrnsTa
-         Tzrcyo5b9SHxMbSvaUzrPrex70IUO/94g6rZ1+xmCNjtAWwa+1H7+802CQ3FV/36rcok
-         I0GTyDsYDo3mVZkMKmNk/LiypcRz+MdrdxLPCC0KtA1IUiht/F3ScyLRiiek5lhKvOX/
-         Dm8xx5KkyotwIHY6HaBITcpc1Nh54z9fetmSMvRAjLB7pdYXX7L4m1FY+kNDdDZ3wcJx
-         tBuA==
+        b=PVsni2e7Ma5tY7xWBHQeL1XlJclzLyk8cH16LqgyJqM5j3017ZYL9gMG7RCx6EXIW1
+         Fjjv07O+nRxrjAsrARPlvi3NgQG3fKpEPLQjQ9UJWQ2mELXaukIyhCQqA3zG1cYw8xY/
+         k6+kOQDj4TFgIy5z0nnR+sAIQiriMtUb+RdSR8mldqM4cK7Fu1gE7sbJrVzXgKK3pnqI
+         NqTRTnDsqAvPL3TBdR+S7Jn//WfiRJAkMCvNyMBJKcW0lsFiCi8WpGHmk4zu+KDxRoWt
+         3/eY6MI7je8hALmEIMBYCtjNBMlAkk/GAxOGCzp4S+iLadm/8DtUJRkCbMjFLxp98TJd
+         w7Vw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
-         :cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=ANCoaa3dUoJQcUsxYZNQVJZH4Ar/R68XLRtzl3roD7o=;
-        b=QJl5ZXq0wZcSfc6yYhgJSGlD6Xa/lnpvQOdvm/ia6fa8G/gb/Py6zCrPWl0QgF7R3r
-         ucUmFzh4LOKZ2FIqsmCzXJ5PBk551qW6xBXo6c8Gy/HUCMjx2/Y/IXnkgfqB3KntgwSJ
-         xH1OFV1m3hd+kvYccIn7dPrcuMtsX6NXbWNllhwGNo/lP/expv0Ta/mFRevQbMMjGqIF
-         I9OIi9T485mqxHWGF+KkQ7nA1O6gbNTropTp0Z4s9cWSbeu14sSqpTyUldg9Y/brPbc7
-         pk4lMGPtTOnl9ldS9KfmJq5EMVrw9v85t3tsMic+4Vpn0y9AXEVavBuQz2p53i/eYeHd
-         TrQw==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=w8YxzL59keCMT4cK+QprHlUIAYpRgO7JWuxuaml5UZM=;
+        b=nJaoEQALzjxm3m9/5CdabfDaOg5NhHxvDlq0hpYMz0JqijXAwiPYi3cX4RcbY4tFet
+         funua7YwzXjgy48JuCYSg1ir0MOVOWQVi1u420zCabA9mOVmSRBBjNSoGScDr9YgyrHi
+         FbtIBuBMWPrzuhAmR4T2Ms1MqJHuniT9NaQUrJmwf4/URrlh9cnbF4S5DLkwqcyqskBE
+         QzQIxTKcg0LGWAmzf3soZhbmyeRyZYsXeQQg0bYcAwjIxZF41u4WugvcSPgCSYKmHR+n
+         DkLXjX6/CxnDhmObCj/evdhbpkVQKozmhTibVs+tGMVYEkWz2KvLM0EF08dw+svRNNoj
+         DAuQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=UJRbT2oG;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::f2d as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b="mNP/K9iv";
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::343 as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:list-post:list-help:list-archive:list-subscribe
-         :list-unsubscribe;
-        bh=ANCoaa3dUoJQcUsxYZNQVJZH4Ar/R68XLRtzl3roD7o=;
-        b=fni3loigHwsEc8BQXmE6Lw3f7quoS2kLVrRfT/JcmHPkFYnxjcBe6E2LFdbQR0c8cU
-         MRFiLuJFpGjXgy7B0OiNgJsKjUEbEcwNzTkX/uzOxQua2wOXmKTIdm6QF1gD5x7n1uBe
-         RgR573ZwjlMCi/GLIBzuNoAevkaVVCW6JmyyBu1scECzk+FRHjyxQtVqkOC1TU87ctM1
-         iA1CGt3V1Efv0/hsiFA1Ev2Md9PZNFCpemxr9FtjQU+nXnL5a1vPucF9jCUKWsr7pnc8
-         1RuoSOorgv1VK76t39IzF+FqpRc8jCVXAgY97fM1wF3QrIpdS8kLeP6Ifqt49xtOxUtS
-         kNLA==
+         :cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=w8YxzL59keCMT4cK+QprHlUIAYpRgO7JWuxuaml5UZM=;
+        b=iNqDVRyZdfeTUbp6Lx2B6lcmjTGgD86d3BVRZFIysNhNJzuJZIacBEjCP/3PsRiUTZ
+         wEc9Z4priTqkBTBxwu2+r3x9sQuQ96MMeS1iH51UtD00g2XgioemQT8dqk7793PyGwr7
+         lNn1xYEHd5Xu9YuaHHQtLDS1UY4fgEHZz3t6eIpJQSslZOEZqVlCMqWQKbqa5R6QGRki
+         exCoiaqWXy4oOyPL5DQlc51g483rpvfl/c/NRrsSPmLHYfnUvGB4DpdR8zEIYsK7FxE1
+         Mz3oy+dGjbgXji5b9FOCdh0UZ3mHja1qJwjwZM61NvepTcE8gd6Boq8MOVLGLKTVhc/p
+         OoOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding
-         :x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=ANCoaa3dUoJQcUsxYZNQVJZH4Ar/R68XLRtzl3roD7o=;
-        b=NzMUeG8HxF4RtuxamAxDI2i8IC+nbXYImUwiH0Hy2fjDkygNaZ4qckMFghhEfG+xSa
-         mask9tJpX5250nOZWfXS4/Jcxq/Vz/zqy/5Xv+J+cm6uKYvy5CJloEL0qIqst9TjCUMR
-         tzXJU7M0uWaE0gTBeIuQAwoPe2h8x/lbYbajZYCF2SjE+ctjayiXYDsJBwPTjYl+pVZq
-         fWZDoPj1hQPPHr4IYIuc4R78D84owUkT5v78Nzm53Q5baZudN6s/Iuw8lzYTlouSDTPp
-         y8NmWCrPCyEeI1Mpg8GbseTaqojETfvXYNjif9Jv5/dJ88L5SEYS8t3uxVV9+2dgIAKT
-         9u6g==
-X-Gm-Message-State: AOAM530AN6W7q+9J/x+qlCaBfyyDRY5E2k+jhWd3E32Ki7dJHRGDYcp2
-	rSg7pWMy4k9mgkgE7esGCVA=
-X-Google-Smtp-Source: ABdhPJyxLUp1JyJf72GwXJ8NCeTDaxzbQNPg1r/3mnTMRIvpE2LhsaZrEt1OWmKoJnkoznWOtRhhFA==
-X-Received: by 2002:a17:90a:cf18:: with SMTP id h24mr5697139pju.72.1605018602720;
-        Tue, 10 Nov 2020 06:30:02 -0800 (PST)
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=w8YxzL59keCMT4cK+QprHlUIAYpRgO7JWuxuaml5UZM=;
+        b=VFcGvG9l7TcIw3jaSNXlUj2MI+z+4IfAv/0nrANdE9opuPfGkzmGdYPbewbKYQq2TJ
+         zapviZR62Dz4iuC0RtrKeR4Di+93kZPO1a9USFO+3wA8Tq+U4i1wq8M87dtiiQ7QRMdf
+         STq9zWXYCtlOyEpP7tD0mIMgzS7OvNGtYAlqexXVc8XKKl7cUm83O8Mur3BNyu3gD0uJ
+         NH01cFIuaDi2B1xNCxhshltxY+n0KnFyytj64EOdPi7jk3Y6sDBmG5bc1wDhMOnzGoWp
+         2o1U9bV4sjbVcm5yWJ0PYBI9NCNKlgx64+Kb9ltahs5iWIYdminzdUyxzEpuV+NrIyqI
+         pg1w==
+X-Gm-Message-State: AOAM530YKCRF0NcfPPQNAN/7LfeQQHPvEpaF6ZIFv4vq5433XF6v7cmD
+	MGgVkt87Wvlc94h6WCPn+t8=
+X-Google-Smtp-Source: ABdhPJymrFWsESOMsXdeOlhU0S9eRH1riVWlQ1vE7ORHbwhCVQHLANqGg8eA7XksNE60G4lK8AkBbQ==
+X-Received: by 2002:aca:db05:: with SMTP id s5mr3082660oig.133.1605020040134;
+        Tue, 10 Nov 2020 06:54:00 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:90a:c253:: with SMTP id d19ls2074729pjx.2.canary-gmail;
- Tue, 10 Nov 2020 06:30:02 -0800 (PST)
-X-Received: by 2002:a17:90a:e615:: with SMTP id j21mr5536183pjy.74.1605018602228;
-        Tue, 10 Nov 2020 06:30:02 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1605018602; cv=none;
+Received: by 2002:a9d:6b0f:: with SMTP id g15ls3109140otp.0.gmail; Tue, 10 Nov
+ 2020 06:53:59 -0800 (PST)
+X-Received: by 2002:a05:6830:164a:: with SMTP id h10mr14740849otr.325.1605020039747;
+        Tue, 10 Nov 2020 06:53:59 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1605020039; cv=none;
         d=google.com; s=arc-20160816;
-        b=TmSwCC4kQxOIoGCc8MZLILoUQM80tcfGMjBsDjr5YQ5NOfEdol2uwBUKU3uuUOWyqP
-         PywK1YptOL9oaiThoDNPeLhTKg5wc3VmYH38NyD6Gi8x+h5BMa0WA4OoqQ50por9KsyI
-         5kCeQSkXMtdq/zm+m1cCp4IN9JEO1ezvHz5OIQqdEaCYkJOY+Xs+hw6HZL3GBETYnoU0
-         Gno0dU2tey5Hg/+kJbQR03YCbN/eJbRDP7FPneigSna878G6lj4R3raInfGqWC81l5NJ
-         yh6vkoWhJUix3ngvm4xxPa31UiYuoUGfvsWgGytir2fzika569TGzv1GcXgN/d3Z3Fna
-         bsyw==
+        b=TEDynW5vl7P3Cl7ikgn05ctAV/OE/gu2clPbtbNFwCvnoqAODSccb8iliPtQNNjXns
+         YNs3kyNqwWkEcjmUysfmsaFAF963VSSIhvhFFom1xgZoQ8fzCVe24uYmnZGAxTGhAWTU
+         T67mO8NfmpP+WuTGiYeXPdTZD5pvb4+oi4jwWyDI8YZqrJW9Nur0jH5tws6mgvfE/C0v
+         JkYEiLu99ktbx9r6ixKmcL6zKjkwB9Q5dz48BZzJOPaB68FX8TsXUQj0rL3ewWAMBcHJ
+         AOUQYl+6tm682VFKQ/g+ACO85h7cA3pn6zJPxKxJ/lDIipqk2tXWI5mMU0IqH4k024ov
+         EXgw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=B6gXmD/CR29yyroSAzsSWc2TFpJ0GY4uFEljuFgfOKs=;
-        b=YDFf7EHU6uhChjkAP+JaqIpDD9tsLPmjHUF7v/ah8LQ2hXBseweyDokRR3NK3Iianv
-         eqG9ektX3zzDd3vgxC1FalPfyPTjOAYJ5DCHZQpSl189L8MTEtnwkl+btYPXiWYhDh0p
-         NRUAdRHXC/PAiQFlw1hd3LdcsWdSsQwDGpnQv770NNDh4kbX7AYKzP6mBQ4ItJpOW+MY
-         4gXha1qe5q3YGGxEldgZDUbeOO1UyXIvMSiOifwcCvthSm4H0Cge3Zk0chpYFwSsW9cv
-         mt9xGoKC/zqBSyneZS2cOTD7HPB0eHBVedGtJ2WQyxkbhWWMwtHE4Z7dUsM957plkaWm
-         JNqQ==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=FbcyUD14O34qORQweJ7OM0zfYmKvTkKcQqefmr2UkfI=;
+        b=nmjmZRDaC6yEBDe/Is5tlpQZIZTdDRAcUIzSmcV+imBHu0e4ksqOXwXp35TVYo7gDp
+         V9EHgRnG9+Tbvl9qmMif7bJkOUSODfa7pngv56AgHm6tiuYwKZTz/VVfvLVP/ttBPHiW
+         iOYwkeInu0CI4h9jnzhDX4UeKslWsxAmXkUO1CFUo77ageSZALnnod3JKhgzyuBWDSLF
+         73grT73jy4/pXAkf4owTMsEJPckLZUSxoKMNgnsallhiU5p+LHYQcLUfQVa9eMEgdYGK
+         9xM+ox3ehdLCnkW498Cxb3wX5TwBntKMFq7moi0qionzgX0BZ/KoZ9YZWqeNnuA0I1/R
+         GLeg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=UJRbT2oG;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::f2d as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b="mNP/K9iv";
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::343 as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-qv1-xf2d.google.com (mail-qv1-xf2d.google.com. [2607:f8b0:4864:20::f2d])
-        by gmr-mx.google.com with ESMTPS id k24si268482pjq.2.2020.11.10.06.30.02
+Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com. [2607:f8b0:4864:20::343])
+        by gmr-mx.google.com with ESMTPS id e22si1229178oti.2.2020.11.10.06.53.59
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Nov 2020 06:30:02 -0800 (PST)
-Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::f2d as permitted sender) client-ip=2607:f8b0:4864:20::f2d;
-Received: by mail-qv1-xf2d.google.com with SMTP id y11so5499107qvu.10
-        for <kasan-dev@googlegroups.com>; Tue, 10 Nov 2020 06:30:02 -0800 (PST)
-X-Received: by 2002:a05:6214:12ed:: with SMTP id w13mr14999852qvv.23.1605018601573;
- Tue, 10 Nov 2020 06:30:01 -0800 (PST)
+        Tue, 10 Nov 2020 06:53:59 -0800 (PST)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::343 as permitted sender) client-ip=2607:f8b0:4864:20::343;
+Received: by mail-ot1-x343.google.com with SMTP id n11so12756016ota.2
+        for <kasan-dev@googlegroups.com>; Tue, 10 Nov 2020 06:53:59 -0800 (PST)
+X-Received: by 2002:a9d:f44:: with SMTP id 62mr15154590ott.17.1605020039230;
+ Tue, 10 Nov 2020 06:53:59 -0800 (PST)
 MIME-Version: 1.0
-References: <34d79b2a-1342-4d5e-8ebc-8c4fd5945f2cn@googlegroups.com>
-In-Reply-To: <34d79b2a-1342-4d5e-8ebc-8c4fd5945f2cn@googlegroups.com>
-From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Tue, 10 Nov 2020 15:29:50 +0100
-Message-ID: <CACT4Y+a=MGJSkzWOvCSyK1p5JaHkU7RWABOJj=SMrD+DJacieg@mail.gmail.com>
-Subject: Re: Continuous KMSAN reports during booting hinders PoC testing
-To: "mudongl...@gmail.com" <mudongliangabcd@gmail.com>
-Cc: kasan-dev <kasan-dev@googlegroups.com>, Alexander Potapenko <glider@google.com>
+References: <20201110135320.3309507-1-elver@google.com> <CACT4Y+Y_QarAf_cCNPgRZiSEKty0eSusA1ZMuY61LoGP1RaVtg@mail.gmail.com>
+In-Reply-To: <CACT4Y+Y_QarAf_cCNPgRZiSEKty0eSusA1ZMuY61LoGP1RaVtg@mail.gmail.com>
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Tue, 10 Nov 2020 15:53:47 +0100
+Message-ID: <CANpmjNNTDznf3hWFw5tD1+vGoN-p1VrR8BrQvSZqtVtUmFPF3A@mail.gmail.com>
+Subject: Re: [PATCH] kfence: Avoid stalling work queue task without allocations
+To: Dmitry Vyukov <dvyukov@google.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Alexander Potapenko <glider@google.com>, 
+	Jann Horn <jannh@google.com>, Mark Rutland <mark.rutland@arm.com>, 
+	LKML <linux-kernel@vger.kernel.org>, Linux-MM <linux-mm@kvack.org>, 
+	kasan-dev <kasan-dev@googlegroups.com>, Anders Roxell <anders.roxell@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: dvyukov@google.com
+X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=UJRbT2oG;       spf=pass
- (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::f2d
- as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
- (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Dmitry Vyukov <dvyukov@google.com>
-Reply-To: Dmitry Vyukov <dvyukov@google.com>
+ header.i=@google.com header.s=20161025 header.b="mNP/K9iv";       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::343 as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -131,37 +131,62 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Nov 10, 2020 at 11:59 AM mudongl...@gmail.com
-<mudongliangabcd@gmail.com> wrote:
+On Tue, 10 Nov 2020 at 15:25, Dmitry Vyukov <dvyukov@google.com> wrote:
+> On Tue, Nov 10, 2020 at 2:53 PM Marco Elver <elver@google.com> wrote:
+> > To toggle the allocation gates, we set up a delayed work that calls
+> > toggle_allocation_gate(). Here we use wait_event() to await an
+> > allocation and subsequently disable the static branch again. However, if
+> > the kernel has stopped doing allocations entirely, we'd wait
+> > indefinitely, and stall the worker task. This may also result in the
+> > appropriate warnings if CONFIG_DETECT_HUNG_TASK=y.
+> >
+> > Therefore, introduce a 1 second timeout and use wait_event_timeout(). If
+> > the timeout is reached, the static branch is disabled and a new delayed
+> > work is scheduled to try setting up an allocation at a later time.
+> >
+> > Note that, this scenario is very unlikely during normal workloads once
+> > the kernel has booted and user space tasks are running. It can, however,
+> > happen during early boot after KFENCE has been enabled, when e.g.
+> > running tests that do not result in any allocations.
+> >
+> > Link: https://lkml.kernel.org/r/CADYN=9J0DQhizAGB0-jz4HOBBh+05kMBXb4c0cXMS7Qi5NAJiw@mail.gmail.com
+> > Reported-by: Anders Roxell <anders.roxell@linaro.org>
+> > Signed-off-by: Marco Elver <elver@google.com>
+> > ---
+> >  mm/kfence/core.c | 6 +++++-
+> >  1 file changed, 5 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/mm/kfence/core.c b/mm/kfence/core.c
+> > index 9358f42a9a9e..933b197b8634 100644
+> > --- a/mm/kfence/core.c
+> > +++ b/mm/kfence/core.c
+> > @@ -592,7 +592,11 @@ static void toggle_allocation_gate(struct work_struct *work)
+> >         /* Enable static key, and await allocation to happen. */
+> >         atomic_set(&allocation_gate, 0);
+> >         static_branch_enable(&kfence_allocation_key);
+> > -       wait_event(allocation_wait, atomic_read(&allocation_gate) != 0);
+> > +       /*
+> > +        * Await an allocation. Timeout after 1 second, in case the kernel stops
+> > +        * doing allocations, to avoid stalling this worker task for too long.
+> > +        */
+> > +       wait_event_timeout(allocation_wait, atomic_read(&allocation_gate) != 0, HZ);
 >
-> Hi all,
->
-> when I tried to reproduce the crash(https://syzkaller.appspot.com/bug?id=
-=3D3fc6579f907ab3449adb030e8dc65fafdb8e09e4), I found an annoying thing dur=
-ing booting of KMSAN-instrumented kernel image - KMSAN keeps reporting seve=
-ral uninit-value issues. The issues are in the following:
->
-> BUG: KMSAN: uninit-value in unwind_next_frame+0x519/0xf50
-> BUG: KMSAN: uninit-value in update_stack_state+0xac7/0xae0
-> BUG: KMSAN: uninit-value in __kernel_text_address+0x1b0/0x330
-> BUG: KMSAN: uninit-value in arch_stack_walk+0x374/0x3e0
-> ...
->
-> Even after 20 minutes running, the messages are still printing and QEMU i=
-s not ready. I wonder if these messages are false positives or not. And how=
- could I successfully enter the VM and test the provided PoC?
->
-> Best regards,
-> Dongliang Mu
+> I wonder what happens if we get an allocation right when the timeout fires.
+> Consider, another task already went to the slow path and is about to
+> wake this task. This task wakes on timeout and subsequently enables
+> static branch again. Now we can have 2 tasks on the slow path that
+> both will wake this task. How will it be handled? Can it lead to some
+> warnings or something?
 
-+kasan-dev
-does not seem to be related to syzkaller (to bcc)
+wake_up() does not require tasks to be in the wait queue, nor is there
+any requirement that it's exclusive (it takes the appropriate locks
+unlike wake_up_locked()). One of the wake_up() calls will wake the
+task, and the other is a noop. So this will work just fine.
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CACT4Y%2Ba%3DMGJSkzWOvCSyK1p5JaHkU7RWABOJj%3DSMrD%2BDJacieg%40mai=
-l.gmail.com.
+Thanks,
+-- Marco
+
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNNTDznf3hWFw5tD1%2BvGoN-p1VrR8BrQvSZqtVtUmFPF3A%40mail.gmail.com.
