@@ -1,34 +1,34 @@
-Return-Path: <kasan-dev+bncBCCMH5WKTMGRB4PHV76QKGQE3CUI2MQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCCMH5WKTMGRBZPIV76QKGQE4WDUUWQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qt1-x840.google.com (mail-qt1-x840.google.com [IPv6:2607:f8b0:4864:20::840])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64FBD2AF371
-	for <lists+kasan-dev@lfdr.de>; Wed, 11 Nov 2020 15:23:46 +0100 (CET)
-Received: by mail-qt1-x840.google.com with SMTP id z14sf1262605qto.8
-        for <lists+kasan-dev@lfdr.de>; Wed, 11 Nov 2020 06:23:46 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1605104625; cv=pass;
+Received: from mail-pg1-x53c.google.com (mail-pg1-x53c.google.com [IPv6:2607:f8b0:4864:20::53c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 309D92AF378
+	for <lists+kasan-dev@lfdr.de>; Wed, 11 Nov 2020 15:25:43 +0100 (CET)
+Received: by mail-pg1-x53c.google.com with SMTP id u4sf1405973pgg.14
+        for <lists+kasan-dev@lfdr.de>; Wed, 11 Nov 2020 06:25:43 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1605104742; cv=pass;
         d=google.com; s=arc-20160816;
-        b=ggaqRsqK9W1NK3JPIg4hX4wAaepCgs4IjHP5dBFX0zU0ENKNrMBAoVdC1pzG0JVYfQ
-         k9vX6WlfoQC046Q8PnQEkLHlhYiNUYAfv+Xp6l8mJLdHPUb7QP11IExCr++6Oz2hWIym
-         OHAIbE2GaYAjt/ijCkfjY0dGgUS8sq+86ZA/RhddjkbUD56NUnu+Wr4bHjv7s3yAn68a
-         tTg21kYzqsxQKgoBoLE4TJV4yFFY/iyl9+fPKMD9rVUzWzCkxjdoyJ90Hdr5zj/Uqlal
-         Mtpktx/aWO57iCKc2f5cB2urjQ92QD5RET0axalo+I+MbNigwM7QQv+YSrXqv3n20N2g
-         OZOg==
+        b=n5ahDTRGBZOFfpDpKhjvWFd0iNluIgrtFKlQ30ILmrYMdaMz7CphDUsQk71fMOlPjQ
+         Ax1JUjvM3fuGpGpTgkqycyBQ2uIiSFI0ovJY5xfT/hmGXyYg7JIgoCzxPWpWEauafOb6
+         jG5xyntWrL8Z/mEpGiZXPiqPpa5/+tGm3BfUia40HuCToDcJuj/02y7XwaJKMcpKkNoj
+         BWz9Fa1dqO2/QnMdkggalKtObgS3yw+1zt+2597wVBml+orqMZiAjcduYIQTEi/0L/kT
+         0Zf9b0UoNaX1xNUKSnfMtKrSu9vgmClihXbNEFR/Vd2E+c0GBU68NsLvGOZQcbkQc+jm
+         cbuw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
          :cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=ZIIN7oADZ8S96itNRGo7CGG60iyWt5ek1WthPgu5FqM=;
-        b=0vsTHMM9COlEcjbwRw/aGXMxKLCcxx/ySPuQnWoPZARkHhkt6zQzmPdiOxX/0W3jKS
-         W9ZSvVGGFDlozjq9H09kLWGW+CE+/zGl3+r1boyglaUaxtUpdI5sek8I2Dq8blKZDO9p
-         dVIaaxpQCx1T9zonqqYO4uuN52apmu/YhiW0/rHn7mvPyJVqoy2TGJLiSzk+SJpewX9U
-         Zcyjo+ijYwgjg84EwfdjHBR8i25CITFm875LZGEEqPEuXZ/j3B8BCaPma22SJ5aAHGQE
-         9jgzbl92sPz98iYiw1nAQJmMrfabym6GlPHrvaQfNXx8aUakyNrinV2wOs1GHR712lTx
-         gulg==
+        bh=q0wdHg60zf+oJPC9M4JkxR2gKdDE2ppNDaErWgzCcGM=;
+        b=trMcTyCtjrKoOidfa81cLqysZj7KaKOckAv2vGGKAq2xlrj09z0WPLAm5DCw6uLk4w
+         CF7tM+WiwCyY78E+z0rG+hNOqC91gcDQXBoIMVTDk6koHpcQxUU1W6uwEi/bp8GEVCUA
+         squQ5H9Sx5+8BZdcNC4vKmObQUOf+TN83qHbTp09uvU+dTue7RMILOdIu5yRKn1KN3Y4
+         kaHi/izc/MSAGqgzkJB3YdYTIjKsPqaBm6e7X+eg4xgfVp16vWNZD1QBAvES5/hI8yWG
+         1xFLDhElAqTfSffNchfb9rj1Hd8AkoyATvA9orB2uO/ffVXynwd0d4PnMnVaO72m7LMY
+         O+vw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=Y3VD18rW;
-       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::842 as permitted sender) smtp.mailfrom=glider@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=MhI88VRy;
+       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f44 as permitted sender) smtp.mailfrom=glider@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
@@ -37,13 +37,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:list-post:list-help:list-archive:list-subscribe
          :list-unsubscribe;
-        bh=ZIIN7oADZ8S96itNRGo7CGG60iyWt5ek1WthPgu5FqM=;
-        b=SmRtwkCpMBDYJeuDBvVrLGuMw4l+FqUKNjdHARtQES1VA8ooqN192INHY140AOFL1a
-         Q7hco1kYOflWrUjHoCsLgJkaOjatLAUwZD2EJFbmPx3l/8cZjC7LacePCem64WTYjVXr
-         80GPbPyylyPeevb4ac4LgTv5MRs4QJWDKoKC1RS1wHeTKveJB4WMKiqdTewggxrHRe4o
-         KAb/NAF0UsAn/2SjouNxFjJtksn1gvvY2D6iX+EYM6+aHMCSR80h21I4s3QhNAt2qpgJ
-         S/05i4g9EAcu6PyqM98VySWOCDaEy9/zo3G3f3boJI9xRFBQ+KWNpXzAEm5E5vgZ4I+z
-         2Vfw==
+        bh=q0wdHg60zf+oJPC9M4JkxR2gKdDE2ppNDaErWgzCcGM=;
+        b=kkUDE+7vNinx9cnUZRcf0HKHLgwFRRcZCFII2aMo7PEBD6WXN9GG9jg/8k84OqFxPL
+         Gn0w+EpzRKL0X8xVHFWJpjCIeDyL38+cGfuWizGjEJf6yUe3Mg+dmaRboLt7ezc7S0tZ
+         zWCMNZurrya3F7h/WO0fw7CNe3+w15zTHvsetUV9PQ1KN18ec8m5MaGURM/DaLmqzCjr
+         WNRq5pEORlpxN2GOba0RqqGnL1PynC79oOr6sG1j21SlbQC7Af74vTSdmMxmyvkvWIvn
+         W2Wzs+jBg6eLtd+mKBpWZ9tJrhvS9cePuATHeLbJNIsD4vsTW163Q8B6MAep0r37JShN
+         tLlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
@@ -51,62 +51,62 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
          :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=ZIIN7oADZ8S96itNRGo7CGG60iyWt5ek1WthPgu5FqM=;
-        b=IMq8rq4ulFZQzeyVxylAKIvYSUW8yxArm5gVPPjHmlF9Mwf59uCSqsit56xms4EtBd
-         cCOxYqz/NzeBd+qdOiyJZ43BnKjN9+ozY8+asOt90EALjlu7t5ykQ65Mu4b6lMR2bLoY
-         xoJq1TFd98PJti4ni4H2BBpl45Ag4BlFaPV9VM9m7SMJRkl2ImWcivv4RqisZtkpXkfy
-         wULeIbvEs5kFydQXSFJleWxu1N/pFah/ElFAEI1ExhpplfFkSTaGs323p9SHHWhdVcTS
-         s/ocBasmU3+c9zMXpfFypSpcfl2fXF1AoWwURenHUnaya3glkX1DBSDAOrl/bn+PoMYa
-         t4vQ==
-X-Gm-Message-State: AOAM533DTxTwJttjBGjKNNvGh+vvDRslnDro86JFTGYy3NvRnw+qDAES
-	xfA9JQyAJDP8CnAwGZiFNvw=
-X-Google-Smtp-Source: ABdhPJwKOe7HQkvIfzUZl4Z2Hryeiv3WB30I/Ts2CqqIPjW3q5jVA+mNJp1BZ3U2Oq04NsmyipfMLQ==
-X-Received: by 2002:ac8:8b2:: with SMTP id v47mr23109523qth.332.1605104625493;
-        Wed, 11 Nov 2020 06:23:45 -0800 (PST)
+        bh=q0wdHg60zf+oJPC9M4JkxR2gKdDE2ppNDaErWgzCcGM=;
+        b=ZNsy/2g2gFSYxr58OxviJ9FRgtnLS00srbayUqzL5PMFNqP1/fapP/jfqv9s31RX75
+         H0ECjIe6X3aSTP/QStzDLHSuc8sMEwR51MQlX7VjO67zo5sS2rAmj9h7WZQOZHXHf2hJ
+         eZImBzDXyqRCi34EHa+6aN2w5F+wYFa5mVv+2eA/Wuj6sPf49OvvNiQ4HuWXyDLh++kY
+         8WTSKyvythGUvzJRoOolPmx0k8+m4l3t9Jy//o7oYL3ATKkLQ/h8XNewNx9d6KTV7OVE
+         +F4FpO3qUcgj+u0iigJTMq++TGMNsjfQ+QlEU9vtoCc6HbUgE6AlQm2P37XIEuelrz9M
+         gZmg==
+X-Gm-Message-State: AOAM5316z6AKTjKYTdcTxdmu+4GCG50qv1WEa344YiDE92H44/N+3KFG
+	J3KPDH+GZ9hCU37EkPT3hnQ=
+X-Google-Smtp-Source: ABdhPJwdmXa0OxvlojE5er31qHzWStKT0Z0r52fp19KrcvwmGaXuWycxKXxKFKUpwPOPvbXy+ucBuw==
+X-Received: by 2002:a17:90a:ce8c:: with SMTP id g12mr4149961pju.181.1605104741842;
+        Wed, 11 Nov 2020 06:25:41 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6214:152:: with SMTP id x18ls3539808qvs.10.gmail; Wed,
- 11 Nov 2020 06:23:45 -0800 (PST)
-X-Received: by 2002:a0c:fb06:: with SMTP id c6mr24752182qvp.10.1605104625015;
-        Wed, 11 Nov 2020 06:23:45 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1605104625; cv=none;
+Received: by 2002:a62:8055:: with SMTP id j82ls6055037pfd.5.gmail; Wed, 11 Nov
+ 2020 06:25:41 -0800 (PST)
+X-Received: by 2002:aa7:8055:0:b029:15f:cbe9:1aad with SMTP id y21-20020aa780550000b029015fcbe91aadmr23227767pfm.71.1605104741193;
+        Wed, 11 Nov 2020 06:25:41 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1605104741; cv=none;
         d=google.com; s=arc-20160816;
-        b=H5LiUCFCpZjSQ0D1tsIXa5hwDnVlztEB/f2nYs1M8r/kOxdghbEqKwh7Aim43WcvqB
-         9XUDExxjkqCytxXETXyDEodpah1tMudxhTQZbuve/WPTLau7NVKMuwc8x9oXDpql5EIn
-         /LbEj4LUzNgX/L4FAYEpWeisTPR5e2mjIfpM3A2xVtpn9zSvQq5zBukL/qt6Eu6Bqqv8
-         /SZK6JUYtwbe1bQsDTfX/L85ZpYogIEot8Cm3QsFgC+jE90H8elJAgnMBoFP4cffgjwO
-         vn2tITIBZjmBuiaGKUMzcILz83nJivYBzcDXxKqNUHBxHSuyORLKOt3gKipcpcqGqY2g
-         UOFA==
+        b=Xom2fYsIjQVfNihf7L8GCZQOLmb184C1gEMtWuzGMuvrVYek1f6n48q0sQ9wEglqgi
+         A22+XQRwNTsoLzkQGwyQbwwVvdUMhiYP5QZRYRdQJHuKNNPu/mWd8qEJjph/aU7o5/W0
+         D/nnnkdVdfggYnb98gJCjG/zmlSxtAMTi0ITXE2Mj2P7W4bpPDxbW7NvAazrExqQJOlv
+         djeQfPbfzvm0ZQl8XDR6YzZUi9eycBywmApA1DhCGIH367ziiJeqWF0LT9zK0fGEQ+lU
+         dEiDts60S5PRmDhd61bV3Ng6qIYACDCzH8G18ZWqSVaMiKvi77ExZboYvTyxLKfpLogu
+         Mmkg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=UloFlAe4eE6dBOKuaOljn+MXY+P4+o9Y9O9NjdtVr4Y=;
-        b=yeA5gkpdY6RsYYswXBtFnJ4lirCehmCG8yQkBQUBTnsx+mog0bRUSZZUKpw6LCAYk7
-         r6GpWRH0BDgnEFVwAGGewlM6y0V8Ge1sRdKwAqiJQhSejKKIr9EimB1s4CyrwStctVJo
-         zNXhZMmMdSnybtKtlCeSJ0WCIsUjixIscS2Jrd5dqVlF72uoOKya/JVdo93NrIzGJh6b
-         J3Z54sxms9BiDeBZVi8vDYaFRnUpL20uL5jFgh1cmfd3LrBAS/cTU713kXALPH/sSN+c
-         UJFfvc+GgvjpzlxYp08NU8RrD/vJbxRVZhXeTnLfqeA8C9oaKudYjocatGw+vVpyQYBC
-         18mw==
+        bh=ivzJGCKhLp1x2v+oY17etQZN4NoUxQRVrZrrn1pxmzQ=;
+        b=U30RiX+cW1Zj6lIA4inJHTxD0ZFHlo6pGo8b4FIfgy51JV1o5QG8LgBol0nnUCebvq
+         ghrZ5UgqqjiKnL4o9ySEwa/cl+OVkWBGsq3JKecvrwovYAfcQPc3awxV3rGxD60N6u8y
+         ykgQwZyk/ezC+QFWDDPc1+IH8JeDDRsKrieE2Vu6aW8S3MMXFQEtfQJMmJoxYX8dM+z1
+         +eabg2K0tO6K8W4Iv33zRuAKgRZiVscwMhnsC5ZcST0XBOMbVD/FgecdSztTPt+j+4Bf
+         wskTVrTvcnhOYPtJ2b4icsefzMNlClCByn4HtMdRZfTxzAPJ+QnWvRhchSSKOEXredKx
+         D1+A==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=Y3VD18rW;
-       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::842 as permitted sender) smtp.mailfrom=glider@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=MhI88VRy;
+       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f44 as permitted sender) smtp.mailfrom=glider@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-qt1-x842.google.com (mail-qt1-x842.google.com. [2607:f8b0:4864:20::842])
-        by gmr-mx.google.com with ESMTPS id g19si139393qtm.2.2020.11.11.06.23.45
+Received: from mail-qv1-xf44.google.com (mail-qv1-xf44.google.com. [2607:f8b0:4864:20::f44])
+        by gmr-mx.google.com with ESMTPS id z12si134263pjf.3.2020.11.11.06.25.41
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 Nov 2020 06:23:45 -0800 (PST)
-Received-SPF: pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::842 as permitted sender) client-ip=2607:f8b0:4864:20::842;
-Received: by mail-qt1-x842.google.com with SMTP id g17so1360088qts.5
-        for <kasan-dev@googlegroups.com>; Wed, 11 Nov 2020 06:23:44 -0800 (PST)
-X-Received: by 2002:ac8:5c85:: with SMTP id r5mr18898460qta.8.1605104624442;
- Wed, 11 Nov 2020 06:23:44 -0800 (PST)
+        Wed, 11 Nov 2020 06:25:41 -0800 (PST)
+Received-SPF: pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f44 as permitted sender) client-ip=2607:f8b0:4864:20::f44;
+Received: by mail-qv1-xf44.google.com with SMTP id 63so939100qva.7
+        for <kasan-dev@googlegroups.com>; Wed, 11 Nov 2020 06:25:41 -0800 (PST)
+X-Received: by 2002:a0c:9e53:: with SMTP id z19mr24687355qve.23.1605104740021;
+ Wed, 11 Nov 2020 06:25:40 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1605046192.git.andreyknvl@google.com> <427d46e86c81f3ec77147b0ade4bd551d878cf7a.1605046192.git.andreyknvl@google.com>
-In-Reply-To: <427d46e86c81f3ec77147b0ade4bd551d878cf7a.1605046192.git.andreyknvl@google.com>
+References: <cover.1605046192.git.andreyknvl@google.com> <f19f5aac37051fa10b2a8eb3539c19e113b92a06.1605046192.git.andreyknvl@google.com>
+In-Reply-To: <f19f5aac37051fa10b2a8eb3539c19e113b92a06.1605046192.git.andreyknvl@google.com>
 From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Wed, 11 Nov 2020 15:23:33 +0100
-Message-ID: <CAG_fn=XBE+aRBizrJgNGsJ5FGPtSAHWqL26k2pCRxvutJ-LbTg@mail.gmail.com>
-Subject: Re: [PATCH v9 13/44] kasan: hide invalid free check implementation
+Date: Wed, 11 Nov 2020 15:25:28 +0100
+Message-ID: <CAG_fn=XTGREjohda7iNoJMFO+cmh250iANoWMBsBn8uVJSK9Lw@mail.gmail.com>
+Subject: Re: [PATCH v9 14/44] kasan: decode stack frame only with KASAN_STACK_ENABLE
 To: Andrey Konovalov <andreyknvl@google.com>
 Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will.deacon@arm.com>, 
 	Vincenzo Frascino <vincenzo.frascino@arm.com>, Dmitry Vyukov <dvyukov@google.com>, 
@@ -120,8 +120,8 @@ Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Original-Sender: glider@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=Y3VD18rW;       spf=pass
- (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::842 as
+ header.i=@google.com header.s=20161025 header.b=MhI88VRy;       spf=pass
+ (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f44 as
  permitted sender) smtp.mailfrom=glider@google.com;       dmarc=pass (p=REJECT
  sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Alexander Potapenko <glider@google.com>
@@ -141,14 +141,9 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 On Tue, Nov 10, 2020 at 11:11 PM Andrey Konovalov <andreyknvl@google.com> w=
 rote:
 >
-> This is a preparatory commit for the upcoming addition of a new hardware
-> tag-based (MTE-based) KASAN mode.
->
-> For software KASAN modes the check is based on the value in the shadow
-> memory. Hardware tag-based KASAN won't be using shadow, so hide the
-> implementation of the check in check_invalid_free().
->
-> Also simplify the code for software tag-based mode.
+> Decoding routines aren't needed when CONFIG_KASAN_STACK_ENABLE is not
+> enabled. Currently only generic KASAN mode implements stack error
+> reporting.
 >
 > No functional changes for software modes.
 >
@@ -158,111 +153,415 @@ rote:
 Reviewed-by: Alexander Potapenko <glider@google.com>
 
 > ---
-> Change-Id: I5fae9531c9fc948eb4d4e0c589744032fc5a0789
+> Change-Id: I084e3214f2b40dc0bef7c5a9fafdc6f5c42b06a2
 > ---
->  mm/kasan/common.c  | 19 +------------------
->  mm/kasan/generic.c |  7 +++++++
->  mm/kasan/kasan.h   |  2 ++
->  mm/kasan/sw_tags.c |  9 +++++++++
->  4 files changed, 19 insertions(+), 18 deletions(-)
+>  mm/kasan/kasan.h          |   6 ++
+>  mm/kasan/report.c         | 162 --------------------------------------
+>  mm/kasan/report_generic.c | 162 ++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 168 insertions(+), 162 deletions(-)
 >
-> diff --git a/mm/kasan/common.c b/mm/kasan/common.c
-> index 123abfb760d4..543e6bf2168f 100644
-> --- a/mm/kasan/common.c
-> +++ b/mm/kasan/common.c
-> @@ -272,25 +272,9 @@ void * __must_check kasan_init_slab_obj(struct kmem_=
-cache *cache,
->         return (void *)object;
->  }
->
-> -static inline bool shadow_invalid(u8 tag, s8 shadow_byte)
-> -{
-> -       if (IS_ENABLED(CONFIG_KASAN_GENERIC))
-> -               return shadow_byte < 0 ||
-> -                       shadow_byte >=3D KASAN_GRANULE_SIZE;
-> -
-> -       /* else CONFIG_KASAN_SW_TAGS: */
-> -       if ((u8)shadow_byte =3D=3D KASAN_TAG_INVALID)
-> -               return true;
-> -       if ((tag !=3D KASAN_TAG_KERNEL) && (tag !=3D (u8)shadow_byte))
-> -               return true;
-> -
-> -       return false;
-> -}
-> -
->  static bool __kasan_slab_free(struct kmem_cache *cache, void *object,
->                               unsigned long ip, bool quarantine)
->  {
-> -       s8 shadow_byte;
->         u8 tag;
->         void *tagged_object;
->         unsigned long rounded_up_size;
-> @@ -309,8 +293,7 @@ static bool __kasan_slab_free(struct kmem_cache *cach=
-e, void *object,
->         if (unlikely(cache->flags & SLAB_TYPESAFE_BY_RCU))
->                 return false;
->
-> -       shadow_byte =3D READ_ONCE(*(s8 *)kasan_mem_to_shadow(object));
-> -       if (shadow_invalid(tag, shadow_byte)) {
-> +       if (check_invalid_free(tagged_object)) {
->                 kasan_report_invalid_free(tagged_object, ip);
->                 return true;
->         }
-> diff --git a/mm/kasan/generic.c b/mm/kasan/generic.c
-> index ec4417156943..e1af3b6c53b8 100644
-> --- a/mm/kasan/generic.c
-> +++ b/mm/kasan/generic.c
-> @@ -187,6 +187,13 @@ bool check_memory_region(unsigned long addr, size_t =
-size, bool write,
->         return check_memory_region_inline(addr, size, write, ret_ip);
->  }
->
-> +bool check_invalid_free(void *addr)
-> +{
-> +       s8 shadow_byte =3D READ_ONCE(*(s8 *)kasan_mem_to_shadow(addr));
-> +
-> +       return shadow_byte < 0 || shadow_byte >=3D KASAN_GRANULE_SIZE;
-> +}
-> +
->  void kasan_cache_shrink(struct kmem_cache *cache)
->  {
->         quarantine_remove_cache(cache);
 > diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
-> index 1865bb92d47a..3eff57e71ff5 100644
+> index 3eff57e71ff5..d0cf61d4d70d 100644
 > --- a/mm/kasan/kasan.h
 > +++ b/mm/kasan/kasan.h
-> @@ -164,6 +164,8 @@ void kasan_poison_memory(const void *address, size_t =
-size, u8 value);
->  bool check_memory_region(unsigned long addr, size_t size, bool write,
->                                 unsigned long ret_ip);
->
-> +bool check_invalid_free(void *addr);
-> +
+> @@ -169,6 +169,12 @@ bool check_invalid_free(void *addr);
 >  void *find_first_bad_addr(void *addr, size_t size);
 >  const char *get_bug_type(struct kasan_access_info *info);
 >
-> diff --git a/mm/kasan/sw_tags.c b/mm/kasan/sw_tags.c
-> index 4bdd7dbd6647..b2638c2cd58a 100644
-> --- a/mm/kasan/sw_tags.c
-> +++ b/mm/kasan/sw_tags.c
-> @@ -121,6 +121,15 @@ bool check_memory_region(unsigned long addr, size_t =
-size, bool write,
->         return true;
+> +#if defined(CONFIG_KASAN_GENERIC) && CONFIG_KASAN_STACK
+> +void print_address_stack_frame(const void *addr);
+> +#else
+> +static inline void print_address_stack_frame(const void *addr) { }
+> +#endif
+> +
+>  bool kasan_report(unsigned long addr, size_t size,
+>                 bool is_write, unsigned long ip);
+>  void kasan_report_invalid_free(void *object, unsigned long ip);
+> diff --git a/mm/kasan/report.c b/mm/kasan/report.c
+> index fff0c7befbfe..b18d193f7f58 100644
+> --- a/mm/kasan/report.c
+> +++ b/mm/kasan/report.c
+> @@ -211,168 +211,6 @@ static inline bool init_task_stack_addr(const void =
+*addr)
+>                         sizeof(init_thread_union.stack));
 >  }
 >
-> +bool check_invalid_free(void *addr)
+> -static bool __must_check tokenize_frame_descr(const char **frame_descr,
+> -                                             char *token, size_t max_tok=
+_len,
+> -                                             unsigned long *value)
+> -{
+> -       const char *sep =3D strchr(*frame_descr, ' ');
+> -
+> -       if (sep =3D=3D NULL)
+> -               sep =3D *frame_descr + strlen(*frame_descr);
+> -
+> -       if (token !=3D NULL) {
+> -               const size_t tok_len =3D sep - *frame_descr;
+> -
+> -               if (tok_len + 1 > max_tok_len) {
+> -                       pr_err("KASAN internal error: frame description t=
+oo long: %s\n",
+> -                              *frame_descr);
+> -                       return false;
+> -               }
+> -
+> -               /* Copy token (+ 1 byte for '\0'). */
+> -               strlcpy(token, *frame_descr, tok_len + 1);
+> -       }
+> -
+> -       /* Advance frame_descr past separator. */
+> -       *frame_descr =3D sep + 1;
+> -
+> -       if (value !=3D NULL && kstrtoul(token, 10, value)) {
+> -               pr_err("KASAN internal error: not a valid number: %s\n", =
+token);
+> -               return false;
+> -       }
+> -
+> -       return true;
+> -}
+> -
+> -static void print_decoded_frame_descr(const char *frame_descr)
+> -{
+> -       /*
+> -        * We need to parse the following string:
+> -        *    "n alloc_1 alloc_2 ... alloc_n"
+> -        * where alloc_i looks like
+> -        *    "offset size len name"
+> -        * or "offset size len name:line".
+> -        */
+> -
+> -       char token[64];
+> -       unsigned long num_objects;
+> -
+> -       if (!tokenize_frame_descr(&frame_descr, token, sizeof(token),
+> -                                 &num_objects))
+> -               return;
+> -
+> -       pr_err("\n");
+> -       pr_err("this frame has %lu %s:\n", num_objects,
+> -              num_objects =3D=3D 1 ? "object" : "objects");
+> -
+> -       while (num_objects--) {
+> -               unsigned long offset;
+> -               unsigned long size;
+> -
+> -               /* access offset */
+> -               if (!tokenize_frame_descr(&frame_descr, token, sizeof(tok=
+en),
+> -                                         &offset))
+> -                       return;
+> -               /* access size */
+> -               if (!tokenize_frame_descr(&frame_descr, token, sizeof(tok=
+en),
+> -                                         &size))
+> -                       return;
+> -               /* name length (unused) */
+> -               if (!tokenize_frame_descr(&frame_descr, NULL, 0, NULL))
+> -                       return;
+> -               /* object name */
+> -               if (!tokenize_frame_descr(&frame_descr, token, sizeof(tok=
+en),
+> -                                         NULL))
+> -                       return;
+> -
+> -               /* Strip line number; without filename it's not very help=
+ful. */
+> -               strreplace(token, ':', '\0');
+> -
+> -               /* Finally, print object information. */
+> -               pr_err(" [%lu, %lu) '%s'", offset, offset + size, token);
+> -       }
+> -}
+> -
+> -static bool __must_check get_address_stack_frame_info(const void *addr,
+> -                                                     unsigned long *offs=
+et,
+> -                                                     const char **frame_=
+descr,
+> -                                                     const void **frame_=
+pc)
+> -{
+> -       unsigned long aligned_addr;
+> -       unsigned long mem_ptr;
+> -       const u8 *shadow_bottom;
+> -       const u8 *shadow_ptr;
+> -       const unsigned long *frame;
+> -
+> -       BUILD_BUG_ON(IS_ENABLED(CONFIG_STACK_GROWSUP));
+> -
+> -       /*
+> -        * NOTE: We currently only support printing frame information for
+> -        * accesses to the task's own stack.
+> -        */
+> -       if (!object_is_on_stack(addr))
+> -               return false;
+> -
+> -       aligned_addr =3D round_down((unsigned long)addr, sizeof(long));
+> -       mem_ptr =3D round_down(aligned_addr, KASAN_GRANULE_SIZE);
+> -       shadow_ptr =3D kasan_mem_to_shadow((void *)aligned_addr);
+> -       shadow_bottom =3D kasan_mem_to_shadow(end_of_stack(current));
+> -
+> -       while (shadow_ptr >=3D shadow_bottom && *shadow_ptr !=3D KASAN_ST=
+ACK_LEFT) {
+> -               shadow_ptr--;
+> -               mem_ptr -=3D KASAN_GRANULE_SIZE;
+> -       }
+> -
+> -       while (shadow_ptr >=3D shadow_bottom && *shadow_ptr =3D=3D KASAN_=
+STACK_LEFT) {
+> -               shadow_ptr--;
+> -               mem_ptr -=3D KASAN_GRANULE_SIZE;
+> -       }
+> -
+> -       if (shadow_ptr < shadow_bottom)
+> -               return false;
+> -
+> -       frame =3D (const unsigned long *)(mem_ptr + KASAN_GRANULE_SIZE);
+> -       if (frame[0] !=3D KASAN_CURRENT_STACK_FRAME_MAGIC) {
+> -               pr_err("KASAN internal error: frame info validation faile=
+d; invalid marker: %lu\n",
+> -                      frame[0]);
+> -               return false;
+> -       }
+> -
+> -       *offset =3D (unsigned long)addr - (unsigned long)frame;
+> -       *frame_descr =3D (const char *)frame[1];
+> -       *frame_pc =3D (void *)frame[2];
+> -
+> -       return true;
+> -}
+> -
+> -static void print_address_stack_frame(const void *addr)
+> -{
+> -       unsigned long offset;
+> -       const char *frame_descr;
+> -       const void *frame_pc;
+> -
+> -       if (IS_ENABLED(CONFIG_KASAN_SW_TAGS))
+> -               return;
+> -
+> -       if (!get_address_stack_frame_info(addr, &offset, &frame_descr,
+> -                                         &frame_pc))
+> -               return;
+> -
+> -       /*
+> -        * get_address_stack_frame_info only returns true if the given ad=
+dr is
+> -        * on the current task's stack.
+> -        */
+> -       pr_err("\n");
+> -       pr_err("addr %px is located in stack of task %s/%d at offset %lu =
+in frame:\n",
+> -              addr, current->comm, task_pid_nr(current), offset);
+> -       pr_err(" %pS\n", frame_pc);
+> -
+> -       if (!frame_descr)
+> -               return;
+> -
+> -       print_decoded_frame_descr(frame_descr);
+> -}
+> -
+>  static void print_address_description(void *addr, u8 tag)
+>  {
+>         struct page *page =3D kasan_addr_to_page(addr);
+> diff --git a/mm/kasan/report_generic.c b/mm/kasan/report_generic.c
+> index 7d5b9e5c7cfe..b543a1ed6078 100644
+> --- a/mm/kasan/report_generic.c
+> +++ b/mm/kasan/report_generic.c
+> @@ -16,6 +16,7 @@
+>  #include <linux/mm.h>
+>  #include <linux/printk.h>
+>  #include <linux/sched.h>
+> +#include <linux/sched/task_stack.h>
+>  #include <linux/slab.h>
+>  #include <linux/stackdepot.h>
+>  #include <linux/stacktrace.h>
+> @@ -122,6 +123,167 @@ const char *get_bug_type(struct kasan_access_info *=
+info)
+>         return get_wild_bug_type(info);
+>  }
+>
+> +#if CONFIG_KASAN_STACK
+> +static bool __must_check tokenize_frame_descr(const char **frame_descr,
+> +                                             char *token, size_t max_tok=
+_len,
+> +                                             unsigned long *value)
 > +{
-> +       u8 tag =3D get_tag(addr);
-> +       u8 shadow_byte =3D READ_ONCE(*(u8 *)kasan_mem_to_shadow(reset_tag=
-(addr)));
+> +       const char *sep =3D strchr(*frame_descr, ' ');
 > +
-> +       return (shadow_byte =3D=3D KASAN_TAG_INVALID) ||
-> +               (tag !=3D KASAN_TAG_KERNEL && tag !=3D shadow_byte);
+> +       if (sep =3D=3D NULL)
+> +               sep =3D *frame_descr + strlen(*frame_descr);
+> +
+> +       if (token !=3D NULL) {
+> +               const size_t tok_len =3D sep - *frame_descr;
+> +
+> +               if (tok_len + 1 > max_tok_len) {
+> +                       pr_err("KASAN internal error: frame description t=
+oo long: %s\n",
+> +                              *frame_descr);
+> +                       return false;
+> +               }
+> +
+> +               /* Copy token (+ 1 byte for '\0'). */
+> +               strlcpy(token, *frame_descr, tok_len + 1);
+> +       }
+> +
+> +       /* Advance frame_descr past separator. */
+> +       *frame_descr =3D sep + 1;
+> +
+> +       if (value !=3D NULL && kstrtoul(token, 10, value)) {
+> +               pr_err("KASAN internal error: not a valid number: %s\n", =
+token);
+> +               return false;
+> +       }
+> +
+> +       return true;
 > +}
 > +
->  #define DEFINE_HWASAN_LOAD_STORE(size)                                 \
->         void __hwasan_load##size##_noabort(unsigned long addr)          \
->         {                                                               \
+> +static void print_decoded_frame_descr(const char *frame_descr)
+> +{
+> +       /*
+> +        * We need to parse the following string:
+> +        *    "n alloc_1 alloc_2 ... alloc_n"
+> +        * where alloc_i looks like
+> +        *    "offset size len name"
+> +        * or "offset size len name:line".
+> +        */
+> +
+> +       char token[64];
+> +       unsigned long num_objects;
+> +
+> +       if (!tokenize_frame_descr(&frame_descr, token, sizeof(token),
+> +                                 &num_objects))
+> +               return;
+> +
+> +       pr_err("\n");
+> +       pr_err("this frame has %lu %s:\n", num_objects,
+> +              num_objects =3D=3D 1 ? "object" : "objects");
+> +
+> +       while (num_objects--) {
+> +               unsigned long offset;
+> +               unsigned long size;
+> +
+> +               /* access offset */
+> +               if (!tokenize_frame_descr(&frame_descr, token, sizeof(tok=
+en),
+> +                                         &offset))
+> +                       return;
+> +               /* access size */
+> +               if (!tokenize_frame_descr(&frame_descr, token, sizeof(tok=
+en),
+> +                                         &size))
+> +                       return;
+> +               /* name length (unused) */
+> +               if (!tokenize_frame_descr(&frame_descr, NULL, 0, NULL))
+> +                       return;
+> +               /* object name */
+> +               if (!tokenize_frame_descr(&frame_descr, token, sizeof(tok=
+en),
+> +                                         NULL))
+> +                       return;
+> +
+> +               /* Strip line number; without filename it's not very help=
+ful. */
+> +               strreplace(token, ':', '\0');
+> +
+> +               /* Finally, print object information. */
+> +               pr_err(" [%lu, %lu) '%s'", offset, offset + size, token);
+> +       }
+> +}
+> +
+> +static bool __must_check get_address_stack_frame_info(const void *addr,
+> +                                                     unsigned long *offs=
+et,
+> +                                                     const char **frame_=
+descr,
+> +                                                     const void **frame_=
+pc)
+> +{
+> +       unsigned long aligned_addr;
+> +       unsigned long mem_ptr;
+> +       const u8 *shadow_bottom;
+> +       const u8 *shadow_ptr;
+> +       const unsigned long *frame;
+> +
+> +       BUILD_BUG_ON(IS_ENABLED(CONFIG_STACK_GROWSUP));
+> +
+> +       /*
+> +        * NOTE: We currently only support printing frame information for
+> +        * accesses to the task's own stack.
+> +        */
+> +       if (!object_is_on_stack(addr))
+> +               return false;
+> +
+> +       aligned_addr =3D round_down((unsigned long)addr, sizeof(long));
+> +       mem_ptr =3D round_down(aligned_addr, KASAN_GRANULE_SIZE);
+> +       shadow_ptr =3D kasan_mem_to_shadow((void *)aligned_addr);
+> +       shadow_bottom =3D kasan_mem_to_shadow(end_of_stack(current));
+> +
+> +       while (shadow_ptr >=3D shadow_bottom && *shadow_ptr !=3D KASAN_ST=
+ACK_LEFT) {
+> +               shadow_ptr--;
+> +               mem_ptr -=3D KASAN_GRANULE_SIZE;
+> +       }
+> +
+> +       while (shadow_ptr >=3D shadow_bottom && *shadow_ptr =3D=3D KASAN_=
+STACK_LEFT) {
+> +               shadow_ptr--;
+> +               mem_ptr -=3D KASAN_GRANULE_SIZE;
+> +       }
+> +
+> +       if (shadow_ptr < shadow_bottom)
+> +               return false;
+> +
+> +       frame =3D (const unsigned long *)(mem_ptr + KASAN_GRANULE_SIZE);
+> +       if (frame[0] !=3D KASAN_CURRENT_STACK_FRAME_MAGIC) {
+> +               pr_err("KASAN internal error: frame info validation faile=
+d; invalid marker: %lu\n",
+> +                      frame[0]);
+> +               return false;
+> +       }
+> +
+> +       *offset =3D (unsigned long)addr - (unsigned long)frame;
+> +       *frame_descr =3D (const char *)frame[1];
+> +       *frame_pc =3D (void *)frame[2];
+> +
+> +       return true;
+> +}
+> +
+> +void print_address_stack_frame(const void *addr)
+> +{
+> +       unsigned long offset;
+> +       const char *frame_descr;
+> +       const void *frame_pc;
+> +
+> +       if (!get_address_stack_frame_info(addr, &offset, &frame_descr,
+> +                                         &frame_pc))
+> +               return;
+> +
+> +       /*
+> +        * get_address_stack_frame_info only returns true if the given ad=
+dr is
+> +        * on the current task's stack.
+> +        */
+> +       pr_err("\n");
+> +       pr_err("addr %px is located in stack of task %s/%d at offset %lu =
+in frame:\n",
+> +              addr, current->comm, task_pid_nr(current), offset);
+> +       pr_err(" %pS\n", frame_pc);
+> +
+> +       if (!frame_descr)
+> +               return;
+> +
+> +       print_decoded_frame_descr(frame_descr);
+> +}
+> +#endif /* CONFIG_KASAN_STACK */
+> +
+>  #define DEFINE_ASAN_REPORT_LOAD(size)                     \
+>  void __asan_report_load##size##_noabort(unsigned long addr) \
+>  {                                                         \
 > --
 > 2.29.2.222.g5d2a92d10f8-goog
 >
@@ -286,5 +585,5 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CAG_fn%3DXBE%2BaRBizrJgNGsJ5FGPtSAHWqL26k2pCRxvutJ-LbTg%40mail.gm=
+kasan-dev/CAG_fn%3DXTGREjohda7iNoJMFO%2Bcmh250iANoWMBsBn8uVJSK9Lw%40mail.gm=
 ail.com.
