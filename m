@@ -1,142 +1,141 @@
-Return-Path: <kasan-dev+bncBAABBJWYWD6QKGQEWD6GTVY@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBE63WD6QKGQERELWPSY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oi1-x23d.google.com (mail-oi1-x23d.google.com [IPv6:2607:f8b0:4864:20::23d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 064622AF7D8
-	for <lists+kasan-dev@lfdr.de>; Wed, 11 Nov 2020 19:23:36 +0100 (CET)
-Received: by mail-oi1-x23d.google.com with SMTP id g19sf1202888oib.6
-        for <lists+kasan-dev@lfdr.de>; Wed, 11 Nov 2020 10:23:35 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1605119015; cv=pass;
+Received: from mail-wr1-x43a.google.com (mail-wr1-x43a.google.com [IPv6:2a00:1450:4864:20::43a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 455DD2AF7E8
+	for <lists+kasan-dev@lfdr.de>; Wed, 11 Nov 2020 19:29:40 +0100 (CET)
+Received: by mail-wr1-x43a.google.com with SMTP id v5sf894034wrr.0
+        for <lists+kasan-dev@lfdr.de>; Wed, 11 Nov 2020 10:29:40 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1605119380; cv=pass;
         d=google.com; s=arc-20160816;
-        b=axgZukScO+ostE/pNquuwz5+5mCKWyi+Awm22Fs5jirBo+nXVAEfqIWjOmI9xkDD0x
-         vqaM7fW7JXx+GTeA3x2BoDJiyQzz+sxbWHC1tHn4Fk8hprOwVBjPPEogCdI5OUpXCHT3
-         83n1jiHost+ID6STx/DGLR3VTITXt8DlsAWrfwYvpRi6PfzsxQjagCWIDDi1YmKXaUWr
-         Fiz62XAE2IbgdO9al10oLpX3s5F49IrjbVR0gngz0wlcCDfQGtQ7VsMfWAcfcWtHLq9e
-         mlPo/8+YehXgavrRBR5uiM90BOuYg8W5nq/L/oz+tkWJFMb/Rz0PU9osftV/NT4MNS7u
-         aInw==
+        b=h/fu+pHrY0jexUKdRqV+ljM+5Id1XzzkjbtxO8OzP1IKjmFUsYv4/qyaEmTlsBY7gV
+         1DLRrSRCIVPRMESTj6e294JbbdobnUY27yJDIR6LGeNEmWOgLifMjUTn0+yJ51C8W5i0
+         8s5ZQbW0OIWi/q/LoxbWnxbX0ukOYq1m4fh8RQs4b0K+n2LCL/MAkQ3u0Fi7kiLIcnNc
+         /W16pBQrbOM6BqaqtS6CKmHsUYGnWcy/tXY7s4PG4z/tHnsu3dJD/8Z6Jpas837a3wKO
+         dehvFLxLevBjZYP/Hd9lQmZwmpusucfktMs/6Wfuif06u+vAn0z97O47gmValrsLCprf
+         dlWg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:user-agent:in-reply-to
-         :content-disposition:mime-version:references:reply-to:message-id
-         :subject:cc:to:from:date:sender:dkim-signature;
-        bh=zFxflPALzmTklL+dZdXOdh+KwXjewL0VP3vPEQZVoOU=;
-        b=wKhNlzkcg9WEgpg0lwr4jEjo9hB/oQqSTCe99ANdalcBvDMrriatXjE4OvUCR2QI9N
-         wI7hW+QkFrCaypVD98/9QGM8/Zjw9S7VWpcXGW5UX08m9Km46eZCGpOL7fabaq63vgCM
-         iP259ZKbpLTaBatGVHX+AxkcPxfCNNlzSZtlONVLl7zdqr/qQBCNTFs5OvbuGSfg5MXt
-         YJqLKah1po1Lo5hNo/ChidJKUcizSnqijt/Xl90m7NIV6neRhEgkqV7VBXmsixh5PVS6
-         3ffJK7E85E0nG15a3a+U9XJNrYYg+vs0cEDobES+ZjPIroozPHSmnClNJUE6pwAxwcvX
-         4qOQ==
+         :list-id:mailing-list:precedence:reply-to:user-agent:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:dkim-signature;
+        bh=G22K7VBv/ZsTTPYLylI8JR5B0steS42xXrT4W8r/qsg=;
+        b=hh6pNMJQYfsg7RU/sPVbRjeawcnXUicsq1SV9B59d3zbVaAVwyW7eEZ0z0DwSfOddq
+         p9jfTmXU6f0ldXrNEsjGbVwaihZOUMJ5BqqCMlstxCnmGMuhI15y75hd4yuo6on4Rtd4
+         DDqkwbGQ5v2B+X6kXyoyh9TAC97KR/OZ5g9JaKdvmjB/8ujJ5q+OohbebHRX4hzitDxJ
+         QuLdo06Cpca9V8xkWooOD2YcUEB67CvxJ/vKCE5M4pwv+WeAkcDK5MKRnlGuj6TFSq7i
+         k6SLq5NMsZ9195IDXT4WWylGEd+E+ORN5s84NEgcsA12DLPmll9LW4Y1zimgVJgtDbnB
+         W5Ew==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=default header.b=hMelV46A;
-       spf=pass (google.com: domain of srs0=nwwe=er=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=nwWE=ER=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       dkim=pass header.i=@google.com header.s=20161025 header.b=eUBuV6ws;
+       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::442 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:reply-to:references
-         :mime-version:content-disposition:in-reply-to:user-agent
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=zFxflPALzmTklL+dZdXOdh+KwXjewL0VP3vPEQZVoOU=;
-        b=Y2vj1OWWmE0uKvnwYmqsLn370Zxc1FjdTCBODskYPzfRMB8rTogqaD7tff5rnmwzZ5
-         ArJFKHyRffbK9kclK4K30kf4lma6v3dCsxVLsfpThuFGmf//Qr2P8DfzL3yfUwFjo1Z2
-         BjKTzz3fi5ujXQE0WC13VDwiWUf9BAg45n0b0mLhhMOAMEy+HjkaeVJO7tziVVSlxjbp
-         VMxjfohhSZavsbfZ2UP3OPzwgXMot5RXGqJLzDfU9FUVqs1R9tShFGSwaDqPH0QsPhWd
-         TuWiuCFmjTuDPPgsPHxPfZDEBfZCmfIz7szhbBI641JaxS/txZq/+gprbYCLm853RIae
-         BgJg==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:list-post:list-help:list-archive:list-subscribe
+         :list-unsubscribe;
+        bh=G22K7VBv/ZsTTPYLylI8JR5B0steS42xXrT4W8r/qsg=;
+        b=LiHibqFlpjoZGw3RS92MmBROs4m+4znHsZCixDwMKYi5TLFeT1GI7zL98o5wtUmL7O
+         WI2BcSLQq1lj5kxGByLweeoI1jkfS98WPG7pQh0unSKh6Dlp0npLI80tGYl/o1yowlzx
+         tfE//2PwjEQwmk9kgsvpj2qMdDgNjT/F/7fOSi9HBxF1u6STok3MY2+cB+2TqRrLtRYz
+         rmOwYtEr61Mu00YpaZYhEoVFbydNMHZeacizLTVxzlbPbW/VoC6spoRTv0hdWCyq8Bsv
+         UkRkNJCW3I/KxgsabC8UvEwFM2bnEMZT4BLHLxKgNNunUewWXnJHZECkGTIYhtLoIoMe
+         r9cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :reply-to:references:mime-version:content-disposition:in-reply-to
-         :user-agent:x-original-sender:x-original-authentication-results
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent
+         :x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
          :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=zFxflPALzmTklL+dZdXOdh+KwXjewL0VP3vPEQZVoOU=;
-        b=loA0QZZOh0d3FKLY46uLlpuanZueWSrGwRPHeul+9O9MMOXK4ticaDfiCMihbnVXEX
-         GCeL1rKNPhCGs21qwWjPzL0WEA6fOpfrOFSPCGCuY4sWdawYJneEZHWIY+Y9X6REr3Ko
-         7WSvNtP4s1QKR1UUtbOVdNfB9qd8SF7FnL3/zeXreOrhFVBnSvPjk9ZAD6cSQ1lPtP3x
-         rd1+TnB2kcb2IxQeLen4En0wJmMw466fKAURKW15n6VoXkUph+gk8Rq/PwzRb7Fj0ivU
-         MHmCkTJZ6g7MiTE2upYVOhm2kzuqgLMVshgtVtfHzpuo5XDJZRJ9LjprECh5ojma4Rdu
-         +NTg==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM530tbCmU7Fsa3OXQCFD/KB4efqtS7rnQd8t6fcGjgWMbIRrvVn2W
-	QHZLhQpqbwSV0R5LMwi/p9A=
-X-Google-Smtp-Source: ABdhPJx3jfg+pNLKMawOqv9+JgQcLtJTom72GFWP1vSFs3G/RdTjIXbUGhhrvBY+7hw2vWcGl0p9Cg==
-X-Received: by 2002:aca:3542:: with SMTP id c63mr2983849oia.61.1605119014923;
-        Wed, 11 Nov 2020 10:23:34 -0800 (PST)
+        bh=G22K7VBv/ZsTTPYLylI8JR5B0steS42xXrT4W8r/qsg=;
+        b=BZn0wpr9DMgOMoVGI3rAx4KYLZpaYofOOOZC+b63GQhAABsvy44XfFDjLY87id4/kf
+         vOgeN4Hed78DVPOiiKuMD7N4uYXClV9Zbu1Kfo+mtAqBJhlmktvs1JEpkwKC4DHylaXJ
+         RCA+aJJ1mf3513Jr9q9/nE1ZCrYuobzAFzMV62ptDd2pSNWkxZ356tel5Cg51f9fFCsC
+         2YL/oXEOwE7ReuXCH8Hn+awzbPlfUwJK292dzfFzZLSTvAc6flYYzo9XVAn6w3ZW3Qzv
+         fZsM3q2eDZ/7YDJUEBEKqnjZzJgMzBIwBFZCEnFKa4LfWYbahAC7gd6lNbSV6l9gyiaG
+         p3lQ==
+X-Gm-Message-State: AOAM533tzdP6lNEQ3LWcHebtqxpfdJVgyWPhppnseTOHuY4DAO76klbR
+	T5ibgdQPFTT2uQS0WmYKFYc=
+X-Google-Smtp-Source: ABdhPJwkEVecrG9WL9sHYaEn7WX2STd4mVZRu4RNnWJ+7rc+C38GxlFOqIlsP/MnW6WON5/6SfKG5A==
+X-Received: by 2002:a05:600c:22c5:: with SMTP id 5mr5574193wmg.25.1605119380014;
+        Wed, 11 Nov 2020 10:29:40 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:aca:5214:: with SMTP id g20ls77687oib.9.gmail; Wed, 11 Nov
- 2020 10:23:34 -0800 (PST)
-X-Received: by 2002:aca:3605:: with SMTP id d5mr3083309oia.45.1605119014558;
-        Wed, 11 Nov 2020 10:23:34 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1605119014; cv=none;
+Received: by 2002:a1c:3d87:: with SMTP id k129ls78769wma.3.gmail; Wed, 11 Nov
+ 2020 10:29:39 -0800 (PST)
+X-Received: by 2002:a7b:c385:: with SMTP id s5mr5390272wmj.155.1605119378951;
+        Wed, 11 Nov 2020 10:29:38 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1605119378; cv=none;
         d=google.com; s=arc-20160816;
-        b=lmqkU7UxzFwZlH+DE050xzvchMZJT0fP0HWVfHAY2/1xg53qhaVenLOz9Ug5UpbF+p
-         0fm6Lyu3j09yXX6OdCBozrfUmRiaDWPM6bJC6PaFZ+VG0UZtzwfI5Se15/SWq9Wj6hQ9
-         DXZJslaNMfUPPkfx0dgcPA7VgHsVU8hF/8OgUdr0Cx3FEzu0aPNiulq3d1YW7SQDH8WB
-         4xx+mLj+Oml5ktvInIaR249/Z/vNDbnJAqLDlBdS9UJ8JjrBvQ42A79Eh2kJUXQD6uGN
-         JKFmTDYlqciN47zRXTcS354RKAZSWtCGM0I9j3uBUyZeQzRJkQ8xSld44jGDj5YDGapH
-         HgGQ==
+        b=MpCl9TC7F3rcQjJ3Qkwvmptz+FwrIW/YvNKJaOBPkCaypHuHQPI1PNSmI2XNuBizby
+         its05Fu+PjDTpZzn3w/eBHX5afRWh/26XtOvNjXfWrc9Siv0sdPRRusjYxzLVpkKFupe
+         eB4tjI2AD/0kLV5DwiGbPtAPkKbLhNxP6u8ym+w17xljRFHgcUEeSnZ5iZqbZMXePq83
+         8h1UBA8FGPMYtwRNAmpk9AKhf1pWsD6twDz1cr3GL/JbpPEXAmsIjqJuqZrewgjz5BUj
+         U8L/OkAvOedOsi3j6Mi81x0fzY3vb7n7VlSGl+vnRxIbR8pnK3P7vE9gF9qZELmMy7jD
+         oHwA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :reply-to:message-id:subject:cc:to:from:date:dkim-signature;
-        bh=goD5QNas3mbKkKcN6CtqHHWT46Q5LsEvGryqFHG1Xh0=;
-        b=LeIaqa9vo4ziThdbFJW82vjXuWbDgMO7S/oR0084I74+z2UuhuoENxZTwdBKicS5sT
-         kvdbdtKHixdZ5HRh6S+HkIiYpPtOrpsuatTI12dlfJ59LeVSBCQ5SXKdH9Bgg51dE9wI
-         LUk9iV5HrzNKRkUwieHUgqEol96/V0CDRFomnIXGjXvSLjJCfvR03Z4x2TZmfUaheWhf
-         DINQiCJUV+z45NTHZXLwdkk6n08wfrjXs8UftKne+men3hfK67ksVTayF8mQFJVbHQyI
-         picObeXCFRvy2yCIMsRD4I2ZrppaE1vpzznP68z8kFRTy15SMc8zgjWJ8ABncNfCTpkm
-         f3CA==
+         :message-id:subject:cc:to:from:date:dkim-signature;
+        bh=gkKctNxP2ohF55zVwpehmRMz8y0vnC/mVPskztCYL/A=;
+        b=gleMGa4EqIsjpOob1ufe8I+ymmtEKpT0M+2lXaUTmaQl5zlN3P6xW1ZJW5pOquZgFU
+         ekt+YNLCvbg83gau+Y0oX5ZQMfMO+pg/UkiNfsOdCzKKTGjkFC7VEVmH2gL4wpAb2G5j
+         TLVJlPLqAURJ1trlX85ZftbsuM+eLnJrHrb5Lqa39aE0T2ORYUWm0YDZpqmTawUOD5jB
+         MRujMpkHDWGx51/k1EfHn7MG/zlw9kGBbRlcNOK/M8LIPQ2dZr3n8oE1TyNbii3t8mxd
+         w/TpJ5/HHNsVV/ScpNWiTXI0YUhCEHHoG8q/caJz0nUBdwVs/n+AT2HXdm0FJhI15bTy
+         08LA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=default header.b=hMelV46A;
-       spf=pass (google.com: domain of srs0=nwwe=er=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=nwWE=ER=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id e206si257384oob.2.2020.11.11.10.23.34
+       dkim=pass header.i=@google.com header.s=20161025 header.b=eUBuV6ws;
+       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::442 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com. [2a00:1450:4864:20::442])
+        by gmr-mx.google.com with ESMTPS id v10si91869wrr.3.2020.11.11.10.29.38
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 11 Nov 2020 10:23:34 -0800 (PST)
-Received-SPF: pass (google.com: domain of srs0=nwwe=er=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
-Received: from paulmck-ThinkPad-P72.home (50-39-104-11.bvtn.or.frontiernet.net [50.39.104.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id 91F3E2076E;
-	Wed, 11 Nov 2020 18:23:33 +0000 (UTC)
-Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
-	id 2AF3E35225D6; Wed, 11 Nov 2020 10:23:33 -0800 (PST)
-Date: Wed, 11 Nov 2020 10:23:33 -0800
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Steven Rostedt <rostedt@goodmis.org>
-Cc: Marco Elver <elver@google.com>,
-	Anders Roxell <anders.roxell@linaro.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 11 Nov 2020 10:29:38 -0800 (PST)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::442 as permitted sender) client-ip=2a00:1450:4864:20::442;
+Received: by mail-wr1-x442.google.com with SMTP id j7so3508217wrp.3
+        for <kasan-dev@googlegroups.com>; Wed, 11 Nov 2020 10:29:38 -0800 (PST)
+X-Received: by 2002:a5d:518e:: with SMTP id k14mr34061180wrv.60.1605119378323;
+        Wed, 11 Nov 2020 10:29:38 -0800 (PST)
+Received: from elver.google.com ([2a00:79e0:15:13:f693:9fff:fef4:2449])
+        by smtp.gmail.com with ESMTPSA id v19sm3612388wrf.40.2020.11.11.10.29.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Nov 2020 10:29:37 -0800 (PST)
+Date: Wed, 11 Nov 2020 19:29:31 +0100
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+To: Andrey Konovalov <andreyknvl@google.com>
+Cc: Dmitry Vyukov <dvyukov@google.com>,
 	Alexander Potapenko <glider@google.com>,
-	Dmitry Vyukov <dvyukov@google.com>, Jann Horn <jannh@google.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux-MM <linux-mm@kvack.org>,
-	kasan-dev <kasan-dev@googlegroups.com>, rcu@vger.kernel.org,
-	peterz@infradead.org
-Subject: Re: [PATCH] kfence: Avoid stalling work queue task without
- allocations
-Message-ID: <20201111182333.GA3249@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
-References: <20201110135320.3309507-1-elver@google.com>
- <CADYN=9+=-ApMi_eEdAeHU6TyuQ7ZJSTQ8F-FCSD33kZH8HR+xg@mail.gmail.com>
- <CANpmjNM8MZphvkTSo=KgCBXQ6fNY4qo6NZD5SBHjNse_L9i5FQ@mail.gmail.com>
- <20201111133813.GA81547@elver.google.com>
- <20201111130543.27d29462@gandalf.local.home>
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will.deacon@arm.com>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Evgenii Stepanov <eugenis@google.com>,
+	Andrey Ryabinin <aryabinin@virtuozzo.com>,
+	Branislav Rankov <Branislav.Rankov@arm.com>,
+	Kevin Brodsky <kevin.brodsky@arm.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	kasan-dev@googlegroups.com, linux-arm-kernel@lists.infradead.org,
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 11/20] kasan: add and integrate kasan boot parameters
+Message-ID: <20201111182931.GM517454@elver.google.com>
+References: <cover.1605046662.git.andreyknvl@google.com>
+ <fdf9e3aec8f57ebb2795710195f8aaf79e3b45bd.1605046662.git.andreyknvl@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <20201111130543.27d29462@gandalf.local.home>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Original-Sender: paulmck@kernel.org
+In-Reply-To: <fdf9e3aec8f57ebb2795710195f8aaf79e3b45bd.1605046662.git.andreyknvl@google.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=default header.b=hMelV46A;       spf=pass
- (google.com: domain of srs0=nwwe=er=paulmck-thinkpad-p72.home=paulmck@kernel.org
- designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=nwWE=ER=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+ header.i=@google.com header.s=20161025 header.b=eUBuV6ws;       spf=pass
+ (google.com: domain of elver@google.com designates 2a00:1450:4864:20::442 as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -149,241 +148,391 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Nov 11, 2020 at 01:05:43PM -0500, Steven Rostedt wrote:
-> On Wed, 11 Nov 2020 14:38:13 +0100
-> Marco Elver <elver@google.com> wrote:
+On Tue, Nov 10, 2020 at 11:20PM +0100, 'Andrey Konovalov' via kasan-dev wrote:
+> Hardware tag-based KASAN mode is intended to eventually be used in
+> production as a security mitigation. Therefore there's a need for finer
+> control over KASAN features and for an existence of a kill switch.
 > 
-> > [+Cc folks who can maybe help figure out what's going on, since I get
-> >   warnings even without KFENCE on next-20201110.]
-> > 
-> > On Wed, Nov 11, 2020 at 09:29AM +0100, Marco Elver wrote:
-> > > On Wed, 11 Nov 2020 at 00:23, Anders Roxell <anders.roxell@linaro.org> wrote:
-> > > [...]
-> > > > I gave them a spin on next-20201105 [1] and on next-20201110 [2].
-> > > >
-> > > > I eventually got to a prompt on next-20201105.
-> > > > However, I got to this kernel panic on the next-20201110:
-> > > >
-> > > > [...]
-> > > > [ 1514.089966][    T1] Testing event system initcall: OK
-> > > > [ 1514.806232][    T1] Running tests on all trace events:
-> > > > [ 1514.857835][    T1] Testing all events:
-> > > > [ 1525.503262][    C0] hrtimer: interrupt took 10902600 ns
-> > > > [ 1623.861452][    C0] BUG: workqueue lockup - pool cpus=0 node=0
-> > > > flags=0x0 nice=0 stuck for 65s!
-> > > > [...]
+> This change adds a few boot parameters for hardware tag-based KASAN that
+> allow to disable or otherwise control particular KASAN features.
 > 
-> OK, so this blows up when you enable all events?
+> The features that can be controlled are:
 > 
-> Note, it could just be adding overhead (which is exasperated with other
-> debug options enabled), which could open up a race window.
+> 1. Whether KASAN is enabled at all.
+> 2. Whether KASAN collects and saves alloc/free stacks.
+> 3. Whether KASAN panics on a detected bug or not.
+> 
+> With this change a new boot parameter kasan.mode allows to choose one of
+> three main modes:
+> 
+> - kasan.mode=off - KASAN is disabled, no tag checks are performed
+> - kasan.mode=prod - only essential production features are enabled
+> - kasan.mode=full - all KASAN features are enabled
+> 
+> The chosen mode provides default control values for the features mentioned
+> above. However it's also possible to override the default values by
+> providing:
+> 
+> - kasan.stacktrace=off/on - enable alloc/free stack collection
+>                             (default: on for mode=full, otherwise off)
+> - kasan.fault=report/panic - only report tag fault or also panic
+>                              (default: report)
+> 
+> If kasan.mode parameter is not provided, it defaults to full when
+> CONFIG_DEBUG_KERNEL is enabled, and to prod otherwise.
+> 
+> It is essential that switching between these modes doesn't require
+> rebuilding the kernel with different configs, as this is required by
+> the Android GKI (Generic Kernel Image) initiative [1].
+> 
+> [1] https://source.android.com/devices/architecture/kernel/generic-kernel-image
+> 
+> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+> Link: https://linux-review.googlesource.com/id/If7d37003875b2ed3e0935702c8015c223d6416a4
+> ---
+>  mm/kasan/common.c  |  22 +++++--
+>  mm/kasan/hw_tags.c | 152 +++++++++++++++++++++++++++++++++++++++++++++
+>  mm/kasan/kasan.h   |  16 +++++
+>  mm/kasan/report.c  |  14 ++++-
+>  4 files changed, 197 insertions(+), 7 deletions(-)
+> 
+> diff --git a/mm/kasan/common.c b/mm/kasan/common.c
+> index 4598c1364f19..efad5ed6a3bd 100644
+> --- a/mm/kasan/common.c
+> +++ b/mm/kasan/common.c
+> @@ -129,6 +129,11 @@ void kasan_cache_create(struct kmem_cache *cache, unsigned int *size,
+>  	unsigned int redzone_size;
+>  	int redzone_adjust;
 >  
-> 
-> > > > [ 7823.104349][   T28]       Tainted: G        W
-> > > > 5.10.0-rc3-next-20201110-00008-g8dc06700529d #3
-> > > > [ 7833.206491][   T28] "echo 0 >
-> > > > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
-> > > > [ 7840.750700][   T28] task:kworker/0:1     state:D stack:26640 pid:
-> > > > 1872 ppid:     2 flags:0x00000428
-> > > > [ 7875.642531][   T28] Workqueue: events toggle_allocation_gate
-> > > > [ 7889.178334][   T28] Call trace:
-> > > > [ 7897.066649][   T28]  __switch_to+0x1cc/0x1e0
-> > > > [ 7905.326856][   T28]  0xffff00000f7077b0
-> > > > [ 7928.354644][   T28] INFO: lockdep is turned off.
-> > > > [ 7934.022572][   T28] Kernel panic - not syncing: hung_task: blocked tasks
-> > > > [ 7934.032039][   T28] CPU: 0 PID: 28 Comm: khungtaskd Tainted: G
-> > > >   W         5.10.0-rc3-next-20201110-00008-g8dc06700529d #3
-> > > > [ 7934.045586][   T28] Hardware name: linux,dummy-virt (DT)
-> > > > [ 7934.053677][   T28] Call trace:
-> > > > [ 7934.060276][   T28]  dump_backtrace+0x0/0x420
-> > > > [ 7934.067635][   T28]  show_stack+0x38/0xa0
-> > > > [ 7934.091277][   T28]  dump_stack+0x1d4/0x278
-> > > > [ 7934.098878][   T28]  panic+0x304/0x5d8
-> > > > [ 7934.114923][   T28]  check_hung_uninterruptible_tasks+0x5e4/0x640
-> > > > [ 7934.123823][   T28]  watchdog+0x138/0x160
-> > > > [ 7934.131561][   T28]  kthread+0x23c/0x260
-> > > > [ 7934.138590][   T28]  ret_from_fork+0x10/0x18
-> > > > [ 7934.146631][   T28] Kernel Offset: disabled
-> > > > [ 7934.153749][   T28] CPU features: 0x0240002,20002004
-> > > > [ 7934.161476][   T28] Memory Limit: none
-> > > > [ 7934.171272][   T28] ---[ end Kernel panic - not syncing: hung_task:
-> > > > blocked tasks ]---
-> > > >
-> > > > Cheers,
-> > > > Anders
-> > > > [1] https://people.linaro.org/~anders.roxell/output-next-20201105-test.log
-> > > > [2] https://people.linaro.org/~anders.roxell/output-next-20201110-test.log
-> > > 
-> > > Thanks for testing. The fact that it passes on next-20201105 but not
-> > > on 20201110 is strange. If you boot with KFENCE disabled (boot param
-> > > kfence.sample_interval=0), does it boot?
-> > [...]
-> > 
-> > Right, so I think this is no longer KFENCE's fault. This looks like
-> > something scheduler/RCU/ftrace related?! I notice that there have been
-> > scheduler changes between next-20201105 and next-20201110.
-> 
-> I'm not sure any of that would cause this.
-> 
-> > 
-> > I get this with KFENCE disabled:
-> > 
-> > | Running tests on all trace events:
-> > | Testing all events: 
-> > | BUG: workqueue lockup - pool cpus=0 node=0 flags=0x0 nice=0 stuck for 32s!
-> > | Showing busy workqueues and worker pools:
-> > | workqueue events: flags=0x0
-> > |   pwq 0: cpus=0 node=0 flags=0x0 nice=0 active=1/256 refcnt=2
-> > |     pending: vmstat_shepherd
-> > | workqueue events_power_efficient: flags=0x82
-> > |   pwq 2: cpus=0 flags=0x5 nice=0 active=2/256 refcnt=4
-> > |     in-flight: 107:neigh_periodic_work
-> > |     pending: do_cache_clean
-> > | pool 2: cpus=0 flags=0x5 nice=0 hung=3s workers=2 manager: 7
-> > | rcu: INFO: rcu_preempt detected stalls on CPUs/tasks:
-> > | 	(detected by 0, t=6502 jiffies, g=2885, q=4)
-> > | rcu: All QSes seen, last rcu_preempt kthread activity 5174 (4295523265-4295518091), jiffies_till_next_fqs=1, root ->qsmask 0x0
-> > | rcu: rcu_preempt kthread starved for 5174 jiffies! g2885 f0x2 RCU_GP_WAIT_FQS(5) ->state=0x0 ->cpu=0
-> > | rcu: 	Unless rcu_preempt kthread gets sufficient CPU time, OOM is now expected behavior.
-> > | rcu: RCU grace-period kthread stack dump:
-> > | task:rcu_preempt     state:R  running task     stack:    0 pid:   10 ppid:     2 flags:0x00000428
-> > | Call trace:
-> > |  __switch_to+0x100/0x1e0
-> > |  __schedule+0x2d0/0x890
-> > |  preempt_schedule_notrace+0x70/0x1c0
-> > |  ftrace_ops_no_ops+0x174/0x250
-> > |  ftrace_graph_call+0x0/0xc
-> 
-> Note, just because ftrace is called here, the blocked task was preempted
-> when the ftrace code called preempt_enable_notrace().
-> 
-> 
-> > |  preempt_count_add+0x1c/0x180
-> > |  schedule+0x44/0x108
-> > |  schedule_timeout+0x394/0x530
-> > |  rcu_gp_kthread+0x76c/0x19a8
-> > |  kthread+0x174/0x188
-> > |  ret_from_fork+0x10/0x18
-> > | 
-> > | ================================
-> > | WARNING: inconsistent lock state
-> > | 5.10.0-rc3-next-20201110-00001-gc07b306d7fa5-dirty #18 Not tainted
-> > | --------------------------------
-> > | inconsistent {IN-HARDIRQ-W} -> {HARDIRQ-ON-W} usage.
-> > | kcompactd0/26 [HC0[0]:SC0[0]:HE0:SE1] takes:
-> > | ffffae32e6bd4358 (rcu_node_0){?.-.}-{2:2}, at: rcu_sched_clock_irq+0x4a0/0xd18
-> > | {IN-HARDIRQ-W} state was registered at:
-> 
-> I did some digging here and it looks like the rcu_node lock could be taken
-> without interrupts enabled when it does a stall print. That probably should
-> be fixed, but it's a symptom of the underlining bug and not the cause.
+> +	if (!kasan_stack_collection_enabled()) {
+> +		*flags |= SLAB_KASAN;
+> +		return;
+> +	}
+> +
+>  	/* Add alloc meta. */
+>  	cache->kasan_info.alloc_meta_offset = *size;
+>  	*size += sizeof(struct kasan_alloc_meta);
+> @@ -165,6 +170,8 @@ void kasan_cache_create(struct kmem_cache *cache, unsigned int *size,
+>  
+>  size_t kasan_metadata_size(struct kmem_cache *cache)
+>  {
+> +	if (!kasan_stack_collection_enabled())
+> +		return 0;
+>  	return (cache->kasan_info.alloc_meta_offset ?
+>  		sizeof(struct kasan_alloc_meta) : 0) +
+>  		(cache->kasan_info.free_meta_offset ?
+> @@ -267,11 +274,13 @@ void * __must_check kasan_init_slab_obj(struct kmem_cache *cache,
+>  {
+>  	struct kasan_alloc_meta *alloc_meta;
+>  
+> -	if (!(cache->flags & SLAB_KASAN))
+> -		return (void *)object;
+> +	if (kasan_stack_collection_enabled()) {
+> +		if (!(cache->flags & SLAB_KASAN))
+> +			return (void *)object;
+>  
+> -	alloc_meta = kasan_get_alloc_meta(cache, object);
+> -	__memset(alloc_meta, 0, sizeof(*alloc_meta));
+> +		alloc_meta = kasan_get_alloc_meta(cache, object);
+> +		__memset(alloc_meta, 0, sizeof(*alloc_meta));
+> +	}
+>  
+>  	if (IS_ENABLED(CONFIG_KASAN_SW_TAGS) || IS_ENABLED(CONFIG_KASAN_HW_TAGS))
+>  		object = set_tag(object, assign_tag(cache, object, true, false));
+> @@ -308,6 +317,9 @@ static bool __kasan_slab_free(struct kmem_cache *cache, void *object,
+>  	rounded_up_size = round_up(cache->object_size, KASAN_GRANULE_SIZE);
+>  	kasan_poison_memory(object, rounded_up_size, KASAN_KMALLOC_FREE);
+>  
+> +	if (!kasan_stack_collection_enabled())
+> +		return false;
+> +
+>  	if ((IS_ENABLED(CONFIG_KASAN_GENERIC) && !quarantine) ||
+>  			unlikely(!(cache->flags & SLAB_KASAN)))
+>  		return false;
+> @@ -355,7 +367,7 @@ static void *__kasan_kmalloc(struct kmem_cache *cache, const void *object,
+>  	kasan_poison_memory((void *)redzone_start, redzone_end - redzone_start,
+>  		KASAN_KMALLOC_REDZONE);
+>  
+> -	if (cache->flags & SLAB_KASAN)
+> +	if (kasan_stack_collection_enabled() && (cache->flags & SLAB_KASAN))
+>  		set_alloc_info(cache, (void *)object, flags);
+>  
+>  	return set_tag(object, tag);
+> diff --git a/mm/kasan/hw_tags.c b/mm/kasan/hw_tags.c
+> index 838b29e44e32..2f6f0261af8c 100644
+> --- a/mm/kasan/hw_tags.c
+> +++ b/mm/kasan/hw_tags.c
+> @@ -8,6 +8,8 @@
+>  
+>  #define pr_fmt(fmt) "kasan: " fmt
+>  
+> +#include <linux/init.h>
+> +#include <linux/jump_label.h>
 
-Does this patch (in -next) help?
+This should include <linux/static_key.h> -- although the rest of the
+kernel seems to also inconsistently use on or the other. Since the name,
+as referred to also by macros are "static keys", perhaps the
+static_key.h header is more appropriate...
 
-							Thanx, Paul
+>  #include <linux/kasan.h>
+>  #include <linux/kernel.h>
+>  #include <linux/memory.h>
+> @@ -17,9 +19,104 @@
+>  
+>  #include "kasan.h"
+>  
+> +enum kasan_arg_mode {
+> +	KASAN_ARG_MODE_DEFAULT,
+> +	KASAN_ARG_MODE_OFF,
+> +	KASAN_ARG_MODE_PROD,
+> +	KASAN_ARG_MODE_FULL,
+> +};
+> +
+> +enum kasan_arg_stacktrace {
+> +	KASAN_ARG_STACKTRACE_DEFAULT,
 
-------------------------------------------------------------------------
+It seems KASAN_ARG_STACKTRACE_DEFAULT is never used explicitly. Could
+the switch statements just be changed to not have a 'default' but
+instead refer to *DEFAULT where appropriate?
 
-commit c583bcb8f5edd48c1798798e341f78afb9bf4f6f
-Author: Paul E. McKenney <paulmck@kernel.org>
-Date:   Thu Sep 24 15:11:55 2020 -0700
+> +	KASAN_ARG_STACKTRACE_OFF,
+> +	KASAN_ARG_STACKTRACE_ON,
+> +};
+> +
+> +enum kasan_arg_fault {
+> +	KASAN_ARG_FAULT_DEFAULT,
+> +	KASAN_ARG_FAULT_REPORT,
+> +	KASAN_ARG_FAULT_PANIC,
+> +};
+> +
+> +static enum kasan_arg_mode kasan_arg_mode __ro_after_init;
+> +static enum kasan_arg_stacktrace kasan_arg_stacktrace __ro_after_init;
+> +static enum kasan_arg_fault kasan_arg_fault __ro_after_init;
+> +
+> +/* Whether KASAN is enabled at all. */
+> +DEFINE_STATIC_KEY_FALSE_RO(kasan_flag_enabled);
+> +EXPORT_SYMBOL(kasan_flag_enabled);
+> +
+> +/* Whether to collect alloc/free stack traces. */
+> +DEFINE_STATIC_KEY_FALSE_RO(kasan_flag_stacktrace);
+> +
+> +/* Whether panic or disable tag checking on fault. */
+> +bool kasan_flag_panic __ro_after_init;
+> +
+> +/* kasan.mode=off/prod/full */
+> +static int __init early_kasan_mode(char *arg)
+> +{
+> +	if (!arg)
+> +		return -EINVAL;
+> +
+> +	if (!strcmp(arg, "off"))
+> +		kasan_arg_mode = KASAN_ARG_MODE_OFF;
+> +	else if (!strcmp(arg, "prod"))
+> +		kasan_arg_mode = KASAN_ARG_MODE_PROD;
+> +	else if (!strcmp(arg, "full"))
+> +		kasan_arg_mode = KASAN_ARG_MODE_FULL;
+> +	else
+> +		return -EINVAL;
+> +
+> +	return 0;
+> +}
+> +early_param("kasan.mode", early_kasan_mode);
+> +
+> +/* kasan.stack=off/on */
+> +static int __init early_kasan_flag_stacktrace(char *arg)
+> +{
+> +	if (!arg)
+> +		return -EINVAL;
+> +
+> +	if (!strcmp(arg, "off"))
+> +		kasan_arg_stacktrace = KASAN_ARG_STACKTRACE_OFF;
+> +	else if (!strcmp(arg, "on"))
+> +		kasan_arg_stacktrace = KASAN_ARG_STACKTRACE_ON;
+> +	else
+> +		return -EINVAL;
+> +
+> +	return 0;
+> +}
+> +early_param("kasan.stacktrace", early_kasan_flag_stacktrace);
+> +
+> +/* kasan.fault=report/panic */
+> +static int __init early_kasan_fault(char *arg)
+> +{
+> +	if (!arg)
+> +		return -EINVAL;
+> +
+> +	if (!strcmp(arg, "report"))
+> +		kasan_arg_fault = KASAN_ARG_FAULT_REPORT;
+> +	else if (!strcmp(arg, "panic"))
+> +		kasan_arg_fault = KASAN_ARG_FAULT_PANIC;
+> +	else
+> +		return -EINVAL;
+> +
+> +	return 0;
+> +}
+> +early_param("kasan.fault", early_kasan_fault);
+> +
+>  /* kasan_init_hw_tags_cpu() is called for each CPU. */
+>  void kasan_init_hw_tags_cpu(void)
+>  {
+> +	/*
+> +	 * There's no need to check that the hardware is MTE-capable here,
+> +	 * as this function is only called for MTE-capable hardware.
+> +	 */
+> +
+> +	/* If KASAN is disabled, do nothing. */
+> +	if (kasan_arg_mode == KASAN_ARG_MODE_OFF)
+> +		return;
+> +
+>  	hw_init_tags(KASAN_TAG_MAX);
+>  	hw_enable_tagging();
+>  }
+> @@ -27,6 +124,61 @@ void kasan_init_hw_tags_cpu(void)
+>  /* kasan_init_hw_tags() is called once on boot CPU. */
+>  void kasan_init_hw_tags(void)
 
-    rcu: Don't invoke try_invoke_on_locked_down_task() with irqs disabled
-    
-    The try_invoke_on_locked_down_task() function requires that
-    interrupts be enabled, but it is called with interrupts disabled from
-    rcu_print_task_stall(), resulting in an "IRQs not enabled as expected"
-    diagnostic.  This commit therefore updates rcu_print_task_stall()
-    to accumulate a list of the first few tasks while holding the current
-    leaf rcu_node structure's ->lock, then releases that lock and only then
-    uses try_invoke_on_locked_down_task() to attempt to obtain per-task
-    detailed information.  Of course, as soon as ->lock is released, the
-    task might exit, so the get_task_struct() function is used to prevent
-    the task structure from going away in the meantime.
-    
-    Link: https://lore.kernel.org/lkml/000000000000903d5805ab908fc4@google.com/
-    Fixes: 5bef8da66a9c ("rcu: Add per-task state to RCU CPU stall warnings")
-    Reported-by: syzbot+cb3b69ae80afd6535b0e@syzkaller.appspotmail.com
-    Reported-by: syzbot+f04854e1c5c9e913cc27@syzkaller.appspotmail.com
-    Tested-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-    Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
+Is this an __init function, since it sets __ro_after_init vars?
 
-diff --git a/kernel/rcu/tree_stall.h b/kernel/rcu/tree_stall.h
-index 0fde39b..ca21d28 100644
---- a/kernel/rcu/tree_stall.h
-+++ b/kernel/rcu/tree_stall.h
-@@ -249,13 +249,16 @@ static bool check_slow_task(struct task_struct *t, void *arg)
- 
- /*
-  * Scan the current list of tasks blocked within RCU read-side critical
-- * sections, printing out the tid of each.
-+ * sections, printing out the tid of each of the first few of them.
-  */
--static int rcu_print_task_stall(struct rcu_node *rnp)
-+static int rcu_print_task_stall(struct rcu_node *rnp, unsigned long flags)
-+	__releases(rnp->lock)
- {
-+	int i = 0;
- 	int ndetected = 0;
- 	struct rcu_stall_chk_rdr rscr;
- 	struct task_struct *t;
-+	struct task_struct *ts[8];
- 
- 	if (!rcu_preempt_blocked_readers_cgp(rnp))
- 		return 0;
-@@ -264,6 +267,14 @@ static int rcu_print_task_stall(struct rcu_node *rnp)
- 	t = list_entry(rnp->gp_tasks->prev,
- 		       struct task_struct, rcu_node_entry);
- 	list_for_each_entry_continue(t, &rnp->blkd_tasks, rcu_node_entry) {
-+		get_task_struct(t);
-+		ts[i++] = t;
-+		if (i >= ARRAY_SIZE(ts))
-+			break;
-+	}
-+	raw_spin_unlock_irqrestore_rcu_node(rnp, flags);
-+	for (i--; i; i--) {
-+		t = ts[i];
- 		if (!try_invoke_on_locked_down_task(t, check_slow_task, &rscr))
- 			pr_cont(" P%d", t->pid);
- 		else
-@@ -273,6 +284,7 @@ static int rcu_print_task_stall(struct rcu_node *rnp)
- 				".q"[rscr.rs.b.need_qs],
- 				".e"[rscr.rs.b.exp_hint],
- 				".l"[rscr.on_blkd_list]);
-+		put_task_struct(t);
- 		ndetected++;
- 	}
- 	pr_cont("\n");
-@@ -293,8 +305,9 @@ static void rcu_print_detail_task_stall_rnp(struct rcu_node *rnp)
-  * Because preemptible RCU does not exist, we never have to check for
-  * tasks blocked within RCU read-side critical sections.
-  */
--static int rcu_print_task_stall(struct rcu_node *rnp)
-+static int rcu_print_task_stall(struct rcu_node *rnp, unsigned long flags)
- {
-+	raw_spin_unlock_irqrestore_rcu_node(rnp, flags);
- 	return 0;
- }
- #endif /* #else #ifdef CONFIG_PREEMPT_RCU */
-@@ -472,7 +485,6 @@ static void print_other_cpu_stall(unsigned long gp_seq, unsigned long gps)
- 	pr_err("INFO: %s detected stalls on CPUs/tasks:\n", rcu_state.name);
- 	rcu_for_each_leaf_node(rnp) {
- 		raw_spin_lock_irqsave_rcu_node(rnp, flags);
--		ndetected += rcu_print_task_stall(rnp);
- 		if (rnp->qsmask != 0) {
- 			for_each_leaf_node_possible_cpu(rnp, cpu)
- 				if (rnp->qsmask & leaf_node_cpu_bit(rnp, cpu)) {
-@@ -480,7 +492,7 @@ static void print_other_cpu_stall(unsigned long gp_seq, unsigned long gps)
- 					ndetected++;
- 				}
- 		}
--		raw_spin_unlock_irqrestore_rcu_node(rnp, flags);
-+		ndetected += rcu_print_task_stall(rnp, flags); // Releases rnp->lock.
- 	}
- 
- 	for_each_possible_cpu(cpu)
+>  {
+> +	/* If hardware doesn't support MTE, do nothing. */
+> +	if (!system_supports_mte())
+> +		return;
+> +
+> +	/* If KASAN is disabled, do nothing. */
+> +	if (kasan_arg_mode == KASAN_ARG_MODE_OFF)
+> +		return;
+
+This is checked twice, once here and the in the switch. I think remove
+the one here ^^^.
+
+> +	/* Choose KASAN mode if kasan boot parameter is not provided. */
+> +	if (kasan_arg_mode == KASAN_ARG_MODE_DEFAULT) {
+> +		if (IS_ENABLED(CONFIG_DEBUG_KERNEL))
+> +			kasan_arg_mode = KASAN_ARG_MODE_FULL;
+> +		else
+> +			kasan_arg_mode = KASAN_ARG_MODE_PROD;
+> +	}
+> +
+> +	/* Preset parameter values based on the mode. */
+> +	switch (kasan_arg_mode) {
+> +	case KASAN_ARG_MODE_OFF:
+> +		return;
+> +	case KASAN_ARG_MODE_PROD:
+> +		static_branch_enable(&kasan_flag_enabled);
+> +		break;
+> +	case KASAN_ARG_MODE_FULL:
+> +		static_branch_enable(&kasan_flag_enabled);
+> +		static_branch_enable(&kasan_flag_stacktrace);
+> +		break;
+> +	default:
+
+I'd suggest removing the 'default' cases in all the switches, so that we
+get warnings in case we add new options and they aren't handled.
+
+Here, having KASAN_ARG_MODE_DEFAULT is probably redundant, but so is
+'default' ;-)
+
+> +		break;
+> +	}
+> +
+> +	/* Now, optionally override the presets. */
+> +
+> +	switch (kasan_arg_stacktrace) {
+> +	case KASAN_ARG_STACKTRACE_OFF:
+> +		static_branch_disable(&kasan_flag_stacktrace);
+> +		break;
+> +	case KASAN_ARG_STACKTRACE_ON:
+> +		static_branch_enable(&kasan_flag_stacktrace);
+> +		break;
+> +	default:
+> +		break;
+> +	}
+> +
+> +	switch (kasan_arg_fault) {
+> +	case KASAN_ARG_FAULT_REPORT:
+> +		kasan_flag_panic = false;
+> +		break;
+> +	case KASAN_ARG_FAULT_PANIC:
+> +		kasan_flag_panic = true;
+> +		break;
+> +	default:
+> +		break;
+> +	}
+> +
+
+Would be good to get rid of the 'default' cases here.
+
+>  	pr_info("KernelAddressSanitizer initialized\n");
+>  }
+>  
+> diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
+> index 2d3c99125996..5eff3d9f624e 100644
+> --- a/mm/kasan/kasan.h
+> +++ b/mm/kasan/kasan.h
+> @@ -5,6 +5,22 @@
+>  #include <linux/kasan.h>
+>  #include <linux/stackdepot.h>
+>  
+> +#ifdef CONFIG_KASAN_HW_TAGS
+> +#include <linux/jump_label.h>
+> +DECLARE_STATIC_KEY_FALSE(kasan_flag_stacktrace);
+> +static inline bool kasan_stack_collection_enabled(void)
+> +{
+> +	return static_branch_unlikely(&kasan_flag_stacktrace);
+> +}
+> +#else
+> +static inline bool kasan_stack_collection_enabled(void)
+> +{
+> +	return true;
+> +}
+> +#endif
+> +
+> +extern bool kasan_flag_panic __ro_after_init;
+> +
+>  #if defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS)
+>  #define KASAN_GRANULE_SIZE	(1UL << KASAN_SHADOW_SCALE_SHIFT)
+>  #else
+> diff --git a/mm/kasan/report.c b/mm/kasan/report.c
+> index 25ca66c99e48..7d86af340148 100644
+> --- a/mm/kasan/report.c
+> +++ b/mm/kasan/report.c
+> @@ -99,6 +99,10 @@ static void end_report(unsigned long *flags)
+>  		panic_on_warn = 0;
+>  		panic("panic_on_warn set ...\n");
+>  	}
+> +#ifdef CONFIG_KASAN_HW_TAGS
+> +	if (kasan_flag_panic)
+> +		panic("kasan.fault=panic set ...\n");
+> +#endif
+>  	kasan_enable_current();
+>  }
+>  
+> @@ -161,8 +165,8 @@ static void describe_object_addr(struct kmem_cache *cache, void *object,
+>  		(void *)(object_addr + cache->object_size));
+>  }
+>  
+> -static void describe_object(struct kmem_cache *cache, void *object,
+> -				const void *addr, u8 tag)
+> +static void describe_object_stacks(struct kmem_cache *cache, void *object,
+> +					const void *addr, u8 tag)
+>  {
+>  	struct kasan_alloc_meta *alloc_meta = kasan_get_alloc_meta(cache, object);
+>  
+> @@ -190,7 +194,13 @@ static void describe_object(struct kmem_cache *cache, void *object,
+>  		}
+>  #endif
+>  	}
+> +}
+>  
+> +static void describe_object(struct kmem_cache *cache, void *object,
+> +				const void *addr, u8 tag)
+> +{
+> +	if (kasan_stack_collection_enabled())
+> +		describe_object_stacks(cache, object, addr, tag);
+>  	describe_object_addr(cache, object, addr);
+>  }
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20201111182333.GA3249%40paulmck-ThinkPad-P72.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20201111182931.GM517454%40elver.google.com.
