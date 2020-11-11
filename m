@@ -1,131 +1,125 @@
-Return-Path: <kasan-dev+bncBCCMH5WKTMGRBY7YV76QKGQE62LTXLY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDOILZ6ZXABBBWXZV76QKGQEM5JLO3I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qt1-x837.google.com (mail-qt1-x837.google.com [IPv6:2607:f8b0:4864:20::837])
-	by mail.lfdr.de (Postfix) with ESMTPS id 032992AF447
-	for <lists+kasan-dev@lfdr.de>; Wed, 11 Nov 2020 15:59:49 +0100 (CET)
-Received: by mail-qt1-x837.google.com with SMTP id v9sf1320568qtw.12
-        for <lists+kasan-dev@lfdr.de>; Wed, 11 Nov 2020 06:59:48 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1605106788; cv=pass;
+Received: from mail-lf1-x13d.google.com (mail-lf1-x13d.google.com [IPv6:2a00:1450:4864:20::13d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D0F52AF450
+	for <lists+kasan-dev@lfdr.de>; Wed, 11 Nov 2020 16:01:48 +0100 (CET)
+Received: by mail-lf1-x13d.google.com with SMTP id 194sf508093lfm.22
+        for <lists+kasan-dev@lfdr.de>; Wed, 11 Nov 2020 07:01:48 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1605106907; cv=pass;
         d=google.com; s=arc-20160816;
-        b=mZ0W4RqrwZf4EF3tBf6mhq1VpBI+4NZUTM7yWtysEt+ysMrZ+ZNiDVDSixBbmYzZck
-         Eiuklox/Z+LJN1FflRp+R0QDisBTgLIjFtOPaiBnCKpl/7E6ciO61sOrR6F4PYai6eEU
-         sw+WeQEefULSccPsI/HRrNWFQisFWgNCVnqwFQhMT+Z1mVeeSwZKJvADc1n2GqYHeGgm
-         WhzaXBzBo/kO4WFWZSfBgbS2Dx1JL4ULkOFyZVrg4TSZf6CnvCtlei1AR7XjUvCNcJ0z
-         3z52nt6OXl/RmxhXFznmo8rf+3ejQSCWrwiStzTM/IduBtSBbLvv/hB1kAQlBz5rOfSP
-         0Twg==
+        b=bIAUD3rfJE25yPmV0aytd4rBl8PORTa0JvQstaQbdHlU3uI4BCiq/C8YvQf9rKQZh0
+         lKendxVPxQbK2YjZJR7LT+QIT2Q2zIzUgYflwioQUDevcLeRjjR2uUYB/qeOgCZsTpEo
+         aAunFvuHPwdH9+XriDjN7sP3r7Q4oVq4mt8+6Uylej4UBaHXS/KEG04c3FIIZp/FWUPX
+         p5XJqNkXdaXo6LuIBOJ68cyACX4DrbEDZ1R5vH0i+dFwzL+F3d/+G7DdyKitD5OXODYp
+         t0tGwR8cH3VKK8wbun48fA7vpgs2YoIMIflj9NnW7lTCHV3KMmqSE32WNwYPjJyYXdAU
+         z9jw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
-         :cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=gsAPWFktrPwATx5WE6V+1CvUcgOtAepZGEW4lZHnfbU=;
-        b=kxnyG792ccsJh6BAWNiKGxh+hYaHMt+8e1HD3fg5vM5TyvQVvqXYUzXOnebBbelqTY
-         4HSnWvhKrJs68e73AJHpiSZ8GONfUPuXb4WDQ9n479MZWXJef1poD/GM35f3CUQeQkzJ
-         MPtYiZtaV+7uLgwG2XjFONgYi8B27Bym6bOvakI9KQ2exzlkV/FaLBM67uDfiOQhakif
-         i06MBhsyCnwGFAnMAxYsHt5VeUpTPidugvpvFqZhhbjjhvw0FLZfK6U4e4mLwMobGKDF
-         jhojXnGVdPnBObyve30+SlZh8fiATCQ095cf938b4UtpihTXn9OZay85fTwDtDPDsOqc
-         iSPQ==
+         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:sender:dkim-signature;
+        bh=uzUsar7A7JSXjnYdHvMgVKDDaQCbP0jCDagUXosQYdg=;
+        b=eo/cP6jgxJAzWLbUR6HXYjoIRRszwo5JhNsHnG/pxJ65z+rGKiCxuh1ZB8ucz0ocXr
+         dfckU5bO7e3n9X80cako8egiCs1t4TgLpbfS7EHyICQUaZqiJgNso3yHiLqq4aocE2bu
+         ZMXs95uMK8NYW5EzN9W35DlBFWd6tTS0slf/TFeM/kFjTvaD2tYeWiXO6BkSdQHdD9bD
+         xoZoBoetp7/D4/w3Z25Nv0CItzEx9o2NoCCR33JxodnHe94xkzcvWbdPulXrx6tT6+R1
+         xMgXpoxnWSEOlzYkSasVoVBjX0bJ8xaCfrfEGO0Vj7hwyfsMjhEzcI7ydjCIuD6mvbZB
+         xi/Q==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=Ty273gzZ;
-       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::744 as permitted sender) smtp.mailfrom=glider@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@linaro.org header.s=google header.b=RmKRnEeu;
+       spf=pass (google.com: domain of anders.roxell@linaro.org designates 2a00:1450:4864:20::243 as permitted sender) smtp.mailfrom=anders.roxell@linaro.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:list-post:list-help:list-archive:list-subscribe
-         :list-unsubscribe;
-        bh=gsAPWFktrPwATx5WE6V+1CvUcgOtAepZGEW4lZHnfbU=;
-        b=MfG7TWUGyN6OCoH1CXf1UeqLdEu7wrRj+8kY0H0EZTmzNoJRl2oGXiV67Goejxsu7K
-         MHgLnidApYpE3JlrYeqbh6s5ZckOdRsRVKjS57oWKhmb2T+IK6Ce1T/RYv9M5LKU36GF
-         wOvGrldYSoQYImVgjIXMNcANL7d7gn7qhq7gg+dvlAX3Dt2zszaWacthZBlPnaEEQR4Y
-         Ehu/ylCo4MrF0auj9mqNRVHRMZVZ8fEW8GyR/eck/jP3MS0IrjQPnjeLratsO46UYTR2
-         a6A3/Ree7nv+tR4wjJq60zhr10Qz3WMKvR2BgyovVSz9jDxn1DxqOAjSfqRCIZoLcbMo
-         h3pg==
+        h=sender:mime-version:references:in-reply-to:from:date:message-id
+         :subject:to:cc:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=uzUsar7A7JSXjnYdHvMgVKDDaQCbP0jCDagUXosQYdg=;
+        b=g5CpQhoXFmGlTQXEoK/vTQvMsuSO3j0byp17IpQOvrK1/YdVjrcB0a1ZOKuJmkP9NI
+         eQoZEXiXkzfShvecV18nXrYZpRqVWl+Be0etDm+rtUWdBnqQVZ3aD1/J/3Um2DqclN5k
+         GaN4Xs9NTdSsAp3Q0TaLyj+XmvBVIoX/61nG4QKcnL2L0+1IAUcXVUGOZ0VcNm2afJqK
+         9ajhhMlROj/8dMKZWRU6IrGmsfZvApRIp3PT8spT/EOiY/Veh7MfVbPs3kiu4hWqe7Jq
+         uT++nt0omDZ6ODMo0d60sj6sj3cG+kPbME12L0OUXDuo4b08LTfLOVGUStZ18RNq/gD9
+         dXPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding
-         :x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=gsAPWFktrPwATx5WE6V+1CvUcgOtAepZGEW4lZHnfbU=;
-        b=j2r9bsLnKsprAlYUppgvcOVJBq08YETleM2OH9FYAuowZPBKdcK8W39AzBCAcDqTkc
-         GaBtjD5rCFyXjVHMH/dQVdg47ltWKZD1zBhM0ygAS83TXhXAo0eISDxYL1+AIWOk0+GM
-         6AVyYntR3EtMvdpVi/x7YcZ9rnWNYbJJixRjGG/ClLRjbF0ePSmIYJdeQ+sEXmS8MBX5
-         XPkvsSut8pwlt94lOJ0yQ6nPzI+2q304S2wAGfJ8ditgmbfJEoaAdmVuSP/0YGB9ymLL
-         lVumMpxZoJUJbjYuKaCrxk6We56RVM7npA/b90daLdkC9eQ0DrGiRe62jGmdhVVsawUX
-         g1Aw==
-X-Gm-Message-State: AOAM5303wWiyKXRQS2MLl2xzJ8s1SwNGW1x3p1L7R15MvkmqY6sm6bDo
-	B6Ia6dOWkAJl29UbLGg5y40=
-X-Google-Smtp-Source: ABdhPJxjo+GvHPfqaPZOd5q3WymKBL0HS0VlaKncbt+/eLVe4J7rc4wtDtFphD39vYFyXbYyc9omDA==
-X-Received: by 2002:ac8:5c94:: with SMTP id r20mr14952294qta.158.1605106788068;
-        Wed, 11 Nov 2020 06:59:48 -0800 (PST)
+        h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
+         :date:message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=uzUsar7A7JSXjnYdHvMgVKDDaQCbP0jCDagUXosQYdg=;
+        b=Zdctv4KDA2x7n670O9UJ3XVQBBPD3OPbZjd3hWpSpfu/vsqjwEzflCD67KiXr6hUM+
+         Z1LS4AIQ0oXu6cnI5g0qQZb7cjjzkaZxTWiu3b3T5JoNUY3iYe3gBn3FfRi0qccghtCD
+         ltnfaS4WvAgkhAS9LXq+xWVvsBEY4KXkz2pxCV+K92zRcBJuqpq2Ykh+8nFjRoQ9AfA9
+         /eDorchF/kK6061mSHTHo0NqG+MBA8D4dcNCyv9bV0LBMjSAlzFt4LT9R7GiBMgCqoC9
+         Ll6PhMwQWr4pWKvRc28XrtQpJjzrDJMayRmz+j8z6MREW+Roi8/iovOYuYYs6pDvKCEv
+         NNhA==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM532AtFSa/c5w5M3aIJdKwtzK7V38OL83DARX7K2kJ1d2tSPEPZTV
+	7WX3tsWjgqSkfFHDmbPiLP0=
+X-Google-Smtp-Source: ABdhPJx9DIRVGAQRQoNPO7J39FtiBH5mvj/j6RqnLeiJAEcdrhXxofwurCeM2V8MJIaQVVw16ohQXA==
+X-Received: by 2002:a19:414e:: with SMTP id o75mr9365425lfa.28.1605106906915;
+        Wed, 11 Nov 2020 07:01:46 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a37:7805:: with SMTP id t5ls7748529qkc.9.gmail; Wed, 11 Nov
- 2020 06:59:47 -0800 (PST)
-X-Received: by 2002:a37:7143:: with SMTP id m64mr21190550qkc.280.1605106787567;
-        Wed, 11 Nov 2020 06:59:47 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1605106787; cv=none;
+Received: by 2002:a2e:914c:: with SMTP id q12ls1475120ljg.8.gmail; Wed, 11 Nov
+ 2020 07:01:45 -0800 (PST)
+X-Received: by 2002:a2e:8750:: with SMTP id q16mr9891591ljj.53.1605106905523;
+        Wed, 11 Nov 2020 07:01:45 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1605106905; cv=none;
         d=google.com; s=arc-20160816;
-        b=AXXkpnnT/rgXVgyQTQBJpjfAfNVQCtergwM4KsHq+N4CptfC8T11R4+19OVBMzY++H
-         Xgjn6CHVG8r5in0m/UfbynyIyUtec7JOTUNphgU6HXVpXfRkfJxy8t2Cf6UmfqwBXIwb
-         ge35mhcbrl5vQyV9lP5E2ZtZA8KYrh2pMUfWwbqVSA3PbWNiiy/JooTE4Y5NwqoVNTY/
-         3Iz7btY8ESrXrqXRrIVTBwjWzFXFBY1bSkaKUvEPLrvk9+U+mSUv4jlgQ9TPweW0tJe1
-         rShGD1Rz1LuyUWkPEr/mtk9wvdr65Ajb13q1W9/+1JGUhjfR4dFJSgkkz89XDkbeUJzC
-         VPtw==
+        b=x2Duo79yfFJFRsvgcC0Y69tkOB9tBApFWntiS8tZFoKYT35c/LOKeQju+/N6rBmE4I
+         VVXU4XaFdNj6AQnVY+vaoiOSfbsFYeFvlY17T3fMfNR3T+FO5ucJiXxGqF74sTKN7eFj
+         ABDfFXFSZe3pfBtWfpKuipOBk1cmKS9dDX7WutUpnt+/2fmY64GQCgli6SM/CVsuevp4
+         OfoXq4Tt6Ka6BC9RDfJF1unCpVD9zM8H2wDkObTWy88ZzNrcOtAFuJqRo9XRwMaNvErO
+         x9SopoZoHi+pqUz8RoHqfaWxg7ZlZvu4biCWWq1F3jQpWEkZRrxJnEC0PAfLkKNjgBkE
+         mH/g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=/fDcpIY0qGq2TOyxo24BIpfp3mzq21GpKr2EDtPYTac=;
-        b=y4sIb7BqDxV56CQ5HJ9P2XJUXF4VSyr73nmkBF8x8YVQ+5c/zeKv3TDnrsEvw6jV2/
-         oZzpSVA0YiRQTSieLel5OkhDOd2u5ffm40zOj37Huy4ZdECvWRBHe/byRJUD95DylCUZ
-         ajDhsVwW+L0pt/WHTGEvmZUx4j3tgbVTK6vj0MPZ6As2xSPtmxjLQJ+Dx1lFcz4ENcT9
-         gB0g+HNGANhOvwVGqCnBRWg2rESdWf0mXa9PV7Emf2oPA/THsMsjU3XarjvdH5FAsnMM
-         mcdRCHlAXLC07kMg2YC2usY8jcGTfvB07P6oau2mYzzkSTekY4yALLQGvrqs5EmZcvBl
-         56Jg==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=cBLmYkGf36dydiwFqnzHp6MitrhQHxL3O/6ldq0sG2I=;
+        b=hgkwe3bcQXR+mjDXZ1PAy1vhGzJS7HmY8Vt2BDCQ+HgsSN2mW3YubTyBg1LUd86G5V
+         0AA1qa0UmohAWLBbvMW/rSke5MeHDrcEizLgdRRN6V7fd7rNa+RzAw89aSuil/Ob/v64
+         st+N0vJbzaUTrxVJJXjIkt+XrQQBtr4LajfpMo6kT+2TM48+W8tQ5BvT1ZROdQNjpwtD
+         mZ5oY2qNlSiF1/Nm/e8N58+O6OR9cZX8KRAteH/9vhP+iBvMGtI3wmPojwlpnpbrgPFn
+         jpZlCo/rbP4bEyT8ywzNsyJOryQRRtlBHvT/yLsmVieGgFiRngVkAMVnczenZChXS/OV
+         CPUQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=Ty273gzZ;
-       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::744 as permitted sender) smtp.mailfrom=glider@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com. [2607:f8b0:4864:20::744])
-        by gmr-mx.google.com with ESMTPS id o23si151106qtm.3.2020.11.11.06.59.47
+       dkim=pass header.i=@linaro.org header.s=google header.b=RmKRnEeu;
+       spf=pass (google.com: domain of anders.roxell@linaro.org designates 2a00:1450:4864:20::243 as permitted sender) smtp.mailfrom=anders.roxell@linaro.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com. [2a00:1450:4864:20::243])
+        by gmr-mx.google.com with ESMTPS id q16si60117ljp.8.2020.11.11.07.01.44
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 Nov 2020 06:59:47 -0800 (PST)
-Received-SPF: pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::744 as permitted sender) client-ip=2607:f8b0:4864:20::744;
-Received: by mail-qk1-x744.google.com with SMTP id d28so1859713qka.11
-        for <kasan-dev@googlegroups.com>; Wed, 11 Nov 2020 06:59:47 -0800 (PST)
-X-Received: by 2002:a05:620a:f95:: with SMTP id b21mr16896205qkn.403.1605106786994;
- Wed, 11 Nov 2020 06:59:46 -0800 (PST)
+        Wed, 11 Nov 2020 07:01:44 -0800 (PST)
+Received-SPF: pass (google.com: domain of anders.roxell@linaro.org designates 2a00:1450:4864:20::243 as permitted sender) client-ip=2a00:1450:4864:20::243;
+Received: by mail-lj1-x243.google.com with SMTP id y16so2452282ljh.0
+        for <kasan-dev@googlegroups.com>; Wed, 11 Nov 2020 07:01:44 -0800 (PST)
+X-Received: by 2002:a2e:5450:: with SMTP id y16mr11307487ljd.288.1605106904415;
+ Wed, 11 Nov 2020 07:01:44 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1605046192.git.andreyknvl@google.com> <91b3defa17748a61d1432929a80890043ca8dcda.1605046192.git.andreyknvl@google.com>
-In-Reply-To: <91b3defa17748a61d1432929a80890043ca8dcda.1605046192.git.andreyknvl@google.com>
-From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Wed, 11 Nov 2020 15:59:34 +0100
-Message-ID: <CAG_fn=VhzzFSXE19KJ+0-q1WitAu08scm8s-eXvQWYSqJTub=w@mail.gmail.com>
-Subject: Re: [PATCH v9 16/44] kasan, arm64: only use kasan_depth for software modes
-To: Andrey Konovalov <andreyknvl@google.com>
-Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will.deacon@arm.com>, 
-	Vincenzo Frascino <vincenzo.frascino@arm.com>, Dmitry Vyukov <dvyukov@google.com>, 
-	Andrey Ryabinin <aryabinin@virtuozzo.com>, Marco Elver <elver@google.com>, 
-	Evgenii Stepanov <eugenis@google.com>, Branislav Rankov <Branislav.Rankov@arm.com>, 
-	Kevin Brodsky <kevin.brodsky@arm.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	kasan-dev <kasan-dev@googlegroups.com>, 
-	Linux ARM <linux-arm-kernel@lists.infradead.org>, 
-	Linux Memory Management List <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>
+References: <20201110135320.3309507-1-elver@google.com> <CADYN=9+=-ApMi_eEdAeHU6TyuQ7ZJSTQ8F-FCSD33kZH8HR+xg@mail.gmail.com>
+ <CANpmjNM8MZphvkTSo=KgCBXQ6fNY4qo6NZD5SBHjNse_L9i5FQ@mail.gmail.com>
+In-Reply-To: <CANpmjNM8MZphvkTSo=KgCBXQ6fNY4qo6NZD5SBHjNse_L9i5FQ@mail.gmail.com>
+From: Anders Roxell <anders.roxell@linaro.org>
+Date: Wed, 11 Nov 2020 16:01:33 +0100
+Message-ID: <CADYN=9LtdW3Bs29VSq2ygnNcb3ub_UBLj8tZg5ff5Zvojr5FWg@mail.gmail.com>
+Subject: Re: [PATCH] kfence: Avoid stalling work queue task without allocations
+To: Marco Elver <elver@google.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Alexander Potapenko <glider@google.com>, 
+	Dmitry Vyukov <dvyukov@google.com>, Jann Horn <jannh@google.com>, 
+	Mark Rutland <mark.rutland@arm.com>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux-MM <linux-mm@kvack.org>, 
+	kasan-dev <kasan-dev@googlegroups.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: glider@google.com
+X-Original-Sender: anders.roxell@linaro.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=Ty273gzZ;       spf=pass
- (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::744 as
- permitted sender) smtp.mailfrom=glider@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Alexander Potapenko <glider@google.com>
-Reply-To: Alexander Potapenko <glider@google.com>
+ header.i=@linaro.org header.s=google header.b=RmKRnEeu;       spf=pass
+ (google.com: domain of anders.roxell@linaro.org designates
+ 2a00:1450:4864:20::243 as permitted sender) smtp.mailfrom=anders.roxell@linaro.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -138,203 +132,91 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Nov 10, 2020 at 11:11 PM Andrey Konovalov <andreyknvl@google.com> w=
-rote:
+On Wed, 11 Nov 2020 at 09:29, Marco Elver <elver@google.com> wrote:
 >
-> This is a preparatory commit for the upcoming addition of a new hardware
-> tag-based (MTE-based) KASAN mode.
+> On Wed, 11 Nov 2020 at 00:23, Anders Roxell <anders.roxell@linaro.org> wrote:
+> [...]
+> >
+> > I gave them a spin on next-20201105 [1] and on next-20201110 [2].
+> >
+> > I eventually got to a prompt on next-20201105.
+> > However, I got to this kernel panic on the next-20201110:
+> >
+> > [...]
+> > [ 1514.089966][    T1] Testing event system initcall: OK
+> > [ 1514.806232][    T1] Running tests on all trace events:
+> > [ 1514.857835][    T1] Testing all events:
+> > [ 1525.503262][    C0] hrtimer: interrupt took 10902600 ns
+> > [ 1623.861452][    C0] BUG: workqueue lockup - pool cpus=0 node=0
+> > flags=0x0 nice=0 stuck for 65s!
+> > [...]
+> > [ 7823.104349][   T28]       Tainted: G        W
+> > 5.10.0-rc3-next-20201110-00008-g8dc06700529d #3
+> > [ 7833.206491][   T28] "echo 0 >
+> > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+> > [ 7840.750700][   T28] task:kworker/0:1     state:D stack:26640 pid:
+> > 1872 ppid:     2 flags:0x00000428
+> > [ 7875.642531][   T28] Workqueue: events toggle_allocation_gate
+> > [ 7889.178334][   T28] Call trace:
+> > [ 7897.066649][   T28]  __switch_to+0x1cc/0x1e0
+> > [ 7905.326856][   T28]  0xffff00000f7077b0
+> > [ 7928.354644][   T28] INFO: lockdep is turned off.
+> > [ 7934.022572][   T28] Kernel panic - not syncing: hung_task: blocked tasks
+> > [ 7934.032039][   T28] CPU: 0 PID: 28 Comm: khungtaskd Tainted: G
+> >   W         5.10.0-rc3-next-20201110-00008-g8dc06700529d #3
+> > [ 7934.045586][   T28] Hardware name: linux,dummy-virt (DT)
+> > [ 7934.053677][   T28] Call trace:
+> > [ 7934.060276][   T28]  dump_backtrace+0x0/0x420
+> > [ 7934.067635][   T28]  show_stack+0x38/0xa0
+> > [ 7934.091277][   T28]  dump_stack+0x1d4/0x278
+> > [ 7934.098878][   T28]  panic+0x304/0x5d8
+> > [ 7934.114923][   T28]  check_hung_uninterruptible_tasks+0x5e4/0x640
+> > [ 7934.123823][   T28]  watchdog+0x138/0x160
+> > [ 7934.131561][   T28]  kthread+0x23c/0x260
+> > [ 7934.138590][   T28]  ret_from_fork+0x10/0x18
+> > [ 7934.146631][   T28] Kernel Offset: disabled
+> > [ 7934.153749][   T28] CPU features: 0x0240002,20002004
+> > [ 7934.161476][   T28] Memory Limit: none
+> > [ 7934.171272][   T28] ---[ end Kernel panic - not syncing: hung_task:
+> > blocked tasks ]---
+> >
+> > Cheers,
+> > Anders
+> > [1] https://people.linaro.org/~anders.roxell/output-next-20201105-test.log
+> > [2] https://people.linaro.org/~anders.roxell/output-next-20201110-test.log
 >
-> Hardware tag-based KASAN won't use kasan_depth. Only define and use it
-> when one of the software KASAN modes are enabled.
->
-> No functional changes for software modes.
->
-> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
-> Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
-> Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
-Reviewed-by: Alexander Potapenko <glider@google.com>
+> Thanks for testing. The fact that it passes on next-20201105 but not
+> on 20201110 is strange. If you boot with KFENCE disabled (boot param
+> kfence.sample_interval=0), does it boot?
 
-> ---
-> Change-Id: I6109ea96c8df41ef6d75ad71bf22c1c8fa234a9a
-> ---
->  arch/arm64/mm/kasan_init.c | 11 ++++++++---
->  include/linux/kasan.h      | 18 +++++++++---------
->  include/linux/sched.h      |  2 +-
->  init/init_task.c           |  2 +-
->  mm/kasan/common.c          |  2 ++
->  mm/kasan/report.c          |  2 ++
->  6 files changed, 23 insertions(+), 14 deletions(-)
->
-> diff --git a/arch/arm64/mm/kasan_init.c b/arch/arm64/mm/kasan_init.c
-> index ffeb80d5aa8d..5172799f831f 100644
-> --- a/arch/arm64/mm/kasan_init.c
-> +++ b/arch/arm64/mm/kasan_init.c
-> @@ -273,17 +273,22 @@ static void __init kasan_init_shadow(void)
->         cpu_replace_ttbr1(lm_alias(swapper_pg_dir));
->  }
->
-> +static void __init kasan_init_depth(void)
-> +{
-> +       init_task.kasan_depth =3D 0;
-> +}
-> +
->  #else /* CONFIG_KASAN_GENERIC || CONFIG_KASAN_SW_TAGS) */
->
->  static inline void __init kasan_init_shadow(void) { }
->
-> +static inline void __init kasan_init_depth(void) { }
-> +
->  #endif /* CONFIG_KASAN_GENERIC || CONFIG_KASAN_SW_TAGS */
->
->  void __init kasan_init(void)
->  {
->         kasan_init_shadow();
-> -
-> -       /* At this point kasan is fully initialized. Enable error message=
-s */
-> -       init_task.kasan_depth =3D 0;
-> +       kasan_init_depth();
->         pr_info("KernelAddressSanitizer initialized\n");
->  }
-> diff --git a/include/linux/kasan.h b/include/linux/kasan.h
-> index f6435b9f889c..979d598e1c30 100644
-> --- a/include/linux/kasan.h
-> +++ b/include/linux/kasan.h
-> @@ -51,6 +51,12 @@ static inline void *kasan_mem_to_shadow(const void *ad=
-dr)
->  int kasan_add_zero_shadow(void *start, unsigned long size);
->  void kasan_remove_zero_shadow(void *start, unsigned long size);
->
-> +/* Enable reporting bugs after kasan_disable_current() */
-> +extern void kasan_enable_current(void);
-> +
-> +/* Disable reporting bugs for current task */
-> +extern void kasan_disable_current(void);
-> +
->  #else /* CONFIG_KASAN_GENERIC || CONFIG_KASAN_SW_TAGS */
->
->  static inline int kasan_add_zero_shadow(void *start, unsigned long size)
-> @@ -61,16 +67,13 @@ static inline void kasan_remove_zero_shadow(void *sta=
-rt,
->                                         unsigned long size)
->  {}
->
-> +static inline void kasan_enable_current(void) {}
-> +static inline void kasan_disable_current(void) {}
-> +
->  #endif /* CONFIG_KASAN_GENERIC || CONFIG_KASAN_SW_TAGS */
->
->  #ifdef CONFIG_KASAN
->
-> -/* Enable reporting bugs after kasan_disable_current() */
-> -extern void kasan_enable_current(void);
-> -
-> -/* Disable reporting bugs for current task */
-> -extern void kasan_disable_current(void);
-> -
->  void kasan_unpoison_memory(const void *address, size_t size);
->
->  void kasan_unpoison_task_stack(struct task_struct *task);
-> @@ -121,9 +124,6 @@ static inline void kasan_unpoison_memory(const void *=
-address, size_t size) {}
->
->  static inline void kasan_unpoison_task_stack(struct task_struct *task) {=
-}
->
-> -static inline void kasan_enable_current(void) {}
-> -static inline void kasan_disable_current(void) {}
-> -
->  static inline void kasan_alloc_pages(struct page *page, unsigned int ord=
-er) {}
->  static inline void kasan_free_pages(struct page *page, unsigned int orde=
-r) {}
->
-> diff --git a/include/linux/sched.h b/include/linux/sched.h
-> index 063cd120b459..81b09bd31186 100644
-> --- a/include/linux/sched.h
-> +++ b/include/linux/sched.h
-> @@ -1197,7 +1197,7 @@ struct task_struct {
->         u64                             timer_slack_ns;
->         u64                             default_timer_slack_ns;
->
-> -#ifdef CONFIG_KASAN
-> +#if defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS)
->         unsigned int                    kasan_depth;
->  #endif
->
-> diff --git a/init/init_task.c b/init/init_task.c
-> index a56f0abb63e9..39703b4ef1f1 100644
-> --- a/init/init_task.c
-> +++ b/init/init_task.c
-> @@ -176,7 +176,7 @@ struct task_struct init_task
->         .numa_group     =3D NULL,
->         .numa_faults    =3D NULL,
->  #endif
-> -#ifdef CONFIG_KASAN
-> +#if defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS)
->         .kasan_depth    =3D 1,
->  #endif
->  #ifdef CONFIG_KCSAN
-> diff --git a/mm/kasan/common.c b/mm/kasan/common.c
-> index 543e6bf2168f..d0b3ff410b0c 100644
-> --- a/mm/kasan/common.c
-> +++ b/mm/kasan/common.c
-> @@ -46,6 +46,7 @@ void kasan_set_track(struct kasan_track *track, gfp_t f=
-lags)
->         track->stack =3D kasan_save_stack(flags);
->  }
->
-> +#if defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS)
->  void kasan_enable_current(void)
->  {
->         current->kasan_depth++;
-> @@ -55,6 +56,7 @@ void kasan_disable_current(void)
->  {
->         current->kasan_depth--;
->  }
-> +#endif /* CONFIG_KASAN_GENERIC || CONFIG_KASAN_SW_TAGS */
->
->  static void __kasan_unpoison_stack(struct task_struct *task, const void =
-*sp)
->  {
-> diff --git a/mm/kasan/report.c b/mm/kasan/report.c
-> index b18d193f7f58..af9138ea54ad 100644
-> --- a/mm/kasan/report.c
-> +++ b/mm/kasan/report.c
-> @@ -292,8 +292,10 @@ static void print_shadow_for_address(const void *add=
-r)
->
->  static bool report_enabled(void)
->  {
-> +#if defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS)
->         if (current->kasan_depth)
->                 return false;
-> +#endif
->         if (test_bit(KASAN_BIT_MULTI_SHOT, &kasan_flags))
->                 return true;
->         return !test_and_set_bit(KASAN_BIT_REPORTED, &kasan_flags);
-> --
-> 2.29.2.222.g5d2a92d10f8-goog
->
+This is my qemu cmdline with kfence.sample_interval=0
+$ qemu-system-aarch64 --enable-kvm -cpu cortex-a53 -kernel
+Image-20201110-test -serial stdio -monitor none -nographic -m 2G -M
+virt -fsdev local,id=root,path=/srv/kvm/tmp/stretch/arm64-test,security_model=none,writeout=immediate
+-device virtio-rng-pci -device
+virtio-9p-pci,fsdev=root,mount_tag=/dev/root -append "root=/dev/root
+rootfstype=9p rootflags=trans=virtio console=ttyAMA0,38400n8
+earlycon=pl011,0x9000000 initcall_debug softlockup_panic=0
+security=none kpti=no kfence.sample_interval=0"
 
+This is the result, I managed to get to the prompt. see
+https://people.linaro.org/~anders.roxell/output-next-20201110-test-2.log
 
---=20
-Alexander Potapenko
-Software Engineer
+Cheers,
+Anders
 
-Google Germany GmbH
-Erika-Mann-Stra=C3=9Fe, 33
-80636 M=C3=BCnchen
+>
+> In your log [2] I see a number of "BUG: workqueue lockup ..." but that
+> doesn't make sense, at least I don't think the KFENCE work item is
+> causing this. It'd be interesting to bisect what changed between
+> 20201105 and 20201110, but I have a suspicion that might take too
+> long. Short of that, let me see if there are any changes between the 2
+> that look like it might be causing this.
+>
+> Thanks,
+> -- Marco
 
-Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Halimah DeLaine Prado
-Registergericht und -nummer: Hamburg, HRB 86891
-Sitz der Gesellschaft: Hamburg
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CAG_fn%3DVhzzFSXE19KJ%2B0-q1WitAu08scm8s-eXvQWYSqJTub%3Dw%40mail.=
-gmail.com.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CADYN%3D9LtdW3Bs29VSq2ygnNcb3ub_UBLj8tZg5ff5Zvojr5FWg%40mail.gmail.com.
