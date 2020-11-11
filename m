@@ -1,131 +1,126 @@
-Return-Path: <kasan-dev+bncBCCMH5WKTMGRBKUDWD6QKGQEK6XCPLQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBOMDWD6QKGQEEDCVS7Q@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yb1-xb3d.google.com (mail-yb1-xb3d.google.com [IPv6:2607:f8b0:4864:20::b3d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EBEA2AF4A3
-	for <lists+kasan-dev@lfdr.de>; Wed, 11 Nov 2020 16:22:19 +0100 (CET)
-Received: by mail-yb1-xb3d.google.com with SMTP id h9sf2700828ybj.10
-        for <lists+kasan-dev@lfdr.de>; Wed, 11 Nov 2020 07:22:19 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1605108138; cv=pass;
+Received: from mail-qk1-x73b.google.com (mail-qk1-x73b.google.com [IPv6:2607:f8b0:4864:20::73b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AAB72AF4A7
+	for <lists+kasan-dev@lfdr.de>; Wed, 11 Nov 2020 16:22:34 +0100 (CET)
+Received: by mail-qk1-x73b.google.com with SMTP id t70sf1917874qka.11
+        for <lists+kasan-dev@lfdr.de>; Wed, 11 Nov 2020 07:22:34 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1605108153; cv=pass;
         d=google.com; s=arc-20160816;
-        b=On7gDIx1/c77QHtVfNtEvFmSz1b14xsjh6OoReM5y+pgNOXCcyNzHd/BUbuYh39RmT
-         qjEUBZNnBGLMdv0lFgY4f43UgrCZE8WKtD0KGcWsrmhOsvMBhap6I3ddUhmH43cWrNL5
-         PfBn2YmNcwtTuGiTZOopfmAhfFKE1QL2cRGrwfmNShhaT6xxLq8EDnSn8S9ZJOGqAuH0
-         3Q7OAcHDcJgb3M4qhk3VEzpErrcRJmli0FNvIE6uLVuAG7gQM4l9ZB7fF2uiUrCdOOZF
-         Vk2WlKsSB1N6LUvnuxEvxRfl1yizZCrYEtWDJReaJOfZ16vtnMHE7eb0pAySvhJL6pDN
-         gZTA==
+        b=fBB9ypewWuhgkPOzV/GLD8qsGNxK/zujT/0ApL9E9DMggl8M8rNPTI/uRtqEMnvohc
+         I7Ojk1tsHnZ2qP5zCj8Dp+tP8hbqt77Umef2uoUUaIag/B3FGp8RzyFNAiBe2dIcDIe3
+         3A0ASUiwgwgH7YCotKVJwPCA+lAV7iGrbzI72BTlyCmySpNd0slYJK3Ftr20oTUHQ9xs
+         YydpmdTk/GIfZHxoTgBoPSHCu3d29zpTCTkLdWo0JLXTpeO4+gEHPibjy+5nR8GSe+D9
+         Z4LQ9ZnLX96I2Pc8XmM3ElvaYy+D152A18Vy1iJN0kyR2o4eSJp6N/twkcGjvvdeeM/t
+         zzHg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
-         :cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=vsFQtjYbTwDJi7dyvKm3wzF+wnLhZgG81fK7nyI40uI=;
-        b=yG6pxrC7O5xa820cVwEsl89dFUHN690V97D/lmXKXLgwIa15EdX68K68wCSlNlyO8T
-         u3a0J0gDf5qYHxuCttOqeoPtKAT+3G6XUnc3QjtjMwVzJokOt5C2fByFJK46a++Zs1+O
-         Ta0xlXcYtQxQdf0XU3Og1eL+skxULP+VrM/xdwD5I5iLqU56Dmc5WAXTveZ6QfwsHtkj
-         S2apgJqtnL78lc/4Q9H3lBVlH+dg9ASqcj5TrcHZX4UHyBBMMWciM5KVIkfwCOq3spXR
-         jJPFgO20/zA55/xX4FZS4GZhRzs383Vk+hfIeVBF0hBKGel09pDfu+dQ3LXfusCrj5Tt
-         hSzg==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=ev5TfjPY/k5YA3sJ4jKIQtbiWkljOy7x6EeUUsVvKvg=;
+        b=ScfgOiHZptUsEJoBHEMSSEl20hLP0wPGydF81jWuD2uyp6HgCKAIswERRUvXK6DO10
+         WY6R4RH4D2CqiDW6KDs3etm8xeiQv6XUAMLG3S1kOwsuXJxqNI5xUiMGadiXwTEuIPbE
+         3lr6NLYgZp2Chob7FEJ5OvENWCoGj0twXAdpJSfoUqE04YjatuoVoNkjupi9sNvhMPwm
+         9Dqg8SzicieymYQ37J1RxdtstrLn10urVsS8To4nXyhfY0eV0/32KHrQD+GbWFO9Dcqt
+         QNXg/AITBKZeAEV8qNpJpZRHQ4M/UMlHKsbceOG5DXouaGnSZOhdLkwo+Gv5bL8hua5e
+         ijvg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=ZsqrL7Uq;
-       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::843 as permitted sender) smtp.mailfrom=glider@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b="doby/aOl";
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::343 as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:list-post:list-help:list-archive:list-subscribe
-         :list-unsubscribe;
-        bh=vsFQtjYbTwDJi7dyvKm3wzF+wnLhZgG81fK7nyI40uI=;
-        b=R/N2lKRaDou/RQUOa1qI1nBI/wTyiwfOZIcu5VP3HIj2c35q3RHJ7+hrDv3GHW1Lva
-         CyVpL006KcpNFcNDc9402HTKl6toXq4RLnqgjqjuJ8qkajOOoqzCkR9slg9OdbD4brFq
-         W33XYG40u5UmRjQuG7reH5+aUmX7thnz2kmJvs46UzjHw2x9VSlhzYod3xpfFn9cDv3m
-         SNug8NXZuNUnSZXmQmv4FutI8Pk14s4YIUVNsIWaNfGXkAjydzzNWE32a723r6vMPssS
-         3hvpq99yPS0YcrBGBdG0LPByTG5+jdgsnZAxNGKhk7lgQx8CTOIokJmONdWz9VD5VIyL
-         l+/g==
+         :cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=ev5TfjPY/k5YA3sJ4jKIQtbiWkljOy7x6EeUUsVvKvg=;
+        b=GjfZyG2d1oxWhFSoVySh6Y2h/8EsyLT5JHs3/Rv1k2S0g03CPGEI4Z9LQcd/ClfFdW
+         j+L7ZbmcRYLyWY9s7aGWIPVMoS5SiR37VIgeOADNOsDz+pdSL7JRZptV0FYpC1+r+Pf8
+         bDbfLZq8ApqxD6NC4E+ti2FtTujUlp8T8VjuySrdnjui9xebQJHF2OSYcyXtaITZXUsc
+         z9fOpdkAr9CgwE70prWPWue2yS0uaGuRPn3X87C1m3tdXsYtgzbyFRpgK0/ye2Sx1Din
+         UY1EMmzbMSrcHP/Hqqi4JGB1VxveilVT2Wa3lD4dZg/OGySzGvvOKE6+FlOaC+iGEYRG
+         5naw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding
-         :x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=vsFQtjYbTwDJi7dyvKm3wzF+wnLhZgG81fK7nyI40uI=;
-        b=TTjlha9Am5PK4EqY1KRBsgwgiKVFdGcFIyv+0J1LJD6X6oBkn1WXoqsLDd7xYl38db
-         mdamLfeZHBtg0nsV9lxivya+3GGEVftLEroKj8WbCq7rJOBbQ1Fq8JsKoZGigt+g80Hh
-         8T3IjbYBDrLvj0rtmdakzCyReBjxZndCQp0IhFDxafCfRm0fLAnHD/HasrZK+OO6fyer
-         nJ/nZOqARICq+qirJsafox0IALltcfsXGEMywSTxD622A/p3T84ZrmIdBNvOHeHEn65f
-         FOdgXESanDnqsPZ1pcTiKz9UTeKdvKgDJriLuBLh5FC8sh8TmIhDr65g6diMp55D2Fx9
-         bELA==
-X-Gm-Message-State: AOAM5309RW8vCxF+o/IJdWElmPbTJa29Ao68oKDsc0gbZvzoMydDlFm+
-	PHpMeNEOR5TotrSJDY2/GcA=
-X-Google-Smtp-Source: ABdhPJw110myq4Ekn72Yfy9TycREhYUY8ebAZtyloaghXAd2BqgdAa8s3JHywtnKsyF0khQE3m615g==
-X-Received: by 2002:a25:bc42:: with SMTP id d2mr3247734ybk.461.1605108138206;
-        Wed, 11 Nov 2020 07:22:18 -0800 (PST)
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=ev5TfjPY/k5YA3sJ4jKIQtbiWkljOy7x6EeUUsVvKvg=;
+        b=dZISuZJtLTHo7fbjHK99Mfsj1PFpDoKmnz7oHqfGQA1Brl5QCRAi2HeKOqmo1fcQV2
+         vnNpHavbhzrte4Ok/i1QD8/dB2tAHWQMqYAVa6j1jf+CBJkO1/JdJRQ2Gy3ZDDIsj+n0
+         fLifj9RHTPPCWUsmwIbWjOVXYx2TsrdZZnHNE5P8AMNxTHcNZM3Ufjs9KB7Lj40LOsOa
+         KE8YrXP7D8RyedIALXfkt8Ccr43v1aAFRyjqygXsMXyAobfPkQeUDlYrW4qHQD4rUsV/
+         V9MKqA6AWPCjIQF45uDqK1iCz4z2grcvYOC/kftGfwG6FEEpzrJFr5BYlALB4ZqEi0UX
+         lQrA==
+X-Gm-Message-State: AOAM533ATVubP1CD9M4eDo+Q1QIVMM/Sh+LfHNBi2nCqDuGcpMhbTW5m
+	VnIR9tHhNkrj3udTUwf/u+o=
+X-Google-Smtp-Source: ABdhPJz8P5jDGn/V4MY4hxrakf/YvXzr3gsbOHZS5DUNTb/NPoL1tA22L7z9MWO1j3WmeAFIFRxo4w==
+X-Received: by 2002:a0c:b586:: with SMTP id g6mr18620951qve.3.1605108153699;
+        Wed, 11 Nov 2020 07:22:33 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a25:2d56:: with SMTP id s22ls92155ybe.0.gmail; Wed, 11 Nov
- 2020 07:22:17 -0800 (PST)
-X-Received: by 2002:a25:a242:: with SMTP id b60mr34777702ybi.353.1605108137679;
-        Wed, 11 Nov 2020 07:22:17 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1605108137; cv=none;
+Received: by 2002:ac8:776d:: with SMTP id h13ls3504974qtu.7.gmail; Wed, 11 Nov
+ 2020 07:22:33 -0800 (PST)
+X-Received: by 2002:ac8:d48:: with SMTP id r8mr23653687qti.69.1605108153204;
+        Wed, 11 Nov 2020 07:22:33 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1605108153; cv=none;
         d=google.com; s=arc-20160816;
-        b=Xh2XJZfEVEA3EndgkGFh9otLMujK72DtriRDYWHPnVcp1QsI+QertUq0Qc7xn1lU+y
-         aB3P5O1Yr62bufrP02SWl3VcbMTNSZ2HOi6scQAqZnLptQAD2paMpWIId+P47TWAeXRc
-         +aUn0JU7HZFbtZjEl5SfHnGOw2n7lXdiA+HMnmf0LFolL/aJp3zxRudLNl4ZTlgl5ios
-         AvUKYW9UgOR4ixpjdYCceKo5RhfqzjQWdLzR9ixUdLOEEz3W1nhv5TJVJnWHYMvJx6tl
-         605v8bkGpOXBDp+6ZAolE0j6pema+gY+9vUsqNVRZSbmvUoSw9t+/51EPbq/KPbkHzP5
-         VAZg==
+        b=wa+OvJLc3Xs7SDWBWyA3uJaVHqiDfIhFPnZXiR2B61m9daXVHKj+oOjyxyDeKVR0hn
+         pSmLDjrneMDk72UURvV4ZDv8yHGzQ9enmGjpqT6C9J6/yt+myfl6dbuDsvlMKkRJBWaP
+         axmSUzTrV63Y+1h7LLy5MEfSWKyT8Cz2bDkb1rJ5lgjKdgjmyx2J72XdyEuECvySNQuE
+         jsumx4XMLRmUZF4qp9bOR9SeoYAAGRw64BiBgcEZsP0OFVLuauhO2BpT2CyaPtGdSt2D
+         JnhSwrjAsSvAcwDc9b++2XCuvRfOfujF4LOtxthtIi0fzCCww6QLu6zk3HlTXygLRZz4
+         jdxQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=qP4CSavCKNiU1+9udAKKC5xpzE+JMfMUoD8Vn5vSarA=;
-        b=OJETi0KhTsSFZ71MSrcFGPyZVizc/ntqjwRqioEsVoUIxuA4ldMykSuMU5N36oixnP
-         9nhNF2i5VRGc8543A18PfrsGMiqMX99g1GNc+W6LuU5bi29J9J87iQ2aF1jI0EzJBNPc
-         NroB71Q1H2+3poW4jlx3K579FdQuAnIqwmV7MO4l1qIzCxfScSoLS4DavpNInjV8rWjE
-         RIgXSKr1xjzC1Tckel1PEMjGPTEoFnRgEIvjUtpO6RikLH8kcdeQpEK3wqwuRaNCRJfj
-         v3P0nuSDreQqdLMcR2e5gItPZJH4UGoSDNviRWG2150K+f5j/H6yPmp0ZugSfEo5+xjk
-         rAgA==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=0qXuq3ha015RB7+Wp6T10l2uYM1lO9pj4+Ev82Ko6MA=;
+        b=g1Zvf8C5k9tQOf4QbMk+MS63rLn/ZY4X2jZYaGZOvPpUl63uFx+KUaA5Glsy30KsOP
+         bwQvlqD6EfVz/niFvFs/4AT0RURRLzwlc1K7WapKXqHmVezox6kR2o8g7+IoHUPaWOWh
+         UqmhzdkcNAi1gXrjaFW/Wio5a9jRq1S0uf5CV1uIebnp3HO2n+ZrP8AknF+vq8L7dTis
+         kOb+teduP+FitSiBGgoe7DwLFXb/4IrvND0qhIOZwGBaKrecpGz9YhveT2YY25kJf/+n
+         PZW3DMBR1jLm8MDRlYBoIEuzSgS8hXBmRTqZ7BxytfK7vS12nJUaTpUF1BtkC5gS1ovF
+         S3KA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=ZsqrL7Uq;
-       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::843 as permitted sender) smtp.mailfrom=glider@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b="doby/aOl";
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::343 as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-qt1-x843.google.com (mail-qt1-x843.google.com. [2607:f8b0:4864:20::843])
-        by gmr-mx.google.com with ESMTPS id y4si172497ybr.2.2020.11.11.07.22.17
+Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com. [2607:f8b0:4864:20::343])
+        by gmr-mx.google.com with ESMTPS id m21si150082qkn.6.2020.11.11.07.22.33
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 Nov 2020 07:22:17 -0800 (PST)
-Received-SPF: pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::843 as permitted sender) client-ip=2607:f8b0:4864:20::843;
-Received: by mail-qt1-x843.google.com with SMTP id h12so1495374qtc.9
-        for <kasan-dev@googlegroups.com>; Wed, 11 Nov 2020 07:22:17 -0800 (PST)
-X-Received: by 2002:ac8:5c85:: with SMTP id r5mr19151032qta.8.1605108137054;
- Wed, 11 Nov 2020 07:22:17 -0800 (PST)
+        Wed, 11 Nov 2020 07:22:33 -0800 (PST)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::343 as permitted sender) client-ip=2607:f8b0:4864:20::343;
+Received: by mail-ot1-x343.google.com with SMTP id n15so2449435otl.8
+        for <kasan-dev@googlegroups.com>; Wed, 11 Nov 2020 07:22:33 -0800 (PST)
+X-Received: by 2002:a9d:65d5:: with SMTP id z21mr16777802oth.251.1605108152557;
+ Wed, 11 Nov 2020 07:22:32 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1605046192.git.andreyknvl@google.com> <560e04850b62da4fd69caa92b4ce3bebf275ea59.1605046192.git.andreyknvl@google.com>
-In-Reply-To: <560e04850b62da4fd69caa92b4ce3bebf275ea59.1605046192.git.andreyknvl@google.com>
-From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Wed, 11 Nov 2020 16:22:05 +0100
-Message-ID: <CAG_fn=W-H8nHc_DmBOsnJOUygDJ+wg78K-QSY_wHTSHg-b8vFQ@mail.gmail.com>
-Subject: Re: [PATCH v9 23/44] kasan: separate metadata_fetch_row for each mode
-To: Andrey Konovalov <andreyknvl@google.com>
-Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will.deacon@arm.com>, 
-	Vincenzo Frascino <vincenzo.frascino@arm.com>, Dmitry Vyukov <dvyukov@google.com>, 
-	Andrey Ryabinin <aryabinin@virtuozzo.com>, Marco Elver <elver@google.com>, 
-	Evgenii Stepanov <eugenis@google.com>, Branislav Rankov <Branislav.Rankov@arm.com>, 
-	Kevin Brodsky <kevin.brodsky@arm.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	kasan-dev <kasan-dev@googlegroups.com>, 
-	Linux ARM <linux-arm-kernel@lists.infradead.org>, 
-	Linux Memory Management List <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>
+References: <20201110135320.3309507-1-elver@google.com> <CADYN=9+=-ApMi_eEdAeHU6TyuQ7ZJSTQ8F-FCSD33kZH8HR+xg@mail.gmail.com>
+ <CANpmjNM8MZphvkTSo=KgCBXQ6fNY4qo6NZD5SBHjNse_L9i5FQ@mail.gmail.com> <CADYN=9LtdW3Bs29VSq2ygnNcb3ub_UBLj8tZg5ff5Zvojr5FWg@mail.gmail.com>
+In-Reply-To: <CADYN=9LtdW3Bs29VSq2ygnNcb3ub_UBLj8tZg5ff5Zvojr5FWg@mail.gmail.com>
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Wed, 11 Nov 2020 16:22:20 +0100
+Message-ID: <CANpmjNMBUR-gxDbq5ip4J38PwRHbwOk=zoG5ScVuF6aW326mxQ@mail.gmail.com>
+Subject: Re: [PATCH] kfence: Avoid stalling work queue task without allocations
+To: Anders Roxell <anders.roxell@linaro.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Alexander Potapenko <glider@google.com>, 
+	Dmitry Vyukov <dvyukov@google.com>, Jann Horn <jannh@google.com>, 
+	Mark Rutland <mark.rutland@arm.com>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux-MM <linux-mm@kvack.org>, 
+	kasan-dev <kasan-dev@googlegroups.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: glider@google.com
+X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=ZsqrL7Uq;       spf=pass
- (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::843 as
- permitted sender) smtp.mailfrom=glider@google.com;       dmarc=pass (p=REJECT
+ header.i=@google.com header.s=20161025 header.b="doby/aOl";       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::343 as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
  sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Alexander Potapenko <glider@google.com>
-Reply-To: Alexander Potapenko <glider@google.com>
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -138,226 +133,94 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Nov 10, 2020 at 11:12 PM Andrey Konovalov <andreyknvl@google.com> w=
-rote:
+On Wed, 11 Nov 2020 at 16:01, Anders Roxell <anders.roxell@linaro.org> wrote:
 >
-> This is a preparatory commit for the upcoming addition of a new hardware
-> tag-based (MTE-based) KASAN mode.
+> On Wed, 11 Nov 2020 at 09:29, Marco Elver <elver@google.com> wrote:
+> >
+> > On Wed, 11 Nov 2020 at 00:23, Anders Roxell <anders.roxell@linaro.org> wrote:
+> > [...]
+> > >
+> > > I gave them a spin on next-20201105 [1] and on next-20201110 [2].
+> > >
+> > > I eventually got to a prompt on next-20201105.
+> > > However, I got to this kernel panic on the next-20201110:
+> > >
+> > > [...]
+> > > [ 1514.089966][    T1] Testing event system initcall: OK
+> > > [ 1514.806232][    T1] Running tests on all trace events:
+> > > [ 1514.857835][    T1] Testing all events:
+> > > [ 1525.503262][    C0] hrtimer: interrupt took 10902600 ns
+> > > [ 1623.861452][    C0] BUG: workqueue lockup - pool cpus=0 node=0
+> > > flags=0x0 nice=0 stuck for 65s!
+> > > [...]
+> > > [ 7823.104349][   T28]       Tainted: G        W
+> > > 5.10.0-rc3-next-20201110-00008-g8dc06700529d #3
+> > > [ 7833.206491][   T28] "echo 0 >
+> > > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+> > > [ 7840.750700][   T28] task:kworker/0:1     state:D stack:26640 pid:
+> > > 1872 ppid:     2 flags:0x00000428
+> > > [ 7875.642531][   T28] Workqueue: events toggle_allocation_gate
+> > > [ 7889.178334][   T28] Call trace:
+> > > [ 7897.066649][   T28]  __switch_to+0x1cc/0x1e0
+> > > [ 7905.326856][   T28]  0xffff00000f7077b0
+> > > [ 7928.354644][   T28] INFO: lockdep is turned off.
+> > > [ 7934.022572][   T28] Kernel panic - not syncing: hung_task: blocked tasks
+> > > [ 7934.032039][   T28] CPU: 0 PID: 28 Comm: khungtaskd Tainted: G
+> > >   W         5.10.0-rc3-next-20201110-00008-g8dc06700529d #3
+> > > [ 7934.045586][   T28] Hardware name: linux,dummy-virt (DT)
+> > > [ 7934.053677][   T28] Call trace:
+> > > [ 7934.060276][   T28]  dump_backtrace+0x0/0x420
+> > > [ 7934.067635][   T28]  show_stack+0x38/0xa0
+> > > [ 7934.091277][   T28]  dump_stack+0x1d4/0x278
+> > > [ 7934.098878][   T28]  panic+0x304/0x5d8
+> > > [ 7934.114923][   T28]  check_hung_uninterruptible_tasks+0x5e4/0x640
+> > > [ 7934.123823][   T28]  watchdog+0x138/0x160
+> > > [ 7934.131561][   T28]  kthread+0x23c/0x260
+> > > [ 7934.138590][   T28]  ret_from_fork+0x10/0x18
+> > > [ 7934.146631][   T28] Kernel Offset: disabled
+> > > [ 7934.153749][   T28] CPU features: 0x0240002,20002004
+> > > [ 7934.161476][   T28] Memory Limit: none
+> > > [ 7934.171272][   T28] ---[ end Kernel panic - not syncing: hung_task:
+> > > blocked tasks ]---
+> > >
+> > > Cheers,
+> > > Anders
+> > > [1] https://people.linaro.org/~anders.roxell/output-next-20201105-test.log
+> > > [2] https://people.linaro.org/~anders.roxell/output-next-20201110-test.log
+> >
+> > Thanks for testing. The fact that it passes on next-20201105 but not
+> > on 20201110 is strange. If you boot with KFENCE disabled (boot param
+> > kfence.sample_interval=0), does it boot?
 >
-> Rework print_memory_metadata() to make it agnostic with regard to the
-> way metadata is stored. Allow providing a separate metadata_fetch_row()
-> implementation for each KASAN mode. Hardware tag-based KASAN will provide
-> its own implementation that doesn't use shadow memory.
+> This is my qemu cmdline with kfence.sample_interval=0
+> $ qemu-system-aarch64 --enable-kvm -cpu cortex-a53 -kernel
+> Image-20201110-test -serial stdio -monitor none -nographic -m 2G -M
+> virt -fsdev local,id=root,path=/srv/kvm/tmp/stretch/arm64-test,security_model=none,writeout=immediate
+> -device virtio-rng-pci -device
+> virtio-9p-pci,fsdev=root,mount_tag=/dev/root -append "root=/dev/root
+> rootfstype=9p rootflags=trans=virtio console=ttyAMA0,38400n8
+> earlycon=pl011,0x9000000 initcall_debug softlockup_panic=0
+> security=none kpti=no kfence.sample_interval=0"
 >
-> No functional changes for software modes.
->
-> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
-> Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
-> Reviewed-by: Marco Elver <elver@google.com>
-> ---
-> Change-Id: I5b0ed1d079ea776e620beca6a529a861e7dced95
-> ---
->  mm/kasan/kasan.h          |  8 ++++++
->  mm/kasan/report.c         | 56 +++++++++++++++++++--------------------
->  mm/kasan/report_generic.c |  5 ++++
->  mm/kasan/report_sw_tags.c |  5 ++++
->  4 files changed, 45 insertions(+), 29 deletions(-)
->
-> diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
-> index f9366dfd94c9..b5b00bff358f 100644
-> --- a/mm/kasan/kasan.h
-> +++ b/mm/kasan/kasan.h
-> @@ -57,6 +57,13 @@
->  #define KASAN_ABI_VERSION 1
->  #endif
->
-> +/* Metadata layout customization. */
-> +#define META_BYTES_PER_BLOCK 1
-> +#define META_BLOCKS_PER_ROW 16
-> +#define META_BYTES_PER_ROW (META_BLOCKS_PER_ROW * META_BYTES_PER_BLOCK)
-> +#define META_MEM_BYTES_PER_ROW (META_BYTES_PER_ROW * KASAN_GRANULE_SIZE)
-> +#define META_ROWS_AROUND_ADDR 2
-> +
->  struct kasan_access_info {
->         const void *access_addr;
->         const void *first_bad_addr;
-> @@ -168,6 +175,7 @@ bool check_invalid_free(void *addr);
->
->  void *find_first_bad_addr(void *addr, size_t size);
->  const char *get_bug_type(struct kasan_access_info *info);
-> +void metadata_fetch_row(char *buffer, void *row);
->
->  #if defined(CONFIG_KASAN_GENERIC) && CONFIG_KASAN_STACK
->  void print_address_stack_frame(const void *addr);
-> diff --git a/mm/kasan/report.c b/mm/kasan/report.c
-> index 8c588588c88f..8afc1a6ab202 100644
-> --- a/mm/kasan/report.c
-> +++ b/mm/kasan/report.c
-> @@ -33,12 +33,6 @@
->  #include "kasan.h"
->  #include "../slab.h"
->
-> -/* Metadata layout customization. */
-> -#define META_BYTES_PER_BLOCK 1
-> -#define META_BLOCKS_PER_ROW 16
-> -#define META_BYTES_PER_ROW (META_BLOCKS_PER_ROW * META_BYTES_PER_BLOCK)
-> -#define META_ROWS_AROUND_ADDR 2
-> -
->  static unsigned long kasan_flags;
->
->  #define KASAN_BIT_REPORTED     0
-> @@ -238,55 +232,59 @@ static void print_address_description(void *addr, u=
-8 tag)
->         print_address_stack_frame(addr);
->  }
->
-> -static bool row_is_guilty(const void *row, const void *guilty)
-> +static bool meta_row_is_guilty(const void *row, const void *addr)
->  {
-> -       return (row <=3D guilty) && (guilty < row + META_BYTES_PER_ROW);
-> +       return (row <=3D addr) && (addr < row + META_MEM_BYTES_PER_ROW);
->  }
->
-> -static int shadow_pointer_offset(const void *row, const void *shadow)
-> +static int meta_pointer_offset(const void *row, const void *addr)
->  {
-> -       /* The length of ">ff00ff00ff00ff00: " is
-> -        *    3 + (BITS_PER_LONG/8)*2 chars.
-> +       /*
-> +        * Memory state around the buggy address:
-> +        *  ff00ff00ff00ff00: 00 00 00 05 fe fe fe fe fe fe fe fe fe fe f=
-e fe
-> +        *  ...
-> +        *
-> +        * The length of ">ff00ff00ff00ff00: " is
-> +        *    3 + (BITS_PER_LONG / 8) * 2 chars.
-> +        * The length of each granule metadata is 2 bytes
-> +        *    plus 1 byte for space.
->          */
-> -       return 3 + (BITS_PER_LONG/8)*2 + (shadow - row)*2 +
-> -               (shadow - row) / META_BYTES_PER_BLOCK + 1;
-> +       return 3 + (BITS_PER_LONG / 8) * 2 +
-> +               (addr - row) / KASAN_GRANULE_SIZE * 3 + 1;
->  }
->
->  static void print_memory_metadata(const void *addr)
->  {
->         int i;
-> -       const void *shadow =3D kasan_mem_to_shadow(addr);
-> -       const void *shadow_row;
-> +       void *row;
->
-> -       shadow_row =3D (void *)round_down((unsigned long)shadow,
-> -                                       META_BYTES_PER_ROW)
-> -               - META_ROWS_AROUND_ADDR * META_BYTES_PER_ROW;
-> +       row =3D (void *)round_down((unsigned long)addr, META_MEM_BYTES_PE=
-R_ROW)
-> +                       - META_ROWS_AROUND_ADDR * META_MEM_BYTES_PER_ROW;
->
->         pr_err("Memory state around the buggy address:\n");
->
->         for (i =3D -META_ROWS_AROUND_ADDR; i <=3D META_ROWS_AROUND_ADDR; =
-i++) {
-> -               const void *kaddr =3D kasan_shadow_to_mem(shadow_row);
-> -               char buffer[4 + (BITS_PER_LONG/8)*2];
-> -               char shadow_buf[META_BYTES_PER_ROW];
-> +               char buffer[4 + (BITS_PER_LONG / 8) * 2];
-> +               char metadata[META_BYTES_PER_ROW];
->
->                 snprintf(buffer, sizeof(buffer),
-> -                       (i =3D=3D 0) ? ">%px: " : " %px: ", kaddr);
-> +                               (i =3D=3D 0) ? ">%px: " : " %px: ", row);
-> +
->                 /*
->                  * We should not pass a shadow pointer to generic
->                  * function, because generic functions may try to
->                  * access kasan mapping for the passed address.
->                  */
-> -               memcpy(shadow_buf, shadow_row, META_BYTES_PER_ROW);
-> +               metadata_fetch_row(&metadata[0], row);
-> +
->                 print_hex_dump(KERN_ERR, buffer,
->                         DUMP_PREFIX_NONE, META_BYTES_PER_ROW, 1,
-> -                       shadow_buf, META_BYTES_PER_ROW, 0);
-> +                       metadata, META_BYTES_PER_ROW, 0);
->
-> -               if (row_is_guilty(shadow_row, shadow))
-> -                       pr_err("%*c\n",
-> -                               shadow_pointer_offset(shadow_row, shadow)=
-,
-> -                               '^');
-> +               if (meta_row_is_guilty(row, addr))
-> +                       pr_err("%*c\n", meta_pointer_offset(row, addr), '=
-^');
->
-> -               shadow_row +=3D META_BYTES_PER_ROW;
-> +               row +=3D META_MEM_BYTES_PER_ROW;
->         }
->  }
->
-> diff --git a/mm/kasan/report_generic.c b/mm/kasan/report_generic.c
-> index 16ed550850e9..8a9c889872da 100644
-> --- a/mm/kasan/report_generic.c
-> +++ b/mm/kasan/report_generic.c
-> @@ -123,6 +123,11 @@ const char *get_bug_type(struct kasan_access_info *i=
-nfo)
->         return get_wild_bug_type(info);
->  }
->
-> +void metadata_fetch_row(char *buffer, void *row)
-> +{
-> +       memcpy(buffer, kasan_mem_to_shadow(row), META_BYTES_PER_ROW);
+> This is the result, I managed to get to the prompt. see
+> https://people.linaro.org/~anders.roxell/output-next-20201110-test-2.log
 
-I think it is important to use __memcpy() instead of memcpy() in KASAN
-runtime to avoid calling instrumented code.
+Hmm, you still have a ton of
 
-> +}
-> +
->  #if CONFIG_KASAN_STACK
->  static bool __must_check tokenize_frame_descr(const char **frame_descr,
->                                               char *token, size_t max_tok=
-_len,
-> diff --git a/mm/kasan/report_sw_tags.c b/mm/kasan/report_sw_tags.c
-> index c87d5a343b4e..add2dfe6169c 100644
-> --- a/mm/kasan/report_sw_tags.c
-> +++ b/mm/kasan/report_sw_tags.c
-> @@ -80,6 +80,11 @@ void *find_first_bad_addr(void *addr, size_t size)
->         return p;
->  }
->
-> +void metadata_fetch_row(char *buffer, void *row)
-> +{
-> +       memcpy(buffer, kasan_mem_to_shadow(row), META_BYTES_PER_ROW);
+   BUG: workqueue lockup - pool ...
 
-Ditto.
+and other warnings in that log though that weren't there in
+next-20201105, so I do not trust the results until those are fixed. To
+me it looks like KFENCE's timer helps uncover a new problem, but
+trying to work around this new problem in KFENCE seems wrong for now.
+We need to understand why these "BUG: workqueue lockup" warnings are
+there. I Cc'd a bunch of folks in that other email that might be able
+to help.
 
-> +}
-> +
->  void print_tags(u8 addr_tag, const void *addr)
->  {
->         u8 *shadow =3D (u8 *)kasan_mem_to_shadow(addr);
-> --
-> 2.29.2.222.g5d2a92d10f8-goog
->
+Thanks,
+-- Marco
 
-
---=20
-Alexander Potapenko
-Software Engineer
-
-Google Germany GmbH
-Erika-Mann-Stra=C3=9Fe, 33
-80636 M=C3=BCnchen
-
-Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Halimah DeLaine Prado
-Registergericht und -nummer: Hamburg, HRB 86891
-Sitz der Gesellschaft: Hamburg
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CAG_fn%3DW-H8nHc_DmBOsnJOUygDJ%2Bwg78K-QSY_wHTSHg-b8vFQ%40mail.gm=
-ail.com.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNMBUR-gxDbq5ip4J38PwRHbwOk%3DzoG5ScVuF6aW326mxQ%40mail.gmail.com.
