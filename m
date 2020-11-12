@@ -1,130 +1,128 @@
-Return-Path: <kasan-dev+bncBDX4HWEMTEBRBYMUWL6QKGQELB4VRQA@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBOFKWP6QKGQE5WCBC4Y@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qt1-x840.google.com (mail-qt1-x840.google.com [IPv6:2607:f8b0:4864:20::840])
-	by mail.lfdr.de (Postfix) with ESMTPS id 302FB2AFBDE
-	for <lists+kasan-dev@lfdr.de>; Thu, 12 Nov 2020 02:05:38 +0100 (CET)
-Received: by mail-qt1-x840.google.com with SMTP id o16sf2397247qtr.14
-        for <lists+kasan-dev@lfdr.de>; Wed, 11 Nov 2020 17:05:38 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1605143137; cv=pass;
+Received: from mail-qk1-x73d.google.com (mail-qk1-x73d.google.com [IPv6:2607:f8b0:4864:20::73d])
+	by mail.lfdr.de (Postfix) with ESMTPS id B72882AFF9B
+	for <lists+kasan-dev@lfdr.de>; Thu, 12 Nov 2020 07:24:57 +0100 (CET)
+Received: by mail-qk1-x73d.google.com with SMTP id m76sf3603901qke.3
+        for <lists+kasan-dev@lfdr.de>; Wed, 11 Nov 2020 22:24:57 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1605162296; cv=pass;
         d=google.com; s=arc-20160816;
-        b=aJ9SVQDXmZZ99awDrtifpf0YjijlVvyj4HRoyKKL7SpB4rjp9460i5MBVNcEboLcsr
-         iR1a1//5Us3cB4qJjHELdpFKf2tPG+ep386Nh0MDIkbdvqd5vC/+/dSiByzIzVmjrUF9
-         d8LFbiiTzCVMaBAy5CxCqlkCOWSzeKfvbIT/ERL7jjpUV8Z8hD4ocPe2ZCDB8ODgXlPH
-         FsMfnV+zx5tEhrOykAgLYVeF6zHaL4BJv9ZMsAywi7vyM/XBYSpJsYSZr5MlF0S6OPMM
-         bq9NVJD43pcUUNgPl7qd5wdJoC7jYZg9cU48kZWQiaxA3FCjEui+MZwuXElvPhy3iFpO
-         MdaA==
+        b=NJL1JMgYqhcvtynSky/ADWqs+23+u4MNP5GMlbfWMMLPVi2IX5tCJeh5zULlMQ1IMg
+         1uHKZRU4cRzEvAX4JKyiCYA30NUKb9iEKuT5PCZyaYvYj9GGMsYhH9mCuB/orGskhpg8
+         cwypiRB02GGyjRgatQo4nfVeX4cxUOdbjBtutFjbfXG56h7fogK6800fYnpTbsC/G0ln
+         kVXguLz92/Lm5E1hQMDNmwMQUZc6sqbxM6VH+2cvRxZIfZYfgjNgyT2YVEeNua/wK69q
+         7Dhoi6Ll2NJLiONNvt9zzuF5TH+oJb3Da+mpy/QbMngcZcT28PdJek+ohfgfpkekv2f9
+         /4UQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=sGk85ICtQeJ4RiKT0Z/6ezuKDZZ2rGdi6h/T1fLIOsI=;
-        b=ygtG22X2+IsWa3a9xQ2xTiR4etQKqLSbY8bJINaIbqqO1/9jaYkoWz/+ocxG2XTHfb
-         p2PvyJ7VIwV3Bgd1lnGcoSdT+pc19FAFyNjbaIUQhY2ACYsgNEuuaAIEX3UoqDJXTpEw
-         riW7d4gULBWl2e9xN/7rjYrmEMP8Ijq16ShwrDM+p1SV/68ZiCcZGyb7zAX0K/LBaEZ6
-         bQMcppEoq4zQZG/n+utLrWYhsAx0/v6ooh9w3zbmQLBH5hXIXsS/NdG2BUbd1ZcWTf+u
-         BMArjje2wxMDnK+bLpmUJLcurD48m3Sgm1Xe6TQyvpBGIvQ46SXnhd5+HL09/K7JMNcv
-         m54Q==
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :subject:cc:to:from:sender:dkim-signature;
+        bh=/06uS+He4D4paWtdH3kUts2B3NFIq4SvXGzzSZ1SGEQ=;
+        b=BwgnpJ6PE5CMZc1pZDY5xGxLvBY8nje902FJqmLHfWXhrn+VbUGho7pBkCSo0Pupbn
+         Y3GELn/hLO4nCx//v9Jt+dMzHGV2AAGFpaSWe+aATFtV5ayz/8Ccp+fYjVaMcj0i21zG
+         9JfWhy5AB9X5XIMBwk5nbJdtSK8077rucYWp/rAalwah1wk9auImCGuBXcZZ+GPRUPMB
+         RKHi5VyRGsRsuyNDlRXpBINNmOyVmowY1tIb1xcCvuZ4xCMqHAw/kwqub+RTHTpCcnFN
+         PG6SR500D9wDtUoSzSbYas7VuXLe5jGEWPrfuoFTAsf03bFMYnf929mVyt5FaTlvKu3u
+         Xa+w==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=n0qYkfxG;
-       spf=pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::641 as permitted sender) smtp.mailfrom=andreyknvl@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       spf=pass (google.com: domain of kuan-ying.lee@mediatek.com designates 210.61.82.184 as permitted sender) smtp.mailfrom=kuan-ying.lee@mediatek.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=sGk85ICtQeJ4RiKT0Z/6ezuKDZZ2rGdi6h/T1fLIOsI=;
-        b=QY9hEZeEPRK5j/MxL6ilZZfS95z0m1SWGoWAm0rurTsx7sAGS6Fq73eo1OUwlzh1Yj
-         7LUML0hAPQp6gn32CvNWNeAPYSK4uTdTr3Z3Al6Vhdo/+emiqfXjxK4zWJLv3jWHbaew
-         +UVyrVO63TtYSAgRonSQh4kPvCqv6+cYB2xH3PP+NF5rHuFFs83wuMdcLH/0GORsz2Wd
-         O+st+Wr13lhlrYm9OGZwXPI5QfDpPzyz/2JMlLJJYBxinkvwB48f1Z4w58NOo0NktugW
-         dpD4w/sfWH7c/4Kt+O1pc4TpK6e8JdwQbtwJkWQOEfY/HkGu68VeYzTgMJsxBdMsoQ5I
-         bsPQ==
+        bh=/06uS+He4D4paWtdH3kUts2B3NFIq4SvXGzzSZ1SGEQ=;
+        b=p/kB1qqauLWQKTr4HjyMj4DFXg6l2RXDKriFUA4w9htXIBfetC8AZrVyS2VdhviMLy
+         97wnRH5gOHsC1Gss7eCtBSo7T9aAkqZDn+FrYQSkgp0Zyrb3k9NV1Fpltqs5F3HPVGx3
+         RSi0o+cU9R8Itj9v77rg8uESrZ+L+WD/j6zLneXoLl8SszMhutzj1n4xu/ZJoA9o9vrj
+         84YlZysiSmradY4DM3Cp7y5yONQNjHRdm2ZvkmJPUp/C7GbuHQzBzBWwWfxraCXmh9Iz
+         oZISFdkpXq/mUldxbArQWizQa3oU7TUFB1EOpp6VFAntDJ7IwtUopQYCxtNnz2lFp2Mg
+         biwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=sGk85ICtQeJ4RiKT0Z/6ezuKDZZ2rGdi6h/T1fLIOsI=;
-        b=LM1KFyPdkDYVbRNB/itr4GjborJi9/pOMXWC34U6hHIRfqfvwFVed3zC76JmMtFyVf
-         ef85itJL3P3R9xjFlWKugRy0nLoXenhJMXU7wWLzcSflrZBT3aqHLGXiKuqGUdUq6RO+
-         mppJAn2LzZXQcFPxCHdLKvQQf7+I87yHDAPUsyyvjFZIgkv8zYTZwV2HldY7QzfvTOu1
-         baVWQsfNzY4ONKLx9TiZKSIc15nt7dJgvBSOg0dm9UKkovx0/9baNXj9JZAh7udJ1WsL
-         +6NAM+1jg+oj26W3p4gd97ZJ0Gav0g75Idd+CVCVVt0ww5MMPEwTouTDGkPt5dnYlrWt
-         y2kw==
-X-Gm-Message-State: AOAM5320bWnhKAzauDt1hHl59tWjc3X8oatMI5H6EStT7hZEx2DGXtMT
-	QSPjGrPuawwHYacUsw2b9w4=
-X-Google-Smtp-Source: ABdhPJyChWR2XjhBQuu1GOqfejVn2LdAZOQ3A0BfZOAoDtihsLOcUTdziORQbfHlxtSEKadvZSoypg==
-X-Received: by 2002:a0c:d6cb:: with SMTP id l11mr27685069qvi.9.1605143137107;
-        Wed, 11 Nov 2020 17:05:37 -0800 (PST)
+        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=/06uS+He4D4paWtdH3kUts2B3NFIq4SvXGzzSZ1SGEQ=;
+        b=NMabKSa2DWHUitu36Q3ZCs3zPh2aobwJN2Q7O3w0zVNPpXZx8gjQzujXDx3DDnvT4F
+         +5WQwtWdDn2SXOYX1pN2uOea9+3II26+huXqbR1BL4K777TAKjqGUR7YS6zQe0QNSbwz
+         c045lUe/4gaS905ekZ8wQaIuLe/5q7K8t9ZkxH5BptFpVVYOB39b97PinA034HoKR1+z
+         sDH6hEKAlGpYlzVLKvtSuLK20ZQ+iwnp77cf1YUCzO+SGv5cy21lphPHcdMJuSnCENrR
+         EEM6nuFOe6jGjqBH141Njk4QZvmURGtqdxvLmk3qAIRjP2f2TGFYXThNEPh77qs2rvar
+         3kPg==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM533cNyQ/b9wRc239YFZ1cDcJrGi32FTHSiSHOaTEfWJm5lVAK9cu
+	eu3z0UypJlxs0AezpirGOLw=
+X-Google-Smtp-Source: ABdhPJxfSTx3GE69kknDA9ohawR/eAd0bsikN1uQcy3dETtJUGLqum8kGcmfaVXQSzfNaZLZPz/Ngw==
+X-Received: by 2002:ac8:6898:: with SMTP id m24mr27613856qtq.157.1605162296541;
+        Wed, 11 Nov 2020 22:24:56 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a37:b6c4:: with SMTP id g187ls93687qkf.7.gmail; Wed, 11 Nov
- 2020 17:05:36 -0800 (PST)
-X-Received: by 2002:a37:8906:: with SMTP id l6mr18359293qkd.356.1605143136506;
-        Wed, 11 Nov 2020 17:05:36 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1605143136; cv=none;
+Received: by 2002:ac8:584e:: with SMTP id h14ls649747qth.2.gmail; Wed, 11 Nov
+ 2020 22:24:56 -0800 (PST)
+X-Received: by 2002:ac8:65d5:: with SMTP id t21mr16597559qto.365.1605162296025;
+        Wed, 11 Nov 2020 22:24:56 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1605162296; cv=none;
         d=google.com; s=arc-20160816;
-        b=c6KTQ0m/VEvKyt+tQ5gc4kuc8obNX3gz1JDYyCrNB0lYce3a7PSPmvy2Vo8SFz9cIm
-         t61dhMQxo44ZP8mi5YZHOVtX25++UcsvEXA0nlW/qfgWzOtCNy6x0q/MYVmmlKucJpVy
-         Y8tXUEpXIQFu3cg14Uv6rwuTdgfRejS9u1wAzHK9PbWXspKl6uYEfOi4buKJsDOca2u2
-         EWYuMlEfWHLYrqmngS2qt0sRD945lZJw54L/Dl4zYMK5knX+FjlnI3BfMwn9+fFhe8Sh
-         79cuB1kGNsmBTr1RGkxbo38RKyeEMrY//otnqNBqZ+Xhcf6MAz3kus3bbj4WRsbmuS7a
-         OUmg==
+        b=HdNvnZMQVU1aTdE1lqY4FuFuDc7XZnlYsZY6cDbvTaYO8hQVb8OWm7e2cIzRNHLw+7
+         8RTO71QbZDXfm6KL2335CjZ/IZ2xrF+rxAZwiH1K9JoyJroAzopAFQx3iNw2NQM7DsgL
+         r3yM59J45Y2IUYqGStRqhvBCu119IyHsuGme7IZmMWvkQqkPCGlE2a9xcaQf/HoQsF6B
+         6ZiMtj7Y9Bi6E3BUGEtdzxCo5kPs5NK0IADoxdGtsRF838CYHc7h96RZsKcdNJGk6vsa
+         tAr0+ZqiR+yJl/xhHmkHRadVMLklJwr22NnmoCaGyOs/3cZE4ZzNKGT+1xkRINy+FQd1
+         GMsQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=l+cNXIP3GmliSWhOXa8yhQOrloSbuarLwUXvnWs+zAI=;
-        b=RxmfEggVLYo5jj8VQ2zU8FloWx+722L10o25GrkJYUIU28G7UrRLzLwixDxFrJwOAT
-         sCfcRmT5bQfsOUuDJ6vZ271K15DViB1hfOKUlGxLhstrCTNCTQ8MKZx81ymzUSVvxCk8
-         eB5A5nIVaPlEQpxcIaJ4ecDOpCpqIUS75guOQcGolqY54525XX2H7vqfdm8oW/+wCGLN
-         oBdVX1GfMBZKulFtOhGZUquYVU6+iF9uDHPZ80qTT3LAkq07ZKxix+nrwzKSovvWaP5l
-         VaJnLnDav5uxQUtgQf7e7bra4gogio6em00kl9OSlmzdFZGFV/liecSY4bgbyqGofl2G
-         /1VQ==
+        h=mime-version:message-id:date:subject:cc:to:from;
+        bh=gJbzxYcbFuEmceJX85c/AxjD+0HdLDfYZ6K+NhsBTqw=;
+        b=EtmY4E40x4y/GASM/O09ztccMd/1YRE3pUoGKUE172GLggZmyd7BtA7s4l48/+IR4y
+         VLRafGUPKB3EfRhAs/diFt3jISKXyjG/xIDVPT12MwNwYO/qBYzKinLW4ed4jZPaPPm4
+         pgIL/ES0AMnC5l/c5pr26RMnbHD8XeLgNosmjzgnykoAsLbwNmyKo7HZvJlSzZGXY/1I
+         jQ2wxz8xrSZ95ZfmvVihd3SMApSCG6UMdMKTRgFUhqYjprxhBoVbvfbFBF1yOQWqvU8W
+         anjWvu+/F3o47oxgCOUK2BfXjgBlolIQr5iMgi0fKelRckMMizjZXH6xoz3YTbiYI7yh
+         ftgQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=n0qYkfxG;
-       spf=pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::641 as permitted sender) smtp.mailfrom=andreyknvl@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com. [2607:f8b0:4864:20::641])
-        by gmr-mx.google.com with ESMTPS id r3si236894qtn.0.2020.11.11.17.05.36
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 Nov 2020 17:05:36 -0800 (PST)
-Received-SPF: pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::641 as permitted sender) client-ip=2607:f8b0:4864:20::641;
-Received: by mail-pl1-x641.google.com with SMTP id u2so1898058pls.10
-        for <kasan-dev@googlegroups.com>; Wed, 11 Nov 2020 17:05:36 -0800 (PST)
-X-Received: by 2002:a17:902:bb95:b029:d7:db34:2ddb with SMTP id
- m21-20020a170902bb95b02900d7db342ddbmr9884528pls.85.1605143135417; Wed, 11
- Nov 2020 17:05:35 -0800 (PST)
+       spf=pass (google.com: domain of kuan-ying.lee@mediatek.com designates 210.61.82.184 as permitted sender) smtp.mailfrom=kuan-ying.lee@mediatek.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
+Received: from mailgw02.mediatek.com ([210.61.82.184])
+        by gmr-mx.google.com with ESMTP id h1si359634qkg.5.2020.11.11.22.24.55
+        for <kasan-dev@googlegroups.com>;
+        Wed, 11 Nov 2020 22:24:55 -0800 (PST)
+Received-SPF: pass (google.com: domain of kuan-ying.lee@mediatek.com designates 210.61.82.184 as permitted sender) client-ip=210.61.82.184;
+X-UUID: 0fca04583e6f4935af9d2e5f172a45c4-20201112
+X-UUID: 0fca04583e6f4935af9d2e5f172a45c4-20201112
+Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by mailgw02.mediatek.com
+	(envelope-from <kuan-ying.lee@mediatek.com>)
+	(Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+	with ESMTP id 542004095; Thu, 12 Nov 2020 14:24:49 +0800
+Received: from mtkcas08.mediatek.inc (172.21.101.126) by
+ mtkmbs01n1.mediatek.inc (172.21.101.68) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 12 Nov 2020 14:24:47 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas08.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Thu, 12 Nov 2020 14:24:47 +0800
+From: Kuan-Ying Lee <Kuan-Ying.Lee@mediatek.com>
+To: Andrey Ryabinin <aryabinin@virtuozzo.com>, Alexander Potapenko
+	<glider@google.com>, Dmitry Vyukov <dvyukov@google.com>, Andrew Morton
+	<akpm@linux-foundation.org>, Matthias Brugger <matthias.bgg@gmail.com>
+CC: <kasan-dev@googlegroups.com>, <linux-mm@kvack.org>,
+	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-mediatek@lists.infradead.org>, <wsd_upstream@mediatek.com>,
+	<miles.chen@mediatek.com>, <nicholas.tang@mediatek.com>, Kuan-Ying Lee
+	<Kuan-Ying.Lee@mediatek.com>
+Subject: [PATCH 0/1] Fix objects remain in the offline per-cpu quarantine
+Date: Thu, 12 Nov 2020 14:24:11 +0800
+Message-ID: <1605162252-23886-1-git-send-email-Kuan-Ying.Lee@mediatek.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-References: <cover.1605046662.git.andreyknvl@google.com> <ee33aa1d9c57c3f2b2c700e8f2c6c24db8703612.1605046662.git.andreyknvl@google.com>
- <20201111185326.GP517454@elver.google.com>
-In-Reply-To: <20201111185326.GP517454@elver.google.com>
-From: "'Andrey Konovalov' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Thu, 12 Nov 2020 02:05:24 +0100
-Message-ID: <CAAeHK+zZu60aYGkzj34vqQ8pM=afLXGNqVECt68f5oDjHhQwqA@mail.gmail.com>
-Subject: Re: [PATCH v2 14/20] kasan, mm: rename kasan_poison_kfree
-To: Marco Elver <elver@google.com>
-Cc: Dmitry Vyukov <dvyukov@google.com>, Alexander Potapenko <glider@google.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will.deacon@arm.com>, 
-	Vincenzo Frascino <vincenzo.frascino@arm.com>, Evgenii Stepanov <eugenis@google.com>, 
-	Andrey Ryabinin <aryabinin@virtuozzo.com>, Branislav Rankov <Branislav.Rankov@arm.com>, 
-	Kevin Brodsky <kevin.brodsky@arm.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	kasan-dev <kasan-dev@googlegroups.com>, 
-	Linux ARM <linux-arm-kernel@lists.infradead.org>, 
-	Linux Memory Management List <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: andreyknvl@google.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=n0qYkfxG;       spf=pass
- (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::641
- as permitted sender) smtp.mailfrom=andreyknvl@google.com;       dmarc=pass
- (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Andrey Konovalov <andreyknvl@google.com>
-Reply-To: Andrey Konovalov <andreyknvl@google.com>
+X-MTK: N
+X-Original-Sender: kuan-ying.lee@mediatek.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of kuan-ying.lee@mediatek.com designates 210.61.82.184 as
+ permitted sender) smtp.mailfrom=kuan-ying.lee@mediatek.com;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -137,137 +135,27 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Nov 11, 2020 at 7:53 PM Marco Elver <elver@google.com> wrote:
->
-> On Tue, Nov 10, 2020 at 11:20PM +0100, Andrey Konovalov wrote:
-> > Rename kasan_poison_kfree() to kasan_slab_free_mempool() as it better
-> > reflects what this annotation does.
->
-> This function is again so simple, and now it seems it's mempool
-> specific, can't we just remove it and open-code it in mempool.c?
+This patch fixes object remain in the offline per-cpu quarantine as
+describe below.
 
-The simplification introduced in the previous patch is based on a
-false assumption and will be reverted. Thus will keep this as a
-separate function.
+Free objects will get into per-cpu quarantine if enable generic KASAN.
+If a cpu is offline and users use kmem_cache_destroy, kernel will detect
+objects still remain in the offline per-cpu quarantine and report error.
 
->
-> > No functional changes.
-> >
-> > Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
-> > Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
-> > Link: https://linux-review.googlesource.com/id/I5026f87364e556b506ef1baee725144bb04b8810
-> > ---
-> >  include/linux/kasan.h | 16 ++++++++--------
-> >  mm/kasan/common.c     | 16 ++++++++--------
-> >  mm/mempool.c          |  2 +-
-> >  3 files changed, 17 insertions(+), 17 deletions(-)
-> >
-> > diff --git a/include/linux/kasan.h b/include/linux/kasan.h
-> > index 779f8e703982..534ab3e2935a 100644
-> > --- a/include/linux/kasan.h
-> > +++ b/include/linux/kasan.h
-> > @@ -177,6 +177,13 @@ static inline bool kasan_slab_free(struct kmem_cache *s, void *object, unsigned
-> >       return false;
-> >  }
-> >
-> > +void __kasan_slab_free_mempool(void *ptr, unsigned long ip);
-> > +static inline void kasan_slab_free_mempool(void *ptr, unsigned long ip)
-> > +{
-> > +     if (kasan_enabled())
-> > +             __kasan_slab_free_mempool(ptr, ip);
-> > +}
-> > +
-> >  void * __must_check __kasan_slab_alloc(struct kmem_cache *s,
-> >                                      void *object, gfp_t flags);
-> >  static inline void * __must_check kasan_slab_alloc(struct kmem_cache *s,
-> > @@ -217,13 +224,6 @@ static inline void * __must_check kasan_krealloc(const void *object,
-> >       return (void *)object;
-> >  }
-> >
-> > -void __kasan_poison_kfree(void *ptr, unsigned long ip);
-> > -static inline void kasan_poison_kfree(void *ptr, unsigned long ip)
-> > -{
-> > -     if (kasan_enabled())
-> > -             __kasan_poison_kfree(ptr, ip);
-> > -}
-> > -
-> >  void __kasan_kfree_large(void *ptr, unsigned long ip);
-> >  static inline void kasan_kfree_large(void *ptr, unsigned long ip)
-> >  {
-> > @@ -263,6 +263,7 @@ static inline bool kasan_slab_free(struct kmem_cache *s, void *object,
-> >  {
-> >       return false;
-> >  }
-> > +static inline void kasan_slab_free_mempool(void *ptr, unsigned long ip) {}
-> >  static inline void *kasan_slab_alloc(struct kmem_cache *s, void *object,
-> >                                  gfp_t flags)
-> >  {
-> > @@ -282,7 +283,6 @@ static inline void *kasan_krealloc(const void *object, size_t new_size,
-> >  {
-> >       return (void *)object;
-> >  }
-> > -static inline void kasan_poison_kfree(void *ptr, unsigned long ip) {}
-> >  static inline void kasan_kfree_large(void *ptr, unsigned long ip) {}
-> >
-> >  #endif /* CONFIG_KASAN */
-> > diff --git a/mm/kasan/common.c b/mm/kasan/common.c
-> > index 819403548f2e..60793f8695a8 100644
-> > --- a/mm/kasan/common.c
-> > +++ b/mm/kasan/common.c
-> > @@ -336,6 +336,14 @@ bool __kasan_slab_free(struct kmem_cache *cache, void *object, unsigned long ip)
-> >       return ____kasan_slab_free(cache, object, ip, true);
-> >  }
-> >
-> > +void __kasan_slab_free_mempool(void *ptr, unsigned long ip)
-> > +{
-> > +     struct page *page;
-> > +
-> > +     page = virt_to_head_page(ptr);
-> > +     ____kasan_slab_free(page->slab_cache, ptr, ip, false);
-> > +}
-> > +
-> >  static void set_alloc_info(struct kmem_cache *cache, void *object, gfp_t flags)
-> >  {
-> >       kasan_set_track(&kasan_get_alloc_meta(cache, object)->alloc_track, flags);
-> > @@ -427,14 +435,6 @@ void * __must_check __kasan_krealloc(const void *object, size_t size, gfp_t flag
-> >                                               flags, true);
-> >  }
-> >
-> > -void __kasan_poison_kfree(void *ptr, unsigned long ip)
-> > -{
-> > -     struct page *page;
-> > -
-> > -     page = virt_to_head_page(ptr);
-> > -     ____kasan_slab_free(page->slab_cache, ptr, ip, false);
-> > -}
-> > -
-> >  void __kasan_kfree_large(void *ptr, unsigned long ip)
-> >  {
-> >       if (ptr != page_address(virt_to_head_page(ptr)))
-> > diff --git a/mm/mempool.c b/mm/mempool.c
-> > index f473cdddaff0..b1f39fa75ade 100644
-> > --- a/mm/mempool.c
-> > +++ b/mm/mempool.c
-> > @@ -104,7 +104,7 @@ static inline void poison_element(mempool_t *pool, void *element)
-> >  static __always_inline void kasan_poison_element(mempool_t *pool, void *element)
-> >  {
-> >       if (pool->alloc == mempool_alloc_slab || pool->alloc == mempool_kmalloc)
-> > -             kasan_poison_kfree(element, _RET_IP_);
-> > +             kasan_slab_free_mempool(element, _RET_IP_);
->
-> This is already a kasan-prefixed function, so if
-> kasan_slab_free_mempool() is only ever called in this function, we
-> should just call kasan_slab_free() here directly with the 2 extra args
-> it requires open-coded.
->
-> >       else if (pool->alloc == mempool_alloc_pages)
-> >               kasan_free_pages(element, (unsigned long)pool->pool_data);
-> >  }
->
-> Thanks,
-> -- Marco
+Register a cpu hotplug function to remove all objects in the offline
+per-cpu quarantine when cpu is going offline. Set a per-cpu variable
+to indicate this cpu is offline.
+
+Kuan-Ying Lee (1):
+  kasan: fix object remain in offline per-cpu quarantine
+
+ mm/kasan/quarantine.c | 59 +++++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 57 insertions(+), 2 deletions(-)
+
+-- 
+2.18.0
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAAeHK%2BzZu60aYGkzj34vqQ8pM%3DafLXGNqVECt68f5oDjHhQwqA%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/1605162252-23886-1-git-send-email-Kuan-Ying.Lee%40mediatek.com.
