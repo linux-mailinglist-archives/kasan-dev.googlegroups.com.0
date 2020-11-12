@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBDX4HWEMTEBRBA4OWL6QKGQEQ3YUYAQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDX4HWEMTEBRBYMUWL6QKGQELB4VRQA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qk1-x73e.google.com (mail-qk1-x73e.google.com [IPv6:2607:f8b0:4864:20::73e])
-	by mail.lfdr.de (Postfix) with ESMTPS id CED7F2AFBD7
-	for <lists+kasan-dev@lfdr.de>; Thu, 12 Nov 2020 01:51:16 +0100 (CET)
-Received: by mail-qk1-x73e.google.com with SMTP id v134sf3066027qka.19
-        for <lists+kasan-dev@lfdr.de>; Wed, 11 Nov 2020 16:51:16 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1605142275; cv=pass;
+Received: from mail-qt1-x840.google.com (mail-qt1-x840.google.com [IPv6:2607:f8b0:4864:20::840])
+	by mail.lfdr.de (Postfix) with ESMTPS id 302FB2AFBDE
+	for <lists+kasan-dev@lfdr.de>; Thu, 12 Nov 2020 02:05:38 +0100 (CET)
+Received: by mail-qt1-x840.google.com with SMTP id o16sf2397247qtr.14
+        for <lists+kasan-dev@lfdr.de>; Wed, 11 Nov 2020 17:05:38 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1605143137; cv=pass;
         d=google.com; s=arc-20160816;
-        b=kfhcXtHff+mKOIj/v0H8gQUhT/kr+5YnZUqf34FYYP5qqV25hIVZzeSTJvlsLRDWEP
-         hYPp5GLU6G8iC8j55/SXRt6ZoJwPKrqm6KlrTGiElknfHBd+ozSIl9CEWIiIEPbVBCub
-         6Tu9Hvhv8ycUaDibiThi2MQkl9MfhB8wK5pK8Qn4y5Z7Q+a6L5XX1jgWOblM1vGzleYL
-         cJzsWptJArUbaE00xKUte575xrCMJZ1f+BP0+C0yl2gX4XJBAKZuDo0FJK7D/RDRZ6Dq
-         0CJrUHLQ/Q0wWEx2LCwWvSGeUvzqsGX5AGpWbLSfOx2ydGMbjDB1eGmYwGudopyh3xVq
-         FBMw==
+        b=aJ9SVQDXmZZ99awDrtifpf0YjijlVvyj4HRoyKKL7SpB4rjp9460i5MBVNcEboLcsr
+         iR1a1//5Us3cB4qJjHELdpFKf2tPG+ep386Nh0MDIkbdvqd5vC/+/dSiByzIzVmjrUF9
+         d8LFbiiTzCVMaBAy5CxCqlkCOWSzeKfvbIT/ERL7jjpUV8Z8hD4ocPe2ZCDB8ODgXlPH
+         FsMfnV+zx5tEhrOykAgLYVeF6zHaL4BJv9ZMsAywi7vyM/XBYSpJsYSZr5MlF0S6OPMM
+         bq9NVJD43pcUUNgPl7qd5wdJoC7jYZg9cU48kZWQiaxA3FCjEui+MZwuXElvPhy3iFpO
+         MdaA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=4z8rFtV2flxGY2todwdzMx+OsRG44gIqDltQo0rvPt8=;
-        b=MY2ceUnq8qCTCFbMziCAkBqXk+V8vh719YRCtbTNAV/wHRZLW9syUkioAIGXBxvumz
-         TT1caqdb/bZSzJUZ6eZdk54D+9miASlro7LA3YJwdwLo3jpQpvDE5MI3K9AYH1dxOb6a
-         Kelk91t8szgib3pn/rDVGZOr2ZUUhdZuESQF3dMpG7EXyN/GWPbN3lwqBuiSas6fdMpp
-         lfZhRovo5uCnfoKbZd1JoMdYnjwawKQg9Gi/xc65WrnI17I4NjNpY+OmCaC2mI73XflK
-         YKGUNryMyae2TrqnQixseI6jiG6lNGhHKW1cWqpa3JB6p/HXj/rceCbMq++02g1RPJ47
-         q8xA==
+        bh=sGk85ICtQeJ4RiKT0Z/6ezuKDZZ2rGdi6h/T1fLIOsI=;
+        b=ygtG22X2+IsWa3a9xQ2xTiR4etQKqLSbY8bJINaIbqqO1/9jaYkoWz/+ocxG2XTHfb
+         p2PvyJ7VIwV3Bgd1lnGcoSdT+pc19FAFyNjbaIUQhY2ACYsgNEuuaAIEX3UoqDJXTpEw
+         riW7d4gULBWl2e9xN/7rjYrmEMP8Ijq16ShwrDM+p1SV/68ZiCcZGyb7zAX0K/LBaEZ6
+         bQMcppEoq4zQZG/n+utLrWYhsAx0/v6ooh9w3zbmQLBH5hXIXsS/NdG2BUbd1ZcWTf+u
+         BMArjje2wxMDnK+bLpmUJLcurD48m3Sgm1Xe6TQyvpBGIvQ46SXnhd5+HL09/K7JMNcv
+         m54Q==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=CRNOrmU+;
-       spf=pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::541 as permitted sender) smtp.mailfrom=andreyknvl@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=n0qYkfxG;
+       spf=pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::641 as permitted sender) smtp.mailfrom=andreyknvl@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=4z8rFtV2flxGY2todwdzMx+OsRG44gIqDltQo0rvPt8=;
-        b=ssqMBNIKhJYn/0moukcsSZtdYFdIJCqEKnoYhVp8OEmmH1RUHUjLFiDbmMoiDD2/o0
-         QiT+XD3VSKNCTdNKT3lhI3U+RLI1GPWgsWSW2wMIKv+UsXQTJFE0qJLYfC1pd/Sy0op8
-         mZgXKLEko67P/Cvd8htysm06g4S6Blj8oJVU5Az8k6C6l0Ls+yVMTodPd6Ndb4nEO143
-         rVTIgA+1xx7XvWelW9FMBWJw4mriy0JziivYlDF+a08VhBl3672T2ih4/YbZhDoMvDYN
-         80VzxAszPxkFQX9YZtr0GJFY52TAQdqv0OE5k2Zn9sjtO0wkH/5oBarDram7OnT11+Yp
-         0Vlw==
+        bh=sGk85ICtQeJ4RiKT0Z/6ezuKDZZ2rGdi6h/T1fLIOsI=;
+        b=QY9hEZeEPRK5j/MxL6ilZZfS95z0m1SWGoWAm0rurTsx7sAGS6Fq73eo1OUwlzh1Yj
+         7LUML0hAPQp6gn32CvNWNeAPYSK4uTdTr3Z3Al6Vhdo/+emiqfXjxK4zWJLv3jWHbaew
+         +UVyrVO63TtYSAgRonSQh4kPvCqv6+cYB2xH3PP+NF5rHuFFs83wuMdcLH/0GORsz2Wd
+         O+st+Wr13lhlrYm9OGZwXPI5QfDpPzyz/2JMlLJJYBxinkvwB48f1Z4w58NOo0NktugW
+         dpD4w/sfWH7c/4Kt+O1pc4TpK6e8JdwQbtwJkWQOEfY/HkGu68VeYzTgMJsxBdMsoQ5I
+         bsPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
@@ -49,63 +49,64 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=4z8rFtV2flxGY2todwdzMx+OsRG44gIqDltQo0rvPt8=;
-        b=Et9UdU+Wv9RtmU4anVIsxnHejrhZSf5J5TENUqJbWtbdVZjpC7mQJDpzMd7lBlxelX
-         OMujxT3+kkCNlvZcizZpQew1n1xSJBVUuCkwjdPqNR21SdSrgKYWasPQui1XMHV6yy0o
-         8x8M0NSxDanqSMYvf0laDo83ii7NMgzjsEtZJeHg57qrelKrXaSdvaIVLK6e7ccIplZ1
-         hVKhUaHVkWz8pmesRXXgF2ykSE1d9XuqmZOnBiw4qjCHXM6QGhdsxbjo3ZCFeiQrnoP7
-         bRoOlZ7YyI3G5veL+8upna4Lss+ratNZakXWY2NI1elgoNYMJ8j5Mt3tdRQOHufN4fzA
-         VNrQ==
-X-Gm-Message-State: AOAM532nQQvWGFmrtjzBieGGRfwxCo6JZAbVEQ6oYrstczu76SjBPdTY
-	sMmwJt4UP46WEYSLlCa4etI=
-X-Google-Smtp-Source: ABdhPJz3jNDqz7UGpcnInIm/h1PqD2csxA22iQsqoO8+vnhXR8cZ+2yXHe1AJm1he50ub9On8rVGDQ==
-X-Received: by 2002:a37:b85:: with SMTP id 127mr26116527qkl.109.1605142275722;
-        Wed, 11 Nov 2020 16:51:15 -0800 (PST)
+        bh=sGk85ICtQeJ4RiKT0Z/6ezuKDZZ2rGdi6h/T1fLIOsI=;
+        b=LM1KFyPdkDYVbRNB/itr4GjborJi9/pOMXWC34U6hHIRfqfvwFVed3zC76JmMtFyVf
+         ef85itJL3P3R9xjFlWKugRy0nLoXenhJMXU7wWLzcSflrZBT3aqHLGXiKuqGUdUq6RO+
+         mppJAn2LzZXQcFPxCHdLKvQQf7+I87yHDAPUsyyvjFZIgkv8zYTZwV2HldY7QzfvTOu1
+         baVWQsfNzY4ONKLx9TiZKSIc15nt7dJgvBSOg0dm9UKkovx0/9baNXj9JZAh7udJ1WsL
+         +6NAM+1jg+oj26W3p4gd97ZJ0Gav0g75Idd+CVCVVt0ww5MMPEwTouTDGkPt5dnYlrWt
+         y2kw==
+X-Gm-Message-State: AOAM5320bWnhKAzauDt1hHl59tWjc3X8oatMI5H6EStT7hZEx2DGXtMT
+	QSPjGrPuawwHYacUsw2b9w4=
+X-Google-Smtp-Source: ABdhPJyChWR2XjhBQuu1GOqfejVn2LdAZOQ3A0BfZOAoDtihsLOcUTdziORQbfHlxtSEKadvZSoypg==
+X-Received: by 2002:a0c:d6cb:: with SMTP id l11mr27685069qvi.9.1605143137107;
+        Wed, 11 Nov 2020 17:05:37 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6214:152:: with SMTP id x18ls281879qvs.10.gmail; Wed, 11
- Nov 2020 16:51:15 -0800 (PST)
-X-Received: by 2002:a0c:fc52:: with SMTP id w18mr15047800qvp.48.1605142275217;
-        Wed, 11 Nov 2020 16:51:15 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1605142275; cv=none;
+Received: by 2002:a37:b6c4:: with SMTP id g187ls93687qkf.7.gmail; Wed, 11 Nov
+ 2020 17:05:36 -0800 (PST)
+X-Received: by 2002:a37:8906:: with SMTP id l6mr18359293qkd.356.1605143136506;
+        Wed, 11 Nov 2020 17:05:36 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1605143136; cv=none;
         d=google.com; s=arc-20160816;
-        b=qekybot+hHe3IWiQcZsBdLqlDsAekw5/dSg46SkxY8Hd/n/8jWJQ5yJV/MuwQb4hWr
-         JFQcvkVpyVd+LPhpXBpcfLgDng09jYxA6lrRu9LywfCcfNStMx0SmjlJYMtXTtJfIawn
-         8Ey2z7E2aTcOL9MS40J0ORyAwSG9s5dyReCI5DV2IJK9vIWOnNTsxyaZ3qfS9xCvVkiG
-         Wp9zh8z3t2MefzGmgaHswD6UGPkYFWdqR7bq15/0EeWc+8+mHQ9F/c1nXfixkiyLRciM
-         ABGu9JqUi6ZbYEu992dom16BT5j6d3P1d9zE3pideVTshCW/TBoXLKtRRiAV3Ivd+Q2T
-         R5pA==
+        b=c6KTQ0m/VEvKyt+tQ5gc4kuc8obNX3gz1JDYyCrNB0lYce3a7PSPmvy2Vo8SFz9cIm
+         t61dhMQxo44ZP8mi5YZHOVtX25++UcsvEXA0nlW/qfgWzOtCNy6x0q/MYVmmlKucJpVy
+         Y8tXUEpXIQFu3cg14Uv6rwuTdgfRejS9u1wAzHK9PbWXspKl6uYEfOi4buKJsDOca2u2
+         EWYuMlEfWHLYrqmngS2qt0sRD945lZJw54L/Dl4zYMK5knX+FjlnI3BfMwn9+fFhe8Sh
+         79cuB1kGNsmBTr1RGkxbo38RKyeEMrY//otnqNBqZ+Xhcf6MAz3kus3bbj4WRsbmuS7a
+         OUmg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=8rS3LSGNvGpE3/HRnihmkueblCSGMw78UyqxkdR2g20=;
-        b=l0KBURIDtjmlgl+yE3mhrrCFpyQczFx1mWcjB2mHWTgb2g669sGRF+qErN5axROs1a
-         4oKMQliLrcshQ2m3IRHq3nz4E6J+z/qLj8aT70LJZSbeunoW+hO95QuDXRcIsKbb/OUL
-         iGfgt3QqOV5f9Php9AzGwDcnOXQyQ72/g9uGPXCywIAiOyFN+VgXrcme0tYOG/amfzHJ
-         YsadlM8uEi7nlbAItQOwai1RV8zJ3tGjPj6+EAnsJsqjewhBpo3Tp+rG/mtPg3MHUDXD
-         i1sWi24ErHCxTzGCiWWmHyTniNFXRWGcAQpgSbVraJWI9DAb1lAHv6kG90hIhvqwu0aQ
-         EDlQ==
+        bh=l+cNXIP3GmliSWhOXa8yhQOrloSbuarLwUXvnWs+zAI=;
+        b=RxmfEggVLYo5jj8VQ2zU8FloWx+722L10o25GrkJYUIU28G7UrRLzLwixDxFrJwOAT
+         sCfcRmT5bQfsOUuDJ6vZ271K15DViB1hfOKUlGxLhstrCTNCTQ8MKZx81ymzUSVvxCk8
+         eB5A5nIVaPlEQpxcIaJ4ecDOpCpqIUS75guOQcGolqY54525XX2H7vqfdm8oW/+wCGLN
+         oBdVX1GfMBZKulFtOhGZUquYVU6+iF9uDHPZ80qTT3LAkq07ZKxix+nrwzKSovvWaP5l
+         VaJnLnDav5uxQUtgQf7e7bra4gogio6em00kl9OSlmzdFZGFV/liecSY4bgbyqGofl2G
+         /1VQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=CRNOrmU+;
-       spf=pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::541 as permitted sender) smtp.mailfrom=andreyknvl@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=n0qYkfxG;
+       spf=pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::641 as permitted sender) smtp.mailfrom=andreyknvl@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com. [2607:f8b0:4864:20::541])
-        by gmr-mx.google.com with ESMTPS id r3si234624qtn.0.2020.11.11.16.51.15
+Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com. [2607:f8b0:4864:20::641])
+        by gmr-mx.google.com with ESMTPS id r3si236894qtn.0.2020.11.11.17.05.36
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 Nov 2020 16:51:15 -0800 (PST)
-Received-SPF: pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::541 as permitted sender) client-ip=2607:f8b0:4864:20::541;
-Received: by mail-pg1-x541.google.com with SMTP id 62so2664692pgg.12
-        for <kasan-dev@googlegroups.com>; Wed, 11 Nov 2020 16:51:15 -0800 (PST)
-X-Received: by 2002:a63:4c10:: with SMTP id z16mr24030555pga.440.1605142273809;
- Wed, 11 Nov 2020 16:51:13 -0800 (PST)
+        Wed, 11 Nov 2020 17:05:36 -0800 (PST)
+Received-SPF: pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::641 as permitted sender) client-ip=2607:f8b0:4864:20::641;
+Received: by mail-pl1-x641.google.com with SMTP id u2so1898058pls.10
+        for <kasan-dev@googlegroups.com>; Wed, 11 Nov 2020 17:05:36 -0800 (PST)
+X-Received: by 2002:a17:902:bb95:b029:d7:db34:2ddb with SMTP id
+ m21-20020a170902bb95b02900d7db342ddbmr9884528pls.85.1605143135417; Wed, 11
+ Nov 2020 17:05:35 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1605046662.git.andreyknvl@google.com> <6103d1aaacea96a94ca4632f78bcd801e4fbc9c4.1605046662.git.andreyknvl@google.com>
- <20201111160311.GB517454@elver.google.com>
-In-Reply-To: <20201111160311.GB517454@elver.google.com>
+References: <cover.1605046662.git.andreyknvl@google.com> <ee33aa1d9c57c3f2b2c700e8f2c6c24db8703612.1605046662.git.andreyknvl@google.com>
+ <20201111185326.GP517454@elver.google.com>
+In-Reply-To: <20201111185326.GP517454@elver.google.com>
 From: "'Andrey Konovalov' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Thu, 12 Nov 2020 01:51:02 +0100
-Message-ID: <CAAeHK+xWvHK2SH3ZEqnJ97ArjkuAB4Hrpu34AhQiruUyo1h6dw@mail.gmail.com>
-Subject: Re: [PATCH v2 20/20] kasan: update documentation
+Date: Thu, 12 Nov 2020 02:05:24 +0100
+Message-ID: <CAAeHK+zZu60aYGkzj34vqQ8pM=afLXGNqVECt68f5oDjHhQwqA@mail.gmail.com>
+Subject: Re: [PATCH v2 14/20] kasan, mm: rename kasan_poison_kfree
 To: Marco Elver <elver@google.com>
 Cc: Dmitry Vyukov <dvyukov@google.com>, Alexander Potapenko <glider@google.com>, 
 	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will.deacon@arm.com>, 
@@ -118,8 +119,8 @@ Cc: Dmitry Vyukov <dvyukov@google.com>, Alexander Potapenko <glider@google.com>,
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: andreyknvl@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=CRNOrmU+;       spf=pass
- (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::541
+ header.i=@google.com header.s=20161025 header.b=n0qYkfxG;       spf=pass
+ (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::641
  as permitted sender) smtp.mailfrom=andreyknvl@google.com;       dmarc=pass
  (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Andrey Konovalov <andreyknvl@google.com>
@@ -136,337 +137,137 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Nov 11, 2020 at 5:03 PM Marco Elver <elver@google.com> wrote:
+On Wed, Nov 11, 2020 at 7:53 PM Marco Elver <elver@google.com> wrote:
 >
 > On Tue, Nov 10, 2020 at 11:20PM +0100, Andrey Konovalov wrote:
-> > This change updates KASAN documentation to reflect the addition of boot
-> > parameters and also reworks and clarifies some of the existing sections,
-> > in particular: defines what a memory granule is, mentions quarantine,
-> > makes Kunit section more readable.
+> > Rename kasan_poison_kfree() to kasan_slab_free_mempool() as it better
+> > reflects what this annotation does.
+>
+> This function is again so simple, and now it seems it's mempool
+> specific, can't we just remove it and open-code it in mempool.c?
+
+The simplification introduced in the previous patch is based on a
+false assumption and will be reverted. Thus will keep this as a
+separate function.
+
+>
+> > No functional changes.
 > >
 > > Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+> > Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
+> > Link: https://linux-review.googlesource.com/id/I5026f87364e556b506ef1baee725144bb04b8810
 > > ---
-> >  Documentation/dev-tools/kasan.rst | 180 +++++++++++++++++++-----------
-> >  1 file changed, 113 insertions(+), 67 deletions(-)
+> >  include/linux/kasan.h | 16 ++++++++--------
+> >  mm/kasan/common.c     | 16 ++++++++--------
+> >  mm/mempool.c          |  2 +-
+> >  3 files changed, 17 insertions(+), 17 deletions(-)
 > >
-> > diff --git a/Documentation/dev-tools/kasan.rst b/Documentation/dev-tools/kasan.rst
-> > index 422f8ee1bb17..f2da2b09e5c7 100644
-> > --- a/Documentation/dev-tools/kasan.rst
-> > +++ b/Documentation/dev-tools/kasan.rst
-> > @@ -6,6 +6,7 @@ Overview
+> > diff --git a/include/linux/kasan.h b/include/linux/kasan.h
+> > index 779f8e703982..534ab3e2935a 100644
+> > --- a/include/linux/kasan.h
+> > +++ b/include/linux/kasan.h
+> > @@ -177,6 +177,13 @@ static inline bool kasan_slab_free(struct kmem_cache *s, void *object, unsigned
+> >       return false;
+> >  }
 > >
-> >  KernelAddressSANitizer (KASAN) is a dynamic memory error detector designed to
->
-> s/memory error/memory safety error/
->
-> to be precise and consistent with various other docs and literature we
-> have, if you deem it appropriate to change in this patch.
->
-> >  find out-of-bound and use-after-free bugs. KASAN has three modes:
+> > +void __kasan_slab_free_mempool(void *ptr, unsigned long ip);
+> > +static inline void kasan_slab_free_mempool(void *ptr, unsigned long ip)
+> > +{
+> > +     if (kasan_enabled())
+> > +             __kasan_slab_free_mempool(ptr, ip);
+> > +}
 > > +
-> >  1. generic KASAN (similar to userspace ASan),
-> >  2. software tag-based KASAN (similar to userspace HWASan),
-> >  3. hardware tag-based KASAN (based on hardware memory tagging).
-> > @@ -39,23 +40,13 @@ CONFIG_KASAN_INLINE. Outline and inline are compiler instrumentation types.
-> >  The former produces smaller binary while the latter is 1.1 - 2 times faster.
+> >  void * __must_check __kasan_slab_alloc(struct kmem_cache *s,
+> >                                      void *object, gfp_t flags);
+> >  static inline void * __must_check kasan_slab_alloc(struct kmem_cache *s,
+> > @@ -217,13 +224,6 @@ static inline void * __must_check kasan_krealloc(const void *object,
+> >       return (void *)object;
+> >  }
 > >
-> >  Both software KASAN modes work with both SLUB and SLAB memory allocators,
-> > -hardware tag-based KASAN currently only support SLUB.
-> > -For better bug detection and nicer reporting, enable CONFIG_STACKTRACE.
-> > +while the hardware tag-based KASAN currently only support SLUB.
-> > +
-> > +For better error reports that include stack traces, enable CONFIG_STACKTRACE.
-> >
-> >  To augment reports with last allocation and freeing stack of the physical page,
-> >  it is recommended to enable also CONFIG_PAGE_OWNER and boot with page_owner=on.
-> >
-> > -To disable instrumentation for specific files or directories, add a line
-> > -similar to the following to the respective kernel Makefile:
+> > -void __kasan_poison_kfree(void *ptr, unsigned long ip);
+> > -static inline void kasan_poison_kfree(void *ptr, unsigned long ip)
+> > -{
+> > -     if (kasan_enabled())
+> > -             __kasan_poison_kfree(ptr, ip);
+> > -}
 > > -
-> > -- For a single file (e.g. main.o)::
+> >  void __kasan_kfree_large(void *ptr, unsigned long ip);
+> >  static inline void kasan_kfree_large(void *ptr, unsigned long ip)
+> >  {
+> > @@ -263,6 +263,7 @@ static inline bool kasan_slab_free(struct kmem_cache *s, void *object,
+> >  {
+> >       return false;
+> >  }
+> > +static inline void kasan_slab_free_mempool(void *ptr, unsigned long ip) {}
+> >  static inline void *kasan_slab_alloc(struct kmem_cache *s, void *object,
+> >                                  gfp_t flags)
+> >  {
+> > @@ -282,7 +283,6 @@ static inline void *kasan_krealloc(const void *object, size_t new_size,
+> >  {
+> >       return (void *)object;
+> >  }
+> > -static inline void kasan_poison_kfree(void *ptr, unsigned long ip) {}
+> >  static inline void kasan_kfree_large(void *ptr, unsigned long ip) {}
+> >
+> >  #endif /* CONFIG_KASAN */
+> > diff --git a/mm/kasan/common.c b/mm/kasan/common.c
+> > index 819403548f2e..60793f8695a8 100644
+> > --- a/mm/kasan/common.c
+> > +++ b/mm/kasan/common.c
+> > @@ -336,6 +336,14 @@ bool __kasan_slab_free(struct kmem_cache *cache, void *object, unsigned long ip)
+> >       return ____kasan_slab_free(cache, object, ip, true);
+> >  }
+> >
+> > +void __kasan_slab_free_mempool(void *ptr, unsigned long ip)
+> > +{
+> > +     struct page *page;
+> > +
+> > +     page = virt_to_head_page(ptr);
+> > +     ____kasan_slab_free(page->slab_cache, ptr, ip, false);
+> > +}
+> > +
+> >  static void set_alloc_info(struct kmem_cache *cache, void *object, gfp_t flags)
+> >  {
+> >       kasan_set_track(&kasan_get_alloc_meta(cache, object)->alloc_track, flags);
+> > @@ -427,14 +435,6 @@ void * __must_check __kasan_krealloc(const void *object, size_t size, gfp_t flag
+> >                                               flags, true);
+> >  }
+> >
+> > -void __kasan_poison_kfree(void *ptr, unsigned long ip)
+> > -{
+> > -     struct page *page;
 > > -
-> > -    KASAN_SANITIZE_main.o := n
+> > -     page = virt_to_head_page(ptr);
+> > -     ____kasan_slab_free(page->slab_cache, ptr, ip, false);
+> > -}
 > > -
-> > -- For all files in one directory::
-> > -
-> > -    KASAN_SANITIZE := n
-> > -
-> >  Error reports
-> >  ~~~~~~~~~~~~~
-> >
-> > @@ -140,16 +131,20 @@ freed (in case of a use-after-free bug report). Next comes a description of
-> >  the accessed slab object and information about the accessed memory page.
-> >
-> >  In the last section the report shows memory state around the accessed address.
-> > -Reading this part requires some understanding of how KASAN works.
-> > -
-> > -The state of each 8 aligned bytes of memory is encoded in one shadow byte.
-> > -Those 8 bytes can be accessible, partially accessible, freed or be a redzone.
-> > -We use the following encoding for each shadow byte: 0 means that all 8 bytes
-> > -of the corresponding memory region are accessible; number N (1 <= N <= 7) means
-> > -that the first N bytes are accessible, and other (8 - N) bytes are not;
-> > -any negative value indicates that the entire 8-byte word is inaccessible.
-> > -We use different negative values to distinguish between different kinds of
-> > -inaccessible memory like redzones or freed memory (see mm/kasan/kasan.h).
-> > +Internally KASAN tracks memory state separately for each memory granule, which
-> > +is either 8 or 16 aligned bytes depending on KASAN mode. Each number in the
-> > +memory state section of the report shows the state of one of the memory
-> > +granules that surround the accessed address.
-> > +
-> > +For generic KASAN the size of each memory granule is 8. The state of each
-> > +granule is encoded in one shadow byte. Those 8 bytes can be accessible,
-> > +partially accessible, freed or be a part of a redzone. KASAN uses the following
-> > +encoding for each shadow byte: 0 means that all 8 bytes of the corresponding
-> > +memory region are accessible; number N (1 <= N <= 7) means that the first N
-> > +bytes are accessible, and other (8 - N) bytes are not; any negative value
-> > +indicates that the entire 8-byte word is inaccessible. KASAN uses different
-> > +negative values to distinguish between different kinds of inaccessible memory
-> > +like redzones or freed memory (see mm/kasan/kasan.h).
-> >
-> >  In the report above the arrows point to the shadow byte 03, which means that
-> >  the accessed address is partially accessible.
-> > @@ -157,6 +152,55 @@ the accessed address is partially accessible.
-> >  For tag-based KASAN this last report section shows the memory tags around the
-> >  accessed address (see Implementation details section).
+> >  void __kasan_kfree_large(void *ptr, unsigned long ip)
+> >  {
+> >       if (ptr != page_address(virt_to_head_page(ptr)))
+> > diff --git a/mm/mempool.c b/mm/mempool.c
+> > index f473cdddaff0..b1f39fa75ade 100644
+> > --- a/mm/mempool.c
+> > +++ b/mm/mempool.c
+> > @@ -104,7 +104,7 @@ static inline void poison_element(mempool_t *pool, void *element)
+> >  static __always_inline void kasan_poison_element(mempool_t *pool, void *element)
+> >  {
+> >       if (pool->alloc == mempool_alloc_slab || pool->alloc == mempool_kmalloc)
+> > -             kasan_poison_kfree(element, _RET_IP_);
+> > +             kasan_slab_free_mempool(element, _RET_IP_);
 >
-> I think ReST automatically creates a link if you write it as
+> This is already a kasan-prefixed function, so if
+> kasan_slab_free_mempool() is only ever called in this function, we
+> should just call kasan_slab_free() here directly with the 2 extra args
+> it requires open-coded.
 >
->         ... (see `Implementation details`_ section).
+> >       else if (pool->alloc == mempool_alloc_pages)
+> >               kasan_free_pages(element, (unsigned long)pool->pool_data);
+> >  }
 >
-> >
-> > +Boot parameters
-> > +~~~~~~~~~~~~~~~
-> > +
-> > +Hardware tag-based KASAN mode (see the section about different mode below) is
-> > +intended for use in production as a security mitigation. Therefore it supports
-> > +boot parameters that allow to disable KASAN competely or otherwise control
-> > +particular KASAN features.
-> > +
-> > +The things that can be controlled are:
-> > +
-> > +1. Whether KASAN is enabled at all.
-> > +2. Whether KASAN collects and saves alloc/free stacks.
-> > +3. Whether KASAN panics on a detected bug or not.
-> > +
-> > +The ``kasam.mode`` boot parameter allows to choose one of three main modes:
->
-> s/kasam/kasan/
->
-> > +- ``kasan.mode=off`` - KASAN is disabled, no tag checks are performed
-> > +- ``kasan.mode=prod`` - only essential production features are enabled
-> > +- ``kasan.mode=full`` - all KASAN features are enabled
-> > +
-> > +The chosen mode provides default control values for the features mentioned
-> > +above. However it's also possible to override the default values by providing:
-> > +
-> > +- ``kasan.stacktrace=off`` or ``=on`` - enable alloc/free stack collection
-> > +                                        (default: ``on`` for ``mode=full``,
-> > +                                         otherwise ``off``)
-> > +- ``kasan.fault=report`` or ``=panic`` - only print KASAN report or also panic
-> > +                                      (default: ``report``)
->
-> This is indented with tabs instead of spaces.
->
-> > +
-> > +If ``kasan.mode parameter`` is not provided, it defaults to ``full`` when
->
-> s/``kasan.mode parameter``/``kasan.mode`` parameter/  ?
->
-> > +``CONFIG_DEBUG_KERNEL`` is enabled, and to ``prod`` otherwise.
-> > +
-> > +For developers
-> > +~~~~~~~~~~~~~~
-> > +
-> > +Software KASAN modes use compiler instrumentation to insert validity checks.
-> > +Such instrumentation might be incompatible with some part of the kernel, and
-> > +therefore needs to be disabled. To disable instrumentation for specific files
-> > +or directories, add a line similar to the following to the respective kernel
-> > +Makefile:
-> > +
-> > +- For a single file (e.g. main.o)::
-> > +
-> > +    KASAN_SANITIZE_main.o := n
-> > +
-> > +- For all files in one directory::
-> > +
-> > +    KASAN_SANITIZE := n
-> > +
-> >
-> >  Implementation details
-> >  ----------------------
-> > @@ -164,10 +208,10 @@ Implementation details
-> >  Generic KASAN
-> >  ~~~~~~~~~~~~~
-> >
-> > -From a high level, our approach to memory error detection is similar to that
-> > -of kmemcheck: use shadow memory to record whether each byte of memory is safe
-> > -to access, and use compile-time instrumentation to insert checks of shadow
-> > -memory on each memory access.
-> > +From a high level perspective, KASAN's approach to memory error detection is
-> > +similar to that of kmemcheck: use shadow memory to record whether each byte of
-> > +memory is safe to access, and use compile-time instrumentation to insert checks
-> > +of shadow memory on each memory access.
-> >
-> >  Generic KASAN dedicates 1/8th of kernel memory to its shadow memory (e.g. 16TB
-> >  to cover 128TB on x86_64) and uses direct mapping with a scale and offset to
-> > @@ -194,7 +238,10 @@ function calls GCC directly inserts the code to check the shadow memory.
-> >  This option significantly enlarges kernel but it gives x1.1-x2 performance
-> >  boost over outline instrumented kernel.
-> >
-> > -Generic KASAN prints up to 2 call_rcu() call stacks in reports, the last one
-> > +Generic KASAN is the only mode that delays the reuse of freed object via
-> > +quarantine (see mm/kasan/quarantine.c for implementation).
-> > +
-> > +Generic KASAN prints up to two call_rcu() call stacks in reports, the last one
-> >  and the second to last.
-> >
-> >  Software tag-based KASAN
-> > @@ -302,15 +349,15 @@ therefore be wasteful. Furthermore, to ensure that different mappings
-> >  use different shadow pages, mappings would have to be aligned to
-> >  ``KASAN_GRANULE_SIZE * PAGE_SIZE``.
-> >
-> > -Instead, we share backing space across multiple mappings. We allocate
-> > +Instead, KASAN shares backing space across multiple mappings. It allocates
-> >  a backing page when a mapping in vmalloc space uses a particular page
-> >  of the shadow region. This page can be shared by other vmalloc
-> >  mappings later on.
-> >
-> > -We hook in to the vmap infrastructure to lazily clean up unused shadow
-> > +KASAN hooks in to the vmap infrastructure to lazily clean up unused shadow
->
-> s/in to/into/
->
-> >  memory.
-> >
-> > -To avoid the difficulties around swapping mappings around, we expect
-> > +To avoid the difficulties around swapping mappings around, KASAN expects
-> >  that the part of the shadow region that covers the vmalloc space will
-> >  not be covered by the early shadow page, but will be left
-> >  unmapped. This will require changes in arch-specific code.
-> > @@ -321,24 +368,31 @@ architectures that do not have a fixed module region.
-> >  CONFIG_KASAN_KUNIT_TEST & CONFIG_TEST_KASAN_MODULE
-> >  --------------------------------------------------
-> >
-> > -``CONFIG_KASAN_KUNIT_TEST`` utilizes the KUnit Test Framework for testing.
-> > -This means each test focuses on a small unit of functionality and
-> > -there are a few ways these tests can be run.
-> > +KASAN tests consist on two parts:
-> > +
-> > +1. Tests that are integrated with the KUnit Test Framework. Enabled with
-> > +``CONFIG_KASAN_KUNIT_TEST``. These tests can be run and partially verified
-> > +automatically in a few different ways, see the instructions below.
-> >
-> > -Each test will print the KASAN report if an error is detected and then
-> > -print the number of the test and the status of the test:
-> > +2. Tests that are currently incompatible with Kunit. Enabled with
->
-> s/Kunit/KUnit/
->
-> > +``CONFIG_TEST_KASAN_MODULE`` and can only be run as a module. These tests can
-> > +only be verified manually, by loading the kernel module and inspecting the
-> > +kernel log for KASAN reports.
-> >
-> > -pass::
-> > +Each KUNIT-compatible KASAN test prints a KASAN report if an error is detected.
->
-> s/KUNIT/KUnit/  like elsewhere.
->
-> > +Then the test prints its number and status.
-> > +
-> > +When a test passes::
-> >
-> >          ok 28 - kmalloc_double_kzfree
-> >
-> > -or, if kmalloc failed::
-> > +When a test fails due to a failed ``kmalloc``::
-> >
-> >          # kmalloc_large_oob_right: ASSERTION FAILED at lib/test_kasan.c:163
-> >          Expected ptr is not null, but is
-> >          not ok 4 - kmalloc_large_oob_right
-> >
-> > -or, if a KASAN report was expected, but not found::
-> > +When a test fails due to a missing KASAN report::
-> >
-> >          # kmalloc_double_kzfree: EXPECTATION FAILED at lib/test_kasan.c:629
-> >          Expected kasan_data->report_expected == kasan_data->report_found, but
-> > @@ -346,46 +400,38 @@ or, if a KASAN report was expected, but not found::
-> >          kasan_data->report_found == 0
-> >          not ok 28 - kmalloc_double_kzfree
-> >
-> > -All test statuses are tracked as they run and an overall status will
-> > -be printed at the end::
-> > +At the end the cumulative status of all KASAN tests is printed. On success::
-> >
-> >          ok 1 - kasan
-> >
-> > -or::
-> > +Or, if one of the tests failed::
-> >
-> >          not ok 1 - kasan
-> >
-> > -(1) Loadable Module
-> > -~~~~~~~~~~~~~~~~~~~~
-> > +
-> > +There are a few ways to run Kunit-compatible KASAN tests.
->
-> s/Kunit/KUnit/
-
-Will fix all in v10/v3.
-
->
-> > +
-> > +1. Loadable module
-> > +~~~~~~~~~~~~~~~~~~
-> >
-> >  With ``CONFIG_KUNIT`` enabled, ``CONFIG_KASAN_KUNIT_TEST`` can be built as
-> > -a loadable module and run on any architecture that supports KASAN
-> > -using something like insmod or modprobe. The module is called ``test_kasan``.
-> > +a loadable module and run on any architecture that supports KASAN by loading
-> > +the module with insmod or modprobe. The module is called ``test_kasan``.
-> >
-> > -(2) Built-In
-> > -~~~~~~~~~~~~~
-> > +2. Built-In
-> > +~~~~~~~~~~~
-> >
-> >  With ``CONFIG_KUNIT`` built-in, ``CONFIG_KASAN_KUNIT_TEST`` can be built-in
-> > -on any architecure that supports KASAN. These and any other KUnit
-> > -tests enabled will run and print the results at boot as a late-init
-> > -call.
-> > +on any architecure that supports KASAN. These and any other KUnit tests enabled
-> > +will run and print the results at boot as a late-init call.
-> >
-> > -(3) Using kunit_tool
-> > -~~~~~~~~~~~~~~~~~~~~~
-> > +3. Using kunit_tool
-> > +~~~~~~~~~~~~~~~~~~~
-> >
-> > -With ``CONFIG_KUNIT`` and ``CONFIG_KASAN_KUNIT_TEST`` built-in, we can also
-> > -use kunit_tool to see the results of these along with other KUnit
-> > -tests in a more readable way. This will not print the KASAN reports
-> > -of tests that passed. Use `KUnit documentation <https://www.kernel.org/doc/html/latest/dev-tools/kunit/index.html>`_ for more up-to-date
-> > -information on kunit_tool.
-> > +With ``CONFIG_KUNIT`` and ``CONFIG_KASAN_KUNIT_TEST`` built-in, it's also
-> > +possible use ``kunit_tool`` to see the results of these and other KUnit tests
-> > +in a more readable way. This will not print the KASAN reports of the tests that
-> > +passed. Use `KUnit documentation <https://www.kernel.org/doc/html/latest/dev-tools/kunit/index.html>`_
-> > +for more up-to-date information on ``kunit_tool``.
-> >
-> >  .. _KUnit: https://www.kernel.org/doc/html/latest/dev-tools/kunit/index.html
-> > -
-> > -``CONFIG_TEST_KASAN_MODULE`` is a set of KASAN tests that could not be
-> > -converted to KUnit. These tests can be run only as a module with
-> > -``CONFIG_TEST_KASAN_MODULE`` built as a loadable module and
-> > -``CONFIG_KASAN`` built-in. The type of error expected and the
-> > -function being run is printed before the expression expected to give
-> > -an error. Then the error is printed, if found, and that test
-> > -should be interpretted to pass only if the error was the one expected
-> > -by the test.
-> > --
-> > 2.29.2.222.g5d2a92d10f8-goog
-> >
+> Thanks,
+> -- Marco
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAAeHK%2BxWvHK2SH3ZEqnJ97ArjkuAB4Hrpu34AhQiruUyo1h6dw%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAAeHK%2BzZu60aYGkzj34vqQ8pM%3DafLXGNqVECt68f5oDjHhQwqA%40mail.gmail.com.
