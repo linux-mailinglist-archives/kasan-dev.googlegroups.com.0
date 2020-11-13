@@ -1,31 +1,31 @@
-Return-Path: <kasan-dev+bncBCOYZDMZ6UMRBBOVXH6QKGQEF2KELJY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCOYZDMZ6UMRBI7DXH6QKGQETHXTANI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oo1-xc3a.google.com (mail-oo1-xc3a.google.com [IPv6:2607:f8b0:4864:20::c3a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85B0B2B19BE
-	for <lists+kasan-dev@lfdr.de>; Fri, 13 Nov 2020 12:14:14 +0100 (CET)
-Received: by mail-oo1-xc3a.google.com with SMTP id c2sf3891158ooo.20
-        for <lists+kasan-dev@lfdr.de>; Fri, 13 Nov 2020 03:14:14 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1605266053; cv=pass;
+Received: from mail-pf1-x437.google.com (mail-pf1-x437.google.com [IPv6:2607:f8b0:4864:20::437])
+	by mail.lfdr.de (Postfix) with ESMTPS id ACDFD2B1A38
+	for <lists+kasan-dev@lfdr.de>; Fri, 13 Nov 2020 12:44:36 +0100 (CET)
+Received: by mail-pf1-x437.google.com with SMTP id 23sf6404724pfp.21
+        for <lists+kasan-dev@lfdr.de>; Fri, 13 Nov 2020 03:44:36 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1605267875; cv=pass;
         d=google.com; s=arc-20160816;
-        b=o62Lfl3wDL4U7e+8MelBReO5EplMo3W7NyY+vkxc2HUEptJIPRqF5wla+7Xfb0xAvY
-         GuTRlZ9G3WdajRbwwVcF4F+cERobvMirVdIVJt0AiI3lNHp/SnWVgbnnfikrshsUgExI
-         NqcISLt5gGwA+o3ljVCGg0CkTxifUalnhtZyilKtaxTXmdKS0i5I/r1+JwF+WZciqcR2
-         cWhh6EpRaRxTLYVMTLnFQEzqm8lSEgi3qz7UZ0wRmSJo5vesGlkrPYKx3jSIw87gi/bf
-         ZGbmSZIevU6+XeOiNVIfiYpnPqo2pJdI7hVZdvEFdMap9lUDN7IW07jkuORxqsEg3myg
-         5lRg==
+        b=0qOFR35y6G8VwVQUq5R/02QPYGVIYrfKde0F9UFYvuZDbofK3ATGANUjShqdZX2QBd
+         LlbEnP3j8YGmzAjxLONpx6IZDBHGfAQYDafD3TBagEj8jBb7ONReJJhKDlGDgagyzC6u
+         Ht41ri558xCtEdhRx/1exw54JPL2cTUsg3fH5ePPkxaNMNkeltTbeXRH7NXX+5qdUHYD
+         iZlbf/TLS/V9aDX8L8iarwfVossWm7k7dp4zCW71X2Z6aGBCbv9KCFQS2NX+gen2KCbz
+         PMNfVHrqAPhPit41cmRqNfYvZxOtKzaCUYMU4iSI4unHICxpdzrxJWge52db+yV7BU6h
+         Gcaw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:content-language:in-reply-to
          :mime-version:user-agent:date:message-id:from:references:cc:to
          :subject:sender:dkim-signature;
-        bh=qh8jvnCnajfODPtySBl9E5dDRygLhuXg+0W4FjvAivI=;
-        b=t/8NkEukLkdmAHsx4SRggZX7Rj93U01z6TJO7d3JxF5Mqs02RmsY+I18eZ4wFSMJRP
-         EqHoM4iNpkfxSusylbPRTry8Hh29kb6X3q9mixjVt+rgR9dFnwQ6UBI+z4NK/D+NlVg+
-         H2vH6/eunS0bZ0ARgG3SOeWg4q7K8lu6LoLNb9lGmTOF67br6qh8qx7PvXvKofqYeFgY
-         LKG3h2B6GOP3X9bFpiLOt58gnI00fe2IkSayhAQHrstZzFJ1k2TwuGBFOA2PDg0Iz35i
-         DfQPSQNqdhXlAIrKOueDNxsBGw++NAtgTiwyG+YBCNoUei0iTwbtUvQmKB9ChlpZOjXO
-         jW+g==
+        bh=aI1WDjfXWo6OS7EYemxccrhikNz36osL0xzpFK87EQU=;
+        b=oHZyX+ueiX28bpEuaKglpqS398h19uy5XfgXHhqkDsT3kzLhsMk8ZwHuyx9as64zNT
+         Jz4AA6SGtG3HqkBLo6ZBRcr8myNcGhzQmwTAmcd5PYyBZvoggWAmnLKJ8ofiWddsbTiW
+         lF/nlQwx+6BfODnAMoC4TkgDzpcXcvZb0eWzH/ja9OX/27ADjt0+lvFlGoeiGlvoeRsm
+         ZMFrqH3QxZPKRL5Jmi3RjG25Csriz4yawSEtqsj0fjMQNcdkUV54yed++h43IvrLwVK0
+         w29zdvDNQBF5NUvLPNShh+Ox+A+qCjuyW6yaNM2tDN53cb/8DOWOsLS4Ka2GVJYFDLcv
+         SuLw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
        spf=pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=vincenzo.frascino@arm.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :mime-version:in-reply-to:content-language:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=qh8jvnCnajfODPtySBl9E5dDRygLhuXg+0W4FjvAivI=;
-        b=oCTCiB01smRxVrdRvNet0Ppna+M+HkTe6JR0TVFjlriRO/0HimYC7oggQHUHA3HY1y
-         rrSlF35blGzPICqwjcTW1VJ4BXWcz+n0pUO7jbHw2vIgyNsPUxTEs4x7ixO0hnt2GUkB
-         mzAEdxjWPpmDBZJvS/09u5/duwrauo52yAnmTaFdiV8dZzrAi9mYns/5R67pgbGflm3X
-         mIhqVxWCZv0gsJT8g/GaZdANBkLKyH6lWiH4JmUfwubObCzR+4JDCWSH92gSQtytRSrT
-         3inx8AwNP0qtG8a4g9qC1ITpvMU9trSF5oNnBKvEtc4exaAO4poOOunAbXPH43dzqZXB
-         b1vA==
+        bh=aI1WDjfXWo6OS7EYemxccrhikNz36osL0xzpFK87EQU=;
+        b=UQGB6qjKTeKEymzazRtz6cV86iDOisqnucrTEepy67w4lIt4T6J2MUN67PCh0xF8Mm
+         NfO4VCqI8YcSVaI2tE88+XrHKLMf4xHoTxUuJIPHs1B9j85omYitICjQguIZ2E3YWDxM
+         Sz8IEQJvKVAVweag2FVvLtvuYr1fQZVVy2h8nS6AvE3llD+sNxmPAnM0+agYXMuLXnmG
+         O6i+gzZ17g9b0hNjHPaZH23dLCY5NKkaCEbuAJE61ZI02B/OqnU6uZEH8DXM+5zXiPa0
+         SzmE1xs6wbp/aeU21f/G9G4/kojWMmibJ2C9cqycrSuSfiaebTwcQGoIByyTmqQXKQ2O
+         8ndA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:subject:to:cc:references:from:message-id
@@ -49,78 +49,81 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=qh8jvnCnajfODPtySBl9E5dDRygLhuXg+0W4FjvAivI=;
-        b=nNtDcLLIlb9qwFtOicSNydgcewpR0SynNlOxp6MQOrxQhqgs/kL8cn9WBKMwl3j29y
-         ItZgQ34A6CjzNmF7C6YCI8ib/VIRVsl6yoV8eO+xIDHs3/CFkou766o8zu95/IgcDLy9
-         /JhAhiYtbYuyCg+aCP/BvU3UenZMBmSHWL1PLi1EOHpP1eqjSJHpM62CUiY/Gb/bPHbo
-         bZGr9FHs/yTRgeXnkn5Ar4JC3G96XF53QHVHnHKVTVgZlrIIcy/DAp1IHw3hNJcv+lGD
-         dvEis6o+IYeWlw4AiWm8+tftDsk2N1srYERg79k1xdye9co3D7O7sKhzbzqzk0Aw9nX3
-         RxMw==
+        bh=aI1WDjfXWo6OS7EYemxccrhikNz36osL0xzpFK87EQU=;
+        b=eEOpfRfV9rUawwvH2oPuMiU132pYQrMGZXS2zdI2PYZgxSJVWTlh6BiRcWyKPuqO0L
+         cnl6RauCoMDr00Il9h1uvjY/FsyV9uYOSvGGkMz7Bo/6iEsG6QIu0fvT9DalZGGJSg/H
+         uv/cxI4AE8nIJ+X+e2Mn1EjMCtUT0NzNy9m9O9HSQnGbcFiOoCP2djye8/AQmsEBe1zs
+         EC9nkXjjpFpcaw3pXLVV/lIOt3CAAc8l/ZFOvNnUdHopk8NMU4LXNZwD+uzImSQMKTEP
+         pQsyAhh94n22DKV5tZPcrqB55AO4YoqcWlX4PzZelHL3b67S+Ms+naRegolFrFnFt1J8
+         hJmg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM530Su5BatT9fOtqW8ZeXKAeKnnQIXYCfNFd+T5OBtPXMH68XYWBC
-	m3UtTQ1Ax1iuigLIpcriTNg=
-X-Google-Smtp-Source: ABdhPJyZDroIKz7qCQTSG2OhFHWoRoXDQVWoGVKDSLwJz1BWSpOYT+6de/5bvQ4hZa+MwLgoysh1kA==
-X-Received: by 2002:aca:ebcf:: with SMTP id j198mr1063188oih.154.1605266053514;
-        Fri, 13 Nov 2020 03:14:13 -0800 (PST)
+X-Gm-Message-State: AOAM532I0J24rZ9JgCOi+huhYTNcA1tXCnRQKATe+wRQMxI+9IYXewVL
+	dXWbZqvm0CastsvsDSsk+i0=
+X-Google-Smtp-Source: ABdhPJz7m37/qfkXdmLwmhzpbWX9p3A+w5dl5La7/uLTaqyPctaBFA+NCGQ3SXIxVTkVU4/UoQp/PA==
+X-Received: by 2002:a17:90a:c085:: with SMTP id o5mr2722595pjs.18.1605267875278;
+        Fri, 13 Nov 2020 03:44:35 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:aca:b784:: with SMTP id h126ls1399497oif.3.gmail; Fri, 13
- Nov 2020 03:14:13 -0800 (PST)
-X-Received: by 2002:aca:c3d6:: with SMTP id t205mr1094937oif.10.1605266053088;
-        Fri, 13 Nov 2020 03:14:13 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1605266053; cv=none;
+Received: by 2002:aa7:989e:: with SMTP id r30ls19849pfl.2.gmail; Fri, 13 Nov
+ 2020 03:44:34 -0800 (PST)
+X-Received: by 2002:a62:75c6:0:b029:18a:d510:ff60 with SMTP id q189-20020a6275c60000b029018ad510ff60mr1715479pfc.35.1605267874770;
+        Fri, 13 Nov 2020 03:44:34 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1605267874; cv=none;
         d=google.com; s=arc-20160816;
-        b=UFJqoYFVk/PUmN2dfrO9WVlbnViLrxSuR5c3F9xgqZPz0p5GThUEicW4ppMbFDysn5
-         zb82cfHanNahRY07cVV6fc1QbUaadILeYsOf3QAbB7S/FzkBGqV8O1lh+hz/R7QoFT2c
-         1s3NPU5bVHs0dRpBiZ3QEO3rliRqjqAyoBfRsaPot5Ts8Q5MgmGVKLJbmplC3WBWr8R3
-         7ZE7K0+o0H3oZz+AGPGmAipUwfzzpRVw/G6JA5tOc8BVVzfe5fQHvzOvm0PX6r1qqQLu
-         8jDHoo1ajUkpuYCmwVgGjlMjIHOW3WeFtySJruMrVk3RY5vmmrCUfPLQT+izZBmT7ydc
-         lDFw==
+        b=DTIy4kwTGmjLlU5paGHAoGtD7476P6GYu2LzxAkXXGa4V3SqznUrF4X75ezWsW6dY/
+         qjdEoWhc84ago9JR9LFbBsMu+UX1ZnTy0zMfaIRl7SCKH3rQq/72tYoXXsXp1g3Owj81
+         PHqOHAP7xCHwpPt3renZIyq8gOd3CS7XNTkIjBv2aL80agwEUMyXh5Yber/mFfdCveXh
+         RFoAOfXbmj9h3Eq/XRQjuZ7DhbsmhvKRjfgWQhrr2fi7MC0tNKEXRlLIkS0c4VdgF3wl
+         WVlImyz0DN7b8SJu07HUNsHF/O8reTqbxbaT9ymQ/VKVHqLJMl863ebXE0v/YjUp5jXb
+         BRqg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:content-language:in-reply-to:mime-version
          :user-agent:date:message-id:from:references:cc:to:subject;
-        bh=Su/97YBgAuXukGx1LwV1dgtAOx6zcfV18cq2PmS5AmE=;
-        b=jyjd/gYcFIuNfteXrZayzssDnlL2cw/DS5djfjW/ueRLQsxA5MeS4PHIMVPaSlXeDh
-         5L7PJq9M6Exd+8/yyGMM6ZIn5MIM3E/0Q/kfWetd0pWRU5kRQQ9em2P3UYoDLjOLVKJJ
-         Sq1xmEbpMuZkeb5+dsOaJKH4T6ilbE6iEnVrM0MpKU6gClZyxq/8V6ZNC2PJH/GCC9l2
-         C8qk49auo1ztzM2iAOgG1RSVwAS0IrXQ1S2daev8Kw7NzSeSgE6WCKlVs+cvkiYlhhdv
-         Tmoh9WC9xCDF7UtOjpwZbzHIK1lPLFwB4G/fai+LZfVyfu1WQwMGKHeoxIhGcPukj43L
-         8yag==
+        bh=VCsldN7DyuMTxmcSQXLknDOtES9cxWD4/zlQnq/hwsI=;
+        b=Ngu81qSq2ALDVZe/CdAN8Nt+MyxMZLtLMFLhhc9nkBnXs/srFLLktbcJYcvHRupxju
+         YTOtUqiRx7iZCUK27kfIx3eGCx9QmRoj7iR1lAt/rzRZ8vy+uIs8aPfwWk+7VXGIfnlZ
+         rj+d0lXEa8FUlB2CaG3lfOWdDSaR+tDMf47J3PrKomGW2BN8kQE181sbd3F6ia1L/jsG
+         avle9Mz2fRWEL2qNJujXpnUOohTAJ7D63I8Fp4IlvRIJpIHcaf53kZt6JVgjEyOu+1Wx
+         POWRefdzw5PF2bC6dokxapAbfZPY4WMFeVFacWagvvOS6+mPIBA8qpSgG3j55NP8+Nj8
+         nmZQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
        spf=pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=vincenzo.frascino@arm.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
-        by gmr-mx.google.com with ESMTP id d22si809143ooj.1.2020.11.13.03.14.13
+        by gmr-mx.google.com with ESMTP id x6si428440plv.3.2020.11.13.03.44.34
         for <kasan-dev@googlegroups.com>;
-        Fri, 13 Nov 2020 03:14:13 -0800 (PST)
+        Fri, 13 Nov 2020 03:44:34 -0800 (PST)
 Received-SPF: pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B40081042;
-	Fri, 13 Nov 2020 03:14:12 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C0C6914BF;
+	Fri, 13 Nov 2020 03:44:33 -0800 (PST)
 Received: from [10.37.12.45] (unknown [10.37.12.45])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 568CB3F6CF;
-	Fri, 13 Nov 2020 03:14:10 -0800 (PST)
-Subject: Re: [PATCH v9 30/44] arm64: kasan: Allow enabling in-kernel MTE
-To: Catalin Marinas <catalin.marinas@arm.com>,
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D532F3F6CF;
+	Fri, 13 Nov 2020 03:44:30 -0800 (PST)
+Subject: Re: [PATCH v9 44/44] kselftest/arm64: Check GCR_EL1 after context
+ switch
+To: Alexander Potapenko <glider@google.com>,
  Andrey Konovalov <andreyknvl@google.com>
-Cc: Will Deacon <will.deacon@arm.com>, Dmitry Vyukov <dvyukov@google.com>,
- Andrey Ryabinin <aryabinin@virtuozzo.com>,
- Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>,
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+ Will Deacon <will.deacon@arm.com>, Dmitry Vyukov <dvyukov@google.com>,
+ Andrey Ryabinin <aryabinin@virtuozzo.com>, Marco Elver <elver@google.com>,
  Evgenii Stepanov <eugenis@google.com>,
  Branislav Rankov <Branislav.Rankov@arm.com>,
  Kevin Brodsky <kevin.brodsky@arm.com>,
- Andrew Morton <akpm@linux-foundation.org>, kasan-dev@googlegroups.com,
- linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org
+ Andrew Morton <akpm@linux-foundation.org>,
+ kasan-dev <kasan-dev@googlegroups.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ LKML <linux-kernel@vger.kernel.org>
 References: <cover.1605046192.git.andreyknvl@google.com>
- <5ce2fc45920e59623a4a9d8d39b6c96792f1e055.1605046192.git.andreyknvl@google.com>
- <20201112094354.GF29613@gaia>
+ <bd6825832c0cb376fc68ad61ffec6d829401ed0e.1605046192.git.andreyknvl@google.com>
+ <CAG_fn=XpB5ZQagAm6bqR1z+6hWdmk_shH0x8ShAx0qpmjMsp5Q@mail.gmail.com>
 From: Vincenzo Frascino <vincenzo.frascino@arm.com>
-Message-ID: <66ef4957-f399-4af1-eec5-d5782551e995@arm.com>
-Date: Fri, 13 Nov 2020 11:17:15 +0000
+Message-ID: <a83f3883-cef8-ec88-0411-d9638dd4b4ae@arm.com>
+Date: Fri, 13 Nov 2020 11:47:35 +0000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201112094354.GF29613@gaia>
+In-Reply-To: <CAG_fn=XpB5ZQagAm6bqR1z+6hWdmk_shH0x8ShAx0qpmjMsp5Q@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Language: en-US
 X-Original-Sender: vincenzo.frascino@arm.com
@@ -140,28 +143,100 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hi Catalin,
+Hi Alexander,
 
-On 11/12/20 9:43 AM, Catalin Marinas wrote:
-> On Tue, Nov 10, 2020 at 11:10:27PM +0100, Andrey Konovalov wrote:
+thank you for the review.
+
+On 11/12/20 3:59 PM, Alexander Potapenko wrote:
+> On Tue, Nov 10, 2020 at 11:12 PM Andrey Konovalov <andreyknvl@google.com> wrote:
+>>
 >> From: Vincenzo Frascino <vincenzo.frascino@arm.com>
 >>
->> Hardware tag-based KASAN relies on Memory Tagging Extension (MTE)
->> feature and requires it to be enabled. MTE supports
+>> This test is specific to MTE and verifies that the GCR_EL1 register
+>> is context switched correctly.
 >>
->> This patch adds a new mte_init_tags() helper, that enables MTE in
->> Synchronous mode in EL1 and is intended to be called from KASAN runtime
->> during initialization.
+>> It spawn 1024 processes and each process spawns 5 threads. Each thread
 > 
-> There's no mte_init_tags() in this function.
+> Nit: "spawns"
 > 
 
-During the rework, I realized that the description of mte_init_tags() in this
-patch refers to mte_enable_kernel(). In fact the only thing that mte_init_tags()
-does is to configure the GCR_EL1 register, hence my preference would be to keep
-all the code that deals with such a register in one patch.
+I will fix it in the next iteration.
 
-What is your preference?
+> 
+>> +       srand(time(NULL) ^ (pid << 16) ^ (tid << 16));
+>> +
+>> +       prctl_tag_mask = rand() % 0xffff;
+> 
+> Nit: if you want values between 0 and 0xffff you probably want to use
+> bitwise AND.
+> 
+
+The main goal here is to have a good probability of having a different setting
+to the GCR_EL1 register. Hence the difference in between 0xffff and 0xffff-1 is
+negligible. Anyway I agree that we should aim to cover all the possible
+combinations.
+
+> 
+>> +
+>> +int execute_test(pid_t pid)
+>> +{
+>> +       pthread_t thread_id[MAX_THREADS];
+>> +       int thread_data[MAX_THREADS];
+>> +
+>> +       for (int i = 0; i < MAX_THREADS; i++)
+>> +               pthread_create(&thread_id[i], NULL,
+>> +                              execute_thread, (void *)&pid);
+> 
+> It might be simpler to call getpid() in execute_thread() instead.
+> 
+
+Yes it might, but I would like to avoid another syscall if I can.
+
+>> +int mte_gcr_fork_test()
+>> +{
+>> +       pid_t pid[NUM_ITERATIONS];
+>> +       int results[NUM_ITERATIONS];
+>> +       pid_t cpid;
+>> +       int res;
+>> +
+>> +       for (int i = 0; i < NUM_ITERATIONS; i++) {
+>> +               pid[i] = fork();
+>> +
+>> +               if (pid[i] == 0) {
+> 
+> pid[i] isn't used anywhere else. Did you want to keep the pids to
+> ensure that all children finished the work?
+> If not, we can probably go with a scalar here.
+> 
+
+Yes, I agree, I had some debug code making use of it, but I removed it in the end.
+
+> 
+>> +       for (int i = 0; i < NUM_ITERATIONS; i++) {
+>> +               wait(&res);
+>> +
+>> +               if(WIFEXITED(res))
+>> +                       results[i] = WEXITSTATUS(res);
+>> +               else
+>> +                       --i;
+> 
+> Won't we get stuck in this loop if fork() returns -1 for one of the processes?
+> 
+
+Yes I agree, I forgot to check a condition. We should abort the test in such a
+case returning KSFT_FAIL directly.
+
+>> +       }
+>> +
+>> +       for (int i = 0; i < NUM_ITERATIONS; i++)
+>> +               if (results[i] == KSFT_FAIL)
+>> +                       return KSFT_FAIL;
+>> +
+>> +       return KSFT_PASS;
+>> +}
+>> +
+> 
+> 
 
 -- 
 Regards,
@@ -170,4 +245,4 @@ Vincenzo
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/66ef4957-f399-4af1-eec5-d5782551e995%40arm.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/a83f3883-cef8-ec88-0411-d9638dd4b4ae%40arm.com.
