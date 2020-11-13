@@ -1,129 +1,148 @@
-Return-Path: <kasan-dev+bncBCMIZB7QWENRBUO7XD6QKGQEH25QAXY@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBJORXH6QKGQEFNUUEKY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qt1-x83a.google.com (mail-qt1-x83a.google.com [IPv6:2607:f8b0:4864:20::83a])
-	by mail.lfdr.de (Postfix) with ESMTPS id E580C2B1629
-	for <lists+kasan-dev@lfdr.de>; Fri, 13 Nov 2020 08:03:46 +0100 (CET)
-Received: by mail-qt1-x83a.google.com with SMTP id c2sf5227637qtx.3
-        for <lists+kasan-dev@lfdr.de>; Thu, 12 Nov 2020 23:03:46 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1605251026; cv=pass;
+Received: from mail-lf1-x13f.google.com (mail-lf1-x13f.google.com [IPv6:2a00:1450:4864:20::13f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F9402B1992
+	for <lists+kasan-dev@lfdr.de>; Fri, 13 Nov 2020 12:06:14 +0100 (CET)
+Received: by mail-lf1-x13f.google.com with SMTP id 201sf2785180lfo.12
+        for <lists+kasan-dev@lfdr.de>; Fri, 13 Nov 2020 03:06:14 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1605265574; cv=pass;
         d=google.com; s=arc-20160816;
-        b=WeQLiBATViNUXTm3f881MPo79gcyhhppFWW8sxYju8jV2dMu9R+WnRT48Mz+dZrzAQ
-         yA0hrS+vV7rJq2Ye8+L7eHtO9jGAGsk+J88Jy0be1B1eNgM8QgIrzDwyC7ikBRMV5mJK
-         RQzl0UCZK7LghDezeeweaEXqUrLeMktoJL0BrNTprcg6lym0gt4TZwao9bZUH288SKfO
-         lQEQriiKhujIEtfrignIiMHl3KkkTfh49dTnyKkD/QpwFuYsVgJmzpWFnA0fDNZRbG44
-         QFuQX4OLSHjM1gR+TNYzVJhYMpfZkYI89NDLH3/VBm5qnHnW2P+OYE4UCfzvbrwIxOyu
-         MbyQ==
+        b=C8tltqgpOBZ0wgy+s+sefnrfTfA8+0dvCriPpV+4W1GVQECaeZWpnppShpgsHcrHKR
+         vuxu3VlI423ai0uacF+YbWM5gvr9ojRFjDV9VN3DFT5njQ98CidLa1Dp+dPZSDrttM/5
+         YUu8hCry5XS3Xds0Wkrf8F3zNZuOZ6qmWhnpbhg38lyYF/6DBm3XOCQXD7+fA2hy6xTv
+         kPvwf2jA2mpBBbHYKadILQEYitydXONhGWnaShIaT4Eb2zyuU+i46ivt7eQNF6RoVQ/x
+         lagrZc9/42ZOQsTfefjyDfDuwUfOj5jZpls2ywRcFYnx7Xe9d+O1cYUx2Un4/kGH1eHg
+         Otmg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=pKE8+P9w8cvlHm2EBD+z15s8r2qrSsSYCW9BDOOVDNM=;
-        b=zHqYVTVko7wFamfSCWTqVGfw8nGzIuhnyaaIah/P072P07HNthYDfKp1uanh0lysBS
-         kTOQ2zNWTKBoKvUeyhLJfQ1xvOAGpIEzvftceTVAAXg4DqlLHXsEG2EUzRqh4dGKfkgj
-         3VCj37Zoa6zvxgSkvv5M+mmTyOVlOtFWsX5dbKZ5rtu68XsXEvJdfWRKebx5Rheyribc
-         u0Jf2wz5pzU+nmX6OHn9eNT5rS6eTsQFJbrGfefit8nih1hGGKTh+060RaYKZstjFY1F
-         TvpDFk1fK/g3qbFm0sR2ZdQ/3BA2iwZTmkgvMQiGRR1c4vgko2VIveU1NCTSIVRpljA+
-         f1EA==
+         :list-id:mailing-list:precedence:reply-to:user-agent:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:dkim-signature;
+        bh=6drklEUs5QvVW5MSeMKpvX0vkzmeg7cjA0AKhwkcXPI=;
+        b=UTUEDd99qupYJz9Wo6eOqMpoupiXBC72P3Uvs1a3Ekxgk8vpX6cpaUMyr+q3x3lNwx
+         cnlp/5kxVpEFRr19LucsscZVD4+V3yrb9M5zTPHPYjuhTAqtggcmuTaZ3ETboDUQkDax
+         UciV6/aPsqCxm3zOqfNr2rZDWXNpbmqCWlCnlk+Dgt+H5Q/uUKsGfI6/hW2iCxql/L7p
+         wKC7Bi48fjdMtrf3KyVB39TyRspyBmXhSWnUOwO3CczWJp/2SkORraS5rt1QEWAL4Fhv
+         SDT7tCxq1h0ir5FLc/K300pFU3VZJhxOQHPwjJmz2+5gg48OAjzv2mjhsvw9GvqPzT2S
+         cIbA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=vTA7EHji;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::841 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=fBXair5q;
+       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::343 as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=pKE8+P9w8cvlHm2EBD+z15s8r2qrSsSYCW9BDOOVDNM=;
-        b=JsU9Xb1SItNS8FBMn26aKZBc8izURTT1k+vaHee39TiI9EWH+B0V/PYJWz82bMwT9s
-         eRu6vhpGo7RcsYlW/g4JzE7cNj/mm2T4RKPfNmm/dAfRZEjd90wlL0Sz8kHV3QcTsuhj
-         e8hRJov0MnBPa++Dn+0h8bD4mfNYORGUU9IuyTORqzuy4fxbGQ24jcCyIGDA8ejQ8yBK
-         clKIGYsAQHnF75fjYuE2PNDgh0ipXn8IoDSkiSmzIVIwcql3XldWjyy2TjdSXEwZABBE
-         UijUlp8yu0uAKMjcwjJZUm5xowWjRhEKMzbnEmC1UPBuPElDz8UeyRpOKL9MUqoHEu2e
-         fr6Q==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:list-post:list-help:list-archive:list-subscribe
+         :list-unsubscribe;
+        bh=6drklEUs5QvVW5MSeMKpvX0vkzmeg7cjA0AKhwkcXPI=;
+        b=NnU8Rmz0MCK5MzVo23jLUXJXiTpushqvWTRGDmiL0kEFIWERn3TJXndTdzbivO+yyU
+         0IAQ1f/Li58SCh1GKKYdVcl80GXD21kzK62CWXCReUuEBF6yPXLUMuQn7Vbj6FMmuWQW
+         wXblNivNEZPeXREPBuKmsfcnwGSlVyiE7TatU+7K6YuKy23Rcy6qDkiwE2Hf6okBlJwr
+         MPQr2wiiPlPrAuaQzMOlQLP3NVxbdvzJp2byd234S9pSin1G717gK4zCeMCZmZuwjlil
+         8KAMJ66Rh5ZnAvCwgvq+zfbAkhVBUL2RZQWvlpc6/nr3DXFX9Hr/IhJCPNs89j59cjhj
+         NrIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=pKE8+P9w8cvlHm2EBD+z15s8r2qrSsSYCW9BDOOVDNM=;
-        b=bTbFEsVw9X2kWceShb8VZte/sI4l148rP4g3mNBwpy2CLKjAy88zIS0/9vyHkbYg2E
-         VvwYcSubCTUbJtUMNI55oZl1KLXnirci4ApUmj41cN0Z55j9HxeoDzMYSWRpC+vwi8hy
-         evBBywkcypETnD8RGsBGEzeGPovkLbBkUjRJZj8bKqzUpe4yw00irhxvbyiBKnD2haQi
-         OWij0PZcrXOv4sGGaQsY29IQw1j326Ub/O3xQyrkgkRJfsxh4pqJ/pB01RvNY+al0KKq
-         8g8VFDgORwo4I8iO93Fa84H2fpOv3FOQ09GLL+cfjcR4VbpZUP4CgS/PLLhf8L3+H189
-         r9fQ==
-X-Gm-Message-State: AOAM532PkVoqABJzKcd+iwzHEK8/ga3st2dhrEYOaPW39jNWRVFtssKh
-	xQYRvml1JfdXOQTiY0211Jk=
-X-Google-Smtp-Source: ABdhPJwAxd7RTuLMGzCCQ9Cg7DGxPe9nG1go/O2ovuzfdTXrwNn+1eE13o2r4Lx8mTdgf1gZPy+aow==
-X-Received: by 2002:a05:6214:a0d:: with SMTP id dw13mr1024493qvb.54.1605251025759;
-        Thu, 12 Nov 2020 23:03:45 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent
+         :x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=6drklEUs5QvVW5MSeMKpvX0vkzmeg7cjA0AKhwkcXPI=;
+        b=kyeY0IfchSZw9pqPtdsZm/Q7Vf9v4p/DdfHOXc/7xCDJ1bAzcQ6pjpnBMhcklCgRKe
+         NSjgsHrebFmxYjR5fqgoAkTqpHUdpMiqsl02497Z0D6xTymFKZANS7CVSUsTkVRCrLgR
+         3zXNqHHhYdipl0OvRzaopAhch+kUuKObyfcoCJF3MQK9NYvjnGxQiKnRE0a0ZGSATL3+
+         UYaMVwssi1GDzIujwAE+oENjuWwzIrbbM+iJcAi+LiM/M6tRGT1ESRyzRfsfYwLo0YQz
+         f2Qnv3r8xZKZ0l2kvry9CF9N/jVLOGJVRKhQF0oZs5EOI/IuQLyifI4uTpY8ieV522TI
+         AOxw==
+X-Gm-Message-State: AOAM5333QeyJGk29pdZMRL1ZSZwyyAH6BVSlVLmiMVoqBrK+Ui4CJykn
+	hjG4MMnqh2lC9Rs5MXWqcc8=
+X-Google-Smtp-Source: ABdhPJxRyKmK9/C6ZGaXwqzaI0O8H8OZ6DwKc1UllNybz5yB1GjaqIPKXJMAMLUcleFNpBnpXe72ZA==
+X-Received: by 2002:a2e:7a18:: with SMTP id v24mr928606ljc.224.1605265573873;
+        Fri, 13 Nov 2020 03:06:13 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ac8:43c1:: with SMTP id w1ls1891050qtn.5.gmail; Thu, 12 Nov
- 2020 23:03:45 -0800 (PST)
-X-Received: by 2002:aed:2986:: with SMTP id o6mr777736qtd.55.1605251025305;
-        Thu, 12 Nov 2020 23:03:45 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1605251025; cv=none;
+Received: by 2002:a19:d0e:: with SMTP id 14ls4318056lfn.0.gmail; Fri, 13 Nov
+ 2020 03:06:12 -0800 (PST)
+X-Received: by 2002:ac2:5b50:: with SMTP id i16mr722068lfp.586.1605265572699;
+        Fri, 13 Nov 2020 03:06:12 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1605265572; cv=none;
         d=google.com; s=arc-20160816;
-        b=TOuHe3xluTyiIXDEXBS05qE3fUTjmqA4HxON8hI25m7R/NBmUMltXNiLH+f6Zxn6+y
-         0sZpPzJ8d5uWzKkSv3Em6cPpYYMBT0bVP9eDBmreatS5D4CnHAnUuD+gYaJqcWktqFuL
-         Ww4uNu3GFVJeZF4KPelvQ6TuoIigiQxPa/twjBLKCXd3hXp6BXey6rCKH/R5XyRsTpWa
-         gmVx6uqvwKEyaIeQLN8WYJ69Zx0Okq/vhGNtX4Z7oNf6cNZwyjP0EeV9j5FYxXliXeKJ
-         7WMC7ElRHJhJVa0WsT+iWHMrzKDOZvdrv63MaWB6+oNmcecbw98+vFLb5WAoVzJKGiaw
-         nTkQ==
+        b=JrBSx5p0e0FBqgBlriJW2Y2friSvdiJRbayvJ2ZIisqVIayjOyzEilfqhnxGfFZSNa
+         bOC3jRVCBXL4zbcfbO8K3k9ay+7s027HGzumYR8NkMei470MbmKYW7AtXvYWUIK4+K2C
+         O4soq0kQJHBRj7sIXDnxUfXpyLxPnURsT1VQtaqnpWRA7a/TyUNUj2oQ9owPgmUniJEm
+         5Z8IFNhgkKy3qK8ifHgglJuQrdkKHcJAHP3fbJXWqmcpJz682CzbB5dq2EoHfpzepWfo
+         Imj5ttUHzbDhs1+vtl6mqSz8v6yQ8PaJuSpnJKmISj00Fdz21YEOEpmqk87CZ0qfon7e
+         Pz9A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=2PkncTpQIdgHDydrhX/SeaNm5Vy35yKSw0V2poc3sOE=;
-        b=wt4K4OyTGC6MSg6tsRs8HiAk+mwL/CNJuXtUSk2KH6qb/s2z/MYSUhTELGAks/RgYH
-         Kc99Klkng04cd4A0vDIIoC4vmLMJWFoM4P9gCzChGWwKAa4EKK+lJSt7ipeaOt5t2Sk8
-         v6BetOY5lYxMziuM2zfpfVpYFjboQrAkT9YaOXHBHrOtFI2q9b7lZ/uCos2pzl0OZvt0
-         FSdUNkNLvbNI+yHFu3gZdVxvicmdJ4uEs4Wk0Ts5zT9ubtc/kL+fBZkoGTnRoLwFhUkM
-         drNc8i7oWm537vFBc0TkgTcftnHdMfFuvQMm/5Q3RbOHGyJtwyqquDjPX+IAxCACfszp
-         RLVQ==
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:dkim-signature;
+        bh=dA+kEQkhcLw+SoSuv0AIeD6qXLVmu5Sr7MknI9qkwoU=;
+        b=kitY0LdVDH/+9YJp8mTLlTVaxVkN6igR5Axcg7rMnK+QWJ37Amdy7e9q3T31pqWBrv
+         k1wKzlZCZChRFIFVhaiZutyCD1EsksLGBvmbvieFI+BCEqfd7QqAeNpe7xaEvO4cDBSu
+         T8UGQsIAx6pBxk97hS2hFIFSVL6shvY7zdZ2Z0TuFB/95T/7LPW2nmIcCxXFtIX9TAqy
+         E4YxiUJMeWoN+nX3wEFfdYuiwZ4aYTrd5yX+hZXiXG8dTAL5VDUDrizi8VUAYlXtMO54
+         M2vHryeYqge0h3manL9HV7Vgx/kdNok5HB84fpKrJ3+TREul0Ror681htmvSAKJXIQeD
+         UoYA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=vTA7EHji;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::841 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=fBXair5q;
+       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::343 as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-qt1-x841.google.com (mail-qt1-x841.google.com. [2607:f8b0:4864:20::841])
-        by gmr-mx.google.com with ESMTPS id n21si281323qkh.0.2020.11.12.23.03.45
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com. [2a00:1450:4864:20::343])
+        by gmr-mx.google.com with ESMTPS id y12si197477lfb.1.2020.11.13.03.06.12
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Nov 2020 23:03:45 -0800 (PST)
-Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::841 as permitted sender) client-ip=2607:f8b0:4864:20::841;
-Received: by mail-qt1-x841.google.com with SMTP id g17so6075470qts.5
-        for <kasan-dev@googlegroups.com>; Thu, 12 Nov 2020 23:03:45 -0800 (PST)
-X-Received: by 2002:ac8:1288:: with SMTP id y8mr763877qti.177.1605251024620;
- Thu, 12 Nov 2020 23:03:44 -0800 (PST)
+        Fri, 13 Nov 2020 03:06:12 -0800 (PST)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::343 as permitted sender) client-ip=2a00:1450:4864:20::343;
+Received: by mail-wm1-x343.google.com with SMTP id a3so7988984wmb.5
+        for <kasan-dev@googlegroups.com>; Fri, 13 Nov 2020 03:06:12 -0800 (PST)
+X-Received: by 2002:a1c:9916:: with SMTP id b22mr2042128wme.105.1605265571824;
+        Fri, 13 Nov 2020 03:06:11 -0800 (PST)
+Received: from elver.google.com ([2a00:79e0:15:13:f693:9fff:fef4:2449])
+        by smtp.gmail.com with ESMTPSA id q12sm10935062wmc.45.2020.11.13.03.06.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Nov 2020 03:06:10 -0800 (PST)
+Date: Fri, 13 Nov 2020 12:06:04 +0100
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>,
+	Anders Roxell <anders.roxell@linaro.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Alexander Potapenko <glider@google.com>,
+	Dmitry Vyukov <dvyukov@google.com>, Jann Horn <jannh@google.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux-MM <linux-mm@kvack.org>,
+	kasan-dev <kasan-dev@googlegroups.com>, rcu@vger.kernel.org,
+	Peter Zijlstra <peterz@infradead.org>, joel@joelfernandes.org
+Subject: Re: [PATCH] kfence: Avoid stalling work queue task without
+ allocations
+Message-ID: <20201113110604.GA1907210@elver.google.com>
+References: <20201111182333.GA3249@paulmck-ThinkPad-P72>
+ <20201111183430.GN517454@elver.google.com>
+ <20201111192123.GB3249@paulmck-ThinkPad-P72>
+ <20201111202153.GT517454@elver.google.com>
+ <20201112001129.GD3249@paulmck-ThinkPad-P72>
+ <CANpmjNNyZs6NrHPmomC4=9MPEvCy1bFA5R2pRsMhG7=c3LhL_Q@mail.gmail.com>
+ <20201112161439.GA2989297@elver.google.com>
+ <20201112175406.GF3249@paulmck-ThinkPad-P72>
+ <20201112181254.GA3113918@elver.google.com>
+ <20201112200025.GG3249@paulmck-ThinkPad-P72>
 MIME-Version: 1.0
-References: <1605162252-23886-1-git-send-email-Kuan-Ying.Lee@mediatek.com>
- <1605162252-23886-2-git-send-email-Kuan-Ying.Lee@mediatek.com>
- <CACT4Y+bpDTqQRRdV0_O07H=Kczj3nXUY9ngQgX5K=BtT=Y60RQ@mail.gmail.com> <1605234714.30076.18.camel@mtksdccf07>
-In-Reply-To: <1605234714.30076.18.camel@mtksdccf07>
-From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Fri, 13 Nov 2020 08:03:32 +0100
-Message-ID: <CACT4Y+b7F_A1E_FMKQMK4cg2SwpniLjq9Nr988J6BVSF5rkDGg@mail.gmail.com>
-Subject: Re: [PATCH 1/1] kasan: fix object remain in offline per-cpu quarantine
-To: Kuan-Ying Lee <Kuan-Ying.Lee@mediatek.com>
-Cc: Andrey Ryabinin <aryabinin@virtuozzo.com>, Alexander Potapenko <glider@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	kasan-dev <kasan-dev@googlegroups.com>, Linux-MM <linux-mm@kvack.org>, 
-	LKML <linux-kernel@vger.kernel.org>, 
-	Linux ARM <linux-arm-kernel@lists.infradead.org>, linux-mediatek@lists.infradead.org, 
-	wsd_upstream <wsd_upstream@mediatek.com>, Miles Chen <miles.chen@mediatek.com>, 
-	nicholas.tang@mediatek.com
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: dvyukov@google.com
+Content-Disposition: inline
+In-Reply-To: <20201112200025.GG3249@paulmck-ThinkPad-P72>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=vTA7EHji;       spf=pass
- (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::841
- as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
- (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Dmitry Vyukov <dvyukov@google.com>
-Reply-To: Dmitry Vyukov <dvyukov@google.com>
+ header.i=@google.com header.s=20161025 header.b=fBXair5q;       spf=pass
+ (google.com: domain of elver@google.com designates 2a00:1450:4864:20::343 as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -136,257 +155,193 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, Nov 13, 2020 at 3:32 AM Kuan-Ying Lee
-<Kuan-Ying.Lee@mediatek.com> wrote:
->
-> On Thu, 2020-11-12 at 09:39 +0100, Dmitry Vyukov wrote:
-> > On Thu, Nov 12, 2020 at 7:25 AM Kuan-Ying Lee
-> > <Kuan-Ying.Lee@mediatek.com> wrote:
-> > >
-> > > We hit this issue in our internal test.
-> > > When enabling generic kasan, a kfree()'d object is put into per-cpu
-> > > quarantine first. If the cpu goes offline, object still remains in
-> > > the per-cpu quarantine. If we call kmem_cache_destroy() now, slub
-> > > will report "Objects remaining" error.
-> > >
-> > > [   74.982625] =============================================================================
-> > > [   74.983380] BUG test_module_slab (Not tainted): Objects remaining in test_module_slab on __kmem_cache_shutdown()
-> > > [   74.984145] -----------------------------------------------------------------------------
-> > > [   74.984145]
-> > > [   74.984883] Disabling lock debugging due to kernel taint
-> > > [   74.985561] INFO: Slab 0x(____ptrval____) objects=34 used=1 fp=0x(____ptrval____) flags=0x2ffff00000010200
-> > > [   74.986638] CPU: 3 PID: 176 Comm: cat Tainted: G    B             5.10.0-rc1-00007-g4525c8781ec0-dirty #10
-> > > [   74.987262] Hardware name: linux,dummy-virt (DT)
-> > > [   74.987606] Call trace:
-> > > [   74.987924]  dump_backtrace+0x0/0x2b0
-> > > [   74.988296]  show_stack+0x18/0x68
-> > > [   74.988698]  dump_stack+0xfc/0x168
-> > > [   74.989030]  slab_err+0xac/0xd4
-> > > [   74.989346]  __kmem_cache_shutdown+0x1e4/0x3c8
-> > > [   74.989779]  kmem_cache_destroy+0x68/0x130
-> > > [   74.990176]  test_version_show+0x84/0xf0
-> > > [   74.990679]  module_attr_show+0x40/0x60
-> > > [   74.991218]  sysfs_kf_seq_show+0x128/0x1c0
-> > > [   74.991656]  kernfs_seq_show+0xa0/0xb8
-> > > [   74.992059]  seq_read+0x1f0/0x7e8
-> > > [   74.992415]  kernfs_fop_read+0x70/0x338
-> > > [   74.993051]  vfs_read+0xe4/0x250
-> > > [   74.993498]  ksys_read+0xc8/0x180
-> > > [   74.993825]  __arm64_sys_read+0x44/0x58
-> > > [   74.994203]  el0_svc_common.constprop.0+0xac/0x228
-> > > [   74.994708]  do_el0_svc+0x38/0xa0
-> > > [   74.995088]  el0_sync_handler+0x170/0x178
-> > > [   74.995497]  el0_sync+0x174/0x180
-> > > [   74.996050] INFO: Object 0x(____ptrval____) @offset=15848
-> > > [   74.996752] INFO: Allocated in test_version_show+0x98/0xf0 age=8188 cpu=6 pid=172
-> > > [   75.000802]  stack_trace_save+0x9c/0xd0
-> > > [   75.002420]  set_track+0x64/0xf0
-> > > [   75.002770]  alloc_debug_processing+0x104/0x1a0
-> > > [   75.003171]  ___slab_alloc+0x628/0x648
-> > > [   75.004213]  __slab_alloc.isra.0+0x2c/0x58
-> > > [   75.004757]  kmem_cache_alloc+0x560/0x588
-> > > [   75.005376]  test_version_show+0x98/0xf0
-> > > [   75.005756]  module_attr_show+0x40/0x60
-> > > [   75.007035]  sysfs_kf_seq_show+0x128/0x1c0
-> > > [   75.007433]  kernfs_seq_show+0xa0/0xb8
-> > > [   75.007800]  seq_read+0x1f0/0x7e8
-> > > [   75.008128]  kernfs_fop_read+0x70/0x338
-> > > [   75.008507]  vfs_read+0xe4/0x250
-> > > [   75.008990]  ksys_read+0xc8/0x180
-> > > [   75.009462]  __arm64_sys_read+0x44/0x58
-> > > [   75.010085]  el0_svc_common.constprop.0+0xac/0x228
-> > > [   75.011006] kmem_cache_destroy test_module_slab: Slab cache still has objects
-> > >
-> > > Register a cpu hotplug function to remove all objects in the offline
-> > > per-cpu quarantine when cpu is going offline. Set a per-cpu variable
-> > > to indicate this cpu is offline.
-> > >
-> > > Signed-off-by: Kuan-Ying Lee <Kuan-Ying.Lee@mediatek.com>
-> > > ---
-> > >  mm/kasan/quarantine.c | 59 +++++++++++++++++++++++++++++++++++++++++--
-> > >  1 file changed, 57 insertions(+), 2 deletions(-)
-> > >
-> > > diff --git a/mm/kasan/quarantine.c b/mm/kasan/quarantine.c
-> > > index 4c5375810449..67fb91ae2bd0 100644
-> > > --- a/mm/kasan/quarantine.c
-> > > +++ b/mm/kasan/quarantine.c
-> > > @@ -29,6 +29,7 @@
-> > >  #include <linux/srcu.h>
-> > >  #include <linux/string.h>
-> > >  #include <linux/types.h>
-> > > +#include <linux/cpuhotplug.h>
-> > >
-> > >  #include "../slab.h"
-> > >  #include "kasan.h"
-> > > @@ -97,6 +98,7 @@ static void qlist_move_all(struct qlist_head *from, struct qlist_head *to)
-> > >   * guarded by quarantine_lock.
-> > >   */
-> >
-> > Hi Kuan-Ying,
-> >
-> > Thanks for fixing this.
-> >
-> > >  static DEFINE_PER_CPU(struct qlist_head, cpu_quarantine);
-> > > +static DEFINE_PER_CPU(int, cpu_quarantine_offline);
-> >
-> > I think cpu_quarantine_offline is better be part of cpu_quarantine
-> > because it logically is and we already obtain a pointer to
-> > cpu_quarantine in quarantine_put, so it will also make the code a bit
-> > shorter.
-> >
->
-> Ok. Got it.
->
-> >
-> > >  /* Round-robin FIFO array of batches. */
-> > >  static struct qlist_head global_quarantine[QUARANTINE_BATCHES];
-> > > @@ -176,6 +178,8 @@ void quarantine_put(struct kasan_free_meta *info, struct kmem_cache *cache)
-> > >         unsigned long flags;
-> > >         struct qlist_head *q;
-> > >         struct qlist_head temp = QLIST_INIT;
-> > > +       int *offline;
-> > > +       struct qlist_head q_offline = QLIST_INIT;
-> > >
-> > >         /*
-> > >          * Note: irq must be disabled until after we move the batch to the
-> > > @@ -187,8 +191,16 @@ void quarantine_put(struct kasan_free_meta *info, struct kmem_cache *cache)
-> > >          */
-> > >         local_irq_save(flags);
-> > >
-> > > -       q = this_cpu_ptr(&cpu_quarantine);
-> > > -       qlist_put(q, &info->quarantine_link, cache->size);
-> > > +       offline = this_cpu_ptr(&cpu_quarantine_offline);
-> > > +       if (*offline == 0) {
-> > > +               q = this_cpu_ptr(&cpu_quarantine);
-> > > +               qlist_put(q, &info->quarantine_link, cache->size);
-> > > +       } else {
-> > > +               qlist_put(&q_offline, &info->quarantine_link, cache->size);
-> > > +               qlist_free_all(&q_offline, cache);
-> >
-> > This looks like a convoluted way to call qlink_free. I think it will
-> > be better to call qlink_free directly here.
-> >
-> > And why do we need this? Because CPU shutdown code can still free some
-> > objects afterwards?
-> >
->
-> Yes, it is because IRQ can happen during CPU shutdown and free some
-> objects into offline CPU quarantine.
->
-> > > +               local_irq_restore(flags);
-> > > +               return;
-> >
-> > You add both if/else and early return, this looks like unnecessary
-> > code complication. It would be simpler with:
-> >
-> > if (*offline) {
-> >     qlink_free(...);
-> >     return;
-> > }
-> > ... all current per-cpu local ...
-> >
-> >
->
-> Thank you for reminder. v2 Will do it.
->
-> > > +       }
-> > >         if (unlikely(q->bytes > QUARANTINE_PERCPU_SIZE)) {
-> > >                 qlist_move_all(q, &temp);
-> > >
-> > > @@ -328,3 +340,46 @@ void quarantine_remove_cache(struct kmem_cache *cache)
-> > >
-> > >         synchronize_srcu(&remove_cache_srcu);
-> > >  }
-> > > +
-> > > +static int kasan_cpu_online(unsigned int cpu)
-> > > +{
-> > > +       int *offline;
-> > > +       unsigned long flags;
-> > > +
-> > > +       local_irq_save(flags);
-> >
-> > I assume this local_irq_save/restore is to prevent some warnings from
-> > this_cpu_ptr.
-> > But CPU online/offline callbacks should run without preemption already
-> > (preempting/rescheduling on other CPUs does not make sense for them,
-> > right?), so I would assume that is already at least preemption
-> > disabled or something. Is there this_cpu_ptr variant that won't
-> > produce warnings on its own in cpu online/offline callbacks?
-> > This whole function could be a 1-liner:
-> > this_cpu_ptr(&cpu_quarantine)->offline = true;
-> > So I am trying to understand if we could avoid all this unnecessary danse.
-> >
->
-> Yes, it's unnecessary. v2 will fix it.
->
-> >
-> > > +       offline = this_cpu_ptr(&cpu_quarantine_offline);
-> > > +       *offline = 0;
-> > > +       local_irq_restore(flags);
-> > > +       return 0;
-> > > +}
-> > > +
-> > > +static int kasan_cpu_offline(unsigned int cpu)
-> > > +{
-> > > +       struct kmem_cache *s;
-> > > +       int *offline;
-> > > +       unsigned long flags;
-> > > +
-> > > +       local_irq_save(flags);
-> > > +       offline = this_cpu_ptr(&cpu_quarantine_offline);
-> > > +       *offline = 1;
-> > > +       local_irq_restore(flags);
-> > > +
-> > > +       mutex_lock(&slab_mutex);
-> > > +       list_for_each_entry(s, &slab_caches, list) {
-> > > +               per_cpu_remove_cache(s);
-> > > +       }
-> > > +       mutex_unlock(&slab_mutex);
-> >
-> > We just want to drop the whole per-cpu cache at once, right? I would
-> > assume there should be a simpler way to do this all at once, rather
-> > than doing this per-slab.
-> >
->
-> Yes.
-> Is removing objects in per-cpu quarantine directly better?
+On Thu, Nov 12, 2020 at 12:00PM -0800, Paul E. McKenney wrote:
+> On Thu, Nov 12, 2020 at 07:12:54PM +0100, Marco Elver wrote:
+> > On Thu, Nov 12, 2020 at 09:54AM -0800, Paul E. McKenney wrote:
+> > > On Thu, Nov 12, 2020 at 05:14:39PM +0100, Marco Elver wrote:
+> > > > On Thu, Nov 12, 2020 at 01:49PM +0100, Marco Elver wrote:
+> > > > > On Thu, 12 Nov 2020 at 01:11, Paul E. McKenney <paulmck@kernel.org> wrote:
+> > > > [...]
+> > > > > > > This assert didn't fire yet, I just get more of the below. I'll keep
+> > > > > > > rerunning, but am not too hopeful...
+> > > > > >
+> > > > > > Is bisection a possibility?
+> > > > > 
+> > > > > I've been running a bisection for past ~12h, and am making slow
+> > > > > progress. It might be another 12h, but I think it'll get there.
+> > > > 
+> > > > Bisection gave me this:
+> > > > 
+> > > > | git bisect start
+> > > > | # bad: [c07b306d7fa5680777e2132662d2e6c19fb53579] kfence: Avoid stalling work queue task without allocations
+> > > > | git bisect bad c07b306d7fa5680777e2132662d2e6c19fb53579
+> > > > | # good: [3cea11cd5e3b00d91caf0b4730194039b45c5891] Linux 5.10-rc2
+> > > > | git bisect good 27598e7e73260ed0b2917eb02d4a515ebb578313
+> > > > | # good: [3e5acbea719e66ef3be64fe74c99cc905ca697dc] Merge remote-tracking branch 'wireless-drivers-next/master' into master
+> > > > | git bisect good 3e5acbea719e66ef3be64fe74c99cc905ca697dc
+> > > > | # good: [491a5a9a2fea28353d99621b8abb83b6928b4e36] Merge remote-tracking branch 'sound-asoc/for-next' into master
+> > > > | git bisect good 491a5a9a2fea28353d99621b8abb83b6928b4e36
+> > > > | # bad: [502f8643d6e21c7e370a0b75131130cc51609055] Merge remote-tracking branch 'phy-next/next' into master
+> > > > | git bisect bad 502f8643d6e21c7e370a0b75131130cc51609055
+> > > > | # good: [6693cb1fa5ea7b91ec00f9404776a095713face5] Merge remote-tracking branch 'tip/auto-latest' into master
+> > > > | git bisect good 6693cb1fa5ea7b91ec00f9404776a095713face5
+> > > > | # bad: [b790e3afead9357195b6d1e1b6cd9b3521503ad2] Merge branch 'tglx-pc.2020.10.30a' into HEAD
+> > > > | git bisect bad b790e3afead9357195b6d1e1b6cd9b3521503ad2
+> > > > | # bad: [765b512bb3d639bfad7dd43c288ee085236c7267] Merge branches 'cpuinfo.2020.11.06a', 'doc.2020.11.06a', 'fixes.2020.11.02a', 'lockdep.2020.11.02a', 'tasks.2020.11.06a' and 'torture.2020.11.06a' into HEAD
+> > > > | git bisect bad 765b512bb3d639bfad7dd43c288ee085236c7267
+> > > > | # good: [01f9e708d9eae6335ae9ff25ab09893c20727a55] tools/rcutorture: Fix BUG parsing of console.log
+> > > 
+> > > So torture.2020.11.06a is OK.
+> > > 
+> > > > | git bisect good 01f9e708d9eae6335ae9ff25ab09893c20727a55
+> > > > | # good: [1be6ab91e2db157faedb7f16ab0636a80745a073] srcu: Take early exit on memory-allocation failure
+> > > 
+> > > As is fixes.2020.11.02a.
+> > > 
+> > > > | git bisect good 1be6ab91e2db157faedb7f16ab0636a80745a073
+> > > > | # good: [65e9eb1ccfe56b41a0d8bfec651ea014968413cb] rcu: Prevent RCU_LOCKDEP_WARN() from swallowing the condition
+> > > 
+> > > And lockdep.2020.11.02a.
+> > > 
+> > > > | git bisect good 65e9eb1ccfe56b41a0d8bfec651ea014968413cb
+> > > > | # good: [c386e29d43728778ddd642fa73cc582bee684171] docs/rcu: Update the call_rcu() API
+> > > 
+> > > And doc.2020.11.06a.
+> > > 
+> > > > | git bisect good c386e29d43728778ddd642fa73cc582bee684171
+> > > > | # good: [27c0f1448389baf7f309b69e62d4b531c9395e88] rcutorture: Make grace-period kthread report match RCU flavor being tested
+> > > 
+> > > And the first three commits of tasks.2020.11.06a.
+> > > 
+> > > > | git bisect good 27c0f1448389baf7f309b69e62d4b531c9395e88
+> > > > | # good: [3fcd6a230fa7d03bffcb831a81b40435c146c12b] x86/cpu: Avoid cpuinfo-induced IPIing of idle CPUs
+> > > 
+> > > And cpuinfo.2020.11.06a.
+> > > 
+> > > > | git bisect good 3fcd6a230fa7d03bffcb831a81b40435c146c12b
+> > > > | # good: [75dc2da5ecd65bdcbfc4d59b9d9b7342c61fe374] rcu-tasks: Make the units of ->init_fract be jiffies
+> > > 
+> > > And the remaining commit of tasks.2020.11.06a.
+> > > 
+> > > > | git bisect good 75dc2da5ecd65bdcbfc4d59b9d9b7342c61fe374
+> > > > | # first bad commit: [765b512bb3d639bfad7dd43c288ee085236c7267] Merge branches 'cpuinfo.2020.11.06a', 'doc.2020.11.06a', 'fixes.2020.11.02a', 'lockdep.2020.11.02a', 'tasks.2020.11.06a' and 'torture.2020.11.06a' into HEAD
+> > > > 
+> > > > This doesn't look very satisfying, given it's the merge commit. :-/
+> > > 
+> > > So each individual branch is just fine, but the merge of them is not.  Fun.
+> > > 
+> > > These have been passing quite a bit of rcutorture over here, including
+> > > preemptible kernels running !SMP, but admittedly on x86 rather than ARMv8.
+> > 
+> > Note that this is ARMv8 on QEMU on an x86 host i.e. emulated. And it's
+> > really slow as a result. Together with a bunch of debug tools including
+> > lockdep.
+> 
+> Then I don't envy you the bisection process!  ;-)
+> 
+> > > One approach would be to binary-search the combinations of merges.
+> > > Except that there are six of them, so there are 64 combinations, of
+> > > which you have tested only 8 thus far (none, one each, and all).
+> > > 
+> > > But are you sure that the bisection points labeled "good" really are good?
+> > > For example, what is the distribution of first failure times in the
+> > > points labeled "bad" vs. the runtime used to make a "good" determination?
+> > > Alternatively, just try a longer run on each of the commits feeding into
+> > > the merge point.
+> > 
+> > Yeah, I'm having doubts, and this might be even more non-deterministic
+> > that I thought and some 'good' could maybe be 'bad' if I had re-run
+> > them? I don't know. One thing I can try is to make sure I run it more
+> > than once, but I'm definitely not doing that manually, so let me try and
+> > script something so I don't have to hand-hold the bisection overnight.
+> > :-)
+> 
+> I know that feeling.  A similar experience motivated me to upgrade my
+> tooling, with more upgrades in the queue.
 
-Yes, single qlist_free_all call looks much better than iteration over
-all slabs and removing in parts under the mutex.
+[.....]
 
-> struct qlist_head *q;
-> q = this_cpu_ptr(&cpu_quaratine);
-> q->offline = true;
-> qlist_free_all(q, NULL);
->
-> > > +       return 0;
-> > > +}
-> > > +
-> > > +static int __init kasan_cpu_offline_quarantine_init(void)
-> > > +{
-> > > +       int ret = 0;
-> > > +
-> > > +       ret = cpuhp_setup_state(CPUHP_AP_ONLINE_DYN, "mm/kasan:online",
-> > > +                               kasan_cpu_online, kasan_cpu_offline);
-> > > +       if (ret)
-> > > +               pr_err("kasan offline cpu quarantine register failed [%d]\n", ret);
-> > > +       return ret;
-> > > +}
-> > > +late_initcall(kasan_cpu_offline_quarantine_init);
-> > > --
-> > > 2.18.0
-> > >
-> > > --
-> > > You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-> > > To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-> > > To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/1605162252-23886-2-git-send-email-Kuan-Ying.Lee%40mediatek.com.
->
-> --
-> You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/1605234714.30076.18.camel%40mtksdccf07.
+> > > > | [  841.143527]  arch_local_irq_restore+0x4/0x8
+> > > 
+> > > So we are just now restoring interrupts, hence our getting the
+> > > interrupt at this point..
+> > > 
+> > > > | [  841.147612]  trace_preempt_on+0xf4/0x190
+> > > 
+> > > From within the trace code, which is apparently recording the fact
+> > > that preemption is being enabled.
+> > > 
+> > > > | [  841.151656]  preempt_schedule_common+0x12c/0x1b0
+> > > > | [  841.155869]  preempt_schedule.part.88+0x20/0x28
+> > > > | [  841.160036]  preempt_schedule+0x20/0x28
+> > > 
+> > > I was not aware that releasing a raw spinlock could result in a direct
+> > > call to preempt_schedule().
+> > > 
+> > > > | [  841.164051]  _raw_spin_unlock_irq+0x80/0x90
+> > > > | [  841.168139]  rcu_gp_kthread+0xe5c/0x19a8
+> > > 
+> > > So the RCU grace-period kthread has spent many seconds attempting to
+> > > release a lock?  Am I reading this correctly?  Mark Rutland, am I missing
+> > > something here?
+> 
+> And yes, this is the RCU grace-period kthread releasing a lock.
+> 
+> I have no idea why that would take so long.  It is acting like a
+> self-deadlock or similar hang, except that in that case, lockdep should
+> have complained before the RCU CPU stall warning rather than after.
+> 
+> The only thing I can suggest is sprinkling lockdep_assert_irqs_disabled()
+> calls hither and yon.  All of the code that lockdep is complaining about
+> runs in the context of the scheduling-clock interrupt, so interrupts
+> had jolly well be disabled!  ;-)
+> 
+> Rerunning some of the allegedly good bisects might be more productive.
+
+Oof, so I reran bisection, and this time confirming 3x each good run.
+This is what I get:
+
+| git bisect start
+| # bad: [c07b306d7fa5680777e2132662d2e6c19fb53579] kfence: Avoid stalling work queue task without allocations
+| git bisect bad c07b306d7fa5680777e2132662d2e6c19fb53579
+| # good: [3cea11cd5e3b00d91caf0b4730194039b45c5891] Linux 5.10-rc2
+| git bisect good 27598e7e73260ed0b2917eb02d4a515ebb578313
+| # good: [3e5acbea719e66ef3be64fe74c99cc905ca697dc] Merge remote-tracking branch 'wireless-drivers-next/master' into master
+| git bisect good 3e5acbea719e66ef3be64fe74c99cc905ca697dc
+| # good: [491a5a9a2fea28353d99621b8abb83b6928b4e36] Merge remote-tracking branch 'sound-asoc/for-next' into master
+| git bisect good 491a5a9a2fea28353d99621b8abb83b6928b4e36
+| # bad: [502f8643d6e21c7e370a0b75131130cc51609055] Merge remote-tracking branch 'phy-next/next' into master
+| git bisect bad 502f8643d6e21c7e370a0b75131130cc51609055
+| # good: [6693cb1fa5ea7b91ec00f9404776a095713face5] Merge remote-tracking branch 'tip/auto-latest' into master
+| git bisect good 6693cb1fa5ea7b91ec00f9404776a095713face5
+| # good: [b790e3afead9357195b6d1e1b6cd9b3521503ad2] Merge branch 'tglx-pc.2020.10.30a' into HEAD
+| git bisect good b790e3afead9357195b6d1e1b6cd9b3521503ad2
+| # bad: [7bd5bb161657717d576798f62b0e8d5b44653139] Merge remote-tracking branch 'drivers-x86/for-next' into master
+| git bisect bad 7bd5bb161657717d576798f62b0e8d5b44653139
+| # bad: [e71eb4c4d42bcf36a3a7ede30fd320d47b3c8cb8] Merge remote-tracking branch 'xen-tip/linux-next' into master
+| git bisect bad e71eb4c4d42bcf36a3a7ede30fd320d47b3c8cb8
+| # bad: [c0a41bf9dbc751692c8cb1a44bfd48e70e8bef7f] docs: Remove redundant "``" from Requirements.rst
+| git bisect bad c0a41bf9dbc751692c8cb1a44bfd48e70e8bef7f
+| # bad: [c293fb8f7de6c2fce11cb01a0218d668df326bcd] torture: Make --kcsan specify lockdep
+| git bisect bad c293fb8f7de6c2fce11cb01a0218d668df326bcd
+| # good: [5068ab7dcb6a526a401054ebe0d416f979efb3e1] rcutorture: Add testing for RCU's global memory ordering
+| git bisect good 5068ab7dcb6a526a401054ebe0d416f979efb3e1
+| # good: [bea68a13bbbdc575a2c868dabd7b454c2eddc618] rcu/segcblist: Add additional comments to explain smp_mb()
+| git bisect good bea68a13bbbdc575a2c868dabd7b454c2eddc618
+| # first bad commit: [c293fb8f7de6c2fce11cb01a0218d668df326bcd] torture: Make --kcsan specify lockdep
+
+Which clearly is ridiculous! So my guess is this probably had existed
+before, but something in -next is making it more visible.
+
+Short of giving up, I can try your suggestion of sprinkling
+lockdep_assert_irqs_disabled() everywhere, or if you have a patch to
+apply that would give some other debug output you wanted I can run that
+too.
+
+Thanks,
+-- Marco
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2Bb7F_A1E_FMKQMK4cg2SwpniLjq9Nr988J6BVSF5rkDGg%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20201113110604.GA1907210%40elver.google.com.
