@@ -1,172 +1,132 @@
-Return-Path: <kasan-dev+bncBCPZ5EGB2AHRBW4UZL6QKGQE5I2K5BI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCOYZDMZ6UMRB4NAZL6QKGQEZUCL2NY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qt1-x839.google.com (mail-qt1-x839.google.com [IPv6:2607:f8b0:4864:20::839])
-	by mail.lfdr.de (Postfix) with ESMTPS id 894FB2B45A5
-	for <lists+kasan-dev@lfdr.de>; Mon, 16 Nov 2020 15:19:08 +0100 (CET)
-Received: by mail-qt1-x839.google.com with SMTP id u28sf10201676qtv.20
-        for <lists+kasan-dev@lfdr.de>; Mon, 16 Nov 2020 06:19:08 -0800 (PST)
-ARC-Seal: i=3; a=rsa-sha256; t=1605536347; cv=pass;
+Received: from mail-pf1-x439.google.com (mail-pf1-x439.google.com [IPv6:2607:f8b0:4864:20::439])
+	by mail.lfdr.de (Postfix) with ESMTPS id E545A2B461A
+	for <lists+kasan-dev@lfdr.de>; Mon, 16 Nov 2020 15:45:07 +0100 (CET)
+Received: by mail-pf1-x439.google.com with SMTP id a24sf12317492pfo.3
+        for <lists+kasan-dev@lfdr.de>; Mon, 16 Nov 2020 06:45:07 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1605537906; cv=pass;
         d=google.com; s=arc-20160816;
-        b=oFXFzHtp54TXHVwVujuGT/4t9ICR2QTjK1YEBwud9jq1W5Yzadcrrf4SI1gt5P0ul+
-         dlGpP3xqNSA3Ve6y0RzzxbwanLR+w8z72Q+xK5uiFawJkOs/OmK43LFqFNByS5BcO5rr
-         dyAZr1mZ58CpXiZHEp1AHfGczaOaHnNdbudeqrohdcBVQupufbCjRC5Tnts4sEuvOkF/
-         N5kJ4Suu3NbZ8DYzRQAwgqveGSotycRE3guFKOHVZTpyFT/pek81dySPvNIdBQGZo6VX
-         fed1elcw92XQrOeCSU3ZCavhL+pXLFJRVcJuLHY1pYJZrXzGXrRXrxzE261Bk0bUaamV
-         zY8w==
-ARC-Message-Signature: i=3; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        b=ljlEhXgQutWhd7tyS4RXPP8ObCNu5Ez5nptzTiLaI4x1VhfGXOeBtGKUqWvXd/+eXh
+         LgEBvn8Tw79ilm43WK8htgjP6nFzG6zotHOH1z63aSE7Z9glGX6DaWmk1yzeLppshkWL
+         bN173YRyaVRmxxwJQvzPZOPV49t0DLDSrVfRdTyVoPjxq2PPXuW9gsES+s/24CAZ8sFi
+         HgY64JsbrioQrysXH0zWu+qOrDRJclAVRXbioDEWBWFW8uNAg2j9/3gif4zB+6n0Iu+s
+         GCkzTYtUoan15kH548MrVID2jQoJh8LuXmUOam6MOAp+ff0PrFIGO4N60F9P7i68P05f
+         NnWw==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:content-language
-         :accept-language:in-reply-to:references:message-id:date:thread-index
-         :thread-topic:subject:cc:to:from:sender:dkim-signature;
-        bh=9I6hGwfbdwNO9oBReB9qELb//JsRbhFRKMui2ppXb74=;
-        b=mx8QoMAxi6MKQJkNzAO14BV6CDKI9ZoW35RRofNCgtocomoS6q5PnbF1ZRlllF+erf
-         BDF86FrHLf5cPMKIxfE+DJMrFZRmyIVBNmPIKEch+N6FKBAWLBNLP0Fr00balmq2dtn/
-         Ax15CuEVlErg+7VKYXaQF5LEs1HmOQ4Np2KlH+mdxCVQDmDwNDBbBtbTZ/kmtRsL+Vi1
-         nJgao4jJCDFLUwg4+mz/POtFZURhBZ6c5m7h1hc3cdxVMZzqW/XqG7w8CmeH3xY7SA+9
-         aqeZ+brvrldzKqtd3eC8YikmCKSa9LDaGoi6iTztt2Q1lyM8jipnM2fSshjMlTQmjHNs
-         WSsA==
-ARC-Authentication-Results: i=3; gmr-mx.google.com;
-       dkim=pass header.i=@psu.edu header.s=selector1 header.b=Dkhjakbe;
-       arc=pass (i=1 spf=pass spfdomain=psu.edu dkim=pass dkdomain=psu.edu dmarc=pass fromdomain=psu.edu);
-       spf=pass (google.com: domain of yxc431@psu.edu designates 40.107.92.134 as permitted sender) smtp.mailfrom=yxc431@psu.edu;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=psu.edu
+         :list-id:mailing-list:precedence:content-language:in-reply-to
+         :mime-version:user-agent:date:message-id:from:references:cc:to
+         :subject:sender:dkim-signature;
+        bh=BXQV+ojapShfHS8Z3p49sXsSpeod23RZv06aRJQVHb4=;
+        b=lX5T3ZPjxBJm3Y4KMSDzz/U4+Yvded3rFAwUjp7SQbAkJd7LyYGE+aG+Ck/ujKBK6V
+         +RtFTcmD1HvBOyCdsiqa1OVZKRSgZ3hvXcyANORwqaa9YdXwQH+32TO6kINSnjXZhKPi
+         iFZCS/Ay7tim/3Oo1OP+i9QeyzsFt4w6LFPJdbqt+fV6d0y1nuc7RliyR+snp5UjQpmd
+         lzmCEaqosru5WqiAkPL8RSKE229Odqj0hLEbwgr+/9PMWJGhS8Nd1PsZHPWug4QnXWJo
+         gB7WehExGY9F+dMHjjfZMhxEIFV0XpFD7ofbeMeNGfBxuH5ke9HN0Vnet1KXvsjKbd4V
+         lqJQ==
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       spf=pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=vincenzo.frascino@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:from:to:cc:subject:thread-topic:thread-index:date:message-id
-         :references:in-reply-to:accept-language:content-language
-         :mime-version:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=9I6hGwfbdwNO9oBReB9qELb//JsRbhFRKMui2ppXb74=;
-        b=ZjnjgCphpI+sE5wrD69oXrfuQJ5/PaURz31KuuG88XrwR8QQb6b36Lq/ZjuZ71VyL1
-         EyJGQye01VZ5PxTGzM+lGsZYtQ22Ayj6Wt3BSJ4DNi3nyuxEvUuFCpwobVIkvMT7WEL/
-         5JOBR2mgUONss9WfJAiB6xKMqCBIMdNZIPwTdPH47xWS4SFs5+Tyk/ugeUVKNQQAdeli
-         07uvkjb4BPRpf8RAt0lZ9d+DlwE3G8UmNZSIC/pDVDAYGdY1sSy7MI8ay1qaEcKS8ODO
-         ArSwoUpxirPauG01ltjIBGGjFXcDHpl9vvYSTyG69sgo0IcaqK7iFS7TuWWbzbHXG7n1
-         aMxA==
+        h=sender:subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=BXQV+ojapShfHS8Z3p49sXsSpeod23RZv06aRJQVHb4=;
+        b=Wa3W+cc3Uy/AECsUXOG75AKy0AVNqIXABdBlXQ6z7fQYAD/+nwcMhH2buKkJQu+pAK
+         QS7YH5ghZMLvowI+xFvsa8umpfUUAFqrqghNNobszMElhCEXxQ4m+gm47m8FKUI0yqBi
+         7L5wW6VcMmJZEwGa+vyX6pvHcv0k07TmAoXIk+lJtL0cpWMGhfuk/BzUdeLyxiv73heK
+         Y5qm7vlqtZ39QQl+hDrmMt1ox4Y9w1TTaU+JPl6YJc3B5B793DNzI4ITN5uJTfNqRdMa
+         X2lZODgIadaTPy5SaBPhwjyekWNRRo+4YwqZxiUV8Iw20uV1xxV2zF2zGU5JsnWlnvDg
+         pcRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:from:to:cc:subject:thread-topic
-         :thread-index:date:message-id:references:in-reply-to:accept-language
-         :content-language:mime-version:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=9I6hGwfbdwNO9oBReB9qELb//JsRbhFRKMui2ppXb74=;
-        b=YkqaOXmhXu/r+bzlcAK7r76v3Hm5i5TO6Pt9pJCmokV91wmahs30a+mcRJV2hShhaY
-         PWbdj6zAYyAfn9msn+77PBhgEF2okJLfPiiJvv1wYaen4CV09737jDs/MtHwQ3DYVBMs
-         C/fmfPTgNRmPY4ZKxKkqkkmMlNMrNDJzi43+juCMVJLtwBzWkeOTUa4+N7vvTwsuFnBP
-         1ts2UZXlf68bwo8hmndhwEbdjyF8cut+nMrJS00kfU0w8Hx3ccpd6a/JVEDfWcgtj4a4
-         pmDTlJeMaZseYtmoelzkkcz0/u4Up423Ds5act9sF85cDIuGj0toISOJ41OqV+CrrP50
-         FWYg==
+        h=sender:x-gm-message-state:subject:to:cc:references:from:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=BXQV+ojapShfHS8Z3p49sXsSpeod23RZv06aRJQVHb4=;
+        b=HBfNb/d/gd9c1ggq73LebBwzDLeVUc77YN6Jx/d6f0oimTkCJWPkJSTa1399Zm5yts
+         8uEAfdZvsrmZo7jGJBS+I4nCa9q5hgfb5i8+4BjICALxuEup2wD06X1qQXlE/NMrQVXW
+         GzvzVMZT1w0DhNEx6yoXbaXBvokTMRMFNVk3sp0iDCr3svKXTDYKBw5t7m/c4/ZkSBth
+         rAoT1d3I+xNl5R9rU0PD6+T5BhZqRbv0o22eaTpovS3SROry07AkAYOvXsKOaSc4sBU5
+         7LRDbOGAZym4RPeSwtSb1Lj7lganvWYpFhT04HaH4SG9G6PjsXTdhVcRZe9QAEfoGJEx
+         6kTg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM530GGIh4M0hoAIdUmrz17eHpqcJZZ8my2sW7B12uMtm2YzOEc8e6
-	A5+g1jpVJrvceGRW4auul9U=
-X-Google-Smtp-Source: ABdhPJxi7HfYSQlRa/La2M6NmfmRwUpHi73izE2f9br4oo0wUUkaUHS8sHRR1UZ8IvImfXnOX0O4vg==
-X-Received: by 2002:a05:620a:22e6:: with SMTP id p6mr14829420qki.174.1605536347195;
-        Mon, 16 Nov 2020 06:19:07 -0800 (PST)
+X-Gm-Message-State: AOAM530+amknlYb2Ccrhq0K9fmIwlsOt2tNzvAJdMLSoxfLcNbPsVzYk
+	HNqA5CSfmtvhgT6gJURlcH0=
+X-Google-Smtp-Source: ABdhPJxmYyGj1Tctd3vifYB+w+DkGJXNaXCKGaoGsaX4/kBwemnyetM+JwS+1ijDWi721Cv3ygwDtA==
+X-Received: by 2002:a17:902:b7c6:b029:d8:e447:f7ef with SMTP id v6-20020a170902b7c6b02900d8e447f7efmr7469114plz.1.1605537905586;
+        Mon, 16 Nov 2020 06:45:05 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ac8:708e:: with SMTP id y14ls3110515qto.9.gmail; Mon, 16 Nov
- 2020 06:19:06 -0800 (PST)
-X-Received: by 2002:ac8:13cb:: with SMTP id i11mr14285599qtj.390.1605536346723;
-        Mon, 16 Nov 2020 06:19:06 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1605536346; cv=pass;
+Received: by 2002:a05:6a00:2a8:: with SMTP id q8ls5090734pfs.9.gmail; Mon, 16
+ Nov 2020 06:45:05 -0800 (PST)
+X-Received: by 2002:a63:c644:: with SMTP id x4mr13423912pgg.421.1605537904999;
+        Mon, 16 Nov 2020 06:45:04 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1605537904; cv=none;
         d=google.com; s=arc-20160816;
-        b=BiIHbKfN9ICSWExXK7i8mt7vUhCh9emOPEgXNsQ5Pzwfd0Q2fEPJ9WV8S1JV/C0Av5
-         /YZelBy98BqH+vpPcHLzJlZxyEbUDgQr9fiW30nWQ5EC2JpkiTEaDhHsO3S23WR2sR2f
-         9I/lb7GLQRn12gC5n9K2K+oBbs1ES8ukkAdS9dfDrMRnOqss4729Q1JXl4EgwFet/+Tn
-         Y/5l0JM3qIqFdp+710FVPiLtXqMZRDIAnCeLfwnzVScTnyLEWFkD/yEGefygi00Dxupu
-         kdlKn6bqu4RE80MITlygLLT3IC/JYbr0thfiwzD9OyMetXincCoGMPq8S98q6O4wgPUE
-         KuBg==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=mime-version:content-language:accept-language:in-reply-to
-         :references:message-id:date:thread-index:thread-topic:subject:cc:to
-         :from:dkim-signature;
-        bh=SqJAelGGQeTJ4dm7KcOvdgwaMfMtsN+MS+A81W5PNJU=;
-        b=IdzRKdlthrB6LG2i8efjx4/VeOS4PSamoEDNeCKsOah8sP9L5XU73ywNPKDLEZmEX0
-         s7shK8M641BIQ2ey4j79/SZy6Sv2f4I4vWu0OSf928i0Qbtysq851XAoJ432GpXPDe8r
-         0TmG60/aAZWY7Khk8Caa+rQfIw+XMxBOlIoMym5zp3u1uif+gsrF59vLxY4x15NJ4gVP
-         ibG8J6vr7M43M8TiVCyVuHZH2WW2/72uMvhbtj9fdkbjw2Kv/Vbfhho+0hZpGAfFhAAQ
-         fVHSdvQVtHWw5Ez2ZX4KcxFBor0knKz+y9sGi8XWV6cQjdimWYalzP6f/O3+ECJAf+Kc
-         koAw==
-ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@psu.edu header.s=selector1 header.b=Dkhjakbe;
-       arc=pass (i=1 spf=pass spfdomain=psu.edu dkim=pass dkdomain=psu.edu dmarc=pass fromdomain=psu.edu);
-       spf=pass (google.com: domain of yxc431@psu.edu designates 40.107.92.134 as permitted sender) smtp.mailfrom=yxc431@psu.edu;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=psu.edu
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2134.outbound.protection.outlook.com. [40.107.92.134])
-        by gmr-mx.google.com with ESMTPS id p51si1067416qtc.4.2020.11.16.06.19.06
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 16 Nov 2020 06:19:06 -0800 (PST)
-Received-SPF: pass (google.com: domain of yxc431@psu.edu designates 40.107.92.134 as permitted sender) client-ip=40.107.92.134;
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=H9hSZ786kUS3/nYDGPKAtEVWtgSs16LDSBqIpbJ7k1f0uAx1vSZrK40nI/0JcnzrcLzNM/t6ACKVlv0IWpOXZOXX4IfmPksj2q9Oiv/+NNEkzQIdSqhgSXvld3/Z9KmTfk6HSpz8XKs065y/qF2Sw3sA+RGxewzaLnwnfpRazqvt+uczhgwlSPc8aJiykVfjWz8UMYcx6QuLufBiInA0FUhE6Lb/0nR3BZk9C9CNxdJDWU+DVQCytVUoBkSjDPpR6g1otNvFHWmMRDRoRC1sIKewTrp0R41Tijd7oHQRSwl7l2N0t5Y5g2ihLg8wd7q2JZWe1lUPuHXZ4KNY3CpT7A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SqJAelGGQeTJ4dm7KcOvdgwaMfMtsN+MS+A81W5PNJU=;
- b=lowTH0ngXnqKdsCrK8ptGUNj5njMw3LBvy/BYwZHU9TYWlzQB2Z066XRjk0BuN7lPjzwFs3rPnRLlzlXVlkYXCXxznpQVLhNybTNCaHFaD4KC7Xgg/i+t699gJ2IB+YRsXu6M1A+LVTbvz4KoaiM0jyo83o0/UrLvpnTa9gYxFsAFz0544yjlpErrRjZad3j86ia18cDl95dRUNRNfMx0eYUXeTatImz/YUXKGIPvPt+BjpxFE/SaZwsia9W9svWz5FqnGuebFtyWOIaz65vij6UGLfimSEvkwJ53vQZsXIvudhwTYKJfb8Ct88tfYOUmgtQwvb1N2Viw7LhY8Q5kA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=psu.edu; dmarc=pass action=none header.from=psu.edu; dkim=pass
- header.d=psu.edu; arc=none
-Received: from DM5PR02MB3211.namprd02.prod.outlook.com (2603:10b6:4:6b::24) by
- DM5PR02MB3703.namprd02.prod.outlook.com (2603:10b6:4:b5::17) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3541.21; Mon, 16 Nov 2020 14:19:05 +0000
-Received: from DM5PR02MB3211.namprd02.prod.outlook.com
- ([fe80::64d9:4c21:1d6c:5359]) by DM5PR02MB3211.namprd02.prod.outlook.com
- ([fe80::64d9:4c21:1d6c:5359%7]) with mapi id 15.20.3541.025; Mon, 16 Nov 2020
- 14:19:05 +0000
-From: "Chen, Yueqi" <yxc431@psu.edu>
-To: Marco Elver <elver@google.com>
-CC: "mingo@kernel.org" <mingo@kernel.org>, kasan-dev
-	<kasan-dev@googlegroups.com>
-Subject: Re: Questions about providing generic wrappers of KASAN and KCSAN
-Thread-Topic: Questions about providing generic wrappers of KASAN and KCSAN
-Thread-Index: AQHWtw418g5z8WoLLkmWzLfSDi8UeanBh76AgAlL+KQ=
-Date: Mon, 16 Nov 2020 14:19:05 +0000
-Message-ID: <DM5PR02MB3211D24303BB7B0CFF1E993182E30@DM5PR02MB3211.namprd02.prod.outlook.com>
-References: <DM5PR02MB32115A1568F018C726BAB62982E90@DM5PR02MB3211.namprd02.prod.outlook.com>,<CANpmjNMS_stvBiTFw4CR3oSgg9W_Pxinn8omkYX24TOETybFdA@mail.gmail.com>
-In-Reply-To: <CANpmjNMS_stvBiTFw4CR3oSgg9W_Pxinn8omkYX24TOETybFdA@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [67.22.19.206]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 543d5a9f-6735-438c-63e0-08d88a3a936b
-x-ms-traffictypediagnostic: DM5PR02MB3703:
-x-microsoft-antispam-prvs: <DM5PR02MB3703F9EEBD6B32F9E112C0E582E30@DM5PR02MB3703.namprd02.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: XXTN9TBnXmaL7kVDK98kuxtAE28S5eQ11JU4EnfUUmDs+ZDN0S2BFbkeT458c3HFr8Xm1NZbRl5/7yMpQt+x+8gqPCqQ3dL5RzCWQL2tpp1wacrykGqGX4glcoHWNcPy46M86RrFGB4W45V6hVnL0JaD044sFStDaG1/kB6HbBx/kBrRNENXYwESOVERbKLW6RE4YOCeyOtrTT62SZybWs5/EoghTn+c5ZZxpd0fv2SkpUk9UMYeGPvs4k0AEcwQD6JC0v0z2qdcNLh7hDRu9XcANx/xo3MNJKwP3MZdJ7imPvBKVvDRdpMDVfO7iEQOCahFy6Ea4M6qLqY0ISxuYbpeKBhhSjaXp6gLugHu746rPYZr18KYBAPZg50uvQ9mLZY6dIqL/p+7ycddI/zDTRfaxVkwxljVCc9jtMAcd46beJKAP6VhkCtRI/9gls1tGcTirTyO89VoYmtOIbkwfyd9AqKIsacmYObwsQh1ck0=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM5PR02MB3211.namprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(39860400002)(346002)(396003)(376002)(366004)(66946007)(4326008)(2906002)(66476007)(64756008)(33656002)(66556008)(8676002)(66446008)(966005)(6916009)(76116006)(45080400002)(166002)(478600001)(53546011)(9686003)(316002)(54906003)(26005)(75432002)(786003)(5660300002)(8936002)(55016002)(52536014)(71200400001)(19627405001)(83380400001)(186003)(7696005)(86362001)(6506007)(41533002)(82582004);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: ns/NikrTaYcDdLkT/yDM0/Eb69ZjJynlgHtVwRQHzD4bUFt4sb5sq1gjLzyboLHcCMThBl2NFkIFmbLJFqcO0/1f+L+gAVGz5OPkI4w+Ue7szjZcRDOSDtT6Vo3GFSp39jq8kVVBsTnRWPWoPGOdUwtOLdWMj+c9zNWdppD8REHSnwzcPGPRhx5YAlwb5pkc+1FlFhCq/l2b/fvAAALq9DtmuzacS0RGtiNzn30csccHnmJLiMyXbElAHXlQy9WeuO3E4WqPrPptHLm4os12+3vXZMw681k/MuRVQtWB4I8gzriZZ5nVk7rqs8dgHsY1MrOw1t2YjmASl/QKMy6H9h+vnD3l9llmxvJIliKDEowehKPzlsz+4tsgLG80Z3LAsnC4Wie17B3/dOUsTh5W5wH0SiAAjjnk5nv6g3B4foaLLWZUVhsAv0Vkj8yFGXOK5HybT4UccC2LsjLmAdhWcp3ZGGr2LAR7MBJWtSqA1id3vsE0tsfIf9vtNWtlqNvxg11LsnaZbBdPhaF3NZpvC9agN/PqtQsa2WGNEayYvyPV77YxwryMP801QrFjMKDy2reNragOfEBYF1g5MvJI8Xf7jVib+y7H4BBzR50lefQ4eUkrfAldA+9kSRNvVT32UUbEGXJYmKj1db6mM8oQFQ==
-x-ms-exchange-transport-forked: True
-Content-Type: multipart/alternative;
-	boundary="_000_DM5PR02MB3211D24303BB7B0CFF1E993182E30DM5PR02MB3211namp_"
+        b=oqB1ZdRV9Fjh6zw0Jobf918xGOJxhKmV33t/+RtRXfYUnblgaDGz7IKUUKhgheYRoP
+         Kpy+KrZWtGXPIjORQcsAhrY3qFf2c7tBAhYos9qhLnSJ61hYyd1iQufjRN8hTlyBkrFE
+         oYcs0n/eXOvX4QQ7KvX5zlYeztUSq7tQ29kYEviptgpwk8/j2xY3eEgdDLOZufrbIUsb
+         tELHTw7Uq/0hvjCnZpMvMW5ymnOb75ElNgZiwoss3ee1orm8Y+TSbzzRNWxFkApXp9vf
+         IqzkD0yAl+7sVPJgaPwyih8QpBb9j0hgtrfP2S6iX7I11BoUajRuqYS5omaBAeWB4ZZh
+         KYdQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject;
+        bh=fZZe6WlGi9i5r57gaBC2oROITEbyJbHNwfa0KYc34AU=;
+        b=iPuMT1C8ZfplR+PrKcQl3sB972Db3BPyIIVIx5VqZcYQu95u2nq1w/OD9/POP1kJ5f
+         BhmAkG86hTjUulzdwy1Yw3iOfE1feP5W++ton6Ye0DzlmSRnu7qOI7ew6IgOlW2PhIGu
+         y6NZOzLyOZqpSAPT5Rk8EZD+igBq6eN8T09Oun41WceKizWqhHMGqQjVZHsZ+iclH4tr
+         DL1DBJ1TMn4LcCqEfGWWM5kusP6jAnX4Iib955ZUvXTNbxs2weV7857+sgiSgFFrBks0
+         RhztMUvXionOWju5bhjjNQWv0/+27lk5xw7Ld/PwWR5JLyxBRyAUu9bpIWtYg7obTQxz
+         8bYQ==
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       spf=pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=vincenzo.frascino@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
+Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
+        by gmr-mx.google.com with ESMTP id e2si6153pjm.2.2020.11.16.06.45.04
+        for <kasan-dev@googlegroups.com>;
+        Mon, 16 Nov 2020 06:45:04 -0800 (PST)
+Received-SPF: pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EC84031B;
+	Mon, 16 Nov 2020 06:45:03 -0800 (PST)
+Received: from [10.37.12.42] (unknown [10.37.12.42])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 84C973F718;
+	Mon, 16 Nov 2020 06:45:01 -0800 (PST)
+Subject: Re: [PATCH mm v3 00/19] kasan: boot parameters for hardware tag-based
+ mode
+To: Andrey Konovalov <andreyknvl@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+ Will Deacon <will.deacon@arm.com>, Dmitry Vyukov <dvyukov@google.com>,
+ Andrey Ryabinin <aryabinin@virtuozzo.com>,
+ Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>,
+ Evgenii Stepanov <eugenis@google.com>,
+ Branislav Rankov <Branislav.Rankov@arm.com>,
+ Kevin Brodsky <kevin.brodsky@arm.com>, kasan-dev@googlegroups.com,
+ linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org
+References: <cover.1605305978.git.andreyknvl@google.com>
+From: Vincenzo Frascino <vincenzo.frascino@arm.com>
+Message-ID: <fd7ab51e-269b-fffc-f504-7f3af862c914@arm.com>
+Date: Mon, 16 Nov 2020 14:48:08 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-X-OriginatorOrg: psu.edu
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM5PR02MB3211.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 543d5a9f-6735-438c-63e0-08d88a3a936b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Nov 2020 14:19:05.7880
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 7cf48d45-3ddb-4389-a9c1-c115526eb52e
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: hVkcNiUhSGFS7s3yiXjyLDth6ingdymqooeRswQpdpZogHYGiq4ScqiHE2+fOY+X
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR02MB3703
-X-Original-Sender: yxc431@psu.edu
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@psu.edu header.s=selector1 header.b=Dkhjakbe;       arc=pass (i=1
- spf=pass spfdomain=psu.edu dkim=pass dkdomain=psu.edu dmarc=pass
- fromdomain=psu.edu);       spf=pass (google.com: domain of yxc431@psu.edu
- designates 40.107.92.134 as permitted sender) smtp.mailfrom=yxc431@psu.edu;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=psu.edu
+In-Reply-To: <cover.1605305978.git.andreyknvl@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Language: en-US
+X-Original-Sender: vincenzo.frascino@arm.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172
+ as permitted sender) smtp.mailfrom=vincenzo.frascino@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -179,239 +139,207 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
---_000_DM5PR02MB3211D24303BB7B0CFF1E993182E30DM5PR02MB3211namp_
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 11/13/20 10:19 PM, Andrey Konovalov wrote:
+> === Overview
+> 
+> Hardware tag-based KASAN mode [1] is intended to eventually be used in
+> production as a security mitigation. Therefore there's a need for finer
+> control over KASAN features and for an existence of a kill switch.
+> 
+> This patchset adds a few boot parameters for hardware tag-based KASAN that
+> allow to disable or otherwise control particular KASAN features, as well
+> as provides some initial optimizations for running KASAN in production.
+> 
+> There's another planned patchset what will further optimize hardware
+> tag-based KASAN, provide proper benchmarking and tests, and will fully
+> enable tag-based KASAN for production use.
+> 
+> Hardware tag-based KASAN relies on arm64 Memory Tagging Extension (MTE)
+> [2] to perform memory and pointer tagging. Please see [3] and [4] for
+> detailed analysis of how MTE helps to fight memory safety problems.
+> 
+> The features that can be controlled are:
+> 
+> 1. Whether KASAN is enabled at all.
+> 2. Whether KASAN collects and saves alloc/free stacks.
+> 3. Whether KASAN panics on a detected bug or not.
+> 
+> The patch titled "kasan: add and integrate kasan boot parameters" of this
+> series adds a few new boot parameters.
+> 
+> kasan.mode allows to choose one of three main modes:
+> 
+> - kasan.mode=off - KASAN is disabled, no tag checks are performed
+> - kasan.mode=prod - only essential production features are enabled
+> - kasan.mode=full - all KASAN features are enabled
+> 
+> The chosen mode provides default control values for the features mentioned
+> above. However it's also possible to override the default values by
+> providing:
+> 
+> - kasan.stacktrace=off/on - enable stacks collection
+>                             (default: on for mode=full, otherwise off)
+> - kasan.fault=report/panic - only report tag fault or also panic
+>                              (default: report)
+> 
+> If kasan.mode parameter is not provided, it defaults to full when
+> CONFIG_DEBUG_KERNEL is enabled, and to prod otherwise.
+> 
+> It is essential that switching between these modes doesn't require
+> rebuilding the kernel with different configs, as this is required by
+> the Android GKI (Generic Kernel Image) initiative.
+> 
 
-Hi Marco,
+Tested-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
 
-Thank you for your response and insight.
-I am recently considering to re-design a sanitizer to have three in one.
-Probably I need to think it twice.
+> === Benchmarks
+> 
+> For now I've only performed a few simple benchmarks such as measuring
+> kernel boot time and slab memory usage after boot. There's an upcoming
+> patchset which will optimize KASAN further and include more detailed
+> benchmarking results.
+> 
+> The benchmarks were performed in QEMU and the results below exclude the
+> slowdown caused by QEMU memory tagging emulation (as it's different from
+> the slowdown that will be introduced by hardware and is therefore
+> irrelevant).
+> 
+> KASAN_HW_TAGS=y + kasan.mode=off introduces no performance or memory
+> impact compared to KASAN_HW_TAGS=n.
+> 
+> kasan.mode=prod (manually excluding tagging) introduces 3% of performance
+> and no memory impact (except memory used by hardware to store tags)
+> compared to kasan.mode=off.
+> 
+> kasan.mode=full has about 40% performance and 30% memory impact over
+> kasan.mode=prod. Both come from alloc/free stack collection.
+> 
+> === Notes
+> 
+> This patchset is available here:
+> 
+> https://github.com/xairy/linux/tree/up-boot-mte-v3
+> 
+> This patchset is based on v10 of "kasan: add hardware tag-based mode for
+> arm64" patchset [1].
+> 
+> For testing in QEMU hardware tag-based KASAN requires:
+> 
+> 1. QEMU built from master [6] (use "-machine virt,mte=on -cpu max" arguments
+>    to run).
+> 2. GCC version 10.
+> 
+> [1] https://lkml.org/lkml/2020/11/13/1154
+> [2] https://community.arm.com/developer/ip-products/processors/b/processors-ip-blog/posts/enhancing-memory-safety
+> [3] https://arxiv.org/pdf/1802.09517.pdf
+> [4] https://github.com/microsoft/MSRC-Security-Research/blob/master/papers/2020/Security%20analysis%20of%20memory%20tagging.pdf
+> [5] https://source.android.com/devices/architecture/kernel/generic-kernel-image
+> [6] https://github.com/qemu/qemu
+> 
+> === History
+> 
+> Changes v2 -> v3:
+> - Rebase onto v10 of the HW_TAGS series.
+> - Add missing return type for kasan_enabled().
+> - Always define random_tag() as a function.
+> - Mark kasan wrappers as __always_inline.
+> - Don't "kasan: simplify kasan_poison_kfree" as it's based on a false
+>   assumption, add a comment instead.
+> - Address documentation comments.
+> - Use <linux/static_key.h> instead of <linux/jump_label.h>.
+> - Rework switches in mm/kasan/hw_tags.c.
+> - Don't init tag in ____kasan_kmalloc().
+> - Correctly check SLAB_TYPESAFE_BY_RCU flag in mm/kasan/common.c.
+> - Readability fixes for "kasan: clean up metadata allocation and usage".
+> - Change kasan_never_merge() to return SLAB_KASAN instead of excluding it
+>   from flags.
+> - (Vincenzo) Address concerns from checkpatch.pl (courtesy of Marco Elver).
+> 
+> Changes v1 -> v2:
+> - Rebased onto v9 of the HW_TAGS patchset.
+> - Don't initialize static branches in kasan_init_hw_tags_cpu(), as
+>   cpu_enable_mte() can't sleep; do in in kasan_init_hw_tags() instead.
+> - Rename kasan.stacks to kasan.stacktrace.
+> 
+> Changes RFC v2 -> v1:
+> - Rebrand the patchset from fully enabling production use to partially
+>   addressing that; another optimization and testing patchset will be
+>   required.
+> - Rebase onto v8 of KASAN_HW_TAGS series.
+> - Fix "ASYNC" -> "async" typo.
+> - Rework depends condition for VMAP_STACK and update config text.
+> - Remove unneeded reset_tag() macro, use kasan_reset_tag() instead.
+> - Rename kasan.stack to kasan.stacks to avoid confusion with stack
+>   instrumentation.
+> - Introduce kasan_stack_collection_enabled() and kasan_is_enabled()
+>   helpers.
+> - Simplify kasan_stack_collection_enabled() usage.
+> - Rework SLAB_KASAN flag and metadata allocation (see the corresponding
+>   patch for details).
+> - Allow cache merging with KASAN_HW_TAGS when kasan.stacks is off.
+> - Use sync mode dy default for both prod and full KASAN modes.
+> - Drop kasan.trap=sync/async boot parameter, as async mode isn't supported
+>   yet.
+> - Choose prod or full mode depending on CONFIG_DEBUG_KERNEL when no
+>   kasan.mode boot parameter is provided.
+> - Drop krealloc optimization changes, those will be included in a separate
+>   patchset.
+> - Update KASAN documentation to mention boot parameters.
+> 
+> Changes RFC v1 -> RFC v2:
+> - Rework boot parameters.
+> - Drop __init from empty kasan_init_tags() definition.
+> - Add cpu_supports_mte() helper that can be used during early boot and use
+>   it in kasan_init_tags()
+> - Lots of new KASAN optimization commits.
+> 
+> Andrey Konovalov (19):
+>   kasan: simplify quarantine_put call site
+>   kasan: rename get_alloc/free_info
+>   kasan: introduce set_alloc_info
+>   kasan, arm64: unpoison stack only with CONFIG_KASAN_STACK
+>   kasan: allow VMAP_STACK for HW_TAGS mode
+>   kasan: remove __kasan_unpoison_stack
+>   kasan: inline kasan_reset_tag for tag-based modes
+>   kasan: inline random_tag for HW_TAGS
+>   kasan: open-code kasan_unpoison_slab
+>   kasan: inline (un)poison_range and check_invalid_free
+>   kasan: add and integrate kasan boot parameters
+>   kasan, mm: check kasan_enabled in annotations
+>   kasan, mm: rename kasan_poison_kfree
+>   kasan: don't round_up too much
+>   kasan: simplify assign_tag and set_tag calls
+>   kasan: clarify comment in __kasan_kfree_large
+>   kasan: clean up metadata allocation and usage
+>   kasan, mm: allow cache merging with no metadata
+>   kasan: update documentation
+> 
+>  Documentation/dev-tools/kasan.rst | 186 ++++++++++++--------
+>  arch/Kconfig                      |   8 +-
+>  arch/arm64/kernel/sleep.S         |   2 +-
+>  arch/x86/kernel/acpi/wakeup_64.S  |   2 +-
+>  include/linux/kasan.h             | 245 ++++++++++++++++++++------
+>  include/linux/mm.h                |  22 ++-
+>  mm/kasan/common.c                 | 283 ++++++++++++++++++------------
+>  mm/kasan/generic.c                |  27 +--
+>  mm/kasan/hw_tags.c                | 185 +++++++++++++++----
+>  mm/kasan/kasan.h                  | 120 +++++++++----
+>  mm/kasan/quarantine.c             |  13 +-
+>  mm/kasan/report.c                 |  61 ++++---
+>  mm/kasan/report_hw_tags.c         |   2 +-
+>  mm/kasan/report_sw_tags.c         |  15 +-
+>  mm/kasan/shadow.c                 |   5 +-
+>  mm/kasan/sw_tags.c                |  17 +-
+>  mm/mempool.c                      |   4 +-
+>  mm/slab_common.c                  |   3 +-
+>  18 files changed, 824 insertions(+), 376 deletions(-)
+> 
 
-All the best,
-Yueqi
-________________________________
-From: Marco Elver <elver@google.com>
-Sent: Tuesday, November 10, 2020 11:02 AM
-To: Chen, Yueqi <yxc431@psu.edu>
-Cc: mingo@kernel.org <mingo@kernel.org>; kasan-dev <kasan-dev@googlegroups.=
-com>
-Subject: Re: Questions about providing generic wrappers of KASAN and KCSAN
+-- 
+Regards,
+Vincenzo
 
-[+Cc kasan-dev]
-
-On Tue, 10 Nov 2020 at 04:14, Chen, Yueqi <yxc431@psu.edu> wrote:
->
-> Hi Marco and Ingo,
->
-> Hope this email finds you well.
->
-> My name is Yueqi Chen, a Ph.D. student from Pennsylvania State University=
-.
-> I am writing to ask questions regarding the commit https://nam01.safelink=
-s.protection.outlook.com/?url=3Dhttps%3A%2F%2Fgit.kernel.org%2Fpub%2Fscm%2F=
-linux%2Fkernel%2Fgit%2Ftip%2Ftip.git%2Fcommit%2F%3Fid%3D36e4d4dd4fc4f1d99e7=
-966a460a2b12ce438abc2&amp;data=3D04%7C01%7Cyxc431%40psu.edu%7C25b98718db4b4=
-78bac5508d885921812%7C7cf48d453ddb4389a9c1c115526eb52e%7C0%7C0%7C6374062098=
-05326584%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTi=
-I6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=3D6TlmyePbpZnfvXY3YnkXoIj9Q6VI0bz=
-nHCr5oVVIIc8%3D&amp;reserved=3D0
->
-> As described, this commit unifies KASAN and KCSAN instrumentation, and pr=
-obably in the future, KMSAN is also included.
-
-That instrumentation is only for explicit instrumentation. For those
-it's quite easy to combine as the type of accesses can be generalized,
-but when it comes to the instrumentation that the compilers insert
-things look *very* different.
-
-> I wonder do you have any plans to re-design the three sanitizers into one=
- sanitizer.
-
-No, we do not.
-
-> By re-design, I mean brand-new shadow memory, brand-new instrumentation, =
-and etc.
-> Do you think this re-design is helpful in terms of reducing uncertainty, =
-facilitating reproduction, and so on?
-
-Each sanitizer works very differently, and e.g. KCSAN relies on
-soft-watchpoints (and not shadow memory!). The latest KASAN
-(AddressSanitizer) compiler instrumentation normally uses inline
-instrumentation for performance, and not function-based hooks unlike
-KCSAN.
-
-While theoretically possible, the complexity and performance would
-both suffer immensely. Some past discussion:
-https://nam01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Flkml.ke=
-rnel.org%2Fr%2FCANpmjNPiKg%2B%2B%3DQHUjD87dqiBU1pHHfZmGLAh1gOZ%2B4JKAQ4SAQ%=
-40mail.gmail.com&amp;data=3D04%7C01%7Cyxc431%40psu.edu%7C25b98718db4b478bac=
-5508d885921812%7C7cf48d453ddb4389a9c1c115526eb52e%7C0%7C0%7C637406209805326=
-584%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1=
-haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=3DnLBG%2F%2B5AE1C04De2XzMR9QHZ2bqVfL7D=
-U0hSnJciQTU%3D&amp;reserved=3D0
-
-Getting things like this to work in kernel space is much harder, and
-before you look at the kernel, try to think if what you'd want works
-in user space. There I think any real-world benefits are also
-diminished by complexity and resulting poor performance.
-
--- Marco
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/DM5PR02MB3211D24303BB7B0CFF1E993182E30%40DM5PR02MB3211.namprd02.p=
-rod.outlook.com.
-
---_000_DM5PR02MB3211D24303BB7B0CFF1E993182E30DM5PR02MB3211namp_
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
->
-<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
-ttom:0;} </style>
-</head>
-<body dir=3D"ltr">
-<div style=3D"font-family: Tahoma, Geneva, sans-serif; font-size: 12pt; col=
-or: rgb(0, 0, 0);">
-Hi Marco,</div>
-<div style=3D"font-family: Tahoma, Geneva, sans-serif; font-size: 12pt; col=
-or: rgb(0, 0, 0);">
-<br>
-</div>
-<div style=3D"font-family: Tahoma, Geneva, sans-serif; font-size: 12pt; col=
-or: rgb(0, 0, 0);">
-Thank you for your response and insight.</div>
-<div style=3D"font-family: Tahoma, Geneva, sans-serif; font-size: 12pt; col=
-or: rgb(0, 0, 0);">
-I am recently considering to re-design a sanitizer to have three in one.</d=
-iv>
-<div style=3D"font-family: Tahoma, Geneva, sans-serif; font-size: 12pt; col=
-or: rgb(0, 0, 0);">
-Probably I need to think it twice.&nbsp;</div>
-<div style=3D"font-family: Tahoma, Geneva, sans-serif; font-size: 12pt; col=
-or: rgb(0, 0, 0);">
-<br>
-</div>
-<div style=3D"font-family: Tahoma, Geneva, sans-serif; font-size: 12pt; col=
-or: rgb(0, 0, 0);">
-All the best,</div>
-<div style=3D"font-family: Tahoma, Geneva, sans-serif; font-size: 12pt; col=
-or: rgb(0, 0, 0);">
-Yueqi</div>
-<div id=3D"appendonsend"></div>
-<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
-<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
-yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> Marco Elver &lt;elver=
-@google.com&gt;<br>
-<b>Sent:</b> Tuesday, November 10, 2020 11:02 AM<br>
-<b>To:</b> Chen, Yueqi &lt;yxc431@psu.edu&gt;<br>
-<b>Cc:</b> mingo@kernel.org &lt;mingo@kernel.org&gt;; kasan-dev &lt;kasan-d=
-ev@googlegroups.com&gt;<br>
-<b>Subject:</b> Re: Questions about providing generic wrappers of KASAN and=
- KCSAN</font>
-<div>&nbsp;</div>
-</div>
-<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
-">
-<div class=3D"PlainText">[+Cc kasan-dev]<br>
-<br>
-On Tue, 10 Nov 2020 at 04:14, Chen, Yueqi &lt;yxc431@psu.edu&gt; wrote:<br>
-&gt;<br>
-&gt; Hi Marco and Ingo,<br>
-&gt;<br>
-&gt; Hope this email finds you well.<br>
-&gt;<br>
-&gt; My name is Yueqi Chen, a Ph.D. student from Pennsylvania State Univers=
-ity.<br>
-&gt; I am writing to ask questions regarding the commit <a href=3D"https://=
-nam01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fgit.kernel.org%=
-2Fpub%2Fscm%2Flinux%2Fkernel%2Fgit%2Ftip%2Ftip.git%2Fcommit%2F%3Fid%3D36e4d=
-4dd4fc4f1d99e7966a460a2b12ce438abc2&amp;amp;data=3D04%7C01%7Cyxc431%40psu.e=
-du%7C25b98718db4b478bac5508d885921812%7C7cf48d453ddb4389a9c1c115526eb52e%7C=
-0%7C0%7C637406209805326584%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQ=
-IjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;amp;sdata=3D6TlmyePbp=
-ZnfvXY3YnkXoIj9Q6VI0bznHCr5oVVIIc8%3D&amp;amp;reserved=3D0">
-https://nam01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fgit.ker=
-nel.org%2Fpub%2Fscm%2Flinux%2Fkernel%2Fgit%2Ftip%2Ftip.git%2Fcommit%2F%3Fid=
-%3D36e4d4dd4fc4f1d99e7966a460a2b12ce438abc2&amp;amp;data=3D04%7C01%7Cyxc431=
-%40psu.edu%7C25b98718db4b478bac5508d885921812%7C7cf48d453ddb4389a9c1c115526=
-eb52e%7C0%7C0%7C637406209805326584%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAw=
-MDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;amp;sdata=3D6=
-TlmyePbpZnfvXY3YnkXoIj9Q6VI0bznHCr5oVVIIc8%3D&amp;amp;reserved=3D0</a><br>
-&gt;<br>
-&gt; As described, this commit unifies KASAN and KCSAN instrumentation, and=
- probably in the future, KMSAN is also included.<br>
-<br>
-That instrumentation is only for explicit instrumentation. For those<br>
-it's quite easy to combine as the type of accesses can be generalized,<br>
-but when it comes to the instrumentation that the compilers insert<br>
-things look *very* different.<br>
-<br>
-&gt; I wonder do you have any plans to re-design the three sanitizers into =
-one sanitizer.<br>
-<br>
-No, we do not.<br>
-<br>
-&gt; By re-design, I mean brand-new shadow memory, brand-new instrumentatio=
-n, and etc.<br>
-&gt; Do you think this re-design is helpful in terms of reducing uncertaint=
-y, facilitating reproduction, and so on?<br>
-<br>
-Each sanitizer works very differently, and e.g. KCSAN relies on<br>
-soft-watchpoints (and not shadow memory!). The latest KASAN<br>
-(AddressSanitizer) compiler instrumentation normally uses inline<br>
-instrumentation for performance, and not function-based hooks unlike<br>
-KCSAN.<br>
-<br>
-While theoretically possible, the complexity and performance would<br>
-both suffer immensely. Some past discussion:<br>
-<a href=3D"https://nam01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2=
-F%2Flkml.kernel.org%2Fr%2FCANpmjNPiKg%2B%2B%3DQHUjD87dqiBU1pHHfZmGLAh1gOZ%2=
-B4JKAQ4SAQ%40mail.gmail.com&amp;amp;data=3D04%7C01%7Cyxc431%40psu.edu%7C25b=
-98718db4b478bac5508d885921812%7C7cf48d453ddb4389a9c1c115526eb52e%7C0%7C0%7C=
-637406209805326584%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2lu=
-MzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;amp;sdata=3DnLBG%2F%2B5AE1C04=
-De2XzMR9QHZ2bqVfL7DU0hSnJciQTU%3D&amp;amp;reserved=3D0">https://nam01.safel=
-inks.protection.outlook.com/?url=3Dhttps%3A%2F%2Flkml.kernel.org%2Fr%2FCANp=
-mjNPiKg%2B%2B%3DQHUjD87dqiBU1pHHfZmGLAh1gOZ%2B4JKAQ4SAQ%40mail.gmail.com&am=
-p;amp;data=3D04%7C01%7Cyxc431%40psu.edu%7C25b98718db4b478bac5508d885921812%=
-7C7cf48d453ddb4389a9c1c115526eb52e%7C0%7C0%7C637406209805326584%7CUnknown%7=
-CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn=
-0%3D%7C1000&amp;amp;sdata=3DnLBG%2F%2B5AE1C04De2XzMR9QHZ2bqVfL7DU0hSnJciQTU=
-%3D&amp;amp;reserved=3D0</a><br>
-<br>
-Getting things like this to work in kernel space is much harder, and<br>
-before you look at the kernel, try to think if what you'd want works<br>
-in user space. There I think any real-world benefits are also<br>
-diminished by complexity and resulting poor performance.<br>
-<br>
--- Marco<br>
-</div>
-</span></font></div>
-</body>
-</html>
-
-<p></p>
-
--- <br />
-You received this message because you are subscribed to the Google Groups &=
-quot;kasan-dev&quot; group.<br />
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
-+unsubscribe@googlegroups.com</a>.<br />
-To view this discussion on the web visit <a href=3D"https://groups.google.c=
-om/d/msgid/kasan-dev/DM5PR02MB3211D24303BB7B0CFF1E993182E30%40DM5PR02MB3211=
-.namprd02.prod.outlook.com?utm_medium=3Demail&utm_source=3Dfooter">https://=
-groups.google.com/d/msgid/kasan-dev/DM5PR02MB3211D24303BB7B0CFF1E993182E30%=
-40DM5PR02MB3211.namprd02.prod.outlook.com</a>.<br />
-
---_000_DM5PR02MB3211D24303BB7B0CFF1E993182E30DM5PR02MB3211namp_--
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/fd7ab51e-269b-fffc-f504-7f3af862c914%40arm.com.
