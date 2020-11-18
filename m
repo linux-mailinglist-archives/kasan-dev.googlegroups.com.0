@@ -1,112 +1,112 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBH6N236QKGQEJ74XLXY@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBA7B236QKGQEWLNYL6A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x23d.google.com (mail-lj1-x23d.google.com [IPv6:2a00:1450:4864:20::23d])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD2232B87F3
-	for <lists+kasan-dev@lfdr.de>; Wed, 18 Nov 2020 23:56:31 +0100 (CET)
-Received: by mail-lj1-x23d.google.com with SMTP id f15sf891098ljm.20
-        for <lists+kasan-dev@lfdr.de>; Wed, 18 Nov 2020 14:56:31 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1605740191; cv=pass;
+Received: from mail-yb1-xb3c.google.com (mail-yb1-xb3c.google.com [IPv6:2607:f8b0:4864:20::b3c])
+	by mail.lfdr.de (Postfix) with ESMTPS id A07962B8875
+	for <lists+kasan-dev@lfdr.de>; Thu, 19 Nov 2020 00:38:44 +0100 (CET)
+Received: by mail-yb1-xb3c.google.com with SMTP id g129sf4855655ybf.20
+        for <lists+kasan-dev@lfdr.de>; Wed, 18 Nov 2020 15:38:44 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1605742723; cv=pass;
         d=google.com; s=arc-20160816;
-        b=khTv24WWNSSz6hitJblSl48dmR9mX2dZ9uW9dwdFn2wHo09PdomOS7dY4JCo+LIdEs
-         SWzPcMXQz09+fQ0hmw6cU0SNk1FTvlxNdwn9zZSXTTxEuboh6RAqLHaFS0dqIgCxQk+B
-         ma77KcwJW064A3rxxi/lO8lIY01Gr7a40JMm2MIea3EB/4N9etBC0HZEpjCpizfUKZHT
-         usfI5ipwMWnMx0QcAFm8uRFbimS6Uzp8S0VwTg7WODV1JTX5AvX2JqSOFOBttJ7f+gcJ
-         uzOxgXymeP+FBRRpMnUPmdNTj2KikGoxG0JwAGRmvuVYAZKoqTqv8OKBEP/rSF0Mt+bg
-         wkUg==
+        b=fYGxplLzGtQACUKGCkctyc4GJgKpnK2eKf8/JrjjdjHp8l1CJgEmADyaytvaxCfOYs
+         oVlr36JsKuG2nUfaFT7NAOeaRG3Oa7o4CkAz9ZOl2rDZVRCF9TU71AwT91ERYfpRfwlG
+         NuIhuWsQncGB/r5eFf91TqjI11ctV5zpJeZacAnjKnw1nUL5X1E9LpkOaXvO122GB1cb
+         oMDaqrzv2xJ27KYkw6+Kzn48sIK31EAPhGSuYuZpsPp2SFq9yA4APcEuOZ4HXXaAzjky
+         BDTwRLFItQDQ8XYjeJra07107/80NDO+MpXHjkx21wiI3/AC+5iX7ZC0b/B7ZLmRDJfh
+         rvQw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:user-agent:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:dkim-signature;
-        bh=qi0JQAQKMM9ZClvdyFSgqNFsDZHLAGqtqe0i1m2t8lo=;
-        b=ZPoE9QcLznbv8vtJTnLBI8lYPVzKhuuPZUy1Djdg8myebMKd1sW+Ky6aPN7X3rSPy+
-         MogiBZQH25bRLVdlJ26odCoeN7iJQfbNGurapZBdLHuW27YAP2o/OLyeg2OXHOC9rn7B
-         B4Z/WBY/h/gLnvXTRmUvSLZondKuWan1295r4/FoL2B1xkTkM4eBoQ9fJ7hBo/iy05KC
-         weGIqtKG+81ICyB7wS197Zdymj1omKHiuv928Ge0y5TB/MPWJCmp7U6c77pUZwpvH9XE
-         mnQ0f1gGyy0C9EM7wWTZYgH3eVOLmuypMPDmTxrjiL0ujX5bZ2KrqcMCRZYA7UY8Pmk7
-         7twA==
+         :list-id:mailing-list:precedence:user-agent:in-reply-to
+         :content-disposition:mime-version:references:reply-to:message-id
+         :subject:cc:to:from:date:sender:dkim-signature;
+        bh=qzHkMvabiG/CiSczZkSe35LT0+heSSTGkMtbtvZKVCI=;
+        b=BA/MINbpf0ZRj+TUYDODn5Vm5DJM318jJB46Q6cWOr7rfaY90ygJZp+xApuEezrLcq
+         ifWi+G4DV41PZZGv/UDnKl79TIFKxeJGS13qOEvDh6TYYzWiyVAbJAIpxQ7DXKVYwMhZ
+         DHync9F07g3bSGH7tbu90E2SFTHX5lxCBsq9np9JsnHFQMg7018p6RB17jlks3I6CZ3X
+         MQnstFdhp71ipz0PjPd/WuiOcxz4xq2AMmbRphFQ6nu1dnC15i6tBJFo9T73PDCVbb6/
+         xmb5n7xYlPHjVZqAC8hCRuTH/zs10bcxJfSm3klETMIRDxNOtewRUQPDdXW7ZfCz2DFO
+         45FQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=vox9ADdo;
-       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::342 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@kernel.org header.s=default header.b=AoMx8dVR;
+       spf=pass (google.com: domain of srs0=neah=ey=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=NEaH=EY=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:list-post:list-help:list-archive:list-subscribe
-         :list-unsubscribe;
-        bh=qi0JQAQKMM9ZClvdyFSgqNFsDZHLAGqtqe0i1m2t8lo=;
-        b=QpNLFwrX4kJRqOtfGxphcWKVIz0jUroZVXRiJ6U+aiFLW3rImoNFqd3d07qKZpfe3y
-         zMzf+YfUg8NAsQYOsBAVEEfGdwvQCaLccxhgHPoac8TcWJh10CMsoigpURZrjAgnFugP
-         ZOnGjrtZXYEuHQ8sZduaIr1ZQ5iM+WNONyajV9AQ2u4eRMj7jHccWcNShKRrO3MPgf+y
-         REQG4VCHAbeXfbSyfECznbY6JBUWd63s6F/SBiGPM7YeYgdHT5H2Et7NICOdoQg+BO1s
-         do9oWWUQp5bbJAWLpFVuzAqNWgkNiOi1K7vsQab/MqNGDIIWANrJdUSK2d4R2pVZ7//q
-         12eA==
+        h=sender:date:from:to:cc:subject:message-id:reply-to:references
+         :mime-version:content-disposition:in-reply-to:user-agent
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=qzHkMvabiG/CiSczZkSe35LT0+heSSTGkMtbtvZKVCI=;
+        b=L6l5e/VTo+PVOWnYVXDYt7Q6eQDEeKnTzpEUG5uPacRUcILoCVe7si/a4c5jy3hc1V
+         3V3xOwsDyAn79y6e3MaQxCkm/3vPwkH4gaMpdA2up5Oac7PemI5QLMW8DCK97ttp5pPL
+         jyGRs8mwm5DjZ99onV7OXHGKE3M9Bi46/wi40j0KmqGAYIN6Xc6jnbCoL4jO2Yhxi5Sm
+         8xbEPKBOKk11PQ94/n3CMvXC77voqYGRpXWamdSRcgvS1Hov7y6nVbgwj/qKn2rxbZTy
+         njkazOYZxGEmx/EFHTvA9l/gmlrZ17Vncq9wO51f3Iaif68KlsiqC86NLy1impfiRwWM
+         h+Ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent
-         :x-original-sender:x-original-authentication-results:reply-to
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :reply-to:references:mime-version:content-disposition:in-reply-to
+         :user-agent:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
          :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=qi0JQAQKMM9ZClvdyFSgqNFsDZHLAGqtqe0i1m2t8lo=;
-        b=kLu48hpw9oSjZUbDCmE9dpyHP49mhC8vx1MQEiXW6eXXESPgAZMh2pJq+yJA+q1rG0
-         Fk4jWcXEqEHJUNYdGcjoluvHhzv4dsl+kbbCwCLTGVdJl+pu42Troa2LODBvIcJF3cZ9
-         NKrgyDmWHlZ3j+rJXb7Qe5R0TdBZTQyOQL1zD7FF7EzZCDjsR4zr0NW59GOOO80VU43/
-         KpLTmkWp288di595tCAQKFpo9K/NT/jTBDrRykGM1COf/MOvxpyuresrv45U5F+oewdV
-         omWpR0253oZORt2uUau7QuaDHlTM9vKGiRXPo/DUbcNFkFkm21w7RpyLW3s4e/2guXQz
-         kcjw==
-X-Gm-Message-State: AOAM53006V1uE2/FKhK8pYiruuk37ykRq8vfiWGglMIoq1LRZ7x1UjQj
-	l4GsiuVzGJlqT6qytDbojic=
-X-Google-Smtp-Source: ABdhPJwimrBYt9U4R9EMstxiZDJbHfDLoC3Nis3pkRr+aLfdD4f9L9vzyvMWpJ7MyD31sAuH97BvlQ==
-X-Received: by 2002:a19:ad06:: with SMTP id t6mr4953500lfc.222.1605740191412;
-        Wed, 18 Nov 2020 14:56:31 -0800 (PST)
+        bh=qzHkMvabiG/CiSczZkSe35LT0+heSSTGkMtbtvZKVCI=;
+        b=MbfiRzLuwZQViI3i19N56wgpZf5NTf/B0zigq90yxtv1Jd6Q/ZCfitFkqNu7sms+M+
+         b1gx0L/WJGA2dXClA+caCmVSkelpqr2ZFInhg+ee3P6xPP4M55RfgNUUk43J9svx/UiJ
+         Txlpfj+YnJUl8VaNGK+jNkjnWE28uOG192z6FI7HTWcl4uaj2bdH+NsbDN6OFNFf5i9a
+         8XoJjBbA9yafaGRaDktdKunvyTePdKhsS6RFWaK43Ho3SGDFAEUzSD7sTBcHxKOfTreW
+         c0K/O6e/CQHvtCsYb+EJQ1aaaGh08S6K+ifrnfoINbh2lb32nqQ4y8RgEowfQDXT086P
+         tnWw==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM5312Ux+2WVygHb6tjUnbBZr/wo8tOj+dHydCqsG5g9dryXzJZl55
+	J6Wd3Fff5UHCp+oqU7bNwvA=
+X-Google-Smtp-Source: ABdhPJxUbR6yKiB2ij+yZwP9l5LiARB9NPDMUMq0CA9Vh0QxPSmGgW7t1SWY39HWjn+GhcY9vSlmCg==
+X-Received: by 2002:a25:7542:: with SMTP id q63mr13742969ybc.176.1605742723674;
+        Wed, 18 Nov 2020 15:38:43 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a19:ccc2:: with SMTP id c185ls600755lfg.3.gmail; Wed, 18 Nov
- 2020 14:56:30 -0800 (PST)
-X-Received: by 2002:ac2:5e23:: with SMTP id o3mr4455969lfg.159.1605740190184;
-        Wed, 18 Nov 2020 14:56:30 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1605740190; cv=none;
+Received: by 2002:a25:19c3:: with SMTP id 186ls716095ybz.7.gmail; Wed, 18 Nov
+ 2020 15:38:43 -0800 (PST)
+X-Received: by 2002:a25:d10f:: with SMTP id i15mr9536730ybg.60.1605742723179;
+        Wed, 18 Nov 2020 15:38:43 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1605742723; cv=none;
         d=google.com; s=arc-20160816;
-        b=Yh5Js0KL4JOKVlP418YltNUyw7ERvPQFLCsaWtJWsTAcyw+FiMamfPc/kn+NQ9zMZo
-         Oyoa2J4uXFp/BBJ/wCTMxJTT9VIr7b0iyEahJ8iqJZfk37n0tS23cnvVrIY+E92IzOu2
-         Z7AwyMu9GBGTQiboop8KY9XKPEGeJXHCNGGNDXLrc0f7btw5MCKVTJ5ZMwaKcYRsMNmj
-         xFPFmC8PyQmYixnfNIQ/napb4UKvao1P0Oe4gBD68CXPPFmndbixA25NS5y/WpZg64Cz
-         IRGOyYYF87EUspejEZEZOopplp6WSvOuOmkI2ssG16hFPRao6AUOoi7/gKqyKF48uhKl
-         qjUw==
+        b=f9bELPQw2IT7sGBIdotNtWIuofHQaLBWIjSCjexreyTxVaCXvdJciKewDsCwhftvP3
+         TJTkbFHeABGVuac2eJ1ihckmNTbFRjnxyF02iMVaobS5CljLM+Md+DDO9Uspqo8J5SuT
+         jzlifZOPMhjHRZIcW2bQu2CSD/Q3bFRmXwVWd5pOJoIuMeInZvbaVPdjIqeHwlTF7UhQ
+         RMgf+OrL9X+rMDfWfeisDWTD2hDH10mlRy9KiulvTPFlSA+zr6Rc9niwolIPjzSlmh80
+         m2YFkdO3+evaSoegy37vLplrpBXks0lZ089r3i2yY83nXwJiuiELeELHVOdAP0PAozxH
+         DfQw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:dkim-signature;
-        bh=1seX92mFsrfx7vZyLIxprFubCVzfCSOLsu/hjAP+vTs=;
-        b=npmYUETxe5z5KoaUp3s1FFmSskhat7ZDLrg4Yb7WIRH38rMNsMW5sj6+NRDQUgPlKG
-         aNqeGG2UNd0+TQKceeo1hDAF/Qibej+6xEI4Ip6AVwT2BAlQPw0HqPET5yjbNO2RCdzr
-         Dx1IzH2/gDn7YEHWLPrNzWLL2vR0fyjurJqy0pA6B/kndMSbwzJAeLuRq0T/a0P5QkEs
-         gQvbmWxmX2QOKpqGPpCgtncPHd4W15iy1lL9WXeOHxakEbgp+zSdGEdfRhl6zI2++CJt
-         QoKRf8em8pMNVAcLY7ycs1MLAxvCh5yQyNmfminkb4HtZ3LUNSlPH2+WJWTetMwr0uIH
-         N/KQ==
+         :reply-to:message-id:subject:cc:to:from:date:dkim-signature;
+        bh=vxjwJ/giZfGWM7QhdiB4a8mIJE3iozSrvs8N62HDNoI=;
+        b=qzWr8obxPYkN7wlzcZ5Dm0pCLyPU95NIIkCgOZjoA9eSkZ0VaTkvkGJkKPW+pWFEMk
+         IttQOrAPn7dBlmEHBWB4N3op5073LQKX6TNN7cCNqWhcKqm1YNwHvh+EDocsy+33PIqm
+         ejWUn0gWCpskSj7joa4x9bI4dU1JlDybdLUzbhgtN0aLwLrw22MA5e7btlMbshDxiSNG
+         Keh8e1fYLw1v9xYWCZvZz46hdbJna0tWsLYFsLcJXHTZUxS7nyxy7tgtIDEjhpcClztC
+         7OVc4xQF5kWkePg8OlzXJJwWwr1G0crrWJhUdfPLRd2/25HE0yJktbK+PD5Rb2hVbWEe
+         GtaQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=vox9ADdo;
-       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::342 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com. [2a00:1450:4864:20::342])
-        by gmr-mx.google.com with ESMTPS id o185si820755lfa.12.2020.11.18.14.56.30
+       dkim=pass header.i=@kernel.org header.s=default header.b=AoMx8dVR;
+       spf=pass (google.com: domain of srs0=neah=ey=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=NEaH=EY=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
+        by gmr-mx.google.com with ESMTPS id l7si689835ybt.4.2020.11.18.15.38.42
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 18 Nov 2020 14:56:30 -0800 (PST)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::342 as permitted sender) client-ip=2a00:1450:4864:20::342;
-Received: by mail-wm1-x342.google.com with SMTP id a65so4602783wme.1
-        for <kasan-dev@googlegroups.com>; Wed, 18 Nov 2020 14:56:30 -0800 (PST)
-X-Received: by 2002:a7b:cc84:: with SMTP id p4mr1406309wma.86.1605740189466;
-        Wed, 18 Nov 2020 14:56:29 -0800 (PST)
-Received: from elver.google.com ([2a00:79e0:15:13:f693:9fff:fef4:2449])
-        by smtp.gmail.com with ESMTPSA id p4sm35980145wrm.51.2020.11.18.14.56.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Nov 2020 14:56:27 -0800 (PST)
-Date: Wed, 18 Nov 2020 23:56:21 +0100
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-To: "Paul E. McKenney" <paulmck@kernel.org>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 18 Nov 2020 15:38:43 -0800 (PST)
+Received-SPF: pass (google.com: domain of srs0=neah=ey=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
+Received: from paulmck-ThinkPad-P72.home (50-39-104-11.bvtn.or.frontiernet.net [50.39.104.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPSA id D7B52246BB;
+	Wed, 18 Nov 2020 23:38:41 +0000 (UTC)
+Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
+	id 755523522614; Wed, 18 Nov 2020 15:38:41 -0800 (PST)
+Date: Wed, 18 Nov 2020 15:38:41 -0800
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Marco Elver <elver@google.com>
 Cc: Steven Rostedt <rostedt@goodmis.org>,
 	Anders Roxell <anders.roxell@linaro.org>,
 	Andrew Morton <akpm@linux-foundation.org>,
@@ -120,9 +120,9 @@ Cc: Steven Rostedt <rostedt@goodmis.org>,
 	Lai Jiangshan <jiangshanlai@gmail.com>
 Subject: Re: [PATCH] kfence: Avoid stalling work queue task without
  allocations
-Message-ID: <20201118225621.GA1770130@elver.google.com>
-References: <20201111183430.GN517454@elver.google.com>
- <20201111192123.GB3249@paulmck-ThinkPad-P72>
+Message-ID: <20201118233841.GS1437@paulmck-ThinkPad-P72>
+Reply-To: paulmck@kernel.org
+References: <20201111192123.GB3249@paulmck-ThinkPad-P72>
  <20201111202153.GT517454@elver.google.com>
  <20201112001129.GD3249@paulmck-ThinkPad-P72>
  <CANpmjNNyZs6NrHPmomC4=9MPEvCy1bFA5R2pRsMhG7=c3LhL_Q@mail.gmail.com>
@@ -131,19 +131,18 @@ References: <20201111183430.GN517454@elver.google.com>
  <20201113175754.GA6273@paulmck-ThinkPad-P72>
  <20201117105236.GA1964407@elver.google.com>
  <20201117182915.GM1437@paulmck-ThinkPad-P72>
+ <20201118225621.GA1770130@elver.google.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="0OAP2g/MAC+5xKAE"
+Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <20201117182915.GM1437@paulmck-ThinkPad-P72>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Original-Sender: elver@google.com
+In-Reply-To: <20201118225621.GA1770130@elver.google.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Original-Sender: paulmck@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=vox9ADdo;       spf=pass
- (google.com: domain of elver@google.com designates 2a00:1450:4864:20::342 as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+ header.i=@kernel.org header.s=default header.b=AoMx8dVR;       spf=pass
+ (google.com: domain of srs0=neah=ey=paulmck-thinkpad-p72.home=paulmck@kernel.org
+ designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=NEaH=EY=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -156,221 +155,120 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-
---0OAP2g/MAC+5xKAE
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-
-On Tue, Nov 17, 2020 at 10:29AM -0800, Paul E. McKenney wrote:
-[...] 
-> But it would be good to get the kcompactd() people to look at this (not
-> immediately seeing who they are in MAINTAINERS).  Perhaps preemption is
-> disabled somehow and I am failing to see it.
+On Wed, Nov 18, 2020 at 11:56:21PM +0100, Marco Elver wrote:
+> On Tue, Nov 17, 2020 at 10:29AM -0800, Paul E. McKenney wrote:
+> [...] 
+> > But it would be good to get the kcompactd() people to look at this (not
+> > immediately seeing who they are in MAINTAINERS).  Perhaps preemption is
+> > disabled somehow and I am failing to see it.
+> > 
+> > Failing that, maybe someone knows of a way to check for overly long
+> > timeout handlers.
 > 
-> Failing that, maybe someone knows of a way to check for overly long
-> timeout handlers.
+> I think I figured out one piece of the puzzle. Bisection keeps pointing
+> me at some -rcu merge commit, which kept throwing me off. Nor did it
+> help that reproduction is a bit flaky. However, I think there are 2
+> independent problems, but the manifestation of 1 problem triggers the
+> 2nd problem:
+> 
+> 1. problem: slowed forward progress (workqueue lockup / RCU stall reports)
+> 
+> 2. problem: DEADLOCK which causes complete system lockup
+> 
+> 	| ...
+> 	|        CPU0
+> 	|        ----
+> 	|   lock(rcu_node_0);
+> 	|   <Interrupt>
+> 	|     lock(rcu_node_0);
+> 	| 
+> 	|  *** DEADLOCK ***
+> 	| 
+> 	| 1 lock held by event_benchmark/105:
+> 	|  #0: ffffbb6e0b804458 (rcu_node_0){?.-.}-{2:2}, at: print_other_cpu_stall kernel/rcu/tree_stall.h:493 [inline]
+> 	|  #0: ffffbb6e0b804458 (rcu_node_0){?.-.}-{2:2}, at: check_cpu_stall kernel/rcu/tree_stall.h:652 [inline]
+> 	|  #0: ffffbb6e0b804458 (rcu_node_0){?.-.}-{2:2}, at: rcu_pending kernel/rcu/tree.c:3752 [inline]
+> 	|  #0: ffffbb6e0b804458 (rcu_node_0){?.-.}-{2:2}, at: rcu_sched_clock_irq+0x428/0xd40 kernel/rcu/tree.c:2581
+> 	| ...
+> 
+> Problem 2 can with reasonable confidence (5 trials) be fixed by reverting:
+> 
+> 	rcu: Don't invoke try_invoke_on_locked_down_task() with irqs disabled
+> 
+> At which point the system always boots to user space -- albeit with a
+> bunch of warnings still (attached). The supposed "good" version doesn't
+> end up with all those warnings deterministically, so I couldn't say if
+> the warnings are expected due to recent changes or not (Arm64 QEMU
+> emulation, 1 CPU, and lots of debugging tools on).
+> 
+> Does any of that make sense?
 
-I think I figured out one piece of the puzzle. Bisection keeps pointing
-me at some -rcu merge commit, which kept throwing me off. Nor did it
-help that reproduction is a bit flaky. However, I think there are 2
-independent problems, but the manifestation of 1 problem triggers the
-2nd problem:
+Marco, it makes all too much sense!  :-/
 
-1. problem: slowed forward progress (workqueue lockup / RCU stall reports)
+Does the patch below help?
 
-2. problem: DEADLOCK which causes complete system lockup
+							Thanx, Paul
 
-	| ...
-	|        CPU0
-	|        ----
-	|   lock(rcu_node_0);
-	|   <Interrupt>
-	|     lock(rcu_node_0);
-	| 
-	|  *** DEADLOCK ***
-	| 
-	| 1 lock held by event_benchmark/105:
-	|  #0: ffffbb6e0b804458 (rcu_node_0){?.-.}-{2:2}, at: print_other_cpu_stall kernel/rcu/tree_stall.h:493 [inline]
-	|  #0: ffffbb6e0b804458 (rcu_node_0){?.-.}-{2:2}, at: check_cpu_stall kernel/rcu/tree_stall.h:652 [inline]
-	|  #0: ffffbb6e0b804458 (rcu_node_0){?.-.}-{2:2}, at: rcu_pending kernel/rcu/tree.c:3752 [inline]
-	|  #0: ffffbb6e0b804458 (rcu_node_0){?.-.}-{2:2}, at: rcu_sched_clock_irq+0x428/0xd40 kernel/rcu/tree.c:2581
-	| ...
+------------------------------------------------------------------------
 
-Problem 2 can with reasonable confidence (5 trials) be fixed by reverting:
+commit 444ef3bbd0f243b912fdfd51f326704f8ee872bf
+Author: Peter Zijlstra <peterz@infradead.org>
+Date:   Sat Aug 29 10:22:24 2020 -0700
 
-	rcu: Don't invoke try_invoke_on_locked_down_task() with irqs disabled
+    sched/core: Allow try_invoke_on_locked_down_task() with irqs disabled
+    
+    The try_invoke_on_locked_down_task() function currently requires
+    that interrupts be enabled, but it is called with interrupts
+    disabled from rcu_print_task_stall(), resulting in an "IRQs not
+    enabled as expected" diagnostic.  This commit therefore updates
+    try_invoke_on_locked_down_task() to use raw_spin_lock_irqsave() instead
+    of raw_spin_lock_irq(), thus allowing use from either context.
+    
+    Link: https://lore.kernel.org/lkml/000000000000903d5805ab908fc4@google.com/
+    Link: https://lore.kernel.org/lkml/20200928075729.GC2611@hirez.programming.kicks-ass.net/
+    Reported-by: syzbot+cb3b69ae80afd6535b0e@syzkaller.appspotmail.com
+    Signed-off-by: Peter Zijlstra <peterz@infradead.org>
+    Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
 
-At which point the system always boots to user space -- albeit with a
-bunch of warnings still (attached). The supposed "good" version doesn't
-end up with all those warnings deterministically, so I couldn't say if
-the warnings are expected due to recent changes or not (Arm64 QEMU
-emulation, 1 CPU, and lots of debugging tools on).
-
-Does any of that make sense?
-
-Thanks,
--- Marco
+diff --git a/kernel/sched/core.c b/kernel/sched/core.c
+index e172f2d..09ef5cf 100644
+--- a/kernel/sched/core.c
++++ b/kernel/sched/core.c
+@@ -2984,7 +2984,7 @@ try_to_wake_up(struct task_struct *p, unsigned int state, int wake_flags)
+ 
+ /**
+  * try_invoke_on_locked_down_task - Invoke a function on task in fixed state
+- * @p: Process for which the function is to be invoked.
++ * @p: Process for which the function is to be invoked, can be @current.
+  * @func: Function to invoke.
+  * @arg: Argument to function.
+  *
+@@ -3002,12 +3002,11 @@ try_to_wake_up(struct task_struct *p, unsigned int state, int wake_flags)
+  */
+ bool try_invoke_on_locked_down_task(struct task_struct *p, bool (*func)(struct task_struct *t, void *arg), void *arg)
+ {
+-	bool ret = false;
+ 	struct rq_flags rf;
++	bool ret = false;
+ 	struct rq *rq;
+ 
+-	lockdep_assert_irqs_enabled();
+-	raw_spin_lock_irq(&p->pi_lock);
++	raw_spin_lock_irqsave(&p->pi_lock, rf.flags);
+ 	if (p->on_rq) {
+ 		rq = __task_rq_lock(p, &rf);
+ 		if (task_rq(p) == rq)
+@@ -3024,7 +3023,7 @@ bool try_invoke_on_locked_down_task(struct task_struct *p, bool (*func)(struct t
+ 				ret = func(p, arg);
+ 		}
+ 	}
+-	raw_spin_unlock_irq(&p->pi_lock);
++	raw_spin_unlock_irqrestore(&p->pi_lock, rf.flags);
+ 	return ret;
+ }
+ 
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20201118225621.GA1770130%40elver.google.com.
-
---0OAP2g/MAC+5xKAE
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: attachment; filename=log
-
-Testing all events: OK
-Running tests again, along with the function tracer
-Running tests on all trace events:
-Testing all events: 
-hrtimer: interrupt took 10156432 ns
-rcu: INFO: rcu_preempt detected stalls on CPUs/tasks:
-	(detected by 0, t=3752 jiffies, g=2785, q=6)
-rcu: All QSes seen, last rcu_preempt kthread activity 3752 (4295396561-4295392809), jiffies_till_next_fqs=1, root ->qsmask 0x0
-rcu: rcu_preempt kthread starved for 3752 jiffies! g2785 f0x0 RCU_GP_ONOFF(3) ->state=0x0 ->cpu=0
-rcu: 	Unless rcu_preempt kthread gets sufficient CPU time, OOM is now expected behavior.
-rcu: RCU grace-period kthread stack dump:
-task:rcu_preempt     state:R  running task     stack:    0 pid:   10 ppid:     2 flags:0x00000428
-Call trace:
- __switch_to+0x10c/0x200 arch/arm64/kernel/process.c:578
- context_switch kernel/sched/core.c:3773 [inline]
- __schedule+0x2d8/0x980 kernel/sched/core.c:4522
- preempt_schedule_common+0x4c/0x1a8 kernel/sched/core.c:4681
- preempt_schedule+0x38/0x40 kernel/sched/core.c:4706
- __raw_spin_unlock include/linux/spinlock_api_smp.h:152 [inline]
- _raw_spin_unlock+0x94/0xa8 kernel/locking/spinlock.c:183
- rcu_gp_init kernel/rcu/tree.c:1820 [inline]
- rcu_gp_kthread+0x34c/0x1bd8 kernel/rcu/tree.c:2105
- kthread+0x13c/0x188 kernel/kthread.c:292
- ret_from_fork+0x10/0x34 arch/arm64/kernel/entry.S:961
-rcu: INFO: rcu_preempt detected stalls on CPUs/tasks:
-	(detected by 0, t=3752 jiffies, g=2817, q=6)
-rcu: All QSes seen, last rcu_preempt kthread activity 856 (4295412565-4295411709), jiffies_till_next_fqs=1, root ->qsmask 0x0
-rcu: rcu_preempt kthread starved for 856 jiffies! g2817 f0x2 RCU_GP_CLEANUP(7) ->state=0x0 ->cpu=0
-rcu: 	Unless rcu_preempt kthread gets sufficient CPU time, OOM is now expected behavior.
-rcu: RCU grace-period kthread stack dump:
-task:rcu_preempt     state:R  running task     stack:    0 pid:   10 ppid:     2 flags:0x00000428
-Call trace:
- __switch_to+0x10c/0x200 arch/arm64/kernel/process.c:578
- context_switch kernel/sched/core.c:3773 [inline]
- __schedule+0x2d8/0x980 kernel/sched/core.c:4522
- preempt_schedule_common+0x4c/0x1a8 kernel/sched/core.c:4681
- preempt_schedule+0x38/0x40 kernel/sched/core.c:4706
- __raw_spin_unlock_irq include/linux/spinlock_api_smp.h:169 [inline]
- _raw_spin_unlock_irq+0x84/0x98 kernel/locking/spinlock.c:199
- rcu_gp_cleanup kernel/rcu/tree.c:2015 [inline]
- rcu_gp_kthread+0x1038/0x1bd8 kernel/rcu/tree.c:2119
- kthread+0x13c/0x188 kernel/kthread.c:292
- ret_from_fork+0x10/0x34 arch/arm64/kernel/entry.S:961
-BUG: workqueue lockup - pool cpus=0 flags=0x4 nice=0 stuck for 16s!
-Showing busy workqueues and worker pools:
-workqueue events: flags=0x0
-  pwq 0: cpus=0 node=0 flags=0x0 nice=0 active=1/256 refcnt=2
-    pending: vmstat_shepherd
-workqueue events_power_efficient: flags=0x82
-  pwq 2: cpus=0 flags=0x4 nice=0 active=2/256 refcnt=4
-    pending: neigh_periodic_work, do_cache_clean
-workqueue rcu_gp: flags=0x8
-  pwq 0: cpus=0 node=0 flags=0x0 nice=0 active=1/256 refcnt=2
-    in-flight: 15:srcu_invoke_callbacks
-pool 0: cpus=0 node=0 flags=0x0 nice=0 hung=0s workers=3 idle: 111 5
-rcu: INFO: rcu_preempt detected stalls on CPUs/tasks:
-	(detected by 0, t=3752 jiffies, g=2829, q=6)
-rcu: All QSes seen, last rcu_preempt kthread activity 1522 (4295422970-4295421448), jiffies_till_next_fqs=1, root ->qsmask 0x0
-rcu: rcu_preempt kthread starved for 1522 jiffies! g2829 f0x2 RCU_GP_CLEANUP(7) ->state=0x0 ->cpu=0
-rcu: 	Unless rcu_preempt kthread gets sufficient CPU time, OOM is now expected behavior.
-rcu: RCU grace-period kthread stack dump:
-task:rcu_preempt     state:R  running task     stack:    0 pid:   10 ppid:     2 flags:0x00000428
-Call trace:
- dump_backtrace+0x0/0x240 arch/arm64/kernel/stacktrace.c:100
- show_stack+0x34/0x88 arch/arm64/kernel/stacktrace.c:196
- sched_show_task kernel/sched/core.c:6445 [inline]
- sched_show_task+0x1fc/0x228 kernel/sched/core.c:6420
- rcu_check_gp_kthread_starvation+0xc8/0xe4 kernel/rcu/tree_stall.h:452
- print_other_cpu_stall kernel/rcu/tree_stall.h:520 [inline]
- check_cpu_stall kernel/rcu/tree_stall.h:640 [inline]
- rcu_pending kernel/rcu/tree.c:3752 [inline]
- rcu_sched_clock_irq+0xb34/0xc48 kernel/rcu/tree.c:2581
- update_process_times+0x6c/0xb8 kernel/time/timer.c:1709
- tick_sched_handle.isra.0+0x58/0x88 kernel/time/tick-sched.c:176
- tick_sched_timer+0x68/0xe0 kernel/time/tick-sched.c:1328
- __run_hrtimer kernel/time/hrtimer.c:1519 [inline]
- __hrtimer_run_queues+0x288/0x730 kernel/time/hrtimer.c:1583
- hrtimer_interrupt+0x114/0x288 kernel/time/hrtimer.c:1645
- timer_handler drivers/clocksource/arm_arch_timer.c:647 [inline]
- arch_timer_handler_virt+0x50/0x70 drivers/clocksource/arm_arch_timer.c:658
- handle_percpu_devid_irq+0x104/0x4c0 kernel/irq/chip.c:930
- generic_handle_irq_desc include/linux/irqdesc.h:152 [inline]
- generic_handle_irq+0x54/0x78 kernel/irq/irqdesc.c:650
- __handle_domain_irq+0xac/0x130 kernel/irq/irqdesc.c:687
- handle_domain_irq include/linux/irqdesc.h:170 [inline]
- gic_handle_irq+0x70/0x108 drivers/irqchip/irq-gic.c:370
- el1_irq+0xc0/0x180 arch/arm64/kernel/entry.S:651
- arch_local_irq_enable arch/arm64/include/asm/irqflags.h:37 [inline]
- __raw_spin_unlock_irq include/linux/spinlock_api_smp.h:168 [inline]
- _raw_spin_unlock_irq+0x50/0x98 kernel/locking/spinlock.c:199
- finish_lock_switch kernel/sched/core.c:3513 [inline]
- finish_task_switch+0xa8/0x290 kernel/sched/core.c:3613
- context_switch kernel/sched/core.c:3776 [inline]
- __schedule+0x2dc/0x980 kernel/sched/core.c:4522
- preempt_schedule_common+0x4c/0x1a8 kernel/sched/core.c:4681
- preempt_schedule+0x38/0x40 kernel/sched/core.c:4706
- __raw_spin_unlock_irq include/linux/spinlock_api_smp.h:169 [inline]
- _raw_spin_unlock_irq+0x84/0x98 kernel/locking/spinlock.c:199
- rcu_gp_cleanup kernel/rcu/tree.c:2046 [inline]
- rcu_gp_kthread+0x1144/0x1bd8 kernel/rcu/tree.c:2119
- kthread+0x13c/0x188 kernel/kthread.c:292
- ret_from_fork+0x10/0x34 arch/arm64/kernel/entry.S:961
-rcu: INFO: rcu_preempt detected stalls on CPUs/tasks:
-	(detected by 0, t=3752 jiffies, g=2845, q=6)
-rcu: All QSes seen, last rcu_preempt kthread activity 2796 (4295435367-4295432571), jiffies_till_next_fqs=1, root ->qsmask 0x0
-rcu: rcu_preempt kthread starved for 2796 jiffies! g2845 f0x2 RCU_GP_WAIT_FQS(5) ->state=0x0 ->cpu=0
-rcu: 	Unless rcu_preempt kthread gets sufficient CPU time, OOM is now expected behavior.
-rcu: RCU grace-period kthread stack dump:
-task:rcu_preempt     state:R  running task     stack:    0 pid:   10 ppid:     2 flags:0x0000042a
-Call trace:
- dump_backtrace+0x0/0x240 arch/arm64/kernel/stacktrace.c:100
- show_stack+0x34/0x88 arch/arm64/kernel/stacktrace.c:196
- sched_show_task kernel/sched/core.c:6445 [inline]
- sched_show_task+0x1fc/0x228 kernel/sched/core.c:6420
- rcu_check_gp_kthread_starvation+0xc8/0xe4 kernel/rcu/tree_stall.h:452
- print_other_cpu_stall kernel/rcu/tree_stall.h:520 [inline]
- check_cpu_stall kernel/rcu/tree_stall.h:640 [inline]
- rcu_pending kernel/rcu/tree.c:3752 [inline]
- rcu_sched_clock_irq+0xb34/0xc48 kernel/rcu/tree.c:2581
- update_process_times+0x6c/0xb8 kernel/time/timer.c:1709
- tick_sched_handle.isra.0+0x58/0x88 kernel/time/tick-sched.c:176
- tick_sched_timer+0x68/0xe0 kernel/time/tick-sched.c:1328
- __run_hrtimer kernel/time/hrtimer.c:1519 [inline]
- __hrtimer_run_queues+0x288/0x730 kernel/time/hrtimer.c:1583
- hrtimer_interrupt+0x114/0x288 kernel/time/hrtimer.c:1645
- timer_handler drivers/clocksource/arm_arch_timer.c:647 [inline]
- arch_timer_handler_virt+0x50/0x70 drivers/clocksource/arm_arch_timer.c:658
- handle_percpu_devid_irq+0x104/0x4c0 kernel/irq/chip.c:930
- generic_handle_irq_desc include/linux/irqdesc.h:152 [inline]
- generic_handle_irq+0x54/0x78 kernel/irq/irqdesc.c:650
- __handle_domain_irq+0xac/0x130 kernel/irq/irqdesc.c:687
- handle_domain_irq include/linux/irqdesc.h:170 [inline]
- gic_handle_irq+0x70/0x108 drivers/irqchip/irq-gic.c:370
- el1_irq+0xc0/0x180 arch/arm64/kernel/entry.S:651
- arch_local_irq_restore arch/arm64/include/asm/irqflags.h:124 [inline]
- rcu_irq_enter_irqson+0x40/0x78 kernel/rcu/tree.c:1078
- trace_preempt_disable_rcuidle include/trace/events/preemptirq.h:51 [inline]
- trace_preempt_off+0x108/0x1f8 kernel/trace/trace_preemptirq.c:130
- preempt_latency_start kernel/sched/core.c:4164 [inline]
- preempt_latency_start kernel/sched/core.c:4157 [inline]
- preempt_schedule_notrace+0x170/0x1c0 kernel/sched/core.c:4747
- __ftrace_ops_list_func kernel/trace/ftrace.c:6956 [inline]
- ftrace_ops_list_func+0x108/0x230 kernel/trace/ftrace.c:6977
- ftrace_graph_call+0x0/0x4
- preempt_count_add+0x8/0x1a0 arch/arm64/include/asm/atomic.h:65
- schedule+0x44/0x100 kernel/sched/core.c:4599
- schedule_timeout+0x240/0x538 kernel/time/timer.c:1871
- rcu_gp_fqs_loop kernel/rcu/tree.c:1942 [inline]
- rcu_gp_kthread+0x618/0x1bd8 kernel/rcu/tree.c:2115
- kthread+0x13c/0x188 kernel/kthread.c:292
- ret_from_fork+0x10/0x34 arch/arm64/kernel/entry.S:961
-OK
-
---0OAP2g/MAC+5xKAE--
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20201118233841.GS1437%40paulmck-ThinkPad-P72.
