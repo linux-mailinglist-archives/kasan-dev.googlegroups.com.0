@@ -1,34 +1,34 @@
-Return-Path: <kasan-dev+bncBCCMH5WKTMGRBE742T6QKGQE7KYNTSI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCCMH5WKTMGRB5762T6QKGQE363SY7I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ua1-x938.google.com (mail-ua1-x938.google.com [IPv6:2607:f8b0:4864:20::938])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F8E82B8084
-	for <lists+kasan-dev@lfdr.de>; Wed, 18 Nov 2020 16:30:29 +0100 (CET)
-Received: by mail-ua1-x938.google.com with SMTP id w19sf601249uap.0
-        for <lists+kasan-dev@lfdr.de>; Wed, 18 Nov 2020 07:30:28 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1605713428; cv=pass;
+Received: from mail-pg1-x537.google.com (mail-pg1-x537.google.com [IPv6:2607:f8b0:4864:20::537])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD4712B809E
+	for <lists+kasan-dev@lfdr.de>; Wed, 18 Nov 2020 16:36:25 +0100 (CET)
+Received: by mail-pg1-x537.google.com with SMTP id s130sf1478222pgc.22
+        for <lists+kasan-dev@lfdr.de>; Wed, 18 Nov 2020 07:36:25 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1605713784; cv=pass;
         d=google.com; s=arc-20160816;
-        b=nDS8ygSkjgA6OjqHg5cxM7OyE2DQ8OT4HG0gx4KIq++T59lBlD1cRSn/eAA+s4nS2C
-         d1HEyTNKXgNpKoU8roq9t3C79euIicRXYrAxLNmTpMyJ7mcQkNv4W0Vj4BfAQJlJU5M3
-         sq/HsTbBwYwEThZ4ZgG4QLX0c1ti12XkU0+HDUuMgzTtO1LxLsfCe0z28RfBodweFuaH
-         lw1VOqDYXCSWCCyNnfJyNyDlzB903ug9Y5w7UDY215pnkIKJ4yJreSOTA6F0oHjOX3Qc
-         F1HDGFZEWJ8sX2siVkr9CYwL1Uu08xdZnFVnQ4HVRa22iOjAHDp0QkOgipj3i2YEst2d
-         6/fw==
+        b=IjamKOBVDb5Fg3626E5blKW97ULcKLMAHvUHZuQo7J8OBOC27DTYqfzoIc2gljA0N3
+         pCGUjLd3aAJU3xEhjmG2zuZVIbDhqpeIyiBh+EVvEMxYGvp2PUflytpfyt4yAtGLeVz9
+         TkdY4WlnQ4xFXHuJc7J74cic6fUioOcR020XBJF3xySk/oSC79IF0XdxhKsizy/iEdN4
+         fINyb6qk2sOBSfvSDrlxjToVVHPwSXp1ILId9oniXk8g2F0z37FX+tTk5ngW+YMo8F/K
+         O5zNiycPYYxCzIprIELogLL/5fdhoqzzcKG1aIqzEzHr1sFG333vYjjDWSQjOf32mL0z
+         dYrA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
          :cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=taJzlbGVg+ZbyV2PfWW9i3nGadUYUNB3W+LZWQSpztk=;
-        b=hsi1oe75ENXByUifcvOP31mqiMSC0uTnOKmBesE4+7mJMCa9UVk3CEOA5mLGXhVIlK
-         KheNHTxqr15pgB+yx8U7MpY4+qTz0teWLk8DBWzGzGsHkYnC9ry/i2jIYmQNYmouBH66
-         oaLy8F5XZqmAtY3jwelC4kWbEvpl9kC3/zStFb0RRbbx4Yx/7UDGSs3PW9gAN3ggvukJ
-         OxCidUEa26Yu4FAAt5Nw8F+ONqJzVm8VwNTV4ky0E962PltSiKsTInsqlL2RvVk16TdS
-         T7/lOJNW7KP1+7fMRgKcMneaV/UEQXvjCrrfiUQKm3UYN6fddJGYsfQA5iyb6z023IhT
-         av0A==
+        bh=exRV/xubiucLIb6Pb2vk3FdJObbomh15RGaOsiE/2zU=;
+        b=piE5COehwMn96oRkPvgj/HK2FY5StabLWPgXo4NdYYLWUw/V1hNOncp0Bwy2LkmpEw
+         IoQOipNED8cX3X8E0l3IPSkfrKkGd2r0+KxNZBLNSMJ/NwpDuXow6a++T4DqRmLWwyPO
+         bHbpeXhDdKNTh4qJVxQK21s2mhf+5Gyu5NfIB+SiFChNUGZsaePDiSidLs01D51Q/Dd0
+         8V7atKC7+uiO7alKI5fEB8beTo97IbDkoHpW7yvaAFkjvR/C3uyEd2PJY22GU9iABbJp
+         ijiBgWCoyF1YtQ6eJ84B0r4VmEUSCmq3Ui/2fTRpS0wBbaZ7KiulUXMekRskGORIR05K
+         jMxA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b="Rx3USm/E";
-       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f41 as permitted sender) smtp.mailfrom=glider@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=PCVKLLBR;
+       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::843 as permitted sender) smtp.mailfrom=glider@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
@@ -37,13 +37,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:list-post:list-help:list-archive:list-subscribe
          :list-unsubscribe;
-        bh=taJzlbGVg+ZbyV2PfWW9i3nGadUYUNB3W+LZWQSpztk=;
-        b=OurM1sK5BKRjlzfiItsILojl+jQ6oi6dQfch5iOkcc0sPPWvDqbvG5JqkcZ1zFNYrx
-         07r+SDBdp/idTsKPuakYn78Fzw1JExOp4Ckmhrdm4XRlAPQroe5irIhGgAxI2o1JVd+K
-         h0aTwpb+vn/HscD1JTxIf2oyIqcGt368FoIGGC6/TbMxUGImfOs0s+V7XmuVEbjw+vHs
-         Erl8586uxG5K6GQ1obkdOeCZ9bw4lTLLmFxIqFoHj4A5DHrE80gqw6a0dF+vj9WLlS7B
-         diX9jAzeOoIWh5qmRBK1ZCq4ZbVkX9v5uEWQ8gzi3/xixAOJeret6NTSW7fcMQqEToyG
-         LD3Q==
+        bh=exRV/xubiucLIb6Pb2vk3FdJObbomh15RGaOsiE/2zU=;
+        b=QASwR/FCZ6yWqV3pcuCVbWAFNRvbUItWEpvUOWnwVQ6mwIbhqT9h78wsMf/J9aXzVP
+         49jzKHMpkOwetbufmm/rGBK+g2R0xa20icVf07uXcnqrZsRiLFumfWKe8bqr1x+CczxI
+         cLiAXLRs0nOPEjma0iRvq/4zed9zCcFlfi/OVFTvubtxfYH6WHI8lrGIXm+3FtsVS2af
+         2MbVYpliYCIjNxv/2fH13nLc9hX5QhS2E/EZjes8q8DPSJL/RgBaFTUNVDclxy72KAox
+         rbE5z5rGVCJbKZqUQONgPnXhcJYa8ZgaOFnsstscsqiUlH1mUWs4kf54yyi1q1Gc/p/w
+         hkZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
@@ -51,62 +51,62 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
          :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=taJzlbGVg+ZbyV2PfWW9i3nGadUYUNB3W+LZWQSpztk=;
-        b=S8uKTWX1wbg5IInAL0MLeZLmZDT+VUZVlnCGqTiw9SxjrFTa1X+1CWVsTZ70muV80f
-         ft9AwO3egRv96RMxAKg/exAf47RVnz/qlAmApOID1OUdxWTs0Tb5dFqpsanKDiZirJm+
-         HxpUnEnnHhdKxfQ15gbf4pP6MZoMr1LUw4pWofklxt3IhNDflcXhrbL8W1KV8E24Vu2x
-         frEQLiks3RKeGsn+nr138AkgENLDAHELD6ldvsvmMjbah2Zmme2rG11WSumQlyncZalh
-         0kadMQpru31vRaRf3sBKFSioljALqUGq/48H7j+XAjCvRFbKYiGGmaMaaG6vyK/7ROAn
-         HGHQ==
-X-Gm-Message-State: AOAM530LXaphkyKgKeGs/0lYXIzWgqm/W8qXbfmSgOvS1P4GXtVr33d8
-	Hw6Y8i2g3ZN0B8y3lok4lko=
-X-Google-Smtp-Source: ABdhPJwugMsVXXnMm2CpvsK+WHe8/LD8ZDeBhNItjvPaaoP+N7mIZfOWq9eEY8veeZOrskOhpEyNHQ==
-X-Received: by 2002:a67:f80b:: with SMTP id l11mr1457257vso.26.1605713427840;
-        Wed, 18 Nov 2020 07:30:27 -0800 (PST)
+        bh=exRV/xubiucLIb6Pb2vk3FdJObbomh15RGaOsiE/2zU=;
+        b=l2NlUbg8BLeLGnyjSFlap9YLuuGYLGH2bWesHca80XLct3bJXkkR5t7G6GiKvPTvHw
+         BkBRa93aDrf/2toGcPE8xDaQfd0jVdPEPxvDfnjMdCeDJetEfw5hx4rBPk4L3h1DMhww
+         Rzd+OXyNk8dVNcXCjvwznG4UzBB0q3jMfcbz0I36binVwLTMZ3hHhSvWnVRd98FtzBao
+         0+I4/jTFGcEn0+JPwZ9EN9OK4lBicT1AMzgKQrtMD8X6hikRdDOSF19KWVQdfOBqn1DU
+         XCpV7TYVV6SHY4LjAfOSm6P6eLL+tNr2kmBWXmgw1xGZQIxXM98HdahTllGKnFzYFuBk
+         /itg==
+X-Gm-Message-State: AOAM531lne1Q6aO0mxEXXcCgLDnQKrdQ7ynYbZdTLUuLWqigUBmhr5Oi
+	ITJAOABWpgpDvn4A9XNO1z4=
+X-Google-Smtp-Source: ABdhPJx/mqttCGFJ1PLxZFv0qGrjDNZV11zq64pWw3nQ7vWTejnvGRkd1BcSudG0TsDPffVXzQEk6g==
+X-Received: by 2002:aa7:8a01:0:b029:18b:b71f:ce82 with SMTP id m1-20020aa78a010000b029018bb71fce82mr5327232pfa.52.1605713783795;
+        Wed, 18 Nov 2020 07:36:23 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a9f:3b19:: with SMTP id i25ls1468037uah.5.gmail; Wed, 18 Nov
- 2020 07:30:27 -0800 (PST)
-X-Received: by 2002:ab0:6dd1:: with SMTP id r17mr3760479uaf.108.1605713427279;
-        Wed, 18 Nov 2020 07:30:27 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1605713427; cv=none;
+Received: by 2002:a17:90a:a0e:: with SMTP id o14ls3465597pjo.1.canary-gmail;
+ Wed, 18 Nov 2020 07:36:23 -0800 (PST)
+X-Received: by 2002:a17:90a:ce8c:: with SMTP id g12mr457598pju.181.1605713783268;
+        Wed, 18 Nov 2020 07:36:23 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1605713783; cv=none;
         d=google.com; s=arc-20160816;
-        b=ckz5Li7JMu9cSxQBrgmP8tK2ogh2c+zdOVwD0ZTSNVMjAK8CGzQDMa3ask1pTXxHkB
-         zY5G153cDFMIYdH+BJu6RrLlwDTin6a9DXLs56zs/bl/lVRQthTl8aCSpbKOGktdO4gl
-         9U9tijQyieXNZa1qXZyTbl+WpkZtBQ3RhPZtauhcBbClLflxCCgPfitNbxkBpKTkR0Qb
-         O0+jJHKEBp6wagSrYM+PQBug+YU7ljJn5S+Tj+f+pzU0k5j8BKu6G6McblzHpLdhUaWd
-         dDr+JH0XC4wnt603layoOHBE46VBATEMKOadYB6DJ0VAZp1W7h3SBr0fj/SUMJvCCbGz
-         ua6w==
+        b=tMduOmbVFuWiCTSm47OKU4cNP+03wx2ese48CYZl/ybEaakj8CMvTeRHVU8VL7RTNq
+         9t0rAoWDtXugKVx/DirKsesAsNl9iONhI+7Y2l6u2rurtlneFSIEQue+ReHORWVbhiwt
+         AxD4aZuwhJp2VW+FEKOmfnu0Hh4h81DB2AI8h2HuwvYRrLInzRgssF7uYqkUxpGsb3bl
+         aMCG88ri7vSzvYMU9ThEabS25lGw1tPcejxNQVrrAjm/EFcHuTFznOy3ZZ3UzS/+wwpS
+         3VRIheE75oj2TOLV/eHgMZJcrKckMUdwVEpPWlk0RZlXL6VNAAsYFRMS/ansh1Y3zPZH
+         YZTA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=wonpByTzbuJxA+M2ARgOF+/g8Val/wioKkFNzzsy6gU=;
-        b=fa7WnpxVZRW7ssaQP2HN3A9M5F9rJuKM5o8+eKXkWs86xTHoiju4kwJXoiKOzLrX8P
-         NoIONEMgE6sJIzHjomqQz4+FE1tVqJ/Jrp12FW0yIbSva6cd5cCj2Go05WdtFufXUoP1
-         hNww9FVsRWsJvtbK58J5z4qbwULHGvv12od1oYEh/U9gOgsPtWe9RhGx9nD1zwkh8ncY
-         Tsr58bVoyAiX30fP/u6Aj8RAjKwC1Zmdyug+1F30mPYaRRf3ISheJD3Vmb0gTCUemuSr
-         TaydlCnLr3a50nG4rJZ9hAP6Ekn1J+i4mBlfAzgGVmeQrKlKdoSSfDQ9oIQxI5Nts0Rt
-         QirQ==
+        bh=DAmalSkle6LseckfE0Oz3lBRGT6/gmH8HIzwoCuD14c=;
+        b=WSE/ilSONgLfni46XTa/pGEhIWj/DCBLbZPNx64CucOXb1hK8lNNLvZtL0PVAVXok4
+         gBTBD9WEJo5wblXVSAbsuBfc4br3bN4H4qFZX3U63aC/n2o6G2FKNp/BWpsw5zTnLdls
+         kYcLHqr7GwzudtpnaP+pmm1jJEhdwLV0qF68TaY6h4pHZqexryXrgF1fSn8qkBTAVbCw
+         +7l12mGpijFfEDqC2EV41T8MoWjrTLBsyd3ilnZXEHbgWy2Ib5Hh/aOji/xw03rmCoz5
+         ET5vCaQtKBaxsWmkPGCKNUOt3MrYorD0X8zud5ui3bdvDybjya8wwYJf34tPJbsnvw9V
+         N4aA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b="Rx3USm/E";
-       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f41 as permitted sender) smtp.mailfrom=glider@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=PCVKLLBR;
+       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::843 as permitted sender) smtp.mailfrom=glider@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-qv1-xf41.google.com (mail-qv1-xf41.google.com. [2607:f8b0:4864:20::f41])
-        by gmr-mx.google.com with ESMTPS id m17si1755532vsk.0.2020.11.18.07.30.27
+Received: from mail-qt1-x843.google.com (mail-qt1-x843.google.com. [2607:f8b0:4864:20::843])
+        by gmr-mx.google.com with ESMTPS id b26si1607705pfd.5.2020.11.18.07.36.23
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 18 Nov 2020 07:30:27 -0800 (PST)
-Received-SPF: pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f41 as permitted sender) client-ip=2607:f8b0:4864:20::f41;
-Received: by mail-qv1-xf41.google.com with SMTP id x13so1180211qvk.8
-        for <kasan-dev@googlegroups.com>; Wed, 18 Nov 2020 07:30:27 -0800 (PST)
-X-Received: by 2002:a0c:c583:: with SMTP id a3mr5176021qvj.2.1605713426500;
- Wed, 18 Nov 2020 07:30:26 -0800 (PST)
+        Wed, 18 Nov 2020 07:36:23 -0800 (PST)
+Received-SPF: pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::843 as permitted sender) client-ip=2607:f8b0:4864:20::843;
+Received: by mail-qt1-x843.google.com with SMTP id g15so1834537qtq.13
+        for <kasan-dev@googlegroups.com>; Wed, 18 Nov 2020 07:36:23 -0800 (PST)
+X-Received: by 2002:ac8:5c85:: with SMTP id r5mr5115177qta.8.1605713782397;
+ Wed, 18 Nov 2020 07:36:22 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1605305705.git.andreyknvl@google.com> <c305a433db6fe8ef194cddf8615db0ef7a3b0355.1605305705.git.andreyknvl@google.com>
-In-Reply-To: <c305a433db6fe8ef194cddf8615db0ef7a3b0355.1605305705.git.andreyknvl@google.com>
+References: <cover.1605305705.git.andreyknvl@google.com> <19601c2110760228adf7594385db4508f62a5721.1605305705.git.andreyknvl@google.com>
+In-Reply-To: <19601c2110760228adf7594385db4508f62a5721.1605305705.git.andreyknvl@google.com>
 From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Wed, 18 Nov 2020 16:30:15 +0100
-Message-ID: <CAG_fn=Wy7fLJd46=N9U-yQAQreioEf2ny+CGNmhUVYpbWiXA1Q@mail.gmail.com>
-Subject: Re: [PATCH mm v10 05/42] kasan: rename (un)poison_shadow to (un)poison_range
+Date: Wed, 18 Nov 2020 16:36:10 +0100
+Message-ID: <CAG_fn=U3uSm3-dDoDJ6RG2-p4SmcG0sB0z3yjX4Xypf7U67qVg@mail.gmail.com>
+Subject: Re: [PATCH mm v10 09/42] kasan: define KASAN_MEMORY_PER_SHADOW_PAGE
 To: Andrey Konovalov <andreyknvl@google.com>
 Cc: Andrew Morton <akpm@linux-foundation.org>, Catalin Marinas <catalin.marinas@arm.com>, 
 	Will Deacon <will.deacon@arm.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, 
@@ -120,8 +120,8 @@ Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Original-Sender: glider@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b="Rx3USm/E";       spf=pass
- (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f41 as
+ header.i=@google.com header.s=20161025 header.b=PCVKLLBR;       spf=pass
+ (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::843 as
  permitted sender) smtp.mailfrom=glider@google.com;       dmarc=pass (p=REJECT
  sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Alexander Potapenko <glider@google.com>
@@ -141,365 +141,117 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 On Fri, Nov 13, 2020 at 11:16 PM Andrey Konovalov <andreyknvl@google.com> w=
 rote:
 >
-> This is a preparatory commit for the upcoming addition of a new hardware
-> tag-based (MTE-based) KASAN mode.
+> Define KASAN_MEMORY_PER_SHADOW_PAGE as (KASAN_GRANULE_SIZE << PAGE_SHIFT)=
+,
+> which is the same as (KASAN_GRANULE_SIZE * PAGE_SIZE) for software modes
+> that use shadow memory, and use it across KASAN code to simplify it.
 >
-> The new mode won't be using shadow memory. Rename external annotation
-> kasan_unpoison_shadow() to kasan_unpoison_range(), and introduce internal
-> functions (un)poison_range() (without kasan_ prefix).
->
-> Co-developed-by: Marco Elver <elver@google.com>
-> Signed-off-by: Marco Elver <elver@google.com>
 > Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 > Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
+> Reviewed-by: Marco Elver <elver@google.com>
 Reviewed-by: Alexander Potapenko <glider@google.com>
 
 > ---
-> Change-Id: Ia359f32815242c4704e49a5f1639ca2d2f8cba69
+> Change-Id: I0b627b24187d06c8b9bb2f1d04d94b3d06945e73
 > ---
->  include/linux/kasan.h |  6 +++---
->  kernel/fork.c         |  4 ++--
->  mm/kasan/common.c     | 49 ++++++++++++++++++++++++-------------------
->  mm/kasan/generic.c    | 23 ++++++++++----------
->  mm/kasan/kasan.h      |  3 ++-
->  mm/kasan/tags.c       |  2 +-
->  mm/slab_common.c      |  2 +-
->  7 files changed, 47 insertions(+), 42 deletions(-)
+>  mm/kasan/init.c   | 10 ++++------
+>  mm/kasan/kasan.h  |  2 ++
+>  mm/kasan/shadow.c | 16 +++++++---------
+>  3 files changed, 13 insertions(+), 15 deletions(-)
 >
-> diff --git a/include/linux/kasan.h b/include/linux/kasan.h
-> index 26f2ab92e7ca..d237051dca58 100644
-> --- a/include/linux/kasan.h
-> +++ b/include/linux/kasan.h
-> @@ -71,7 +71,7 @@ extern void kasan_enable_current(void);
->  /* Disable reporting bugs for current task */
->  extern void kasan_disable_current(void);
+> diff --git a/mm/kasan/init.c b/mm/kasan/init.c
+> index 1a71eaa8c5f9..bc0ad208b3a7 100644
+> --- a/mm/kasan/init.c
+> +++ b/mm/kasan/init.c
+> @@ -441,9 +441,8 @@ void kasan_remove_zero_shadow(void *start, unsigned l=
+ong size)
+>         addr =3D (unsigned long)kasan_mem_to_shadow(start);
+>         end =3D addr + (size >> KASAN_SHADOW_SCALE_SHIFT);
 >
-> -void kasan_unpoison_shadow(const void *address, size_t size);
-> +void kasan_unpoison_range(const void *address, size_t size);
->
->  void kasan_unpoison_task_stack(struct task_struct *task);
->
-> @@ -108,7 +108,7 @@ struct kasan_cache {
->  size_t __ksize(const void *);
->  static inline void kasan_unpoison_slab(const void *ptr)
->  {
-> -       kasan_unpoison_shadow(ptr, __ksize(ptr));
-> +       kasan_unpoison_range(ptr, __ksize(ptr));
->  }
->  size_t kasan_metadata_size(struct kmem_cache *cache);
->
-> @@ -117,7 +117,7 @@ void kasan_restore_multi_shot(bool enabled);
->
->  #else /* CONFIG_KASAN */
->
-> -static inline void kasan_unpoison_shadow(const void *address, size_t siz=
-e) {}
-> +static inline void kasan_unpoison_range(const void *address, size_t size=
-) {}
->
->  static inline void kasan_unpoison_task_stack(struct task_struct *task) {=
-}
->
-> diff --git a/kernel/fork.c b/kernel/fork.c
-> index 15f189bb8ec4..bee52236f09b 100644
-> --- a/kernel/fork.c
-> +++ b/kernel/fork.c
-> @@ -225,8 +225,8 @@ static unsigned long *alloc_thread_stack_node(struct =
-task_struct *tsk, int node)
->                 if (!s)
->                         continue;
->
-> -               /* Clear the KASAN shadow of the stack. */
-> -               kasan_unpoison_shadow(s->addr, THREAD_SIZE);
-> +               /* Mark stack accessible for KASAN. */
-> +               kasan_unpoison_range(s->addr, THREAD_SIZE);
->
->                 /* Clear stale pointers from reused stack. */
->                 memset(s->addr, 0, THREAD_SIZE);
-> diff --git a/mm/kasan/common.c b/mm/kasan/common.c
-> index f5739be60edc..6adbf5891aff 100644
-> --- a/mm/kasan/common.c
-> +++ b/mm/kasan/common.c
-> @@ -109,7 +109,7 @@ void *memcpy(void *dest, const void *src, size_t len)
->   * Poisons the shadow memory for 'size' bytes starting from 'addr'.
->   * Memory addresses should be aligned to KASAN_SHADOW_SCALE_SIZE.
->   */
-> -void kasan_poison_shadow(const void *address, size_t size, u8 value)
-> +void poison_range(const void *address, size_t size, u8 value)
->  {
->         void *shadow_start, *shadow_end;
->
-> @@ -130,7 +130,7 @@ void kasan_poison_shadow(const void *address, size_t =
-size, u8 value)
->         __memset(shadow_start, value, shadow_end - shadow_start);
->  }
->
-> -void kasan_unpoison_shadow(const void *address, size_t size)
-> +void unpoison_range(const void *address, size_t size)
->  {
->         u8 tag =3D get_tag(address);
->
-> @@ -149,7 +149,7 @@ void kasan_unpoison_shadow(const void *address, size_=
-t size)
->         if (is_kfence_address(address))
+> -       if (WARN_ON((unsigned long)start %
+> -                       (KASAN_GRANULE_SIZE * PAGE_SIZE)) ||
+> -           WARN_ON(size % (KASAN_GRANULE_SIZE * PAGE_SIZE)))
+> +       if (WARN_ON((unsigned long)start % KASAN_MEMORY_PER_SHADOW_PAGE) =
+||
+> +           WARN_ON(size % KASAN_MEMORY_PER_SHADOW_PAGE))
 >                 return;
 >
-> -       kasan_poison_shadow(address, size, tag);
-> +       poison_range(address, size, tag);
+>         for (; addr < end; addr =3D next) {
+> @@ -476,9 +475,8 @@ int kasan_add_zero_shadow(void *start, unsigned long =
+size)
+>         shadow_start =3D kasan_mem_to_shadow(start);
+>         shadow_end =3D shadow_start + (size >> KASAN_SHADOW_SCALE_SHIFT);
 >
->         if (size & KASAN_SHADOW_MASK) {
->                 u8 *shadow =3D (u8 *)kasan_mem_to_shadow(address + size);
-> @@ -161,12 +161,17 @@ void kasan_unpoison_shadow(const void *address, siz=
-e_t size)
->         }
->  }
+> -       if (WARN_ON((unsigned long)start %
+> -                       (KASAN_GRANULE_SIZE * PAGE_SIZE)) ||
+> -           WARN_ON(size % (KASAN_GRANULE_SIZE * PAGE_SIZE)))
+> +       if (WARN_ON((unsigned long)start % KASAN_MEMORY_PER_SHADOW_PAGE) =
+||
+> +           WARN_ON(size % KASAN_MEMORY_PER_SHADOW_PAGE))
+>                 return -EINVAL;
 >
-> +void kasan_unpoison_range(const void *address, size_t size)
-> +{
-> +       unpoison_range(address, size);
-> +}
-> +
->  static void __kasan_unpoison_stack(struct task_struct *task, const void =
-*sp)
->  {
->         void *base =3D task_stack_page(task);
->         size_t size =3D sp - base;
->
-> -       kasan_unpoison_shadow(base, size);
-> +       unpoison_range(base, size);
->  }
->
->  /* Unpoison the entire stack for a task. */
-> @@ -185,7 +190,7 @@ asmlinkage void kasan_unpoison_task_stack_below(const=
- void *watermark)
->          */
->         void *base =3D (void *)((unsigned long)watermark & ~(THREAD_SIZE =
-- 1));
->
-> -       kasan_unpoison_shadow(base, watermark - base);
-> +       unpoison_range(base, watermark - base);
->  }
->
->  void kasan_alloc_pages(struct page *page, unsigned int order)
-> @@ -199,13 +204,13 @@ void kasan_alloc_pages(struct page *page, unsigned =
-int order)
->         tag =3D random_tag();
->         for (i =3D 0; i < (1 << order); i++)
->                 page_kasan_tag_set(page + i, tag);
-> -       kasan_unpoison_shadow(page_address(page), PAGE_SIZE << order);
-> +       unpoison_range(page_address(page), PAGE_SIZE << order);
->  }
->
->  void kasan_free_pages(struct page *page, unsigned int order)
->  {
->         if (likely(!PageHighMem(page)))
-> -               kasan_poison_shadow(page_address(page),
-> +               poison_range(page_address(page),
->                                 PAGE_SIZE << order,
->                                 KASAN_FREE_PAGE);
->  }
-> @@ -297,18 +302,18 @@ void kasan_poison_slab(struct page *page)
->
->         for (i =3D 0; i < compound_nr(page); i++)
->                 page_kasan_tag_reset(page + i);
-> -       kasan_poison_shadow(page_address(page), page_size(page),
-> -                       KASAN_KMALLOC_REDZONE);
-> +       poison_range(page_address(page), page_size(page),
-> +                    KASAN_KMALLOC_REDZONE);
->  }
->
->  void kasan_unpoison_object_data(struct kmem_cache *cache, void *object)
->  {
-> -       kasan_unpoison_shadow(object, cache->object_size);
-> +       unpoison_range(object, cache->object_size);
->  }
->
->  void kasan_poison_object_data(struct kmem_cache *cache, void *object)
->  {
-> -       kasan_poison_shadow(object,
-> +       poison_range(object,
->                         round_up(cache->object_size, KASAN_SHADOW_SCALE_S=
-IZE),
->                         KASAN_KMALLOC_REDZONE);
->  }
-> @@ -424,7 +429,7 @@ static bool __kasan_slab_free(struct kmem_cache *cach=
-e, void *object,
->         }
->
->         rounded_up_size =3D round_up(cache->object_size, KASAN_SHADOW_SCA=
-LE_SIZE);
-> -       kasan_poison_shadow(object, rounded_up_size, KASAN_KMALLOC_FREE);
-> +       poison_range(object, rounded_up_size, KASAN_KMALLOC_FREE);
->
->         if ((IS_ENABLED(CONFIG_KASAN_GENERIC) && !quarantine) ||
->                         unlikely(!(cache->flags & SLAB_KASAN)))
-> @@ -467,9 +472,9 @@ static void *__kasan_kmalloc(struct kmem_cache *cache=
-, const void *object,
->                 tag =3D assign_tag(cache, object, false, keep_tag);
->
->         /* Tag is ignored in set_tag without CONFIG_KASAN_SW_TAGS */
-> -       kasan_unpoison_shadow(set_tag(object, tag), size);
-> -       kasan_poison_shadow((void *)redzone_start, redzone_end - redzone_=
-start,
-> -               KASAN_KMALLOC_REDZONE);
-> +       unpoison_range(set_tag(object, tag), size);
-> +       poison_range((void *)redzone_start, redzone_end - redzone_start,
-> +                    KASAN_KMALLOC_REDZONE);
->
->         if (cache->flags & SLAB_KASAN)
->                 kasan_set_track(&get_alloc_info(cache, object)->alloc_tra=
-ck, flags);
-> @@ -508,9 +513,9 @@ void * __must_check kasan_kmalloc_large(const void *p=
-tr, size_t size,
->                                 KASAN_SHADOW_SCALE_SIZE);
->         redzone_end =3D (unsigned long)ptr + page_size(page);
->
-> -       kasan_unpoison_shadow(ptr, size);
-> -       kasan_poison_shadow((void *)redzone_start, redzone_end - redzone_=
-start,
-> -               KASAN_PAGE_REDZONE);
-> +       unpoison_range(ptr, size);
-> +       poison_range((void *)redzone_start, redzone_end - redzone_start,
-> +                    KASAN_PAGE_REDZONE);
->
->         return (void *)ptr;
->  }
-> @@ -542,7 +547,7 @@ void kasan_poison_kfree(void *ptr, unsigned long ip)
->                         kasan_report_invalid_free(ptr, ip);
->                         return;
->                 }
-> -               kasan_poison_shadow(ptr, page_size(page), KASAN_FREE_PAGE=
-);
-> +               poison_range(ptr, page_size(page), KASAN_FREE_PAGE);
->         } else {
->                 __kasan_slab_free(page->slab_cache, ptr, ip, false);
->         }
-> @@ -728,7 +733,7 @@ int kasan_populate_vmalloc(unsigned long addr, unsign=
-ed long size)
->          * // vmalloc() allocates memory
->          * // let a =3D area->addr
->          * // we reach kasan_populate_vmalloc
-> -        * // and call kasan_unpoison_shadow:
-> +        * // and call unpoison_range:
->          * STORE shadow(a), unpoison_val
->          * ...
->          * STORE shadow(a+99), unpoison_val     x =3D LOAD p
-> @@ -763,7 +768,7 @@ void kasan_poison_vmalloc(const void *start, unsigned=
- long size)
->                 return;
->
->         size =3D round_up(size, KASAN_SHADOW_SCALE_SIZE);
-> -       kasan_poison_shadow(start, size, KASAN_VMALLOC_INVALID);
-> +       poison_range(start, size, KASAN_VMALLOC_INVALID);
->  }
->
->  void kasan_unpoison_vmalloc(const void *start, unsigned long size)
-> @@ -771,7 +776,7 @@ void kasan_unpoison_vmalloc(const void *start, unsign=
-ed long size)
->         if (!is_vmalloc_or_module_addr(start))
->                 return;
->
-> -       kasan_unpoison_shadow(start, size);
-> +       unpoison_range(start, size);
->  }
->
->  static int kasan_depopulate_vmalloc_pte(pte_t *ptep, unsigned long addr,
-> diff --git a/mm/kasan/generic.c b/mm/kasan/generic.c
-> index d6a386255007..cdc2d8112f3e 100644
-> --- a/mm/kasan/generic.c
-> +++ b/mm/kasan/generic.c
-> @@ -203,11 +203,11 @@ static void register_global(struct kasan_global *gl=
-obal)
->  {
->         size_t aligned_size =3D round_up(global->size, KASAN_SHADOW_SCALE=
-_SIZE);
->
-> -       kasan_unpoison_shadow(global->beg, global->size);
-> +       unpoison_range(global->beg, global->size);
->
-> -       kasan_poison_shadow(global->beg + aligned_size,
-> -               global->size_with_redzone - aligned_size,
-> -               KASAN_GLOBAL_REDZONE);
-> +       poison_range(global->beg + aligned_size,
-> +                    global->size_with_redzone - aligned_size,
-> +                    KASAN_GLOBAL_REDZONE);
->  }
->
->  void __asan_register_globals(struct kasan_global *globals, size_t size)
-> @@ -286,13 +286,12 @@ void __asan_alloca_poison(unsigned long addr, size_=
-t size)
->
->         WARN_ON(!IS_ALIGNED(addr, KASAN_ALLOCA_REDZONE_SIZE));
->
-> -       kasan_unpoison_shadow((const void *)(addr + rounded_down_size),
-> -                             size - rounded_down_size);
-> -       kasan_poison_shadow(left_redzone, KASAN_ALLOCA_REDZONE_SIZE,
-> -                       KASAN_ALLOCA_LEFT);
-> -       kasan_poison_shadow(right_redzone,
-> -                       padding_size + KASAN_ALLOCA_REDZONE_SIZE,
-> -                       KASAN_ALLOCA_RIGHT);
-> +       unpoison_range((const void *)(addr + rounded_down_size),
-> +                      size - rounded_down_size);
-> +       poison_range(left_redzone, KASAN_ALLOCA_REDZONE_SIZE,
-> +                    KASAN_ALLOCA_LEFT);
-> +       poison_range(right_redzone, padding_size + KASAN_ALLOCA_REDZONE_S=
-IZE,
-> +                    KASAN_ALLOCA_RIGHT);
->  }
->  EXPORT_SYMBOL(__asan_alloca_poison);
->
-> @@ -302,7 +301,7 @@ void __asan_allocas_unpoison(const void *stack_top, c=
-onst void *stack_bottom)
->         if (unlikely(!stack_top || stack_top > stack_bottom))
->                 return;
->
-> -       kasan_unpoison_shadow(stack_top, stack_bottom - stack_top);
-> +       unpoison_range(stack_top, stack_bottom - stack_top);
->  }
->  EXPORT_SYMBOL(__asan_allocas_unpoison);
->
+>         ret =3D kasan_populate_early_shadow(shadow_start, shadow_end);
 > diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
-> index ac499456740f..42ab02c61331 100644
+> index 53b095f56f28..eec88bf28c64 100644
 > --- a/mm/kasan/kasan.h
 > +++ b/mm/kasan/kasan.h
-> @@ -150,7 +150,8 @@ static inline bool addr_has_shadow(const void *addr)
->         return (addr >=3D kasan_shadow_to_mem((void *)KASAN_SHADOW_START)=
-);
->  }
+> @@ -8,6 +8,8 @@
+>  #define KASAN_GRANULE_SIZE     (1UL << KASAN_SHADOW_SCALE_SHIFT)
+>  #define KASAN_GRANULE_MASK     (KASAN_GRANULE_SIZE - 1)
 >
-> -void kasan_poison_shadow(const void *address, size_t size, u8 value);
-> +void poison_range(const void *address, size_t size, u8 value);
-> +void unpoison_range(const void *address, size_t size);
+> +#define KASAN_MEMORY_PER_SHADOW_PAGE   (KASAN_GRANULE_SIZE << PAGE_SHIFT=
+)
+> +
+>  #define KASAN_TAG_KERNEL       0xFF /* native kernel pointers tag */
+>  #define KASAN_TAG_INVALID      0xFE /* inaccessible memory tag */
+>  #define KASAN_TAG_MAX          0xFD /* maximum value for random tags */
+> diff --git a/mm/kasan/shadow.c b/mm/kasan/shadow.c
+> index 4264bfbdca1a..80522d2c447b 100644
+> --- a/mm/kasan/shadow.c
+> +++ b/mm/kasan/shadow.c
+> @@ -174,7 +174,7 @@ static int __meminit kasan_mem_notifier(struct notifi=
+er_block *nb,
+>         shadow_end =3D shadow_start + shadow_size;
 >
->  /**
->   * check_memory_region - Check memory region, and report if invalid acce=
-ss.
-> diff --git a/mm/kasan/tags.c b/mm/kasan/tags.c
-> index 5c8b08a25715..c0b3f327812b 100644
-> --- a/mm/kasan/tags.c
-> +++ b/mm/kasan/tags.c
-> @@ -153,7 +153,7 @@ EXPORT_SYMBOL(__hwasan_storeN_noabort);
+>         if (WARN_ON(mem_data->nr_pages % KASAN_GRANULE_SIZE) ||
+> -               WARN_ON(start_kaddr % (KASAN_GRANULE_SIZE << PAGE_SHIFT))=
+)
+> +               WARN_ON(start_kaddr % KASAN_MEMORY_PER_SHADOW_PAGE))
+>                 return NOTIFY_BAD;
 >
->  void __hwasan_tag_memory(unsigned long addr, u8 tag, unsigned long size)
->  {
-> -       kasan_poison_shadow((void *)addr, size, tag);
-> +       poison_range((void *)addr, size, tag);
->  }
->  EXPORT_SYMBOL(__hwasan_tag_memory);
+>         switch (action) {
+> @@ -445,22 +445,20 @@ void kasan_release_vmalloc(unsigned long start, uns=
+igned long end,
+>         unsigned long region_start, region_end;
+>         unsigned long size;
 >
-> diff --git a/mm/slab_common.c b/mm/slab_common.c
-> index 479d17b90155..0b5ae1819a8b 100644
-> --- a/mm/slab_common.c
-> +++ b/mm/slab_common.c
-> @@ -1179,7 +1179,7 @@ size_t ksize(const void *objp)
->          * We assume that ksize callers could use whole allocated area,
->          * so we need to unpoison this area.
->          */
-> -       kasan_unpoison_shadow(objp, size);
-> +       kasan_unpoison_range(objp, size);
->         return size;
->  }
->  EXPORT_SYMBOL(ksize);
+> -       region_start =3D ALIGN(start, PAGE_SIZE * KASAN_GRANULE_SIZE);
+> -       region_end =3D ALIGN_DOWN(end, PAGE_SIZE * KASAN_GRANULE_SIZE);
+> +       region_start =3D ALIGN(start, KASAN_MEMORY_PER_SHADOW_PAGE);
+> +       region_end =3D ALIGN_DOWN(end, KASAN_MEMORY_PER_SHADOW_PAGE);
+>
+> -       free_region_start =3D ALIGN(free_region_start,
+> -                                 PAGE_SIZE * KASAN_GRANULE_SIZE);
+> +       free_region_start =3D ALIGN(free_region_start, KASAN_MEMORY_PER_S=
+HADOW_PAGE);
+>
+>         if (start !=3D region_start &&
+>             free_region_start < region_start)
+> -               region_start -=3D PAGE_SIZE * KASAN_GRANULE_SIZE;
+> +               region_start -=3D KASAN_MEMORY_PER_SHADOW_PAGE;
+>
+> -       free_region_end =3D ALIGN_DOWN(free_region_end,
+> -                                    PAGE_SIZE * KASAN_GRANULE_SIZE);
+> +       free_region_end =3D ALIGN_DOWN(free_region_end, KASAN_MEMORY_PER_=
+SHADOW_PAGE);
+>
+>         if (end !=3D region_end &&
+>             free_region_end > region_end)
+> -               region_end +=3D PAGE_SIZE * KASAN_GRANULE_SIZE;
+> +               region_end +=3D KASAN_MEMORY_PER_SHADOW_PAGE;
+>
+>         shadow_start =3D kasan_mem_to_shadow((void *)region_start);
+>         shadow_end =3D kasan_mem_to_shadow((void *)region_end);
 > --
 > 2.29.2.299.gdc1121823c-goog
 >
@@ -523,5 +275,5 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CAG_fn%3DWy7fLJd46%3DN9U-yQAQreioEf2ny%2BCGNmhUVYpbWiXA1Q%40mail.=
-gmail.com.
+kasan-dev/CAG_fn%3DU3uSm3-dDoDJ6RG2-p4SmcG0sB0z3yjX4Xypf7U67qVg%40mail.gmai=
+l.com.
