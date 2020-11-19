@@ -1,72 +1,142 @@
-Return-Path: <kasan-dev+bncBCH2XPOBSAERBF5A276QKGQEAJS2QYI@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBG6C3H6QKGQECXGCOBQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ot1-x33f.google.com (mail-ot1-x33f.google.com [IPv6:2607:f8b0:4864:20::33f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28F132B89D8
-	for <lists+kasan-dev@lfdr.de>; Thu, 19 Nov 2020 02:53:29 +0100 (CET)
-Received: by mail-ot1-x33f.google.com with SMTP id i7sf1828110otp.14
-        for <lists+kasan-dev@lfdr.de>; Wed, 18 Nov 2020 17:53:29 -0800 (PST)
+Received: from mail-vk1-xa37.google.com (mail-vk1-xa37.google.com [IPv6:2607:f8b0:4864:20::a37])
+	by mail.lfdr.de (Postfix) with ESMTPS id 80FA32B9223
+	for <lists+kasan-dev@lfdr.de>; Thu, 19 Nov 2020 13:12:12 +0100 (CET)
+Received: by mail-vk1-xa37.google.com with SMTP id s1sf2517135vks.6
+        for <lists+kasan-dev@lfdr.de>; Thu, 19 Nov 2020 04:12:12 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1605787931; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=huLsnecbd2i9FO35ZfAaBjd+rNhrlcwFp/UcwdSOxTM5iVjh+MSkhlRt7olygikxBI
+         WN8MheGQ2iPexiy838vIOxoOlj+GHcEHv3siHfa6SHGdonkyqifYknccrLTl5Q28JcMl
+         E3mUcUCWHgTIGaH0FD18+mbvfpQZ0wyT3Y5xIZkR3zqOV/LfUiBWgVfiH4ncG4U+1FJF
+         AeDLwJYccTQV+qIjPJjsRmbACa5ljYdjvgHdwykqoNMmiu7RyjLtYawWUbj2xv2shi31
+         KEy1lSfkDBuckH9vX+9yLpChbrLHUpr5pBJkA+0BRi5oIAsBD+xnQhn0lKsGsKdHJ+kP
+         4MBg==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
+         :date:cc:to:from:subject:message-id:sender:dkim-signature;
+        bh=RGeLhDgQNj8PRfHInMWYj6vrw18WGWmVyMNL6IvviIE=;
+        b=RC+KmctBxQ8eTC42yC575vKjUP2XBMeE/8HRXsxsl4aibLtMQpGyP+uUuutY48jEu5
+         QeW94vxxgEOhuU4TNDQxrCOYjoGTr1hEVUqMbSol1HSGai1KQllPgn2sBLZ6oFcQhpqN
+         wgoa7pzJS3dx89wMYjHPlNhD1W7A98CZ0CMjNFrWouFSI7jfM8xOVtlVVsxQwDc/FAoh
+         ueIvfCqEXY0yNrqiB88tNKa34BkQ3ZSxg9KdnycUvlvVHeQGEhsxhSQ9qDuhY09p2T3k
+         BuxzoZKhfjncMWQG7JXNjMmm/f1ONjF6uz/Vhezag5yeK/7o+L8h3k6Xm6d+z39YUgmb
+         nW7A==
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@mediatek.com header.s=dk header.b=FbwBuPPN;
+       spf=pass (google.com: domain of kuan-ying.lee@mediatek.com designates 210.61.82.184 as permitted sender) smtp.mailfrom=kuan-ying.lee@mediatek.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:date:from:to:message-id:in-reply-to:references:subject
-         :mime-version:x-original-sender:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=3KsnaCPlxDBIGHAT1t9LsKoYPvMRrvZAYhPWLVlDhp0=;
-        b=sDoWkLCfUJz89WxE37PIr2FTOvIrGVbpg5IZunJeRqlCyhDEonh55W65w9zximhhmV
-         mkIJExZJwu8iOP+nQrpOYwYnQH79mrpclCWxbrek2teLanIAyvZvUgWIrZZy8zCi9JVW
-         xND/hMYKHIJk21CNbcn34dF3IT2D72bNgILEcfBAD2RYuW47x2iyrtj1Cpat8Ns6ybUV
-         9q8erHc/17nXNDyG8OQit0xyPdKMQlv3IlRgmlNoxprxu1jN7+YnzxohqOcbRV+CP95u
-         7Fnff4Ocv90PhSZTI5HURfO30dy4XwUFa22WEWWdUFUWYXMLCpqR3q6MrLrR58jXfJQT
-         R/xQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:message-id:in-reply-to:references:subject:mime-version
-         :x-original-sender:precedence:mailing-list:list-id:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=3KsnaCPlxDBIGHAT1t9LsKoYPvMRrvZAYhPWLVlDhp0=;
-        b=X31wRQBRfoM1apzH1FzV+shd4baT+woYOxMYyPjDdtNqBzr3ajoxHl1NSY3Vr37RaZ
-         E5AcX2Ojo+sqNlfp/S4SQNPUnG63bv5FALK+rCe+cXMxaXjUAz04wc6vfMZ/JsQwb++1
-         Z+bvNxJgsb39cPQ98Jn/SPRl7StmTr3pvR/Ryv0LEunIF4sktS4RdUkuzNE8UGyO4N/8
-         /Og0HtLxdcd8EuZezllHzG2u3Kfz6QRlQ7KLCifAAYEKmioNoIsZmEXG6MVaboOCLC/N
-         XFdWlUXz2gPjk4/FhzfLiSe2UQn+f3EjO2O4s959j5HqgQrZq7YuFfc8eCScUR3adFZP
-         iBRA==
+        h=sender:message-id:subject:from:to:cc:date:in-reply-to:references
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=RGeLhDgQNj8PRfHInMWYj6vrw18WGWmVyMNL6IvviIE=;
+        b=OmmCOCJbZd5exhg29ipZMyicVpC1pKSNxo1MCeNi/vaxM24Ut9ojzoCWsV4jAkxPlR
+         yQfHX2wEjMEfyBB9y7VeW73JwF6tnIbIT98yCNgIYkT7xLyaQRcugwtZfIWICCBp9Wm2
+         xHOEt6+SfFwNrLuMuj8ZQEJp2xwrAe6tkbQTMWtMwLkFPDECuIGtQUXn+4GpRGdkwfRl
+         FICiIr5NVvjtCHe2FidfQg+lNXGcPzyOnMwKj2O9qijP25pxkG/h5g7lhS82rT5+xLPp
+         v7a1a8uIoedVWY4W0la9w4+gbuq6P4itpFNJHp4j7HKJwWLiYuKrbMcU+3ar152bfH1t
+         5fzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:date:from:to:message-id:in-reply-to
-         :references:subject:mime-version:x-original-sender:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=3KsnaCPlxDBIGHAT1t9LsKoYPvMRrvZAYhPWLVlDhp0=;
-        b=qympeVwSl/SeLMdWydiHoKTnC5Hh64THqiiR6zrEEH0I2uJflHjIZmvQ8bqnYT9nOS
-         Zmnj+Jga+kR5/jayhpSQelitaWsDhu3U6U1IpffrtjP40OKhA52zBpYwKb2Y3YKN18V+
-         mtEMqQyyNrOhMNlhKers0IEuQmnNq4qf27FC0gR0ziWLGS/fN2/m00tx8heifauxm+Ym
-         KULMOrnkSmsrzgFYW8UuRZGuR4YWHK7i2zJ25PRMT1GtFn3MgCKw7Lp09+W+++b8MjPN
-         KU1vWWDtlansSj/m20gFzDo8FxJVGQHf6u+WlcGjJW3lq3dBmFA1QfGWE6fGyvEFWLpA
-         8D2A==
+        h=sender:x-gm-message-state:message-id:subject:from:to:cc:date
+         :in-reply-to:references:mime-version:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=RGeLhDgQNj8PRfHInMWYj6vrw18WGWmVyMNL6IvviIE=;
+        b=Fkocvux6HLOSlHzwy+bhKEDzKPq2cGQnA+ocrzaBdOstB5G6O2tQ9FWIs3E18jCjX8
+         QDi+kbadTLtE46syz6yDAvefeCWpB+LBLDgNSaZ+tnldUH/+bWB5YRwT8vj/X14+y27R
+         tNrw9MjT5CGDCLSbZ5thrFxUzJo8BRSFeBZuShi/pDA5rzJTu4nAXZzJJ0+SLHSOQaPn
+         A9FemkS8My/gCKHTvJRskqVq/xik6FCLVsBIakkwhozyP9SpQNau0nXvm9To3yQVAv81
+         y22X3SSudlc1Ilq71tHJcUsiI47ncXwoAIxOczPv1fBosfoYCCfcvLDsQAouZuQ3K8k/
+         +jAg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM531VaMb8uX3lmlfq36QUQ3e3wfpiR3WeNdGIwUK8zy1xkXcYKf/w
-	jS7Hd8X4EiCAGgKSDOaOfOA=
-X-Google-Smtp-Source: ABdhPJyadw2re7PnFBdsut8lQ8ULmKgWrpt/ACWVIaERznLktTx0tQ8eohFveRlRaDrwO1gPx7EM5w==
-X-Received: by 2002:a9d:a4d:: with SMTP id 71mr8151372otg.257.1605750807906;
-        Wed, 18 Nov 2020 17:53:27 -0800 (PST)
+X-Gm-Message-State: AOAM531BE2/1oplbpdVvZDASgVp/R/dnXUSavHaWt9bpBVyFMNMFtmCb
+	xGgoHPvqvmhvz/oj8KR98Bc=
+X-Google-Smtp-Source: ABdhPJxIHzuEvJB6gujQMvl+rRdt3AZWwpi5xv+/fSuAtZnZBn9VTiz5QoZNp+qcLkxcFJloQiXIdw==
+X-Received: by 2002:ab0:4972:: with SMTP id a47mr6673459uad.53.1605787931324;
+        Thu, 19 Nov 2020 04:12:11 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:aca:416:: with SMTP id 22ls325869oie.7.gmail; Wed, 18 Nov
- 2020 17:53:27 -0800 (PST)
-X-Received: by 2002:aca:c146:: with SMTP id r67mr1321289oif.134.1605750807287;
-        Wed, 18 Nov 2020 17:53:27 -0800 (PST)
-Date: Wed, 18 Nov 2020 17:53:26 -0800 (PST)
-From: "mudongl...@gmail.com" <mudongliangabcd@gmail.com>
-To: kasan-dev <kasan-dev@googlegroups.com>
-Message-Id: <a63a2733-1b7c-4bac-ad47-ea6e3999b953n@googlegroups.com>
-In-Reply-To: <CACT4Y+bLDd8n1K9FevEUprki9J1rR=xv6cnCvsaOGZNUsKhuAQ@mail.gmail.com>
-References: <64637dc5-a480-4ae2-903e-9d70a7fdff98n@googlegroups.com>
- <CACT4Y+bLDd8n1K9FevEUprki9J1rR=xv6cnCvsaOGZNUsKhuAQ@mail.gmail.com>
-Subject: Re: KMSAN: WARNING at drivers/gpu/drm/drm_gem_vram_helper.c:284
- drm_gem_vram_offset
+Received: by 2002:a05:6102:22fb:: with SMTP id b27ls422492vsh.1.gmail; Thu, 19
+ Nov 2020 04:12:10 -0800 (PST)
+X-Received: by 2002:a67:f80b:: with SMTP id l11mr6118882vso.26.1605787930331;
+        Thu, 19 Nov 2020 04:12:10 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1605787930; cv=none;
+        d=google.com; s=arc-20160816;
+        b=fIyBOFuVn2gZs53EFhN6H0vLltQrTbarap6FSDgvZYBDa+hrz6wKAVOVN+INWbsJCT
+         e3h0wq4cFja201mBTPlUUcal2TWoNYYjReA/5gBnT225PZC4ko0lgnSwIBCxgTInA8go
+         tcv9GVTg/NE4YpCg6acghR3OC1lK59j5L4osY+1K0OE9G3xsPzh3ErQwfpjgYWyOkzZC
+         t/eSQ4a7ykbgkqaOpnas4Bfvz2Ee4tqvH9iJNP1z3N8fVTzuK9fp2U9XOE0nfmHr6ZUm
+         IJbWDvFj7RDMcoEb+hxu3q4ERHYwo3+TS1PjZsMEazJY6rJSAllg2auXpXsQB6EtRWXY
+         Uuxw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=content-transfer-encoding:mime-version:references:in-reply-to:date
+         :cc:to:from:subject:message-id:dkim-signature;
+        bh=BxaKCvbGMroRDKzMiJNq1cYSi2kIAUSuDsxHbXnM8mQ=;
+        b=T8aGXoaV2MhlNWcwl0Le5kCG1JBD9HYjjCoymsWeWycPTo8dMkS/2TbmPY67KYI+/K
+         c0D/EHvZwmR14Qqqur9rysvhTiBTGLk/nlGVuqnlsZKOib+e5NrLbyvPXCMwCKwPXtlD
+         oM8hIs6X91PXYFr3rxvUl+pMq4MFfivCnLtWTrZ/Q0sl03c+B79icXtkYr5mEr8lALaW
+         K4n0Mae6nUrqrXRAYRsyM6vwboOVuoMGZZItX55Q8GoI6H69Z1DGea55zfh0Fc4gwFby
+         GBy7oGvihjWM4RD6UsLgX1WsPXHvhhmQCGshMo5KqzAlJhbqWoxh3nburQkFvWa5XGb3
+         I+fg==
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       dkim=pass header.i=@mediatek.com header.s=dk header.b=FbwBuPPN;
+       spf=pass (google.com: domain of kuan-ying.lee@mediatek.com designates 210.61.82.184 as permitted sender) smtp.mailfrom=kuan-ying.lee@mediatek.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
+Received: from mailgw02.mediatek.com ([210.61.82.184])
+        by gmr-mx.google.com with ESMTP id b25si656354vkk.5.2020.11.19.04.12.09
+        for <kasan-dev@googlegroups.com>;
+        Thu, 19 Nov 2020 04:12:09 -0800 (PST)
+Received-SPF: pass (google.com: domain of kuan-ying.lee@mediatek.com designates 210.61.82.184 as permitted sender) client-ip=210.61.82.184;
+X-UUID: 791bf6180cfb4282bc04daf6fe3c4266-20201119
+X-UUID: 791bf6180cfb4282bc04daf6fe3c4266-20201119
+Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw02.mediatek.com
+	(envelope-from <kuan-ying.lee@mediatek.com>)
+	(Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+	with ESMTP id 1422574732; Thu, 19 Nov 2020 20:06:55 +0800
+Received: from mtkcas08.mediatek.inc (172.21.101.126) by
+ mtkmbs08n2.mediatek.inc (172.21.101.56) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 19 Nov 2020 20:06:53 +0800
+Received: from [172.21.84.99] (172.21.84.99) by mtkcas08.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Thu, 19 Nov 2020 20:06:53 +0800
+Message-ID: <1605787613.29084.32.camel@mtksdccf07>
+Subject: Re: [PATCH v2 1/1] kasan: fix object remain in offline per-cpu
+ quarantine
+From: Kuan-Ying Lee <Kuan-Ying.Lee@mediatek.com>
+To: Dmitry Vyukov <dvyukov@google.com>
+CC: Andrey Ryabinin <aryabinin@virtuozzo.com>, Alexander Potapenko
+	<glider@google.com>, Andrew Morton <akpm@linux-foundation.org>, "Matthias
+ Brugger" <matthias.bgg@gmail.com>, kasan-dev <kasan-dev@googlegroups.com>,
+	Linux-MM <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>, "Linux
+ ARM" <linux-arm-kernel@lists.infradead.org>,
+	<linux-mediatek@lists.infradead.org>, <nicholas.tang@mediatek.com>, Miles
+ Chen <miles.chen@mediatek.com>, <guangye.yang@mediatek.com>, wsd_upstream
+	<wsd_upstream@mediatek.com>
+Date: Thu, 19 Nov 2020 20:06:53 +0800
+In-Reply-To: <CACT4Y+ZpK5YKLrN_jvaD60YFKQ-kVHc=91NTBzhX5PZRTHVd7g@mail.gmail.com>
+References: <1605508168-7418-1-git-send-email-Kuan-Ying.Lee@mediatek.com>
+	 <1605508168-7418-2-git-send-email-Kuan-Ying.Lee@mediatek.com>
+	 <CACT4Y+Zy_JQ3y7_P2NXffiijTuxcnh7VPcAGL66Ks2LaLTj-eg@mail.gmail.com>
+	 <1605595583.29084.24.camel@mtksdccf07>
+	 <CACT4Y+ZpK5YKLrN_jvaD60YFKQ-kVHc=91NTBzhX5PZRTHVd7g@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.2.3-0ubuntu6
 MIME-Version: 1.0
-Content-Type: multipart/mixed; 
-	boundary="----=_Part_1334_728886479.1605750806379"
-X-Original-Sender: mudongliangabcd@gmail.com
+X-TM-SNTS-SMTP: D7C440176C6B4D09255888CCD89F8353F4DFF4A81CDD6B698FE89F10231667002000:8
+X-MTK: N
+X-Original-Sender: kuan-ying.lee@mediatek.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@mediatek.com header.s=dk header.b=FbwBuPPN;       spf=pass
+ (google.com: domain of kuan-ying.lee@mediatek.com designates 210.61.82.184 as
+ permitted sender) smtp.mailfrom=kuan-ying.lee@mediatek.com;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -79,490 +149,192 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-------=_Part_1334_728886479.1605750806379
-Content-Type: multipart/alternative; 
-	boundary="----=_Part_1335_292298641.1605750806379"
-
-------=_Part_1335_292298641.1605750806379
-Content-Type: text/plain; charset="UTF-8"
-
-I see. Thanks, I will report it to DRM maintainers.
-
-On Monday, November 16, 2020 at 4:28:44 PM UTC+8 Dmitry Vyukov wrote:
-
-> On Mon, Nov 16, 2020 at 6:51 AM mudongl...@gmail.com
-> <mudongl...@gmail.com> wrote:
+On Tue, 2020-11-17 at 08:13 +0100, Dmitry Vyukov wrote:
+> On Tue, Nov 17, 2020 at 7:46 AM Kuan-Ying Lee
+> <Kuan-Ying.Lee@mediatek.com> wrote:
 > >
-> > Hi all,
+> > On Mon, 2020-11-16 at 10:26 +0100, Dmitry Vyukov wrote:
+> > > On Mon, Nov 16, 2020 at 7:30 AM Kuan-Ying Lee
+> > > <Kuan-Ying.Lee@mediatek.com> wrote:
+> > > >
+> > > > We hit this issue in our internal test.
+> > > > When enabling generic kasan, a kfree()'d object is put into per-cpu
+> > > > quarantine first. If the cpu goes offline, object still remains in
+> > > > the per-cpu quarantine. If we call kmem_cache_destroy() now, slub
+> > > > will report "Objects remaining" error.
+> > > >
+> > > > [   74.982625] =============================================================================
+> > > > [   74.983380] BUG test_module_slab (Not tainted): Objects remaining in test_module_slab on __kmem_cache_shutdown()
+> > > > [   74.984145] -----------------------------------------------------------------------------
+> > > > [   74.984145]
+> > > > [   74.984883] Disabling lock debugging due to kernel taint
+> > > > [   74.985561] INFO: Slab 0x(____ptrval____) objects=34 used=1 fp=0x(____ptrval____) flags=0x2ffff00000010200
+> > > > [   74.986638] CPU: 3 PID: 176 Comm: cat Tainted: G    B             5.10.0-rc1-00007-g4525c8781ec0-dirty #10
+> > > > [   74.987262] Hardware name: linux,dummy-virt (DT)
+> > > > [   74.987606] Call trace:
+> > > > [   74.987924]  dump_backtrace+0x0/0x2b0
+> > > > [   74.988296]  show_stack+0x18/0x68
+> > > > [   74.988698]  dump_stack+0xfc/0x168
+> > > > [   74.989030]  slab_err+0xac/0xd4
+> > > > [   74.989346]  __kmem_cache_shutdown+0x1e4/0x3c8
+> > > > [   74.989779]  kmem_cache_destroy+0x68/0x130
+> > > > [   74.990176]  test_version_show+0x84/0xf0
+> > > > [   74.990679]  module_attr_show+0x40/0x60
+> > > > [   74.991218]  sysfs_kf_seq_show+0x128/0x1c0
+> > > > [   74.991656]  kernfs_seq_show+0xa0/0xb8
+> > > > [   74.992059]  seq_read+0x1f0/0x7e8
+> > > > [   74.992415]  kernfs_fop_read+0x70/0x338
+> > > > [   74.993051]  vfs_read+0xe4/0x250
+> > > > [   74.993498]  ksys_read+0xc8/0x180
+> > > > [   74.993825]  __arm64_sys_read+0x44/0x58
+> > > > [   74.994203]  el0_svc_common.constprop.0+0xac/0x228
+> > > > [   74.994708]  do_el0_svc+0x38/0xa0
+> > > > [   74.995088]  el0_sync_handler+0x170/0x178
+> > > > [   74.995497]  el0_sync+0x174/0x180
+> > > > [   74.996050] INFO: Object 0x(____ptrval____) @offset=15848
+> > > > [   74.996752] INFO: Allocated in test_version_show+0x98/0xf0 age=8188 cpu=6 pid=172
+> > > > [   75.000802]  stack_trace_save+0x9c/0xd0
+> > > > [   75.002420]  set_track+0x64/0xf0
+> > > > [   75.002770]  alloc_debug_processing+0x104/0x1a0
+> > > > [   75.003171]  ___slab_alloc+0x628/0x648
+> > > > [   75.004213]  __slab_alloc.isra.0+0x2c/0x58
+> > > > [   75.004757]  kmem_cache_alloc+0x560/0x588
+> > > > [   75.005376]  test_version_show+0x98/0xf0
+> > > > [   75.005756]  module_attr_show+0x40/0x60
+> > > > [   75.007035]  sysfs_kf_seq_show+0x128/0x1c0
+> > > > [   75.007433]  kernfs_seq_show+0xa0/0xb8
+> > > > [   75.007800]  seq_read+0x1f0/0x7e8
+> > > > [   75.008128]  kernfs_fop_read+0x70/0x338
+> > > > [   75.008507]  vfs_read+0xe4/0x250
+> > > > [   75.008990]  ksys_read+0xc8/0x180
+> > > > [   75.009462]  __arm64_sys_read+0x44/0x58
+> > > > [   75.010085]  el0_svc_common.constprop.0+0xac/0x228
+> > > > [   75.011006] kmem_cache_destroy test_module_slab: Slab cache still has objects
+> > > >
+> > > > Register a cpu hotplug function to remove all objects in the offline
+> > > > per-cpu quarantine when cpu is going offline. Set a per-cpu variable
+> > > > to indicate this cpu is offline.
+> > > >
+> > > > Signed-off-by: Kuan-Ying Lee <Kuan-Ying.Lee@mediatek.com>
+> > > > Suggested-by: Dmitry Vyukov <dvyukov@google.com>
+> > > > Reported-by: Guangye Yang <guangye.yang@mediatek.com>
+> > > > Cc: Andrey Ryabinin <aryabinin@virtuozzo.com>
+> > > > Cc: Alexander Potapenko <glider@google.com>
+> > > > Cc: Andrew Morton <akpm@linux-foundation.org>
+> > > > Cc: Matthias Brugger <matthias.bgg@gmail.com>
+> > > > ---
+> > > >  mm/kasan/quarantine.c | 35 +++++++++++++++++++++++++++++++++++
+> > > >  1 file changed, 35 insertions(+)
+> > > >
+> > > > diff --git a/mm/kasan/quarantine.c b/mm/kasan/quarantine.c
+> > > > index 4c5375810449..16e618ea805e 100644
+> > > > --- a/mm/kasan/quarantine.c
+> > > > +++ b/mm/kasan/quarantine.c
+> > > > @@ -29,6 +29,7 @@
+> > > >  #include <linux/srcu.h>
+> > > >  #include <linux/string.h>
+> > > >  #include <linux/types.h>
+> > > > +#include <linux/cpuhotplug.h>
+> > > >
+> > > >  #include "../slab.h"
+> > > >  #include "kasan.h"
+> > > > @@ -43,6 +44,7 @@ struct qlist_head {
+> > > >         struct qlist_node *head;
+> > > >         struct qlist_node *tail;
+> > > >         size_t bytes;
+> > > > +       bool offline;
+> > > >  };
+> > > >
+> > > >  #define QLIST_INIT { NULL, NULL, 0 }
+> > > > @@ -188,6 +190,11 @@ void quarantine_put(struct kasan_free_meta *info, struct kmem_cache *cache)
+> > > >         local_irq_save(flags);
+> > > >
+> > > >         q = this_cpu_ptr(&cpu_quarantine);
+> > > > +       if (q->offline) {
+> > > > +               qlink_free(&info->quarantine_link, cache);
+> > > > +               local_irq_restore(flags);
+> > > > +               return;
+> > > > +       }
 > >
-> > I built the kmsan with github kmsan repo HEAD, however, when I leveraged 
-> syzkaller to fuzz this kernel image, the VMs is always broken with the 
-> following WARNING report:
+> > I think we need to make sure objects will not be put in per-cpu
+> > quarantine which is offline.
 > >
-> > ```
-> > [ 18.093341][ T1] ------------[ cut here ]------------
-> > [ 18.093419][ T1] WARNING: CPU: 1 PID: 1 at 
-> drivers/gpu/drm/drm_gem_vram_helper.c:284 drm_gem_vram_offset+0x128/0x140
-> > [ 18.093431][ T1] Modules linked in:
-> > [ 18.093472][ T1] CPU: 1 PID: 1 Comm: swapper/0 Not tainted 5.10.0-rc1 #2
-> > [ 18.093489][ T1] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), 
-> BIOS 1.13.0-1ubuntu1 04/01/2014
-> > [ 18.093532][ T1] RIP: 0010:drm_gem_vram_offset+0x128/0x140
-> > [ 18.093574][ T1] Code: 48 c7 c3 ed ff ff ff 31 c0 31 c9 eb b4 8b 7d d4 
-> e8 bd 78 1e fc e9 56 ff ff ff 8b 3a e8 b1 78 1e fc 4d 85 ff 0f 85 6e ff ff 
-> ff <0f> 0b 31 c0 31 c9 31 db eb 8d 8b 7d d4 e8 96 78 1e fc e9 67 ff ff
-> > [ 18.093594][ T1] RSP: 0000:ffff8880125a6718 EFLAGS: 00010246
-> > [ 18.093622][ T1] RAX: 0000000000000000 RBX: ffff8880155efd80 RCX: 
-> 00000000151efd80
-> > [ 18.093645][ T1] RDX: ffff8880151efd80 RSI: 0000000000000040 RDI: 
-> ffff8880155efd80
-> > [ 18.093669][ T1] RBP: ffff8880125a6748 R08: ffffea000000000f R09: 
-> ffff8880bffd2000
-> > [ 18.093691][ T1] R10: 0000000000000004 R11: 00000000ffffffff R12: 
-> ffff8880155efc00
-> > [ 18.093711][ T1] R13: 0000000000000000 R14: ffff8880125b0a10 R15: 
-> 0000000000000000
-> > [ 18.093736][ T1] FS: 0000000000000000(0000) GS:ffff8880bfd00000(0000) 
-> knlGS:0000000000000000
-> > [ 18.093757][ T1] CS: 0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> > [ 18.093777][ T1] CR2: 0000000000000000 CR3: 0000000010229001 CR4: 
-> 0000000000770ee0
-> > [ 18.093797][ T1] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 
-> 0000000000000000
-> > [ 18.093816][ T1] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 
-> 0000000000000400
-> > [ 18.093828][ T1] PKRU: 55555554
-> > [ 18.093839][ T1] Call Trace:
-> > [ 18.093886][ T1] bochs_pipe_enable+0x16f/0x3f0
-> > [ 18.093935][ T1] drm_simple_kms_crtc_enable+0x12e/0x1a0
-> > [ 18.093973][ T1] ? bochs_connector_get_modes+0x1e0/0x1e0
-> > [ 18.094011][ T1] ? drm_simple_kms_crtc_check+0x210/0x210
-> > [ 18.094049][ T1] drm_atomic_helper_commit_modeset_enables+0x362/0x1000
-> > [ 18.094095][ T1] drm_atomic_helper_commit_tail+0xd3/0x860
-> > [ 18.094135][ T1] ? kmsan_get_metadata+0x116/0x180
-> > [ 18.094171][ T1] commit_tail+0x61c/0x7d0
-> > [ 18.094205][ T1] ? kmsan_internal_set_origin+0x85/0xc0
-> > [ 18.094246][ T1] drm_atomic_helper_commit+0xbfe/0xcb0
-> > [ 18.094284][ T1] ? kmsan_get_metadata+0x116/0x180
-> > [ 18.094322][ T1] ? drm_atomic_helper_async_commit+0x780/0x780
-> > [ 18.094361][ T1] drm_atomic_commit+0x192/0x210
-> > [ 18.094400][ T1] drm_client_modeset_commit_atomic+0x700/0xbe0
-> > [ 18.094444][ T1] drm_client_modeset_commit_locked+0x147/0x860
-> > [ 18.094481][ T1] ? drm_master_internal_acquire+0x4a/0xd0
-> > [ 18.094513][ T1] drm_client_modeset_commit+0x98/0x110
-> > [ 18.094551][ T1] __drm_fb_helper_restore_fbdev_mode_unlocked+0x1a7/0x2a0
-> > [ 18.094586][ T1] drm_fb_helper_set_par+0x12a/0x220
-> > [ 18.094620][ T1] ? drm_fb_helper_fill_pixel_fmt+0x780/0x780
-> > [ 18.094646][ T1] fbcon_init+0x1959/0x2910
-> > [ 18.094685][ T1] ? validate_slab+0x30/0x730
-> > [ 18.094714][ T1] ? fbcon_startup+0x1590/0x1590
-> > [ 18.094746][ T1] visual_init+0x3bb/0x7b0
-> > [ 18.094786][ T1] do_bind_con_driver+0x136e/0x1c90
-> > [ 18.094834][ T1] do_take_over_console+0xe0a/0xef0
-> > [ 18.094875][ T1] ? kmsan_get_shadow_origin_ptr+0x84/0xb0
-> > [ 18.094907][ T1] fbcon_fb_registered+0x51c/0xae0
-> > [ 18.094954][ T1] register_framebuffer+0xb68/0xfc0
-> > [ 18.094999][ T1] __drm_fb_helper_initial_config_and_unlock+0x17d2/0x2030
-> > [ 18.095047][ T1] drm_fbdev_client_hotplug+0x7a3/0xe80
-> > [ 18.095085][ T1] drm_fbdev_generic_setup+0x2b9/0x890
-> > [ 18.095124][ T1] bochs_pci_probe+0x7de/0x800
-> > [ 18.095161][ T1] ? qxl_gem_prime_mmap+0x30/0x30
-> > [ 18.095193][ T1] pci_device_probe+0x95f/0xc70
-> > [ 18.095227][ T1] ? pci_uevent+0x7b0/0x7b0
-> > [ 18.095259][ T1] really_probe+0x9af/0x20d0
-> > [ 18.095298][ T1] driver_probe_device+0x234/0x330
-> > [ 18.095334][ T1] device_driver_attach+0x1e8/0x3c0
-> > [ 18.095370][ T1] __driver_attach+0x30d/0x780
-> > [ 18.095399][ T1] ? klist_devices_get+0x10/0x60
-> > [ 18.095431][ T1] ? kmsan_get_metadata+0x116/0x180
-> > [ 18.095463][ T1] bus_for_each_dev+0x252/0x360
-> > [ 18.095493][ T1] ? driver_attach+0xa0/0xa0
-> > [ 18.095527][ T1] driver_attach+0x84/0xa0
-> > [ 18.095558][ T1] bus_add_driver+0x5d6/0xb00
-> > [ 18.095596][ T1] driver_register+0x30c/0x830
-> > [ 18.095632][ T1] __pci_register_driver+0x1fa/0x350
-> > [ 18.095669][ T1] bochs_init+0xd6/0x115
-> > [ 18.095703][ T1] do_one_initcall+0x246/0x7a0
-> > [ 18.095734][ T1] ? qxl_init+0x165/0x165
-> > [ 18.095779][ T1] ? kmsan_get_metadata+0x116/0x180
-> > [ 18.095815][ T1] ? kmsan_get_shadow_origin_ptr+0x84/0xb0
-> > [ 18.095844][ T1] ? qxl_init+0x165/0x165
-> > [ 18.095878][ T1] do_initcall_level+0x2b4/0x34a
-> > [ 18.095913][ T1] do_initcalls+0x123/0x1ba
-> > [ 18.095947][ T1] ? cpu_init_udelay+0xcf/0xcf
-> > [ 18.095978][ T1] do_basic_setup+0x2e/0x31
-> > [ 18.096011][ T1] kernel_init_freeable+0x23f/0x35f
-> > [ 18.096049][ T1] ? rest_init+0x1f0/0x1f0
-> > [ 18.096080][ T1] kernel_init+0x1a/0x670
-> > [ 18.096111][ T1] ? rest_init+0x1f0/0x1f0
-> > [ 18.096141][ T1] ret_from_fork+0x1f/0x30
-> > [ 18.096166][ T1] Kernel panic - not syncing: panic_on_warn set ...
-> > [ 18.096192][ T1] CPU: 1 PID: 1 Comm: swapper/0 Not tainted 5.10.0-rc1 #2
-> > [ 18.096208][ T1] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), 
-> BIOS 1.13.0-1ubuntu1 04/01/2014
-> > [ 18.096219][ T1] Call Trace:
-> > [ 18.096254][ T1] dump_stack+0x189/0x218
-> > [ 18.096287][ T1] panic+0x38e/0xae4
-> > [ 18.096335][ T1] ? kmsan_get_shadow_origin_ptr+0x84/0xb0
-> > [ 18.096364][ T1] __warn+0x433/0x5c0
-> > [ 18.096402][ T1] ? drm_gem_vram_offset+0x128/0x140
-> > [ 18.096434][ T1] report_bug+0x669/0x880
-> > [ 18.096474][ T1] ? drm_gem_vram_offset+0x128/0x140
-> > [ 18.096506][ T1] handle_bug+0x6f/0xd0
-> > [ 18.096537][ T1] __exc_invalid_op+0x34/0x80
-> > [ 18.096566][ T1] exc_invalid_op+0x30/0x40
-> > [ 18.096603][ T1] asm_exc_invalid_op+0x12/0x20
-> > [ 18.096640][ T1] RIP: 0010:drm_gem_vram_offset+0x128/0x140
-> > [ 18.096674][ T1] Code: 48 c7 c3 ed ff ff ff 31 c0 31 c9 eb b4 8b 7d d4 
-> e8 bd 78 1e fc e9 56 ff ff ff 8b 3a e8 b1 78 1e fc 4d 85 ff 0f 85 6e ff ff 
-> ff <0f> 0b 31 c0 31 c9 31 db eb 8d 8b 7d d4 e8 96 78 1e fc e9 67 ff ff
-> > [ 18.096693][ T1] RSP: 0000:ffff8880125a6718 EFLAGS: 00010246
-> > [ 18.096721][ T1] RAX: 0000000000000000 RBX: ffff8880155efd80 RCX: 
-> 00000000151efd80
-> > [ 18.096743][ T1] RDX: ffff8880151efd80 RSI: 0000000000000040 RDI: 
-> ffff8880155efd80
-> > [ 18.096767][ T1] RBP: ffff8880125a6748 R08: ffffea000000000f R09: 
-> ffff8880bffd2000
-> > [ 18.096787][ T1] R10: 0000000000000004 R11: 00000000ffffffff R12: 
-> ffff8880155efc00
-> > [ 18.096807][ T1] R13: 0000000000000000 R14: ffff8880125b0a10 R15: 
-> 0000000000000000
-> > [ 18.096849][ T1] ? drm_gem_vram_offset+0x79/0x140
-> > [ 18.096884][ T1] bochs_pipe_enable+0x16f/0x3f0
-> > [ 18.096927][ T1] drm_simple_kms_crtc_enable+0x12e/0x1a0
-> > [ 18.096964][ T1] ? bochs_connector_get_modes+0x1e0/0x1e0
-> > [ 18.097001][ T1] ? drm_simple_kms_crtc_check+0x210/0x210
-> > [ 18.097039][ T1] drm_atomic_helper_commit_modeset_enables+0x362/0x1000
-> > [ 18.097083][ T1] drm_atomic_helper_commit_tail+0xd3/0x860
-> > [ 18.097120][ T1] ? kmsan_get_metadata+0x116/0x180
-> > [ 18.097156][ T1] commit_tail+0x61c/0x7d0
-> > [ 18.097190][ T1] ? kmsan_internal_set_origin+0x85/0xc0
-> > [ 18.097230][ T1] drm_atomic_helper_commit+0xbfe/0xcb0
-> > [ 18.097267][ T1] ? kmsan_get_metadata+0x116/0x180
-> > [ 18.097305][ T1] ? drm_atomic_helper_async_commit+0x780/0x780
-> > [ 18.097341][ T1] drm_atomic_commit+0x192/0x210
-> > [ 18.097378][ T1] drm_client_modeset_commit_atomic+0x700/0xbe0
-> > [ 18.097422][ T1] drm_client_modeset_commit_locked+0x147/0x860
-> > [ 18.097459][ T1] ? drm_master_internal_acquire+0x4a/0xd0
-> > [ 18.097491][ T1] drm_client_modeset_commit+0x98/0x110
-> > [ 18.097528][ T1] __drm_fb_helper_restore_fbdev_mode_unlocked+0x1a7/0x2a0
-> > [ 18.097562][ T1] drm_fb_helper_set_par+0x12a/0x220
-> > [ 18.097596][ T1] ? drm_fb_helper_fill_pixel_fmt+0x780/0x780
-> > [ 18.097621][ T1] fbcon_init+0x1959/0x2910
-> > [ 18.097660][ T1] ? validate_slab+0x30/0x730
-> > [ 18.097688][ T1] ? fbcon_startup+0x1590/0x1590
-> > [ 18.097719][ T1] visual_init+0x3bb/0x7b0
-> > [ 18.097758][ T1] do_bind_con_driver+0x136e/0x1c90
-> > [ 18.097807][ T1] do_take_over_console+0xe0a/0xef0
-> > [ 18.097848][ T1] ? kmsan_get_shadow_origin_ptr+0x84/0xb0
-> > [ 18.097879][ T1] fbcon_fb_registered+0x51c/0xae0
-> > [ 18.097917][ T1] register_framebuffer+0xb68/0xfc0
-> > [ 18.097961][ T1] __drm_fb_helper_initial_config_and_unlock+0x17d2/0x2030
-> > [ 18.098009][ T1] drm_fbdev_client_hotplug+0x7a3/0xe80
-> > [ 18.098047][ T1] drm_fbdev_generic_setup+0x2b9/0x890
-> > [ 18.098085][ T1] bochs_pci_probe+0x7de/0x800
-> > [ 18.098123][ T1] ? qxl_gem_prime_mmap+0x30/0x30
-> > [ 18.098152][ T1] pci_device_probe+0x95f/0xc70
-> > [ 18.098187][ T1] ? pci_uevent+0x7b0/0x7b0
-> > [ 18.098217][ T1] really_probe+0x9af/0x20d0
-> > [ 18.098255][ T1] driver_probe_device+0x234/0x330
-> > [ 18.098291][ T1] device_driver_attach+0x1e8/0x3c0
-> > [ 18.098326][ T1] __driver_attach+0x30d/0x780
-> > [ 18.098355][ T1] ? klist_devices_get+0x10/0x60
-> > [ 18.098388][ T1] ? kmsan_get_metadata+0x116/0x180
-> > [ 18.098419][ T1] bus_for_each_dev+0x252/0x360
-> > [ 18.098448][ T1] ? driver_attach+0xa0/0xa0
-> > [ 18.098482][ T1] driver_attach+0x84/0xa0
-> > [ 18.098512][ T1] bus_add_driver+0x5d6/0xb00
-> > [ 18.098550][ T1] driver_register+0x30c/0x830
-> > [ 18.098585][ T1] __pci_register_driver+0x1fa/0x350
-> > [ 18.098620][ T1] bochs_init+0xd6/0x115
-> > [ 18.098651][ T1] do_one_initcall+0x246/0x7a0
-> > [ 18.098680][ T1] ? qxl_init+0x165/0x165
-> > [ 18.098727][ T1] ? kmsan_get_metadata+0x116/0x180
-> > [ 18.098763][ T1] ? kmsan_get_shadow_origin_ptr+0x84/0xb0
-> > [ 18.098791][ T1] ? qxl_init+0x165/0x165
-> > [ 18.098824][ T1] do_initcall_level+0x2b4/0x34a
-> > [ 18.098859][ T1] do_initcalls+0x123/0x1ba
-> > [ 18.098890][ T1] ? cpu_init_udelay+0xcf/0xcf
-> > [ 18.098921][ T1] do_basic_setup+0x2e/0x31
-> > [ 18.098958][ T1] kernel_init_freeable+0x23f/0x35f
-> > [ 18.098993][ T1] ? rest_init+0x1f0/0x1f0
-> > [ 18.099024][ T1] kernel_init+0x1a/0x670
-> > [ 18.099054][ T1] ? rest_init+0x1f0/0x1f0
-> > [ 18.099085][ T1] ret_from_fork+0x1f/0x30
-> > [ 18.099240][ T1] Dumping ftrace buffer:
-> > [ 18.099250][ T1] (ftrace buffer empty)
-> > [ 18.099250][ T1] Kernel Offset: disabled
-> > [ 18.099250][ T1] Rebooting in 1 seconds..
-> > ```
->
-> Hi,
->
-> The WARNING does not look KMSAN-related, KMSAN is not in the stack and
-> the subsystem is not KMSAN. Please report it to DRM maintainers.
->
+> > > >         qlist_put(q, &info->quarantine_link, cache->size);
+> > > >         if (unlikely(q->bytes > QUARANTINE_PERCPU_SIZE)) {
+> > > >                 qlist_move_all(q, &temp);
+> > > > @@ -328,3 +335,31 @@ void quarantine_remove_cache(struct kmem_cache *cache)
+> > > >
+> > > >         synchronize_srcu(&remove_cache_srcu);
+> > > >  }
+> > > > +
+> > > > +static int kasan_cpu_online(unsigned int cpu)
+> > > > +{
+> > > > +       this_cpu_ptr(&cpu_quarantine)->offline = false;
+> > > > +       return 0;
+> > > > +}
+> > > > +
+> > > > +static int kasan_cpu_offline(unsigned int cpu)
+> > > > +{
+> > > > +       struct qlist_head *q;
+> > > > +
+> > > > +       q = this_cpu_ptr(&cpu_quarantine);
+> > > > +       q->offline = true;
+> > > > +       qlist_free_all(q, NULL);
+> > >
+> > > Looks much nicer now!
+> > >
+> > > What is the story with interrupts in these callbacks?
+> > > In the previous patch you mentioned that this CPU can still receive
+> > > interrupts for a brief period of time. If these interrupts also free
+> > > something, can't we corrupt the per-cpu quarantine? In quarantine_put
+> > > we protect it by disabling interrupts I think.
+> > >
+> >
+> > Here is a situation.
+> > After we freed all objects from the per-cpu quarantine which is going
+> > offline, the interrupts happened. These interrupts free something and
+> > put objects into this per-cpu quarantine. If we call
+> > kmem_cache_destroy() now, slub still detect objects remain in
+> > the per-cpu quarantine and report "Object remaining" error.
+> >
+> > Thus, we need to check q->offline in quarantine_put and make sure
+> > the offline per-cpu quarantine is not corrupted.
+> 
+> If an interrupt can happen later, can't it happen right during our
+> call to qlist_free_all and corrupt the per-cpu cache?
+> Perhaps we need something like:
+> 
+> // ... explain the subtleness ...
+> WRITE_ONCE(q->offline, true);
+> barrier();
+> qlist_free_all(q, NULL);
+> 
+> ?
+
+Yes, we need to add barrier to ensure the ordering.
+I did not think about that before.
+Thanks for the reminder.
+I will fix in v3.
+
+> 
+> > > > +       return 0;
+> > > > +}
+> > > > +
+> > > > +static int __init kasan_cpu_offline_quarantine_init(void)
+> > > > +{
+> > > > +       int ret = 0;
+> > > > +
+> > > > +       ret = cpuhp_setup_state(CPUHP_AP_ONLINE_DYN, "mm/kasan:online",
+> > > > +                               kasan_cpu_online, kasan_cpu_offline);
+> > > > +       if (ret < 0)
+> > > > +               pr_err("kasan offline cpu quarantine register failed [%d]\n", ret);
+> > > > +       return ret;
+> > > > +}
+> > > > +late_initcall(kasan_cpu_offline_quarantine_init);
+> > > > --
+> > > > 2.18.0
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/a63a2733-1b7c-4bac-ad47-ea6e3999b953n%40googlegroups.com.
-
-------=_Part_1335_292298641.1605750806379
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-I see. Thanks, I will report it to DRM maintainers.<br><br><div class=3D"gm=
-ail_quote"><div dir=3D"auto" class=3D"gmail_attr">On Monday, November 16, 2=
-020 at 4:28:44 PM UTC+8 Dmitry Vyukov wrote:<br/></div><blockquote class=3D=
-"gmail_quote" style=3D"margin: 0 0 0 0.8ex; border-left: 1px solid rgb(204,=
- 204, 204); padding-left: 1ex;">On Mon, Nov 16, 2020 at 6:51 AM <a href dat=
-a-email-masked rel=3D"nofollow">mudongl...@gmail.com</a>
-<br>&lt;<a href data-email-masked rel=3D"nofollow">mudongl...@gmail.com</a>=
-&gt; wrote:
-<br>&gt;
-<br>&gt; Hi all,
-<br>&gt;
-<br>&gt; I built the kmsan with github kmsan repo HEAD, however, when I lev=
-eraged syzkaller to fuzz this kernel image, the VMs is always broken with t=
-he following WARNING report:
-<br>&gt;
-<br>&gt; ```
-<br>&gt; [   18.093341][    T1] ------------[ cut here ]------------
-<br>&gt; [   18.093419][    T1] WARNING: CPU: 1 PID: 1 at drivers/gpu/drm/d=
-rm_gem_vram_helper.c:284 drm_gem_vram_offset+0x128/0x140
-<br>&gt; [   18.093431][    T1] Modules linked in:
-<br>&gt; [   18.093472][    T1] CPU: 1 PID: 1 Comm: swapper/0 Not tainted 5=
-.10.0-rc1 #2
-<br>&gt; [   18.093489][    T1] Hardware name: QEMU Standard PC (i440FX + P=
-IIX, 1996), BIOS 1.13.0-1ubuntu1 04/01/2014
-<br>&gt; [   18.093532][    T1] RIP: 0010:drm_gem_vram_offset+0x128/0x140
-<br>&gt; [   18.093574][    T1] Code: 48 c7 c3 ed ff ff ff 31 c0 31 c9 eb b=
-4 8b 7d d4 e8 bd 78 1e fc e9 56 ff ff ff 8b 3a e8 b1 78 1e fc 4d 85 ff 0f 8=
-5 6e ff ff ff &lt;0f&gt; 0b 31 c0 31 c9 31 db eb 8d 8b 7d d4 e8 96 78 1e fc=
- e9 67 ff ff
-<br>&gt; [   18.093594][    T1] RSP: 0000:ffff8880125a6718 EFLAGS: 00010246
-<br>&gt; [   18.093622][    T1] RAX: 0000000000000000 RBX: ffff8880155efd80=
- RCX: 00000000151efd80
-<br>&gt; [   18.093645][    T1] RDX: ffff8880151efd80 RSI: 0000000000000040=
- RDI: ffff8880155efd80
-<br>&gt; [   18.093669][    T1] RBP: ffff8880125a6748 R08: ffffea000000000f=
- R09: ffff8880bffd2000
-<br>&gt; [   18.093691][    T1] R10: 0000000000000004 R11: 00000000ffffffff=
- R12: ffff8880155efc00
-<br>&gt; [   18.093711][    T1] R13: 0000000000000000 R14: ffff8880125b0a10=
- R15: 0000000000000000
-<br>&gt; [   18.093736][    T1] FS:  0000000000000000(0000) GS:ffff8880bfd0=
-0000(0000) knlGS:0000000000000000
-<br>&gt; [   18.093757][    T1] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080=
-050033
-<br>&gt; [   18.093777][    T1] CR2: 0000000000000000 CR3: 0000000010229001=
- CR4: 0000000000770ee0
-<br>&gt; [   18.093797][    T1] DR0: 0000000000000000 DR1: 0000000000000000=
- DR2: 0000000000000000
-<br>&gt; [   18.093816][    T1] DR3: 0000000000000000 DR6: 00000000fffe0ff0=
- DR7: 0000000000000400
-<br>&gt; [   18.093828][    T1] PKRU: 55555554
-<br>&gt; [   18.093839][    T1] Call Trace:
-<br>&gt; [   18.093886][    T1]  bochs_pipe_enable+0x16f/0x3f0
-<br>&gt; [   18.093935][    T1]  drm_simple_kms_crtc_enable+0x12e/0x1a0
-<br>&gt; [   18.093973][    T1]  ? bochs_connector_get_modes+0x1e0/0x1e0
-<br>&gt; [   18.094011][    T1]  ? drm_simple_kms_crtc_check+0x210/0x210
-<br>&gt; [   18.094049][    T1]  drm_atomic_helper_commit_modeset_enables+0=
-x362/0x1000
-<br>&gt; [   18.094095][    T1]  drm_atomic_helper_commit_tail+0xd3/0x860
-<br>&gt; [   18.094135][    T1]  ? kmsan_get_metadata+0x116/0x180
-<br>&gt; [   18.094171][    T1]  commit_tail+0x61c/0x7d0
-<br>&gt; [   18.094205][    T1]  ? kmsan_internal_set_origin+0x85/0xc0
-<br>&gt; [   18.094246][    T1]  drm_atomic_helper_commit+0xbfe/0xcb0
-<br>&gt; [   18.094284][    T1]  ? kmsan_get_metadata+0x116/0x180
-<br>&gt; [   18.094322][    T1]  ? drm_atomic_helper_async_commit+0x780/0x7=
-80
-<br>&gt; [   18.094361][    T1]  drm_atomic_commit+0x192/0x210
-<br>&gt; [   18.094400][    T1]  drm_client_modeset_commit_atomic+0x700/0xb=
-e0
-<br>&gt; [   18.094444][    T1]  drm_client_modeset_commit_locked+0x147/0x8=
-60
-<br>&gt; [   18.094481][    T1]  ? drm_master_internal_acquire+0x4a/0xd0
-<br>&gt; [   18.094513][    T1]  drm_client_modeset_commit+0x98/0x110
-<br>&gt; [   18.094551][    T1]  __drm_fb_helper_restore_fbdev_mode_unlocke=
-d+0x1a7/0x2a0
-<br>&gt; [   18.094586][    T1]  drm_fb_helper_set_par+0x12a/0x220
-<br>&gt; [   18.094620][    T1]  ? drm_fb_helper_fill_pixel_fmt+0x780/0x780
-<br>&gt; [   18.094646][    T1]  fbcon_init+0x1959/0x2910
-<br>&gt; [   18.094685][    T1]  ? validate_slab+0x30/0x730
-<br>&gt; [   18.094714][    T1]  ? fbcon_startup+0x1590/0x1590
-<br>&gt; [   18.094746][    T1]  visual_init+0x3bb/0x7b0
-<br>&gt; [   18.094786][    T1]  do_bind_con_driver+0x136e/0x1c90
-<br>&gt; [   18.094834][    T1]  do_take_over_console+0xe0a/0xef0
-<br>&gt; [   18.094875][    T1]  ? kmsan_get_shadow_origin_ptr+0x84/0xb0
-<br>&gt; [   18.094907][    T1]  fbcon_fb_registered+0x51c/0xae0
-<br>&gt; [   18.094954][    T1]  register_framebuffer+0xb68/0xfc0
-<br>&gt; [   18.094999][    T1]  __drm_fb_helper_initial_config_and_unlock+=
-0x17d2/0x2030
-<br>&gt; [   18.095047][    T1]  drm_fbdev_client_hotplug+0x7a3/0xe80
-<br>&gt; [   18.095085][    T1]  drm_fbdev_generic_setup+0x2b9/0x890
-<br>&gt; [   18.095124][    T1]  bochs_pci_probe+0x7de/0x800
-<br>&gt; [   18.095161][    T1]  ? qxl_gem_prime_mmap+0x30/0x30
-<br>&gt; [   18.095193][    T1]  pci_device_probe+0x95f/0xc70
-<br>&gt; [   18.095227][    T1]  ? pci_uevent+0x7b0/0x7b0
-<br>&gt; [   18.095259][    T1]  really_probe+0x9af/0x20d0
-<br>&gt; [   18.095298][    T1]  driver_probe_device+0x234/0x330
-<br>&gt; [   18.095334][    T1]  device_driver_attach+0x1e8/0x3c0
-<br>&gt; [   18.095370][    T1]  __driver_attach+0x30d/0x780
-<br>&gt; [   18.095399][    T1]  ? klist_devices_get+0x10/0x60
-<br>&gt; [   18.095431][    T1]  ? kmsan_get_metadata+0x116/0x180
-<br>&gt; [   18.095463][    T1]  bus_for_each_dev+0x252/0x360
-<br>&gt; [   18.095493][    T1]  ? driver_attach+0xa0/0xa0
-<br>&gt; [   18.095527][    T1]  driver_attach+0x84/0xa0
-<br>&gt; [   18.095558][    T1]  bus_add_driver+0x5d6/0xb00
-<br>&gt; [   18.095596][    T1]  driver_register+0x30c/0x830
-<br>&gt; [   18.095632][    T1]  __pci_register_driver+0x1fa/0x350
-<br>&gt; [   18.095669][    T1]  bochs_init+0xd6/0x115
-<br>&gt; [   18.095703][    T1]  do_one_initcall+0x246/0x7a0
-<br>&gt; [   18.095734][    T1]  ? qxl_init+0x165/0x165
-<br>&gt; [   18.095779][    T1]  ? kmsan_get_metadata+0x116/0x180
-<br>&gt; [   18.095815][    T1]  ? kmsan_get_shadow_origin_ptr+0x84/0xb0
-<br>&gt; [   18.095844][    T1]  ? qxl_init+0x165/0x165
-<br>&gt; [   18.095878][    T1]  do_initcall_level+0x2b4/0x34a
-<br>&gt; [   18.095913][    T1]  do_initcalls+0x123/0x1ba
-<br>&gt; [   18.095947][    T1]  ? cpu_init_udelay+0xcf/0xcf
-<br>&gt; [   18.095978][    T1]  do_basic_setup+0x2e/0x31
-<br>&gt; [   18.096011][    T1]  kernel_init_freeable+0x23f/0x35f
-<br>&gt; [   18.096049][    T1]  ? rest_init+0x1f0/0x1f0
-<br>&gt; [   18.096080][    T1]  kernel_init+0x1a/0x670
-<br>&gt; [   18.096111][    T1]  ? rest_init+0x1f0/0x1f0
-<br>&gt; [   18.096141][    T1]  ret_from_fork+0x1f/0x30
-<br>&gt; [   18.096166][    T1] Kernel panic - not syncing: panic_on_warn s=
-et ...
-<br>&gt; [   18.096192][    T1] CPU: 1 PID: 1 Comm: swapper/0 Not tainted 5=
-.10.0-rc1 #2
-<br>&gt; [   18.096208][    T1] Hardware name: QEMU Standard PC (i440FX + P=
-IIX, 1996), BIOS 1.13.0-1ubuntu1 04/01/2014
-<br>&gt; [   18.096219][    T1] Call Trace:
-<br>&gt; [   18.096254][    T1]  dump_stack+0x189/0x218
-<br>&gt; [   18.096287][    T1]  panic+0x38e/0xae4
-<br>&gt; [   18.096335][    T1]  ? kmsan_get_shadow_origin_ptr+0x84/0xb0
-<br>&gt; [   18.096364][    T1]  __warn+0x433/0x5c0
-<br>&gt; [   18.096402][    T1]  ? drm_gem_vram_offset+0x128/0x140
-<br>&gt; [   18.096434][    T1]  report_bug+0x669/0x880
-<br>&gt; [   18.096474][    T1]  ? drm_gem_vram_offset+0x128/0x140
-<br>&gt; [   18.096506][    T1]  handle_bug+0x6f/0xd0
-<br>&gt; [   18.096537][    T1]  __exc_invalid_op+0x34/0x80
-<br>&gt; [   18.096566][    T1]  exc_invalid_op+0x30/0x40
-<br>&gt; [   18.096603][    T1]  asm_exc_invalid_op+0x12/0x20
-<br>&gt; [   18.096640][    T1] RIP: 0010:drm_gem_vram_offset+0x128/0x140
-<br>&gt; [   18.096674][    T1] Code: 48 c7 c3 ed ff ff ff 31 c0 31 c9 eb b=
-4 8b 7d d4 e8 bd 78 1e fc e9 56 ff ff ff 8b 3a e8 b1 78 1e fc 4d 85 ff 0f 8=
-5 6e ff ff ff &lt;0f&gt; 0b 31 c0 31 c9 31 db eb 8d 8b 7d d4 e8 96 78 1e fc=
- e9 67 ff ff
-<br>&gt; [   18.096693][    T1] RSP: 0000:ffff8880125a6718 EFLAGS: 00010246
-<br>&gt; [   18.096721][    T1] RAX: 0000000000000000 RBX: ffff8880155efd80=
- RCX: 00000000151efd80
-<br>&gt; [   18.096743][    T1] RDX: ffff8880151efd80 RSI: 0000000000000040=
- RDI: ffff8880155efd80
-<br>&gt; [   18.096767][    T1] RBP: ffff8880125a6748 R08: ffffea000000000f=
- R09: ffff8880bffd2000
-<br>&gt; [   18.096787][    T1] R10: 0000000000000004 R11: 00000000ffffffff=
- R12: ffff8880155efc00
-<br>&gt; [   18.096807][    T1] R13: 0000000000000000 R14: ffff8880125b0a10=
- R15: 0000000000000000
-<br>&gt; [   18.096849][    T1]  ? drm_gem_vram_offset+0x79/0x140
-<br>&gt; [   18.096884][    T1]  bochs_pipe_enable+0x16f/0x3f0
-<br>&gt; [   18.096927][    T1]  drm_simple_kms_crtc_enable+0x12e/0x1a0
-<br>&gt; [   18.096964][    T1]  ? bochs_connector_get_modes+0x1e0/0x1e0
-<br>&gt; [   18.097001][    T1]  ? drm_simple_kms_crtc_check+0x210/0x210
-<br>&gt; [   18.097039][    T1]  drm_atomic_helper_commit_modeset_enables+0=
-x362/0x1000
-<br>&gt; [   18.097083][    T1]  drm_atomic_helper_commit_tail+0xd3/0x860
-<br>&gt; [   18.097120][    T1]  ? kmsan_get_metadata+0x116/0x180
-<br>&gt; [   18.097156][    T1]  commit_tail+0x61c/0x7d0
-<br>&gt; [   18.097190][    T1]  ? kmsan_internal_set_origin+0x85/0xc0
-<br>&gt; [   18.097230][    T1]  drm_atomic_helper_commit+0xbfe/0xcb0
-<br>&gt; [   18.097267][    T1]  ? kmsan_get_metadata+0x116/0x180
-<br>&gt; [   18.097305][    T1]  ? drm_atomic_helper_async_commit+0x780/0x7=
-80
-<br>&gt; [   18.097341][    T1]  drm_atomic_commit+0x192/0x210
-<br>&gt; [   18.097378][    T1]  drm_client_modeset_commit_atomic+0x700/0xb=
-e0
-<br>&gt; [   18.097422][    T1]  drm_client_modeset_commit_locked+0x147/0x8=
-60
-<br>&gt; [   18.097459][    T1]  ? drm_master_internal_acquire+0x4a/0xd0
-<br>&gt; [   18.097491][    T1]  drm_client_modeset_commit+0x98/0x110
-<br>&gt; [   18.097528][    T1]  __drm_fb_helper_restore_fbdev_mode_unlocke=
-d+0x1a7/0x2a0
-<br>&gt; [   18.097562][    T1]  drm_fb_helper_set_par+0x12a/0x220
-<br>&gt; [   18.097596][    T1]  ? drm_fb_helper_fill_pixel_fmt+0x780/0x780
-<br>&gt; [   18.097621][    T1]  fbcon_init+0x1959/0x2910
-<br>&gt; [   18.097660][    T1]  ? validate_slab+0x30/0x730
-<br>&gt; [   18.097688][    T1]  ? fbcon_startup+0x1590/0x1590
-<br>&gt; [   18.097719][    T1]  visual_init+0x3bb/0x7b0
-<br>&gt; [   18.097758][    T1]  do_bind_con_driver+0x136e/0x1c90
-<br>&gt; [   18.097807][    T1]  do_take_over_console+0xe0a/0xef0
-<br>&gt; [   18.097848][    T1]  ? kmsan_get_shadow_origin_ptr+0x84/0xb0
-<br>&gt; [   18.097879][    T1]  fbcon_fb_registered+0x51c/0xae0
-<br>&gt; [   18.097917][    T1]  register_framebuffer+0xb68/0xfc0
-<br>&gt; [   18.097961][    T1]  __drm_fb_helper_initial_config_and_unlock+=
-0x17d2/0x2030
-<br>&gt; [   18.098009][    T1]  drm_fbdev_client_hotplug+0x7a3/0xe80
-<br>&gt; [   18.098047][    T1]  drm_fbdev_generic_setup+0x2b9/0x890
-<br>&gt; [   18.098085][    T1]  bochs_pci_probe+0x7de/0x800
-<br>&gt; [   18.098123][    T1]  ? qxl_gem_prime_mmap+0x30/0x30
-<br>&gt; [   18.098152][    T1]  pci_device_probe+0x95f/0xc70
-<br>&gt; [   18.098187][    T1]  ? pci_uevent+0x7b0/0x7b0
-<br>&gt; [   18.098217][    T1]  really_probe+0x9af/0x20d0
-<br>&gt; [   18.098255][    T1]  driver_probe_device+0x234/0x330
-<br>&gt; [   18.098291][    T1]  device_driver_attach+0x1e8/0x3c0
-<br>&gt; [   18.098326][    T1]  __driver_attach+0x30d/0x780
-<br>&gt; [   18.098355][    T1]  ? klist_devices_get+0x10/0x60
-<br>&gt; [   18.098388][    T1]  ? kmsan_get_metadata+0x116/0x180
-<br>&gt; [   18.098419][    T1]  bus_for_each_dev+0x252/0x360
-<br>&gt; [   18.098448][    T1]  ? driver_attach+0xa0/0xa0
-<br>&gt; [   18.098482][    T1]  driver_attach+0x84/0xa0
-<br>&gt; [   18.098512][    T1]  bus_add_driver+0x5d6/0xb00
-<br>&gt; [   18.098550][    T1]  driver_register+0x30c/0x830
-<br>&gt; [   18.098585][    T1]  __pci_register_driver+0x1fa/0x350
-<br>&gt; [   18.098620][    T1]  bochs_init+0xd6/0x115
-<br>&gt; [   18.098651][    T1]  do_one_initcall+0x246/0x7a0
-<br>&gt; [   18.098680][    T1]  ? qxl_init+0x165/0x165
-<br>&gt; [   18.098727][    T1]  ? kmsan_get_metadata+0x116/0x180
-<br>&gt; [   18.098763][    T1]  ? kmsan_get_shadow_origin_ptr+0x84/0xb0
-<br>&gt; [   18.098791][    T1]  ? qxl_init+0x165/0x165
-<br>&gt; [   18.098824][    T1]  do_initcall_level+0x2b4/0x34a
-<br>&gt; [   18.098859][    T1]  do_initcalls+0x123/0x1ba
-<br>&gt; [   18.098890][    T1]  ? cpu_init_udelay+0xcf/0xcf
-<br>&gt; [   18.098921][    T1]  do_basic_setup+0x2e/0x31
-<br>&gt; [   18.098958][    T1]  kernel_init_freeable+0x23f/0x35f
-<br>&gt; [   18.098993][    T1]  ? rest_init+0x1f0/0x1f0
-<br>&gt; [   18.099024][    T1]  kernel_init+0x1a/0x670
-<br>&gt; [   18.099054][    T1]  ? rest_init+0x1f0/0x1f0
-<br>&gt; [   18.099085][    T1]  ret_from_fork+0x1f/0x30
-<br>&gt; [   18.099240][    T1] Dumping ftrace buffer:
-<br>&gt; [   18.099250][    T1]    (ftrace buffer empty)
-<br>&gt; [   18.099250][    T1] Kernel Offset: disabled
-<br>&gt; [   18.099250][    T1] Rebooting in 1 seconds..
-<br>&gt; ```
-<br>
-<br>Hi,
-<br>
-<br>The WARNING does not look KMSAN-related, KMSAN is not in the stack and
-<br>the subsystem is not KMSAN. Please report it to DRM maintainers.
-<br></blockquote></div>
-
-<p></p>
-
--- <br />
-You received this message because you are subscribed to the Google Groups &=
-quot;kasan-dev&quot; group.<br />
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
-+unsubscribe@googlegroups.com</a>.<br />
-To view this discussion on the web visit <a href=3D"https://groups.google.c=
-om/d/msgid/kasan-dev/a63a2733-1b7c-4bac-ad47-ea6e3999b953n%40googlegroups.c=
-om?utm_medium=3Demail&utm_source=3Dfooter">https://groups.google.com/d/msgi=
-d/kasan-dev/a63a2733-1b7c-4bac-ad47-ea6e3999b953n%40googlegroups.com</a>.<b=
-r />
-
-------=_Part_1335_292298641.1605750806379--
-
-------=_Part_1334_728886479.1605750806379--
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/1605787613.29084.32.camel%40mtksdccf07.
