@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBAABBEWK3P6QKGQEQPQAPBA@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABB4GQ3P6QKGQE6PESQSY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ot1-x33b.google.com (mail-ot1-x33b.google.com [IPv6:2607:f8b0:4864:20::33b])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0F042B9CFE
-	for <lists+kasan-dev@lfdr.de>; Thu, 19 Nov 2020 22:35:15 +0100 (CET)
-Received: by mail-ot1-x33b.google.com with SMTP id v50sf1932802otb.15
-        for <lists+kasan-dev@lfdr.de>; Thu, 19 Nov 2020 13:35:15 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1605821714; cv=pass;
+Received: from mail-ua1-x937.google.com (mail-ua1-x937.google.com [IPv6:2607:f8b0:4864:20::937])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BAE42B9D18
+	for <lists+kasan-dev@lfdr.de>; Thu, 19 Nov 2020 22:49:37 +0100 (CET)
+Received: by mail-ua1-x937.google.com with SMTP id v17sf796045uam.23
+        for <lists+kasan-dev@lfdr.de>; Thu, 19 Nov 2020 13:49:37 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1605822576; cv=pass;
         d=google.com; s=arc-20160816;
-        b=PpeADJRmksidy3GGY49q7liW8+s1E4aM1+C9tUzZiWwaVS2L4kWCEVqBEDzXwOhl6w
-         TVtZNk6H7VkYQmoI3esrMrmXMjejtw5NRVI1b7NJxE8LKvr3H2cAYhTL4qnQTRqO2ZJm
-         IX9bwJSWa1+aKf1kwEFMEVLkubvVhdgIA5enVisZwXengKIyZK7erQz/TZY47mlejWve
-         oZPeb1SydyYC+ys0SirrtyBkT/WFURFNaY7cj51mk0p+dsn3ZlkQOmiPPQDm/JTsyPwZ
-         bIUG5dle2d7KwI46/XTI0pQFIbn0Lp7raHtDg7NQq90rfnJzqeFgyQIJoIB0U/oVM1vy
-         xlCA==
+        b=gs1kjo49PDD8q3VIuckEmXFefY5CPWWnpYjgUnmmi171xpN+cfDa11F3PMlu06eOBf
+         q8Bv4efQYmH8yS4VPlAMhd0/joSdSSYdnASptSxW/k2TH/1eOlJ5xqYOJ1QfBvKwcfbd
+         cTEuvBFgZBXVyRIq24+bBiSGjTJpZy3/cqCk5lunWhREICjFadsHp4udj1lX/LMer6pj
+         LG6IYcv7XPBhheSU4Mtaf83wA3k5zPfA7bge2r5P0UebVXJNZzUdoCpWtjIhh3QfZHlp
+         inXINV3apmpcxtroFGeUWkRnuijZgU8LeVC6EETsxc5hmaU0v26GA8V1Z25YwCEJ3va5
+         4dtA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:user-agent:in-reply-to
          :content-disposition:mime-version:references:reply-to:message-id
          :subject:cc:to:from:date:sender:dkim-signature;
-        bh=+9MHpb/btRk6Bg53hPiXhy6Gdz8WVUzWzFkODBiiqik=;
-        b=E1YBKYybHlABvmDX361TBPcZRg4/+hrpgaA7aWfl3/3/jukU5hTcTlGB7JlPjaKtrZ
-         QGEkQi8N9ZC1cu0J/84/PvYQX4LrGcwCpSvLErjKxO1htwPVBNkmt5Ne5SKaMitpXMV2
-         IQURcdiMKjqPtQWWHv1joPF35cZmK0SHdeLoqWxhDl2Uw5XBKk9/PFtI4bIg0t/KxvDz
-         hvkvyz4yOb1xJwsxXjV9Api4wcejSRG1Th/igc+s6WoF58DxABgR4j0VHLQYGUcwApxG
-         p1IqIAenYcws1Z+D15G1ZUcRbV9bOyXf4T5K3HUWkaqiB5jUFRHK5McRIvBWVDAy553v
-         48Sg==
+        bh=6N8Qy27kvy9yz1UzBYQS6a+tDM2RtEcsxq4sPwvdH7Y=;
+        b=OLaHb+C0AWSvNQj85m2gdV1YszH6WSj3msrZBAKFUq6vnyxvgzJO+LjW1Pz4Gn7yH7
+         h2z6tRBXjTN+eNgCgDdsJF0peXUwCP9x3UPxJt2nnf2kS/ZjTP5AgmLPnIkvNNL2U68K
+         hRxKLUnyQHOeIMULvxztBnU6ThzK97Tjk7no9N/Be0wvQNtfytykt8unlpRwdHN2OMwQ
+         +LPhu94TvfSJaaz1CBD9zgDWVjt1Sed5zywszHMzLRe22EoYGZyYfewp1i1YqYSaRugw
+         rqZbkJw4ALU4mm+EjS3fU7CuG4bn9gaj14HjZP6QnRr0jbkBib+k9qYl2p/GjKcN7kHK
+         Ekdw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=default header.b="FjzSuS/v";
+       dkim=pass header.i=@kernel.org header.s=default header.b="GLC/r4pk";
        spf=pass (google.com: domain of srs0=8ov6=ez=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=8Ov6=EZ=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
@@ -37,13 +37,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=+9MHpb/btRk6Bg53hPiXhy6Gdz8WVUzWzFkODBiiqik=;
-        b=bZjmmIshlDwh5/iS1Z6W/8RwR8I4NyC15hZ3gr8BhypGlfOvJKWlOaaqh5vJZlAUQs
-         5Fzj3+9JfRR09nxFKc1wijTvxIGBLXrsLfjjDGcNUaM3CRfDQ1nG7CR0pwYc36DERRo6
-         H/K0OZlQX9yIMbZQvp4zlQik/IADvaHIYrwq4tEMxC3oLhAgfmftA9T3RF12qoSsD7FH
-         b9KWc2Idzq852ysa8sqmWeAJyX5LdQ8JtQMy9B/Y6nIyyzK/lzYEVcBDgYZz0zA8FaLd
-         dFB4Qt4vzrSmTNUdKBvz+1YqDiujBpPXWfXVEWMnq+gM6jkUr14pFK6wghNmRZY05E38
-         RNMQ==
+        bh=6N8Qy27kvy9yz1UzBYQS6a+tDM2RtEcsxq4sPwvdH7Y=;
+        b=c2CYW3YonabINtr1pr/kPWsy9vy9/e7wM1z51eL58knEdgQM5cz4Dr8vNIq1jO83Yf
+         f8G/WCozBBomGEujNhZEJgZUsZvtV/fHTXI1ILYFws8KBqod5Y8SR6VTI4lBccn3P+Ot
+         9IJCHOwPUU0tq6AmPvR2gDEqorqkeTC/xw+emOhvjsZpIFCaI4u/IgaYL2V6r4+nVL7S
+         u+p7YG7bS89CvVOdEH7TeR7+H0Fo3oh91cP6bn9vAzpY2hoW2y+Y9FC9vuroDNTX2wBt
+         +LB+kaFxyr9/F8gfUk62ps1i7TH8MeN8pKZTxLw9T9Gh2yAyOSdM0BUWzEpmTAadE+3u
+         oOgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
@@ -51,96 +51,77 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :user-agent:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
          :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=+9MHpb/btRk6Bg53hPiXhy6Gdz8WVUzWzFkODBiiqik=;
-        b=gFPGmc7K/0PmxGWKBA5pNgd8IvIcLkuKESmNrqqWlEKUkXQRiK88oWplTkc+paN2ug
-         wDm0bpcLP0+FYZ9N1aow7YDSYCfU3Lqx5H9WsD1uxC7Y2hIPQ9EztjeWy4GCyn8ScFun
-         CkK2aP4KIpGSojZjQvNIAhgEgHttCZgx81sDf23tvYqaJ95xEumrbGlC4AUuo9WWpxzj
-         her1P8nsPWDL2crwtkSKcqbISJJvXSJF9mC1byUtT/wF6zuv4kE0TYY18WaH1eONbVpR
-         UuLzB3NOBRHB57pDzV3yHhZrzG6FryFJPfsabo5YHitkSyCz9HE3k3z3GtCOxyZ1r0ii
-         N+QQ==
+        bh=6N8Qy27kvy9yz1UzBYQS6a+tDM2RtEcsxq4sPwvdH7Y=;
+        b=MepTF+D+Ppe+93U0n88WMEZVGimeBYSm+R8AylxRrtmTgK0RmGFDOEd3vVgbCnPgfl
+         ZOor1oHa1PnQ56in4TY9Asy40EwapaYK7c5Dm19cP/h5MD0F1sV0zmnCqqvBtb+jOrdi
+         KSQFftsVybGAoYsGL3w0GKJX0kdmb7QazQLpHvrvszbjxep0b0SxBmQgGDkD/G03E3qR
+         8LKZCKCO2dfyMpBJAYdF/6mLSuYW3/IlyRzNS1Yc6YkZ0FpQmbruxoPGZraVk9Sf1H0n
+         pM8BbJq/j0p0J9X8gscKWxUgCPPY6ydde2+EHys2foWloUyUFKOPE1U+my5UabTzx7GL
+         Bybw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM533aMhHTFD3mL76oWQRAMqNQtH1Zp0+pJNl+ev+qgVvxJ9rYURYt
-	Sp0flQQc0IUDVo5uFlDciBA=
-X-Google-Smtp-Source: ABdhPJzRyY8CFMTQH0Qzd6OFfF4zi+KeJ9XIEtcvCOtM3mfKEn+AnUYu1vCaGKWCg4v1tlp+aRCDUQ==
-X-Received: by 2002:a9d:6b98:: with SMTP id b24mr11632023otq.46.1605821714566;
-        Thu, 19 Nov 2020 13:35:14 -0800 (PST)
+X-Gm-Message-State: AOAM532x1/KULVEd3i/CAsuqpUKcXWcYwByhBNAO2PoWzOOleShxF3I1
+	rjGLmkF3YJ56Vb/MxRkrs00=
+X-Google-Smtp-Source: ABdhPJz5wB6Ad1PkZCfyu3vozH2OtO+299zZRiv41m1EUcBc5ZXkYrQvWU4uW4PiTxaXGCpOEuo+0w==
+X-Received: by 2002:a1f:2817:: with SMTP id o23mr10583165vko.2.1605822576281;
+        Thu, 19 Nov 2020 13:49:36 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:aca:4fd0:: with SMTP id d199ls1064164oib.5.gmail; Thu, 19
- Nov 2020 13:35:14 -0800 (PST)
-X-Received: by 2002:aca:52d5:: with SMTP id g204mr4439685oib.91.1605821713969;
-        Thu, 19 Nov 2020 13:35:13 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1605821713; cv=none;
+Received: by 2002:a1f:fe43:: with SMTP id l64ls290404vki.6.gmail; Thu, 19 Nov
+ 2020 13:49:35 -0800 (PST)
+X-Received: by 2002:a1f:3257:: with SMTP id y84mr10347851vky.8.1605822575810;
+        Thu, 19 Nov 2020 13:49:35 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1605822575; cv=none;
         d=google.com; s=arc-20160816;
-        b=p8iZMZSOgVTWpnpL1QxBGeZjx81xJAZrL84KrvqZHIl9WdrdhA9Lmk0OStqSrg9gjF
-         k6Xrqrzg7vygVfQ2bTpDwFPzui3agFg/ra+DuRym4wgbOrGIxuQEkXzbVmF/T7nmU7G0
-         KHkThyLDXpT0Q+AAYG0ybYG7wBAyoD32sVKdito6bt8my0qEYaZROlCQHXPrtUxuCn8c
-         insKKHxQQHolZFSFGyPwAptgUVJSWKgbLSs6RN3+T+++Rzdk6XSdC36yA6oLMFPA+al5
-         yZqnYtGLqxImXNr9c/r5uqiuSHpnDtCHLxHVXHo0MpnXHeIKKK+G2Q7WoySmoDPMfRt8
-         //tA==
+        b=JnMgn/J8S2xs5uIZx7L4arHNyOhG349DXzxZNPreJOEtvfYclsdsyHZmuRsmN1gWrc
+         PW/D82PWaMCCkxJintEPEZgyPZpfmD7g4qDNaBTTNRzz8a2z6nihIxo+9lH+15YUwT5N
+         WBoDcycDFIQY6GogmWSkcPUpfqD4e5x85ulcRQcbX/dxI75G2qNJ7L5515lOmRDttZZz
+         hcxDtTPLVfaIRwEpA4uM3zldclvgAPyWN/cVMDJAqavHAsWXsJyeM6IVgtxTIYjkdiSR
+         fJwpGYZecZG/6PTNK/dBwybanS0uhUV723vtEfToLeAfpfuxNu2/TJ/WGdxX9gDUpi6s
+         4MjA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=user-agent:in-reply-to:content-disposition:mime-version:references
          :reply-to:message-id:subject:cc:to:from:date:dkim-signature;
-        bh=Lts6D61qcD81EoXKyIuB/di8I9f+6BnxhHNlIezApr4=;
-        b=bbkG+nI3oOcQLU1hRh0VjrblLiGggTPODyGNNY6oz2hYW1vwu0O8dl2MNIc+m/CEtH
-         QOmsc+ONkfScozrmRDIwnBZDTyyea89vudR1ENetA76bXg3ghgyVbvLGnBpQHs+KEzBX
-         H6BnGN/6UMmgOQYeeVZlUskVJModHy7c4xT+8ItBxw6F6BoWztLLVvo6bzQImLQtb26D
-         TI4Mv637j63cXBxbkl920+STzXakrN1KPfkZlYC5/1Qg1Ltc0uPmem2Jj8dZh2YNGw9k
-         YHDVQg6YKaQ9L254roODC8WUz2/xfUXSe2eCY6QwLp/Oa4OrkfxwUTTgtmebNJUkvbcD
-         mqNQ==
+        bh=zPoaUmhviZW+SAz8eVYYYyn+bF9rRXQTMGeLRCxNeLg=;
+        b=z7SSzy1ZmYZ61Ocd1ha4TZ7+WMAAS6tAvbZoD8CRrG1to4nG3zaqO6qfUoN+A08F7U
+         UthSnlgqxQbKnbaNKdTwRNG/nDBy4QIEt+HryPlaL1L6Y6jI5mKdEk4zQ2x22qI2DL3g
+         9rqADbPwBkhd6MSD0JYJeW0/I1yQSczl0r00L7XPvYSYpVNgp9XqLaKG4Yo7gPgLB1Vc
+         sd9pnYKKKefxs+bTUdPcaQ9E48MNxbBmADHsYcp3i21+dqZX5e2rOSOh2HEsUo6/cwB7
+         JjGoAX59td2cy6c7MYhQx1n30gemmUy8aKneGCPZjHDqvZV7lt2F+ilBDolbydmCwbd3
+         hl9A==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=default header.b="FjzSuS/v";
+       dkim=pass header.i=@kernel.org header.s=default header.b="GLC/r4pk";
        spf=pass (google.com: domain of srs0=8ov6=ez=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=8Ov6=EZ=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id i23si100374oto.5.2020.11.19.13.35.13
+        by gmr-mx.google.com with ESMTPS id c124si113392vkb.4.2020.11.19.13.49.35
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 19 Nov 2020 13:35:13 -0800 (PST)
+        Thu, 19 Nov 2020 13:49:35 -0800 (PST)
 Received-SPF: pass (google.com: domain of srs0=8ov6=ez=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
 Received: from paulmck-ThinkPad-P72.home (50-39-104-11.bvtn.or.frontiernet.net [50.39.104.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id CC7352222A;
-	Thu, 19 Nov 2020 21:35:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPSA id 7E76122202;
+	Thu, 19 Nov 2020 21:49:34 +0000 (UTC)
 Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
-	id 75FDB35225D3; Thu, 19 Nov 2020 13:35:12 -0800 (PST)
-Date: Thu, 19 Nov 2020 13:35:12 -0800
+	id 18BE135225D3; Thu, 19 Nov 2020 13:49:34 -0800 (PST)
+Date: Thu, 19 Nov 2020 13:49:34 -0800
 From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Marco Elver <elver@google.com>
-Cc: Steven Rostedt <rostedt@goodmis.org>,
-	Anders Roxell <anders.roxell@linaro.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Alexander Potapenko <glider@google.com>,
-	Dmitry Vyukov <dvyukov@google.com>, Jann Horn <jannh@google.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux-MM <linux-mm@kvack.org>,
-	kasan-dev <kasan-dev@googlegroups.com>, rcu@vger.kernel.org,
-	Peter Zijlstra <peterz@infradead.org>, Tejun Heo <tj@kernel.org>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: linux-next: stall warnings and deadlock on Arm64 (was: [PATCH]
- kfence: Avoid stalling...)
-Message-ID: <20201119213512.GB1437@paulmck-ThinkPad-P72>
+To: qiang.zhang@windriver.com
+Cc: josh@joshtriplett.org, rostedt@goodmis.org, joel@joelfernandes.org,
+	rcu@vger.kernel.org, linux-kernel@vger.kernel.org,
+	kasan-dev@googlegroups.com, urezki@gmail.com
+Subject: Re: [PATCH] rcu: kasan: record and print kvfree_call_rcu call stack
+Message-ID: <20201119214934.GC1437@paulmck-ThinkPad-P72>
 Reply-To: paulmck@kernel.org
-References: <20201113175754.GA6273@paulmck-ThinkPad-P72>
- <20201117105236.GA1964407@elver.google.com>
- <20201117182915.GM1437@paulmck-ThinkPad-P72>
- <20201118225621.GA1770130@elver.google.com>
- <20201118233841.GS1437@paulmck-ThinkPad-P72>
- <20201119125357.GA2084963@elver.google.com>
- <20201119151409.GU1437@paulmck-ThinkPad-P72>
- <20201119170259.GA2134472@elver.google.com>
- <20201119184854.GY1437@paulmck-ThinkPad-P72>
- <20201119193819.GA2601289@elver.google.com>
+References: <20201118035309.19144-1-qiang.zhang@windriver.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <20201119193819.GA2601289@elver.google.com>
+In-Reply-To: <20201118035309.19144-1-qiang.zhang@windriver.com>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 X-Original-Sender: paulmck@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=default header.b="FjzSuS/v";       spf=pass
+ header.i=@kernel.org header.s=default header.b="GLC/r4pk";       spf=pass
  (google.com: domain of srs0=8ov6=ez=paulmck-thinkpad-p72.home=paulmck@kernel.org
  designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=8Ov6=EZ=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
@@ -156,110 +137,43 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Nov 19, 2020 at 08:38:19PM +0100, Marco Elver wrote:
-> On Thu, Nov 19, 2020 at 10:48AM -0800, Paul E. McKenney wrote:
-> > On Thu, Nov 19, 2020 at 06:02:59PM +0100, Marco Elver wrote:
+On Wed, Nov 18, 2020 at 11:53:09AM +0800, qiang.zhang@windriver.com wrote:
+> From: Zqiang <qiang.zhang@windriver.com>
+> 
+> Add kasan_record_aux_stack function for kvfree_call_rcu function to
+> record call stacks.
+> 
+> Signed-off-by: Zqiang <qiang.zhang@windriver.com>
 
-[ . . . ]
+Thank you, but this does not apply on the "dev" branch of the -rcu tree.
+See file:///home/git/kernel.org/rcutodo.html for more info.
 
-> > > I can try bisection again, or reverting some commits that might be
-> > > suspicious? But we'd need some selection of suspicious commits.
-> > 
-> > The report claims that one of the rcu_node ->lock fields is held
-> > with interrupts enabled, which would indeed be bad.  Except that all
-> > of the stack traces that it shows have these locks held within the
-> > scheduling-clock interrupt handler.  Now with the "rcu: Don't invoke
-> > try_invoke_on_locked_down_task() with irqs disabled" but without the
-> > "sched/core: Allow try_invoke_on_locked_down_task() with irqs disabled"
-> > commit, I understand why.  With both, I don't see how this happens.
-> 
-> I'm at a loss, but happy to keep bisecting and trying patches. I'm also
-> considering:
-> 
-> 	Is it the compiler? Probably not, I tried 2 versions of GCC.
-> 
-> 	Can we trust lockdep to precisely know IRQ state? I know there's
-> 	been some recent work around this, but hopefully we're not
-> 	affected here?
-> 
-> 	Is QEMU buggy?
-> 
-> > At this point, I am reduced to adding lockdep_assert_irqs_disabled()
-> > calls at various points in that code, as shown in the patch below.
-> > 
-> > At this point, I would guess that your first priority would be the
-> > initial bug rather than this following issue, but you never know, this
-> > might well help diagnose the initial bug.
-> 
-> I don't mind either way. I'm worried deadlocking the whole system might
-> be worse.
-
-Here is another set of lockdep_assert_irqs_disabled() calls on the
-off-chance that they actually find something.
+Adding others on CC who might have feedback on the general approach.
 
 							Thanx, Paul
 
-------------------------------------------------------------------------
-
-commit bcca5277df3f24db15e15ccc8b05ecf346d05169
-Author: Paul E. McKenney <paulmck@kernel.org>
-Date:   Thu Nov 19 13:30:33 2020 -0800
-
-    rcu: Add lockdep_assert_irqs_disabled() to raw_spin_unlock_rcu_node() macros
-    
-    This commit adds a lockdep_assert_irqs_disabled() call to the
-    helper macros that release the rcu_node structure's ->lock, namely
-    to raw_spin_unlock_rcu_node(), raw_spin_unlock_irq_rcu_node() and
-    raw_spin_unlock_irqrestore_rcu_node().  The point of this is to help track
-    down a situation where lockdep appears to be insisting that interrupts
-    are enabled while holding an rcu_node structure's ->lock.
-    
-    Link: https://lore.kernel.org/lkml/20201111133813.GA81547@elver.google.com/
-    Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
-
-diff --git a/kernel/rcu/rcu.h b/kernel/rcu/rcu.h
-index 59ef1ae..bf0827d 100644
---- a/kernel/rcu/rcu.h
-+++ b/kernel/rcu/rcu.h
-@@ -378,7 +378,11 @@ do {									\
- 	smp_mb__after_unlock_lock();					\
- } while (0)
- 
--#define raw_spin_unlock_rcu_node(p) raw_spin_unlock(&ACCESS_PRIVATE(p, lock))
-+#define raw_spin_unlock_rcu_node(p)					\
-+do {									\
-+	lockdep_assert_irqs_disabled();					\
-+	raw_spin_unlock(&ACCESS_PRIVATE(p, lock));			\
-+} while (0)
- 
- #define raw_spin_lock_irq_rcu_node(p)					\
- do {									\
-@@ -387,7 +391,10 @@ do {									\
- } while (0)
- 
- #define raw_spin_unlock_irq_rcu_node(p)					\
--	raw_spin_unlock_irq(&ACCESS_PRIVATE(p, lock))
-+do {									\
-+	lockdep_assert_irqs_disabled();					\
-+	raw_spin_unlock_irq(&ACCESS_PRIVATE(p, lock));			\
-+} while (0)
- 
- #define raw_spin_lock_irqsave_rcu_node(p, flags)			\
- do {									\
-@@ -396,7 +403,10 @@ do {									\
- } while (0)
- 
- #define raw_spin_unlock_irqrestore_rcu_node(p, flags)			\
--	raw_spin_unlock_irqrestore(&ACCESS_PRIVATE(p, lock), flags)
-+do {									\
-+	lockdep_assert_irqs_disabled();					\
-+	raw_spin_unlock_irqrestore(&ACCESS_PRIVATE(p, lock), flags);	\
-+} while (0)
- 
- #define raw_spin_trylock_rcu_node(p)					\
- ({									\
+> ---
+>  kernel/rcu/tree.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/kernel/rcu/tree.c b/kernel/rcu/tree.c
+> index da3414522285..a252b2f0208d 100644
+> --- a/kernel/rcu/tree.c
+> +++ b/kernel/rcu/tree.c
+> @@ -3506,7 +3506,7 @@ void kvfree_call_rcu(struct rcu_head *head, rcu_callback_t func)
+>  		success = true;
+>  		goto unlock_return;
+>  	}
+> -
+> +	kasan_record_aux_stack(ptr);
+>  	success = kvfree_call_rcu_add_ptr_to_bulk(krcp, ptr);
+>  	if (!success) {
+>  		run_page_cache_worker(krcp);
+> -- 
+> 2.17.1
+> 
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20201119213512.GB1437%40paulmck-ThinkPad-P72.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20201119214934.GC1437%40paulmck-ThinkPad-P72.
