@@ -1,142 +1,149 @@
-Return-Path: <kasan-dev+bncBAABBG6C3H6QKGQECXGCOBQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBB3OV3H6QKGQEWE7LXPI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-vk1-xa37.google.com (mail-vk1-xa37.google.com [IPv6:2607:f8b0:4864:20::a37])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80FA32B9223
-	for <lists+kasan-dev@lfdr.de>; Thu, 19 Nov 2020 13:12:12 +0100 (CET)
-Received: by mail-vk1-xa37.google.com with SMTP id s1sf2517135vks.6
-        for <lists+kasan-dev@lfdr.de>; Thu, 19 Nov 2020 04:12:12 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1605787931; cv=pass;
+Received: from mail-ej1-x639.google.com (mail-ej1-x639.google.com [IPv6:2a00:1450:4864:20::639])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E11F2B92D2
+	for <lists+kasan-dev@lfdr.de>; Thu, 19 Nov 2020 13:54:06 +0100 (CET)
+Received: by mail-ej1-x639.google.com with SMTP id f21sf2110226ejf.11
+        for <lists+kasan-dev@lfdr.de>; Thu, 19 Nov 2020 04:54:06 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1605790446; cv=pass;
         d=google.com; s=arc-20160816;
-        b=huLsnecbd2i9FO35ZfAaBjd+rNhrlcwFp/UcwdSOxTM5iVjh+MSkhlRt7olygikxBI
-         WN8MheGQ2iPexiy838vIOxoOlj+GHcEHv3siHfa6SHGdonkyqifYknccrLTl5Q28JcMl
-         E3mUcUCWHgTIGaH0FD18+mbvfpQZ0wyT3Y5xIZkR3zqOV/LfUiBWgVfiH4ncG4U+1FJF
-         AeDLwJYccTQV+qIjPJjsRmbACa5ljYdjvgHdwykqoNMmiu7RyjLtYawWUbj2xv2shi31
-         KEy1lSfkDBuckH9vX+9yLpChbrLHUpr5pBJkA+0BRi5oIAsBD+xnQhn0lKsGsKdHJ+kP
-         4MBg==
+        b=rKjwBJT8r3acLOndn9nN3NzfWsvXRhrlRMo24ZE8B9z86mnS/5DR4plcBKvXwYHt59
+         o3RuwTyyQXEtpqDZPZp42rynNu+sXUC4xDuhh52sri/esSD8EgrUIJcLoV5Jm55+66xu
+         T90cYWQdIZaWlfnviWsFTUkB12adX/fq4osfmQlGpLwu/c3DWXIsI+tMEonchu6vr8IR
+         RNKTDKn4iLXwjVzxxCvS3H9zImSyoJ2aWRTOIAVw+u8BFwEXRpoqqIKssCjW/4jX67wI
+         xe6teqGL9fPsKbzlHY890Htw2WmueYTtUJ7EdY76nTKEt5C1RPunXtTlr1M62RqBgClY
+         HKHA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
-         :date:cc:to:from:subject:message-id:sender:dkim-signature;
-        bh=RGeLhDgQNj8PRfHInMWYj6vrw18WGWmVyMNL6IvviIE=;
-        b=RC+KmctBxQ8eTC42yC575vKjUP2XBMeE/8HRXsxsl4aibLtMQpGyP+uUuutY48jEu5
-         QeW94vxxgEOhuU4TNDQxrCOYjoGTr1hEVUqMbSol1HSGai1KQllPgn2sBLZ6oFcQhpqN
-         wgoa7pzJS3dx89wMYjHPlNhD1W7A98CZ0CMjNFrWouFSI7jfM8xOVtlVVsxQwDc/FAoh
-         ueIvfCqEXY0yNrqiB88tNKa34BkQ3ZSxg9KdnycUvlvVHeQGEhsxhSQ9qDuhY09p2T3k
-         BuxzoZKhfjncMWQG7JXNjMmm/f1ONjF6uz/Vhezag5yeK/7o+L8h3k6Xm6d+z39YUgmb
-         nW7A==
+         :list-id:mailing-list:precedence:reply-to:user-agent:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:dkim-signature;
+        bh=Ak/lkDLHn//viSoszxrR+b5saLHxIkZOKfhiVcOgM18=;
+        b=ka/+pTht3Bb5t0L2bIVUu4qJ590/KXk9lXARL1f8/uq5pl2vzOV8woaS1Tjo5D1d9M
+         6DCIXHRsPe23h1DivpjTZ76klSC2wdGoet98gNTTy17RkFl8Fx+JrsEhP73urwmSVCQq
+         EM6EBpPA9GnT5ccyybudtUknvu+nTurtkHAfejTCjLoW5PqlNXRb5y3fOK/OLCLn5aBc
+         np1xbxwpG3Jaqi6pGFtCbs0u2XSQp2JlGsgc0aX51WaZ0sK16QoTjx4+o9v0KCtKjx4G
+         ulwdOI0Xp1qId0rob7tYw/RhbmD6XuQX65YcAPD/6clnv8azOAHURj4kewtFYlFoBa6b
+         02Gw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@mediatek.com header.s=dk header.b=FbwBuPPN;
-       spf=pass (google.com: domain of kuan-ying.lee@mediatek.com designates 210.61.82.184 as permitted sender) smtp.mailfrom=kuan-ying.lee@mediatek.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
+       dkim=pass header.i=@google.com header.s=20161025 header.b=ot1pMPmx;
+       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::442 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:message-id:subject:from:to:cc:date:in-reply-to:references
-         :mime-version:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=RGeLhDgQNj8PRfHInMWYj6vrw18WGWmVyMNL6IvviIE=;
-        b=OmmCOCJbZd5exhg29ipZMyicVpC1pKSNxo1MCeNi/vaxM24Ut9ojzoCWsV4jAkxPlR
-         yQfHX2wEjMEfyBB9y7VeW73JwF6tnIbIT98yCNgIYkT7xLyaQRcugwtZfIWICCBp9Wm2
-         xHOEt6+SfFwNrLuMuj8ZQEJp2xwrAe6tkbQTMWtMwLkFPDECuIGtQUXn+4GpRGdkwfRl
-         FICiIr5NVvjtCHe2FidfQg+lNXGcPzyOnMwKj2O9qijP25pxkG/h5g7lhS82rT5+xLPp
-         v7a1a8uIoedVWY4W0la9w4+gbuq6P4itpFNJHp4j7HKJwWLiYuKrbMcU+3ar152bfH1t
-         5fzQ==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:list-post:list-help:list-archive:list-subscribe
+         :list-unsubscribe;
+        bh=Ak/lkDLHn//viSoszxrR+b5saLHxIkZOKfhiVcOgM18=;
+        b=CeaLv/wkTQgSHqw3y0vOLgfibBJ1n/fuIODkjy93jycIhIgB5sXD5l8VmQXgkTuB/m
+         ExVktZcZ9l6P5+ql5zfE8JqjpD8Q3C0WdL0lVypIUQAOmswbky+eM+/94zJrqrsoiGj1
+         L/e3LotTDhIPC/c5VQjfBFjmMR+VCnJq+XU8fZzQUd+FMdPRBeNW7Py04TqNOhOpTjaM
+         1ye7KAO8jQV8/WwP6dbZIoqq62ZpM9mP/QcGMMaDPPpjIFsZ98vfQVMK4kGm6Acu7UZu
+         I7I2hpqo/BqsXrqoztDoq9EdFB1y6Fy7JwaJU7BMya5lw6F9qvmxCTZDBkCW2mgDzVXT
+         AH1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:message-id:subject:from:to:cc:date
-         :in-reply-to:references:mime-version:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=RGeLhDgQNj8PRfHInMWYj6vrw18WGWmVyMNL6IvviIE=;
-        b=Fkocvux6HLOSlHzwy+bhKEDzKPq2cGQnA+ocrzaBdOstB5G6O2tQ9FWIs3E18jCjX8
-         QDi+kbadTLtE46syz6yDAvefeCWpB+LBLDgNSaZ+tnldUH/+bWB5YRwT8vj/X14+y27R
-         tNrw9MjT5CGDCLSbZ5thrFxUzJo8BRSFeBZuShi/pDA5rzJTu4nAXZzJJ0+SLHSOQaPn
-         A9FemkS8My/gCKHTvJRskqVq/xik6FCLVsBIakkwhozyP9SpQNau0nXvm9To3yQVAv81
-         y22X3SSudlc1Ilq71tHJcUsiI47ncXwoAIxOczPv1fBosfoYCCfcvLDsQAouZuQ3K8k/
-         +jAg==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM531BE2/1oplbpdVvZDASgVp/R/dnXUSavHaWt9bpBVyFMNMFtmCb
-	xGgoHPvqvmhvz/oj8KR98Bc=
-X-Google-Smtp-Source: ABdhPJxIHzuEvJB6gujQMvl+rRdt3AZWwpi5xv+/fSuAtZnZBn9VTiz5QoZNp+qcLkxcFJloQiXIdw==
-X-Received: by 2002:ab0:4972:: with SMTP id a47mr6673459uad.53.1605787931324;
-        Thu, 19 Nov 2020 04:12:11 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent
+         :x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=Ak/lkDLHn//viSoszxrR+b5saLHxIkZOKfhiVcOgM18=;
+        b=tsUoNX2C+tBbuRXfyj7BcGo8OcoahK4waxdh1wdi2oO0DOKy1sqv069B4HVrycc17v
+         i31Z1n+AgC4hIdgHSS8GvVwiwKsGUaoE4JIIAMUhwj4RPZcW9Jrd1SafTGnyxgGhrRGg
+         d1FUiT6fLiSpYLWWs+SKZ6Fc41vuteFm+Pw0opDgAw5dmDRQ1lO5FoZszJ8CppT4fjtq
+         vG4j8jwtg1c7hMqX9bQW2lNyY6I9LS1ocKW0m/1RRYr16sF2GHYOj5kTN43lfKqKECEI
+         Miopp/IkBgxaffM2DbpBDp1MgLVBBpLhHDd5nEEy4eSsBI6Umtcy+SE04mLaposUbNUH
+         a2IA==
+X-Gm-Message-State: AOAM530YWxvRX/zSGv4Hf14qb7Sj6P3WNLUdG16Ef0DIv2VXn0x3g475
+	WnVUJOfQ74SlXrQth3tCuSc=
+X-Google-Smtp-Source: ABdhPJwO8zMu1CitLRmaX4tWMi3h+EevmZTsFos6QTM+LWH08Ur8yZ9xxukRRmQvAZf79w1RdvxNhQ==
+X-Received: by 2002:a50:eb96:: with SMTP id y22mr31292229edr.116.1605790446080;
+        Thu, 19 Nov 2020 04:54:06 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6102:22fb:: with SMTP id b27ls422492vsh.1.gmail; Thu, 19
- Nov 2020 04:12:10 -0800 (PST)
-X-Received: by 2002:a67:f80b:: with SMTP id l11mr6118882vso.26.1605787930331;
-        Thu, 19 Nov 2020 04:12:10 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1605787930; cv=none;
+Received: by 2002:a05:6402:c04:: with SMTP id co4ls2570617edb.0.gmail; Thu, 19
+ Nov 2020 04:54:05 -0800 (PST)
+X-Received: by 2002:aa7:c50e:: with SMTP id o14mr30374038edq.80.1605790445005;
+        Thu, 19 Nov 2020 04:54:05 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1605790445; cv=none;
         d=google.com; s=arc-20160816;
-        b=fIyBOFuVn2gZs53EFhN6H0vLltQrTbarap6FSDgvZYBDa+hrz6wKAVOVN+INWbsJCT
-         e3h0wq4cFja201mBTPlUUcal2TWoNYYjReA/5gBnT225PZC4ko0lgnSwIBCxgTInA8go
-         tcv9GVTg/NE4YpCg6acghR3OC1lK59j5L4osY+1K0OE9G3xsPzh3ErQwfpjgYWyOkzZC
-         t/eSQ4a7ykbgkqaOpnas4Bfvz2Ee4tqvH9iJNP1z3N8fVTzuK9fp2U9XOE0nfmHr6ZUm
-         IJbWDvFj7RDMcoEb+hxu3q4ERHYwo3+TS1PjZsMEazJY6rJSAllg2auXpXsQB6EtRWXY
-         Uuxw==
+        b=PelnOMpYpJTyz23LZe/T+qyiVZ6MYTZCAvSVTEuEQ8H6jITW+8mpXG1zPSxGJmFgTi
+         aGElkp4x7RmICKxiZbAo6q4zUtWi6D1bC04Xp29l6KRGI9V1JC0bzoIwSQLqix0VLb6z
+         X3kEjahQyfgNGUkXq9cH5GV6UcTdvJ+Bv+KwfpZLBRs/syuw34ZKKuSpGJkqXCqlfiEg
+         oYVpezdGtemxqIGGLaajnH8WUwDJ7bBlRIx6dOfv+WQvrgppXxxsA342+Id6NYq0EI4m
+         4UsU6lsKeVmOnKk+9Ryt0XDZSWM4kLVGrOc4K4pPob/2nGyRFAdvEobKVKfxbtwwUlsW
+         nhKQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:references:in-reply-to:date
-         :cc:to:from:subject:message-id:dkim-signature;
-        bh=BxaKCvbGMroRDKzMiJNq1cYSi2kIAUSuDsxHbXnM8mQ=;
-        b=T8aGXoaV2MhlNWcwl0Le5kCG1JBD9HYjjCoymsWeWycPTo8dMkS/2TbmPY67KYI+/K
-         c0D/EHvZwmR14Qqqur9rysvhTiBTGLk/nlGVuqnlsZKOib+e5NrLbyvPXCMwCKwPXtlD
-         oM8hIs6X91PXYFr3rxvUl+pMq4MFfivCnLtWTrZ/Q0sl03c+B79icXtkYr5mEr8lALaW
-         K4n0Mae6nUrqrXRAYRsyM6vwboOVuoMGZZItX55Q8GoI6H69Z1DGea55zfh0Fc4gwFby
-         GBy7oGvihjWM4RD6UsLgX1WsPXHvhhmQCGshMo5KqzAlJhbqWoxh3nburQkFvWa5XGb3
-         I+fg==
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:dkim-signature;
+        bh=sJ12RXZ5BrbHa4QRvWDENN8f77BW3hgJOfvxlD6uU/0=;
+        b=UsCnwI1x1lcpg+T5fXwg9XBVQpsXYVp+9jse5/jEa00Av547//DFs3ImqCtbnxBWmA
+         3MoPN2aGODS0qqmnTLWD9taSauahVrSfekw7FdMEkhJF5lR4FLkRfQQkVA3tmIJApGzV
+         w/gQ5AzvhbzSf9FFBZYCzGy6dJmyxjuWYwVWOtaOAjQc/hURX18qWm+0rhgDOmh3xCfy
+         r5/25JhDs1mOKjiEKyPOLSovofj1zZfiZRhmkZb2jWXFkTyjp61r5GP6s0TZVPZj09Fv
+         B+Q3AD9eY2FBFyTyDSdBc6o/5uvroXdUk3occnNXs2FCPOzLhHA9NJ1Vu+0t+YlBC6EH
+         tdZA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@mediatek.com header.s=dk header.b=FbwBuPPN;
-       spf=pass (google.com: domain of kuan-ying.lee@mediatek.com designates 210.61.82.184 as permitted sender) smtp.mailfrom=kuan-ying.lee@mediatek.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
-Received: from mailgw02.mediatek.com ([210.61.82.184])
-        by gmr-mx.google.com with ESMTP id b25si656354vkk.5.2020.11.19.04.12.09
-        for <kasan-dev@googlegroups.com>;
-        Thu, 19 Nov 2020 04:12:09 -0800 (PST)
-Received-SPF: pass (google.com: domain of kuan-ying.lee@mediatek.com designates 210.61.82.184 as permitted sender) client-ip=210.61.82.184;
-X-UUID: 791bf6180cfb4282bc04daf6fe3c4266-20201119
-X-UUID: 791bf6180cfb4282bc04daf6fe3c4266-20201119
-Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw02.mediatek.com
-	(envelope-from <kuan-ying.lee@mediatek.com>)
-	(Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-	with ESMTP id 1422574732; Thu, 19 Nov 2020 20:06:55 +0800
-Received: from mtkcas08.mediatek.inc (172.21.101.126) by
- mtkmbs08n2.mediatek.inc (172.21.101.56) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 19 Nov 2020 20:06:53 +0800
-Received: from [172.21.84.99] (172.21.84.99) by mtkcas08.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 19 Nov 2020 20:06:53 +0800
-Message-ID: <1605787613.29084.32.camel@mtksdccf07>
-Subject: Re: [PATCH v2 1/1] kasan: fix object remain in offline per-cpu
- quarantine
-From: Kuan-Ying Lee <Kuan-Ying.Lee@mediatek.com>
-To: Dmitry Vyukov <dvyukov@google.com>
-CC: Andrey Ryabinin <aryabinin@virtuozzo.com>, Alexander Potapenko
-	<glider@google.com>, Andrew Morton <akpm@linux-foundation.org>, "Matthias
- Brugger" <matthias.bgg@gmail.com>, kasan-dev <kasan-dev@googlegroups.com>,
-	Linux-MM <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>, "Linux
- ARM" <linux-arm-kernel@lists.infradead.org>,
-	<linux-mediatek@lists.infradead.org>, <nicholas.tang@mediatek.com>, Miles
- Chen <miles.chen@mediatek.com>, <guangye.yang@mediatek.com>, wsd_upstream
-	<wsd_upstream@mediatek.com>
-Date: Thu, 19 Nov 2020 20:06:53 +0800
-In-Reply-To: <CACT4Y+ZpK5YKLrN_jvaD60YFKQ-kVHc=91NTBzhX5PZRTHVd7g@mail.gmail.com>
-References: <1605508168-7418-1-git-send-email-Kuan-Ying.Lee@mediatek.com>
-	 <1605508168-7418-2-git-send-email-Kuan-Ying.Lee@mediatek.com>
-	 <CACT4Y+Zy_JQ3y7_P2NXffiijTuxcnh7VPcAGL66Ks2LaLTj-eg@mail.gmail.com>
-	 <1605595583.29084.24.camel@mtksdccf07>
-	 <CACT4Y+ZpK5YKLrN_jvaD60YFKQ-kVHc=91NTBzhX5PZRTHVd7g@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.2.3-0ubuntu6
+       dkim=pass header.i=@google.com header.s=20161025 header.b=ot1pMPmx;
+       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::442 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com. [2a00:1450:4864:20::442])
+        by gmr-mx.google.com with ESMTPS id h5si158769ejl.1.2020.11.19.04.54.04
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 19 Nov 2020 04:54:04 -0800 (PST)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::442 as permitted sender) client-ip=2a00:1450:4864:20::442;
+Received: by mail-wr1-x442.google.com with SMTP id l1so6287179wrb.9
+        for <kasan-dev@googlegroups.com>; Thu, 19 Nov 2020 04:54:04 -0800 (PST)
+X-Received: by 2002:adf:f9c5:: with SMTP id w5mr9658853wrr.69.1605790444553;
+        Thu, 19 Nov 2020 04:54:04 -0800 (PST)
+Received: from elver.google.com ([2a00:79e0:15:13:f693:9fff:fef4:2449])
+        by smtp.gmail.com with ESMTPSA id f23sm9043046wmb.43.2020.11.19.04.54.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Nov 2020 04:54:02 -0800 (PST)
+Date: Thu, 19 Nov 2020 13:53:57 +0100
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>,
+	Anders Roxell <anders.roxell@linaro.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Alexander Potapenko <glider@google.com>,
+	Dmitry Vyukov <dvyukov@google.com>, Jann Horn <jannh@google.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux-MM <linux-mm@kvack.org>,
+	kasan-dev <kasan-dev@googlegroups.com>, rcu@vger.kernel.org,
+	Peter Zijlstra <peterz@infradead.org>, Tejun Heo <tj@kernel.org>,
+	Lai Jiangshan <jiangshanlai@gmail.com>
+Subject: Re: [PATCH] kfence: Avoid stalling work queue task without
+ allocations
+Message-ID: <20201119125357.GA2084963@elver.google.com>
+References: <20201111202153.GT517454@elver.google.com>
+ <20201112001129.GD3249@paulmck-ThinkPad-P72>
+ <CANpmjNNyZs6NrHPmomC4=9MPEvCy1bFA5R2pRsMhG7=c3LhL_Q@mail.gmail.com>
+ <20201112161439.GA2989297@elver.google.com>
+ <20201112175406.GF3249@paulmck-ThinkPad-P72>
+ <20201113175754.GA6273@paulmck-ThinkPad-P72>
+ <20201117105236.GA1964407@elver.google.com>
+ <20201117182915.GM1437@paulmck-ThinkPad-P72>
+ <20201118225621.GA1770130@elver.google.com>
+ <20201118233841.GS1437@paulmck-ThinkPad-P72>
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: D7C440176C6B4D09255888CCD89F8353F4DFF4A81CDD6B698FE89F10231667002000:8
-X-MTK: N
-X-Original-Sender: kuan-ying.lee@mediatek.com
+Content-Type: multipart/mixed; boundary="T4sUOijqQbZv57TR"
+Content-Disposition: inline
+In-Reply-To: <20201118233841.GS1437@paulmck-ThinkPad-P72>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@mediatek.com header.s=dk header.b=FbwBuPPN;       spf=pass
- (google.com: domain of kuan-ying.lee@mediatek.com designates 210.61.82.184 as
- permitted sender) smtp.mailfrom=kuan-ying.lee@mediatek.com;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
+ header.i=@google.com header.s=20161025 header.b=ot1pMPmx;       spf=pass
+ (google.com: domain of elver@google.com designates 2a00:1450:4864:20::442 as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -149,192 +156,220 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, 2020-11-17 at 08:13 +0100, Dmitry Vyukov wrote:
-> On Tue, Nov 17, 2020 at 7:46 AM Kuan-Ying Lee
-> <Kuan-Ying.Lee@mediatek.com> wrote:
-> >
-> > On Mon, 2020-11-16 at 10:26 +0100, Dmitry Vyukov wrote:
-> > > On Mon, Nov 16, 2020 at 7:30 AM Kuan-Ying Lee
-> > > <Kuan-Ying.Lee@mediatek.com> wrote:
-> > > >
-> > > > We hit this issue in our internal test.
-> > > > When enabling generic kasan, a kfree()'d object is put into per-cpu
-> > > > quarantine first. If the cpu goes offline, object still remains in
-> > > > the per-cpu quarantine. If we call kmem_cache_destroy() now, slub
-> > > > will report "Objects remaining" error.
-> > > >
-> > > > [   74.982625] =============================================================================
-> > > > [   74.983380] BUG test_module_slab (Not tainted): Objects remaining in test_module_slab on __kmem_cache_shutdown()
-> > > > [   74.984145] -----------------------------------------------------------------------------
-> > > > [   74.984145]
-> > > > [   74.984883] Disabling lock debugging due to kernel taint
-> > > > [   74.985561] INFO: Slab 0x(____ptrval____) objects=34 used=1 fp=0x(____ptrval____) flags=0x2ffff00000010200
-> > > > [   74.986638] CPU: 3 PID: 176 Comm: cat Tainted: G    B             5.10.0-rc1-00007-g4525c8781ec0-dirty #10
-> > > > [   74.987262] Hardware name: linux,dummy-virt (DT)
-> > > > [   74.987606] Call trace:
-> > > > [   74.987924]  dump_backtrace+0x0/0x2b0
-> > > > [   74.988296]  show_stack+0x18/0x68
-> > > > [   74.988698]  dump_stack+0xfc/0x168
-> > > > [   74.989030]  slab_err+0xac/0xd4
-> > > > [   74.989346]  __kmem_cache_shutdown+0x1e4/0x3c8
-> > > > [   74.989779]  kmem_cache_destroy+0x68/0x130
-> > > > [   74.990176]  test_version_show+0x84/0xf0
-> > > > [   74.990679]  module_attr_show+0x40/0x60
-> > > > [   74.991218]  sysfs_kf_seq_show+0x128/0x1c0
-> > > > [   74.991656]  kernfs_seq_show+0xa0/0xb8
-> > > > [   74.992059]  seq_read+0x1f0/0x7e8
-> > > > [   74.992415]  kernfs_fop_read+0x70/0x338
-> > > > [   74.993051]  vfs_read+0xe4/0x250
-> > > > [   74.993498]  ksys_read+0xc8/0x180
-> > > > [   74.993825]  __arm64_sys_read+0x44/0x58
-> > > > [   74.994203]  el0_svc_common.constprop.0+0xac/0x228
-> > > > [   74.994708]  do_el0_svc+0x38/0xa0
-> > > > [   74.995088]  el0_sync_handler+0x170/0x178
-> > > > [   74.995497]  el0_sync+0x174/0x180
-> > > > [   74.996050] INFO: Object 0x(____ptrval____) @offset=15848
-> > > > [   74.996752] INFO: Allocated in test_version_show+0x98/0xf0 age=8188 cpu=6 pid=172
-> > > > [   75.000802]  stack_trace_save+0x9c/0xd0
-> > > > [   75.002420]  set_track+0x64/0xf0
-> > > > [   75.002770]  alloc_debug_processing+0x104/0x1a0
-> > > > [   75.003171]  ___slab_alloc+0x628/0x648
-> > > > [   75.004213]  __slab_alloc.isra.0+0x2c/0x58
-> > > > [   75.004757]  kmem_cache_alloc+0x560/0x588
-> > > > [   75.005376]  test_version_show+0x98/0xf0
-> > > > [   75.005756]  module_attr_show+0x40/0x60
-> > > > [   75.007035]  sysfs_kf_seq_show+0x128/0x1c0
-> > > > [   75.007433]  kernfs_seq_show+0xa0/0xb8
-> > > > [   75.007800]  seq_read+0x1f0/0x7e8
-> > > > [   75.008128]  kernfs_fop_read+0x70/0x338
-> > > > [   75.008507]  vfs_read+0xe4/0x250
-> > > > [   75.008990]  ksys_read+0xc8/0x180
-> > > > [   75.009462]  __arm64_sys_read+0x44/0x58
-> > > > [   75.010085]  el0_svc_common.constprop.0+0xac/0x228
-> > > > [   75.011006] kmem_cache_destroy test_module_slab: Slab cache still has objects
-> > > >
-> > > > Register a cpu hotplug function to remove all objects in the offline
-> > > > per-cpu quarantine when cpu is going offline. Set a per-cpu variable
-> > > > to indicate this cpu is offline.
-> > > >
-> > > > Signed-off-by: Kuan-Ying Lee <Kuan-Ying.Lee@mediatek.com>
-> > > > Suggested-by: Dmitry Vyukov <dvyukov@google.com>
-> > > > Reported-by: Guangye Yang <guangye.yang@mediatek.com>
-> > > > Cc: Andrey Ryabinin <aryabinin@virtuozzo.com>
-> > > > Cc: Alexander Potapenko <glider@google.com>
-> > > > Cc: Andrew Morton <akpm@linux-foundation.org>
-> > > > Cc: Matthias Brugger <matthias.bgg@gmail.com>
-> > > > ---
-> > > >  mm/kasan/quarantine.c | 35 +++++++++++++++++++++++++++++++++++
-> > > >  1 file changed, 35 insertions(+)
-> > > >
-> > > > diff --git a/mm/kasan/quarantine.c b/mm/kasan/quarantine.c
-> > > > index 4c5375810449..16e618ea805e 100644
-> > > > --- a/mm/kasan/quarantine.c
-> > > > +++ b/mm/kasan/quarantine.c
-> > > > @@ -29,6 +29,7 @@
-> > > >  #include <linux/srcu.h>
-> > > >  #include <linux/string.h>
-> > > >  #include <linux/types.h>
-> > > > +#include <linux/cpuhotplug.h>
-> > > >
-> > > >  #include "../slab.h"
-> > > >  #include "kasan.h"
-> > > > @@ -43,6 +44,7 @@ struct qlist_head {
-> > > >         struct qlist_node *head;
-> > > >         struct qlist_node *tail;
-> > > >         size_t bytes;
-> > > > +       bool offline;
-> > > >  };
-> > > >
-> > > >  #define QLIST_INIT { NULL, NULL, 0 }
-> > > > @@ -188,6 +190,11 @@ void quarantine_put(struct kasan_free_meta *info, struct kmem_cache *cache)
-> > > >         local_irq_save(flags);
-> > > >
-> > > >         q = this_cpu_ptr(&cpu_quarantine);
-> > > > +       if (q->offline) {
-> > > > +               qlink_free(&info->quarantine_link, cache);
-> > > > +               local_irq_restore(flags);
-> > > > +               return;
-> > > > +       }
-> >
-> > I think we need to make sure objects will not be put in per-cpu
-> > quarantine which is offline.
-> >
-> > > >         qlist_put(q, &info->quarantine_link, cache->size);
-> > > >         if (unlikely(q->bytes > QUARANTINE_PERCPU_SIZE)) {
-> > > >                 qlist_move_all(q, &temp);
-> > > > @@ -328,3 +335,31 @@ void quarantine_remove_cache(struct kmem_cache *cache)
-> > > >
-> > > >         synchronize_srcu(&remove_cache_srcu);
-> > > >  }
-> > > > +
-> > > > +static int kasan_cpu_online(unsigned int cpu)
-> > > > +{
-> > > > +       this_cpu_ptr(&cpu_quarantine)->offline = false;
-> > > > +       return 0;
-> > > > +}
-> > > > +
-> > > > +static int kasan_cpu_offline(unsigned int cpu)
-> > > > +{
-> > > > +       struct qlist_head *q;
-> > > > +
-> > > > +       q = this_cpu_ptr(&cpu_quarantine);
-> > > > +       q->offline = true;
-> > > > +       qlist_free_all(q, NULL);
-> > >
-> > > Looks much nicer now!
-> > >
-> > > What is the story with interrupts in these callbacks?
-> > > In the previous patch you mentioned that this CPU can still receive
-> > > interrupts for a brief period of time. If these interrupts also free
-> > > something, can't we corrupt the per-cpu quarantine? In quarantine_put
-> > > we protect it by disabling interrupts I think.
-> > >
-> >
-> > Here is a situation.
-> > After we freed all objects from the per-cpu quarantine which is going
-> > offline, the interrupts happened. These interrupts free something and
-> > put objects into this per-cpu quarantine. If we call
-> > kmem_cache_destroy() now, slub still detect objects remain in
-> > the per-cpu quarantine and report "Object remaining" error.
-> >
-> > Thus, we need to check q->offline in quarantine_put and make sure
-> > the offline per-cpu quarantine is not corrupted.
-> 
-> If an interrupt can happen later, can't it happen right during our
-> call to qlist_free_all and corrupt the per-cpu cache?
-> Perhaps we need something like:
-> 
-> // ... explain the subtleness ...
-> WRITE_ONCE(q->offline, true);
-> barrier();
-> qlist_free_all(q, NULL);
-> 
-> ?
 
-Yes, we need to add barrier to ensure the ordering.
-I did not think about that before.
-Thanks for the reminder.
-I will fix in v3.
+--T4sUOijqQbZv57TR
+Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
 
+On Wed, Nov 18, 2020 at 03:38PM -0800, Paul E. McKenney wrote:
+> On Wed, Nov 18, 2020 at 11:56:21PM +0100, Marco Elver wrote:
+> > [...]
+> > I think I figured out one piece of the puzzle. Bisection keeps pointing
+> > me at some -rcu merge commit, which kept throwing me off. Nor did it
+> > help that reproduction is a bit flaky. However, I think there are 2
+> > independent problems, but the manifestation of 1 problem triggers the
+> > 2nd problem:
+> > 
+> > 1. problem: slowed forward progress (workqueue lockup / RCU stall reports)
+> > 
+> > 2. problem: DEADLOCK which causes complete system lockup
+> > 
+> > 	| ...
+> > 	|        CPU0
+> > 	|        ----
+> > 	|   lock(rcu_node_0);
+> > 	|   <Interrupt>
+> > 	|     lock(rcu_node_0);
+> > 	| 
+> > 	|  *** DEADLOCK ***
+> > 	| 
+> > 	| 1 lock held by event_benchmark/105:
+> > 	|  #0: ffffbb6e0b804458 (rcu_node_0){?.-.}-{2:2}, at: print_other_cpu_stall kernel/rcu/tree_stall.h:493 [inline]
+> > 	|  #0: ffffbb6e0b804458 (rcu_node_0){?.-.}-{2:2}, at: check_cpu_stall kernel/rcu/tree_stall.h:652 [inline]
+> > 	|  #0: ffffbb6e0b804458 (rcu_node_0){?.-.}-{2:2}, at: rcu_pending kernel/rcu/tree.c:3752 [inline]
+> > 	|  #0: ffffbb6e0b804458 (rcu_node_0){?.-.}-{2:2}, at: rcu_sched_clock_irq+0x428/0xd40 kernel/rcu/tree.c:2581
+> > 	| ...
+> > 
+> > Problem 2 can with reasonable confidence (5 trials) be fixed by reverting:
+> > 
+> > 	rcu: Don't invoke try_invoke_on_locked_down_task() with irqs disabled
+> > 
+> > At which point the system always boots to user space -- albeit with a
+> > bunch of warnings still (attached). The supposed "good" version doesn't
+> > end up with all those warnings deterministically, so I couldn't say if
+> > the warnings are expected due to recent changes or not (Arm64 QEMU
+> > emulation, 1 CPU, and lots of debugging tools on).
+> > 
+> > Does any of that make sense?
 > 
-> > > > +       return 0;
-> > > > +}
-> > > > +
-> > > > +static int __init kasan_cpu_offline_quarantine_init(void)
-> > > > +{
-> > > > +       int ret = 0;
-> > > > +
-> > > > +       ret = cpuhp_setup_state(CPUHP_AP_ONLINE_DYN, "mm/kasan:online",
-> > > > +                               kasan_cpu_online, kasan_cpu_offline);
-> > > > +       if (ret < 0)
-> > > > +               pr_err("kasan offline cpu quarantine register failed [%d]\n", ret);
-> > > > +       return ret;
-> > > > +}
-> > > > +late_initcall(kasan_cpu_offline_quarantine_init);
-> > > > --
-> > > > 2.18.0
+> Marco, it makes all too much sense!  :-/
+> 
+> Does the patch below help?
+> 
+> 							Thanx, Paul
+> 
+> ------------------------------------------------------------------------
+> 
+> commit 444ef3bbd0f243b912fdfd51f326704f8ee872bf
+> Author: Peter Zijlstra <peterz@infradead.org>
+> Date:   Sat Aug 29 10:22:24 2020 -0700
+> 
+>     sched/core: Allow try_invoke_on_locked_down_task() with irqs disabled
+
+My assumption is that this is a replacement for "rcu: Don't invoke
+try_invoke_on_locked_down_task() with irqs disabled", right?
+
+That seems to have the same result (same test setup) as only reverting
+"rcu: Don't invoke..." does: still results in a bunch of workqueue
+lockup warnings and RCU stall warnings, but boots to user space. I
+attached a log. If the warnings are expected (are they?), then it looks
+fine to me.
+
+(And just in case: with "rcu: Don't invoke..." and "sched/core:
+Allow..." both applied I still get DEADLOCKs -- but that's probably
+expected.)
+
+Thanks,
+-- Marco
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/1605787613.29084.32.camel%40mtksdccf07.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20201119125357.GA2084963%40elver.google.com.
+
+--T4sUOijqQbZv57TR
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: attachment; filename=log
+
+Testing all events: OK
+hrtimer: interrupt took 17120368 ns
+Running tests again, along with the function tracer
+Running tests on all trace events:
+Testing all events: 
+BUG: workqueue lockup - pool cpus=0 node=0 flags=0x0 nice=0 stuck for 12s!
+Showing busy workqueues and worker pools:
+workqueue events: flags=0x0
+  pwq 0: cpus=0 node=0 flags=0x0 nice=0 active=1/256 refcnt=2
+    pending: vmstat_shepherd
+BUG: workqueue lockup - pool cpus=0 node=0 flags=0x0 nice=0 stuck for 17s!
+Showing busy workqueues and worker pools:
+workqueue events: flags=0x0
+  pwq 0: cpus=0 node=0 flags=0x0 nice=0 active=1/256 refcnt=2
+    pending: vmstat_shepherd
+workqueue events_power_efficient: flags=0x82
+  pwq 2: cpus=0 flags=0x4 nice=0 active=1/256 refcnt=3
+    pending: neigh_periodic_work
+------------[ cut here ]------------
+WARNING: CPU: 0 PID: 1 at kernel/rcu/tree_stall.h:758 rcu_check_gp_start_stall kernel/rcu/tree_stall.h:750 [inline]
+WARNING: CPU: 0 PID: 1 at kernel/rcu/tree_stall.h:758 rcu_check_gp_start_stall.isra.0+0x14c/0x210 kernel/rcu/tree_stall.h:711
+Modules linked in:
+CPU: 0 PID: 1 Comm: swapper/0 Not tainted 5.10.0-rc3-next-20201110-00003-g920304642405-dirty #30
+Hardware name: linux,dummy-virt (DT)
+pstate: 20000085 (nzCv daIf -PAN -UAO -TCO BTYPE=--)
+pc : rcu_check_gp_start_stall kernel/rcu/tree_stall.h:750 [inline]
+pc : rcu_check_gp_start_stall.isra.0+0x14c/0x210 kernel/rcu/tree_stall.h:711
+lr : __xchg_mb arch/arm64/include/asm/cmpxchg.h:88 [inline]
+lr : atomic_xchg include/asm-generic/atomic-instrumented.h:615 [inline]
+lr : rcu_check_gp_start_stall kernel/rcu/tree_stall.h:751 [inline]
+lr : rcu_check_gp_start_stall.isra.0+0x148/0x210 kernel/rcu/tree_stall.h:711
+sp : ffff800010003d20
+x29: ffff800010003d20 x28: ffff274ac3a10000 
+x27: 0000000000000000 x26: ffff274b3dbe72d8 
+x25: ffffbcb867722000 x24: 0000000000000000 
+x23: 0000000000000000 x22: ffffbcb8681d1260 
+x21: ffffbcb86735b000 x20: ffffbcb867404440 
+x19: ffffbcb867404440 x18: 0000000000000123 
+x17: ffffbcb865d400f0 x16: 0000000000000002 
+x15: 0000000000000002 x14: 0000000000000000 
+x13: 003d090000000000 x12: 00001e8480000000 
+x11: ffffbcb867958980 x10: ffff800010003cf0 
+x9 : ffffbcb864f4b7c8 x8 : 0000000000000080 
+x7 : 0000000000000026 x6 : ffffbcb86774e4c0 
+x5 : 0000000000000000 x4 : 00000000d4001f4b 
+x3 : 0000000000000000 x2 : 0000000000000000 
+x1 : 0000000000000001 x0 : 0000000000000000 
+Call trace:
+ rcu_check_gp_start_stall kernel/rcu/tree_stall.h:750 [inline]
+ rcu_check_gp_start_stall.isra.0+0x14c/0x210 kernel/rcu/tree_stall.h:711
+ rcu_core+0x168/0x9e0 kernel/rcu/tree.c:2719
+ rcu_core_si+0x18/0x28 kernel/rcu/tree.c:2737
+ __do_softirq+0x188/0x6b4 kernel/softirq.c:298
+ do_softirq_own_stack include/linux/interrupt.h:568 [inline]
+ invoke_softirq kernel/softirq.c:393 [inline]
+ __irq_exit_rcu kernel/softirq.c:423 [inline]
+ irq_exit+0x1cc/0x1e0 kernel/softirq.c:447
+ __handle_domain_irq+0xb4/0x130 kernel/irq/irqdesc.c:690
+ handle_domain_irq include/linux/irqdesc.h:170 [inline]
+ gic_handle_irq+0x70/0x108 drivers/irqchip/irq-gic.c:370
+ el1_irq+0xc0/0x180 arch/arm64/kernel/entry.S:651
+ arch_local_irq_restore+0x8/0x10 arch/arm64/include/asm/irqflags.h:124
+ release_probes kernel/tracepoint.c:113 [inline]
+ tracepoint_remove_func kernel/tracepoint.c:315 [inline]
+ tracepoint_probe_unregister+0x220/0x378 kernel/tracepoint.c:382
+ trace_event_reg+0x58/0x150 kernel/trace/trace_events.c:298
+ __ftrace_event_enable_disable+0x424/0x608 kernel/trace/trace_events.c:412
+ ftrace_event_enable_disable kernel/trace/trace_events.c:495 [inline]
+ __ftrace_set_clr_event_nolock+0x120/0x180 kernel/trace/trace_events.c:811
+ __ftrace_set_clr_event+0x60/0x90 kernel/trace/trace_events.c:833
+ event_trace_self_tests+0xd4/0x114 kernel/trace/trace_events.c:3661
+ event_trace_self_test_with_function kernel/trace/trace_events.c:3734 [inline]
+ event_trace_self_tests_init+0x88/0xa8 kernel/trace/trace_events.c:3747
+ do_one_initcall+0xa4/0x500 init/main.c:1212
+ do_initcall_level init/main.c:1285 [inline]
+ do_initcalls init/main.c:1301 [inline]
+ do_basic_setup init/main.c:1321 [inline]
+ kernel_init_freeable+0x344/0x3c4 init/main.c:1521
+ kernel_init+0x20/0x16c init/main.c:1410
+ ret_from_fork+0x10/0x34 arch/arm64/kernel/entry.S:961
+irq event stamp: 3274113
+hardirqs last  enabled at (3274112): [<ffffbcb864f8aee4>] rcu_core+0x974/0x9e0 kernel/rcu/tree.c:2716
+hardirqs last disabled at (3274113): [<ffffbcb866233bf0>] __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:108 [inline]
+hardirqs last disabled at (3274113): [<ffffbcb866233bf0>] _raw_spin_lock_irqsave+0xb8/0x14c kernel/locking/spinlock.c:159
+softirqs last  enabled at (3272576): [<ffffbcb864e10b80>] __do_softirq+0x630/0x6b4 kernel/softirq.c:325
+softirqs last disabled at (3274101): [<ffffbcb864ec6c54>] do_softirq_own_stack include/linux/interrupt.h:568 [inline]
+softirqs last disabled at (3274101): [<ffffbcb864ec6c54>] invoke_softirq kernel/softirq.c:393 [inline]
+softirqs last disabled at (3274101): [<ffffbcb864ec6c54>] __irq_exit_rcu kernel/softirq.c:423 [inline]
+softirqs last disabled at (3274101): [<ffffbcb864ec6c54>] irq_exit+0x1cc/0x1e0 kernel/softirq.c:447
+---[ end trace 902768efebf5a607 ]---
+rcu: rcu_preempt: wait state: RCU_GP_WAIT_GPS(1) ->state: 0x0 delta ->gp_activity 4452 ->gp_req_activity 3848 ->gp_wake_time 3848 ->gp_wake_seq 2696 ->gp_seq 2696 ->gp_seq_needed 2700 ->gp_flags 0x1
+rcu: 	rcu_node 0:0 ->gp_seq 2696 ->gp_seq_needed 2700
+rcu: RCU callbacks invoked since boot: 2583
+rcu_tasks: RTGS_WAIT_CBS(11) since 567120 g:1 i:0/0 k. 
+rcu_tasks_rude: RTGS_WAIT_CBS(11) since 567155 g:1 i:0/1 k. 
+rcu_tasks_trace: RTGS_INIT(0) since 4295464549 g:0 i:0/0 k. N0 h:0/0/0
+rcu: INFO: rcu_preempt detected stalls on CPUs/tasks:
+	(detected by 0, t=3752 jiffies, g=2705, q=8)
+rcu: All QSes seen, last rcu_preempt kthread activity 557 (4295471128-4295470571), jiffies_till_next_fqs=1, root ->qsmask 0x0
+rcu: rcu_preempt kthread starved for 557 jiffies! g2705 f0x2 RCU_GP_CLEANUP(7) ->state=0x0 ->cpu=0
+rcu: 	Unless rcu_preempt kthread gets sufficient CPU time, OOM is now expected behavior.
+rcu: RCU grace-period kthread stack dump:
+task:rcu_preempt     state:R  running task     stack:    0 pid:   10 ppid:     2 flags:0x00000428
+Call trace:
+ __switch_to+0x10c/0x200 arch/arm64/kernel/process.c:578
+ context_switch kernel/sched/core.c:3772 [inline]
+ __schedule+0x2d8/0x980 kernel/sched/core.c:4521
+ preempt_schedule_common+0x4c/0x1a8 kernel/sched/core.c:4680
+ preempt_schedule+0x38/0x40 kernel/sched/core.c:4705
+ __raw_spin_unlock_irq include/linux/spinlock_api_smp.h:169 [inline]
+ _raw_spin_unlock_irq+0x84/0x98 kernel/locking/spinlock.c:199
+ rcu_gp_cleanup kernel/rcu/tree.c:2015 [inline]
+ rcu_gp_kthread+0x1038/0x1bd8 kernel/rcu/tree.c:2119
+ kthread+0x13c/0x188 kernel/kthread.c:292
+ ret_from_fork+0x10/0x34 arch/arm64/kernel/entry.S:961
+OK
+Testing ftrace filter: OK
+Loading compiled-in X.509 certificates
+input: gpio-keys as /devices/platform/gpio-keys/input/input0
+ALSA device list:
+  No soundcards found.
+TAP version 14
+1..0
+uart-pl011 9000000.pl011: no DMA platform data
+EXT4-fs (sda): mounting ext3 file system using the ext4 subsystem
+EXT4-fs (sda): mounted filesystem with ordered data mode. Opts: (null)
+VFS: Mounted root (ext3 filesystem) readonly on device 8:0.
+devtmpfs: mounted
+Freeing unused kernel memory: 8832K
+Run /sbin/init as init process
+
+--T4sUOijqQbZv57TR--
