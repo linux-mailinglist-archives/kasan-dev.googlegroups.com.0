@@ -1,75 +1,123 @@
-Return-Path: <kasan-dev+bncBCH2XPOBSAERBHPM536QKGQEOZJQU4I@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBO7P536QKGQEVZ3YSIY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ot1-x33d.google.com (mail-ot1-x33d.google.com [IPv6:2607:f8b0:4864:20::33d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43A842C0865
-	for <lists+kasan-dev@lfdr.de>; Mon, 23 Nov 2020 14:16:15 +0100 (CET)
-Received: by mail-ot1-x33d.google.com with SMTP id i11sf8258797otr.8
-        for <lists+kasan-dev@lfdr.de>; Mon, 23 Nov 2020 05:16:15 -0800 (PST)
+Received: from mail-vs1-xe3f.google.com (mail-vs1-xe3f.google.com [IPv6:2607:f8b0:4864:20::e3f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9925A2C0A60
+	for <lists+kasan-dev@lfdr.de>; Mon, 23 Nov 2020 14:23:08 +0100 (CET)
+Received: by mail-vs1-xe3f.google.com with SMTP id g3sf3030971vso.1
+        for <lists+kasan-dev@lfdr.de>; Mon, 23 Nov 2020 05:23:08 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1606137787; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=lpIpeOAphGjCYsa+tMhMKYSQSSm1/1lWdKmMmp+eSchidPpUufDWlomD7s5RFh2GEG
+         A7JXVaelol3oQOonpozHdiJzwTIYTSqYOC/Q1IGZ/TEktXv1rPL5hzorHFc5x/iUDUIZ
+         6spuQ9EI17a6rFYBoCabKzzfhoz5ciL/yN2CQXi+3UAIKFdUuVxR/bw9pRPZSLc5f46M
+         G1+jgDD11AnHBSqe5rVyg9ryYmGvxH1mW8hYITw8vCVbRB6jBhX9aH0iQkn1WxuYZB4r
+         8Cb3fUlurcjWhWJHBB3kKtkS0q3GmZ/CxtYjCmmV60ASg682pA+8fJWw1c1jo6c0qK9w
+         8LNA==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
+         :mime-version:message-id:date:sender:dkim-signature;
+        bh=i9du/5MiFLG6ZSad//BJYiUzRN4UowmgwDeiovZvlAc=;
+        b=vxhZbyAzLSRzCFjrOuj8X05MtCHRKVDEIsrGOAcxLNEno+MZAtJoVKKmuA88BsOKug
+         Jp7uLRW6CfiM4t7hknen4ls/WS8cZ8G5h9p/Wfdi/3tNl2go2W9vdsG7o/fGyy9lWE07
+         73NPWNonPZVkOpp8GODixnNHDzrgaMKIu++aexs1rpzmOo11i8uaMDror2xAtzb+Bjwo
+         Z0qJf5dzvWwGZfZ+Tathoau6QXP4lwychSJ0i0NY0cveWVxUhOTsfK/XZZwHAHgkytls
+         LbsB0/807zSumCJtLS9OBzcr5+SqKDFxAVpxMOt/1qeooDpNQ/6FNYxxosU23ltFwhPm
+         pWGw==
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b="i/NiRwJL";
+       spf=pass (google.com: domain of 3ure7xwukcr07eo7k9hh9e7.5hfd3l3g-67o9hh9e79khnil.5hf@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::849 as permitted sender) smtp.mailfrom=3ure7XwUKCR07EO7K9HH9E7.5HFD3L3G-67O9HH9E79KHNIL.5HF@flex--elver.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:date:from:to:message-id:in-reply-to:references:subject
-         :mime-version:x-original-sender:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=qxzld2uTRqRqa2zmShpy1uM8dX2qBBeJNtFpNNpzQ1Q=;
-        b=JVVms6VLKhYFIfNRkx3c4NYl+NnrZoSSEP9Ac8t72iHc2Nn/oRA6yM5zg84Tzz+YJO
-         5DUh/L9LHK5SwemN1Uev95MHsQFmFPjYoi1CzsI2hw0Cd6ltjK3N2eKB2EoehgZ1b2km
-         7bU2qGexxK7TdnuBwh40sYZ/eUFp5hv8+BC8UHldwuh/Lq5Q4s7ZmZjSgyq0tpexwhHM
-         ymt1MUjazDsNJ1UAkU1ZUNcSpOhKfTaxLHuCXCDLtqLOIUp4YBygzdpwe3QblJG/oTel
-         q9ialnY2iLpyt0nedl1CZXtCsnto//nEK4+J6o7EwavvymJXpp5jiWOJaQ6Ggvx0usqv
-         Y9Qw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:message-id:in-reply-to:references:subject:mime-version
-         :x-original-sender:precedence:mailing-list:list-id:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=qxzld2uTRqRqa2zmShpy1uM8dX2qBBeJNtFpNNpzQ1Q=;
-        b=rogiC3sgq2MAPeVDi4UBo1mJxcP6877A7C4RYqGGSNkUx0Pqj/m84rmbs29MDXs8yr
-         Eh8JUdDjFY55ihG3lO/qQkSbzJGuIM+FzmGljyAx3OqUNTSJOT8mezai4mG+BhgWJRXz
-         D9KdnqfwQ2ILrmXp3Gctu2M+N0Go61i6Y4fqHHttzpbklfykM34VDVkgQK6IWVA2Qyxm
-         WSYEqYG2uCP/AXvCMMSqKElUd/tVqQKfn5oG3u2DCwM7De3+TxyGM/2eJ3tweII0BxVi
-         B1II1Jdh5z/ce+QOY6ojoto4DEL+KTV5rIXR3sxJLFC5Yskjs1tr5DMOlVLo6yxrO9QV
-         ECIQ==
+        h=sender:date:message-id:mime-version:subject:from:to:cc
+         :x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=i9du/5MiFLG6ZSad//BJYiUzRN4UowmgwDeiovZvlAc=;
+        b=Q7JzwJ/8f3cwPpBszf3m+5QbrU+rQX66Q/TI4K7XbCNV+24r3YofwQHb2tRUKpm1jr
+         jL8LbaNDN6/PYtnK+kM+uG67FqXJocRjYtw8jR0Mek/bwL15Tmls8Thuz27Nahnp3MjW
+         FhY1rmmyguBUPeRJdnztJddu+xoJeG/AHPUwE60r5pkRX2jc7UTOmtweQgp8sPjHUcjk
+         Yp7fHA8zHdKwGfeV1gqqd3Tqx/Ztl1PIClYPQ3QIiRkS9MPqqSGeuYOb158/JXoW8AQM
+         QhJf+ngBaBmXzMV+SJfNQYBySFQv7cUd1zET6kdXN/CdD5Tl95H70SBBInJgie1pksHx
+         Uc7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:date:from:to:message-id:in-reply-to
-         :references:subject:mime-version:x-original-sender:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=qxzld2uTRqRqa2zmShpy1uM8dX2qBBeJNtFpNNpzQ1Q=;
-        b=VJoWn2ytK9gXoX6swnIE8WShQVqa5S1gcmmeMET8X7R6fl2ORIrBv2n7P9G7Chjrct
-         OsTNdZ6vMcVORWsgdWndDGQaIJ4g9K5E7uYAC5VNlsU8beaGvlnWmNQEHw0kE/wcnAR/
-         Q6QYLlCqAEm/bNpZ2ueMieV19sWlmSxQmJb2HxAn2R85gi46sFDYZCIWBo6bcfrO0Sw1
-         4+igI4674hPK9fUBRrJxJl9DMgsfW0jDV9Xy0MQKBhiWTlas/uzyuMRwP9k4/d+jwWtH
-         TUaD3QRNE8TGMPJufVMfr4yIyWkWwSCl/rKI3LcBGgPKKnRlxLe2G8GXbZT6OkOgFy8j
-         SBFQ==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM5326s0+QA+Ji1TPidNoy7DAPsg6LMhpZaPRpoPRRHDxANUecmciC
-	G9jEyDniMGXGKznWsBXShbk=
-X-Google-Smtp-Source: ABdhPJyLbxz85iEHgLGhNUVUi+Nj8W1Pja6s06APvMzhqtZGKSqsIN6jAqdJmdIT640CvWZx0oQ3eQ==
-X-Received: by 2002:aca:5212:: with SMTP id g18mr13837874oib.145.1606137373932;
-        Mon, 23 Nov 2020 05:16:13 -0800 (PST)
+        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
+         :to:cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=i9du/5MiFLG6ZSad//BJYiUzRN4UowmgwDeiovZvlAc=;
+        b=dgqp5V7yk7Nts0aI7cQLxcDTIgSwYXIEw+uEfdxyVGyijux+Z/ttiDJ5Butw+E/ROM
+         68o9IS86Vj6bfjCi6qQJzc+XJW0jMHs/pKhtlZtFxeMDTNl6X12i9y7jQKogSCtZsZov
+         kjKVUHNDFJ0xlYOHFu5NQg9VuMX4vxkFHGhjTZaloCbRTtmRaJs0taRPNToPIc3ghafz
+         xfrdSJ0JhooEl5XjjRgLPZU58xkUkPcOa4x4j8mVvnmngfan68QbrjdvoAHAwa2a2M0s
+         76vD7RNk/D+hvsQwRfZDLGeHCLs4Mc49SYds2oDH+SR8uBfQOVqybl6Nsd35GXwC+/o+
+         ZEBA==
+X-Gm-Message-State: AOAM532mOSMLjMyJptqVRKLjqBDvv2DI7s3SfWJ7vzhA3hS0VnQD+Gf7
+	1SzBSJnlzRiVE/94Q9b2A4M=
+X-Google-Smtp-Source: ABdhPJz8fmzqVjLPLFYzRCWrxSfbM80Qei3RC3QnBZs3f0lFv9lLxSiGnDMw3/xawsqWGIw6Bf1+tg==
+X-Received: by 2002:a05:6102:832:: with SMTP id k18mr2427683vsb.2.1606137787729;
+        Mon, 23 Nov 2020 05:23:07 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a4a:d658:: with SMTP id y24ls848394oos.7.gmail; Mon, 23 Nov
- 2020 05:16:13 -0800 (PST)
-X-Received: by 2002:a4a:9e02:: with SMTP id t2mr8560304ook.42.1606137373311;
-        Mon, 23 Nov 2020 05:16:13 -0800 (PST)
-Date: Mon, 23 Nov 2020 05:16:12 -0800 (PST)
-From: "mudongl...@gmail.com" <mudongliangabcd@gmail.com>
-To: kasan-dev <kasan-dev@googlegroups.com>
-Message-Id: <43db662c-ac04-4ba0-803f-2e7f8c3bdd55n@googlegroups.com>
-In-Reply-To: <CANpmjNOWVO1XnPvB9M1HS1Pm_DKOU-yVxANHE0r7JSOX5Xbw7A@mail.gmail.com>
-References: <f4a62280-43f5-468b-94c4-fdda826d28d0n@googlegroups.com>
- <CANpmjNPsjXqDQLkeBb2Ap7j8rbrDwRHeuGPyzXXQ++Qxe4A=7A@mail.gmail.com>
- <8b89f21f-e3e9-4344-92d3-580d2f0f2860n@googlegroups.com>
- <CANpmjNPm3U=aeuhv4CpqsxbkQj8SnKbauLmXyAu2b=8bCEg6pQ@mail.gmail.com>
- <83c70bdd-4f74-421a-85bc-fd518f303ce1n@googlegroups.com>
- <CANpmjNOWVO1XnPvB9M1HS1Pm_DKOU-yVxANHE0r7JSOX5Xbw7A@mail.gmail.com>
-Subject: Re: Any guidance to port KCSAN to previous Linux Kernel versions?
-MIME-Version: 1.0
-Content-Type: multipart/mixed; 
-	boundary="----=_Part_3600_624009885.1606137372517"
-X-Original-Sender: mudongliangabcd@gmail.com
+Received: by 2002:ac5:c9b2:: with SMTP id f18ls764895vkm.9.gmail; Mon, 23 Nov
+ 2020 05:23:07 -0800 (PST)
+X-Received: by 2002:a1f:1c6:: with SMTP id 189mr19582362vkb.13.1606137786999;
+        Mon, 23 Nov 2020 05:23:06 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1606137786; cv=none;
+        d=google.com; s=arc-20160816;
+        b=zgTLGgSJpV+yFP4wgHbfke8N6d8Ac1b6buD5wxpvJ7ylAbCBZ+boPaocuA8ozlcCRZ
+         TZHv+WuwOaG9TscE9zk9dqzxdSbAgJ4jZHr7xDq9mVpqOxFkVRkbpITB7154dlImGpKc
+         9wzD1iEFMy42iGY4DtnBUWw/pT5CsG2FP6UN0LpbOtTTc2gWr/xT75hrmhlCiT6EXY0f
+         AvKeu34xJliwu8w9ulDzRSBLYqOizS3dzP0KC9JD4YWoYaKCUULlcVrd0OnDJ1Mqv7cq
+         M2c7qEXORqW0Hgco246jBQprQS3iBgkwx3wTpfgVM1f3dNAqiKXFweTTWQIv0T+X3PZk
+         +hbg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=cc:to:from:subject:mime-version:message-id:date:sender
+         :dkim-signature;
+        bh=t3/TP+aeGOrrYIoQsNoDeJwx7Pw16YuC73tVL3PfhCA=;
+        b=tMySKtTV2iOgeP1E4PuVrV2y5pwishUJmOKGiLlsfaGIX1i5OxKyHn2r6H2CiRZ+yq
+         JBelh5hbbGrx5uAfI2FOCbmcBH9316cBLZjiE2hNpGFxAdaXi/0ehAhcjexhBh9HLJ2U
+         tu9g00jsZqV0l2ezDU/tSPwlPUYCGizS398J9dgB7AcYI1bH/oSQqR0J59B9qbdx+cSH
+         2wg+iWD2WT0RQ1eiobFZNs3lqHCiFZ0iWeJowRGk6VZMVwpoesNqY0SP1Ss5yERGM3bE
+         +3LJti1kj4jiIcdgXtTGq/MWBr5Ih5xXkO+y/sbwjaDPdiWc8w3lzuF2l3hShynO/GZD
+         3Mmg==
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b="i/NiRwJL";
+       spf=pass (google.com: domain of 3ure7xwukcr07eo7k9hh9e7.5hfd3l3g-67o9hh9e79khnil.5hf@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::849 as permitted sender) smtp.mailfrom=3ure7XwUKCR07EO7K9HH9E7.5HFD3L3G-67O9HH9E79KHNIL.5HF@flex--elver.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-qt1-x849.google.com (mail-qt1-x849.google.com. [2607:f8b0:4864:20::849])
+        by gmr-mx.google.com with ESMTPS id n1si569602vsr.2.2020.11.23.05.23.06
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 23 Nov 2020 05:23:06 -0800 (PST)
+Received-SPF: pass (google.com: domain of 3ure7xwukcr07eo7k9hh9e7.5hfd3l3g-67o9hh9e79khnil.5hf@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::849 as permitted sender) client-ip=2607:f8b0:4864:20::849;
+Received: by mail-qt1-x849.google.com with SMTP id a22so4122044qtx.20
+        for <kasan-dev@googlegroups.com>; Mon, 23 Nov 2020 05:23:06 -0800 (PST)
+Sender: "elver via sendgmr" <elver@elver.muc.corp.google.com>
+X-Received: from elver.muc.corp.google.com ([2a00:79e0:15:13:f693:9fff:fef4:2449])
+ (user=elver job=sendgmr) by 2002:a0c:b5a6:: with SMTP id g38mr13953823qve.31.1606137786488;
+ Mon, 23 Nov 2020 05:23:06 -0800 (PST)
+Date: Mon, 23 Nov 2020 14:23:00 +0100
+Message-Id: <20201123132300.1759342-1-elver@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.29.2.454.gaff20da3a2-goog
+Subject: [PATCH v2] kcsan: Avoid scheduler recursion by using non-instrumented preempt_{disable,enable}()
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+To: elver@google.com, paulmck@kernel.org
+Cc: will@kernel.org, peterz@infradead.org, tglx@linutronix.de, 
+	mingo@kernel.org, mark.rutland@arm.com, boqun.feng@gmail.com, 
+	dvyukov@google.com, kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: elver@google.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@google.com header.s=20161025 header.b="i/NiRwJL";       spf=pass
+ (google.com: domain of 3ure7xwukcr07eo7k9hh9e7.5hfd3l3g-67o9hh9e79khnil.5hf@flex--elver.bounces.google.com
+ designates 2607:f8b0:4864:20::849 as permitted sender) smtp.mailfrom=3ure7XwUKCR07EO7K9HH9E7.5HFD3L3G-67O9HH9E79KHNIL.5HF@flex--elver.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -82,225 +130,68 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-------=_Part_3600_624009885.1606137372517
-Content-Type: multipart/alternative; 
-	boundary="----=_Part_3601_2075134254.1606137372517"
+When enabling KCSAN for kernel/sched (remove KCSAN_SANITIZE := n from
+kernel/sched/Makefile), with CONFIG_DEBUG_PREEMPT=y, we can observe
+recursion due to:
 
-------=_Part_3601_2075134254.1606137372517
-Content-Type: text/plain; charset="UTF-8"
+	check_access() [via instrumentation]
+	  kcsan_setup_watchpoint()
+	    reset_kcsan_skip()
+	      kcsan_prandom_u32_max()
+	        get_cpu_var()
+		  preempt_disable()
+		    preempt_count_add() [in kernel/sched/core.c]
+		      check_access() [via instrumentation]
 
+Avoid this by rewriting kcsan_prandom_u32_max() to only use safe
+versions of preempt_disable() and preempt_enable() that do not call into
+scheduler code.
 
+Note, while this currently does not affect an unmodified kernel, it'd be
+good to keep a KCSAN kernel working when KCSAN_SANITIZE := n is removed
+from kernel/sched/Makefile to permit testing scheduler code with KCSAN
+if desired.
 
-On Monday, November 23, 2020 at 9:04:22 PM UTC+8 el...@google.com wrote:
+Fixes: cd290ec24633 ("kcsan: Use tracing-safe version of prandom")
+Signed-off-by: Marco Elver <elver@google.com>
+---
+v2:
+* Update comment to also point out preempt_enable().
+---
+ kernel/kcsan/core.c | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
 
-> [Resend with reply-all] 
->
-> On Mon, 23 Nov 2020 at 13:44, mudongl...@gmail.com 
-> <mudongl...@gmail.com> wrote: 
-> [...] 
-> >> > Let's imagine a scenario: KASAN detects a UAF crash in an old Linux 
-> kernel(e.g., 5.4, 4.19), but the underlying reason for this crash behavior 
-> is data racing from two different threads with plain accesses(without 
-> READ_ONCE/WRITE_ONCE). 
-> >> > What I want is to backport KCSAN and test whether it could catch the 
-> underlying data race before triggering the further UAF crash. This would 
-> help us identify the underlying issue(two concurrent threads and the object 
-> for data race) and fix the bug completely. 
-> >> 
-> >> For debugging such issues, I'd run with a more aggressive KCSAN config 
-> >> (regardless of kernel version): 
-> >> 
-> >> CONFIG_KCSAN_REPORT_VALUE_CHANGE_ONLY=n 
-> >> CONFIG_KCSAN_ASSUME_PLAIN_WRITES_ATOMIC=n 
-> >> 
-> >> and lower 'kcsan.skip_watch=' boot parameter from default of 4000 down 
-> >> to ~500 in decrements of 500 and stop when the system becomes too 
-> >> slow. 
-> >> 
-> > 
-> > That's a good idea. I will try this config when testing my problem. 
-> > 
-> >> 
-> >> > Therefore, if I try to backport KCSAN and test whether KCSAN catches 
-> this special data race, is it still too complicated or need non-trivial 
-> efforts? 
-> >> 
-> >> See if 'git cherry-pick v5.7-rc7..50a19ad4b1ec' works. 
-> > 
-> > 
-> > Quick question about the above command: cherry-pick requires the first 
-> commit(v5.7-rc7) is older than the second commit(50a19ad4b1ec). However, 
->
-> This is incorrect. See "git help log" or [1] -- age is irrelevant. 
-> Git's range operators are effectively set operations, and ordering is 
-> irrelevant. 
-> [1] https://git-scm.com/book/en/v2/Git-Tools-Revision-Selection 
->
-> > commit 9cb1fd0efd195590b828b9b865421ad345a4a145 (tag: v5.7-rc7) 
-> > Author: Linus Torvalds <torv...@linux-foundation.org> 
-> > Date: Sun May 24 15:32:54 2020 -0700 
-> > 
-> > Linux 5.7-rc7 
-> > 
-> > commit 50a19ad4b1ec531eb550183cb5d4ab9f25a56bf8 
-> > Author: Marco Elver <el...@google.com> 
-> > Date: Fri Apr 24 17:47:30 2020 +0200 
-> > 
-> > objtool, kcsan: Add kcsan_disable_current() and 
-> kcsan_enable_current_nowarn() 
-> > 
-> > Both are safe to be called from uaccess contexts. 
-> > 
-> > Signed-off-by: Marco Elver <el...@google.com> 
-> > Signed-off-by: Paul E. McKenney <pau...@kernel.org> 
-> > 
-> > However, in fact it does not hold. 
-> > 
-> > After a search, I found the first commit to add the infrastructure is 
-> dfd402a4c4baae42398ce9180ff424d589b8bffc kcsan: Add Kernel Concurrency 
-> Sanitizer infrastructure, right after 5.4-rc7. 
-> > Do you mean "git cherry-pick v5.4-rc7..50a19ad4b1ec" 
->
-> No. 
->
-> See "git help log". Specifically "a..b" means "list all the commits 
-> which are reachable from b, but not from a". Because we only want 
-> KCSAN related commits, the above is correct. Try it! You can also 
-> check what commits you'll get by sanity-checking with 'git log'. 
->
->
-I see. I am a Git newbie. Thanks for your detailed explanation.
+diff --git a/kernel/kcsan/core.c b/kernel/kcsan/core.c
+index 3994a217bde7..10513f3e2349 100644
+--- a/kernel/kcsan/core.c
++++ b/kernel/kcsan/core.c
+@@ -284,10 +284,19 @@ should_watch(const volatile void *ptr, size_t size, int type, struct kcsan_ctx *
+  */
+ static u32 kcsan_prandom_u32_max(u32 ep_ro)
+ {
+-	struct rnd_state *state = &get_cpu_var(kcsan_rand_state);
+-	const u32 res = prandom_u32_state(state);
++	struct rnd_state *state;
++	u32 res;
++
++	/*
++	 * Avoid recursion with scheduler by using non-tracing versions of
++	 * preempt_disable() and preempt_enable() that do not call into
++	 * scheduler code.
++	 */
++	preempt_disable_notrace();
++	state = raw_cpu_ptr(&kcsan_rand_state);
++	res = prandom_u32_state(state);
++	preempt_enable_no_resched_notrace();
  
-
-> Thanks, 
-> -- Marco 
->
+-	put_cpu_var(kcsan_rand_state);
+ 	return (u32)(((u64) res * ep_ro) >> 32);
+ }
+ 
+-- 
+2.29.2.454.gaff20da3a2-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/43db662c-ac04-4ba0-803f-2e7f8c3bdd55n%40googlegroups.com.
-
-------=_Part_3601_2075134254.1606137372517
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<br><br><div class=3D"gmail_quote"><div dir=3D"auto" class=3D"gmail_attr">O=
-n Monday, November 23, 2020 at 9:04:22 PM UTC+8 el...@google.com wrote:<br>=
-</div><blockquote class=3D"gmail_quote" style=3D"margin: 0 0 0 0.8ex; borde=
-r-left: 1px solid rgb(204, 204, 204); padding-left: 1ex;">[Resend with repl=
-y-all]
-<br>
-<br>On Mon, 23 Nov 2020 at 13:44, <a href=3D"" data-email-masked=3D"" rel=
-=3D"nofollow">mudongl...@gmail.com</a>
-<br>&lt;<a href=3D"" data-email-masked=3D"" rel=3D"nofollow">mudongl...@gma=
-il.com</a>&gt; wrote:
-<br>[...]
-<br>&gt;&gt; &gt; Let's imagine a scenario: KASAN detects a UAF crash in an=
- old Linux kernel(e.g., 5.4, 4.19), but the underlying reason for this cras=
-h behavior is data racing from two different threads with plain accesses(wi=
-thout READ_ONCE/WRITE_ONCE).
-<br>&gt;&gt; &gt; What I want is to backport KCSAN and test whether it coul=
-d catch the underlying data race before triggering the further UAF crash. T=
-his would help us identify the underlying issue(two concurrent threads and =
-the object for data race) and fix the bug completely.
-<br>&gt;&gt;
-<br>&gt;&gt; For debugging such issues, I'd run with a more aggressive KCSA=
-N config
-<br>&gt;&gt; (regardless of kernel version):
-<br>&gt;&gt;
-<br>&gt;&gt; CONFIG_KCSAN_REPORT_VALUE_CHANGE_ONLY=3Dn
-<br>&gt;&gt; CONFIG_KCSAN_ASSUME_PLAIN_WRITES_ATOMIC=3Dn
-<br>&gt;&gt;
-<br>&gt;&gt; and lower 'kcsan.skip_watch=3D' boot parameter from default of=
- 4000 down
-<br>&gt;&gt; to ~500 in decrements of 500 and stop when the system becomes =
-too
-<br>&gt;&gt; slow.
-<br>&gt;&gt;
-<br>&gt;
-<br>&gt; That's a good idea. I will try this config when testing my problem=
-.
-<br>&gt;
-<br>&gt;&gt;
-<br>&gt;&gt; &gt; Therefore, if I try to backport KCSAN and test whether KC=
-SAN catches this special data race, is it still too complicated or need non=
--trivial efforts?
-<br>&gt;&gt;
-<br>&gt;&gt; See if 'git cherry-pick v5.7-rc7..50a19ad4b1ec' works.
-<br>&gt;
-<br>&gt;
-<br>&gt; Quick question about the above command: cherry-pick requires the f=
-irst commit(v5.7-rc7) is older than the second commit(50a19ad4b1ec). Howeve=
-r,
-<br>
-<br>This is incorrect. See "git help log" or [1] -- age is irrelevant.
-<br>Git's range operators are effectively set operations, and ordering is
-<br>irrelevant.
-<br>[1] <a href=3D"https://git-scm.com/book/en/v2/Git-Tools-Revision-Select=
-ion" target=3D"_blank" rel=3D"nofollow" data-saferedirecturl=3D"https://www=
-.google.com/url?hl=3Den&amp;q=3Dhttps://git-scm.com/book/en/v2/Git-Tools-Re=
-vision-Selection&amp;source=3Dgmail&amp;ust=3D1606223650244000&amp;usg=3DAF=
-QjCNGKqsaj1FOgCHQ2Vmgt85gh-y2CDw">https://git-scm.com/book/en/v2/Git-Tools-=
-Revision-Selection</a>
-<br>
-<br>&gt; commit 9cb1fd0efd195590b828b9b865421ad345a4a145 (tag: v5.7-rc7)
-<br>&gt; Author: Linus Torvalds &lt;<a href=3D"" data-email-masked=3D"" rel=
-=3D"nofollow">torv...@linux-foundation.org</a>&gt;
-<br>&gt; Date:   Sun May 24 15:32:54 2020 -0700
-<br>&gt;
-<br>&gt;     Linux 5.7-rc7
-<br>&gt;
-<br>&gt; commit 50a19ad4b1ec531eb550183cb5d4ab9f25a56bf8
-<br>&gt; Author: Marco Elver &lt;<a href=3D"" data-email-masked=3D"" rel=3D=
-"nofollow">el...@google.com</a>&gt;
-<br>&gt; Date:   Fri Apr 24 17:47:30 2020 +0200
-<br>&gt;
-<br>&gt;     objtool, kcsan: Add kcsan_disable_current() and kcsan_enable_c=
-urrent_nowarn()
-<br>&gt;
-<br>&gt;     Both are safe to be called from uaccess contexts.
-<br>&gt;
-<br>&gt;     Signed-off-by: Marco Elver &lt;<a href=3D"" data-email-masked=
-=3D"" rel=3D"nofollow">el...@google.com</a>&gt;
-<br>&gt;     Signed-off-by: Paul E. McKenney &lt;<a href=3D"" data-email-ma=
-sked=3D"" rel=3D"nofollow">pau...@kernel.org</a>&gt;
-<br>&gt;
-<br>&gt; However, in fact it does not hold.
-<br>&gt;
-<br>&gt; After a search, I found the first commit to add the infrastructure=
- is dfd402a4c4baae42398ce9180ff424d589b8bffc kcsan: Add Kernel Concurrency =
-Sanitizer infrastructure, right after 5.4-rc7.
-<br>&gt; Do you mean "git cherry-pick v5.4-rc7..50a19ad4b1ec"
-<br>
-<br>No.
-<br>
-<br>See "git help log". Specifically "a..b" means "list all the commits
-<br>which are reachable from b, but not from a". Because we only want
-<br>KCSAN related commits, the above is correct. Try it! You can also
-<br>check what commits you'll get by sanity-checking with 'git log'.
-<br>
-<br></blockquote><div><br></div><div>I see. I am a Git newbie. Thanks for y=
-our detailed explanation.</div><div>&nbsp;</div><blockquote class=3D"gmail_=
-quote" style=3D"margin: 0 0 0 0.8ex; border-left: 1px solid rgb(204, 204, 2=
-04); padding-left: 1ex;">Thanks,
-<br>-- Marco
-<br></blockquote></div>
-
-<p></p>
-
--- <br />
-You received this message because you are subscribed to the Google Groups &=
-quot;kasan-dev&quot; group.<br />
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
-+unsubscribe@googlegroups.com</a>.<br />
-To view this discussion on the web visit <a href=3D"https://groups.google.c=
-om/d/msgid/kasan-dev/43db662c-ac04-4ba0-803f-2e7f8c3bdd55n%40googlegroups.c=
-om?utm_medium=3Demail&utm_source=3Dfooter">https://groups.google.com/d/msgi=
-d/kasan-dev/43db662c-ac04-4ba0-803f-2e7f8c3bdd55n%40googlegroups.com</a>.<b=
-r />
-
-------=_Part_3601_2075134254.1606137372517--
-
-------=_Part_3600_624009885.1606137372517--
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20201123132300.1759342-1-elver%40google.com.
