@@ -1,71 +1,125 @@
-Return-Path: <kasan-dev+bncBCH2XPOBSAERBZ6T5T6QKGQEOQPJHMQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBEXQ5X6QKGQEHSQSPTY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oo1-xc3d.google.com (mail-oo1-xc3d.google.com [IPv6:2607:f8b0:4864:20::c3d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 588F22BFE8E
-	for <lists+kasan-dev@lfdr.de>; Mon, 23 Nov 2020 04:18:01 +0100 (CET)
-Received: by mail-oo1-xc3d.google.com with SMTP id b11sf4373644oon.14
-        for <lists+kasan-dev@lfdr.de>; Sun, 22 Nov 2020 19:18:01 -0800 (PST)
+Received: from mail-qk1-x73d.google.com (mail-qk1-x73d.google.com [IPv6:2607:f8b0:4864:20::73d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 438F52C01AF
+	for <lists+kasan-dev@lfdr.de>; Mon, 23 Nov 2020 09:51:32 +0100 (CET)
+Received: by mail-qk1-x73d.google.com with SMTP id v134sf14103619qka.19
+        for <lists+kasan-dev@lfdr.de>; Mon, 23 Nov 2020 00:51:32 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1606121491; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=huWc7eN0ss6Lvo6WbAGYJyYJQwyYOoutdvmXJW9LAgdDl9uefpSvnVuSeGOAYJ6Ywl
+         TVDZTPFzGt2TshUt45CWiTw7seiZUf2y9iYwqHYfi8t7MqPfiUyEeRCeor/Wze+OWMFA
+         agjiRcG3uGwxoS5Vi0yoEIZ6LNBilDHBD70W4gCkxUwtmeglJgSwZ++7CmSQIsxO3Hcg
+         nWPceVgdgO+lBtqK4QxVnqMF/BNWfMUpSpBv8KvqC28uLsUyVmErPAc8w2sATYNoD5a3
+         zPuvMdX5ykkKu4BwHIXkWhQsVVhtkJ19Mxb+aASsGxj1hwd+y7aUngx6kEb+unmPs3H5
+         ZGbw==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
+         :cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=yun0lV5NEq2DfleFEIogc7TBMJY3j8Pvmqit9gdNya4=;
+        b=Li9fQprWqleUVKX4qKgS26kf2fvan9clhLCQDsU8z/O6k50PLn+oOxY8sxbH8GrvKX
+         GSU6rGPHmBMaUWw2PohzEz71IXJnHhe2CfuVKbRJIv4z3ptFj9URZD6f7CxB7/lNPluc
+         XgPlyeoRp/rMgSNEPRAxuDNNRqZVj6MAGwxbkE1ETBT2djvvk2YhMCFD9WRALEKNH8dG
+         r9K7jQaU2GiI20J8yrzSeKoeROv+TToRhytFIUH88tWdYgQSmDHfw6YCMcq0jAeuSNnm
+         4W3Y47tyruEMyTGPhWwWg16sdmFl9fq1YR+GdT/fenagR/XL0sNouCJ84f5HHWzwXGrd
+         sALQ==
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=dKKPSkGT;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::243 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:date:from:to:message-id:in-reply-to:references:subject
-         :mime-version:x-original-sender:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=KQvZPLoynEQM1ptXLajraqjNgLrkPZexnuxQLTwrzwo=;
-        b=BpFCF4UVux+4OfX+2AjxRAakXVP+vh6oC2qTIE7xeQRGUHvJaFbz3e4LYQlTqDY5yM
-         5B75seFNEj8KXcmmm+Cidsb9OhLEEXljRxhGadub16tvVxFup5ApRAdJk08TXGRbnY1b
-         KQZxq/iDTRo+1SdPq3paEHnnVQ3RVyAg4p7UdV9jrgrMJKpJ/bdKWCujXNc9iexkTzHe
-         ej77/+AlNUwStaY/1BooYAdolhK4c8b3oUxwRz34Z2otMPdwo5UsQ8CWFjdrOksePH38
-         f8kNGlSTFv4Vglr2jAce5Lm6+Xt3ceBFfJMTTs8jzNQ8WYrGCNPNjUsrf6d1EVfgGvXC
-         Nnbw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:message-id:in-reply-to:references:subject:mime-version
-         :x-original-sender:precedence:mailing-list:list-id:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=KQvZPLoynEQM1ptXLajraqjNgLrkPZexnuxQLTwrzwo=;
-        b=DL0BoMqZple2Bvd2EoHIeusaD/CryE33pqyn/8k1BtyiW98SIjpdCEewsL3PnXJGme
-         CHpqGvoVaAGgOwvkYGKHVNHRl+2kcZ65f1Cu2xpY5UGvKHLE8NS5u1Nhn0ETXfewXzKb
-         nMI8uW/wFFk4iHPdPoPASS6vSjmF9cAuSERbVuiNk4YXXFDk8c2rte2xNx9rf147Ptet
-         Zm/KXtqzqdJLUVfwWlZAacCyIJBH8fClh0oXZTQjY5yduXkDSlWHlKZ8kTRmeHoSDGJ9
-         DnXJMztTxXruChZ6f/vRnFq7ZKp1Y2Un/s21SraERffXMVpknIpb4VmR2Qy2C3qndAeI
-         HdzQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:list-post:list-help:list-archive:list-subscribe
+         :list-unsubscribe;
+        bh=yun0lV5NEq2DfleFEIogc7TBMJY3j8Pvmqit9gdNya4=;
+        b=cyZdhC2VJ+ynGn9QYLP2X4cRidAn5g3xuAAqqckcY4R5gWKoRrnImQhkjNXDleKgzh
+         cPIztJjfnUam0EigvV6TWgTZor/m1p0mDupFckh3/wRvMztW19Ze5d/RSIE7In0XPmoK
+         kEG1MQwhLBmHeAhlhnkDrKE8IChaAluWbjdAUC6BNGr3/ZVfexzV0q9LEXwZtPXvwDP0
+         4zdd7YX62boS279rBzD9IK2OcpRQlaMAae9F1K55BJsk1QEaJsHnRzHWh6nMoizPDQR5
+         bc0pr3CNQm5PypLQmfEvcf+fBF8TA2DJ4uMPP8sjIpsrgi7WyVeT0UXVaNdbRcLEte4O
+         UrXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:date:from:to:message-id:in-reply-to
-         :references:subject:mime-version:x-original-sender:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=KQvZPLoynEQM1ptXLajraqjNgLrkPZexnuxQLTwrzwo=;
-        b=rZOkdR7Ht1rgaTzzVkg5Aa/ANtzaqfpsMi/Qd5j8mKY9x/VSRBmDFC1lCJt+4I6LQa
-         ufApTM2IP8e1CF816o1NzrIP2dgCsSN8iVG3VBQIrN7QmZwTOlEkpjSlI3bq534jUIbZ
-         0j+ULxCGbbUiRE8YU2mkpD6WnE99fYkhyMgXh2UnIahbtF+u6t2GUMZ/ryxbLL0iww/H
-         o3vZkQB8Dn0DPEh6sgUBAb/PAeSb5lkFWRK+XeNAsvRYZpLgxVU5s3LbMzsEAaEqLpvT
-         DuBkTQFoG7xv3QS3yJzNie0GzODgGFZxYmaUfbFDpRjPhHY3UppLby3e0ucBpbiULV45
-         yoPA==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM531PnStoZhuUyPpELlIXYg994syLinDW2uSxrogc5pYLr7i19lGp
-	4HVWHvGR2avN0D0WXi4m21c=
-X-Google-Smtp-Source: ABdhPJztItk5RC7lYoSlM9yCKfIePIngwkyDcfE8JzxqAnfORi5ah11qifpYBXJIUAEVGGA5GWi9yg==
-X-Received: by 2002:a54:4704:: with SMTP id k4mr14212030oik.39.1606101479901;
-        Sun, 22 Nov 2020 19:17:59 -0800 (PST)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding
+         :x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=yun0lV5NEq2DfleFEIogc7TBMJY3j8Pvmqit9gdNya4=;
+        b=M69g9EFuuA3P9mXsUqjz/9xUtFZgrjBOe7mTWhmHBveI4BdGWuxbZm3uludPJjdDeN
+         +pHFS/lXh/GZOilswZWA9hmZNpYzTMYurqyJs7webdBwhWrPZsWDzz2RCn/KMVcdhHYM
+         1bNL7tdKRDgHtFOEgpoxGGeSCrbXMwFryPbNfw08arsBlPVKyy8IaFu6ZB18jUWm17s2
+         6PIj5q+47A/NqaHesKzMst7lWmJCaQ4u32sCEsmOliKVD5MAIxDCtRyqEl6zJ29tUPVz
+         Ah4RqDEW814X6aQMa/418DSuB21XwHeKC0hCo/fWfqSMkdU+t8AGaktgEs+tcl04XAPN
+         frJw==
+X-Gm-Message-State: AOAM531yRtFQjejQbTWTUT2jxIZHzxYqdmOJB2qBuHt0nwDd3SGEjKwM
+	zmybQUqgeDBzPyCl8ulwplw=
+X-Google-Smtp-Source: ABdhPJxBTGVu2A5N4wTlsD11mS0L1Qcd41map2ILJSLu5obbEZnTp/u0RCz1zgbtPjUnUfUSoPdHPw==
+X-Received: by 2002:a0c:a8c4:: with SMTP id h4mr27987292qvc.58.1606121490924;
+        Mon, 23 Nov 2020 00:51:30 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6830:1f59:: with SMTP id u25ls3060508oth.1.gmail; Sun,
- 22 Nov 2020 19:17:59 -0800 (PST)
-X-Received: by 2002:a9d:32b6:: with SMTP id u51mr22168245otb.119.1606101479332;
-        Sun, 22 Nov 2020 19:17:59 -0800 (PST)
-Date: Sun, 22 Nov 2020 19:17:58 -0800 (PST)
-From: "mudongl...@gmail.com" <mudongliangabcd@gmail.com>
-To: kasan-dev <kasan-dev@googlegroups.com>
-Message-Id: <8b89f21f-e3e9-4344-92d3-580d2f0f2860n@googlegroups.com>
-In-Reply-To: <CANpmjNPsjXqDQLkeBb2Ap7j8rbrDwRHeuGPyzXXQ++Qxe4A=7A@mail.gmail.com>
-References: <f4a62280-43f5-468b-94c4-fdda826d28d0n@googlegroups.com>
- <CANpmjNPsjXqDQLkeBb2Ap7j8rbrDwRHeuGPyzXXQ++Qxe4A=7A@mail.gmail.com>
-Subject: Re: Any guidance to port KCSAN to previous Linux Kernel versions?
+Received: by 2002:ac8:6717:: with SMTP id e23ls2055785qtp.7.gmail; Mon, 23 Nov
+ 2020 00:51:30 -0800 (PST)
+X-Received: by 2002:ac8:543:: with SMTP id c3mr1456882qth.9.1606121490438;
+        Mon, 23 Nov 2020 00:51:30 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1606121490; cv=none;
+        d=google.com; s=arc-20160816;
+        b=TBq2hfLOEIM89GgT2c47LqWai0CLYOES3ADK3M2JarXiMxPunJxGEfN/4GZSUMgU4d
+         j/71BzeAyGtVOzFf0J9qnT+8h87IEI7gAlZRtgOBl3BmwR030M9Qtwi5oSW7D+ek584P
+         YJqsooVv3iBVpefGAq6KcdoMCr7naLHwCHWfhQeHIh3738D2IyIxcxK83DldZm7dNid0
+         llt3YTuBlGsMGI+yZAwHxaS2ldvT/GbGW6H512fCI4OLw6+1Nz9iSUuXnE3llijcCZjI
+         BgcMig6vSkkha//uM1a7AQxUG4dzJHb1d/mAwJ0U6ZHRmavYK/k61s+s10AFPXc85qWj
+         OKAw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=vxWUjkIjY0SGGG2ytBKC057yoee9Wp9HxgbBFW6Dh4A=;
+        b=jp12aYIThn5gU4EUdYQLcN6iMS8n+y+2hPXjXenWufBHN2+kusX7CVFWO/6T6cmP56
+         KAvlBDR/FrkWpN9YFRH/e1aBiW+STVeN95e+2ScB1jqjZfHrSwdjkxvxwPGDK1mO7Sbh
+         xpoDSJkqijUp3/gYn9T/9U40mO2pfsQXt6MtzeAoskp/gU1GZ1ngT4L8P9rdFSCHhOPb
+         ekhS/gOTvGuuV4y8EMhScfg2ln6O1Tcr8MP8HxDNmTNEl11Xx+2zQNSeeKe/V2vIFRjz
+         PmSXRmG703HAQfOD4q6eVnkl7Ka66cWiguXEcegGPlC9+lQvxyVFE86nOtuLysRptkaD
+         t1CQ==
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=dKKPSkGT;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::243 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-oi1-x243.google.com (mail-oi1-x243.google.com. [2607:f8b0:4864:20::243])
+        by gmr-mx.google.com with ESMTPS id c19si300025qkl.3.2020.11.23.00.51.30
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 23 Nov 2020 00:51:30 -0800 (PST)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::243 as permitted sender) client-ip=2607:f8b0:4864:20::243;
+Received: by mail-oi1-x243.google.com with SMTP id a130so10778112oif.7
+        for <kasan-dev@googlegroups.com>; Mon, 23 Nov 2020 00:51:30 -0800 (PST)
+X-Received: by 2002:aca:a988:: with SMTP id s130mr14473777oie.172.1606121489748;
+ Mon, 23 Nov 2020 00:51:29 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/mixed; 
-	boundary="----=_Part_4536_249421192.1606101478561"
-X-Original-Sender: mudongliangabcd@gmail.com
+References: <f4a62280-43f5-468b-94c4-fdda826d28d0n@googlegroups.com>
+ <CANpmjNPsjXqDQLkeBb2Ap7j8rbrDwRHeuGPyzXXQ++Qxe4A=7A@mail.gmail.com> <8b89f21f-e3e9-4344-92d3-580d2f0f2860n@googlegroups.com>
+In-Reply-To: <8b89f21f-e3e9-4344-92d3-580d2f0f2860n@googlegroups.com>
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Mon, 23 Nov 2020 09:51:18 +0100
+Message-ID: <CANpmjNPm3U=aeuhv4CpqsxbkQj8SnKbauLmXyAu2b=8bCEg6pQ@mail.gmail.com>
+Subject: Re: Any guidance to port KCSAN to previous Linux Kernel versions?
+To: "mudongl...@gmail.com" <mudongliangabcd@gmail.com>
+Cc: kasan-dev <kasan-dev@googlegroups.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: elver@google.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@google.com header.s=20161025 header.b=dKKPSkGT;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::243 as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -78,168 +132,91 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-------=_Part_4536_249421192.1606101478561
-Content-Type: multipart/alternative; 
-	boundary="----=_Part_4537_913861416.1606101478562"
-
-------=_Part_4537_913861416.1606101478562
-Content-Type: text/plain; charset="UTF-8"
-
-
-
-On Wednesday, November 18, 2020 at 6:05:45 PM UTC+8 el...@google.com wrote:
-
-> On Wed, 18 Nov 2020 at 08:09, mudongl...@gmail.com 
-> <mudongl...@gmail.com> wrote: 
-> > 
-> > Hello all, 
-> > 
-> > I am writing to ask for some guidance to port KCSAN to some LTS kernel 
-> versions. As KCSAN is already merged into upstream and works well to catch 
-> some bugs in some kernel trees, it is good idea to port KCSAN to some 
-> previous Linux Kernel version. On one hand, it is good for bug detection in 
-> LTS kernel; On the other hand, it is good to diagnose some kernel crashes 
-> caused by data race. 
-> > 
-> > Thanks in advance. 
-> > 
-> > Dongliang Mu 
+On Mon, 23 Nov 2020 at 04:18, mudongl...@gmail.com
+<mudongliangabcd@gmail.com> wrote:
 >
-> There have been major changes to READ_ONCE()/WRITE_ONCE() in Linux 5.8 
-> which make backporting non-trivial since those changes would have to 
-> be backported, too. Your best bet might be looking at the version of 
-> KCSAN at 50a19ad4b1ec: git log v5.7-rc7..50a19ad4b1ec -- but that is 
-> missing some important changes, and I question the value in 
-> backporting. 
 >
-
-Thanks for your explanation. That's helpful.
-
-Let's imagine a scenario: KASAN detects a UAF crash in an old Linux 
-kernel(e.g., 5.4, 4.19), but the underlying reason for this crash behavior 
-is data racing from two different threads with plain accesses(without 
-READ_ONCE/WRITE_ONCE).
-What I want is to backport KCSAN and test whether it could catch the 
-underlying data race before triggering the further UAF crash. This would 
-help us identify the underlying issue(two concurrent threads and the object 
-for data race) and fix the bug completely.
-
-Therefore, if I try to backport KCSAN and test whether KCSAN catches this 
-special data race, is it still too complicated or need non-trivial efforts?
-
-
-> In particular, we have the following problem: The kernel still has 
-> (and before 5.5 it was worse) numerous very frequent data races that 
-> are -- with current compilers and architectures -- seemingly benign, 
-> or failure due to them is unlikely. The emphasis here should be on 
-> _very frequent data races_, because we know there are infrequent data 
-> races that are potentially harmful. But, unfortunately we're still 
-> suffering from a "find the needle in the haystack problem" here. Which 
-> means a backport isn't going to be too helpful right now because we'd 
-> only like to tackle this problem for mainline right now. A better 
-> approach is to backport fixes as required. 
 >
-> We are slowly working on addressing these problems, the most 
-> straightforward approach would be to mark intentional data races and 
-> fix other issues, but that isn't trivial because there are so many and 
-> each needs to be carefully analyzed. 
+> On Wednesday, November 18, 2020 at 6:05:45 PM UTC+8 el...@google.com wrot=
+e:
+>>
+>> On Wed, 18 Nov 2020 at 08:09, mudongl...@gmail.com
+>> <mudongl...@gmail.com> wrote:
+>> >
+>> > Hello all,
+>> >
+>> > I am writing to ask for some guidance to port KCSAN to some LTS kernel=
+ versions. As KCSAN is already merged into upstream and works well to catch=
+ some bugs in some kernel trees, it is good idea to port KCSAN to some prev=
+ious Linux Kernel version. On one hand, it is good for bug detection in LTS=
+ kernel; On the other hand, it is good to diagnose some kernel crashes caus=
+ed by data race.
+>> >
+>> > Thanks in advance.
+>> >
+>> > Dongliang Mu
+>>
+>> There have been major changes to READ_ONCE()/WRITE_ONCE() in Linux 5.8
+>> which make backporting non-trivial since those changes would have to
+>> be backported, too. Your best bet might be looking at the version of
+>> KCSAN at 50a19ad4b1ec: git log v5.7-rc7..50a19ad4b1ec -- but that is
+>> missing some important changes, and I question the value in
+>> backporting.
 >
-> I recommend reading https://lwn.net/Articles/816854/ . 
 >
-> Thanks, 
-> -- Marco 
+> Thanks for your explanation. That's helpful.
 >
+> Let's imagine a scenario: KASAN detects a UAF crash in an old Linux kerne=
+l(e.g., 5.4, 4.19), but the underlying reason for this crash behavior is da=
+ta racing from two different threads with plain accesses(without READ_ONCE/=
+WRITE_ONCE).
+> What I want is to backport KCSAN and test whether it could catch the unde=
+rlying data race before triggering the further UAF crash. This would help u=
+s identify the underlying issue(two concurrent threads and the object for d=
+ata race) and fix the bug completely.
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/8b89f21f-e3e9-4344-92d3-580d2f0f2860n%40googlegroups.com.
+For debugging such issues, I'd run with a more aggressive KCSAN config
+(regardless of kernel version):
 
-------=_Part_4537_913861416.1606101478562
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+CONFIG_KCSAN_REPORT_VALUE_CHANGE_ONLY=3Dn
+CONFIG_KCSAN_ASSUME_PLAIN_WRITES_ATOMIC=3Dn
 
-<br><br><div class=3D"gmail_quote"><div dir=3D"auto" class=3D"gmail_attr">O=
-n Wednesday, November 18, 2020 at 6:05:45 PM UTC+8 el...@google.com wrote:<=
-br></div><blockquote class=3D"gmail_quote" style=3D"margin: 0 0 0 0.8ex; bo=
-rder-left: 1px solid rgb(204, 204, 204); padding-left: 1ex;">On Wed, 18 Nov=
- 2020 at 08:09, <a href=3D"" data-email-masked=3D"" rel=3D"nofollow">mudong=
-l...@gmail.com</a>
-<br>&lt;<a href=3D"" data-email-masked=3D"" rel=3D"nofollow">mudongl...@gma=
-il.com</a>&gt; wrote:
-<br>&gt;
-<br>&gt; Hello all,
-<br>&gt;
-<br>&gt; I am writing to ask for some guidance to port KCSAN to some LTS ke=
-rnel versions. As KCSAN is already merged into upstream and works well to c=
-atch some bugs in some kernel trees, it is good idea to port KCSAN to some =
-previous Linux Kernel version. On one hand, it is good for bug detection in=
- LTS kernel; On the other hand, it is good to diagnose some kernel crashes =
-caused by data race.
-<br>&gt;
-<br>&gt; Thanks in advance.
-<br>&gt;
-<br>&gt; Dongliang Mu
-<br>
-<br>There have been major changes to READ_ONCE()/WRITE_ONCE() in Linux 5.8
-<br>which make backporting non-trivial since those changes would have to
-<br>be backported, too. Your best bet might be looking at the version of
-<br>KCSAN at 50a19ad4b1ec: git log v5.7-rc7..50a19ad4b1ec -- but that is
-<br>missing some important changes, and I question the value in
-<br>backporting.
-<br></blockquote><div><br></div><div>Thanks for your explanation. That's he=
-lpful.</div><div><br></div><div>Let's imagine a scenario: KASAN detects a U=
-AF crash in an old Linux kernel(e.g., 5.4, 4.19), but the underlying reason=
- for this crash behavior is data racing from two different threads with pla=
-in accesses(without READ_ONCE/WRITE_ONCE).</div><div>What I want is to back=
-port KCSAN and test whether it could catch the underlying data race before =
-triggering the further UAF crash. This would help us identify the underlyin=
-g issue(two concurrent threads and the object for data race) and fix the bu=
-g completely.</div><div><br></div><div>Therefore, if I try to backport KCSA=
-N and test whether KCSAN catches this special data race, is it still too co=
-mplicated or need non-trivial efforts?<br></div><div><br></div><blockquote =
-class=3D"gmail_quote" style=3D"margin: 0 0 0 0.8ex; border-left: 1px solid =
-rgb(204, 204, 204); padding-left: 1ex;">
-<br>In particular, we have the following problem: The kernel still has
-<br>(and before 5.5 it was worse) numerous very frequent data races that
-<br>are -- with current compilers and architectures -- seemingly benign,
-<br>or failure due to them is unlikely. The emphasis here should be on
-<br>_very frequent data races_, because we know there are infrequent data
-<br>races that are potentially harmful. But, unfortunately we're still
-<br>suffering from a "find the needle in the haystack problem" here. Which
-<br>means a backport isn't going to be too helpful right now because we'd
-<br>only like to tackle this problem for mainline right now. A better
-<br>approach is to backport fixes as required.
-<br>
-<br>We are slowly working on addressing these problems, the most
-<br>straightforward approach would be to mark intentional data races and
-<br>fix other issues, but that isn't trivial because there are so many and
-<br>each needs to be carefully analyzed.
-<br>
-<br>I recommend reading <a href=3D"https://lwn.net/Articles/816854/" target=
-=3D"_blank" rel=3D"nofollow" data-saferedirecturl=3D"https://www.google.com=
-/url?hl=3Den&amp;q=3Dhttps://lwn.net/Articles/816854/&amp;source=3Dgmail&am=
-p;ust=3D1606186125085000&amp;usg=3DAFQjCNGsXFMb3deOitwnx8CpIykoRSOgig">http=
-s://lwn.net/Articles/816854/</a> .
-<br>
-<br>Thanks,
-<br>-- Marco
-<br></blockquote></div>
+and lower 'kcsan.skip_watch=3D' boot parameter from default of 4000 down
+to ~500 in decrements of 500 and stop when the system becomes too
+slow.
 
-<p></p>
+> Therefore, if I try to backport KCSAN and test whether KCSAN catches this=
+ special data race, is it still too complicated or need non-trivial efforts=
+?
 
--- <br />
-You received this message because you are subscribed to the Google Groups &=
-quot;kasan-dev&quot; group.<br />
+See if 'git cherry-pick v5.7-rc7..50a19ad4b1ec' works.
+
+>> In particular, we have the following problem: The kernel still has
+>> (and before 5.5 it was worse) numerous very frequent data races that
+>> are -- with current compilers and architectures -- seemingly benign,
+>> or failure due to them is unlikely. The emphasis here should be on
+>> _very frequent data races_, because we know there are infrequent data
+>> races that are potentially harmful. But, unfortunately we're still
+>> suffering from a "find the needle in the haystack problem" here. Which
+>> means a backport isn't going to be too helpful right now because we'd
+>> only like to tackle this problem for mainline right now. A better
+>> approach is to backport fixes as required.
+>>
+>> We are slowly working on addressing these problems, the most
+>> straightforward approach would be to mark intentional data races and
+>> fix other issues, but that isn't trivial because there are so many and
+>> each needs to be carefully analyzed.
+>>
+>> I recommend reading https://lwn.net/Articles/816854/ .
+>>
+>> Thanks,
+>> -- Marco
+
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
-+unsubscribe@googlegroups.com</a>.<br />
-To view this discussion on the web visit <a href=3D"https://groups.google.c=
-om/d/msgid/kasan-dev/8b89f21f-e3e9-4344-92d3-580d2f0f2860n%40googlegroups.c=
-om?utm_medium=3Demail&utm_source=3Dfooter">https://groups.google.com/d/msgi=
-d/kasan-dev/8b89f21f-e3e9-4344-92d3-580d2f0f2860n%40googlegroups.com</a>.<b=
-r />
-
-------=_Part_4537_913861416.1606101478562--
-
-------=_Part_4536_249421192.1606101478561--
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/CANpmjNPm3U%3Daeuhv4CpqsxbkQj8SnKbauLmXyAu2b%3D8bCEg6pQ%40mail.gm=
+ail.com.
