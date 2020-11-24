@@ -1,131 +1,123 @@
-Return-Path: <kasan-dev+bncBC24VNFHTMIBBQP46L6QKGQE5XKVVSI@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBOWQ6P6QKGQEG7SUBSA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-io1-xd3b.google.com (mail-io1-xd3b.google.com [IPv6:2607:f8b0:4864:20::d3b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A7F12C1F55
-	for <lists+kasan-dev@lfdr.de>; Tue, 24 Nov 2020 09:03:15 +0100 (CET)
-Received: by mail-io1-xd3b.google.com with SMTP id v15sf14944431ioq.16
-        for <lists+kasan-dev@lfdr.de>; Tue, 24 Nov 2020 00:03:15 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1606204994; cv=pass;
+Received: from mail-lf1-x139.google.com (mail-lf1-x139.google.com [IPv6:2a00:1450:4864:20::139])
+	by mail.lfdr.de (Postfix) with ESMTPS id B12F82C2382
+	for <lists+kasan-dev@lfdr.de>; Tue, 24 Nov 2020 12:02:18 +0100 (CET)
+Received: by mail-lf1-x139.google.com with SMTP id a14sf7150959lfo.5
+        for <lists+kasan-dev@lfdr.de>; Tue, 24 Nov 2020 03:02:18 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1606215738; cv=pass;
         d=google.com; s=arc-20160816;
-        b=MpRfhd7iRwjWTXP5Evy7cbbzGugJ6LxaepuPp1LthCAya3Rl2/AUS5sjkEHGfVywyN
-         44Uutl3pmV5fB/K30r7WKX5QhsE+DNzcJjtKG69XhJyCXCbPFVLDAy9iLkkaZrNvZAqH
-         vO2+pgNdcRwf06FNhG1XvnYFj0KesSu7fQPyP7uRHeU3etiTi6Fi5Gz70PQ0FtuZYh21
-         zJbxLSQ8JNNPSxzB2D0zsPB8ktGMz9zxiT/PhlyuBQ57puHHYLwhCLWTc4xeJ88+tK2g
-         xWVzAer4URrHeMNIYTKMCzIhhlZdKIHtJAIRD2qgrjn3VbD8nFhQKN9kpjGaVLOrZ0+V
-         FR2g==
+        b=sfDoDhyuDLpki/Sx/b9EOgtu04PWyVtBZxHzc6NavLINBfRMc9T2F8CqVlaOGAQLxS
+         wDQma4guHGOVcHgwwvXlWG2wjrU6C9Jwd5xhBLUdNtE0WkQdmuDbHB6DTnlfKuH8Zo53
+         N9wSiX7KOZ6ZqXsWQt2EQTeXduejLPb8vqrn1CUZMa4zd1cFRM5HcgWDWhWW9EXqPZV4
+         rj/bUhQO8U3swxuowTQE4az26JXYFyao13KGDHILxBnixuFMWHwhPSJgh/Wn3+OOEtR9
+         DY+PBR9qbsWjZlHG52V6LjaysBFVjMuZAhxHnjn2jeYZmIXrjq9WysuxScaj6mrfxg/F
+         Oi1w==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:auto-submitted
-         :references:in-reply-to:message-id:date:subject:to:from:sender
-         :dkim-signature;
-        bh=TV5FArYa7TPrhUO/GbgIeULWDTkmRLZr6UmqoksA9UA=;
-        b=hahcrZRS/x3Uj5UpGjloF4JMdtCQeKrfIUKvnJiglQE+N8kAg4/X2xA7JUxF8/M6D7
-         m7u2/pVpsDwFpsDY58vLYan4mpd4DMwmw+k78xIGmec8MkCFvmNqv1G7iyDW3sQbbWaF
-         JtRgoZdXfYkHj4ofyigxhwwD387mfaiKfx/hVqQeydDT9JLGj/Q0O/HaT/pzY8IAQbiq
-         4PDmuNR+MaFLUyGPkCdlB+prIYgbxNcrJrEj4Bpj/UM3eL0AddszRo1nLrAvnoSq+n3a
-         D2qa4D7QMmVrLlzWvb65JSVopZdWkEXSHROYClcr0E2iPyUuJBdNxXcMbdGkMhECx9zv
-         sBTA==
+         :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
+         :mime-version:message-id:date:sender:dkim-signature;
+        bh=o//y4awf0z/a17qThm/GIWXX6B5l9Ch80rgo6W+r76k=;
+        b=ZVAa7bs3FtrmbgXnN2w8jVrjxCen1Dio25WCpg3AgVz+upFt7gHuS9zNCl69pqFxmS
+         osCvIOm88y66VlRwl5IaJgMNaZGMux2x2vqslPZ+skmuWuiD9MMVTnEaKsZdSvhU3416
+         2EcUswZtdzd6ijyuUXZChxdeb5cOpsSGdJyEH8iOp7keHx1SZPLtGdo7JPq/IvCD/bkz
+         hxSKiyoZkElpsgL/4ETgk+xgfB9yR7DPWZjbaVZxk8o5V+2jB0gXAxBcA6D4fuzuA6el
+         VSMT1kjWu6gMWgJc5upfTim1xQyoWQxjnoTrUbS479gYCZy5IK38Kd7Bbucob79Xxz65
+         dq5g==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of bugzilla-daemon@bugzilla.kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=bugzilla-daemon@bugzilla.kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       dkim=pass header.i=@google.com header.s=20161025 header.b=X0Lj0mwa;
+       spf=pass (google.com: domain of 3ooi8xwukcqefmwfshpphmf.dpnlbtbo-efwhpphmfhspvqt.dpn@flex--elver.bounces.google.com designates 2a00:1450:4864:20::44a as permitted sender) smtp.mailfrom=3OOi8XwUKCQEfmwfshpphmf.dpnlbtbo-efwhpphmfhspvqt.dpn@flex--elver.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:from:to:subject:date:message-id:in-reply-to:references
-         :auto-submitted:mime-version:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=TV5FArYa7TPrhUO/GbgIeULWDTkmRLZr6UmqoksA9UA=;
-        b=ju+f9gBKzbK08BudNUpZ4fggd+yzCg5BeUwhMy1Ad2HIbZz0qNnudviBmF7eOrtGT/
-         Da+Vpp0Wax5LpyLyVADKBJQdFXguAmbG3/MNLsqSAsX6jwdLd5rkNqSAr74LWLGisyV+
-         sbj+F6smqTFRUBdlvyxiI/l56fHhW5zNkBPdG3Nq5P3mrnNHZwNvHbS7ngMbr0cfKprY
-         7cS9GL+m/FHkfEe1BluWXwfW4tip5VVeyPuA62Mtwavjl+wOu9kXDuklOzeCCA5aFj3s
-         St72juiHtqNfzKGN9AEPdlKotn9s7jGqjThqJ89lO/poE/wC2HGzm17bdeH8qm3EXOHG
-         J3aA==
+        h=sender:date:message-id:mime-version:subject:from:to:cc
+         :x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=o//y4awf0z/a17qThm/GIWXX6B5l9Ch80rgo6W+r76k=;
+        b=tWLyQ2jblPoxt2dZQL+JwHetT+gy//TN2VcraGZL+cQY1kUJYseS6/3ZLYQ2JkFW4r
+         5Ag92dIxwC1c0O/ufIuI6kAE9rzAsb9fPKRnmXp5i2DoxwalFww0hsDAv35/pNXdYZb6
+         98Xnp749zclPkg8VHvbBfMxRoXn5tBCKnwCr2Wkt3t2gYSzehv7n2aHVW7gv2/DMgp+W
+         Tqz3/cXn7kxL3aMzbLuZoJhPtdxMUQjoBlBf6xnRWSOCCVo/b8Txn5bnsrtPaPp1kSRE
+         3fcuMYFh/Ix/TfqfsCiVL3djM8Z7ru6mOmyA1VoW9vFxqFImOJjN57JoLAXY6JW2FYIB
+         fXjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:from:to:subject:date:message-id
-         :in-reply-to:references:auto-submitted:mime-version
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=TV5FArYa7TPrhUO/GbgIeULWDTkmRLZr6UmqoksA9UA=;
-        b=Y/8V2yDsXKl5xVBklTc6Q4x2dyw5fki0zNl2/Or0PmwvpxbvFmWCS9InzSlYIy/pUh
-         IPDJBCvm0OTPGKKOyPvo0vS0+ElYUN0+MtNiIn9Hg4+lvcwguCjtCeKLf9olkf9xDx+m
-         JS0CE16Li7f82Na2tWl8UI0Ht2N6RtCfXGTFG3osFDc+yJfje+UWkOsUioy3crvy2Lrz
-         Z/W3wyXlBr1lTnOmiF3TxDhEFYWs60Yt1QU9jslSjHd19GBvh9sNHbKgPjZXeysC/OQg
-         zklPoXhA/PclUQF7V1fphp72G6E3Mi0eLLitkiNEAUwbwjSa/rIuU5tPWk+wlimeuLR/
-         fGlw==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM533Mn19+y4I7qKu1SxadvMT9QrseTfYrkW4jY+6s+bt358Z3jYWG
-	rho/NRYi/jV7jwee2RB1+QQ=
-X-Google-Smtp-Source: ABdhPJwqht3eewUJ5OU8tlpZ+OhOSgGSTQOuFj+FHePrKQ1nHYl4qiqfxrGAuKxrliS+KyWlNIha9g==
-X-Received: by 2002:a92:c88c:: with SMTP id w12mr3470884ilo.204.1606204993794;
-        Tue, 24 Nov 2020 00:03:13 -0800 (PST)
+        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
+         :to:cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=o//y4awf0z/a17qThm/GIWXX6B5l9Ch80rgo6W+r76k=;
+        b=rqoY+2PrPyOLWRBXYI3a77m4wd82uDEMVxYiolsqtPOb/ous60toWDeU4mrIUyZrBY
+         s1omGxfGz0bLClDk9OVC5M0GzuCJ3zREnzyYnb4bKQRj8ppNy0rl/tLTADlHwhL9oWDu
+         mqgn8yke4mY8T8LcLTHbRujcvuMhKxbiSPO35H9bhf0B1ueEsKMGXplM8KEabBjzdlzg
+         OpYHl8ZLDS4m/GhekborvBA7JR9CA6VtfGwtcsD8dsGjEeCnBYeNJn2mv7qcPvyAyCsH
+         MM/VFH3pARmIjLyQFwd5j1KTDxyJ3+k4Ubz9gmKiMbBgEb6tcnLMngjgcv0IO8tfjp1o
+         JG2Q==
+X-Gm-Message-State: AOAM532S9svq9sCDJ7LLdtKkeOMJ4Bfd7wO8l0P/0FKrK3peQD+7Lc37
+	TvdT+HCjt361eUBMUYKX190=
+X-Google-Smtp-Source: ABdhPJz8Swysh/bfI3+miZhSGAmWl9y188LnUtS44OW1P1dwUBk3ZH7z+0BgrcUR6AEPiCfcV3rKyw==
+X-Received: by 2002:a19:6005:: with SMTP id u5mr1426876lfb.367.1606215738313;
+        Tue, 24 Nov 2020 03:02:18 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6638:2616:: with SMTP id m22ls2277617jat.4.gmail; Tue,
- 24 Nov 2020 00:03:13 -0800 (PST)
-X-Received: by 2002:a05:6638:224e:: with SMTP id m14mr3406921jas.59.1606204993438;
-        Tue, 24 Nov 2020 00:03:13 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1606204993; cv=none;
+Received: by 2002:a2e:914c:: with SMTP id q12ls2682300ljg.8.gmail; Tue, 24 Nov
+ 2020 03:02:17 -0800 (PST)
+X-Received: by 2002:a2e:8041:: with SMTP id p1mr1466832ljg.291.1606215737115;
+        Tue, 24 Nov 2020 03:02:17 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1606215737; cv=none;
         d=google.com; s=arc-20160816;
-        b=aG4n28iwqMjUFlVIyRQEv20SlRuGIXX7eGUcwoh2ACixGJNtpZZ/gvb0Rj/daxMsCX
-         rL349QTAPqOTf+PuUDfG1lxE36d/O2YxBetHb1c1/RIIYWCJYQmbxS+nY6bw2hCgGTVm
-         IyBHOI8gH1X+P6ve9f/s5OSUUzRBiZue+Z6YCiwyLIkN0s/PUK+rNGhdryeQnJfy8O8x
-         BUG2MyriqOn13sFkxQdvDdzcvUSQ1to1ADi3HYnSw9RZT3vELRJ0bcKYxCbBgDbu/25o
-         mk771+Q+fbtGHeKNvW9WaU63zpGIE5mmr723H0vx7p4nwQ4OBY3gMpEiLQy4aIY/L1A5
-         hIvQ==
+        b=eZIs/Urnis5Y7StrxHRBT8lOQ8t9MuSF42PGXhdiizzVJXSKEQCzeINObuDonWBhug
+         i7zTyIjXAjBKLO/pONPANjUNmPmpay4lu5VTacCw5QKrR5TpIHMHAwX8L98w39ruCt23
+         XFRXeODAJKAtnwTyGteVMP9p+ryIdTMO8F8uLRdn1dbPoqPKkFXD0U3z61P2kFMCVMrA
+         fZHARqQ8G8GqS1f1GYXuyb7/FybqhMnv5Iq4fM5TdsP5viZC1i0naIOVq8iOpm3FHuNA
+         1lzFI228zGLAUtxVJZp7FXCI7KO1sBb3BjJbIff6zJ8qB3zLpiogfZQt3u2xXCaK5xDh
+         rYKQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=mime-version:auto-submitted:content-transfer-encoding:references
-         :in-reply-to:message-id:date:subject:to:from;
-        bh=dNcf1lbPYFgDrdturPKoICyCFR5NRp7feqeaczMXuV0=;
-        b=KGyj5oJd9FKkdQ9z88jmAJV5wzT7ZBEiztn4iyZViynbaSshyJmOyghygQAHQbMPm/
-         Zp1BxEDc1eWv5H2NOjNKkxzbfK940AX/XXkDSgYj/7yJtbaYA15wEEos9ir9cNLlfKkw
-         xUKjDkeBN17DJg+ZakOlA9KttkTqJBWw6SS9IkkFgAw9bQf1oBzXW3bACUOPAeH2fA+h
-         +QTW0iv7PjMV5E8oJGdqCfxpiA4YpwjXjiff33eVxXnvB0N+9aUHsW02yo/AcEPYt6hx
-         0RYHrCX5LJGLF6lIfe122W8SRjhH2Cu4DS0wXcPB3ZXrkNZUsMzpXBndzRwuMUPOMzwt
-         NbgQ==
+        h=cc:to:from:subject:mime-version:message-id:date:sender
+         :dkim-signature;
+        bh=fdbbxX9duAWgf2y7mstvbp1Lae/Ec3vzbHyR2vvOgmg=;
+        b=mlCOh1kHfIT1OwHPUzbA4VV+xouGjbEHgwpn94TD7cGG+QmluPqwztc3kaE71aCSAn
+         Uyk6LL1FZeTROLP/yMwPYYfs1cAPF30GYU28/malkGJZnaHnGknOQznKXdu3PVpILklf
+         EOw9ERNfnyJ3LTY9ihuYkYp8c5ME8wcTy+3Mi6WVjGps77WC+tdLNOJsTZ/fxWDs/5BV
+         hJMXp876VQuwFH1n7Nd/8FtYw6/2OCitRQedTNHDoS8Mw9rtnjypW3EIx9OTH8VGUCCZ
+         myfzclzdxsbPRQbTHZPnHG4UsmC3Pt0sc7F87G0VonUexg6YutqoENsH28MpgpxfeQiW
+         IBZQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of bugzilla-daemon@bugzilla.kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=bugzilla-daemon@bugzilla.kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id a18si141415iow.4.2020.11.24.00.03.13
+       dkim=pass header.i=@google.com header.s=20161025 header.b=X0Lj0mwa;
+       spf=pass (google.com: domain of 3ooi8xwukcqefmwfshpphmf.dpnlbtbo-efwhpphmfhspvqt.dpn@flex--elver.bounces.google.com designates 2a00:1450:4864:20::44a as permitted sender) smtp.mailfrom=3OOi8XwUKCQEfmwfshpphmf.dpnlbtbo-efwhpphmfhspvqt.dpn@flex--elver.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-wr1-x44a.google.com (mail-wr1-x44a.google.com. [2a00:1450:4864:20::44a])
+        by gmr-mx.google.com with ESMTPS id b27si67905ljf.8.2020.11.24.03.02.17
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 24 Nov 2020 00:03:13 -0800 (PST)
-Received-SPF: pass (google.com: domain of bugzilla-daemon@bugzilla.kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
-From: bugzilla-daemon@bugzilla.kernel.org
-To: kasan-dev@googlegroups.com
-Subject: [Bug 210337] KCOV: allow nested remote coverage sections in task
- context
-Date: Tue, 24 Nov 2020 08:03:12 +0000
-X-Bugzilla-Reason: CC
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Memory Management
-X-Bugzilla-Component: Sanitizers
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: dvyukov@google.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: mm_sanitizers@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-210337-199747-xCr5CkcIVW@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-210337-199747@https.bugzilla.kernel.org/>
-References: <bug-210337-199747@https.bugzilla.kernel.org/>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 24 Nov 2020 03:02:17 -0800 (PST)
+Received-SPF: pass (google.com: domain of 3ooi8xwukcqefmwfshpphmf.dpnlbtbo-efwhpphmfhspvqt.dpn@flex--elver.bounces.google.com designates 2a00:1450:4864:20::44a as permitted sender) client-ip=2a00:1450:4864:20::44a;
+Received: by mail-wr1-x44a.google.com with SMTP id f4so6742312wru.21
+        for <kasan-dev@googlegroups.com>; Tue, 24 Nov 2020 03:02:17 -0800 (PST)
+Sender: "elver via sendgmr" <elver@elver.muc.corp.google.com>
+X-Received: from elver.muc.corp.google.com ([2a00:79e0:15:13:f693:9fff:fef4:2449])
+ (user=elver job=sendgmr) by 2002:a5d:60cb:: with SMTP id x11mr4977240wrt.0.1606215736589;
+ Tue, 24 Nov 2020 03:02:16 -0800 (PST)
+Date: Tue, 24 Nov 2020 12:02:09 +0100
+Message-Id: <20201124110210.495616-1-elver@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.29.2.454.gaff20da3a2-goog
+Subject: [PATCH v3 1/2] kcsan: Rewrite kcsan_prandom_u32_max() without prandom_u32_state()
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+To: elver@google.com, paulmck@kernel.org
+Cc: will@kernel.org, peterz@infradead.org, tglx@linutronix.de, 
+	mingo@kernel.org, mark.rutland@arm.com, boqun.feng@gmail.com, 
+	dvyukov@google.com, kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
-MIME-Version: 1.0
-X-Original-Sender: bugzilla-daemon@bugzilla.kernel.org
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of bugzilla-daemon@bugzilla.kernel.org designates
- 198.145.29.99 as permitted sender) smtp.mailfrom=bugzilla-daemon@bugzilla.kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+X-Original-Sender: elver@google.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@google.com header.s=20161025 header.b=X0Lj0mwa;       spf=pass
+ (google.com: domain of 3ooi8xwukcqefmwfshpphmf.dpnlbtbo-efwhpphmfhspvqt.dpn@flex--elver.bounces.google.com
+ designates 2a00:1450:4864:20::44a as permitted sender) smtp.mailfrom=3OOi8XwUKCQEfmwfshpphmf.dpnlbtbo-efwhpphmfhspvqt.dpn@flex--elver.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -138,75 +130,113 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=210337
+Rewrite kcsan_prandom_u32_max() to not depend on code that might be
+instrumented, removing any dependency on lib/random32.c. The rewrite
+implements a simple linear congruential generator, that is sufficient
+for our purposes (for udelay() and skip_watch counter randomness).
 
-Dmitry Vyukov (dvyukov@google.com) changed:
+The initial motivation for this was to allow enabling KCSAN for
+kernel/sched (remove KCSAN_SANITIZE := n from kernel/sched/Makefile),
+with CONFIG_DEBUG_PREEMPT=y. Without this change, we could observe
+recursion:
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |dvyukov@google.com
+	check_access() [via instrumentation]
+	  kcsan_setup_watchpoint()
+	    reset_kcsan_skip()
+	      kcsan_prandom_u32_max()
+	        get_cpu_var()
+		  preempt_disable()
+		    preempt_count_add() [in kernel/sched/core.c]
+		      check_access() [via instrumentation]
 
---- Comment #1 from Dmitry Vyukov (dvyukov@google.com) ---
-2 partial, but potentially simpler solutions, just for discussion.
+Note, while this currently does not affect an unmodified kernel, it'd be
+good to keep a KCSAN kernel working when KCSAN_SANITIZE := n is removed
+from kernel/sched/Makefile to permit testing scheduler code with KCSAN
+if desired.
 
-1. If we assume that recursion only happens for the same target KCOV
-descriptor, then instead of full recursion support kcov_remote_start could just
-check that we need to collect coverage for the already active KCOV descriptor
-and increment a recursion counter. Then kcov_remote_stop will decrement the
-recursion counter and if it's not 0, bail out.
-This will allow us to avoid the WARNING and collect coverage for USB without
-full fledged recursion support.
+Fixes: cd290ec24633 ("kcsan: Use tracing-safe version of prandom")
+Signed-off-by: Marco Elver <elver@google.com>
+---
+v3:
+* Rewrite kcsan_prandom_u32_max() without lib/random32.c!
 
-2. Maybe USB code could be restructured slightly. Namely instead of:
+v2: https://lkml.kernel.org/r/20201123132300.1759342-1-elver@google.com
+* Update comment to also point out preempt_enable().
 
-void foo() {
-  kcov_remote_start(...);
-  ...
-  kcov_remote_stop(...);
-}
+v1: https://lkml.kernel.org/r/20201117163641.3389352-1-elver@google.com
+---
+ kernel/kcsan/core.c | 26 +++++++++++++-------------
+ 1 file changed, 13 insertions(+), 13 deletions(-)
 
-void bar() {
-  kcov_remote_start(...);
-  ...
-  foo();
-  ...
-  kcov_remote_stop(...);
-}
-
-we do:
-
-void __foo() {
-  kcov_remote_start(...);
-  ...
-  kcov_remote_stop(...);
-}
-
-void foo() {
-  kcov_remote_start(...);
-  __foo();
-  kcov_remote_stop(...);
-}
-
-void bar() {
-  kcov_remote_start(...);
-  ...
-  __foo();
-  ...
-  kcov_remote_stop(...);
-}
-
-In some sense similar to "locked" and "unlocked" versions of the same function.
-If you already hold the lock, you need to call the internal "unlocked"
-function.
-So this does not too unreasonable.
-
-I have not looked at the USB code, though.
-
+diff --git a/kernel/kcsan/core.c b/kernel/kcsan/core.c
+index 3994a217bde7..3bf98db9c702 100644
+--- a/kernel/kcsan/core.c
++++ b/kernel/kcsan/core.c
+@@ -12,7 +12,6 @@
+ #include <linux/moduleparam.h>
+ #include <linux/percpu.h>
+ #include <linux/preempt.h>
+-#include <linux/random.h>
+ #include <linux/sched.h>
+ #include <linux/uaccess.h>
+ 
+@@ -101,7 +100,7 @@ static atomic_long_t watchpoints[CONFIG_KCSAN_NUM_WATCHPOINTS + NUM_SLOTS-1];
+ static DEFINE_PER_CPU(long, kcsan_skip);
+ 
+ /* For kcsan_prandom_u32_max(). */
+-static DEFINE_PER_CPU(struct rnd_state, kcsan_rand_state);
++static DEFINE_PER_CPU(u32, kcsan_rand_state);
+ 
+ static __always_inline atomic_long_t *find_watchpoint(unsigned long addr,
+ 						      size_t size,
+@@ -275,20 +274,17 @@ should_watch(const volatile void *ptr, size_t size, int type, struct kcsan_ctx *
+ }
+ 
+ /*
+- * Returns a pseudo-random number in interval [0, ep_ro). See prandom_u32_max()
+- * for more details.
+- *
+- * The open-coded version here is using only safe primitives for all contexts
+- * where we can have KCSAN instrumentation. In particular, we cannot use
+- * prandom_u32() directly, as its tracepoint could cause recursion.
++ * Returns a pseudo-random number in interval [0, ep_ro). Simple linear
++ * congruential generator, using constants from "Numerical Recipes".
+  */
+ static u32 kcsan_prandom_u32_max(u32 ep_ro)
+ {
+-	struct rnd_state *state = &get_cpu_var(kcsan_rand_state);
+-	const u32 res = prandom_u32_state(state);
++	u32 state = this_cpu_read(kcsan_rand_state);
++
++	state = 1664525 * state + 1013904223;
++	this_cpu_write(kcsan_rand_state, state);
+ 
+-	put_cpu_var(kcsan_rand_state);
+-	return (u32)(((u64) res * ep_ro) >> 32);
++	return state % ep_ro;
+ }
+ 
+ static inline void reset_kcsan_skip(void)
+@@ -639,10 +635,14 @@ static __always_inline void check_access(const volatile void *ptr, size_t size,
+ 
+ void __init kcsan_init(void)
+ {
++	int cpu;
++
+ 	BUG_ON(!in_task());
+ 
+ 	kcsan_debugfs_init();
+-	prandom_seed_full_state(&kcsan_rand_state);
++
++	for_each_possible_cpu(cpu)
++		per_cpu(kcsan_rand_state, cpu) = (u32)get_cycles();
+ 
+ 	/*
+ 	 * We are in the init task, and no other tasks should be running;
 -- 
-You are receiving this mail because:
-You are on the CC list for the bug.
+2.29.2.454.gaff20da3a2-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/bug-210337-199747-xCr5CkcIVW%40https.bugzilla.kernel.org/.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20201124110210.495616-1-elver%40google.com.
