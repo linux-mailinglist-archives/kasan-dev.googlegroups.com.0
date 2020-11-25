@@ -1,130 +1,142 @@
-Return-Path: <kasan-dev+bncBC24VNFHTMIBBLGZ7D6QKGQEUABDGGQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDV37XP3XYDRB37D7D6QKGQEJSAL3NQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pl1-x63c.google.com (mail-pl1-x63c.google.com [IPv6:2607:f8b0:4864:20::63c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D2C52C3D2F
-	for <lists+kasan-dev@lfdr.de>; Wed, 25 Nov 2020 11:06:38 +0100 (CET)
-Received: by mail-pl1-x63c.google.com with SMTP id b4sf1415586plk.17
-        for <lists+kasan-dev@lfdr.de>; Wed, 25 Nov 2020 02:06:38 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1606298797; cv=pass;
+Received: from mail-qt1-x83c.google.com (mail-qt1-x83c.google.com [IPv6:2607:f8b0:4864:20::83c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A4A82C3D9D
+	for <lists+kasan-dev@lfdr.de>; Wed, 25 Nov 2020 11:29:04 +0100 (CET)
+Received: by mail-qt1-x83c.google.com with SMTP id f49sf2021418qta.11
+        for <lists+kasan-dev@lfdr.de>; Wed, 25 Nov 2020 02:29:04 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1606300143; cv=pass;
         d=google.com; s=arc-20160816;
-        b=SkrFX6c/BesOpwg7dDdRug5gGhpHSLgcQk9/vSqEETIvktSdBmkqjntWsR1hTzTADd
-         umriIGzoPcGYQhL3c0TkctLV9ft4VyDM2cGPU2LocVGFqUftHLfCnFwQ/YqR/IfQcxIm
-         2fHdSFVR+XX0t8RLlh3Dvoah5i9+eOU1hQAVVDqp8urQADiXhHczsTiPimo3laP7JyCS
-         UELahhd5jrzeEpWVytBQiROh/CbIXGkjmYYhaPB0DQY/JzB/9bQermuUMey0mqa54bEW
-         GicPnMap8rqmPls0mySLlktTKWo9E/4Qcw/dcyor8gVdyizfDbYWawG9wJ+zdfmeqOaf
-         PJbg==
+        b=UvhJVJAA8UgyuBhr1Tu3EJxhTG7Ti36K4+d5ud0O3HICRfT7Q4Yk1QdrR72m27SGB0
+         kcOp3tAAX7z2vpi/O7cTVWfqfsivRimvlZOh0d/15IxlvTNGMrGTTld5ik7IbD2BSRdk
+         eW0MZ23NJA8BmbiFQchbTSyMkeGSKVvagWiU6KQIW+/vg0/XId4NrBZRZdCxP81AboGT
+         COmoVq1idYO/3vA9hdA9z03BYtzWpW9LZH5C3dEKfUdvNR3gz22D78C5AFOCZ0jWNIgV
+         TAdygDlL1mUCfkVmO73UCqZWHxQvLbSC7oOv7w8Kd9krWc7cqSduKy8vwnSSJvSMiLBa
+         QtYA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:auto-submitted
-         :references:in-reply-to:message-id:date:subject:to:from:sender
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
          :dkim-signature;
-        bh=b4l5Mmjhg71MTG7LJGXYc6XhTJdGNDRqFveyDndTu5w=;
-        b=Mlai4WTbryFs++HytqykO5yXvA7aw9vqv0RerZyOeH4BUS9RkIEED3iTCqgmvubsLI
-         GkNJa1gIU9DvlRZGST2uVhYgPFpUyK87h4arUGHEmJPArpOGWsIpUFna50KiDTX+d3sz
-         kESvcmFosyvEx+7YBUiV9Z11dii5/Pk6orMONrnlPDD34BgrxxZv4u7Ws34WXEiELLsL
-         QINUq8YXwNW8XJ/pfWA3js8zOMy9x/ml+Nv9FF0NeCuPLXj1zZqyNrvyvXWP+bJTUQBS
-         s/LLQYlZ6VPm9+b6jb7q5GPXrdkZc7hmsfG2kUXgdyuhAei+WVK1tke8MJ44aJgiZ0nA
-         aC1A==
+        bh=Rsoo0EL+mRkVJKWS6ZFsxgLXDrHKtpFaZ1EQZw+AIFc=;
+        b=laJOQe87yMfmNTbfpQRSFhRRETJrN2cSLLlw8CUhxMlay0LvpZ68BN8/lZlcWa9LS2
+         VqxoxOtRZ9C/P/JaqYjfU2k3SaTSkVvoKHKMSW9yjSvlZySXeuL6RWaDyiiuRMFHFuRV
+         wXziWk0eG+GW1PCo8Nks3Mp9Mn6Lr5rqf3endKhrHRHbblueAeKaRByXYGsCkKdntKNn
+         TU0sjfzFjWAeq1LItJUFYyp9tvD7Xhdd22RoxU7hPKRmqPf6Y5+q2b+lES8fO5n3g7sQ
+         9AzFpIt1uwOK9zR4LHfmgAXw5QMCKxO5/XGp2gkaHNgZGgY7HznZ0Soa3AnkLasxiIDJ
+         GRMQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of bugzilla-daemon@bugzilla.kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=bugzilla-daemon@bugzilla.kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       spf=pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=mark.rutland@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:from:to:subject:date:message-id:in-reply-to:references
-         :auto-submitted:mime-version:x-original-sender
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=b4l5Mmjhg71MTG7LJGXYc6XhTJdGNDRqFveyDndTu5w=;
-        b=hog4PeRfu7w+WjYmhnBoL2h0hFZcOpDufXqwog3s5TZabu2k819zbY6yOMDDjjKIB9
-         Wv3D4utliOa8cbct4jyrEyvNxOYrPvGjzDGHeojoaAKPoJe+KwM8rKE+Tf9RcLCnW4AW
-         8eUohKIazHIgzPuie0u07oc2/XcsQYbKixN+3X8OryPTtZD3tMl0xfGSui9kDwAApkdS
-         sTpgWUt9uND7eDq6dGOtbC80/rNixkY5UfjZ3djAOAQkQCMvAYGP39oqeJUc9Gm6WrJ5
-         UtrGo5jQhDKHvccSM9C0F3RoX7ZGYcXtl23HtEgu3oV8XNNSurGsLhIQi9KrLPwf1Pnk
-         OFLw==
+        bh=Rsoo0EL+mRkVJKWS6ZFsxgLXDrHKtpFaZ1EQZw+AIFc=;
+        b=ehtzeInqET76FYPCFXJ1663y8UBvFAEluC1bg9FL2Gm16Y6MT5uvc6AeZhd8AReA95
+         c6QSbqJdPt0bUIVGB15Jp8c1e72fZdyDdtjYKpYm/NfH2oRSAYPuGfa8Kr+KsNOoYpTX
+         b9axI9HdcTIfOhyQMSZmxLZ408VS5Y7KsJxQFPZnvzwTLNrf0FNM2Vvp8u86buxlt7WQ
+         qkn6nU4ahjJrXl+Wc6YIkzwQstsQUn7P/zEjBhHc4vWl+4Jm7uad4hggomt/klMkx/uB
+         woi0TAZRcntKk8yHeDres/ZdLtIJnZ/wetfWbnf581+/pZIx1vJhlXbjJEUpdpvq8ZA7
+         OjEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:from:to:subject:date:message-id
-         :in-reply-to:references:auto-submitted:mime-version
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=b4l5Mmjhg71MTG7LJGXYc6XhTJdGNDRqFveyDndTu5w=;
-        b=M3nZr3Dm5SD3jrX23qH3oi+WOr4b/N5GXuxx9ZZu8mug99Umbv+UxnWe7FZvXfT6u4
-         r4Q5XwLYgOI+wrlzSghQ4SHxkslJl6N+fxRRuQ6Yop3PDJGFWMkqFiBMh6Wu3coPkUy/
-         JfxaqSH415kup19V1ImZxXVtbvcAoRjoEDfA69StkHkJW924z45p5VLwCosxvKbqG/sF
-         ZGiOPcsf2GSNF5msh4jnsZvlQiJsKz0HVBxJpLyYBHEG4MsmhsD41+TblnxAgNtw4dDx
-         eJj0OhPnXjHYnxLB51i9oayoin3zH06SwU2fFiZAIloJPA0aXjztta8SvLXv0LXbUhro
-         0uyQ==
+        bh=Rsoo0EL+mRkVJKWS6ZFsxgLXDrHKtpFaZ1EQZw+AIFc=;
+        b=eopNxFPgM5b1uzJc4msvnZ9G38bZVaQxyfNwAzRQ5XBllVuRbrh982ySVFDCExUF90
+         r+e5bYGowcBhUv193YZ1RaO5chVB1KkD+GtnWaDfUgwxI+ma74SdZAmHKIKoutUNwIEI
+         lZySsq2XAEz5VKhrB7p6jKkGH0II3DDqGnSNjMp32KXKLhrLN6jwauN5qsxZ1r4PDhF8
+         RM9ngdEW+jcmWaWjk+JLxsnswy7nFUlupMS3rSa70s7AG33Hv2Jqc+7wmAO+83iVTaCf
+         RY1iqQYKbCXPDeHTj9mpnl5K99z3+AqIvLtGuwOtjxRLYfNMOSCgavCGvrTJQ+bUGv3L
+         bFdg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM532/alN+K77wLSi+N3oR8ruc79+aeK58m+X9gaWZH0yhZYUcIz8A
-	OTHa3fKeddq4s3V5vWo0LUw=
-X-Google-Smtp-Source: ABdhPJxb6RSgrRXiTyfY108Xzf94qzAjozgqi0FPKv1n7GQGoVscHL5H95o36GvHJEtAvst3qXsXSA==
-X-Received: by 2002:a62:7905:0:b029:197:f300:5a2a with SMTP id u5-20020a6279050000b0290197f3005a2amr2441455pfc.30.1606298796852;
-        Wed, 25 Nov 2020 02:06:36 -0800 (PST)
+X-Gm-Message-State: AOAM531Emh4mIJ9oNcgKcZQLbGxnV640BhHQdBwOSvOqxiYynu+tZhZm
+	4uAH+iTuHcpkJ5+QjFwncnI=
+X-Google-Smtp-Source: ABdhPJxeVOxP4z9TncAmHVqP/LxbDs9nJbez4RQIhEElGjHcEmytHqBmL6ZAKxZyPWK3XWb6sVQ3Wg==
+X-Received: by 2002:ac8:3707:: with SMTP id o7mr2376294qtb.344.1606300143587;
+        Wed, 25 Nov 2020 02:29:03 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:90a:ee90:: with SMTP id i16ls1232881pjz.1.canary-gmail;
- Wed, 25 Nov 2020 02:06:36 -0800 (PST)
-X-Received: by 2002:a17:90a:17a2:: with SMTP id q31mr3341437pja.51.1606298796380;
-        Wed, 25 Nov 2020 02:06:36 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1606298796; cv=none;
+Received: by 2002:aed:2985:: with SMTP id o5ls756396qtd.2.gmail; Wed, 25 Nov
+ 2020 02:29:03 -0800 (PST)
+X-Received: by 2002:ac8:5c05:: with SMTP id i5mr2387387qti.34.1606300143097;
+        Wed, 25 Nov 2020 02:29:03 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1606300143; cv=none;
         d=google.com; s=arc-20160816;
-        b=AOzLAUH+vTxUpzggWyyUupuDksUb55ozTQ1wK6D5nNuUn0aXa+r5WvuVZhPEpzvrnw
-         WNArNyctTmHeIaNhIeh5OOCfmMZ2cf8f+mv3VO7GzgTxLLgpVwZEVS9CtzZxSdQaveR/
-         IbfxgIcPkhFdOyLvojtkR5fBHpcIVWS9GVp3mJfdL9vDBj9LKwcP0E5dhA+emUvlBD0L
-         Qsn/+ayuHj+M29wdB7TtRu5nVzlTK41fRUQ90WaOU/v92HE9gpGS8lqQBlYDN4T/kvHz
-         y339Dyq8VMTHFMTQtTmXMHz6DdpA7XQ9CD+3K/njKB8i0mapy/uV6yKQVpM/y9+F5tjn
-         YInA==
+        b=Y0FkZbiAVzkzIMHppSVVMOAsNYMcaRHaKof44d6ch8TzQpqyQ2J8QyvIksp9sxPMNa
+         CqYUgf12EAmj0ev5d/haVo+NvvUVGZZqK+j7RO38u/lAjyPVH7TFGgAZ0EIG9JQcOx3D
+         VA1MoWU5vLcv06Uhr2/4p4BS5wgtg/ReYM282A86GVSrKturzdgpPhgOFn5JJH/MP8Cq
+         v6dX7sBHhVVJGxshIn4RwD2Up95fXT5c2bcBnqlZ9suPCCB/fHtkVAkVjoxFkFNtlfz0
+         it1KDtJSCVwXiPAxPEaFKdrRS+X1NIWsws8PGYjpctJm0BYJIE9rQ18OoCT+RGAn0r2S
+         VDZw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=mime-version:auto-submitted:content-transfer-encoding:references
-         :in-reply-to:message-id:date:subject:to:from;
-        bh=y/vgrGNb5w4mt04GLptV5XZnOujGwvPa3dAHg0iwkjo=;
-        b=ue3K3/pDoEmdpDXFuLB5NTnhnFvFNG7qD0AJeeDzFfpqzpEUxEE+bwOi6DhdZ9tK6U
-         9rw/f+Vc/PQo94xkUVxgyyELFQqQHuYlHAeMWbjjMgZwt6dEaLxugYol5XY2CiedcCq+
-         BONBUHCLbp8qONmmXCa37GZctFK9LGoKsJ5eB+ucF7+snktbhv9uf5Khr5LIR62PpovX
-         TMWLTprV/NGXs1yXZqANU+Byccmc+zEKMIs0bZDRXejTMvcJAAA5/HhrHjJc4auHzB+H
-         tcyKNHw47g5NJPMJy2jku+CtI8rrhSlt2CCuG+Bb9dh73usoPbvTdDXfkmNZkJF0cvFr
-         hSGQ==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date;
+        bh=KPnf+xhuoT1tlGGYFO0fv8Y/xY06pY4hZe6ns6CWD/8=;
+        b=C/5fa1LRK8/Ov3uEWvEy9zADRudfk8nyHXx+srMenV7DGOn6cKwHgB/ciP+f3hQiX1
+         +scOgrxWB6BYjbV8ii3Cow6sj+mUn0G69dwQKBmLzcqQ5jB/rX0nIJptQvGiaSIGX19V
+         QRLTUVuntzrzqkJUNG5dqyzo4hIByb5GK6p8Np8SAv2vDmIW7VdnggrlfM+UFwvSulFP
+         wJMkZKYAnNevn7FT3gAvbfKEpyRbaZB3sQBPVtmVw9Dj61gjVPzWD7j/Rn8NCTv2ZhDV
+         5qOp8xMg2eG8g1OjOPjQS3VosvuTLIPLmprshnuzVJSWjgIwppYR1zbBfHfQn8qKj074
+         bMGQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of bugzilla-daemon@bugzilla.kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=bugzilla-daemon@bugzilla.kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id e19si89605pgv.4.2020.11.25.02.06.36
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 25 Nov 2020 02:06:36 -0800 (PST)
-Received-SPF: pass (google.com: domain of bugzilla-daemon@bugzilla.kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
-From: bugzilla-daemon@bugzilla.kernel.org
-To: kasan-dev@googlegroups.com
-Subject: [Bug 210293] potential kernel memory leaks
-Date: Wed, 25 Nov 2020 10:06:35 +0000
-X-Bugzilla-Reason: CC
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Memory Management
-X-Bugzilla-Component: Slab Allocator
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: vtolkm@googlemail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_network@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-210293-199747-FLJ3YYo91s@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-210293-199747@https.bugzilla.kernel.org/>
-References: <bug-210293-199747@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+       spf=pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=mark.rutland@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
+Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
+        by gmr-mx.google.com with ESMTP id o11si73271qke.2.2020.11.25.02.29.02
+        for <kasan-dev@googlegroups.com>;
+        Wed, 25 Nov 2020 02:29:03 -0800 (PST)
+Received-SPF: pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9AE40106F;
+	Wed, 25 Nov 2020 02:29:02 -0800 (PST)
+Received: from C02TD0UTHF1T.local (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BDFA93F70D;
+	Wed, 25 Nov 2020 02:28:59 -0800 (PST)
+Date: Wed, 25 Nov 2020 10:28:49 +0000
+From: Mark Rutland <mark.rutland@arm.com>
+To: Marco Elver <elver@google.com>
+Cc: Will Deacon <will@kernel.org>, "Paul E. McKenney" <paulmck@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Anders Roxell <anders.roxell@linaro.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Alexander Potapenko <glider@google.com>,
+	Dmitry Vyukov <dvyukov@google.com>, Jann Horn <jannh@google.com>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux-MM <linux-mm@kvack.org>,
+	kasan-dev <kasan-dev@googlegroups.com>, rcu@vger.kernel.org,
+	Peter Zijlstra <peterz@infradead.org>, Tejun Heo <tj@kernel.org>,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	linux-arm-kernel@lists.infradead.org, boqun.feng@gmail.com,
+	tglx@linutronix.de
+Subject: Re: linux-next: stall warnings and deadlock on Arm64 (was: [PATCH]
+ kfence: Avoid stalling...)
+Message-ID: <20201125102849.GB70906@C02TD0UTHF1T.local>
+References: <20201119184854.GY1437@paulmck-ThinkPad-P72>
+ <20201119193819.GA2601289@elver.google.com>
+ <20201119213512.GB1437@paulmck-ThinkPad-P72>
+ <20201119225352.GA5251@willie-the-truck>
+ <20201120103031.GB2328@C02TD0UTHF1T.local>
+ <20201120140332.GA3120165@elver.google.com>
+ <20201123193241.GA45639@C02TD0UTHF1T.local>
+ <20201124140310.GA811510@elver.google.com>
+ <20201124193034.GB8957@C02TD0UTHF1T.local>
+ <20201125094517.GA1359135@elver.google.com>
 MIME-Version: 1.0
-X-Original-Sender: bugzilla-daemon@bugzilla.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+In-Reply-To: <20201125094517.GA1359135@elver.google.com>
+X-Original-Sender: mark.rutland@arm.com
 X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of bugzilla-daemon@bugzilla.kernel.org designates
- 198.145.29.99 as permitted sender) smtp.mailfrom=bugzilla-daemon@bugzilla.kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+ (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as
+ permitted sender) smtp.mailfrom=mark.rutland@arm.com;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=arm.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -137,17 +149,68 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=210293
+On Wed, Nov 25, 2020 at 10:45:17AM +0100, Marco Elver wrote:
+> On Tue, Nov 24, 2020 at 07:30PM +0000, Mark Rutland wrote:
 
---- Comment #6 from vtolkm@googlemail.com ---
-Thank you for the pointer. It seems indeed that the patchset is the cause. Hope
-it will be remedied soon and not progress further on the 5.10 RC train.
+[...]
 
--- 
-You are receiving this mail because:
-You are on the CC list for the bug.
+> > > I noticed there are a bunch of warnings in the log
+> > > that might be relevant (see attached).
+> > 
+> > > [   91.184432] =============================
+> > > [   91.188301] WARNING: suspicious RCU usage
+> > > [   91.192316] 5.10.0-rc4-next-20201119-00002-g51c2bf0ac853 #25 Tainted: G        W        
+> > > [   91.197536] -----------------------------
+> > > [   91.201431] kernel/trace/trace_preemptirq.c:78 RCU not watching trace_hardirqs_off()!
+> > > [   91.206546] 
+> > > [   91.206546] other info that might help us debug this:
+> > > [   91.206546] 
+> > > [   91.211790] 
+> > > [   91.211790] rcu_scheduler_active = 2, debug_locks = 0
+> > > [   91.216454] RCU used illegally from extended quiescent state!
+> > > [   91.220890] no locks held by swapper/0/0.
+> > > [   91.224712] 
+> > > [   91.224712] stack backtrace:
+> > > [   91.228794] CPU: 0 PID: 0 Comm: swapper/0 Tainted: G        W         5.10.0-rc4-next-20201119-00002-g51c2bf0ac853 #25
+> > > [   91.234877] Hardware name: linux,dummy-virt (DT)
+> > > [   91.239032] Call trace:
+> > > [   91.242587]  dump_backtrace+0x0/0x240
+> > > [   91.246500]  show_stack+0x34/0x88
+> > > [   91.250295]  dump_stack+0x140/0x1bc
+> > > [   91.254159]  lockdep_rcu_suspicious+0xe4/0xf8
+> > > [   91.258332]  trace_hardirqs_off+0x214/0x330
+> > > [   91.262462]  trace_graph_return+0x1ac/0x1d8
+> > > [   91.266564]  ftrace_return_to_handler+0xa4/0x170
+> > > [   91.270809]  return_to_handler+0x1c/0x38
+> > > [   91.274826]  default_idle_call+0x94/0x38c
+> > > [   91.278869]  do_idle+0x240/0x290
+> > > [   91.282633]  rest_init+0x1e8/0x2dc
+> > > [   91.286529]  arch_call_rest_init+0x1c/0x28
+> > > [   91.290585]  start_kernel+0x638/0x670
+> > 
+> > Hmm... I suspect that arch_cpu_idle() is being traced here, and I reckon
+> > we have to mark that and its callees as noinstr, since it doesn't seem
+> > sane to have ftrace check whether RCU is watching for every function
+> > call. Maybe Paul or Steve can correct me. ;)
+> 
+> Yes, it's arch_cpu_idle().
+> 
+> > If you still have the binary lying around, can you check whether
+> > default_idle_call+0x94/0x38c is just after the call to arch_cpu_idle()?
+> > If you could dump the asm around that, along with whatever faddr2line
+> > tells you, that'd be a great help. 
+> 
+> I reran to be sure, with similar results. I've attached a
+> syz-symbolize'd version of the warnings.
+
+Thanks for confirming, and for the symbolized report.
+
+I'll see about getting this fixed ASAP.
+
+Thanks,
+Mark.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/bug-210293-199747-FLJ3YYo91s%40https.bugzilla.kernel.org/.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20201125102849.GB70906%40C02TD0UTHF1T.local.
