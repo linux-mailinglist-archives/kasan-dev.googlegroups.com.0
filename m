@@ -1,120 +1,118 @@
-Return-Path: <kasan-dev+bncBCSPV64IYUKBBSXQ736QKGQETK4VVJQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBC6Z3ANQSIPBBI7S736QKGQE4VGCTGY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ed1-f59.google.com (mail-ed1-f59.google.com [209.85.208.59])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E05A2C56BE
-	for <lists+kasan-dev@lfdr.de>; Thu, 26 Nov 2020 15:14:35 +0100 (CET)
-Received: by mail-ed1-f59.google.com with SMTP id c23sf1151507edr.4
-        for <lists+kasan-dev@lfdr.de>; Thu, 26 Nov 2020 06:14:35 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1606400074; cv=pass;
+Received: from mail-vk1-f189.google.com (mail-vk1-f189.google.com [209.85.221.189])
+	by mail.lfdr.de (Postfix) with ESMTPS id 180E32C56E1
+	for <lists+kasan-dev@lfdr.de>; Thu, 26 Nov 2020 15:18:18 +0100 (CET)
+Received: by mail-vk1-f189.google.com with SMTP id h22sf750814vkn.22
+        for <lists+kasan-dev@lfdr.de>; Thu, 26 Nov 2020 06:18:18 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1606400292; cv=pass;
         d=google.com; s=arc-20160816;
-        b=xWyZqvzMRhpGA9J7LI8+1WQCuRLJ3ro5ux/Wj6SwVC8SlAXJniFzthpzrIYV1lUxVh
-         jAIeAYK6bkuRQKjb9JrUaAjxF7BQpABqIUK4Excy5BbGt3NZPacxC1t+gwIfm415606N
-         rr2dK4xFpgaSanOmLlyoqhRJDwAf1ZWOWSrvSYNOCBJVS0bViRnxnR1ZREUHrnNQNhGN
-         sgXdXmzuZlY6Z8+N2gCy+4oWLrXAplz7eVRdnskrUlijrOE1k06hWylV3mQg4wMjr7WZ
-         sYeUpxwXTvQb9GS8jpdOojmprR+ko59/+hyugkY4blPkp9DxbhFdkPk1W+D/UBsojlAK
-         XWRg==
+        b=nwrM+VgyDEyS5JnAHy4GEVbRTeuz9i6VFc6K4c9Y890lkh3zPjn5krQgCLfokroLCH
+         z67xWGDDky9yle38tAAg0gml4m6M7oiNu4UdkpeGa50gkGuj/DcJLx1PyPC/mV/2xn/y
+         FmRu1RTfKvIxaHn4x2x9Pq10uRINBz3dLmPFnmMs3sLg/w/XCI90s6MrmmN+Fml4F4Z+
+         XHyJ1EoNeKnSUqyxUHd6/60bMB6m4F+rc6nZzDR8V3CqCQjkHChjPSHaWt0f4uO8GHlX
+         aRLHsw6SSCjVv6OpoafJWmpF96fEHdlOhL/LouF7WhUglNuhz2LrQP4M4gvOAG9DTz4N
+         LKSw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:sender:user-agent:in-reply-to
-         :content-transfer-encoding:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date;
-        bh=640W4o2t/J+u7teLGyuncde2KyTXONBnRXUpKk9cFSw=;
-        b=jup8nVlkDJC0daghCxH8MEmQSUItr9Pr7PJi7jv9rvaa9N7Olcr1xFZ2pmIEixjTl1
-         +f/8Rb2zI+Rn7XIUbgVFDjZFL5/jc6gZW3YkFRWEk6H6+4HySt4ambh1xcqqcIpqf8eN
-         LLyRop1SQE8w9+WkxZpUeGjqeD4yOqP5oZfKE04A4pc2ZeucSocHtMbPChegnPN6SAOr
-         F3fA+OAESviPYhQSKpk5kpOn8h+tapqQzIojXQ1lDmrqwH0XKa5oDpsQmH4WReG05yWJ
-         1GWZKFMKY//1n+nJRIsdzvNbqD6EYPrK52dZ+sG9fdSHFwJohCYhefBbSBmXSfUJaXhb
-         itNw==
+         :list-id:mailing-list:precedence:message-id:date
+         :content-transfer-encoding:mime-version:references:in-reply-to
+         :subject:cc:to:from:sender;
+        bh=JdzZvLZ/t5xOdPkbM1SytwxCRUiLfy1nQ3KQfSAqR5U=;
+        b=eXUw8kF3B0xY3A8XCW7wlyQJKfArfA8PiczbF5V+pL6fdayWLoQhiApbXJuadGb9x9
+         LY9ONdHiSZyNFofdUqoR1vSRZgF4708p1oG23iveC6Ma7eddUT1gM0fERrYBvZfAjmx4
+         CKjxv6/s4HPIjIxOnmaKAVje2qa1pTKKOow5jwx7GaFoAfq27AT+hzY+ZvG2GDWYvOZR
+         UswgoDyBv8W9wzoZmmL35EBekDNY8FWDldymlZMDrrZtSTXhkfXju45woz5s2V3fQzFl
+         FTNQu2kw2Cp0sBGSy70RWVSZcXr6SCD7Fq66odB4Np4WeApCuZHHUiIfnc0Q4ujFdEZs
+         tO/w==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass (test mode) header.i=@armlinux.org.uk header.s=pandora-2019 header.b=zRe5uvbk;
-       spf=pass (google.com: best guess record for domain of linux+kasan-dev=googlegroups.com@armlinux.org.uk designates 2001:4d48:ad52:32c8:5054:ff:fe00:142 as permitted sender) smtp.mailfrom="linux+kasan-dev=googlegroups.com@armlinux.org.uk";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=armlinux.org.uk
+       dkim=pass header.i=@vt-edu.20150623.gappssmtp.com header.s=20150623 header.b=k29quvvY;
+       spf=pass (google.com: domain of valdis@vt.edu designates 2607:f8b0:4864:20::734 as permitted sender) smtp.mailfrom=valdis@vt.edu;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=vt.edu
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent:sender:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=640W4o2t/J+u7teLGyuncde2KyTXONBnRXUpKk9cFSw=;
-        b=gbaQtMa8zLK61feX+HXAkeuvy1OxCwgfQ8D/LuYIUoeqoIAauWCTErsLxdJj4YJfpV
-         PI1/4H9XnyewVzMmcGcjlktfFBpsfStzJQPfDUFIOhCjDSrUB4YkLWVr3fVucUfNA/nT
-         qqxrqQFelvy9cfX8Vky+VCzMWk2j4PtrzKcAoufNE0COEAZ+WPjX5UCqx6fOmdYlLIvh
-         1ebr4arZf93vZNvjq3b+jFqVpf/AlraGE7hC+EAW3YI71ABUrfifaZWtkMu7+IfMhkbj
-         GOOutfkMWBI7KA1oM8JSrcj7UlZg2BYeFZzRXm3XPD1AoThdFFR/J/58b00TT4irs3FJ
-         K2kA==
-X-Gm-Message-State: AOAM533CFGYBOoDZ7l/oVrCnSb7PgNq/iizaslJa54LDf7ieQ9A4u+MM
-	7cpAgWIT8qeFOwZThAD8w3I=
-X-Google-Smtp-Source: ABdhPJxLEPP++YGPwby1IHh5Jo8aOvpYEGuwl0Ou3gnTT0efYEAYcb1JgGrU7qM9X7u72NlcSitQKw==
-X-Received: by 2002:a17:906:2e55:: with SMTP id r21mr3068102eji.46.1606400074744;
-        Thu, 26 Nov 2020 06:14:34 -0800 (PST)
+        h=x-gm-message-state:sender:from:to:cc:subject:in-reply-to:references
+         :mime-version:content-transfer-encoding:date:message-id
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=JdzZvLZ/t5xOdPkbM1SytwxCRUiLfy1nQ3KQfSAqR5U=;
+        b=eAxn+Zl+x8QlvJIk9nqKrrv5UBTwoFwI+wfUfoP6REIXWvnCeHIm9E54mT0tlcE4Nk
+         wP4czWSv7t9iKDNwD+ubamCzyMi3AwKBl7ivWNnK0qzAtY7Worb161e7DfKTJL6d9Io5
+         R0sJsdKAltkK6L6hgvvceipUIQYdDMLHuj+fw60NmDFlCAhWkcyE9chqPNnf5AAFi1OD
+         WOBE5gNtqwL06DqUzFI25VIJpr1JC4D2oJjwi16009Vm1mPZx1jfPR+1igMh2FLqg1r/
+         d97tQHXSSOlg6xTK235nSXRADd2vCCcGy0Q69ma9TkYo9E6j7VTxg/nHMsB5KwvmIVWz
+         H17Q==
+X-Gm-Message-State: AOAM531ook8e2SYqFtLX/NESZ4rjm/UIC6ORE73N3Mwk9j1R3h8LaIPm
+	nt8ErWL1Wgv5aX4vD+fxqAI=
+X-Google-Smtp-Source: ABdhPJypvW7EFpmTBK0Jsa0QNQRUSDLZjJuTI0OpgyoPHLzSAYy7OSqYtBsi56vHzVMAss20z4aYcQ==
+X-Received: by 2002:a9f:36a1:: with SMTP id p30mr1705246uap.64.1606400291790;
+        Thu, 26 Nov 2020 06:18:11 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:aa7:d151:: with SMTP id r17ls2333777edo.1.gmail; Thu, 26 Nov
- 2020 06:14:33 -0800 (PST)
-X-Received: by 2002:a05:6402:19b4:: with SMTP id o20mr2725064edz.103.1606400073876;
-        Thu, 26 Nov 2020 06:14:33 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1606400073; cv=none;
+Received: by 2002:a1f:1145:: with SMTP id 66ls118366vkr.2.gmail; Thu, 26 Nov
+ 2020 06:18:11 -0800 (PST)
+X-Received: by 2002:a1f:3105:: with SMTP id x5mr1966401vkx.1.1606400291061;
+        Thu, 26 Nov 2020 06:18:11 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1606400291; cv=none;
         d=google.com; s=arc-20160816;
-        b=bGzuZs+SqJZA2JSMuRexA5rxmjlu86NaCwC+nNqYksHukAAMuGyGL4FMyPy3z7yPQD
-         RaTTc68W0fu5pGC+1OfRxyHtct8835pvbsCC7YiBpVISnrx6wtR74wWcgPnYzXh2+4Sf
-         mp1R1xlV47aE7mb6IZq9ExwThHvHLTn/vp/Px/5ipIOIsMQAUIbYGAtYqDQje41VhiWw
-         Ev4KYXP4EDEvGoNCTML2UcoFPgZ1r2UUxF3sTZE3pNkLLB1UFxQuqTmKGlK9FV0tlamE
-         dkSDZh6CkJGJlBqw/Zy8vC5XJ9w/f/HLMmcY9epxZAxM86QNs9PgNsUev8vjUqtHAvlR
-         9VGg==
+        b=EMHuCW1P1L7gyXDMUv478dYBAGIMSvOJ0pWas6N1lRMPm4WyXJPaT2YVz6K/85CBIX
+         z1pdGAGImhIJ/rM14uo97NZvXRFNAFaveXLHamVr/Bm4riYBSNiNLfFvL2o6MML/rvab
+         Z9t/Sz7AX9GaJwmXD+gJxjMrYjjzaU0a1SM3hQH7vj1HlWUi1rh4V364cdAsSOEy4XoL
+         K7ju6eRa2H0tdhjJsYgHMg7CequgMFaR45pp1u/eg5V2sRmcLK4buIEYz6wjFEO6y1id
+         0jFpRJKW2pHy8tTV/k4YjzqgSUrD9jDfhiu5K54Tsi8qx/88QUXBiVHFxlT2BqMvgR7v
+         yRjQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=sender:user-agent:in-reply-to:content-transfer-encoding
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:dkim-signature;
-        bh=l+r/ujMibWxRMGoyxuToDzSWZqq35vXIRnqSxtmnTk8=;
-        b=C4HEKUVuHbfkWXYJ3unAc5vIXHKMd+ufw+R1msFhpH4a4mIK/5cg7ny4NxFvIIq9SZ
-         LIkW1K3VzR8u7mr/G0jP7sqjYVKOFdjwHH0q9gIKSpZ1VQHrF2qutLSq3h1TVFbgv3OH
-         iPfP5hTnuEZLgWJkViLs6b+g2A1Gi9PPAJMaIIlTNCqMbaIe+no29ZT24kX26Ctsvt1p
-         xyW5hWZkBSmvdXNK8i9BoW6tn74kCTSuJMCQCn65UBl895wbbx3eQ2EJYL/mwvNnykIE
-         w9U+FT4PB9MqVrQqFxLv9h/rBMiXKrDT5QGhFRlSPq9vUoJXHOTb3aQwHfZhOZKnS8yl
-         MGxA==
+        h=message-id:date:content-transfer-encoding:mime-version:references
+         :in-reply-to:subject:cc:to:from:sender:dkim-signature;
+        bh=R6BrEWkteQvQbjsApcd3N42+tWQEuLbo/lT+UxHp8d0=;
+        b=RS4F8Bp8MhQEJNZOLPVFBaj1cwrSP20fsA36BSM8I2YbD7fUfujJlw3p6PxsE0tGMp
+         QyWFmXiCDZYWQho/1UK5OuuOgZAZL9as6xhD1+L5fG35ge0avxUxBQvQ6qTCLsqJvhJz
+         PKxr+lgfl3lrKpzNzfb5UbYrvSZZm6GyXuzSWL7H0M7vEkZDfTAtr2Rf8ITqrG8oxQes
+         WAMltm46A5B2lE/+fShoy4Uo3Zt9N/gCFCfDt53YE4sYniHvE0TIi2vHpk5BKEnFe9Q1
+         /kA/tvA9h5HYb6yb0h0qUqB+3Kn7wiimVZqAu/vhRvzD1sOMS5RM0oZHPJszVdccKr4M
+         wW1Q==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass (test mode) header.i=@armlinux.org.uk header.s=pandora-2019 header.b=zRe5uvbk;
-       spf=pass (google.com: best guess record for domain of linux+kasan-dev=googlegroups.com@armlinux.org.uk designates 2001:4d48:ad52:32c8:5054:ff:fe00:142 as permitted sender) smtp.mailfrom="linux+kasan-dev=googlegroups.com@armlinux.org.uk";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=armlinux.org.uk
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk. [2001:4d48:ad52:32c8:5054:ff:fe00:142])
-        by gmr-mx.google.com with ESMTPS id v7si316529edj.5.2020.11.26.06.14.33
+       dkim=pass header.i=@vt-edu.20150623.gappssmtp.com header.s=20150623 header.b=k29quvvY;
+       spf=pass (google.com: domain of valdis@vt.edu designates 2607:f8b0:4864:20::734 as permitted sender) smtp.mailfrom=valdis@vt.edu;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=vt.edu
+Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com. [2607:f8b0:4864:20::734])
+        by gmr-mx.google.com with ESMTPS id b25si382825vkk.5.2020.11.26.06.18.11
         for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 26 Nov 2020 06:18:11 -0800 (PST)
+Received-SPF: pass (google.com: domain of valdis@vt.edu designates 2607:f8b0:4864:20::734 as permitted sender) client-ip=2607:f8b0:4864:20::734;
+Received: by mail-qk1-x734.google.com with SMTP id 1so301814qka.0
+        for <kasan-dev@googlegroups.com>; Thu, 26 Nov 2020 06:18:11 -0800 (PST)
+X-Received: by 2002:a37:5444:: with SMTP id i65mr1818763qkb.263.1606400290743;
+        Thu, 26 Nov 2020 06:18:10 -0800 (PST)
+Received: from turing-police ([2601:5c0:c380:d61::359])
+        by smtp.gmail.com with ESMTPSA id n125sm2636977qkd.85.2020.11.26.06.18.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Nov 2020 06:14:33 -0800 (PST)
-Received-SPF: pass (google.com: best guess record for domain of linux+kasan-dev=googlegroups.com@armlinux.org.uk designates 2001:4d48:ad52:32c8:5054:ff:fe00:142 as permitted sender) client-ip=2001:4d48:ad52:32c8:5054:ff:fe00:142;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:36344)
-	by pandora.armlinux.org.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1kiI2Y-0001qm-J8; Thu, 26 Nov 2020 14:14:30 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1kiI2X-000108-Af; Thu, 26 Nov 2020 14:14:29 +0000
-Date: Thu, 26 Nov 2020 14:14:29 +0000
-From: Russell King - ARM Linux admin <linux@armlinux.org.uk>
-To: Valdis =?utf-8?Q?Kl=C4=93tnieks?= <valdis.kletnieks@vt.edu>
+        Thu, 26 Nov 2020 06:18:09 -0800 (PST)
+Sender: Valdis Kletnieks <valdis@vt.edu>
+From: "Valdis Kl=?utf-8?Q?=c4=93?=tnieks" <valdis.kletnieks@vt.edu>
+X-Mailer: exmh version 2.9.0 11/07/2018 with nmh-1.7+dev
+To: Russell King - ARM Linux admin <linux@armlinux.org.uk>
 Cc: Andrey Ryabinin <aryabinin@virtuozzo.com>,
-	linux-arm-kernel@lists.infradead.org, kasan-dev@googlegroups.com,
-	linux-kernel@vger.kernel.org
+    linux-arm-kernel@lists.infradead.org, kasan-dev@googlegroups.com,
+    linux-kernel@vger.kernel.org
 Subject: Re: linux-next 20201126 - build error on arm allmodconfig
-Message-ID: <20201126141429.GL1551@shell.armlinux.org.uk>
+In-Reply-To: <20201126141429.GL1551@shell.armlinux.org.uk>
 References: <24105.1606397102@turing-police>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <24105.1606397102@turing-police>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Sender: Russell King - ARM Linux admin <linux@armlinux.org.uk>
-X-Original-Sender: linux@armlinux.org.uk
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass (test
- mode) header.i=@armlinux.org.uk header.s=pandora-2019 header.b=zRe5uvbk;
-       spf=pass (google.com: best guess record for domain of
- linux+kasan-dev=googlegroups.com@armlinux.org.uk designates
- 2001:4d48:ad52:32c8:5054:ff:fe00:142 as permitted sender) smtp.mailfrom="linux+kasan-dev=googlegroups.com@armlinux.org.uk";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=armlinux.org.uk
+ <20201126141429.GL1551@shell.armlinux.org.uk>
+Mime-Version: 1.0
+Content-Type: multipart/signed; boundary="==_Exmh_1606400287_2385P";
+	 micalg=pgp-sha1; protocol="application/pgp-signature"
+Content-Transfer-Encoding: 7bit
+Date: Thu, 26 Nov 2020 09:18:08 -0500
+Message-ID: <27841.1606400288@turing-police>
+X-Original-Sender: valdis.kletnieks@vt.edu
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@vt-edu.20150623.gappssmtp.com header.s=20150623 header.b=k29quvvY;
+       spf=pass (google.com: domain of valdis@vt.edu designates
+ 2607:f8b0:4864:20::734 as permitted sender) smtp.mailfrom=valdis@vt.edu;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=vt.edu
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -127,57 +125,39 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Nov 26, 2020 at 08:25:02AM -0500, Valdis Kl=C4=93tnieks wrote:
-> Seems something is giving it indigestion regarding asmlinkage...
->=20
->   CC      arch/arm/mm/kasan_init.o
-> In file included from ./include/linux/kasan.h:15,
->                  from arch/arm/mm/kasan_init.c:11:
-> ./arch/arm/include/asm/kasan.h:26:11: error: expected ';' before 'void'
->  asmlinkage void kasan_early_init(void);
->            ^~~~~
->            ;
-> make[2]: *** [scripts/Makefile.build:283: arch/arm/mm/kasan_init.o] Error=
- 1
-> make[1]: *** [scripts/Makefile.build:500: arch/arm/mm] Error 2
-> make: *** [Makefile:1803: arch/arm] Error 2
->=20
-> Git bisect points at:
->=20
-> commit 2df573d2ca4c1ce6ea33cb7849222f771e759211
-> Author: Andrey Konovalov <andreyknvl@google.com>
-> Date:   Tue Nov 24 16:45:08 2020 +1100
->=20
->     kasan: shadow declarations only for software modes
->=20
-> Looks like it's this chunk:
->=20
-> diff --git a/include/linux/kasan.h b/include/linux/kasan.h
-> index 59538e795df4..26f2ab92e7ca 100644
-> --- a/include/linux/kasan.h
-> +++ b/include/linux/kasan.h
-> @@ -11,7 +11,6 @@ struct task_struct;
->=20
->  #ifdef CONFIG_KASAN
->=20
-> -#include <linux/pgtable.h>
->  #include <asm/kasan.h>
->=20
-> Testing shows putting that #include back in makes it compile correctly,
-> but it's not obvious why putting that back makes 'asmlinkage' recognized.
->=20
-> "You are in a twisty little maze of #includes, all different"... :)
+--==_Exmh_1606400287_2385P
+Content-Type: text/plain; charset="UTF-8"
 
-The real answer is for asm/kasan.h to include linux/linkage.h
+On Thu, 26 Nov 2020 14:14:29 +0000, Russell King - ARM Linux admin said:
 
---=20
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
+> The real answer is for asm/kasan.h to include linux/linkage.h
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/20201126141429.GL1551%40shell.armlinux.org.uk.
+OK... I'll cook up the patch.
+
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/27841.1606400288%40turing-police.
+
+--==_Exmh_1606400287_2385P
+Content-Type: application/pgp-signature
+
+-----BEGIN PGP SIGNATURE-----
+Comment: Exmh version 2.9.0 11/07/2018
+
+iQIVAwUBX7+5HwdmEQWDXROgAQJMKA//eov2gfD2DBYzF0uuV+ihRR8rhFilRQYh
+5/GbflGzyksBKdpX3muKRi4MCJ/6TTvBAJmwcXUNtxCdV9Bv+OR49BmAdouPT5My
+3+SA8KPA6Gx4kzBsYHF9TXRfqPT0ocB48rLdr2Nl9UiCXgcRu7Cchc9slJJfQ5gJ
+Cst8Iw1QMm2T4Ez4BOyz4Mb7qaCz0obRz1OSmZCN00NKAdBxwtd2h87wFCbIRnB2
+1X0jZXAj/rZ5tFPFNIzR9DWHxV+WbLlBHehSdpp/xrS/1G0t28lrKd4AKoXzKEpK
+BiAmQr3WTLok25FS6OUkcRBF1PKOEcAac5GxPhafnHvZxVIPgz9C1JZ0meJb5adj
+S6Q7br2Rldsc7Ug9jJdGi3o6ns2gjjKQTY2nSRrAkySBtv+zgxgX7tjiQHSCJQm8
+GUFnGSdWX7ht9OUrUUaAKBjo9kqDIhHQTNGWLe/iNmGkoYjYDihqolATHbWE6r3v
+pAbzTKc5phxnByP/R4MhubaBQZwkguNafOuqtPpiMI74rzeUMSHfeRb3e/ku2BJV
+pIALKrQqKA4QXrGgwpsclW+zv4zkeV0tc7gVQv6uZqwHU2a1UIi7Q4Nzv+IWhaww
+XrCD7RUUL8RuJGshi/4L1JDG4JUrJJVVKDhhQxOMvVnkQmfDtcXjBtqWaZp6p73L
+93xqF71a4Lc=
+=nqtk
+-----END PGP SIGNATURE-----
+
+--==_Exmh_1606400287_2385P--
