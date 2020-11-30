@@ -1,131 +1,124 @@
-Return-Path: <kasan-dev+bncBDC7ZQ52YQBBBYHER77AKGQEDNEZ6VI@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBVPPSL7AKGQELWXFAUA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-vk1-xa40.google.com (mail-vk1-xa40.google.com [IPv6:2607:f8b0:4864:20::a40])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7C132C7ADA
-	for <lists+kasan-dev@lfdr.de>; Sun, 29 Nov 2020 20:11:29 +0100 (CET)
-Received: by mail-vk1-xa40.google.com with SMTP id b4sf3206599vkg.10
-        for <lists+kasan-dev@lfdr.de>; Sun, 29 Nov 2020 11:11:29 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1606677088; cv=pass;
+Received: from mail-qv1-xf3e.google.com (mail-qv1-xf3e.google.com [IPv6:2607:f8b0:4864:20::f3e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 222322C80B0
+	for <lists+kasan-dev@lfdr.de>; Mon, 30 Nov 2020 10:13:59 +0100 (CET)
+Received: by mail-qv1-xf3e.google.com with SMTP id i2sf5782607qvb.2
+        for <lists+kasan-dev@lfdr.de>; Mon, 30 Nov 2020 01:13:59 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1606727638; cv=pass;
         d=google.com; s=arc-20160816;
-        b=gPFva4JUjgvLZ/fyE0TpaKXFmdGTm+/S/7IPPl1PgQ235Ry+c5T1eUikh69UJ48e4L
-         JSBjjrawrAvvoMuzZ4tfFd29IqVkzqs5QRKxRyBrAZ5sWkwKpS4B2l13dg0rWm6krM4l
-         HugjPpoKB3v4EiekdrXUsuMyPUZpj5bJ8CJlyjjU7hhxGFbeNmeXQiZs3DIF3VFPPv6w
-         ZzoSAVBIflEnHUcdGmUVamCCBltbh2ub17wUGUzvzN1zh9o8DSaGqbyTF6k29LhrLUdS
-         BVZbKz/HwlwQdCU7ZFdLJoDPBxmyJYhT7OH0gsDLAMvE01d7oFuZKjW7KwLhTTiybZvB
-         b52A==
+        b=b4OprD685WenmT1iSyEJwwHXvR779szZkQkLsZFODHsBqXvJSxQUK72HoP3yYs7yDb
+         9RcCH6ifD4M/40rXpy9UON7U0TIeLj6po3Y4HZJ3r+jRNY30XCW8MkIMJesNo+j/5pfL
+         V0gILHCczyvzysyPfSVKqoSsQJwFDDZ23xsYkACuucRjv00BK6xRlGNTLs5tuJFQ9eWQ
+         Hb7vZMIO4jEPlnf7cjJTULgvenOMAgILpeHElK8Dz2Ox5XCexNzwf6HrOVn3xSwBWoWX
+         BGK+kP+EpJIQuOLGrr3/gqHU7X9UCbGOws4wxs051iQbf69KPr/f7CXo5IzjhziiDw+f
+         GEAg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:to:from:subject:date:message-id
-         :reply-to:mime-version:sender:dkim-signature:dkim-signature;
-        bh=QJ7DhNglzBawMSrTNCeOqh2S0QkH2wi/AGkjxI5dKV0=;
-        b=uDBPJcd3iHoWFUeSGm5sxYr31WeLfh0tNmvzCVnM67lPhfSuZip+mBCis3i7pEop/v
-         emXNJmmHLdrAKw4PMXbPR89b8VhCpQDbmn0k/V0HmXfM/49S0ItwIC5hT0olavdJlQHh
-         3+2bu6BM13dM5QtHjd/7SmQrHoorqMsLyeC44mhYe3aLS9swnPaYo4YfjK3lz2c2KTg+
-         0/JXrhbC+G70ABDfxEKCI6w67h7B3faNcNj1hKDE190k9KP5bfdfA5wUXmEzd1sRnKgI
-         HeSN0gIDvR0Rav1akoLEvQrUPLxs8OcK7MjCT8dsz1Z25ZjWSdr58MR2s5EXm2K2lHB0
-         HC9Q==
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :subject:cc:to:from:sender:dkim-signature;
+        bh=FJTdkpbO3Ao9OMBpBY4aGFFi7J0tCNa0tcgjDJuV/QM=;
+        b=0kPmbSGwLzULB1Ldj8KtqhY0+tlc3aizUc18mQNXqp7sc+tY9DtzGyYNRjvxDSdJpn
+         eJWNtA8cZyJ7m63W6wJ2pc8nvGEBMw+95LamsLoK5c00WKiQY3QWbpKw3URmwABDNExD
+         1dchkTwib9BahdHuwtSXAr7NnMD30wqOiwPW2ljyEWGU02RkJ06lNnaiteiQytilTV5X
+         cXyoLZr+7+4rpTmvtcjQJJ2r0yY7Q/9ST2F7wozn+V5pD6uqRetUWOb7tYY7wwj6idwV
+         c+ZuJzG3UClSnicoebPf0baiUxLLL91e48OZjJp4ydh7A3LJVuH1+1h1UfqF2lw0IPW/
+         RNzw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20161025 header.b=ZkjQzjeY;
-       spf=pass (google.com: domain of 3ypldxw4jcvk29c1cdfii9jtus7d19c.3fdb1j1e-45m7ff7c57iflgj.3fd@trix.bounces.google.com designates 2607:f8b0:4864:20::b48 as permitted sender) smtp.mailfrom=3YPLDXw4JCVk29C1CDFII9JTUS7D19C.3FDB1J1E-45M7FF7C57IFLGJ.3FD@trix.bounces.google.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+       spf=pass (google.com: domain of nylon7@andestech.com designates 60.248.187.195 as permitted sender) smtp.mailfrom=nylon7@andestech.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:mime-version:reply-to:message-id:date:subject:from:to
+        h=sender:from:to:cc:subject:date:message-id:mime-version
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=QJ7DhNglzBawMSrTNCeOqh2S0QkH2wi/AGkjxI5dKV0=;
-        b=q/tPRi4bkfma5tfoGfnfVU1ziq3BpDvI2TFYvrj6TaZTIHN2OVm7vsRYG4LGTj7hPf
-         77vi5sz7xCCNrn5uSW6ZgJswkvcGJZ9pFqjzx7hAK8Y4pv+fVdad9goXTAd1nS3XGcE9
-         IgF6KZcK7iOvVuuZJJnkqJIL0y7DPSzSFlyAHHNdBEtEweEuyNH2X6+I2lKZNl5zg0Ln
-         1oBOaL4qOxfLYMPnmVZxDuqH3v4VgnDqNAPJ8dQUyYgRj4PMbahs0fGy6Q/cr0itBzwF
-         zR8g4/fFB1dz39X+HDADvAPw7maGUur/oeb84yvLRwYYW/tmU9FQErhNN4uFsyZu9xV3
-         7bsQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:message-id:date:subject:from:to
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=QJ7DhNglzBawMSrTNCeOqh2S0QkH2wi/AGkjxI5dKV0=;
-        b=m6zHiWHuIkOqld2jynZBroGulh478RFqGaNL/QwigM4lR2bil+qUwWiEVKowWodzdK
-         grxKVH99dNe/sxeBZIbVVlHzEyBUmgm2tQnQCJxYsiAmjBjl4WIP+ZSocxHZgq0QFdQ/
-         4UI5x92NSNn60As+G4zoUMYamQmAje1b3bKGy661O1SGqZeuTaiU1UHMSNzU0DdCyljz
-         DJULaLNz7zbvswZP1/qwt9uFFH1gStR1EBny9zV4P+QdrDP6A14utRDdmyxcvisjhhOF
-         Rjyz/i3x1/rLrCWn/RlPD7Z+NTvuoDnFZ85WKvae+PWaaDTSShep4EJkd3BWMeA7dK8X
-         J0Ww==
+        bh=FJTdkpbO3Ao9OMBpBY4aGFFi7J0tCNa0tcgjDJuV/QM=;
+        b=j4R19gmyxJ7OmlYGomGVyy1kAjxODa3TWes7u1JNqce1i4gC13OFr+mlr9dvJFiaGA
+         conaHutzKvtOYzG2C/MG44VXsN7bw8287xH9x9V54KamWyl0T7C54IF9ejBw1G6B2aVm
+         /wKkLYx789HZUS6pgWLabQCqH5o8E7mR5xDgEyCKLHlr9lHxS4uGlbWSQ/4s+8rybJ09
+         r1VWThIsqg5LPl6qCzvqFy/ZQu9amMdhl+p8Yd6do/mdMUZh7UgSLn7Txj0l7nVpjiXZ
+         Jp9/CFDrSlMrWuydZMXdvUKkOoO3RJ87+fbHx3Kf8WzsrzhE/WevL+KzA1Y/04W1Kpir
+         aIUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:mime-version:reply-to:message-id:date
-         :subject:from:to:x-original-sender:x-original-authentication-results
+        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :mime-version:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
          :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=QJ7DhNglzBawMSrTNCeOqh2S0QkH2wi/AGkjxI5dKV0=;
-        b=MqJkAnr0xcZQ3Yvs5KTW/TPaa8ncc62ANeIpZ9gH31LWpu/bvLFleJbfkzqDeMXKr4
-         BC/BdqshGFiHfKt2ywGlTqVrulC7GDAxajoYzvdkve8nJMZ8Gi9bTsg+qSMgQpoCI+Zj
-         IQ4mgmPK8/tBqZxGskDwTyUZSTlcwQtR523gGwxd+MnOfXrZRanbqd2tcoBeJoEfl9wb
-         ySaANKNuhdJVsXT+PTHGMZbEouo1NtAVAHMuhhCzPvetU7/bYFdojVvHH3qMjkg7Mv8R
-         N9Pgkd3e8Njeqi53D3BGd9CRZ5qNvRwjr7kwkwxhbPZKDK0a119o9rjGi8BuklbkJ+Iy
-         tZEA==
+        bh=FJTdkpbO3Ao9OMBpBY4aGFFi7J0tCNa0tcgjDJuV/QM=;
+        b=QJ3HuJyA5qPSCY3S/QehPSK7OH9z65gqX7z++cYOQB6TeFWWBQxKlIP5YqCFzLtdMt
+         OQSTrohrusOO7PnoKIPEzysm7SMgUOsTiD2mA2UFHLSpekf0hRbc7BN7lDmwUNnxj6zD
+         1XWOE+JCo/nMlWeUiRPhv7nu3T8DgTCm1mgzBS26hE+Q/uEBi7OEBdpxUj82svd/if5X
+         2mdBVjEv84GGuqLG8BttXDJo4Ru12ydV8Bv/cwhXhWNiiL8bdiJ4ggpNP5Q+ANMiusci
+         rLBCrcqNaEdLRvNtXfnXqGmPw7FQn+rY+s16f+rDmmtzZ2EJkItbm3l3Cup9iC4msPOi
+         IAEQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM530lucO+cxW6ryzypP0eVL8UyK+m9wgDBwASM+kL7G38oOymJBzl
-	Qs/WAoG7DZfGib1FHmlq50s=
-X-Google-Smtp-Source: ABdhPJwRTbK4u37oodePYbpNQN+TnHKdpdJ7PMM+iU3eKCTSFFZIUtvfQa6wG/epz33sGMuEF753DA==
-X-Received: by 2002:a67:ff01:: with SMTP id v1mr13405618vsp.16.1606677088639;
-        Sun, 29 Nov 2020 11:11:28 -0800 (PST)
+X-Gm-Message-State: AOAM533xwkbt/sTRMyylhjEYWj3e03jxdR4VzqCbQWVtQqHdkyCndiv3
+	LHISxtHbl6CXHhX+peyYl54=
+X-Google-Smtp-Source: ABdhPJysUQfmqlZOHewQ/TbYZjJQVtOWr1CWOvSSghWpEOccLZWx6t7hWUWTLFX8g0i2H2p4sOIimg==
+X-Received: by 2002:ae9:ef4f:: with SMTP id d76mr15770218qkg.95.1606727637973;
+        Mon, 30 Nov 2020 01:13:57 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a67:2645:: with SMTP id m66ls979342vsm.3.gmail; Sun, 29 Nov
- 2020 11:11:28 -0800 (PST)
-X-Received: by 2002:a67:d097:: with SMTP id s23mr12096126vsi.24.1606677088197;
-        Sun, 29 Nov 2020 11:11:28 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1606677088; cv=none;
+Received: by 2002:a05:620a:648:: with SMTP id a8ls5702640qka.2.gmail; Mon, 30
+ Nov 2020 01:13:57 -0800 (PST)
+X-Received: by 2002:a37:793:: with SMTP id 141mr21733433qkh.215.1606727637419;
+        Mon, 30 Nov 2020 01:13:57 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1606727637; cv=none;
         d=google.com; s=arc-20160816;
-        b=pnXp8Rg4R43SjBmDH+RaHq0TuVE5N7DQoYKSzSyu5E8AX48DNelcOwHSAzNM8r11KT
-         1oCAWvINXNiPszdd98X9pzDLZSXq0qGtjzc+2L6Hoo+Fi1ryRj5FQ3RVJbwp6tTKKM+8
-         +FNDtniykPtriW3ayCde/yvDw8nQbdkEf5cegNelEegtCh6j7smJtO/C7+5XFw5WTS4e
-         ocajWlHfTmOQZVt94QqAuyTfRLjUY21a/IqzdZKrVfRh/nkhCcfOpNaDyy1Mxe57lWNo
-         8MQgYwOiWdizcGHsbenooFn0i69hBYGmKSckAbIyxuU27j82pnTRtmDgVdIWL0yKK+Az
-         nEGg==
+        b=SmgQ3t5RO8TgG33ktqIdXrvPLcnF2XVy6YDJa5qRZiT1KktfVjOcvi5VgEw4qQvZ3k
+         EGEGHqn0wzjqCEAqyHaJ7LMJGdwqT9RLIqmfByjzcenZrxNHMXLiAz7QLEuSLRlWyPNj
+         ivn6SItBO2Fevnk2RDvPW/3meDcMhBKka0Wsl83ltdlWfL6URDHt8Gw45Y9eUleJfIVh
+         ZVkr8u2zNZLzzMBRXVHVv7RG7kg6bax9uZXQvM8K7xLeyEp4rEfTSq/Ee1uVA2FNlhEy
+         InuDclaET13jJJMObP+i7eabtw8j/nMUhrEIcOUF9cEMCGfI+CWm2bImPW6WBiOBDasw
+         +ntw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=to:from:subject:date:message-id:reply-to:mime-version
-         :dkim-signature;
-        bh=MtsHJUwR7yeIxWVzyGyzOIo4tKwJRTAFQm3adsqIG20=;
-        b=xGt8QRrwv4F6BGlSRHYXNhK01bmuxuJeBRt91ygG3Fk+xGRGjKU0YsNh8YDMgVuZfB
-         5Sg7wuizD609we36F8WgxXl+/TviXJqLKJgW2uBTNaQQDIeWKsJEn6Zs3hF4D4N3bVln
-         SIFpO0NCZppcGGC4zb7iSkSwjmqQ8UGvsCJUi2Rk2SaTsnFo+m0AK0G29v1cmbNVfoWD
-         6s3pTsgSkjXomaz+Fi/vAXrfYDphPdQkGV1t+8EwJ7DHWko50dQmJaHprXUieO7Suf11
-         wWUgKq1J3EvkGoI+qM5ZDejiYz7kW5VmE/gB7D2tGvh/teUrpsWsFXMaxoNP6KkosWuP
-         XwRA==
+        h=mime-version:message-id:date:subject:cc:to:from;
+        bh=sc0fD84WpOzTwR4y/BZEy6/062Fy0nMdgfvf+RaexLk=;
+        b=TA2glVuRxmoUsDOy0Wt7/hz+cp+NA5DTKNM/NfKft4D1ll8jzDE2mgoDMgqNajLZ3x
+         pfUWofN/LBTcLRPdDSF5LqBZZbneV5FQVaVRZs6DRj57g/RLJkxLnZtL+oNPggUAKQ85
+         Pl6qNNehiMzoHzZ97rF4PXWKgLhkoH813CyPPj5p+FQyJAM4BZQe0qCauFCw/7mfbqlw
+         63ZC0I8qQQyqVSI0FeI+dxKl2L1sA2WM9jwo/AWQZU2Kc9+NwsLty78+OYr8nmE22wAG
+         2GRlpCMqaFgeaQgCNT4YE3IVIpPHk7lpwpkzeWoFJwEOlW6B+L0hnS24k/k+orY3tqiH
+         iQQQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20161025 header.b=ZkjQzjeY;
-       spf=pass (google.com: domain of 3ypldxw4jcvk29c1cdfii9jtus7d19c.3fdb1j1e-45m7ff7c57iflgj.3fd@trix.bounces.google.com designates 2607:f8b0:4864:20::b48 as permitted sender) smtp.mailfrom=3YPLDXw4JCVk29C1CDFII9JTUS7D19C.3FDB1J1E-45M7FF7C57IFLGJ.3FD@trix.bounces.google.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-yb1-xb48.google.com (mail-yb1-xb48.google.com. [2607:f8b0:4864:20::b48])
-        by gmr-mx.google.com with ESMTPS id a16si865363uas.1.2020.11.29.11.11.28
+       spf=pass (google.com: domain of nylon7@andestech.com designates 60.248.187.195 as permitted sender) smtp.mailfrom=nylon7@andestech.com
+Received: from ATCSQR.andestech.com (exmail.andestech.com. [60.248.187.195])
+        by gmr-mx.google.com with ESMTPS id g2si114403qko.5.2020.11.30.01.13.56
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 29 Nov 2020 11:11:28 -0800 (PST)
-Received-SPF: pass (google.com: domain of 3ypldxw4jcvk29c1cdfii9jtus7d19c.3fdb1j1e-45m7ff7c57iflgj.3fd@trix.bounces.google.com designates 2607:f8b0:4864:20::b48 as permitted sender) client-ip=2607:f8b0:4864:20::b48;
-Received: by mail-yb1-xb48.google.com with SMTP id a13so13158674ybj.3
-        for <kasan-dev@googlegroups.com>; Sun, 29 Nov 2020 11:11:28 -0800 (PST)
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 30 Nov 2020 01:13:57 -0800 (PST)
+Received-SPF: pass (google.com: domain of nylon7@andestech.com designates 60.248.187.195 as permitted sender) client-ip=60.248.187.195;
+Received: from mail.andestech.com (atcpcs16.andestech.com [10.0.1.222])
+	by ATCSQR.andestech.com with ESMTP id 0AU9DvK7078755;
+	Mon, 30 Nov 2020 17:13:57 +0800 (GMT-8)
+	(envelope-from nylon7@andestech.com)
+Received: from atcsqa06.andestech.com (10.0.15.65) by ATCPCS16.andestech.com
+ (10.0.1.222) with Microsoft SMTP Server id 14.3.487.0; Mon, 30 Nov 2020
+ 17:13:33 +0800
+From: Nylon Chen <nylon7@andestech.com>
+To: <aryabinin@virtuozzo.com>, <glider@google.com>, <dvyukov@google.com>,
+        <kasan-dev@googlegroups.com>, <akpm@linux-foundation.org>,
+        <paul.walmsley@sifive.com>, <palmer@dabbelt.com>,
+        <aou@eecs.berkeley.edu>, <nickhu@andestech.com>,
+        <nylon7@andestech.com>, <luc.vanoostenryck@gmail.com>,
+        <greentime.hu@sifive.com>, <linux-riscv@lists.infradead.org>
+CC: <nylon7717@gmail.com>, <alankao@andestech.com>,
+        Nick Hu
+	<nick650823@gmail.com>
+Subject: [PATCH 0/1] Fix Kasan test module run failed in RISCV architecture
+Date: Mon, 30 Nov 2020 17:13:18 +0800
+Message-ID: <1606727599-8598-1-git-send-email-nylon7@andestech.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-X-Received: by 2002:a25:4c89:: with SMTP id z131mt18213783yba.339.1606677088006;
- Sun, 29 Nov 2020 11:11:28 -0800 (PST)
-Reply-To: bilalmorris231@gmail.com
-X-No-Auto-Attachment: 1
-Message-ID: <00000000000019778b05b543a944@google.com>
-Date: Sun, 29 Nov 2020 19:11:28 +0000
-Subject: Congratulation! (Mega Millions Lottery)
-From: bilalmorris231@gmail.com
-To: kasan-dev@googlegroups.com
-Content-Type: multipart/alternative; boundary="0000000000001af96f05b543a985"
-X-Original-Sender: bilalmorris231@gmail.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20161025 header.b=ZkjQzjeY;       spf=pass
- (google.com: domain of 3ypldxw4jcvk29c1cdfii9jtus7d19c.3fdb1j1e-45m7ff7c57iflgj.3fd@trix.bounces.google.com
- designates 2607:f8b0:4864:20::b48 as permitted sender) smtp.mailfrom=3YPLDXw4JCVk29C1CDFII9JTUS7D19C.3FDB1J1E-45M7FF7C57IFLGJ.3FD@trix.bounces.google.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Content-Type: text/plain; charset="UTF-8"
+X-Originating-IP: [10.0.15.65]
+X-DNSRBL: 
+X-MAIL: ATCSQR.andestech.com 0AU9DvK7078755
+X-Original-Sender: nylon7@andestech.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of nylon7@andestech.com designates 60.248.187.195 as
+ permitted sender) smtp.mailfrom=nylon7@andestech.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -138,110 +131,96 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
---0000000000001af96f05b543a985
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+When you run Kasan test module in RISCV architecture,"kmalloc_memmove_invalid_size()"
+will be executed and then kernel will be hang in infinite loop as below:
 
-I've invited you to fill out the following form:
-Untitled form
+[   26.228433] Memory state around the buggy address:
+[   26.229824]  ffffffe066e11d00: 00 00 00 00 00 00 00 00 fc fc fc fc fc fc fc fc
+[   26.232098]  ffffffe066e11d80: 00 00 00 00 00 00 00 00 fc fc fc fc fc fc fc fc
+[   26.234461] >ffffffe066e11e00: 00 00 00 00 00 00 00 00 fc fc fc fc fc fc fc fc
+[   26.236650]                                            ^
+[   26.238149]  ffffffe066e11e80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+[   26.240400]  ffffffe066e11f00: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+[   26.242646]
+==================================================================
+[   26.245312]
+==================================================================
+[   26.247607] BUG: KASAN: slab-out-of-bounds in memmove+0x2e/0x8a
+[   26.249160] Read of size 1 at addr ffffffe066e11e49 by task
+insmod/106
+[   26.250855]
+[   26.251755] CPU: 0 PID: 106 Comm: insmod Tainted: G    B
+5.8.7 #2
+[   26.253454] Call Trace:
+[   26.254509] [<ffffffe000203256>] walk_stackframe+0x0/0x128
+[   26.256027] [<ffffffe000203530>] show_stack+0x2e/0x3a
+[   26.257467] [<ffffffe0005ab9e0>] dump_stack+0x84/0xa0
+[   26.258936] [<ffffffe000367120>]
+print_address_description.isra.0+0x34/0x404
+[   26.260686] [<ffffffe000367676>] kasan_report+0xda/0x132
+[   26.262141] [<ffffffe000367a68>] __asan_load1+0x42/0x4a
+[   26.263610] [<ffffffe0005c1c4c>] memmove+0x2e/0x8a
+[   26.265241] [<ffffffdf81cdec26>]
+kmalloc_memmove_invalid_size+0x94/0xaa [test_kasan]
+[   26.267829] [<ffffffdf81cdfa2a>] kmalloc_tests_init+0x94/0x14a
+[test_kasan]
+[   26.269563] [<ffffffe0002000d8>] do_one_initcall+0x40/0x134
+[   26.271106] [<ffffffe0002a2e5c>] do_init_module+0xc6/0x25c
+[   26.272610] [<ffffffe0002a5692>] load_module+0x257a/0x2bf2
+[   26.274096] [<ffffffe0002a5e70>] __do_sys_finit_module+0x7e/0x94
+[   26.275676] [<ffffffe0002a5eaa>] sys_finit_module+0x10/0x18
+[   26.277207] [<ffffffe000201690>] ret_from_syscall+0x0/0x2
+[   26.278677]
 
-To fill it out, visit:
-https://docs.google.com/forms/d/e/1FAIpQLSejitRsY0yrE6F4TILKy0bfmau43DYeveiXnH_uGVxYOKKetw/viewform?vc=0&amp;c=0&amp;w=1&amp;flr=0&amp;usp=mail_form_link
+.....
 
-Congratulations You have won $ 850,000.00USD Your E-Mail Name Is Among
-the Lucky Winners at Mega Millions Lottery Online promo, Ticket Number
-(88910), For more information contact us Via Tel: +44} 7045746552. or
-reply to this email: peterjeng042@gmail.com
+[  579.407314]  0x0
+[  579.408267]  0x0
+[  579.409222]  0x0
+[  579.410198]  0x0
+[  579.411206]  0x0
+[  579.412151]  0x0
+[  579.413122]  0x0
+[  579.414080]  0x0
+[  579.415026]  0x0
+[  579.415964]  0x0
+[  579.416912]  0x0
+[  579.417871]  0x0
+[  579.418834]  0x0
+[  579.419781]  0x0
+[  579.420738]  0x0
+[  579.421841]  0x0
+[  579.422805]  0x0
+[  579.423764]  0x0
+[  579.424696]  0x0
+[  579.425638]  0x0
+[  579.426599]  0x0
+[  579.427538]  0x0
+[  579.428467]  0x0
 
-Your winning reference numbers are PMG / EBD / 850AF and will Instruct you
-on claim arrangements for your winning prize.
+.....
 
-Please note this, You are only required to forward your Name and your  
-Address.
 
-Your Full Name.
-Your Age.
-Your Country / Home Address.
-Your Telephone Number.
-Your Occupation.
+if we define __HAVE_ARCH_MEMMOVE and port memmove to RISCV can fix it.
 
-Thank you and once More Congratulations.
+Signed-off-by: Nick Hu <nickhu@andestech.com>
+Signed-off-by: Nick Hu <nick650823@gmail.com>
+Signed-off-by: Nylon Chen <nylon7@andestech.com>
 
-Yours faithfully,
-Agent Morris Bilal.
-Claims / verification Agent,
+Nylon Chen (1):
+  riscv: provide memmove implementation
 
-Google Forms: Create and analyze surveys.
+ arch/riscv/include/asm/string.h |  8 ++---
+ arch/riscv/kernel/riscv_ksyms.c |  2 ++
+ arch/riscv/lib/Makefile         |  1 +
+ arch/riscv/lib/memmove.S        | 64 +++++++++++++++++++++++++++++++++
+ 4 files changed, 71 insertions(+), 4 deletions(-)
+ create mode 100644 arch/riscv/lib/memmove.S
+
+-- 
+2.17.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/00000000000019778b05b543a944%40google.com.
-
---0000000000001af96f05b543a985
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<html><body style=3D"font-family: Roboto,Helvetica,Arial,sans-serif; margin=
-: 0; padding: 0; height: 100%; width: 100%;"><table border=3D"0" cellpaddin=
-g=3D"0" cellspacing=3D"0" style=3D"background-color:rgb(103,58,183);" width=
-=3D"100%" role=3D"presentation"><tbody><tr height=3D"64px"><td style=3D"pad=
-ding: 0 24px;"><img alt=3D"Google Forms" height=3D"26px" style=3D"display: =
-inline-block; margin: 0; vertical-align: middle;" width=3D"143px" src=3D"ht=
-tps://www.gstatic.com/docs/forms/google_forms_logo_lockup_white_2x.png"></t=
-d></tr></tbody></table><div style=3D"padding: 24px; background-color:rgb(23=
-7,231,246)"><div align=3D"center" style=3D"background-color: #fff; border-b=
-ottom: 1px solid #e0e0e0;margin: 0 auto; max-width: 624px; min-width: 154px=
-;padding: 0 24px;"><table align=3D"center" cellpadding=3D"0" cellspacing=3D=
-"0" style=3D"background-color: #fff;" width=3D"100%" role=3D"presentation">=
-<tbody><tr height=3D"24px"><td></td></tr><tr><td><span style=3D"display: ta=
-ble-cell; vertical-align: top; font-size: 13px; line-height: 18px; color: #=
-424242;" dir=3D"auto">Congratulations You have won $ 850,000.00USD Your E-M=
-ail Name Is Among<br>the Lucky Winners at Mega Millions Lottery Online prom=
-o, Ticket Number<br>(88910), For more information contact us Via Tel: +44} =
-7045746552. or<br>reply to this email: peterjeng042@gmail.com<br><br>Your w=
-inning reference numbers are PMG / EBD / 850AF and will Instruct you<br>on =
-claim arrangements for your winning prize.<br><br>Please note this, You are=
- only required to forward your Name and your Address.<br><br>Your Full Name=
-.<br>Your Age.<br>Your Country / Home Address.<br>Your Telephone Number.<br=
->Your Occupation.<br><br>Thank you and once More Congratulations.<br><br>Yo=
-urs faithfully,<br>Agent Morris Bilal.<br>Claims / verification Agent,</spa=
-n></td></tr><tr height=3D"20px"><td></tr><tr style=3D"font-size: 20px; line=
--height: 24px;"><td dir=3D"auto"><a href=3D"https://docs.google.com/forms/d=
-/e/1FAIpQLSejitRsY0yrE6F4TILKy0bfmau43DYeveiXnH_uGVxYOKKetw/viewform?vc=3D0=
-&amp;c=3D0&amp;w=3D1&amp;flr=3D0&amp;usp=3Dmail_form_link" style=3D"color: =
-rgb(103,58,183); text-decoration: none; vertical-align: middle; font-weight=
-: 500">Untitled form</a><div itemprop=3D"action" itemscope itemtype=3D"http=
-://schema.org/ViewAction"><meta itemprop=3D"url" content=3D"https://docs.go=
-ogle.com/forms/d/e/1FAIpQLSejitRsY0yrE6F4TILKy0bfmau43DYeveiXnH_uGVxYOKKetw=
-/viewform?vc=3D0&amp;c=3D0&amp;w=3D1&amp;flr=3D0&amp;usp=3Dmail_goto_form">=
-<meta itemprop=3D"name" content=3D"Fill out form"></div></td></tr><tr heigh=
-t=3D"24px"></tr><tr><td><table border=3D"0" cellpadding=3D"0" cellspacing=
-=3D"0" width=3D"100%"><tbody><tr><td><a href=3D"https://docs.google.com/for=
-ms/d/e/1FAIpQLSejitRsY0yrE6F4TILKy0bfmau43DYeveiXnH_uGVxYOKKetw/viewform?vc=
-=3D0&amp;c=3D0&amp;w=3D1&amp;flr=3D0&amp;usp=3Dmail_form_link" style=3D"bor=
-der-radius: 3px; box-sizing: border-box; display: inline-block; font-size: =
-13px; font-weight: 700; height: 40px; line-height: 40px; padding: 0 24px; t=
-ext-align: center; text-decoration: none; text-transform: uppercase; vertic=
-al-align: middle; color: #fff; background-color: rgb(103,58,183);" target=
-=3D"_blank" rel=3D"noopener">Fill out form</a></td></tr></tbody></table></t=
-d></tr><tr height=3D"24px"></tr></tbody></table></div><table align=3D"cente=
-r" cellpadding=3D"0" cellspacing=3D"0" style=3D"max-width: 672px; min-width=
-: 154px;" width=3D"100%" role=3D"presentation"><tbody><tr height=3D"24px"><=
-td></td></tr><tr><td><a href=3D"https://docs.google.com/forms?usp=3Dmail_fo=
-rm_link" style=3D"color: #424242; font-size: 13px;">Create your own Google =
-Form</a></td></tr></tbody></table></div></body></html>
-
-<p></p>
-
--- <br />
-You received this message because you are subscribed to the Google Groups &=
-quot;kasan-dev&quot; group.<br />
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
-+unsubscribe@googlegroups.com</a>.<br />
-To view this discussion on the web visit <a href=3D"https://groups.google.c=
-om/d/msgid/kasan-dev/00000000000019778b05b543a944%40google.com?utm_medium=
-=3Demail&utm_source=3Dfooter">https://groups.google.com/d/msgid/kasan-dev/0=
-0000000000019778b05b543a944%40google.com</a>.<br />
-
---0000000000001af96f05b543a985--
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/1606727599-8598-1-git-send-email-nylon7%40andestech.com.
