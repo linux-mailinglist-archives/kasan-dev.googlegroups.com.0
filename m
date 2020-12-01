@@ -1,131 +1,122 @@
-Return-Path: <kasan-dev+bncBCMIZB7QWENRB35QTH7AKGQEZ2GIHRY@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBB6F6TH7AKGQE4BDL7KQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x43a.google.com (mail-pf1-x43a.google.com [IPv6:2607:f8b0:4864:20::43a])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDCF82CA638
-	for <lists+kasan-dev@lfdr.de>; Tue,  1 Dec 2020 15:51:28 +0100 (CET)
-Received: by mail-pf1-x43a.google.com with SMTP id j145sf1124880pfd.8
-        for <lists+kasan-dev@lfdr.de>; Tue, 01 Dec 2020 06:51:28 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1606834287; cv=pass;
+Received: from mail-wr1-x43b.google.com (mail-wr1-x43b.google.com [IPv6:2a00:1450:4864:20::43b])
+	by mail.lfdr.de (Postfix) with ESMTPS id D321C2CA6DE
+	for <lists+kasan-dev@lfdr.de>; Tue,  1 Dec 2020 16:21:28 +0100 (CET)
+Received: by mail-wr1-x43b.google.com with SMTP id b12sf1143712wru.15
+        for <lists+kasan-dev@lfdr.de>; Tue, 01 Dec 2020 07:21:28 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1606836088; cv=pass;
         d=google.com; s=arc-20160816;
-        b=MdagQ0EdjPbAnLn7WxDk8d3N2dItJ+9MG6dQl7/R4/2AOCgJHB4S4cuUVV/gVB1JL7
-         9GpupTt30mGKQrHyKFndThQjb9TKF4FOMq1iuBVWVdNNq0MFBwa8YJRIIOG1w0UfVGBU
-         v3ZwVOCE4M34/7BZXBKWz3QqU/n9FjHEjAfCqf9vdEqw7yGqPVD233g8UGzn3rQ2L7WL
-         8+EG/SgkTuNU5DMGNyAykfEvX3n+RM42i0ME4/QXT1nxGBxBo6p0VUiJR/mJemSyGp9z
-         +2x2RrTdhU5X6QPUdBdkI+1HSkrtcsH2fiu/KaZZeB1aCYb1NMA5AeTdKELhg5LEG3Os
-         1nyQ==
+        b=zFa42vYJFlKKE2YVLLw3QqS7GRCwep1ru0l/5mLl12Yc50hCQGdZS+uvB1LYOR6egO
+         6aC0KXAJEGnIhFJ1EPF2YBpDIoLEj5SFeYleeiAPZW84jjjlLfeP5ePbdcpGu1Eix7R5
+         J6eZPaK+bI4ZgacqLdVFX0uMbkZ5apDpkrTaXV7NjfaInj13Pjc/yaAPqe9S4Re435bf
+         P7zLkq8P42mfpHt2mm4xkOfgAEq57LjCHvk/wHdii19NN5I+oqcT0BYCd6IAdqg/uAXy
+         UPvjbJB+R3ny9km5jrdJ+5WXQKLBOr2YLd2Bs0es7TWXumOyL0aYovRFlu6sXOZPOIRl
+         rhXg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=PHyf0IUxlMMT/4XzIrmdvUn4k5GdX6TkcLzmxrYQWiI=;
-        b=riM31XTPoXt3y5UWRWv5BCQDQEpWHSw0SFZXxlEBCccE0+LxVfDF/LsogUNAqiloXO
-         K35as0btWj2aB/aLVNGkDj54q6+rYzmGpJGzQ+PFb5aN+mH1IYv/D6cc9Tb/avmQVYol
-         CNyoPeSxDeZI/eSJVrwER3ipg4IFs4mJhXLocWz4zV/PymfwVBevYFsvYSBtZADJxAba
-         ssqd+ioeJ9ZCANzD/ZgvKPHcxTBcX0zazgcYJNpBFs5dWz6L22dJ2WWYDYXq9iGRkHje
-         u4nNzLDz4B/2+KSHd2Y5QtHbo27Dd7pV7VFkKRcHZgM2zUIdRmOEC1lYFx5V+gqCrE9t
-         yUfQ==
+         :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
+         :mime-version:message-id:date:sender:dkim-signature;
+        bh=RH8J6f2H+7LaF7p+RBuDIeAGfPUb59LVAhTr2URTovk=;
+        b=Yk0N+X1XZkmyh8FZNIVEVVZLokly4sL/8Wx0LBv+DgxDw8SCO63vm/oXUD3C/cpal6
+         ak/mLnvIvNneKW/ceXUnvRMdiHG4wWsBC5Kg6Jbp/0A+GoS4V2Fv89WHi/zf2sdr9zS5
+         UiNQL6a+Rj5joddgWuMn2lPDUT5czol/yoTQYDGfor+MyvQB2q2wWVXe/dMGjlZhtaWv
+         5YOThK8F5OoNeX7fZ3vjs4wMvf+6qQaS04Vi6fIcqRNJAEUZTVpQaDtGU5ND7rcex7ti
+         M05bo+GvSxRveFVd0A8VlI6UjqtsHw29DrzBP9SmTZkc5K4Hi6fwRCiljmDaMCcWehA5
+         FE+g==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=Od7Oq8i5;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::741 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=eghANDW2;
+       spf=pass (google.com: domain of 3d1_gxwukcvq07h0d2aa270.ya86wew9-z0h2aa2702dagbe.ya8@flex--elver.bounces.google.com designates 2a00:1450:4864:20::44a as permitted sender) smtp.mailfrom=3d1_GXwUKCVQ07H0D2AA270.yA86wEw9-z0H2AA2702DAGBE.yA8@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
+        h=sender:date:message-id:mime-version:subject:from:to:cc
+         :x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=PHyf0IUxlMMT/4XzIrmdvUn4k5GdX6TkcLzmxrYQWiI=;
-        b=WkfCA0hIYr0chMiYL4t5YhqFCEejNKoaJrWsN6LyqR+ouiL63pv9ySCqi1M1jlv37Y
-         ASjiWUpzWO1nJSOtMiktSBJor5kfbn4ENbn4cfNFJWJC0htk3wm1c0sxMToFGrfHTafb
-         tvcAEu9ke1/9v+CBMCaBwCaAcgYK1gM26IXGenS1U0kguT+DmMeIz9xBofWbNECIQamX
-         xUK2tg69f8V6ToB3lu+0BVuuY1um/b4fsZywsG4MPuFQIRWdSogIoZaFl7u8WzkGG82k
-         mGFSnzA13YSXttks37Kh33Hwc552loLtR1RNDWUFkclO3q2LTiiBXbapR8V7DYLe8Jnl
-         q2eQ==
+        bh=RH8J6f2H+7LaF7p+RBuDIeAGfPUb59LVAhTr2URTovk=;
+        b=cnLMDoIw6hpoIlYv9k66955nxcA+o7zDbWJZrg3yKqe2MuVhwc2Fpm8UJ0xthovkzk
+         UbJiPu/Iha+zZHlGRcyGwCvQuVsN/wFV3ANU9c0Vhhs3MyAbcRwTzIXpYQ0pEbE209MA
+         CoT1/t5c2QeN3mIVR5Ws9EWHCs91Q/f5S2+uMhguh82nGRXRnmRC11cXj/IcW2Id+SAJ
+         86ugXq95qZRPQGsOw0UncapCJYyZMszb2rdmtB8yTpC51qQT7Pe/6kdbZSCoyJBTj+Y0
+         MWfx3fIu3IMmMaLVHifT2bdKcDTO2lS2ajWqPqpDyoHgHHv3iL6rJEdBD2vW2dqcz8+x
+         USxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=PHyf0IUxlMMT/4XzIrmdvUn4k5GdX6TkcLzmxrYQWiI=;
-        b=mqy+r/Rs3wax2HYllULHNO5VPt+8rFAB1U4kKAnuRllqgMg5p+T6vkQW3pawXzcpV0
-         qwAOGylXfw39W3Mx+5Eaq4RdQdxqFYHgNn0lFJVrgUswbeElcfmBpXX+ePWxQbo9ssFb
-         ZUi5nx5LCLZFdU4FaajqPJNL2u8QrTWr7gIvNVJLVz7F96lAwlEgBaXIOA6QfeXHis/l
-         YUyslQGXP0PRjkrcqVhpT4cTJcJIuJjW1R/saSopdGdVGD1kGdBQBZytd7PsVFs+VORB
-         H/cj24nYFxvTRVsgONacnZhot9eOXcCkbivvXOaz94CN88mU5rfqSNLd27LxzIJ9x3ji
-         xz+A==
-X-Gm-Message-State: AOAM5309mu7jgvvB6YzKcwR+mJitz3V2Ycq2PN7/lXoJC/tZGY0Y8gzR
-	mReMKrs0tBkf5uIsK4wMNA8=
-X-Google-Smtp-Source: ABdhPJwdEda+3egx+kBuA4u0vz+SiD1EUgCHEsTO+4VQfk16rcv/T4pBxPi3My1PQbi38DDsxH8uOQ==
-X-Received: by 2002:a17:902:468:b029:d5:ad3c:cf52 with SMTP id 95-20020a1709020468b02900d5ad3ccf52mr3129657ple.7.1606834287676;
-        Tue, 01 Dec 2020 06:51:27 -0800 (PST)
+        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
+         :to:cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=RH8J6f2H+7LaF7p+RBuDIeAGfPUb59LVAhTr2URTovk=;
+        b=XD0SSFOrZ4rAft9pjTcVxkM9oV0Nhs/h3ZzhYm1TKB7JKeuwKcfTMryt1f2tdrbJxU
+         TRarrRc21wKRh2j1OvQ4mAEDuJI2UuHp2Mixzxe/iL6rWtTUHWKJ9DFE9/t535Ch83U3
+         RIOHO2VlxquUvEzW7timbXWMLlX/K4Jhgw4wrl4RYfx4CnZz8v4g/qI2qt8DqinnGzwL
+         YWAbYwp08K61ROMJ+xsAaRPjsUvz65qWPmdA6Z258okzNb2JYkxLA//hIBcvlLppZJI6
+         xcljJooRKhCVxDxitv5HGQIE63CBjSIlQXZ33mtYLc+1GSQxcR8KuEwZ+2gW+vSrHPn/
+         h88g==
+X-Gm-Message-State: AOAM531hCaaAvUuGyDom+CHL4fK+IUQE8HNeMTqZwU+Irg3Ucxb3gIzh
+	V61b22wra8MGgSvS/EUy2Kw=
+X-Google-Smtp-Source: ABdhPJzPEDaCakKwebnsuISiSrNdBtUciMpCY7P6YS58WB+jiCt8Yd/ytjOHFuUbGcyYMQxWlWdFHg==
+X-Received: by 2002:a05:600c:2110:: with SMTP id u16mr3284934wml.4.1606836088579;
+        Tue, 01 Dec 2020 07:21:28 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a62:7556:: with SMTP id q83ls1049428pfc.3.gmail; Tue, 01 Dec
- 2020 06:51:27 -0800 (PST)
-X-Received: by 2002:aa7:9f8b:0:b029:18b:9c0e:a617 with SMTP id z11-20020aa79f8b0000b029018b9c0ea617mr2828371pfr.16.1606834287077;
-        Tue, 01 Dec 2020 06:51:27 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1606834287; cv=none;
+Received: by 2002:adf:aa87:: with SMTP id h7ls693005wrc.2.gmail; Tue, 01 Dec
+ 2020 07:21:27 -0800 (PST)
+X-Received: by 2002:a5d:4052:: with SMTP id w18mr4620163wrp.63.1606836087654;
+        Tue, 01 Dec 2020 07:21:27 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1606836087; cv=none;
         d=google.com; s=arc-20160816;
-        b=pYqr9YMADCRBdGu1WUljgm6kq3qVlRLmQMb1Yl4JRg0kJexXv5NTPfxzcZ91V2+FLn
-         jfkUMmoJ/WVhl63hGepCU6Op174LRZ0a4dU1F01Yu6Ph7F+/Nl24A6EFG3DqpckqWczK
-         +SoYF6m3bwGWs7V+eXDRzXZorpJHWfLfFrf+l57OIhiDhr5kvRf1RJggggsmSKf7XPXB
-         6Iav4TuFIT/Vfmgq3AN+mLh+9sldbiOtTSTUpnRAQaSHH5x7LGcvncE82zqxhkVjPLX5
-         EQgi5ty0zJnUtESLmX4v7dK2ZFqDbpMAxhNkVicfon/5hHVcshZygYwR69oT9szq8XfK
-         d7nA==
+        b=aFPy0oM0Ids7R8mMfkbZAEsQWHScnsJyQaqaMO1eBRK7qNgdxgpAx6VYwF6x2b9AEC
+         If8LoWXQjwSV1n77RRc9fEcKxDp2Xcc66XtXcBfHjsv6eMQWcjq9Tfqqddl/VsbLZOyh
+         uyUr5txwAFxAQ/k37jHhsKhQwuJprBdQjHEzQZlENbssEn4tvqhZrOq2vpJAQ7QX4RBf
+         DthI7cP2y8k7q6jpD+llwd+Dy/1tCM9TuHPT37FvkIMIaX0bygOFWYZAJyvlLRuhTm9V
+         xVrYlIHDtIyeSZKcPwyUrwAzB63k7IhMQ2sol0FL5kGI39QkH9bpOtq6vqqAzMq4oD2E
+         Ht6Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=55sCzQdwTnWWY4frFoH/T/BSKgGKnPew/6aq6eljiTo=;
-        b=l8b5vi/ND6EU6Oarhu0DOAkWzqVqHd+liZeh4TVliCtbfCbqRrHuL9T4dDaznd+9t6
-         8KoaiG7LfEVVgoozq33E2pR0GZA5lSCpDiVU+517eN0QtJOfrVrGvleMqwrt/DdtXXsP
-         F/8qzLM6Lv0uOAqYQdwhsYE+tmqj9T8Ae9GiYQcl04JUZyXNcRccW4Gk9gWuDqexiRQp
-         fQC8mqd5N3rjhEdh3KxZ22MQAlRFj+KMc23zMlLCK5+peeZ3VJsFSCVnK5sze8wkg6WH
-         0YzO5es7ZIS8Dyu/evgI0drr1lp3ndAgDSRUmcNWMQ/RJ9LvIcPr6C/0mDxwnCb1hLy1
-         KsrQ==
+        h=cc:to:from:subject:mime-version:message-id:date:sender
+         :dkim-signature;
+        bh=gl38stHx97yG3pBLu7/ITLy+50rUPm1B17DaXfHgCU0=;
+        b=Wjbz+/eQ/IxEOZ+IhOvrOVI7YK4R0yYZped9cuusuvK3CNkAqBpTg8ZOumPD+2yoOd
+         FCp4QIU7TZXGsIsfUb6ipvU2FmcEjYrUG4MU5MRh//YzsaUs1IbersuuXO6qcpF44+Dt
+         urpTZzrnkOqJw2YOKGF6X/FzjXOsBeGesYAswbf/oFgqee/9xRszjgc0VRFozMSXg2yD
+         kzueT4P+N1KoewYniMKdAnvreFZV90EswlkwV2qBvSYH9/DEMOr/5qTARwuF87MhC1Om
+         SkjBZyGG06SeXa0xmQjolwtYItzZl4rl0TWsBhs1eVVWEByoj0FbGOKW1ptiWF7Fuh/5
+         Jrug==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=Od7Oq8i5;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::741 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=eghANDW2;
+       spf=pass (google.com: domain of 3d1_gxwukcvq07h0d2aa270.ya86wew9-z0h2aa2702dagbe.ya8@flex--elver.bounces.google.com designates 2a00:1450:4864:20::44a as permitted sender) smtp.mailfrom=3d1_GXwUKCVQ07H0D2AA270.yA86wEw9-z0H2AA2702DAGBE.yA8@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com. [2607:f8b0:4864:20::741])
-        by gmr-mx.google.com with ESMTPS id f14si91060pfe.3.2020.12.01.06.51.27
+Received: from mail-wr1-x44a.google.com (mail-wr1-x44a.google.com. [2a00:1450:4864:20::44a])
+        by gmr-mx.google.com with ESMTPS id c20si75448wmd.2.2020.12.01.07.21.27
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 01 Dec 2020 06:51:27 -0800 (PST)
-Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::741 as permitted sender) client-ip=2607:f8b0:4864:20::741;
-Received: by mail-qk1-x741.google.com with SMTP id y18so1436432qki.11
-        for <kasan-dev@googlegroups.com>; Tue, 01 Dec 2020 06:51:27 -0800 (PST)
-X-Received: by 2002:a37:7b44:: with SMTP id w65mr3270634qkc.350.1606834285972;
- Tue, 01 Dec 2020 06:51:25 -0800 (PST)
-MIME-Version: 1.0
-References: <20200924040152.30851-1-walter-zh.wu@mediatek.com>
- <87h7rfi8pn.fsf@nanos.tec.linutronix.de> <CACT4Y+a=GmYVZwwjyXwO=_AeGy4QB9X=5x7cL76erwjPvRW6Zw@mail.gmail.com>
- <871rg9hawf.fsf@nanos.tec.linutronix.de>
-In-Reply-To: <871rg9hawf.fsf@nanos.tec.linutronix.de>
-From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Tue, 1 Dec 2020 15:51:14 +0100
-Message-ID: <CACT4Y+bWm_bPdbes60u=3d_u34yxBBC7rGQz1yAt1FQXXqP4-A@mail.gmail.com>
-Subject: Re: [PATCH v4 0/6] kasan: add workqueue and timer stack for generic KASAN
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: Walter Wu <walter-zh.wu@mediatek.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	John Stultz <john.stultz@linaro.org>, Stephen Boyd <sboyd@kernel.org>, Tejun Heo <tj@kernel.org>, 
-	Lai Jiangshan <jiangshanlai@gmail.com>, Marco Elver <elver@google.com>, 
-	Andrey Ryabinin <aryabinin@virtuozzo.com>, Alexander Potapenko <glider@google.com>, 
-	Andrey Konovalov <andreyknvl@google.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	kasan-dev <kasan-dev@googlegroups.com>, Linux-MM <linux-mm@kvack.org>, 
-	LKML <linux-kernel@vger.kernel.org>, 
-	Linux ARM <linux-arm-kernel@lists.infradead.org>, 
-	wsd_upstream <wsd_upstream@mediatek.com>, linux-mediatek@lists.infradead.org
+        Tue, 01 Dec 2020 07:21:27 -0800 (PST)
+Received-SPF: pass (google.com: domain of 3d1_gxwukcvq07h0d2aa270.ya86wew9-z0h2aa2702dagbe.ya8@flex--elver.bounces.google.com designates 2a00:1450:4864:20::44a as permitted sender) client-ip=2a00:1450:4864:20::44a;
+Received: by mail-wr1-x44a.google.com with SMTP id z13so1114323wrm.19
+        for <kasan-dev@googlegroups.com>; Tue, 01 Dec 2020 07:21:27 -0800 (PST)
+Sender: "elver via sendgmr" <elver@elver.muc.corp.google.com>
+X-Received: from elver.muc.corp.google.com ([2a00:79e0:15:13:f693:9fff:fef4:2449])
+ (user=elver job=sendgmr) by 2002:a1c:7217:: with SMTP id n23mr3064828wmc.167.1606836087168;
+ Tue, 01 Dec 2020 07:21:27 -0800 (PST)
+Date: Tue,  1 Dec 2020 16:20:18 +0100
+Message-Id: <20201201152017.3576951-1-elver@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.29.2.454.gaff20da3a2-goog
+Subject: [PATCH] genksyms: Ignore module scoped _Static_assert()
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+To: elver@google.com
+Cc: linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com, 
+	masahiroy@kernel.org, ndesaulniers@google.com, joe@perches.com
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: dvyukov@google.com
+X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=Od7Oq8i5;       spf=pass
- (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::741
- as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
- (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Dmitry Vyukov <dvyukov@google.com>
-Reply-To: Dmitry Vyukov <dvyukov@google.com>
+ header.i=@google.com header.s=20161025 header.b=eghANDW2;       spf=pass
+ (google.com: domain of 3d1_gxwukcvq07h0d2aa270.ya86wew9-z0h2aa2702dagbe.ya8@flex--elver.bounces.google.com
+ designates 2a00:1450:4864:20::44a as permitted sender) smtp.mailfrom=3d1_GXwUKCVQ07H0D2AA270.yA86wEw9-z0H2AA2702DAGBE.yA8@flex--elver.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -138,37 +129,147 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Dec 1, 2020 at 3:13 PM Thomas Gleixner <tglx@linutronix.de> wrote:
-> >> > Syzbot reports many UAF issues for workqueue or timer, see [1] and [2].
-> >> > In some of these access/allocation happened in process_one_work(),
-> >> > we see the free stack is useless in KASAN report, it doesn't help
-> >> > programmers to solve UAF on workqueue. The same may stand for times.
-> >> >
-> >> > This patchset improves KASAN reports by making them to have workqueue
-> >> > queueing stack and timer stack information. It is useful for programmers
-> >> > to solve use-after-free or double-free memory issue.
-> >> >
-> >> > Generic KASAN also records the last two workqueue and timer stacks and
-> >> > prints them in KASAN report. It is only suitable for generic KASAN.
-> >
-> > Walter, did you mail v5?
-> > Checking statuses of KASAN issues and this seems to be not in linux-next.
-> >
-> >> > [1]https://groups.google.com/g/syzkaller-bugs/search?q=%22use-after-free%22+process_one_work
-> >> > [2]https://groups.google.com/g/syzkaller-bugs/search?q=%22use-after-free%22%20expire_timers
-> >>
-> >> How are these links useful for people who do not have a gurgle account?
-> >
-> > This is a public mailing list archive, so effectively the same way as
-> > lore links ;)
->
-> Just that it asked me to log in last time. That's why I wrote the
-> above. Today it does not, odd.
+The C11 _Static_assert() keyword may be used at module scope, and we
+need to teach genksyms about it to not abort with an error. We currently
+have a growing number of static_assert() (but also direct usage of
+_Static_assert()) users at module scope:
 
-Some random permissions settings changes were observed before, so I
-can believe that.
+	git grep -E '^_Static_assert\(|^static_assert\(' | grep -v '^tools' | wc -l
+	135
+
+More recently, when enabling CONFIG_MODVERSIONS with CONFIG_KCSAN, we
+observe a number of warnings:
+
+	WARNING: modpost: EXPORT symbol "<..all kcsan symbols..>" [vmlinux] [...]
+
+When running a preprocessed source through 'genksyms -w' a number of
+syntax errors point at usage of static_assert()s. In the case of
+kernel/kcsan/encoding.h, new static_assert()s had been introduced which
+used expressions that appear to cause genksyms to not even be able to
+recover from the syntax error gracefully (as it appears was the case
+previously).
+
+Therefore, make genksyms ignore all _Static_assert() and the contained
+expression. With the fix, usage of _Static_assert() no longer cause
+"syntax error" all over the kernel, and the above modpost warnings for
+KCSAN are gone, too.
+
+Signed-off-by: Marco Elver <elver@google.com>
+---
+ scripts/genksyms/keywords.c |  3 +++
+ scripts/genksyms/lex.l      | 27 ++++++++++++++++++++++++++-
+ scripts/genksyms/parse.y    |  7 +++++++
+ 3 files changed, 36 insertions(+), 1 deletion(-)
+
+diff --git a/scripts/genksyms/keywords.c b/scripts/genksyms/keywords.c
+index 057c6cabad1d..b85e0979a00c 100644
+--- a/scripts/genksyms/keywords.c
++++ b/scripts/genksyms/keywords.c
+@@ -32,6 +32,9 @@ static struct resword {
+ 	{ "restrict", RESTRICT_KEYW },
+ 	{ "asm", ASM_KEYW },
+ 
++	// c11 keywords that can be used at module scope
++	{ "_Static_assert", STATIC_ASSERT_KEYW },
++
+ 	// attribute commented out in modutils 2.4.2.  People are using 'attribute' as a
+ 	// field name which breaks the genksyms parser.  It is not a gcc keyword anyway.
+ 	// KAO. },
+diff --git a/scripts/genksyms/lex.l b/scripts/genksyms/lex.l
+index e265c5d96861..ae76472efc43 100644
+--- a/scripts/genksyms/lex.l
++++ b/scripts/genksyms/lex.l
+@@ -118,7 +118,7 @@ yylex(void)
+ {
+   static enum {
+     ST_NOTSTARTED, ST_NORMAL, ST_ATTRIBUTE, ST_ASM, ST_TYPEOF, ST_TYPEOF_1,
+-    ST_BRACKET, ST_BRACE, ST_EXPRESSION,
++    ST_BRACKET, ST_BRACE, ST_EXPRESSION, ST_STATIC_ASSERT,
+     ST_TABLE_1, ST_TABLE_2, ST_TABLE_3, ST_TABLE_4,
+     ST_TABLE_5, ST_TABLE_6
+   } lexstate = ST_NOTSTARTED;
+@@ -201,6 +201,11 @@ repeat:
+ 
+ 		  case EXPORT_SYMBOL_KEYW:
+ 		      goto fini;
++
++		  case STATIC_ASSERT_KEYW:
++		    lexstate = ST_STATIC_ASSERT;
++		    count = 0;
++		    goto repeat;
+ 		  }
+ 	      }
+ 	    if (!suppress_type_lookup)
+@@ -401,6 +406,26 @@ repeat:
+ 	}
+       break;
+ 
++    case ST_STATIC_ASSERT:
++      APP;
++      switch (token)
++	{
++	case '(':
++	  ++count;
++	  goto repeat;
++	case ')':
++	  if (--count == 0)
++	    {
++	      lexstate = ST_NORMAL;
++	      token = STATIC_ASSERT_PHRASE;
++	      break;
++	    }
++	  goto repeat;
++	default:
++	  goto repeat;
++	}
++      break;
++
+     case ST_TABLE_1:
+       goto repeat;
+ 
+diff --git a/scripts/genksyms/parse.y b/scripts/genksyms/parse.y
+index e22b42245bcc..8e9b5e69e8f0 100644
+--- a/scripts/genksyms/parse.y
++++ b/scripts/genksyms/parse.y
+@@ -80,6 +80,7 @@ static void record_compound(struct string_list **keyw,
+ %token SHORT_KEYW
+ %token SIGNED_KEYW
+ %token STATIC_KEYW
++%token STATIC_ASSERT_KEYW
+ %token STRUCT_KEYW
+ %token TYPEDEF_KEYW
+ %token UNION_KEYW
+@@ -97,6 +98,7 @@ static void record_compound(struct string_list **keyw,
+ %token BRACE_PHRASE
+ %token BRACKET_PHRASE
+ %token EXPRESSION_PHRASE
++%token STATIC_ASSERT_PHRASE
+ 
+ %token CHAR
+ %token DOTS
+@@ -130,6 +132,7 @@ declaration1:
+ 	| function_definition
+ 	| asm_definition
+ 	| export_definition
++	| static_assert
+ 	| error ';'				{ $$ = $2; }
+ 	| error '}'				{ $$ = $2; }
+ 	;
+@@ -493,6 +496,10 @@ export_definition:
+ 		{ export_symbol((*$3)->string); $$ = $5; }
+ 	;
+ 
++/* Ignore any module scoped _Static_assert(...) */
++static_assert:
++	STATIC_ASSERT_PHRASE ';'			{ $$ = $2; }
++	;
+ 
+ %%
+ 
+-- 
+2.29.2.454.gaff20da3a2-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BbWm_bPdbes60u%3D3d_u34yxBBC7rGQz1yAt1FQXXqP4-A%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20201201152017.3576951-1-elver%40google.com.
