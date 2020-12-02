@@ -1,132 +1,124 @@
-Return-Path: <kasan-dev+bncBCH2XPOBSAERBMUXTX7AKGQEFJ7XY3A@googlegroups.com>
+Return-Path: <kasan-dev+bncBCMIZB7QWENRB2E3TX7AKGQEPBNQKUY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oi1-x237.google.com (mail-oi1-x237.google.com [IPv6:2607:f8b0:4864:20::237])
-	by mail.lfdr.de (Postfix) with ESMTPS id D582A2CB663
-	for <lists+kasan-dev@lfdr.de>; Wed,  2 Dec 2020 09:09:23 +0100 (CET)
-Received: by mail-oi1-x237.google.com with SMTP id f15sf582766oig.11
-        for <lists+kasan-dev@lfdr.de>; Wed, 02 Dec 2020 00:09:23 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1606896562; cv=pass;
+Received: from mail-oo1-xc3b.google.com (mail-oo1-xc3b.google.com [IPv6:2607:f8b0:4864:20::c3b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C0352CB69A
+	for <lists+kasan-dev@lfdr.de>; Wed,  2 Dec 2020 09:18:49 +0100 (CET)
+Received: by mail-oo1-xc3b.google.com with SMTP id w2sf369605ooo.12
+        for <lists+kasan-dev@lfdr.de>; Wed, 02 Dec 2020 00:18:49 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1606897128; cv=pass;
         d=google.com; s=arc-20160816;
-        b=C3ePCD4j3jZieBlV4H1TVkGoRs40lC3Orwy/YnZMCPygX+r6Q0XYY8ZPDXpW4EMWx6
-         nOXbjekghoG6gpEn3fWJF1k/g5pW2TrJG5v17lqFbukeh7qh1e1goofLz6bnbkxhQfHe
-         30W3SiLjTSS90IzRiDR8BFBx1mmIjIstkRebbJs+x6jrweQ7JiUG/EAKQOt6tjSQgKFz
-         mi4Dxug5ZORoe3tnW22wOSAEcGY3BROgCpcssY6anccal4Xp3jZqi2nZozf4OQjgbCco
-         UDgQZysn5YfWZ11itaF/r2nxTWHRGCtEQ2E9WzBpWA1028hsQwm0SnynbMrQjkdCsGiw
-         9dbw==
+        b=lUrLSwVUes9Z/+4Ugq4KHCmzGofsmrLBtuRBPo9rm4PczWEEqlQb31G0xjUiVor+Jm
+         5bPawlc6X80izXam7kGbma9istUYhAeYuoZ0zsNBHrDe/6MvkGG0968xQoVLIUJ35gaI
+         047cvewqQqSFAtaKyBn7m5exbBio9CxM1SRkqjq/cGVs9B51hJiTju3CbrNpiV4SlGug
+         45bA4qKUmxPnEkHQQas7suNDwNr8Yq8eSD5CdW0wFjDYrIkPNUiewK/Oosx2SYWOjg13
+         FkExxXhl5EBLin2sH93+SUOVXfGujlWHeaVg+EBhx3fP6coeKa0yqPqR5MGo0jZ4pSOw
+         sAKw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:sender:dkim-signature
-         :dkim-signature;
-        bh=TVeZwvBCTq2V8MPVd2fvFyByUj3g6bzYHLW77QAo928=;
-        b=RJ5DdJ52Xvmg1xrGUAWbd2z54C02HSxEnc02HdWby7l/0tclKGi6/2mU4wLxGi7wPt
-         ZGMQBxPmiwVZBBSZRTquim2dmgLSRjgtZzhxMQrVyWsxuF+fc4CEVvHgOxkwtayieRXa
-         s/FWjZcT/kKHJeuLqFlCGBGbr8aLnmsvBnYSO2P6UmsopTQm666y4hbrw/oGh4Q5DjkK
-         SO+A6JAfXkYmGOiHnrGmEXfA53gbz8QVSkm83mYyODgwSzuWUco6U+cWPdkI1g8Z4PAH
-         DwWeGbC3I/LRKm+1FuK4D2TPccbYamWDBv/q981jUtf2dq/s6LFf1YEWInvI2cjWvamB
-         0iZQ==
+         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
+         :cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=FYVMVA2c/pST++FQhONg2QlAP7tryT5n3FJr1DfkoCU=;
+        b=AuW82enIgqnwOEBBR9b5G05mjenrvjr6BYXiPAyal8oxTtV+cGj32DNsN1yJJ0demL
+         PaKvz9MVvDeR6s+pGsRrk0IsSQbbtcmnPaptgXyXv/zJtkKwTlpV8B1NQfTaIo1M2wwD
+         vrBC5p4wKT3m8k4lIOphcSoicvP+oEghwjy5z5pnfvK3EqAYpjJT5DyOWjtwNXADdfx+
+         aPM4qNLy5vEHnjLmIB+DzLZi8FlwEzO38WRBzsrdYk8hjKF6e4bMtOi/d9kApHJCO7Gu
+         RSC49EdmMAEeWumeQa/K6Sejb4wHdbqku4U/5jA+x1+6IrlDH9zxnv+tI+isk+PLJU9s
+         DpvA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20161025 header.b=eWjMspC4;
-       spf=pass (google.com: domain of mudongliangabcd@gmail.com designates 2607:f8b0:4864:20::b2d as permitted sender) smtp.mailfrom=mudongliangabcd@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+       dkim=pass header.i=@google.com header.s=20161025 header.b=tC4I2zix;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::f2b as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:mime-version:references:in-reply-to:from:date:message-id
-         :subject:to:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=TVeZwvBCTq2V8MPVd2fvFyByUj3g6bzYHLW77QAo928=;
-        b=qIZMUX9Mpq7A3BjX5PMU8LHd4bdet0EjnP1fUKYZezXUkrYPEePSs5CXR8Q4dWLcVc
-         G49h0SSCKOjvVCD5pVF1EEjhr8rclJQFYU1apEvD8Rw2EKHhvckHpBgg5Y8z6cP1+FZw
-         OCVVOmDYO6GGQOgj8yGTsEA++RuaIiMUB7dArcA2owmeYih3dHIIy1/jebvidoCPHbg9
-         ETrfIZzRpqTmgUMPzOSZJS/Jk0bDVFdhOnTaVDlLN7xY8au5+OIbvT7r6LY4aWIE98/x
-         IUmHNyfSJITplomDoFOI6YqfaJLw1rOqH0aJ4ZnFG8GOxS76NQAMEufFa9cbNFGhR1MT
-         XsMg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=TVeZwvBCTq2V8MPVd2fvFyByUj3g6bzYHLW77QAo928=;
-        b=HcADO+968Np/0DDvgvnV5lwoJi0zxy78kPrwfyjZOeAF3VTBI7UvDZIEgtQlg0z5FN
-         94chVETJQT/IbIypap5wnU/OzMzNgomDACYeR67z5UsxzXnJU2Jzt5RGquJnSgfMq0ew
-         Voa01kNEujwzeYJXEji5/g/EKTdnMe8sB9ZzC93HOvPzvt6U29WQew/cetd9NYip49zT
-         hNlcz/1so95b9mYhctWujrbKdfpK3LrSmOgymXl4A0f2OLljNwVplmjQVpGts3SKiqOQ
-         cCoXDhHdysKORfGuMScrKofmlP0I9I+8uIteM4xkZftBeOXWTvBKw0c4p4HJfWkrMABK
-         u5kg==
+         :cc:content-transfer-encoding:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:list-post:list-help:list-archive:list-subscribe
+         :list-unsubscribe;
+        bh=FYVMVA2c/pST++FQhONg2QlAP7tryT5n3FJr1DfkoCU=;
+        b=a7DvZ3RKk6vOnFDbJr0uewa1cKSYC9CsBx4Q1Rxb20Z2z1+6H42tjNdzZ2DMU/jdzT
+         gbEFrnRDAG0J0yyJ44C0ikjdiPsa/CQFxgkTKTTjpPFlJo644LnkCYqdNfs3R4Wc6V2j
+         SeDO1ePRHulA15Xic5pkoaI/V1jcruGCvPYRUNWCt6cC60r/9pdQmCGmivOeGbhkzQuz
+         o0eIJQKZg1eWtL5QXT1PXrCgADr3p0Ko1hBX7ahUTDu3d//w6Nb4OO+OnSqvQu4Wtrkf
+         ql5owcyiZuiyCoR6gW5KPQCeQB5B8l9j6vfcbEOVMQy4Y8/KibjjwQcvLt4uLRDE1PMr
+         8EEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
-         :date:message-id:subject:to:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=TVeZwvBCTq2V8MPVd2fvFyByUj3g6bzYHLW77QAo928=;
-        b=RAhjt2P9plQ7aZ0QFAbOhnu/1+u3hBN2/kupqzT4X0cOHgRgBRqc1YEZrYZW6tVucv
-         aIVJFgQxg0Z2+AtGSc/Gy7l17cniyV10M71LL+pZ2QXHEn1QJTLQ85t9fzPV2+QOCb27
-         jL53nCoKUFN4PY9JNJivXC/VMHUIE19ykFNPbBPoK4iWXiSm9STz8Gy1tM/N7aVXnIX4
-         SK3VbdVN5X921D6brSaNsIujCh/bz+CleOQyBQymlGT1XGVsFNOlGBa2XuglZf/u0aF5
-         Vfde0txqz9q1733YbZkpykOFjhQEmo6CvCWFRBh7Udsw0LW0074LNMGHFAF8PEfEMPQQ
-         0hQA==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM533D0gf9gtqRUnBHPtiz8A6q56YomkAvtKRRJDDthkbjlMEEovej
-	3ap7NbUeQvGvfxiI4vQQ0nY=
-X-Google-Smtp-Source: ABdhPJwH5LSV6e9Fg9FRBRoXZRNWMwKcUlI1p2dBlkPFFZIJ+LRafth5YugJRNa2pjKoFvRQBTN38A==
-X-Received: by 2002:aca:58d7:: with SMTP id m206mr821674oib.0.1606896562769;
-        Wed, 02 Dec 2020 00:09:22 -0800 (PST)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding
+         :x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=FYVMVA2c/pST++FQhONg2QlAP7tryT5n3FJr1DfkoCU=;
+        b=VucO8eQntSconLS7Gp5VPYOLJQK2+Cc/YhzdpeRV2+EVS+WvfrsfVj6/UyCuldREUt
+         5ws3pK12AOWSOct/knQR4xe2thLZDhaWMnkoYi7xGL6hQMAgbUdkr0ITroVJhqu8I/I2
+         VhBts3I7ZnoKXPupVahAq+5XtgpeRPH2xcQUUHmipoKSOX4oBqCaa8RgdjMSrVLdqsWa
+         wLL1dwsKuqpg1IrY4olcY3UKe27TxpLpvMZ/F1FQQnhYSKeIl9XZdKs4yge3RJJ044f3
+         RVEg80wz3FcKD3+ZhNhfa6y1dUN4qihmwICrr51Xj4u+1M8H05ryxDlt8VNCfF7249x6
+         jxag==
+X-Gm-Message-State: AOAM530CDala3VfmeEVmNvwih0ZSXSpJSjtkjUmB7/oyYGalkT9T5eq0
+	+ld/GoDmbvfQS5nPyHIxHMM=
+X-Google-Smtp-Source: ABdhPJzj2/XpyhB+/qJBXlLWzeFvBSI3gFZZGzTRWF9QKq/PfaCpOwIm1xdDdAmFeSvk71DWKQAWpA==
+X-Received: by 2002:a05:6830:1494:: with SMTP id s20mr1028705otq.272.1606897128241;
+        Wed, 02 Dec 2020 00:18:48 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6830:1f1b:: with SMTP id u27ls203920otg.5.gmail; Wed, 02
- Dec 2020 00:09:22 -0800 (PST)
-X-Received: by 2002:a9d:69d2:: with SMTP id v18mr1036639oto.165.1606896562350;
-        Wed, 02 Dec 2020 00:09:22 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1606896562; cv=none;
+Received: by 2002:aca:dd84:: with SMTP id u126ls237134oig.6.gmail; Wed, 02 Dec
+ 2020 00:18:48 -0800 (PST)
+X-Received: by 2002:aca:bac3:: with SMTP id k186mr788009oif.93.1606897127909;
+        Wed, 02 Dec 2020 00:18:47 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1606897127; cv=none;
         d=google.com; s=arc-20160816;
-        b=oMtnAbzK7hgGz6BgQurEJTcem2JTDquSkv/gKXUptVN36aVSKM+Y/nAQxPr6Irrt6b
-         BqsLJvXPK7JzHsC5suRvvK/H1RlnO7F0HM3yszr1JNPPSA09dS1M+ETlyTrETrWhblvq
-         tKoSoLBmc7sFpJszYuxHOIIMm3H0dBCHgAKIO+qKmG63hZZjl5rEcDStA3pMxsPuaQlT
-         qKGgiQcabFvAiKR3ECuKxRp3wnGKgiwB2joxbhD47b+G0CwzqE1r5STjOzD5IY0KjwxJ
-         OnFJQseClTdgZRSmGkgdQVZfGMwaz/PTXm7t99jPv13AZDoaG94hciKc5nKZs9fcBn0F
-         KzKg==
+        b=waWZJdiAF00lAQhO3rWEmIy1KULA+TaCJthc7jqzTso1fQUWDeWEsAxxg3riCIniu/
+         TJPkO7RSDl3mgqY6swF/Rk2+Nlfq51qAHcCgf0D6G8Thlsj4HT/FmdiC9MgPsLgAeXv/
+         UP1IWDwf+HyxMszL/AaRhg+knetKEXM7AR+WpSJtVXPZPHzOA3qS1V+JzYKiFE2AE8zS
+         fYOK3mHPXCIUWfdAbhA1H+gNOEQNMq/qKNOVxrdfzr6JPKsC+aQDV/2j5AScGvbPXYlW
+         v9IQgO9gh33hcyJZdVlgbKv5H2KmHuL7seibwf/YaI6rGMe5JhV+PVeF5JHTtluW/BYg
+         kcFA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
-         :dkim-signature;
-        bh=b9Ey6z/bSweBIjDeGqhGj9J7oiz9AjN2CZ0WHXNdL8U=;
-        b=Yu0M0gfG06YuP6jJTGosjZOIk/Z3A9hgwUDzT4+2mHSOvfTBRo5dueapUD/BLF3keH
-         lmzaWws4xJ7LUpAC9KLJuED3tgKirQv1PIEeJFhU+A3WtGP7PhaxDt5/kexVt8MfkHJ7
-         E7nK1b+ZZ/IO1ewS/hik3Wt7qtAvDPVdwRjAeJ3RcEipFCCazNzO57x/HmF0c9KvRg4H
-         p+UfUlGBu4iNDxs+x3AUYJZ5Yfh4kBWBoo7LRGQdUi56k057IDWhlYxozfgeV+J6plpW
-         iHo9f2rH0WdpfhtKf+IebUkV5waR0UdEhC6dAG3nfQD9UoGmnKpDSk1xWcaeedFcWFmS
-         tL9w==
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=BtfTfrwn1MOnpw/jSxfyCYAgx2QZltkEQEp/kmBnG2U=;
+        b=Tw/WrKsK3HML3uNWB0ta8q78+VhA2/P82HFLCo+bX1UX3rr4HMIBfjnU9rrAbk+xMm
+         8EOmeOnL4JIJUI/FfNeYYHjXDukIybz4jaH2EDhAtwrAWQwmXNWWByu+tUCehMcWMvst
+         nq29uWgvGx+yDpdKC8Bzd6VWwTHT9013FXvU7SDqoqYpslZSaH9r5ERp1q49ENgbas6m
+         vcz61jmomdjrhPsCFxOtYkaJBC52nsTgqRRr2AAYyFR94/xceTXvBba88IsmhQBLHPRp
+         RV5CK3uStnJ1s0R6MESG6CGIkFUYcMkwxI2Iwsx++8BFpQV8lIAQOxndRggtQ5Mpc/d+
+         UTGg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20161025 header.b=eWjMspC4;
-       spf=pass (google.com: domain of mudongliangabcd@gmail.com designates 2607:f8b0:4864:20::b2d as permitted sender) smtp.mailfrom=mudongliangabcd@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com. [2607:f8b0:4864:20::b2d])
-        by gmr-mx.google.com with ESMTPS id o23si67613oic.4.2020.12.02.00.09.22
+       dkim=pass header.i=@google.com header.s=20161025 header.b=tC4I2zix;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::f2b as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-qv1-xf2b.google.com (mail-qv1-xf2b.google.com. [2607:f8b0:4864:20::f2b])
+        by gmr-mx.google.com with ESMTPS id i23si84939oto.5.2020.12.02.00.18.47
+        for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 02 Dec 2020 00:09:22 -0800 (PST)
-Received-SPF: pass (google.com: domain of mudongliangabcd@gmail.com designates 2607:f8b0:4864:20::b2d as permitted sender) client-ip=2607:f8b0:4864:20::b2d;
-Received: by mail-yb1-xb2d.google.com with SMTP id g15so824551ybq.6;
-        Wed, 02 Dec 2020 00:09:22 -0800 (PST)
-X-Received: by 2002:a25:c343:: with SMTP id t64mr2896425ybf.94.1606896561919;
- Wed, 02 Dec 2020 00:09:21 -0800 (PST)
+        Wed, 02 Dec 2020 00:18:47 -0800 (PST)
+Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::f2b as permitted sender) client-ip=2607:f8b0:4864:20::f2b;
+Received: by mail-qv1-xf2b.google.com with SMTP id x13so319047qvk.8
+        for <kasan-dev@googlegroups.com>; Wed, 02 Dec 2020 00:18:47 -0800 (PST)
+X-Received: by 2002:a05:6214:58d:: with SMTP id bx13mr1424272qvb.44.1606897127239;
+ Wed, 02 Dec 2020 00:18:47 -0800 (PST)
 MIME-Version: 1.0
-References: <8f21ac5c-853e-47b6-a249-0e0d6473c4e5n@googlegroups.com>
-In-Reply-To: <8f21ac5c-853e-47b6-a249-0e0d6473c4e5n@googlegroups.com>
-From: =?UTF-8?B?5oWV5Yas5Lqu?= <mudongliangabcd@gmail.com>
-Date: Wed, 2 Dec 2020 16:08:56 +0800
-Message-ID: <CAD-N9QXH0uC40gOcp9h7Z-d3KdzeFAvfgYvJL_DKC4ceR--wDg@mail.gmail.com>
+References: <8f21ac5c-853e-47b6-a249-0e0d6473c4e5n@googlegroups.com> <CAD-N9QXH0uC40gOcp9h7Z-d3KdzeFAvfgYvJL_DKC4ceR--wDg@mail.gmail.com>
+In-Reply-To: <CAD-N9QXH0uC40gOcp9h7Z-d3KdzeFAvfgYvJL_DKC4ceR--wDg@mail.gmail.com>
+From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Wed, 2 Dec 2020 09:18:35 +0100
+Message-ID: <CACT4Y+YpZQ+ApRa=YF0=1hT-5d9a5gEsA7hnKKE+4HAmqYLPnA@mail.gmail.com>
 Subject: Re: Is it possible to reproduce KCSAN crash reports?
-To: syzkaller <syzkaller@googlegroups.com>, kasan-dev <kasan-dev@googlegroups.com>
-Content-Type: multipart/alternative; boundary="000000000000c39bca05b576c2a9"
-X-Original-Sender: mudongliangabcd@gmail.com
+To: =?UTF-8?B?5oWV5Yas5Lqu?= <mudongliangabcd@gmail.com>
+Cc: syzkaller <syzkaller@googlegroups.com>, kasan-dev <kasan-dev@googlegroups.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: dvyukov@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20161025 header.b=eWjMspC4;       spf=pass
- (google.com: domain of mudongliangabcd@gmail.com designates
- 2607:f8b0:4864:20::b2d as permitted sender) smtp.mailfrom=mudongliangabcd@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+ header.i=@google.com header.s=20161025 header.b=tC4I2zix;       spf=pass
+ (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::f2b
+ as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
+ (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Dmitry Vyukov <dvyukov@google.com>
+Reply-To: Dmitry Vyukov <dvyukov@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -139,92 +131,50 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
---000000000000c39bca05b576c2a9
-Content-Type: text/plain; charset="UTF-8"
-
-+kasan-dev <kasan-dev@googlegroups.com> mailing list
-
-On Wed, Dec 2, 2020 at 4:08 PM mudongl...@gmail.com <
-mudongliangabcd@gmail.com> wrote:
-
-> Hi all,
+On Wed, Dec 2, 2020 at 9:09 AM =E6=85=95=E5=86=AC=E4=BA=AE <mudongliangabcd=
+@gmail.com> wrote:
 >
-> I am writing to ask the possibility to reproduce KCSAN crash reports. I
-> once picked up one KCSAN crash reports and tried to reproduce the crash
-> with logged syscall sequence. However, no matter how long I took (with
-> thread mode, collide mode, repeat time on), I cannot see any crash report
-> appear. So my questions come:
+> +kasan-dev mailing list
 >
-> 1. Is it possible to locate a PoC from the log file?
-> 2. If the answer to Question 1 is yes, is there any guidance or tricks to
-> help reproduce KCSAN crash reports?
->
-> Thanks in advance. Looking forward to your reply.
->
-> --
-> You received this message because you are subscribed to the Google Groups
-> "syzkaller" group.
-> To unsubscribe from this group and stop receiving emails from it, send an
-> email to syzkaller+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit
-> https://groups.google.com/d/msgid/syzkaller/8f21ac5c-853e-47b6-a249-0e0d6473c4e5n%40googlegroups.com
-> <https://groups.google.com/d/msgid/syzkaller/8f21ac5c-853e-47b6-a249-0e0d6473c4e5n%40googlegroups.com?utm_medium=email&utm_source=footer>
-> .
->
+> On Wed, Dec 2, 2020 at 4:08 PM mudongl...@gmail.com <mudongliangabcd@gmai=
+l.com> wrote:
+>>
+>> Hi all,
+>>
+>> I am writing to ask the possibility to reproduce KCSAN crash reports. I =
+once picked up one KCSAN crash reports and tried to reproduce the crash wit=
+h logged syscall sequence. However, no matter how long I took (with thread =
+mode, collide mode, repeat time on), I cannot see any crash report appear. =
+So my questions come:
+>>
+>> 1. Is it possible to locate a PoC from the log file?
+>> 2. If the answer to Question 1 is yes, is there any guidance or tricks t=
+o help reproduce KCSAN crash reports?
+>>
+>> Thanks in advance. Looking forward to your reply.
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAD-N9QXH0uC40gOcp9h7Z-d3KdzeFAvfgYvJL_DKC4ceR--wDg%40mail.gmail.com.
+Hi,
 
---000000000000c39bca05b576c2a9
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Frequently it's possible to local tentative reproducer from the log file, s=
+ee:
+https://github.com/google/syzkaller/issues/613
 
-<div dir=3D"ltr"><a class=3D"gmail_plusreply" id=3D"plusReplyChip-0" href=
-=3D"mailto:kasan-dev@googlegroups.com" tabindex=3D"-1">+kasan-dev</a>=C2=A0=
-mailing list<br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Wed, Dec 2, 2020 at 4:08 PM <a href=3D"mailto:mudongl...=
-@gmail.com">mudongl...@gmail.com</a> &lt;<a href=3D"mailto:mudongliangabcd@=
-gmail.com">mudongliangabcd@gmail.com</a>&gt; wrote:<br></div><blockquote cl=
-ass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid=
- rgb(204,204,204);padding-left:1ex">Hi all,<div><br></div><div>I am writing=
- to ask the possibility to reproduce KCSAN crash reports. I once picked up =
-one KCSAN crash reports and tried to reproduce the crash with logged syscal=
-l sequence. However, no matter how long I took (with thread mode, collide m=
-ode, repeat time on), I cannot see any crash report appear. So my questions=
- come:</div><div><br></div><div>1. Is it possible to locate a PoC from the =
-log file?</div><div>2. If the answer to Question 1 is yes, is there any gui=
-dance or tricks to help reproduce KCSAN crash reports?</div><div><br></div>=
-<div>Thanks in advance. Looking forward to your reply.</div>
+Then you can use syz-execprog to test these reproducers:
+https://github.com/google/syzkaller/blob/master/docs/executing_syzkaller_pr=
+ograms.md
 
-<p></p>
+See some hints on reproducing KCSAN reports here:
+https://github.com/google/syzkaller/issues/1684
 
--- <br>
-You received this message because you are subscribed to the Google Groups &=
-quot;syzkaller&quot; group.<br>
+syz-repro utility may find the reproducer as well:
+https://github.com/google/syzkaller/blob/master/docs/reproducing_crashes.md
+though, it may take lots of time and may arrive at a wrong reproducer.
+
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to <a href=3D"mailto:syzkaller+unsubscribe@googlegroups.com" target=3D=
-"_blank">syzkaller+unsubscribe@googlegroups.com</a>.<br>
-To view this discussion on the web visit <a href=3D"https://groups.google.c=
-om/d/msgid/syzkaller/8f21ac5c-853e-47b6-a249-0e0d6473c4e5n%40googlegroups.c=
-om?utm_medium=3Demail&amp;utm_source=3Dfooter" target=3D"_blank">https://gr=
-oups.google.com/d/msgid/syzkaller/8f21ac5c-853e-47b6-a249-0e0d6473c4e5n%40g=
-ooglegroups.com</a>.<br>
-</blockquote></div>
-
-<p></p>
-
--- <br />
-You received this message because you are subscribed to the Google Groups &=
-quot;kasan-dev&quot; group.<br />
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
-+unsubscribe@googlegroups.com</a>.<br />
-To view this discussion on the web visit <a href=3D"https://groups.google.c=
-om/d/msgid/kasan-dev/CAD-N9QXH0uC40gOcp9h7Z-d3KdzeFAvfgYvJL_DKC4ceR--wDg%40=
-mail.gmail.com?utm_medium=3Demail&utm_source=3Dfooter">https://groups.googl=
-e.com/d/msgid/kasan-dev/CAD-N9QXH0uC40gOcp9h7Z-d3KdzeFAvfgYvJL_DKC4ceR--wDg=
-%40mail.gmail.com</a>.<br />
-
---000000000000c39bca05b576c2a9--
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/CACT4Y%2BYpZQ%2BApRa%3DYF0%3D1hT-5d9a5gEsA7hnKKE%2B4HAmqYLPnA%40m=
+ail.gmail.com.
