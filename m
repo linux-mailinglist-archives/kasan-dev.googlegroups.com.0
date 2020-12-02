@@ -1,132 +1,144 @@
-Return-Path: <kasan-dev+bncBD7I3CGX5IPRBMW6TL7AKGQEGHNABZA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDGPTM5BQUDRBWGYTP7AKGQE34VY4IQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33f.google.com (mail-wm1-x33f.google.com [IPv6:2a00:1450:4864:20::33f])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFC1D2CADF5
-	for <lists+kasan-dev@lfdr.de>; Tue,  1 Dec 2020 22:01:39 +0100 (CET)
-Received: by mail-wm1-x33f.google.com with SMTP id b184sf1123326wmh.6
-        for <lists+kasan-dev@lfdr.de>; Tue, 01 Dec 2020 13:01:39 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1606856499; cv=pass;
+Received: from mail-qv1-xf40.google.com (mail-qv1-xf40.google.com [IPv6:2607:f8b0:4864:20::f40])
+	by mail.lfdr.de (Postfix) with ESMTPS id E416B2CB237
+	for <lists+kasan-dev@lfdr.de>; Wed,  2 Dec 2020 02:22:33 +0100 (CET)
+Received: by mail-qv1-xf40.google.com with SMTP id b9sf41910qvj.6
+        for <lists+kasan-dev@lfdr.de>; Tue, 01 Dec 2020 17:22:33 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1606872152; cv=pass;
         d=google.com; s=arc-20160816;
-        b=AB9PgxjGOXfL7veZRHW3euocIWrvpj2QZRebmx4bmazb2ptQ/oRag6qUj8MNt68IIl
-         WyjHu4GhGdvBr6es0BRc51h1Hdc+eWHIpiy8khsFdYyj501b32PT4ztLZieqcTgueDV5
-         AuIKGc+i8xYRE8uUl586H7kb6jbgrxgA0hc91ty17vljVhT1UXX/rXAJBVJMrmF91brM
-         cPDRcD0ahP3v19SKz7/k6E0ljnr7wwYRHwjbz8ymK2SI2gFRMgczTGhcHplW8BRLjG8o
-         6Qj6Hfyki0WVF1S1KnJjvTwWE+xf/5BDdYmc1IiqZFpkM2hOEOJWodDiWeklI5lyrUOX
-         WbMA==
+        b=jyxVNIS5uPSFWFpfe312C5f+4dLQxVbJYou9pBQdv71zQzulq59cFtpSoJMMNbqsWI
+         ufTc9uhsE4SCuH/LzjZdsfUnwlW4jcSf6dk1JgpQtL/ZVWo2B7rWJfT2UQzhBvrHHPGx
+         GghHEd7HMBlXUXhQzYyEgvBFOARYahgahK3vLSrSdXOsWZ8ywN27zdCPxDQMwIN/UnRD
+         WbnZhhxs2ZW9VniiDn3GRQH4qByhZ9IncTOeTGxM6Bau3KNKAqgpha2b2fPARNUnjVBf
+         dlzKmQ1AqjjYBPg+oEBju2Y6ygb2GNrR4fRSNvDyw2FQ4miTXnRmEH1awyPqFcYb6NFn
+         JwRw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-language:in-reply-to
-         :mime-version:user-agent:date:message-id:from:references:cc:to
-         :subject:sender:dkim-signature;
-        bh=AOTKuI1JXgSei+NVluAOuWauhkJRuUCYr3dzk+3+nT8=;
-        b=mnQvcohcDnEwFfXfzHYmoUWUutRqpqgvG9kl8qwBfr0USsCfv+IU7u5rCoytepTCys
-         k/nEgbuK9axgT0XM9g0aBdRebVAgxdx7pip+gEX1+JCk+rA9e7so0CY4KKXl+rkqFsbj
-         k6zHYGzXMfU5zm1HEeA7w5q4mcifniW/p4f0VIFEULKDUTCaTxY3Lq/vF2LIF87sd8Tx
-         BRonM21BuI9YRHfoYM2G23OjjcAz8T3raInOudfMH3TzFvKoF8kCBJeHglFwV8V0754A
-         JPSbKp1gLW41bY9shiDbrXHOGXY5dGQMEsIC1n87YFrSswpHFMLRpkHWqT5taf3upqkW
-         9FJw==
+         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
+         :date:cc:to:from:subject:message-id:sender:dkim-signature;
+        bh=Ydl7lmPl3snLpYFStPoxjOhhwqEWiElGYUxCuiDHI/M=;
+        b=JGAbH45+vMd439K5Y9Qbybjrc68lRRKxlPdCpKs44bnFl9aW4yWRCATUY7/02wvAXC
+         7h9uBLzqr809dsfgzra8Ojs2gBkheo839REJibW2g5BvEPbn3QNXqAWgW3vPGPXh0V8w
+         OsvhsLHB7t/t9xEHJyOLFQhQyzEnXBpzzKp8eIlOpZ+/JFMCQOu4i/+0RToM5/zcMb8p
+         KXIKSfwNoePo/4+TwlT/CZQqOtIM2TGKbVmqU3E7b1PNsJy+x4URec+HCvhqfqlwbEzq
+         a6kMESIJQaYT1uFMjy6at9Eai3PdU4tjF8KKOqfCr/jOYEtkTqjbiHWqS+RH1p3dIA5u
+         m9Ug==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@rasmusvillemoes.dk header.s=google header.b="GLG/t2Ix";
-       spf=pass (google.com: domain of linux@rasmusvillemoes.dk designates 2a00:1450:4864:20::642 as permitted sender) smtp.mailfrom=linux@rasmusvillemoes.dk
+       dkim=pass header.i=@mediatek.com header.s=dk header.b=BcCp9VTj;
+       spf=pass (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.183 as permitted sender) smtp.mailfrom=walter-zh.wu@mediatek.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=AOTKuI1JXgSei+NVluAOuWauhkJRuUCYr3dzk+3+nT8=;
-        b=o8owZg86WtPNr5DGF5OdpQSG9e6Fait5v1DlnfEHjz8aruUCgNB0Ldw0N/nIp1DJNQ
-         8tkhh4pDYKg6FKXgAYaUfcnmJ6E+I2IQcKocN7+k55Bx6WaIyrmOD3PBwtsycZVfqHtU
-         +z+bnHPOhuK8l0HCr9tY58wfQlLSWMCYEd96LKy/tQs8F6ybrGvFW12LCtTIcu1snqF2
-         Fs3NJFw0uJRC91xNdmFo656ubMjVG6ibAOmT/0x7MV5LXyNhjyLEqQi5LSfqx7HbXvhG
-         HdWLYrthjdL1DJ438l3ziOolgLONsebAj/yOZTH+z8isKsPo+wJSYXvY6SJH/AyEZCMZ
-         hZuQ==
+        h=sender:message-id:subject:from:to:cc:date:in-reply-to:references
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=Ydl7lmPl3snLpYFStPoxjOhhwqEWiElGYUxCuiDHI/M=;
+        b=SDJARm+ClDEFI/rG4cxkEUbi0cbhwkw+zmTAgwxES3luLVkTeVZNzot62C6S+AWi08
+         BU9chp5ss1KqRyzHxzBCJ3KGnxZJw9bi0bQ8J+lgZ4CDq9Wbsm1IoIFyxShEJtW8jiRm
+         ldaemFbchaWkR641KL51IILRLeOA70qI4pJqF2K84KZ0O7t8cel+MllJoijpjnBOQBGe
+         7lvNL7ZCPdJdqqtYvKIXVxt1cgPyD/cRO4EOx+z73Tn9ciJeVXFc/OxtSk4hSf/vRzEL
+         WENVqf11XfwqabY47mPdPvoiK+gkEkDZUmx7WMccF4JEYqdxZNrIytfTp/6XmpLj0Iih
+         OXRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=AOTKuI1JXgSei+NVluAOuWauhkJRuUCYr3dzk+3+nT8=;
-        b=Q4BCWWGYbW3Q93dZJGSIzNFBmIhpxAUA8EgVvz3/RrsyK8/Ncq3J9qRJHbZWHvBz7U
-         AxyrTRWc0uj6SFnrl1pyPTJrFonkHw7sIr3JSNE76aRaNtQTNfNU0IR+eujVVaZHZ9lI
-         ucX6bubrzK1FHAfNLNUvvjgsbPKDU1Dys3YTFlRjiR9BK4t2QcfL/c45OIc3wPLaVEfn
-         TjJLqBm1tODcr2YYBgoRuEUV5ssm1zs1fqsNMQz+stiWIwTHoMb7o4zlfTCJxD8DCW8x
-         PWHdB7YvRkM+FFPwoI+XYPczG3cqgIk0VbVw/L0RSYFO5OOwnHW63l2Cvx2JlkPGotEs
-         87fQ==
+        h=sender:x-gm-message-state:message-id:subject:from:to:cc:date
+         :in-reply-to:references:mime-version:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=Ydl7lmPl3snLpYFStPoxjOhhwqEWiElGYUxCuiDHI/M=;
+        b=UdKfWuNniJpv2eKgu1u1NXd2Smmy+esjXyJCF/L2f65RCwGQ9IhP0ir0HuJqIRc3/E
+         xil72OhxBn0mWY406fduEI33+poPbCuTMsxU3KRymYKhPJoiT4fCOnMZ1Ognnaf6glaF
+         1uMg0e7/vMVwztxrS9z3FV/dHFES+mQLWXJ9JShEzhJcD3Zs6hOzMXEfVYnMTtfHFlTn
+         imnoDDQsKT12ZrKT6F237ZU6FnaAQWBL6Elh1BFSO4D6sOpM2pDwDIiGZ5xF122kd/nS
+         YDNstguudrL4fk+lmffbUX+pw7D700AkiGHirCt81vJLpGDe2/bDS7jBtWd5ahrCWtQ1
+         QKqw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM531f8k4VD+KgG5xJAg6vSVpse4VKuSyt9lN2LmpLgrNtis3fY7pS
-	7J94hcLWvyS8IjG/RMQyfbQ=
-X-Google-Smtp-Source: ABdhPJzoDJg56Z0b2SqMJEs9mVa6DfJSgzNUpjV4RAXT8gZ9oy3owCG2us0AD9uXF3s3mScxFulANw==
-X-Received: by 2002:adf:e7d0:: with SMTP id e16mr6430359wrn.114.1606856498680;
-        Tue, 01 Dec 2020 13:01:38 -0800 (PST)
+X-Gm-Message-State: AOAM530m17YweZMHJ4/lBFppcmt+NLaFlF6cpa8Obk+m2VLop07EDOSd
+	eyaPSRXi23+s6H5pgrWUgek=
+X-Google-Smtp-Source: ABdhPJxoJgemmD06E5FqaQ4FxJbDEAIacoDv3dM/uPhX1BHWnoWpySh+wATHClHypCSIZwuez7IrGw==
+X-Received: by 2002:a05:620a:22b3:: with SMTP id p19mr346691qkh.180.1606872152831;
+        Tue, 01 Dec 2020 17:22:32 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:adf:f70d:: with SMTP id r13ls1978807wrp.1.gmail; Tue, 01 Dec
- 2020 13:01:37 -0800 (PST)
-X-Received: by 2002:adf:8b8f:: with SMTP id o15mr6305977wra.311.1606856497750;
-        Tue, 01 Dec 2020 13:01:37 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1606856497; cv=none;
+Received: by 2002:aed:2985:: with SMTP id o5ls8330qtd.2.gmail; Tue, 01 Dec
+ 2020 17:22:32 -0800 (PST)
+X-Received: by 2002:ac8:545a:: with SMTP id d26mr337914qtq.390.1606872152443;
+        Tue, 01 Dec 2020 17:22:32 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1606872152; cv=none;
         d=google.com; s=arc-20160816;
-        b=Z4d2e+flYYRV8+4c82qq8fyiBCowQcRxC4C/smCHRhnRookLo+r38BkAT2azfjl4dz
-         hmtEkmdM5X3BbqP/Boi8tiGX9UDhwGxyrTN3tPO3IDuz7ZMBqc9zKcKINAtU0aPDs0c4
-         wak9dncV2H8Zx+bPPaLWBy7QKx/DW/HcJ5jGtP6FzZPpMqHbi3lIBkDc7+uu1f8FmmQX
-         kbwzpJ1NLQ8DOPgcz7N8k7vp4oNmGU97UoUw+BlRl30oXDsbwOn7la4vBTzaDAadwBcx
-         RohoAVRI734aoXK/tPBCVspPXKk8s4Zta6U7BRL9XwlLO+UDhMdZe/wJydLXRinxzPB1
-         Gyqw==
+        b=ROYVbE42qGLtHpHhoMjSL7rfouJbQG3YrgxxlpoA/VzzM3JNp9fabvoPdP/UzBtbtU
+         bdLoCGq23tK+wfY4+/kQbIUMdIHim6XKAt36oQzf7ItIoVKhhO6lM9D6aYSItYHHZARu
+         e/psA9mduOVRYIoapvk6Wb6VWUXx+dBVf4M5IzN6xgShmZzw+ppWlO56yV7WPqqEE5or
+         VPPmK8i1IeL2AUc58CUrgwKkTLKflEe6YpTX5eG8saf48NBZ8OMuPVoI7AKqKQZCq5K+
+         q6sXE2mGjXsGVY3IWN6wXj4n61um3fo3o4onfFqpo5sBSKy6+3Ukx7IzlAnZlmyKkhPy
+         1Gaw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject
-         :dkim-signature;
-        bh=b2FxREJM4KjZutceZCm25hg4BRQNyF6TpYcPtf6exnY=;
-        b=hmnspEwxnLRJsA5mBzf8Kibe3l2xM1KzzrKGptm8GcM0aWP2+eASsOB5RpaopDPLew
-         Wtce0EtBf71OV/CbesXHC1I7TkWvRmMEGyEH4nJgkqgHZIXNoPEpmwenq6V/Iw8mm/5C
-         qf2wS3STxQLWV8PrDx3VLBAziwgI1qvoDH4JYf2w9tmVdHRd9o/PeB7UXba9KeZ2WlO+
-         2W8k/DLM7SuCk41MdAt5l+ASM038fC7u+xBrehYL/yXygzGIp42b7xCBe3zYuSjKw2ec
-         5R9hR3fOQKWVSqR6InGI2U2n4E6pbg8QcKQTdIacQYqaH6gQYCvo5N28bF6GgGmqorTn
-         Au/g==
+        h=content-transfer-encoding:mime-version:references:in-reply-to:date
+         :cc:to:from:subject:message-id:dkim-signature;
+        bh=aFh6DrFU7jAcnRRxu+a/aUKMgiC608ISwon0hAJWMbM=;
+        b=CqGQxk6mcTcKs7ZaYSrsSejPUxhynNcx8ESsWoiAqfFJ8TiSzTih/qYrfWQmuZ+tF4
+         xKmy5XCKsQxK/uvgEW4GIZqKqFlBrPtjR0x/4qxzW/X2TMsK5VOHxvXdyVqnXNOxatdS
+         BoiMOg2o4SYSXSPaPa1vdkvkXuSoIaUkSv2A8619wvoq7cTJTRiCrBioowWJbMt/zDOK
+         DvBeKf8uZ0jf+7ewjrv7QVHB9d0MOer8qa6oKGkAQvaRTODx+DBWOVRtjYz/J2QCTDgX
+         ghnvj0lX/mJwYtge3c96gd040DjZkA7tSzYw+hdZE4lra6QrwlUfnxoNF5p0hZXvVnuW
+         MtWQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@rasmusvillemoes.dk header.s=google header.b="GLG/t2Ix";
-       spf=pass (google.com: domain of linux@rasmusvillemoes.dk designates 2a00:1450:4864:20::642 as permitted sender) smtp.mailfrom=linux@rasmusvillemoes.dk
-Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com. [2a00:1450:4864:20::642])
-        by gmr-mx.google.com with ESMTPS id y187si86128wmd.1.2020.12.01.13.01.37
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 01 Dec 2020 13:01:37 -0800 (PST)
-Received-SPF: pass (google.com: domain of linux@rasmusvillemoes.dk designates 2a00:1450:4864:20::642 as permitted sender) client-ip=2a00:1450:4864:20::642;
-Received: by mail-ej1-x642.google.com with SMTP id g20so6627321ejb.1
-        for <kasan-dev@googlegroups.com>; Tue, 01 Dec 2020 13:01:37 -0800 (PST)
-X-Received: by 2002:a17:907:28ca:: with SMTP id en10mr4806924ejc.268.1606856497381;
-        Tue, 01 Dec 2020 13:01:37 -0800 (PST)
-Received: from [192.168.1.149] (5.186.115.188.cgn.fibianet.dk. [5.186.115.188])
-        by smtp.gmail.com with ESMTPSA id n22sm445316edo.43.2020.12.01.13.01.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 01 Dec 2020 13:01:37 -0800 (PST)
-Subject: Re: [PATCH] genksyms: Ignore module scoped _Static_assert()
-To: Nick Desaulniers <ndesaulniers@google.com>, Marco Elver <elver@google.com>
-Cc: Christoph Hellwig <hch@infradead.org>, LKML
- <linux-kernel@vger.kernel.org>, kasan-dev <kasan-dev@googlegroups.com>,
- Masahiro Yamada <masahiroy@kernel.org>, Joe Perches <joe@perches.com>,
- George Burgess <gbiv@google.com>
-References: <20201201152017.3576951-1-elver@google.com>
- <20201201161414.GA10881@infradead.org>
- <20201201170421.GA3609680@elver.google.com>
- <CAKwvOdkhBTjjtEm9dc9irp8hpWoEDEAMj_Zp4ntKspgDkjrATg@mail.gmail.com>
-From: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Message-ID: <764b18d4-b519-9f27-f66b-7cfdab61b313@rasmusvillemoes.dk>
-Date: Tue, 1 Dec 2020 22:01:36 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <CAKwvOdkhBTjjtEm9dc9irp8hpWoEDEAMj_Zp4ntKspgDkjrATg@mail.gmail.com>
+       dkim=pass header.i=@mediatek.com header.s=dk header.b=BcCp9VTj;
+       spf=pass (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.183 as permitted sender) smtp.mailfrom=walter-zh.wu@mediatek.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
+Received: from mailgw01.mediatek.com ([210.61.82.183])
+        by gmr-mx.google.com with ESMTP id f16si9930qkg.3.2020.12.01.17.22.31
+        for <kasan-dev@googlegroups.com>;
+        Tue, 01 Dec 2020 17:22:31 -0800 (PST)
+Received-SPF: pass (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.183 as permitted sender) client-ip=210.61.82.183;
+X-UUID: 9e56c2ef1aff4e988b1401ccd7d4429c-20201202
+X-UUID: 9e56c2ef1aff4e988b1401ccd7d4429c-20201202
+Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw01.mediatek.com
+	(envelope-from <walter-zh.wu@mediatek.com>)
+	(Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+	with ESMTP id 551974189; Wed, 02 Dec 2020 09:22:28 +0800
+Received: from mtkcas07.mediatek.inc (172.21.101.84) by
+ mtkmbs01n2.mediatek.inc (172.21.101.79) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Wed, 2 Dec 2020 09:22:20 +0800
+Received: from [172.21.84.99] (172.21.84.99) by mtkcas07.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Wed, 2 Dec 2020 09:22:20 +0800
+Message-ID: <1606872145.1015.5.camel@mtksdccf07>
+Subject: Re: [PATCH v4 0/6] kasan: add workqueue and timer stack for generic
+ KASAN
+From: Walter Wu <walter-zh.wu@mediatek.com>
+To: Dmitry Vyukov <dvyukov@google.com>
+CC: Thomas Gleixner <tglx@linutronix.de>, Andrew Morton
+	<akpm@linux-foundation.org>, John Stultz <john.stultz@linaro.org>, "Stephen
+ Boyd" <sboyd@kernel.org>, Tejun Heo <tj@kernel.org>, Lai Jiangshan
+	<jiangshanlai@gmail.com>, Marco Elver <elver@google.com>, Andrey Ryabinin
+	<aryabinin@virtuozzo.com>, Alexander Potapenko <glider@google.com>, "Andrey
+ Konovalov" <andreyknvl@google.com>, Matthias Brugger
+	<matthias.bgg@gmail.com>, kasan-dev <kasan-dev@googlegroups.com>, Linux-MM
+	<linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>, Linux ARM
+	<linux-arm-kernel@lists.infradead.org>, wsd_upstream
+	<wsd_upstream@mediatek.com>, <linux-mediatek@lists.infradead.org>
+Date: Wed, 2 Dec 2020 09:22:25 +0800
+In-Reply-To: <CACT4Y+Yy8S0L18u3q1Y1K1r-qqXRWzrVVLPNR_En0hJ9nX7Tbw@mail.gmail.com>
+References: <20200924040152.30851-1-walter-zh.wu@mediatek.com>
+	 <87h7rfi8pn.fsf@nanos.tec.linutronix.de>
+	 <CACT4Y+a=GmYVZwwjyXwO=_AeGy4QB9X=5x7cL76erwjPvRW6Zw@mail.gmail.com>
+	 <1606821422.6563.10.camel@mtksdccf07>
+	 <CACT4Y+Yy8S0L18u3q1Y1K1r-qqXRWzrVVLPNR_En0hJ9nX7Tbw@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Language: en-US
-X-Original-Sender: linux@rasmusvillemoes.dk
+X-Mailer: Evolution 3.2.3-0ubuntu6
+MIME-Version: 1.0
+X-TM-SNTS-SMTP: C1099CD3A8527B7642F07659FBF80227BD8F9D554DF4ECC02ABA034D081813CC2000:8
+X-MTK: N
+X-Original-Sender: walter-zh.wu@mediatek.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@rasmusvillemoes.dk header.s=google header.b="GLG/t2Ix";
-       spf=pass (google.com: domain of linux@rasmusvillemoes.dk designates
- 2a00:1450:4864:20::642 as permitted sender) smtp.mailfrom=linux@rasmusvillemoes.dk
+ header.i=@mediatek.com header.s=dk header.b=BcCp9VTj;       spf=pass
+ (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.183 as
+ permitted sender) smtp.mailfrom=walter-zh.wu@mediatek.com;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -139,27 +151,58 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 01/12/2020 20.56, Nick Desaulniers wrote:
-> On Tue, Dec 1, 2020 at 9:04 AM Marco Elver <elver@google.com> wrote:
->>
->> On Tue, Dec 01, 2020 at 04:14PM +0000, Christoph Hellwig wrote:
->>> Why not use the kernels own BUILD_BUG_ON instead of this idiom?
->>
-> And to proactively address the inevitable: why do we have both?  We
-> looked into wholesale replacing BUILD_BUG_ON's implementation with
-> _Static_assert, but found that they differ slightly in the handling of
-> integer constant expressions; BUILD_BUG_ON was reliant on some
-> compiler optimizations in expressions making use of
-> __builtin_constant_p that cannot be evaluated when the compiler
-> performs the _Static_assert check. 
+On Tue, 2020-12-01 at 15:02 +0100, 'Dmitry Vyukov' via kasan-dev wrote:
+> On Tue, Dec 1, 2020 at 12:17 PM Walter Wu <walter-zh.wu@mediatek.com> wrote:
+> >
+> > Hi Dmitry,
+> >
+> > On Tue, 2020-12-01 at 08:59 +0100, 'Dmitry Vyukov' via kasan-dev wrote:
+> > > On Wed, Sep 30, 2020 at 5:29 PM Thomas Gleixner <tglx@linutronix.de> wrote:
+> > > >
+> > > > On Thu, Sep 24 2020 at 12:01, Walter Wu wrote:
+> > > > > Syzbot reports many UAF issues for workqueue or timer, see [1] and [2].
+> > > > > In some of these access/allocation happened in process_one_work(),
+> > > > > we see the free stack is useless in KASAN report, it doesn't help
+> > > > > programmers to solve UAF on workqueue. The same may stand for times.
+> > > > >
+> > > > > This patchset improves KASAN reports by making them to have workqueue
+> > > > > queueing stack and timer stack information. It is useful for programmers
+> > > > > to solve use-after-free or double-free memory issue.
+> > > > >
+> > > > > Generic KASAN also records the last two workqueue and timer stacks and
+> > > > > prints them in KASAN report. It is only suitable for generic KASAN.
+> > >
+> > > Walter, did you mail v5?
+> > > Checking statuses of KASAN issues and this seems to be not in linux-next.
+> > >
+> >
+> > Sorry for the delay in responding to this patch. I'm busy these few
+> > months, so that suspend processing it.
+> > Yes, I will send it next week. But v4 need to confirm the timer stack is
+> > useful. I haven't found an example. Do you have some suggestion about
+> > timer?
+> 
+> Good question.
+> 
+> We had some use-after-free's what mention call_timer_fn:
+> https://groups.google.com/g/syzkaller-bugs/search?q=%22kasan%22%20%22use-after-free%22%20%22expire_timers%22%20%22call_timer_fn%22%20
+> In the reports I checked call_timer_fn appears in the "access" stack
+> rather in the "free" stack.
+> 
+Yes, call stack already is useful for it in KASAN report.
 
-... and _Static_assert() is a declaration, so even many of the
-BUILD_BUG_ON() that have a bona fide ICE cannot be converted because
-declaration-after-statement.
+> Looking at these reports I cannot conclude that do_init_timer stack
+> would be useful.
+> I am mildly leaning towards not memorizing do_init_timer stack for now
+> (until we have clear use cases) as the number of aux stacks is very
+> limited (2).
+> 
+Got it. I will remove timer patch and send v5.
+Thanks for your suggestion.
 
-Rasmus
+Walter
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/764b18d4-b519-9f27-f66b-7cfdab61b313%40rasmusvillemoes.dk.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/1606872145.1015.5.camel%40mtksdccf07.
