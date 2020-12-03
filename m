@@ -1,127 +1,133 @@
-Return-Path: <kasan-dev+bncBDX4HWEMTEBRBUF4UP7AKGQEEWGXGJI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDKJVFPCVIJBB5MYUT7AKGQEML6G4BQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qt1-x83d.google.com (mail-qt1-x83d.google.com [IPv6:2607:f8b0:4864:20::83d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C2922CD5B9
-	for <lists+kasan-dev@lfdr.de>; Thu,  3 Dec 2020 13:47:13 +0100 (CET)
-Received: by mail-qt1-x83d.google.com with SMTP id l17sf451444qtj.18
-        for <lists+kasan-dev@lfdr.de>; Thu, 03 Dec 2020 04:47:13 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1606999632; cv=pass;
+Received: from mail-yb1-xb40.google.com (mail-yb1-xb40.google.com [IPv6:2607:f8b0:4864:20::b40])
+	by mail.lfdr.de (Postfix) with ESMTPS id 88CB92CDA9A
+	for <lists+kasan-dev@lfdr.de>; Thu,  3 Dec 2020 17:04:06 +0100 (CET)
+Received: by mail-yb1-xb40.google.com with SMTP id w8sf3290631ybq.4
+        for <lists+kasan-dev@lfdr.de>; Thu, 03 Dec 2020 08:04:06 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1607011445; cv=pass;
         d=google.com; s=arc-20160816;
-        b=oRc7cOTbqodNSeba5NF5CQpnWsw+xeGmqd86L4pwC12AWOcrjY8FlgPrOvJ7Cag8Cs
-         pG216P0YehlJsZf8DauBZ83B9ofopTpUjC10x9oLHykSkoqcRcP6xl2cXfsWfmezH2vy
-         paE7Gwh7U0YD+VEsMJ2d7ikVfyP19JKvLhlvsVD5oUsfjicXQZ/2MkAjX6eBUqtl/Q/n
-         atpje879RG0lk05wGtACQKfBZJh9hMKxfnbICJciKM7UglypJGHHhwOdC+EUBXlNtny8
-         hdT/JfT3YluTb+qlT7ueEluzGy2YkxKhIKdUPwujwL1GM1n02EItzyQwe1gjwRFFi9Je
-         E0Mw==
+        b=xQBd6iBYD9VvFZB8lyxUVGWYaGEuQwGIlDeG80zJHmSFY11I6bNXGtoztaEXAzn/z1
+         cHzNCmZr3Z7e3SdGG0fW4vmSYqslioG2B5reJEYJ9Y/u+uipMtlP/1jAq37/rgJzVd8e
+         UzvSB7uRivM4eKi/Q56L9eA20ePEuRThUXBOxIE0zgqj/hZSGbaeByAi93nBGULk8cxb
+         VVfZPUa0jsEsxg9gjVGGnAkCGppv6VX1s5ehuWK/MPU5QoHBkPUAiQ25GQYBF4vqn1IT
+         KF7oUgkaqtK3WlChwKPtHXsZ3ycu8BA8uAjaRnSMl4LQEgW4DSP8fH6U8NRwHzPGBIc4
+         En8Q==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=9IGy9Kpnl8TxBBu0pqZ9Xo6PO3PH0cNlnh3Y698Jzj8=;
-        b=lssr6OZtXKqXo+5pEC/NUpuTfD+fZWDUnY8LFi8S+KyH5frZAlNBlbEql+T2PVY4Ap
-         l6UCv8K/pEj9AkG9wVXdzYorrf8fXydkdsGa3ictl24Tl9cS6FWvXJbXgm8bIEzlyxys
-         p4psbl612KTo9NQhEyd3zn58Cz++lqInmxmg328eyF8WfsBj5pG7VfplXlRCAt9UaVi/
-         6nuY7BodKVrQ8d4LY8d9oM9Lvg4nOuZWIaWCnGwbbtju2CyWODct4rudVEfCPKiqMO/f
-         FYjMI5/t0ilWGdqo2dnSnx9FLk/YHoaoniv9a1/F5a1q0d6lOadc3EISiHjRIt+bY+bO
-         DEDw==
+         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
+         :date:cc:to:from:subject:message-id:sender:dkim-signature;
+        bh=JduCykdBKOFOSa4uPvkx77AO2r6z8ZetpiGTt1bKz4k=;
+        b=xv/xrqhn47ZXTTjyhCFweV88HUSjUsFIHEJW6bV8NVTcDS46CnWNP3EWcwE/js1r9t
+         Uj1BT4AFkSYlRaqZ0l+4Jd8Hcr3YaRkyzwOW7hwT0PrT07Ri3tcAIIxayGZ9gc0Lc8n4
+         c9Hz13Cvi2DEnzjNqVWF/x3c4MzfGFXyJRnuTVW2LUAcm3a06E5OO/xIsmHElbpVPgcV
+         FINQsK3+II1tXNGplJeczZCCcausHaYd9DjHqG1k9HpWh3EFX1erfgUccbYhv28jYPO4
+         13/TA8h9tgZXi8Uv6Y+8cv03HMqtUKjvKh+ejO3uZmlUIcO8rA+dneGy8N8C3KbrEKOK
+         mfTw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=RVIUWgPt;
-       spf=pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::441 as permitted sender) smtp.mailfrom=andreyknvl@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=NdKVsRCm;
+       spf=pass (google.com: domain of qcai@redhat.com designates 63.128.21.124 as permitted sender) smtp.mailfrom=qcai@redhat.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
+        h=sender:message-id:subject:from:to:cc:date:in-reply-to:references
+         :mime-version:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=9IGy9Kpnl8TxBBu0pqZ9Xo6PO3PH0cNlnh3Y698Jzj8=;
-        b=Dd0OjK0cNe2/NQefP9o8WB6DQrNDfs+wwXSC3LL3m7aSypCWdz8NokzuOQ5l5ICnwb
-         irunET2jXoAA1uy8pSCUdpgpKnQA95EbNz2hLmUy9+HmaZU3rb3CRi+JL2smw6aMmTOe
-         m4I70CmpMMDt3F9mLbjSjmAogzXps24Wuc/kBKtIes9M3ZPRZSxvx8e05aAOOLR1z+pC
-         egR9GScKNtvKY5MrgvyCAEsZyfV4VcT5i5lCi5ZJaeFmqskdqdzouhBUJBSYc6e5+vvQ
-         T/H46aEk0TvDZ5pPqLH5oX/d3Ng6c8mdSlWrtJ+wryB3lqxTFGActB4lzdmGPzXQhxE3
-         097g==
+        bh=JduCykdBKOFOSa4uPvkx77AO2r6z8ZetpiGTt1bKz4k=;
+        b=l5MEwJ76nBgvF6EA9G5T1MYLSDuWyvErKN6ScZvwR7hP5a4ZoeyQDnNYSGW8n+BS1h
+         D64Cldu8A0r6Tm7THNWWwdgp9XFe7GG1dC4V6mn8YNg50gz6fyHi32PzjDN/r0bWTxzE
+         9Gz7FpSYguzJ/o88F7vENSjuSvQIX5cGY64VN3BeNuMvBUSCneCrW9nHp6p/FrlyptlM
+         uD1/Y5oalATKMs41RbF3ivH2myn6DAsZCnEhJeTrlsJMoOxcGg/B1hsXDso7YFSMu3SB
+         wlgOr/nHByOdHxlc1NIfJcipRdfZPXdqv2rggjH1q1BBg85aXYT2esOSXb7sq4uMhkcH
+         ddsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+        h=sender:x-gm-message-state:message-id:subject:from:to:cc:date
+         :in-reply-to:references:mime-version:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=9IGy9Kpnl8TxBBu0pqZ9Xo6PO3PH0cNlnh3Y698Jzj8=;
-        b=gNMLGqWW0ch1Bu4jlmUSHBT/Vl7shqBYbp47rMD/M9nov4SXM0YN85DK9rNfa5mIOh
-         oSIEhzpvNjbUatQ7nNk1p03v9XQdHK4Hzl21zHMvuUaE02M5EIwvbIaSa8QveTO/qTYb
-         hcwMxLCk67x/GhNbr3nrtrwuNO0ev4f49AxfCJAK3gzGphhme026a4bJujBnojEdA5fk
-         bB3rI8ZMFM9UuDzOSdGU3Rbl2W+VTXvuIqq4SeZpsO0mcAS8e/Sfj4YOloR9leXDpeR4
-         Nk1er6RuJaZM4hPSO3BwwOaIbdK/yU3fD/6fq03bVkxdhXlwWJOSfkvcRv6cDJVu/xIQ
-         yYZw==
-X-Gm-Message-State: AOAM533Hrwn6coKM4juGKam++VLjPfzQrki8G0AusPenCQXcOsV9lv/8
-	62nrLSQ4IJxcJ/8dHLumEM8=
-X-Google-Smtp-Source: ABdhPJxdZ5P4H61GuDA5r8+wfytQBqNB+xMYupZf4GvtCS626kCzSpH2v80kxbLnQYf2O4a2Gkg8Mw==
-X-Received: by 2002:ad4:4e30:: with SMTP id dm16mr2818551qvb.47.1606999632302;
-        Thu, 03 Dec 2020 04:47:12 -0800 (PST)
+        bh=JduCykdBKOFOSa4uPvkx77AO2r6z8ZetpiGTt1bKz4k=;
+        b=ZI2bJvA7GpqgfFhQ/hAGFMKEQr6X3adqvQd1XO1Mxl78lnXP4shVT/wY/cgXVOdBpP
+         MNn2zMs+CxEO7iJYk84bIq4UYxj1H6QoG04c25RSfihYF7uCFDIJCaXsiuVgoX3Duhwn
+         qod54FIfW6MLaIfqwfxm9lnafuQhrdnrNd6Q5PhZux76SKNKDfluEkkB/UgHAyqM7RBT
+         kJNJAEpKZDt2muNoGEklAeKqi0X12XPkQje6PUPcEZvcTMmzhm4HoXaO3PXAD9VtTs0Q
+         DgNKiWUeYDT4emFH3zJ1AnJ2Pm/rUZPfBRrurqs0OEC5PPZR2I/KJK8sEZn6IUMO+RNQ
+         rlBg==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM531eDmFVuG/7+BICdCQTdmVLiPDCUk19Vfx5mXUZej9SNF/7FbX7
+	00WmZybSNVVNLn/Miozl89c=
+X-Google-Smtp-Source: ABdhPJxnswwvgP8eKkfsYGsdWB5wh/UFq8MVzVnAJm/4cxKoNK9xomSAX4omvttAZZJW2fGzF5dz9w==
+X-Received: by 2002:a25:738d:: with SMTP id o135mr5215392ybc.349.1607011445429;
+        Thu, 03 Dec 2020 08:04:05 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a37:a2d1:: with SMTP id l200ls2455083qke.3.gmail; Thu, 03
- Dec 2020 04:47:11 -0800 (PST)
-X-Received: by 2002:a37:aad2:: with SMTP id t201mr2537512qke.61.1606999631858;
-        Thu, 03 Dec 2020 04:47:11 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1606999631; cv=none;
+Received: by 2002:a25:b581:: with SMTP id q1ls2947358ybj.6.gmail; Thu, 03 Dec
+ 2020 08:04:05 -0800 (PST)
+X-Received: by 2002:a25:70d5:: with SMTP id l204mr5424817ybc.19.1607011444955;
+        Thu, 03 Dec 2020 08:04:04 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1607011444; cv=none;
         d=google.com; s=arc-20160816;
-        b=DvgdKpeBklQXih82S0jpAXrtDF1WZHvxcnGSDQ2E25vnjTKLN+XEETmJoSqpsnDMg5
-         BYGA2iwLkkjnwg06j51f3H+D7397MY3VWBj0lWrthg9HjkXs6WBNgFKq+aRDxtQNgZlv
-         csiovUm5UK5aQk7Y4i6y7SKkkKcK1AvPeqscAt4tcRCrKbNcGfX+W7I42crqpa50zano
-         gvG5VF0hCkKlLoP0MdoqM64wKKoJYqbA86I2kchdUvzXdRPUuCyKwV8hWescSY+w2Knb
-         rbbQb03l3nLPlGsmRsvVdXsOOA8uCD5I02mhzBjzpmJvT2RAvnks9WtPg5QohvhXlS3y
-         1lJw==
+        b=N3gpYOQQP6YtNshpR9FDJG5F4g82eCpdgi23AuGT4C9TikWG502QvJZtXxLEyEDDvm
+         MJ9E0cVzr5LLRytJz2bgp56DQPoxLYibMyd6TnrqLzNMKmE/eoVlOfZ+Q1zCPlIKLVAm
+         zI15uvWEwsYnnPCmJF3uSyL1R6hGPkb0FmGN3VylaW4QQWqtPp9wuGWwc4d2CQltCE/9
+         qhGDiQmeZKrgOTlLGY0+2Jc6D4W4FSj32JrjzAs136ON+hjjgeOdDHzPqfkurdvpv16L
+         BzD8BIp6X6FTqGD2oNWhayjDMvPJl6vTGLv2mXvKzPnDvLgbdZStOXgiOxQYavuXheJt
+         EeNQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=LyhE2Gh6cABbrVZ7ov6yfexMpJrP0k999yqFA1LYZCc=;
-        b=LKbcI2yFYzdxXo9vDdUMYBQFRG7R/FrlSB+Cp3hFsiuxcX3wyCI+s8dkB2yzKY6XWW
-         nW+PPTnwYRol4LvQSEhq3kN94OIEpBpfRtTI3Z9wUiu6iRIaCguuzUVz7IpGyHUh3mAT
-         G0EWh6PkFtlQZmpl0l0WvPVQ7RQ/wcyPwsB2u293LRtXM7p2euSQ0QvunFQ2X4cVYBvr
-         XMbpm8ij6vR1hMMHQ1FIotdXPEqGJR51UCo8Y/3wpyZoHJphnhiA/+d8mTcmfUhUyfVX
-         jK8kgbQvV/moYTAn9NnGnX4YJdewU3kRSQPWudHbtCVCKDVyz1bTR9ocp4ShfdX9BX1d
-         FSBw==
+        h=content-transfer-encoding:mime-version:references:in-reply-to:date
+         :cc:to:from:subject:message-id:dkim-signature;
+        bh=Hr22txaoNLWqIIxA6KQdTOKASYpvNDdZFmcQSpDcxdk=;
+        b=RbZ2p/eIaZe7449S7v6x8OuhR8urQmHove3RnYqTnoi+27aZPSHI+gboTjkKhyHARU
+         gCR0WA8a/7+pxnjeCb87cLPRP7waCLTirl6E2s3By0mkN+SXy6iuEhVga13lD1K8kLWS
+         J8KleSwVS7fhyA9J9kyIqz9sSha2duXmR8/HbWf8z+KhvighE/jnGQ2HhwglV/aZkffk
+         mzZotckLlUnsQQiH3CFWaH3dRkucbDCRr8P2HR3an4747dMUEL3sgXKVxGsx6Gbi8RzD
+         MUfEzgRq2watovaHaXm/DiHZyQrg91eqG01MJjIcDCietbjnhXeKwVdo2wGxE0Qa26xE
+         FAuA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=RVIUWgPt;
-       spf=pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::441 as permitted sender) smtp.mailfrom=andreyknvl@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com. [2607:f8b0:4864:20::441])
-        by gmr-mx.google.com with ESMTPS id j44si68272qtc.2.2020.12.03.04.47.11
+       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=NdKVsRCm;
+       spf=pass (google.com: domain of qcai@redhat.com designates 63.128.21.124 as permitted sender) smtp.mailfrom=qcai@redhat.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com. [63.128.21.124])
+        by gmr-mx.google.com with ESMTPS id e4si181124ybp.4.2020.12.03.08.04.04
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 03 Dec 2020 04:47:11 -0800 (PST)
-Received-SPF: pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::441 as permitted sender) client-ip=2607:f8b0:4864:20::441;
-Received: by mail-pf1-x441.google.com with SMTP id c79so1220260pfc.2
-        for <kasan-dev@googlegroups.com>; Thu, 03 Dec 2020 04:47:11 -0800 (PST)
-X-Received: by 2002:a63:f20:: with SMTP id e32mr2860728pgl.130.1606999630819;
- Thu, 03 Dec 2020 04:47:10 -0800 (PST)
-MIME-Version: 1.0
-References: <1606895585-17382-1-git-send-email-Kuan-Ying.Lee@mediatek.com> <1606895585-17382-2-git-send-email-Kuan-Ying.Lee@mediatek.com>
-In-Reply-To: <1606895585-17382-2-git-send-email-Kuan-Ying.Lee@mediatek.com>
-From: "'Andrey Konovalov' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Thu, 3 Dec 2020 13:46:59 +0100
-Message-ID: <CAAeHK+z+DPNysrUwfeu27h6sKdn5DDE=BL4t96KiF0mRBNPs+Q@mail.gmail.com>
-Subject: Re: [PATCH v3 1/1] kasan: fix object remain in offline per-cpu quarantine
-To: Kuan-Ying Lee <Kuan-Ying.Lee@mediatek.com>
-Cc: Andrey Ryabinin <aryabinin@virtuozzo.com>, Alexander Potapenko <glider@google.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, Nicholas Tang <nicholas.tang@mediatek.com>, 
-	Miles Chen <miles.chen@mediatek.com>, kasan-dev <kasan-dev@googlegroups.com>, 
-	Linux Memory Management List <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>, 
-	Linux ARM <linux-arm-kernel@lists.infradead.org>, linux-mediatek@lists.infradead.org, 
-	wsd_upstream <wsd_upstream@mediatek.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 03 Dec 2020 08:04:04 -0800 (PST)
+Received-SPF: pass (google.com: domain of qcai@redhat.com designates 63.128.21.124 as permitted sender) client-ip=63.128.21.124;
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-582-GaqNXf5rPDaJQJAgyB5ReA-1; Thu, 03 Dec 2020 11:03:54 -0500
+X-MC-Unique: GaqNXf5rPDaJQJAgyB5ReA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 90A4B2AB;
+	Thu,  3 Dec 2020 16:03:40 +0000 (UTC)
+Received: from ovpn-66-132.rdu2.redhat.com (unknown [10.10.67.132])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id F164B1002C11;
+	Thu,  3 Dec 2020 16:03:36 +0000 (UTC)
+Message-ID: <7733019eb8c506eee8d29e380aae683a8972fd19.camel@redhat.com>
+Subject: Re: [PATCH v2] lib: stackdepot: Add support to configure
+ STACK_HASH_SIZE
+From: Qian Cai <qcai@redhat.com>
+To: vjitta@codeaurora.org, minchan@kernel.org, glider@google.com, 
+	dan.j.williams@intel.com, broonie@kernel.org, mhiramat@kernel.org
+Cc: linux-kernel@vger.kernel.org, akpm@linux-foundation.org, 
+	ylal@codeaurora.org, vinmenon@codeaurora.org, kasan-dev@googlegroups.com, 
+	sfr@canb.auug.org.au, linux-next@vger.kernel.org
+Date: Thu, 03 Dec 2020 11:03:36 -0500
+In-Reply-To: <1606365835-3242-1-git-send-email-vjitta@codeaurora.org>
+References: <1606365835-3242-1-git-send-email-vjitta@codeaurora.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: andreyknvl@google.com
+Mime-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Original-Sender: qcai@redhat.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=RVIUWgPt;       spf=pass
- (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::441
- as permitted sender) smtp.mailfrom=andreyknvl@google.com;       dmarc=pass
- (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Andrey Konovalov <andreyknvl@google.com>
-Reply-To: Andrey Konovalov <andreyknvl@google.com>
+ header.i=@redhat.com header.s=mimecast20190719 header.b=NdKVsRCm;
+       spf=pass (google.com: domain of qcai@redhat.com designates
+ 63.128.21.124 as permitted sender) smtp.mailfrom=qcai@redhat.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -134,163 +140,149 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Dec 2, 2020 at 8:58 AM Kuan-Ying Lee <Kuan-Ying.Lee@mediatek.com> wrote:
->
-> We hit this issue in our internal test.
-> When enabling generic kasan, a kfree()'d object is put into per-cpu
-> quarantine first. If the cpu goes offline, object still remains in
-> the per-cpu quarantine. If we call kmem_cache_destroy() now, slub
-> will report "Objects remaining" error.
->
-> [   74.982625] =============================================================================
-> [   74.983380] BUG test_module_slab (Not tainted): Objects remaining in test_module_slab on __kmem_cache_shutdown()
-> [   74.984145] -----------------------------------------------------------------------------
-> [   74.984145]
-> [   74.984883] Disabling lock debugging due to kernel taint
-> [   74.985561] INFO: Slab 0x(____ptrval____) objects=34 used=1 fp=0x(____ptrval____) flags=0x2ffff00000010200
-> [   74.986638] CPU: 3 PID: 176 Comm: cat Tainted: G    B             5.10.0-rc1-00007-g4525c8781ec0-dirty #10
-> [   74.987262] Hardware name: linux,dummy-virt (DT)
-> [   74.987606] Call trace:
-> [   74.987924]  dump_backtrace+0x0/0x2b0
-> [   74.988296]  show_stack+0x18/0x68
-> [   74.988698]  dump_stack+0xfc/0x168
-> [   74.989030]  slab_err+0xac/0xd4
-> [   74.989346]  __kmem_cache_shutdown+0x1e4/0x3c8
-> [   74.989779]  kmem_cache_destroy+0x68/0x130
-> [   74.990176]  test_version_show+0x84/0xf0
-> [   74.990679]  module_attr_show+0x40/0x60
-> [   74.991218]  sysfs_kf_seq_show+0x128/0x1c0
-> [   74.991656]  kernfs_seq_show+0xa0/0xb8
-> [   74.992059]  seq_read+0x1f0/0x7e8
-> [   74.992415]  kernfs_fop_read+0x70/0x338
-> [   74.993051]  vfs_read+0xe4/0x250
-> [   74.993498]  ksys_read+0xc8/0x180
-> [   74.993825]  __arm64_sys_read+0x44/0x58
-> [   74.994203]  el0_svc_common.constprop.0+0xac/0x228
-> [   74.994708]  do_el0_svc+0x38/0xa0
-> [   74.995088]  el0_sync_handler+0x170/0x178
-> [   74.995497]  el0_sync+0x174/0x180
-> [   74.996050] INFO: Object 0x(____ptrval____) @offset=15848
-> [   74.996752] INFO: Allocated in test_version_show+0x98/0xf0 age=8188 cpu=6 pid=172
-> [   75.000802]  stack_trace_save+0x9c/0xd0
-> [   75.002420]  set_track+0x64/0xf0
-> [   75.002770]  alloc_debug_processing+0x104/0x1a0
-> [   75.003171]  ___slab_alloc+0x628/0x648
-> [   75.004213]  __slab_alloc.isra.0+0x2c/0x58
-> [   75.004757]  kmem_cache_alloc+0x560/0x588
-> [   75.005376]  test_version_show+0x98/0xf0
-> [   75.005756]  module_attr_show+0x40/0x60
-> [   75.007035]  sysfs_kf_seq_show+0x128/0x1c0
-> [   75.007433]  kernfs_seq_show+0xa0/0xb8
-> [   75.007800]  seq_read+0x1f0/0x7e8
-> [   75.008128]  kernfs_fop_read+0x70/0x338
-> [   75.008507]  vfs_read+0xe4/0x250
-> [   75.008990]  ksys_read+0xc8/0x180
-> [   75.009462]  __arm64_sys_read+0x44/0x58
-> [   75.010085]  el0_svc_common.constprop.0+0xac/0x228
-> [   75.011006] kmem_cache_destroy test_module_slab: Slab cache still has objects
->
-> Register a cpu hotplug function to remove all objects in the offline
-> per-cpu quarantine when cpu is going offline. Set a per-cpu variable
-> to indicate this cpu is offline.
->
-> Signed-off-by: Kuan-Ying Lee <Kuan-Ying.Lee@mediatek.com>
-> Suggested-by: Dmitry Vyukov <dvyukov@google.com>
-> Reported-by: Guangye Yang <guangye.yang@mediatek.com>
-> Cc: Andrey Ryabinin <aryabinin@virtuozzo.com>
-> Cc: Alexander Potapenko <glider@google.com>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Matthias Brugger <matthias.bgg@gmail.com>
+On Thu, 2020-11-26 at 10:13 +0530, vjitta@codeaurora.org wrote:
+> From: Yogesh Lal <ylal@codeaurora.org>
+> 
+> Add a kernel parameter stack_hash_order to configure STACK_HASH_SIZE.
+> 
+> Aim is to have configurable value for STACK_HASH_SIZE, so that one
+> can configure it depending on usecase there by reducing the static
+> memory overhead.
+> 
+> One example is of Page Owner, default value of STACK_HASH_SIZE lead
+> stack depot to consume 8MB of static memory. Making it configurable
+> and use lower value helps to enable features like CONFIG_PAGE_OWNER
+> without any significant overhead.
+> 
+> Suggested-by: Minchan Kim <minchan@kernel.org>
+> Signed-off-by: Yogesh Lal <ylal@codeaurora.org>
+> Signed-off-by: Vijayanand Jitta <vjitta@codeaurora.org>
+
+Reverting this commit on today's linux-next fixed boot crash with KASAN.
+
+.config:
+https://cailca.coding.net/public/linux/mm/git/files/master/x86.config
+https://cailca.coding.net/public/linux/mm/git/files/master/arm64.config
+
+
+[    5.135848][    T0] random: get_random_u64 called from __kmem_cache_create+0x2e/0x490 with crng_init=0
+[    5.135909][    T0] BUG: unable to handle page fault for address: 00000000002ac6d0
+[    5.152733][    T0] #PF: supervisor read access in kernel mode
+[    5.158585][    T0] #PF: error_code(0x0000) - not-present page
+[    5.164438][    T0] PGD 0 P4D 0 
+[    5.167670][    T0] Oops: 0000 [#1] SMP KASAN NOPTI
+[    5.172566][    T0] CPU: 0 PID: 0 Comm: swapper Not tainted 5.10.0-rc6-next-20201203+ #3
+[    5.180685][    T0] Hardware name: HPE ProLiant DL385 Gen10/ProLiant DL385 Gen10, BIOS A40 07/10/2019
+[    5.189950][    T0] RIP: 0010:stack_depot_save+0xf4/0x460
+stack_depot_save at lib/stackdepot.c:272
+[    5.195362][    T0] Code: 00 00 83 ff 01 0f 84 b3 00 00 00 8b 0d 35 67 39 08 b8 01 00 00 00 48 d3 e0 48 8b 0d 46 9c 27 11 48 83 e8 01 21 d8 4c 8d 34 c1 <4d> 8b 2e 4d 85 ed 0f 84 ca 00 00 00 41 8d 74 24 ff 48 c1 e6 03 eb
+[    5.214927][    T0] RSP: 0000:ffffffff99007c18 EFLAGS: 00010002
+[    5.220865][    T0] RAX: 00000000000558da RBX: 00000000caa558da RCX: 0000000000000000
+[    5.228726][    T0] RDX: 0000000000000cc0 RSI: 00000000e11e461a RDI: 0000000000000001
+[    5.236590][    T0] RBP: ffffffff99007c68 R08: 000000002ff39dab R09: 0000000000000007
+[    5.244450][    T0] R10: ffffffff99007b60 R11: 0000000000000005 R12: 0000000000000008
+[    5.252313][    T0] R13: ffff8881000400b7 R14: 00000000002ac6d0 R15: 0000000000000078
+[    5.260173][    T0] FS:  0000000000000000(0000) GS:ffff88881e800000(0000) knlGS:0000000000000000
+[    5.268996][    T0] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[    5.275674][    T0] CR2: 00000000002ac6d0 CR3: 0000000cc8814000 CR4: 00000000000406b0
+[    5.283534][    T0] Call Trace:
+[    5.286687][    T0]  kasan_save_stack+0x2f/0x40
+[    5.291225][    T0]  ? kasan_save_stack+0x19/0x40
+[    5.295939][    T0]  ? ____kasan_kmalloc.constprop.8+0x85/0xa0
+[    5.301793][    T0]  ? __kmem_cache_create+0x26a/0x490
+[    5.306950][    T0]  ? create_boot_cache+0x75/0x98
+[    5.311751][    T0]  ? kmem_cache_init+0x42/0x146
+[    5.316471][    T0]  ? mm_init+0x64/0x87
+[    5.320399][    T0]  ? start_kernel+0x14c/0x3a7
+[    5.324945][    T0]  ? secondary_startup_64_no_verify+0xc2/0xcb
+[    5.330885][    T0]  ? lockdep_hardirqs_on_prepare+0x3d0/0x3d0
+[    5.336733][    T0]  ? lockdep_hardirqs_on_prepare+0x3d0/0x3d0
+[    5.342590][    T0]  ? __isolate_free_page+0x540/0x540
+[    5.347742][    T0]  ? find_held_lock+0x33/0x1c0
+[    5.352371][    T0]  ? __alloc_pages_nodemask+0x534/0x700
+[    5.357784][    T0]  ? __alloc_pages_slowpath.constprop.110+0x20f0/0x20f0
+[    5.364600][    T0]  ? __kasan_init_slab_obj+0x20/0x30
+[    5.369753][    T0]  ? unpoison_range+0xf/0x30
+[    5.374207][    T0]  ____kasan_kmalloc.constprop.8+0x85/0xa0
+kasan_set_track at mm/kasan/common.c:47
+(inlined by) set_alloc_info at mm/kasan/common.c:405
+(inlined by) ____kasan_kmalloc at mm/kasan/common.c:436
+[    5.379886][    T0]  __kmem_cache_create+0x26a/0x490
+early_kmem_cache_node_alloc at mm/slub.c:3566
+(inlined by) init_kmem_cache_nodes at mm/slub.c:3606
+(inlined by) kmem_cache_open at mm/slub.c:3858
+(inlined by) __kmem_cache_create at mm/slub.c:4468
+[    5.384864][    T0]  create_boot_cache+0x75/0x98
+create_boot_cache at mm/slab_common.c:568
+[    5.389493][    T0]  kmem_cache_init+0x42/0x146
+[    5.394035][    T0]  mm_init+0x64/0x87
+[    5.397791][    T0]  start_kernel+0x14c/0x3a7
+[    5.402159][    T0]  ? copy_bootdata+0x19/0x47
+[    5.406615][    T0]  secondary_startup_64_no_verify+0xc2/0xcb
+[    5.412380][    T0] Modules linked in:
+[    5.416136][    T0] CR2: 00000000002ac6d0
+[    5.420158][    T0] ---[ end trace c97cf41616dddbe6 ]---
+[    5.425483][    T0] RIP: 0010:stack_depot_save+0xf4/0x460
+[    5.430898][    T0] Code: 00 00 83 ff 01 0f 84 b3 00 00 00 8b 0d 35 67 39 08 b8 01 00 00 00 48 d3 e0 48 8b 0d 46 9c 27 11 48 83 e8 01 21 d8 4c 8d 34 c1 <4d> 8b 2e 4d 85 ed 0f 84 ca 00 00 00 41 8d 74 24 ff 48 c1 e6 03 eb
+[    5.450464][    T0] RSP: 0000:ffffffff99007c18 EFLAGS: 00010002
+[    5.456403][    T0] RAX: 00000000000558da RBX: 00000000caa558da RCX: 0000000000000000
+[    5.464264][    T0] RDX: 0000000000000cc0 RSI: 00000000e11e461a RDI: 0000000000000001
+[    5.472127][    T0] RBP: ffffffff99007c68 R08: 000000002ff39dab R09: 0000000000000007
+[    5.479988][    T0] R10: ffffffff99007b60 R11: 0000000000000005 R12: 0000000000000008
+[    5.487849][    T0] R13: ffff8881000400b7 R14: 00000000002ac6d0 R15: 0000000000000078
+[    5.495712][    T0] FS:  0000000000000000(0000) GS:ffff88881e800000(0000) knlGS:0000000000000000
+[    5.504534][    T0] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[    5.510998][    T0] CR2: 00000000002ac6d0 CR3: 0000000cc8814000 CR4: 00000000000406b0
+[    5.518860][    T0] Kernel panic - not syncing: Fatal exception
+[    5.524915][    T0] ---[ end Kernel panic - not syncing: Fatal exception ]---
+
 > ---
->  mm/kasan/quarantine.c | 40 ++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 40 insertions(+)
->
-> diff --git a/mm/kasan/quarantine.c b/mm/kasan/quarantine.c
-> index 4c5375810449..cac7c617df72 100644
-> --- a/mm/kasan/quarantine.c
-> +++ b/mm/kasan/quarantine.c
-> @@ -29,6 +29,7 @@
->  #include <linux/srcu.h>
->  #include <linux/string.h>
->  #include <linux/types.h>
-> +#include <linux/cpuhotplug.h>
->
->  #include "../slab.h"
->  #include "kasan.h"
-> @@ -43,6 +44,7 @@ struct qlist_head {
->         struct qlist_node *head;
->         struct qlist_node *tail;
->         size_t bytes;
-> +       bool offline;
->  };
->
->  #define QLIST_INIT { NULL, NULL, 0 }
-> @@ -188,6 +190,11 @@ void quarantine_put(struct kasan_free_meta *info, struct kmem_cache *cache)
->         local_irq_save(flags);
->
->         q = this_cpu_ptr(&cpu_quarantine);
-> +       if (q->offline) {
-> +               qlink_free(&info->quarantine_link, cache);
-
-Hi Kuan-Ying,
-
-This needs to be rebased onto the mm tree: it has some KASAN patches
-that touch this code and rename the info variable to meta.
-
-Thanks!
-
-> +               local_irq_restore(flags);
-> +               return;
-> +       }
->         qlist_put(q, &info->quarantine_link, cache->size);
->         if (unlikely(q->bytes > QUARANTINE_PERCPU_SIZE)) {
->                 qlist_move_all(q, &temp);
-> @@ -328,3 +335,36 @@ void quarantine_remove_cache(struct kmem_cache *cache)
->
->         synchronize_srcu(&remove_cache_srcu);
+>  lib/stackdepot.c | 27 ++++++++++++++++++++++-----
+>  1 file changed, 22 insertions(+), 5 deletions(-)
+> 
+> diff --git a/lib/stackdepot.c b/lib/stackdepot.c
+> index 81c69c0..ce53598 100644
+> --- a/lib/stackdepot.c
+> +++ b/lib/stackdepot.c
+> @@ -141,14 +141,31 @@ static struct stack_record *depot_alloc_stack(unsigned long *entries, int size,
+>  	return stack;
 >  }
+>  
+> -#define STACK_HASH_ORDER 20
+> -#define STACK_HASH_SIZE (1L << STACK_HASH_ORDER)
+> +static unsigned int stack_hash_order = 20;
+> +#define STACK_HASH_SIZE (1L << stack_hash_order)
+>  #define STACK_HASH_MASK (STACK_HASH_SIZE - 1)
+>  #define STACK_HASH_SEED 0x9747b28c
+>  
+> -static struct stack_record *stack_table[STACK_HASH_SIZE] = {
+> -	[0 ...	STACK_HASH_SIZE - 1] = NULL
+> -};
+> +static struct stack_record **stack_table;
 > +
-> +static int kasan_cpu_online(unsigned int cpu)
+> +static int __init setup_stack_hash_order(char *str)
 > +{
-> +       this_cpu_ptr(&cpu_quarantine)->offline = false;
-> +       return 0;
+> +	kstrtouint(str, 0, &stack_hash_order);
+> +	return 0;
+> +}
+> +early_param("stack_hash_order", setup_stack_hash_order);
+> +
+> +static int __init init_stackdepot(void)
+> +{
+> +	int i;
+> +
+> +	stack_table = kvmalloc(sizeof(struct stack_record *) * STACK_HASH_SIZE, GFP_KERNEL);
+> +	for (i = 0; i < STACK_HASH_SIZE; i++)
+> +		stack_table[i] = NULL;
+> +	return 0;
 > +}
 > +
-> +static int kasan_cpu_offline(unsigned int cpu)
-> +{
-> +       struct qlist_head *q;
-> +
-> +       q = this_cpu_ptr(&cpu_quarantine);
-> +       /* Ensure the ordering between the writing to q->offline and
-> +        * qlist_free_all. Otherwise, cpu_quarantine may be corrupted
-> +        * by interrupt.
-> +        */
-> +       WRITE_ONCE(q->offline, true);
-> +       barrier();
-> +       qlist_free_all(q, NULL);
-> +       return 0;
-> +}
-> +
-> +static int __init kasan_cpu_quarantine_init(void)
-> +{
-> +       int ret = 0;
-> +
-> +       ret = cpuhp_setup_state(CPUHP_AP_ONLINE_DYN, "mm/kasan:online",
-> +                               kasan_cpu_online, kasan_cpu_offline);
-> +       if (ret < 0)
-> +               pr_err("kasan cpu quarantine register failed [%d]\n", ret);
-> +       return ret;
-> +}
-> +late_initcall(kasan_cpu_quarantine_init);
-> --
-> 2.18.0
->
-> --
-> You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/1606895585-17382-2-git-send-email-Kuan-Ying.Lee%40mediatek.com.
+> +early_initcall(init_stackdepot);
+>  
+>  /* Calculate hash for a stack */
+>  static inline u32 hash_stack(unsigned long *entries, unsigned int size)
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAAeHK%2Bz%2BDPNysrUwfeu27h6sKdn5DDE%3DBL4t96KiF0mRBNPs%2BQ%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/7733019eb8c506eee8d29e380aae683a8972fd19.camel%40redhat.com.
