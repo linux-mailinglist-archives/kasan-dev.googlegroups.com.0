@@ -1,72 +1,129 @@
-Return-Path: <kasan-dev+bncBCH2XPOBSAERBBUHUH7AKGQEVFFVW2A@googlegroups.com>
+Return-Path: <kasan-dev+bncBDGPTM5BQUDRBRUXUH7AKGQESD7P7HY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ot1-x33a.google.com (mail-ot1-x33a.google.com [IPv6:2607:f8b0:4864:20::33a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D5122CCBCB
-	for <lists+kasan-dev@lfdr.de>; Thu,  3 Dec 2020 02:46:47 +0100 (CET)
-Received: by mail-ot1-x33a.google.com with SMTP id f7sf233123oti.1
-        for <lists+kasan-dev@lfdr.de>; Wed, 02 Dec 2020 17:46:47 -0800 (PST)
+Received: from mail-qk1-x738.google.com (mail-qk1-x738.google.com [IPv6:2607:f8b0:4864:20::738])
+	by mail.lfdr.de (Postfix) with ESMTPS id A2CF92CCC60
+	for <lists+kasan-dev@lfdr.de>; Thu,  3 Dec 2020 03:21:59 +0100 (CET)
+Received: by mail-qk1-x738.google.com with SMTP id s29sf752285qkm.3
+        for <lists+kasan-dev@lfdr.de>; Wed, 02 Dec 2020 18:21:59 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1606962118; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=uOb3Ml2wVM6PzjFBCL4arp+t6Sx0kU6hQ/nZszIfsv3+uxRVySxCOyN+B6wmKIs7im
+         O7+R7sTdxlEyaB+1VbwRuWeBMm3vmVC9rb4i+6wNJEa/g0Ytmbf5LjF2lRvh+r8IpXLf
+         tdt+2znxnjnsi8XodLfFGt44Q6k+E4U18aNV2YPvAEgcCC1VpxlR1jG+kCb/VoRnA67v
+         NFEyrdGV00lk2Uy33gCZpY9eY+fPjIhZRyvrQMsYOctp0/cEDJhyYz8Q+FXC9n2NkZ6D
+         WUjGrfD9zOh5zqUHZWx/PUaToWXYuWQE5gTpU1Br6vwlfYPFA+XkjcfPzjTXiK8JCtHe
+         OBOw==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :subject:cc:to:from:sender:dkim-signature;
+        bh=+isizjCe+bCTSTzWHvupVk0bOABKZeFFWulYRSGhjWo=;
+        b=C8NwaW/2imaaEsc39RyxOu2iDxcKHExgAODlxdB7DC6zudGgOqalmIBtmCxLianknK
+         A0Aey7Li4Prl6SvFJpod8MMUb7GwL+zsJulWBR2pGzu5odFD7yFKG7+OLRCYMYy7Lv9M
+         BtpIfAroG505mb+2M/V3KY96TSt/zlFwqLGZwv/WloFDSWMqfdgbHRKmw20UTwVHheyO
+         XVmGA6a4QJhiJR8+8SEQ9UQ20q6IIbk5ONCMWVDfdGelOpZcmG590Qi3fmv0qxI0LO62
+         HeRHEgMa7F2ver6d5htd+1/LBJf/fbHycO/tfsuSuNfNSzeK0nXRETqZQTnE/x8mxDr0
+         VKUQ==
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       spf=pass (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.183 as permitted sender) smtp.mailfrom=walter-zh.wu@mediatek.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:date:from:to:message-id:in-reply-to:references:subject
-         :mime-version:x-original-sender:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=drosMIcexCTRcnx/fytPZWwjKqeSH5tITihr8X10Lhg=;
-        b=lmjoznS867S+6HIgo1NFPSReOpXWKtTNPAX1iBYpP67M89SlwN8shj2LKAkRw/2Ru0
-         VWMMuNLuNWk7qVod4SQcwfNziNWPdIqhS1DGxKhxYVCEWJyLuzNlIPd8/FPbX0c/hfzC
-         jVfduX7lBAU6bfk0P5WZmdpnDvEvNHdL36fNh0HB9Gy0lKnItKaLUerU2/vyEtSKCp4y
-         LIfeBZf8i8jzk6+nUPdi56DV0edMDG8ggaFFQ7vaLF480uzKhpL+5BOCGW4Vc5oTG67C
-         E//LSo7GV7QLaO2g71NGpfsBjTw1SVqn/N81NHk1a8QSTwKU6sn9nHw577o5zhcjl8/k
-         V+3g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:message-id:in-reply-to:references:subject:mime-version
-         :x-original-sender:precedence:mailing-list:list-id:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=drosMIcexCTRcnx/fytPZWwjKqeSH5tITihr8X10Lhg=;
-        b=EjoA9rQsUj0JuAceBvu5JBclwFBSHslrzfxo1L19NxcmfEttWFDh1H/XWMtQwYHphJ
-         /NWAU96e0Ga7DwvOTccvnlZlauA5shitZvKP48GKEJmD1YM7pn9gBgH4aYeupfmsBKYD
-         eYauOT0urkM5DjvBUi3dJJjycUGO7ci6Q7WABaAh9waJEBes/OqgpZAtX5c578yW6yYk
-         pTaCNtntOsCwgOkQON8Tpn1MUV5tjKLllTkQSz1FVafi9p6GPBFPSHfUTlv1nf2dDHfV
-         9zutSRPLqJbxP5hLpxw0VvxgO1ygWw7xSuXA5tVMHuLoFLu00RrzxDE3fHYjY0yIUx5Q
-         bLFw==
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=+isizjCe+bCTSTzWHvupVk0bOABKZeFFWulYRSGhjWo=;
+        b=lOBVrsNspUC/e4WjqnWO9nZKsVM3dN4I+XyjOdngz5/p8VE5ZemWb5rm08I8IH+75W
+         1mfRQZRV3QOJXQsAndLtNfaUREr3GWuLRjrvbkerWNNJIjq5F2HUVKuZeDZzsof3esUF
+         wik8mCr/sf0UsZVtqAR5abpxTplyphdXwfvJ9VbFZ8X3lPCFQBPcxZvWqpSo1/mFo2bo
+         EB49QRV/hhdDrHosyGNOXBo/9cab7Wy8r9QCTUIvzyAlVGUprSKSqC2/tuBPFvXz2qEC
+         jd+Fu2babMHYjYUAhs4HrjFHhJ5Ku/zhh32hw4BG4pPZBIZ5tPwxxkeYe8imrCcuOFO7
+         n4KQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:date:from:to:message-id:in-reply-to
-         :references:subject:mime-version:x-original-sender:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=drosMIcexCTRcnx/fytPZWwjKqeSH5tITihr8X10Lhg=;
-        b=dzWB6FzqkUYVZqmqtbpxCDWDxIUk0ub3rKrHptXTp3iEEztEZ4k/+zYUvwBNLDSUaV
-         44sG3VbTp6e3wJtPTdthcyuKxQLoO9H1cfR8xx4442gukD83WuEqJYuulvqXyg2itH6m
-         k0iTO4cK7S51ddAGzszHB3T8PsMf2ABD3zU2FpY6xHyvoqiNiawX5MmIA48c7na8eCWD
-         3HL3CUloO6qJOS3B97EEupNk1/7+ARISXIYoo6/WPYJQDUVFJKQYc+wKU0yTbgDDRt8a
-         K9p17OOLLndN6o28mbwgYsbp/AqLVzGgYABZhh/eLPJ8TMDxGNAeKUGT4NKKNxSXVABk
-         3aOA==
+        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=+isizjCe+bCTSTzWHvupVk0bOABKZeFFWulYRSGhjWo=;
+        b=sDCus8W7SGDoNcd2E2nQKQ0ON2w7go02ozec8c89CvmmUwpupYIwzncERrsh0je/DI
+         Fv2J122kY5Y8ZKa/D7W5cwN26wCgR7pPXcCajL52ZLkh3giQcVa5WWkINvfRM/MdJaX1
+         nqGqOhTVFZsmVoF14nOxLQN3bLlu7LETnkcMqmisvZC7cbhd4zrxvmcTMW1zxLtPefCJ
+         HxXq14e+OtdqXyh5cTbck41Q1j55x0AxTp184nMkkxHdtAWPgYaZXa/egW0DraOhEmcF
+         kNLzHHIiHQMtx1yb68QyxSbP6ie2g9lTeRytiEqx4J8VjF1SdSkSNDqH//EAaEvCHkGw
+         cUrA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM531NNYVKUfTRcmx6/x5hFPrIoHZ9RwkoMWYiPcYO/kBSXH0X7lBL
-	22FGThlDy99DlNXHRxM8YYY=
-X-Google-Smtp-Source: ABdhPJx9MjoICnW0e25RXpOfAtdB3EaJrI+cYE3uAO82+/tvfHvDAvDW7N9oHsmtXm/pV9jPOMxJ/w==
-X-Received: by 2002:aca:ebc2:: with SMTP id j185mr484012oih.158.1606960006199;
-        Wed, 02 Dec 2020 17:46:46 -0800 (PST)
+X-Gm-Message-State: AOAM533mM2+Eg2TV11xrSjJOglU6kZDQuh6jVKZSgsxnBiHc3fYgqbbu
+	L5kERTJvkD17faXKyWKlc3E=
+X-Google-Smtp-Source: ABdhPJyoooZ3G31y2J3X4gUypZiVIFniOKIu+NSrGWZrs+1OHE0aEImi6RjLo4zz8LtktFoT+6RAbg==
+X-Received: by 2002:aed:32c4:: with SMTP id z62mr1240889qtd.50.1606962118638;
+        Wed, 02 Dec 2020 18:21:58 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a9d:7ac3:: with SMTP id m3ls980575otn.2.gmail; Wed, 02 Dec
- 2020 17:46:45 -0800 (PST)
-X-Received: by 2002:a9d:6312:: with SMTP id q18mr305672otk.264.1606960005655;
-        Wed, 02 Dec 2020 17:46:45 -0800 (PST)
-Date: Wed, 2 Dec 2020 17:46:44 -0800 (PST)
-From: "mudongl...@gmail.com" <mudongliangabcd@gmail.com>
-To: kasan-dev <kasan-dev@googlegroups.com>
-Message-Id: <db967ee9-01c7-4baf-a53f-dedbdf170cc7n@googlegroups.com>
-In-Reply-To: <20201202124600.GA4037382@elver.google.com>
-References: <CAD-N9QXFwPPZC0t1662foXgHh6_KEFpGGB01hWWryBL=ZsBs0A@mail.gmail.com>
- <20201202124600.GA4037382@elver.google.com>
-Subject: Re: Any cases to prove KCSAN can catch underlying data races that
- lead to kernel crashes?
+Received: by 2002:aed:36ea:: with SMTP id f97ls1417447qtb.4.gmail; Wed, 02 Dec
+ 2020 18:21:58 -0800 (PST)
+X-Received: by 2002:ac8:71d5:: with SMTP id i21mr1270712qtp.4.1606962118053;
+        Wed, 02 Dec 2020 18:21:58 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1606962118; cv=none;
+        d=google.com; s=arc-20160816;
+        b=S065pM/k+q9j5w0wrpGPb2rdnHX9c7xAgqRh+8NXg8OKEGgdZ9qj89mKIJjqIjNKrQ
+         MEUMlCsHExqrPca3aWogWKrM/AOwjA1+ZbWAF6l3x+2F3cLHzoU2B6Bdy36Kj+7lj1hc
+         yYfMxbh7FmRQqjVg+wN5bmc/thHGgd9GT+HDM3Ci4OwA7zMH+jTzZIjTzxZ1MhOXXGSv
+         pQQKuVfyTfbZeRM2nurEyNqCFhZ07AflA5sFoQfB0il/fELgcH1YgpBuFu82wEZsKmoj
+         PnVZDF0OdYeEDn4lg8AlsRkVlk/4tq2NkCJXZTt2nrHT6hNGNH0juOovhjmzmYt3wlZq
+         VYQg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=mime-version:message-id:date:subject:cc:to:from;
+        bh=2kTyQM18OjXa5jDe7ZCyNrJHu6mLY/DySS9qhlUox6k=;
+        b=IonV3fKcG6dv4cxjx5XS2sN7pc0y9NgqtFyMiX2kVwtHuqDsMCHweWYqmCtPqTQfsX
+         mOB3hYWpTsqLSmIuyhbpIWIjazkI2ysYqmi60jEkVbxfQ3e2nVf9lgxNEE3ETdCrYNU5
+         xpb/XdxDcwBQOSzlB54ofBJt6sWtlJ0bldKfPLmmIEBZRr7LNc7J8VAhAIh6bBCG0TPf
+         JJbDghALf6ginJP74xalG3/wuBPkfLA+tRwRWSPP41rCm6Tum078djjtMgNn5gP6EDL0
+         CznStKe7fgB7AqOosthUCv6Ngtf6ByRoYfgsKK+ldx29GbR+fkgA4En5ZzKG7aM7N/bS
+         Pgmw==
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       spf=pass (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.183 as permitted sender) smtp.mailfrom=walter-zh.wu@mediatek.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
+Received: from mailgw01.mediatek.com ([210.61.82.183])
+        by gmr-mx.google.com with ESMTP id k54si43388qtk.4.2020.12.02.18.21.56
+        for <kasan-dev@googlegroups.com>;
+        Wed, 02 Dec 2020 18:21:57 -0800 (PST)
+Received-SPF: pass (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.183 as permitted sender) client-ip=210.61.82.183;
+X-UUID: aeebf121efbd4d459fec7a872a8ac5b6-20201203
+X-UUID: aeebf121efbd4d459fec7a872a8ac5b6-20201203
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
+	(envelope-from <walter-zh.wu@mediatek.com>)
+	(Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+	with ESMTP id 2076224499; Thu, 03 Dec 2020 10:21:52 +0800
+Received: from mtkcas07.mediatek.inc (172.21.101.84) by
+ mtkmbs01n1.mediatek.inc (172.21.101.68) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 3 Dec 2020 10:21:48 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas07.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Thu, 3 Dec 2020 10:21:49 +0800
+From: Walter Wu <walter-zh.wu@mediatek.com>
+To: Andrew Morton <akpm@linux-foundation.org>, Tejun Heo <tj@kernel.org>, Lai
+ Jiangshan <jiangshanlai@gmail.com>, Marco Elver <elver@google.com>, Andrey
+ Ryabinin <aryabinin@virtuozzo.com>, Alexander Potapenko <glider@google.com>,
+	Dmitry Vyukov <dvyukov@google.com>, Andrey Konovalov <andreyknvl@google.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>
+CC: <kasan-dev@googlegroups.com>, <linux-mm@kvack.org>,
+	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	wsd_upstream <wsd_upstream@mediatek.com>,
+	<linux-mediatek@lists.infradead.org>, Walter Wu <walter-zh.wu@mediatek.com>
+Subject: [PATCH v5 0/4] kasan: add workqueue stack for generic KASAN
+Date: Thu, 3 Dec 2020 10:21:48 +0800
+Message-ID: <20201203022148.29754-1-walter-zh.wu@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-Content-Type: multipart/mixed; 
-	boundary="----=_Part_11716_443435787.1606960004982"
-X-Original-Sender: mudongliangabcd@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+X-MTK: N
+X-Original-Sender: walter-zh.wu@mediatek.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.183 as
+ permitted sender) smtp.mailfrom=walter-zh.wu@mediatek.com;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -79,340 +136,57 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-------=_Part_11716_443435787.1606960004982
-Content-Type: multipart/alternative; 
-	boundary="----=_Part_11717_1813621634.1606960004982"
+Syzbot reports many UAF issues for workqueue, see [1].
+In some of these access/allocation happened in process_one_work(),
+we see the free stack is useless in KASAN report, it doesn't help
+programmers to solve UAF for workqueue issue.
 
-------=_Part_11717_1813621634.1606960004982
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+This patchset improves KASAN reports by making them to have workqueue
+queueing stack. It is useful for programmers to solve use-after-free
+or double-free memory issue.
 
+Generic KASAN also records the last two workqueue stacks and prints
+them in KASAN report. It is only suitable for generic KASAN.
 
+[1]https://groups.google.com/g/syzkaller-bugs/search?q=%22use-after-free%22+process_one_work
+[2]https://bugzilla.kernel.org/show_bug.cgi?id=198437
 
-On Wednesday, December 2, 2020 at 8:46:08 PM UTC+8 el...@google.com wrote:
+Walter Wu (4):
+workqueue: kasan: record workqueue stack
+kasan: print workqueue stack
+lib/test_kasan.c: add workqueue test case
+kasan: update documentation for generic kasan
 
-> Hi Dongliang,=20
->
-> Thank you for your question, which is something we're currently=20
-> exploring ourselves. We're aware that there are currently numerous data=
-=20
-> races on syzbot's dashboard, and it will take time to sift through them.=
-=20
->
-> On Wed, Dec 02, 2020 at 08:05PM +0800, =E6=85=95=E5=86=AC=E4=BA=AE wrote:=
-=20
->
-> > I am writing to kindly ask if you know of any cases or kernel bugs that=
-=20
-> > prove KCSAN is able to catch underlying data races that lead to kernel=
-=20
-> > crashes.=20
->
-> Have a look at the last slide in:=20
->
-> https://github.com/google/ktsan/raw/kcsan/LPC2020-KCSAN.pdf=20
->
-> > Before asking you this question, I searched data race bugs from=20
-> > Syzkaller dashboard for my experiment. On one hand, I tried KCSAN crash=
-=20
-> > reports, but it is hard to locate a PoC for reproduction. On the other=
-=20
-> > hand, I found some race bugs that trigger KASAN reports or WARNING. The=
-n=20
-> I=20
-> > disable KASAN and enable KCSAN, however, In two cases(65550098 rxrpc:=
-=20
-> Fix=20
-> > race between recvmsg and sendmsg on immediate call failure=20
-> > <
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit=
-/?id=3D65550098c1c4db528400c73acf3e46bfa78d9264>=20
->
-> > and d9fb8c50 mptcp: fix infinite loop on recvmsg()/worker() race.=20
-> > <
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit=
-/?id=3Dd9fb8c507d42256034b457ec59347855bec9e569>),=20
->
-> > KCSAN did not report any problem during PoC running. Finally, I failed=
-=20
-> to=20
-> > find any cases to prove that point. Therefore, if you know of some case=
-s=20
-> in=20
-> > which KCSAN can catch underlying data races that lead to kernel crashes=
-,=20
-> > please let me know.=20
->
-> In the following I'm outlining some background, and my current approach=
-=20
-> to reproduce some suspected race-condition bugs.=20
->
-> Just to make sure we're talking about the same thing, first of all, I=20
-> want to highlight the difference between data race and race-condition=20
-> bugs: https://lwn.net/Articles/816850/#qq2answer ("What's the difference=
-=20
-> between "data races" and "race conditions"?)=20
->
-> Clearly, data races are defined at the programming-language level and do=
-=20
-> not necessarily imply kernel crashes. Firstly, let's define the=20
-> following 3 concurrency bug classes:=20
->
-> A. Data race, where failure due to current compilers is unlikely=20
-> (supposedly "benign"); merely marking the accesses=20
-> appropriately is sufficient. Finding a crash for these will=20
-> require a miscompilation, but otherwise look "benign" at the=20
-> C-language level.=20
->
-> B. Race-condition bugs where the bug manifests as a data race,=20
-> too -- simply marking things doesn't fix the problem. These=20
-> are the types of bugs where a data race would point out a=20
-> more severe issue.=20
->
-> C. Race-condition bugs where the bug never manifests as a data=20
-> race. An example of these might be 2 threads that acquire the=20
-> necessary locks, yet some interleaving of them still results=20
-> in a bug (e.g. because the logic inside the critical sections=20
-> is buggy). These are harder to detect with KCSAN as-is, and=20
-> require using ASSERT_EXCLUSIVE_ACCESS() or=20
-> ASSERT_EXCLUSIVE_WRITER() in the right place. See=20
-> https://lwn.net/Articles/816854/.=20
->
-> One problem currently is that the kernel has quite a lot type-(A)=20
-> reports if we run KCSAN, which makes it harder to identify bugs of type=
-=20
-> (B) and (C). My wish for the future is that we can get to a place, where=
-=20
-> the kernel has almost no unintentional (A) issues, so that we primarily=
-=20
-> find (B) and (C) bugs.=20
->
->
-Quick question here. I found that there is still a sanitizer for=20
-concurrency bug called Kernel Thread Sanitizer. For the above types, what's=
-=20
-its detection capability compared with KCSAN?
-=20
+---
+Changes since v4:
+- Not found timer use case, so that remove timer patch
+- remove a mention of call_rcu() from the kasan_record_aux_stack()
+  Thanks for Dmitry and Alexander suggestion.
 
-> It appears you were trying to use KCSAN to reproduce bugs of type (B).=20
-> What we need to understand, however, is if the bugs you have been trying=
-=20
-> to reproduce with KCSAN are in fact of type (B) and not type (C).=20
->
-> That's the high-level problem out of the way. The lower level problems=20
-> pertain to how the current default KCSAN filters numerous data races.=20
-> So, when debugging, my default recommendation is always going to be to=20
-> change the config as follows:=20
->
-> CONFIG_KCSAN_REPORT_RACE_UNKNOWN_ORIGIN=3Dy=20
-> CONFIG_KCSAN_REPORT_VALUE_CHANGE_ONLY=3Dn=20
-> CONFIG_KCSAN_ASSUME_PLAIN_WRITES_ATOMIC=3Dn=20
-> CONFIG_KCSAN_INTERRUPT_WATCHER=3Dy # add this after trying above=20
->
-> Then, as you run your test-case, gradually decrease this value at=20
-> runtime:=20
->
-> echo $SOMETHING_SMALLER > /sys/module/kcsan/parameters/skip_watch=20
->
-> Alternatively, or in addition, try to increase=20
-> /sys/module/kcsan/parameters/udelay_task.=20
->
-> For debugging purposes, it may even be fair to insert=20
-> ASSERT_EXCLUSIVE_ACCESS() regardless if the bug should manifest as a=20
-> data race or not, as it can help highlight what you're looking for as=20
-> the reports start with a different title "KCSAN: assert: race in ...".=20
->
-> Thank you for your interest in this, and hopefully you'll be able to=20
-> proceed further using the above -- please ask if you have more=20
-> questions. We'd appreciate if you share any results, as it will help us=
-=20
-> understand how we can optimize KCSAN to detect more races of types (B)=20
-> and (C).=20
->
-> Thanks,=20
-> -- Marco=20
->
+Changes since v3:
+- testcases have merge conflict, so that need to
+  be rebased onto the KASAN-KUNIT.
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/db967ee9-01c7-4baf-a53f-dedbdf170cc7n%40googlegroups.com.
+Changes since v2:
+- modify kasan document to be readable,
+  Thanks for Marco suggestion.
 
-------=_Part_11717_1813621634.1606960004982
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Changes since v1:
+- Thanks for Marco and Thomas suggestion.
+- Remove unnecessary code and fix commit log
+- reuse kasan_record_aux_stack() and aux_stack
+  to record timer and workqueue stack.
+- change the aux stack title for common name.
 
-<br><br><div class=3D"gmail_quote"><div dir=3D"auto" class=3D"gmail_attr">O=
-n Wednesday, December 2, 2020 at 8:46:08 PM UTC+8 el...@google.com wrote:<b=
-r></div><blockquote class=3D"gmail_quote" style=3D"margin: 0 0 0 0.8ex; bor=
-der-left: 1px solid rgb(204, 204, 204); padding-left: 1ex;">Hi Dongliang,
-<br>
-<br>Thank you for your question, which is something we're currently
-<br>exploring ourselves. We're aware that there are currently numerous data
-<br>races on syzbot's dashboard, and it will take time to sift through them=
-.
-<br>
-<br>On Wed, Dec 02, 2020 at 08:05PM +0800, =E6=85=95=E5=86=AC=E4=BA=AE wrot=
-e:
-<br>
-<br>&gt; I am writing to kindly ask if you know of any cases or kernel bugs=
- that
-<br>&gt; prove KCSAN is able to catch underlying data races that lead to ke=
-rnel
-<br>&gt; crashes.
-<br>
-<br>Have a look at the last slide in:
-<br>
-<br>	<a href=3D"https://github.com/google/ktsan/raw/kcsan/LPC2020-KCSAN.pdf=
-" target=3D"_blank" rel=3D"nofollow" data-saferedirecturl=3D"https://www.go=
-ogle.com/url?hl=3Den&amp;q=3Dhttps://github.com/google/ktsan/raw/kcsan/LPC2=
-020-KCSAN.pdf&amp;source=3Dgmail&amp;ust=3D1607046147650000&amp;usg=3DAFQjC=
-NHu2ptGDazgt7Sol0J6a3KSw-ZazQ">https://github.com/google/ktsan/raw/kcsan/LP=
-C2020-KCSAN.pdf</a>
-<br>
-<br>&gt; Before asking you this question, I searched data race bugs from
-<br>&gt; Syzkaller dashboard for my experiment. On one hand, I tried KCSAN =
-crash
-<br>&gt; reports, but it is hard to locate a PoC for reproduction. On the o=
-ther
-<br>&gt; hand, I found some race bugs that trigger KASAN reports or WARNING=
-. Then I
-<br>&gt; disable KASAN and enable KCSAN, however, In two cases(65550098 rxr=
-pc: Fix
-<br>&gt; race between recvmsg and sendmsg on immediate call failure
-<br>&gt; &lt;<a href=3D"https://git.kernel.org/pub/scm/linux/kernel/git/tor=
-valds/linux.git/commit/?id=3D65550098c1c4db528400c73acf3e46bfa78d9264" targ=
-et=3D"_blank" rel=3D"nofollow" data-saferedirecturl=3D"https://www.google.c=
-om/url?hl=3Den&amp;q=3Dhttps://git.kernel.org/pub/scm/linux/kernel/git/torv=
-alds/linux.git/commit/?id%3D65550098c1c4db528400c73acf3e46bfa78d9264&amp;so=
-urce=3Dgmail&amp;ust=3D1607046147650000&amp;usg=3DAFQjCNGffWlKcR8aEfCxr1FTv=
-R6WBvE7bQ">https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.g=
-it/commit/?id=3D65550098c1c4db528400c73acf3e46bfa78d9264</a>&gt;
-<br>&gt;  and d9fb8c50 mptcp: fix infinite loop on recvmsg()/worker() race.
-<br>&gt; &lt;<a href=3D"https://git.kernel.org/pub/scm/linux/kernel/git/tor=
-valds/linux.git/commit/?id=3Dd9fb8c507d42256034b457ec59347855bec9e569" targ=
-et=3D"_blank" rel=3D"nofollow" data-saferedirecturl=3D"https://www.google.c=
-om/url?hl=3Den&amp;q=3Dhttps://git.kernel.org/pub/scm/linux/kernel/git/torv=
-alds/linux.git/commit/?id%3Dd9fb8c507d42256034b457ec59347855bec9e569&amp;so=
-urce=3Dgmail&amp;ust=3D1607046147650000&amp;usg=3DAFQjCNGvUFL4-l34_ItHvdjfz=
-dTmzeczOQ">https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.g=
-it/commit/?id=3Dd9fb8c507d42256034b457ec59347855bec9e569</a>&gt;),
-<br>&gt; KCSAN did not report any problem during PoC running. Finally, I fa=
-iled to
-<br>&gt; find any cases to prove that point. Therefore, if you know of some=
- cases in
-<br>&gt; which KCSAN can catch underlying data races that lead to kernel cr=
-ashes,
-<br>&gt; please let me know.
-<br>
-<br>In the following I'm outlining some background, and my current approach
-<br>to reproduce some suspected race-condition bugs.
-<br>
-<br>Just to make sure we're talking about the same thing, first of all, I
-<br>want to highlight the difference between data race and race-condition
-<br>bugs: <a href=3D"https://lwn.net/Articles/816850/#qq2answer" target=3D"=
-_blank" rel=3D"nofollow" data-saferedirecturl=3D"https://www.google.com/url=
-?hl=3Den&amp;q=3Dhttps://lwn.net/Articles/816850/%23qq2answer&amp;source=3D=
-gmail&amp;ust=3D1607046147650000&amp;usg=3DAFQjCNGzk7-TMey28Q9rPstvNpHriRBr=
-yQ">https://lwn.net/Articles/816850/#qq2answer</a> ("What's the difference
-<br>between "data races" and "race conditions"?)
-<br>
-<br>Clearly, data races are defined at the programming-language level and d=
-o
-<br>not necessarily imply kernel crashes. Firstly, let's define the
-<br>following 3 concurrency bug classes:
-<br>
-<br>	A. Data race, where failure due to current compilers is unlikely
-<br>	   (supposedly "benign"); merely marking the accesses
-<br>	   appropriately is sufficient. Finding a crash for these will
-<br>	   require a miscompilation, but otherwise look "benign" at the
-<br>	   C-language level.
-<br>
-<br>	B. Race-condition bugs where the bug manifests as a data race,
-<br>	   too -- simply marking things doesn't fix the problem. These
-<br>	   are the types of bugs where a data race would point out a
-<br>	   more severe issue.
-<br>
-<br>	C. Race-condition bugs where the bug never manifests as a data
-<br>	   race. An example of these might be 2 threads that acquire the
-<br>	   necessary locks, yet some interleaving of them still results
-<br>	   in a bug (e.g. because the logic inside the critical sections
-<br>	   is buggy). These are harder to detect with KCSAN as-is, and
-<br>	   require using ASSERT_EXCLUSIVE_ACCESS() or
-<br>	   ASSERT_EXCLUSIVE_WRITER() in the right place. See
-<br>	   <a href=3D"https://lwn.net/Articles/816854/" target=3D"_blank" rel=
-=3D"nofollow" data-saferedirecturl=3D"https://www.google.com/url?hl=3Den&am=
-p;q=3Dhttps://lwn.net/Articles/816854/&amp;source=3Dgmail&amp;ust=3D1607046=
-147650000&amp;usg=3DAFQjCNFucqNjRLHYjrqgccyi6sy4A1rO7w">https://lwn.net/Art=
-icles/816854/</a>.
-<br>
-<br>One problem currently is that the kernel has quite a lot type-(A)
-<br>reports if we run KCSAN, which makes it harder to identify bugs of type
-<br>(B) and (C). My wish for the future is that we can get to a place, wher=
-e
-<br>the kernel has almost no unintentional (A) issues, so that we primarily
-<br>find (B) and (C) bugs.
-<br>
-<br></blockquote><div><br></div><div>Quick question here. I found that ther=
-e is still a sanitizer for concurrency bug called Kernel Thread Sanitizer. =
-For the above types, what's its detection capability compared with KCSAN?</=
-div><div>&nbsp;</div><blockquote class=3D"gmail_quote" style=3D"margin: 0 0=
- 0 0.8ex; border-left: 1px solid rgb(204, 204, 204); padding-left: 1ex;">It=
- appears you were trying to use KCSAN to reproduce bugs of type (B).
-<br>What we need to understand, however, is if the bugs you have been tryin=
-g
-<br>to reproduce with KCSAN are in fact of type (B) and not type (C).
-<br>
-<br>That's the high-level problem out of the way. The lower level problems
-<br>pertain to how the current default KCSAN filters numerous data races.
-<br>So, when debugging, my default recommendation is always going to be to
-<br>change the config as follows:
-<br>
-<br>	CONFIG_KCSAN_REPORT_RACE_UNKNOWN_ORIGIN=3Dy
-<br>	CONFIG_KCSAN_REPORT_VALUE_CHANGE_ONLY=3Dn
-<br>	CONFIG_KCSAN_ASSUME_PLAIN_WRITES_ATOMIC=3Dn
-<br>	CONFIG_KCSAN_INTERRUPT_WATCHER=3Dy  # add this after trying above
-<br>
-<br>Then, as you run your test-case, gradually decrease this value at
-<br>runtime:
-<br>
-<br>	echo $SOMETHING_SMALLER &gt; /sys/module/kcsan/parameters/skip_watch
-<br>
-<br>Alternatively, or in addition, try to increase
-<br>/sys/module/kcsan/parameters/udelay_task.
-<br>
-<br>For debugging purposes, it may even be fair to insert
-<br>ASSERT_EXCLUSIVE_ACCESS() regardless if the bug should manifest as a
-<br>data race or not, as it can help highlight what you're looking for as
-<br>the reports start with a different title "KCSAN: assert: race in ...".
-<br>
-<br>Thank you for your interest in this, and hopefully you'll be able to
-<br>proceed further using the above -- please ask if you have more
-<br>questions. We'd appreciate if you share any results, as it will help us
-<br>understand how we can optimize KCSAN to detect more races of types (B)
-<br>and (C).
-<br>
-<br>Thanks,
-<br>-- Marco
-<br></blockquote></div>
+---
+Documentation/dev-tools/kasan.rst |  5 +++--
+kernel/workqueue.c                |  3 +++
+lib/test_kasan_module.c           | 29 +++++++++++++++++++++++++++++
+mm/kasan/generic.c                |  4 +---
+mm/kasan/report.c                 |  4 ++--
+5 files changed, 38 insertions(+), 7 deletions(-)
 
-<p></p>
-
--- <br />
-You received this message because you are subscribed to the Google Groups &=
-quot;kasan-dev&quot; group.<br />
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
-+unsubscribe@googlegroups.com</a>.<br />
-To view this discussion on the web visit <a href=3D"https://groups.google.c=
-om/d/msgid/kasan-dev/db967ee9-01c7-4baf-a53f-dedbdf170cc7n%40googlegroups.c=
-om?utm_medium=3Demail&utm_source=3Dfooter">https://groups.google.com/d/msgi=
-d/kasan-dev/db967ee9-01c7-4baf-a53f-dedbdf170cc7n%40googlegroups.com</a>.<b=
-r />
-
-------=_Part_11717_1813621634.1606960004982--
-
-------=_Part_11716_443435787.1606960004982--
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20201203022148.29754-1-walter-zh.wu%40mediatek.com.
