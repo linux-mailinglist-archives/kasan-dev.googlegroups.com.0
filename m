@@ -1,121 +1,122 @@
-Return-Path: <kasan-dev+bncBCT6537ZTEKRBMMKVL7AKGQELC2MASY@googlegroups.com>
+Return-Path: <kasan-dev+bncBD4O7ZP764ERBT4MVL7AKGQE3MRA3GQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x140.google.com (mail-lf1-x140.google.com [IPv6:2a00:1450:4864:20::140])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9A892CF448
-	for <lists+kasan-dev@lfdr.de>; Fri,  4 Dec 2020 19:51:29 +0100 (CET)
-Received: by mail-lf1-x140.google.com with SMTP id 190sf1431427lff.4
-        for <lists+kasan-dev@lfdr.de>; Fri, 04 Dec 2020 10:51:29 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1607107889; cv=pass;
+Received: from mail-pg1-x53c.google.com (mail-pg1-x53c.google.com [IPv6:2607:f8b0:4864:20::53c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E61A2CF46D
+	for <lists+kasan-dev@lfdr.de>; Fri,  4 Dec 2020 19:56:16 +0100 (CET)
+Received: by mail-pg1-x53c.google.com with SMTP id 1sf4091734pgq.11
+        for <lists+kasan-dev@lfdr.de>; Fri, 04 Dec 2020 10:56:16 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1607108175; cv=pass;
         d=google.com; s=arc-20160816;
-        b=IsXLDuhhjHicy9hV+Euf2p+5VJ0603ATeJcfRaBzH78GrLpPTDhKaRRi5psHwQGKxe
-         w5ycHH4fSgXZ8/uVNo0F3sxaYBvfoRJJZx4VK17Z1IjAacXUidqPhqPe67NkH3CrFcsC
-         f3HElAF2qehbCREekLo0Qqe76C2YnKFvEUwPZXIxG4LiCWGzWBWF87+noFIaidEzjj9z
-         BrJLdUO+Vx2rURroHenmRLrzjRFeJwTLq4sqTfOe/fcy9SfEs05EnpRsFDfMOrdmqGBj
-         Df0VeJvlw7J2ldVqSHaCWAEsNWwRH6eQ3zeCAbUaeLrEz/CDFZ0iAx1sHkiOP50JNCuZ
-         +MXg==
+        b=AoJ2/1/DR9X8f+Jov/0Qru4NTviiNWqN+gEkVpMK/SPHrLpJeaD6uJK6GAQj8zaH+4
+         oJLOu6RnOksvQemEhTWWSe4jlP2s8Ek+8yjzDdazk8Qe8PABTRDcSUPTlEq2oauyxdQa
+         wqCb+UwXy13HbAlK5CPujaqrQr68JCoHaizELCziZ38mLxybv/e4puERr93lHRvMTLOv
+         JXtqhVFzRyd2p/U7pzIMWwaJ/0dwJ/2FW96H7PW1L9tCHupqlsV1DyZymr6UOWhDfQoS
+         rElHEqjsuOCIQEGOVxdWmDTuy4SiH3MkMBf6LQOAoXgM/Lx3g5tz+e77UVSKE6FseoXc
+         PL8w==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
-         :mime-version:sender:dkim-signature;
-        bh=TfZUrGSq8qhzbXBEXx8vtYsDpW9eYqOZmXQ7kHiVJiI=;
-        b=X84nLeWY7Bp5HrCBRNAi99GOZEpVt5O3cj352mYXe4wZ9rOcLXge5pZNj1L9mTZWXP
-         530oGJTF0iO907BpTcn0bJOiVsxlfkoc0vE8eAZQmwKvcesxh4PNhhA0B16buVy68+/Y
-         UNlvdogos1MyDKSwSLtjB2WcRAQ264aNVk8VYJyPwqqHnyHcF9Yo0g1RIs4+tzfBHz+x
-         g3kYbnRbpUI5vxxW4yIz5IyypTByy1uwbav4+wYRwgRHkSdEjTEMtyAbBcufrpL8oR6o
-         FHNFBbrfQgV/cNGeDDffk4QdqNgIFzVLxBVLIbdJ+s8JqBpUBtXtFfYdmD4Jv2sDn2M6
-         sK0A==
+         :list-id:mailing-list:precedence:mime-version:user-agent:date:cc:to
+         :from:subject:message-id:sender:dkim-signature;
+        bh=zEDQJf8W9J1acanMVrUQxrMTGoCXCmQRrKz4Frt5K5w=;
+        b=vBVEsiklcBcYdkvSlpOGq9XE6Te0A8ba54nehTh5EzsnJcuu37aBb2HP8nqcwY1LWJ
+         hXZLXpkIae8rr2QG/wLQJqxaOf+mENH0rCkpBvE+EWTbFxKWrW4vNK7BbPW13m3HLkW4
+         8vyI1+XPeTgpX4B3Chn6zQZw1S/QsVaCxLK1KT/eeDUe3PZuoHgQNosgnY80uWNN71Pe
+         ysZmA9aW4cfWrXnHg5hzVZPNB18HZK7ykSWwAn3NZLUnAlMsIK4MAg+L0Bll4uaIA59n
+         Q5MFx/TyBz4Zv3navtt3FYWhOFtOYy44NWDyzSkQNXHWP79Rm+dLMOxfauRwcKB9I6qh
+         ZEyA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linaro.org header.s=google header.b=ci93SS+C;
-       spf=pass (google.com: domain of naresh.kamboju@linaro.org designates 2a00:1450:4864:20::642 as permitted sender) smtp.mailfrom=naresh.kamboju@linaro.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org
+       dkim=pass header.i=@rajagiritech-edu-in.20150623.gappssmtp.com header.s=20150623 header.b=jlWQjTCA;
+       spf=neutral (google.com: 2607:f8b0:4864:20::62a is neither permitted nor denied by best guess record for domain of jeffrin@rajagiritech.edu.in) smtp.mailfrom=jeffrin@rajagiritech.edu.in
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:mime-version:from:date:message-id:subject:to:cc
+        h=sender:message-id:subject:from:to:cc:date:user-agent:mime-version
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=TfZUrGSq8qhzbXBEXx8vtYsDpW9eYqOZmXQ7kHiVJiI=;
-        b=Z+KBrjsM3CXNmuhGzug4fZZB7o/MC4iF1CEkNynv/xMYGYsoLiIJa6rqq+PYcZ3B9e
-         75m44NbWChp4wr+NxW/aJ5jNEPwqcHq2zlyvVHPiEXEY7UwSHDxFqcJagSFmo53ApFKE
-         P+HunSHMWMNOFD/u9Ra6EeHqbU/seYQZADGjLbeKGyEEg22PKptbVZnvxQ/KDSbfme6j
-         3o0q0bhK72FA0MUGv30E8iDM/q5iMFuHpyq1I59ovIl9m8uz89B11zRWJUwOI/yciJuT
-         Nc0gaXsmtLH0BaFmL0P1719IKJdyraTRZM57of+tg7OZErRE2GMd8kQt9BZgDKcD7SVz
-         pj/g==
+        bh=zEDQJf8W9J1acanMVrUQxrMTGoCXCmQRrKz4Frt5K5w=;
+        b=kduCGI/6zP0ddvGnowsvoHq1Fi0DCOLY5ok1bDUVMpmUE7roXURij8HbZypXWJQmm2
+         q3Ar4jvO7FdNaWP7XAqpi5xcTtfbUJPjmjyxhyEHWx5uBUqgOj0M325o14dY6SEKvJOl
+         szqMms/ZAPbSAWIDBPUCY2VtxpJVVlSWh0d+4flHpdX9LfBgmq36gXlsMMlOhdQiDxY0
+         1beA4PXBpuk4oW//4poYp12P98MvZ4xJN3ayne0mr3J/pT4w5wyDtDwGL+DFMWDR7JJm
+         W+8Jjs9LORjmgDUfUbRa/OA2K9eVF8BC5lqod0oue/4lDh4O8Gc/SQHppGtEimgK+7Ff
+         8flQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:mime-version:from:date:message-id:subject
-         :to:cc:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=TfZUrGSq8qhzbXBEXx8vtYsDpW9eYqOZmXQ7kHiVJiI=;
-        b=Y+UTwv2lQjaTNcl8YA1sB9rnOJFo4Wc/76RTGBH14Wl4h/3K16KOVSOAQ4gT8Xl9/s
-         PF7qJ8ygUvkv3VD9FYn/JJvAVU3l8MFr5dcdi9H2C1eyZP/7kNh5j1zoOwJBOVInP6tY
-         m61Wa8uJiHdv9kwAQqfASF5APIstfJGaU2icgwL1WSfl9BBhkpURsnlRnsU7QYriJNZL
-         fFIFF97OKnQvpbI2wrZcQbrQv2RxMrOg1hOKrMuFDk0BAoeSHubxg1kI3vlvOpVOyZR6
-         33yY4Se2oeP4JUipgtU5ALiQt4IJ2HCQTOjY3eQWVAsPdtpTY0gUd3bdqgUAG1ZU86ic
-         uyRQ==
+        h=sender:x-gm-message-state:message-id:subject:from:to:cc:date
+         :user-agent:mime-version:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=zEDQJf8W9J1acanMVrUQxrMTGoCXCmQRrKz4Frt5K5w=;
+        b=KENcs5yb/iGe4kBUfeAO5RABCJxq5sSvNZ/XsY9PMM21c5YPmGrkQEJ15Ugnok8vrS
+         A93NKQ3ETdYGvNI3MxwZwth76DCDN9p2mYg1Ez1+Z7LlRs9Hvdko9fsrKhZCu4SamGND
+         x2LZZkAOembExi/FDbsXxQje8KYzutJYJQHBHoS+nixPYn2Vf6lPsVyNV53YePm6i6/K
+         g+ZkBRfN/z40FCF67yAOMwTXxSZu44QW5cxWV9r4xmeSxWqj08mKT4yO/nK4/j5+lI1y
+         YKt56y3fpg2PYwYBNpvUg2ny7afX9JA3p7AD6yD0H/YUaekrsuaBU/D68cZEnHU/S+sR
+         eO0Q==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM5310uxjC1anmJmnjxUODqd8soNiIpLA5uwvoZx2sjIKM8XtbRZ6o
-	Ldri4IuYZ7AM8LU+3AP5pY8=
-X-Google-Smtp-Source: ABdhPJwKHbYWSadk5xmG8h+1HV8p3PlJt5ddwGL40tjEjs7O/sFGIJLRshKccwaLuWxJli/F9Q5dkg==
-X-Received: by 2002:a05:6512:2039:: with SMTP id s25mr3972213lfs.558.1607107889325;
-        Fri, 04 Dec 2020 10:51:29 -0800 (PST)
+X-Gm-Message-State: AOAM530kfbaURE5CxLjld1mvCqJDh1x7TXVUosnz2CJ+hlsyKkPGuZ7G
+	iK6LAdydhz/6kbo21svgSNI=
+X-Google-Smtp-Source: ABdhPJz3sT/sYAryzYnZCS1H9EQcIRXDCdt2rLeppxSeODvZuKc32UKN7BPdGvEQ0OVi4mlvnV/SbA==
+X-Received: by 2002:a17:90b:614:: with SMTP id gb20mr5453724pjb.34.1607108175314;
+        Fri, 04 Dec 2020 10:56:15 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a19:d0e:: with SMTP id 14ls3446326lfn.0.gmail; Fri, 04 Dec
- 2020 10:51:28 -0800 (PST)
-X-Received: by 2002:ac2:5c5d:: with SMTP id s29mr713631lfp.88.1607107888281;
-        Fri, 04 Dec 2020 10:51:28 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1607107888; cv=none;
+Received: by 2002:a17:90b:f0f:: with SMTP id br15ls5395851pjb.3.canary-gmail;
+ Fri, 04 Dec 2020 10:56:14 -0800 (PST)
+X-Received: by 2002:a17:90a:5d0e:: with SMTP id s14mr5458125pji.53.1607108174803;
+        Fri, 04 Dec 2020 10:56:14 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1607108174; cv=none;
         d=google.com; s=arc-20160816;
-        b=p1PL5PNfrI1YrCdH9n3fQMGmpR2cEnzmj6VVhwaNVnv7QDQK194Vk5o4kgzXlj8o90
-         cZzlaEma+XFaIpwH0YCjqU6f9qDg2m1Xw9F7csJdJiAddI81UEQHH7B7iFppO6JEuPJR
-         OgNx/NLX/hPge2vLafvO+WHWCINNV+K2c9aoYKj5rDGiXSf8OkfLT609Esxd1UhDpR+4
-         jbUU8wfw6DwE8EsS3FCOLAEdt7XrrYuc+TxhdvQ1jdYfZOEDaRZw0fB6Mu4r9tZ9ey/n
-         f1p1CYOEFUu9m/Ycjy+1y7spj3sepyZ3UELw0vaK3uN/6tT/lILMSSwZm984loo/m5x/
-         +MiQ==
+        b=lWdYODT5e7Ekhgrbx+IHrQb/aCjsTSGlDULQZr7Jy9Rkk4OFkWaKG7hRxlyIehBcLs
+         sjHy02WqcVqFktjPzn1c4E/rwd55pIEMslCdmUR86mTBMJZm4frfoyh//9B7L8N2NuLv
+         pL6xL2MF0aFW6z91klcah5jgFLvxyRADWYojd4qj81SoBHi/4F5yGgJV/Gv3v52Ialkr
+         laYWr66R2bTWsSkl3KRc8G3o6mWMHCu+TLrN7WDAV5gHcNrKDBdZL0N6DvKOPI9t3bY4
+         SrwEcZ1s7805lv5KDeaKDozaYUaMIBO9xrlxiARIm4F5YWAVxQqNXvSJyCQ9UD/L6E07
+         88Fw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=i6PGv4ZUKAWV06uB1yhL9icgz9mN5bj5ndLK9GnWxk4=;
-        b=IkQ+o9B/0N5FdoyRvMzCkcUnMRQL7TY/e1pRXSnrEx7a/64kGg1Zwn98XRjm3A7MZ8
-         Vj0rZbbtETrghze9jSD01G37SJ0KhdK8g8yR9YNBDtkGwurHJJtnQUPUrykC1+wtlrzX
-         5D3C7GCVcP3p9Cb+kwoolAPZgM/MMGree/sXUwfIepBwOF7Xtv5TZEkfjdXy6yb3OFJ6
-         ZUYnLeoiaIWmlLU5G1DqOe7dcR95fd8BJTL2hMUjyjJiz6qMOwci5xhFVbEHSEwAwijQ
-         B/0Joni2eqawfhoUyaqPT6Ko6e0foAvAkgmBTz45JbmBjYvPuZSwio4+ifW00g5cEIAe
-         TQkw==
+        h=content-transfer-encoding:mime-version:user-agent:date:cc:to:from
+         :subject:message-id:dkim-signature;
+        bh=BabgtABiUfhimEJA8On2IJzMRIuNBST9b1rkNpp1/zM=;
+        b=xmPj9oSbIOwh0T5Wx3l08KaYXyH96jcVmO/7tEKhtiTN5lTlf2oQ1N/mVeNABMO8iE
+         OVtpQcvsFS8hP2jN/zmYGNY0pxPFAo2OTYlo+vXrczzf/xVMX9keFAza6iYA+T6N4vo1
+         FRG5R/i9ICw5YNMIA/2EHcuGXuSZ1m4RGu7U3M2PK2dVvvMWfCN/X/e2rnE/9V/BQ40Y
+         U1c5OEocfcVQUumdfSwMyAt8v8SbLGiFF1FHRJ1VZDfWbnRl711Qh+rhVfD2nqybCid7
+         J3diBk2XrVwZ4WYqO/mzShTlKlBVq9bY08yxQgKO+2JziHkPm4ubzymPKmMCHwN4izhX
+         j5Lw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linaro.org header.s=google header.b=ci93SS+C;
-       spf=pass (google.com: domain of naresh.kamboju@linaro.org designates 2a00:1450:4864:20::642 as permitted sender) smtp.mailfrom=naresh.kamboju@linaro.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org
-Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com. [2a00:1450:4864:20::642])
-        by gmr-mx.google.com with ESMTPS id f28si179053ljp.3.2020.12.04.10.51.28
+       dkim=pass header.i=@rajagiritech-edu-in.20150623.gappssmtp.com header.s=20150623 header.b=jlWQjTCA;
+       spf=neutral (google.com: 2607:f8b0:4864:20::62a is neither permitted nor denied by best guess record for domain of jeffrin@rajagiritech.edu.in) smtp.mailfrom=jeffrin@rajagiritech.edu.in
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com. [2607:f8b0:4864:20::62a])
+        by gmr-mx.google.com with ESMTPS id c17si403764pls.3.2020.12.04.10.56.14
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 04 Dec 2020 10:51:28 -0800 (PST)
-Received-SPF: pass (google.com: domain of naresh.kamboju@linaro.org designates 2a00:1450:4864:20::642 as permitted sender) client-ip=2a00:1450:4864:20::642;
-Received: by mail-ej1-x642.google.com with SMTP id lt17so10184504ejb.3
-        for <kasan-dev@googlegroups.com>; Fri, 04 Dec 2020 10:51:28 -0800 (PST)
-X-Received: by 2002:a17:906:2ec3:: with SMTP id s3mr8195458eji.133.1607107887772;
- Fri, 04 Dec 2020 10:51:27 -0800 (PST)
-MIME-Version: 1.0
-From: Naresh Kamboju <naresh.kamboju@linaro.org>
-Date: Sat, 5 Dec 2020 00:21:16 +0530
-Message-ID: <CA+G9fYvGeHv-iPy2J3tdYGfr1A7ZuUrZystuQ9tDxV7vbP8iPg@mail.gmail.com>
-Subject: BUG: KCSAN: data-race in dec_zone_page_state / write_cache_pages
-To: linux-mm <linux-mm@kvack.org>, linux-block <linux-block@vger.kernel.org>, 
-	open list <linux-kernel@vger.kernel.org>, kasan-dev <kasan-dev@googlegroups.com>, 
-	rcu@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	lkft-triage@lists.linaro.org
-Cc: Andrew Morton <akpm@linux-foundation.org>, Jens Axboe <axboe@kernel.dk>, 
-	Al Viro <viro@zeniv.linux.org.uk>, "Paul E. McKenney" <paulmck@kernel.org>, 
-	Peter Zijlstra <peterz@infradead.org>, Marco Elver <elver@google.com>
+        Fri, 04 Dec 2020 10:56:14 -0800 (PST)
+Received-SPF: neutral (google.com: 2607:f8b0:4864:20::62a is neither permitted nor denied by best guess record for domain of jeffrin@rajagiritech.edu.in) client-ip=2607:f8b0:4864:20::62a;
+Received: by mail-pl1-x62a.google.com with SMTP id j1so3640771pld.3
+        for <kasan-dev@googlegroups.com>; Fri, 04 Dec 2020 10:56:14 -0800 (PST)
+X-Received: by 2002:a17:902:ee52:b029:da:4dee:1a54 with SMTP id 18-20020a170902ee52b02900da4dee1a54mr5030102plo.29.1607108174434;
+        Fri, 04 Dec 2020 10:56:14 -0800 (PST)
+Received: from [192.168.1.9] ([122.164.27.91])
+        by smtp.gmail.com with ESMTPSA id d4sm2833964pjz.28.2020.12.04.10.56.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Dec 2020 10:56:13 -0800 (PST)
+Message-ID: <dc46ab93e6b08fa6168591c7f6345b9dc91a81bb.camel@rajagiritech.edu.in>
+Subject: BUG: KASAN   lib/test_kasan.c
+From: Jeffrin Jose T <jeffrin@rajagiritech.edu.in>
+To: aryabinin@virtuozzo.com, Alexander Potapenko <glider@google.com>, Dmitry
+	Vyukov <dvyukov@google.com>
+Cc: kasan-dev@googlegroups.com, lkml <linux-kernel@vger.kernel.org>
+Date: Sat, 05 Dec 2020 00:26:10 +0530
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: naresh.kamboju@linaro.org
+User-Agent: Evolution 3.38.1-2
+MIME-Version: 1.0
+X-Original-Sender: jeffrin@rajagiritech.edu.in
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linaro.org header.s=google header.b=ci93SS+C;       spf=pass
- (google.com: domain of naresh.kamboju@linaro.org designates
- 2a00:1450:4864:20::642 as permitted sender) smtp.mailfrom=naresh.kamboju@linaro.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org
+ header.i=@rajagiritech-edu-in.20150623.gappssmtp.com header.s=20150623
+ header.b=jlWQjTCA;       spf=neutral (google.com: 2607:f8b0:4864:20::62a is
+ neither permitted nor denied by best guess record for domain of
+ jeffrin@rajagiritech.edu.in) smtp.mailfrom=jeffrin@rajagiritech.edu.in
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -128,66 +129,52 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-LKFT started testing KCSAN enabled kernel from the linux next tree.
-Here we have found BUG: KCSAN: data-race in dec_zone_page_state /
-write_cache_pages
+hello,
 
-This report is from an x86_64 machine clang-11 linux next 20201201.
-Since we are running for the first time we do not call this regression.
+ detected   KASAN   BUG
 
-[   45.484972] BUG: KCSAN: data-race in dec_zone_page_state / write_cache_pages
-[   45.492030]
-[   45.493532] read-write (marked) to 0xffffd4e284455380 of 8 bytes by
-task 269 on cpu 0:
-[   45.501453]  write_cache_pages+0x270/0x6a0
-[   45.505560]  generic_writepages+0x63/0xa0
-[   45.509582]  blkdev_writepages+0xe/0x10
-[   45.513429]  do_writepages+0x79/0x140
-[   45.517096]  __writeback_single_inode+0x6d/0x390
-[   45.521714]  writeback_sb_inodes+0x4fd/0xbe0
-[   45.525986]  wb_writeback+0x42e/0x690
-[   45.529652]  wb_do_writeback+0x4d2/0x530
-[   45.533578]  wb_workfn+0xc8/0x4a0
-[   45.536897]  process_one_work+0x4a6/0x830
-[   45.540908]  worker_thread+0x5f7/0xaa0
-[   45.544661]  kthread+0x20b/0x220
-[   45.547893]  ret_from_fork+0x22/0x30
-[   45.551471]
-[   45.552963] read to 0xffffd4e284455380 of 8 bytes by task 499 on cpu 2:
-[   45.559576]  dec_zone_page_state+0x1d/0x140
-[   45.563764]  clear_page_dirty_for_io+0x2ab/0x3a0
-[   45.568382]  write_cache_pages+0x388/0x6a0
-[   45.572480]  generic_writepages+0x63/0xa0
-[   45.576495]  blkdev_writepages+0xe/0x10
-[   45.580334]  do_writepages+0x79/0x140
-[   45.584000]  __filemap_fdatawrite_range+0x155/0x190
-[   45.588880]  file_write_and_wait_range+0x51/0xa0
-[   45.593498]  blkdev_fsync+0x45/0x70
-[   45.596991]  __x64_sys_fsync+0xda/0x120
-[   45.600830]  do_syscall_64+0x3b/0x50
-[   45.604409]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
-[   45.609460]
-[   45.610950] Reported by Kernel Concurrency Sanitizer on:
-[   45.616259] CPU: 2 PID: 499 Comm: mkfs.ext4 Not tainted
-5.10.0-rc6-next-20201201 #2
-[   45.623908] Hardware name: Supermicro SYS-5019S-ML/X11SSH-F, BIOS
-2.2 05/23/2018
+[ related information ]
 
-metadata:
-    git_repo: https://gitlab.com/aroxell/lkft-linux-next
-    target_arch: x86
-    toolchain: clang-11
-    git_describe: next-20201201
-    download_url: https://builds.tuxbuild.com/1l8eiWgGMi6W4aDobjAAlOleFVl/
+-------------------x-------------------x------------------------>
+[   43.616259] BUG: KASAN: vmalloc-out-of-bounds in
+vmalloc_oob+0x146/0x2c0
 
-Full test log link,
-https://lkft.validation.linaro.org/scheduler/job/2002643#L1866
+(gdb) l *vmalloc_oob+0x146/0x2c0
+0xffffffff81b8b0b0 is in vmalloc_oob (lib/test_kasan.c:764).
+759		kfree_sensitive(ptr);
+760		KUNIT_EXPECT_KASAN_FAIL(test, kfree_sensitive(ptr));
+761	}
+762	
+763	static void vmalloc_oob(struct kunit *test)
+764	{
+765		void *area;
+766	
+767		if (!IS_ENABLED(CONFIG_KASAN_VMALLOC)) {
+768			kunit_info(test, "CONFIG_KASAN_VMALLOC is not
+enabled.");
+(gdb) l *vmalloc_oob+0x146
+0xffffffff81b8b1f6 is in vmalloc_oob (lib/test_kasan.c:779).
+774		 * The MMU will catch that and crash us.
+775		 */
+776		area = vmalloc(3000);
+777		KUNIT_ASSERT_NOT_ERR_OR_NULL(test, area);
+778	
+779		KUNIT_EXPECT_KASAN_FAIL(test, ((volatile char
+*)area)[3100]);
+780		vfree(area);
+781	}
+782	
+783	static struct kunit_case kasan_kunit_test_cases[] = {
+----------------x-----------------------------x-------------------->
+
+Reported by: Jeffrin Jose T <jeffrin@rajagiritech.edu.in>
 
 -- 
-Linaro LKFT
-https://lkft.linaro.org
+software engineer
+rajagiri school of engineering and technology - autonomous
+
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CA%2BG9fYvGeHv-iPy2J3tdYGfr1A7ZuUrZystuQ9tDxV7vbP8iPg%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/dc46ab93e6b08fa6168591c7f6345b9dc91a81bb.camel%40rajagiritech.edu.in.
