@@ -1,135 +1,121 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBSO3VD7AKGQETXXC53Y@googlegroups.com>
+Return-Path: <kasan-dev+bncBCT6537ZTEKRBQH4VH7AKGQEPTI5Z7Y@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wr1-x437.google.com (mail-wr1-x437.google.com [IPv6:2a00:1450:4864:20::437])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C4CB2CEE3A
-	for <lists+kasan-dev@lfdr.de>; Fri,  4 Dec 2020 13:38:34 +0100 (CET)
-Received: by mail-wr1-x437.google.com with SMTP id z13sf2443324wrm.19
-        for <lists+kasan-dev@lfdr.de>; Fri, 04 Dec 2020 04:38:34 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1607085514; cv=pass;
+Received: from mail-lj1-x23f.google.com (mail-lj1-x23f.google.com [IPv6:2a00:1450:4864:20::23f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 406E52CF3E3
+	for <lists+kasan-dev@lfdr.de>; Fri,  4 Dec 2020 19:21:53 +0100 (CET)
+Received: by mail-lj1-x23f.google.com with SMTP id h3sf2320127ljk.11
+        for <lists+kasan-dev@lfdr.de>; Fri, 04 Dec 2020 10:21:53 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1607106112; cv=pass;
         d=google.com; s=arc-20160816;
-        b=YrYYJV7aA6+Vjwg0YL0runU1Tj9qwIqyOC8vljTL4tJ5flKzztbqmPYAHbxQF1xFpP
-         ZLO3WYb+ZfBBfmn9OWYyP0cM6apsthHLmCvowgn/6eaGr6XtSAgfkbiTz9DBM0YSkW41
-         R1HjDdPvAatNiG78YZ3WtFIkJl51i2Te+sM37OaDE+NoxfzMlkPgSZs1BzdfmvVLsvG3
-         +9Y9Hm1hEUTkLWPAnwkyxbPW9XB9lD27ioqvKd5SSljJthkkLyl0bUBBgKkezq7SBHH2
-         9vdMdVsCu2hDl7E+CP0nFSGzSICBBuJOX0PcwsEXaMVKn81C51U8XxcRhX7XLM8pmbKx
-         yQ2w==
+        b=pIQ2+SdkVr77WHJie0/Lv4B/J6yR8lTwpR8Zwx0vIZh3JVtJj1czwjDMhlX3eJDZfQ
+         1uOBlRWcK7E6ova1zkjbDnfxOjBLcVisC+c/Rivd3Yd7VWmoGwp5N82BcaMCppM6FLzv
+         0m0LGaIGXd7mB7bN9VuNkW2VJqfL57QNYqpuIO+j0KeqNp8bqR9qDam3raCmL7uwZLHE
+         EQSuuY020gEORgCeJHc6pXubHKuvGq3JJzEUYLq8UZIWXSkXbFrSbXmk2vH8yBUgpSJK
+         uwHU2Xcbt8qThIOeiolonXXrD8FoItgK5Ca9ts+znOdj5eWApbRFpTQfLe1HAlgiBjiD
+         Yx0A==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:user-agent:in-reply-to
-         :content-transfer-encoding:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:dkim-signature;
-        bh=WnFVBiV11/xa/iN6XOm1d728aX9k7vfV/esiCLd2K4o=;
-        b=orP6PRUSlsBBW4qcZ4u8U2I6rzEeNIuIGrc0obGJQl0BrVuTVi8/JlhIMxO2nPdLwY
-         i/GF+ddwG1JKGtlEuAWd1JuWveDHIvKnqsjFzPzTBrIP0fnZBDk1OLC5iLUKC/5plJXf
-         kYktZbUv9dO9fNWUByeTOKlZ4BO56wKkGfk/fULuCKMx/f9qVjv0z6950DMBkOPltIMa
-         hIpCf0ojGBKJYQa7rIXP3JLzE1TzAWWymJtmkWXlfu33yrMi9HiGoVVTcdGP1hNMguVH
-         u33AU8D69+xZ4kq5BzHXnJJmZ+FMMiwvHIFodUnQh1ZCecT5CckG+VkySKUGsV7ywm5e
-         kxNA==
+         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
+         :mime-version:sender:dkim-signature;
+        bh=MslnNDUhngP+ia00rbA6zb0u6kjMp4gS7xrhp+QkfJY=;
+        b=T7GiULJDLk7qNQB7Qx37LBbM+OGNsc406ZlXUHjGCRO7fCKfsczBu4ZVmZzd7eOUSB
+         A/UPi5EhsxqlMP4Y8ohKH42PiOpkfvpuqmmSNMOXcAVHQT1YApm4kSKeTZuDnCdnOgDg
+         WI6OzWT3GNbhzgtYuitkpZjERc7jlP66ujw8h8DOhq54OU2/PLRWdmRJSoJNJBnPjaWg
+         /g1/W6HhiNkO+1CRB5/m4/rTK1jzzS4H/uscPpL9PZG4R3oVmAs1+d0pTYZiJwr8bTDU
+         Owjy/+0oh0mADdhZ0pdxSxut7l6QgSfULSNHgqOiM5D2gRbn2Ua1GKuKobulcNk+nwYD
+         aKAg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=XCefAFOR;
-       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::441 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@linaro.org header.s=google header.b=EL5y9hBp;
+       spf=pass (google.com: domain of naresh.kamboju@linaro.org designates 2a00:1450:4864:20::536 as permitted sender) smtp.mailfrom=naresh.kamboju@linaro.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent:x-original-sender:x-original-authentication-results
-         :reply-to:precedence:mailing-list:list-id:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=WnFVBiV11/xa/iN6XOm1d728aX9k7vfV/esiCLd2K4o=;
-        b=Qss7KhvdcSQGw8rS/UDzu0/Nq9/TlK/K4Olg4r7cNKSisbBGTxTj8Lmk39xXb+W5kv
-         xNDFKdnYRjXFU+0vli0eicu68HJsGKlWOP+3UrO0nmp5kU3SkZ37Myo7BggOlXadsj5o
-         AZumj0zyVQbrPSD6AdKoPDaW6mXuF7tvmQMfvD121M0QbYH+K9pn5js7/uZW+Di0Dvqo
-         OYm+0mTl3dv4LkSBA0B5HUPTSmp4Ms6qvaAhF5M+YYnKdF4O7a8VvO4XUy7Q7vXti+w8
-         tepaIoKNUNWBgZBa1a+HsDSmDBp49sbb45K6RhN73tbThqNDD3agDvIQYws12srbWlms
-         4liw==
+        h=sender:mime-version:from:date:message-id:subject:to:cc
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=MslnNDUhngP+ia00rbA6zb0u6kjMp4gS7xrhp+QkfJY=;
+        b=sp9sb/jNZFu+M/ofnFR9+dOgeJhOoPCsdEHjflEZ0m0lzPFN28BwmUnepjhrHCd+mf
+         M73jqSHDp2+vQ4lSDUnNKCIYY8oTGQP3S52Y9GgcDsDHiQbK5NH2wUIHFHRvQfiA4tB6
+         3Cn9loo/7OU3xfFMDqH/BB9pSZYkkh14He5yikYBvd2SiXNs5MGFE09uJeYgP/0+wjQ3
+         bZchjBLR3nlLL/7SOiy2gMnC1YsnHu7drRb83+TohCPzhhrFe8wQ2PuyBfEQ2gXIsf66
+         Sr1AG1Bvi6vKiuf9wtPNl5zulYY5fS+XyXsJpBhblm0Nq7XCOjJKbAcI8ooCyU+h7kL6
+         R49w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=WnFVBiV11/xa/iN6XOm1d728aX9k7vfV/esiCLd2K4o=;
-        b=T3dleTUxLeLTpZDWsbdK71R35O1mQTs3kQym8dO/GXgUTYhDZrAfr1P306uFelluD9
-         AROUJyinKAURBC+Q9FV+z5VPD+NKU129KbUiVtg9cxeLPzoXy99Gy2K28O2Hypf/HvPX
-         ZbiId4GiY3waJ7wmozPuvaiKzIU+3Cmlw5KwmsF+kmk/3MKsxNrvv/71EzDJ6qc8tOhV
-         8H9CPCoCuRHt1YHV5URkoiJCbGvOXAFtb+uk5Wq/6JjvAyJ/3I+V6e/ApHK52iIGKsZJ
-         cMfgNDdjYZ/Av/1917abCRnAeVzJzVSFRJm4RPlyOG/oC7zybp+owjmWSf37wW00kQ7K
-         B3OQ==
-X-Gm-Message-State: AOAM532MUJBteQ85bLJpkjR3xbE6JqtpDWfjFask+1jj25mTNLiN1Iqj
-	Cngc1vYJ0AIGmON26hEA0co=
-X-Google-Smtp-Source: ABdhPJyYbN6z99v6Skjbp9Y/6ryevmOftKBU95SiwAeKl3xrvSd3mX1KalKSVVQhk+hkVkqqRQMF4w==
-X-Received: by 2002:adf:a3ca:: with SMTP id m10mr4777643wrb.228.1607085513935;
-        Fri, 04 Dec 2020 04:38:33 -0800 (PST)
+        h=sender:x-gm-message-state:mime-version:from:date:message-id:subject
+         :to:cc:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=MslnNDUhngP+ia00rbA6zb0u6kjMp4gS7xrhp+QkfJY=;
+        b=BztvOaAGrCiz/blfS+HwBgMWHhS7ZgnKlybYGni3ibhUng20B1kldVffQMdoLaaXY7
+         HLdUP+GkOynm6dyfRu2cRkSRoYlmjablV+ov3G1ryXeEENX6Lke226qMbeOYK5KPyBmy
+         5rIA0zwwMNDXNN/VXi8u5tCzSXikP4HUoyqWL5QUIwjsgL8mCWVIhnWQoiOZRph1zAeu
+         o3HmUpERXQY3vkrGO8DRFYq3hi4UfsQDaJBZ7Tj0wX9guJyXUeMBnGwWPseEEa7x6+Rm
+         PkhrEYEctTaQyJ41nZknbmH5MpFA2fReCVBVJ1nLUx2AZXtHUObaG8NSm2rH7eKwcrh3
+         rPig==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM531aDUNMeDJUbfxf8bpQQ/3YNBuZRtYSHL8axZVXF/AbUJb3M1Al
+	OYxagLbRaku19ZXOz2RFce8=
+X-Google-Smtp-Source: ABdhPJwKs3WAMG2CXjE4ALNpht7aoR2LiJ/oxumBiYKMiU7BPNW+yGXtfQPO1hNspbxaR8wVNae3fA==
+X-Received: by 2002:a05:6512:3054:: with SMTP id b20mr3686403lfb.45.1607106112726;
+        Fri, 04 Dec 2020 10:21:52 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:adf:e5c2:: with SMTP id a2ls11012655wrn.3.gmail; Fri, 04 Dec
- 2020 04:38:33 -0800 (PST)
-X-Received: by 2002:adf:d086:: with SMTP id y6mr2242178wrh.115.1607085512988;
-        Fri, 04 Dec 2020 04:38:32 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1607085512; cv=none;
+Received: by 2002:a05:651c:1114:: with SMTP id d20ls1809549ljo.11.gmail; Fri,
+ 04 Dec 2020 10:21:51 -0800 (PST)
+X-Received: by 2002:a2e:6a11:: with SMTP id f17mr300958ljc.202.1607106111648;
+        Fri, 04 Dec 2020 10:21:51 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1607106111; cv=none;
         d=google.com; s=arc-20160816;
-        b=dg5fUtjZjF98luHxuowP0gskcseranW1gyZdOGip0px4w4Cfxt4OzGeZ+ydT1611ay
-         BU4ZE4GkR0oJGo5zjiHMuN+Ihp9oVqHPjt7NLy4kQ7tRJ2PKoxFBFjpenTrQTWEzvBtN
-         iBqb0vYTlw3uD2cXfkxiqDTQA2FJqUyT3FZFNfXoq6UWDbVy1qcL8Ur2uhq6upgOMfCj
-         k/8n0PtHIYxzd32O5BcZYIpER3url7JR7ut/HnbR/GwOjE0MKySuNc89HXKfJScvcptn
-         2uxxXtnVUQqV2Sh7K6zZJedUOVNj2SYWv+t6h3bSJN/CWsmPetAU1KqDl1LcZTVjep6D
-         a2zg==
+        b=mYukgxteaqGoSzMr13p3CWGyA9Fim/Z5ljKDFRAaQgwMLV+29Ez/3z+/4CmuWXNpIq
+         CIjQwNXVpY2bzVgKsRIJgYEM/XYDsvWTJrcLz0OEVQdCcHraZUVSrWJ14JVbr7SWs1WF
+         sIdE/dCVbKKjlQk0A0loSsZDHINiJym6s5FYBcgkyyd+S4x0bTe1MgFj7JH+NJobyTkv
+         UDEsYOChA/76345H1WoYm8eH8wPv7CVYhVCJ22OM2NRTkUN0En0DYLfzcbS1nm4Upizq
+         FqGNNS/pD0dD6nabs0fUmwH9vZ9+grMToQmmFf6oMoBKE433BsRz/6Qy7m/K5DNqdcVT
+         k6Aw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=user-agent:in-reply-to:content-transfer-encoding
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:dkim-signature;
-        bh=uwxrq7FVASlmAXmPpYkbuc2zGaGpKZv2xlcdJf5cyHg=;
-        b=f7mHI3nk/4JcIWQhRewcF93dZpNlGslnRz649fQ3j+coF9zMymPFEoBsbQ0+HILP06
-         EJeQvauDTm18CIthZikfqRkHVxYARRR7hsKtwEK83PkSBmWXoLRihqaU7BrJU+xnrlgq
-         WIOYJIGV1RXycOgCsidri9W75Vyeiak4/iuwy3DKvFG1/g71tBtb5srJgEJOzlfD1JCo
-         z6PRBrho5lRvdfIJWUebIz+I8KXL1kjsud9AnzRJsv0A6jsDoyCo3Q+jOz6Is92/tRnX
-         uA8edCnRDILAZIyNrjZ32OIzBwPV2thjM9Ie5zaDPfgi/01eDjld8AR0/P4E6ozLM1fU
-         5H3Q==
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=ZRVh9nEjQvUMIF508xcL3n/raN8xu3HvHHn5B7tzkG0=;
+        b=KLLNGKFx+xfGChWntdG8u6YZ7waG+I5xuauomIGP78EfXat9pMT4ZQDQDTGA7wSFTF
+         xauRsESCvPykCu7kMfeI+KUKkVJf6llLOVXvbonwvTZUjVHMNXs1tF9SlI3GyPsVCKZM
+         ttg+tSjoMVSg8Kcrg4uVeNElPZFSzJ4lHMs9MIdk2L/oRLqORhpnBfB58XLDb1D1eWAE
+         iC8y5j8GpPj3qf8Egq//ZMlTPO5SWA5CSbuWwhRQ3p3eDkiFWmGwS3WyXVGkbosZ7+FG
+         oPTjzeRSypOVSJz+HmUvZr3r4KsMCTjsIICQ88aajK1iDeiJ8B4NcqC1H+FVAEfxo0xU
+         0Zgw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=XCefAFOR;
-       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::441 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com. [2a00:1450:4864:20::441])
-        by gmr-mx.google.com with ESMTPS id q142si99375wme.2.2020.12.04.04.38.32
+       dkim=pass header.i=@linaro.org header.s=google header.b=EL5y9hBp;
+       spf=pass (google.com: domain of naresh.kamboju@linaro.org designates 2a00:1450:4864:20::536 as permitted sender) smtp.mailfrom=naresh.kamboju@linaro.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com. [2a00:1450:4864:20::536])
+        by gmr-mx.google.com with ESMTPS id q189si166661ljb.1.2020.12.04.10.21.51
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 04 Dec 2020 04:38:32 -0800 (PST)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::441 as permitted sender) client-ip=2a00:1450:4864:20::441;
-Received: by mail-wr1-x441.google.com with SMTP id k14so5191373wrn.1
-        for <kasan-dev@googlegroups.com>; Fri, 04 Dec 2020 04:38:32 -0800 (PST)
-X-Received: by 2002:a05:6000:105:: with SMTP id o5mr4937077wrx.164.1607085512394;
-        Fri, 04 Dec 2020 04:38:32 -0800 (PST)
-Received: from elver.google.com ([2a00:79e0:15:13:f693:9fff:fef4:2449])
-        by smtp.gmail.com with ESMTPSA id w3sm3066245wma.3.2020.12.04.04.38.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Dec 2020 04:38:31 -0800 (PST)
-Date: Fri, 4 Dec 2020 13:38:25 +0100
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-To: Anders Roxell <anders.roxell@linaro.org>
-Cc: akpm@linux-foundation.org, glider@google.com, dvyukov@google.com,
-	catalin.marinas@arm.com, will@kernel.org,
-	kasan-dev@googlegroups.com, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, rppt@kernel.org, david@redhat.com
-Subject: Re: [PATCH] kfence: fix implicit function declaration
-Message-ID: <X8otwahnmGQGLpge@elver.google.com>
-References: <20201204121804.1532849-1-anders.roxell@linaro.org>
+        Fri, 04 Dec 2020 10:21:51 -0800 (PST)
+Received-SPF: pass (google.com: domain of naresh.kamboju@linaro.org designates 2a00:1450:4864:20::536 as permitted sender) client-ip=2a00:1450:4864:20::536;
+Received: by mail-ed1-x536.google.com with SMTP id b2so6809258edm.3
+        for <kasan-dev@googlegroups.com>; Fri, 04 Dec 2020 10:21:51 -0800 (PST)
+X-Received: by 2002:aa7:da8f:: with SMTP id q15mr8747868eds.239.1607106110881;
+ Fri, 04 Dec 2020 10:21:50 -0800 (PST)
 MIME-Version: 1.0
+From: Naresh Kamboju <naresh.kamboju@linaro.org>
+Date: Fri, 4 Dec 2020 23:51:39 +0530
+Message-ID: <CA+G9fYuJF-L+qHJ3ufqD+M2w20LgeqMC0rhqv7oZagOA7iJMDg@mail.gmail.com>
+Subject: BUG: KCSAN: data-race in mutex_spin_on_owner+0xef/0x1b0
+To: open list <linux-kernel@vger.kernel.org>, linux-usb@vger.kernel.org, 
+	lkft-triage@lists.linaro.org, rcu@vger.kernel.org, 
+	kasan-dev <kasan-dev@googlegroups.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Paul E. McKenney" <paulmck@kernel.org>, 
+	Marco Elver <elver@google.com>, Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
+	Will Deacon <will@kernel.org>, Lee Jones <lee.jones@linaro.org>, 
+	Thierry Reding <treding@nvidia.com>, mathias.nyman@linux.intel.com, Qian Cai <cai@lca.pw>
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20201204121804.1532849-1-anders.roxell@linaro.org>
-User-Agent: Mutt/2.0.2 (2020-11-20)
-X-Original-Sender: elver@google.com
+X-Original-Sender: naresh.kamboju@linaro.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=XCefAFOR;       spf=pass
- (google.com: domain of elver@google.com designates 2a00:1450:4864:20::441 as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+ header.i=@linaro.org header.s=google header.b=EL5y9hBp;       spf=pass
+ (google.com: domain of naresh.kamboju@linaro.org designates
+ 2a00:1450:4864:20::536 as permitted sender) smtp.mailfrom=naresh.kamboju@linaro.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -142,72 +128,74 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, Dec 04, 2020 at 01:18PM +0100, Anders Roxell wrote:
-> When building kfence the following error shows up:
->=20
-> In file included from mm/kfence/report.c:13:
-> arch/arm64/include/asm/kfence.h: In function =E2=80=98kfence_protect_page=
-=E2=80=99:
-> arch/arm64/include/asm/kfence.h:12:2: error: implicit declaration of func=
-tion =E2=80=98set_memory_valid=E2=80=99 [-Werror=3Dimplicit-function-declar=
-ation]
->    12 |  set_memory_valid(addr, 1, !protect);
->       |  ^~~~~~~~~~~~~~~~
->=20
-> Use the correct include both
-> f2b7c491916d ("set_memory: allow querying whether set_direct_map_*() is a=
-ctually enabled")
-> and 4c4c75881536 ("arm64, kfence: enable KFENCE for ARM64") went in the
+LKFT started testing KCSAN enabled kernel from the linux next tree.
+Here we have found BUG: KCSAN: data-race in mutex_spin_on_owner
+and several more KCSAN BUGs.
 
-Note that -mm does not have stable commit hashes.
+This report is from an x86_64 machine clang-11 linux next 20201201.
+Since we are running for the first time we do not call this regression.
 
-> same day via different trees.
->=20
-> Signed-off-by: Anders Roxell <anders.roxell@linaro.org>
-> ---
+[    4.745161] usbcore: registered new interface driver cdc_ether
+[    4.751281] ==================================================================
+[    4.756653] usbcore: registered new interface driver net1080
+[    4.752139] BUG: KCSAN: data-race in mutex_spin_on_owner+0xef/0x1b0
+[    4.752139]
+[    4.752139] race at unknown origin, with read to 0xffff90a80098b034
+of 4 bytes by task 252 on cpu 1:
+[    4.769781] usbcore: registered new interface driver cdc_subset
+[    4.752139]  mutex_spin_on_owner+0xef/0x1b0
+[    4.752139]  __mutex_lock+0x69d/0x820
+[    4.752139]  __mutex_lock_slowpath+0x13/0x20
+[    4.781657] usbcore: registered new interface driver zaurus
+[    4.752139]  mutex_lock+0x9d/0xb0
+[    4.752139]  ata_eh_acquire+0x2e/0x80
+[    4.752139]  ata_msleep+0x91/0xa0
+[    4.792317] usbcore: registered new interface driver cdc_ncm
+[    4.752139]  sata_link_debounce+0x1ad/0x2f0
+[    4.752139]  sata_link_resume+0x32f/0x4a0
+[    4.752139]  sata_link_hardreset+0x456/0x640
+[    4.802369] usbcore: registered new interface driver r8153_ecm
+[    4.752139]  ahci_do_hardreset+0x177/0x230
+[    4.752139]  ahci_hardreset+0x23/0x40
+[    4.752139]  ata_eh_reset+0x91e/0x1bb0
+[    4.810641] ehci_hcd: USB 2.0 'Enhanced' Host Controller (EHCI) Driver
+[    4.810482]  ata_eh_recover+0x79b/0x2bd0
+[    4.810482]  sata_pmp_error_handler+0x7d1/0x1340
+[    4.810482]  ahci_error_handler+0x7c/0xc0
+[    4.819247] ehci-pci: EHCI PCI platform driver
+[    4.810482]  ata_scsi_port_error_handler+0x708/0xd30
+[    4.810482]  ata_scsi_error+0x128/0x160
+[    4.826321] ohci_hcd: USB 1.1 'Open' Host Controller (OHCI) Driver
+[    4.810482]  scsi_error_handler+0x26d/0x700
+[    4.810482]  kthread+0x20b/0x220
+[    4.836069] ohci-pci: OHCI PCI platform driver
+[    4.810482]  ret_from_fork+0x22/0x30
+[    4.810482]
+[    4.844397] uhci_hcd: USB Universal Host Controller Interface driver
+[    4.810482] Reported by Kernel Concurrency Sanitizer on:
+[    4.810482] CPU: 1 PID: 252 Comm: scsi_eh_1 Not tainted
+5.10.0-rc6-next-20201201 #2
+[    4.810482] Hardware name: Supermicro SYS-5019S-ML/X11SSH-F, BIOS
+2.2 05/23/2018
+[    4.855343] xhci_hcd 0000:00:14.0: xHCI Host Controller
+[    4.810482] ==================================================================
 
-Ack, we need this patch somewhere but we should probably fix the patch
-that does the move, otherwise we'll have a build-broken kernel still.
+metadata:
+    git_repo: https://gitlab.com/aroxell/lkft-linux-next
+    target_arch: x86
+    toolchain: clang-11
+    git_describe: next-20201201
+    kernel_version: 5.10.0-rc6
+    download_url: https://builds.tuxbuild.com/1l8eiWgGMi6W4aDobjAAlOleFVl/
 
-> I got this build error in todays next-20201204.
-> Andrew, since both patches are in your -mm tree, I think this can be
-> folded into 4c4c75881536 ("arm64, kfence: enable KFENCE for ARM64")
+full test log link,
+https://lkft.validation.linaro.org/scheduler/job/2002643#L831
 
-I don't think that's the right way around. This would result in a
-build-broken commit point as well.
+-- 
+Linaro LKFT
+https://lkft.linaro.org
 
-Looking at current -next, I see that "set_memory: allow querying whether
-set_direct_map_*() is actually enabled" is after "arm64, kfence: enable
-KFENCE for ARM64".
-
-I think the patch that introduces set_memory.h for arm64 simply needs to
-squash in this patch (assuming the order is retained as-is in -mm).
-
-Thanks,
--- Marco
-
->  arch/arm64/include/asm/kfence.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/arch/arm64/include/asm/kfence.h b/arch/arm64/include/asm/kfe=
-nce.h
-> index 6c0afeeab635..c44bb368a810 100644
-> --- a/arch/arm64/include/asm/kfence.h
-> +++ b/arch/arm64/include/asm/kfence.h
-> @@ -3,7 +3,7 @@
->  #ifndef __ASM_KFENCE_H
->  #define __ASM_KFENCE_H
-> =20
-> -#include <asm/cacheflush.h>
-> +#include <asm/set_memory.h>
-> =20
->  static inline bool arch_kfence_init_pool(void) { return true; }
-> =20
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/X8otwahnmGQGLpge%40elver.google.com.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CA%2BG9fYuJF-L%2BqHJ3ufqD%2BM2w20LgeqMC0rhqv7oZagOA7iJMDg%40mail.gmail.com.
