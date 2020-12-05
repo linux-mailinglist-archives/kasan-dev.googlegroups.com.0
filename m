@@ -1,129 +1,119 @@
-Return-Path: <kasan-dev+bncBD4O7ZP764ERBJODVL7AKGQEUOTY4AI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDAMN6NI5EERB545V77AKGQEXR7ERJQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qv1-xf3e.google.com (mail-qv1-xf3e.google.com [IPv6:2607:f8b0:4864:20::f3e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7833D2CF5DC
-	for <lists+kasan-dev@lfdr.de>; Fri,  4 Dec 2020 21:52:54 +0100 (CET)
-Received: by mail-qv1-xf3e.google.com with SMTP id cu18sf5777696qvb.17
-        for <lists+kasan-dev@lfdr.de>; Fri, 04 Dec 2020 12:52:54 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1607115173; cv=pass;
+Received: from mail-lf1-x13d.google.com (mail-lf1-x13d.google.com [IPv6:2a00:1450:4864:20::13d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 234AD2CFC5B
+	for <lists+kasan-dev@lfdr.de>; Sat,  5 Dec 2020 19:18:32 +0100 (CET)
+Received: by mail-lf1-x13d.google.com with SMTP id 74sf1775554lfg.20
+        for <lists+kasan-dev@lfdr.de>; Sat, 05 Dec 2020 10:18:32 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1607192311; cv=pass;
         d=google.com; s=arc-20160816;
-        b=qY9AlYisdPU3REv8er56RFeITtcXLsPlwqJwg+cxl4vw51n30ZjrrpkSANooac4Sdp
-         fQ7fWpu0o1uobMWfgUnZm3Rh/ceuF+nssozbBgBdSkIGjYmlMzAyl0RZGQDCYXD1EDYg
-         BiB8mKvCk6Poa5Us9Ter2/xaWTvo4ycTKFGNV2Tflu1U6aYMmKtfdM7cwANSchTe4Ka6
-         uW06P/hJmOkCO3MnnIRBx3Apf/mGjvzpcP8bndwLcelAFfGCjQPinlNL4m4DPxrq7xXN
-         6OoKnIJwkLN3OqhERnugeUD3pZnAI7wIiUhnaXOuYMUt4rzFswxPhwC13C02HKwWaN9d
-         D2HQ==
+        b=AtAKMkN4A/GqwMD1JalMUPH2O9QZcOqK8BHhz7jiNTVCuj4AiMOdpO4+xLpL/yd2QJ
+         xIKBHlpHhPswBN5eQO9zFrwB+MuqCMJnGzlPY1Lu0c/IgyijrzI1aEH3ovbinFBrZetX
+         ilM/awzwl8bYp+P1EEKUbmRVHa+1kP2icGXB8YSB/f1B4wCbQ4zufakydKqbx/GGTZp2
+         9JnU6R0BSLuzz5na9rjJLtnShbiOJP/RxxaRUAW9wCT3sEgRsJC5b6IKLfEexyywq7wE
+         SvJSsCZdcIIEbl0x2H9JBcg8xJ1cWjL0TzGG5b6bIVgOsiE6N4Q0oec/nT45TNilgq/5
+         2Ccg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding
-         :mime-version:user-agent:references:in-reply-to:date:cc:to:from
-         :subject:message-id:sender:dkim-signature;
-        bh=IZY8lUQA5AxE9qW5C8c5XjxLlAa4TJ4RVzGlWe6vYKk=;
-        b=KWaaYz/BRkPkkS+pYjY/3a+mgTT+qrIl2uV0Uc0Dx01yLWufQu1ZN5pT8laQvIZQwt
-         V4oOhbOX3Hwa4EXSWdqxFyTrajXfHa2u6hJb5RaDw/P2H9JitcyoYiOaOtUnWmIIUZtw
-         e+Hm/kFHWVZvV8lVd0qnKCg6dv7SEfo8Q1CvBcBqf/SB3/rUuvF7iUEdiNsrH2G+EFZL
-         yDlZjixCjL/3x9j0YKODr7oUkXM0osrJU5OOMqZgo9VNQ1cKm4Kd94MLkRN991PTsmDy
-         zJBKfaNxQvJ6daJXFzSkrC+2PSuFEE4Nhr3MhYjMgzOu4jVijUTqbjbbQ67h1VGL1Wqr
-         dHnw==
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :references:in-reply-to:subject:cc:to:from:sender:dkim-signature;
+        bh=zN/9UAUi82pRFNpoQLmCR4/3fSkkOxJfUlLNwaSmbaE=;
+        b=YTygWSTCOPgqAU4TXOntwRBexQK599sfhF4ZoeAWtH009QAxPNduMRKH9H0KV7Qi3Z
+         brvK7SkTJTdvAyjw/LCThU2UIuhuLsMFaINLjr1QOl6L88D0lmXNGPuLWw1ESyjLu3HJ
+         n5oyDhQfMXdzJven2BkKZRov+obg2Px8YhfgkNXssfddixVvR8eBWhRb9QwWp/nwxpQl
+         6RkXyJygPjxE7tsnxTHYAg9tNi5xOv2EuOU41yOkSRV+sZ16UBQwFdYXG+eUuZgnDSwM
+         4XkJ7ZG0UN2D28h2+FISbPmOSzyReqaYEu6MzfLAbTJGA+w6CuIEMG7p5H+V8iZO5rPQ
+         lliA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@rajagiritech-edu-in.20150623.gappssmtp.com header.s=20150623 header.b=p+ejBgzw;
-       spf=neutral (google.com: 2607:f8b0:4864:20::543 is neither permitted nor denied by best guess record for domain of jeffrin@rajagiritech.edu.in) smtp.mailfrom=jeffrin@rajagiritech.edu.in
+       dkim=pass header.i=@linutronix.de header.s=2020 header.b=EseygTQi;
+       dkim=neutral (no key) header.i=@linutronix.de;
+       spf=pass (google.com: domain of tglx@linutronix.de designates 2a0a:51c0:0:12e:550::1 as permitted sender) smtp.mailfrom=tglx@linutronix.de;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=linutronix.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=IZY8lUQA5AxE9qW5C8c5XjxLlAa4TJ4RVzGlWe6vYKk=;
-        b=GoYZt4nQx0KpT+xRVbUE/pjGg71HOWTFM2s5SXBXqWJPne6Jahy8u+yCLZ3sJ7zb5J
-         efcztaZwd7lZiAf0VvCk16dBVnqNDT0a9jBPdW+EjV2txXfjeegZSvGSh4GVxFkiCkAY
-         90YNPj3Xd7BtgEL8Alv1d96d5Ri1Nw6s8fzKZtTCORUBBudfO1WpulLjZivW2kWkkF/6
-         PDeCIyv309jUw+PZRqOQiEsqaQ2+e9Zj9IDcXScG/DnHh0P2rfK4qa9IqHhYOuSYvSD5
-         wDMHXy7sefU94k4aq/zWG2gfYlAqv+lCz39wLR+BWGCw4At1ZJvRNI84MDxOji0RgqVy
-         tlLQ==
+        h=sender:from:to:cc:subject:in-reply-to:references:date:message-id
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=zN/9UAUi82pRFNpoQLmCR4/3fSkkOxJfUlLNwaSmbaE=;
+        b=tINgST+rAJBU+uDim6x+q9jxC+zMk3Lpgc6lww685AOCELMGw07WSca1G32EF+TtgX
+         7JrVVjsdbjdvQSIvn57kHRMg9yS2j2dLc009pliRGtPUh7eJ4vSC7JNjTSO69b+ZVdoi
+         U01h4B/JfS5OvVaqubFS7UTnKLwxYz0EC9Vo0qvE2KBsIZ2XSgSkzkFj5HlINnK8/rR6
+         6DENAs3SIo16+D14PMvcaokcruYRjY3KYULF2vZLH8++dKc5wdKeIQN8qg9w0s0qtzqU
+         +Sff+UT53P500W1dAUrObhfr+Bcdbea8NT+A+hrIX1Epeh8eeiBTs5RsRkWxXCdOkei/
+         WvgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:message-id:subject:from:to:cc:date
-         :in-reply-to:references:user-agent:mime-version
-         :content-transfer-encoding:x-original-sender
+        h=sender:x-gm-message-state:from:to:cc:subject:in-reply-to:references
+         :date:message-id:mime-version:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=IZY8lUQA5AxE9qW5C8c5XjxLlAa4TJ4RVzGlWe6vYKk=;
-        b=ppySEuexIJE4V0L4C+tVD58Kg5vers106Etkay+JkaV5BlM6WIrYnc8Z0CcgBcmpNB
-         3+wrAE9cD+eEutGrlgCJc7KubZJS9dhNafJC0Nro85Zv/uzyexGBRPwKFeqnenUqJWdG
-         7voJQzX4nPENAW8qKkke5gwEMzlWBZ9Ny+vkDiXudN+50g3C/ueo8wzvUQOfPJVTZMXc
-         Wo0SaAdcHglF3cLPrEEidlA5Uxyl56EnTMK1Fqa/CBYz+SnAs9iosWXK/7vrMFpefmkT
-         y8YkCsW0uepjVE95/Je8QAGvRFOyDSzenhb9vEYrOnDA9KVwv9FTqZ2xd83nJHGh6qZs
-         FHLw==
+        bh=zN/9UAUi82pRFNpoQLmCR4/3fSkkOxJfUlLNwaSmbaE=;
+        b=Hb9SqqHyl+1nOGV0Fmk5myGuHJDF28U8O8vtPz7Ojv/F9QvJxCxA7AXVXq2Xtqljio
+         mLDsnHpDsM3SAMkWbT59D0KvEqCFTZC3cCi7mm425WVcCnETCJLxzAJqEjGq2Tn+KBX3
+         KdUVW1ho71pyDU63AbMJaMtgYPV0njMETHX2MXn4R0SijPm4AniMJ0q9EOvxHY/A1WZs
+         9yVBbemMnytGn6FYnEMIxDOPhXl99uVwVM/L93NPnNSOoKCag7nBxIs2ykyejGAnVaIg
+         E2rDr0ZkkNW8XLLMQukw9B/h86Am1L3g86TFWXDwm+TOdhoGbBVli4BkyNtDUNzVxKqW
+         RFCQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM532KH7dep3A1vgTm20mqFAqyAPte8VdbURm79l4xRj2mL6Bt99rq
-	Vm4pDomuspUvdCOOO48dHiY=
-X-Google-Smtp-Source: ABdhPJzdtlUAGoqvrr1rtrf0bzvHmA53Yw8mh61w018cO7ZaePyS0qnxUFInkdVxhQ6LO4U2zpXmVQ==
-X-Received: by 2002:a37:a9ca:: with SMTP id s193mr10956306qke.313.1607115173252;
-        Fri, 04 Dec 2020 12:52:53 -0800 (PST)
+X-Gm-Message-State: AOAM533ZV32+ak3ALNzzsFIcaKm+ThzMRkTGQxv0PIwwOGSbjDtRJZmw
+	XAiThpOqqXDggVHxnsCb2WA=
+X-Google-Smtp-Source: ABdhPJzrDc6bpzELzQ5B7F4crxEdi4M1KRWwJYgrlYBkSr2sy7RSLCDkKBS4GCJmc9hrBbpy0aKtkQ==
+X-Received: by 2002:a19:8292:: with SMTP id e140mr5175482lfd.110.1607192311621;
+        Sat, 05 Dec 2020 10:18:31 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ac8:4e29:: with SMTP id d9ls3764150qtw.10.gmail; Fri, 04 Dec
- 2020 12:52:52 -0800 (PST)
-X-Received: by 2002:ac8:bc7:: with SMTP id p7mr11371659qti.91.1607115172786;
-        Fri, 04 Dec 2020 12:52:52 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1607115172; cv=none;
+Received: by 2002:ac2:58ed:: with SMTP id v13ls101297lfo.2.gmail; Sat, 05 Dec
+ 2020 10:18:30 -0800 (PST)
+X-Received: by 2002:a19:89d6:: with SMTP id l205mr4171015lfd.297.1607192310539;
+        Sat, 05 Dec 2020 10:18:30 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1607192310; cv=none;
         d=google.com; s=arc-20160816;
-        b=g+fVHQX0eImezs8mvziRv2EJsI3J5osWQNkCKef63dLZHC4J6iSj0VZ6xfdbljLfUJ
-         Plpm8uCd73pMkAZOmBlUS9mM/3Ip5+skSNft6Bw3hF+bNhiM6nXB8G2BCFT1+qFFj1Wu
-         naNeG/RzEr2op8jvqQSO1SWb3+FOm+/nEwnHgcdTPkyaxYyMgEzvfmCbsFcNcV5LZYAP
-         ZXIXkimOPsqE5cdqlqUblNE01S8tXJI6CNk07hKOIJohkTgAw+mklmWI2p9TYKh9xIgB
-         uogELR/gpZ1kjCSMtujbCI8yiK8Czd31KwkGtN27+HMvpbjldB2nD5tAnWS9gkbK/pO7
-         3KmQ==
+        b=spWJ8R8296eFkyjrAFy7NNeD36yvdssGjwJHmrJAdKo3n5oQ1oMxma5sjbvXFBPXts
+         gWOnsx+TnkHcDRu8h4g+yGwDuiG+MnrfftNCeuja3DcgXiU/XkDGv/zeOgPLTY/DgpAk
+         gsxiLkE63SxlNTzaVSTdTTsCd+ksO46XBb17z5gD4GMM1xmg1dqMVHRoaXUuyCpLYfV3
+         3LYwregpC5Xcdf9sHR5WN4iVRPaiD90aK/vMbCQCb3NLEFXtf0CQHVZK8MwrGI4f1gaL
+         VTB7VNKYpBx/1G6sxMeUqB4JAky6xuLb8rIc33CpY93NnLrNyrioNBzDl9IJRfqz5Yxx
+         NeqA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:user-agent:references
-         :in-reply-to:date:cc:to:from:subject:message-id:dkim-signature;
-        bh=mEQ3gaJd3KfpSvV/0MrjNCIinjXitvVhyYq2m08x7tc=;
-        b=bTFW9vQlX6PlfXDP1z8mSOhf+kKPpe2RIriPDysnqRK8PivaT/CInew/ANzG9/mCnK
-         UnPaZDD4t4G9LVjwkZskLMcobHI7C6WoMxOGvKYXteTvhqvymRmsfwlqDZzwnxsJ9LRu
-         muE/dx4w+XyWLdLLMK8oGn3wufXCpBPBOpVj+2Z5tFUx4MSaP15ehVWvOP6klSrR8U8G
-         pmFZ3APBzJFZcyS59dUUyFZy2/8wAFnS5NupGhVbZVT7ZPqzRy/Sib/+7jcGECUmW5Yw
-         wB80yivxg3lyJEn9A4TKbzC0+cEy6kjb91nm+cD6JexDwZctCUcm2nPubEt5QbheV+Ni
-         bgDg==
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :dkim-signature:dkim-signature:from;
+        bh=k6EZpf68f2D39vWu26oe3L/pHbnRkNlnx273kJRBoik=;
+        b=E92l1Qb/QVcC+LNXVfZTNOc+pE5FzOgI/EnhjZPgmrOUubrTJkzu46COQe7USzeU3p
+         OEUL3E1hHh1cu7EXow5mJ/EuNgpzWiZBYmNX0TI7T761bv6IdHLIeNLCSOO5W3OxLzQI
+         G1y7pg5JCDM7HaK5GwTNFe/wBvrpR/lTEeoS3D3yJQ9oaA/tD6dM6fjLBa+zODQ4zqiJ
+         nATNJEAwkKz4C7OopyAo4McYbJ2EEEH0pNGfvWDy0qIes3ZSkEjC3mnaDT/ZUCT/SXAV
+         glxk/tuw6si86kLHMCqBTqpij86+KArl9DDr0hXD6dL5u+erMUYCwO0SggGLZIrFJS9A
+         XVbQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@rajagiritech-edu-in.20150623.gappssmtp.com header.s=20150623 header.b=p+ejBgzw;
-       spf=neutral (google.com: 2607:f8b0:4864:20::543 is neither permitted nor denied by best guess record for domain of jeffrin@rajagiritech.edu.in) smtp.mailfrom=jeffrin@rajagiritech.edu.in
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com. [2607:f8b0:4864:20::543])
-        by gmr-mx.google.com with ESMTPS id f21si426626qtx.5.2020.12.04.12.52.52
+       dkim=pass header.i=@linutronix.de header.s=2020 header.b=EseygTQi;
+       dkim=neutral (no key) header.i=@linutronix.de;
+       spf=pass (google.com: domain of tglx@linutronix.de designates 2a0a:51c0:0:12e:550::1 as permitted sender) smtp.mailfrom=tglx@linutronix.de;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=linutronix.de
+Received: from galois.linutronix.de (Galois.linutronix.de. [2a0a:51c0:0:12e:550::1])
+        by gmr-mx.google.com with ESMTPS id y21si346114lfl.7.2020.12.05.10.18.30
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 04 Dec 2020 12:52:52 -0800 (PST)
-Received-SPF: neutral (google.com: 2607:f8b0:4864:20::543 is neither permitted nor denied by best guess record for domain of jeffrin@rajagiritech.edu.in) client-ip=2607:f8b0:4864:20::543;
-Received: by mail-pg1-x543.google.com with SMTP id n10so4257041pgv.8
-        for <kasan-dev@googlegroups.com>; Fri, 04 Dec 2020 12:52:52 -0800 (PST)
-X-Received: by 2002:a62:2ac2:0:b029:18c:25ff:d68 with SMTP id q185-20020a622ac20000b029018c25ff0d68mr5581084pfq.64.1607115171887;
-        Fri, 04 Dec 2020 12:52:51 -0800 (PST)
-Received: from [192.168.1.9] ([122.164.27.91])
-        by smtp.gmail.com with ESMTPSA id o132sm5861837pfg.100.2020.12.04.12.52.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Dec 2020 12:52:51 -0800 (PST)
-Message-ID: <b5bd7b0924bd239eb8d6557e10eead8bb2b939a5.camel@rajagiritech.edu.in>
-Subject: Re: BUG: KASAN lib/test_kasan.c
-From: Jeffrin Jose T <jeffrin@rajagiritech.edu.in>
-To: Marco Elver <elver@google.com>
-Cc: Andrey Ryabinin <aryabinin@virtuozzo.com>, Alexander Potapenko
-	 <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>, kasan-dev
-	 <kasan-dev@googlegroups.com>, lkml <linux-kernel@vger.kernel.org>
-Date: Sat, 05 Dec 2020 02:22:47 +0530
-In-Reply-To: <CANpmjNMCiCf9w34duqGpQ90=qB4QGnRR8Xny+wOVf=2WG=JVoA@mail.gmail.com>
-References: <dc46ab93e6b08fa6168591c7f6345b9dc91a81bb.camel@rajagiritech.edu.in>
-	 <CANpmjNMCiCf9w34duqGpQ90=qB4QGnRR8Xny+wOVf=2WG=JVoA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.1-2
+        Sat, 05 Dec 2020 10:18:30 -0800 (PST)
+Received-SPF: pass (google.com: domain of tglx@linutronix.de designates 2a0a:51c0:0:12e:550::1 as permitted sender) client-ip=2a0a:51c0:0:12e:550::1;
+From: Thomas Gleixner <tglx@linutronix.de>
+To: Marco Elver <elver@google.com>, Naresh Kamboju <naresh.kamboju@linaro.org>
+Cc: open list <linux-kernel@vger.kernel.org>, kasan-dev <kasan-dev@googlegroups.com>, rcu@vger.kernel.org, lkft-triage@lists.linaro.org, Peter Zijlstra <peterz@infradead.org>, "Paul E. McKenney" <paulmck@kernel.org>, Ingo Molnar <mingo@kernel.org>, fweisbec@gmail.com, Arnd Bergmann <arnd@arndb.de>
+Subject: Re: BUG: KCSAN: data-race in tick_nohz_next_event / tick_nohz_stop_tick
+In-Reply-To: <CANpmjNPpOym1eHYQBK4TyGgsDA=WujRJeR3aMpZPa6Y7ahtgKA@mail.gmail.com>
+References: <CA+G9fYsHo-9tmxCKGticDowF8e3d1RkcLamapOgMQqeP6OdEEg@mail.gmail.com> <CANpmjNPpOym1eHYQBK4TyGgsDA=WujRJeR3aMpZPa6Y7ahtgKA@mail.gmail.com>
+Date: Sat, 05 Dec 2020 19:18:28 +0100
+Message-ID: <87wnxw86bv.fsf@nanos.tec.linutronix.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: jeffrin@rajagiritech.edu.in
+Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: tglx@linutronix.de
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@rajagiritech-edu-in.20150623.gappssmtp.com header.s=20150623
- header.b=p+ejBgzw;       spf=neutral (google.com: 2607:f8b0:4864:20::543 is
- neither permitted nor denied by best guess record for domain of
- jeffrin@rajagiritech.edu.in) smtp.mailfrom=jeffrin@rajagiritech.edu.in
+ header.i=@linutronix.de header.s=2020 header.b=EseygTQi;       dkim=neutral
+ (no key) header.i=@linutronix.de;       spf=pass (google.com: domain of
+ tglx@linutronix.de designates 2a0a:51c0:0:12e:550::1 as permitted sender)
+ smtp.mailfrom=tglx@linutronix.de;       dmarc=pass (p=NONE sp=QUARANTINE
+ dis=NONE) header.from=linutronix.de
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -136,150 +126,106 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, 2020-12-04 at 21:29 +0100, Marco Elver wrote:
-> On Fri, 4 Dec 2020 at 19:56, Jeffrin Jose T
-> <jeffrin@rajagiritech.edu.in> wrote:
-> > hello,
-> >=20
-> > =C2=A0detected=C2=A0=C2=A0 KASAN=C2=A0=C2=A0 BUG
-> >=20
-> > [ related information ]
-> >=20
-> > -------------------x-------------------x------------------------>
-> > [=C2=A0=C2=A0 43.616259] BUG: KASAN: vmalloc-out-of-bounds in
-> > vmalloc_oob+0x146/0x2c0
-> >=20
-> > (gdb) l *vmalloc_oob+0x146/0x2c0
-> > 0xffffffff81b8b0b0 is in vmalloc_oob (lib/test_kasan.c:764).
->=20
-> This is the KASAN test. It's a feature, not a bug. ;-)
->=20
-> > 759=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 kfree_sensitive(ptr);
-> > 760=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 KUNIT_EXPECT_KASAN_FAIL(test,
-> > kfree_sensitive(ptr));
-> > 761=C2=A0=C2=A0=C2=A0=C2=A0 }
-> > 762
-> > 763=C2=A0=C2=A0=C2=A0=C2=A0 static void vmalloc_oob(struct kunit *test)
-> > 764=C2=A0=C2=A0=C2=A0=C2=A0 {
-> > 765=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 void *area;
-> > 766
-> > 767=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 if (!IS_ENABLED(CONFIG_KASAN_VMALLOC)) {
-> > 768=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 kunit_info(test, "CO=
-NFIG_KASAN_VMALLOC is
-> > not
-> > enabled.");
-> > (gdb) l *vmalloc_oob+0x146
-> > 0xffffffff81b8b1f6 is in vmalloc_oob (lib/test_kasan.c:779).
-> > 774=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 * The MMU will catch that and crash us.
-> > 775=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 */
-> > 776=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 area =3D vmalloc(3000);
-> > 777=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 KUNIT_ASSERT_NOT_ERR_OR_NULL(test, area);
-> > 778
-> > 779=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 KUNIT_EXPECT_KASAN_FAIL(test, ((volatile char
-> > *)area)[3100]);
-> > 780=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 vfree(area);
-> > 781=C2=A0=C2=A0=C2=A0=C2=A0 }
-> > 782
-> > 783=C2=A0=C2=A0=C2=A0=C2=A0 static struct kunit_case kasan_kunit_test_c=
-ases[] =3D {
-> > ----------------x-----------------------------x--------------------
-> > >
-> >=20
-> > Reported by: Jeffrin Jose T <jeffrin@rajagiritech.edu.in>
->=20
-> Which CI system is reporting these?
->=20
-> If you look, this is the KASAN test, and the report is very much
-> intended since it's testing KASAN. Please blacklist the KASAN test
-> (and any other tests testing debugging tools).
->=20
-> Thanks,
-> -- Marco
+On Fri, Dec 04 2020 at 20:53, Marco Elver wrote:
+> On Fri, 4 Dec 2020 at 20:04, Naresh Kamboju <naresh.kamboju@linaro.org> wrote:
+>> LKFT started testing KCSAN enabled kernel from the linux next tree.
+>> Here we have found BUG: KCSAN: data-race in tick_nohz_next_event /
+>> tick_nohz_stop_tick
+>
+> Thank you for looking into KCSAN. Would it be possible to collect
+> these reports in a moderation queue for now?
 
-gdb session was started by me.  (gdb ./vmlinux)
+Yes please. This is the forth or fifth incarnation of report for that
+data race in the tick code and I just did not come around to work on it.
 
-portion from dmesg output is as follows
---------------------x------------------------x-------------------------
--->
-[   43.616259] BUG: KASAN: vmalloc-out-of-bounds in
-vmalloc_oob+0x146/0x2c0
-[   43.630470] Read of size 1 at addr ffffc9000006ec1c by task
-kunit_try_catch/193
+> I'm currently trying to work out a strategy on how to best proceed
+> with all the data races in the kernel. We do know there are plenty. On
 
-[   43.659055] CPU: 2 PID: 193 Comm: kunit_try_catch Tainted: G    B =20
-5.10.0-rc6+ #10
-[   43.659070] Hardware name: ASUSTeK COMPUTER INC. VivoBook 15_ASUS
-Laptop X507UAR/X507UAR, BIOS X507UAR.203 05/31/2018
-[   43.659080] Call Trace:
-[   43.659105]  dump_stack+0x119/0x179
-[   43.659131]  print_address_description.constprop.0+0x1c/0x210
-[   43.659163]  ? vmalloc_oob+0x146/0x2c0
-[   43.659185]  kasan_report.cold+0x1f/0x37
-[   43.659210]  ? vmalloc_oob+0x146/0x2c0
-[   43.659234]  vmalloc_oob+0x146/0x2c0
-[   43.659259]  ? kasan_global_oob+0x280/0x280
-[   43.659287]  ? kunit_fail_assert_format+0xa0/0xa0
-[   43.659313]  ? lock_release+0xb2/0x730
-[   43.659334]  ? __kthread_parkme+0xa1/0x120
-[   43.659356]  ? lock_acquired+0xb4/0x5b0
-[   43.659379]  ? lock_downgrade+0x3d0/0x3d0
-[   43.659403]  ? lock_contended+0x6e0/0x6e0
-[   43.659423]  ? do_raw_spin_lock+0x1b0/0x1b0
-[   43.659447]  ? io_schedule_timeout+0xb0/0xb0
-[   43.659467]  ? static_obj+0x31/0x80
-[   43.659492]  ? lockdep_hardirqs_on_prepare+0xe/0x240
-[   43.659517]  ? memcg_accounted_kmem_cache+0x1b0/0x1b0
-[   43.659542]  kunit_try_run_case+0xa6/0x150
-[   43.659567]  ? kunit_catch_run_case+0x170/0x170
-[   43.659591]  ? kunit_try_catch_throw+0x40/0x40
-[   43.659617]  kunit_generic_run_threadfn_adapter+0x2e/0x50
-[   43.659637]  kthread+0x232/0x260
-[   43.659659]  ? __kthread_bind_mask+0x90/0x90
-[   43.659684]  ret_from_fork+0x22/0x30
+I think having a central point where the reports are collected, i.e. a
+moderation queue, is a good start. Reports like the one at hand should
+stick out because they should reproduce pretty instantanious as it's an
+intentional one and on NOHZ=y machines where CPUs are not fully loaded
+its hard not to detect it :)
+
+> The report below looks to be of type (A). Generally, the best strategy
+> for resolving these is to send a patch, and not a report. However, be
+> aware that sometimes it is really quite difficult to say if we're
+> looking at a type (A) or (B) issue, in which case it may still be fair
+> to send a report and briefly describe what you think is happening
+> (because that'll increase the likelihood of getting a response). I
+> recommend also reading "Developer/Maintainer data-race strategies" in
+> https://lwn.net/Articles/816854/ -- specifically note "[...] you
+> should not respond to KCSAN reports by mindlessly adding READ_ONCE(),
+> data_race(), and WRITE_ONCE(). Instead, a patch addressing a KCSAN
+> report must clearly identify the fix's approach and why that approach
+> is appropriate."
+
+Yes. I've seen a fair amount of 'Fix KCSAN warnings' patches which just
+slap READ/WRITE_ONCE() all over the place to shut it up without any
+justification. Most of them ended in limbo when asking for that
+justification.
+
+But the problem is that it is not necessarily trivial to understand code
+when there are intentional data races without a lot of comments - guilty
+as charged in this case. I actually felt so guilty that I sat down and
+annotated and documented it now. Took me quite some time to comment all
+the racy reads correctly as I really had to think about each of them
+carefully again.
+
+OTOH, in general it's a good exercise for reporters to do such analysis
+and maintainers are happy to help when the analysis is not entirely
+correct or comes to the wrong conclusion, e.g. assuming type B when it's
+actually A. That's way better than just reports or mechanical "paper
+over it" patches.
+
+Just getting the reports over and over is not going to solve anything
+because as in this case there is always more important stuff to do and
+to the people familiar with the code it's clear that it's A and
+therefore not urgent.
+
+But that causes the problem that the A types are staying around for a
+long time and blend over the B/C issues which are the real interesting
+ones.
+
+> This report should have line numbers, otherwise it's impossible to say
+> which accesses are racing.
+
+I just had to look at the function names to know that it is about:
+
+tick_do_timer_cpu :)
+
+> [ For those curious, this is the same report on syzbot's moderation
+> queue, with line numbers:
+> https://syzkaller.appspot.com/bug?id=d835c53d1a5e27922fcd1fbefc926a74790156cb
+> ]
+
+Confirmed :)
+
+So you have quite some of the same report collected and there are a few
+other patterns which are all related to tick_do_timer_cpu, so I assume
+there is a stash of the other variants as well. And indeed:
+
+ https://syzkaller.appspot.com/bug?id=03911d1370705fe3667dae48c9cda46d982cea30
+ https://syzkaller.appspot.com/bug?id=440c51f56c3f3923f9b364679da48b0c1a0bdfe7
+
+It might be useful to find the actual variable, data member or whatever
+which is involved in the various reports and if there is a match then
+the reports could be aggregated. The 3 patterns here are not even the
+complete possible picture.
+
+So if you sum them up: 58 + 148 + 205 instances then their weight
+becomes more significant as well.
+
+/me goes back to read the tick_do_timer_cpu comments once more before
+posting.
+
+Thanks,
+
+        tglx
 
 
-[   43.686511] Memory state around the buggy address:
-[   43.700445]  ffffc9000006eb00: 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00
-[   43.714559]  ffffc9000006eb80: 00 00 00 00 00 00 00 f8 f8 f8 f8 f8
-f8 f8 f8 f8
-[   43.728725] >ffffc9000006ec00: f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8
-f8 f8 f8 f8
-[   43.742808]                             ^
-[   43.757156]  ffffc9000006ec80: f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8
-f8 f8 f8 f8
-[   43.771845]  ffffc9000006ed00: f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8
-f8 f8 f8 f8
-[   43.785957]
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 
--------------------x-----------------------------x---------------------
----------->
-
-
---=20
-software engineer
-rajagiri school of engineering and technology - autonomous
-
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/b5bd7b0924bd239eb8d6557e10eead8bb2b939a5.camel%40rajagiritech.edu=
-.in.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/87wnxw86bv.fsf%40nanos.tec.linutronix.de.
