@@ -1,138 +1,129 @@
-Return-Path: <kasan-dev+bncBD63B2HX4EPBBUETWT7AKGQEIRGUTDI@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBMVOWT7AKGQETSQP35Y@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pl1-x63d.google.com (mail-pl1-x63d.google.com [IPv6:2607:f8b0:4864:20::63d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 286402D0607
-	for <lists+kasan-dev@lfdr.de>; Sun,  6 Dec 2020 17:41:56 +0100 (CET)
-Received: by mail-pl1-x63d.google.com with SMTP id y17sf4141002plr.23
-        for <lists+kasan-dev@lfdr.de>; Sun, 06 Dec 2020 08:41:56 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1607272912; cv=pass;
+Received: from mail-yb1-xb3d.google.com (mail-yb1-xb3d.google.com [IPv6:2607:f8b0:4864:20::b3d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 658132D065D
+	for <lists+kasan-dev@lfdr.de>; Sun,  6 Dec 2020 18:38:59 +0100 (CET)
+Received: by mail-yb1-xb3d.google.com with SMTP id v12sf15186096ybi.6
+        for <lists+kasan-dev@lfdr.de>; Sun, 06 Dec 2020 09:38:59 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1607276338; cv=pass;
         d=google.com; s=arc-20160816;
-        b=0Qv7UBwtusOh1sbjqM3Fg4OfavNHcK0vjRRiVDdXmNCg2G+p7je5Ygy/F50ozBeE0S
-         Al7oLx6wsTX/A9QtP3alm/bzFrf9bXRfv308MzxmwHgYTMS7V3mJuWSe3kC0+BVTXFMb
-         1hRphiQNGbN1jWL06jJJoMs4DADy+F7vBug3jBkQRKdFjynrcEyLNoM8U+NeUua1MC2B
-         2a4rEmhCBeuhv+9OxXD25g36JHEFKMm5CCmaczRRZ0ZH/Q+RGHDQhy6zi+9DkazrEePL
-         ixEJhNBK6hrDO7zu5LBGXPj3zQP+pVSommmD5fhiRT5z+rLl9FETbOEIrDG1aOkHxbof
-         Jlzw==
+        b=qoFdFvDxvKWxPOgQLtqkjhC4nbwiniyGDkExeErIaIf7i47OzMjxhdHUxZ5ib6GE9D
+         BjXyA8N9hr9VQkYST3Z6y/n1MzhDQhrwlfc2fvjN2vYZxE2ixFSxs4+ud47m8Tu1/Re5
+         uhzDwRT5lJUrTHFGsIFAzvtjrOFHJuaTdruaYu6niAOhC0JUE5LUsp+/pnhxDubU4zYU
+         o3DkwVGiDwSS/jhIhdXa2SZo5yciTEDo9ct3S2IgDuAKl7bXQgFgnAgBf/OjuiQbWgjA
+         dVxnFocbJYu1M7Qy3mBss1NTlQcuom1ELJLR3r7B4AKZkOD4oZMd/054DbtiZBu31/7J
+         V9VQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:in-reply-to
-         :content-transfer-encoding:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:dkim-signature;
-        bh=9pjXiLFspJVCkeCHvXES8HlQH1F+zfWdZ/xqJ2WCPmc=;
-        b=Q/FPjbX/0or1Vf8QEo9dRGwtKkpdszzub0aMwM2I+ZN28T3j2XY/JHwHIjDQMqTc4h
-         W9pXVXZNwR+9AVS/D72RRxjCABRuHXDmTIFyApvmftpkK9LC99OBF/3ntmTVYRg8rtsi
-         bN800SbZJxRsKNBwrtcgq73R7ocBK4Q3YBvc4wKnGlEl/4VigQ7Hcc6/3TBUxsFt1bTe
-         rmI2yNoZ3wVNr5BDV2BE3y2wcaQ3X69kxjS7/V3NqObL4pntxL03MStC4sT2TGBN9Gcc
-         /eFxRrYRAEyau/BLRmtbDy7EFvqs6aZDeKBsAYX6JOP0B3bvyH/F3beiwUN67mvP7Z/F
-         H5lA==
+         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
+         :cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=Wb28s2t6t+KglEOg23YEAVsTVqzLul5hs5g1Z/cxJ98=;
+        b=ik519VXvY5SZF5m3zkXmfZae/dIkDCAfIJ3RrXVMxuThkFecrtRMk9l+G11GAhdlEv
+         UZQE01ostf/+M2hX06pUKjTs8ECetovfq12YErjenqDA7K5WupDiQV3Vwglyg9FwKZy5
+         C49AuriGiJcIaSS7c2mda8cvnEhKwA0jJQrYXdDK499oFSnkubXvcQNLwAy799/Tswnh
+         Tox1sOqU4W/m6UVCrhSvwbBLegndChUHtlcvODWvJd62cf8L2Wx9SqaNnTwG0klSVWGu
+         5Nmxb9UNh9y0t7G2fXv1EVZScDUS5SPXKopfuWuaigb3i0O3HN4JvDA4IlZGnD3FR5UX
+         0b8Q==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@purestorage.com header.s=google header.b=G8QxPO4l;
-       spf=pass (google.com: domain of joern@purestorage.com designates 2607:f8b0:4864:20::42d as permitted sender) smtp.mailfrom=joern@purestorage.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=purestorage.com
+       dkim=pass header.i=@google.com header.s=20161025 header.b=r00qjNvG;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::22e as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=9pjXiLFspJVCkeCHvXES8HlQH1F+zfWdZ/xqJ2WCPmc=;
-        b=Y/eviE0PlsHgWcgotiJdOmmGR91atRtDswJYJRH6ReJ5MiMMeAOTZoRq/YJOwlR0h0
-         HpurCBBNVA4/V3oL0I/3ZNAzolU3k3/ncVuJdnsML7N6lKnBGhHV/0/VNZGemOvTEwKk
-         cozI2k3mwrzj8K7y7eecbr3k9WBiGfSRXunI3gKe15lqJJMDZ7nSNAMdG1YBewDW7DSK
-         3huIgk3TIisB9UibMu+1VIPDsNgqR1mTh7Tx4GobjjDTD8Jyg1BBVMS0CfHu8TiXUtSz
-         PMRDM/6fPXU68RsZUvNbeYWi5UL7HOKwgw2z1Nc5mT75Y2XXeKH2/CM6ovGUQTICc4jr
-         gplQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:list-post:list-help:list-archive:list-subscribe
+         :list-unsubscribe;
+        bh=Wb28s2t6t+KglEOg23YEAVsTVqzLul5hs5g1Z/cxJ98=;
+        b=QiunCb7uMkFMJG9dz+wQ7x974mavwUm7sA4P9+oOcPNzRe4AoSmJS83IoJnnZ1Wv7w
+         UAQ26VA/duuVbE9y0YVSoPzP7e9OeLXlWkxnEm4KSXYiw5ymwF2z434fdOGMTLwNnfHO
+         6ytSWAHOfofAPSjGHvtPNqI2rOIgzgNLpGO7nSw/snlJfsNadlqELumi/APbb2QN3xzE
+         ezMuDN9mUD0aJxAKsTmTHuEbRS6UE5vRkesOTGNHuB9Ep2Qo3YfqZVaVdDTdhgTYnnmq
+         1Z1mJItOGuMmRSA38PtGKRwJuL7KyGjFSMq1cdQ3+hHEbIA4EfzUnRAPRAzVTQabZcWV
+         GR7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:x-original-sender:x-original-authentication-results
-         :reply-to:precedence:mailing-list:list-id:x-spam-checked-in-group
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=9pjXiLFspJVCkeCHvXES8HlQH1F+zfWdZ/xqJ2WCPmc=;
-        b=CaxZ+odMBxxeg8TCeOvhobJk/lTNUUuwz9UFcKTw7ZwQJaNOSCe3q2v3YyVagQfd03
-         xdTgc9x1MuRueyeeUdW9l97vpxhAd0c8zrgvqR0wgNIMYDq+1tx96ahlKnQj6LFURho5
-         Z827DhJ18EwUEn02QnVAym5kDrYSGVLmASfgmKEd6YHlao1vg94lwavOZcjOj94/xOfk
-         M6kZKRPsS/7UgHyW90joJgnIsqBe0FULUXs5/ic4yo9IWmoW+b51zLv6VVFNqTN+T3We
-         bwieFuiGkZlLMBoROYOK/8AnEl1jJKji+R5V6tqdSyaH1Tw8N4aHqsrJ7x7muzxwMolC
-         FiPw==
-X-Gm-Message-State: AOAM532ajXrcgVeQx/RX3mkXWmHNqLNACmyEbxON7dXu/JEiaO3gRgXW
-	IG9ppZNgCUOBiqjzfMFE2u0=
-X-Google-Smtp-Source: ABdhPJzVvSMaC6Mp1XCPkAJRs2p/qniFcJhYCrPTum01y4zBj5BqwjBva95+DJrV1lYX6cqLQmd8Yw==
-X-Received: by 2002:a17:90a:67cf:: with SMTP id g15mr12538597pjm.24.1607272912363;
-        Sun, 06 Dec 2020 08:41:52 -0800 (PST)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding
+         :x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=Wb28s2t6t+KglEOg23YEAVsTVqzLul5hs5g1Z/cxJ98=;
+        b=Zon+YdVtH3tegwEWuJyh7B8ARe1NDdNK755AhRq1TfjcaD7mJ4MlK5V0z+ks32rWRl
+         kvV1jGRVX8y+soZwBzmqJttLzHss6/ylFPMJYaSMRpI4dipe7/jW2EoBLHjbo859OQY2
+         SEC3/X5ZKSGYk6irnHHY6koztoZ6lgtpZecEZUWycrAQv0XDc/jwdIM+7JG+HdSQPG+p
+         B5s9WD3+1PWVmeWED2b75yWGc9iqg0UZ6B+Am66FIhZ2xF6R+r28t7i3hXDiP4O55M7u
+         1MNJ1uOy6pszgu5IeNTimnosBPzkBZkmI42WRNYVdPRGuXjXdV6Tom6UCVKja+2vPC9q
+         WGqQ==
+X-Gm-Message-State: AOAM531/kPBuz74TV9HQ4jXNyi2t3hJ1Vgewy6PiCPkyd4pN72DC4Ksv
+	w2rAXdb4mm6HVkXfGGdsJ4g=
+X-Google-Smtp-Source: ABdhPJyolX8BRoIC3jT9cliybgTT93/kTy8Z1mWgoKr85cI6L4eUZjJ2fanM7P+pkTdIxHXg9hTJ1w==
+X-Received: by 2002:a25:9392:: with SMTP id a18mr18810116ybm.330.1607276338291;
+        Sun, 06 Dec 2020 09:38:58 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a62:7f8e:: with SMTP id a136ls612987pfd.7.gmail; Sun, 06 Dec
- 2020 08:41:51 -0800 (PST)
-X-Received: by 2002:a63:3714:: with SMTP id e20mr1759854pga.410.1607272911851;
-        Sun, 06 Dec 2020 08:41:51 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1607272911; cv=none;
+Received: by 2002:a25:6908:: with SMTP id e8ls6987506ybc.9.gmail; Sun, 06 Dec
+ 2020 09:38:57 -0800 (PST)
+X-Received: by 2002:a25:33c2:: with SMTP id z185mr8473989ybz.331.1607276337728;
+        Sun, 06 Dec 2020 09:38:57 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1607276337; cv=none;
         d=google.com; s=arc-20160816;
-        b=ALetwEdMyrmmntws1hUSZ0rc0c954v970hiw7qKJXsDObVTKILcTGj47eCcEkDmxaY
-         BJ/CMY0ZxLBpdovFlPAQ1PwpZMxteo7mH3yECkMYddnING2U0miDJaDjmORUk2fqoBJO
-         7gTdYqbr3K7gWGCtAGQNbL2AgY11DZKHUlVD00oPMvT6RyouIYPIgpQs4tsO4fg31/9P
-         1Ty5q5HQPNvCMNithSO0/jxNruoLfR6FMXXNNuOO1De3tC0Daf0ktH66gbWmdaTEIwYN
-         lblddY31vH70TittkeYN87PbWF4pp++HeTsQbV0du7eVVMh0CcMXlO7hy8eM2Renxj7/
-         wmQQ==
+        b=OONActt8DSUWfDRfddIyd3qqLmKvp0++iJ4wSEgtTKJxOVp5SR/1trlVeurBM408+a
+         xuguS3gt8O9yfYsxilFRO7eISKfzRbs+JxVgSApN5LZr6KYf4wHuHtINTsiyk87hSfod
+         KNb5EeqXg/rwc8J1VKAuHXroKlMtJU8iOSjSgxTANF3n+vOVUtNjdjCFQvwgpFOeaypx
+         Q7APAb3ciOOA2jE62ADYWPEx6f6WwAwPs5zQb+iCVYSFlYBa7/RsfgAHrJxrQgcCdKtm
+         GqeAL+NVLh1fP2IF58pySN0Gub9YNbVekShIEhoy1Ot7QQkdggqS+D32saLHoieY7XcO
+         RfJA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :dkim-signature;
-        bh=9nRfMBLlqdXCc2uMXlWWvA9YShbjFj3h9u6Ma/5LVrY=;
-        b=t8V0S+XHaiAOmMqLXBAP861trqn5UEOmQwDdpu+j5M6Lhko5WW2itQIgraq+cbfUVc
-         RrRH2OPAEL/zBfYO1EFT+eIEfG0N+8yDB6e71AJm3voiIMyRWQ/2nQU598svPwUr7ELZ
-         LzUdAN5xuqRhgl7gfH0uus9R2FwIPg8g1ASSyPBYVM5plDPzzCIxl6FJ5veH9F/EJbap
-         VtmwycjvHIsoMaIrIj3+szhMSFNKgd+vx95/zw/UxGbpoYIXmw0JunXlS1yWVbgNbzN5
-         mPaBvt3+YbewFHFiJ1VKTUQeaj6xLLKfxAsZZLxvRPebbWdaJ6/+B/SABPHU/6o/723w
-         Z71g==
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=/tJ79gzN79XlYTDKESq0VemxEVaOLSOflTOmsh2+0i4=;
+        b=SqXZQaoDcf80YHsyeE8rAOzqEMBuEvLt7HCa9SG+vJ6xgBAUufXv+IiFjDKnpAPLE2
+         GjugIUntlK7SFicX2Jmq9gEBG4BkeIAiIXAZ5lYGwVVDvdGMd6HM4wJ9SejqVusW41Dz
+         xv7+BgpmA6xqbMGCmS/M6DA/EZMcpSijIXuncTqNih6RuXR3oxHyDnwHDtN2Cy/LxE2F
+         hOVy641kpoZtW7i6rz6y6r+V+aT9nmEBdR2n1qRXV797X8kOKh1Fq6v+xEnQ4KtID+BI
+         N/pWZWFEh+uNoqyBRoFGoM1vtcv55miAhDeFlUU4euLNDwqAZ2JUGw92nG/mjNb8pl85
+         k1bg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@purestorage.com header.s=google header.b=G8QxPO4l;
-       spf=pass (google.com: domain of joern@purestorage.com designates 2607:f8b0:4864:20::42d as permitted sender) smtp.mailfrom=joern@purestorage.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=purestorage.com
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com. [2607:f8b0:4864:20::42d])
-        by gmr-mx.google.com with ESMTPS id o2si620820pjq.0.2020.12.06.08.41.51
+       dkim=pass header.i=@google.com header.s=20161025 header.b=r00qjNvG;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::22e as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com. [2607:f8b0:4864:20::22e])
+        by gmr-mx.google.com with ESMTPS id x14si754651ybk.2.2020.12.06.09.38.57
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 06 Dec 2020 08:41:51 -0800 (PST)
-Received-SPF: pass (google.com: domain of joern@purestorage.com designates 2607:f8b0:4864:20::42d as permitted sender) client-ip=2607:f8b0:4864:20::42d;
-Received: by mail-pf1-x42d.google.com with SMTP id f9so6782674pfc.11
-        for <kasan-dev@googlegroups.com>; Sun, 06 Dec 2020 08:41:51 -0800 (PST)
-X-Received: by 2002:a63:d650:: with SMTP id d16mr15139247pgj.277.1607272911566;
-        Sun, 06 Dec 2020 08:41:51 -0800 (PST)
-Received: from cork (dyndsl-085-016-208-233.ewe-ip-backbone.de. [85.16.208.233])
-        by smtp.gmail.com with ESMTPSA id k189sm12910749pfd.99.2020.12.06.08.41.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 06 Dec 2020 08:41:50 -0800 (PST)
-Date: Sun, 6 Dec 2020 08:41:45 -0800
-From: =?UTF-8?B?J0rDtnJuIEVuZ2VsJyB2aWEga2FzYW4tZGV2?= <kasan-dev@googlegroups.com>
-To: Marco Elver <elver@google.com>
-Cc: Dmitry Vyukov <dvyukov@google.com>,
-	kasan-dev <kasan-dev@googlegroups.com>,
-	Alexander Potapenko <glider@google.com>
-Subject: Re: GWP-ASAN
-Message-ID: <20201206164145.GH1228220@cork>
-References: <20201014113724.GD3567119@cork>
- <CACT4Y+Z=zNsJ6uOTiLr6Vpwq-ARewwptvyWUEkBgC1UOdt=EnA@mail.gmail.com>
- <CANpmjNPy3aJak_XqYeGq11gkTLFTQyuXTGR8q8cYuHA-tHSDRg@mail.gmail.com>
- <20201014134905.GG3567119@cork>
- <CANpmjNPGd5GUZ0O0NuqTMBgBbv3J1irxm16ATxuhYJJWKvoUTA@mail.gmail.com>
- <20201014145149.GH3567119@cork>
- <CANpmjNPuuCsbV5CwQ5evcxaWd-p=vc4ZGmR0gOdbxdJvL2M8aQ@mail.gmail.com>
+        Sun, 06 Dec 2020 09:38:57 -0800 (PST)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::22e as permitted sender) client-ip=2607:f8b0:4864:20::22e;
+Received: by mail-oi1-x22e.google.com with SMTP id 15so1578466oix.8
+        for <kasan-dev@googlegroups.com>; Sun, 06 Dec 2020 09:38:57 -0800 (PST)
+X-Received: by 2002:aca:448b:: with SMTP id r133mr7649284oia.121.1607276337144;
+ Sun, 06 Dec 2020 09:38:57 -0800 (PST)
 MIME-Version: 1.0
+References: <20201014113724.GD3567119@cork> <CACT4Y+Z=zNsJ6uOTiLr6Vpwq-ARewwptvyWUEkBgC1UOdt=EnA@mail.gmail.com>
+ <CANpmjNPy3aJak_XqYeGq11gkTLFTQyuXTGR8q8cYuHA-tHSDRg@mail.gmail.com>
+ <20201014134905.GG3567119@cork> <CANpmjNPGd5GUZ0O0NuqTMBgBbv3J1irxm16ATxuhYJJWKvoUTA@mail.gmail.com>
+ <20201014145149.GH3567119@cork> <CANpmjNPuuCsbV5CwQ5evcxaWd-p=vc4ZGmR0gOdbxdJvL2M8aQ@mail.gmail.com>
+ <20201206164145.GH1228220@cork>
+In-Reply-To: <20201206164145.GH1228220@cork>
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Sun, 6 Dec 2020 18:38:45 +0100
+Message-ID: <CANpmjNNZDuRo+1UZam=pZFij=QHR9sSa-BaNGrgVse-PjQF5zw@mail.gmail.com>
+Subject: Re: GWP-ASAN
+To: =?UTF-8?Q?J=C3=B6rn_Engel?= <joern@purestorage.com>
+Cc: Dmitry Vyukov <dvyukov@google.com>, kasan-dev <kasan-dev@googlegroups.com>, 
+	Alexander Potapenko <glider@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <CANpmjNPuuCsbV5CwQ5evcxaWd-p=vc4ZGmR0gOdbxdJvL2M8aQ@mail.gmail.com>
-X-Original-Sender: joern@purestorage.com
+X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@purestorage.com header.s=google header.b=G8QxPO4l;       spf=pass
- (google.com: domain of joern@purestorage.com designates 2607:f8b0:4864:20::42d
- as permitted sender) smtp.mailfrom=joern@purestorage.com;       dmarc=pass
- (p=REJECT sp=REJECT dis=NONE) header.from=purestorage.com
-X-Original-From: =?iso-8859-1?Q?J=F6rn?= Engel <joern@purestorage.com>
-Reply-To: =?iso-8859-1?Q?J=F6rn?= Engel <joern@purestorage.com>
+ header.i=@google.com header.s=20161025 header.b=r00qjNvG;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::22e as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -145,142 +136,180 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Oct 14, 2020 at 05:02:08PM +0200, Marco Elver wrote:
->=20
-> Interesting. It's certainly more general, but adds a lot of complexity
-> to address 1% or less of cases. Maybe there's a middle-ground
-> somewhere that I'm not yet seeing. But this is something for the
-> future...
+On Sun, 6 Dec 2020 at 17:41, J=C3=B6rn Engel <joern@purestorage.com> wrote:
+>
+> On Wed, Oct 14, 2020 at 05:02:08PM +0200, Marco Elver wrote:
+> >
+> > Interesting. It's certainly more general, but adds a lot of complexity
+> > to address 1% or less of cases. Maybe there's a middle-ground
+> > somewhere that I'm not yet seeing. But this is something for the
+> > future...
+>
+> Complexity isn't that bad - speaking as a person that wrote memory
+> allocators before. ;)
+>
+> There is also the mining nature of finding bugs.  After a while you have
+> caught most of the 99%-bugs, while the 1% bugs remain in the code.  At
+> that point the ratio is closer to 50/50 or the rare bugs might even
+> dominate.
+>
+> > > I'm leaning towards being more aggressive, but I also tend to receive
+> > > all those impossible-to-debug memory corruptions and would like to ge=
+t
+> > > rid of them. :)
+>
+> On the note of being aggressive, I've noticed kfence is expensive in
+> unexpected ways.  We collect CPU backtraces whenever we find scheduling
+> problems and kfence shows up far more than it should:
+>
+>    CPU ns-before-dump
+> B  0   3129268790 [<ffffffff810eeec1>] smp_call_function_many+0x1a1/0x260
+> B  0   3129268791 [<ffffffff810ef05d>] on_each_cpu+0x2d/0x80
+> B  0   3129268792 [<ffffffff8101eab8>] text_poke_bp+0xa8/0xc0
+> B  0   3129268793 [<ffffffff8101bea3>] arch_jump_label_transform+0x83/0xd=
+0
+> B  0   3129268794 [<ffffffff81167f68>] __jump_label_update+0x68/0x80
+> B  0   3129268795 [<ffffffff81168008>] jump_label_update+0x88/0x90
+> B  0   3129268796 [<ffffffff811682b1>] __static_key_slow_dec+0x41/0x90
+> B  0   3129268797 [<ffffffff81168322>] static_key_slow_dec+0x22/0x60
+> B  0   3129268798 [<ffffffff811c159d>] toggle_allocation_gate+0x11d/0x150
+> B  0   3129268799 [<ffffffff8108ada9>] process_one_work+0x219/0x510
+> B  0   3129268800 [<ffffffff8108b0e2>] worker_thread+0x42/0x5a0
+> B  0   3129268801 [<ffffffff810913b8>] kthread+0xd8/0xf0
+> B  0   3129268802 [<ffffffff817c8d05>] ret_from_fork+0x55/0x80
+> B  0   3129268803 [<ffffffffffffffff>] 0xffffffffffffffff
+>
+> B  0   3020905965 [<ffffffff810ef05d>] on_each_cpu+0x2d/0x80
+> B  0   3020905966 [<ffffffff8101ea6b>] text_poke_bp+0x5b/0xc0
+> B  0   3020905967 [<ffffffff8101bea3>] arch_jump_label_transform+0x83/0xd=
+0
+> B  0   3020905968 [<ffffffff81167f68>] __jump_label_update+0x68/0x80
+> B  0   3020905969 [<ffffffff81168008>] jump_label_update+0x88/0x90
+> B  0   3020905970 [<ffffffff811682b1>] __static_key_slow_dec+0x41/0x90
+> B  0   3020905971 [<ffffffff81168322>] static_key_slow_dec+0x22/0x60
+> B  0   3020905972 [<ffffffff811c159d>] toggle_allocation_gate+0x11d/0x150
+> B  0   3020905973 [<ffffffff8108ada9>] process_one_work+0x219/0x510
+> B  0   3020905974 [<ffffffff8108b0e2>] worker_thread+0x42/0x5a0
+> B  0   3020905975 [<ffffffff810913b8>] kthread+0xd8/0xf0
+> B  0   3020905976 [<ffffffff817c8d05>] ret_from_fork+0x55/0x80
+> B  0   3020905977 [<ffffffffffffffff>] 0xffffffffffffffff
+>
+> B  0   2967463122 [<ffffffffffffffff>] 0xffffffffffffffff
+>
+> B  0   2912168143 [<ffffffff81051a45>] __x2apic_send_IPI_mask+0xc5/0x1a0
+> B  0   2912168144 [<ffffffff81051b5c>] x2apic_send_IPI_allbutself+0x1c/0x=
+20
+> B  0   2912168145 [<ffffffff81048d54>] native_send_call_func_ipi+0xa4/0xb=
+0
+> B  0   2912168146 [<ffffffff810eef0d>] smp_call_function_many+0x1ed/0x260
+> B  0   2912168147 [<ffffffff810ef05d>] on_each_cpu+0x2d/0x80
+> B  0   2912168148 [<ffffffff8101ea6b>] text_poke_bp+0x5b/0xc0
+> B  0   2912168149 [<ffffffff8101bea3>] arch_jump_label_transform+0x83/0xd=
+0
+> B  0   2912168150 [<ffffffff81167f68>] __jump_label_update+0x68/0x80
+> B  0   2912168151 [<ffffffff81168008>] jump_label_update+0x88/0x90
+> B  0   2912168152 [<ffffffff81168265>] static_key_slow_inc+0x95/0xa0
+> B  0   2912168153 [<ffffffff811c14ca>] toggle_allocation_gate+0x4a/0x150
+> B  0   2912168154 [<ffffffff8108ada9>] process_one_work+0x219/0x510
+> B  0   2912168155 [<ffffffff8108b0e2>] worker_thread+0x42/0x5a0
+> B  0   2912168156 [<ffffffff810913b8>] kthread+0xd8/0xf0
+> B  0   2912168157 [<ffffffff817c8d05>] ret_from_fork+0x55/0x80
+> B  0   2912168158 [<ffffffffffffffff>] 0xffffffffffffffff
+>
+> B  0   2805659204 [<ffffffffffffffff>] 0xffffffffffffffff
+>
+> B  0   2798513705 [<ffffffff810ef05d>] on_each_cpu+0x2d/0x80
+> B  0   2798513706 [<ffffffff8101ea95>] text_poke_bp+0x85/0xc0
+> B  0   2798513707 [<ffffffff8101bea3>] arch_jump_label_transform+0x83/0xd=
+0
+> B  0   2798513708 [<ffffffff81167f68>] __jump_label_update+0x68/0x80
+> B  0   2798513709 [<ffffffff81168008>] jump_label_update+0x88/0x90
+> B  0   2798513710 [<ffffffff81168265>] static_key_slow_inc+0x95/0xa0
+> B  0   2798513711 [<ffffffff811c14ca>] toggle_allocation_gate+0x4a/0x150
+> B  0   2798513712 [<ffffffff8108ada9>] process_one_work+0x219/0x510
+> B  0   2798513713 [<ffffffff8108b0e2>] worker_thread+0x42/0x5a0
+> B  0   2798513714 [<ffffffff810913b8>] kthread+0xd8/0xf0
+> B  0   2798513715 [<ffffffff817c8d05>] ret_from_fork+0x55/0x80
+> B  0   2798513716 [<ffffffffffffffff>] 0xffffffffffffffff
+>
+> B  0   2687622650 [<ffffffff810ef05d>] on_each_cpu+0x2d/0x80
+> B  0   2687622651 [<ffffffff8101ea6b>] text_poke_bp+0x5b/0xc0
+> B  0   2687622652 [<ffffffff8101bea3>] arch_jump_label_transform+0x83/0xd=
+0
+> B  0   2687622653 [<ffffffff81167f68>] __jump_label_update+0x68/0x80
+> B  0   2687622654 [<ffffffff81168008>] jump_label_update+0x88/0x90
+> B  0   2687622655 [<ffffffff81168265>] static_key_slow_inc+0x95/0xa0
+> B  0   2687622656 [<ffffffff811c14ca>] toggle_allocation_gate+0x4a/0x150
+> B  0   2687622657 [<ffffffff8108ada9>] process_one_work+0x219/0x510
+> B  0   2687622658 [<ffffffff8108b0e2>] worker_thread+0x42/0x5a0
+> B  0   2687622659 [<ffffffff810913b8>] kthread+0xd8/0xf0
+> B  0   2687622660 [<ffffffff817c8d05>] ret_from_fork+0x55/0x80
+> B  0   2687622661 [<ffffffffffffffff>] 0xffffffffffffffff
+>
+> B  0   2643854943 [<ffffffff810eeec1>] smp_call_function_many+0x1a1/0x260
+> B  0   2643854944 [<ffffffff810ef05d>] on_each_cpu+0x2d/0x80
+> B  0   2643854945 [<ffffffff8101eab8>] text_poke_bp+0xa8/0xc0
+> B  0   2643854946 [<ffffffff8101bea3>] arch_jump_label_transform+0x83/0xd=
+0
+> B  0   2643854947 [<ffffffff81167f68>] __jump_label_update+0x68/0x80
+> B  0   2643854948 [<ffffffff81168008>] jump_label_update+0x88/0x90
+> B  0   2643854949 [<ffffffff81168265>] static_key_slow_inc+0x95/0xa0
+> B  0   2643854950 [<ffffffff811c14ca>] toggle_allocation_gate+0x4a/0x150
+> B  0   2643854951 [<ffffffff8108ada9>] process_one_work+0x219/0x510
+> B  0   2643854952 [<ffffffff8108b0e2>] worker_thread+0x42/0x5a0
+> B  0   2643854953 [<ffffffff810913b8>] kthread+0xd8/0xf0
+> B  0   2643854954 [<ffffffff817c8d05>] ret_from_fork+0x55/0x80
+> B  0   2643854955 [<ffffffffffffffff>] 0xffffffffffffffff
+>
+> ...
+>
+> We use CONFIG_KFENCE_SAMPLE_INTERVAL=3D1.
 
-Complexity isn't that bad - speaking as a person that wrote memory
-allocators before. ;)
+This is entirely expected. For production use we're looking at sample
+intervals of 500ms or larger.
 
-There is also the mining nature of finding bugs.  After a while you have
-caught most of the 99%-bugs, while the 1% bugs remain in the code.  At
-that point the ratio is closer to 50/50 or the rare bugs might even
-dominate.
+> I don't quite get what the static key does or how it is supposed to
+> help, but my best guess would be that it is supposed to reduce CPU
+> overhead, not increase it.
 
-> > I'm leaning towards being more aggressive, but I also tend to receive
-> > all those impossible-to-debug memory corruptions and would like to get
-> > rid of them. :)
+Toggling the static key is expensive, because it has to patch the code
+and flip the static branch (involves IPIs etc.).
 
-On the note of being aggressive, I've noticed kfence is expensive in
-unexpected ways.  We collect CPU backtraces whenever we find scheduling
-problems and kfence shows up far more than it should:
+The reason for the static keys is that we've designed KFENCE for the
+case where the branch-taken case is very very unlikely (with large
+sample intervals). See
+https://github.com/google/kasan/blob/kfence/Documentation/dev-tools/kfence.=
+rst#implementation-details
 
-   CPU ns-before-dump
-B  0   3129268790 [<ffffffff810eeec1>] smp_call_function_many+0x1a1/0x260
-B  0   3129268791 [<ffffffff810ef05d>] on_each_cpu+0x2d/0x80
-B  0   3129268792 [<ffffffff8101eab8>] text_poke_bp+0xa8/0xc0
-B  0   3129268793 [<ffffffff8101bea3>] arch_jump_label_transform+0x83/0xd0
-B  0   3129268794 [<ffffffff81167f68>] __jump_label_update+0x68/0x80
-B  0   3129268795 [<ffffffff81168008>] jump_label_update+0x88/0x90
-B  0   3129268796 [<ffffffff811682b1>] __static_key_slow_dec+0x41/0x90
-B  0   3129268797 [<ffffffff81168322>] static_key_slow_dec+0x22/0x60
-B  0   3129268798 [<ffffffff811c159d>] toggle_allocation_gate+0x11d/0x150
-B  0   3129268799 [<ffffffff8108ada9>] process_one_work+0x219/0x510
-B  0   3129268800 [<ffffffff8108b0e2>] worker_thread+0x42/0x5a0
-B  0   3129268801 [<ffffffff810913b8>] kthread+0xd8/0xf0
-B  0   3129268802 [<ffffffff817c8d05>] ret_from_fork+0x55/0x80
-B  0   3129268803 [<ffffffffffffffff>] 0xffffffffffffffff
+> Since the rest of kfence looks pretty efficient and barely shows up in
+> profiles, I wanted to switch toggle_allocation_gate() to use an hrtimer
+> anyway.  We can go to 100=C2=B5s intervals, maybe even 10=C2=B5s.  Guess =
+I'll
+> remove the label thing as well.
 
-B  0   3020905965 [<ffffffff810ef05d>] on_each_cpu+0x2d/0x80
-B  0   3020905966 [<ffffffff8101ea6b>] text_poke_bp+0x5b/0xc0
-B  0   3020905967 [<ffffffff8101bea3>] arch_jump_label_transform+0x83/0xd0
-B  0   3020905968 [<ffffffff81167f68>] __jump_label_update+0x68/0x80
-B  0   3020905969 [<ffffffff81168008>] jump_label_update+0x88/0x90
-B  0   3020905970 [<ffffffff811682b1>] __static_key_slow_dec+0x41/0x90
-B  0   3020905971 [<ffffffff81168322>] static_key_slow_dec+0x22/0x60
-B  0   3020905972 [<ffffffff811c159d>] toggle_allocation_gate+0x11d/0x150
-B  0   3020905973 [<ffffffff8108ada9>] process_one_work+0x219/0x510
-B  0   3020905974 [<ffffffff8108b0e2>] worker_thread+0x42/0x5a0
-B  0   3020905975 [<ffffffff810913b8>] kthread+0xd8/0xf0
-B  0   3020905976 [<ffffffff817c8d05>] ret_from_fork+0x55/0x80
-B  0   3020905977 [<ffffffffffffffff>] 0xffffffffffffffff
+At that point, you'd need 1) a very large KFENCE pool to not exhaust
+it immediately, and 2) maybe think about replacing the static key with
+simply a boolean that is checked. However, this is explicitly not what
+we wanted to design KFENCE for, because a non-static branch in the
+SL*B fast path is not acceptable if we want to retain ~zero overhead.
 
-B  0   2967463122 [<ffffffffffffffff>] 0xffffffffffffffff
+And KFENCE is not designed for something like 10=C2=B5s, because the
+resulting overhead (in terms of memory for the pool and performance)
+just are no longer acceptable. At that point, please just use KASAN.
+Presumably you're trying to run this in some canary environment, and
+having a few KASAN canaries will yield better results than a few
+KFENCE canaries. However, if you have >10000s machines, and you want
+something in production, then KFENCE is your friend (at reasonable
+sample intervals!) -- this is what we designed KFENCE for.
 
-B  0   2912168143 [<ffffffff81051a45>] __x2apic_send_IPI_mask+0xc5/0x1a0
-B  0   2912168144 [<ffffffff81051b5c>] x2apic_send_IPI_allbutself+0x1c/0x20
-B  0   2912168145 [<ffffffff81048d54>] native_send_call_func_ipi+0xa4/0xb0
-B  0   2912168146 [<ffffffff810eef0d>] smp_call_function_many+0x1ed/0x260
-B  0   2912168147 [<ffffffff810ef05d>] on_each_cpu+0x2d/0x80
-B  0   2912168148 [<ffffffff8101ea6b>] text_poke_bp+0x5b/0xc0
-B  0   2912168149 [<ffffffff8101bea3>] arch_jump_label_transform+0x83/0xd0
-B  0   2912168150 [<ffffffff81167f68>] __jump_label_update+0x68/0x80
-B  0   2912168151 [<ffffffff81168008>] jump_label_update+0x88/0x90
-B  0   2912168152 [<ffffffff81168265>] static_key_slow_inc+0x95/0xa0
-B  0   2912168153 [<ffffffff811c14ca>] toggle_allocation_gate+0x4a/0x150
-B  0   2912168154 [<ffffffff8108ada9>] process_one_work+0x219/0x510
-B  0   2912168155 [<ffffffff8108b0e2>] worker_thread+0x42/0x5a0
-B  0   2912168156 [<ffffffff810913b8>] kthread+0xd8/0xf0
-B  0   2912168157 [<ffffffff817c8d05>] ret_from_fork+0x55/0x80
-B  0   2912168158 [<ffffffffffffffff>] 0xffffffffffffffff
+My feeling is that you'd also like MTE-based KASAN:
+https://lkml.org/lkml/2020/11/10/1187 -- but, like anything, there are
+trade-offs. The biggest one right now is that it requires unreleased
+Arm64 silicon, and early silicon won't be ~zero overhead. One can hope
+that we'll see it for x86 one day...
 
-B  0   2805659204 [<ffffffffffffffff>] 0xffffffffffffffff
-
-B  0   2798513705 [<ffffffff810ef05d>] on_each_cpu+0x2d/0x80
-B  0   2798513706 [<ffffffff8101ea95>] text_poke_bp+0x85/0xc0
-B  0   2798513707 [<ffffffff8101bea3>] arch_jump_label_transform+0x83/0xd0
-B  0   2798513708 [<ffffffff81167f68>] __jump_label_update+0x68/0x80
-B  0   2798513709 [<ffffffff81168008>] jump_label_update+0x88/0x90
-B  0   2798513710 [<ffffffff81168265>] static_key_slow_inc+0x95/0xa0
-B  0   2798513711 [<ffffffff811c14ca>] toggle_allocation_gate+0x4a/0x150
-B  0   2798513712 [<ffffffff8108ada9>] process_one_work+0x219/0x510
-B  0   2798513713 [<ffffffff8108b0e2>] worker_thread+0x42/0x5a0
-B  0   2798513714 [<ffffffff810913b8>] kthread+0xd8/0xf0
-B  0   2798513715 [<ffffffff817c8d05>] ret_from_fork+0x55/0x80
-B  0   2798513716 [<ffffffffffffffff>] 0xffffffffffffffff
-
-B  0   2687622650 [<ffffffff810ef05d>] on_each_cpu+0x2d/0x80
-B  0   2687622651 [<ffffffff8101ea6b>] text_poke_bp+0x5b/0xc0
-B  0   2687622652 [<ffffffff8101bea3>] arch_jump_label_transform+0x83/0xd0
-B  0   2687622653 [<ffffffff81167f68>] __jump_label_update+0x68/0x80
-B  0   2687622654 [<ffffffff81168008>] jump_label_update+0x88/0x90
-B  0   2687622655 [<ffffffff81168265>] static_key_slow_inc+0x95/0xa0
-B  0   2687622656 [<ffffffff811c14ca>] toggle_allocation_gate+0x4a/0x150
-B  0   2687622657 [<ffffffff8108ada9>] process_one_work+0x219/0x510
-B  0   2687622658 [<ffffffff8108b0e2>] worker_thread+0x42/0x5a0
-B  0   2687622659 [<ffffffff810913b8>] kthread+0xd8/0xf0
-B  0   2687622660 [<ffffffff817c8d05>] ret_from_fork+0x55/0x80
-B  0   2687622661 [<ffffffffffffffff>] 0xffffffffffffffff
-
-B  0   2643854943 [<ffffffff810eeec1>] smp_call_function_many+0x1a1/0x260
-B  0   2643854944 [<ffffffff810ef05d>] on_each_cpu+0x2d/0x80
-B  0   2643854945 [<ffffffff8101eab8>] text_poke_bp+0xa8/0xc0
-B  0   2643854946 [<ffffffff8101bea3>] arch_jump_label_transform+0x83/0xd0
-B  0   2643854947 [<ffffffff81167f68>] __jump_label_update+0x68/0x80
-B  0   2643854948 [<ffffffff81168008>] jump_label_update+0x88/0x90
-B  0   2643854949 [<ffffffff81168265>] static_key_slow_inc+0x95/0xa0
-B  0   2643854950 [<ffffffff811c14ca>] toggle_allocation_gate+0x4a/0x150
-B  0   2643854951 [<ffffffff8108ada9>] process_one_work+0x219/0x510
-B  0   2643854952 [<ffffffff8108b0e2>] worker_thread+0x42/0x5a0
-B  0   2643854953 [<ffffffff810913b8>] kthread+0xd8/0xf0
-B  0   2643854954 [<ffffffff817c8d05>] ret_from_fork+0x55/0x80
-B  0   2643854955 [<ffffffffffffffff>] 0xffffffffffffffff
-
-...
-
-We use CONFIG_KFENCE_SAMPLE_INTERVAL=3D1.
-
-I don't quite get what the static key does or how it is supposed to
-help, but my best guess would be that it is supposed to reduce CPU
-overhead, not increase it.
-
-Since the rest of kfence looks pretty efficient and barely shows up in
-profiles, I wanted to switch toggle_allocation_gate() to use an hrtimer
-anyway.  We can go to 100=C2=B5s intervals, maybe even 10=C2=B5s.  Guess I'=
-ll
-remove the label thing as well.
-
-J=C3=B6rn
-
---
-The odds are greatly against you being immensely smarter than everyone
-else in the field. If your analysis says your terminal velocity is twice
-the speed of light, you may have invented warp drive, but the chances
-are a lot better that you've screwed up.
--- David Akin
+Thanks,
+-- Marco
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
@@ -288,4 +317,5 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/20201206164145.GH1228220%40cork.
+kasan-dev/CANpmjNNZDuRo%2B1UZam%3DpZFij%3DQHR9sSa-BaNGrgVse-PjQF5zw%40mail.=
+gmail.com.
