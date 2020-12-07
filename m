@@ -1,129 +1,123 @@
-Return-Path: <kasan-dev+bncBDDYJV4J2MORBT6EWX7AKGQEZBMHUFY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCBMVA7CUUHRB6MBW37AKGQEZQIOEQQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oi1-x23a.google.com (mail-oi1-x23a.google.com [IPv6:2607:f8b0:4864:20::23a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 491E72D07CA
-	for <lists+kasan-dev@lfdr.de>; Sun,  6 Dec 2020 23:59:29 +0100 (CET)
-Received: by mail-oi1-x23a.google.com with SMTP id j128sf799349oif.22
-        for <lists+kasan-dev@lfdr.de>; Sun, 06 Dec 2020 14:59:29 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1607295568; cv=pass;
+Received: from mail-pg1-x537.google.com (mail-pg1-x537.google.com [IPv6:2607:f8b0:4864:20::537])
+	by mail.lfdr.de (Postfix) with ESMTPS id C01A62D08B6
+	for <lists+kasan-dev@lfdr.de>; Mon,  7 Dec 2020 02:10:18 +0100 (CET)
+Received: by mail-pg1-x537.google.com with SMTP id b35sf7411961pgl.8
+        for <lists+kasan-dev@lfdr.de>; Sun, 06 Dec 2020 17:10:18 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1607303417; cv=pass;
         d=google.com; s=arc-20160816;
-        b=mzOnop7AXckbVTduUrBf9TAfC9yTSa0Jnb5etTd/k9XuDNAxwLt2fewcIYBWKYPUAK
-         H/F3xYKCf8A+ctW+iQkavLF6zNE2amiktGK/MBZBrWkfXAjMrmtfXPJ//ukzCuEm59TA
-         1IP4U2rdH+EKNjh7v5Dj4t+stv+fnpL2XkCLZDFf0zpHbKIJL+dwJXxusBSKoovT+yrx
-         YclZuN/hpyM52NLHsZqjlcULjUPbqDG7kdl6o8/fkYOOqEMDa7ISlphTEneE+ixTsLiG
-         OsImdf7f1Z6Nj603SXqTLAl6gPDyrsq9c2JI4MRLFmPd5SW3b4WztG9MDITCUDoIbLgQ
-         Q26Q==
+        b=BhgJZLVRfURUjhiRH5GdrXgWAhhGWZcVDrzXOLJwN4esDq66f/ypSfDlBZxFGKKPW+
+         OOltKBdK+017VT1sdn8EB1cC7EQuEz90sRrs7Wzj57rxfeyUKQxuKQ17Z1VPLg8lzhYs
+         fgKfrz6o8ilBh6KumDxAB7elSNi22FwUGGSBRquUhFkQetRmtitg06gVbfs49HSGi1tP
+         7QdkE7zK7S7vGRn2bN2Z0XRTHO+TluwvWWo3T0rJaWnMgFSqYUxtJZGSQVgG40RFwwON
+         AOEdBT4q5DXdWICojK44HGdM/7O0ioBPKjuWflzcBll26tBCBpwNJSKd3GTaf1pqRLvw
+         wkQw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
-         :mime-version:sender:dkim-signature:dkim-signature;
-        bh=IRQ41der5+ITl4hsRkAYXyumeF/MNv0pM19VAy2r7t4=;
-        b=tRnbazlEdofQkbzmBKBmh74jwBY5LhT5sE/hbdqoNw+Khhi25KQCVN3JUwQ+6Pa29L
-         lxBZEoKFiebTD48lMhtxElNd6+9lWWuO9JoBCIbzYK5QA0zCd0ICdKe8dp0Vq/x01yqq
-         pixSO85f80F++jbdkQa2I9bLBhwTmy0ngVFAe3hs/MZAJV0Nq98ngrTdOkSxJjVH4l2D
-         UdgBFFNzP0k/UJTIthz+xjKBHDkYXwndLuxp+CR0Oi4KWlTtM257vpOw1LGXrFeWij+r
-         Rgu1UxNMwpFm8rpcwIePI4msksHnyfWKJ817ZGdncxVHB9ZYhnL5jrwHWxwebpiDrTp1
-         nFww==
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature;
+        bh=Rze83tnzeZepG5HFy93MsoIIn7rI8GKWUZ0/yDHClPQ=;
+        b=EPE6qgWPQAXx5Zi7Lwhlb5C+Cc8a3KSK2u4FPOmZK1FQ1mM40hXE9SqoiEBbRo23F2
+         UG7PdHODmNAkk6FSkzON/Z3gpwkwomJ1+dADBDDtUzJmWikZL2ftp35+F4agnseJktHk
+         imOaLiWHQXXVMGi0+Pw/vQJ0gSHYACyR5q5p2pab6lPMtpmOTBd36vLhUoEXhkjgpuz1
+         SgElpiD5AMl/Hrz2IP/zTo8nnFKTIWK5u65jCVG6ujxRCAnQB2i52tzsp0w4Nm5a9+Hv
+         EA4bThiV+qT9KBJ6ZPQj7j1DwJkBqE3nsIsARP7G20V863u90Fg5tEjpgrF0XQFSowY2
+         qtLw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20161025 header.b="rOYi/8c+";
-       spf=pass (google.com: domain of richard.weinberger@gmail.com designates 2607:f8b0:4864:20::f2d as permitted sender) smtp.mailfrom=richard.weinberger@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=Hv71Zg5b;
+       spf=pass (google.com: domain of frederic@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=frederic@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:mime-version:from:date:message-id:subject:to:cc
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=IRQ41der5+ITl4hsRkAYXyumeF/MNv0pM19VAy2r7t4=;
-        b=AwezA6X1fMuei+VplzXhiZTHG1JHGBLk0PxpRdh8mXBFf00XI3Y2/JFY5qp2JkVgRv
-         3Kxw3olzcmAkwGnaKPL6AOnW/Nl5zySxQ864QJAQwhJSGxG8xqVOWGAvB3sKBoal8t39
-         k54JtVo405ncPueQqavvEjij4Q2Ls+NZ5KhIZJl17az6RftCogE4PgTc9WBQS3VgjU54
-         aC1BzyLnnOqd29xMTwK1HahOgI1cjJ/YbuMaXs0mR6yt1yoLhuGRYH5CDfUminwSVOGv
-         tqdFcOTzwLvI3EM1+3cnROUoayGTYvEY066f0Y1qp6nqoFnWZ4DucXlO+hkQ87Tlyfz1
-         iUtQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to:cc:x-original-sender
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=IRQ41der5+ITl4hsRkAYXyumeF/MNv0pM19VAy2r7t4=;
-        b=T2ATzttSltMw04gS1Rq4kCtjkEJzHZ4vjVkq2oc3aBEYeCx+wwfHHFbS9nOhaovdEu
-         0zeYYVSZOjwYK5vQuiPc6sVyZZRdB26edph4zhHBTijMoxFmUBkk44hzppxj1v3gTCpj
-         9OTdgGt1wIIQyFEYaDPaQ/LdIcY9N4nRJxl+RkHq2EAkJ9z6FDti2GTVdOG32B3dGNUX
-         X/zqv/os8kQX1KIa2dRcwfTzBmkOARGkyU+0mFhGVNE2C/UW+GtG8nduURbJu05UuiRS
-         zo8PZH48GBA1j3HAX5csNtA0lmFJxny0/n181bWX9XkSag9NMQomQ7Qle5bwNshkQA+C
-         UZgg==
+        bh=Rze83tnzeZepG5HFy93MsoIIn7rI8GKWUZ0/yDHClPQ=;
+        b=NP+7vOWElv5Jaoz9VqWonNGMm2sMrca+BV0WxhFLLZJk4kmbGKEpWrtZu18/FWPnNK
+         iD29TNT/EGhEPuJ4WDCNWrztLy4SbELy22+CKT5SU2qrTKY3N7L/eLgQ/NCfCVQuJP+6
+         0l6rXZvNI11p/jOFli5uWgzBc8uQpgB6sNm7LUWI0cIJP3OlYntCft1vkGIpwQq29R91
+         1zRDV+KEt97WdSaXqM1cAg4AvdLv3ijKEcMdQzsGoI38s0I/boCU9Mrj4ACx5NI0AwgK
+         FcqrcHb0519cbU3JKLuR60PgYltQz2lppIhLoW96+/u8gQIhcGHqCbSkNQS+9bloOU/e
+         mvLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:mime-version:from:date:message-id:subject
-         :to:cc:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=IRQ41der5+ITl4hsRkAYXyumeF/MNv0pM19VAy2r7t4=;
-        b=FlB6BfqrQpCbE+Pg1VUo5pZs4kMqfbTR3BY0KNU4L4Y2M31ASfurcknzIT9mhVB2+9
-         re5XQn6XTBMofZWM85faQySGjtqDcKZBvwIIoad5ZTNUicDI8uCGjfkNjbWoGvInrBqV
-         Xbf2vNdAQTH1hMZc3CsSGyon+x6mxQG7n+/WGi/b+6w27rg7g6HAo8j1eTLEIhzNP8/q
-         Kb+E8Ci6RuDrgqgWvrq+MrvKBaNiug8jmdZ1RswOu0Elm32YyTMcCJHjF4qY1kCyB6QP
-         IwcddBgSdxYbkdx/nC3haZ80WMy3RTON7A2JRf6ZctyLXN1XzABTFefnvGpkMRlIGz6Z
-         RWCw==
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=Rze83tnzeZepG5HFy93MsoIIn7rI8GKWUZ0/yDHClPQ=;
+        b=YwbOZ2+pKs/9aK7tuEPyHnbrCkhw5wI3IRqvKDvaqW3xmJx9Q2t65DJ3KxbDqgPYB8
+         KC0K8hhU39zGYDYYUpAkluxr8qSw5BNAbs0/T8u+Tm5uF9Q8LLCWr8ROpNjnQwUdYZlA
+         oVAOA1cJubSG2iruW2l4TiQ4rt7q3Nuw6RyYkA6zXtPiCkvNUcug03eZfMvUELyJDzuN
+         lQlWZybR3kuka1BrE+4n/flF6nb88VH3/82apBsq9eAszOTR6/brS0vldzeKJEUEO+LF
+         cKvjHNZO8xm8xe/mFWokepWAuWfA65z6qD3a3DqTihh83hTArK47ZlX2iB7ZpyxJXIqq
+         BFOA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM530RajU3bir7RFXkeyDt527EK3ES+/2kJ8VGtJ+T1p5BjvEtBj+b
-	Lnhj7AqFdP/ThkRkBFg2N/0=
-X-Google-Smtp-Source: ABdhPJy53hko2kFFDLvYUAK7evoxr+bb7BesGXHOXhKBejSZjDKSNND8HzsQu6tOzrsw0ZOwzwbVSQ==
-X-Received: by 2002:a4a:9589:: with SMTP id o9mr10575043ooi.59.1607295568041;
-        Sun, 06 Dec 2020 14:59:28 -0800 (PST)
+X-Gm-Message-State: AOAM531IBuSMtTDHgjanGoFGNYFnWJzeN4M9OJ/Gg3wB60J0Ta0jigpr
+	68E3j7Yw+cBxVWEMkaUhvp8=
+X-Google-Smtp-Source: ABdhPJysOP+Wf3lvEPTSs2zYTZAns/gf116fKKvqFIc1Bco0tKKSvXcdnocG9IPvUHRJGMbLzF2tEg==
+X-Received: by 2002:a63:f045:: with SMTP id s5mr2188225pgj.92.1607303417557;
+        Sun, 06 Dec 2020 17:10:17 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6830:24b0:: with SMTP id v16ls971513ots.10.gmail; Sun,
- 06 Dec 2020 14:59:27 -0800 (PST)
-X-Received: by 2002:a9d:3e82:: with SMTP id b2mr2298934otc.329.1607295567696;
-        Sun, 06 Dec 2020 14:59:27 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1607295567; cv=none;
+Received: by 2002:a63:4b61:: with SMTP id k33ls4950160pgl.0.gmail; Sun, 06 Dec
+ 2020 17:10:17 -0800 (PST)
+X-Received: by 2002:aa7:8744:0:b029:18b:a9e1:803d with SMTP id g4-20020aa787440000b029018ba9e1803dmr13808927pfo.50.1607303416973;
+        Sun, 06 Dec 2020 17:10:16 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1607303416; cv=none;
         d=google.com; s=arc-20160816;
-        b=HLgzsaJTd2gsUwgVD5KVWSSHkohKCBbuXMD+oT0mAfwrEVcgRI0+59THQOK31J3sls
-         XjPROKh/Woz8o/pNKPt57SQK3gFsDv1embBR0wFHY2fT3Ko766uTtIuA4PvbZqr/+1W1
-         dmN/YhCyCaHDCGKTnM64hHkgVlcwyZ3JvHgf8Yp7kp3pw5Arbh10pmpDzvoFmRA4gbNc
-         hlSDZ9Up0aGRszOgXgRnNLVxZh8AXOK12WQIwiWIyBY+FwTOadNAg7QrWkRgEG347Z/P
-         6bddOljFfUYA2Bu/o4L3SdU7APx9bt4yBnmBa0YEX8Sb+ejRUvpyJ2v9Wl1J93yVLWDo
-         tZ8Q==
+        b=Pu/uyJDWo4lZ+qmQW8+U8IjwSch0dvyvF6veO4QmjY2IMZFKfcQwYsDsjsfBEFhmBT
+         snhym6n15fkV/oo5RE8SSDWFAEayekmRpDeeVvf++ffNwUTafxzlEEZItT8IpRI6KCA2
+         gh5iGisICBypRwrnRxQ2WiqsjnfpfmDITEl1jpPaLdStBumA70uQ1sm1jKqSQ2mZZZWA
+         f2Dhzz1NCguhj0DokT0tAWk2eVfjHiMhs7NvqRi4hpIhC/3COblPIKKsuPe311ONTFaU
+         cZYWYMfbUnFiN5XpK46Im6z1FNOgYY4c523F55CgeZWPIJX8y66cbAv7/WitkwcNjcNJ
+         Srfw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=vv6iFUqkL94sPwQ2xC06XNtvXitukry4+NVPo/3bk+o=;
-        b=Hea4lHIVqWnyETlOqrR17vEPYhElr7E4Fws6aPf7CMAkBL8HLqCQZC2kQR2id5jv0h
-         5PVGkps/L5giM6QfqnhHQe1Fph1IaI83hN9qW/QoP36Ko4ywkFaYd4c53AE7m9lkDCL/
-         GVpWieeY9scKNhCKyQbDAO4pxo2M76sK2mLEdI3bj3SJ++w1rmdAJjKsAerMG+kiRckz
-         iOC0ZEE14jJkRsc7gWENILvIV7+kJUMSr2o25uyPv5OTSjdMhB/pX/PgkqQ34K8Sk3FW
-         Gmde87aouFObAPyncnYlE+CJrTyWuVlYcxNwx/FRLTDNdt3r8GeNI3tvJ9t5X63e6zWa
-         XCdA==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:dkim-signature:date;
+        bh=SO4ikM9iQCDI5pC801rkR8A3FOE8MLi7/gz6fDJIad4=;
+        b=dBUVhteeXH2gPXYYkkn1bhsUy1qFTd9gn1bShWsg10HfSZ1PW34fTgxKM09uketKN4
+         BzMeylbUxNT/RI78kQmnwZYIb4bGc74qGyyr9YOLCEtwEsldZokcmqwu7cKzKQimkX7c
+         VNtff9p4FvdE1/u46p6fZNU+paABc+ueAxBbHcm4xOWhwn9iWFVBQ5hvJ7TopZVCkSkE
+         xMTstZJ7QvQ5i0A6K0vg2xS9SadJI7+dm+aqBo1VEU0uY/PWGCnqar4wdGV3GuzobqKn
+         2zi0YexxJOKi+pElklm9iE7PF5xqTmpmsBi1lvHgZbl1UFcy+ubdiG9znZQ5+XmJ1OMd
+         49pQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20161025 header.b="rOYi/8c+";
-       spf=pass (google.com: domain of richard.weinberger@gmail.com designates 2607:f8b0:4864:20::f2d as permitted sender) smtp.mailfrom=richard.weinberger@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-qv1-xf2d.google.com (mail-qv1-xf2d.google.com. [2607:f8b0:4864:20::f2d])
-        by gmr-mx.google.com with ESMTPS id m13si1012125otn.1.2020.12.06.14.59.27
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=Hv71Zg5b;
+       spf=pass (google.com: domain of frederic@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=frederic@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
+        by gmr-mx.google.com with ESMTPS id z10si762230plk.0.2020.12.06.17.10.16
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 06 Dec 2020 14:59:27 -0800 (PST)
-Received-SPF: pass (google.com: domain of richard.weinberger@gmail.com designates 2607:f8b0:4864:20::f2d as permitted sender) client-ip=2607:f8b0:4864:20::f2d;
-Received: by mail-qv1-xf2d.google.com with SMTP id g19so5697882qvy.2
-        for <kasan-dev@googlegroups.com>; Sun, 06 Dec 2020 14:59:27 -0800 (PST)
-X-Received: by 2002:a05:6214:114f:: with SMTP id b15mr17948421qvt.34.1607295567389;
- Sun, 06 Dec 2020 14:59:27 -0800 (PST)
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 06 Dec 2020 17:10:16 -0800 (PST)
+Received-SPF: pass (google.com: domain of frederic@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
+Date: Mon, 7 Dec 2020 02:10:13 +0100
+From: Frederic Weisbecker <frederic@kernel.org>
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: LKML <linux-kernel@vger.kernel.org>, Marco Elver <elver@google.com>,
+	kasan-dev <kasan-dev@googlegroups.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Anna-Maria Behnsen <anna-maria@linutronix.de>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Subject: Re: timers: Move clearing of base::timer_running under base::lock
+Message-ID: <20201207011013.GB113660@lothringen>
+References: <87lfea7gw8.fsf@nanos.tec.linutronix.de>
 MIME-Version: 1.0
-From: Richard Weinberger <richard.weinberger@gmail.com>
-Date: Sun, 6 Dec 2020 23:59:16 +0100
-Message-ID: <CAFLxGvwienJ7sU2+QAhFt+ywS9iYkbAXDGviuTC-4CVwLOhXfA@mail.gmail.com>
-Subject: BUG: Invalid wait context with KMEMLEAK and KASAN enabled
-To: LKML <linux-kernel@vger.kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>, aryabinin@virtuozzo.com, 
-	Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>, kasan-dev@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: richard.weinberger@gmail.com
+Content-Disposition: inline
+In-Reply-To: <87lfea7gw8.fsf@nanos.tec.linutronix.de>
+X-Original-Sender: frederic@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20161025 header.b="rOYi/8c+";       spf=pass
- (google.com: domain of richard.weinberger@gmail.com designates
- 2607:f8b0:4864:20::f2d as permitted sender) smtp.mailfrom=richard.weinberger@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+ header.i=@kernel.org header.s=k20201202 header.b=Hv71Zg5b;       spf=pass
+ (google.com: domain of frederic@kernel.org designates 198.145.29.99 as
+ permitted sender) smtp.mailfrom=frederic@kernel.org;       dmarc=pass (p=NONE
+ sp=NONE dis=NONE) header.from=kernel.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -136,132 +130,47 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hi!
+On Sun, Dec 06, 2020 at 10:40:07PM +0100, Thomas Gleixner wrote:
+> syzbot reported KCSAN data races vs. timer_base::timer_running being set to
+> NULL without holding base::lock in expire_timers().
+> 
+> This looks innocent and most reads are clearly not problematic but for a
+> non-RT kernel it's completely irrelevant whether the store happens before
+> or after taking the lock. For an RT kernel moving the store under the lock
+> requires an extra unlock/lock pair in the case that there is a waiter for
+> the timer. But that's not the end of the world and definitely not worth the
+> trouble of adding boatloads of comments and annotations to the code. Famous
+> last words...
 
-With both KMEMLEAK and KASAN enabled, I'm facing the following lockdep
-splat at random times on Linus' tree as of today.
-Sometimes it happens at bootup, sometimes much later when userspace has started.
+There is another thing I noticed lately wrt. del_timer_sync() VS timer execution:
 
-Does this ring a bell?
 
-[    2.298447] =============================
-[    2.298971] [ BUG: Invalid wait context ]
-[    2.298971] 5.10.0-rc6+ #388 Not tainted
-[    2.298971] -----------------------------
-[    2.298971] ksoftirqd/1/15 is trying to lock:
-[    2.298971] ffff888100b94598 (&n->list_lock){....}-{3:3}, at:
-free_debug_processing+0x3d/0x210
-[    2.298971] other info that might help us debug this:
-[    2.298971] context-{2:2}
-[    2.298971] 1 lock held by ksoftirqd/1/15:
-[    2.298971]  #0: ffffffff835f4140 (rcu_callback){....}-{0:0}, at:
-rcu_core+0x408/0x1040
-[    2.298971] stack backtrace:
-[    2.298971] CPU: 1 PID: 15 Comm: ksoftirqd/1 Not tainted 5.10.0-rc6+ #388
-[    2.298971] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996),
-BIOS rel-1.12.0-0-ga698c89-rebuilt.opensuse.org 04/01/2014
-[    2.298971] Call Trace:
-[    2.298971]  <IRQ>
-[    2.298971]  dump_stack+0x9a/0xcc
-[    2.298971]  __lock_acquire.cold+0xce/0x34b
-[    2.298971]  ? lockdep_hardirqs_on_prepare+0x1f0/0x1f0
-[    2.298971]  ? rcu_read_lock_sched_held+0x9c/0xd0
-[    2.298971]  lock_acquire+0x153/0x4c0
-[    2.298971]  ? free_debug_processing+0x3d/0x210
-[    2.298971]  ? lock_release+0x690/0x690
-[    2.298971]  ? rcu_read_lock_bh_held+0xb0/0xb0
-[    2.298971]  ? pvclock_clocksource_read+0xd9/0x1a0
-[    2.298971]  _raw_spin_lock_irqsave+0x3b/0x80
-[    2.298971]  ? free_debug_processing+0x3d/0x210
-[    2.298971]  ? qlist_free_all+0x35/0xd0
-[    2.298971]  free_debug_processing+0x3d/0x210
-[    2.298971]  __slab_free+0x286/0x490
-[    2.298971]  ? lockdep_enabled+0x39/0x50
-[    2.298971]  ? rcu_read_lock_sched_held+0x9c/0xd0
-[    2.298971]  ? run_posix_cpu_timers+0x256/0x2c0
-[    2.298971]  ? rcu_read_lock_bh_held+0xb0/0xb0
-[    2.298971]  ? posix_cpu_timers_exit_group+0x30/0x30
-[    2.298971]  qlist_free_all+0x59/0xd0
-[    2.298971]  ? qlist_free_all+0xd0/0xd0
-[    2.298971]  per_cpu_remove_cache+0x47/0x50
-[    2.298971]  flush_smp_call_function_queue+0xea/0x2b0
-[    2.298971]  __sysvec_call_function+0x6c/0x250
-[    2.298971]  asm_call_irq_on_stack+0x12/0x20
-[    2.298971]  </IRQ>
-[    2.298971]  sysvec_call_function+0x84/0xa0
-[    2.298971]  asm_sysvec_call_function+0x12/0x20
-[    2.298971] RIP: 0010:__asan_load4+0x1d/0x80
-[    2.298971] Code: 10 00 75 ee c3 0f 1f 84 00 00 00 00 00 4c 8b 04
-24 48 83 ff fb 77 4d 48 b8 ff ff ff ff ff 7f ff ff 48 39 c7 76 3e 48
-8d 47 03 <48> 89 c2 83 e2 07 48 83 fa 02 76 17 48 b9 00 00 00 00 00 fc
-ff df
-[    2.298971] RSP: 0000:ffff888100e4f858 EFLAGS: 00000216
-[    2.298971] RAX: ffffffff83c55773 RBX: ffffffff81002431 RCX: dffffc0000000000
-[    2.298971] RDX: 0000000000000001 RSI: ffffffff83ee8d78 RDI: ffffffff83c55770
-[    2.298971] RBP: ffffffff83c5576c R08: ffffffff81083433 R09: fffffbfff07e333d
-[    2.298971] R10: 000000000001803d R11: fffffbfff07e333c R12: ffffffff83c5575c
-[    2.298971] R13: ffffffff83c55774 R14: ffffffff83c55770 R15: ffffffff83c55770
-[    2.298971]  ? ret_from_fork+0x21/0x30
-[    2.298971]  ? __orc_find+0x63/0xc0
-[    2.298971]  ? stack_access_ok+0x35/0x90
-[    2.298971]  __orc_find+0x63/0xc0
-[    2.298971]  unwind_next_frame+0x1ee/0xbd0
-[    2.298971]  ? ret_from_fork+0x22/0x30
-[    2.298971]  ? ret_from_fork+0x21/0x30
-[    2.298971]  ? deref_stack_reg+0x40/0x40
-[    2.298971]  ? __unwind_start+0x2e8/0x370
-[    2.298971]  ? create_prof_cpu_mask+0x20/0x20
-[    2.298971]  arch_stack_walk+0x83/0xf0
-[    2.298971]  ? ret_from_fork+0x22/0x30
-[    2.298971]  ? rcu_core+0x488/0x1040
-[    2.298971]  stack_trace_save+0x8c/0xc0
-[    2.298971]  ? stack_trace_consume_entry+0x80/0x80
-[    2.298971]  ? sched_clock_local+0x99/0xc0
-[    2.298971]  kasan_save_stack+0x1b/0x40
-[    2.298971]  ? kasan_save_stack+0x1b/0x40
-[    2.298971]  ? kasan_set_track+0x1c/0x30
-[    2.298971]  ? kasan_set_free_info+0x1b/0x30
-[    2.298971]  ? __kasan_slab_free+0x10f/0x150
-[    2.298971]  ? kmem_cache_free+0xa8/0x350
-[    2.298971]  ? rcu_core+0x488/0x1040
-[    2.298971]  ? __do_softirq+0x101/0x573
-[    2.298971]  ? run_ksoftirqd+0x21/0x50
-[    2.298971]  ? smpboot_thread_fn+0x1fc/0x380
-[    2.298971]  ? kthread+0x1c7/0x220
-[    2.298971]  ? ret_from_fork+0x22/0x30
-[    2.298971]  ? lockdep_hardirqs_on_prepare+0x1f0/0x1f0
-[    2.298971]  ? rcu_read_lock_sched_held+0x9c/0xd0
-[    2.298971]  ? lock_acquire+0x153/0x4c0
-[    2.298971]  ? rcu_core+0x408/0x1040
-[    2.298971]  ? lock_release+0x690/0x690
-[    2.298971]  ? lockdep_enabled+0x39/0x50
-[    2.298971]  ? mark_held_locks+0x49/0x90
-[    2.298971]  kasan_set_track+0x1c/0x30
-[    2.298971]  kasan_set_free_info+0x1b/0x30
-[    2.298971]  __kasan_slab_free+0x10f/0x150
-[    2.298971]  ? rcu_core+0x488/0x1040
-[    2.298971]  kmem_cache_free+0xa8/0x350
-[    2.298971]  ? __ia32_compat_sys_move_pages+0x130/0x130
-[    2.298971]  rcu_core+0x488/0x1040
-[    2.298971]  ? call_rcu+0x5d0/0x5d0
-[    2.298971]  ? rcu_read_lock_sched_held+0x9c/0xd0
-[    2.298971]  ? rcu_read_lock_bh_held+0xb0/0xb0
-[    2.298971]  __do_softirq+0x101/0x573
-[    2.298971]  ? trace_event_raw_event_irq_handler_exit+0x150/0x150
-[    2.298971]  run_ksoftirqd+0x21/0x50
-[    2.298971]  smpboot_thread_fn+0x1fc/0x380
-[    2.298971]  ? smpboot_register_percpu_thread+0x180/0x180
-[    2.298971]  ? __kthread_parkme+0xbb/0xd0
-[    2.298971]  ? smpboot_register_percpu_thread+0x180/0x180
-[    2.298971]  kthread+0x1c7/0x220
-[    2.298971]  ? kthread_create_on_node+0xd0/0xd0
-[    2.298971]  ret_from_fork+0x22/0x30
+    int data = 0;
 
--- 
-Thanks,
-//richard
+    void timer_func(struct timer_list *t)
+    {
+        data = 1;
+    }
+
+                 CPU 0                                           CPU 1
+    ------------------------------                             --------------------------
+    base = lock_timer_base(timer, &flags);                     raw_spin_unlock(&base->lock);
+    if (base->running_timer != timer)                          call_timer_fn(timer, fn, baseclk);
+        ret = detach_if_pending(timer, base, true);            base->running_timer = NULL;
+    raw_spin_unlock_irqrestore(&base->lock, flags);            raw_spin_lock(&base->lock);
+
+    x = data;
+    
+
+Here if the timer has previously executed on CPU 1 and then CPU 0 sees base->running_timer == NULL,
+it will return, assuming the timer has completed. But there is nothing to enforce the fact that x
+will be equal to 1. Enforcing that is a behaviour I would expect in this case since this is a kind
+of "wait for completion" function. But perhaps it doesn't apply here, in fact I have no idea...
+
+But if we recognize that as an issue, we would need a mirroring load_acquire()/store_release() on
+base->running_timer.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAFLxGvwienJ7sU2%2BQAhFt%2BywS9iYkbAXDGviuTC-4CVwLOhXfA%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20201207011013.GB113660%40lothringen.
