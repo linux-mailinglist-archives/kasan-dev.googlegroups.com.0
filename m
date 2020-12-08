@@ -1,108 +1,116 @@
-Return-Path: <kasan-dev+bncBAABB3XFXL7AKGQECM2UDLQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCV5TUXXRUIBBS7FXT7AKGQE2R4ASKA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x43d.google.com (mail-pf1-x43d.google.com [IPv6:2607:f8b0:4864:20::43d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AAD72D1DCE
-	for <lists+kasan-dev@lfdr.de>; Mon,  7 Dec 2020 23:55:44 +0100 (CET)
-Received: by mail-pf1-x43d.google.com with SMTP id v138sf4931689pfc.10
-        for <lists+kasan-dev@lfdr.de>; Mon, 07 Dec 2020 14:55:44 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1607381743; cv=pass;
+Received: from mail-ej1-x637.google.com (mail-ej1-x637.google.com [IPv6:2a00:1450:4864:20::637])
+	by mail.lfdr.de (Postfix) with ESMTPS id A901F2D2547
+	for <lists+kasan-dev@lfdr.de>; Tue,  8 Dec 2020 09:01:15 +0100 (CET)
+Received: by mail-ej1-x637.google.com with SMTP id t17sf4883641ejd.12
+        for <lists+kasan-dev@lfdr.de>; Tue, 08 Dec 2020 00:01:15 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1607414475; cv=pass;
         d=google.com; s=arc-20160816;
-        b=FZKumXRc+qdPIHNqtTKHCmsd05EIeIk6m9uQdNNnxEodYiwDtXfN6yxrWm/6Q2HjbT
-         461UPh2kp8+NESB5Dt/xNwNpfz2UyrCgUiYpvv0M+jXU8Bvi38sovhaMb7opG0srbYCz
-         6sFMUK8lVVaOtDjkXNJqgNUI0pxtkfy+mM5tTas7QU/u7hPwxnwj77R7ZZsg0+n/OyyG
-         XIjDiiYZiVjFHDnhtiwqoJbOVQTjfLy7t1U65dlc+s04fHKSxyZxX+hG8mx+anAQMaTR
-         EBUl8sRynxUQHBF3KdcnHgQgiqeXkE2yWRNr/cjL1ibO06xsJtIzWuV3upcvpxghWRb3
-         O55w==
+        b=OuRMycn6QfFGTmUJObcU7iGtOQ9RBl7hLl++qWXzYLQTHsPj5wvMPXNKwsa2dv3Qh3
+         dqJvxwj8Cbqe9RBdMiee/HS3/7xgqFMSA+bGbdi2b+WHVEVDD+2kJ1KJ562v5lXY0NrE
+         thccwFGS2wFZ1Nn9t/0j4y0VKnMN5x951CC9N5KFy1ESoMnzZ3XYRppORyCJx+crMZ0H
+         D8qEXZadR97vMHMnDQH++wDaM6UyH4Vlo7P93F+W8tt85L7NQ/S9T4sJLnD6Ejn9cja7
+         VPcFGusK9cyYTOc8vFBSaToUZhDtIFdrfCR2+rI6+Yz18YBqVmbuVcwyRHcSs4s/jtGA
+         RBCQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:user-agent:in-reply-to
-         :content-disposition:mime-version:references:reply-to:message-id
-         :subject:cc:to:from:date:sender:dkim-signature;
-        bh=bam+92iJLlraJtSXibm+bWIxB2rxW0bhsMlGHkVVyF8=;
-        b=nOpgE+HAK4ilK9nuMpiEmkgJvimaezovrxrZkQcbBP5Znpi+GIJf8m1eW00zDEoHIm
-         pWSgUoHItCD20SHVieB7j/WvDM095NNu+n5/ANuzVph0R8nDnvjDNFxOZBLcdH0XSQHJ
-         U1ZFzZiZ4a/AT0sBbVG2ZhPHlPbtjsk6Eo8ANWBcCZQWmkBuWVtzplDleRh2jxdvTqxn
-         LlGvPLqhu/9KQTsEViXwm5qLHOvLWwFJxiOIyqZoILtuE9NW5iGUDKc2VvtJ1Sfya2xz
-         gYz4E3In0/KTQIotNCfJpyIJ1eL8KLG1qYtQ55pKCQguZfCSMA4ikoA0WeFtX3zBDyvE
-         VMpg==
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature;
+        bh=lpXf0EK/E/uQ5DORIolcjNX6ES0n/pYVnou/KDVmNhk=;
+        b=gCltrfmCA8RrXnDWFrI/Cta8YrXfEEhuYNHVyibFTh/5zKzXMXUnPvoKeq97ZpjjhB
+         KY0G1xAQL+gf9DpBrjQN+fMysc6cwmPD7gUpxRu4rnIVVYsMym2x1tSbdJtbHb1Zrupl
+         rCULlP/n6a21OwYhyZkOAniRbFfFN6uj3cEmjJm5DOCk+xdsFulXjmbqpjuWmlKNCyK9
+         lvzJi4Ka6VGqcex6vRkRWg1C9OrZ6oLYuZF81P3KGzx0cbOoyjJSmJvjxHNlnRQ66Df8
+         YJ9vcnUMacQAD4AgOLiwqZrzNZAeGw7kXa77R/99Wv6wRD1JCcvl1UL8M/2l8c5UiTYF
+         VhZQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=HzKGZEMu;
-       spf=pass (google.com: domain of srs0=y2i0=fl=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=Y2I0=FL=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       dkim=pass header.i=@infradead.org header.s=merlin.20170209 header.b=m+tg9FhO;
+       spf=pass (google.com: best guess record for domain of peterz@infradead.org designates 2001:8b0:10b:1231::1 as permitted sender) smtp.mailfrom=peterz@infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:reply-to:references
-         :mime-version:content-disposition:in-reply-to:user-agent
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=bam+92iJLlraJtSXibm+bWIxB2rxW0bhsMlGHkVVyF8=;
-        b=AHhOI/CCIebqMbx2M99zViE9g/Dgh1Py4lwZ2i7D0k6UsLOqjt1wiYZ1CG4+JiAU/R
-         Edl+6Ntbjv6quuCGpPaXA4ytQvWDDE6KjkdL9oEW7I4w2p4SfHwP4MJubuKyVZYW4Nri
-         vyeJWY+nvTAvWLalMedwh9eyX1NpZcaWKQqjCvWLbZjoZUnIJG4+WxW8B5NL9qqzbocx
-         TMJvHBjSiu+AMBvWk0/fs+0R+BmE8kYE6RRYGZ2Xv1ECVuligelOPcv+uU0k8v93hUeP
-         2DMGiuk9CHHNubFR19Nsi3Ubzs4OKYo4tzgg4j37OjysI8e1qgw5AAdgsaukKQbn28t8
-         2EYQ==
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=lpXf0EK/E/uQ5DORIolcjNX6ES0n/pYVnou/KDVmNhk=;
+        b=R/Kv2M2VsRCHT9RLA4OUNjhAYFHngMNyRBG7P8pJtcArTkR9wZFKMgzM43Ryg1PyNm
+         16VjbPilOAILYm/BOZ0IKaeP1E0bwF2Th1dEY6tBc/zxmq+B+6SZdPQwFcfHZ2uC+CS+
+         +d3VujVesjZqV+Pa819VDiYqyIdAAaF0SA/pH+tOQRTZhQ0FrgPg8CQtNGSrkERRPskX
+         3vkR5N7egj3ZuJLfTPecJHLP13ZDdqLzR9Te9v5SVk5x/N+NYLD8w8aC3jJ+M2w8zBd8
+         XHcSRZgnHKZlf1vrOdyOFmgGhREfGOPgc7uXKZu6T8h2g99wzOKdJjMwjZrqDc4RaXfm
+         2H/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :reply-to:references:mime-version:content-disposition:in-reply-to
-         :user-agent:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=bam+92iJLlraJtSXibm+bWIxB2rxW0bhsMlGHkVVyF8=;
-        b=PLs8n0NTlNo4BXMbY5pdpyl0KqArSPkKaCikXDi0VYQqsTTCeHCbhy2VpJR7z/6/Q5
-         t5fbg9Tjd7h7yjc5XUB2puagG+KtsKD6Xjmpq4AECzc0hY7zpTwTPBlwFqPcl6v1ck+U
-         Hxh8BkrnMkZPx/FRo7OgDS4yy20JiUKW8oW5svCFj4PH7I3GqGaq5UfUiBeCuC/FVV8H
-         ra/RaDY/O+W8/KimWCV3hiDIJ6xrGRDpEhGg8cxn08zXZvH/v3OROBPx6YCsn7LOlxw8
-         SLMo8JbkH/GMHPOhlag4dv9Y8ANzmbb4H3s+jHj9pUDtOc94//6UjzS4MGMC2DeN9plA
-         pJNw==
+         :references:mime-version:content-disposition:in-reply-to
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=lpXf0EK/E/uQ5DORIolcjNX6ES0n/pYVnou/KDVmNhk=;
+        b=NHfas6XoIfw1ugKQeosT2r2NbiW3whNnJxfEYrSps9N6d4hDq9JbhdGbJlCbrfbClL
+         zMvZb4UmGoVaaPoe0IK/rGKV4PW8Rb+pnT0XLuaVw4g9kd4Fx2chvisbRbGaKLBnZPvd
+         ichbHQeblym3JHFa//Bib7Ad+J8Nop8yMUtaSYqxlJIb/gw4OfLgBxGUnHS3pcyr7MlA
+         C5rfewOWVSDcU7aTnFbuJzxYgGk8ySXbXh2wxZtGBYKx+MM2we9nQX6JaRYCKBx0O7pS
+         UzL2+ek56K1TLbzNbhk04Gi44e7OUfyF3G7+Z7N/R7NEMt8PKB8Oh79nACV/CpBO/tEn
+         q0SQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM533GgZskJzNnLhHByL7dK9i3PGvvwAX0TPkvL5R0zAhV6Rn9Ngy8
-	ItJj5HHyHsQYF9OTNzxb1RA=
-X-Google-Smtp-Source: ABdhPJy2o6x2np+ONsQs2OYYwrx2SpefGqYkhv7HJDq/LKKQGlZT+3ZylYvrlaYNs2pDCdfvb9+adA==
-X-Received: by 2002:a17:90a:7501:: with SMTP id q1mr1008788pjk.46.1607381742987;
-        Mon, 07 Dec 2020 14:55:42 -0800 (PST)
+X-Gm-Message-State: AOAM530FTZxQvfgrijSuEagWoerwVNKYCDwdfRwGyVgHvXLDOKiYO4rb
+	wI8wM0BItY16Yiys6UbNXts=
+X-Google-Smtp-Source: ABdhPJwcr/I/JJjQfAP7boRTDT9nlnNuJQK84DuNhFFqdzX1fbReTqZDC92/cgnRvqprCPxDf9wg7g==
+X-Received: by 2002:a17:906:8617:: with SMTP id o23mr22199551ejx.274.1607414475431;
+        Tue, 08 Dec 2020 00:01:15 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:902:c205:: with SMTP id 5ls8801283pll.11.gmail; Mon, 07
- Dec 2020 14:55:42 -0800 (PST)
-X-Received: by 2002:a17:90b:4b07:: with SMTP id lx7mr1029398pjb.230.1607381742561;
-        Mon, 07 Dec 2020 14:55:42 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1607381742; cv=none;
+Received: by 2002:a05:6402:22d3:: with SMTP id dm19ls2174358edb.2.gmail; Tue,
+ 08 Dec 2020 00:01:14 -0800 (PST)
+X-Received: by 2002:a50:d646:: with SMTP id c6mr4153739edj.177.1607414474458;
+        Tue, 08 Dec 2020 00:01:14 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1607414474; cv=none;
         d=google.com; s=arc-20160816;
-        b=bsCHfWy9GMkE1I7QRWCRIEVnFzo9kRCUUUEd5irkG5aW3+Ds9cPEvsPGepoWhScSeX
-         GX18weJ5MbTRf7ySUyl+k92jrKGr+iThDPCb2yJILYlIRwOpF+1lLG4jsmMx4KhIbFE4
-         hWHgm8Y6v8OhV/M5vwabEEBofMQg8Ky98DL4jaCMgGShvE0sG8wMCIl97Oi9ji80Ifd8
-         JTy5axVj5Fixfyf3icB9d3lwMggkd/M5ut47pwg3NNXWcvDeGjDfHWcmG2cwQVuz1Pmc
-         iP6nw4R1GJ9WSX4zG+fkJMx0DCCJkyn6CpFruU0GOz5PQ3h+eVKgPQmwckPgoTUKh6MB
-         y/MQ==
+        b=w6quTHMAXg7ME7IzyhMEoqasxA8icbPsLk+cS2s+HoeAQOW1QSW5mbCauRnOfVAnVq
+         bDoXHfCWEt9KKDXFLS5BNVBCkMuzdQcm+h+iykh8OdL+thF1jRolZjf2fZPhAGx0F/6P
+         caERDbuaYx+FyAlYkIps1Zb4muneaEH7zNBT4uJV3IVSDpUwV0/3ZYqPtcz9Qnhnpxe6
+         w+PPb8GLlYgUD8fyQ9RqY1yhU3WToQMhzBmr3pBQdElakwzN4SuXHD20sgSeuUg0IKn9
+         lJiK3XyZhO6VIpVs8/i4TaXqeRzaiFDnEf6c0M0jQ9J9dtvT19eIZ3FQYfjA8GpYKhLR
+         rdmg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :reply-to:message-id:subject:cc:to:from:dkim-signature:date;
-        bh=q5M5M04DlhaxB6oIqV3NhZr666HtPW8APzFV0hPj5As=;
-        b=gL5WsRV65ChYdaLDS3Zz0S9P99wmmh7imlqg5FFh33KhTSzYJis/XXrChRz+I79CuF
-         ErVgflBpJQtu0mCTilgSeIfWnnmgXcBygYDJGzEpnovYZGZRmKrziyBZi6sGr7LygLJb
-         +4Yb4+u8WUJGjnwiYE6Baf8LQjTxPkDikr9OZLyooofd6BvXEBCHZRNsBrpJ5sbwBEqS
-         yydYAxjq6wIveo5ZVkdkYxN6hxmNSAyNYRzbsLmW43egISAI0sFvLqQVldkmSeh33kVd
-         uA1XGODOGTBsFHIuNUVntLXgNK9KQdqY1DXXdldz12T1aP3HAWZvm8WK7Jge0XoQksVn
-         twpA==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:dkim-signature;
+        bh=xazLnsFKp509NzkNSliY4NnLb3Zp1YnEQsS4iT/8KVo=;
+        b=Av1H405dT2unP1Slh2VDjwmdCKcr3uPgj/y8nX7ApOUfl/GtE2WNEq5Xt2/gB1QBk1
+         2IsxtG3RjphedkaQCwzRUS2PeppYVdjp5wKmtCqUl1y9U4Mqx6twHeBly11KE9TnWRfZ
+         aXWUKg2Aj0NoNrFJVdI/kPAxHL+YHmtaC9n4K+VU75w5wgkxv+uHKYs/t4nEhd3ad3uy
+         8oyezhHTI1MMjSTt8aoCprCt/52t/YoJyIDHUUdauDgpdr9zVMSkfGUJu77uhI4Gj0BF
+         6pNl/stiCUjZ8pijRnDE1MHFf7JssWD3hL4AQ5fnjAUH4FbXki0t4+10NcNXfHxslhJT
+         c1Fg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=HzKGZEMu;
-       spf=pass (google.com: domain of srs0=y2i0=fl=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=Y2I0=FL=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id b18si634077pls.1.2020.12.07.14.55.42
+       dkim=pass header.i=@infradead.org header.s=merlin.20170209 header.b=m+tg9FhO;
+       spf=pass (google.com: best guess record for domain of peterz@infradead.org designates 2001:8b0:10b:1231::1 as permitted sender) smtp.mailfrom=peterz@infradead.org
+Received: from merlin.infradead.org (merlin.infradead.org. [2001:8b0:10b:1231::1])
+        by gmr-mx.google.com with ESMTPS id v7si935622edj.5.2020.12.08.00.01.14
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 07 Dec 2020 14:55:42 -0800 (PST)
-Received-SPF: pass (google.com: domain of srs0=y2i0=fl=paulmck-thinkpad-p72.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
-Date: Mon, 7 Dec 2020 14:55:42 -0800
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: Marco Elver <elver@google.com>, Peter Zijlstra <peterz@infradead.org>,
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Dec 2020 00:01:14 -0800 (PST)
+Received-SPF: pass (google.com: best guess record for domain of peterz@infradead.org designates 2001:8b0:10b:1231::1 as permitted sender) client-ip=2001:8b0:10b:1231::1;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+	by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+	id 1kmXvs-0003VN-MS; Tue, 08 Dec 2020 08:01:12 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(Client did not present a certificate)
+	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id C2A493011F0;
+	Tue,  8 Dec 2020 09:01:08 +0100 (CET)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 6B7AB20812BB0; Tue,  8 Dec 2020 09:01:08 +0100 (CET)
+Date: Tue, 8 Dec 2020 09:01:08 +0100
+From: Peter Zijlstra <peterz@infradead.org>
+To: Marco Elver <elver@google.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>,
 	LKML <linux-kernel@vger.kernel.org>,
 	kasan-dev <kasan-dev@googlegroups.com>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
 	Ingo Molnar <mingo@kernel.org>,
 	Frederic Weisbecker <frederic@kernel.org>,
 	Will Deacon <will@kernel.org>,
@@ -111,28 +119,21 @@ Cc: Marco Elver <elver@google.com>, Peter Zijlstra <peterz@infradead.org>,
 	syzbot+56078ac0b9071335a745@syzkaller.appspotmail.com,
 	syzbot+867130cb240c41f15164@syzkaller.appspotmail.com
 Subject: Re: [patch 3/3] tick: Annotate tick_do_timer_cpu data races
-Message-ID: <20201207225542.GM2657@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
+Message-ID: <20201208080108.GP2414@hirez.programming.kicks-ass.net>
 References: <20201206211253.919834182@linutronix.de>
  <20201206212002.876987748@linutronix.de>
  <20201207120943.GS3021@hirez.programming.kicks-ass.net>
  <87y2i94igo.fsf@nanos.tec.linutronix.de>
  <CANpmjNNQiTbnkkj+ZHS5xxQuQfnWN_JGwSnN-_xqfa=raVrXHQ@mail.gmail.com>
- <20201207194406.GK2657@paulmck-ThinkPad-P72>
- <87blf547d2.fsf@nanos.tec.linutronix.de>
- <20201207223853.GL2657@paulmck-ThinkPad-P72>
- <878sa944kn.fsf@nanos.tec.linutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <878sa944kn.fsf@nanos.tec.linutronix.de>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Original-Sender: paulmck@kernel.org
+In-Reply-To: <CANpmjNNQiTbnkkj+ZHS5xxQuQfnWN_JGwSnN-_xqfa=raVrXHQ@mail.gmail.com>
+X-Original-Sender: peterz@infradead.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=HzKGZEMu;       spf=pass
- (google.com: domain of srs0=y2i0=fl=paulmck-thinkpad-p72.home=paulmck@kernel.org
- designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=Y2I0=FL=paulmck-ThinkPad-P72.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+ header.i=@infradead.org header.s=merlin.20170209 header.b=m+tg9FhO;
+       spf=pass (google.com: best guess record for domain of
+ peterz@infradead.org designates 2001:8b0:10b:1231::1 as permitted sender) smtp.mailfrom=peterz@infradead.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -145,40 +146,41 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, Dec 07, 2020 at 11:46:48PM +0100, Thomas Gleixner wrote:
-> On Mon, Dec 07 2020 at 14:38, Paul E. McKenney wrote:
-> 
-> > On Mon, Dec 07, 2020 at 10:46:33PM +0100, Thomas Gleixner wrote:
-> >> On Mon, Dec 07 2020 at 11:44, Paul E. McKenney wrote:
-> >> > On Mon, Dec 07, 2020 at 07:19:51PM +0100, Marco Elver wrote:
-> >> >> On Mon, 7 Dec 2020 at 18:46, Thomas Gleixner <tglx@linutronix.de> wrote:
-> >> >> I currently don't know what the rule for Peter's preferred variant
-> >> >> would be, without running the risk of some accidentally data_race()'d
-> >> >> accesses.
-> >> >> 
-> >> >> Thoughts?
-> >> >
-> >> > I am also concerned about inadvertently covering code with data_race().
-> >> >
-> >> > Also, in this particular case, why data_race() rather than READ_ONCE()?
-> >> > Do we really expect the compiler to be able to optimize this case
-> >> > significantly without READ_ONCE()?
-> >> 
-> >> That was your suggestion a week or so ago :)
+On Mon, Dec 07, 2020 at 07:19:51PM +0100, Marco Elver wrote:
+> On Mon, 7 Dec 2020 at 18:46, Thomas Gleixner <tglx@linutronix.de> wrote:
+> > On Mon, Dec 07 2020 at 13:09, Peter Zijlstra wrote:
+> > > On Sun, Dec 06, 2020 at 10:12:56PM +0100, Thomas Gleixner wrote:
+> > >> +            if (data_race(tick_do_timer_cpu) == TICK_DO_TIMER_BOOT) {
+> > >
+> > > I prefer the form:
+> > >
+> > >       if (data_race(tick_do_timer_cpu == TICK_DO_TIMER_BOOT)) {
+> > >
+> > > But there doesn't yet seem to be sufficient data_race() usage in the
+> > > kernel to see which of the forms is preferred. Do we want to bike-shed
+> > > this now and document the outcome somewhere?
 > >
-> > You expected my suggestion to change?  ;-)
+> > Yes please before we get a gazillion of patches changing half of them
+> > half a year from now.
 > 
-> Your suggestion was data_race() IIRC but I might have lost track in that
-> conversation.
+> That rule should be as simple as possible. The simplest would be:
+> "Only enclose the smallest required expression in data_race(); keep
+> the number of required data_race() expressions to a minimum." (=> want
+> least amount of code inside data_race() with the least number of
+> data_race()s).
+> 
+> In the case here, that'd be the "if (data_race(tick_do_timer_cpu) ==
+> ..." variant.
 
-OK, I am inconsistent after all.  I would have suggested READ_ONCE() given
-no difference between them, so it is probably best to assume that there is
-(or at least was) a good reason for data_race() instead of READ_ONCE().
-Couldn't tell you what it might be, though.  :-/
+So I was worried that data_race(var) == const, would not allow the
+compiler to emit
 
-							Thanx, Paul
+	cmpq $CONST, ();
+
+but would instead force a separate load. But I checked and it does
+generate the right code.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20201207225542.GM2657%40paulmck-ThinkPad-P72.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20201208080108.GP2414%40hirez.programming.kicks-ass.net.
