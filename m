@@ -1,138 +1,126 @@
-Return-Path: <kasan-dev+bncBDRZHGH43YJRBV6FZD7AKGQELZKEI5I@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBCEYZH7AKGQEQMTBCTA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-vk1-xa37.google.com (mail-vk1-xa37.google.com [IPv6:2607:f8b0:4864:20::a37])
-	by mail.lfdr.de (Postfix) with ESMTPS id 788202D5BBF
-	for <lists+kasan-dev@lfdr.de>; Thu, 10 Dec 2020 14:30:00 +0100 (CET)
-Received: by mail-vk1-xa37.google.com with SMTP id f194sf2369267vka.3
-        for <lists+kasan-dev@lfdr.de>; Thu, 10 Dec 2020 05:30:00 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1607606999; cv=pass;
+Received: from mail-vk1-xa39.google.com (mail-vk1-xa39.google.com [IPv6:2607:f8b0:4864:20::a39])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EC4B2D61B7
+	for <lists+kasan-dev@lfdr.de>; Thu, 10 Dec 2020 17:25:48 +0100 (CET)
+Received: by mail-vk1-xa39.google.com with SMTP id b4sf2574704vkg.10
+        for <lists+kasan-dev@lfdr.de>; Thu, 10 Dec 2020 08:25:48 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1607617547; cv=pass;
         d=google.com; s=arc-20160816;
-        b=Rq50z4/zROyafLB9CZtom7ETLEaB4NEm1xHr6roHpAjFUs+u9CF0ROtyHfUYNQgE7k
-         3CmzE5E6OkZdc3kLtz99z3oz2MUBlMrYztPJeL2dm0gq1bzP0VifC/sMcnRjE82ssh+Y
-         wprqw4ogXATaLQdkRG9Cg0mxEBxBSnFFiIuU/4H8lGhMp1bIIPRiA6VO9jIZrTRzhEiq
-         AQC7tA2GL6bplN1uVcy84hUfZgyj9zvw/n0SgYGZv+ID7tYsyf0WjyAxH/ggY+SMNxOa
-         Ky1EP7r/re1jS+dXKf+hu1anGrFYwys+wFzEGcV5i0lm3aJKTaBl8SK2lnE10uzxttFM
-         /8yw==
+        b=f1lcGmcpOym5y97413nf9wXu8d4QJIgwIGapCOnC3uABgrNq2DLw3tSNcS+BW28XWt
+         XEVq8v4O5JwOgtqBCvtYRDA2ZlPialED3KD9cojXw5YPa02Y+S8MihUP/43lg42YMc3C
+         mzKhfuH4wMNUBn6K24LDtn56rVNPuNGlWePwysIlpf96ryPGJmknbpjnz2jyOXlVKGTH
+         DJcwx/Z2z20Kz1l2etjn7vU6Fq0qeCKUg/mXTyy3Bf12zQQJ1H314TYeYxCoPgT7/tia
+         ZCRDW90fJDwD+4zLuIyFFsmwKqPFFnDPtNFkeAU5wkQnoZse1xZX78y9dOtUaeSrKX3M
+         lI4Q==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:sender:dkim-signature
-         :dkim-signature;
-        bh=O33sxiqLNYPWuYrfmrpI6xUI3huHvraVxB5DYvu6N2k=;
-        b=Ju/0WpMzk8i2g35kaIHnLLtH1flbVRIsW2r+51LZFBMsbl5kkSxwI7kTMKrKE8BQwX
-         4dViVVQhSqfcCJfGFZMGVabXqzkJLOP5Pa/olF2Pb/vJhLv44khK6dBvO/dZVDplolB1
-         leqt5EQxAvEEccYUIC0ChgYebxcThA68fpUv+Csf1L/XT5tbwlRwAhisZU4kERKXGSr/
-         DtrJIA0Fat/kOtPdNQLsfSaTLryoYVmpRupf/w8jOk8DCDMetp/BDGWpp7KsWha1voPS
-         lvwSjnF68HvJPn/k2G/1JmJocswi/q/8cEglA+1Ns7BlQPLEwjQvU7+IkNzV9AsFdnT5
-         z+GQ==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=FaAnC+lzPDrk/wSh5Rq0eyNafhXcPwHJ+M4jzjgTIO4=;
+        b=f5Dm+2j1UpSTYPVP5heqQT2xDYL90S/B9ZuGLZvj4njO6N2mR62B7Tj/UtfCXoE//0
+         06ewuFB+3z7GbX2tA5EOaymE/e6UmzJiIwPbo6Ohs4h8t4p00nyVdLRJEN9STru3mSaz
+         7hD9UBYybOM7nzHfgo8IrzvAQXwXgcELVnQfbL59JtMyR+NVhXXOY835/yLEPNySVVVQ
+         dChT56duCwCw5JobEtjm+E12tJ3x5yGjF2bJPsnu3vM3IqC/DAEgyX77iSZdf+eRW0zo
+         P6JUQ4KK6CKRxeQlSr4yEbvNrV0KkWO8VpbwzWt4EkJF/lVF47SvHJJ79o/Pngen/mRh
+         6A7A==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20161025 header.b=pbROG8ec;
-       spf=pass (google.com: domain of miguel.ojeda.sandonis@gmail.com designates 2607:f8b0:4864:20::b41 as permitted sender) smtp.mailfrom=miguel.ojeda.sandonis@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+       dkim=pass header.i=@google.com header.s=20161025 header.b=dqrF4PCX;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::343 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:mime-version:references:in-reply-to:from:date:message-id
-         :subject:to:cc:x-original-sender:x-original-authentication-results
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=O33sxiqLNYPWuYrfmrpI6xUI3huHvraVxB5DYvu6N2k=;
-        b=iKYp62WMliuPSe1QagGbtw4TeiOgDV0AJgmJVKjW7Pvkt/488b2gq7rObUlVEiVFEi
-         IxmqEG21cGAat4MUIVyX/baoDiv/6olswvxr9mA/tCmThLX2o4jBJVi0gILhkhfdFlsk
-         FK3NzVfydFC7WYpkIWvHSqClS97ngEMeamPvdS7kfJCWesTKbA6XV/uLSfT9vwWzNk94
-         jgkrzUfYwRQMKZsBspYLvTDOic7p/Q5+aQmg1O+mM+b9gjpL7bo4dI40oAbW0eLiVU/9
-         p1axFRuNs7nKFJTEgJCkT/tg0k6xe3jFcQUgzyflTG22epKJ9CRtwBf/deSTLgVn3aTL
-         chLw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=O33sxiqLNYPWuYrfmrpI6xUI3huHvraVxB5DYvu6N2k=;
-        b=GleBhqdabt6WzWIrHSixpIyhD+fKZ8B9nZ1ASIsfk69Hqd3CzK0IWndo79erDZ9lfv
-         4jkPWVpY+FOBDqA+r0SWz91BpI1GTFKZebJwLI3sGW2kT6TyyYGSmyFck9jRHPC/I7jL
-         nhUJh/4ZRHL+X4QxaQ1kZQEf4u0bcvwSZ8xDS1J43tSom7BO8EbILoaF5W0DnjB78DfU
-         xr/KFSG4kXTFj7BKKwIXxpaCL2UyZw94+kb/zg4LaxzbfsIzDfsXR5REoRT+D13EDoDA
-         hHPePhxNFCgA7aHt+LAo45f3L8J2K4fPzoHsnrQfsrOFQGewkOaKkOQq+QohfG6IiuSw
-         Z98A==
+        bh=FaAnC+lzPDrk/wSh5Rq0eyNafhXcPwHJ+M4jzjgTIO4=;
+        b=aIbs9nKjZs4o7gF7F6NmdqsAxFrnSDhj0rduBH4hGKbIa1lW3cGCK3Q6axftlIHxLZ
+         ODridt18Pokn6WfL5GPMtiY3vNtAo22CKeJaAaTWy82qnqO8ymHVTGSzjHT8vVt/E+ZL
+         Tt0zqwY+B1X5HjxHfo4/9M5X9svuvjNYQ7WrqCQjh8Pa8vLTkh6NNcyeX6rwL1vdqCmR
+         XJHOKvoCVhJi/7elOxyl4/CWmTnmV0WVCDnGQs/SKyCLO/2qk2HMvORF4FruK+cQ8yGl
+         mW5Rxp/M8iI3aiwycCtdYMo5+YGEAJpvO7D0LYCkqDt/Jg4D5m0vuSIAh2HXIb2kxGpX
+         fEsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
-         :date:message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=O33sxiqLNYPWuYrfmrpI6xUI3huHvraVxB5DYvu6N2k=;
-        b=CkUWy5FOKqfvDjF0fXNNwtA8aNmTMhqiWYtAKAG9KA1+X3Fl6SpVWvR8WoRgn7/2jC
-         W07mDqYIBokkAlcK9NBzRuyyEap/SeB/kD5Rr4RyRPvB/lCM59pXGVLKYin8pR6iJJg3
-         zYmnChjlpMr/TKdPZdVn+ZYyaTMv+0AhfaB24rqlIMXJyY0h4yO9VdY5rhkJstADHUUn
-         bRUsowLDoFS/nmFXSsk8rd6omMFaD0lEbKDUHyGYi+yB29T698Yg3Lwkmg13MWne/IEK
-         AH7LXHd6vjw8ZPxLyI9Oo5sMEgTEAeXp3gVxBm14Q88AiR7krwhOljplbjubOcXYl5K8
-         Z2RQ==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM532rASmaBsW0YwkYBtB9aPuaJ9F+Onlw+KaD1MB4f45fq1eiF09U
-	TbVouIMifUFVECdo9FZWOO0=
-X-Google-Smtp-Source: ABdhPJwuf5YiUANrHfxAkZXj3fLj3onFmsbPpKTe2OIXC9N+SR/xsuvWoVeSAZPbNOHnqOiyHdPdcQ==
-X-Received: by 2002:ab0:6b:: with SMTP id 98mr7738507uai.86.1607606999360;
-        Thu, 10 Dec 2020 05:29:59 -0800 (PST)
+        bh=FaAnC+lzPDrk/wSh5Rq0eyNafhXcPwHJ+M4jzjgTIO4=;
+        b=QXRCh9MLMZkpnRomrSInIBK0/1Nb49PyFSFOM6XchJqwX7ZtvBisdXYgRD9WhcreCk
+         OjM3FZfHquv2Mpd8rhB4BH3UoSL7TLrVwjvQUO6FGd2rk1QfZVvUhcgMvOwLxfYYjRxb
+         dwW2UeGOXjrhkW4HoWIoHx6EhQXJfA1MbvkKUuZ3P1h8HAyUnrJCMhjg/c1CQOo0Gc8R
+         SqfbvVi3x1d+R3XUtnr/yp0k1JFcSKUqPt2B5wuSQZWlJOqX9HVQG4djD4sp5TaUDsL1
+         zrjK3Dbdo2boKzcXNH37bepPgxpkBwW/SZ5xVSnhsgNZQM5h7KGVs5PEeTOdMCfYSU5/
+         Nbiw==
+X-Gm-Message-State: AOAM530FrmVdfsgGTnokq8mqWpyBK2TKR2O/WrrRL72F7di7PN6rovWC
+	zAJSXNHhTQbMFoh0IhLDp/I=
+X-Google-Smtp-Source: ABdhPJxCiEUUzzmtA33mnW/5ZgVS1d7Ig61r458Yzh4i/MX6/8oY5zXgQU+CjwkHgGEBmEDJlsfQng==
+X-Received: by 2002:a67:f3ce:: with SMTP id j14mr9646144vsn.26.1607617545136;
+        Thu, 10 Dec 2020 08:25:45 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a1f:5c83:: with SMTP id q125ls289473vkb.9.gmail; Thu, 10 Dec
- 2020 05:29:58 -0800 (PST)
-X-Received: by 2002:a1f:78cf:: with SMTP id t198mr8483910vkc.15.1607606998769;
-        Thu, 10 Dec 2020 05:29:58 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1607606998; cv=none;
+Received: by 2002:a67:320c:: with SMTP id y12ls711994vsy.4.gmail; Thu, 10 Dec
+ 2020 08:25:44 -0800 (PST)
+X-Received: by 2002:a67:30c1:: with SMTP id w184mr9452474vsw.13.1607617544513;
+        Thu, 10 Dec 2020 08:25:44 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1607617544; cv=none;
         d=google.com; s=arc-20160816;
-        b=QJb5g64stmj32dTuw8M0xqv1ssC5x9AzZJdJP/s5exBpiJ6ZkF+kE15bFunQHEZsJX
-         n66xhKT7w5/nDICCQHB23P/YSDP8leJBxxVRkuVIlRePMJH4NJHcFEjdgRYuvo9MEKFh
-         ZcS76XJNu9JDXCtR/zN7Z6GUuHrIuLlmJKmS+HLsCEUR6VjMTuMkj1EeR0VA4XTOfseS
-         mMpw+1cIPtM9VXA5RlkKC919NGUaXplxlAyw+18AQyEZH81vlBhPbeO/IBixMfcDS48F
-         K3A/nKU4nTD2732mmf5rqMZ9HBLt56k8WDzYWPyBtbZWchtdReC+CDji8ItvAvMe0vrZ
-         +ogQ==
+        b=ne8PFeUFkcEo7zFrBSkJCJ67x1nANoGKq1VL8bzsHsoVDWgRkMkbzkNYtbG+w9NFgW
+         a7HnnYC/ALDeXFiAr3jVzp4YfgCETo59c1qZZvOyzQQxrJPLNZ8X9l8QtLZ1fgrEHavY
+         gOo0Y1tK7EDKZKtvbrsuUMfU6SgcCA6as+rzEjUhm0QFqxMajlUiy55rc6NTwnt1yZKm
+         b5m/LqR2tDJeIWHcmVrnoaD1S97NijCs34QvyGTUeYjLrargh3doZwd+Gfblt4Cz+M3S
+         HXdFRcyD8CHrFLn/sKi3dADAKokfCX6Szgwm7XVxjnsr4UvWhXHu2bFJXy0Incsahp8a
+         STDw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=jhMaY0KKzxuLDDtui36uofcO1lLljOXKYW78L9cWppI=;
-        b=F6qfSmMZq/wPypOgAC67EPyycyKaU7EIIF++SbFyCp5+a5lW2b9xNl11U4tn2OMWSR
-         5XVUiH7km9VZ22RLAEHtq/YdygXXwR8xD+gQ7ONByUa4MJB9OlbHc4w6Oq55+inGi6bD
-         wrn1Hx8U1lQa4DGu4CGrn/Xa9sCUECZCwmMfS/sDrGLY3QTmbG7rb29mMHDIW+lEQ2gf
-         7kv/w1V3IdXA4Vp/vzQoULgOOq7NvoETepJ3ytw2q75IsTvQ7pN9hz3ABEDIcYUHKU7e
-         YuDrFS3i/usR2nbWZTmPDIYsvPdjBeMGPL3qLjdFjF3Fn62y5Lv5Yrq2+2ITqwJHIpnJ
-         VNSg==
+        bh=qIX8H1T5vlOhy5P+c3dep3UC5lsSHIUYZ7wdp/u5aJM=;
+        b=ac5s657s8+GLGYE5qkpI6BJ2Ee2iJsxaGSTXjIRPVMb8hZS6XRMOcWH6sF6OXJpndH
+         X6KL0yIYX72TtApCwQuwHmTpTp5dP1/xSakfw7bvxtyFdHnS9d1wbLrLkFUskW5lwPx/
+         obipS9QcQzLdpBt8XBreIFgqBAoNFTaMV78gnk30H7hCM0yDqgLW0d61WjNbOBL7drCu
+         BPKQ6FrraPPyGaYFepL4oQ4nxGJakb93zm1+DGXNXtse2q4C1cMYJtl9KdCLyN2d7TdD
+         8rcFDspNudc72dkRFWl4XaSdsi9YM1uaIZDtzOE4owLpCbXEcot6+vT84o36iYQDS5ok
+         e9rw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20161025 header.b=pbROG8ec;
-       spf=pass (google.com: domain of miguel.ojeda.sandonis@gmail.com designates 2607:f8b0:4864:20::b41 as permitted sender) smtp.mailfrom=miguel.ojeda.sandonis@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-yb1-xb41.google.com (mail-yb1-xb41.google.com. [2607:f8b0:4864:20::b41])
-        by gmr-mx.google.com with ESMTPS id a16si397584uas.1.2020.12.10.05.29.58
+       dkim=pass header.i=@google.com header.s=20161025 header.b=dqrF4PCX;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::343 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com. [2607:f8b0:4864:20::343])
+        by gmr-mx.google.com with ESMTPS id r18si402035vsk.1.2020.12.10.08.25.44
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 10 Dec 2020 05:29:58 -0800 (PST)
-Received-SPF: pass (google.com: domain of miguel.ojeda.sandonis@gmail.com designates 2607:f8b0:4864:20::b41 as permitted sender) client-ip=2607:f8b0:4864:20::b41;
-Received: by mail-yb1-xb41.google.com with SMTP id x2so4674777ybt.11
-        for <kasan-dev@googlegroups.com>; Thu, 10 Dec 2020 05:29:58 -0800 (PST)
-X-Received: by 2002:a25:2506:: with SMTP id l6mr7829176ybl.115.1607606998553;
- Thu, 10 Dec 2020 05:29:58 -0800 (PST)
+        Thu, 10 Dec 2020 08:25:44 -0800 (PST)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::343 as permitted sender) client-ip=2607:f8b0:4864:20::343;
+Received: by mail-ot1-x343.google.com with SMTP id o11so5404660ote.4
+        for <kasan-dev@googlegroups.com>; Thu, 10 Dec 2020 08:25:44 -0800 (PST)
+X-Received: by 2002:a9d:7cc8:: with SMTP id r8mr6466658otn.233.1607617542402;
+ Thu, 10 Dec 2020 08:25:42 -0800 (PST)
 MIME-Version: 1.0
 References: <20201201152017.3576951-1-elver@google.com> <CAKwvOdkcv=FES2CXfoY+AFcvg_rbPd2Nk8sEwXNBJqXL4wQGBg@mail.gmail.com>
- <CANpmjNOUHdANKQ6EZEzgbVg0+jqWgBEAuoLQxpzQJkstv6fxBg@mail.gmail.com> <CANpmjNOdJZUm1apuEHZz_KYJTEoRU6FVxMwZUrMar021hTd5Cg@mail.gmail.com>
-In-Reply-To: <CANpmjNOdJZUm1apuEHZz_KYJTEoRU6FVxMwZUrMar021hTd5Cg@mail.gmail.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Thu, 10 Dec 2020 14:29:47 +0100
-Message-ID: <CANiq72kwZtBn-YtWhZmewVNXNbjEXwqeWSpU1iLx45TNoLLOUg@mail.gmail.com>
+ <CANpmjNOUHdANKQ6EZEzgbVg0+jqWgBEAuoLQxpzQJkstv6fxBg@mail.gmail.com>
+ <CANpmjNOdJZUm1apuEHZz_KYJTEoRU6FVxMwZUrMar021hTd5Cg@mail.gmail.com> <CANiq72kwZtBn-YtWhZmewVNXNbjEXwqeWSpU1iLx45TNoLLOUg@mail.gmail.com>
+In-Reply-To: <CANiq72kwZtBn-YtWhZmewVNXNbjEXwqeWSpU1iLx45TNoLLOUg@mail.gmail.com>
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Thu, 10 Dec 2020 17:25:30 +0100
+Message-ID: <CANpmjNN3akp+Npf6tqJR44kn=85WpkRh89Z4BQtBh0nGJEiGEQ@mail.gmail.com>
 Subject: Re: [PATCH] genksyms: Ignore module scoped _Static_assert()
-To: Marco Elver <elver@google.com>
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
 Cc: Nick Desaulniers <ndesaulniers@google.com>, LKML <linux-kernel@vger.kernel.org>, 
 	kasan-dev <kasan-dev@googlegroups.com>, Masahiro Yamada <masahiroy@kernel.org>, 
 	Joe Perches <joe@perches.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	richard.henderson@linaro.org, Andrew Morton <akpm@linux-foundation.org>
+	Richard Henderson <richard.henderson@linaro.org>, Andrew Morton <akpm@linux-foundation.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: miguel.ojeda.sandonis@gmail.com
+X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20161025 header.b=pbROG8ec;       spf=pass
- (google.com: domain of miguel.ojeda.sandonis@gmail.com designates
- 2607:f8b0:4864:20::b41 as permitted sender) smtp.mailfrom=miguel.ojeda.sandonis@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+ header.i=@google.com header.s=20161025 header.b=dqrF4PCX;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::343 as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -145,21 +133,32 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Dec 10, 2020 at 11:35 AM Marco Elver <elver@google.com> wrote:
+On Thu, 10 Dec 2020 at 14:29, Miguel Ojeda
+<miguel.ojeda.sandonis@gmail.com> wrote:
+> On Thu, Dec 10, 2020 at 11:35 AM Marco Elver <elver@google.com> wrote:
+> >
+> > It looks like there's no clear MAINTAINER for this. :-/
+> > It'd still be good to fix this for 5.11.
 >
-> It looks like there's no clear MAINTAINER for this. :-/
-> It'd still be good to fix this for 5.11.
+> Richard seems to be the author, not sure if he picks patches (CC'd).
+>
+> I guess Masahiro or akpm (Cc'd) would be two options; otherwise, I
+> could pick it up through compiler attributes (stretching the
+> definition...).
 
-Richard seems to be the author, not sure if he picks patches (CC'd).
+Thanks for the info. I did find that there's an alternative patch to
+fix _Static_assert() with genksyms that was sent 3 days after mine
+(it's simpler, but might miss cases). I've responded there (
+https://lkml.kernel.org/r/X9JI5KpWoo23wkRg@elver.google.com ).
 
-I guess Masahiro or akpm (Cc'd) would be two options; otherwise, I
-could pick it up through compiler attributes (stretching the
-definition...).
+Now we have some choice. I'd argue for this patch, because it's not
+doing preprocessor workarounds, but in the end I won't make that call.
+:-)
 
-Cheers,
-Miguel
+Thanks,
+-- Marco
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANiq72kwZtBn-YtWhZmewVNXNbjEXwqeWSpU1iLx45TNoLLOUg%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNN3akp%2BNpf6tqJR44kn%3D85WpkRh89Z4BQtBh0nGJEiGEQ%40mail.gmail.com.
