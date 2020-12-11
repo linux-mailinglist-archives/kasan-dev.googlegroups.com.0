@@ -1,49 +1,48 @@
-Return-Path: <kasan-dev+bncBDGIV3UHVAGBB7EUZ37AKGQEX7GBZXA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCBMVA7CUUHRBU7BZ77AKGQEB7PBMTI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wr1-x43b.google.com (mail-wr1-x43b.google.com [IPv6:2a00:1450:4864:20::43b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BB6B2D7891
-	for <lists+kasan-dev@lfdr.de>; Fri, 11 Dec 2020 16:04:29 +0100 (CET)
-Received: by mail-wr1-x43b.google.com with SMTP id v5sf3432842wrr.0
-        for <lists+kasan-dev@lfdr.de>; Fri, 11 Dec 2020 07:04:29 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1607699068; cv=pass;
+Received: from mail-pg1-x538.google.com (mail-pg1-x538.google.com [IPv6:2607:f8b0:4864:20::538])
+	by mail.lfdr.de (Postfix) with ESMTPS id 24CB42D81DE
+	for <lists+kasan-dev@lfdr.de>; Fri, 11 Dec 2020 23:21:09 +0100 (CET)
+Received: by mail-pg1-x538.google.com with SMTP id r1sf5418476pgm.13
+        for <lists+kasan-dev@lfdr.de>; Fri, 11 Dec 2020 14:21:09 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1607725267; cv=pass;
         d=google.com; s=arc-20160816;
-        b=LFJALuXSh5Xmv9KihdgIMVCYRmTHNNXe6IrSN6h1g0ryypwyQaOjCLnLlC5f17M5wz
-         U1eI96l1oOAuwAxOrHetG+pp11rsoZW+h4rYkk45P2aIzrZ37j6f7afQi5KihIM/o6So
-         7x2H8tZti7MGTQFSF6+WULjUkAuijHvkQQb68E19+RurQ+4Vzl1SDLX/mriNtawjjE+P
-         f544cp3r0fQRNR8RbYQQqlR5jOF0Jrzj1Lfn+rXio4P+HHQ0ENe/ZsG1qyvAyhiHufll
-         V/KDrxUtRfKbcrjH88cYfc/a/368tz6gk87RA75mFQ6YDo1KFaCqKPUF7xWOvegGQcFm
-         4JDA==
+        b=RVr1cLRmV5X17KwcNbvlH5Bfe5WXh1L0++OULdZmIHrSL7kMD3ZgRkxILmlklQWN/l
+         JdsRR/O54hJTYrDhS091EC/8xxcUBT0WT/tDmZyu6QZL4Bl+2JLTT5x0ITprSQyurgpQ
+         zgqgnJDhcJMig4DNfqXBBLTL9h9lvJmUlYM1VOT4IfFlAVfdY3IgyK+MuZp3Fvb2iFmX
+         +12eIFsrCbjf5qxQi8XJVGJP8QzzW4W/7SjhQk0tZ8Dq2/lRfMJqXKC8rC079euyzy8Q
+         4t+cWfqoaLXpk0ggua1XT/T186Aw7L47LezaqwAIRv6rqwiAQQykBKcB74QZ8gFCUv5a
+         K+Iw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:in-reply-to:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:sender
          :dkim-signature;
-        bh=cQa7+BTfK5O7urgFj4BxV8UqJfT2lEMjjHxGaWOJkdg=;
-        b=ULLDqZjlkmiKzJmA4f74p1eMY+VLx6JcipGW8dc93CSLGCXcr/gwNFVsmQfuAC6cxV
-         pQrLvRe7A5ME4lUFOVQzs8vlqN4v04Qn/4LDfOJGxYn6+Xva/7ITfn2FiAZCM33h/JIX
-         HAQbxkVQlON0PYr/IuPeeo1fbK/iIsRHkFvE/qb0FLmUjHA05oxsZvYgmG05qCHYGh5O
-         /W0sCaVUjJtWZ1JkErgO4q5v/VHX+xyYCSWCDN8GUTdl9mvGYVCrP7krKu6Il1UcOqy5
-         424K754UCHx/W3cVBqOYMFfwZVHiUUtO9jymj4FtqgvmQxZK5iFURRY7cb2rC1wEd7u2
-         o1QQ==
+        bh=9PrYHlRxVAp0PKntp/g5IXtOiRWuDez5zv9/khanWJY=;
+        b=0iabR4r1GrgoYF8Sw3eo7dyT1mRZXQcutrN2Y+L1G+KvKy2M9fr9Wq7fFXNLZJ1Z7v
+         WlBBOUtFzUn6uc3SubSmKrE41bDigH340dDcMdO343kj6eP81ni3oACZFdlSA86XJSTI
+         zGdboKOliYwuujqClVi+gYl70pnXgChomGN7Rep3UddrD7NQaU+W+BbzWERDfwAZ9MuP
+         yFgUCXkOaA6uP+tnrS0GpnSFOVbm/JtIWZM2U2OPmslyqvs9L70ffu4yv0zaM/ONiC9b
+         o3uq8Y3Fx3kSJEekFQfMNWh0kJ4/FvOB1xFA13OHes3vomIOwRGsRPcPLI6PMB24/C+2
+         hxQw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linutronix.de header.s=2020 header.b=atFAzQuJ;
-       dkim=neutral (no key) header.i=@linutronix.de;
-       spf=pass (google.com: domain of bigeasy@linutronix.de designates 193.142.43.55 as permitted sender) smtp.mailfrom=bigeasy@linutronix.de;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=linutronix.de
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=PRfgAHmb;
+       spf=pass (google.com: domain of frederic@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=frederic@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
         h=sender:date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=cQa7+BTfK5O7urgFj4BxV8UqJfT2lEMjjHxGaWOJkdg=;
-        b=K1FZjkyEXCHW1qrCTVJw1J3frA0nljnhXMidBR/crU+ui+K4OghJ0uarGKu+jzn9IG
-         wnV60BJ4E300jbrjuLLtuUuKik+OS/pIUfMJuBb/bFybMYkJI/Nby48WdlKTc+iMu1GI
-         Xx/WQjeNC4BRAq+Tyqc4Y0iwbsGBlSLkn+BA+gTMXp6KQ2t6Qin3L6CejmsnmxBmZHiz
-         1FMiQCzwS5bHoM0FfhLNtZijGaBfcIzz5y7fzo2bXj/RHXIbmuV1qti6MESEqXEKjD5Y
-         2qju75ahjMaicUZir45wZ8So4FOlXVDANqqefjRe0w+PkLrkkEKT/oTciDziq4wNdFi4
-         Kf0A==
+        bh=9PrYHlRxVAp0PKntp/g5IXtOiRWuDez5zv9/khanWJY=;
+        b=AjZVZRMhZl36WTvGJSJbLjeafyK/RB/RSZifLDNdkC/CD3ygvr+HH7puQ18lvl+IEw
+         ISxZXLae5ZZstNfGGevpGqZz47xPp9bGtokMk2jtFQ3zQtlrzQtj1zhAoiqSnwH5sD+s
+         PP42EpoH3KKve1ArJFvfh1D8D5Gd1jhKASojMhsEa/8U96J1X/T3HNDNB+/m5Fd78wl2
+         OPZH1lL/lGkbNwGXmvJxiPXCXCIOFDE6fr2Zegaa9U3INxTr5s6En8aJZzY1T/9CrHOZ
+         XVLt8gVi8R7g1XxLWz61Yr+UpkPEn+WGlNk3U3BotbC00fZtDm7hXf0P85AtKQHgeAME
+         Ql9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
@@ -51,81 +50,76 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=cQa7+BTfK5O7urgFj4BxV8UqJfT2lEMjjHxGaWOJkdg=;
-        b=i3OCELdqttsPFaNo0/BNvPKwj/M4GGfqWerAufPWypzFfi+YvdMNQ6474tvFDbC9i4
-         01TQM39Mwhr61DGmvApyWf+QiLrWvXu0M256ZbNRxOuoMrABXoiYmvMULiBI7YBA8xnY
-         Hnip7ZXtvyNMVVxOpeE94AZLAOiXlHztWU6XOogC+UEXc44JpivckwVMGwAbnojippHZ
-         ZDEWDmt2jgUVhDdbnCQFp+NFrjw7NiiaF8DoYDM+7kbSKp2txF3c5phU5Jlg9QXn7AYr
-         PGkeK1ZoJmN/Xc7nx6UJ9ZH8NoacIpzu9PWKGFWhrYPUAxpX6ZV326EkWtgPXv1/X6x3
-         VX7A==
+        bh=9PrYHlRxVAp0PKntp/g5IXtOiRWuDez5zv9/khanWJY=;
+        b=qlv2jEitiKBQZpUn9wlZmQHFFHJxF+wlNLqTWDJ7T6xal4oxJeY0rh47v7msMV3Q8A
+         2mSdqhD2aZG8U0RdX19zrvTQNbQ/I1K0B0O7KuzGTQ7K6+6VYSwmh1MP+Sf1+y69kqm2
+         DDd5/0mTFNa7GAoq8FRe5dPIBNLNvHUJHjMH7JR4JZRSQwSO92qtbRONe8/aaP8ypDyy
+         dbOEWcgfeh//GuZ/0GD55PEctVSjv/lAnyuYgrH/ExdKELq8AOyYfTCnQ1n58r50We6T
+         H8hFApgkwgUw7Iz9FfdAq6Co1Zt1pnE4Qp2pFkN4xdXTqm3//vv+Kjj8EiHBsOZqyDYS
+         OLHA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM530p47eEZRwtvRpK4qixhdzJWx3L0HEbs6Yu6skKTExmbUXjbggI
-	wdbt4JcDeb+eAkbmzZPHjCY=
-X-Google-Smtp-Source: ABdhPJxdw2d36HmHgesLWSOpF3CNUFW5Op90wPLEkJ3QmmeIRrXRp2tEnocHJAGQpAR7xIuFagWndw==
-X-Received: by 2002:a7b:cf30:: with SMTP id m16mr13862677wmg.145.1607699068789;
-        Fri, 11 Dec 2020 07:04:28 -0800 (PST)
+X-Gm-Message-State: AOAM531CjsgIPPbcQ4NLxZ84OliCEC0YdQf6m+Gv2f1KVIhfxdP6+0Oa
+	3i633ZVXE1wk+vVC1PVwtxc=
+X-Google-Smtp-Source: ABdhPJz3uIBG52/pJ7HCnn4D6h68RNgdOhYnMJq+kBh/ZUfvbMyYK7+iLMlt4tN+aeagPVMJHgTCSA==
+X-Received: by 2002:a17:90b:24c:: with SMTP id fz12mr3094990pjb.138.1607725267430;
+        Fri, 11 Dec 2020 14:21:07 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a7b:cbd5:: with SMTP id n21ls4934876wmi.3.gmail; Fri, 11 Dec
- 2020 07:04:27 -0800 (PST)
-X-Received: by 2002:a1c:2bc2:: with SMTP id r185mr13708293wmr.13.1607699067902;
-        Fri, 11 Dec 2020 07:04:27 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1607699067; cv=none;
+Received: by 2002:a17:902:ec06:: with SMTP id l6ls4649577pld.8.gmail; Fri, 11
+ Dec 2020 14:21:07 -0800 (PST)
+X-Received: by 2002:a17:90a:d90e:: with SMTP id c14mr14951604pjv.85.1607725266950;
+        Fri, 11 Dec 2020 14:21:06 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1607725266; cv=none;
         d=google.com; s=arc-20160816;
-        b=QPKQz+aYhxgsMpfUuD9BxGPAcdGAF3DWYGOhbUC5QW660MlVsR7vXn6UTwbsZvHsF7
-         JdqNgh8SFGJ28D13JfP8DkAdrsJSsUqkWCgwm1PFnWmkYUdsqBRBjhip8J95DQOc+FLk
-         BwhYHB0LIo/1fxec9jSxupFarpiWtApab2uchqzZAx2MXXOmJVlaBsVMkRlBsD7GUFVz
-         GuAqWAjD7lJU91B6Fm3l6EKKnpvEFziLn6lIOS6MYtY0QE80gL20D70CWbKP0tFpRK/m
-         X8ETHqFlzdNqRKUe2xpt+/obsv866QaHHpfFUypO4BYA9q7vGNdwcYvzMzjr4b+x6kRo
-         3mGA==
+        b=aDkKWATL0LrKO0HuPmjj62NrsaUvh4HfVZYyFvllTtfEaow8OkmHwuI9wenMBPyobs
+         SbgtyBRBFEjOB+B5qrnZ//uWYJmT/4lcpKCtyvo2LcfwSXmPtWdw40akk26afLZC2OSt
+         RRcw1KHoTPVyTqWwjjjvMKzijOyMYkmadA0TNhMiqUid5Xw9X753e8hH0c3cEfmPrWa3
+         SQ5BAQdUnyAJwZ5C61P/HuojxzBaeoMHpPFv0nFigz822y63ZFp05vhUpuNHfeE9u2ny
+         7Fh1QeNsT5IEU3GJKB77yVilkFtrJCNAg0YksQRzkfBEBjwIred+9brox4GG72Txc0iT
+         aZ7g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:dkim-signature:dkim-signature:date;
-        bh=/xiKtzJHIgYgE49zlVbEbtWb2jQqRpY7QvZxeq5+WwY=;
-        b=fU+G/eNUWka3OY8zC1lYQ5zeeZyn1jtVKvxDR1s3APgBWNYBP92ye6XUYV0rWXZWSf
-         hIUYj9Hq2JMQVX6hfFXyKmMy47C9eM88vCu0u2eJBDcgbo3x7LJpOvVr9BYRluJUAniE
-         5iltGmvnxl7d/8f8MN5SGwPM3qEuQaqW0DMuPoqFBqG/6Pqgeu/mHkv8ageNDiEAajDt
-         sM3xrszJ1nhMCEYfRtZUzOK8sio68iBU1QjZfne8uH+IseksscmT1DNlhxeCuTA4WFgZ
-         ewhROEnp6gMzKJbsK/N8hNIgdLHrOCDBp9CGgSf8pgRH8Pwq0UB4eaPq/5Ugvhrr5fCe
-         05mw==
+         :subject:cc:to:from:dkim-signature:date;
+        bh=M33/GbrA5rAEkfXts8qTtIq6RtlqxzbPQV+BXvS4r8Y=;
+        b=qMnARyBvi/IkNDpAgbOp9PevosZM2bEdsbS+UXFex7yAoKpUdXXkpWFgAp+qSUpEv3
+         uDCgdrbvRDCfqlSuPF/qT03jap1RpXBDrvA/iw1r3H0iX3VOAQrnETH6I/xE/Et3XItM
+         4NS0pZgn2TRhaq3LY1WW2OkqzXBOSQ2/NWCxAIVkXIbENBueubBF1MT7ps8Wwr0WLSSo
+         46nDuut6DmiZXTHOsM8uM36I0g9kbPYlOoRzlp3NeCG7Fs6cfpWn4iTP7u6Bz+A4XCch
+         /pe2wCFLLX1t+2DP0tRX519fwWK0aEsLKvQEXvjRML8eBbv67jPPIedkWeqKJ6nhFHKj
+         JX3Q==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linutronix.de header.s=2020 header.b=atFAzQuJ;
-       dkim=neutral (no key) header.i=@linutronix.de;
-       spf=pass (google.com: domain of bigeasy@linutronix.de designates 193.142.43.55 as permitted sender) smtp.mailfrom=bigeasy@linutronix.de;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=linutronix.de
-Received: from galois.linutronix.de (Galois.linutronix.de. [193.142.43.55])
-        by gmr-mx.google.com with ESMTPS id x130si255059wmg.2.2020.12.11.07.04.27
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=PRfgAHmb;
+       spf=pass (google.com: domain of frederic@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=frederic@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
+        by gmr-mx.google.com with ESMTPS id q18si767943pgv.5.2020.12.11.14.21.06
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Dec 2020 07:04:27 -0800 (PST)
-Received-SPF: pass (google.com: domain of bigeasy@linutronix.de designates 193.142.43.55 as permitted sender) client-ip=193.142.43.55;
-Date: Fri, 11 Dec 2020 16:04:25 +0100
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 11 Dec 2020 14:21:06 -0800 (PST)
+Received-SPF: pass (google.com: domain of frederic@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
+Date: Fri, 11 Dec 2020 23:21:04 +0100
+From: Frederic Weisbecker <frederic@kernel.org>
 To: Thomas Gleixner <tglx@linutronix.de>
-Cc: "Paul E. McKenney" <paulmck@kernel.org>,
-	LKML <linux-kernel@vger.kernel.org>, Marco Elver <elver@google.com>,
+Cc: LKML <linux-kernel@vger.kernel.org>, Marco Elver <elver@google.com>,
 	kasan-dev <kasan-dev@googlegroups.com>,
 	Peter Zijlstra <peterz@infradead.org>,
-	Anna-Maria Behnsen <anna-maria@linutronix.de>
-Subject: Re: timers: Move clearing of base::timer_running under base::lock
-Message-ID: <20201211150425.pjpydbmo7k7j6vtv@linutronix.de>
-References: <87lfea7gw8.fsf@nanos.tec.linutronix.de>
- <20201207130753.kpxf2ydroccjzrge@linutronix.de>
- <87a6up7kpt.fsf@nanos.tec.linutronix.de>
- <20201207152533.rybefuzd57kxxv57@linutronix.de>
- <20201207160648.GF2657@paulmck-ThinkPad-P72>
- <20201208085049.vnhudd6qwcsbdepl@linutronix.de>
- <87sg8ch0k4.fsf@nanos.tec.linutronix.de>
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Ingo Molnar <mingo@kernel.org>, Will Deacon <will@kernel.org>,
+	Naresh Kamboju <naresh.kamboju@linaro.org>
+Subject: Re: [patch 1/3] tick: Remove pointless cpu valid check in hotplug
+ code
+Message-ID: <20201211222104.GB595642@lothringen>
+References: <20201206211253.919834182@linutronix.de>
+ <20201206212002.582579516@linutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <87sg8ch0k4.fsf@nanos.tec.linutronix.de>
-X-Original-Sender: bigeasy@linutronix.de
+In-Reply-To: <20201206212002.582579516@linutronix.de>
+X-Original-Sender: frederic@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linutronix.de header.s=2020 header.b=atFAzQuJ;       dkim=neutral
- (no key) header.i=@linutronix.de;       spf=pass (google.com: domain of
- bigeasy@linutronix.de designates 193.142.43.55 as permitted sender)
- smtp.mailfrom=bigeasy@linutronix.de;       dmarc=pass (p=NONE sp=QUARANTINE
- dis=NONE) header.from=linutronix.de
+ header.i=@kernel.org header.s=k20201202 header.b=PRfgAHmb;       spf=pass
+ (google.com: domain of frederic@kernel.org designates 198.145.29.99 as
+ permitted sender) smtp.mailfrom=frederic@kernel.org;       dmarc=pass (p=NONE
+ sp=NONE dis=NONE) header.from=kernel.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -138,22 +132,60 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 2020-12-11 15:36:27 [+0100], Thomas Gleixner wrote:
-> So the change at hand does not make things worse, right?
-
-Correct. This *ping*-*pong* was there before this patch because
-->running_timer is always cleared after the callback finishes.
-
-I was just curious why out of a sudden there are *that* many users of
-the corner case. 
-
-> Thanks,
+On Sun, Dec 06, 2020 at 10:12:54PM +0100, Thomas Gleixner wrote:
+> tick_handover_do_timer() which is invoked when a CPU is unplugged has a
+> check for cpumask_first(cpu_online_mask) when it tries to hand over the
+> tick update duty.
 > 
->         tglx
+> Checking the result of cpumask_first() there is pointless because if the
+> online mask is empty at this point, then this would be the last CPU in the
+> system going offline, which is impossible. There is always at least one CPU
+> remaining. If online mask would be really empty then the timer duty would
+> be the least of the resulting problems.
+> 
+> Remove the well meant check simply because it is pointless and confusing.
+> 
+> Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+> ---
+>  kernel/time/tick-common.c |   10 +++-------
+>  1 file changed, 3 insertions(+), 7 deletions(-)
+> 
+> --- a/kernel/time/tick-common.c
+> +++ b/kernel/time/tick-common.c
+> @@ -407,17 +407,13 @@ EXPORT_SYMBOL_GPL(tick_broadcast_oneshot
+>  /*
+>   * Transfer the do_timer job away from a dying cpu.
+>   *
+> - * Called with interrupts disabled. Not locking required. If
+> + * Called with interrupts disabled. No locking required. If
+>   * tick_do_timer_cpu is owned by this cpu, nothing can change it.
+>   */
+>  void tick_handover_do_timer(void)
+>  {
+> -	if (tick_do_timer_cpu == smp_processor_id()) {
+> -		int cpu = cpumask_first(cpu_online_mask);
+> -
+> -		tick_do_timer_cpu = (cpu < nr_cpu_ids) ? cpu :
+> -			TICK_DO_TIMER_NONE;
+> -	}
+> +	if (tick_do_timer_cpu == smp_processor_id())
+> +		tick_do_timer_cpu = cpumask_first(cpu_online_mask);
 
-Sebastian
+I was about to whine that this randomly chosen CPU may be idle and leave
+the timekeeping stale until I realized that stop_machine() is running at that
+time. Might be worth adding a comment about that.
+
+Also why not just setting it to TICK_DO_TIMER_NONE and be done with it? Perhaps
+to avoid that all the CPUs to compete and contend on jiffies update after stop
+machine?
+
+If so:
+
+   Reviewed-by: Frederic Weisbecker <frederic@kernel.org>
+
+Thanks.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20201211150425.pjpydbmo7k7j6vtv%40linutronix.de.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20201211222104.GB595642%40lothringen.
