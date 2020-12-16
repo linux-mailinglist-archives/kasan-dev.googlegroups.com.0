@@ -1,124 +1,119 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBSMU4X7AKGQE5ROAP6Q@googlegroups.com>
+Return-Path: <kasan-dev+bncBDAMN6NI5EERBAFJ4X7AKGQEFWKC35A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ua1-x93e.google.com (mail-ua1-x93e.google.com [IPv6:2607:f8b0:4864:20::93e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51B452DB72B
-	for <lists+kasan-dev@lfdr.de>; Wed, 16 Dec 2020 00:44:10 +0100 (CET)
-Received: by mail-ua1-x93e.google.com with SMTP id 93sf4836019uax.12
-        for <lists+kasan-dev@lfdr.de>; Tue, 15 Dec 2020 15:44:10 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1608075849; cv=pass;
+Received: from mail-wr1-x43b.google.com (mail-wr1-x43b.google.com [IPv6:2a00:1450:4864:20::43b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 410362DB7C9
+	for <lists+kasan-dev@lfdr.de>; Wed, 16 Dec 2020 01:27:45 +0100 (CET)
+Received: by mail-wr1-x43b.google.com with SMTP id j5sf8740812wro.12
+        for <lists+kasan-dev@lfdr.de>; Tue, 15 Dec 2020 16:27:45 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1608078465; cv=pass;
         d=google.com; s=arc-20160816;
-        b=B7Vbz+UaRGxzIUK509m8CtgsmAZbTab8O5eVstkdJ6uP2HOlLAaKIsydKmEa/IudNZ
-         EwU7TJbkKoTPnqxR7SE80D9ntxME0d95AqUfvHRikdGA/Q9cDx8xlm2BZDfot9EjV/uT
-         7RVpjrH+bl2HkJZTJQdYaIF8+ld/SXtPydbko9E2e+v9qb04qJc03rquO0jSo9rfbKsf
-         WTF69M0PIX7EScyjCAE2FZk0xvWgKpjpngHW7WZMgZl+RLWUTCGYlmahF9DXtl0WcPPJ
-         YLvW1FTZJxPTpaCS88rUWhXLNO0DTyi7qgGQVXFpepq16/nSLiuNYjxGOos8Ud5qol+D
-         39Jg==
+        b=LOD7NkKr+00rs6wGRSAohDPcpxQZGpaZ0lIBMd5m/euqpo5l586CnLURBLhT0KHRPZ
+         GS2GiV1q7+BbFjlMfvo+Ww/xHZm30xGJPfd8NCCZgGTNESVy5JTPhV4tio/g2S7Ehdcm
+         zzDLz1/xk5k8ZfFvmDk5COm3jTB/f40/2yG924bp0w/9vBFpPbTC2tbhG8RknXQpCemW
+         sYxq79TJYBDtOlY4vG3Yme6zJBkqt0rrGpxn7W8pWs0OdE27t+UVUdc+HdluB18BXljp
+         0z61/27FU/L3m3bHXknecjAV1FFfkh+9jx9JOwkCclOMPoDSZ1kns+WBQiUmLiJmhscp
+         W2TQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=9N01qKHCVfJCtXJStrItSrjX+rkLdozVEuANh6gcMyI=;
-        b=hr5x8SU4Dj7nI8IK2AeFdc4YIPlDDhwzc6K/bdnelRc6yI24+wBikM/gH5/+onkOHW
-         wyH4ABpMeJzv3YU3j2DPhlWaJM6UpV01r4zzmQe7TmSGDkspfHOluFFPJdikEITNbUXy
-         pFGZNWOhrJ++UbAVJ/yJAp/XBlmQM9ByZvkn3S+AM+B2HX6w6eL8dKRo5+QDcB3sJWe+
-         WUenZ+ugGAW9HBU5cwzWc/a+35GBN5li4pR9RU0RfUUpEqeCGrommsq0Al0fdqQgGppK
-         8w0jFAGBTBVkQppXDLYI8tO+lIdUAV0exX9gxEL2a1yvq2XCZZWJ4dlHFuvcHdBhAGmz
-         hpAg==
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :references:in-reply-to:subject:cc:to:from:sender:dkim-signature;
+        bh=tk2DlmHvZyvl/9cnFzBSGmeX5KwSPdHQsg2LteOL3n4=;
+        b=nO5fe0ireMYGuyLd19XDiao50wfnXwT8WTPmoVX1l0FA1gbwSwn880LmtNtazBVhdO
+         Xzf/r+t8CNKCEb98WczvxS6XC1pQDFvc6eD8oMtX+txMq/JL8AfxPhXNhlUWBGM0LhD7
+         1r6W7SS+5d/1+4UL2+JjqVbq9KBdXumknceVEg+/pPTRn0EAvGMwk/NP2vfDn8uOQ8bn
+         b38srmEFY8fkDdZpDh9H8lp0jS+n7ABzPD3N7dwmblX8a/vEXFrTdGDA3Ff3lfEI8pwQ
+         HMluBcnP0VZizBh4+5Q1Ej94LZTXuNXEykjJk0ior79qv8N+HsnEQeFqas+XGBUlIq54
+         xhVQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=JTpekMpA;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::243 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@linutronix.de header.s=2020 header.b=v7rJUlwY;
+       dkim=neutral (no key) header.i=@linutronix.de header.b=ccIALfQ0;
+       spf=pass (google.com: domain of tglx@linutronix.de designates 2a0a:51c0:0:12e:550::1 as permitted sender) smtp.mailfrom=tglx@linutronix.de;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=linutronix.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
+        h=sender:from:to:cc:subject:in-reply-to:references:date:message-id
+         :mime-version:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=9N01qKHCVfJCtXJStrItSrjX+rkLdozVEuANh6gcMyI=;
-        b=X+o2Yk3Fo3JphdXRD3piHdpTFluvF9S9P80WhyfZy6HbENLWHuJpv8KyjaSrpVM3C7
-         yOtPsztZyxRUMbeZxlRs6fDykA2CQpjCaYtybCtjUhC4xesLfzOOiI6Kr1tn/bkjRPDx
-         uxL5+1ascsiat7U05boqG50zXA9VG4Jy0vtC2l36vE4FJZxEAsL7d+RKFjv3jLixs3M4
-         dMFdDdL/uPDe7mqP1G3Dor2EwSVxGXdZ8o1b5z5mMKjjMpTELjea4u+dN+qOIywCp57c
-         nJuqJuhvfl2hrjkUK/CExMzjQovbYe6Wn5xt09v+PEDMXjImHS7h0bvWUNGdfPJrRvqu
-         +//A==
+        bh=tk2DlmHvZyvl/9cnFzBSGmeX5KwSPdHQsg2LteOL3n4=;
+        b=aBeo4d2XARmtWwGaxR3Y4QUaHw0p9Z3lYXPHJCfxESCUosO9WmmG2fi0gfy2lmqjzN
+         WyOwm5vmYq0Ivd4CbYcYYKZ3lMNBJi8o9SfIAb2HO6Gg5ijiwWgIvHeDmAYfGo+S22M+
+         K5QHzsjtUnWsRBqV8xhF6LKXy6tlrO77+K1GNFgq8kMClzSKRAA5BxsYoUltvThSQ7jC
+         trEKkAWq1bEs8Ww/1Ab7FIPGkP/7ZwRGugO2b8F2N9xfM51QPgx76kkwfpcRcSF04Zp1
+         cv2d95uBlPfoCvHvoQEo2K+SybZPLZ4hrTjPeTbZLZoHRQgTlMVKaw+5XAFqZbprLRj/
+         Rj3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+        h=sender:x-gm-message-state:from:to:cc:subject:in-reply-to:references
+         :date:message-id:mime-version:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=9N01qKHCVfJCtXJStrItSrjX+rkLdozVEuANh6gcMyI=;
-        b=hq7cozvXrg94LDJ7zBr7H9UlFjDND5xOE+5tuIGTf9Ewlsuwr+6ye5qU+6zcVR1gaZ
-         vI02z2O5NmK1zcIrc8Jm8IGvFBBeugY6L5bSNpNnoRqqyfB4uuhK4Vj+zV1UAF/z4sqa
-         U8tnwGtZaSCt14M7m8mtiveM72mEHRBSRtnonxnAxHfJatwsF9lebbal2sggD+FDvG4N
-         zMKmsEfkIToCq3F1Bq8A7mBKcZwouI1Tg/lA4aEHEsoYnsDACzLnf2C88DYipx8Vjey2
-         zbm69ABzHAPVXgYeD36yhrJn5Yof0aOD+dybXXoPJ4V83nqCe4otkUZnIAtrSioOey4I
-         /c0w==
-X-Gm-Message-State: AOAM531ZRWrr3SK4yhzpZvxM+mzzIeighotnfSNvbe6pcy2s2KlMSnWZ
-	C+SE13hTzWJjVogUECmzyBI=
-X-Google-Smtp-Source: ABdhPJzgypTkDrgXmbgKploI/NUeCZLLUd4oOYyd4i3POTtCgivGaMbVR+n9m5ul7Nb4vuTUVHSV2Q==
-X-Received: by 2002:a67:8a8a:: with SMTP id m132mr18543937vsd.31.1608075849353;
-        Tue, 15 Dec 2020 15:44:09 -0800 (PST)
+        bh=tk2DlmHvZyvl/9cnFzBSGmeX5KwSPdHQsg2LteOL3n4=;
+        b=nHFWHSKcDerC9WU5WIhVQE5tEhBPrOfE1ywpdubVPt4cnj8asdRtt9wqTmsJd08R9g
+         6/0PyXugnC7Gjc8PzBTaS48s7tgmyz+sOUbgnCYrF+ERvcBQb2WG92oH1enU2rQP1sJS
+         HjVO6UD2h1yhkvTspV9RVH9GIOE1JMs86ZiUsF8K0P8f31gTEPtsXq+0EGVkUM9V9lWG
+         gK2qdDFiQrcuKslIvNOO6HMWjrZPAH3dziTn5f2orXGpRuTPUrtYNZcRl2KncEmI3FW4
+         uxNJgYuPWzSgR6x7kT2Ilue7Hpqcn1sVHeFPw3I+rQR3+GNfo1RwUI/bTeiRJ2PgsOnI
+         t4iQ==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM532Ujmzx1Zo9vPTP83MGJPKMP9WGVZBRxUvSOtLAWK8vYmSqn/ug
+	54Z+D50+pWCz12KZXL9XbOc=
+X-Google-Smtp-Source: ABdhPJz8fT70NsEOU5Xg9XZbE9yPd+62T5FyHLZZdMRq+WgE+KnO9e4dH1d71bpgu6K6jEPv6Y6dNw==
+X-Received: by 2002:a1c:2155:: with SMTP id h82mr890614wmh.132.1608078465010;
+        Tue, 15 Dec 2020 16:27:45 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ab0:7843:: with SMTP id y3ls1197757uaq.5.gmail; Tue, 15 Dec
- 2020 15:44:08 -0800 (PST)
-X-Received: by 2002:a9f:2604:: with SMTP id 4mr12125408uag.41.1608075848888;
-        Tue, 15 Dec 2020 15:44:08 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1608075848; cv=none;
+Received: by 2002:a1c:b688:: with SMTP id g130ls347012wmf.3.canary-gmail; Tue,
+ 15 Dec 2020 16:27:44 -0800 (PST)
+X-Received: by 2002:a1c:234d:: with SMTP id j74mr925976wmj.18.1608078464119;
+        Tue, 15 Dec 2020 16:27:44 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1608078464; cv=none;
         d=google.com; s=arc-20160816;
-        b=pYik3qRd4/B4vIC54B/240IwOvfP9zay4wfahNBryvOnJCQvRELUXeUexCCVTJMhSL
-         UnJsCN0ayQ1RMD+m7oKZBmywditrzcmFHBEJlvZilj+490H+9H+pxO2eP6AQG6h1aTDU
-         8w6DxJ4QQSMTHLQ+xzjlXyERZ8JW+bOsLiuuSIYHW2UQ115OvsvIiM1YX02gmofHelmN
-         wce180CSwTHL6Nmg9HE+0Q4SzmkF+w5aIDjAFIjDJNNuZ/6YvaJ6gfXgF0QPzUl7P5pE
-         sMZEWlskjBtQUOQP6ZAPGt5/N63NejhRtdMG4UxjMCGI6i+ul/u8dvOiEhDORiyznLDL
-         H//g==
+        b=KWlYE+mW90F82SsjtZjlnx91Megfst9YFqyApQJXzsVJ0I91V52vPudyEvbR8/MVEK
+         1BHQZhtisv/ibtG1qt9KI5iWYKbWmJGa9JU0k0EW3yrRz4PG4d6vfImukNuVM2mpAJAF
+         bwt+x+65b7qNK88Nw2hj3tPFmKWHrAn+NQSXVzN5P0dfoFIWacOYqahUjAlUnTweublj
+         2x1gmFpkGk5MzzJYfVRjIxZaojE6cj1Z2xU67dM060b/MOb0VkFGG7sXQ7e1aOa4V7si
+         xJRwqKb/s8fc9Ul2oa6YqfW2heoODiM5On9Ox7iiC9IwXa/q+EuduZ7a5idhYlCnzUfD
+         mj9Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=VMk7SZpHhf+ZRi/9XRqaSvGITvxxA084fMeyBbrwPkI=;
-        b=kCN9avq4dVBjDOWh/h8I6SZ1GHq5kIt9Au3YcSoC0tjUe8rNZLgNu855xUSy85oyIe
-         A0eC9pDjLvZtPubhWjIUR7MxvXdd8erPDKdgiKX3xz7piYfhTOapiJOtzmeCMjnFEzMJ
-         ZdQYnGzFiqRjh6rUvBxGp6sQNHIIGzpCf/nwuvOLInI7geqtG1CRqM8UppIvKoafA53/
-         avwE25+CgRWWDoJNvUT5bNaO2SYe+CWIZR3EoLZQR3k6jfc4dkxLYpz7pY4VMC3aRS3d
-         0dIeqeC2VECvgNEdoAeVLgpKVBNyeOALO42Gjco+t5wrr6WAWFSG8uXtBJK9GvoVWi+/
-         MegQ==
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :dkim-signature:dkim-signature:from;
+        bh=9oM6XJd59woVYfiyCB+uESYOvCyhYxaqi5O1krN5wgo=;
+        b=R1dJIvnj9S7LGp6grZ5xqAnAm1V21AGWfvS5axIJ3sS1PIdwuT/ZW6pc8SGm6P+EFl
+         59b1tDQV+1bsWtBRe4C61AqkObHA/fOAEEz8jO2nNYlkHWwoa1aMDgq/IcQU7HNnyLp6
+         okVCgTPv7zfZxy85gDICwFNO9Zvjr/R017fPLHFNekuNgAZr74RGBJJJDyEEoGRm8uI2
+         Cg+WZmdnVrhqWs1LY99oqSKrS3DmMOUPS2H+UmuN2AL4Db3Z+tSxfADxAHCkK1cGIiti
+         xNlsjfE8THSHuyHzwRsC/hi44zbVcOtUhWRKJNJ0q1a2a3cTZ5G1/EP/FYLEpCvKpE1D
+         CNBQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=JTpekMpA;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::243 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-oi1-x243.google.com (mail-oi1-x243.google.com. [2607:f8b0:4864:20::243])
-        by gmr-mx.google.com with ESMTPS id g3si12953vkl.1.2020.12.15.15.44.08
+       dkim=pass header.i=@linutronix.de header.s=2020 header.b=v7rJUlwY;
+       dkim=neutral (no key) header.i=@linutronix.de header.b=ccIALfQ0;
+       spf=pass (google.com: domain of tglx@linutronix.de designates 2a0a:51c0:0:12e:550::1 as permitted sender) smtp.mailfrom=tglx@linutronix.de;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=linutronix.de
+Received: from galois.linutronix.de (Galois.linutronix.de. [2a0a:51c0:0:12e:550::1])
+        by gmr-mx.google.com with ESMTPS id o135si3704wme.3.2020.12.15.16.27.43
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 15 Dec 2020 15:44:08 -0800 (PST)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::243 as permitted sender) client-ip=2607:f8b0:4864:20::243;
-Received: by mail-oi1-x243.google.com with SMTP id 9so18207856oiq.3
-        for <kasan-dev@googlegroups.com>; Tue, 15 Dec 2020 15:44:08 -0800 (PST)
-X-Received: by 2002:aca:3192:: with SMTP id x140mr670980oix.172.1608075848207;
- Tue, 15 Dec 2020 15:44:08 -0800 (PST)
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Dec 2020 16:27:44 -0800 (PST)
+Received-SPF: pass (google.com: domain of tglx@linutronix.de designates 2a0a:51c0:0:12e:550::1 as permitted sender) client-ip=2a0a:51c0:0:12e:550::1;
+From: Thomas Gleixner <tglx@linutronix.de>
+To: paulmck@kernel.org, Peter Zijlstra <peterz@infradead.org>
+Cc: Marco Elver <elver@google.com>, LKML <linux-kernel@vger.kernel.org>, kasan-dev <kasan-dev@googlegroups.com>, Ingo Molnar <mingo@kernel.org>, Frederic Weisbecker <frederic@kernel.org>, Will Deacon <will@kernel.org>, Naresh Kamboju <naresh.kamboju@linaro.org>, syzbot+23a256029191772c2f02@syzkaller.appspotmail.com, syzbot+56078ac0b9071335a745@syzkaller.appspotmail.com, syzbot+867130cb240c41f15164@syzkaller.appspotmail.com
+Subject: Re: [patch 3/3] tick: Annotate tick_do_timer_cpu data races
+In-Reply-To: <20201208150309.GP2657@paulmck-ThinkPad-P72>
+References: <20201206211253.919834182@linutronix.de> <20201206212002.876987748@linutronix.de> <20201207120943.GS3021@hirez.programming.kicks-ass.net> <87y2i94igo.fsf@nanos.tec.linutronix.de> <CANpmjNNQiTbnkkj+ZHS5xxQuQfnWN_JGwSnN-_xqfa=raVrXHQ@mail.gmail.com> <20201207194406.GK2657@paulmck-ThinkPad-P72> <20201208081129.GQ2414@hirez.programming.kicks-ass.net> <20201208150309.GP2657@paulmck-ThinkPad-P72>
+Date: Wed, 16 Dec 2020 01:27:43 +0100
+Message-ID: <873606tx1c.fsf@nanos.tec.linutronix.de>
 MIME-Version: 1.0
-References: <X9lHQExmHGvETxY4@elver.google.com>
-In-Reply-To: <X9lHQExmHGvETxY4@elver.google.com>
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Wed, 16 Dec 2020 00:43:56 +0100
-Message-ID: <CANpmjNO5ykmE5kWJ0x08-dTDOLe+Wu=2yQ0OmfdQEbQfHByeWg@mail.gmail.com>
-Subject: Re: [PATCH] kfence: fix typo in test
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: kbuild-all@lists.01.org, Linux Memory Management List <linux-mm@kvack.org>, 
-	Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>, Jann Horn <jannh@google.com>, 
-	kernel test robot <lkp@intel.com>, kasan-dev <kasan-dev@googlegroups.com>, 
-	LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
+X-Original-Sender: tglx@linutronix.de
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=JTpekMpA;       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::243 as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+ header.i=@linutronix.de header.s=2020 header.b=v7rJUlwY;       dkim=neutral
+ (no key) header.i=@linutronix.de header.b=ccIALfQ0;       spf=pass
+ (google.com: domain of tglx@linutronix.de designates 2a0a:51c0:0:12e:550::1
+ as permitted sender) smtp.mailfrom=tglx@linutronix.de;       dmarc=pass
+ (p=NONE sp=QUARANTINE dis=NONE) header.from=linutronix.de
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -131,39 +126,55 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, 16 Dec 2020 at 00:31, Marco Elver <elver@google.com> wrote:
-> Fix a typo/accidental copy-paste that resulted in the obviously
-> incorrect 'GFP_KERNEL * 2' expression.
->
-> Reported-by: kernel test robot <lkp@intel.com>
-> Signed-off-by: Marco Elver <elver@google.com>
-> ---
->  mm/kfence/kfence_test.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/mm/kfence/kfence_test.c b/mm/kfence/kfence_test.c
-> index 1433a35a1644..f57c61c833e6 100644
-> --- a/mm/kfence/kfence_test.c
-> +++ b/mm/kfence/kfence_test.c
-> @@ -665,7 +665,7 @@ static void test_krealloc(struct kunit *test)
->         for (; i < size * 3; i++) /* Fill to extra bytes. */
->                 buf[i] = i + 1;
->
-> -       buf = krealloc(buf, size * 2, GFP_KERNEL * 2); /* Shrink. */
-> +       buf = krealloc(buf, size * 2, GFP_KERNEL); /* Shrink. */
->         KUNIT_EXPECT_GE(test, ksize(buf), size * 2);
->         for (i = 0; i < size * 2; i++)
->                 KUNIT_EXPECT_EQ(test, buf[i], (char)(i + 1));
-> --
-> 2.29.2.684.gfbc64c5ab5-goog
->
+On Tue, Dec 08 2020 at 07:03, Paul E. McKenney wrote:
 
-This patch could, if appropriate, be squashed into "kfence: add test suite".
+> On Tue, Dec 08, 2020 at 09:11:29AM +0100, Peter Zijlstra wrote:
+>> On Mon, Dec 07, 2020 at 11:44:06AM -0800, Paul E. McKenney wrote:
+>> 
+>> > Also, in this particular case, why data_race() rather than READ_ONCE()?
+>> > Do we really expect the compiler to be able to optimize this case
+>> > significantly without READ_ONCE()?
+
+There is probably not much optimization potential for the compiler if
+data_race() is used vs. READ/WRITE_ONCE() in this code.
+
+>> It's about intent and how the code reads. READ_ONCE() is something
+>> completely different from data_race(). data_race() is correct here.
+>
+> Why?
+
+Lemme answer that to the extent why _I_ chose data_race() - aside of my
+likely confusion over our IRC conversation.
+
+The code does not really care about the compiler trying to be clever or
+not as it is designed to be tolerant of all sorts of concurrency
+including competing writes. It does not care about multiple reloads
+either.  It neither cares about invented stores as long as these
+invented stores are not storing phantasy values.
+
+The only thing it cares about is store/load tearing, but there is no
+'clever' way to use that because of the only valid transitions of
+'cpunr' which comes from smp_processor_id() to TICK_DO_TIMER_NONE which
+is the only constant involved or the other way round (which is
+intentionally subject to competing stores).
+
+If the compiler is free to store the 32bit value as 4 seperate bytes or
+does invented stores with phantasy values, then there is surely a reason
+to switch to READ/WRITE_ONCE(), but that'd be a really daft reason.
+
+So my intent was to document that this code does not care about anything
+else than what I'd consider to be plain compiler bugs.
+
+My conclusion might be wrong as usual :)
 
 Thanks,
--- Marco
+
+        tglx
+
+
+
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNO5ykmE5kWJ0x08-dTDOLe%2BWu%3D2yQ0OmfdQEbQfHByeWg%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/873606tx1c.fsf%40nanos.tec.linutronix.de.
