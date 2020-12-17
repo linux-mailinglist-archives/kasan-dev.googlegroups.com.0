@@ -1,126 +1,136 @@
-Return-Path: <kasan-dev+bncBCMIZB7QWENRBIPF5T7AKGQEF6H5EPQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBZ7F5T7AKGQEIGFHGEY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-il1-x13f.google.com (mail-il1-x13f.google.com [IPv6:2607:f8b0:4864:20::13f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F4AD2DCF76
-	for <lists+kasan-dev@lfdr.de>; Thu, 17 Dec 2020 11:27:46 +0100 (CET)
-Received: by mail-il1-x13f.google.com with SMTP id f2sf31110751ils.6
-        for <lists+kasan-dev@lfdr.de>; Thu, 17 Dec 2020 02:27:46 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1608200865; cv=pass;
+Received: from mail-pf1-x439.google.com (mail-pf1-x439.google.com [IPv6:2607:f8b0:4864:20::439])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8C892DCF78
+	for <lists+kasan-dev@lfdr.de>; Thu, 17 Dec 2020 11:28:57 +0100 (CET)
+Received: by mail-pf1-x439.google.com with SMTP id 68sf4116609pfx.0
+        for <lists+kasan-dev@lfdr.de>; Thu, 17 Dec 2020 02:28:57 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1608200936; cv=pass;
         d=google.com; s=arc-20160816;
-        b=iqJsaYe+bJofRcOPczArebLkixS57rWZ3cbr+O0It5Fxls0s4u94gnedyK7wICWSDq
-         yYlxqIt5ttckw6je7+MibKONL5RPBjVgZw6kvNpV5KpgBGAbQmXtp04ZGT24WDivsQr3
-         Vkg0Ebk/rBJAHxF1/AqrV2GQIz5kzFz4BfLEEmNU3spGtdxH81jUEm2IaszZYS8imfGI
-         PhX6znR1hT5eq/TMbmPodtnOkfuPMxXX45hrHsQEaafh1cW7OMPpXpHgHB3Xu1ZIjaji
-         m9gUZRN8nsMLSi/1ZFZU++vz9fk8j9RPd3ehz1MS+MMylDi3d8WlCimGgiJ+Dgri1ojz
-         rwiQ==
+        b=bGq3j92/I0oyNMfmYgD7/Ea3TDRoF7fqrdF0O4lEovXHqwOCDH0xXHqkPRnQuc+qyw
+         VbJoZUzRdXpFCVlptMXN5IcQmvCnjA/JIZsR8K9q+V85nkPm3IR74ze5qMzoNgx87ixx
+         yUbMDOungB+CG7cki6qv7mt87yjvy+zTAXqzQRu9Ekv4xK2zfBveO5KlDFlkyf22QEET
+         3X4a2LIQ6TBYqLwi5FVlHm9543flFoaEv9OtmnAAxYcAZpY99q3FlGeAsM/Z1fXBeHCC
+         hOoOAEXpOt7kE70BgmM91kXylYhebN5MtY4fOL/Bif52S5NZCM4xGBqJIolDn9BTsV2B
+         3T3w==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=Zf29eHFKDtxtdJtb1HGtsNLoPzh0TmoiNO+3u3jx7+o=;
-        b=V35oM/aFEXr2/5dJvqiW/HPDweu6zK/eMvQ0nPk1PctA5C9Bt4/9QElf/AlqE4TuFT
-         TPjX3ziVGNxcHGf84A2Wf1RepNOi5NZ2bSv9S+2CQTfZd5ExIIWycGYh6W4zKC4qNAOw
-         fZDzTvlEpTL0n/yqtxykLHhhcZGlNCFTuJ5rIHyiD2DtiQ2J56VQeJQtHjfPGXkyKv3t
-         VjZJxT9vXV5Td2VFYMdT34EyiCffAmNE+OpBGqyjblB6eJyoT9D8R7YeNKqybhXG9KI3
-         xZsb7K6bcp9mYcnuu9VkQcx6bErNYaLW7m97vOvmyAlc61rmesMNVkgupHgF/wWrJQb0
-         SvZg==
+         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
+         :date:cc:to:from:subject:message-id:sender:dkim-signature;
+        bh=LBcV5SjII9RvaJcHW3ZeHIrrPwnvycp/DGY4Ne82tNQ=;
+        b=yzk5g4dzGAhxLLIepBUPyuub+XDugXe2galA9PlJKLaiZFmzY2YhQMEu9pAPu4slsp
+         FOLQz26fLib5/96EAI4G8gT3aLnLSD4x7fQnTmlZFS900XPNb+7L4HtBY6ExXMjr5Uc5
+         /72diR1BNIJEOpY4nbaWUkgx6ipfPTIjmG+O7lF1RIVedIh2Q2BNkoebTFHZmYJmvz3v
+         VwSZktGZRTyp6YNzWokCWoI0N5bn7ZSyxU83zOkZ1X5/944KNCr9sJO5NeVhJbYs/Orx
+         J5QR45rr+afqUuuH5uPq0yCQmDlsvfos7NWHW5EZXC06OS2Y+WOjjuzrCJ6sIf21kPlK
+         EKSg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=mJYqIDVd;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::f2b as permitted sender) smtp.mailfrom=dvyukov@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@mediatek.com header.s=dk header.b=Ppqa+J3v;
+       spf=pass (google.com: domain of kuan-ying.lee@mediatek.com designates 210.61.82.183 as permitted sender) smtp.mailfrom=kuan-ying.lee@mediatek.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
+        h=sender:message-id:subject:from:to:cc:date:in-reply-to:references
+         :mime-version:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=Zf29eHFKDtxtdJtb1HGtsNLoPzh0TmoiNO+3u3jx7+o=;
-        b=RczuGeUgBG1hNF2QYMz0670yUpTJg4TCl9RMYtOaHPkbsQEuYVxNASFd6sVEIvifEi
-         pWsEHqIugParjvW0KeQpkTGAyXKGxrJeJ7lNUSIPt+vjt2ICvadvROoBvbPaUcMoVtEo
-         QsECm//NB4cto7LU/LaB+GFZkxlOF4bUGOj75YCFbsfp+vfChfQ5xSNkKKgRajorooMM
-         kE7nvXfS8a/5BksVrTvYP8lX26EEHAK4rZT4FNgesHmjzB/e+IjBB8iYwHWY3uxdyBT1
-         w8SWZslO3z/Ov/eplj4xpB578C1Cug3sprd3IaqUmOCIDQbx6tBGxpaVxwZDTSN08ewK
-         RygQ==
+        bh=LBcV5SjII9RvaJcHW3ZeHIrrPwnvycp/DGY4Ne82tNQ=;
+        b=c/CGTrOlWhezQR/GcCc17IZ9WBY7prY83ldD0TkN6KcQfjk+4cjcI0JdtSh8DQqgrQ
+         Hoyzcp0NHzAOaj59qNOuM1XqFIk5g/cSya6dz98SOp+YqgZDgqzoMuzFX1TGcZTa4duJ
+         bLygY/CDzhuC13ExwzAcP/DaTtITj0nqHvpeoV98TlkW9IYDNtIM+Si2OUvoJqlGwIr+
+         9e0V2eQKFYhgaCjuaZCMlma6dZJkx84toZUSxtgIMMaLJrjijigN+HgjThOri3UxGJPe
+         f2hvcimV7fJnj/XXtW/Ni3n9lhC3OTFvjAoeqf94eJLhIlL7iGpsV4pE29DQgAb8CTK8
+         4mtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+        h=sender:x-gm-message-state:message-id:subject:from:to:cc:date
+         :in-reply-to:references:mime-version:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=Zf29eHFKDtxtdJtb1HGtsNLoPzh0TmoiNO+3u3jx7+o=;
-        b=YxTSBWYQlPkFslI/rGX6iEa33gUHonNfDwgZ3ptJFoKRGPp8pQNWWbJN8UZ+xCNF9G
-         TAf++PCur9YHCRKTHsm2bWR47xVe1mA8xJc5KUTurmlo9I4nz4GWB4JWkSszKYc7KNaH
-         ANQs6+xTGIRGFTTrOGE6Z7/uIJ4s+dRtmgfLKRoQVGyRjGzlsxHxJZic9O+VssT9C8oP
-         nbFHKuuR3DMz40EEpsoMKW13Wt4qpdm5Bn5mFJupZbwlylid4uagUglOAmvHbVqnVDOK
-         THayHuKSKdKOX/OW0t7L4N54R14atMC5yHgo9+WQwRK6HtVsoBVM+zQNc7sdL/2RUFf8
-         AsHg==
-X-Gm-Message-State: AOAM5311H7wmOdSvbzxYuhAdyb6ojOnrfHsqSnBb82gLx4hfsIDDIuRs
-	eGTZqUnLwJPQpfRxInl7q/M=
-X-Google-Smtp-Source: ABdhPJww/Z6fp0Y8yDGAxMamuRfi6yot9rb+NBsLwRAcwU1dtoyOPmYGZtotkGY4LVWN52itvIbPaw==
-X-Received: by 2002:a92:ba08:: with SMTP id o8mr49088539ili.249.1608200865447;
-        Thu, 17 Dec 2020 02:27:45 -0800 (PST)
+        bh=LBcV5SjII9RvaJcHW3ZeHIrrPwnvycp/DGY4Ne82tNQ=;
+        b=anrEU7gh4gkHUCyv1eQQMs2gOq7plTPtHLW88wW0jcR4WbJz610Egd4DeT8fiBAoP5
+         HNO2eQnlkz9Kj2xIQxfjdWzU7PRvQdcyYmSOJgUnjLSmM0/Y+Q9hBMMtTFegq6Jniyqc
+         RbrO8ZxqUXs+NNi/tNgsRxCXBS79BFNbivK+j6jIUwSc+uYZFXZYkcJRBQWaY5Jb955d
+         cjK6ycTSxCdR9sdKHvdQRdkUxUc6NiXRweXgLu+phxLLgNgRt0gPeY/I7J7pTJpiz09L
+         EdmxPhSDLRz5vjDuo/4b2LDOwsyG1O+v8K6pS8Dv+krXT/EPFuJXwKVNjFkL+L68M11W
+         2zHg==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM5336bfHweju6Q08kUH3r8yg9EROdCY1cIgCDGl1MtF+QdspcK3iq
+	JaerZh/sJ4uCnXBqT/ooZQ8=
+X-Google-Smtp-Source: ABdhPJyjIIsFzuPRHZ+ThSUMZnZG6Dy+edPOx/L3gwd1RUPSpHw2WaU/3j4CJFXqxQVKtAvxV13JzQ==
+X-Received: by 2002:a17:90a:4892:: with SMTP id b18mr7318915pjh.64.1608200936086;
+        Thu, 17 Dec 2020 02:28:56 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a92:d203:: with SMTP id y3ls7073130ily.6.gmail; Thu, 17 Dec
- 2020 02:27:45 -0800 (PST)
-X-Received: by 2002:a92:79c7:: with SMTP id u190mr12525448ilc.140.1608200865060;
-        Thu, 17 Dec 2020 02:27:45 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1608200865; cv=none;
+Received: by 2002:a62:52d1:: with SMTP id g200ls10467239pfb.8.gmail; Thu, 17
+ Dec 2020 02:28:55 -0800 (PST)
+X-Received: by 2002:a63:1959:: with SMTP id 25mr37437578pgz.201.1608200935622;
+        Thu, 17 Dec 2020 02:28:55 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1608200935; cv=none;
         d=google.com; s=arc-20160816;
-        b=eeptEaIEEGWQoZJX4I7d2NDh+C3NNwzVwvj3scn6JbsJEFx34dXAAcuzRChe8/SLyY
-         ISaj+2SH2OSPIYwwD3vEFx1VhTa7oMh6CEorRYrq/v8gBBPHH5RhiewZuliRuuDLrQBq
-         S7yyxdRS6gcMy99d6X0naGopqpRJXIQQO5nHRGCUT8vd399wm1XCgMtxY54Ocm0o65Px
-         jNPU3zHB6ss1nYeX435y9Jaj41uQ43uriwxxWRxfOaWKGF85Qn0YXdw7RycXGve4J0/N
-         GSXeshAwE0y9RxaVZ+YtjpnYvEDfvlZqDflRhs7I2kGlSzvmoh8EhLK/HYZh2bxzyYZe
-         AJdg==
+        b=T6ENR8chtV9RxMaRic2T7j9LpyK9EVkTBEc/GJj3/U5TZ8gf+FiUYhr7UOdThYdTeC
+         qvp22ILKGh+ksgdMO2sTvSQHaV4aO7knhJpIXlTsOakdC33pRToSAxccXQm3n3BKJ5Hy
+         EpRv66MPKfh5nKy0bv387WMJVm7U9AXU2pbgAdQtJFexAD4LBbC+owUIgMTSBls5MvNS
+         J61QtG2h872mRTqFH33mc2xggrSa8PftRGadIyADCWYoCBvadRmhhh7UVWVXhbjOoesc
+         bGqMlBYHexv1VJEEeAP6gHIYjFWT9dkPwJ0t1HN96qTiDNsmgqN4I98gTAd4NVMe9zoN
+         1UOw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=NP6eSDSojqskqJOR93wsgn5AO7yZNqVnPL0uMhSoHsQ=;
-        b=lHwAr34UmnWfEeAvRX5gpfsTWI811KIwYn9FRAo1OvijwY2TTtl0iPKwnoyt7LLF3i
-         eK/XuF1tgplcdqYXBYENwCH/QTt8Vfcvar6hj7upbZvks8VT2S8KQ+7J+p29x82qaNau
-         uSJ43NKDD4joR5igqd4xfeoSTFgKthZHGz2/I5PbSwAP29LHu3sqb+z2AKlQuVar8+6u
-         Ir8J94hCnREUirUgUYL96QiIJ3OtSkdsK+4n1WP7q0tqOwEAein6tV91nM8fFhYjEkyp
-         0XaZ4TVZermcgzzY6jzOW4fBBOuDXubkYnIMPG6ZZki634NsZHL2lOXklESaLPL9hmnO
-         XGtg==
+        h=content-transfer-encoding:mime-version:references:in-reply-to:date
+         :cc:to:from:subject:message-id:dkim-signature;
+        bh=NJ+Woh3w6z3vlb9GDrGYWFJxOWvffKrwn6YuBZHwOtc=;
+        b=fwazr6KYCOQNJKSguFp67BJp6TISHozlfG7Ms4xrM9K7DIrbYTvPGSsl5ndt+hhZkK
+         PYI7KiL8XjnkoGCc+BuXqnGOxGOwvZ4jnBGQM2xYQjiIL4qfjOpyGDCWQOIH801+5jzk
+         +BDDV+ruCN66wcU7c8ruf0wAXOAbFGZRgdMQprOTyC+BtN1Iazve6XVSrkGapQUo1B16
+         dpg/cBXrr5UrS306dIywAq7/VfzHS7Tfgr1yM+E5K/W+14OG33cvQaR+kwTc/EhGv0WG
+         tj+aRrkF57ke31uVMs9rFNty4MqPHvD4EkeoLOZkZtQe/NKj2nGEJCLlP6EmzmIcv3nG
+         NhUg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=mJYqIDVd;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::f2b as permitted sender) smtp.mailfrom=dvyukov@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-qv1-xf2b.google.com (mail-qv1-xf2b.google.com. [2607:f8b0:4864:20::f2b])
-        by gmr-mx.google.com with ESMTPS id p8si523759iln.0.2020.12.17.02.27.45
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Dec 2020 02:27:45 -0800 (PST)
-Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::f2b as permitted sender) client-ip=2607:f8b0:4864:20::f2b;
-Received: by mail-qv1-xf2b.google.com with SMTP id j18so11100173qvu.3
-        for <kasan-dev@googlegroups.com>; Thu, 17 Dec 2020 02:27:45 -0800 (PST)
-X-Received: by 2002:a05:6214:487:: with SMTP id ay7mr48227770qvb.37.1608200864306;
- Thu, 17 Dec 2020 02:27:44 -0800 (PST)
-MIME-Version: 1.0
-References: <1607576401-25609-1-git-send-email-vjitta@codeaurora.org> <CACT4Y+bO+w50rgbAMPcMMTdyvRRe1nc97Hp-Gm81Ky2s6fOnMQ@mail.gmail.com>
-In-Reply-To: <CACT4Y+bO+w50rgbAMPcMMTdyvRRe1nc97Hp-Gm81Ky2s6fOnMQ@mail.gmail.com>
-From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Thu, 17 Dec 2020 11:27:32 +0100
-Message-ID: <CACT4Y+Zgg7dTeDtt73dQG1+v7kmb58fA-DQGv2NetwQB2brANg@mail.gmail.com>
-Subject: Re: [PATCH v3] lib: stackdepot: Add support to configure STACK_HASH_SIZE
-To: Vijayanand Jitta <vjitta@codeaurora.org>, kasan-dev <kasan-dev@googlegroups.com>
-Cc: Minchan Kim <minchan@kernel.org>, Vincenzo Frascino <vincenzo.frascino@arm.com>, 
-	Alexander Potapenko <glider@google.com>, Dan Williams <dan.j.williams@intel.com>, 
-	Mark Brown <broonie@kernel.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	LKML <linux-kernel@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Andrey Konovalov <andreyknvl@google.com>, qcai@redhat.com, ylal@codeaurora.org, 
-	vinmenon@codeaurora.org
+       dkim=pass header.i=@mediatek.com header.s=dk header.b=Ppqa+J3v;
+       spf=pass (google.com: domain of kuan-ying.lee@mediatek.com designates 210.61.82.183 as permitted sender) smtp.mailfrom=kuan-ying.lee@mediatek.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
+Received: from mailgw01.mediatek.com ([210.61.82.183])
+        by gmr-mx.google.com with ESMTP id q15si372891pfs.1.2020.12.17.02.28.55
+        for <kasan-dev@googlegroups.com>;
+        Thu, 17 Dec 2020 02:28:55 -0800 (PST)
+Received-SPF: pass (google.com: domain of kuan-ying.lee@mediatek.com designates 210.61.82.183 as permitted sender) client-ip=210.61.82.183;
+X-UUID: 93d1136e26624109865faab7044a0562-20201217
+X-UUID: 93d1136e26624109865faab7044a0562-20201217
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
+	(envelope-from <kuan-ying.lee@mediatek.com>)
+	(Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+	with ESMTP id 1630589223; Thu, 17 Dec 2020 18:28:51 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs01n2.mediatek.inc (172.21.101.79) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 17 Dec 2020 18:28:47 +0800
+Received: from [172.21.84.99] (172.21.84.99) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Thu, 17 Dec 2020 18:28:47 +0800
+Message-ID: <1608200928.31376.37.camel@mtksdccf07>
+Subject: Re: [PATCH 1/1] kasan: fix memory leak of kasan quarantine
+From: Kuan-Ying Lee <Kuan-Ying.Lee@mediatek.com>
+To: Andrey Ryabinin <aryabinin@virtuozzo.com>
+CC: Alexander Potapenko <glider@google.com>, Dmitry Vyukov
+	<dvyukov@google.com>, Andrew Morton <akpm@linux-foundation.org>, "Matthias
+ Brugger" <matthias.bgg@gmail.com>, <kasan-dev@googlegroups.com>,
+	<linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>,
+	<wsd_upstream@mediatek.com>, <stable@vger.kernel.org>
+Date: Thu, 17 Dec 2020 18:28:48 +0800
+In-Reply-To: <1608031683-24967-2-git-send-email-Kuan-Ying.Lee@mediatek.com>
+References: <1608031683-24967-1-git-send-email-Kuan-Ying.Lee@mediatek.com>
+	 <1608031683-24967-2-git-send-email-Kuan-Ying.Lee@mediatek.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: dvyukov@google.com
+X-Mailer: Evolution 3.2.3-0ubuntu6
+MIME-Version: 1.0
+X-TM-SNTS-SMTP: 2752E72A10EB865FFDCC2B6C40094E72E1BF4CF53284D1973037E26C5DE696AE2000:8
+X-MTK: N
+X-Original-Sender: kuan-ying.lee@mediatek.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=mJYqIDVd;       spf=pass
- (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::f2b
- as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
- (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Dmitry Vyukov <dvyukov@google.com>
-Reply-To: Dmitry Vyukov <dvyukov@google.com>
+ header.i=@mediatek.com header.s=dk header.b=Ppqa+J3v;       spf=pass
+ (google.com: domain of kuan-ying.lee@mediatek.com designates 210.61.82.183 as
+ permitted sender) smtp.mailfrom=kuan-ying.lee@mediatek.com;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -133,95 +143,45 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Dec 17, 2020 at 11:25 AM Dmitry Vyukov <dvyukov@google.com> wrote:
->
-> On Thu, Dec 10, 2020 at 6:04 AM <vjitta@codeaurora.org> wrote:
-> >
-> > From: Yogesh Lal <ylal@codeaurora.org>
-> >
-> > Add a kernel parameter stack_hash_order to configure STACK_HASH_SIZE.
-> >
-> > Aim is to have configurable value for STACK_HASH_SIZE, so that one
-> > can configure it depending on usecase there by reducing the static
-> > memory overhead.
-> >
-> > One example is of Page Owner, default value of STACK_HASH_SIZE lead
-> > stack depot to consume 8MB of static memory. Making it configurable
-> > and use lower value helps to enable features like CONFIG_PAGE_OWNER
-> > without any significant overhead.
-> >
-> > Suggested-by: Minchan Kim <minchan@kernel.org>
-> > Signed-off-by: Yogesh Lal <ylal@codeaurora.org>
-> > Signed-off-by: Vijayanand Jitta <vjitta@codeaurora.org>
-> > ---
-> >  lib/stackdepot.c | 31 +++++++++++++++++++++++++++----
-> >  1 file changed, 27 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/lib/stackdepot.c b/lib/stackdepot.c
-> > index 81c69c0..e0eebfd 100644
-> > --- a/lib/stackdepot.c
-> > +++ b/lib/stackdepot.c
-> > @@ -30,6 +30,7 @@
-> >  #include <linux/stackdepot.h>
-> >  #include <linux/string.h>
-> >  #include <linux/types.h>
-> > +#include <linux/vmalloc.h>
-> >
-> >  #define DEPOT_STACK_BITS (sizeof(depot_stack_handle_t) * 8)
-> >
-> > @@ -141,14 +142,36 @@ static struct stack_record *depot_alloc_stack(unsigned long *entries, int size,
-> >         return stack;
-> >  }
-> >
-> > -#define STACK_HASH_ORDER 20
-> > -#define STACK_HASH_SIZE (1L << STACK_HASH_ORDER)
-> > +#define MAX_STACK_HASH_ORDER 20
-> > +#define MAX_STACK_HASH_SIZE (1L << MAX_STACK_HASH_ORDER)
-> > +#define STACK_HASH_SIZE (1L << stack_hash_order)
-> >  #define STACK_HASH_MASK (STACK_HASH_SIZE - 1)
-> >  #define STACK_HASH_SEED 0x9747b28c
-> >
-> > -static struct stack_record *stack_table[STACK_HASH_SIZE] = {
-> > -       [0 ...  STACK_HASH_SIZE - 1] = NULL
-> > +static unsigned int stack_hash_order = 20;
-> > +static struct stack_record *stack_table_def[MAX_STACK_HASH_SIZE] __initdata = {
-> > +       [0 ...  MAX_STACK_HASH_SIZE - 1] = NULL
-> >  };
-> > +static struct stack_record **stack_table __refdata = stack_table_def;
-> > +
-> > +static int __init setup_stack_hash_order(char *str)
-> > +{
-> > +       kstrtouint(str, 0, &stack_hash_order);
-> > +       if (stack_hash_order > MAX_STACK_HASH_ORDER)
+On Tue, 2020-12-15 at 19:28 +0800, Kuan-Ying Lee wrote:
+> When cpu is going offline, set q->offline as true
+> and interrupt happened. The interrupt may call the
+> quarantine_put. But quarantine_put do not free the
+> the object. The object will cause memory leak.
+> 
+> Add qlink_free() to free the object.
+> 
+> Signed-off-by: Kuan-Ying Lee <Kuan-Ying.Lee@mediatek.com>
+> Cc: Andrey Ryabinin <aryabinin@virtuozzo.com>
+> Cc: Alexander Potapenko <glider@google.com>
+> Cc: Dmitry Vyukov <dvyukov@google.com>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Matthias Brugger <matthias.bgg@gmail.com>
+> Cc: <stable@vger.kernel.org>    [5.10-]
+> ---
+>  mm/kasan/quarantine.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/mm/kasan/quarantine.c b/mm/kasan/quarantine.c
+> index 0e3f8494628f..cac7c617df72 100644
+> --- a/mm/kasan/quarantine.c
+> +++ b/mm/kasan/quarantine.c
+> @@ -191,6 +191,7 @@ void quarantine_put(struct kasan_free_meta *info, struct kmem_cache *cache)
+>  
+>  	q = this_cpu_ptr(&cpu_quarantine);
+>  	if (q->offline) {
+> +		qlink_free(&info->quarantine_link, cache);
+>  		local_irq_restore(flags);
+>  		return;
+>  	}
 
-Can interrupts happen here?
+Sorry.
 
-> > +               stack_hash_order = MAX_STACK_HASH_ORDER;
-> > +       return 0;
-> > +}
-> > +early_param("stack_hash_order", setup_stack_hash_order);
-> > +
-> > +static int __init init_stackdepot(void)
-> > +{
-> > +       size_t size = (STACK_HASH_SIZE * sizeof(struct stack_record *));
-> > +
-> > +       stack_table = vmalloc(size);
-> > +       memcpy(stack_table, stack_table_def, size);
->
-> Can interrupts happen at this point in time? If yes, they can
-> use/modify stack_table_def concurrently.
->
-> > +       return 0;
-> > +}
-> > +early_initcall(init_stackdepot);
-> >
-> >  /* Calculate hash for a stack */
-> >  static inline u32 hash_stack(unsigned long *entries, unsigned int size)
-> > --
-> > 2.7.4
-> > QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum, hosted by The Linux Foundation
+Please ignore this patch.
+
+Thanks.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BZgg7dTeDtt73dQG1%2Bv7kmb58fA-DQGv2NetwQB2brANg%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/1608200928.31376.37.camel%40mtksdccf07.
