@@ -1,148 +1,134 @@
-Return-Path: <kasan-dev+bncBDCZTXNV3YCBB3GIUX7QKGQEHTZW4MY@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBCEIU37QKGQEKOZDZAA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qt1-f191.google.com (mail-qt1-f191.google.com [209.85.160.191])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1C652E340B
-	for <lists+kasan-dev@lfdr.de>; Mon, 28 Dec 2020 05:51:57 +0100 (CET)
-Received: by mail-qt1-f191.google.com with SMTP id v9sf4510316qtw.12
-        for <lists+kasan-dev@lfdr.de>; Sun, 27 Dec 2020 20:51:57 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1609131117; cv=pass;
+Received: from mail-il1-x13a.google.com (mail-il1-x13a.google.com [IPv6:2607:f8b0:4864:20::13a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 232852E349E
+	for <lists+kasan-dev@lfdr.de>; Mon, 28 Dec 2020 08:06:50 +0100 (CET)
+Received: by mail-il1-x13a.google.com with SMTP id f4sf9580507ilu.15
+        for <lists+kasan-dev@lfdr.de>; Sun, 27 Dec 2020 23:06:50 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1609139209; cv=pass;
         d=google.com; s=arc-20160816;
-        b=TGeZpRtYXfQrpdi1+GbYpeQ8FMQy7eI/oQ1Zias81U2h/vJEoAJYls96dtNUxO9jJz
-         Sq+tRYhm/pM9gjs04Wc+sdPgX+g4kCa9P33aJW/rP5zaTwn+FjXc1VeGj5OTnP4btt6i
-         nidsSiRrKPFIxbOlsySi8idh028Ko7LtK3htdDFxt9pi0/9uSlWQKoayXw0ISJNfGEcu
-         d8Yi8+qK6f34DOaYXmAWXd51tKYoJweHwOmSh/CxSmwwjS2rF2u2XR40AE3CA9GYrVHl
-         nz8ZsI8ikLamD1G5MGwFjbhRdhrLzRjVkVfSRBDkvzktsKiIDDKot/J+oov7Fl0L7bxG
-         X5sQ==
+        b=0G3oiFrhapKDM3lAP4GDP2wivL8YGPpnljTWSvCt0Wj8e6fqXqKFMrahGFOdVVOMKP
+         QMaWG3VRJ4vis6dT4Y+Z6yIQImjqoWVdCkufOL7NLCvkeFzOm6Mejnx0w+CdQmfoJLFU
+         eQyN89hqnLXl1hE7tvoY2MoFvnJHvRuuaVtxAoknN/5yjbrm6nX8pL1D/GPAmnvTdf9b
+         /4huwquEFkFlEG99TxL5VXGPZlsHWeqNopdoP/CCbIAKvB2YdXtcSOGbSWgIKYfTqWgL
+         nqnN6TvOBWKekyqZK7D1lSuB1LKNkzI5M4x1PpPYekrfvrhg7qzqmv5jC/TX7WIrn3RW
+         6CJQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-language:in-reply-to
-         :mime-version:user-agent:date:message-id:from:references:cc:to
-         :subject:dmarc-filter:sender;
-        bh=6FITKyB3irp2kxUTg+BWWeRmTLuJJm7/TVVw8zxGx+A=;
-        b=idkbSsNLm1olJ843mNpk/V1ub69st+0BQlYHNMqlUoPNMspZYcWWc624/75UrCPZfN
-         D4CvPU/L/mK4D62au66Rl41eEKCWZwTqiNNxXuVL0f2kvXDXXaDISehYF4Xh7Zsif2dB
-         cuJaAHyJ9T/IE6dVsIORlyk/iDQGcCR6/ub46rkX8bSSkUTMi3PcH9NBarfJ7/IUu6Gb
-         8A6qZ+DB11tIvmks3uOQ85qfLBE2dq/d6gAW/ezkwbWE/IhSZgcDmYrNxE5sUFNl6tME
-         WzxDEsn9a7Ax12Y3PIFePsXmOPN85BcZam13FC6OS1PGWHPldOB0jhRl1pJWi1WTDAtz
-         SQhA==
+         :list-id:mailing-list:precedence:references:in-reply-to:message-id
+         :date:subject:cc:to:from:mime-version:sender:dkim-signature;
+        bh=eFxAfBXgtheLwbEddMJEbOHpb8xx9qzNF42uTi/pOuw=;
+        b=CbAEvl0qR4+FxNMoxKKrtgupN2ijOU91ymhwEFBWH37qBSGvcxGpa3RRo9kLSGA13H
+         Q7f63Iyx16ScOdpIIUsPRURnuPASv+7aTwQ1DXBMJkDCI9uSZWTBRCvhWY69Qy6g6muH
+         L1L9ofJ1sxAg6HE4jPLwXUCsLmhazFZotdDUhSjkNM3Hc0HNeco58mcQMeM396dDYU4E
+         /Rll3K19Riolz139ak+nJ5+rfJ48s9mhT10/7iMTfdV71+L0dIEzaCpwSdEgf4/u4tPo
+         VMmWuV4vKBB70ZlIB1Bdr5k2L9hXhfHeqXJwZogHbKuNlEMeudX67tplxakzFiwUoLIm
+         97eg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@mg.codeaurora.org header.s=smtp header.b=TYS2ayRx;
-       spf=pass (google.com: domain of bounce+2683c2.be9e4a-kasan-dev=googlegroups.com@mg.codeaurora.org designates 69.72.43.15 as permitted sender) smtp.mailfrom="bounce+2683c2.be9e4a-kasan-dev=googlegroups.com@mg.codeaurora.org"
+       spf=pass (google.com: domain of wetp.zy@linux.alibaba.com designates 47.88.44.36 as permitted sender) smtp.mailfrom=wetp.zy@linux.alibaba.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=alibaba.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=googlegroups.com; s=20161025;
+        h=sender:mime-version:from:to:cc:subject:date:message-id:in-reply-to
+         :references:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=eFxAfBXgtheLwbEddMJEbOHpb8xx9qzNF42uTi/pOuw=;
+        b=IHLfjCSQ1lAKOoIO0BfcfhQrqsRKQlnHJhCLV5ATlTCsQFPKu0BkDbtviZvZiC85ju
+         5eOhSrLG6IeD/Vi9vy6yTidFZoG9u4XOnehzjKZh+fer165MDQD+DugzXFlABoPcrfSq
+         iEckjLlAVkhfveEfDHI9+bKxWSWnZFg0mr9AFOFscGd+H2Z7J5/eEJOkzLYUc/TmOZAW
+         1lhYoLKquO2ZIXoT6pJRPLwubBxLkspnWgfXe39amMlkvbzUXBqNWDUAaZ3z2dq++ZVM
+         xhGEe5HiLlaH+HbUrwYMH7yIyWAWttHDYLlSVMGHlEWhRVgE0sz0vWtxIHJRkt5uBR/u
+         Xhhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:dmarc-filter:subject:to:cc:references
-         :from:message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:x-original-sender
+        h=sender:x-gm-message-state:mime-version:from:to:cc:subject:date
+         :message-id:in-reply-to:references:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=6FITKyB3irp2kxUTg+BWWeRmTLuJJm7/TVVw8zxGx+A=;
-        b=DhyDRtHQlzrXvduodj/qBxvi/DHYR892jUtYWwma/79w5ELwexgOXV9XJBxqkLYcQJ
-         dSD2Ofp7Z4c9A1mTAzfBOYoiIGV3QozhijkgZkW7KBEMI1JFM8ONNwvQaYi40I8csEKk
-         Jm982tAp8bi1EKJS52mmkI/8r03saNg3yB3C0AwfanIXhcxbyrgWsarQv7o+xwncTHsn
-         uR4f26b2JpfAQHnbehKW17rZ1V6gih+7pQh1+31yahvNFPmFvuy3dom1kRDo+wMFlXly
-         hWu54YoJJjrBIqgz6yEtACD8Wv5sOSwqNuWN3HD3WaLn1c7GUTtchtije7lfd1WRAiSR
-         QtYg==
-X-Gm-Message-State: AOAM530vr8LX8F6demcKgFQpqJCxq4rpFdQOH8cgoTdcltxK/sdOFbye
-	7ZbqEvZHGR/Hu/AmBXDSM9c=
-X-Google-Smtp-Source: ABdhPJxguxUioo6Y6NdqnoJJuNqImpLBKHldo9ANu8p1jcVWBZPay7Pl/zmxoxss42k/Cga9OjuZ+Q==
-X-Received: by 2002:a0c:bf12:: with SMTP id m18mr8062857qvi.40.1609131116769;
-        Sun, 27 Dec 2020 20:51:56 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ae9:c001:: with SMTP id u1ls27738643qkk.1.gmail; Sun, 27 Dec
- 2020 20:51:56 -0800 (PST)
-X-Received: by 2002:a37:4394:: with SMTP id q142mr42469311qka.113.1609131116347;
-        Sun, 27 Dec 2020 20:51:56 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1609131116; cv=none;
-        d=google.com; s=arc-20160816;
-        b=oLd4C0W3YCkilv2i+RQKXz07nIO10sEhvZNS+iA2uBZ5et3sCQ05QtJD8Tt740GExs
-         tEhGu7tr9t+tv7AEvnYQk/q9yYGxUKkWOt7w8EVIkGpv6fKZJPLdpWK6VldS87+ngEXD
-         eQSg6O4h9ZtIAH+rQ7wB3tyZlEikC08+XuNIWJYhXuPgTwIcq+TZDoih+lvJdNDwSq6a
-         yP2QEJJXamGtel2cQjiSNM8/hXS85fBrcx90c0FKIR5QL8G7S4r1nQPJZocr9EZ6egiV
-         szVDUYRk7UKlxYYfgbFzq8ARNOb4Of+eKMIAlNmMq+H/vdNsc1YnOyh0jf5NFJTjMPmB
-         P++g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject
-         :dmarc-filter:sender:dkim-signature;
-        bh=BO8IW9Q/PT7UqzydT2jMWi2wLodhoA3BrQp/tn36dPI=;
-        b=yKjNtfzRSmihmpC04bVJCsp7Ve7F8WwpgNbNGoP5DZfy6Ce0FanrlBzv4QwdZL3Sja
-         mvbT5CkN5KHrbCxrkbdcc9J7AipcgO85O2TCUWwPuRGj0ZPSB+qp7LSZpCjxjnwWmLnl
-         fDIkqsD2rVbEUOmZ0mhx/iSwvcMPp6G6PvDrQYWiaQfy4jQSL7j87bLkkqqUdcxU3HmA
-         pXpz6ron1kSsWM4GyOl9HfFJD7RfmogacOYUMgwDkQv92xvOcA3RT2zfwjMKRUDbm31s
-         XBIWOdSptCGZy9sraR6ZJ5bKhNCADHOaESzc7479kjCaXR5BMKNifC1w/8rVMkC7UaJL
-         PxLg==
-ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@mg.codeaurora.org header.s=smtp header.b=TYS2ayRx;
-       spf=pass (google.com: domain of bounce+2683c2.be9e4a-kasan-dev=googlegroups.com@mg.codeaurora.org designates 69.72.43.15 as permitted sender) smtp.mailfrom="bounce+2683c2.be9e4a-kasan-dev=googlegroups.com@mg.codeaurora.org"
-Received: from m43-15.mailgun.net (m43-15.mailgun.net. [69.72.43.15])
-        by gmr-mx.google.com with UTF8SMTPS id l32si2614935qta.3.2020.12.27.20.51.54
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 27 Dec 2020 20:51:56 -0800 (PST)
-Received-SPF: pass (google.com: domain of bounce+2683c2.be9e4a-kasan-dev=googlegroups.com@mg.codeaurora.org designates 69.72.43.15 as permitted sender) client-ip=69.72.43.15;
-X-Mailgun-Sending-Ip: 69.72.43.15
-X-Mailgun-Sid: WyIyNmQ1NiIsICJrYXNhbi1kZXZAZ29vZ2xlZ3JvdXBzLmNvbSIsICJiZTllNGEiXQ==
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n07.prod.us-east-1.postgun.com with SMTP id
- 5fe96463b00c0d7ad4f4d00b (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 28 Dec 2020 04:51:47
- GMT
-Sender: vjitta=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-	id E0D2AC43462; Mon, 28 Dec 2020 04:51:46 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-	aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=2.0 tests=ALL_TRUSTED,BAYES_00,
-	NICE_REPLY_A,SPF_FAIL autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from [192.168.0.106] (unknown [182.18.191.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	(Authenticated sender: vjitta)
-	by smtp.codeaurora.org (Postfix) with ESMTPSA id B5DEBC433C6;
-	Mon, 28 Dec 2020 04:51:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org B5DEBC433C6
-Subject: Re: [PATCH v3] lib: stackdepot: Add support to configure
- STACK_HASH_SIZE
-To: Alexander Potapenko <glider@google.com>
-Cc: Minchan Kim <minchan@kernel.org>,
- Vincenzo Frascino <vincenzo.frascino@arm.com>, dan.j.williams@intel.com,
- broonie@kernel.org, Masami Hiramatsu <mhiramat@kernel.org>,
- LKML <linux-kernel@vger.kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Andrey Konovalov <andreyknvl@google.com>, qcai@redhat.com,
- ylal@codeaurora.org, vinmenon@codeaurora.org,
- kasan-dev <kasan-dev@googlegroups.com>
-References: <CAG_fn=UjJQP_gfDm3eJTPY371QTwyDJKXBCN2gs4DvnLP2pbyQ@mail.gmail.com>
- <7f2e171f-fa44-ef96-6cc6-14e615e3e457@codeaurora.org>
- <CAG_fn=VihkHLx7nHRrzQRuHeL-UYRezcyGLDQMJY+d1O5AkJfA@mail.gmail.com>
- <601d4b1a-8526-f7ad-d0f3-305894682109@codeaurora.org>
- <CAG_fn=V8e8y1fbOaYUD5SfDSQ9+Tc3r7w6ZSoJ-ZNFJvvq-Aeg@mail.gmail.com>
- <9e0d2c07-af1f-a1d3-fb0d-dbf2ae669f96@codeaurora.org>
- <CAG_fn=UXQUGiDqmChqD-xX-yF5Jp+7K+oHwKPrO9DZL-zW_4KQ@mail.gmail.com>
- <48df48fe-dc36-83a4-1c11-e9d0cf230372@codeaurora.org>
- <6110a26b-dc87-b6f9-e679-aa60917403de@codeaurora.org>
- <CAG_fn=VjejHtY8=cuuFkixpXd6A6q1C==6RAaUC3Vb5_4hZkcg@mail.gmail.com>
- <X+EFmQz6JKfpdswG@google.com>
- <d769a7b1-89a2-aabe-f274-db132f7229d1@codeaurora.org>
- <CAG_fn=UUo3tP1XtdOntNG1krvbPV7pmE9XXwMyuhL2gMUoc4Jw@mail.gmail.com>
-From: Vijayanand Jitta <vjitta@codeaurora.org>
-Message-ID: <dbce90d4-17e5-15a3-4336-9efede16c772@codeaurora.org>
-Date: Mon, 28 Dec 2020 10:21:31 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+        bh=eFxAfBXgtheLwbEddMJEbOHpb8xx9qzNF42uTi/pOuw=;
+        b=GuIHeF6i++cq6KidZ06eNdNZlD1EHUUQ3tfOGcxknYzpE0raJ9X1CMu5fZ2392Zn7Y
+         akLDMyqj4siGp7eYLooq4qFAHlcdZxZMhJtrzPqohythfDu93/T6VNCdjPlJtUcdp4RT
+         RjH1gat4AsS8tH3ZUFjgF//8amL4WlxIcvxz35UXyTtagx9NQ08gfk7WfWKpETU8L2C/
+         e9LgVwxVSYssz55bdB8DVpt5FPzCsBGB2SsFjs7kjit6FQgg6mA0pZ+btCpQ+PF9BlQp
+         xOJdQwkFRIuv4Sclj9J9ccMHRzgx/6NUHCadrdCmnOZYAnleFDvLAkVBqyQJEbgDrYCR
+         6CgQ==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM530RbIFRubo4ewApRkjoKMtQq+pgzvN1/Kw9juL+FGszMTLpO7fL
+	6m5TMBQM/D//Uernhe8s9N0=
+X-Google-Smtp-Source: ABdhPJw5u284D9CstRIfrdagD0dMv2JLRyo6JPqN6XR8ikwSJUdX5YqE1tUL/60Ocg2meE1GErZNbQ==
+X-Received: by 2002:a02:b011:: with SMTP id p17mr38373794jah.114.1609139208699;
+        Sun, 27 Dec 2020 23:06:48 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAG_fn=UUo3tP1XtdOntNG1krvbPV7pmE9XXwMyuhL2gMUoc4Jw@mail.gmail.com>
+X-BeenThere: kasan-dev@googlegroups.com
+Received: by 2002:a92:ca09:: with SMTP id j9ls266780ils.11.gmail; Sun, 27 Dec
+ 2020 23:06:48 -0800 (PST)
+X-Received: by 2002:a92:c0d0:: with SMTP id t16mr42966846ilf.21.1609139208305;
+        Sun, 27 Dec 2020 23:06:48 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1609139208; cv=none;
+        d=google.com; s=arc-20160816;
+        b=YCoyCDwTFIWEGlZfyT2qbKz/7QcfIXncAO5earqt5FhuthpeozMoWuGcIQntdBMK1x
+         evQlQmQwQzK1iaCynBNKSC5k7iBBXGjwDCBslxKfHji4LvgQZWwjKdwughFqteVK/Gc/
+         vAD2YjenGiOvk16T8G3j1aLZUlRXtacrbmB84PR+C6o3nAaYVkRJypUIow3nPA1pXxDa
+         Ff2UvFHq7quIV48iHGsSfqAucjWVVDwUjSTTzbT0hfZua5pJI7DTezh7k93MDjlC6CYY
+         1vQgn4a5q1daBfWQsODCPfUZdorVlcI1hLq6oJ7swBPMq3GGBGR5XZ8qhj/2jouPX5jG
+         4HWw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=references:in-reply-to:message-id:date:subject:cc:to:from;
+        bh=kMygIKGle6eY7OpzYy3G1uEf1uXvyKJsZGp51ianoXY=;
+        b=uDBMeb+xem16uTZgbTVDMrfge4PJSoT24QusuH2R5yjboyYdiRFDNRwHPXTHAlGvDP
+         MlpqrVy1yhlM5CYzvEYwKwj83sJcXnJoBHSIW5jLfXS2cUcOnd3UTpp8mim4KF7MPgNx
+         pnZ7HrZjFIgnSbd2O+aprjH9oYC/RCxwBVmdKklX6TfeRSq5xReo45i/V9qi2qh3C6Vp
+         fB43tu6yUKMR5Xe+jBYKA+8RcfjuXt/xql/AXsbIaq1MQd0eswhbccJk2XQwlISX0zuj
+         atcQsjYBndubegXxDs3P4nYnEP72+3S4epDwnycxxrdLbyQtLAHZc4IasEyekVS1TEZc
+         uOPw==
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       spf=pass (google.com: domain of wetp.zy@linux.alibaba.com designates 47.88.44.36 as permitted sender) smtp.mailfrom=wetp.zy@linux.alibaba.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=alibaba.com
+Received: from out4436.biz.mail.alibaba.com (out4436.biz.mail.alibaba.com. [47.88.44.36])
+        by gmr-mx.google.com with ESMTPS id u14si1110296ilv.0.2020.12.27.23.06.46
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 27 Dec 2020 23:06:48 -0800 (PST)
+Received-SPF: pass (google.com: domain of wetp.zy@linux.alibaba.com designates 47.88.44.36 as permitted sender) client-ip=47.88.44.36;
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R841e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04357;MF=wetp.zy@linux.alibaba.com;NM=1;PH=DS;RN=19;SR=0;TI=SMTPD_---0UJzBKuK_1609139175;
+Received: from localhost(mailfrom:wetp.zy@linux.alibaba.com fp:SMTPD_---0UJzBKuK_1609139175)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Mon, 28 Dec 2020 15:06:21 +0800
+From: Wetp Zhang <wetp.zy@linux.alibaba.com>
+To: artie.ding@linux.alibaba.com
+Cc: alikernel-developer@linux.alibaba.com,
+	Jann Horn <jannh@google.com>,
+	Borislav Petkov <bp@suse.de>,
+	Alexander Potapenko <glider@google.com>,
+	Andrey Konovalov <andreyknvl@google.com>,
+	Andrey Ryabinin <aryabinin@virtuozzo.com>,
+	Andy Lutomirski <luto@kernel.org>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	"Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Ingo Molnar <mingo@redhat.com>,
+	kasan-dev@googlegroups.com,
+	Oleg Nesterov <oleg@redhat.com>,
+	Sean Christopherson <sean.j.christopherson@intel.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	x86-ml <x86@kernel.org>,
+	Youquan Song <youquan.song@intel.com>,
+	Wetp Zhang <wetp.zy@linux.alibaba.com>
+Subject: [PATCH 09/13] x86/insn-eval: Add support for 64-bit kernel mode
+Date: Mon, 28 Dec 2020 15:04:55 +0800
+Message-Id: <1609139095-26337-10-git-send-email-wetp.zy@linux.alibaba.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1609139095-26337-1-git-send-email-wetp.zy@linux.alibaba.com>
+References: <1609139095-26337-1-git-send-email-wetp.zy@linux.alibaba.com>
+X-Original-Sender: wetp.zy@linux.alibaba.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of wetp.zy@linux.alibaba.com designates 47.88.44.36 as
+ permitted sender) smtp.mailfrom=wetp.zy@linux.alibaba.com;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=alibaba.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Language: en-GB
-X-Original-Sender: vjitta@codeaurora.org
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@mg.codeaurora.org header.s=smtp header.b=TYS2ayRx;       spf=pass
- (google.com: domain of bounce+2683c2.be9e4a-kasan-dev=googlegroups.com@mg.codeaurora.org
- designates 69.72.43.15 as permitted sender) smtp.mailfrom="bounce+2683c2.be9e4a-kasan-dev=googlegroups.com@mg.codeaurora.org"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -155,40 +141,164 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
+From: Jann Horn <jannh@google.com>
 
+fix #31317281
 
-On 12/23/2020 8:10 PM, Alexander Potapenko wrote:
->>
->> Michan, We would still need config option so that we can reduce the
->> memory consumption on low ram devices using config.
->>
->> Alex, On this,
->> "I also suppose device vendors may prefer setting a fixed (maybe
->> non-default) hash size for low-memory devices rather than letting the
->> admins increase it."
->> I see kernel param swiotlb does similar thing i.e; '0' to disable and
->> set a value to configure size.
->>
->> I am fine with either of the approaches,
->>
->> 1. I can split this patch into two
->>    i)  A bool variable to enable/disable stack depot.
->>    ii) A config for the size.
-> 
-> I still believe this is a more appropriate solution.
-> 
-> Thanks in advance!
-> 
+commit 7be4412721aee25e35583a20a896085dc6b99c3e upstream
+Backport summary: Backport to kernel 4.19.57 to enhance MCA-R for copyin
 
-Thanks, Will work on a patch with above approach.
+To support evaluating 64-bit kernel mode instructions:
 
-Thanks,
-Vijay
+* Replace existing checks for user_64bit_mode() with a new helper that
+checks whether code is being executed in either 64-bit kernel mode or
+64-bit user mode.
+
+* Select the GS base depending on whether the instruction is being
+evaluated in kernel mode.
+
+Signed-off-by: Jann Horn <jannh@google.com>
+Signed-off-by: Borislav Petkov <bp@suse.de>
+Cc: Alexander Potapenko <glider@google.com>
+Cc: Andrey Konovalov <andreyknvl@google.com>
+Cc: Andrey Ryabinin <aryabinin@virtuozzo.com>
+Cc: Andy Lutomirski <luto@kernel.org>
+Cc: Dmitry Vyukov <dvyukov@google.com>
+Cc: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+Cc: "H. Peter Anvin" <hpa@zytor.com>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: kasan-dev@googlegroups.com
+Cc: Oleg Nesterov <oleg@redhat.com>
+Cc: Sean Christopherson <sean.j.christopherson@intel.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: x86-ml <x86@kernel.org>
+Link: https://lkml.kernel.org/r/20191218231150.12139-1-jannh@google.com
+Signed-off-by: Youquan Song <youquan.song@intel.com>
+Signed-off-by: Wetp Zhang <wetp.zy@linux.alibaba.com>
+---
+ arch/x86/include/asm/ptrace.h | 13 +++++++++++++
+ arch/x86/lib/insn-eval.c      | 26 +++++++++++++++-----------
+ 2 files changed, 28 insertions(+), 11 deletions(-)
+
+diff --git a/arch/x86/include/asm/ptrace.h b/arch/x86/include/asm/ptrace.h
+index ee696ef..bb85b51 100644
+--- a/arch/x86/include/asm/ptrace.h
++++ b/arch/x86/include/asm/ptrace.h
+@@ -159,6 +159,19 @@ static inline bool user_64bit_mode(struct pt_regs *regs)
+ #endif
+ }
+ 
++/*
++ * Determine whether the register set came from any context that is running in
++ * 64-bit mode.
++ */
++static inline bool any_64bit_mode(struct pt_regs *regs)
++{
++#ifdef CONFIG_X86_64
++	return !user_mode(regs) || user_64bit_mode(regs);
++#else
++	return false;
++#endif
++}
++
+ #ifdef CONFIG_X86_64
+ #define current_user_stack_pointer()	current_pt_regs()->sp
+ #define compat_user_stack_pointer()	current_pt_regs()->sp
+diff --git a/arch/x86/lib/insn-eval.c b/arch/x86/lib/insn-eval.c
+index 87dcba1..ec1670d 100644
+--- a/arch/x86/lib/insn-eval.c
++++ b/arch/x86/lib/insn-eval.c
+@@ -155,7 +155,7 @@ static bool check_seg_overrides(struct insn *insn, int regoff)
+  */
+ static int resolve_default_seg(struct insn *insn, struct pt_regs *regs, int off)
+ {
+-	if (user_64bit_mode(regs))
++	if (any_64bit_mode(regs))
+ 		return INAT_SEG_REG_IGNORE;
+ 	/*
+ 	 * Resolve the default segment register as described in Section 3.7.4
+@@ -264,7 +264,7 @@ static int resolve_seg_reg(struct insn *insn, struct pt_regs *regs, int regoff)
+ 	 * which may be invalid at this point.
+ 	 */
+ 	if (regoff == offsetof(struct pt_regs, ip)) {
+-		if (user_64bit_mode(regs))
++		if (any_64bit_mode(regs))
+ 			return INAT_SEG_REG_IGNORE;
+ 		else
+ 			return INAT_SEG_REG_CS;
+@@ -287,7 +287,7 @@ static int resolve_seg_reg(struct insn *insn, struct pt_regs *regs, int regoff)
+ 	 * In long mode, segment override prefixes are ignored, except for
+ 	 * overrides for FS and GS.
+ 	 */
+-	if (user_64bit_mode(regs)) {
++	if (any_64bit_mode(regs)) {
+ 		if (idx != INAT_SEG_REG_FS &&
+ 		    idx != INAT_SEG_REG_GS)
+ 			idx = INAT_SEG_REG_IGNORE;
+@@ -644,23 +644,27 @@ unsigned long insn_get_seg_base(struct pt_regs *regs, int seg_reg_idx)
+ 		 */
+ 		return (unsigned long)(sel << 4);
+ 
+-	if (user_64bit_mode(regs)) {
++	if (any_64bit_mode(regs)) {
+ 		/*
+ 		 * Only FS or GS will have a base address, the rest of
+ 		 * the segments' bases are forced to 0.
+ 		 */
+ 		unsigned long base;
+ 
+-		if (seg_reg_idx == INAT_SEG_REG_FS)
++		if (seg_reg_idx == INAT_SEG_REG_FS) {
+ 			rdmsrl(MSR_FS_BASE, base);
+-		else if (seg_reg_idx == INAT_SEG_REG_GS)
++		} else if (seg_reg_idx == INAT_SEG_REG_GS) {
+ 			/*
+ 			 * swapgs was called at the kernel entry point. Thus,
+ 			 * MSR_KERNEL_GS_BASE will have the user-space GS base.
+ 			 */
+-			rdmsrl(MSR_KERNEL_GS_BASE, base);
+-		else
++			if (user_mode(regs))
++				rdmsrl(MSR_KERNEL_GS_BASE, base);
++			else
++				rdmsrl(MSR_GS_BASE, base);
++		} else {
+ 			base = 0;
++		}
+ 		return base;
+ 	}
+ 
+@@ -701,7 +705,7 @@ static unsigned long get_seg_limit(struct pt_regs *regs, int seg_reg_idx)
+ 	if (sel < 0)
+ 		return 0;
+ 
+-	if (user_64bit_mode(regs) || v8086_mode(regs))
++	if (any_64bit_mode(regs) || v8086_mode(regs))
+ 		return -1L;
+ 
+ 	if (!sel)
+@@ -946,7 +950,7 @@ static int get_eff_addr_modrm(struct insn *insn, struct pt_regs *regs,
+ 	 * following instruction.
+ 	 */
+ 	if (*regoff == -EDOM) {
+-		if (user_64bit_mode(regs))
++		if (any_64bit_mode(regs))
+ 			tmp = regs->ip + insn->length;
+ 		else
+ 			tmp = 0;
+@@ -1248,7 +1252,7 @@ static void __user *get_addr_ref_32(struct insn *insn, struct pt_regs *regs)
+ 	 * After computed, the effective address is treated as an unsigned
+ 	 * quantity.
+ 	 */
+-	if (!user_64bit_mode(regs) && ((unsigned int)eff_addr > seg_limit))
++	if (!any_64bit_mode(regs) && ((unsigned int)eff_addr > seg_limit))
+ 		goto out;
+ 
+ 	/*
 -- 
-QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a
-member of Code Aurora Forum, hosted by The Linux Foundation
+1.8.3.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/dbce90d4-17e5-15a3-4336-9efede16c772%40codeaurora.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/1609139095-26337-10-git-send-email-wetp.zy%40linux.alibaba.com.
