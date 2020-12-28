@@ -1,132 +1,148 @@
-Return-Path: <kasan-dev+bncBCCMH5WKTMGRBA5ORX7QKGQEXJZBA3Q@googlegroups.com>
+Return-Path: <kasan-dev+bncBDCZTXNV3YCBB3GIUX7QKGQEHTZW4MY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x43b.google.com (mail-pf1-x43b.google.com [IPv6:2607:f8b0:4864:20::43b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 078782E1D7D
-	for <lists+kasan-dev@lfdr.de>; Wed, 23 Dec 2020 15:41:09 +0100 (CET)
-Received: by mail-pf1-x43b.google.com with SMTP id 68sf8607542pfx.0
-        for <lists+kasan-dev@lfdr.de>; Wed, 23 Dec 2020 06:41:08 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1608734467; cv=pass;
+Received: from mail-qt1-f191.google.com (mail-qt1-f191.google.com [209.85.160.191])
+	by mail.lfdr.de (Postfix) with ESMTPS id F1C652E340B
+	for <lists+kasan-dev@lfdr.de>; Mon, 28 Dec 2020 05:51:57 +0100 (CET)
+Received: by mail-qt1-f191.google.com with SMTP id v9sf4510316qtw.12
+        for <lists+kasan-dev@lfdr.de>; Sun, 27 Dec 2020 20:51:57 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1609131117; cv=pass;
         d=google.com; s=arc-20160816;
-        b=VJGeY3s1C+da2ol9sB8V/dgxLKhU6yvTOn0dcQ+8fqV7k1ffUOI/1nvJFoBBi3MJt2
-         rZ/BpnGgErqKNG4jntOyQ4bwxPsftmHY4UPTfBMdYkqXj62Zwvy5xlcrMq0C4mHAiX+v
-         8BN8AQDkSjCrlr8iGK3cnyYb67BwHC3oUlXEbcQsc9ah1RORWyp8VXB+ZEX43SHG4REm
-         ZBj4TNKC4gWCia2Ss4BwKOIdcDS2YKNCZ6q6CJy/at9HAcHNv9ISN2sAmtkCe8JZiU51
-         zORFutaz+PoqQMZV57uzep65pvAk9J1TYyw1/hmxM0jXr82eEkhDbvCzXQUYpJh3U/GY
-         QgYw==
+        b=TGeZpRtYXfQrpdi1+GbYpeQ8FMQy7eI/oQ1Zias81U2h/vJEoAJYls96dtNUxO9jJz
+         Sq+tRYhm/pM9gjs04Wc+sdPgX+g4kCa9P33aJW/rP5zaTwn+FjXc1VeGj5OTnP4btt6i
+         nidsSiRrKPFIxbOlsySi8idh028Ko7LtK3htdDFxt9pi0/9uSlWQKoayXw0ISJNfGEcu
+         d8Yi8+qK6f34DOaYXmAWXd51tKYoJweHwOmSh/CxSmwwjS2rF2u2XR40AE3CA9GYrVHl
+         nz8ZsI8ikLamD1G5MGwFjbhRdhrLzRjVkVfSRBDkvzktsKiIDDKot/J+oov7Fl0L7bxG
+         X5sQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=nG9VbNQbwufqXx6ItojVTFqL5eER3WGh7dnF6iBAilA=;
-        b=tgECQDSBx27lnHPT5uFK+4E1P0BqafkwOIS7kAaPwsC4lKRejJs2AySsfrtRlJDrya
-         XcUmDJAf7UllJvRGeSieBqNShL4ajq7hB2zVH5NyoIKs6BnMD0M8lSf3+HaWrOvo9ck+
-         AZFSA+Rhv7vuOPVbq2cYpSndvWMN5/54ehDYYaLRIdKijVEpwx3N+gLutPCYKo/pVLGV
-         kEQQ0kFsmqhqDVGG5/4fJVTaODKKJvgmA9goAwVCcaDB5IbX8WKx1HOJMEed7Cl5ZLRL
-         lTQ35b7ehza1heW3Y1LdxujmHQaddW/S20nes/f35Yi81jyNHUy0Oeel0VQ3VGVNxTDt
-         DOZw==
+         :list-id:mailing-list:precedence:content-language:in-reply-to
+         :mime-version:user-agent:date:message-id:from:references:cc:to
+         :subject:dmarc-filter:sender;
+        bh=6FITKyB3irp2kxUTg+BWWeRmTLuJJm7/TVVw8zxGx+A=;
+        b=idkbSsNLm1olJ843mNpk/V1ub69st+0BQlYHNMqlUoPNMspZYcWWc624/75UrCPZfN
+         D4CvPU/L/mK4D62au66Rl41eEKCWZwTqiNNxXuVL0f2kvXDXXaDISehYF4Xh7Zsif2dB
+         cuJaAHyJ9T/IE6dVsIORlyk/iDQGcCR6/ub46rkX8bSSkUTMi3PcH9NBarfJ7/IUu6Gb
+         8A6qZ+DB11tIvmks3uOQ85qfLBE2dq/d6gAW/ezkwbWE/IhSZgcDmYrNxE5sUFNl6tME
+         WzxDEsn9a7Ax12Y3PIFePsXmOPN85BcZam13FC6OS1PGWHPldOB0jhRl1pJWi1WTDAtz
+         SQhA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=IgDeBDPe;
-       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::72a as permitted sender) smtp.mailfrom=glider@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=nG9VbNQbwufqXx6ItojVTFqL5eER3WGh7dnF6iBAilA=;
-        b=M/bRDiDnLOlJctCvfgIjumUVmFe3BeB+BJctfcSgWfq0JAelz7pS8LNz1EKaobE7dD
-         D/6tt49wd96cjJAPPwATiVT+H4VxHDSqhZtPUHMxm5GIfLhNjYgg+celDhTA/zMS6Y1g
-         TkyaNbW1lmaPHCUcpSXGbhqjf7IhA+bv43QKatsjrpFGjY7MnM1TRsvdcIveziwvqw0k
-         HTv4rO/V7Sv5GFnxKopIEFtw4VPGRfUYFFncJIDPfpGYGjX4r/1ePKHJT/c1Iqz7mOxg
-         ZmBfVsNp2DQZS+19mGyTzGufwho3Whs9k1xh0akA4JmOZ3AJMO58LmFV23JwPO1nRFDJ
-         t8Ew==
+       dkim=pass header.i=@mg.codeaurora.org header.s=smtp header.b=TYS2ayRx;
+       spf=pass (google.com: domain of bounce+2683c2.be9e4a-kasan-dev=googlegroups.com@mg.codeaurora.org designates 69.72.43.15 as permitted sender) smtp.mailfrom="bounce+2683c2.be9e4a-kasan-dev=googlegroups.com@mg.codeaurora.org"
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+        h=x-gm-message-state:sender:dmarc-filter:subject:to:cc:references
+         :from:message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=nG9VbNQbwufqXx6ItojVTFqL5eER3WGh7dnF6iBAilA=;
-        b=sIx2Z88DZWG+ba5meovxhjjAhncu54jcA+A0uDp2IBZb3nm7jqupoGJMA1INvVjHAE
-         ddKYWxP6ItvDpGWDlcd7C8/zE+NCqzDnxVobjcFZgnY9ioqKz9I2oWePe+w4tpcPu7e6
-         pM13odhXrfcGaPWY5o7Io2evknyCOiGtDizJVjx5su/S8xkQazt48jsgNYsKYGAsCBBM
-         U9DZV/rTYrBXsQtZ7Ni0/5EzAg8pGPeBCXT+2/2enRBRtJBplHtQGlNwyT1lmvzQs/EX
-         Tbhcn3aZA1oYjsZvSBbnTO8ZeL6++2KGgG2Y7SRTpCItq0HDeb581QHR5LIwzDaepSwK
-         Vo4Q==
-X-Gm-Message-State: AOAM5331dysghfwVlGmJuurrSa479/xI3V11BETWMr1PIg0B9uuzYE6b
-	414oTWwmnZ9GuK+GQlxWpN0=
-X-Google-Smtp-Source: ABdhPJzKMjJtCIinUPClyWq2VBbJLF951hc/YHD4Es8bIoyApWKtkkrlaXwpwrj8B6UChpXEvl/tRw==
-X-Received: by 2002:a63:f12:: with SMTP id e18mr25210396pgl.101.1608734467347;
-        Wed, 23 Dec 2020 06:41:07 -0800 (PST)
+        bh=6FITKyB3irp2kxUTg+BWWeRmTLuJJm7/TVVw8zxGx+A=;
+        b=DhyDRtHQlzrXvduodj/qBxvi/DHYR892jUtYWwma/79w5ELwexgOXV9XJBxqkLYcQJ
+         dSD2Ofp7Z4c9A1mTAzfBOYoiIGV3QozhijkgZkW7KBEMI1JFM8ONNwvQaYi40I8csEKk
+         Jm982tAp8bi1EKJS52mmkI/8r03saNg3yB3C0AwfanIXhcxbyrgWsarQv7o+xwncTHsn
+         uR4f26b2JpfAQHnbehKW17rZ1V6gih+7pQh1+31yahvNFPmFvuy3dom1kRDo+wMFlXly
+         hWu54YoJJjrBIqgz6yEtACD8Wv5sOSwqNuWN3HD3WaLn1c7GUTtchtije7lfd1WRAiSR
+         QtYg==
+X-Gm-Message-State: AOAM530vr8LX8F6demcKgFQpqJCxq4rpFdQOH8cgoTdcltxK/sdOFbye
+	7ZbqEvZHGR/Hu/AmBXDSM9c=
+X-Google-Smtp-Source: ABdhPJxguxUioo6Y6NdqnoJJuNqImpLBKHldo9ANu8p1jcVWBZPay7Pl/zmxoxss42k/Cga9OjuZ+Q==
+X-Received: by 2002:a0c:bf12:: with SMTP id m18mr8062857qvi.40.1609131116769;
+        Sun, 27 Dec 2020 20:51:56 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:902:7583:: with SMTP id j3ls21903545pll.0.gmail; Wed, 23
- Dec 2020 06:41:06 -0800 (PST)
-X-Received: by 2002:a17:90a:8e84:: with SMTP id f4mr40557pjo.129.1608734466761;
-        Wed, 23 Dec 2020 06:41:06 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1608734466; cv=none;
+Received: by 2002:ae9:c001:: with SMTP id u1ls27738643qkk.1.gmail; Sun, 27 Dec
+ 2020 20:51:56 -0800 (PST)
+X-Received: by 2002:a37:4394:: with SMTP id q142mr42469311qka.113.1609131116347;
+        Sun, 27 Dec 2020 20:51:56 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1609131116; cv=none;
         d=google.com; s=arc-20160816;
-        b=nWqohl+XZKefglVAJwMThGOQf7D1pBwnzGbasIK/fK3FERHZDADLD0G9ln0/uLurpL
-         mClTW4KsUu+oXl3DnPpPx0nw8NQ4YOsu2NTP0uLN4ekOxZ0MBZxc5lSpBXDrGEsFvQrK
-         M06Tf4x2kys40/HCVFn5DSZJ8kqoQQ2ObatbUNRPMntA+CIBJkksGiUETIjTScnnaqDp
-         3CAayfnaFnBW3UhQH31g7brjA0lcF28cmBdOufufs1MAZ7UgOGW2v4IFTrywUiQIjftq
-         qcG9tFJXuqYTbYm7DVsrMB3oxXNTtFYxeZ/WkctATIo2gZLy7jY1sXPLUa2mlnY/n7aT
-         Cehw==
+        b=oLd4C0W3YCkilv2i+RQKXz07nIO10sEhvZNS+iA2uBZ5et3sCQ05QtJD8Tt740GExs
+         tEhGu7tr9t+tv7AEvnYQk/q9yYGxUKkWOt7w8EVIkGpv6fKZJPLdpWK6VldS87+ngEXD
+         eQSg6O4h9ZtIAH+rQ7wB3tyZlEikC08+XuNIWJYhXuPgTwIcq+TZDoih+lvJdNDwSq6a
+         yP2QEJJXamGtel2cQjiSNM8/hXS85fBrcx90c0FKIR5QL8G7S4r1nQPJZocr9EZ6egiV
+         szVDUYRk7UKlxYYfgbFzq8ARNOb4Of+eKMIAlNmMq+H/vdNsc1YnOyh0jf5NFJTjMPmB
+         P++g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=TyB5HqZGghDqQHiswidE0Nhl7bc1fz9iuEH17F6HS7o=;
-        b=CyLhGVWiEPN6a0uA2Z4bw48/TwTgz6bjR3fxGXSFPONDOT7rLBosuZE2xIyp5efY/G
-         GhD1xKiD6ryJyNjEPDMCF6mRbs+H36G2Ts1CXevHrjWAkvRc5lAtbgejVtS31W4rwJKT
-         4GGmltJDE+N3RmoY4syuZTKgfmyHwJ+Vn78n60UEj9oMi+mlcPrzsLgDLDxG9R4ZPO0a
-         znYAVYaqjqnqlmA2YsfvkDPiJ284KxhMc9XjPdKcHuRXbY45YrVo+XQnI0/QwrG8t50G
-         QupgcC4a1Qi/YplAnhQ0zWYAgAS+F4pWHQ7ZN3Khqtgw6fzQfyD2uvNED1JDtdwT0Qx6
-         O+9A==
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject
+         :dmarc-filter:sender:dkim-signature;
+        bh=BO8IW9Q/PT7UqzydT2jMWi2wLodhoA3BrQp/tn36dPI=;
+        b=yKjNtfzRSmihmpC04bVJCsp7Ve7F8WwpgNbNGoP5DZfy6Ce0FanrlBzv4QwdZL3Sja
+         mvbT5CkN5KHrbCxrkbdcc9J7AipcgO85O2TCUWwPuRGj0ZPSB+qp7LSZpCjxjnwWmLnl
+         fDIkqsD2rVbEUOmZ0mhx/iSwvcMPp6G6PvDrQYWiaQfy4jQSL7j87bLkkqqUdcxU3HmA
+         pXpz6ron1kSsWM4GyOl9HfFJD7RfmogacOYUMgwDkQv92xvOcA3RT2zfwjMKRUDbm31s
+         XBIWOdSptCGZy9sraR6ZJ5bKhNCADHOaESzc7479kjCaXR5BMKNifC1w/8rVMkC7UaJL
+         PxLg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=IgDeBDPe;
-       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::72a as permitted sender) smtp.mailfrom=glider@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-qk1-x72a.google.com (mail-qk1-x72a.google.com. [2607:f8b0:4864:20::72a])
-        by gmr-mx.google.com with ESMTPS id c3si1481829pll.0.2020.12.23.06.41.06
+       dkim=pass header.i=@mg.codeaurora.org header.s=smtp header.b=TYS2ayRx;
+       spf=pass (google.com: domain of bounce+2683c2.be9e4a-kasan-dev=googlegroups.com@mg.codeaurora.org designates 69.72.43.15 as permitted sender) smtp.mailfrom="bounce+2683c2.be9e4a-kasan-dev=googlegroups.com@mg.codeaurora.org"
+Received: from m43-15.mailgun.net (m43-15.mailgun.net. [69.72.43.15])
+        by gmr-mx.google.com with UTF8SMTPS id l32si2614935qta.3.2020.12.27.20.51.54
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 23 Dec 2020 06:41:06 -0800 (PST)
-Received-SPF: pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::72a as permitted sender) client-ip=2607:f8b0:4864:20::72a;
-Received: by mail-qk1-x72a.google.com with SMTP id n142so15081029qkn.2
-        for <kasan-dev@googlegroups.com>; Wed, 23 Dec 2020 06:41:06 -0800 (PST)
-X-Received: by 2002:a37:a747:: with SMTP id q68mr27163288qke.352.1608734466216;
- Wed, 23 Dec 2020 06:41:06 -0800 (PST)
-MIME-Version: 1.0
+        Sun, 27 Dec 2020 20:51:56 -0800 (PST)
+Received-SPF: pass (google.com: domain of bounce+2683c2.be9e4a-kasan-dev=googlegroups.com@mg.codeaurora.org designates 69.72.43.15 as permitted sender) client-ip=69.72.43.15;
+X-Mailgun-Sending-Ip: 69.72.43.15
+X-Mailgun-Sid: WyIyNmQ1NiIsICJrYXNhbi1kZXZAZ29vZ2xlZ3JvdXBzLmNvbSIsICJiZTllNGEiXQ==
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n07.prod.us-east-1.postgun.com with SMTP id
+ 5fe96463b00c0d7ad4f4d00b (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 28 Dec 2020 04:51:47
+ GMT
+Sender: vjitta=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+	id E0D2AC43462; Mon, 28 Dec 2020 04:51:46 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+	aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-3.7 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+	NICE_REPLY_A,SPF_FAIL autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from [192.168.0.106] (unknown [182.18.191.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	(Authenticated sender: vjitta)
+	by smtp.codeaurora.org (Postfix) with ESMTPSA id B5DEBC433C6;
+	Mon, 28 Dec 2020 04:51:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org B5DEBC433C6
+Subject: Re: [PATCH v3] lib: stackdepot: Add support to configure
+ STACK_HASH_SIZE
+To: Alexander Potapenko <glider@google.com>
+Cc: Minchan Kim <minchan@kernel.org>,
+ Vincenzo Frascino <vincenzo.frascino@arm.com>, dan.j.williams@intel.com,
+ broonie@kernel.org, Masami Hiramatsu <mhiramat@kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Andrey Konovalov <andreyknvl@google.com>, qcai@redhat.com,
+ ylal@codeaurora.org, vinmenon@codeaurora.org,
+ kasan-dev <kasan-dev@googlegroups.com>
 References: <CAG_fn=UjJQP_gfDm3eJTPY371QTwyDJKXBCN2gs4DvnLP2pbyQ@mail.gmail.com>
- <7f2e171f-fa44-ef96-6cc6-14e615e3e457@codeaurora.org> <CAG_fn=VihkHLx7nHRrzQRuHeL-UYRezcyGLDQMJY+d1O5AkJfA@mail.gmail.com>
- <601d4b1a-8526-f7ad-d0f3-305894682109@codeaurora.org> <CAG_fn=V8e8y1fbOaYUD5SfDSQ9+Tc3r7w6ZSoJ-ZNFJvvq-Aeg@mail.gmail.com>
- <9e0d2c07-af1f-a1d3-fb0d-dbf2ae669f96@codeaurora.org> <CAG_fn=UXQUGiDqmChqD-xX-yF5Jp+7K+oHwKPrO9DZL-zW_4KQ@mail.gmail.com>
- <48df48fe-dc36-83a4-1c11-e9d0cf230372@codeaurora.org> <6110a26b-dc87-b6f9-e679-aa60917403de@codeaurora.org>
+ <7f2e171f-fa44-ef96-6cc6-14e615e3e457@codeaurora.org>
+ <CAG_fn=VihkHLx7nHRrzQRuHeL-UYRezcyGLDQMJY+d1O5AkJfA@mail.gmail.com>
+ <601d4b1a-8526-f7ad-d0f3-305894682109@codeaurora.org>
+ <CAG_fn=V8e8y1fbOaYUD5SfDSQ9+Tc3r7w6ZSoJ-ZNFJvvq-Aeg@mail.gmail.com>
+ <9e0d2c07-af1f-a1d3-fb0d-dbf2ae669f96@codeaurora.org>
+ <CAG_fn=UXQUGiDqmChqD-xX-yF5Jp+7K+oHwKPrO9DZL-zW_4KQ@mail.gmail.com>
+ <48df48fe-dc36-83a4-1c11-e9d0cf230372@codeaurora.org>
+ <6110a26b-dc87-b6f9-e679-aa60917403de@codeaurora.org>
  <CAG_fn=VjejHtY8=cuuFkixpXd6A6q1C==6RAaUC3Vb5_4hZkcg@mail.gmail.com>
- <X+EFmQz6JKfpdswG@google.com> <d769a7b1-89a2-aabe-f274-db132f7229d1@codeaurora.org>
-In-Reply-To: <d769a7b1-89a2-aabe-f274-db132f7229d1@codeaurora.org>
-From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Wed, 23 Dec 2020 15:40:54 +0100
-Message-ID: <CAG_fn=UUo3tP1XtdOntNG1krvbPV7pmE9XXwMyuhL2gMUoc4Jw@mail.gmail.com>
-Subject: Re: [PATCH v3] lib: stackdepot: Add support to configure STACK_HASH_SIZE
-To: Vijayanand Jitta <vjitta@codeaurora.org>
-Cc: Minchan Kim <minchan@kernel.org>, Vincenzo Frascino <vincenzo.frascino@arm.com>, 
-	dan.j.williams@intel.com, broonie@kernel.org, 
-	Masami Hiramatsu <mhiramat@kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Andrey Konovalov <andreyknvl@google.com>, qcai@redhat.com, 
-	ylal@codeaurora.org, vinmenon@codeaurora.org, 
-	kasan-dev <kasan-dev@googlegroups.com>
+ <X+EFmQz6JKfpdswG@google.com>
+ <d769a7b1-89a2-aabe-f274-db132f7229d1@codeaurora.org>
+ <CAG_fn=UUo3tP1XtdOntNG1krvbPV7pmE9XXwMyuhL2gMUoc4Jw@mail.gmail.com>
+From: Vijayanand Jitta <vjitta@codeaurora.org>
+Message-ID: <dbce90d4-17e5-15a3-4336-9efede16c772@codeaurora.org>
+Date: Mon, 28 Dec 2020 10:21:31 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
+MIME-Version: 1.0
+In-Reply-To: <CAG_fn=UUo3tP1XtdOntNG1krvbPV7pmE9XXwMyuhL2gMUoc4Jw@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: glider@google.com
+Content-Language: en-GB
+X-Original-Sender: vjitta@codeaurora.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=IgDeBDPe;       spf=pass
- (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::72a as
- permitted sender) smtp.mailfrom=glider@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Alexander Potapenko <glider@google.com>
-Reply-To: Alexander Potapenko <glider@google.com>
+ header.i=@mg.codeaurora.org header.s=smtp header.b=TYS2ayRx;       spf=pass
+ (google.com: domain of bounce+2683c2.be9e4a-kasan-dev=googlegroups.com@mg.codeaurora.org
+ designates 69.72.43.15 as permitted sender) smtp.mailfrom="bounce+2683c2.be9e4a-kasan-dev=googlegroups.com@mg.codeaurora.org"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -139,28 +155,40 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
->
-> Michan, We would still need config option so that we can reduce the
-> memory consumption on low ram devices using config.
->
-> Alex, On this,
-> "I also suppose device vendors may prefer setting a fixed (maybe
-> non-default) hash size for low-memory devices rather than letting the
-> admins increase it."
-> I see kernel param swiotlb does similar thing i.e; '0' to disable and
-> set a value to configure size.
->
-> I am fine with either of the approaches,
->
-> 1. I can split this patch into two
->    i)  A bool variable to enable/disable stack depot.
->    ii) A config for the size.
 
-I still believe this is a more appropriate solution.
 
-Thanks in advance!
+On 12/23/2020 8:10 PM, Alexander Potapenko wrote:
+>>
+>> Michan, We would still need config option so that we can reduce the
+>> memory consumption on low ram devices using config.
+>>
+>> Alex, On this,
+>> "I also suppose device vendors may prefer setting a fixed (maybe
+>> non-default) hash size for low-memory devices rather than letting the
+>> admins increase it."
+>> I see kernel param swiotlb does similar thing i.e; '0' to disable and
+>> set a value to configure size.
+>>
+>> I am fine with either of the approaches,
+>>
+>> 1. I can split this patch into two
+>>    i)  A bool variable to enable/disable stack depot.
+>>    ii) A config for the size.
+> 
+> I still believe this is a more appropriate solution.
+> 
+> Thanks in advance!
+> 
+
+Thanks, Will work on a patch with above approach.
+
+Thanks,
+Vijay
+-- 
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a
+member of Code Aurora Forum, hosted by The Linux Foundation
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAG_fn%3DUUo3tP1XtdOntNG1krvbPV7pmE9XXwMyuhL2gMUoc4Jw%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/dbce90d4-17e5-15a3-4336-9efede16c772%40codeaurora.org.
