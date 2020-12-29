@@ -1,126 +1,141 @@
-Return-Path: <kasan-dev+bncBCUJ7YGL3QFBB4PBU77QKGQEXPOIGYA@googlegroups.com>
+Return-Path: <kasan-dev+bncBD63B2HX4EPBBL6XVX7QKGQE43RMP2Q@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yb1-xb3d.google.com (mail-yb1-xb3d.google.com [IPv6:2607:f8b0:4864:20::b3d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A2232E4039
-	for <lists+kasan-dev@lfdr.de>; Mon, 28 Dec 2020 15:51:30 +0100 (CET)
-Received: by mail-yb1-xb3d.google.com with SMTP id g17sf18812140ybh.5
-        for <lists+kasan-dev@lfdr.de>; Mon, 28 Dec 2020 06:51:30 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1609167089; cv=pass;
+Received: from mail-pf1-x440.google.com (mail-pf1-x440.google.com [IPv6:2607:f8b0:4864:20::440])
+	by mail.lfdr.de (Postfix) with ESMTPS id 973362E72C9
+	for <lists+kasan-dev@lfdr.de>; Tue, 29 Dec 2020 18:47:29 +0100 (CET)
+Received: by mail-pf1-x440.google.com with SMTP id k13sf4855571pfc.2
+        for <lists+kasan-dev@lfdr.de>; Tue, 29 Dec 2020 09:47:29 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1609264048; cv=pass;
         d=google.com; s=arc-20160816;
-        b=BhOiJ7otXGaR3xcZJeIoc6rvP72ZruUTkXiCch/rw6YBW5D14AeQUh2W1HgjOCp/B/
-         KdmbQ5RPtdHyILVk33AM9M9fgtc9mpq5iKfk1c+c7Owb5XgDbvs9WtZrzT8zQaobEztl
-         hP9DRsjFcfzE13nd6v1evEBCXxHP3HJf2BicQ9tBZAh4NfY2GBSA3SUv0q9515lrcHSV
-         o4x4AABQlngVuL3y6HByseVPQtKxIFjiaX5GoQ7wsIWeWxFxCaYNMP88TKjJU49cEQoe
-         lplVpgB6ZiLTyWJYfyriBohfvxnouUNGj5Cipa5vVaNIkmvpQ5NGHTnn1HCxAFkf9Omt
-         D5/g==
+        b=GeFtnhUZWpJgnnPOtrPsI8dl9mrJFwA+7LBs0ola/FPJK8ZTOuTrK+Bz0wVKFUvgeT
+         V7Q/ewdzqvPXtaE9Ofifc32VEl/v3Lw9VscdZiZF0OCGuu8lxcODIk347BFL2cOprT0C
+         QmmBF/2Z/cO1S1pSOeu/t8cRUJGNMCmrcZm6RMycULRIvPRPyHGWqqIs7qZZ/WTrP75X
+         vRcl6PuFtaKAEU2waFsv3nJLkqwvEl1IdIzSosQztMXc13Lv34mg1KfH41gdBrADRhgA
+         EVk7NpxvJKEyKedAbVl9AMl0DzEtjSt6OqF8y1/5xKN8Ir0HbS8YpqVm1mkLwIpUSa3m
+         hJZw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=e+Lv8we1Xk0Sm72Ebn/z8Z0M86OjmIZhzaQRakUggWM=;
-        b=jvf68pXRSP42Nfm3X0y5SnUyjhJCadLIf7bMOsLjriNS4hFSLY0Rn5QoKEEIy2tt/M
-         9uADEFznT8xuCpVR7YwmkIEieC1BRmDJn15Z+I57KW/GKw6xsLfDrPC+PzU1Qj7W77/o
-         kSw1Nr80N7/wn2qAK1rVwcq65sE+FzVancmz5q9iRw7QrcsqncAF3/lXqjgBS4UQDvtS
-         cgE2AIZ2RvBt9sfmYhXpcLQHMVJlNDymNjO8Z3JWiYrVzuyjXr0Xv/EWhLlsjlUm1Rif
-         Uhy+kHjYma54zg5IjLO4hCUk1atXIg8azgoLGSba+MucWT/qj7I245pB37E06ipoxjmS
-         2Awg==
+         :list-id:mailing-list:precedence:reply-to:in-reply-to
+         :content-transfer-encoding:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:dkim-signature;
+        bh=Xy6guubaKwZ9ZUWdmUKiK7aTFXVmhqB/lMUoNW5QV48=;
+        b=NjkxMFPzEuCCXftQLrFBGMRFmO7RIG2SJnrbMNOfhQkzqMQmJR7jqPhHHHQPQIZBUf
+         p5kZYEF/DsMDkz4Vr5imJJ3X1+W0di8kDmM8wATa12rzdS/UZj/0cYyyFcZGTgyOUoqL
+         C2vHYnOVyhC3jYECWShWFThkWfHVpukLw248uhngg1IcAXCehgVJaLjrPWg7wE2u4OYu
+         v6W+Zlpu7vyhyFxTPhPFrI6T9HtqFqnIjJPsqUpwWUtmWYkoTy0UhdItlr+d45aYUokM
+         iQfOwV/kW4TKP1dXnUzejGaJVdCSIxiPgmkkbj+qhqHravG65MhigLci8VDNwBxvOVzT
+         VsIw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linuxfoundation.org header.s=korg header.b=AUMwak0p;
-       spf=pass (google.com: domain of gregkh@linuxfoundation.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=gregkh@linuxfoundation.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linuxfoundation.org
+       dkim=pass header.i=@purestorage.com header.s=google header.b=MRz83igr;
+       spf=pass (google.com: domain of joern@purestorage.com designates 2607:f8b0:4864:20::435 as permitted sender) smtp.mailfrom=joern@purestorage.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=purestorage.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=e+Lv8we1Xk0Sm72Ebn/z8Z0M86OjmIZhzaQRakUggWM=;
-        b=GlIh1PnW/PKmipzdpb54asxndUnLBOqGpsNX6lwVb2c1Y2hlgH9giDIwSiBlM+mHui
-         qPk7u9f8kEEqjMKrCf3vxWaDm5dFrF46ILyES5pCfQ7Y6tch0yYMAuqc5L1tvGpmY4d4
-         b0/Zkdm9fYuutvieYxNnsTAZHlMqnT93VupSUz81HSt1Xbxpk0PwE8vPKDGdLpioESCt
-         +ZcyYHXdhKguQxbMOrkB57bVKPVXJMqSjYUFplC20NvZQPFQ4L0Doyo0tx4Lr1xEBO+o
-         utdyX2BqebISr0J/wcfIR60dl7fmiTd0GxmE6YymhauNjObKzfiR3iS4XGFIXVz5t041
-         1pbA==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=Xy6guubaKwZ9ZUWdmUKiK7aTFXVmhqB/lMUoNW5QV48=;
+        b=UurGpT6Sc6AFZWKiaI9OW0Z623gR8oWj7ARUO4R51SxqvRn/PXuaxZFvDdZzek7Auq
+         Pu92U8WnwOy+kEN9Hu5rPaHSRfJeWrCSZVY/pefYak+MWi30aGxqInyolqHq26IQyXiL
+         bA2sjc7zezjsseZH5M0mYVjAUlFLUcLr8Q6AbLlnL5OWrAMRD+9sPFs7i1tvCCHZwEi2
+         M/XyWoBAWPDDWAM1febAguYem2J9SMqncaSJB8hjLXb7s+zK2KrQOlkI9vRXGo8nb39J
+         FOTz+gqMngJyGvhTh6GW46MHCv6ULGvTbGbX91PDTzBQ7GsbIktTq3iJnnVs5JHUXn4X
+         BkuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=e+Lv8we1Xk0Sm72Ebn/z8Z0M86OjmIZhzaQRakUggWM=;
-        b=Lm9U6d4+cOuUnzyY3iQR+pwvk4dkePAp9GqYbi9YodXrdPGgMgNIorfUbcPUlAKRm9
-         eSH4sNP4CjalkFTWCywrB0YdJbAwQdnTYEfJLFrjmgzFDM4esQLLoAX2dpv2B7eX+soE
-         /2B9Kv5RmdEAM48KVoG+SRGZEW8ueucoXn07A23vkqMJGjsvZdcw8mP3nvv50wNF4En3
-         EqwxCW6Pzm10lW8xt4sCIz9OQG7pVZ3okV+nKa6hdEDyudQDWKxirx0OzYu/mz7LHYTE
-         +Ggt+7oSTU8dd+/PVOpmVFvcySD+SrxiFzpF+w/vJW7Ot9d36YxbNiOtSrELebBjC8D/
-         6/kg==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM532HTQiJV1hR74A/9WLkXFlGFEREe7VKr6hy1C0mPrxBgU2DFEXr
-	uYqPIL3Yx3EDb8Evt6M9a8c=
-X-Google-Smtp-Source: ABdhPJwDYjIRmTaPzpol3hI1n3HNtRu8XMWGgQF0zrCiEHqTC8mi/mjQJLrBzCuN6Vqb3DXivyfd7Q==
-X-Received: by 2002:a25:9b81:: with SMTP id v1mr57687762ybo.168.1609167089679;
-        Mon, 28 Dec 2020 06:51:29 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:x-original-sender:x-original-authentication-results
+         :reply-to:precedence:mailing-list:list-id:x-spam-checked-in-group
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=Xy6guubaKwZ9ZUWdmUKiK7aTFXVmhqB/lMUoNW5QV48=;
+        b=gMAE5kCZtaxNEb0+q9KdrtBAQryoaFEjy0oIlVMMfaYtiyFIdOAMbGi4RaWJoK16LN
+         Vov9DbiRQ8vQNSQAHlUNVincDEdqLcc8KfJ61cl/7ydLKv2MdVhNfnUzMc9ZHQm7/V+y
+         ElZnFJ0eEIdxvU4yxrmruyGrOd77qEBkBFtQe7GX1kNEpyo9c5xDBSzTBg1KMz90axgs
+         Umw2KDMlJqEP1fGnEXwV8dknTSKawfHF4VTkjnkE6qtguPrMHPq7Bdqbn8/Gb/i44dP1
+         KM8cfe8KtyUmBSC5sIG7Vb+suAsN8Tihl+OviHmX8D3eky9ZF7ytfJ0CtV80xsoXDG77
+         W92A==
+X-Gm-Message-State: AOAM5322FHOpQkal324Rs6W0JQpQdA0JkavNtSt/IAwnjhCOOuWYu/nT
+	WFv9PouoovHtSWty2g80IwA=
+X-Google-Smtp-Source: ABdhPJwkKcl32P8sZ4rSwH52EwmrMYzBq2rAPss4f06FaSUHO+lHADN6UY+8cMLRhslHoVGKi5bC3Q==
+X-Received: by 2002:a17:90a:4042:: with SMTP id k2mr5038157pjg.160.1609264048076;
+        Tue, 29 Dec 2020 09:47:28 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a25:77cc:: with SMTP id s195ls28396944ybc.2.gmail; Mon, 28
- Dec 2020 06:51:29 -0800 (PST)
-X-Received: by 2002:a25:3d7:: with SMTP id 206mr67763854ybd.31.1609167089297;
-        Mon, 28 Dec 2020 06:51:29 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1609167089; cv=none;
+Received: by 2002:a17:902:d713:: with SMTP id w19ls14052104ply.1.gmail; Tue,
+ 29 Dec 2020 09:47:27 -0800 (PST)
+X-Received: by 2002:a17:90b:8d5:: with SMTP id ds21mr4820213pjb.5.1609264047528;
+        Tue, 29 Dec 2020 09:47:27 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1609264047; cv=none;
         d=google.com; s=arc-20160816;
-        b=WynzfNescdur5vw4Npu7uZBTrnFUd4yOtHI4E8yWyS2Jt5aFqy38dNwSWhetu0OOjO
-         fCBLFoIVDbdGB26ghtfpaLI7LwNv/yRQTUHWNa5C/cjPjzOoE6iHeqoXQJsFkhg3cUCt
-         cc33IX75vEnOz/i7k4i2rl/tGJXtBCs7ZEus5tj/a7mhueKcX2+luCyKb8Lk8Ke7lU1J
-         rxF/mIg3dLre2azDxX0ep+d8DtukD1pBXhl9LmedavftMUHtsA6PunH1MwJZ7rf/+vaI
-         AeFQ1bhQtJCRcJRxWCgG4ado8bkwfVmjcsJiK0AfBwpYd/0yD1nmVqQ6w9rXnQv/f5Hv
-         jIcg==
+        b=GCb8a1jEYNNYmxQR11Afi13hncwGGYdJDujo7HKiL9k5M6SsJrrOY5FBt/I5mLARDX
+         6ZhfubTFWdOwdACL196nMq2h6lPZKDnzEbyJJzn1kTVo/Z6BQNT7E6ZKAPqh4etOMQVT
+         ZrQH0vA3QT4KEltX8qhiFRKA3wpUmxkfVFaQtxGukCtAGf5NrVY6ii/rU22K8XG2cUmw
+         OxuLKtnmaw0ikY44WA9QSB82sRuyYPFJEv8KjU4hHnZ5cYyU5t9Hk0yIOokub1t0jMOh
+         74L+TTNbattjZ+UclX3cGH5O3z+H60oMBELlcZ29YjP2bblp332yTtYEB/XTfdUybAnR
+         vu6g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=LB6uN59veMk5B3hXDCpU0vfNuHyBgurllHRfzz0zR/M=;
-        b=W1eAw/bdUjFLIQpSkQKY3efIFCwXQI27MEHq2glS47CE0N60OXytt+KMj61JSNH30W
-         Y0eH/RnmOskfsa0vAPHwRyWAt+oNgHchsRvG+kbN/rI6zVEQOo5MGj1qT3f/ol75kEyc
-         rCNwfOonVM7aWoZsgXJkZSV1B7eHLhX69JlEmP0z52HHbptYGa55pm4lotgZquCCjJZT
-         P0yVkB1UY+OGbXaxsGkhpDkWkyNtO/EwkwltGG26Lk+s1yxvqsR624HPTtx4VErjLSpD
-         TkAgZdNrWsE2TbtOzSaR/qilmGIC0PSS0H6kwB3P6UL3KDRN98wzvuHDIhAbjUHGXGZr
-         KeTA==
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :dkim-signature;
+        bh=IOQR6Xa0VjYfeMskFH+7bEtcy+HiJPpOnLv7JHB2vt0=;
+        b=zIpJCWFhJUXnudy0Dwn/DSz/E/F2Z6QccYqgFyWLsj7jVY0dB+1n1U29hKOocAu16q
+         DwbPr50BXk8SZo+PI+oZAdJd/v3dLuvgBajIFpyWj0rfRouF7W+Ha6QT4f1+0fz7IQBp
+         ryU+1ZKr2TwGRL8cwn7sPivReTQ3JAA/x13bRYR7NRIx0fX5olL78yof5As/CzHbUWPg
+         9rZ8SetQWNYUyqRS526HaNI/aEf2Ui8wEbQGlgoTpkkGiq1k3DpI2hLJtq0ovQqSTRym
+         CdRVv4qY60ihrQIWHlUY9N94lfqlbWiE8/VL+ABWazXJBPcRgre7ZlRQiGmf3/UOKEA7
+         xaiA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linuxfoundation.org header.s=korg header.b=AUMwak0p;
-       spf=pass (google.com: domain of gregkh@linuxfoundation.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=gregkh@linuxfoundation.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linuxfoundation.org
-Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id i70si2285028ybg.1.2020.12.28.06.51.29
+       dkim=pass header.i=@purestorage.com header.s=google header.b=MRz83igr;
+       spf=pass (google.com: domain of joern@purestorage.com designates 2607:f8b0:4864:20::435 as permitted sender) smtp.mailfrom=joern@purestorage.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=purestorage.com
+Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com. [2607:f8b0:4864:20::435])
+        by gmr-mx.google.com with ESMTPS id w6si259544pjr.2.2020.12.29.09.47.27
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 28 Dec 2020 06:51:29 -0800 (PST)
-Received-SPF: pass (google.com: domain of gregkh@linuxfoundation.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B4B2A2084D;
-	Mon, 28 Dec 2020 14:51:27 +0000 (UTC)
-Date: Mon, 28 Dec 2020 15:52:50 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Andrey Konovalov <andreyknvl@google.com>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	kasan-dev@googlegroups.com, Dmitry Vyukov <dvyukov@google.com>,
-	Shuah Khan <shuah@kernel.org>,
-	Alexander Potapenko <glider@google.com>,
-	Marco Elver <elver@google.com>,
-	Nazime Hande Harputluoglu <handeharput@gmail.com>
-Subject: Re: [PATCH v5] kcov, usb: only collect coverage from
- __usb_hcd_giveback_urb in softirq
-Message-ID: <X+nxQo7q2n4dGzoy@kroah.com>
-References: <d7035335fdfe7493067fbf7d677db57807a42d5d.1606175031.git.andreyknvl@google.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 29 Dec 2020 09:47:27 -0800 (PST)
+Received-SPF: pass (google.com: domain of joern@purestorage.com designates 2607:f8b0:4864:20::435 as permitted sender) client-ip=2607:f8b0:4864:20::435;
+Received: by mail-pf1-x435.google.com with SMTP id 11so8344385pfu.4
+        for <kasan-dev@googlegroups.com>; Tue, 29 Dec 2020 09:47:27 -0800 (PST)
+X-Received: by 2002:a62:844b:0:b029:19e:62a0:ca18 with SMTP id k72-20020a62844b0000b029019e62a0ca18mr45920844pfd.46.1609264047236;
+        Tue, 29 Dec 2020 09:47:27 -0800 (PST)
+Received: from cork (c-73-93-175-39.hsd1.ca.comcast.net. [73.93.175.39])
+        by smtp.gmail.com with ESMTPSA id d203sm40492357pfd.148.2020.12.29.09.47.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 29 Dec 2020 09:47:25 -0800 (PST)
+Date: Tue, 29 Dec 2020 09:47:20 -0800
+From: =?UTF-8?B?J0rDtnJuIEVuZ2VsJyB2aWEga2FzYW4tZGV2?= <kasan-dev@googlegroups.com>
+To: Marco Elver <elver@google.com>
+Cc: Dmitry Vyukov <dvyukov@google.com>,
+	kasan-dev <kasan-dev@googlegroups.com>,
+	Alexander Potapenko <glider@google.com>
+Subject: Re: GWP-ASAN
+Message-ID: <20201229174720.GB3961007@cork>
+References: <20201014145149.GH3567119@cork>
+ <CANpmjNPuuCsbV5CwQ5evcxaWd-p=vc4ZGmR0gOdbxdJvL2M8aQ@mail.gmail.com>
+ <20201206164145.GH1228220@cork>
+ <CANpmjNNZDuRo+1UZam=pZFij=QHR9sSa-BaNGrgVse-PjQF5zw@mail.gmail.com>
+ <20201206201045.GI1228220@cork>
+ <X83nnTV62M/ZXFDR@elver.google.com>
+ <20201209201038.GC2526461@cork>
+ <CANpmjNNTuP7w7qbwp7S2KU23W0pvNrOk8rZnxzRYsxAcOXMO8Q@mail.gmail.com>
+ <20201209204233.GD2526461@cork>
+ <CANpmjNMXOYkG25Gt6n54Ov+pxVjGMXRUWAMkDD4JWtLCNq4jPA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <d7035335fdfe7493067fbf7d677db57807a42d5d.1606175031.git.andreyknvl@google.com>
-X-Original-Sender: gregkh@linuxfoundation.org
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CANpmjNMXOYkG25Gt6n54Ov+pxVjGMXRUWAMkDD4JWtLCNq4jPA@mail.gmail.com>
+X-Original-Sender: joern@purestorage.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linuxfoundation.org header.s=korg header.b=AUMwak0p;       spf=pass
- (google.com: domain of gregkh@linuxfoundation.org designates 198.145.29.99 as
- permitted sender) smtp.mailfrom=gregkh@linuxfoundation.org;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=linuxfoundation.org
+ header.i=@purestorage.com header.s=google header.b=MRz83igr;       spf=pass
+ (google.com: domain of joern@purestorage.com designates 2607:f8b0:4864:20::435
+ as permitted sender) smtp.mailfrom=joern@purestorage.com;       dmarc=pass
+ (p=REJECT sp=REJECT dis=NONE) header.from=purestorage.com
+X-Original-From: =?iso-8859-1?Q?J=F6rn?= Engel <joern@purestorage.com>
+Reply-To: =?iso-8859-1?Q?J=F6rn?= Engel <joern@purestorage.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -133,41 +148,51 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Nov 24, 2020 at 12:47:25AM +0100, Andrey Konovalov wrote:
-> Currently there's a kcov remote coverage collection section in
-> __usb_hcd_giveback_urb(). Initially that section was added based on the
-> assumption that usb_hcd_giveback_urb() can only be called in interrupt
-> context as indicated by a comment before it. This is what happens when
-> syzkaller is fuzzing the USB stack via the dummy_hcd driver.
-> 
-> As it turns out, it's actually valid to call usb_hcd_giveback_urb() in task
-> context, provided that the caller turned off the interrupts; USB/IP does
-> exactly that. This can lead to a nested KCOV remote coverage collection
-> sections both trying to collect coverage in task context. This isn't
-> supported by kcov, and leads to a WARNING.
-> 
-> Change __usb_hcd_giveback_urb() to only call kcov_remote_*() callbacks
-> when it's being executed in a softirq. To avoid calling
-> in_serving_softirq() directly in the driver code, add a couple of new kcov
-> wrappers.
-> 
-> As the result of this change, the coverage from USB/IP related
-> usb_hcd_giveback_urb() calls won't be collected, but the WARNING is fixed.
-> 
-> A potential future improvement would be to support nested remote coverage
-> collection sections, but this patch doesn't address that.
-> 
-> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
-> Acked-by: Marco Elver <elver@google.com>
-> ---
-> 
-> Changes in v5:
-> - Don't call in_serving_softirq() in USB driver code directly, do that
->   via kcov wrappers.
+On Wed, Dec 09, 2020 at 10:44:53PM +0100, Marco Elver wrote:
+>=20
+> I was curious, here's what I get -- sysbench I/O 60sec, 5 samples
+> each, reboots between runs, VM with 8 vCPUs, but using 500ms sample
+> interval which is closer to what we want to actually use.
+>=20
+> Static branch samples: [7272.36, 7634.77, 7380.72, 7743.89, 7480.7] #
+> Requests/sec
+> Mean: 7502
+> Std. dev%: 2.26%
+>=20
+> Dynamic branch samples: [7354.06, 7225.33, 7154.76, 7535.82, 7275.94]
+> # Requests/sec
+> Mean: 7309
+> Std. dev%: 1.78%
 
-Does not apply to 5.11-rc1 :(
+Finally ran our benchmarks as well.  You'd expect a lower result because
+most of our work is done in userspace.  Then again, I've tested a config
+with kfence allocations every 100=C2=B5s.
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/X%2BnxQo7q2n4dGzoy%40kroah.com.
+So far I cannot see a signal.  In one case kfence causes a 6% speedup.
+In one case there may be a 10% regression.  Most load points are either
+perfectly flat or have the usual random noise.
+
+If I assume that the 10% regression in a not-very-interesting load point
+is real, I can go from 100=C2=B5s to 1ms and happily live with a 1%
+regression in some dark corner somewhere.  More likely, the 10%
+regression is a fluke, just like the 6% speedup.
+
+Congratulations!
+
+Performance is too good for us to worry much and we have caught two bugs
+with kfence so far, with fairly limited deployment.
+
+J=C3=B6rn
+
+--
+Mistakes are the necessary element of any contentually significant behaviou=
+r.
+-- Thomas Fischer
+
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/20201229174720.GB3961007%40cork.
