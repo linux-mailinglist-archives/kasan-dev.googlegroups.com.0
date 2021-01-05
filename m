@@ -1,124 +1,122 @@
-Return-Path: <kasan-dev+bncBDX4HWEMTEBRBYUE2P7QKGQE6KNGSUY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDX4HWEMTEBRBTUH2P7QKGQEW4M5A7I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ot1-x33b.google.com (mail-ot1-x33b.google.com [IPv6:2607:f8b0:4864:20::33b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06C6D2EB39E
-	for <lists+kasan-dev@lfdr.de>; Tue,  5 Jan 2021 20:47:48 +0100 (CET)
-Received: by mail-ot1-x33b.google.com with SMTP id n108sf547723ota.5
-        for <lists+kasan-dev@lfdr.de>; Tue, 05 Jan 2021 11:47:47 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1609876067; cv=pass;
+Received: from mail-wm1-x340.google.com (mail-wm1-x340.google.com [IPv6:2a00:1450:4864:20::340])
+	by mail.lfdr.de (Postfix) with ESMTPS id ADFA22EB3BA
+	for <lists+kasan-dev@lfdr.de>; Tue,  5 Jan 2021 20:53:50 +0100 (CET)
+Received: by mail-wm1-x340.google.com with SMTP id 4sf74628wmj.2
+        for <lists+kasan-dev@lfdr.de>; Tue, 05 Jan 2021 11:53:50 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1609876430; cv=pass;
         d=google.com; s=arc-20160816;
-        b=KoyZypPR9i7scpJnV4azoO5NojNo63BmjWmjv1tXg396rUufvl6onvfc7ETjj2sQK5
-         L3qJiRW2mFMahy3kvUFeXEIL69gX99rv+tbSQeqqa60EV7+xV3FmryLVORUKkPREWQfm
-         CbDBTZi8D7Yu1zb2QIXQAyzRSL90Jq/IN5fPlBFQQ84nUi/1i9gdnViLaC4DbNtep4UL
-         Dh/0B3hcKiE1ZdCwLbdNmRZBkYXMdwnETprs0IEGUcXu3yEMZrtrX8liYuunxcGyzaQR
-         3lTeIROWCyuduzK9RqMrqs4fOceQaN/DjCxBLom54gw9ZAv4+Fj4KTa2WQO8Xv7vTk7K
-         /uvA==
+        b=v+BjUEPjZwyW5T+XmntlQU7BL3fncm2ZAE19Unwy7TQvebEnEkUQZobq11J7FQPTnw
+         a2bsQvf41AWJhLvZKJD83wOm0ZEoC425y6GAadzfQdVeIuMLPTCsAteID55chHlrrAr3
+         xyy8VRy6rH8hhlFTCergDfxmmIuBYavuVY6i/hg78HMw1Y8i0gxuLM0sCECBoMatdl7i
+         IIU6xZq+14Wf3F+z2mcbD1YzQOL9pC3vEJV0hCrKmxK40kFZICdHwRB7aO32vbIpI21V
+         4v5AEZUM+SZufBmNw4uHgzVwFOBv7RDZXpzZA05hHwWiLZie4t7YDXNgYzZd5826Wzxg
+         Ojqg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=G0Hy+IfwtAkW+svX9SqfIWn/U2GPbAkpQhcppgrKBU4=;
-        b=HaA15SDtCI0PfC4SK0sj0SLPFV7E0SlybpCnr1yNQkXhKbmHkxPJ0xt2OQthibZGz1
-         rft0wAjS7NdnNtD+AD3CDzkW6LILAq6aVU0WfH7IuE15zHCbNtR4bm+3oSjkDSfVAdWy
-         t2ShvMUoc9tbRYm3rttFwVZjwcS9Lf2Ioy7i6CU7mbCqNkQOWOYxsRFKlCbaoYF7CnK7
-         Qwkm/t3aYvuHCABEAeCKH221A9+m+qy5jGHXZOOG1TutmpEzko60fWgIDLO3oVyigaZO
-         T9MkoTGE4lo1iy8j5TsIVv6uWRrEsUUuGr6jYm8rYUb1+p1CkoeI0CRr+/hlfb2MPVQG
-         U9cw==
+         :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
+         :mime-version:message-id:date:sender:dkim-signature;
+        bh=UYsTDDkXODMBRvWdcXSecGLJDCiJ7HMhlzZgsgdY1hI=;
+        b=mvlrHs8Aw1QgeF0YWGmR3FwgFnjOm0Q05gOPmBufB9xqUea/V4Up3kJoS6+MU70Pvu
+         1wzNZfY6FoPXGwz841FnKQKej2VNSY8Xg52l1LGTGCUIDp3aWnY7gPJ69b23vSNAojkr
+         EQGUBtpFVwUZR9uXhIDKlSr3eIh46TFDW20OnEzhcJH3LKms+UHGSB/zapPMOpbSnGwZ
+         zKQiQhfewkBW2514eespCDAl14BGUPdsRSQM9xjZU2HoVdI19RTh/C46NFxmfPeKUi8F
+         dbh5IgqZfrlMLDlMFaH8gJQN73ftMbzSIFB9p51tSfZT+Oa+LJZX8Y9A2rZAhdivnMo2
+         zIYA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=eh1wDbOj;
-       spf=pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::42c as permitted sender) smtp.mailfrom=andreyknvl@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=CWm5A0AP;
+       spf=pass (google.com: domain of 3zcp0xwokcs4kxnboiuxfvqyyqvo.mywukckx-nofqyyqvoqbyezc.myw@flex--andreyknvl.bounces.google.com designates 2a00:1450:4864:20::449 as permitted sender) smtp.mailfrom=3zcP0XwoKCS4KXNbOiUXfVQYYQVO.MYWUKcKX-NOfQYYQVOQbYeZc.MYW@flex--andreyknvl.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
+        h=sender:date:message-id:mime-version:subject:from:to:cc
+         :x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=G0Hy+IfwtAkW+svX9SqfIWn/U2GPbAkpQhcppgrKBU4=;
-        b=KAvOVtOXdqHf9fc2GpTwNk52kx1BC5yCEM1Ki8vfpBQaXvqNOaxces/XTxz0OzIZm3
-         hIGDb3ldoAQ2TyDm80VFSQhq3XiUDRGmjgs24b+wZZ5PkrtJjV628LXU8PNfnvjlq5q+
-         iRpMYEd2Hy9uccfpnTy9DgV/Y82ZdtB74O3lTnBYjrp4Qb1HjflH5LHKQ2bgp19XdsEh
-         irPpzhfkF6ryGm4tHFhO4Wecx7qiiwHWPSyHlZvkDQKzAlLBQnJtc/IINgsgtjGj/3pI
-         vdknOP1rCoVybup6X/YcjFQplHUOnaju73ZWGJvqUWpN2KoaDvZBXfyCP/cQrhcvQ6kf
-         exjg==
+        bh=UYsTDDkXODMBRvWdcXSecGLJDCiJ7HMhlzZgsgdY1hI=;
+        b=b0FGSlGVHoN3IJPTBZGalqPPSENwyaGnGnYGy3pdvCMIrZAKHbwlsBYry4aqIPBKVO
+         Zxpxx4njOzjQJ48hq85qPaI1YAG2EuxvOOA3Wn+OLR75qikrJtwdNR9QueLwk12zaGuf
+         1QYk7yyGEcC6Is6SFKOisvRNN0kllfI6IvlkXywcx5csofs26O1LBW6e0wQJOO7/i0ro
+         cJzpk9kolqdKYiTOuo6ehDdbFEQmOHl46hlhHgitUzEuHyMoxCZP5KeL+WSgOtgO0YnH
+         TelxLwIRT84ScQJ3lqS2/1pVu5joEmBOLr9fILhg/N9q/NOulenWHvFQ6MBOHbgiWOwn
+         aAdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=G0Hy+IfwtAkW+svX9SqfIWn/U2GPbAkpQhcppgrKBU4=;
-        b=HKLuwaPZP7Glr474Yxj8jjNh7j8nw2ANxE2PLasxXKVpNkBuD+LWhboLyldLVje8xw
-         I2Jfx1VqaWj2TRYIjMQa4wW2wOfaNtnBtxvFmWz4Bl4dnfwV1q6troOFaEA2Ne44aaV3
-         +7Eo8tKLUyLm5hEeZAN1rYrH2Tb+lDAz6umhMz3XzgN/gBK3XqogGDDL237BDD8K/hJ+
-         74WZq57T6IZxx2FmTJZcMos8wnizk59QKeL2hnEgaJ29GlTV9xhJPnRmHlWglhRYdytC
-         Vr2ZGPOuQT48I+X3BD0Ht+Q4dFhK6uE+OTvoz0zRK0Pxz8F4x4lTFkoOgnKW7f1hjPqT
-         N8zw==
-X-Gm-Message-State: AOAM533P0ew0pw69RDppz1xqQI8hj748C9FXaE+uOrsJ66E60/zp4JaV
-	TOgB4cKOIw2WuO7zyT9uSBo=
-X-Google-Smtp-Source: ABdhPJylsiT2PFcZJubUH0Wgcrm4tqkZkA38xmXMAgGN+T2vsVry6jpkJJao5DuT6j2mQ/tSpSg0NQ==
-X-Received: by 2002:a4a:c387:: with SMTP id u7mr453835oop.89.1609876066942;
-        Tue, 05 Jan 2021 11:47:46 -0800 (PST)
+        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
+         :to:cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=UYsTDDkXODMBRvWdcXSecGLJDCiJ7HMhlzZgsgdY1hI=;
+        b=dxCQUzmNB0iMkVnA01Zoeo/iq6GD9SF6Cd37gFQng8R+UNUKWvbVOobP0l9YpUxrkf
+         gkVUfPrH/BtezY2q5z3UNbcgqd1jMas3Y6z/kJTMVK5iNIcwWlzNQ251TLehfW1906MU
+         3FRXjp7uZvF2zvNffr/9RhQbJWDH1Ihu/WOZG9fmyRQEKEIp1QYXfb77mpmXQO+t4ACX
+         2d81zqUS0/xTJzvb5aetH8buhc8ppm9+XQ3foUkOHwSdvXLRVdPxvIQ0ql6rdsT+fXJq
+         R2Sn/6AcQFdUIqZN2k22ALid7ej7+UHxi2/ZMsrG/+u/aMHGG2aW/rsqGg0VLYskKnVN
+         YFBg==
+X-Gm-Message-State: AOAM533AlkPNGHwacOnkXsOR7JewJj/XIvUFitwldcvt4voGlj3kxrNp
+	tRo5pvEmQ237lIKX+1iCrpQ=
+X-Google-Smtp-Source: ABdhPJxOu+oSQzlL3WD2v2CdAYUtsmYmIfqSnaZsFTEa4ViWQ/0RNSKOOBECa2fqxuSx2ouYzUtvXQ==
+X-Received: by 2002:a5d:4dc6:: with SMTP id f6mr1127570wru.336.1609876430515;
+        Tue, 05 Jan 2021 11:53:50 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:aca:1204:: with SMTP id 4ls101114ois.6.gmail; Tue, 05 Jan
- 2021 11:47:46 -0800 (PST)
-X-Received: by 2002:aca:fc8d:: with SMTP id a135mr903455oii.87.1609876066624;
-        Tue, 05 Jan 2021 11:47:46 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1609876066; cv=none;
+Received: by 2002:a7b:cbd5:: with SMTP id n21ls314867wmi.3.gmail; Tue, 05 Jan
+ 2021 11:53:49 -0800 (PST)
+X-Received: by 2002:a7b:c773:: with SMTP id x19mr611319wmk.127.1609876429818;
+        Tue, 05 Jan 2021 11:53:49 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1609876429; cv=none;
         d=google.com; s=arc-20160816;
-        b=otN7GVa0X7+OwvJOyEh5SZcK5YFZSE8r7JMSBddreoXOkQiCK3DcmxXzh3FZZo/fFf
-         zlfeWZjaEzSCV396dLu2hmQT7fC45N/+PGwiFqevqx+AWj+VVSg4F5UzY/6ZeQCwZZgw
-         gBEILulO28J3ZbQpsXwshilO9UoxoBnf9QvXg3EbVGqeXgQzZvZq3M44EA2Wipoqt9DD
-         YAqqcfrO6iLq1y+oUqMPr5yZHom83TCMjIu3aCM9NEwgLcRKmdIhthHz+M0NmSW+Gj0c
-         ZWoQzBGc8EwcFGKnb/t+c7+3nE0l5hyFNUN3XwH2gcxS+7uA5XmOfgjFQIJvVBmGOzdX
-         zdjQ==
+        b=drrO63VaWinS03mtr9E9I/UP3Gp3KOa3ZVv7X62OjNO8lI68rIO24XUZye/aUJTrIX
+         MmCQx0R3251N9qw4HOxrmuAXPL1AQ+tIkTN/70TpVW+L/QrukxxlXjjwFx7C4YjrkFyR
+         U8q/nSDCRKBKt7AjAFcxnGZkrch7tnzDwKZQbFfBjXnwiWtwihswTs54WxwDOSb7ERDc
+         SEg1eRS/L+uoFWcA1SSXWR1q+sIeNj8tf2ihERbIlid4tP5z69HX00LsZhjpmwTdzPQ1
+         fw5R250FKIl42MI6NLgNfwuhFaTiMAjx5sYdaMjKOJ8Kxe8xsly/KAqVUPAubchgO5s6
+         jOnA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=SYP7m953Sh1/b2c2QWHDIe0Jh5wcwMv/xNkLawK3758=;
-        b=r/uTy7FJUoXeJ9W/fSb5+21Vy/yEOYcPzurwPscq8qPQe4Cy7USfZbN6kOQ6ypPgbT
-         Yk3+R+LVIbt4DDkfzSRl1zTfUFKnR35pdnW6giVnLMfEisc11JMJ4dwnRrrMjNVrWOcs
-         fqr5GGam87Fcn086dUzWPPgGcLKBvcfBWAKE8cPa1W3/ib3Prnx/O/bvp1oShBpBnAaW
-         2fMrPYcM4+SPhJqAn3O9BZM0UQAe7KIX8kZNJU4qYamqnWwdoID2Kz4by20OktRGpvlh
-         62CudXiuW/0yKGFhBpFvV939xq/yr2LzTpAQ0E/OqczUb+NiK6hnNyjMyxSijLPw0BjN
-         7xxQ==
+        h=cc:to:from:subject:mime-version:message-id:date:sender
+         :dkim-signature;
+        bh=ToKZZMMFz2dd/gf3h/vSB+5EZJff08Hd9cEbaiMy84Y=;
+        b=jbKxBbfja6IKfecMuk1ZSlf45ru31JM74iU1jWcSZY2nBKv1ZhOY3Vb0+cPwb9xUM/
+         TTxZbyRsXRKinjwNfMMgqwzjSpk/nEPez7sPUH3IwVPk4Dv3JG5ttp+h86y5pRA6MUFR
+         KxtSrihCFjudTE3LPmMGGv7mulWy8Qwg3d+mSs5Jn1g1J6nm0AltPngyBUQvBTYY6Fi3
+         QrtFOdoGgqOYl2vU7xLAs+8/R1lR28zDme2I8tLXlgdtRk54HGkb4Z8eSMvpQxdtX4xW
+         WG7s/zdX4THQfzlsV3TX5a/pPX4Ae1zPQfKqPf9ot7PeKqjlWA+6nY/IHALjCG2FoQw/
+         G01g==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=eh1wDbOj;
-       spf=pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::42c as permitted sender) smtp.mailfrom=andreyknvl@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=CWm5A0AP;
+       spf=pass (google.com: domain of 3zcp0xwokcs4kxnboiuxfvqyyqvo.mywukckx-nofqyyqvoqbyezc.myw@flex--andreyknvl.bounces.google.com designates 2a00:1450:4864:20::449 as permitted sender) smtp.mailfrom=3zcP0XwoKCS4KXNbOiUXfVQYYQVO.MYWUKcKX-NOfQYYQVOQbYeZc.MYW@flex--andreyknvl.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com. [2607:f8b0:4864:20::42c])
-        by gmr-mx.google.com with ESMTPS id c18si27742oib.5.2021.01.05.11.47.46
+Received: from mail-wr1-x449.google.com (mail-wr1-x449.google.com. [2a00:1450:4864:20::449])
+        by gmr-mx.google.com with ESMTPS id e16si17724wrn.1.2021.01.05.11.53.49
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 05 Jan 2021 11:47:46 -0800 (PST)
-Received-SPF: pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::42c as permitted sender) client-ip=2607:f8b0:4864:20::42c;
-Received: by mail-pf1-x42c.google.com with SMTP id a188so332309pfa.11
-        for <kasan-dev@googlegroups.com>; Tue, 05 Jan 2021 11:47:46 -0800 (PST)
-X-Received: by 2002:a63:4644:: with SMTP id v4mr851869pgk.440.1609876065848;
- Tue, 05 Jan 2021 11:47:45 -0800 (PST)
-MIME-Version: 1.0
-References: <d7035335fdfe7493067fbf7d677db57807a42d5d.1606175031.git.andreyknvl@google.com>
- <X+nxQo7q2n4dGzoy@kroah.com>
-In-Reply-To: <X+nxQo7q2n4dGzoy@kroah.com>
+        Tue, 05 Jan 2021 11:53:49 -0800 (PST)
+Received-SPF: pass (google.com: domain of 3zcp0xwokcs4kxnboiuxfvqyyqvo.mywukckx-nofqyyqvoqbyezc.myw@flex--andreyknvl.bounces.google.com designates 2a00:1450:4864:20::449 as permitted sender) client-ip=2a00:1450:4864:20::449;
+Received: by mail-wr1-x449.google.com with SMTP id o12so286616wrq.13
+        for <kasan-dev@googlegroups.com>; Tue, 05 Jan 2021 11:53:49 -0800 (PST)
+Sender: "andreyknvl via sendgmr" <andreyknvl@andreyknvl3.muc.corp.google.com>
+X-Received: from andreyknvl3.muc.corp.google.com ([2a00:79e0:15:13:7220:84ff:fe09:7e9d])
+ (user=andreyknvl job=sendgmr) by 2002:adf:f6c9:: with SMTP id
+ y9mr1090609wrp.121.1609876429392; Tue, 05 Jan 2021 11:53:49 -0800 (PST)
+Date: Tue,  5 Jan 2021 20:53:42 +0100
+Message-Id: <aeb430c5bb90b0ccdf1ec302c70831c1a47b9c45.1609876340.git.andreyknvl@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.29.2.729.g45daf8777d-goog
+Subject: [PATCH] kcov, usb: hide in_serving_softirq checks in __usb_hcd_giveback_urb
 From: "'Andrey Konovalov' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Tue, 5 Jan 2021 20:47:35 +0100
-Message-ID: <CAAeHK+xNDvauf-SFoBcUfcPA_6fL_FhP-w2mys+Z-heyd0-VEA@mail.gmail.com>
-Subject: Re: [PATCH v5] kcov, usb: only collect coverage from
- __usb_hcd_giveback_urb in softirq
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: USB list <linux-usb@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
-	kasan-dev <kasan-dev@googlegroups.com>, Dmitry Vyukov <dvyukov@google.com>, 
-	Shuah Khan <shuah@kernel.org>, Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>, 
-	Nazime Hande Harputluoglu <handeharput@gmail.com>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	kasan-dev@googlegroups.com, Dmitry Vyukov <dvyukov@google.com>, 
+	Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>, 
+	Andrey Konovalov <andreyknvl@google.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: andreyknvl@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=eh1wDbOj;       spf=pass
- (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::42c
- as permitted sender) smtp.mailfrom=andreyknvl@google.com;       dmarc=pass
- (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+ header.i=@google.com header.s=20161025 header.b=CWm5A0AP;       spf=pass
+ (google.com: domain of 3zcp0xwokcs4kxnboiuxfvqyyqvo.mywukckx-nofqyyqvoqbyezc.myw@flex--andreyknvl.bounces.google.com
+ designates 2a00:1450:4864:20::449 as permitted sender) smtp.mailfrom=3zcP0XwoKCS4KXNbOiUXfVQYYQVO.MYWUKcKX-NOfQYYQVOQbYeZc.MYW@flex--andreyknvl.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Andrey Konovalov <andreyknvl@google.com>
 Reply-To: Andrey Konovalov <andreyknvl@google.com>
 Precedence: list
@@ -133,46 +131,81 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, Dec 28, 2020 at 3:51 PM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->
-> On Tue, Nov 24, 2020 at 12:47:25AM +0100, Andrey Konovalov wrote:
-> > Currently there's a kcov remote coverage collection section in
-> > __usb_hcd_giveback_urb(). Initially that section was added based on the
-> > assumption that usb_hcd_giveback_urb() can only be called in interrupt
-> > context as indicated by a comment before it. This is what happens when
-> > syzkaller is fuzzing the USB stack via the dummy_hcd driver.
-> >
-> > As it turns out, it's actually valid to call usb_hcd_giveback_urb() in task
-> > context, provided that the caller turned off the interrupts; USB/IP does
-> > exactly that. This can lead to a nested KCOV remote coverage collection
-> > sections both trying to collect coverage in task context. This isn't
-> > supported by kcov, and leads to a WARNING.
-> >
-> > Change __usb_hcd_giveback_urb() to only call kcov_remote_*() callbacks
-> > when it's being executed in a softirq. To avoid calling
-> > in_serving_softirq() directly in the driver code, add a couple of new kcov
-> > wrappers.
-> >
-> > As the result of this change, the coverage from USB/IP related
-> > usb_hcd_giveback_urb() calls won't be collected, but the WARNING is fixed.
-> >
-> > A potential future improvement would be to support nested remote coverage
-> > collection sections, but this patch doesn't address that.
-> >
-> > Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
-> > Acked-by: Marco Elver <elver@google.com>
-> > ---
-> >
-> > Changes in v5:
-> > - Don't call in_serving_softirq() in USB driver code directly, do that
-> >   via kcov wrappers.
->
-> Does not apply to 5.11-rc1 :(
+Done opencode in_serving_softirq() checks in in_serving_softirq() to avoid
+cluttering the code, hide them in kcov helpers instead.
 
-Hm, I see version 4 in 5.11-rc1. Let me send a fix up.
+Fixes: aee9ddb1d371 ("kcov, usb: only collect coverage from __usb_hcd_giveback_urb in softirq")
+Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+---
+ drivers/usb/core/hcd.c |  8 +++-----
+ include/linux/kcov.h   | 21 +++++++++++++++++++++
+ 2 files changed, 24 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/usb/core/hcd.c b/drivers/usb/core/hcd.c
+index 60886a7464c3..ad5a0f405a75 100644
+--- a/drivers/usb/core/hcd.c
++++ b/drivers/usb/core/hcd.c
+@@ -1649,14 +1649,12 @@ static void __usb_hcd_giveback_urb(struct urb *urb)
+ 	urb->status = status;
+ 	/*
+ 	 * This function can be called in task context inside another remote
+-	 * coverage collection section, but KCOV doesn't support that kind of
++	 * coverage collection section, but kcov doesn't support that kind of
+ 	 * recursion yet. Only collect coverage in softirq context for now.
+ 	 */
+-	if (in_serving_softirq())
+-		kcov_remote_start_usb((u64)urb->dev->bus->busnum);
++	kcov_remote_start_usb_softirq((u64)urb->dev->bus->busnum);
+ 	urb->complete(urb);
+-	if (in_serving_softirq())
+-		kcov_remote_stop();
++	kcov_remote_stop_softirq();
+ 
+ 	usb_anchor_resume_wakeups(anchor);
+ 	atomic_dec(&urb->use_count);
+diff --git a/include/linux/kcov.h b/include/linux/kcov.h
+index a10e84707d82..4e3037dc1204 100644
+--- a/include/linux/kcov.h
++++ b/include/linux/kcov.h
+@@ -52,6 +52,25 @@ static inline void kcov_remote_start_usb(u64 id)
+ 	kcov_remote_start(kcov_remote_handle(KCOV_SUBSYSTEM_USB, id));
+ }
+ 
++/*
++ * The softirq flavor of kcov_remote_*() functions is introduced as a temporary
++ * work around for kcov's lack of nested remote coverage sections support in
++ * task context. Adding suport for nested sections is tracked in:
++ * https://bugzilla.kernel.org/show_bug.cgi?id=210337
++ */
++
++static inline void kcov_remote_start_usb_softirq(u64 id)
++{
++	if (in_serving_softirq())
++		kcov_remote_start_usb(id);
++}
++
++static inline void kcov_remote_stop_softirq(void)
++{
++	if (in_serving_softirq())
++		kcov_remote_stop();
++}
++
+ #else
+ 
+ static inline void kcov_task_init(struct task_struct *t) {}
+@@ -66,6 +85,8 @@ static inline u64 kcov_common_handle(void)
+ }
+ static inline void kcov_remote_start_common(u64 id) {}
+ static inline void kcov_remote_start_usb(u64 id) {}
++static inline void kcov_remote_start_usb_softirq(u64 id) {}
++static inline void kcov_remote_stop_softirq(void) {}
+ 
+ #endif /* CONFIG_KCOV */
+ #endif /* _LINUX_KCOV_H */
+-- 
+2.29.2.729.g45daf8777d-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAAeHK%2BxNDvauf-SFoBcUfcPA_6fL_FhP-w2mys%2BZ-heyd0-VEA%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/aeb430c5bb90b0ccdf1ec302c70831c1a47b9c45.1609876340.git.andreyknvl%40google.com.
