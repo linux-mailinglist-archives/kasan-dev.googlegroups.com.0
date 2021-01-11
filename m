@@ -1,121 +1,126 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBHXT577QKGQECOXMPTY@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBSVO6D7QKGQEN3UQEHA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-vs1-xe37.google.com (mail-vs1-xe37.google.com [IPv6:2607:f8b0:4864:20::e37])
-	by mail.lfdr.de (Postfix) with ESMTPS id 267312F0D1A
-	for <lists+kasan-dev@lfdr.de>; Mon, 11 Jan 2021 08:09:19 +0100 (CET)
-Received: by mail-vs1-xe37.google.com with SMTP id y12sf4202752vsq.21
-        for <lists+kasan-dev@lfdr.de>; Sun, 10 Jan 2021 23:09:19 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1610348958; cv=pass;
+Received: from mail-il1-x13a.google.com (mail-il1-x13a.google.com [IPv6:2607:f8b0:4864:20::13a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1357A2F0ED2
+	for <lists+kasan-dev@lfdr.de>; Mon, 11 Jan 2021 10:15:55 +0100 (CET)
+Received: by mail-il1-x13a.google.com with SMTP id s23sf16521517ilk.14
+        for <lists+kasan-dev@lfdr.de>; Mon, 11 Jan 2021 01:15:55 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1610356554; cv=pass;
         d=google.com; s=arc-20160816;
-        b=kp5yQEz5kxEjmMBp5xMlOcF7nsrDKJa85n+4e9HY9fcNaoed/om4Vh3B+rtAGyFjSv
-         jLrCW89FQKBfjTamp9Lr2wR7QvC66JfOS+bXNHDCO7aYLPBvBQkOTMkbl317YArB/Ws+
-         eOvg0Gj1LdKYeicg2v2mqXTKc7nHTKx7yRLquEAAyzx1f/xunrWzE6KOBm9oluNdnD6q
-         yMD4CwR26FnROvoucMKd6LnuIVxNotJ0GGCbLgrBe17JskAwELWgHysmYNbeX3whVRL9
-         46YVH3FKpmsnmj1xHc5vg6G0MBo53ICtz0P0fHGw7KKuD+XFaO7XKSYEQl2hukDCQSaw
-         OkHw==
+        b=xHKAKu0FJF11z5upjK+9j8l4y9bZtm56yGan3Coa9cW3Fpv9hfxgDgO1lMED0Sg29P
+         tt5RpazVmIxZiMU16BIEqaq+uZ9t9YqNO1KWKnAWth2BKhSHyPsQtcjAi9IoXSCyfT2E
+         kUZb0wbucrmJBVfVINfK6WVuN0ZvIAvkqbEWNE6L5Hd47FKYgs+7SD1B28O3T499pbq3
+         KiXUOgUVsK0ocmDfMNNqdi/cKD9p2KfRc0bPriRHCtP1QanVOETSqxXvaiP/IkU9UkTx
+         NwtxqrpB5BpC1SWbPIOwWnnKFd6BnpeYYujysvlecfvolURm6T57vvX01YVDW1E8Rmfy
+         u2MQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=gESxCKXEcqMnIl3Oc12/MFkzr0uKLvDuuQDVk7LUmck=;
-        b=sAGj3I8pXVKy/RpSZy+TaQl/f59YmWbEIP0S5gbYC0yY76jEY+zN4h1T/C92m1fP4n
-         nF8dfrhgXWI6vVEDvn/7TBjpgrsXUdhSuWmaRpL9/BeeUueqdBXHv0n1BAa+NEPUqChS
-         fo8XBuBjW7USynjxoOchoMPnquSTIB23gaKAsQGHJBHDhW8XQd0gh2BVZUPEMAghTUFa
-         zUITLu5PoWKrOrqaWYjS4nniH6x9/chdfWQU8YqAExZWP9LYZ9RFD1BV6sEFRJ0t+tkR
-         ZKkzv6E9SYcxKLjEzB1gd3946nxlcBRV88nwBUWVVePSIWehCVeh8K7NiY5a2JUvXm8s
-         D5CQ==
+         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
+         :cc:to:from:subject:mime-version:message-id:date:sender
+         :dkim-signature;
+        bh=0txe2Yn8XaIsZRwgSnlXKII7EepKnRP2+7log5KdcUg=;
+        b=lAoee7/SzUZTMooBqw3pY1HmXW9AR/Mc0KZzde7IVcvqze0C2m1tH7y8VKXdUslqHt
+         WtVm47jnLhOH4DcSbCF7yZgwJi2r47VccouNCJHdPI9shTOUmdKA3pgU4FD9Rbq5hE8y
+         RFrCzIphYRnFwwgpDlVZ8MSFIYr76/f5Id4OVUPw8nGFQNSMnJhkG4gdFMrV7BVIlfsZ
+         TvWlbaaBWjGnpFQlcmktzey9IpWtLktxyiZBum0U1/00Hdb1sVXy78EBJATIPoAFH8QI
+         BBsAHqX6tJ6SQ+5/Qodv4mxgJfZWnMePWs6W+Tw2ygBxsvE6+m71Yka8NJieYScMGWaX
+         flQA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=GAx09Xvq;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::c29 as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=sSWE8ojT;
+       spf=pass (google.com: domain of 3sbf8xwukcw0pwgpcrzzrwp.nzxvldly-opgrzzrwprczfad.nzx@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::84a as permitted sender) smtp.mailfrom=3SBf8XwUKCW0PWgPcRZZRWP.NZXVLdLY-OPgRZZRWPRcZfad.NZX@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=gESxCKXEcqMnIl3Oc12/MFkzr0uKLvDuuQDVk7LUmck=;
-        b=S3y8b9jT402SgzPfc9M2+6anWXk7Z+WLwugfeot9KrjWVfMMgnAruPXz/zZzMXvA07
-         stWqir3kNTLT5lmPRgGQivqvQ9mz9gHglAfsPmh6XpqcnuP2AjpRoNT+ovw2RWp2ASNS
-         zjWytwHiboZSojlKsUAzlHuEFRpvdBn9GyNdcGNFVoNDBXzG6hfviIfSldEA0XAIzuRs
-         8uEQjrvys09PNxciwi6O2kfo3XTSb1aq+c0ULkJ2W3yeSVliPw56dqbRVSn6no8agD8y
-         CH7oG2BzpWM99HgeqDQmQ9jybok8n/BEAB6Ug4tmKPG43zL+uLCFYqisyMNFPAFZdeSB
-         EoQw==
+        h=sender:date:message-id:mime-version:subject:from:to:cc
+         :content-transfer-encoding:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:list-post:list-help:list-archive:list-subscribe
+         :list-unsubscribe;
+        bh=0txe2Yn8XaIsZRwgSnlXKII7EepKnRP2+7log5KdcUg=;
+        b=J8fmgtyQEuNlbuNw8lZOPUvIHcy76ZasIVIi4Fi9AkhlDXtVepJqCnZH+vjSepwDNK
+         N6/rOdXiweEypXbu9zkagLCEM1R+pZ/dF4wLTf5Btl7ancYcOJZe6OobzcJVrCkT6oVM
+         SRm/ufOTKuEbSIaNsdOlidleVNi8PUocpByvBnB7Y6Y1r5nGOag+BD/VWfixAIoSUxcI
+         4d3AeDvO8kdTOLIccBcjyjhUkk2x4t8EXdmB+SRNC95PyR+vvlAzp1pUp606eu97MHZN
+         6weqJgrb76q/kYhYer3QdlkpLhx43RnIj83P6C+1g8sVKd9WEaD0rPrgjeae6TFMUA7k
+         InYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
+        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
+         :to:cc:content-transfer-encoding:x-original-sender
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=gESxCKXEcqMnIl3Oc12/MFkzr0uKLvDuuQDVk7LUmck=;
-        b=Lw6T0C1hjZjyLDJT0k1q5soD31OGMiGoh4SDpNE9Dg8qGlfPjF3CpZzHa4kMLJY6fw
-         2jH81QO+ccDBKFur8SSpmlWEqJrOL1iKlBKS3RLXZni/CM7gn/TeHiS69n4CiHIz0QhI
-         O0ZXcV1vpskHaZg2Eh2m1BhdN5jVXZtaVNgQcSbqctDgmxuf2eZ9fnH2tUSPUpRBMRGb
-         NsYQIcKvnecfnpa9cM4UQcbgoLwj5E0OKT0C9WKF8tddN8ppO1ka9PE/u7eCC54TbkVM
-         VfvBU0mOfn5EOBWAlnEC3prCG3LsMm0MaD47ZZ4jAZmbDtM8QLn7UL5T1oDKZ3tYZTrJ
-         ac4A==
-X-Gm-Message-State: AOAM530es7M3TeGI42idGhPR/oA5wiuC0N0IQRd3IFOToBMln0R6FpMz
-	jsxp8g3vRWsuIjJz+DUhuGg=
-X-Google-Smtp-Source: ABdhPJzYzhmvTX58Ot+IIRUdgetXIHswJLlyReqvhz7CLKHz3kryJVGKItuD3TDgtxI6NePlwTiQ1A==
-X-Received: by 2002:ac5:c284:: with SMTP id h4mr11736422vkk.14.1610348958223;
-        Sun, 10 Jan 2021 23:09:18 -0800 (PST)
+        bh=0txe2Yn8XaIsZRwgSnlXKII7EepKnRP2+7log5KdcUg=;
+        b=teG5ZUfO2fzbjAc+emQ+U8SsU4m0GfvdujIXybJ1mZYQaPxiBt3S0OKD5z7IvnuBum
+         HItGJgrbT8VsEYTwsqB5jwvzq8ME1YkLi7yZh1b65Q6TilmmKQw9euyKYMGMyvvcTK0g
+         1N5/6Biy56ZudQCUHYzIgLyU6H3U/x8OPUvi3wBq32ZJA9YJ6t1i57g1tkXbt6DuxfVZ
+         0QP84elQ/6c+3TlNHvYiz6nEyTx0WT3I+YHLQf09kLIfYw1kQjzDA6AoO0oJKIwDNfAJ
+         bIdFBwmDqho+/onHr/+9vqj5+eNqPIqvREEPLvzi/eFgY9NPWdSNd5rlFwmUm9IMb1gq
+         BNzA==
+X-Gm-Message-State: AOAM533D7/nx8A7r0oyllrG4xjEq9b+OjSqAW8gR9P1SC2T4NIM24/km
+	rsCyYzXKlAAc0uGI1e3UKPk=
+X-Google-Smtp-Source: ABdhPJzw4xTo3b6gtM03jAd+8nK4O2YnoCH/sFG3BxG05MWgzkJSZjBuEeBlIkaUMRjkDxUGAFCvFA==
+X-Received: by 2002:a5d:994c:: with SMTP id v12mr13913528ios.201.1610356554106;
+        Mon, 11 Jan 2021 01:15:54 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6122:11aa:: with SMTP id y10ls957152vkn.1.gmail; Sun, 10
- Jan 2021 23:09:17 -0800 (PST)
-X-Received: by 2002:a1f:9156:: with SMTP id t83mr12094360vkd.3.1610348957709;
-        Sun, 10 Jan 2021 23:09:17 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1610348957; cv=none;
+Received: by 2002:a5d:8c86:: with SMTP id g6ls2809132ion.0.gmail; Mon, 11 Jan
+ 2021 01:15:53 -0800 (PST)
+X-Received: by 2002:a5e:9906:: with SMTP id t6mr13791924ioj.183.1610356553676;
+        Mon, 11 Jan 2021 01:15:53 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1610356553; cv=none;
         d=google.com; s=arc-20160816;
-        b=VupDmq59ygMMq1HkNF7VLX+/bWt2Z0V+V9b2zm15V3fmyvQ58MwQJwzHa8I9Bjtmwx
-         KhQgwRp8DmMQ3CLtvRI1YR8UHxX0o3i9r35aW/eYspe6D7Lh/ts7KPRDBx+w91a0w/JC
-         imikBcx9V1wXxAED9WCmxO+AOnaxH9yEhSEaI5FdW2slRFWM0kdZGGGDNG1Oa2McY/me
-         wiuZrwBwtPvNJZY6rvqI2tCBSa3L/gqshYldwXIYt4M0D7up7JA63cKhpSydUlalbNOC
-         DeZnQTls6yUVSJanmNgTHxmSSSBAWO0YSEmFoIO6c0P0t0JE+5XqLZiCeClT5zKQcO7C
-         kukg==
+        b=MlWhupx6ga/UZqWGvo/aQtcNhx70LfbBNaFbVGukFDEjALe3ZvKafEXeM4lAzvK3gA
+         HomCnBfFrEIbmD2+fwi6t6JSbXcEOU0PFeds8GjV628npheyBk1ncNeHP08ZFebap/5z
+         niiFxu5DaBfkPioywBoeWDV9qqtC6Sm0jHllorY70cIjvHjsySLNL4cF59tatr6lUGY6
+         Wxihs3g0m0QhqXX5HAhGgPsiEA+WsDsRjMUAWnoMdf5sO/KxbfKG0hFLOwhLQ2uG/rwV
+         +5gzmC2ZmerSA12qOPEn0zdRC9to6wZHHSw2Ra4FLe76i6wi01y/XKe21lyfMlUFROJ4
+         Hnig==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=aAbOQG+yLQeuSu80aVAbjnCeQllp4m9/39WwQVAMIes=;
-        b=oOTSXb/WjLKI3QgoPhRkY//ng5YKxUuPmo71U4wgYxAx8Zj9TZyGjQBIQrsPbuMsZM
-         6jyXGqn7uWSGkoAC2CIxq3TJLKPUWNF7BrYovkia6IRy8GlPZM0857T5NjuNNFUP8Sr+
-         GbR2reFT2WAYW7d2D9Ooq0ey+C3tEBMWFO1gm/m3Hlb529lBHhk5AMPKD7syO/agUPU9
-         2xLmvnBCnUmXZKcCjCturYzHbS+/tY98jDpf1HqHDGuv4f/kKNmJsBe8y2sIvFa03e78
-         09g2U5D2nToQ6sZIl/YdU3FTt5dqaXHgR7/D7wkiJMlpXcEFWlSZSlXzWUpiKwd2emgV
-         OZ5A==
+        h=content-transfer-encoding:cc:to:from:subject:mime-version
+         :message-id:date:sender:dkim-signature;
+        bh=mA0JHK6xgqVKJnr+4pNXEncnoduYcHjsc3imT7Uizfs=;
+        b=SBzMkCtqZI5WOMRkm6OuGD5Tyv8lxDXesDjyqBJrdJH7niHmKTtc2169WG7Tkl5Rb5
+         K5pAlmtuhwGYxgmY9O0wM/tlSiJub9DMhdM1TyMQcBKVAE9PUMgZ3WfmI/L9dTsJzlN1
+         j53Q0tRq4k6UUa3zxlG31Uq7YuRcxaYIiyMw/Ugv/EOGt86Xw8BCNj6EZU+0/m41gB3a
+         i6wFsXSEsJujXZhJ1633LdFZF2ddY9d+pZEcJUHu0YaMhxOIszVcknOxipzN1pzP9yBB
+         QV+bwAtFMk47ebZ4MME2txpLa0NL9Z23Fe31xjxYAdVE04j4njs3UQ4/FGsIa9RnbBvp
+         70vg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=GAx09Xvq;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::c29 as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=sSWE8ojT;
+       spf=pass (google.com: domain of 3sbf8xwukcw0pwgpcrzzrwp.nzxvldly-opgrzzrwprczfad.nzx@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::84a as permitted sender) smtp.mailfrom=3SBf8XwUKCW0PWgPcRZZRWP.NZXVLdLY-OPgRZZRWPRcZfad.NZX@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-oo1-xc29.google.com (mail-oo1-xc29.google.com. [2607:f8b0:4864:20::c29])
-        by gmr-mx.google.com with ESMTPS id v23si1546630uap.1.2021.01.10.23.09.17
+Received: from mail-qt1-x84a.google.com (mail-qt1-x84a.google.com. [2607:f8b0:4864:20::84a])
+        by gmr-mx.google.com with ESMTPS id p16si798970iln.2.2021.01.11.01.15.53
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 10 Jan 2021 23:09:17 -0800 (PST)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::c29 as permitted sender) client-ip=2607:f8b0:4864:20::c29;
-Received: by mail-oo1-xc29.google.com with SMTP id j21so3868837oou.11
-        for <kasan-dev@googlegroups.com>; Sun, 10 Jan 2021 23:09:17 -0800 (PST)
-X-Received: by 2002:a4a:4ccb:: with SMTP id a194mr11135371oob.14.1610348956882;
- Sun, 10 Jan 2021 23:09:16 -0800 (PST)
-MIME-Version: 1.0
-References: <CACV+narOjL5_o_in_WtOo9kjhcKFD4S4ozctPtdj6JR0+b8adg@mail.gmail.com>
- <CACT4Y+aAarvX0aoesAZjfTnHijwcg68G7o-mtV2CED5PgwygZQ@mail.gmail.com> <CACV+napfUFrnr6WxcidQG+di5YTC8KKd=pcWxAp28FJmivTgpQ@mail.gmail.com>
-In-Reply-To: <CACV+napfUFrnr6WxcidQG+di5YTC8KKd=pcWxAp28FJmivTgpQ@mail.gmail.com>
+        Mon, 11 Jan 2021 01:15:53 -0800 (PST)
+Received-SPF: pass (google.com: domain of 3sbf8xwukcw0pwgpcrzzrwp.nzxvldly-opgrzzrwprczfad.nzx@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::84a as permitted sender) client-ip=2607:f8b0:4864:20::84a;
+Received: by mail-qt1-x84a.google.com with SMTP id t20so3450595qtq.1
+        for <kasan-dev@googlegroups.com>; Mon, 11 Jan 2021 01:15:53 -0800 (PST)
+Sender: "elver via sendgmr" <elver@elver.muc.corp.google.com>
+X-Received: from elver.muc.corp.google.com ([2a00:79e0:15:13:f693:9fff:fef4:2449])
+ (user=elver job=sendgmr) by 2002:ad4:438f:: with SMTP id s15mr18357736qvr.13.1610356552994;
+ Mon, 11 Jan 2021 01:15:52 -0800 (PST)
+Date: Mon, 11 Jan 2021 10:15:43 +0100
+Message-Id: <20210111091544.3287013-1-elver@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.30.0.284.gd98b1dd5eaa7-goog
+Subject: [PATCH mm 1/2] kfence: add option to use KFENCE without static keys
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Mon, 11 Jan 2021 08:09:05 +0100
-Message-ID: <CANpmjNM_zO_u=r732JLzE5=+Timjgky+7P8So_k9_cukO876CQ@mail.gmail.com>
-Subject: Re: KCSAN how to use
-To: Jin Huang <andy.jinhuang@gmail.com>
-Cc: Dmitry Vyukov <dvyukov@google.com>, kasan-dev <kasan-dev@googlegroups.com>, 
-	"Paul E. McKenney" <paulmck@kernel.org>
-Content-Type: multipart/alternative; boundary="0000000000008a6e8e05b89a95dd"
+To: elver@google.com, akpm@linux-foundation.org
+Cc: glider@google.com, dvyukov@google.com, andreyknvl@google.com, 
+	jannh@google.com, mark.rutland@arm.com, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, kasan-dev@googlegroups.com, 
+	"=?UTF-8?q?J=C3=B6rn=20Engel?=" <joern@purestorage.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=GAx09Xvq;       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::c29 as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
+ header.i=@google.com header.s=20161025 header.b=sSWE8ojT;       spf=pass
+ (google.com: domain of 3sbf8xwukcw0pwgpcrzzrwp.nzxvldly-opgrzzrwprczfad.nzx@flex--elver.bounces.google.com
+ designates 2607:f8b0:4864:20::84a as permitted sender) smtp.mailfrom=3SBf8XwUKCW0PWgPcRZZRWP.NZXVLdLY-OPgRZZRWPRcZfad.NZX@flex--elver.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Marco Elver <elver@google.com>
 Reply-To: Marco Elver <elver@google.com>
 Precedence: list
@@ -130,144 +135,179 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
---0000000000008a6e8e05b89a95dd
-Content-Type: text/plain; charset="UTF-8"
+For certain usecases, specifically where the sample interval is always
+set to a very low value such as 1ms, it can make sense to use a dynamic
+branch instead of static branches due to the overhead of toggling a
+static branch.
 
-On Mon, 11 Jan 2021 at 07:54, Jin Huang <andy.jinhuang@gmail.com> wrote:
+Therefore, add a new Kconfig option to remove the static branches and
+instead check kfence_allocation_gate if a KFENCE allocation should be
+set up.
 
-> Really thank you for your help, Dmitry.
-> I tried and saw the KCSAN info.
->
-> But now it seems weird, the KCSAN reports differently every time I run the
-> kernel, and the /sys/kernel/debug/kcsan seems does not match with the KCSAN
-> report. What is wrong?
->
+Suggested-by: J=C3=B6rn Engel <joern@purestorage.com>
+Signed-off-by: Marco Elver <elver@google.com>
+---
+ include/linux/kfence.h | 11 ++++++++++-
+ lib/Kconfig.kfence     | 12 +++++++++++-
+ mm/kfence/core.c       | 32 ++++++++++++++++++--------------
+ 3 files changed, 39 insertions(+), 16 deletions(-)
 
-/sys/kernel/debug/kcsan shows the total data races found, but that may
-differ from those reported to console, because there is an extra filtering
-step (e.g. KCSAN won't report the same data race more than once 3 sec).
+diff --git a/include/linux/kfence.h b/include/linux/kfence.h
+index 76246889ecdb..dc86b69d3903 100644
+--- a/include/linux/kfence.h
++++ b/include/linux/kfence.h
+@@ -4,7 +4,6 @@
+ #define _LINUX_KFENCE_H
+=20
+ #include <linux/mm.h>
+-#include <linux/static_key.h>
+ #include <linux/types.h>
+=20
+ #ifdef CONFIG_KFENCE
+@@ -17,7 +16,13 @@
+ #define KFENCE_POOL_SIZE ((CONFIG_KFENCE_NUM_OBJECTS + 1) * 2 * PAGE_SIZE)
+ extern char *__kfence_pool;
+=20
++#ifdef CONFIG_KFENCE_STATIC_KEYS
++#include <linux/static_key.h>
+ DECLARE_STATIC_KEY_FALSE(kfence_allocation_key);
++#else
++#include <linux/atomic.h>
++extern atomic_t kfence_allocation_gate;
++#endif
+=20
+ /**
+  * is_kfence_address() - check if an address belongs to KFENCE pool
+@@ -104,7 +109,11 @@ void *__kfence_alloc(struct kmem_cache *s, size_t size=
+, gfp_t flags);
+  */
+ static __always_inline void *kfence_alloc(struct kmem_cache *s, size_t siz=
+e, gfp_t flags)
+ {
++#ifdef CONFIG_KFENCE_STATIC_KEYS
+ 	if (static_branch_unlikely(&kfence_allocation_key))
++#else
++	if (unlikely(!atomic_read(&kfence_allocation_gate)))
++#endif
+ 		return __kfence_alloc(s, size, flags);
+ 	return NULL;
+ }
+diff --git a/lib/Kconfig.kfence b/lib/Kconfig.kfence
+index d3ea24fa30fc..78f50ccb3b45 100644
+--- a/lib/Kconfig.kfence
++++ b/lib/Kconfig.kfence
+@@ -6,7 +6,6 @@ config HAVE_ARCH_KFENCE
+ menuconfig KFENCE
+ 	bool "KFENCE: low-overhead sampling-based memory safety error detector"
+ 	depends on HAVE_ARCH_KFENCE && (SLAB || SLUB)
+-	depends on JUMP_LABEL # To ensure performance, require jump labels
+ 	select STACKTRACE
+ 	help
+ 	  KFENCE is a low-overhead sampling-based detector of heap out-of-bounds
+@@ -25,6 +24,17 @@ menuconfig KFENCE
+=20
+ if KFENCE
+=20
++config KFENCE_STATIC_KEYS
++	bool "Use static keys to set up allocations"
++	default y
++	depends on JUMP_LABEL # To ensure performance, require jump labels
++	help
++	  Use static keys (static branches) to set up KFENCE allocations. Using
++	  static keys is normally recommended, because it avoids a dynamic
++	  branch in the allocator's fast path. However, with very low sample
++	  intervals, or on systems that do not support jump labels, a dynamic
++	  branch may still be an acceptable performance trade-off.
++
+ config KFENCE_SAMPLE_INTERVAL
+ 	int "Default sample interval in milliseconds"
+ 	default 100
+diff --git a/mm/kfence/core.c b/mm/kfence/core.c
+index f0816d5f5913..96a9a98e7453 100644
+--- a/mm/kfence/core.c
++++ b/mm/kfence/core.c
+@@ -88,11 +88,13 @@ struct kfence_metadata kfence_metadata[CONFIG_KFENCE_NU=
+M_OBJECTS];
+ static struct list_head kfence_freelist =3D LIST_HEAD_INIT(kfence_freelist=
+);
+ static DEFINE_RAW_SPINLOCK(kfence_freelist_lock); /* Lock protecting freel=
+ist. */
+=20
++#ifdef CONFIG_KFENCE_STATIC_KEYS
+ /* The static key to set up a KFENCE allocation. */
+ DEFINE_STATIC_KEY_FALSE(kfence_allocation_key);
++#endif
+=20
+ /* Gates the allocation, ensuring only one succeeds in a given period. */
+-static atomic_t allocation_gate =3D ATOMIC_INIT(1);
++atomic_t kfence_allocation_gate =3D ATOMIC_INIT(1);
+=20
+ /* Statistics counters for debugfs. */
+ enum kfence_counter_id {
+@@ -583,29 +585,31 @@ late_initcall(kfence_debugfs_init);
+ static struct delayed_work kfence_timer;
+ static void toggle_allocation_gate(struct work_struct *work)
+ {
+-	unsigned long end_wait;
+-
+ 	if (!READ_ONCE(kfence_enabled))
+ 		return;
+=20
+ 	/* Enable static key, and await allocation to happen. */
+-	atomic_set(&allocation_gate, 0);
++	atomic_set(&kfence_allocation_gate, 0);
++#ifdef CONFIG_KFENCE_STATIC_KEYS
+ 	static_branch_enable(&kfence_allocation_key);
+ 	/*
+ 	 * Await an allocation. Timeout after 1 second, in case the kernel stops
+ 	 * doing allocations, to avoid stalling this worker task for too long.
+ 	 */
+-	end_wait =3D jiffies + HZ;
+-	do {
+-		set_current_state(TASK_UNINTERRUPTIBLE);
+-		if (atomic_read(&allocation_gate) !=3D 0)
+-			break;
+-		schedule_timeout(1);
+-	} while (time_before(jiffies, end_wait));
+-	__set_current_state(TASK_RUNNING);
+-
++	{
++		unsigned long end_wait =3D jiffies + HZ;
++
++		do {
++			set_current_state(TASK_UNINTERRUPTIBLE);
++			if (atomic_read(&kfence_allocation_gate) !=3D 0)
++				break;
++			schedule_timeout(1);
++		} while (time_before(jiffies, end_wait));
++		__set_current_state(TASK_RUNNING);
++	}
+ 	/* Disable static key and reset timer. */
+ 	static_branch_disable(&kfence_allocation_key);
++#endif
+ 	schedule_delayed_work(&kfence_timer, msecs_to_jiffies(kfence_sample_inter=
+val));
+ }
+ static DECLARE_DELAYED_WORK(kfence_timer, toggle_allocation_gate);
+@@ -711,7 +715,7 @@ void *__kfence_alloc(struct kmem_cache *s, size_t size,=
+ gfp_t flags)
+ 	 * sense to continue writing to it and pay the associated contention
+ 	 * cost, in case we have a large number of concurrent allocations.
+ 	 */
+-	if (atomic_read(&allocation_gate) || atomic_inc_return(&allocation_gate) =
+> 1)
++	if (atomic_read(&kfence_allocation_gate) || atomic_inc_return(&kfence_all=
+ocation_gate) > 1)
+ 		return NULL;
+=20
+ 	if (!READ_ONCE(kfence_enabled))
+--=20
+2.30.0.284.gd98b1dd5eaa7-goog
 
-
-> And I also want to ask, besides gdb, how to use other ways to locate the
-> kernel source code, like decode_stacktrace.sh and syz-symbolize, talked
-> about here https://lwn.net/Articles/816850/. Is gdb the best way?
->
-
-I use syz-symbolize 99% of the time.
-
-
-> Also, does KCSAN recognizes all the synchronizations in the Linux Kernel?
-> Is there false positives or false negatives?
->
-
-Data races in the Linux kernel is an ongoing story, however, there are no
-false positives (but KCSAN can miss data races).
-
-Regarding the data races you're observing: there are numerous known data
-races in the kernel that are expected when you currently run KCSAN. To
-understand the severity of different reports, let's define the following 3
-concurrency bug classes:
-
-A. Data race, where failure due to current compilers is unlikely
-(supposedly "benign"); merely marking the accesses appropriately is
-sufficient. Finding a crash for these will require a miscompilation, but
-otherwise look "benign" at the C-language level.
-
-B. Race-condition bugs where the bug manifests as a data race, too --
-simply marking things doesn't fix the problem. These are the types of bugs
-where a data race would point out a more severe issue.
-
-C. Race-condition bugs where the bug never manifests as a data race. An
-example of these might be 2 threads that acquire the necessary locks, yet
-some interleaving of them still results in a bug (e.g. because the logic
-inside the critical sections is buggy). These are harder to detect with
-KCSAN as-is, and require using ASSERT_EXCLUSIVE_ACCESS() or
-ASSERT_EXCLUSIVE_WRITER() in the right place. See
-https://lwn.net/Articles/816854/.
-
-One problem currently is that the kernel has quite a lot type-(A) reports
-if we run KCSAN, which makes it harder to identify bugs of type (B) and
-(C). My wish for the future is that we can get to a place, where the kernel
-has almost no unintentional (A) issues, so that we primarily find (B) and
-(C) bugs.
-
-Hope this helps.
-
-Thanks,
--- Marco
-
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNM_zO_u%3Dr732JLzE5%3D%2BTimjgky%2B7P8So_k9_cukO876CQ%40mail.gmail.com.
-
---0000000000008a6e8e05b89a95dd
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">On Mon, 11 Jan 2021 at 07:54, Jin Huang &=
-lt;<a href=3D"mailto:andy.jinhuang@gmail.com">andy.jinhuang@gmail.com</a>&g=
-t; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,20=
-4);padding-left:1ex"><div dir=3D"ltr">Really thank you for your help, Dmitr=
-y.=C2=A0<div>I tried and saw the KCSAN info.<div><br></div><div>But now it =
-seems weird, the KCSAN reports differently every=C2=A0time I run the kernel=
-,=C2=A0and the /sys/kernel/debug/kcsan seems does not match with the KCSAN =
-report. What is wrong?</div></div></div></blockquote><div><br></div><div>/s=
-ys/kernel/debug/kcsan shows the total data races found, but that may differ=
- from those reported to console, because there is an extra filtering step (=
-e.g. KCSAN won&#39;t report the same data race more than once 3 sec).<br></=
-div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div=
- dir=3D"ltr"><div><div>And I also want to ask, besides gdb, how to use othe=
-r ways to locate the kernel source code, like decode_stacktrace.sh and syz-=
-symbolize, talked about here=C2=A0<a href=3D"https://lwn.net/Articles/81685=
-0/" target=3D"_blank">https://lwn.net/Articles/816850/</a>. Is gdb the best=
- way?</div></div></div></blockquote><div><br></div><div>I use=C2=A0syz-symb=
-olize 99% of the time.</div><div>=C2=A0</div><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
-);padding-left:1ex"><div dir=3D"ltr"><div><div>Also, does KCSAN=C2=A0recogn=
-izes all the synchronizations in the Linux Kernel? Is there false positives=
- or false negatives?</div></div></div></blockquote><div><br></div><div>Data=
- races in the Linux kernel is an ongoing story, however, there are no false=
- positives (but KCSAN can miss data races).</div><div><br></div><div>Regard=
-ing the data races you&#39;re observing: there are numerous known data race=
-s in the kernel that are expected when you currently run KCSAN. To understa=
-nd the severity of different reports, let&#39;s define the following 3 conc=
-urrency bug classes:</div><br>A. Data race, where failure due to current co=
-mpilers is unlikely (supposedly &quot;benign&quot;); merely marking the acc=
-esses appropriately is sufficient. Finding a crash for these will require a=
- miscompilation, but otherwise look &quot;benign&quot; at the C-language le=
-vel.<br><br>B. Race-condition bugs where the bug manifests as a data race, =
-too -- simply marking things doesn&#39;t fix the problem. These are the typ=
-es of bugs where a data race would point out a more severe issue.<br><br>C.=
- Race-condition bugs where the bug never manifests as a data race. An examp=
-le of these might be 2 threads that acquire the necessary locks, yet some i=
-nterleaving of them still results in a bug (e.g. because the logic inside t=
-he critical sections is buggy). These are harder to detect with KCSAN as-is=
-, and require using ASSERT_EXCLUSIVE_ACCESS() or ASSERT_EXCLUSIVE_WRITER() =
-in the right place. See <a href=3D"https://lwn.net/Articles/816854/">https:=
-//lwn.net/Articles/816854/</a>.<br><br>One problem currently is that the ke=
-rnel has quite a lot type-(A) reports if we run KCSAN, which makes it harde=
-r to identify bugs of type (B) and (C). My wish for the future is that we c=
-an get to a place, where the kernel has almost no unintentional (A) issues,=
- so that we primarily find (B) and (C) bugs.</div><div class=3D"gmail_quote=
-"><br></div><div class=3D"gmail_quote">Hope this helps.</div><div class=3D"=
-gmail_quote"><br></div><div class=3D"gmail_quote">Thanks,</div><div class=
-=3D"gmail_quote">-- Marco</div></div>
-
-<p></p>
-
--- <br />
-You received this message because you are subscribed to the Google Groups &=
-quot;kasan-dev&quot; group.<br />
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
-+unsubscribe@googlegroups.com</a>.<br />
-To view this discussion on the web visit <a href=3D"https://groups.google.c=
-om/d/msgid/kasan-dev/CANpmjNM_zO_u%3Dr732JLzE5%3D%2BTimjgky%2B7P8So_k9_cukO=
-876CQ%40mail.gmail.com?utm_medium=3Demail&utm_source=3Dfooter">https://grou=
-ps.google.com/d/msgid/kasan-dev/CANpmjNM_zO_u%3Dr732JLzE5%3D%2BTimjgky%2B7P=
-8So_k9_cukO876CQ%40mail.gmail.com</a>.<br />
-
---0000000000008a6e8e05b89a95dd--
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/20210111091544.3287013-1-elver%40google.com.
