@@ -1,112 +1,114 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBSVO6D7QKGQEN3UQEHA@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBTFO6D7QKGQEE2OYR3Y@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-il1-x13a.google.com (mail-il1-x13a.google.com [IPv6:2607:f8b0:4864:20::13a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1357A2F0ED2
-	for <lists+kasan-dev@lfdr.de>; Mon, 11 Jan 2021 10:15:55 +0100 (CET)
-Received: by mail-il1-x13a.google.com with SMTP id s23sf16521517ilk.14
-        for <lists+kasan-dev@lfdr.de>; Mon, 11 Jan 2021 01:15:55 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1610356554; cv=pass;
+Received: from mail-il1-x139.google.com (mail-il1-x139.google.com [IPv6:2607:f8b0:4864:20::139])
+	by mail.lfdr.de (Postfix) with ESMTPS id 666202F0ED3
+	for <lists+kasan-dev@lfdr.de>; Mon, 11 Jan 2021 10:15:57 +0100 (CET)
+Received: by mail-il1-x139.google.com with SMTP id w3sf7493290ilj.17
+        for <lists+kasan-dev@lfdr.de>; Mon, 11 Jan 2021 01:15:57 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1610356556; cv=pass;
         d=google.com; s=arc-20160816;
-        b=xHKAKu0FJF11z5upjK+9j8l4y9bZtm56yGan3Coa9cW3Fpv9hfxgDgO1lMED0Sg29P
-         tt5RpazVmIxZiMU16BIEqaq+uZ9t9YqNO1KWKnAWth2BKhSHyPsQtcjAi9IoXSCyfT2E
-         kUZb0wbucrmJBVfVINfK6WVuN0ZvIAvkqbEWNE6L5Hd47FKYgs+7SD1B28O3T499pbq3
-         KiXUOgUVsK0ocmDfMNNqdi/cKD9p2KfRc0bPriRHCtP1QanVOETSqxXvaiP/IkU9UkTx
-         NwtxqrpB5BpC1SWbPIOwWnnKFd6BnpeYYujysvlecfvolURm6T57vvX01YVDW1E8Rmfy
-         u2MQ==
+        b=uUQYvHUtRN7c+MIcYJwQQt/zkwwNqT42hcT4HqJjFHNuyq9i1oNAceYqvy+yzFJQeR
+         Khcvl3Y2Eq85a0LM/p/BZlAEDpL31Znc2fduEruqIqDWtMMJyWmnxKZQSozKC4xiZLVr
+         QdFAFJZJmuzpi4WuCt3Uzqc68aQLxVYIVn9TR0qQzMV0HogfyRuwh5l8lt+H4Kg4qB7S
+         ykgUJjPBlNaFRvFq9cyNc6GiXAHXBO/Y5lIXhWsFZA1y+ArfEGHBLk8E4Th+tkIfFrX7
+         EC9D7K3m5ueIh1ZP9maKA19WuHDuVktmKHL39cunVwbNaSksYel/SUlKg1qRBNvwY+7W
+         em1Q==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
-         :cc:to:from:subject:mime-version:message-id:date:sender
-         :dkim-signature;
-        bh=0txe2Yn8XaIsZRwgSnlXKII7EepKnRP2+7log5KdcUg=;
-        b=lAoee7/SzUZTMooBqw3pY1HmXW9AR/Mc0KZzde7IVcvqze0C2m1tH7y8VKXdUslqHt
-         WtVm47jnLhOH4DcSbCF7yZgwJi2r47VccouNCJHdPI9shTOUmdKA3pgU4FD9Rbq5hE8y
-         RFrCzIphYRnFwwgpDlVZ8MSFIYr76/f5Id4OVUPw8nGFQNSMnJhkG4gdFMrV7BVIlfsZ
-         TvWlbaaBWjGnpFQlcmktzey9IpWtLktxyiZBum0U1/00Hdb1sVXy78EBJATIPoAFH8QI
-         BBsAHqX6tJ6SQ+5/Qodv4mxgJfZWnMePWs6W+Tw2ygBxsvE6+m71Yka8NJieYScMGWaX
-         flQA==
+         :cc:to:from:subject:references:mime-version:message-id:in-reply-to
+         :date:sender:dkim-signature;
+        bh=P5se5a0Lk76tEln0byS4HVuzTGrDf45p9/CxFU1P2Ec=;
+        b=nT7kkmhZVkuD7UJTCJDpvUOH8E0IwgFbxIpDHYOHLPxP3TDh4Y/wlUvp+tvZ1QiSR2
+         0G8btbbzWcrZzMZHy7UTea2ZuFfDYteuiVpUP7EUC7e7ijC/DVnKPaqOSBqDnU41k+TI
+         LosizGLrSholuQRD1CkS/nWRh99Pfu0XMj/bbRLv8nBCs8tba4RHDvr9gJyTfEq/e2wg
+         8TcDodejqgXOFQDt4xmHb9aHZxVHfg/vTcK5RbfSiO3Bk0rJjQik5poNBfK1ba7Bwgku
+         T5EbRsVa3Wzb7ego7tE/0I6BFnxf/k9P3cDBA4y14RFBAwObns1WU+PxC2S6NKtpfV6F
+         D0FA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=sSWE8ojT;
-       spf=pass (google.com: domain of 3sbf8xwukcw0pwgpcrzzrwp.nzxvldly-opgrzzrwprczfad.nzx@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::84a as permitted sender) smtp.mailfrom=3SBf8XwUKCW0PWgPcRZZRWP.NZXVLdLY-OPgRZZRWPRcZfad.NZX@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=ES15Qh6b;
+       spf=pass (google.com: domain of 3sxf8xwukcxaszjsfuccuzs.qcayogob-rsjuccuzsufcidg.qca@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::f4a as permitted sender) smtp.mailfrom=3Sxf8XwUKCXASZjSfUccUZS.QcaYOgOb-RSjUccUZSUfcidg.Qca@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:date:message-id:mime-version:subject:from:to:cc
-         :content-transfer-encoding:x-original-sender
+        h=sender:date:in-reply-to:message-id:mime-version:references:subject
+         :from:to:cc:content-transfer-encoding:x-original-sender
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:list-post:list-help:list-archive:list-subscribe
          :list-unsubscribe;
-        bh=0txe2Yn8XaIsZRwgSnlXKII7EepKnRP2+7log5KdcUg=;
-        b=J8fmgtyQEuNlbuNw8lZOPUvIHcy76ZasIVIi4Fi9AkhlDXtVepJqCnZH+vjSepwDNK
-         N6/rOdXiweEypXbu9zkagLCEM1R+pZ/dF4wLTf5Btl7ancYcOJZe6OobzcJVrCkT6oVM
-         SRm/ufOTKuEbSIaNsdOlidleVNi8PUocpByvBnB7Y6Y1r5nGOag+BD/VWfixAIoSUxcI
-         4d3AeDvO8kdTOLIccBcjyjhUkk2x4t8EXdmB+SRNC95PyR+vvlAzp1pUp606eu97MHZN
-         6weqJgrb76q/kYhYer3QdlkpLhx43RnIj83P6C+1g8sVKd9WEaD0rPrgjeae6TFMUA7k
-         InYw==
+        bh=P5se5a0Lk76tEln0byS4HVuzTGrDf45p9/CxFU1P2Ec=;
+        b=gqiHMXNhyg7OB0ShfalnT9iZSD/mJNO1WLxPxwY6iC1Ce/e/GBfDYOY7J3CLfu9NM+
+         OcXINjg6nJKf8Yo/p7Demf0G8uJKlxw3aVSjKWGKqOFObVdszjkDXcGSyS5x1sR7KXy5
+         O4thu7fuCaRSk+9J30gHMGwvY2TPoYPJO+BYyJRtoyDymsjJ2epHXqPOwg9QaUye/gJr
+         xW+h7z5LdvmJUygdKhLUdmef2TsPhXMjJ8LdBysFN/Fu0QlyscgtHDdL8kySGeNUYlnk
+         CD8nyG2doU3SMwsYOcdj8Io+5TfRr9782/txL+Yt0N99VpEn3sEzqtE8rJIA8twrdH8q
+         p/7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
-         :to:cc:content-transfer-encoding:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=0txe2Yn8XaIsZRwgSnlXKII7EepKnRP2+7log5KdcUg=;
-        b=teG5ZUfO2fzbjAc+emQ+U8SsU4m0GfvdujIXybJ1mZYQaPxiBt3S0OKD5z7IvnuBum
-         HItGJgrbT8VsEYTwsqB5jwvzq8ME1YkLi7yZh1b65Q6TilmmKQw9euyKYMGMyvvcTK0g
-         1N5/6Biy56ZudQCUHYzIgLyU6H3U/x8OPUvi3wBq32ZJA9YJ6t1i57g1tkXbt6DuxfVZ
-         0QP84elQ/6c+3TlNHvYiz6nEyTx0WT3I+YHLQf09kLIfYw1kQjzDA6AoO0oJKIwDNfAJ
-         bIdFBwmDqho+/onHr/+9vqj5+eNqPIqvREEPLvzi/eFgY9NPWdSNd5rlFwmUm9IMb1gq
-         BNzA==
-X-Gm-Message-State: AOAM533D7/nx8A7r0oyllrG4xjEq9b+OjSqAW8gR9P1SC2T4NIM24/km
-	rsCyYzXKlAAc0uGI1e3UKPk=
-X-Google-Smtp-Source: ABdhPJzw4xTo3b6gtM03jAd+8nK4O2YnoCH/sFG3BxG05MWgzkJSZjBuEeBlIkaUMRjkDxUGAFCvFA==
-X-Received: by 2002:a5d:994c:: with SMTP id v12mr13913528ios.201.1610356554106;
-        Mon, 11 Jan 2021 01:15:54 -0800 (PST)
+        h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
+         :references:subject:from:to:cc:content-transfer-encoding
+         :x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=P5se5a0Lk76tEln0byS4HVuzTGrDf45p9/CxFU1P2Ec=;
+        b=oRDwkHIVaXF1ZfI2dZqueZ3Ect9uqo67+Jt7XOyxciS/jmVaSKCY9XwQZalyh+1N+1
+         aCVXJq7t8Puz94mSmjb4uwZqirwovmDp28C/e//MYm7QkcrES+H4VlvyuDeG6Ka6xDYf
+         R9vwoFXiSg2lW+ZYzcU0MhCJbTXsBrb9LcXnP8wUEWPFFuadN0z+mhMjEqA6aRChxnoj
+         Y1HCKPgqtGqFogm78t+RsT8z878fqUqlQV6ugpsIDqHSqShm9sSsKlXHeUh3jTU/H7bz
+         dr6PHQ5wU5fWJuLiU5X5gZc3ZIXCEQioGwQ17/NGb36WvteYFgyR1Uv7cOcOKY1MPxGf
+         jcWg==
+X-Gm-Message-State: AOAM5322zEcYvLd9WVxdxyUgqME1EQOjlrf5CAtctMNGW7q607Hd9ulw
+	W75hcW3vdI7VLxT547amg/I=
+X-Google-Smtp-Source: ABdhPJxjEBHwbuLPp4zpTuIkDMircvTOTNEqdMm1CzTxqNVL7yS4r1JLWG9aG0u2U9M3WGPCZSDxAw==
+X-Received: by 2002:a05:6e02:13b3:: with SMTP id h19mr12171255ilo.187.1610356556486;
+        Mon, 11 Jan 2021 01:15:56 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a5d:8c86:: with SMTP id g6ls2809132ion.0.gmail; Mon, 11 Jan
- 2021 01:15:53 -0800 (PST)
-X-Received: by 2002:a5e:9906:: with SMTP id t6mr13791924ioj.183.1610356553676;
-        Mon, 11 Jan 2021 01:15:53 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1610356553; cv=none;
+Received: by 2002:a05:6638:1687:: with SMTP id f7ls107205jat.11.gmail; Mon, 11
+ Jan 2021 01:15:56 -0800 (PST)
+X-Received: by 2002:a02:8791:: with SMTP id t17mr13521110jai.28.1610356556110;
+        Mon, 11 Jan 2021 01:15:56 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1610356556; cv=none;
         d=google.com; s=arc-20160816;
-        b=MlWhupx6ga/UZqWGvo/aQtcNhx70LfbBNaFbVGukFDEjALe3ZvKafEXeM4lAzvK3gA
-         HomCnBfFrEIbmD2+fwi6t6JSbXcEOU0PFeds8GjV628npheyBk1ncNeHP08ZFebap/5z
-         niiFxu5DaBfkPioywBoeWDV9qqtC6Sm0jHllorY70cIjvHjsySLNL4cF59tatr6lUGY6
-         Wxihs3g0m0QhqXX5HAhGgPsiEA+WsDsRjMUAWnoMdf5sO/KxbfKG0hFLOwhLQ2uG/rwV
-         +5gzmC2ZmerSA12qOPEn0zdRC9to6wZHHSw2Ra4FLe76i6wi01y/XKe21lyfMlUFROJ4
-         Hnig==
+        b=VfU0lbSjEOGhrlb6/E1Mq0XAOYiGl/tK5qyjHDU27WH4i4om/VX172mWEfzX1fOOy6
+         /bsIsVoz8gcU3Rj62Vel9J26/SVG8pJJmHX9lhUFrv2pRXYj+EYeAO8HQjSjkSJw3itr
+         AI1lrWzmqfjYuRorus/ye+2KIauNPZs9a2fqMegl0SaIYLwpG3KdOc2rPbYb62vjkyQ5
+         lTdhTDzeW8Xa/GHrojQNNQCYW98suCrWbxTkgyZVDWJpu9UN8zsppYr+C/8vbkCeCVpe
+         GCE1i8+BgNaQF11mSzw1Sf0ujj9GaUfNtUat6IE63odDxzUtkieKtooRgz/FAdrypdmk
+         Isgw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:cc:to:from:subject:mime-version
-         :message-id:date:sender:dkim-signature;
-        bh=mA0JHK6xgqVKJnr+4pNXEncnoduYcHjsc3imT7Uizfs=;
-        b=SBzMkCtqZI5WOMRkm6OuGD5Tyv8lxDXesDjyqBJrdJH7niHmKTtc2169WG7Tkl5Rb5
-         K5pAlmtuhwGYxgmY9O0wM/tlSiJub9DMhdM1TyMQcBKVAE9PUMgZ3WfmI/L9dTsJzlN1
-         j53Q0tRq4k6UUa3zxlG31Uq7YuRcxaYIiyMw/Ugv/EOGt86Xw8BCNj6EZU+0/m41gB3a
-         i6wFsXSEsJujXZhJ1633LdFZF2ddY9d+pZEcJUHu0YaMhxOIszVcknOxipzN1pzP9yBB
-         QV+bwAtFMk47ebZ4MME2txpLa0NL9Z23Fe31xjxYAdVE04j4njs3UQ4/FGsIa9RnbBvp
-         70vg==
+        h=content-transfer-encoding:cc:to:from:subject:references
+         :mime-version:message-id:in-reply-to:date:sender:dkim-signature;
+        bh=VoSddRN3eE9jLTCktDJ/olU5g0AXyCtJzEB2jcx6iRw=;
+        b=uBISj8Gj9GZQ2hbvMlskVkVWqop54ON3yKtRDVbnQ2TWahVmheRZHIsPW6dOkzeWiJ
+         7epcAsBt4c4EuS2glVA4JRdJ/wK1sAA0sByJA1NoKEPZe24v/gqaKXjQ1JvQ7QuixA76
+         1oj4UjU7YHDQQir5UeI3vIOmuxXV9GEVra1b9TRyuUuOvjZshyIT8kGJ9h23mhykiCNd
+         wQ1+ypO54X8bOUoArmLuxhSj7qe5PK36whWuMk4EcRFNPuDo4/tWzL7oPbqk8NTS3e6a
+         FD8hWkj0PERJndyqXXqku3bzYMGnC7aPzgEqPRMKXxoJD7Pe6ZJSkCLUZphDwWGg56zf
+         M7Ug==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=sSWE8ojT;
-       spf=pass (google.com: domain of 3sbf8xwukcw0pwgpcrzzrwp.nzxvldly-opgrzzrwprczfad.nzx@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::84a as permitted sender) smtp.mailfrom=3SBf8XwUKCW0PWgPcRZZRWP.NZXVLdLY-OPgRZZRWPRcZfad.NZX@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=ES15Qh6b;
+       spf=pass (google.com: domain of 3sxf8xwukcxaszjsfuccuzs.qcayogob-rsjuccuzsufcidg.qca@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::f4a as permitted sender) smtp.mailfrom=3Sxf8XwUKCXASZjSfUccUZS.QcaYOgOb-RSjUccUZSUfcidg.Qca@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-qt1-x84a.google.com (mail-qt1-x84a.google.com. [2607:f8b0:4864:20::84a])
-        by gmr-mx.google.com with ESMTPS id p16si798970iln.2.2021.01.11.01.15.53
+Received: from mail-qv1-xf4a.google.com (mail-qv1-xf4a.google.com. [2607:f8b0:4864:20::f4a])
+        by gmr-mx.google.com with ESMTPS id b8si2062780ile.1.2021.01.11.01.15.56
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 Jan 2021 01:15:53 -0800 (PST)
-Received-SPF: pass (google.com: domain of 3sbf8xwukcw0pwgpcrzzrwp.nzxvldly-opgrzzrwprczfad.nzx@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::84a as permitted sender) client-ip=2607:f8b0:4864:20::84a;
-Received: by mail-qt1-x84a.google.com with SMTP id t20so3450595qtq.1
-        for <kasan-dev@googlegroups.com>; Mon, 11 Jan 2021 01:15:53 -0800 (PST)
+        Mon, 11 Jan 2021 01:15:56 -0800 (PST)
+Received-SPF: pass (google.com: domain of 3sxf8xwukcxaszjsfuccuzs.qcayogob-rsjuccuzsufcidg.qca@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::f4a as permitted sender) client-ip=2607:f8b0:4864:20::f4a;
+Received: by mail-qv1-xf4a.google.com with SMTP id k16so12758458qve.19
+        for <kasan-dev@googlegroups.com>; Mon, 11 Jan 2021 01:15:56 -0800 (PST)
 Sender: "elver via sendgmr" <elver@elver.muc.corp.google.com>
 X-Received: from elver.muc.corp.google.com ([2a00:79e0:15:13:f693:9fff:fef4:2449])
- (user=elver job=sendgmr) by 2002:ad4:438f:: with SMTP id s15mr18357736qvr.13.1610356552994;
- Mon, 11 Jan 2021 01:15:52 -0800 (PST)
-Date: Mon, 11 Jan 2021 10:15:43 +0100
-Message-Id: <20210111091544.3287013-1-elver@google.com>
+ (user=elver job=sendgmr) by 2002:a0c:bd2b:: with SMTP id m43mr15065393qvg.32.1610356555502;
+ Mon, 11 Jan 2021 01:15:55 -0800 (PST)
+Date: Mon, 11 Jan 2021 10:15:44 +0100
+In-Reply-To: <20210111091544.3287013-1-elver@google.com>
+Message-Id: <20210111091544.3287013-2-elver@google.com>
 Mime-Version: 1.0
+References: <20210111091544.3287013-1-elver@google.com>
 X-Mailer: git-send-email 2.30.0.284.gd98b1dd5eaa7-goog
-Subject: [PATCH mm 1/2] kfence: add option to use KFENCE without static keys
+Subject: [PATCH mm 2/2] kfence: show access type in report
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
 To: elver@google.com, akpm@linux-foundation.org
 Cc: glider@google.com, dvyukov@google.com, andreyknvl@google.com, 
@@ -117,9 +119,9 @@ Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=sSWE8ojT;       spf=pass
- (google.com: domain of 3sbf8xwukcw0pwgpcrzzrwp.nzxvldly-opgrzzrwprczfad.nzx@flex--elver.bounces.google.com
- designates 2607:f8b0:4864:20::84a as permitted sender) smtp.mailfrom=3SBf8XwUKCW0PWgPcRZZRWP.NZXVLdLY-OPgRZZRWPRcZfad.NZX@flex--elver.bounces.google.com;
+ header.i=@google.com header.s=20161025 header.b=ES15Qh6b;       spf=pass
+ (google.com: domain of 3sxf8xwukcxaszjsfuccuzs.qcayogob-rsjuccuzsufcidg.qca@flex--elver.bounces.google.com
+ designates 2607:f8b0:4864:20::f4a as permitted sender) smtp.mailfrom=3Sxf8XwUKCXASZjSfUccUZS.QcaYOgOb-RSjUccUZSUfcidg.Qca@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Marco Elver <elver@google.com>
 Reply-To: Marco Elver <elver@google.com>
@@ -135,172 +137,442 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-For certain usecases, specifically where the sample interval is always
-set to a very low value such as 1ms, it can make sense to use a dynamic
-branch instead of static branches due to the overhead of toggling a
-static branch.
-
-Therefore, add a new Kconfig option to remove the static branches and
-instead check kfence_allocation_gate if a KFENCE allocation should be
-set up.
+Show the access type in KFENCE reports by plumbing through read/write
+information from the page fault handler. Update the documentation and
+test accordingly.
 
 Suggested-by: J=C3=B6rn Engel <joern@purestorage.com>
 Signed-off-by: Marco Elver <elver@google.com>
 ---
- include/linux/kfence.h | 11 ++++++++++-
- lib/Kconfig.kfence     | 12 +++++++++++-
- mm/kfence/core.c       | 32 ++++++++++++++++++--------------
- 3 files changed, 39 insertions(+), 16 deletions(-)
+ Documentation/dev-tools/kfence.rst | 12 ++++----
+ arch/arm64/mm/fault.c              |  2 +-
+ arch/x86/mm/fault.c                |  3 +-
+ include/linux/kfence.h             |  9 ++++--
+ mm/kfence/core.c                   | 11 +++----
+ mm/kfence/kfence.h                 |  2 +-
+ mm/kfence/kfence_test.c            | 47 ++++++++++++++++++++++++++----
+ mm/kfence/report.c                 | 27 +++++++++++------
+ 8 files changed, 82 insertions(+), 31 deletions(-)
 
-diff --git a/include/linux/kfence.h b/include/linux/kfence.h
-index 76246889ecdb..dc86b69d3903 100644
---- a/include/linux/kfence.h
-+++ b/include/linux/kfence.h
-@@ -4,7 +4,6 @@
- #define _LINUX_KFENCE_H
+diff --git a/Documentation/dev-tools/kfence.rst b/Documentation/dev-tools/k=
+fence.rst
+index d7329f2caa5a..06a454ec7712 100644
+--- a/Documentation/dev-tools/kfence.rst
++++ b/Documentation/dev-tools/kfence.rst
+@@ -64,9 +64,9 @@ Error reports
+ A typical out-of-bounds access looks like this::
 =20
- #include <linux/mm.h>
--#include <linux/static_key.h>
- #include <linux/types.h>
+     =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+-    BUG: KFENCE: out-of-bounds in test_out_of_bounds_read+0xa3/0x22b
++    BUG: KFENCE: out-of-bounds read in test_out_of_bounds_read+0xa3/0x22b
 =20
- #ifdef CONFIG_KFENCE
-@@ -17,7 +16,13 @@
- #define KFENCE_POOL_SIZE ((CONFIG_KFENCE_NUM_OBJECTS + 1) * 2 * PAGE_SIZE)
- extern char *__kfence_pool;
+-    Out-of-bounds access at 0xffffffffb672efff (1B left of kfence-#17):
++    Out-of-bounds read at 0xffffffffb672efff (1B left of kfence-#17):
+      test_out_of_bounds_read+0xa3/0x22b
+      kunit_try_run_case+0x51/0x85
+      kunit_generic_run_threadfn_adapter+0x16/0x30
+@@ -93,9 +93,9 @@ its origin. Note that, real kernel addresses are only sho=
+wn for
+ Use-after-free accesses are reported as::
 =20
-+#ifdef CONFIG_KFENCE_STATIC_KEYS
-+#include <linux/static_key.h>
- DECLARE_STATIC_KEY_FALSE(kfence_allocation_key);
-+#else
-+#include <linux/atomic.h>
-+extern atomic_t kfence_allocation_gate;
-+#endif
+     =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+-    BUG: KFENCE: use-after-free in test_use_after_free_read+0xb3/0x143
++    BUG: KFENCE: use-after-free read in test_use_after_free_read+0xb3/0x14=
+3
 =20
- /**
-  * is_kfence_address() - check if an address belongs to KFENCE pool
-@@ -104,7 +109,11 @@ void *__kfence_alloc(struct kmem_cache *s, size_t size=
-, gfp_t flags);
-  */
- static __always_inline void *kfence_alloc(struct kmem_cache *s, size_t siz=
-e, gfp_t flags)
- {
-+#ifdef CONFIG_KFENCE_STATIC_KEYS
- 	if (static_branch_unlikely(&kfence_allocation_key))
-+#else
-+	if (unlikely(!atomic_read(&kfence_allocation_gate)))
-+#endif
- 		return __kfence_alloc(s, size, flags);
- 	return NULL;
- }
-diff --git a/lib/Kconfig.kfence b/lib/Kconfig.kfence
-index d3ea24fa30fc..78f50ccb3b45 100644
---- a/lib/Kconfig.kfence
-+++ b/lib/Kconfig.kfence
-@@ -6,7 +6,6 @@ config HAVE_ARCH_KFENCE
- menuconfig KFENCE
- 	bool "KFENCE: low-overhead sampling-based memory safety error detector"
- 	depends on HAVE_ARCH_KFENCE && (SLAB || SLUB)
--	depends on JUMP_LABEL # To ensure performance, require jump labels
- 	select STACKTRACE
- 	help
- 	  KFENCE is a low-overhead sampling-based detector of heap out-of-bounds
-@@ -25,6 +24,17 @@ menuconfig KFENCE
+-    Use-after-free access at 0xffffffffb673dfe0 (in kfence-#24):
++    Use-after-free read at 0xffffffffb673dfe0 (in kfence-#24):
+      test_use_after_free_read+0xb3/0x143
+      kunit_try_run_case+0x51/0x85
+      kunit_generic_run_threadfn_adapter+0x16/0x30
+@@ -192,9 +192,9 @@ where it was not possible to determine an associated ob=
+ject, e.g. if adjacent
+ object pages had not yet been allocated::
 =20
- if KFENCE
+     =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+-    BUG: KFENCE: invalid access in test_invalid_access+0x26/0xe0
++    BUG: KFENCE: invalid read in test_invalid_access+0x26/0xe0
 =20
-+config KFENCE_STATIC_KEYS
-+	bool "Use static keys to set up allocations"
-+	default y
-+	depends on JUMP_LABEL # To ensure performance, require jump labels
-+	help
-+	  Use static keys (static branches) to set up KFENCE allocations. Using
-+	  static keys is normally recommended, because it avoids a dynamic
-+	  branch in the allocator's fast path. However, with very low sample
-+	  intervals, or on systems that do not support jump labels, a dynamic
-+	  branch may still be an acceptable performance trade-off.
-+
- config KFENCE_SAMPLE_INTERVAL
- 	int "Default sample interval in milliseconds"
- 	default 100
-diff --git a/mm/kfence/core.c b/mm/kfence/core.c
-index f0816d5f5913..96a9a98e7453 100644
---- a/mm/kfence/core.c
-+++ b/mm/kfence/core.c
-@@ -88,11 +88,13 @@ struct kfence_metadata kfence_metadata[CONFIG_KFENCE_NU=
-M_OBJECTS];
- static struct list_head kfence_freelist =3D LIST_HEAD_INIT(kfence_freelist=
-);
- static DEFINE_RAW_SPINLOCK(kfence_freelist_lock); /* Lock protecting freel=
-ist. */
+-    Invalid access at 0xffffffffb670b00a:
++    Invalid read at 0xffffffffb670b00a:
+      test_invalid_access+0x26/0xe0
+      kunit_try_run_case+0x51/0x85
+      kunit_generic_run_threadfn_adapter+0x16/0x30
+diff --git a/arch/arm64/mm/fault.c b/arch/arm64/mm/fault.c
+index 7ab718603f4b..10bd03ee3586 100644
+--- a/arch/arm64/mm/fault.c
++++ b/arch/arm64/mm/fault.c
+@@ -382,7 +382,7 @@ static void __do_kernel_fault(unsigned long addr, unsig=
+ned int esr,
+ 	} else if (addr < PAGE_SIZE) {
+ 		msg =3D "NULL pointer dereference";
+ 	} else {
+-		if (kfence_handle_page_fault(addr, regs))
++		if (kfence_handle_page_fault(addr, esr & ESR_ELx_WNR, regs))
+ 			return;
 =20
-+#ifdef CONFIG_KFENCE_STATIC_KEYS
- /* The static key to set up a KFENCE allocation. */
- DEFINE_STATIC_KEY_FALSE(kfence_allocation_key);
-+#endif
+ 		msg =3D "paging request";
+diff --git a/arch/x86/mm/fault.c b/arch/x86/mm/fault.c
+index 907b54d3b990..66d2db2f2211 100644
+--- a/arch/x86/mm/fault.c
++++ b/arch/x86/mm/fault.c
+@@ -734,7 +734,8 @@ no_context(struct pt_regs *regs, unsigned long error_co=
+de,
+ 		efi_recover_from_page_fault(address);
 =20
- /* Gates the allocation, ensuring only one succeeds in a given period. */
--static atomic_t allocation_gate =3D ATOMIC_INIT(1);
-+atomic_t kfence_allocation_gate =3D ATOMIC_INIT(1);
-=20
- /* Statistics counters for debugfs. */
- enum kfence_counter_id {
-@@ -583,29 +585,31 @@ late_initcall(kfence_debugfs_init);
- static struct delayed_work kfence_timer;
- static void toggle_allocation_gate(struct work_struct *work)
- {
--	unsigned long end_wait;
--
- 	if (!READ_ONCE(kfence_enabled))
+ 	/* Only not-present faults should be handled by KFENCE. */
+-	if (!(error_code & X86_PF_PROT) && kfence_handle_page_fault(address, regs=
+))
++	if (!(error_code & X86_PF_PROT) &&
++	    kfence_handle_page_fault(address, error_code & X86_PF_WRITE, regs))
  		return;
 =20
- 	/* Enable static key, and await allocation to happen. */
--	atomic_set(&allocation_gate, 0);
-+	atomic_set(&kfence_allocation_gate, 0);
-+#ifdef CONFIG_KFENCE_STATIC_KEYS
- 	static_branch_enable(&kfence_allocation_key);
- 	/*
- 	 * Await an allocation. Timeout after 1 second, in case the kernel stops
- 	 * doing allocations, to avoid stalling this worker task for too long.
- 	 */
--	end_wait =3D jiffies + HZ;
--	do {
--		set_current_state(TASK_UNINTERRUPTIBLE);
--		if (atomic_read(&allocation_gate) !=3D 0)
--			break;
--		schedule_timeout(1);
--	} while (time_before(jiffies, end_wait));
--	__set_current_state(TASK_RUNNING);
--
-+	{
-+		unsigned long end_wait =3D jiffies + HZ;
-+
-+		do {
-+			set_current_state(TASK_UNINTERRUPTIBLE);
-+			if (atomic_read(&kfence_allocation_gate) !=3D 0)
-+				break;
-+			schedule_timeout(1);
-+		} while (time_before(jiffies, end_wait));
-+		__set_current_state(TASK_RUNNING);
-+	}
- 	/* Disable static key and reset timer. */
- 	static_branch_disable(&kfence_allocation_key);
-+#endif
- 	schedule_delayed_work(&kfence_timer, msecs_to_jiffies(kfence_sample_inter=
-val));
- }
- static DECLARE_DELAYED_WORK(kfence_timer, toggle_allocation_gate);
-@@ -711,7 +715,7 @@ void *__kfence_alloc(struct kmem_cache *s, size_t size,=
- gfp_t flags)
- 	 * sense to continue writing to it and pay the associated contention
- 	 * cost, in case we have a large number of concurrent allocations.
- 	 */
--	if (atomic_read(&allocation_gate) || atomic_inc_return(&allocation_gate) =
-> 1)
-+	if (atomic_read(&kfence_allocation_gate) || atomic_inc_return(&kfence_all=
-ocation_gate) > 1)
- 		return NULL;
+ oops:
+diff --git a/include/linux/kfence.h b/include/linux/kfence.h
+index dc86b69d3903..c2c1dd100cba 100644
+--- a/include/linux/kfence.h
++++ b/include/linux/kfence.h
+@@ -180,6 +180,7 @@ static __always_inline __must_check bool kfence_free(vo=
+id *addr)
+ /**
+  * kfence_handle_page_fault() - perform page fault handling for KFENCE pag=
+es
+  * @addr: faulting address
++ * @is_write: is access a write
+  * @regs: current struct pt_regs (can be NULL, but shows full stack trace)
+  *
+  * Return:
+@@ -191,7 +192,7 @@ static __always_inline __must_check bool kfence_free(vo=
+id *addr)
+  * cases KFENCE prints an error message and marks the offending page as
+  * present, so that the kernel can proceed.
+  */
+-bool __must_check kfence_handle_page_fault(unsigned long addr, struct pt_r=
+egs *regs);
++bool __must_check kfence_handle_page_fault(unsigned long addr, bool is_wri=
+te, struct pt_regs *regs);
 =20
- 	if (!READ_ONCE(kfence_enabled))
+ #else /* CONFIG_KFENCE */
+=20
+@@ -204,7 +205,11 @@ static inline size_t kfence_ksize(const void *addr) { =
+return 0; }
+ static inline void *kfence_object_start(const void *addr) { return NULL; }
+ static inline void __kfence_free(void *addr) { }
+ static inline bool __must_check kfence_free(void *addr) { return false; }
+-static inline bool __must_check kfence_handle_page_fault(unsigned long add=
+r, struct pt_regs *regs) { return false; }
++static inline bool __must_check kfence_handle_page_fault(unsigned long add=
+r, bool is_write,
++							 struct pt_regs *regs)
++{
++	return false;
++}
+=20
+ #endif
+=20
+diff --git a/mm/kfence/core.c b/mm/kfence/core.c
+index 96a9a98e7453..a5f8aa410a30 100644
+--- a/mm/kfence/core.c
++++ b/mm/kfence/core.c
+@@ -211,7 +211,7 @@ static inline bool check_canary_byte(u8 *addr)
+ 		return true;
+=20
+ 	atomic_long_inc(&counters[KFENCE_COUNTER_BUGS]);
+-	kfence_report_error((unsigned long)addr, NULL, addr_to_metadata((unsigned=
+ long)addr),
++	kfence_report_error((unsigned long)addr, false, NULL, addr_to_metadata((u=
+nsigned long)addr),
+ 			    KFENCE_ERROR_CORRUPTION);
+ 	return false;
+ }
+@@ -350,7 +350,8 @@ static void kfence_guarded_free(void *addr, struct kfen=
+ce_metadata *meta, bool z
+ 	if (meta->state !=3D KFENCE_OBJECT_ALLOCATED || meta->addr !=3D (unsigned=
+ long)addr) {
+ 		/* Invalid or double-free, bail out. */
+ 		atomic_long_inc(&counters[KFENCE_COUNTER_BUGS]);
+-		kfence_report_error((unsigned long)addr, NULL, meta, KFENCE_ERROR_INVALI=
+D_FREE);
++		kfence_report_error((unsigned long)addr, false, NULL, meta,
++				    KFENCE_ERROR_INVALID_FREE);
+ 		raw_spin_unlock_irqrestore(&meta->lock, flags);
+ 		return;
+ 	}
+@@ -765,7 +766,7 @@ void __kfence_free(void *addr)
+ 		kfence_guarded_free(addr, meta, false);
+ }
+=20
+-bool kfence_handle_page_fault(unsigned long addr, struct pt_regs *regs)
++bool kfence_handle_page_fault(unsigned long addr, bool is_write, struct pt=
+_regs *regs)
+ {
+ 	const int page_index =3D (addr - (unsigned long)__kfence_pool) / PAGE_SIZ=
+E;
+ 	struct kfence_metadata *to_report =3D NULL;
+@@ -828,11 +829,11 @@ bool kfence_handle_page_fault(unsigned long addr, str=
+uct pt_regs *regs)
+=20
+ out:
+ 	if (to_report) {
+-		kfence_report_error(addr, regs, to_report, error_type);
++		kfence_report_error(addr, is_write, regs, to_report, error_type);
+ 		raw_spin_unlock_irqrestore(&to_report->lock, flags);
+ 	} else {
+ 		/* This may be a UAF or OOB access, but we can't be sure. */
+-		kfence_report_error(addr, regs, NULL, KFENCE_ERROR_INVALID);
++		kfence_report_error(addr, is_write, regs, NULL, KFENCE_ERROR_INVALID);
+ 	}
+=20
+ 	return kfence_unprotect(addr); /* Unprotect and let access proceed. */
+diff --git a/mm/kfence/kfence.h b/mm/kfence/kfence.h
+index fa3579d03089..97282fa77840 100644
+--- a/mm/kfence/kfence.h
++++ b/mm/kfence/kfence.h
+@@ -99,7 +99,7 @@ enum kfence_error_type {
+ 	KFENCE_ERROR_INVALID_FREE,	/* Invalid free. */
+ };
+=20
+-void kfence_report_error(unsigned long address, struct pt_regs *regs,
++void kfence_report_error(unsigned long address, bool is_write, struct pt_r=
+egs *regs,
+ 			 const struct kfence_metadata *meta, enum kfence_error_type type);
+=20
+ void kfence_print_object(struct seq_file *seq, const struct kfence_metadat=
+a *meta);
+diff --git a/mm/kfence/kfence_test.c b/mm/kfence/kfence_test.c
+index f57c61c833e6..db1bb596acaf 100644
+--- a/mm/kfence/kfence_test.c
++++ b/mm/kfence/kfence_test.c
+@@ -71,8 +71,14 @@ struct expect_report {
+ 	enum kfence_error_type type; /* The type or error. */
+ 	void *fn; /* Function pointer to expected function where access occurred.=
+ */
+ 	char *addr; /* Address at which the bad access occurred. */
++	bool is_write; /* Is access a write. */
+ };
+=20
++static const char *get_access_type(const struct expect_report *r)
++{
++	return r->is_write ? "write" : "read";
++}
++
+ /* Check observed report matches information in @r. */
+ static bool report_matches(const struct expect_report *r)
+ {
+@@ -93,16 +99,19 @@ static bool report_matches(const struct expect_report *=
+r)
+ 	end =3D &expect[0][sizeof(expect[0]) - 1];
+ 	switch (r->type) {
+ 	case KFENCE_ERROR_OOB:
+-		cur +=3D scnprintf(cur, end - cur, "BUG: KFENCE: out-of-bounds");
++		cur +=3D scnprintf(cur, end - cur, "BUG: KFENCE: out-of-bounds %s",
++				 get_access_type(r));
+ 		break;
+ 	case KFENCE_ERROR_UAF:
+-		cur +=3D scnprintf(cur, end - cur, "BUG: KFENCE: use-after-free");
++		cur +=3D scnprintf(cur, end - cur, "BUG: KFENCE: use-after-free %s",
++				 get_access_type(r));
+ 		break;
+ 	case KFENCE_ERROR_CORRUPTION:
+ 		cur +=3D scnprintf(cur, end - cur, "BUG: KFENCE: memory corruption");
+ 		break;
+ 	case KFENCE_ERROR_INVALID:
+-		cur +=3D scnprintf(cur, end - cur, "BUG: KFENCE: invalid access");
++		cur +=3D scnprintf(cur, end - cur, "BUG: KFENCE: invalid %s",
++				 get_access_type(r));
+ 		break;
+ 	case KFENCE_ERROR_INVALID_FREE:
+ 		cur +=3D scnprintf(cur, end - cur, "BUG: KFENCE: invalid free");
+@@ -121,16 +130,16 @@ static bool report_matches(const struct expect_report=
+ *r)
+=20
+ 	switch (r->type) {
+ 	case KFENCE_ERROR_OOB:
+-		cur +=3D scnprintf(cur, end - cur, "Out-of-bounds access at");
++		cur +=3D scnprintf(cur, end - cur, "Out-of-bounds %s at", get_access_typ=
+e(r));
+ 		break;
+ 	case KFENCE_ERROR_UAF:
+-		cur +=3D scnprintf(cur, end - cur, "Use-after-free access at");
++		cur +=3D scnprintf(cur, end - cur, "Use-after-free %s at", get_access_ty=
+pe(r));
+ 		break;
+ 	case KFENCE_ERROR_CORRUPTION:
+ 		cur +=3D scnprintf(cur, end - cur, "Corrupted memory at");
+ 		break;
+ 	case KFENCE_ERROR_INVALID:
+-		cur +=3D scnprintf(cur, end - cur, "Invalid access at");
++		cur +=3D scnprintf(cur, end - cur, "Invalid %s at", get_access_type(r));
+ 		break;
+ 	case KFENCE_ERROR_INVALID_FREE:
+ 		cur +=3D scnprintf(cur, end - cur, "Invalid free of");
+@@ -294,6 +303,7 @@ static void test_out_of_bounds_read(struct kunit *test)
+ 	struct expect_report expect =3D {
+ 		.type =3D KFENCE_ERROR_OOB,
+ 		.fn =3D test_out_of_bounds_read,
++		.is_write =3D false,
+ 	};
+ 	char *buf;
+=20
+@@ -321,12 +331,31 @@ static void test_out_of_bounds_read(struct kunit *tes=
+t)
+ 	test_free(buf);
+ }
+=20
++static void test_out_of_bounds_write(struct kunit *test)
++{
++	size_t size =3D 32;
++	struct expect_report expect =3D {
++		.type =3D KFENCE_ERROR_OOB,
++		.fn =3D test_out_of_bounds_write,
++		.is_write =3D true,
++	};
++	char *buf;
++
++	setup_test_cache(test, size, 0, NULL);
++	buf =3D test_alloc(test, size, GFP_KERNEL, ALLOCATE_LEFT);
++	expect.addr =3D buf - 1;
++	WRITE_ONCE(*expect.addr, 42);
++	KUNIT_EXPECT_TRUE(test, report_matches(&expect));
++	test_free(buf);
++}
++
+ static void test_use_after_free_read(struct kunit *test)
+ {
+ 	const size_t size =3D 32;
+ 	struct expect_report expect =3D {
+ 		.type =3D KFENCE_ERROR_UAF,
+ 		.fn =3D test_use_after_free_read,
++		.is_write =3D false,
+ 	};
+=20
+ 	setup_test_cache(test, size, 0, NULL);
+@@ -411,6 +440,7 @@ static void test_kmalloc_aligned_oob_read(struct kunit =
+*test)
+ 	struct expect_report expect =3D {
+ 		.type =3D KFENCE_ERROR_OOB,
+ 		.fn =3D test_kmalloc_aligned_oob_read,
++		.is_write =3D false,
+ 	};
+ 	char *buf;
+=20
+@@ -509,6 +539,7 @@ static void test_init_on_free(struct kunit *test)
+ 	struct expect_report expect =3D {
+ 		.type =3D KFENCE_ERROR_UAF,
+ 		.fn =3D test_init_on_free,
++		.is_write =3D false,
+ 	};
+ 	int i;
+=20
+@@ -598,6 +629,7 @@ static void test_invalid_access(struct kunit *test)
+ 		.type =3D KFENCE_ERROR_INVALID,
+ 		.fn =3D test_invalid_access,
+ 		.addr =3D &__kfence_pool[10],
++		.is_write =3D false,
+ 	};
+=20
+ 	READ_ONCE(__kfence_pool[10]);
+@@ -611,6 +643,7 @@ static void test_memcache_typesafe_by_rcu(struct kunit =
+*test)
+ 	struct expect_report expect =3D {
+ 		.type =3D KFENCE_ERROR_UAF,
+ 		.fn =3D test_memcache_typesafe_by_rcu,
++		.is_write =3D false,
+ 	};
+=20
+ 	setup_test_cache(test, size, SLAB_TYPESAFE_BY_RCU, NULL);
+@@ -647,6 +680,7 @@ static void test_krealloc(struct kunit *test)
+ 		.type =3D KFENCE_ERROR_UAF,
+ 		.fn =3D test_krealloc,
+ 		.addr =3D test_alloc(test, size, GFP_KERNEL, ALLOCATE_ANY),
++		.is_write =3D false,
+ 	};
+ 	char *buf =3D expect.addr;
+ 	int i;
+@@ -728,6 +762,7 @@ static void test_memcache_alloc_bulk(struct kunit *test=
+)
+=20
+ static struct kunit_case kfence_test_cases[] =3D {
+ 	KFENCE_KUNIT_CASE(test_out_of_bounds_read),
++	KFENCE_KUNIT_CASE(test_out_of_bounds_write),
+ 	KFENCE_KUNIT_CASE(test_use_after_free_read),
+ 	KFENCE_KUNIT_CASE(test_double_free),
+ 	KFENCE_KUNIT_CASE(test_invalid_addr_free),
+diff --git a/mm/kfence/report.c b/mm/kfence/report.c
+index 4dedc2ff8f28..1996295ae71d 100644
+--- a/mm/kfence/report.c
++++ b/mm/kfence/report.c
+@@ -151,7 +151,12 @@ static void print_diff_canary(unsigned long address, s=
+ize_t bytes_to_show,
+ 	pr_cont(" ]");
+ }
+=20
+-void kfence_report_error(unsigned long address, struct pt_regs *regs,
++static const char *get_access_type(bool is_write)
++{
++	return is_write ? "write" : "read";
++}
++
++void kfence_report_error(unsigned long address, bool is_write, struct pt_r=
+egs *regs,
+ 			 const struct kfence_metadata *meta, enum kfence_error_type type)
+ {
+ 	unsigned long stack_entries[KFENCE_STACK_DEPTH] =3D { 0 };
+@@ -189,17 +194,19 @@ void kfence_report_error(unsigned long address, struc=
+t pt_regs *regs,
+ 	case KFENCE_ERROR_OOB: {
+ 		const bool left_of_object =3D address < meta->addr;
+=20
+-		pr_err("BUG: KFENCE: out-of-bounds in %pS\n\n", (void *)stack_entries[sk=
+ipnr]);
+-		pr_err("Out-of-bounds access at 0x" PTR_FMT " (%luB %s of kfence-#%zd):\=
+n",
+-		       (void *)address,
++		pr_err("BUG: KFENCE: out-of-bounds %s in %pS\n\n", get_access_type(is_wr=
+ite),
++		       (void *)stack_entries[skipnr]);
++		pr_err("Out-of-bounds %s at 0x" PTR_FMT " (%luB %s of kfence-#%zd):\n",
++		       get_access_type(is_write), (void *)address,
+ 		       left_of_object ? meta->addr - address : address - meta->addr,
+ 		       left_of_object ? "left" : "right", object_index);
+ 		break;
+ 	}
+ 	case KFENCE_ERROR_UAF:
+-		pr_err("BUG: KFENCE: use-after-free in %pS\n\n", (void *)stack_entries[s=
+kipnr]);
+-		pr_err("Use-after-free access at 0x" PTR_FMT " (in kfence-#%zd):\n",
+-		       (void *)address, object_index);
++		pr_err("BUG: KFENCE: use-after-free %s in %pS\n\n", get_access_type(is_w=
+rite),
++		       (void *)stack_entries[skipnr]);
++		pr_err("Use-after-free %s at 0x" PTR_FMT " (in kfence-#%zd):\n",
++		       get_access_type(is_write), (void *)address, object_index);
+ 		break;
+ 	case KFENCE_ERROR_CORRUPTION:
+ 		pr_err("BUG: KFENCE: memory corruption in %pS\n\n", (void *)stack_entrie=
+s[skipnr]);
+@@ -208,8 +215,10 @@ void kfence_report_error(unsigned long address, struct=
+ pt_regs *regs,
+ 		pr_cont(" (in kfence-#%zd):\n", object_index);
+ 		break;
+ 	case KFENCE_ERROR_INVALID:
+-		pr_err("BUG: KFENCE: invalid access in %pS\n\n", (void *)stack_entries[s=
+kipnr]);
+-		pr_err("Invalid access at 0x" PTR_FMT ":\n", (void *)address);
++		pr_err("BUG: KFENCE: invalid %s in %pS\n\n", get_access_type(is_write),
++		       (void *)stack_entries[skipnr]);
++		pr_err("Invalid %s at 0x" PTR_FMT ":\n", get_access_type(is_write),
++		       (void *)address);
+ 		break;
+ 	case KFENCE_ERROR_INVALID_FREE:
+ 		pr_err("BUG: KFENCE: invalid free in %pS\n\n", (void *)stack_entries[ski=
+pnr]);
 --=20
 2.30.0.284.gd98b1dd5eaa7-goog
 
@@ -310,4 +582,4 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/20210111091544.3287013-1-elver%40google.com.
+kasan-dev/20210111091544.3287013-2-elver%40google.com.
