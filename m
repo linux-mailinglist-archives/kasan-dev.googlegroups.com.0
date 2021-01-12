@@ -1,34 +1,34 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBTWU637QKGQENUGUG6Y@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBDXG637QKGQEALK6GIY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wr1-x43b.google.com (mail-wr1-x43b.google.com [IPv6:2a00:1450:4864:20::43b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 158752F3243
-	for <lists+kasan-dev@lfdr.de>; Tue, 12 Jan 2021 14:55:27 +0100 (CET)
-Received: by mail-wr1-x43b.google.com with SMTP id n11sf1187369wro.7
-        for <lists+kasan-dev@lfdr.de>; Tue, 12 Jan 2021 05:55:27 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1610459726; cv=pass;
+Received: from mail-lf1-x13c.google.com (mail-lf1-x13c.google.com [IPv6:2a00:1450:4864:20::13c])
+	by mail.lfdr.de (Postfix) with ESMTPS id F09562F32F7
+	for <lists+kasan-dev@lfdr.de>; Tue, 12 Jan 2021 15:32:47 +0100 (CET)
+Received: by mail-lf1-x13c.google.com with SMTP id m67sf1124824lfd.6
+        for <lists+kasan-dev@lfdr.de>; Tue, 12 Jan 2021 06:32:47 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1610461967; cv=pass;
         d=google.com; s=arc-20160816;
-        b=mIK1I9YCftO4on3xqwRa6vsiNzlasmNQfBhFV04Ob/ZuH8ViQ21OgOTCHnGR60gJbr
-         KvR11WRlQoFqLBepJ/qxYwRyeqfFYx6UOHc0pjEdbuoTcNCFBJTCUqrzMoqlvv+1A0S/
-         1UmS7hAruxp2oL4JiX4U1q97QZekSI/dbjNI0nYyJ1cbUiW0H+1bLy5JVOoF4PTcpKos
-         zQdvvA+anQ/0U/8Ar1FuTv+pgBwVwK8TsyTYrHfjENoEKq3apnHpMlSvDlVboUpB3mxy
-         ireTSjGH2FL5Ur1cUzQoxdOEopblnClk7cMYNfn0jirP5/nLX++Jy2b7yWzZQi2+X21G
-         ZsCg==
+        b=qvCRPFst8WLnd3juvlzSqXTzV8mGehXSW6kaBdiE1mcTr96/p17/3cIcSZPhXFfri2
+         thVBiKxSByyRwX4lYnR+iMry/Zz/WZFjPPnUoZVHU+D3Y9c/dMUZJACFOVQUGXDSI32x
+         BtWd+m6Wb+zMZJS8mDCMI9WQLxYkQWF3WWzQ2liVv1raTELo0fQl8OrhV6AHlxR94edV
+         1KVarTs4L0/J+UXfWiIYLAxRNr3t8DtJ9ezJuKRM8JlOyhMAl1vsdpvYsxZrUjrRdQ5a
+         TiAZbP6osY/thaiF+7oEd9Shb53vbfENrTR77O70EoXh6rvI3ozQsagpmP/HJpjFDLfe
+         jRHw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:user-agent:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:dkim-signature;
-        bh=2NdmIDcNpiKxHGxdfDusFlHjkB2VqCc7ZqtcDt6FlAQ=;
-        b=Q8Jt3H4L84MBQ7kUCMdyH/1XD+4K1Ksif9IuzdNP1IMzzOg365WQlK+GDLF6y4UTy7
-         E0zeuyvRkxhUQL07iVkDH3jaoRphpcKOxYeR5AX5Zsp1g2Oly+UipLn1GQqcqZgWBPKj
-         ol501DnIMvS2serl8fh6yTR0IdOacfwsF6hBxyxsoiwXuSbRIW5x+hCrkmTz7vQR93NR
-         MpaE+qkjxEv0nNAsxWIxmuL5n4UkzPOCeyZrIumSALoGmVOxZexJlBw7TQwXKeTp8F2d
-         9+QstGutxLfWr67d3rgwocPjXZX292SJRbPC7AwV0/EmtalTSEUh5QVI9tIpbhurZazE
-         zTPA==
+        bh=lCgwcZpZ/16LX0DJL3f1wn/MGMpmTICI7s21CLGlp0s=;
+        b=z4wh4RO2Sue3KQgoKWNzf0IVLYzoL+E+lc7/u0fsmSNy2riJOHNv48RLzvPRqw7ZQP
+         mjDNbVQyA0xRFEyb0Wz7IEy81ND2jyoNK4wIw+1947VTwguceDC4A6xb/ZJQZXqObNqZ
+         YxMu7jvefi9vyCxa2/vecRu485xWWIFDcuf3seprAJWgBHJhWQXrsIKgGB2lfyL5mWg9
+         iQ7ppttu/AHq3APK9O1QQa7cEEdatUMCvgNJVImraXkLB01JHHhRUaYE4a7pVUjbKBOF
+         7uw5DDuUFlqYxYLnZsZdhPwha/Y9PTxG4FQ+0BGQCJ+BC4VDkcEATGMLTFmBN8RvWTvP
+         H0zQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=USJ1WbcW;
-       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::330 as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=grkqsyVp;
+       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::42b as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
@@ -37,13 +37,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:list-post:list-help:list-archive:list-subscribe
          :list-unsubscribe;
-        bh=2NdmIDcNpiKxHGxdfDusFlHjkB2VqCc7ZqtcDt6FlAQ=;
-        b=fWbQf/go/nhxHUNVulGzvs/sWkZhJHeW7Z+NSjftuUwUYYmVq1JB3PLC9WDiROxnTR
-         ojRp4EHlRxOgJ6T9LxFw+h0ee9mDgyCtdj0+PJJIpHRLxDq+i+HQwDc7CsgG8zcdn7Xt
-         dNFpP4poCBuTvgZ3JX8oV+ZJeoLdm/uJnRZMLgkfXyisAiqx4eWox91KfFN26YTyANCp
-         shpSrX1xRei56I8UE59ja0uHtmb70dcR/CCHUt5fN6dd2+7GqeQnhHBcwiWj7LFvLTR2
-         rmRIVur5j+atCqeCikLe7ulARJwtXrUIcIBQTkDjfyVg+fbrueWLhuy7IYLGlP+9vY/D
-         e2gg==
+        bh=lCgwcZpZ/16LX0DJL3f1wn/MGMpmTICI7s21CLGlp0s=;
+        b=KFkM/Vw4yKV8ROluFA1wnI4lh106Qrwphn7O86JVz1Kg5VwimnAXAOoylDFNvmI18o
+         U8g+2NhNTAG1rI449uz4F/aLqtcBACO/45Vvl3HfSyL7elD94y82mbYx81+rueIw+yjD
+         CRSJkYjVrzTUg1fbUKKSPplXrOBQSCLay3nxRw+Pb1VelsKR9JsrCX4slIMZ0M61ZLmN
+         tVWn58mHz90FYftdPZh6W2tmgkpes3zmzljXdOWkuhbPevlNM4kHiVbLs3ROgRNLuYqI
+         P0YJmqOnmhdupyK16L28SsXQ8CXCj5J1ELhdORYHojMA8/1nQjUHp6ctN0OL/rRRFVII
+         /ZYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
@@ -51,60 +51,60 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
          :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=2NdmIDcNpiKxHGxdfDusFlHjkB2VqCc7ZqtcDt6FlAQ=;
-        b=NRlqa/bnVOKkU+FuNG5HbZEbH5sV+olpAWNwPiSbumgHZhfmWppVtcH3ZxVQe/y/bG
-         yOuPO3K/g/Ef5NqMlSdrPtqsf+kUJei8+l6crliEDhBV9Ioh2qTrkqmXOt8yAO4pmGZi
-         5G/wVT47wT2vyAutCFN54BIvT5Qnpn0FC4jQhm+lTWPYDSXE8HS15w6qYbpFYiez8T5/
-         b5xhLXtfvhBD5sN6cpTMjIwcA4IO/7kHRVEpYO5eYhsLqelWezykFlWlhV+xp2pseSGP
-         D9LWiruUaP4tv+JEoUvBVf5Pq4Ys7dtiRWMxHSg+RhaxFlRjfGz34vzSUZwDBBmIfNhQ
-         NoSg==
-X-Gm-Message-State: AOAM530s8+wtxXSv55zTvpnTQUzxE+sm+cL+d91uQU7DC+tOEEQHHVXa
-	ZyLbEv79/oFlmelbc34D1fw=
-X-Google-Smtp-Source: ABdhPJzUj5ItJlQc8zONWSeG7fIRFQad3iPNBcuIOatDLF5EWIiXNXu47pFdH4BzwqWBEOJVu4rN+w==
-X-Received: by 2002:a1c:e0d4:: with SMTP id x203mr3830202wmg.68.1610459726895;
-        Tue, 12 Jan 2021 05:55:26 -0800 (PST)
+        bh=lCgwcZpZ/16LX0DJL3f1wn/MGMpmTICI7s21CLGlp0s=;
+        b=FLH6VOsZMBdLsx+IzFe3Uy2PeFNuO0yrBNL4s/8cAqtmPOlIo1NqnvUYwpUhsM29Io
+         7JQXhbabNQCPxTs/MeyV9K8VcLF3ugCxMeKaKZgsoIJOpVbXRd/5+y9A4Wq5Nsuxgndi
+         cgTj6p8ug0WPvViWS/ihCytxkMuMh0KK+riTLRyJ556AnIUTLq5LuP3aeLzm+gSlY2bz
+         yArrk40CtfkrveEb9UgCTgjQhFiJ5J7v7GXPtVKrW0gLsO5u/ty/uN65H3QDmLn64yUa
+         aRILcY7bZCKZ9GasqZZJz2HIcL4znSUSsEgh/Rws96qAkd5ID0Im00q/CN9r1WGiLqXP
+         h/Fg==
+X-Gm-Message-State: AOAM532Osgra7LHFjYjcpBqXCHF88ywxmkvyYIhZsYzzJJ865kgqtXMl
+	Al3TL7Zyf5q/9xy+M2FhHxU=
+X-Google-Smtp-Source: ABdhPJzyuo0teTCQ4XJvZ1UzSrok2GF7q54f+Poc1yKbLlUDzEq0baV2IeTvlD+/Gwxr+pNwMjYMFg==
+X-Received: by 2002:a2e:88c2:: with SMTP id a2mr2117266ljk.415.1610461967084;
+        Tue, 12 Jan 2021 06:32:47 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a5d:6812:: with SMTP id w18ls3730413wru.1.gmail; Tue, 12 Jan
- 2021 05:55:26 -0800 (PST)
-X-Received: by 2002:a5d:4f82:: with SMTP id d2mr4456003wru.87.1610459725998;
-        Tue, 12 Jan 2021 05:55:25 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1610459725; cv=none;
+Received: by 2002:a2e:3614:: with SMTP id d20ls594741lja.6.gmail; Tue, 12 Jan
+ 2021 06:32:45 -0800 (PST)
+X-Received: by 2002:a05:651c:8d:: with SMTP id 13mr2237051ljq.33.1610461965740;
+        Tue, 12 Jan 2021 06:32:45 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1610461965; cv=none;
         d=google.com; s=arc-20160816;
-        b=bOhmf9pujjcNzuE34UVGd/giHnX1VwtadLEbRGC37aL0G2TzcFG4+HF81lizvSLotJ
-         hjGNadjRLTYNjPR5fSwFWTQLYE01X6pq2UlIDOCKSCq5eyskvGuTH1OOy5TXk3LB64NB
-         yCmq5jIYzX2fVsBsCOqRn2tM3oxWsRMiP9FAsko6c2o8/LCVNJZZw/Iw4CgDAXryMt7l
-         otx5BomfOckoQFFlpG43tIlsTBkNlFs9D44a37vRCHdWWYrV83mBp4RSI2+DQsGs3W/R
-         LYTIkfI6lGeI0IHMFgMOG0nHojgdw/cCXrKk+SJtUPBpJGWNLbEhWSmSWxWrJbq1k6SZ
-         tZWw==
+        b=mHMwxUV3SWP9gvRL81IcIQNoTVdXNTbGw0tye+eIbPSxkfUi7JBhxdNWYL4aiBdDsa
+         KPC0nT+ROFdETj9kK/2aSFGXXuCqABYb0E8/Eifq8DftfiBtDWzgJuNM5P3Pdw2VWDUu
+         ucwfsu+B69F6Btz77tON7Rus8l/8hvjsGlH4PqvvWqv/iZvJLNLfdDVYsVXFeYF8+YX/
+         aQClVJHf+DUgSJ0FQviOsLZtohdqA5oyKtkzUY2NGmbFYho3VVxjejvLSnnqy681h47y
+         abdns/NWz5NF3JH/24uV1peGfqPaseO9vTd9Zw9aHxU5t/ilPaPPNGJuGwA51XHeEu+E
+         LYUg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=user-agent:in-reply-to:content-disposition:mime-version:references
          :message-id:subject:cc:to:from:date:dkim-signature;
-        bh=jU0ycsEdEyG12FaOCf2AucocFaDBPHhikig1gZJxSS0=;
-        b=KQLyuAFpgYg3VW6HR1xhSX48/o2B+BIyeTr81rjtDPvAy+fBlzQAwzkR4UGodECOis
-         SZ+QSAHesp4fEXHcgG/hfeH9dyQyJop/QVs7ka8zV+qEWF89UlXT1riyRkp+j8BH9zwO
-         zK0lyW33PU4U+v8fzUxnjCvLzQsdCPvyWml+k0M3Hu/pdbkQAVdlSTee5Gfy90ycLEOU
-         T8ZA5b03YYJwh0d76YuLL+htMUKOUHdWCoVOdcvda6a9VtVSnRY+PKz5NPdgyGHSjimt
-         yw8jUMUoAzT67FAUsdJJDm/4IM/roakQIBjbZ5OEfHyRCwxlpS1H8WGIqIM6ublhJIqc
-         naRQ==
+        bh=BjAc/arzdiYUQi9Fxp3yyzGY535p3hAg/IhemadQIq8=;
+        b=Q+xgaoi3ym5f6cHts8Ng0SKhybxqupikNCYIi/9TgARNW0HeFaPW3n8vG2iuk1S3U8
+         FrEj3I1ILgrWLKSqNeI3fSa3JTu1NCoN7JVx0Rt0Bu7bzcgNj/dwPBysuv11iMmirwym
+         3UWzkvNhDcmpFb+Vsf/NUpfV40MAXU+dRPdxQUnSsRdm9mkf8/rHJX0i0kDVDuO8oqU8
+         8/Wppm/gSZH4JCOXHwYJo+MoO6SOmZHC0q/UsiE4GbQGseiQuGfLNv/xtV0dad+f5pMp
+         GU8xeBn0j5Oe+x3uOPW6GEvrbnoaPTx32RyaZjaqS/vgS+R8EoUh7DYyKsTz5uE9Pj2e
+         uf7g==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=USJ1WbcW;
-       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::330 as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=grkqsyVp;
+       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::42b as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com. [2a00:1450:4864:20::330])
-        by gmr-mx.google.com with ESMTPS id d17si130489wma.4.2021.01.12.05.55.25
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com. [2a00:1450:4864:20::42b])
+        by gmr-mx.google.com with ESMTPS id w10si74778lfu.1.2021.01.12.06.32.45
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 Jan 2021 05:55:25 -0800 (PST)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::330 as permitted sender) client-ip=2a00:1450:4864:20::330;
-Received: by mail-wm1-x330.google.com with SMTP id i63so1971644wma.4
-        for <kasan-dev@googlegroups.com>; Tue, 12 Jan 2021 05:55:25 -0800 (PST)
-X-Received: by 2002:a1c:356:: with SMTP id 83mr3856521wmd.31.1610459725577;
-        Tue, 12 Jan 2021 05:55:25 -0800 (PST)
+        Tue, 12 Jan 2021 06:32:45 -0800 (PST)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::42b as permitted sender) client-ip=2a00:1450:4864:20::42b;
+Received: by mail-wr1-x42b.google.com with SMTP id r7so2716756wrc.5
+        for <kasan-dev@googlegroups.com>; Tue, 12 Jan 2021 06:32:45 -0800 (PST)
+X-Received: by 2002:adf:f58a:: with SMTP id f10mr4877009wro.338.1610461964966;
+        Tue, 12 Jan 2021 06:32:44 -0800 (PST)
 Received: from elver.google.com ([2a00:79e0:15:13:f693:9fff:fef4:2449])
-        by smtp.gmail.com with ESMTPSA id w21sm4052524wmi.45.2021.01.12.05.55.23
+        by smtp.gmail.com with ESMTPSA id g1sm5380699wrq.30.2021.01.12.06.32.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Jan 2021 05:55:24 -0800 (PST)
-Date: Tue, 12 Jan 2021 14:55:18 +0100
+        Tue, 12 Jan 2021 06:32:44 -0800 (PST)
+Date: Tue, 12 Jan 2021 15:32:38 +0100
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
 To: Andrey Konovalov <andreyknvl@google.com>
 Cc: Catalin Marinas <catalin.marinas@arm.com>,
@@ -119,20 +119,19 @@ Cc: Catalin Marinas <catalin.marinas@arm.com>,
 	Kevin Brodsky <kevin.brodsky@arm.com>, kasan-dev@googlegroups.com,
 	linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 09/11] kasan: fix memory corruption in kasan_bitops_tags
- test
-Message-ID: <X/2qRlGsBj06ellk@elver.google.com>
+Subject: Re: [PATCH 10/11] kasan: fix bug detection via ksize for HW_TAGS mode
+Message-ID: <X/2zBibnd/zCBFa/@elver.google.com>
 References: <cover.1609871239.git.andreyknvl@google.com>
- <0c51a7266ea851797dc9816405fc40d860a48db1.1609871239.git.andreyknvl@google.com>
+ <a83aa371e2ef96e79cbdefceebaa960a34957a79.1609871239.git.andreyknvl@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <0c51a7266ea851797dc9816405fc40d860a48db1.1609871239.git.andreyknvl@google.com>
+In-Reply-To: <a83aa371e2ef96e79cbdefceebaa960a34957a79.1609871239.git.andreyknvl@google.com>
 User-Agent: Mutt/2.0.2 (2020-11-20)
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=USJ1WbcW;       spf=pass
- (google.com: domain of elver@google.com designates 2a00:1450:4864:20::330 as
+ header.i=@google.com header.s=20161025 header.b=grkqsyVp;       spf=pass
+ (google.com: domain of elver@google.com designates 2a00:1450:4864:20::42b as
  permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
  sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Marco Elver <elver@google.com>
@@ -150,50 +149,284 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
  <https://groups.google.com/group/kasan-dev/subscribe>
 
 On Tue, Jan 05, 2021 at 07:27PM +0100, Andrey Konovalov wrote:
-> Since the hardware tag-based KASAN mode might not have a redzone that
-> comes after an allocated object (when kasan.mode=prod is enabled), the
-> kasan_bitops_tags() test ends up corrupting the next object in memory.
+> The currently existing kasan_check_read/write() annotations are intended
+> to be used for kernel modules that have KASAN compiler instrumentation
+> disabled. Thus, they are only relevant for the software KASAN modes that
+> rely on compiler instrumentation.
 > 
-> Change the test so it always accesses the redzone that lies within the
-> allocated object's boundaries.
+> However there's another use case for these annotations: ksize() checks
+> that the object passed to it is indeed accessible before unpoisoning the
+> whole object. This is currently done via __kasan_check_read(), which is
+> compiled away for the hardware tag-based mode that doesn't rely on
+> compiler instrumentation. This leads to KASAN missing detecting some
+> memory corruptions.
+> 
+> Provide another annotation called kasan_check_byte() that is available
+> for all KASAN modes. As the implementation rename and reuse
+> kasan_check_invalid_free(). Use this new annotation in ksize().
+> 
+> Also add a new ksize_uaf() test that checks that a use-after-free is
+> detected via ksize() itself, and via plain accesses that happen later.
 > 
 > Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
-> Link: https://linux-review.googlesource.com/id/I67f51d1ee48f0a8d0fe2658c2a39e4879fe0832a
-
-Reviewed-by: Marco Elver <elver@google.com>
-
+> Link: https://linux-review.googlesource.com/id/Iaabf771881d0f9ce1b969f2a62938e99d3308ec5
 > ---
->  lib/test_kasan.c | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
+>  include/linux/kasan-checks.h |  6 ++++++
+>  include/linux/kasan.h        | 13 +++++++++++++
+>  lib/test_kasan.c             | 20 ++++++++++++++++++++
+>  mm/kasan/common.c            | 11 ++++++++++-
+>  mm/kasan/generic.c           |  4 ++--
+>  mm/kasan/kasan.h             | 10 +++++-----
+>  mm/kasan/sw_tags.c           |  6 +++---
+>  mm/slab_common.c             | 15 +++++++++------
+>  8 files changed, 68 insertions(+), 17 deletions(-)
 > 
+> diff --git a/include/linux/kasan-checks.h b/include/linux/kasan-checks.h
+> index ca5e89fb10d3..3d6d22a25bdc 100644
+> --- a/include/linux/kasan-checks.h
+> +++ b/include/linux/kasan-checks.h
+> @@ -4,6 +4,12 @@
+>  
+>  #include <linux/types.h>
+>  
+> +/*
+> + * The annotations present in this file are only relevant for the software
+> + * KASAN modes that rely on compiler instrumentation, and will be optimized
+> + * away for the hardware tag-based KASAN mode. Use kasan_check_byte() instead.
+> + */
+> +
+>  /*
+>   * __kasan_check_*: Always available when KASAN is enabled. This may be used
+>   * even in compilation units that selectively disable KASAN, but must use KASAN
+> diff --git a/include/linux/kasan.h b/include/linux/kasan.h
+> index 5e0655fb2a6f..992ba5c653a3 100644
+> --- a/include/linux/kasan.h
+> +++ b/include/linux/kasan.h
+> @@ -243,6 +243,18 @@ static __always_inline void kasan_kfree_large(void *ptr, unsigned long ip)
+>  		__kasan_kfree_large(ptr, ip);
+>  }
+>  
+> +/*
+> + * Unlike kasan_check_read/write(), kasan_check_byte() is performed even for
+> + * the hardware tag-based mode that doesn't rely on compiler instrumentation.
+> + */
+
+We have too many check-functions, and the name needs to be more precise.
+Intuitively, I would have thought this should have access-type, i.e.
+read or write, effectively mirroring a normal access.
+
+Would kasan_check_byte_read() be better (and just not have a 'write'
+variant because we do not need it)? This would restore ksize() closest
+to what it was before (assuming reporting behaviour is fixed, too).
+
+> +bool __kasan_check_byte(const void *addr, unsigned long ip);
+> +static __always_inline bool kasan_check_byte(const void *addr, unsigned long ip)
+> +{
+> +	if (kasan_enabled())
+> +		return __kasan_check_byte(addr, ip);
+> +	return true;
+> +}
+> +
+>  bool kasan_save_enable_multi_shot(void);
+>  void kasan_restore_multi_shot(bool enabled);
+>  
+> @@ -299,6 +311,7 @@ static inline void *kasan_krealloc(const void *object, size_t new_size,
+>  	return (void *)object;
+>  }
+>  static inline void kasan_kfree_large(void *ptr, unsigned long ip) {}
+> +static inline bool kasan_check_byte(const void *address, unsigned long ip) {}
+>  
+>  #endif /* CONFIG_KASAN */
+>  
 > diff --git a/lib/test_kasan.c b/lib/test_kasan.c
-> index b67da7f6e17f..3ea52da52714 100644
+> index 3ea52da52714..6261521e57ad 100644
 > --- a/lib/test_kasan.c
 > +++ b/lib/test_kasan.c
-> @@ -771,17 +771,17 @@ static void kasan_bitops_tags(struct kunit *test)
->  
->  	/* This test is specifically crafted for the tag-based mode. */
->  	if (IS_ENABLED(CONFIG_KASAN_GENERIC)) {
-> -		kunit_info(test, "skipping, CONFIG_KASAN_SW_TAGS required");
-> +		kunit_info(test, "skipping, CONFIG_KASAN_SW/HW_TAGS required");
->  		return;
->  	}
->  
-> -	/* Allocation size will be rounded to up granule size, which is 16. */
-> -	bits = kzalloc(sizeof(*bits), GFP_KERNEL);
-> +	/* kmalloc-64 cache will be used and the last 16 bytes will be the redzone. */
-> +	bits = kzalloc(48, GFP_KERNEL);
->  	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, bits);
->  
-> -	/* Do the accesses past the 16 allocated bytes. */
-> -	kasan_bitops_modify(test, BITS_PER_LONG, &bits[1]);
-> -	kasan_bitops_test_and_modify(test, BITS_PER_LONG + BITS_PER_BYTE, &bits[1]);
-> +	/* Do the accesses past the 48 allocated bytes, but within the redone. */
-> +	kasan_bitops_modify(test, BITS_PER_LONG, (void *)bits + 48);
-> +	kasan_bitops_test_and_modify(test, BITS_PER_LONG + BITS_PER_BYTE, (void *)bits + 48);
->  
->  	kfree(bits);
+> @@ -490,6 +490,7 @@ static void kasan_global_oob(struct kunit *test)
+>  	KUNIT_EXPECT_KASAN_FAIL(test, *(volatile char *)p);
 >  }
+>  
+> +/* Check that ksize() makes the whole object accessible. */
+>  static void ksize_unpoisons_memory(struct kunit *test)
+>  {
+>  	char *ptr;
+> @@ -508,6 +509,24 @@ static void ksize_unpoisons_memory(struct kunit *test)
+>  	kfree(ptr);
+>  }
+>  
+> +/*
+> + * Check that a use-after-free is detected by ksize() and via normal accesses
+> + * after it.
+> + */
+> +static void ksize_uaf(struct kunit *test)
+> +{
+> +	char *ptr;
+> +	int size = 128 - KASAN_GRANULE_SIZE;
+> +
+> +	ptr = kmalloc(size, GFP_KERNEL);
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr);
+> +	kfree(ptr);
+> +
+> +	KUNIT_EXPECT_KASAN_FAIL(test, ksize(ptr));
+> +	KUNIT_EXPECT_KASAN_FAIL(test, kasan_int_result = *ptr);
+> +	KUNIT_EXPECT_KASAN_FAIL(test, kasan_int_result = *(ptr + size));
+> +}
+> +
+>  static void kasan_stack_oob(struct kunit *test)
+>  {
+>  	char stack_array[10];
+> @@ -937,6 +956,7 @@ static struct kunit_case kasan_kunit_test_cases[] = {
+>  	KUNIT_CASE(kasan_alloca_oob_left),
+>  	KUNIT_CASE(kasan_alloca_oob_right),
+>  	KUNIT_CASE(ksize_unpoisons_memory),
+> +	KUNIT_CASE(ksize_uaf),
+>  	KUNIT_CASE(kmem_cache_double_free),
+>  	KUNIT_CASE(kmem_cache_invalid_free),
+>  	KUNIT_CASE(kasan_memchr),
+> diff --git a/mm/kasan/common.c b/mm/kasan/common.c
+> index eedc3e0fe365..45ab2c7073a8 100644
+> --- a/mm/kasan/common.c
+> +++ b/mm/kasan/common.c
+> @@ -345,7 +345,7 @@ static bool ____kasan_slab_free(struct kmem_cache *cache, void *object,
+>  	if (unlikely(cache->flags & SLAB_TYPESAFE_BY_RCU))
+>  		return false;
+>  
+> -	if (kasan_check_invalid_free(tagged_object)) {
+> +	if (!kasan_check(tagged_object)) {
+>  		kasan_report_invalid_free(tagged_object, ip);
+>  		return true;
+>  	}
+> @@ -490,3 +490,12 @@ void __kasan_kfree_large(void *ptr, unsigned long ip)
+>  		kasan_report_invalid_free(ptr, ip);
+>  	/* The object will be poisoned by kasan_free_pages(). */
+>  }
+> +
+> +bool __kasan_check_byte(const void *address, unsigned long ip)
+> +{
+> +	if (!kasan_check(address)) {
+> +		kasan_report_invalid_free((void *)address, ip);
+
+This is strange: why does it report an invalid free? Should this be a
+use-after-free? I think this could just call kasan_report(....) for 1
+byte, and we'd get the right report.
+
+> +		return false;
+> +	}
+> +	return true;
+> +}
+> diff --git a/mm/kasan/generic.c b/mm/kasan/generic.c
+> index acab8862dc67..b3631ad9a8ef 100644
+> --- a/mm/kasan/generic.c
+> +++ b/mm/kasan/generic.c
+> @@ -185,11 +185,11 @@ bool kasan_check_range(unsigned long addr, size_t size, bool write,
+>  	return check_region_inline(addr, size, write, ret_ip);
+>  }
+>  
+> -bool kasan_check_invalid_free(void *addr)
+> +bool kasan_check(const void *addr)
+>  {
+>  	s8 shadow_byte = READ_ONCE(*(s8 *)kasan_mem_to_shadow(addr));
+>  
+> -	return shadow_byte < 0 || shadow_byte >= KASAN_GRANULE_SIZE;
+> +	return shadow_byte >= 0 && shadow_byte < KASAN_GRANULE_SIZE;
+>  }
+>  
+>  void kasan_cache_shrink(struct kmem_cache *cache)
+> diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
+> index 292dfbc37deb..f17591545279 100644
+> --- a/mm/kasan/kasan.h
+> +++ b/mm/kasan/kasan.h
+> @@ -329,20 +329,20 @@ static inline void kasan_unpoison(const void *address, size_t size)
+>  			round_up(size, KASAN_GRANULE_SIZE), get_tag(address));
+>  }
+>  
+> -static inline bool kasan_check_invalid_free(void *addr)
+> +static inline bool kasan_check(const void *addr)
+>  {
+>  	u8 ptr_tag = get_tag(addr);
+> -	u8 mem_tag = hw_get_mem_tag(addr);
+> +	u8 mem_tag = hw_get_mem_tag((void *)addr);
+>  
+> -	return (mem_tag == KASAN_TAG_INVALID) ||
+> -		(ptr_tag != KASAN_TAG_KERNEL && ptr_tag != mem_tag);
+> +	return (mem_tag != KASAN_TAG_INVALID) &&
+> +		(ptr_tag == KASAN_TAG_KERNEL || ptr_tag == mem_tag);
+>  }
+>  
+>  #else /* CONFIG_KASAN_HW_TAGS */
+>  
+>  void kasan_poison(const void *address, size_t size, u8 value);
+>  void kasan_unpoison(const void *address, size_t size);
+> -bool kasan_check_invalid_free(void *addr);
+> +bool kasan_check(const void *addr);
+
+Definitely prefer shorted names, but we're in the unfortunate situation
+of having numerous kasan_check-functions, so we probably need to be more
+precise.
+
+kasan_check() makes me think this also does reporting, but it does not
+(it seems to only check the metadata for validity).
+
+The internal function could therefore be kasan_check_allocated() (it's
+now the inverse of kasan_check_invalid_free()).
+
+>  
+>  #endif /* CONFIG_KASAN_HW_TAGS */
+>  
+> diff --git a/mm/kasan/sw_tags.c b/mm/kasan/sw_tags.c
+> index cc271fceb5d5..e326caaaaca3 100644
+> --- a/mm/kasan/sw_tags.c
+> +++ b/mm/kasan/sw_tags.c
+> @@ -118,13 +118,13 @@ bool kasan_check_range(unsigned long addr, size_t size, bool write,
+>  	return true;
+>  }
+>  
+> -bool kasan_check_invalid_free(void *addr)
+> +bool kasan_check(const void *addr)
+>  {
+>  	u8 tag = get_tag(addr);
+>  	u8 shadow_byte = READ_ONCE(*(u8 *)kasan_mem_to_shadow(kasan_reset_tag(addr)));
+>  
+> -	return (shadow_byte == KASAN_TAG_INVALID) ||
+> -		(tag != KASAN_TAG_KERNEL && tag != shadow_byte);
+> +	return (shadow_byte != KASAN_TAG_INVALID) &&
+> +		(tag == KASAN_TAG_KERNEL || tag == shadow_byte);
+>  }
+>  
+>  #define DEFINE_HWASAN_LOAD_STORE(size)					\
+> diff --git a/mm/slab_common.c b/mm/slab_common.c
+> index e981c80d216c..a3bb44516623 100644
+> --- a/mm/slab_common.c
+> +++ b/mm/slab_common.c
+> @@ -1157,11 +1157,13 @@ size_t ksize(const void *objp)
+>  	size_t size;
+>  
+>  	/*
+> -	 * We need to check that the pointed to object is valid, and only then
+> -	 * unpoison the shadow memory below. We use __kasan_check_read(), to
+> -	 * generate a more useful report at the time ksize() is called (rather
+> -	 * than later where behaviour is undefined due to potential
+> -	 * use-after-free or double-free).
+> +	 * We need to first check that the pointer to the object is valid, and
+> +	 * only then unpoison the memory. The report printed from ksize() is
+> +	 * more useful, then when it's printed later when the behaviour could
+> +	 * be undefined due to a potential use-after-free or double-free.
+> +	 *
+> +	 * We use kasan_check_byte(), which is supported for hardware tag-based
+> +	 * KASAN mode, unlike kasan_check_read/write().
+>  	 *
+>  	 * If the pointed to memory is invalid we return 0, to avoid users of
+>  	 * ksize() writing to and potentially corrupting the memory region.
+> @@ -1169,7 +1171,8 @@ size_t ksize(const void *objp)
+>  	 * We want to perform the check before __ksize(), to avoid potentially
+>  	 * crashing in __ksize() due to accessing invalid metadata.
+>  	 */
+> -	if (unlikely(ZERO_OR_NULL_PTR(objp)) || !__kasan_check_read(objp, 1))
+> +	if (unlikely(ZERO_OR_NULL_PTR(objp)) ||
+> +	    !kasan_check_byte(objp, _RET_IP_))
+>  		return 0;
+>  
+>  	size = __ksize(objp);
 > -- 
 > 2.29.2.729.g45daf8777d-goog
 > 
@@ -201,4 +434,4 @@ Reviewed-by: Marco Elver <elver@google.com>
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/X/2qRlGsBj06ellk%40elver.google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/X/2zBibnd/zCBFa/%40elver.google.com.
