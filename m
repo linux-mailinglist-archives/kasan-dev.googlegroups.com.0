@@ -1,101 +1,103 @@
-Return-Path: <kasan-dev+bncBAABBXVV7H7QKGQEZ2TQ2QI@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBZVV7H7QKGQECAZZUZA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ua1-x937.google.com (mail-ua1-x937.google.com [IPv6:2607:f8b0:4864:20::937])
-	by mail.lfdr.de (Postfix) with ESMTPS id C95F72F41C0
-	for <lists+kasan-dev@lfdr.de>; Wed, 13 Jan 2021 03:28:47 +0100 (CET)
-Received: by mail-ua1-x937.google.com with SMTP id j22sf35487uak.6
-        for <lists+kasan-dev@lfdr.de>; Tue, 12 Jan 2021 18:28:47 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1610504926; cv=pass;
+Received: from mail-ot1-x338.google.com (mail-ot1-x338.google.com [IPv6:2607:f8b0:4864:20::338])
+	by mail.lfdr.de (Postfix) with ESMTPS id 32EB92F41C1
+	for <lists+kasan-dev@lfdr.de>; Wed, 13 Jan 2021 03:28:56 +0100 (CET)
+Received: by mail-ot1-x338.google.com with SMTP id 67sf183632otg.15
+        for <lists+kasan-dev@lfdr.de>; Tue, 12 Jan 2021 18:28:56 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1610504935; cv=pass;
         d=google.com; s=arc-20160816;
-        b=T4YDEymOrpuM4YS/7a8mHiAnLEtBy0XyRYEAAcwyld+y68YlX99/8bubW9xCU8NXpO
-         3BDQeqYL/f/KnahMFBUFz4NXw1BYhoUjxLDWP3ujPZwMB7Tf86ieAKm4KUwIKqvs7PGe
-         A70CoHLI8nMge/4Yf+Ej5cQLcdqcgxp2Ldypdam3ZSBqA5WBCWYfpa1ao51cZGjW4BgH
-         rL3e4yqbXTFa/6AVO0HIpD2or7viP8stKjB25KulVBbrVkOfgOZ965LkTueza2JUpQc4
-         KcWPiFtqXjZe8Nwdfp76PcOVkcyCEeWt/U9u/cIk/ZLLIi/E908EyIZu23dZxAVn950M
-         j1Hw==
+        b=N5o7lfZf3g5DvlHsoCubSSYxYXXkbkySxlTkWjn077XOOyBJCuHrH1v6bzGdlG96tf
+         /9Z4tiXXCGIsF1a+0HcxNbFIMRBk1zwzfeZXqrAF8oDozDXePGVGdQROaxs60PPrLQ3c
+         o2oGyEI09xXH5EQ0grMJRCQhgIYx1GQKyTsxVl5lCrXBMfgO9JVlUVmulyLy19ZoLLc1
+         iYr+SOyy9fRvRBKLCvFY1SrPRWYnAJzGAuHoZXXDGexAPnIehbhgaxyQ9vI7Q3UvMR6C
+         Ram699TjKMIXNAl1U3HU9EYCnOla0T8+lyIDAlLOmdgGhq7mXogICL/IzAEYSCELxqEG
+         GB6A==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:message-id:date
-         :subject:cc:to:from:sender:dkim-signature;
-        bh=wrRtVDJ3N8StrcjpKMaqB+QXSin7079kfF/Ri110vDk=;
-        b=iZifqbLZOkvvIETqnlyXFmabcKtuXjdNEEql9W3skQ6m1wadM0BQG5JNtZDGM+yq8d
-         TB9khAU9ZyuyIl6GFulNRa2XeXU3OQvkabBSNtuo8/d5bS2LL4BP6J13a/jwDyMdA1Uu
-         jlYf9rk3I24JN/dnXiaSW9jLN0EbLUnj77Z9lqe/UTnKIErVGkDSTIgTrHovsVYuUl6W
-         bkvznKiJprDrPjCCLuDuZZvKdjsFAEln76GRyOzllMM4XSD6ylH12KYtSAbsYS98O+L+
-         LJBiqiv1Jb4NQi13MC8zLy3zmIZ93otmhsv5CaN3LushIJID/RjGj+eSQ33RPK/G2Iw6
-         S91g==
+         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:sender:dkim-signature;
+        bh=7CALvY1lZZ548TVfuKu93WbiwC2BriTlID7Yw2muH/c=;
+        b=JHu1LskB4zhv0m6QlVHUEKsRub2nVDalB4J/N0ksaYgOM2HHokxCFEomXg08I6/MiP
+         FdezbpaPGsVLovPt/AlG0CNaHHfy/GIQwDLtyHb/J2wj6U7JARS6hAwH9GSlK01dc8gf
+         rI6m20r2GZ6DAa2KXV8ykLvgn7QGLZq7OV+G+XE3A8NJ25LkDqtJhUBTJ3NWzy8ya8vt
+         MOWor4vZnZeT6ry90JrRgUtyN0tFbYVwHkCJgTFnOhYI3VW2TDdf3QcfYJ/vjLHZveLZ
+         0qFcj5qfRfsDim4HetVROs1BEt1JKTg6MmJbPFGASay2B4OzFxs0R1kdUdx0BuducE1i
+         bHhA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
        spf=pass (google.com: domain of nylon7@andestech.com designates 60.248.187.195 as permitted sender) smtp.mailfrom=nylon7@andestech.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id:mime-version
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
+        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=wrRtVDJ3N8StrcjpKMaqB+QXSin7079kfF/Ri110vDk=;
-        b=WKyaEHjosn82K3JNn1VnWblJFig5KHWFOLivshwqAT2uptN7+509ZL+ylCoJ8cbKlJ
-         BJzQGLDVlc0p9w20w0sJCP+gH7smbyW0C96GSkmqU10aD4yWm8DbTLmics7QsuXWpIYC
-         BNrx1EdNkFC8BVikkGDOxrhUdVtb++18HSNDZKYWxh6f02CeAM4yrF1Uq2tfklnqHVyj
-         z7yyKVR5VXqrIR2gI1t1MfLgAVApHAicGtd7KajeEsl8oHphFneoT/GtKixZM3KjwPdD
-         JOTmkeIFT4JScwU4AfoDDnP4zFDdJ3baOfKXjToIkP7WC6O6VUlwN8XQMJXdiD/t6sVy
-         eeAw==
+        bh=7CALvY1lZZ548TVfuKu93WbiwC2BriTlID7Yw2muH/c=;
+        b=EmXOB4cqPpnuFjXH9uXYfuHwVW25rvokt4l42DEtzQJdz0E7eAwGEGJKdN0Xv1X07/
+         FZnBiMKGB+6bgBmO6kptFRKvjzAvDNAB4+Yv2Nxb9gMz5MAOUkEwChBAMcbaqyHn+ZQ5
+         4hgnzVUVC0jnDwdO63huGKl1m5y47GrenYZ2mKpS1nyLJ6I/s6rX6MNLYBjaEHQACWiX
+         30Reea4mi31p2zrBx5RQRHAw3DPogfD1jvGlH9CvCbiYJJ+xB58YNPjQLXPky4/KXNuO
+         h0AmjT1ILbYTlqsXUqr1UkcUxu4MCHgkDRdN/0sPhyOf4UowsHJuvYxzGxnkHcJmC4WG
+         PMmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :mime-version:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=wrRtVDJ3N8StrcjpKMaqB+QXSin7079kfF/Ri110vDk=;
-        b=XZvbYjz0Kkc/ma6bZqiiwMvk5KLrnNKqJbXFOmDjZ+EsQ9nmECb4n0/j6OH1R+77WD
-         MbDq9c/JxS9WlfuTyLCjVPminzA4y73m2ixzcU/TO3HCinf6/F/SqnTmfOkNPS0uPUY6
-         2BF67hDVIEnEyppknvKsEMLyeZ6ElmBrshguT98hu0bAePX2NVzYKFOBDhplIAMWwBM/
-         IwH7ub9u1UhGfB2d9CsQ7Lwag2bqhP1pAlFxwUne+RMjxstf1TrG5wvnKyJNhy3O9RII
-         Hn/4Ocev/NkqhGS5FaQb5KQTOiyqXiku4Uoyjw2uauypwK6IpH/a1AL5j/ZIqQZy1AEz
-         m7LA==
+         :in-reply-to:references:mime-version:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=7CALvY1lZZ548TVfuKu93WbiwC2BriTlID7Yw2muH/c=;
+        b=sBoJ/1+51WL9nJ/DgU8ztIkoi8EnCBjsUFR4z5Glvv1VnE9m1xz7MMRIAGwS5IDLCs
+         bEtpt1VFfAnVHQ+V7sRpOB9Q6xKlQsxEDhvfndB9ZFMdW/pxO21FTjwaYuZdkBRoU3C7
+         FTKtVWadn4s7699l6mXTcmOjAGHS8XcXRrbirtknW4GbddWnqeMWiTmIH2GoRxqyWr3a
+         MyO5nvgZ4RQY47JDgDFXn7ymLmmOfcWobLxRXNY9NT5FqYwGzKi+08Lul1yNQMKo7lGc
+         9k5npzhYepqDRH+hzoA3cL4b8PrUl97FKZkJlFOizCi2+++4rvvyTc+qUkD/ypao8kmK
+         fxkA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM533V9AX6x3U0AgnhJM/uicWWskblKnGCwuAGT9tjmBOjTt68cOij
-	aQR6AJmNZ6GaQGHr7JI7tzY=
-X-Google-Smtp-Source: ABdhPJzVFqY02GLm0sn6lYdzVPy1xQVq/vqVq/FOc77jOQUs4QiLPv157wWsxoVfaYhiQ+grXF9YDA==
-X-Received: by 2002:a1f:3fc9:: with SMTP id m192mr2213526vka.17.1610504926661;
-        Tue, 12 Jan 2021 18:28:46 -0800 (PST)
+X-Gm-Message-State: AOAM532cTaJxdCiD1M8fgEllqUKinixV8QpuNoEyc+VuW9QyzuQmNz60
+	KBJEUrqCWBkHQHt7yfF/IjI=
+X-Google-Smtp-Source: ABdhPJy5ObdH1vzgD74xS/zhoQXzHMFBr/HNBu6tGvwz0YS4GFX9++z4PX/SjtPHzWj5Pkin6KtjOA==
+X-Received: by 2002:aca:c1d6:: with SMTP id r205mr30047oif.37.1610504935131;
+        Tue, 12 Jan 2021 18:28:55 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ab0:e4:: with SMTP id 91ls36246uaj.3.gmail; Tue, 12 Jan 2021
- 18:28:46 -0800 (PST)
-X-Received: by 2002:a9f:2626:: with SMTP id 35mr68303uag.80.1610504926020;
-        Tue, 12 Jan 2021 18:28:46 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1610504926; cv=none;
+Received: by 2002:aca:758a:: with SMTP id q132ls159886oic.4.gmail; Tue, 12 Jan
+ 2021 18:28:54 -0800 (PST)
+X-Received: by 2002:aca:1a06:: with SMTP id a6mr31199oia.29.1610504934648;
+        Tue, 12 Jan 2021 18:28:54 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1610504934; cv=none;
         d=google.com; s=arc-20160816;
-        b=ECMGgp3+9rKZK1SFkrLFJp6/vcH8cVe1cMCuZXA42BEWKeXkpXi2RYL5UGHbwvpYnL
-         Cv3C2/HORTtiJob/BF2VBwz6GDwJMsERmq6RW1b6HGB3z9bBvxEWKk2PSqiBWHFHByYQ
-         IL01CWaCRKirR5RVYLFliVca9i+T5X69YKzIHkZw/lL5dNnj/u8NCPBlKx7fslSK+r8d
-         QqZqDy4/iadk0zHr/UMV9doO8raVv2hE9FNPUjYRar2MixqPR2QvGde8rhy/WMxscqKQ
-         rffnbC7Y7KsZeEtjsr1e1xrnTM/Qnvymqp9VPqkHzXEXvFGB80KFA1GpGeUyTtU8KGMa
-         0nFw==
+        b=PFEc09s3AGwI49OOywcT7W7pgkjToXviAP2DKB9tSGauejWDLDEyydVRVXvMe4E5xi
+         LtXp65xjb8/ygus1wa/JY3JuJ+1uoepIdVcbzZerdAPZ7zUsmn3mhFOOK4mYEhJRL9lL
+         b/fACJTYpLYOrqRfbCWU6LaYVmIZslqjkBNFrjEj41Mp19JAGf9sKSmoMW84ag2s99+h
+         zmOcwVRS4kkK6/UKlsKUFZTo0hWW+P+gvZMNlrrqrU+K0SIYBifFtGRZNETlAM+J6X2o
+         R06uX9uckX1sPLjoXK0fynpIqo6s602VgMAOlSsc+hRC874WBFl/XDDPqPT66Dr4RPxK
+         8ssg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=mime-version:message-id:date:subject:cc:to:from;
-        bh=4g8bpWRFFbze0eKjyeoZv0D3z0R2ISPPfm/xh72URvs=;
-        b=cKAqsOKbNOnfuOiDGDiaRwci1hKP6ZHTtX1WLEzibZMpgoMcJ7BEirGQKKgI6W8EzS
-         1oLe1j01xufOnQhc/C5pUJTuGWyD8PoUTBPecH6oIyoLU6qcv7wdlIk8ZGAP8C6RoLMH
-         nqs7OfNTSaOcUkgDD1Wx6ypCBf+kK5vppWY+tJoShhqdNulakBGOIHlTwlxUOAQdAsj/
-         NgSpn3yftORD7QhU3WhpmrPtLE5spYd3RUgEvLaG2BGlevIsFP59EzXdNZ9kYf4E+gps
-         GYY4LkVOucKL8CUKcUmEc+sMfSYKH+qQlAYcctDC3jTad3mU5TR5pg9eZrutJOgrmYD+
-         dHpw==
+        h=mime-version:references:in-reply-to:message-id:date:subject:cc:to
+         :from;
+        bh=8K2vjvGFwXzbsGBnQHMJDkfwmWttprDaTI3MY+9yp8s=;
+        b=pq+kXmi2LzZ3VuFf9l8F3OC64WR38mc6hpqL1C/nVAdEB9N68mC4gG5IjFpmFIPD0d
+         yinX1ikoiTZdlyoSw/L8vItcDy5dzmSoWjKEqVA2IWR2oqnWLBCb92nMR7qGecbi5O8w
+         GQI2v7o8Bd5POOCiBwAxTUAFRFbSbWGK6KsQPJo9JT64hNtneaXvJEyMWk6+dU87vN0N
+         ZHtGjzQvtf5zE3aIWHERGmEaas0uvcuxEhMAURGRqHUo9W7lANTPuvYpaeu1YyHsnFq2
+         DSkn0iV2fwMhbVRN3YDm6x8b1Wq4E/tBKZgJlquaNaYZgRJwCwZ+bhuBpJBzWEzmjJlb
+         aUSw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
        spf=pass (google.com: domain of nylon7@andestech.com designates 60.248.187.195 as permitted sender) smtp.mailfrom=nylon7@andestech.com
 Received: from ATCSQR.andestech.com (exmail.andestech.com. [60.248.187.195])
-        by gmr-mx.google.com with ESMTPS id e11si24533vkp.4.2021.01.12.18.28.45
+        by gmr-mx.google.com with ESMTPS id l19si32162oib.3.2021.01.12.18.28.53
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 12 Jan 2021 18:28:45 -0800 (PST)
+        Tue, 12 Jan 2021 18:28:54 -0800 (PST)
 Received-SPF: pass (google.com: domain of nylon7@andestech.com designates 60.248.187.195 as permitted sender) client-ip=60.248.187.195;
 Received: from mail.andestech.com (atcpcs16.andestech.com [10.0.1.222])
-	by ATCSQR.andestech.com with ESMTP id 10D2Pffl039664;
-	Wed, 13 Jan 2021 10:25:41 +0800 (GMT-8)
+	by ATCSQR.andestech.com with ESMTP id 10D2Pk8f039670;
+	Wed, 13 Jan 2021 10:25:46 +0800 (GMT-8)
 	(envelope-from nylon7@andestech.com)
 Received: from atcfdc88.andestech.com (10.0.15.120) by ATCPCS16.andestech.com
  (10.0.1.222) with Microsoft SMTP Server id 14.3.487.0; Wed, 13 Jan 2021
- 10:28:24 +0800
+ 10:28:27 +0800
 From: Nylon Chen <nylon7@andestech.com>
 To: <linux-riscv@lists.infradead.org>, <linux-kernel@vger.kernel.org>
 CC: <kasan-dev@googlegroups.com>, <aou@eecs.berkeley.edu>,
@@ -103,15 +105,17 @@ CC: <kasan-dev@googlegroups.com>, <aou@eecs.berkeley.edu>,
         <glider@google.com>, <aryabinin@virtuozzo.com>,
         <alankao@andestech.com>, <nickhu@andestech.com>,
         <nylon7@andestech.com>, <nylon7717@gmail.com>
-Subject: [PATCH 0/1] kasan: support backing vmalloc space for riscv
-Date: Wed, 13 Jan 2021 10:28:21 +0800
-Message-ID: <20210113022822.9230-1-nylon7@andestech.com>
+Subject: [PATCH 1/1] riscv/kasan: add KASAN_VMALLOC support
+Date: Wed, 13 Jan 2021 10:28:22 +0800
+Message-ID: <20210113022822.9230-2-nylon7@andestech.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20210113022822.9230-1-nylon7@andestech.com>
+References: <20210113022822.9230-1-nylon7@andestech.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 X-Originating-IP: [10.0.15.120]
 X-DNSRBL: 
-X-MAIL: ATCSQR.andestech.com 10D2Pffl039664
+X-MAIL: ATCSQR.andestech.com 10D2Pk8f039670
 X-Original-Sender: nylon7@andestech.com
 X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
  (google.com: domain of nylon7@andestech.com designates 60.248.187.195 as
@@ -128,84 +132,130 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-This patchset is support KASAN_VMALLOC in riscv.
+It's reference x86/s390 architecture.
 
-We reference x86/s390 mailing list discussion for our implement.
-https://lwn.net/Articles/797950/
+So, it's don't map the early shadow page to cover VMALLOC space.
 
-It's also pass `vmalloc-out-of-bounds` of test_kasan.ko
+Prepopulate top level page table for the range that would otherwise be
+empty.
 
-log:
-[  235.834318]     # Subtest: kasan
-[  235.835190]     1..37
-[  235.845238]
-==================================================================
-[  235.847818] BUG: KASAN: slab-out-of-bounds in
-kmalloc_oob_right+0xe2/0x192 [test_kasan]
-[  235.850688] Write of size 1 at addr ffffffe0075d5a7b by task
-kunit_try_catch/125
-[  235.852630]
-[  235.853212] CPU: 0 PID: 125 Comm: kunit_try_catch Tainted: G    B
-5.11.0-rc3-13940-gb0bb4cd86282-dirty #1
-...
-[  241.835850]
-==================================================================
-[1154/67143]
-[  241.840884]     ok 36 - kmalloc_double_kzfree
-[  241.852642]
-==================================================================
-[  241.857261] BUG: KASAN: vmalloc-out-of-bounds in
-vmalloc_oob+0xcc/0x17c [test_kasan]
-[  241.861327] Read of size 1 at addr ffffffd00407ec1c by task
-kunit_try_catch/161
-[  241.864525]
-[  241.865200] CPU: 0 PID: 161 Comm: kunit_try_catch Tainted: G    B
-5.11.0-rc3-13940-gb0bb4cd86282-dirty #1
-[  241.869887] Call Trace:
-[  241.870972] [<ffffffe0000052d2>] walk_stackframe+0x0/0x128
-[  241.873353] [<ffffffe000abcff0>] show_stack+0x32/0x3e
-[  241.875457] [<ffffffe000ac0d46>] dump_stack+0x84/0xa0
-[  241.877806] [<ffffffe000188926>]
-print_address_description.constprop.0+0x88/0x362
-[  241.881150] [<ffffffe000188e4a>] kasan_report+0x176/0x194
-[  241.883604] [<ffffffe000189390>] __asan_load1+0x42/0x4a
-[  241.885897] [<ffffffdf81f9f2f4>] vmalloc_oob+0xcc/0x17c [test_kasan]
-[  241.889458] [<ffffffdf81f91e8e>] kunit_try_run_case+0x80/0x11a
-[kunit]
-[  241.892665] [<ffffffdf81f92e16>]
-kunit_generic_run_threadfn_adapter+0x2c/0x4e [kunit]
-[  241.896568] [<ffffffe000034ac4>] kthread+0x206/0x222
-[  241.899219] [<ffffffe00000361a>] ret_from_exception+0x0/0xc
-[  241.901700]
-[  241.902497]
-[  241.903257] Memory state around the buggy address:
-[  241.905430]  ffffffd00407eb00: 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00
-[  241.908661]  ffffffd00407eb80: 00 00 00 00 00 00 00 f8 f8 f8 f8 f8 f8
-f8 f8 f8
-[  241.911841] >ffffffd00407ec00: f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8
-f8 f8 f8
-[  241.915037]                             ^
-[  241.916053]  ffffffd00407ec80: f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8
-f8 f8 f8
-[  241.919272]  ffffffd00407ed00: f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8
-f8 f8 f8
-[  241.922417]
-==================================================================
-[  242.073698]     ok 37 - vmalloc_oob
+lower levels are filled dynamically upon memory allocation while
+booting.
 
-
-Nylon Chen (1):
-  riscv/kasan: add KASAN_VMALLOC support
-
+Signed-off-by: Nylon Chen <nylon7@andestech.com>
+Signed-off-by: Nick Hu <nickhu@andestech.com>
+---
  arch/riscv/Kconfig         |  1 +
  arch/riscv/mm/kasan_init.c | 66 +++++++++++++++++++++++++++++++++++++-
  2 files changed, 66 insertions(+), 1 deletion(-)
 
+diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+index 81b76d44725d..15a2c8088bbe 100644
+--- a/arch/riscv/Kconfig
++++ b/arch/riscv/Kconfig
+@@ -57,6 +57,7 @@ config RISCV
+ 	select HAVE_ARCH_JUMP_LABEL
+ 	select HAVE_ARCH_JUMP_LABEL_RELATIVE
+ 	select HAVE_ARCH_KASAN if MMU && 64BIT
++	select HAVE_ARCH_KASAN_VMALLOC if MMU && 64BIT
+ 	select HAVE_ARCH_KGDB
+ 	select HAVE_ARCH_KGDB_QXFER_PKT
+ 	select HAVE_ARCH_MMAP_RND_BITS if MMU
+diff --git a/arch/riscv/mm/kasan_init.c b/arch/riscv/mm/kasan_init.c
+index 12ddd1f6bf70..ee332513d728 100644
+--- a/arch/riscv/mm/kasan_init.c
++++ b/arch/riscv/mm/kasan_init.c
+@@ -9,6 +9,19 @@
+ #include <linux/pgtable.h>
+ #include <asm/tlbflush.h>
+ #include <asm/fixmap.h>
++#include <asm/pgalloc.h>
++
++static __init void *early_alloc(size_t size, int node)
++{
++        void *ptr = memblock_alloc_try_nid(size, size,
++                        __pa(MAX_DMA_ADDRESS), MEMBLOCK_ALLOC_ACCESSIBLE, node);
++
++        if (!ptr)
++                panic("%pS: Failed to allocate %zu bytes align=%zx nid=%d from=%llx\n",
++                      __func__, size, size, node, (u64)__pa(MAX_DMA_ADDRESS));
++
++        return ptr;
++}
+ 
+ extern pgd_t early_pg_dir[PTRS_PER_PGD];
+ asmlinkage void __init kasan_early_init(void)
+@@ -83,6 +96,49 @@ static void __init populate(void *start, void *end)
+ 	memset(start, 0, end - start);
+ }
+ 
++void __init kasan_shallow_populate(void *start, void *end)
++{
++	unsigned long vaddr = (unsigned long)start & PAGE_MASK;
++	unsigned long vend = PAGE_ALIGN((unsigned long)end);
++	unsigned long pfn;
++	int index;
++	void *p;
++	pud_t *pud_dir, *pud_k;
++	pmd_t *pmd_dir, *pmd_k;
++	pgd_t *pgd_dir, *pgd_k;
++	p4d_t *p4d_dir, *p4d_k;
++
++	while (vaddr < vend) {
++		index = pgd_index(vaddr);
++		pfn = csr_read(CSR_SATP) & SATP_PPN;
++		pgd_dir = (pgd_t *)pfn_to_virt(pfn) + index;
++		pgd_k = init_mm.pgd + index;
++		pgd_dir = pgd_offset_k(vaddr);
++		set_pgd(pgd_dir, *pgd_k);
++
++		p4d_dir = p4d_offset(pgd_dir, vaddr);
++		p4d_k  = p4d_offset(pgd_k,vaddr);
++
++		vaddr = (vaddr + PUD_SIZE) & PUD_MASK;
++		pud_dir = pud_offset(p4d_dir, vaddr);
++		pud_k = pud_offset(p4d_k,vaddr);
++
++		if (pud_present(*pud_dir)) {
++			p = early_alloc(PAGE_SIZE, NUMA_NO_NODE);
++			pud_populate(&init_mm, pud_dir, p);
++		}
++
++		pmd_dir = pmd_offset(pud_dir, vaddr);
++		pmd_k = pmd_offset(pud_k,vaddr);
++		set_pmd(pmd_dir, *pmd_k);
++		if (pmd_present(*pmd_dir)) {
++			p = early_alloc(PAGE_SIZE, NUMA_NO_NODE);
++			pmd_populate(&init_mm, pmd_dir, p);
++		}
++		vaddr += PAGE_SIZE;
++	}
++}
++
+ void __init kasan_init(void)
+ {
+ 	phys_addr_t _start, _end;
+@@ -90,7 +146,15 @@ void __init kasan_init(void)
+ 
+ 	kasan_populate_early_shadow((void *)KASAN_SHADOW_START,
+ 				    (void *)kasan_mem_to_shadow((void *)
+-								VMALLOC_END));
++								VMEMMAP_END));
++	if (IS_ENABLED(CONFIG_KASAN_VMALLOC))
++		kasan_shallow_populate(
++			(void *)kasan_mem_to_shadow((void *)VMALLOC_START),
++			(void *)kasan_mem_to_shadow((void *)VMALLOC_END));
++	else
++		kasan_populate_early_shadow(
++			(void *)kasan_mem_to_shadow((void *)VMALLOC_START),
++			(void *)kasan_mem_to_shadow((void *)VMALLOC_END));
+ 
+ 	for_each_mem_range(i, &_start, &_end) {
+ 		void *start = (void *)_start;
 -- 
 2.17.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210113022822.9230-1-nylon7%40andestech.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210113022822.9230-2-nylon7%40andestech.com.
