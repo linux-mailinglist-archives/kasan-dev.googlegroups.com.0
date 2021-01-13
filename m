@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBMF57T7QKGQEJO2DJ3I@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBB567T7QKGQEEMI642I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ot1-x339.google.com (mail-ot1-x339.google.com [IPv6:2607:f8b0:4864:20::339])
-	by mail.lfdr.de (Postfix) with ESMTPS id 716832F4FD7
-	for <lists+kasan-dev@lfdr.de>; Wed, 13 Jan 2021 17:24:17 +0100 (CET)
-Received: by mail-ot1-x339.google.com with SMTP id d10sf714886ote.22
-        for <lists+kasan-dev@lfdr.de>; Wed, 13 Jan 2021 08:24:17 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1610555056; cv=pass;
+Received: from mail-io1-xd3f.google.com (mail-io1-xd3f.google.com [IPv6:2607:f8b0:4864:20::d3f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68FD62F4FEC
+	for <lists+kasan-dev@lfdr.de>; Wed, 13 Jan 2021 17:25:44 +0100 (CET)
+Received: by mail-io1-xd3f.google.com with SMTP id l22sf3808343iom.4
+        for <lists+kasan-dev@lfdr.de>; Wed, 13 Jan 2021 08:25:44 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1610555143; cv=pass;
         d=google.com; s=arc-20160816;
-        b=m3arqPjEBpz4bAjXgh3Pq1gmBSOicKqU2JNwOJ5Tzj3QksMuUy+CrgF6l5f/9pjoUQ
-         FAL2Gwt786LE9bAotXk2s1hA4OJ5m0A2+eG8vwoDCZ4ziPdEeUXmLAt33ccAGnCACP8x
-         n0uwmBqxDX0fqw7ehQEDxzEBeuGOA9QYspzkTsTfoNxlGiIrZkpIQtOEKlBgBChx2f3i
-         qp3O4d76R9w7ueM99b5KNEtoQjJCzFKS5r8wld0bDiX/Db93l6uo4EUR730Uo+b5GT9D
-         lLxiNsVFlcVNTlk5FZMb99ktOdZ9EQsCt0N/b7hf7bZev8UbK0WHkJSu6zlc2mOv+yzW
-         KPtQ==
+        b=Reh/qGspkf1SoJN8qjlkKPrsah8nWlMuJ7wozcHBTW5/OJEzA0jHPuV9XQBY/j3pJh
+         NXgirqWJXdEtuwtZKqqHUnfYm0eMwKBOf65Rx6KMsVfnfrOpkiPJ65DS48A7o/PnLiIJ
+         X61Zf7OO1VMBKiNN+S0r/+BsvjOtFndO25sBj7W6DnfEObSJE20dnoUrWUUbXOjSQZbS
+         qE/M4gLZrsZdUAcytXn6zBeWXZq5RMTPpBD8yr8j9sCHyYWkw0237oS9DsC7yMekiXC0
+         cIZkDb0fioPvLJDdIRweeawa4q/OfiiXZwd3amY456pqk9cuavIMGxXQVVnDnxPr3y2h
+         XAng==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=6v6Fn5LJ5vOxD8iHCKOdKBYJ8VZ5GrkuXelJEfS4cYo=;
-        b=HXouACNmFRUawHq3c2agh4z/NbWPShTOoXVoDjJE+UP0aRGzpL1Onxs/gpS+ipL/P8
-         KTvNqt3FZbzMAV3R6201WZQOcwyvWE8k3xG+UPstNJ3bG3gGhO3fnY7VYa7VxuzdBQ5o
-         5fbunSMDVuHHFCQZkX3t/sPXsa+yuNjt6OVM2gBfvv9VrBdkyNeh7fjmxuPDrDS/cWVe
-         uiFEid3z+UqhP0Jc6xJZUqMMS3vl96RZ4Fvx24HZ3n7l4KO50+CyCrCzBWMETXCB0kJ7
-         FfO0p9U9ClFvlXYBsuQPuGnYh2sruaS9wSVVjIRkqsexmCeCDFRm8aMtDjGiyK6WNzPO
-         8mCQ==
+        bh=QgJi5BVyi9ZJs3CUEhdmwn0vIrZWDu4aOAKAjIlmCfI=;
+        b=wxw67BTH6tiYXurrsVu7kTeEl+e7uzkuzbmbCGSTXNKW/BcjRsi1gnMMvWWSkVIyhA
+         ULdDTN92ux9gjSICi+zYyXo5lmhncTGUAh8AC9Vo51xRC7iWFRN0R6QjcT3mkd/LXnkJ
+         EH0XpyuIqrPB9xG0KDQTANupDOZh5sPtd+N5MiGDhV0Q/mzPcbVjucqoNiohZ63ZHMsQ
+         plgpup41u0WwgiSNHnCP5dxUfjq1wB4+60o+97kWV2W92TinNuws3jfUmeVnH7/iGCUz
+         fCBhJPnVtD5KPNeADp6BeE8YqGF7M4ucxLVLka3ZBllb0wAwsKbYnG7Ee0mWY2DNtTwi
+         LZNA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=tlmb7Dtm;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::229 as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=jSgTpyYi;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::235 as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=6v6Fn5LJ5vOxD8iHCKOdKBYJ8VZ5GrkuXelJEfS4cYo=;
-        b=ccVsvRDKdFkSYsq6xh/ulnAnssypYdb93kLC5o7Klirs/FCr8IdRShlHPdK6+IR/Xl
-         5Pt3kXQqoZQAqwgl7F8Y5V69XFQft0Acs/3QPQVi36ONpm636LvnyXniXoNlHhdBtzI1
-         KlqJODY22bUqS6+5gCq73Hvy8M0xS2OPwTv6xNypT73N5bQR/KUHkIRdibVN3dsxb8Sp
-         LT2nBvaKqc1ifKwSvbmbmgDESrwCHrIOP6gljK2bQc0pXfmpGXaLxkI8W3QUT5Vgss5K
-         DpYHTr99r2hdpwvmVud+Waa65u8uETSo4Y9yiMB/hYJYjjoPliADNKpzkNpkkBLYx7zv
-         C58A==
+        bh=QgJi5BVyi9ZJs3CUEhdmwn0vIrZWDu4aOAKAjIlmCfI=;
+        b=N3xFWoC9KVP/4oYKZ5P3i0Q+gF2dkRDMHuPcbwOzX/3XfXCloxJabsB/NAYA7k9eYo
+         MWcRgmmDdiJ1Gr5bP+91u8JmehgRrhURZgS23CKE1OT793j2yIwJdJQtEQe+7WcApip1
+         /pW8zob745Uo0DRrqJ7OGaYaws70vWk+a0LRiW2EzMToFx3f7pu0KGrjIX73I5cRx9z7
+         CbjsWu33elBs0iFyh12NGhVZGq6T5d8gYxRLhZ5ZmYjvyPc1xx4+aF/MFJ/949XGyNM+
+         aQvDZqx83dAw96ClU7ynAVV7QXfstpi3DIjL+vVg9/Ou/5yVpbz2yAp7P7EoGfuIyDnV
+         H+Jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
@@ -49,62 +49,62 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=6v6Fn5LJ5vOxD8iHCKOdKBYJ8VZ5GrkuXelJEfS4cYo=;
-        b=KdPPi6Oa9BeqLxonqCpusg2bgHUR6oaTHO19aqPpkIu6kNxbIguSbNMgqDEf/yv6zS
-         NykzdJ1MoaPuz1TtGxPhSLrRkZGTOF8CzEQu1kGTTvIS7R+XxgioF1RXLBS3Gi7cQVij
-         1puCNDuJaCjJ6dQFCRVu42HSFJla/cA1lSjdOwadnzLRJpwlJhqm4Ba5Rxqs7FTFqSQq
-         1mLW2hKqxrsw6F81j/IqMkvJG9MLplWldosjQ5AgkGD9vjLrK1hBTZv+n87Dw6j2j9/F
-         ZV3A6Ek9nHaONlLB9DXbrhLK30UNV+c62VHQFua5DwEjpdJ26YSkw51MlspWDc36VEZt
-         fl0g==
-X-Gm-Message-State: AOAM5310lDO1W39EUaN01qOWtFEaidzr6PmzrLmkPWLavAeEkvIpApB5
-	gnjhe1TpgRrYUpETWeRc96k=
-X-Google-Smtp-Source: ABdhPJxpmyYTDxdsLDzhTreZHQVEvAMoZR48C7DheIkVR6jHquaaNULUJCGTyx9lVQ5yqN+v32o+sg==
-X-Received: by 2002:aca:728b:: with SMTP id p133mr14212oic.125.1610555056376;
-        Wed, 13 Jan 2021 08:24:16 -0800 (PST)
+        bh=QgJi5BVyi9ZJs3CUEhdmwn0vIrZWDu4aOAKAjIlmCfI=;
+        b=mHHuIo4KqcZ0EJUQ5rUFGk7igasoMAMfPv0kciDHEWWWzDiiwmtGuiuokNzF0Liq6y
+         hXpqHO3IkVAQD02L5G4Xyc+Y9fmoCanNpsJ2woiZTzOSbOltzuEUlLwp+TfdVrLUXXGl
+         3IUBQ+XFmU/e8aJ0yB80LybyHW4Ua7j32m/tFqdmElvmPGje9VdOv1SGrTXZb6Z2poof
+         IGm71ieZKC6wTugnt7fTQZl+X93htJXoMpsv+ZlAsKLYwUkrXw8OcFEOOHgPGJt5pN3a
+         +TdiCFv9xR0CYeMPJldYq6BjeN9FeiFnuti67dB9Xbv9N/aAWmdt4ZSj9kU0BFueZnBL
+         odnA==
+X-Gm-Message-State: AOAM5327KnufyoZnhIgUAMdMz0H0odb4oOYsZCYKmmPoNfyz9K7DUVeH
+	hLwztbq0JbUTaxUG18bUUQQ=
+X-Google-Smtp-Source: ABdhPJzeR2zHDvFoDfxovNRm1Szhk/cjF4+ahHNnsSjFAjqo11ArnnjqIxpALGMUhXHc0OmRG1P/Mw==
+X-Received: by 2002:a05:6e02:180a:: with SMTP id a10mr3060163ilv.40.1610555143407;
+        Wed, 13 Jan 2021 08:25:43 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6830:714:: with SMTP id y20ls655960ots.9.gmail; Wed, 13
- Jan 2021 08:24:16 -0800 (PST)
-X-Received: by 2002:a9d:2ae3:: with SMTP id e90mr1774475otb.105.1610555056065;
-        Wed, 13 Jan 2021 08:24:16 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1610555056; cv=none;
+Received: by 2002:a5d:9914:: with SMTP id x20ls341460iol.7.gmail; Wed, 13 Jan
+ 2021 08:25:43 -0800 (PST)
+X-Received: by 2002:a05:6602:224a:: with SMTP id o10mr2443681ioo.28.1610555142980;
+        Wed, 13 Jan 2021 08:25:42 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1610555142; cv=none;
         d=google.com; s=arc-20160816;
-        b=lfsTG3IuBUPBVmAZAk7tvBHGApHGYFymvoUR8XyZW23syVNU7WTxP9lY7IX3Q3+pyy
-         3y6+8tsbbq9bwy7TUXV6g7jAJ/O6063ruG8RPGPKV1kCX0LH/vDp2c5Dv84jkYc5Tzhy
-         B75U7uxGLFWzJolgfCFI0W1OwpIaWnVxM6DpWpIf7qSMW/ehmLMOBR3RMEumA0vVG+aD
-         bFr+HARWQnSuC9VFKrHrpblBEHpf1qUXJcFmpbcNtmyMRQdrGDtQR7olbeEbz29KXF3j
-         B62dc6B+tAQMEXnduJ9jHSOYVlACPWm0Ca2cwO/keq2Vd2Dy8tE36FXRsIHLS2w6MTvE
-         DZ6g==
+        b=bAyQWHb3VUR6xrYLOOcW3mX3lvmkKi7QQ+/gWP86qnR0J90gZPW/vTjRamV93lJ3PN
+         8pvZEFqka2moSRH4kOtMS9X0cvEYLQ96LXxCqzxcgpQZRFBIg8yBz/PjzOJRJ0sf8Xs+
+         ePyc3EMxS/y2HwWmRJCOY7I0H+DaUlFU5gCiO7FyVdyEKcdUBATXhA+ScHChn/R6Ouh/
+         zEhQ1FJ5aJkbUHHUz+uVs2D+8Ap3vWqFbbdsMjaQroKbb/G65hU0JfuulPgC1t/hiRIP
+         6nC/Cu/JT/Cx0aw0tVhSYKGgi3AxyBd71BqoC3xKXj4cyuh7rBNolAh8sIAYVfc0+jrB
+         iR8A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=GyTHDPIRlWLUaLwyKAW0evEpBngzgktQyEH3p/lXCIQ=;
-        b=TAQd5dzNqZ/DdZpPoc09561fb6ZDcultnzXd8FU0gUeSs5ETCWblFXRJ8Wzpq1W8KR
-         WobS1ETHoTlzkdBIdt4C+3Fe4Z9SZ97plpVwqRgD/JfZNiX7OtAB4TG+J2Tg74Rx7R8n
-         6NFgext3oFhwmsMI5qP6yNy8p3iMBp95DrhgSvvfHOx2ij9icbJH/kZCnQEvGTMEFzpI
-         M5BnRUrkAOZsStvlM5997akw+QXXFjI5B5Y8vsq0mE6KXwxO/UNMglCbdX8Jpn+vH38C
-         DdiWqVmtZSh3O/VuZKkQC+tcUzEEegzqPx14nY5EPVWWyLiYHPOYXugL57D8ANN9Td5B
-         2NLw==
+        bh=Rj6WRYh2NAKrrsW/5ki70/RayzjiACCNyfDalLAwfF0=;
+        b=05WEJ+agSiNxb8u/NUkg7haSO1yiKN62zlcZWbW3WwSq1Igcj5kshxNviI/MKOCN/m
+         bolr2/SlN+xnjNrXNhTJzdqN+2h6/r9ZDDY/lRWctepnvQXSJFl2zjooBtNZNcWENOaM
+         wQTuqnWNquW6nJxlAv3W5V5vQdWh5bQbXydA7h8GisjeRB6NbCDZj7M3PDVS0bSX3HKB
+         IiD5+18+nlF5a8g5XE27q9hV9ULFvHA/IBa2A8WVEVJ2+7rz0QZFCscHgSyg5efc4e9i
+         tR7ordkNYkVaicUyN2fEV/eeqy5NuQ3NKSMjVcy8OjQTf+lFNmsXkym13kn2bZauIvCT
+         Be3A==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=tlmb7Dtm;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::229 as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=jSgTpyYi;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::235 as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com. [2607:f8b0:4864:20::229])
-        by gmr-mx.google.com with ESMTPS id r27si152799oth.2.2021.01.13.08.24.16
+Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com. [2607:f8b0:4864:20::235])
+        by gmr-mx.google.com with ESMTPS id d13si85171iow.0.2021.01.13.08.25.42
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 13 Jan 2021 08:24:16 -0800 (PST)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::229 as permitted sender) client-ip=2607:f8b0:4864:20::229;
-Received: by mail-oi1-x229.google.com with SMTP id s2so2719113oij.2
-        for <kasan-dev@googlegroups.com>; Wed, 13 Jan 2021 08:24:16 -0800 (PST)
-X-Received: by 2002:aca:c085:: with SMTP id q127mr58645oif.70.1610555055524;
- Wed, 13 Jan 2021 08:24:15 -0800 (PST)
+        Wed, 13 Jan 2021 08:25:42 -0800 (PST)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::235 as permitted sender) client-ip=2607:f8b0:4864:20::235;
+Received: by mail-oi1-x235.google.com with SMTP id l207so2716324oib.4
+        for <kasan-dev@googlegroups.com>; Wed, 13 Jan 2021 08:25:42 -0800 (PST)
+X-Received: by 2002:aca:58d6:: with SMTP id m205mr17059oib.121.1610555142511;
+ Wed, 13 Jan 2021 08:25:42 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1610554432.git.andreyknvl@google.com> <2b43049e25dcd04850ba6c205cd6dcc7caa4a886.1610554432.git.andreyknvl@google.com>
-In-Reply-To: <2b43049e25dcd04850ba6c205cd6dcc7caa4a886.1610554432.git.andreyknvl@google.com>
+References: <cover.1610554432.git.andreyknvl@google.com> <0afed913e43017575794de0777b15ef6b2bdd486.1610554432.git.andreyknvl@google.com>
+In-Reply-To: <0afed913e43017575794de0777b15ef6b2bdd486.1610554432.git.andreyknvl@google.com>
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Wed, 13 Jan 2021 17:24:03 +0100
-Message-ID: <CANpmjNOdax5uH1bG_D+7SWBL6FphCefcKs+5wig9NZxeEghUYA@mail.gmail.com>
-Subject: Re: [PATCH v2 03/14] kasan: clean up comments in tests
+Date: Wed, 13 Jan 2021 17:25:30 +0100
+Message-ID: <CANpmjNMZHiwKDTyBdHzHB6CexJTfN9TUjk=q6zmj_nebtq9=mg@mail.gmail.com>
+Subject: Re: [PATCH v2 04/14] kasan: add macros to simplify checking test constraints
 To: Andrey Konovalov <andreyknvl@google.com>
 Cc: Catalin Marinas <catalin.marinas@arm.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, 
 	Dmitry Vyukov <dvyukov@google.com>, Alexander Potapenko <glider@google.com>, 
@@ -117,8 +117,8 @@ Cc: Catalin Marinas <catalin.marinas@arm.com>, Vincenzo Frascino <vincenzo.frasc
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=tlmb7Dtm;       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::229 as
+ header.i=@google.com header.s=20161025 header.b=jSgTpyYi;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::235 as
  permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
  sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Marco Elver <elver@google.com>
@@ -137,189 +137,232 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 On Wed, 13 Jan 2021 at 17:21, Andrey Konovalov <andreyknvl@google.com> wrote:
 >
-> Clarify and update comments in KASAN tests.
+> Some KASAN tests require specific kernel configs to be enabled.
+> Instead of copy-pasting the checks for these configs add a few helper
+> macros and use them.
 >
-> Link: https://linux-review.googlesource.com/id/I6c816c51fa1e0eb7aa3dead6bda1f339d2af46c8
+> Link: https://linux-review.googlesource.com/id/I237484a7fddfedf4a4aae9cc61ecbcdbe85a0a63
+> Suggested-by: Alexander Potapenko <glider@google.com>
 > Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+
+Nice!
 
 Reviewed-by: Marco Elver <elver@google.com>
 
-
 > ---
->  lib/test_kasan.c        | 59 +++++++++++++++++++++++++----------------
->  lib/test_kasan_module.c |  5 ++--
->  2 files changed, 39 insertions(+), 25 deletions(-)
+>  lib/test_kasan.c | 101 +++++++++++++++--------------------------------
+>  1 file changed, 31 insertions(+), 70 deletions(-)
 >
 > diff --git a/lib/test_kasan.c b/lib/test_kasan.c
-> index 2947274cc2d3..6f46e27c2af7 100644
+> index 6f46e27c2af7..714ea27fcc3e 100644
 > --- a/lib/test_kasan.c
 > +++ b/lib/test_kasan.c
-> @@ -28,10 +28,9 @@
->  #define OOB_TAG_OFF (IS_ENABLED(CONFIG_KASAN_GENERIC) ? 0 : KASAN_GRANULE_SIZE)
->
->  /*
-> - * We assign some test results to these globals to make sure the tests
-> - * are not eliminated as dead code.
-> + * Some tests use these global variables to store return values from function
-> + * calls that could otherwise be eliminated by the compiler as dead code.
->   */
-> -
->  void *kasan_ptr_result;
->  int kasan_int_result;
->
-> @@ -39,14 +38,13 @@ static struct kunit_resource resource;
->  static struct kunit_kasan_expectation fail_data;
->  static bool multishot;
->
-> +/*
-> + * Temporarily enable multi-shot mode. Otherwise, KASAN would only report the
-> + * first detected bug and panic the kernel if panic_on_warn is enabled.
-> + */
->  static int kasan_test_init(struct kunit *test)
->  {
-> -       /*
-> -        * Temporarily enable multi-shot mode and set panic_on_warn=0.
-> -        * Otherwise, we'd only get a report for the first case.
-> -        */
->         multishot = kasan_save_enable_multi_shot();
-> -
->         return 0;
->  }
->
-> @@ -56,12 +54,12 @@ static void kasan_test_exit(struct kunit *test)
->  }
->
->  /**
-> - * KUNIT_EXPECT_KASAN_FAIL() - Causes a test failure when the expression does
-> - * not cause a KASAN error. This uses a KUnit resource named "kasan_data." Do
-> - * Do not use this name for a KUnit resource outside here.
-> - *
-> + * KUNIT_EXPECT_KASAN_FAIL() - check that the executed expression produces a
-> + * KASAN report; causes a test failure otherwise. This relies on a KUnit
-> + * resource named "kasan_data". Do not use this name for KUnit resources
-> + * outside of KASAN tests.
->   */
-> -#define KUNIT_EXPECT_KASAN_FAIL(test, condition) do { \
-> +#define KUNIT_EXPECT_KASAN_FAIL(test, expression) do { \
->         fail_data.report_expected = true; \
->         fail_data.report_found = false; \
->         kunit_add_named_resource(test, \
-> @@ -69,7 +67,7 @@ static void kasan_test_exit(struct kunit *test)
->                                 NULL, \
->                                 &resource, \
->                                 "kasan_data", &fail_data); \
-> -       condition; \
-> +       expression; \
->         KUNIT_EXPECT_EQ(test, \
->                         fail_data.report_expected, \
+> @@ -73,6 +73,20 @@ static void kasan_test_exit(struct kunit *test)
 >                         fail_data.report_found); \
-> @@ -121,7 +119,8 @@ static void kmalloc_pagealloc_oob_right(struct kunit *test)
->                 return;
->         }
+>  } while (0)
 >
-> -       /* Allocate a chunk that does not fit into a SLUB cache to trigger
-> +       /*
-> +        * Allocate a chunk that does not fit into a SLUB cache to trigger
->          * the page allocator fallback.
->          */
->         ptr = kmalloc(size, GFP_KERNEL);
-> @@ -168,7 +167,9 @@ static void kmalloc_large_oob_right(struct kunit *test)
+> +#define KASAN_TEST_NEEDS_CONFIG_ON(test, config) do {                  \
+> +       if (!IS_ENABLED(config)) {                                      \
+> +               kunit_info((test), "skipping, " #config " required");   \
+> +               return;                                                 \
+> +       }                                                               \
+> +} while (0)
+> +
+> +#define KASAN_TEST_NEEDS_CONFIG_OFF(test, config) do {                 \
+> +       if (IS_ENABLED(config)) {                                       \
+> +               kunit_info((test), "skipping, " #config " enabled");    \
+> +               return;                                                 \
+> +       }                                                               \
+> +} while (0)
+> +
+>  static void kmalloc_oob_right(struct kunit *test)
 >  {
 >         char *ptr;
->         size_t size = KMALLOC_MAX_CACHE_SIZE - 256;
-> -       /* Allocate a chunk that is large enough, but still fits into a slab
-> +
-> +       /*
-> +        * Allocate a chunk that is large enough, but still fits into a slab
->          * and does not trigger the page allocator fallback in SLUB.
->          */
->         ptr = kmalloc(size, GFP_KERNEL);
-> @@ -469,10 +470,13 @@ static void ksize_unpoisons_memory(struct kunit *test)
+> @@ -114,10 +128,7 @@ static void kmalloc_pagealloc_oob_right(struct kunit *test)
+>         char *ptr;
+>         size_t size = KMALLOC_MAX_CACHE_SIZE + 10;
+>
+> -       if (!IS_ENABLED(CONFIG_SLUB)) {
+> -               kunit_info(test, "CONFIG_SLUB is not enabled.");
+> -               return;
+> -       }
+> +       KASAN_TEST_NEEDS_CONFIG_ON(test, CONFIG_SLUB);
+>
+>         /*
+>          * Allocate a chunk that does not fit into a SLUB cache to trigger
+> @@ -135,10 +146,7 @@ static void kmalloc_pagealloc_uaf(struct kunit *test)
+>         char *ptr;
+>         size_t size = KMALLOC_MAX_CACHE_SIZE + 10;
+>
+> -       if (!IS_ENABLED(CONFIG_SLUB)) {
+> -               kunit_info(test, "CONFIG_SLUB is not enabled.");
+> -               return;
+> -       }
+> +       KASAN_TEST_NEEDS_CONFIG_ON(test, CONFIG_SLUB);
+>
 >         ptr = kmalloc(size, GFP_KERNEL);
 >         KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr);
->         real_size = ksize(ptr);
-> -       /* This access doesn't trigger an error. */
-> +
-> +       /* This access shouldn't trigger a KASAN report. */
->         ptr[size] = 'x';
-> -       /* This one does. */
-> +
-> +       /* This one must. */
->         KUNIT_EXPECT_KASAN_FAIL(test, ptr[real_size] = 'y');
-> +
->         kfree(ptr);
+> @@ -152,10 +160,7 @@ static void kmalloc_pagealloc_invalid_free(struct kunit *test)
+>         char *ptr;
+>         size_t size = KMALLOC_MAX_CACHE_SIZE + 10;
+>
+> -       if (!IS_ENABLED(CONFIG_SLUB)) {
+> -               kunit_info(test, "CONFIG_SLUB is not enabled.");
+> -               return;
+> -       }
+> +       KASAN_TEST_NEEDS_CONFIG_ON(test, CONFIG_SLUB);
+>
+>         ptr = kmalloc(size, GFP_KERNEL);
+>         KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr);
+> @@ -218,10 +223,7 @@ static void kmalloc_oob_16(struct kunit *test)
+>         } *ptr1, *ptr2;
+>
+>         /* This test is specifically crafted for the generic mode. */
+> -       if (!IS_ENABLED(CONFIG_KASAN_GENERIC)) {
+> -               kunit_info(test, "CONFIG_KASAN_GENERIC required\n");
+> -               return;
+> -       }
+> +       KASAN_TEST_NEEDS_CONFIG_ON(test, CONFIG_KASAN_GENERIC);
+>
+>         ptr1 = kmalloc(sizeof(*ptr1) - 3, GFP_KERNEL);
+>         KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr1);
+> @@ -454,10 +456,7 @@ static void kasan_global_oob(struct kunit *test)
+>         char *p = &global_array[ARRAY_SIZE(global_array) + i];
+>
+>         /* Only generic mode instruments globals. */
+> -       if (!IS_ENABLED(CONFIG_KASAN_GENERIC)) {
+> -               kunit_info(test, "CONFIG_KASAN_GENERIC required");
+> -               return;
+> -       }
+> +       KASAN_TEST_NEEDS_CONFIG_ON(test, CONFIG_KASAN_GENERIC);
+>
+>         KUNIT_EXPECT_KASAN_FAIL(test, *(volatile char *)p);
 >  }
+> @@ -486,10 +485,7 @@ static void kasan_stack_oob(struct kunit *test)
+>         volatile int i = OOB_TAG_OFF;
+>         char *p = &stack_array[ARRAY_SIZE(stack_array) + i];
 >
-> @@ -568,7 +572,7 @@ static void kmem_cache_invalid_free(struct kunit *test)
->                 return;
->         }
+> -       if (!IS_ENABLED(CONFIG_KASAN_STACK)) {
+> -               kunit_info(test, "CONFIG_KASAN_STACK is not enabled");
+> -               return;
+> -       }
+> +       KASAN_TEST_NEEDS_CONFIG_ON(test, CONFIG_KASAN_STACK);
 >
-> -       /* Trigger invalid free, the object doesn't get freed */
-> +       /* Trigger invalid free, the object doesn't get freed. */
->         KUNIT_EXPECT_KASAN_FAIL(test, kmem_cache_free(cache, p + 1));
+>         KUNIT_EXPECT_KASAN_FAIL(test, *(volatile char *)p);
+>  }
+> @@ -501,15 +497,8 @@ static void kasan_alloca_oob_left(struct kunit *test)
+>         char *p = alloca_array - 1;
 >
->         /*
-> @@ -585,7 +589,10 @@ static void kasan_memchr(struct kunit *test)
->         char *ptr;
->         size_t size = 24;
+>         /* Only generic mode instruments dynamic allocas. */
+> -       if (!IS_ENABLED(CONFIG_KASAN_GENERIC)) {
+> -               kunit_info(test, "CONFIG_KASAN_GENERIC required");
+> -               return;
+> -       }
+> -
+> -       if (!IS_ENABLED(CONFIG_KASAN_STACK)) {
+> -               kunit_info(test, "CONFIG_KASAN_STACK is not enabled");
+> -               return;
+> -       }
+> +       KASAN_TEST_NEEDS_CONFIG_ON(test, CONFIG_KASAN_GENERIC);
+> +       KASAN_TEST_NEEDS_CONFIG_ON(test, CONFIG_KASAN_STACK);
 >
-> -       /* See https://bugzilla.kernel.org/show_bug.cgi?id=206337 */
-> +       /*
-> +        * str* functions are not instrumented with CONFIG_AMD_MEM_ENCRYPT.
-> +        * See https://bugzilla.kernel.org/show_bug.cgi?id=206337 for details.
-> +        */
->         if (IS_ENABLED(CONFIG_AMD_MEM_ENCRYPT)) {
->                 kunit_info(test,
->                         "str* functions are not instrumented with CONFIG_AMD_MEM_ENCRYPT");
-> @@ -610,7 +617,10 @@ static void kasan_memcmp(struct kunit *test)
->         size_t size = 24;
->         int arr[9];
+>         KUNIT_EXPECT_KASAN_FAIL(test, *(volatile char *)p);
+>  }
+> @@ -521,15 +510,8 @@ static void kasan_alloca_oob_right(struct kunit *test)
+>         char *p = alloca_array + i;
 >
-> -       /* See https://bugzilla.kernel.org/show_bug.cgi?id=206337 */
-> +       /*
-> +        * str* functions are not instrumented with CONFIG_AMD_MEM_ENCRYPT.
-> +        * See https://bugzilla.kernel.org/show_bug.cgi?id=206337 for details.
-> +        */
->         if (IS_ENABLED(CONFIG_AMD_MEM_ENCRYPT)) {
->                 kunit_info(test,
->                         "str* functions are not instrumented with CONFIG_AMD_MEM_ENCRYPT");
-> @@ -634,7 +644,10 @@ static void kasan_strings(struct kunit *test)
->         char *ptr;
->         size_t size = 24;
+>         /* Only generic mode instruments dynamic allocas. */
+> -       if (!IS_ENABLED(CONFIG_KASAN_GENERIC)) {
+> -               kunit_info(test, "CONFIG_KASAN_GENERIC required");
+> -               return;
+> -       }
+> -
+> -       if (!IS_ENABLED(CONFIG_KASAN_STACK)) {
+> -               kunit_info(test, "CONFIG_KASAN_STACK is not enabled");
+> -               return;
+> -       }
+> +       KASAN_TEST_NEEDS_CONFIG_ON(test, CONFIG_KASAN_GENERIC);
+> +       KASAN_TEST_NEEDS_CONFIG_ON(test, CONFIG_KASAN_STACK);
 >
-> -       /* See https://bugzilla.kernel.org/show_bug.cgi?id=206337 */
-> +       /*
-> +        * str* functions are not instrumented with CONFIG_AMD_MEM_ENCRYPT.
-> +        * See https://bugzilla.kernel.org/show_bug.cgi?id=206337 for details.
-> +        */
->         if (IS_ENABLED(CONFIG_AMD_MEM_ENCRYPT)) {
->                 kunit_info(test,
->                         "str* functions are not instrumented with CONFIG_AMD_MEM_ENCRYPT");
-> @@ -706,7 +719,7 @@ static void kasan_bitops_generic(struct kunit *test)
->         }
->
->         /*
-> -        * Allocate 1 more byte, which causes kzalloc to round up to 16-bytes;
-> +        * Allocate 1 more byte, which causes kzalloc to round up to 16 bytes;
->          * this way we do not actually corrupt other memory.
+>         KUNIT_EXPECT_KASAN_FAIL(test, *(volatile char *)p);
+>  }
+> @@ -593,11 +575,7 @@ static void kasan_memchr(struct kunit *test)
+>          * str* functions are not instrumented with CONFIG_AMD_MEM_ENCRYPT.
+>          * See https://bugzilla.kernel.org/show_bug.cgi?id=206337 for details.
 >          */
->         bits = kzalloc(sizeof(*bits) + 1, GFP_KERNEL);
-> diff --git a/lib/test_kasan_module.c b/lib/test_kasan_module.c
-> index 3b4cc77992d2..eee017ff8980 100644
-> --- a/lib/test_kasan_module.c
-> +++ b/lib/test_kasan_module.c
-> @@ -123,8 +123,9 @@ static noinline void __init kasan_workqueue_uaf(void)
->  static int __init test_kasan_module_init(void)
+> -       if (IS_ENABLED(CONFIG_AMD_MEM_ENCRYPT)) {
+> -               kunit_info(test,
+> -                       "str* functions are not instrumented with CONFIG_AMD_MEM_ENCRYPT");
+> -               return;
+> -       }
+> +       KASAN_TEST_NEEDS_CONFIG_OFF(test, CONFIG_AMD_MEM_ENCRYPT);
+>
+>         if (OOB_TAG_OFF)
+>                 size = round_up(size, OOB_TAG_OFF);
+> @@ -621,11 +599,7 @@ static void kasan_memcmp(struct kunit *test)
+>          * str* functions are not instrumented with CONFIG_AMD_MEM_ENCRYPT.
+>          * See https://bugzilla.kernel.org/show_bug.cgi?id=206337 for details.
+>          */
+> -       if (IS_ENABLED(CONFIG_AMD_MEM_ENCRYPT)) {
+> -               kunit_info(test,
+> -                       "str* functions are not instrumented with CONFIG_AMD_MEM_ENCRYPT");
+> -               return;
+> -       }
+> +       KASAN_TEST_NEEDS_CONFIG_OFF(test, CONFIG_AMD_MEM_ENCRYPT);
+>
+>         if (OOB_TAG_OFF)
+>                 size = round_up(size, OOB_TAG_OFF);
+> @@ -648,11 +622,7 @@ static void kasan_strings(struct kunit *test)
+>          * str* functions are not instrumented with CONFIG_AMD_MEM_ENCRYPT.
+>          * See https://bugzilla.kernel.org/show_bug.cgi?id=206337 for details.
+>          */
+> -       if (IS_ENABLED(CONFIG_AMD_MEM_ENCRYPT)) {
+> -               kunit_info(test,
+> -                       "str* functions are not instrumented with CONFIG_AMD_MEM_ENCRYPT");
+> -               return;
+> -       }
+> +       KASAN_TEST_NEEDS_CONFIG_OFF(test, CONFIG_AMD_MEM_ENCRYPT);
+>
+>         ptr = kmalloc(size, GFP_KERNEL | __GFP_ZERO);
+>         KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr);
+> @@ -713,10 +683,7 @@ static void kasan_bitops_generic(struct kunit *test)
+>         long *bits;
+>
+>         /* This test is specifically crafted for the generic mode. */
+> -       if (!IS_ENABLED(CONFIG_KASAN_GENERIC)) {
+> -               kunit_info(test, "CONFIG_KASAN_GENERIC required\n");
+> -               return;
+> -       }
+> +       KASAN_TEST_NEEDS_CONFIG_ON(test, CONFIG_KASAN_GENERIC);
+>
+>         /*
+>          * Allocate 1 more byte, which causes kzalloc to round up to 16 bytes;
+> @@ -744,11 +711,8 @@ static void kasan_bitops_tags(struct kunit *test)
 >  {
->         /*
-> -        * Temporarily enable multi-shot mode. Otherwise, we'd only get a
-> -        * report for the first case.
-> +        * Temporarily enable multi-shot mode. Otherwise, KASAN would only
-> +        * report the first detected bug and panic the kernel if panic_on_warn
-> +        * is enabled.
->          */
->         bool multishot = kasan_save_enable_multi_shot();
+>         long *bits;
 >
+> -       /* This test is specifically crafted for the tag-based mode. */
+> -       if (IS_ENABLED(CONFIG_KASAN_GENERIC)) {
+> -               kunit_info(test, "CONFIG_KASAN_SW_TAGS required\n");
+> -               return;
+> -       }
+> +       /* This test is specifically crafted for tag-based modes. */
+> +       KASAN_TEST_NEEDS_CONFIG_OFF(test, CONFIG_KASAN_GENERIC);
+>
+>         /* Allocation size will be rounded to up granule size, which is 16. */
+>         bits = kzalloc(sizeof(*bits), GFP_KERNEL);
+> @@ -777,10 +741,7 @@ static void vmalloc_oob(struct kunit *test)
+>  {
+>         void *area;
+>
+> -       if (!IS_ENABLED(CONFIG_KASAN_VMALLOC)) {
+> -               kunit_info(test, "CONFIG_KASAN_VMALLOC is not enabled.");
+> -               return;
+> -       }
+> +       KASAN_TEST_NEEDS_CONFIG_ON(test, CONFIG_KASAN_VMALLOC);
+>
+>         /*
+>          * We have to be careful not to hit the guard page.
 > --
 > 2.30.0.284.gd98b1dd5eaa7-goog
 >
@@ -327,4 +370,4 @@ Reviewed-by: Marco Elver <elver@google.com>
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNOdax5uH1bG_D%2B7SWBL6FphCefcKs%2B5wig9NZxeEghUYA%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNMZHiwKDTyBdHzHB6CexJTfN9TUjk%3Dq6zmj_nebtq9%3Dmg%40mail.gmail.com.
