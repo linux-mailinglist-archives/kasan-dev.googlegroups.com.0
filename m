@@ -1,141 +1,123 @@
-Return-Path: <kasan-dev+bncBCH2XPOBSAERBFUB737QKGQETBY6GFA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCRKNY4WZECBBT46777QKGQEMWIWHSA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qk1-x73b.google.com (mail-qk1-x73b.google.com [IPv6:2607:f8b0:4864:20::73b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1016F2F5527
-	for <lists+kasan-dev@lfdr.de>; Thu, 14 Jan 2021 00:22:00 +0100 (CET)
-Received: by mail-qk1-x73b.google.com with SMTP id d7sf2807097qkb.23
-        for <lists+kasan-dev@lfdr.de>; Wed, 13 Jan 2021 15:22:00 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1610580119; cv=pass;
+Received: from mail-oi1-x23e.google.com (mail-oi1-x23e.google.com [IPv6:2607:f8b0:4864:20::23e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B4342F5A10
+	for <lists+kasan-dev@lfdr.de>; Thu, 14 Jan 2021 05:57:53 +0100 (CET)
+Received: by mail-oi1-x23e.google.com with SMTP id z7sf1884673oic.21
+        for <lists+kasan-dev@lfdr.de>; Wed, 13 Jan 2021 20:57:53 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1610600272; cv=pass;
         d=google.com; s=arc-20160816;
-        b=SczUfxQWL/zAa/t9iCX1nyxUCLB+CUWqezoJ+1sv6s07rNaPJjB0tS3FXf7P8jFQ5C
-         1cXfztKxy0m9AaZEMIZsSgFOyOw2wUpLB9c5jH5Qy21wH+ck3XgGQrQUOQUJOO5iyUY1
-         NdD2lStqycHmeQKWsySaFrPjGWhQ0aJV6nghOeNVci+FdYfFhPyjv8j1JObng3STZSl7
-         MutUWXNbopfO4r91VozmABTN0+PR3lBjVPkt0Alc36ZMSGkY/qFeH5lbtz0esLBK5qgS
-         SK5gvNYwJ9RnhYGKw965+CddOA3p9NsHhAY3eGdXlNVqobLFaPgstMtauC+BhAUUK+X6
-         tkUA==
+        b=k3t6TpWQvnSqGu2t4rrveRYD3DpqU4e1qW0FX8zsI73VPTMnLz13GAI+gEPdA8zwCt
+         2DGJMeaXc1NEiGzDmpbwg6HJhKQVYdEC5oVDUCUTBpW6gO2ysijPzYRBNmwfGwGDRZ+x
+         n2aYSshM9lgmpfrU7z7s8j6luUbjECGeQaFxDbdnsEn6TDYdzcGmnxoZkEk3+TC8Vs/o
+         sCiUpOnVsL3Tc+FUTlBdQlk2kJJpRPM+fFjnVz5CrvaZXlRoRENr0bSTM1fyy34zo4L4
+         Fgh3NoJ+KA1zVHgXOx+bN1fibHL7z0LoWL4uslB96Qz9AqLsRX5z+tflAdiF9JY7Ac9R
+         r+xw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:to:in-reply-to:cc:references
-         :message-id:date:subject:mime-version:from:content-transfer-encoding
-         :sender:dkim-signature:dkim-signature;
-        bh=4+ELZNkouOlH2wq7rlb5/Y2M5W+tGVl3BCHRV6kN3KE=;
-        b=oED64ckpeT5gTcCEXy77av71XvxbxMQ3eAUnJ5lxdwpaVoeL6JvY5/4BeiVgWK8EBB
-         M4nMA/+5oUkHV5wbKfJrfWyFn8x9MIYZQtCUL4xSJrpcF4WZkf1klbsI6cw2DHk0aklG
-         bfvgsvK96iIiau5/7Y6b8mjTlFt352EO8sMAFSWh0wMAGC71ZXiaw2l6rRMSAz8K/gQ7
-         7pAVx+J7cqtUVN2nCRZAkRbjr+jGJOtvzd0eVyS9FjISEeNHbxU8ZuwC6poIy2th71N8
-         W5ZLOFyFvJ+MkhZBp5MDEZ5tpmFG7a+nkkDIilNMdY/KHBYO4Um/sZp78MIRclPadvRf
-         udgA==
+         :list-id:mailing-list:precedence:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:sender:dkim-signature;
+        bh=hG0fQfGOPAnnM5gQFP86FwjbJ/ecrdklEHexwwHakDM=;
+        b=jAEKhuCeOkvDr7dawvuhe0pM1Mi0bfgkAyRe6dXhVfXvN8g797DrBehyYaaMcJLWFS
+         bqDY7J1uxiPPd4xnYGWIE+/ZYiUPklNDKMh9Z2k6xOU9uZSsysgNBbk2S2l1HWCpGnpM
+         7Vn0CbsmpU8Worm8Q2A0UoLARefpy2wZn5eqUGagO5u4xOvWqEFpA3QyiU5AGIwR6iWt
+         wPPf1IsKiCvcoQ9eA7HnEmrzOBXL4st/NX88wRKv/a909qPlVxDf5SVoz5toIr6F9FMn
+         3Pz3/Kn2A0VbDySqXdl00s+Xkplt+//EqCluwVwtVnrCue9iw2WqZdXc9sQSGwrl99St
+         lhIQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20161025 header.b=LWvIQxVi;
-       spf=pass (google.com: domain of mudongliangabcd@gmail.com designates 2607:f8b0:4864:20::62f as permitted sender) smtp.mailfrom=mudongliangabcd@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+       dkim=pass header.i=@dabbelt-com.20150623.gappssmtp.com header.s=20150623 header.b=rkJ6uQ+C;
+       spf=pass (google.com: domain of palmer@dabbelt.com designates 2607:f8b0:4864:20::52a as permitted sender) smtp.mailfrom=palmer@dabbelt.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:content-transfer-encoding:from:mime-version:subject:date
-         :message-id:references:cc:in-reply-to:to:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=4+ELZNkouOlH2wq7rlb5/Y2M5W+tGVl3BCHRV6kN3KE=;
-        b=BHKJY2CVd5RuZSNe2CDhDIZqw+I78bWB4MPSv6bwOjJakMV0FLXGOCkkHyZU+6xiM7
-         nmfzG6BbQFB4h5LEaq5jY2XMqPkhsheZBXYixjXv2OGPotV8OXrOG0VXucnbKAjwQCVi
-         i+0fd/b5vdSOD1/nNONONQesTzuSk5+YLazvi/PGOdOWULQyzFVyhWpCRmyBzGYhmrT2
-         5sFOqm2V2O1XFZ+PikXUtEBUKQve9/fjcWGbquDIPZ8KMr9TqhCPNFIT+B5kexjk3bJy
-         jLcjDTQ9q/DrXXnjjm1nHnIGCEnoFqkGlYEFOrVp10RZFd1EBF97Cn1M13zpnr9gd0Ly
-         KVyA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=content-transfer-encoding:from:mime-version:subject:date:message-id
-         :references:cc:in-reply-to:to:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=4+ELZNkouOlH2wq7rlb5/Y2M5W+tGVl3BCHRV6kN3KE=;
-        b=JOKe0WGSPct0hvO1WqNkJPf3Q7+tkAVFlnn3Pfsk9GLl2guBX9MButIUkNdtEadoNg
-         gy77mjQufKDooLEY1ogaGySrFjtHmZKcv+wkYhtoQ3DFmAqLxlATTvbxZ95vmZr5THLD
-         QTtahJa/GXJs4Q4rL/fv0V0DdLBuOpzsizuv3bd5/cKsRc9OvJ8VuUyZAfP4gZ4b068v
-         e8zGdYUJx6lb9Wlo38LfFYVIvtNoMlJIqJmAZRMhrTyIsm4keaMfLZcPonhFZnf3wR+a
-         NBhpZxSsj4MI+Fdf1mUrBbKinTOBH7lUoSccelE7fN1E3mobJbo0QoNuZme2xOwd0OiT
-         GsEQ==
+        h=sender:date:subject:in-reply-to:cc:from:to:message-id:mime-version
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=hG0fQfGOPAnnM5gQFP86FwjbJ/ecrdklEHexwwHakDM=;
+        b=OrO/lY3gsXymouOihC1h9y9G0xiwfGcAQh9dwRKqWjG4+iJaI/if0sblafHhYnWnm0
+         lJEn7k2Zc2/CoirgRxHekgjD2PnJrrbaOnMd68NbzR4TFojXDBebHP95nVVdoZwdmezX
+         HKU21Fqku0OlstQwKqXCBY7YWJ95syknBgG6PzEe47ffK7F9UM9/d+k3bJUh9mCw2Wix
+         NMql23FiBHdXnTyM/nBN9QKQqzeo1A0DWQXMCui7vj1J6uVKhC6ZjwXemXlwP2Agv1l9
+         toWtc3Ix7MVEf+JWB8dkdQlOhynpMFpxKV04DohbRGaVqFkb5E2d/GL4YXQw/+d+6wSn
+         W1dQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:content-transfer-encoding:from
-         :mime-version:subject:date:message-id:references:cc:in-reply-to:to
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=4+ELZNkouOlH2wq7rlb5/Y2M5W+tGVl3BCHRV6kN3KE=;
-        b=k/wW2ChX4kMgaqTVsHqjrlS1RBIdqx7BedXRPqhnbwVuTCCz68HyoTl7Cc6TP4cv6S
-         65BfywozrIkWDmyUWTGLV1FfDiOtsMeuwtvDfywBVH3zWc6mCHFUHk3XKNFOteqELsws
-         LeadESSLfE1g8lYWwBPsbiKIddvqbEGgyel1mPzuk4cK4Itb/jX4fuby9eHkDJmLYSO+
-         ZVJRPiO2m/is+W+J/+7PrDEWdDpYONVIXCjJiWYubeNGDhwPvizMZfBMyDcsxnFyuLtD
-         b4ASPRq9osZ15TOVV7cEVuY/PPqbWAud5SO8QDQQ6OlSbwExAUbyj+RQRq1NFSkQ4amQ
-         bsAQ==
+        h=sender:x-gm-message-state:date:subject:in-reply-to:cc:from:to
+         :message-id:mime-version:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=hG0fQfGOPAnnM5gQFP86FwjbJ/ecrdklEHexwwHakDM=;
+        b=VcJNqx7cJClGSH2EvA21CNpxGdCgBEhymRnmV8e1Ok0EJOpvmqRFuHeukp6n1Ezby6
+         m1FscY+uy8e8rEzywVwI+y18dmXN1LPdKZFubsNAmLq4+nqJApS8MircoveuwGzNfD7N
+         wwBjzIV3v+pXkoak01B2mUA/8bhbegeTsZey+tF6USlgswdTBBNSMj9GYvmyikSk4gLt
+         MRJZF3ROSPAKomq2nbNRVYHoQ4N+0IekFX5liUDOGPdF18L8D8KOrkCs3pznA4rk9mKX
+         qgBPzMdc1520CBT5zSugOqQ1R+N+cFZ8PWx3RMr1GkX2gw7Es6W0PwXpRObAaGZSCflm
+         iVCw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM532T9OzwCwFIxU6wjXAiix/jX+m+ujMpnXiP+w2AdlABJFn/kcBh
-	q30U9EVFkVO3GLBj9F3Sq/M=
-X-Google-Smtp-Source: ABdhPJxGdJlfbuqS/6DH/XNsmwHfTgfU32uLYsyVMoalvV2I6Muu0YuYLFQ36ASJQWTLcEVB+LTyVQ==
-X-Received: by 2002:ac8:7654:: with SMTP id i20mr4524778qtr.291.1610580118960;
-        Wed, 13 Jan 2021 15:21:58 -0800 (PST)
+X-Gm-Message-State: AOAM532eo6wZvuxHNLA8AMx4Ckw6UmdLFrDDi2NNyhwtn0gTQOxh+WK/
+	xNOvYTbFUcFYCDckN6aF0ro=
+X-Google-Smtp-Source: ABdhPJys93sQINEAkGE6mJG/OtvxD4/s11mdmLqXviH/peEO0DVYlYhW8Sdk2yr9GWHYAkoE+obXmA==
+X-Received: by 2002:aca:cc01:: with SMTP id c1mr1686793oig.18.1610600272062;
+        Wed, 13 Jan 2021 20:57:52 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:620a:702:: with SMTP id 2ls1873561qkc.11.gmail; Wed, 13
- Jan 2021 15:21:58 -0800 (PST)
-X-Received: by 2002:a37:8087:: with SMTP id b129mr4643411qkd.138.1610580118455;
-        Wed, 13 Jan 2021 15:21:58 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1610580118; cv=none;
+Received: by 2002:a9d:6841:: with SMTP id c1ls1096305oto.8.gmail; Wed, 13 Jan
+ 2021 20:57:51 -0800 (PST)
+X-Received: by 2002:a05:6830:12:: with SMTP id c18mr3669101otp.283.1610600271655;
+        Wed, 13 Jan 2021 20:57:51 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1610600271; cv=none;
         d=google.com; s=arc-20160816;
-        b=A4SzZUWsoPOgFEQiUZO8PRUewnl8dTExZvbh5BjvMse6oebq1m78OkdTv0LzmzowDM
-         F4LQ2hq5dx/eq1NNeR1mhTAv1J5rBAzZwC9Qw7JOZlM5bZDQqz87a8msFEpDVjy7TW6C
-         MBjZSGQihGrSF6eGAgeE5H6Ze5YkhZcI5br9KBodWbiPg8e+nnOoPqIAk2PuvW0aJJPe
-         3OeiRLU1Wsf9s2Q1cAFg+w3aR9UijDZgN/12z8iVwzm5MvqCr8L6saudLG0WrFuR1Tvw
-         hk9og1Nzx0EugAGN50h2nHmgwmmcuX1NvCD6xgCCM8T/vhqWtU+7qYELDyXxo5QlJO7h
-         eE5g==
+        b=RVYi8ni5NqQ4522lKoJjChQBIG6EbV6Pt2cErOHyeyXYb+JMOekBxBjAJwW3nwsWWm
+         Q1lUyrHDsbK3H2P0LAzSogZcoCFZZrSkiQT/0hTvPiXRrtUOArWmTzL1MS54tEfavOgn
+         +XFlVSPXlxCEG1fmzlv09VeWOq/ebBLPkjjGqqUuKO1lBdfhlCJ3VdtWuBRpdW5quvgj
+         1SYikHU1r2VGLy6Jtow+VhhifctFWPg73DMElmCyboEVXzwaeXnRZC8gsFl4i7TgJIug
+         gUOSRCtBlTrRAWiCQmT/clkdpQo5qW+e0FnofJSIYfuMeRdYV061flt8xxmoKM1viyo2
+         m7pg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=to:in-reply-to:cc:references:message-id:date:subject:mime-version
-         :from:content-transfer-encoding:dkim-signature;
-        bh=k1M9lmOLZO2GOLwUA/lZ2QYfUehL3IPJ5GZ4x3Wza2M=;
-        b=l7ttND6PURpi6+81Rt70wjVRbPqyv/Kpi13gs6W5FgYW7Xcwv+2sLe9QXgd60kM7+R
-         wg7y9LqTlgvTVoq88Khb2Q4euiUvFUV4LJnMCCGW0JujMRSjuZFF7rwRGsoMc2Q01UYm
-         nAx1mRu2ruo94nraufz10bdKAGWR9pUbkA/eDn6wU8p3uCcs1qb3+9O8eCaE7tbpLH8r
-         jwIIvegEne/Gg/KQEZIk1pCIoZjujscO9dSNT6jRgC4eulecSXk7qtxe7rZy72tWAjfa
-         jXL6Mnz/vHBJDI+c47EqMhgwcoQrVYBKMskQt7dZtoqR7/Gx+TxmFUodP8MxxPK0UsKR
-         Xxlg==
+        h=content-transfer-encoding:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:dkim-signature;
+        bh=ZmdvymZ2qR4M/qVQyd7uYkLb/p5vBHQAHMPmoaJ6QXk=;
+        b=imh1ZCxctiXAW6DZDmHoRg3QilSnoVC8CS/hsoaWVRx/TQXRJ/kx342bVeyQsJPkeg
+         q9qUVuXDts/u2v/5BZp+ouAT3ZPdzBNpCTKBmLqznnsIIWnDWvSou6dQshTULLzBh6Kp
+         v+8GqZB8en+YW2u3OMjK4nWFO9HahidoCfCrn58LusVHYoEkuBWXDVvYAUzlM7GLkeYW
+         eBmTCCD7jPCTPCZ3ccDyY59ovHCEi6zTDCFhDMu6lX/FW5fXJKtoaLqwANnwYUYPMaFS
+         MV7uF0eGuoxcRq6vBiljRNqWMe1QGT53ujGt01nfjHfVZwDPb3Ns9/672xMzTtFfY59a
+         MeYg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20161025 header.b=LWvIQxVi;
-       spf=pass (google.com: domain of mudongliangabcd@gmail.com designates 2607:f8b0:4864:20::62f as permitted sender) smtp.mailfrom=mudongliangabcd@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com. [2607:f8b0:4864:20::62f])
-        by gmr-mx.google.com with ESMTPS id z94si400243qtc.0.2021.01.13.15.21.58
+       dkim=pass header.i=@dabbelt-com.20150623.gappssmtp.com header.s=20150623 header.b=rkJ6uQ+C;
+       spf=pass (google.com: domain of palmer@dabbelt.com designates 2607:f8b0:4864:20::52a as permitted sender) smtp.mailfrom=palmer@dabbelt.com
+Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com. [2607:f8b0:4864:20::52a])
+        by gmr-mx.google.com with ESMTPS id c18si272185oib.5.2021.01.13.20.57.51
+        for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 13 Jan 2021 15:21:58 -0800 (PST)
-Received-SPF: pass (google.com: domain of mudongliangabcd@gmail.com designates 2607:f8b0:4864:20::62f as permitted sender) client-ip=2607:f8b0:4864:20::62f;
-Received: by mail-pl1-x62f.google.com with SMTP id d4so1943728plh.5;
-        Wed, 13 Jan 2021 15:21:58 -0800 (PST)
-X-Received: by 2002:a17:90a:4545:: with SMTP id r5mr1787274pjm.212.1610580117344;
-        Wed, 13 Jan 2021 15:21:57 -0800 (PST)
-Received: from [10.188.0.206] ([45.135.186.83])
-        by smtp.gmail.com with ESMTPSA id c14sm3510041pfd.37.2021.01.13.15.21.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 13 Jan 2021 15:21:55 -0800 (PST)
-Content-Type: multipart/alternative; boundary=Apple-Mail-EA7B5BFE-EEE9-4737-A521-E45AC5C55A8F
-Content-Transfer-Encoding: 7bit
-From: =?utf-8?B?5oWV5Yas5Lqu?= <mudongliangabcd@gmail.com>
-Mime-Version: 1.0 (1.0)
-Subject: Re: Direct firmware load for htc_9271.fw failed with error -2
-Date: Thu, 14 Jan 2021 07:21:53 +0800
-Message-Id: <66960526-F9D5-4668-9DBA-A8A399BF5AA4@gmail.com>
-References: <CAAeHK+y7NQQaxKgYmWZQKvV55zg79NGb3CHZG4vbuJrPi4xa6g@mail.gmail.com>
-Cc: Dmitry Vyukov <dvyukov@google.com>,
- syzkaller <syzkaller@googlegroups.com>,
- kasan-dev <kasan-dev@googlegroups.com>
-In-Reply-To: <CAAeHK+y7NQQaxKgYmWZQKvV55zg79NGb3CHZG4vbuJrPi4xa6g@mail.gmail.com>
-To: Andrey Konovalov <andreyknvl@google.com>
-X-Mailer: iPhone Mail (18C66)
-X-Original-Sender: mudongliangabcd@gmail.com
+        Wed, 13 Jan 2021 20:57:51 -0800 (PST)
+Received-SPF: pass (google.com: domain of palmer@dabbelt.com designates 2607:f8b0:4864:20::52a as permitted sender) client-ip=2607:f8b0:4864:20::52a;
+Received: by mail-pg1-x52a.google.com with SMTP id c22so2936545pgg.13
+        for <kasan-dev@googlegroups.com>; Wed, 13 Jan 2021 20:57:51 -0800 (PST)
+X-Received: by 2002:a63:e40e:: with SMTP id a14mr5586177pgi.345.1610600270765;
+        Wed, 13 Jan 2021 20:57:50 -0800 (PST)
+Received: from localhost (76-210-143-223.lightspeed.sntcca.sbcglobal.net. [76.210.143.223])
+        by smtp.gmail.com with ESMTPSA id az6sm3857596pjb.24.2021.01.13.20.57.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Jan 2021 20:57:49 -0800 (PST)
+Date: Wed, 13 Jan 2021 20:57:49 -0800 (PST)
+Subject: Re: [PATCH 1/1] riscv: Fix KASAN memory mapping.
+In-Reply-To: <20210113022410.9057-1-nylon7@andestech.com>
+CC: linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+  kasan-dev@googlegroups.com, aou@eecs.berkeley.edu, Paul Walmsley <paul.walmsley@sifive.com>,
+  dvyukov@google.com, glider@google.com, aryabinin@virtuozzo.com, alankao@andestech.com,
+  nickhu@andestech.com, nylon7@andestech.com
+From: Palmer Dabbelt <palmer@dabbelt.com>
+To: nylon7@andestech.com
+Message-ID: <mhng-40ebb582-4df3-4189-9521-5446cbe1a9e6@palmerdabbelt-glaptop>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-Original-Sender: palmer@dabbelt.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20161025 header.b=LWvIQxVi;       spf=pass
- (google.com: domain of mudongliangabcd@gmail.com designates
- 2607:f8b0:4864:20::62f as permitted sender) smtp.mailfrom=mudongliangabcd@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+ header.i=@dabbelt-com.20150623.gappssmtp.com header.s=20150623
+ header.b=rkJ6uQ+C;       spf=pass (google.com: domain of palmer@dabbelt.com
+ designates 2607:f8b0:4864:20::52a as permitted sender) smtp.mailfrom=palmer@dabbelt.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -148,86 +130,37 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
+On Tue, 12 Jan 2021 18:24:10 PST (-0800), nylon7@andestech.com wrote:
+> From: Nick Hu <nickhu@andestech.com>
+>
+> Use virtual address instead of physical address when translating
+> the address to shadow memory by kasan_mem_to_shadow().
+>
+> Signed-off-by: Nick Hu <nickhu@andestech.com>
+> Signed-off-by: Nylon Chen <nylon7@andestech.com>
+> ---
+>  arch/riscv/mm/kasan_init.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/arch/riscv/mm/kasan_init.c b/arch/riscv/mm/kasan_init.c
+> index 12ddd1f6bf70..a8a2ffd9114a 100644
+> --- a/arch/riscv/mm/kasan_init.c
+> +++ b/arch/riscv/mm/kasan_init.c
+> @@ -93,8 +93,8 @@ void __init kasan_init(void)
+>  								VMALLOC_END));
+>
+>  	for_each_mem_range(i, &_start, &_end) {
+> -		void *start = (void *)_start;
+> -		void *end = (void *)_end;
+> +		void *start = (void *)__va(_start);
+> +		void *end = (void *)__va(_end);
+>
+>  		if (start >= end)
+>  			break;
 
---Apple-Mail-EA7B5BFE-EEE9-4737-A521-E45AC5C55A8F
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Thanks, this is on fixes.
 
-
-
-> =E5=9C=A8 2021=E5=B9=B41=E6=9C=8813=E6=97=A5=EF=BC=8C=E4=B8=8B=E5=8D=8810=
-:17=EF=BC=8CAndrey Konovalov <andreyknvl@google.com> =E5=86=99=E9=81=93=EF=
-=BC=9A
->=20
-> =EF=BB=BF
->> On Wed, Jan 13, 2021 at 9:38 AM =E6=85=95=E5=86=AC=E4=BA=AE <mudongliang=
-abcd@gmail.com> wrote:
->=20
->> Hi Dmitry:
->>=20
->> I would like to verify if "KASAN: use-after-free Read in ath9k_hif_usb_r=
-x_cb (2)" shares the same root cause with "KASAN: slab-out-of-bounds Read i=
-n ath9k_hif_usb_rx_cb (2)".
->>=20
->> However, I cannot reproduce these two cases since the firmware for htc_9=
-271.fw is no available. Do I need to take some special steps to get the fir=
-mware working? Thanks in advance.
->=20
-> You need to install the firmware-atheros package, as done by the create-i=
-mage.sh script.
->=20
-> https://github.com/google/syzkaller/blob/master/tools/create-image.sh=20
-
-No wonder stretch image has this driver. Thanks for your information. It=E2=
-=80=99s really helpful.
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/66960526-F9D5-4668-9DBA-A8A399BF5AA4%40gmail.com.
-
---Apple-Mail-EA7B5BFE-EEE9-4737-A521-E45AC5C55A8F
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<html><head><meta http-equiv=3D"content-type" content=3D"text/html; charset=
-=3Dutf-8"></head><body dir=3D"auto"><br><div dir=3D"ltr"><br><blockquote ty=
-pe=3D"cite">=E5=9C=A8 2021=E5=B9=B41=E6=9C=8813=E6=97=A5=EF=BC=8C=E4=B8=8B=
-=E5=8D=8810:17=EF=BC=8CAndrey Konovalov &lt;andreyknvl@google.com&gt; =E5=
-=86=99=E9=81=93=EF=BC=9A<br><br></blockquote></div><blockquote type=3D"cite=
-"><div dir=3D"ltr">=EF=BB=BF<div dir=3D"ltr"><div dir=3D"ltr">On Wed, Jan 1=
-3, 2021 at 9:38 AM =E6=85=95=E5=86=AC=E4=BA=AE &lt;<a href=3D"mailto:mudong=
-liangabcd@gmail.com">mudongliangabcd@gmail.com</a>&gt; wrote:<br></div><div=
- class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0p=
-x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><d=
-iv dir=3D"ltr"><div>Hi Dmitry:</div><div><br></div><div>I would like to ver=
-ify if "KASAN: use-after-free Read in ath9k_hif_usb_rx_cb (2)" shares the s=
-ame root cause with "KASAN: slab-out-of-bounds Read in ath9k_hif_usb_rx_cb =
-(2)".</div><div><br></div><div>However, I cannot reproduce these two cases =
-since the firmware for htc_9271.fw is no available. Do I need to take some =
-special steps to get the firmware working? Thanks in advance.</div></div></=
-blockquote><div><br></div><div>You need to install the&nbsp;firmware-athero=
-s package, as done by the create-image.sh script.</div><div><br></div><div>=
-<a href=3D"https://github.com/google/syzkaller/blob/master/tools/create-ima=
-ge.sh">https://github.com/google/syzkaller/blob/master/tools/create-image.s=
-h</a>&nbsp;</div></div></div>
-</div></blockquote><br><div>No wonder stretch image has this driver. Thanks=
- for your information. It=E2=80=99s really helpful.</div></body></html>
-
-<p></p>
-
--- <br />
-You received this message because you are subscribed to the Google Groups &=
-quot;kasan-dev&quot; group.<br />
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
-+unsubscribe@googlegroups.com</a>.<br />
-To view this discussion on the web visit <a href=3D"https://groups.google.c=
-om/d/msgid/kasan-dev/66960526-F9D5-4668-9DBA-A8A399BF5AA4%40gmail.com?utm_m=
-edium=3Demail&utm_source=3Dfooter">https://groups.google.com/d/msgid/kasan-=
-dev/66960526-F9D5-4668-9DBA-A8A399BF5AA4%40gmail.com</a>.<br />
-
---Apple-Mail-EA7B5BFE-EEE9-4737-A521-E45AC5C55A8F--
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/mhng-40ebb582-4df3-4189-9521-5446cbe1a9e6%40palmerdabbelt-glaptop.
