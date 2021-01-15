@@ -1,130 +1,131 @@
-Return-Path: <kasan-dev+bncBDV37XP3XYDRBG7RQ2AAMGQELSPNJUQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDX4HWEMTEBRB24DQ6AAMGQEKDED6TI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pl1-x63b.google.com (mail-pl1-x63b.google.com [IPv6:2607:f8b0:4864:20::63b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B2032F7FEE
-	for <lists+kasan-dev@lfdr.de>; Fri, 15 Jan 2021 16:45:33 +0100 (CET)
-Received: by mail-pl1-x63b.google.com with SMTP id q12sf5790981plr.9
-        for <lists+kasan-dev@lfdr.de>; Fri, 15 Jan 2021 07:45:33 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1610725531; cv=pass;
+Received: from mail-io1-xd3f.google.com (mail-io1-xd3f.google.com [IPv6:2607:f8b0:4864:20::d3f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B8D62F80AD
+	for <lists+kasan-dev@lfdr.de>; Fri, 15 Jan 2021 17:25:17 +0100 (CET)
+Received: by mail-io1-xd3f.google.com with SMTP id w26sf15592115iox.21
+        for <lists+kasan-dev@lfdr.de>; Fri, 15 Jan 2021 08:25:17 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1610727915; cv=pass;
         d=google.com; s=arc-20160816;
-        b=EWTDxhP+r8VeGYd9KQ60IT965u9btg1Rv0pgU5Ii95k3tCI/bgp8v6F7cYc7TQkIhO
-         RrpxwmUJ8uC6w7ZuYKco/TAA+w2jh9cVjjEFXiXb58FEjg0vQv4B/Ze4n5KGsIkyaRqW
-         kOYUT9vlcZZirseZE9rVjVL9AuUi/9IgJbwCISVGO1SZzpqZdgE4MM62ti/y3rOMPH+q
-         pPW9BzsoWmMPoRSjRJV4iuaN1MBoK5N4YnI1EcN9RCkhI+QrovxGV9CpDGrrCKZdKDBt
-         S2F+4fQyvhW/MHcBAkU1500jfqPQ15A4AARLCQ4zIV2HgUJ0+06LnpStIy+4hobQdckd
-         0/1A==
+        b=oCVFUcYy4Cp2I9BaiySoL20g9dWBZlyqZYzjIU+DexnjyXPCvS1uPsCf8wfwurr37a
+         rue7+GsfY2pN4MGCTufs8eJW3WLW6pKmv8BHrLcT2rduSbOaG2TlkA4PS0Kl22Y5onLF
+         iyBYR96UwWxh/JN5yOLJQvfstDfIgi/RRMNcGMs/9stxVmar+cY2eyeiWizqnQLQQryQ
+         ntHo9LwTJkYi03dEh3QVBB995411+daYNASjv41HlMqh/e6LQTjtG2AC8iYIhEoeZWSR
+         7+43pJO+JJx1S8VTvgpR1XXvz/TRlUclFq9GUyyUziIZjzUOhwUywix/NVPv9ZmUCGUz
+         Tmxw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=Pvq5NVd5OXDC4kwgjyMLclJuQxJbnujKdUP+D14eOYM=;
-        b=BQeJ8agrcGnNVX6sMtDZjL+aD6S70sUS5jbjPYfK5XgznBvKwMpSVJOiF43v5ipQkP
-         N9x7+9mKH9+oDwRT2+ORZ6HBaMEwTlYVbQ+Bhh6cr34iTfb8H7/jza3wtzZnBiNraoKH
-         rUsU9aX5yT2CLa+x4lv2IiJbOeFkXFgrdEHj+r/PyYaQuP9qgBFKp7xXYn8lP0MM6J25
-         WOkeNHRVnKbPFWzkPsYFmLQQVSRgKGIhKIQdrFialzAU0JJADSRakFb3xpVM3KNbVQIV
-         ZuQzBz070v6x+SQBPEIXKBIDx8KLBAsADo/lV82oZjpTy4kW8jZSu0mCDnb6QHtfdTHT
-         c3Rw==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=/sDWZUqfY61xNKpb/cmBnDLL4MFN7Z3lTb6Dr4tr0dM=;
+        b=LmHSazix7BYHGp8z7udMEu5Ph51b+GpqgvNQP7xtkc7PJY5rNmYaY0mV1LSbzL7duT
+         qWtT2Qa2PcsxLQ1mRVU3NU92nYqcdgsg+71Ye+GTADYkj1hbLfzzczVGIiuY7TQC/ETt
+         APHMiawZWpzC3V/9OdrZ5bq8Di4JcG3GQJLfAkECmXxIR0OLKY3IdtXIULQVBehg7haG
+         Vnzl4i0hvvzeHskrsxiEkW/Nn05xHolHNQTtMKAcS54/vgS++FKrA7+EUfvE8x5A1r5R
+         iXj7+hz+yevQvgN/m7xsHoMJWNbATVw/dxfHciMCUe+iMJ8iVLXcB7Go4wMUOEOw7XFc
+         wquQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=mark.rutland@arm.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
+       dkim=pass header.i=@google.com header.s=20161025 header.b=bDO0sh8N;
+       spf=pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::430 as permitted sender) smtp.mailfrom=andreyknvl@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=Pvq5NVd5OXDC4kwgjyMLclJuQxJbnujKdUP+D14eOYM=;
-        b=NsCR14E0ctgDfSBBVRpADVrdYPUetA0cKNb+HM9h3Qo5XT/dUJdfJDmu5iNv//7IVT
-         frESC1a0YzEmbQJXYcm5ZkeC9tF7fSY2M2kDoSYZKFbktiO22L7gUTSD97S/qt8p/zD3
-         udi2IbQKwvagZeocad71lpq2seoMPqca/PkmtoUtP7qDL45q7PGeA6qk5hXf1DbYixnb
-         sFjLmYQ052t+adErunxS1p9sR1+/6RZrRUDmLzz6Ku+y/RKgQ70wov2TDrbiDfBM2SY4
-         G5WfPRWx2oV6T5yTiwqEqW9mfTY4Cj4nHmbKTT+Fp1Es4VjA8UU7UlMvLIOnY2qvrj+V
-         Ktgw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=/sDWZUqfY61xNKpb/cmBnDLL4MFN7Z3lTb6Dr4tr0dM=;
+        b=msO8ysNY0SBA24b1GoFBKIOuh71wTAjRet36SRzFh4ggxMGYczu5Tba0IvRWYJqBii
+         uddApY/n4/JaGM6wZXr+jvK5rUGWFPBWMkNCctQXerD4DxCMQX/GCgKLh3WJ9rgoc1jC
+         F8pHrUqZoXVlGUwmag1KJGweiWjeWQ95gktFFdkEfPMEOXKX5GXxRjRZKF/60WL6ed+D
+         AveexZ8qTM4Hp2ENzfam8qbk9Db/D3ytKbXGntjJEjGC1zfDRY4o4ZQw+C2fE2Az9f/l
+         dYCt3yiZynyC7Qfiy8NPCfcNr4Nxj1FRIC2zSVzTN5CnEhhxem0KiDA1O5p35ILJkbU/
+         JGPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=Pvq5NVd5OXDC4kwgjyMLclJuQxJbnujKdUP+D14eOYM=;
-        b=cpv4QA5IDtwoZrflCgRpQtzoXmQz4Ih4NXVwoqlaU5XuHy3uDDFeeMnuPg6fosG0Up
-         08khQFshp9Abb694ECXurO3/Q5XqnPiPriKQOwBGsuY70Zj4LZZIO7uzP+Cr3HqvyKkC
-         IIg420BmLMYwZVN1vVUMfisDM0SiSPF7C3W6DIdlHYi2iiuLGcul9DNeSI65GzgMuVyI
-         UDedm+Cw+sCTiIGJ4Br7cPAiodMLexcNwd0Y6BO+3om8z5p1LhY3EoaSVL47uVDDlMqj
-         v/EOQPELReaCDT0T/rnC93d8dPOOVMIYXFtVJ3qXR1OtIRsDXIYo2TminNXRMxdwfwgW
-         gC0A==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM5330NDZ6+Mxh3W6YZeROKvmxi1uZSd8Yb7E+VV8lbnOwaXko6BMm
-	PkdwLXtlBXka0z8QeFK8NU4=
-X-Google-Smtp-Source: ABdhPJz1E711xBPc48jY5kxmZ3VTETQkMHmyWSMO2bja4xFoNNXLIkmdG49UVdxHnMLLG/K+fpyyTA==
-X-Received: by 2002:a17:902:c517:b029:d6:e179:2097 with SMTP id o23-20020a170902c517b02900d6e1792097mr13092372plx.70.1610725531559;
-        Fri, 15 Jan 2021 07:45:31 -0800 (PST)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=/sDWZUqfY61xNKpb/cmBnDLL4MFN7Z3lTb6Dr4tr0dM=;
+        b=MdakrvQFAOkhMie4KGOf+jbPS04siWq4XRRx6YUT+jaZUNhoMIHZ1XEEfGYxNL7yXJ
+         BML3dEhw64HMdN3AuZxbOb6jP5H2q9iT4cKeej320UgcR9fy/B4YBRzDzfVbKU/lsHyK
+         SDAI4n5Sjv/BjabgRblDIKVdMhKJzoXLMhjN4WyePLNtKfNZpG9E4bavAhpRw6lVNT5Q
+         Aweo6R3bVumReP2AAdDX1FA4Lr9rtq5mbzFOlSiuhDMx5D/WmFW5R3/KhhkWzeogztHD
+         E0AW05KFhUfH4O0eOXQ+j7RcbqrBMuatrDyMHlQC1ZHiSlXNgB8AyyLsvYGLz1TRU9LE
+         z/pQ==
+X-Gm-Message-State: AOAM532/gyMqDrcpDqjXFqbgKxedVUkE1wvIU5/oR9AlOflk+IcDI8+a
+	GWOCCPFqkKHY5eA/6sORoC0=
+X-Google-Smtp-Source: ABdhPJzNM3KGAklKo/nJwyTc7dWtBdan8UWnUydL/29lCctmjaD+kkbSZu4Nphyq4NMdQPvl4XT/6w==
+X-Received: by 2002:a05:6e02:12cc:: with SMTP id i12mr6112255ilm.113.1610727915819;
+        Fri, 15 Jan 2021 08:25:15 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:aa7:9286:: with SMTP id j6ls3681814pfa.7.gmail; Fri, 15 Jan
- 2021 07:45:31 -0800 (PST)
-X-Received: by 2002:a62:7907:0:b029:19d:cf5d:20ae with SMTP id u7-20020a6279070000b029019dcf5d20aemr13436688pfc.2.1610725530968;
-        Fri, 15 Jan 2021 07:45:30 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1610725530; cv=none;
+Received: by 2002:a92:48c9:: with SMTP id j70ls2687032ilg.6.gmail; Fri, 15 Jan
+ 2021 08:25:15 -0800 (PST)
+X-Received: by 2002:a92:358a:: with SMTP id c10mr11399884ilf.258.1610727915518;
+        Fri, 15 Jan 2021 08:25:15 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1610727915; cv=none;
         d=google.com; s=arc-20160816;
-        b=KIZDyp9n42XGtxpTiaYHD6iVBASl9MTgBzI/Z48Mlv3Qr+v78AIec3UUFgX1DNVtfV
-         3DV5/y9cG0PEVRYtFdLeTQshjXJuutDHW+VkmR0np3wtvtmhqt/HTo3u5UgHZB9ql4fa
-         PZVZkxfxVEWjV00HYrTcZ4jjNbm+sFOtVVMYHYfDlgAvozI+FFarIIpmw9+iSE+l/D72
-         J3JlEQCUQzsTO0/v8Hg5NBrcCT11SUXlWz9Mfag1JqCIicftEiYDOlCFBrHnrjIJOQjv
-         4JrplLYHeKx2mMIbXl+5tcs0i8weLyWmbtBVG2rgsELHStdltSyS+XeAyiENfxVx42uq
-         /pqA==
+        b=THybJVUNo+PL5AeqO0A+l0k96RmMxiNYvlfpNcdh4gr05r3vCOFHT3wYqwF8l+Nlts
+         1IVZUrMU05QCGPDo51XDyF+DqMLPs4C/0Wx3OGnOrZBrMENuVOpo1EJycaf+g6zyM/8i
+         XtAcS5L1x7BPZ8wsRAfurhpPIjVTQtimXarSi3qvydXUYNFiV1OwvObecaS41i7jSNQq
+         9R1uwE7DkQzdrV+EPJ0pn4lGI3PhBtshTizMZhbhQ5l2lhPyDAFBFX0BbiIVyrq/m31/
+         HnzyeSCxoVUY94n1Wvi3oAh+cXbKp9ndUXpnaLatMrZvc/FH2I5vhFzJkyS7LlbC3OlB
+         9PxQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date;
-        bh=qYDOFfjlCPlX9ZjcBfjfbWnFaoykYPxz/pl8dXAzmNo=;
-        b=cUMMEIoioR1Zvz4JkC0hIrNfpJ5uWjDOastRHZ64RTp3+7L06jE031sJoz4qNTdG6W
-         H6MACyrh5grivIZNNUJI7smigehG+L46amLOaJfPU2Dh57SWldteFN6F7t1cy5mkUJHe
-         Oz79R3NWaNPdx+WCw/IAZkn4zlExzEcGxdmKw2WpmHN05YLi8e/cOm2HSSpgDhBcwLlZ
-         lbrkwGCa7WgscjaCC8MQAZobZXUkhFMXmwfTkwvpsDknnJIwYHL6chmWY234GUhFdgfC
-         J+tb/0PPqe4/KriR2M2urSAYhKSpDDXZDXG37U8jzKJDFfzfT9ubnbcsB5NA8cwjI3nl
-         T5Og==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=cfexXFziwrKRfOX4l3+6YvZjjwRLIjObzMGfUtSVyeM=;
+        b=UdabiSmDzPcE96WuzI8hCYwyvzqvDS9YimDOlyIE//u96gbDJjEnqPByVwq4MTLRu1
+         Y6QgiZVdzzgmQt8U14ZlfzkoLkIe+pS+gQ7E/QuxyolirAG2BB+zZHzZ+BuEi04ZDpno
+         vvBvjZcS5vyUTZAjnA/NeI4C+CsRkGdCdhbSk6q995WxOHG3NcHeB5LTupmjZOxORWPx
+         2OWJyogrjvHJo4WXw71wsjaXXd1zFqJ2zlg61DSLKqPO9rr28j4OdXoeUh4HdrbKTAP0
+         Qz7An3mubeRtjkHoZG7MHQwiMrCe8UTGd2eXAq3DofnGFmqIiiBaahFU87xT4jxPGPbV
+         2GOw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=mark.rutland@arm.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
-Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
-        by gmr-mx.google.com with ESMTP id ce15si786154pjb.3.2021.01.15.07.45.30
-        for <kasan-dev@googlegroups.com>;
-        Fri, 15 Jan 2021 07:45:30 -0800 (PST)
-Received-SPF: pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 457CBD6E;
-	Fri, 15 Jan 2021 07:45:30 -0800 (PST)
-Received: from C02TD0UTHF1T.local (unknown [10.57.41.13])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 70C153F70D;
-	Fri, 15 Jan 2021 07:45:24 -0800 (PST)
-Date: Fri, 15 Jan 2021 15:45:20 +0000
-From: Mark Rutland <mark.rutland@arm.com>
-To: Vincenzo Frascino <vincenzo.frascino@arm.com>
-Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	kasan-dev@googlegroups.com,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Dmitry Vyukov <dvyukov@google.com>,
-	Andrey Ryabinin <aryabinin@virtuozzo.com>,
-	Alexander Potapenko <glider@google.com>,
-	Marco Elver <elver@google.com>,
-	Evgenii Stepanov <eugenis@google.com>,
-	Branislav Rankov <Branislav.Rankov@arm.com>,
-	Andrey Konovalov <andreyknvl@google.com>
-Subject: Re: [PATCH v3 4/4] arm64: mte: Optimize mte_assign_mem_tag_range()
-Message-ID: <20210115154520.GD44111@C02TD0UTHF1T.local>
-References: <20210115120043.50023-1-vincenzo.frascino@arm.com>
- <20210115120043.50023-5-vincenzo.frascino@arm.com>
+       dkim=pass header.i=@google.com header.s=20161025 header.b=bDO0sh8N;
+       spf=pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::430 as permitted sender) smtp.mailfrom=andreyknvl@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com. [2607:f8b0:4864:20::430])
+        by gmr-mx.google.com with ESMTPS id c14si1015311ilk.5.2021.01.15.08.25.15
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 15 Jan 2021 08:25:15 -0800 (PST)
+Received-SPF: pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::430 as permitted sender) client-ip=2607:f8b0:4864:20::430;
+Received: by mail-pf1-x430.google.com with SMTP id q20so5800604pfu.8
+        for <kasan-dev@googlegroups.com>; Fri, 15 Jan 2021 08:25:15 -0800 (PST)
+X-Received: by 2002:a62:115:0:b029:1b4:c593:acd4 with SMTP id
+ 21-20020a6201150000b02901b4c593acd4mr1100547pfb.2.1610727914773; Fri, 15 Jan
+ 2021 08:25:14 -0800 (PST)
 MIME-Version: 1.0
+References: <cover.1610553773.git.andreyknvl@google.com> <1965508bcbec62699715d32bef91628ef55b4b44.1610553774.git.andreyknvl@google.com>
+ <20210113165441.GC27045@gaia> <CAAeHK+zThyq7ApsRTu-En7pL9yAAOrEpV45KOuJV3PCpdjVuiw@mail.gmail.com>
+ <20210115150658.GE16707@gaia>
+In-Reply-To: <20210115150658.GE16707@gaia>
+From: "'Andrey Konovalov' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Fri, 15 Jan 2021 17:25:03 +0100
+Message-ID: <CAAeHK+yZdP7d5nrZDKnk_Drezs7pr07_XH10wtjKe87BjEpiQA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] kasan, arm64: fix pointer tags in KASAN reports
+To: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>, Dmitry Vyukov <dvyukov@google.com>, 
+	Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Will Deacon <will.deacon@arm.com>, 
+	Andrey Ryabinin <aryabinin@virtuozzo.com>, Peter Collingbourne <pcc@google.com>, 
+	Evgenii Stepanov <eugenis@google.com>, Branislav Rankov <Branislav.Rankov@arm.com>, 
+	Kevin Brodsky <kevin.brodsky@arm.com>, kasan-dev <kasan-dev@googlegroups.com>, 
+	Linux ARM <linux-arm-kernel@lists.infradead.org>, 
+	Linux Memory Management List <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <20210115120043.50023-5-vincenzo.frascino@arm.com>
-X-Original-Sender: mark.rutland@arm.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as
- permitted sender) smtp.mailfrom=mark.rutland@arm.com;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=arm.com
+X-Original-Sender: andreyknvl@google.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@google.com header.s=20161025 header.b=bDO0sh8N;       spf=pass
+ (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::430
+ as permitted sender) smtp.mailfrom=andreyknvl@google.com;       dmarc=pass
+ (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Andrey Konovalov <andreyknvl@google.com>
+Reply-To: Andrey Konovalov <andreyknvl@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -137,107 +138,76 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, Jan 15, 2021 at 12:00:43PM +0000, Vincenzo Frascino wrote:
-> mte_assign_mem_tag_range() is called on production KASAN HW hot
-> paths. It makes sense to optimize it in an attempt to reduce the
-> overhead.
-> 
-> Optimize mte_assign_mem_tag_range() based on the indications provided at
-> [1].
+On Fri, Jan 15, 2021 at 4:07 PM Catalin Marinas <catalin.marinas@arm.com> wrote:
+>
+> On Fri, Jan 15, 2021 at 02:12:24PM +0100, Andrey Konovalov wrote:
+> > On Wed, Jan 13, 2021 at 5:54 PM Catalin Marinas <catalin.marinas@arm.com> wrote:
+> > >
+> > > On Wed, Jan 13, 2021 at 05:03:30PM +0100, Andrey Konovalov wrote:
+> > > > As of the "arm64: expose FAR_EL1 tag bits in siginfo" patch, the address
+> > > > that is passed to report_tag_fault has pointer tags in the format of 0x0X,
+> > > > while KASAN uses 0xFX format (note the difference in the top 4 bits).
+> > > >
+> > > > Fix up the pointer tag before calling kasan_report.
+> > > >
+> > > > Link: https://linux-review.googlesource.com/id/I9ced973866036d8679e8f4ae325de547eb969649
+> > > > Fixes: dceec3ff7807 ("arm64: expose FAR_EL1 tag bits in siginfo")
+> > > > Fixes: 4291e9ee6189 ("kasan, arm64: print report from tag fault handler")
+> > > > Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+> > > > ---
+> > > >  arch/arm64/mm/fault.c | 2 ++
+> > > >  1 file changed, 2 insertions(+)
+> > > >
+> > > > diff --git a/arch/arm64/mm/fault.c b/arch/arm64/mm/fault.c
+> > > > index 3c40da479899..a218f6f2fdc8 100644
+> > > > --- a/arch/arm64/mm/fault.c
+> > > > +++ b/arch/arm64/mm/fault.c
+> > > > @@ -304,6 +304,8 @@ static void report_tag_fault(unsigned long addr, unsigned int esr,
+> > > >  {
+> > > >       bool is_write  = ((esr & ESR_ELx_WNR) >> ESR_ELx_WNR_SHIFT) != 0;
+> > > >
+> > > > +     /* The format of KASAN tags is 0xF<x>. */
+> > > > +     addr |= (0xF0UL << MTE_TAG_SHIFT);
+> > >
+> > > Ah, I see, that top 4 bits are zeroed by do_tag_check_fault(). When this
+> > > was added, the only tag faults were generated for user addresses.
+> > >
+> > > Anyway, I'd rather fix it in there based on bit 55, something like (only
+> > > compile-tested):
+> > >
+> > > diff --git a/arch/arm64/mm/fault.c b/arch/arm64/mm/fault.c
+> > > index 3c40da479899..2b71079d2d32 100644
+> > > --- a/arch/arm64/mm/fault.c
+> > > +++ b/arch/arm64/mm/fault.c
+> > > @@ -709,10 +709,11 @@ static int do_tag_check_fault(unsigned long far, unsigned int esr,
+> > >                               struct pt_regs *regs)
+> > >  {
+> > >         /*
+> > > -        * The architecture specifies that bits 63:60 of FAR_EL1 are UNKNOWN for tag
+> > > -        * check faults. Mask them out now so that userspace doesn't see them.
+> > > +        * The architecture specifies that bits 63:60 of FAR_EL1 are UNKNOWN
+> > > +        * for tag check faults. Set them to the corresponding bits in the
+> > > +        * untagged address.
+> > >          */
+> > > -       far &= (1UL << 60) - 1;
+> > > +       far = (untagged_addr(far) & ~MTE_TAG_MASK) | (far & MTE_TAG_MASK) ;
+> > >         do_bad_area(far, esr, regs);
+> > >         return 0;
+> > >  }
+> >
+> > Sounds good, will do in v3, thanks!
+>
+> I wonder if this one gives the same result (so please check):
+>
+>         far = u64_replace_bits(untagged_addr(far), far, MTE_TAG_MASK);
+>
+> (defined in linux/bitfield.h)
 
-... what exactly is the optimization?
-
-I /think/ you're just trying to have it inlined, but you should mention
-that explicitly.
-
-> 
-> [1] https://lore.kernel.org/r/CAAeHK+wCO+J7D1_T89DG+jJrPLk3X9RsGFKxJGd0ZcUFjQT-9Q@mail.gmail.com/
-> 
-> Cc: Catalin Marinas <catalin.marinas@arm.com>
-> Cc: Will Deacon <will@kernel.org>
-> Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
-> ---
->  arch/arm64/include/asm/mte.h | 26 +++++++++++++++++++++++++-
->  arch/arm64/lib/mte.S         | 15 ---------------
->  2 files changed, 25 insertions(+), 16 deletions(-)
-> 
-> diff --git a/arch/arm64/include/asm/mte.h b/arch/arm64/include/asm/mte.h
-> index 1a715963d909..9730f2b07b79 100644
-> --- a/arch/arm64/include/asm/mte.h
-> +++ b/arch/arm64/include/asm/mte.h
-> @@ -49,7 +49,31 @@ long get_mte_ctrl(struct task_struct *task);
->  int mte_ptrace_copy_tags(struct task_struct *child, long request,
->  			 unsigned long addr, unsigned long data);
->  
-> -void mte_assign_mem_tag_range(void *addr, size_t size);
-> +static inline void mte_assign_mem_tag_range(void *addr, size_t size)
-> +{
-> +	u64 _addr = (u64)addr;
-> +	u64 _end = _addr + size;
-> +
-> +	/*
-> +	 * This function must be invoked from an MTE enabled context.
-> +	 *
-> +	 * Note: The address must be non-NULL and MTE_GRANULE_SIZE aligned and
-> +	 * size must be non-zero and MTE_GRANULE_SIZE aligned.
-> +	 */
-> +	do {
-> +		/*
-> +		 * 'asm volatile' is required to prevent the compiler to move
-> +		 * the statement outside of the loop.
-> +		 */
-> +		asm volatile(__MTE_PREAMBLE "stg %0, [%0]"
-> +			     :
-> +			     : "r" (_addr)
-> +			     : "memory");
-> +
-> +		_addr += MTE_GRANULE_SIZE;
-> +	} while (_addr < _end);
-
-Is there any chance that this can be used for the last bytes of the
-virtual address space? This might need to change to `_addr == _end` if
-that is possible, otherwise it'll terminate early in that case.
-
-> +}
-
-What does the code generation look like for this, relative to the
-assembly version?
-
-Thanks,
-Mark.
-
-> +
->  
->  #else /* CONFIG_ARM64_MTE */
->  
-> diff --git a/arch/arm64/lib/mte.S b/arch/arm64/lib/mte.S
-> index 9e1a12e10053..a0a650451510 100644
-> --- a/arch/arm64/lib/mte.S
-> +++ b/arch/arm64/lib/mte.S
-> @@ -150,18 +150,3 @@ SYM_FUNC_START(mte_restore_page_tags)
->  	ret
->  SYM_FUNC_END(mte_restore_page_tags)
->  
-> -/*
-> - * Assign allocation tags for a region of memory based on the pointer tag
-> - *   x0 - source pointer
-> - *   x1 - size
-> - *
-> - * Note: The address must be non-NULL and MTE_GRANULE_SIZE aligned and
-> - * size must be non-zero and MTE_GRANULE_SIZE aligned.
-> - */
-> -SYM_FUNC_START(mte_assign_mem_tag_range)
-> -1:	stg	x0, [x0]
-> -	add	x0, x0, #MTE_GRANULE_SIZE
-> -	subs	x1, x1, #MTE_GRANULE_SIZE
-> -	b.gt	1b
-> -	ret
-> -SYM_FUNC_END(mte_assign_mem_tag_range)
-> -- 
-> 2.30.0
-> 
+No, it zeroes out the tag. Not sure why. I took a brief look at the
+implementation and didn't get how it's supposed to work - too much bit
+trickery.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210115154520.GD44111%40C02TD0UTHF1T.local.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAAeHK%2ByZdP7d5nrZDKnk_Drezs7pr07_XH10wtjKe87BjEpiQA%40mail.gmail.com.
