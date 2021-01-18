@@ -1,105 +1,106 @@
-Return-Path: <kasan-dev+bncBCOYZDMZ6UMRB455S2AAMGQEDQ4X7CY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCOYZDMZ6UMRBXWVS2AAMGQEV33G2VY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qt1-x839.google.com (mail-qt1-x839.google.com [IPv6:2607:f8b0:4864:20::839])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44EA32FA36C
-	for <lists+kasan-dev@lfdr.de>; Mon, 18 Jan 2021 15:45:08 +0100 (CET)
-Received: by mail-qt1-x839.google.com with SMTP id i1sf15448966qtw.4
-        for <lists+kasan-dev@lfdr.de>; Mon, 18 Jan 2021 06:45:08 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1610981107; cv=pass;
+Received: from mail-io1-xd38.google.com (mail-io1-xd38.google.com [IPv6:2607:f8b0:4864:20::d38])
+	by mail.lfdr.de (Postfix) with ESMTPS id 213C22FA4DB
+	for <lists+kasan-dev@lfdr.de>; Mon, 18 Jan 2021 16:36:00 +0100 (CET)
+Received: by mail-io1-xd38.google.com with SMTP id p77sf20215817iod.17
+        for <lists+kasan-dev@lfdr.de>; Mon, 18 Jan 2021 07:36:00 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1610984159; cv=pass;
         d=google.com; s=arc-20160816;
-        b=H/CNBFjrpURwWFfoGmeC2RGgLwyC6O7feoDJhdDNCpo7OBpCQS4pmfr338HRJWt/wS
-         FftaxrtxjWlCsWnT72bgZSl/HCFIfrSYTOKSiGMzDcYHRIR1LJEQh5r/QJfTz9yLOzfM
-         hv6WYU8v/fDpoFfv8MlhRXhZx3jvhMubt3vx00iXY8rZcJWai2T5YeZ/v/VWeyWEI1iq
-         2qpxuAq0XT1uKYWYV+qsmlewGkIDD1q/4PK9ttWJcI1wxxZbof6Dv/nt1vdrezI5PdFr
-         Blc8QxYguIspAu9bA0NAL+q0Qm0z5FHaei2jQMKvycGcNX06M0hZ++QxTHPxNPMiO+DE
-         TTLg==
+        b=oA3/mioB1BBnKn7PZY0YyAgHl0Q+roFrhpylRVPOsGFtV3+gex3cjYBoDeRsxJNihC
+         MWPm2L5Jqy9cmPnHZPvV42jfCUy03qqUL1YMEcpX2xS97lppJhyv2JlahlvUbO2zeZII
+         70WMAH7E6HT4pbwo5PtuDD+cV1mKBCzVtfwowmsUrrJZ3H51Zgc0B0rZJ/BDzwa3VVVz
+         UrBNeezNDjnGctGiJAycX6O+7lvIeEmuUWied8MwwneEyS5X2opZgymXlS04e7SBhWUn
+         Gs+7xjLLmMy04GtlCDvKf+i1IMrLOHlOUH4txkrrkFf6MOuFdhGjbu99Dc12ExxkyQs4
+         6+nQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:content-language:in-reply-to
-         :mime-version:user-agent:date:message-id:from:references:cc:to
+         :mime-version:user-agent:date:message-id:references:cc:to:from
          :subject:sender:dkim-signature;
-        bh=scpxG8I30laEGZvLAcwtGd1dIqLxP0XPv8oeQNL8yiY=;
-        b=F6/aKSqISZSK1NdJaATNgE76TJbRVVnuNexq1U6l8LRex9B+k0VZP/akIVW3Yd/UrG
-         uZBamukxizEa2+VS0Z0x4BFpjlfMDwtqLpB0Y4m3qtkRUsbYQOmuYNnKqCARCq0gLlUJ
-         5Wh1kkW6/J5+f1qNCG9z+00WlDro++4EJl154S3pAT4NihdHKUoKRn8mEjUsVESOMCK3
-         VROBs7+svjp3M2RE6V3LAR3l7nxZMmOrHeq3Swz+8zYo3f7L/mUzOa3Xedoyd2PNxuiH
-         TM21+MYTRZFZfFaxVTqWU9uRjTXY2F1Y9BLXN/s2u68vcxrEyFmEpnVcI+UPPHu8+LId
-         dZ1g==
+        bh=Ow3pHBEJZMX0p9036M4Wfh5qGnJG3yjxnYEkUJ96srE=;
+        b=AvhLOKRNN2UBEyZ9kP9Ur0O5pIwDlcQU/jamXs282VNz289KQ5FWXUGhctGoA6MHHH
+         1tTVx/0C+KlUEuAABWNCrTxpCZwrIyG/37I6SKKemmcsJ2JrSzTW5WOUqJhb6AvNp4G6
+         cfJDbCuYJ2HFtiLyLgSjJ6cjYYKIllfMalA0F4K1v7KuXfpNP99YF/irb8IhhjLkTscX
+         8SEVJGwg56HkXgv+hJbPXe7o5OeEacqv1N80xVJO9xV0dLRtNur0XFFOCwNMMh5wLtIG
+         G34gPC8hKqbaXjLfBRVLgdxGvuSLQ9M4Gon67LO668LxtkR9gNjNlVxd7o5OpZIDvn3I
+         BxGw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
        spf=pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=vincenzo.frascino@arm.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
+        h=sender:subject:from:to:cc:references:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=scpxG8I30laEGZvLAcwtGd1dIqLxP0XPv8oeQNL8yiY=;
-        b=cx8qeZo+sVPkaPrc4PbpDHoehojkaTkeTA7TexghV0ITGx2Q3lZeIVciSpnRZfdTf0
-         k4fjwuFz5SYbDTvXJ7IJJ0f/v9Z9CiZVE9S4/r63wSJMKbfcbvdla4tAg3yJ3R4racGa
-         s5u0aQo4CqoZPqpwSCN7vmnUTyC/9u2f21mxlbsCnboHS4/8sfSH2L3sVfHUoeXZlZJx
-         PRmQwQgZUCfX2MGSOhh+EHyi/3HNVze46qziPsCidAlgBEJU60ytpiZhkSGO0fcnIlgO
-         Dx4p3TJT0HiLw+SM9VG+x/LodyxUX5iaqIWd5sj5w1TDmEk7BcSnVmy9f1l2WU+i4h3Z
-         d6lw==
+        bh=Ow3pHBEJZMX0p9036M4Wfh5qGnJG3yjxnYEkUJ96srE=;
+        b=BOCntXrPcG8ifv9mHsBwgp79Qx5Xt66QpvcOtHsi2cZomIW/+dEN8TcXLLzcubSM9+
+         7NmnkDqIb7KWI7+Gkji0hC6d1szdqcSIi0LTUh1ro9Z4LViSy8xV2LM+fhmv2Do8vYt+
+         Al290ipXYjTiz+u+YeRWO/Uyif/RG/HDdHeK2N+z2YwpI/WTIDbN/zvMEGi7zpoDcpSE
+         5HwejnJAG8D0Bt8pe+tPu1TejFDwEOVb97xjBV6SeFoiAkacYDZFwojGuwdehvzVGtsW
+         4K6HctO3yQpwvp2jTsBpjXvy7g9byPerbx78fcUGvwMyTAUDKjoTCXT8U2JlUm98Ctox
+         H2Kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:subject:to:cc:references:from:message-id
+        h=sender:x-gm-message-state:subject:from:to:cc:references:message-id
          :date:user-agent:mime-version:in-reply-to:content-language
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=scpxG8I30laEGZvLAcwtGd1dIqLxP0XPv8oeQNL8yiY=;
-        b=MmamxzYVqt7ZhYIW1X/ks4bbdkOp7dw1NHzfILe6JdfGYxD3+2rXtPNjd9xV5AL5jy
-         YaB81oKPwnz3ErA9kJmoEzoDyUrfCjyNV+N9Qhu2cUuCJiWNC0/93Db2EMyL0YOANk/t
-         3aB6SAl47AC6+ynoujcHBjB+WgBIxKacNq4hh7gxgYF0e9I6oA8PjKxIQMtDogmT482X
-         qGAQ5aoFpksXmOWRJHKtknfUBbtDi0k7PNSo7ujx6GphGg5i/HarJKKuNRO0pHePAy+I
-         FUFTcY2EyeEeGLYJHy49opqLk6hzPXF7eEv+psayfJt3iZhzKn4nGhqJLBPiZQT0JhVA
-         RF/A==
+        bh=Ow3pHBEJZMX0p9036M4Wfh5qGnJG3yjxnYEkUJ96srE=;
+        b=lroD82CKu1dienEW5qJ5i6GTIPOy5HuPFi6eJLWemrhgXTU1p19hI3SWmiVxQtqatU
+         Tgn1qONKr8/fBiFx2st8HphnWi7Nm1BzNUwQusKgjyORjjAzwHyHAeoi0ZqxePDAsWau
+         V7TlvsrGFsa3r7ROty7tXCxNxV0gNoyrOH+oQAckhh/59OrDvdGLkTBWI0RXoNI3Auh6
+         OKIcwZrlKRqwr4urpOamgJKTP0IBpmpy4DyjxFyQa12+uTDb2Yz6nYeuPHcETJSgZC4m
+         fepAmrQ3Pqnqzba8SMmG4kyN7m8PKkh8G/kXjCb4AGY3yWmQkPXfI8tr7SiZjj+MIlpy
+         xH0A==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM532G87JzNLp7BA/hgu45uKwFYjHI40iGc4yR2pp75C0rGFOxCG4O
-	X0cS1Qe0xHUuG1EI5cKhGow=
-X-Google-Smtp-Source: ABdhPJxiNKWmvnuUCeySzgw1St72bs+D482/LX+vph2BrXc7RV3gPN10HhnJuTcVUze1/AW6LMl7Xw==
-X-Received: by 2002:ad4:5a50:: with SMTP id ej16mr23396qvb.25.1610981107225;
-        Mon, 18 Jan 2021 06:45:07 -0800 (PST)
+X-Gm-Message-State: AOAM531WmazwhBM3mVrcTlJ8HQrMIYMqlPSBOGOGhavHiVt04NtsyaOL
+	exs1Cvg7i7Z8AzdIU/jQu8A=
+X-Google-Smtp-Source: ABdhPJwrP206EbtCgliT+tBy8K/Ayscki8lVkMgocR0WkWdX6OdXwSstloRheeWikgAzyWQskmKUKA==
+X-Received: by 2002:a02:2544:: with SMTP id g65mr86583jag.91.1610984159041;
+        Mon, 18 Jan 2021 07:35:59 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6214:a65:: with SMTP id ef5ls3782025qvb.9.gmail; Mon, 18
- Jan 2021 06:45:06 -0800 (PST)
-X-Received: by 2002:ad4:4e8a:: with SMTP id dy10mr83022qvb.14.1610981106672;
-        Mon, 18 Jan 2021 06:45:06 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1610981106; cv=none;
+Received: by 2002:a05:6e02:10d:: with SMTP id t13ls3082428ilm.5.gmail; Mon, 18
+ Jan 2021 07:35:58 -0800 (PST)
+X-Received: by 2002:a92:9a42:: with SMTP id t63mr21765501ili.176.1610984158724;
+        Mon, 18 Jan 2021 07:35:58 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1610984158; cv=none;
         d=google.com; s=arc-20160816;
-        b=HOImZ1+91YmGXVf3h8TSk+sirf8ruIpIXaYQXoLgD+SvyL5ySWswIDRPFin11A2gJj
-         JZ5oAsBZVnYxR47qN4If2iZwfTc+qbjz6J031eM6NCiQ2hUQlyGTtw2gEqcWu071DYSR
-         hC/B6NnMu5FNK0GZanZrkQTh7BL2kfPso+bOOzt+qiIsVll82xAm1x0JTW/6W3d1Feon
-         TSEF6WKgI0Zwdj79gK6dlnvPkpFv02eAp7fIcFVFfkcivpRSO59F/DnXssPK6ccQArQY
-         4c7lfLrfI7JqBw/HuVjhyypwbV/UNFydJ6tOIXuCVEsCEnrts4EB0Hkm+BigBFAMkAfY
-         FSpA==
+        b=k52I9IILlrN+lRaoj6RlCXUCbO27jKojk9S3QrTyhhXKxybHgcNoA0YEmzewNF1bpU
+         kA5a0vVHSL84o0kneaN4yteV4t/IQAXq2bWJJS3q8pUl/DNb4chKFCR+u4epmXbOPFiG
+         NxpRw41cp+B4aTqPsnrBB+xZeGY4xAz7zJmklvLSruL8L1U1qjgdsSxj+1+Tl9PtuE+Q
+         wgS0JW130MXNHySZ2EoNcgKLheC6YVf6ZOl/HCO1LSY+FSkdyfDKnPfouGXZ56ZtH5Sp
+         TApKWQ2lB+zD5VscgQd02XbF32N7hAMq7C5tGOBy3afjrxV6xH+lccJ6/SbpEwYTKRxP
+         u1cw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject;
-        bh=IkRXho4WnGnQLlPMenBIIC6qIVJjYjmJOuqEflSahBI=;
-        b=uJ1mMaSVKJHdHGnZuj3afLdEy0IV5MuFHBtHA+zDkNahad5WpNwFwn4C8p8Bbv31qP
-         rMnXNSvD0zQB8mbR7i3K7030Cxl3sACFTSGQZX3WyY/zX31+k/gU7JHVuirhOchmJrPG
-         muqfTduh7tlHyEHsB44tYVzD8+QijaqCom+lu+ANJ/vtHNE7vmDm97vtrBYyDGfIbBQa
-         QCCU7SOmoiaGcxxGMUV32FVGJTJX0esRveJlm87+VhHKpSQfiXDWNTqfAjVTRMvMQtn/
-         E2j9vvANkEMYMOB2xNsLCuHcgj66oAKecP114hIl8k7EfVHgtiUir6DnZmKq7IpnIw35
-         Rnxw==
+         :user-agent:date:message-id:references:cc:to:from:subject;
+        bh=TME6hLmEuKhk6Vl9+AN3I+gVK+38pLhWhnrsla2rM2k=;
+        b=zqnDLZ47UPMeWbUfamUPYLeDN3svE1bsfHF0/xy+jtnzVhQt829Ha1PPDUfY1tBDq+
+         6JUCBnbPETkXFt6vjDsGVoE4IYxhttBaK4kiwsrJI284bNHsHdBHIdkmmZNSO0cG1dZx
+         fQMGZFAV/UJPuaJ4YBE6PlBDxOVYDZnULeEsxB6cWkYU5J1KdZVD2wcki4rZti5PYzpF
+         /z44lVaIJl2raOmqabW8AzZWuNhGtxgyVoVlU1B5vQulFfvQOBnoB6ZspMJIOjqEvHpW
+         NgocmW22z5h69ysJqqUURFPoSOgM31gepI+F5WD2JNYelr7Hrze6F2+GQkLczqGm9aUb
+         5ayw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
        spf=pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=vincenzo.frascino@arm.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
-        by gmr-mx.google.com with ESMTP id j33si1715306qtd.5.2021.01.18.06.45.06
+        by gmr-mx.google.com with ESMTP id b8si2096284ile.1.2021.01.18.07.35.58
         for <kasan-dev@googlegroups.com>;
-        Mon, 18 Jan 2021 06:45:06 -0800 (PST)
+        Mon, 18 Jan 2021 07:35:58 -0800 (PST)
 Received-SPF: pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 18BB81FB;
-	Mon, 18 Jan 2021 06:45:06 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1ACD21FB;
+	Mon, 18 Jan 2021 07:35:58 -0800 (PST)
 Received: from [10.37.8.29] (unknown [10.37.8.29])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 03ECB3F68F;
-	Mon, 18 Jan 2021 06:45:03 -0800 (PST)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 66E603F68F;
+	Mon, 18 Jan 2021 07:35:55 -0800 (PST)
 Subject: Re: [PATCH v3 3/4] arm64: mte: Enable async tag check fault
+From: Vincenzo Frascino <vincenzo.frascino@arm.com>
 To: Mark Rutland <mark.rutland@arm.com>
 Cc: Catalin Marinas <catalin.marinas@arm.com>,
  Branislav Rankov <Branislav.Rankov@arm.com>, Marco Elver <elver@google.com>,
@@ -113,13 +114,13 @@ References: <20210115120043.50023-1-vincenzo.frascino@arm.com>
  <20210115120043.50023-4-vincenzo.frascino@arm.com>
  <20210118125715.GA4483@gaia> <c076b1cc-8ce5-91a0-9957-7dcd78026b18@arm.com>
  <20210118141429.GC31263@C02TD0UTHF1T.local>
-From: Vincenzo Frascino <vincenzo.frascino@arm.com>
-Message-ID: <1c0577c1-bf73-2c00-b137-9f7251afd20e@arm.com>
-Date: Mon, 18 Jan 2021 14:48:52 +0000
+ <1c0577c1-bf73-2c00-b137-9f7251afd20e@arm.com>
+Message-ID: <ff8c61b3-1374-29c7-a4f3-9e37b61e5f3a@arm.com>
+Date: Mon, 18 Jan 2021 15:39:43 +0000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210118141429.GC31263@C02TD0UTHF1T.local>
+In-Reply-To: <1c0577c1-bf73-2c00-b137-9f7251afd20e@arm.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Language: en-US
 X-Original-Sender: vincenzo.frascino@arm.com
@@ -139,44 +140,22 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hi Mark,
 
-On 1/18/21 2:14 PM, Mark Rutland wrote:
-> On Mon, Jan 18, 2021 at 01:37:35PM +0000, Vincenzo Frascino wrote:
->> On 1/18/21 12:57 PM, Catalin Marinas wrote:
-> 
->>>> +	if (tfsr_el1 & SYS_TFSR_EL1_TF1) {
->>>> +		write_sysreg_s(0, SYS_TFSR_EL1);
->>>> +		isb();
->>> While in general we use ISB after a sysreg update, I haven't convinced
->>> myself it's needed here. There's no side-effect to updating this reg and
->>> a subsequent TFSR access should see the new value.
+
+On 1/18/21 2:48 PM, Vincenzo Frascino wrote:
+>> Are you aware of cases where the TFSR_EL1 value is read other than by an
+>> MRS? e.g. are there any cases where checks are elided if TF1 is set? If
+>> so, we may need the ISB to order the direct write against subsequent
+>> indirect reads.
 >>
->> Why there is no side-effect?
-> 
-> Catalin's saying that the value of TFSR_EL1 doesn't affect anything
-> other than a read of TFSR_EL1, i.e. there are no indirect reads of
-> TFSR_EL1 where the value has an effect, so there are no side-effects.
-> 
-> Looking at the ARM ARM, no synchronization is requires from a direct
-> write to an indirect write (per ARM DDI 0487F.c table D13-1), so I agree
-> that we don't need the ISB here so long as there are no indirect reads.
-> 
-> Are you aware of cases where the TFSR_EL1 value is read other than by an
-> MRS? e.g. are there any cases where checks are elided if TF1 is set? If
-> so, we may need the ISB to order the direct write against subsequent
-> indirect reads.
+> Thank you for the explanation. I am not aware of any case in which TFSR_EL1 is
+> read other then by an MRS. Based on the ARM DDI 0487F.c (J1-7626) TF0/TF1 are
+> always set to '1' without being accessed before. I will check with the
+> architects for further clarification and if this is correct I will remove the
+> isb() in the next version.
 > 
 
-Thank you for the explanation. I am not aware of any case in which TFSR_EL1 is
-read other then by an MRS. Based on the ARM DDI 0487F.c (J1-7626) TF0/TF1 are
-always set to '1' without being accessed before. I will check with the
-architects for further clarification and if this is correct I will remove the
-isb() in the next version.
-
-> Thanks,
-> Mark.
-> 
+I spoke to the architects and I confirm that the isb() can be removed.
 
 -- 
 Regards,
@@ -185,4 +164,4 @@ Vincenzo
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/1c0577c1-bf73-2c00-b137-9f7251afd20e%40arm.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/ff8c61b3-1374-29c7-a4f3-9e37b61e5f3a%40arm.com.
