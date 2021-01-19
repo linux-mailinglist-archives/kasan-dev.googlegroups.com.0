@@ -1,129 +1,129 @@
-Return-Path: <kasan-dev+bncBDX4HWEMTEBRBYHITSAAMGQEXTL5ZUY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCSPV64IYUKBBEPPTSAAMGQEPOX6C7Y@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x43a.google.com (mail-pf1-x43a.google.com [IPv6:2607:f8b0:4864:20::43a])
-	by mail.lfdr.de (Postfix) with ESMTPS id F14092FC013
-	for <lists+kasan-dev@lfdr.de>; Tue, 19 Jan 2021 20:34:57 +0100 (CET)
-Received: by mail-pf1-x43a.google.com with SMTP id b81sf4432010pfb.21
-        for <lists+kasan-dev@lfdr.de>; Tue, 19 Jan 2021 11:34:57 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1611084896; cv=pass;
+Received: from mail-wr1-f58.google.com (mail-wr1-f58.google.com [209.85.221.58])
+	by mail.lfdr.de (Postfix) with ESMTPS id 883ED2FC044
+	for <lists+kasan-dev@lfdr.de>; Tue, 19 Jan 2021 20:48:33 +0100 (CET)
+Received: by mail-wr1-f58.google.com with SMTP id u14sf10351906wrr.15
+        for <lists+kasan-dev@lfdr.de>; Tue, 19 Jan 2021 11:48:33 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1611085713; cv=pass;
         d=google.com; s=arc-20160816;
-        b=pKXUd04pSSTGUj1j6mVvxmeTmIe4GD7sNRhoqolw+ArQIqeGmyU6daOtzelr/lCHcb
-         fj3aWPeDz5qIAIJjbw5KC76VrcLpJGW1ZmgqZ1oiSNZyTzZrqnO0c7yQzZ2FbypMEXBB
-         Zt0dmCrR+5umvscxjNwgnJxKYLM1kYc74r8Pkew9VosTHytCRfEnQWCR4U5qj+lpPzev
-         U5dQAfnyldZtvMQWJcZyrirN0uK99LXH2pGqA71MXXWuZ+lS8+BHLkX0pAZYVnx+Q0hV
-         cD7KhhV2LY77hh5Y1icBXfeUtn6kNcpn8apNqENoPVipQKnNHt3Vj2AaVN0B7uqJrlYd
-         kNzw==
+        b=NjxHaNVUPXInJcOFhFnXaJqJi/EwINrRX98BDGHmwya/lWn/8VIwQGwGbPW/3hFmbF
+         FZMeEGz8Wj42tTE9f5q/5DTwYU1+Iqz63AsHrCqCCjedzloF6jk6CJPnO7/07cN1j3SA
+         h3nNvAWJUEVarjiFnvfN/dsOQCnqLHROuS3nESSJoAWyQHDES2A3ltUnPkmK/QOSXv4A
+         xbVHx1+8wbm3FVDzkwTbfjKeEMz2YH1CZ2tf3QaHG6twmg0XXBmb/to5MBskickISoDY
+         1bVTBQvEfH/ByJJT5SoFN0V/apKuhc4JUnoHIA34j8UyU4PivK08cird+7zBLVAv24HA
+         GDgw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=Dak747tIjYEj8yE47ly2kYy6E+EfLbaNCsgbHz9IFCI=;
-        b=1CMj3H5T0HD8/OWuFG8btFZyJ1tqV/fUs68hVUoq8xSVEBtmCyniQfMWn4WbibOlQv
-         FJS4Z11ICO1r3LCKP9paJ7wqUKEJcey/AKZb6XbGrm8hgaCJD2OhK0PJNRoQC5bEAvOj
-         /vjMfiHdh0of0ouaMzpm/w7GXpdVDMSKQplYaaxjaXXRCTUNfut6EIfFA2nkSay/Sxra
-         ssSrw+JkDo8HFSgLnKbzkMEFmo7CcB+iiNqA7WfY4rBZd9l+jvI174C2KPHUXWWoOlqJ
-         rBIebBAUidvc0zikwEcjdQCTS7yv/3ZA1jxOX1VSLa2wdXuUp6AEBOX5i7+8S5rY4vVB
-         Un7g==
+         :list-id:mailing-list:precedence:sender:user-agent:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date;
+        bh=buxS+eJ4vhi2toMfpSgGEowzy5oaS5INA5lZQ/41mvg=;
+        b=f6vFizjrq72dtJqLc1tE69GHdDmrO9x8/wounG3IpAmGRd0SJ3UIuLwRh/BAsMkNJ3
+         sFc0WmUeu2p57eh89N7aVCQlwkTgiJGPll1DQQcFTIrdAvJIVlY7nzfV4aHgyAvYN4TB
+         XllRJaOfHuDUE8spfHlRzkzvQVSyo4vfr63X+0//XDTayDsGvVtIfjlYwTQjIzMoSwLF
+         sHj2kBmGrz7YlcuoHxm4TkMHxo+I6ztgjFC1nguhaXFpRre64aoBFh55/wYBQfNOvZxY
+         RuBfICWfZfdM991D6nzQF8PhwvgZDciFM5BsARJLhQfuUpAll7yUfVd8iSbKwJ7Ah9iN
+         Aa7w==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=btK4sahz;
-       spf=pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::431 as permitted sender) smtp.mailfrom=andreyknvl@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=Dak747tIjYEj8yE47ly2kYy6E+EfLbaNCsgbHz9IFCI=;
-        b=OdcQJqM8H5cHME0wUdY+dX8o9dCmy4QnvHVDmvaSGrwZWldcz9H7AJfIRJ7LU69KLk
-         M9X8+sjCrbYZZ7NGeeE31jMEJi7FMKYQbVH+9/t3D/dDyOz3loRP+v+VBDa+I5QXKL6x
-         0YoA6xfkvUrvadYjaiHZ9z/RlDs2lJdc31T48YrG6ro9gU3c6sOD49ipiNR8CHEOTgCn
-         dqtQ6JCuinMziVxi276uJd/BsHeTPMyxC14swRLh3dxVGVNUgiuQln/IDNWx+3EguBDY
-         B8zFYOoJ3g7isRdzk6w7rzknUPrFe0P4URiy/S334uu/t+W9zYzWAE8JuEC4GTP4wnkz
-         VzFg==
+       dkim=pass (test mode) header.i=@armlinux.org.uk header.s=pandora-2019 header.b=QxraNCTC;
+       spf=pass (google.com: best guess record for domain of linux+kasan-dev=googlegroups.com@armlinux.org.uk designates 2001:4d48:ad52:32c8:5054:ff:fe00:142 as permitted sender) smtp.mailfrom="linux+kasan-dev=googlegroups.com@armlinux.org.uk";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=armlinux.org.uk
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=Dak747tIjYEj8yE47ly2kYy6E+EfLbaNCsgbHz9IFCI=;
-        b=bn8oLGOl4zMpVI+ISgYtYSIGkQ8tGs3urvnEohmBn6q8T0sQegxE4qqjH4u6Q1AU5K
-         tcIVrtCPc2iLaoX9uowM2J+e69kSCeoc+3gZcQmzELVCDuDpDx9Dgkb8Q05rTeGAMM85
-         V939H3HXiA496xAJSZfldYmsFoteoHMfq0Bp1z5ETdwnVU2x7tdB8w0iPThzGJhkaajU
-         ONx6xfWQhO2jlfJP3idj5gMx98JuhxLVdTlzfONmxt6WEY5c2BLqrmx5CDIIuG4Hvtg+
-         ozOkNeyovKR+YI2+EB9lLgqwj1Xqh+QYc6WuDgUn98dILtNepRNKOLUEekJWWJubV1PY
-         VsbA==
-X-Gm-Message-State: AOAM530i6TCGtgIYzPtW8S6oBQTGXDOj/Y5pRC45wB+vdu4PPFx8OF8R
-	a+LNCAJq1QZUI6m2qYqFoN4=
-X-Google-Smtp-Source: ABdhPJzYPnjK+1PtV1MFcgf5eucqPhc+9jvKTN/X7AC0whJK8slluY0FeLskKk18tgACOW23G6QITQ==
-X-Received: by 2002:a63:2c9:: with SMTP id 192mr5819399pgc.325.1611084896737;
-        Tue, 19 Jan 2021 11:34:56 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent:sender
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=buxS+eJ4vhi2toMfpSgGEowzy5oaS5INA5lZQ/41mvg=;
+        b=GxSLqNKdHf2BvkijfH8Pgs1xcpe8c1J2QOM9jcN082eBCQdAAc40dkCvil4WBVQTUH
+         Q5a0IY9tmOy01eBf7iYxu6WrCdSdJY5MSDdKHyK/XktTZI2ld5DmdtJbbo4sCrUHusfD
+         /D6npcTO9voYaM0ZAfR+3ofOeLIyYOgm90zJTr2fpoAjFosy0exwJaQDVQehUgqrJ4F2
+         0EpehhbTWDwDLzrKaFiohsUXOJ2NyI0UoHzsP1Oas57YAznb9Nphqt+n502soAykqfAh
+         q1C4VoUOxkRvuIEzA+uu30ql03HYxHFVBvOMRSTooDtqUeZTGCISklt6HQJTuOe45dvg
+         Ngmw==
+X-Gm-Message-State: AOAM531+O/wB6do1AsGUPgvCYcVJ+C7pr3500aDae96canoxjr3Ey9Mj
+	CwaxzKHT1V1fAkkwdXPfGGg=
+X-Google-Smtp-Source: ABdhPJxsS3cBzW3WM6SG92tW6fKP650QenLtsaqb75RmjHwveNyiF7uFgvLkG/uNh9QLo1TyUX6qYA==
+X-Received: by 2002:a5d:6a05:: with SMTP id m5mr5789760wru.96.1611085713281;
+        Tue, 19 Jan 2021 11:48:33 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:90b:511:: with SMTP id r17ls403270pjz.1.canary-gmail;
- Tue, 19 Jan 2021 11:34:46 -0800 (PST)
-X-Received: by 2002:a17:90a:4582:: with SMTP id v2mr1399152pjg.15.1611084886708;
-        Tue, 19 Jan 2021 11:34:46 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1611084886; cv=none;
+Received: by 2002:a1c:60c2:: with SMTP id u185ls473595wmb.2.gmail; Tue, 19 Jan
+ 2021 11:48:32 -0800 (PST)
+X-Received: by 2002:a1c:20cb:: with SMTP id g194mr1087327wmg.51.1611085712475;
+        Tue, 19 Jan 2021 11:48:32 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1611085712; cv=none;
         d=google.com; s=arc-20160816;
-        b=jfoIrk6TYjM16bNSUzVCc9xKWoBu95H4/OpVNL1iDfrPSOZi+z1MBJqxkueJQ/NlZq
-         9dDSb9zotARgu3dYGmchDoIfrarOW8dzfQUFd/lu8i1pL15ZB+2scj0qT22flJcl7eWD
-         XPHFp+4VRM/rWdYxah7LxaYnd6dLHO9SzhG4uspS/MXXv+ygACHYZ68PwIYnO6QaLY23
-         6DIyA9zJ/coKyvU0QOSP5kjaZ+eCbhG1Evtznl6pdRyortGK63F7GxF4jtdYq/cj57a+
-         6zN3HqPfzRj0OC0JwRy9MTgA5MKJ8RrKBQ1/Qnmx9h5QeyO5q1i0o3pjUwH3MSxbfyYA
-         fjeA==
+        b=KBjmv+NiBf2aeCcyNydJaB5B8efI4k3BG29PpBbefbEvNMMAiZUYvGyzfHryU82ci/
+         Z9+qP21Ou3cgs4uDp51hVptjo/RCF/tOPnYEXXnwK8BnVsGbLZLfqRE2Kq3X9d/H5kT+
+         80dSEw5L32KfLJ/ZHSseLZC+qf226eAayG1VylXLv4uhNaiQ39r5E2r8ZW6bBEeT8TPc
+         U1cBQdtY1AqS6/urYrRQs/qOYUhU1EyEnfrmykvsle1RfUBgJfsTPW/E9XVJZgClvwp/
+         bNAzOap16RVmadTBaYBStJtQPC4+MojOF29WQ4OZvmt7pz9OQ+rHdaon0mvB6lvtqDGr
+         Dlog==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=UzjGhv/xtQmLzd1fmO3nz3CB6VSkFAgOhOGhk3ruAHo=;
-        b=UXrdSDONBSp8WNtQI+mySDCTh81fsfrxgodDwcGHzC3uI3kdvl6urux2O/3omJchQc
-         2O4WeqnaZplvlr6HLscvrCUAGoP0OU+ZB3z+0g1KsTdGYppW5vwQ4iCl68oNdH8p7Tuz
-         MYNsMWYIBkjmIdu8kur9qCkwPWImbjy9NBCaYzwiREdgffN6doQ9hYeGAkdBQOYDVJ6S
-         Rp4k3RLZnB+3YfCRddf39NF3EYYoBBwnCzjNpWkZF/mH2QH+MF204rZy+dyaOQyNeaRz
-         rxjPyL/bB28N3Znf3Mgh7Zs6F5o+yWXR74OPEqqF41/fQqauO1VYR2YtAl+tPZvr0OBm
-         JvSg==
+        h=sender:user-agent:in-reply-to:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:dkim-signature;
+        bh=UJ+Gl/MaDzjeCMELmpBWNOHj8O0WSEwffGTVaKOBVEQ=;
+        b=bz0ReXIAxhk32efhtDRiQYYJcCKwFrd3Y5h55H6FfyiJOio5IAOezDFpBmc2Zx7YOf
+         Hp1bbr9T/E/Wzl85B+DC7XrLoNhzaxL5vN7G2RF8u8yeOPii9tzGiI9QifpndAKMleD9
+         EdNlhLF7pqG4abLLe8Lw8sQOKUHSdKUJ+/ogla8VVKFt9BanFsVxSLdl4L2oEo4YtKK/
+         dPUfQGH/6Az4QuVAnZDCvPntVs41MDJRV+zKsHwZCZo0NdMvStVTbjle3V9eDKbgcyMP
+         hu+gnVeiLR6tCDUPWt7uypY5gS0bTcC3x2j9NZKnorrmNBULmbj2Dm+rr1EkfbwKpfN8
+         fLSQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=btK4sahz;
-       spf=pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::431 as permitted sender) smtp.mailfrom=andreyknvl@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com. [2607:f8b0:4864:20::431])
-        by gmr-mx.google.com with ESMTPS id nl3si381387pjb.0.2021.01.19.11.34.46
+       dkim=pass (test mode) header.i=@armlinux.org.uk header.s=pandora-2019 header.b=QxraNCTC;
+       spf=pass (google.com: best guess record for domain of linux+kasan-dev=googlegroups.com@armlinux.org.uk designates 2001:4d48:ad52:32c8:5054:ff:fe00:142 as permitted sender) smtp.mailfrom="linux+kasan-dev=googlegroups.com@armlinux.org.uk";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=armlinux.org.uk
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk. [2001:4d48:ad52:32c8:5054:ff:fe00:142])
+        by gmr-mx.google.com with ESMTPS id i4si289212wml.0.2021.01.19.11.48.32
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 19 Jan 2021 11:34:46 -0800 (PST)
-Received-SPF: pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::431 as permitted sender) client-ip=2607:f8b0:4864:20::431;
-Received: by mail-pf1-x431.google.com with SMTP id j12so5750486pfj.12
-        for <kasan-dev@googlegroups.com>; Tue, 19 Jan 2021 11:34:46 -0800 (PST)
-X-Received: by 2002:a65:430b:: with SMTP id j11mr5646612pgq.130.1611084886235;
- Tue, 19 Jan 2021 11:34:46 -0800 (PST)
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 Jan 2021 11:48:32 -0800 (PST)
+Received-SPF: pass (google.com: best guess record for domain of linux+kasan-dev=googlegroups.com@armlinux.org.uk designates 2001:4d48:ad52:32c8:5054:ff:fe00:142 as permitted sender) client-ip=2001:4d48:ad52:32c8:5054:ff:fe00:142;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:50094)
+	by pandora.armlinux.org.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1l1wzM-0007oe-QA; Tue, 19 Jan 2021 19:48:28 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1l1wzL-0005I6-8L; Tue, 19 Jan 2021 19:48:27 +0000
+Date: Tue, 19 Jan 2021 19:48:27 +0000
+From: Russell King - ARM Linux admin <linux@armlinux.org.uk>
+To: Dmitry Vyukov <dvyukov@google.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, Linus Walleij <linus.walleij@linaro.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	syzkaller <syzkaller@googlegroups.com>,
+	kasan-dev <kasan-dev@googlegroups.com>,
+	Hailong Liu <liu.hailong6@zte.com.cn>,
+	Linux ARM <linux-arm-kernel@lists.infradead.org>
+Subject: Re: Arm + KASAN + syzbot
+Message-ID: <20210119194827.GL1551@shell.armlinux.org.uk>
+References: <CACT4Y+ad047xhqsd-omzHbJBRShm-1yLQogSR3+UMJDEtVJ=hw@mail.gmail.com>
+ <CACRpkdYwT271D5o_jpubH5BXwTsgt8bH=v36rGP9HQn3sfDwMw@mail.gmail.com>
+ <CACT4Y+aEKZb9_Spe0ae0OGSSiMMOd0e_ORt28sKwCkN+x22oYw@mail.gmail.com>
+ <CACT4Y+Yyw6zohheKtfPsmggKURhZopF+fVuB6dshJREsVz8ehQ@mail.gmail.com>
+ <20210119111319.GH1551@shell.armlinux.org.uk>
+ <CACT4Y+b64a75ceu0vbT1Cyb+6trccwE+CD+rJkYYDi8teffdVw@mail.gmail.com>
+ <20210119114341.GI1551@shell.armlinux.org.uk>
+ <CACT4Y+a1NnA_m3A1-=sAbimTneh8V8jRwd8KG9H1D+8uGrbOzw@mail.gmail.com>
+ <20210119123659.GJ1551@shell.armlinux.org.uk>
+ <CACT4Y+YwiLTLcAVN7+Jp+D9VXkdTgYNpXiHfJejTANPSOpA3+A@mail.gmail.com>
 MIME-Version: 1.0
-References: <20210118183033.41764-1-vincenzo.frascino@arm.com>
- <20210118183033.41764-6-vincenzo.frascino@arm.com> <20210119144459.GE17369@gaia>
- <1bb4355f-4341-21a7-0a53-a4a27840adee@arm.com> <CAAeHK+y9sw0SENeDXLLBxD8XqD396rXbg1GeBRDEm7PnMzMmHQ@mail.gmail.com>
- <20210119190037.GB26948@gaia>
-In-Reply-To: <20210119190037.GB26948@gaia>
-From: "'Andrey Konovalov' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Tue, 19 Jan 2021 20:34:34 +0100
-Message-ID: <CAAeHK+w3+StvU60KNPknQyEnGH_8BfwFdJbTifPb3gGQhXLDyw@mail.gmail.com>
-Subject: Re: [PATCH v4 5/5] arm64: mte: Inline mte_assign_mem_tag_range()
-To: Catalin Marinas <catalin.marinas@arm.com>
-Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>, 
-	Linux ARM <linux-arm-kernel@lists.infradead.org>, LKML <linux-kernel@vger.kernel.org>, 
-	kasan-dev <kasan-dev@googlegroups.com>, Will Deacon <will@kernel.org>, 
-	Dmitry Vyukov <dvyukov@google.com>, Andrey Ryabinin <aryabinin@virtuozzo.com>, 
-	Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>, 
-	Evgenii Stepanov <eugenis@google.com>, Branislav Rankov <Branislav.Rankov@arm.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: andreyknvl@google.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=btK4sahz;       spf=pass
- (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::431
- as permitted sender) smtp.mailfrom=andreyknvl@google.com;       dmarc=pass
- (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Andrey Konovalov <andreyknvl@google.com>
-Reply-To: Andrey Konovalov <andreyknvl@google.com>
+Content-Disposition: inline
+In-Reply-To: <CACT4Y+YwiLTLcAVN7+Jp+D9VXkdTgYNpXiHfJejTANPSOpA3+A@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Sender: Russell King - ARM Linux admin <linux@armlinux.org.uk>
+X-Original-Sender: linux@armlinux.org.uk
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass (test
+ mode) header.i=@armlinux.org.uk header.s=pandora-2019 header.b=QxraNCTC;
+       spf=pass (google.com: best guess record for domain of
+ linux+kasan-dev=googlegroups.com@armlinux.org.uk designates
+ 2001:4d48:ad52:32c8:5054:ff:fe00:142 as permitted sender) smtp.mailfrom="linux+kasan-dev=googlegroups.com@armlinux.org.uk";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=armlinux.org.uk
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -136,108 +136,51 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Jan 19, 2021 at 8:00 PM Catalin Marinas <catalin.marinas@arm.com> wrote:
->
-> On Tue, Jan 19, 2021 at 07:12:40PM +0100, Andrey Konovalov wrote:
-> > On Tue, Jan 19, 2021 at 4:45 PM Vincenzo Frascino
-> > <vincenzo.frascino@arm.com> wrote:
-> > > On 1/19/21 2:45 PM, Catalin Marinas wrote:
-> > > > On Mon, Jan 18, 2021 at 06:30:33PM +0000, Vincenzo Frascino wrote:
-> > > >> mte_assign_mem_tag_range() is called on production KASAN HW hot
-> > > >> paths. It makes sense to inline it in an attempt to reduce the
-> > > >> overhead.
-> > > >>
-> > > >> Inline mte_assign_mem_tag_range() based on the indications provided at
-> > > >> [1].
-> > > >>
-> > > >> [1] https://lore.kernel.org/r/CAAeHK+wCO+J7D1_T89DG+jJrPLk3X9RsGFKxJGd0ZcUFjQT-9Q@mail.gmail.com/
-> > > >>
-> > > >> Cc: Catalin Marinas <catalin.marinas@arm.com>
-> > > >> Cc: Will Deacon <will@kernel.org>
-> > > >> Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
-> > > >> ---
-> > > >>  arch/arm64/include/asm/mte.h | 26 +++++++++++++++++++++++++-
-> > > >>  arch/arm64/lib/mte.S         | 15 ---------------
-> > > >>  2 files changed, 25 insertions(+), 16 deletions(-)
-> > > >>
-> > > >> diff --git a/arch/arm64/include/asm/mte.h b/arch/arm64/include/asm/mte.h
-> > > >> index 237bb2f7309d..1a6fd53f82c3 100644
-> > > >> --- a/arch/arm64/include/asm/mte.h
-> > > >> +++ b/arch/arm64/include/asm/mte.h
-> > > >> @@ -49,7 +49,31 @@ long get_mte_ctrl(struct task_struct *task);
-> > > >>  int mte_ptrace_copy_tags(struct task_struct *child, long request,
-> > > >>                       unsigned long addr, unsigned long data);
-> > > >>
-> > > >> -void mte_assign_mem_tag_range(void *addr, size_t size);
-> > > >> +static inline void mte_assign_mem_tag_range(void *addr, size_t size)
-> > > >> +{
-> > > >> +    u64 _addr = (u64)addr;
-> > > >> +    u64 _end = _addr + size;
-> > > >> +
-> > > >> +    /*
-> > > >> +     * This function must be invoked from an MTE enabled context.
-> > > >> +     *
-> > > >> +     * Note: The address must be non-NULL and MTE_GRANULE_SIZE aligned and
-> > > >> +     * size must be non-zero and MTE_GRANULE_SIZE aligned.
-> > > >> +     */
-> > > >> +    do {
-> > > >> +            /*
-> > > >> +             * 'asm volatile' is required to prevent the compiler to move
-> > > >> +             * the statement outside of the loop.
-> > > >> +             */
-> > > >> +            asm volatile(__MTE_PREAMBLE "stg %0, [%0]"
-> > > >> +                         :
-> > > >> +                         : "r" (_addr)
-> > > >> +                         : "memory");
-> > > >> +
-> > > >> +            _addr += MTE_GRANULE_SIZE;
-> > > >> +    } while (_addr != _end);
-> > > >> +}
-> > > >
-> > > > While I'm ok with moving this function to C, I don't think it solves the
-> > > > inlining in the kasan code. The only interface we have to kasan is via
-> > > > mte_{set,get}_mem_tag_range(), so the above function doesn't need to
-> > > > live in a header.
-> > > >
-> > > > If you do want inlining all the way to the kasan code, we should
-> > > > probably move the mte_{set,get}_mem_tag_range() functions to the header
-> > > > as well (and ideally backed by some numbers to show that it matters).
-> > > >
-> > > > Moving it to mte.c also gives us more control on how it's called (we
-> > > > have the WARN_ONs in place in the callers).
-> > > >
-> > >
-> > > Based on the thread [1] this patch contains only an intermediate step to allow
-> > > KASAN to call directly mte_assign_mem_tag_range() in future. At that point I
-> > > think that mte_set_mem_tag_range() can be removed.
-> > >
-> > > If you agree, I would live the things like this to give to Andrey a chance to
-> > > execute on the original plan with a separate series.
-> >
-> > I think we should drop this patch from this series as it's unrelated.
-> >
-> > I will pick it up into my future optimization series. Then it will be
-> > easier to discuss it in the context. The important part that I needed
-> > is an inlinable C implementation of mte_assign_mem_tag_range(), which
-> > I now have with this patch.
->
-> That's fine by me but we may want to add some forced-alignment on the
-> addr and size as the loop here depends on them being aligned, otherwise
-> it gets stuck. The mte_set_mem_tag_range() at least had a WARN_ON in
-> place. Here we could do:
->
->         addr &= MTE_GRANULE_MASK;
->         size = ALIGN(size, MTE_GRANULE_SIZE);
->
-> (or maybe trim "size" with MTE_GRANULE_MASK)
->
-> That's unless the call places are well known and guarantee this
-> alignment (only had a very brief look).
+On Tue, Jan 19, 2021 at 07:57:16PM +0100, Dmitry Vyukov wrote:
+> Using "-kernel arch/arm/boot/zImage -dtb
+> arch/arm/boot/dts/vexpress-v2p-ca15-tc1.dtb" fully works.
 
-No problem. I'll either add the ALIGN or change the call site to
-ensure alignment.
+Good.
+
+> Using just "-kernel arch/arm/boot/zImage" does not work, not output
+> from qemu whatsoever (expected).
+
+Yep.
+
+> But using just "-kernel arch/arm/boot/zImage.dtb" gives an interesting
+> effect. Kernel starts booting, I see console output up to late init
+> stages, but then it can't find the root device.
+> So appended dtb works... but only in half. Is names of block devices
+> something that's controlled by dtb?
+
+My knowledge about this is limited to qemu being used for KVM.
+
+Firstly, there is are no block devices except for MTD, USB, or CF
+based block devices in the Versatile Express hardware. So, the DTB
+contains no block devices.
+
+In your first case above, it is likely that QEMU modifies the passed
+DTB to add PCIe devices to describe a virtio block device.
+
+In this case, because QEMU has no visibility of the appended DTB, it
+can't modify it, so the kernel only knows about devices found on the
+real hardware. Hence, any of the "special" virtio devices that QEMU
+use likely won't be found.
+
+I'm not sure how QEMU adds those (you're probably in a better position
+than I to boot using your first method, grab a copy of the DTB that
+the booted kernel used from /sys/firmware/fdt, and use dtc to turn it
+back into a dts and see what the changes are.
+
+I suspect you'll find that there's a new PCIe controller been added
+by QEMU, behind which will be a load of virtio devices for things like
+network and the "vda" block device.
+
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAAeHK%2Bw3%2BStvU60KNPknQyEnGH_8BfwFdJbTifPb3gGQhXLDyw%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210119194827.GL1551%40shell.armlinux.org.uk.
