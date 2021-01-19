@@ -1,126 +1,132 @@
-Return-Path: <kasan-dev+bncBDDL3KWR4EBRBXGUTSAAMGQEJXZGVVY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCMIZB7QWENRBGWXTSAAMGQERRHLGFA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yb1-xb40.google.com (mail-yb1-xb40.google.com [IPv6:2607:f8b0:4864:20::b40])
-	by mail.lfdr.de (Postfix) with ESMTPS id 728B82FBF63
-	for <lists+kasan-dev@lfdr.de>; Tue, 19 Jan 2021 19:52:13 +0100 (CET)
-Received: by mail-yb1-xb40.google.com with SMTP id l3sf16218118ybl.17
-        for <lists+kasan-dev@lfdr.de>; Tue, 19 Jan 2021 10:52:13 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1611082332; cv=pass;
+Received: from mail-pl1-x637.google.com (mail-pl1-x637.google.com [IPv6:2607:f8b0:4864:20::637])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8701B2FBF8F
+	for <lists+kasan-dev@lfdr.de>; Tue, 19 Jan 2021 19:57:31 +0100 (CET)
+Received: by mail-pl1-x637.google.com with SMTP id q13sf14702912pll.10
+        for <lists+kasan-dev@lfdr.de>; Tue, 19 Jan 2021 10:57:31 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1611082650; cv=pass;
         d=google.com; s=arc-20160816;
-        b=csplf869eeRb8ze1d827KU/QN8QLkWhotaXFi98otKxUkVEBaOSgdjjQqn1nNHj7Ao
-         L0aCCFfh6t22SYH+tOm37NR6o+ifsX2lgkpCMSXbPgsNap+66oviFBtzAcu20bQE/uNc
-         6ajKM6B7X7fjY9bBannUUGuhQ4LD+M+5Ko2GFG37PumHGlMfvKfYgQ/9sn9GIPOiP1di
-         4ahXO/Di1FmcYXbBJljB/BK4aABaca2G2PVCbnHaPP3zJgMVO44mu1IDMai2tiwLft8G
-         vCmn/EzYu4ejv5tX4V63uqWXSibOI283DC/m1igGspfpbg43oB9Bks8rF4cJ4/jTy4EZ
-         Wx3w==
+        b=jSwXuCIi8NXHzqrteonXZ+Yc2QtboxpDevTAEAgdn64WW73J3Nzd9PYisEfQ16wQW7
+         aGaNepcra77osKHLrX3SAICzMRuu8axf4zq8na3VgxODftYshrhOeoCkoniyfavHK1i9
+         DxVzP39tEoIhWFq6PMX+LrzNHB4HVdKdByh5IbB7T0ABrgD8rkpy2WiTP9TmlFtjCW2T
+         WDA7k9V5k7saQU/A844vdtUXrZ0UQl5Picsmfumm11lMrXYwgD7WETJv4g+IrxwMoK9R
+         JsRr96JAU8WrXl9T2Y3axJOZvtBfmiyoMwfTB9RseJwRW5B+BIVUGrjebJey6hM35imy
+         wiHw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:user-agent:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:sender:dkim-signature;
-        bh=nTZeXCTJQDneAYlzRbhf8NqgvObE/whOi/dJJoaaooU=;
-        b=f2kDP4LM9818EG1/J8XYfTsaD3qhnCKS5QlouluLMvR+WhYegVDwJ1lNzf4O2GkM8S
-         MZdwzstL8MQFs1IOWNSo4NC7TGilBQ10xf+ngfDGtcqf5OSAGoIhcwiNY1r9lH0DDDo/
-         Mbn3FBC7JsK7JV9lnR3vNWUOQrye2RST93XZynR68JhKV3DeaPPsfCu2ezxI1nr0TCN5
-         L4Uiz7aUn9RdniC0zSH3pLIeNW2+DJJGOB3vaveDzkXOo4zil/UOPk0kuZGGRpdLWDdN
-         xvIFdnrzPppgx246gnocM9gd0RvwcOwHBEK8AydxxdDX9NBWPdVevfQ0L+lZcr6F9tJk
-         yirQ==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=zZQ45r+fB1d4Uf8GMAAhMvdXXnIMgMEcLCLEIhKIrPA=;
+        b=Nigilduhd4oUjbQWsL7o1s1vpPSOgGLUKG/ez02ZQSFGNJrCP/7VhE6Z/PaV/fiIzF
+         1+j/h589RZUHpMFTo4ji0IE1BzJHZag5fQuJUYnNkhkeCxT3pBKFBQ5WcuT/GtQnD/Rn
+         nGCB9yWq/i++fU0+QZ6sV94o+GMtn/csjOpEIxWzmO3E/gx1r4uKwXeOcGDGad2jwnaz
+         ZdWR/QocqUBcBNFAiYa0l/3WKn2hMNgprfvpoLow3leuURgMLiFU8PZ53peVtH6ZTOF4
+         6kyzmtyqzFEftDXrpEik8AxpMNUruXTf28cu9rspQkB6YxDzQ/9YNiFX0O0Jdd4TrZam
+         ex7A==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of cmarinas@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=cmarinas@kernel.org;
-       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=arm.com
+       dkim=pass header.i=@google.com header.s=20161025 header.b=aJzkVnE7;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::733 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=nTZeXCTJQDneAYlzRbhf8NqgvObE/whOi/dJJoaaooU=;
-        b=exAssZ8zyfCC14t7z6a7wbyZQeKoevT8auJuPBvcRqmRqHaZ8TliqUYqi+LXEeWDAv
-         7Mk3OYlrN7mTKQEmzQdsXBxxloPovWSeQfG7KPAO4BSTU1hss2A89b26tQDptagsdIwH
-         Do09RTzY7Ng3WFkYglHEL3ULJROFQK4LBAox/KtvM2eQUezPBAhKKgIH01ZUR+PBvRXe
-         s1Nnj+iXFkoAxE3IXu3QjHhDsQ0mRzpeZwlycsAy2SxYqHr1IV7hziYX+9LB3e9wDQ19
-         sgIOpydLXOJUbIMiaWe0Jn01YqOHjFODXwV9xzLo4HuB2Z3Adp+mXT/VhARj5/qpGNE4
-         zQKw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=zZQ45r+fB1d4Uf8GMAAhMvdXXnIMgMEcLCLEIhKIrPA=;
+        b=qxt6CCrJYYgyAnB6jT4RT48mw70SH4dQKlZ1Sl2El4RQohVr0lgk6j+fkhMwKyivYJ
+         /HaAKHVlowuw/ik1Ai1x3YupcR0DuHn6hKg6JfdtRKDcNmVRMV/eypBtU+ruqvyW1f5x
+         Ykz6TmeSu+NyFDAzI5IAn5LN3xE/33NQPaml9/q4CaKV2QkcqeXf5ARFMNYOt8Ou6gU1
+         sxFgNayq0iyddUCn9e19vWrjPteDSlFcYmv/EAg+LF1tETjtiM+KtuXx2HHSvaVrPsMo
+         dJNAWhBUUfOI3mUwggDzpiiYDu+DOlUjx7ZTY5eANA5oPc0//G/4aZiUlhQ7gVwaHB8u
+         gjpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=nTZeXCTJQDneAYlzRbhf8NqgvObE/whOi/dJJoaaooU=;
-        b=ipiarTd+uQntMhI47nS2TGxLF/UILeTxM7oF6vPZkyPn63HHh2hThBLiIU47CVQlno
-         9a7t+Qylpc0YBuXTPEJTpmSXPPDvtr53iPArJoIqUIq52CIsx9DmJ4wj3WTggbW7/6IC
-         1UqNWTIjKAW1QKl9XMT6C4noDXaLy58N4kWoNKXupoq7zXlSKQPQN2ZcLSMb8uPigLSd
-         aIK58AIKXV2YpbHZ0AK1SnEERiqrDE8NXbWWP3Pr8Qh9td02sg919VzfbgLRihIzZVAX
-         Lqza1WZaPcc+bb/8QsqK4o/Mz+LTlpUqpBgSj6MX6HwEJfwg7ra7Qro7Gi8a7Zp64aSt
-         s+8Q==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM530JWAVb1IDQo70NVulw99C0M+w9QKeBDTCW71mmVZupuiNG5kth
-	seti52ZMCUgE0H1LBBEB9gc=
-X-Google-Smtp-Source: ABdhPJwocpoih5kP6lEZacj/jxCLgstgLm3sjWM3OyPynylKfcUcE4KyfvsOBo4oQjyJHndzNnXBjg==
-X-Received: by 2002:a25:488a:: with SMTP id v132mr8141571yba.28.1611082332478;
-        Tue, 19 Jan 2021 10:52:12 -0800 (PST)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=zZQ45r+fB1d4Uf8GMAAhMvdXXnIMgMEcLCLEIhKIrPA=;
+        b=IPNdfeO5qYzogeQOXPhpn6eRUwM8jCkmjcdOdOmU8t6psFb8eW3oz3B9/XPJ1493aX
+         NUoIeQxAqFPKKVm/BvUTSQfL7EVdhrY+0tmvRPa92tUZgvumy7QDOOjEFiHCOjLxS1Kg
+         NDuJ98heMUPHlB88bZKJVvktPEJtJk2GUFRD6nadlx6fas+nv6c5KeYNJhuLuFs35AuJ
+         vROyBsmKncgaR2pe82AqK/m9e4sKV72iwuR1zjIZmnsnmh6F3a0271poMvqwjZDT2eNt
+         B7kSR2Tg6MIBDCNS8IkKpV8x71WUyUcbEPaMR8Bxug95yJK/nYEYFJESZyrayoHIRphF
+         5xKw==
+X-Gm-Message-State: AOAM532weJxSmx2j2ibHnkWb+gitdICJQmHqHi6mUPXo4YOvu1mTV1jM
+	vSKK8PuTfb0LliF5ixa+6F0=
+X-Google-Smtp-Source: ABdhPJxidx5+TWYRNSvmIoNrHLDopmsy5k1Fb5K7HPZ3Zj16FlgZ8Z+49cQ2/th2YS1YYh1wC5jDDw==
+X-Received: by 2002:a17:902:bb95:b029:dc:e7b:fd6e with SMTP id m21-20020a170902bb95b02900dc0e7bfd6emr6244198pls.12.1611082650291;
+        Tue, 19 Jan 2021 10:57:30 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a25:c594:: with SMTP id v142ls10900859ybe.9.gmail; Tue, 19
- Jan 2021 10:52:12 -0800 (PST)
-X-Received: by 2002:a25:9981:: with SMTP id p1mr7528529ybo.440.1611082332044;
-        Tue, 19 Jan 2021 10:52:12 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1611082332; cv=none;
+Received: by 2002:a17:903:22d2:: with SMTP id y18ls10277170plg.6.gmail; Tue,
+ 19 Jan 2021 10:57:29 -0800 (PST)
+X-Received: by 2002:a17:902:b097:b029:dc:5c:a986 with SMTP id p23-20020a170902b097b02900dc005ca986mr6021466plr.59.1611082649637;
+        Tue, 19 Jan 2021 10:57:29 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1611082649; cv=none;
         d=google.com; s=arc-20160816;
-        b=nagEYTuF37FixxwMWu0rzcgP2cZkDXHpuyo0Lb1TMKOE5tnsLFmrNY1g8R72rivylK
-         S7vFZQs/IitnuQX8Kbq2Oyqut1M8eWH6XceWRFotOOXFETUTFCD1ZOo0gvRwFwLUSSmY
-         6ijBmQbH3/op9OsWReTyaQ2SBxxaZOE+3SdJv2a8uW2dGJRqwKMWiy8pjGV0oN90hit0
-         QkX2+ow4NCiQLfnC7ZJ5PCGYlZ1fsseC34QvQsCPtLzlTUTWYc47wKcFmxUdes3uO8RZ
-         kVv/5OHXj1BP/I/gd2RpTVG4V52B3VWPOUrsP6NYNC+1Zi4wPRjFpphYm5EyNu7gsMMp
-         emnQ==
+        b=qxSLJKRsrpInpvrUjs1SziID5XPv3fEvoFtvJFi5CuoyAvFa/eEizyOd8BWyUuQ2tg
+         PfvUyNEWIQP/IIXcNd8aC15G4Bb1Zctke4DfxBmXKmQ6Qjcktp0tfJVyKrIBqcZIvS9k
+         alBIZry7zUxCVMy48OYDc1R2whVbFYds+XfHLMB8hfzfQnRmAD4febGDcr4qX13ysKOJ
+         O5gpiFbK7zddNy9DJjzXpSjvU9/2Xlr4GLWwrl/OdhX+ZVbW3rHnZsvw3iWw05nAqLMt
+         H0R3RiJh4yrRT0rbOMK1KdKDEKk2rVDrhXfP94XiAqTC/umEybZ67XpLOM/ZPn4U3we4
+         N3NA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date;
-        bh=l3fxeG+ky0a7uwqJJFr/W/zvTVyD5M36N1vjkLpjA4E=;
-        b=f0YxmZBpPf+kkX8FmON+gQld3H0d47s9Vq68M8KYuXpHfHPVjZC4ElcAYHQXXh+5U9
-         TquEvXiu3WFJqlRwSP6FZzb7teYj/JTaaUd1ytiltyEhr+XbwgQ223rjrVIFjvsqm7Vs
-         zAp+TIjTvGIIA1VlsDS2IAUopv9sjN61UvkBFp9jfzDOiUdqoJRuL8ADXaHkKj9iUbzr
-         XAGBqKE9eckioEZChwB1WnOW6d2B7AyiCAXmnP1+uOcBhmZy4mXbBy0i+3GWxum8bBWh
-         HuVILwL9oSmVNymlqEoZSRRBcHWm+Df/Y1NIrf9EbCw25kh5rW/9U3COL1cZ4MxBYg48
-         qMRg==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=HKuO6KlRwjLvl5xc3pGLNHW5oMVADl8h0bk1TaQjuJ4=;
+        b=MVFfR7jF9MQcJle1PCg6vYDHVI12fUOfqpDTc0KtWklF5FfHZnh3OEWp9F7t7xfuGb
+         FHAGVpN6iv3qYaDNbK6gOG+Dh0EN1mvcG3I6STLe9EqTc59ZTyqqIWhe8AaToqcTKbdg
+         Ne8c5ktY+GO8HfhcGwgT7OmMFt0fKOSPh7sHUgqUeJckQLQQdQcaFLFrKgH5Of6ef3oj
+         o/hFdcQPIknA7X3PAboCQuv5bwnlaZ12ZykoHxE1y5m54MAu3Cj3FKWihO5E7IAGsESm
+         QV2Ob1oNX+lRJG7a8haPko621w3eAaioPzxb0A1tIeyUkF3FPEuh5MwCzdns+nzbHLoD
+         90TA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of cmarinas@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=cmarinas@kernel.org;
-       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=arm.com
-Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id k19si1925916ybj.5.2021.01.19.10.52.11
+       dkim=pass header.i=@google.com header.s=20161025 header.b=aJzkVnE7;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::733 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-qk1-x733.google.com (mail-qk1-x733.google.com. [2607:f8b0:4864:20::733])
+        by gmr-mx.google.com with ESMTPS id i12si1486931plt.3.2021.01.19.10.57.29
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 19 Jan 2021 10:52:12 -0800 (PST)
-Received-SPF: pass (google.com: domain of cmarinas@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8A55820776;
-	Tue, 19 Jan 2021 18:52:09 +0000 (UTC)
-Date: Tue, 19 Jan 2021 18:52:07 +0000
-From: Catalin Marinas <catalin.marinas@arm.com>
-To: Andrey Konovalov <andreyknvl@google.com>
-Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	LKML <linux-kernel@vger.kernel.org>,
-	kasan-dev <kasan-dev@googlegroups.com>,
-	Leon Romanovsky <leonro@mellanox.com>,
-	Alexander Potapenko <glider@google.com>,
-	Linux ARM <linux-arm-kernel@lists.infradead.org>,
-	Andrey Ryabinin <aryabinin@virtuozzo.com>,
-	Dmitry Vyukov <dvyukov@google.com>
-Subject: Re: [PATCH] kasan: Add explicit preconditions to kasan_report()
-Message-ID: <20210119185206.GA26948@gaia>
-References: <20210119172607.18400-1-vincenzo.frascino@arm.com>
- <CAAeHK+zpB6GZcAbWnmvKu5mk_HuNEaXV2OwRuSNnVjddjBqZMQ@mail.gmail.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 19 Jan 2021 10:57:29 -0800 (PST)
+Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::733 as permitted sender) client-ip=2607:f8b0:4864:20::733;
+Received: by mail-qk1-x733.google.com with SMTP id v126so22873550qkd.11
+        for <kasan-dev@googlegroups.com>; Tue, 19 Jan 2021 10:57:29 -0800 (PST)
+X-Received: by 2002:a05:620a:983:: with SMTP id x3mr5907866qkx.231.1611082648942;
+ Tue, 19 Jan 2021 10:57:28 -0800 (PST)
 MIME-Version: 1.0
+References: <CACT4Y+bBb8gx6doBgHM2D5AvQOSLHjzEXyymTGWcytb90bHXHg@mail.gmail.com>
+ <CACRpkdb+u1zs3y5r2N=P7O0xsJerYJ3Dp9s2-=kAzw_s2AUMMw@mail.gmail.com>
+ <CACT4Y+ad047xhqsd-omzHbJBRShm-1yLQogSR3+UMJDEtVJ=hw@mail.gmail.com>
+ <CACRpkdYwT271D5o_jpubH5BXwTsgt8bH=v36rGP9HQn3sfDwMw@mail.gmail.com>
+ <CACT4Y+aEKZb9_Spe0ae0OGSSiMMOd0e_ORt28sKwCkN+x22oYw@mail.gmail.com>
+ <CACT4Y+Yyw6zohheKtfPsmggKURhZopF+fVuB6dshJREsVz8ehQ@mail.gmail.com>
+ <20210119111319.GH1551@shell.armlinux.org.uk> <CACT4Y+b64a75ceu0vbT1Cyb+6trccwE+CD+rJkYYDi8teffdVw@mail.gmail.com>
+ <20210119114341.GI1551@shell.armlinux.org.uk> <CACT4Y+a1NnA_m3A1-=sAbimTneh8V8jRwd8KG9H1D+8uGrbOzw@mail.gmail.com>
+ <20210119123659.GJ1551@shell.armlinux.org.uk>
+In-Reply-To: <20210119123659.GJ1551@shell.armlinux.org.uk>
+From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Tue, 19 Jan 2021 19:57:16 +0100
+Message-ID: <CACT4Y+YwiLTLcAVN7+Jp+D9VXkdTgYNpXiHfJejTANPSOpA3+A@mail.gmail.com>
+Subject: Re: Arm + KASAN + syzbot
+To: Russell King - ARM Linux admin <linux@armlinux.org.uk>
+Cc: Arnd Bergmann <arnd@arndb.de>, Linus Walleij <linus.walleij@linaro.org>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, syzkaller <syzkaller@googlegroups.com>, 
+	kasan-dev <kasan-dev@googlegroups.com>, Hailong Liu <liu.hailong6@zte.com.cn>, 
+	Linux ARM <linux-arm-kernel@lists.infradead.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <CAAeHK+zpB6GZcAbWnmvKu5mk_HuNEaXV2OwRuSNnVjddjBqZMQ@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Original-Sender: catalin.marinas@arm.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of cmarinas@kernel.org designates 198.145.29.99 as
- permitted sender) smtp.mailfrom=cmarinas@kernel.org;       dmarc=fail (p=NONE
- sp=NONE dis=NONE) header.from=arm.com
+X-Original-Sender: dvyukov@google.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@google.com header.s=20161025 header.b=aJzkVnE7;       spf=pass
+ (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::733
+ as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
+ (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Dmitry Vyukov <dvyukov@google.com>
+Reply-To: Dmitry Vyukov <dvyukov@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -133,70 +139,122 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Jan 19, 2021 at 07:27:43PM +0100, Andrey Konovalov wrote:
-> On Tue, Jan 19, 2021 at 6:26 PM Vincenzo Frascino
-> <vincenzo.frascino@arm.com> wrote:
+On Tue, Jan 19, 2021 at 1:37 PM Russell King - ARM Linux admin
+<linux@armlinux.org.uk> wrote:
+>
+> On Tue, Jan 19, 2021 at 01:05:11PM +0100, Dmitry Vyukov wrote:
+> > Yes, I used the qemu -dtb flag.
 > >
-> > With the introduction of KASAN_HW_TAGS, kasan_report() dereferences
-> > the address passed as a parameter.
+> > I tried to use CONFIG_ARM_APPENDED_DTB because it looks like a very
+> > nice option. However, I couldn't make it work.
+> > I enabled:
+> > CONFIG_ARM_APPENDED_DTB=y
+> > CONFIG_ARM_ATAG_DTB_COMPAT=y
+> > # CONFIG_ARM_ATAG_DTB_COMPAT_CMDLINE_FROM_BOOTLOADER is not set
+> > CONFIG_ARM_ATAG_DTB_COMPAT_CMDLINE_EXTEND=y
+> > and removed qemu -dtb flag and I see:
 > >
-> > Add a comment to make sure that the preconditions to the function are
-> > explicitly clarified.
-> >
-> > Note: An invalid address (e.g. NULL pointer address) passed to the
-> > function when, KASAN_HW_TAGS is enabled, leads to a kernel panic.
-> >
-> > Cc: Andrey Ryabinin <aryabinin@virtuozzo.com>
-> > Cc: Alexander Potapenko <glider@google.com>
-> > Cc: Dmitry Vyukov <dvyukov@google.com>
-> > Cc: Leon Romanovsky <leonro@mellanox.com>
-> > Cc: Andrey Konovalov <andreyknvl@google.com>
-> > Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
-> > ---
-> >  mm/kasan/report.c | 11 +++++++++++
-> >  1 file changed, 11 insertions(+)
-> >
-> > diff --git a/mm/kasan/report.c b/mm/kasan/report.c
-> > index c0fb21797550..2485b585004d 100644
-> > --- a/mm/kasan/report.c
-> > +++ b/mm/kasan/report.c
-> > @@ -403,6 +403,17 @@ static void __kasan_report(unsigned long addr, size_t size, bool is_write,
-> >         end_report(&flags);
-> >  }
-> >
-> > +/**
-> > + * kasan_report - report kasan fault details
-> > + * @addr: valid address of the allocation where the tag fault was detected
-> > + * @size: size of the allocation where the tag fault was detected
-> > + * @is_write: the instruction that caused the fault was a read or write?
-> > + * @ip: pointer to the instruction that cause the fault
-> > + *
-> > + * Note: When CONFIG_KASAN_HW_TAGS is enabled kasan_report() dereferences
-> > + * the address to access the tags, hence it must be valid at this point in
-> > + * order to not cause a kernel panic.
-> > + */
-> 
-> It doesn't dereference the address, it just checks the tags, right?
-> 
-> Ideally, kasan_report() should survive that with HW_TAGS like with the
-> other modes. The reason it doesn't is probably because of a blank
-> addr_has_metadata() definition for HW_TAGS in mm/kasan/kasan.h. I
-> guess we should somehow check that the memory comes from page_alloc or
-> kmalloc. Or otherwise make sure that it has tags. Maybe there's an arm
-> instruction to check whether the memory has tags?
+> > Error: invalid dtb and unrecognized/unsupported machine ID
+> >   r1=0x000008e0, r2=0x80000100
+> >   r2[]=05 00 00 00 01 00 41 54 01 00 00 00 00 10 00 00
+>
+> Right, r2 now doesn't point at valid DT, but points to an ATAG list.
+>
+> The decompressor should notice that, and fix up the appended DTB.
+>
+> I assume you concatenated the zImage and the appropriate DTB and
+> passed _that_ as the kernel to qemu?
 
-There isn't an architected way to probe whether a memory location has a
-VA->PA mapping. The tags are addressed by PA but you can't reach them if
-you get a page fault on the VA. So we either document the kasan_report()
-preconditions or, as you suggest, update addr_has_metadata() for the
-HW_TAGS case. Something like:
+Mkay, I didn't. I assumed kbuild will do this for me.
 
-        return is_vmalloc_addr(virt) || virt_addr_valid(virt));
+Appending dtb works, but not completely. I did:
 
--- 
-Catalin
+cp arch/arm/boot/zImage arch/arm/boot/zImage.dtb
+cat arch/arm/boot/dts/vexpress-v2p-ca15-tc1.dtb >> arch/arm/boot/zImage.dtb
+
+Now I have:
+ls -l arch/arm/boot/zImage* arch/arm/boot/dts/vexpress-v2p-ca15-tc1.dtb
+-rw-r----- 1 dvyukov primarygroup    13209 Jan 14 13:41
+arch/arm/boot/dts/vexpress-v2p-ca15-tc1.dtb
+-rwxr-x--- 1 dvyukov primarygroup 33712008 Jan 19 16:55 arch/arm/boot/zImage
+-rwxr-x--- 1 dvyukov primarygroup 33725217 Jan 19 18:57 arch/arm/boot/zImage.dtb
+
+Using "-kernel arch/arm/boot/zImage -dtb
+arch/arm/boot/dts/vexpress-v2p-ca15-tc1.dtb" fully works.
+Using just "-kernel arch/arm/boot/zImage" does not work, not output
+from qemu whatsoever (expected).
+But using just "-kernel arch/arm/boot/zImage.dtb" gives an interesting
+effect. Kernel starts booting, I see console output up to late init
+stages, but then it can't find the root device.
+So appended dtb works... but only in half. Is names of block devices
+something that's controlled by dtb?
+
+[   89.140285][    T1] VFS: Cannot open root device "vda" or
+unknown-block(0,0): error -6
+[   89.144547][    T1] Please append a correct "root=" boot option;
+here are the available partitions:
+[   89.146058][    T1] 0100            4096 ram0
+[   89.146295][    T1]  (driver?)
+[   89.147537][    T1] 0101            4096 ram1
+[   89.147740][    T1]  (driver?)
+[   89.148948][    T1] 0102            4096 ram2
+[   89.149150][    T1]  (driver?)
+[   89.150296][    T1] 0103            4096 ram3
+[   89.150497][    T1]  (driver?)
+[   89.152714][    T1] 0104            4096 ram4
+[   89.152920][    T1]  (driver?)
+[   89.154198][    T1] 0105            4096 ram5
+[   89.154401][    T1]  (driver?)
+[   89.155609][    T1] 0106            4096 ram6
+[   89.155811][    T1]  (driver?)
+[   89.157020][    T1] 0107            4096 ram7
+[   89.157221][    T1]  (driver?)
+[   89.158507][    T1] 0108            4096 ram8
+[   89.158708][    T1]  (driver?)
+[   89.159907][    T1] 0109            4096 ram9
+[   89.160109][    T1]  (driver?)
+[   89.163842][    T1] 010a            4096 ram10
+[   89.164055][    T1]  (driver?)
+[   89.165300][    T1] 010b            4096 ram11
+[   89.165502][    T1]  (driver?)
+[   89.166705][    T1] 010c            4096 ram12
+[   89.166906][    T1]  (driver?)
+[   89.168131][    T1] 010d            4096 ram13
+[   89.168341][    T1]  (driver?)
+[   89.169551][    T1] 010e            4096 ram14
+[   89.169753][    T1]  (driver?)
+[   89.170957][    T1] 010f            4096 ram15
+[   89.172047][    T1]  (driver?)
+[   89.175569][    T1] 1f00          131072 mtdblock0
+[   89.175801][    T1]  (driver?)
+[   89.177051][    T1] 1f01           32768 mtdblock1
+[   89.177256][    T1]  (driver?)
+[   89.178481][    T1] 1f02             128 mtdblock2
+[   89.178685][    T1]  (driver?)
+
+
+Just in case, that's v5.11-rc4 with this config:
+https://gist.githubusercontent.com/dvyukov/aeb69235ff37a3d48c1a8a74c2fad162/raw/b37273ba14306d4ca2e2fffc07af41c759e092b7/gistfile1.txt
+and this qemu command line:
+
+qemu-system-arm      -machine vexpress-a15 -cpu max -smp 2 -m 2G
+-device virtio-blk-device,drive=hd0     -drive
+if=none,format=raw,id=hd0,file=image-arm -snapshot     -kernel
+arch/arm/boot/zImage.dtb                -nographic      -netdev
+user,host=10.0.2.10,hostfwd=tcp::10022-:22,id=net0 -device
+virtio-net-device,netdev=net0 -append "earlyprintk=serial oops=panic
+panic_on_warn=1 nmi_watchdog=panic panic=86400 net.ifnames=0
+sysctl.kernel.hung_task_all_cpu_backtrace=1 ima_policy=tcb
+kvm-intel.nested=1 nf-conntrack-ftp.ports=20000
+nf-conntrack-tftp.ports=20000 nf-conntrack-sip.ports=20000
+nf-conntrack-irc.ports=20000 nf-conntrack-sane.ports=20000
+vivid.n_devs=16 vivid.multiplanar=1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2
+netrom.nr_ndevs=16 rose.rose_ndevs=16 spec_store_bypass_disable=prctl
+numa=fake=2 nopcid dummy_hcd.num=8 binder.debug_mask=0
+rcupdate.rcu_expedited=1 root=/dev/vda console=ttyAMA0 vmalloc=512M
+watchdog_thresh=165 workqueue.watchdog_thresh=420"
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210119185206.GA26948%40gaia.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BYwiLTLcAVN7%2BJp%2BD9VXkdTgYNpXiHfJejTANPSOpA3%2BA%40mail.gmail.com.
