@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBCMIZB7QWENRB6PDTKAAMGQE6WPE2KI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCMIZB7QWENRBI7GTKAAMGQEJPBCRMY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-io1-xd3a.google.com (mail-io1-xd3a.google.com [IPv6:2607:f8b0:4864:20::d3a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EABA2FB53B
-	for <lists+kasan-dev@lfdr.de>; Tue, 19 Jan 2021 11:18:34 +0100 (CET)
-Received: by mail-io1-xd3a.google.com with SMTP id q21sf34264379ios.14
-        for <lists+kasan-dev@lfdr.de>; Tue, 19 Jan 2021 02:18:34 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1611051513; cv=pass;
+Received: from mail-qv1-xf37.google.com (mail-qv1-xf37.google.com [IPv6:2607:f8b0:4864:20::f37])
+	by mail.lfdr.de (Postfix) with ESMTPS id EAC4D2FB54B
+	for <lists+kasan-dev@lfdr.de>; Tue, 19 Jan 2021 11:23:32 +0100 (CET)
+Received: by mail-qv1-xf37.google.com with SMTP id j5sf19194264qvu.22
+        for <lists+kasan-dev@lfdr.de>; Tue, 19 Jan 2021 02:23:32 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1611051812; cv=pass;
         d=google.com; s=arc-20160816;
-        b=GmWBMg6qDx3D6D7jQg5D2/rxQ0JOQCUz/yjl2V422iZe3Oeo6RbVZjQdTHV7XH1+UL
-         JqgoZ+H0dUwt+CTpW+MrMtvyDrfvrwn0JFkdE4OSf1JCgpE52nWOelysPiPStspiVBaI
-         IeGVRTxiq9tLjyFM39J1QxIn5ebk5nBmKah+DQYiODemynH0dBfDmEfmCWE/hKef8Pa0
-         BYcV6f8Aj6RZGlS081ppRdLYXyYjXBhoyixtr8SULIOEScMfGCkJGQ3nBj4Yr02RK3Li
-         B9knZe0zK1gqmR5Tb47pYKLtugfGF4Dzd3wIQfzn7BUHJTSzTeUBJGwVcU7sMxAsJmgg
-         xpjw==
+        b=bJWC98FHRJuwGS7Pu3ba78sykLYpcGl0w1NUoq11k/uevECiDlZP6eRMOX0mScDuFb
+         V7emyagTY9dgP5xiu43wfYnRjmcKpmDKC1/f7nNsAdPXj7VX5MxBA2qDpESwW6/pBfIT
+         NRnJVtLlqRYAj+4SGMQtvw7ouFw+8uT8IQCTLpEj+oxm85GngeSnLBwXUQW49HUnqCY0
+         WZd/KGGk7cn/4ZkjFig1VzwlQFMuVq7p5hyY2M8Bg342g6rEvg/MDrpRWNycjhgKqQTu
+         wg5h7IdIOsozlt7VXD6Knl3BnBR7OJA7P5fPVa+jePoWyFdqt3o4V9TxXSVgYM8g/umq
+         UQvA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=fLE7S/U5j4XPbYREcpQu+LZx1slpoGPeClewzMIAsvI=;
-        b=XTHEEJSWQiqxgQvMrME1AI2a0Br2Ishj5fKKI7xrbL5jqkOKv/zbHtRtl10WC0bBOO
-         5n8aZvwoGW+h60yxm9J8ggz7WLvzBQh2LPAehywvWvw3K3p/zaIaGaGoYPBAVIxerKEi
-         XgtfZwHwufTDQpZE/jXG7xdt7uSVhTHRBPX3/HVzYd2qOJQ8lc964et+AIcoaEtlbWe1
-         W+lO8DyIMnMcVNp/VbDMLW50wFPc2zOdR3M95F35+EJhGvGztORVBhRku7Hwt/7utyN+
-         yYnNpYziA58VaOiB721BG4kX7jrQZPRSSzdJdF4yShD5/GTzer/6CIk1uLuzqX1wvyED
-         eVAA==
+        bh=1zmsA3qxpK63dB4KvpHok80BandVkpHS5ZcBsktc0iY=;
+        b=SOUdSZ2B1RGuWv/1VNNOzvQoHojxbTjUNdJDpZPBs1oK9KUi33T8iJwq88SNJ+E0H6
+         tCHfVTWnIQ8/Tm2ZyDnunwKGre2Z2zrnui17O+D9PepUNY5YrMxbAm7mjE4ppdGDSpbU
+         1z5px3N37tb8Odvpe1dGtlBt0ntApB9dIO7Tjj20egVb2PwPN1jC5R0QM5Yd/DALNjwO
+         TkHx3k9bFcFKZli6z5/4KPd0QJFrzUWRVYHhHKr8npAeMIXgBu/5zFa9eAP0YjoqjUSu
+         Ki7IEDta9THBMbsOqAxo2CDy6b8NbjQmXKs6mIjYfTDYQLU34WvVlOGW6VSlzTzW/tDU
+         VZTQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=twGh+SxS;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::733 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=D8n9EFPD;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::f31 as permitted sender) smtp.mailfrom=dvyukov@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=fLE7S/U5j4XPbYREcpQu+LZx1slpoGPeClewzMIAsvI=;
-        b=aDJ1IHHGtLL92GBmzTYSNcDjOBIRC1+42+WwY2oYugoTFMzpTjnKPzEMzveiGkWLUI
-         fhAaGJdzqjm5KQZyWGFlQTv2ApakykgeM77sKD2XaaLIiBox4ERxUxcxU7JJGu8nB6V/
-         RkF+0T7TBQj92jXOU691Quu7Y6BC9wvjvoz5zgV8AUFLQrpL3AkwQLCnLi6AUYGznJD/
-         Twl8JZ8u9n287lds0Tkue0omKaaNT5zTMiGAfYvvMYxfj3JdSWqY9oxRfnLSgsK1dl2a
-         GAU0DDvUcC6h4UwLjZ+XpGCzp/wjQ1/rbXmISzfipO72AVs4z5/a++Jd0Hu77kV8HG+U
-         xuZA==
+        bh=1zmsA3qxpK63dB4KvpHok80BandVkpHS5ZcBsktc0iY=;
+        b=JiZhv8gNgkQYzEvrta+l6OvPChKCLf3UrWdBlklWIta3Rb+FAxmxoz7cXZNuagaYXM
+         y769cDEEaDUacLC1GFYoUj3UxtudGA6knS06Cu6Xqa5A1bshuJUB+eDEUGoPlCeHdKh0
+         oCgy1iQ3fItgvZuOEdZHL/ONMhAEjJJMUJel6E83PHQFmjp+heKH1gT6gZIyRmwfpLXL
+         YlfcvaI1IoWdusCHJL2jcsvSIdLMjBPNtLdNw9d1U0OW2rrZg9TJj2rwZvVsJ5n2cRvc
+         jXPi97912a8MugBQXDKNJfoOx1Wxh19i9yEghkJFkxf+OHCgZghOppeVKdw/y5k5jnki
+         n6+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
@@ -49,73 +49,74 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=fLE7S/U5j4XPbYREcpQu+LZx1slpoGPeClewzMIAsvI=;
-        b=a/wXxgZO/DJ2RXT0tgAzAucx60LK6EMZe+KkjoaIviNgexz3W/2AIYeK17KucJMgvy
-         kKUYUJrc117f9GtnDiZwNej8mEYPqZgpLWaSXNFOG4LxaZclk7ZdY4br7MugXbavOynh
-         Y6wjhnsdz8bMisnaa68wsZu1y4O1CVXhlvbFLV+ei+FbaPjr3R02lpnoIoUc/MkRxH4A
-         SaGtfhNSjB7xy1kdesSza4dqg+Y3+9KAnLf4qcOoAgsoHstKj/w2LbHqwO5vGyMa4sU0
-         X3ddrGr4Ta2YAZxgzUrNfH0lPGvkkMueIWiJIzaSDdH3178mQJRTdA5Y1Dgppaf5l/PM
-         sWUg==
-X-Gm-Message-State: AOAM531a9rW5NVPhTwovrZnBrt4qQiO1yLZeIM8X0KOVYm60ktAgHD45
-	ILj/QoZ8n4crIcPAFufrXjk=
-X-Google-Smtp-Source: ABdhPJx24LJGsjcpr/4k8Fvaq7eStqPh+JZbYqM9O28bAYrfmbcRwORrX+QAC6nXnySm2qkiDxxDoQ==
-X-Received: by 2002:a05:6602:3154:: with SMTP id m20mr2427716ioy.188.1611051513336;
-        Tue, 19 Jan 2021 02:18:33 -0800 (PST)
+        bh=1zmsA3qxpK63dB4KvpHok80BandVkpHS5ZcBsktc0iY=;
+        b=iNRv2w2K9Akot7oWhugPMwpFXyxXjIw8jRSUxDFQtoYdTtiyjAYzGrXp/kYoH82duh
+         dw2joZR+enz/bVN5AQQ7YT9uc3aNeiXrytgwsyeosJmDu8RwCZ/Q4QyQDTb8IDzqoyOD
+         Iurlfa4F+89SeoBnprzZL88KLtC1tMsyIGLtMmyY0Df2ewf14P3CDZbAqL6mLrLpOdff
+         gf0N6q0DsQ7BuN5WU2gXQJndYugLqgSQVaxp2KJNFr3DwqX1xTJ4UWWUfP7Os+KzBjk7
+         /sKL+d1EutBXbxzrvIQqTwhRHFPoaDP/AWDxVC5iY9UeOb1MWQyxYpB3tKJi0L4DHz75
+         PewQ==
+X-Gm-Message-State: AOAM531vOtwUXWREmZJeRikCvZkWUvwMuqIWzGseDHQ3ZWIvu3E3bhAF
+	ioBIE1eUPaimJIcmhAkMk7A=
+X-Google-Smtp-Source: ABdhPJzXF9H+BIKheCtA9ZEA1YFuxSKFHg1nzi5kvaeDiqcXsLXAQ3bvXaj+fsMK28MYqo9MNMJcpQ==
+X-Received: by 2002:ac8:4e51:: with SMTP id e17mr3470287qtw.121.1611051811931;
+        Tue, 19 Jan 2021 02:23:31 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a92:d204:: with SMTP id y4ls196685ily.6.gmail; Tue, 19 Jan
- 2021 02:18:33 -0800 (PST)
-X-Received: by 2002:a92:870b:: with SMTP id m11mr2690460ild.134.1611051513031;
-        Tue, 19 Jan 2021 02:18:33 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1611051513; cv=none;
+Received: by 2002:ae9:edd6:: with SMTP id c205ls10612023qkg.10.gmail; Tue, 19
+ Jan 2021 02:23:31 -0800 (PST)
+X-Received: by 2002:a37:bc81:: with SMTP id m123mr3532758qkf.191.1611051811529;
+        Tue, 19 Jan 2021 02:23:31 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1611051811; cv=none;
         d=google.com; s=arc-20160816;
-        b=KppwJQzFAG3RMV1TZJaxzPhMG8+S9eX89WADHjiUM6fhYNMWVvIwCnxgDUFJydmcqi
-         eH9ru7PeVzjpalnQUyFaOtkQgV2BsQuFwuYDQBpKHZhGfHoUUb51bYE5Y2sqBfd8tvtu
-         6YwIiMXmjhcKCzEhDxdJS1KXC7RKPgdXqCHS4t7/GLBGohiE2UOXvf0gghhQ25VB7gIK
-         AizkoBvw8LSWlyVNnwEwv7ZI1sGCyDTCDrAZiy6hXFsrNk2u6WfFmXDQuVglpPexMp6g
-         xLtRh47RC7d5n1LLtWVUwrggQitd93O4oE98b6t7Mo4iM3qhKrtbbuHnoRDoPlmuDHN+
-         uKEQ==
+        b=0oAKcUQgnnJxpvk+YnuRZpD885KxS4Xt9GUNOpI6vsyxB3PC780FzwGs31NNHysFP9
+         DRV+4NozLbHwZ80ahI0jG4icrFB3ezhEcYApevT8zKqshSnfQRDR75q75f9d2yd62CPF
+         lE1su33a4DPo9RB20EKZUV3CPoTbEMtlSiScnQBdB0gEz9CBo2i2nS+lb5yyHKRf8A6f
+         nR/esCuDguk0uPNKNloMmNGd8k0bCyiT18EIyXTza/crlFTaOjjQ+0s0nAtNxKLhSQEN
+         1DvI39gnPCwcBZ0OPHoWLODWP7xbYJ6m1LAX5FRh7IB/u2IGQ8Tcmw4mnNUi0is3DlPm
+         guEw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=F4fkrRjlhM8fq929fmzPx7EjJGH2EJlXnVy3x9/5ork=;
-        b=FSQ7i4uGSYPKLOkyGWcdhnLsPm4gQz3TyotwWC/EYAPAHv379szmGOKoNZ3sywuF8k
-         8j1OtXjzE0In74+Oe5EBq/oWhDeBbPv0lWCJmnSR7CdCNXDL3StmpkBF51s/4LGQ6HD/
-         bULL0lVt41JNZIpnIHDXTfZgjOcKr11ph4/09LeSxAPj5Yi2K/kulgtybpinhuzf4jZp
-         4m4muwK29AooZP0qS7hg9GSvAmAKwAF5hnIy4NSZAJGwDzivgoGeCQT1FUlDjW5Z0TfZ
-         wJEHP6SLmqxvw1wlMTwa/kDIkqqi9fRL19Ns8ClF2dSUppSFYIYda/EsA9VGno1pSctL
-         oMHg==
+        bh=vz/VQ319RBmHW2ubTqrtXb8KjQVHUprQsC2snjYtmQE=;
+        b=nZYetTRmtCdtqHFhAnj8FZTbNDYvHralvgUpnW2q9nRvFpCzbauL6+JdU65YUeIxqS
+         VBleUzHA5X18VmTTdUY2DITazQs4G6e1byqjknjonDtH5gXHjgtXZ8QxH7BK7vCd0xpi
+         dIrJ03IEHVcC+Wbpx8brzn4V6NIQYmJ5kAE4rrHy3FdtwSiqg8zwY4G2zPSrrhnIU2Vp
+         DhQWO2iuDo8rVHqm9yZoT4J20H9BPfIoEr/WDgBE9G1eflCPfS8DPmx53v/Lu1VvN+1r
+         itvGLpIp9em/qjJOBcuiDXFd/I45CcCJ4azmZggGad2bHCFv2JJty6j1cvbitKEROSTJ
+         2zTA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=twGh+SxS;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::733 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=D8n9EFPD;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::f31 as permitted sender) smtp.mailfrom=dvyukov@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-qk1-x733.google.com (mail-qk1-x733.google.com. [2607:f8b0:4864:20::733])
-        by gmr-mx.google.com with ESMTPS id e26si1565359ios.2.2021.01.19.02.18.33
+Received: from mail-qv1-xf31.google.com (mail-qv1-xf31.google.com. [2607:f8b0:4864:20::f31])
+        by gmr-mx.google.com with ESMTPS id q66si1249504qkd.3.2021.01.19.02.23.31
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 19 Jan 2021 02:18:33 -0800 (PST)
-Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::733 as permitted sender) client-ip=2607:f8b0:4864:20::733;
-Received: by mail-qk1-x733.google.com with SMTP id 186so21289379qkj.3
-        for <kasan-dev@googlegroups.com>; Tue, 19 Jan 2021 02:18:32 -0800 (PST)
-X-Received: by 2002:a05:620a:983:: with SMTP id x3mr3606082qkx.231.1611051512160;
- Tue, 19 Jan 2021 02:18:32 -0800 (PST)
+        Tue, 19 Jan 2021 02:23:31 -0800 (PST)
+Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::f31 as permitted sender) client-ip=2607:f8b0:4864:20::f31;
+Received: by mail-qv1-xf31.google.com with SMTP id d11so8851665qvo.11
+        for <kasan-dev@googlegroups.com>; Tue, 19 Jan 2021 02:23:31 -0800 (PST)
+X-Received: by 2002:a0c:fe90:: with SMTP id d16mr3780604qvs.13.1611051811012;
+ Tue, 19 Jan 2021 02:23:31 -0800 (PST)
 MIME-Version: 1.0
 References: <CACT4Y+bRe2tUzKaB_nvy6MreatTSFxogOM7ENpaje7ZbVj6T2g@mail.gmail.com>
- <CACRpkdbHwusWYgoQRd6kRwo+TfAFgzFcV30Lp_Emg+nuBj5ojw@mail.gmail.com>
-In-Reply-To: <CACRpkdbHwusWYgoQRd6kRwo+TfAFgzFcV30Lp_Emg+nuBj5ojw@mail.gmail.com>
+ <CAJKOXPejytZtHL8LeD-_5qq7iXz+VUwgvdPhnANMeQCJ59b3-Q@mail.gmail.com>
+ <CACT4Y+bBb8gx6doBgHM2D5AvQOSLHjzEXyymTGWcytb90bHXHg@mail.gmail.com> <CACRpkdb+u1zs3y5r2N=P7O0xsJerYJ3Dp9s2-=kAzw_s2AUMMw@mail.gmail.com>
+In-Reply-To: <CACRpkdb+u1zs3y5r2N=P7O0xsJerYJ3Dp9s2-=kAzw_s2AUMMw@mail.gmail.com>
 From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Tue, 19 Jan 2021 11:18:21 +0100
-Message-ID: <CACT4Y+Ykw64aRm9xRxqiyD4h-bDNgXG7EnQOp56r82EA6Rzgow@mail.gmail.com>
+Date: Tue, 19 Jan 2021 11:23:19 +0100
+Message-ID: <CACT4Y+ad047xhqsd-omzHbJBRShm-1yLQogSR3+UMJDEtVJ=hw@mail.gmail.com>
 Subject: Re: Arm + KASAN + syzbot
 To: Linus Walleij <linus.walleij@linaro.org>
-Cc: Russell King - ARM Linux <linux@armlinux.org.uk>, Linux ARM <linux-arm-kernel@lists.infradead.org>, 
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, Russell King - ARM Linux <linux@armlinux.org.uk>, 
+	Linux ARM <linux-arm-kernel@lists.infradead.org>, 
 	Hailong Liu <liu.hailong6@zte.com.cn>, Arnd Bergmann <arnd@arndb.de>, 
-	kasan-dev <kasan-dev@googlegroups.com>, syzkaller <syzkaller@googlegroups.com>, 
-	Krzysztof Kozlowski <krzk@kernel.org>
+	kasan-dev <kasan-dev@googlegroups.com>, syzkaller <syzkaller@googlegroups.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: dvyukov@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=twGh+SxS;       spf=pass
- (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::733
+ header.i=@google.com header.s=20161025 header.b=D8n9EFPD;       spf=pass
+ (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::f31
  as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
  (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Dmitry Vyukov <dvyukov@google.com>
@@ -132,133 +133,33 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Jan 19, 2021 at 9:41 AM Linus Walleij <linus.walleij@linaro.org> wrote:
-> > We are considering setting up an Arm 32-bit instance on syzbot for
-> > continuous testing using qemu emulation and I have several questions
-> > related to that.
->
-> That's interesting. I don't know much about syzbot but it reminds me
-> of syzcaller.
-
-Hi Linus,
-
-Yes, these are related. syzkaller is a fuzzer, while syzbot is a
-continuous fuzzing and bug reporting system.
-It's like clang and a CI that uses clang to do continuous builds.
-
-
-> > 1. Is there interest in this on your end? What git tree/branch should
-> > be used for testing (contains latest development and is regularly
-> > updated with fixes)?
->
-> The most important would be Russell's branch I think, that is where
-> the core architecture changes end up. They also land in linux-next.
->
-> I think for the core developers this is the interesting tree,
-> the corporate users mostly use KASAN for fuzzing their
-> out-of-tree codebase and that is not of our concern. There can
-> be some specific platforms we want to test but they mostly
-> require real hardware because the interesting bugs tend to be
-> in drivers and driver subsystems that only gets exercised on
-> real hardware (not Qemu).
-
-See my previous reply to Krzysztof re freshness of the tree.
-I don't maybe it's just due to the winter holidays and usually it's
-updated more frequently?
-
-
-> > 2. I see KASAN has just become supported for Arm, which is very
-> > useful, but I can't boot a kernel with KASAN enabled. I am using
-> > v5.11-rc4 and this config without KASAN boots fine:
-> > https://gist.githubusercontent.com/dvyukov/12de2905f9479ba2ebdcc603c2fec79b/raw/c8fd3f5e8328259fe760ce9a57f3e6c6f5a95c8f/gistfile1.txt
-> > using the following qemu command line:
-> > qemu-system-arm \
-> >   -machine vexpress-a15 -cpu max -smp 2 -m 2G \
-> >   -device virtio-blk-device,drive=hd0 \
-> >   -drive if=none,format=raw,id=hd0,file=image-arm -snapshot \
-> >   -kernel arch/arm/boot/zImage \
-> >   -dtb arch/arm/boot/dts/vexpress-v2p-ca15-tc1.dtb \
-> >   -nographic \
-> >   -netdev user,host=10.0.2.10,hostfwd=tcp::10022-:22,id=net0 -device
-> > virtio-net-device,netdev=net0 \
-> >   -append "root=/dev/vda earlycon earlyprintk=serial console=ttyAMA0
-> > oops=panic panic_on_warn=1 panic=86400 vmalloc=512M"
+On Tue, Jan 19, 2021 at 11:17 AM Linus Walleij <linus.walleij@linaro.org> wrote:
+> > > You could also try other QEMU machine (I don't know many of them, some
+> > > time ago I was using exynos defconfig on smdkc210, but without KASAN).
 > >
-> > However, when I enable KASAN and get this config:
-> > https://gist.githubusercontent.com/dvyukov/a7e3edd35cc39a1b69b11530c7d2e7ac/raw/7cbda88085d3ccd11227224a1c9964ccb8484d4e/gistfile1.txt
-> >
-> > kernel does not boot, qemu only prints the following output and then silence:
-> > pulseaudio: set_sink_input_volume() failed
-> > pulseaudio: Reason: Invalid argument
-> > pulseaudio: set_sink_input_mute() failed
-> > pulseaudio: Reason: Invalid argument
-> >
-> > What am I doing wrong?
+> > vexpress-a15 seems to be the most widely used and more maintained. It
+> > works without KASAN. Is there a reason to switch to something else?
 >
-> I tried it with both KASAN_INLINE and KASAN_OUTLINE this
-> morning on Torvald's tree and it works fine for me.
-> I brought it up with this and it booted (takes ~30 seconds to come up
-> on an i7).
+> Vexpress A15 is as good as any.
 >
-> Here is my config:
-> https://dflund.se/~triad/krad/vexpress_config.txt
-
-
-See my previous reply to Krzysztof re syzbot configs. syzbot can't use
-random configs.
-
-
-> > 3. CONFIG_KCOV does not seem to fully work.
-> > It seems to work except for when the kernel crashes, and that's the
-> > most interesting scenario for us. When the kernel crashes for other
-> > reasons, crash handlers re-crashe in KCOV making all crashes
-> > unactionable and indistinguishable.
-> > Here are some samples (search for __sanitizer_cov_trace):
-> > https://gist.githubusercontent.com/dvyukov/c8a7ff1c00a5223c5143fd90073f5bc4/raw/c0f4ac7fd7faad7253843584fed8620ac6006338/gistfile1.txt
-> > Perhaps some additional Makefiles in arch/arm need KCOV_INSTRUMENT :=
-> > n to fix this.
-> > And LKDTM can be used for testing:
-> > https://www.kernel.org/doc/html/latest/fault-injection/provoke-crashes.html
+> It can however be compiled in two different ways depending on whether
+> you use LPAE or not, and the defconfig does not use LPAE.
+> By setting CONFIG_ARM_LPAE you more or less activate a totally
+> different MMU on the same machine, and those are the two
+> MMUs used by ARM32 systems, so I would test these two.
 >
-> I have never use CONFIG_KCOV really, it's yet another universe
-> that I haven't looked into.
+> The other interesting Qemu target that is and was used a lot is
+> Versatile, versatile_defconfig. This is an older ARMv5 (ARM926EJ-S)
+> CPU core with less memory, but the MMU should be behaving the same
+> as vanilla Vexpress.
 
-I looked up who added KCOV/Arm support to CC... it's turned out to be me...
+That's interesting. If we have more than 1 instance in future we could
+vary different aspects between them to get more combined coverage.
+E.g. one could use ARM_LPAE=y while another ARM_LPAE=n.
 
-I think we need to disable KCOV instrumentation for arch/arm/mm/fault.c:
-[<802b36ac>] (__sanitizer_cov_trace_const_cmp4) from [<801228c8>]
-(do_DataAbort+0x60/0xe8 arch/arm/mm/fault.c:522)
-
-
-But I am more concerned about the following stacks. These happen in
-the generic kernel files. The most expected reason for crashes in KCOV
-would be that current is not properly setup. So presumably these arm
-thunks call into common kernel code without proper current being
-setup. Other arches (x86_64, arm64) should do it properly, so maybe
-it's fixable for arm as well?
-
-[<802b3ffc>] (__sanitizer_cov_trace_pc) from [<802e12cc>]
-(trace_hardirqs_off+0x14/0x120 kernel/trace/trace_preemptirq.c:76)
-[<802e12b8>] (trace_hardirqs_off) from [<80100a74>]
-(__dabt_svc+0x54/0xa0 arch/arm/kernel/entry-armv.S:194)
-
-[<802b3460>] (write_comp_data) from [<802b3728>]
-(__sanitizer_cov_trace_const_cmp8+0x40/0x48 kernel/kcov.c:291)
- r9:00000000 r8:8a2f00ac r7:00000000 r6:dead4ead r5:00000000 r4:00000000
-[<802b36e8>] (__sanitizer_cov_trace_const_cmp8) from [<801f6cb8>]
-(vprintk_func+0xf0/0x2ac kernel/printk/printk_safe.c:385)
- r7:83f885a4 r6:dead4ead r5:00000000 r4:844f2694
-[<801f6bc8>] (vprintk_func) from [<8367b7b0>] (printk+0x40/0x68
-kernel/printk/printk.c:2076)
- r9:8a2f0000 r8:8456390c r7:8a2f00f0 r6:00000367 r5:00000001 r4:83f885a4
-[<8367b770>] (printk) from [<801228ec>] (do_DataAbort+0x84/0xe8
-arch/arm/mm/fault.c:525)
- r3:dead4ead r2:00ad0000 r1:ffffffff r0:83f885a4
- r4:0000001b
-[<80122868>] (do_DataAbort) from [<80100a7c>] (__dabt_svc+0x5c/0xa0
-arch/arm/kernel/entry-armv.S:196)
+But let's start with 1 instance running first :)
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BYkw64aRm9xRxqiyD4h-bDNgXG7EnQOp56r82EA6Rzgow%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2Bad047xhqsd-omzHbJBRShm-1yLQogSR3%2BUMJDEtVJ%3Dhw%40mail.gmail.com.
