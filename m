@@ -1,47 +1,47 @@
-Return-Path: <kasan-dev+bncBC6JD5V23ENBBL5UTKAAMGQE2ZSFZLI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDE6RCFOWIARBV5WTKAAMGQEO6GKPFY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qk1-x740.google.com (mail-qk1-x740.google.com [IPv6:2607:f8b0:4864:20::740])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54DC22FB424
-	for <lists+kasan-dev@lfdr.de>; Tue, 19 Jan 2021 09:37:04 +0100 (CET)
-Received: by mail-qk1-x740.google.com with SMTP id i82sf19515327qke.19
-        for <lists+kasan-dev@lfdr.de>; Tue, 19 Jan 2021 00:37:04 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1611045423; cv=pass;
+Received: from mail-ed1-x539.google.com (mail-ed1-x539.google.com [IPv6:2a00:1450:4864:20::539])
+	by mail.lfdr.de (Postfix) with ESMTPS id 983052FB460
+	for <lists+kasan-dev@lfdr.de>; Tue, 19 Jan 2021 09:42:01 +0100 (CET)
+Received: by mail-ed1-x539.google.com with SMTP id w4sf5303179edu.0
+        for <lists+kasan-dev@lfdr.de>; Tue, 19 Jan 2021 00:42:01 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1611045721; cv=pass;
         d=google.com; s=arc-20160816;
-        b=z7Oh0XattePkcl7sPyV2iwrRQ1NpDrG5C9whKqUgofeqyLjUmeaxgV2Y1xp3Jx40wo
-         mNBoWLr7gGazUmk1lN06B8kXIirBTwScbh4rszWM6fJRogiKTrjmE3QYGvjLkTP6plmI
-         8Vgwryfnsb1bscPmS34VRfBP0EB0s6oCQSvllH/5MdOpxT80ePlOyDSt7jMs/XtRXH9/
-         D7YZ812W9D9ZXvIkkw1rcJj35mwZZQAQrhdwLySpXE5ULfjAySF3C6k1P5RAXYj4KC8b
-         rQopGtehWWTxQg55Z1yjJbWcIbh3kA5WeF7Mv0I+YS9qXr9csLYX/8GFMmZzfWCtFEQG
-         pnTw==
+        b=V0Q4fWntGAaOR5EFV8qQFOv8svEsJgvi1Fl3x38GLygpkVR4yr0RwOeYCWcxge2+z5
+         Kvg02T2N7KOPtXmi8LeJL79UPCRhkcmD2xBmcIRgzGelesomoZEm8m7s/547qSXS1Eft
+         L/1S81kxQH+o2ilPIcGG60fajuOTFm2rBrUcRpUse5L8SYYTrzo2sPpppuqpB5bs0TTN
+         rIpGv5gX3wh5q0DKyYOCCBPbakIqAQC6zBBWClKzBdsOfZaU6DukXZHrZYtGEl993KKd
+         wk04vybEOpUBO12mb4Plyu0xtz/K41LEoD63CyZ0MEtFnfFZo0WIZukXPpcH1O0PopKQ
+         kebQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:sender:dkim-signature;
-        bh=zc5XtZ8QyS/NrqnZH65HvqdjEMr8095EpP5xhTU5Nyk=;
-        b=dwCX5VSkT3BiMdF3DD0TFJ2UrtkXhHVLXWFnTu44EA9wxrjfH5Fep8sts3frYuEdAF
-         /KX3CE2gkmz1VxQlNVXZx6dpSime2q6fT523lqPGk3RfCo/+FHfq0cCptc7A8/SpUFvz
-         6yQ2gh6v+erP6iP9WZDFoW2ZPYj7ZAUL58doutQP/fugHiMtzKbRZ+ctHjdAWB1N0yO1
-         IbKRKQbi94o2iI+Q5cxSnRcd832M/X3PmjKkhCqibqyDjraOdtjngJVQ6rMp7euHEaTB
-         WqeIcRw9eaj7ZQPxFqWcqWNaNYuKhyCve3p6U0KpgmIdS2/zJqT+K249bNtJlRl2RxTG
-         9NrA==
+        bh=OkGo3HCuBckgVA7PtfoT14t0d7sq5Er27LPhutCXC9A=;
+        b=AdJTV3SA2hLZNVGr4HLfZTk7a7+s0E0A7aVD/GwigJV05CUCrrz6WrZ77BTLgnwdsN
+         BcLB3Bf6WusNQF9XUHJi4sBFxqjShYeb7tXLERdeO81XgJgq5vCpovqXz8pgx2X+DjT9
+         29vzdVZFKAJcLQ0e8vGTpm3HO6L4P6YppUHqqHQxHJHMNJRYzAbA14SJreTShu+9dSVF
+         F3HAza7NbHjKPDA71N+rQ++IEo2p43l7uV3S8ps7W8XVFcud0Sd+ZfL2SsEQ4YcGuTRI
+         Psk5jvEHQeQ65hBC4gze4jj765TKxX4AGyaMHKQlQ6WXDMBR9HTYH6gZzjW/Ud99soHU
+         bduw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=qFZfASgQ;
-       spf=pass (google.com: domain of krzk@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=krzk@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       dkim=pass header.i=@linaro.org header.s=google header.b=ITSlhwJR;
+       spf=pass (google.com: domain of linus.walleij@linaro.org designates 2a00:1450:4864:20::231 as permitted sender) smtp.mailfrom=linus.walleij@linaro.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
         h=sender:mime-version:references:in-reply-to:from:date:message-id
          :subject:to:cc:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=zc5XtZ8QyS/NrqnZH65HvqdjEMr8095EpP5xhTU5Nyk=;
-        b=T05gm9tSfsFaEynHHKcc2GBPhoqhDdqJ8+nefUEZyNy6LIIt0X8EgFAktj6JbRoMaB
-         JXJLDDeVo2aX1SyoYaJ8xjoUB+ITHqwGo+3t8+7+zJaspyLCEQ8N9iI3hEadMCWWFfvm
-         7zwzvUJZEmk7HlvEp3nmYXmiLepqi8+RuMy9W8JZLpXoMXctEWNycEId8yrbuzJwu1hM
-         oKowBuFScKxab7zmOw9xMvzoV/qJfEuIFtYcl2wnfXOuwPiZLsMuZnUQJ6YkuJdeDVtI
-         S1lF7u0nR6C+Y2eRFw8iZmwo/dLNBbkaofAXudvcVtzzTOJiC5B4rK7dLOfZRQMFTkIE
-         FFAg==
+        bh=OkGo3HCuBckgVA7PtfoT14t0d7sq5Er27LPhutCXC9A=;
+        b=h0nVI++olKZeDxxaZfKWMYTPsaE2GJch8lGTcG/rl/MoFTgrt9xAtwuDS/L6LaMkqO
+         NM+kijUSa0uolrUbnNO/PL24m5z83u46hMAs4wxEb18cmYMOLO3NvOKxcUpokRjipsaz
+         GZhzbYTI1wLHWRANRqLbNH00ZhqU/EU4dyItIrsrfuBHzsOuek+cWrbp6CsHqBsmZmvI
+         fsgI+3mu4ztElZJiE1CgWOLobL6w0qTzR9B3Ijh3gt/x/GdeGL+kK9FIH92GdW3qJHad
+         3S8O/Tgr40c7KnMhLKmReLFB769jJACuR4H7fKCKFKml3fd/33C9bF/e9AEhPbtn5Hy4
+         Xpig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
@@ -49,77 +49,75 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=zc5XtZ8QyS/NrqnZH65HvqdjEMr8095EpP5xhTU5Nyk=;
-        b=k5F49WW4rhjcBe0jxr/k7g+3STn8jlaRXOyamuaHor/GP4Vj3yzkKmBgupCoirx0A9
-         VkrnkqqfI3FoJn40Mn9S2llkS/s7SWRD8DIC8lT8HwTUst03JgkB2TMWqzeUj7RSdL5o
-         g9h9Njs3zZcMinUtP+8zvCgF40nJQEXvPgXs3NQl4TIXbcNGYn1pgoC+uI4/r3XkOXk7
-         aOoEpwM9u7t7l0xKVNaLEktW2Qi2YvgEXYf38H9Ah619jBCzY6TnaaNEmgEomNndlbDq
-         XaqZvBzWA361xVk030I7dVw0EeBrmMo/Yt/TeR7JP+iTp3z65zM9OiSmzvceFIurXWWG
-         bLMw==
+        bh=OkGo3HCuBckgVA7PtfoT14t0d7sq5Er27LPhutCXC9A=;
+        b=aGycHM4Ie2ehP3wCk4005Adbv2uK2yMV4SBFgYLz177f2a4wC7tr/TQGPXPsJrvxk/
+         n40cAN2Kt3PblAtoZuDx1xjvTbxczlDppcS3jLh4B3Tj0MegVZ0yg/g0VJNF+24PXBHa
+         yaNXAp0zftIVkEZZxmFLLl2RzrrK4qqI084YIf4ZYXEN4PPT7spzPNikmvKI+Nehqg1g
+         MIfMvslJQ0L6/1AOrTehKD47avob89PrTiqYSIFQX1GolHyHKZrKgM45pNIz0/2cboNu
+         W1wzjIp5ZA6UABsrOqwrFnb5B7Rj2gTLJ/vCDK/tbwf2l0EDCfpi9Ti9plP+2ZLj1mh9
+         fPFw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM530DTozO6Fu7fSlbuRBxs+2TEOElZaCl26lgsdKQribajQPK97O3
-	lEqfNswLkIh5opcU0neHQ/M=
-X-Google-Smtp-Source: ABdhPJy9YhtH9PJML6gYqueoYXvjs/BtV54I3I5C2jDa+fR1UqbHHraxMy4/PA92HOYgcvBQKh+1tw==
-X-Received: by 2002:ac8:118c:: with SMTP id d12mr3295560qtj.262.1611045423102;
-        Tue, 19 Jan 2021 00:37:03 -0800 (PST)
+X-Gm-Message-State: AOAM533NMIeCpZPT5tu6nRVugT/2AdGhUhP8O5Y2crnGfy/vEqwiRutr
+	jd2fcVJntYtXNQ+NB7cS8Vw=
+X-Google-Smtp-Source: ABdhPJwbtJl48jMxu2x4838lJcRJXGH7qDU02djOuoWeq1+fI2s+qRN9tCijT9ZWQfYtq2kiGidbyA==
+X-Received: by 2002:a17:906:2454:: with SMTP id a20mr2260536ejb.203.1611045719384;
+        Tue, 19 Jan 2021 00:41:59 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ac8:1001:: with SMTP id z1ls4506086qti.4.gmail; Tue, 19 Jan
- 2021 00:37:02 -0800 (PST)
-X-Received: by 2002:aed:2666:: with SMTP id z93mr3160766qtc.319.1611045422694;
-        Tue, 19 Jan 2021 00:37:02 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1611045422; cv=none;
+Received: by 2002:a05:6402:520e:: with SMTP id s14ls1995583edd.3.gmail; Tue,
+ 19 Jan 2021 00:41:58 -0800 (PST)
+X-Received: by 2002:a05:6402:8d9:: with SMTP id d25mr2511687edz.278.1611045718532;
+        Tue, 19 Jan 2021 00:41:58 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1611045718; cv=none;
         d=google.com; s=arc-20160816;
-        b=edud3xQodb1wjSmnc6ZKienFr5m11ECYNm90g+g0KO8CcbJYqScskRqZlDinAzd5Rm
-         XziiCouwIU560i0Pqd6BCaIHZoSCAfnmloAEiMsqKSYOUBVbYCvIgwf9ustN+QyQmnTl
-         80b/1MXdpsnarpZfBhC8BW11kSW+kJlpN5BzEZliXUwYLj7hMX7rQQayiKfQGKZ9/zQt
-         Fejmdt75iiF8ymqRhoYvDFDeQoIyNlBVK1h6P0UTenMevGszSCC7XxwVfhK1NTKg8PZV
-         PHDX/eJrHm9lMuPW85WE4CcQhNmY69VexgJ9Uhh5FtOlXd9l4YViOcElzzSXF3pT2xul
-         8LZw==
+        b=uCd9tux7CyRB7vOZY+/bMtLr1mr/nVgp4aAhI7IdWhbDq+z0J8z6DtZ1yLFLBXgH+m
+         aadP4c+xo9Mz921rYm3LfJmdK8VTPdL2cM9ZYGNCC1S0/F3/oFbXkI2sJE+hP/wuYiAV
+         uJpRF7YhRC0H6xSwLLRzP5v/Dea2tgc+N7m8rJVlA7e0n4WvFgsfATfzAK0FyPe8Jg3w
+         bH1LzJfAAz5TXS22pSklnTy4+bGd81R89JYUhV5PUQ2o5pruBa/F8B6GbVNjD/qp75Hm
+         EVnsuTaLdcxTGLRWLRk1rXf0iZE6tNdYh5Wsqo6T7/yX470UG0vGqPqUOYc3FcXDGxED
+         el2Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=OEekYL1Psn6FyFt0vwyimb32gZ96dS/txgVXPts+PLs=;
-        b=MQHu95l6raQDmJDpQ/H48hiuCyNHWu/cm0oSUNky5tHttbl7xkxKl/oT0T9nmMDKeo
-         SKQHD7VdCx6QH6q5N9gcLJ7F/ekMMNUumch/6hJOsfD0/iC7+3E9CQMAzZn3fnczkksZ
-         Igk4elJ5Gohsr+oNnHMoG6AT2lRkgTVi1nuBrTcC9fN5OG93m5E5irpTfRdM8x1ihEAa
-         Cr9ykPyHGi98A66r2U4Vsxtd3kQASvqZ/LAwMee9UwYLbhGKi5wEGd6eGTKvhppS5cfE
-         3+WwGmuoA8+Nqu3sKgnKRPW0dbWAN9lXISdox93JjeublIkgSqkXolKEOfPiDHD3025K
-         xt8g==
+        bh=qVO3IBVdVAWg/xRH3KY/h9r4YK5LiBTS4U33uQ1vOYI=;
+        b=Vgp2ap1DIJYxbx77xIwNq2JuSZAygoPu/t4XHQ6shRbNQ6DmrLi7JiuM8+gL7cxskp
+         Rf5/vFs5vEoa5VYSh8PoWE2RyB6Y7DSjRTvQbAId+DBE7LVyyQCCZjKyFRHLqsFSNOtZ
+         QrMkOaYQvQPd+pXJOm6kH0Jyu/LYqMVI9YE+SN4KNF2OuUhQpfKfdi2RUpxGnYjnu3m4
+         XDcTIVNUqgEqPcAXftZRPEZ1uqc+S0wzcrczM5fwNcyLsCSEdd96I7hgLAVWlzOrRdSp
+         qR8NqkWwE2Dhbn/oRkweilTGjIrvWywgrXbmvCoLQNOGgLNOZQs/fL4juqGmEZjJEWHc
+         cvAA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=qFZfASgQ;
-       spf=pass (google.com: domain of krzk@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=krzk@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id p6si2184051qti.1.2021.01.19.00.37.02
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 19 Jan 2021 00:37:02 -0800 (PST)
-Received-SPF: pass (google.com: domain of krzk@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 22BF923135;
-	Tue, 19 Jan 2021 08:37:01 +0000 (UTC)
-Received: by mail-ed1-f41.google.com with SMTP id s11so13202841edd.5;
-        Tue, 19 Jan 2021 00:37:01 -0800 (PST)
-X-Received: by 2002:a05:6402:160f:: with SMTP id f15mr2517992edv.348.1611045419534;
- Tue, 19 Jan 2021 00:36:59 -0800 (PST)
+       dkim=pass header.i=@linaro.org header.s=google header.b=ITSlhwJR;
+       spf=pass (google.com: domain of linus.walleij@linaro.org designates 2a00:1450:4864:20::231 as permitted sender) smtp.mailfrom=linus.walleij@linaro.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com. [2a00:1450:4864:20::231])
+        by gmr-mx.google.com with ESMTPS id m5si350914edr.1.2021.01.19.00.41.58
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 19 Jan 2021 00:41:58 -0800 (PST)
+Received-SPF: pass (google.com: domain of linus.walleij@linaro.org designates 2a00:1450:4864:20::231 as permitted sender) client-ip=2a00:1450:4864:20::231;
+Received: by mail-lj1-x231.google.com with SMTP id u11so20936828ljo.13
+        for <kasan-dev@googlegroups.com>; Tue, 19 Jan 2021 00:41:58 -0800 (PST)
+X-Received: by 2002:a2e:85d1:: with SMTP id h17mr1459752ljj.438.1611045717993;
+ Tue, 19 Jan 2021 00:41:57 -0800 (PST)
 MIME-Version: 1.0
 References: <CACT4Y+bRe2tUzKaB_nvy6MreatTSFxogOM7ENpaje7ZbVj6T2g@mail.gmail.com>
 In-Reply-To: <CACT4Y+bRe2tUzKaB_nvy6MreatTSFxogOM7ENpaje7ZbVj6T2g@mail.gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Date: Tue, 19 Jan 2021 09:36:47 +0100
-X-Gmail-Original-Message-ID: <CAJKOXPejytZtHL8LeD-_5qq7iXz+VUwgvdPhnANMeQCJ59b3-Q@mail.gmail.com>
-Message-ID: <CAJKOXPejytZtHL8LeD-_5qq7iXz+VUwgvdPhnANMeQCJ59b3-Q@mail.gmail.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Tue, 19 Jan 2021 09:41:46 +0100
+Message-ID: <CACRpkdbHwusWYgoQRd6kRwo+TfAFgzFcV30Lp_Emg+nuBj5ojw@mail.gmail.com>
 Subject: Re: Arm + KASAN + syzbot
 To: Dmitry Vyukov <dvyukov@google.com>
 Cc: Russell King - ARM Linux <linux@armlinux.org.uk>, Linux ARM <linux-arm-kernel@lists.infradead.org>, 
-	Linus Walleij <linus.walleij@linaro.org>, liu.hailong6@zte.com.cn, 
-	Arnd Bergmann <arnd@arndb.de>, kasan-dev <kasan-dev@googlegroups.com>, 
-	syzkaller <syzkaller@googlegroups.com>
+	Hailong Liu <liu.hailong6@zte.com.cn>, Arnd Bergmann <arnd@arndb.de>, 
+	kasan-dev <kasan-dev@googlegroups.com>, syzkaller <syzkaller@googlegroups.com>, 
+	Krzysztof Kozlowski <krzk@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: krzk@kernel.org
+X-Original-Sender: linus.walleij@linaro.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=qFZfASgQ;       spf=pass
- (google.com: domain of krzk@kernel.org designates 198.145.29.99 as permitted
- sender) smtp.mailfrom=krzk@kernel.org;       dmarc=pass (p=NONE sp=NONE
- dis=NONE) header.from=kernel.org
+ header.i=@linaro.org header.s=google header.b=ITSlhwJR;       spf=pass
+ (google.com: domain of linus.walleij@linaro.org designates
+ 2a00:1450:4864:20::231 as permitted sender) smtp.mailfrom=linus.walleij@linaro.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -132,44 +130,34 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, 18 Jan 2021 at 17:31, Dmitry Vyukov <dvyukov@google.com> wrote:
->
-> Hello Arm maintainers,
->
+On Mon, Jan 18, 2021 at 5:31 PM Dmitry Vyukov <dvyukov@google.com> wrote:
+
 > We are considering setting up an Arm 32-bit instance on syzbot for
 > continuous testing using qemu emulation and I have several questions
 > related to that.
->
-> 1. Is there interest in this on your end?
 
-Sure, the more, the better.
+That's interesting. I don't know much about syzbot but it reminds me
+of syzcaller.
 
-> What git tree/branch should
+> 1. Is there interest in this on your end? What git tree/branch should
 > be used for testing (contains latest development and is regularly
 > updated with fixes)?
 
-Depends on your testing capabilities, whether you can deal with every
-sub-maintainer's tree. 0-day kernel robot tests everything possible
-and this allows each submaintanier to early receive feedback about his
-tree. It can be around 30 Git trees, though... If you want only few, I
-would start with:
- - https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git/
- - linux-next
- - and Russell's for-next
-(http://git.armlinux.org.uk/cgit/linux-arm.git/log/?h=for-next)
+The most important would be Russell's branch I think, that is where
+the core architecture changes end up. They also land in linux-next.
+
+I think for the core developers this is the interesting tree,
+the corporate users mostly use KASAN for fuzzing their
+out-of-tree codebase and that is not of our concern. There can
+be some specific platforms we want to test but they mostly
+require real hardware because the interesting bugs tend to be
+in drivers and driver subsystems that only gets exercised on
+real hardware (not Qemu).
 
 > 2. I see KASAN has just become supported for Arm, which is very
 > useful, but I can't boot a kernel with KASAN enabled. I am using
 > v5.11-rc4 and this config without KASAN boots fine:
 > https://gist.githubusercontent.com/dvyukov/12de2905f9479ba2ebdcc603c2fec79b/raw/c8fd3f5e8328259fe760ce9a57f3e6c6f5a95c8f/gistfile1.txt
-
-Maybe try first with a kernel based on vexpress defconfig. Yours looks
-closer to multi_v7 which enables a lot of stuff also as modules and
-this by itself brought up few issues (mostly with order of probes).
-
-You could also try other QEMU machine (I don't know many of them, some
-time ago I was using exynos defconfig on smdkc210, but without KASAN).
-
 > using the following qemu command line:
 > qemu-system-arm \
 >   -machine vexpress-a15 -cpu max -smp 2 -m 2G \
@@ -194,30 +182,33 @@ time ago I was using exynos defconfig on smdkc210, but without KASAN).
 >
 > What am I doing wrong?
 
-No clue but I just tried KASAN on my ARMv7 Exynos5422 board (real
-hardware) and it works (although kernel log appeared with a bigger
-delay):
+I tried it with both KASAN_INLINE and KASAN_OUTLINE this
+morning on Torvald's tree and it works fine for me.
+I brought it up with this and it booted (takes ~30 seconds to come up
+on an i7).
 
-[    0.000000] Booting Linux on physical CPU 0x100
-[    0.000000] Linux version
-5.11.0-rc3-next-20210115-00001-g77140600eeec (kozik@kozik-lap)
-(arm-linux-gnueabi-gcc (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0, GNU ld
-(GNU Binutils for Ubuntu) 2.34) #144 SMP PREEMPT Tue Jan 19 09:23:24
-CET 2021
-[    0.000000] CPU: ARMv7 Processor [410fc073] revision 3 (ARMv7), cr=10c5387d
-...
-[    0.000000] kasan: Truncating shadow for memory block at
-0x40000000-0xbea00000 to lowmem region at 0x70000000
-[    0.000000] kasan: Mapping kernel virtual memory block:
-c0000000-f0000000 at shadow: b7000000-bd000000
-[    0.000000] kasan: Mapping kernel virtual memory block:
-bf000000-c0000000 at shadow: b6e00000-b7000000
-[    0.000000] kasan: Kernel address sanitizer initialized
+Here is my config:
+https://dflund.se/~triad/krad/vexpress_config.txt
 
-Best regards,
-Krzysztof
+> 3. CONFIG_KCOV does not seem to fully work.
+> It seems to work except for when the kernel crashes, and that's the
+> most interesting scenario for us. When the kernel crashes for other
+> reasons, crash handlers re-crashe in KCOV making all crashes
+> unactionable and indistinguishable.
+> Here are some samples (search for __sanitizer_cov_trace):
+> https://gist.githubusercontent.com/dvyukov/c8a7ff1c00a5223c5143fd90073f5bc4/raw/c0f4ac7fd7faad7253843584fed8620ac6006338/gistfile1.txt
+> Perhaps some additional Makefiles in arch/arm need KCOV_INSTRUMENT :=
+> n to fix this.
+> And LKDTM can be used for testing:
+> https://www.kernel.org/doc/html/latest/fault-injection/provoke-crashes.html
+
+I have never use CONFIG_KCOV really, it's yet another universe
+that I haven't looked into.
+
+Yours,
+Linus Walleij
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAJKOXPejytZtHL8LeD-_5qq7iXz%2BVUwgvdPhnANMeQCJ59b3-Q%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACRpkdbHwusWYgoQRd6kRwo%2BTfAFgzFcV30Lp_Emg%2BnuBj5ojw%40mail.gmail.com.
