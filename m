@@ -1,130 +1,130 @@
-Return-Path: <kasan-dev+bncBCOYZDMZ6UMRBX5MUGAAMGQEO5TGDHQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDDL3KWR4EBRBAW5UGAAMGQE5C5HO4Q@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-vk1-xa39.google.com (mail-vk1-xa39.google.com [IPv6:2607:f8b0:4864:20::a39])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7450B2FD503
-	for <lists+kasan-dev@lfdr.de>; Wed, 20 Jan 2021 17:12:18 +0100 (CET)
-Received: by mail-vk1-xa39.google.com with SMTP id h63sf12376331vkh.8
-        for <lists+kasan-dev@lfdr.de>; Wed, 20 Jan 2021 08:12:18 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1611159136; cv=pass;
+Received: from mail-pj1-x103a.google.com (mail-pj1-x103a.google.com [IPv6:2607:f8b0:4864:20::103a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 67B6A2FD78B
+	for <lists+kasan-dev@lfdr.de>; Wed, 20 Jan 2021 18:55:16 +0100 (CET)
+Received: by mail-pj1-x103a.google.com with SMTP id o3sf3496645pju.6
+        for <lists+kasan-dev@lfdr.de>; Wed, 20 Jan 2021 09:55:16 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1611165315; cv=pass;
         d=google.com; s=arc-20160816;
-        b=MkXwRK2bTU65umsHkScvKMYRmb1ps8KJEvehzZsZRlHjW2JIJ+gX0/GbosSM7QkEoU
-         iNe98jrJw5dq6Tj8zRrURic216r8U67B5PgUJpmDkAK//p8idiStABeVzXKqASk1jPro
-         6r9CcxAQOIMvcNC5iqpfFy2LGHMsQao8EAnhEX4VsA2kXeshVrwTiqqDBPGSaiCXoYG9
-         yQVkPN26NgeVALu5cLeabTXR82pJ8HY5N3Ubtzagb4QddHlVw0EQGvkBXUJpSSA14NSW
-         wKT556Ll9KKf+zH4RY+LipZe0HM5rmV7spI7nysXfYl3MKtWh/o7aoUxxf9MtPJxDK09
-         dYgg==
+        b=CaiZi+luwljPnGjQ2Qzfjn0TlcrXWZN+jPMZGeqot+pdvKQBHQWuGeo8aXJ8OItz+X
+         s9v0f2fBx+FE09p+Tm8GUaxZ+H4bEAhDGtMLmS3AZI5XpM+4EfEzFrimRstNHM3EXuKV
+         TRMQacWuIKOfi+HwJSQkCtxHNuaxrNpo0vSGe4W8phm7GdEb2CCBZdwEbrMufe6/4okT
+         UaFb62HPneVdlbPMlr8fxaQH8/L+d3Y3IalIYo5brFTiZbNM5fTXlpCl/3Nmx8hLcEnI
+         f0eVLGiNouVEc1lWcYe6XbTHgepb0t9wIkkRXAzcXCebQyoLJj6EShklQQoZEvjMZTJw
+         FHDQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-language:in-reply-to
-         :mime-version:user-agent:date:message-id:from:references:cc:to
-         :subject:sender:dkim-signature;
-        bh=GOzjX20KFxnCfy1FAy+xzydBuDrkAx3Bincw3UXWZEw=;
-        b=sdmZzXMM8S3WNI8c861oF0nH+R2VCFaTzQDk+FBzqQ5+djlEQGQeE8KXaslbxHGBYs
-         mU059NdF5z8u2fQrKAwZdSiOrTPSGBctuuISi5te+XGsbHH6MKRszeN5+56OIqfi3LQu
-         hVQwSZRnyRE32l96uEoO6g/iN1095ZFuI3osMX0YuCdA9wp7I8UonVUkTkg4Ug+5HUB+
-         dOo0SZ/tBF0zC5thCA8/TXNHiYoZUexXT1Cb36nViDRI6zKPQC1YFaPpnoe8MUTvdCz8
-         37IwYJiVaJLZzjYmebYtTnxNJuK2KQ/Fopc6LtqmxCsFhotfc33/8j1Y5g3uECNQzqd0
-         rsVA==
+         :list-id:mailing-list:precedence:user-agent:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:sender:dkim-signature;
+        bh=wFJhwdn0tlTyZUx/Eu8p8pnbgjzHzaWaqakDC81dlmw=;
+        b=JwmJPS9V1jxikQsSU9GIAd4QOKVXf8xXrnAwok8vwqI544fHdnhRt0h8+ywU6qdRBO
+         oBEHxsnpuBHD8HhLKJnlyg6kD9Ft1vKLiJgzfhtPMyMPtebheuVPvk2apYSj6jLkuWxA
+         OQt5eenBfFAMAFlTWvX+BaiCFZNSbOPSnWpMQRdTcn8GBqy1M9/McpVjCC8mo1FcRvLM
+         Q6OUWCmkcILAt7Cl7tA0ZIetqSaeFt0KecddZPTKI/k25o2TxPHbizAF4ObV7VZYonjl
+         bHogfRm73G4YQE+c0ihN+5oT2ra1G6fQAbYBGjQMQ3zbzFWDrIwc6axvrDHCdmoMkK3P
+         BzpA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=vincenzo.frascino@arm.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
+       spf=pass (google.com: domain of cmarinas@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=cmarinas@kernel.org;
+       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=arm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:x-original-sender
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=GOzjX20KFxnCfy1FAy+xzydBuDrkAx3Bincw3UXWZEw=;
-        b=NIr5jFKNTBqaXbs+dJcx/oWjeY+dfq1JDjv1QgwqH1uzGflK+FPGaqMkFuvcUwBo+m
-         JG57Fkp1aARWNCjkBYyDSOr2Vv4arkg2rKLOQo4TDzordPd+L76VnzBs17Ss8m8yfWbb
-         NNTh71xbKcQ+51PVz8+yIIbRVJ4GB+cCLm5aAWZoNeEkxUGojX5JUGMV/boloTa82XHz
-         vssxz66mJ74D+2Se6G1B284NoNj0g2iS/JDJ5Hn1mEIScOaAvzMukK7Di4Bpx2iOl92P
-         kvXUIyovq8Aw6fbK3ENAL+CDeplbnQvSpoSiVXwd3j/hm0xO0fXvWrgwrpVdftKPjyF7
-         lmOg==
+        bh=wFJhwdn0tlTyZUx/Eu8p8pnbgjzHzaWaqakDC81dlmw=;
+        b=jXK1n8v1/R371TLIvyOrbpmo367/qwmZ8O81qo8rPoukf/E5CHMhWPBYSl3eSNBIk1
+         XmZuRRsnCyTTMfseIhLGwnO3IxIyj+jC7yIsPg5amUcgBi3U2RgjleGJXx3Qtx2Y0Q9l
+         LnAFL9Udi5EnatGn0D8xxxOxuBm9CY/VXK3BaxDx8W15rlu3zR6f/9Swrv1ucjBIu1Uh
+         mZ/8jKe5lh0prbOCWGA2+UmEbyw3hlTpfoclJ4m4/N97iLDuLmQexGq44Ul04f4Xcuwd
+         oksccfUSNSSeRTX+cvlgfnSJmpH9vshKUeldUuiJy1QHlBTdn4REk+yuxsQdBkycrIpn
+         5HXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=GOzjX20KFxnCfy1FAy+xzydBuDrkAx3Bincw3UXWZEw=;
-        b=RWIiTobp1DyQQfPZvJQIlIekKE13N6/r3dUo+LKATb4QYM17nqcp87NcepYkOPJMxH
-         KFMYvQLYuJFVU1RYPpEtkQdz7amxmJxX2ODbcHAWYczBbwBJFkYT74gAAtIUuZG+op3n
-         alRN6pPlUkI2kT3jDNi2b8quGXxV6lArXKeuwTCuCjgWSpHSvxyypCxh45RZ8p8g+MQE
-         rQ4+zdL5xz8r5fzQ7A3tNExFjemFELgyUJpSLNdLxCHYELOYr9W58XP6zBipeh9BwcBu
-         BF1ZpqVi3IQ1Qtp+ZQj1QBwiUfcNjX0nqUlFUudc91ppHhkrMY912auTluaHuOa8IxMZ
-         0SYQ==
+        bh=wFJhwdn0tlTyZUx/Eu8p8pnbgjzHzaWaqakDC81dlmw=;
+        b=aC5hS5+PEtqKSwq+n6g0kCwa3mPegVNKlnCZZPO/ibHKkKWU6QSTCjiVTQRWzu9KRV
+         G1D9yU3jh6ZfhdNzmWIO3WBKSvL2IDtgRmtT1ajZSGtwuU4dE+OKBSnBgnuSqIZHWRSS
+         mR6EmMdec6pSlwHKC1FsIEDV9wmNTetzcgOSoY36ATiCK/5DPAG/mzh61ThLmAafBz/y
+         DHzK/Tf6iYQvkr8mlNB6z9ajNARj+StgR679u6pybMvRVD3auB8Ft9gN7Ix/oHJ4Tllg
+         WzkIiu3uGFbRAyT0hREEGgOi+YXHgkx6Hq8f1zjaRInjkQxjyQCOT8DMUU/RJKV015ea
+         6gJw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM533J0GzEs7TxKB2H3ZxhSGeQPMd8igqVwL3CQQN3/2KTc1P94JBg
-	OW8iXYa6Ag3g1blIQYxQGlQ=
-X-Google-Smtp-Source: ABdhPJxCEjhCzFSAvZqm5bj9mDOoHeUM7ZJoOeR3IDhdjFYjPabQ/NqrBIC2jVlG+WJn9Y1102fIeA==
-X-Received: by 2002:a05:6102:109:: with SMTP id z9mr2652530vsq.34.1611159136097;
-        Wed, 20 Jan 2021 08:12:16 -0800 (PST)
+X-Gm-Message-State: AOAM5306JY87K4c0iXdtbvjS+DURQNA+iXFsqxEyIpuqnuTucA+lhR1t
+	POFemfI72lF9d2uB2Ejt3NY=
+X-Google-Smtp-Source: ABdhPJxKmYuAts7rLxIP5V7MXBawf9zeSt4KBcuw04e6p2WlLEPG8F/1ujtuoRVMN4pEiELsediNvg==
+X-Received: by 2002:a63:b550:: with SMTP id u16mr4502610pgo.448.1611165314937;
+        Wed, 20 Jan 2021 09:55:14 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ab0:4823:: with SMTP id b32ls2110034uad.2.gmail; Wed, 20 Jan
- 2021 08:12:15 -0800 (PST)
-X-Received: by 2002:a9f:2c07:: with SMTP id r7mr6823351uaj.4.1611159135526;
-        Wed, 20 Jan 2021 08:12:15 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1611159135; cv=none;
+Received: by 2002:a63:545e:: with SMTP id e30ls5124819pgm.4.gmail; Wed, 20 Jan
+ 2021 09:55:14 -0800 (PST)
+X-Received: by 2002:a62:2f03:0:b029:1af:b254:d1b0 with SMTP id v3-20020a622f030000b02901afb254d1b0mr10434334pfv.5.1611165314321;
+        Wed, 20 Jan 2021 09:55:14 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1611165314; cv=none;
         d=google.com; s=arc-20160816;
-        b=Kq4RBreddXxaljTM2glUQASheChXGOzZ7RB4hp9EiHlee0Jo4vG5xIYnUEgSTpqbS/
-         xPg3YSg12O7rcYVU8a30jVpbg/Garqtgn8Ie1cyEpPfwhuXhD+q+7qeR1rbYljz29o3k
-         3ekOsuGWnoWE4V22rTv32r1+0DUNeItB6MtdS27OQsNJghz4F9BB3DHOhnfdqimAaOjj
-         QhAzb4SCSlsQmHKe20qQprwYPtk5DEZQ9s3/qt157iArBCIWeVD1yOTI0KD1oaUDgINs
-         0EFWdPTOQ+Ktl+ARS1i2+GwROQYQMqYHenyXehTkMp3291dYtXuph4JIb117NWuh4hDz
-         FBhA==
+        b=cepk5lii881dRUf39e5/hNQWbZLx0mR3m3yhKLoxUz9KeyrZHV/+CT6eVL4pWklZrO
+         k787f39ZnfpKYx4QYQ9kjZ1305iw+7eRYbnPLHwsmA3dl4R04Ds4+fPAjqgA9G2NbXc2
+         vTEiaVRLHkhdgkKhIz8b+pe2bsVrKVs8emHEL4WfcjTtyZkinXSILgdJhm8iOwEQpNij
+         uQvVg/+5xAiW9QYn5MbDsHzGlRTytUoIVU/NDxOvHnuAkZkzK6MCjrcZU7jh2o8xlsnq
+         8bI4M8WNh+ZYRR7aeurSYv7PflfrRcyan0r9lkh9K0xm6WgbChX0Nh9+vyGwb+ZyTP6k
+         UGew==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject;
-        bh=PkLITnDREFo+zqyRbE18DFKUvOvCqESGIqYaeb/QCTQ=;
-        b=TWY/lOp0OW35iUMLyuqxQ0Pw+TIbALjJW6l0yWlvroj0DH/QaKygRIshQbVt8O9CeG
-         k5HJI6GBf7CN/jgfsmTXwMJ8xQylkcnJgphghzmp+H2+KVsKdG1Pp5Y/7/ehNqCy8/A4
-         bgCok08PT3920sC4/+Mm2foL+waBOyvlrRO86kwC/S2ir4zNtWPcUq3jaV6tLmENyKC3
-         bH0d0765qQH55dEybzFcHM9nKHa/4W+eGiV+Tq9f7ZxEx9CMgPws1y+6i0mC9C1EenmE
-         Oz6bIIiS5lfQE9jbS6aLqDtYBTrkmuEE2kvy1Z9C7rWde5ShBJupbR0AKFkRWMkLwaWf
-         IWmg==
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date;
+        bh=dUcvOWXgAsQ71IWR+KWyoL/N8cnFP0if6bgYU1/RQLg=;
+        b=Sv8WpMOWzmSANZu9cIIDHtsIK5oHuh3tyyI6J6P4+5niNaJcrnNpnl/bmg26LTwAyC
+         EmqlT/uaar5xfhLnf8Z6hZ8y2VVFDPQwqbWg0ddlVRUvhA9gGClMp8YzgpgEoPPAKZup
+         D7yYKq6d2B4fQbFO97Kdz2uNOKTttrQPoVYpjnLT/trQESH+PYp31xbv9qySXnUPYJxA
+         Vj/V1laNnRDH4IDVGVqPqMuW1BDcIrrNhzpEiUGbsDDwqvmJ1FQLPQ0oo2p4ya2tU+WZ
+         YhUgaKLCOv2M1qSUuz55GscOSzYFZJumtCp200Pe7mHdl2QMUQ9VxXo0AdZtI2GMCyHa
+         uVCQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=vincenzo.frascino@arm.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
-Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
-        by gmr-mx.google.com with ESMTP id h123si247318vkg.0.2021.01.20.08.12.14
-        for <kasan-dev@googlegroups.com>;
-        Wed, 20 Jan 2021 08:12:15 -0800 (PST)
-Received-SPF: pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2614C31B;
-	Wed, 20 Jan 2021 08:12:14 -0800 (PST)
-Received: from [10.37.8.30] (unknown [10.37.8.30])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9EE953F68F;
-	Wed, 20 Jan 2021 08:12:12 -0800 (PST)
-Subject: Re: [PATCH] kasan: Add explicit preconditions to kasan_report()
-To: Catalin Marinas <catalin.marinas@arm.com>
+       spf=pass (google.com: domain of cmarinas@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=cmarinas@kernel.org;
+       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=arm.com
+Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
+        by gmr-mx.google.com with ESMTPS id c2si218740pls.4.2021.01.20.09.55.14
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 20 Jan 2021 09:55:14 -0800 (PST)
+Received-SPF: pass (google.com: domain of cmarinas@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6859B223DB;
+	Wed, 20 Jan 2021 17:55:12 +0000 (UTC)
+Date: Wed, 20 Jan 2021 17:55:09 +0000
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: Vincenzo Frascino <vincenzo.frascino@arm.com>
 Cc: Andrey Konovalov <andreyknvl@google.com>,
- LKML <linux-kernel@vger.kernel.org>, kasan-dev <kasan-dev@googlegroups.com>,
- Leon Romanovsky <leonro@mellanox.com>,
- Alexander Potapenko <glider@google.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Andrey Ryabinin <aryabinin@virtuozzo.com>, Dmitry Vyukov <dvyukov@google.com>
+	LKML <linux-kernel@vger.kernel.org>,
+	kasan-dev <kasan-dev@googlegroups.com>,
+	Leon Romanovsky <leonro@mellanox.com>,
+	Alexander Potapenko <glider@google.com>,
+	Linux ARM <linux-arm-kernel@lists.infradead.org>,
+	Andrey Ryabinin <aryabinin@virtuozzo.com>,
+	Dmitry Vyukov <dvyukov@google.com>
+Subject: Re: [PATCH] kasan: Add explicit preconditions to kasan_report()
+Message-ID: <20210120175509.GA17952@gaia>
 References: <20210119172607.18400-1-vincenzo.frascino@arm.com>
  <CAAeHK+zpB6GZcAbWnmvKu5mk_HuNEaXV2OwRuSNnVjddjBqZMQ@mail.gmail.com>
- <20210119185206.GA26948@gaia> <418db49b-1412-85ca-909e-9cdcd9fdb089@arm.com>
+ <20210119185206.GA26948@gaia>
+ <418db49b-1412-85ca-909e-9cdcd9fdb089@arm.com>
  <20210120160416.GF2642@gaia>
-From: Vincenzo Frascino <vincenzo.frascino@arm.com>
-Message-ID: <6525b31a-9258-a5d1-9188-5bce68af573c@arm.com>
-Date: Wed, 20 Jan 2021 16:16:02 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ <6525b31a-9258-a5d1-9188-5bce68af573c@arm.com>
 MIME-Version: 1.0
-In-Reply-To: <20210120160416.GF2642@gaia>
 Content-Type: text/plain; charset="UTF-8"
-Content-Language: en-US
-X-Original-Sender: vincenzo.frascino@arm.com
+Content-Disposition: inline
+In-Reply-To: <6525b31a-9258-a5d1-9188-5bce68af573c@arm.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Original-Sender: catalin.marinas@arm.com
 X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172
- as permitted sender) smtp.mailfrom=vincenzo.frascino@arm.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
+ (google.com: domain of cmarinas@kernel.org designates 198.145.29.99 as
+ permitted sender) smtp.mailfrom=cmarinas@kernel.org;       dmarc=fail (p=NONE
+ sp=NONE dis=NONE) header.from=arm.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -137,110 +137,105 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-
-
-On 1/20/21 4:04 PM, Catalin Marinas wrote:
-> On Tue, Jan 19, 2021 at 08:35:49PM +0000, Vincenzo Frascino wrote:
->> On 1/19/21 6:52 PM, Catalin Marinas wrote:
->>> On Tue, Jan 19, 2021 at 07:27:43PM +0100, Andrey Konovalov wrote:
->>>> On Tue, Jan 19, 2021 at 6:26 PM Vincenzo Frascino
->>>> <vincenzo.frascino@arm.com> wrote:
->>>>>
->>>>> With the introduction of KASAN_HW_TAGS, kasan_report() dereferences
->>>>> the address passed as a parameter.
->>>>>
->>>>> Add a comment to make sure that the preconditions to the function are
->>>>> explicitly clarified.
->>>>>
->>>>> Note: An invalid address (e.g. NULL pointer address) passed to the
->>>>> function when, KASAN_HW_TAGS is enabled, leads to a kernel panic.
->>>>>
->>>>> Cc: Andrey Ryabinin <aryabinin@virtuozzo.com>
->>>>> Cc: Alexander Potapenko <glider@google.com>
->>>>> Cc: Dmitry Vyukov <dvyukov@google.com>
->>>>> Cc: Leon Romanovsky <leonro@mellanox.com>
->>>>> Cc: Andrey Konovalov <andreyknvl@google.com>
->>>>> Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
->>>>> ---
->>>>>  mm/kasan/report.c | 11 +++++++++++
->>>>>  1 file changed, 11 insertions(+)
->>>>>
->>>>> diff --git a/mm/kasan/report.c b/mm/kasan/report.c
->>>>> index c0fb21797550..2485b585004d 100644
->>>>> --- a/mm/kasan/report.c
->>>>> +++ b/mm/kasan/report.c
->>>>> @@ -403,6 +403,17 @@ static void __kasan_report(unsigned long addr, size_t size, bool is_write,
->>>>>         end_report(&flags);
->>>>>  }
->>>>>
->>>>> +/**
->>>>> + * kasan_report - report kasan fault details
->>>>> + * @addr: valid address of the allocation where the tag fault was detected
->>>>> + * @size: size of the allocation where the tag fault was detected
->>>>> + * @is_write: the instruction that caused the fault was a read or write?
->>>>> + * @ip: pointer to the instruction that cause the fault
->>>>> + *
->>>>> + * Note: When CONFIG_KASAN_HW_TAGS is enabled kasan_report() dereferences
->>>>> + * the address to access the tags, hence it must be valid at this point in
->>>>> + * order to not cause a kernel panic.
->>>>> + */
->>>>
->>>> It doesn't dereference the address, it just checks the tags, right?
->>>>
->>>> Ideally, kasan_report() should survive that with HW_TAGS like with the
->>>> other modes. The reason it doesn't is probably because of a blank
->>>> addr_has_metadata() definition for HW_TAGS in mm/kasan/kasan.h. I
->>>> guess we should somehow check that the memory comes from page_alloc or
->>>> kmalloc. Or otherwise make sure that it has tags. Maybe there's an arm
->>>> instruction to check whether the memory has tags?
->>>
->>> There isn't an architected way to probe whether a memory location has a
->>> VA->PA mapping. The tags are addressed by PA but you can't reach them if
->>> you get a page fault on the VA. So we either document the kasan_report()
->>> preconditions or, as you suggest, update addr_has_metadata() for the
->>> HW_TAGS case. Something like:
->>>
->>>         return is_vmalloc_addr(virt) || virt_addr_valid(virt));
->>>
->>
->> This seems not working on arm64 because according to virt_addr_valid 0 is a
->> valid virtual address, in fact:
->>
->> __is_lm_address(0) == true && pfn_valid(virt_to_pfn(0)) == true.
+On Wed, Jan 20, 2021 at 04:16:02PM +0000, Vincenzo Frascino wrote:
+> On 1/20/21 4:04 PM, Catalin Marinas wrote:
+> > On Tue, Jan 19, 2021 at 08:35:49PM +0000, Vincenzo Frascino wrote:
+> >> On 1/19/21 6:52 PM, Catalin Marinas wrote:
+> >>> On Tue, Jan 19, 2021 at 07:27:43PM +0100, Andrey Konovalov wrote:
+> >>>> On Tue, Jan 19, 2021 at 6:26 PM Vincenzo Frascino
+> >>>> <vincenzo.frascino@arm.com> wrote:
+> >>>>>
+> >>>>> With the introduction of KASAN_HW_TAGS, kasan_report() dereferences
+> >>>>> the address passed as a parameter.
+> >>>>>
+> >>>>> Add a comment to make sure that the preconditions to the function are
+> >>>>> explicitly clarified.
+> >>>>>
+> >>>>> Note: An invalid address (e.g. NULL pointer address) passed to the
+> >>>>> function when, KASAN_HW_TAGS is enabled, leads to a kernel panic.
+> >>>>>
+> >>>>> Cc: Andrey Ryabinin <aryabinin@virtuozzo.com>
+> >>>>> Cc: Alexander Potapenko <glider@google.com>
+> >>>>> Cc: Dmitry Vyukov <dvyukov@google.com>
+> >>>>> Cc: Leon Romanovsky <leonro@mellanox.com>
+> >>>>> Cc: Andrey Konovalov <andreyknvl@google.com>
+> >>>>> Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
+> >>>>> ---
+> >>>>>  mm/kasan/report.c | 11 +++++++++++
+> >>>>>  1 file changed, 11 insertions(+)
+> >>>>>
+> >>>>> diff --git a/mm/kasan/report.c b/mm/kasan/report.c
+> >>>>> index c0fb21797550..2485b585004d 100644
+> >>>>> --- a/mm/kasan/report.c
+> >>>>> +++ b/mm/kasan/report.c
+> >>>>> @@ -403,6 +403,17 @@ static void __kasan_report(unsigned long addr, size_t size, bool is_write,
+> >>>>>         end_report(&flags);
+> >>>>>  }
+> >>>>>
+> >>>>> +/**
+> >>>>> + * kasan_report - report kasan fault details
+> >>>>> + * @addr: valid address of the allocation where the tag fault was detected
+> >>>>> + * @size: size of the allocation where the tag fault was detected
+> >>>>> + * @is_write: the instruction that caused the fault was a read or write?
+> >>>>> + * @ip: pointer to the instruction that cause the fault
+> >>>>> + *
+> >>>>> + * Note: When CONFIG_KASAN_HW_TAGS is enabled kasan_report() dereferences
+> >>>>> + * the address to access the tags, hence it must be valid at this point in
+> >>>>> + * order to not cause a kernel panic.
+> >>>>> + */
+> >>>>
+> >>>> It doesn't dereference the address, it just checks the tags, right?
+> >>>>
+> >>>> Ideally, kasan_report() should survive that with HW_TAGS like with the
+> >>>> other modes. The reason it doesn't is probably because of a blank
+> >>>> addr_has_metadata() definition for HW_TAGS in mm/kasan/kasan.h. I
+> >>>> guess we should somehow check that the memory comes from page_alloc or
+> >>>> kmalloc. Or otherwise make sure that it has tags. Maybe there's an arm
+> >>>> instruction to check whether the memory has tags?
+> >>>
+> >>> There isn't an architected way to probe whether a memory location has a
+> >>> VA->PA mapping. The tags are addressed by PA but you can't reach them if
+> >>> you get a page fault on the VA. So we either document the kasan_report()
+> >>> preconditions or, as you suggest, update addr_has_metadata() for the
+> >>> HW_TAGS case. Something like:
+> >>>
+> >>>         return is_vmalloc_addr(virt) || virt_addr_valid(virt));
+> >>>
+> >>
+> >> This seems not working on arm64 because according to virt_addr_valid 0 is a
+> >> valid virtual address, in fact:
+> >>
+> >> __is_lm_address(0) == true && pfn_valid(virt_to_pfn(0)) == true.
+> > 
+> > Ah, so __is_lm_address(0) is true. Maybe we should improve this since
+> > virt_to_pfn(0) doesn't make much sense.
 > 
-> Ah, so __is_lm_address(0) is true. Maybe we should improve this since
-> virt_to_pfn(0) doesn't make much sense.
-> 
+> How do you propose to improve it?
 
-How do you propose to improve it?
+Check that it's actually a kernel address starting at PAGE_OFFSET. The
+current __is_lm_address() check just masks out the top 12 bits but if
+they were 0, this still yields a true result. Maybe extending the
+current definition as:
 
->> An option could be to make an exception for virtual address 0 in
->> addr_has_metadata() something like:
->>
->> static inline bool addr_has_metadata(const void *addr)
->> {
->> 	if ((u64)addr == 0)
->> 		return false;
->>
->> 	return (is_vmalloc_addr(addr) || virt_addr_valid(addr));
->> }
-> 
-> As Andrey replied, passing a non-zero small value would still be
-> incorrectly detected as valid.
-> 
+#define __is_lm_address(addr)	((u64)(addr) >= PAGE_OFFSET && \
+				 ((u64)(addr) & ~PAGE_OFFSET) < (PAGE_END - PAGE_OFFSET))
 
-I would like to remove the check completely and have virt_addr_valid(addr) to
-return the right thing if possible.
+Which basically means:
 
-I admit, yesterday evening I did not thing it through completely before posting
-this code that had the sole purpose to open the discussion. I agree in principle
-on what Andrey said as well (addr < PAGE_SIZE).
+#define __is_lm_address(addr)	((u64)(addr) >= PAGE_OFFSET && \
+				 (u64)(addr) < PAGE_END)
+
+I think we could write the above as:
+
+#define __is_lm_address(addr)	(((u64)(addr) ^ PAGE_OFFSET) < (PAGE_END - PAGE_OFFSET))
+
+This way we catch any 0 bits in the top 12 (or 16 with a 48-bit VA
+configuration).
 
 -- 
-Regards,
-Vincenzo
+Catalin
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/6525b31a-9258-a5d1-9188-5bce68af573c%40arm.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210120175509.GA17952%40gaia.
