@@ -1,133 +1,127 @@
-Return-Path: <kasan-dev+bncBCOYZDMZ6UMRBIWJU2AAMGQE454XZEI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCOYZDMZ6UMRBWO4U2AAMGQETEHPRTA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pg1-x53c.google.com (mail-pg1-x53c.google.com [IPv6:2607:f8b0:4864:20::53c])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD89D2FEF9A
-	for <lists+kasan-dev@lfdr.de>; Thu, 21 Jan 2021 16:58:27 +0100 (CET)
-Received: by mail-pg1-x53c.google.com with SMTP id 18sf1504869pgp.22
-        for <lists+kasan-dev@lfdr.de>; Thu, 21 Jan 2021 07:58:27 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1611244706; cv=pass;
+Received: from mail-oi1-x23b.google.com (mail-oi1-x23b.google.com [IPv6:2607:f8b0:4864:20::23b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CE142FF091
+	for <lists+kasan-dev@lfdr.de>; Thu, 21 Jan 2021 17:39:54 +0100 (CET)
+Received: by mail-oi1-x23b.google.com with SMTP id c7sf1069256oig.17
+        for <lists+kasan-dev@lfdr.de>; Thu, 21 Jan 2021 08:39:54 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1611247193; cv=pass;
         d=google.com; s=arc-20160816;
-        b=dIXPtTfjY5VQ63rgnrHLhdX3WJht+lRkyVWdFk7aKnDuQbjTG2l1Ur09l7523zUteo
-         cYCW+jdmK45BgbfszmqQ4i2p2FJc2uYvB4sxKeCaDgCSmnScOn/31/Uutp3DMl5HRZSa
-         wa2YgNRffOKK5148bYUnhn0N5k4wUD9metPel+PhvZ98aUl6srvBNQJGJMGbAob9OQSe
-         lO9gAO97ALxrVje2hIdNOB56ocaa/aG2H6w+lP10yBYrBewzgnembGEJvQSuD7ApeSXZ
-         NP8qXRajsBhpYO7dfFZ0cDk1jBqII3WsI2VX0HMWWgUFOhoq+tfMRXXJh0UeO1GqAslQ
-         yKQQ==
+        b=CPMXzY9A1FD3L+ANyPYVaowpjr/Pqvk2z5KwznaBG1cJNpqoqXHJNofiWed3Acdc2d
+         g/jfZceehaoabrLerzE6OxDIEDIPNbB220tzzEKsMW9O+ZxzqPWraFef3yz2Py26BqWP
+         n4wlyfaKNQFqKsYTiingPk3D/sBLtxfNAHJ6OAFxmoMbSg1VRnv4mC8DOqfbTa46Be9k
+         n8wpDjWprt4JA5xwxGYnrOV37Uu07TGex4Zaj+URvF0f2QV2ICeOnjY39QlK1Tnp7dKB
+         bn8cO6Kn3TpowcaW6dW/FAeWzEp2U+hN/XivmCL7jcW+EWc6QItD87j12tvUPJOcDe0J
+         l3gw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-language:in-reply-to
-         :mime-version:user-agent:date:message-id:from:references:cc:to
-         :subject:sender:dkim-signature;
-        bh=wf1f1zG81zlPy7RE/dT7/MQ+qFlqNDGxPfcqT16On4k=;
-        b=WYqlR3x0tBfq6FzSFw6kBvEW1LfRIgpW0/UlWC3Sm/Kh8QGA8kbwZ3D2aDY4S4K9vP
-         XvkGtVtM1xdic7GyTHQnMh8Buxk505HzIATgyVh0bm8TE7nSFUur+UPxzXT1hIfeEaUM
-         Zxncs9uo8EFw+Yo+QN/QssSZXaLTxDDktKCpAxZ/wW9j9Ur5n4ovwVWlxT2JqOT4YYsF
-         cBQsVwwb5G84aBkGf3iebQfiDpS6Claaq0ILYwCNtCr+oZ6liTsMp5MPcfkVf7bNZQgY
-         j/qetWMK6mt4zTTFHLhjAuhtnQ9c83/BesUvIgfQ+vQQrz3n3zEGMtzNQMCGPxrcNNBS
-         n8LQ==
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :subject:cc:to:from:sender:dkim-signature;
+        bh=JxG7M3sfPKiQtv9tIWcDqLmPX+4lsiN1ZoRDCXyBvR4=;
+        b=J5zC8c9Eyiwr0T+eKaL0B3DVxSHb+oqFJwbHHMLBWS068/yRG8BngeWzDrDtzETseN
+         OTleFGB67JpeBg8KpkaYES21UwWS52ZLjAde9f4HJQybHtU3K/gLdmoOOhf/5tI7k5TH
+         K37ebLhahEkZiGtA9Bd5bbC/fEITfFJSJ8e5D/0Rz0yUc0a+/Z0DbQRKQ7Kj2mcHvSWg
+         nsR5F78VURdbWne27eOEOUvLtiShn7C4a1EGDMh5T6mbxGZHs/cHB3ypRH8pAziDUNg5
+         6kjgFJnu5ZrS3YfyrYFDSZhuqRZHBiPv80aaX1++Fufv8Y0h1POzOKzgBfh9lP7qIUQ4
+         m8Eg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
        spf=pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=vincenzo.frascino@arm.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=wf1f1zG81zlPy7RE/dT7/MQ+qFlqNDGxPfcqT16On4k=;
-        b=bLiKA+9XA2TX22k7nXtHBADMfNUMHVWCevbwOazkASTqVUAub/su8J/6gu3nNZFT37
-         p/rZGfFPsyXQf+Tvi4Wz2E0iwJEu9m6oAlVMIhhaXTTXu8m6MixMOyoG/C8wZMI/zisR
-         5pV04I7Fqlju7iHAyTlx2aLNS2ndxQdVYn8CfVPMu0imFIISfA8VUg95YTKVCcE6n3/P
-         fplOtx2ZW457njk6C+sv2gNgrRjegacGC7Co5OW4zBn0WVc5uyUAqnHcujBQq9/BHTwY
-         TAFU1OXvA+CYhHAcd8n5hEXZ3ywWaEVWkICTycJYTedMOImij7KrX2br1BKkx+BXxbCe
-         KY7Q==
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=JxG7M3sfPKiQtv9tIWcDqLmPX+4lsiN1ZoRDCXyBvR4=;
+        b=UZDE65seKMJzQpMLD6HRwAIgk/qiTEN68Hz5n0/eH+xbiF3ay8awdukwqSMN67Vhv7
+         6C99C/051oNL1Sj54TwRwu9SUgpCYlW+Z57lBHYBAWG1uf+98ONQKJpBuwatRvG+1VsH
+         Y/XAJCF6Ib48h0PDANIWr/IjFO1qAO/pZpQupYVRNSAszz77z0oA9ThriTMJEtrmL6tj
+         yfZe9oQNC+CtsLTuZfxeRXtWIeizE+lsJNsPMV6uVgKG+Z4GQ1jPF6alcgKj7rYogOQ7
+         yifBQXR2LeBzP2QYRCWrw1bmdZxgmQcPtYJSYxg6cwEBecTqA8t2PMfl2MPJ/2BQZbWP
+         KvhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=wf1f1zG81zlPy7RE/dT7/MQ+qFlqNDGxPfcqT16On4k=;
-        b=gY7JxTexsxxx0Yum1LXezaIP6WYYbLlJYmvhAHc3WxAdC9D6Zq7GyNO1jOinskDFdX
-         8HfBNV7NCfvocye4dOG56OtpDiDWq+I22t+pXmES3K6Kllmw5E0n2d1DrObeuHfHNuUt
-         iRtMQiwrxwABCYI/pPpey51W8DNIPQc9F6237qTdlVxNwzING+nM42ikSgvVVhsFArqs
-         gOaFbb4YTjzUAfLadtnAZUXMNtfEYCfJvFmm3oirVaFEMeIrB9gM8BVO8fs0W5C3+5ol
-         Xnvi5U2tC2GYqUpXRK50AzoHqAdnNdQ4pBRIAWs95zzMkF8I+6XYaXBmJCQJE0MKyBpC
-         Upow==
+        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=JxG7M3sfPKiQtv9tIWcDqLmPX+4lsiN1ZoRDCXyBvR4=;
+        b=j/VCQ0UlY70K85EZqdZcFKPn2DPZ3fKW3puze4mvJM3wDBso0OiwaC1MvalOIG5wvT
+         fQgsJIe/gBT0ea8YiOeOcdHPc+WYuIXzT+u46/+zbs85+u10xRC/aGXiszm67Qv2NrZY
+         zyvVjW36pUso9vLYQyxqYTs7zPiD+UOYmFCUPWIyzOuBwxK6DjyVT0Gp3muWBLDOAgI1
+         r9Gh48MnWi0stC+2U4GONmj5+ULsKhb5e/7qJpqUtaLLqMdRTBGK2bvze+P/f8P6PMmz
+         /0GQdjoDErNJjwQ632TYgzF0hF78QL47I0F0c1QvavCrBW/Lgc/hopCN8bzz686uTD85
+         S1mg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM533cay1gudfemJtKb/JNKRigVs6XWNdLtzSqTpifPC3xERSsmp3i
-	PH5gRiEkHo+hN/vQHylmKCg=
-X-Google-Smtp-Source: ABdhPJyDM+IZnhswRaPUCdkJQudF5SFBpHA8AGYhg/xeKldlWViW5UhC8J5p6tw0bfrOVWekXg2qdA==
-X-Received: by 2002:a17:902:bccc:b029:de:8483:506d with SMTP id o12-20020a170902bcccb02900de8483506dmr315936pls.53.1611244706553;
-        Thu, 21 Jan 2021 07:58:26 -0800 (PST)
+X-Gm-Message-State: AOAM530o3nay3jp3yQ/bdyD0dY9APTRI6HNdaUhrI6Po0czMoC4BPnJh
+	ykE+pLq3lL3uZN+wr8XrSt4=
+X-Google-Smtp-Source: ABdhPJzvsTLsd/5lA6fRLswsi8AxrQwMhKSdYNrEBLzi6LlwupaRmLjERyoSb9zTzInCf+/EqR1J9Q==
+X-Received: by 2002:a9d:37c4:: with SMTP id x62mr11311431otb.87.1611247193442;
+        Thu, 21 Jan 2021 08:39:53 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a63:6d0e:: with SMTP id i14ls1012150pgc.8.gmail; Thu, 21 Jan
- 2021 07:58:26 -0800 (PST)
-X-Received: by 2002:a65:6212:: with SMTP id d18mr546519pgv.141.1611244705976;
-        Thu, 21 Jan 2021 07:58:25 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1611244705; cv=none;
+Received: by 2002:aca:52c5:: with SMTP id g188ls571845oib.8.gmail; Thu, 21 Jan
+ 2021 08:39:53 -0800 (PST)
+X-Received: by 2002:aca:418a:: with SMTP id o132mr294411oia.53.1611247193127;
+        Thu, 21 Jan 2021 08:39:53 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1611247193; cv=none;
         d=google.com; s=arc-20160816;
-        b=t5EmnXjAYYgtOVdVFa6YB54M/aUzYhI6ly3XNg6VO+Rcoun34TXUH208ozjvhmHSTo
-         PUjIlY24fm91FUKhkOUWiDyN6Wf6uYKpIUtbCyRP9fIiw9rFxGYC//WJ+IXRTFVHIhg4
-         ITZvCOJNUi6dGY9oN+SspQfsV6nmtPVcqG6CYqs4YOuO8/wRFXWLQ80zROuEKFdiCt92
-         7N04JO5w1VQ1YFCR+sxWbwsFhn95S9oLJXG1LdjPaOYg9Elud+xwc+aI0LxgQf3CtS7N
-         fUzBChRN28VmrHdEMmYthfu35XV35nvd1oxbrQGKRwuFYWRBT2hwM1K8MzFtaVUiXMT2
-         UpOA==
+        b=YvHEZ2d+X+nb5g7ULbYaDARoxVNJ74VPirvcIWSOO0uQq9zaMRM7ojDopHkkP3NpW/
+         BTbRqLtYv08dGXWT2hc2P46tBrOuyVeTWGRw+9B7LQPqAJ30jldDHZv+ON1w6G7QEdmE
+         4nNDblI5Pt05cnIPMoVbHhgp19XHwA3+ttWbWIaRzVmsQmAi6RH25CVhcbNTQYqrNI4b
+         aM1CdGwwvLoYq/VNXcSmnOyJgJslvLIw2X9VnP+dTFmCSes3Kh0BTkJXdzPd6vAyMgo4
+         XGiLIxb4X5ri3a00DxS9zdQDtCqN7N+fKNZ3WBjP4oOa5Y8UGJuFBm9ybLlU0rYZTluf
+         DBGA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject;
-        bh=xt2FOzk5uFuFDdXmOBCm+9sqNy+fqMvm+e6I49Cw85E=;
-        b=PBwrIsrd2Vro/W7fHaxJWzxnOMDUeevy2FLu0qRi24eARc4j7y3ErBZVDfjz7JwUWb
-         RSNvVIyRp5Y//qNbr5fr9nsiYOY2xOCLUsY/09Avi1rrFbFyTXjwaYOwkbgNg/HBjQcq
-         Nv+xhKAbQ9+BzcsknoVCzZ76vROzEjeXZ8325kUskrlYSWGVIjkIUEelpH0wprCUrRos
-         X71LnO/2Xh/R0kmpuPv28r+jayZ82DdL8YWMLq+4hxeXgIyLNWLQQe+bxH3cdDmNUldi
-         3pblIXHhfkDVWQVQlEaYq7hxX9JeOZy7ngz8+SNbNlLwJ/gRz9CiNCOw5pR+RNycpYG1
-         WkTA==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from;
+        bh=8idZcHW4dAFaSdSUIuvQfsPdw6qkpYsrDUNuOwJkWlI=;
+        b=wNAvFfJQ4HFQzNk573JL/bFf+Rqcq+xgOyfaHc7wnovQJssqsevXDPRvnYt30l/zqE
+         xvso+w2i868+JzsttefVMG2CVZLpm55T9a5p/XQnmJ1ny2h79wu9cEDiJ3WfOfkriU4h
+         RQdoPSwCiSBTz0Ls2iRg4IZ5IBgcR11w8xq6OIl3/Agmu/XfOqDiTq9hLJ0xx1PKrLsY
+         2oKNUaJ3OASgnAgW5AoyE7MX157Cd3atU8DkGBA0kUOr4zmMr/aJHluiVH1tgZi8JQfj
+         EfgU5p12YhVZ4FW7C50xgJma14EZF+03bBUe75rq2TsPMtLrx4rRzOzIyHzL5IWjIMj6
+         5wJQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
        spf=pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=vincenzo.frascino@arm.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
-        by gmr-mx.google.com with ESMTP id d13si305945pgm.5.2021.01.21.07.58.25
+        by gmr-mx.google.com with ESMTP id a33si367666ooj.2.2021.01.21.08.39.52
         for <kasan-dev@googlegroups.com>;
-        Thu, 21 Jan 2021 07:58:25 -0800 (PST)
+        Thu, 21 Jan 2021 08:39:53 -0800 (PST)
 Received-SPF: pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 66F7A139F;
-	Thu, 21 Jan 2021 07:58:25 -0800 (PST)
-Received: from [10.37.8.32] (unknown [10.37.8.32])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 740DD3F68F;
-	Thu, 21 Jan 2021 07:58:23 -0800 (PST)
-Subject: Re: [PATCH v2 1/2] arm64: Fix kernel address detection of
- __is_lm_address()
-To: Mark Rutland <mark.rutland@arm.com>
-Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- kasan-dev@googlegroups.com, Andrey Konovalov <andreyknvl@google.com>,
- Leon Romanovsky <leonro@mellanox.com>,
- Alexander Potapenko <glider@google.com>,
- Catalin Marinas <catalin.marinas@arm.com>,
- Andrey Ryabinin <aryabinin@virtuozzo.com>, Will Deacon <will@kernel.org>,
- Dmitry Vyukov <dvyukov@google.com>, Ard Biesheuvel <ardb@kernel.org>
-References: <20210121131956.23246-1-vincenzo.frascino@arm.com>
- <20210121131956.23246-2-vincenzo.frascino@arm.com>
- <20210121151206.GI48431@C02TD0UTHF1T.local>
- <95727b4c-4578-6eb5-b518-208482e8ba62@arm.com>
- <20210121154938.GJ48431@C02TD0UTHF1T.local>
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CCB0711D4;
+	Thu, 21 Jan 2021 08:39:52 -0800 (PST)
+Received: from e119884-lin.cambridge.arm.com (e119884-lin.cambridge.arm.com [10.1.196.72])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2C0BD3F68F;
+	Thu, 21 Jan 2021 08:39:51 -0800 (PST)
 From: Vincenzo Frascino <vincenzo.frascino@arm.com>
-Message-ID: <5a389787-4f6a-7577-22fc-f5594409e1ae@arm.com>
-Date: Thu, 21 Jan 2021 16:02:14 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+To: linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	kasan-dev@googlegroups.com
+Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Andrey Ryabinin <aryabinin@virtuozzo.com>,
+	Alexander Potapenko <glider@google.com>,
+	Marco Elver <elver@google.com>,
+	Evgenii Stepanov <eugenis@google.com>,
+	Branislav Rankov <Branislav.Rankov@arm.com>,
+	Andrey Konovalov <andreyknvl@google.com>
+Subject: [PATCH v5 0/6] arm64: ARMv8.5-A: MTE: Add async mode support
+Date: Thu, 21 Jan 2021 16:39:37 +0000
+Message-Id: <20210121163943.9889-1-vincenzo.frascino@arm.com>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-In-Reply-To: <20210121154938.GJ48431@C02TD0UTHF1T.local>
-Content-Type: text/plain; charset="UTF-8"
-Content-Language: en-US
 X-Original-Sender: vincenzo.frascino@arm.com
 X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
  (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172
  as permitted sender) smtp.mailfrom=vincenzo.frascino@arm.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -140,115 +134,98 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
+This patchset implements the asynchronous mode support for ARMv8.5-A
+Memory Tagging Extension (MTE), which is a debugging feature that allows
+to detect with the help of the architecture the C and C++ programmatic
+memory errors like buffer overflow, use-after-free, use-after-return, etc.
 
+MTE is built on top of the AArch64 v8.0 virtual address tagging TBI
+(Top Byte Ignore) feature and allows a task to set a 4 bit tag on any
+subset of its address space that is multiple of a 16 bytes granule. MTE
+is based on a lock-key mechanism where the lock is the tag associated to
+the physical memory and the key is the tag associated to the virtual
+address.
+When MTE is enabled and tags are set for ranges of address space of a task,
+the PE will compare the tag related to the physical memory with the tag
+related to the virtual address (tag check operation). Access to the memory
+is granted only if the two tags match. In case of mismatch the PE will raise
+an exception.
 
-On 1/21/21 3:49 PM, Mark Rutland wrote:
-> On Thu, Jan 21, 2021 at 03:30:51PM +0000, Vincenzo Frascino wrote:
->> On 1/21/21 3:12 PM, Mark Rutland wrote:
->>> On Thu, Jan 21, 2021 at 01:19:55PM +0000, Vincenzo Frascino wrote:
->>>> Currently, the __is_lm_address() check just masks out the top 12 bits
->>>> of the address, but if they are 0, it still yields a true result.
->>>> This has as a side effect that virt_addr_valid() returns true even for
->>>> invalid virtual addresses (e.g. 0x0).
->>>
->>> When it was added, __is_lm_address() was intended to distinguish valid
->>> kernel virtual addresses (i.e. those in the TTBR1 address range), and
->>> wasn't intended to do anything for addresses outside of this range. See
->>> commit:
->>>
->>>   ec6d06efb0bac6cd ("arm64: Add support for CONFIG_DEBUG_VIRTUAL")
->>>
->>> ... where it simply tests a bit.
->>>
->>> So I believe that it's working as intended (though this is poorly
->>> documented), but I think you're saying that usage isn't aligned with
->>> that intent. Given that, I'm not sure the fixes tag is right; I think it
->>> has never had the semantic you're after.
->>>
->> I did not do much thinking on the intended semantics. I based my interpretation
->> on what you are saying (the usage is not aligned with the intent). Based on what
->> you are are saying, I will change the patch description removing the "Fix" term.
-> 
-> Thanks! I assume that also means removing the fixes tag.
->
+The exception can be handled synchronously or asynchronously. When the
+asynchronous mode is enabled:
+  - Upon fault the PE updates the TFSR_EL1 register.
+  - The kernel detects the change during one of the following:
+    - Context switching
+    - Return to user/EL0
+    - Kernel entry from EL1
+    - Kernel exit to EL1
+  - If the register has been updated by the PE the kernel clears it and
+    reports the error.
 
-Obviously ;)
+The series is based on linux-next/akpm.
 
->>> I had thought the same was true for virt_addr_valid(), and that wasn't
->>> expected to be called for VAs outside of the kernel VA range. Is it
->>> actually safe to call that with NULL on other architectures?
->>
->> I am not sure on this, did not do any testing outside of arm64.
-> 
-> I think it'd be worth checking, if we're going to use this in common
-> code.
-> 
+To simplify the testing a tree with the new patches on top has been made
+available at [1].
 
-Ok, I will run some tests and let you know.
+[1] https://git.gitlab.arm.com/linux-arm/linux-vf.git mte/v10.async.akpm
 
->>> I wonder if it's worth virt_addr_valid() having an explicit check for
->>> the kernel VA range, instead.
->>
->> I have no strong opinion either way even if personally I feel that modifying
->> __is_lm_address() is more clear. Feel free to propose something.
-> 
-> Sure; I'm happy for it to live within __is_lm_address() if that's
-> simpler overall, given it doesn't look like it's making that more
-> complex or expensive.
-> 
->>>> Fix the detection checking that it's actually a kernel address starting
->>>> at PAGE_OFFSET.
->>>>
->>>> Fixes: f4693c2716b35 ("arm64: mm: extend linear region for 52-bit VA configurations")
->>>> Cc: Catalin Marinas <catalin.marinas@arm.com>
->>>> Cc: Will Deacon <will@kernel.org>
->>>> Suggested-by: Catalin Marinas <catalin.marinas@arm.com>
->>>> Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
->>>> ---
->>>>  arch/arm64/include/asm/memory.h | 2 +-
->>>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>>>
->>>> diff --git a/arch/arm64/include/asm/memory.h b/arch/arm64/include/asm/memory.h
->>>> index 18fce223b67b..e04ac898ffe4 100644
->>>> --- a/arch/arm64/include/asm/memory.h
->>>> +++ b/arch/arm64/include/asm/memory.h
->>>> @@ -249,7 +249,7 @@ static inline const void *__tag_set(const void *addr, u8 tag)
->>>>  /*
->>>>   * The linear kernel range starts at the bottom of the virtual address space.
->>>>   */
->>>> -#define __is_lm_address(addr)	(((u64)(addr) & ~PAGE_OFFSET) < (PAGE_END - PAGE_OFFSET))
->>>> +#define __is_lm_address(addr)	(((u64)(addr) ^ PAGE_OFFSET) < (PAGE_END - PAGE_OFFSET))
->>>
->>> If we're going to make this stronger, can we please expand the comment
->>> with the intended semantic? Otherwise we're liable to break this in
->>> future.
->>
->> Based on your reply on the above matter, if you agree, I am happy to extend the
->> comment.
-> 
-> Works for me; how about:
-> 
-> /*
->  * Check whether an arbitrary address is within the linear map, which
->  * lives in the [PAGE_OFFSET, PAGE_END) interval at the bottom of the
->  * kernel's TTBR1 address range.
->  */
-> 
-> ... with "arbitrary" being the key word.
-> 
+Changes:
+--------
+v5:
+  - Rebase the series on linux-next/akpm.
+  - Forbid execution for KASAN KUNIT tests when async
+    mode is enabled.
+  - Dropped patch to inline mte_assign_mem_tag_range().
+  - Address review comments.
+v4:
+  - Added support for kasan.mode (sync/async) kernel
+    command line parameter.
+  - Addressed review comments.
+v3:
+  - Exposed kasan_hw_tags_mode to convert the internal
+    KASAN represenetation.
+  - Added dsb() for kernel exit paths in arm64.
+  - Addressed review comments.
+v2:
+  - Fixed a compilation issue reported by krobot.
+  - General cleanup.
 
-Sounds good to me! I will post the new version after confirming the behavior of
-virt_addr_valid() on the other architectures.
+Cc: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Will Deacon <will@kernel.org>
+Cc: Dmitry Vyukov <dvyukov@google.com>
+Cc: Andrey Ryabinin <aryabinin@virtuozzo.com>
+Cc: Alexander Potapenko <glider@google.com>
+Cc: Marco Elver <elver@google.com>
+Cc: Evgenii Stepanov <eugenis@google.com>
+Cc: Branislav Rankov <Branislav.Rankov@arm.com>
+Cc: Andrey Konovalov <andreyknvl@google.com>
+Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
 
-> Thanks,
-> Mark.
-> 
+Vincenzo Frascino (6):
+  arm64: mte: Add asynchronous mode support
+  kasan: Add KASAN mode kernel parameter
+  kasan: Add report for async mode
+  arm64: mte: Enable async tag check fault
+  arm64: mte: Expose execution mode
+  kasan: Forbid kunit tests when async mode is enabled
+
+ Documentation/dev-tools/kasan.rst  |  7 +++
+ arch/arm64/include/asm/memory.h    |  4 +-
+ arch/arm64/include/asm/mte-kasan.h | 15 ++++++-
+ arch/arm64/include/asm/mte.h       | 32 ++++++++++++++
+ arch/arm64/kernel/entry-common.c   |  6 +++
+ arch/arm64/kernel/mte.c            | 68 +++++++++++++++++++++++++++++-
+ include/linux/kasan.h              |  2 +
+ lib/test_kasan.c                   |  7 ++-
+ mm/kasan/hw_tags.c                 | 27 +++++++++++-
+ mm/kasan/kasan.h                   |  8 +++-
+ mm/kasan/report.c                  | 11 +++++
+ 11 files changed, 178 insertions(+), 9 deletions(-)
 
 -- 
-Regards,
-Vincenzo
+2.30.0
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/5a389787-4f6a-7577-22fc-f5594409e1ae%40arm.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210121163943.9889-1-vincenzo.frascino%40arm.com.
