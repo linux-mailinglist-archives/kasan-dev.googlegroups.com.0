@@ -1,31 +1,31 @@
-Return-Path: <kasan-dev+bncBDDL3KWR4EBRBVEMXSAAMGQEJ47JHFY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDDL3KWR4EBRBA5EXSAAMGQEASG3AYI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qt1-x83c.google.com (mail-qt1-x83c.google.com [IPv6:2607:f8b0:4864:20::83c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76F24302965
-	for <lists+kasan-dev@lfdr.de>; Mon, 25 Jan 2021 18:56:37 +0100 (CET)
-Received: by mail-qt1-x83c.google.com with SMTP id z19sf7738943qtv.20
-        for <lists+kasan-dev@lfdr.de>; Mon, 25 Jan 2021 09:56:37 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1611597396; cv=pass;
+Received: from mail-pg1-x538.google.com (mail-pg1-x538.google.com [IPv6:2607:f8b0:4864:20::538])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F559302A9C
+	for <lists+kasan-dev@lfdr.de>; Mon, 25 Jan 2021 19:46:28 +0100 (CET)
+Received: by mail-pg1-x538.google.com with SMTP id i124sf6774362pgd.4
+        for <lists+kasan-dev@lfdr.de>; Mon, 25 Jan 2021 10:46:28 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1611600387; cv=pass;
         d=google.com; s=arc-20160816;
-        b=ZYmeKJqHI9a9r1K+nu3OG5GOyrkluz5zN1+tQKIrUK7Dvv2WkqIJpuR0M5Kxf+UaNK
-         HtGKmTV70mYCp8X2klQYcLMgBBDUTGxnl+mgvE7gf/z/21d31sxJGss/POa8pBh64rbB
-         VAEsckfjxPWMuo7SDTxQVYWj8TX6RjGy4kmkyf4Qu+f8DlaH4Yy1yxa1rYrExZ36RhH9
-         spzR9As9S7C9PJfBAC7CpbJXRPqM9Yc8FFiDR7cCgudFtxX0VxngI7u/aiJnyieJally
-         bBcinMCs5tPfsny0ryEKcnAvjuKY5N+H8OMMT3FNpQO6+cFNZqwb23TqQQQVPg5VOkmL
-         RNcw==
+        b=FzgqFM9A/8LJfzAewiSWx3eBiJIRdheIKeRVovvbe4eV3mcdQr2Sz6pvi5bx4fPv2U
+         vnyK9Cc10xS7DFpXBnZ4mHxkYujroTzMKcyKwxs+VE/kuxAQ68y+IbgUd+OS3+Qhnmx6
+         FQQyehm7jcedey1D30s0wH3SdyJZynXCF46M8jpd3Ynd+BDCmHJufmEOAw4lde29LzkM
+         GiI74W1QqOZoduicTYWLZP0zDeISd+wID3mrrYXp7IS1isxj8iTPgcW7fM8krOmOk5e6
+         yhVmBeBrzghRal0bDhZEM8cksfNLni12YQVhDQuKIZjvQ3x40J3O0zsMBr+pYYTt/J1S
+         ZARg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:user-agent:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:sender:dkim-signature;
-        bh=Vmddx3ShxZ6Zi2Kr1UQSbmfNextsryJMdHnpf9919kQ=;
-        b=ipGGw2TQVlSlZM4VzVf8ydxLMdImy7PvP0IIrtPbV3D6Q1UaCH9FHxrJ+Esfwcehf3
-         g4bXy0U7277L6q8AxlekQ20mvrvs/4M2QRO6LVJVYHVT2AH9T1TrW4fCEuZrqIHEhk//
-         JkjCZn0XjWQrlinEPrOuNQj59FuwcZPogyj3tVHKHvTX/UcZlHEE1ydNVYlYWs1zKo2M
-         OjpR8SjUqubeSdAL06HTX9fUwfwiJOlYjfHff0X7bmU3eQoFT+tFg/5E49AFHwtsGlMI
-         b0vIocGCVLbs+8VYKgUUob7orWJWyugqqixyuaeeOh4PIfKWM6x4q40kIKA+w2tyNdMw
-         8oSw==
+        bh=0qUnnozd3L5VDv0Ri3y9UjC+q7tQZnj+jFFTzJbqujw=;
+        b=GdiRT2L42R3hHETUuTwkIEtJza6LU1lNaUTC3/GxqCriY0hjr7CDO95DDn3ize0Ht7
+         KPLk9sRN9aFQs5SSAT9G70swDIsA0Vqajp8Zzr/CzxmRfcexhUUi8pswHvc6A20+SAh9
+         KKsjTw360CmpqTgNqQ/Z6vQbK5Ca+ax4g8G15Fk3eVf3jdHkhw6wWR98Tw/vWeABCGuT
+         K/QUBCpEOr8HZGmduWaZ/X3DkZLoOCjm7AciVQPK9dzbuBNHvTGcygzTgDdRuNypplyc
+         yOw4a1zP97yODNbfQGOMZ48SZ6Kad1vOlW4EyNSXyq6hbLyj0yzq3TKdAWVl78kn0GU0
+         jChA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
        spf=pass (google.com: domain of cmarinas@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=cmarinas@kernel.org;
        dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=arm.com
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :content-disposition:in-reply-to:user-agent:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=Vmddx3ShxZ6Zi2Kr1UQSbmfNextsryJMdHnpf9919kQ=;
-        b=dzChD1STskf7aeuP/rYqhZSdQcpOMK6FClqoVLnJbHi6J5tb0i8J/dmneKXZ4B3EZN
-         odcotpuEsFonBBtYtNdDYJcxUskQpqCS7CvGKdKnHnOGdLNnyuSyHdv1ZVRnn9UFCGQA
-         u4mrwTIEn6dvw6Pg+uPAgaTdWl+RldWzJHEHfLMvT6JAMQnAkRt6CUuLg9uG9BlN05fR
-         H4JwisuTDzVg3ziU3VEvy2IqZ64I639mVb5KEZaFj4Mo6HAlibBMiEMLHjFdGpnszk91
-         rIL5v80YvHGmalNxZHB1ujcAHughu9bYomDuwLaH8KVEDZESszKFWrM64Oe22oFJzYGO
-         NZRg==
+        bh=0qUnnozd3L5VDv0Ri3y9UjC+q7tQZnj+jFFTzJbqujw=;
+        b=ITfLzMspain1kC6HqcdVJ8ifSe5A2H7/kS4J1fXrZipoE9ytoXn/YpG6e4aYhWABix
+         DhpqkdPKnbCH6RfnU1cX8KzQd7bsFueQiUe2YQYJqKU2yF45zQXEePBbCuZgUYezlm72
+         Hf6zXSDpS8WEf7ZV7+KN/dLPnHQmB4qQI2u8IS7N6Nmh6EIVTNpPpO7jH5THGTTdtqsr
+         TGT98hVg58GNLcf4ARTEMJyfl1jq1GSuX3heK5hhQUSp6r4OumZQ9p7VgbEYVEnsCuIY
+         QnAQ/Y113CN1ewhDqlcWeMQ9aDX4EKO9gHiSVNCACx+RKa4S620m9R4r4dNIJoo6Wwv+
+         SESA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
@@ -49,80 +49,73 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=Vmddx3ShxZ6Zi2Kr1UQSbmfNextsryJMdHnpf9919kQ=;
-        b=FG5K6S6stoBhujx+HDsVZ3/WkOgycWgqkyWXgeBIZLNyr3cGzTFTrEszAkCbzD0i4W
-         Q1u43gBNsGYuZ6h7C6tB1BJCUI0Pv45n9xBvmGCMijvwrj2eMurTU7Ycrk4aGA0rBWMQ
-         vzZLkL28XDgFe5EC4ydlJ4lm+QFTuXjWqHviJnvHmsKuEYuvEHT+okqBi1ciRUf9Nhcz
-         dvt4Lt5jZRl9X5s3YNdpTHiBYrRGKsmVqhi8QXLLCji7l+E6Pnz8ekOhtcFJaBgsS1GW
-         KEj45TBPh4tyMYlvdv1rZLpO8l2pEzTUfB8YkPpFguBJnB8LqDPY9zNujk3kK+ls+0zD
-         0heA==
+        bh=0qUnnozd3L5VDv0Ri3y9UjC+q7tQZnj+jFFTzJbqujw=;
+        b=dVIyIXl0EkxDXQpa/ls2SOVGZgvHaemUmTnNuhAn6cEA9T0BWBo64PZZ2z5lSc36MF
+         H/7jvPol4ngmYSdzE9e1z0JgX8zY7kIx3fgMa7EC07QQ1RUmXSNLI1Jgug9WaNK0xXxW
+         iVXTLbNTBrSIpCtfNi1QwJxvwRozKqI47t4u+XygOY5ToZYcQHUAdAOYSr1YvGRfTEkf
+         Wg5kWqU9HT7gRgS5K5JqILLERDnbnAd3JjB8XLg7gsppTRb8mlLe9+q9octkCY6bGLd/
+         VYeTlhmYIpXLClFcSOC5IUUvoWE3BhkIsKVAef6oAv+YzlibWZAXlD+gGoBXuf/azIcV
+         rnSw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM531QUgBEIzBvvSZ4+sGLUKNpsdSOWImQoKKUEG6O384jtviL4KPY
-	7DlPmBQJCfR4FHrn2IX3mJA=
-X-Google-Smtp-Source: ABdhPJyi1MuaBGH2HveIzXmXBH86K5zDhxMIsJG4knkLMKzhqjxscmpqNaelN/ePuaiU0mmT0AMF4g==
-X-Received: by 2002:ac8:4e25:: with SMTP id d5mr1561748qtw.275.1611597396553;
-        Mon, 25 Jan 2021 09:56:36 -0800 (PST)
+X-Gm-Message-State: AOAM5328WonKyVxsTOGIhxbWpQPYZ87t264yKCukqCaH2uYZPG4PWVCc
+	LopRVAqTySesnp3/5r/L04Y=
+X-Google-Smtp-Source: ABdhPJzx8vtbNgqeI5SUVdJKhtWFZbPWrl4AF0+YyTFXI/7dr4Pwez8wVvT0IhC3bma78iS4W4Dbow==
+X-Received: by 2002:a17:90a:bf06:: with SMTP id c6mr1580853pjs.220.1611600387224;
+        Mon, 25 Jan 2021 10:46:27 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:620a:248f:: with SMTP id i15ls2980715qkn.11.gmail; Mon,
- 25 Jan 2021 09:56:36 -0800 (PST)
-X-Received: by 2002:a37:7003:: with SMTP id l3mr1923174qkc.467.1611597396118;
-        Mon, 25 Jan 2021 09:56:36 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1611597396; cv=none;
+Received: by 2002:a63:5312:: with SMTP id h18ls5107077pgb.9.gmail; Mon, 25 Jan
+ 2021 10:46:26 -0800 (PST)
+X-Received: by 2002:a62:5b85:0:b029:19e:432a:2717 with SMTP id p127-20020a625b850000b029019e432a2717mr1710527pfb.73.1611600386649;
+        Mon, 25 Jan 2021 10:46:26 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1611600386; cv=none;
         d=google.com; s=arc-20160816;
-        b=VMGDpgicw8ja0kucU3c+mIfPSRXvuaa8XAWDxJijIUvY4UVcaScDFeuYuhNAR/njBW
-         fC6lV8TWe1xUP+oHG4J7AFwDjm/4aa9vTO+9Z+OWo9/Wydd7c1N/QV+ulyzGmYruQX9u
-         2sDpYcTNk1CXJzxNComdZqjfCLAXq3SbaBCc9aCJV78op5UkOAksqKKJVFMl0/1X+MWB
-         GFTAyK2qNO7XSYQY+HXIqCZru9gxNkvP4Q27E7zZZ0TTIKduJHHPRniLdJ/tsznwm78R
-         JQ0+c8tE+jtQOypw3c00IBw1Q6FIC2qBTrYK1HaS+i2630jrqGcT/MnxkHQGYvaBaNW4
-         wG0A==
+        b=pdvBpu/JVrGKXdpDhMqwZmGQAimodimttB5wBVg0yxdKrW2A4bVLOJ6sUIUp0ZYmm+
+         5/gTSrAwkgulmbwjqweFej4+E2LFKjSvexPoFsTyEQVlWVLJeqc8vpt7yyRqRMooVym0
+         /5SElFPjLFTlhDSMkx+Xe45KfrddyNvYkXy3eCmLtrPU8pLAyFeewytOc69dqIhP5xQZ
+         hmzCeHTqH/ftPf8gtp5H0MFMf1mKAFCKhviN0AFPxs4WD9fGl9w7a8cNSaui/l55K6Fq
+         wXnUMrLkycKDJhg4DgLdeyUtV9p6lLXssmDGbWVSVWiaj9yKTU+KJWdL8xxHKZ3v9Vnr
+         E3CQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=user-agent:in-reply-to:content-disposition:mime-version:references
          :message-id:subject:cc:to:from:date;
-        bh=FdrflyQmQDp+xQWRehWkIHiLecyKw0KP8U/GBTa0xjg=;
-        b=Cs2YNYgtqQ7c2/QylpK4/FSoovyctMAYsLBL4qYV/zljQI5HZfwukzmW8+DVXGPJej
-         5YHc6xmRQT4VtVa+LoVHMLbhlDve/2Wb9zZwI3x/UF4avkNSHo8Ss8rMWLIqQdp+Ifam
-         imUDsgvOI2NAFtnsEaaTUsDHruksE6af86EOHdKPCyJb1/SHbVTEusgzM4sI7icHj8JA
-         ScwMrQ37rljA5HO2vrAH88JrRcQQGJNS2/ZsswxPKWNM5VFvtR6XsFUjKhsddUa6K72q
-         dMrR+gVKoThsxAI6DRMfiAuGcsUZtu6XdQW05ZQLNDa/TjuDq+gpKZeTRHZY2AopOSpo
-         Xpdw==
+        bh=kmfXk5wvWFwkxSsLQZnCMH5EPoJMYEckn3sXqlp32ok=;
+        b=OtVT/Gx0NBsuvedckdYpS0RfkfCdVvZ+Z1vNAEywfXrq7siuhsNeT903ivSHJgwaTO
+         pvSfUQHKfV5n7z5vKn0cDe+vKnVDdyrQHzpTi7xUPxk2U7ej+dqRmo3RdRgHlON7CF8P
+         MeCRsnkJGRFKMmf2xL9m74reF4Q1ta5gAh2hxLvW+idZWUaZx9n9WGik0V/2PbYhkQJW
+         YRWQ2aiGi7C0S1uHZLlC7yDREl3uQXSvZTTmIuZ6NtwFGR0Erkf+OTAPCXzyaPD6q0U8
+         pOgq/qGRovAitD0ZwTj6gsVmMa7jEISj82kLCFYgohr4cCLQ3HPWVFO9qwfrdUN0w061
+         r/rQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
        spf=pass (google.com: domain of cmarinas@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=cmarinas@kernel.org;
        dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=arm.com
 Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id f10si149189qko.5.2021.01.25.09.56.36
+        by gmr-mx.google.com with ESMTPS id 13si827041pgf.0.2021.01.25.10.46.26
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 25 Jan 2021 09:56:36 -0800 (PST)
+        Mon, 25 Jan 2021 10:46:26 -0800 (PST)
 Received-SPF: pass (google.com: domain of cmarinas@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 426B622583;
-	Mon, 25 Jan 2021 17:56:33 +0000 (UTC)
-Date: Mon, 25 Jan 2021 17:56:30 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E213822B3F;
+	Mon, 25 Jan 2021 18:46:23 +0000 (UTC)
+Date: Mon, 25 Jan 2021 18:46:21 +0000
 From: Catalin Marinas <catalin.marinas@arm.com>
-To: Vincenzo Frascino <vincenzo.frascino@arm.com>
-Cc: Mark Rutland <mark.rutland@arm.com>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	kasan-dev@googlegroups.com,
-	Andrey Ryabinin <aryabinin@virtuozzo.com>,
-	Alexander Potapenko <glider@google.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Leon Romanovsky <leonro@mellanox.com>,
-	Andrey Konovalov <andreyknvl@google.com>,
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>,
 	Will Deacon <will@kernel.org>,
-	"Paul E . McKenney" <paulmck@kernel.org>,
-	Naresh Kamboju <naresh.kamboju@linaro.org>
-Subject: Re: [PATCH v4 1/3] arm64: Improve kernel address detection of
- __is_lm_address()
-Message-ID: <20210125175630.GK25360@gaia>
-References: <20210122155642.23187-1-vincenzo.frascino@arm.com>
- <20210122155642.23187-2-vincenzo.frascino@arm.com>
- <20210125130204.GA4565@C02TD0UTHF1T.local>
- <ddc0f9e2-f63e-9c34-f0a4-067d1c5d63b8@arm.com>
- <20210125145911.GG25360@gaia>
- <4bd1c01b-613c-787f-4363-c55a071f14ae@arm.com>
+	Stephen Rothwell <sfr@canb.auug.org.au>,
+	Mike Rapoport <rppt@kernel.org>,
+	David Hildenbrand <david@redhat.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Dmitry Vyukov <dvyukov@google.com>, Jann Horn <jannh@google.com>,
+	Arnd Bergmann <arnd@arndb.de>, kasan-dev@googlegroups.com,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] arm64: kfence: fix header inclusion
+Message-ID: <20210125184621.GA32727@gaia>
+References: <20210125125025.102381-1-arnd@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <4bd1c01b-613c-787f-4363-c55a071f14ae@arm.com>
+In-Reply-To: <20210125125025.102381-1-arnd@kernel.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-Original-Sender: catalin.marinas@arm.com
 X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
@@ -141,87 +134,26 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, Jan 25, 2021 at 04:09:57PM +0000, Vincenzo Frascino wrote:
-> On 1/25/21 2:59 PM, Catalin Marinas wrote:
-> > On Mon, Jan 25, 2021 at 02:36:34PM +0000, Vincenzo Frascino wrote:
-> >> On 1/25/21 1:02 PM, Mark Rutland wrote:
-> >>> On Fri, Jan 22, 2021 at 03:56:40PM +0000, Vincenzo Frascino wrote:
-> >>>> Currently, the __is_lm_address() check just masks out the top 12 bits
-> >>>> of the address, but if they are 0, it still yields a true result.
-> >>>> This has as a side effect that virt_addr_valid() returns true even for
-> >>>> invalid virtual addresses (e.g. 0x0).
-> >>>>
-> >>>> Improve the detection checking that it's actually a kernel address
-> >>>> starting at PAGE_OFFSET.
-> >>>>
-> >>>> Cc: Catalin Marinas <catalin.marinas@arm.com>
-> >>>> Cc: Will Deacon <will@kernel.org>
-> >>>> Suggested-by: Catalin Marinas <catalin.marinas@arm.com>
-> >>>> Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
-> >>>> Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
-> >>>
-> >>> Looking around, it seems that there are some existing uses of
-> >>> virt_addr_valid() that expect it to reject addresses outside of the
-> >>> TTBR1 range. For example, check_mem_type() in drivers/tee/optee/call.c.
-> >>>
-> >>> Given that, I think we need something that's easy to backport to stable.
-> >>>
-> >>
-> >> I agree, I started looking at it this morning and I found cases even in the main
-> >> allocators (slub and page_alloc) either then the one you mentioned.
-> >>
-> >>> This patch itself looks fine, but it's not going to backport very far,
-> >>> so I suspect we might need to write a preparatory patch that adds an
-> >>> explicit range check to virt_addr_valid() which can be trivially
-> >>> backported.
-> >>>
-> >>
-> >> I checked the old releases and I agree this is not back-portable as it stands.
-> >> I propose therefore to add a preparatory patch with the check below:
-> >>
-> >> #define __is_ttrb1_address(addr)	((u64)(addr) >= PAGE_OFFSET && \
-> >> 					(u64)(addr) < PAGE_END)
-> >>
-> >> If it works for you I am happy to take care of it and post a new version of my
-> >> patches.
-> > 
-> > I'm not entirely sure we need a preparatory patch. IIUC (it needs
-> > checking), virt_addr_valid() was fine until 5.4, broken by commit
-> > 14c127c957c1 ("arm64: mm: Flip kernel VA space"). Will addressed the
-> > flip case in 68dd8ef32162 ("arm64: memory: Fix virt_addr_valid() using
-> > __is_lm_address()") but this broke the <PAGE_OFFSET case. So in 5.4 a
-> > NULL address is considered valid.
-> > 
-> > Ard's commit f4693c2716b3 ("arm64: mm: extend linear region for 52-bit
-> > VA configurations") changed the test to no longer rely on va_bits but
-> > did not change the broken semantics.
-> > 
-> > If Ard's change plus the fix proposed in this test works on 5.4, I'd say
-> > we just merge this patch with the corresponding Cc stable and Fixes tags
-> > and tweak it slightly when doing the backports as it wouldn't apply
-> > cleanly. IOW, I wouldn't add another check to virt_addr_valid() as we
-> > did not need one prior to 5.4.
+On Mon, Jan 25, 2021 at 01:50:20PM +0100, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
 > 
-> Thank you for the detailed analysis. I checked on 5.4 and it seems that Ard
-> patch (not a clean backport) plus my proposed fix works correctly and solves the
-> issue.
+> Randconfig builds started warning about a missing function declaration
+> after set_memory_valid() is moved to a new file:
+> 
+> In file included from mm/kfence/core.c:26:
+> arch/arm64/include/asm/kfence.h:17:2: error: implicit declaration of function 'set_memory_valid' [-Werror,-Wimplicit-function-declaration]
+> 
+> Include the correct header again.
+> 
+> Fixes: 9e18ec3cfabd ("set_memory: allow querying whether set_direct_map_*() is actually enabled")
+> Fixes: 204555ff8bd6 ("arm64, kfence: enable KFENCE for ARM64")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-I didn't mean the backport of the whole commit f4693c2716b3 as it
-probably has other dependencies, just the __is_lm_address() change in
-that patch.
+Acked-by: Catalin Marinas <catalin.marinas@arm.com>
 
-> Tomorrow I will post a new version of the series that includes what you are
-> suggesting.
-
-Please post the __is_lm_address() fix separately from the kasan patches.
-I'll pick it up as a fix via the arm64 tree. The kasan change can go in
-5.12 since it's not currently broken but I'll leave the decision with
-Andrey.
-
--- 
-Catalin
+(it should go via the mm tree with the other kfence patches)
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210125175630.GK25360%40gaia.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210125184621.GA32727%40gaia.
