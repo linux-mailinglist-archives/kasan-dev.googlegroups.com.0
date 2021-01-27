@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBCMIZB7QWENRBO5NY6AAMGQEHT2PHDY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDX4HWEMTEBRB4FUY6AAMGQEMHQTK2I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qt1-x83d.google.com (mail-qt1-x83d.google.com [IPv6:2607:f8b0:4864:20::83d])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE3673065A5
-	for <lists+kasan-dev@lfdr.de>; Wed, 27 Jan 2021 22:10:20 +0100 (CET)
-Received: by mail-qt1-x83d.google.com with SMTP id h8sf2057431qtj.1
-        for <lists+kasan-dev@lfdr.de>; Wed, 27 Jan 2021 13:10:20 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1611781819; cv=pass;
+Received: from mail-oo1-xc39.google.com (mail-oo1-xc39.google.com [IPv6:2607:f8b0:4864:20::c39])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE92A3065EA
+	for <lists+kasan-dev@lfdr.de>; Wed, 27 Jan 2021 22:26:09 +0100 (CET)
+Received: by mail-oo1-xc39.google.com with SMTP id o15sf1617101oov.22
+        for <lists+kasan-dev@lfdr.de>; Wed, 27 Jan 2021 13:26:09 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1611782769; cv=pass;
         d=google.com; s=arc-20160816;
-        b=ar0jD5GbBLwbBt82CKImPTO4/q7Xf/SfVoZFsfOptPkvFigmarrfZjeW0jEk9t+wdU
-         2w+8TAjQuLlx6vamPFq9OKEuIiivJnspAEmwjyl1x8rZ6buLZlvB+RBv3jXKdOMuxY6l
-         dehCHR3u3JFv+kYA3s+FmWqnJE8q7HJMWY7f1bJ8grk/UKkyrRlTmBuv1dZPsojVr0/s
-         G0pNg23JPTsjIrtUH4/8K6/EaxzTWFfuN6hr04EVolohWVAKj1CAB6PBghWL3MYHA+bl
-         oTgykrwKuhFtKCnXREu1cFv4zfsVa+lYC+LY4BLW0PtTOca+m4dLSYa+eRNj9RBPTQGx
-         8B3w==
+        b=l0Um0/iKK+3l9I/g4UE+Qqtj0TDnO80CKj5O60EjglFCBbLMnsTB83wz5sLNVfWDFw
+         deYKRXqh+Tba5B39iKvGCV6ARTfZEXaOvWgaIBbVxBMUEeEL3eCiIuc2ceBgQdvbO351
+         fhTnT7lX5Z3Soy1qKhZ96n9k8lEACtiE2rDNSg3ch9lw0nEQM9b5JuBNLBIMy9ya5YUM
+         f4S1d5CVXvrwTTGZWOTJJH9Abf1pb/95jgMumLfEckYkfUrgp25TZBExnIZxIMyZCUvo
+         LIg3MRg4xJE4zMILMtsMv4SoGUAFiboP82Tc2OIARGlhQzQpg+Pj4bGA1Z27alcPJZ8H
+         dApA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=fytQY+GwfSBkk1t7HgkRcz0Br/oMcfBABAbffUKEH5Y=;
-        b=GT183pv0sj05NxzJx70+nMwyp3NVQf4fhr/O6B8WL/4lFoByOJB3xWc3AyqSZfM3nU
-         l7p1waTUzi6HCpvOB9HNyn09eNOzBhMbX3voIjuAbc09nm54OgXNlfFWG4OSdtWpECLa
-         2AKcQH9XZl4zKQQgPNYbW3l04GuGj0FxFCtLbInxoTpTkoI0tCI5Sa3UCMnokUNckMwF
-         3t21FI0boxFd4Ro7g79qPfJ8mlfbqi5QEUaO08OUJbFoWZKlXX2humYYxsidWSYKKrV0
-         C1d41FMDI9FYAtDH7skmAarmoT/k3/lpcTDetLq8A4a1MyjXeR66GIg39hkTECr37mPb
-         PTbg==
+        bh=Dgi1FGcMshOAwgx9Py0mww77TH8Jwqd3+dkHZOCItFQ=;
+        b=THivKF2RxrwUmCfensAu2eC4Q0h+qQBRSV6yY3/kUSKaVsWphhGMrIBlXe/2kNb7Wg
+         Sh8dch1q3+J7X0F7o+5yN1GKf0UDIq9f87XYVDdXyezGM9W6D9M1ASRi8KUN5DPrUQh0
+         g28YlBuf/IFj9uIbkssD61EPRoC4EsFwWJoa6VSayQAFaNwUiW01ZeENelbnrPPkGmFC
+         n6HAwubXC2tGC9NlBDrwVpMk/4p2HUgpal7cI4Yos6Lt1EsaIgOTxy+sPf3mjtMwyeyl
+         +szfyVQyGLl86wgzg2iBFSgc+STlFuFQmA2kBBGyOx1/DK9TLzJfxJRGHlvF1m9IaCjQ
+         UlAQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=SQnZDNRv;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::830 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=pVvARrOg;
+       spf=pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::432 as permitted sender) smtp.mailfrom=andreyknvl@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=fytQY+GwfSBkk1t7HgkRcz0Br/oMcfBABAbffUKEH5Y=;
-        b=TCb/06U3cnKh0ifaugmQj4Cm+Eolj2c8FNokSmp54chmsEaxus55fNitAq/thRuGeV
-         JBVqefxSgNXI1x7gGOnOHCCHxY43lbqpBQbA91icSMh/s069KIHy+0XEXTCK7vmIc6LU
-         vrg+8IXtSmgPCzoqrQrcnlfIru2tqslc8WllV8ScDnq+2D28nVFVUYhjeHgdHYdnJdlJ
-         TlMksbs7rQ/KbHA3plWRBxoSTuDoqjk+6HMGHU2knIU4CTHmFtiNpLQ4Ps4rTu/+a2zb
-         8DC+S2pVjVeqFmrKom8hTjOqgCon9IpmSztxMUBjhZf52wU6AAAjIilYeD6DyjgAQg5n
-         RaUA==
+        bh=Dgi1FGcMshOAwgx9Py0mww77TH8Jwqd3+dkHZOCItFQ=;
+        b=rTPYFZGQP3JnqhjrVEYl4L03FTquwsuoslY4UCloRC2PSoTG1GssB/53iiSbWzTGa9
+         ujZHeCvsJMwVAGnFgs1+xjJPFNKMyzT4Mv75t7zPOSVtSmt62mcmWYGHD/xd0oW7epFB
+         YtL7A6MhOm0PBRUecN95xN0gYPr1tce2AyoiT+BpYugVkK2x/t+3h0u6ufuzmhadJFKS
+         r15OazFtJsAN6LPeIWVNBtMI64dfvru+/qCYy4UDimP+bifeqCSmQqJvg4oe4np0jiaV
+         8RSLz62fOTMjZcZJuC7/s+WPYL9DX300rflXdV5Flsrfu6d62d9+ugHi9qCaz00jxtU+
+         8tXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
@@ -49,77 +49,79 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=fytQY+GwfSBkk1t7HgkRcz0Br/oMcfBABAbffUKEH5Y=;
-        b=pufoakknRsMln7BK2Rc2WMG66vjJs+5MDf/uGOYdrZfLL503t0I57prJcqjSTow5jn
-         Mls1pplWvVTq75tYHWWG4RFtCBqI/SMq8fTHTg4eg6f68q8TA2ZBqKph5bcRyuRVkTVJ
-         uT/Y+O9vm6kFCe91IGqMbXSAZOStJLVpoit8uBSdt5rgtOEKJmNddZfKdVrfWGMN1o4M
-         aTwrTKAXbA9yawWGuGwgxJywUKD3ch3TcSPVESrZyf1xD8JyoQ0sYO2XkJ7PjWmxnHmr
-         97u7bAqDeJBTS2jG6joqRZHxpJOfcXqdRTKqOpVSWHNfQQgsJFPVV+JJ9NHeYUz83skb
-         uxGA==
-X-Gm-Message-State: AOAM530xHTl8dyJLk7m/PNrZ1cskR/jjuLy1qUU4BUo1nnAJWrdCZ3pY
-	S3kO+pMa4h0dhFvzqxrdAtI=
-X-Google-Smtp-Source: ABdhPJwaTomPfj/HsQG25vA85oBZLB+zH8Ao9n/92rkCKQqddb16P3RGtwcxUofLsDN4sIEYZB2vzQ==
-X-Received: by 2002:a37:4e01:: with SMTP id c1mr12205280qkb.481.1611781819747;
-        Wed, 27 Jan 2021 13:10:19 -0800 (PST)
+        bh=Dgi1FGcMshOAwgx9Py0mww77TH8Jwqd3+dkHZOCItFQ=;
+        b=fJJVGNKM1IEY75f32i7m9XfWhLR3bm3KLOgsMG2PJ42JIZnpF0MFMGj4lc5iP7/bSy
+         WAh/37oAY871tEAWefqm3hlWgFn8bSBSHk9mVcF72vQQ19EGtf41Vm/4tVOkOgzvVFVf
+         CLp3pAIDz8MOjtHDF1QZQERHU7kxq4hYYBX/s+9H8m6QgHD0Y2OaKw2KorHeNF/G1Ygp
+         7/a9HoMCkmww4+UfhpgyVya33xitLfUpis+7SmbTx9UHUF+vZa5ZPjD+vS6VuDoc7jx3
+         N74yKMmk3xfjdNK/xNNVbmf2EypAAUO/IXqxHrKeX0a3SvECPrIFxDp0/PWWB3oCnVA5
+         DNTw==
+X-Gm-Message-State: AOAM5323eS5dbK1nmmxXBbGSbdatjipxNYkCmUDEfZYkzrnA3mO5/zb4
+	Tmt4EUjshRTIlnCt7S3TeEE=
+X-Google-Smtp-Source: ABdhPJwLqo+v8sJl5CK2Gvld+RPXVng+PciUC2QJN9YcSfWDLEc5nM4UMucpHhK68O/89PS1zrIHdA==
+X-Received: by 2002:a05:6830:837:: with SMTP id t23mr9339248ots.129.1611782768896;
+        Wed, 27 Jan 2021 13:26:08 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:aed:218c:: with SMTP id l12ls1210730qtc.7.gmail; Wed, 27 Jan
- 2021 13:10:19 -0800 (PST)
-X-Received: by 2002:ac8:c88:: with SMTP id n8mr11496922qti.381.1611781819333;
-        Wed, 27 Jan 2021 13:10:19 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1611781819; cv=none;
+Received: by 2002:a9d:335:: with SMTP id 50ls835682otv.9.gmail; Wed, 27 Jan
+ 2021 13:26:08 -0800 (PST)
+X-Received: by 2002:a05:6830:3494:: with SMTP id c20mr9266032otu.25.1611782768492;
+        Wed, 27 Jan 2021 13:26:08 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1611782768; cv=none;
         d=google.com; s=arc-20160816;
-        b=QacAEKhXFw9MxgX2hVEG4oVI+I8Ih90EtLrArz7j5yyOnmBZ0nN7HVjaHYSaqZ1Vcq
-         Sr7ckdQHHBt7Onkm/pKfZnWWD91ntOQtkAmHtH+cgE8pN7+3yJNf0yEmXXLD9rS7HoFZ
-         gdQeyMQ6xo+WePywZQY3HX1enyvoQH67CN8zdoZu+lnWp/kh+QxpuoLwFwm5BLqRd/y7
-         pU5d+FpxWmBDzWVe3JXg/iYrhZEIsINwQGk0fNYlsm7bHNKyOJjje0tPi3VyAg5+kml1
-         ad7hvMJ/csFu3VW+42Xx7k1/WdFwlo8TmV2/ho32NpSTyQ5RYcz3fSATu3Tqisit4QfP
-         EWNQ==
+        b=i8FURc1NguvPjRRwtgZWryoVidFlG+x3xJWWjzec9tZgKU8MWkyVbSn+Bxe42dv/L2
+         ZaaNv60Thqo9bJcVS1EB9uBgHP9AWC3CfCBsovd/UdQc8lBi56myHIob9OpFwM4F4Z0n
+         ASQ0Pgb3LM+yzqz1CC+7HIkJV2vX0jwUkycLxrEdt6v4MjpsadTJMXGTZUzMyAEyAtoh
+         XMAvMUzV/Elxm664MuZj2Ug1j7tCJClsmoKQcNk1vLRFb4J4K0Bw+jLjBs08FqrcUHAq
+         Wk+s+M32tAmlGO0kiy+PZMQSlQvhnGkiSbOxP3Yc5vcW4/DKKqJe4DmanBbrcMNsT/nF
+         NaNA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=xzwS53hppY7KPc7vGcuoFqmg9FK5PaziyQ/eQVgEal4=;
-        b=rIIq1VslmOz+b8tpUtPnAaTnDSr/5W7VbM0NDR/mc+uzuRfBfcfVCsdUB7sAhuNQTV
-         7hZQUXIgeROZvTVaKEo0h1mgN38xDoPeUq1qXyBXQzktKOKN1VgBWyVk95keGq9fKuc4
-         GLrcdpT0kzMbFszdfIgp/YUWLTX8xXp+m9CahW06dG6ltthltaZR1n/QKDRSSCCMltj2
-         saJvH3n7fg1shUtR8vPts+0Vw6T+bsgrcoeyHIJRFnJXaNs4B5ty3Ix23kZy+UtYqGb2
-         0Nl5MjNv9Sre1iE+sgM7YKV2Al9wydGfnZwrLL1/bLbk9VLmzlRtwQmi4Ubn9N4Nct3G
-         eB7g==
+        bh=H4wYdYZxwdbWGzK2JDLYdiHMKyIE6uo335eyGMtSLco=;
+        b=FQpY54ZnuUP8jhUGRjNQ7viytnQn/NaNL0gDYw7MUwj74Nxr0JdtRI0erTwYIfdX6n
+         CLnw9G0La+6dTMEQXXAXJlg3oBUCQlvSEWF8jNFurEcnyXyWlZFjJCT6u0Wf25Cxe4jh
+         Y25fwaHJhP5I7KZlbiuXy7lZaVmDmiac26m48habRZ0tEpvBYlsvpmHSULs/k2wazxTg
+         ZkSg2GzVwBKkYHqkftIelXQ99CnptKnz4e54XMYtGIqUAbgCfbIg7EUfDoWLbaDHDPlS
+         Zlw9OlnsaVO/+qu5KZlNkpcVYOjljCbXSrbEankymEaEHgtkCklmow6stCLzDCQ3ihoK
+         e31g==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=SQnZDNRv;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::830 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=pVvARrOg;
+       spf=pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::432 as permitted sender) smtp.mailfrom=andreyknvl@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-qt1-x830.google.com (mail-qt1-x830.google.com. [2607:f8b0:4864:20::830])
-        by gmr-mx.google.com with ESMTPS id j40si296427qtk.2.2021.01.27.13.10.19
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com. [2607:f8b0:4864:20::432])
+        by gmr-mx.google.com with ESMTPS id j1si345801oob.0.2021.01.27.13.26.08
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 27 Jan 2021 13:10:19 -0800 (PST)
-Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::830 as permitted sender) client-ip=2607:f8b0:4864:20::830;
-Received: by mail-qt1-x830.google.com with SMTP id e17so2557510qto.3
-        for <kasan-dev@googlegroups.com>; Wed, 27 Jan 2021 13:10:19 -0800 (PST)
-X-Received: by 2002:ac8:480b:: with SMTP id g11mr1264756qtq.290.1611781818618;
- Wed, 27 Jan 2021 13:10:18 -0800 (PST)
+        Wed, 27 Jan 2021 13:26:08 -0800 (PST)
+Received-SPF: pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::432 as permitted sender) client-ip=2607:f8b0:4864:20::432;
+Received: by mail-pf1-x432.google.com with SMTP id w14so2168224pfi.2
+        for <kasan-dev@googlegroups.com>; Wed, 27 Jan 2021 13:26:08 -0800 (PST)
+X-Received: by 2002:a62:18d6:0:b029:1bf:1c5f:bfa4 with SMTP id
+ 205-20020a6218d60000b02901bf1c5fbfa4mr12428501pfy.24.1611782767499; Wed, 27
+ Jan 2021 13:26:07 -0800 (PST)
 MIME-Version: 1.0
-References: <1611684201-16262-1-git-send-email-george.kennedy@oracle.com>
- <YBG0glwiK1wyJTeN@Konrads-MacBook-Pro.local> <CACT4Y+a48smtXc6qJy9Wthwuqjk2gh6o7BK1tfWW46g7D_r-Lg@mail.gmail.com>
- <cc712c9c-7786-bb26-7082-04e564df98aa@oracle.com>
-In-Reply-To: <cc712c9c-7786-bb26-7082-04e564df98aa@oracle.com>
-From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Wed, 27 Jan 2021 22:10:07 +0100
-Message-ID: <CACT4Y+bPDvmwk38DrKfGV8cbtS_abAMDCqr9OigcPfep0uk5AQ@mail.gmail.com>
-Subject: Re: [PATCH 1/1] iscsi_ibft: KASAN false positive failure occurs in ibft_init()
-To: George Kennedy <george.kennedy@oracle.com>
-Cc: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>, kasan-dev <kasan-dev@googlegroups.com>, 
-	Alexander Potapenko <glider@google.com>, Andrey Ryabinin <aryabinin@virtuozzo.com>, pjones@redhat.com, 
-	konrad@kernel.org, LKML <linux-kernel@vger.kernel.org>
+References: <20210125112831.2156212-1-arnd@kernel.org>
+In-Reply-To: <20210125112831.2156212-1-arnd@kernel.org>
+From: "'Andrey Konovalov' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Wed, 27 Jan 2021 22:25:56 +0100
+Message-ID: <CAAeHK+yOTiUWqo1fUNm56ez6dAXfu_rEpxLvB1jDCupZNgYQWw@mail.gmail.com>
+Subject: Re: [PATCH] kasan: export kasan_poison
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Andrey Ryabinin <aryabinin@virtuozzo.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Stephen Rothwell <sfr@canb.auug.org.au>, Marco Elver <elver@google.com>, 
+	Alexander Potapenko <glider@google.com>, Arnd Bergmann <arnd@arndb.de>, Dmitry Vyukov <dvyukov@google.com>, 
+	Vincenzo Frascino <vincenzo.frascino@arm.com>, Walter Wu <walter-zh.wu@mediatek.com>, 
+	kasan-dev <kasan-dev@googlegroups.com>, 
+	Linux Memory Management List <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: dvyukov@google.com
+X-Original-Sender: andreyknvl@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=SQnZDNRv;       spf=pass
- (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::830
- as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
+ header.i=@google.com header.s=20161025 header.b=pVvARrOg;       spf=pass
+ (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::432
+ as permitted sender) smtp.mailfrom=andreyknvl@google.com;       dmarc=pass
  (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Dmitry Vyukov <dvyukov@google.com>
-Reply-To: Dmitry Vyukov <dvyukov@google.com>
+X-Original-From: Andrey Konovalov <andreyknvl@google.com>
+Reply-To: Andrey Konovalov <andreyknvl@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -132,184 +134,46 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Jan 27, 2021 at 9:01 PM George Kennedy
-<george.kennedy@oracle.com> wrote:
+On Mon, Jan 25, 2021 at 12:28 PM Arnd Bergmann <arnd@kernel.org> wrote:
 >
-> Hi Dmitry,
+> From: Arnd Bergmann <arnd@arndb.de>
 >
-> On 1/27/2021 1:48 PM, Dmitry Vyukov wrote:
+> The unit test module fails to build after adding a reference
+> to kasan_poison:
 >
-> On Wed, Jan 27, 2021 at 7:44 PM Konrad Rzeszutek Wilk
-> <konrad.wilk@oracle.com> wrote:
+> ERROR: modpost: "kasan_poison" [lib/test_kasan.ko] undefined!
 >
-> On Tue, Jan 26, 2021 at 01:03:21PM -0500, George Kennedy wrote:
->
-> During boot of kernel with CONFIG_KASAN the following KASAN false
-> positive failure will occur when ibft_init() reads the
-> ACPI iBFT table: BUG: KASAN: use-after-free in ibft_init
->
-> The ACPI iBFT table is not allocated, and the iscsi driver uses
-> a pointer to it to calculate checksum, etc. KASAN complains
-> about this pointer with use-after-free, which this is not.
->
-> Andrey, Alexander, Dmitry,
->
-> I think this is the right way for this, but was wondering if you have
-> other suggestions?
->
-> Thanks!
->
-> Hi George, Konrad,
->
-> Please provide a sample KASAN report and kernel version to match line numbers.
->
-> 5.4.17-2102.200.0.0.20210106_0000
->
-> [   24.413536] iBFT detected.
-> [   24.414074]
-> ==================================================================
-> [   24.407342] BUG: KASAN: use-after-free in ibft_init+0x134/0xb8b
-> [   24.407342] Read of size 4 at addr ffff8880be452004 by task swapper/0/1
-> [   24.407342]
-> [   24.407342] CPU: 1 PID: 1 Comm: swapper/0 Not tainted 5.4.17-2102.200.0.0.20210106_0000.syzk #1
-> [   24.407342] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 0.0.0 02/06/2015
-> [   24.407342] Call Trace:
-> [   24.407342]  dump_stack+0xd4/0x119
-> [   24.407342]  ? ibft_init+0x134/0xb8b
-> [   24.407342]  print_address_description.constprop.6+0x20/0x220
-> [   24.407342]  ? ibft_init+0x134/0xb8b
-> [   24.407342]  ? ibft_init+0x134/0xb8b
-> [   24.407342]  __kasan_report.cold.9+0x37/0x77
-> [   24.407342]  ? ibft_init+0x134/0xb8b
-> [   24.407342]  kasan_report+0x14/0x1b
-> [   24.407342]  __asan_report_load_n_noabort+0xf/0x11
-> [   24.407342]  ibft_init+0x134/0xb8b
-> [   24.407342]  ? dmi_sysfs_init+0x1a5/0x1a5
-> [   24.407342]  ? dmi_walk+0x72/0x89
-> [   24.407342]  ? ibft_check_initiator_for+0x159/0x159
-> [   24.407342]  ? rvt_init_port+0x110/0x101
-> [   24.407342]  ? ibft_check_initiator_for+0x159/0x159
-> [   24.407342]  do_one_initcall+0xc3/0x44d
-> [   24.407342]  ? perf_trace_initcall_level+0x410/0x405
-> [   24.407342]  kernel_init_freeable+0x551/0x673
-> [   24.407342]  ? start_kernel+0x94b/0x94b
-> [   24.407342]  ? __sanitizer_cov_trace_const_cmp1+0x1a/0x1c
-> [   24.407342]  ? __kasan_check_write+0x14/0x16
-> [   24.407342]  ? rest_init+0xe6/0xe6
-> [   24.407342]  kernel_init+0x16/0x1bd
-> [   24.407342]  ? rest_init+0xe6/0xe6
-> [   24.407342]  ret_from_fork+0x2b/0x36
-> [   24.407342]
-> [   24.407342] The buggy address belongs to the page:
-> [   24.407342] page:ffffea0002f91480 refcount:0 mapcount:0 mapping:0000000000000000 index:0x1
-> [   24.407342] flags: 0xfffffc0000000()
-> [   24.407342] raw: 000fffffc0000000 ffffea0002fca588 ffffea0002fb1a88 0000000000000000
-> [   24.407342] raw: 0000000000000001 0000000000000000 00000000ffffffff 0000000000000000
-> [   24.407342] page dumped because: kasan: bad access detected
-> [   24.407342]
-> [   24.407342] Memory state around the buggy address:
-> [   24.407342]  ffff8880be451f00: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
-> [   24.407342]  ffff8880be451f80: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
-> [   24.407342] >ffff8880be452000: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
-> [   24.407342]                    ^
-> [   24.407342]  ffff8880be452080: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
-> [   24.407342]  ffff8880be452100: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
-> [   24.407342]
-> ==================================================================
-> [   24.407342] Disabling lock debugging due to kernel taint
-> [   24.451021] Kernel panic - not syncing: panic_on_warn set ...
-> [   24.452002] CPU: 1 PID: 1 Comm: swapper/0 Tainted: G    B 5.4.17-2102.200.0.0.20210106_0000.syzk #1
-> [   24.452002] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 0.0.0 02/06/2015
-> [   24.452002] Call Trace:
-> [   24.452002]  dump_stack+0xd4/0x119
-> [   24.452002]  ? ibft_init+0x102/0xb8b
-> [   24.452002]  panic+0x28f/0x6e0
-> [   24.452002]  ? __warn_printk+0xe0/0xe0
-> [   24.452002]  ? ibft_init+0x134/0xb8b
-> [   24.452002]  ? add_taint+0x68/0xb3
-> [   24.452002]  ? add_taint+0x68/0xb3
-> [   24.452002]  ? ibft_init+0x134/0xb8b
-> [   24.452002]  ? ibft_init+0x134/0xb8b
-> [   24.452002]  end_report+0x4c/0x54
-> [   24.452002]  __kasan_report.cold.9+0x55/0x77
-> [   24.452002]  ? ibft_init+0x134/0xb8b
-> [   24.452002]  kasan_report+0x14/0x1b
-> [   24.452002]  __asan_report_load_n_noabort+0xf/0x11
-> [   24.452002]  ibft_init+0x134/0xb8b
-> [   24.452002]  ? dmi_sysfs_init+0x1a5/0x1a5
-> [   24.452002]  ? dmi_walk+0x72/0x89
-> [   24.452002]  ? ibft_check_initiator_for+0x159/0x159
-> [   24.452002]  ? rvt_init_port+0x110/0x101
-> [   24.452002]  ? ibft_check_initiator_for+0x159/0x159
-> [   24.452002]  do_one_initcall+0xc3/0x44d
-> [   24.452002]  ? perf_trace_initcall_level+0x410/0x405
-> [   24.452002]  kernel_init_freeable+0x551/0x673
-> [   24.452002]  ? start_kernel+0x94b/0x94b
-> [   24.452002]  ? __sanitizer_cov_trace_const_cmp1+0x1a/0x1c
-> [   24.452002]  ? __kasan_check_write+0x14/0x16
-> [   24.452002]  ? rest_init+0xe6/0xe6
-> [   24.452002]  kernel_init+0x16/0x1bd
-> [   24.452002]  ? rest_init+0xe6/0xe6
-> [   24.452002]  ret_from_fork+0x2b/0x36
-> [   24.452002] Dumping ftrace buffer:
-> [   24.452002] ---------------------------------
-> [   24.452002] swapper/-1         1.... 24564337us : rdmaip_init: 2924: rdmaip_init: Active Bonding is DISABLED
-> [   24.452002] ---------------------------------
-> [   24.452002] Kernel Offset: disabled
-> [   24.452002] Rebooting in 1 seconds..
->
-> Why does KASAN think the address is freed? For that to happen that
-> memory should have been freed. I don't remember any similar false
-> positives from KASAN, so this looks a bit suspicious.
->
-> I'm not sure why KASAN thinks the address is freed. There are other modules where KASAN/KCOV is disabled on boot.
-> Could this be for a similar reason?
+> Export this symbol to make it available to loadable modules.
 
-Most of these files are disabled because they cause recursion in
-instrumentation, or execute too early in bootstrap process (before
-kasan_init).
+Could you share the config you used to trigger this?
 
-Somehow the table pointer in ibft_init points to a freed page. I
-tracked it down to here:
-https://elixir.bootlin.com/linux/v5.4.17/source/drivers/acpi/acpica/tbutils.c#L399
-but I can't find where this table_desc->pointer comes from. Perhaps it
-uses some allocation method that's not supported by KASAN? However,
-it's the only such case that I've seen, so it's a bit weird. Could it
-use something like memblock_alloc? Or maybe that page was in fact
-freed?... Too bad KASAN does not print free stack for pages, maybe
-it's not too hard to do if CONFIG_PAGE_OWNER is enabled...
-
-
-
-> Thank you,
-> George
->
->
-> Signed-off-by: George Kennedy <george.kennedy@oracle.com>
+> Fixes: b9b322c2bba9 ("kasan: add match-all tag tests")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 > ---
->  drivers/firmware/Makefile | 3 +++
->  1 file changed, 3 insertions(+)
+>  mm/kasan/shadow.c | 1 +
+>  1 file changed, 1 insertion(+)
 >
-> diff --git a/drivers/firmware/Makefile b/drivers/firmware/Makefile
-> index 5e013b6..30ddab5 100644
-> --- a/drivers/firmware/Makefile
-> +++ b/drivers/firmware/Makefile
-> @@ -14,6 +14,9 @@ obj-$(CONFIG_INTEL_STRATIX10_SERVICE) += stratix10-svc.o
->  obj-$(CONFIG_INTEL_STRATIX10_RSU)     += stratix10-rsu.o
->  obj-$(CONFIG_ISCSI_IBFT_FIND)        += iscsi_ibft_find.o
->  obj-$(CONFIG_ISCSI_IBFT)     += iscsi_ibft.o
-> +KASAN_SANITIZE_iscsi_ibft.o := n
-> +KCOV_INSTRUMENT_iscsi_ibft.o := n
-> +
->  obj-$(CONFIG_FIRMWARE_MEMMAP)        += memmap.o
->  obj-$(CONFIG_RASPBERRYPI_FIRMWARE) += raspberrypi.o
->  obj-$(CONFIG_FW_CFG_SYSFS)   += qemu_fw_cfg.o
+> diff --git a/mm/kasan/shadow.c b/mm/kasan/shadow.c
+> index de6b3f074742..32e7a5c148e6 100644
+> --- a/mm/kasan/shadow.c
+> +++ b/mm/kasan/shadow.c
+> @@ -94,6 +94,7 @@ void kasan_poison(const void *address, size_t size, u8 value)
+>
+>         __memset(shadow_start, value, shadow_end - shadow_start);
+>  }
+> +EXPORT_SYMBOL_GPL(kasan_poison);
+
+Should this be _GPL? All of the other EXPORT_SYMBOL() we use in KASAN
+are without the GPL suffix.
+
+>
+>  void kasan_unpoison(const void *address, size_t size)
+>  {
 > --
-> 1.8.3.1
->
+> 2.29.2
 >
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BbPDvmwk38DrKfGV8cbtS_abAMDCqr9OigcPfep0uk5AQ%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAAeHK%2ByOTiUWqo1fUNm56ez6dAXfu_rEpxLvB1jDCupZNgYQWw%40mail.gmail.com.
