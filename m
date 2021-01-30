@@ -1,30 +1,30 @@
-Return-Path: <kasan-dev+bncBCOYZDMZ6UMRBXE522AAMGQEF5JT46A@googlegroups.com>
+Return-Path: <kasan-dev+bncBCOYZDMZ6UMRBXU522AAMGQEXDXVJWA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qt1-x83a.google.com (mail-qt1-x83a.google.com [IPv6:2607:f8b0:4864:20::83a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E00E3096E7
-	for <lists+kasan-dev@lfdr.de>; Sat, 30 Jan 2021 17:52:45 +0100 (CET)
-Received: by mail-qt1-x83a.google.com with SMTP id w5sf8250602qts.9
-        for <lists+kasan-dev@lfdr.de>; Sat, 30 Jan 2021 08:52:45 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1612025564; cv=pass;
+Received: from mail-yb1-xb3d.google.com (mail-yb1-xb3d.google.com [IPv6:2607:f8b0:4864:20::b3d])
+	by mail.lfdr.de (Postfix) with ESMTPS id CCC143096E8
+	for <lists+kasan-dev@lfdr.de>; Sat, 30 Jan 2021 17:52:47 +0100 (CET)
+Received: by mail-yb1-xb3d.google.com with SMTP id k33sf14201377ybj.14
+        for <lists+kasan-dev@lfdr.de>; Sat, 30 Jan 2021 08:52:47 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1612025566; cv=pass;
         d=google.com; s=arc-20160816;
-        b=owTFOLk7AZ6MgGQKjHcmP7PzwNQaKaoEUKQp7lRqBygxeQ+1m5yIb8VNtvST0MS7sF
-         4ESEE8ENLsN7M7I6blSQQit9SoaWihKgkY89tJ2WaJbgHGmGDTpiqyGgp665Hn9L+jE8
-         Pke3Gif/rx3qXlwPWDUV4R8QC7bHHgvzG/IfHal96EAWtY0MPAQFzIT1AGlPkzO+8ruu
-         Sf45OvdHmMRh/WVSEMYjAvTU7bxlBXIiUKrTgy1nnZbSr1JXrhcbIMFfRN0/ooGLGC5U
-         8uT+elxXM329HaLuetSYHiUlht8hxx0bIYkZFgaBk8DVKPow3q6BuU2GEGZKApOd6wBA
-         6QLg==
+        b=wW6hTUbasqtblYAkDmmiANKZqRGYfloM+04i2Sp+kYRdHi41pbXJ8lACc0fCWpiA34
+         KTTCiZtRi+ynMLv3H06XZT5H3wuil74RLuWW6fQ7/48Q4AxuzxlXS654o3LahNZWbx25
+         WKkyhVua5Y1iVzICYzE/Ty+9cYP2CgJHkaH0E+A5Yt+HAAAilGFOYrjlEEAl6zBr3TqB
+         JhUj5RX+FEY2iiW3sfzawaXpnJK8NScljdgo8ELC0AEsw8qM663mrHG8d8O/pks1iidL
+         x5fS0X0jx0EWvf/X+pJ4zW8pfZwEpDXee6hUPEsjjoaVutNCW8rqftXtLRgVym9qCkil
+         omkg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=JHnGxZbpHnBR9q96NL4uLu2MCSZKzcwGsj73XrHDzT4=;
-        b=y5FMg3rVVtFXKRAYp/5LTLnGPFI2ugtPbpT9QawLtb5lKdXdPMuZ5hqj1UgcAPHD78
-         39sun5fGdggFF0Oo55QgdrNV3Ha6M9lt+ZqNAHH89zCzaLaxIo6Q8dsrFKKknQsNce/7
-         1Xf0kXzNx8hGw3/3oUs7AQuLUG/h1NrEw1EQgfhgscItHCNdJ3EKJXhT5vtw/86a0SPM
-         7SNy3K502GUo9x2mobjXLZXdND4nFFEbxB+tFiZGSgIfPwpAewpGpJ2JI6tkMrRHZxZM
-         O+ordCFFacnAz1c86KmICG7O4Q74OwAdZ+N8yXYrEg1Zd4/1TJCYh0nWtbLIyXceLzeJ
-         ogzQ==
+        bh=43ri9WGBBWKdb4O+Rj5C2j4kYsyYeGRP6xuJvQ71vg4=;
+        b=EApY9zYiXZOKIFIwDg7MRzenH9JsLXnOjrnUTBqS0miXGT1SHc7Lj1BEqGoDnsvd9F
+         2X4ITtht/OuzZYK7Lh1UbC/c/OwAHEW1I8kM/aHuXfgcDSXKmgUsroPPgHCJSp/4DJBH
+         DNBNhcQ7zo0T5Ah9rRzHcF748mC3psbT1AIQmErpJD2fLqbVH+Hs2e2Y0YLXHvNxB5v5
+         PR9+A9UnN1E1gqr9g4nEmYT4C//OrCBW2V3X/qx/czz0/roSswcBA4K+vgzN0gXjjLPJ
+         vk4t3SpPFBt27NbPwQ+Os30cjbYb0TrrHpFUGSXDMFG5nATfXX/ezvCwYjR7tjakqbXK
+         PzuA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
        spf=pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=vincenzo.frascino@arm.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
@@ -34,13 +34,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :mime-version:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=JHnGxZbpHnBR9q96NL4uLu2MCSZKzcwGsj73XrHDzT4=;
-        b=MoeocNNgk7JzGn67f2mQTjEYzvzFtJwyb9jMU8Ebk1XZCtSoB4xTUV3I6+S7Lge3lH
-         WULvCbxwoPE7D57hYSizU2JxESXluxqBy5UP3cpDOahaN0j7nZOL7ac3t7mofYWCsjYm
-         Bx/dhp3gsvRA+UxA8w7VloOBDW5G500tgW26/Jo/5hzq2Le3Kz/fV3BnpiM3gobxIv2t
-         parRrndlDtEYjVbqi8DexDuPIEwnRahiC3ba5D+2887AbJ+aCLMW9FrNG4hvgh+vkTR9
-         AcBK2cD2aoyoVF5jl9iTGQKBIEHo0HPi8vWW2dwk3kBFfppWQooeXX6RzB9ugZ9DXPKe
-         FNqQ==
+        bh=43ri9WGBBWKdb4O+Rj5C2j4kYsyYeGRP6xuJvQ71vg4=;
+        b=jkL9i78MgiWDdWvW9NGVHOCF3HaXwtw8hSraBaYQqK0rwGZZnSP6VpwSRMk/fYGzr1
+         13N1eITPkao/MKgCXU09VBsXlJjIld4pEAGPBe+oSKnZXjmLCPu+aCvXuzw8MmudvuFG
+         5Xz4vEccgA7XpMzF0ZixqkXX8/xu10+7uEBeRmfL9TFR9KMPLF75nLBjV1x3+kQdNG4t
+         VSnTko35apZyrPfXSniIXsapj16uSqj6sbu2WlMz7LElGLhzR/D/aQTnMJHRT5WmMFQM
+         o4rXq3Eup4ohZ/BH0JFOvpu6d6vYDthbtDPUcUN+AjGPpF6pYryFq62HaXOr+8iqZ27B
+         6mEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
@@ -48,56 +48,56 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=JHnGxZbpHnBR9q96NL4uLu2MCSZKzcwGsj73XrHDzT4=;
-        b=LU4IQ1ilWzQClIfdYQ7vNeqMzRyoL8Hr5D66EkO5ZZAhU+uOPqCXBhllab2KZ5wA5i
-         rnvRV4aa1x9mPek1q+V4YA3OMgAVkYISOY61WvzgmlzE6qLh7c85cPDOjGZ3Th5GezT4
-         DZI09aWG0PJcRGmGbbh9Ln5E0/Z1pJSf0tzk//GqJDCBr+kW4IeNcS3+ryaek1+cXwOI
-         9W9c7W0H2N/XEiEZQhMmODGSbfyOKApgd6vw9T/oXA+Uvc+NJv+MQYXgdCBR5Cv8ByLS
-         e/nJTay/Ai5Augau9g6NcHqKMfIc5Jr8bMh4Ryn2fxl1I25eTDeUbLbb/rdd5jaxjgA7
-         44pg==
+        bh=43ri9WGBBWKdb4O+Rj5C2j4kYsyYeGRP6xuJvQ71vg4=;
+        b=Ry6hJGCdnjacIDIpjdwmAvraCUxaqi96FQt5mgqq4TbumXJDAPe7dd6/3RLUgg8I+w
+         CYW9W2BKyD/A0XjMXFGLqvCCiPG2TX/f6ru3PYFusCa/XevhWg5OU2hnpB9ghzu9dCJd
+         +i0hdtLEaFoGYtmNhej+K5fIdPpn5HbkN7d3fvkDzd9OaFWQRoF0ykB53P8y1lNot33d
+         lThH4nNdoCCDCgBDGaVboehIvnWYT0PSa5ER2NerGGNi6qeZqiP1DK2GpdOUtX/l41ep
+         lOec5rxFTTfCXtz6f+WfapRLCDJSG/aGWSo2V5xgicbPxywoUkP5G2nxlxdlE6x7BWEg
+         B3Vg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM531GdcBN4dcJTcwIbvnNFW12fO86NUHNlkklkVgArwPWNlqd8fP6
-	klnI/24ypYdSsV/pag1HojM=
-X-Google-Smtp-Source: ABdhPJxaE6jqzlPTj+b+BLFiA/VBdZHR13reyqxyaSdj4oaHfFE58PImJkl1IbEaxjce21FXL2d1uw==
-X-Received: by 2002:a37:9c05:: with SMTP id f5mr9042736qke.189.1612025564479;
-        Sat, 30 Jan 2021 08:52:44 -0800 (PST)
+X-Gm-Message-State: AOAM5328Wki5zfj3Vq/hLBj6x5BkG+67tlYUaLUhhtGeM9bFvSmsKO+d
+	AbbwoZSPSp1Mbe5epfaI8X8=
+X-Google-Smtp-Source: ABdhPJz/9IJ0SlN1NCAWhJYrZu6UY2qR6E4/dSKhdpa+okzW5IAOIZgdSB0dEBlCoNKUkFmqVXR2Og==
+X-Received: by 2002:a25:bbd0:: with SMTP id c16mr13444476ybk.23.1612025566615;
+        Sat, 30 Jan 2021 08:52:46 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a0c:fa4f:: with SMTP id k15ls3075129qvo.7.gmail; Sat, 30 Jan
- 2021 08:52:44 -0800 (PST)
-X-Received: by 2002:a0c:f143:: with SMTP id y3mr8892235qvl.62.1612025564143;
-        Sat, 30 Jan 2021 08:52:44 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1612025564; cv=none;
+Received: by 2002:a25:41c9:: with SMTP id o192ls2105736yba.10.gmail; Sat, 30
+ Jan 2021 08:52:46 -0800 (PST)
+X-Received: by 2002:a25:34c3:: with SMTP id b186mr14808613yba.325.1612025566276;
+        Sat, 30 Jan 2021 08:52:46 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1612025566; cv=none;
         d=google.com; s=arc-20160816;
-        b=fniIsSrYL1NnMfJtskc/EqwyN9bYVeHqs+lcoWcNZalc2WvSO+6iLTWNjngQNd/+R2
-         NggGbeYOAVl7fFNYZKiEMVXzAti8VO9ktPZMOESLvPr8mWCzJ/sOs7lgmEd3q8R/M9kL
-         uS45B17ITtlp1fp/GbwZK9cRfd/YkvFZ2I3rV7sMrvHgu+nUHlfvxKOkmwChu9117S+/
-         EIumr4eVdEOnR+e0JxmkGxIxyu/W3PSk8pOPBmae9YigpNVv/wEA4C0zxMWICrd1gx5q
-         3wKwKuYuihOrDvma7+wCIC2lUPjG+uuWErqCNWQwUSb4OeA5JGn/o6jdUslIzEtPNtO0
-         Wycg==
+        b=Z8XTFIzZ2oRTlWjlpyvaH1JirKdupQPK4gLYZQqEUUjlHZtRJOyG0iJhDI96IZzrYj
+         8luoRc5kBgRFTZdq1r70Laa9/+dma1q81Y7iI62DilThRVWbmjwkgaVajFVa5deuE15U
+         ICnBX0sjorqBxq2fNmR91+soV5weXt8J61QeHTL59Up4OtLnNhnFTkWzXjqPB0TXNoDR
+         H3otJfNcRCyTYJLgp1ECH/njr6f+EcuufHo9nEBKRpD5CjjNZ0+e+dpeOlTpi/j9BbK5
+         eowEMdzPB582DAOIwQYWI94XGPe91GJY2LQ8Gi2sgf8DpILSZHyBcjrDBU8kRTzr/ZqC
+         Udww==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from;
-        bh=qaTy6Kc9+vmp27LroyuCn6a55xdy5dd3XEGJoZzAxL8=;
-        b=CKSmuFKGHXIGGxwcQaNmOAGmr8vnbT+hB1xuoVJKpY7gSHn0SFbq9oekf/nOPOfL+M
-         LzLVVHSNZdSBrEgWEma7v1sV/d8uYGGGfMxVVfnoE8rMNMpIu/O20Fj/SnwYD7kTDlxr
-         /qBme8XBKrono1o9FvgxdcboQQ7f2DR1KEoAmESZnaOBjsWJ1+3ivEASGH91K2We1dKA
-         LenvDLdjd6ggBkQw93kQh9rd/ijgCxmEwv7SBhQ3/i/y+HAOmhRKDW0DqWX+vixQDmI1
-         sQcXvF9xTCqmazigP0qG6kZFHGr+DgrNWOJ7+GTBjnbnBDVJ5m7Sks+kg4JMrQnOM5BJ
-         pEFA==
+        bh=85GcEN/4Ibk06/whJLRXyPWK/DuTpKuUT8ULitK/NeE=;
+        b=aGH3AYryAlLczw6aJNY7pnpgWsKMQc5vlEr3ua7P/7ErTkQmk5sxLmV1MJJYfCU/xG
+         tWdxrMMg0mYK5+oB4DsjEdVRA7H+INgm2LDnb5qZY4j3tOc+cSAWwVF8Np2gUnYvhKNT
+         yYTbHM6c9TvSkM6Dr0AuRmDyL7wa8fSy8zy/Olew/DcfAWQCBIcjLHx4GFeClvP+SB2P
+         EAtHzaElxqBZzI7aA+a7wK0Jg1TnplHvEHROpHugL76NtNWXZjj4Y9O08nD+05V75qd/
+         MmHYJKgpk1oxvMiLcZIRegXC6Vkg2IKUw4RcTdv4BQk2iljdgKMjFbmzVgOE/DSBBZk5
+         8ymg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
        spf=pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=vincenzo.frascino@arm.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
-        by gmr-mx.google.com with ESMTP id g51si636462qtc.4.2021.01.30.08.52.43
+        by gmr-mx.google.com with ESMTP id o71si261047ybc.3.2021.01.30.08.52.46
         for <kasan-dev@googlegroups.com>;
-        Sat, 30 Jan 2021 08:52:44 -0800 (PST)
+        Sat, 30 Jan 2021 08:52:46 -0800 (PST)
 Received-SPF: pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5D229106F;
-	Sat, 30 Jan 2021 08:52:43 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 82FB1143B;
+	Sat, 30 Jan 2021 08:52:45 -0800 (PST)
 Received: from e119884-lin.cambridge.arm.com (e119884-lin.cambridge.arm.com [10.1.196.72])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7088F3F73D;
-	Sat, 30 Jan 2021 08:52:41 -0800 (PST)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 966133F73D;
+	Sat, 30 Jan 2021 08:52:43 -0800 (PST)
 From: Vincenzo Frascino <vincenzo.frascino@arm.com>
 To: linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
@@ -113,9 +113,9 @@ Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>,
 	Evgenii Stepanov <eugenis@google.com>,
 	Branislav Rankov <Branislav.Rankov@arm.com>,
 	Andrey Konovalov <andreyknvl@google.com>
-Subject: [PATCH v11 1/5] arm64: mte: Add asynchronous mode support
-Date: Sat, 30 Jan 2021 16:52:21 +0000
-Message-Id: <20210130165225.54047-2-vincenzo.frascino@arm.com>
+Subject: [PATCH v11 2/5] kasan: Add KASAN mode kernel parameter
+Date: Sat, 30 Jan 2021 16:52:22 +0000
+Message-Id: <20210130165225.54047-3-vincenzo.frascino@arm.com>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210130165225.54047-1-vincenzo.frascino@arm.com>
 References: <20210130165225.54047-1-vincenzo.frascino@arm.com>
@@ -138,106 +138,204 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-MTE provides an asynchronous mode for detecting tag exceptions. In
-particular instead of triggering a fault the arm64 core updates a
-register which is checked by the kernel after the asynchronous tag
-check fault has occurred.
+Architectures supported by KASAN_HW_TAGS can provide a sync or async mode
+of execution. On an MTE enabled arm64 hw for example this can be identified
+with the synchronous or asynchronous tagging mode of execution.
+In synchronous mode, an exception is triggered if a tag check fault occurs.
+In asynchronous mode, if a tag check fault occurs, the TFSR_EL1 register is
+updated asynchronously. The kernel checks the corresponding bits
+periodically.
 
-Add support for MTE asynchronous mode.
+KASAN requires a specific kernel command line parameter to make use of this
+hw features.
 
-The exception handling mechanism will be added with a future patch.
+Add KASAN HW execution mode kernel command line parameter.
 
-Note: KASAN HW activates async mode via kasan.mode kernel parameter.
-The default mode is set to synchronous.
-The code that verifies the status of TFSR_EL1 will be added with a
-future patch.
+Note: This patch adds the kasan.mode kernel parameter and the
+sync/async kernel command line options to enable the described features.
 
-Cc: Catalin Marinas <catalin.marinas@arm.com>
-Cc: Will Deacon <will@kernel.org>
-Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Dmitry Vyukov <dvyukov@google.com>
+Cc: Andrey Ryabinin <aryabinin@virtuozzo.com>
+Cc: Alexander Potapenko <glider@google.com>
+Cc: Andrey Konovalov <andreyknvl@google.com>
 Reviewed-by: Andrey Konovalov <andreyknvl@google.com>
 Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
+[ Add a new var instead of exposing kasan_arg_mode to be consistent with
+  flags for other command line arguments. ]
+Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 ---
- arch/arm64/include/asm/memory.h    |  3 ++-
- arch/arm64/include/asm/mte-kasan.h |  9 +++++++--
- arch/arm64/kernel/mte.c            | 16 ++++++++++++++--
- 3 files changed, 23 insertions(+), 5 deletions(-)
+ Documentation/dev-tools/kasan.rst |  9 ++++++
+ lib/test_kasan.c                  |  2 +-
+ mm/kasan/hw_tags.c                | 51 ++++++++++++++++++++++++++++++-
+ mm/kasan/kasan.h                  |  7 +++--
+ 4 files changed, 65 insertions(+), 4 deletions(-)
 
-diff --git a/arch/arm64/include/asm/memory.h b/arch/arm64/include/asm/memory.h
-index 71a6e36cfe85..8ef409d4a18c 100644
---- a/arch/arm64/include/asm/memory.h
-+++ b/arch/arm64/include/asm/memory.h
-@@ -231,7 +231,8 @@ static inline const void *__tag_set(const void *addr, u8 tag)
- }
+diff --git a/Documentation/dev-tools/kasan.rst b/Documentation/dev-tools/kasan.rst
+index e022b7506e37..e3dca4d1f2a7 100644
+--- a/Documentation/dev-tools/kasan.rst
++++ b/Documentation/dev-tools/kasan.rst
+@@ -161,6 +161,15 @@ particular KASAN features.
  
- #ifdef CONFIG_KASAN_HW_TAGS
--#define arch_enable_tagging()			mte_enable_kernel()
-+#define arch_enable_tagging_sync()		mte_enable_kernel_sync()
-+#define arch_enable_tagging_async()		mte_enable_kernel_async()
- #define arch_set_tagging_report_once(state)	mte_set_report_once(state)
- #define arch_init_tags(max_tag)			mte_init_tags(max_tag)
- #define arch_get_random_tag()			mte_get_random_tag()
-diff --git a/arch/arm64/include/asm/mte-kasan.h b/arch/arm64/include/asm/mte-kasan.h
-index 3748d5bb88c0..8ad981069afb 100644
---- a/arch/arm64/include/asm/mte-kasan.h
-+++ b/arch/arm64/include/asm/mte-kasan.h
-@@ -29,7 +29,8 @@ u8 mte_get_mem_tag(void *addr);
- u8 mte_get_random_tag(void);
- void *mte_set_mem_tag_range(void *addr, size_t size, u8 tag);
+ - ``kasan=off`` or ``=on`` controls whether KASAN is enabled (default: ``on``).
  
--void mte_enable_kernel(void);
-+void mte_enable_kernel_sync(void);
-+void mte_enable_kernel_async(void);
- void mte_init_tags(u64 max_tag);
- 
- void mte_set_report_once(bool state);
-@@ -55,7 +56,11 @@ static inline void *mte_set_mem_tag_range(void *addr, size_t size, u8 tag)
- 	return addr;
- }
- 
--static inline void mte_enable_kernel(void)
-+static inline void mte_enable_kernel_sync(void)
-+{
-+}
++- ``kasan.mode=sync`` or ``=async`` controls whether KASAN is configured in
++  synchronous or asynchronous mode of execution (default: ``sync``).
++  Synchronous mode: a bad access is detected immediately when a tag
++  check fault occurs.
++  Asynchronous mode: a bad access detection is delayed. When a tag check
++  fault occurs, the information is stored in hardware (in the TFSR_EL1
++  register for arm64). The kernel periodically checks the hardware and
++  only reports tag faults during these checks.
 +
-+static inline void mte_enable_kernel_async(void)
+ - ``kasan.stacktrace=off`` or ``=on`` disables or enables alloc and free stack
+   traces collection (default: ``on`` for ``CONFIG_DEBUG_KERNEL=y``, otherwise
+   ``off``).
+diff --git a/lib/test_kasan.c b/lib/test_kasan.c
+index d16ec9e66806..7285dcf9fcc1 100644
+--- a/lib/test_kasan.c
++++ b/lib/test_kasan.c
+@@ -97,7 +97,7 @@ static void kasan_test_exit(struct kunit *test)
+ 			READ_ONCE(fail_data.report_found));	\
+ 	if (IS_ENABLED(CONFIG_KASAN_HW_TAGS)) {			\
+ 		if (READ_ONCE(fail_data.report_found))		\
+-			hw_enable_tagging();			\
++			hw_enable_tagging_sync();		\
+ 		migrate_enable();				\
+ 	}							\
+ } while (0)
+diff --git a/mm/kasan/hw_tags.c b/mm/kasan/hw_tags.c
+index e529428e7a11..e8a5f5da2479 100644
+--- a/mm/kasan/hw_tags.c
++++ b/mm/kasan/hw_tags.c
+@@ -25,6 +25,12 @@ enum kasan_arg {
+ 	KASAN_ARG_ON,
+ };
+ 
++enum kasan_arg_mode {
++	KASAN_ARG_MODE_DEFAULT,
++	KASAN_ARG_MODE_SYNC,
++	KASAN_ARG_MODE_ASYNC,
++};
++
+ enum kasan_arg_stacktrace {
+ 	KASAN_ARG_STACKTRACE_DEFAULT,
+ 	KASAN_ARG_STACKTRACE_OFF,
+@@ -38,6 +44,7 @@ enum kasan_arg_fault {
+ };
+ 
+ static enum kasan_arg kasan_arg __ro_after_init;
++static enum kasan_arg_mode kasan_arg_mode __ro_after_init;
+ static enum kasan_arg_stacktrace kasan_arg_stacktrace __ro_after_init;
+ static enum kasan_arg_fault kasan_arg_fault __ro_after_init;
+ 
+@@ -45,6 +52,9 @@ static enum kasan_arg_fault kasan_arg_fault __ro_after_init;
+ DEFINE_STATIC_KEY_FALSE(kasan_flag_enabled);
+ EXPORT_SYMBOL(kasan_flag_enabled);
+ 
++/* Whether the asynchronous mode is enabled. */
++bool kasan_flag_async __ro_after_init;
++
+ /* Whether to collect alloc/free stack traces. */
+ DEFINE_STATIC_KEY_FALSE(kasan_flag_stacktrace);
+ 
+@@ -68,6 +78,21 @@ static int __init early_kasan_flag(char *arg)
+ }
+ early_param("kasan", early_kasan_flag);
+ 
++/* kasan.mode=sync/async */
++static int __init early_kasan_mode(char *arg)
++{
++	/* If arg is not set the default mode is sync */
++	if ((!arg) || !strcmp(arg, "sync"))
++		kasan_arg_mode = KASAN_ARG_MODE_SYNC;
++	else if (!strcmp(arg, "async"))
++		kasan_arg_mode = KASAN_ARG_MODE_ASYNC;
++	else
++		return -EINVAL;
++
++	return 0;
++}
++early_param("kasan.mode", early_kasan_mode);
++
+ /* kasan.stacktrace=off/on */
+ static int __init early_kasan_flag_stacktrace(char *arg)
  {
+@@ -115,7 +140,15 @@ void kasan_init_hw_tags_cpu(void)
+ 		return;
+ 
+ 	hw_init_tags(KASAN_TAG_MAX);
+-	hw_enable_tagging();
++
++	/*
++	 * Enable async mode only when explicitly requested through
++	 * the command line.
++	 */
++	if (kasan_arg_mode == KASAN_ARG_MODE_ASYNC)
++		hw_enable_tagging_async();
++	else
++		hw_enable_tagging_sync();
  }
  
-diff --git a/arch/arm64/kernel/mte.c b/arch/arm64/kernel/mte.c
-index c63b3d7a3cd9..92078e1eb627 100644
---- a/arch/arm64/kernel/mte.c
-+++ b/arch/arm64/kernel/mte.c
-@@ -153,11 +153,23 @@ void mte_init_tags(u64 max_tag)
- 	write_sysreg_s(SYS_GCR_EL1_RRND | gcr_kernel_excl, SYS_GCR_EL1);
- }
+ /* kasan_init_hw_tags() is called once on boot CPU. */
+@@ -132,6 +165,22 @@ void __init kasan_init_hw_tags(void)
+ 	/* Enable KASAN. */
+ 	static_branch_enable(&kasan_flag_enabled);
  
--void mte_enable_kernel(void)
-+static inline void __mte_enable_kernel(const char *mode, unsigned long tcf)
- {
- 	/* Enable MTE Sync Mode for EL1. */
--	sysreg_clear_set(sctlr_el1, SCTLR_ELx_TCF_MASK, SCTLR_ELx_TCF_SYNC);
-+	sysreg_clear_set(sctlr_el1, SCTLR_ELx_TCF_MASK, tcf);
- 	isb();
++	switch (kasan_arg_mode) {
++	case KASAN_ARG_MODE_DEFAULT:
++		/*
++		 * Default to sync mode.
++		 * Do nothing, kasan_flag_async keeps its default value.
++		 */
++		break;
++	case KASAN_ARG_MODE_SYNC:
++		/* Do nothing, kasan_flag_async keeps its default value. */
++		break;
++	case KASAN_ARG_MODE_ASYNC:
++		/* Async mode enabled. */
++		kasan_flag_async = true;
++		break;
++	}
 +
-+	pr_info_once("MTE: enabled in %s mode at EL1\n", mode);
-+}
-+
-+void mte_enable_kernel_sync(void)
-+{
-+	__mte_enable_kernel("synchronous", SCTLR_ELx_TCF_SYNC);
-+}
-+
-+void mte_enable_kernel_async(void)
-+{
-+	__mte_enable_kernel("asynchronous", SCTLR_ELx_TCF_ASYNC);
- }
+ 	switch (kasan_arg_stacktrace) {
+ 	case KASAN_ARG_STACKTRACE_DEFAULT:
+ 		/*
+diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
+index 11c6e3650468..b82f8bae1383 100644
+--- a/mm/kasan/kasan.h
++++ b/mm/kasan/kasan.h
+@@ -21,6 +21,7 @@ static inline bool kasan_stack_collection_enabled(void)
+ #endif
  
- void mte_set_report_once(bool state)
+ extern bool kasan_flag_panic __ro_after_init;
++extern bool kasan_flag_async __ro_after_init;
+ 
+ #if defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS)
+ #define KASAN_GRANULE_SIZE	(1UL << KASAN_SHADOW_SCALE_SHIFT)
+@@ -294,7 +295,8 @@ static inline const void *arch_kasan_set_tag(const void *addr, u8 tag)
+ #define arch_set_mem_tag_range(addr, size, tag) ((void *)(addr))
+ #endif
+ 
+-#define hw_enable_tagging()			arch_enable_tagging()
++#define hw_enable_tagging_sync()		arch_enable_tagging_sync()
++#define hw_enable_tagging_async()		arch_enable_tagging_async()
+ #define hw_init_tags(max_tag)			arch_init_tags(max_tag)
+ #define hw_set_tagging_report_once(state)	arch_set_tagging_report_once(state)
+ #define hw_get_random_tag()			arch_get_random_tag()
+@@ -303,7 +305,8 @@ static inline const void *arch_kasan_set_tag(const void *addr, u8 tag)
+ 
+ #else /* CONFIG_KASAN_HW_TAGS */
+ 
+-#define hw_enable_tagging()
++#define hw_enable_tagging_sync()
++#define hw_enable_tagging_async()
+ #define hw_set_tagging_report_once(state)
+ 
+ #endif /* CONFIG_KASAN_HW_TAGS */
 -- 
 2.30.0
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210130165225.54047-2-vincenzo.frascino%40arm.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210130165225.54047-3-vincenzo.frascino%40arm.com.
