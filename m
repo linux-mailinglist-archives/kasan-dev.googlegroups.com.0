@@ -1,130 +1,116 @@
-Return-Path: <kasan-dev+bncBCOYZDMZ6UMRBZVF2WAAMGQEABGWGMA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCXJLOX644DRBEOI2WAAMGQEY3YFM6Q@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ua1-x940.google.com (mail-ua1-x940.google.com [IPv6:2607:f8b0:4864:20::940])
-	by mail.lfdr.de (Postfix) with ESMTPS id 683E330951D
-	for <lists+kasan-dev@lfdr.de>; Sat, 30 Jan 2021 13:36:55 +0100 (CET)
-Received: by mail-ua1-x940.google.com with SMTP id d9sf363001uaf.18
-        for <lists+kasan-dev@lfdr.de>; Sat, 30 Jan 2021 04:36:55 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1612010214; cv=pass;
+Received: from mail-qt1-x83b.google.com (mail-qt1-x83b.google.com [IPv6:2607:f8b0:4864:20::83b])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7202309585
+	for <lists+kasan-dev@lfdr.de>; Sat, 30 Jan 2021 14:50:10 +0100 (CET)
+Received: by mail-qt1-x83b.google.com with SMTP id h16sf8055318qta.12
+        for <lists+kasan-dev@lfdr.de>; Sat, 30 Jan 2021 05:50:10 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1612014610; cv=pass;
         d=google.com; s=arc-20160816;
-        b=eyhyhvC6q+wVjkJ3OGeC1wCfkmgFKkLslPFbJHEO0Vs318XeXD+nep2W/CYNEKynHn
-         tyExXWuyAY0ps0YEFaAyPt0bb7z2qU1ml8tQEbWxz9wKyZg23sooEIhKoMCkDVgbc/gi
-         7o8CgKnWoT58YmqJ692SwojqtzBC+cB4qQ6/0CHavwPjhEYtKFFCLWfPwBZ3GqMPCs2k
-         5+FlrHbk2oKRAjxIcvKEeF9T5/w3ZjGQTEeN4AtSXjeA5ZMInJh92SclYTXCP3tSBVhC
-         u24o4ASmLgUqyomRNn9ZSk/RNsSHvaB7RF56JtQrd0HOlybQih/t2r5Qjd2O04TMgKem
-         +rRg==
+        b=RJZ8/8o0MqvGQ0Pj8kTV2wI/J9L5HMnSLyKswb/kE4P/Iz87faDQywxRCdcsBVseBk
+         fIYYfdsbb2ZgXJrfp8jMG4Y24zatzaGnnu5XT0slfAjtG5pVM9GTOjSjcA/aXf/lBKDm
+         D3FdVPW6CDUEjzMLg3BmsgiVylZR9ueV35qq6dltob5/hkT/U/T5QAFW9L1G84PP9jl6
+         n8e49m5/JbZ5xLtq0gQocENQW+SuV38xnRoNx3ufatM42RHWKCz/oMTccAssGG/P5mMr
+         eB/o0Nn4cLu3714LWNJmMpi66qpJECdeD3B11T4O7qjw2bsoVmGrgyKP60rPxvEHjV7d
+         qxiw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-language:in-reply-to
-         :mime-version:user-agent:date:message-id:references:cc:to:subject
-         :from:sender:dkim-signature;
-        bh=+kEPI3xbIHhQtbnVbPWN95uHI+1OYdcynM+OnZoyigE=;
-        b=N5KfP64jpX11Za5qy4YBMRO9ZcKOH8F00JaLI+puoLZ/noex1GGSCISyy87DIsppa3
-         /otBSbdORK4Hys7kCgN/2vrm62X6mrV5DAEwldwmJw94/V1F+ELvxxhw6zKG4wD0wnIs
-         swssB25VhX/1cH5XE5A0wZGbnJT7Sh+aLZnS0ncQc94u79CxN/fmGBAd9uWGVTSu0RJ9
-         BRXZyEICLfr7u8eNTiFJSBnNphqHjy9278DZJhEKORw1docLcik1N2j/lYMHzZgTgeYi
-         jSgJSqlDeMNsJtrFgKDdoQknbLAR08bLqp6Vwko3EErWin6FLxz0WgEAqCJA4j2jFtN+
-         FJdw==
+         :list-id:mailing-list:precedence:to:subject:message-id:date:from
+         :sender:mime-version:dkim-signature;
+        bh=WX4+y0FqMyxst5HekiRXkvOiaSAu4mfHLj9mqKAqsFo=;
+        b=lafBS2s8GaAHgwueh1sxR/K6FqWKpS2zS1MJV+WPNkWh6tuTiumhdSXwvdBlVEGXgY
+         xIV/wgMHm0hRH+zS9VQnejRsPGpQCErpiRoRDav5u21wJ06ux6l9TvpHX0Y7XNa2TZvb
+         kyZocOY0BM82Yum3DgNiB1WxpVrXpmdsKv33yJYTPLSFAEXJyh5u/RZQxebK5msb0DTv
+         bP0y6ayaBHcfvMVx6wkNyIIz7rJA1ZX82CDpDX+wWRmHFbTWzhb/vgOmi//sj81YJFiP
+         u5Xm0Oy0QCfmRSSVcJCSRJ+n6ulpxp5rpEZ03rH0j4SzK4RU10xsqXviYWbjAk9oppj+
+         DKlg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=vincenzo.frascino@arm.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
+       dkim=pass header.i=@gmail.com header.s=20161025 header.b=OFWI0FxO;
+       spf=pass (google.com: domain of mrs.doris.david22@gmail.com designates 2607:f8b0:4864:20::e2d as permitted sender) smtp.mailfrom=mrs.doris.david22@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20161025;
-        h=sender:from:subject:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=+kEPI3xbIHhQtbnVbPWN95uHI+1OYdcynM+OnZoyigE=;
-        b=DVtgFmxGFIg2qgBEoCpmll9ykH0c8M4+eStVH94QEtKLKfxtQ2uTjBCzD3iy2sEkRB
-         QMP3Yl3TTpnofTMjQkvLNYrso+u/qUalsClaeSfexpub0xe7ISFNVxXIQiPoMVd37Vrz
-         CcZ0go8sFbgF8vKNpGrvjiVspwFVuk/I9EZd6+oookKIK8sN7vgMLN5KB3qFE8TKynt0
-         C285cTZYObQnCvZF7nL4cf2WSkQyUQRVzhmY7ANo/qni9hyjxWGS4o7YrUqviUujOYLS
-         ooRyiKpbI1SUuj6lzBXITE87B8W8+oi7Ziz8x/BRHzwbmkGqpGei/si5nYjoymmuColX
-         QE0Q==
+        d=gmail.com; s=20161025;
+        h=mime-version:sender:from:date:message-id:subject:to
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=WX4+y0FqMyxst5HekiRXkvOiaSAu4mfHLj9mqKAqsFo=;
+        b=o53BL0k8yqfdMf6V9gNZC7+IwmReZtJqS3z3fKJIRDEhmMVS7LQKZZPt2Kct0B8DRM
+         7k9/wdGf4Yq0QnaNQW2AjoyVUCL8Ye5cEkeAMnngVl84NJdW23SNLzgPaVI9T0C1sJlN
+         HAdvbPGob5exe8c5p3AtvOlrR/QDMm1D/lRgso6JsL/pKCsxOM06aZWIVxIiaxv5GLWs
+         owHsrMLHjykaBiI7YTuhs+zURueUY6nBseSc60SXK+KiRFiWOqpjCf8R61oMGVV8j6sD
+         Bx8U0wQM7bUxHQHLEmIwALyhN5lsiVGivW3tvjPOKQt7uDR6Jdwtf7ayxiuqVg6mzTiM
+         PSzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:from:subject:to:cc:references:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :x-original-sender:x-original-authentication-results:precedence
+        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
+         :to:x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=+kEPI3xbIHhQtbnVbPWN95uHI+1OYdcynM+OnZoyigE=;
-        b=QNpXYWHyaGmd3mL6ceYZY3dDacml1Q9rJjjNgyVkKCGAG4lwKJDAyBfVrOBO9y07MG
-         ve1vaGCQYaZzzS9Am6ItL5DHWoNcJ0WGHjTB/GBH4gnlVADh2gYtHRa8of0TAvFln0H4
-         T9FKH6LkRUpwMJEBNCp9F8GTTVeO6aHqQcmgXmjQbqJ/bVP3WVZl4lNjIkGscx5juhK5
-         t7wY6HdjHCLnnLPq1qbsUGlh6d8u2bFCf8Nh7O5h+84XuayUJS0P0iCOmkjI28OgSTc7
-         NdYrQS7Fb8t7SmwCUOLi5E7xwiViYznfoRkHs+PZxJXUrGpFI76Itv42lnlMsNJGgdtY
-         J7+A==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM532E9f5jGCVFO8w+KwnUKQKvUALNQvsNR8WgNtRH0cthz/746+mq
-	fR0aMKEkCKksG4uB9zsG2EQ=
-X-Google-Smtp-Source: ABdhPJyzbdyd8QJGIaC+32cfk7lBhW0f481YrU9WpyNrlfwAznJ91FXdOTu2wq2G0WIQXh256gCKnQ==
-X-Received: by 2002:a9f:25e6:: with SMTP id 93mr5123859uaf.57.1612010214462;
-        Sat, 30 Jan 2021 04:36:54 -0800 (PST)
+        bh=WX4+y0FqMyxst5HekiRXkvOiaSAu4mfHLj9mqKAqsFo=;
+        b=kS49S7bUgKYyn3ohYx3ssojMwHhDe8qrVtylLzR7yvGF4zLis3/6d1GEPQ6VQVnAZR
+         26EyLade+UxhvzTRdaEmckroZdL/pDHVWJ4s9FwPhEv5djBnNMkqxarI95+tHWJrq1ER
+         Hy4W6w580NXP6GscfPXeJa2J4C8iz416uGE2G5B27u/V7k+ALiN4tEmrdZuNE4B4d3CV
+         0lrITecxaDVB83k3RcMaA20FmfojOMFkOc92ttdAMXIuaAM1g+Ggjp5iwH6ELCwDCEJ+
+         GpkEp8FLQpApFA7Qo7LYY1/3zwtV/0H3+K0dPznCvArpLHmCaZ0WlVwfsGHpjxaWcRnK
+         JZwQ==
+X-Gm-Message-State: AOAM533VLRT3EmV9I5iHzSubQHpwA4Am1g+DnXK3JbTS5L/d1AR9Lg8w
+	YzQQf18I0ooSggcvvl81dEg=
+X-Google-Smtp-Source: ABdhPJwV71D5klVq8l++Y4GGK8+pfofLiI4rfPt+OgpxcIsg/C2rV8IiRk5m9iygDzmlqCI38/GPig==
+X-Received: by 2002:a0c:a905:: with SMTP id y5mr8362838qva.55.1612014609781;
+        Sat, 30 Jan 2021 05:50:09 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ab0:4823:: with SMTP id b32ls926617uad.2.gmail; Sat, 30 Jan
- 2021 04:36:54 -0800 (PST)
-X-Received: by 2002:a9f:36cc:: with SMTP id p70mr5189767uap.137.1612010213999;
-        Sat, 30 Jan 2021 04:36:53 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1612010213; cv=none;
+Received: by 2002:ae9:e904:: with SMTP id x4ls5816752qkf.6.gmail; Sat, 30 Jan
+ 2021 05:50:09 -0800 (PST)
+X-Received: by 2002:a37:67d6:: with SMTP id b205mr8246379qkc.69.1612014609412;
+        Sat, 30 Jan 2021 05:50:09 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1612014609; cv=none;
         d=google.com; s=arc-20160816;
-        b=z5+fRapF1fykvp+Pagsz9h+8e6YtZWMAPwQhR08GeEIawuoYPS3x708kBFBIfddfOc
-         LMjwJWXr2zRY67vfRfWA15x2uzeugBYxC/Y1KylYPITp0N/5h1ZeMT7dNrJVTDl48MTE
-         N4ekN0w3SBDQ6BxOoHG5GxMvdsoMquc4zukLMQL3Aj8lLlbHaRhnGYNeL/nEfmZ4nWhC
-         AQLEFuci0FO5OZxfz1f+52ng/cPgcFpRRgwK7ZwYKtGGvLUMkuyByWTvjSnN1+m4mtNR
-         fnt1M43K4AJWGj1J+4BxxJLXaB6+i2g4pT8MONCjsRURPYyEUNAJna6njlO6TEPR2iW1
-         ADrA==
+        b=AYGxgHrlUPTXOQ4rRG6LRt6sgSKQu4fkn/STi1ieKHKAuqFrqTWqyEsstzlVzsAyYv
+         lJflPjt18fVGtzV/bqR1gAz/uKYdSWUy7Qa1Aar4bvfL72Tzfvjgskh1UNIGkE1c3Hkk
+         Vx82zvaQhIXF08xcig38cnAMwCv971cl3DGzkgmvm5ETN5zDPF40W7gGPyGO8Qr7zRUe
+         ULDdnDtSwwT8LugxWx0T0NntA7A7K/5ruivHcVSrSNvin6kPHnnclxtar7do4wu0G+hW
+         gKmaTIDSS2QvOpDbl6X0E9S5dndmkWe2+m4nn1C/zdhCiaN6/KmL2vRwSKVNtda39QWO
+         oW/w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:references:cc:to:subject:from;
-        bh=CmeZNRAW+5lhoExNC/bMZOxZx97qCE2bkagUnHGzcO8=;
-        b=Y0FUfmvu0xpU74di3vkiT/kiBjIGm++n3O1ouX4tcR5eVDa3Ui6zZ4gfcTS29aliiN
-         iQa8ujJZi1IbcFe5unBlcxC+p0mVVon9dO+s46/Kxqr01/XF0mY4T8Gg/2eUwwyICM6X
-         hQuAjPAx6sqkUH9aOVUNflGzUqO8gTLu7gt0RKPChfecpE5XkHEAhtgexbTQ27YKiUYY
-         /hO+QUaz3czczdMc502GqUIecdXmujeLDYbNC5Vzi7NxAi+sjbUYWOoSexRdYLYKe/6o
-         2iijKEi0/GIzgnBPNqEI61P2270+NaWkBkN4AT9FCIf90jU9u2sYBD5HtNnBwo1tEaUh
-         afOg==
+        h=to:subject:message-id:date:from:sender:mime-version:dkim-signature;
+        bh=7iI1DekgaHBZksx2TGvGc1WMRd2snjmYIH7XSR8Ig2g=;
+        b=uFt2eva6/h+W1EwmbeF2WglF7c3Xu5TifCOTq1NdGAaLZI7bWbL00jroYfPO2koGbV
+         uAEZzFt3nUI9tux1MIq/F4/5BC+kMdcV8u2l71wHc7NTdDwJgm4BDLVkdWy31yp0hUX2
+         wvU1qFmh67Vz/BbOIgvbxHbnMMBoZsvf2ShTvxf2IWuD8ybbOpNsgq8g8eij81yBu9YT
+         6WHyMZqMtrmbVRSfVtTJ//9rx+fzYQI5U6SddnC7tAf/qAosySXaCwOzN6z8zELVJJBU
+         /9DaQXLUo/7EYFbWGNIpeqpSN1gg0434r5I4OFa97d0pLbsigr7BUd77buF0Y+9VO59t
+         YD0Q==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=vincenzo.frascino@arm.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
-Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
-        by gmr-mx.google.com with ESMTP id p73si588971vkp.3.2021.01.30.04.36.53
-        for <kasan-dev@googlegroups.com>;
-        Sat, 30 Jan 2021 04:36:53 -0800 (PST)
-Received-SPF: pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1F28FED1;
-	Sat, 30 Jan 2021 04:36:53 -0800 (PST)
-Received: from [10.37.8.6] (unknown [10.37.8.6])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0AA313F71B;
-	Sat, 30 Jan 2021 04:36:50 -0800 (PST)
-From: Vincenzo Frascino <vincenzo.frascino@arm.com>
-Subject: Re: [PATCH v10 0/4] arm64: ARMv8.5-A: MTE: Add async mode support
-To: Andrey Konovalov <andreyknvl@google.com>
-Cc: Linux ARM <linux-arm-kernel@lists.infradead.org>,
- LKML <linux-kernel@vger.kernel.org>, kasan-dev <kasan-dev@googlegroups.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Dmitry Vyukov <dvyukov@google.com>, Andrey Ryabinin
- <aryabinin@virtuozzo.com>, Alexander Potapenko <glider@google.com>,
- Marco Elver <elver@google.com>, Evgenii Stepanov <eugenis@google.com>,
- Branislav Rankov <Branislav.Rankov@arm.com>
-References: <20210129184905.29760-1-vincenzo.frascino@arm.com>
- <CAAeHK+w5hHcN-4Q8KYpMnG1rQvz9N_kXc7=uY07nH=937MUTjA@mail.gmail.com>
-Message-ID: <4e14f83d-26a6-b06a-7ef6-f11dcd5457d2@arm.com>
-Date: Sat, 30 Jan 2021 12:40:47 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+       dkim=pass header.i=@gmail.com header.s=20161025 header.b=OFWI0FxO;
+       spf=pass (google.com: domain of mrs.doris.david22@gmail.com designates 2607:f8b0:4864:20::e2d as permitted sender) smtp.mailfrom=mrs.doris.david22@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Received: from mail-vs1-xe2d.google.com (mail-vs1-xe2d.google.com. [2607:f8b0:4864:20::e2d])
+        by gmr-mx.google.com with ESMTPS id x2si202281qkx.7.2021.01.30.05.50.09
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 30 Jan 2021 05:50:09 -0800 (PST)
+Received-SPF: pass (google.com: domain of mrs.doris.david22@gmail.com designates 2607:f8b0:4864:20::e2d as permitted sender) client-ip=2607:f8b0:4864:20::e2d;
+Received: by mail-vs1-xe2d.google.com with SMTP id v19so6451517vsf.9
+        for <kasan-dev@googlegroups.com>; Sat, 30 Jan 2021 05:50:09 -0800 (PST)
+X-Received: by 2002:a05:6102:199:: with SMTP id r25mr5120763vsq.56.1612014609052;
+ Sat, 30 Jan 2021 05:50:09 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAAeHK+w5hHcN-4Q8KYpMnG1rQvz9N_kXc7=uY07nH=937MUTjA@mail.gmail.com>
+Sender: mrs.doris.david22@gmail.com
+Received: by 2002:ab0:34c:0:0:0:0:0 with HTTP; Sat, 30 Jan 2021 05:50:08 -0800 (PST)
+From: Anderson Thereza <anderson.thereza24@gmail.com>
+Date: Sat, 30 Jan 2021 05:50:08 -0800
+Message-ID: <CALSkaMApfiGi=Wj=BpAJZ4z1uN6g3YdU5Vcst=qUUinz0mfF2Q@mail.gmail.com>
+Subject: Re: Greetings My Dear,
+To: undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-Content-Language: en-US
-X-Original-Sender: vincenzo.frascino@arm.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172
- as permitted sender) smtp.mailfrom=vincenzo.frascino@arm.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
+X-Original-Sender: anderson.thereza24@gmail.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@gmail.com header.s=20161025 header.b=OFWI0FxO;       spf=pass
+ (google.com: domain of mrs.doris.david22@gmail.com designates
+ 2607:f8b0:4864:20::e2d as permitted sender) smtp.mailfrom=mrs.doris.david22@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -137,43 +123,36 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hi Andrey,
+Greetings My Dear,
 
-On 1/29/21 7:21 PM, Andrey Konovalov wrote:
->> The series is based on linux-next/akpm.
->>
->> To simplify the testing a tree with the new patches on top has been made
->> available at [1].
->>
->> [1] https://git.gitlab.arm.com/linux-arm/linux-vf.git mte/v10.async.akpm
->>
->> Changes:
->> --------
->> v10:
->>   - Rebase on the latest linux-next/akpm
->>   - Address review comments.
-> Thinking again about this: properly fixing that tracing issue is
-> similar to fixing the issue with the tests. Let's do both as a part of
-> this series.
-> 
-> Here's a tree with the fixes. I've marked the ones that need to be
-> squashed with "fix!". PTAL, and if the additions look good, please
-> send v11 with them included.
-> 
-> https://github.com/xairy/linux/commits/vf-v10.async.akpm-fixes
+I sent this mail praying it will find you in a good condition, since I
+myself am in a very critical health condition in which I sleep every
+night without knowing if I may be alive to see the next day. I am
+Mrs.Anderson Thereza, a widow suffering from a long time illness. I
+have some funds I inherited from my late husband, the sum of
+($11,000,000.00, Eleven Million Dollars) my Doctor told me recently
+that I have serious sickness which is a cancer problem. What disturbs
+me most is my stroke sickness. Having known my condition, I decided to
+donate this fund to a good person that will utilize it the way I am
+going to instruct herein. I need a very honest God.
 
-I checked your code this morning and it seems OK (very similar to my proposal in
-logic but done in KASAN code as you anticipated).
+fearing a person who can claim this money and use it for Charity
+works, for orphanages, widows and also build schools for less
+privileges that will be named after my late husband if possible and to
+promote the word of God and the effort that the house of God is
+maintained. I do not want a situation where this money will be used in
+an ungodly manner. That's why I'm taking this decision. I'm not afraid
+of death so I know where I'm going. I accept this decision because I
+do not have any child who will inherit this money after I die. Please
+I want your sincere and urgent answer to know if you will be able to
+execute this project, and I will give you more information on how the
+fund will be transferred to your bank account. I am waiting for your
+reply.
 
-I am fine to add the changes to my patches but before then that I would like to
-conduct some testing, hence I will most likely have v11 sometimes this
-afternoon/evening UK time.
-
--- 
-Regards,
-Vincenzo
+May God Bless you,
+Mrs.Anderson Thereza.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/4e14f83d-26a6-b06a-7ef6-f11dcd5457d2%40arm.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CALSkaMApfiGi%3DWj%3DBpAJZ4z1uN6g3YdU5Vcst%3DqUUinz0mfF2Q%40mail.gmail.com.
