@@ -1,127 +1,122 @@
-Return-Path: <kasan-dev+bncBAABBLEH5CAAMGQE3WJRQAI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCRKNY4WZECBBCFG5CAAMGQEP6WHHTI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yb1-xb39.google.com (mail-yb1-xb39.google.com [IPv6:2607:f8b0:4864:20::b39])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF28430D129
-	for <lists+kasan-dev@lfdr.de>; Wed,  3 Feb 2021 03:00:13 +0100 (CET)
-Received: by mail-yb1-xb39.google.com with SMTP id c12sf25760867ybf.1
-        for <lists+kasan-dev@lfdr.de>; Tue, 02 Feb 2021 18:00:13 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1612317612; cv=pass;
+Received: from mail-pl1-x63b.google.com (mail-pl1-x63b.google.com [IPv6:2607:f8b0:4864:20::63b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 406B630D1DC
+	for <lists+kasan-dev@lfdr.de>; Wed,  3 Feb 2021 04:05:46 +0100 (CET)
+Received: by mail-pl1-x63b.google.com with SMTP id y19sf2460792plr.20
+        for <lists+kasan-dev@lfdr.de>; Tue, 02 Feb 2021 19:05:46 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1612321544; cv=pass;
         d=google.com; s=arc-20160816;
-        b=KVrE6DgqOQuyKB/xgQMvHYI9etumWg/VWlNW0gs7DUjGBSkxjTk0rxRrbwnhb5Ndrf
-         7363QLTHZAeyvOANTbgvwJLxpbbVKHEe8YVynIW+8ljX96DjoqNFRKqiah+lK3HV8jbz
-         ePdwcDF1rSq257DJT3g7wS56xdFzwD/GZohv2XFTedTYDmUmvi4VF6Nfbu8bv+4PwyE9
-         5eE6c3JzphvqaVDRR3KDJCB21pGc8W1tJ6yIWdnGzS5hv7iTWO6EN198RIfucxqcctaT
-         wLLFJh7xb+pl7CMnK/PabwRSHtEETheEA0TqanDpr2YH2Zn4YXs0i5pRlPsPuHMPPw0Z
-         4k0Q==
+        b=z5qxWypuIOrBegeILCw2Ms70M6qKNCBPKOT8WrN7oVP+RJAG6SErRyLTx2G9vOebTd
+         5+7usiopMtqD9kCCuN8uYam0g2IMeCeZKk35tCRfkIhlAzQUZHOodkXXPqvOehEl2v4o
+         vCK9m+eMOGYbJnZ/YcPzUjeHT5zhbCKKCTb8nF5LAJavqVvXT8FWodaBOajjhxPhqfvP
+         Aq83THAisS3m6webnzgZR1M/6bq98i3z4YBo4H/1FnKK2GpaotZUI1BJkxDmde5LWJcC
+         RY3UyPob14VeFTjljHZLt2g0e025bzZkDVdzhDnSQj5OqmPwCdjqtSCvJfPvDF7kY+Lh
+         Op/Q==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:cc:to:in-reply-to:references:date
-         :message-id:from:subject:mime-version:sender:dkim-signature;
-        bh=10cnk+/a3yWYWYUU26cGUcu/nTDlGOWDipMrdCn3ZRY=;
-        b=AM1pIUmOcBEGbpuE5Lp+PdSf1Siwr4xeRmmV4ALLGdiwb/RClE3XchwcYSTxOEOWbS
-         Ne8z5SmbQCUnM11fsy/B8zLr5J0+ADILP9rTtXJTQVNnz/j91HOKjPk+nrKETO5q9yAr
-         BtCleXtEEKC/mX/NeNTbL39+A6Ia9Obzr52JOn2y5DhdBciAn09IEJz4Gd2p0Hf5m8tA
-         AhrG+CrMcndcbL5W8+zx9H2pY873jvDYTJq2gJWrmXVaeLgUDxoz4UoRD7gNrQPEKsfg
-         zQwgcJO228lH8l2VGyxzTR274Vh5Ulh0iQAlQz2uvAN7VOvy1JdWy8KwdF/YNTwUHtj7
-         sOfg==
+         :list-id:mailing-list:precedence:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:sender:dkim-signature;
+        bh=aY4S6Y0YtyXNdnjskoyEzbi+CbBFf3OtD+BjtpT+fnE=;
+        b=qtmjfZ+n0weebp/4hiSXWZSFWeuU8g4VHgSjW6tADdmjtb9VyliDrj+dyyp0UyfCcb
+         brFEgCRuO5+R8x9PYrd+8fkU0NgF9OApmy4L5Neo/hYeLZy4usnYIp4YwkSNgRFS8tt/
+         De25OycyTEeay7x77Tb49gKBM15PzB4gWdWz5zEncW10YBdTwt3Y5v/q4G5j7fa1WvgX
+         6mIDjjA/4Ue8Y8HNn22vqPLmHNFzehLfY0De7BFJuC31u1XVWrjPOkXFpU5xyAAOe+0X
+         M630Q4vugdYNRaD/b4nVhBLCjfVgikaVBu67ohXpZ0BvOENKWu7A7ta3l5btli2Y/6+b
+         weJA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=DkUxOCnx;
-       spf=pass (google.com: domain of patchwork-bot+netdevbpf@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=patchwork-bot+netdevbpf@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       dkim=pass header.i=@dabbelt-com.20150623.gappssmtp.com header.s=20150623 header.b=UZ4hGLaf;
+       spf=pass (google.com: domain of palmer@dabbelt.com designates 2607:f8b0:4864:20::1035 as permitted sender) smtp.mailfrom=palmer@dabbelt.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:mime-version:subject:from:message-id:date:references
-         :in-reply-to:to:cc:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=10cnk+/a3yWYWYUU26cGUcu/nTDlGOWDipMrdCn3ZRY=;
-        b=Z56QvAs2kbs5i5o4r84uHYNnhzk41guc2MwCbRm0IdtUXvGBgtKOg5MpXLhlD8CNwt
-         R4cVzEzCQs8addWFZYvHwGWHlDtAuVpxUzozsHPQAcrSZKLgzVAY0l6qUlKdowjFDU2W
-         u2hjcJqcTfEA9t0CfHOLoFIFtInAZwqxm2SoDesZmF1b2BOwUNg0QdlJJpJg9bcFR9If
-         k6Z0STUivO+vl2jwyUQOT5W+kg/prkhzUMR8A3ziXk2FuGY87Lqd+W2OkiC1db7sma1b
-         3etuXd5IR+/s4AATS8i7sgO7/9Vhnw4kbi70gdesxYjN4yDNr9I9oJrIHyM9sNFIxlJp
-         Y8zg==
+        h=sender:date:subject:in-reply-to:cc:from:to:message-id:mime-version
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=aY4S6Y0YtyXNdnjskoyEzbi+CbBFf3OtD+BjtpT+fnE=;
+        b=YHVV1x0JjVQ020+wQRGra8Rb30Fn6nEDnd7Am36f8aQIH0nT6LFr5v6K1ckFbr0uH5
+         bxvx5H0ism1jNciNIjUGGA62dnTyGUN83H1FlhtrJ5+hDuszwYjcWiNiNpZ5rrjwjYQj
+         z02Eh8jAYaknnejizZpVjoDLGjw9Dljb2b9d+OWwLe5wA6a0pfFbz2SDqdyHTGqI3tCq
+         QpCxmjaIV82dynIczT65pSSreXzKQG6+xm3+SmOLkBB6FL0Nx4KpdPdUuVJxGHiswP2r
+         v0LjQe8XRSORz2s1aQda55VWGlyi1bibUuAVXfLoeM+NOpMVNiXKgiTzkJgL+KwCJuxv
+         PPyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:mime-version:subject:from:message-id:date
-         :references:in-reply-to:to:cc:x-original-sender
+        h=sender:x-gm-message-state:date:subject:in-reply-to:cc:from:to
+         :message-id:mime-version:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=10cnk+/a3yWYWYUU26cGUcu/nTDlGOWDipMrdCn3ZRY=;
-        b=hAO4bXroYqmOP8UTeOjrcSek+iOIxzy0rbdV/mrCOgcriExFuOrPoGBAcOXvASHTs6
-         5+rRRpqwu/QQIxp86PIsXaOsHVeAq7SQUX5yiHyDSx0sGlLnLUvp3K9iXWGFKBXYFU0x
-         VR5PhwRTWND+cJtWrtFQpZaX0bN0i10b82n4xY5LGvSUTbaNDR+siduf734gh8Lyq+Hz
-         9XeNDad0Ct5LkCL1TpmzJb4N0iQ0yVdYJP1ZdRgJF/zDwJZuB/AV2hK0QUAH5TWAW6yn
-         PJOC9S1VbdIpVjboFeZU8NynpYx/doCPx6pQ8b5iM1Zynrvpe6vIwPNlV5dZz5TOo6C1
-         eFBw==
+        bh=aY4S6Y0YtyXNdnjskoyEzbi+CbBFf3OtD+BjtpT+fnE=;
+        b=eP6Ug6KINP+qG06KLLRxDLM8/my0X7b4XkWQs++4N7OzGiK5W/8nXrgYDWKLWm7w/M
+         tWtCJSvygAMVbu0wM6eHu/JPvyY7bWv9v7HLeDjLaLDSDowel+Hb3xXEgy+eJY+YdtKl
+         vYAH1NNJChg9ATbF/sICfrw4TQVQPGAVLrhX8E2W9/dAa7Fy67qiCVzg/FFQ4z8l0SaJ
+         HCLIYblXMTY4yWx1Fn2Jl/h3hLv/0Qjcr7eKhYaLmcUF2bphsr0LCFXDB7wlDiuPKNIl
+         uCuYdkeveNYLYZXkSo8MzeSLq0mRGhdZk+0RLl+hz6x/W+oP9Ic1iwAAZ3cnplRH6qo5
+         Y6Lg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM532ZLrbxlKkFPoXdUDrKMJok8N5BXXinsPjzLimq7HGQY9luQM9s
-	kO8/O6Nv9c/AkWKTEnNSH9E=
-X-Google-Smtp-Source: ABdhPJx1ob45gG8uBENScikf5raSleWJeqaOtsPWSPDdZuL73e5zGhF+x8B0sc5F1Jh3qkUvFGd3Mg==
-X-Received: by 2002:a25:888f:: with SMTP id d15mr1262980ybl.12.1612317612684;
-        Tue, 02 Feb 2021 18:00:12 -0800 (PST)
+X-Gm-Message-State: AOAM533DVFISmNZa92oTTpow4Cbq7YM/HiTnyba7fm69llJwJMUYx0XQ
+	u2GXMsedQ/DoQyfa1mNr8Ek=
+X-Google-Smtp-Source: ABdhPJwhXM/4aYPzFRw6Q73Uo6GjQosd62Drkwlln7aM/I+/Js1ckUYYBjO5yDJZTQnWSZc0Sgp9Pg==
+X-Received: by 2002:aa7:9637:0:b029:1c4:db58:97fc with SMTP id r23-20020aa796370000b02901c4db5897fcmr1045905pfg.81.1612321544593;
+        Tue, 02 Feb 2021 19:05:44 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a25:ff19:: with SMTP id c25ls342178ybe.2.gmail; Tue, 02 Feb
- 2021 18:00:12 -0800 (PST)
-X-Received: by 2002:a25:9247:: with SMTP id e7mr1103692ybo.440.1612317612267;
-        Tue, 02 Feb 2021 18:00:12 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1612317612; cv=none;
+Received: by 2002:a17:902:a707:: with SMTP id w7ls352898plq.9.gmail; Tue, 02
+ Feb 2021 19:05:44 -0800 (PST)
+X-Received: by 2002:a17:902:bd4a:b029:e1:1ccd:35b7 with SMTP id b10-20020a170902bd4ab02900e11ccd35b7mr1298662plx.30.1612321543950;
+        Tue, 02 Feb 2021 19:05:43 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1612321543; cv=none;
         d=google.com; s=arc-20160816;
-        b=DdGlZF6juUTteWky1evQzxS9TBK/GiuIgH0XdoKiwNJ+2Hm4mVqN39NWorsDXNyDmB
-         2u+drLC6MuMJYIbfrEcldwjmRBaWPcoHUVXwrt3JAlBEe3ou+K7p4GCgfEUoricvQEZX
-         LSgvzrpK2s/OlbjwKn6Z6r9p/ViC4fQ6zDMRncXB71PeEmuYAWyBbSK2ZAKMZLIdPVJa
-         u+QRepo2u1O4iSuljSNIjIhEIL7yN+kCxpwxGAeuwyQp5xKtb9hEkJBxzdt9xTOldkmt
-         XdqLZ/XjREMiwTcHHBuGz4nZJJqLZVmL0T95dg5I+DlfjRDwkZWo96Q/TEtuo8oErJx7
-         AUqw==
+        b=FohK7CEKBVs1tgw5AexRqZlH6y8CLXBVmuDYnCFIKBUosGYsPG1sf/D+v9CqD0GU8E
+         hKAx6J78xC90KbzRhDpbm4rABtBMczbJZOP7fNhZ2OtNNh8OxA3GcRBumb9gSbL8vfXt
+         677vgiIDr8GsVJEnJtipIYa1qPtXCs8JXyCD5yuW0szLmaiAdV8qsxYE2f3HZYnyA2Cq
+         YVYV66U1q/zIfaJpajosQ7//cUGz+mKibi2jye1pJ1H7e/F4K2gnHerBW3wx9GhhguDi
+         sji6b9FCY90AQEq2f7645YAaLenonrkbI1mqh2twhlXOzwdjkDR5H2+zOcwDBaVwqCzJ
+         rWAg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:in-reply-to:references:date:message-id:from:subject
-         :content-transfer-encoding:mime-version:dkim-signature;
-        bh=3PGZic4OzkYVa22xTPvO4EhyMZnZqOn+ZNaPEjGUJes=;
-        b=xdWWhc8hB91JWmPp6b4veVXw7NzTA1Br0NqLGt8ukzVl2r8fGq17qMwwPsjeopDE+k
-         gzbfnIvu9Sv6YaWJZjom+rMf1PsneCphCZKYEIE51oGEZUcun5hm9rROXq/gmb3XNBa5
-         Yzqcr9e9SM4JdsoqcYtLe/A467DBuCXmmNbqux79gs3+dJ7Bit7qoDWb0jjH6JQi5NSy
-         F5q6XDuHtuIKRdvBhkk6B5h0BR8ZLpHnE/Vqkz8dqfbfTgfCJTdg6X72wwCbQtJhcdfw
-         797Q9LCBshlxUGVqRf0SZflEvJ1iP10sbkL3iWW7GgZE+h4kU7P5uOScSFlPt9mLAP6N
-         ex5g==
+        h=content-transfer-encoding:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:dkim-signature;
+        bh=ZMWBq3ACFJJAx15ObrNGTwgdYr+KZMK5JwRK+RWgkj4=;
+        b=PTCMewXu4BdDIr9V0nThOBvrzZMCRK5XKb1GrSwtK3V9K1jRoiXp4lQMXyEAfJK6Jr
+         eQNQriYcRB1o1Uup1bFA5aIyugsUmYhMKkTn/mu9tJI6Gnx21tluunVskvlTutqKLnte
+         FtVllMIO6fV2fu26yFDFg2N3/kePksKMXM2cmOPeG2OVYgWI5zrzX8lXDyAOn13Sf5zl
+         A3dM/cC7oUYnS48eJouJL1qOuk3CbJtjJ52lvMMk6wjK2PlwRp6AC3m6wVtjFuh8ei4M
+         EYwz1Usjd1PH+IieNLAW3IF1qQQHVYgUO7x05M4mE0gACYP2zCL8KMu8myg+pndjmVY8
+         pDHg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=DkUxOCnx;
-       spf=pass (google.com: domain of patchwork-bot+netdevbpf@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=patchwork-bot+netdevbpf@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id k12si43479ybf.5.2021.02.02.18.00.12
+       dkim=pass header.i=@dabbelt-com.20150623.gappssmtp.com header.s=20150623 header.b=UZ4hGLaf;
+       spf=pass (google.com: domain of palmer@dabbelt.com designates 2607:f8b0:4864:20::1035 as permitted sender) smtp.mailfrom=palmer@dabbelt.com
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com. [2607:f8b0:4864:20::1035])
+        by gmr-mx.google.com with ESMTPS id f24si342726pju.1.2021.02.02.19.05.43
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 02 Feb 2021 18:00:12 -0800 (PST)
-Received-SPF: pass (google.com: domain of patchwork-bot+netdevbpf@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
-Received: by mail.kernel.org (Postfix) with ESMTPS id F21E864F7C;
-	Wed,  3 Feb 2021 02:00:10 +0000 (UTC)
-Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id DB8C8609E3;
-	Wed,  3 Feb 2021 02:00:10 +0000 (UTC)
-Content-Type: text/plain; charset="UTF-8"
-MIME-Version: 1.0
-Subject: Re: [PATCH net-next] net: fix up truesize of cloned skb in
- skb_prepare_for_shift()
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: <161231761089.3354.12212298299944124109.git-patchwork-notify@kernel.org>
-Date: Wed, 03 Feb 2021 02:00:10 +0000
-References: <20210201160420.2826895-1-elver@google.com>
-In-Reply-To: <20210201160420.2826895-1-elver@google.com>
-To: Marco Elver <elver@google.com>
-Cc: linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
- davem@davemloft.net, kuba@kernel.org, jonathan.lemon@gmail.com,
- willemb@google.com, linmiaohe@huawei.com, gnault@redhat.com,
- dseok.yi@samsung.com, kyk.segfault@gmail.com, viro@zeniv.linux.org.uk,
- netdev@vger.kernel.org, glider@google.com,
- syzbot+7b99aafdcc2eedea6178@syzkaller.appspotmail.com, edumazet@google.com
-X-Original-Sender: patchwork-bot+netdevbpf@kernel.org
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 02 Feb 2021 19:05:43 -0800 (PST)
+Received-SPF: pass (google.com: domain of palmer@dabbelt.com designates 2607:f8b0:4864:20::1035 as permitted sender) client-ip=2607:f8b0:4864:20::1035;
+Received: by mail-pj1-x1035.google.com with SMTP id a20so3550485pjs.1
+        for <kasan-dev@googlegroups.com>; Tue, 02 Feb 2021 19:05:43 -0800 (PST)
+X-Received: by 2002:a17:902:241:b029:de:17d3:423e with SMTP id 59-20020a1709020241b02900de17d3423emr1138151plc.44.1612321543577;
+        Tue, 02 Feb 2021 19:05:43 -0800 (PST)
+Received: from localhost (76-210-143-223.lightspeed.sntcca.sbcglobal.net. [76.210.143.223])
+        by smtp.gmail.com with ESMTPSA id n73sm329565pfd.109.2021.02.02.19.05.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Feb 2021 19:05:42 -0800 (PST)
+Date: Tue, 02 Feb 2021 19:05:42 -0800 (PST)
+Subject: Re: [PATCH] riscv: kasan: remove unneeded semicolon
+In-Reply-To: <1612245119-116845-1-git-send-email-yang.lee@linux.alibaba.com>
+CC: aryabinin@virtuozzo.com, glider@google.com, dvyukov@google.com,
+  Paul Walmsley <paul.walmsley@sifive.com>, aou@eecs.berkeley.edu, kasan-dev@googlegroups.com,
+  linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, yang.lee@linux.alibaba.com
+From: Palmer Dabbelt <palmer@dabbelt.com>
+To: yang.lee@linux.alibaba.com
+Message-ID: <mhng-1a6dd811-fd09-409c-a664-7bbd9f9d8315@penguin>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-Original-Sender: palmer@dabbelt.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=DkUxOCnx;       spf=pass
- (google.com: domain of patchwork-bot+netdevbpf@kernel.org designates
- 198.145.29.99 as permitted sender) smtp.mailfrom=patchwork-bot+netdevbpf@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+ header.i=@dabbelt-com.20150623.gappssmtp.com header.s=20150623
+ header.b=UZ4hGLaf;       spf=pass (google.com: domain of palmer@dabbelt.com
+ designates 2607:f8b0:4864:20::1035 as permitted sender) smtp.mailfrom=palmer@dabbelt.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -134,34 +129,33 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hello:
+On Mon, 01 Feb 2021 21:51:59 PST (-0800), yang.lee@linux.alibaba.com wrote:
+> Eliminate the following coccicheck warning:
+> ./arch/riscv/mm/kasan_init.c:103:2-3: Unneeded semicolon
+>
+> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+> Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
+> ---
+>  arch/riscv/mm/kasan_init.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/arch/riscv/mm/kasan_init.c b/arch/riscv/mm/kasan_init.c
+> index a8a2ffd..fac437a 100644
+> --- a/arch/riscv/mm/kasan_init.c
+> +++ b/arch/riscv/mm/kasan_init.c
+> @@ -100,7 +100,7 @@ void __init kasan_init(void)
+>  			break;
+>
+>  		populate(kasan_mem_to_shadow(start), kasan_mem_to_shadow(end));
+> -	};
+> +	}
+>
+>  	for (i = 0; i < PTRS_PER_PTE; i++)
+>  		set_pte(&kasan_early_shadow_pte[i],
 
-This patch was applied to netdev/net-next.git (refs/heads/master):
-
-On Mon,  1 Feb 2021 17:04:20 +0100 you wrote:
-> Avoid the assumption that ksize(kmalloc(S)) == ksize(kmalloc(S)): when
-> cloning an skb, save and restore truesize after pskb_expand_head(). This
-> can occur if the allocator decides to service an allocation of the same
-> size differently (e.g. use a different size class, or pass the
-> allocation on to KFENCE).
-> 
-> Because truesize is used for bookkeeping (such as sk_wmem_queued), a
-> modified truesize of a cloned skb may result in corrupt bookkeeping and
-> relevant warnings (such as in sk_stream_kill_queues()).
-> 
-> [...]
-
-Here is the summary with links:
-  - [net-next] net: fix up truesize of cloned skb in skb_prepare_for_shift()
-    https://git.kernel.org/netdev/net-next/c/097b9146c0e2
-
-You are awesome, thank you!
---
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+Thanks, this is on fixes.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/161231761089.3354.12212298299944124109.git-patchwork-notify%40kernel.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/mhng-1a6dd811-fd09-409c-a664-7bbd9f9d8315%40penguin.
