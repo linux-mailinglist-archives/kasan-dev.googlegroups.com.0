@@ -1,142 +1,154 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBB6EM5OAAMGQE2OOHKLA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCV5TUXXRUIBBB5H5OAAMGQESASUTHA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wr1-x43f.google.com (mail-wr1-x43f.google.com [IPv6:2a00:1450:4864:20::43f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31CC730DEAC
-	for <lists+kasan-dev@lfdr.de>; Wed,  3 Feb 2021 16:51:21 +0100 (CET)
-Received: by mail-wr1-x43f.google.com with SMTP id n18sf31659wrm.8
-        for <lists+kasan-dev@lfdr.de>; Wed, 03 Feb 2021 07:51:21 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1612367481; cv=pass;
+Received: from mail-wm1-x340.google.com (mail-wm1-x340.google.com [IPv6:2a00:1450:4864:20::340])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7256930DFF8
+	for <lists+kasan-dev@lfdr.de>; Wed,  3 Feb 2021 17:47:04 +0100 (CET)
+Received: by mail-wm1-x340.google.com with SMTP id u15sf19433wmj.2
+        for <lists+kasan-dev@lfdr.de>; Wed, 03 Feb 2021 08:47:04 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1612370824; cv=pass;
         d=google.com; s=arc-20160816;
-        b=IwWGwZ2rQgG8+VEjL0UEr27SznyzsAT2W5pM1xnkd5k98BxfHV8UMpRtIKsYgjUyeO
-         dh2oPNOAyt5L3lRTGu9w7FljbKK4cOCYi+KHTq3FYklowSiGrOPTTYESWJf2WZfFUPVC
-         mf6fMkbe7hAmlyHK+4QI8kIzUnWvNYGDESfHrJahYMUMBeLdzFpvNqsBSMDqoTG0V+tq
-         sdoNqEnCWF7RoNkgSyvjnefWhDOWVuQ6zMxYzYpyI3BG0kTKT2sSf+zvjkZgQf2T6jgl
-         PQAI3BbtKoNBLuW1k3yZEhmiyPoaXycM8Fpm7EriwcNcchSAq3KwxeBz1JK05iHGKyqe
-         b2+g==
+        b=hEaQW1y/p0QUUi+ax9AVvHRHimb9vF77p8vRww0kRoLeiKq7rSyDaVjYxXxgRmuIKN
+         armCDZ2R2ttXFOT1VCi7l0H66fdDCw+oDidF6mjUDbGuv1HUs6FliKv7llA9qTMlZaVn
+         y6WDUIcgqQHQSyMz0WGOJvN2Yx6cMJHccXfN5RbTNC8kVhCKO3xWb14DFmo4AfQG9KT/
+         B/MJTTCGQ6zfXBWtMF/ufSMRGgH4hjdEl2ED0g2LJHp/z8OBROMSrwfX1ezQwQFr2hUh
+         dyb52BHng+SZMNk99QYpT/SzxuVHj21Cebx68KW65UBJjRn15qr2bzcAKgCZEAeOevWp
+         uSbA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:user-agent:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:dkim-signature;
-        bh=H5uuDC6WdZLqkCJZ8cOraNu8cs/8smPg6XHEUTOu4Qo=;
-        b=TMbLKIFQHBeHqJ+gTj4zi4FJ3KqiawhSJGucI6tIT4U8emUMtVeulcQ+4TschNd3+P
-         GVeZScnsL5W6mF/ekkLhtWOYKBIJlj54bs/DiBhNBf4/h+YIdf9CIqdUp6MGy6oSSgAS
-         xYsBl6BO7yMr/jz79uh3vXDK1MgqlipFXaHKOATrqYrCUAjwgc/aBh5CX3H9qDpCAPlS
-         tdHh8juEVIxZx+iGy5TP3U+2EncYY2Mv5xEIvT+xJlXkygQDClUc5hu1WSjeUhDDLVVt
-         tIVmDILEahgC9bo7uVVP9mbORw6qadTu3xtiVdEVQ87WOFN59N9/0Da4nhpQFe1TLPFj
-         4Aog==
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature;
+        bh=k8ABIBW6pTmNE1263+nyg9QC1mNC3M2tUU4tpmj6Kmw=;
+        b=SDITta+bAjeDUHS0EKpaQzHxdc5kwgf1Yer308bTFPZx/JKvmsClx3RDNszbnDj8ds
+         hYMPWOTtzE/2ZYryIb8ZwwIh+dEBOV7mbt3Zn1f+dO17nUPnKi3kkE8o8gM04roziZbC
+         8xDhZcWCyjWa55JpIwjmg6GaYFX+sazfpDUEUQMtWIIQhra8T7c3NTePmijzhkvM9u4G
+         GM+grRH6QWZN1HDSsjZM7cgdfqyHo9lISTTAUF59Bants4KHlyM7hz3X9g+rYVDRMEBt
+         w4tJiGXxaZOSDLF8L8qGZb+j6rdbk+Lh5Sv5kHWqHQICHCyKeubfsfSvJAQc1QL/Ju7+
+         86xw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=opmr3FHE;
-       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::42b as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@infradead.org header.s=casper.20170209 header.b="c/OoSJg1";
+       spf=pass (google.com: best guess record for domain of peterz@infradead.org designates 2001:8b0:10b:1236::1 as permitted sender) smtp.mailfrom=peterz@infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:list-post:list-help:list-archive:list-subscribe
-         :list-unsubscribe;
-        bh=H5uuDC6WdZLqkCJZ8cOraNu8cs/8smPg6XHEUTOu4Qo=;
-        b=ZQ11RLA0bVMvMno7c2pu+GIWT4f7OXwAM9E3IlGjhrRqEsyZX6MnuBdOfNIBtpsjye
-         JuXKwjdrLnGeTKobi1ivo7nNGDqDjrDc/vYioItEeyYbZu1iKeMyl/hy/VfZnuYjUzmm
-         kPAVzsJeBHxK5fXXoskhyEior6iMca05AMgFxaR00gXmCXGl6JTJIP52scH0XvwA1mm0
-         4i0wBuI0F+jmYrmIaHFpD81GQDJOC6eAs4fAPGqPTx2TKDS2amKsRWEvPOM3lADY2i0/
-         uumk6sBFOhpc2JHdSZUHjorWgr595zqw2skgNds4qlw1haB5siCsGmILCPyWCPKin1df
-         9fYw==
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=k8ABIBW6pTmNE1263+nyg9QC1mNC3M2tUU4tpmj6Kmw=;
+        b=K7F8H75vwT2Rw8CImKXuYYYzdfnv8rnqESUV7VbAiCRZ8Xp2Uadaj2yxzdS8C9adzD
+         kZNGH20W6/8DL3JpvMqkcIU6ehv4leoUp1ZumQA+AdRTWCweiqfoSGRgR8BQQor+SI7X
+         F7nWyYEDG5+IcrwoCdG30EHLFZZaocwY+exYiwuNR010zD4xwJ61Ww55irsmcvaS5wtE
+         F67IVUSQ0tqpzisHwdhgNDUwz5As1gwziYZsKx4eMpmUf+j/ok82OzDexEhf2YCemI3k
+         7hWGYsH2E8D1yOvCruXW+n73TkQb4B/b5HckiNNX1M4IDe7BWdRjMMu0d0cZ9vCKQWND
+         LcnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent
-         :x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=H5uuDC6WdZLqkCJZ8cOraNu8cs/8smPg6XHEUTOu4Qo=;
-        b=NKASTDzWIJo/UqsDdBaGb/RCg3OXIF/YE5QDSRlTys/GeFFPtCnjZoSlhriectzgCp
-         1eH/pVAc+KaMetkHbTQKsqSz8FoKsrJOhuZ3wnLJ0IlXMAQYGM/oRPZIsTSs0H2w0V/9
-         grrSlIyQskdPwRefYhYtSMavyJmOtNval6ayhnFuJPPUP/iVL7M4CKKM8DsS5gTcwH2E
-         W/nXbQz/EAaWYQhe90alSQLsN7kjbqkYSY9XLMqdFkLolFN1dPQapHL9QSfCgCGhsc2Q
-         ngHqglv6NOo6mn3P262Onz6ocVa3Ykh2RSFmnFOyztDKWa+hlhUAfAwHjxqtRjY5J0L8
-         2eJA==
-X-Gm-Message-State: AOAM533kpOpgZAg2kRsgA36V5x1ab2HpNciiGVzEkZpI6BPqq7r/vTfS
-	3cI/9hagtOtpWcHK7X16abs=
-X-Google-Smtp-Source: ABdhPJw2grIJzAZDfdHhIlIuBidYjATCtbhbXwwR30RuVIEMkWZbS6WiwaIR/9PdaU9K+j34XJTRpw==
-X-Received: by 2002:a05:6000:1841:: with SMTP id c1mr4185617wri.278.1612367481007;
-        Wed, 03 Feb 2021 07:51:21 -0800 (PST)
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=k8ABIBW6pTmNE1263+nyg9QC1mNC3M2tUU4tpmj6Kmw=;
+        b=jnpiVcH3Dc6NAjxu6XhYZIGMmcqvSGVdbBLTa5jWTtW8E58of0NuScn/vomQnxCskx
+         yRh2sevR6YoIkOy6A43EgH9IIW1Fb8VEnqtT5qINhFzi5K+s5d9b8Frxq9IigFgeA3cq
+         gFYlhtnZmgpHhmJvn+1pOMU9SrpP7dNhERORf0+uJAA8ZpE2efS+ZGRSYxLh3MT7CICs
+         Fd/5HhKMK6NGqCx2fy1+xWAp9ZlHX5vC05sNhsmy7YvOFH2NBn549keRd/nk9hSgUEGf
+         lgsjenxAQ6EZuqqI+BsccPTo+iFETUXu1r/FJUaN2Xrta6Nr6c8v+7tZWccMykqC5tH2
+         CRDw==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM532XCsDu9YKR87EvxiBIeMuV7XaxeRnpD6TRmPYxHWO9lN6c2IsE
+	gmLfrjGJVGUKT4MtPdgUiJk=
+X-Google-Smtp-Source: ABdhPJz/X+W2fvhKakWMGF6F6GWSDiqU977zOJQO2+5yAdCLexViVENJjD0THGVNSRTDRu7S/n0BUQ==
+X-Received: by 2002:a5d:44ce:: with SMTP id z14mr4577329wrr.330.1612370824071;
+        Wed, 03 Feb 2021 08:47:04 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a5d:4485:: with SMTP id j5ls3208416wrq.1.gmail; Wed, 03 Feb
- 2021 07:51:20 -0800 (PST)
-X-Received: by 2002:adf:ba49:: with SMTP id t9mr4288569wrg.183.1612367480148;
-        Wed, 03 Feb 2021 07:51:20 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1612367480; cv=none;
+Received: by 2002:adf:fd09:: with SMTP id e9ls3454177wrr.0.gmail; Wed, 03 Feb
+ 2021 08:47:03 -0800 (PST)
+X-Received: by 2002:a5d:452f:: with SMTP id j15mr4589465wra.298.1612370823300;
+        Wed, 03 Feb 2021 08:47:03 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1612370823; cv=none;
         d=google.com; s=arc-20160816;
-        b=DVA4cqQuwgV3BMNbf6k6moDMKp/Px1APJGysUe5jG33VsM0yMljB+cOllnGctepN/P
-         Kx4I96w1otAQxiSL6I3wICjK02qtTacZaP6IDoRgVxPuAX2GHpEhW3UgcvA2TPJNt/Gk
-         uV2WGd4K9vE0aPCTEiER0oEkPVI+818vl+heiw+qLONKi9L7+zdJPovSgfxnPn3cJcbH
-         jNprxDanWS+Wz9cwY1b/b/B2++AplWu8Pn4U8QaiCeN2SoE3OPod4cPP4ytYw1reZJyf
-         2OE/VORfhwkIwW9fDh838ImvF0xRB9XYKJp7Gups9erRtDMDn3+vgKQJE0BoCuRfOVTJ
-         Y3HA==
+        b=PfjP9dGgKX5EMPaEbCK0eY/plZF+CLo76QAErMw6RKJxH4f1g5fko9Zl3oOxPZ46Gt
+         P7zDT38wlPqllETdnR50bUad5gp4ArWnpIM/LrIy0kwM+gISGbEeA5WBwOMUIuropjLq
+         28uZeWVSxoGOCSa2t0Ck0Zg+VMLXFST20A4GZuhXFfF79SAt+bFyu0wn39ZOmZhHVuhS
+         VKRiCupW217VS/fnu5QHVMbKsqCy+0NbvHXDky7dr2vrHYA5URar2goj/gx517L4Vein
+         ostyAq5IoL0GtxZEdECdjsC3E97IZGIEKrD54goFw1bcuwmmIDy4PxDu0/6Fo78UwrAc
+         Y2Yw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:dkim-signature;
-        bh=u/vTmytfnHf8bSBtRdC4NPN+aY/KtT7liekrT8jCTRw=;
-        b=FLOVg/EBzQpWfBvAZKJVnQUlhwK3Ady4ZORO5V35byOtSTUlenGQXQHkHEThVXY2EQ
-         0mHMwh7XGf9elRpaTAOOhBtHGJVashd/Jb+Msl3zuIupnbalN/lAhBcVIrRUvN3o18uQ
-         iClzpopTCDISKxscbH+OYjglnhktpeSqeM/991HWNh3fkF18Ue7NsQ+Jo4fXchgohuPJ
-         /fvPXMwTa6i7TZW3MJPN0atLuU9PJN8dAVCwxiqJDk8u+Awae1rU/qeUytz15wToRTt+
-         Y/SqQv54XwNurtT8UHkRC1VYivhOOZBuELgYgerXsedxBUMT145+BEnzmxCUiGrhVjnl
-         P83A==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:dkim-signature;
+        bh=FXQrxdNgWCg9t/vLa4D9ZuZRDMCP+8XGxw4US1HhTog=;
+        b=Y7Az+zyfUZAj6u2vxLm2hFUKkBtOSzkt91+Y2W0SE3HHBRDp6kVA+SW01120LtXpb5
+         2T/VHDZrQR6QiLz9T1UjYULr8DqZTWarFmjvbm2DYINPKbouQrhEWxbwVVx5qKuDWZ+K
+         KaDzxiL3KjeX6U083lWMUECBmavyGF0kqqOpyPhQ5gOha/pbx3l3cftdktkLXn/7KNIy
+         myvPsi+3AlvTZ9wh8CAr4H/o11N+nO1jbB6VXip0+cywqATZocI1beKSH+d9Cazpw1Do
+         /ZwgY2JQl+Cs5RUzW0g+P8qO/hInTuETaYuGpSgyI8QfAX8SaB3FVQ5H2e+y+LZxXjib
+         iMRg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=opmr3FHE;
-       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::42b as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com. [2a00:1450:4864:20::42b])
-        by gmr-mx.google.com with ESMTPS id b5si102101wrd.4.2021.02.03.07.51.20
+       dkim=pass header.i=@infradead.org header.s=casper.20170209 header.b="c/OoSJg1";
+       spf=pass (google.com: best guess record for domain of peterz@infradead.org designates 2001:8b0:10b:1236::1 as permitted sender) smtp.mailfrom=peterz@infradead.org
+Received: from casper.infradead.org (casper.infradead.org. [2001:8b0:10b:1236::1])
+        by gmr-mx.google.com with ESMTPS id s74si119672wme.0.2021.02.03.08.47.03
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 Feb 2021 07:51:20 -0800 (PST)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::42b as permitted sender) client-ip=2a00:1450:4864:20::42b;
-Received: by mail-wr1-x42b.google.com with SMTP id 7so24964368wrz.0
-        for <kasan-dev@googlegroups.com>; Wed, 03 Feb 2021 07:51:20 -0800 (PST)
-X-Received: by 2002:a5d:5686:: with SMTP id f6mr4193118wrv.257.1612367479798;
-        Wed, 03 Feb 2021 07:51:19 -0800 (PST)
-Received: from elver.google.com ([2a00:79e0:15:13:b1de:c7d:30ce:1840])
-        by smtp.gmail.com with ESMTPSA id p9sm4481682wrj.11.2021.02.03.07.51.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Feb 2021 07:51:18 -0800 (PST)
-Date: Wed, 3 Feb 2021 16:51:13 +0100
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-To: Andrey Konovalov <andreyknvl@google.com>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Alexander Potapenko <glider@google.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Will Deacon <will.deacon@arm.com>,
+        Wed, 03 Feb 2021 08:47:03 -0800 (PST)
+Received-SPF: pass (google.com: best guess record for domain of peterz@infradead.org designates 2001:8b0:10b:1236::1 as permitted sender) client-ip=2001:8b0:10b:1236::1;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+	by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
+	id 1l7LIa-00HCKb-H6; Wed, 03 Feb 2021 16:46:38 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(Client did not present a certificate)
+	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id A8E0F301A66;
+	Wed,  3 Feb 2021 17:46:33 +0100 (CET)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 97C5520B4DFEB; Wed,  3 Feb 2021 17:46:33 +0100 (CET)
+Date: Wed, 3 Feb 2021 17:46:33 +0100
+From: Peter Zijlstra <peterz@infradead.org>
+To: Ivan Babrou <ivan@cloudflare.com>
+Cc: kernel-team <kernel-team@cloudflare.com>,
+	Ignat Korchagin <ignat@cloudflare.com>,
+	Hailong liu <liu.hailong6@zte.com.cn>,
 	Andrey Ryabinin <aryabinin@virtuozzo.com>,
-	Peter Collingbourne <pcc@google.com>,
-	Evgenii Stepanov <eugenis@google.com>,
-	Branislav Rankov <Branislav.Rankov@arm.com>,
-	Kevin Brodsky <kevin.brodsky@arm.com>, kasan-dev@googlegroups.com,
-	linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 11/12] kasan: always inline HW_TAGS helper functions
-Message-ID: <YBrGcY/DS1GnilYo@elver.google.com>
-References: <cover.1612208222.git.andreyknvl@google.com>
- <05a45017b4cb15344395650e880bbab0fe6ba3e4.1612208222.git.andreyknvl@google.com>
+	Alexander Potapenko <glider@google.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+	Josh Poimboeuf <jpoimboe@redhat.com>,
+	Miroslav Benes <mbenes@suse.cz>,
+	Julien Thierry <jthierry@redhat.com>,
+	Jiri Slaby <jirislaby@kernel.org>, kasan-dev@googlegroups.com,
+	linux-mm@kvack.org, linux-kernel <linux-kernel@vger.kernel.org>,
+	Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@redhat.com>,
+	dm-devel@redhat.com,
+	"Steven Rostedt (VMware)" <rostedt@goodmis.org>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Martin KaFai Lau <kafai@fb.com>, Song Liu <songliubraving@fb.com>,
+	Yonghong Song <yhs@fb.com>, Andrii Nakryiko <andriin@fb.com>,
+	John Fastabend <john.fastabend@gmail.com>,
+	KP Singh <kpsingh@chromium.org>, Robert Richter <rric@kernel.org>,
+	"Joel Fernandes (Google)" <joel@joelfernandes.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Linux Kernel Network Developers <netdev@vger.kernel.org>,
+	bpf@vger.kernel.org
+Subject: Re: BUG: KASAN: stack-out-of-bounds in
+ unwind_next_frame+0x1df5/0x2650
+Message-ID: <YBrTaVVfWu2R0Hgw@hirez.programming.kicks-ass.net>
+References: <CABWYdi3HjduhY-nQXzy2ezGbiMB1Vk9cnhW2pMypUa+P1OjtzQ@mail.gmail.com>
+ <CABWYdi27baYc3ShHcZExmmXVmxOQXo9sGO+iFhfZLq78k8iaAg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <05a45017b4cb15344395650e880bbab0fe6ba3e4.1612208222.git.andreyknvl@google.com>
-User-Agent: Mutt/2.0.2 (2020-11-20)
-X-Original-Sender: elver@google.com
+In-Reply-To: <CABWYdi27baYc3ShHcZExmmXVmxOQXo9sGO+iFhfZLq78k8iaAg@mail.gmail.com>
+X-Original-Sender: peterz@infradead.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=opmr3FHE;       spf=pass
- (google.com: domain of elver@google.com designates 2a00:1450:4864:20::42b as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+ header.i=@infradead.org header.s=casper.20170209 header.b="c/OoSJg1";
+       spf=pass (google.com: best guess record for domain of
+ peterz@infradead.org designates 2001:8b0:10b:1236::1 as permitted sender) smtp.mailfrom=peterz@infradead.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -149,132 +161,34 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, Feb 01, 2021 at 08:43PM +0100, Andrey Konovalov wrote:
-> Mark all static functions in common.c and kasan.h that are used for
-> hardware tag-based KASAN as __always_inline to avoid unnecessary
-> function calls.
+On Tue, Feb 02, 2021 at 07:09:44PM -0800, Ivan Babrou wrote:
+> On Thu, Jan 28, 2021 at 7:35 PM Ivan Babrou <ivan@cloudflare.com> wrote:
+
+> > ==================================================================
+> > [  128.368523][    C0] BUG: KASAN: stack-out-of-bounds in
+> > unwind_next_frame (arch/x86/kernel/unwind_orc.c:371
+> > arch/x86/kernel/unwind_orc.c:544)
+> > [  128.369744][    C0] Read of size 8 at addr ffff88802fceede0 by task
+> > kworker/u2:2/591
+
+Can you pretty please not line-wrap console output? It's unreadable.
+
+> edfd9b7838ba5e47f19ad8466d0565aba5c59bf0 is the first bad commit
+> commit edfd9b7838ba5e47f19ad8466d0565aba5c59bf0
+
+Not sure what tree you're on, but that's not the upstream commit.
+
+> Author: Steven Rostedt (VMware) <rostedt@goodmis.org>
+> Date:   Tue Aug 18 15:57:52 2020 +0200
 > 
-> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
-
-Does objtool complain about any of these?
-
-I'm not sure this is unconditionally a good idea. If there isn't a
-quantifiable performance bug or case where we cannot call a function,
-perhaps we can just let the compiler decide?
-
-More comments below.
-
-> ---
->  mm/kasan/common.c | 13 +++++++------
->  mm/kasan/kasan.h  |  6 +++---
->  2 files changed, 10 insertions(+), 9 deletions(-)
+>     tracepoint: Optimize using static_call()
 > 
-> diff --git a/mm/kasan/common.c b/mm/kasan/common.c
-> index 5691cca69397..2004ecd6e43c 100644
-> --- a/mm/kasan/common.c
-> +++ b/mm/kasan/common.c
-> @@ -279,7 +279,8 @@ void __kasan_poison_object_data(struct kmem_cache *cache, void *object)
->   *    based on objects indexes, so that objects that are next to each other
->   *    get different tags.
->   */
-> -static u8 assign_tag(struct kmem_cache *cache, const void *object, bool init)
-> +static __always_inline u8 assign_tag(struct kmem_cache *cache,
-> +					const void *object, bool init)
 
-This function might be small enough that it's fine.
+There's a known issue with that patch, can you try:
 
->  {
->  	if (IS_ENABLED(CONFIG_KASAN_GENERIC))
->  		return 0xff;
-> @@ -321,8 +322,8 @@ void * __must_check __kasan_init_slab_obj(struct kmem_cache *cache,
->  	return (void *)object;
->  }
->  
-> -static bool ____kasan_slab_free(struct kmem_cache *cache, void *object,
-> -			      unsigned long ip, bool quarantine)
-> +static __always_inline bool ____kasan_slab_free(struct kmem_cache *cache,
-> +				void *object, unsigned long ip, bool quarantine)
->  {
-
-Because ____kasan_slab_free() is tail-called by __kasan_slab_free() and
-__kasan_slab_free_mempool(), there should never be a call (and if there
-is we need to figure out why). The additional code-bloat and I-cache
-pressure might be worse vs. just a jump. I'd let the compiler decide.
-
->  	u8 tag;
->  	void *tagged_object;
-> @@ -366,7 +367,7 @@ bool __kasan_slab_free(struct kmem_cache *cache, void *object, unsigned long ip)
->  	return ____kasan_slab_free(cache, object, ip, true);
->  }
->  
-> -static bool ____kasan_kfree_large(void *ptr, unsigned long ip)
-> +static __always_inline bool ____kasan_kfree_large(void *ptr, unsigned long ip)
->  {
-
-This one is tail-called by __kasan_kfree_large(). The usage in
-__kasan_slab_free_mempool() is in an unlikely branch.
-
->  	if (ptr != page_address(virt_to_head_page(ptr))) {
->  		kasan_report_invalid_free(ptr, ip);
-> @@ -461,8 +462,8 @@ void * __must_check __kasan_slab_alloc(struct kmem_cache *cache,
->  	return tagged_object;
->  }
->  
-> -static void *____kasan_kmalloc(struct kmem_cache *cache, const void *object,
-> -					size_t size, gfp_t flags)
-> +static __always_inline void *____kasan_kmalloc(struct kmem_cache *cache,
-> +				const void *object, size_t size, gfp_t flags)
->  {
-
-Also only tail-called.
-
->  	unsigned long redzone_start;
->  	unsigned long redzone_end;
-> diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
-> index 2f7400a3412f..d5fe72747a53 100644
-> --- a/mm/kasan/kasan.h
-> +++ b/mm/kasan/kasan.h
-> @@ -321,7 +321,7 @@ static inline u8 kasan_random_tag(void) { return 0; }
->  
->  #ifdef CONFIG_KASAN_HW_TAGS
->  
-> -static inline void kasan_poison(const void *addr, size_t size, u8 value)
-> +static __always_inline void kasan_poison(const void *addr, size_t size, u8 value)
->  {
->  	addr = kasan_reset_tag(addr);
->  
-> @@ -337,7 +337,7 @@ static inline void kasan_poison(const void *addr, size_t size, u8 value)
->  	hw_set_mem_tag_range((void *)addr, size, value);
->  }
->  
-> -static inline void kasan_unpoison(const void *addr, size_t size)
-> +static __always_inline void kasan_unpoison(const void *addr, size_t size)
->  {
-
-Not sure about these 2. They should be small, but it's hard to say what
-is ideal on which architecture.
-
->  	u8 tag = get_tag(addr);
->  
-> @@ -354,7 +354,7 @@ static inline void kasan_unpoison(const void *addr, size_t size)
->  	hw_set_mem_tag_range((void *)addr, size, tag);
->  }
->  
-> -static inline bool kasan_byte_accessible(const void *addr)
-> +static __always_inline bool kasan_byte_accessible(const void *addr)
-
-This function feels like a macro and if the compiler uninlined it, we
-could argue it's a bug. But not sure if we need the __always_inline,
-unless you've seen this uninlined.
-
->  {
->  	u8 ptr_tag = get_tag(addr);
->  	u8 mem_tag = hw_get_mem_tag((void *)addr);
-> -- 
-> 2.30.0.365.g02bc693789-goog
-> 
+  http://lkml.kernel.org/r/20210202220121.435051654@goodmis.org
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YBrGcY/DS1GnilYo%40elver.google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YBrTaVVfWu2R0Hgw%40hirez.programming.kicks-ass.net.
