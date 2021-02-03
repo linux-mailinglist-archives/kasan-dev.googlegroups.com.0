@@ -1,34 +1,34 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBBX25KAAMGQEUILLDUQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBB44D5OAAMGQEUMQGAZA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x23e.google.com (mail-lj1-x23e.google.com [IPv6:2a00:1450:4864:20::23e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B4A430DDAE
-	for <lists+kasan-dev@lfdr.de>; Wed,  3 Feb 2021 16:11:03 +0100 (CET)
-Received: by mail-lj1-x23e.google.com with SMTP id k20sf64967ljk.19
-        for <lists+kasan-dev@lfdr.de>; Wed, 03 Feb 2021 07:11:03 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1612365063; cv=pass;
+Received: from mail-wr1-x438.google.com (mail-wr1-x438.google.com [IPv6:2a00:1450:4864:20::438])
+	by mail.lfdr.de (Postfix) with ESMTPS id ADE7730DE2F
+	for <lists+kasan-dev@lfdr.de>; Wed,  3 Feb 2021 16:32:03 +0100 (CET)
+Received: by mail-wr1-x438.google.com with SMTP id o17sf14986997wrv.4
+        for <lists+kasan-dev@lfdr.de>; Wed, 03 Feb 2021 07:32:03 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1612366323; cv=pass;
         d=google.com; s=arc-20160816;
-        b=osTF3/lfqPaT0y36YG+vjb8VErDiWGXy67Kh3FKKiH1YhTYEQisUP/6j6cryd5saVT
-         Gf7PkRZvE1M64qJhxNsJZmUfpgpvpUuhaMgWG7V50p71V1tZ35qDjZ90Qr3PQk16IxnV
-         ygNCE+A245xZFJ0/oL/1CqTtR+aOQz+uezISU6Ki/aMnRe/xY4UydvfwK+voR3wZE0hs
-         lohJzJuLEk7iVsksQ4c3EKuwFojfCKJJ1v5docIBP2ZAm9hK6OSvldn0kmRpZx6FBVld
-         E6J9O/iikwi75yF1iseypMrANohK/EJXhySVWKRb50WcnrBJc1ChS0A69tat//8UM/p6
-         CeTQ==
+        b=yMbGe4QznGDLTZchApAaMT+OWkNxwDi/rqSLRgoylIdVXpsTk6a8gxYNOCJj49njvG
+         uC8L706HkhlHu5tb/pwnT6ggTPxB9hDh7SmkioSXHJZhGqxN25nB3qPvsEO+DXIwPCTH
+         IQM1QmiQ+Hbo1U28rTvafJYYUnrPbrl8DUutcv1XAjIm8R/qrmoKeWjwHtmWb7xsEGLh
+         oPEqO5Dj+oaVxgZa2wQzuZojxSGGQ8GFf1h69Bv21jnSO15GxTDxtVLJ27tJ8Dot9Uaz
+         SXCoUHEe5PzWvN1cuqZE62fBnZUvnbYyQan/7SH2+Z7Vjc4BYZuRgJJ/Pop3FUCulGon
+         z/Yg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:user-agent:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:dkim-signature;
-        bh=BF5GRMQvkORjkxlSWQ5xpWNXtu0Vvx1c5z/aU8d8+a8=;
-        b=JPvGjCAurJAGO3dWEu7RAim1pFOtZUR4Y7COeWk792SxKKQMT4AOC72k61KU3ttMVT
-         cUMkTxqv9dK33RCuGpBLUPk3XIw5mqTChWeqVzhWpQwYj9qGXSHr1LUPkkTEOBqN2xlI
-         9XEUYPUoD1S0I/uaPFljOfEhtCic5fwfyOYL41XUv8gMRW07A/dOT0hrT4NKoozzh7YR
-         S00GouW+F2GF/Fe3Xfun5UQzMhxuZqtqpz6C0qbbTjpcpTGh00RNzY4wijgwMrc2jTKw
-         NKMQA1DX4VGfZen40CUlrVHBUsaVQuH8eYBG9Xywhwlu8jQ4yAeACsl06MbhbAYZxmJh
-         3unA==
+        bh=miu2pkypMb0Cd5y945bF5OMV/gF46NsgmokIGO6c4mc=;
+        b=J6k+kzniUT205ypnb6wQgONdEjnj5YcRCN1n0f8KB8/gLwJrR+Tco1fwuKjHwd2Ajn
+         no+yKl7L9/yj7CWlitrPk7mDSaFXtpRtaiW94OK8Q6dtjIPyzR+u+IcKQ2saXlDXuyv1
+         MS6a5WNsB3SU/lk6wOMlXx12IEgxhPWQYRhMrJdts85PjHdEJ85kHjyFF2yYOWbg7EXG
+         mKeTFeSKiiFR3jS80Ci1Tb+J0uvVx68IqvjQeSTUkv35Driypbc5Kkm1sdmGPJXFlKRz
+         hKI3b1SDps3M9Daz/tD17jPhJTsGjH1IZ9DNHhtRpu6rCqmGeMkOd9jhmFlf1ZjTHTOE
+         OF3w==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=J8iayzDT;
-       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::32d as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=NWGEYDLP;
+       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::42e as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
@@ -37,13 +37,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:list-post:list-help:list-archive:list-subscribe
          :list-unsubscribe;
-        bh=BF5GRMQvkORjkxlSWQ5xpWNXtu0Vvx1c5z/aU8d8+a8=;
-        b=d2nbD6+0+YMILMLyE9Mri0by4J2Mi7b3n0OF6gKdoUc6E3jMEcO1FuEHwvUEt+4SQH
-         Mj3FhXK42l+pEvIHA2KUVeuEiMUTeysOJbbXm+1peDapUnYi8eD/sbMZmhVlneJvkvVW
-         T9LYsza735mR2CP62mQqoybDT5mzGRFuYievNwqj6EBi7DfjoMHQ4yZwnrhgBWUIYNqX
-         Cv41+hvGWwLJKK9wB7IMhofZVBqIbEoTSLchPvx2pftwVh+M60m81NFDVBu/b9U/Ga7B
-         gVyWJMbexWfjx60DtyOjFuqDH9fxOayl66nu58Tblbr0oeEl+gyJGIkzew4CJ2szADAR
-         9xtw==
+        bh=miu2pkypMb0Cd5y945bF5OMV/gF46NsgmokIGO6c4mc=;
+        b=r8devlSxDxJm5fcqawd0LVMyPiGNVyiUY3Urp3v/191irF7wN2y9u3DOfcr1DpsTlW
+         SB6/5sxVWFpyqBGRy4mRoM2UgwtzAAOqS/WOOjkM6K0DBquOnmbsH+5usrE/CMPENCW1
+         xiA6L2u0QsoCz8/oZiMcsz3GEH6myMvggNWgm47L/f0Q8HjXQ1MvTsd+n1hJ+mOKf9uV
+         +0a5wU/4VJ0W9BRHGtMrCZcO5TZhZVIcupQD+SDRx86YlK3NoX/31nt9JbEf/e+Kg546
+         zu70simjf8l0U1URn82bOc27PQZ7/Xo99SICA/qVxYubE4NFenAijo44p2pKyocOirq/
+         i2xQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
@@ -51,60 +51,60 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
          :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=BF5GRMQvkORjkxlSWQ5xpWNXtu0Vvx1c5z/aU8d8+a8=;
-        b=C2/U7mvsH47D6qFMYFfDBbm/fkWOcUyAY6IWvxTKvOYXX5sB0YYkgVTZ2sWKw5eAK/
-         pAMHvja0DrbHmm2lxbOIpizmAm3pHhjp8GqXKcuitUPFUP4s0eFYFoe8tmJbji7elXUt
-         9LQIQwgFzk87hJ2BUXiygkAdxWtvXZdjhNlc1OAOfT3sVXRHfDZpjOnd0Gy27LcHI26e
-         LRg94m1h1++ZxW96jEa6IdG6f6aVLDNYCQCgByB+xUrUa9g/ODESIJd1imnNjIUd2cQW
-         uKwQr9yL6sn9gxmjA/XtpPzeK06CHQ1yStnMsJjc8Fq1a9PFObqeSAuqrtJwdwc3uC8U
-         +A/g==
-X-Gm-Message-State: AOAM530YgBKi8hAG9RoLkY9jD5sHhvF89n6clx+CvMB1p/Rirj1zKy3Z
-	iBpw+F3tGOuxb+nvSuhKheg=
-X-Google-Smtp-Source: ABdhPJzd2zmEZOsdWXvNemHQsQhv2dlCY3cZQZVDwl/MuupYOX20bZ1QiCniI7XFNN1DM64O+d7gwQ==
-X-Received: by 2002:a2e:90ca:: with SMTP id o10mr2031617ljg.150.1612365062688;
-        Wed, 03 Feb 2021 07:11:02 -0800 (PST)
+        bh=miu2pkypMb0Cd5y945bF5OMV/gF46NsgmokIGO6c4mc=;
+        b=d439xKvbRzxxVWjGt7miivCfVABzANvuE+CITLnPozome0Y7dEIgkhfNGIW7HR1q1k
+         w4rKRamfZPkha6Vhc6SOk8UYxJlyb/cEF0UJBVadMnVSg68fWN4+OP0VIxxFuMEcoUDx
+         3JC0rYuVAvf+iQ+EJayCaDdU29hvZ7fXHzwSF6+2IG0YHjwJJlGqiYN+Ut4ucWMb3TyF
+         y8vktQ220XVAZ6ONGgp3VvMUdqDdHNzelnxz263Gv7Xeg8oQ4IwWAAM/w2ZBrk5EiLfk
+         rFHpUsL6k0K6pz2bwRWEXErO4dy32IhGU7MMzMVMrVs/Yp903M0rIAH4B8NbajqODk4y
+         77dw==
+X-Gm-Message-State: AOAM531GEPri0uxZk7aKRwVFpxQzcYX2FQAOMHbXm1xmPCspTPoohx5Y
+	EHGM0dWo2nokOrLc/Rz/fpo=
+X-Google-Smtp-Source: ABdhPJyCvegbfM3X0Q3C3A1x7lqB3GRsvnyNvxIfAA0Ulx6FZebM3zc2h4djYOUgS7rzJ3uj8mt4ZA==
+X-Received: by 2002:a1c:7c17:: with SMTP id x23mr3426964wmc.65.1612366323467;
+        Wed, 03 Feb 2021 07:32:03 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a2e:9ad2:: with SMTP id p18ls452083ljj.5.gmail; Wed, 03 Feb
- 2021 07:11:01 -0800 (PST)
-X-Received: by 2002:a2e:86c2:: with SMTP id n2mr2012094ljj.90.1612365061530;
-        Wed, 03 Feb 2021 07:11:01 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1612365061; cv=none;
+Received: by 2002:adf:fd09:: with SMTP id e9ls3133007wrr.0.gmail; Wed, 03 Feb
+ 2021 07:32:02 -0800 (PST)
+X-Received: by 2002:a5d:50c1:: with SMTP id f1mr4262769wrt.235.1612366322631;
+        Wed, 03 Feb 2021 07:32:02 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1612366322; cv=none;
         d=google.com; s=arc-20160816;
-        b=dryg9ZbETdX9ZfpLNq/EHgS2MOVHZj7lL2bIXolzWxlJZF5uQ/WcbmieKJ3DYPoOya
-         0L8Py41Uj8XQoZYYMNr7A0fdhFYkKG8+XqM+PZWt2cgJC2zGwe5HMVEyTXnsMHZHbYKJ
-         OgrT1tnlcEba8H82IeADI8MlyxenPDbmMBQ9GG3zr+MXE7Y0zp/7A0YcfGtUAjS/QSps
-         VGEicLHI0pzVlHYnfCdqFvHHe2IpWQR+TF8f6yehgpf80f9AxOgqJVGswHytOft5Kq7O
-         gYfA3HBz6cirYFQMCy753501gqvrzuaPpXrop3wNgP/fsy5JOlxuDM7htb0CeiCGtRRU
-         QTdQ==
+        b=JZcvKGKuA6rvOZd+XroRCCubedZ/3bv0icUvjyl+vH6qyrfC7/PpRJb5w9umLQsU1u
+         +lGUndd0ywn6jrFWflI9Saxrw0hq7FTfzKdw1s4A1MvN3qdvPzBa1kt4WZH2n+LdhuFu
+         0wRaUVIIegXCMasBOm8e1ul0QU6sC6nWiwjCcP19yEP7usiejk5z2R5algS4+zoeAuR+
+         pMeHO9+iJsQHA9ed/XQcXbazmCuHpTl5FNyCFgkNQW+hAHEOq031n4fBsH7e6LD3ULxr
+         RgN3jlMAYn4+tJCMBnxSCGkm6Vm0myIKYVy/YM1bbudJa79Q+ktLa2MsktIB0fPGMTuy
+         qoxg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=user-agent:in-reply-to:content-disposition:mime-version:references
          :message-id:subject:cc:to:from:date:dkim-signature;
-        bh=euglhQuz1fv7wELuChhUgZYArcEjvEFCsjQV+iKDCRk=;
-        b=YtXi0mIC0jlRE7YS+kqpRv2FbkZnZyVNEVulsmfFL3MZ4wuoaGun04CkizAYFQHXRq
-         NVGp+LOaHpukZ+HAcJFdCLJTHU2t5YgZqM7cAbCXXWZf56qQMEyY7YgO0IyZP6aOMgvq
-         NlD40XHI8Sbh5Xh6UXjshd73AxLXTZWg05Z8HZ7YL5LZcKB5oVhpLKLiXQUIBTpgzpKl
-         sTio00ogfS2wCi53xkAx4yxRIT6GqsAdcLhqfAYFAizDWXUf9O1z3M1uLVI8LwMnDTpJ
-         i4IydxXuA868P+a7L32PL2D8yVc0W+xxBtZFcJfN68IT21gT5dWHM+k5JauWUTgPgxND
-         EGhw==
+        bh=m3hMLAUjNEbRoV1KbnJIsefJTccBHrhGuifAQXw+Kb0=;
+        b=hZzDRVMI3iovYOEsMZQ75+U9W+4c+kO4yOV38nBwjaobPOVkgVlkoO00CaU6G/osSC
+         8QpfC3ZVx8GF7YIQeboUR7aRxIaiZOd3qYLnIygPNrVUc1/dDUwTh1CAHsyyZThKru8c
+         gNj2d6gQX4Acfo5QWByXd30xrh1rVy3jdioOyyLv22HaGsQSt22c/5nFQydcqO3l03+6
+         T53STpDzX0oFEpwR1hRmORuFykm3d1P23U1C67gJ2FhBmWiqQiya3elwG2hzqzMp7MSz
+         xaESwMdSfx/hez8Vpe5s5jp3CAhf0aNbJBYhHGm52ls9HKMzhmQSzuok5vUvk9JBuR8m
+         HYHA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=J8iayzDT;
-       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::32d as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=NWGEYDLP;
+       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::42e as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com. [2a00:1450:4864:20::32d])
-        by gmr-mx.google.com with ESMTPS id y6si86421ljn.3.2021.02.03.07.11.01
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com. [2a00:1450:4864:20::42e])
+        by gmr-mx.google.com with ESMTPS id f196si120291wme.2.2021.02.03.07.32.02
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 Feb 2021 07:11:01 -0800 (PST)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::32d as permitted sender) client-ip=2a00:1450:4864:20::32d;
-Received: by mail-wm1-x32d.google.com with SMTP id m1so5587101wml.2
-        for <kasan-dev@googlegroups.com>; Wed, 03 Feb 2021 07:11:01 -0800 (PST)
-X-Received: by 2002:a1c:107:: with SMTP id 7mr1939842wmb.28.1612365060776;
-        Wed, 03 Feb 2021 07:11:00 -0800 (PST)
+        Wed, 03 Feb 2021 07:32:02 -0800 (PST)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::42e as permitted sender) client-ip=2a00:1450:4864:20::42e;
+Received: by mail-wr1-x42e.google.com with SMTP id v15so24882474wrx.4
+        for <kasan-dev@googlegroups.com>; Wed, 03 Feb 2021 07:32:02 -0800 (PST)
+X-Received: by 2002:adf:fa8b:: with SMTP id h11mr4284888wrr.114.1612366321734;
+        Wed, 03 Feb 2021 07:32:01 -0800 (PST)
 Received: from elver.google.com ([2a00:79e0:15:13:b1de:c7d:30ce:1840])
-        by smtp.gmail.com with ESMTPSA id i6sm3730145wrs.71.2021.02.03.07.10.59
+        by smtp.gmail.com with ESMTPSA id h14sm3084106wmq.45.2021.02.03.07.32.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Feb 2021 07:10:59 -0800 (PST)
-Date: Wed, 3 Feb 2021 16:10:53 +0100
+        Wed, 03 Feb 2021 07:32:00 -0800 (PST)
+Date: Wed, 3 Feb 2021 16:31:54 +0100
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
 To: Andrey Konovalov <andreyknvl@google.com>
 Cc: Catalin Marinas <catalin.marinas@arm.com>,
@@ -120,19 +120,19 @@ Cc: Catalin Marinas <catalin.marinas@arm.com>,
 	Kevin Brodsky <kevin.brodsky@arm.com>, kasan-dev@googlegroups.com,
 	linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 07/12] kasan, mm: remove krealloc side-effect
-Message-ID: <YBq8/e0iUpUFMhvO@elver.google.com>
+Subject: Re: [PATCH 09/12] kasan: ensure poisoning size alignment
+Message-ID: <YBrB6g9e+636CyFh@elver.google.com>
 References: <cover.1612208222.git.andreyknvl@google.com>
- <884e37ddff31b671725f4d83106111c7dcf8fb9b.1612208222.git.andreyknvl@google.com>
+ <fee7c8c751dbf871e957935c347fcf7f1ca49beb.1612208222.git.andreyknvl@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <884e37ddff31b671725f4d83106111c7dcf8fb9b.1612208222.git.andreyknvl@google.com>
+In-Reply-To: <fee7c8c751dbf871e957935c347fcf7f1ca49beb.1612208222.git.andreyknvl@google.com>
 User-Agent: Mutt/2.0.2 (2020-11-20)
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=J8iayzDT;       spf=pass
- (google.com: domain of elver@google.com designates 2a00:1450:4864:20::32d as
+ header.i=@google.com header.s=20161025 header.b=NWGEYDLP;       spf=pass
+ (google.com: domain of elver@google.com designates 2a00:1450:4864:20::42e as
  permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
  sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Marco Elver <elver@google.com>
@@ -150,83 +150,221 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
  <https://groups.google.com/group/kasan-dev/subscribe>
 
 On Mon, Feb 01, 2021 at 08:43PM +0100, Andrey Konovalov wrote:
-> Currently, if krealloc() is called on a freed object with KASAN enabled,
-> it allocates and returns a new object, but doesn't copy any memory from
-> the old one as ksize() returns 0. This makes a caller believe that
-> krealloc() succeeded (KASAN report is printed though).
->
-> This patch adds an accessibility check into __do_krealloc(). If the check
-> fails, krealloc() returns NULL. This check duplicates the one in ksize();
-> this is fixed in the following patch.
-
-I think "side-effect" is ambiguous, because either way behaviour of
-krealloc differs from a kernel with KASAN disabled. Something like
-"kasan, mm: fail krealloc on already freed object" perhaps?
-
-> This patch also adds a KASAN-KUnit test to check krealloc() behaviour
-> when it's called on a freed object.
+> A previous changes d99f6a10c161 ("kasan: don't round_up too much")
+> attempted to simplify the code by adding a round_up(size) call into
+> kasan_poison(). While this allows to have less round_up() calls around
+> the code, this results in round_up() being called multiple times.
+> 
+> This patch removes round_up() of size from kasan_poison() and ensures
+> that all callers round_up() the size explicitly. This patch also adds
+> WARN_ON() alignment checks for address and size to kasan_poison() and
+> kasan_unpoison().
 > 
 > Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 
 Reviewed-by: Marco Elver <elver@google.com>
 
 > ---
->  lib/test_kasan.c | 20 ++++++++++++++++++++
->  mm/slab_common.c |  3 +++
->  2 files changed, 23 insertions(+)
+>  mm/kasan/common.c |  9 ++++++---
+>  mm/kasan/kasan.h  | 33 ++++++++++++++++++++-------------
+>  mm/kasan/shadow.c | 37 ++++++++++++++++++++++---------------
+>  3 files changed, 48 insertions(+), 31 deletions(-)
 > 
-> diff --git a/lib/test_kasan.c b/lib/test_kasan.c
-> index 2bb52853f341..61bc894d9f7e 100644
-> --- a/lib/test_kasan.c
-> +++ b/lib/test_kasan.c
-> @@ -359,6 +359,25 @@ static void krealloc_pagealloc_less_oob(struct kunit *test)
->  					KMALLOC_MAX_CACHE_SIZE + 201);
+> diff --git a/mm/kasan/common.c b/mm/kasan/common.c
+> index a51d6ea580b0..5691cca69397 100644
+> --- a/mm/kasan/common.c
+> +++ b/mm/kasan/common.c
+> @@ -261,7 +261,8 @@ void __kasan_unpoison_object_data(struct kmem_cache *cache, void *object)
+>  
+>  void __kasan_poison_object_data(struct kmem_cache *cache, void *object)
+>  {
+> -	kasan_poison(object, cache->object_size, KASAN_KMALLOC_REDZONE);
+> +	kasan_poison(object, round_up(cache->object_size, KASAN_GRANULE_SIZE),
+> +			KASAN_KMALLOC_REDZONE);
 >  }
 >  
-> +/*
-> + * Check that krealloc() detects a use-after-free, returns NULL,
-> + * and doesn't unpoison the freed object.
-> + */
-> +static void krealloc_uaf(struct kunit *test)
-> +{
-> +	char *ptr1, *ptr2;
-> +	int size1 = 201;
-> +	int size2 = 235;
-> +
-> +	ptr1 = kmalloc(size1, GFP_KERNEL);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr1);
-> +	kfree(ptr1);
-> +
-> +	KUNIT_EXPECT_KASAN_FAIL(test, ptr2 = krealloc(ptr1, size2, GFP_KERNEL));
-> +	KUNIT_ASSERT_PTR_EQ(test, (void *)ptr2, NULL);
-> +	KUNIT_EXPECT_KASAN_FAIL(test, *(volatile char *)ptr1);
-> +}
-> +
->  static void kmalloc_oob_16(struct kunit *test)
+>  /*
+> @@ -348,7 +349,8 @@ static bool ____kasan_slab_free(struct kmem_cache *cache, void *object,
+>  		return true;
+>  	}
+>  
+> -	kasan_poison(object, cache->object_size, KASAN_KMALLOC_FREE);
+> +	kasan_poison(object, round_up(cache->object_size, KASAN_GRANULE_SIZE),
+> +			KASAN_KMALLOC_FREE);
+>  
+>  	if ((IS_ENABLED(CONFIG_KASAN_GENERIC) && !quarantine))
+>  		return false;
+> @@ -490,7 +492,8 @@ static void *____kasan_kmalloc(struct kmem_cache *cache, const void *object,
+>  	/* Poison the aligned part of the redzone. */
+>  	redzone_start = round_up((unsigned long)(object + size),
+>  				KASAN_GRANULE_SIZE);
+> -	redzone_end = (unsigned long)object + cache->object_size;
+> +	redzone_end = round_up((unsigned long)(object + cache->object_size),
+> +				KASAN_GRANULE_SIZE);
+>  	kasan_poison((void *)redzone_start, redzone_end - redzone_start,
+>  			   KASAN_KMALLOC_REDZONE);
+>  
+> diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
+> index 6a2882997f23..2f7400a3412f 100644
+> --- a/mm/kasan/kasan.h
+> +++ b/mm/kasan/kasan.h
+> @@ -321,30 +321,37 @@ static inline u8 kasan_random_tag(void) { return 0; }
+>  
+>  #ifdef CONFIG_KASAN_HW_TAGS
+>  
+> -static inline void kasan_poison(const void *address, size_t size, u8 value)
+> +static inline void kasan_poison(const void *addr, size_t size, u8 value)
 >  {
->  	struct {
-> @@ -1056,6 +1075,7 @@ static struct kunit_case kasan_kunit_test_cases[] = {
->  	KUNIT_CASE(krealloc_less_oob),
->  	KUNIT_CASE(krealloc_pagealloc_more_oob),
->  	KUNIT_CASE(krealloc_pagealloc_less_oob),
-> +	KUNIT_CASE(krealloc_uaf),
->  	KUNIT_CASE(kmalloc_oob_16),
->  	KUNIT_CASE(kmalloc_uaf_16),
->  	KUNIT_CASE(kmalloc_oob_in_memset),
-> diff --git a/mm/slab_common.c b/mm/slab_common.c
-> index 39d1a8ff9bb8..dad70239b54c 100644
-> --- a/mm/slab_common.c
-> +++ b/mm/slab_common.c
-> @@ -1140,6 +1140,9 @@ static __always_inline void *__do_krealloc(const void *p, size_t new_size,
->  	void *ret;
->  	size_t ks;
+> -	address = kasan_reset_tag(address);
+> +	addr = kasan_reset_tag(addr);
 >  
-> +	if (likely(!ZERO_OR_NULL_PTR(p)) && !kasan_check_byte(p))
-> +		return NULL;
+>  	/* Skip KFENCE memory if called explicitly outside of sl*b. */
+> -	if (is_kfence_address(address))
+> +	if (is_kfence_address(addr))
+>  		return;
+>  
+> -	hw_set_mem_tag_range((void *)address,
+> -			round_up(size, KASAN_GRANULE_SIZE), value);
+> +	if (WARN_ON((u64)addr & KASAN_GRANULE_MASK))
+> +		return;
+> +	if (WARN_ON(size & KASAN_GRANULE_MASK))
+> +		return;
 > +
->  	ks = ksize(p);
+> +	hw_set_mem_tag_range((void *)addr, size, value);
+>  }
 >  
->  	if (ks >= new_size) {
+> -static inline void kasan_unpoison(const void *address, size_t size)
+> +static inline void kasan_unpoison(const void *addr, size_t size)
+>  {
+> -	u8 tag = get_tag(address);
+> +	u8 tag = get_tag(addr);
+>  
+> -	address = kasan_reset_tag(address);
+> +	addr = kasan_reset_tag(addr);
+>  
+>  	/* Skip KFENCE memory if called explicitly outside of sl*b. */
+> -	if (is_kfence_address(address))
+> +	if (is_kfence_address(addr))
+>  		return;
+>  
+> -	hw_set_mem_tag_range((void *)address,
+> -			round_up(size, KASAN_GRANULE_SIZE), tag);
+> +	if (WARN_ON((u64)addr & KASAN_GRANULE_MASK))
+> +		return;
+> +	size = round_up(size, KASAN_GRANULE_SIZE);
+> +
+> +	hw_set_mem_tag_range((void *)addr, size, tag);
+>  }
+>  
+>  static inline bool kasan_byte_accessible(const void *addr)
+> @@ -361,7 +368,7 @@ static inline bool kasan_byte_accessible(const void *addr)
+>  /**
+>   * kasan_poison - mark the memory range as unaccessible
+>   * @addr - range start address, must be aligned to KASAN_GRANULE_SIZE
+> - * @size - range size
+> + * @size - range size, must be aligned to KASAN_GRANULE_SIZE
+>   * @value - value that's written to metadata for the range
+>   *
+>   * The size gets aligned to KASAN_GRANULE_SIZE before marking the range.
+> @@ -371,7 +378,7 @@ void kasan_poison(const void *addr, size_t size, u8 value);
+>  /**
+>   * kasan_unpoison - mark the memory range as accessible
+>   * @addr - range start address, must be aligned to KASAN_GRANULE_SIZE
+> - * @size - range size
+> + * @size - range size, can be unaligned
+>   *
+>   * For the tag-based modes, the @size gets aligned to KASAN_GRANULE_SIZE before
+>   * marking the range.
+> diff --git a/mm/kasan/shadow.c b/mm/kasan/shadow.c
+> index 1ed7817e4ee6..c97f51c557ea 100644
+> --- a/mm/kasan/shadow.c
+> +++ b/mm/kasan/shadow.c
+> @@ -69,7 +69,7 @@ void *memcpy(void *dest, const void *src, size_t len)
+>  	return __memcpy(dest, src, len);
+>  }
+>  
+> -void kasan_poison(const void *address, size_t size, u8 value)
+> +void kasan_poison(const void *addr, size_t size, u8 value)
+>  {
+>  	void *shadow_start, *shadow_end;
+>  
+> @@ -78,55 +78,62 @@ void kasan_poison(const void *address, size_t size, u8 value)
+>  	 * some of the callers (e.g. kasan_poison_object_data) pass tagged
+>  	 * addresses to this function.
+>  	 */
+> -	address = kasan_reset_tag(address);
+> +	addr = kasan_reset_tag(addr);
+>  
+>  	/* Skip KFENCE memory if called explicitly outside of sl*b. */
+> -	if (is_kfence_address(address))
+> +	if (is_kfence_address(addr))
+>  		return;
+>  
+> -	size = round_up(size, KASAN_GRANULE_SIZE);
+> -	shadow_start = kasan_mem_to_shadow(address);
+> -	shadow_end = kasan_mem_to_shadow(address + size);
+> +	if (WARN_ON((u64)addr & KASAN_GRANULE_MASK))
+> +		return;
+> +	if (WARN_ON(size & KASAN_GRANULE_MASK))
+> +		return;
+> +
+> +	shadow_start = kasan_mem_to_shadow(addr);
+> +	shadow_end = kasan_mem_to_shadow(addr + size);
+>  
+>  	__memset(shadow_start, value, shadow_end - shadow_start);
+>  }
+>  EXPORT_SYMBOL(kasan_poison);
+>  
+>  #ifdef CONFIG_KASAN_GENERIC
+> -void kasan_poison_last_granule(const void *address, size_t size)
+> +void kasan_poison_last_granule(const void *addr, size_t size)
+>  {
+>  	if (size & KASAN_GRANULE_MASK) {
+> -		u8 *shadow = (u8 *)kasan_mem_to_shadow(address + size);
+> +		u8 *shadow = (u8 *)kasan_mem_to_shadow(addr + size);
+>  		*shadow = size & KASAN_GRANULE_MASK;
+>  	}
+>  }
+>  #endif
+>  
+> -void kasan_unpoison(const void *address, size_t size)
+> +void kasan_unpoison(const void *addr, size_t size)
+>  {
+> -	u8 tag = get_tag(address);
+> +	u8 tag = get_tag(addr);
+>  
+>  	/*
+>  	 * Perform shadow offset calculation based on untagged address, as
+>  	 * some of the callers (e.g. kasan_unpoison_object_data) pass tagged
+>  	 * addresses to this function.
+>  	 */
+> -	address = kasan_reset_tag(address);
+> +	addr = kasan_reset_tag(addr);
+>  
+>  	/*
+>  	 * Skip KFENCE memory if called explicitly outside of sl*b. Also note
+>  	 * that calls to ksize(), where size is not a multiple of machine-word
+>  	 * size, would otherwise poison the invalid portion of the word.
+>  	 */
+> -	if (is_kfence_address(address))
+> +	if (is_kfence_address(addr))
+> +		return;
+> +
+> +	if (WARN_ON((u64)addr & KASAN_GRANULE_MASK))
+>  		return;
+>  
+> -	/* Unpoison round_up(size, KASAN_GRANULE_SIZE) bytes. */
+> -	kasan_poison(address, size, tag);
+> +	/* Unpoison all granules that cover the object. */
+> +	kasan_poison(addr, round_up(size, KASAN_GRANULE_SIZE), tag);
+>  
+>  	/* Partially poison the last granule for the generic mode. */
+>  	if (IS_ENABLED(CONFIG_KASAN_GENERIC))
+> -		kasan_poison_last_granule(address, size);
+> +		kasan_poison_last_granule(addr, size);
+>  }
+>  
+>  #ifdef CONFIG_MEMORY_HOTPLUG
 > -- 
 > 2.30.0.365.g02bc693789-goog
 > 
@@ -234,4 +372,4 @@ Reviewed-by: Marco Elver <elver@google.com>
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YBq8/e0iUpUFMhvO%40elver.google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YBrB6g9e%2B636CyFh%40elver.google.com.
