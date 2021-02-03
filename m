@@ -1,162 +1,133 @@
-Return-Path: <kasan-dev+bncBCSJ7B6JQALRBCXI5OAAMGQEUO6VYHY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCW7LPVNTAKBB7HS5OAAMGQEZR75FLY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pg1-x53f.google.com (mail-pg1-x53f.google.com [IPv6:2607:f8b0:4864:20::53f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DECD30E308
-	for <lists+kasan-dev@lfdr.de>; Wed,  3 Feb 2021 20:05:48 +0100 (CET)
-Received: by mail-pg1-x53f.google.com with SMTP id p6sf313502pgj.11
-        for <lists+kasan-dev@lfdr.de>; Wed, 03 Feb 2021 11:05:48 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1612379147; cv=pass;
+Received: from mail-ot1-x33e.google.com (mail-ot1-x33e.google.com [IPv6:2607:f8b0:4864:20::33e])
+	by mail.lfdr.de (Postfix) with ESMTPS id CBB5430E33B
+	for <lists+kasan-dev@lfdr.de>; Wed,  3 Feb 2021 20:29:01 +0100 (CET)
+Received: by mail-ot1-x33e.google.com with SMTP id 44sf391382otc.5
+        for <lists+kasan-dev@lfdr.de>; Wed, 03 Feb 2021 11:29:01 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1612380540; cv=pass;
         d=google.com; s=arc-20160816;
-        b=AsfJVbtvls7pxjz2/tSVpa239jHw1v/vxg7qlgvLPLacZGsfMsIlP03MwVwgEY7SK+
-         7onTKnbAHOPiJHmmvTg5bvJ9AGYgEyRerRvyZyFqb14+tBpxPY1Ohrz/LVz78rMIp+TX
-         QFj+bkKxEdznG8uxdcsANN4z5RY0+NSpVfkl/tQ/fBUYaLIw35MXXTdu8IjSU+I0uOCZ
-         V8YcAjl1sLVDtQkkLRf+Xky63UfaRDkLCSXoxfTWI6mKuvevakWU2N109iIDY7dnYT/s
-         RGtCdYKq6WmUIbXluZLanKBqQZKFvA3ZxsR0i9DsIJqXG+VOAquCrtTp4cGUqZGlbvik
-         tfOw==
+        b=gGIbs5Bc8oNA4tPzsCrT3ednLup1L513mSTX4lTrUMFjpNrtyNUNVckl45RjpBZLOq
+         g0wjmksH6nADqKkqiFvPwavvZSvXv9RcPKshDD+zaz3Ip8kchp2CpE6PxaT24FzhzG7T
+         FugapK9vNGAECRDW6NqekO4UuMRYNxyayOw8TCTiYLCbZbanv1ettlviDjgyLKjedKGV
+         ic5Z8WDQ5swoOfAZqQ9wIXgK59Sc73OP7ntHq5seYrqRPcQ64ePr/p2VEXC21ZkOh6no
+         PJIksjNjbD6hFo8dplcmPzBA5bgaoNzxAk45zuf12ZA/WYW8Ju9I9pn7bLKAinQoHSbM
+         kyBA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:in-reply-to:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:sender
          :dkim-signature;
-        bh=P2RuirHAgXcPCjBpiYuw3pcydYVZFOpY/goE4pcoRy4=;
-        b=F9pAqDtcLyMeRQC6xOfMIJIfDoeASjHRRAWisKVmEBesal43iSDtglL5wQb+0Qusif
-         kBuG4n6f33dS6Ud0bKNkktyBbFH9qEAcxQzkTHBDM6e8DhbCMpzczrJIEA32ORxswLg4
-         qoxE27yj2/U33xugv40Oz2VJrEbJ7fmn519kQqK4UX01XcVY6FFnYC4qrzATRtSXy/03
-         4ySfkekkWv3cSkFs8gFVohFATO78vMGKkR6YICMrQddx6LNqsMirAEnRr0yph7pC+M5L
-         RxEx5mPvSY0xzbAhibbDIvv7/yzmPQ5TY5fTvKtqvmUkFURVf+INgarnV4YAYmnt1mhw
-         H+Bg==
+        bh=Jg80quCdSTWo8Fk0/o2IL/S8S3UQX2joKSecG4kq0k8=;
+        b=eIl7mAhq4L+RzKNL8/Pm9AysMcdsocjI+oM+kgjl9cczz+JtZ1qSrfzcm25v2cIz/c
+         nlD4USMbPD9EHQD7Fs9nKaiWji/JD6eCVLC+0H3Bl76jlDQcPNP71eEAMGXwpcbO4G5j
+         xKBTkutPsDGK3qQaK7JdvpvIjkxptP+0SfDzB+GG6pvHffuCUpSq0e4TuJRCLJPacvhi
+         Bc8fDxK8TKWLyeF2tzNcSe83yz3E75oyYRMvwcGXmgLGevxxQdfn0FwwQU9ephlkcXk1
+         791RAUw3JVBEm0Q45CBl3atOEEIgXKO4NdCKPfF5Dra/cZQsEPi8siO/1saBolW0gg/g
+         oaWA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=ix0LqXjj;
-       spf=pass (google.com: domain of jpoimboe@redhat.com designates 63.128.21.124 as permitted sender) smtp.mailfrom=jpoimboe@redhat.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
+       dkim=pass header.i=@gmail.com header.s=20161025 header.b=gYSgK0gI;
+       spf=pass (google.com: domain of konrad.r.wilk@gmail.com designates 2607:f8b0:4864:20::72c as permitted sender) smtp.mailfrom=konrad.r.wilk@gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20161025;
+        d=gmail.com; s=20161025;
         h=sender:date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=P2RuirHAgXcPCjBpiYuw3pcydYVZFOpY/goE4pcoRy4=;
-        b=WmSCLsxoLorwN2P6BVAPV06rEhOSSPkuqnioC3aHRY29IbmMjNLDtH6pP0WeQMgNp8
-         cnXQocWlNqpMtP1JDOsIe/iRnlX5t3DBzpVJLBXLBR6DKdPBeP9E0Kk0+SjxVtup5rmu
-         za16aZr/C1MbVlH8HxJqBv4M5+U0TazYe+U78/LQfFUCNM+5LD4prLLztTVBUVA46bLa
-         7FfNfruCdv/vDbaeOBt6e8YdtyLOOakdaVB0qq87LIcRbwk3sGJOqykCkU7AFGGsDA98
-         YQw9r1PdoZ4T1NUMNQkDm+26WGQlkbn8kxLUPXklT6ddYoVJdH1KfYMlVV/rUZhQTTVC
-         JAHQ==
+        bh=Jg80quCdSTWo8Fk0/o2IL/S8S3UQX2joKSecG4kq0k8=;
+        b=QMyYL6J974ckjCv8uCPmE/rES3NrQcFrr2WycD6TVMKYy9gvyhMbblVDj/ZEJo3tvU
+         C7j24dFWVS/qaRfdK3S2SpvklVgz/PurSO6zawxuaPtxXN2cdAiWPSFVRLkWT0vhiklQ
+         9OBelIxmU7OzuYCBFSASGBRYAUuJLb2R7CdmYw8laUme915Px+fWIekLBl+spqRDoQpj
+         0O0JhjRGAU+6bS8/PN0YePdH6DDpbOQz/AaVGtIg36lKrSLEYOhRi2u/KrQOfdNEzGsL
+         DUumeOXg07tfGfD21lUfDF771S0MJh0yoTZjIIyHTdqbwhL+K1/nFTluMzmW9PM3JoGN
+         djtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
          :references:mime-version:content-disposition:in-reply-to
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=P2RuirHAgXcPCjBpiYuw3pcydYVZFOpY/goE4pcoRy4=;
-        b=Dt/CUNw7unaCAzwW/FrZ/OL/soZZBp8/of/gOerqY74GRpMobj7jXCS5bA/m+80H3Z
-         4Lvco712GSugV3MC3oaC1LCXL2vg2HOrZ2wkx4w5bPufV4RhZPmjy6DoIWDgdjN9vkgw
-         jaJt3ucSThd+mbwbAiOQsYd5L06GM+RE20coJkxzKfeikYmjA/KUsaPWo7DIh2V0WZ9M
-         IMKQsCU2vVtIZ571ADwBRaqmDiaXwU92nhhigT46myQkAsweFoDmbFiizJDL450rSWnu
-         cJxcvQz2v1zAGFONm6dozrU1kNumcKM2FOkX+o1gZKpGFtt68hLzzqaNTbqigtKfvLtY
-         wE1A==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM532vxBQ1FRZVUo+/HwLAQqMSlJ/I+I5aK/x5b68xW7UsSTfkanKX
-	/lLB0je6C/n3vtrC1OITVaM=
-X-Google-Smtp-Source: ABdhPJxNbb1QLezoVBuWhuZvcK7LqT1UIW6kc65kCamqPpv72Nd09QlIzNHm4TpGuY7MoguFrfVLAQ==
-X-Received: by 2002:a62:27c2:0:b029:1bd:f51:33d with SMTP id n185-20020a6227c20000b02901bd0f51033dmr4419024pfn.45.1612379147010;
-        Wed, 03 Feb 2021 11:05:47 -0800 (PST)
+        bh=Jg80quCdSTWo8Fk0/o2IL/S8S3UQX2joKSecG4kq0k8=;
+        b=XkBrP1cMQd2kt0GWvhitqqWuhrgioJbtqkC5Y6fk1S3VsyyDc6ck6Ev6nv06z5iFqn
+         WVI6+eZxJuCDtGma0271coXhkgC+rebHcP3ajcvXbUxXjb3r/Mrw4/aXJPi4YKE+MZp3
+         jMovaVNDG1VniN7vl5vlNq1vGRegIERdxfvMhpAJQaDheDEynMgDJN6UUUu9gh/NZ+Ye
+         sXlpTHfgWU8yBvmcbJtdYfSbLnZcGaXbaj4hSiAd2IgagiNVjMzpJDopHj8+qnyasKco
+         8XS3oR3VG7ifjJAVV7tMGrR4D0+/pwNa/1c4EXSISGZA73fBlYZdjpcAzpm/0NFDuhYc
+         Zxgw==
+X-Gm-Message-State: AOAM530X+4l7LngqMlMhH+YlntW/hA8mZfSTg2QaVTVqvRx3J1yuLIR8
+	NT/CVXfYOFxSodv94refUM4=
+X-Google-Smtp-Source: ABdhPJwHBx9xM3dtvdGZRw9ZE7oHC3SvIoc5S+QR7UzX6MKsf0mvsXdPNWxZyxEfxrjea7P8OMptTQ==
+X-Received: by 2002:a4a:8555:: with SMTP id l21mr3183308ooh.27.1612380540801;
+        Wed, 03 Feb 2021 11:29:00 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a62:19d8:: with SMTP id 207ls1246406pfz.5.gmail; Wed, 03 Feb
- 2021 11:05:46 -0800 (PST)
-X-Received: by 2002:a63:5351:: with SMTP id t17mr5008116pgl.176.1612379146390;
-        Wed, 03 Feb 2021 11:05:46 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1612379146; cv=none;
+Received: by 2002:aca:cc51:: with SMTP id c78ls799823oig.5.gmail; Wed, 03 Feb
+ 2021 11:29:00 -0800 (PST)
+X-Received: by 2002:aca:f510:: with SMTP id t16mr3031300oih.141.1612380540196;
+        Wed, 03 Feb 2021 11:29:00 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1612380540; cv=none;
         d=google.com; s=arc-20160816;
-        b=ET5TIr0wV7o8cst6XBBLKITnLHaqXFxRBNnoYvdSfLqso80+ysa6sQfPeOz+9wvdbz
-         M4l8PDb31sUFA0a4TbTKoo7MJs9aZshDz0U4L5kcbOMCnBDP013Kjz6Y87ukkylgSBoB
-         L4aoEob+H3IN/BiyhrdZukjHUG4Q6hReDWJDCjuknKiTRIe3sC3xjL3y/1DxhKHlckWp
-         QyshRicIBiT+CehtM8t+C6W4jlFrw/fSoUlG7ZzVwYEHQY34wq7eu1bzwbjUwO1dXFn2
-         7ttN5hI1mKHO/Z4tfIulRJUPgbek+MUQ/TN6bYgXHXKfFeERm//zJvIsFM32m1ejBjhe
-         e2OA==
+        b=ENZ+MBwFaT8D0hETuMYC7fuBtf2gbfPiyV6TBYl0L5ymmMwobshxMPbAcA1sVADdtJ
+         2J2UMNINVUbnG4Q/2l9caKiiTFvqrap1bLj47mHeALd6rSzcXfZVxGaiUZOG1WVu9odR
+         VjXKUnYSy69K5LGKVmVL9pgfNu36D9xsqOTm85X4vHv+4+StGy8bTUJv/1LKf4gL+enZ
+         GYsj8jaW6UgdwiHTxNPkebsDHfzTgb9d21liMyRvxa0iV0tpO1kOgu1fWAT8GvIJpGoo
+         aptN8SnTZrt5BSJ4YsS8iFE3tTZZ9vtzDW8fl434ARW8i0Epq8LOO5vjUnYh+PCtb8Jj
+         R8/g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=lFt/2RFOzQN6thk0J4a0+YNcEpiz/J/7UyVDz3HjZfM=;
-        b=JkrmyoVWZQBdtfpz7F2n/2aSFo4F6nnlrw1N+Wf0ENM5lCriaURlMNsXZiGe9POoh2
-         ep23HTzFKNpSN4jb+0toiGPS9Vu+jm7iYrCnzlKMZRE8Rediky+hIroq2zf6Z/V7GgTs
-         uTZjvlZhbfXPd73IhxB+p+RhbqZXiCIQCD7PTm1n7LhoKT4Q8AiGU8GJ2cJJHs0CaB69
-         I4GEoLaRGc1UbP9WMv9cYUFLX3GTlVoFIHur5p70OgXYcXEZj5VUZ7r9kE4y0LUfcwTq
-         qM22BWBFIR66UQF/57rAQeSYDmd1id5OcKZHTQC1fzEw7pqU6oPSaUTTvtojv9hfolul
-         UgHQ==
+         :subject:cc:to:from:date:sender:dkim-signature;
+        bh=Bmms0fzvUjR75dfmgs0kGwS6rjCbP/52m4So/y4HVvM=;
+        b=oUGT9Lf4gTDDLD77yIhMdtsgUdxnkF5Kijl2JnZMxpCxZdoQWhpLdRPzo2oK5qab8i
+         EGa+3ZfQBIWn7ELPcCChKGle7koDmycX9ObG2uMi/kiXh/2lJ6Rs8j/4KQyicArMTXYe
+         vpFkS3LfD+KpAJCQvgnUdsMDZbLLzmdF1Z0GzElTDPE0I8EXSjAz515vRK0+pU3q9Rux
+         5DLKAUv2Fncz3jRNx6APg86SJwc5wXYp/n73fII5vhAp1FP++iGCuGSUCE2FAx2MTJYe
+         YgaFzjEGUqUwOpXJK/n0nQDKpJ393NriwJzbalsHaI7vfVdHLsJLaiq/YMKBHNJGOwKa
+         UmcQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=ix0LqXjj;
-       spf=pass (google.com: domain of jpoimboe@redhat.com designates 63.128.21.124 as permitted sender) smtp.mailfrom=jpoimboe@redhat.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com. [63.128.21.124])
-        by gmr-mx.google.com with ESMTPS id r142si146229pfr.0.2021.02.03.11.05.46
+       dkim=pass header.i=@gmail.com header.s=20161025 header.b=gYSgK0gI;
+       spf=pass (google.com: domain of konrad.r.wilk@gmail.com designates 2607:f8b0:4864:20::72c as permitted sender) smtp.mailfrom=konrad.r.wilk@gmail.com
+Received: from mail-qk1-x72c.google.com (mail-qk1-x72c.google.com. [2607:f8b0:4864:20::72c])
+        by gmr-mx.google.com with ESMTPS id l126si224367oih.3.2021.02.03.11.29.00
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 03 Feb 2021 11:05:46 -0800 (PST)
-Received-SPF: pass (google.com: domain of jpoimboe@redhat.com designates 63.128.21.124 as permitted sender) client-ip=63.128.21.124;
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-66-sTIcB_hWN7CUN9FEBbW0aA-1; Wed, 03 Feb 2021 14:05:41 -0500
-X-MC-Unique: sTIcB_hWN7CUN9FEBbW0aA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 127AA1083E90;
-	Wed,  3 Feb 2021 19:05:36 +0000 (UTC)
-Received: from treble (ovpn-120-118.rdu2.redhat.com [10.10.120.118])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 61D86709A9;
-	Wed,  3 Feb 2021 19:05:21 +0000 (UTC)
-Date: Wed, 3 Feb 2021 13:05:18 -0600
-From: Josh Poimboeuf <jpoimboe@redhat.com>
-To: Ivan Babrou <ivan@cloudflare.com>
-Cc: Peter Zijlstra <peterz@infradead.org>,
-	kernel-team <kernel-team@cloudflare.com>,
-	Ignat Korchagin <ignat@cloudflare.com>,
-	Hailong liu <liu.hailong6@zte.com.cn>,
-	Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 03 Feb 2021 11:29:00 -0800 (PST)
+Received-SPF: pass (google.com: domain of konrad.r.wilk@gmail.com designates 2607:f8b0:4864:20::72c as permitted sender) client-ip=2607:f8b0:4864:20::72c;
+Received: by mail-qk1-x72c.google.com with SMTP id r77so845696qka.12
+        for <kasan-dev@googlegroups.com>; Wed, 03 Feb 2021 11:29:00 -0800 (PST)
+X-Received: by 2002:a37:d03:: with SMTP id 3mr4229514qkn.45.1612380539669;
+        Wed, 03 Feb 2021 11:28:59 -0800 (PST)
+Received: from fedora (209-6-208-110.s8556.c3-0.smr-cbr2.sbo-smr.ma.cable.rcncustomer.com. [209.6.208.110])
+        by smtp.gmail.com with ESMTPSA id w91sm2165236qte.83.2021.02.03.11.28.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Feb 2021 11:28:58 -0800 (PST)
+Sender: Konrad Rzeszutek Wilk <konrad.r.wilk@gmail.com>
+Date: Wed, 3 Feb 2021 14:28:56 -0500
+From: Konrad Rzeszutek Wilk <konrad@darnok.org>
+To: Dmitry Vyukov <dvyukov@google.com>, rjw@rjwysocki.net
+Cc: George Kennedy <george.kennedy@oracle.com>,
+	Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+	kasan-dev <kasan-dev@googlegroups.com>,
 	Alexander Potapenko <glider@google.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-	Miroslav Benes <mbenes@suse.cz>,
-	Julien Thierry <jthierry@redhat.com>,
-	Jiri Slaby <jirislaby@kernel.org>, kasan-dev@googlegroups.com,
-	linux-mm@kvack.org, linux-kernel <linux-kernel@vger.kernel.org>,
-	Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@redhat.com>,
-	dm-devel@redhat.com,
-	"Steven Rostedt (VMware)" <rostedt@goodmis.org>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Martin KaFai Lau <kafai@fb.com>, Song Liu <songliubraving@fb.com>,
-	Yonghong Song <yhs@fb.com>, Andrii Nakryiko <andriin@fb.com>,
-	John Fastabend <john.fastabend@gmail.com>,
-	KP Singh <kpsingh@chromium.org>, Robert Richter <rric@kernel.org>,
-	"Joel Fernandes (Google)" <joel@joelfernandes.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Linux Kernel Network Developers <netdev@vger.kernel.org>,
-	bpf@vger.kernel.org, Alexey Kardashevskiy <aik@ozlabs.ru>
-Subject: Re: BUG: KASAN: stack-out-of-bounds in
- unwind_next_frame+0x1df5/0x2650
-Message-ID: <20210203190518.nlwghesq75enas6n@treble>
-References: <CABWYdi3HjduhY-nQXzy2ezGbiMB1Vk9cnhW2pMypUa+P1OjtzQ@mail.gmail.com>
- <CABWYdi27baYc3ShHcZExmmXVmxOQXo9sGO+iFhfZLq78k8iaAg@mail.gmail.com>
- <YBrTaVVfWu2R0Hgw@hirez.programming.kicks-ass.net>
- <CABWYdi2ephz57BA8bns3reMGjvs5m0hYp82+jBLZ6KD3Ba6zdQ@mail.gmail.com>
+	Andrey Ryabinin <aryabinin@virtuozzo.com>, pjones@redhat.com,
+	konrad@kernel.org, LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 1/1] iscsi_ibft: KASAN false positive failure occurs in
+ ibft_init()
+Message-ID: <20210203192856.GA324708@fedora>
+References: <1611684201-16262-1-git-send-email-george.kennedy@oracle.com>
+ <YBG0glwiK1wyJTeN@Konrads-MacBook-Pro.local>
+ <CACT4Y+a48smtXc6qJy9Wthwuqjk2gh6o7BK1tfWW46g7D_r-Lg@mail.gmail.com>
+ <cc712c9c-7786-bb26-7082-04e564df98aa@oracle.com>
+ <CACT4Y+bPDvmwk38DrKfGV8cbtS_abAMDCqr9OigcPfep0uk5AQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <CABWYdi2ephz57BA8bns3reMGjvs5m0hYp82+jBLZ6KD3Ba6zdQ@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Original-Sender: jpoimboe@redhat.com
+In-Reply-To: <CACT4Y+bPDvmwk38DrKfGV8cbtS_abAMDCqr9OigcPfep0uk5AQ@mail.gmail.com>
+X-Original-Sender: konrad@darnok.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@redhat.com header.s=mimecast20190719 header.b=ix0LqXjj;
-       spf=pass (google.com: domain of jpoimboe@redhat.com designates
- 63.128.21.124 as permitted sender) smtp.mailfrom=jpoimboe@redhat.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
+ header.i=@gmail.com header.s=20161025 header.b=gYSgK0gI;       spf=pass
+ (google.com: domain of konrad.r.wilk@gmail.com designates 2607:f8b0:4864:20::72c
+ as permitted sender) smtp.mailfrom=konrad.r.wilk@gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -169,248 +140,246 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Feb 03, 2021 at 09:46:55AM -0800, Ivan Babrou wrote:
-> > Can you pretty please not line-wrap console output? It's unreadable.
-> 
-> GMail doesn't make it easy, I'll send a link to a pastebin next time.
-> Let me know if you'd like me to regenerate the decoded stack.
-> 
-> > > edfd9b7838ba5e47f19ad8466d0565aba5c59bf0 is the first bad commit
-> > > commit edfd9b7838ba5e47f19ad8466d0565aba5c59bf0
+Hey Dmitry, Rafael, George, please see below..
+
+On Wed, Jan 27, 2021 at 10:10:07PM +0100, Dmitry Vyukov wrote:
+> On Wed, Jan 27, 2021 at 9:01 PM George Kennedy
+> <george.kennedy@oracle.com> wrote:
 > >
-> > Not sure what tree you're on, but that's not the upstream commit.
-> 
-> I mentioned that it's a rebased core-static_call-2020-10-12 tag and
-> added a link to the upstream hash right below.
-> 
-> > > Author: Steven Rostedt (VMware) <rostedt@goodmis.org>
-> > > Date:   Tue Aug 18 15:57:52 2020 +0200
-> > >
-> > >     tracepoint: Optimize using static_call()
-> > >
+> > Hi Dmitry,
 > >
-> > There's a known issue with that patch, can you try:
+> > On 1/27/2021 1:48 PM, Dmitry Vyukov wrote:
 > >
-> >   http://lkml.kernel.org/r/20210202220121.435051654@goodmis.org
+> > On Wed, Jan 27, 2021 at 7:44 PM Konrad Rzeszutek Wilk
+> > <konrad.wilk@oracle.com> wrote:
+> >
+> > On Tue, Jan 26, 2021 at 01:03:21PM -0500, George Kennedy wrote:
+> >
+> > During boot of kernel with CONFIG_KASAN the following KASAN false
+> > positive failure will occur when ibft_init() reads the
+> > ACPI iBFT table: BUG: KASAN: use-after-free in ibft_init
+> >
+> > The ACPI iBFT table is not allocated, and the iscsi driver uses
+> > a pointer to it to calculate checksum, etc. KASAN complains
+> > about this pointer with use-after-free, which this is not.
+> >
+> > Andrey, Alexander, Dmitry,
+> >
+> > I think this is the right way for this, but was wondering if you have
+> > other suggestions?
+> >
+> > Thanks!
+> >
+> > Hi George, Konrad,
+> >
+> > Please provide a sample KASAN report and kernel version to match line numbers.
+> >
+> > 5.4.17-2102.200.0.0.20210106_0000
+> >
+> > [   24.413536] iBFT detected.
+> > [   24.414074]
+> > ==================================================================
+> > [   24.407342] BUG: KASAN: use-after-free in ibft_init+0x134/0xb8b
+> > [   24.407342] Read of size 4 at addr ffff8880be452004 by task swapper/0/1
+> > [   24.407342]
+> > [   24.407342] CPU: 1 PID: 1 Comm: swapper/0 Not tainted 5.4.17-2102.200.0.0.20210106_0000.syzk #1
+> > [   24.407342] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 0.0.0 02/06/2015
+> > [   24.407342] Call Trace:
+> > [   24.407342]  dump_stack+0xd4/0x119
+> > [   24.407342]  ? ibft_init+0x134/0xb8b
+> > [   24.407342]  print_address_description.constprop.6+0x20/0x220
+> > [   24.407342]  ? ibft_init+0x134/0xb8b
+> > [   24.407342]  ? ibft_init+0x134/0xb8b
+> > [   24.407342]  __kasan_report.cold.9+0x37/0x77
+> > [   24.407342]  ? ibft_init+0x134/0xb8b
+> > [   24.407342]  kasan_report+0x14/0x1b
+> > [   24.407342]  __asan_report_load_n_noabort+0xf/0x11
+> > [   24.407342]  ibft_init+0x134/0xb8b
+> > [   24.407342]  ? dmi_sysfs_init+0x1a5/0x1a5
+> > [   24.407342]  ? dmi_walk+0x72/0x89
+> > [   24.407342]  ? ibft_check_initiator_for+0x159/0x159
+> > [   24.407342]  ? rvt_init_port+0x110/0x101
+> > [   24.407342]  ? ibft_check_initiator_for+0x159/0x159
+> > [   24.407342]  do_one_initcall+0xc3/0x44d
+> > [   24.407342]  ? perf_trace_initcall_level+0x410/0x405
+> > [   24.407342]  kernel_init_freeable+0x551/0x673
+> > [   24.407342]  ? start_kernel+0x94b/0x94b
+> > [   24.407342]  ? __sanitizer_cov_trace_const_cmp1+0x1a/0x1c
+> > [   24.407342]  ? __kasan_check_write+0x14/0x16
+> > [   24.407342]  ? rest_init+0xe6/0xe6
+> > [   24.407342]  kernel_init+0x16/0x1bd
+> > [   24.407342]  ? rest_init+0xe6/0xe6
+> > [   24.407342]  ret_from_fork+0x2b/0x36
+> > [   24.407342]
+> > [   24.407342] The buggy address belongs to the page:
+> > [   24.407342] page:ffffea0002f91480 refcount:0 mapcount:0 mapping:0000000000000000 index:0x1
+> > [   24.407342] flags: 0xfffffc0000000()
+> > [   24.407342] raw: 000fffffc0000000 ffffea0002fca588 ffffea0002fb1a88 0000000000000000
+> > [   24.407342] raw: 0000000000000001 0000000000000000 00000000ffffffff 0000000000000000
+> > [   24.407342] page dumped because: kasan: bad access detected
+> > [   24.407342]
+> > [   24.407342] Memory state around the buggy address:
+> > [   24.407342]  ffff8880be451f00: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+> > [   24.407342]  ffff8880be451f80: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+> > [   24.407342] >ffff8880be452000: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+> > [   24.407342]                    ^
+> > [   24.407342]  ffff8880be452080: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+> > [   24.407342]  ffff8880be452100: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+> > [   24.407342]
+> > ==================================================================
+> > [   24.407342] Disabling lock debugging due to kernel taint
+> > [   24.451021] Kernel panic - not syncing: panic_on_warn set ...
+> > [   24.452002] CPU: 1 PID: 1 Comm: swapper/0 Tainted: G    B 5.4.17-2102.200.0.0.20210106_0000.syzk #1
+> > [   24.452002] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 0.0.0 02/06/2015
+> > [   24.452002] Call Trace:
+> > [   24.452002]  dump_stack+0xd4/0x119
+> > [   24.452002]  ? ibft_init+0x102/0xb8b
+> > [   24.452002]  panic+0x28f/0x6e0
+> > [   24.452002]  ? __warn_printk+0xe0/0xe0
+> > [   24.452002]  ? ibft_init+0x134/0xb8b
+> > [   24.452002]  ? add_taint+0x68/0xb3
+> > [   24.452002]  ? add_taint+0x68/0xb3
+> > [   24.452002]  ? ibft_init+0x134/0xb8b
+> > [   24.452002]  ? ibft_init+0x134/0xb8b
+> > [   24.452002]  end_report+0x4c/0x54
+> > [   24.452002]  __kasan_report.cold.9+0x55/0x77
+> > [   24.452002]  ? ibft_init+0x134/0xb8b
+> > [   24.452002]  kasan_report+0x14/0x1b
+> > [   24.452002]  __asan_report_load_n_noabort+0xf/0x11
+> > [   24.452002]  ibft_init+0x134/0xb8b
+> > [   24.452002]  ? dmi_sysfs_init+0x1a5/0x1a5
+> > [   24.452002]  ? dmi_walk+0x72/0x89
+> > [   24.452002]  ? ibft_check_initiator_for+0x159/0x159
+> > [   24.452002]  ? rvt_init_port+0x110/0x101
+> > [   24.452002]  ? ibft_check_initiator_for+0x159/0x159
+> > [   24.452002]  do_one_initcall+0xc3/0x44d
+> > [   24.452002]  ? perf_trace_initcall_level+0x410/0x405
+> > [   24.452002]  kernel_init_freeable+0x551/0x673
+> > [   24.452002]  ? start_kernel+0x94b/0x94b
+> > [   24.452002]  ? __sanitizer_cov_trace_const_cmp1+0x1a/0x1c
+> > [   24.452002]  ? __kasan_check_write+0x14/0x16
+> > [   24.452002]  ? rest_init+0xe6/0xe6
+> > [   24.452002]  kernel_init+0x16/0x1bd
+> > [   24.452002]  ? rest_init+0xe6/0xe6
+> > [   24.452002]  ret_from_fork+0x2b/0x36
+> > [   24.452002] Dumping ftrace buffer:
+> > [   24.452002] ---------------------------------
+> > [   24.452002] swapper/-1         1.... 24564337us : rdmaip_init: 2924: rdmaip_init: Active Bonding is DISABLED
+> > [   24.452002] ---------------------------------
+> > [   24.452002] Kernel Offset: disabled
+> > [   24.452002] Rebooting in 1 seconds..
+> >
+> > Why does KASAN think the address is freed? For that to happen that
+> > memory should have been freed. I don't remember any similar false
+> > positives from KASAN, so this looks a bit suspicious.
+> >
+> > I'm not sure why KASAN thinks the address is freed. There are other modules where KASAN/KCOV is disabled on boot.
+> > Could this be for a similar reason?
 > 
-> I've tried it on top of core-static_call-2020-10-12 tag rebased on top
-> of v5.9 (to make it reproducible), and the patch did not help. Do I
-> need to apply the whole series or something else?
+> Most of these files are disabled because they cause recursion in
+> instrumentation, or execute too early in bootstrap process (before
+> kasan_init).
+> 
+> Somehow the table pointer in ibft_init points to a freed page. I
+> tracked it down to here:
+> https://elixir.bootlin.com/linux/v5.4.17/source/drivers/acpi/acpica/tbutils.c#L399
+> but I can't find where this table_desc->pointer comes from. Perhaps it
 
-Can you recreate with this patch, and add "unwind_debug" to the cmdline?
-It will spit out a bunch of stack data.
+It is what the BIOS generated. It usually points to some memory
+location in right under 4GB and the BIOS stashes the DSDT, iBFT, and
+other tables in there.
+
+> uses some allocation method that's not supported by KASAN? However,
+> it's the only such case that I've seen, so it's a bit weird. Could it
+> use something like memblock_alloc? Or maybe that page was in fact
+> freed?... Too bad KASAN does not print free stack for pages, maybe
+> it's not too hard to do if CONFIG_PAGE_OWNER is enabled...
+
+Hm, there is a comment in the acpi_get_table speaking about the
+requirement of having a acpi_put_table and:
 
 
-From: Josh Poimboeuf <jpoimboe@redhat.com>
-Subject: [PATCH] Subject: [PATCH] x86/unwind: Add 'unwind_debug' cmdline
- option
+ * DESCRIPTION: Finds and verifies an ACPI table. Table must be in the
+ *              RSDT/XSDT.
+ *              Note that an early stage acpi_get_table() call must be paired
+ *              with an early stage acpi_put_table() call. otherwise the table
+ *              pointer mapped by the early stage mapping implementation may be
+ *              erroneously unmapped by the late stage unmapping implementation
+ *              in an acpi_put_table() invoked during the late stage.
+ *
 
-Sometimes the one-line ORC unwinder warnings aren't very helpful.  Take
-the existing frame pointer unwind_dump() and make it useful for all
-unwinders.
+Which would imply that I should use acpi_put_table in the error path
+(see below a patch), but also copy the structure instead of depending
+on ACPI keeping it mapped for me. I think.
 
-I don't want to be too aggressive about enabling the dumps, so for now
-they're only enabled with the use of a new 'unwind_debug' cmdline
-option.  When enabled, it will dump the full contents of the stack when
-an error condition is encountered, or when dump_stack() is called.
+CC-ing Rafeal.
 
-Signed-off-by: Josh Poimboeuf <jpoimboe@redhat.com>
+
+From c37da50fdfc62cd4f7b23562b55661478c90a17d Mon Sep 17 00:00:00 2001
+From: Konrad Rzeszutek Wilk <konrad@darnok.org>
+Date: Tue, 2 Feb 2021 17:28:28 +0000
+Subject: [PATCH] ibft: Put ibft_addr back
+
+Signed-off-by: Konrad Rzeszutek Wilk <konrad@darnok.org>
 ---
- .../admin-guide/kernel-parameters.txt         |  6 +++
- arch/x86/include/asm/unwind.h                 |  3 ++
- arch/x86/kernel/dumpstack.c                   | 39 ++++++++++++++
- arch/x86/kernel/unwind_frame.c                | 51 +++----------------
- arch/x86/kernel/unwind_orc.c                  |  5 +-
- 5 files changed, 58 insertions(+), 46 deletions(-)
+ drivers/firmware/iscsi_ibft.c | 19 +++++++++++++------
+ 1 file changed, 13 insertions(+), 6 deletions(-)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 3d6604a949f8..d29689aa62a2 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -5521,6 +5521,12 @@
- 	unknown_nmi_panic
- 			[X86] Cause panic on unknown NMI.
- 
-+	unwind_debug	[X86-64]
-+			Enable unwinder debug output.  This can be
-+			useful for debugging certain unwinder error
-+			conditions, including corrupt stacks and
-+			bad/missing unwinder metadata.
-+
- 	usbcore.authorized_default=
- 			[USB] Default USB device authorization:
- 			(default -1 = authorized except for wireless USB,
-diff --git a/arch/x86/include/asm/unwind.h b/arch/x86/include/asm/unwind.h
-index 70fc159ebe69..5101d7ef7912 100644
---- a/arch/x86/include/asm/unwind.h
-+++ b/arch/x86/include/asm/unwind.h
-@@ -123,4 +123,7 @@ static inline bool task_on_another_cpu(struct task_struct *task)
- #endif
- }
- 
-+extern bool unwind_debug __ro_after_init;
-+void unwind_dump(struct unwind_state *state);
-+
- #endif /* _ASM_X86_UNWIND_H */
-diff --git a/arch/x86/kernel/dumpstack.c b/arch/x86/kernel/dumpstack.c
-index 299c20f0a38b..febfd5b7f62a 100644
---- a/arch/x86/kernel/dumpstack.c
-+++ b/arch/x86/kernel/dumpstack.c
-@@ -29,6 +29,42 @@ static int die_counter;
- 
- static struct pt_regs exec_summary_regs;
- 
-+bool unwind_debug __ro_after_init;
-+static int __init unwind_debug_cmdline(char *str)
-+{
-+	unwind_debug = true;
-+	return 0;
-+}
-+early_param("unwind_debug", unwind_debug_cmdline);
-+
-+void unwind_dump(struct unwind_state *state)
-+{
-+	unsigned long word, *sp;
-+	struct stack_info stack_info = {0};
-+	unsigned long visit_mask = 0;
-+
-+	printk_deferred("unwinder dump: stack type:%d next_sp:%p mask:0x%lx graph_idx:%d\n",
-+			state->stack_info.type, state->stack_info.next_sp,
-+			state->stack_mask, state->graph_idx);
-+
-+	sp = state->task == current ? __builtin_frame_address(0)
-+				    : (void *)state->task->thread.sp;
-+
-+	for (; sp; sp = PTR_ALIGN(stack_info.next_sp, sizeof(long))) {
-+		if (get_stack_info(sp, state->task, &stack_info, &visit_mask))
-+			break;
-+
-+		for (; sp < stack_info.end; sp++) {
-+
-+			word = READ_ONCE_NOCHECK(*sp);
-+
-+			printk_deferred("%0*lx: %0*lx (%pB)\n", BITS_PER_LONG/4,
-+					(unsigned long)sp, BITS_PER_LONG/4,
-+					word, (void *)word);
-+		}
+diff --git a/drivers/firmware/iscsi_ibft.c b/drivers/firmware/iscsi_ibft.c
+index 7127a04..2a1a033 100644
+--- a/drivers/firmware/iscsi_ibft.c
++++ b/drivers/firmware/iscsi_ibft.c
+@@ -811,6 +811,10 @@ static void ibft_cleanup(void)
+ 		ibft_unregister();
+ 		iscsi_boot_destroy_kset(boot_kset);
+ 	}
++	if (ibft_addr) {
++		acpi_put_table((struct acpi_table_header *)ibft_addr);
++		ibft_addr = NULL;
 +	}
-+}
-+
- bool noinstr in_task_stack(unsigned long *stack, struct task_struct *task,
- 			   struct stack_info *info)
- {
-@@ -301,6 +337,9 @@ static void show_trace_log_lvl(struct task_struct *task, struct pt_regs *regs,
- 		if (stack_name)
- 			printk("%s </%s>\n", log_lvl, stack_name);
- 	}
-+
-+	if (unwind_debug)
-+		unwind_dump(&state);
  }
  
- void show_stack(struct task_struct *task, unsigned long *sp,
-diff --git a/arch/x86/kernel/unwind_frame.c b/arch/x86/kernel/unwind_frame.c
-index d7c44b257f7f..6bcdf6ecad65 100644
---- a/arch/x86/kernel/unwind_frame.c
-+++ b/arch/x86/kernel/unwind_frame.c
-@@ -28,48 +28,6 @@ unsigned long *unwind_get_return_address_ptr(struct unwind_state *state)
- 	return state->regs ? &state->regs->ip : state->bp + 1;
- }
- 
--static void unwind_dump(struct unwind_state *state)
--{
--	static bool dumped_before = false;
--	bool prev_zero, zero = false;
--	unsigned long word, *sp;
--	struct stack_info stack_info = {0};
--	unsigned long visit_mask = 0;
--
--	if (dumped_before)
--		return;
--
--	dumped_before = true;
--
--	printk_deferred("unwind stack type:%d next_sp:%p mask:0x%lx graph_idx:%d\n",
--			state->stack_info.type, state->stack_info.next_sp,
--			state->stack_mask, state->graph_idx);
--
--	for (sp = PTR_ALIGN(state->orig_sp, sizeof(long)); sp;
--	     sp = PTR_ALIGN(stack_info.next_sp, sizeof(long))) {
--		if (get_stack_info(sp, state->task, &stack_info, &visit_mask))
--			break;
--
--		for (; sp < stack_info.end; sp++) {
--
--			word = READ_ONCE_NOCHECK(*sp);
--
--			prev_zero = zero;
--			zero = word == 0;
--
--			if (zero) {
--				if (!prev_zero)
--					printk_deferred("%p: %0*x ...\n",
--							sp, BITS_PER_LONG/4, 0);
--				continue;
--			}
--
--			printk_deferred("%p: %0*lx (%pB)\n",
--					sp, BITS_PER_LONG/4, word, (void *)word);
--		}
--	}
--}
--
- static bool in_entry_code(unsigned long ip)
+ static void __exit ibft_exit(void)
+@@ -835,13 +839,15 @@ static void __init acpi_find_ibft_region(void)
  {
- 	char *addr = (char *)ip;
-@@ -244,7 +202,6 @@ static bool update_stack_state(struct unwind_state *state,
- 						  addr, addr_p);
+ 	int i;
+ 	struct acpi_table_header *table = NULL;
++	acpi_status status;
+ 
+ 	if (acpi_disabled)
+ 		return;
+ 
+ 	for (i = 0; i < ARRAY_SIZE(ibft_signs) && !ibft_addr; i++) {
+-		acpi_get_table(ibft_signs[i].sign, 0, &table);
+-		ibft_addr = (struct acpi_table_ibft *)table;
++		status = acpi_get_table(ibft_signs[i].sign, 0, &table);
++		if (ACPI_SUCCESS(status))
++			ibft_addr = (struct acpi_table_ibft *)table;
  	}
+ }
+ #else
+@@ -870,12 +876,13 @@ static int __init ibft_init(void)
  
--	/* Save the original stack pointer for unwind_dump(): */
- 	if (!state->orig_sp)
- 		state->orig_sp = frame;
+ 		rc = ibft_check_device();
+ 		if (rc)
+-			return rc;
++			goto out_free;
  
-@@ -346,13 +303,17 @@ bool unwind_next_frame(struct unwind_state *state)
- 			"WARNING: kernel stack regs at %p in %s:%d has bad 'bp' value %p\n",
- 			state->regs, state->task->comm,
- 			state->task->pid, next_bp);
--		unwind_dump(state);
-+
-+		if (unwind_debug)
-+			unwind_dump(state);
- 	} else {
- 		printk_deferred_once(KERN_WARNING
- 			"WARNING: kernel stack frame pointer at %p in %s:%d has bad value %p\n",
- 			state->bp, state->task->comm,
- 			state->task->pid, next_bp);
--		unwind_dump(state);
-+
-+		if (unwind_debug)
-+			unwind_dump(state);
- 	}
- the_end:
- 	state->stack_info.type = STACK_TYPE_UNKNOWN;
-diff --git a/arch/x86/kernel/unwind_orc.c b/arch/x86/kernel/unwind_orc.c
-index 73f800100066..38265eac41dd 100644
---- a/arch/x86/kernel/unwind_orc.c
-+++ b/arch/x86/kernel/unwind_orc.c
-@@ -13,8 +13,11 @@
- 
- #define orc_warn_current(args...)					\
- ({									\
--	if (state->task == current)					\
-+	if (state->task == current) {					\
- 		orc_warn(args);						\
-+		if (unwind_debug)					\
-+			unwind_dump(state);				\
-+	}								\
- })
- 
- extern int __start_orc_unwind_ip[];
+ 		boot_kset = iscsi_boot_create_kset("ibft");
+-		if (!boot_kset)
+-			return -ENOMEM;
+-
++		if (!boot_kset) {
++			rc = -ENOMEM;
++			goto out_free;
++		}
+ 		/* Scan the IBFT for data and register the kobjects. */
+ 		rc = ibft_register_kobjects(ibft_addr);
+ 		if (rc)
 -- 
-2.29.2
+1.8.3.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210203190518.nlwghesq75enas6n%40treble.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210203192856.GA324708%40fedora.
