@@ -1,34 +1,34 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBB44D5OAAMGQEUMQGAZA@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBB6EM5OAAMGQE2OOHKLA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wr1-x438.google.com (mail-wr1-x438.google.com [IPv6:2a00:1450:4864:20::438])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADE7730DE2F
-	for <lists+kasan-dev@lfdr.de>; Wed,  3 Feb 2021 16:32:03 +0100 (CET)
-Received: by mail-wr1-x438.google.com with SMTP id o17sf14986997wrv.4
-        for <lists+kasan-dev@lfdr.de>; Wed, 03 Feb 2021 07:32:03 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1612366323; cv=pass;
+Received: from mail-wr1-x43f.google.com (mail-wr1-x43f.google.com [IPv6:2a00:1450:4864:20::43f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 31CC730DEAC
+	for <lists+kasan-dev@lfdr.de>; Wed,  3 Feb 2021 16:51:21 +0100 (CET)
+Received: by mail-wr1-x43f.google.com with SMTP id n18sf31659wrm.8
+        for <lists+kasan-dev@lfdr.de>; Wed, 03 Feb 2021 07:51:21 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1612367481; cv=pass;
         d=google.com; s=arc-20160816;
-        b=yMbGe4QznGDLTZchApAaMT+OWkNxwDi/rqSLRgoylIdVXpsTk6a8gxYNOCJj49njvG
-         uC8L706HkhlHu5tb/pwnT6ggTPxB9hDh7SmkioSXHJZhGqxN25nB3qPvsEO+DXIwPCTH
-         IQM1QmiQ+Hbo1U28rTvafJYYUnrPbrl8DUutcv1XAjIm8R/qrmoKeWjwHtmWb7xsEGLh
-         oPEqO5Dj+oaVxgZa2wQzuZojxSGGQ8GFf1h69Bv21jnSO15GxTDxtVLJ27tJ8Dot9Uaz
-         SXCoUHEe5PzWvN1cuqZE62fBnZUvnbYyQan/7SH2+Z7Vjc4BYZuRgJJ/Pop3FUCulGon
-         z/Yg==
+        b=IwWGwZ2rQgG8+VEjL0UEr27SznyzsAT2W5pM1xnkd5k98BxfHV8UMpRtIKsYgjUyeO
+         dh2oPNOAyt5L3lRTGu9w7FljbKK4cOCYi+KHTq3FYklowSiGrOPTTYESWJf2WZfFUPVC
+         mf6fMkbe7hAmlyHK+4QI8kIzUnWvNYGDESfHrJahYMUMBeLdzFpvNqsBSMDqoTG0V+tq
+         sdoNqEnCWF7RoNkgSyvjnefWhDOWVuQ6zMxYzYpyI3BG0kTKT2sSf+zvjkZgQf2T6jgl
+         PQAI3BbtKoNBLuW1k3yZEhmiyPoaXycM8Fpm7EriwcNcchSAq3KwxeBz1JK05iHGKyqe
+         b2+g==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:user-agent:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:dkim-signature;
-        bh=miu2pkypMb0Cd5y945bF5OMV/gF46NsgmokIGO6c4mc=;
-        b=J6k+kzniUT205ypnb6wQgONdEjnj5YcRCN1n0f8KB8/gLwJrR+Tco1fwuKjHwd2Ajn
-         no+yKl7L9/yj7CWlitrPk7mDSaFXtpRtaiW94OK8Q6dtjIPyzR+u+IcKQ2saXlDXuyv1
-         MS6a5WNsB3SU/lk6wOMlXx12IEgxhPWQYRhMrJdts85PjHdEJ85kHjyFF2yYOWbg7EXG
-         mKeTFeSKiiFR3jS80Ci1Tb+J0uvVx68IqvjQeSTUkv35Driypbc5Kkm1sdmGPJXFlKRz
-         hKI3b1SDps3M9Daz/tD17jPhJTsGjH1IZ9DNHhtRpu6rCqmGeMkOd9jhmFlf1ZjTHTOE
-         OF3w==
+        bh=H5uuDC6WdZLqkCJZ8cOraNu8cs/8smPg6XHEUTOu4Qo=;
+        b=TMbLKIFQHBeHqJ+gTj4zi4FJ3KqiawhSJGucI6tIT4U8emUMtVeulcQ+4TschNd3+P
+         GVeZScnsL5W6mF/ekkLhtWOYKBIJlj54bs/DiBhNBf4/h+YIdf9CIqdUp6MGy6oSSgAS
+         xYsBl6BO7yMr/jz79uh3vXDK1MgqlipFXaHKOATrqYrCUAjwgc/aBh5CX3H9qDpCAPlS
+         tdHh8juEVIxZx+iGy5TP3U+2EncYY2Mv5xEIvT+xJlXkygQDClUc5hu1WSjeUhDDLVVt
+         tIVmDILEahgC9bo7uVVP9mbORw6qadTu3xtiVdEVQ87WOFN59N9/0Da4nhpQFe1TLPFj
+         4Aog==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=NWGEYDLP;
-       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::42e as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=opmr3FHE;
+       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::42b as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
@@ -37,13 +37,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:list-post:list-help:list-archive:list-subscribe
          :list-unsubscribe;
-        bh=miu2pkypMb0Cd5y945bF5OMV/gF46NsgmokIGO6c4mc=;
-        b=r8devlSxDxJm5fcqawd0LVMyPiGNVyiUY3Urp3v/191irF7wN2y9u3DOfcr1DpsTlW
-         SB6/5sxVWFpyqBGRy4mRoM2UgwtzAAOqS/WOOjkM6K0DBquOnmbsH+5usrE/CMPENCW1
-         xiA6L2u0QsoCz8/oZiMcsz3GEH6myMvggNWgm47L/f0Q8HjXQ1MvTsd+n1hJ+mOKf9uV
-         +0a5wU/4VJ0W9BRHGtMrCZcO5TZhZVIcupQD+SDRx86YlK3NoX/31nt9JbEf/e+Kg546
-         zu70simjf8l0U1URn82bOc27PQZ7/Xo99SICA/qVxYubE4NFenAijo44p2pKyocOirq/
-         i2xQ==
+        bh=H5uuDC6WdZLqkCJZ8cOraNu8cs/8smPg6XHEUTOu4Qo=;
+        b=ZQ11RLA0bVMvMno7c2pu+GIWT4f7OXwAM9E3IlGjhrRqEsyZX6MnuBdOfNIBtpsjye
+         JuXKwjdrLnGeTKobi1ivo7nNGDqDjrDc/vYioItEeyYbZu1iKeMyl/hy/VfZnuYjUzmm
+         kPAVzsJeBHxK5fXXoskhyEior6iMca05AMgFxaR00gXmCXGl6JTJIP52scH0XvwA1mm0
+         4i0wBuI0F+jmYrmIaHFpD81GQDJOC6eAs4fAPGqPTx2TKDS2amKsRWEvPOM3lADY2i0/
+         uumk6sBFOhpc2JHdSZUHjorWgr595zqw2skgNds4qlw1haB5siCsGmILCPyWCPKin1df
+         9fYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
@@ -51,60 +51,60 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
          :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=miu2pkypMb0Cd5y945bF5OMV/gF46NsgmokIGO6c4mc=;
-        b=d439xKvbRzxxVWjGt7miivCfVABzANvuE+CITLnPozome0Y7dEIgkhfNGIW7HR1q1k
-         w4rKRamfZPkha6Vhc6SOk8UYxJlyb/cEF0UJBVadMnVSg68fWN4+OP0VIxxFuMEcoUDx
-         3JC0rYuVAvf+iQ+EJayCaDdU29hvZ7fXHzwSF6+2IG0YHjwJJlGqiYN+Ut4ucWMb3TyF
-         y8vktQ220XVAZ6ONGgp3VvMUdqDdHNzelnxz263Gv7Xeg8oQ4IwWAAM/w2ZBrk5EiLfk
-         rFHpUsL6k0K6pz2bwRWEXErO4dy32IhGU7MMzMVMrVs/Yp903M0rIAH4B8NbajqODk4y
-         77dw==
-X-Gm-Message-State: AOAM531GEPri0uxZk7aKRwVFpxQzcYX2FQAOMHbXm1xmPCspTPoohx5Y
-	EHGM0dWo2nokOrLc/Rz/fpo=
-X-Google-Smtp-Source: ABdhPJyCvegbfM3X0Q3C3A1x7lqB3GRsvnyNvxIfAA0Ulx6FZebM3zc2h4djYOUgS7rzJ3uj8mt4ZA==
-X-Received: by 2002:a1c:7c17:: with SMTP id x23mr3426964wmc.65.1612366323467;
-        Wed, 03 Feb 2021 07:32:03 -0800 (PST)
+        bh=H5uuDC6WdZLqkCJZ8cOraNu8cs/8smPg6XHEUTOu4Qo=;
+        b=NKASTDzWIJo/UqsDdBaGb/RCg3OXIF/YE5QDSRlTys/GeFFPtCnjZoSlhriectzgCp
+         1eH/pVAc+KaMetkHbTQKsqSz8FoKsrJOhuZ3wnLJ0IlXMAQYGM/oRPZIsTSs0H2w0V/9
+         grrSlIyQskdPwRefYhYtSMavyJmOtNval6ayhnFuJPPUP/iVL7M4CKKM8DsS5gTcwH2E
+         W/nXbQz/EAaWYQhe90alSQLsN7kjbqkYSY9XLMqdFkLolFN1dPQapHL9QSfCgCGhsc2Q
+         ngHqglv6NOo6mn3P262Onz6ocVa3Ykh2RSFmnFOyztDKWa+hlhUAfAwHjxqtRjY5J0L8
+         2eJA==
+X-Gm-Message-State: AOAM533kpOpgZAg2kRsgA36V5x1ab2HpNciiGVzEkZpI6BPqq7r/vTfS
+	3cI/9hagtOtpWcHK7X16abs=
+X-Google-Smtp-Source: ABdhPJw2grIJzAZDfdHhIlIuBidYjATCtbhbXwwR30RuVIEMkWZbS6WiwaIR/9PdaU9K+j34XJTRpw==
+X-Received: by 2002:a05:6000:1841:: with SMTP id c1mr4185617wri.278.1612367481007;
+        Wed, 03 Feb 2021 07:51:21 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:adf:fd09:: with SMTP id e9ls3133007wrr.0.gmail; Wed, 03 Feb
- 2021 07:32:02 -0800 (PST)
-X-Received: by 2002:a5d:50c1:: with SMTP id f1mr4262769wrt.235.1612366322631;
-        Wed, 03 Feb 2021 07:32:02 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1612366322; cv=none;
+Received: by 2002:a5d:4485:: with SMTP id j5ls3208416wrq.1.gmail; Wed, 03 Feb
+ 2021 07:51:20 -0800 (PST)
+X-Received: by 2002:adf:ba49:: with SMTP id t9mr4288569wrg.183.1612367480148;
+        Wed, 03 Feb 2021 07:51:20 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1612367480; cv=none;
         d=google.com; s=arc-20160816;
-        b=JZcvKGKuA6rvOZd+XroRCCubedZ/3bv0icUvjyl+vH6qyrfC7/PpRJb5w9umLQsU1u
-         +lGUndd0ywn6jrFWflI9Saxrw0hq7FTfzKdw1s4A1MvN3qdvPzBa1kt4WZH2n+LdhuFu
-         0wRaUVIIegXCMasBOm8e1ul0QU6sC6nWiwjCcP19yEP7usiejk5z2R5algS4+zoeAuR+
-         pMeHO9+iJsQHA9ed/XQcXbazmCuHpTl5FNyCFgkNQW+hAHEOq031n4fBsH7e6LD3ULxr
-         RgN3jlMAYn4+tJCMBnxSCGkm6Vm0myIKYVy/YM1bbudJa79Q+ktLa2MsktIB0fPGMTuy
-         qoxg==
+        b=DVA4cqQuwgV3BMNbf6k6moDMKp/Px1APJGysUe5jG33VsM0yMljB+cOllnGctepN/P
+         Kx4I96w1otAQxiSL6I3wICjK02qtTacZaP6IDoRgVxPuAX2GHpEhW3UgcvA2TPJNt/Gk
+         uV2WGd4K9vE0aPCTEiER0oEkPVI+818vl+heiw+qLONKi9L7+zdJPovSgfxnPn3cJcbH
+         jNprxDanWS+Wz9cwY1b/b/B2++AplWu8Pn4U8QaiCeN2SoE3OPod4cPP4ytYw1reZJyf
+         2OE/VORfhwkIwW9fDh838ImvF0xRB9XYKJp7Gups9erRtDMDn3+vgKQJE0BoCuRfOVTJ
+         Y3HA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=user-agent:in-reply-to:content-disposition:mime-version:references
          :message-id:subject:cc:to:from:date:dkim-signature;
-        bh=m3hMLAUjNEbRoV1KbnJIsefJTccBHrhGuifAQXw+Kb0=;
-        b=hZzDRVMI3iovYOEsMZQ75+U9W+4c+kO4yOV38nBwjaobPOVkgVlkoO00CaU6G/osSC
-         8QpfC3ZVx8GF7YIQeboUR7aRxIaiZOd3qYLnIygPNrVUc1/dDUwTh1CAHsyyZThKru8c
-         gNj2d6gQX4Acfo5QWByXd30xrh1rVy3jdioOyyLv22HaGsQSt22c/5nFQydcqO3l03+6
-         T53STpDzX0oFEpwR1hRmORuFykm3d1P23U1C67gJ2FhBmWiqQiya3elwG2hzqzMp7MSz
-         xaESwMdSfx/hez8Vpe5s5jp3CAhf0aNbJBYhHGm52ls9HKMzhmQSzuok5vUvk9JBuR8m
-         HYHA==
+        bh=u/vTmytfnHf8bSBtRdC4NPN+aY/KtT7liekrT8jCTRw=;
+        b=FLOVg/EBzQpWfBvAZKJVnQUlhwK3Ady4ZORO5V35byOtSTUlenGQXQHkHEThVXY2EQ
+         0mHMwh7XGf9elRpaTAOOhBtHGJVashd/Jb+Msl3zuIupnbalN/lAhBcVIrRUvN3o18uQ
+         iClzpopTCDISKxscbH+OYjglnhktpeSqeM/991HWNh3fkF18Ue7NsQ+Jo4fXchgohuPJ
+         /fvPXMwTa6i7TZW3MJPN0atLuU9PJN8dAVCwxiqJDk8u+Awae1rU/qeUytz15wToRTt+
+         Y/SqQv54XwNurtT8UHkRC1VYivhOOZBuELgYgerXsedxBUMT145+BEnzmxCUiGrhVjnl
+         P83A==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=NWGEYDLP;
-       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::42e as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=opmr3FHE;
+       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::42b as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com. [2a00:1450:4864:20::42e])
-        by gmr-mx.google.com with ESMTPS id f196si120291wme.2.2021.02.03.07.32.02
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com. [2a00:1450:4864:20::42b])
+        by gmr-mx.google.com with ESMTPS id b5si102101wrd.4.2021.02.03.07.51.20
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 Feb 2021 07:32:02 -0800 (PST)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::42e as permitted sender) client-ip=2a00:1450:4864:20::42e;
-Received: by mail-wr1-x42e.google.com with SMTP id v15so24882474wrx.4
-        for <kasan-dev@googlegroups.com>; Wed, 03 Feb 2021 07:32:02 -0800 (PST)
-X-Received: by 2002:adf:fa8b:: with SMTP id h11mr4284888wrr.114.1612366321734;
-        Wed, 03 Feb 2021 07:32:01 -0800 (PST)
+        Wed, 03 Feb 2021 07:51:20 -0800 (PST)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::42b as permitted sender) client-ip=2a00:1450:4864:20::42b;
+Received: by mail-wr1-x42b.google.com with SMTP id 7so24964368wrz.0
+        for <kasan-dev@googlegroups.com>; Wed, 03 Feb 2021 07:51:20 -0800 (PST)
+X-Received: by 2002:a5d:5686:: with SMTP id f6mr4193118wrv.257.1612367479798;
+        Wed, 03 Feb 2021 07:51:19 -0800 (PST)
 Received: from elver.google.com ([2a00:79e0:15:13:b1de:c7d:30ce:1840])
-        by smtp.gmail.com with ESMTPSA id h14sm3084106wmq.45.2021.02.03.07.32.00
+        by smtp.gmail.com with ESMTPSA id p9sm4481682wrj.11.2021.02.03.07.51.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Feb 2021 07:32:00 -0800 (PST)
-Date: Wed, 3 Feb 2021 16:31:54 +0100
+        Wed, 03 Feb 2021 07:51:18 -0800 (PST)
+Date: Wed, 3 Feb 2021 16:51:13 +0100
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
 To: Andrey Konovalov <andreyknvl@google.com>
 Cc: Catalin Marinas <catalin.marinas@arm.com>,
@@ -120,19 +120,19 @@ Cc: Catalin Marinas <catalin.marinas@arm.com>,
 	Kevin Brodsky <kevin.brodsky@arm.com>, kasan-dev@googlegroups.com,
 	linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 09/12] kasan: ensure poisoning size alignment
-Message-ID: <YBrB6g9e+636CyFh@elver.google.com>
+Subject: Re: [PATCH 11/12] kasan: always inline HW_TAGS helper functions
+Message-ID: <YBrGcY/DS1GnilYo@elver.google.com>
 References: <cover.1612208222.git.andreyknvl@google.com>
- <fee7c8c751dbf871e957935c347fcf7f1ca49beb.1612208222.git.andreyknvl@google.com>
+ <05a45017b4cb15344395650e880bbab0fe6ba3e4.1612208222.git.andreyknvl@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <fee7c8c751dbf871e957935c347fcf7f1ca49beb.1612208222.git.andreyknvl@google.com>
+In-Reply-To: <05a45017b4cb15344395650e880bbab0fe6ba3e4.1612208222.git.andreyknvl@google.com>
 User-Agent: Mutt/2.0.2 (2020-11-20)
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=NWGEYDLP;       spf=pass
- (google.com: domain of elver@google.com designates 2a00:1450:4864:20::42e as
+ header.i=@google.com header.s=20161025 header.b=opmr3FHE;       spf=pass
+ (google.com: domain of elver@google.com designates 2a00:1450:4864:20::42b as
  permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
  sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Marco Elver <elver@google.com>
@@ -150,221 +150,126 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
  <https://groups.google.com/group/kasan-dev/subscribe>
 
 On Mon, Feb 01, 2021 at 08:43PM +0100, Andrey Konovalov wrote:
-> A previous changes d99f6a10c161 ("kasan: don't round_up too much")
-> attempted to simplify the code by adding a round_up(size) call into
-> kasan_poison(). While this allows to have less round_up() calls around
-> the code, this results in round_up() being called multiple times.
-> 
-> This patch removes round_up() of size from kasan_poison() and ensures
-> that all callers round_up() the size explicitly. This patch also adds
-> WARN_ON() alignment checks for address and size to kasan_poison() and
-> kasan_unpoison().
+> Mark all static functions in common.c and kasan.h that are used for
+> hardware tag-based KASAN as __always_inline to avoid unnecessary
+> function calls.
 > 
 > Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 
-Reviewed-by: Marco Elver <elver@google.com>
+Does objtool complain about any of these?
+
+I'm not sure this is unconditionally a good idea. If there isn't a
+quantifiable performance bug or case where we cannot call a function,
+perhaps we can just let the compiler decide?
+
+More comments below.
 
 > ---
->  mm/kasan/common.c |  9 ++++++---
->  mm/kasan/kasan.h  | 33 ++++++++++++++++++++-------------
->  mm/kasan/shadow.c | 37 ++++++++++++++++++++++---------------
->  3 files changed, 48 insertions(+), 31 deletions(-)
+>  mm/kasan/common.c | 13 +++++++------
+>  mm/kasan/kasan.h  |  6 +++---
+>  2 files changed, 10 insertions(+), 9 deletions(-)
 > 
 > diff --git a/mm/kasan/common.c b/mm/kasan/common.c
-> index a51d6ea580b0..5691cca69397 100644
+> index 5691cca69397..2004ecd6e43c 100644
 > --- a/mm/kasan/common.c
 > +++ b/mm/kasan/common.c
-> @@ -261,7 +261,8 @@ void __kasan_unpoison_object_data(struct kmem_cache *cache, void *object)
->  
->  void __kasan_poison_object_data(struct kmem_cache *cache, void *object)
+> @@ -279,7 +279,8 @@ void __kasan_poison_object_data(struct kmem_cache *cache, void *object)
+>   *    based on objects indexes, so that objects that are next to each other
+>   *    get different tags.
+>   */
+> -static u8 assign_tag(struct kmem_cache *cache, const void *object, bool init)
+> +static __always_inline u8 assign_tag(struct kmem_cache *cache,
+> +					const void *object, bool init)
+
+This function might be small enough that it's fine.
+
 >  {
-> -	kasan_poison(object, cache->object_size, KASAN_KMALLOC_REDZONE);
-> +	kasan_poison(object, round_up(cache->object_size, KASAN_GRANULE_SIZE),
-> +			KASAN_KMALLOC_REDZONE);
+>  	if (IS_ENABLED(CONFIG_KASAN_GENERIC))
+>  		return 0xff;
+> @@ -321,8 +322,8 @@ void * __must_check __kasan_init_slab_obj(struct kmem_cache *cache,
+>  	return (void *)object;
 >  }
 >  
->  /*
-> @@ -348,7 +349,8 @@ static bool ____kasan_slab_free(struct kmem_cache *cache, void *object,
->  		return true;
->  	}
+> -static bool ____kasan_slab_free(struct kmem_cache *cache, void *object,
+> -			      unsigned long ip, bool quarantine)
+> +static __always_inline bool ____kasan_slab_free(struct kmem_cache *cache,
+> +				void *object, unsigned long ip, bool quarantine)
+>  {
+
+Because ____kasan_slab_free() is tail-called by __kasan_slab_free() and
+__kasan_slab_free_mempool(), there should never be a call (and if there
+is we need to figure out why). The additional code-bloat and I-cache
+pressure might be worse vs. just a jump. I'd let the compiler decide.
+
+>  	u8 tag;
+>  	void *tagged_object;
+> @@ -366,7 +367,7 @@ bool __kasan_slab_free(struct kmem_cache *cache, void *object, unsigned long ip)
+>  	return ____kasan_slab_free(cache, object, ip, true);
+>  }
 >  
-> -	kasan_poison(object, cache->object_size, KASAN_KMALLOC_FREE);
-> +	kasan_poison(object, round_up(cache->object_size, KASAN_GRANULE_SIZE),
-> +			KASAN_KMALLOC_FREE);
+> -static bool ____kasan_kfree_large(void *ptr, unsigned long ip)
+> +static __always_inline bool ____kasan_kfree_large(void *ptr, unsigned long ip)
+>  {
+
+This one is tail-called by __kasan_kfree_large(). The usage in
+__kasan_slab_free_mempool() is in an unlikely branch.
+
+>  	if (ptr != page_address(virt_to_head_page(ptr))) {
+>  		kasan_report_invalid_free(ptr, ip);
+> @@ -461,8 +462,8 @@ void * __must_check __kasan_slab_alloc(struct kmem_cache *cache,
+>  	return tagged_object;
+>  }
 >  
->  	if ((IS_ENABLED(CONFIG_KASAN_GENERIC) && !quarantine))
->  		return false;
-> @@ -490,7 +492,8 @@ static void *____kasan_kmalloc(struct kmem_cache *cache, const void *object,
->  	/* Poison the aligned part of the redzone. */
->  	redzone_start = round_up((unsigned long)(object + size),
->  				KASAN_GRANULE_SIZE);
-> -	redzone_end = (unsigned long)object + cache->object_size;
-> +	redzone_end = round_up((unsigned long)(object + cache->object_size),
-> +				KASAN_GRANULE_SIZE);
->  	kasan_poison((void *)redzone_start, redzone_end - redzone_start,
->  			   KASAN_KMALLOC_REDZONE);
->  
+> -static void *____kasan_kmalloc(struct kmem_cache *cache, const void *object,
+> -					size_t size, gfp_t flags)
+> +static __always_inline void *____kasan_kmalloc(struct kmem_cache *cache,
+> +				const void *object, size_t size, gfp_t flags)
+>  {
+
+Also only tail-called.
+
+>  	unsigned long redzone_start;
+>  	unsigned long redzone_end;
 > diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
-> index 6a2882997f23..2f7400a3412f 100644
+> index 2f7400a3412f..d5fe72747a53 100644
 > --- a/mm/kasan/kasan.h
 > +++ b/mm/kasan/kasan.h
-> @@ -321,30 +321,37 @@ static inline u8 kasan_random_tag(void) { return 0; }
+> @@ -321,7 +321,7 @@ static inline u8 kasan_random_tag(void) { return 0; }
 >  
 >  #ifdef CONFIG_KASAN_HW_TAGS
 >  
-> -static inline void kasan_poison(const void *address, size_t size, u8 value)
-> +static inline void kasan_poison(const void *addr, size_t size, u8 value)
+> -static inline void kasan_poison(const void *addr, size_t size, u8 value)
+> +static __always_inline void kasan_poison(const void *addr, size_t size, u8 value)
 >  {
-> -	address = kasan_reset_tag(address);
-> +	addr = kasan_reset_tag(addr);
+>  	addr = kasan_reset_tag(addr);
 >  
->  	/* Skip KFENCE memory if called explicitly outside of sl*b. */
-> -	if (is_kfence_address(address))
-> +	if (is_kfence_address(addr))
->  		return;
->  
-> -	hw_set_mem_tag_range((void *)address,
-> -			round_up(size, KASAN_GRANULE_SIZE), value);
-> +	if (WARN_ON((u64)addr & KASAN_GRANULE_MASK))
-> +		return;
-> +	if (WARN_ON(size & KASAN_GRANULE_MASK))
-> +		return;
-> +
-> +	hw_set_mem_tag_range((void *)addr, size, value);
+> @@ -337,7 +337,7 @@ static inline void kasan_poison(const void *addr, size_t size, u8 value)
+>  	hw_set_mem_tag_range((void *)addr, size, value);
 >  }
 >  
-> -static inline void kasan_unpoison(const void *address, size_t size)
-> +static inline void kasan_unpoison(const void *addr, size_t size)
+> -static inline void kasan_unpoison(const void *addr, size_t size)
+> +static __always_inline void kasan_unpoison(const void *addr, size_t size)
 >  {
-> -	u8 tag = get_tag(address);
-> +	u8 tag = get_tag(addr);
+
+Not sure about these 2. They should be small, but it's hard to say what
+is ideal on which architecture.
+
+>  	u8 tag = get_tag(addr);
 >  
-> -	address = kasan_reset_tag(address);
-> +	addr = kasan_reset_tag(addr);
->  
->  	/* Skip KFENCE memory if called explicitly outside of sl*b. */
-> -	if (is_kfence_address(address))
-> +	if (is_kfence_address(addr))
->  		return;
->  
-> -	hw_set_mem_tag_range((void *)address,
-> -			round_up(size, KASAN_GRANULE_SIZE), tag);
-> +	if (WARN_ON((u64)addr & KASAN_GRANULE_MASK))
-> +		return;
-> +	size = round_up(size, KASAN_GRANULE_SIZE);
-> +
-> +	hw_set_mem_tag_range((void *)addr, size, tag);
+> @@ -354,7 +354,7 @@ static inline void kasan_unpoison(const void *addr, size_t size)
+>  	hw_set_mem_tag_range((void *)addr, size, tag);
 >  }
 >  
->  static inline bool kasan_byte_accessible(const void *addr)
-> @@ -361,7 +368,7 @@ static inline bool kasan_byte_accessible(const void *addr)
->  /**
->   * kasan_poison - mark the memory range as unaccessible
->   * @addr - range start address, must be aligned to KASAN_GRANULE_SIZE
-> - * @size - range size
-> + * @size - range size, must be aligned to KASAN_GRANULE_SIZE
->   * @value - value that's written to metadata for the range
->   *
->   * The size gets aligned to KASAN_GRANULE_SIZE before marking the range.
-> @@ -371,7 +378,7 @@ void kasan_poison(const void *addr, size_t size, u8 value);
->  /**
->   * kasan_unpoison - mark the memory range as accessible
->   * @addr - range start address, must be aligned to KASAN_GRANULE_SIZE
-> - * @size - range size
-> + * @size - range size, can be unaligned
->   *
->   * For the tag-based modes, the @size gets aligned to KASAN_GRANULE_SIZE before
->   * marking the range.
-> diff --git a/mm/kasan/shadow.c b/mm/kasan/shadow.c
-> index 1ed7817e4ee6..c97f51c557ea 100644
-> --- a/mm/kasan/shadow.c
-> +++ b/mm/kasan/shadow.c
-> @@ -69,7 +69,7 @@ void *memcpy(void *dest, const void *src, size_t len)
->  	return __memcpy(dest, src, len);
->  }
->  
-> -void kasan_poison(const void *address, size_t size, u8 value)
-> +void kasan_poison(const void *addr, size_t size, u8 value)
+> -static inline bool kasan_byte_accessible(const void *addr)
+> +static __always_inline bool kasan_byte_accessible(const void *addr)
+
+This function feels like a macro and if the compiler uninlined it, we
+could argue it's a bug. But not sure if we need the __always_inline,
+unless you've seen this uninlined.
+
 >  {
->  	void *shadow_start, *shadow_end;
->  
-> @@ -78,55 +78,62 @@ void kasan_poison(const void *address, size_t size, u8 value)
->  	 * some of the callers (e.g. kasan_poison_object_data) pass tagged
->  	 * addresses to this function.
->  	 */
-> -	address = kasan_reset_tag(address);
-> +	addr = kasan_reset_tag(addr);
->  
->  	/* Skip KFENCE memory if called explicitly outside of sl*b. */
-> -	if (is_kfence_address(address))
-> +	if (is_kfence_address(addr))
->  		return;
->  
-> -	size = round_up(size, KASAN_GRANULE_SIZE);
-> -	shadow_start = kasan_mem_to_shadow(address);
-> -	shadow_end = kasan_mem_to_shadow(address + size);
-> +	if (WARN_ON((u64)addr & KASAN_GRANULE_MASK))
-> +		return;
-> +	if (WARN_ON(size & KASAN_GRANULE_MASK))
-> +		return;
-> +
-> +	shadow_start = kasan_mem_to_shadow(addr);
-> +	shadow_end = kasan_mem_to_shadow(addr + size);
->  
->  	__memset(shadow_start, value, shadow_end - shadow_start);
->  }
->  EXPORT_SYMBOL(kasan_poison);
->  
->  #ifdef CONFIG_KASAN_GENERIC
-> -void kasan_poison_last_granule(const void *address, size_t size)
-> +void kasan_poison_last_granule(const void *addr, size_t size)
->  {
->  	if (size & KASAN_GRANULE_MASK) {
-> -		u8 *shadow = (u8 *)kasan_mem_to_shadow(address + size);
-> +		u8 *shadow = (u8 *)kasan_mem_to_shadow(addr + size);
->  		*shadow = size & KASAN_GRANULE_MASK;
->  	}
->  }
->  #endif
->  
-> -void kasan_unpoison(const void *address, size_t size)
-> +void kasan_unpoison(const void *addr, size_t size)
->  {
-> -	u8 tag = get_tag(address);
-> +	u8 tag = get_tag(addr);
->  
->  	/*
->  	 * Perform shadow offset calculation based on untagged address, as
->  	 * some of the callers (e.g. kasan_unpoison_object_data) pass tagged
->  	 * addresses to this function.
->  	 */
-> -	address = kasan_reset_tag(address);
-> +	addr = kasan_reset_tag(addr);
->  
->  	/*
->  	 * Skip KFENCE memory if called explicitly outside of sl*b. Also note
->  	 * that calls to ksize(), where size is not a multiple of machine-word
->  	 * size, would otherwise poison the invalid portion of the word.
->  	 */
-> -	if (is_kfence_address(address))
-> +	if (is_kfence_address(addr))
-> +		return;
-> +
-> +	if (WARN_ON((u64)addr & KASAN_GRANULE_MASK))
->  		return;
->  
-> -	/* Unpoison round_up(size, KASAN_GRANULE_SIZE) bytes. */
-> -	kasan_poison(address, size, tag);
-> +	/* Unpoison all granules that cover the object. */
-> +	kasan_poison(addr, round_up(size, KASAN_GRANULE_SIZE), tag);
->  
->  	/* Partially poison the last granule for the generic mode. */
->  	if (IS_ENABLED(CONFIG_KASAN_GENERIC))
-> -		kasan_poison_last_granule(address, size);
-> +		kasan_poison_last_granule(addr, size);
->  }
->  
->  #ifdef CONFIG_MEMORY_HOTPLUG
+>  	u8 ptr_tag = get_tag(addr);
+>  	u8 mem_tag = hw_get_mem_tag((void *)addr);
 > -- 
 > 2.30.0.365.g02bc693789-goog
 > 
@@ -372,4 +277,4 @@ Reviewed-by: Marco Elver <elver@google.com>
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YBrB6g9e%2B636CyFh%40elver.google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YBrGcY/DS1GnilYo%40elver.google.com.
