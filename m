@@ -1,140 +1,166 @@
-Return-Path: <kasan-dev+bncBD62HEF5UYIBBJ7E5SAAMGQECRK3H5I@googlegroups.com>
+Return-Path: <kasan-dev+bncBCSJ7B6JQALRBFH25SAAMGQEISGLUFI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x239.google.com (mail-lj1-x239.google.com [IPv6:2a00:1450:4864:20::239])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5080630E763
-	for <lists+kasan-dev@lfdr.de>; Thu,  4 Feb 2021 00:30:48 +0100 (CET)
-Received: by mail-lj1-x239.google.com with SMTP id b14sf988528ljf.22
-        for <lists+kasan-dev@lfdr.de>; Wed, 03 Feb 2021 15:30:48 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1612395047; cv=pass;
+Received: from mail-pl1-x639.google.com (mail-pl1-x639.google.com [IPv6:2607:f8b0:4864:20::639])
+	by mail.lfdr.de (Postfix) with ESMTPS id A761D30E866
+	for <lists+kasan-dev@lfdr.de>; Thu,  4 Feb 2021 01:17:25 +0100 (CET)
+Received: by mail-pl1-x639.google.com with SMTP id i2sf912061plt.14
+        for <lists+kasan-dev@lfdr.de>; Wed, 03 Feb 2021 16:17:25 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1612397844; cv=pass;
         d=google.com; s=arc-20160816;
-        b=Ly/l/3YNpUKW2pvprdUBMvNk3GCZmmsyMWaxbBv1KvwKVj3yF2yQmBJSV2ePoXy/S5
-         Cg9HJmKIy0hHGdFDFLZ05yAl/fumV5yNOgOojeZRqDvctRZ3YZGzZe++AksSDj4d0GO/
-         Ygu6GAB8t93xqQcx+2IHHM2nNpB/m5LjuhQWFsYebpXKqTaVpULbPAFLVCIDNgNjrI7o
-         UzeMD4aGhq2aozgPrKDMnCeRwJQUdqnHbLMyrNT4UBmwYGk0XmfCk2jVr8af7L9b/XGI
-         eMWfruGG78qRUac5aPZRTkbBI2i/HlRdPCzctyfjqbnoSEfCoxqylrIMNTnnML4JKUM7
-         sDNQ==
+        b=DLzdpudt0YUvqDoLrMX0/mGPfdP/1eTM1q2IhY8wH/UFvIbXp8ULj/k6mci2JNExs/
+         T50aKmt15OeRIqy/eAYmF1+8Lh3kzgaJtQ1n6k0oNMEZWfK0kGaI06qaYRvzGJV/vt+s
+         20+5MzNBqM7XLHAMYE4QevwiZFTm+62s/N+7LrhcHIoTwI1XpPzk2CsQhmYD7vbheGPF
+         CzU9AuWavZqKF9ulG63IL75YhNg1PgaGJEIvlBT+UjnWHqj3zV+uaoagpOGyPIQ6zqW4
+         AhMI0JMDDXLlFWwdqvGSgk/NEZqOxgTNOt6pUVx+tv6DNdGx7XU5WGnYY2H99Lj6tV3J
+         ZHrw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=E68fgS/SjfA2xEbpufHbnUgbwMJ0qRFgEctVVbvlKM0=;
-        b=nzY4bwDud/o3Z9w79ku3CqKCIoWgh1TE/QwPovaMcZ9vPxKArOk8vgiKR3VnhBCyrh
-         3+i/uSk3vj3+RPXr+VSvUC8eH3ON4mzTGUNRNaL+5PI0xKp5ynwkE8WYLQTQ9d6r73p8
-         ZM1XslpDuK+s4S41P3LB4BWEzeLK2xoG8r3ig6OzDKJHUsGBpOwLMWZbYHhTt1jtCCcE
-         e6GsDwLmEs3lQuobIAYjNA4UhdMfqjNSr3q01aYsrYSeruouAH9xmzzlLo72NPwgpVsK
-         tu5RoM7UENkbBM3wJ7QAE3dCDUoCwaPQjGFqK9U2gC/NPzjAHRA4efs7Hb3NfDKnSkrg
-         7z4w==
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature;
+        bh=A+CbdDItu0B8SBCvXs666jnVQGvAGjXtXqBEPiDsOPE=;
+        b=wXrLlf+9xIF5oCMo+y+dME2NpjdxYfqjzBHaY346QcPFqi5z6ztDAF3c31Ol/ecf0H
+         +/ZSuFYnYFauYrvoJrqqKrHrlRL4BmLRH4EeTIP9flkRJIQQV01x8/HbAOLoOMdinRzE
+         rSwOTeBSTqh8ZI/C/5g+XOYyB7DP2EZ/sK0NVQhkvRoh18ajsI8Mi9xXMZdYDN5klHl+
+         5UxisjsNAia47criVZVCqgz+POZ+Mc0xPkIxtapauU4mp3GhJVYy+UFUNpysfT0O7MH/
+         9uYtOy+LTGeAzm0c9Y44pOSerhS5ty7SSb0N2CgDh8GRxjrMVQu9yERcyKU+T4BbzP5B
+         RRug==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@cloudflare.com header.s=google header.b=B2166ME1;
-       spf=pass (google.com: domain of ivan@cloudflare.com designates 2a00:1450:4864:20::131 as permitted sender) smtp.mailfrom=ivan@cloudflare.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=cloudflare.com
+       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=AUozw4f4;
+       spf=pass (google.com: domain of jpoimboe@redhat.com designates 63.128.21.124 as permitted sender) smtp.mailfrom=jpoimboe@redhat.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=E68fgS/SjfA2xEbpufHbnUgbwMJ0qRFgEctVVbvlKM0=;
-        b=gVbrRs8eBItvtvLR8bhWgOB9bzn4sf5Sob6yN9aUgLrGBK5VWNo9ykTQwU8TipH4h8
-         kDXi17lXM+I6qDTBn4zGPsZ0vBMyIEyRhl9OoqFx1ug2oIn7Sq/GqPCxRZ76YBCJv4lm
-         jK8tECVdci0ZTU/gRelMpVtrWdKtmxaqyLA5oo/5X/J+CFOQPa5v8lps7Gd4CXN8KpNs
-         vGFqDLMhqoZCk8bT3I/gD1udCdEZDT+JrMhoZs33vMtWSLDeAwLQ8FROuk5WTGexnbgS
-         HWqklA7d6EXZs6trrCvM+iACoMozccVPGAg/fEp23arLLcZ1cxjbIW1KTM9K7BtxFl13
-         aODQ==
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=A+CbdDItu0B8SBCvXs666jnVQGvAGjXtXqBEPiDsOPE=;
+        b=hMTMvKJ35+DktYoAaj/bdNPOCzYCsVgQEwF0SU2jKBhyg7Pl2F4h4kEXl8X23XDsHH
+         YqftPtc/Kkf5xNsbdBZhuko4WKeHTO0HAM46cghQnrrglXEdaFd2R1aObI88VhaXWqfK
+         3juUEsigQgTpJXvGkWrGJZ3Z4SXeoJj4Zfjwg1FHxRuLW8Z+ROaZH+KIyZy8V5iuR38z
+         lgMxPmHAQt1XqJJAXMU1eTED9mr9ep9oOgaEDWBUjsAjnQWEnn01cAVMXYk3FsCHAg+9
+         7Mhl81z9ebA0ZktxVUvAQyS2yS9ALS0YiTcD+kNgNG6pZbwWlfGWaMn8QBUnkoYuXIyr
+         I8jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=E68fgS/SjfA2xEbpufHbnUgbwMJ0qRFgEctVVbvlKM0=;
-        b=QNN9mAgsf9m8c6NM6638dabNzJbRaf4tl4M85KNZef1g66ezHcUqr3ZOv7dqEov15s
-         vWp2vf6+qryp7q56B3kMN1Y4SCIpl48dQQbwQvpamBsdy3258PXTGn2A1UqnfPJnzGdf
-         C6p8iRVZqMpfw5KNfKdiXYGf2YuE0cjzWsZoOy6u4zHecXU1GLSSl27L+YlfZqyA0FCd
-         69JtOOYdHc/IVXZDE71ZmwgudyHfm2YEN/nXslDbvKDGAm1crMunRLX5PAQhk70Ndxd9
-         hv3z5vnISzNEIqARJYlumyLNjNe58wz8h9n0S/oLs66kXzasRym0N+k4SlO94duak/n6
-         oLJQ==
-X-Gm-Message-State: AOAM53295ygQSLYc1YnBjF4EFO5V4WuqJdXM6W9paPFAaYbqa/dtZHUX
-	NVEo1/9m6k8+YYdEPcW3/cA=
-X-Google-Smtp-Source: ABdhPJwsAdC7JcNEc23iX5tOxOkBmitt85YTwQVVKE1xHB9A6RwkVGy5Rg/jJREBl9T7ksmmF62WCQ==
-X-Received: by 2002:a2e:311:: with SMTP id 17mr3187484ljd.14.1612395047775;
-        Wed, 03 Feb 2021 15:30:47 -0800 (PST)
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=A+CbdDItu0B8SBCvXs666jnVQGvAGjXtXqBEPiDsOPE=;
+        b=pDoGbfVkK3Vc2U4MukMJAtvcOfxE0Zgxyu6eg2EUJgeZn7ZUEpKztVdw0tVhpik+wC
+         Ay17SeSPpwovwUMjKz2T0PFJn6aEK72PliSuMO6WD40mV0ho6livfwpi3xYbCL+wxR63
+         8LKSv/5Dz0liL3iqXbenxyMuYz2nf5sukMRddOj3EXQjBWATo6UW14JmwuRiByLBb3BP
+         uUZWmH1cjZslmSkyEs2ATe6B04ck/61zJLL/7NyfbYeNMEjZ161JzoDzkmzPc2YVT4XN
+         aharZ703RKXQRIdKT64YGkraHTRv5DhI7GOaiuIacJawVVPZKYl47Rh/ZSnLCxGwJwCm
+         TD/w==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM532cwjDYwf5XuFKlCobNVjX+W5D8szj03uoySBE6KaqtB8Ql7LOq
+	BLH+j1C5bD3v1XMBa9cBKsk=
+X-Google-Smtp-Source: ABdhPJz2jQnOsdiYPz90bRvIHwuKZEvLGG/HaV9KgAu0qGmLE/uZ+oRnlI2v5XJ0/NfVV8o/s728eg==
+X-Received: by 2002:a63:cb01:: with SMTP id p1mr6228411pgg.406.1612397844343;
+        Wed, 03 Feb 2021 16:17:24 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:6d4:: with SMTP id u20ls1371062lff.1.gmail; Wed, 03
- Feb 2021 15:30:46 -0800 (PST)
-X-Received: by 2002:ac2:44db:: with SMTP id d27mr2925281lfm.248.1612395046806;
-        Wed, 03 Feb 2021 15:30:46 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1612395046; cv=none;
+Received: by 2002:a17:902:f683:: with SMTP id l3ls1753381plg.4.gmail; Wed, 03
+ Feb 2021 16:17:23 -0800 (PST)
+X-Received: by 2002:a17:902:be16:b029:df:bf44:9c5f with SMTP id r22-20020a170902be16b02900dfbf449c5fmr5335226pls.22.1612397843699;
+        Wed, 03 Feb 2021 16:17:23 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1612397843; cv=none;
         d=google.com; s=arc-20160816;
-        b=JqG7xHnNGucw1R5pi74kJ0eXvryAfLu9gn2bTeEu45oCXzu5WXrpGYx2ahWWUB0oon
-         i/+e1IrOVdqoor2J2QnphQ/T8eiY2UA41CEGDtLlfbiz3Kpcg0SAT0RxV8uhawxpT5rT
-         z4oVT3a2bVv2g+fZYC9IapS1p8FwMWQk15es+BjwKOSC/kmVCBxlPNGkfbfotTOk/6tJ
-         HZFH1wBtjxCdq6c6EKwcrOtR0OVTxs2rBXG35y3j6gHR2WMguThtQFNCQfvD9ib+xJeS
-         SCwftcsT7BHRUJnYniINkpYGzumpAnukGYdUrpBm/xJcqbrh+AcbCL/b16/L90ZN2HTC
-         YUig==
+        b=dXCRI7GbJvkYKxuCjRHFqJxA5CIgQRCJLIKE4+ySn5qWawHXDxpImxXYcg4IdkVZai
+         dURhufEP+1kZeYGOhacUtsdJhWbu44/tDZf+kY5mynoiG95yrIpXoErXn7UHiM9UQ9wA
+         58tbs16KyiV2TwhRAjB/GILZRvCGubB+J6YaqdsWaRdbbQY9lNcS9PCLBfwYaS12tWKy
+         iKwU2/LsOjcKAor2TbctdFK9ua+7qJ22oa7Mdw6J4Hv/ccp25fViO3pPXZQ6aKSBqu1Y
+         BG32044jRXTab/5vQAEkzkYp2UUI01YXTy9fvZFh9Jo2zbsf2/6hehRNxmZJ6SJ61V/6
+         qqxA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=hocG39X+tz3ResWtWHRihYuESyyVfrOSMJOVeII1Yr4=;
-        b=cTpOpqTqNGSTlqNtBTZxdSf1+VhFAgGEdSxG/jYcFnDQX33Qb+HA7cSvJ1rllt8Uom
-         dgzgR/iSwW0E3+6mg14EtDNB8Y/7AEZ8npjtUagLg09PIxV7NVxxPd3rKe7s2ZVJmEKd
-         1j88Pz9mgwP4vm+k2vVX2TJAkuqc4uQ5mf+OROcrijUbV/rD31Zz2JF1RsSjC+XKXdNx
-         qHvebo/u7qqKvvXc1F+DDMkaiOMDxWERKgx4ak7kOMFqeLhhqHUXQ059kSsSPT70+WCS
-         nfnczQ6S43upl8P5mwc86CR4SMPXIeqYBrcsR7MciCMB8C2Fk4H+saewGGVD7R4OLRRo
-         qXhQ==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:dkim-signature;
+        bh=aH1rhNhUTj2RKUZJRdsnzrFvXxO/fmeN1LzVYQPVogc=;
+        b=JL1xYZGE7FbRX+8AQn2EFsE9X6T5/X/74t6rmBGGiNvayATBvZNeng4zcpOEG0qz04
+         wFu4Bc+/LGnCG/94tetBVxkh+XTvj5Yn8gmfTpNzM2/uTpS6K9G/OPpctWjK9FB+/g7x
+         /1mPN0/9sTwAioYpDzGu+G8UofCyXqEzsul1uSpwY/ignkhNycelyDUX7U5n2Jt3aCFW
+         nYexrHTWDKysmIHCpiwHfGea9i4qIJhoEbk2L7hBpPrl+xEfGvpe76XnL8pqGBrWaKle
+         rs4Bi9xUh0bVqh4sAnEKADBgJhfHXpFdxrLaAfaAxQ0p+BZz/KWloqZCKHVhqfhGJ0Qx
+         3fhA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@cloudflare.com header.s=google header.b=B2166ME1;
-       spf=pass (google.com: domain of ivan@cloudflare.com designates 2a00:1450:4864:20::131 as permitted sender) smtp.mailfrom=ivan@cloudflare.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=cloudflare.com
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com. [2a00:1450:4864:20::131])
-        by gmr-mx.google.com with ESMTPS id b2si159128lfd.5.2021.02.03.15.30.46
+       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=AUozw4f4;
+       spf=pass (google.com: domain of jpoimboe@redhat.com designates 63.128.21.124 as permitted sender) smtp.mailfrom=jpoimboe@redhat.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com. [63.128.21.124])
+        by gmr-mx.google.com with ESMTPS id f11si153351plo.4.2021.02.03.16.17.23
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 Feb 2021 15:30:46 -0800 (PST)
-Received-SPF: pass (google.com: domain of ivan@cloudflare.com designates 2a00:1450:4864:20::131 as permitted sender) client-ip=2a00:1450:4864:20::131;
-Received: by mail-lf1-x131.google.com with SMTP id h7so1746014lfc.6
-        for <kasan-dev@googlegroups.com>; Wed, 03 Feb 2021 15:30:46 -0800 (PST)
-X-Received: by 2002:a05:6512:3904:: with SMTP id a4mr2912750lfu.340.1612395046510;
- Wed, 03 Feb 2021 15:30:46 -0800 (PST)
-MIME-Version: 1.0
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 03 Feb 2021 16:17:23 -0800 (PST)
+Received-SPF: pass (google.com: domain of jpoimboe@redhat.com designates 63.128.21.124 as permitted sender) client-ip=63.128.21.124;
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-468-0rp0hcNIPm-QpktHhG4f4g-1; Wed, 03 Feb 2021 19:17:20 -0500
+X-MC-Unique: 0rp0hcNIPm-QpktHhG4f4g-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7884A1934110;
+	Thu,  4 Feb 2021 00:17:16 +0000 (UTC)
+Received: from treble (ovpn-113-81.rdu2.redhat.com [10.10.113.81])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 911A2100AE4D;
+	Thu,  4 Feb 2021 00:17:03 +0000 (UTC)
+Date: Wed, 3 Feb 2021 18:17:00 -0600
+From: Josh Poimboeuf <jpoimboe@redhat.com>
+To: Ivan Babrou <ivan@cloudflare.com>
+Cc: Peter Zijlstra <peterz@infradead.org>,
+	kernel-team <kernel-team@cloudflare.com>,
+	Ignat Korchagin <ignat@cloudflare.com>,
+	Hailong liu <liu.hailong6@zte.com.cn>,
+	Andrey Ryabinin <aryabinin@virtuozzo.com>,
+	Alexander Potapenko <glider@google.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+	Miroslav Benes <mbenes@suse.cz>,
+	Julien Thierry <jthierry@redhat.com>,
+	Jiri Slaby <jirislaby@kernel.org>, kasan-dev@googlegroups.com,
+	linux-mm@kvack.org, linux-kernel <linux-kernel@vger.kernel.org>,
+	Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@redhat.com>,
+	dm-devel@redhat.com,
+	"Steven Rostedt (VMware)" <rostedt@goodmis.org>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Martin KaFai Lau <kafai@fb.com>, Song Liu <songliubraving@fb.com>,
+	Yonghong Song <yhs@fb.com>, Andrii Nakryiko <andriin@fb.com>,
+	John Fastabend <john.fastabend@gmail.com>,
+	KP Singh <kpsingh@chromium.org>, Robert Richter <rric@kernel.org>,
+	"Joel Fernandes (Google)" <joel@joelfernandes.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Linux Kernel Network Developers <netdev@vger.kernel.org>,
+	bpf@vger.kernel.org, Alexey Kardashevskiy <aik@ozlabs.ru>
+Subject: Re: BUG: KASAN: stack-out-of-bounds in
+ unwind_next_frame+0x1df5/0x2650
+Message-ID: <20210204001700.ry6dpqvavcswyvy7@treble>
 References: <CABWYdi3HjduhY-nQXzy2ezGbiMB1Vk9cnhW2pMypUa+P1OjtzQ@mail.gmail.com>
  <CABWYdi27baYc3ShHcZExmmXVmxOQXo9sGO+iFhfZLq78k8iaAg@mail.gmail.com>
- <YBrTaVVfWu2R0Hgw@hirez.programming.kicks-ass.net> <CABWYdi2ephz57BA8bns3reMGjvs5m0hYp82+jBLZ6KD3Ba6zdQ@mail.gmail.com>
- <20210203190518.nlwghesq75enas6n@treble> <CABWYdi1ya41Ju9SsHMtRQaFQ=s8N23D3ADn6OV6iBwWM6H8=Zw@mail.gmail.com>
+ <YBrTaVVfWu2R0Hgw@hirez.programming.kicks-ass.net>
+ <CABWYdi2ephz57BA8bns3reMGjvs5m0hYp82+jBLZ6KD3Ba6zdQ@mail.gmail.com>
+ <20210203190518.nlwghesq75enas6n@treble>
+ <CABWYdi1ya41Ju9SsHMtRQaFQ=s8N23D3ADn6OV6iBwWM6H8=Zw@mail.gmail.com>
  <20210203232735.nw73kugja56jp4ls@treble>
-In-Reply-To: <20210203232735.nw73kugja56jp4ls@treble>
-From: "'Ivan Babrou' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Wed, 3 Feb 2021 15:30:35 -0800
-Message-ID: <CABWYdi1zd51Jb35taWeGC-dR9SChq-4ixvyKms3KOKgV0idfPg@mail.gmail.com>
-Subject: Re: BUG: KASAN: stack-out-of-bounds in unwind_next_frame+0x1df5/0x2650
-To: Josh Poimboeuf <jpoimboe@redhat.com>
-Cc: Peter Zijlstra <peterz@infradead.org>, kernel-team <kernel-team@cloudflare.com>, 
-	Ignat Korchagin <ignat@cloudflare.com>, Hailong liu <liu.hailong6@zte.com.cn>, 
-	Andrey Ryabinin <aryabinin@virtuozzo.com>, Alexander Potapenko <glider@google.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Miroslav Benes <mbenes@suse.cz>, Julien Thierry <jthierry@redhat.com>, 
-	Jiri Slaby <jirislaby@kernel.org>, kasan-dev@googlegroups.com, linux-mm@kvack.org, 
-	linux-kernel <linux-kernel@vger.kernel.org>, Alasdair Kergon <agk@redhat.com>, 
-	Mike Snitzer <snitzer@redhat.com>, dm-devel@redhat.com, 
-	"Steven Rostedt (VMware)" <rostedt@goodmis.org>, Alexei Starovoitov <ast@kernel.org>, 
-	Daniel Borkmann <daniel@iogearbox.net>, Martin KaFai Lau <kafai@fb.com>, Song Liu <songliubraving@fb.com>, 
-	Yonghong Song <yhs@fb.com>, Andrii Nakryiko <andriin@fb.com>, John Fastabend <john.fastabend@gmail.com>, 
-	KP Singh <kpsingh@chromium.org>, Robert Richter <rric@kernel.org>, 
-	"Joel Fernandes (Google)" <joel@joelfernandes.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Linux Kernel Network Developers <netdev@vger.kernel.org>, bpf@vger.kernel.org, 
-	Alexey Kardashevskiy <aik@ozlabs.ru>
+ <CABWYdi1zd51Jb35taWeGC-dR9SChq-4ixvyKms3KOKgV0idfPg@mail.gmail.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: ivan@cloudflare.com
+Content-Disposition: inline
+In-Reply-To: <CABWYdi1zd51Jb35taWeGC-dR9SChq-4ixvyKms3KOKgV0idfPg@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Original-Sender: jpoimboe@redhat.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@cloudflare.com header.s=google header.b=B2166ME1;       spf=pass
- (google.com: domain of ivan@cloudflare.com designates 2a00:1450:4864:20::131
- as permitted sender) smtp.mailfrom=ivan@cloudflare.com;       dmarc=pass
- (p=REJECT sp=REJECT dis=NONE) header.from=cloudflare.com
-X-Original-From: Ivan Babrou <ivan@cloudflare.com>
-Reply-To: Ivan Babrou <ivan@cloudflare.com>
+ header.i=@redhat.com header.s=mimecast20190719 header.b=AUozw4f4;
+       spf=pass (google.com: domain of jpoimboe@redhat.com designates
+ 63.128.21.124 as permitted sender) smtp.mailfrom=jpoimboe@redhat.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -147,88 +173,106 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Feb 3, 2021 at 3:28 PM Josh Poimboeuf <jpoimboe@redhat.com> wrote:
->
-> On Wed, Feb 03, 2021 at 02:41:53PM -0800, Ivan Babrou wrote:
-> > On Wed, Feb 3, 2021 at 11:05 AM Josh Poimboeuf <jpoimboe@redhat.com> wrote:
+On Wed, Feb 03, 2021 at 03:30:35PM -0800, Ivan Babrou wrote:
+> > > > Can you recreate with this patch, and add "unwind_debug" to the cmdline?
+> > > > It will spit out a bunch of stack data.
 > > >
-> > > On Wed, Feb 03, 2021 at 09:46:55AM -0800, Ivan Babrou wrote:
-> > > > > Can you pretty please not line-wrap console output? It's unreadable.
-> > > >
-> > > > GMail doesn't make it easy, I'll send a link to a pastebin next time.
-> > > > Let me know if you'd like me to regenerate the decoded stack.
-> > > >
-> > > > > > edfd9b7838ba5e47f19ad8466d0565aba5c59bf0 is the first bad commit
-> > > > > > commit edfd9b7838ba5e47f19ad8466d0565aba5c59bf0
-> > > > >
-> > > > > Not sure what tree you're on, but that's not the upstream commit.
-> > > >
-> > > > I mentioned that it's a rebased core-static_call-2020-10-12 tag and
-> > > > added a link to the upstream hash right below.
-> > > >
-> > > > > > Author: Steven Rostedt (VMware) <rostedt@goodmis.org>
-> > > > > > Date:   Tue Aug 18 15:57:52 2020 +0200
-> > > > > >
-> > > > > >     tracepoint: Optimize using static_call()
-> > > > > >
-> > > > >
-> > > > > There's a known issue with that patch, can you try:
-> > > > >
-> > > > >   http://lkml.kernel.org/r/20210202220121.435051654@goodmis.org
-> > > >
-> > > > I've tried it on top of core-static_call-2020-10-12 tag rebased on top
-> > > > of v5.9 (to make it reproducible), and the patch did not help. Do I
-> > > > need to apply the whole series or something else?
+> > > Here's the three I'm building:
 > > >
-> > > Can you recreate with this patch, and add "unwind_debug" to the cmdline?
-> > > It will spit out a bunch of stack data.
+> > > * https://github.com/bobrik/linux/tree/ivan/static-call-5.9
+> > >
+> > > It contains:
+> > >
+> > > * v5.9 tag as the base
+> > > * static_call-2020-10-12 tag
+> > > * dm-crypt patches to reproduce the issue with KASAN
+> > > * x86/unwind: Add 'unwind_debug' cmdline option
+> > > * tracepoint: Fix race between tracing and removing tracepoint
+> > >
+> > > The very same issue can be reproduced on 5.10.11 with no patches,
+> > > but I'm going with 5.9, since it boils down to static call changes.
+> > >
+> > > Here's the decoded stack from the kernel with unwind debug enabled:
+> > >
+> > > * https://gist.github.com/bobrik/ed052ac0ae44c880f3170299ad4af56b
+> > >
+> > > See my first email for the exact commands that trigger this.
 > >
-> > Here's the three I'm building:
-> >
-> > * https://github.com/bobrik/linux/tree/ivan/static-call-5.9
-> >
-> > It contains:
-> >
-> > * v5.9 tag as the base
-> > * static_call-2020-10-12 tag
-> > * dm-crypt patches to reproduce the issue with KASAN
-> > * x86/unwind: Add 'unwind_debug' cmdline option
-> > * tracepoint: Fix race between tracing and removing tracepoint
-> >
-> > The very same issue can be reproduced on 5.10.11 with no patches,
-> > but I'm going with 5.9, since it boils down to static call changes.
-> >
-> > Here's the decoded stack from the kernel with unwind debug enabled:
-> >
-> > * https://gist.github.com/bobrik/ed052ac0ae44c880f3170299ad4af56b
-> >
-> > See my first email for the exact commands that trigger this.
->
-> Thanks.  Do you happen to have the original dmesg, before running it
-> through the post-processing script?
+> > Thanks.  Do you happen to have the original dmesg, before running it
+> > through the post-processing script?
+> 
+> Yes, here it is:
+> 
+> * https://gist.github.com/bobrik/8c13e6a02555fb21cadabb74cdd6f9ab
 
-Yes, here it is:
+It appears the unwinder is getting lost in crypto code.  No idea what
+this has to do with static calls though.  Or maybe you're seeing
+multiple issues.
 
-* https://gist.github.com/bobrik/8c13e6a02555fb21cadabb74cdd6f9ab
+Does this fix it?
 
-> I assume you're using decode_stacktrace.sh?  It could use some
-> improvement, it's stripping the function offset.
->
-> Also spaces are getting inserted in odd places, messing the alignment.
->
-> [  137.291837][    C0] ffff88809c409858: d7c4f3ce817a1700 (0xd7c4f3ce817a1700)
-> [  137.291837][    C0] ffff88809c409860: 0000000000000000 (0x0)
-> [  137.291839][    C0] ffff88809c409868: 00000000ffffffff (0xffffffff)
-> [ 137.291841][ C0] ffff88809c409870: ffffffffa4f01a52 unwind_next_frame (arch/x86/kernel/unwind_orc.c:380 arch/x86/kernel/unwind_orc.c:553)
-> [ 137.291843][ C0] ffff88809c409878: ffffffffa4f01a52 unwind_next_frame (arch/x86/kernel/unwind_orc.c:380 arch/x86/kernel/unwind_orc.c:553)
-> [  137.291844][    C0] ffff88809c409880: ffff88809c409ac8 (0xffff88809c409ac8)
-> [  137.291845][    C0] ffff88809c409888: 0000000000000086 (0x86)
->
-> --
-> Josh
->
+
+diff --git a/arch/x86/crypto/Makefile b/arch/x86/crypto/Makefile
+index a31de0c6ccde..36c55341137c 100644
+--- a/arch/x86/crypto/Makefile
++++ b/arch/x86/crypto/Makefile
+@@ -2,7 +2,14 @@
+ #
+ # x86 crypto algorithms
+ 
+-OBJECT_FILES_NON_STANDARD := y
++OBJECT_FILES_NON_STANDARD_sha256-avx2-asm.o		:= y
++OBJECT_FILES_NON_STANDARD_sha512-ssse3-asm.o		:= y
++OBJECT_FILES_NON_STANDARD_sha512-avx-asm.o		:= y
++OBJECT_FILES_NON_STANDARD_sha512-avx2-asm.o		:= y
++OBJECT_FILES_NON_STANDARD_crc32c-pcl-intel-asm_64.o	:= y
++OBJECT_FILES_NON_STANDARD_camellia-aesni-avx2-asm_64.o	:= y
++OBJECT_FILES_NON_STANDARD_sha1_avx2_x86_64_asm.o	:= y
++OBJECT_FILES_NON_STANDARD_sha1_ni_asm.o			:= y
+ 
+ obj-$(CONFIG_CRYPTO_GLUE_HELPER_X86) += glue_helper.o
+ 
+diff --git a/arch/x86/crypto/aesni-intel_avx-x86_64.S b/arch/x86/crypto/aesni-intel_avx-x86_64.S
+index 5fee47956f3b..59c36b88954f 100644
+--- a/arch/x86/crypto/aesni-intel_avx-x86_64.S
++++ b/arch/x86/crypto/aesni-intel_avx-x86_64.S
+@@ -237,8 +237,8 @@ define_reg j %j
+ .noaltmacro
+ .endm
+ 
+-# need to push 4 registers into stack to maintain
+-STACK_OFFSET = 8*4
++# need to push 5 registers into stack to maintain
++STACK_OFFSET = 8*5
+ 
+ TMP1 =   16*0    # Temporary storage for AAD
+ TMP2 =   16*1    # Temporary storage for AES State 2 (State 1 is stored in an XMM register)
+@@ -257,6 +257,8 @@ VARIABLE_OFFSET = 16*8
+ 
+ .macro FUNC_SAVE
+         #the number of pushes must equal STACK_OFFSET
++	push	%rbp
++	mov	%rsp, %rbp
+         push    %r12
+         push    %r13
+         push    %r14
+@@ -271,12 +273,14 @@ VARIABLE_OFFSET = 16*8
+ .endm
+ 
+ .macro FUNC_RESTORE
++        add     $VARIABLE_OFFSET, %rsp
+         mov     %r14, %rsp
+ 
+         pop     %r15
+         pop     %r14
+         pop     %r13
+         pop     %r12
++	pop	%rbp
+ .endm
+ 
+ # Encryption of a single block
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CABWYdi1zd51Jb35taWeGC-dR9SChq-4ixvyKms3KOKgV0idfPg%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210204001700.ry6dpqvavcswyvy7%40treble.
