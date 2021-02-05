@@ -1,126 +1,129 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBRHS6WAAMGQEUQH2W3Q@googlegroups.com>
+Return-Path: <kasan-dev+bncBCOYZDMZ6UMRBVHQ6WAAMGQEM76YGGQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x137.google.com (mail-lf1-x137.google.com [IPv6:2a00:1450:4864:20::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D872310E3C
-	for <lists+kasan-dev@lfdr.de>; Fri,  5 Feb 2021 17:58:45 +0100 (CET)
-Received: by mail-lf1-x137.google.com with SMTP id c2sf4172734lff.0
-        for <lists+kasan-dev@lfdr.de>; Fri, 05 Feb 2021 08:58:45 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1612544325; cv=pass;
+Received: from mail-qt1-x83f.google.com (mail-qt1-x83f.google.com [IPv6:2607:f8b0:4864:20::83f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20F1F310E33
+	for <lists+kasan-dev@lfdr.de>; Fri,  5 Feb 2021 17:54:45 +0100 (CET)
+Received: by mail-qt1-x83f.google.com with SMTP id 22sf5677345qty.14
+        for <lists+kasan-dev@lfdr.de>; Fri, 05 Feb 2021 08:54:45 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1612544084; cv=pass;
         d=google.com; s=arc-20160816;
-        b=rjCIcZD0hrxWvuCTriW9R9Biob8QPVV6tRiHq+oJq0PNOf2QYJWbVxOe4dxlDmyjM0
-         K2qXJ+QrefFh/EFzPt/hNai56/+LXLUIjfCK1tZMzHpazKKQhS+VYN4x16dLLyVS8Ptu
-         MhtQZ/+EFpyc6WbJJ46CInwLFa9aoHXOe0+Lz6HiS0IWNIyss+GqnpqlAy7c6/cB5zAj
-         W2PSshA75Ay6WWcvo18CV54BUJSdfwk4l1h8O5DTGLIX0ipLWvjnNG6wHS9pNyWv/nK4
-         PfmBinUWhnJ7s1PsDY9aucMaZNdl8Lo6wXxSWZ/aSGO600VATFFz+ZjhEIdk4HrNsR1g
-         0kJQ==
+        b=jn/hARNuaU+DW+vMDmxSdV19yaKVLlE4CuIt5QErdDMaa7MTyBK/wwAMSMx2Y/808m
+         Ii3Ef09cdXwyPq1TcSrFguebEdYKPRizUfVpHRv3sl3NWBn0vcXkhIxmTHOmSSubt1aJ
+         53lO9xYJXXtKb9n854TvKGKZenv2AlNrB2EKWZ9kIolw517heL6cMjl6C6o1qT5/+Mck
+         XUIZBM1d2bvR/yws5lHwpW+5wWpcw1OQYHe0ZZWOe06vcFP+16bZvSsZbudd2VfTOMcP
+         c/bI3giExmY3zFXpYw+Ux1654CtmvgckogWGRqhWbUiF0s7Hd3pMpO1EW/RtM/tvObXQ
+         FOFQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
-         :mime-version:message-id:date:sender:dkim-signature;
-        bh=XvCBsk0hbubyc4cm7wbGinbDlNmWv0VFNlpCV7wiKZQ=;
-        b=Hv8A6PkIkzrLAQYI7fT6pwGl+8XEfvFSbxri3G8B7vzrttLdW/AEhscEr62doB9eLO
-         7j3+XtxNJNoV85prdTMq+O8WsYCadoqA9JeQyVTalJ8dJfup9IaRYTojy5g47BnkXmbQ
-         9lZMJQvCgq88ELazysHzTMUcjQ/Moz9GFtyYDIiYZ2fKKuKMdxbkmRJEt7yvlMu2ORzP
-         aEJyelGmtFT6wOEga0FAgx+ehpjyUiCEXI1kfEiDNwKm1pVfJ6GhQqK6U81A7eDQRJb+
-         IVHy2Yr2TV2C0lZDIWhoGmsp9n5OdY2o/Wbo5WMSUKbbo0HLri3wTf34Jf1D8l5i1iP5
-         0FPw==
+         :list-id:mailing-list:precedence:content-language:in-reply-to
+         :mime-version:user-agent:date:message-id:from:references:cc:to
+         :subject:sender:dkim-signature;
+        bh=kzhaaO41tRAEvtWPc3xPoLy05riOaPbj0jYY8j6EdL0=;
+        b=oQM3BUu14Fs4wCKxWtykyxU0bDibcMtmg+S1TDM9duX/Qoott0AMfvSdqS6TCUtLN+
+         gNKT2oL3+lvCnxnK2aXgjTiO5etj3kGUqsjd6yC50hGDyRadI9I6daSaUqC8fehFhzs9
+         Lh5dFhRQfd1+yb6qQoUyRIlnhQQC3A2UvEoST9dPEtuCW+rMfDbIxw0y2lvcVUmeIlKV
+         47fcN1rGRVdb1SO3Ffbfr2jvyMguOYK7ehZiLmMczuUL9J5dgGlzYBHI8L0zIa9055hs
+         Ww81KOCQTSXb3bzitF78PDoZP0T6AVFrb8hrAYTPvZmdRkkJZv1wykL8mRyxxdkuPejJ
+         V7lg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=KBklsWed;
-       spf=pass (google.com: domain of 3q3kdyaukcbiwdnwjyggydw.ugecsksf-vwnyggydwyjgmhk.uge@flex--elver.bounces.google.com designates 2a00:1450:4864:20::649 as permitted sender) smtp.mailfrom=3Q3kdYAUKCbIWdnWjYggYdW.UgecSkSf-VWnYggYdWYjgmhk.Uge@flex--elver.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       spf=pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=vincenzo.frascino@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:date:message-id:mime-version:subject:from:to:cc
-         :x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=XvCBsk0hbubyc4cm7wbGinbDlNmWv0VFNlpCV7wiKZQ=;
-        b=siq+lus3XnjJV24utcIL1NJ/moJGb/ylWAUy6OJalis2tgNwhn4IjBlKClLKiYGL0y
-         IHUj76G8kUcO549gnEyp3Jxz0SZ1iWIjQZGWOS2wP9XDHebo4fSMeKrD/4XBVc8EerbC
-         YQ2MfJfZwEcmj941tqURs82c0a0vMc675AOa1UTcih2Hyr+8waGUoZgrG0stNqcx8vYC
-         +6ZUeqmEUiohlidYFLKvGTsngSC6RpeYBBh/FnBWqECblsjNA0iKsX/Lozt2j/4Y/2Kk
-         cX5cm/NW1F2FKHEpJ4dFgRyZkH4zVRMoqquUvvQEMf6ICXNrRP78D8qcHG5IpkLWfgxM
-         nkHw==
+        h=sender:subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=kzhaaO41tRAEvtWPc3xPoLy05riOaPbj0jYY8j6EdL0=;
+        b=neGaE7noJuwtnCm6xuNfykHi111Pfjt3K1QYC6SYcl9tFBWrnuDkA/CeKYBPA6E1m2
+         9CFS1G4IRq6AiQ48qAYXuJgEbId2znukL1ll1/C/QgQJ+yf1yIm6DuQdgh9Xrb8d3EB5
+         tlEym8hlFv2+HBDx73HqRlF/htCegv0oDvR6pojpGVclzRglAKtC92ZQHxOzDm/2CA9D
+         dZ1SBCu2LPSwavYgb7g8umrF1w6IaZCAnbUJJwvbQbHs/+ZvVIEwgkll9RtRhjS3VdrE
+         IoqaBPhdyEjM+KLhWWxCj/2UM/Vmh+sqmIvLRjicf1kSJJgCQiiyqabbyk9brbGInvhO
+         Qk8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
-         :to:cc:x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=XvCBsk0hbubyc4cm7wbGinbDlNmWv0VFNlpCV7wiKZQ=;
-        b=j56mUAMrsx3VcNx85kpIURmvkbgP0zrJ3dEQABci5YzsLM7Tsgq1pHl0nP0GSwMidL
-         NHaWV3ya0E1m4A8nqDmH+eTjbcwTFM5xryxCwCxGwOdRCcRmg6m9Pdu2pY2kI8sNv4g0
-         0ocvbL1kalbJgid6JTjQaUTDkGceLeHWDLSiUaCsYNKR49hE5JjJhuiMRNFd7ecmlHaX
-         O5MdeImDzyzZhi4JV6UfKi5x0TpJFG5Jb709IW0R2KItoEi5xH0wVzojc7vaDZsXGRAX
-         Ijlj3m6nwCyGYJlcTVhXKCQwMNOulnK6Kh2UjhcYNZixjV+7qow3B9DquydTwucuWIOy
-         HNtA==
-X-Gm-Message-State: AOAM5331Rh8syWi4B594E5FgHMde1GmnW9yTpx2R2ya4VhUdePoIptA7
-	ywjcHTUV56aKLLbQr3abmoA=
-X-Google-Smtp-Source: ABdhPJwR8RQ62H3zzaMmZsf0TlbZEG+mfb03VWbqUW1Fk6d/h2vEMtn8d7OfxnxpKdYetx7htde5mQ==
-X-Received: by 2002:a2e:8144:: with SMTP id t4mr3293693ljg.9.1612544325009;
-        Fri, 05 Feb 2021 08:58:45 -0800 (PST)
+        h=sender:x-gm-message-state:subject:to:cc:references:from:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=kzhaaO41tRAEvtWPc3xPoLy05riOaPbj0jYY8j6EdL0=;
+        b=JkdGPi7sdVFI7N8nGDMCMELdHQVoj5Vgb8UvZ7ozn9wRg4QRdK2gkHsUW970z8/YW+
+         dnosEHMCeshsLcxhmRSbqsnOqf0RobRsd5OM7gVZohMag5/nbl3Tkfi5pdCCPpvzBrtX
+         XtqPcXrys1RASmQxEy7ELQTVNYAjPffezrGcD0D58bml4kKg8zciX2/Ojj/89NHZC8XX
+         mvEMSJY5gPW/0WDAUgCZsPhN4HE/yAWHR4xQjHgXS2pVZHPi1+yMeD/nooqT445J12qp
+         iRuHadxDoKfgr/d+1qJiLelo/OCxoPBsZkp/Z/OHpcvmGfaTZ5tSkfbT9e71cveIhaTy
+         H9sA==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM531Z8An7IU5zgSqU9cKWi1WHampI35hMrFLg0QveuCS69xx9UjWM
+	BmjGBZX4lDlfjI7XWgB0/vA=
+X-Google-Smtp-Source: ABdhPJzJnQdaZdwZwI0mJ3FXPDz4kUfCpvcHNPwZwD2Qrrf0LsKkVhA3XFuEFeBH7rM7d//aWCz7uw==
+X-Received: by 2002:a05:622a:4cc:: with SMTP id q12mr5052918qtx.277.1612544084169;
+        Fri, 05 Feb 2021 08:54:44 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:651c:1397:: with SMTP id k23ls1798467ljb.11.gmail; Fri,
- 05 Feb 2021 08:58:43 -0800 (PST)
-X-Received: by 2002:a2e:3c0c:: with SMTP id j12mr3220522lja.305.1612544323879;
-        Fri, 05 Feb 2021 08:58:43 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1612544323; cv=none;
+Received: by 2002:ae9:f402:: with SMTP id y2ls62023qkl.7.gmail; Fri, 05 Feb
+ 2021 08:54:43 -0800 (PST)
+X-Received: by 2002:a37:73c3:: with SMTP id o186mr4952159qkc.194.1612544083811;
+        Fri, 05 Feb 2021 08:54:43 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1612544083; cv=none;
         d=google.com; s=arc-20160816;
-        b=Jx7xlV2pYEoC/nKYe4hcQvuN2ND6gX8WSfRES7xQcaClwbPtzllNihZNHKpkSS+NTh
-         hGzOhRyxBSuYS+awDblyw2BwTv4tJbcWq6PxY+YtP5yzhg3msj6yUYMVmPtaGjnGUUn3
-         M+c/cK0JHB+THhSx+/6aQfSX7E5VxFL/bW29LoGqdJ6djtV9ovu9snr8LsyuQ60v3WUQ
-         JAgfzRK9HsqGEn7W8RHRgIqxWtlhY7k94MwFPOVtavQq2prQnasTcBGhZ/HGaM08ksCs
-         MRttoJ3LmPyr9akJq2So512pUOIgjFHI8EglLBCunsRzPQmqIUJWHORu1ELBwEj4hLAx
-         PUNA==
+        b=sFaKZK7c7Cgcwp6Jd1FVgGXFajA3y4ee8X8OHf47B0GuGNVVki4B7evjs9ZcCkDXov
+         3BA6uab2x1DGlPPz9fSpMj5xN73xv1LnVmSyKI5WdYOg1AU19z7RpVToyKjmv/rVm4M5
+         Pbg+LDObFQaDTMZRuRDx15TMlzW7pfWnWpucyZBL6ISWxNgxXGuiKn5VI/Ykth8wYeVd
+         0oPPr05/AG7LtlZnDLcl8b6HQI6o6mQbBpYG5KpcMsRzGDw4KGh4LTded6YHj5jaMFIF
+         CngTGA/OTXPro1Vq+STzzOGPvlSs6QLcWn4m9ZYaSd6IELfwW+1/j2QsyPpeisbftBU3
+         gTGg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:from:subject:mime-version:message-id:date:sender
-         :dkim-signature;
-        bh=4GtWCwQDeimvfkN1mTaSptGywDj7eww9UKGtvZYIBUg=;
-        b=Dgfr0SQRwcMqr2BfpoRYVQyTZeeLbMJ+m5+YivLfSsFNNTHYKF5Z4krlH//wNGazKl
-         WWSZU14fPTHjDSFGKcUSWU27hxa8HVFsaPT+Sl+XWMAdzhocO3KTxixGLAf78DxKFQyK
-         4gKIEWu+uJ/8wBWGZzdepLmoTPLWlilBbX16mPzZUN8xNgF7uQ8A2zedCk4V/nzDjIU8
-         qqtYnGU0ylmuvXpeCpBto75lSq2yS9dBoyYHoQOjBGMCaCj8k1KqLjWEn1DLprJ86Y1D
-         jj0sRkgWO+/IZRtPSLGONY/clIe2B8MB16NSvxxchB9vz9H5eowG9nwKxQuEcghMiLfA
-         v/RQ==
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject;
+        bh=Ul39ircbUyXKXpcQsh985jyF86FxdTF+WusP9eEabIk=;
+        b=zYc3TQ9DZ6lyRgig3/YWYtZSEc7qj9TgD8dAuEs/gT0Onzy/9VNLIE2j7u/ZsB+G0d
+         ID1UBbk+bMKT+mRmvNSZux4LdQaFahv4SHNseEwT949DFZyuEzghmUqqIdPJ2UvpJM+l
+         vitD2kn8rW8xxMZhzSFz3Q7BfFmkrktszx5dM3PLm0inQuMwFt+YD25tefvDW+nZ4c7s
+         TWPtaaWcrNrlc4ENrqeJP9gyrvWnwfoHKFlNgCMCQUwcJFHzn/O0KHgyAVHBHZr0U0+T
+         wnY9PoCfZ/FUtDodpyAFQNBt4WFo86dV5bvzTtPiS7wXbfaxaV2PB4xZzLAF0+k9PLqf
+         BQYA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=KBklsWed;
-       spf=pass (google.com: domain of 3q3kdyaukcbiwdnwjyggydw.ugecsksf-vwnyggydwyjgmhk.uge@flex--elver.bounces.google.com designates 2a00:1450:4864:20::649 as permitted sender) smtp.mailfrom=3Q3kdYAUKCbIWdnWjYggYdW.UgecSkSf-VWnYggYdWYjgmhk.Uge@flex--elver.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-ej1-x649.google.com (mail-ej1-x649.google.com. [2a00:1450:4864:20::649])
-        by gmr-mx.google.com with ESMTPS id d25si402828lji.8.2021.02.05.08.58.43
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 05 Feb 2021 08:58:43 -0800 (PST)
-Received-SPF: pass (google.com: domain of 3q3kdyaukcbiwdnwjyggydw.ugecsksf-vwnyggydwyjgmhk.uge@flex--elver.bounces.google.com designates 2a00:1450:4864:20::649 as permitted sender) client-ip=2a00:1450:4864:20::649;
-Received: by mail-ej1-x649.google.com with SMTP id yh28so7051105ejb.11
-        for <kasan-dev@googlegroups.com>; Fri, 05 Feb 2021 08:58:43 -0800 (PST)
-Sender: "elver via sendgmr" <elver@elver.muc.corp.google.com>
-X-Received: from elver.muc.corp.google.com ([2a00:79e0:15:13:c86d:8e60:951e:3880])
- (user=elver job=sendgmr) by 2002:a50:e14d:: with SMTP id i13mr2777193edl.106.1612544323216;
- Fri, 05 Feb 2021 08:58:43 -0800 (PST)
-Date: Fri,  5 Feb 2021 17:58:35 +0100
-Message-Id: <20210205165835.821714-1-elver@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.30.0.365.g02bc693789-goog
-Subject: [PATCH] blk-mq-debugfs: mark concurrent stats counters as data races
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-To: elver@google.com
-Cc: linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com, axboe@kernel.dk, 
-	linux-block@vger.kernel.org, 
-	syzbot+2c308b859c8c103aae53@syzkaller.appspotmail.com, 
-	syzbot+44f9b37d2de57637dbfd@syzkaller.appspotmail.com, 
-	syzbot+49a9bcf457723ecaf1cf@syzkaller.appspotmail.com, 
-	syzbot+b9914ed52d5b1d63f71d@syzkaller.appspotmail.com
+       spf=pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=vincenzo.frascino@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
+Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
+        by gmr-mx.google.com with ESMTP id a26si585561qkl.1.2021.02.05.08.54.43
+        for <kasan-dev@googlegroups.com>;
+        Fri, 05 Feb 2021 08:54:43 -0800 (PST)
+Received-SPF: pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 081A9106F;
+	Fri,  5 Feb 2021 08:54:43 -0800 (PST)
+Received: from [10.37.8.15] (unknown [10.37.8.15])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3202E3F718;
+	Fri,  5 Feb 2021 08:54:41 -0800 (PST)
+Subject: Re: [PATCH v11 0/5] arm64: ARMv8.5-A: MTE: Add async mode support
+To: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ kasan-dev@googlegroups.com
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Dmitry Vyukov <dvyukov@google.com>, Andrey Ryabinin
+ <aryabinin@virtuozzo.com>, Alexander Potapenko <glider@google.com>,
+ Marco Elver <elver@google.com>, Evgenii Stepanov <eugenis@google.com>,
+ Branislav Rankov <Branislav.Rankov@arm.com>,
+ Andrey Konovalov <andreyknvl@google.com>
+References: <20210130165225.54047-1-vincenzo.frascino@arm.com>
+From: Vincenzo Frascino <vincenzo.frascino@arm.com>
+Message-ID: <1477c6da-a0fe-903c-4257-84c45908c836@arm.com>
+Date: Fri, 5 Feb 2021 16:58:42 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <20210130165225.54047-1-vincenzo.frascino@arm.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=KBklsWed;       spf=pass
- (google.com: domain of 3q3kdyaukcbiwdnwjyggydw.ugecsksf-vwnyggydwyjgmhk.uge@flex--elver.bounces.google.com
- designates 2a00:1450:4864:20::649 as permitted sender) smtp.mailfrom=3Q3kdYAUKCbIWdnWjYggYdW.UgecSkSf-VWnYggYdWYjgmhk.Uge@flex--elver.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+Content-Language: en-US
+X-Original-Sender: vincenzo.frascino@arm.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172
+ as permitted sender) smtp.mailfrom=vincenzo.frascino@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -133,172 +136,126 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-KCSAN reports that several of the blk-mq debugfs stats counters are
-updated concurrently. Because blk-mq-debugfs does not demand precise
-stats counters, potential lossy updates due to data races can be
-tolerated. Therefore, mark and comment the accesses accordingly.
+On 1/30/21 4:52 PM, Vincenzo Frascino wrote:
+> This patchset implements the asynchronous mode support for ARMv8.5-A
+> Memory Tagging Extension (MTE), which is a debugging feature that allows
+> to detect with the help of the architecture the C and C++ programmatic
+> memory errors like buffer overflow, use-after-free, use-after-return, etc.
+> 
+> MTE is built on top of the AArch64 v8.0 virtual address tagging TBI
+> (Top Byte Ignore) feature and allows a task to set a 4 bit tag on any
+> subset of its address space that is multiple of a 16 bytes granule. MTE
+> is based on a lock-key mechanism where the lock is the tag associated to
+> the physical memory and the key is the tag associated to the virtual
+> address.
+> When MTE is enabled and tags are set for ranges of address space of a task,
+> the PE will compare the tag related to the physical memory with the tag
+> related to the virtual address (tag check operation). Access to the memory
+> is granted only if the two tags match. In case of mismatch the PE will raise
+> an exception.
+> 
+> The exception can be handled synchronously or asynchronously. When the
+> asynchronous mode is enabled:
+>   - Upon fault the PE updates the TFSR_EL1 register.
+>   - The kernel detects the change during one of the following:
+>     - Context switching
+>     - Return to user/EL0
+>     - Kernel entry from EL1
+>     - Kernel exit to EL1
+>   - If the register has been updated by the PE the kernel clears it and
+>     reports the error.
+> 
+> The series is based on linux-next/akpm.
+>
 
-Reported-by: syzbot+2c308b859c8c103aae53@syzkaller.appspotmail.com
-Reported-by: syzbot+44f9b37d2de57637dbfd@syzkaller.appspotmail.com
-Reported-by: syzbot+49a9bcf457723ecaf1cf@syzkaller.appspotmail.com
-Reported-by: syzbot+b9914ed52d5b1d63f71d@syzkaller.appspotmail.com
-Signed-off-by: Marco Elver <elver@google.com>
----
-Note: These 4 data races are among the most frequently encountered by
-syzbot:
+We are suspecting an issue with with the kernel access nofault functions
+triggering async faults that impacts Android init process.
+Please do not merge this series until this is sorted.
 
-  https://syzkaller.appspot.com/bug?id=7994761095b9677fb8bccaf41a77a82d5f444839
-  https://syzkaller.appspot.com/bug?id=08193ca23b80ec0e9bcbefba039162cff4f5d7a3
-  https://syzkaller.appspot.com/bug?id=7c51c15438f963024c4a4b3a6d7e119f4bdb2199
-  https://syzkaller.appspot.com/bug?id=6436cb57d04e8c5d6f0f40926d7511232aa2b5d4
----
- block/blk-mq-debugfs.c | 22 ++++++++++++----------
- block/blk-mq-sched.c   |  3 ++-
- block/blk-mq.c         |  9 ++++++---
- 3 files changed, 20 insertions(+), 14 deletions(-)
+> To simplify the testing a tree with the new patches on top has been made
+> available at [1].
+> 
+> [1] https://git.gitlab.arm.com/linux-arm/linux-vf.git mte/v10.async.akpm
+> 
+> Changes:
+> --------
+> v11:
+>   - Added patch that disables KUNIT tests in async mode
+> v10:
+>   - Rebase on the latest linux-next/akpm
+>   - Address review comments.
+> v9:
+>   - Rebase on the latest linux-next/akpm
+>   - Address review comments.
+> v8:
+>   - Address review comments.
+> v7:
+>   - Fix a warning reported by kernel test robot. This
+>     time for real.
+> v6:
+>   - Drop patches that forbid KASAN KUNIT tests when async
+>     mode is enabled.
+>   - Fix a warning reported by kernel test robot.
+>   - Address review comments.
+> v5:
+>   - Rebase the series on linux-next/akpm.
+>   - Forbid execution for KASAN KUNIT tests when async
+>     mode is enabled.
+>   - Dropped patch to inline mte_assign_mem_tag_range().
+>   - Address review comments.
+> v4:
+>   - Added support for kasan.mode (sync/async) kernel
+>     command line parameter.
+>   - Addressed review comments.
+> v3:
+>   - Exposed kasan_hw_tags_mode to convert the internal
+>     KASAN represenetation.
+>   - Added dsb() for kernel exit paths in arm64.
+>   - Addressed review comments.
+> v2:
+>   - Fixed a compilation issue reported by krobot.
+>   - General cleanup.
+> 
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Catalin Marinas <catalin.marinas@arm.com>
+> Cc: Will Deacon <will@kernel.org>
+> Cc: Dmitry Vyukov <dvyukov@google.com>
+> Cc: Andrey Ryabinin <aryabinin@virtuozzo.com>
+> Cc: Alexander Potapenko <glider@google.com>
+> Cc: Marco Elver <elver@google.com>
+> Cc: Evgenii Stepanov <eugenis@google.com>
+> Cc: Branislav Rankov <Branislav.Rankov@arm.com>
+> Cc: Andrey Konovalov <andreyknvl@google.com>
+> Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
+> 
+> Andrey Konovalov (1):
+>   kasan: don't run tests in async mode
+> 
+> Vincenzo Frascino (4):
+>   arm64: mte: Add asynchronous mode support
+>   kasan: Add KASAN mode kernel parameter
+>   kasan: Add report for async mode
+>   arm64: mte: Enable async tag check fault
+> 
+>  Documentation/dev-tools/kasan.rst  |  9 +++++
+>  arch/arm64/include/asm/memory.h    |  3 +-
+>  arch/arm64/include/asm/mte-kasan.h |  9 ++++-
+>  arch/arm64/include/asm/mte.h       | 32 ++++++++++++++++
+>  arch/arm64/kernel/entry-common.c   |  6 +++
+>  arch/arm64/kernel/mte.c            | 60 +++++++++++++++++++++++++++++-
+>  include/linux/kasan.h              |  6 +++
+>  lib/test_kasan.c                   |  6 ++-
+>  mm/kasan/hw_tags.c                 | 51 ++++++++++++++++++++++++-
+>  mm/kasan/kasan.h                   |  7 +++-
+>  mm/kasan/report.c                  | 17 ++++++++-
+>  11 files changed, 196 insertions(+), 10 deletions(-)
+> 
 
-diff --git a/block/blk-mq-debugfs.c b/block/blk-mq-debugfs.c
-index 4de03da9a624..687d201f0d7b 100644
---- a/block/blk-mq-debugfs.c
-+++ b/block/blk-mq-debugfs.c
-@@ -554,15 +554,16 @@ static int hctx_dispatched_show(void *data, struct seq_file *m)
- 	struct blk_mq_hw_ctx *hctx = data;
- 	int i;
- 
--	seq_printf(m, "%8u\t%lu\n", 0U, hctx->dispatched[0]);
-+	seq_printf(m, "%8u\t%lu\n", 0U, data_race(hctx->dispatched[0]));
- 
- 	for (i = 1; i < BLK_MQ_MAX_DISPATCH_ORDER - 1; i++) {
- 		unsigned int d = 1U << (i - 1);
- 
--		seq_printf(m, "%8u\t%lu\n", d, hctx->dispatched[i]);
-+		seq_printf(m, "%8u\t%lu\n", d, data_race(hctx->dispatched[i]));
- 	}
- 
--	seq_printf(m, "%8u+\t%lu\n", 1U << (i - 1), hctx->dispatched[i]);
-+	seq_printf(m, "%8u+\t%lu\n", 1U << (i - 1),
-+		   data_race(hctx->dispatched[i]));
- 	return 0;
- }
- 
-@@ -573,7 +574,7 @@ static ssize_t hctx_dispatched_write(void *data, const char __user *buf,
- 	int i;
- 
- 	for (i = 0; i < BLK_MQ_MAX_DISPATCH_ORDER; i++)
--		hctx->dispatched[i] = 0;
-+		data_race(hctx->dispatched[i] = 0);
- 	return count;
- }
- 
-@@ -581,7 +582,7 @@ static int hctx_queued_show(void *data, struct seq_file *m)
- {
- 	struct blk_mq_hw_ctx *hctx = data;
- 
--	seq_printf(m, "%lu\n", hctx->queued);
-+	seq_printf(m, "%lu\n", data_race(hctx->queued));
- 	return 0;
- }
- 
-@@ -590,7 +591,7 @@ static ssize_t hctx_queued_write(void *data, const char __user *buf,
- {
- 	struct blk_mq_hw_ctx *hctx = data;
- 
--	hctx->queued = 0;
-+	data_race(hctx->queued = 0);
- 	return count;
- }
- 
-@@ -598,7 +599,7 @@ static int hctx_run_show(void *data, struct seq_file *m)
- {
- 	struct blk_mq_hw_ctx *hctx = data;
- 
--	seq_printf(m, "%lu\n", hctx->run);
-+	seq_printf(m, "%lu\n", data_race(hctx->run));
- 	return 0;
- }
- 
-@@ -607,7 +608,7 @@ static ssize_t hctx_run_write(void *data, const char __user *buf, size_t count,
- {
- 	struct blk_mq_hw_ctx *hctx = data;
- 
--	hctx->run = 0;
-+	data_race(hctx->run = 0);
- 	return count;
- }
- 
-@@ -702,7 +703,8 @@ static int ctx_completed_show(void *data, struct seq_file *m)
- {
- 	struct blk_mq_ctx *ctx = data;
- 
--	seq_printf(m, "%lu %lu\n", ctx->rq_completed[1], ctx->rq_completed[0]);
-+	seq_printf(m, "%lu %lu\n", data_race(ctx->rq_completed[1]),
-+		   data_race(ctx->rq_completed[0]));
- 	return 0;
- }
- 
-@@ -711,7 +713,7 @@ static ssize_t ctx_completed_write(void *data, const char __user *buf,
- {
- 	struct blk_mq_ctx *ctx = data;
- 
--	ctx->rq_completed[0] = ctx->rq_completed[1] = 0;
-+	data_race(ctx->rq_completed[0] = ctx->rq_completed[1] = 0);
- 	return count;
- }
- 
-diff --git a/block/blk-mq-sched.c b/block/blk-mq-sched.c
-index deff4e826e23..71a49835e89a 100644
---- a/block/blk-mq-sched.c
-+++ b/block/blk-mq-sched.c
-@@ -332,7 +332,8 @@ void blk_mq_sched_dispatch_requests(struct blk_mq_hw_ctx *hctx)
- 	if (unlikely(blk_mq_hctx_stopped(hctx) || blk_queue_quiesced(q)))
- 		return;
- 
--	hctx->run++;
-+	/* data race ok: hctx->run only for debugfs stats. */
-+	data_race(hctx->run++);
- 
- 	/*
- 	 * A return of -EAGAIN is an indication that hctx->dispatch is not
-diff --git a/block/blk-mq.c b/block/blk-mq.c
-index f285a9123a8b..1d8970602032 100644
---- a/block/blk-mq.c
-+++ b/block/blk-mq.c
-@@ -341,7 +341,8 @@ static struct request *blk_mq_rq_ctx_init(struct blk_mq_alloc_data *data,
- 		}
- 	}
- 
--	data->hctx->queued++;
-+	/* data race ok: hctx->queued only for debugfs stats. */
-+	data_race(data->hctx->queued++);
- 	return rq;
- }
- 
-@@ -519,7 +520,8 @@ void blk_mq_free_request(struct request *rq)
- 		}
- 	}
- 
--	ctx->rq_completed[rq_is_sync(rq)]++;
-+	/* data race ok: ctx->rq_completed only for debugfs stats. */
-+	data_race(ctx->rq_completed[rq_is_sync(rq)]++);
- 	if (rq->rq_flags & RQF_MQ_INFLIGHT)
- 		__blk_mq_dec_active_requests(hctx);
- 
-@@ -1419,7 +1421,8 @@ bool blk_mq_dispatch_rq_list(struct blk_mq_hw_ctx *hctx, struct list_head *list,
- 	if (!list_empty(&zone_list))
- 		list_splice_tail_init(&zone_list, list);
- 
--	hctx->dispatched[queued_to_index(queued)]++;
-+	/* data race ok: hctx->dispatched only for debugfs stats. */
-+	data_race(hctx->dispatched[queued_to_index(queued)]++);
- 
- 	/* If we didn't flush the entire list, we could have told the driver
- 	 * there was more coming, but that turned out to be a lie.
-
-base-commit: 61556703b610a104de324e4f061dc6cf7b218b46
 -- 
-2.30.0.365.g02bc693789-goog
+Regards,
+Vincenzo
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210205165835.821714-1-elver%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/1477c6da-a0fe-903c-4257-84c45908c836%40arm.com.
