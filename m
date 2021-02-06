@@ -1,30 +1,30 @@
-Return-Path: <kasan-dev+bncBCN7B3VUS4CRBFFK7GAAMGQEGKUYAEY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCN7B3VUS4CRB7NJ7GAAMGQEYKUIMNA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oo1-xc3f.google.com (mail-oo1-xc3f.google.com [IPv6:2607:f8b0:4864:20::c3f])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC4BF311C34
-	for <lists+kasan-dev@lfdr.de>; Sat,  6 Feb 2021 09:36:37 +0100 (CET)
-Received: by mail-oo1-xc3f.google.com with SMTP id k63sf5037486oob.20
-        for <lists+kasan-dev@lfdr.de>; Sat, 06 Feb 2021 00:36:37 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1612600596; cv=pass;
+Received: from mail-qt1-x83d.google.com (mail-qt1-x83d.google.com [IPv6:2607:f8b0:4864:20::83d])
+	by mail.lfdr.de (Postfix) with ESMTPS id A1558311C30
+	for <lists+kasan-dev@lfdr.de>; Sat,  6 Feb 2021 09:36:14 +0100 (CET)
+Received: by mail-qt1-x83d.google.com with SMTP id v13sf7036058qtq.18
+        for <lists+kasan-dev@lfdr.de>; Sat, 06 Feb 2021 00:36:14 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1612600573; cv=pass;
         d=google.com; s=arc-20160816;
-        b=vpKIBcHGY5PBcFG9NK1vtEe9Df8VdI6ZwjiO31edhsIVMPdGtOoHz7QFWid2ajcqJX
-         aQqSjPgS627G/KEQdMkQCgq7rPfQMbl8ZVVEmnmfslz7t3i0sl7ienKmA/tGwWuygcKk
-         RkSktU/ZRJDWXbNIS2FPXZwpnDVovNK9L12np+ootnNJTn6PrIcjq1jID/7zPBwM+YRn
-         Vyfqfro+eckwf46bWg7Qj0JLtzM9DiiAcqav31AWanTofXafR3UiYEtPiNpdSCcTRnvw
-         q5o8TIKg/U5on/MbN4XyVwVWEYvNe/UqY8MguPwEzP7cQ9glBjqJ+Azr3r1LvY7KMtH4
-         7yVw==
+        b=LIPC9XgIalaVJu5Y0F2HBF6v36C9QMvkFBuJYypEtvHn3aQP0kEbwVs+hdOHtYPSPQ
+         ftGxJmK0f1rGt3mXlcxNqrftY3dcwevOcW4+od9vYcVZEdIMG/bL51zzZPMsG5uvj6Wv
+         GFocJD9ehnFKVerR6yeuVeQKBl02uo9hnoj8CIzsv7XFUI16/BeXFIK/ib8q7M+hIyLl
+         kYlzOiXVIKSpPdmoARTjrDdpWWaJwx6n0Klg++PWZswcS1RTTGGBhYfpgpCnwqLliVN4
+         ujJo0zQTWZR//t10U2ibJi8PEB2vnhAkSBVFarxSNbNqH+8aRuIa8JsXjFp/c39nZOKU
+         Ti4g==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=CTK/Y+84E0Rz7OwKDO5NbjYl9TKNtAOVRLDXaW7wD5A=;
-        b=Hl1btTqDw2aW02/YqLym45M2jPPTOZ3WatZBjxuCQu2jerkv/7mGFHC2LqQ4shsuPl
-         hU9I15CAbf0ygkOyH7viM2aKGplzXcmfPN8as2VCdeH/sLcMDaVtoUdZXd9Sip4RZT9W
-         G0eTX60ETQfgWXeT/kck7UDlnt5wjcCRi/MYLdZY1cXsGTHQLK85mR+Fl8U7vDGWbr96
-         48jxRcXALNGc+EK4kQsdNWFPmW1wRr3UpzwGPo54eCGmSdpPxYah9zxTr05lF45GT6EI
-         ZCwYs1phcrANwqM7wT8uu3EDtEHO3EmSQlLsaStrvfiRhrmmyNl4uxCk+a4bw2IlX0hl
-         7wdw==
+        bh=pf8LoM0As9Pf7Ubu2PJJ7FaLiapOIoMZsAuUcfjIWd8=;
+        b=ql0Q09cHXosm3fDaBBqp78MGobdbaB7lmmhMZ3i/geoS9dDZwmsGBwCydONWw+xHab
+         /rIm8i21xzbDvpyhOXv67Z9D+y9QSk8WVWlhlqk8bEmiGb3JPUkzDMQ3tqIdCrQSdrVM
+         SqYtZrz5f36mRRGwub9odvOFGyQvfMNcS+AM/GESs3ZdNJLNNQyBkhigWXpPdbQZGI2D
+         sFnqeJJmNP0G4jZviD2H0VO4HZ+YkR9hfxYKQs/oZ+O/ntTWRism/vKsGO4hkP35+QqX
+         lH9giP+g77l4Qjl/rNiG/UHJO77oMD0wIsgArIACpdDyeeBtWkkSq2wMGl+pQnehDdBJ
+         rXiA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
        spf=pass (google.com: domain of lecopzer.chen@mediatek.com designates 210.61.82.184 as permitted sender) smtp.mailfrom=lecopzer.chen@mediatek.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
@@ -34,13 +34,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :mime-version:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=CTK/Y+84E0Rz7OwKDO5NbjYl9TKNtAOVRLDXaW7wD5A=;
-        b=hpapGjxezIdT7WjEPjtQwu84xyEAjDXFE1Q2F7ZdoGYT4zdB1IjazpKwc7Lu8Gdfm/
-         /Yzt99kQ4AJqOYGBC9ThiAF9fSs8mbpv7sSYDG4DbhGox4VdJiFxu9t1ZdTqLkxlpNfs
-         VVXAzO+J6+DganXLUTPGCPmbqHOx5chVzUlbTTpia4OV8rQvoRliiblLHMLFczSREShA
-         jum+GMuRSWHsIZRq8VgGqjf5MylAZxVifp45ieAwjd2qyq9PXGxhhc2UyiFSTnzuRhJv
-         Ex7cZBMHj2ySxeAwc213rEeVOo7Q4dKxeMPPIsGm/YqbICkHuN+R6LNvuwREvbV3rqDO
-         4aCA==
+        bh=pf8LoM0As9Pf7Ubu2PJJ7FaLiapOIoMZsAuUcfjIWd8=;
+        b=f6wjiIbPBEOFJTKbgJ+fXljPdgvqe6y6ODyrLHQirezAYrwwTizXkwd5iQPaFKEj+J
+         /j7Zv++F7cUfYCtctcsVVx2ATQEEJmY03ZKiuXUxl+0GiF99s7MGdw+xGsaps11ed4hj
+         xojJDuoHzBRCj3HOjc9Sp/u6O7wx7HXq80bAThDm2TY6N8TAyt837mZppykD1eqL0o01
+         UInOA14u4QOdGtqG5Rwvb5mTPvogW2zips3eOPU/2xJCX3+F6aLJaZhHGfTdqZ2Hz4W+
+         sK0l4dvNI5x7imnGhT9QlJcVRwiEHUtuSCUaGiu4cGg7wKhU86IJ60vLcfYVa32cUx0F
+         MQIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
@@ -48,62 +48,62 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=CTK/Y+84E0Rz7OwKDO5NbjYl9TKNtAOVRLDXaW7wD5A=;
-        b=EmxZ73a53hWb4A3F9UNqPihExXzZfVMvpOqygNsWG0tsVJeD2VcAb+E/RETY14jdJE
-         Xyc1LsbI/40JDmiTwEc8t1cjzexFsm5JeWV+drRPNUE4JMOBHkE/IpsIWCtY9V6NcJ5R
-         7RtEd8pjoxSuEwW99hP0UQ5P2g4R8KWYxcMAd/c61s3MXkSNV8GXelU2XrNZqB414wi0
-         bxT52sAA+5hY5tCQlBQn4+O07kVryjmDGL2Zh3354EpGCMNwfcVGT/EJsJYJ2pFzFWbY
-         3S4cq2GNKzTwBNGn+sJr0AyddouRjyIu9i5dKcmLdW0MiVL47XuAhcBqQwzY9LZf7Gp/
-         U4YA==
+        bh=pf8LoM0As9Pf7Ubu2PJJ7FaLiapOIoMZsAuUcfjIWd8=;
+        b=cxdRTWIjE+WE95Hmybm8kINrvALRFQyfu4xffysdJEGqhnWqVq6K8amk4MnQkQj966
+         1zkoByUNfNsSZ3JtxFfow1vAszTvmWusZBs4SsrcUiY5kNBvUUI97MYaIVKFWI83esH6
+         Xlh1qQGybk/xQUv7nLscOgjVaI0bIZuyamRP08clCBm9wA38IwNI/5PVcsj3imRfGJ6b
+         M1NAGqVdvsofohygM7WECli5lY/VKENn/bYjHLheS4j14ARd7wpP4jDk93022pXXXdPK
+         dNNpZzM23pZgANfoOuyR8+VwxlRxqyvTlJSxibIaN6654ysB0rZIRm9LJ6ioMdzrG0Iw
+         /Lvg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM533DZ5RhzezOANlRB1ERQZC/b2M+0f94YZy/gf0aP1m+vKYK7nDr
-	WNKz5iG6aQONnvuuXzEZcE8=
-X-Google-Smtp-Source: ABdhPJzVEc31KFLOcr9dAE6GQ9M+ZFtejZUqIT3p88j7Hm6NwnoXUBn3zXxJJBu7F9Jbl9eTt06KbA==
-X-Received: by 2002:aca:b683:: with SMTP id g125mr5332275oif.47.1612600596369;
-        Sat, 06 Feb 2021 00:36:36 -0800 (PST)
+X-Gm-Message-State: AOAM533fo+yGU15JFZFrBLykk9Gr/reAl5UuzB1WqxvVEL11PM35ZQRt
+	iO3BtrVJN1WqAZ11nQaZZnA=
+X-Google-Smtp-Source: ABdhPJzS+HP6fZLRWRVa7knEOel9WiH6LxQHLzJlUnoS3wf+GSToi142ZwWuCFDSPF22cUJ0t2qBeg==
+X-Received: by 2002:a05:622a:514:: with SMTP id l20mr8072619qtx.62.1612600573336;
+        Sat, 06 Feb 2021 00:36:13 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a9d:7290:: with SMTP id t16ls2854922otj.11.gmail; Sat, 06
- Feb 2021 00:36:35 -0800 (PST)
-X-Received: by 2002:a9d:75d1:: with SMTP id c17mr6228209otl.78.1612600595902;
-        Sat, 06 Feb 2021 00:36:35 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1612600595; cv=none;
+Received: by 2002:a0c:e60c:: with SMTP id z12ls2847045qvm.0.gmail; Sat, 06 Feb
+ 2021 00:36:13 -0800 (PST)
+X-Received: by 2002:a0c:abce:: with SMTP id k14mr8235058qvb.23.1612600573002;
+        Sat, 06 Feb 2021 00:36:13 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1612600572; cv=none;
         d=google.com; s=arc-20160816;
-        b=KgvIJ0kQ8wGvX6ipKNBiWBIPB814Fsi+cILu2vaDPZjsC1hnyULrPUTibBacD/6KBh
-         tPtc059MAC52MxBmkreOYo5jBYEe2bpaqjJjh/6URLLozQjwnF6LFXlLh0chh3ejGkua
-         s9/kra/2OSJ0HZdphCLzGhjIwlJTiSoYnVmgA9sZOvOQmG4BLWdR4UowZhthXJMrhELw
-         6pn88vJSIQuvBsvVWVwUQZqdETS5B6W/fsQuph360zwuiGw+hwnDnXzaiCBT43y7h4ad
-         M7CnrbQdHbzCj3uIKFRBqcoW4U25DVupjAhUaBzcSHqwTKDoPmaFxJraJ/JphFGa6iZT
-         399Q==
+        b=IFrEguY3SWIe7hraJagW+E+GvX23T9+LQENn2q7+qdCSWgE9fto+1V2SyhjNnFMbUk
+         F0IWDsubg2V6AbiB9YSVxBAsm6c/EI30PBBmgtRr3v7Vcjj4OEYavbksg/uuLZRVfhmj
+         GetIU6FGj5g7H1pwld/g9vuzuHYkA2F7TBgPaSalvifSR+afggjZcPEPyqB4UAQrZwSZ
+         oMT7bsy+tbaEee0hLuksBtTtaxahkncozULF0XyB0IPYw3r3rQaqOQoN5Ozqc02HP5yg
+         MJ+KH8n/woKTMo8ad0HO6GATZEzQcYtPkQEzZ293caTf3wbzJP+1lUau1FxyU5AAhPEQ
+         7o9Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=mime-version:references:in-reply-to:message-id:date:subject:cc:to
          :from;
-        bh=grZq009Xmt+QDKWl/o4L24H+4kI+JK07VQuxP4SBXsc=;
-        b=YEcXKedmKbhfrZJQFDXRqGzAK+uxZqaME8pQyD+X80bR/zq+WPApPQuLf35HUXphWw
-         OTZrdMVtSxl3IC4SPoyYFuUj9LyRZOTISKTxhz8VSCSqfwAwDe+fwvgFiXX2J9bU2UOy
-         jGIe4YL8ttBplCv1u30o6IqJzxvcn0aVamt+ZvHNUUOEcpo9BeftD17Wb1Avc3qGhIO/
-         HcfrLOAnE2gFvcTF7AzKhBi/13i/Slffri3c7XKBKMXmMqUH3bFwl8u92lk6CUvPunGi
-         TPdN4QvPwqvvZDQy8leOZSdZs13j0B3MzisdCkyntXKCb5/g9nibndD09Wlq7aoVmAlt
-         HTLg==
+        bh=xjESqlUb86RQ6iRPUx+QrIUmLWqLivYfrQTN5THOZlI=;
+        b=svvenPgrdZ+BRbAWLIjMZR9ib6/G+P+oXewxzwdl/gMsTiJiMaQwTT7ya0gOHKip9d
+         MrbZH+Xgc9xCSVPwlXmTxstnxlzazelanRUNn9fgCsz6ivmoY3gibBqY12GPiCzKSRZ7
+         y2z7KM4hSfyzOxwgO7qvG3MGi+fBC2H87ote9D0m/2xgw/jmTjgBfpH04NJkG+Hv05MQ
+         HayjEqFfILde6VIFT8oujY0BYw6u5RQAJPJBiHU86iCK0V8Lywezlz0++1aXlWv0WeBk
+         jhNmAnrmGyCiZSi5/S+TlEtbXRZPA3Oa/YVW2AGsvMn5ZNzIYPscsUzoEtqeeC1OJMBf
+         QgVw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
        spf=pass (google.com: domain of lecopzer.chen@mediatek.com designates 210.61.82.184 as permitted sender) smtp.mailfrom=lecopzer.chen@mediatek.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
 Received: from mailgw02.mediatek.com ([210.61.82.184])
-        by gmr-mx.google.com with ESMTP id e184si984191oif.0.2021.02.06.00.36.33
+        by gmr-mx.google.com with ESMTP id p6si538757qti.1.2021.02.06.00.36.12
         for <kasan-dev@googlegroups.com>;
-        Sat, 06 Feb 2021 00:36:33 -0800 (PST)
+        Sat, 06 Feb 2021 00:36:12 -0800 (PST)
 Received-SPF: pass (google.com: domain of lecopzer.chen@mediatek.com designates 210.61.82.184 as permitted sender) client-ip=210.61.82.184;
-X-UUID: d0371bc42d6a433280f0882081989412-20210206
-X-UUID: d0371bc42d6a433280f0882081989412-20210206
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by mailgw02.mediatek.com
+X-UUID: 9d3405466d6343438602b56379476005-20210206
+X-UUID: 9d3405466d6343438602b56379476005-20210206
+Received: from mtkmrs01.mediatek.inc [(172.21.131.159)] by mailgw02.mediatek.com
 	(envelope-from <lecopzer.chen@mediatek.com>)
 	(Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-	with ESMTP id 123114299; Sat, 06 Feb 2021 16:36:29 +0800
+	with ESMTP id 1824139656; Sat, 06 Feb 2021 16:36:09 +0800
 Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs08n1.mediatek.inc (172.21.101.55) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Sat, 6 Feb 2021 16:36:06 +0800
+ mtkmbs08n2.mediatek.inc (172.21.101.56) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Sat, 6 Feb 2021 16:36:07 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas11.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Sat, 6 Feb 2021 16:36:07 +0800
+ Transport; Sat, 6 Feb 2021 16:36:08 +0800
 From: Lecopzer Chen <lecopzer.chen@mediatek.com>
 To: <linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
 	<kasan-dev@googlegroups.com>, <linux-arm-kernel@lists.infradead.org>,
@@ -116,14 +116,15 @@ CC: <dan.j.williams@intel.com>, <aryabinin@virtuozzo.com>,
 	<tyhicks@linux.microsoft.com>, <robin.murphy@arm.com>,
 	<vincenzo.frascino@arm.com>, <gustavoars@kernel.org>, <lecopzer@gmail.com>,
 	Lecopzer Chen <lecopzer.chen@mediatek.com>
-Subject: [PATCH v3 3/5] arm64: Kconfig: support CONFIG_KASAN_VMALLOC
-Date: Sat, 6 Feb 2021 16:35:50 +0800
-Message-ID: <20210206083552.24394-4-lecopzer.chen@mediatek.com>
+Subject: [PATCH v3 4/5] arm64: kaslr: support randomized module area with KASAN_VMALLOC
+Date: Sat, 6 Feb 2021 16:35:51 +0800
+Message-ID: <20210206083552.24394-5-lecopzer.chen@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20210206083552.24394-1-lecopzer.chen@mediatek.com>
 References: <20210206083552.24394-1-lecopzer.chen@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
+X-TM-SNTS-SMTP: DEC81A8B4BED333FFD3CB4BEEA964F8E7288657F38F621992E8AA30C4139E42E2000:8
 X-MTK: N
 X-Original-Sender: lecopzer.chen@mediatek.com
 X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
@@ -142,30 +143,88 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Now we can backed shadow memory in vmalloc area,
-thus make KASAN_VMALLOC selectable.
+After KASAN_VMALLOC works in arm64, we can randomize module region
+into vmalloc area now.
 
+Test:
+	VMALLOC area ffffffc010000000 fffffffdf0000000
+
+	before the patch:
+		module_alloc_base/end ffffffc008b80000 ffffffc010000000
+	after the patch:
+		module_alloc_base/end ffffffdcf4bed000 ffffffc010000000
+
+	And the function that insmod some modules is fine.
+
+Suggested-by: Ard Biesheuvel <ardb@kernel.org>
 Signed-off-by: Lecopzer Chen <lecopzer.chen@mediatek.com>
 ---
- arch/arm64/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+ arch/arm64/kernel/kaslr.c  | 18 ++++++++++--------
+ arch/arm64/kernel/module.c | 16 +++++++++-------
+ 2 files changed, 19 insertions(+), 15 deletions(-)
 
-diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-index f39568b28ec1..a8f5a9171a85 100644
---- a/arch/arm64/Kconfig
-+++ b/arch/arm64/Kconfig
-@@ -136,6 +136,7 @@ config ARM64
- 	select HAVE_ARCH_JUMP_LABEL
- 	select HAVE_ARCH_JUMP_LABEL_RELATIVE
- 	select HAVE_ARCH_KASAN if !(ARM64_16K_PAGES && ARM64_VA_BITS_48)
-+	select HAVE_ARCH_KASAN_VMALLOC if HAVE_ARCH_KASAN
- 	select HAVE_ARCH_KASAN_SW_TAGS if HAVE_ARCH_KASAN
- 	select HAVE_ARCH_KASAN_HW_TAGS if (HAVE_ARCH_KASAN && ARM64_MTE)
- 	select HAVE_ARCH_KGDB
+diff --git a/arch/arm64/kernel/kaslr.c b/arch/arm64/kernel/kaslr.c
+index 1c74c45b9494..a2858058e724 100644
+--- a/arch/arm64/kernel/kaslr.c
++++ b/arch/arm64/kernel/kaslr.c
+@@ -161,15 +161,17 @@ u64 __init kaslr_early_init(u64 dt_phys)
+ 	/* use the top 16 bits to randomize the linear region */
+ 	memstart_offset_seed = seed >> 48;
+ 
+-	if (IS_ENABLED(CONFIG_KASAN_GENERIC) ||
+-	    IS_ENABLED(CONFIG_KASAN_SW_TAGS))
++	if (!IS_ENABLED(CONFIG_KASAN_VMALLOC) &&
++	    (IS_ENABLED(CONFIG_KASAN_GENERIC) ||
++	     IS_ENABLED(CONFIG_KASAN_SW_TAGS)))
+ 		/*
+-		 * KASAN does not expect the module region to intersect the
+-		 * vmalloc region, since shadow memory is allocated for each
+-		 * module at load time, whereas the vmalloc region is shadowed
+-		 * by KASAN zero pages. So keep modules out of the vmalloc
+-		 * region if KASAN is enabled, and put the kernel well within
+-		 * 4 GB of the module region.
++		 * KASAN without KASAN_VMALLOC does not expect the module region
++		 * to intersect the vmalloc region, since shadow memory is
++		 * allocated for each module at load time, whereas the vmalloc
++		 * region is shadowed by KASAN zero pages. So keep modules
++		 * out of the vmalloc region if KASAN is enabled without
++		 * KASAN_VMALLOC, and put the kernel well within 4 GB of the
++		 * module region.
+ 		 */
+ 		return offset % SZ_2G;
+ 
+diff --git a/arch/arm64/kernel/module.c b/arch/arm64/kernel/module.c
+index fe21e0f06492..b5ec010c481f 100644
+--- a/arch/arm64/kernel/module.c
++++ b/arch/arm64/kernel/module.c
+@@ -40,14 +40,16 @@ void *module_alloc(unsigned long size)
+ 				NUMA_NO_NODE, __builtin_return_address(0));
+ 
+ 	if (!p && IS_ENABLED(CONFIG_ARM64_MODULE_PLTS) &&
+-	    !IS_ENABLED(CONFIG_KASAN_GENERIC) &&
+-	    !IS_ENABLED(CONFIG_KASAN_SW_TAGS))
++	    (IS_ENABLED(CONFIG_KASAN_VMALLOC) ||
++	     (!IS_ENABLED(CONFIG_KASAN_GENERIC) &&
++	      !IS_ENABLED(CONFIG_KASAN_SW_TAGS))))
+ 		/*
+-		 * KASAN can only deal with module allocations being served
+-		 * from the reserved module region, since the remainder of
+-		 * the vmalloc region is already backed by zero shadow pages,
+-		 * and punching holes into it is non-trivial. Since the module
+-		 * region is not randomized when KASAN is enabled, it is even
++		 * KASAN without KASAN_VMALLOC can only deal with module
++		 * allocations being served from the reserved module region,
++		 * since the remainder of the vmalloc region is already
++		 * backed by zero shadow pages, and punching holes into it
++		 * is non-trivial. Since the module region is not randomized
++		 * when KASAN is enabled without KASAN_VMALLOC, it is even
+ 		 * less likely that the module region gets exhausted, so we
+ 		 * can simply omit this fallback in that case.
+ 		 */
 -- 
 2.25.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210206083552.24394-4-lecopzer.chen%40mediatek.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210206083552.24394-5-lecopzer.chen%40mediatek.com.
