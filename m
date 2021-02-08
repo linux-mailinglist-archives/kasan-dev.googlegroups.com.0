@@ -1,143 +1,128 @@
-Return-Path: <kasan-dev+bncBCSJ7B6JQALRBN76QWAQMGQEUS2YYIA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDX4HWEMTEBRBKMLQ2AQMGQEQ6QYNYQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pg1-x53f.google.com (mail-pg1-x53f.google.com [IPv6:2607:f8b0:4864:20::53f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DDC6313CE0
-	for <lists+kasan-dev@lfdr.de>; Mon,  8 Feb 2021 19:13:12 +0100 (CET)
-Received: by mail-pg1-x53f.google.com with SMTP id 8sf11357569pgn.8
-        for <lists+kasan-dev@lfdr.de>; Mon, 08 Feb 2021 10:13:12 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1612807991; cv=pass;
+Received: from mail-yb1-xb3a.google.com (mail-yb1-xb3a.google.com [IPv6:2607:f8b0:4864:20::b3a])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8113313DBA
+	for <lists+kasan-dev@lfdr.de>; Mon,  8 Feb 2021 19:40:42 +0100 (CET)
+Received: by mail-yb1-xb3a.google.com with SMTP id v7sf17758564ybl.15
+        for <lists+kasan-dev@lfdr.de>; Mon, 08 Feb 2021 10:40:42 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1612809642; cv=pass;
         d=google.com; s=arc-20160816;
-        b=oNDOUUky3dt9Ejdaa33/+Ve/6vkSFw+5gf6EkmJ6zTfa5vdZyAtKZRr4PEzyrqRlWe
-         6bQaIObnxBGvDYQxNwG50VH9JGn2BnLYOSVwTofCAk5V7qPLRvc3WVOfrV6K0RdLYYLl
-         UMf2SpCfwI7cTtLX8xVwe+moeu2vsthtYTx1QcQ5eoO4nGzhRpIGdY6hRckBmELorsso
-         cGv7OTQAjonf3v56392mECsh2XuIEL2PUuryG/OijFP0RkfLeqeRvOrB74TI/dVE5ir5
-         Ct25QkRsO723ks3fxbG+eFM2P01nwFW8zIZ/GAfqOSpQ7CUBns+VTBnGvxHAyt1N7np+
-         lnwQ==
+        b=j87/1UVeMuD0kzZ1qaDs/fY9IrDhvaW0p+GqI5IWgBwYJnwenjC0B2hN3XT0aXGgc+
+         0EF/Ajbx7BFNlCGta1NboRkPrx4RTknK6w+5S8lOGv0Taao6whuK7tiw00m9+7Rv1Q5m
+         Z657BVWan01B0kL4CQoEBMmoA/0e+iBGBOBiOsO0wk1CRM920dKnf2MFCPeWbwMwV+9h
+         WWkxgsYcZAMcbPWlvuwO2jNDyhZQUuTwJP077yVPVxXlLa9Qws5cUc1GHfW5xdAJKmMP
+         bTDk0j2G6MQXTvSsa/LUXGyoopaVOqRuI0zbm3Ln2sS6FHbtVOj/5q3D4yrxQz597/Ag
+         aO+w==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=bED9tzO3yEVXO1B2PKABA5Cf0ukbcpHj4BCLzrfp5y8=;
-        b=hUBhphjNpV5PADLaAmMVGtFfUxzGOJCj5bWySf/K5JyfhPZd9YgaAd++p00C2snImc
-         xeLD4s3nB2RAJnvk+EKbIKSh97S3kEcmbiFjB/TEl8x+AOd9W5LO2JpCaJMtx/JDBji3
-         JSlayuc8EHjBGlCgqu7Nb1ZTDp84Wep7VpUOlPrGbPxM7xY8M66ZrRdS8Fw85IWvMaEI
-         QYUznANydkCwSQwH1xF3Rh7+Z2q18yxBjlKDJR7XzeSaTHciyzeWMuZ/0tckEFUJgfd1
-         UlFWSCqyi1ofFTNqBndKSwqhBVoBxVKMZYSjMrIbhpehuFzS0EG8WdV6zj1OYq8wKAI+
-         WTnw==
+         :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
+         :mime-version:message-id:date:sender:dkim-signature;
+        bh=VC59t++DX+CJ7cnFL/ROLBOwNzVaRt6K1UOyohddmKw=;
+        b=NyW9qjTer1/rdd9ubvlTsRABowZAA7eSSWX8RciBiH2rSSD0dYYLUlT+qN/vGWAhqu
+         3mTnb5dWtBr8WtZSyxRq0alvrm6Srvcl1uNWlplE40OaV4vbElHyQocONcChw1z4ZXc2
+         2BF9f3F/1DgVIOz4e1BMBICXMsRuUWxRxKl4Zs/o1LTY260ZBtbp53yFAyA5RtpLgZgw
+         kV23YArYCaMpqJYWnyaw/m0dCytrFWYPbUykZdJZFmL+MdZSpIL8/HogIUj5rJf0MLBz
+         +L3NuFtXx9wRm89kVpfmtezw+eKc3rH19CqfMPAcNnLG8AL117EFGawRJ7IcI0aUJ2Xn
+         W/Nw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=LyDZuhy3;
-       spf=pass (google.com: domain of jpoimboe@redhat.com designates 63.128.21.124 as permitted sender) smtp.mailfrom=jpoimboe@redhat.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
+       dkim=pass header.i=@google.com header.s=20161025 header.b=OSxYfK3d;
+       spf=pass (google.com: domain of 3qiuhyaokcuedqguh1nqyojrrjoh.frpndvdq-ghyjrrjohjurxsv.frp@flex--andreyknvl.bounces.google.com designates 2607:f8b0:4864:20::f49 as permitted sender) smtp.mailfrom=3qIUhYAoKCUEdqguh1nqyojrrjoh.frpndvdq-ghyjrrjohjurxsv.frp@flex--andreyknvl.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=bED9tzO3yEVXO1B2PKABA5Cf0ukbcpHj4BCLzrfp5y8=;
-        b=AF6jFlgjRrXkEPNVu3Sli1mIfWJRmkXfxk0okRPQORfigYwlQrdcX0E8wglfdOtZWP
-         +c0Ac33Eq9kWrzhYzwp1Gag13StgxTODSusuoFE6j7kYomIZPxXuy2dDUKPWATvg/nT6
-         OFNztrVwGB/LzSi6kXf/z4quk41S2leCle4fNOh1O+fRE5Jch/Zkm1F+ig+Wq0ZDg5cB
-         GbIEEtFZhsZ+8Hug6r5D2kWea7pSbwEZA01bjp9OsI8MWn1MBS9xWcNTja62mMYgChmq
-         r3ymjPWg2oFkKnxlohVqzZYz7h+IicWJpxs1i4gntF4KnU/RYlAeaPq9PzcyhFeyDEiw
-         PVfg==
+        h=sender:date:message-id:mime-version:subject:from:to:cc
+         :x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=VC59t++DX+CJ7cnFL/ROLBOwNzVaRt6K1UOyohddmKw=;
+        b=I4g5rDTah9LV5yPcen2mtewo2AOtpYtApIHZt3kw4nPsqR5Z9+p4zHy25O8DGG8ASn
+         8UA8r+LWE220lwpRZ0VlL5IT/bXXUppg9kabRWotN9DyrgkX4VNgmnDF5qA+SQawwiyo
+         NUqmSvQ+ac16iNx9i/Bz8ruU/Wrf/AiWDlxkRfZ6v7HS4IrezfXhfnARWXYvDuSmkW8l
+         /WIvzJUmGmjwlNusKBKCt0NQ0P//lHLIjX4osUL4yPsldLQ+P5T3Twvc+RCwNnGk1PIM
+         bJa6iT7tePVOKTbEPGPDBPD2OoeCiatCzyz2yMrXQ66cjzGDbrA35KojyM8sjc/enb/F
+         eqVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=bED9tzO3yEVXO1B2PKABA5Cf0ukbcpHj4BCLzrfp5y8=;
-        b=ruALd99QsGr/NbIUyer9VOQzMwyhLtd4Q9vfbNPcwze+cG8SX+nXszbCDINYgEUhfU
-         kvG+FlJ23zongziJj7P3FQIkvkNbVrqLJNAs6EQ53KT45uqOCjphFHyawEIU02rqJiuz
-         26CXc57yIFCEuuYJr+9AAVpeHCCc2RmOkjLADDK6/QyLN7+Q+g/H6yBQV8BrAAPALkHN
-         SYf99RmolA4gTpjDC5RHPWmvBE+mhaekJMXk/H8JpaBe8Lcud0w/lIpVa/CC6dJOc9v7
-         L1+puoR0uQ6aPxOKlALfPpbUnAV7bTcgliXzHFgGmISnam2tgBuajHyjsN0K15fYNZAG
-         a+WA==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM532dEdMRUkZTlmB3qr1TExC4CzZr2mHoOG2TJcMu/elwLbEYrCQi
-	FNFdyIiJROXe/5yUWblJMeA=
-X-Google-Smtp-Source: ABdhPJyBz6q+5vzb0QrKV+ej5QhEr3q0iBZpdq+S7zhHjY7gpaUz2e7RpB9Ai7ybJVgC9J7JLIzghg==
-X-Received: by 2002:a17:902:ac8b:b029:e0:e42:dc26 with SMTP id h11-20020a170902ac8bb02900e00e42dc26mr17431280plr.44.1612807991369;
-        Mon, 08 Feb 2021 10:13:11 -0800 (PST)
+        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
+         :to:cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=VC59t++DX+CJ7cnFL/ROLBOwNzVaRt6K1UOyohddmKw=;
+        b=G65abUkC4suY9/n8tHd/geIF3YYHbd1Om10RkDD6v8HBwcJAATBpTylS7OV0/4/Yvj
+         FZr9xIwhzQF3VLaqGKHlFsvgSIyExOCDc2YmYQQyq6GTDWwoIyhiG0cmogOJ+UFAa7/z
+         g9yYLMVT/WNyQMRuTFDTidZ9+sjU0ExBPWwIERkiZNqSWbhqqVRrJyBYsgXnpG9xpx35
+         cQ1q/tL9ekF6D6cvlnuLLJ6CYH93pxPZEvWefKVe/IjI+f7OCfHyba0rs9/ib2PYtxGM
+         pqySklZQ74CpQnpjHRFiQS1cCn6DT3uh2+GZMR3juWDceVk7hF1abIj+U2pvK5KtzgQp
+         L0+g==
+X-Gm-Message-State: AOAM531EBP1+tqmLfDf4YZFnNPKKQ3DfI9+alniMXKpHk9vW2SFDImJ8
+	Mz/PxcrkkqxQhwfBZFHXl+4=
+X-Google-Smtp-Source: ABdhPJz6dNOo4/h6tYRESGBGFGJO9S/LMQBh0X3A39yIioAq+RTJSKvPn0p351CL+XI4/e+dVLOnXg==
+X-Received: by 2002:a25:e654:: with SMTP id d81mr10774197ybh.207.1612809641932;
+        Mon, 08 Feb 2021 10:40:41 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a65:4c89:: with SMTP id m9ls3844044pgt.8.gmail; Mon, 08 Feb
- 2021 10:13:10 -0800 (PST)
-X-Received: by 2002:a63:9dc9:: with SMTP id i192mr18301365pgd.271.1612807990780;
-        Mon, 08 Feb 2021 10:13:10 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1612807990; cv=none;
+Received: by 2002:a25:3006:: with SMTP id w6ls8943034ybw.4.gmail; Mon, 08 Feb
+ 2021 10:40:41 -0800 (PST)
+X-Received: by 2002:a25:e08a:: with SMTP id x132mr29428479ybg.121.1612809641669;
+        Mon, 08 Feb 2021 10:40:41 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1612809641; cv=none;
         d=google.com; s=arc-20160816;
-        b=OnAZzloE0E4WCJ9f8rvYVZJo75oTKCppEcCbrRV3w+cG5s88sg31eXN0IcewDq+FBU
-         rw/5MDkIdu3MFvLwHBGRJlLBdymjBXCv21k5Crw+B4W/UzzDDzKiFpcvgP2wJIs/HG57
-         Vevac5Y/rDdP6BMoBxW11D719IQRmsYK+OB1ypDYqgaHA+BEErZ+sDF85wXaB0IczBC2
-         KJfrQmgoIaZlIDe8N0q4diOAJn+tVVT/poI08we0URD/gTd8PdTjAwkRtCH/7YWYShhQ
-         PARD0aXZUDQuOkXiNbtg+FTHEmDObkmfP/4LHFKixUXRBUFCsqet2gaFrjJgyHmiah1b
-         DgDg==
+        b=G79fMzaHYQldu5AGClutdd/SF/FrPDbR1Qe7kArywayHwkDvwjUrhxSSvMTz8Flwfx
+         whW8GxsEnUk8yglGDe6oJVzX8kcnwgz5b1hwbw81RePVbP6gBVNEgFVHQ5StTH05s0td
+         SJkx8gT1RUT+nDjKWbHuQtoqxBEfgVobqj2lPH2DDiHuCaYbyDbw7tjnW3s7k4cxSP4z
+         idMjHAsDBavMyOpGKwK/NX7TA9XZ8T2r2NVRAuzcZx6iL+a+4s18pHb3WozbrG7mrpWW
+         0B6os6Jn/UIyIdbbez5IqErEZKoK+iIlJEH75MwcMeue0ZblDiT5AuXXTQb8OE5LwqHP
+         SRUg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=Vna1UpISDhhzy62RgmCODV7iVBrOXqSLXKC77p47hCA=;
-        b=pm7cHSU4H9GL4/MrlFth4LH7giiOZJ9lYDZAjDSD+ez88AZRtrsMUvqoP5BVR6Dpqo
-         sI49IpDqHYiAfYW9GAckiUTU2GTbr6Dq5V8VUiUJevlffzns7zac+yNoMJo6q5wXOL+Q
-         WXkCESpLAmS72bNAC/WMzcb6cF74kVlA19Eflxszcl41+pKd6oWjdISvjfpqT8Yyr+LH
-         O3V7Vy1j+zSDd32lT+yg6a8lTd7xhHdjrZciH9WawDi5rcj7afQoGA7l4/DbTSX6fs71
-         rZRrMaVfcd+R6Fr+uYkrX0w6UeLe/m2XGq66Y39M/vKrFNWuNd0+myievsxV3V78lpeX
-         pvYQ==
+        h=cc:to:from:subject:mime-version:message-id:date:sender
+         :dkim-signature;
+        bh=H9qB3jddJUOiem40qnE4VNfE96DiVHMNVUIiz3DWDnA=;
+        b=hwVqq14+qePF9Lr+BJZIaDn/wn1JhBFVE0vqk8MAyO2fUIK7a0vmEf6+T4RK57zRUh
+         jHRXz+6ZV18uEnuh4mDDtvHGoaFtfVZz+/xGzyjqNqMMkFYe36FgIf87C4v+eDM6Ml01
+         a+cGnKfCyWiIyYILAfLo0QVBUVDU1d6jOB3KtlAPBvYNXF5wuHUgPBZ6AtJcooM3pUh5
+         0belmGs6HdPBwT36H54h6bYQfUIxLFUIFGCMcr5FQN3kmEOU44bwG+lxwkVhONZRa40b
+         Da5ywvCzX5nnAgaPBO3G/FEqkTQCKP6SdzTp0hFJP5F3uOLaf1MpEfvP1LlTqhkt+ty4
+         IU5Q==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=LyDZuhy3;
-       spf=pass (google.com: domain of jpoimboe@redhat.com designates 63.128.21.124 as permitted sender) smtp.mailfrom=jpoimboe@redhat.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com. [63.128.21.124])
-        by gmr-mx.google.com with ESMTPS id my11si503pjb.1.2021.02.08.10.13.10
+       dkim=pass header.i=@google.com header.s=20161025 header.b=OSxYfK3d;
+       spf=pass (google.com: domain of 3qiuhyaokcuedqguh1nqyojrrjoh.frpndvdq-ghyjrrjohjurxsv.frp@flex--andreyknvl.bounces.google.com designates 2607:f8b0:4864:20::f49 as permitted sender) smtp.mailfrom=3qIUhYAoKCUEdqguh1nqyojrrjoh.frpndvdq-ghyjrrjohjurxsv.frp@flex--andreyknvl.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-qv1-xf49.google.com (mail-qv1-xf49.google.com. [2607:f8b0:4864:20::f49])
+        by gmr-mx.google.com with ESMTPS id i194si886751yba.2.2021.02.08.10.40.41
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 08 Feb 2021 10:13:10 -0800 (PST)
-Received-SPF: pass (google.com: domain of jpoimboe@redhat.com designates 63.128.21.124 as permitted sender) client-ip=63.128.21.124;
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-152-LIm0O2BmNA-BWgTWAaL5AQ-1; Mon, 08 Feb 2021 13:13:07 -0500
-X-MC-Unique: LIm0O2BmNA-BWgTWAaL5AQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A8B141936B65;
-	Mon,  8 Feb 2021 18:13:04 +0000 (UTC)
-Received: from treble (ovpn-118-142.rdu2.redhat.com [10.10.118.142])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 9924860C04;
-	Mon,  8 Feb 2021 18:13:02 +0000 (UTC)
-Date: Mon, 8 Feb 2021 12:12:59 -0600
-From: Josh Poimboeuf <jpoimboe@redhat.com>
-To: Borislav Petkov <bp@suse.de>
-Cc: AC <achirvasub@gmail.com>, Andrey Ryabinin <aryabinin@virtuozzo.com>,
-	Alexander Potapenko <glider@google.com>,
-	Dmitry Vyukov <dvyukov@google.com>, Marco Elver <elver@google.com>,
-	Arnd Bergmann <arnd@arndb.de>, linux-arch@vger.kernel.org,
-	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
-	nborisov@suse.com, seth.forshee@canonical.com,
-	yamada.masahiro@socionext.com
-Subject: Re: [PATCH] x86/build: Disable CET instrumentation in the kernel for
- 32-bit too
-Message-ID: <20210208181259.hwmnoldx627jhvlm@treble>
-References: <YCB4Sgk5g5B2Nu09@arch-chirva.localdomain>
- <YCCFGc97d2U5yUS7@arch-chirva.localdomain>
- <YCCIgMHkzh/xT4ex@arch-chirva.localdomain>
- <20210208121227.GD17908@zn.tnic>
- <82FA27E6-A46F-41E2-B7D3-2FEBEA8A4D70@gmail.com>
- <20210208162543.GH17908@zn.tnic>
-MIME-Version: 1.0
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 08 Feb 2021 10:40:41 -0800 (PST)
+Received-SPF: pass (google.com: domain of 3qiuhyaokcuedqguh1nqyojrrjoh.frpndvdq-ghyjrrjohjurxsv.frp@flex--andreyknvl.bounces.google.com designates 2607:f8b0:4864:20::f49 as permitted sender) client-ip=2607:f8b0:4864:20::f49;
+Received: by mail-qv1-xf49.google.com with SMTP id h13so11260216qvo.18
+        for <kasan-dev@googlegroups.com>; Mon, 08 Feb 2021 10:40:41 -0800 (PST)
+Sender: "andreyknvl via sendgmr" <andreyknvl@andreyknvl3.muc.corp.google.com>
+X-Received: from andreyknvl3.muc.corp.google.com ([2a00:79e0:15:13:55a0:b27b:af1c:327])
+ (user=andreyknvl job=sendgmr) by 2002:a0c:c1cb:: with SMTP id
+ v11mr13766499qvh.59.1612809640525; Mon, 08 Feb 2021 10:40:40 -0800 (PST)
+Date: Mon,  8 Feb 2021 19:40:36 +0100
+Message-Id: <6678d77ceffb71f1cff2cf61560e2ffe7bb6bfe9.1612808820.git.andreyknvl@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.30.0.478.g8a0d178c01-goog
+Subject: [PATCH] kasan: fix stack traces dependency for HW_TAGS
+From: "'Andrey Konovalov' via kasan-dev" <kasan-dev@googlegroups.com>
+To: Andrew Morton <akpm@linux-foundation.org>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Vincenzo Frascino <vincenzo.frascino@arm.com>, Dmitry Vyukov <dvyukov@google.com>, 
+	Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>
+Cc: Will Deacon <will.deacon@arm.com>, Andrey Ryabinin <aryabinin@virtuozzo.com>, 
+	Peter Collingbourne <pcc@google.com>, Evgenii Stepanov <eugenis@google.com>, 
+	Branislav Rankov <Branislav.Rankov@arm.com>, Kevin Brodsky <kevin.brodsky@arm.com>, 
+	kasan-dev@googlegroups.com, linux-arm-kernel@lists.infradead.org, 
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	Andrey Konovalov <andreyknvl@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <20210208162543.GH17908@zn.tnic>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Original-Sender: jpoimboe@redhat.com
+X-Original-Sender: andreyknvl@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@redhat.com header.s=mimecast20190719 header.b=LyDZuhy3;
-       spf=pass (google.com: domain of jpoimboe@redhat.com designates
- 63.128.21.124 as permitted sender) smtp.mailfrom=jpoimboe@redhat.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
+ header.i=@google.com header.s=20161025 header.b=OSxYfK3d;       spf=pass
+ (google.com: domain of 3qiuhyaokcuedqguh1nqyojrrjoh.frpndvdq-ghyjrrjohjurxsv.frp@flex--andreyknvl.bounces.google.com
+ designates 2607:f8b0:4864:20::f49 as permitted sender) smtp.mailfrom=3qIUhYAoKCUEdqguh1nqyojrrjoh.frpndvdq-ghyjrrjohjurxsv.frp@flex--andreyknvl.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Andrey Konovalov <andreyknvl@google.com>
+Reply-To: Andrey Konovalov <andreyknvl@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -150,38 +135,68 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, Feb 08, 2021 at 05:25:43PM +0100, Borislav Petkov wrote:
-> On Mon, Feb 08, 2021 at 10:19:33AM -0500, AC wrote:
-> > That did fix it, thank you!
-> 
-> Thanks!
-> 
-> ---
-> From: Borislav Petkov <bp@suse.de>
-> Date: Mon, 8 Feb 2021 16:43:30 +0100
-> Subject: [PATCH] x86/build: Disable CET instrumentation in the kernel for 32-bit too
-> 
-> Commit
-> 
->   20bf2b378729 ("x86/build: Disable CET instrumentation in the kernel")
-> 
-> disabled CET instrumentation which gets added by default by the Ubuntu
-> gcc9 and 10 by default, but did that only for 64-bit builds. It would
-> still fail when building a 32-bit target. So disable CET for all x86
-> builds.
-> 
-> Fixes: 20bf2b378729 ("x86/build: Disable CET instrumentation in the kernel")
-> Reported-by: AC <achirvasub@gmail.com>
-> Signed-off-by: Borislav Petkov <bp@suse.de>
-> Tested-by: AC <achirvasub@gmail.com>
-> Link: https://lkml.kernel.org/r/YCCIgMHkzh/xT4ex@arch-chirva.localdomain
+Currently, whether the alloc/free stack traces collection is enabled by
+default for hardware tag-based KASAN depends on CONFIG_DEBUG_KERNEL.
+The intention for this dependency was to only enable collection on slow
+debug kernels due to a significant perf and memory impact.
 
-Acked-by: Josh Poimboeuf <jpoimboe@redhat.com>
+As it turns out, CONFIG_DEBUG_KERNEL is not considered a debug option
+and is enabled on many productions kernels including Android and Ubuntu.
+As the result, this dependency is pointless and only complicates the code
+and documentation.
 
+Having stack traces collection disabled by default would make the hardware
+mode work differently to to the software ones, which is confusing.
+
+This change removes the dependency and enables stack traces collection
+by default.
+
+Looking into the future, this default might makes sense for production
+kernels, assuming we implement a fast stack trace collection approach.
+
+Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+---
+ Documentation/dev-tools/kasan.rst | 3 +--
+ mm/kasan/hw_tags.c                | 8 ++------
+ 2 files changed, 3 insertions(+), 8 deletions(-)
+
+diff --git a/Documentation/dev-tools/kasan.rst b/Documentation/dev-tools/kasan.rst
+index 1651d961f06a..a248ac3941be 100644
+--- a/Documentation/dev-tools/kasan.rst
++++ b/Documentation/dev-tools/kasan.rst
+@@ -163,8 +163,7 @@ particular KASAN features.
+ - ``kasan=off`` or ``=on`` controls whether KASAN is enabled (default: ``on``).
+ 
+ - ``kasan.stacktrace=off`` or ``=on`` disables or enables alloc and free stack
+-  traces collection (default: ``on`` for ``CONFIG_DEBUG_KERNEL=y``, otherwise
+-  ``off``).
++  traces collection (default: ``on``).
+ 
+ - ``kasan.fault=report`` or ``=panic`` controls whether to only print a KASAN
+   report or also panic the kernel (default: ``report``).
+diff --git a/mm/kasan/hw_tags.c b/mm/kasan/hw_tags.c
+index e529428e7a11..d558799b25b3 100644
+--- a/mm/kasan/hw_tags.c
++++ b/mm/kasan/hw_tags.c
+@@ -134,12 +134,8 @@ void __init kasan_init_hw_tags(void)
+ 
+ 	switch (kasan_arg_stacktrace) {
+ 	case KASAN_ARG_STACKTRACE_DEFAULT:
+-		/*
+-		 * Default to enabling stack trace collection for
+-		 * debug kernels.
+-		 */
+-		if (IS_ENABLED(CONFIG_DEBUG_KERNEL))
+-			static_branch_enable(&kasan_flag_stacktrace);
++		/* Default to enabling stack trace collection. */
++		static_branch_enable(&kasan_flag_stacktrace);
+ 		break;
+ 	case KASAN_ARG_STACKTRACE_OFF:
+ 		/* Do nothing, kasan_flag_stacktrace keeps its default value. */
 -- 
-Josh
+2.30.0.478.g8a0d178c01-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210208181259.hwmnoldx627jhvlm%40treble.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/6678d77ceffb71f1cff2cf61560e2ffe7bb6bfe9.1612808820.git.andreyknvl%40google.com.
