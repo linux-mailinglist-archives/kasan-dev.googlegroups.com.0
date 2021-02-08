@@ -1,154 +1,126 @@
-Return-Path: <kasan-dev+bncBDUPB6PW4UKRBA4RQKAQMGQEKX2QKCY@googlegroups.com>
+Return-Path: <kasan-dev+bncBC447XVYUEMRBA5UQOAQMGQEXIXRW3A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oo1-xc39.google.com (mail-oo1-xc39.google.com [IPv6:2607:f8b0:4864:20::c39])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B8DA31289F
-	for <lists+kasan-dev@lfdr.de>; Mon,  8 Feb 2021 01:40:36 +0100 (CET)
-Received: by mail-oo1-xc39.google.com with SMTP id w12sf7407638ooo.7
-        for <lists+kasan-dev@lfdr.de>; Sun, 07 Feb 2021 16:40:36 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1612744835; cv=pass;
+Received: from mail-lj1-x23a.google.com (mail-lj1-x23a.google.com [IPv6:2a00:1450:4864:20::23a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 86D28312AAB
+	for <lists+kasan-dev@lfdr.de>; Mon,  8 Feb 2021 07:28:20 +0100 (CET)
+Received: by mail-lj1-x23a.google.com with SMTP id p19sf3254lji.10
+        for <lists+kasan-dev@lfdr.de>; Sun, 07 Feb 2021 22:28:20 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1612765700; cv=pass;
         d=google.com; s=arc-20160816;
-        b=qMK/9oQ9uAFB5Mv38fZDEG8IAiCJZpTaKHs6UmB7D7R0PTuZjKmYUbzfH8ul1Y83lg
-         eVOkD0zK0AeUGcsPyylQyUNojHMV/pHa+1uG+OJXt/FCZIrYOswX7Xs8f2sVhWIrLPTN
-         P0uXM0tPbe/IFuNj3oY+Gj8qNJm7vylwjSkWr1r1kU0/pcKDQM6hOdg3wlT3LSgUEDyB
-         6J+rsVIpzY4TloT/MnGKZYmGmRglezCcujSMbNTBWEc+dCknKFB/Pr4U6gulplMwt7Df
-         j/esKJtWgcN7IFGurIN6WPfmtDSU3PX9/QmT36i83mzPyUyLNM/ilmNZvSxyj1VzuaBU
-         H8Mg==
+        b=yonxOLVl63yOKPDlJizXz0dcjrd9QWVUZa7Y5ci4SAhNGN6sHBVIwW9hsQBgvgnOay
+         k//DcrCSE1autOphhQKECkeiin83g1kS1UP995PqwPcDHWqXCFsCr95LRBiDLh8g80O8
+         VFVnppRQernGul4CX2IlGyhlQADz+8Iq8MXuVHVfW7M05vebl67XLw3QJ4UXYmcgGh4v
+         lJpi8YcFtR7wdFjqUt4KRBGRez2YB0ArkUOZE/D8MkcUSq7AWWw7ByXXHCK9XmIpwQNv
+         yGVBAkZOCaKG92DuFNMXOvVdGMRZKHVo3PIMkusEDDYLJVqYOQTBpdxgMjqeNIXqURRY
+         lz6A==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to
-         :content-transfer-encoding:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:dkim-signature
-         :dkim-signature;
-        bh=KfgqW5KI59lnvKJciWKWdq6kIdEr4EeZDy6apY1PRSg=;
-        b=ih2ZrlGLF2LPP3MoUSWAnUwUYdZS8So0xtJ2qAXXA7mRRkUzHFCTIngSc4dzJciXq5
-         hD/oLFYqCqys3mwcLpjXxl8NP3aMxhzd3hqrNXi9rxEc/otlpWTRJMX2QW66Z6z6b0xn
-         spNjr/FukFPUPrAODl9iqOx/qsH3iaUvg0Lrymnad2gByvZVjFWqWoybf2Vmu+klxbYd
-         bvNjwsPQhPfAF/BqJ2FCym1B1PqGu4D7IQlKuYOGYssRTri4Q4KCQqb1gyZGd7DJJ8Ah
-         xpmg7hO9UQq1FAu87c58mCURiv7t9nttaejXBlkT5yhVEfkdVK772DTRR7YwOezD5IJd
-         C4jQ==
+         :list-id:mailing-list:precedence:content-transfer-encoding
+         :content-language:in-reply-to:mime-version:user-agent:date
+         :message-id:references:cc:to:subject:from:sender:dkim-signature;
+        bh=1+qldbjaDYjHvlZZ7WtgLVM2mjHaGxuavBVzXZov3aI=;
+        b=a2S9eCHMcWoONnSADSfn7frXNC9JCWDXnIcNuhgwHeUlBaBsMi/uJ8mDJUgcsHoF/L
+         FgXMu9eOK8n7Pb0NkT4kkZZVp8Bm4IVWyIuQMl2c3pUGBS+mrx8TXhDGOKvOl43DhhDF
+         bBNfUcu6y0ZOaRXvMbptb+huW+jqP/FsLhOW4t9ggt8RvN5srce1/KJInqRzFg4i4ueI
+         DaOtjgXGx4lHOZg0ZrU7w+4phu5tZDBriaJPOgEeNgqXqNxN5FsuH07ODZztwXiGgFzs
+         l4IyPLlHf5wjjm9sjOnWA7bZ8XSpYUifCkNDJIeo2IBPCmdER7lSiTkyX1zpC0+D5KR7
+         sDcA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20161025 header.b=UJfgwkWd;
-       spf=pass (google.com: domain of achirvasub@gmail.com designates 2607:f8b0:4864:20::832 as permitted sender) smtp.mailfrom=achirvasub@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+       spf=neutral (google.com: 217.70.183.196 is neither permitted nor denied by best guess record for domain of alex@ghiti.fr) smtp.mailfrom=alex@ghiti.fr
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
+        h=sender:from:subject:to:cc:references:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=KfgqW5KI59lnvKJciWKWdq6kIdEr4EeZDy6apY1PRSg=;
-        b=hCQCMhxNISu5CMiweRpgJgbAntSVRP4pR/wA6I+mWmZ8Gn9n34mYp5XqXqTpSaxbdI
-         QIzx2eTtfVQw8VXEXocIXMTkZAEIr+XtC3XOJGo2ETjoaDkVp3/Th22+TCo3+1I7rDf+
-         JdQE2oLmmJ7TZ58LRUrh4n7wFf3SfCyzjagc+Qs4yZeq2FiLzh6xjVmQymD/AijwBLqA
-         B2NUZfoZxnbqd7vypu3csjV9Uelm0MKsu0LYsA1zW53edNkSq3Hk6r47h358V8c7DrWm
-         TJVKXxCKvyB6475sFBB0h8mr9UXAIt/bNhpj3XhBF4QK4la1NaPeT9BXktQGSfp7nZdT
-         ljMg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=KfgqW5KI59lnvKJciWKWdq6kIdEr4EeZDy6apY1PRSg=;
-        b=FR/QKUA1miuBEXiphk+qOE3K8gWde4zyFbUFwajkwcNIeIGA+u3ljShFeBEA32hdic
-         Sd15o1+kiJYTVdDs05k56W2SUZurtW1yA+um5ls0ZD3EnnGS1dzciDPAfuqWK4HHt/sC
-         l5cbtDfFDlk0S9n4cHH3ALRWXcR1cA80BwCSJo9c/qIP39T9ILluLrYTuqYb8QNp/zDh
-         /i7NGMH6T4leWiwZ+Fy22rPfuzEfweEA9aoiRR6rQBV12wXK5CUxZgFG3U5z0CyR734o
-         2XjcllaxJ3ydMwLEHVEZ8bgrk/AaSG+jNqDnV0NC7XfwWLk0PVvw9brMWdrGWqPHNbSz
-         GesQ==
+        bh=1+qldbjaDYjHvlZZ7WtgLVM2mjHaGxuavBVzXZov3aI=;
+        b=LUhcRtE8HbcsgFYUlRva+ALgOIXVSWFhiVb0n0YFEeuHrozJ7uo2MqISbhLRS51gU4
+         U3D4tmU8aQ+q5wyu93QDtB978k7TGBV9otiiLyc2MeUsMhE39pEo1b2Ja6GUkEp8h3MW
+         +gv+YEkAK1QX1UZtdWK2gLhRAOHsynY2VDTL7KHldnYFoLT+1bw4lfIkZ65TJ1Z9MJhs
+         eWeLFuOyiGMsAd+YhVmlRloFfYQ66E+db6drtMY9ZZePvowzDsvMxdAL3klVaV6Ayu7z
+         Hz28GFMPf67g69wfUP9qXnDEZOYZBzB3XziZkkhdUTATj6Fty3xT6mjRcXkraCBteHLk
+         6OAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition
-         :content-transfer-encoding:in-reply-to:x-original-sender
+        h=sender:x-gm-message-state:from:subject:to:cc:references:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=KfgqW5KI59lnvKJciWKWdq6kIdEr4EeZDy6apY1PRSg=;
-        b=RwZrTOjJlIk3rgLzpwEbiIm1yMfFfNy3/7FxSDZz8SIkk+WyJCLT0xACBhQTvxl7Z7
-         NsoKsTJLlO+mxD0UcWNg9MRfcI2zWNuBBSYKhb17Zjq5QOPODJGgoV6zYozJCZpBdpn7
-         X7rjq6n19oO0udxl82A7Dg09FyRHI8egjhqMSoTt6L3Sm0QFWarJVKEjdJtZKFLABVci
-         3gmqFj/RSKkgmP6afZDBJ3EZHujtAooR36ZoFnr91pZYYdpogNDLmlxbONKMbw8qjS8X
-         1t8/vNYLN3g19Gl52dIgpTlFgLXYuy3R6oC4bwbLJwlX84wXxfDi3jJdt2a8FB2WqA3q
-         bksg==
+        bh=1+qldbjaDYjHvlZZ7WtgLVM2mjHaGxuavBVzXZov3aI=;
+        b=Y6+dEV2QpqRiCcM/K4Q6SSYc+bJ+WJtSKZn3hwGCVRsF8z3/C0Eu/3KM9rK4TQhdZG
+         LktAIKWMnJhEE9ThJzGt50S3+FfppMm6uaf8kmh0AN4dgp3PnMpfCLvyN6yXnC+1KBfq
+         GvSSTYyUz5rjNq4otY1Gynap2Hcn2GhHpVvVFQuhGJcO4yxTayooPGFbYBUGSOFi12XP
+         nTDa2qqgF22RjfTJpTRvygVv70Lelm5RmL+H6EHckJ1W9unbFFX6JZ62SgZqgErqPlYR
+         BHXhst1s32ZRvIkqAZEWC67UYSgEQUsIkSxeoA6wDP9fIza/l/Xr03j4VYNOQwxqYHI3
+         6RUg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM530R2VCCSgfovdk+0JJoJHLnKeoYtmwDpIu7HBAYb195bWZ7CIaz
-	RlEUwFTo8kZ2qL78QEBmWYM=
-X-Google-Smtp-Source: ABdhPJxbzrNV49T29sZ7sLqAlhG0KzTFqFktKlDkbSxMLyfXNb/PPo+QO7dUe7LBGBzxiltel1HyRg==
-X-Received: by 2002:a9d:2265:: with SMTP id o92mr10724559ota.188.1612744835358;
-        Sun, 07 Feb 2021 16:40:35 -0800 (PST)
+X-Gm-Message-State: AOAM530KdquwKx9ATgQbogrCmkG7kJiBq410dVLrckv/yZiIKaY331fp
+	3s4N5+RseysGkzuhjS4a+PI=
+X-Google-Smtp-Source: ABdhPJxafNp/jmtAHxFhy0At6gXjye9gbOwFHjGj6oMVn07mjVdkr6ZO9nmf1RpCM3oP47ld9S6Htg==
+X-Received: by 2002:a2e:9c88:: with SMTP id x8mr10314021lji.409.1612765700031;
+        Sun, 07 Feb 2021 22:28:20 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a9d:3407:: with SMTP id v7ls3687009otb.9.gmail; Sun, 07 Feb
- 2021 16:40:35 -0800 (PST)
-X-Received: by 2002:a05:6830:4129:: with SMTP id w41mr9758228ott.332.1612744834985;
-        Sun, 07 Feb 2021 16:40:34 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1612744834; cv=none;
+Received: by 2002:a05:6512:6d4:: with SMTP id u20ls3085084lff.1.gmail; Sun, 07
+ Feb 2021 22:28:19 -0800 (PST)
+X-Received: by 2002:ac2:4c26:: with SMTP id u6mr9289048lfq.347.1612765699005;
+        Sun, 07 Feb 2021 22:28:19 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1612765699; cv=none;
         d=google.com; s=arc-20160816;
-        b=VpS8hqDw4R7W56STD+iJ2iUTZQ9caXU6XZPmugWpr5o3vYWH01l5ePDlzmJfc+bvF2
-         P2HBeQHIMXRv/mBf0+cIdqcNnK+1/eitrGTNjXGVAPZMMF4r7j+Vcch2GSNWQ+XxP9g+
-         Pqca0fPjfylt/X0eyicbXjGDRNL85DxYqXbDgzwHN0ZTo2SqQS5pOVKnzzJZTPUVW261
-         pf7jnJHEpEfkB8nHQ7rhbxcqiPHQ5H0/m9NYZ0sPXpSqGtX9kNk8HoNxvvm8DFlROqWO
-         rN/RVttmCSWM/TwXCgFvC5ks42fTYv67zOqo2fbe0kdX/NjDeU4ObN7iu4crphGp1NrG
-         ji0w==
+        b=Xx7gN2hZMIIwODhC/FSN4ttDK2TXd9DPPkMkVyHWPr1ef5kPHYmetpbHfEK9E9v1dW
+         zUGQJp2VBh48N8fSEWRrqF+Zxgqak6WOW3HrDIOeedXK2RoXTxNPBaBaKR+LZhFRH6cP
+         hspCEC8glbmqnRvXMS25ak47Lljo+v3OpCTinawpQ4tOBZNto4KCWzqr3/ePj5iTPeWi
+         HOK/zJCANIlhApsbonyE/ByHN+ZFY8OV5WQXnN2cyyd7IpZrSp4nvA88BpqJTMAttTTL
+         dzw7c0PLCpf+TQm2tekwjnx5W5H69ybXufLQL1YURFL+vFRw77jTsRYa1baiR/RvrLsD
+         ofxw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :dkim-signature;
-        bh=k8kyS5NcNbcb+l8f+ny89WYmgXi+Pxs4HtJo/I4TE4I=;
-        b=prsPTMiEgrsnRDopLUKgVbk6uNf7qCihzSoyb3krOFMUE2MJ0ezrgo4g/90ZecXWsG
-         /5sBXys8U6xGSodFWc37ns3hhx2w6lKhZtuj73gFaBtnOwXhyaZ8Dttp9IZ1lS5kNQfd
-         p65TjBOnWTgTB30ORQslOnI+tEGvpU/dM1D0gBqU8Zg6ImdubriQobP8YwWl8sgjpYL+
-         slFRqrP4VQ/bCUui5nDxN/8h5a6TgM8/DoMXutnVF47SsrASGHWDHNd7R4THnC5L+qYs
-         py7KgPokmV3STsCqyu2Dvwm1oHTEfy43U39Iw2h3lR7ah2QJFYl3WVAF+mtoE7z/m9GX
-         pArw==
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:references:cc:to:subject:from;
+        bh=Z8uS0inXTkM3VYag9Eo5KF9pIJxppyvChDaKXZo5uz4=;
+        b=q1xdmSh2/pGwPUTHMLz/oaDI0tiiI5IBfoLfh5qev0gU1Cs5Ihzkfrb4F61sAsWFDn
+         VdAabiwdVPmMskaXbxL64xeEorg1QVCsj3Kq63PJgKPA0TLMjZWgaTEhPiNfDnka/qAw
+         /fK8xh7b4NCbfP91nq1KTIzpWsSx1Bqwkv8NIvLO7HE5SvDNFWXnSBEJv0reB92rsLCc
+         goYcTr5OWqIMKGe5WgwA+pkUMp448nwF6gpDsnr53N4i8QXSh5QYo4woce6ZPJRlA6AS
+         ASa/9v7SMMqna1dAcGRsYScT9Qr4jkQz2lefxRmorVhhioGUdLTYAJmuHipIUYmVbyVJ
+         TFjw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20161025 header.b=UJfgwkWd;
-       spf=pass (google.com: domain of achirvasub@gmail.com designates 2607:f8b0:4864:20::832 as permitted sender) smtp.mailfrom=achirvasub@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com. [2607:f8b0:4864:20::832])
-        by gmr-mx.google.com with ESMTPS id b11si682369otq.0.2021.02.07.16.40.34
+       spf=neutral (google.com: 217.70.183.196 is neither permitted nor denied by best guess record for domain of alex@ghiti.fr) smtp.mailfrom=alex@ghiti.fr
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net. [217.70.183.196])
+        by gmr-mx.google.com with ESMTPS id k21si194240lji.3.2021.02.07.22.28.18
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 07 Feb 2021 16:40:34 -0800 (PST)
-Received-SPF: pass (google.com: domain of achirvasub@gmail.com designates 2607:f8b0:4864:20::832 as permitted sender) client-ip=2607:f8b0:4864:20::832;
-Received: by mail-qt1-x832.google.com with SMTP id z32so9273098qtd.8
-        for <kasan-dev@googlegroups.com>; Sun, 07 Feb 2021 16:40:34 -0800 (PST)
-X-Received: by 2002:ac8:5887:: with SMTP id t7mr13538561qta.182.1612744834574;
-        Sun, 07 Feb 2021 16:40:34 -0800 (PST)
-Received: from arch-chirva.localdomain (pool-68-133-6-116.bflony.fios.verizon.net. [68.133.6.116])
-        by smtp.gmail.com with ESMTPSA id t71sm15755390qka.86.2021.02.07.16.40.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 07 Feb 2021 16:40:34 -0800 (PST)
-Date: Sun, 7 Feb 2021 19:40:32 -0500
-From: Stuart Little <achirvasub@gmail.com>
-To: Andrey Ryabinin <aryabinin@virtuozzo.com>,
-	Alexander Potapenko <glider@google.com>,
-	Dmitry Vyukov <dvyukov@google.com>, Marco Elver <elver@google.com>,
-	Arnd Bergmann <arnd@arndb.de>
-Cc: linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org,
-	kasan-dev@googlegroups.com, jpoimboe@redhat.com, nborisov@suse.com,
-	bp@suse.de, seth.forshee@canonical.com,
-	yamada.masahiro@socionext.com
-Subject: Re: PROBLEM: 5.11.0-rc7 fails =?utf-8?Q?to?=
- =?utf-8?Q?_compile_with_error=3A_=E2=80=98-mindirect-branch=E2=80=99_and_?=
- =?utf-8?B?4oCYLWZjZi1wcm90ZWN0aW9u4oCZ?= are not compatible
-Message-ID: <YCCIgMHkzh/xT4ex@arch-chirva.localdomain>
-References: <YCB4Sgk5g5B2Nu09@arch-chirva.localdomain>
- <YCCFGc97d2U5yUS7@arch-chirva.localdomain>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Sun, 07 Feb 2021 22:28:18 -0800 (PST)
+Received-SPF: neutral (google.com: 217.70.183.196 is neither permitted nor denied by best guess record for domain of alex@ghiti.fr) client-ip=217.70.183.196;
+X-Originating-IP: 82.65.183.113
+Received: from [172.16.5.113] (82-65-183-113.subs.proxad.net [82.65.183.113])
+	(Authenticated sender: alex@ghiti.fr)
+	by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id CCB10E0007;
+	Mon,  8 Feb 2021 06:28:13 +0000 (UTC)
+From: Alex Ghiti <alex@ghiti.fr>
+Subject: Re: [PATCH v2 1/1] riscv/kasan: add KASAN_VMALLOC support
+To: Palmer Dabbelt <palmer@dabbelt.com>, nylon7@andestech.com
+Cc: aou@eecs.berkeley.edu, nickhu@andestech.com, alankao@andestech.com,
+ linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
+ nylon7717@gmail.com, glider@google.com,
+ Paul Walmsley <paul.walmsley@sifive.com>, aryabinin@virtuozzo.com,
+ linux-riscv@lists.infradead.org, dvyukov@google.com
+References: <mhng-443fd141-b9a3-4be6-a056-416877f99ea4@palmerdabbelt-glaptop>
+Message-ID: <2b2f3038-3e27-8763-cf78-3fbbfd2100a0@ghiti.fr>
+Date: Mon, 8 Feb 2021 01:28:13 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
+In-Reply-To: <mhng-443fd141-b9a3-4be6-a056-416877f99ea4@palmerdabbelt-glaptop>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Language: fr
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <YCCFGc97d2U5yUS7@arch-chirva.localdomain>
-X-Original-Sender: achirvasub@gmail.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20161025 header.b=UJfgwkWd;       spf=pass
- (google.com: domain of achirvasub@gmail.com designates 2607:f8b0:4864:20::832
- as permitted sender) smtp.mailfrom=achirvasub@gmail.com;       dmarc=pass
- (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+X-Original-Sender: alex@ghiti.fr
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=neutral
+ (google.com: 217.70.183.196 is neither permitted nor denied by best guess
+ record for domain of alex@ghiti.fr) smtp.mailfrom=alex@ghiti.fr
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -161,90 +133,196 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-And for good measure: reverting that commit=20
+Hi Nylon,
 
-20bf2b378729c4a0366a53e2018a0b70ace94bcd
+Le 1/22/21 =C3=A0 10:56 PM, Palmer Dabbelt a =C3=A9crit=C2=A0:
+> On Fri, 15 Jan 2021 21:58:35 PST (-0800), nylon7@andestech.com wrote:
+>> It references to x86/s390 architecture.
+>> >> So, it doesn't map the early shadow page to cover VMALLOC space.
+>>
+>> Prepopulate top level page table for the range that would otherwise be
+>> empty.
+>>
+>> lower levels are filled dynamically upon memory allocation while
+>> booting.
 
-flagged by the bisect right on top of the current tree compiles fine.=20
+I think we can improve the changelog a bit here with something like that:
 
-On Sun, Feb 07, 2021 at 07:26:01PM -0500, Stuart Little wrote:
-> The result of the bisect on the issue reported in the previous message:
+"KASAN vmalloc space used to be mapped using kasan early shadow page.=20
+KASAN_VMALLOC requires the top-level of the kernel page table to be=20
+properly populated, lower levels being filled dynamically upon memory=20
+allocation at runtime."
+
+>>
+>> Signed-off-by: Nylon Chen <nylon7@andestech.com>
+>> Signed-off-by: Nick Hu <nickhu@andestech.com>
+>> ---
+>> =C2=A0arch/riscv/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ |=C2=A0 1 +
+>> =C2=A0arch/riscv/mm/kasan_init.c | 57 ++++++++++++++++++++++++++++++++++=
++++-
+>> =C2=A02 files changed, 57 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+>> index 81b76d44725d..15a2c8088bbe 100644
+>> --- a/arch/riscv/Kconfig
+>> +++ b/arch/riscv/Kconfig
+>> @@ -57,6 +57,7 @@ config RISCV
+>> =C2=A0=C2=A0=C2=A0=C2=A0 select HAVE_ARCH_JUMP_LABEL
+>> =C2=A0=C2=A0=C2=A0=C2=A0 select HAVE_ARCH_JUMP_LABEL_RELATIVE
+>> =C2=A0=C2=A0=C2=A0=C2=A0 select HAVE_ARCH_KASAN if MMU && 64BIT
+>> +=C2=A0=C2=A0=C2=A0 select HAVE_ARCH_KASAN_VMALLOC if MMU && 64BIT
+>> =C2=A0=C2=A0=C2=A0=C2=A0 select HAVE_ARCH_KGDB
+>> =C2=A0=C2=A0=C2=A0=C2=A0 select HAVE_ARCH_KGDB_QXFER_PKT
+>> =C2=A0=C2=A0=C2=A0=C2=A0 select HAVE_ARCH_MMAP_RND_BITS if MMU
+>> diff --git a/arch/riscv/mm/kasan_init.c b/arch/riscv/mm/kasan_init.c
+>> index 12ddd1f6bf70..4b9149f963d3 100644
+>> --- a/arch/riscv/mm/kasan_init.c
+>> +++ b/arch/riscv/mm/kasan_init.c
+>> @@ -9,6 +9,19 @@
+>> =C2=A0#include <linux/pgtable.h>
+>> =C2=A0#include <asm/tlbflush.h>
+>> =C2=A0#include <asm/fixmap.h>
+>> +#include <asm/pgalloc.h>
+>> +
+>> +static __init void *early_alloc(size_t size, int node)
+>> +{
+>> +=C2=A0=C2=A0=C2=A0 void *ptr =3D memblock_alloc_try_nid(size, size,
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 __pa(MAX_DMA_ADDRESS), MEMBL=
+OCK_ALLOC_ACCESSIBLE, node);
+>> +
+>> +=C2=A0=C2=A0=C2=A0 if (!ptr)
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 panic("%pS: Failed to alloca=
+te %zu bytes align=3D%zx nid=3D%d=20
+>> from=3D%llx\n",
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 __fu=
+nc__, size, size, node, (u64)__pa(MAX_DMA_ADDRESS));
+>> +
+>> +=C2=A0=C2=A0=C2=A0 return ptr;
+>> +}
+>>
+>> =C2=A0extern pgd_t early_pg_dir[PTRS_PER_PGD];
+>> =C2=A0asmlinkage void __init kasan_early_init(void)
+>> @@ -83,6 +96,40 @@ static void __init populate(void *start, void *end)
+>> =C2=A0=C2=A0=C2=A0=C2=A0 memset(start, 0, end - start);
+>> =C2=A0}
+>>
+>> +void __init kasan_shallow_populate(void *start, void *end)
+>> +{
+>> +=C2=A0=C2=A0=C2=A0 unsigned long vaddr =3D (unsigned long)start & PAGE_=
+MASK;
+>> +=C2=A0=C2=A0=C2=A0 unsigned long vend =3D PAGE_ALIGN((unsigned long)end=
+);
+>> +=C2=A0=C2=A0=C2=A0 unsigned long pfn;
+>> +=C2=A0=C2=A0=C2=A0 int index;
+>> +=C2=A0=C2=A0=C2=A0 void *p;
+>> +=C2=A0=C2=A0=C2=A0 pud_t *pud_dir, *pud_k;
+>> +=C2=A0=C2=A0=C2=A0 pgd_t *pgd_dir, *pgd_k;
+>> +=C2=A0=C2=A0=C2=A0 p4d_t *p4d_dir, *p4d_k;
+>> +
+>> +=C2=A0=C2=A0=C2=A0 while (vaddr < vend) {
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 index =3D pgd_index(vaddr);
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pfn =3D csr_read(CSR_SATP) &=
+ SATP_PPN;
+
+At this point in the boot process, we know that we use swapper_pg_dir so=20
+no need to read SATP.
+
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pgd_dir =3D (pgd_t *)pfn_to_=
+virt(pfn) + index;
+
+Here, this pgd_dir assignment is overwritten 2 lines below, so no need=20
+for it.
+
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pgd_k =3D init_mm.pgd + inde=
+x;
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pgd_dir =3D pgd_offset_k(vad=
+dr);
+
+pgd_offset_k(vaddr) =3D init_mm.pgd + pgd_index(vaddr) so pgd_k =3D=3D pgd_=
+dir.
+
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 set_pgd(pgd_dir, *pgd_k);
+>> +
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 p4d_dir =3D p4d_offset(pgd_d=
+ir, vaddr);
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 p4d_k=C2=A0 =3D p4d_offset(p=
+gd_k, vaddr);
+>> +
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vaddr =3D (vaddr + PUD_SIZE)=
+ & PUD_MASK;
+
+Why do you increase vaddr *before* populating the first one ? And=20
+pud_addr_end does that properly: it returns the next pud address if it=20
+does not go beyond end address to map.
+
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pud_dir =3D pud_offset(p4d_d=
+ir, vaddr);
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pud_k =3D pud_offset(p4d_k, =
+vaddr);
+>> +
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (pud_present(*pud_dir)) {
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 p =
+=3D early_alloc(PAGE_SIZE, NUMA_NO_NODE);
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pud_=
+populate(&init_mm, pud_dir, p);
+
+init_mm is not needed here.
+
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vaddr +=3D PAGE_SIZE;
+
+Why do you need to add PAGE_SIZE ? vaddr already points to the next pud.
+
+It seems like this patch tries to populate userspace page table whereas=20
+at this point in the boot process, only swapper_pg_dir is used or am I=20
+missing something ?
+
+Thanks,
+
+Alex
+
+>> +=C2=A0=C2=A0=C2=A0 }
+>> +}
+>> +
+>> =C2=A0void __init kasan_init(void)
+>> =C2=A0{
+>> =C2=A0=C2=A0=C2=A0=C2=A0 phys_addr_t _start, _end;
+>> @@ -90,7 +137,15 @@ void __init kasan_init(void)
+>>
+>> =C2=A0=C2=A0=C2=A0=C2=A0 kasan_populate_early_shadow((void *)KASAN_SHADO=
+W_START,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (void *)kasan_mem_to_shado=
+w((void *)
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 VMALLOC_END));
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 VMEMMAP_END));
+>> +=C2=A0=C2=A0=C2=A0 if (IS_ENABLED(CONFIG_KASAN_VMALLOC))
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 kasan_shallow_populate(
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (voi=
+d *)kasan_mem_to_shadow((void *)VMALLOC_START),
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (voi=
+d *)kasan_mem_to_shadow((void *)VMALLOC_END));
+>> +=C2=A0=C2=A0=C2=A0 else
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 kasan_populate_early_shadow(
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (voi=
+d *)kasan_mem_to_shadow((void *)VMALLOC_START),
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (voi=
+d *)kasan_mem_to_shadow((void *)VMALLOC_END));
+>>
+>> =C2=A0=C2=A0=C2=A0=C2=A0 for_each_mem_range(i, &_start, &_end) {
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 void *start =3D (void *=
+)_start; >
+> Thanks, this is on for-next.
 >=20
-> --- cut ---
->=20
-> 20bf2b378729c4a0366a53e2018a0b70ace94bcd is the first bad commit
-> commit 20bf2b378729c4a0366a53e2018a0b70ace94bcd
-> Author: Josh Poimboeuf <jpoimboe@redhat.com>
-> Date:   Thu Jan 28 15:52:19 2021 -0600
->=20
->     x86/build: Disable CET instrumentation in the kernel
->    =20
->     With retpolines disabled, some configurations of GCC, and specificall=
-y
->     the GCC versions 9 and 10 in Ubuntu will add Intel CET instrumentatio=
-n
->     to the kernel by default. That breaks certain tracing scenarios by
->     adding a superfluous ENDBR64 instruction before the fentry call, for
->     functions which can be called indirectly.
->    =20
->     CET instrumentation isn't currently necessary in the kernel, as CET i=
-s
->     only supported in user space. Disable it unconditionally and move it
->     into the x86's Makefile as CET/CFI... enablement should be a per-arch
->     decision anyway.
->    =20
->      [ bp: Massage and extend commit message. ]
->    =20
->     Fixes: 29be86d7f9cb ("kbuild: add -fcf-protection=3Dnone when using r=
-etpoline flags")
->     Reported-by: Nikolay Borisov <nborisov@suse.com>
->     Signed-off-by: Josh Poimboeuf <jpoimboe@redhat.com>
->     Signed-off-by: Borislav Petkov <bp@suse.de>
->     Reviewed-by: Nikolay Borisov <nborisov@suse.com>
->     Tested-by: Nikolay Borisov <nborisov@suse.com>
->     Cc: <stable@vger.kernel.org>
->     Cc: Seth Forshee <seth.forshee@canonical.com>
->     Cc: Masahiro Yamada <yamada.masahiro@socionext.com>
->     Link: https://lkml.kernel.org/r/20210128215219.6kct3h2eiustncws@trebl=
-e
->=20
->  Makefile          | 6 ------
->  arch/x86/Makefile | 3 +++
->  2 files changed, 3 insertions(+), 6 deletions(-)
->=20
-> --- end ---
->=20
-> On Sun, Feb 07, 2021 at 06:31:22PM -0500, Stuart Little wrote:
-> > I am trying to compile on an x86_64 host for a 32-bit system; my config=
- is at
-> >=20
-> > https://termbin.com/v8jl
-> >=20
-> > I am getting numerous errors of the form
-> >=20
-> > ./include/linux/kasan-checks.h:17:1: error: =E2=80=98-mindirect-branch=
-=E2=80=99 and =E2=80=98-fcf-protection=E2=80=99 are not compatible
-> >=20
-> > and
-> >=20
-> > ./include/linux/kcsan-checks.h:143:6: error: =E2=80=98-mindirect-branch=
-=E2=80=99 and =E2=80=98-fcf-protection=E2=80=99 are not compatible
-> >=20
-> > and
-> >=20
-> > ./arch/x86/include/asm/arch_hweight.h:16:1: error: =E2=80=98-mindirect-=
-branch=E2=80=99 and =E2=80=98-fcf-protection=E2=80=99 are not compatible
-> >=20
-> > (those include files indicated whom I should add to this list; apologie=
-s if this reaches you in error).
-> >=20
-> > The full log of the build is at
-> >=20
-> > https://termbin.com/wbgs
-> >=20
-> > ---
-> >=20
-> > 5.11.0-rc6 built fine last week on this same setup.=20
+> _______________________________________________
+> linux-riscv mailing list
+> linux-riscv@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-riscv
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
@@ -252,4 +330,4 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/YCCIgMHkzh/xT4ex%40arch-chirva.localdomain.
+kasan-dev/2b2f3038-3e27-8763-cf78-3fbbfd2100a0%40ghiti.fr.
