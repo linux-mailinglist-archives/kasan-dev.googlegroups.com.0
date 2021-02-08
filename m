@@ -1,100 +1,101 @@
-Return-Path: <kasan-dev+bncBC447XVYUEMRBUNCQ2AQMGQEMVISKVQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBC447XVYUEMRBENDQ2AQMGQEZVIXFGI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13a.google.com (mail-lf1-x13a.google.com [IPv6:2a00:1450:4864:20::13a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18E43313EF9
-	for <lists+kasan-dev@lfdr.de>; Mon,  8 Feb 2021 20:30:26 +0100 (CET)
-Received: by mail-lf1-x13a.google.com with SMTP id a19sf2529292lfj.15
-        for <lists+kasan-dev@lfdr.de>; Mon, 08 Feb 2021 11:30:26 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1612812625; cv=pass;
+Received: from mail-wr1-x43c.google.com (mail-wr1-x43c.google.com [IPv6:2a00:1450:4864:20::43c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7608B313F02
+	for <lists+kasan-dev@lfdr.de>; Mon,  8 Feb 2021 20:31:29 +0100 (CET)
+Received: by mail-wr1-x43c.google.com with SMTP id w11sf6977437wrp.6
+        for <lists+kasan-dev@lfdr.de>; Mon, 08 Feb 2021 11:31:29 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1612812689; cv=pass;
         d=google.com; s=arc-20160816;
-        b=si3l24ZMTozkw28npOKIxsg2lZsFp1p83WqMSkqchzEMsPzHt/yeRq7hqCrlf9WrrS
-         soHmxVCl6SrgFa01B/omBmD0tVirctQLRck4kCYTQa0UCLU+aix/YU4qF4sQQvyPZNNa
-         /3ptG3xfz/hkQ/8BFa36dDaH+HVYuC0lCRbaLwdEI413sS5bYz4rRPzTuhy5aCgI1QpV
-         tdotIF4L0SVO82KxcwwQjPoYqBKrbO+mI5FPV9gA8xaBz4XJ7vSDKlG4qqlsd3A2nZxX
-         WdX/VBs5k1/6y4XDV3+sSFerJOTgekNqgeGufFpSBXKSnSIpdd/psQV67UhPqI9ES+XS
-         xHWw==
+        b=EpWKb/emlqde2HCdtpcuNH0bzWtHPlx+fiPca9dpakh9N/zuNI6S2gygB2NUAy51L3
+         BYpyWWNBVzyUkrzFlp/EiqMs6U6pj4wJG4+OVzh5eiIDp00sgCl3Ofw0gUb85etaYYUs
+         G5Dn7/wocG0HBL5dUewPpMpL+snBVcbT6NjCAdXc8He9gEE7jrpESGo6IHH8RrPFv3j5
+         OQ8FEVFseEJfwacdjUMJSI2aSiKrYYI1MA6BW//IkeWV1aVVmfmlExnfsvf057+c0she
+         e6d/kk29KMJRz2GLAtUNHAQWG+ue/bBRmdxBfchYnH51q9Ni6u3RSXMsj9+26zXpAXNt
+         +b0A==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:message-id:date
-         :subject:cc:to:from:sender:dkim-signature;
-        bh=zB498fPa9s8u8i43FhU/fBFJkgCSWbakhqZglrmgTRc=;
-        b=HEN30aLDXpwqzgQO3xHIbOcTQeE2e8chwgB+MB5287oiFVFdNNxhF/OW5Kc2TOlDAS
-         WI1u2NTIwuenl0tonT1ZomCAc9h9WCGtLvll7MTw4inn5pxy2IpT89tzIQNSboWDSKBZ
-         qvYPmAXoSrXcFBb3RXp34ZDJwq524W4yemNCcockQF2tSIfIE6U0ujAVDmS0K3Qnh7Pu
-         5RF7Y8vhNp4sJeDIJHUfIPz0lseNe1C4q6FYpF1rowICq6G3BBKr1eFFzEnjdjCJxSsI
-         yBLFz/3PAEdBhW3V/uLI9l7JrZK8jTzr1lKJIPhITTTX7gsDbHRa2Z3hdGPsR7lBcJW2
-         K+3w==
+         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:sender:dkim-signature;
+        bh=qMAvc9DwpVpZhNQDW00RDWqhKAm1upPBtO7rV1tgZRE=;
+        b=VHlY0C2nh7GLSdbP/Fsjk8y0s4pi+GP82Ix0mEkZ4jwyWEN9j17LonNfjmAis96MJf
+         kK/VfgENYbHqBrAh/xuyaOcq0Hg1hGPyMMRqKjeBnfnnLsJs2Es0iGQi4DzKXxLufkU1
+         z5y51JJMyzUY8GW+WzqcqoHp3x6YikjPt4GClsoyDK632kFZKImLh4v5MoTCTWun1yne
+         IpS5SFqiF11qn6/OR6/cX3+5OSZV+R4ekm2D4Hqf552IDDjiO4KyoRMGbb4XUaiTmN/3
+         cFjxZS9YLMSe5SEADtu01RbbVKeUkMSmYPGgQU7SFq27CHJ6h/0FQlocpn5tuGhnnn6O
+         EpjQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=neutral (google.com: 217.70.183.195 is neither permitted nor denied by best guess record for domain of alex@ghiti.fr) smtp.mailfrom=alex@ghiti.fr
+       spf=neutral (google.com: 217.70.183.200 is neither permitted nor denied by best guess record for domain of alex@ghiti.fr) smtp.mailfrom=alex@ghiti.fr
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id:mime-version
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
+        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=zB498fPa9s8u8i43FhU/fBFJkgCSWbakhqZglrmgTRc=;
-        b=cBSvhVFZDZWzTBOKzIgnqlllNEoc5uQ6C+DiqV+K2DZe5UjN5c/g+rv7+eIzfU1ZfC
-         9eEZo6UlD6zpyw0NPq5ZiuaOMEFGrfv2C5LsKTe0TB4ZNCyPgGtZmwW0lIGHLJaThgxR
-         uj/58CwvBdssbsw7FRrWrfYDeXz2QRrcqsoOVizX6gw++Dk3UKfrxW1SdhO/F0PWspuN
-         7Cd8V6Ro3WtKzVeShz0Cfu1aPjDtnTljarIslDRTC8txm1oTrJtp802os7V32YqsXCaL
-         sY9qJUGt0zxn8cyEsKiceAxJ2sfkjxJZ40p4YagiO/vUc9sMiT2VvOOmteOnhnQhIKZq
-         QnQQ==
+        bh=qMAvc9DwpVpZhNQDW00RDWqhKAm1upPBtO7rV1tgZRE=;
+        b=PvFE5CY95UHK/bz7kpDEAzRj0ABDAh6VYqaVZT3WvAyv2eHG7DpOsliIM/tAsy5prD
+         vm0TIOK/3z7ZX6ldap/heHRgPhUyQMF6xTqqqyZvmccJQd4lIhZlzPSi9geW/8PlXEo4
+         /INa6XfLTTI370riUxBJuaciVQJOXzW4zf7k5P8b0RaVywfAs4IrciPtxUbJ175/aQdU
+         dxwa1y+ABCxV7Rf1bb7mFuS8oQOwdLf5Sdb5EglxhUNRKOVfVCgqJw1pFa4LZhNVieow
+         v6CbvI2gBnONXGinHAA6WQH3n2bG3SubdOWHi0XSJS4VoszSSO1bUKV+lkHkXZmsz6v3
+         Dz7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :mime-version:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=zB498fPa9s8u8i43FhU/fBFJkgCSWbakhqZglrmgTRc=;
-        b=oX27PssHgOr+DQBGHH8GIROGD5vhM5rnoRN0rSnJuD21oLokLUBrCYGdpDVgV0f/Qr
-         p1Jl8b53iAHMQvTiXj4s4n0oKqC8MM5z47j1ISBDOVMLWKM8D99xGUjX+IhiSNPir3Gh
-         IjYwd8jn93m7kf1Q0PqlF2EFC/olZJnIgS1oNrlhnooFeX6EHUHS6dpynBV8Wqz0Z6s8
-         rlYlbIzxETxlx3sfw/wkp6zLWEr08UR+HyED9NVe/UN0wU7rDT2ZQjvOjulIiwZ18GUw
-         kLmhO4bmKV7FYlo2X+hVqI5pfbfNc+trx+uvK1YZBdAeRXSj9BpInIbCdth/9f+UTTe7
-         1RkQ==
+         :in-reply-to:references:mime-version:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=qMAvc9DwpVpZhNQDW00RDWqhKAm1upPBtO7rV1tgZRE=;
+        b=quNbCtu0c05tlX299se7P+f0InJeemWss6n6BDrIrXcHf2PFIV4IHexFeYdPxcntgK
+         36dA8FSZPSnbNdrmuRv/u4TaJ55gsqUZKTvd8vus+vT2YOpdM70gxImRjZBeFuDe72uN
+         KJR9Wcuq2m+2xZw3Om5I31eHqFLywqAtSqr9kLUigOiamxF7f/O36qVf6eeHKAwXEe82
+         bQlg89TdwNhwbabKkCX7/K5iwFFCFMnY+AJBagG0xtfLZtqKyhGAMOsfcaL1ptBHVTNs
+         H4zsVNe41C0LwKALUxg8XDd8fl+8JVY2YxM7I1yOtsaK1wrV/EvPdPwvR4fjjP8Rqus9
+         cJLA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM533whDspPrv7uIPwB7WTyz+ubEP4wZIoSyx1XjwvTMDm5osv7L1o
-	nnY+YTzOMd23jCrJKTHLH9Y=
-X-Google-Smtp-Source: ABdhPJwUe3cqOTG18eiAS98PU1nrMRhbYWZdbWBE1j5+B3uG0I+dKo7b1+mzcKE+/jdk5sOjiURo8Q==
-X-Received: by 2002:a05:6512:3704:: with SMTP id z4mr11924327lfr.104.1612812625676;
-        Mon, 08 Feb 2021 11:30:25 -0800 (PST)
+X-Gm-Message-State: AOAM530haoE4OOjinlrEDCJa56BcujTygNA9IHfQp+lG6GXj/j/kbxKO
+	mgunJIwNt82c9Deh3dBimGw=
+X-Google-Smtp-Source: ABdhPJwrpVwHais7NtOR6rIcTnuFmp5/GBtOrJfE4tPwTTwG+dFi1Q0CyLXANZaO52LYBMzEQ7vzCg==
+X-Received: by 2002:adf:b1cd:: with SMTP id r13mr12158612wra.157.1612812689218;
+        Mon, 08 Feb 2021 11:31:29 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:3993:: with SMTP id j19ls43290lfu.3.gmail; Mon, 08
- Feb 2021 11:30:24 -0800 (PST)
-X-Received: by 2002:a19:cd2:: with SMTP id 201mr3010691lfm.110.1612812624748;
-        Mon, 08 Feb 2021 11:30:24 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1612812624; cv=none;
+Received: by 2002:a05:600c:4f88:: with SMTP id n8ls104767wmq.3.gmail; Mon, 08
+ Feb 2021 11:31:28 -0800 (PST)
+X-Received: by 2002:a1c:98d4:: with SMTP id a203mr333350wme.10.1612812688402;
+        Mon, 08 Feb 2021 11:31:28 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1612812688; cv=none;
         d=google.com; s=arc-20160816;
-        b=kgPCs6ErDW0/FGdhTKzr5oqijOOe56D4cZmm00+Gh93KYoitIBGeTXAITnm6UnlLLJ
-         YUC1jzVUH+5cv+XrTE2663vaSqLAwVcnktXMPXeIzo4MACUcTV45fcewO+EAM8uQO0u5
-         yr3t/6S4T0hSqYzJ1frIqk2nTu0ITl48fnNAUcqvyNRZ6a8lxbPa+t4rRJECrGMoG7/K
-         b9B3RBh/IOA+aoy4xj+++sbNe8iPrUkM5OZRlz8m0QMDKQSbEbpMq9ELGgA372ussVvh
-         XtcIelgSZXMSeQ7FuhAmHtIXRJNQEiTiEoo8aicn4z02EHnhDBcdWkeifdr+6qy6+qRE
-         +UMg==
+        b=NDHEMwcFaGjFxL4udSwbM2MSdhsoBRo+7CAhbZjvBXCtzMJ1zfPbrQ6lxlSeausZ7S
+         qOabDRLIxLzqfcnVQOmhSorCMrKOpMQTpSPH5/5xArlHkkz8Jw21j1kRNGvO87Uh3HK8
+         xGvjS1KZGVaPC3Fa99A1aTezgCjRhNLjcP8xUqq4gFV8/r3zug3WfVTfCuhNtbenpkLb
+         oXU1FwwJIi6a4NslHi9OPk0EhcHro1FlPgkxEmEBlklTPr/D/iDdg9dHQFue1Rd1Px0N
+         rhzD9JvZ1LR7W/VIXAxNz7YJtKIer+4RlSVpl/mfjjDWTzSXoeRH+KEFr8HBrvqburU1
+         PYUg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from;
-        bh=0l9g7N5eQLPk7YVqRqJr74edpKTvZBLwb0I3q9VX8kY=;
-        b=QuXG6DVw902ABREEXXfsFszh7XlcnXrVkLvj0RH+490KehhDeM0rzlq41h+GFUKDHc
-         3Zf0TDqZC9Jha7LmvT/h6q72nN5P7RvvvFQLbQz/Ievc+R74qXRURib76QaJL8ay/d4b
-         jz+7bf4zruviV1Zer5uqfIOAk8D34nBeRCytpqE6sniZuS4VhmMfMfBQct6v3oshccbx
-         79ZvTmu9dSxXHOMv7Uh365qAb+b4GgLkNBLr9hsmf49gwLs43VqUPYSMP2w0+bbHUsAB
-         LBgyp06+1Iu3n8aC2EPGPkvJ7RJ09EgHH6SVz2BSnJMeww59Mnor/3Z2jCJaagd/c0Na
-         mmMQ==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from;
+        bh=Nt08x/e1M06EURUD1LXp/c05E+0vYqfCV+k39JTMPjY=;
+        b=xbyEh+k69puc0B9xRbmLNHGP47Av4wMnWKMUXmNVPCewiydRCsHP6PeJI0X4WvCofw
+         rGnbkZ/5/2IA0cj+bUD3Vyq5LR4hQh0w5Ov1+LWCHk5harZXeLcZkCeSW4IFusVjzeBf
+         TKJD0s5bTt32pIX8QHu6pH96ciu9B96xFOe0uGVW8Crh66dlMpLe6EUls4Szx0NP9Q/V
+         aC2X14RJcX5ludjLJfNSLX1c2YmDnDDZjLuBOZ7lzm8JCikuP072fUCuk4R4CPvtFjQz
+         nUTBNuN5RpnhAlWWx2HRF9nOMnz5tVzhDDpv6IdFfHVex5QDPLq5cRXP7JnnWq4MdqFn
+         5HYw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=neutral (google.com: 217.70.183.195 is neither permitted nor denied by best guess record for domain of alex@ghiti.fr) smtp.mailfrom=alex@ghiti.fr
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net. [217.70.183.195])
-        by gmr-mx.google.com with ESMTPS id m17si561795lfg.0.2021.02.08.11.30.24
+       spf=neutral (google.com: 217.70.183.200 is neither permitted nor denied by best guess record for domain of alex@ghiti.fr) smtp.mailfrom=alex@ghiti.fr
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net. [217.70.183.200])
+        by gmr-mx.google.com with ESMTPS id 201si38560wmb.2.2021.02.08.11.31.28
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 08 Feb 2021 11:30:24 -0800 (PST)
-Received-SPF: neutral (google.com: 217.70.183.195 is neither permitted nor denied by best guess record for domain of alex@ghiti.fr) client-ip=217.70.183.195;
+        Mon, 08 Feb 2021 11:31:28 -0800 (PST)
+Received-SPF: neutral (google.com: 217.70.183.200 is neither permitted nor denied by best guess record for domain of alex@ghiti.fr) client-ip=217.70.183.200;
 X-Originating-IP: 2.7.49.219
 Received: from debian.home (lfbn-lyo-1-457-219.w2-7.abo.wanadoo.fr [2.7.49.219])
 	(Authenticated sender: alex@ghiti.fr)
-	by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id C803F60008;
-	Mon,  8 Feb 2021 19:30:20 +0000 (UTC)
+	by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 916D420002;
+	Mon,  8 Feb 2021 19:31:24 +0000 (UTC)
 From: Alexandre Ghiti <alex@ghiti.fr>
 To: Andrey Ryabinin <aryabinin@virtuozzo.com>,
 	Alexander Potapenko <glider@google.com>,
@@ -106,14 +107,16 @@ To: Andrey Ryabinin <aryabinin@virtuozzo.com>,
 	linux-riscv@lists.infradead.org,
 	linux-kernel@vger.kernel.org
 Cc: Alexandre Ghiti <alex@ghiti.fr>
-Subject: [PATCH 0/4] Kasan improvements and fixes
-Date: Mon,  8 Feb 2021 14:30:13 -0500
-Message-Id: <20210208193017.30904-1-alex@ghiti.fr>
+Subject: [PATCH 1/4] riscv: Improve kasan definitions
+Date: Mon,  8 Feb 2021 14:30:14 -0500
+Message-Id: <20210208193017.30904-2-alex@ghiti.fr>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210208193017.30904-1-alex@ghiti.fr>
+References: <20210208193017.30904-1-alex@ghiti.fr>
 MIME-Version: 1.0
 X-Original-Sender: alex@ghiti.fr
 X-Original-Authentication-Results: gmr-mx.google.com;       spf=neutral
- (google.com: 217.70.183.195 is neither permitted nor denied by best guess
+ (google.com: 217.70.183.200 is neither permitted nor denied by best guess
  record for domain of alex@ghiti.fr) smtp.mailfrom=alex@ghiti.fr
 Content-Type: text/plain; charset="UTF-8"
 Precedence: list
@@ -128,28 +131,57 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-This small series contains some improvements for the riscv KASAN code:
+There is no functional change here, only improvement in code readability
+by adding comments to explain where the kasan constants come from and by
+replacing hardcoded numerical constant by the corresponding define.
 
-- it brings a better readability of the code (patch 1/2)
-- it fixes oversight regarding page table population which I uncovered
-  while working on my sv48 patchset (patch 3)
-- it helps to have better performance by using hugepages when possible
-  (patch 4)
+Note that the comments come from arm64.
 
-Alexandre Ghiti (4):
-  riscv: Improve kasan definitions
-  riscv: Use KASAN_SHADOW_INIT define for kasan memory initialization
-  riscv: Improve kasan population function
-  riscv: Improve kasan population by using hugepages when possible
+Signed-off-by: Alexandre Ghiti <alex@ghiti.fr>
+---
+ arch/riscv/include/asm/kasan.h | 22 +++++++++++++++++++---
+ 1 file changed, 19 insertions(+), 3 deletions(-)
 
- arch/riscv/include/asm/kasan.h |  22 +++++-
- arch/riscv/mm/kasan_init.c     | 119 ++++++++++++++++++++++++---------
- 2 files changed, 108 insertions(+), 33 deletions(-)
-
+diff --git a/arch/riscv/include/asm/kasan.h b/arch/riscv/include/asm/kasan.h
+index b04028c6218c..a2b3d9cdbc86 100644
+--- a/arch/riscv/include/asm/kasan.h
++++ b/arch/riscv/include/asm/kasan.h
+@@ -8,12 +8,28 @@
+ 
+ #ifdef CONFIG_KASAN
+ 
++/*
++ * The following comment was copied from arm64:
++ * KASAN_SHADOW_START: beginning of the kernel virtual addresses.
++ * KASAN_SHADOW_END: KASAN_SHADOW_START + 1/N of kernel virtual addresses,
++ * where N = (1 << KASAN_SHADOW_SCALE_SHIFT).
++ *
++ * KASAN_SHADOW_OFFSET:
++ * This value is used to map an address to the corresponding shadow
++ * address by the following formula:
++ *     shadow_addr = (address >> KASAN_SHADOW_SCALE_SHIFT) + KASAN_SHADOW_OFFSET
++ *
++ * (1 << (64 - KASAN_SHADOW_SCALE_SHIFT)) shadow addresses that lie in range
++ * [KASAN_SHADOW_OFFSET, KASAN_SHADOW_END) cover all 64-bits of virtual
++ * addresses. So KASAN_SHADOW_OFFSET should satisfy the following equation:
++ *      KASAN_SHADOW_OFFSET = KASAN_SHADOW_END -
++ *                              (1ULL << (64 - KASAN_SHADOW_SCALE_SHIFT))
++ */
+ #define KASAN_SHADOW_SCALE_SHIFT	3
+ 
+-#define KASAN_SHADOW_SIZE	(UL(1) << (38 - KASAN_SHADOW_SCALE_SHIFT))
+-#define KASAN_SHADOW_START	KERN_VIRT_START /* 2^64 - 2^38 */
++#define KASAN_SHADOW_SIZE	(UL(1) << ((CONFIG_VA_BITS - 1) - KASAN_SHADOW_SCALE_SHIFT))
++#define KASAN_SHADOW_START	KERN_VIRT_START
+ #define KASAN_SHADOW_END	(KASAN_SHADOW_START + KASAN_SHADOW_SIZE)
+-
+ #define KASAN_SHADOW_OFFSET	(KASAN_SHADOW_END - (1ULL << \
+ 					(64 - KASAN_SHADOW_SCALE_SHIFT)))
+ 
 -- 
 2.20.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210208193017.30904-1-alex%40ghiti.fr.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210208193017.30904-2-alex%40ghiti.fr.
