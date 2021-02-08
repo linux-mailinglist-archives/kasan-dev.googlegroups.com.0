@@ -1,136 +1,143 @@
-Return-Path: <kasan-dev+bncBC5JXFXXVEGRBXXXQWAQMGQEQYG7LRI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCSJ7B6JQALRBN76QWAQMGQEUS2YYIA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ot1-x337.google.com (mail-ot1-x337.google.com [IPv6:2607:f8b0:4864:20::337])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3227F313BD8
-	for <lists+kasan-dev@lfdr.de>; Mon,  8 Feb 2021 18:58:55 +0100 (CET)
-Received: by mail-ot1-x337.google.com with SMTP id p15sf8762592oth.20
-        for <lists+kasan-dev@lfdr.de>; Mon, 08 Feb 2021 09:58:55 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1612807134; cv=pass;
+Received: from mail-pg1-x53f.google.com (mail-pg1-x53f.google.com [IPv6:2607:f8b0:4864:20::53f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DDC6313CE0
+	for <lists+kasan-dev@lfdr.de>; Mon,  8 Feb 2021 19:13:12 +0100 (CET)
+Received: by mail-pg1-x53f.google.com with SMTP id 8sf11357569pgn.8
+        for <lists+kasan-dev@lfdr.de>; Mon, 08 Feb 2021 10:13:12 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1612807991; cv=pass;
         d=google.com; s=arc-20160816;
-        b=wMhGkyW9nw75+3N0SC12O+N0qhSKhYhRr8f2/sxMS4KW+IUDqwsNEfB1WkpM+9pVWe
-         +xX6Hopei9oO+blmUanFh6nj341ZWcgxHMXHpGumPFzhC+eQjWE/4y4lmCx+mWpbUf7b
-         pl6gYW+4Jqm/Bo/2J0LKRKq89j995mC7kBgR7OM9Ot8xT9vABjKXLjbERhsOAtAW/jfG
-         OV0AUMiHLTkO5iXTmf1Ops1WfhYxPJpUQIPwqf6sWxRfkyxZo0ZCnX8DyAZaLoaSfTQM
-         2SRVooIg6Mg/kc0SipM3eB9IqQ0pZXJveJwZ8peK9CtmviYpfFfK4qqhmJMJ5wQnhyBy
-         HxMA==
+        b=oNDOUUky3dt9Ejdaa33/+Ve/6vkSFw+5gf6EkmJ6zTfa5vdZyAtKZRr4PEzyrqRlWe
+         6bQaIObnxBGvDYQxNwG50VH9JGn2BnLYOSVwTofCAk5V7qPLRvc3WVOfrV6K0RdLYYLl
+         UMf2SpCfwI7cTtLX8xVwe+moeu2vsthtYTx1QcQ5eoO4nGzhRpIGdY6hRckBmELorsso
+         cGv7OTQAjonf3v56392mECsh2XuIEL2PUuryG/OijFP0RkfLeqeRvOrB74TI/dVE5ir5
+         Ct25QkRsO723ks3fxbG+eFM2P01nwFW8zIZ/GAfqOSpQ7CUBns+VTBnGvxHAyt1N7np+
+         lnwQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=bkCaWB42dYQRIli0srxSTvFl17rYTa30wo3dgL4iu3c=;
-        b=DxIfppUcW4LTzb3oKMIzq1ZNb2A7i+zXFjewWHbUzZFcJJUPzsBKv5qx65PbszmnV8
-         kiFYkxz4NcXejtmVGch7hm5rQfosIjXa7CPu7HNX66YdSoA8Mc1p53LiT5Fx5CCxblnV
-         B+0kMmAr7zmJiyaCiZIVQKFslsymVHERPo9LnUE7P1j9ePzUz2AlSBj9EbF/xVWBg5Xu
-         gx8VtSh7nyOiD32HqLk8agjA4XIxhzHnnMW9Yt8cwtlEwnihQiVN/EEbYefeVbvbOp83
-         jaGfQmiZpR4CGmMfJ3LGsEYDVWZwYtt/qvJDkYPRkGJFdJiu9wUnppGS3HnhsKcpoSxI
-         SQ9g==
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature;
+        bh=bED9tzO3yEVXO1B2PKABA5Cf0ukbcpHj4BCLzrfp5y8=;
+        b=hUBhphjNpV5PADLaAmMVGtFfUxzGOJCj5bWySf/K5JyfhPZd9YgaAd++p00C2snImc
+         xeLD4s3nB2RAJnvk+EKbIKSh97S3kEcmbiFjB/TEl8x+AOd9W5LO2JpCaJMtx/JDBji3
+         JSlayuc8EHjBGlCgqu7Nb1ZTDp84Wep7VpUOlPrGbPxM7xY8M66ZrRdS8Fw85IWvMaEI
+         QYUznANydkCwSQwH1xF3Rh7+Z2q18yxBjlKDJR7XzeSaTHciyzeWMuZ/0tckEFUJgfd1
+         UlFWSCqyi1ofFTNqBndKSwqhBVoBxVKMZYSjMrIbhpehuFzS0EG8WdV6zj1OYq8wKAI+
+         WTnw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=BK8mZc5u;
-       spf=pass (google.com: domain of sashal@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=sashal@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=LyDZuhy3;
+       spf=pass (google.com: domain of jpoimboe@redhat.com designates 63.128.21.124 as permitted sender) smtp.mailfrom=jpoimboe@redhat.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=bkCaWB42dYQRIli0srxSTvFl17rYTa30wo3dgL4iu3c=;
-        b=KTGx6HPDTaT1+nQP95ROXU2NK+cEMIi75MQQ1emP3fHVX1Fy63DKb/O5J8zO8WTJBE
-         lfRZmIyXWi72fQ/Js/iy2nMM04UOwjIFwqVgw0iLRVMa+EySibS0LXQ5ofXnG5ARVDfM
-         Eje9BS7wja/uWiqc2cugkuV5vO9N0PIwNjbrht404ccBCBiASnM7u+xDkCYXPxVPG+db
-         CYxi9L5I2InVDJ4cbNuHwDSso1j55KHy7vJO2xKjBS0huzblD1EMEgQLbsrLYeHWhc67
-         K1nrsQ4OE6xFUrRXal0HWocqmj2gl908XRZ6DLIP/lmsd+f1i0GianZbS8U+a/77ifWW
-         50QQ==
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=bED9tzO3yEVXO1B2PKABA5Cf0ukbcpHj4BCLzrfp5y8=;
+        b=AF6jFlgjRrXkEPNVu3Sli1mIfWJRmkXfxk0okRPQORfigYwlQrdcX0E8wglfdOtZWP
+         +c0Ac33Eq9kWrzhYzwp1Gag13StgxTODSusuoFE6j7kYomIZPxXuy2dDUKPWATvg/nT6
+         OFNztrVwGB/LzSi6kXf/z4quk41S2leCle4fNOh1O+fRE5Jch/Zkm1F+ig+Wq0ZDg5cB
+         GbIEEtFZhsZ+8Hug6r5D2kWea7pSbwEZA01bjp9OsI8MWn1MBS9xWcNTja62mMYgChmq
+         r3ymjPWg2oFkKnxlohVqzZYz7h+IicWJpxs1i4gntF4KnU/RYlAeaPq9PzcyhFeyDEiw
+         PVfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :in-reply-to:references:mime-version:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=bkCaWB42dYQRIli0srxSTvFl17rYTa30wo3dgL4iu3c=;
-        b=fJTzvVCmuS2amCWdqk41We3Wql7n1xqr+EnouaaGF+2Xg+urbO/Us+qy+bXRnjZbKN
-         FLu0ETWl7onQCqk9EBu38dyNUfSd/XUyme2Mf94ZMc7Z632a/w6lqQoXD/GXQa3jhJhY
-         ZT/2cJX/XriziJmoWKqR3cF5jl1CiUnf4KmLhOGE5dkoTi7Wqfcb1+nU50+h9zPRoX1F
-         /aAUtw5im25wLLAfYjvF5vgs20+aixNhRlRF6venYQVCpQAFfwm84KbgRzGtU7jp26Pg
-         tqd1Ow5Vl8oWUyjkAeXRnx8Rqq0B4qr7ftyj3n7qMcHBRgAqVSFllFh9CHmOjtlJJGvl
-         Ca7g==
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=bED9tzO3yEVXO1B2PKABA5Cf0ukbcpHj4BCLzrfp5y8=;
+        b=ruALd99QsGr/NbIUyer9VOQzMwyhLtd4Q9vfbNPcwze+cG8SX+nXszbCDINYgEUhfU
+         kvG+FlJ23zongziJj7P3FQIkvkNbVrqLJNAs6EQ53KT45uqOCjphFHyawEIU02rqJiuz
+         26CXc57yIFCEuuYJr+9AAVpeHCCc2RmOkjLADDK6/QyLN7+Q+g/H6yBQV8BrAAPALkHN
+         SYf99RmolA4gTpjDC5RHPWmvBE+mhaekJMXk/H8JpaBe8Lcud0w/lIpVa/CC6dJOc9v7
+         L1+puoR0uQ6aPxOKlALfPpbUnAV7bTcgliXzHFgGmISnam2tgBuajHyjsN0K15fYNZAG
+         a+WA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM532iwVZFr2rPjLuYEPZYhw1phq0CLbLD7o9q0EJiaD3nV/zFsDxG
-	p3xbDDgN4N0LmDmsUIEBrOI=
-X-Google-Smtp-Source: ABdhPJwskC8pVUFaKICPqAXi7qPZCUIeDdeI97T3A+Un3kp6v9WHlRATYzV8GZJHb4OcCpz43j257A==
-X-Received: by 2002:aca:d14:: with SMTP id 20mr12490631oin.157.1612807134197;
-        Mon, 08 Feb 2021 09:58:54 -0800 (PST)
+X-Gm-Message-State: AOAM532dEdMRUkZTlmB3qr1TExC4CzZr2mHoOG2TJcMu/elwLbEYrCQi
+	FNFdyIiJROXe/5yUWblJMeA=
+X-Google-Smtp-Source: ABdhPJyBz6q+5vzb0QrKV+ej5QhEr3q0iBZpdq+S7zhHjY7gpaUz2e7RpB9Ai7ybJVgC9J7JLIzghg==
+X-Received: by 2002:a17:902:ac8b:b029:e0:e42:dc26 with SMTP id h11-20020a170902ac8bb02900e00e42dc26mr17431280plr.44.1612807991369;
+        Mon, 08 Feb 2021 10:13:11 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6830:923:: with SMTP id v35ls4351031ott.0.gmail; Mon, 08
- Feb 2021 09:58:53 -0800 (PST)
-X-Received: by 2002:a9d:53c5:: with SMTP id i5mr13080185oth.159.1612807133751;
-        Mon, 08 Feb 2021 09:58:53 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1612807133; cv=none;
+Received: by 2002:a65:4c89:: with SMTP id m9ls3844044pgt.8.gmail; Mon, 08 Feb
+ 2021 10:13:10 -0800 (PST)
+X-Received: by 2002:a63:9dc9:: with SMTP id i192mr18301365pgd.271.1612807990780;
+        Mon, 08 Feb 2021 10:13:10 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1612807990; cv=none;
         d=google.com; s=arc-20160816;
-        b=xELNeP+57UoRXF/r03wLkwFYF1xEetTKWFN6zDzfvhmTKmaD4RkyRLTcxMfDfOmipN
-         4J1Vwo8yURCa1Tkw6ZxJsaSUaufIdooorSSwq2jIFfw27n7af5bA8KDpA+8l6ks9OZso
-         oF79P7qhkY6W5MLkfydriutxHpTO5kz+jj6VzHreIvMRnss3qq+yce0WQ9fMLLeDNbtT
-         Ipzx4JhLWFoAHdHIZkVgyd/TqSQwfZWZkpKRIThD0pFVmIzATMabWwxXuPknY3J4B/Ud
-         4Dp/cy49Kl3B3PuLcs8iQ41dI0AKnnQwqc4hnSa6ER1zQf/T3t/8Gri2R1Ru93zGzGRt
-         kfbw==
+        b=OnAZzloE0E4WCJ9f8rvYVZJo75oTKCppEcCbrRV3w+cG5s88sg31eXN0IcewDq+FBU
+         rw/5MDkIdu3MFvLwHBGRJlLBdymjBXCv21k5Crw+B4W/UzzDDzKiFpcvgP2wJIs/HG57
+         Vevac5Y/rDdP6BMoBxW11D719IQRmsYK+OB1ypDYqgaHA+BEErZ+sDF85wXaB0IczBC2
+         KJfrQmgoIaZlIDe8N0q4diOAJn+tVVT/poI08we0URD/gTd8PdTjAwkRtCH/7YWYShhQ
+         PARD0aXZUDQuOkXiNbtg+FTHEmDObkmfP/4LHFKixUXRBUFCsqet2gaFrjJgyHmiah1b
+         DgDg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=BUjmzl3tKHafuLwtfUcF/Doj6jtotBcHl98hu/AYado=;
-        b=p3cG5mPwO2L7aj2pkMtErb3kvj7Vgdjwu+RPIeREEcy12U+QH0KuQV55Qqs6NMpR6C
-         bHJLQBWYyeIv6sxafuhho0st3Qv8fJ7mvz6yIqkHwEMnkVRP75DrVT9IFoIano6y5xJp
-         Lsi8f/XoMoEMf/mkt9DMoy2/MY7LMKnV1yoMrN7shfuDKlzZq8J1zJ/ZueWQjhumMOoQ
-         FrQgpGEYTUkEaExIgyNjpHm79aQX/0gLZqe97Qpu3qy6G8rc4S4mAe0p6R+kqrNRopzO
-         EqiMhlQZI5yz2YC18lmJZwH16UFGZ9C8ZbVOnKcfCRvZZis6kzaVeGBCZ1OySI3taRoy
-         39Ng==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:dkim-signature;
+        bh=Vna1UpISDhhzy62RgmCODV7iVBrOXqSLXKC77p47hCA=;
+        b=pm7cHSU4H9GL4/MrlFth4LH7giiOZJ9lYDZAjDSD+ez88AZRtrsMUvqoP5BVR6Dpqo
+         sI49IpDqHYiAfYW9GAckiUTU2GTbr6Dq5V8VUiUJevlffzns7zac+yNoMJo6q5wXOL+Q
+         WXkCESpLAmS72bNAC/WMzcb6cF74kVlA19Eflxszcl41+pKd6oWjdISvjfpqT8Yyr+LH
+         O3V7Vy1j+zSDd32lT+yg6a8lTd7xhHdjrZciH9WawDi5rcj7afQoGA7l4/DbTSX6fs71
+         rZRrMaVfcd+R6Fr+uYkrX0w6UeLe/m2XGq66Y39M/vKrFNWuNd0+myievsxV3V78lpeX
+         pvYQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=BK8mZc5u;
-       spf=pass (google.com: domain of sashal@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=sashal@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id g62si967249oif.2.2021.02.08.09.58.53
+       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=LyDZuhy3;
+       spf=pass (google.com: domain of jpoimboe@redhat.com designates 63.128.21.124 as permitted sender) smtp.mailfrom=jpoimboe@redhat.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com. [63.128.21.124])
+        by gmr-mx.google.com with ESMTPS id my11si503pjb.1.2021.02.08.10.13.10
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 08 Feb 2021 09:58:53 -0800 (PST)
-Received-SPF: pass (google.com: domain of sashal@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 27D6464ECE;
-	Mon,  8 Feb 2021 17:58:51 +0000 (UTC)
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	Andrey Konovalov <andreyknvl@google.com>,
-	Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Mon, 08 Feb 2021 10:13:10 -0800 (PST)
+Received-SPF: pass (google.com: domain of jpoimboe@redhat.com designates 63.128.21.124 as permitted sender) client-ip=63.128.21.124;
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-152-LIm0O2BmNA-BWgTWAaL5AQ-1; Mon, 08 Feb 2021 13:13:07 -0500
+X-MC-Unique: LIm0O2BmNA-BWgTWAaL5AQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A8B141936B65;
+	Mon,  8 Feb 2021 18:13:04 +0000 (UTC)
+Received: from treble (ovpn-118-142.rdu2.redhat.com [10.10.118.142])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 9924860C04;
+	Mon,  8 Feb 2021 18:13:02 +0000 (UTC)
+Date: Mon, 8 Feb 2021 12:12:59 -0600
+From: Josh Poimboeuf <jpoimboe@redhat.com>
+To: Borislav Petkov <bp@suse.de>
+Cc: AC <achirvasub@gmail.com>, Andrey Ryabinin <aryabinin@virtuozzo.com>,
 	Alexander Potapenko <glider@google.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Leon Romanovsky <leonro@mellanox.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	"Paul E . McKenney" <paulmck@kernel.org>,
-	Naresh Kamboju <naresh.kamboju@linaro.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Sasha Levin <sashal@kernel.org>,
-	kasan-dev@googlegroups.com
-Subject: [PATCH AUTOSEL 5.10 33/36] kasan: add explicit preconditions to kasan_report()
-Date: Mon,  8 Feb 2021 12:58:03 -0500
-Message-Id: <20210208175806.2091668-33-sashal@kernel.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210208175806.2091668-1-sashal@kernel.org>
-References: <20210208175806.2091668-1-sashal@kernel.org>
+	Dmitry Vyukov <dvyukov@google.com>, Marco Elver <elver@google.com>,
+	Arnd Bergmann <arnd@arndb.de>, linux-arch@vger.kernel.org,
+	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
+	nborisov@suse.com, seth.forshee@canonical.com,
+	yamada.masahiro@socionext.com
+Subject: Re: [PATCH] x86/build: Disable CET instrumentation in the kernel for
+ 32-bit too
+Message-ID: <20210208181259.hwmnoldx627jhvlm@treble>
+References: <YCB4Sgk5g5B2Nu09@arch-chirva.localdomain>
+ <YCCFGc97d2U5yUS7@arch-chirva.localdomain>
+ <YCCIgMHkzh/xT4ex@arch-chirva.localdomain>
+ <20210208121227.GD17908@zn.tnic>
+ <82FA27E6-A46F-41E2-B7D3-2FEBEA8A4D70@gmail.com>
+ <20210208162543.GH17908@zn.tnic>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-Original-Sender: sashal@kernel.org
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=BK8mZc5u;       spf=pass
- (google.com: domain of sashal@kernel.org designates 198.145.29.99 as
- permitted sender) smtp.mailfrom=sashal@kernel.org;       dmarc=pass (p=NONE
- sp=NONE dis=NONE) header.from=kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+In-Reply-To: <20210208162543.GH17908@zn.tnic>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Original-Sender: jpoimboe@redhat.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@redhat.com header.s=mimecast20190719 header.b=LyDZuhy3;
+       spf=pass (google.com: domain of jpoimboe@redhat.com designates
+ 63.128.21.124 as permitted sender) smtp.mailfrom=jpoimboe@redhat.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -143,110 +150,38 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-From: Vincenzo Frascino <vincenzo.frascino@arm.com>
+On Mon, Feb 08, 2021 at 05:25:43PM +0100, Borislav Petkov wrote:
+> On Mon, Feb 08, 2021 at 10:19:33AM -0500, AC wrote:
+> > That did fix it, thank you!
+> 
+> Thanks!
+> 
+> ---
+> From: Borislav Petkov <bp@suse.de>
+> Date: Mon, 8 Feb 2021 16:43:30 +0100
+> Subject: [PATCH] x86/build: Disable CET instrumentation in the kernel for 32-bit too
+> 
+> Commit
+> 
+>   20bf2b378729 ("x86/build: Disable CET instrumentation in the kernel")
+> 
+> disabled CET instrumentation which gets added by default by the Ubuntu
+> gcc9 and 10 by default, but did that only for 64-bit builds. It would
+> still fail when building a 32-bit target. So disable CET for all x86
+> builds.
+> 
+> Fixes: 20bf2b378729 ("x86/build: Disable CET instrumentation in the kernel")
+> Reported-by: AC <achirvasub@gmail.com>
+> Signed-off-by: Borislav Petkov <bp@suse.de>
+> Tested-by: AC <achirvasub@gmail.com>
+> Link: https://lkml.kernel.org/r/YCCIgMHkzh/xT4ex@arch-chirva.localdomain
 
-[ Upstream commit 49c6631d3b4f61a7b5bb0453a885a12bfa06ffd8 ]
+Acked-by: Josh Poimboeuf <jpoimboe@redhat.com>
 
-Patch series "kasan: Fix metadata detection for KASAN_HW_TAGS", v5.
-
-With the introduction of KASAN_HW_TAGS, kasan_report() currently assumes
-that every location in memory has valid metadata associated.  This is
-due to the fact that addr_has_metadata() returns always true.
-
-As a consequence of this, an invalid address (e.g.  NULL pointer
-address) passed to kasan_report() when KASAN_HW_TAGS is enabled, leads
-to a kernel panic.
-
-Example below, based on arm64:
-
-   BUG: KASAN: invalid-access in 0x0
-   Read at addr 0000000000000000 by task swapper/0/1
-   Unable to handle kernel NULL pointer dereference at virtual address 0000000000000000
-   Mem abort info:
-     ESR = 0x96000004
-     EC = 0x25: DABT (current EL), IL = 32 bits
-     SET = 0, FnV = 0
-     EA = 0, S1PTW = 0
-   Data abort info:
-     ISV = 0, ISS = 0x00000004
-     CM = 0, WnR = 0
-
-  ...
-
-   Call trace:
-    mte_get_mem_tag+0x24/0x40
-    kasan_report+0x1a4/0x410
-    alsa_sound_last_init+0x8c/0xa4
-    do_one_initcall+0x50/0x1b0
-    kernel_init_freeable+0x1d4/0x23c
-    kernel_init+0x14/0x118
-    ret_from_fork+0x10/0x34
-   Code: d65f03c0 9000f021 f9428021 b6cfff61 (d9600000)
-   ---[ end trace 377c8bb45bdd3a1a ]---
-   hrtimer: interrupt took 48694256 ns
-   note: swapper/0[1] exited with preempt_count 1
-   Kernel panic - not syncing: Attempted to kill init! exitcode=0x0000000b
-   SMP: stopping secondary CPUs
-   Kernel Offset: 0x35abaf140000 from 0xffff800010000000
-   PHYS_OFFSET: 0x40000000
-   CPU features: 0x0a7e0152,61c0a030
-   Memory Limit: none
-   ---[ end Kernel panic - not syncing: Attempted to kill init! exitcode=0x0000000b ]---
-
-This series fixes the behavior of addr_has_metadata() that now returns
-true only when the address is valid.
-
-This patch (of 2):
-
-With the introduction of KASAN_HW_TAGS, kasan_report() accesses the
-metadata only when addr_has_metadata() succeeds.
-
-Add a comment to make sure that the preconditions to the function are
-explicitly clarified.
-
-Link: https://lkml.kernel.org/r/20210126134409.47894-1-vincenzo.frascino@arm.com
-Link: https://lkml.kernel.org/r/20210126134409.47894-2-vincenzo.frascino@arm.com
-Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
-Reviewed-by: Andrey Konovalov <andreyknvl@google.com>
-Cc: Andrey Ryabinin <aryabinin@virtuozzo.com>
-Cc: Alexander Potapenko <glider@google.com>
-Cc: Dmitry Vyukov <dvyukov@google.com>
-Cc: Leon Romanovsky <leonro@mellanox.com>
-Cc: Andrey Konovalov <andreyknvl@google.com>
-Cc: Catalin Marinas <catalin.marinas@arm.com>
-Cc: Will Deacon <will@kernel.org>
-Cc: Mark Rutland <mark.rutland@arm.com>
-Cc: "Paul E . McKenney" <paulmck@kernel.org>
-Cc: Naresh Kamboju <naresh.kamboju@linaro.org>
-Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
-Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- include/linux/kasan.h | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/include/linux/kasan.h b/include/linux/kasan.h
-index 30d343b4a40a5..646fa165d2cce 100644
---- a/include/linux/kasan.h
-+++ b/include/linux/kasan.h
-@@ -196,6 +196,13 @@ void kasan_init_tags(void);
- 
- void *kasan_reset_tag(const void *addr);
- 
-+/**
-+ * kasan_report - print a report about a bad memory access detected by KASAN
-+ * @addr: address of the bad access
-+ * @size: size of the bad access
-+ * @is_write: whether the bad access is a write or a read
-+ * @ip: instruction pointer for the accessibility check or the bad access itself
-+ */
- bool kasan_report(unsigned long addr, size_t size,
- 		bool is_write, unsigned long ip);
- 
 -- 
-2.27.0
+Josh
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210208175806.2091668-33-sashal%40kernel.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210208181259.hwmnoldx627jhvlm%40treble.
