@@ -1,131 +1,126 @@
-Return-Path: <kasan-dev+bncBCOYZDMZ6UMRBUOLRGAQMGQEAQ5Y7YQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBD7DRGAQMGQEGS3PVIA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ua1-x93d.google.com (mail-ua1-x93d.google.com [IPv6:2607:f8b0:4864:20::93d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E94C314D30
-	for <lists+kasan-dev@lfdr.de>; Tue,  9 Feb 2021 11:37:06 +0100 (CET)
-Received: by mail-ua1-x93d.google.com with SMTP id z24sf5114307uao.0
-        for <lists+kasan-dev@lfdr.de>; Tue, 09 Feb 2021 02:37:06 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1612867025; cv=pass;
+Received: from mail-wm1-x33a.google.com (mail-wm1-x33a.google.com [IPv6:2a00:1450:4864:20::33a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C5F0314E2F
+	for <lists+kasan-dev@lfdr.de>; Tue,  9 Feb 2021 12:27:12 +0100 (CET)
+Received: by mail-wm1-x33a.google.com with SMTP id y9sf2096684wmj.7
+        for <lists+kasan-dev@lfdr.de>; Tue, 09 Feb 2021 03:27:12 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1612870032; cv=pass;
         d=google.com; s=arc-20160816;
-        b=XFrDp7zCo+p8y0EbmoO6ZQnNct70gVIX3UlYIaU6d+HNAo10tjJElnvNg76Jy87N1p
-         ceNu2Tt4/9Lab5w9L8XW4JQtCMSdkDCv0brWHS1homPhjjxnBhdeugnRmdVRO0dkR/Io
-         h8PXDmN9St1E/luAMtmwZEemCOfNSOsfeSrsAj7EMn1naU0NFCScZ379v2K8/yhJeSV9
-         vK7w85huvFWcejWqyrS5ZvxMhglFSVE/ZVIfhM4lXPhRBRFu66H2w/fsYcl3KPGSsIx0
-         Y4dMI3PjhrDGRZMgcgaIjrAYca198TSVuJpZfCNp1wSltL/V9mBGvSWhYgxuBrcK9fZi
-         uNdg==
+        b=z+vG5o8zholURwNFPJlFJMjbmwcWECfBainX6QZcxjP2zuHtoZINLKb5RtfVshq/lB
+         gtuh1fBURiYb6T675QlscfVRjdRBaEf7y02l1ffwPOFEPNRkMBB1J+DXSn7pDT9y+vA0
+         Kr5oJi/BWwgeoVOHOUusCZYpg10bwJYZqDLn5dt6RPZWt36XOv7BSKnEq5WrnGMhNws0
+         gPL+uqc7YGFipLl8Arau/t+o8uNlkiiO1EzVmMoE5QEE5iweRY4iKrwE8kGkvWhsebNj
+         CcsGwCf7z7FBV94qTtGE8o+t+S+JMsSNxGYy2MESTNNIWfP+W8903r2mZtOAN0fCz9t/
+         QYXw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-language:in-reply-to
-         :mime-version:user-agent:date:message-id:from:references:cc:to
-         :subject:sender:dkim-signature;
-        bh=cRgEqvFuUboSRKzLeHNilvVeHXAUUB7/YS/rUmroXww=;
-        b=NOSEY2AIKAAiMXK70yMLypydy7TaCfgzT8/PQ+KuqpGslcWqYE2uF7US4ww1Suxsuy
-         dFI3BRvwOvQT5ncBAyBVtuZHU72hyIVQIysHrOOdokqKlKFQwOJtG+rwUa/3gMmLOBjr
-         zs+mJCdDj6CHCgAZNZgF8z7JadWpdSBII1m4V6Tgbj/Na8k2ZVH53PQJiLfb7MDKAy7z
-         2QgTMnPROzDSfKNqmNoump+efnpHaiq4lv/ujKeAyfgAqzxIUToWmMc4ED3ukR8D7UAD
-         Usr24DHWCwEeogSI8lmmATRye/ihs99FInEZsQ9yDeKAYJ6yCeo8BpM6DivqByOThOKd
-         1T3Q==
+         :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
+         :mime-version:message-id:date:sender:dkim-signature;
+        bh=jKmWuLRUcB850wOoDoWOTtzk1k411bs0J+vcQC94yCQ=;
+        b=kjj+8AFPTtfdIF+LrBcoq1lwfnHaQDklpIyz3OSiWCAjcGxnX3kk4+XhiDdJwylQit
+         tbWsmqsC/IzuohuuMN15yot6kYDL28weSIEPe64dWOwMhn555aVUqf4PivyIcfSWaYv6
+         mJPbmo7EyPU32UEFWwsArL154bN3p8V86w4DvZ3xosJRHELuIiPsuBklETfLFGjcT/uT
+         NXLNri+D/5L1hQKQfWSVLgbYPcFjH5ZkQ4iuq0i5KmISHG8q/27FIsg4yX5VT2fBAAlx
+         0FTh5Kf3b7kcxS8wt4sjzhnFafkURq3EbD91KozOu5xKypnGw1/1RZDycL9VSuSGSS+V
+         lXEg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=vincenzo.frascino@arm.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
+       dkim=pass header.i=@google.com header.s=20161025 header.b=ofP339Bc;
+       spf=pass (google.com: domain of 3jxeiyaukcqignxgtiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--elver.bounces.google.com designates 2a00:1450:4864:20::449 as permitted sender) smtp.mailfrom=3jXEiYAUKCQIgnxgtiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--elver.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=cRgEqvFuUboSRKzLeHNilvVeHXAUUB7/YS/rUmroXww=;
-        b=CJjI0o0DDqnZkAsaDOCO3RvfR5qdrMkT1ZIjZVj5eInGYVDBOEp7akTh6CJKp10opY
-         aff4RiaoKmPIaZdCTk7ND5n01klO/k95rSTua8fkTqtoBanhkklmi59JPwCy1JZpJN6G
-         yNk0UKlC45j3F6UCVctpTMkwhhWm20Z3QzulYs9UhbJAlr/a8qdX9In5yYxJbKJ3DW2M
-         uLeZpvOPVYrfgeSTcWm7YjiF58Ogqfxm1Fv/0OwktXrAuRt1yJaTOS2UoVPg6T5MwvEv
-         wjA6uxctz3EfVYjgR9uzArpe1DiHakq7w73SAHgODQZ9MgT0ZoK1usmVeGDlDvm7hmnj
-         TNoQ==
+        h=sender:date:message-id:mime-version:subject:from:to:cc
+         :x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=jKmWuLRUcB850wOoDoWOTtzk1k411bs0J+vcQC94yCQ=;
+        b=N8JIB9yNoMKIlAqhABwxSl2hEnXq//btryjIjkuyx9hGswDpe1DyE6Vp34Xwx10bav
+         1ymgNTAzrGfFBU43BupnFIajn3U8HaiXO4iFN717c1rjCOCmiJnpFoWTaBlG3e1BasiK
+         9Gu2lPCSi8Apwy/JLFvR4erPPrVr/gXsS1W+CZLKNWANaPcp4MTh3XVIxjgZkPgIbjVb
+         woVQDA1PgdAFDi5TCk7WPRCkjAzyTygNVrxAoVZr7oUFo8UrDrIkA9FkKZ2WAsBbTEmQ
+         uFaanWHXqQjE7WCxbg9JaSIP9CQc90ET3lfo03XbbBlw2zlCExjaDEaYf0qpnPvThkig
+         j9AA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=cRgEqvFuUboSRKzLeHNilvVeHXAUUB7/YS/rUmroXww=;
-        b=Nep24eNZxMmFrqLlqgFn2G87ZA+of6iuUklzCtao6ddOtBAYlKIM4SbXLZyAF2sP3x
-         f1YIgwJVn+uFqEovVywqtaWxTl7UGMJ3NXnqIiYDjygqA+lY/SF5T/RxOVsCdpyKOenn
-         asmBSQ7kHsPagDYcRuMRaa4VtEF9Xjc+VL3WuHQrnPayLG+3tWofOHPpE7zjxbWCoyfP
-         2dLQ1XsAi862PNeZP3R4bkKtsKuXLLQyixkVfNT8nbVqvny1eEWR6V+Sq03z5+EsLdaD
-         CY1Ko0vGkIeIpSG4deLb+ApLr8CnnfiOmRWqtdrUdHJdxhkeIBTC8/UdfXh2DuIsmfNZ
-         1qwQ==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM532KP+I42SbZPgmx2wtldiiyZsqjHwgw51IuKTpjEiz0shRZj1mE
-	5s1Zf2EqKTMc6oZ8wUrOLQU=
-X-Google-Smtp-Source: ABdhPJzPVBZt9XHD0/2zFVrcTLKg337Y8qLGi/loHq3NuMCSNmvQXM6j/2FYaOyqGIA0gxT+4whGRw==
-X-Received: by 2002:a67:c89b:: with SMTP id v27mr13636502vsk.5.1612867025280;
-        Tue, 09 Feb 2021 02:37:05 -0800 (PST)
+        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
+         :to:cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=jKmWuLRUcB850wOoDoWOTtzk1k411bs0J+vcQC94yCQ=;
+        b=UUou8niXV2uNUOcJuHS5JmmCOvF8ceILgUgxtJvbZdZnG6Pqf4XsbACMg6MyTu8lrh
+         ZvOY5DKUCbKsUJhOZJQZgSe+vQABBpEvF8NQWoid+R0qWrji8PrHC0iasOmtkUeMoHry
+         dA1VEYHAVWRrL6kHiXMG6Ktzk1fBM8HEJY3FCpfFFJvOC1EwzHK0NZLoETQJDOK6N0IB
+         4sTKEwoMapvYm1jxlCzxgdnt7pVHFp+gP02bTJoFKEpDl+5/8ORtuio4Rx9OTrWeqSmP
+         875NbHzhUrkACpb8iDT+w0G2EgeyD9ogYf0Z3QSe7eChmTtRHeBhBGOr3v7ypY/DlGgN
+         zLRA==
+X-Gm-Message-State: AOAM532NScDaxmiPpU9eY8HZnCXLJ+cpssDuLzLuPz+9tdLVMn/G+ZJ9
+	l/W7Us1EZEQN+BUmoLj+Tfo=
+X-Google-Smtp-Source: ABdhPJxkhXUo2stZ9XpUCn9HofbKKU9pvyOoy0L4Fjjtc6f0BCMBObxaBukGfaLiVO92pL4ZWyZKRw==
+X-Received: by 2002:a05:6000:188c:: with SMTP id a12mr25686762wri.105.1612870032030;
+        Tue, 09 Feb 2021 03:27:12 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6102:30a3:: with SMTP id y3ls687203vsd.5.gmail; Tue, 09
- Feb 2021 02:37:04 -0800 (PST)
-X-Received: by 2002:a67:581:: with SMTP id 123mr13021039vsf.14.1612867024930;
-        Tue, 09 Feb 2021 02:37:04 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1612867024; cv=none;
+Received: by 2002:a5d:4485:: with SMTP id j5ls4121632wrq.1.gmail; Tue, 09 Feb
+ 2021 03:27:11 -0800 (PST)
+X-Received: by 2002:adf:b60f:: with SMTP id f15mr25183419wre.83.1612870031204;
+        Tue, 09 Feb 2021 03:27:11 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1612870031; cv=none;
         d=google.com; s=arc-20160816;
-        b=M/vjh8mNtreJu1Fy19n1soydF5a/FKZqyTs7/ZUGuFGhHVjzS6O8UEECpWdRfYxPOX
-         7uPZtf5Gt+zAK3PSmtGDLwRZaVBQmI3UQZXa9A14uhvx8e5YiWC0PDqSv5CO7GRynZfw
-         r6xDIE95GcYT87RIjlYri6/Ula4qO/Tnnt/WOTbF3hBqf6ftxDqUQinOmw5fjc77V8B8
-         QL0+0u3typR08Uwb7sw9A0zDORnpSRgQqefr6EGVkwENGiULJncU/thsVawGeAn0t8CJ
-         VUgs6DwmsISJbSHVYaz9zOgiS0dRQ4hbMzK7BfR8jyb6wqqbXp0dQEwJY0thNRYTXovl
-         w3yg==
+        b=Rwu6+kWyVaCxopqPVpEGaeTUzohFrWdbEFvEOx+5W0TLkpaHlCS/Zw5OI5hqGUez58
+         Uwqft2pQSGU/UbuxP14dM8C5IzuIvPH5yOvoTfKnJbpom76I2aPGRquevnZFFFWqTFEV
+         XjnHos8nWEJOK6bfIszfMq9fEDMOU0TDrOQ3zSc57wFbfERekFlkyYos7y+RI6dF5DiJ
+         VWYq/H9/WY59bhbCWhnku5z2BHXQ3osku3ZAk5GkQY0LC3FUhEZoeyCE20kLQG8B6A5G
+         5Pj3QH/eaqe8mXBGR8df4AIb/qXA/a9TDWZCRrkIvAHoOQ2o+x9QKFpp2B+bTzZY+VCO
+         nKAA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject;
-        bh=g/ciLjAoLhTjofAlu8/9h5ap6y2B3jWluWi3QaAsC7A=;
-        b=H3lZhQk3bzPJkPlPQ1nzCo3ygU0KxzwcENUMYqLiBvKwSsmArTg9UQpQjoakyOAyh/
-         pLdAcMUQh/8hOMzwbN7Kv1YSrhpaPjEUCc/k0mHi8+9IOCd2Uv4iULnW81KK0KyPQHA9
-         IhG5whg/QD8J1SIK5UJaM7VLzibvwYphx5YqaKLHoliKe9O0PDKpbOpZM03TejkbmlPR
-         FQzebNQvwz92WJWcDfkHtcMfPfGf8KsNsXUyedRrtgtnqZEsHzPvZB3vvg8d8IrvWHEI
-         AF1LzolURn22In0+t+8EqjOpom0eiHB6K1N9iR1SgDc150jxI9FvoNIiU7Ofz4LduZRX
-         CPAQ==
+        h=cc:to:from:subject:mime-version:message-id:date:sender
+         :dkim-signature;
+        bh=A5PjxBocm6GkKPxXcYzX2e1AeHxW0gP+W7kFc8REg2E=;
+        b=oLG4zcKTUfnKr98SV2lTY60vOqavcJgQn/ahXxietkMcvRULHEOOfKGPojHCO9vpyB
+         A8T/XcokqSu5JNuQRkRmwvhZENZvzL+/itdlkSHYkx0zP/vSlKk8SghhrHdrPYjmVd/u
+         f8yr8DLjvBek+RAxIvoSHlR2Z5pregzPNbx1I9+L2Kqxx1nFRzbslG8x59bfjtQHeay+
+         S6W82E6a3rD5fJg8PwOwoiw82F+3DinpM12l5x9wi7PSRkijomgPNh+3nTP75bc0Qyk5
+         pJcCnKrx1wzOrddLf+If1tdrBzVf5CExR60Q2PRIPvlvYM/EfOecuaCRvTpupZgOA4UE
+         3r0w==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=vincenzo.frascino@arm.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
-Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
-        by gmr-mx.google.com with ESMTP id f203si458903vke.0.2021.02.09.02.37.04
-        for <kasan-dev@googlegroups.com>;
-        Tue, 09 Feb 2021 02:37:04 -0800 (PST)
-Received-SPF: pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 060BF101E;
-	Tue,  9 Feb 2021 02:37:04 -0800 (PST)
-Received: from [10.37.8.18] (unknown [10.37.8.18])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1FE4D3F73B;
-	Tue,  9 Feb 2021 02:37:00 -0800 (PST)
-Subject: Re: [PATCH v12 6/7] arm64: mte: Save/Restore TFSR_EL1 during suspend
-To: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- kasan-dev@googlegroups.com, Andrew Morton <akpm@linux-foundation.org>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Dmitry Vyukov <dvyukov@google.com>, Andrey Ryabinin
- <aryabinin@virtuozzo.com>, Alexander Potapenko <glider@google.com>,
- Marco Elver <elver@google.com>, Evgenii Stepanov <eugenis@google.com>,
- Branislav Rankov <Branislav.Rankov@arm.com>,
- Andrey Konovalov <andreyknvl@google.com>
-References: <20210208165617.9977-1-vincenzo.frascino@arm.com>
- <20210208165617.9977-7-vincenzo.frascino@arm.com>
- <20210208185635.GA13187@e121166-lin.cambridge.arm.com>
-From: Vincenzo Frascino <vincenzo.frascino@arm.com>
-Message-ID: <a6ac58ef-f437-8a77-d288-c4de3316692f@arm.com>
-Date: Tue, 9 Feb 2021 10:41:03 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <20210208185635.GA13187@e121166-lin.cambridge.arm.com>
+       dkim=pass header.i=@google.com header.s=20161025 header.b=ofP339Bc;
+       spf=pass (google.com: domain of 3jxeiyaukcqignxgtiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--elver.bounces.google.com designates 2a00:1450:4864:20::449 as permitted sender) smtp.mailfrom=3jXEiYAUKCQIgnxgtiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--elver.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-wr1-x449.google.com (mail-wr1-x449.google.com. [2a00:1450:4864:20::449])
+        by gmr-mx.google.com with ESMTPS id u65si46352wme.1.2021.02.09.03.27.11
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 09 Feb 2021 03:27:11 -0800 (PST)
+Received-SPF: pass (google.com: domain of 3jxeiyaukcqignxgtiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--elver.bounces.google.com designates 2a00:1450:4864:20::449 as permitted sender) client-ip=2a00:1450:4864:20::449;
+Received: by mail-wr1-x449.google.com with SMTP id w11so9632878wrp.6
+        for <kasan-dev@googlegroups.com>; Tue, 09 Feb 2021 03:27:11 -0800 (PST)
+Sender: "elver via sendgmr" <elver@elver.muc.corp.google.com>
+X-Received: from elver.muc.corp.google.com ([2a00:79e0:15:13:51c9:b9a4:3e29:2cd0])
+ (user=elver job=sendgmr) by 2002:a05:600c:35c9:: with SMTP id
+ r9mr396002wmq.0.1612870029964; Tue, 09 Feb 2021 03:27:09 -0800 (PST)
+Date: Tue,  9 Feb 2021 12:27:01 +0100
+Message-Id: <20210209112701.3341724-1-elver@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.30.0.478.g8a0d178c01-goog
+Subject: [PATCH] bpf_lru_list: Read double-checked variable once without lock
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+To: elver@google.com, ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org, 
+	kafai@fb.com, songliubraving@fb.com, yhs@fb.com, john.fastabend@gmail.com, 
+	kpsingh@kernel.org, netdev@vger.kernel.org, bpf@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Cc: kasan-dev@googlegroups.com, paulmck@kernel.org, dvyukov@google.com, 
+	syzbot+3536db46dfa58c573458@syzkaller.appspotmail.com, 
+	syzbot+516acdb03d3e27d91bcd@syzkaller.appspotmail.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Language: en-US
-X-Original-Sender: vincenzo.frascino@arm.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172
- as permitted sender) smtp.mailfrom=vincenzo.frascino@arm.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
+X-Original-Sender: elver@google.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@google.com header.s=20161025 header.b=ofP339Bc;       spf=pass
+ (google.com: domain of 3jxeiyaukcqignxgtiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--elver.bounces.google.com
+ designates 2a00:1450:4864:20::449 as permitted sender) smtp.mailfrom=3jXEiYAUKCQIgnxgtiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--elver.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -138,43 +133,62 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hi Lorenzo,
+For double-checked locking in bpf_common_lru_push_free(), node->type is
+read outside the critical section and then re-checked under the lock.
+However, concurrent writes to node->type result in data races.
 
-thank you for your review.
+For example, the following concurrent access was observed by KCSAN:
 
-On 2/8/21 6:56 PM, Lorenzo Pieralisi wrote:
->>  u64 gcr_kernel_excl __ro_after_init;
->>  
->> +static u64 mte_suspend_tfsr_el1;
-> IIUC you need this per-CPU (core loses context on suspend-to-RAM but also
-> CPUidle, S2R is single threaded but CPUidle runs on every core idle
-> thread).
-> 
-> Unless you sync/report it on enter/exit (please note: I am not familiar
-> with MTE so it is just a, perhaps silly, suggestion to avoid
-> saving/restoring it).
-> 
+  write to 0xffff88801521bc22 of 1 bytes by task 10038 on cpu 1:
+   __bpf_lru_node_move_in        kernel/bpf/bpf_lru_list.c:91
+   __local_list_flush            kernel/bpf/bpf_lru_list.c:298
+   ...
+  read to 0xffff88801521bc22 of 1 bytes by task 10043 on cpu 0:
+   bpf_common_lru_push_free      kernel/bpf/bpf_lru_list.c:507
+   bpf_lru_push_free             kernel/bpf/bpf_lru_list.c:555
+   ...
 
-I thought about making it per cpu, but I concluded that since it is an
-asynchronous tag fault it wasn't necessary.
+Fix the data races where node->type is read outside the critical section
+(for double-checked locking) by marking the access with READ_ONCE() as
+well as ensuring the variable is only accessed once.
 
-But thinking at it from the statistical point of view what you are saying is
-completely right, because we might end up in scenario in which we report the
-fault on multiple cores when it happens on one or in a scenario in which we do
-not report the potential fault at all.
+Reported-by: syzbot+3536db46dfa58c573458@syzkaller.appspotmail.com
+Reported-by: syzbot+516acdb03d3e27d91bcd@syzkaller.appspotmail.com
+Signed-off-by: Marco Elver <elver@google.com>
+---
+Detailed reports:
+	https://groups.google.com/g/syzkaller-upstream-moderation/c/PwsoQ7bfi8k/m/NH9Ni2WxAQAJ
+	https://groups.google.com/g/syzkaller-upstream-moderation/c/-fXQO9ehxSM/m/RmQEcI2oAQAJ
+---
+ kernel/bpf/bpf_lru_list.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-I am going to update my code accordingly in the next version.
-
-Thanks!
-
-> Lorenzo
-> 
-
+diff --git a/kernel/bpf/bpf_lru_list.c b/kernel/bpf/bpf_lru_list.c
+index 1b6b9349cb85..d99e89f113c4 100644
+--- a/kernel/bpf/bpf_lru_list.c
++++ b/kernel/bpf/bpf_lru_list.c
+@@ -502,13 +502,14 @@ struct bpf_lru_node *bpf_lru_pop_free(struct bpf_lru *lru, u32 hash)
+ static void bpf_common_lru_push_free(struct bpf_lru *lru,
+ 				     struct bpf_lru_node *node)
+ {
++	u8 node_type = READ_ONCE(node->type);
+ 	unsigned long flags;
+ 
+-	if (WARN_ON_ONCE(node->type == BPF_LRU_LIST_T_FREE) ||
+-	    WARN_ON_ONCE(node->type == BPF_LRU_LOCAL_LIST_T_FREE))
++	if (WARN_ON_ONCE(node_type == BPF_LRU_LIST_T_FREE) ||
++	    WARN_ON_ONCE(node_type == BPF_LRU_LOCAL_LIST_T_FREE))
+ 		return;
+ 
+-	if (node->type == BPF_LRU_LOCAL_LIST_T_PENDING) {
++	if (node_type == BPF_LRU_LOCAL_LIST_T_PENDING) {
+ 		struct bpf_lru_locallist *loc_l;
+ 
+ 		loc_l = per_cpu_ptr(lru->common_lru.local_list, node->cpu);
 -- 
-Regards,
-Vincenzo
+2.30.0.478.g8a0d178c01-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/a6ac58ef-f437-8a77-d288-c4de3316692f%40arm.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210209112701.3341724-1-elver%40google.com.
