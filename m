@@ -1,47 +1,46 @@
-Return-Path: <kasan-dev+bncBCOYZDMZ6UMRBUUOROAQMGQEHJCB5SI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDWLZXP6ZEPRBPE6ROAQMGQEWQ3CVVA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oo1-xc37.google.com (mail-oo1-xc37.google.com [IPv6:2607:f8b0:4864:20::c37])
-	by mail.lfdr.de (Postfix) with ESMTPS id 819BE315525
-	for <lists+kasan-dev@lfdr.de>; Tue,  9 Feb 2021 18:33:07 +0100 (CET)
-Received: by mail-oo1-xc37.google.com with SMTP id r206sf4267253oor.0
-        for <lists+kasan-dev@lfdr.de>; Tue, 09 Feb 2021 09:33:07 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1612891986; cv=pass;
+Received: from mail-lf1-x13b.google.com (mail-lf1-x13b.google.com [IPv6:2a00:1450:4864:20::13b])
+	by mail.lfdr.de (Postfix) with ESMTPS id E0A2F315596
+	for <lists+kasan-dev@lfdr.de>; Tue,  9 Feb 2021 19:06:54 +0100 (CET)
+Received: by mail-lf1-x13b.google.com with SMTP id k14sf11486485lfg.16
+        for <lists+kasan-dev@lfdr.de>; Tue, 09 Feb 2021 10:06:54 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1612894014; cv=pass;
         d=google.com; s=arc-20160816;
-        b=k+ESBjpLhnYJCBKKX7DfEuxoJ+ET02iahh2xzSFJribfMs3KP7SqpFx6HsY7qmdmjZ
-         NCVGFZ3gctfqUDpAi1xtxrF7hKdx/d/x1a7AJ3lb/OucN2P3eOlXvHwJKl3hZZ38QCxo
-         Xq8s/YNyUoBA+c+ACz5jrDsRIgCbBCG4eY2Tx9+oVXruAmanGfiT0YdTgR4jlfMvKvsT
-         rIiFhN98KP+pMp2x7JPaWLCRV7OSIROrJEO7t2S5VJ2AtcHD1jxmYmjZajjXhlI1jFVk
-         A5u1V0TKAyGOAVxDAwxw5eCHFNauaFWs4NvBM7ZE/dxoWRUk8gW3QZYhOR3EiIZ0VxKt
-         s30g==
+        b=B5k8zP92ldZ76+3c3InQc7lEvG9Ixn/amojT5Ew/tr48AUthBzEvc3ejXvnuc9GMC2
+         YullL0yxzMHfK1CyIqlE5s1jjbi863p4yIbTlu5hblPdUlJlVBkPms53jsBysl9Tj4/W
+         mJXLB1RVs1IYgQjanZQzL6381MzREYuRsLAraOJuLHlplP7nF6mnXIUwD89asV8wYP8q
+         9S9u7SSkaSZjAMX3SaLOtiiQ1ZdsUmtwRC1bn96jJo/gElKWwDc9tMRXxaGaRu76wDCq
+         8qsjScX6iu8y2hYzPzx1al+kjgPLshY79hK5/n+rRUDTSIbUMvxXgKz8q0mjCPyCOnid
+         gwqg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:content-language:in-reply-to
          :mime-version:user-agent:date:message-id:from:references:cc:to
          :subject:sender:dkim-signature;
-        bh=I/0tTzs7omgjeHkINkY1peSeS6o3N6UJ5ULZU1a49nc=;
-        b=BtfDzrB2FxbaY82OqYw7c6AThBI+Im12Ck7jTySBbHGBLch/W0I9ZVjQqfT9HwAlo0
-         vhafVlWxXgSa7dq2Ug+V4RVHOnOP/Ws+7D9i6a3Y86U5E0CTMR9iv3AUs3zVdbH/pYfT
-         SmtkyeHI6+mZ33GgryLVXv0HiWx+KDiIq6f58zR3x5x3tRIJK2mtloVrCaOqvr8fkbA3
-         aHJ7c/a2bGbHXsku/Z/oGBAjzVCg2/ZBlhiu5zeSyiDzAtJJxnCrFDMEZaWcad1UIeyM
-         AckIXGDEoXvaYFMkrfsueOIZMeAt7d85Q4aNFmscPkY9L3H0cdz4mYXcTawVbmuthupN
-         /yAA==
+        bh=UHA+uquH5YM2T8ZSa4Mdk92+s1MnNvqf0S6cY5BIUTg=;
+        b=yBUAeUAdqdr4tTEt+fSJK9OS2LS1exlH0Q3TO1UITN5Mvr4tJVWx/FdwCIKZRY4xNa
+         h8rDeBUOxwlnbQofcGVDuEKDAM6oRCDUSdKvRaujF5jeGEgf2jFo4MkFKoX2Ny92e8Yp
+         2Pep1ZMSb0yQmuvgE91FyPMlqo18odczzESoNXidgj/8XGDq+5f113QV6k0RJ1Wh2XT4
+         nM8jylOYCZA/wdKB2jgsUT7SMIfLwUZ9dYKoM/2XDsajrUtCtxyHFlerMkvHYOFk6CHB
+         0s5PVJF1uS/U/oOF/uidDuzui8FMz5xeUfK7ppW4QltSy+xLxzhdQBBand5iHLFxfLKY
+         WSfA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=vincenzo.frascino@arm.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
+       spf=pass (google.com: domain of vbabka@suse.cz designates 195.135.220.15 as permitted sender) smtp.mailfrom=vbabka@suse.cz
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
         h=sender:subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=I/0tTzs7omgjeHkINkY1peSeS6o3N6UJ5ULZU1a49nc=;
-        b=A+8wL0h7Wnqmfp/efGJk6K1eL5trKTZtPAZbUneYx7wfc6uBAVI5caU8liGzFOriuj
-         ipMfxTbWDVhkCY6WE6hmKVStQwn4K1UcWTG+KwtbLbaJTRwhXo/7LofOZnd6Jipb6HCM
-         XtO0wzfO0gJwCwtuD1prHSY8iP5CakLxg701KIYlhIbmts0VntdBgSqfDuvHvpmJm1Xl
-         MwJqyHLcLjfhwoUyWvqgzj5WmtwO7W2MPiUaq3zBavF3ES650/ViVn3LuBQKygvNRM2z
-         jS7N7FeWpFAIiqIIJQvccFjV+N3HYz4xh8QX6HXWPgu0cvVKt7tcXCFBlckj6WGra7kj
-         KI2w==
+        bh=UHA+uquH5YM2T8ZSa4Mdk92+s1MnNvqf0S6cY5BIUTg=;
+        b=FuqTzTzdMokrmHZoPs2eYG7HMs59y5jSVTV5/nZIovpsSehlHZgMT0xpqjo+aYH1y4
+         jXBZAGUPxviaCQhVcQyKrHWpkk4EYkQqB0ZfQ5xdAaYFwb2d8k8v91lceBivNhw9eTHG
+         kHm+sIDigj4IA6ad1uMhogPnYVMHPwvjmeojG1lumyw1ZhQdIjyd3/YsmcwpoowoRkJ/
+         +27erfXPukAXBXE/tGZunm8PliMX8B+T4x3X6xsJFbg2u4Wg3poIqlmQOzTyLFuhntCW
+         CrcXGMRmt68p/UUgwcNxk+pH13CWqRilR/Qa3Gepggad2n7dtL90zmBQyfS7V/vRhUFv
+         mw2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:subject:to:cc:references:from:message-id
@@ -49,88 +48,76 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=I/0tTzs7omgjeHkINkY1peSeS6o3N6UJ5ULZU1a49nc=;
-        b=sgWdmJUDYhvGYmg4ix29UUNYHEODkS5t1z5Dd71d727LCRDQdXncZeAc84UtvClpTg
-         QuIxI2gIgaPRpPE2pBYXmVQYPPEnw/W++fWBp/oAcfHokxFv7/lu/ubcblkCjjC2nI4u
-         1s5Of/GQU+lPO1/tn0HCWEoKnngaY7f+IswTy/NKu6g7UpcneHM8MUOQJ46Dl+g7cfyt
-         cVSYbsmYO7xq3/idAufqCUXHs0oriPepoYem6owzygEs6hBWyLsa1A+0YYJcLwDdHeIX
-         mzvgeFNRpH+qNiykgbavcQswYcgXI1ge8wihP+PFxlfm5U3QfK7VcuXB4tQp2fm2viN1
-         nUWA==
+        bh=UHA+uquH5YM2T8ZSa4Mdk92+s1MnNvqf0S6cY5BIUTg=;
+        b=CtmMdQfhRe9eos7UlifiRGYZqTISbo2POljhpoGCoTLHtqwrg3MflkidHGCp8S38uG
+         CTJ2XRdHc75b4+/ScL1051/VAUIBY31fI+8IsepBgqq2Gn2VXq01/wpUsjGmX4qPkuhy
+         OkXALbcXsxbyumpDwVG7iWh4C2XD6pmuOpT8qgXhptMwIL626Ps74G7Qc/FG64IjzO0Z
+         +r7ZKTz6v67ZlDT3RSPYWkltWps1AjVjL2kUePNP6nWSYsJlm6hjT4yjRJr7Hr3Vwfk+
+         D1RcvENB6ljOlP2L92JyX+kkeqAO8QZxMe8ztxsBNUedmIaSaJKH4t5eekoMGy/wG06G
+         4+qg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM533+7h+gpOWsaQ5QjFKpK/3U9G5YUgubPjqe+iDgsUUWzh3YfTge
-	6prl+gxlgTE12UOIXx4183E=
-X-Google-Smtp-Source: ABdhPJyeC+0fGfV6a78aQjDvst/2zUOuvhKf6LAIjKksdC3F8FA7rAmJGyYQgEkG+hfN6gOvcjcnog==
-X-Received: by 2002:a9d:639a:: with SMTP id w26mr16778516otk.201.1612891986404;
-        Tue, 09 Feb 2021 09:33:06 -0800 (PST)
+X-Gm-Message-State: AOAM532r+uP+V3JASPgJnkTlBYPnQfSPMgkIMah5YncQggvQBAVajelp
+	smV3/Zt+qDbMs7pMeZI42xQ=
+X-Google-Smtp-Source: ABdhPJycsKo/fcwrsVAY0iyOopUe1hm8sQsqOeckrQPou8B2NcFNud5tG8lan8pPUCuw8QA+gzOeDQ==
+X-Received: by 2002:a2e:8ec9:: with SMTP id e9mr8000520ljl.372.1612894012994;
+        Tue, 09 Feb 2021 10:06:52 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a4a:d0d0:: with SMTP id u16ls725482oor.10.gmail; Tue, 09 Feb
- 2021 09:33:06 -0800 (PST)
-X-Received: by 2002:a4a:bd9a:: with SMTP id k26mr16531558oop.62.1612891985992;
-        Tue, 09 Feb 2021 09:33:05 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1612891985; cv=none;
+Received: by 2002:ac2:4adc:: with SMTP id m28ls1606556lfp.0.gmail; Tue, 09 Feb
+ 2021 10:06:51 -0800 (PST)
+X-Received: by 2002:a19:d3:: with SMTP id 202mr13212490lfa.570.1612894011896;
+        Tue, 09 Feb 2021 10:06:51 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1612894011; cv=none;
         d=google.com; s=arc-20160816;
-        b=Kk60sNuskCeFCBdYDV8h/VKUUALiafn2pKX7EqOq+07fPRbvZenxY4YS6DjbbG/Wj0
-         ncKNmDso4vX6xQSPNXYAXd8+/8Hi8j2KI6fLJ+7dKMsDpnUPlKfFBAcGi3T1gWCLWFZ2
-         nuQpWSVstSaVead9TUrYz1X5U3BSDpfU9+BCAGY4L26NthJRZdo09LnHtwTEAGR+Ctat
-         pMjiUq4xtk/3kvOXZuo9tViLRI6DLZpcXA4N9P054GHAp4dAUlyoGraEb/S6jUaE4aYS
-         wPgzZ3UHQW293Xb6niR3uYADHDOmXTA1eje0LAuelxUqfb2lHvnfXK6f5eWmO6Pln0NB
-         iAPA==
+        b=SAN+5qmOI5lXHnhdz3/TXgiIfNpginnFFWf8imqpeIWZlF2zoN+P/TbRuOQiaCFOmk
+         plDqKeRwMZzor1K63DR/R6TSVefXhLbzMcjIWVzFA9bo9/40gWWn8JjYG5bSiWpk06NK
+         YDzwIsjvkSEPqUAf6Rg3WL2Ms6QD+CKTHjixypxR5dVvwCLWyMmgY/UE9j1tLDC3PNLh
+         3pIAr/ig1SrFIh38MjAO5C0Y0OmRsuSDTknflgb/A51cHHmoFmRlM+Vxn7NlEjBKO2rc
+         FHTT1yR8g2LH5bBvTB2eR7B5tM2TbfZjk7JtOJYCu4AmAJqOWJZNwCF2eYoB9r7pnylI
+         Bbmw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:content-language:in-reply-to:mime-version
          :user-agent:date:message-id:from:references:cc:to:subject;
-        bh=zP9VD/z9O0p49fvhGvXeiWHEySMlEV4mvQvNmm3/NiY=;
-        b=SGWw49fdZ2czUDvj+A6GiABYqUF43/uGYiQEcI1O3qQVDVlsF1wI78RBhjJcxkzsgM
-         4ZJvg8LgKsTx8nukSneLiKJ8KYwpBF9qiwsGQ+Q/JU1yuipjw/xc5AJePDG4T1617KXU
-         3UwxEEs16hHWZuOa6pMdmNVssI+8XlF41s8oj14eQUkaYWbbB/jOF7d9dzduyeL+KA5e
-         riRdSEE93DXXOSxSjS4Jk3SVgD3UpaUVBy5jskBLnr0AA1A/O4rae2K/s6q9wCk9AcjV
-         kTeuh5ToHCNlS8d1M2jlwIrMW3NzTyH70FfAPSqaK1RfZsFnTg6ATEqvRkC2GHuvOKWx
-         rk4A==
+        bh=W1ECk2yQ2Nw4iMrqAMMgTv/mrdD7rInUhBu4o6nE5kw=;
+        b=DBZQ6zlPhfPk/S7nu4yG7KvFZrSCEeb8GKx1OD8xWakbP6h+5MmCsvegTSSfqKEaFn
+         2WMyzBUe21YTRLxbP/8mEHST/6yudaPdYwFbtRV10SA7M+knp+tGUr/hEnXkCVoVdh07
+         eEYN1zxG6HYXvoZx0+SyRzkwQU/pQmDcStwQaXlU6Ez4qkUVOAREJ8SG+7ze0db9Z90M
+         cwUcNSpkvKjyNCzxGZ19+h38dDhMz/ogHm2GYT/rwGMCsQRYSVEeFm2iPSBAgQk5uulF
+         BA/fuHG5SbupDP67X5gFsPJ5JAXfijJW/CMNTPeGpDUdINZCMfKx8v6Lq+u4AkrXYFxR
+         vqRg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=vincenzo.frascino@arm.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
-Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
-        by gmr-mx.google.com with ESMTP id y189si256299oia.4.2021.02.09.09.33.05
-        for <kasan-dev@googlegroups.com>;
-        Tue, 09 Feb 2021 09:33:05 -0800 (PST)
-Received-SPF: pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B3B90ED1;
-	Tue,  9 Feb 2021 09:33:05 -0800 (PST)
-Received: from [10.37.8.18] (unknown [10.37.8.18])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CBEB83F73B;
-	Tue,  9 Feb 2021 09:33:02 -0800 (PST)
-Subject: Re: [PATCH v12 7/7] kasan: don't run tests in async mode
-To: Andrey Konovalov <andreyknvl@google.com>,
- Catalin Marinas <catalin.marinas@arm.com>
-Cc: Linux ARM <linux-arm-kernel@lists.infradead.org>,
- LKML <linux-kernel@vger.kernel.org>, kasan-dev <kasan-dev@googlegroups.com>,
- Andrew Morton <akpm@linux-foundation.org>, Will Deacon <will@kernel.org>,
- Dmitry Vyukov <dvyukov@google.com>, Andrey Ryabinin
- <aryabinin@virtuozzo.com>, Alexander Potapenko <glider@google.com>,
- Marco Elver <elver@google.com>, Evgenii Stepanov <eugenis@google.com>,
- Branislav Rankov <Branislav.Rankov@arm.com>,
- Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-References: <20210208165617.9977-1-vincenzo.frascino@arm.com>
- <20210208165617.9977-8-vincenzo.frascino@arm.com>
- <20210209120241.GF1435@arm.com>
- <0e373526-0fa8-c5c0-fb41-5c17aa47f07c@arm.com>
- <CAAeHK+yj9PR2Tw_xrpKKh=8GyNwgOaEu1pK8L6XL4zz0NtVs3A@mail.gmail.com>
- <20210209170654.GH1435@arm.com>
- <CAAeHK+wz1LWQmDgem8ts30gXc=SkwZ-HM507=a+iiNpOYM-ssw@mail.gmail.com>
-From: Vincenzo Frascino <vincenzo.frascino@arm.com>
-Message-ID: <79183efe-ef9e-0a31-cdfa-e1bfae39b015@arm.com>
-Date: Tue, 9 Feb 2021 17:37:05 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+       spf=pass (google.com: domain of vbabka@suse.cz designates 195.135.220.15 as permitted sender) smtp.mailfrom=vbabka@suse.cz
+Received: from mx2.suse.de (mx2.suse.de. [195.135.220.15])
+        by gmr-mx.google.com with ESMTPS id i190si941475lfi.8.2021.02.09.10.06.51
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 09 Feb 2021 10:06:51 -0800 (PST)
+Received-SPF: pass (google.com: domain of vbabka@suse.cz designates 195.135.220.15 as permitted sender) client-ip=195.135.220.15;
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+	by mx2.suse.de (Postfix) with ESMTP id 1FBFFAB71;
+	Tue,  9 Feb 2021 18:06:51 +0000 (UTC)
+Subject: Re: [PATCH mm] kfence: make reporting sensitive information
+ configurable
+To: Marco Elver <elver@google.com>, akpm@linux-foundation.org
+Cc: glider@google.com, dvyukov@google.com, andreyknvl@google.com,
+ jannh@google.com, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ kasan-dev@googlegroups.com, Timur Tabi <timur@kernel.org>,
+ Petr Mladek <pmladek@suse.cz>, Kees Cook <keescook@chromium.org>,
+ Steven Rostedt <rostedt@goodmis.org>
+References: <20210209151329.3459690-1-elver@google.com>
+From: Vlastimil Babka <vbabka@suse.cz>
+Message-ID: <4f39ad95-a773-acc6-dd9e-cb04f897ca16@suse.cz>
+Date: Tue, 9 Feb 2021 19:06:50 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <CAAeHK+wz1LWQmDgem8ts30gXc=SkwZ-HM507=a+iiNpOYM-ssw@mail.gmail.com>
+In-Reply-To: <20210209151329.3459690-1-elver@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Language: en-US
-X-Original-Sender: vincenzo.frascino@arm.com
+X-Original-Sender: vbabka@suse.cz
 X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172
- as permitted sender) smtp.mailfrom=vincenzo.frascino@arm.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
+ (google.com: domain of vbabka@suse.cz designates 195.135.220.15 as permitted
+ sender) smtp.mailfrom=vbabka@suse.cz
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -143,72 +130,137 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hi Andrey,
+On 2/9/21 4:13 PM, Marco Elver wrote:
+> We cannot rely on CONFIG_DEBUG_KERNEL to decide if we're running a
+> "debug kernel" where we can safely show potentially sensitive
+> information in the kernel log.
+> 
+> Therefore, add the option CONFIG_KFENCE_REPORT_SENSITIVE to decide if we
+> should add potentially sensitive information to KFENCE reports. The
+> default behaviour remains unchanged.
+> 
+> Signed-off-by: Marco Elver <elver@google.com>
 
-On 2/9/21 5:26 PM, Andrey Konovalov wrote:
-> On Tue, Feb 9, 2021 at 6:07 PM Catalin Marinas <catalin.marinas@arm.com> wrote:
->>
->> On Tue, Feb 09, 2021 at 04:02:25PM +0100, Andrey Konovalov wrote:
->>> On Tue, Feb 9, 2021 at 1:16 PM Vincenzo Frascino
->>> <vincenzo.frascino@arm.com> wrote:
->>>> On 2/9/21 12:02 PM, Catalin Marinas wrote:
->>>>> On Mon, Feb 08, 2021 at 04:56:17PM +0000, Vincenzo Frascino wrote:
->>>>>> diff --git a/lib/test_kasan.c b/lib/test_kasan.c
->>>>>> index 7285dcf9fcc1..f82d9630cae1 100644
->>>>>> --- a/lib/test_kasan.c
->>>>>> +++ b/lib/test_kasan.c
->>>>>> @@ -51,6 +51,10 @@ static int kasan_test_init(struct kunit *test)
->>>>>>              kunit_err(test, "can't run KASAN tests with KASAN disabled");
->>>>>>              return -1;
->>>>>>      }
->>>>>> +    if (kasan_flag_async) {
->>>>>> +            kunit_err(test, "can't run KASAN tests in async mode");
->>>>>> +            return -1;
->>>>>> +    }
->>>>>>
->>>>>>      multishot = kasan_save_enable_multi_shot();
->>>>>>      hw_set_tagging_report_once(false);
->>>>>
->>>>> I think we can still run the kasan tests in async mode if we check the
->>>>> TFSR_EL1 at the end of each test by calling mte_check_tfsr_exit().
->>>>>
->>>>
->>>> IIUC this was the plan for the future. But I let Andrey comment for more details.
->>>
->>> If it's possible to implement, then it would be good to have. Doesn't
->>> have to be a part of this series though.
->>
->> I think it can be part of this series but after the 5.12 merging window
->> (we are a few days away from final 5.11 and I don't think we should
->> rush the MTE kernel async support in).
->>
->> It would be nice to have the kasan tests running with async by the time
->> we merge the patches (at a quick look, I think it's possible but, of
->> course, we may hit some blockers when implementing it).
-> 
-> OK, sounds good.
-> 
-> If it's possible to put an explicit check for tag faults at the end of
-> each test, then adding async support shouldn't be hard.
-> 
-> Note, that some of the tests trigger bugs that are detected via
-> explicit checks within KASAN. For example, KASAN checks that a pointer
-> that's being freed points to a start of a slab object, or that the
-> object is accessible when it gets freed, etc. I don't see this being a
-> problem, so just FYI.
-> 
+Hi,
 
-Once you have your patches ready please send them to me and I will repost
-another version. In the meantime I will address the remaining comments.
+could we drop this kconfig approach in favour of the boot option proposed here?
+[1] Just do the prints with %p unconditionally and the boot option takes care of
+it? Also Linus mentioned dislike of controlling potential memory leak to be a
+config option [2]
 
-> Thanks!
+Thanks,
+Vlastimil
+
+[1] https://lore.kernel.org/linux-mm/20210202213633.755469-1-timur@kernel.org/
+[2]
+https://lore.kernel.org/linux-mm/CAHk-=wgaK4cz=K-JB4p-KPXBV73m9bja2w1W1Lr3iu8+NEPk7A@mail.gmail.com/
+
+> ---
+>  Documentation/dev-tools/kfence.rst | 6 +++---
+>  lib/Kconfig.kfence                 | 8 ++++++++
+>  mm/kfence/core.c                   | 2 +-
+>  mm/kfence/kfence.h                 | 3 +--
+>  mm/kfence/report.c                 | 6 +++---
+>  5 files changed, 16 insertions(+), 9 deletions(-)
 > 
-
--- 
-Regards,
-Vincenzo
+> diff --git a/Documentation/dev-tools/kfence.rst b/Documentation/dev-tools/kfence.rst
+> index 58a0a5fa1ddc..5280d644f826 100644
+> --- a/Documentation/dev-tools/kfence.rst
+> +++ b/Documentation/dev-tools/kfence.rst
+> @@ -89,7 +89,7 @@ A typical out-of-bounds access looks like this::
+>  The header of the report provides a short summary of the function involved in
+>  the access. It is followed by more detailed information about the access and
+>  its origin. Note that, real kernel addresses are only shown for
+> -``CONFIG_DEBUG_KERNEL=y`` builds.
+> +``CONFIG_KFENCE_REPORT_SENSITIVE=y`` builds.
+>  
+>  Use-after-free accesses are reported as::
+>  
+> @@ -184,8 +184,8 @@ invalidly written bytes (offset from the address) are shown; in this
+>  representation, '.' denote untouched bytes. In the example above ``0xac`` is
+>  the value written to the invalid address at offset 0, and the remaining '.'
+>  denote that no following bytes have been touched. Note that, real values are
+> -only shown for ``CONFIG_DEBUG_KERNEL=y`` builds; to avoid information
+> -disclosure for non-debug builds, '!' is used instead to denote invalidly
+> +only shown for ``CONFIG_KFENCE_REPORT_SENSITIVE=y`` builds; to avoid
+> +information disclosure otherwise, '!' is used instead to denote invalidly
+>  written bytes.
+>  
+>  And finally, KFENCE may also report on invalid accesses to any protected page
+> diff --git a/lib/Kconfig.kfence b/lib/Kconfig.kfence
+> index 78f50ccb3b45..141494a5f530 100644
+> --- a/lib/Kconfig.kfence
+> +++ b/lib/Kconfig.kfence
+> @@ -55,6 +55,14 @@ config KFENCE_NUM_OBJECTS
+>  	  pages are required; with one containing the object and two adjacent
+>  	  ones used as guard pages.
+>  
+> +config KFENCE_REPORT_SENSITIVE
+> +	bool "Show potentially sensitive information in reports"
+> +	default y if DEBUG_KERNEL
+> +	help
+> +	  Show potentially sensitive information such as unhashed pointers,
+> +	  context bytes on memory corruptions, as well as dump registers in
+> +	  KFENCE reports.
+> +
+>  config KFENCE_STRESS_TEST_FAULTS
+>  	int "Stress testing of fault handling and error reporting" if EXPERT
+>  	default 0
+> diff --git a/mm/kfence/core.c b/mm/kfence/core.c
+> index cfe3d32ac5b7..5f7e02db5f53 100644
+> --- a/mm/kfence/core.c
+> +++ b/mm/kfence/core.c
+> @@ -648,7 +648,7 @@ void __init kfence_init(void)
+>  	schedule_delayed_work(&kfence_timer, 0);
+>  	pr_info("initialized - using %lu bytes for %d objects", KFENCE_POOL_SIZE,
+>  		CONFIG_KFENCE_NUM_OBJECTS);
+> -	if (IS_ENABLED(CONFIG_DEBUG_KERNEL))
+> +	if (IS_ENABLED(CONFIG_KFENCE_REPORT_SENSITIVE))
+>  		pr_cont(" at 0x%px-0x%px\n", (void *)__kfence_pool,
+>  			(void *)(__kfence_pool + KFENCE_POOL_SIZE));
+>  	else
+> diff --git a/mm/kfence/kfence.h b/mm/kfence/kfence.h
+> index 1accc840dbbe..48a8196b947b 100644
+> --- a/mm/kfence/kfence.h
+> +++ b/mm/kfence/kfence.h
+> @@ -16,8 +16,7 @@
+>  
+>  #include "../slab.h" /* for struct kmem_cache */
+>  
+> -/* For non-debug builds, avoid leaking kernel pointers into dmesg. */
+> -#ifdef CONFIG_DEBUG_KERNEL
+> +#ifdef CONFIG_KFENCE_REPORT_SENSITIVE
+>  #define PTR_FMT "%px"
+>  #else
+>  #define PTR_FMT "%p"
+> diff --git a/mm/kfence/report.c b/mm/kfence/report.c
+> index 901bd7ee83d8..5e2dbabbab1d 100644
+> --- a/mm/kfence/report.c
+> +++ b/mm/kfence/report.c
+> @@ -148,9 +148,9 @@ static void print_diff_canary(unsigned long address, size_t bytes_to_show,
+>  	for (cur = (const u8 *)address; cur < end; cur++) {
+>  		if (*cur == KFENCE_CANARY_PATTERN(cur))
+>  			pr_cont(" .");
+> -		else if (IS_ENABLED(CONFIG_DEBUG_KERNEL))
+> +		else if (IS_ENABLED(CONFIG_KFENCE_REPORT_SENSITIVE))
+>  			pr_cont(" 0x%02x", *cur);
+> -		else /* Do not leak kernel memory in non-debug builds. */
+> +		else /* Do not leak kernel memory. */
+>  			pr_cont(" !");
+>  	}
+>  	pr_cont(" ]");
+> @@ -242,7 +242,7 @@ void kfence_report_error(unsigned long address, bool is_write, struct pt_regs *r
+>  
+>  	/* Print report footer. */
+>  	pr_err("\n");
+> -	if (IS_ENABLED(CONFIG_DEBUG_KERNEL) && regs)
+> +	if (IS_ENABLED(CONFIG_KFENCE_REPORT_SENSITIVE) && regs)
+>  		show_regs(regs);
+>  	else
+>  		dump_stack_print_info(KERN_ERR);
+> 
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/79183efe-ef9e-0a31-cdfa-e1bfae39b015%40arm.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/4f39ad95-a773-acc6-dd9e-cb04f897ca16%40suse.cz.
