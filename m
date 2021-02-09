@@ -1,130 +1,133 @@
-Return-Path: <kasan-dev+bncBDX4HWEMTEBRBIU2RKAQMGQEPHR7LJA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCXK7HEV3YBRBQF2RKAQMGQEFBGGCMI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oo1-xc37.google.com (mail-oo1-xc37.google.com [IPv6:2607:f8b0:4864:20::c37])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6B92315019
-	for <lists+kasan-dev@lfdr.de>; Tue,  9 Feb 2021 14:24:51 +0100 (CET)
-Received: by mail-oo1-xc37.google.com with SMTP id h10sf9474967ooj.11
-        for <lists+kasan-dev@lfdr.de>; Tue, 09 Feb 2021 05:24:51 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1612877090; cv=pass;
+Received: from mail-yb1-xb38.google.com (mail-yb1-xb38.google.com [IPv6:2607:f8b0:4864:20::b38])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF4753151B5
+	for <lists+kasan-dev@lfdr.de>; Tue,  9 Feb 2021 15:33:37 +0100 (CET)
+Received: by mail-yb1-xb38.google.com with SMTP id j128sf11510544ybc.5
+        for <lists+kasan-dev@lfdr.de>; Tue, 09 Feb 2021 06:33:37 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1612881216; cv=pass;
         d=google.com; s=arc-20160816;
-        b=fFBqeOditHAX/ovSKb5CXyRsG2hUWw0jece++HTcoLjAyJeEMCgBYDQ+7QmJY4eRNq
-         Vo9tOlL50HVSC1jYs5SDEbxTfvBibsyZBxiuOFce7ijqBcYdvegVxrz3pYcazSmF/D25
-         cvMwnY3gmf1gDeqDP1QYDC/2Fp823VfcRgXtf+0rXyYLlZqY03UvUAvE4T3MaObkbpnk
-         nk7vfKyophvsYGTnDz4Qab74RFfCnpNTkk3VjMDSNtwWPoXhB7/3UFa482SIvvAIDYlt
-         FDm+KjFSs8PgRh6MRIFb0ea7cfGO42RNeheWAOWbOmnMO7727NevlN8bSJPKHZRyo7Pw
-         am6w==
+        b=tybIAxrjLKygmhSujS+6mli4a6jyfEwSsYzgPbdjD4wwwz1RmSbfOLxQVgf/KPNe0N
+         qjO5QaOJLfngucHYJgnRGhWtkRrC2auSzaMwttWBkSKkZUBq8pD7eetEm0BQXsKc0fvo
+         kUsSF62t4hctg4ZOMmqzcnBt3A/MPNClwndHB6Z1YMgM2MBmnQB87FAmm+mXzBoHpuxV
+         okkG3zkTWVNs/aMxLuNm4/CiEI2NdwMS8oCo0ZOfoMTEOMgjWwH23ZXoDZj5vsOdI8FB
+         pfY9+eTQgfDqs8i5rVy9idENbs6cd4PxK9VlfVTyGIavWYuXHCaUL651hA1s0vBMImDK
+         UQ8A==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=gCELPwYlYsAJKOwXGYCVUG8H/qc8jLX5buA2s0tXWTU=;
-        b=jLGxutW57sMtulqaRid3pwMQfpl5EeqELNfwQnQ8wdBziSULvz0u9O+fB/9KrUzhsb
-         UOJK4bhlciKYGkdBxDD/m3HHjYhpqyply9ihr+DL1lsHNPWFhH+CScWVLOxYpZzgHCuJ
-         v76KtGRugUMUWKQVYSdnX06G1JPuij115YiUZKFA8PbjCMODnIntHBQt/BaEXZFR9e7z
-         FuKVUe5GIUFEIn/neLl1T0uHmotX1PdWLw7D10kHJ7XVSnZaeCXF6iqdN8HSlhZhf0Mv
-         LrPMald30ENN3xyV6kJBcGDIi/8QqueCRPZHKMJu1Hoij7fE3kBlZiYU3PTreVK7iwyB
-         hPeQ==
+         :list-id:mailing-list:precedence:user-agent:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:sender:dkim-signature;
+        bh=MvsrpqnmRrSs/2iPdEYei4mHWLjPBBvFGnnW+Ek6Vms=;
+        b=p9OzWBR8Lo+RVTmhdfASbEjAjGLPiXVJYYAz4P2XR15PJynucpOklUE2sQtUOzfD4Z
+         xqsbVRdLEU9JbKQnD8KXPKuL4elc9zu4Rw25S6C3r5+Bg/2q+4H6FRZBkZWErX+ICgMO
+         2AHvBI7GeP15kB/+3JZ3V3/XYagpQnAhk9sPq8Qcz5P8NnndXIbSnCsRDSgXNeHhKniu
+         0D1CKqBy8u61FYHXHddURHm/664U0oOrw2aFiB8D/beNs0rz4koW7+8q7P33Tq8IHkfv
+         NO7CylKrMXEkGA2vDDayvhy4O1PCAkZTGRx3IX4gYSs3WpfsB1ofwZK8nTZKY/ohd9eN
+         knfg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=Aaono0oI;
-       spf=pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::629 as permitted sender) smtp.mailfrom=andreyknvl@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       spf=pass (google.com: domain of lorenzo.pieralisi@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=lorenzo.pieralisi@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=gCELPwYlYsAJKOwXGYCVUG8H/qc8jLX5buA2s0tXWTU=;
-        b=hqUFSLa9zzdNlz6E0TisN+xiV+DLVJBWv+Dr/KT6tctFM5VDa+rY+Tw+wj9MflsYAV
-         jG7Lb78Q+iIIdWcrAZ1nOfaydVChzWOPUlfjB7swebinDQQjWSH50VyF/5a/83XGX9BU
-         HLyNHuNW2mZrrF4e8Hy04lfgqcTi+kisDziJyZnAKvHOSPsejllR8C0Wq9WUx3rWpeDp
-         +uXWiJCB975sh/zqtB8P4vYqYJ1P8RyC43qLegxpO17Cp2htJByHh2krK7UDEb/tHVXO
-         EPNq4vuuvTmn5OTOvz3PwyZCWUuqQhOKm8o3g27379y8dbsGditpjtW0xGcl8PncV8dX
-         SRFw==
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=MvsrpqnmRrSs/2iPdEYei4mHWLjPBBvFGnnW+Ek6Vms=;
+        b=ecYXPDLvvIFhWMx/Z0OhTjtWaNxCNjnrCY6XX/Fhfw+iaf6OVdpN5qJ3H44IpHC0kx
+         T7Pq6zjHsGLp3J2C0XSPIUaw8SjpYfKYCmzMVRezMKM7UA41bCX1MY6UnRT7r4ZY9MFw
+         yhorPuWOUp63qCjbrK8Pxg2JWILtyISiktg+rvtt7ddscicuYMVoSE+cVJJg6QOJOwxz
+         lD7T9WIS7AftVLKMkfCcJOuH45kfLVG9HjPewXYNcH5FUP4wtwtkF7f/mEp4cAztNKDE
+         bFKl/R2g4N9bk+o/4TjF4O0sbtHUDjgwl8ucVoRccGY0FpAm5/DGvOKvlpnSmV+myuFp
+         ubkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=gCELPwYlYsAJKOwXGYCVUG8H/qc8jLX5buA2s0tXWTU=;
-        b=k4XugL6CmmDHtRqe7d7/xNVmCR/7W5bRDpzzh30N7wLJvIBbYe9m6N3j2zIGUhbvlm
-         P6TKSWdUVQ0oeHjuueWs2ZyoKuJFP/LjEdEx18CZv3bJ9gBlWF9+fQ/WlaWZ/UNRmofo
-         smwKSRBxJr0yAmnIenGwrly/2veNaIRJtUCUTrztN/KYqHBsjyzjvE0+ZzBp8RsJuMaB
-         kmq7XB8GWObIXu02HCesnpmeUbTCXJmV0kMAs0GVQAWqTWGwWHLe5qeTUum1h6On0VFy
-         gJBakeIIDX30C05YFE+dqcP9kShyBgRJGYiQoFJBepf6YCR+PQKDxgbDj4rd0Ho26KNf
-         5bDA==
-X-Gm-Message-State: AOAM531HC1RFCAHnCULXd/+OaVyNq+0ARyjMly4fVNGO3EZ7ZF7NvJQG
-	wD5BME5NEk1wtMfYWgMkoTY=
-X-Google-Smtp-Source: ABdhPJxxO/6Nh0dFmKXhA5+HMzTzu17CgtYTJfqc+oEDG9dLYYE7WZQtS3En7QjxHqtPFlHQbQP/dQ==
-X-Received: by 2002:a9d:68c5:: with SMTP id i5mr15510525oto.262.1612877090727;
-        Tue, 09 Feb 2021 05:24:50 -0800 (PST)
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=MvsrpqnmRrSs/2iPdEYei4mHWLjPBBvFGnnW+Ek6Vms=;
+        b=OixjI8T6Ihn7npMGAzr4roOfkBPsaG4dAn75cP/yF0iFfjw6pKq9fJ2ZyuspZIYYlU
+         pY2pkYBt/w80Y4mmJ7xfTrIMej+bywWdzAU0asghizn229uP6LMTMiEEE5128xB7ppuN
+         dFf08xmjQPM/bswqdChnO4SP135w+Y68CALSnVJqDCmmv8lOFTB7Z15A1OyAxz3COcsh
+         TB+Vqzt5kRBNUodqLhXZ4rIW1HQvbDZV+O1N0jzwUctLD81xj5zJ5kqz0TiM26gKwqHq
+         ooEJBjhmqEL1MhWIR2IEmUzQstLz2vmd1oIMTLMeLDSw3j22Wkyr8D3KRO43dDlutxXk
+         PZXw==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM5304gDzPWbV+RDAetYuXDr9ZL4jdyWuqFzQXc29WCWGMp849vCf9
+	VyEtguvhCZHiA9ZFl/bX9Sw=
+X-Google-Smtp-Source: ABdhPJwH4muJWX4zUc9euVbbJ5xI85Fe/E9IolKXxI9Wn2F4LJOaqFOjch41KuS3lY4cDHhRlSPSxA==
+X-Received: by 2002:a25:5cd6:: with SMTP id q205mr10114965ybb.489.1612881216546;
+        Tue, 09 Feb 2021 06:33:36 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6830:19f8:: with SMTP id t24ls1697426ott.11.gmail; Tue,
- 09 Feb 2021 05:24:50 -0800 (PST)
-X-Received: by 2002:a05:6830:1c61:: with SMTP id s1mr6758200otg.149.1612877090301;
-        Tue, 09 Feb 2021 05:24:50 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1612877090; cv=none;
+Received: by 2002:a25:3006:: with SMTP id w6ls10347746ybw.4.gmail; Tue, 09 Feb
+ 2021 06:33:36 -0800 (PST)
+X-Received: by 2002:a25:7dc4:: with SMTP id y187mr34664200ybc.477.1612881216179;
+        Tue, 09 Feb 2021 06:33:36 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1612881216; cv=none;
         d=google.com; s=arc-20160816;
-        b=TCjg9GuoMt7HabWIl+U8GSqzC5sbwQXu7OpRWfyFGl8Fmm9E0xy3tGsLt95G1l5fXi
-         eooar4f1F3iRpePxMbS2DBW+lbanoyoncxZ96NoGSwdpxkEFHnVsJsUKQqwzV8Prw1EE
-         x/1NjO5L8eydWtrtJfp84ddaOgRyaBGoU3Eic/D2qvPMPh4t16MFQDRPvGsqZmUL47ko
-         HuA9F3UNwENmfRQKx/MVzq1Qcsg2Znquck6o3MnNV618D7PnO9u2Sg9d7tdlQijnVxSv
-         jtIXAexmwJLrJMgVOQz6GKw/pP7yGVrw1Ty8YCqaQ6CxVNiMQFdOiWrrFVrAtY34rzja
-         78Wg==
+        b=DWtnergpn3ZAg0vBK3ldP5ezbTvMBeLV2K0iGIA4g3FJU0VG9X5aQNPMWcaHoFQzkD
+         buWzJtf5hsHqAY5LE02S18WKhlMromlZGbUBAyPyEpPYmG5Ew6NxyBITBl1uVmlHnJbA
+         DqrRVgs0ijpSkTMY41rEAPdfG3bM4FO4n59RIW7HYgz1zzI+u//CCe/+Uw0WAmwggB8G
+         dUjPCkOerYq0TJInRvKLR2CF8MuJaxiDolg6euU154bf5RPFcus/Yqwwy4HSwlSdLm1/
+         LJtF1Pwrrj5gZbG9aCV5F80MO6uN252rTI659W0Iaj/lyF1gNnd4WGKV6qgkoQFOTGgJ
+         8pUA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=dLaBmb+gbvYqE7SFoBORWrnKQFbpMrwQooOmjDgpSmc=;
-        b=nnZSa7ccJl8CY0XvCJzItK30NwFjYeizQFFjrbP7PlWx2mCdmQVfhfWMInb2L6N481
-         S4IinDcYfLq639Sulr+cHZBvizDy84uO10YNnx7/4JCcdm676OklzlfnAmI8nfh+BtVo
-         6czgWebHa2GQnaKhFvL/50EKXzBLQwUSCW9ciNhsSAjq+o/VZftGV/Bo6AYzJHqfGQnR
-         /ecU/JTd87nMCrptDNRQ6r6Tzla9W75PLM5/MgOhAR7Np4zhpVTJdl8tb3zxozWHeq7u
-         mFLKfksHXP9C2/ZCG3s7WSVrgRUR+yy/3/xI6tbeNBFsTHcIgH4UpR8BPa3PVYs2C+9b
-         Ndyg==
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date;
+        bh=iAdkpyrLgGypHgLpEScWPIWY3/J4g9r7HTApTMXI8Uw=;
+        b=i+z7BawsudE9KqtQowpHDL6TI0g2C9PpPRwhPowzjSs6v6jQ1424zprHEgI+dCjKFa
+         3VnbdIZUTAiYXz9ojiDaTkDZJj8lIN8dbRTsq5JDIHKVTEfPqAmYCXkOYXfq6KiCBIrE
+         mxR1lByqEBUpG+EnqlXhL4cG5Ky1dk/ErYrkdQR4jzJcoyJ/8Ia3G3UGOP56N5pjamIE
+         JKBpAM12DRMIroofMxZKXGpmdzxMFb1OUK4WWRp57QewKHwJ+opCzsgNm/KfHa3we6Ya
+         93ikptGet3EFQbsk8iFcTnU1npuTZKimItwyHWIrWY0sVO3V0SKWv3PmCshk1FHKTDBP
+         iFhw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=Aaono0oI;
-       spf=pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::629 as permitted sender) smtp.mailfrom=andreyknvl@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com. [2607:f8b0:4864:20::629])
-        by gmr-mx.google.com with ESMTPS id b11si1012999otq.0.2021.02.09.05.24.50
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 09 Feb 2021 05:24:50 -0800 (PST)
-Received-SPF: pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::629 as permitted sender) client-ip=2607:f8b0:4864:20::629;
-Received: by mail-pl1-x629.google.com with SMTP id u11so9724239plg.13
-        for <kasan-dev@googlegroups.com>; Tue, 09 Feb 2021 05:24:50 -0800 (PST)
-X-Received: by 2002:a17:903:31d1:b029:de:8361:739b with SMTP id
- v17-20020a17090331d1b02900de8361739bmr21064623ple.85.1612877089414; Tue, 09
- Feb 2021 05:24:49 -0800 (PST)
+       spf=pass (google.com: domain of lorenzo.pieralisi@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=lorenzo.pieralisi@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
+Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
+        by gmr-mx.google.com with ESMTP id e143si542806ybb.5.2021.02.09.06.33.36
+        for <kasan-dev@googlegroups.com>;
+        Tue, 09 Feb 2021 06:33:36 -0800 (PST)
+Received-SPF: pass (google.com: domain of lorenzo.pieralisi@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9A7E5101E;
+	Tue,  9 Feb 2021 06:33:35 -0800 (PST)
+Received: from e121166-lin.cambridge.arm.com (e121166-lin.cambridge.arm.com [10.1.196.255])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D1B7E3F73D;
+	Tue,  9 Feb 2021 06:33:33 -0800 (PST)
+Date: Tue, 9 Feb 2021 14:33:28 +0000
+From: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+To: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	kasan-dev@googlegroups.com,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Will Deacon <will@kernel.org>, Dmitry Vyukov <dvyukov@google.com>,
+	Andrey Ryabinin <aryabinin@virtuozzo.com>,
+	Alexander Potapenko <glider@google.com>,
+	Marco Elver <elver@google.com>,
+	Evgenii Stepanov <eugenis@google.com>,
+	Branislav Rankov <Branislav.Rankov@arm.com>,
+	Andrey Konovalov <andreyknvl@google.com>
+Subject: Re: [PATCH v12 6/7] arm64: mte: Save/Restore TFSR_EL1 during suspend
+Message-ID: <20210209143328.GA27791@e121166-lin.cambridge.arm.com>
+References: <20210208165617.9977-1-vincenzo.frascino@arm.com>
+ <20210208165617.9977-7-vincenzo.frascino@arm.com>
+ <20210209115533.GE1435@arm.com>
 MIME-Version: 1.0
-References: <cover.1612546384.git.andreyknvl@google.com> <9bef90327c9cb109d736c40115684fd32f49e6b0.1612546384.git.andreyknvl@google.com>
- <YCEW4SNDDERCWd7f@elver.google.com>
-In-Reply-To: <YCEW4SNDDERCWd7f@elver.google.com>
-From: "'Andrey Konovalov' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Tue, 9 Feb 2021 14:24:38 +0100
-Message-ID: <CAAeHK+xHnAVbVOF_wuk3+K5Dy2K2i0NTi+_fZfGX-KHXubRW4A@mail.gmail.com>
-Subject: Re: [PATCH v3 mm 08/13] kasan, mm: optimize krealloc poisoning
-To: Marco Elver <elver@google.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Vincenzo Frascino <vincenzo.frascino@arm.com>, Dmitry Vyukov <dvyukov@google.com>, 
-	Alexander Potapenko <glider@google.com>, Will Deacon <will.deacon@arm.com>, 
-	Andrey Ryabinin <aryabinin@virtuozzo.com>, Peter Collingbourne <pcc@google.com>, 
-	Evgenii Stepanov <eugenis@google.com>, Branislav Rankov <Branislav.Rankov@arm.com>, 
-	Kevin Brodsky <kevin.brodsky@arm.com>, kasan-dev <kasan-dev@googlegroups.com>, 
-	Linux ARM <linux-arm-kernel@lists.infradead.org>, 
-	Linux Memory Management List <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: andreyknvl@google.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=Aaono0oI;       spf=pass
- (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::629
- as permitted sender) smtp.mailfrom=andreyknvl@google.com;       dmarc=pass
- (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Andrey Konovalov <andreyknvl@google.com>
-Reply-To: Andrey Konovalov <andreyknvl@google.com>
+Content-Disposition: inline
+In-Reply-To: <20210209115533.GE1435@arm.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Original-Sender: lorenzo.pieralisi@arm.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of lorenzo.pieralisi@arm.com designates 217.140.110.172
+ as permitted sender) smtp.mailfrom=lorenzo.pieralisi@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -137,96 +140,53 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, Feb 8, 2021 at 11:48 AM Marco Elver <elver@google.com> wrote:
->
-> On Fri, Feb 05, 2021 at 06:34PM +0100, Andrey Konovalov wrote:
-> > Currently, krealloc() always calls ksize(), which unpoisons the whole
-> > object including the redzone. This is inefficient, as kasan_krealloc()
-> > repoisons the redzone for objects that fit into the same buffer.
-> >
-> > This patch changes krealloc() instrumentation to use uninstrumented
-> > __ksize() that doesn't unpoison the memory. Instead, kasan_kreallos()
-> > is changed to unpoison the memory excluding the redzone.
-> >
-> > For objects that don't fit into the old allocation, this patch disables
-> > KASAN accessibility checks when copying memory into a new object instead
-> > of unpoisoning it.
-> >
-> > Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
->
-> Reviewed-by: Marco Elver <elver@google.com>
->
-> Clarification below.
->
-> > ---
-> >  mm/kasan/common.c | 12 ++++++++++--
-> >  mm/slab_common.c  | 20 ++++++++++++++------
-> >  2 files changed, 24 insertions(+), 8 deletions(-)
-> >
-> > diff --git a/mm/kasan/common.c b/mm/kasan/common.c
-> > index 7ea643f7e69c..a8a67dca5e55 100644
-> > --- a/mm/kasan/common.c
-> > +++ b/mm/kasan/common.c
-> > @@ -476,7 +476,7 @@ static void *____kasan_kmalloc(struct kmem_cache *cache, const void *object,
-> >
-> >       /*
-> >        * The object has already been unpoisoned by kasan_slab_alloc() for
-> > -      * kmalloc() or by ksize() for krealloc().
-> > +      * kmalloc() or by kasan_krealloc() for krealloc().
-> >        */
-> >
-> >       /*
-> > @@ -526,7 +526,7 @@ void * __must_check __kasan_kmalloc_large(const void *ptr, size_t size,
-> >
-> >       /*
-> >        * The object has already been unpoisoned by kasan_alloc_pages() for
-> > -      * alloc_pages() or by ksize() for krealloc().
-> > +      * alloc_pages() or by kasan_krealloc() for krealloc().
-> >        */
-> >
-> >       /*
-> > @@ -554,8 +554,16 @@ void * __must_check __kasan_krealloc(const void *object, size_t size, gfp_t flag
-> >       if (unlikely(object == ZERO_SIZE_PTR))
-> >               return (void *)object;
-> >
-> > +     /*
-> > +      * Unpoison the object's data.
-> > +      * Part of it might already have been unpoisoned, but it's unknown
-> > +      * how big that part is.
-> > +      */
-> > +     kasan_unpoison(object, size);
-> > +
-> >       page = virt_to_head_page(object);
-> >
-> > +     /* Piggy-back on kmalloc() instrumentation to poison the redzone. */
-> >       if (unlikely(!PageSlab(page)))
-> >               return __kasan_kmalloc_large(object, size, flags);
-> >       else
-> > diff --git a/mm/slab_common.c b/mm/slab_common.c
-> > index dad70239b54c..60a2f49df6ce 100644
-> > --- a/mm/slab_common.c
-> > +++ b/mm/slab_common.c
-> > @@ -1140,19 +1140,27 @@ static __always_inline void *__do_krealloc(const void *p, size_t new_size,
-> >       void *ret;
-> >       size_t ks;
-> >
-> > -     if (likely(!ZERO_OR_NULL_PTR(p)) && !kasan_check_byte(p))
-> > -             return NULL;
-> > -
-> > -     ks = ksize(p);
-> > +     /* Don't use instrumented ksize to allow precise KASAN poisoning. */
-> > +     if (likely(!ZERO_OR_NULL_PTR(p))) {
-> > +             if (!kasan_check_byte(p))
-> > +                     return NULL;
->
-> Just checking: Check byte returns true if the object is not tracked by KASAN, right? I.e. if it's a KFENCE object, kasan_check_byte() always returns true.
+On Tue, Feb 09, 2021 at 11:55:33AM +0000, Catalin Marinas wrote:
+> On Mon, Feb 08, 2021 at 04:56:16PM +0000, Vincenzo Frascino wrote:
+> > When MTE async mode is enabled TFSR_EL1 contains the accumulative
+> > asynchronous tag check faults for EL1 and EL0.
+> > 
+> > During the suspend/resume operations the firmware might perform some
+> > operations that could change the state of the register resulting in
+> > a spurious tag check fault report.
+> > 
+> > Save/restore the state of the TFSR_EL1 register during the
+> > suspend/resume operations to prevent this to happen.
+> 
+> Do we need a similar fix for TFSRE0_EL1? We get away with this if
+> suspend is only entered on the idle (kernel) thread but I recall we
+> could also enter suspend on behalf of a user process (I may be wrong
+> though).
 
-kasan_check_byte() still performs the check, but since KFENCE objects
-are never poisoned, the check always passes.
+Yes, when we suspend the machine to RAM, we execute suspend on behalf
+on a userspace process (but that's only running on 1 cpu, the others
+are hotplugged out).
 
-Thanks!
+IIUC (and that's an if) TFSRE0_EL1 is checked on kernel entry so I don't
+think there is a need to save/restore it (just reset it on suspend
+exit).
+
+TFSR_EL1, I don't see a point in saving/restoring it (it is a bit
+per-CPU AFAICS) either, IMO we should "check" it on suspend (if it is
+possible in that context) and reset it on resume.
+
+I don't think though you can "check" with IRQs disabled so I suspect
+that TFSR_EL1 has to be saved/restored (which means that there is a
+black out period where we run kernel code without being able to detect
+faults but there is no solution to that other than delaying saving the
+value to just before calling into PSCI). Likewise on resume from low
+power.
+
+Thanks,
+Lorenzo
+
+> If that's the case, it would make more sense to store the TFSR* regs in
+> the thread_struct alongside sctlr_tcf0. If we did that, we'd not need
+> the per-cpu mte_suspend_tfsr_el1 variable.
+> 
+> -- 
+> Catalin
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAAeHK%2BxHnAVbVOF_wuk3%2BK5Dy2K2i0NTi%2B_fZfGX-KHXubRW4A%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210209143328.GA27791%40e121166-lin.cambridge.arm.com.
