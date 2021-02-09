@@ -1,132 +1,130 @@
-Return-Path: <kasan-dev+bncBCOYZDMZ6UMRBHH2RGAQMGQEJX7IJOY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDX4HWEMTEBRBIU2RKAQMGQEPHR7LJA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-vk1-xa40.google.com (mail-vk1-xa40.google.com [IPv6:2607:f8b0:4864:20::a40])
-	by mail.lfdr.de (Postfix) with ESMTPS id 728BE314EC9
-	for <lists+kasan-dev@lfdr.de>; Tue,  9 Feb 2021 13:16:29 +0100 (CET)
-Received: by mail-vk1-xa40.google.com with SMTP id r126sf1329424vkb.17
-        for <lists+kasan-dev@lfdr.de>; Tue, 09 Feb 2021 04:16:29 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1612872988; cv=pass;
+Received: from mail-oo1-xc37.google.com (mail-oo1-xc37.google.com [IPv6:2607:f8b0:4864:20::c37])
+	by mail.lfdr.de (Postfix) with ESMTPS id B6B92315019
+	for <lists+kasan-dev@lfdr.de>; Tue,  9 Feb 2021 14:24:51 +0100 (CET)
+Received: by mail-oo1-xc37.google.com with SMTP id h10sf9474967ooj.11
+        for <lists+kasan-dev@lfdr.de>; Tue, 09 Feb 2021 05:24:51 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1612877090; cv=pass;
         d=google.com; s=arc-20160816;
-        b=OwYOv68YWyaxQio+JMko9fnHAwOw1RbIZ0FDW7Z3oqvmkfD4oX7Z794A/xcP4q2Y11
-         /XuxGGTeDu8EG8eTL2NrcLGg5ftUtqyM39mIni7Bec0WxdpnifCa5Ts08NvvfLPbSh1u
-         D/pPPBG1xG8Z8T4Nk2l7QkG7cxYlZXdUyrrbF8AO+9pgvNDQ9WPQjGUwA39dXr3Vbt2O
-         g5yDN+iOUbVeUbmI4zIM0zef+48ryVhLkzcf/UDlW8CVjIXng1FYpM7L9W357AG7JCil
-         NpfQl19+TxB0wvOqg4H5WdP9PdzQ6BxWxCu8Yv93YS5DOmalCOysv8BMC9gQvkTsRw9a
-         A4wQ==
+        b=fFBqeOditHAX/ovSKb5CXyRsG2hUWw0jece++HTcoLjAyJeEMCgBYDQ+7QmJY4eRNq
+         Vo9tOlL50HVSC1jYs5SDEbxTfvBibsyZBxiuOFce7ijqBcYdvegVxrz3pYcazSmF/D25
+         cvMwnY3gmf1gDeqDP1QYDC/2Fp823VfcRgXtf+0rXyYLlZqY03UvUAvE4T3MaObkbpnk
+         nk7vfKyophvsYGTnDz4Qab74RFfCnpNTkk3VjMDSNtwWPoXhB7/3UFa482SIvvAIDYlt
+         FDm+KjFSs8PgRh6MRIFb0ea7cfGO42RNeheWAOWbOmnMO7727NevlN8bSJPKHZRyo7Pw
+         am6w==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-language:in-reply-to
-         :mime-version:user-agent:date:message-id:from:references:cc:to
-         :subject:sender:dkim-signature;
-        bh=+pGhJMxxji8a6cZaoHS2mpFGl4rBXuV0QMHt5GIY1io=;
-        b=uo7X+bU4WnIjoAZ0i0rzsFcBCkX3DkZwk2ArT8IY7gIGPrT2gnk9kA/Vg+4Cs1JITK
-         IQnALNkaC4Zkx/PrTR78e3aiKL/aHAHAXyvhFOezMwaRyX08k7z0sNX7eSUnbUjn4USw
-         ksP9mfrSu+aIbJr53ISl/A/6Q1qLeqbhcJKJUiE+ojV9mapkeh1ZyYpuKql3ruLAi4eu
-         XdqYLb6xiSdO5A8vPk0dVsgJKvdXwKmDYBubocaMR/t9ryRU98z7EuHJKougGYhmPdn/
-         MDyZWZWDUDI36N202Chbd6FxqV75I7MsfEMt2sjse7bdN5TziTKxf7z5pJFaN6QqsY10
-         jiog==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=gCELPwYlYsAJKOwXGYCVUG8H/qc8jLX5buA2s0tXWTU=;
+        b=jLGxutW57sMtulqaRid3pwMQfpl5EeqELNfwQnQ8wdBziSULvz0u9O+fB/9KrUzhsb
+         UOJK4bhlciKYGkdBxDD/m3HHjYhpqyply9ihr+DL1lsHNPWFhH+CScWVLOxYpZzgHCuJ
+         v76KtGRugUMUWKQVYSdnX06G1JPuij115YiUZKFA8PbjCMODnIntHBQt/BaEXZFR9e7z
+         FuKVUe5GIUFEIn/neLl1T0uHmotX1PdWLw7D10kHJ7XVSnZaeCXF6iqdN8HSlhZhf0Mv
+         LrPMald30ENN3xyV6kJBcGDIi/8QqueCRPZHKMJu1Hoij7fE3kBlZiYU3PTreVK7iwyB
+         hPeQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=vincenzo.frascino@arm.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
+       dkim=pass header.i=@google.com header.s=20161025 header.b=Aaono0oI;
+       spf=pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::629 as permitted sender) smtp.mailfrom=andreyknvl@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=+pGhJMxxji8a6cZaoHS2mpFGl4rBXuV0QMHt5GIY1io=;
-        b=ONgIQkmUvO4Ab7nc41sO33dOEQ3qfwiEa00YPT3WUV7e62U293d0sBvhqL+duq9uxT
-         iArPqdtZW7mZ5wnuKJyjDJkSYwVmce7StTCP3cRATeGoBJv+iMI0qDOrpaMn11BuYw5S
-         24JDaruzvN2shKhL2a443i3XUiYWsVWj9m6hBvAs4FKBg/JwKWBrKoRfnBLqo19oaLok
-         bVT0ZMp2y3k2pzsgJVaOwxi5jpojXXcMZbDZmMq4ClfPQBMFowEKFfNKM9XdJU22rR7z
-         q9R5RM63YkGiGn17ag5hEK/DzIlo6XIBGGB5hJBM0tK50B5OYYCiK/JsxaMdQ51M3ugL
-         ++hg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=gCELPwYlYsAJKOwXGYCVUG8H/qc8jLX5buA2s0tXWTU=;
+        b=hqUFSLa9zzdNlz6E0TisN+xiV+DLVJBWv+Dr/KT6tctFM5VDa+rY+Tw+wj9MflsYAV
+         jG7Lb78Q+iIIdWcrAZ1nOfaydVChzWOPUlfjB7swebinDQQjWSH50VyF/5a/83XGX9BU
+         HLyNHuNW2mZrrF4e8Hy04lfgqcTi+kisDziJyZnAKvHOSPsejllR8C0Wq9WUx3rWpeDp
+         +uXWiJCB975sh/zqtB8P4vYqYJ1P8RyC43qLegxpO17Cp2htJByHh2krK7UDEb/tHVXO
+         EPNq4vuuvTmn5OTOvz3PwyZCWUuqQhOKm8o3g27379y8dbsGditpjtW0xGcl8PncV8dX
+         SRFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=+pGhJMxxji8a6cZaoHS2mpFGl4rBXuV0QMHt5GIY1io=;
-        b=CvID8+rpsrZi5NVMUpCWlVTG4Arv5BpdO9W0TdLTmQJE31feU3GkBHtWGkk67WqL6a
-         UCZXV+Ya7bBqXxBZFODhiT0dGXWQ3ZW12q6N70iyxO4P4HdSX2ev+Jc4TwY6nx75q8yy
-         ZHlyl2Dn1/8JnHAcbZp6lQv5ekOfgvSRGUKpDC7EcF3qKz4xExbuaYWQuyxSfz3J8N/i
-         AhzVsaKgfcOGx9CETJYrMksoDq+lUMrQX5LWYQG8AfA69rilmqPh8ZWcqX1xyEDG7ymE
-         S9fMA8iLncV5rHFkMbcWDaQb6qc5pNn9GLnULkjgeqU+TZ2frvqJ1tIrX1SkFkaqhk99
-         k1Fw==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM533zkD50jsLxJGq41oSJL9v+t3rAztJVHYMd/qVkWdVwPHm+VCuZ
-	hNlNPx1Vm0ec2ku3JkNUAEM=
-X-Google-Smtp-Source: ABdhPJzfRg45PtoU9vUNfIEjWxTbPy3V1DJ+6dRljYHBg7+1W+RbZBDO0L2h8eLdBeUGj7cksouquQ==
-X-Received: by 2002:a1f:c18b:: with SMTP id r133mr13159620vkf.25.1612872988355;
-        Tue, 09 Feb 2021 04:16:28 -0800 (PST)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=gCELPwYlYsAJKOwXGYCVUG8H/qc8jLX5buA2s0tXWTU=;
+        b=k4XugL6CmmDHtRqe7d7/xNVmCR/7W5bRDpzzh30N7wLJvIBbYe9m6N3j2zIGUhbvlm
+         P6TKSWdUVQ0oeHjuueWs2ZyoKuJFP/LjEdEx18CZv3bJ9gBlWF9+fQ/WlaWZ/UNRmofo
+         smwKSRBxJr0yAmnIenGwrly/2veNaIRJtUCUTrztN/KYqHBsjyzjvE0+ZzBp8RsJuMaB
+         kmq7XB8GWObIXu02HCesnpmeUbTCXJmV0kMAs0GVQAWqTWGwWHLe5qeTUum1h6On0VFy
+         gJBakeIIDX30C05YFE+dqcP9kShyBgRJGYiQoFJBepf6YCR+PQKDxgbDj4rd0Ho26KNf
+         5bDA==
+X-Gm-Message-State: AOAM531HC1RFCAHnCULXd/+OaVyNq+0ARyjMly4fVNGO3EZ7ZF7NvJQG
+	wD5BME5NEk1wtMfYWgMkoTY=
+X-Google-Smtp-Source: ABdhPJxxO/6Nh0dFmKXhA5+HMzTzu17CgtYTJfqc+oEDG9dLYYE7WZQtS3En7QjxHqtPFlHQbQP/dQ==
+X-Received: by 2002:a9d:68c5:: with SMTP id i5mr15510525oto.262.1612877090727;
+        Tue, 09 Feb 2021 05:24:50 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6102:30a3:: with SMTP id y3ls714346vsd.5.gmail; Tue, 09
- Feb 2021 04:16:28 -0800 (PST)
-X-Received: by 2002:a05:6102:11:: with SMTP id j17mr13784101vsp.27.1612872988028;
-        Tue, 09 Feb 2021 04:16:28 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1612872988; cv=none;
+Received: by 2002:a05:6830:19f8:: with SMTP id t24ls1697426ott.11.gmail; Tue,
+ 09 Feb 2021 05:24:50 -0800 (PST)
+X-Received: by 2002:a05:6830:1c61:: with SMTP id s1mr6758200otg.149.1612877090301;
+        Tue, 09 Feb 2021 05:24:50 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1612877090; cv=none;
         d=google.com; s=arc-20160816;
-        b=nLIT6slUU3QGaZHfrpO8kHrPCf+ZFUAu5o58fCYHojyxEQVcBykdsxZiC5AsXOziFW
-         hac+mN6sXE2qxZuGh0LxXcpUgh0vTVCTQxagZk2iorbGrY6+Sb+kgAxa2YWXXR1BNu5O
-         qYR24biPXNMQKhXoQ7lL7oCepY8sef8Izbi4j10g9UlYTsHG0//zOooNrW0w56bzHMFw
-         TBD/RRF9fWOtqgi/Lh3GviWyVw6we/V5W/lZkb3kp5FnWvuwufo3lyEJVAUff36cdCT9
-         hmHIUGSCEgIfmHCZ2Zb+xGC6bxU1jVmfjyGzaMoizDVxD//ic0a8Aj7qEP035b7ifbiP
-         Jlaw==
+        b=TCjg9GuoMt7HabWIl+U8GSqzC5sbwQXu7OpRWfyFGl8Fmm9E0xy3tGsLt95G1l5fXi
+         eooar4f1F3iRpePxMbS2DBW+lbanoyoncxZ96NoGSwdpxkEFHnVsJsUKQqwzV8Prw1EE
+         x/1NjO5L8eydWtrtJfp84ddaOgRyaBGoU3Eic/D2qvPMPh4t16MFQDRPvGsqZmUL47ko
+         HuA9F3UNwENmfRQKx/MVzq1Qcsg2Znquck6o3MnNV618D7PnO9u2Sg9d7tdlQijnVxSv
+         jtIXAexmwJLrJMgVOQz6GKw/pP7yGVrw1Ty8YCqaQ6CxVNiMQFdOiWrrFVrAtY34rzja
+         78Wg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject;
-        bh=wOh/I+8BXRnRMDFOVGuKZBrbMpOHcXWHZ/uFwpdcQ7E=;
-        b=H9sKj7bB4/FlpTiZa23ehmuLlUeZps52cDgGQIWaqPVrdkU3t0g/yaNkZac6+Ub31N
-         WCe3LuW740EXsm6rTTJmysO0vVCvF3mXO4D97gcxMOp9kjZRUo+psocGVs3yf+V7Z/6z
-         RZE5t+gUfkZvXIZcNnOGfaFV1ZKsUGzLTE0UWuosTX08fWAmAjo2KevmESWRaipP+0V+
-         xIaoYQ4xOd4OP5opotcY7V1dhTZJEMPSXfDsnkcxfZCvKOlgzOc4dGu55g/NiRSxOPvk
-         qLCsruYOW4UnrIiSWZzk91WmztH1OH/1pVkdZmt3rqxywIhaRTmm04M41Z8lIGJoc+Y3
-         Ik3A==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=dLaBmb+gbvYqE7SFoBORWrnKQFbpMrwQooOmjDgpSmc=;
+        b=nnZSa7ccJl8CY0XvCJzItK30NwFjYeizQFFjrbP7PlWx2mCdmQVfhfWMInb2L6N481
+         S4IinDcYfLq639Sulr+cHZBvizDy84uO10YNnx7/4JCcdm676OklzlfnAmI8nfh+BtVo
+         6czgWebHa2GQnaKhFvL/50EKXzBLQwUSCW9ciNhsSAjq+o/VZftGV/Bo6AYzJHqfGQnR
+         /ecU/JTd87nMCrptDNRQ6r6Tzla9W75PLM5/MgOhAR7Np4zhpVTJdl8tb3zxozWHeq7u
+         mFLKfksHXP9C2/ZCG3s7WSVrgRUR+yy/3/xI6tbeNBFsTHcIgH4UpR8BPa3PVYs2C+9b
+         Ndyg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=vincenzo.frascino@arm.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
-Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
-        by gmr-mx.google.com with ESMTP id l11si833511vkr.5.2021.02.09.04.16.27
-        for <kasan-dev@googlegroups.com>;
-        Tue, 09 Feb 2021 04:16:27 -0800 (PST)
-Received-SPF: pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3537CED1;
-	Tue,  9 Feb 2021 04:16:27 -0800 (PST)
-Received: from [10.37.8.18] (unknown [10.37.8.18])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3E5F43F73B;
-	Tue,  9 Feb 2021 04:16:25 -0800 (PST)
-Subject: Re: [PATCH v12 7/7] kasan: don't run tests in async mode
-To: Catalin Marinas <catalin.marinas@arm.com>
-Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- kasan-dev@googlegroups.com, Andrew Morton <akpm@linux-foundation.org>,
- Will Deacon <will@kernel.org>, Dmitry Vyukov <dvyukov@google.com>,
- Andrey Ryabinin <aryabinin@virtuozzo.com>,
- Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>,
- Evgenii Stepanov <eugenis@google.com>,
- Branislav Rankov <Branislav.Rankov@arm.com>,
- Andrey Konovalov <andreyknvl@google.com>,
- Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-References: <20210208165617.9977-1-vincenzo.frascino@arm.com>
- <20210208165617.9977-8-vincenzo.frascino@arm.com>
- <20210209120241.GF1435@arm.com>
-From: Vincenzo Frascino <vincenzo.frascino@arm.com>
-Message-ID: <0e373526-0fa8-c5c0-fb41-5c17aa47f07c@arm.com>
-Date: Tue, 9 Feb 2021 12:20:28 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+       dkim=pass header.i=@google.com header.s=20161025 header.b=Aaono0oI;
+       spf=pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::629 as permitted sender) smtp.mailfrom=andreyknvl@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com. [2607:f8b0:4864:20::629])
+        by gmr-mx.google.com with ESMTPS id b11si1012999otq.0.2021.02.09.05.24.50
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 09 Feb 2021 05:24:50 -0800 (PST)
+Received-SPF: pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::629 as permitted sender) client-ip=2607:f8b0:4864:20::629;
+Received: by mail-pl1-x629.google.com with SMTP id u11so9724239plg.13
+        for <kasan-dev@googlegroups.com>; Tue, 09 Feb 2021 05:24:50 -0800 (PST)
+X-Received: by 2002:a17:903:31d1:b029:de:8361:739b with SMTP id
+ v17-20020a17090331d1b02900de8361739bmr21064623ple.85.1612877089414; Tue, 09
+ Feb 2021 05:24:49 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210209120241.GF1435@arm.com>
+References: <cover.1612546384.git.andreyknvl@google.com> <9bef90327c9cb109d736c40115684fd32f49e6b0.1612546384.git.andreyknvl@google.com>
+ <YCEW4SNDDERCWd7f@elver.google.com>
+In-Reply-To: <YCEW4SNDDERCWd7f@elver.google.com>
+From: "'Andrey Konovalov' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Tue, 9 Feb 2021 14:24:38 +0100
+Message-ID: <CAAeHK+xHnAVbVOF_wuk3+K5Dy2K2i0NTi+_fZfGX-KHXubRW4A@mail.gmail.com>
+Subject: Re: [PATCH v3 mm 08/13] kasan, mm: optimize krealloc poisoning
+To: Marco Elver <elver@google.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Vincenzo Frascino <vincenzo.frascino@arm.com>, Dmitry Vyukov <dvyukov@google.com>, 
+	Alexander Potapenko <glider@google.com>, Will Deacon <will.deacon@arm.com>, 
+	Andrey Ryabinin <aryabinin@virtuozzo.com>, Peter Collingbourne <pcc@google.com>, 
+	Evgenii Stepanov <eugenis@google.com>, Branislav Rankov <Branislav.Rankov@arm.com>, 
+	Kevin Brodsky <kevin.brodsky@arm.com>, kasan-dev <kasan-dev@googlegroups.com>, 
+	Linux ARM <linux-arm-kernel@lists.infradead.org>, 
+	Linux Memory Management List <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Language: en-US
-X-Original-Sender: vincenzo.frascino@arm.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172
- as permitted sender) smtp.mailfrom=vincenzo.frascino@arm.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
+X-Original-Sender: andreyknvl@google.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@google.com header.s=20161025 header.b=Aaono0oI;       spf=pass
+ (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::629
+ as permitted sender) smtp.mailfrom=andreyknvl@google.com;       dmarc=pass
+ (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Andrey Konovalov <andreyknvl@google.com>
+Reply-To: Andrey Konovalov <andreyknvl@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -139,50 +137,96 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-
-
-On 2/9/21 12:02 PM, Catalin Marinas wrote:
-> On Mon, Feb 08, 2021 at 04:56:17PM +0000, Vincenzo Frascino wrote:
->> From: Andrey Konovalov <andreyknvl@google.com>
->>
->> Asynchronous KASAN mode doesn't guarantee that a tag fault will be
->> detected immediately and causes tests to fail. Forbid running them
->> in asynchronous mode.
->>
->> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
-> 
-> That's missing your SoB.
+On Mon, Feb 8, 2021 at 11:48 AM Marco Elver <elver@google.com> wrote:
 >
+> On Fri, Feb 05, 2021 at 06:34PM +0100, Andrey Konovalov wrote:
+> > Currently, krealloc() always calls ksize(), which unpoisons the whole
+> > object including the redzone. This is inefficient, as kasan_krealloc()
+> > repoisons the redzone for objects that fit into the same buffer.
+> >
+> > This patch changes krealloc() instrumentation to use uninstrumented
+> > __ksize() that doesn't unpoison the memory. Instead, kasan_kreallos()
+> > is changed to unpoison the memory excluding the redzone.
+> >
+> > For objects that don't fit into the old allocation, this patch disables
+> > KASAN accessibility checks when copying memory into a new object instead
+> > of unpoisoning it.
+> >
+> > Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+>
+> Reviewed-by: Marco Elver <elver@google.com>
+>
+> Clarification below.
+>
+> > ---
+> >  mm/kasan/common.c | 12 ++++++++++--
+> >  mm/slab_common.c  | 20 ++++++++++++++------
+> >  2 files changed, 24 insertions(+), 8 deletions(-)
+> >
+> > diff --git a/mm/kasan/common.c b/mm/kasan/common.c
+> > index 7ea643f7e69c..a8a67dca5e55 100644
+> > --- a/mm/kasan/common.c
+> > +++ b/mm/kasan/common.c
+> > @@ -476,7 +476,7 @@ static void *____kasan_kmalloc(struct kmem_cache *cache, const void *object,
+> >
+> >       /*
+> >        * The object has already been unpoisoned by kasan_slab_alloc() for
+> > -      * kmalloc() or by ksize() for krealloc().
+> > +      * kmalloc() or by kasan_krealloc() for krealloc().
+> >        */
+> >
+> >       /*
+> > @@ -526,7 +526,7 @@ void * __must_check __kasan_kmalloc_large(const void *ptr, size_t size,
+> >
+> >       /*
+> >        * The object has already been unpoisoned by kasan_alloc_pages() for
+> > -      * alloc_pages() or by ksize() for krealloc().
+> > +      * alloc_pages() or by kasan_krealloc() for krealloc().
+> >        */
+> >
+> >       /*
+> > @@ -554,8 +554,16 @@ void * __must_check __kasan_krealloc(const void *object, size_t size, gfp_t flag
+> >       if (unlikely(object == ZERO_SIZE_PTR))
+> >               return (void *)object;
+> >
+> > +     /*
+> > +      * Unpoison the object's data.
+> > +      * Part of it might already have been unpoisoned, but it's unknown
+> > +      * how big that part is.
+> > +      */
+> > +     kasan_unpoison(object, size);
+> > +
+> >       page = virt_to_head_page(object);
+> >
+> > +     /* Piggy-back on kmalloc() instrumentation to poison the redzone. */
+> >       if (unlikely(!PageSlab(page)))
+> >               return __kasan_kmalloc_large(object, size, flags);
+> >       else
+> > diff --git a/mm/slab_common.c b/mm/slab_common.c
+> > index dad70239b54c..60a2f49df6ce 100644
+> > --- a/mm/slab_common.c
+> > +++ b/mm/slab_common.c
+> > @@ -1140,19 +1140,27 @@ static __always_inline void *__do_krealloc(const void *p, size_t new_size,
+> >       void *ret;
+> >       size_t ks;
+> >
+> > -     if (likely(!ZERO_OR_NULL_PTR(p)) && !kasan_check_byte(p))
+> > -             return NULL;
+> > -
+> > -     ks = ksize(p);
+> > +     /* Don't use instrumented ksize to allow precise KASAN poisoning. */
+> > +     if (likely(!ZERO_OR_NULL_PTR(p))) {
+> > +             if (!kasan_check_byte(p))
+> > +                     return NULL;
+>
+> Just checking: Check byte returns true if the object is not tracked by KASAN, right? I.e. if it's a KFENCE object, kasan_check_byte() always returns true.
 
-Yes, I will add it in the next iteration.
+kasan_check_byte() still performs the check, but since KFENCE objects
+are never poisoned, the check always passes.
 
->> diff --git a/lib/test_kasan.c b/lib/test_kasan.c
->> index 7285dcf9fcc1..f82d9630cae1 100644
->> --- a/lib/test_kasan.c
->> +++ b/lib/test_kasan.c
->> @@ -51,6 +51,10 @@ static int kasan_test_init(struct kunit *test)
->>  		kunit_err(test, "can't run KASAN tests with KASAN disabled");
->>  		return -1;
->>  	}
->> +	if (kasan_flag_async) {
->> +		kunit_err(test, "can't run KASAN tests in async mode");
->> +		return -1;
->> +	}
->>  
->>  	multishot = kasan_save_enable_multi_shot();
->>  	hw_set_tagging_report_once(false);
-> 
-> I think we can still run the kasan tests in async mode if we check the
-> TFSR_EL1 at the end of each test by calling mte_check_tfsr_exit().
-> 
-
-IIUC this was the plan for the future. But I let Andrey comment for more details.
-
--- 
-Regards,
-Vincenzo
+Thanks!
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/0e373526-0fa8-c5c0-fb41-5c17aa47f07c%40arm.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAAeHK%2BxHnAVbVOF_wuk3%2BK5Dy2K2i0NTi%2B_fZfGX-KHXubRW4A%40mail.gmail.com.
