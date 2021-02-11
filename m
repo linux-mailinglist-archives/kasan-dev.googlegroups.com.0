@@ -1,126 +1,126 @@
-Return-Path: <kasan-dev+bncBAABBCHHSGAQMGQEIDBESNY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCMIZB7QWENRBS6ESOAQMGQELK6EZ2I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ua1-x939.google.com (mail-ua1-x939.google.com [IPv6:2607:f8b0:4864:20::939])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D5303174DA
-	for <lists+kasan-dev@lfdr.de>; Thu, 11 Feb 2021 01:00:09 +0100 (CET)
-Received: by mail-ua1-x939.google.com with SMTP id x19sf1184062uat.13
-        for <lists+kasan-dev@lfdr.de>; Wed, 10 Feb 2021 16:00:09 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1613001608; cv=pass;
+Received: from mail-io1-xd3a.google.com (mail-io1-xd3a.google.com [IPv6:2607:f8b0:4864:20::d3a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D2653185DB
+	for <lists+kasan-dev@lfdr.de>; Thu, 11 Feb 2021 08:52:45 +0100 (CET)
+Received: by mail-io1-xd3a.google.com with SMTP id a12sf4907452ioe.5
+        for <lists+kasan-dev@lfdr.de>; Wed, 10 Feb 2021 23:52:45 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1613029964; cv=pass;
         d=google.com; s=arc-20160816;
-        b=gNu535gx1e5+s9YO602yVLOVKejeyPQViTu7nHZ0+46oXgq9jsGcJ+4qpmxN170DdK
-         W+rW++60MtnGjFlHWFjMYkpOeG3ydLK1yvhzyPhijPoyfBSrDd3+iyftJ6FGI6gRkb4h
-         VzcJbpC47XcafC8XXxna1Zw+JHev7226A54P2/81TSOUM400ii4cwrFYvGMTbyb/OuPR
-         d4qqr1unqEp8yZr6jOz/rPdmx2d0l3E91GBpG+QiYoMJe5g9jGbgbn5tkQKPmHAptIXj
-         9UM1zAtZ18/6m9ccnVkzuT30ItYf44eU8l2zfT0qYpkWtJH89kKgCPzFy2rvm/0tTFgp
-         zlkQ==
+        b=yJT1EBt9O0/wL+cUdmKLsqdJQp3HUvyW4f6WRvKDOFYa+swUoZc6BzlTmd4yhwmqFT
+         U1H+n8w/9ODSPsilq0Ou5xptOq1+ADXMYbl2TGd+pfyCQ3Z9oZVHeLFsTNC+EyKwGGkA
+         gaKnkWM+pT7cYgTaKZB9STmO7vDgdh3xBJ4fvabG0XgUd+gdSv/2IzHmfRWDpZB6uqny
+         sHK7SX7i84rPTRMS4Y2plZZLa+H/5GCADMiVCryXKzB/avXXTa/gqzY62QKQTMt/bxFp
+         pd3Ti2J0G58K5xxCAJas+zGAWpcDpd/kb8qqb/7H89IRlGeJZ82ngWOHzdty6OcV/j09
+         N4Hw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:cc:to:in-reply-to:references:date
-         :message-id:from:subject:mime-version:sender:dkim-signature;
-        bh=oUQ6OKamcFcZYjFVygoOQVDpqGMNJemMRTjF2+OmGdI=;
-        b=qmzbk/mnVzTbtykDwq9rNZ0fRvlDwgEPOZRbAdt3Y2IIl08JK0Qm3bS264dHSwKVXw
-         uasvGMMYEXPvI0Koh6imEYp0hi8i/u1YwZ3YFo45mjzsobfrlHOkAMLia/ioaWVNm0uh
-         RuzbwXR6WrHjnL42eIqk2JVDeXCy+pdzNm7Cqcy1rn2+BcfIjPiBDDSElV9F7m2Rd693
-         s8mqaqqsMdySJRYHbkyJY6KKz3tRGj4or2wRuPV/3xdqB3IbPOLZOjo8mCNKdYrdBazy
-         W9siH49qD/y6uhkdLRkXGZb/UKMFs7OxTacQaVn6/qfxPVpP94OCc9cOW/QiDeips4Lh
-         f8Ug==
+         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
+         :cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=/HJsRV9G2Rmgc/ou/70YgDkUjNAlVA5q99TqVgwhjB0=;
+        b=yQhW3PhM9VFSfQYmB5Xu/EoteNsSmY4FpUGx5aoFFFgPfqkAIYTIuKgxImbdvx9eZq
+         RUAoaScwd35pnym6fheAOyywJilZtrjVckM6NC/YfrNnuc6nbuJfAH0nX9AFYicTP0qK
+         G1mMrL9dY5oID3V2bbgXTZCbLTORLVJrbMc1xZVTc4p585ivMo/TvJ/Z4hpsuTAJv/d5
+         oarHCoPz2Tv60C/AEWRoEvyThVA07tFlrjv9kQ2VKSGP/EM6PYOwwMifS0sIc7dUNK7p
+         k12zQWfCuw1mybcp75NhBHE79Hx5ulcaU+rznl3KpTDqCJHWYNPLo4PAWQYvnDJqdcod
+         vP7w==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=VPa0Fkt2;
-       spf=pass (google.com: domain of patchwork-bot+netdevbpf@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=patchwork-bot+netdevbpf@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       dkim=pass header.i=@google.com header.s=20161025 header.b=ekZlAbes;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::82a as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:mime-version:subject:from:message-id:date:references
-         :in-reply-to:to:cc:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=oUQ6OKamcFcZYjFVygoOQVDpqGMNJemMRTjF2+OmGdI=;
-        b=plSsfc5Z3TmRzSCQdC2PI3B83oN6q0khH0K7eTHacu16NIfvY2U9Mco6pZfzEUC0kw
-         YgFKAFLGrbrwyl/NVLEswEH89XToec37SeCj8KKvoZRVo8VDUcMADucFDl2+jXd9p4ZV
-         veJDGrIL2F02OLTCtabMeIcHfHTGG2aImWh7g6z5iDt89gFGetclXoy47AV1PS7ykR/n
-         ba5sju//GjFFaXAekF3M4ZvgmKp5iPMTJ10HqrtWfIEfD7G20Z22g96eJYhEbXFQWsPC
-         Hjt1fDJ4FoPufobcTsHfdPjz0bzEVqV5KmMrn2hTrUNR8zPrxws+WBWOmUpeu09vfIsB
-         HYkA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:list-post:list-help:list-archive:list-subscribe
+         :list-unsubscribe;
+        bh=/HJsRV9G2Rmgc/ou/70YgDkUjNAlVA5q99TqVgwhjB0=;
+        b=R4RP9doBhyB80rxHXghh3Z3/Kg9F4zcO4K/jAC8IeGgkYw+5WzgoAB4lBXCPftqCZa
+         Dm/1L6MW/HSXOL/NoYib+2hcttOeS23NQ9xJ9yzCCxFflKgejdm3o9FPt53ZA2Xc3dM7
+         em/9vYX+kvfsOk6hW31NjyNRKepg2aN5419+vL+16LcYJpQwZS51tEaD6pO2z1wnuqtx
+         YE/KOqcSkRLILi4McI9KQuyGSrEeLMNrDJPLEljlpidET2CV2yNNzM12UjvVUuldRMcw
+         OvIqPvhWu4mwPDoE4hpXytvyYMHLXShmfwu5JduC4bI60r8bgPDDBj+y23Ho7ZBluW7Q
+         338Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:mime-version:subject:from:message-id:date
-         :references:in-reply-to:to:cc:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=oUQ6OKamcFcZYjFVygoOQVDpqGMNJemMRTjF2+OmGdI=;
-        b=CYkeK6WxFTInUrzPolvbXD7QhnuPmvzkdx7h/qJfMLLcW4Fg20bYBaXlheIxqJ0VY1
-         PagyBJ+GdggVqNnptWvCIoeWtgvzSSH4GQSjVHiBXXjRIG/YadZwAlFM/Th/xxoszwIc
-         wqrD1ZY0V0K8N8AqPffcMSvCTap8koBszpcwG2tfYx7BIK6rxxq7UNkCB0p06Gh7TUc5
-         /FCPQzIC2VQ3OMiZ976OyuMFZr10HU1lrGTMIQdbpsEbvrgJ6AE7aikBMZRI9UTTQsvI
-         RsFr9BceRDtjmU7iVwqCGcnIvzVbqJDMpqItzQ16tLWMQdjQwHYFqAegoWhlmwZ2JADI
-         oxLQ==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM53105y05u8k+QvYsdjUecuWFU3xN2VkaySWAQ4t7YqHk8TJA17qL
-	AQspWiBy1oUYpgpN03vT0c8=
-X-Google-Smtp-Source: ABdhPJwmGEurX86vNR39TTRHAKnUJDzhlNFJljhrpa+k6K6VbkT6zk+MZaa2UgouJjQtKVuWHAoKMg==
-X-Received: by 2002:ab0:748c:: with SMTP id n12mr3799059uap.38.1613001608617;
-        Wed, 10 Feb 2021 16:00:08 -0800 (PST)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding
+         :x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=/HJsRV9G2Rmgc/ou/70YgDkUjNAlVA5q99TqVgwhjB0=;
+        b=bU8d8I8/RrGLMPSMfY7UWJeoPGWlbFIami9O7cC1Ziep/Nr2pJucG4xX6dSyhJj3sp
+         mPUW82tBqqXyDlvwy8j5kF2LniEgO/J2bkt2SI7yl7bEkj4GCjUXXY9IOa7g0I5xUhan
+         Yb4y/O+5KTsEmx49r99j0iwqsTFfm3KwyqYQi3F156zAF8+rZ17D4jSB1vle7l3JXrii
+         OOWs1sRvUhHltmXWNoYKy1nN0u3MnZ2dVLlXWD56ArLDGE/lt2I9ikUtAKiVYKjpy5aS
+         fCH+UtGD0rsNXk5de6Cnaxd25mnKoFEHQUU+MxDljHzChYrkUNyBitvqdiegCj94iYM1
+         8odQ==
+X-Gm-Message-State: AOAM532yC8qv9DDAGcRuJHl45vIy1RJeGO3sc9Dp4JoOpomKUSPeDpOs
+	zkBKGdIHuT3gibYIpp3XxXo=
+X-Google-Smtp-Source: ABdhPJx3zEbu0A2Mu4Fhh+Ldr+smpR62/7eVBwsQAoffCeDPDS0tLf+SFtWW5bTMoWLxRpElG/5ykQ==
+X-Received: by 2002:a92:870d:: with SMTP id m13mr4652194ild.104.1613029964011;
+        Wed, 10 Feb 2021 23:52:44 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6102:3127:: with SMTP id f7ls301216vsh.2.gmail; Wed, 10
- Feb 2021 16:00:08 -0800 (PST)
-X-Received: by 2002:a05:6102:8f:: with SMTP id t15mr3695501vsp.19.1613001608304;
-        Wed, 10 Feb 2021 16:00:08 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1613001608; cv=none;
+Received: by 2002:a02:ac19:: with SMTP id a25ls699347jao.8.gmail; Wed, 10 Feb
+ 2021 23:52:43 -0800 (PST)
+X-Received: by 2002:a05:6638:96c:: with SMTP id o12mr7422871jaj.24.1613029963595;
+        Wed, 10 Feb 2021 23:52:43 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1613029963; cv=none;
         d=google.com; s=arc-20160816;
-        b=nVVTKcMFclIboSIDYqn2Oo9u6T4ejGaXGFbefRc+iMyr3dKN4cbdkMMAI3dvCj/FsM
-         VBIK5FvudjLJp2hGWE3LaplllGtJPePl/xni3XS37uYc2iHqyuAFUeUu0aTShnMmAzem
-         IlaONIoOjjCeM4YlVLfnHc7yFq5kjWQ9bB3UZNOROWvbuN1yOkheqwOCigVOCAuN69jz
-         kH2gTOrzN3UvQET8EzjSTmCDjampmtjSru/E9qq38d1rmAhROe7p9EE4xy7jTHKzHBtY
-         LFMYMd/t7/xntzX/LMTyYOptc4xTrbzIWWGr5oA0OpKUh43BLzbNen7FZsk7nyFp78TE
-         YwXg==
+        b=U76P5iaYq4oJo3QMDUBj43v3GvnXlZvHKWtwiJ48Ig2yPmZXpduar4UbErLsXgHdOa
+         XG4wz0RHU+LS/k12lX6aOCs1vHyfAtoYKfj4R0yX0FI3k8d7VuaO64yKhpllZTQOINH8
+         i/drAywW2vs7H7Q1XHw6uJzjPLnAGNBOqFtedxzmQbl2wCyxiIre8kR/k7tFivqhSIUj
+         mGITWq8CEozoAFmTGVoKEzVVvLflA2hDz+lwJ3Bb8RzKoLqUPxZ6Ckq4X41qUkjY2OC/
+         njFPxdB1ZgLkx0I7xoV4hzdMVW9LausfAQ0b7w+8YuEREc4E1tXxjip5gPFQaZG+MPvX
+         b7aw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:in-reply-to:references:date:message-id:from:subject
-         :content-transfer-encoding:mime-version:dkim-signature;
-        bh=WBGLHSSih90MVr6y+jRkQ3P8F80KnJ17IrPVdWsMErw=;
-        b=w4aXHAoOxSo5c8l/L4fNTKqYvOjkik4WDtQW+0BBHtjBPk+n1mM1pPYDmJCBOea/s8
-         guvHjvdI/cT30UnbT8CfeR6PGTx4XE8nGfCrsquGtGciX1qgU6rOpNnRKvZqEUHPotAa
-         EGriFtGD6Z8C44M6pOpF7FwxQXUknzBQc1MMZ/XI6ONuwaYiCa8pz8w5Qp7swv4Nea3E
-         buefqq42rQneagtNw5SiaYyShel5vsXnpRZSYna31Br21jNP/nAWqhml18OYU5wXngNA
-         8vJhX8tMAWHpeRNnDfMKWwxxsNzPlz6UZFR+crfhBExHVUZcBcn+7Jq0KIZoPV5T9eM2
-         UiVQ==
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=VR5dSSzrvcgi60K+WwYFiQxiaKGU+3rRYVA08rYgY58=;
+        b=mARAw2k/6VW2OJWPXnVYXhbULOQl1bmtUFLtmyUqgGt/YRHGDOfyUQmjnajvYhK2NC
+         tukw6UZ4e2kba0a8O2yTwBuOYKKFwRc2PItJSJmz8bxvxfhbTEVwTn8bJEaTejkF9odF
+         jFrtvD10ZJlGPy4ehYG2hqg2EiNo3O1FkfStoFN6TzgCURpmO8lie3OfInU/eCFlsKUE
+         1cJ3/6c5nHKE0lZcrabUghBuz/w1gMpQSUsElI1UTc8+5NYb/L0n/bm5c4QMJG26r3td
+         7XzfQXTCFZJAR8/UuQ+d+hmhPxX6cGhpdQIWlscIH5tkxcdWAzGLQh//Q2dTBzjzrQVP
+         6jVw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=VPa0Fkt2;
-       spf=pass (google.com: domain of patchwork-bot+netdevbpf@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=patchwork-bot+netdevbpf@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id c4si248070vkh.1.2021.02.10.16.00.08
+       dkim=pass header.i=@google.com header.s=20161025 header.b=ekZlAbes;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::82a as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com. [2607:f8b0:4864:20::82a])
+        by gmr-mx.google.com with ESMTPS id m132si215177ioa.3.2021.02.10.23.52.43
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 10 Feb 2021 16:00:08 -0800 (PST)
-Received-SPF: pass (google.com: domain of patchwork-bot+netdevbpf@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
-Received: by mail.kernel.org (Postfix) with ESMTPS id 3DFD964E16;
-	Thu, 11 Feb 2021 00:00:07 +0000 (UTC)
-Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id 2945660A0F;
-	Thu, 11 Feb 2021 00:00:07 +0000 (UTC)
-Content-Type: text/plain; charset="UTF-8"
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 10 Feb 2021 23:52:43 -0800 (PST)
+Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::82a as permitted sender) client-ip=2607:f8b0:4864:20::82a;
+Received: by mail-qt1-x82a.google.com with SMTP id e15so3537476qte.9
+        for <kasan-dev@googlegroups.com>; Wed, 10 Feb 2021 23:52:43 -0800 (PST)
+X-Received: by 2002:ac8:7512:: with SMTP id u18mr6317593qtq.290.1613029962958;
+ Wed, 10 Feb 2021 23:52:42 -0800 (PST)
 MIME-Version: 1.0
-Subject: Re: [PATCH] bpf_lru_list: Read double-checked variable once without lock
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: <161300160716.412.6891143842651326044.git-patchwork-notify@kernel.org>
-Date: Thu, 11 Feb 2021 00:00:07 +0000
-References: <20210209112701.3341724-1-elver@google.com>
-In-Reply-To: <20210209112701.3341724-1-elver@google.com>
-To: Marco Elver <elver@google.com>
-Cc: ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org, kafai@fb.com,
- songliubraving@fb.com, yhs@fb.com, john.fastabend@gmail.com,
- kpsingh@kernel.org, netdev@vger.kernel.org, bpf@vger.kernel.org,
- linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com, paulmck@kernel.org,
- dvyukov@google.com, syzbot+3536db46dfa58c573458@syzkaller.appspotmail.com,
- syzbot+516acdb03d3e27d91bcd@syzkaller.appspotmail.com
-X-Original-Sender: patchwork-bot+netdevbpf@kernel.org
+References: <CACV+nar9Apf15oXvwqsyd5OEX3PQ6OTxbhgG+0JRP0+iUvh_KQ@mail.gmail.com>
+ <CACT4Y+Yo-HtoNrA8PL3qWYoUitt-WHgZmJ7wqh9zn01t53JL9g@mail.gmail.com> <CACV+naqJOptZa2e1+a9pNYP7Wh5yLwKtDSgzEz7yQaTB4uzLYQ@mail.gmail.com>
+In-Reply-To: <CACV+naqJOptZa2e1+a9pNYP7Wh5yLwKtDSgzEz7yQaTB4uzLYQ@mail.gmail.com>
+From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Thu, 11 Feb 2021 08:52:31 +0100
+Message-ID: <CACT4Y+Z51+01x_b+LTfeE2zP-w9Yt9eFOA6mdh7cVpc4BcZZLQ@mail.gmail.com>
+Subject: Re: reproduce data race
+To: Jin Huang <andy.jinhuang@gmail.com>
+Cc: kasan-dev <kasan-dev@googlegroups.com>, "Paul E. McKenney" <paulmck@kernel.org>, 
+	syzkaller <syzkaller@googlegroups.com>, Marco Elver <elver@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: dvyukov@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=VPa0Fkt2;       spf=pass
- (google.com: domain of patchwork-bot+netdevbpf@kernel.org designates
- 198.145.29.99 as permitted sender) smtp.mailfrom=patchwork-bot+netdevbpf@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+ header.i=@google.com header.s=20161025 header.b=ekZlAbes;       spf=pass
+ (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::82a
+ as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
+ (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Dmitry Vyukov <dvyukov@google.com>
+Reply-To: Dmitry Vyukov <dvyukov@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -133,39 +133,80 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hello:
+On Wed, Feb 10, 2021 at 7:23 PM Jin Huang <andy.jinhuang@gmail.com> wrote:
+>
+> Oh, I see. Thank you for your explanation.
+>
+> Now I want to reproduce the data race myself based on the syzkaller log i=
+nformation.
+> Since I can not get the reproduce source code from syzkaller tools, like =
+syz-repro, syz-execprog, I want to write the C program to reproduce the dat=
+a race myself.
+>
+> The crash log file generated by syzkaller already shows the syscalls trig=
+gering the data race, but all the input parameters are numbers, like fd, an=
+d other parameters, hard for me to recognize. Do you have any suggestions i=
+f I want to get the inputs. In the end, I can just write the program like y=
+ours, https://groups.google.com/g/syzkaller/c/fHZ42YrQM-Y/m/Z4Xf-BbUDgAJ?pl=
+i=3D1
+>
+> Maybe I am still not so clear about how to use syz-execprog. As described=
+ here, https://github.com/google/syzkaller/blob/master/docs/reproducing_cra=
+shes.md, I can run syz-execprog with the crash-log, and it will run to prod=
+uce the data race but seems it will not stop, always resuming the programs =
+and stuff. As I understand, it should produce some output file so that I ca=
+n further use syz-prog2c to get the C source reproduce program, right?
 
-This patch was applied to bpf/bpf-next.git (refs/heads/master):
-
-On Tue,  9 Feb 2021 12:27:01 +0100 you wrote:
-> For double-checked locking in bpf_common_lru_push_free(), node->type is
-> read outside the critical section and then re-checked under the lock.
-> However, concurrent writes to node->type result in data races.
-> 
-> For example, the following concurrent access was observed by KCSAN:
-> 
->   write to 0xffff88801521bc22 of 1 bytes by task 10038 on cpu 1:
->    __bpf_lru_node_move_in        kernel/bpf/bpf_lru_list.c:91
->    __local_list_flush            kernel/bpf/bpf_lru_list.c:298
->    ...
->   read to 0xffff88801521bc22 of 1 bytes by task 10043 on cpu 0:
->    bpf_common_lru_push_free      kernel/bpf/bpf_lru_list.c:507
->    bpf_lru_push_free             kernel/bpf/bpf_lru_list.c:555
->    ...
-> 
-> [...]
-
-Here is the summary with links:
-  - bpf_lru_list: Read double-checked variable once without lock
-    https://git.kernel.org/bpf/bpf-next/c/6df8fb83301d
-
-You are awesome, thank you!
---
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+Yes, syz-execprog is intended for just running the program or a set of
+programs, it does not do anything else.
+Yes, syz-prog2c converts syzkaller programs in the log to
+corresponding C programs.
+If you see what program in the crash log caused the race, you need to
+save it to a separate file and then invoke syz-prog2c on that file. It
+will give you a C program.
 
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/161300160716.412.6891143842651326044.git-patchwork-notify%40kernel.org.
+> On Wed, Feb 10, 2021 at 3:23 AM Dmitry Vyukov <dvyukov@google.com> wrote:
+>>
+>> On Wed, Feb 10, 2021 at 6:20 AM Jin Huang <andy.jinhuang@gmail.com> wrot=
+e:
+>> >
+>> > Hi, my name is Jin Huang, a graduate student at TAMU.
+>> >
+>> > After running syzkaller to fuzz the Linux Kernel through some syscalls=
+ I set up, I got some KCSAN data race report, and I tried to reproduce the =
+data race myself.
+>> >
+>> > First I tried ./syz-repro -config my.cfg crashlog
+>> > It was running for about half a hour, and reported some KCSAN data rac=
+e, and stopped. And these data race are also different from the one I got r=
+unning syzkaller.
+>> >
+>> > Then I tried tools/syz-execprog on the crashlog on vm.
+>> > And it is still running, and report some data race as well.
+>> >
+>> > I think there should be some way for me to get the corresponding input=
+ for the syscalls fuzzing I set up, so that I can reproduce the data race r=
+eported, or as the document suggests, I could just get the source code thro=
+ugh the syzkaller tools to reproduce the data race?
+>>
+>> +syzkaller mailing list
+>>
+>> Hi Jin,
+>>
+>> syz-mananger extract reproducers for bugs automatically. You don't
+>> need to do anything at all.
+>> But note it does not always work and, yes, it may extract a reproducer
+>> for a different bug. That's due to non-determinism everywhere,
+>> concurrency, accumulated state, too many bugs in the kernel and for
+>> KCSAN additionally
+>> samping nature.
+
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/CACT4Y%2BZ51%2B01x_b%2BLTfeE2zP-w9Yt9eFOA6mdh7cVpc4BcZZLQ%40mail.=
+gmail.com.
