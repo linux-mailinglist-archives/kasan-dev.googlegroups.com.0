@@ -1,127 +1,141 @@
-Return-Path: <kasan-dev+bncBC447XVYUEMRB6W6T2AQMGQEQ3IRUNQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDKYJ4OFZQIRBLUPVGAQMGQEM6WDO2I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x237.google.com (mail-lj1-x237.google.com [IPv6:2a00:1450:4864:20::237])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C24031AAED
-	for <lists+kasan-dev@lfdr.de>; Sat, 13 Feb 2021 11:52:48 +0100 (CET)
-Received: by mail-lj1-x237.google.com with SMTP id q13sf1238172ljp.23
-        for <lists+kasan-dev@lfdr.de>; Sat, 13 Feb 2021 02:52:48 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1613213563; cv=pass;
+Received: from mail-lf1-x13f.google.com (mail-lf1-x13f.google.com [IPv6:2a00:1450:4864:20::13f])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8ECC31B6DD
+	for <lists+kasan-dev@lfdr.de>; Mon, 15 Feb 2021 11:06:38 +0100 (CET)
+Received: by mail-lf1-x13f.google.com with SMTP id 186sf1778791lfl.9
+        for <lists+kasan-dev@lfdr.de>; Mon, 15 Feb 2021 02:06:38 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1613383598; cv=pass;
         d=google.com; s=arc-20160816;
-        b=IsR4il+0K+LzAHNt/rKSiTOZn6wy8ipuxgnlVpPOkm1DnnchexsCsQVRNx9joto6rx
-         d91jGWgUBfMP0cTeacWU4JwrE3lkdqrTH+67tB+lrC5RTnBWdNfHO5scKR0kJNPUG/wB
-         TepEb/8MC6UmgL8CS/sszFOUzp+kREPrEDA7UYhxZaK+DFaSQpTY5worIpCG5pEeegxP
-         MwLvdzuWspam1UIbtM55T5lX3TeX8nxj/2XCjGwv48eOjzfbsDEQPVkA60YDmpHv5h8v
-         vp+hj4kkdp1XvGD6ga6D23bhOfTJdiUzMBU1RPwoynWf/QyKi+CZmSavYUhaCQiEPJig
-         Vtdw==
+        b=c6YXPeWX/9J/fdW9guNRLlfHAGIpAoDOxYCMIyP8JSUG7uqqz69HzdldFBbyXqC+59
+         PFiYm0b7ldkGxUezqtU7SCbuUpIKMKe4zfhyHlkDJuXH5DO7OKoiYpUreGUzg/I5Qh0L
+         ea2k2ElCpJkToidP+HoP9qCC8FdOuvhoddKcxcsgepdQBm3BHw+1u4EDFLa4+FsN8t46
+         fDFdTdHmyDw9OS2jB83HwItaHyGPifxdaFPbMXPNfl6GeS0gX6j22GNEzWcu0f4ppNVu
+         gXNgLScRgwenbb+tnsTNBSnynPZ7QItkKf2/sd1rkNsh363jDFtD+QpSSuOXe/a38LKB
+         U+sA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding
-         :content-language:in-reply-to:mime-version:user-agent:date
-         :message-id:references:cc:to:from:subject:sender:dkim-signature;
-        bh=jttLadorskJIvB/7aELWT5UP9yU0FKzEeLa634iuyK0=;
-        b=DjL1BrMo0C/Zs8gY8OQ96ne7ME7DOzlBuGc3TgiF28QiMpYq89b1cxArhyRUCLWcwr
-         KUBaWhgcIROweYPjLa7xCGeIYHh6m9Ge2TknQYQ+pkPGQ9gKTy+UOJzXQcwKOyQIPGli
-         uFMXVqTapV1jCMKF5aAMYoHsxronz6x3mXuEPDu6V0Fof9YL3S0oEK1BVLsJMuXuRs/w
-         Z5amOKI10/Ve0Ra05yN3WLSCK5289gXshewfBIJu5uaLb67slECAjKF01xThmLZglUxV
-         OSk/WTNrb9cyMf7jlMDWmrkYYYu9LZM68Gqfe6cgZFG91fGcC28Gt/gSTnguV/I7/VPA
-         KvXw==
+         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:sender:dkim-signature
+         :dkim-signature;
+        bh=HmreeFPCc5rzPgbaVF3wDkN4id9QqVfelZkRT0k+WpQ=;
+        b=TqjPSXhjl+WH1wEcKiKA0R66MkSKeC70Y6Sr3hpXX7pJDs6msB/m+qr2tyYMR8qVYa
+         GsQY+nr9S3UxJHyR76+2vk40OUZrTwOZie4iBsNKrAGHWvOBbR8A3z8R2qcJsNrXUrWz
+         NjW3eV56yaWPWJ3/8P5S4HmpwwSwzkLHSP+UWCprcpKSXt96ZTzWtcc5R8ai1AJjJ7Cq
+         tysIZHtfHVIG9DUTjG3O87C5HLwJKbQOEvnzgIWLVUXWvN2owZHSUmUuUcKBw/pZKejJ
+         8jcLHW4RX+qqiXOQlucjKuoEpu7/ev0CIbyZFrQsPwt9F5cXY8/420KO35sqB+eAyKe+
+         Ti6w==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=neutral (google.com: 217.70.183.193 is neither permitted nor denied by best guess record for domain of alex@ghiti.fr) smtp.mailfrom=alex@ghiti.fr
+       dkim=pass header.i=@gmail.com header.s=20161025 header.b=kOjFTs2M;
+       spf=pass (google.com: domain of andy.jinhuang@gmail.com designates 2a00:1450:4864:20::62c as permitted sender) smtp.mailfrom=andy.jinhuang@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding
-         :x-original-sender:x-original-authentication-results:precedence
+        h=sender:mime-version:references:in-reply-to:from:date:message-id
+         :subject:to:cc:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=HmreeFPCc5rzPgbaVF3wDkN4id9QqVfelZkRT0k+WpQ=;
+        b=T16U5d6d7xiHmfWHzESemkUSw6jSr8uDc0p1UMPxFGVIgNKzGiX4ZYUChBpJxJSLbM
+         yRinukAx20C99Qj5NCaxnBUuZXClPugQY7dTtVbbfUbmwvnoGXLjpTTUYQM2xTJMxVML
+         DrewqmMoW+ItlWtiBWs1oBaTh2/pzhJvj3hOcDzg0zbdUSh7GkH8yl1ug/YbMNQunVeP
+         b3uz2aoKgKdF0HiF/YsxQeWyv0eWj5vWkbrSA4W1mbSdhy+JHjTIP06Tcgyc8oXcPGlE
+         7LORrLThwmlxb1N48uUKbr3/Tfaobo+Zh3utiC464RMHNQTQlmCF/lTquzjnT8tTJyyF
+         VstA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=jttLadorskJIvB/7aELWT5UP9yU0FKzEeLa634iuyK0=;
-        b=FgEJDYlhzu7F6EekSsYKFEvHjYGYNOEFA1UtadBZRIHjQmQUEEWRIeTOIQRIyzbRKo
-         gnLGucJcYgJc9HkOGLBVNgS8IwoypywRz85gFzhdOcjjO25Wx7b10O2yYNzXQXqeSHXz
-         MGRQsmD3Yd7C7qGi9I5bK9gx6cmn2Hp2cQC/sRdOPoNo50MBse/cCmaxUL5xiWBUCs6Q
-         19Didu7uj9GbSY/e5uLwEXLAjfIY77fJ4DpWlvFhpYWyDYr9eK2gvwXzydxnwswlAPb7
-         KfK8kUrno+aNE2QQcpozUvpnbvsuzJCmiOnTIaHXbsLu04G8Pov5LnB4vtYQryscR7bK
-         rYVg==
+        bh=HmreeFPCc5rzPgbaVF3wDkN4id9QqVfelZkRT0k+WpQ=;
+        b=H3OiiaKQUfklvXRoFrOyvoY+rGrvhbUyWvnI3V+qAp6sRiw8y765KmUCD2enhdbYwN
+         CnDsWjGH5zQqPQj1S/zFwQGDPTIjnnB+MvNWLPJ166Nk//uPvNkEKMak2GACRXj7f3t6
+         pFwlLr7nOVIBq1/UFttR+nrasZtw1cfFF2bTTZYeNOXmEJHYfg8upEtoBVO/8CGhbM/M
+         AY+JpFrQwyXjgpMD8G2yzTAb1UEPZ+qod3zwKzC9G4VfD9wyAHO6HK5UjS46t2JcP+sZ
+         rh+gyoosdua9gCDnMCvu8SK2OprB4f7TXUltfNm9menp/Gz4Ps7SK1+GvWpGHmbyjwav
+         sE7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:subject:from:to:cc:references:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding:x-original-sender
+        h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
+         :date:message-id:subject:to:cc:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=jttLadorskJIvB/7aELWT5UP9yU0FKzEeLa634iuyK0=;
-        b=GXevrdTCZ02LGjVVzdTd/uDNjDYFKBcE0je5SuwCJ/cH/cPnWaNKt7MIMNYSMxliyd
-         WnVhd3iWxk+77rcBPUEfh2CjWmA6APb9p6rpAj/I4REX9eON+lGNbsz00mXoI/tmSSi7
-         Otv1s+DfSKkrsRUHFGFLSgzRTjKUfQoT36Gsnd5oKwfdFqAwt3bcSTXPLzGPFKiFnviG
-         3QSmUja9n42Dh7rlS3QmyzC03n4VnrI4xOw+valhOHqhYfI0gxh0ivDZmooS0VAO2UAM
-         9XNljZNGbJBbxA6Ep5nDhV/pfp46Iunzy1cIWpjFYb8sHt9sm6GznFL5ZuGwr07Fvbml
-         lY5Q==
+        bh=HmreeFPCc5rzPgbaVF3wDkN4id9QqVfelZkRT0k+WpQ=;
+        b=cnjfwpZU2vBuk4EPZ3s3/BVgn4CwoHDymoelgds0Q1apywxuiqP9u6BVHRbAxyLtAf
+         gLl9FdB1wLygvPSoG0JP+d9OZCFNV19q9pdaUQxzptrlgIFoJAwn5IFbhw0YJRHbMko9
+         HN/kbyQmmGqYmLZZzpeu6KCXm8cD/4WaRtS7A4L/ilzkZm5lAdo7QlKKFl9pJckuKUhn
+         08iBsxW+C3z8Ksd7A+TdSDwU6UnELcYoY+oe5HM74JSM8nrrBrAjWrA5uHtkWOqMj/mK
+         ycfe00GeBP53uvwaX5mIdU5AHA6jtvxvcEKXLKVXXHr5KHdKaAyBfRNshQDZxfAVZs0F
+         r/Kg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM532jsDYpxBmWE9mO5DMfPtFyKiZIKcNgIpMyhUs2dWUObsPx6IQX
-	3MfX5xRf94AKjPFjrKarxQs=
-X-Google-Smtp-Source: ABdhPJz7aV238aXoCK5lYg3c6hlVkDi3FK6py8Rnjvha1s0NcKtJ4SQVb16vunDkZBzFD54meUQ0Gw==
-X-Received: by 2002:a19:4918:: with SMTP id w24mr3813785lfa.369.1613213563030;
-        Sat, 13 Feb 2021 02:52:43 -0800 (PST)
+X-Gm-Message-State: AOAM533u6+sqBd/S7GhPWmfY8vALJqD4qvGWtMNi/FNQpORtml2+scfk
+	FkY0kPWLi/PBk4umKKJSXB8=
+X-Google-Smtp-Source: ABdhPJxO572dadHBCy0Cds0jV0s52aWD9/KuqH7e27JyiIEnTrT/pHUhUs366Z0X0WC53qhPSQGliw==
+X-Received: by 2002:a2e:7205:: with SMTP id n5mr6440292ljc.239.1613383598472;
+        Mon, 15 Feb 2021 02:06:38 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:651c:32b:: with SMTP id b11ls2199713ljp.11.gmail; Sat,
- 13 Feb 2021 02:52:42 -0800 (PST)
-X-Received: by 2002:a2e:8594:: with SMTP id b20mr4082930lji.120.1613213562082;
-        Sat, 13 Feb 2021 02:52:42 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1613213562; cv=none;
+Received: by 2002:a05:6512:6d4:: with SMTP id u20ls72460lff.1.gmail; Mon, 15
+ Feb 2021 02:06:37 -0800 (PST)
+X-Received: by 2002:a05:6512:2251:: with SMTP id i17mr7860525lfu.566.1613383597385;
+        Mon, 15 Feb 2021 02:06:37 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1613383597; cv=none;
         d=google.com; s=arc-20160816;
-        b=f+O5+7yYc4Ef4Ta9+u97mdiMyr64Vreyv6LHba6LxfEpQI8gBoEbBOnRfq+X5CbBMz
-         270c2ZH626oq729VtKX0fkcqxzL9A69Euus1xmYNCiesh7heKWmnaMz2l9iGi4MEskrO
-         3tkj5X/hb2UjLdkthfgbSsYbPZtuNz+YZWnamsEra3GnWhltmzz2wgd7U1x0g8X5qXSj
-         Q04J/3qbpyGVbuG8UQ3uJ3JJUZ2CFs2iaybKJgW0ybYdaQ4HBghurZ60a5jeYpxTQOyk
-         0J6PtRfnO5e2T/ELoeBUk23ww/yyCBXFs0gdeiPfAI45gQTA9nCjh6qxFTJ1yKHM05Ql
-         QMwQ==
+        b=yLMDZa0s1jeAZiRsf2yF8XW9t0tc4uWs0p9uXUT5ib3x1vc0vRKuFd8QyVWmV4KU6s
+         mI2kN3ipcKqvKLt71ZCOiT8H5OYDVgUjPQbqlyObS7OtX8izIOfGKWfoLlHU+homxBeQ
+         y3um6i5kXZ2w4YvL6xsIi73YH/UTBE6KrUtfOWly5jZNdrNEbuWhrH0mkMLlSDhSOGyf
+         NShKcAyhDnvd8mDZknQgBCgxQ/QI4MeOiiGRO+fnVcEA9UiPxvDzYXpPcoEm4xyiyJkc
+         7ezNYkK4Eet8Pdr1rK4LsabJQRxRaIdZrL/ywKx7/nPhehKQXF4SsGd4tWbZYK6dHy1U
+         sG8Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:references:cc:to:from:subject;
-        bh=dZlwKnsGnZ2/ft8gA8mBM3DOoZCEZtQUzGQVt9rkbNg=;
-        b=OrPlA/rSZpcyXiBNc8avBgS1KJsHbSOr/8Sd26HhSQ9Mt5QO+Fru2ig+tWjMCTusaj
-         awdBM0moP7cwS4/Gw9aIG9FmPRBD67SrMpUBrZsT5ia5pA5XUPQ09P4IivmVYZmdod34
-         yBk03Etzd0tLedUlABXacW/a6Fl5KVXbr1ut2j1OXgL7ODoACGL2bpFzmTz59or+0aVF
-         ySttWvw0i4xwnYANZ08hub2gUY6lMpCcIN+GROI3uX5/Xmb/Z58iQu+TOjEi8/Wpj0k8
-         5xCFiBbJpGHSLXZ/PcNp63rbiVlNId/PsBzAaScOyD0/GoZZ9x97ukkvIpCfTvLkW6YF
-         xLvg==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=lCp6HjMux2FbSyaDABM2cLXUgmRsHU2/TL/hpxVQhBo=;
+        b=keHOspby98v9SjYjYAHB/9qACZwC3afWm1uNbjP1GIomSvgoVXoPN6dz1fMMlub1Lw
+         GlDqlPwULqXAaB2aIE6VsmJk7Xz6aDL6NjQ5RTFNYvd+Rkg7+JcUO7vUcPN+YlEVRkgc
+         GD2VVTDFqy8TEYazbHH9D+1hVdGqThQuU8u99kZCIEeZ6FG6IJT/uenHS7d2qNBkS1GV
+         tVFdSO7fhmwB9Q6Q4+z/xSHcj7d75vB/AsXR1ktqnrh9s/TS2Y+AKA3oejQoxPqNVTP0
+         6QJK2N2qK3uHH3AiIdVjdLmelDfkFtBZENeeMZJiuh4ncfDdUYGmJM/UsToqzvDcbqIt
+         91Lw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=neutral (google.com: 217.70.183.193 is neither permitted nor denied by best guess record for domain of alex@ghiti.fr) smtp.mailfrom=alex@ghiti.fr
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net. [217.70.183.193])
-        by gmr-mx.google.com with ESMTPS id z15si231200lfr.7.2021.02.13.02.52.41
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Sat, 13 Feb 2021 02:52:41 -0800 (PST)
-Received-SPF: neutral (google.com: 217.70.183.193 is neither permitted nor denied by best guess record for domain of alex@ghiti.fr) client-ip=217.70.183.193;
-X-Originating-IP: 2.7.49.219
-Received: from [192.168.1.12] (lfbn-lyo-1-457-219.w2-7.abo.wanadoo.fr [2.7.49.219])
-	(Authenticated sender: alex@ghiti.fr)
-	by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id CC2B9240007;
-	Sat, 13 Feb 2021 10:52:36 +0000 (UTC)
-Subject: Re: [PATCH v2 1/1] riscv/kasan: add KASAN_VMALLOC support
-From: Alex Ghiti <alex@ghiti.fr>
-To: Palmer Dabbelt <palmer@dabbelt.com>, nylon7@andestech.com
-Cc: aou@eecs.berkeley.edu, nickhu@andestech.com, alankao@andestech.com,
- linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
- nylon7717@gmail.com, glider@google.com,
- Paul Walmsley <paul.walmsley@sifive.com>, aryabinin@virtuozzo.com,
- linux-riscv@lists.infradead.org, dvyukov@google.com
-References: <mhng-443fd141-b9a3-4be6-a056-416877f99ea4@palmerdabbelt-glaptop>
- <2b2f3038-3e27-8763-cf78-3fbbfd2100a0@ghiti.fr>
-Message-ID: <4fa97788-157c-4059-ae3f-28ab074c5836@ghiti.fr>
-Date: Sat, 13 Feb 2021 05:52:36 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+       dkim=pass header.i=@gmail.com header.s=20161025 header.b=kOjFTs2M;
+       spf=pass (google.com: domain of andy.jinhuang@gmail.com designates 2a00:1450:4864:20::62c as permitted sender) smtp.mailfrom=andy.jinhuang@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com. [2a00:1450:4864:20::62c])
+        by gmr-mx.google.com with ESMTPS id z4si738128lfh.1.2021.02.15.02.06.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 15 Feb 2021 02:06:37 -0800 (PST)
+Received-SPF: pass (google.com: domain of andy.jinhuang@gmail.com designates 2a00:1450:4864:20::62c as permitted sender) client-ip=2a00:1450:4864:20::62c;
+Received: by mail-ej1-x62c.google.com with SMTP id ot7so7504936ejb.9;
+        Mon, 15 Feb 2021 02:06:37 -0800 (PST)
+X-Received: by 2002:a17:906:184e:: with SMTP id w14mr15101352eje.56.1613383596907;
+ Mon, 15 Feb 2021 02:06:36 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <2b2f3038-3e27-8763-cf78-3fbbfd2100a0@ghiti.fr>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Language: fr
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: alex@ghiti.fr
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=neutral
- (google.com: 217.70.183.193 is neither permitted nor denied by best guess
- record for domain of alex@ghiti.fr) smtp.mailfrom=alex@ghiti.fr
+References: <CACV+nar9Apf15oXvwqsyd5OEX3PQ6OTxbhgG+0JRP0+iUvh_KQ@mail.gmail.com>
+ <CACT4Y+Yo-HtoNrA8PL3qWYoUitt-WHgZmJ7wqh9zn01t53JL9g@mail.gmail.com>
+ <CACV+naqJOptZa2e1+a9pNYP7Wh5yLwKtDSgzEz7yQaTB4uzLYQ@mail.gmail.com>
+ <CACT4Y+Z51+01x_b+LTfeE2zP-w9Yt9eFOA6mdh7cVpc4BcZZLQ@mail.gmail.com>
+ <CACV+naoDZiei0UR5psO05UhJXiYtgLzfBamoYNfKmOPNaBFr_g@mail.gmail.com>
+ <CACT4Y+aCJOL3bQEcBNVqXWTWD5xZyB_E53_OGYB33gG+G8PLFQ@mail.gmail.com>
+ <CACV+napVK9r2a61a8=bPcgAzeK+xdbg6fskBX+Aan2_b4+G5EQ@mail.gmail.com>
+ <CACV+naq++A0btYaV8POmP8+_3BytCaGnOGDG6KmXYCfv463q1g@mail.gmail.com> <CACT4Y+bLfsCp_2s3Yb=B9p8DMGzDZsOvc=F0j5+mBpKLKnD8Vw@mail.gmail.com>
+In-Reply-To: <CACT4Y+bLfsCp_2s3Yb=B9p8DMGzDZsOvc=F0j5+mBpKLKnD8Vw@mail.gmail.com>
+From: Hunter J <andy.jinhuang@gmail.com>
+Date: Mon, 15 Feb 2021 05:06:25 -0500
+Message-ID: <CACV+naoAE9B9+kk_C3HrXGdSHCpJC-vDBnhomYGLqK5msMfROA@mail.gmail.com>
+Subject: Re: reproduce data race
+To: Dmitry Vyukov <dvyukov@google.com>
+Cc: kasan-dev <kasan-dev@googlegroups.com>, "Paul E. McKenney" <paulmck@kernel.org>, 
+	syzkaller <syzkaller@googlegroups.com>, Marco Elver <elver@google.com>
+Content-Type: multipart/alternative; boundary="0000000000002e20ee05bb5d240f"
+X-Original-Sender: andy.jinhuang@gmail.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@gmail.com header.s=20161025 header.b=kOjFTs2M;       spf=pass
+ (google.com: domain of andy.jinhuang@gmail.com designates 2a00:1450:4864:20::62c
+ as permitted sender) smtp.mailfrom=andy.jinhuang@gmail.com;       dmarc=pass
+ (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -134,335 +148,153 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hi Nylon, Palmer,
+--0000000000002e20ee05bb5d240f
+Content-Type: text/plain; charset="UTF-8"
 
-Le 2/8/21 =C3=A0 1:28 AM, Alex Ghiti a =C3=A9crit=C2=A0:
-> Hi Nylon,
->=20
-> Le 1/22/21 =C3=A0 10:56 PM, Palmer Dabbelt a =C3=A9crit=C2=A0:
->> On Fri, 15 Jan 2021 21:58:35 PST (-0800), nylon7@andestech.com wrote:
->>> It references to x86/s390 architecture.
->>> >> So, it doesn't map the early shadow page to cover VMALLOC space.
->>>
->>> Prepopulate top level page table for the range that would otherwise be
->>> empty.
->>>
->>> lower levels are filled dynamically upon memory allocation while
->>> booting.
->=20
-> I think we can improve the changelog a bit here with something like that:
->=20
-> "KASAN vmalloc space used to be mapped using kasan early shadow page.=20
-> KASAN_VMALLOC requires the top-level of the kernel page table to be=20
-> properly populated, lower levels being filled dynamically upon memory=20
-> allocation at runtime."
->=20
->>>
->>> Signed-off-by: Nylon Chen <nylon7@andestech.com>
->>> Signed-off-by: Nick Hu <nickhu@andestech.com>
->>> ---
->>> =C2=A0arch/riscv/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 |=C2=A0 1 +
->>> =C2=A0arch/riscv/mm/kasan_init.c | 57 +++++++++++++++++++++++++++++++++=
-++++-
->>> =C2=A02 files changed, 57 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
->>> index 81b76d44725d..15a2c8088bbe 100644
->>> --- a/arch/riscv/Kconfig
->>> +++ b/arch/riscv/Kconfig
->>> @@ -57,6 +57,7 @@ config RISCV
->>> =C2=A0=C2=A0=C2=A0=C2=A0 select HAVE_ARCH_JUMP_LABEL
->>> =C2=A0=C2=A0=C2=A0=C2=A0 select HAVE_ARCH_JUMP_LABEL_RELATIVE
->>> =C2=A0=C2=A0=C2=A0=C2=A0 select HAVE_ARCH_KASAN if MMU && 64BIT
->>> +=C2=A0=C2=A0=C2=A0 select HAVE_ARCH_KASAN_VMALLOC if MMU && 64BIT
->>> =C2=A0=C2=A0=C2=A0=C2=A0 select HAVE_ARCH_KGDB
->>> =C2=A0=C2=A0=C2=A0=C2=A0 select HAVE_ARCH_KGDB_QXFER_PKT
->>> =C2=A0=C2=A0=C2=A0=C2=A0 select HAVE_ARCH_MMAP_RND_BITS if MMU
->>> diff --git a/arch/riscv/mm/kasan_init.c b/arch/riscv/mm/kasan_init.c
->>> index 12ddd1f6bf70..4b9149f963d3 100644
->>> --- a/arch/riscv/mm/kasan_init.c
->>> +++ b/arch/riscv/mm/kasan_init.c
->>> @@ -9,6 +9,19 @@
->>> =C2=A0#include <linux/pgtable.h>
->>> =C2=A0#include <asm/tlbflush.h>
->>> =C2=A0#include <asm/fixmap.h>
->>> +#include <asm/pgalloc.h>
->>> +
->>> +static __init void *early_alloc(size_t size, int node)
->>> +{
->>> +=C2=A0=C2=A0=C2=A0 void *ptr =3D memblock_alloc_try_nid(size, size,
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 __pa(MAX_DMA_ADDRESS), MEMB=
-LOCK_ALLOC_ACCESSIBLE, node);
->>> +
->>> +=C2=A0=C2=A0=C2=A0 if (!ptr)
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 panic("%pS: Failed to alloc=
-ate %zu bytes align=3D%zx nid=3D%d=20
->>> from=3D%llx\n",
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 __f=
-unc__, size, size, node, (u64)__pa(MAX_DMA_ADDRESS));
->>> +
->>> +=C2=A0=C2=A0=C2=A0 return ptr;
->>> +}
->>>
->>> =C2=A0extern pgd_t early_pg_dir[PTRS_PER_PGD];
->>> =C2=A0asmlinkage void __init kasan_early_init(void)
->>> @@ -83,6 +96,40 @@ static void __init populate(void *start, void *end)
->>> =C2=A0=C2=A0=C2=A0=C2=A0 memset(start, 0, end - start);
->>> =C2=A0}
->>>
->>> +void __init kasan_shallow_populate(void *start, void *end)
->>> +{
->>> +=C2=A0=C2=A0=C2=A0 unsigned long vaddr =3D (unsigned long)start & PAGE=
-_MASK;
->>> +=C2=A0=C2=A0=C2=A0 unsigned long vend =3D PAGE_ALIGN((unsigned long)en=
-d);
->>> +=C2=A0=C2=A0=C2=A0 unsigned long pfn;
->>> +=C2=A0=C2=A0=C2=A0 int index;
->>> +=C2=A0=C2=A0=C2=A0 void *p;
->>> +=C2=A0=C2=A0=C2=A0 pud_t *pud_dir, *pud_k;
->>> +=C2=A0=C2=A0=C2=A0 pgd_t *pgd_dir, *pgd_k;
->>> +=C2=A0=C2=A0=C2=A0 p4d_t *p4d_dir, *p4d_k;
->>> +
->>> +=C2=A0=C2=A0=C2=A0 while (vaddr < vend) {
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 index =3D pgd_index(vaddr);
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pfn =3D csr_read(CSR_SATP) =
-& SATP_PPN;
->=20
-> At this point in the boot process, we know that we use swapper_pg_dir so=
-=20
-> no need to read SATP.
->=20
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pgd_dir =3D (pgd_t *)pfn_to=
-_virt(pfn) + index;
->=20
-> Here, this pgd_dir assignment is overwritten 2 lines below, so no need=20
-> for it.
->=20
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pgd_k =3D init_mm.pgd + ind=
-ex;
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pgd_dir =3D pgd_offset_k(va=
-ddr);
->=20
-> pgd_offset_k(vaddr) =3D init_mm.pgd + pgd_index(vaddr) so pgd_k =3D=3D pg=
-d_dir.
->=20
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 set_pgd(pgd_dir, *pgd_k);
->>> +
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 p4d_dir =3D p4d_offset(pgd_=
-dir, vaddr);
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 p4d_k=C2=A0 =3D p4d_offset(=
-pgd_k, vaddr);
->>> +
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vaddr =3D (vaddr + PUD_SIZE=
-) & PUD_MASK;
->=20
-> Why do you increase vaddr *before* populating the first one ? And=20
-> pud_addr_end does that properly: it returns the next pud address if it=20
-> does not go beyond end address to map.
->=20
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pud_dir =3D pud_offset(p4d_=
-dir, vaddr);
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pud_k =3D pud_offset(p4d_k,=
- vaddr);
->>> +
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (pud_present(*pud_dir)) =
-{
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 p =
-=3D early_alloc(PAGE_SIZE, NUMA_NO_NODE);
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pud=
-_populate(&init_mm, pud_dir, p);
->=20
-> init_mm is not needed here.
->=20
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vaddr +=3D PAGE_SIZE;
->=20
-> Why do you need to add PAGE_SIZE ? vaddr already points to the next pud.
->=20
-> It seems like this patch tries to populate userspace page table whereas=
-=20
-> at this point in the boot process, only swapper_pg_dir is used or am I=20
-> missing something ?
->=20
-> Thanks,
->=20
-> Alex
+Hi, Dmitry
+I found it is hard for me to first select the potential program
+exceptions that could trigger data race.
+For example, the KCSAN data race report in the crash log is:
+BUG: KCSAN: data-race in step_into / vfs_unlink
+write to 0xffff9af42962b270 of 4 bytes by task 15262 on cpu 0:
+vfs_unlink+0x27a/0x3c0
+do_unlinkat+0x211/0x4c0
+__x64_sys_unlink+0x2c/0x30
+do_syscall_64+0x37/0x50
+entry_SYSCALL_64_after_hwframe+0x44/0xa9
 
-I implemented this morning a version that fixes all the comments I made=20
-earlier. I was able to insert test_kasan_module on both sv39 and sv48=20
-without any modification: set_pgd "goes through" all the unused page=20
-table levels, whereas p*d_populate are noop for unused levels.
+read to 0xffff9af42962b270 of 4 bytes by task 110 on cpu 1:
+step_into+0x159/0xfb0
+walk_component+0x1a5/0x380
+path_lookupat+0x11d/0x560
+filename_lookup+0xf2/0x380
+user_path_at_empty+0x3b/0x50
+do_readlinkat+0x87/0x200
+__x64_sys_readlink+0x43/0x50
+do_syscall_64+0x37/0x50
+entry_SYSCALL_64_after_hwframe+0x44/0xa9
 
-If you have any comment, do not hesitate.
+I even did not find any readlink syscall in the crash log file. Did I
+miss something?
 
-diff --git a/arch/riscv/mm/kasan_init.c b/arch/riscv/mm/kasan_init.c=20
 
-index adbf94b7e68a..d643b222167c 100644=20
 
---- a/arch/riscv/mm/kasan_init.c=20
+Thank You
+Best
+Jin Huang
 
-+++ b/arch/riscv/mm/kasan_init.c=20
 
-@@ -195,6 +195,31 @@ static void __init kasan_populate(void *start, void=20
-*end)
-         memset(start, KASAN_SHADOW_INIT, end - start);=20
+On Thu, Feb 11, 2021 at 6:31 AM Dmitry Vyukov <dvyukov@google.com> wrote:
 
-  }=20
+> On Thu, Feb 11, 2021 at 10:49 AM Jin Huang <andy.jinhuang@gmail.com>
+> wrote:
+> >
+> > Hi, Dmitry
+> > Still a question , for example the log I select is:
+> > 08:55:49 executing program 1:
+> > r0 = epoll_create(0x800)
+> > syz_io_uring_setup(0x472e, &(0x7f0000000100),
+> &(0x7f0000ffe000/0x1000)=nil, &(0x7f0000ffc000/0x1000)=nil,
+> &(0x7f0000000180), &(0x7f00000001c0))
+> > epoll_wait(r0, &(0x7f0000000000)=[{}], 0x1, 0x0)
+> >
+> > 08:55:49 executing program 2:
+> > r0 = syz_io_uring_setup(0x61a1, &(0x7f0000000000)={0x0, 0x4ff, 0x1, 0x0,
+> 0x32a}, &(0x7f0000ffc000/0x2000)=nil, &(0x7f0000ffc000/0x2000)=nil,
+> &(0x7f0000000080), &(0x7f00000000c0))
+> > syz_io_uring_setup(0x3243, &(0x7f0000000100)={0x0, 0xd02d, 0x20, 0x3,
+> 0x16e, 0x0, r0}, &(0x7f0000ffc000/0x3000)=nil,
+> &(0x7f0000ffc000/0x4000)=nil, &(0x7f0000000180), &(0x7f00000001c0))
+> > clone(0x22102000, 0x0, 0x0, 0x0, 0x0)
+> > syz_io_uring_setup(0x2fa8, &(0x7f0000000200)={0x0, 0xd1a6, 0x0, 0x1,
+> 0xf6, 0x0, r0}, &(0x7f0000ffc000/0x2000)=nil, &(0x7f0000ffc000/0x1000)=nil,
+> &(0x7f0000000280), &(0x7f00000002c0))
+> >
+> > Could I generate the C program to run program1 and program2 on different
+> threads? Or I need to generate for program1 and program2 separately and
+> merge the program source code myself?
+> > Since I see the -threaded option for syz-prog2c, but not sure the effect.
+>
+> Such functionality does not exist now. If you need exactly that, you
+> need to merge yourself.
+>
 
-=20
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACV%2BnaoAE9B9%2Bkk_C3HrXGdSHCpJC-vDBnhomYGLqK5msMfROA%40mail.gmail.com.
 
-+void __init kasan_shallow_populate_pgd(unsigned long vaddr, unsigned=20
-long end)
-+{=20
+--0000000000002e20ee05bb5d240f
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-+       unsigned long next;=20
+<div dir=3D"ltr">Hi, Dmitry<div>I found it is hard for me to first select t=
+he potential program exceptions=C2=A0that could trigger data race.</div><di=
+v>For example, the KCSAN data race report in the crash log is:</div><div>BU=
+G: KCSAN: data-race in step_into / vfs_unlink<br>write to 0xffff9af42962b27=
+0 of 4 bytes by task 15262 on cpu 0:<br>vfs_unlink+0x27a/0x3c0<br>do_unlink=
+at+0x211/0x4c0<br>__x64_sys_unlink+0x2c/0x30<br>do_syscall_64+0x37/0x50<br>=
+entry_SYSCALL_64_after_hwframe+0x44/0xa9<br><br>read to 0xffff9af42962b270 =
+of 4 bytes by task 110 on cpu 1:<br>step_into+0x159/0xfb0<br>walk_component=
++0x1a5/0x380<br>path_lookupat+0x11d/0x560<br>filename_lookup+0xf2/0x380<br>=
+user_path_at_empty+0x3b/0x50<br>do_readlinkat+0x87/0x200<br>__x64_sys_readl=
+ink+0x43/0x50<br>do_syscall_64+0x37/0x50<br>entry_SYSCALL_64_after_hwframe+=
+0x44/0xa9<br></div><div><br></div><div>I even did not find any readlink sys=
+call in the crash log file. Did I miss=C2=A0something?</div><div><br></div>=
+<div><br clear=3D"all"><div><div dir=3D"ltr" class=3D"gmail_signature" data=
+-smartmail=3D"gmail_signature"><div dir=3D"ltr"><div><br></div><div>Thank Y=
+ou</div>Best<div>Jin Huang</div></div></div></div><br></div></div><br><div =
+class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Feb 11,=
+ 2021 at 6:31 AM Dmitry Vyukov &lt;<a href=3D"mailto:dvyukov@google.com">dv=
+yukov@google.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" =
+style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pa=
+dding-left:1ex">On Thu, Feb 11, 2021 at 10:49 AM Jin Huang &lt;<a href=3D"m=
+ailto:andy.jinhuang@gmail.com" target=3D"_blank">andy.jinhuang@gmail.com</a=
+>&gt; wrote:<br>
+&gt;<br>
+&gt; Hi, Dmitry<br>
+&gt; Still a question , for example the log I select is:<br>
+&gt; 08:55:49 executing program 1:<br>
+&gt; r0 =3D epoll_create(0x800)<br>
+&gt; syz_io_uring_setup(0x472e, &amp;(0x7f0000000100), &amp;(0x7f0000ffe000=
+/0x1000)=3Dnil, &amp;(0x7f0000ffc000/0x1000)=3Dnil, &amp;(0x7f0000000180), =
+&amp;(0x7f00000001c0))<br>
+&gt; epoll_wait(r0, &amp;(0x7f0000000000)=3D[{}], 0x1, 0x0)<br>
+&gt;<br>
+&gt; 08:55:49 executing program 2:<br>
+&gt; r0 =3D syz_io_uring_setup(0x61a1, &amp;(0x7f0000000000)=3D{0x0, 0x4ff,=
+ 0x1, 0x0, 0x32a}, &amp;(0x7f0000ffc000/0x2000)=3Dnil, &amp;(0x7f0000ffc000=
+/0x2000)=3Dnil, &amp;(0x7f0000000080), &amp;(0x7f00000000c0))<br>
+&gt; syz_io_uring_setup(0x3243, &amp;(0x7f0000000100)=3D{0x0, 0xd02d, 0x20,=
+ 0x3, 0x16e, 0x0, r0}, &amp;(0x7f0000ffc000/0x3000)=3Dnil, &amp;(0x7f0000ff=
+c000/0x4000)=3Dnil, &amp;(0x7f0000000180), &amp;(0x7f00000001c0))<br>
+&gt; clone(0x22102000, 0x0, 0x0, 0x0, 0x0)<br>
+&gt; syz_io_uring_setup(0x2fa8, &amp;(0x7f0000000200)=3D{0x0, 0xd1a6, 0x0, =
+0x1, 0xf6, 0x0, r0}, &amp;(0x7f0000ffc000/0x2000)=3Dnil, &amp;(0x7f0000ffc0=
+00/0x1000)=3Dnil, &amp;(0x7f0000000280), &amp;(0x7f00000002c0))<br>
+&gt;<br>
+&gt; Could I generate the C program to run program1 and program2 on differe=
+nt threads? Or I need to generate for program1 and program2 separately and =
+merge the program source code myself?<br>
+&gt; Since I see the -threaded option for syz-prog2c, but not sure the effe=
+ct.<br>
+<br>
+Such functionality does not exist now. If you need exactly that, you<br>
+need to merge yourself.<br>
+</blockquote></div>
 
-+       void *p;=20
+<p></p>
 
-+       pgd_t *pgd_k =3D pgd_offset_k(vaddr);=20
-
-+=20
-
-+       do {=20
-
-+               next =3D pgd_addr_end(vaddr, end);=20
-
-+               if (pgd_page_vaddr(*pgd_k) =3D=3D (unsigned=20
-long)lm_alias(kasan_early_shadow_pgd_next)) {
-+                       p =3D memblock_alloc(PAGE_SIZE, PAGE_SIZE);=20
-
-+                       set_pgd(pgd_k, pfn_pgd(PFN_DOWN(__pa(p)),=20
-PAGE_TABLE));
-+               }=20
-
-+       } while (pgd_k++, vaddr =3D next, vaddr !=3D end);=20
-
-+}=20
-
-+=20
-
-+void __init kasan_shallow_populate(void *start, void *end)=20
-
-+{=20
-
-+       unsigned long vaddr =3D (unsigned long)start & PAGE_MASK;=20
-
-+       unsigned long vend =3D PAGE_ALIGN((unsigned long)end);=20
-
-+=20
-
-+       kasan_shallow_populate_pgd(vaddr, vend);=20
-
-+=20
-
-+       local_flush_tlb_all();=20
-
-+}=20
-
-+=20
-
-  void __init kasan_init(void)=20
-
-  {=20
-
-         phys_addr_t _start, _end;=20
-
-@@ -206,7 +231,15 @@ void __init kasan_init(void)=20
-
-          */=20
-
-         kasan_populate_early_shadow((void *)KASAN_SHADOW_START,=20
-
-                                     (void *)kasan_mem_to_shadow((void=20
-*)
--=20
-VMALLOC_END));
-+=20
-VMEMMAP_END));
-+       if (IS_ENABLED(CONFIG_KASAN_VMALLOC))=20
-
-+               kasan_shallow_populate(=20
-
-+                       (void *)kasan_mem_to_shadow((void=20
-*)VMALLOC_START),
-+                       (void *)kasan_mem_to_shadow((void=20
-*)VMALLOC_END));
-+       else=20
-
-+               kasan_populate_early_shadow(=20
-
-+                       (void *)kasan_mem_to_shadow((void=20
-*)VMALLOC_START),
-+                       (void *)kasan_mem_to_shadow((void=20
-*)VMALLOC_END));
-=20
-
-         /* Populate the linear mapping */=20
-
-         for_each_mem_range(i, &_start, &_end) {=20
-
---=20
-
-2.20.1
-
-Thanks,
-
-Alex
-
->=20
->>> +=C2=A0=C2=A0=C2=A0 }
->>> +}
->>> +
->>> =C2=A0void __init kasan_init(void)
->>> =C2=A0{
->>> =C2=A0=C2=A0=C2=A0=C2=A0 phys_addr_t _start, _end;
->>> @@ -90,7 +137,15 @@ void __init kasan_init(void)
->>>
->>> =C2=A0=C2=A0=C2=A0=C2=A0 kasan_populate_early_shadow((void *)KASAN_SHAD=
-OW_START,
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (void *)kasan_mem_to_sh=
-adow((void *)
->>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 VMALLOC_END));
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 VMEMMAP_END));
->>> +=C2=A0=C2=A0=C2=A0 if (IS_ENABLED(CONFIG_KASAN_VMALLOC))
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 kasan_shallow_populate(
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (vo=
-id *)kasan_mem_to_shadow((void *)VMALLOC_START),
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (vo=
-id *)kasan_mem_to_shadow((void *)VMALLOC_END));
->>> +=C2=A0=C2=A0=C2=A0 else
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 kasan_populate_early_shadow=
-(
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (vo=
-id *)kasan_mem_to_shadow((void *)VMALLOC_START),
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (vo=
-id *)kasan_mem_to_shadow((void *)VMALLOC_END));
->>>
->>> =C2=A0=C2=A0=C2=A0=C2=A0 for_each_mem_range(i, &_start, &_end) {
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 void *start =3D (void =
-*)_start; >
->> Thanks, this is on for-next.
->>
->> _______________________________________________
->> linux-riscv mailing list
->> linux-riscv@lists.infradead.org
->> http://lists.infradead.org/mailman/listinfo/linux-riscv
->=20
-> _______________________________________________
-> linux-riscv mailing list
-> linux-riscv@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-riscv
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
+-- <br />
+You received this message because you are subscribed to the Google Groups &=
+quot;kasan-dev&quot; group.<br />
 To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/4fa97788-157c-4059-ae3f-28ab074c5836%40ghiti.fr.
+mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
++unsubscribe@googlegroups.com</a>.<br />
+To view this discussion on the web visit <a href=3D"https://groups.google.c=
+om/d/msgid/kasan-dev/CACV%2BnaoAE9B9%2Bkk_C3HrXGdSHCpJC-vDBnhomYGLqK5msMfRO=
+A%40mail.gmail.com?utm_medium=3Demail&utm_source=3Dfooter">https://groups.g=
+oogle.com/d/msgid/kasan-dev/CACV%2BnaoAE9B9%2Bkk_C3HrXGdSHCpJC-vDBnhomYGLqK=
+5msMfROA%40mail.gmail.com</a>.<br />
+
+--0000000000002e20ee05bb5d240f--
