@@ -1,127 +1,129 @@
-Return-Path: <kasan-dev+bncBD2NJ5WGSUOBBO6WXKAQMGQESKUTM4I@googlegroups.com>
+Return-Path: <kasan-dev+bncBDX4HWEMTEBRB5XOXKAQMGQEI4HYOBI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wr1-x43e.google.com (mail-wr1-x43e.google.com [IPv6:2a00:1450:4864:20::43e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4012131EDD0
-	for <lists+kasan-dev@lfdr.de>; Thu, 18 Feb 2021 19:00:28 +0100 (CET)
-Received: by mail-wr1-x43e.google.com with SMTP id q5sf1275925wrs.20
-        for <lists+kasan-dev@lfdr.de>; Thu, 18 Feb 2021 10:00:28 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1613671228; cv=pass;
+Received: from mail-pl1-x63a.google.com (mail-pl1-x63a.google.com [IPv6:2607:f8b0:4864:20::63a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3109431EEEF
+	for <lists+kasan-dev@lfdr.de>; Thu, 18 Feb 2021 19:52:40 +0100 (CET)
+Received: by mail-pl1-x63a.google.com with SMTP id f3sf1588471plg.21
+        for <lists+kasan-dev@lfdr.de>; Thu, 18 Feb 2021 10:52:40 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1613674358; cv=pass;
         d=google.com; s=arc-20160816;
-        b=h9YK8tGs0TNGau509AkUCGSdPbQhyz9V8AJd3UtlFqCwFapFIUL4rWwjmvfpz4OO7W
-         +mFnWSKUFqoUG3HYWVIm3JfVNNLQusMDsQRbbf1Y1tXUts9LmuViCrVaWqJQhIqi+C33
-         l+FcqWqdkl2W5kNuRDU4DtuCi0tP7yBczZ58xS+u4FVSgJ4DhORLSTtT7MpVKONsIyA2
-         vrFdkzAoQF0nxISkPaAitQlXqeb1hIU5GufK4NyhsSeZHmJwRs4zj4+TTqA5m2BNyIzq
-         JhAVRPcPiuw2ubEzu1loevExGZOhvsRA/4tsdzq1/fJyvV2PpEB1jamMMMD387kCrmSC
-         Sxjw==
+        b=zw+n9FjN0x796v9XZn8GV+LUHs24aMlmNi4VnEVFWuB1u0wcB0WzC/tesbVfI8KnEM
+         iy3N1ZQsp0+jdl4nesQ4A6Y2Krng1fis2bwm1ImQI0eIkjTOzqCxfYi03JuOKqxEb+Na
+         rJgtUFZwdleMHw5c4HCfndLkmpmP6YnwVjhfEQS288oavMeE0hLLJfRPrwhhvS0Ouu07
+         GKblpHw+80O9cs99ZBk8iw0hZc5n2eMjHtFRsI9f0A4VwJ+rIxengiiu1Mha5Ogz+o32
+         GVrFL93JSOH5lYn74R0M9JWLo06sTVoxxLejMAr9Pr4ywnHJmJstrZMAcgdyi9ONG/tn
+         I3Lg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:user-agent:references
-         :in-reply-to:date:cc:to:from:subject:message-id:sender
-         :dkim-signature;
-        bh=DnSk9ig7/+bLtVtr70m96eurjK+Z32U5yKHYiAzIfso=;
-        b=VkM16Wmj64/WFGlDtFPdWIn6CYvb2oOjgErGLuXySGhnpsWagx1xGc7sDX5qsb5TuZ
-         ztGdxTKPU7on+eiKxvD7kxkDX1iIZlWGX7Pds/57VUCCDXRvmA2dhcqsah+pKoCAxZow
-         ur3tBCvcSDVuCHkFdMQHgQaiQnpkCfHPfAFxTMxcOkPNPidauMpZn0dAS5wZW4Ig3SU1
-         3Iy08F3mPLy/7SAccw/XlTD93DBku4X5SuJteoLFwh1Lv/xWeteLwHOjShNElQqrOyyC
-         NrRTu6FIMAA6niajEQTSj2jgoH/yDGfW9paLD10wZDf6CzDRnxM18tYBKQg8KMRSXTq3
-         BP2g==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=1APmndMoRltvC7RFwNMwZmknHmLkaBAwTEvki4L2KX8=;
+        b=okM1f8IgiRVLSn1MVx9/pmvlL8aYzPsehTq5HAB79GHLn0MNZOjfna6z4ZVD5Z9LLv
+         KjrGykWhBuCS0nKQsfIYbvqkUk5eHLReBcqJxTGo7arC9Yx10f9RY1LCjYCH+9eNR1e/
+         BPuX5RLL2rkZkIni17lURIwx93FOQjqvx8tBT1zP64s0DXeR949fEPFi8471rHKhRpXj
+         7QlUuUeISfa/UB+iWobh3Ct1sXwNAxH+q7wZh9yozX/UoBnT1ej2ymWry1xJ3FMEtkeh
+         8xJJmJ8ACv3m073Fk51nCFaU2cktj3cGjbtWUpmCE56+NYI7R1bP2IEIYYPVXq681Mvj
+         bbmA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: best guess record for domain of johannes@sipsolutions.net designates 2a01:4f8:191:4433::2 as permitted sender) smtp.mailfrom=johannes@sipsolutions.net
+       dkim=pass header.i=@google.com header.s=20161025 header.b=nH4c5dgF;
+       spf=pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::1030 as permitted sender) smtp.mailfrom=andreyknvl@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=DnSk9ig7/+bLtVtr70m96eurjK+Z32U5yKHYiAzIfso=;
-        b=j0lLeEJj4BMGRFRXoqX0QR0y9Oz4gYgg0MjKX9GTtc05dINeie8KRYRwLqEwpnjooO
-         c6U1w4NRG5QTVFMxEEQ6BqaM9EhLgq4ntarBAMsq0+02Kw9gL0xOuHGDlduUWKXSkve/
-         0iorXnrokTs96xHmJ/Swbzfh+9wVxqsiXgPLv7+nEB32ntMZSFiMJUaxikC6oZdDpq+t
-         nEldkaDyNpEoR13UAavLLy33w9fjqKCkVDgAyj6tJhFPw362er9oi73sFJSeFOmgpfp5
-         0+RPz+SMPaDfrbI4CxWaBKXo/Ugrer9Qad8moFU1pQl778bJeA/KwQ14jmiU/ezuffZw
-         +atw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=1APmndMoRltvC7RFwNMwZmknHmLkaBAwTEvki4L2KX8=;
+        b=EnmAp79tA6AMyR9tytgzBRXe/O9pBxMsoVmj7w8riZPsy985Un0vjKlTYjNuRc+ayY
+         Vy7w7BQ2yeKlk1XwfaOKSiPlyTsiB2GcZSVQJdwSJpJ0iEbXRBAinCTpNiBmSnsiTqZK
+         Tol9kzyEHj8G2QcuItP1pUjcg3CYymCSn2UaZ6dqdQcLnfHH944dEEOH7tR/cYDH3IWQ
+         kH1PVUVxQKfrvIb7OKTJfBpGOat6U11qVMjpWTApRPb/A/tSvE76V6yXmX0MW0RsRfdO
+         jDL5ZTPnh/7fSzPExesPLobQIkt71rbJxKh1tHuQtxsy2x59Kyx8eF3X0ogyKVkR6Ifd
+         Wfgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:message-id:subject:from:to:cc:date
-         :in-reply-to:references:user-agent:mime-version:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=DnSk9ig7/+bLtVtr70m96eurjK+Z32U5yKHYiAzIfso=;
-        b=KR7GEsuxLnJbC7eoXUIt/LxPkcvw6qWo2WrTvAdY+pYPsmxOwF9sOK9/msdi0MsGp8
-         4OoZK2ySi51ZveWP3d034Ydv8GB6dn8yL/PnEJXZkVdhlyhICe9LcULFHW8T075s/Spl
-         b/VAB+fHWlg2ZKQBlcjjKPb1TMaRae404ngu7Qj3OpipDPApS0kvXiVejEEXgD4GFp52
-         UA5aCxNYGqIX+yt5At2/6aMiWFEyOBD2D+koQNRHGo0xbSDrELjq53w80UTauGuBElby
-         ucYy7Io2WyCac3x5b/fLkBAWtF5OzdftBdT0JjPCBn0YXLLlGJwDBBN9/5BXMp7eHqKA
-         1BCA==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM533ZtzRt2vuscWPG4pCk/ba/F17PjM0p7CprCZaQ6W6FZUquRZbE
-	dUrgQYM/lFLPu2kVhjvO5sU=
-X-Google-Smtp-Source: ABdhPJxGbkRFw53oB8XKXAjZj5epxpkhfLGEpwYD/vpfAxhL5TIsYySVJg/yRXBWDD1Q1FF8ZlsLWw==
-X-Received: by 2002:a05:6000:c1:: with SMTP id q1mr5598288wrx.114.1613671228000;
-        Thu, 18 Feb 2021 10:00:28 -0800 (PST)
+        bh=1APmndMoRltvC7RFwNMwZmknHmLkaBAwTEvki4L2KX8=;
+        b=Pa4PkDBXYc4zHVxhMq9tLVA33WnFolkd7JPrb2IT8VDXLiJWDF21xcTY7Hdro3h4w1
+         DywTNTsdjLEZXKWwH04J1MkZiJO3w+p9Ng+XLvd2h5KSY/cHRmIU1nKDAP1Z/fHaMFJB
+         96MYxq/zrzQ5H+aRHdASb3ULjWf0BXSL25ZBUxO+/H3h3qmBNJldDMV2mL9ENi30nH/a
+         Iotq8XaevZMRP9Cl0KnVo4VXEzn3OyLt6Dxfaf1Cq2WUDB2cgUj974Yayeb4/MXgdVwO
+         oSRzD97AdR+sO7QNG8V4RR4c+eQ7mCWDohNVoelIjWkyRnzbNdjBgshda41Sxck/VJzg
+         lplw==
+X-Gm-Message-State: AOAM532bVIJn3ozT90qdIs9IaiQBVWk4zyvtYnbp1d+wrCuBxjFZPefN
+	i0TVHQqDbKFDR6R+bGRlEPA=
+X-Google-Smtp-Source: ABdhPJxzcbLjTG4AQmoHl94+CdEsY9wmSTxR0ZsBv2T46Z8pmfy3ys4Td47LWWY4R4KpfRNY6Pe7CQ==
+X-Received: by 2002:a17:90b:94a:: with SMTP id dw10mr5200615pjb.90.1613674358559;
+        Thu, 18 Feb 2021 10:52:38 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6000:1371:: with SMTP id q17ls1755089wrz.1.gmail; Thu,
- 18 Feb 2021 10:00:27 -0800 (PST)
-X-Received: by 2002:a05:6000:f:: with SMTP id h15mr5535872wrx.148.1613671227276;
-        Thu, 18 Feb 2021 10:00:27 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1613671227; cv=none;
+Received: by 2002:a17:90a:f190:: with SMTP id bv16ls1297653pjb.1.gmail; Thu,
+ 18 Feb 2021 10:52:38 -0800 (PST)
+X-Received: by 2002:a17:90a:bb18:: with SMTP id u24mr5338663pjr.67.1613674357960;
+        Thu, 18 Feb 2021 10:52:37 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1613674357; cv=none;
         d=google.com; s=arc-20160816;
-        b=Xgw/u53OyYHcNjV2M+a5JTDVUwI7P2utGd58TIRLiT4sE1Wcf4MLcbTSi1o3PGOzct
-         DUeXJ5OfHJ6oMDWDGhtRZ2JbudfHZ/UEoes2M+DMpXDod8L16/2HnRglesHWcpzYgkGV
-         PLmAdvNV2iu8yEYUBysNqTEjgMhmQAq0MmEfAVNBNGpN73jgNl74pMKTkwnK8fN361hH
-         Cbd7Z2D3yXwa0p7d+sUcxfYcHrKV4LQF0xIouufgNnqTLKs94BI/JoWka/qHG+FWxCL1
-         Ty5MfrK56LK5mauSfpHETynGrvMKyq3CYTPr3NJZDAoZOhTeFAqh3vJROHT1Dxf1JE8A
-         od0w==
+        b=CAa/alaXyrLTzmHcGsDuq5GXcziDxBDBwu9ippVxGp65kVuW4Jq124JCr/ytVM/BJx
+         trM0iHLgYZkbTCxURugIibapRmKizs7yyYE1LS43y9utsU4zhh6IlwzfcXxsXul/1h6u
+         l61HURuG0TMJQsFttoTGC2AwI4y1mX5HsRxG+GOS8qphO3ygi1EOT3hms9deBUzp8fQ0
+         Okg5r9sT+m7sKvtzzbDonBK9hEc5GNVhrYTbOCHXaYHFDUMLJqcThrnbkfBxEgf6RjXY
+         uzwghPFSTl+63iJuwVSvW/DWAgOrzocXDVa+XCcXKAJA3/s7zdVqV3GIthBFIMpjVv2n
+         r0Aw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:user-agent:references
-         :in-reply-to:date:cc:to:from:subject:message-id;
-        bh=0//wmsYqSDWPTEl3q8e7uURZZrDecsCn7Qk7A+TPQwU=;
-        b=lTUb3DrucoCkRvTIdWJUZLloR2Cg8YgUS2vodhkc6OwHTl4nyxS0v61VVA87aTOpcL
-         9Ab6skRdG7IQW7AcWh3W9MtKuhI0MJe53dO64T6z13TaolfKz7Lst1rdwv84OgmNpC+f
-         +s8NoNAMRZa/44Znoxz/+dNqCIQhv2bkoaPH9o8dQd56wOtjIm4WMARTCsTUeR4MBC9F
-         UunseYDTihRGl/LWEOjYaYNCtmPYCYn9g5my1ou+lLDsZsmytEDwAYim0BOawBjmCQWO
-         jt/IT5YfYoIj5PO3iMj7v1gz2jbRjiomc8alkZQ5Gy0P8JsYTSbwnbj1+DQM8+k4kHNs
-         3SXQ==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=7G3JVW2KBRmJBfDlGzhqslH0TpNnVSsRPoclsWcVzgU=;
+        b=svC+RMPrI49F85Sp1eadMOM6Ks94YxblWGP/AM4GGfVJlf5l/HNLAhRJonv98PGhV8
+         +xpBpymhNhfr9CSUJCE9K8aocE5UU/NhG6vI+RKQzikB4UTzAa4bpc3wktk0q2tMRIEs
+         /lFT9oghf1g4kFa3vy/xbyWr6SRVU2KaNcsHu6B1P76m+gsHST54NjHOVC8XxuLMxZy4
+         sD7BGcd08JQlqY3DW8wCv50DshtFtu4GZsgSZ+O6R0KQ2OMNEht74mm7SrdizTZvwPit
+         scoo+W9h6z0RI5PwGXulm+r4UHlkRtgc5u4M2ds2z58LirJnuGKA2NMSqt9FYoJoPqWD
+         1e7g==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: best guess record for domain of johannes@sipsolutions.net designates 2a01:4f8:191:4433::2 as permitted sender) smtp.mailfrom=johannes@sipsolutions.net
-Received: from sipsolutions.net (s3.sipsolutions.net. [2a01:4f8:191:4433::2])
-        by gmr-mx.google.com with ESMTPS id v6si232378wri.3.2021.02.18.10.00.27
+       dkim=pass header.i=@google.com header.s=20161025 header.b=nH4c5dgF;
+       spf=pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::1030 as permitted sender) smtp.mailfrom=andreyknvl@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com. [2607:f8b0:4864:20::1030])
+        by gmr-mx.google.com with ESMTPS id g22si330929pfu.6.2021.02.18.10.52.37
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Feb 2021 10:00:27 -0800 (PST)
-Received-SPF: pass (google.com: best guess record for domain of johannes@sipsolutions.net designates 2a01:4f8:191:4433::2 as permitted sender) client-ip=2a01:4f8:191:4433::2;
-Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.94)
-	(envelope-from <johannes@sipsolutions.net>)
-	id 1lCnb2-004n8X-1t; Thu, 18 Feb 2021 19:00:12 +0100
-Message-ID: <e3d412224ec1ad73c8c4dbc42a17e8e481dc8982.camel@sipsolutions.net>
-Subject: Re: [PATCH] kcov: Remove kcov include from sched.h and move it to
- its users.
-From: Johannes Berg <johannes@sipsolutions.net>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
-	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com
-Cc: Dmitry Vyukov <dvyukov@google.com>, Andrey Konovalov
- <andreyknvl@gmail.com>,  Ingo Molnar <mingo@redhat.com>, Peter Zijlstra
- <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>,  Vincent
- Guittot <vincent.guittot@linaro.org>, Dietmar Eggemann
- <dietmar.eggemann@arm.com>, Steven Rostedt <rostedt@goodmis.org>, Thomas
- Gleixner <tglx@linutronix.de>, Ben Segall <bsegall@google.com>, Mel Gorman
- <mgorman@suse.de>, Daniel Bristot de Oliveira <bristot@redhat.com>, "David
- S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
- netdev@vger.kernel.org
-Date: Thu, 18 Feb 2021 19:00:02 +0100
-In-Reply-To: <20210218173124.iy5iyqv3a4oia4vv@linutronix.de>
-References: <20210218173124.iy5iyqv3a4oia4vv@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.5 (3.36.5-2.fc32)
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 18 Feb 2021 10:52:37 -0800 (PST)
+Received-SPF: pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::1030 as permitted sender) client-ip=2607:f8b0:4864:20::1030;
+Received: by mail-pj1-x1030.google.com with SMTP id l18so2079424pji.3
+        for <kasan-dev@googlegroups.com>; Thu, 18 Feb 2021 10:52:37 -0800 (PST)
+X-Received: by 2002:a17:90b:3756:: with SMTP id ne22mr5109449pjb.41.1613674357497;
+ Thu, 18 Feb 2021 10:52:37 -0800 (PST)
 MIME-Version: 1.0
-X-malware-bazaar: not-scanned
-X-Original-Sender: johannes@sipsolutions.net
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: best guess record for domain of johannes@sipsolutions.net
- designates 2a01:4f8:191:4433::2 as permitted sender) smtp.mailfrom=johannes@sipsolutions.net
+References: <20210218173124.iy5iyqv3a4oia4vv@linutronix.de>
+In-Reply-To: <20210218173124.iy5iyqv3a4oia4vv@linutronix.de>
+From: "'Andrey Konovalov' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Thu, 18 Feb 2021 19:52:26 +0100
+Message-ID: <CAAeHK+x92X_NZt7MXw1a_=23tLqKyiuOesGHo_Y=aqdZZqdzEQ@mail.gmail.com>
+Subject: Re: [PATCH] kcov: Remove kcov include from sched.h and move it to its users.
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: LKML <linux-kernel@vger.kernel.org>, kasan-dev <kasan-dev@googlegroups.com>, 
+	Dmitry Vyukov <dvyukov@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, 
+	Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>, 
+	Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, 
+	Dietmar Eggemann <dietmar.eggemann@arm.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Thomas Gleixner <tglx@linutronix.de>, Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, 
+	Daniel Bristot de Oliveira <bristot@redhat.com>, "David S. Miller" <davem@davemloft.net>, 
+	Jakub Kicinski <kuba@kernel.org>, Johannes Berg <johannes@sipsolutions.net>, 
+	netdev <netdev@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: andreyknvl@google.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@google.com header.s=20161025 header.b=nH4c5dgF;       spf=pass
+ (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::1030
+ as permitted sender) smtp.mailfrom=andreyknvl@google.com;       dmarc=pass
+ (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Andrey Konovalov <andreyknvl@google.com>
+Reply-To: Andrey Konovalov <andreyknvl@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -134,19 +136,96 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, 2021-02-18 at 18:31 +0100, Sebastian Andrzej Siewior wrote:
+On Thu, Feb 18, 2021 at 6:31 PM Sebastian Andrzej Siewior
+<bigeasy@linutronix.de> wrote:
+>
 > The recent addition of in_serving_softirq() to kconv.h results in
+> compile failure on PREEMPT_RT because it requires
+> task_struct::softirq_disable_cnt. This is not available if kconv.h is
+> included from sched.h.
+>
+> It is not needed to include kconv.h from sched.h. All but the net/ user
+> already include the kconv header file.
+>
+> Move the include of the kconv.h header from sched.h it its users.
+> Additionally include sched.h from kconv.h to ensure that everything
+> task_struct related is available.
+>
+> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+> ---
+>  include/linux/kcov.h  | 1 +
+>  include/linux/sched.h | 1 -
+>  net/core/skbuff.c     | 1 +
+>  net/mac80211/iface.c  | 1 +
+>  net/mac80211/rx.c     | 1 +
+>  5 files changed, 4 insertions(+), 1 deletion(-)
+>
+> diff --git a/include/linux/kcov.h b/include/linux/kcov.h
+> index 4e3037dc12048..55dc338f6bcdd 100644
+> --- a/include/linux/kcov.h
+> +++ b/include/linux/kcov.h
+> @@ -2,6 +2,7 @@
+>  #ifndef _LINUX_KCOV_H
+>  #define _LINUX_KCOV_H
+>
+> +#include <linux/sched.h>
+>  #include <uapi/linux/kcov.h>
+>
+>  struct task_struct;
+> diff --git a/include/linux/sched.h b/include/linux/sched.h
+> index 7337630326751..183e9d90841cb 100644
+> --- a/include/linux/sched.h
+> +++ b/include/linux/sched.h
+> @@ -14,7 +14,6 @@
+>  #include <linux/pid.h>
+>  #include <linux/sem.h>
+>  #include <linux/shm.h>
+> -#include <linux/kcov.h>
+>  #include <linux/mutex.h>
+>  #include <linux/plist.h>
+>  #include <linux/hrtimer.h>
+> diff --git a/net/core/skbuff.c b/net/core/skbuff.c
+> index 785daff48030d..e64d0a2e21c31 100644
+> --- a/net/core/skbuff.c
+> +++ b/net/core/skbuff.c
+> @@ -60,6 +60,7 @@
+>  #include <linux/prefetch.h>
+>  #include <linux/if_vlan.h>
+>  #include <linux/mpls.h>
+> +#include <linux/kcov.h>
+>
+>  #include <net/protocol.h>
+>  #include <net/dst.h>
+> diff --git a/net/mac80211/iface.c b/net/mac80211/iface.c
+> index b31417f40bd56..39943c33abbfa 100644
+> --- a/net/mac80211/iface.c
+> +++ b/net/mac80211/iface.c
+> @@ -15,6 +15,7 @@
+>  #include <linux/if_arp.h>
+>  #include <linux/netdevice.h>
+>  #include <linux/rtnetlink.h>
+> +#include <linux/kcov.h>
+>  #include <net/mac80211.h>
+>  #include <net/ieee80211_radiotap.h>
+>  #include "ieee80211_i.h"
+> diff --git a/net/mac80211/rx.c b/net/mac80211/rx.c
+> index 972895e9f22dc..3527b17f235a8 100644
+> --- a/net/mac80211/rx.c
+> +++ b/net/mac80211/rx.c
+> @@ -17,6 +17,7 @@
+>  #include <linux/etherdevice.h>
+>  #include <linux/rcupdate.h>
+>  #include <linux/export.h>
+> +#include <linux/kcov.h>
+>  #include <linux/bitops.h>
+>  #include <net/mac80211.h>
+>  #include <net/ieee80211_radiotap.h>
+> --
+> 2.30.0
 
-You typo'ed "kconv.h" pretty consistently ;-)
-
-But yes, that makes sense.
-
-Acked-by: Johannes Berg <johannes@sipsolutions.net>
-
-johannes
-
+Acked-by: Andrey Konovalov <andreyknvl@google.com>
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/e3d412224ec1ad73c8c4dbc42a17e8e481dc8982.camel%40sipsolutions.net.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAAeHK%2Bx92X_NZt7MXw1a_%3D23tLqKyiuOesGHo_Y%3DaqdZZqdzEQ%40mail.gmail.com.
