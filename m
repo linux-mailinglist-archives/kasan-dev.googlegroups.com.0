@@ -1,257 +1,128 @@
-Return-Path: <kasan-dev+bncBCX7RK77SEDBBE4IYGAQMGQEPH25CFY@googlegroups.com>
+Return-Path: <kasan-dev+bncBC447XVYUEMRBRGEZGAQMGQE5BGLJZA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qk1-x73b.google.com (mail-qk1-x73b.google.com [IPv6:2607:f8b0:4864:20::73b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5ECF0320182
-	for <lists+kasan-dev@lfdr.de>; Sat, 20 Feb 2021 00:04:52 +0100 (CET)
-Received: by mail-qk1-x73b.google.com with SMTP id f140sf4588078qke.0
-        for <lists+kasan-dev@lfdr.de>; Fri, 19 Feb 2021 15:04:52 -0800 (PST)
-ARC-Seal: i=3; a=rsa-sha256; t=1613775891; cv=pass;
+Received: from mail-wr1-x439.google.com (mail-wr1-x439.google.com [IPv6:2a00:1450:4864:20::439])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD485320A99
+	for <lists+kasan-dev@lfdr.de>; Sun, 21 Feb 2021 14:38:12 +0100 (CET)
+Received: by mail-wr1-x439.google.com with SMTP id y6sf4777427wrl.9
+        for <lists+kasan-dev@lfdr.de>; Sun, 21 Feb 2021 05:38:12 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1613914692; cv=pass;
         d=google.com; s=arc-20160816;
-        b=QHTqYCmAAWyF4i9114hOi9Y547rVNRcdNUiaN9uUDcTc9b1Uj5FCMDMWcFuODS5m20
-         VV9bDlqaiigIbIw+f9ZytVJ5j8iUr+1l29V1UYa23/2ebYFKHNmdQZTTYyprfuDyeLeO
-         /GDwPHjZFsFTFYkefmvKHEFmosHMP6aRe91Qt+FoNjYsQtjyOGeYF107t4D+d6x2+ImL
-         SfFXImIbxW+4bpF99FKS3joE043AkDhdgHovv65iHFICL0ROV4b53uFj71r57kXbNICp
-         IEJqqw2+yH4Ea/gM4lY5mQrJIQzNFGPqltcY2+bYNczN/U5VeB8w893vllYtU9+iCGB+
-         pdlg==
-ARC-Message-Signature: i=3; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        b=pzXd29I/RWKkeN2YrLKrjb/jUcTxaDXsQ2JMcAy7uOI0+mn8TTi4fq5jjnat2AhWT2
+         T0CZsdTA/SHv0jE0Ps+D+JjhumCAyXixk318vBqxL0xwDDLYlhTFarNt0Ey/yeroFJxS
+         Yc0Nc2En7b/RnW+DEhCQT5mYS/hn6V+QfcumtHj0zObF6bhKD3bLnHFHJgMz8HRNUkjD
+         Wn7Ydwk0qTp6YIuPbpW4IvPJI/XxUa5kRFBwC0u7xqAstC8iBxOovXBRDf5tLW9mwI/f
+         zi/neiycAB1igVKZ9ux73pbwECWQuioNxeSvjhBf4ON8VZfzh20haNMQVuiqV4h7WGNa
+         vshA==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:content-language
-         :content-transfer-encoding:in-reply-to:user-agent:date:message-id
-         :organization:references:cc:to:from:subject:sender:dkim-signature;
-        bh=J9vAIs0/V6upHLHp3hwkamot6voiLXP9IwL4omzK0tE=;
-        b=UPipi6jze6HT8BnEjFam2xjeUYFfTT+G5xGvvIVRsVC6hihbtjrYONTyxJI11SZNXM
-         Nz/JNjzrIbejogV5rSF6aWMfSo7Pv47SK38CAs7tYiUJ7cmLXRKkzpenQeuFyRRRFCVg
-         mLkS0N2K8ajOexaIqw9df2ndnHt7QzubIdKfUybo/VD+DdKPtaZ6IxX2/hncEaX8duWX
-         sCn8vjO0yHzQx2swiicFClmzzt+uo2vNLcQOlXBeUd+e3l/bRqWJ6T8vClwvIqTwcGGo
-         ACazGlwc6es/AMD70JjONRNCTTBMBy/ZJfxxwTx4gOdQ+rodFa5QwuzateqqCc0fpujF
-         z36A==
-ARC-Authentication-Results: i=3; gmr-mx.google.com;
-       dkim=pass header.i=@oracle.com header.s=corp-2020-01-29 header.b=eyu7sxXa;
-       dkim=pass header.i=@oracle.onmicrosoft.com header.s=selector2-oracle-onmicrosoft-com header.b=pN4FkB9o;
-       arc=pass (i=1 spf=pass spfdomain=oracle.com dkim=pass dkdomain=oracle.com dmarc=pass fromdomain=oracle.com);
-       spf=pass (google.com: domain of george.kennedy@oracle.com designates 156.151.31.85 as permitted sender) smtp.mailfrom=george.kennedy@oracle.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=oracle.com
+         :list-id:mailing-list:precedence:content-transfer-encoding
+         :content-language:in-reply-to:mime-version:user-agent:date
+         :message-id:references:cc:to:from:subject:sender:dkim-signature;
+        bh=F2HAGN//T1E/vnn8HQ0ZViOVB0F4tPYkDdo8ldZ11vg=;
+        b=NVMfCorhe0hwISgJP5eVJcCXQwY+yIRAiAPXf+7G+CP2/XjM6janumIrGjyTcrTzmP
+         5vI8UueSVgBWnRf5GbmYWdzkEmVEXXgDvHTYDKA4ml1+vi8R6Gna7YSsjVggZbS76ZVO
+         LxpR6z7rmujNAqsmLcMaO3kRaikwQxqa7bdCfMtLmF5dTZmzufRrPLcE2hyqzRXSK8zU
+         +GCWvxOEmSH0BiG5MKjdY6o0l859YDsykjei8z8Hoek+2alnkbpH1Ue4XQg7muZ/a7Lk
+         GW8GB/22hPCFYxmiSpqEO3i4KrQIsoLUNcZz+oLpBxcYZ3Gi2Z29kSV60Tc5QiUgW7SP
+         sGNA==
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       spf=neutral (google.com: 217.70.183.200 is neither permitted nor denied by best guess record for domain of alex@ghiti.fr) smtp.mailfrom=alex@ghiti.fr
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:subject:from:to:cc:references:organization:message-id:date
-         :user-agent:in-reply-to:content-transfer-encoding:content-language
-         :mime-version:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+        h=sender:subject:from:to:cc:references:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=J9vAIs0/V6upHLHp3hwkamot6voiLXP9IwL4omzK0tE=;
-        b=C0aksibN2Sgl1gdtBjy+Yl2VMt4+smDH1I9zxAbJgO7yO2EnEYaiiCLdqaR7dlw9YD
-         Oln8XQNBjRMIfJX0Ik4ImasLEvILHiL23EmKZh39BIyOE13NHOa3lfLkJ8bETm0mtFx/
-         TV0qmypnldT/iL+pBjDdIvev+v/Cw+c2FSvXJlMnrtbHvyWw7UkGm1yYjrJuBVS9mCNH
-         V9cX5CDU04wqg+f28A2lJxJC2X1uPV7upx2IxBcWz0FR6nFZNTi70TS/0owk0UecWnk5
-         TgdVmXfu8+6ZQbV+630k+w8njJ6KyZYO7u5mXB0JH0XjBKo3xVzOFFfrIkoitprkeQ6Q
-         Ed/Q==
+        bh=F2HAGN//T1E/vnn8HQ0ZViOVB0F4tPYkDdo8ldZ11vg=;
+        b=XyP/2Vy9mZ9VuO/e0Mk/XI4gQgmiSsbHKFXd6pOD/qODRSB4mykteZhLzBZc1ztIfA
+         aB5RTg5uvoUFcn3ZSHOOT4bcocrcoUkxJNyzta5v0L/WPbiix4vVXXWY+rq5lq84b02v
+         bn5z/2YsJngqIf4Hm4CRx2TqogvTLudSidRQEGA5kVwBtgHNU9BbWU6m3WbrB10QBqYA
+         Xk87xhy8jRuEte3gbshjjiNB/TCP7dub6RbtM5ELZGNp7xLYoM+iWdplj9JOfr2imOWN
+         CVnjcoUuEaSilRqJn0J1PzEC/WsGnmVDm80KGH9HHrMd4KBCca2RR0XTi9yCfL0Nla+p
+         CYVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:subject:from:to:cc:references
-         :organization:message-id:date:user-agent:in-reply-to
-         :content-transfer-encoding:content-language:mime-version
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=J9vAIs0/V6upHLHp3hwkamot6voiLXP9IwL4omzK0tE=;
-        b=n3UsWC14BLahqY9hn4lb9ES1utYCy2iFh/d+YzcPJnRY4w+7j+QKEJrSDPmWP4dMzJ
-         +JrKbNd3NKFtzJUcIkEAqG6QeRWqFJEUTX+Ehp5SdeKtZzuUmfcIGpNEs0B/NCUIuBfz
-         rmLxhwmuRedOdFGT6t4/H3FbQ/u2CKZBkPdLOtjyobCiS8N2LzuMbAQJuzuG1+Uxnt8G
-         KyTGXONIZZ+27zcPNz8wT3xEuG2MkFIPy8DdBrZRW9UCcmVJljFeGFeQANIeBN5V0CrW
-         lutHLHrFxXbrEpcrtPjrv/vigRAP220GzVNSkkp1b7nhi0NjQjCdCmHvx/0fxUgrHYkh
-         lV6A==
+        h=sender:x-gm-message-state:subject:from:to:cc:references:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=F2HAGN//T1E/vnn8HQ0ZViOVB0F4tPYkDdo8ldZ11vg=;
+        b=kgsn2t6c8IbiIo/crs8rqyqoVoaH/s1Sb4Ctv0ymoEWMfllfkfV1pcDqsLx1DD+K+b
+         7m929Ft2CZ2wvvUM61BUTN9S6Nii03L0SvybLS4g/+nwYuZVy3rVcvGhw2fME/v9c7Kx
+         Y3Qe+i9hvjFmCKhlqzLIW2b5jAVJs2sOIjtI1VcKVMq+VwlSgmm0jd006VRQXNjk4vE8
+         qKcy95IPrbtR20seTNATT1XOqYALWq+KVlwqbeID9k4NRnFpQprScav3HEOd9gN2149N
+         gDK2I/dcfZ//eUlA07oXF9QfsGgW5oX0WuS6IzXKvHAEYd69D03WfO2l1muWGz7JR5cb
+         IQ4g==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM533kvl0WfStFafFK4ig8d7D+xpc23v53Y0pQAm9vHaYTXEUhOpk8
-	AM3iFAYhudiJVMGo5ineC0I=
-X-Google-Smtp-Source: ABdhPJwufvaSaWvD5Yc0rdvNwmB2SnWkHLDhV2n/r+V/oNI9lenPCGTO+KvYOJ6vR54aBS3HnBhhCw==
-X-Received: by 2002:a37:a417:: with SMTP id n23mr11873359qke.188.1613775891466;
-        Fri, 19 Feb 2021 15:04:51 -0800 (PST)
+X-Gm-Message-State: AOAM532ykLYAEnpOiag1WTKsIl96TtyoFcm7r63iOquFRvaiQVZRVHKj
+	Zp8nP0eA8lSKuTcCEntzRCI=
+X-Google-Smtp-Source: ABdhPJyjG22cK28GkwOyDRgooKK8EyjtEvsGUjrtJKlw84XbxTod+jXOfVRdNu8QH5tk5i1bm5DWuw==
+X-Received: by 2002:a05:6000:192:: with SMTP id p18mr17298815wrx.403.1613914692454;
+        Sun, 21 Feb 2021 05:38:12 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a37:9c2:: with SMTP id 185ls5401622qkj.8.gmail; Fri, 19 Feb
- 2021 15:04:51 -0800 (PST)
-X-Received: by 2002:a37:ac02:: with SMTP id e2mr9692397qkm.222.1613775891120;
-        Fri, 19 Feb 2021 15:04:51 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1613775891; cv=pass;
+Received: by 2002:a7b:c047:: with SMTP id u7ls644773wmc.1.gmail; Sun, 21 Feb
+ 2021 05:38:11 -0800 (PST)
+X-Received: by 2002:a05:600c:190f:: with SMTP id j15mr16287730wmq.174.1613914691624;
+        Sun, 21 Feb 2021 05:38:11 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1613914691; cv=none;
         d=google.com; s=arc-20160816;
-        b=I6yzZafWNgj9Q+62/WQbY6Xy152PhpgDiCMLo/lV9KR2d7B/3mwi32xyLyZYB3BfcJ
-         MYX+0jy2EOHu0HUXNB4NFKSLyKNRSfK6zmVIx5our0wZb8R5E8WeGbqX+CHonpxcNsVs
-         kJ7VWAlxS7AqXs4zEwf9TvwpXeFWaEnTgncEypJ4tQ0jsyASVzLbNuOSevuu41xd1IyB
-         aIMNJNDMFqhTQd5aHjqNoux0rmhtnrtKDYKWQOsp0GC+pZv31vVjBtizuz8rSrdne9g4
-         xhdHmHK6iKgPvQU8D1xFhvJB1X1K37ZC7nZxueOOlq150yLk9V70uIDJ40lYfQdI4FZW
-         USHQ==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=mime-version:content-language:content-transfer-encoding:in-reply-to
-         :user-agent:date:message-id:organization:references:cc:to:from
-         :subject:dkim-signature:dkim-signature;
-        bh=T1Pf7WpLNH5E4jFhK2IUStMlmWS7Q9wot4HrRySeEz8=;
-        b=BVvCzyLR20iZ0scjNxmwAbN1Zz3DSZAqQUZINjkzcmDrwj4AdUKxVWkjTgBC7ylewD
-         Jg/5BbI7uqY1nb7lE9KDt76yFSTnyjYa0PYdKO32WLkayFr2Fcu/fzmD3qjyaL33nEvK
-         26Wm7smv7quVKlLKxc5PLSkWmrgDa8ywLbBKyNnwHec0qVRf/addWczznJinDFOj26Sp
-         dYKbeFnfUnXKK/5G8QV6GT7H5oa5ftTKUBwKQL8qXP+j9yAD+SQUDGeQ/l13cU8oQFoz
-         JidBdO7w4KyG7HQ+0JIP7wqMGY7ns8HyO5yJrQgn1C5eY+EoXMEy862teFElk4sZPqcJ
-         1+yA==
-ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@oracle.com header.s=corp-2020-01-29 header.b=eyu7sxXa;
-       dkim=pass header.i=@oracle.onmicrosoft.com header.s=selector2-oracle-onmicrosoft-com header.b=pN4FkB9o;
-       arc=pass (i=1 spf=pass spfdomain=oracle.com dkim=pass dkdomain=oracle.com dmarc=pass fromdomain=oracle.com);
-       spf=pass (google.com: domain of george.kennedy@oracle.com designates 156.151.31.85 as permitted sender) smtp.mailfrom=george.kennedy@oracle.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=oracle.com
-Received: from userp2120.oracle.com (userp2120.oracle.com. [156.151.31.85])
-        by gmr-mx.google.com with ESMTPS id x65si564878qkb.2.2021.02.19.15.04.50
+        b=F/nIh8PPGCEvmGs56JCIHUoQiX91QCvgyQdzSzzBAFz5Jt8hKlY+Cf5RzLkkZ0WsMv
+         lcE+B75O9SQ1gNDZ3s1gNj9hy8z4HFcYizwjpjeFueVjjtqaPau9pDOw/vu2oHJ9bcUY
+         i/IXhe4vvVJPnXRXu2rxKQyIVfEi28SMMQLO7TbBvWJKK+NUzNu8IErx6MRkWpQHM8nU
+         HDbz6LswSEUJO8NZ4f2zJVNykjstS1Q4tqowjNnqmvKmp0Qcm9eWKyWMaeoFUy/8HkIw
+         rJJJlB2rWOJEuhFA/nLBvejvZmrcQrLHbnTdTRxi+i74CGG9rOsDuFYQ2WTqSCQe3fiI
+         a2zg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:references:cc:to:from:subject;
+        bh=x3P6+qdkna6OOUiq74t3k6545t/YaAbmb2+obLVNgbA=;
+        b=MTEyKGBltHPf1IhM+Xtg3TLfeDXLLPrFoYYNt9aR/vta8VWi3ByrMNynhv3VBftjOK
+         EHIBSchGh1t24Og7grPdVEA5/ZQiby6fKBaTrWGIZ2B2y6LuMETidBtoyDfVvNJ1EEYV
+         AQLdQBEekLTEURCCqM2RGhwM6dAnpY+D041a4jb/1SPR6OlGeRbTM9oe9uVogpVGsKBz
+         xzyT91aFlL42YW7MMrDpCIbm20FWyE8YiIsxJKJ7lbHjfN5z8+zW4HoCO8zwcm0MvnIk
+         gRgKWLsF7h6ZCTYP2O6v0TsES0dJAxyFrprvbgXTfOiDnNkvrmESkpQA2Iq1XcoUUIZK
+         jz0Q==
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       spf=neutral (google.com: 217.70.183.200 is neither permitted nor denied by best guess record for domain of alex@ghiti.fr) smtp.mailfrom=alex@ghiti.fr
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net. [217.70.183.200])
+        by gmr-mx.google.com with ESMTPS id m3si925046wme.0.2021.02.21.05.38.11
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 19 Feb 2021 15:04:51 -0800 (PST)
-Received-SPF: pass (google.com: domain of george.kennedy@oracle.com designates 156.151.31.85 as permitted sender) client-ip=156.151.31.85;
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
-	by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 11JN4XOG029585;
-	Fri, 19 Feb 2021 23:04:33 GMT
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-	by userp2120.oracle.com with ESMTP id 36p7dntxhd-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 19 Feb 2021 23:04:33 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-	by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 11JMxmA2100274;
-	Fri, 19 Feb 2021 23:04:33 GMT
-Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2109.outbound.protection.outlook.com [104.47.58.109])
-	by userp3020.oracle.com with ESMTP id 36prhw7re5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 19 Feb 2021 23:04:33 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KOWHqj4FLAoS+5lT98SWdK3t3cnWAW2LH+cyNleBXUNSEUP2zXIoZ33jhEGmUatoYDMq+bxH6LTqEeek6ZktQSL4XbABIL1cxiQTJj8LEvp3gnycXbxOLAD8Ss0+PII1kvs/9WEzs++6R2FazIlNYUw3mQ26f61xKWp9WI6JyjPjCgge9NbQRum8qFmXvgOndpjgT9r1w3xlp2xky1GrRzYAo9020xnil48433xzRGK/Wrh/hYlJYpxthTcAI/wiRYr9hHkt0NQD4VQzPsN+f335tYxSiqd+Ync5h6A/XK6hoafp4THrLlAnnLEYkiHFCfcuGe1t9zq8tUxYRhxUKQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=T1Pf7WpLNH5E4jFhK2IUStMlmWS7Q9wot4HrRySeEz8=;
- b=llWqNmvroSacDK4tXOZXE0dYHzmkEtqeYZmmm4agxsVvaCDUtG9mk/AlpixgUHKp16irYAZhCLabsybQ5wBIYwfXCIVHpRE4kri0qOl+D3MtkqNEH81+5Z0pmpqoCLj6rJg8z4GiBplGUyVR8UGYzL28LXduaDIqwdpN8qTu2dDbxJWl/xAc6W/MP2f+jPDStRY1q43NbizD2EYjqwlVvFfnxC3xxwKgzcK+AoA/KlQ6wMaRCgjONDKI2Mnx/aRSzjj9GEiuLX+MxfBKip8J54sXSSTqXy9VBUmGj2uNOoRwLF4gnUW+hMQmGjG0lbs6UqMu11x9zm/2mZIxQSEOOg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-Received: from DM6PR10MB3851.namprd10.prod.outlook.com (2603:10b6:5:1fb::17)
- by DS7PR10MB5087.namprd10.prod.outlook.com (2603:10b6:5:3b0::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3846.27; Fri, 19 Feb
- 2021 23:04:31 +0000
-Received: from DM6PR10MB3851.namprd10.prod.outlook.com
- ([fe80::5c53:869:7452:46da]) by DM6PR10MB3851.namprd10.prod.outlook.com
- ([fe80::5c53:869:7452:46da%3]) with mapi id 15.20.3846.041; Fri, 19 Feb 2021
- 23:04:31 +0000
-Subject: Re: [PATCH] mm, kasan: don't poison boot memory
-From: George Kennedy <george.kennedy@oracle.com>
-To: Andrey Konovalov <andreyknvl@google.com>
-Cc: David Hildenbrand <david@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Konrad Rzeszutek Wilk
- <konrad@darnok.org>,
-        Will Deacon <will.deacon@arm.com>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Alexander Potapenko <glider@google.com>,
-        Marco Elver <elver@google.com>, Peter Collingbourne <pcc@google.com>,
-        Evgenii Stepanov <eugenis@google.com>,
-        Branislav Rankov <Branislav.Rankov@arm.com>,
-        Kevin Brodsky <kevin.brodsky@arm.com>,
-        Christoph Hellwig
- <hch@infradead.org>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Dhaval Giani <dhaval.giani@oracle.com>
-References: <487751e1ccec8fcd32e25a06ce000617e96d7ae1.1613595269.git.andreyknvl@google.com>
- <e58cbb53-5f5b-42ae-54a0-e3e1b76ad271@redhat.com>
- <d11bf144-669b-0fe1-4fa4-001a014db32a@oracle.com>
- <CAAeHK+y_SmP5yAeSM3Cp6V3WH9uj4737hDuVGA7U=xA42ek3Lw@mail.gmail.com>
- <c7166cae-bf89-8bdd-5849-72b5949fc6cc@oracle.com>
-Organization: Oracle Corporation
-Message-ID: <797fae72-e3ea-c0b0-036a-9283fa7f2317@oracle.com>
-Date: Fri, 19 Feb 2021 18:04:23 -0500
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
-In-Reply-To: <c7166cae-bf89-8bdd-5849-72b5949fc6cc@oracle.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
-Content-Language: en-US
-X-Originating-IP: [108.20.187.119]
-X-ClientProxiedBy: BYAPR02CA0020.namprd02.prod.outlook.com
- (2603:10b6:a02:ee::33) To DM6PR10MB3851.namprd10.prod.outlook.com
- (2603:10b6:5:1fb::17)
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Sun, 21 Feb 2021 05:38:11 -0800 (PST)
+Received-SPF: neutral (google.com: 217.70.183.200 is neither permitted nor denied by best guess record for domain of alex@ghiti.fr) client-ip=217.70.183.200;
+X-Originating-IP: 2.7.49.219
+Received: from [192.168.1.100] (lfbn-lyo-1-457-219.w2-7.abo.wanadoo.fr [2.7.49.219])
+	(Authenticated sender: alex@ghiti.fr)
+	by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id DC02E20005;
+	Sun, 21 Feb 2021 13:38:04 +0000 (UTC)
+Subject: Re: [PATCH v2 1/1] riscv/kasan: add KASAN_VMALLOC support
+From: Alex Ghiti <alex@ghiti.fr>
+To: Palmer Dabbelt <palmer@dabbelt.com>, nylon7@andestech.com
+Cc: aou@eecs.berkeley.edu, nickhu@andestech.com, alankao@andestech.com,
+ linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
+ nylon7717@gmail.com, glider@google.com,
+ Paul Walmsley <paul.walmsley@sifive.com>, aryabinin@virtuozzo.com,
+ linux-riscv@lists.infradead.org, dvyukov@google.com
+References: <mhng-443fd141-b9a3-4be6-a056-416877f99ea4@palmerdabbelt-glaptop>
+ <2b2f3038-3e27-8763-cf78-3fbbfd2100a0@ghiti.fr>
+ <4fa97788-157c-4059-ae3f-28ab074c5836@ghiti.fr>
+Message-ID: <e15fbf55-25db-7f91-6feb-fb081ab60cdb@ghiti.fr>
+Date: Sun, 21 Feb 2021 08:38:04 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.1.246] (108.20.187.119) by BYAPR02CA0020.namprd02.prod.outlook.com (2603:10b6:a02:ee::33) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3868.27 via Frontend Transport; Fri, 19 Feb 2021 23:04:27 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 4fd063a8-27cf-4c7e-b455-08d8d52ab6d3
-X-MS-TrafficTypeDiagnostic: DS7PR10MB5087:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DS7PR10MB50870CEBEAA518EA868660BAE6849@DS7PR10MB5087.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: PxvYfWrB3qRDIYvqP5YoFBvhFoxTvzcpfJvB58Qdzox3GLpvzXX/I0zhhdsb8vumaIwiqpCbzYis997gfuhj4gZO1Sh09y/i8uxIsGMces/RmS3retCaHPTg6rEVBDPuafMbq5stWvpJS1Xqvkq6UfeZ9rtjbNHvpIaWhqg7XBf15IJZQI65tXgkkfppBlNAbfgs0VstiJpYro6No1NutV2T3/dlA9OFWqf7/H2RI1km7/d2IHGuxojQuMpU7LVa9/NjdP6lU3Z4cu5Gwa61lTe2F1Vab0C+XhChhStimdlzwkCdYe8sKZo43hm2cJgERhpz79ZoZOxU8kE3lxhd9ytxfXZWZxMSFZVavcrjjgx63d+XNmIbxNxH2CGofuJO/jS+91HCELuoyYZYczgAoE0lIkblLQ2RcnrlUi2864YyZm0I/piTM5d7e0DNS3KWBGtjk0MSmQ5aQMC77WqYspYSheYewRNHE/r9tdBhaUcZPIQ0y0aVDhUYFVr3+602NJ6McMH961kf3dHISCM3ojSN51TPpntMfNcM25SOt3p133UEgPwrtHnWCQJTsCBHhuf5yaPZqBKJugRrCZRyFwN7r7H5CmoEifLwEcRoFtnPNdAL8nHpwD/X78xkslnR+r7oyUQe11OlU4444MBF1TyVPYkTx6+BJkgpwFFv9AsGzfqGzxTQzE3bY5FgUpG4
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR10MB3851.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(346002)(376002)(396003)(39860400002)(136003)(366004)(36916002)(2616005)(966005)(66476007)(5660300002)(36756003)(6916009)(7416002)(44832011)(26005)(31686004)(54906003)(8936002)(16576012)(53546011)(6666004)(66946007)(86362001)(4326008)(16526019)(83380400001)(956004)(186003)(6486002)(2906002)(31696002)(107886003)(316002)(66556008)(8676002)(478600001)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?ZGgxR3NhbldmNklyM2lLOFhzNTRWanB3STJ4Sm9yYWhhL0JnT0phUldveUVl?=
- =?utf-8?B?eWd1bW00OHJMUEJNcVVDYzhQSm9lZ0NYRGJJbFNweS9YcUF4REk4MURacW8x?=
- =?utf-8?B?NGJnb3I4M1hqYWhOVVBCZDYzd1JneGRua1krZVh0NmFCUm5aVTRBdzJuYVFV?=
- =?utf-8?B?UUpLK0hEZ1FWZFdmTFdBM2liV1p4ZlpFenhsK1dPRzRJc2htSWxUMmhFaEQy?=
- =?utf-8?B?ajR5WWNGWjJlNXUzQnhySXlFZERsTUNIZE9ZRWRvbzRldUZ4ZXQ0bW9uc282?=
- =?utf-8?B?ZTMxa3cwdTZnTG9RRmloVWNWMDVVU0VhNDhYVE9jRHBmbnh6QVRRVFVrR09R?=
- =?utf-8?B?bHA3L3dwMmpGYjdJN2xUcnMxdjcrUFFLcnRaeGdYNTBQRUptVVVwRlNvUFIw?=
- =?utf-8?B?bXFkb0FjSlkwTTRwYVlwUmhLQm9sK1UwNG1PdHAyaUlDWnBRQko2S0FYZHhh?=
- =?utf-8?B?QTgvZ080Q0pCeWFDRlRQY3lUR2dzWDZDanBjWHlKRUhYOXY4bk9wRG5uM2s4?=
- =?utf-8?B?R1FkZ1V5NWFpMXB6bEozQzE2NjZuc1hwZVBWQk0vamRseTJxaTJmSmRQQlFw?=
- =?utf-8?B?Q3cxcmhVZyt6WlpJMFZ6elo4TWhSZ2h5QktIeE9zZ0xLY3Bqb2M3R2g2TThO?=
- =?utf-8?B?WWl4ZWRna2s4UjcxK3lzRHppRzk0Ymc2QWdkQkFlT0N3RUZ4WjAwRkFHL3Z1?=
- =?utf-8?B?a0VBbmRIdlRZYUFiTjlYVEtLaE5xU3F1eDJpRUxNMjlBNlNPenYyNUtlUnBX?=
- =?utf-8?B?eklkbytOU1N3SjdtWDJ1eHlNZE9DUCs1S1dSc2RQNk96MnJFRVNjL0cxTnFR?=
- =?utf-8?B?Wlo1d1hnZzFJMGpObmdDQVR1ZXFDZE1IM0RhVldQbE1QUUdRYXhGbS80dEk2?=
- =?utf-8?B?WWdYNUUrZi9oQXlzdHQxL1kwQlo5SG5Fb0NqVlpEUTVrZTdlb001L2xJNkQr?=
- =?utf-8?B?WDR1M0pWQXNRclIwMGU5NUlZVTZkR1g1cGEyVSttOXNrU1FheUxpbVBucCtU?=
- =?utf-8?B?TnNVckdCby9lb2Fsby85M0NEc1MxbnR4aU9rYklUWG9MaW9WUklSc0tjTjM5?=
- =?utf-8?B?cnl2WEFpbkNZTWNuUHZkT2ViMWZjL3MwK3RDbkxOTy80VVRZbXFSdVRWSGtR?=
- =?utf-8?B?akVQZTNDVldhc1dUVEM3bzhKT3R1ekEwWkNkV2ZVL0xkK1FZY3ZjbXN0bDJo?=
- =?utf-8?B?VDlFeURoNmZBQWI3UTRqMWdqSEc5ajVjd1hBU1UrOXJGWUljNU0vQ3lkcEZy?=
- =?utf-8?B?TG5tTXU3U2dNbTBQOHIrT1pVbE9Idmo4WGdhWlRxMTNaMkM0UVpkT0gwMmVN?=
- =?utf-8?B?UlZzMVJtOXV4NW9acEQ0MW02N3pkb291SkJsUlVDT0FLVEdXa1VLYi9wQXY2?=
- =?utf-8?B?bTFWaHMxb3NYc3crUmJNWkFjQlpIbDMrc0tBT3UzWDc0am1iNnpHUmVvOEtL?=
- =?utf-8?B?MVVnVnBZQ2NTTnpLU0twTnlqMlk4ODdveWhKSWxtM0NUUHJaa3AwTXduK0lZ?=
- =?utf-8?B?SWNUQlVVTDM3UUVTZSs2NnRPTVZ4Lzk1Rjd2bFBDRjZQUk4yaVR5N1pQSXJq?=
- =?utf-8?B?clVycW5razU4MGZ2QU5LRzFMcWRLTHB5K0FCMDlzQWVITFBGU3lndFRvY0s3?=
- =?utf-8?B?aUhCSmpUSW81dXRjSEFQSDlEWVdieHJvVHQ2WEhDT0VFNUZFU3IwblBSRDl4?=
- =?utf-8?B?bHhVaHh1bUZ5eUVndGIzN3ZrSnhPbnFhL29pck10QTU0cldvbm9lV1NEMEk5?=
- =?utf-8?Q?UHqtBSUFqsNnFZtoDR1dLCH6J/lqiPYvcPTqJic?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4fd063a8-27cf-4c7e-b455-08d8d52ab6d3
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR10MB3851.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Feb 2021 23:04:30.8943
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: iZVfAi6pReqbANmjg0VHrdOSm2twugcRW3+Qvz7dQnAerzHb4KHJEH5OjB2CJX+KxlwKvkoadXlbjpP21/dSovRdA4siKOVlMZylAWoM/xs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR10MB5087
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9900 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 adultscore=0 mlxscore=0
- bulkscore=0 suspectscore=0 malwarescore=0 spamscore=0 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2102190186
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9900 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 suspectscore=0 mlxscore=0
- phishscore=0 spamscore=0 adultscore=0 clxscore=1015 impostorscore=0
- priorityscore=1501 lowpriorityscore=0 malwarescore=0 mlxlogscore=999
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2102190187
-X-Original-Sender: george.kennedy@oracle.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@oracle.com header.s=corp-2020-01-29 header.b=eyu7sxXa;
-       dkim=pass header.i=@oracle.onmicrosoft.com header.s=selector2-oracle-onmicrosoft-com
- header.b=pN4FkB9o;       arc=pass (i=1 spf=pass spfdomain=oracle.com
- dkim=pass dkdomain=oracle.com dmarc=pass fromdomain=oracle.com);
-       spf=pass (google.com: domain of george.kennedy@oracle.com designates
- 156.151.31.85 as permitted sender) smtp.mailfrom=george.kennedy@oracle.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=oracle.com
+In-Reply-To: <4fa97788-157c-4059-ae3f-28ab074c5836@ghiti.fr>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Language: fr
+Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: alex@ghiti.fr
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=neutral
+ (google.com: 217.70.183.200 is neither permitted nor denied by best guess
+ record for domain of alex@ghiti.fr) smtp.mailfrom=alex@ghiti.fr
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -264,162 +135,275 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-
-
-On 2/19/2021 11:45 AM, George Kennedy wrote:
->
->
-> On 2/18/2021 7:09 PM, Andrey Konovalov wrote:
->> On Fri, Feb 19, 2021 at 1:06 AM George Kennedy
->> <george.kennedy@oracle.com> wrote:
->>>
->>>
->>> On 2/18/2021 3:55 AM, David Hildenbrand wrote:
->>>> On 17.02.21 21:56, Andrey Konovalov wrote:
->>>>> During boot, all non-reserved memblock memory is exposed to the buddy
->>>>> allocator. Poisoning all that memory with KASAN lengthens boot time,
->>>>> especially on systems with large amount of RAM. This patch makes
->>>>> page_alloc to not call kasan_free_pages() on all new memory.
->>>>>
->>>>> __free_pages_core() is used when exposing fresh memory during system
->>>>> boot and when onlining memory during hotplug. This patch adds a new
->>>>> FPI_SKIP_KASAN_POISON flag and passes it to __free_pages_ok() through
->>>>> free_pages_prepare() from __free_pages_core().
->>>>>
->>>>> This has little impact on KASAN memory tracking.
->>>>>
->>>>> Assuming that there are no references to newly exposed pages=20
->>>>> before they
->>>>> are ever allocated, there won't be any intended (but buggy)=20
->>>>> accesses to
->>>>> that memory that KASAN would normally detect.
->>>>>
->>>>> However, with this patch, KASAN stops detecting wild and large
->>>>> out-of-bounds accesses that happen to land on a fresh memory page=20
->>>>> that
->>>>> was never allocated. This is taken as an acceptable trade-off.
->>>>>
->>>>> All memory allocated normally when the boot is over keeps getting
->>>>> poisoned as usual.
->>>>>
->>>>> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
->>>>> Change-Id: Iae6b1e4bb8216955ffc14af255a7eaaa6f35324d
->>>> Not sure this is the right thing to do, see
+Le 2/13/21 =C3=A0 5:52 AM, Alex Ghiti a =C3=A9crit=C2=A0:
+> Hi Nylon, Palmer,
+>=20
+> Le 2/8/21 =C3=A0 1:28 AM, Alex Ghiti a =C3=A9crit=C2=A0:
+>> Hi Nylon,
+>>
+>> Le 1/22/21 =C3=A0 10:56 PM, Palmer Dabbelt a =C3=A9crit=C2=A0:
+>>> On Fri, 15 Jan 2021 21:58:35 PST (-0800), nylon7@andestech.com wrote:
+>>>> It references to x86/s390 architecture.
+>>>> >> So, it doesn't map the early shadow page to cover VMALLOC space.
 >>>>
->>>> https://lkml.kernel.org/r/bcf8925d-0949-3fe1-baa8-cc536c529860@oracle.=
-com=20
+>>>> Prepopulate top level page table for the range that would otherwise be
+>>>> empty.
 >>>>
+>>>> lower levels are filled dynamically upon memory allocation while
+>>>> booting.
+>>
+>> I think we can improve the changelog a bit here with something like that=
+:
+>>
+>> "KASAN vmalloc space used to be mapped using kasan early shadow page.=20
+>> KASAN_VMALLOC requires the top-level of the kernel page table to be=20
+>> properly populated, lower levels being filled dynamically upon memory=20
+>> allocation at runtime."
+>>
 >>>>
->>>> Reversing the order in which memory gets allocated + used during boot
->>>> (in a patch by me) might have revealed an invalid memory access during
->>>> boot.
+>>>> Signed-off-by: Nylon Chen <nylon7@andestech.com>
+>>>> Signed-off-by: Nick Hu <nickhu@andestech.com>
+>>>> ---
+>>>> =C2=A0arch/riscv/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 |=C2=A0 1 +
+>>>> =C2=A0arch/riscv/mm/kasan_init.c | 57 ++++++++++++++++++++++++++++++++=
++++++-
+>>>> =C2=A02 files changed, 57 insertions(+), 1 deletion(-)
 >>>>
->>>> I suspect that that issue would no longer get detected with your
->>>> patch, as the invalid memory access would simply not get detected.
->>>> Now, I cannot prove that :)
->>> Since David's patch we're having trouble with the iBFT ACPI table,=20
->>> which
->>> is mapped in via kmap() - see acpi_map() in "drivers/acpi/osl.c". KASAN
->>> detects that it is being used after free when ibft_init() accesses the
->>> iBFT table, but as of yet we can't find where it get's freed (we've
->>> instrumented calls to kunmap()).
->> Maybe it doesn't get freed, but what you see is a wild or a large
->> out-of-bounds access. Since KASAN marks all memory as freed during the
->> memblock->page_alloc transition, such bugs can manifest as
->> use-after-frees.
->
-> It gets freed and re-used. By the time the iBFT table is accessed by=20
-> ibft_init() the page has been over-written.
->
-> Setting page flags like the following before the call to kmap()=20
-> prevents the iBFT table page from being freed:
-
-Cleaned up version:
-
-diff --git a/drivers/acpi/osl.c b/drivers/acpi/osl.c
-index 0418feb..8f0a8e7 100644
---- a/drivers/acpi/osl.c
-+++ b/drivers/acpi/osl.c
-@@ -287,9 +287,12 @@ static void __iomem *acpi_map(acpi_physical_address=20
-pg_off, unsigned long pg_sz)
-
- =C2=A0=C2=A0=C2=A0=C2=A0 pfn =3D pg_off >> PAGE_SHIFT;
- =C2=A0=C2=A0=C2=A0=C2=A0 if (should_use_kmap(pfn)) {
-+=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 struct page *page =3D pfn_to_page(pf=
-n);
-+
- =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 if (pg_sz > PAGE_SIZE)
- =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 return NULL=
+>>>> diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+>>>> index 81b76d44725d..15a2c8088bbe 100644
+>>>> --- a/arch/riscv/Kconfig
+>>>> +++ b/arch/riscv/Kconfig
+>>>> @@ -57,6 +57,7 @@ config RISCV
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0 select HAVE_ARCH_JUMP_LABEL
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0 select HAVE_ARCH_JUMP_LABEL_RELATIVE
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0 select HAVE_ARCH_KASAN if MMU && 64BIT
+>>>> +=C2=A0=C2=A0=C2=A0 select HAVE_ARCH_KASAN_VMALLOC if MMU && 64BIT
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0 select HAVE_ARCH_KGDB
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0 select HAVE_ARCH_KGDB_QXFER_PKT
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0 select HAVE_ARCH_MMAP_RND_BITS if MMU
+>>>> diff --git a/arch/riscv/mm/kasan_init.c b/arch/riscv/mm/kasan_init.c
+>>>> index 12ddd1f6bf70..4b9149f963d3 100644
+>>>> --- a/arch/riscv/mm/kasan_init.c
+>>>> +++ b/arch/riscv/mm/kasan_init.c
+>>>> @@ -9,6 +9,19 @@
+>>>> =C2=A0#include <linux/pgtable.h>
+>>>> =C2=A0#include <asm/tlbflush.h>
+>>>> =C2=A0#include <asm/fixmap.h>
+>>>> +#include <asm/pgalloc.h>
+>>>> +
+>>>> +static __init void *early_alloc(size_t size, int node)
+>>>> +{
+>>>> +=C2=A0=C2=A0=C2=A0 void *ptr =3D memblock_alloc_try_nid(size, size,
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 __pa(MAX_DMA_ADDRESS), MEM=
+BLOCK_ALLOC_ACCESSIBLE, node);
+>>>> +
+>>>> +=C2=A0=C2=A0=C2=A0 if (!ptr)
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 panic("%pS: Failed to allo=
+cate %zu bytes align=3D%zx nid=3D%d=20
+>>>> from=3D%llx\n",
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 __=
+func__, size, size, node, (u64)__pa(MAX_DMA_ADDRESS));
+>>>> +
+>>>> +=C2=A0=C2=A0=C2=A0 return ptr;
+>>>> +}
+>>>>
+>>>> =C2=A0extern pgd_t early_pg_dir[PTRS_PER_PGD];
+>>>> =C2=A0asmlinkage void __init kasan_early_init(void)
+>>>> @@ -83,6 +96,40 @@ static void __init populate(void *start, void *end)
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0 memset(start, 0, end - start);
+>>>> =C2=A0}
+>>>>
+>>>> +void __init kasan_shallow_populate(void *start, void *end)
+>>>> +{
+>>>> +=C2=A0=C2=A0=C2=A0 unsigned long vaddr =3D (unsigned long)start & PAG=
+E_MASK;
+>>>> +=C2=A0=C2=A0=C2=A0 unsigned long vend =3D PAGE_ALIGN((unsigned long)e=
+nd);
+>>>> +=C2=A0=C2=A0=C2=A0 unsigned long pfn;
+>>>> +=C2=A0=C2=A0=C2=A0 int index;
+>>>> +=C2=A0=C2=A0=C2=A0 void *p;
+>>>> +=C2=A0=C2=A0=C2=A0 pud_t *pud_dir, *pud_k;
+>>>> +=C2=A0=C2=A0=C2=A0 pgd_t *pgd_dir, *pgd_k;
+>>>> +=C2=A0=C2=A0=C2=A0 p4d_t *p4d_dir, *p4d_k;
+>>>> +
+>>>> +=C2=A0=C2=A0=C2=A0 while (vaddr < vend) {
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 index =3D pgd_index(vaddr)=
 ;
--=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 return (void __iomem __force *)kmap(=
-pfn_to_page(pfn));
-+=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 SetPageReserved(page);
-+=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 return (void __iomem __force *)kmap(=
-page);
- =C2=A0=C2=A0=C2=A0=C2=A0 } else
- =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 return acpi_os_ioremap(pg_off,=
- pg_sz);
- =C2=A0}
-@@ -299,9 +302,12 @@ static void acpi_unmap(acpi_physical_address=20
-pg_off, void __iomem *vaddr)
- =C2=A0=C2=A0=C2=A0=C2=A0 unsigned long pfn;
-
- =C2=A0=C2=A0=C2=A0=C2=A0 pfn =3D pg_off >> PAGE_SHIFT;
--=C2=A0=C2=A0=C2=A0 if (should_use_kmap(pfn))
--=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 kunmap(pfn_to_page(pfn));
--=C2=A0=C2=A0=C2=A0 else
-+=C2=A0=C2=A0=C2=A0 if (should_use_kmap(pfn)) {
-+=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 struct page *page =3D pfn_to_page(pf=
-n);
-+
-+=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 ClearPageReserved(page);
-+=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 kunmap(page);
-+=C2=A0=C2=A0=C2=A0 } else
- =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 iounmap(vaddr);
- =C2=A0}
-
-David, the above works, but wondering why it is now necessary. kunmap()=20
-is not hit. What other ways could a page mapped via kmap() be unmapped?
-
-Thank you,
-George
-
->
-> diff --git a/drivers/acpi/osl.c b/drivers/acpi/osl.c
-> index 0418feb..41c1bbd 100644
-> --- a/drivers/acpi/osl.c
-> +++ b/drivers/acpi/osl.c
-> @@ -287,9 +287,14 @@ static void __iomem=20
-> *acpi_map(acpi_physical_address pg_off, unsigned long pg_sz)
->
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pfn =3D pg_off >> PAGE_SHIFT;
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (should_use_kmap(pfn)) {
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 struct page *page =3D=C2=A0 pfn_to_page(pfn);
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pfn =3D csr_read(CSR_SATP)=
+ & SATP_PPN;
+>>
+>> At this point in the boot process, we know that we use swapper_pg_dir=20
+>> so no need to read SATP.
+>>
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pgd_dir =3D (pgd_t *)pfn_t=
+o_virt(pfn) + index;
+>>
+>> Here, this pgd_dir assignment is overwritten 2 lines below, so no need=
+=20
+>> for it.
+>>
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pgd_k =3D init_mm.pgd + in=
+dex;
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pgd_dir =3D pgd_offset_k(v=
+addr);
+>>
+>> pgd_offset_k(vaddr) =3D init_mm.pgd + pgd_index(vaddr) so pgd_k =3D=3D p=
+gd_dir.
+>>
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 set_pgd(pgd_dir, *pgd_k);
+>>>> +
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 p4d_dir =3D p4d_offset(pgd=
+_dir, vaddr);
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 p4d_k=C2=A0 =3D p4d_offset=
+(pgd_k, vaddr);
+>>>> +
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vaddr =3D (vaddr + PUD_SIZ=
+E) & PUD_MASK;
+>>
+>> Why do you increase vaddr *before* populating the first one ? And=20
+>> pud_addr_end does that properly: it returns the next pud address if it=
+=20
+>> does not go beyond end address to map.
+>>
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pud_dir =3D pud_offset(p4d=
+_dir, vaddr);
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pud_k =3D pud_offset(p4d_k=
+, vaddr);
+>>>> +
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (pud_present(*pud_dir))=
+ {
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 p =
+=3D early_alloc(PAGE_SIZE, NUMA_NO_NODE);
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pu=
+d_populate(&init_mm, pud_dir, p);
+>>
+>> init_mm is not needed here.
+>>
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vaddr +=3D PAGE_SIZE;
+>>
+>> Why do you need to add PAGE_SIZE ? vaddr already points to the next pud.
+>>
+>> It seems like this patch tries to populate userspace page table=20
+>> whereas at this point in the boot process, only swapper_pg_dir is used=
+=20
+>> or am I missing something ?
+>>
+>> Thanks,
+>>
+>> Alex
+>=20
+> I implemented this morning a version that fixes all the comments I made=
+=20
+> earlier. I was able to insert test_kasan_module on both sv39 and sv48=20
+> without any modification: set_pgd "goes through" all the unused page=20
+> table levels, whereas p*d_populate are noop for unused levels.
+>=20
+> If you have any comment, do not hesitate.
+>=20
+> diff --git a/arch/riscv/mm/kasan_init.c b/arch/riscv/mm/kasan_init.c
+> index adbf94b7e68a..d643b222167c 100644
+> --- a/arch/riscv/mm/kasan_init.c
+> +++ b/arch/riscv/mm/kasan_init.c
+> @@ -195,6 +195,31 @@ static void __init kasan_populate(void *start, void=
+=20
+> *end)
+>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 memset(start, KASAN_SHADOW_IN=
+IT, end - start);
+>  =C2=A0}
+>=20
+>=20
+> +void __init kasan_shallow_populate_pgd(unsigned long vaddr, unsigned=20
+> long end)
+> +{
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsigned long next;
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 void *p;
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pgd_t *pgd_k =3D pgd_offset_k(vaddr=
+);
 > +
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 if (pg_sz > PAGE_SIZE)
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return N=
-ULL;
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 return (void __iomem __force *)kmap(pfn_to_page(pfn));
-> +
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 do {
 > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 page->flags |=3D ((1UL << PG_unevictable) | (1UL <<=20
-> PG_reserved) | (1UL << PG_locked));
-> +
+=C2=A0=C2=A0 next =3D pgd_addr_end(vaddr, end);
 > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 return (void __iomem __force *)kmap(page);
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 } else
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 return acpi_os_ioremap(pg_off, pg_sz);
-> =C2=A0}
->
-> Just not sure of the correct way to set the page flags.
->
-> George
->
+=C2=A0=C2=A0 if (pgd_page_vaddr(*pgd_k) =3D=3D (unsigned=20
+> long)lm_alias(kasan_early_shadow_pgd_next)) {
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 p =3D memblock=
+_alloc(PAGE_SIZE, PAGE_SIZE);
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 set_pgd(pgd_k,=
+ pfn_pgd(PFN_DOWN(__pa(p)),=20
+> PAGE_TABLE));
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 }
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 } while (pgd_k++, vaddr =3D next, v=
+addr !=3D end);
+> +}
+> +
+
+This way of going through the page table seems to be largely used across=20
+the kernel (cf KASAN population functions of arm64/x86) so I do think=20
+this patch brings value to Nylon and Nick's patch.
+
+I can propose a real patch if you agree and I'll add a co-developed by=20
+Nylon/Nick since this only 'improves' theirs.
+
+Thanks,
+
+Alex
+
+> +void __init kasan_shallow_populate(void *start, void *end)
+> +{
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsigned long vaddr =3D (unsigned l=
+ong)start & PAGE_MASK;
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsigned long vend =3D PAGE_ALIGN((=
+unsigned long)end);
+> +
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 kasan_shallow_populate_pgd(vaddr, v=
+end);
+> +
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 local_flush_tlb_all();
+> +}
+> +
+>  =C2=A0void __init kasan_init(void)
+>  =C2=A0{
+>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 phys_addr_t _start, _end;
+> @@ -206,7 +231,15 @@ void __init kasan_init(void)
+>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
+>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 kasan_populate_early_shadow((=
+void *)KASAN_SHADOW_START,
+>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (void *)kas=
+an_mem_to_shadow((void *)
+> - VMALLOC_END));
+> + VMEMMAP_END));
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (IS_ENABLED(CONFIG_KASAN_VMALLOC=
+))
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 kasan_shallow_populate(
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (void *)kasan_=
+mem_to_shadow((void *)VMALLOC_START),
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (void *)kasan_=
+mem_to_shadow((void *)VMALLOC_END));
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 else
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 kasan_populate_early_shadow(
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (void *)kasan_=
+mem_to_shadow((void *)VMALLOC_START),
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (void *)kasan_=
+mem_to_shadow((void *)VMALLOC_END));
+>=20
+>=20
+>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* Populate the linear mappin=
+g */
+>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for_each_mem_range(i, &_start=
+, &_end) {
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
@@ -427,4 +411,4 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/797fae72-e3ea-c0b0-036a-9283fa7f2317%40oracle.com.
+kasan-dev/e15fbf55-25db-7f91-6feb-fb081ab60cdb%40ghiti.fr.
