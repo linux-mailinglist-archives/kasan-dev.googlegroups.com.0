@@ -1,123 +1,124 @@
-Return-Path: <kasan-dev+bncBC447XVYUEMRBZOMZWAQMGQESJTJMBI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCMIZB7QWENRBH7JZWAQMGQER36EVRI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x23a.google.com (mail-lj1-x23a.google.com [IPv6:2a00:1450:4864:20::23a])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6A2A3211C1
-	for <lists+kasan-dev@lfdr.de>; Mon, 22 Feb 2021 09:08:05 +0100 (CET)
-Received: by mail-lj1-x23a.google.com with SMTP id s25sf12565959ljd.21
-        for <lists+kasan-dev@lfdr.de>; Mon, 22 Feb 2021 00:08:05 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1613981285; cv=pass;
+Received: from mail-qv1-xf39.google.com (mail-qv1-xf39.google.com [IPv6:2607:f8b0:4864:20::f39])
+	by mail.lfdr.de (Postfix) with ESMTPS id 09A433212B7
+	for <lists+kasan-dev@lfdr.de>; Mon, 22 Feb 2021 10:08:49 +0100 (CET)
+Received: by mail-qv1-xf39.google.com with SMTP id ba14sf1236090qvb.3
+        for <lists+kasan-dev@lfdr.de>; Mon, 22 Feb 2021 01:08:48 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1613984928; cv=pass;
         d=google.com; s=arc-20160816;
-        b=nXs1ncGQHg/IUBjCL5koIbw6tMemypIlZM3xsDy1ht+X9SEpXBv14jg3xyTMheKRDG
-         NMQxt6yWU/N5NTUZVvlSmP5O/JFmlngGh4FfpeEvc5FXTM+eSjVyVZCbmtqb23KwzEVL
-         gEJehxPVALeNn6Vtf76aBq+IMdmLJTdkiAojaM/mRmvnkW/y5RG8LStkBBb9rbYXo97N
-         a7trll0U9ipy1q8zvux5VT/byCVqyZ1iepHOLw36pDqTJk/qiLvVEc/H63vSAWYhncpA
-         RR5HEgaGOjmuMVu/QMhr3aqzq6XWPsoY39fPhEozaNw+an1DrX3s+SMOjKvpk7IRbu1K
-         qmZQ==
+        b=DMC2//WvGX3vQVNG8Qu+xZsXhH0/mfZtdnI2NVApOLEYDafVkZtJZ1DQOtEdmkPa+j
+         Lda8SF7FdvX7KxVaZNVpAO2ilalv+tM3TQ47vLfl+STuXXVJdpV6HKpqo9TZyW2qrKJV
+         JLlqwwGAfvrWiDvf8XUR1weWdndU5LD71ZLrdkkX9HpxOiDKM8ymVV+4661Q8aTkH6Te
+         e0AvP3vSzpFl1+ANnMirjMzJcOH4eIywMyMdNtd1g5eRqa6XoP1yMGVycQPfvjGcqc36
+         KFzkCeMmFuCJqptvQ9QHlZi1xMxwILlKZtdScd3TXlRm9szJARhti+tkzZsbEhabnWor
+         O90g==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:message-id:date
-         :subject:cc:to:from:sender:dkim-signature;
-        bh=Gikf+erieniIfsjGH6NERTXUB2+cQLthuo+VYhf/gbo=;
-        b=uqFJuyoiOZXG5KBZPRjwvpCp0sm3lySu+znpi9hN5f5lILPwk29hzx35z1T0chY6zl
-         aN3xZMnhtX2+JJiqYyOPS6BFNvlZaNKen3kN/Z6K4X+g3aVIxLlYKTqN8y3inJpEYMrv
-         LCtCnO/ViUOeTXGDofVeX+HzqN6nKkquZ+bsnv3r2YC+vaq8PXYqb4LLiTfakMXbcUjq
-         AHqDjFYqoj5+hOPGhxMKLlPgTlb6zwP2bDDYvFCezgW2FCsBbSkL3DJcAYvqK5zwjhGn
-         fy5AA62gXIx3pjfvOyVuIILcnXjkRmxIXZ7pvhP7zYn3gSQ5w6eUz0lsMDhc7JMZPSJX
-         ISng==
+         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
+         :cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=/hGQ/Gac6NEfmpnhrvEtBPSuC0AYXyw0h064fpXlzcg=;
+        b=OGUBPoPwvDgVxPxUVmGbzhU5il/fgWuYh0m/8v8NqEV75QXfixFVMOAyw2Pr8g5MS+
+         IjJpjksrPNAbtRfe1fBvURFmFzBz/kDM9ALJYdQNiBHzOPCLNIe/cC3MMbvC8CEyvZnH
+         DMvWsbS3G91eraMd6TLuCJPH+F0URr43+XZ28yUAwkmTgaALKK/XFWp4mR7IBXJMpWbw
+         2MGWQ6Uo3HK+bUGKQ43TyuRxlT6tSAD+lpgCadSryS2Qnw9G9twPMXRa/JJaBHG9UNge
+         Z5t8KQcRUaSbbXg+Xp02XNeB7+vgn2r5y0E++6L2C5s3gFaKOaHnamXSWx1DmkPB0Y/7
+         nkDw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=neutral (google.com: 217.70.183.198 is neither permitted nor denied by best guess record for domain of alex@ghiti.fr) smtp.mailfrom=alex@ghiti.fr
+       dkim=pass header.i=@google.com header.s=20161025 header.b=GtPuXVxm;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::731 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id:mime-version
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=Gikf+erieniIfsjGH6NERTXUB2+cQLthuo+VYhf/gbo=;
-        b=Mler1+4bZnxh1Sip/Vpi6favr8ypccIYn99CL/JSwQdKZ+ISmLOgPBllPs3VJ4q7Ul
-         RTkTOclpv+w6csr6tTdExcMfLFoS0xKHvJfgIKfArLJhudj41QcOAxCzts1bWaxR8mZc
-         7xWyvjGyRPoolISuEZC0fJRjvkx3C6/1f2BVRpfao9mTJ5f4akg+raDHAksepXnP0AHU
-         WI5kfgFMvZRcnwpEyGxSIY/Rq95TN1VaG6poiQeETtuiSqHDkJIfnYtKUZ3+JWQNCDu9
-         5/djOVtwJo/HsB+5g2L2+OocWWKHxhvUyzTsuDwI42s0eQoRBC1uVlaLj74M9dsrouOh
-         +/Fg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:list-post:list-help:list-archive:list-subscribe
+         :list-unsubscribe;
+        bh=/hGQ/Gac6NEfmpnhrvEtBPSuC0AYXyw0h064fpXlzcg=;
+        b=rwOf/Ipgrt7qW2ZUWEAsMQNkGDyVygKCAAcK2lmUxRGnTrC7RpaZ0GSURjgvEjfg9l
+         GMO7gEPR3dx/IkoOa44gSb5Oe4I5xShOYoO/6fhOohUR067LMF2FV7saGE8DJke3BiGh
+         n+F7pG0UTnjyzgcFtKtZqpHDgZzU/aTiowLV8sbRH+Uw5IZcDEO/3D5JDuHpm0DVSdud
+         sMJTcFh1i93ZOwbocgZk4vlTiRWceIBmAxWV8k8yZVbX3vPoAu27/k3Iy45A89F9Q0N0
+         wdTsHOu1OzsHOdHNTXXiNCaVN8GAZDo/cRXse1efFJIIZdA09ftAO5+rVOoeMW/6dleE
+         unJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :mime-version:x-original-sender:x-original-authentication-results
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding
+         :x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
          :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=Gikf+erieniIfsjGH6NERTXUB2+cQLthuo+VYhf/gbo=;
-        b=spDwf2igL35Q2SaJejTPAA142FvsdmARO1fwYOqIgRXA5Nr8Hx/efzHsWJu2NOl9mT
-         ZenrXbOuViFgRG16tVZ6quFt4uqooiiA7j3r90Hk27940ZF8nCuh8KX0Wxl2qkC+gbV0
-         JWDpQ7h8UIY4u50e2SQ45c3hc654RnoOs6txMY0o5oOv+s6BTk/PBVUanmKoOeY39biG
-         Lb633SiRVuGP6jUBJz04Ymp8PBe/7L+9hlxnYWhW8tTn5x3qTDp4wtzXe6T8clITKjHX
-         KCXIPDraJcbY0L9rwd9edQdDWgT6XQjuo+7F1/XbInjxLHNv3C9EJMYy9FqFLvXjODUz
-         NkIQ==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM530/K31JkeFdHylYiPDXVtL39e/qwSdj+OULOlny3QJKC136qrLc
-	U8MLZxQZVZ7mIG2R34lKRuw=
-X-Google-Smtp-Source: ABdhPJwWYoYFUCEW3bIWnZhyll4QXa0M/K06YR1W/oud04YFEQnGUck+ognqtktqZmUDDPLDe7xnbQ==
-X-Received: by 2002:a05:6512:519:: with SMTP id o25mr12955027lfb.529.1613981285239;
-        Mon, 22 Feb 2021 00:08:05 -0800 (PST)
+        bh=/hGQ/Gac6NEfmpnhrvEtBPSuC0AYXyw0h064fpXlzcg=;
+        b=X1QVikZ1355Y2MPEnDtnMaWkd6BrBWCS42uxTLwsIfxY5fzgke1dDMwh4zpQ4kvyUJ
+         fLXeA18r4e17Q2+2xNRsPVNXp1dvykiG1hwhfqCMqVLMtB8Y4GlTCexArjnyO42XyWs9
+         Sarxv1yQUpS/8hetff0AqbdPFAmSQgdOKUHa0GVIps39rEQk1/8Syw+pvgfMKTOFluHO
+         8foVhWLkf7xMqQgbmDsiV7jrtdrbo8KAzI5LHjU2CjL+tgEnyLDidw/wditTyZch7m9Y
+         a3dY15UM6/ln94x5NiYs+73iKu2yXAGOOuA44yRbTVdFoBb0Ti7uBV0/OLg3DSvwdJkN
+         BfHA==
+X-Gm-Message-State: AOAM5325g7uCGnXUhIXWKLfNFjsKn7AsVblLIdxGbNvwv1S/F/ytUTbj
+	ti3Khrg1CcGsVLu7chVYnhE=
+X-Google-Smtp-Source: ABdhPJz7KRqIB7uL4Ogb340pshWK5agIsd2DbHfpXY6fAaadaMCP8nSHf6v7GC8GIIpOBN1x9rjVug==
+X-Received: by 2002:a37:48c2:: with SMTP id v185mr20147721qka.329.1613984927844;
+        Mon, 22 Feb 2021 01:08:47 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:3993:: with SMTP id j19ls3721916lfu.3.gmail; Mon,
- 22 Feb 2021 00:08:04 -0800 (PST)
-X-Received: by 2002:ac2:4ad0:: with SMTP id m16mr10966198lfp.195.1613981284274;
-        Mon, 22 Feb 2021 00:08:04 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1613981284; cv=none;
+Received: by 2002:ac8:5a04:: with SMTP id n4ls6147207qta.5.gmail; Mon, 22 Feb
+ 2021 01:08:47 -0800 (PST)
+X-Received: by 2002:ac8:5c92:: with SMTP id r18mr18403295qta.27.1613984927514;
+        Mon, 22 Feb 2021 01:08:47 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1613984927; cv=none;
         d=google.com; s=arc-20160816;
-        b=LqCn2E2wwoXVDESz6mZM2bUsSh/zshE+EPRUnUhfz+C6gE5s3qtN33sBumoDkDG1ba
-         VXfwOJoJw3SGEvXU2f7xOGKmd0LwktVB0ieXcNlJmT51bVac4HFD7WR4giB2Dw1sjy6H
-         /ItwplvbjHPuuo5yAD7e3bzoI/uxMN9lwQf+ptooARG5aJipU/Y7zB30L8NkDhw6qSzD
-         8N8+nu34i7c4DN69pVCVjD+Lf7BqaEWNZtK2fAcESfmA+J2XX5WrR0cSxHT/5CjOPQ93
-         +I38NX9Mi+WObLwNSLNyTTwMNSGG2zCA3Myc99jwoox3Dlu7lTYAJKGneMI9lm9Q9tcz
-         ZokQ==
+        b=cYy6e+5IvruU9jFBC6xTA++BwaAujwqxI8G42unTB8FjM1DhEUVXi0x2xwuJ5edIIQ
+         lDu4NTmjh5Z1go7CxJENO94jpgBMOTFsM5eUxl6Z4VarKFOOMxNRsrkB6xffVIMjIkEB
+         VUB2Rn2Pdr+oSZN8XZ/W/bcGGwc3nwqanMX1hGM51f1vfYwQjTMvyzDVfiGpnO3Geqgi
+         5Vq5hr5UtfL3Ni29XmbAfOm0Dsy2ZTA7pgl9m7Hs3y5y4rFgHVy4l5TQ2hZZWa12s7A7
+         vFAUOkpLSi9e20ftz4CmtQ9ngfkOlGTxKF070x0RdqmTq3BjJpR5G7q6bFfhOu2poKyd
+         2VrA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from;
-        bh=4ZF9vUY2CsLKz7kuuDFD0UWH9WYTZL44sQgQxJcGctA=;
-        b=YqSR+vU0pSFtMRrrjFKm11c3pdJpZItkj0zqylh0QyIOAtN7lMywNX0EyW1AcS4cAs
-         iQuWoqNF2m4sqjlzri3OZ+H04b6HgJdEk79H1/VYkxYd20Sz7admieJdibqOpnjDGpXH
-         S24gt4sSn+vJ8+BllJbO5AGlhakAhRIbevk0MSgwNQlb6FbDr3rT3j8gDI72SQ46rn7I
-         herVokL9qnWSSV3X9i400E3Kq1x4xlRLKjTez4Kn5oqOFIx2sTEl8OlVYiUEfzYcYx+J
-         aDcRAZm4r8VU31c8fJx7q2rVEXApmKZNxWDkJzav09+Tu+qnviHxw6KkHnImZxgymeTA
-         eM5A==
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=Is44dzJkRsyuyuf+aXLarR61jPyjb3ZSR5ZVi6prDhs=;
+        b=ala8L50GOiXeYtrjwlE8BncdahNG3IcTm0mWSEukK5G1R4BUpNG8BeKW/H1LwIDzeG
+         fbibHZjh33FrrKlT+qPmeIdaffsPR6xR2yNTgdDJnt1tgcHkCeUZKOMSuqBidMITykLo
+         2Wn70lXyDy9c2g+XrTnHF3bykMsCgskqVbIeYWEFwJmU7Rg6D0jlKjE45d6YpMCxyyMW
+         Nvtb+MNieKr9llgk27koi24MyGQu0cJYzt8PRfBLA5oju3JUMnKpL1pIVwARijcHRFlK
+         AjIypnzCrPWBSaDy8NXUhezDM14Htb7GS7zg3d0Ay12R+wQh3EhF+mzGt/iyhVdnKy9R
+         nbJw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=neutral (google.com: 217.70.183.198 is neither permitted nor denied by best guess record for domain of alex@ghiti.fr) smtp.mailfrom=alex@ghiti.fr
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net. [217.70.183.198])
-        by gmr-mx.google.com with ESMTPS id g12si416885lfu.13.2021.02.22.00.08.04
+       dkim=pass header.i=@google.com header.s=20161025 header.b=GtPuXVxm;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::731 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-qk1-x731.google.com (mail-qk1-x731.google.com. [2607:f8b0:4864:20::731])
+        by gmr-mx.google.com with ESMTPS id f94si494582qtd.2.2021.02.22.01.08.47
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 22 Feb 2021 00:08:04 -0800 (PST)
-Received-SPF: neutral (google.com: 217.70.183.198 is neither permitted nor denied by best guess record for domain of alex@ghiti.fr) client-ip=217.70.183.198;
-X-Originating-IP: 81.185.166.122
-Received: from localhost.localdomain (122.166.185.81.rev.sfr.net [81.185.166.122])
-	(Authenticated sender: alex@ghiti.fr)
-	by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id 13306C0006;
-	Mon, 22 Feb 2021 08:07:56 +0000 (UTC)
-From: Alexandre Ghiti <alex@ghiti.fr>
-To: Andrey Ryabinin <aryabinin@virtuozzo.com>,
-	Alexander Potapenko <glider@google.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	kasan-dev@googlegroups.com,
-	linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Cc: Alexandre Ghiti <alex@ghiti.fr>
-Subject: [PATCH] riscv: Pass virtual addresses to kasan_mem_to_shadow
-Date: Mon, 22 Feb 2021 03:07:34 -0500
-Message-Id: <20210222080734.31631-1-alex@ghiti.fr>
-X-Mailer: git-send-email 2.20.1
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 22 Feb 2021 01:08:47 -0800 (PST)
+Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::731 as permitted sender) client-ip=2607:f8b0:4864:20::731;
+Received: by mail-qk1-x731.google.com with SMTP id m144so11846102qke.10
+        for <kasan-dev@googlegroups.com>; Mon, 22 Feb 2021 01:08:47 -0800 (PST)
+X-Received: by 2002:a37:96c4:: with SMTP id y187mr7610636qkd.231.1613984926948;
+ Mon, 22 Feb 2021 01:08:46 -0800 (PST)
 MIME-Version: 1.0
-X-Original-Sender: alex@ghiti.fr
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=neutral
- (google.com: 217.70.183.198 is neither permitted nor denied by best guess
- record for domain of alex@ghiti.fr) smtp.mailfrom=alex@ghiti.fr
+References: <dce73168-1cff-413d-a3e5-f88365eb73a3n@googlegroups.com> <92bec3ec-ff7e-4aa3-b344-7b9e0daf4ae9n@googlegroups.com>
+In-Reply-To: <92bec3ec-ff7e-4aa3-b344-7b9e0daf4ae9n@googlegroups.com>
+From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Mon, 22 Feb 2021 10:08:35 +0100
+Message-ID: <CACT4Y+bWytKc_3Qz1hAYvZQiFbGvn+ruAbgGm9wO9EtmUxxA1w@mail.gmail.com>
+Subject: Re: KCSAN for Android
+To: Hunter J <andy.jinhuang@gmail.com>
+Cc: kasan-dev <kasan-dev@googlegroups.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: dvyukov@google.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@google.com header.s=20161025 header.b=GtPuXVxm;       spf=pass
+ (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::731
+ as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
+ (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Dmitry Vyukov <dvyukov@google.com>
+Reply-To: Dmitry Vyukov <dvyukov@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -130,36 +131,134 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-kasan_mem_to_shadow translates virtual addresses to kasan shadow
-addresses whereas for_each_mem_range returns physical addresses: it is
-then required to use __va on those addresses before passing them to
-kasan_mem_to_shadow.
+On Sat, Feb 20, 2021 at 11:49 PM Hunter J <andy.jinhuang@gmail.com> wrote:
+>
+> I solved the skzkaller compilation problem by defining the undeclared var=
+iables myself.
+>
+> syzkaller is running on my machine now,
+> I think KCSAN is not available for Android now, right?
 
-Fixes: b10d6bca8720 ("arch, drivers: replace for_each_membock() with for_each_mem_range()")
-Signed-off-by: Alexandre Ghiti <alex@ghiti.fr>
----
- arch/riscv/mm/kasan_init.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
++kasan-dev for KCSAN question, syzkaller to bcc
 
-diff --git a/arch/riscv/mm/kasan_init.c b/arch/riscv/mm/kasan_init.c
-index 4b9149f963d3..6d3b88f2c566 100644
---- a/arch/riscv/mm/kasan_init.c
-+++ b/arch/riscv/mm/kasan_init.c
-@@ -148,8 +148,8 @@ void __init kasan_init(void)
- 			(void *)kasan_mem_to_shadow((void *)VMALLOC_END));
- 
- 	for_each_mem_range(i, &_start, &_end) {
--		void *start = (void *)_start;
--		void *end = (void *)_end;
-+		void *start = (void *)__va(_start);
-+		void *end = (void *)__va(_end);
- 
- 		if (start >= end)
- 			break;
--- 
-2.20.1
+I see that KCSAN was added in v5.8:
+https://www.kernel.org/doc/html/v5.8/dev-tools/kcsan.html
+https://www.kernel.org/doc/html/v5.7/dev-tools/kcsan.html
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210222080734.31631-1-alex%40ghiti.fr.
+To use KCSAN you either need to switch to kernel v5.8+, e.g. GKI 5.10:
+https://android.googlesource.com/kernel/common/+/refs/heads/android12-5.10
+or backport KCSAN to your kernel.
+
+
+
+> On Saturday, February 20, 2021 at 5:45:59 AM UTC-5 Hunter J wrote:
+>>
+>> Hi, I want to ask whether KCSAN is available for Android now?
+>> If not, how about KTSAN for datarace detection purpose?
+>>
+>> As I read the document, for Android fuzzing purpose, we can just configu=
+re and run LinuxKernel with ARM64, or Android Kernel ARM64, on QEMU right?
+>>
+>> But when I tried to build syzkaller with the gcc you provided on documen=
+t, errors come out. Do you have some ideas about this? I think it is gcc is=
+sues, right? Mayne I need to use some other version of aarch64-linux-gnu-gc=
+c?
+>>
+>>
+>> make TARGETARCH=3Darm64 CC=3Daarch64-linux-gnu-g++ -j64
+>> ------------------------------------------------------------------------=
+----------------------------
+>>
+>> go list -f '{{.Stale}}' ./sys/syz-sysgen | grep -q false || go install .=
+/sys/syz-sysgen
+>> make .descriptions
+>> make[1]: '.descriptions' is up to date.
+>> GOOS=3Dlinux GOARCH=3Damd64 go build "-ldflags=3D-s -w -X github.com/goo=
+gle/syzkaller/prog.GitRevision=3D3e5ed8b45e7a561d6344a4d3d7bf3bfb8f24a7b3 -=
+X 'github.com/google/syzkaller/prog.gitRevisionDate=3D20210220-100218'" -o =
+./bin/syz-manager github.com/google/syzkaller/syz-manager
+>> GOOS=3Dlinux GOARCH=3Damd64 go build "-ldflags=3D-s -w -X github.com/goo=
+gle/syzkaller/prog.GitRevision=3D3e5ed8b45e7a561d6344a4d3d7bf3bfb8f24a7b3 -=
+X 'github.com/google/syzkaller/prog.gitRevisionDate=3D20210220-100218'" -o =
+./bin/syz-runtest github.com/google/syzkaller/tools/syz-runtest
+>> GOOS=3Dlinux GOARCH=3Damd64 go build "-ldflags=3D-s -w -X github.com/goo=
+gle/syzkaller/prog.GitRevision=3D3e5ed8b45e7a561d6344a4d3d7bf3bfb8f24a7b3 -=
+X 'github.com/google/syzkaller/prog.gitRevisionDate=3D20210220-100218'" -o =
+./bin/syz-repro github.com/google/syzkaller/tools/syz-repro
+>> GOOS=3Dlinux GOARCH=3Damd64 go build "-ldflags=3D-s -w -X github.com/goo=
+gle/syzkaller/prog.GitRevision=3D3e5ed8b45e7a561d6344a4d3d7bf3bfb8f24a7b3 -=
+X 'github.com/google/syzkaller/prog.gitRevisionDate=3D20210220-100218'" -o =
+./bin/syz-mutate github.com/google/syzkaller/tools/syz-mutate
+>> GOOS=3Dlinux GOARCH=3Damd64 go build "-ldflags=3D-s -w -X github.com/goo=
+gle/syzkaller/prog.GitRevision=3D3e5ed8b45e7a561d6344a4d3d7bf3bfb8f24a7b3 -=
+X 'github.com/google/syzkaller/prog.gitRevisionDate=3D20210220-100218'" -o =
+./bin/syz-prog2c github.com/google/syzkaller/tools/syz-prog2c
+>> GOOS=3Dlinux GOARCH=3Damd64 go build "-ldflags=3D-s -w -X github.com/goo=
+gle/syzkaller/prog.GitRevision=3D3e5ed8b45e7a561d6344a4d3d7bf3bfb8f24a7b3 -=
+X 'github.com/google/syzkaller/prog.gitRevisionDate=3D20210220-100218'" -o =
+./bin/syz-db github.com/google/syzkaller/tools/syz-db
+>> GOOS=3Dlinux GOARCH=3Damd64 go build "-ldflags=3D-s -w -X github.com/goo=
+gle/syzkaller/prog.GitRevision=3D3e5ed8b45e7a561d6344a4d3d7bf3bfb8f24a7b3 -=
+X 'github.com/google/syzkaller/prog.gitRevisionDate=3D20210220-100218'" -o =
+./bin/syz-upgrade github.com/google/syzkaller/tools/syz-upgrade
+>> GOOS=3Dlinux GOARCH=3Darm64 go build "-ldflags=3D-s -w -X github.com/goo=
+gle/syzkaller/prog.GitRevision=3D3e5ed8b45e7a561d6344a4d3d7bf3bfb8f24a7b3 -=
+X 'github.com/google/syzkaller/prog.gitRevisionDate=3D20210220-100218'" "-t=
+ags=3Dsyz_target syz_os_linux syz_arch_arm64 " -o ./bin/linux_arm64/syz-fuz=
+zer github.com/google/syzkaller/syz-fuzzer
+>> GOOS=3Dlinux GOARCH=3Darm64 go build "-ldflags=3D-s -w -X github.com/goo=
+gle/syzkaller/prog.GitRevision=3D3e5ed8b45e7a561d6344a4d3d7bf3bfb8f24a7b3 -=
+X 'github.com/google/syzkaller/prog.gitRevisionDate=3D20210220-100218'" "-t=
+ags=3Dsyz_target syz_os_linux syz_arch_arm64 " -o ./bin/linux_arm64/syz-exe=
+cprog github.com/google/syzkaller/tools/syz-execprog
+>> GOOS=3Dlinux GOARCH=3Darm64 go build "-ldflags=3D-s -w -X github.com/goo=
+gle/syzkaller/prog.GitRevision=3D3e5ed8b45e7a561d6344a4d3d7bf3bfb8f24a7b3 -=
+X 'github.com/google/syzkaller/prog.gitRevisionDate=3D20210220-100218'" "-t=
+ags=3Dsyz_target syz_os_linux syz_arch_arm64 " -o ./bin/linux_arm64/syz-str=
+ess github.com/google/syzkaller/tools/syz-stress
+>> mkdir -p ./bin/linux_arm64
+>> /home/jin/syzkaller_arm/gcc-linaro/bin/aarch64-linux-gnu-g++ -o ./bin/li=
+nux_arm64/syz-executor executor/executor.cc \
+>> -O2 -pthread -Wall -Werror -Wparentheses -Wframe-larger-than=3D16384 -st=
+atic  -DGOOS_linux=3D1 -DGOARCH_arm64=3D1 \
+>> -DHOSTGOOS_linux=3D1 -DGIT_REVISION=3D\"3e5ed8b45e7a561d6344a4d3d7bf3bfb=
+8f24a7b3\"
+>> In file included from executor/common.h:436:0,
+>>                  from executor/executor.cc:160:
+>> executor/common_linux.h: In function =E2=80=98void netlink_add_geneve(nl=
+msg*, int, const char*, uint32, in_addr*, in6_addr*)=E2=80=99:
+>> executor/common_linux.h:392:22: error: =E2=80=98IFLA_GENEVE_ID=E2=80=99 =
+was not declared in this scope
+>>   netlink_attr(nlmsg, IFLA_GENEVE_ID, &vni, sizeof(vni));
+>>                       ^
+>> executor/common_linux.h:394:23: error: =E2=80=98IFLA_GENEVE_REMOTE=E2=80=
+=99 was not declared in this scope
+>>    netlink_attr(nlmsg, IFLA_GENEVE_REMOTE, addr4, sizeof(*addr4));
+>>                        ^
+>> executor/common_linux.h:396:23: error: =E2=80=98IFLA_GENEVE_REMOTE6=E2=
+=80=99 was not declared in this scope
+>>    netlink_attr(nlmsg, IFLA_GENEVE_REMOTE6, addr6, sizeof(*addr6));
+>>                        ^
+>> make: *** [Makefile:128: executor] Error 1
+>> make: *** Waiting for unfinished jobs....
+>>
+>> Thank you
+>> Best
+>> Jin Huang
+>
+> --
+> You received this message because you are subscribed to the Google Groups=
+ "syzkaller" group.
+> To unsubscribe from this group and stop receiving emails from it, send an=
+ email to syzkaller+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgi=
+d/syzkaller/92bec3ec-ff7e-4aa3-b344-7b9e0daf4ae9n%40googlegroups.com.
+
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/CACT4Y%2BbWytKc_3Qz1hAYvZQiFbGvn%2BruAbgGm9wO9EtmUxxA1w%40mail.gm=
+ail.com.
