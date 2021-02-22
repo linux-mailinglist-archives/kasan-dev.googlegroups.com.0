@@ -1,158 +1,132 @@
-Return-Path: <kasan-dev+bncBC32535MUICBBZH5ZWAQMGQEKKJ7FLI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCOYZDMZ6UMRBJVCZ2AQMGQE7KQO6AI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ua1-x939.google.com (mail-ua1-x939.google.com [IPv6:2607:f8b0:4864:20::939])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBD3C321373
-	for <lists+kasan-dev@lfdr.de>; Mon, 22 Feb 2021 10:52:37 +0100 (CET)
-Received: by mail-ua1-x939.google.com with SMTP id f17sf5887979uac.6
-        for <lists+kasan-dev@lfdr.de>; Mon, 22 Feb 2021 01:52:37 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1613987556; cv=pass;
+Received: from mail-oi1-x23e.google.com (mail-oi1-x23e.google.com [IPv6:2607:f8b0:4864:20::23e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 099F93214CE
+	for <lists+kasan-dev@lfdr.de>; Mon, 22 Feb 2021 12:10:32 +0100 (CET)
+Received: by mail-oi1-x23e.google.com with SMTP id a3sf6044626oiy.22
+        for <lists+kasan-dev@lfdr.de>; Mon, 22 Feb 2021 03:10:31 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1613992230; cv=pass;
         d=google.com; s=arc-20160816;
-        b=gtMgu//Qn40yuFeDC/a65FZxtM4mg0fEJXWlhw+F2qynQy+ZTexPs4TZHMGLNBM4wi
-         6QUY046L+6aQc7sYk/9FYNV9CBhHUZEvFZ46DwOwtqmejdimfIjqEL6dB5Qz5lM2zWsi
-         MNw6KGIERoi1Y7VpBSr/NFPkf9Vtd7JJlS9vtmDkR8HeIh0NtIJdeJOdRerHOUzshTpy
-         vH8n43O7WNbgECEbTD+npDjnXeOImkS+CpNkoQgxxv2B7iqGP0mmCEo0fxOmdFHVYESo
-         JFG+Dt6zbCw4chAKimrsASjPC/jv8+7frfFcqmkQM0nfVpX3XJn4WEkYleex27s6ApUV
-         syJQ==
+        b=TGGcGWDMAG9l6qpNQ7KBKG8JMjTdgps38zsHQeWOKG/l204Om0V/VnxrRbHVqcGKOm
+         J83eguSoSyU/YumEOsVlwFAtRdDe0ME2mMinvgVbYIuoZOKHkEnSxqUoM+mhvYpynr87
+         JXLmZH+CkOWwJ/syBXKSi5u0UeUut9taus4GgM3fLzVqgWwr6bJmmMdnomU6bgIYbOoD
+         zHOcRSshY74BD0kX/bk/gsf66+X2jkfEU/BQquW0/vow6OwPfbLvR95lQlBYzaVGZ6G9
+         Zx8fytqxnZ0hOjVFX85TMQ6PixkrT5SURQ9evBgbdQr1m4D9KeUVmlkDBxpYMN/mk3mS
+         dZiA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding
-         :content-language:in-reply-to:mime-version:user-agent:date
-         :message-id:subject:organization:from:references:cc:to:sender
-         :dkim-signature;
-        bh=oAhveDtu6bdKUXozbM7dvl4Q9jMfmq919JHAU7y6EGU=;
-        b=mQaE4HU1rOzHPLWh87a+2GNtiO0Tyyll1zY/d/iltdLgJ+O9m+uLFK14IHhTwBkmXI
-         Qu1567esGqybc/6PZw+Ic880JQAUWvDrXfBD5sBHmcL62DQ+/95Zz6rHOL88I0dbGnqD
-         TQjMZ8Y+HNoC4AAC1Z1wXTL1vagr4u6yHTysWrtyv6hKxMxIr7t3xfLJoQg6urRSPJTC
-         fPflD+SKyBaUNfkaskyjM87Ty3kFZ0N1j3i3gmyvPhD8UtJc2nQGHjdOw4DEYiPpdTR7
-         pwYov1zC74PUkmUyt2FuvC6sY27KyzDbHHoLyF8qUJI8JceDkCNSD4vE1QgLvqUqSTHE
-         Iqvg==
+         :list-id:mailing-list:precedence:content-language:in-reply-to
+         :mime-version:user-agent:date:message-id:from:references:cc:to
+         :subject:sender:dkim-signature;
+        bh=KOAWzL0vU23FucYTWPG08lMY9F0ir7h+G8EMKETExQs=;
+        b=JMIiaeKElEJ6TTU9v3mx1hCrMwZtsuA7dqIKJfwAopggbcFKmn295J0oc3J8n+na9l
+         CT56JbIDVY0gDCqpTfwjL+3Uhzs0C53gjkzl3XJ+BsjzDykffUXTGuO0BMQkRftPKMxj
+         NwoehmD+YzpbrmGxjGG/j7xxJXR/QSVr+ZnMCscuL5QNR71PkzxBKZThOUl3vzOa2roL
+         NJDLv6GJMnR3Q3GJmuSP3ypDrAeHPybBbxrXQWbbuCd5AAquOOEkNA1vpGmh/ZN1Lkug
+         QiQivIRJMYgL87sKP3Ux/iOK0wyHtDosu2ALSByAZR+l44k3gk04P2xPgeRGRa10Yl5k
+         y0hA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b="ABj9xfk/";
-       spf=pass (google.com: domain of david@redhat.com designates 170.10.133.124 as permitted sender) smtp.mailfrom=david@redhat.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
+       spf=pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=vincenzo.frascino@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:to:cc:references:from:organization:subject:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding:x-original-sender
+        h=sender:subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=oAhveDtu6bdKUXozbM7dvl4Q9jMfmq919JHAU7y6EGU=;
-        b=qSXlVYx0MQNmgFCDFbjVlDTC9LavWdyMT4DacAlIWshqG5Vfj/od7uSYOqwLf8OMl+
-         VvN+fIqf7sWUxq2GZXf81pHdzSE2iu6S3Pi6VNMxGvkbLBzRI0LQD1tjwUwFw5v1fJTR
-         3tmz1KAHVJ1SuvvHW0H3YSN35nzEAO4s0O6XyOm8XNGlccv7GGthSjCO94gOth1WzCuZ
-         vnfvRbBSOGsvYMsQrB2D75jNcvciyzuExmPRMKjvNfNmdnZlblXy8xyOGAd5dSR5bgAd
-         Elo2cxVFwWlf4X2CcqgJ/nVf6NP7HUscAqYJHjHIjfiR6V9D+22lk0TX0v3IXNpE2aLz
-         Qixw==
+        bh=KOAWzL0vU23FucYTWPG08lMY9F0ir7h+G8EMKETExQs=;
+        b=B5ZPDZIFQN6Me5w15i7v8kEOia4PUtsX+hyjYgweJevlmScRZNLTiioiNelPmIQfAa
+         6t7fNxmYYNxR74EVyv/0+m9ndhaKSJQXp9vUFt1TYXqWHiDBJ6ZTjAboceU1YnZClHmN
+         u3i0ksQVFvbE25IZEIoC/B4A4ko4C7zWg6Wgu++x/NiuTS6rW7kXna+HLU8+KGBbtx7a
+         rsryBpjx5fdXj4aFAcG6XbU9UpuDPfczMnLPydbZmZLq1rWs5tWk2ArxlkqqgNB4sT6y
+         Xt2xS0Y4QFoD9/OPanATjIaDtIreNpTSlTD4pF6F+88qJnBZ0kQwBpp6aBsVfN22gQQr
+         zyTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:to:cc:references:from:organization
-         :subject:message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=oAhveDtu6bdKUXozbM7dvl4Q9jMfmq919JHAU7y6EGU=;
-        b=PoV02w34b0nucKhiV+dDw0+vXaV31FrttL5h/AaZCCOY1QDpySrvSEOjOzwfq8bnRE
-         wB7ZZcUql6b0VVXDkNnG4r+dKDrO611kd7jbKm9GFGx2ShOOxiphojIR4g0ktdSh6szA
-         c4MAfBryvtsnc8hhupxX/bGMrra2E+bVz0etOzbO250pW+aHogQr43bD8GrpjSZ5VE6S
-         zg2TqB4rU6Zdo700ZUa+vAcGp8GSejsZZ29wUUlD7Vy49Q+dBBE9iN/y4CYQYMp2qYul
-         HDv8pIhj7atVFfxuQJQQ24Weeaw+2nZqumwZsBt9Yb5tuKxUH/Z1GFGkeD9hDbbHNYBx
-         DBdw==
+        h=sender:x-gm-message-state:subject:to:cc:references:from:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=KOAWzL0vU23FucYTWPG08lMY9F0ir7h+G8EMKETExQs=;
+        b=lfO0Hgky0yeZjzusioDOjUtkZ4QTOm9nt8lbDwC2voqp576pcsxTZQGc/X5pU229jd
+         fY2flw+lbCxaDo/BSMJqMp5e7wONwRGb3xIGaVWDPy9O9icM0RlDmXQw2ehd36wudxtu
+         6x5prnr2bIPv+/V9aalm1dhBRSQhqr/FnKo2IiZKXP4igss5yKg3jygM200mJEdgDg97
+         FChVsPBocZSbl7NGPXjy2Rq1dQQKl7hyD5AM7AeiXv4uG1DMvnPjfpjE+Gg8y8ME6d1W
+         yiCJOusndlZTcT+Nkc6Zi7jG5Llrk5cBT4suuAGHHjDcpFltWtG9x1h8SB290EIun85/
+         Lr/g==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM530ZHZqp9LCV2IpvuvL+q56yyJDp0KEYzVlkBn5CsYUa1eCmH53L
-	3CInq9KfnKrEG9B/FcRom0M=
-X-Google-Smtp-Source: ABdhPJx5++e4yJiu7QLjJ/l4JLmDnJheoztXeYdUHc1v/mcixz07j2tJYkrP/DZZdV1xGg2QsenQDA==
-X-Received: by 2002:a67:25c3:: with SMTP id l186mr6764181vsl.27.1613987556872;
-        Mon, 22 Feb 2021 01:52:36 -0800 (PST)
+X-Gm-Message-State: AOAM533OHt69si2RUnG/wh0H6X27ZRa7W2yI9LDHw/p1x1BBBs2/oVem
+	dgEqQsn1Z0TSuncBZB2VDtE=
+X-Google-Smtp-Source: ABdhPJzKnNEbcunMqk36U9WsgIcoHfoqVaaKmAih1Sv8RZfNETkKRRbo2YElmLGhAkP6auXlWZOMRA==
+X-Received: by 2002:a05:6830:1552:: with SMTP id l18mr16593716otp.233.1613992230772;
+        Mon, 22 Feb 2021 03:10:30 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a67:2645:: with SMTP id m66ls1835772vsm.3.gmail; Mon, 22 Feb
- 2021 01:52:36 -0800 (PST)
-X-Received: by 2002:a67:2a03:: with SMTP id q3mr2520450vsq.60.1613987556405;
-        Mon, 22 Feb 2021 01:52:36 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1613987556; cv=none;
+Received: by 2002:a9d:7d86:: with SMTP id j6ls1358625otn.11.gmail; Mon, 22 Feb
+ 2021 03:10:30 -0800 (PST)
+X-Received: by 2002:a05:6830:100c:: with SMTP id a12mr1173614otp.345.1613992230366;
+        Mon, 22 Feb 2021 03:10:30 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1613992230; cv=none;
         d=google.com; s=arc-20160816;
-        b=t/MYIA61zl8ftiHHJoGZmf81PAlIAb/5O3xEAg53ey1sEBMg2w7PRSP1SmATqlS+Ec
-         2OlA284tBlx1g0ZVx0HwddiGFrz7F6uDqfrM3OW8RdjAVIyoSVlP+/jHSx6J5sk0duDK
-         hoPI4yathILCthvONudPT8+QjmJHOecY0QcnQCFlfnIj4jPA4DLtMRDiM2SWrhGnKMQm
-         0zz4AQHd9WLSUgPy1R4TWYb3sbroWYL5NNwsFqEaiQusw53ZJbCp7EM1peCOcrsz8c53
-         wdUUGneHXPC2g3FOtsCEtaGeC5A5jFV2Q6tZhMPAkRXG2vP3Tyi/Ids2+z8oLYOawd9R
-         pssA==
+        b=wFhvy4cSiVcvJW5Xk4Zs1uwWbiuQpPVpFIi31OfJdZfdCq6UnKzkCc9l8ifSDB1qJZ
+         cRgSMUEz5SMoXvOKFVsx+OYojim3Vy2oUP26YPjP70TJiYtxpbQDck0eRm4IkKrI/HY8
+         Lr567NBcE8dhgYJrjomSGZbkxSTR8aT3zXy7wGhSty80pWsTWKpfCexPGdKsTGot6ERc
+         9zOgDtBFpGIyFYHaJdp7Gw6gSHK5Qgna9GsB5gKNclnWONQ0Pfnksajq5jRsu63ML2pk
+         e9+4YVFI3xOx6h31ob/QXaSWYM0ZXtcziTe9ep86HLzltf/sLmMzQ3sJLa6yc81XsWRm
+         au5Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:subject:organization:from:references:cc
-         :to:dkim-signature;
-        bh=d5eIr8u8FvWotSBBBi/ahMw0H/+9oyeliDYTeYUXMTY=;
-        b=Syz0CG4NOCnciRDdTj12NMGW1ZSDZ9XTimnoLlZZIc4j58YHueHH5rW636lvT3i0TR
-         VMNtdgQ54NRTJhY8nEYuFCRw1MFNoCB3p5GMdLEiNTk2ufzmMJp/REtYR8FNIyTJl+9y
-         soKmGhzewiEQ71qEsowIj4jLgKmV8Uykx9aWbUQpcwcI2M8qmU6Is0t9mJXWsvwe9CY5
-         tQyvoSUQl/RNbQHCv8V+x+pOqarPmkMsDKjnpKsN4C/o4ytBj2aZh5i70yXOw1N6cZnw
-         RKy3Ycb/W2k2nsDtNf/TxpS2FCWM16P0u5B60wiJu4om1pmCStz8FrLS1yJskOhamALh
-         lSxg==
+         :user-agent:date:message-id:from:references:cc:to:subject;
+        bh=n1xZrbTDNoqHd/0EhqNsRoUrAL/vF7RShVqA3NF5m9M=;
+        b=FOtKBg8xEFLt0HnxRZy9V5HsdNxOfJQIcQ01YmN6aakdPgdeatsY9bTYX+wrRZPYLJ
+         BlpO19gJnOcMjNQhYnnp9GLye6MNta5tYVZcBHrVfSlw5AEL2q6BWKEiKgj0bGNkXiau
+         7rBqxsMg2ukAx5b0DK9aaGA2gIktt8/8DRJlo7fcVFYAKUQhg9r1jusGIaWg+8GnMswQ
+         iFXinFQfZD9Iq5hO4uQDzv6xpSpNTfyKYgmyAiipHcOXobayVMzM2Y4kowYqkCINntA3
+         dHmDx3/bK1d8NjKr4ilWeuKCU4Cd3nGFpkX3y1hE2aerDo7ZoCgz+IaoqgbqtLm3VhUL
+         Gd3w==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b="ABj9xfk/";
-       spf=pass (google.com: domain of david@redhat.com designates 170.10.133.124 as permitted sender) smtp.mailfrom=david@redhat.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com. [170.10.133.124])
-        by gmr-mx.google.com with ESMTPS id e11si857126vkp.4.2021.02.22.01.52.36
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 22 Feb 2021 01:52:36 -0800 (PST)
-Received-SPF: pass (google.com: domain of david@redhat.com designates 170.10.133.124 as permitted sender) client-ip=170.10.133.124;
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-30-3Uvdxx5pNT-S0cgB1-QOkw-1; Mon, 22 Feb 2021 04:52:31 -0500
-X-MC-Unique: 3Uvdxx5pNT-S0cgB1-QOkw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7C76D801965;
-	Mon, 22 Feb 2021 09:52:28 +0000 (UTC)
-Received: from [10.36.115.16] (ovpn-115-16.ams2.redhat.com [10.36.115.16])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 160D71001281;
-	Mon, 22 Feb 2021 09:52:23 +0000 (UTC)
-To: George Kennedy <george.kennedy@oracle.com>,
- Andrey Konovalov <andreyknvl@google.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- Catalin Marinas <catalin.marinas@arm.com>,
- Vincenzo Frascino <vincenzo.frascino@arm.com>,
- Dmitry Vyukov <dvyukov@google.com>, Konrad Rzeszutek Wilk
- <konrad@darnok.org>, Will Deacon <will.deacon@arm.com>,
- Andrey Ryabinin <aryabinin@virtuozzo.com>,
- Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>,
- Peter Collingbourne <pcc@google.com>, Evgenii Stepanov <eugenis@google.com>,
+       spf=pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=vincenzo.frascino@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
+Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
+        by gmr-mx.google.com with ESMTP id b10si821382ots.5.2021.02.22.03.10.30
+        for <kasan-dev@googlegroups.com>;
+        Mon, 22 Feb 2021 03:10:30 -0800 (PST)
+Received-SPF: pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1CF701FB;
+	Mon, 22 Feb 2021 03:10:30 -0800 (PST)
+Received: from [10.37.8.9] (unknown [10.37.8.9])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id ADCBB3F73B;
+	Mon, 22 Feb 2021 03:10:26 -0800 (PST)
+Subject: Re: [PATCH v13 1/7] arm64: mte: Add asynchronous mode support
+To: Andrey Konovalov <andreyknvl@google.com>
+Cc: Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ LKML <linux-kernel@vger.kernel.org>, kasan-dev <kasan-dev@googlegroups.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Dmitry Vyukov <dvyukov@google.com>, Andrey Ryabinin
+ <aryabinin@virtuozzo.com>, Alexander Potapenko <glider@google.com>,
+ Marco Elver <elver@google.com>, Evgenii Stepanov <eugenis@google.com>,
  Branislav Rankov <Branislav.Rankov@arm.com>,
- Kevin Brodsky <kevin.brodsky@arm.com>, Christoph Hellwig
- <hch@infradead.org>, kasan-dev <kasan-dev@googlegroups.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Linux Memory Management List <linux-mm@kvack.org>,
- LKML <linux-kernel@vger.kernel.org>, Dhaval Giani <dhaval.giani@oracle.com>
-References: <487751e1ccec8fcd32e25a06ce000617e96d7ae1.1613595269.git.andreyknvl@google.com>
- <e58cbb53-5f5b-42ae-54a0-e3e1b76ad271@redhat.com>
- <d11bf144-669b-0fe1-4fa4-001a014db32a@oracle.com>
- <CAAeHK+y_SmP5yAeSM3Cp6V3WH9uj4737hDuVGA7U=xA42ek3Lw@mail.gmail.com>
- <c7166cae-bf89-8bdd-5849-72b5949fc6cc@oracle.com>
- <797fae72-e3ea-c0b0-036a-9283fa7f2317@oracle.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat GmbH
-Subject: Re: [PATCH] mm, kasan: don't poison boot memory
-Message-ID: <1ac78f02-d0af-c3ff-cc5e-72d6b074fc43@redhat.com>
-Date: Mon, 22 Feb 2021 10:52:23 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+References: <20210211153353.29094-1-vincenzo.frascino@arm.com>
+ <20210211153353.29094-2-vincenzo.frascino@arm.com>
+ <CAAeHK+xM1VHvSF_9ELf=_nDwJsUV2S1=LQy-rU-O0oyrNexzXw@mail.gmail.com>
+From: Vincenzo Frascino <vincenzo.frascino@arm.com>
+Message-ID: <d20e596b-f9b0-8f55-43a8-aacc3c0cb88f@arm.com>
+Date: Mon, 22 Feb 2021 11:14:38 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <797fae72-e3ea-c0b0-036a-9283fa7f2317@oracle.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+In-Reply-To: <CAAeHK+xM1VHvSF_9ELf=_nDwJsUV2S1=LQy-rU-O0oyrNexzXw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Original-Sender: david@redhat.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@redhat.com header.s=mimecast20190719 header.b="ABj9xfk/";
-       spf=pass (google.com: domain of david@redhat.com designates
- 170.10.133.124 as permitted sender) smtp.mailfrom=david@redhat.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
+X-Original-Sender: vincenzo.frascino@arm.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172
+ as permitted sender) smtp.mailfrom=vincenzo.frascino@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -165,173 +139,133 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 20.02.21 00:04, George Kennedy wrote:
->=20
->=20
-> On 2/19/2021 11:45 AM, George Kennedy wrote:
+On 2/12/21 9:21 PM, Andrey Konovalov wrote:
+> On Thu, Feb 11, 2021 at 4:34 PM Vincenzo Frascino
+> <vincenzo.frascino@arm.com> wrote:
 >>
+>> MTE provides an asynchronous mode for detecting tag exceptions. In
+>> particular instead of triggering a fault the arm64 core updates a
+>> register which is checked by the kernel after the asynchronous tag
+>> check fault has occurred.
 >>
->> On 2/18/2021 7:09 PM, Andrey Konovalov wrote:
->>> On Fri, Feb 19, 2021 at 1:06 AM George Kennedy
->>> <george.kennedy@oracle.com> wrote:
->>>>
->>>>
->>>> On 2/18/2021 3:55 AM, David Hildenbrand wrote:
->>>>> On 17.02.21 21:56, Andrey Konovalov wrote:
->>>>>> During boot, all non-reserved memblock memory is exposed to the budd=
-y
->>>>>> allocator. Poisoning all that memory with KASAN lengthens boot time,
->>>>>> especially on systems with large amount of RAM. This patch makes
->>>>>> page_alloc to not call kasan_free_pages() on all new memory.
->>>>>>
->>>>>> __free_pages_core() is used when exposing fresh memory during system
->>>>>> boot and when onlining memory during hotplug. This patch adds a new
->>>>>> FPI_SKIP_KASAN_POISON flag and passes it to __free_pages_ok() throug=
-h
->>>>>> free_pages_prepare() from __free_pages_core().
->>>>>>
->>>>>> This has little impact on KASAN memory tracking.
->>>>>>
->>>>>> Assuming that there are no references to newly exposed pages
->>>>>> before they
->>>>>> are ever allocated, there won't be any intended (but buggy)
->>>>>> accesses to
->>>>>> that memory that KASAN would normally detect.
->>>>>>
->>>>>> However, with this patch, KASAN stops detecting wild and large
->>>>>> out-of-bounds accesses that happen to land on a fresh memory page
->>>>>> that
->>>>>> was never allocated. This is taken as an acceptable trade-off.
->>>>>>
->>>>>> All memory allocated normally when the boot is over keeps getting
->>>>>> poisoned as usual.
->>>>>>
->>>>>> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
->>>>>> Change-Id: Iae6b1e4bb8216955ffc14af255a7eaaa6f35324d
->>>>> Not sure this is the right thing to do, see
->>>>>
->>>>> https://lkml.kernel.org/r/bcf8925d-0949-3fe1-baa8-cc536c529860@oracle=
-.com
->>>>>
->>>>>
->>>>> Reversing the order in which memory gets allocated + used during boot
->>>>> (in a patch by me) might have revealed an invalid memory access durin=
-g
->>>>> boot.
->>>>>
->>>>> I suspect that that issue would no longer get detected with your
->>>>> patch, as the invalid memory access would simply not get detected.
->>>>> Now, I cannot prove that :)
->>>> Since David's patch we're having trouble with the iBFT ACPI table,
->>>> which
->>>> is mapped in via kmap() - see acpi_map() in "drivers/acpi/osl.c". KASA=
-N
->>>> detects that it is being used after free when ibft_init() accesses the
->>>> iBFT table, but as of yet we can't find where it get's freed (we've
->>>> instrumented calls to kunmap()).
->>> Maybe it doesn't get freed, but what you see is a wild or a large
->>> out-of-bounds access. Since KASAN marks all memory as freed during the
->>> memblock->page_alloc transition, such bugs can manifest as
->>> use-after-frees.
+>> Add support for MTE asynchronous mode.
 >>
->> It gets freed and re-used. By the time the iBFT table is accessed by
->> ibft_init() the page has been over-written.
+>> The exception handling mechanism will be added with a future patch.
 >>
->> Setting page flags like the following before the call to kmap()
->> prevents the iBFT table page from being freed:
->=20
-> Cleaned up version:
->=20
-> diff --git a/drivers/acpi/osl.c b/drivers/acpi/osl.c
-> index 0418feb..8f0a8e7 100644
-> --- a/drivers/acpi/osl.c
-> +++ b/drivers/acpi/osl.c
-> @@ -287,9 +287,12 @@ static void __iomem *acpi_map(acpi_physical_address
-> pg_off, unsigned long pg_sz)
->=20
->   =C2=A0=C2=A0=C2=A0=C2=A0 pfn =3D pg_off >> PAGE_SHIFT;
->   =C2=A0=C2=A0=C2=A0=C2=A0 if (should_use_kmap(pfn)) {
-> +=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 struct page *page =3D pfn_to_page(=
-pfn);
-> +
->   =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 if (pg_sz > PAGE_SIZE)
->   =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 return N=
-ULL;
-> -=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 return (void __iomem __force *)kma=
-p(pfn_to_page(pfn));
-> +=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 SetPageReserved(page);
-> +=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 return (void __iomem __force *)kma=
-p(page);
->   =C2=A0=C2=A0=C2=A0=C2=A0 } else
->   =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 return acpi_os_ioremap(pg_o=
-ff, pg_sz);
->   =C2=A0}
-> @@ -299,9 +302,12 @@ static void acpi_unmap(acpi_physical_address
-> pg_off, void __iomem *vaddr)
->   =C2=A0=C2=A0=C2=A0=C2=A0 unsigned long pfn;
->=20
->   =C2=A0=C2=A0=C2=A0=C2=A0 pfn =3D pg_off >> PAGE_SHIFT;
-> -=C2=A0=C2=A0=C2=A0 if (should_use_kmap(pfn))
-> -=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 kunmap(pfn_to_page(pfn));
-> -=C2=A0=C2=A0=C2=A0 else
-> +=C2=A0=C2=A0=C2=A0 if (should_use_kmap(pfn)) {
-> +=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 struct page *page =3D pfn_to_page(=
-pfn);
-> +
-> +=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 ClearPageReserved(page);
-> +=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 kunmap(page);
-> +=C2=A0=C2=A0=C2=A0 } else
->   =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 iounmap(vaddr);
->   =C2=A0}
->=20
-> David, the above works, but wondering why it is now necessary. kunmap()
-> is not hit. What other ways could a page mapped via kmap() be unmapped?
->=20
+>> Note: KASAN HW activates async mode via kasan.mode kernel parameter.
+>> The default mode is set to synchronous.
+>> The code that verifies the status of TFSR_EL1 will be added with a
+>> future patch.
+>>
+>> Cc: Catalin Marinas <catalin.marinas@arm.com>
+>> Cc: Will Deacon <will@kernel.org>
+>> Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
+>> Reviewed-by: Andrey Konovalov <andreyknvl@google.com>
+>> Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
+>> ---
+>>  arch/arm64/include/asm/memory.h    |  3 ++-
+>>  arch/arm64/include/asm/mte-kasan.h |  9 +++++++--
+>>  arch/arm64/kernel/mte.c            | 19 ++++++++++++++++---
+>>  3 files changed, 25 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/arch/arm64/include/asm/memory.h b/arch/arm64/include/asm/memory.h
+>> index c759faf7a1ff..91515383d763 100644
+>> --- a/arch/arm64/include/asm/memory.h
+>> +++ b/arch/arm64/include/asm/memory.h
+>> @@ -243,7 +243,8 @@ static inline const void *__tag_set(const void *addr, u8 tag)
+>>  }
+>>
+>>  #ifdef CONFIG_KASAN_HW_TAGS
+>> -#define arch_enable_tagging()                  mte_enable_kernel()
+>> +#define arch_enable_tagging_sync()             mte_enable_kernel_sync()
+>> +#define arch_enable_tagging_async()            mte_enable_kernel_async()
+> 
+> We need to update KASAN usage of arch_enable_tagging() to
+> arch_enable_tagging_sync() in this patch as well. Otherwise, this
+> leaves KASAN broken between this patch and the next one.
+>
 
-Let me look into the code ... I have little experience with ACPI=20
-details, so bear with me.
+Yes you are right, still can't explain why it did bysect cleanly though.
+I will introduce temporarily here:
 
-I assume that acpi_map()/acpi_unmap() map some firmware blob that is=20
-provided via firmware/bios/... to us.
+#define arch_enable_tagging() arch_enable_tagging_sync()
 
-should_use_kmap() tells us whether
-a) we have a "struct page" and should kmap() that one
-b) we don't have a "struct page" and should ioremap.
+and remove it again in the respective kasan patch.
 
-As it is a blob, the firmware should always reserve that memory region=20
-via memblock (e.g., memblock_reserve()), such that we either
-1) don't create a memmap ("struct page") at all (-> case b) )
-2) if we have to create e memmap, we mark the page PG_reserved and
-    *never* expose it to the buddy (-> case a) )
+> 
+>>  #define arch_set_tagging_report_once(state)    mte_set_report_once(state)
+>>  #define arch_init_tags(max_tag)                        mte_init_tags(max_tag)
+>>  #define arch_get_random_tag()                  mte_get_random_tag()
+>> diff --git a/arch/arm64/include/asm/mte-kasan.h b/arch/arm64/include/asm/mte-kasan.h
+>> index 7ab500e2ad17..4acf8bf41cad 100644
+>> --- a/arch/arm64/include/asm/mte-kasan.h
+>> +++ b/arch/arm64/include/asm/mte-kasan.h
+>> @@ -77,7 +77,8 @@ static inline void mte_set_mem_tag_range(void *addr, size_t size, u8 tag)
+>>         } while (curr != end);
+>>  }
+>>
+>> -void mte_enable_kernel(void);
+>> +void mte_enable_kernel_sync(void);
+>> +void mte_enable_kernel_async(void);
+>>  void mte_init_tags(u64 max_tag);
+>>
+>>  void mte_set_report_once(bool state);
+>> @@ -104,7 +105,11 @@ static inline void mte_set_mem_tag_range(void *addr, size_t size, u8 tag)
+>>  {
+>>  }
+>>
+>> -static inline void mte_enable_kernel(void)
+>> +static inline void mte_enable_kernel_sync(void)
+>> +{
+>> +}
+>> +
+>> +static inline void mte_enable_kernel_async(void)
+>>  {
+>>  }
+>>
+>> diff --git a/arch/arm64/kernel/mte.c b/arch/arm64/kernel/mte.c
+>> index a66c2806fc4d..706b7ab75f31 100644
+>> --- a/arch/arm64/kernel/mte.c
+>> +++ b/arch/arm64/kernel/mte.c
+>> @@ -107,13 +107,26 @@ void mte_init_tags(u64 max_tag)
+>>         write_sysreg_s(SYS_GCR_EL1_RRND | gcr_kernel_excl, SYS_GCR_EL1);
+>>  }
+>>
+>> -void mte_enable_kernel(void)
+>> +static inline void __mte_enable_kernel(const char *mode, unsigned long tcf)
+>>  {
+>>         /* Enable MTE Sync Mode for EL1. */
+>> -       sysreg_clear_set(sctlr_el1, SCTLR_ELx_TCF_MASK, SCTLR_ELx_TCF_SYNC);
+>> +       sysreg_clear_set(sctlr_el1, SCTLR_ELx_TCF_MASK, tcf);
+>>         isb();
+>> +
+>> +       pr_info_once("MTE: enabled in %s mode at EL1\n", mode);
+>> +}
+>> +
+>> +void mte_enable_kernel_sync(void)
+>> +{
+>> +       __mte_enable_kernel("synchronous", SCTLR_ELx_TCF_SYNC);
+>> +}
+>> +EXPORT_SYMBOL_GPL(mte_enable_kernel_sync);
+>> +
+>> +void mte_enable_kernel_async(void)
+>> +{
+>> +       __mte_enable_kernel("asynchronous", SCTLR_ELx_TCF_ASYNC);
+>>  }
+>> -EXPORT_SYMBOL_GPL(mte_enable_kernel);
+>> +EXPORT_SYMBOL_GPL(mte_enable_kernel_async);
+>>
+>>  void mte_set_report_once(bool state)
+>>  {
+>> --
+>> 2.30.0
+>>
 
+-- 
+Regards,
+Vincenzo
 
-Are you telling me that in this case we might have a memmap for the HW=20
-blob that is *not* PG_reserved? In that case it most probably got=20
-exposed to the buddy where it can happily get allocated/freed.
-
-The latent BUG would be that that blob gets exposed to the system like=20
-ordinary RAM, and not reserved via memblock early during boot. Assuming=20
-that blob has a low physical address, with my patch it will get=20
-allocated/used a lot earlier - which would mean we trigger this latent=20
-BUG now more easily.
-
-There have been similar latent BUGs on ARM boards that my patch=20
-discovered where special RAM regions did not get marked as reserved via=20
-the device tree properly.
-
-Now, this is just a wild guess :) Can you dump the page when mapping=20
-(before PageReserved()) and when unmapping, to see what the state of=20
-that memmap is?
-
---=20
-Thanks,
-
-David / dhildenb
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/1ac78f02-d0af-c3ff-cc5e-72d6b074fc43%40redhat.com.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/d20e596b-f9b0-8f55-43a8-aacc3c0cb88f%40arm.com.
