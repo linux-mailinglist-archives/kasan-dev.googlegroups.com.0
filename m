@@ -1,191 +1,132 @@
-Return-Path: <kasan-dev+bncBDE5LFWXQAIRBBOC2WAQMGQE6MVAZ2I@googlegroups.com>
+Return-Path: <kasan-dev+bncBD42DY67RYARBHWK2WAQMGQEMDTTPWA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ua1-x937.google.com (mail-ua1-x937.google.com [IPv6:2607:f8b0:4864:20::937])
-	by mail.lfdr.de (Postfix) with ESMTPS id 020E33231DD
-	for <lists+kasan-dev@lfdr.de>; Tue, 23 Feb 2021 21:09:43 +0100 (CET)
-Received: by mail-ua1-x937.google.com with SMTP id c8sf7900750uac.11
-        for <lists+kasan-dev@lfdr.de>; Tue, 23 Feb 2021 12:09:42 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1614110982; cv=pass;
+Received: from mail-ot1-x340.google.com (mail-ot1-x340.google.com [IPv6:2607:f8b0:4864:20::340])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C6BC32320E
+	for <lists+kasan-dev@lfdr.de>; Tue, 23 Feb 2021 21:27:11 +0100 (CET)
+Received: by mail-ot1-x340.google.com with SMTP id e19sf6773324ote.10
+        for <lists+kasan-dev@lfdr.de>; Tue, 23 Feb 2021 12:27:11 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1614112030; cv=pass;
         d=google.com; s=arc-20160816;
-        b=N7BPDxAt7AducNIisyUyk89mma7euHfwqabeYpjX87hctNuMwuAtzAN2TzZNbhfZL2
-         TROyIyD5lAK6C9lpMNyPy3jqA9zuECZKNw219f+yReDgbuiimkfaiv9NeKO3QKH73ncn
-         /Sz9KZ60VjI+GDA3Sc9KhD4eX0J3q4DmhY+IuQCSU2P3oT8bD7xk2OBJYtytaZUMgOB2
-         QkJDBg+LFQvrLQCFoyiNOYkZZyFjX6KGJRn393/1qiO9r4CLvBm46xDGCIAtOX52ZwsT
-         CMA0NTjK0CSz5++yBC3HCqfGv5ff5P3oAUnVTdzJywv5GbjYAQEgZd87xZtV3yerih0P
-         Cubg==
+        b=ekMgDLmVtlBV4fiySvGfL/1NUDPel7l7VfBHml7/vwW6SO9qsu025Z2f25BPtUsP3Y
+         8i0gTPWOz+dCumTxtEcYDauR7J8PRanQuCJDdREWXW1TwjYrquHCKj5S8e00vnmWAVoo
+         XL6CU0T4h6+VkjYFP89STJXqZch1IrIB3qCHZ6RcMiqa79ADPISUmWHpXiwaMH7qiwj0
+         51UPg0mHwK1NT52igqPLnSLkBsreGeOcanpobltkMSfDFvPDffS49hHXtCTwh98FfrCP
+         xo3VATELzVQkhytmxUoeP803KMgM/kM4BeAnxC+hajfphmgUy0pIciS9NECF3FvLEIbT
+         R/EA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to
-         :content-transfer-encoding:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:dkim-signature;
-        bh=5G9/JI2/lWuKjEEBhClZiH1pDEFYnfyH2+d6XZHI7VU=;
-        b=nQsaq2MiKoZj/cGBTtmymQmyj7+oqzAsj1zn1A8LJJUciJ9uRgOHdHg09UAq4GNDIv
-         SyuF8tEa28fj+pSnosq3tYjIxCcc2tcdmpRSD+JY4HgeR7X9mYWye5bE/+g+QojGtiUP
-         2Rm34Vuj+5ZP9JAJ7EWjIo+ghFeUURbwplcRsdxUc0PX3x+rSRHOnSlWLrMUA0korFY4
-         YtT6tAHBXshJ+62p4hkf7g6Oc8bKPF6CtbjS773d+mTgon03eYbgBE8eUOtgz4F0pGRn
-         qE/mrSeSccNmhjA6h6KOQJyLyJgzUYHaXHmhV29dgFUKiQIm8g4/ubOmyv+WRpNUYD6u
-         5u2w==
+         :list-id:mailing-list:precedence:to:in-reply-to:cc:references
+         :message-id:date:subject:mime-version:from:content-transfer-encoding
+         :sender:dkim-signature;
+        bh=jGrsHLSiZWT2dLa1VTT4nGlAV7OG5Ps+dKRD8W/Sr6U=;
+        b=MuYpzRFlR3eoRSagbiZqhjL1+jSW26Am6Y4Nna1LxVGSmhDRLzw8KJpuYiHfDXPeC+
+         yKl31ZPy0Gq3TIP19nJFADK1xDPsl8PO1XGNCf3dNCzQ5G8/aSjebUg2pgC+ueItSZE1
+         a9RRwEps+ImLEXb8QfG/LWjgOn5ONIYwLFAZY6RJaKDk/RguxqH2wYCnU1jPTTQAYYsl
+         s6qu+aoA4KvvPfOLF+iqzNryvvBB6uDnf5JxdX5ONIWgQC2ZqvO6pTNj4/SNSKNXrnGQ
+         lqWisFqtombWiq8Zwq93k+zhTCN4Qq9GNecq4AMTt7k1MeUKZyu7NiM/IQ+thOa9Wa/k
+         2rww==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@ibm.com header.s=pp1 header.b=ed9n0peS;
-       spf=pass (google.com: domain of rppt@linux.ibm.com designates 148.163.158.5 as permitted sender) smtp.mailfrom=rppt@linux.ibm.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=ibm.com
+       dkim=pass header.i=@amacapital-net.20150623.gappssmtp.com header.s=20150623 header.b=rII14qYh;
+       spf=pass (google.com: domain of luto@amacapital.net designates 2607:f8b0:4864:20::42f as permitted sender) smtp.mailfrom=luto@amacapital.net
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=5G9/JI2/lWuKjEEBhClZiH1pDEFYnfyH2+d6XZHI7VU=;
-        b=giwU6EP7I3uOR6175fuZZSjip8XufZFf0B2qVXQbS/GrPA68UtLtUx9cASJxIsSMDc
-         ODQCw7fWewxiokd0LH8DoRIHWQZDFXx8/QaWYRUVzh8rj4b1m/eaXfYPVbsQd2NTsjG/
-         IZLUYD+zegORcRG/uE4OmEA0FHjKpCc0rs4uKvTX93VUbcAxJaWzIQuLkbIrUNkhrf3t
-         prH3HkmgKxI+QD3MMsfa6wgEDbsRGebPwckbR7FFnvBxC4bnYrOvdE80uRDb77QQQUsZ
-         rpxAlDNR88TMJFBA+00LxcfRIwa3vsYCGiFFaGffZMey+LeHRqgSbcbqXsVpCpjxwEq3
-         95kg==
+        h=sender:content-transfer-encoding:from:mime-version:subject:date
+         :message-id:references:cc:in-reply-to:to:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=jGrsHLSiZWT2dLa1VTT4nGlAV7OG5Ps+dKRD8W/Sr6U=;
+        b=qUjHeIjH7CI0tGFuJOYqtoK4PWZohuqyl/+FMc6aKAG/bSTYXrTdbEy7ahTOd7F5vX
+         sIH7wWhRP/I9T0BDoFklsnckofUTWfs1mnZuqUJRWtS/EYQYIiBk70vxMf5OngVHYFq9
+         tsvjvuHwevM692/ahMw8ZrgDfIChtjGR4YNNgDPjNYd7IOtzRsnUI2OFFQAOqYzHHB3q
+         Ro9RtB+MWLxIsOc4G0jghGbLRMAmnBHkYA3NlFUIr/N/Z5VludpvWHP24HDjks0ty3F1
+         xm0r8mIeXMCVpFu9Ii6yGkdRRKmAajdr8OqmJ4kVV4xMfLNmHty1pZT+pX2Q0IpAxLhj
+         9VvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition
-         :content-transfer-encoding:in-reply-to:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=5G9/JI2/lWuKjEEBhClZiH1pDEFYnfyH2+d6XZHI7VU=;
-        b=fzzGigvrc3Ym/y4ezYn0RhpaKqwyD/reiuq1mEmzR7fB7M2IkjqOu4iPUqBkHAACWu
-         fHm8ZwCusnKWcWQDZUr6b8G6HNaw9iPWtsfjuHiHYra0yy2T7e0v95MHD2+fzxll+Hp8
-         IlV4fphML3DwHrZHfi04AnjXIOXignAB01FWIApS/uQIREf6aU+25nAXU5HpTlR11t0x
-         wwUiMJ6VF5gel9DvzSkun3dLF9BIYZikRjKFgNxhDH+xsmOSURNvtCTG2ZzsvzL5V7y0
-         hyJFUICEvDClD90eV1TUe90+dDaruaDHj7tYD3CUKc72iwg9Ly2a4skRN1AOnkEqgAYO
-         agyg==
+        h=sender:x-gm-message-state:content-transfer-encoding:from
+         :mime-version:subject:date:message-id:references:cc:in-reply-to:to
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=jGrsHLSiZWT2dLa1VTT4nGlAV7OG5Ps+dKRD8W/Sr6U=;
+        b=ny7Q9qrDdfZpNRF7xuGrob5K8MUFGLQAIa3UgBzgQeAMWjnWuHsi++5XRZ4+qcBMOc
+         naaankqz8ynvWLx1BS1C9zVj0qpOKtDDDmG0U1M9clkikWcvZsYewRdMlwi9Z7q+AHEQ
+         I7wBSDOBSnZZilRaz7x28AURteYcEni5C4tMjzvkboXSwz+j+tvt5TU7ZVNLtcJ2qw1h
+         hFqt703dLXprLAidM0iH3VUCl1mO6MopoSOB2NxjZCKb4uz9+bdHzCNK0cicGGC8MC7f
+         YIWF/pZiwtjashIb7HFU32P1ETPPlMm0TWTshlLjgsq4UgzJSGsWQ5iMleQviM3Xrmkq
+         8nDQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM531TE+8eXoubawCucHS9I3J9kLapKOjvUvBY4fjE64N+013j/7r+
-	DWOBgpSBVmpWyL+/GiLWGFE=
-X-Google-Smtp-Source: ABdhPJwkHI8CGabTTBrdZDc2LDvr9eYHzFS7kKN/QglIOo3tck8sAoAg7tlOL2qGOgqSZg29d7aw2g==
-X-Received: by 2002:a9f:2b4c:: with SMTP id q12mr8884793uaj.132.1614110982063;
-        Tue, 23 Feb 2021 12:09:42 -0800 (PST)
+X-Gm-Message-State: AOAM531M3JcFlSHMHHac3RlJ/Gp/sB4D+n3v440cFMJYfPPA8PBitWP+
+	/uyCp/nCH44/dwHHyUJcYLY=
+X-Google-Smtp-Source: ABdhPJwNlckfDFNPhyLp23VRKpnWd5gQNsJ8poiQgLvUqR6fFCxwnPHmINs7llup2wa7CRShyfGzRw==
+X-Received: by 2002:a05:6830:1f3c:: with SMTP id e28mr21950466oth.93.1614112030212;
+        Tue, 23 Feb 2021 12:27:10 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a1f:268b:: with SMTP id m133ls1070249vkm.6.gmail; Tue, 23
- Feb 2021 12:09:41 -0800 (PST)
-X-Received: by 2002:a1f:9fc8:: with SMTP id i191mr17929827vke.5.1614110981555;
-        Tue, 23 Feb 2021 12:09:41 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1614110981; cv=none;
+Received: by 2002:a9d:6a0e:: with SMTP id g14ls1607174otn.3.gmail; Tue, 23 Feb
+ 2021 12:27:09 -0800 (PST)
+X-Received: by 2002:a9d:6a99:: with SMTP id l25mr584765otq.307.1614112029894;
+        Tue, 23 Feb 2021 12:27:09 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1614112029; cv=none;
         d=google.com; s=arc-20160816;
-        b=MfYlJZGFiFYfSA+n5x5LUQG04ESVwOV3+fsiBs3JwALSbWnuitlq0OgihpK0RfI2KR
-         Anr9PDpF+d/V3sap2FKSEdEjBkf1nEcUA7lqlI+X/Igh1cvJVO+s6aPG0YstepH2KxDh
-         ySAUhe4fTvHEG3fjfnUbl8u9bCTmJ0LdjvRWnrCiHr2h6TRt7lMLMubcVbYuJM1tqPGN
-         fY6q9yvahHID1GG/QiX2jrTDYbnubChAbkhxGuVgogR1glffjTYmKqrzgjcTOcjKTmQL
-         knR9rcdq3z9gvgAayyejVwHVhZXsjuyRuYPWmBTf/SPhfxCuc0UR5tltflCEkJ1evqfS
-         066w==
+        b=iBukTeGds++4pJNn0SY9hl9JdWArOXZ7usWfMzg8/2JI2aL7WrlWVwg61Vxx95If3m
+         VPoPgtwcC2jktv+RH6ANnB5L/Uu1TpQ4VDFqN/fJqj/eBNksPkRDBW2xF+kmhDXOMhqY
+         Gw6WXdIoZY6aQfAlaXLtP5fdxz9dZlGvRO4Ke1w3KI2ZcJBPTZKxuNjybFZXbi8g+Z/G
+         Jdsw86JwYrpp6szlTUXySspnMFHTnGOS6ug0lW6U+2ZWDu5ZThgCzeSLFEecIYaJhZ9l
+         +LYiJXwzsdvp3c2B/l7MCd/IzSwe/ngXX5tUiZ5wMGzHAda6uh/My22ZFrcByp4NzGfm
+         kSyw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :dkim-signature;
-        bh=5op8Kt67whagINL33DSIe7bo2wuZ0fdfQE/1gEwLU1Y=;
-        b=R0r2PVGkMkf1TZt8x4XlMKjgSIzgr9+i/3LEA5PSUxATzRkxkYWAGcmT4zscLJZ1do
-         zMmL02L+NJmSD8OMSauj5WsGhvfe6ucJ5A7cC4ILKd8XoBKrDOGNNudnQGcKQH/ZQiiC
-         9S1wIhcrLlrKn9m9cakm1QMUJfPVmzjP164xavkny8PZWD/GLsbxPHyehjUAS3Mekz7T
-         +bz84LCXV0+25dweeGj1KbGYgdrwPggNK2BnPRJZywV+gKYOPDJZnPNI8ekJUAt/H3Z1
-         ZLOJmjJBO5nbXoxN2DZIPj0hPLeWZgBRbigpBq+cL47BJyzecv3QIFuZMFe2WBqUpLzV
-         Ksag==
+        h=to:in-reply-to:cc:references:message-id:date:subject:mime-version
+         :from:content-transfer-encoding:dkim-signature;
+        bh=Kk5JpRbDq4xRfQD7TUXlnwHHd/9lf684NeDm/b3OOQ4=;
+        b=xtRAV5MIL76NWN5i2oKy58KF2vi1u2ILvZmr3PJUZoXW+mNVvB3xxfL5pbq0vX9zR5
+         JTvWlUXyWUY+L11KBnxuneCKM4KGr8/M0Kq+jKervYKyhbck0VIXAcrNM8LlN3nGDAOZ
+         Ag4kfNMl73uUxdYbmQRwgM7l/F93BVonUCk2GvhcpLJGfkpbXNyD2/hqi+gFK9g1Ltom
+         0T5qKrwGIo09qISFdUzc590KqKPgzeZqhbcaK8Wltk+7adp7Mia1DlH4FbyEwBGhKlp3
+         SycJWSCl5a48iRRqk5pyTYmoIxdcVTnR/nlb1G7hycTvn0QPo83vexW5s5xPcycPG9rd
+         kEJA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@ibm.com header.s=pp1 header.b=ed9n0peS;
-       spf=pass (google.com: domain of rppt@linux.ibm.com designates 148.163.158.5 as permitted sender) smtp.mailfrom=rppt@linux.ibm.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=ibm.com
-Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com. [148.163.158.5])
-        by gmr-mx.google.com with ESMTPS id p16si116209vko.0.2021.02.23.12.09.41
+       dkim=pass header.i=@amacapital-net.20150623.gappssmtp.com header.s=20150623 header.b=rII14qYh;
+       spf=pass (google.com: domain of luto@amacapital.net designates 2607:f8b0:4864:20::42f as permitted sender) smtp.mailfrom=luto@amacapital.net
+Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com. [2607:f8b0:4864:20::42f])
+        by gmr-mx.google.com with ESMTPS id l18si798440otk.3.2021.02.23.12.27.09
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 23 Feb 2021 12:09:41 -0800 (PST)
-Received-SPF: pass (google.com: domain of rppt@linux.ibm.com designates 148.163.158.5 as permitted sender) client-ip=148.163.158.5;
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
-	by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 11NK4XJi185352;
-	Tue, 23 Feb 2021 15:09:27 -0500
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0b-001b2d01.pphosted.com with ESMTP id 36vkne0qgk-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 23 Feb 2021 15:09:27 -0500
-Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
-	by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 11NK4Zcm185531;
-	Tue, 23 Feb 2021 15:09:26 -0500
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com [159.122.73.72])
-	by mx0b-001b2d01.pphosted.com with ESMTP id 36vkne0qg3-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 23 Feb 2021 15:09:26 -0500
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
-	by ppma06fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 11NK8RE2012157;
-	Tue, 23 Feb 2021 20:09:24 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
-	by ppma06fra.de.ibm.com with ESMTP id 36tsph9hta-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 23 Feb 2021 20:09:24 +0000
-Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com [9.149.105.60])
-	by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 11NK99Ll18088310
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 23 Feb 2021 20:09:09 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 2076442047;
-	Tue, 23 Feb 2021 20:09:22 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 4CB394203F;
-	Tue, 23 Feb 2021 20:09:17 +0000 (GMT)
-Received: from linux.ibm.com (unknown [9.145.51.238])
-	by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-	Tue, 23 Feb 2021 20:09:17 +0000 (GMT)
-Date: Tue, 23 Feb 2021 22:09:14 +0200
-From: Mike Rapoport <rppt@linux.ibm.com>
-To: George Kennedy <george.kennedy@oracle.com>
-Cc: David Hildenbrand <david@redhat.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Konrad Rzeszutek Wilk <konrad@darnok.org>,
-        Will Deacon <will.deacon@arm.com>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Alexander Potapenko <glider@google.com>,
-        Marco Elver <elver@google.com>, Peter Collingbourne <pcc@google.com>,
-        Evgenii Stepanov <eugenis@google.com>,
-        Branislav Rankov <Branislav.Rankov@arm.com>,
-        Kevin Brodsky <kevin.brodsky@arm.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Dhaval Giani <dhaval.giani@oracle.com>
-Subject: Re: [PATCH] mm, kasan: don't poison boot memory
-Message-ID: <20210223200914.GH1741768@linux.ibm.com>
-References: <1ac78f02-d0af-c3ff-cc5e-72d6b074fc43@redhat.com>
- <bd7510b5-d325-b516-81a8-fbdc81a27138@oracle.com>
- <56c97056-6d8b-db0e-e303-421ee625abe3@redhat.com>
- <cb8564e8-3535-826b-2d42-b273a0d793fb@oracle.com>
- <20210222215502.GB1741768@linux.ibm.com>
- <9773282a-2854-25a4-9faa-9da5dd34e371@oracle.com>
- <20210223103321.GD1741768@linux.ibm.com>
- <3ef9892f-d657-207f-d4cf-111f98dcb55c@oracle.com>
- <20210223154758.GF1741768@linux.ibm.com>
- <3a56ba38-ce91-63a6-b57c-f1726aa1b76e@oracle.com>
-MIME-Version: 1.0
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 23 Feb 2021 12:27:09 -0800 (PST)
+Received-SPF: pass (google.com: domain of luto@amacapital.net designates 2607:f8b0:4864:20::42f as permitted sender) client-ip=2607:f8b0:4864:20::42f;
+Received: by mail-pf1-x42f.google.com with SMTP id j24so6604992pfi.2
+        for <kasan-dev@googlegroups.com>; Tue, 23 Feb 2021 12:27:09 -0800 (PST)
+X-Received: by 2002:a62:1ad4:0:b029:1ed:b92c:6801 with SMTP id a203-20020a621ad40000b02901edb92c6801mr3749066pfa.7.1614112029199;
+        Tue, 23 Feb 2021 12:27:09 -0800 (PST)
+Received: from ?IPv6:2600:1010:b005:a3de:6cc4:ccf5:1045:b347? ([2600:1010:b005:a3de:6cc4:ccf5:1045:b347])
+        by smtp.gmail.com with ESMTPSA id o188sm16858149pfb.102.2021.02.23.12.27.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 23 Feb 2021 12:27:08 -0800 (PST)
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <3a56ba38-ce91-63a6-b57c-f1726aa1b76e@oracle.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369,18.0.761
- definitions=2021-02-23_08:2021-02-23,2021-02-23 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 bulkscore=0
- mlxlogscore=999 impostorscore=0 lowpriorityscore=0 clxscore=1015
- phishscore=0 adultscore=0 priorityscore=1501 malwarescore=0 spamscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2102230169
-X-Original-Sender: rppt@linux.ibm.com
+From: Andy Lutomirski <luto@amacapital.net>
+Mime-Version: 1.0 (1.0)
+Subject: Re: [PATCH RFC 0/4] Add support for synchronous signals on perf events
+Date: Tue, 23 Feb 2021 12:27:05 -0800
+Message-Id: <3D507285-835F-4C83-8343-2888835971B4@amacapital.net>
+References: <20210223143426.2412737-1-elver@google.com>
+Cc: peterz@infradead.org, alexander.shishkin@linux.intel.com,
+ acme@kernel.org, mingo@redhat.com, jolsa@redhat.com, mark.rutland@arm.com,
+ namhyung@kernel.org, tglx@linutronix.de, glider@google.com,
+ viro@zeniv.linux.org.uk, arnd@arndb.de, christian@brauner.io,
+ dvyukov@google.com, jannh@google.com, axboe@kernel.dk, mascasa@google.com,
+ pcc@google.com, irogers@google.com, kasan-dev@googlegroups.com,
+ linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+ x86@kernel.org
+In-Reply-To: <20210223143426.2412737-1-elver@google.com>
+To: Marco Elver <elver@google.com>
+X-Mailer: iPhone Mail (18D52)
+X-Original-Sender: luto@amacapital.net
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@ibm.com header.s=pp1 header.b=ed9n0peS;       spf=pass (google.com:
- domain of rppt@linux.ibm.com designates 148.163.158.5 as permitted sender)
- smtp.mailfrom=rppt@linux.ibm.com;       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=ibm.com
+ header.i=@amacapital-net.20150623.gappssmtp.com header.s=20150623
+ header.b=rII14qYh;       spf=pass (google.com: domain of luto@amacapital.net
+ designates 2607:f8b0:4864:20::42f as permitted sender) smtp.mailfrom=luto@amacapital.net
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -198,117 +139,111 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Feb 23, 2021 at 01:05:05PM -0500, George Kennedy wrote:
-> On 2/23/2021 10:47 AM, Mike Rapoport wrote:
+
+> On Feb 23, 2021, at 6:34 AM, Marco Elver <elver@google.com> wrote:
 >=20
-> It now crashes here:
+> =EF=BB=BFThe perf subsystem today unifies various tracing and monitoring
+> features, from both software and hardware. One benefit of the perf
+> subsystem is automatically inheriting events to child tasks, which
+> enables process-wide events monitoring with low overheads. By default
+> perf events are non-intrusive, not affecting behaviour of the tasks
+> being monitored.
 >=20
-> [=C2=A0=C2=A0=C2=A0 0.051019] ACPI: Early table checksum verification dis=
-abled
-> [=C2=A0=C2=A0=C2=A0 0.056721] ACPI: RSDP 0x00000000BFBFA014 000024 (v02 B=
-OCHS )
-> [=C2=A0=C2=A0=C2=A0 0.057874] ACPI: XSDT 0x00000000BFBF90E8 00004C (v01 B=
-OCHS BXPCFACP
-> 00000001=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 01000013)
-> [=C2=A0=C2=A0=C2=A0 0.059590] ACPI: FACP 0x00000000BFBF5000 000074 (v01 B=
-OCHS BXPCFACP
-> 00000001 BXPC 00000001)
-> [=C2=A0=C2=A0=C2=A0 0.061306] ACPI: DSDT 0x00000000BFBF6000 00238D (v01 B=
-OCHS BXPCDSDT
-> 00000001 BXPC 00000001)
-> [=C2=A0=C2=A0=C2=A0 0.063006] ACPI: FACS 0x00000000BFBFD000 000040
-> [=C2=A0=C2=A0=C2=A0 0.063938] ACPI: APIC 0x00000000BFBF4000 000090 (v01 B=
-OCHS BXPCAPIC
-> 00000001 BXPC 00000001)
-> [=C2=A0=C2=A0=C2=A0 0.065638] ACPI: HPET 0x00000000BFBF3000 000038 (v01 B=
-OCHS BXPCHPET
-> 00000001 BXPC 00000001)
-> [=C2=A0=C2=A0=C2=A0 0.067335] ACPI: BGRT 0x00000000BE49B000 000038 (v01 I=
-NTEL EDK2=C2=A0=C2=A0=C2=A0=C2=A0
-> 00000002=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 01000013)
-> [=C2=A0=C2=A0=C2=A0 0.069030] ACPI: iBFT 0x00000000BE453000 000800 (v01 B=
-OCHS BXPCFACP
-> 00000000=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 00000000)
-> [=C2=A0=C2=A0=C2=A0 0.070734] XXX acpi_find_ibft_region:
-> [=C2=A0=C2=A0=C2=A0 0.071468] XXX iBFT, status=3D0
-> [=C2=A0=C2=A0=C2=A0 0.072073] XXX about to call acpi_put_table()...
-> ibft_addr=3Dffffffffff240000
-> [=C2=A0=C2=A0=C2=A0 0.073449] XXX acpi_find_ibft_region(EXIT):
-> PANIC: early exception 0x0e IP 10:ffffffff9259f439 error 0 cr2
-> 0xffffffffff240004
+> For certain use-cases, however, it makes sense to leverage the
+> generality of the perf events subsystem and optionally allow the tasks
+> being monitored to receive signals on events they are interested in.
+> This patch series adds the option to synchronously signal user space on
+> events.
 
-Right, I've missed the dereference of the ibft_addr after
-acpi_find_ibft_region().=20
+Unless I missed some machinations, which is entirely possible, you can=E2=
+=80=99t call force_sig_info() from NMI context. Not only am I not convinced=
+ that the core signal code is NMI safe, but at least x86 can=E2=80=99t corr=
+ectly deliver signals on NMI return. You probably need an IPI-to-self.
 
-With this change to iscsi_ibft_find.c instead of the previous one it should
-be better:
+>=20
+> The discussion at [1] led to the changes proposed in this series. The
+> approach taken in patch 3/4 to use 'event_limit' to trigger the signal
+> was kindly suggested by Peter Zijlstra in [2].
+>=20
+> [1] https://lore.kernel.org/lkml/CACT4Y+YPrXGw+AtESxAgPyZ84TYkNZdP0xpocX2=
+jwVAbZD=3D-XQ@mail.gmail.com/
+> [2] https://lore.kernel.org/lkml/YBv3rAT566k+6zjg@hirez.programming.kicks=
+-ass.net/=20
+>=20
+> Motivation and example uses:
+>=20
+> 1.    Our immediate motivation is low-overhead sampling-based race
+>    detection for user-space [3]. By using perf_event_open() at
+>    process initialization, we can create hardware
+>    breakpoint/watchpoint events that are propagated automatically
+>    to all threads in a process. As far as we are aware, today no
+>    existing kernel facility (such as ptrace) allows us to set up
+>    process-wide watchpoints with minimal overheads (that are
+>    comparable to mprotect() of whole pages).
 
-diff --git a/drivers/firmware/iscsi_ibft_find.c b/drivers/firmware/iscsi_ib=
-ft_find.c
-index 64bb94523281..1be7481d5c69 100644
---- a/drivers/firmware/iscsi_ibft_find.c
-+++ b/drivers/firmware/iscsi_ibft_find.c
-@@ -80,6 +80,27 @@ static int __init find_ibft_in_mem(void)
- done:
- 	return len;
- }
-+
-+static void __init acpi_find_ibft_region(unsigned long *sizep)
-+{
-+	int i;
-+	struct acpi_table_header *table =3D NULL;
-+	acpi_status status;
-+
-+	if (acpi_disabled)
-+		return;
-+
-+	for (i =3D 0; i < ARRAY_SIZE(ibft_signs) && !ibft_addr; i++) {
-+		status =3D acpi_get_table(ibft_signs[i].sign, 0, &table);
-+		if (ACPI_SUCCESS(status)) {
-+			ibft_addr =3D (struct acpi_table_ibft *)table;
-+			*sizep =3D PAGE_ALIGN(ibft_addr->header.length);
-+			acpi_put_table(table);
-+			break;
-+		}
-+	}
-+}
-+
- /*
-  * Routine used to find the iSCSI Boot Format Table. The logical
-  * kernel address is set in the ibft_addr global variable.
-@@ -91,14 +112,16 @@ unsigned long __init find_ibft_region(unsigned long *s=
-izep)
- 	/* iBFT 1.03 section 1.4.3.1 mandates that UEFI machines will
- 	 * only use ACPI for this */
-=20
--	if (!efi_enabled(EFI_BOOT))
-+	if (!efi_enabled(EFI_BOOT)) {
- 		find_ibft_in_mem();
--
--	if (ibft_addr) {
- 		*sizep =3D PAGE_ALIGN(ibft_addr->header.length);
--		return (u64)virt_to_phys(ibft_addr);
-+	} else {
-+		acpi_find_ibft_region(sizep);
- 	}
-=20
-+	if (ibft_addr)
-+		return (u64)virt_to_phys(ibft_addr);
-+
- 	*sizep =3D 0;
- 	return 0;
- }
+This would be doable much more simply with an API to set a breakpoint.  All=
+ the machinery exists except the actual user API.
 
-> [=C2=A0=C2=A0=C2=A0 0.075711] CPU: 0 PID: 0 Comm: swapper Not tainted 5.1=
-1.0-34a2105 #8
-> [=C2=A0=C2=A0=C2=A0 0.076983] Hardware name: QEMU Standard PC (i440FX + P=
-IIX, 1996), BIOS
-> 0.0.0 02/06/2015
-> [=C2=A0=C2=A0=C2=A0 0.078579] RIP: 0010:find_ibft_region+0x470/0x577
+>    [3] https://llvm.org/devmtg/2020-09/slides/Morehouse-GWP-Tsan.pdf=20
+>=20
+> 2.    Other low-overhead error detectors that rely on detecting
+>    accesses to certain memory locations or code, process-wide and
+>    also only in a specific set of subtasks or threads.
+>=20
+> Other example use-cases we found potentially interesting:
+>=20
+> 3.    Code hot patching without full stop-the-world. Specifically, by
+>    setting a code breakpoint to entry to the patched routine, then
+>    send signals to threads and check that they are not in the
+>    routine, but without stopping them further. If any of the
+>    threads will enter the routine, it will receive SIGTRAP and
+>    pause.
 
---=20
-Sincerely yours,
-Mike.
+Cute.
+
+>=20
+> 4.    Safepoints without mprotect(). Some Java implementations use
+>    "load from a known memory location" as a safepoint. When threads
+>    need to be stopped, the page containing the location is
+>    mprotect()ed and threads get a signal. This can be replaced with
+>    a watchpoint, which does not require a whole page nor DTLB
+>    shootdowns.
+
+I=E2=80=99m skeptical. Propagating a hardware breakpoint to all threads inv=
+olves IPIs and horribly slow writes to DR1 (or 2, 3, or 4) and DR7.  A TLB =
+flush can be accelerated using paravirt or hypothetical future hardware. Or=
+ real live hardware on ARM64.
+
+(The hypothetical future hardware is almost present on Zen 3.  A bit of wor=
+k is needed on the hardware end to make it useful.)
+
+>=20
+> 5.    Tracking data flow globally.
+>=20
+> 6.    Threads receiving signals on performance events to
+>    throttle/unthrottle themselves.
+>=20
+> Marco Elver (4):
+>  perf/core: Apply PERF_EVENT_IOC_MODIFY_ATTRIBUTES to children
+>  signal: Introduce TRAP_PERF si_code and si_perf to siginfo
+>  perf/core: Add support for SIGTRAP on perf events
+>  perf/core: Add breakpoint information to siginfo on SIGTRAP
+>=20
+> arch/m68k/kernel/signal.c          |  3 ++
+> arch/x86/kernel/signal_compat.c    |  5 ++-
+> fs/signalfd.c                      |  4 +++
+> include/linux/compat.h             |  2 ++
+> include/linux/signal.h             |  1 +
+> include/uapi/asm-generic/siginfo.h |  6 +++-
+> include/uapi/linux/perf_event.h    |  3 +-
+> include/uapi/linux/signalfd.h      |  4 ++-
+> kernel/events/core.c               | 54 +++++++++++++++++++++++++++++-
+> kernel/signal.c                    | 11 ++++++
+> 10 files changed, 88 insertions(+), 5 deletions(-)
+>=20
+> --=20
+> 2.30.0.617.g56c4b15f3c-goog
+>=20
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
@@ -316,4 +251,4 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/20210223200914.GH1741768%40linux.ibm.com.
+kasan-dev/3D507285-835F-4C83-8343-2888835971B4%40amacapital.net.
