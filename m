@@ -1,191 +1,135 @@
-Return-Path: <kasan-dev+bncBDE5LFWXQAIRBC5U2OAQMGQEOALNAEI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCOYZDMZ6UMRB4V42OAQMGQEVZM3J5Q@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pl1-x63d.google.com (mail-pl1-x63d.google.com [IPv6:2607:f8b0:4864:20::63d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27E0D3228E6
-	for <lists+kasan-dev@lfdr.de>; Tue, 23 Feb 2021 11:33:49 +0100 (CET)
-Received: by mail-pl1-x63d.google.com with SMTP id o8sf9817361pls.7
-        for <lists+kasan-dev@lfdr.de>; Tue, 23 Feb 2021 02:33:49 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1614076428; cv=pass;
+Received: from mail-il1-x13f.google.com (mail-il1-x13f.google.com [IPv6:2607:f8b0:4864:20::13f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4999C322909
+	for <lists+kasan-dev@lfdr.de>; Tue, 23 Feb 2021 11:52:35 +0100 (CET)
+Received: by mail-il1-x13f.google.com with SMTP id q3sf9919612ilv.16
+        for <lists+kasan-dev@lfdr.de>; Tue, 23 Feb 2021 02:52:35 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1614077554; cv=pass;
         d=google.com; s=arc-20160816;
-        b=X1upORyY2ySOTHEu5Vf1lTUuZKT6aHPBi66e3ptlE3sQuLAfi4Nv+li/wF/+/DOPaA
-         6VS/3owd2fzzGkUGZvFjv9gqByLKAHHK4OuzyYFFd30diMbwEkNHRuPZk6+sLKab9noA
-         90XZYZyC6UKSjZ6fKoOFoZuGD6NTuwRlY4UjHdUnqPpmwYW8VDvGF8XG2Y9M4QY1abhV
-         oGWVabt3xuMpdGaaQFkvt00pUu6HVtd36fX39GBFO+mM5IZI2F3NynL6XLD9gL+pWWKc
-         41+KNIY64ghu1qV7Fw9w5yu9JrlA/9g2ZN906zVnxZIDbqOIU/197/oD3KU+75IZtAQo
-         VNjg==
+        b=q84SINLQFCFUyJoSsh6LEcXZQspEevwDezbVG9Ldg9rgSVvi+ansV5oBqWSa/wqO6C
+         qRYHP1NdtRlB3zqVe3he4lDOZofXjpGH8/tWLvh8M5JxWxz3/OiEzP3vlr8UwfCoc/rU
+         N9PYhtUaswrWbk/hBNfLgdqqU7mBlIPTi1Ypm4fkPEiTVx34/UQNwp4oOTM/X21K4mmJ
+         iL8nw2eo8fF9vYLPYQ9zUPed9vpQUrkhKEN5rKsJWTG1nrdc2WS9PpEZTOiiLWlEfM5h
+         1kV7b3tD3OMsYSpAIN+zNA3pKCc/n0vyM7wt+TG2q2cAvM7y+/p4YzAu7YnvgNZ7ZP7g
+         ji2Q==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to
-         :content-transfer-encoding:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:dkim-signature;
-        bh=UgR0cg2HM0awUjGl9vXuXqHAt5bwR/24A6/J/uSu8Sw=;
-        b=rRHYzoYBxBDS1xDdjvOobjcPijGA81Osp/MoMJ/jIiaakx5pw5Zq0rzXoq/h8lxCHU
-         BD2zxZZuk1wdJiunkVbZ+D89mFjRDdPIZIIOefBqabxi00emZTtwUZN75YR0tMdlS80/
-         FWkAVox749oZNelAOWQZYVWpTTXNEBIg9WVMjekv1dScwM1soWrNRFAL/416iRbGRkMw
-         dS4sc7BkaN3lwQclTApAFPntnIRXlHjVJknyAdTrWQyte2+nxlFTP26kQYQwzay9WIiU
-         N3sw1Ovaqgp9ekgWoPyWVomFDHoOB7HuCXUoHCVDV1owXSqF1ByERsitmDSe5yRMR4St
-         kMAg==
+         :list-id:mailing-list:precedence:content-language:in-reply-to
+         :mime-version:user-agent:date:message-id:from:references:cc:to
+         :subject:sender:dkim-signature;
+        bh=bF019h8Lp4ZGGFBmje7Fhe67ebr2C6zezB4b48fqQ5Q=;
+        b=G2OCNxK8DmMdaqPorEv27DHPfYNWWzxb59iNstx7bnR8pCAPdmL5Eb83gWssE0eJ4D
+         6qlmGPg+OAkD4Uhv5p4GbaUua5SBL8+rJdxiCB3MX8jsj96csBryKqoJSEqLz41DQ6ik
+         AChG1Ay5M7Eo2jytZ84n4z2hIM+4TeOSn6hEE19ueJGEWJiAdVYTII0hlV/r+WWzAXTz
+         jXrcbh9qmZpZob55TtwB/ehWIsyPwWZcAI1ehFLdvbwKIx/c/Vsj8czpfpWG9UVRfwmT
+         NFEgzVpZIFty+vDAx44VdUBmTRD8H04boMZErINIvwS0Vvoh1V7JEtZ0Xfw3nPAFF4Eo
+         BLEA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@ibm.com header.s=pp1 header.b=Lc491rjl;
-       spf=pass (google.com: domain of rppt@linux.ibm.com designates 148.163.156.1 as permitted sender) smtp.mailfrom=rppt@linux.ibm.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=ibm.com
+       spf=pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=vincenzo.frascino@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=UgR0cg2HM0awUjGl9vXuXqHAt5bwR/24A6/J/uSu8Sw=;
-        b=n9Yet2RLv6dfIIxwm4x2htIPZ7lA1YBZe0Zqzdgtb1qmVr4zhAKCmCh2h3arccbEKo
-         jBLf1j9rAkpnUeineSPomu1EbmSB5GHqD/QmEJCMBWKVnToxUIp/4iny6T3/qNMpa+d7
-         0sBTF7yj+HP4poO0JD+q7ErCANGUiaLRwgdUQblkf4WVTaXQZ8fmJT/cVRMU6fYDYxV4
-         Ah8KWD6kvEiEL7TQqkGizuN9ukGHBlk5uZ9WvtZN3qCJN9jq22h98K0tvG51rlQkW9pK
-         wLinAvPXoRVdt6E2HTyqPc9xW222RZFcQ36Fj2ynKQc49lSrl3E1JLHWLNjcXT4sZ6up
-         aEdg==
+        h=sender:subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=bF019h8Lp4ZGGFBmje7Fhe67ebr2C6zezB4b48fqQ5Q=;
+        b=c3f0CdKz5oM89qWKfgk8qlOXJ1QKZvV+KKeAB/6O3xOF8AkT+xSRrYk14K1RHYCrmH
+         VuiPW7USLT3UgQES+e4pE/DkdkEUIy9CRHDWQPhYVOP+PpqBfUEL34q5EwfXXhS9DS15
+         fL4hIoPRq6m3FnSO/suCbVQzxqaZrg/db2GhBe1kCON58CAuzWRMjhP5CMv3uD77SZ1W
+         n0Yg+5by2l7ab2wxMnomyESaFwyKQYlj31sVBbjDn/ii9hEOuQLkBMwViDjnSzgakPKZ
+         BhdzLDOo5IN9Pml3pgHtnNdksRqFVmYJ6DYdU2Wnj5oiJXugj1WloJ78hc2dm+YDZqyj
+         15Lg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition
-         :content-transfer-encoding:in-reply-to:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=UgR0cg2HM0awUjGl9vXuXqHAt5bwR/24A6/J/uSu8Sw=;
-        b=FYBKNoIyKYSyJS/H3VQaD1PLXFzyQ8LhlNN/T4x6iB9y59jKhnZeEf8CYAi/j0lqzd
-         +K/rs4DNePaZiea8MCzqUhC72jBL3FuI8BLlV7FTIcRBPsxhb/mpc8UsQtyPhNzzmiZi
-         aeVsTOW6fipOt2Gpw9RNKj2ZR3CuPrSixp4uiBek5y/3595CqEMfn066uhGlueRH5nPk
-         qz3EgXv/E9aRIEOswQuhcCAXQQnKm02NcYs36hgoobruKtxeWSQuvUyAgehQPoGE+SiC
-         0qBrZ5nj8MZBs8Frwk7xcl+Q6w+GoO25oGjRWJVFHn+cTelzsmXQvjmc6q8CwaCNwXQ+
-         7Tzw==
+        h=sender:x-gm-message-state:subject:to:cc:references:from:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=bF019h8Lp4ZGGFBmje7Fhe67ebr2C6zezB4b48fqQ5Q=;
+        b=LWt6cc2K1F2SI0yx8Vqlghm13OVMx0TfB0AXyykOKWDnxg0Add2fIDI8K52RFRv/QA
+         oRmckz6RZ2nkQmC3Qz4htCoU9U4i2hj1otQ/ityR2QwYOvPERLqDs+N0zjdkphZ00Z1S
+         klCKHtcEB1j+LTbrXO8bYBA+8SrvDzsEgNqPIsvhQURfluvg4e2/no/p7kgUi6ALQtRo
+         GdTNqeSmTiVSRKwro0jpCPCfzlVI0UTHciq6SaEnnbM9wSy8aJpPynnD/MMVND1/xpi0
+         EOQUtSFUaCCoQJDiCCpc+dBSr2M/Pve/cI7S10AFvpLVL+H/UdjXWcGta7cAdDynpxZM
+         IF1w==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM530c52UmFcr2USMVNvhl2UZqrkUMzToncIvDZZXNvkCk1iQvapx7
-	X08t6kykTbzkUT6Z+UNp5gk=
-X-Google-Smtp-Source: ABdhPJypENcDRtP9mlyRMPIs/6W/4XdKn9Zd+J8UtSVwXKbMBLp6cv+Wfxgk0owOSYcxN86mHlOX9Q==
-X-Received: by 2002:a17:902:be06:b029:e3:7031:bef with SMTP id r6-20020a170902be06b02900e370310befmr26246099pls.19.1614076427888;
-        Tue, 23 Feb 2021 02:33:47 -0800 (PST)
+X-Gm-Message-State: AOAM530xXqI81+/y8/0d3VLxtMZjRE1FCzmAB/kPVGaLbSpKjcgoRw6h
+	IzVvTAw/UF3NtdZYfwvbuQ0=
+X-Google-Smtp-Source: ABdhPJw5qfEy/XF6AnsmCgNpdeU3+TAPs4xmksliNiWq35Jv8URy0EM5c/vqdns2V+yxlrtarXSdlQ==
+X-Received: by 2002:a92:6b11:: with SMTP id g17mr18779474ilc.163.1614077554250;
+        Tue, 23 Feb 2021 02:52:34 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:aa7:8a52:: with SMTP id n18ls1731999pfa.9.gmail; Tue, 23 Feb
- 2021 02:33:47 -0800 (PST)
-X-Received: by 2002:a63:4084:: with SMTP id n126mr23565545pga.80.1614076427226;
-        Tue, 23 Feb 2021 02:33:47 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1614076427; cv=none;
+Received: by 2002:a05:6e02:170a:: with SMTP id u10ls5102614ill.9.gmail; Tue,
+ 23 Feb 2021 02:52:33 -0800 (PST)
+X-Received: by 2002:a92:c105:: with SMTP id p5mr3638568ile.266.1614077553822;
+        Tue, 23 Feb 2021 02:52:33 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1614077553; cv=none;
         d=google.com; s=arc-20160816;
-        b=x4Sv+YFDVKDdAb2DCEfUWg6iELIJe0qeEZ88K8QSy/ZgH2fbwiG1GbQjCzD1B35rTA
-         mMJBsu2s/w9pgXhjCVY01vQ/g9vwT7MEHDS6eSEl7P4B5NvXMnUGvrggS36YlCOWWho8
-         TxpvXVT4Fnae3rnFPeN808e8ftM4smcH/PznaXIglwgG1LQqZnNHBYg5gPYIirL6/99I
-         y1dvDMurbKFSDDHzCAzFQXuqeWDmUsXb7N20c2KXyqR4NKiIYJPgrmDFRRHmr5gHPwcu
-         9UJt+7JA/6smGag1UtyJkiP0bD5YfN3K6W0xThlxofmclYwK9PR5ohmFuoKY4IdBrDvb
-         NUqQ==
+        b=eFmKobXo2yNek8U5tsJOW+/60mSNZGPMK79pSMj5siCZEmvEemA+F2kmJWO0vhxuu4
+         Nbq/1aXQwLSCEGTdMZoJv9z3RtLeFr+2kWPUqFtKp+a0tCXh6bAZIWHebtHkBjBgek1T
+         j9CFJTLMOsKuBCI0VuSE6o1rwboBTCbCF4BBAYujYmr9W1Fzi6DascQAsZC9X6LCFCnX
+         Fgki48fxjdR2gIo8Hh54WXgMA3VsoPrC6d9+s/iJzYqGtJpu1CHMCLDtY8Jhj3NXV9xh
+         EpneWrHYd7476KJ7WbmDrO7BbjeCIX9jn4Bfny2qiUHueiY20eDQccxAWPsjC0PmomXh
+         VCaA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :dkim-signature;
-        bh=O4eU9dLNgm0ga1w/UcGK2aRgCdfR9UK3xwlc97+j95Q=;
-        b=c/2mDRUvKxyh8rBBB04o9TG3fBPy2vkuFyodJGC0QVxZl2iuaz4YSx3cKn2uieTT62
-         jAb853TlNgeAAGNushJtU+Dko5a0rUxeTBeXQvj2QCeDNetv0oJDX4j88FeY94NrdaAl
-         bV5f8/40S3v+M/z4XkhVkg4zXC5i7MsFeVaEo+hRjNzb7STtdVVGxBMY2ZCCJu376EcK
-         MDw3FVTfsX88FIfz1OqKnPGAg75l025ejXGyMg/6VpoynLzHw5GQuZG9DqJC5R1hRXkT
-         FZFJZpRDSE4MKwOQ0/SMwtoKxxeItMIxo2TbF8lFoOVndBB8beGWBBEkHs55Y/HddPQ3
-         4rWA==
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject;
+        bh=aCK1D2XoK3ZNpKwOYYHYBBPzNLPmHz17ljO1cfKu9pg=;
+        b=bYTV3xornFjc2yZAkLPhrkQK9oJB4Qs62RzWTSA4ZVITZXwXUSQkd4ihAZwK2GIKSf
+         9YoE4155t/DMC6SSHXHgOrMZff5zYlc4P/TcE9Z01AJ7UfpSune4zLYwn/VHP3ccBTAW
+         U3FzjpC8QnB2537gSBFO8d5CCe/vvPMe9fdI+W3uQntBwX2SW0PB4z2NNhM2yD90YYl7
+         eJBhqEzGbl8ebm7ptaPCFSwt22l3UuYuIBxPs5eFg0ZTyi0zYobTzY2gjMnlmuT8Nj+V
+         1og8PGMIm3v+3OjP2H8kZ3k+U5qTI6fPml59zb0Ld4BXcnDxTxeYUbXXOramhCOdOQlK
+         aOPA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@ibm.com header.s=pp1 header.b=Lc491rjl;
-       spf=pass (google.com: domain of rppt@linux.ibm.com designates 148.163.156.1 as permitted sender) smtp.mailfrom=rppt@linux.ibm.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=ibm.com
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com. [148.163.156.1])
-        by gmr-mx.google.com with ESMTPS id n9si123845pjp.2.2021.02.23.02.33.47
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 23 Feb 2021 02:33:47 -0800 (PST)
-Received-SPF: pass (google.com: domain of rppt@linux.ibm.com designates 148.163.156.1 as permitted sender) client-ip=148.163.156.1;
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 11NA4mkm021603;
-	Tue, 23 Feb 2021 05:33:32 -0500
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com with ESMTP id 36vkg2uxu0-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 23 Feb 2021 05:33:32 -0500
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
-	by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 11NA4lmC021561;
-	Tue, 23 Feb 2021 05:33:31 -0500
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com [169.51.49.98])
-	by mx0a-001b2d01.pphosted.com with ESMTP id 36vkg2uxt0-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 23 Feb 2021 05:33:31 -0500
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
-	by ppma03ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 11NASo0e018736;
-	Tue, 23 Feb 2021 10:33:28 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
-	by ppma03ams.nl.ibm.com with ESMTP id 36tt282ge0-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 23 Feb 2021 10:33:28 +0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
-	by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 11NAXDkb34931070
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 23 Feb 2021 10:33:13 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 419C3A4053;
-	Tue, 23 Feb 2021 10:33:26 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id ED331A4051;
-	Tue, 23 Feb 2021 10:33:23 +0000 (GMT)
-Received: from linux.ibm.com (unknown [9.145.51.238])
-	by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-	Tue, 23 Feb 2021 10:33:23 +0000 (GMT)
-Date: Tue, 23 Feb 2021 12:33:21 +0200
-From: Mike Rapoport <rppt@linux.ibm.com>
-To: George Kennedy <george.kennedy@oracle.com>
-Cc: David Hildenbrand <david@redhat.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Konrad Rzeszutek Wilk <konrad@darnok.org>,
-        Will Deacon <will.deacon@arm.com>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Alexander Potapenko <glider@google.com>,
-        Marco Elver <elver@google.com>, Peter Collingbourne <pcc@google.com>,
-        Evgenii Stepanov <eugenis@google.com>,
-        Branislav Rankov <Branislav.Rankov@arm.com>,
-        Kevin Brodsky <kevin.brodsky@arm.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Dhaval Giani <dhaval.giani@oracle.com>
-Subject: Re: [PATCH] mm, kasan: don't poison boot memory
-Message-ID: <20210223103321.GD1741768@linux.ibm.com>
-References: <d11bf144-669b-0fe1-4fa4-001a014db32a@oracle.com>
- <CAAeHK+y_SmP5yAeSM3Cp6V3WH9uj4737hDuVGA7U=xA42ek3Lw@mail.gmail.com>
- <c7166cae-bf89-8bdd-5849-72b5949fc6cc@oracle.com>
- <797fae72-e3ea-c0b0-036a-9283fa7f2317@oracle.com>
- <1ac78f02-d0af-c3ff-cc5e-72d6b074fc43@redhat.com>
- <bd7510b5-d325-b516-81a8-fbdc81a27138@oracle.com>
- <56c97056-6d8b-db0e-e303-421ee625abe3@redhat.com>
- <cb8564e8-3535-826b-2d42-b273a0d793fb@oracle.com>
- <20210222215502.GB1741768@linux.ibm.com>
- <9773282a-2854-25a4-9faa-9da5dd34e371@oracle.com>
+       spf=pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=vincenzo.frascino@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
+Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
+        by gmr-mx.google.com with ESMTP id i2si487999iov.2.2021.02.23.02.52.33
+        for <kasan-dev@googlegroups.com>;
+        Tue, 23 Feb 2021 02:52:33 -0800 (PST)
+Received-SPF: pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4786F31B;
+	Tue, 23 Feb 2021 02:52:33 -0800 (PST)
+Received: from [10.37.8.9] (unknown [10.37.8.9])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4D57E3F70D;
+	Tue, 23 Feb 2021 02:52:31 -0800 (PST)
+Subject: Re: [PATCH v13 4/7] arm64: mte: Enable TCO in functions that can read
+ beyond buffer limits
+To: Catalin Marinas <catalin.marinas@arm.com>
+Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ kasan-dev@googlegroups.com, Andrew Morton <akpm@linux-foundation.org>,
+ Will Deacon <will@kernel.org>, Dmitry Vyukov <dvyukov@google.com>,
+ Andrey Ryabinin <aryabinin@virtuozzo.com>,
+ Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>,
+ Evgenii Stepanov <eugenis@google.com>,
+ Branislav Rankov <Branislav.Rankov@arm.com>,
+ Andrey Konovalov <andreyknvl@google.com>,
+ Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+References: <20210211153353.29094-1-vincenzo.frascino@arm.com>
+ <20210211153353.29094-5-vincenzo.frascino@arm.com>
+ <20210212172128.GE7718@arm.com>
+ <c3d565da-c446-dea2-266e-ef35edabca9c@arm.com>
+ <20210222175825.GE19604@arm.com>
+From: Vincenzo Frascino <vincenzo.frascino@arm.com>
+Message-ID: <6111633c-3bbd-edfa-86a0-be580a9ebcc8@arm.com>
+Date: Tue, 23 Feb 2021 10:56:46 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <20210222175825.GE19604@arm.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <9773282a-2854-25a4-9faa-9da5dd34e371@oracle.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369,18.0.761
- definitions=2021-02-23_05:2021-02-22,2021-02-23 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- clxscore=1015 adultscore=0 priorityscore=1501 malwarescore=0
- mlxlogscore=999 mlxscore=0 impostorscore=0 bulkscore=0 spamscore=0
- phishscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2009150000 definitions=main-2102230084
-X-Original-Sender: rppt@linux.ibm.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@ibm.com header.s=pp1 header.b=Lc491rjl;       spf=pass (google.com:
- domain of rppt@linux.ibm.com designates 148.163.156.1 as permitted sender)
- smtp.mailfrom=rppt@linux.ibm.com;       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=ibm.com
+Content-Language: en-US
+X-Original-Sender: vincenzo.frascino@arm.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172
+ as permitted sender) smtp.mailfrom=vincenzo.frascino@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -198,158 +142,67 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-(re-added CC)
 
-On Mon, Feb 22, 2021 at 08:24:59PM -0500, George Kennedy wrote:
->=20
-> On 2/22/2021 4:55 PM, Mike Rapoport wrote:
-> > On Mon, Feb 22, 2021 at 01:42:56PM -0500, George Kennedy wrote:
-> > > On 2/22/2021 11:13 AM, David Hildenbrand wrote:
-> > > > On 22.02.21 16:13, George Kennedy wrote:
-> > > >=20
-> > > > The PFN 0xbe453 looks a little strange, though. Do we expect ACPI t=
-ables
-> > > > close to 3 GiB ? No idea. Could it be that you are trying to map a =
-wrong
-> > > > table? Just a guess.
-> > > >=20
-> > > > > What would be=C2=A0 the correct way to reserve the page so that t=
-he above
-> > > > > would not be hit?
-> > > > I would have assumed that if this is a binary blob, that someone (w=
-hich
-> > > > I think would be acpi code) reserved via memblock_reserve() early d=
-uring
-> > > > boot.
-> > > >=20
-> > > > E.g., see drivers/acpi/tables.c:acpi_table_upgrade()->memblock_rese=
-rve().
-> > > acpi_table_upgrade() gets called, but bails out before memblock_reser=
-ve() is
-> > > called. Thus, it appears no pages are getting reserved.
-> > acpi_table_upgrade() does not actually reserve memory but rather open
-> > codes memblock allocation with memblock_find_in_range() +
-> > memblock_reserve(), so it does not seem related anyway.
-> >=20
-> > Do you have by chance a full boot log handy?
->=20
-> Hello Mike,
->=20
-> Are you after the console output? See attached.
->=20
-> It includes my patch to set PG_Reserved along with the dump_page() debug
-> that David asked for - see: "page:"
 
-So, iBFT is indeed at pfn 0xbe453:
+On 2/22/21 5:58 PM, Catalin Marinas wrote:
+> That's because cpu_hotplug_lock is not a spinlock but a semaphore which
+> implies sleeping. I don't think avoiding taking this semaphore
+> altogether (as in the *_cpuslocked functions) is the correct workaround.
+>
 
-[    0.077698] ACPI: iBFT 0x00000000BE453000 000800 (v01 BOCHS  BXPCFACP 00=
-000000      00000000)
-=20
-and it's in E820_TYPE_RAM region rather than in ACPI data:
+Thinking at it a second time I agree, it is not a good idea avoiding to take the
+semaphore in this case.
 
-[    0.000000] BIOS-e820: [mem 0x0000000000810000-0x00000000008fffff] ACPI =
-NVS
-[    0.000000] BIOS-e820: [mem 0x0000000000900000-0x00000000be49afff] usabl=
-e
-[    0.000000] BIOS-e820: [mem 0x00000000be49b000-0x00000000be49bfff] ACPI =
-data
+> The mte_enable_kernel_async() function is called on each secondary CPU
+> but we don't really need to attempt to toggle the static key on each of
+> them as they all have the same configuration. Maybe do something like:
+> 
+> 	if (!static_branch_unlikely(&mte_async_mode)))
+> 		static_branch_enable(&mte_async_mode);
+> 
+> so that it's only set on the boot CPU.
+> 
 
-I could not find anywhere in x86 setup or in ACPI tables parsing the code
-that reserves this memory or any other ACPI data for that matter. It could
-be that I've missed some copying of the data to statically allocated
-initial_tables, but AFAICS any ACPI data that was not marked as such in
-e820 tables by BIOS resides in memory that is considered as free.
+This should work, maybe with a comment that if we plan to introduce runtime
+switching in between async and sync in future we need to revisit our strategy.
 
-Can you please check if this hack (entirely untested) changes anything:
+> The alternative is to use a per-CPU mask/variable instead of static
+> branches but it's probably too expensive for those functions that were
+> meant to improve performance.
+> 
 
-diff --git a/arch/x86/kernel/acpi/boot.c b/arch/x86/kernel/acpi/boot.c
-index 7bdc0239a943..c118dd54a747 100644
---- a/arch/x86/kernel/acpi/boot.c
-+++ b/arch/x86/kernel/acpi/boot.c
-@@ -1551,6 +1551,7 @@ void __init acpi_boot_table_init(void)
- 	if (acpi_disabled)
- 		return;
-=20
-+#if 0
- 	/*
- 	 * Initialize the ACPI boot-time table parser.
- 	 */
-@@ -1558,6 +1559,7 @@ void __init acpi_boot_table_init(void)
- 		disable_acpi();
- 		return;
- 	}
-+#endif
-=20
- 	acpi_table_parse(ACPI_SIG_BOOT, acpi_parse_sbf);
-=20
-diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
-index d883176ef2ce..c8a07a7b9577 100644
---- a/arch/x86/kernel/setup.c
-+++ b/arch/x86/kernel/setup.c
-@@ -1032,6 +1032,14 @@ void __init setup_arch(char **cmdline_p)
- 	 */
- 	find_smp_config();
-=20
-+	/*
-+	 * Initialize the ACPI boot-time table parser.
-+	 */
-+	if (acpi_table_init()) {
-+		disable_acpi();
-+		return;
-+	}
-+
- 	reserve_ibft_region();
-=20
- 	early_alloc_pgt_buf();
-diff --git a/drivers/firmware/iscsi_ibft_find.c b/drivers/firmware/iscsi_ib=
-ft_find.c
-index 64bb94523281..2e5e04090fe2 100644
---- a/drivers/firmware/iscsi_ibft_find.c
-+++ b/drivers/firmware/iscsi_ibft_find.c
-@@ -80,6 +80,21 @@ static int __init find_ibft_in_mem(void)
- done:
- 	return len;
- }
-+
-+static void __init acpi_find_ibft_region(void)
-+{
-+	int i;
-+	struct acpi_table_header *table =3D NULL;
-+
-+	if (acpi_disabled)
-+		return;
-+
-+	for (i =3D 0; i < ARRAY_SIZE(ibft_signs) && !ibft_addr; i++) {
-+		acpi_get_table(ibft_signs[i].sign, 0, &table);
-+		ibft_addr =3D (struct acpi_table_ibft *)table;
-+	}
-+}
-+
- /*
-  * Routine used to find the iSCSI Boot Format Table. The logical
-  * kernel address is set in the ibft_addr global variable.
-@@ -93,6 +108,8 @@ unsigned long __init find_ibft_region(unsigned long *siz=
-ep)
-=20
- 	if (!efi_enabled(EFI_BOOT))
- 		find_ibft_in_mem();
-+	else
-+		acpi_find_ibft_region();
-=20
- 	if (ibft_addr) {
- 		*sizep =3D PAGE_ALIGN(ibft_addr->header.length);
+I would not go for this approach because the reason why we introduced static
+branches instead of having a normal variable saving the state was performances.
 
-> Thank you,
-> George
+> We'll still have an issue with dynamically switching the async/sync mode
+> at run-time. Luckily kasan doesn't do this now. The problem is that
+> until the last CPU have been switched from async to sync, we can't
+> toggle the static label. When switching from sync to async, we need
+> to do it on the first CPU being switched.
+> 
 
---=20
-Sincerely yours,
-Mike.
+I totally agree on this point. In the case of runtime switching we might need
+the rethink completely the strategy and depends a lot on what we want to allow
+and what not. For the kernel I imagine we will need to expose something in sysfs
+that affects all the cores and then maybe stop_machine() to propagate it to all
+the cores. Do you think having some of the cores running in sync mode and some
+in async is a viable solution?
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/20210223103321.GD1741768%40linux.ibm.com.
+Probably it is worth to discuss it further once we cross that bridge.
+
+> So, I think currently we can set the mte_async_mode label to true in
+> mte_enable_kernel_async(), with the 'if' check above. For
+> mte_enable_kernel_sync(), don't bother with setting the key to false but
+> place a WARN_ONCE if the mte_async_mode is true. We can revisit it if
+> kasan ever gains this run-time switch mode.
+
+Indeed, this should work for now.
+
+-- 
+Regards,
+Vincenzo
+
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/6111633c-3bbd-edfa-86a0-be580a9ebcc8%40arm.com.
