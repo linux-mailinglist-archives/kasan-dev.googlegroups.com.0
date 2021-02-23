@@ -1,123 +1,191 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBYXV2KAQMGQECY3EFWY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDE5LFWXQAIRBC5U2OAQMGQEOALNAEI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pj1-x1038.google.com (mail-pj1-x1038.google.com [IPv6:2607:f8b0:4864:20::1038])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CDBA322707
-	for <lists+kasan-dev@lfdr.de>; Tue, 23 Feb 2021 09:20:51 +0100 (CET)
-Received: by mail-pj1-x1038.google.com with SMTP id q10sf1182415pjd.0
-        for <lists+kasan-dev@lfdr.de>; Tue, 23 Feb 2021 00:20:51 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1614068450; cv=pass;
+Received: from mail-pl1-x63d.google.com (mail-pl1-x63d.google.com [IPv6:2607:f8b0:4864:20::63d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 27E0D3228E6
+	for <lists+kasan-dev@lfdr.de>; Tue, 23 Feb 2021 11:33:49 +0100 (CET)
+Received: by mail-pl1-x63d.google.com with SMTP id o8sf9817361pls.7
+        for <lists+kasan-dev@lfdr.de>; Tue, 23 Feb 2021 02:33:49 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1614076428; cv=pass;
         d=google.com; s=arc-20160816;
-        b=E+jG8GgzUyXwQvHtGPB2EBEzXSQKuVRJx7n5oNre8j0ziorGCfbbGQZvn3FWTrJ4rd
-         z521ouBncSyEsORaeHab4ZUXH4tNlYG8UINvAh1hm/27rwotKoqZLDsAducI88/Jglij
-         8MoAJpj5+dwnaRotzqmkwwxnunJv0JuyZcuG6RklVRiJfkjw5A3zH6XXDZ0XCOb6PGXF
-         jPEP6DRnz5P8Jrr9vs7K3m3R967fGE69iX31RY0Rf2OapVTaK/uBiZ+ovJ/VWBVO7jqC
-         uMlf+AEMY9xGTg9AH0x4bx9O0cCnZeNozmDJish6cXJT1QRcSi/2GW0G80kNshepzmA8
-         6t8A==
+        b=X1upORyY2ySOTHEu5Vf1lTUuZKT6aHPBi66e3ptlE3sQuLAfi4Nv+li/wF/+/DOPaA
+         6VS/3owd2fzzGkUGZvFjv9gqByLKAHHK4OuzyYFFd30diMbwEkNHRuPZk6+sLKab9noA
+         90XZYZyC6UKSjZ6fKoOFoZuGD6NTuwRlY4UjHdUnqPpmwYW8VDvGF8XG2Y9M4QY1abhV
+         oGWVabt3xuMpdGaaQFkvt00pUu6HVtd36fX39GBFO+mM5IZI2F3NynL6XLD9gL+pWWKc
+         41+KNIY64ghu1qV7Fw9w5yu9JrlA/9g2ZN906zVnxZIDbqOIU/197/oD3KU+75IZtAQo
+         VNjg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
-         :mime-version:message-id:date:sender:dkim-signature;
-        bh=2pFazpT50JRpM40BchlUnxsCkeXS3TUtRYMuCQyRTH4=;
-        b=mO388GKueqmHNVK7AOciXZBm2KKv96ojQlwyvqDYSr8KYKIEvg8tLCzHIKj30UfJfk
-         BOAD7irhukGK97GhVg6cJPkVNv15QUOYz4OzRtzrRTQ/9vffT3eTurT2+qUfz3LKsVJB
-         c7RG0pGbx/k+q+K7MVa7tl9x+Rr9tNQkkRDlqFQOE0RChlEQ4pi6CfpmUT1C1YlGjdhs
-         jTFZ9LCMBxREVXalpVcNDhMxy4qBFGGgFrIHcwAwXB3PQrxAPC3A0t+8zvvDS1RSuWSA
-         9exNEV01XLh3dcHXzDYCWj8DrClwWHSwUo9pQEnJKMcKxMvc0EpMJ/WyLEY1DaOYC0/U
-         SBHg==
+         :list-id:mailing-list:precedence:in-reply-to
+         :content-transfer-encoding:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:dkim-signature;
+        bh=UgR0cg2HM0awUjGl9vXuXqHAt5bwR/24A6/J/uSu8Sw=;
+        b=rRHYzoYBxBDS1xDdjvOobjcPijGA81Osp/MoMJ/jIiaakx5pw5Zq0rzXoq/h8lxCHU
+         BD2zxZZuk1wdJiunkVbZ+D89mFjRDdPIZIIOefBqabxi00emZTtwUZN75YR0tMdlS80/
+         FWkAVox749oZNelAOWQZYVWpTTXNEBIg9WVMjekv1dScwM1soWrNRFAL/416iRbGRkMw
+         dS4sc7BkaN3lwQclTApAFPntnIRXlHjVJknyAdTrWQyte2+nxlFTP26kQYQwzay9WIiU
+         N3sw1Ovaqgp9ekgWoPyWVomFDHoOB7HuCXUoHCVDV1owXSqF1ByERsitmDSe5yRMR4St
+         kMAg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=j7cibiZC;
-       spf=pass (google.com: domain of 34lo0yaukcteryiretbbtyr.pbzxnfna-qritbbtyrtebhcf.pbz@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::74a as permitted sender) smtp.mailfrom=34Lo0YAUKCTERYiReTbbTYR.PbZXNfNa-QRiTbbTYRTebhcf.PbZ@flex--elver.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@ibm.com header.s=pp1 header.b=Lc491rjl;
+       spf=pass (google.com: domain of rppt@linux.ibm.com designates 148.163.156.1 as permitted sender) smtp.mailfrom=rppt@linux.ibm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=ibm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:date:message-id:mime-version:subject:from:to:cc
-         :x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=2pFazpT50JRpM40BchlUnxsCkeXS3TUtRYMuCQyRTH4=;
-        b=HBhJaAdR4B8Algp5j3coB5r49F7+xb2Pn6BqU/O6Sq/UPv+EJ3rw+tjXwRVprOgM5C
-         Gpa628BgwI0322yQHqLfSymiv8sx33k0n2bQaOuZcO94YefJuHx8gkdZbeVH478Q7wWs
-         ZthCr5m858Td7qwQbg5GuZC822rZT4/Q5Gotlo1zzZ4HIce/r/6mczx308Hn8TlxHscU
-         hIeLQyLTAsVwu/y4ZxR1NFSVKx7oUEbc24sHMhqf7cM9oUYbAVaxTRk3ePt8UPpZPb8Y
-         hc8qO5k4aJqZcVKX8diVYdMXIpQbVJK7gqAkrBmWI8OqQxSuaMarni5uC4dMgtfWJDBW
-         dX1Q==
+        bh=UgR0cg2HM0awUjGl9vXuXqHAt5bwR/24A6/J/uSu8Sw=;
+        b=n9Yet2RLv6dfIIxwm4x2htIPZ7lA1YBZe0Zqzdgtb1qmVr4zhAKCmCh2h3arccbEKo
+         jBLf1j9rAkpnUeineSPomu1EbmSB5GHqD/QmEJCMBWKVnToxUIp/4iny6T3/qNMpa+d7
+         0sBTF7yj+HP4poO0JD+q7ErCANGUiaLRwgdUQblkf4WVTaXQZ8fmJT/cVRMU6fYDYxV4
+         Ah8KWD6kvEiEL7TQqkGizuN9ukGHBlk5uZ9WvtZN3qCJN9jq22h98K0tvG51rlQkW9pK
+         wLinAvPXoRVdt6E2HTyqPc9xW222RZFcQ36Fj2ynKQc49lSrl3E1JLHWLNjcXT4sZ6up
+         aEdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
-         :to:cc:x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=2pFazpT50JRpM40BchlUnxsCkeXS3TUtRYMuCQyRTH4=;
-        b=JC6bD0o0aIPTE1Yr9bHHXs5ps+diPGXYMtZxOoCexT1y3qWKJK97EVilQXFdVoy1iM
-         UpuS6xSxM+ARBsJNoeWaj4fIoRkezzVyk9oZTclLdIZJJ6r0hgPgpXDzb+SseFwKA/Ge
-         ixWLTrRAx99F7CZ/t4+IEEUgxNnO3BjGjMD7NiECJT6Q0Kto3D5H7DwRWYnP4GDXsUr9
-         xcMOAui1hjC0Duj1NUO47hguwlVfe6NANkmAbFPLClc0kN+Rx864E/KDs9fJ+nnP9cRp
-         0wWqNd0y55Nf9NblSVwx5CHoZ+GjxO2kh3ub26FNZSK+MqdPBh6eT0Z4vbYc2KLuoOUX
-         Rc0w==
-X-Gm-Message-State: AOAM53033cTHvT5QOBR1989+LrGqn5Cx5AR1hadcQ9ZEijajvCZhWrhO
-	6HYRPdsxJ66eF8g2h+uNeiM=
-X-Google-Smtp-Source: ABdhPJxodbsNkxUjGjpteP6ZZPJ8jDUfEpxeQELzLFPrXYSA0/JGFO1VQm7AGC4Y/X4+cCKRlovTGQ==
-X-Received: by 2002:a17:90a:77c4:: with SMTP id e4mr27052184pjs.185.1614068450281;
-        Tue, 23 Feb 2021 00:20:50 -0800 (PST)
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition
+         :content-transfer-encoding:in-reply-to:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=UgR0cg2HM0awUjGl9vXuXqHAt5bwR/24A6/J/uSu8Sw=;
+        b=FYBKNoIyKYSyJS/H3VQaD1PLXFzyQ8LhlNN/T4x6iB9y59jKhnZeEf8CYAi/j0lqzd
+         +K/rs4DNePaZiea8MCzqUhC72jBL3FuI8BLlV7FTIcRBPsxhb/mpc8UsQtyPhNzzmiZi
+         aeVsTOW6fipOt2Gpw9RNKj2ZR3CuPrSixp4uiBek5y/3595CqEMfn066uhGlueRH5nPk
+         qz3EgXv/E9aRIEOswQuhcCAXQQnKm02NcYs36hgoobruKtxeWSQuvUyAgehQPoGE+SiC
+         0qBrZ5nj8MZBs8Frwk7xcl+Q6w+GoO25oGjRWJVFHn+cTelzsmXQvjmc6q8CwaCNwXQ+
+         7Tzw==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM530c52UmFcr2USMVNvhl2UZqrkUMzToncIvDZZXNvkCk1iQvapx7
+	X08t6kykTbzkUT6Z+UNp5gk=
+X-Google-Smtp-Source: ABdhPJypENcDRtP9mlyRMPIs/6W/4XdKn9Zd+J8UtSVwXKbMBLp6cv+Wfxgk0owOSYcxN86mHlOX9Q==
+X-Received: by 2002:a17:902:be06:b029:e3:7031:bef with SMTP id r6-20020a170902be06b02900e370310befmr26246099pls.19.1614076427888;
+        Tue, 23 Feb 2021 02:33:47 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:903:1c1:: with SMTP id e1ls9758264plh.10.gmail; Tue, 23
- Feb 2021 00:20:49 -0800 (PST)
-X-Received: by 2002:a17:902:968e:b029:e3:a9b8:60b4 with SMTP id n14-20020a170902968eb02900e3a9b860b4mr23985832plp.61.1614068449592;
-        Tue, 23 Feb 2021 00:20:49 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1614068449; cv=none;
+Received: by 2002:aa7:8a52:: with SMTP id n18ls1731999pfa.9.gmail; Tue, 23 Feb
+ 2021 02:33:47 -0800 (PST)
+X-Received: by 2002:a63:4084:: with SMTP id n126mr23565545pga.80.1614076427226;
+        Tue, 23 Feb 2021 02:33:47 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1614076427; cv=none;
         d=google.com; s=arc-20160816;
-        b=om5sIyO/+efYbZeLSYh0p9e+IAHdZLfwa5mpY5hg5j4PRYVnF1UPpcyITofHGV6ytQ
-         Y8hFAJ8l6xPYLV3A3iQ85+z/qlainLpv5z2jIJpoEcFpOjeWYleW0jC1akI6WmQqaQbB
-         Fito0fUKkvm+dsWvU+PJfyiGVVOc5lx+n+FALGnhqcgk4lbkBgINJ/7vvSu1Sv+ufEYx
-         O9pEdnXbyvf5KMODN/z/uWx2J+PFlVcQQuBWorMZ2PwauDEs5lmUh7HOq/fXI9Jz/6tL
-         qE6WPi5SWY82xxAVu3W318cb/wCESufw/a4VJrxKd5JN1u6ZEnigv3DiJC7CrnumvqjU
-         TH4A==
+        b=x4Sv+YFDVKDdAb2DCEfUWg6iELIJe0qeEZ88K8QSy/ZgH2fbwiG1GbQjCzD1B35rTA
+         mMJBsu2s/w9pgXhjCVY01vQ/g9vwT7MEHDS6eSEl7P4B5NvXMnUGvrggS36YlCOWWho8
+         TxpvXVT4Fnae3rnFPeN808e8ftM4smcH/PznaXIglwgG1LQqZnNHBYg5gPYIirL6/99I
+         y1dvDMurbKFSDDHzCAzFQXuqeWDmUsXb7N20c2KXyqR4NKiIYJPgrmDFRRHmr5gHPwcu
+         9UJt+7JA/6smGag1UtyJkiP0bD5YfN3K6W0xThlxofmclYwK9PR5ohmFuoKY4IdBrDvb
+         NUqQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:from:subject:mime-version:message-id:date:sender
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
          :dkim-signature;
-        bh=NFZ3Z7VYF450fBUEwtA9Z/zyGYLmPSNiSMB88RuL4JU=;
-        b=W3kzc4oYh6o212duobHnaks2BkRHrEpFR6nsh8+23VSUdXTVyb2RpmCle2K5TtL1Jw
-         AsUZgX2kEkgrHGBKCrcTqpjZg9em/121iTobLGTZ3AhdXZmrMyZsH9tELCMolAic0ags
-         RGsWclMmg+PV+GZ056U3jm41Ogs0ziqGuMhQs8+AQ21UoV7BEPRTHd8VXfKSnFU6QyaN
-         Qun8BhnhcmBmHYQroCTFtQreOULAFGbWxCMoCnE5py/5UgqJnluHjFz67R5k+9Wroyzu
-         NtYA/PCg7pnoaj+4tz2lWLmOUp2oBnNdvLDLfSREKZyuZm1pi54JD03UYPW5BIKHj3Ha
-         +6WQ==
+        bh=O4eU9dLNgm0ga1w/UcGK2aRgCdfR9UK3xwlc97+j95Q=;
+        b=c/2mDRUvKxyh8rBBB04o9TG3fBPy2vkuFyodJGC0QVxZl2iuaz4YSx3cKn2uieTT62
+         jAb853TlNgeAAGNushJtU+Dko5a0rUxeTBeXQvj2QCeDNetv0oJDX4j88FeY94NrdaAl
+         bV5f8/40S3v+M/z4XkhVkg4zXC5i7MsFeVaEo+hRjNzb7STtdVVGxBMY2ZCCJu376EcK
+         MDw3FVTfsX88FIfz1OqKnPGAg75l025ejXGyMg/6VpoynLzHw5GQuZG9DqJC5R1hRXkT
+         FZFJZpRDSE4MKwOQ0/SMwtoKxxeItMIxo2TbF8lFoOVndBB8beGWBBEkHs55Y/HddPQ3
+         4rWA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=j7cibiZC;
-       spf=pass (google.com: domain of 34lo0yaukcteryiretbbtyr.pbzxnfna-qritbbtyrtebhcf.pbz@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::74a as permitted sender) smtp.mailfrom=34Lo0YAUKCTERYiReTbbTYR.PbZXNfNa-QRiTbbTYRTebhcf.PbZ@flex--elver.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-qk1-x74a.google.com (mail-qk1-x74a.google.com. [2607:f8b0:4864:20::74a])
-        by gmr-mx.google.com with ESMTPS id o15si114754pjw.1.2021.02.23.00.20.49
+       dkim=pass header.i=@ibm.com header.s=pp1 header.b=Lc491rjl;
+       spf=pass (google.com: domain of rppt@linux.ibm.com designates 148.163.156.1 as permitted sender) smtp.mailfrom=rppt@linux.ibm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=ibm.com
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com. [148.163.156.1])
+        by gmr-mx.google.com with ESMTPS id n9si123845pjp.2.2021.02.23.02.33.47
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 23 Feb 2021 00:20:49 -0800 (PST)
-Received-SPF: pass (google.com: domain of 34lo0yaukcteryiretbbtyr.pbzxnfna-qritbbtyrtebhcf.pbz@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::74a as permitted sender) client-ip=2607:f8b0:4864:20::74a;
-Received: by mail-qk1-x74a.google.com with SMTP id p27so11128175qkp.8
-        for <kasan-dev@googlegroups.com>; Tue, 23 Feb 2021 00:20:49 -0800 (PST)
-Sender: "elver via sendgmr" <elver@elver.muc.corp.google.com>
-X-Received: from elver.muc.corp.google.com ([2a00:79e0:15:13:855b:f924:6e71:3d5d])
- (user=elver job=sendgmr) by 2002:ad4:5a10:: with SMTP id ei16mr10879866qvb.10.1614068448741;
- Tue, 23 Feb 2021 00:20:48 -0800 (PST)
-Date: Tue, 23 Feb 2021 09:20:43 +0100
-Message-Id: <20210223082043.1972742-1-elver@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.30.0.617.g56c4b15f3c-goog
-Subject: [PATCH mm] kfence: report sensitive information based on no_hash_pointers
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-To: elver@google.com, akpm@linux-foundation.org
-Cc: glider@google.com, dvyukov@google.com, andreyknvl@google.com, 
-	jannh@google.com, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	kasan-dev@googlegroups.com, Timur Tabi <timur@kernel.org>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 23 Feb 2021 02:33:47 -0800 (PST)
+Received-SPF: pass (google.com: domain of rppt@linux.ibm.com designates 148.163.156.1 as permitted sender) client-ip=148.163.156.1;
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 11NA4mkm021603;
+	Tue, 23 Feb 2021 05:33:32 -0500
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com with ESMTP id 36vkg2uxu0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 23 Feb 2021 05:33:32 -0500
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+	by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 11NA4lmC021561;
+	Tue, 23 Feb 2021 05:33:31 -0500
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com [169.51.49.98])
+	by mx0a-001b2d01.pphosted.com with ESMTP id 36vkg2uxt0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 23 Feb 2021 05:33:31 -0500
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+	by ppma03ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 11NASo0e018736;
+	Tue, 23 Feb 2021 10:33:28 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+	by ppma03ams.nl.ibm.com with ESMTP id 36tt282ge0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 23 Feb 2021 10:33:28 +0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
+	by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 11NAXDkb34931070
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 23 Feb 2021 10:33:13 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 419C3A4053;
+	Tue, 23 Feb 2021 10:33:26 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id ED331A4051;
+	Tue, 23 Feb 2021 10:33:23 +0000 (GMT)
+Received: from linux.ibm.com (unknown [9.145.51.238])
+	by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+	Tue, 23 Feb 2021 10:33:23 +0000 (GMT)
+Date: Tue, 23 Feb 2021 12:33:21 +0200
+From: Mike Rapoport <rppt@linux.ibm.com>
+To: George Kennedy <george.kennedy@oracle.com>
+Cc: David Hildenbrand <david@redhat.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Konrad Rzeszutek Wilk <konrad@darnok.org>,
+        Will Deacon <will.deacon@arm.com>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Alexander Potapenko <glider@google.com>,
+        Marco Elver <elver@google.com>, Peter Collingbourne <pcc@google.com>,
+        Evgenii Stepanov <eugenis@google.com>,
+        Branislav Rankov <Branislav.Rankov@arm.com>,
+        Kevin Brodsky <kevin.brodsky@arm.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Dhaval Giani <dhaval.giani@oracle.com>
+Subject: Re: [PATCH] mm, kasan: don't poison boot memory
+Message-ID: <20210223103321.GD1741768@linux.ibm.com>
+References: <d11bf144-669b-0fe1-4fa4-001a014db32a@oracle.com>
+ <CAAeHK+y_SmP5yAeSM3Cp6V3WH9uj4737hDuVGA7U=xA42ek3Lw@mail.gmail.com>
+ <c7166cae-bf89-8bdd-5849-72b5949fc6cc@oracle.com>
+ <797fae72-e3ea-c0b0-036a-9283fa7f2317@oracle.com>
+ <1ac78f02-d0af-c3ff-cc5e-72d6b074fc43@redhat.com>
+ <bd7510b5-d325-b516-81a8-fbdc81a27138@oracle.com>
+ <56c97056-6d8b-db0e-e303-421ee625abe3@redhat.com>
+ <cb8564e8-3535-826b-2d42-b273a0d793fb@oracle.com>
+ <20210222215502.GB1741768@linux.ibm.com>
+ <9773282a-2854-25a4-9faa-9da5dd34e371@oracle.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <9773282a-2854-25a4-9faa-9da5dd34e371@oracle.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369,18.0.761
+ definitions=2021-02-23_05:2021-02-22,2021-02-23 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ clxscore=1015 adultscore=0 priorityscore=1501 malwarescore=0
+ mlxlogscore=999 mlxscore=0 impostorscore=0 bulkscore=0 spamscore=0
+ phishscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2009150000 definitions=main-2102230084
+X-Original-Sender: rppt@linux.ibm.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=j7cibiZC;       spf=pass
- (google.com: domain of 34lo0yaukcteryiretbbtyr.pbzxnfna-qritbbtyrtebhcf.pbz@flex--elver.bounces.google.com
- designates 2607:f8b0:4864:20::74a as permitted sender) smtp.mailfrom=34Lo0YAUKCTERYiReTbbTYR.PbZXNfNa-QRiTbbTYRTebhcf.PbZ@flex--elver.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+ header.i=@ibm.com header.s=pp1 header.b=Lc491rjl;       spf=pass (google.com:
+ domain of rppt@linux.ibm.com designates 148.163.156.1 as permitted sender)
+ smtp.mailfrom=rppt@linux.ibm.com;       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=ibm.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -130,191 +198,158 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-We cannot rely on CONFIG_DEBUG_KERNEL to decide if we're running a
-"debug kernel" where we can safely show potentially sensitive
-information in the kernel log.
+(re-added CC)
 
-Instead, simply rely on the newly introduced "no_hash_pointers" to print
-unhashed kernel pointers, as well as decide if our reports can include
-other potentially sensitive information such as registers and corrupted
-bytes.
+On Mon, Feb 22, 2021 at 08:24:59PM -0500, George Kennedy wrote:
+>=20
+> On 2/22/2021 4:55 PM, Mike Rapoport wrote:
+> > On Mon, Feb 22, 2021 at 01:42:56PM -0500, George Kennedy wrote:
+> > > On 2/22/2021 11:13 AM, David Hildenbrand wrote:
+> > > > On 22.02.21 16:13, George Kennedy wrote:
+> > > >=20
+> > > > The PFN 0xbe453 looks a little strange, though. Do we expect ACPI t=
+ables
+> > > > close to 3 GiB ? No idea. Could it be that you are trying to map a =
+wrong
+> > > > table? Just a guess.
+> > > >=20
+> > > > > What would be=C2=A0 the correct way to reserve the page so that t=
+he above
+> > > > > would not be hit?
+> > > > I would have assumed that if this is a binary blob, that someone (w=
+hich
+> > > > I think would be acpi code) reserved via memblock_reserve() early d=
+uring
+> > > > boot.
+> > > >=20
+> > > > E.g., see drivers/acpi/tables.c:acpi_table_upgrade()->memblock_rese=
+rve().
+> > > acpi_table_upgrade() gets called, but bails out before memblock_reser=
+ve() is
+> > > called. Thus, it appears no pages are getting reserved.
+> > acpi_table_upgrade() does not actually reserve memory but rather open
+> > codes memblock allocation with memblock_find_in_range() +
+> > memblock_reserve(), so it does not seem related anyway.
+> >=20
+> > Do you have by chance a full boot log handy?
+>=20
+> Hello Mike,
+>=20
+> Are you after the console output? See attached.
+>=20
+> It includes my patch to set PG_Reserved along with the dump_page() debug
+> that David asked for - see: "page:"
 
-Cc: Timur Tabi <timur@kernel.org>
-Signed-off-by: Marco Elver <elver@google.com>
----
+So, iBFT is indeed at pfn 0xbe453:
 
-Depends on "lib/vsprintf: no_hash_pointers prints all addresses as
-unhashed", which was merged into mainline yesterday:
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=b2bec7d8a42a3885d525e821d9354b6b08fd6adf
+[    0.077698] ACPI: iBFT 0x00000000BE453000 000800 (v01 BOCHS  BXPCFACP 00=
+000000      00000000)
+=20
+and it's in E820_TYPE_RAM region rather than in ACPI data:
 
----
- Documentation/dev-tools/kfence.rst |  8 ++++----
- mm/kfence/core.c                   | 10 +++-------
- mm/kfence/kfence.h                 |  7 -------
- mm/kfence/kfence_test.c            |  2 +-
- mm/kfence/report.c                 | 18 ++++++++++--------
- 5 files changed, 18 insertions(+), 27 deletions(-)
+[    0.000000] BIOS-e820: [mem 0x0000000000810000-0x00000000008fffff] ACPI =
+NVS
+[    0.000000] BIOS-e820: [mem 0x0000000000900000-0x00000000be49afff] usabl=
+e
+[    0.000000] BIOS-e820: [mem 0x00000000be49b000-0x00000000be49bfff] ACPI =
+data
 
-diff --git a/Documentation/dev-tools/kfence.rst b/Documentation/dev-tools/kfence.rst
-index 58a0a5fa1ddc..fdf04e741ea5 100644
---- a/Documentation/dev-tools/kfence.rst
-+++ b/Documentation/dev-tools/kfence.rst
-@@ -88,8 +88,8 @@ A typical out-of-bounds access looks like this::
- 
- The header of the report provides a short summary of the function involved in
- the access. It is followed by more detailed information about the access and
--its origin. Note that, real kernel addresses are only shown for
--``CONFIG_DEBUG_KERNEL=y`` builds.
-+its origin. Note that, real kernel addresses are only shown when using the
-+kernel command line option ``no_hash_pointers``.
- 
- Use-after-free accesses are reported as::
- 
-@@ -184,8 +184,8 @@ invalidly written bytes (offset from the address) are shown; in this
- representation, '.' denote untouched bytes. In the example above ``0xac`` is
- the value written to the invalid address at offset 0, and the remaining '.'
- denote that no following bytes have been touched. Note that, real values are
--only shown for ``CONFIG_DEBUG_KERNEL=y`` builds; to avoid information
--disclosure for non-debug builds, '!' is used instead to denote invalidly
-+only shown if the kernel was booted with ``no_hash_pointers``; to avoid
-+information disclosure otherwise, '!' is used instead to denote invalidly
- written bytes.
- 
- And finally, KFENCE may also report on invalid accesses to any protected page
-diff --git a/mm/kfence/core.c b/mm/kfence/core.c
-index cfe3d32ac5b7..3b8ec938470a 100644
---- a/mm/kfence/core.c
-+++ b/mm/kfence/core.c
-@@ -646,13 +646,9 @@ void __init kfence_init(void)
- 
- 	WRITE_ONCE(kfence_enabled, true);
- 	schedule_delayed_work(&kfence_timer, 0);
--	pr_info("initialized - using %lu bytes for %d objects", KFENCE_POOL_SIZE,
--		CONFIG_KFENCE_NUM_OBJECTS);
--	if (IS_ENABLED(CONFIG_DEBUG_KERNEL))
--		pr_cont(" at 0x%px-0x%px\n", (void *)__kfence_pool,
--			(void *)(__kfence_pool + KFENCE_POOL_SIZE));
--	else
--		pr_cont("\n");
-+	pr_info("initialized - using %lu bytes for %d objects at 0x%p-0x%p\n", KFENCE_POOL_SIZE,
-+		CONFIG_KFENCE_NUM_OBJECTS, (void *)__kfence_pool,
-+		(void *)(__kfence_pool + KFENCE_POOL_SIZE));
- }
- 
- void kfence_shutdown_cache(struct kmem_cache *s)
-diff --git a/mm/kfence/kfence.h b/mm/kfence/kfence.h
-index 1accc840dbbe..24065321ff8a 100644
---- a/mm/kfence/kfence.h
-+++ b/mm/kfence/kfence.h
-@@ -16,13 +16,6 @@
- 
- #include "../slab.h" /* for struct kmem_cache */
- 
--/* For non-debug builds, avoid leaking kernel pointers into dmesg. */
--#ifdef CONFIG_DEBUG_KERNEL
--#define PTR_FMT "%px"
--#else
--#define PTR_FMT "%p"
--#endif
--
- /*
-  * Get the canary byte pattern for @addr. Use a pattern that varies based on the
-  * lower 3 bits of the address, to detect memory corruptions with higher
-diff --git a/mm/kfence/kfence_test.c b/mm/kfence/kfence_test.c
-index db1bb596acaf..4acf4251ee04 100644
---- a/mm/kfence/kfence_test.c
-+++ b/mm/kfence/kfence_test.c
-@@ -146,7 +146,7 @@ static bool report_matches(const struct expect_report *r)
- 		break;
+I could not find anywhere in x86 setup or in ACPI tables parsing the code
+that reserves this memory or any other ACPI data for that matter. It could
+be that I've missed some copying of the data to statically allocated
+initial_tables, but AFAICS any ACPI data that was not marked as such in
+e820 tables by BIOS resides in memory that is considered as free.
+
+Can you please check if this hack (entirely untested) changes anything:
+
+diff --git a/arch/x86/kernel/acpi/boot.c b/arch/x86/kernel/acpi/boot.c
+index 7bdc0239a943..c118dd54a747 100644
+--- a/arch/x86/kernel/acpi/boot.c
++++ b/arch/x86/kernel/acpi/boot.c
+@@ -1551,6 +1551,7 @@ void __init acpi_boot_table_init(void)
+ 	if (acpi_disabled)
+ 		return;
+=20
++#if 0
+ 	/*
+ 	 * Initialize the ACPI boot-time table parser.
+ 	 */
+@@ -1558,6 +1559,7 @@ void __init acpi_boot_table_init(void)
+ 		disable_acpi();
+ 		return;
  	}
- 
--	cur += scnprintf(cur, end - cur, " 0x" PTR_FMT, (void *)r->addr);
-+	cur += scnprintf(cur, end - cur, " 0x%p", (void *)r->addr);
- 
- 	spin_lock_irqsave(&observed.lock, flags);
- 	if (!report_available())
-diff --git a/mm/kfence/report.c b/mm/kfence/report.c
-index 901bd7ee83d8..4a424de44e2d 100644
---- a/mm/kfence/report.c
-+++ b/mm/kfence/report.c
-@@ -19,6 +19,8 @@
- 
- #include "kfence.h"
- 
-+extern bool no_hash_pointers;
++#endif
+=20
+ 	acpi_table_parse(ACPI_SIG_BOOT, acpi_parse_sbf);
+=20
+diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
+index d883176ef2ce..c8a07a7b9577 100644
+--- a/arch/x86/kernel/setup.c
++++ b/arch/x86/kernel/setup.c
+@@ -1032,6 +1032,14 @@ void __init setup_arch(char **cmdline_p)
+ 	 */
+ 	find_smp_config();
+=20
++	/*
++	 * Initialize the ACPI boot-time table parser.
++	 */
++	if (acpi_table_init()) {
++		disable_acpi();
++		return;
++	}
 +
- /* Helper function to either print to a seq_file or to console. */
- __printf(2, 3)
- static void seq_con_printf(struct seq_file *seq, const char *fmt, ...)
-@@ -118,7 +120,7 @@ void kfence_print_object(struct seq_file *seq, const struct kfence_metadata *met
- 	}
- 
- 	seq_con_printf(seq,
--		       "kfence-#%zd [0x" PTR_FMT "-0x" PTR_FMT
-+		       "kfence-#%zd [0x%p-0x%p"
- 		       ", size=%d, cache=%s] allocated by task %d:\n",
- 		       meta - kfence_metadata, (void *)start, (void *)(start + size - 1), size,
- 		       (cache && cache->name) ? cache->name : "<destroyed>", meta->alloc_track.pid);
-@@ -148,7 +150,7 @@ static void print_diff_canary(unsigned long address, size_t bytes_to_show,
- 	for (cur = (const u8 *)address; cur < end; cur++) {
- 		if (*cur == KFENCE_CANARY_PATTERN(cur))
- 			pr_cont(" .");
--		else if (IS_ENABLED(CONFIG_DEBUG_KERNEL))
-+		else if (no_hash_pointers)
- 			pr_cont(" 0x%02x", *cur);
- 		else /* Do not leak kernel memory in non-debug builds. */
- 			pr_cont(" !");
-@@ -201,7 +203,7 @@ void kfence_report_error(unsigned long address, bool is_write, struct pt_regs *r
- 
- 		pr_err("BUG: KFENCE: out-of-bounds %s in %pS\n\n", get_access_type(is_write),
- 		       (void *)stack_entries[skipnr]);
--		pr_err("Out-of-bounds %s at 0x" PTR_FMT " (%luB %s of kfence-#%zd):\n",
-+		pr_err("Out-of-bounds %s at 0x%p (%luB %s of kfence-#%zd):\n",
- 		       get_access_type(is_write), (void *)address,
- 		       left_of_object ? meta->addr - address : address - meta->addr,
- 		       left_of_object ? "left" : "right", object_index);
-@@ -210,24 +212,24 @@ void kfence_report_error(unsigned long address, bool is_write, struct pt_regs *r
- 	case KFENCE_ERROR_UAF:
- 		pr_err("BUG: KFENCE: use-after-free %s in %pS\n\n", get_access_type(is_write),
- 		       (void *)stack_entries[skipnr]);
--		pr_err("Use-after-free %s at 0x" PTR_FMT " (in kfence-#%zd):\n",
-+		pr_err("Use-after-free %s at 0x%p (in kfence-#%zd):\n",
- 		       get_access_type(is_write), (void *)address, object_index);
- 		break;
- 	case KFENCE_ERROR_CORRUPTION:
- 		pr_err("BUG: KFENCE: memory corruption in %pS\n\n", (void *)stack_entries[skipnr]);
--		pr_err("Corrupted memory at 0x" PTR_FMT " ", (void *)address);
-+		pr_err("Corrupted memory at 0x%p ", (void *)address);
- 		print_diff_canary(address, 16, meta);
- 		pr_cont(" (in kfence-#%zd):\n", object_index);
- 		break;
- 	case KFENCE_ERROR_INVALID:
- 		pr_err("BUG: KFENCE: invalid %s in %pS\n\n", get_access_type(is_write),
- 		       (void *)stack_entries[skipnr]);
--		pr_err("Invalid %s at 0x" PTR_FMT ":\n", get_access_type(is_write),
-+		pr_err("Invalid %s at 0x%p:\n", get_access_type(is_write),
- 		       (void *)address);
- 		break;
- 	case KFENCE_ERROR_INVALID_FREE:
- 		pr_err("BUG: KFENCE: invalid free in %pS\n\n", (void *)stack_entries[skipnr]);
--		pr_err("Invalid free of 0x" PTR_FMT " (in kfence-#%zd):\n", (void *)address,
-+		pr_err("Invalid free of 0x%p (in kfence-#%zd):\n", (void *)address,
- 		       object_index);
- 		break;
- 	}
-@@ -242,7 +244,7 @@ void kfence_report_error(unsigned long address, bool is_write, struct pt_regs *r
- 
- 	/* Print report footer. */
- 	pr_err("\n");
--	if (IS_ENABLED(CONFIG_DEBUG_KERNEL) && regs)
-+	if (no_hash_pointers && regs)
- 		show_regs(regs);
- 	else
- 		dump_stack_print_info(KERN_ERR);
--- 
-2.30.0.617.g56c4b15f3c-goog
+ 	reserve_ibft_region();
+=20
+ 	early_alloc_pgt_buf();
+diff --git a/drivers/firmware/iscsi_ibft_find.c b/drivers/firmware/iscsi_ib=
+ft_find.c
+index 64bb94523281..2e5e04090fe2 100644
+--- a/drivers/firmware/iscsi_ibft_find.c
++++ b/drivers/firmware/iscsi_ibft_find.c
+@@ -80,6 +80,21 @@ static int __init find_ibft_in_mem(void)
+ done:
+ 	return len;
+ }
++
++static void __init acpi_find_ibft_region(void)
++{
++	int i;
++	struct acpi_table_header *table =3D NULL;
++
++	if (acpi_disabled)
++		return;
++
++	for (i =3D 0; i < ARRAY_SIZE(ibft_signs) && !ibft_addr; i++) {
++		acpi_get_table(ibft_signs[i].sign, 0, &table);
++		ibft_addr =3D (struct acpi_table_ibft *)table;
++	}
++}
++
+ /*
+  * Routine used to find the iSCSI Boot Format Table. The logical
+  * kernel address is set in the ibft_addr global variable.
+@@ -93,6 +108,8 @@ unsigned long __init find_ibft_region(unsigned long *siz=
+ep)
+=20
+ 	if (!efi_enabled(EFI_BOOT))
+ 		find_ibft_in_mem();
++	else
++		acpi_find_ibft_region();
+=20
+ 	if (ibft_addr) {
+ 		*sizep =3D PAGE_ALIGN(ibft_addr->header.length);
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210223082043.1972742-1-elver%40google.com.
+> Thank you,
+> George
+
+--=20
+Sincerely yours,
+Mike.
+
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/20210223103321.GD1741768%40linux.ibm.com.
