@@ -1,131 +1,136 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBLN72WAQMGQE2SYVG3A@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBYGA2WAQMGQEB4VFSUY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-io1-xd38.google.com (mail-io1-xd38.google.com [IPv6:2607:f8b0:4864:20::d38])
-	by mail.lfdr.de (Postfix) with ESMTPS id 000CB3231BD
-	for <lists+kasan-dev@lfdr.de>; Tue, 23 Feb 2021 21:03:58 +0100 (CET)
-Received: by mail-io1-xd38.google.com with SMTP id c3sf12846879ioa.1
-        for <lists+kasan-dev@lfdr.de>; Tue, 23 Feb 2021 12:03:58 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1614110638; cv=pass;
+Received: from mail-yb1-xb3b.google.com (mail-yb1-xb3b.google.com [IPv6:2607:f8b0:4864:20::b3b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 759C43231C7
+	for <lists+kasan-dev@lfdr.de>; Tue, 23 Feb 2021 21:06:57 +0100 (CET)
+Received: by mail-yb1-xb3b.google.com with SMTP id f81sf21704993yba.8
+        for <lists+kasan-dev@lfdr.de>; Tue, 23 Feb 2021 12:06:57 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1614110816; cv=pass;
         d=google.com; s=arc-20160816;
-        b=PHDuggGFOsZJT1bV097Wl+6imHRWy9ZHBGYzVncmoj4l+dv5PFAmiL9680+3Ve2w35
-         31p8XM4H5OHPpOFTSwiTcVMzSYLfT4hvmms2UXDJUmRUl0YtgW8qZU31axwkI2XyOGjj
-         xZPM6t50ZTgfCEQcMR/iytQaCq4jym9JERJLSjvWAHO9lUjDRYbrTxxr3cAbESrLy3jj
-         Rl98utE2rwViCKxvJAmHvvvJVn7d4Bxo5U5ZObnrn06Ralz0OExRBNYgDxgJDB/PIihK
-         OG4LhBGLVSO0MazFycYIAcrKeFUOFWhFYL6zVyB7mqknJo9DQ2Hr+E9SWp525vwnHSkI
-         RiIQ==
+        b=f8MVKGIhdlCplRySG2bYh5lHuGaspDxWd13+mKgz206832awQSnM6EM0tJneh+OQ5s
+         CDppnTxLC1rSh+LmTJiNYlkoNwaS72ODnCNqv6+dKlagGuZJUEEDUJ7Lzz8j2U6BA2as
+         VMNP18DGAohFXnR2lvhPnA37C4ojd9RGSsYLDxe7twhuDSImaryJiLAGEev8xnXihWwD
+         X5AO1G0vH+hqvyMK+8ThRwkE+x1Xa0YGq4uwMQtOatFgOcZIcqwWUkQwpEGnRn8YNUBn
+         4TcKkeQejeyaJBrLJ7BUKjAH1gXFucHbrrAOojk5+7N2V1aAQELJigrwb9AoRHaR/t6m
+         qhTw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=q7TZ/hAnq7ETHbZ8r19MkiKeyh8+c94Z4zw5qk/FM3Q=;
-        b=kwFDM3FrAEy4Qy2ROJP4CYeVdo1yNe0LXzrUUMBPspO9Je1qPQt92SmoN0k2+Vafvs
-         Meq4G3lCPt0Pv66HxE0viL8u0XZYPuz05GQbbiv+iqjTMPRJxo9/gqL3sAQ4SEnkKWRq
-         WPJXZwveXYB86Vi8Ra1pXuWJCcZFw8m0YV2Ab6NewNpHz1ToByAW3o5S2YAUQRkz91TR
-         XEGbe2USPImdWakUMhxHV7ZMJlOQ9v0jksajXp4QVzzlPj0OhDeBEc1+AgfUFVJCODUc
-         7YTLGiRlpt5Uxxx9IrDepEZ7VR5e4iQd02nhftjWiuohmWzz87NOVueYFnRPYpB9hYkS
-         WQWQ==
+         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:sender:dkim-signature;
+        bh=YyDqxXGRx4BzF8MG2hRdWxxdRTdDSU9Rb8PJiScT4Mo=;
+        b=c6gIBizUyKAtqCPOutho4/gQbVbhnNHZ2BqXgH8cGo2LkycV/7FrpUcYcRJgZ6tOLL
+         5vRQDjcE5RwMj/2SgSdw+9o4O3rrTiKuG0FHbZrRXV9CGDzy6ZWeE5VcChFN8Y2a1LEZ
+         k4nxA0gYxvBPMqsF1W7a2yNn1TeDwCCvPx2+gexQ4JhtaHEGkqIoB5ATuz3RDYiJA9S8
+         lOcp0syKCEKXm7UU/sKdlCiMEStXrlRYTQE+1Uc3a4iZdFwDIBK47OaPUSK6Do17T2gS
+         N9fgdFVhNCqAcxXlZqhHU/U8UIJ3j9JDzWWUl8/o1j8WfnMYbX2tbqkWtZD4ZVzqzz+o
+         jjgA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=uueyZEhC;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::32a as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b="Jme//fgH";
+       spf=pass (google.com: domain of arnd@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=arnd@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
+        h=sender:mime-version:references:in-reply-to:from:date:message-id
+         :subject:to:cc:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=q7TZ/hAnq7ETHbZ8r19MkiKeyh8+c94Z4zw5qk/FM3Q=;
-        b=mM9dLxtLGcVccUpIHxK7VkSjPe8QxUJOBa3zBL4ELYL32ugEdmmQxdEIxqktrRyiX2
-         3AlADWQ5NaOCPTztqdgOxoEY9myTDMYajBrT3Qblij7sdtzsJ/A0K3DkhWdQlhZH468a
-         LdPrwvgFdkM0KwR8gfYv+HEGM+KVRt5Dhm001wBIyISfKStO/g/JmAhroLO3ROMnUWJ7
-         NAL4sjFFAqjsOczTaDfWDsGbb9KzE0WsU+l6NPg1XoDYxfcmKtMmwLFjb3E5G/n9+1Zk
-         khx+2ZnaAdlVl8Y9Ah3sQ609QXbY4qMkCZUdPhIHy0RGcXBAHIkDyk1caHPxRhwkN1Eg
-         U7lQ==
+        bh=YyDqxXGRx4BzF8MG2hRdWxxdRTdDSU9Rb8PJiScT4Mo=;
+        b=IiziwaDslSmRvAxgh7qrVl7EYXGduFJNonVRBIgb+y3Kcjr1kV4b7H1iYtGXw0cM7u
+         YlXfjpO8eMHK+wIQBP/izmqemMq0gtxHoVPBj2iCa97ifeT3bxZdgHuQsFOjUsOqT8k7
+         n9tDo2m2NX2GeO4Ac9kH9ZzJ5FvwFJtFmUnl32U1qohn2uKo6qnrk10A61+guJLpdAVW
+         CBdanU5eYn7FkTmrSQbAPBS17R7VhoKoWMl0XJVFJ1pjIKrTRzjjG5OuVkCYK8bL7x5H
+         BXzAgznczICr5a3a5Dceq8hyr6Ja/CZ8jkwSOTuKvcSBG97SRu1x3U2AD2U6MiFyrmXV
+         zItQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+        h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
+         :date:message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=q7TZ/hAnq7ETHbZ8r19MkiKeyh8+c94Z4zw5qk/FM3Q=;
-        b=Tclmw4xN3bRonefrML8VolRlRteF/MgTNBnCyduXw/wODSmJ608WMkFbXLv4rzun7N
-         WBmQ1se39SAHZWyZOyZ7UamAFLdqO2nEYqCPdPItkTAojWG9M3UXg3dCGVgjGbE4eN9D
-         6Byj9iv7oaMCkti+l3stHHbJHg7hxKeiZ1NKRce9UUdyMnSnw3oN6gSdI5Ua4ZI9rGGm
-         3fgEa3qyyWjGFQwexVSs9ONct0Cr/4JKgjFthH5RdLp4oQM8PLCx336CNA0d2tg9XesL
-         GSD25oT7zSNXEET6ytlNNVF9lO94xWDBPSNLXnlsFFfeTvQK1KvoFEeTKuYyhnG+p9hY
-         m8tA==
-X-Gm-Message-State: AOAM531edP3X8ywzcc4xyk0NL4cgglTt74FfXc95oXdNrGN8e90L6KIF
-	biqrIkjayeoLVO3b8zPkMt4=
-X-Google-Smtp-Source: ABdhPJx119fXy5q4X7b+uLX5SRWRhnJvu6W4XNytf3Ebk2zSPUSTnKL1h/wUW1Mz+XmkH6mFw7CEpA==
-X-Received: by 2002:a05:6e02:1564:: with SMTP id k4mr21163865ilu.282.1614110637444;
-        Tue, 23 Feb 2021 12:03:57 -0800 (PST)
+        bh=YyDqxXGRx4BzF8MG2hRdWxxdRTdDSU9Rb8PJiScT4Mo=;
+        b=I5jFSsmy69Vh7Ax+ni/ZD3+T+2/53LbFa9n0SSrj4ZaUMkaIq2mMSGDN5BAKeTju/T
+         +JBLpu2aaKI5lhxL/VQIPIb3ja9m4Fx20ZtHge/IR/90mPNDisDxQMGPN3MMTyLridtR
+         14Qlozio/7eDXWGGavhM1I7IdlGdtZPPGR8b0oYyg0ygb8z4eoy8IcrUucFQNi5LHaZa
+         ZGsUUP6x56VhNVFsFYAbaPbEVX6/auH+3jE2SPR6VsShFfygYOySVDwlEdwJvHL7az73
+         qaaBGSJ1+EkaRVJW8cvkN0UI0fKPy7rwk/xKTQNQgil0LxpNroMq/IHel8ir7lxmPuiF
+         MK4Q==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM531y7JGmuaZSt61UMeiPjCeKgt3e6EAh5BpdUwc/KvJjIuVjdveK
+	0a+FCDV3g8mMbhVS9o/wjwI=
+X-Google-Smtp-Source: ABdhPJwi6uUsNvMXhX/x1xQGR+l4h/Sy8Rw4PAKPgouTDctmLVX0fOvtTmTWIrzMaeBhUeotK3SHcw==
+X-Received: by 2002:a25:adc9:: with SMTP id d9mr41511435ybe.144.1614110816519;
+        Tue, 23 Feb 2021 12:06:56 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a5d:860b:: with SMTP id f11ls3777700iol.10.gmail; Tue, 23
- Feb 2021 12:03:57 -0800 (PST)
-X-Received: by 2002:a5e:8a03:: with SMTP id d3mr10554994iok.135.1614110637121;
-        Tue, 23 Feb 2021 12:03:57 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1614110637; cv=none;
+Received: by 2002:a25:dc49:: with SMTP id y70ls2302957ybe.4.gmail; Tue, 23 Feb
+ 2021 12:06:56 -0800 (PST)
+X-Received: by 2002:a25:fc1d:: with SMTP id v29mr43664437ybd.472.1614110816120;
+        Tue, 23 Feb 2021 12:06:56 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1614110816; cv=none;
         d=google.com; s=arc-20160816;
-        b=BvP9vXu0gOS1BuNUAajO3DSoKqx3SCiTrx88uO5I8iOMh9oEvCMFaJ4TXZqr3k0e+y
-         MJXpjRA22L16UkZoAnSzoA71NbbRjfix/vmAnF1GGu527SPN0K6vD5rtL/sXYTpCKgAW
-         iTgdhShY4Pa5pR3r0nA66jL9kdbH5E+5aV0pR3AKfiXM84S6fw0WHkX3Ccwah4mSoJU7
-         e/diEZukIttHUBlS7IJGgQVlRf5GD2qB+BsTOxdvKbIPif8GeWuO6fp5s4CAkdGHCSWt
-         sbw9vbrjGQ901xmZVQOaEpYYM6FzoLrVwhxTu01aPqLGktsPj/YxfoKjcKZsmFyPOhPS
-         o4uQ==
+        b=Md7I9k2RGqTdVE45MuLoLp52sCzhP9mQHw8TgewBAIJPetWC2dJhUc7hQeTdnuTlym
+         P3x7XvnfsPieouyb+NGIsNdDCpTDkvANWndsr8Uy8ElPY8jZUOVJWkNDfuhGS1xKgCU2
+         drieiS1MgPkRriRpbjgVlTQE5aUEs0Sped7nT9z2sMhxjUA9pt8hoYYFcJneZNtghgKx
+         FspqmmXWDCBRKnQy2VZmifyg+B0cyU+wtPlAPOy1UsP6+RpAaltD6vXLeBdMdfL3TyGq
+         Ur8mCIxPw6yls5QzpNLsv/J8uT9ov5/15Q++8D9B3jC0Kmb3AVWgTswiogKjE9Sv3zex
+         57Yg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=KDbWfjB7meY0E7XLsjIrc5m2e7z/Yrkuj6hZaVwwlGE=;
-        b=PWA26D9syOoI3xqU4RpvpN1GxgdtF3+NN4Vstfe78oX0xoqoatfTysoOoLahXGTJL5
-         aZQrdt9hb657CHzTRAYI8yiD+XSHU5inQa7EFKjkz2dVXulg6MYoMRiocc9e0BiAAw7v
-         95XjVmyUp8w/uYBOpkwRcqO6tUzo0EbBP53W+7dZ1gvNofuvZNtY79DvP+A6Mau6upHg
-         yxaRo9CZYCQGJ2HIWZin15Yw9iAR0PtgrXHCbkfzCltSlxwO/bzqSagQr010iXZPYqBT
-         DzSsJJ5NSQvZz+A82Y8NuQ5PyhXEAAhio0zjbEECnYlq+KhdVvzQvyl/Ss/k/n3+qET4
-         DRfw==
+        bh=PkD3ioKzfkZ/PRIRoywRQ+beCpNpai9GngjtMVJLBrQ=;
+        b=GIoRmQnTNUa1UirvcjBYRonQa3HxKTL8XH4BbEWNWLQul4z0Tw3Ln1ViYxuDxY7gaE
+         p8Esb0/lCfjIykjC2M+RJ8Rf14MO6kMAoFrtnh+zi8//l1yBKOOMouBwpCF/yvkgp9g5
+         Fd+ZuvZZHyQMNaF9zDaILXcRNYPciprpbm5Pa1twapDW/SP4eHBxo4BgIu3lLg/gA0lp
+         hGrgCx1SqzLslGWp0Hmuqvy7qPtHWiakMdq2Gngh3aSQWne+DWyBKQtaNqpL1cxqoYJq
+         /ZovWRFbkiEE4NagQbNk+OXfHKAAHqaQsWkkPdW87vGdP2tzz++5ufTpRt+U9YZa19z0
+         DfHQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=uueyZEhC;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::32a as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com. [2607:f8b0:4864:20::32a])
-        by gmr-mx.google.com with ESMTPS id v81si1190346iod.4.2021.02.23.12.03.57
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b="Jme//fgH";
+       spf=pass (google.com: domain of arnd@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=arnd@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
+        by gmr-mx.google.com with ESMTPS id x7si1656600ybm.0.2021.02.23.12.06.56
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 23 Feb 2021 12:03:57 -0800 (PST)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::32a as permitted sender) client-ip=2607:f8b0:4864:20::32a;
-Received: by mail-ot1-x32a.google.com with SMTP id r19so9618101otk.2
-        for <kasan-dev@googlegroups.com>; Tue, 23 Feb 2021 12:03:57 -0800 (PST)
-X-Received: by 2002:a05:6830:18e6:: with SMTP id d6mr22473227otf.251.1614110636519;
- Tue, 23 Feb 2021 12:03:56 -0800 (PST)
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 23 Feb 2021 12:06:56 -0800 (PST)
+Received-SPF: pass (google.com: domain of arnd@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 02FDF64E22
+	for <kasan-dev@googlegroups.com>; Tue, 23 Feb 2021 20:06:54 +0000 (UTC)
+Received: by mail-oo1-f43.google.com with SMTP id x23so4178726oop.1
+        for <kasan-dev@googlegroups.com>; Tue, 23 Feb 2021 12:06:54 -0800 (PST)
+X-Received: by 2002:a4a:8ed2:: with SMTP id c18mr19775387ool.66.1614110814282;
+ Tue, 23 Feb 2021 12:06:54 -0800 (PST)
 MIME-Version: 1.0
-References: <20210223143426.2412737-1-elver@google.com>
-In-Reply-To: <20210223143426.2412737-1-elver@google.com>
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Tue, 23 Feb 2021 21:03:44 +0100
-Message-ID: <CANpmjNPEzA0EP9zEGE-O7tz=3EhKjdhVi43jbhoTDRG5wo3C1A@mail.gmail.com>
-Subject: Re: [PATCH RFC 0/4] Add support for synchronous signals on perf events
-To: Marco Elver <elver@google.com>, Peter Zijlstra <peterz@infradead.org>, 
+References: <20210223143426.2412737-1-elver@google.com> <20210223143426.2412737-3-elver@google.com>
+ <CAMuHMdXVZ+UvNgoaNC-ZZoiuJ=DOsZs4oZzd8DubA7D+4iLCow@mail.gmail.com>
+In-Reply-To: <CAMuHMdXVZ+UvNgoaNC-ZZoiuJ=DOsZs4oZzd8DubA7D+4iLCow@mail.gmail.com>
+From: Arnd Bergmann <arnd@kernel.org>
+Date: Tue, 23 Feb 2021 21:06:37 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a1nCxY=bF_Z_aDDqHFOFgOSJUmaN5X+46oXN7-x1o5z_g@mail.gmail.com>
+Message-ID: <CAK8P3a1nCxY=bF_Z_aDDqHFOFgOSJUmaN5X+46oXN7-x1o5z_g@mail.gmail.com>
+Subject: Re: [PATCH RFC 2/4] signal: Introduce TRAP_PERF si_code and si_perf
+ to siginfo
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Marco Elver <elver@google.com>, Peter Zijlstra <peterz@infradead.org>, 
 	Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
 	Arnaldo Carvalho de Melo <acme@kernel.org>, Ingo Molnar <mingo@redhat.com>, Jiri Olsa <jolsa@redhat.com>, 
 	Mark Rutland <mark.rutland@arm.com>, Namhyung Kim <namhyung@kernel.org>, 
-	Thomas Gleixner <tglx@linutronix.de>
-Cc: Alexander Potapenko <glider@google.com>, Al Viro <viro@zeniv.linux.org.uk>, 
-	Arnd Bergmann <arnd@arndb.de>, Christian Brauner <christian@brauner.io>, Dmitry Vyukov <dvyukov@google.com>, 
-	Jann Horn <jannh@google.com>, Jens Axboe <axboe@kernel.dk>, Matt Morehouse <mascasa@google.com>, 
-	Peter Collingbourne <pcc@google.com>, Ian Rogers <irogers@google.com>, 
-	kasan-dev <kasan-dev@googlegroups.com>, linux-arch <linux-arch@vger.kernel.org>, 
-	linux-fsdevel <linux-fsdevel@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
-	linux-m68k@lists.linux-m68k.org, "the arch/x86 maintainers" <x86@kernel.org>
+	Thomas Gleixner <tglx@linutronix.de>, Alexander Potapenko <glider@google.com>, 
+	Al Viro <viro@zeniv.linux.org.uk>, Arnd Bergmann <arnd@arndb.de>, 
+	Christian Brauner <christian@brauner.io>, Dmitry Vyukov <dvyukov@google.com>, Jann Horn <jannh@google.com>, 
+	Jens Axboe <axboe@kernel.dk>, mascasa@google.com, Peter Collingbourne <pcc@google.com>, irogers@google.com, 
+	kasan-dev <kasan-dev@googlegroups.com>, Linux-Arch <linux-arch@vger.kernel.org>, 
+	Linux FS Devel <linux-fsdevel@vger.kernel.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-m68k <linux-m68k@lists.linux-m68k.org>, 
+	"the arch/x86 maintainers" <x86@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
+X-Original-Sender: arnd@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=uueyZEhC;       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::32a as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+ header.i=@kernel.org header.s=k20201202 header.b="Jme//fgH";       spf=pass
+ (google.com: domain of arnd@kernel.org designates 198.145.29.99 as permitted
+ sender) smtp.mailfrom=arnd@kernel.org;       dmarc=pass (p=NONE sp=NONE
+ dis=NONE) header.from=kernel.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -138,104 +143,25 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, 23 Feb 2021 at 15:34, Marco Elver <elver@google.com> wrote:
+On Tue, Feb 23, 2021 at 7:01 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
 >
-> The perf subsystem today unifies various tracing and monitoring
-> features, from both software and hardware. One benefit of the perf
-> subsystem is automatically inheriting events to child tasks, which
-> enables process-wide events monitoring with low overheads. By default
-> perf events are non-intrusive, not affecting behaviour of the tasks
-> being monitored.
+> On Tue, Feb 23, 2021 at 3:52 PM Marco Elver <elver@google.com> wrote:
+> > Introduces the TRAP_PERF si_code, and associated siginfo_t field
+> > si_perf. These will be used by the perf event subsystem to send signals
+> > (if requested) to the task where an event occurred.
+> >
+> > Signed-off-by: Marco Elver <elver@google.com>
 >
-> For certain use-cases, however, it makes sense to leverage the
-> generality of the perf events subsystem and optionally allow the tasks
-> being monitored to receive signals on events they are interested in.
-> This patch series adds the option to synchronously signal user space on
-> events.
+> >  arch/m68k/kernel/signal.c          |  3 +++
 >
-> The discussion at [1] led to the changes proposed in this series. The
-> approach taken in patch 3/4 to use 'event_limit' to trigger the signal
-> was kindly suggested by Peter Zijlstra in [2].
+> Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
 >
-> [1] https://lore.kernel.org/lkml/CACT4Y+YPrXGw+AtESxAgPyZ84TYkNZdP0xpocX2jwVAbZD=-XQ@mail.gmail.com/
-> [2] https://lore.kernel.org/lkml/YBv3rAT566k+6zjg@hirez.programming.kicks-ass.net/
->
-> Motivation and example uses:
->
-> 1.      Our immediate motivation is low-overhead sampling-based race
->         detection for user-space [3]. By using perf_event_open() at
->         process initialization, we can create hardware
->         breakpoint/watchpoint events that are propagated automatically
->         to all threads in a process. As far as we are aware, today no
->         existing kernel facility (such as ptrace) allows us to set up
->         process-wide watchpoints with minimal overheads (that are
->         comparable to mprotect() of whole pages).
->
->         [3] https://llvm.org/devmtg/2020-09/slides/Morehouse-GWP-Tsan.pdf
->
-> 2.      Other low-overhead error detectors that rely on detecting
->         accesses to certain memory locations or code, process-wide and
->         also only in a specific set of subtasks or threads.
->
-> Other example use-cases we found potentially interesting:
->
-> 3.      Code hot patching without full stop-the-world. Specifically, by
->         setting a code breakpoint to entry to the patched routine, then
->         send signals to threads and check that they are not in the
->         routine, but without stopping them further. If any of the
->         threads will enter the routine, it will receive SIGTRAP and
->         pause.
->
-> 4.      Safepoints without mprotect(). Some Java implementations use
->         "load from a known memory location" as a safepoint. When threads
->         need to be stopped, the page containing the location is
->         mprotect()ed and threads get a signal. This can be replaced with
->         a watchpoint, which does not require a whole page nor DTLB
->         shootdowns.
->
-> 5.      Tracking data flow globally.
->
-> 6.      Threads receiving signals on performance events to
->         throttle/unthrottle themselves.
->
->
-> Marco Elver (4):
->   perf/core: Apply PERF_EVENT_IOC_MODIFY_ATTRIBUTES to children
->   signal: Introduce TRAP_PERF si_code and si_perf to siginfo
->   perf/core: Add support for SIGTRAP on perf events
->   perf/core: Add breakpoint information to siginfo on SIGTRAP
 
-Note that we're currently pondering fork + exec, and suggestions would
-be appreciated. We think we'll need some restrictions, like Peter
-proposed here: here:
-https://lore.kernel.org/lkml/YBvj6eJR%2FDY2TsEB@hirez.programming.kicks-ass.net/
+For asm-generic:
 
-We think what we want is to inherit the events to children only if
-cloned with CLONE_SIGHAND. If there's space for a 'inherit_mask' in
-perf_event_attr, that'd be most flexible, but perhaps we do not have
-the space.
-
-Thanks,
--- Marco
-
->
->  arch/m68k/kernel/signal.c          |  3 ++
->  arch/x86/kernel/signal_compat.c    |  5 ++-
->  fs/signalfd.c                      |  4 +++
->  include/linux/compat.h             |  2 ++
->  include/linux/signal.h             |  1 +
->  include/uapi/asm-generic/siginfo.h |  6 +++-
->  include/uapi/linux/perf_event.h    |  3 +-
->  include/uapi/linux/signalfd.h      |  4 ++-
->  kernel/events/core.c               | 54 +++++++++++++++++++++++++++++-
->  kernel/signal.c                    | 11 ++++++
->  10 files changed, 88 insertions(+), 5 deletions(-)
->
-> --
-> 2.30.0.617.g56c4b15f3c-goog
->
+Acked-by: Arnd Bergmann <arnd@arndb.de>
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNPEzA0EP9zEGE-O7tz%3D3EhKjdhVi43jbhoTDRG5wo3C1A%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAK8P3a1nCxY%3DbF_Z_aDDqHFOFgOSJUmaN5X%2B46oXN7-x1o5z_g%40mail.gmail.com.
