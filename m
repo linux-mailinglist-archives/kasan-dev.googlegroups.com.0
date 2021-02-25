@@ -1,191 +1,145 @@
-Return-Path: <kasan-dev+bncBDE5LFWXQAIRBBWL3WAQMGQE7LM3FNI@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBNWT3WAQMGQE5WAVHVQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qt1-x838.google.com (mail-qt1-x838.google.com [IPv6:2607:f8b0:4864:20::838])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C333324C40
-	for <lists+kasan-dev@lfdr.de>; Thu, 25 Feb 2021 09:53:27 +0100 (CET)
-Received: by mail-qt1-x838.google.com with SMTP id v19sf3021689qtw.19
-        for <lists+kasan-dev@lfdr.de>; Thu, 25 Feb 2021 00:53:27 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1614243206; cv=pass;
+Received: from mail-vs1-xe39.google.com (mail-vs1-xe39.google.com [IPv6:2607:f8b0:4864:20::e39])
+	by mail.lfdr.de (Postfix) with ESMTPS id 813A1324C72
+	for <lists+kasan-dev@lfdr.de>; Thu, 25 Feb 2021 10:11:20 +0100 (CET)
+Received: by mail-vs1-xe39.google.com with SMTP id b4sf461554vsb.22
+        for <lists+kasan-dev@lfdr.de>; Thu, 25 Feb 2021 01:11:20 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1614244279; cv=pass;
         d=google.com; s=arc-20160816;
-        b=iL3Nzrvb9TFtfbxoeROVpq9kYHn4+lF+VpZp1kczGlZ8sduBdpv7j5CUSAsAFWxVmm
-         TofPVVgeXU09y5ti9+8kCfKdI3fCsPQVqByChEGFEL9QS71z+Dzh01YUeSn78k+fzSAP
-         k/JtZbD+4LJThPQFyV437ILkyu/E84dT/uuExPMT8ElPFzMgugJBhRjOEn/7roOgL4rf
-         8CmQxigj6345W2WhLa6NSwJDOUl7WLXm37G2hDanv294nZsep/v79wgY8SMzzxQRkYXX
-         i3rm+AWzhNX5W+0ZKwLveU0EWQ/0XJgAUxwP35l3FXsG2T01tODemEEr68wk8LhJDBvM
-         HpKA==
+        b=jsepEGtbg5LeypaktCb9f22w4vyENq0bOqkBf6tadxSejzVyZEo+tbiaSdZl+fUgZ7
+         q3EsxoxD/c/xcNdChymMkjuXYOD1QbQQIbZ+yLW3ikrCltRsTdr8zstw4mGomho7tDU1
+         iA1BTsBAUri1tELJcilULfEmFUn0DNJLSfP4mYrmsqGWx2tAwj/p5BrZamAOyuKqJmg6
+         Oy9RKdgiECQ8dPogQlfzMbzZnNtm3MLnTPvzTi4nkdMx+MzKax41VRcHMK4/nl3/UBVo
+         OmvKGewtbNfqIftV+joUu603eIV42D2qIWJUlVeEoHB/yQG7sKuVUmml7cowbplYMnnN
+         84Ig==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to
-         :content-transfer-encoding:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:dkim-signature;
-        bh=y1WB02lFDGkk0jALGbPewVi/BcZY3w0wZerBciys/y4=;
-        b=DdMU7l6IuiyQCZgwZ3dEpwBMG4XpEhXD9z1GUxBEpXdlSm5DLAYqsQKfDDQ+CdzfEn
-         IgK/IxikmXYIacWqoInn9/mPomTdkrDtPBbuIa0Dr1o+RBLCgXIGfScW2wdSdvF183Lm
-         QiVmDPB59fP7CIH6heqLET0b/LDWkbb8s+xW5fpkWqmfXxoN2PsVl8DBDWA4SDScuQGo
-         DeOCAq6BKGvmBbDFejQU2riIm49AR8L6XadFQu+WUuOjS6snNGKrAY49Jw+dQ43/kXRE
-         l3Ju74uyrNnz7snowvgwXdmlzOZgMm4uRRd+DFEVG8iUAh1Ghz18BLa8rWfS1+DDWWeQ
-         QXnQ==
+         :list-id:mailing-list:precedence:user-agent:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:sender:dkim-signature;
+        bh=5gnWtZToc99gNjsIayB1Jab6oiwslAPX+3KqbjM7DUg=;
+        b=S6XQHXKks1Dj72UsekXafR82o7irpoFEijBSdbEQZ3FUoAk2FJ3HbBNhmYzQNkX2sg
+         pmlE3/6l8s+GTBO0+tSdrEwzyJXAhuKLmjvHrEY7HZwsgncqPn/b6fVPcjGB/GTHBcFZ
+         BKNBv8JXg9+6YC+wvGO96EFb6+fy9KTJLff48AbV7epXpQey5xhbo2JCdXOS/VhPOMO9
+         5pSxkHZC60X3uz1P75HR8zFiQ37R8qEk4F6zqTof1l8rbm1EhHYjb09FvTCKDBMaxhh9
+         3RWmmrQoScdOMTlIzijs+mZeAHfGHqRIn2Fq5QQ384g2nOs24npA5byAvWz8agZdyGZI
+         +Fsw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@ibm.com header.s=pp1 header.b=j2PrgI5x;
-       spf=pass (google.com: domain of rppt@linux.ibm.com designates 148.163.156.1 as permitted sender) smtp.mailfrom=rppt@linux.ibm.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=ibm.com
+       spf=pass (google.com: domain of nylon7@andestech.com designates 60.248.187.195 as permitted sender) smtp.mailfrom=nylon7@andestech.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
         h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=y1WB02lFDGkk0jALGbPewVi/BcZY3w0wZerBciys/y4=;
-        b=Z+Gxk/3yougOT1xzhC/x7MoyG79qz+BSJSXgv3y2CMTLDJkEyg5mw65qv4h5HR4rjF
-         tYLD9OT4k/D3USmmpbYh9lLR/fFML1kn62TkRBlTRR/H6abf2nXplxfaF6PMLte4yjJf
-         jKTVOmxp30OgQJUg/TeiIj9lBMjPECjBmxxJpr9/FkcGUpLMw6WaHrJLeb/KWon7lna8
-         K1GuXf6X9OLRNW+nfriBRRlqtjy/XhCl6BrHsoQFVOxwI+pAy2zfXJ+xERAsca0Z2/MB
-         qfVawaIGm34tnT+akWBu//Qc+LQ5A+0EDdQT4yE43FVkfEoxRSJE95fPYWcZ2fKq1pLb
-         +1fA==
+         :content-disposition:in-reply-to:user-agent:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=5gnWtZToc99gNjsIayB1Jab6oiwslAPX+3KqbjM7DUg=;
+        b=LAT/p7F7A0bmSYJFTRtWnDtKrlpyXvQl+3rk370jYmBn/4izcij5WC1L+otgsHdyzB
+         ZMcTG96E+AWZpPKYTxdanh7qUzEolV/q06D3/sZ/8sbDn3PMG8otefPSQzBvwYmj+M+E
+         vYsjLYZl2FhT5MarxIukH6T+UiBpTDvzVtrbCBsQDtdmRRMeqvB6fFO0OiXxZmN3GxbX
+         D1LgnkSPcfqfL5rIB8Sirn/FknA6eza3/0I28Uig1HRgofXlOEW+FApRNH6WzSiCaeUH
+         bB+dkSvt7y69KNmIYzsZ9NsLAaF9vWx9OzNw26OwTkRbs53/tz1tOS7+zIyK2CkB9D9+
+         o94A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition
-         :content-transfer-encoding:in-reply-to:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=y1WB02lFDGkk0jALGbPewVi/BcZY3w0wZerBciys/y4=;
-        b=rzcAd/2OdSXZTi37oiPS/VdaLBCbkBcQ7qC1tXfumCHIR5mZRjssXEJjL1034PUNzp
-         ytF8l4NHwFxGzeEmXZ1YMgeK6jKM5SY/43PzniOJ5p6KkLZez0OydlJ8zxmDKcbYjRZM
-         +UWWX6euWORTu3OyB7TcEAv/hs6YoULMgURrqBkJt2zrZ1+4FOitAE8qQBMPXg9zYXU9
-         Z5ff7XAo/wgqjcVVa23B7lz9Xfhplufd5v49Z8IWiHj0LhosXAg52wtxAGwJ2VjMCj1o
-         VL+I6gFiyDpDVyJJVZzpXG6dGWfWxBl3tgUWKcnTXB/maQpm05wCli6bu5bRGBUZWbxe
-         /MXA==
+         :references:mime-version:content-disposition:in-reply-to:user-agent
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=5gnWtZToc99gNjsIayB1Jab6oiwslAPX+3KqbjM7DUg=;
+        b=egJakOE5PGWhJeHu609luZB3xtcvtUSbnZ4c/6v0rTKyDSIj21QQRURauvXTE6Rirn
+         8i5UI+2xdljDMlQIgQCmSCl/wf4DJreVBGk6BYPfnCGsVCAhK7wPOsROY2S9vzHby7BJ
+         EGcowil8OnZ48kw48crq/WIp7hrCjWaJ0h712ygevLzYddmT6s9xu7EMfn2NtQhLZYWF
+         +DLac6CZ4Fwenbpw38UQ/zeY+n4bve2N1fAP8qgLtHuUsxQ+2veByaUckdXYCCyW8XH5
+         bxxE/W2SUClga0Ui1MEMZLIBZdbwFu9j6otOZyrqzi7TLjhR2IxJjsARN9FniiJOWWSu
+         yfvg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM5305jL0sVHVAlMyzW82gJwue23mtyTWpFdFFfrwQfTSkMSUKRhZx
-	6Gl6YpQAu+WJ45DXMZB+G9k=
-X-Google-Smtp-Source: ABdhPJwYXeuW6gsg5xOyCRHAJxMdaV6LUgV53IgBJjy/xBa2hXg8qh37+h4PLAgKTj2j3bMlY9bidA==
-X-Received: by 2002:ac8:7209:: with SMTP id a9mr1412272qtp.349.1614243206507;
-        Thu, 25 Feb 2021 00:53:26 -0800 (PST)
+X-Gm-Message-State: AOAM5322HibYJI/mURYiiD8hhkBpmZh+Y9IISw+7hBlzrKA/OnOg1YXw
+	ERIIGZyBjk4gzwYdToEMoMg=
+X-Google-Smtp-Source: ABdhPJxa8bHg5kZCHuusDreJHEvL9fFzgVODuP0xeOEPR+SZShBkVoACf9M5y2/rN8tmObl2Hxi0gQ==
+X-Received: by 2002:a1f:180c:: with SMTP id 12mr817806vky.24.1614244279235;
+        Thu, 25 Feb 2021 01:11:19 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6214:2583:: with SMTP id fq3ls1323751qvb.2.gmail; Thu,
- 25 Feb 2021 00:53:26 -0800 (PST)
-X-Received: by 2002:ad4:53ac:: with SMTP id j12mr1715550qvv.3.1614243206085;
-        Thu, 25 Feb 2021 00:53:26 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1614243206; cv=none;
+Received: by 2002:a67:5d47:: with SMTP id r68ls580149vsb.10.gmail; Thu, 25 Feb
+ 2021 01:11:18 -0800 (PST)
+X-Received: by 2002:a67:384:: with SMTP id 126mr999126vsd.40.1614244278557;
+        Thu, 25 Feb 2021 01:11:18 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1614244278; cv=none;
         d=google.com; s=arc-20160816;
-        b=Rm3E7/NPNjbffBkyqY4BwMnOmwQP3gJGUUds6ZPAGYBKQMa0PcQ8kDQXoeqp6zZhg2
-         h58UbmuPdKgEfCRy3zeuuyhcrnecbZomf6Q9C+7t6sAZSmFnEQbIWzTqS9cGoyFZcIg9
-         KSvuM34LurNy0eTXsKAK8IylR6U9+t9YZq/6b1XhmF8SKF6s6d4KsLiDNR+DcZjWvzAZ
-         7STOoXJVZ0/pTCKQUOFgOxe3bUKY45k2LRX9/yn9+fDms/I9pavTkmazKioRkOVAYHkz
-         OM7sbH6xM2pyCrwtAQ6cGy8XtE00X7MLF+VONUMNMEdj0IdiO39Skx9TDz4lX4T/uuu4
-         YoYw==
+        b=h+lKAqOWBtN8VDVb4rLQIaMQv5B2SvrlIRmXgaOmqrVRvjpFLR+22MrjqC8Ghkn48P
+         7+G98LINqMHCFUOQGTGu5FBmi4Kg/KOpx+hqfp0rgkqdEq+Kl2YgnGk2fJ91jIaAK9ff
+         f6goUSa80wibNyX4dPD+iHOmB59zobC7vuQp8RbRj9YeNgKnXNP6nAjNufF23GTD5cb7
+         2kKnnp81SFLBwB6CRN/hD7VJV2U1iyJCSSAps9cppF1b5LZGq3Wef3GLL4lHpkHURd0O
+         aTPivJTk9O11e5majMSBDjo/qaM3WKN57YAfm3IYwRCGTblGWCL3cUGqiAMaNRT3GqeP
+         YquQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :dkim-signature;
-        bh=h+Bg1KAb2M3NX3MNkh6cvynOcax+Mj6ebzjJBOaspRU=;
-        b=xLH3Ak9XpimH5JSJda4A96b6NBAOKlZvFPj2OPUDbpSqaRR90rEob4iJwn6ogcK7Gs
-         qor4tD96wE0S0XspS/yQAI0GSvighUili+MhTNoTrrig5dIqmQWlc3r8D1nlZjhbZnTz
-         xW6uA6G97TmLfjn7KMA9hlv9T4aDbNaLUI+TpjeO8SLwbB6D+4LapugL//Vb/yP8RZ/G
-         g440/x5HGqpoxVjHBJmnaD7TZ/hJrZahg6C2twUM4jgbPRMFpduP4nE3o6NiTWFWfBh9
-         WaM//zjGVw0IiPYnf0IoIzwVKzf+nAEnZI5EX+qEXmJZTl4USwwwalw5SU50Nd+Bziuf
-         bDBg==
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date;
+        bh=uebb8Olnqx6illzXtq/HGpBElWcP4DscFtVeE06xGmo=;
+        b=H8zDLnKGBYXIkR9wmRfVDQLHwh5+dup5aTDKl5BZQMiCjU4zw4rX35mgcbgKAk/s75
+         FfPWg8+JrdCwkvASnFvVsBopjBex2EPVVFw/F5MqnkjrvdibiDnrhmDnHjkL3tfB22e8
+         5vDKWt7jLPQaqztThmrnGJTPgWRp1a55tqs+qbuqxQH5iwhCwoDyDHL18DPQo5GBeqBA
+         6wHyFAmObjQZ2YyVVGqsHcl9AIrClDOYLgKUu4o0zdC64yyJgi4w8ggVu6k6jJXPyESG
+         2SKAG5pAMOI42I2jJYOTQU+W4TCi8JGymIUTP+27urs3L32LEJ8ppaXuAoEUDk6s/711
+         jeGA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@ibm.com header.s=pp1 header.b=j2PrgI5x;
-       spf=pass (google.com: domain of rppt@linux.ibm.com designates 148.163.156.1 as permitted sender) smtp.mailfrom=rppt@linux.ibm.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=ibm.com
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com. [148.163.156.1])
-        by gmr-mx.google.com with ESMTPS id u5si238380qtb.5.2021.02.25.00.53.25
+       spf=pass (google.com: domain of nylon7@andestech.com designates 60.248.187.195 as permitted sender) smtp.mailfrom=nylon7@andestech.com
+Received: from ATCSQR.andestech.com (atcsqr.andestech.com. [60.248.187.195])
+        by gmr-mx.google.com with ESMTPS id a24si165631vsh.2.2021.02.25.01.11.17
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 25 Feb 2021 00:53:26 -0800 (PST)
-Received-SPF: pass (google.com: domain of rppt@linux.ibm.com designates 148.163.156.1 as permitted sender) client-ip=148.163.156.1;
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 11P8XKh7013629;
-	Thu, 25 Feb 2021 03:53:11 -0500
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com with ESMTP id 36x0qrkupd-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 25 Feb 2021 03:53:10 -0500
-Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
-	by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 11P8rAmb089588;
-	Thu, 25 Feb 2021 03:53:10 -0500
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com [169.51.49.102])
-	by mx0a-001b2d01.pphosted.com with ESMTP id 36x0qrkunc-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 25 Feb 2021 03:53:10 -0500
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
-	by ppma06ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 11P8mveG018466;
-	Thu, 25 Feb 2021 08:53:07 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
-	by ppma06ams.nl.ibm.com with ESMTP id 36tsph49cp-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 25 Feb 2021 08:53:07 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com [9.149.105.61])
-	by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 11P8qqHB36569356
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 25 Feb 2021 08:52:52 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 5529F11C058;
-	Thu, 25 Feb 2021 08:53:05 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 987D311C054;
-	Thu, 25 Feb 2021 08:53:02 +0000 (GMT)
-Received: from linux.ibm.com (unknown [9.145.51.238])
-	by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-	Thu, 25 Feb 2021 08:53:02 +0000 (GMT)
-Date: Thu, 25 Feb 2021 10:53:00 +0200
-From: Mike Rapoport <rppt@linux.ibm.com>
-To: George Kennedy <george.kennedy@oracle.com>
-Cc: David Hildenbrand <david@redhat.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Konrad Rzeszutek Wilk <konrad@darnok.org>,
-        Will Deacon <will.deacon@arm.com>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Alexander Potapenko <glider@google.com>,
-        Marco Elver <elver@google.com>, Peter Collingbourne <pcc@google.com>,
-        Evgenii Stepanov <eugenis@google.com>,
-        Branislav Rankov <Branislav.Rankov@arm.com>,
-        Kevin Brodsky <kevin.brodsky@arm.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Dhaval Giani <dhaval.giani@oracle.com>
-Subject: Re: [PATCH] mm, kasan: don't poison boot memory
-Message-ID: <20210225085300.GB1854360@linux.ibm.com>
-References: <20210223103321.GD1741768@linux.ibm.com>
- <3ef9892f-d657-207f-d4cf-111f98dcb55c@oracle.com>
- <20210223154758.GF1741768@linux.ibm.com>
- <3a56ba38-ce91-63a6-b57c-f1726aa1b76e@oracle.com>
- <20210223200914.GH1741768@linux.ibm.com>
- <af06267d-00cd-d4e0-1985-b06ce7c993a3@oracle.com>
- <20210223213237.GI1741768@linux.ibm.com>
- <450a9895-a2b4-d11b-97ca-1bd33d5308d4@oracle.com>
- <20210224103754.GA1854360@linux.ibm.com>
- <9b7251d1-7b90-db4f-fa5e-80165e1cbb4b@oracle.com>
+        Thu, 25 Feb 2021 01:11:18 -0800 (PST)
+Received-SPF: pass (google.com: domain of nylon7@andestech.com designates 60.248.187.195 as permitted sender) client-ip=60.248.187.195;
+Received: from mail.andestech.com (atcpcs16.andestech.com [10.0.1.222])
+	by ATCSQR.andestech.com with ESMTP id 11P94pVw011628;
+	Thu, 25 Feb 2021 17:04:51 +0800 (GMT-8)
+	(envelope-from nylon7@andestech.com)
+Received: from atcfdc88 (10.0.15.120) by ATCPCS16.andestech.com (10.0.1.222)
+ with Microsoft SMTP Server id 14.3.487.0; Thu, 25 Feb 2021 17:10:34 +0800
+Date: Thu, 25 Feb 2021 17:10:35 +0800
+From: Nylon Chen <nylon7@andestech.com>
+To: Alex Ghiti <alex@ghiti.fr>
+CC: "aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>,
+        "Nick Chun-Ming
+ Hu(?????????)" <nickhu@andestech.com>,
+        "Alan Quey-Liang Kao(?????????)"
+	<alankao@andestech.com>,
+        "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>,
+        "kasan-dev@googlegroups.com"
+	<kasan-dev@googlegroups.com>,
+        "nylon7717@gmail.com" <nylon7717@gmail.com>,
+        "aryabinin@virtuozzo.com" <aryabinin@virtuozzo.com>,
+        Palmer Dabbelt
+	<palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        "glider@google.com" <glider@google.com>,
+        "linux-riscv@lists.infradead.org"
+	<linux-riscv@lists.infradead.org>,
+        "dvyukov@google.com" <dvyukov@google.com>
+Subject: Re: [PATCH v2 1/1] riscv/kasan: add KASAN_VMALLOC support
+Message-ID: <20210225091035.GA12748@atcfdc88>
+References: <mhng-443fd141-b9a3-4be6-a056-416877f99ea4@palmerdabbelt-glaptop>
+ <2b2f3038-3e27-8763-cf78-3fbbfd2100a0@ghiti.fr>
+ <4fa97788-157c-4059-ae3f-28ab074c5836@ghiti.fr>
+ <e15fbf55-25db-7f91-6feb-fb081ab60cdb@ghiti.fr>
+ <20210222013754.GA7626@andestech.com>
+ <af58ed3d-36e4-1278-dc42-7df2d875abbc@ghiti.fr>
+ <42483a2b-efb9-88a8-02b2-9f44eed3d418@ghiti.fr>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <9b7251d1-7b90-db4f-fa5e-80165e1cbb4b@oracle.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369,18.0.761
- definitions=2021-02-25_04:2021-02-24,2021-02-25 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 impostorscore=0
- malwarescore=0 priorityscore=1501 spamscore=0 clxscore=1015 phishscore=0
- suspectscore=0 mlxlogscore=999 lowpriorityscore=0 adultscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2102250071
-X-Original-Sender: rppt@linux.ibm.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@ibm.com header.s=pp1 header.b=j2PrgI5x;       spf=pass (google.com:
- domain of rppt@linux.ibm.com designates 148.163.156.1 as permitted sender)
- smtp.mailfrom=rppt@linux.ibm.com;       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=ibm.com
+In-Reply-To: <42483a2b-efb9-88a8-02b2-9f44eed3d418@ghiti.fr>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Originating-IP: [10.0.15.120]
+X-DNSRBL: 
+X-MAIL: ATCSQR.andestech.com 11P94pVw011628
+X-Original-Sender: nylon7@andestech.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of nylon7@andestech.com designates 60.248.187.195 as
+ permitted sender) smtp.mailfrom=nylon7@andestech.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -198,239 +152,274 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hi George,
+Hi Alex, Palmer
+On Thu, Feb 25, 2021 at 03:11:07AM +0800, Alex Ghiti wrote:
+> Hi Nylon,
+> 
+> Le 2/22/21 ?? 12:13 PM, Alex Ghiti a ??crit??:
+> > Le 2/21/21 ?? 8:37 PM, Nylon Chen a ??crit??:
+> >> Hi Alex, Palmer
+> >>
+> >> Sorry I missed this message.
+> >> On Sun, Feb 21, 2021 at 09:38:04PM +0800, Alex Ghiti wrote:
+> >>> Le 2/13/21 ?? 5:52 AM, Alex Ghiti a ??crit??:
+> >>>> Hi Nylon, Palmer,
+> >>>>
+> >>>> Le 2/8/21 ?? 1:28 AM, Alex Ghiti a ??crit??:
+> >>>>> Hi Nylon,
+> >>>>>
+> >>>>> Le 1/22/21 ?? 10:56 PM, Palmer Dabbelt a ??crit??:
+> >>>>>> On Fri, 15 Jan 2021 21:58:35 PST (-0800), nylon7@andestech.com wrote:
+> >>>>>>> It references to x86/s390 architecture.
+> >>>>>>>>> So, it doesn't map the early shadow page to cover VMALLOC space.
+> >>>>>>>
+> >>>>>>> Prepopulate top level page table for the range that would 
+> >>>>>>> otherwise be
+> >>>>>>> empty.
+> >>>>>>>
+> >>>>>>> lower levels are filled dynamically upon memory allocation while
+> >>>>>>> booting.
+> >>>>>
+> >>>>> I think we can improve the changelog a bit here with something like 
+> >>>>> that:
+> >>>>>
+> >>>>> "KASAN vmalloc space used to be mapped using kasan early shadow page.
+> >>>>> KASAN_VMALLOC requires the top-level of the kernel page table to be
+> >>>>> properly populated, lower levels being filled dynamically upon memory
+> >>>>> allocation at runtime."
+> >>>>>
+> >>>>>>>
+> >>>>>>> Signed-off-by: Nylon Chen <nylon7@andestech.com>
+> >>>>>>> Signed-off-by: Nick Hu <nickhu@andestech.com>
+> >>>>>>> ---
+> >>>>>>> ????arch/riscv/Kconfig???????????????? |?? 1 +
+> >>>>>>> ????arch/riscv/mm/kasan_init.c | 57 
+> >>>>>>> +++++++++++++++++++++++++++++++++++++-
+> >>>>>>> ????2 files changed, 57 insertions(+), 1 deletion(-)
+> >>>>>>>
+> >>>>>>> diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+> >>>>>>> index 81b76d44725d..15a2c8088bbe 100644
+> >>>>>>> --- a/arch/riscv/Kconfig
+> >>>>>>> +++ b/arch/riscv/Kconfig
+> >>>>>>> @@ -57,6 +57,7 @@ config RISCV
+> >>>>>>> ?????????? select HAVE_ARCH_JUMP_LABEL
+> >>>>>>> ?????????? select HAVE_ARCH_JUMP_LABEL_RELATIVE
+> >>>>>>> ?????????? select HAVE_ARCH_KASAN if MMU && 64BIT
+> >>>>>>> +?????? select HAVE_ARCH_KASAN_VMALLOC if MMU && 64BIT
+> >>>>>>> ?????????? select HAVE_ARCH_KGDB
+> >>>>>>> ?????????? select HAVE_ARCH_KGDB_QXFER_PKT
+> >>>>>>> ?????????? select HAVE_ARCH_MMAP_RND_BITS if MMU
+> >>>>>>> diff --git a/arch/riscv/mm/kasan_init.c b/arch/riscv/mm/kasan_init.c
+> >>>>>>> index 12ddd1f6bf70..4b9149f963d3 100644
+> >>>>>>> --- a/arch/riscv/mm/kasan_init.c
+> >>>>>>> +++ b/arch/riscv/mm/kasan_init.c
+> >>>>>>> @@ -9,6 +9,19 @@
+> >>>>>>> ????#include <linux/pgtable.h>
+> >>>>>>> ????#include <asm/tlbflush.h>
+> >>>>>>> ????#include <asm/fixmap.h>
+> >>>>>>> +#include <asm/pgalloc.h>
+> >>>>>>> +
+> >>>>>>> +static __init void *early_alloc(size_t size, int node)
+> >>>>>>> +{
+> >>>>>>> +?????? void *ptr = memblock_alloc_try_nid(size, size,
+> >>>>>>> +?????????????? __pa(MAX_DMA_ADDRESS), MEMBLOCK_ALLOC_ACCESSIBLE, node);
+> >>>>>>> +
+> >>>>>>> +?????? if (!ptr)
+> >>>>>>> +?????????????? panic("%pS: Failed to allocate %zu bytes align=%zx nid=%d
+> >>>>>>> from=%llx\n",
+> >>>>>>> +?????????????????????? __func__, size, size, node, 
+> >>>>>>> (u64)__pa(MAX_DMA_ADDRESS));
+> >>>>>>> +
+> >>>>>>> +?????? return ptr;
+> >>>>>>> +}
+> >>>>>>>
+> >>>>>>> ????extern pgd_t early_pg_dir[PTRS_PER_PGD];
+> >>>>>>> ????asmlinkage void __init kasan_early_init(void)
+> >>>>>>> @@ -83,6 +96,40 @@ static void __init populate(void *start, void 
+> >>>>>>> *end)
+> >>>>>>> ?????????? memset(start, 0, end - start);
+> >>>>>>> ????}
+> >>>>>>>
+> >>>>>>> +void __init kasan_shallow_populate(void *start, void *end)
+> >>>>>>> +{
+> >>>>>>> +?????? unsigned long vaddr = (unsigned long)start & PAGE_MASK;
+> >>>>>>> +?????? unsigned long vend = PAGE_ALIGN((unsigned long)end);
+> >>>>>>> +?????? unsigned long pfn;
+> >>>>>>> +?????? int index;
+> >>>>>>> +?????? void *p;
+> >>>>>>> +?????? pud_t *pud_dir, *pud_k;
+> >>>>>>> +?????? pgd_t *pgd_dir, *pgd_k;
+> >>>>>>> +?????? p4d_t *p4d_dir, *p4d_k;
+> >>>>>>> +
+> >>>>>>> +?????? while (vaddr < vend) {
+> >>>>>>> +?????????????? index = pgd_index(vaddr);
+> >>>>>>> +?????????????? pfn = csr_read(CSR_SATP) & SATP_PPN;
+> >>>>>
+> >>>>> At this point in the boot process, we know that we use swapper_pg_dir
+> >>>>> so no need to read SATP.
+> >>>>>
+> >>>>>>> +?????????????? pgd_dir = (pgd_t *)pfn_to_virt(pfn) + index;
+> >>>>>
+> >>>>> Here, this pgd_dir assignment is overwritten 2 lines below, so no need
+> >>>>> for it.
+> >>>>>
+> >>>>>>> +?????????????? pgd_k = init_mm.pgd + index;
+> >>>>>>> +?????????????? pgd_dir = pgd_offset_k(vaddr);
+> >>>>>
+> >>>>> pgd_offset_k(vaddr) = init_mm.pgd + pgd_index(vaddr) so pgd_k == 
+> >>>>> pgd_dir.
+> >>>>>
+> >>>>>>> +?????????????? set_pgd(pgd_dir, *pgd_k);
+> >>>>>>> +
+> >>>>>>> +?????????????? p4d_dir = p4d_offset(pgd_dir, vaddr);
+> >>>>>>> +?????????????? p4d_k?? = p4d_offset(pgd_k, vaddr);
+> >>>>>>> +
+> >>>>>>> +?????????????? vaddr = (vaddr + PUD_SIZE) & PUD_MASK;
+> >>>>>
+> >>>>> Why do you increase vaddr *before* populating the first one ? And
+> >>>>> pud_addr_end does that properly: it returns the next pud address if it
+> >>>>> does not go beyond end address to map.
+> >>>>>
+> >>>>>>> +?????????????? pud_dir = pud_offset(p4d_dir, vaddr);
+> >>>>>>> +?????????????? pud_k = pud_offset(p4d_k, vaddr);
+> >>>>>>> +
+> >>>>>>> +?????????????? if (pud_present(*pud_dir)) {
+> >>>>>>> +?????????????????????? p = early_alloc(PAGE_SIZE, NUMA_NO_NODE);
+> >>>>>>> +?????????????????????? pud_populate(&init_mm, pud_dir, p);
+> >>>>>
+> >>>>> init_mm is not needed here.
+> >>>>>
+> >>>>>>> +?????????????? }
+> >>>>>>> +?????????????? vaddr += PAGE_SIZE;
+> >>>>>
+> >>>>> Why do you need to add PAGE_SIZE ? vaddr already points to the next 
+> >>>>> pud.
+> >>>>>
+> >>>>> It seems like this patch tries to populate userspace page table
+> >>>>> whereas at this point in the boot process, only swapper_pg_dir is used
+> >>>>> or am I missing something ?
+> >>>>>
+> >>>>> Thanks,
+> >>>>>
+> >>>>> Alex
+> >>>>
+> >>>> I implemented this morning a version that fixes all the comments I made
+> >>>> earlier. I was able to insert test_kasan_module on both sv39 and sv48
+> >>>> without any modification: set_pgd "goes through" all the unused page
+> >>>> table levels, whereas p*d_populate are noop for unused levels.
+> >>>>
+> >>>> If you have any comment, do not hesitate.
+> >>>>
+> >>>> diff --git a/arch/riscv/mm/kasan_init.c b/arch/riscv/mm/kasan_init.c
+> >>>> index adbf94b7e68a..d643b222167c 100644
+> >>>> --- a/arch/riscv/mm/kasan_init.c
+> >>>> +++ b/arch/riscv/mm/kasan_init.c
+> >>>> @@ -195,6 +195,31 @@ static void __init kasan_populate(void *start, 
+> >>>> void
+> >>>> *end)
+> >>>> ?? ?????????????? memset(start, KASAN_SHADOW_INIT, end - start);
+> >>>> ?? ??}
+> >>>>
+> >>>>
+> >>>> +void __init kasan_shallow_populate_pgd(unsigned long vaddr, unsigned
+> >>>> long end)
+> >>>> +{
+> >>>> +???????????? unsigned long next;
+> >>>> +???????????? void *p;
+> >>>> +???????????? pgd_t *pgd_k = pgd_offset_k(vaddr);
+> >>>> +
+> >>>> +???????????? do {
+> >>>> +???????????????????????????? next = pgd_addr_end(vaddr, end);
+> >>>> +???????????????????????????? if (pgd_page_vaddr(*pgd_k) == (unsigned
+> >>>> long)lm_alias(kasan_early_shadow_pgd_next)) {
+> >>>> +???????????????????????????????????????????? p = memblock_alloc(PAGE_SIZE, PAGE_SIZE);
+> >>>> +???????????????????????????????????????????? set_pgd(pgd_k, pfn_pgd(PFN_DOWN(__pa(p)),
+> >>>> PAGE_TABLE));
+> >>>> +???????????????????????????? }
+> >>>> +???????????? } while (pgd_k++, vaddr = next, vaddr != end);
+> >>>> +}
+> >>>> +
+> >>>
+> >>> This way of going through the page table seems to be largely used across
+> >>> the kernel (cf KASAN population functions of arm64/x86) so I do think
+> >>> this patch brings value to Nylon and Nick's patch.
+> >>>
+> >>> I can propose a real patch if you agree and I'll add a co-developed by
+> >>> Nylon/Nick since this only 'improves' theirs.
+> >>>
+> >>> Thanks,
+> >>>
+> >>> Alex
+> >>>
+> >> I agree with your proposal, but when I try your patch that it dosen't 
+> >> work
+> >> because `kasan_early_shadow_pgd_next` function wasn't define.
+> > 
+> > Oops, I messed up my rebase, please replace 
+> > 'kasan_early_shadow_pgd_next' with 'kasan_early_shadow_pmd'.
+> > 
+> > Thank you for your feeback,
+> > 
+> > Alex
+> > 
+> 
+> Did you have time to test the above fix ? It would be nice to replace 
+> your current patch with the above solution before it gets merged for 
+> 5.12, I will propose something tomorrow, feel free to review and test :)
+> 
+> Thanks again,
+> 
+> Alex
+> 
+Today I follow your fix in our platform, it's workable.
 
-> On 2/24/2021 5:37 AM, Mike Rapoport wrote:
-> > On Tue, Feb 23, 2021 at 04:46:28PM -0500, George Kennedy wrote:
-> > > Mike,
-> > >=20
-> > > Still no luck.
-> > >=20
-> > > [=C2=A0=C2=A0 30.193723] iscsi: registered transport (iser)
-> > > [=C2=A0=C2=A0 30.195970] iBFT detected.
-> > > [=C2=A0=C2=A0 30.196571] BUG: unable to handle page fault for address=
-: ffffffffff240004
-> > Hmm, we cannot set ibft_addr to early pointer to the ACPI table.
-> > Let's try something more disruptive and move the reservation back to
-> > iscsi_ibft_find.c.
-> >=20
-> > diff --git a/arch/x86/kernel/acpi/boot.c b/arch/x86/kernel/acpi/boot.c
-> > index 7bdc0239a943..c118dd54a747 100644
-> > --- a/arch/x86/kernel/acpi/boot.c
-> > +++ b/arch/x86/kernel/acpi/boot.c
-> > @@ -1551,6 +1551,7 @@ void __init acpi_boot_table_init(void)
-> >   	if (acpi_disabled)
-> >   		return;
-> > +#if 0
-> >   	/*
-> >   	 * Initialize the ACPI boot-time table parser.
-> >   	 */
-> > @@ -1558,6 +1559,7 @@ void __init acpi_boot_table_init(void)
-> >   		disable_acpi();
-> >   		return;
-> >   	}
-> > +#endif
-> >   	acpi_table_parse(ACPI_SIG_BOOT, acpi_parse_sbf);
-> > diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
-> > index d883176ef2ce..c615ce96c9a2 100644
-> > --- a/arch/x86/kernel/setup.c
-> > +++ b/arch/x86/kernel/setup.c
-> > @@ -570,16 +570,6 @@ void __init reserve_standard_io_resources(void)
-> >   }
-> > -static __init void reserve_ibft_region(void)
-> > -{
-> > -	unsigned long addr, size =3D 0;
-> > -
-> > -	addr =3D find_ibft_region(&size);
-> > -
-> > -	if (size)
-> > -		memblock_reserve(addr, size);
-> > -}
-> > -
-> >   static bool __init snb_gfx_workaround_needed(void)
-> >   {
-> >   #ifdef CONFIG_PCI
-> > @@ -1032,6 +1022,12 @@ void __init setup_arch(char **cmdline_p)
-> >   	 */
-> >   	find_smp_config();
-> > +	/*
-> > +	 * Initialize the ACPI boot-time table parser.
-> > +	 */
-> > +	if (acpi_table_init())
-> > +		disable_acpi();
-> > +
-> >   	reserve_ibft_region();
-> >   	early_alloc_pgt_buf();
-> > diff --git a/drivers/firmware/iscsi_ibft_find.c b/drivers/firmware/iscs=
-i_ibft_find.c
-> > index 64bb94523281..01be513843d6 100644
-> > --- a/drivers/firmware/iscsi_ibft_find.c
-> > +++ b/drivers/firmware/iscsi_ibft_find.c
-> > @@ -47,7 +47,25 @@ static const struct {
-> >   #define VGA_MEM 0xA0000 /* VGA buffer */
-> >   #define VGA_SIZE 0x20000 /* 128kB */
-> > -static int __init find_ibft_in_mem(void)
-> > +static void __init *acpi_find_ibft_region(void)
-> > +{
-> > +	int i;
-> > +	struct acpi_table_header *table =3D NULL;
-> > +	acpi_status status;
-> > +
-> > +	if (acpi_disabled)
-> > +		return NULL;
-> > +
-> > +	for (i =3D 0; i < ARRAY_SIZE(ibft_signs) && !ibft_addr; i++) {
-> > +		status =3D acpi_get_table(ibft_signs[i].sign, 0, &table);
-> > +		if (ACPI_SUCCESS(status))
-> > +			return table;
-> > +	}
-> > +
-> > +	return NULL;
-> > +}
-> > +
-> > +static void __init *find_ibft_in_mem(void)
-> >   {
-> >   	unsigned long pos;
-> >   	unsigned int len =3D 0;
-> > @@ -70,35 +88,44 @@ static int __init find_ibft_in_mem(void)
-> >   				/* if the length of the table extends past 1M,
-> >   				 * the table cannot be valid. */
-> >   				if (pos + len <=3D (IBFT_END-1)) {
-> > -					ibft_addr =3D (struct acpi_table_ibft *)virt;
-> >   					pr_info("iBFT found at 0x%lx.\n", pos);
-> > -					goto done;
-> > +					return virt;
-> >   				}
-> >   			}
-> >   		}
-> >   	}
-> > -done:
-> > -	return len;
-> > +
-> > +	return NULL;
-> >   }
-> > +
-> > +static void __init *find_ibft(void)
-> > +{
-> > +	/* iBFT 1.03 section 1.4.3.1 mandates that UEFI machines will
-> > +	 * only use ACPI for this */
-> > +	if (!efi_enabled(EFI_BOOT))
-> > +		return find_ibft_in_mem();
-> > +	else
-> > +		return acpi_find_ibft_region();
-> > +}
-> > +
-> >   /*
-> >    * Routine used to find the iSCSI Boot Format Table. The logical
-> >    * kernel address is set in the ibft_addr global variable.
-> >    */
-> > -unsigned long __init find_ibft_region(unsigned long *sizep)
-> > +void __init reserve_ibft_region(void)
-> >   {
-> > -	ibft_addr =3D NULL;
-> > +	struct acpi_table_ibft *table;
-> > +	unsigned long size;
-> > -	/* iBFT 1.03 section 1.4.3.1 mandates that UEFI machines will
-> > -	 * only use ACPI for this */
-> > +	table =3D find_ibft();
-> > +	if (!table)
-> > +		return;
-> > -	if (!efi_enabled(EFI_BOOT))
-> > -		find_ibft_in_mem();
-> > -
-> > -	if (ibft_addr) {
-> > -		*sizep =3D PAGE_ALIGN(ibft_addr->header.length);
-> > -		return (u64)virt_to_phys(ibft_addr);
-> > -	}
-> > +	size =3D PAGE_ALIGN(table->header.length);
-> > +	memblock_reserve(virt_to_phys(table), size);
-> > -	*sizep =3D 0;
-> > -	return 0;
-> > +	if (efi_enabled(EFI_BOOT))
-> > +		acpi_put_table(&table->header);
-> > +	else
-> > +		ibft_addr =3D table;
-> >   }
-> > diff --git a/include/linux/iscsi_ibft.h b/include/linux/iscsi_ibft.h
-> > index b7b45ca82bea..da813c891990 100644
-> > --- a/include/linux/iscsi_ibft.h
-> > +++ b/include/linux/iscsi_ibft.h
-> > @@ -26,13 +26,9 @@ extern struct acpi_table_ibft *ibft_addr;
-> >    * mapped address is set in the ibft_addr variable.
-> >    */
-> >   #ifdef CONFIG_ISCSI_IBFT_FIND
-> > -unsigned long find_ibft_region(unsigned long *sizep);
-> > +void reserve_ibft_region(void);
-> >   #else
-> > -static inline unsigned long find_ibft_region(unsigned long *sizep)
-> > -{
-> > -	*sizep =3D 0;
-> > -	return 0;
-> > -}
-> > +static inline void reserve_ibft_region(void) {}
-> >   #endif
-> >   #endif /* ISCSI_IBFT_H */
->=20
-> Still no luck Mike,
->=20
-> We're back to the original problem where the only thing that worked was t=
-o
-> run "SetPageReserved(page)" before calling "kmap(page)". The page is bein=
-g
-> "freed" before ibft_init() is called as a result of the recent buddy page
-> freeing changes.
+Thank you for your fix.
+> >>
+> >> Do you have complete patch? or just I missed some content?
+> >>>> +void __init kasan_shallow_populate(void *start, void *end)
+> >>>> +{
+> >>>> +???????????? unsigned long vaddr = (unsigned long)start & PAGE_MASK;
+> >>>> +???????????? unsigned long vend = PAGE_ALIGN((unsigned long)end);
+> >>>> +
+> >>>> +???????????? kasan_shallow_populate_pgd(vaddr, vend);
+> >>>> +
+> >>>> +???????????? local_flush_tlb_all();
+> >>>> +}
+> >>>> +
+> >>>> ?? ??void __init kasan_init(void)
+> >>>> ?? ??{
+> >>>> ?? ?????????????? phys_addr_t _start, _end;
+> >>>> @@ -206,7 +231,15 @@ void __init kasan_init(void)
+> >>>> ?? ???????????????? */
+> >>>> ?? ?????????????? kasan_populate_early_shadow((void *)KASAN_SHADOW_START,
+> >>>> ?? ?????????????????????????????????????????????????????????????????????? (void 
+> >>>> *)kasan_mem_to_shadow((void *)
+> >>>> - VMALLOC_END));
+> >>>> + VMEMMAP_END));
+> >>>> +???????????? if (IS_ENABLED(CONFIG_KASAN_VMALLOC))
+> >>>> +???????????????????????????? kasan_shallow_populate(
+> >>>> +???????????????????????????????????????????? (void *)kasan_mem_to_shadow((void 
+> >>>> *)VMALLOC_START),
+> >>>> +???????????????????????????????????????????? (void *)kasan_mem_to_shadow((void 
+> >>>> *)VMALLOC_END));
+> >>>> +???????????? else
+> >>>> +???????????????????????????? kasan_populate_early_shadow(
+> >>>> +???????????????????????????????????????????? (void *)kasan_mem_to_shadow((void 
+> >>>> *)VMALLOC_START),
+> >>>> +???????????????????????????????????????????? (void *)kasan_mem_to_shadow((void 
+> >>>> *)VMALLOC_END));
+> >>>>
+> >>>>
+> >>>> ?? ?????????????? /* Populate the linear mapping */
+> >>>> ?? ?????????????? for_each_mem_range(i, &_start, &_end) {
+> >>
+> >> _______________________________________________
+> >> linux-riscv mailing list
+> >> linux-riscv@lists.infradead.org
+> >> http://lists.infradead.org/mailman/listinfo/linux-riscv
+> >>
 
-I keep missing some little details each time :(
-Ok, let's try from the different angle.
-
-diff --git a/drivers/acpi/acpica/tbutils.c b/drivers/acpi/acpica/tbutils.c
-index 4b9b329a5a92..ec43e1447336 100644
---- a/drivers/acpi/acpica/tbutils.c
-+++ b/drivers/acpi/acpica/tbutils.c
-@@ -7,6 +7,8 @@
-  *
-  *************************************************************************=
-****/
-=20
-+#include <linux/memblock.h>
-+
- #include <acpi/acpi.h>
- #include "accommon.h"
- #include "actables.h"
-@@ -339,6 +341,21 @@ acpi_tb_parse_root_table(acpi_physical_address rsdp_ad=
-dress)
- 			acpi_tb_parse_fadt();
- 		}
-=20
-+		if (ACPI_SUCCESS(status) &&
-+		    ACPI_COMPARE_NAMESEG(&acpi_gbl_root_table_list.
-+					 tables[table_index].signature,
-+					 ACPI_SIG_IBFT)) {
-+			struct acpi_table_header *ibft;
-+			struct acpi_table_desc *desc;
-+
-+			desc =3D &acpi_gbl_root_table_list.tables[table_index];
-+			status =3D acpi_tb_get_table(desc, &ibft);
-+			if (ACPI_SUCCESS(status)) {
-+				memblock_reserve(address, ibft->length);
-+				acpi_tb_put_table(desc);
-+			}
-+		}
-+
- next_table:
-=20
- 		table_entry +=3D table_entry_size;
-=20
-
-
---=20
-Sincerely yours,
-Mike.
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/20210225085300.GB1854360%40linux.ibm.com.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210225091035.GA12748%40atcfdc88.
