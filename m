@@ -1,142 +1,143 @@
-Return-Path: <kasan-dev+bncBCX7RK77SEDBBT7U6OAQMGQEA34NDDA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCX7RK77SEDBBCFG62AQMGQE4QB3RFY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pj1-x1037.google.com (mail-pj1-x1037.google.com [IPv6:2607:f8b0:4864:20::1037])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AAA33280CD
-	for <lists+kasan-dev@lfdr.de>; Mon,  1 Mar 2021 15:29:36 +0100 (CET)
-Received: by mail-pj1-x1037.google.com with SMTP id w34sf9620600pjj.7
-        for <lists+kasan-dev@lfdr.de>; Mon, 01 Mar 2021 06:29:36 -0800 (PST)
-ARC-Seal: i=3; a=rsa-sha256; t=1614608975; cv=pass;
+Received: from mail-pg1-x53e.google.com (mail-pg1-x53e.google.com [IPv6:2607:f8b0:4864:20::53e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4ADF1329581
+	for <lists+kasan-dev@lfdr.de>; Tue,  2 Mar 2021 02:21:14 +0100 (CET)
+Received: by mail-pg1-x53e.google.com with SMTP id c30sf10792209pgl.15
+        for <lists+kasan-dev@lfdr.de>; Mon, 01 Mar 2021 17:21:14 -0800 (PST)
+ARC-Seal: i=3; a=rsa-sha256; t=1614648072; cv=pass;
         d=google.com; s=arc-20160816;
-        b=rABRSUUnuHby362H5sRzx3Fz2y8tp2FgA7t9yws08pAmMpBAq69Cufb1hhhb92yR8u
-         MOts4nitj6smfbtK2FyfbVc3fJHpmhjD1Dr3/UHEhm5t4ofF6dg9B8XMrmnh2/+jE42h
-         rbs8zq8yRPeMv+e5YGnyHFLIczmXlR9YpktW8RN5KUyDBjnZDRjNyO+OQdMDlnEifqAu
-         tMW2nI/Q+lcp7RnMITvowE8QMLxUOSZ5TIngsVAeWW6EuTwEUQsG8fye0Kwr8VUqDTEJ
-         gX+lfl8NYg1jspRpNLBG0tvmWBCgKoH2G9VcpJP7Qz/2x7TI+8pD8k9Da4sbH79gO8hG
-         d+qQ==
+        b=yKb6WIfNi0bUjL9gSQZvx42bxDWU6WslQaoPQ+4X7jj9/dyDNkSzeOGDPi3B9Gaquh
+         2iY4Z4jAKqhXIE6CkZDlogwAMSf/AVqCMHD7EQCp8BWLCGWEdZwDTS69JD7qZFUDgAgU
+         42BBV2EZgU1SgUgxucemXlW1C2sf9/PVUXJ3xIW4JA3aqCqM9wFSSFdBbI7zkfrAzhYc
+         yzFJNRop3FOFYjpUM9+FG0zvQp80sVZC2Ers2vXatmH3SIB6Xs8ZVpAwI9m2YrX++Yu1
+         Axdfhy69MytR9qSGy5BGdU86GPyXL5mr1vMXe+n6TsxptBVfFB7YplqjsJL2AHEl9CP6
+         6RqA==
 ARC-Message-Signature: i=3; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:content-language
          :content-transfer-encoding:in-reply-to:user-agent:date:message-id
-         :organization:from:references:cc:to:subject:sender:dkim-signature;
-        bh=Hm9m85ZROyCg9XdexcIEDAR8RfoyL2dFa9IKwUSsr9w=;
-        b=eNz6W0H50AxYfLffS/TGnDhMLhG0Fcsls+3Yltn8TeYvDYbph7DrvuvCoach7KUbQv
-         xco0151SNEbggOrPn8u/5FRwbz1Erf9JcN14ElkKOwvGLhZeIQ8tmucXbpsszOdQP4FQ
-         j2dJxpGJkGmGhag5DBv6lIhc9isN3mIKTVTAzGSJ99aWjHOfbmK2AMYcZE0/r9nGKfTN
-         IBjLrQH9mOvSdec3uWClgoL4S8UHr4F2msx9p4Z4FSfFy6/MzXHss6TR4WZavdC9wiBL
-         suWRfd2tcdghYphmNYiaTXHr20eLu6ACaGSwS+Og0FZoB58jKDwdYdXVTzQd/0Mp7Vl4
-         2JHQ==
+         :organization:references:cc:to:from:subject:sender:dkim-signature;
+        bh=FWdoqezC+tlDblLq3jmEghn2vkfxI6PcGBneBhYS6Qw=;
+        b=UZ47Ty83lOnxXC0UxoiVM1zNIJAOgfXmgGk1aoL82FPhMIxg6/qGnMUTLF4GYmI+mM
+         MOKCvFJo9b5UG3vRu5A/kpbZ/zts3wi4flEzRwR9HpzcKn6MS8SF7tqsQwK9UPVOQKHU
+         hXMH+Hu1PUVFMxqRPXFam3FLp5ZHazg39FGQkNq/vCfRJpvnRvmBRU5nLd1xpqO9Oc2m
+         43OATl5/CDuozfM5WxzZpJJuc3KPKpgfFJKziV60v4i9Na3QiqS27285k8Ytjy6QFVA2
+         aQqhCbi6hHACLC3fOp2XBPcdDXjX6p8f7DPvtcRDYR0MBOQoTJg4LTLvCushfXmhywov
+         dWFw==
 ARC-Authentication-Results: i=3; gmr-mx.google.com;
-       dkim=pass header.i=@oracle.com header.s=corp-2020-01-29 header.b="uUFZW/W6";
-       dkim=pass header.i=@oracle.onmicrosoft.com header.s=selector2-oracle-onmicrosoft-com header.b=HTkCRjd1;
+       dkim=pass header.i=@oracle.com header.s=corp-2020-01-29 header.b=Ldg3L9tJ;
+       dkim=pass header.i=@oracle.onmicrosoft.com header.s=selector2-oracle-onmicrosoft-com header.b=mMGgItmZ;
        arc=pass (i=1 spf=pass spfdomain=oracle.com dkim=pass dkdomain=oracle.com dmarc=pass fromdomain=oracle.com);
-       spf=pass (google.com: domain of george.kennedy@oracle.com designates 156.151.31.85 as permitted sender) smtp.mailfrom=george.kennedy@oracle.com;
+       spf=pass (google.com: domain of george.kennedy@oracle.com designates 156.151.31.86 as permitted sender) smtp.mailfrom=george.kennedy@oracle.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=oracle.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:subject:to:cc:references:from:organization:message-id:date
+        h=sender:subject:from:to:cc:references:organization:message-id:date
          :user-agent:in-reply-to:content-transfer-encoding:content-language
          :mime-version:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=Hm9m85ZROyCg9XdexcIEDAR8RfoyL2dFa9IKwUSsr9w=;
-        b=bzqSr6T7+4WPtxOtqOLi/ksXbpuY/hIQKJz8IS6TKmKLkHzMtjJW1p98+9XtUzqa4G
-         yEvZU94p4HyE9oOnHNwGCmDKXjrrUPgH7wmXywTPWO2XhOldyMaKAss3DAwxUTYxGmhW
-         KqT020RnddunpoPHh7tm/H0CNbsAdtZ6gqx/t7jmGRZts8A5oEiK1SlTi7TxTJGRZW9c
-         x59x85oAzUVIVIkHskq+/T0M6jWq9T1ZvnYUh+jAStNObhM0jNmgwQj3g8W1aTncae1U
-         H+9IkixsCvUHr45e0P68rPhffMwmJeqyWsCws9oDsAs9rZzEzza+KMU/kxHWh6d3gf28
-         wMog==
+        bh=FWdoqezC+tlDblLq3jmEghn2vkfxI6PcGBneBhYS6Qw=;
+        b=fCfLALdF91JuUMJW6/vHPFFMmW41FHOHKfGJ/xKiRyhA3SeJ6WECFAiid3ZY2DwxvK
+         q5ejqrAyMF55Ystnw/cuVlcPM2KWpEbxioIBM2h/0NySlY8S/VaDqhLRcDPoD8OHVscD
+         jJ3xDG8EkuQfdhyN8e6PRvujzGtafbD4ZRs8qb+6LAJTAXVz8wYjQtVfdPd2lEo4xUo/
+         Kn6D49uHuPBflUFm4z5p4NQzn8wt9CFCwTA10z9K7V1txQq+NDfUxIzE7fbMuPaHgNQq
+         QW0Kg3sEx3XOTfPebZ33D3euJxoaw8rt4Mr/RXq9tu52+1o8cUYMRGQqZo4mwO5H/WfZ
+         vwLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:subject:to:cc:references:from
+        h=sender:x-gm-message-state:subject:from:to:cc:references
          :organization:message-id:date:user-agent:in-reply-to
          :content-transfer-encoding:content-language:mime-version
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=Hm9m85ZROyCg9XdexcIEDAR8RfoyL2dFa9IKwUSsr9w=;
-        b=aMHr7vSA6ycpPfREiCO5HC2jcANWsXgy/o9PEBw3juHBEockLoX70s9e7bvjiPUwXg
-         lv8pJoR1LeKoMsiiIJI1nTaWYGlH6SVSB/TPSl+w8wxBFLHbIxwek0t+H000ZvIFIjKz
-         53Q/rESkbp98Y69R7FvsIfFrMWuWK5R/hoM/WD1KfTV2KjiD1nDbraISpf/J6H6d20e0
-         nanfBrs11JgXep+yUN1vIJNOJ+1mRM8DPIYzCbfMHaWnLHI3M7SDqpCjTZv/u4frJq82
-         kAXVOBbD+qes7yMiZ76lM+M/LrAnBO3F6qfBGpi12Tp/EH50kmWmxxrhbKy9QENKIbHr
-         e6Wg==
+        bh=FWdoqezC+tlDblLq3jmEghn2vkfxI6PcGBneBhYS6Qw=;
+        b=eauuZU6a6kleLopXnNGSzq53tO4ZIaDWSqfZJNBS2KhOgcwKuVb8iIsGEOUJ21+SaR
+         gUgkrjqqtYxJQ/nMBE87okb8Zx0tq0j7JQ4/iFTu7JFN/aV/eC5fhxRvRZPnerHsUjF9
+         /kNu98W+cJ24kzaeKtxN99L0sMDyYqs7Ja+E2cWgaIIqEshKFQrbbSRrHpS5UB/j5guc
+         ZU7i04rp1g/lSgsa+xOV1oHG9NHaRjJt7IWk2m8c2o1YDiMzPL2WsJWAqEzMRBALTZzF
+         9Hq0xmteWNyCmd8BwGVtlKssWT1qPAC7/wgZnjRyh9Ho9hha0Gz4x4xmhdBJMSTq9aHN
+         zuew==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM533b2uuLX6mOcmF8jPlc1fdLrpGXM83nja4aJWyjLx9pgvI/KKmF
-	lrpkGcsMpjvQTWD+2381pEE=
-X-Google-Smtp-Source: ABdhPJzz9aYgrBwn+kiGOYmaSPCAtoziAMuPo9yI0zd9pJIoTb5PoyX7UUc4ooj/lm2PNS1FR0fYOw==
-X-Received: by 2002:a17:902:7897:b029:e2:c149:cbe6 with SMTP id q23-20020a1709027897b02900e2c149cbe6mr15322528pll.68.1614608975070;
-        Mon, 01 Mar 2021 06:29:35 -0800 (PST)
+X-Gm-Message-State: AOAM533MDnMYXDdDm5lZerBv7WHh66mDfV8gsOmplQkHlg/AcgRF+4PJ
+	iuxxgf8eq98x1RtnEonG3iU=
+X-Google-Smtp-Source: ABdhPJxLCv8s8nGXGMOnK9umnuk3/eO0DtF3B0FkzPaHdYEUxaejARwYqYd+qF3TnHfzQPHrEojhMA==
+X-Received: by 2002:a17:902:aa49:b029:e4:3825:dcd2 with SMTP id c9-20020a170902aa49b02900e43825dcd2mr1367625plr.39.1614648072772;
+        Mon, 01 Mar 2021 17:21:12 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:902:eb43:: with SMTP id i3ls2063835pli.7.gmail; Mon, 01
- Mar 2021 06:29:34 -0800 (PST)
-X-Received: by 2002:a17:902:9694:b029:e3:3855:303b with SMTP id n20-20020a1709029694b02900e33855303bmr16004829plp.46.1614608974587;
-        Mon, 01 Mar 2021 06:29:34 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1614608974; cv=pass;
+Received: by 2002:a17:902:6902:: with SMTP id j2ls2728184plk.10.gmail; Mon, 01
+ Mar 2021 17:21:12 -0800 (PST)
+X-Received: by 2002:a17:90b:350b:: with SMTP id ls11mr1696629pjb.166.1614648072180;
+        Mon, 01 Mar 2021 17:21:12 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1614648072; cv=pass;
         d=google.com; s=arc-20160816;
-        b=ualW1Ak7V3vWBJLwSfX4LIjXxCfGTbr4UadnQDuVqYsXiuCTfGaN19spQxK/+lfED1
-         B59+XavzAFRMdsDFu9Krwmbdkf27F3fSOPIcjGCnojz2AkpTpUeSo0eOHPNvS4cnwd/+
-         0mnz487jvcIea4K14ou/u9Umbz70XlF6SVDvIDE7VfrAqWzmawqOYxcueCktb6EEOfir
-         ITs/DFisHUsFGzZJ2OPN9/8oyAiub+t2BjCvYQJtXMdLh84xO3zyvklNy/1nif1YyMQQ
-         cUH6Xo00LQNkWGcRgiK34Gud9mvzT4OLoVfox3oSLRtHyKUQzXzXPB3k6RXUDB5aCwVh
-         SeCg==
+        b=b1zhuDgeT0SdFYB3PuZFYCCGAsuT+PiEphsXCjGS/me/tMUgxJzGz4BIjD9JB58H+o
+         DOtm4TyKL270mRxcbrCe2xktq9cgHOh52PY+v+R2y72JCFXPXPZ9cgbYUAYUQgGJG57S
+         vsL4LABptrsYga1twtI34neuJDziSI8jiyX/Ff4O1Gs6lcuxhicLdvYmsUCIn+q611LK
+         I/bz0mjks4eu7tGI4DwWOb8+B885CEwqhIkay9GMSIsZ8T8mlRVZgClBV46Uax3/dIaH
+         QL+Qd6yKo1xQypDJ9ig6msd/Pyd3bejS07NaCvcwCcBbIruFLmVt2EDcIo/CX2zh1HnF
+         4dOA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=mime-version:content-language:content-transfer-encoding:in-reply-to
-         :user-agent:date:message-id:organization:from:references:cc:to
+         :user-agent:date:message-id:organization:references:cc:to:from
          :subject:dkim-signature:dkim-signature;
-        bh=EDaZMCLt1qQG/K111ETL0PPT/qpJAJSMvHnsV3zyse4=;
-        b=ko1Egy75klaNrmr1IUbseq7eQ4foIl/Nv6yPk3g0KbExd427OSepRZG24FOcFAHTNk
-         D8WRWNZYcQn4hCD+6bKTVbVTEK1pFdxy3hcyTaB07DxMomnZGchih35RMpvvHn2yXxhd
-         ugyfm4b5HKEOPEbCuasYBnMpIEsSucKdmZ4eNVR39F1+h0SZJElZ3Q6r7VgS7W2P4Nkz
-         FlWHZK25fZmFkriXp1hhZXJ4LqoBu9EzLVYioSrkLFcjlPkrCdNTMZyMEwDbn6hw3pk6
-         a+gzjMRRTFc+U+pIqov8xtyaupAou5BHKcEBvtLEc72twJGbMhwY2QDKHWi61DoFnRcR
-         2p+Q==
+        bh=4WToiToDYmFCBhzKiH2QynmKkoQW4ghWpFW0pHAY0ec=;
+        b=NcM05ZJfNUNgsHpyvEG708Jh6Q6UMwgrNhRuyCB7Wm9RppgrsBTXmj277te9ymlXpZ
+         iNbI2eKG0oFQbzOE/CH6feJO3FLsx9/cxtyLM50e8pzNtfJWITCD4RT9fM0yRIwPHfkz
+         rwdZdeoNnJUCHBnZQT3kemgpzrLrVTttv6qZKST2zPKakqZXAqn/7qLjQNT2ahOGX0NS
+         hXAr/hYjpCTozJuA3SRwngl13RNrNFERgUYAPTHf0jBFtkqH4IsDYMY+QQZ1osZJnMUN
+         /b7k7gbeJwStY0FZBG5q1YfHlDIESiJmTm8lgyr2v9Lq2rzAqAxM625ggMa9kaXBVd33
+         v7Bw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@oracle.com header.s=corp-2020-01-29 header.b="uUFZW/W6";
-       dkim=pass header.i=@oracle.onmicrosoft.com header.s=selector2-oracle-onmicrosoft-com header.b=HTkCRjd1;
+       dkim=pass header.i=@oracle.com header.s=corp-2020-01-29 header.b=Ldg3L9tJ;
+       dkim=pass header.i=@oracle.onmicrosoft.com header.s=selector2-oracle-onmicrosoft-com header.b=mMGgItmZ;
        arc=pass (i=1 spf=pass spfdomain=oracle.com dkim=pass dkdomain=oracle.com dmarc=pass fromdomain=oracle.com);
-       spf=pass (google.com: domain of george.kennedy@oracle.com designates 156.151.31.85 as permitted sender) smtp.mailfrom=george.kennedy@oracle.com;
+       spf=pass (google.com: domain of george.kennedy@oracle.com designates 156.151.31.86 as permitted sender) smtp.mailfrom=george.kennedy@oracle.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=oracle.com
-Received: from userp2120.oracle.com (userp2120.oracle.com. [156.151.31.85])
-        by gmr-mx.google.com with ESMTPS id w2si784065pjc.1.2021.03.01.06.29.34
+Received: from userp2130.oracle.com (userp2130.oracle.com. [156.151.31.86])
+        by gmr-mx.google.com with ESMTPS id e4si497444pge.1.2021.03.01.17.21.11
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 01 Mar 2021 06:29:34 -0800 (PST)
-Received-SPF: pass (google.com: domain of george.kennedy@oracle.com designates 156.151.31.85 as permitted sender) client-ip=156.151.31.85;
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
-	by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 121ETFEM129394;
-	Mon, 1 Mar 2021 14:29:15 GMT
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-	by userp2120.oracle.com with ESMTP id 36yeqmv073-1
+        Mon, 01 Mar 2021 17:21:12 -0800 (PST)
+Received-SPF: pass (google.com: domain of george.kennedy@oracle.com designates 156.151.31.86 as permitted sender) client-ip=156.151.31.86;
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+	by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 1221Krhl043880;
+	Tue, 2 Mar 2021 01:20:53 GMT
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+	by userp2130.oracle.com with ESMTP id 36ydgr5vac-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 01 Mar 2021 14:29:14 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-	by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 121EOrGo118017;
-	Mon, 1 Mar 2021 14:29:14 GMT
-Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2100.outbound.protection.outlook.com [104.47.58.100])
-	by userp3030.oracle.com with ESMTP id 37000vkft4-1
+	Tue, 02 Mar 2021 01:20:53 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+	by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 1221KUkM160140;
+	Tue, 2 Mar 2021 01:20:53 GMT
+Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2172.outbound.protection.outlook.com [104.47.57.172])
+	by userp3020.oracle.com with ESMTP id 36yyurayef-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 01 Mar 2021 14:29:14 +0000
+	Tue, 02 Mar 2021 01:20:53 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=n4cibdcCYEO3qmCS/pO56x9mifvRZ4ljtLtThezoyeVnv0BGWPlll+r1voOP8pUYE0LmfnPWB3F0ggAkRHBlIx5boXkznpjbdMgJeZrDpumAV5ILZLOk3VPE9mLRFXLiMakkmDGTEku7wt/RWaub1kmKmG9Svp69N/OV0QmiezY+QPpqYjzol0A2DOvJst/mcSAqbLB348TW/RcbMyuiHbMON7ZdUc/gduexjWAUSVnVCNq2LjDevNJSvFKq+T+OmlvCjebJEeJnJ3H8C1T82Y9NPCZOjaKDdjcPxNtVpdFgIHdxpcmDh+bQje1PMGZQhKrISgIOFqyvL4ib0OeAKA==
+ b=SV9MuYO9sj8bzk0KbcmYDyxvvJwtlArPDGU6gk0BSZ3rxkyRb23E+Ezrit5XkkSvwrCASaAA8b88NDB9xSqa4cDUoVnY8RUjQurtuKyyL3m1tJkj8IihKKZfWX4F8wLoPDfc24deHbKAbOoXrJYTLCoXEAm6BrFx+iqLiLd3ZIiWfz/vT2V+V6qyjT5INT8/ok0EOmLGspKzF5eesdjU0fQ0Ep3uyDwKn89ukYJx6LB+qLnyJnfNj3hnXz/Y6u4Fs6faIt1iKqFsUCyG8cqDg7o5ATjF7a8NE3R/TywIJ+hwaQkOoCDoWSfNyYqWk8gk41Ne7oNveICLaSU/hXLHMQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EDaZMCLt1qQG/K111ETL0PPT/qpJAJSMvHnsV3zyse4=;
- b=BdYs++D4yB69txwxsFGf41QJKcRbEg8trBMtDTwH8V2xEVY3kawfycjgw/khhgsFU19d4W9KxfCny4209wwyTwGLnn19IIQLjO7sl6x9GKNs9nOeL7yEWbzy00IZQz0GVUGCGT0admm8JxPzI1ggS03gJjadCH84bW0Xkt+7gUE1Ny/njj8nUwZxviDaEllewplgvNNpkOePC63o2lt+0TMTaNarG8gCCDvSxJUkzTffeTiwAGWB1/03F88Ennpsx2/6JbAO5WTtK7zpcBx6sF10o3FkXi7o/ZUiI3IyMLnqD0cSBHesSadX8b/me0Do5HST5jtWkuOQRdQr10UzNQ==
+ bh=4WToiToDYmFCBhzKiH2QynmKkoQW4ghWpFW0pHAY0ec=;
+ b=XSNvWKMEqKIHbJ7cKuafKlpUwdbieC/nnAK2kWy3cIL9poNcAxGxJYstw0WolcqUEaVlTAgeZucDlsXRPwJXWqPJVYtqSIprjOIVUyzUqB5FBHFUnnpm/bX9uj+oxqLL2/yYD2mKoU+EjCbwMhnHsp7ngYCFmAA4eiKxWNPZRV4XELm0TD3/l39EyN6P9zl0+Zwqsxr0YpcIqoabXabLJJwyMgljm8AjYXwZQwkn0Eyk1L+aCratmQvCkZsamwzdoyg4AKCWOPfMnkaqHUkGtek+lZx75qCnY72cl/AORKrhH2vvANwifE0Ux5/slRfuuba/lhzpSeClCbkYVGVLIg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
-Received: from MN2PR10MB3856.namprd10.prod.outlook.com (2603:10b6:208:1b7::12)
- by BL0PR10MB2964.namprd10.prod.outlook.com (2603:10b6:208:79::19) with
+Received: from DM6PR10MB3851.namprd10.prod.outlook.com (2603:10b6:5:1fb::17)
+ by DM6PR10MB2985.namprd10.prod.outlook.com (2603:10b6:5:71::16) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3890.26; Mon, 1 Mar
- 2021 14:29:11 +0000
-Received: from MN2PR10MB3856.namprd10.prod.outlook.com
- ([fe80::4871:6b79:c2d8:d7bd]) by MN2PR10MB3856.namprd10.prod.outlook.com
- ([fe80::4871:6b79:c2d8:d7bd%7]) with mapi id 15.20.3890.029; Mon, 1 Mar 2021
- 14:29:11 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3890.19; Tue, 2 Mar
+ 2021 01:20:50 +0000
+Received: from DM6PR10MB3851.namprd10.prod.outlook.com
+ ([fe80::5c53:869:7452:46da]) by DM6PR10MB3851.namprd10.prod.outlook.com
+ ([fe80::5c53:869:7452:46da%3]) with mapi id 15.20.3890.029; Tue, 2 Mar 2021
+ 01:20:50 +0000
 Subject: Re: [PATCH] mm, kasan: don't poison boot memory
+From: George Kennedy <george.kennedy@oracle.com>
 To: Mike Rapoport <rppt@linux.ibm.com>
 Cc: David Hildenbrand <david@redhat.com>,
         Andrey Konovalov <andreyknvl@google.com>,
@@ -173,93 +174,93 @@ References: <9b7251d1-7b90-db4f-fa5e-80165e1cbb4b@oracle.com>
  <20210226111730.GL1854360@linux.ibm.com>
  <e9e2f1a3-80f2-1b3e-6ffd-8004fe41c485@oracle.com>
  <YDvcH7IY8hV4u2Zh@linux.ibm.com>
-From: George Kennedy <george.kennedy@oracle.com>
+ <083c2bfd-12dd-f3c3-5004-fb1e3fb6493c@oracle.com>
 Organization: Oracle Corporation
-Message-ID: <083c2bfd-12dd-f3c3-5004-fb1e3fb6493c@oracle.com>
-Date: Mon, 1 Mar 2021 09:29:03 -0500
+Message-ID: <a8864397-83e8-61f7-4b9a-33716eca6cf8@oracle.com>
+Date: Mon, 1 Mar 2021 20:20:45 -0500
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
-In-Reply-To: <YDvcH7IY8hV4u2Zh@linux.ibm.com>
+ Thunderbird/78.7.1
+In-Reply-To: <083c2bfd-12dd-f3c3-5004-fb1e3fb6493c@oracle.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: quoted-printable
 Content-Language: en-US
 X-Originating-IP: [108.26.147.230]
-X-ClientProxiedBy: BYAPR11CA0087.namprd11.prod.outlook.com
- (2603:10b6:a03:f4::28) To MN2PR10MB3856.namprd10.prod.outlook.com
- (2603:10b6:208:1b7::12)
+X-ClientProxiedBy: CY4PR06CA0071.namprd06.prod.outlook.com
+ (2603:10b6:903:13d::33) To DM6PR10MB3851.namprd10.prod.outlook.com
+ (2603:10b6:5:1fb::17)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.1.222] (108.26.147.230) by BYAPR11CA0087.namprd11.prod.outlook.com (2603:10b6:a03:f4::28) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3890.19 via Frontend Transport; Mon, 1 Mar 2021 14:29:07 +0000
+Received: from [192.168.1.246] (108.26.147.230) by CY4PR06CA0071.namprd06.prod.outlook.com (2603:10b6:903:13d::33) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3890.19 via Frontend Transport; Tue, 2 Mar 2021 01:20:47 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c3379632-949a-4e80-1a1a-08d8dcbe61ba
-X-MS-TrafficTypeDiagnostic: BL0PR10MB2964:
+X-MS-Office365-Filtering-Correlation-Id: 67987aa4-181a-4449-816d-08d8dd196a1e
+X-MS-TrafficTypeDiagnostic: DM6PR10MB2985:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BL0PR10MB296428D43066C7AAE5A5EA73E69A9@BL0PR10MB2964.namprd10.prod.outlook.com>
+X-Microsoft-Antispam-PRVS: <DM6PR10MB29856374DFB988BD2CF42F8FE6999@DM6PR10MB2985.namprd10.prod.outlook.com>
 X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: EduLRtTbNy5XJEsFrhEej6zS6X9Q5C97VxB55VeyqTxmeGIGmJgJqTfFzj+UuIP9saRnCWq+Z5lRYEXD4YSWKYZLt6zgoV/70kDUU9O0sQaKXJNQs8o+hVwRuSk8Z6U37F2QyGwR26cZ1s+rWJIHdjJkf2v0ubbYu3mZTLgbSnJKG/xW+wRFLYdpX65aMOSyVB4CumPKcZZrzsqdiTCKuDCTHCaiT2pYCkaWuNPyct39NCmaF1yi1sGG4HRJNjU085L1M3E8d3+Gejddtap3InVxR7meeYYXSuidYHqG/PVtpdMbYvHgYY0Z87R0RrPSf5uOixU89oQIDcPhdbfT+2FBDHGzio/ay+qlt4xwppmmHCtnEyUIwnZaldcCHu5N/zawM54yAACmlSPLGT3QVoeN13ua13iz3nDqxLfQj9xVq8rm700rzNhDvlQCRIUpv1/zg9ZOJrO9Wcl6GoffcDHxDq78skL/BHfz8LfwNBSOlCxVnYJmgCfe1f5sbZNyM4B3nFqeamz/RhyAZQF6UITIFBhj0fMgKyAHyYrOZabkBOucuEKHuMIPxcsXrkDMC0ccHtZh9b+ZnLzXnMlXHYFgJwcN1+StL33VyaYWyyE=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR10MB3856.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(39860400002)(396003)(366004)(136003)(346002)(376002)(16526019)(26005)(2616005)(956004)(186003)(44832011)(86362001)(31686004)(6916009)(31696002)(4326008)(7416002)(36756003)(478600001)(54906003)(8676002)(6666004)(16576012)(5660300002)(8936002)(83380400001)(6486002)(66476007)(66556008)(66946007)(316002)(2906002)(36916002)(53546011)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?Y3QrTWsrcDVxV1prYkJtZlp3VU44My9EU1pYTmo0VHRxTnZ4ZGZPcjBzMjFy?=
- =?utf-8?B?QkU0YytmLzhiTHNCMkpTemFtWVdLRlRORE1ZNS94ZEIzMkJEZ3hKdW1pM0Vq?=
- =?utf-8?B?aVhIT2VDWk5OV285TEJxbytvcnZudVlLR28yNjFXa1N4VEhyR09tTy8wWjVN?=
- =?utf-8?B?WjlTOE1DcHRRQ2VldGpNU2RzT3dVbGlldDVCZDQveDhEY3RUS3pHb0tGSnJN?=
- =?utf-8?B?NmtVZlo5bEpraEk0N0hndG5MSkV5a08wTzdLNjV4eEFiOHBxclBBSG1idHRu?=
- =?utf-8?B?Wnp2TitsQkptWDZmUENoclBBSVhtdFBpb3AzaitMREJnYnB2OWszL2RxSXZz?=
- =?utf-8?B?Q1llcmVLa2V6SkpHUjluQ0k3ZFNuV0YrOVRVamV1S1RHS2pNU0VNSzZWUWJ6?=
- =?utf-8?B?WDI0QXh1NjVLL1RuTXdtM0p6aHI3bUxNSjQ3d3pqcEx5WUtWTjZMUzZodDVP?=
- =?utf-8?B?b2R5a2hPaFJzcXpjeEFvVnZhV1k1cHBZYnFVbVhDdkNLeDg1dFk0azN4aUZ3?=
- =?utf-8?B?YzVIWk14cU1kRzNYMEF3Q2ZUajA0ZFZMQldOWFJZbHVXb3VXSGRSbjRXZE9n?=
- =?utf-8?B?dnI3dTljNmNqeXRDU0dPZ1hzWGhNVTJBYzM4SmZUOUhvN2tGTzJMck83bklO?=
- =?utf-8?B?V2hOUUNZUEFkUWFRMkpSdnprZkFzQ1RGOEJoVHhheG9SRk12a0pSSTBwbitQ?=
- =?utf-8?B?VndzZTlvc1htbnVNSTF6T3pONEVQdnk5bUtzN1Q3NVQ3anNrZ3BIT3k2Ymxr?=
- =?utf-8?B?WVZ6YWNpUVIxT24xS2dkVUQ0eUg1QUtpRGJMRkdzNm1sUmdQT1F5d3Jmb3dX?=
- =?utf-8?B?TmovNXRreTJJUG1VT21ydDdYWERRK3RUaTc5cnl6WkttQ0lUOW5oS0FhWHIx?=
- =?utf-8?B?Qk1FZHBRaDE3RFhRZzZPN09XK3VOVUd2MjJTUnNzbGowQ3ZQdVJwTTY4SGNo?=
- =?utf-8?B?eFRRQVhvS09ES21wWEM3NU4vaXovdUYxWTdTU0hzTmV4UHNDQXdxNVZLZmto?=
- =?utf-8?B?QTZRQVJ3Y1B5cDVnRkU1RTdlZHh3TDRJeHk4dWF6ZnFmeTJISWZ0b0pWWWtK?=
- =?utf-8?B?cWtHeGVyblhVMnBlUXRRSnlxUm9wM2kzdE9WNm51bmY3WDZuTHU4R1o3aHlG?=
- =?utf-8?B?SnlDRDRaUVMwU2l4WnpBUzIyaHpjUVFoT1VNeGtyWTVaRDVTdzAyWktVYW1W?=
- =?utf-8?B?N3VIRG8yK1N0UitBYkdqMktteXZHUmJTRlowcElLVGdjZ3JDcWJZZ2FGZFRP?=
- =?utf-8?B?ZVBVTkJKRUdPQ0VHRVc2ZVF6b2FWSWRxRDBad1d2S3ZnZzk1eG0xcHI0S1RY?=
- =?utf-8?B?RGxTSkQ2YmNYdm1pVHlXd0FHLzlHTy85UlV1Vy9KeFhSWlNacXc4MFY3R05H?=
- =?utf-8?B?WHBSQjdGdGR1amhjOVdpQnA4RUdrc0lTSDE2QXVWTkNtZWZlRFh5VWlTMDFV?=
- =?utf-8?B?UjZLaE1GR29EQjdoUVFHRDNpNHlGOHF3QzNDY0Y3ZFpDb0NweFJNWmZrbkl5?=
- =?utf-8?B?R0NuM0xlV095YURrWjQrVkFnTnovUzUzUVhYWHdWMUlPN25ucXZ0RkwvSjdo?=
- =?utf-8?B?KzVubm9WZmsvMXJyOXUwajR6OU5KRUd3eFhpTUxzSFF5VWVvTCt3cmczWko3?=
- =?utf-8?B?NWRVb2V4V1diVTYzZmczTS9paEJwY1BGdU43Z20rSjF1Q2NUOXluT2pFMExh?=
- =?utf-8?B?L0pPUDUyQS9KQitxUDkvU25ia3RCcHBYVk53V0w5azdRdXNtN2RXenZiWVB1?=
- =?utf-8?Q?gKPomAsh4eDnsKsvvyXMCJlqzUc/IiINrDTIE2Z?=
+X-Microsoft-Antispam-Message-Info: IXTz5xiEwlEGkETTANgnCC8WMXEPI59gzjrfzji82Tx//SF4Y7cvjyR+4Y0fMUwrDijgBdniQaU+/SKU+jN5esQlvlyNDRYdIKhPJLzwGxNVwzntwqTqE2a9Xofb2cLd1mTlHEIYBmKa2fluZYYlAjXb9DHzh6H3G30nGtJestj6btTvwyhbiO+S0Oy72bIUoN2FzaOzYDkR0S50KsPrGelw+xNo9P2cBIM1eMubGU2nenGLtF3vy3+yRVf8K3VSSpbAB/2I9Odi6Sxng4IWq9yH1xrEWZLXu11BXYwVSBhdrgMNTOKPJjER8i4EF5fgswkCWht/qERluD2/GwpY/H7wJfsgHyFK7gWklJBHdN5oM4BzNiXOHjTfM8cqpnjBQbC0PSHq4J1bRGAAs7xkr1kFYB1FJrZGr1LFUEysuNkVdDAiKyLmH+rPJgXuV7BQk+tDC8ym5CseR+zkdgDxEjGApNnwKweVnAvRLM+qUfjVjpeH7JVGQvTA59KTvCNhssctJErmVwgfviDSr00pLHKVPDbSF+ABAvywrdBA1gvxhuJpJqm2STqX32pUHRlIgb17mBOJyv0aQ2crmIXbKVIPVNTmzN89mx7yCelrUzY=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR10MB3851.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(136003)(396003)(346002)(39860400002)(366004)(376002)(31686004)(8936002)(66476007)(36756003)(66946007)(86362001)(4326008)(66556008)(7416002)(5660300002)(186003)(16526019)(26005)(2906002)(16576012)(8676002)(2616005)(316002)(36916002)(31696002)(6916009)(956004)(44832011)(6486002)(54906003)(478600001)(53546011)(83380400001)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?aUQvN0kzU2xpMkF1azN6TlZQc3FzTGptU3VmY1U3NFZSZnBpMVFXcVp5S21M?=
+ =?utf-8?B?ZUVIZlhMcGpXS1lFaGRIL25KcUtLT05Td0hhdk44cVJGUVErYTR1bUNsL2kv?=
+ =?utf-8?B?VzN4cDluOU1EYlRUanBLQ29LMjM0UjArS2hoaE96TWE4dXZodm15Sit1WlFF?=
+ =?utf-8?B?TERUcTJGRmlCSkYxbytNL0ZNY0UzMnkwdVNybGtCWHFXY29iUFAyMFBRTk8y?=
+ =?utf-8?B?N2c1VUpQazJHMFhMcGdOUk93dFBqSVJwTWdFTTMwQkhqMnRrMndQYnp4SWs1?=
+ =?utf-8?B?bmlaY3BWRUtNNWplTVRPd20xL0k3MmoxdXBEN1RUWHZQRTVRRUpuUDNaQk14?=
+ =?utf-8?B?eERsdmJHd0p5S2ZJaGV3MDBkS1RrQytZZFE2dUlIVml0aG50Zzg4Tm84Slh0?=
+ =?utf-8?B?RC9YWTFRWFg0dVQ2ekVkMjVrWXdqQ2JhTlhKWVozZTlpSGxmVnMvYitkSU5Q?=
+ =?utf-8?B?NUlnZEtacEg0TzhWSWR3SVNzdUsvUUJNK2oxZjBtazBOaW1sQkpGdWtOOGIv?=
+ =?utf-8?B?cEhLZWxGTlU4SmZZdWZZVWt1K0srWlpXRWhhSk1LdmtTQjEwb0NwcU9JZitE?=
+ =?utf-8?B?VFdjc2EzbVRDVlRoYlo1dlhlWW4zcisyQTBXaUlyZHNTNkU3K1ZoY21xOXQ1?=
+ =?utf-8?B?Qm1wY09jTGkvMEhDeENiclhaUjM2dzlhS2ZvRGM2OENlcFpNYnpub05UQ3ZY?=
+ =?utf-8?B?TTlabEZFTURQZXJWQnN6N21BbWxVS1VOdHRGU21IMVVsV3hZemVqRi85SHlK?=
+ =?utf-8?B?bGJpRkQvam1SK2VkbVNnWENVMGMxWVBjVjJlRDRwUURYWEpXblUyeVdXMktz?=
+ =?utf-8?B?MWZrRjlXaHIzc2xUSlNTblJzeDRSTUtyaW5oV0tFVWt0L1QrQ2N2NG5uNGY4?=
+ =?utf-8?B?S05PN0l2NDdhR21rblErbzNvQjVKem52R1hMRDlxdnBGQ2NyS2F0OFZZQVNs?=
+ =?utf-8?B?NXhKYlgxSGtFRW1IQ0FWRko0YkJNeXdEb3RqdlY0V3RMMEF5eGU1bTQ1VVQv?=
+ =?utf-8?B?dHpZKzNYMGF6TmlyeUwxNytjdmhBV2plVEpOM1V4akpWRlRHQU02ZEJlRnU3?=
+ =?utf-8?B?aXVJNkduZXVMd0lGdkVWaDd0L1IxVjNoaTBQeW94a1Z3TVFIeStTbXhacCtH?=
+ =?utf-8?B?Sys0YmZCS1h2V2R1Q1cvcUZTUFBSUUVpSkxGb0Urb2RLTlJBT1VXOWNCNzJO?=
+ =?utf-8?B?NFppWWhYRmliOW9DdEU4TGNtUXF6UEdsWGRSNGFQUUNhMTJCWGp6U1J4S3hv?=
+ =?utf-8?B?bHBrR1lhZFptNi9aRmdGeGozTEk1cWVVbFdQRU4zWnppZm8yN3hqbC9hV1g0?=
+ =?utf-8?B?eUFMcnFxS0tXTUdpc3NwRmJzTitpSVdxc2h3cisrclpvOXlabUdYbnIwTU4v?=
+ =?utf-8?B?bUJIVkNkbW8zL01DVmxNcFl5alpFRUYzTjFBNlRzd1RuZVlTTm8vSWdiR01F?=
+ =?utf-8?B?Wjg0UmVwZGUrRHBFOTdTbzgvS0F1c2ZsOUlmNEZtcDJGby9KQUhIUjFZUFJE?=
+ =?utf-8?B?VUhEY2o4b0VkNlNZSVZCa09jVFFNTExiaXNwOVprWGhwaVVMdzZRdFFRSUJU?=
+ =?utf-8?B?cVI1QkFJUzZmVDYwUTROaGdZSldxMFhCMmFVWGFNcWZzcXZWUmRxS1loVDc3?=
+ =?utf-8?B?QXMvYkZsYmtpMWtDR3Y5YWlWUlc5K0dXK212SlNDT05Sc2kxM3lmbE5ldmJC?=
+ =?utf-8?B?OTZwai8yamlzc1RPWDVYaUV5aW1KNW1udTExTTM5UjBOa3hHdmZPVzZzdExj?=
+ =?utf-8?Q?SHi75xSRYrJZiuRB+G/0HEPa1wY86rIOvmP/NFj?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c3379632-949a-4e80-1a1a-08d8dcbe61ba
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR10MB3856.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 67987aa4-181a-4449-816d-08d8dd196a1e
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR10MB3851.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Mar 2021 14:29:11.7976
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Mar 2021 01:20:50.5455
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: iRwRSG7YEH1/cZzsaTmqOGojDwvQ+2bUhSjwa3FwEcmgCboviQi7FFPZn8Bf1bBMBlXMQRUHbE8B6qmbe/Sb1l1r1Y/+noLQdQSiqZpXMBY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR10MB2964
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9909 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 mlxscore=0 phishscore=0
- malwarescore=0 spamscore=0 mlxlogscore=999 suspectscore=0 bulkscore=0
+X-MS-Exchange-CrossTenant-UserPrincipalName: z5dTcPUDXf2niMlPBQHO+jIQoqrtpbDNwXElML40oebn/6EIZJ8/LDVxUQWAVfwf3i21HMUjQ5nCuCm1eOvR+em1Rfvsk9eFQIdIbMKM8ls=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR10MB2985
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9910 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 spamscore=0 suspectscore=0
+ mlxlogscore=999 bulkscore=0 adultscore=0 phishscore=0 malwarescore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2103010122
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9909 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 lowpriorityscore=0 clxscore=1011
- priorityscore=1501 mlxlogscore=999 suspectscore=0 malwarescore=0
- impostorscore=0 bulkscore=0 adultscore=0 mlxscore=0 phishscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2103010122
+ definitions=main-2103020006
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9910 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 adultscore=0
+ impostorscore=0 clxscore=1015 suspectscore=0 malwarescore=0
+ priorityscore=1501 mlxscore=0 phishscore=0 bulkscore=0 mlxlogscore=999
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2103020006
 X-Original-Sender: george.kennedy@oracle.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@oracle.com header.s=corp-2020-01-29 header.b="uUFZW/W6";
+ header.i=@oracle.com header.s=corp-2020-01-29 header.b=Ldg3L9tJ;
        dkim=pass header.i=@oracle.onmicrosoft.com header.s=selector2-oracle-onmicrosoft-com
- header.b=HTkCRjd1;       arc=pass (i=1 spf=pass spfdomain=oracle.com
+ header.b=mMGgItmZ;       arc=pass (i=1 spf=pass spfdomain=oracle.com
  dkim=pass dkdomain=oracle.com dmarc=pass fromdomain=oracle.com);
        spf=pass (google.com: domain of george.kennedy@oracle.com designates
- 156.151.31.85 as permitted sender) smtp.mailfrom=george.kennedy@oracle.com;
+ 156.151.31.86 as permitted sender) smtp.mailfrom=george.kennedy@oracle.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=oracle.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
@@ -275,123 +276,238 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 
 
-On 2/28/2021 1:08 PM, Mike Rapoport wrote:
-> On Fri, Feb 26, 2021 at 11:16:06AM -0500, George Kennedy wrote:
->> On 2/26/2021 6:17 AM, Mike Rapoport wrote:
->>> Hi George,
->>>
->>> On Thu, Feb 25, 2021 at 08:19:18PM -0500, George Kennedy wrote:
->>>> Not sure if it's the right thing to do, but added
->>>> "acpi_tb_find_table_address()" to return the physical address of a tab=
-le to
->>>> use with memblock_reserve().
->>>>
->>>> virt_to_phys(table) does not seem to return the physical address for t=
-he
->>>> iBFT table (it would be nice if struct acpi_table_header also had a
->>>> "address" element for the physical address of the table).
->>> virt_to_phys() does not work that early because then it is mapped with
->>> early_memremap()  which uses different virtual to physical scheme.
->>>
->>> I'd say that acpi_tb_find_table_address() makes sense if we'd like to
->>> reserve ACPI tables outside of drivers/acpi.
->>>
->>> But probably we should simply reserve all the tables during
->>> acpi_table_init() so that any table that firmware put in the normal mem=
-ory
->>> will be surely reserved.
->>>> Ran 10 successful boots with the above without failure.
->>> That's good news indeed :)
->> Wondering if we could do something like this instead (trying to keep cha=
-nges
->> minimal). Just do the memblock_reserve() for all the standard tables.
-> I think something like this should work, but I'm not an ACPI expert to sa=
-y
-> if this the best way to reserve the tables.
-Adding ACPI maintainers to the CC list.
->  =20
->> diff --git a/drivers/acpi/acpica/tbinstal.c b/drivers/acpi/acpica/tbinst=
-al.c
->> index 0bb15ad..830f82c 100644
->> --- a/drivers/acpi/acpica/tbinstal.c
->> +++ b/drivers/acpi/acpica/tbinstal.c
->> @@ -7,6 +7,7 @@
->>  =C2=A0 *
->> ************************************************************************=
-*****/
->>
->> +#include <linux/memblock.h>
->>  =C2=A0#include <acpi/acpi.h>
->>  =C2=A0#include "accommon.h"
->>  =C2=A0#include "actables.h"
->> @@ -14,6 +15,23 @@
->>  =C2=A0#define _COMPONENT=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 ACPI_TABLES
->>  =C2=A0ACPI_MODULE_NAME("tbinstal")
->>
->> +void
->> +acpi_tb_reserve_standard_table(acpi_physical_address address,
->> +=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0 s=
-truct acpi_table_header *header)
->> +{
->> +=C2=A0=C2=A0=C2=A0 struct acpi_table_header local_header;
->> +
->> +=C2=A0=C2=A0=C2=A0 if ((ACPI_COMPARE_NAMESEG(header->signature, ACPI_SI=
-G_FACS)) ||
->> +=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 (ACPI_VALIDATE_RSDP_SIG(header->s=
-ignature))) {
->> +=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 return;
->> +=C2=A0=C2=A0=C2=A0 }
->> +=C2=A0=C2=A0=C2=A0 /* Standard ACPI table with full common header */
->> +
->> +=C2=A0=C2=A0=C2=A0 memcpy(&local_header, header, sizeof(struct acpi_tab=
-le_header));
->> +
->> +=C2=A0=C2=A0=C2=A0 memblock_reserve(address, PAGE_ALIGN(local_header.le=
-ngth));
->> +}
->> +
->>  =C2=A0/****************************************************************=
-***************
->>  =C2=A0 *
->>  =C2=A0 * FUNCTION:=C2=A0=C2=A0=C2=A0 acpi_tb_install_table_with_overrid=
-e
->> @@ -58,6 +76,9 @@
->>  =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=
-=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 new_table_desc->flags,
->>  =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=
-=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 new_table_desc->pointer);
->>
->> +=C2=A0=C2=A0=C2=A0 acpi_tb_reserve_standard_table(new_table_desc->addre=
-ss,
->> +=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=
-=C2=A0 =C2=A0=C2=A0 new_table_desc->pointer);
->> +
->>  =C2=A0=C2=A0=C2=A0=C2=A0 acpi_tb_print_table_header(new_table_desc->add=
-ress,
->>  =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=
-=C2=A0=C2=A0 =C2=A0=C2=A0 new_table_desc->pointer);
->>
->> There should be no harm in doing the memblock_reserve() for all the stan=
-dard
->> tables, right?
-> It should be ok to memblock_reserve() all the tables very early as long a=
-s
-> we don't run out of static entries in memblock.reserved.
+On 3/1/2021 9:29 AM, George Kennedy wrote:
 >
-> We just need to make sure the tables are reserved before memblock
-> allocations are possible, so we'd still need to move acpi_table_init() in
-> x86::setup_arch() before e820__memblock_setup().
-> Not sure how early ACPI is initialized on arm64.
+>
+> On 2/28/2021 1:08 PM, Mike Rapoport wrote:
+>> On Fri, Feb 26, 2021 at 11:16:06AM -0500, George Kennedy wrote:
+>>> On 2/26/2021 6:17 AM, Mike Rapoport wrote:
+>>>> Hi George,
+>>>>
+>>>> On Thu, Feb 25, 2021 at 08:19:18PM -0500, George Kennedy wrote:
+>>>>> Not sure if it's the right thing to do, but added
+>>>>> "acpi_tb_find_table_address()" to return the physical address of a=20
+>>>>> table to
+>>>>> use with memblock_reserve().
+>>>>>
+>>>>> virt_to_phys(table) does not seem to return the physical address=20
+>>>>> for the
+>>>>> iBFT table (it would be nice if struct acpi_table_header also had a
+>>>>> "address" element for the physical address of the table).
+>>>> virt_to_phys() does not work that early because then it is mapped with
+>>>> early_memremap()=C2=A0 which uses different virtual to physical scheme=
+.
+>>>>
+>>>> I'd say that acpi_tb_find_table_address() makes sense if we'd like to
+>>>> reserve ACPI tables outside of drivers/acpi.
+>>>>
+>>>> But probably we should simply reserve all the tables during
+>>>> acpi_table_init() so that any table that firmware put in the normal=20
+>>>> memory
+>>>> will be surely reserved.
+>>>>> Ran 10 successful boots with the above without failure.
+>>>> That's good news indeed :)
+>>> Wondering if we could do something like this instead (trying to keep=20
+>>> changes
+>>> minimal). Just do the memblock_reserve() for all the standard tables.
+>> I think something like this should work, but I'm not an ACPI expert=20
+>> to say
+>> if this the best way to reserve the tables.
+> Adding ACPI maintainers to the CC list.
+>>> diff --git a/drivers/acpi/acpica/tbinstal.c=20
+>>> b/drivers/acpi/acpica/tbinstal.c
+>>> index 0bb15ad..830f82c 100644
+>>> --- a/drivers/acpi/acpica/tbinstal.c
+>>> +++ b/drivers/acpi/acpica/tbinstal.c
+>>> @@ -7,6 +7,7 @@
+>>> =C2=A0=C2=A0 *
+>>> ***********************************************************************=
+******/=20
+>>>
+>>>
+>>> +#include <linux/memblock.h>
+>>> =C2=A0=C2=A0#include <acpi/acpi.h>
+>>> =C2=A0=C2=A0#include "accommon.h"
+>>> =C2=A0=C2=A0#include "actables.h"
+>>> @@ -14,6 +15,23 @@
+>>> =C2=A0=C2=A0#define _COMPONENT=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 ACPI_TABLES
+>>> =C2=A0=C2=A0ACPI_MODULE_NAME("tbinstal")
+>>>
+>>> +void
+>>> +acpi_tb_reserve_standard_table(acpi_physical_address address,
+>>> +=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0 =
+struct acpi_table_header *header)
+>>> +{
+>>> +=C2=A0=C2=A0=C2=A0 struct acpi_table_header local_header;
+>>> +
+>>> +=C2=A0=C2=A0=C2=A0 if ((ACPI_COMPARE_NAMESEG(header->signature, ACPI_S=
+IG_FACS)) ||
+>>> +=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 (ACPI_VALIDATE_RSDP_SIG(header->=
+signature))) {
+>>> +=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 return;
+>>> +=C2=A0=C2=A0=C2=A0 }
+>>> +=C2=A0=C2=A0=C2=A0 /* Standard ACPI table with full common header */
+>>> +
+>>> +=C2=A0=C2=A0=C2=A0 memcpy(&local_header, header, sizeof(struct acpi_ta=
+ble_header));
+>>> +
+>>> +=C2=A0=C2=A0=C2=A0 memblock_reserve(address, PAGE_ALIGN(local_header.l=
+ength));
+>>> +}
+>>> +
+>>> =C2=A0=C2=A0/**********************************************************=
+*********************=20
+>>>
+>>> =C2=A0=C2=A0 *
+>>> =C2=A0=C2=A0 * FUNCTION:=C2=A0=C2=A0=C2=A0 acpi_tb_install_table_with_o=
+verride
+>>> @@ -58,6 +76,9 @@
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =
+=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 new_table_desc->flags,
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =
+=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 new_table_desc->pointer);
+>>>
+>>> + acpi_tb_reserve_standard_table(new_table_desc->address,
+>>> +=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=
+=C2=A0 =C2=A0=C2=A0 new_table_desc->pointer);
+>>> +
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 acpi_tb_print_table_header(new_table_des=
+c->address,
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =
+=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0 new_table_desc->pointer);
+>>>
+>>> There should be no harm in doing the memblock_reserve() for all the=20
+>>> standard
+>>> tables, right?
+>> It should be ok to memblock_reserve() all the tables very early as=20
+>> long as
+>> we don't run out of static entries in memblock.reserved.
+>>
+>> We just need to make sure the tables are reserved before memblock
+>> allocations are possible, so we'd still need to move=20
+>> acpi_table_init() in
+>> x86::setup_arch() before e820__memblock_setup().
+>> Not sure how early ACPI is initialized on arm64.
+>
+> Thanks Mike. Will try to move the memblock_reserves() before=20
+> e820__memblock_setup().
 
-Thanks Mike. Will try to move the memblock_reserves() before=20
-e820__memblock_setup().
+Hi Mike,
+
+Moved acpi_table_init() in x86::setup_arch() before=20
+e820__memblock_setup() as you suggested.
+
+Ran 10 boots with the following without error.
+
+diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
+index 740f3bdb..3b1dd24 100644
+--- a/arch/x86/kernel/setup.c
++++ b/arch/x86/kernel/setup.c
+@@ -1047,6 +1047,7 @@ void __init setup_arch(char **cmdline_p)
+ =C2=A0=C2=A0=C2=A0=C2=A0 cleanup_highmap();
+
+ =C2=A0=C2=A0=C2=A0=C2=A0 memblock_set_current_limit(ISA_END_ADDRESS);
++=C2=A0=C2=A0=C2=A0 acpi_boot_table_init();
+ =C2=A0=C2=A0=C2=A0=C2=A0 e820__memblock_setup();
+
+ =C2=A0=C2=A0=C2=A0=C2=A0 /*
+@@ -1140,8 +1141,6 @@ void __init setup_arch(char **cmdline_p)
+ =C2=A0=C2=A0=C2=A0=C2=A0 /*
+ =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0* Parse the ACPI tables for possible boot-t=
+ime SMP configuration.
+ =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0*/
+-=C2=A0=C2=A0=C2=A0 acpi_boot_table_init();
+-
+ =C2=A0=C2=A0=C2=A0=C2=A0 early_acpi_boot_init();
+
+ =C2=A0=C2=A0=C2=A0=C2=A0 initmem_init();
+diff --git a/drivers/acpi/acpica/tbinstal.c b/drivers/acpi/acpica/tbinstal.=
+c
+index 0bb15ad..7830109 100644
+--- a/drivers/acpi/acpica/tbinstal.c
++++ b/drivers/acpi/acpica/tbinstal.c
+@@ -7,6 +7,7 @@
+ =C2=A0 *
+***************************************************************************=
+**/
+
++#include <linux/memblock.h>
+ =C2=A0#include <acpi/acpi.h>
+ =C2=A0#include "accommon.h"
+ =C2=A0#include "actables.h"
+@@ -16,6 +17,33 @@
+
+ =C2=A0/*******************************************************************=
+************
+ =C2=A0 *
++ * FUNCTION:=C2=A0=C2=A0=C2=A0 acpi_tb_reserve_standard_table
++ *
++ * PARAMETERS:=C2=A0 address=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 - Table physical address
++ *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 header=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 - Table header
++ *
++ * RETURN:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 None
++ *
++ * DESCRIPTION: To avoid an acpi table page from being "stolen" by the=20
+buddy
++ *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 allocator run memblock_reserve() on all the standard=20
+acpi tables.
++ *
++=20
+***************************************************************************=
+***/
++void
++acpi_tb_reserve_standard_table(acpi_physical_address address,
++=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0 stru=
+ct acpi_table_header *header)
++{
++=C2=A0=C2=A0=C2=A0 if ((ACPI_COMPARE_NAMESEG(header->signature, ACPI_SIG_F=
+ACS)) ||
++=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 (ACPI_VALIDATE_RSDP_SIG(header->sign=
+ature)))
++=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 return;
++
++=C2=A0=C2=A0=C2=A0 if (header->length > PAGE_SIZE) /* same check as in acp=
+i_map() */
++=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 return;
++
++=C2=A0=C2=A0=C2=A0 memblock_reserve(address, PAGE_ALIGN(header->length));
++}
++
++/*************************************************************************=
+******
++ *
+ =C2=A0 * FUNCTION:=C2=A0=C2=A0=C2=A0 acpi_tb_install_table_with_override
+ =C2=A0 *
+ =C2=A0 * PARAMETERS:=C2=A0 new_table_desc=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 - New table descriptor to install
+@@ -58,6 +86,9 @@
+ =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=
+=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 new_table_desc->flags,
+ =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=
+=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 new_table_desc->pointer);
+
++=C2=A0=C2=A0=C2=A0 acpi_tb_reserve_standard_table(new_table_desc->address,
++=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=
+=A0 =C2=A0=C2=A0 new_table_desc->pointer);
++
+ =C2=A0=C2=A0=C2=A0=C2=A0 acpi_tb_print_table_header(new_table_desc->addres=
+s,
+ =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=
+=A0=C2=A0 =C2=A0=C2=A0 new_table_desc->pointer);
 
 George
->  =20
->> Ran 10 boots with the above without failure.
->>
->> George
+
+>
+> George
+>>> Ran 10 boots with the above without failure.
+>>>
+>>> George
+>
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
@@ -399,4 +515,4 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/083c2bfd-12dd-f3c3-5004-fb1e3fb6493c%40oracle.com.
+kasan-dev/a8864397-83e8-61f7-4b9a-33716eca6cf8%40oracle.com.
