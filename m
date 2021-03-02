@@ -1,129 +1,146 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBGFP7CAQMGQEPW6J2RY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDLKPY4HVQKBBI577CAQMGQEXSOFAIY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oi1-x239.google.com (mail-oi1-x239.google.com [IPv6:2607:f8b0:4864:20::239])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54D5C329A97
-	for <lists+kasan-dev@lfdr.de>; Tue,  2 Mar 2021 11:46:49 +0100 (CET)
-Received: by mail-oi1-x239.google.com with SMTP id m19sf10637144oiw.19
-        for <lists+kasan-dev@lfdr.de>; Tue, 02 Mar 2021 02:46:49 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1614682008; cv=pass;
+Received: from mail-lf1-x13f.google.com (mail-lf1-x13f.google.com [IPv6:2a00:1450:4864:20::13f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35D8D329BFC
+	for <lists+kasan-dev@lfdr.de>; Tue,  2 Mar 2021 12:21:08 +0100 (CET)
+Received: by mail-lf1-x13f.google.com with SMTP id d11sf3459695lfe.1
+        for <lists+kasan-dev@lfdr.de>; Tue, 02 Mar 2021 03:21:08 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1614684067; cv=pass;
         d=google.com; s=arc-20160816;
-        b=BmB+mOFjHF2p4pHiRYYMeTALb/p0oG0kGN17uGUR5miHyE7lHiaWIYkJzfWpM0+YTD
-         4nUZq6XfEHSDWxi5ucskZMNPw0HutSQPgpcig7hWB8eswomn1NiwQilNY692HQUA7BSH
-         xT5iH94kuYC4tAfRhEgtyCk9qxBF5p1Gz5LqqDr2Ef1aODl7oAv0z54RdwbWWl6kOTXJ
-         WIkK1g2yz9o9FmmahGXHt4KX4/HL2z6vw51/te77O+NxlYywebDSiEno/mRG3p+bJb9t
-         qEcszByXOcVGRkn/RMYh7wRd7/xL7hzjTliWQcPO512EFoHB67tU4RM2SjR/GYt1Gzi4
-         /W4A==
+        b=WgCEHVK8n2YUI7N/oattjARcxsM14ZNla2zldPEKtUaO73N70xSiGUrDp12ZjnpvDj
+         8/BpjIk9EcFeQfAsH1mPIz4SzKM5fm5kU5SOioCnG9v1pMIshnMpOQTHBBit50hT65GM
+         3+Xh3yWb+78dgkHINorB87rB3xh9x/39DgiImnNibqS+4OkZFF3ebM1RzpStNrW3VCjf
+         9ezNhsj9HSlVMKxoFScrPbjYWE1I+JshLW/bsG1qAaicSZnMnpnumWSawpGbj3urO5R7
+         VVmUpE3J3djrGZZgvla9u01htklHPNasgC4vyrrsg69UnmjF4ShXvTz5vpKQD9BeHoZI
+         Q6jw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=bQQIxEUpa1vz8O4rrWq5Ud9xdseLT4/3LihMWcwVR9Q=;
-        b=TPOgccIzuL5P3Ppcz6lf9tKXnW0MzOwmP+NCS6hfXzVGW90DnSDeyPy5b4bNyJ1X92
-         akfgQKz9kAMgpL95lPImi+ns322wrArTEiTte4euLI866GO53H6slE8u/IOSPc8VJinB
-         buCdH2P02ToWJiZAevk2PV+JCFh4lL4qqWb8szIcu9k+DzqlqjG8khedb9gSl0AL1c8J
-         lPUKNj6iF65yP4MgDq9YFBmv0dRGc6th7i0yd6ZEek+po4VSdYNH18T3FKv5IErlYGDW
-         jq8nZy2S4BaxdsDfTb2zBolYZ/4ivAYLZ2Ipa2iDAY/Wd1Brm8XHJAiRl076uTii7z8E
-         SVzw==
+         :list-id:mailing-list:precedence:content-transfer-encoding
+         :content-language:in-reply-to:mime-version:user-agent:date
+         :message-id:from:references:cc:to:subject:sender:dkim-signature;
+        bh=DUaNXOW/12lCMGvRKw437FDnB8zSs5JR9UrD56z0KPo=;
+        b=QgwSr2dydvU9BO4JMYMQVbLjTmAj4vx709fyhQhi5DzWk+Hd8ITN9e2p9m/NDvoqrE
+         Jt+1X0MNu8yyuof/AQgalaOcX36UtGm72esC7/9fsB6CwP1qYC7Lx7geF9pS+LKcQlSk
+         20+G5760Wlkb1IjnXLja6FvUPL1ZH3OpsS2idWD0NPsRUQQb1sXjhJ+X62dnTmv5inA4
+         yyfS1T6qglVucSvh9JetPZ1tm3JWM/cdeeuYbwGQWpd/BaBMAnv5q7xedldFvwJe9k6A
+         C5nEPSdRmBHZk5LCkSrecZAFGKwFJePHphuO8vkzRzqWRfzJEjLU9FGk6ZdaYyx77g9l
+         tPeA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b="nwu/saec";
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::231 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       spf=pass (google.com: domain of christophe.leroy@csgroup.eu designates 93.17.236.30 as permitted sender) smtp.mailfrom=christophe.leroy@csgroup.eu
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+        h=sender:subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=bQQIxEUpa1vz8O4rrWq5Ud9xdseLT4/3LihMWcwVR9Q=;
-        b=CnuGjlrM3mA+MbO3E+vYaZtlWaqoFiWsDDH+8W7WCwobXBUtF7h2yikZRJI0D+m9Mu
-         L3p9CnPtwryEZWcxnwsSp1ilEB7sfBPcpkT2/yrvzjBlJyFMuRx30kLcBv1YWPjoJYlh
-         NQ5FJg+QRtv9RVXdpY20VIhwN9AnDeQxoeumZSiF2+67xbwqe1TxxZGYiifPpCD91p18
-         Eq0xlcJCm0rpIWDmB9IytaV/1c8eP7xOxPnYRGlyXZ0sjdMbopN76ZLUlIAfSjprsSfQ
-         l4bJMBiBhnoOmKepIT6Vm/bgMlemcpHurWsqFqKjUsXaiTWwDksElYaIsmIi8OwxbPk7
-         pRdA==
+        bh=DUaNXOW/12lCMGvRKw437FDnB8zSs5JR9UrD56z0KPo=;
+        b=WfVGYeDvNW8gulG9arXuFuUWJMGe+OKjJhqPEWABgg7t07g2Rad7sVW84EJp1KvajZ
+         M5+GPosh1VweiGlPsqBKn2tDpfO9Y21rRwgp+n6H/JEEArfv3zyX2NbGBezZyueObO48
+         wOvbG7RXUBXB8hnZmWCWiSIkpjQBiwiL/kmBQfHW7GZDdNyDm9OFZBzJrk9SplQ082+D
+         rHwAS2iC8DZoeRROlFweAdl8sdOqeqZ4WeRLuAtXgIO2p1FecDF0rbiJB8GPBootSOIo
+         ifqbd/itFID72xMFFqJ38+idWyR1XbsQefSLVcEBiiNRNYX0E9/pPsP33CxW+J1Cwx2E
+         vRFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+        h=sender:x-gm-message-state:subject:to:cc:references:from:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=bQQIxEUpa1vz8O4rrWq5Ud9xdseLT4/3LihMWcwVR9Q=;
-        b=ky1ooWF+PREp4N1VsqvYCOHxMqhva90UjfCK6dQoA1RGH5yaBnmolPYyDuQdGrvbXV
-         w/AGBpvH21K0FlRrU4Ig0Gmt27bKM1h9mlB1Uwe6usoBWJPuONDyFitJRzSh0yV26kgQ
-         3bMhUBsqKdSxuzFvim26c29bRUXsW6dgjVfJQF5RsKjq1ScnEdlC9StdaS2Ui8+sJzq/
-         hXU1grFF88mi9Kp4zRJKn5Ti1/GVIPwBQG4j6M0MrCA2RflT7utXxCUBlmEXLmoU+FDc
-         BVfVYCQgTfbEJ9PmKPJ35BpE1ctufyD3RIqlMhoBRpa3wTjOJfsS0KYTkU5s8eFQXy4v
-         OqLQ==
-X-Gm-Message-State: AOAM531xTy3vMN5+EUJVn50v2KLVA5U1qnqqJocZKFcK99pUQ7+pyYxR
-	YAe1uvwUMmFBFPw7E1ALA/g=
-X-Google-Smtp-Source: ABdhPJzdC8smjA2DHIeGvHyiLiCeCNJlQFyYb6wypjD8BXdEA7xn7cLjg2qvKqdIpXJT79X9qGq3kQ==
-X-Received: by 2002:a05:6808:114e:: with SMTP id u14mr2722850oiu.156.1614682008316;
-        Tue, 02 Mar 2021 02:46:48 -0800 (PST)
+        bh=DUaNXOW/12lCMGvRKw437FDnB8zSs5JR9UrD56z0KPo=;
+        b=HGyi7ZQeGVySMLjoDD/pGkPp/Z8TEz0hMrIlD0VbFcQTZ9IUqC4f4zR53btYnZdh4f
+         +j0gaIUHf2IaGb1r3ewe+0V2nvuFbMKzOlCiTrr9T9WO8a+qU1BsTWlsLWchNkFmUsfx
+         n/pkbYwv7Cp3hp6a+O4+MBEH3bqjVvkzaaIlBJ36Fz19YEESlLChcn1V31MZkj6LMgLk
+         8pRzN+vmkylPIosvFyNbR0p1Xsk7RlbzjVyqAIvcxqMzlW/hzT8b3SV/WSdFIO4BZQPX
+         7bEagnzNoBv/vlqkwPlZHOMCUHOJ2M7gUZaeMjTCTk+mF9cUUZTBCPQQmJmWXz5crihR
+         u2lg==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM5300fDN3Fqc1zr5Ccrq4GE5wI1UwVksIGiNL2Fs9iUrArqa/W+d4
+	VRkD51q1Fc4mVylTILgLTlQ=
+X-Google-Smtp-Source: ABdhPJwTrADylO7L6s0CuXIABRH0Mb3LxZgvKp1zidaJqAxG0fDPXddyPaNQafT5w3vfSfyMzS57wA==
+X-Received: by 2002:a2e:8592:: with SMTP id b18mr11815169lji.155.1614684067678;
+        Tue, 02 Mar 2021 03:21:07 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6808:1156:: with SMTP id u22ls5179905oiu.6.gmail; Tue,
- 02 Mar 2021 02:46:48 -0800 (PST)
-X-Received: by 2002:aca:d946:: with SMTP id q67mr2679068oig.104.1614682007959;
-        Tue, 02 Mar 2021 02:46:47 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1614682007; cv=none;
+Received: by 2002:a05:6512:3993:: with SMTP id j19ls7822839lfu.3.gmail; Tue,
+ 02 Mar 2021 03:21:06 -0800 (PST)
+X-Received: by 2002:a05:6512:118f:: with SMTP id g15mr12141621lfr.274.1614684066595;
+        Tue, 02 Mar 2021 03:21:06 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1614684066; cv=none;
         d=google.com; s=arc-20160816;
-        b=cF4KA36nC+Z1/hRinjEYdeETDFaP8zt5ARVqciKcAA8wWjP1EDDEEjtZte21QGeHkE
-         WL7LiNC569yEN15SCZ4MF+v34oKKoKWVdbgFx7xMwssBd1ivRxvejZkiIi75B9hSpQlc
-         kqTAPBs2nrQWTsIYv+SEmchUZ1oMHW7uQj1bQIKCHQjaoXao/WAzKzv9j6DsjARXHLHd
-         8PwdB0bEd1tWxFDQvWy2HYsj8LZbfMcCfXk1bw/beu3Omkx2GNfjPGY9tfRYNEfC9fEI
-         NnVx84Qzjb3SwWnMUMBcXxsChs45dIL0QazlJ/WQF0+0ckR6ydODvUMr2j+xzscJ33N4
-         X5cA==
+        b=UTpG3zIkZ+RfRKJAFHPfpGSIcGLhzjdb/cIS59mikPXWUbecukce7ZjAKbTuoCb1Tl
+         P3QxUnISEF4oMeUmOCWMGVWjw05j9ut8pFr7eF93ecJK86r1crN3aamE7AU/Y4HkK1Um
+         tlX54R3a87v7a8ssUvxKr+wX3hXIEv2Msajjg/Y+F0ngKp3oqOJfOxtshcdqwb99lAZA
+         7ImVG7GjOpvmYPHK0SRCThi9WblVF4gI6nbEtd/PvQFdVNh38hHuambDhT+109JezfVJ
+         3r7oW4J8T11Ld0oE+2/RM+OArhGI70vbatgjGuT8o7lCEy2MDVic4660YJQifhufJuaw
+         o94Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=tI1T3sG8WiBrhhz5S5iMt3gLDFMM0aI3nta0Y1X6tTc=;
-        b=xHPhlmgL4y8FE0f2z/MTea0KeJSNEfeHquj7yO+HpNjJ6rIYDjSO3EZLrrWQosDLnK
-         4qRH+ozTJZ0PtLBnr1Y/n/8NV5/SKhUstkVeVyG/vgGbLxO2SCUc2ytVE9x1Oxz4tBcu
-         Y3MxYZphhE5s53jWDSzVeUOFvxjgBVJQOa5EbmU2za7QE9xTMMNT9Sr0Pwgu/BWwf3wZ
-         +qoKelKOQEl5xmMhtLfv4OJK5fXQIs1bz/xLd7EeddYqW//QyeR79+73y8bitUrnWb6Z
-         DDFyStJGMQHfS1Al/hu40zRX4YEycvv3pgGnipIlAQUT21IWdz+aOyi1lhgY18bcqpCm
-         CmQw==
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject;
+        bh=iAZbZTBOhxmyK40BbJ5kDVGUB5mUOjHevkX8+P7gYHE=;
+        b=XtG0DIFULMsHkyP4HpKNs+GgKnmNQvVY/FsSlVyXJG4TmndMQRVaW78BR/7/XDbIhB
+         KjgKXyoE092bkBpKcidIct/ZWMoHkWOmiWcze/MxUJy40o6oVbWVUv3tLVEfglXnAE7n
+         ftN9Cb6ittNTw4cIkBX0HtnWgbt32fYytgQTziYzwfLbDAVKHa9CYyHpGMnfH9SjpQRd
+         u5pDyvBfODqTtkYkm3QgRQU6FKLCyWUGIOTegQHZvO1yfWD8eGVFSALB2kt1PrGY1lQd
+         VjXxxjMd2+GEqNQYZZuYmWopQ1RW63l0hhF6XbEzSjy9W8MhMYMzhOAI9hpDUwi6s5Bs
+         uxGQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b="nwu/saec";
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::231 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com. [2607:f8b0:4864:20::231])
-        by gmr-mx.google.com with ESMTPS id v4si343250oiv.4.2021.03.02.02.46.47
+       spf=pass (google.com: domain of christophe.leroy@csgroup.eu designates 93.17.236.30 as permitted sender) smtp.mailfrom=christophe.leroy@csgroup.eu
+Received: from pegase1.c-s.fr (pegase1.c-s.fr. [93.17.236.30])
+        by gmr-mx.google.com with ESMTPS id k21si852927lji.3.2021.03.02.03.21.06
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 02 Mar 2021 02:46:47 -0800 (PST)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::231 as permitted sender) client-ip=2607:f8b0:4864:20::231;
-Received: by mail-oi1-x231.google.com with SMTP id x20so21448340oie.11
-        for <kasan-dev@googlegroups.com>; Tue, 02 Mar 2021 02:46:47 -0800 (PST)
-X-Received: by 2002:aca:5fd4:: with SMTP id t203mr2651357oib.121.1614682007451;
- Tue, 02 Mar 2021 02:46:47 -0800 (PST)
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 02 Mar 2021 03:21:06 -0800 (PST)
+Received-SPF: pass (google.com: domain of christophe.leroy@csgroup.eu designates 93.17.236.30 as permitted sender) client-ip=93.17.236.30;
+Received: from localhost (mailhub1-int [192.168.12.234])
+	by localhost (Postfix) with ESMTP id 4DqZSc4Rq1z9v0XH;
+	Tue,  2 Mar 2021 12:21:04 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at c-s.fr
+Received: from pegase1.c-s.fr ([192.168.12.234])
+	by localhost (pegase1.c-s.fr [192.168.12.234]) (amavisd-new, port 10024)
+	with ESMTP id 43cCyl6SrVuX; Tue,  2 Mar 2021 12:21:04 +0100 (CET)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+	by pegase1.c-s.fr (Postfix) with ESMTP id 4DqZSc2SqKz9v0XG;
+	Tue,  2 Mar 2021 12:21:04 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id 928738B7AF;
+	Tue,  2 Mar 2021 12:21:05 +0100 (CET)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+	by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+	with ESMTP id YFKLrjJMMdVn; Tue,  2 Mar 2021 12:21:05 +0100 (CET)
+Received: from [192.168.4.90] (unknown [192.168.4.90])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id DACDB8B75F;
+	Tue,  2 Mar 2021 12:21:04 +0100 (CET)
+Subject: Re: [RFC PATCH v1] powerpc: Enable KFENCE for PPC32
+To: Marco Elver <elver@google.com>
+Cc: Alexander Potapenko <glider@google.com>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Paul Mackerras <paulus@samba.org>, Michael Ellerman <mpe@ellerman.id.au>,
+ Dmitry Vyukov <dvyukov@google.com>, LKML <linux-kernel@vger.kernel.org>,
+ linuxppc-dev@lists.ozlabs.org, kasan-dev <kasan-dev@googlegroups.com>
+References: <51c397a23631d8bb2e2a6515c63440d88bf74afd.1614674144.git.christophe.leroy@csgroup.eu>
+ <CANpmjNPOJfL_qsSZYRbwMUrxnXxtF5L3k9hursZZ7k9H1jLEuA@mail.gmail.com>
+ <b9dc8d35-a3b0-261a-b1a4-5f4d33406095@csgroup.eu>
+ <CAG_fn=WFffkVzqC9b6pyNuweFhFswZfa8RRio2nL9-Wq10nBbw@mail.gmail.com>
+ <f806de26-daf9-9317-fdaa-a0f7a32d8fe0@csgroup.eu>
+ <CANpmjNPGj4C2rr2FbSD+FC-GnWUvJrtdLyX5TYpJE_Um8CGu1Q@mail.gmail.com>
+From: Christophe Leroy <christophe.leroy@csgroup.eu>
+Message-ID: <08a96c5d-4ae7-03b4-208f-956226dee6bb@csgroup.eu>
+Date: Tue, 2 Mar 2021 12:21:02 +0100
+User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-References: <000801d656bb$64aada40$2e008ec0$@codeaurora.org>
- <CANpmjNMEtocM7f1UG6OFTmAudcFJaa22WTc7aM=YGYn6SMY6HQ@mail.gmail.com>
- <20200710135747.GA29727@C02TD0UTHF1T.local> <CANpmjNNPL65y23Qz3pHHqqdQrkK6CqTDSsD+zO_3C0P0xjYXYw@mail.gmail.com>
- <20200710175300.GA31697@C02TD0UTHF1T.local> <20200727175854.GC68855@C02TD0UTHF1T.local>
- <CANpmjNOtVskyAh2Bi=iCBXJW6GOQWxXpGmMj9T8Q7qGB7Fm_Ag@mail.gmail.com>
- <000601d6909d$85b40100$911c0300$@codeaurora.org> <20200923114739.GA74273@C02TD0UTHF1T.local>
- <CANpmjNNk8MHXNsHdyWqcO1VxREv+LP0sxid9LZOy+2Pk8i9h+w@mail.gmail.com> <20210302102816.GA1589@C02TD0UTHF1T.local>
-In-Reply-To: <20210302102816.GA1589@C02TD0UTHF1T.local>
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Tue, 2 Mar 2021 11:46:36 +0100
-Message-ID: <CANpmjNN-cqXBhXYiQRqTOBv2in_zr3=KkTR7YASKUYqjorqQ-A@mail.gmail.com>
-Subject: Re: KCSAN Support on ARM64 Kernel
-To: Mark Rutland <mark.rutland@arm.com>
-Cc: sgrover@codeaurora.org, Will Deacon <will@kernel.org>, 
-	Dmitry Vyukov <dvyukov@google.com>, kasan-dev <kasan-dev@googlegroups.com>, 
-	"Paul E. McKenney" <paulmck@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b="nwu/saec";       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::231 as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+In-Reply-To: <CANpmjNPGj4C2rr2FbSD+FC-GnWUvJrtdLyX5TYpJE_Um8CGu1Q@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Language: fr
+Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: christophe.leroy@csgroup.eu
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of christophe.leroy@csgroup.eu designates 93.17.236.30 as
+ permitted sender) smtp.mailfrom=christophe.leroy@csgroup.eu
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -136,95 +153,195 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, 2 Mar 2021 at 11:28, Mark Rutland <mark.rutland@arm.com> wrote:
-> On Mon, Mar 01, 2021 at 02:09:43PM +0100, Marco Elver wrote:
-> > It's 2021, and I'd like to check if we have all the pieces in place
-> > for KCSAN support on arm64. While it might not be terribly urgent
-> > right now, I think we have all the blockers resolved.
-> >
-> > On Wed, 23 Sept 2020 at 13:47, Mark Rutland <mark.rutland@arm.com> wrote:
-> > [...]
-> > > The main issues are:
-> > >
-> > > * Current builds of clang miscompile generated functions when BTI is
-> > >   enabled, leading to build-time warnings (and potentially runtime
-> > >   issues). I was hoping this was going to be fixed soon (and was
-> > >   originally going to wait for the clang 11 release), but this seems to
-> > >   be a larger structural issue with LLVM that we will have to workaround
-> > >   for the timebeing.
-> > >
-> > >   This needs some Makefile/Kconfig work to forbid the combination of BTI
-> > >   with any feature relying on compiler-generated functions, until clang
-> > >   handles this correctly.
-> >
-> > I think https://reviews.llvm.org/D85649 fixed the BTI issue with
-> > Clang. Or was there something else missing?
->
-> I *think* so, but I haven't had a chance to go test with a recent clang
-> build. I see there's now as 11.1.0 build out on llvm.org, so I can try
-> to give that a spin in a bit, if no-one else does.
->
-> > > * KCSAN currently instruments some functions which are not safe to
-> > >   instrument (e.g. code used during code patching, exception entry),
-> > >   leading to crashes and hangs for common configurations (e.g. with LSE
-> > >   atomics). This has also highlisted some existing issues in this area
-> > >   (e.g. with other instrumentation).
-> > >
-> > >   I'm auditing and reworking code to address this, but I don't have a
-> > >   good enough patch series yet. I intend to post that prework after rc1,
-> > >   and hopefully the necessary bits are small enough that KCSAN can
-> > >   follow in the same merge window.
->
-> On this part, I know we still need to do a couple of things:
->
-> * Deal with instrumentation of early boot code. We need to set the
->   per-cpu offset earlier, and might also need to mark more of this as
->   noinstr.
->
->   I'll go respin the per-cpu offset patch in a moment as that's trivial.
->
-> * Prevent instrumentation of the patching/alternatives code, which I saw
->   blow up when instrumented. For KCSAN we can probably survive with a
->   simple refactoring and marking a few things as noinstr, but there's a
->   more general unsoundness problem here since the patching code calls
->   code whihc can be instrumented or patched (e.g. bitops, cache
->   maintenance, common ID register accessors), and making this watertight
->   will require some more invasive rework that I hadn't quite figured
->   out.
 
-Ok, that sounds like it's a bit more complicated then.
 
-> * I have a vague recollection that there was some problem with atomics,
->   and that in some cases we'd need to use arch_atomic() rather than
->   atomic(), but I can't remember whether that was to do with the
->   patching code or elsewhere.
+Le 02/03/2021 =C3=A0 10:53, Marco Elver a =C3=A9crit=C2=A0:
+> On Tue, 2 Mar 2021 at 10:27, Christophe Leroy
+> <christophe.leroy@csgroup.eu> wrote:
+>> Le 02/03/2021 =C3=A0 10:21, Alexander Potapenko a =C3=A9crit :
+>>>> [   14.998426] BUG: KFENCE: invalid read in finish_task_switch.isra.0+=
+0x54/0x23c
+>>>> [   14.998426]
+>>>> [   15.007061] Invalid read at 0x(ptrval):
+>>>> [   15.010906]  finish_task_switch.isra.0+0x54/0x23c
+>>>> [   15.015633]  kunit_try_run_case+0x5c/0xd0
+>>>> [   15.019682]  kunit_generic_run_threadfn_adapter+0x24/0x30
+>>>> [   15.025099]  kthread+0x15c/0x174
+>>>> [   15.028359]  ret_from_kernel_thread+0x14/0x1c
+>>>> [   15.032747]
+>>>> [   15.034251] CPU: 0 PID: 111 Comm: kunit_try_catch Tainted: G    B
+>>>> 5.12.0-rc1-s3k-dev-01534-g4f14ae75edf0-dirty #4674
+>>>> [   15.045811] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>>>> [   15.053324]     # test_invalid_access: EXPECTATION FAILED at mm/kfe=
+nce/kfence_test.c:636
+>>>> [   15.053324]     Expected report_matches(&expect) to be true, but is=
+ false
+>>>> [   15.068359]     not ok 21 - test_invalid_access
+>>>
+>>> The test expects the function name to be test_invalid_access, i. e.
+>>> the first line should be "BUG: KFENCE: invalid read in
+>>> test_invalid_access".
+>>> The error reporting function unwinds the stack, skips a couple of
+>>> "uninteresting" frames
+>>> (https://elixir.bootlin.com/linux/v5.12-rc1/source/mm/kfence/report.c#L=
+43)
+>>> and uses the first "interesting" one frame to print the report header
+>>> (https://elixir.bootlin.com/linux/v5.12-rc1/source/mm/kfence/report.c#L=
+226).
+>>>
+>>> It's strange that test_invalid_access is missing altogether from the
+>>> stack trace - is that expected?
+>>> Can you try printing the whole stacktrace without skipping any frames
+>>> to see if that function is there?
+>>>
+>>
+>> Booting with 'no_hash_pointers" I get the following. Does it helps ?
+>>
+>> [   16.837198] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>> [   16.848521] BUG: KFENCE: invalid read in finish_task_switch.isra.0+0x=
+54/0x23c
+>> [   16.848521]
+>> [   16.857158] Invalid read at 0xdf98800a:
+>> [   16.861004]  finish_task_switch.isra.0+0x54/0x23c
+>> [   16.865731]  kunit_try_run_case+0x5c/0xd0
+>> [   16.869780]  kunit_generic_run_threadfn_adapter+0x24/0x30
+>> [   16.875199]  kthread+0x15c/0x174
+>> [   16.878460]  ret_from_kernel_thread+0x14/0x1c
+>> [   16.882847]
+>> [   16.884351] CPU: 0 PID: 111 Comm: kunit_try_catch Tainted: G    B
+>> 5.12.0-rc1-s3k-dev-01534-g4f14ae75edf0-dirty #4674
+>> [   16.895908] NIP:  c016eb8c LR: c02f50dc CTR: c016eb38
+>> [   16.900963] REGS: e2449d90 TRAP: 0301   Tainted: G    B
+>> (5.12.0-rc1-s3k-dev-01534-g4f14ae75edf0-dirty)
+>> [   16.911386] MSR:  00009032 <EE,ME,IR,DR,RI>  CR: 22000004  XER: 00000=
+000
+>> [   16.918153] DAR: df98800a DSISR: 20000000
+>> [   16.918153] GPR00: c02f50dc e2449e50 c1140d00 e100dd24 c084b13c 00000=
+008 c084b32b c016eb38
+>> [   16.918153] GPR08: c0850000 df988000 c0d10000 e2449eb0 22000288
+>> [   16.936695] NIP [c016eb8c] test_invalid_access+0x54/0x108
+>> [   16.942125] LR [c02f50dc] kunit_try_run_case+0x5c/0xd0
+>> [   16.947292] Call Trace:
+>> [   16.949746] [e2449e50] [c005a5ec] finish_task_switch.isra.0+0x54/0x23=
+c (unreliable)
+>=20
+> The "(unreliable)" might be a clue that it's related to ppc32 stack
+> unwinding. Any ppc expert know what this is about?
+>=20
+>> [   16.957443] [e2449eb0] [c02f50dc] kunit_try_run_case+0x5c/0xd0
+>> [   16.963319] [e2449ed0] [c02f63ec] kunit_generic_run_threadfn_adapter+=
+0x24/0x30
+>> [   16.970574] [e2449ef0] [c004e710] kthread+0x15c/0x174
+>> [   16.975670] [e2449f30] [c001317c] ret_from_kernel_thread+0x14/0x1c
+>> [   16.981896] Instruction dump:
+>> [   16.984879] 8129d608 38e7eb38 81020280 911f004c 39000000 995f0024 907=
+f0028 90ff001c
+>> [   16.992710] 3949000a 915f0020 3d40c0d1 3d00c085 <8929000a> 3908adb0 8=
+12a4b98 3d40c02f
+>> [   17.000711] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>> [   17.008223]     # test_invalid_access: EXPECTATION FAILED at mm/kfenc=
+e/kfence_test.c:636
+>> [   17.008223]     Expected report_matches(&expect) to be true, but is f=
+alse
+>> [   17.023243]     not ok 21 - test_invalid_access
+>=20
+> On a fault in test_invalid_access, KFENCE prints the stack trace based
+> on the information in pt_regs. So we do not think there's anything we
+> can do to improve stack printing pe-se.
 
-I think this was inside noinstr functions, because ifdef ARCH_ATOMIC,
-atomic ops are instrumented via atomic-instrumented.h.
+stack printing, probably not. Would be good anyway to mark the last level [=
+unreliable] as the ppc does.
 
-> > [...]
-> > > > -----Original Message-----
-> > > > From: Marco Elver <elver@google.com>
-> > [...]
-> > > > Let's see which one comes first: BTI getting fixed with Clang; or mainlining GCC support [1] and having GCC 11 released.
-> >
-> > If Clang still has issues, KCSAN works with GCC 11, which will be
-> > released this year.
-> >
-> > Mark, was there anything else blocking?
->
-> I think it's just the bits above, but I haven't had the chance to look
-> at this actively for a short while, so there might be more issues that
-> have cropped up since I last looked.
+IIUC, on ppc the address in the stack frame of the caller is written by the=
+ caller. In most tests,=20
+there is some function call being done before the fault, for instance=20
+test_kmalloc_aligned_oob_read() does a call to kunit_do_assertion which pop=
+ulates the address of the=20
+call in the stack. However this is fragile.
 
-Thanks for the summary above, we'll be patient as there's no rush. I
-thought that the patches you had would hopefully "just work" with a
-few minor additions, but it seems that was wishful thinking. :-)
+This works for function calls because in order to call a subfunction, a fun=
+ction has to set up a=20
+stack frame in order to same the value in the Link Register, which contains=
+ the address of the=20
+function's parent and that will be clobbered by the sub-function call.
 
-Thanks,
--- Marco
+However, it cannot be done by exceptions, because exceptions can happen in =
+a function that has no=20
+stack frame (because that function has no need to call a subfunction and do=
+esn't need to same=20
+anything on the stack). If the exception handler was writting the caller's =
+address in the stack=20
+frame, it would in fact write it in the parent's frame, leading to a mess.
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNN-cqXBhXYiQRqTOBv2in_zr3%3DKkTR7YASKUYqjorqQ-A%40mail.gmail.com.
+But in fact the information is in pt_regs, it is in regs->nip so KFENCE sho=
+uld be able to use that=20
+instead of the stack.
+
+>=20
+> What's confusing is that it's only this test, and none of the others.
+> Given that, it might be code-gen related, which results in some subtle
+> issue with stack unwinding. There are a few things to try, if you feel
+> like it:
+>=20
+> -- Change the unwinder, if it's possible for ppc32.
+
+I don't think it is possible.
+
+>=20
+> -- Add code to test_invalid_access(), to get the compiler to emit
+> different code. E.g. add a bunch (unnecessary) function calls, or add
+> barriers, etc.
+
+The following does the trick
+
+diff --git a/mm/kfence/kfence_test.c b/mm/kfence/kfence_test.c
+index 4acf4251ee04..22550676cd1f 100644
+--- a/mm/kfence/kfence_test.c
++++ b/mm/kfence/kfence_test.c
+@@ -631,8 +631,11 @@ static void test_invalid_access(struct kunit *test)
+  		.addr =3D &__kfence_pool[10],
+  		.is_write =3D false,
+  	};
++	char *buf;
+
++	buf =3D test_alloc(test, 4, GFP_KERNEL, ALLOCATE_RIGHT);
+  	READ_ONCE(__kfence_pool[10]);
++	test_free(buf);
+  	KUNIT_EXPECT_TRUE(test, report_matches(&expect));
+  }
+
+
+But as I said above, this is fragile. If for some reason one day test_alloc=
+() gets inlined, it may=20
+not work anymore.
+
+
+>=20
+> -- Play with compiler options. We already pass
+> -fno-optimize-sibling-calls for kfence_test.o to avoid tail-call
+> optimizations that'd hide stack trace entries. But perhaps there's
+> something ppc-specific we missed?
+>=20
+> Well, the good thing is that KFENCE detects the bad access just fine.
+> Since, according to the test, everything works from KFENCE's side, I'd
+> be happy to give my Ack:
+>=20
+>    Acked-by: Marco Elver <elver@google.com>
+>=20
+
+Thanks
+Christophe
+
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/08a96c5d-4ae7-03b4-208f-956226dee6bb%40csgroup.eu.
