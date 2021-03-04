@@ -1,151 +1,133 @@
-Return-Path: <kasan-dev+bncBDLKPY4HVQKBBZWTQOBAMGQEJVFCNLA@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBB76YQOBAMGQE7VWQFJI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13d.google.com (mail-lf1-x13d.google.com [IPv6:2a00:1450:4864:20::13d])
-	by mail.lfdr.de (Postfix) with ESMTPS id B57E232D4EB
-	for <lists+kasan-dev@lfdr.de>; Thu,  4 Mar 2021 15:08:38 +0100 (CET)
-Received: by mail-lf1-x13d.google.com with SMTP id g6sf9923775lfu.13
-        for <lists+kasan-dev@lfdr.de>; Thu, 04 Mar 2021 06:08:38 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1614866918; cv=pass;
+Received: from mail-oo1-xc3b.google.com (mail-oo1-xc3b.google.com [IPv6:2607:f8b0:4864:20::c3b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 34D8732D522
+	for <lists+kasan-dev@lfdr.de>; Thu,  4 Mar 2021 15:19:45 +0100 (CET)
+Received: by mail-oo1-xc3b.google.com with SMTP id u9sf7624462oon.23
+        for <lists+kasan-dev@lfdr.de>; Thu, 04 Mar 2021 06:19:45 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1614867584; cv=pass;
         d=google.com; s=arc-20160816;
-        b=tk2LBAwBjuJ1L3QaV9/KqY1YqUhfC6abh521YvH8jAJv4Os8tkQjHwFY+G+j7999I0
-         VtQAruNEPNuxCooIUwLRX48IfZTpccial3T5qcd1g3Gt3oeGJcXaYR7SrwMKKQ/YENz/
-         VQJd1JbL/IwwDFjC2unZWQb4Mq7Q5Af757SFo3U98JQreNU1+dbkE4iAbgFD7Hrs2Ro+
-         EX+fCglV+Gfb2/tQunmevQfyFYyU4/OeFduiIMrQug1/bkVaag/Kn/Vb5x/STx0AVciH
-         PHz9aRm9WJ6xdCE5Uh1M0PRQqqAtXVdJBlRrK4QHBm+LbJ/VvLmjG2VfsceogRgAgf+f
-         W9Wg==
+        b=C9JiBdlnXsf7+EEQg+ZFHn3p2473pkjkNyDb6X1IDwXIcj/XfZ8jseG4/Ofk0eeFnG
+         4WNC3pyT5z3qSBu11kM3m4jXjM7ErlQOZxtr1rvqdnqZtZPrBEtx9DvHkGsS9W3sDHvv
+         a2ElQ2Y36H9F3caZLjXSUdG7ScJMxnWroQeskQ3eLnECRYq0V8JpOz1XvRMWavBnNVnD
+         Qg5nQu9sf2EmI29pcpsP9GMpJvUwoqrXo8SBf8zD6x050ZkX4XUvdDprmsdI5+u2dOGX
+         +ro5PUzIy3ljoajElLcWEU8LsQ6U9a1Mphh0NfKQeHGFjCkwaGLv8h4wi+C0H3s5Znie
+         zFxQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding
-         :content-language:in-reply-to:mime-version:user-agent:date
-         :message-id:from:references:cc:to:subject:sender:dkim-signature;
-        bh=ybrYgbUtqfTERGPsCAi0dBbLF2F0DoZDDko59Wfk5xg=;
-        b=YVsFPz3vrdvw/NU6LEUQKFfhCTiSja9xCezyXBewgNjXzVgeAJ9kDr77mP99EqmeRo
-         kqw4fBT62hARMAkTN/NTijl6tN0NQc6BjT36bF4s7Lg01NIp9+c8iwrkE1tSaM6XedjD
-         4YKuAQdShpKY4ZcCRapX1LQBkwCIyQ4OUVoNr/D3KeW5Onn1sabiaHC635gz4u9mhmio
-         OOJNa9DFm2tHjaD8ObmWzjbEPMOBSHi0WybGFv1PFKAZXkugx1ZnJCzEYtpIeB2Ofgso
-         TZhdpApNsfg4pTvkNmBW0yC4o4ou/3OFC7MlmTKNzqYLoPg26J8k0WEVCssHRps1CqE/
-         ZrQQ==
+         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
+         :cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=h2C+xddIw7t1GZpd2+kLee5XvpARytv5vKaFCyEnazk=;
+        b=QvuezMcP6mOGNP7SshqUaBQaxQK25IIRhSdN+gg/X4r4e7LsJaZ4WMoxXB6Ty75heg
+         UI86yL9hLxnuzMLWtnB8wpKyRjRUtz633n/Bsj/3XvKDLQJyVNeBwsM81grCdJU30ytP
+         eaUjdQKwhfa9/n/3f/wICQu1OfmdbEcSYowqnmAMuM1Apxkm5bbfdZsKGXVyGKdpnL/V
+         hS4vtO4Ha2Rnd5TzQPRzFC42qUPaq4jDgO3S+k6iWiUJiDhIa65dWPLBhC4zfWwkt266
+         uQP4XFyIOFajseL264+ZwCOyuM5MdK8bdmAzP7IDZZk0AOvptLgU2PqVJ6BVWqsKLpSt
+         Lg9g==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of christophe.leroy@csgroup.eu designates 93.17.236.30 as permitted sender) smtp.mailfrom=christophe.leroy@csgroup.eu
+       dkim=pass header.i=@google.com header.s=20161025 header.b=quhqijAS;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::22e as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=ybrYgbUtqfTERGPsCAi0dBbLF2F0DoZDDko59Wfk5xg=;
-        b=jPq5Pdw9MObPHYCHjAkMbBstCtmL06l2T/As3SBugokWd1GrpFSuBW9hTif9Emjbgc
-         cT6FFjU2qZc9PjM4rkvb3wvDhaogJA+gB8MBoUIYB18kG/euc9aTSLxR1yUkP9mcq40Y
-         IjohHqKVPawnRpQDbFEK/O123j84Hc0Jw/yadQ365FgWsa/hBpabSyGymuZBPg77xPDa
-         o1FiEfo74Lbq2hcgb+m2MzEeD3vMutc4PvR+tvQKU4UfRTMAccyQtZnJ/XHbRAt+mKK2
-         w3DmNDrCmzcwdKgkAp9bZWtr+QWWZGkYVDYxI328ayf2Hcj6Xeur1CwaD65NTZwcmSn6
-         UIjw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:list-post:list-help:list-archive:list-subscribe
+         :list-unsubscribe;
+        bh=h2C+xddIw7t1GZpd2+kLee5XvpARytv5vKaFCyEnazk=;
+        b=ZN3kA1sJfDoiyIxgqqUpp+iBjgDRSMRAwGLPwOT/AhpLqdh4hQR+lRobLvrPutw8e+
+         RDBmz7r/oL6cgNeA1mfhXbZlNw+wtOOammvJomUNYn1PaLfhxYTj7e4kPcwmMWVN4z8a
+         wTirh2LqH2A251erVG/CKDTppI0ZC65bX1bTdWnWbvwqjwQ/4lKp60mqySJd9uE7XgWs
+         /qEKBFYAIhlYJKjO4H1770D6Sk5fPFpv741hSGMwyk8Lo3oM8e5tIGa92q7Y7QqQSv0G
+         2pnN/NsqS5hb6sfgbPcgo1Af9fhgmZbPPXD+COo7JrOvPxWHsBWWqhvmMvOifjDFrNl8
+         Q8KQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=ybrYgbUtqfTERGPsCAi0dBbLF2F0DoZDDko59Wfk5xg=;
-        b=E8KH4beOYThc+z5XeiQwKoHY0Xm227dxPpjZkMt4ZXzYQ1RVnORIUCd41bYYPkM+qX
-         pTm0o+suYGwpcuS4QN+iWHup6nczKmUIM2MMFbC6lSfNH4e5l+ZiPUvdNaY/dxpefi26
-         EantixqDWfdwt8ValA7t7eoXBvZn+rcdmrhwSXc/Zl4z9S49UaMzaYum0+J8UTZgqRPE
-         Xkjq7kRN/MwI6tnNtoXLup+TF9sV9xYvbgCNIDRvc6j2fhZ3lUei33stVS4qNvjE7Ens
-         fwex71GsomDikZSwpWuV5buRLhiA1pbIqQYyzCSxNYCq/sUd+0CS7lREugvTjZO0Ao5x
-         N1uw==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM533JRPQyB930S4MdnnhfscSj1xO6zuqshkdmJWzdA+VtH2r+sGmV
-	+iX2G9xPBRxcisAPQGLcVug=
-X-Google-Smtp-Source: ABdhPJzspr2jg+k61xeZJnGSbNJ7/iMmmWg5ED375mAs28t4Ktl53u58Y0dhj02MygGyssTS2cLoKQ==
-X-Received: by 2002:a2e:8118:: with SMTP id d24mr1677605ljg.133.1614866918266;
-        Thu, 04 Mar 2021 06:08:38 -0800 (PST)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding
+         :x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=h2C+xddIw7t1GZpd2+kLee5XvpARytv5vKaFCyEnazk=;
+        b=MNFZ5CbTFEXfUAXO8U6U2QcXaUKdWzFFzN9MLv8UPByqcc/BEL6gB393SynAimjuLJ
+         XwbrQYbAfY21ADildzHs89sVoWhOpZ3uGgZqX3rfd3qO9cpSqke8FX7YlUov1x+ezAEX
+         iPiHJhtBcc9Q+kKEAs0z8yTFcoSIRqHsI2QI7vRbDjbzY04exEM7+b0ZlXE/QA0cCq2P
+         JP/HnrbMPbir0aIavXTIUQ7BC+QywsH1akfJillwA/V/vrvOCzlJj5L7BS5kRH3P4Ju3
+         66oBmnOJHhQ9/plEv4bjexpl+E4nfAgAnou4+/7RQVxMwpXsetYKuxyj4v8xS6nQIDUV
+         TBHg==
+X-Gm-Message-State: AOAM531DuajgiHU0dRn2YgG1TAl9E6FUWRJ+LGIYmlaaQ0hSEaaIhT+W
+	sKvyOAE78NU2uJP6BUYN0K0=
+X-Google-Smtp-Source: ABdhPJy2ONbxIHdDiWesU2Ew9IdcrPrzmB+QszL3OkBAeOPZEtrBpsVnQUjRzZqMcRyVqHDblNRB2Q==
+X-Received: by 2002:a05:6830:1502:: with SMTP id k2mr3706483otp.166.1614867583843;
+        Thu, 04 Mar 2021 06:19:43 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a2e:b603:: with SMTP id r3ls1209258ljn.5.gmail; Thu, 04 Mar
- 2021 06:08:37 -0800 (PST)
-X-Received: by 2002:a2e:9c10:: with SMTP id s16mr2268699lji.457.1614866917169;
-        Thu, 04 Mar 2021 06:08:37 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1614866917; cv=none;
+Received: by 2002:a9d:6c57:: with SMTP id g23ls1588304otq.11.gmail; Thu, 04
+ Mar 2021 06:19:43 -0800 (PST)
+X-Received: by 2002:a9d:8d1:: with SMTP id 75mr3669734otf.366.1614867583473;
+        Thu, 04 Mar 2021 06:19:43 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1614867583; cv=none;
         d=google.com; s=arc-20160816;
-        b=RiOfihu6yjVLu2QtPJ6LT+kxKqCjjRSkZzSzOLHeoEs4+PyuWVd5/wnsf2YHCajaBa
-         2PHz6RwlZxY1FcHAcnlBi6ZDSas0poxZdFTEM87m06fGysrmGCEGtdbQWcbK+cM7IDFX
-         VJoJMaTAFyOapD3vNtKsyr8yyMU0CdKXyTAxNSqHRN7QTU/FiuUyz/uHqIbAyab3ZqHR
-         0FE3jy+ZEj6NHwsXwDK4dS/qidkJ14aPtzjMEax55DY+KY0nkDeF4A9LT0pX1M1KhDQM
-         C7T9yAOdAsYe99FjSJWtekrrlVL3Bd3nLPsLjZ2KdUUBoVKUOuGjC2Bp4nKFJqTlyvD7
-         CIGw==
+        b=U4ruWPh49BTuuOty6pvjO6cbSZpwsbyqbAdUDZc3Zgk5KzeZD6Y7gTy5LvxxQrZt4R
+         IWi/tJ6m5nj6J/Aj+sG6XX4+h3CmqSlVV/scNmKLOdU04iDw/x+02PxZLGxGHcsRbXUL
+         mQAfoS5vkcbOgvV3V5XTYZOhzqRrxMU0WMD/3diDwNUUs4ukfIUeKS1pkEc8eTY9l9ad
+         31ObFT1m1sO3J1EtEzJHX1ywPUP65SFqK5oMYhwcMHaUrNRqLrkPSSCbZ+dwEkoWuW/i
+         Osv7Mebt4PQmx/ykd4yh1+6NDAm/JjGg5IEJLPZKulhWT+PBHMwd2UBQyJoVDzDhtrzS
+         BB+Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject;
-        bh=7w+55pfTVH4wQxX+7+fGj9XRpIuXYUnYYSmvDDuR078=;
-        b=lAHpNq86WCZGr5Ur1VF4zc3Y5Tn0iEJEm3WKrp2r9N3AVpow45BNFmqJuB2H8ddcLT
-         enLsMgMFDjjbovInpBv/xq6rMpMKQpmy86f+gATRFLpjYxGs6360i+qyNbhJADN4TnyP
-         hHGMypQRVM3MFUv27y9H4R3SBtwoVf8XdX5oZB58+PD3NvH78elQxbTUpO1dTcw9aTRd
-         bb7xEqFo01wjqicnTZw17hJri286keNSfl8A+5/y0Zc7oTQl5T388ZcrXUFXG6pblrfY
-         dYuoJ+ajWcJ3TxdR7PkBLN7Q4VCaALfT1Ml/ck0hYjE6g2G/vW3Zzr9ow/+FU29nMTi7
-         yZ/w==
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=B6t/iRhxaz6mIiZvKsR4Ph8NTlJXLnsmBsm+Fu3vxVg=;
+        b=JbTomICfh0jX7Xz6qVyq5XDxg6oTgr6aGryAbJTVrKi4/wpO4KKdTfpM1UIaC2G8Av
+         WiTsYxZ+DZYbutCCWMG3SO9q7Uc7WVaH1n9ficCFMkXseGMINB1yMC13Ni1m0R0SqjVU
+         AjYYpOCFByMIhcQ6B51ggPh6aL3Ma32an46CuJZXekr47KLNMaWkRHRVGV0IRcV2bG55
+         ZHKSwh98s69LgdiAfrAQJmqN0FOlDwgTGn4C5og/WtP3Bx1pBucwfaTf7qqnEBJqr6EM
+         +7ZEa/shj9/OOJMPnX/1Hizljf1wV9r8Rca4nKpxdJawaK2Gqtch4i6pncZYgYoHSth1
+         JV/Q==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of christophe.leroy@csgroup.eu designates 93.17.236.30 as permitted sender) smtp.mailfrom=christophe.leroy@csgroup.eu
-Received: from pegase1.c-s.fr (pegase1.c-s.fr. [93.17.236.30])
-        by gmr-mx.google.com with ESMTPS id z2si1048693ljm.0.2021.03.04.06.08.36
+       dkim=pass header.i=@google.com header.s=20161025 header.b=quhqijAS;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::22e as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com. [2607:f8b0:4864:20::22e])
+        by gmr-mx.google.com with ESMTPS id c7si174172oto.1.2021.03.04.06.19.43
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 04 Mar 2021 06:08:36 -0800 (PST)
-Received-SPF: pass (google.com: domain of christophe.leroy@csgroup.eu designates 93.17.236.30 as permitted sender) client-ip=93.17.236.30;
-Received: from localhost (mailhub1-int [192.168.12.234])
-	by localhost (Postfix) with ESMTP id 4Drt4x6GPgz9v4Tn;
-	Thu,  4 Mar 2021 15:08:33 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at c-s.fr
-Received: from pegase1.c-s.fr ([192.168.12.234])
-	by localhost (pegase1.c-s.fr [192.168.12.234]) (amavisd-new, port 10024)
-	with ESMTP id dT301ejb3PY6; Thu,  4 Mar 2021 15:08:33 +0100 (CET)
-Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
-	by pegase1.c-s.fr (Postfix) with ESMTP id 4Drt4x59X3z9v4Tl;
-	Thu,  4 Mar 2021 15:08:33 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by messagerie.si.c-s.fr (Postfix) with ESMTP id B7EE28B80A;
-	Thu,  4 Mar 2021 15:08:35 +0100 (CET)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from messagerie.si.c-s.fr ([127.0.0.1])
-	by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
-	with ESMTP id LRqkBOW4SWOI; Thu,  4 Mar 2021 15:08:35 +0100 (CET)
-Received: from [192.168.4.90] (unknown [192.168.4.90])
-	by messagerie.si.c-s.fr (Postfix) with ESMTP id 0DB758B812;
-	Thu,  4 Mar 2021 15:08:35 +0100 (CET)
-Subject: Re: [RFC PATCH v1] powerpc: Enable KFENCE for PPC32
-To: Marco Elver <elver@google.com>
-Cc: Alexander Potapenko <glider@google.com>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- Paul Mackerras <paulus@samba.org>, Michael Ellerman <mpe@ellerman.id.au>,
- Dmitry Vyukov <dvyukov@google.com>, LKML <linux-kernel@vger.kernel.org>,
- linuxppc-dev@lists.ozlabs.org, kasan-dev <kasan-dev@googlegroups.com>
-References: <CAG_fn=WFffkVzqC9b6pyNuweFhFswZfa8RRio2nL9-Wq10nBbw@mail.gmail.com>
- <f806de26-daf9-9317-fdaa-a0f7a32d8fe0@csgroup.eu>
- <CANpmjNPGj4C2rr2FbSD+FC-GnWUvJrtdLyX5TYpJE_Um8CGu1Q@mail.gmail.com>
- <08a96c5d-4ae7-03b4-208f-956226dee6bb@csgroup.eu>
- <CANpmjNPYEmLtQEu5G=zJLUzOBaGoqNKwLyipDCxvytdKDKb7mg@mail.gmail.com>
- <ad61cb3a-2b4a-3754-5761-832a1dd0c34e@csgroup.eu>
- <CANpmjNOnVzei7frKcMzMHxaDXh5NvTA-Wpa29C2YC1GUxyKfhQ@mail.gmail.com>
- <f036c53d-7e81-763c-47f4-6024c6c5f058@csgroup.eu>
- <CANpmjNMn_CUrgeSqBgiKx4+J8a+XcxkaLPWoDMUvUEXk8+-jxg@mail.gmail.com>
- <7270e1cc-bb6b-99ee-0043-08a027b8d83a@csgroup.eu>
- <YEDXJ5JNkgvDFehc@elver.google.com>
-From: Christophe Leroy <christophe.leroy@csgroup.eu>
-Message-ID: <4b46ecc9-ae47-eee1-843e-e0638a356b51@csgroup.eu>
-Date: Thu, 4 Mar 2021 15:08:31 +0100
-User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 04 Mar 2021 06:19:43 -0800 (PST)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::22e as permitted sender) client-ip=2607:f8b0:4864:20::22e;
+Received: by mail-oi1-x22e.google.com with SMTP id s73so4455630oie.1
+        for <kasan-dev@googlegroups.com>; Thu, 04 Mar 2021 06:19:43 -0800 (PST)
+X-Received: by 2002:aca:d515:: with SMTP id m21mr3162609oig.172.1614867583032;
+ Thu, 04 Mar 2021 06:19:43 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <YEDXJ5JNkgvDFehc@elver.google.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Language: fr
+References: <CAG_fn=WFffkVzqC9b6pyNuweFhFswZfa8RRio2nL9-Wq10nBbw@mail.gmail.com>
+ <f806de26-daf9-9317-fdaa-a0f7a32d8fe0@csgroup.eu> <CANpmjNPGj4C2rr2FbSD+FC-GnWUvJrtdLyX5TYpJE_Um8CGu1Q@mail.gmail.com>
+ <08a96c5d-4ae7-03b4-208f-956226dee6bb@csgroup.eu> <CANpmjNPYEmLtQEu5G=zJLUzOBaGoqNKwLyipDCxvytdKDKb7mg@mail.gmail.com>
+ <ad61cb3a-2b4a-3754-5761-832a1dd0c34e@csgroup.eu> <CANpmjNOnVzei7frKcMzMHxaDXh5NvTA-Wpa29C2YC1GUxyKfhQ@mail.gmail.com>
+ <f036c53d-7e81-763c-47f4-6024c6c5f058@csgroup.eu> <CANpmjNMn_CUrgeSqBgiKx4+J8a+XcxkaLPWoDMUvUEXk8+-jxg@mail.gmail.com>
+ <7270e1cc-bb6b-99ee-0043-08a027b8d83a@csgroup.eu> <YEDXJ5JNkgvDFehc@elver.google.com>
+ <4b46ecc9-ae47-eee1-843e-e0638a356b51@csgroup.eu>
+In-Reply-To: <4b46ecc9-ae47-eee1-843e-e0638a356b51@csgroup.eu>
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Thu, 4 Mar 2021 15:19:31 +0100
+Message-ID: <CANpmjNMMMyvsF23U_5HCUe=k7eGaF-WwKV6=YZ81OJedAd2DBQ@mail.gmail.com>
+Subject: Re: [RFC PATCH v1] powerpc: Enable KFENCE for PPC32
+To: Christophe Leroy <christophe.leroy@csgroup.eu>
+Cc: Alexander Potapenko <glider@google.com>, Benjamin Herrenschmidt <benh@kernel.crashing.org>, 
+	Paul Mackerras <paulus@samba.org>, Michael Ellerman <mpe@ellerman.id.au>, 
+	Dmitry Vyukov <dvyukov@google.com>, LKML <linux-kernel@vger.kernel.org>, 
+	linuxppc-dev@lists.ozlabs.org, kasan-dev <kasan-dev@googlegroups.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: christophe.leroy@csgroup.eu
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of christophe.leroy@csgroup.eu designates 93.17.236.30 as
- permitted sender) smtp.mailfrom=christophe.leroy@csgroup.eu
+X-Original-Sender: elver@google.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@google.com header.s=20161025 header.b=quhqijAS;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::22e as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -158,81 +140,94 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
+On Thu, 4 Mar 2021 at 15:08, Christophe Leroy
+<christophe.leroy@csgroup.eu> wrote:
+>
+>
+>
+> Le 04/03/2021 =C3=A0 13:48, Marco Elver a =C3=A9crit :
+> >  From d118080eb9552073f5dcf1f86198f3d86d5ea850 Mon Sep 17 00:00:00 2001
+> > From: Marco Elver <elver@google.com>
+> > Date: Thu, 4 Mar 2021 13:15:51 +0100
+> > Subject: [PATCH] kfence: fix reports if constant function prefixes exis=
+t
+> >
+> > Some architectures prefix all functions with a constant string ('.' on
+> > ppc64). Add ARCH_FUNC_PREFIX, which may optionally be defined in
+> > <asm/kfence.h>, so that get_stack_skipnr() can work properly.
+>
+>
+> It works, thanks.
+>
+> >
+> > Link: https://lkml.kernel.org/r/f036c53d-7e81-763c-47f4-6024c6c5f058@cs=
+group.eu
+> > Reported-by: Christophe Leroy <christophe.leroy@csgroup.eu>
+> > Signed-off-by: Marco Elver <elver@google.com>
+>
+> Tested-by: Christophe Leroy <christophe.leroy@csgroup.eu>
 
+Thanks, I'll send this to Andrew for inclusion in -mm, since this is
+not a strict dependency (it'll work without the patch, just the stack
+traces aren't that pretty but still useful). If the ppc patches and
+this make it into the next merge window, everything should be good for
+5.13.
 
-Le 04/03/2021 =C3=A0 13:48, Marco Elver a =C3=A9crit=C2=A0:
->  From d118080eb9552073f5dcf1f86198f3d86d5ea850 Mon Sep 17 00:00:00 2001
-> From: Marco Elver <elver@google.com>
-> Date: Thu, 4 Mar 2021 13:15:51 +0100
-> Subject: [PATCH] kfence: fix reports if constant function prefixes exist
->=20
-> Some architectures prefix all functions with a constant string ('.' on
-> ppc64). Add ARCH_FUNC_PREFIX, which may optionally be defined in
-> <asm/kfence.h>, so that get_stack_skipnr() can work properly.
-
-
-It works, thanks.
-
->=20
-> Link: https://lkml.kernel.org/r/f036c53d-7e81-763c-47f4-6024c6c5f058@csgr=
-oup.eu
-> Reported-by: Christophe Leroy <christophe.leroy@csgroup.eu>
-> Signed-off-by: Marco Elver <elver@google.com>
-
-Tested-by: Christophe Leroy <christophe.leroy@csgroup.eu>
-
-> ---
->   mm/kfence/report.c | 18 ++++++++++++------
->   1 file changed, 12 insertions(+), 6 deletions(-)
->=20
-> diff --git a/mm/kfence/report.c b/mm/kfence/report.c
-> index 519f037720f5..e3f71451ad9e 100644
-> --- a/mm/kfence/report.c
-> +++ b/mm/kfence/report.c
-> @@ -20,6 +20,11 @@
->  =20
->   #include "kfence.h"
->  =20
-> +/* May be overridden by <asm/kfence.h>. */
-> +#ifndef ARCH_FUNC_PREFIX
-> +#define ARCH_FUNC_PREFIX ""
-> +#endif
-> +
->   extern bool no_hash_pointers;
->  =20
->   /* Helper function to either print to a seq_file or to console. */
-> @@ -67,8 +72,9 @@ static int get_stack_skipnr(const unsigned long stack_e=
-ntries[], int num_entries
->   	for (skipnr =3D 0; skipnr < num_entries; skipnr++) {
->   		int len =3D scnprintf(buf, sizeof(buf), "%ps", (void *)stack_entries[=
-skipnr]);
->  =20
-> -		if (str_has_prefix(buf, "kfence_") || str_has_prefix(buf, "__kfence_")=
- ||
-> -		    !strncmp(buf, "__slab_free", len)) {
-> +		if (str_has_prefix(buf, ARCH_FUNC_PREFIX "kfence_") ||
-> +		    str_has_prefix(buf, ARCH_FUNC_PREFIX "__kfence_") ||
-> +		    !strncmp(buf, ARCH_FUNC_PREFIX "__slab_free", len)) {
->   			/*
->   			 * In case of tail calls from any of the below
->   			 * to any of the above.
-> @@ -77,10 +83,10 @@ static int get_stack_skipnr(const unsigned long stack=
+> > ---
+> >   mm/kfence/report.c | 18 ++++++++++++------
+> >   1 file changed, 12 insertions(+), 6 deletions(-)
+> >
+> > diff --git a/mm/kfence/report.c b/mm/kfence/report.c
+> > index 519f037720f5..e3f71451ad9e 100644
+> > --- a/mm/kfence/report.c
+> > +++ b/mm/kfence/report.c
+> > @@ -20,6 +20,11 @@
+> >
+> >   #include "kfence.h"
+> >
+> > +/* May be overridden by <asm/kfence.h>. */
+> > +#ifndef ARCH_FUNC_PREFIX
+> > +#define ARCH_FUNC_PREFIX ""
+> > +#endif
+> > +
+> >   extern bool no_hash_pointers;
+> >
+> >   /* Helper function to either print to a seq_file or to console. */
+> > @@ -67,8 +72,9 @@ static int get_stack_skipnr(const unsigned long stack=
 _entries[], int num_entries
->   		}
->  =20
->   		/* Also the *_bulk() variants by only checking prefixes. */
-> -		if (str_has_prefix(buf, "kfree") ||
-> -		    str_has_prefix(buf, "kmem_cache_free") ||
-> -		    str_has_prefix(buf, "__kmalloc") ||
-> -		    str_has_prefix(buf, "kmem_cache_alloc"))
-> +		if (str_has_prefix(buf, ARCH_FUNC_PREFIX "kfree") ||
-> +		    str_has_prefix(buf, ARCH_FUNC_PREFIX "kmem_cache_free") ||
-> +		    str_has_prefix(buf, ARCH_FUNC_PREFIX "__kmalloc") ||
-> +		    str_has_prefix(buf, ARCH_FUNC_PREFIX "kmem_cache_alloc"))
->   			goto found;
->   	}
->   	if (fallback < num_entries)
->=20
+> >       for (skipnr =3D 0; skipnr < num_entries; skipnr++) {
+> >               int len =3D scnprintf(buf, sizeof(buf), "%ps", (void *)st=
+ack_entries[skipnr]);
+> >
+> > -             if (str_has_prefix(buf, "kfence_") || str_has_prefix(buf,=
+ "__kfence_") ||
+> > -                 !strncmp(buf, "__slab_free", len)) {
+> > +             if (str_has_prefix(buf, ARCH_FUNC_PREFIX "kfence_") ||
+> > +                 str_has_prefix(buf, ARCH_FUNC_PREFIX "__kfence_") ||
+> > +                 !strncmp(buf, ARCH_FUNC_PREFIX "__slab_free", len)) {
+> >                       /*
+> >                        * In case of tail calls from any of the below
+> >                        * to any of the above.
+> > @@ -77,10 +83,10 @@ static int get_stack_skipnr(const unsigned long sta=
+ck_entries[], int num_entries
+> >               }
+> >
+> >               /* Also the *_bulk() variants by only checking prefixes. =
+*/
+> > -             if (str_has_prefix(buf, "kfree") ||
+> > -                 str_has_prefix(buf, "kmem_cache_free") ||
+> > -                 str_has_prefix(buf, "__kmalloc") ||
+> > -                 str_has_prefix(buf, "kmem_cache_alloc"))
+> > +             if (str_has_prefix(buf, ARCH_FUNC_PREFIX "kfree") ||
+> > +                 str_has_prefix(buf, ARCH_FUNC_PREFIX "kmem_cache_free=
+") ||
+> > +                 str_has_prefix(buf, ARCH_FUNC_PREFIX "__kmalloc") ||
+> > +                 str_has_prefix(buf, ARCH_FUNC_PREFIX "kmem_cache_allo=
+c"))
+> >                       goto found;
+> >       }
+> >       if (fallback < num_entries)
+> >
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
@@ -240,4 +235,5 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/4b46ecc9-ae47-eee1-843e-e0638a356b51%40csgroup.eu.
+kasan-dev/CANpmjNMMMyvsF23U_5HCUe%3Dk7eGaF-WwKV6%3DYZ81OJedAd2DBQ%40mail.gm=
+ail.com.
