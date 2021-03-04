@@ -1,32 +1,32 @@
 Return-Path: <kasan-dev+bncBCJZRXGY5YJBBC6ZQCBAMGQEWBULI2Q@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x439.google.com (mail-pf1-x439.google.com [IPv6:2607:f8b0:4864:20::439])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9C6C32C3A8
+Received: from mail-oo1-xc3e.google.com (mail-oo1-xc3e.google.com [IPv6:2607:f8b0:4864:20::c3e])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD20F32C3A9
 	for <lists+kasan-dev@lfdr.de>; Thu,  4 Mar 2021 01:40:44 +0100 (CET)
-Received: by mail-pf1-x439.google.com with SMTP id t69sf16883882pfc.0
+Received: by mail-oo1-xc3e.google.com with SMTP id o23sf6548774oop.9
         for <lists+kasan-dev@lfdr.de>; Wed, 03 Mar 2021 16:40:44 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1614818443; cv=pass;
+ARC-Seal: i=2; a=rsa-sha256; t=1614818444; cv=pass;
         d=google.com; s=arc-20160816;
-        b=IjW/+t0JCIZi58nDo2iIbFZTpKHAt4pnsPALzZe+EuxlOuy0jqvh14esIfZzVQ4qDn
-         vZFTMIEyCC+oNGGEHuL8R85PeqezokuquQPbE/Xjv5AG+zVBozRF9kRVc2qu8qzKhuOx
-         egAOGWDb7Zbqz5rvyhREZAGMMg4mDsGFv0zO0rKKkhUFRXRmhhECM49c6mtBP1Hq+K2u
-         rpSeJ0IS66/jjKhWJ/EzlYqcQPAaH4P3BlqGZdRG2Am24oggrKuTr2mAF1db7cJqQF7l
-         UtST6fvAQPpMKxu0jKgjj2TqURPokIWJ/6e2HcjXwYq3o4eIS23McY8gr5w+5lHXC012
-         d2ew==
+        b=kPHipQ3npTkzN8azgLFkPAgsS7as9bypNlIHJQJ2SOJniZigS1fqaGGBjVjptsZoqo
+         7MVJmLkOmKL9RNu5mvM6aVbuQM/nyDom7HtnmSaGcHKi/pED4KKb4iVHq2La7rfFt0GM
+         d+DUGvrVWQhHFdDKdnZGaN6V+isHSgAX3R5Llvp3AXNltIAxkvlS9aYJYKXTIQ+Rnnll
+         VdeUfV1eB3RhwjY1uRdupZHDJLcpNYKDK5yrtl/eFoshcEyYw1XspRAv8gyH0T7cL6bM
+         YgOpbuTI5dYqtBYyokSKHVJ1G0OqYrk96e1pM3dReu0XFDFMV0SpvPpJA9NR2ySflF/a
+         lr8A==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:references:in-reply-to:message-id
          :date:subject:cc:to:from:mime-version:sender:dkim-signature;
-        bh=XsUTAxMHTKHjqQow88t/6SdYacskqDrDJQhulMR3VMA=;
-        b=Lj7vNGEEkvxsw2DLfU7Wr12Xzq4QNb1XOf5FfOPY9NRT0N5U6ClXwrdL6Mdt0N3G7C
-         y/34tBtnwPyKmVZ9kcUqw64c91VWndSbiox/X423vtN461OHhr4aq1kZ4SAuG5VQkNwM
-         mD2+6ogujx4mkCogdy1a2HH5nDFpQkXS7nVt2GaNjM/QsVjWPIhuc/tO5HXesysuMfCJ
-         BU48rNdKZ7GSleaDZ0cVaa6WtokTWpphU/Q16BaLN5SlOVTUFWqqw/XN4dYffar5939y
-         1l8OqJEzewvaadKtuSTatrL7rC5EKjYkW3UqGN+0/Xd9f09Kuhg6PQJxyqndjDo2yaRM
-         QmoQ==
+        bh=EiE5kFmoHMk/Qi9x9ROgrGAza3goMbs5s2NMlFIWpwc=;
+        b=MivI6Xn4A9+LFpnr+SP4za5HyHZkPxb6tBPWNy/YGua/ypZLSc4eJDtbMORUVl31g/
+         2UBFriS5uhxezxODKTJXldAK1Hwb9bwHdIvKs0y6YRy5lpLHkiUkyJQdkfhb0Pktoeu0
+         OED6wTls4Cs0bZuQHYK8m05zq1dLX2uagUNXdytgqCUPO48M5cNUo8Za2ziP/QqLPCqp
+         QfD8iebcucCtvON3w5N6bxunVaUdwHWlMplhb7N8DY2TWwSIKBoo+ySYz8kCHzo1w0AK
+         JTZQGXXL9/G7Y/riPXFfT6o4gXQb+UzejMNqXkU6Y6TicN6aYM0DuDMGTe7QyRZjI8cP
+         dfuQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=kYaxQmGG;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=rlF81TFn;
        spf=pass (google.com: domain of paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=paulmck@kernel.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :references:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=XsUTAxMHTKHjqQow88t/6SdYacskqDrDJQhulMR3VMA=;
-        b=RrcPjOsvcIlyt6TULmWhKDckF/sxrFE63yVpDAM8hxf4cmDJuQnqCz6Hc9IZkA9+ks
-         SE7XyqckFvxmxHiY3H67UKhKeAHex9pRSWMGY7JkG7bi2ljFA/kmxyWoyIIYStaMlY4I
-         LsaF0KbHXmL7cI7L17K69yNu00vfmGBpz85rV4WzJ6iH7eEPWgisLdGO0dpEdHSfTIzq
-         q75lYs0jPzH/5y2wQfMVPziwwbdtq6op+PZpPKGqoLt5hFT4sdtbjeOWo/gEuF8BhsSf
-         d3ot1hnFQ6Rb7m6iG8yTZ6+U+T+s4WuHEFLvIKg4RBQva7Xgunjm4ukLm1Kave5t5ukf
-         X9Gw==
+        bh=EiE5kFmoHMk/Qi9x9ROgrGAza3goMbs5s2NMlFIWpwc=;
+        b=EvaUJLGAFCqbP4kYaygYT7IsMNNtth2zI2FcMMNFK+FmaKa6CZu89+wpvjDEgj/BOe
+         4Q7auOw6x2ybj6W5fzWhVWqRMvQeLAVDH8MTeObzf7QlfeSsn0qH7ozGy5mB++8uYQqm
+         DXP6bep4Kp6PIzQ54xYivq4nIF4NjD/Du0XcqSxxPApvrA/ci92zDiplJr7j3DbiGp9V
+         lruk6u2XVZmdjFXUIgYraem2zoonQ7KlaPsGsoZAf8Xv9zqD0eUGdkadqIp+KBmWZoJg
+         b4G00pIDmYZ3iVnXkSBGKgVCGNgW4PukXNUZvhpEg2NM7D+4Llgbt10ySQt8TfWRzxDk
+         6HZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:mime-version:from:to:cc:subject:date
@@ -49,54 +49,54 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=XsUTAxMHTKHjqQow88t/6SdYacskqDrDJQhulMR3VMA=;
-        b=bFhP7kzoVdTbnYx8XCd9a7gPXT8Bgl6HMuN6W5zbr0Zaa0z3tUFs6TNyHv5mJk0SGa
-         I1zTPruKZa7v8z8ZOP049vipArfZKVocBFbW615V6sO617vLnRFP2wV7B06/Z3IuCDeQ
-         DisKv74EtkQ5u4qzEhmotTF1b3yOeThlrf9aUg4Whw17ZieZO24kHVRE4vdiGA+CSIig
-         CBKSm1hXolBUMtwV2pOs6l1ccH6LHLLqRcZvEs38K7Jm2yK3k4/CMbj8MnRhOP+90nqw
-         tmP0J2G29AYnWiCsV+aix0WZInJCx/b8pQJ7XfyQEOKzEW2f0LXhQ8FbpsGR5rcWvTFP
-         aaPQ==
+        bh=EiE5kFmoHMk/Qi9x9ROgrGAza3goMbs5s2NMlFIWpwc=;
+        b=RS+KQ+YBM0NjXM7y6RV7qYjZoOqo+povuEFeRgm49ucLGuOXM3uTnbp7sfQfPVuKb6
+         fqcHoKfB66ffOVxXGGGaKrbnJUriNGIvnbcndxratnq5KIcplNNyvwjdQjEng4697cDY
+         x95ju2EsCy3lvfbH3+q28qWYkwUg9/aezYeQ2EMWVJeCa5AIDKsFXZl3AaKG0LiY2ONt
+         me8L4sZo0Pqr01ZZTz0yc8hKS822tJaIuCDLQxpl96+ZJb3nNtXWFc4wTJA/JPfhN+LA
+         hEQARHARcdBebPIXl+D/VvfjUXyYyjbE0fTLUMx81WKobfgIWi6Q6SzzLKgPJObBg9kJ
+         cOMw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM530qIbJVZG3mTffi9QdnYj23phuLzbNDV+nKuxms929uuvffg8YX
-	kjvI7wIoj4tEubIFbrMt/Qo=
-X-Google-Smtp-Source: ABdhPJw7SHubqlqiZV01QXNQE0PHLt+PRVx1eZxZYqu+uUH32OsPrsnKvzFAVeV+SqMdwGBlZIh8iA==
-X-Received: by 2002:a17:90b:b0d:: with SMTP id bf13mr1696233pjb.7.1614818443307;
+X-Gm-Message-State: AOAM533Q5Nb5mG6gn6YAddmleLnNvsPaPiw1SkzNzcCkZsiGS1GFVzFh
+	rxuztPB7oy7iDutud2e7m3s=
+X-Google-Smtp-Source: ABdhPJyp8/kgwhCFy85NVcsaxZSEleD7V0D5RAoU4/isY6do2ksqRXuJnmyHJc74syxs2Z5NWsAOJw==
+X-Received: by 2002:a05:6830:16d8:: with SMTP id l24mr1492404otr.200.1614818443917;
         Wed, 03 Mar 2021 16:40:43 -0800 (PST)
 MIME-Version: 1.0
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:90a:16d6:: with SMTP id y22ls2166460pje.3.gmail; Wed, 03
- Mar 2021 16:40:42 -0800 (PST)
-X-Received: by 2002:a17:90a:db51:: with SMTP id u17mr1676525pjx.194.1614818442798;
-        Wed, 03 Mar 2021 16:40:42 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1614818442; cv=none;
+Received: by 2002:a05:6830:1553:: with SMTP id l19ls1115433otp.4.gmail; Wed,
+ 03 Mar 2021 16:40:43 -0800 (PST)
+X-Received: by 2002:a05:6830:1352:: with SMTP id r18mr1474177otq.283.1614818443497;
+        Wed, 03 Mar 2021 16:40:43 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1614818443; cv=none;
         d=google.com; s=arc-20160816;
-        b=Zqlj53uViLLglTkxiXNguFMCV6BHiLXF3XmxglIv3T22LU+dPuHq31ll8h8W4md0Ez
-         l2/MX0nrV30E2FWcQ8JFSTMoZwgQo+arL7CeoWbOmBlW6sSX4vwSP0jzQF7dTb+0yDJn
-         ZOHCZ3M8Oom4KTXx0hjN7oIK72M5RlNAQP6WohZtpZkHVvTurpr7E6kXZ8hjHtReR7Fx
-         9l04VKn530clJJOFsSz+NiUOBLbOPjvDt+1hB+bfoBYgzM6qT5o5V4JeJANn7aCjEo0e
-         yAznV2fcMzmrp+1/pEf3i4Vc+Puk59fbaVg7JHeeX4OAQZvUFjR/tCjCZk+iHLIyA2wW
-         LIEw==
+        b=Tf88B/tuco08xO5lavsB+GYuBOdbHccxwYLSt9NqF0GMMgaIHgdEWuIFxI1TtIHyLk
+         WORmtCXKPNcfjUXxmsbfpKXDKsF4aNOFTSstn8dPolmAKaAWVMZfydcsuO8u1gI1j50i
+         vw7nTc8x3ZL4hGu/jK1FvDBkeAPt3TClSkYviWG1UsfVkmysf7DUCoU0hyzatMP8VOQf
+         lrY6J5NiavjE3CYx95UghwaKSmCr+NFlsWCLDm8AtdSI3npKpYa9U/f7pn2/5B2ZYwRy
+         P93Ie72MuFKx0MZJQQK5Qc7Hi6RaM92IYXQMbHK2fYJK3SuOwzfCuK0wQc6FCHddYU0K
+         AvhQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=references:in-reply-to:message-id:date:subject:cc:to:from
          :dkim-signature;
-        bh=aweubVhZEF+5k4Xe7uXTxfd0kULEVsDbXVeTGyYnRt0=;
-        b=ghapCqDO2SjHbDD8VcGg2s7orYE202uRKJp5794D4G4iGCx7wW7PBbTmvlhOBW4tN6
-         6atopdwiACRAfgXOt4L/M7mN0J8liUXURy5J/JSnK17yjLMUzxtgGefzTHDhqlt1Xgfl
-         FGa6U6M5G+/k23GVI0glNX5KMhYxgmXWh42qeyaK7bNUsEVlUbzse4V4nQHgA7HaW+is
-         QHZi65eNSDHOGnzs76OvPiy5Mjbn3UndbCNVBIBway2tDfX1qBkt5ujR00M2+C/Z57xR
-         UmjM2i96OyEsR1nhDW/UpXYh3c4tFKGCmLNxSFaRQmp34/hkkm6p/RAC27ZIEWM8Nw2p
-         Nf+A==
+        bh=GzHKrNxQqIQBhIMd95/inH5ir0C2mbYhCBLz6U8Bab8=;
+        b=k6hJkQf7N3iSpd1HZwAlvltl8XiacxkrPmGYtmL2LGj2h4qMa/a4QOgvLmw3iMdOS/
+         eWkVmObsVulTRfZ7dVojRIIxqJFcF6lhLilbI2RYuF2LpsF+1r47EpBGzC+f4BU+0nXm
+         M+wpw6Q9OMtZvfoQ5qNT4KEuCnMOdZCQj/Az3z7VbNBgA+e4m8kIEPiESDXD7t8Dl157
+         PmiK1m0ukJcbc8kyP60qoYAi3s3HUG0fuPQiXNqS10BauVplDHFRMpXwkQjJM1tRlQhH
+         PTFKudyBuW+LnMFoBoX2x3n4w8HVf9D48SRUMrkaq25lkbR0mv/Vu3U391/k4LkonhpH
+         SW9g==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=kYaxQmGG;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=rlF81TFn;
        spf=pass (google.com: domain of paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=paulmck@kernel.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id e200si217596pfh.3.2021.03.03.16.40.42
+        by gmr-mx.google.com with ESMTPS id q10si1621952oon.2.2021.03.03.16.40.43
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 03 Mar 2021 16:40:42 -0800 (PST)
+        Wed, 03 Mar 2021 16:40:43 -0800 (PST)
 Received-SPF: pass (google.com: domain of paulmck@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7BEFF64E60;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A32DA64F02;
 	Thu,  4 Mar 2021 00:40:42 +0000 (UTC)
 From: paulmck@kernel.org
 To: linux-kernel@vger.kernel.org,
@@ -110,15 +110,15 @@ Cc: elver@google.com,
 	cai@lca.pw,
 	boqun.feng@gmail.com,
 	"Paul E . McKenney" <paulmck@kernel.org>
-Subject: [PATCH kcsan 2/4] kcsan: Make test follow KUnit style recommendations
-Date: Wed,  3 Mar 2021 16:40:38 -0800
-Message-Id: <20210304004040.25074-2-paulmck@kernel.org>
+Subject: [PATCH kcsan 3/4] kcsan: Switch to KUNIT_CASE_PARAM for parameterized tests
+Date: Wed,  3 Mar 2021 16:40:39 -0800
+Message-Id: <20210304004040.25074-3-paulmck@kernel.org>
 X-Mailer: git-send-email 2.9.5
 In-Reply-To: <20210304003750.GA24696@paulmck-ThinkPad-P72>
 References: <20210304003750.GA24696@paulmck-ThinkPad-P72>
 X-Original-Sender: paulmck@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=kYaxQmGG;       spf=pass
+ header.i=@kernel.org header.s=k20201202 header.b=rlF81TFn;       spf=pass
  (google.com: domain of paulmck@kernel.org designates 198.145.29.99 as
  permitted sender) smtp.mailfrom=paulmck@kernel.org;       dmarc=pass (p=NONE
  sp=NONE dis=NONE) header.from=kernel.org
@@ -137,75 +137,189 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 From: Marco Elver <elver@google.com>
 
-Per recently added KUnit style recommendations at
-Documentation/dev-tools/kunit/style.rst, make the following changes to
-the KCSAN test:
+Since KUnit now support parameterized tests via KUNIT_CASE_PARAM, update
+KCSAN's test to switch to it for parameterized tests. This simplifies
+parameterized tests and gets rid of the "parameters in case name"
+workaround (hack).
 
-	1. Rename 'kcsan-test.c' to 'kcsan_test.c'.
-
-	2. Rename suite name 'kcsan-test' to 'kcsan'.
-
-	3. Rename CONFIG_KCSAN_TEST to CONFIG_KCSAN_KUNIT_TEST and
-	   default to KUNIT_ALL_TESTS.
+At the same time, we can increase the maximum number of threads used,
+because on systems with too few CPUs, KUnit allows us to now stop at the
+maximum useful threads and not unnecessarily execute redundant test
+cases with (the same) limited threads as had been the case before.
 
 Reviewed-by: David Gow <davidgow@google.com>
 Signed-off-by: Marco Elver <elver@google.com>
 Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
 ---
- kernel/kcsan/Makefile                       | 4 ++--
- kernel/kcsan/{kcsan-test.c => kcsan_test.c} | 2 +-
- lib/Kconfig.kcsan                           | 5 +++--
- 3 files changed, 6 insertions(+), 5 deletions(-)
- rename kernel/kcsan/{kcsan-test.c => kcsan_test.c} (99%)
+ kernel/kcsan/kcsan_test.c | 116 +++++++++++++++++++++-------------------------
+ 1 file changed, 54 insertions(+), 62 deletions(-)
 
-diff --git a/kernel/kcsan/Makefile b/kernel/kcsan/Makefile
-index 65ca553..c2bb07f 100644
---- a/kernel/kcsan/Makefile
-+++ b/kernel/kcsan/Makefile
-@@ -13,5 +13,5 @@ CFLAGS_core.o := $(call cc-option,-fno-conserve-stack) \
- obj-y := core.o debugfs.o report.o
- obj-$(CONFIG_KCSAN_SELFTEST) += selftest.o
- 
--CFLAGS_kcsan-test.o := $(CFLAGS_KCSAN) -g -fno-omit-frame-pointer
--obj-$(CONFIG_KCSAN_TEST) += kcsan-test.o
-+CFLAGS_kcsan_test.o := $(CFLAGS_KCSAN) -g -fno-omit-frame-pointer
-+obj-$(CONFIG_KCSAN_KUNIT_TEST) += kcsan_test.o
-diff --git a/kernel/kcsan/kcsan-test.c b/kernel/kcsan/kcsan_test.c
-similarity index 99%
-rename from kernel/kcsan/kcsan-test.c
-rename to kernel/kcsan/kcsan_test.c
-index ebe7fd2..f16f632 100644
---- a/kernel/kcsan/kcsan-test.c
+diff --git a/kernel/kcsan/kcsan_test.c b/kernel/kcsan/kcsan_test.c
+index f16f632..b71751f 100644
+--- a/kernel/kcsan/kcsan_test.c
 +++ b/kernel/kcsan/kcsan_test.c
-@@ -1156,7 +1156,7 @@ static void test_exit(struct kunit *test)
+@@ -13,6 +13,8 @@
+  * Author: Marco Elver <elver@google.com>
+  */
+ 
++#define pr_fmt(fmt) "kcsan_test: " fmt
++
+ #include <kunit/test.h>
+ #include <linux/jiffies.h>
+ #include <linux/kcsan-checks.h>
+@@ -951,22 +953,53 @@ static void test_atomic_builtins(struct kunit *test)
  }
  
- static struct kunit_suite kcsan_test_suite = {
--	.name = "kcsan-test",
-+	.name = "kcsan",
- 	.test_cases = kcsan_test_cases,
- 	.init = test_init,
- 	.exit = test_exit,
-diff --git a/lib/Kconfig.kcsan b/lib/Kconfig.kcsan
-index f271ff5..0440f37 100644
---- a/lib/Kconfig.kcsan
-+++ b/lib/Kconfig.kcsan
-@@ -69,8 +69,9 @@ config KCSAN_SELFTEST
- 	  panic. Recommended to be enabled, ensuring critical functionality
- 	  works as intended.
+ /*
+- * Each test case is run with different numbers of threads. Until KUnit supports
+- * passing arguments for each test case, we encode #threads in the test case
+- * name (read by get_num_threads()). [The '-' was chosen as a stylistic
+- * preference to separate test name and #threads.]
++ * Generate thread counts for all test cases. Values generated are in interval
++ * [2, 5] followed by exponentially increasing thread counts from 8 to 32.
+  *
+  * The thread counts are chosen to cover potentially interesting boundaries and
+- * corner cases (range 2-5), and then stress the system with larger counts.
++ * corner cases (2 to 5), and then stress the system with larger counts.
+  */
+-#define KCSAN_KUNIT_CASE(test_name)                                            \
+-	{ .run_case = test_name, .name = #test_name "-02" },                   \
+-	{ .run_case = test_name, .name = #test_name "-03" },                   \
+-	{ .run_case = test_name, .name = #test_name "-04" },                   \
+-	{ .run_case = test_name, .name = #test_name "-05" },                   \
+-	{ .run_case = test_name, .name = #test_name "-08" },                   \
+-	{ .run_case = test_name, .name = #test_name "-16" }
++static const void *nthreads_gen_params(const void *prev, char *desc)
++{
++	long nthreads = (long)prev;
++
++	if (nthreads < 0 || nthreads >= 32)
++		nthreads = 0; /* stop */
++	else if (!nthreads)
++		nthreads = 2; /* initial value */
++	else if (nthreads < 5)
++		nthreads++;
++	else if (nthreads == 5)
++		nthreads = 8;
++	else
++		nthreads *= 2;
  
--config KCSAN_TEST
--	tristate "KCSAN test for integrated runtime behaviour"
-+config KCSAN_KUNIT_TEST
-+	tristate "KCSAN test for integrated runtime behaviour" if !KUNIT_ALL_TESTS
-+	default KUNIT_ALL_TESTS
- 	depends on TRACEPOINTS && KUNIT
- 	select TORTURE_TEST
- 	help
++	if (!IS_ENABLED(CONFIG_PREEMPT) || !IS_ENABLED(CONFIG_KCSAN_INTERRUPT_WATCHER)) {
++		/*
++		 * Without any preemption, keep 2 CPUs free for other tasks, one
++		 * of which is the main test case function checking for
++		 * completion or failure.
++		 */
++		const long min_unused_cpus = IS_ENABLED(CONFIG_PREEMPT_NONE) ? 2 : 0;
++		const long min_required_cpus = 2 + min_unused_cpus;
++
++		if (num_online_cpus() < min_required_cpus) {
++			pr_err_once("Too few online CPUs (%u < %d) for test\n",
++				    num_online_cpus(), min_required_cpus);
++			nthreads = 0;
++		} else if (nthreads >= num_online_cpus() - min_unused_cpus) {
++			/* Use negative value to indicate last param. */
++			nthreads = -(num_online_cpus() - min_unused_cpus);
++			pr_warn_once("Limiting number of threads to %ld (only %d online CPUs)\n",
++				     -nthreads, num_online_cpus());
++		}
++	}
++
++	snprintf(desc, KUNIT_PARAM_DESC_SIZE, "threads=%ld", abs(nthreads));
++	return (void *)nthreads;
++}
++
++#define KCSAN_KUNIT_CASE(test_name) KUNIT_CASE_PARAM(test_name, nthreads_gen_params)
+ static struct kunit_case kcsan_test_cases[] = {
+ 	KCSAN_KUNIT_CASE(test_basic),
+ 	KCSAN_KUNIT_CASE(test_concurrent_races),
+@@ -996,24 +1029,6 @@ static struct kunit_case kcsan_test_cases[] = {
+ 
+ /* ===== End test cases ===== */
+ 
+-/* Get number of threads encoded in test name. */
+-static bool __no_kcsan
+-get_num_threads(const char *test, int *nthreads)
+-{
+-	int len = strlen(test);
+-
+-	if (WARN_ON(len < 3))
+-		return false;
+-
+-	*nthreads = test[len - 1] - '0';
+-	*nthreads += (test[len - 2] - '0') * 10;
+-
+-	if (WARN_ON(*nthreads < 0))
+-		return false;
+-
+-	return true;
+-}
+-
+ /* Concurrent accesses from interrupts. */
+ __no_kcsan
+ static void access_thread_timer(struct timer_list *timer)
+@@ -1076,9 +1091,6 @@ static int test_init(struct kunit *test)
+ 	if (!torture_init_begin((char *)test->name, 1))
+ 		return -EBUSY;
+ 
+-	if (!get_num_threads(test->name, &nthreads))
+-		goto err;
+-
+ 	if (WARN_ON(threads))
+ 		goto err;
+ 
+@@ -1087,38 +1099,18 @@ static int test_init(struct kunit *test)
+ 			goto err;
+ 	}
+ 
+-	if (!IS_ENABLED(CONFIG_PREEMPT) || !IS_ENABLED(CONFIG_KCSAN_INTERRUPT_WATCHER)) {
+-		/*
+-		 * Without any preemption, keep 2 CPUs free for other tasks, one
+-		 * of which is the main test case function checking for
+-		 * completion or failure.
+-		 */
+-		const int min_unused_cpus = IS_ENABLED(CONFIG_PREEMPT_NONE) ? 2 : 0;
+-		const int min_required_cpus = 2 + min_unused_cpus;
++	nthreads = abs((long)test->param_value);
++	if (WARN_ON(!nthreads))
++		goto err;
+ 
+-		if (num_online_cpus() < min_required_cpus) {
+-			pr_err("%s: too few online CPUs (%u < %d) for test",
+-			       test->name, num_online_cpus(), min_required_cpus);
+-			goto err;
+-		} else if (nthreads > num_online_cpus() - min_unused_cpus) {
+-			nthreads = num_online_cpus() - min_unused_cpus;
+-			pr_warn("%s: limiting number of threads to %d\n",
+-				test->name, nthreads);
+-		}
+-	}
++	threads = kcalloc(nthreads + 1, sizeof(struct task_struct *), GFP_KERNEL);
++	if (WARN_ON(!threads))
++		goto err;
+ 
+-	if (nthreads) {
+-		threads = kcalloc(nthreads + 1, sizeof(struct task_struct *),
+-				  GFP_KERNEL);
+-		if (WARN_ON(!threads))
++	threads[nthreads] = NULL;
++	for (i = 0; i < nthreads; ++i) {
++		if (torture_create_kthread(access_thread, NULL, threads[i]))
+ 			goto err;
+-
+-		threads[nthreads] = NULL;
+-		for (i = 0; i < nthreads; ++i) {
+-			if (torture_create_kthread(access_thread, NULL,
+-						   threads[i]))
+-				goto err;
+-		}
+ 	}
+ 
+ 	torture_init_end();
 -- 
 2.9.5
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210304004040.25074-2-paulmck%40kernel.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210304004040.25074-3-paulmck%40kernel.org.
