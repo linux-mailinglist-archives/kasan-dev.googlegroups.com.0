@@ -1,30 +1,30 @@
-Return-Path: <kasan-dev+bncBDLKPY4HVQKBBIPAQOBAMGQE6FKD2NA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDLKPY4HVQKBBIXAQOBAMGQEG7OS7UQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13b.google.com (mail-lf1-x13b.google.com [IPv6:2a00:1450:4864:20::13b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D22A32D55A
+Received: from mail-wm1-x33d.google.com (mail-wm1-x33d.google.com [IPv6:2a00:1450:4864:20::33d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9638E32D55B
 	for <lists+kasan-dev@lfdr.de>; Thu,  4 Mar 2021 15:35:14 +0100 (CET)
-Received: by mail-lf1-x13b.google.com with SMTP id g6sf9946285lfu.13
+Received: by mail-wm1-x33d.google.com with SMTP id c7sf2839677wml.8
         for <lists+kasan-dev@lfdr.de>; Thu, 04 Mar 2021 06:35:14 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1614868513; cv=pass;
+ARC-Seal: i=2; a=rsa-sha256; t=1614868514; cv=pass;
         d=google.com; s=arc-20160816;
-        b=xCnlumRlAfgQ5lj/E7mmeTkd83j0Y+R4i5cuobobavpBa2UaRJogeBl8vvL5U6l3ZH
-         v5SEKJ0L4Ffrh9BySFhlYP9sX4bq7jzk0Uivep7m58g7npdxM+TQ7ovNCxO15hFNT7dt
-         rLnpPPrmONO8HwlV1Zv5/bXPf+2wcbj56CmOkDL6l/+p6ai7LddWyVmmBh/+ggn5nlv4
-         1KukigWvx0AKdlMErJUzJFWrXPhaWdsjoE8XjYimkQJQAk+j0fI8r0oBO2Ev8JWicppt
-         NeoU0NJ8D0VWrMptARf/KmrgtEeF4slp1+dOZ4qikj0ss1Y2TqXPLY0H22ba1DHqoRqu
-         I9Tg==
+        b=LQV2uH3zQA3iFiLojCv29S7nKkOdNG3okvIBrg6lBUEO09O422aj+wefjVz78YzsZC
+         J0ythAtWnPyzXFCftldlPHwbXr6JYmHF7B5GsIvL4O9Y2UC9Xl3Po78q4O9AkCA1s632
+         wgphbevGW0jtaoWF3a0z33DJ0fj4WIJ5MLNr5Bq6IKqnAGdgpQkqYRkihZ1Nt9MRvH7J
+         dgzQyy0ZnlBMsHK6YHi1TJaZmx8PRm5LOlSmIh9OsrYpWW+RUt1OrAwR0D7O/PrZ4EcD
+         qTcyAyjHhnYLqBswYdNE5LnqyWfUGBqQu5ojBJYzGBGiowK3BmnP7yW5Gzzd5lO60cZY
+         61ug==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:date:cc:to:subject:from:references
          :in-reply-to:message-id:mime-version:sender:dkim-signature;
-        bh=TWSyEGt0s0cKNB/GKn7IVQzTnjkjifBeVdHqyG4wjg4=;
-        b=sYa9g+cY/7ceDyw6KobB1JDO7MosN4omHO35iRIyziHsVQNAau8cIecba7eYnTFDhu
-         c6QhEVHX+6ugvEKLkelngCqKGS7izFs2AQFgWin/lSFU9TcPGXsQ07WAqfSxXLGDk/HG
-         +hA8Ya0lRIeN6Zlxj8TjfZho8tumZT3z1EXiutz23A70LopDwQHdymoIPOjMwDB6ZF7L
-         +6lv+d0eZqEcReZxo03sWbBZfOnCmEN/wtmKPCJUwM3poxA0a3YjrAFVZ1u3gWxGoliF
-         yiGtOah2OfZctuquZNy0Rzu8N5LE/FgItofWxAqxOVeYvihYIeT1/ThLshsG1ec5ssao
-         1AUA==
+        bh=lAtjFo8AFzFUGzs+BCYoPx3hNeOMiQQlZ+M8/MknNiM=;
+        b=DFBnflKeExjWfWvzPe6pEMrjZpDV09/aDejPVowDMqBDYOjG7dKpj0FITU8cR0BT+T
+         RTAtY2e5hbdyTZSAbjZcl3xtB3r7PntklDhLQxgNeolrUm1LlfhyjvJrPsR5owg6Qhw/
+         /oIsWuJGDo+mQAuMHSEnNe1sLrUsjMTP/4mfqFhufn3ZhG4+F71ylvlbUtsuANanZicb
+         1LSH/ukOHI4sirI2CiNVmg8Uj+otQ+vEUtyCesbLxZcunwmDEXXGCkvgXm8HwFlyffCp
+         b5NA3+BXaCUA1F0uR5/mggB7eZcmznDxPmL7yToXHTsb0QJrk8pht3okOmbxFRGDiY0t
+         6YtA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
        spf=pass (google.com: domain of christophe.leroy@csgroup.eu designates 93.17.236.30 as permitted sender) smtp.mailfrom=christophe.leroy@csgroup.eu
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
@@ -33,13 +33,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :to:cc:date:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=TWSyEGt0s0cKNB/GKn7IVQzTnjkjifBeVdHqyG4wjg4=;
-        b=GlavuPXVQJib4hqzX7n5MVDNGBsd0wlmcIcnU1ihhBCAoJH8I9WcxVIvC4yITYz/np
-         OWMlIq8eg2XTxLGxC6MZLnLuLlz6hN7BjOCDzSYxzcA2tRamiK4zqhFV3W1UwXXg/8fm
-         Bmn10nQDwdAj4zGlN7gt6ZkzQBHt9/Bq82O7EPRTJexU1Tq7w/d/JiEoL+Ul9yRPDe8+
-         aFXctoQ1MT6gPXpmVZ7uoC6408+Gn1QDvkZ69OmssYNpM1r7WYkoB+aXcP/q7V2lyFmH
-         JNyzFAlEonPbYiHEL8srEjXT3NwYvthQ6A2VkxeG6wWDSBv0uL2TJz/yYrFehpYHRzX6
-         w3Hw==
+        bh=lAtjFo8AFzFUGzs+BCYoPx3hNeOMiQQlZ+M8/MknNiM=;
+        b=WuGYDWpJmvCXm2Ob/+FcK2niKAwFhO1Qa3333J03o7Ua2xgYMyot5hOxLF31kqjAd5
+         D8jQkK3cLVrlx49SZWPX7x+UWGB2O7hYxJ/ZQA9PENwPCLcMu1nYtHn8CQbruPyHCYCX
+         ogtsRc7l0NvPdj39+m63xQ6vna5oQExLDj3iLb1NOLq4G+jax40h2Exyr/RTBsX1H0qb
+         IpByWdvg7krTnsvWE84oFS+3vpJLoygyiNQSCzJhbjUc7A08fBz5LulbOpM/Q2rCJXGD
+         eilphIdbThv7TFmexdSETIXlwikwiOkM7dzAGfjq4y/V/m4/xl85JPLyqCHc4i+LFw1S
+         2WHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:mime-version:message-id:in-reply-to
@@ -47,81 +47,81 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=TWSyEGt0s0cKNB/GKn7IVQzTnjkjifBeVdHqyG4wjg4=;
-        b=a82eu3Wf2N2kJ7edjBs2ZmYSqfMYhNOGSxKjFd+EYZNIDoKxRQjSMSHvD3/3EFv35R
-         5kh8tXXk2kx5iuBYfnpxXrC2zOoaRjXyQ4Vvn4genI7ApsnljRYty42FWSi6AZNb+3VC
-         k6eO4kB+sWF0mjMhGzJdFxUWqS4x7t5WBwa33EKlru4BxP2r3cxUxkUT25Dj5fTHCuaq
-         cDCSWuIaJftBJNvdtfa8Nfo3M4IsNliJwHpshdiWmaXQBCa3Sd2Nw6MIZibt4/whQzSr
-         kwr1N5lY/aIM7y7wCA3MJ9oEvwUmFSXp2XRAPVRkw41wwg8C5ILQPpReHdPQqVZk9PGm
-         Efyg==
+        bh=lAtjFo8AFzFUGzs+BCYoPx3hNeOMiQQlZ+M8/MknNiM=;
+        b=qeByQEQk3o/JXeXDD5uM/A93x0ZMhJYGUwno6G7MT/9mkRYzUzFslgNJfI7F/LtpNh
+         AcD8gJXg0RKFIe7ICPG/POMISHoRR41g5/3fTGTk95NaGtxxXRzGqI/7Aqk4VuoDqW2J
+         q1Xt3hcHYI6b4g4jDdJ11jReQIM/CApSEOQtaWOb8a8MfF5apLia6CqX6kb6Elnlon7C
+         3hJKBsJMYOUYZaLNXsk5xd6JOezSsm1P0k/hS0BEF3t+MDn2dlMGOVZueI+1rPRNZ8H3
+         6+PGPyuA6eDLeyjLqjnG+FlLATvBYViVyQisGc56amP0NbRulzljdorrWFDiSsBBudaQ
+         5axQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM533HEpUXjHnDxgaMwgAQjEoE8fHe6RwxtI1+baKIKVBeA/gUTY/0
-	B6XyXwQBeseeLWiYhSjvk88=
-X-Google-Smtp-Source: ABdhPJxHK6cYlqTlsvgEQY2CP8KaD3AAgacmqOF9P2DPBQhNgPs0OW1kEKd3LhOABYyw1wXizqRkSg==
-X-Received: by 2002:a19:b81:: with SMTP id 123mr2405541lfl.553.1614868513757;
-        Thu, 04 Mar 2021 06:35:13 -0800 (PST)
+X-Gm-Message-State: AOAM532OLGvA2C9Edg7DM8GPBd/lIverw5Y/p3vBAJ6oCScx9CxGEIC+
+	nQFzrG/WZlDyYcwPAitBOEI=
+X-Google-Smtp-Source: ABdhPJw1SGsNWntQ0hxTaMEmdhrwptMM++X7D32EDB9jjF/kZtRnNkDU4gIlOaBpd6jlZAndxHyAzQ==
+X-Received: by 2002:a7b:cd81:: with SMTP id y1mr4316895wmj.51.1614868514416;
+        Thu, 04 Mar 2021 06:35:14 -0800 (PST)
 MIME-Version: 1.0
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a19:e86:: with SMTP id 128ls1112850lfo.0.gmail; Thu, 04 Mar
- 2021 06:35:12 -0800 (PST)
-X-Received: by 2002:a05:6512:39c3:: with SMTP id k3mr2402701lfu.501.1614868512725;
-        Thu, 04 Mar 2021 06:35:12 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1614868512; cv=none;
+Received: by 2002:adf:d1e6:: with SMTP id g6ls3739876wrd.3.gmail; Thu, 04 Mar
+ 2021 06:35:13 -0800 (PST)
+X-Received: by 2002:adf:e5c4:: with SMTP id a4mr4393549wrn.174.1614868513585;
+        Thu, 04 Mar 2021 06:35:13 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1614868513; cv=none;
         d=google.com; s=arc-20160816;
-        b=lojrCdu6Uishj3i5zeDrjmlA3bdtDgjVUIhS31lLygjjgiGJtO9hQkWG8xQasXX5gU
-         ohNE5KBEl8cjJkra/5UvtYRazRhSTJ6gxJa0TL8DyxEr6QUZxgW4nek5yrY0MgPRcyGr
-         wIe+5BFiCBwZrRTUGpi5PIvG03exGP1+5ETGlZUfO38pRzLPLy6UNAwBkB+L7OPadfQV
-         qnHyauTQ2mdyIhTg8KDqulxes8pAhy3WOJGj7pBItnScmypHputm5xdpkT176MFx7XJA
-         iupGY0EbIv4gRNvm5NGeZYbhGbfapsMN4GIIlnZY8Rox7rd36igdMIGGihUnmxCI77LC
-         5YZQ==
+        b=SMMCl/TyJQRAj+v5U4xO2j4AWscODf6Mg6ra45uAXodg9wK6uCJ5sstq4YHBRGI+5o
+         jql1ClKhYFjIdr4KHNzs6UfcDq/beIDRTuvhtaveT0WUYl/tAOBkAYO2rjHoO2vHwExb
+         PVwY5dzzi3OeG3b+/mP3eNq3NtC88vQ7mzchsiPv9FG4vaDy2Or2aYcwEoHCz0XQ0q5X
+         FlivbEz3PnHnYbbspcWKJ2WfYl77fQ05EuWhCWlAIYHR9jaFihII/OyKV3Jfu+hL0vvP
+         4f6z6XTGRiOVUttcazg2ekRklsOfYY3G8X0LAJX7KEZlBtiMcdqvrZrMBytk9526/jFw
+         HGIQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=date:cc:to:subject:from:references:in-reply-to:message-id;
-        bh=zbdqzi/Z7mnQG9J+xJMlXYZC647GQJr7IhM8mhpRnME=;
-        b=vFj0zZGq9PU0rKLql1cECD1hrKV+7SJhn+/i9SValg3b9eGcf52wXunOHRo9x/rhuf
-         8IjSNkeOwg8BnajASAWUjfFGCWRw+PwEz0IvSGJ6+iDpDYSXKuqSCMDmKH2jXsvS+qkF
-         l+GoFmeTZIP5tb8VF6EjcVVBNYMj0hRAoyRYcOcmtrn44UXAmeZmV9yh3P37X+dCjghh
-         eeAq14X9sZstDWX+cUtmz+j55K8DAs/23ewXSCTVP2wr31uqxyP2sEZ9hwEJ46VIruiU
-         kLo+SVxqwLenUp/E92RxZq8fiCrmvVdWEDa6WJ1Hsqc1of/e1eHdlgYQe2ulfWpA6lWm
-         7ZmQ==
+        bh=WGy19dzK4120j4KG96It5eWnwHOEL3GZ/etNRCZ0k9g=;
+        b=ly4Qy2dVAEFYvnzdWarFOP7E01x+sZdpv6X+avUjo49MCN5BSLQ7Z9j50QaiXsFUzB
+         KQOv5vo9fLCdBbqWOTs4cjKb4Wpg38BtbwTdeQsbv8wRDjMvhfr90yERpMGclXnmwDp2
+         AJ4gTkU/+G8RXEuj7X008MwZv5yX7f1af5lRRJb6jA6MHXhy6lObWIlqdcNdj0D9SupJ
+         YykNYH4LgurNALSG5WYHX2ghaZAELnGjPhC61PRbQ+nBk8n835LFVLwI+oNkSB19ClBH
+         hA23yaVLAxFoZ/Y2+H9gW7PmO/00oucoDnJjlBdedIU4wQmIMFoFQabF0vSBUkWEYTPd
+         F0bQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
        spf=pass (google.com: domain of christophe.leroy@csgroup.eu designates 93.17.236.30 as permitted sender) smtp.mailfrom=christophe.leroy@csgroup.eu
 Received: from pegase1.c-s.fr (pegase1.c-s.fr. [93.17.236.30])
-        by gmr-mx.google.com with ESMTPS id a17si816443ljq.5.2021.03.04.06.35.12
+        by gmr-mx.google.com with ESMTPS id g137si433231wmg.4.2021.03.04.06.35.13
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 04 Mar 2021 06:35:12 -0800 (PST)
+        Thu, 04 Mar 2021 06:35:13 -0800 (PST)
 Received-SPF: pass (google.com: domain of christophe.leroy@csgroup.eu designates 93.17.236.30 as permitted sender) client-ip=93.17.236.30;
 Received: from localhost (mailhub1-int [192.168.12.234])
-	by localhost (Postfix) with ESMTP id 4Drtgf0vL7zB09ZT;
-	Thu,  4 Mar 2021 15:35:10 +0100 (CET)
+	by localhost (Postfix) with ESMTP id 4Drtgg275KzB09ZV;
+	Thu,  4 Mar 2021 15:35:11 +0100 (CET)
 X-Virus-Scanned: Debian amavisd-new at c-s.fr
 Received: from pegase1.c-s.fr ([192.168.12.234])
 	by localhost (pegase1.c-s.fr [192.168.12.234]) (amavisd-new, port 10024)
-	with ESMTP id 254bjqZR_w5x; Thu,  4 Mar 2021 15:35:10 +0100 (CET)
+	with ESMTP id I5IG9Wie4N1y; Thu,  4 Mar 2021 15:35:11 +0100 (CET)
 Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
-	by pegase1.c-s.fr (Postfix) with ESMTP id 4Drtgd738NzB09ZR;
-	Thu,  4 Mar 2021 15:35:09 +0100 (CET)
+	by pegase1.c-s.fr (Postfix) with ESMTP id 4Drtgf6dfgzB09ZR;
+	Thu,  4 Mar 2021 15:35:10 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by messagerie.si.c-s.fr (Postfix) with ESMTP id 08E338B812;
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id DD3BB8B813;
 	Thu,  4 Mar 2021 15:35:12 +0100 (CET)
 X-Virus-Scanned: amavisd-new at c-s.fr
 Received: from messagerie.si.c-s.fr ([127.0.0.1])
 	by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
-	with ESMTP id YDcYJiG_9v7g; Thu,  4 Mar 2021 15:35:11 +0100 (CET)
+	with ESMTP id VpKHhIzPqhYW; Thu,  4 Mar 2021 15:35:12 +0100 (CET)
 Received: from po16121vm.idsi0.si.c-s.fr (unknown [192.168.4.90])
-	by messagerie.si.c-s.fr (Postfix) with ESMTP id 3ACD58B80A;
-	Thu,  4 Mar 2021 15:35:11 +0100 (CET)
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id 3EC018B80A;
+	Thu,  4 Mar 2021 15:35:12 +0100 (CET)
 Received: by po16121vm.idsi0.si.c-s.fr (Postfix, from userid 0)
-	id 16082674E6; Thu,  4 Mar 2021 14:35:11 +0000 (UTC)
-Message-Id: <33441f41f6ff51807c22207f213a645dc5d1d8da.1614868445.git.christophe.leroy@csgroup.eu>
+	id 1E721674E6; Thu,  4 Mar 2021 14:35:12 +0000 (UTC)
+Message-Id: <678576e515573333c324fbc88cbc146e812dd9c8.1614868445.git.christophe.leroy@csgroup.eu>
 In-Reply-To: <8dfe1bd2abde26337c1d8c1ad0acfcc82185e0d5.1614868445.git.christophe.leroy@csgroup.eu>
 References: <8dfe1bd2abde26337c1d8c1ad0acfcc82185e0d5.1614868445.git.christophe.leroy@csgroup.eu>
 From: Christophe Leroy <christophe.leroy@csgroup.eu>
-Subject: [PATCH v2 2/4] powerpc/64s: Remove unneeded #ifdef
- CONFIG_DEBUG_PAGEALLOC in hash_utils
+Subject: [PATCH v2 3/4] powerpc/64s: Allow double call of
+ kernel_[un]map_linear_page()
 To: Benjamin Herrenschmidt <benh@kernel.crashing.org>, Paul Mackerras <paulus@samba.org>, Michael Ellerman <mpe@ellerman.id.au>, Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>
 Cc: linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, kasan-dev@googlegroups.com
-Date: Thu,  4 Mar 2021 14:35:11 +0000 (UTC)
+Date: Thu,  4 Mar 2021 14:35:12 +0000 (UTC)
 X-Original-Sender: christophe.leroy@csgroup.eu
 X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
  (google.com: domain of christophe.leroy@csgroup.eu designates 93.17.236.30 as
@@ -139,77 +139,45 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-debug_pagealloc_enabled() is always defined and constant folds to
-'false' when CONFIG_DEBUG_PAGEALLOC is not enabled.
-
-Remove the #ifdefs, the code and associated static variables will
-be optimised out by the compiler when CONFIG_DEBUG_PAGEALLOC is
-not defined.
+If the page is already mapped resp. already unmapped, bail out.
 
 Signed-off-by: Christophe Leroy <christophe.leroy@csgroup.eu>
 ---
 v2: New
 ---
- arch/powerpc/mm/book3s64/hash_utils.c | 9 ++-------
- 1 file changed, 2 insertions(+), 7 deletions(-)
+ arch/powerpc/mm/book3s64/hash_utils.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
 diff --git a/arch/powerpc/mm/book3s64/hash_utils.c b/arch/powerpc/mm/book3s64/hash_utils.c
-index 581b20a2feaf..f1b5a5f1d3a9 100644
+index f1b5a5f1d3a9..cb09a49be798 100644
 --- a/arch/powerpc/mm/book3s64/hash_utils.c
 +++ b/arch/powerpc/mm/book3s64/hash_utils.c
-@@ -126,11 +126,8 @@ EXPORT_SYMBOL_GPL(mmu_slb_size);
- #ifdef CONFIG_PPC_64K_PAGES
- int mmu_ci_restrictions;
- #endif
--#ifdef CONFIG_DEBUG_PAGEALLOC
- static u8 *linear_map_hash_slots;
- static unsigned long linear_map_hash_count;
--static DEFINE_SPINLOCK(linear_map_hash_lock);
--#endif /* CONFIG_DEBUG_PAGEALLOC */
- struct mmu_hash_ops mmu_hash_ops;
- EXPORT_SYMBOL(mmu_hash_ops);
+@@ -1944,6 +1944,9 @@ static void kernel_map_linear_page(unsigned long vaddr, unsigned long lmi)
+ 	if (!vsid)
+ 		return;
  
-@@ -326,11 +323,9 @@ int htab_bolt_mapping(unsigned long vstart, unsigned long vend,
- 			break;
- 
- 		cond_resched();
--#ifdef CONFIG_DEBUG_PAGEALLOC
- 		if (debug_pagealloc_enabled() &&
- 			(paddr >> PAGE_SHIFT) < linear_map_hash_count)
- 			linear_map_hash_slots[paddr >> PAGE_SHIFT] = ret | 0x80;
--#endif /* CONFIG_DEBUG_PAGEALLOC */
- 	}
- 	return ret < 0 ? ret : 0;
- }
-@@ -954,7 +949,6 @@ static void __init htab_initialize(void)
- 
- 	prot = pgprot_val(PAGE_KERNEL);
- 
--#ifdef CONFIG_DEBUG_PAGEALLOC
- 	if (debug_pagealloc_enabled()) {
- 		linear_map_hash_count = memblock_end_of_DRAM() >> PAGE_SHIFT;
- 		linear_map_hash_slots = memblock_alloc_try_nid(
-@@ -964,7 +958,6 @@ static void __init htab_initialize(void)
- 			panic("%s: Failed to allocate %lu bytes max_addr=%pa\n",
- 			      __func__, linear_map_hash_count, &ppc64_rma_size);
- 	}
--#endif /* CONFIG_DEBUG_PAGEALLOC */
- 
- 	/* create bolted the linear mapping in the hash table */
- 	for_each_mem_range(i, &base, &end) {
-@@ -1935,6 +1928,8 @@ long hpte_insert_repeating(unsigned long hash, unsigned long vpn,
- }
- 
- #ifdef CONFIG_DEBUG_PAGEALLOC
-+static DEFINE_SPINLOCK(linear_map_hash_lock);
++	if (linear_map_hash_slots[lmi] & 0x80)
++		return;
 +
- static void kernel_map_linear_page(unsigned long vaddr, unsigned long lmi)
- {
- 	unsigned long hash;
+ 	ret = hpte_insert_repeating(hash, vpn, __pa(vaddr), mode,
+ 				    HPTE_V_BOLTED,
+ 				    mmu_linear_psize, mmu_kernel_ssize);
+@@ -1963,7 +1966,10 @@ static void kernel_unmap_linear_page(unsigned long vaddr, unsigned long lmi)
+ 
+ 	hash = hpt_hash(vpn, PAGE_SHIFT, mmu_kernel_ssize);
+ 	spin_lock(&linear_map_hash_lock);
+-	BUG_ON(!(linear_map_hash_slots[lmi] & 0x80));
++	if (!(linear_map_hash_slots[lmi] & 0x80)) {
++		spin_unlock(&linear_map_hash_lock);
++		return;
++	}
+ 	hidx = linear_map_hash_slots[lmi] & 0x7f;
+ 	linear_map_hash_slots[lmi] = 0;
+ 	spin_unlock(&linear_map_hash_lock);
 -- 
 2.25.0
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/33441f41f6ff51807c22207f213a645dc5d1d8da.1614868445.git.christophe.leroy%40csgroup.eu.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/678576e515573333c324fbc88cbc146e812dd9c8.1614868445.git.christophe.leroy%40csgroup.eu.
