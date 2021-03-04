@@ -1,133 +1,128 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBB76YQOBAMGQE7VWQFJI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDLKPY4HVQKBBH7AQOBAMGQE7KGFYHY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oo1-xc3b.google.com (mail-oo1-xc3b.google.com [IPv6:2607:f8b0:4864:20::c3b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34D8732D522
-	for <lists+kasan-dev@lfdr.de>; Thu,  4 Mar 2021 15:19:45 +0100 (CET)
-Received: by mail-oo1-xc3b.google.com with SMTP id u9sf7624462oon.23
-        for <lists+kasan-dev@lfdr.de>; Thu, 04 Mar 2021 06:19:45 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1614867584; cv=pass;
+Received: from mail-wr1-x440.google.com (mail-wr1-x440.google.com [IPv6:2a00:1450:4864:20::440])
+	by mail.lfdr.de (Postfix) with ESMTPS id 626EC32D559
+	for <lists+kasan-dev@lfdr.de>; Thu,  4 Mar 2021 15:35:12 +0100 (CET)
+Received: by mail-wr1-x440.google.com with SMTP id h30sf14502902wrh.10
+        for <lists+kasan-dev@lfdr.de>; Thu, 04 Mar 2021 06:35:12 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1614868512; cv=pass;
         d=google.com; s=arc-20160816;
-        b=C9JiBdlnXsf7+EEQg+ZFHn3p2473pkjkNyDb6X1IDwXIcj/XfZ8jseG4/Ofk0eeFnG
-         4WNC3pyT5z3qSBu11kM3m4jXjM7ErlQOZxtr1rvqdnqZtZPrBEtx9DvHkGsS9W3sDHvv
-         a2ElQ2Y36H9F3caZLjXSUdG7ScJMxnWroQeskQ3eLnECRYq0V8JpOz1XvRMWavBnNVnD
-         Qg5nQu9sf2EmI29pcpsP9GMpJvUwoqrXo8SBf8zD6x050ZkX4XUvdDprmsdI5+u2dOGX
-         +ro5PUzIy3ljoajElLcWEU8LsQ6U9a1Mphh0NfKQeHGFjCkwaGLv8h4wi+C0H3s5Znie
-         zFxQ==
+        b=hovWLn5KifLqLupSqZXezeiP5LMKLbSxl2OxomSfkECn7z3boOCVJlWdk0ng8XvhYv
+         IBVBIn0EhyRRfn69C8qvfGveZJnCSc5svXQShAdvUnmHy3us72WpmVKlowooAr+Nw7Ir
+         Taw9Me2sqblDz9KhbrzPIcwwWdNgc1ESnoPE/3IVWBbjTjOuNmU/D/be6offgsnw9ENA
+         8chlb63G5AsDot5MiNw8E6TEXUkwN1iGzY7VmwBRq9qwenb9AGphfSDoUro0fGpKegX/
+         rBgQ6tIrYf02tTiHR+SB7yXpCRggmebnj12um1ojayQ1fOsDZToExcl8TQQkmn5ZHQ1f
+         HDDQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
-         :cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=h2C+xddIw7t1GZpd2+kLee5XvpARytv5vKaFCyEnazk=;
-        b=QvuezMcP6mOGNP7SshqUaBQaxQK25IIRhSdN+gg/X4r4e7LsJaZ4WMoxXB6Ty75heg
-         UI86yL9hLxnuzMLWtnB8wpKyRjRUtz633n/Bsj/3XvKDLQJyVNeBwsM81grCdJU30ytP
-         eaUjdQKwhfa9/n/3f/wICQu1OfmdbEcSYowqnmAMuM1Apxkm5bbfdZsKGXVyGKdpnL/V
-         hS4vtO4Ha2Rnd5TzQPRzFC42qUPaq4jDgO3S+k6iWiUJiDhIa65dWPLBhC4zfWwkt266
-         uQP4XFyIOFajseL264+ZwCOyuM5MdK8bdmAzP7IDZZk0AOvptLgU2PqVJ6BVWqsKLpSt
-         Lg9g==
+         :list-id:mailing-list:precedence:date:cc:to:subject:from:message-id
+         :mime-version:sender:dkim-signature;
+        bh=S0Br6AQN/u7BJe/Bo1hhFyttNYlS6C+gQhcCPAx+CiI=;
+        b=tO0wBXdAYQNgbL+xyE4BjwqAhrXPfNAgDu/jwVIHsg46izF6qQNU92kT6Ys4WT8TvH
+         G29nn9Lt9++YKOIqir9fRvt7vKvl93ts8wIcjOabKVYYOSgzmQ25GaR2yf8E5UlaPzEA
+         hokdEWTXjtoJaupOilbeL+HOFWnwVP/YBWdyaPDZDs9JjrVOm+yoLQI1pzHeRs/QnsyJ
+         qxtYT2R0Ye+LIvXYmR22Tt1oZPeEZfl+sHsj00OpYYLKq23e1APPiC/eM1J2tKT/C/FI
+         gwiFwfz5+igNcVMlVsjKgcZXmiZd3SHFg9+LFdYfFrIXxK916jGKBjtbzXQAtRextOyC
+         R6EA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=quhqijAS;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::22e as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       spf=pass (google.com: domain of christophe.leroy@csgroup.eu designates 93.17.236.30 as permitted sender) smtp.mailfrom=christophe.leroy@csgroup.eu
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:list-post:list-help:list-archive:list-subscribe
-         :list-unsubscribe;
-        bh=h2C+xddIw7t1GZpd2+kLee5XvpARytv5vKaFCyEnazk=;
-        b=ZN3kA1sJfDoiyIxgqqUpp+iBjgDRSMRAwGLPwOT/AhpLqdh4hQR+lRobLvrPutw8e+
-         RDBmz7r/oL6cgNeA1mfhXbZlNw+wtOOammvJomUNYn1PaLfhxYTj7e4kPcwmMWVN4z8a
-         wTirh2LqH2A251erVG/CKDTppI0ZC65bX1bTdWnWbvwqjwQ/4lKp60mqySJd9uE7XgWs
-         /qEKBFYAIhlYJKjO4H1770D6Sk5fPFpv741hSGMwyk8Lo3oM8e5tIGa92q7Y7QqQSv0G
-         2pnN/NsqS5hb6sfgbPcgo1Af9fhgmZbPPXD+COo7JrOvPxWHsBWWqhvmMvOifjDFrNl8
-         Q8KQ==
+        h=sender:mime-version:message-id:from:subject:to:cc:date
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=S0Br6AQN/u7BJe/Bo1hhFyttNYlS6C+gQhcCPAx+CiI=;
+        b=mAyvT5Gt2EkXaKOGAR4qYhBo1Kc8NgYXAmnl0bCBeqHGcoc+L9GsKVFiK7q5JElZqb
+         fEAldbEBX7zYaavV6bISjv/h2MJhIrGjyb+WKI6OHw+vvAOAzKuOINufB8uzpPOR0mfq
+         WIR3pbCjEXTUFwEiPQLLpgPkSJeCiV733T1qao/E5wJPDaLx8IhjEmuUkAg/IJFacnva
+         skTUc4dBa32BSakzxqJk11Pe1QIwvk68WCvNCLVLDlo0EhhKtXIAdFDWtlQqHxBkUU9h
+         hCDLGFm6qJyoKH5H8OFHhhXk0NgAw2D3LiFPsON2mflutBM4LuttKZsoXaEa6/lh2YxZ
+         SYgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding
-         :x-original-sender:x-original-authentication-results:reply-to
+        h=sender:x-gm-message-state:mime-version:message-id:from:subject:to
+         :cc:date:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
          :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=h2C+xddIw7t1GZpd2+kLee5XvpARytv5vKaFCyEnazk=;
-        b=MNFZ5CbTFEXfUAXO8U6U2QcXaUKdWzFFzN9MLv8UPByqcc/BEL6gB393SynAimjuLJ
-         XwbrQYbAfY21ADildzHs89sVoWhOpZ3uGgZqX3rfd3qO9cpSqke8FX7YlUov1x+ezAEX
-         iPiHJhtBcc9Q+kKEAs0z8yTFcoSIRqHsI2QI7vRbDjbzY04exEM7+b0ZlXE/QA0cCq2P
-         JP/HnrbMPbir0aIavXTIUQ7BC+QywsH1akfJillwA/V/vrvOCzlJj5L7BS5kRH3P4Ju3
-         66oBmnOJHhQ9/plEv4bjexpl+E4nfAgAnou4+/7RQVxMwpXsetYKuxyj4v8xS6nQIDUV
-         TBHg==
-X-Gm-Message-State: AOAM531DuajgiHU0dRn2YgG1TAl9E6FUWRJ+LGIYmlaaQ0hSEaaIhT+W
-	sKvyOAE78NU2uJP6BUYN0K0=
-X-Google-Smtp-Source: ABdhPJy2ONbxIHdDiWesU2Ew9IdcrPrzmB+QszL3OkBAeOPZEtrBpsVnQUjRzZqMcRyVqHDblNRB2Q==
-X-Received: by 2002:a05:6830:1502:: with SMTP id k2mr3706483otp.166.1614867583843;
-        Thu, 04 Mar 2021 06:19:43 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a9d:6c57:: with SMTP id g23ls1588304otq.11.gmail; Thu, 04
- Mar 2021 06:19:43 -0800 (PST)
-X-Received: by 2002:a9d:8d1:: with SMTP id 75mr3669734otf.366.1614867583473;
-        Thu, 04 Mar 2021 06:19:43 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1614867583; cv=none;
-        d=google.com; s=arc-20160816;
-        b=U4ruWPh49BTuuOty6pvjO6cbSZpwsbyqbAdUDZc3Zgk5KzeZD6Y7gTy5LvxxQrZt4R
-         IWi/tJ6m5nj6J/Aj+sG6XX4+h3CmqSlVV/scNmKLOdU04iDw/x+02PxZLGxGHcsRbXUL
-         mQAfoS5vkcbOgvV3V5XTYZOhzqRrxMU0WMD/3diDwNUUs4ukfIUeKS1pkEc8eTY9l9ad
-         31ObFT1m1sO3J1EtEzJHX1ywPUP65SFqK5oMYhwcMHaUrNRqLrkPSSCbZ+dwEkoWuW/i
-         Osv7Mebt4PQmx/ykd4yh1+6NDAm/JjGg5IEJLPZKulhWT+PBHMwd2UBQyJoVDzDhtrzS
-         BB+Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=B6t/iRhxaz6mIiZvKsR4Ph8NTlJXLnsmBsm+Fu3vxVg=;
-        b=JbTomICfh0jX7Xz6qVyq5XDxg6oTgr6aGryAbJTVrKi4/wpO4KKdTfpM1UIaC2G8Av
-         WiTsYxZ+DZYbutCCWMG3SO9q7Uc7WVaH1n9ficCFMkXseGMINB1yMC13Ni1m0R0SqjVU
-         AjYYpOCFByMIhcQ6B51ggPh6aL3Ma32an46CuJZXekr47KLNMaWkRHRVGV0IRcV2bG55
-         ZHKSwh98s69LgdiAfrAQJmqN0FOlDwgTGn4C5og/WtP3Bx1pBucwfaTf7qqnEBJqr6EM
-         +7ZEa/shj9/OOJMPnX/1Hizljf1wV9r8Rca4nKpxdJawaK2Gqtch4i6pncZYgYoHSth1
-         JV/Q==
-ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=quhqijAS;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::22e as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com. [2607:f8b0:4864:20::22e])
-        by gmr-mx.google.com with ESMTPS id c7si174172oto.1.2021.03.04.06.19.43
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 04 Mar 2021 06:19:43 -0800 (PST)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::22e as permitted sender) client-ip=2607:f8b0:4864:20::22e;
-Received: by mail-oi1-x22e.google.com with SMTP id s73so4455630oie.1
-        for <kasan-dev@googlegroups.com>; Thu, 04 Mar 2021 06:19:43 -0800 (PST)
-X-Received: by 2002:aca:d515:: with SMTP id m21mr3162609oig.172.1614867583032;
- Thu, 04 Mar 2021 06:19:43 -0800 (PST)
+        bh=S0Br6AQN/u7BJe/Bo1hhFyttNYlS6C+gQhcCPAx+CiI=;
+        b=o8Ce8CwCJmbUSQOzeR7ncPyjoGSzizEDycPG5yNLRvxNiKqQZIC17BqcWxQTGw1PNn
+         DWecBMGKPNwISNmQvxt3SIvwNfZe2sW+BwjDQX0IGi17nEvtJhPQYWHlOTZR74LBiURY
+         8aHhRULn1qdYt9MdY2LPbbVwwki6L5Zkr/2rWGyINoORZ18Rd+DGjvWPlLVIVi5c0vTB
+         Y4Iq76/JJsCmLbihupX02pxWpeVP55gXvvs9cvKNqkTTCZOnNPN8N/4UWqhWFrFM2zLT
+         TFKlIAXjD3qeJMvf/2FMXcoa6MgPTEAVjjtuOT/HHJ3zrUYP3EhLRxQVqkREutPY2MZq
+         9gyw==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM533Vth+wDnX7Rdm6Gct4OX8wIiHrBKgiogzERrXmYEhxgpOmnHx+
+	6rcWCH4oBmymHoJ72HjeVUA=
+X-Google-Smtp-Source: ABdhPJy+V/R0graSNqIvpEf2TLh18s8mi/qxyTUP1rha/X2g7+aG1hJQTtGnHDTVkcn/3ZHayVMV1w==
+X-Received: by 2002:a5d:58e8:: with SMTP id f8mr4463327wrd.102.1614868512118;
+        Thu, 04 Mar 2021 06:35:12 -0800 (PST)
 MIME-Version: 1.0
-References: <CAG_fn=WFffkVzqC9b6pyNuweFhFswZfa8RRio2nL9-Wq10nBbw@mail.gmail.com>
- <f806de26-daf9-9317-fdaa-a0f7a32d8fe0@csgroup.eu> <CANpmjNPGj4C2rr2FbSD+FC-GnWUvJrtdLyX5TYpJE_Um8CGu1Q@mail.gmail.com>
- <08a96c5d-4ae7-03b4-208f-956226dee6bb@csgroup.eu> <CANpmjNPYEmLtQEu5G=zJLUzOBaGoqNKwLyipDCxvytdKDKb7mg@mail.gmail.com>
- <ad61cb3a-2b4a-3754-5761-832a1dd0c34e@csgroup.eu> <CANpmjNOnVzei7frKcMzMHxaDXh5NvTA-Wpa29C2YC1GUxyKfhQ@mail.gmail.com>
- <f036c53d-7e81-763c-47f4-6024c6c5f058@csgroup.eu> <CANpmjNMn_CUrgeSqBgiKx4+J8a+XcxkaLPWoDMUvUEXk8+-jxg@mail.gmail.com>
- <7270e1cc-bb6b-99ee-0043-08a027b8d83a@csgroup.eu> <YEDXJ5JNkgvDFehc@elver.google.com>
- <4b46ecc9-ae47-eee1-843e-e0638a356b51@csgroup.eu>
-In-Reply-To: <4b46ecc9-ae47-eee1-843e-e0638a356b51@csgroup.eu>
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Thu, 4 Mar 2021 15:19:31 +0100
-Message-ID: <CANpmjNMMMyvsF23U_5HCUe=k7eGaF-WwKV6=YZ81OJedAd2DBQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v1] powerpc: Enable KFENCE for PPC32
-To: Christophe Leroy <christophe.leroy@csgroup.eu>
-Cc: Alexander Potapenko <glider@google.com>, Benjamin Herrenschmidt <benh@kernel.crashing.org>, 
-	Paul Mackerras <paulus@samba.org>, Michael Ellerman <mpe@ellerman.id.au>, 
-	Dmitry Vyukov <dvyukov@google.com>, LKML <linux-kernel@vger.kernel.org>, 
-	linuxppc-dev@lists.ozlabs.org, kasan-dev <kasan-dev@googlegroups.com>
+X-BeenThere: kasan-dev@googlegroups.com
+Received: by 2002:a5d:4ecf:: with SMTP id s15ls3740390wrv.1.gmail; Thu, 04 Mar
+ 2021 06:35:11 -0800 (PST)
+X-Received: by 2002:adf:e412:: with SMTP id g18mr4456138wrm.159.1614868511274;
+        Thu, 04 Mar 2021 06:35:11 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1614868511; cv=none;
+        d=google.com; s=arc-20160816;
+        b=VzVLAYohj5g5gD9CxQTBouxPulL0JTCWQppikTrWhe9G8X6oNkePWBEa/N8hQjHu2z
+         pIyKEcMltm3g8H26JxqaEQ2/1cUz/N7WAEVQenImA1xTSx6H44F7PHb+crvXgIFQWiPd
+         Fae7gkhrk/0Q+SF80mWYesnG0uv51GQtAETQXAEq5qLbs24iUdrxR+4oOLscOXjPkZNX
+         +HBhtNZx6L7Lmh7oZWD9YaqhWLEAvuKKbthxb03z7n9lpJMoByv932G+6Yy3paJXGaUl
+         W/AH63EMOTxOMAjZYPclKY2XRHk1YdHn7UgCwa2TsVim/0s9dN5euCXLV0YU2rLOlbAU
+         p22g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=date:cc:to:subject:from:message-id;
+        bh=jFIK42yv5DVx/fVSQIsa8zxJL3SKbkD+aC6JfgvH+XM=;
+        b=ev2ftOCC3rUxt4cpylV6URRf9Zr7KqcshtZx3YZSumu7humFokQldFh7ZOr/ISI48c
+         PYzZOzA26iMPUfkYFAckGVfY5EcH//UJNanENq/vmFXnl67gyJtrZOsG0obWy89s2HwC
+         xYYCXJy+2WrRrRjabnQ+Im/ytPuUmQI9/+EJk60C+kmEKGWMqzwtXAJw8EdnV10Mzgms
+         USFHeSn8HepyDnGpPueHY2sZi6qOnYo621gwoPsinYDf0sRDMUuXss/zBfQdkS0uaQZ7
+         n07E7f4ytyYkl6RLToiCJO5J/Fix0i8ZTEWa/vpPhQFUv8gPSTCTqEC3AUoa5Qcmx4Er
+         HujQ==
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       spf=pass (google.com: domain of christophe.leroy@csgroup.eu designates 93.17.236.30 as permitted sender) smtp.mailfrom=christophe.leroy@csgroup.eu
+Received: from pegase1.c-s.fr (pegase1.c-s.fr. [93.17.236.30])
+        by gmr-mx.google.com with ESMTPS id i22si587351wml.2.2021.03.04.06.35.11
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 04 Mar 2021 06:35:11 -0800 (PST)
+Received-SPF: pass (google.com: domain of christophe.leroy@csgroup.eu designates 93.17.236.30 as permitted sender) client-ip=93.17.236.30;
+Received: from localhost (mailhub1-int [192.168.12.234])
+	by localhost (Postfix) with ESMTP id 4Drtgc62BzzB09ZS;
+	Thu,  4 Mar 2021 15:35:08 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at c-s.fr
+Received: from pegase1.c-s.fr ([192.168.12.234])
+	by localhost (pegase1.c-s.fr [192.168.12.234]) (amavisd-new, port 10024)
+	with ESMTP id DTtRosK72nom; Thu,  4 Mar 2021 15:35:08 +0100 (CET)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+	by pegase1.c-s.fr (Postfix) with ESMTP id 4Drtgc4xSwzB09ZR;
+	Thu,  4 Mar 2021 15:35:08 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id BA4FE8B812;
+	Thu,  4 Mar 2021 15:35:10 +0100 (CET)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+	by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+	with ESMTP id ySp8nygo6T9K; Thu,  4 Mar 2021 15:35:10 +0100 (CET)
+Received: from po16121vm.idsi0.si.c-s.fr (unknown [192.168.4.90])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id 46FBF8B80A;
+	Thu,  4 Mar 2021 15:35:10 +0100 (CET)
+Received: by po16121vm.idsi0.si.c-s.fr (Postfix, from userid 0)
+	id 09FDF674E6; Thu,  4 Mar 2021 14:35:09 +0000 (UTC)
+Message-Id: <8dfe1bd2abde26337c1d8c1ad0acfcc82185e0d5.1614868445.git.christophe.leroy@csgroup.eu>
+From: Christophe Leroy <christophe.leroy@csgroup.eu>
+Subject: [PATCH v2 1/4] powerpc: Enable KFENCE for PPC32
+To: Benjamin Herrenschmidt <benh@kernel.crashing.org>, Paul Mackerras <paulus@samba.org>, Michael Ellerman <mpe@ellerman.id.au>, Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>
+Cc: linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, kasan-dev@googlegroups.com
+Date: Thu,  4 Mar 2021 14:35:09 +0000 (UTC)
+X-Original-Sender: christophe.leroy@csgroup.eu
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of christophe.leroy@csgroup.eu designates 93.17.236.30 as
+ permitted sender) smtp.mailfrom=christophe.leroy@csgroup.eu
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: elver@google.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=quhqijAS;       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::22e as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -140,100 +135,200 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, 4 Mar 2021 at 15:08, Christophe Leroy
-<christophe.leroy@csgroup.eu> wrote:
->
->
->
-> Le 04/03/2021 =C3=A0 13:48, Marco Elver a =C3=A9crit :
-> >  From d118080eb9552073f5dcf1f86198f3d86d5ea850 Mon Sep 17 00:00:00 2001
-> > From: Marco Elver <elver@google.com>
-> > Date: Thu, 4 Mar 2021 13:15:51 +0100
-> > Subject: [PATCH] kfence: fix reports if constant function prefixes exis=
-t
-> >
-> > Some architectures prefix all functions with a constant string ('.' on
-> > ppc64). Add ARCH_FUNC_PREFIX, which may optionally be defined in
-> > <asm/kfence.h>, so that get_stack_skipnr() can work properly.
->
->
-> It works, thanks.
->
-> >
-> > Link: https://lkml.kernel.org/r/f036c53d-7e81-763c-47f4-6024c6c5f058@cs=
-group.eu
-> > Reported-by: Christophe Leroy <christophe.leroy@csgroup.eu>
-> > Signed-off-by: Marco Elver <elver@google.com>
->
-> Tested-by: Christophe Leroy <christophe.leroy@csgroup.eu>
+Add architecture specific implementation details for KFENCE and enable
+KFENCE for the ppc32 architecture. In particular, this implements the
+required interface in <asm/kfence.h>.
 
-Thanks, I'll send this to Andrew for inclusion in -mm, since this is
-not a strict dependency (it'll work without the patch, just the stack
-traces aren't that pretty but still useful). If the ppc patches and
-this make it into the next merge window, everything should be good for
-5.13.
+KFENCE requires that attributes for pages from its memory pool can
+individually be set. Therefore, force the Read/Write linear map to be
+mapped at page granularity.
 
-> > ---
-> >   mm/kfence/report.c | 18 ++++++++++++------
-> >   1 file changed, 12 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/mm/kfence/report.c b/mm/kfence/report.c
-> > index 519f037720f5..e3f71451ad9e 100644
-> > --- a/mm/kfence/report.c
-> > +++ b/mm/kfence/report.c
-> > @@ -20,6 +20,11 @@
-> >
-> >   #include "kfence.h"
-> >
-> > +/* May be overridden by <asm/kfence.h>. */
-> > +#ifndef ARCH_FUNC_PREFIX
-> > +#define ARCH_FUNC_PREFIX ""
-> > +#endif
-> > +
-> >   extern bool no_hash_pointers;
-> >
-> >   /* Helper function to either print to a seq_file or to console. */
-> > @@ -67,8 +72,9 @@ static int get_stack_skipnr(const unsigned long stack=
-_entries[], int num_entries
-> >       for (skipnr =3D 0; skipnr < num_entries; skipnr++) {
-> >               int len =3D scnprintf(buf, sizeof(buf), "%ps", (void *)st=
-ack_entries[skipnr]);
-> >
-> > -             if (str_has_prefix(buf, "kfence_") || str_has_prefix(buf,=
- "__kfence_") ||
-> > -                 !strncmp(buf, "__slab_free", len)) {
-> > +             if (str_has_prefix(buf, ARCH_FUNC_PREFIX "kfence_") ||
-> > +                 str_has_prefix(buf, ARCH_FUNC_PREFIX "__kfence_") ||
-> > +                 !strncmp(buf, ARCH_FUNC_PREFIX "__slab_free", len)) {
-> >                       /*
-> >                        * In case of tail calls from any of the below
-> >                        * to any of the above.
-> > @@ -77,10 +83,10 @@ static int get_stack_skipnr(const unsigned long sta=
-ck_entries[], int num_entries
-> >               }
-> >
-> >               /* Also the *_bulk() variants by only checking prefixes. =
-*/
-> > -             if (str_has_prefix(buf, "kfree") ||
-> > -                 str_has_prefix(buf, "kmem_cache_free") ||
-> > -                 str_has_prefix(buf, "__kmalloc") ||
-> > -                 str_has_prefix(buf, "kmem_cache_alloc"))
-> > +             if (str_has_prefix(buf, ARCH_FUNC_PREFIX "kfree") ||
-> > +                 str_has_prefix(buf, ARCH_FUNC_PREFIX "kmem_cache_free=
-") ||
-> > +                 str_has_prefix(buf, ARCH_FUNC_PREFIX "__kmalloc") ||
-> > +                 str_has_prefix(buf, ARCH_FUNC_PREFIX "kmem_cache_allo=
-c"))
-> >                       goto found;
-> >       }
-> >       if (fallback < num_entries)
-> >
+Signed-off-by: Christophe Leroy <christophe.leroy@csgroup.eu>
+Acked-by: Marco Elver <elver@google.com>
+---
+v2: Added debug_pagealloc_enabled_or_kfence()
+---
+ arch/powerpc/Kconfig              | 13 ++++++------
+ arch/powerpc/include/asm/kfence.h | 33 +++++++++++++++++++++++++++++++
+ arch/powerpc/mm/book3s32/mmu.c    |  2 +-
+ arch/powerpc/mm/fault.c           |  7 ++++++-
+ arch/powerpc/mm/init_32.c         |  3 +++
+ arch/powerpc/mm/mmu_decl.h        |  5 +++++
+ arch/powerpc/mm/nohash/8xx.c      |  4 ++--
+ 7 files changed, 57 insertions(+), 10 deletions(-)
+ create mode 100644 arch/powerpc/include/asm/kfence.h
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CANpmjNMMMyvsF23U_5HCUe%3Dk7eGaF-WwKV6%3DYZ81OJedAd2DBQ%40mail.gm=
-ail.com.
+diff --git a/arch/powerpc/Kconfig b/arch/powerpc/Kconfig
+index 386ae12d8523..d46db0bfb998 100644
+--- a/arch/powerpc/Kconfig
++++ b/arch/powerpc/Kconfig
+@@ -185,6 +185,7 @@ config PPC
+ 	select HAVE_ARCH_KASAN			if PPC32 && PPC_PAGE_SHIFT <= 14
+ 	select HAVE_ARCH_KASAN_VMALLOC		if PPC32 && PPC_PAGE_SHIFT <= 14
+ 	select HAVE_ARCH_KGDB
++	select HAVE_ARCH_KFENCE			if PPC32
+ 	select HAVE_ARCH_MMAP_RND_BITS
+ 	select HAVE_ARCH_MMAP_RND_COMPAT_BITS	if COMPAT
+ 	select HAVE_ARCH_NVRAM_OPS
+@@ -786,7 +787,7 @@ config THREAD_SHIFT
+ config DATA_SHIFT_BOOL
+ 	bool "Set custom data alignment"
+ 	depends on ADVANCED_OPTIONS
+-	depends on STRICT_KERNEL_RWX || DEBUG_PAGEALLOC
++	depends on STRICT_KERNEL_RWX || DEBUG_PAGEALLOC || KFENCE
+ 	depends on PPC_BOOK3S_32 || (PPC_8xx && !PIN_TLB_DATA && !STRICT_KERNEL_RWX)
+ 	help
+ 	  This option allows you to set the kernel data alignment. When
+@@ -798,13 +799,13 @@ config DATA_SHIFT_BOOL
+ config DATA_SHIFT
+ 	int "Data shift" if DATA_SHIFT_BOOL
+ 	default 24 if STRICT_KERNEL_RWX && PPC64
+-	range 17 28 if (STRICT_KERNEL_RWX || DEBUG_PAGEALLOC) && PPC_BOOK3S_32
+-	range 19 23 if (STRICT_KERNEL_RWX || DEBUG_PAGEALLOC) && PPC_8xx
++	range 17 28 if (STRICT_KERNEL_RWX || DEBUG_PAGEALLOC || KFENCE) && PPC_BOOK3S_32
++	range 19 23 if (STRICT_KERNEL_RWX || DEBUG_PAGEALLOC || KFENCE) && PPC_8xx
+ 	default 22 if STRICT_KERNEL_RWX && PPC_BOOK3S_32
+-	default 18 if DEBUG_PAGEALLOC && PPC_BOOK3S_32
++	default 18 if (DEBUG_PAGEALLOC || KFENCE) && PPC_BOOK3S_32
+ 	default 23 if STRICT_KERNEL_RWX && PPC_8xx
+-	default 23 if DEBUG_PAGEALLOC && PPC_8xx && PIN_TLB_DATA
+-	default 19 if DEBUG_PAGEALLOC && PPC_8xx
++	default 23 if (DEBUG_PAGEALLOC || KFENCE) && PPC_8xx && PIN_TLB_DATA
++	default 19 if (DEBUG_PAGEALLOC || KFENCE) && PPC_8xx
+ 	default PPC_PAGE_SHIFT
+ 	help
+ 	  On Book3S 32 (603+), DBATs are used to map kernel text and rodata RO.
+diff --git a/arch/powerpc/include/asm/kfence.h b/arch/powerpc/include/asm/kfence.h
+new file mode 100644
+index 000000000000..a9846b68c6b9
+--- /dev/null
++++ b/arch/powerpc/include/asm/kfence.h
+@@ -0,0 +1,33 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * powerpc KFENCE support.
++ *
++ * Copyright (C) 2020 CS GROUP France
++ */
++
++#ifndef __ASM_POWERPC_KFENCE_H
++#define __ASM_POWERPC_KFENCE_H
++
++#include <linux/mm.h>
++#include <asm/pgtable.h>
++
++static inline bool arch_kfence_init_pool(void)
++{
++	return true;
++}
++
++static inline bool kfence_protect_page(unsigned long addr, bool protect)
++{
++	pte_t *kpte = virt_to_kpte(addr);
++
++	if (protect) {
++		pte_update(&init_mm, addr, kpte, _PAGE_PRESENT, 0, 0);
++		flush_tlb_kernel_range(addr, addr + PAGE_SIZE);
++	} else {
++		pte_update(&init_mm, addr, kpte, 0, _PAGE_PRESENT, 0);
++	}
++
++	return true;
++}
++
++#endif /* __ASM_POWERPC_KFENCE_H */
+diff --git a/arch/powerpc/mm/book3s32/mmu.c b/arch/powerpc/mm/book3s32/mmu.c
+index d7eb266a3f7a..a0db398b5c26 100644
+--- a/arch/powerpc/mm/book3s32/mmu.c
++++ b/arch/powerpc/mm/book3s32/mmu.c
+@@ -162,7 +162,7 @@ unsigned long __init mmu_mapin_ram(unsigned long base, unsigned long top)
+ 	unsigned long border = (unsigned long)__init_begin - PAGE_OFFSET;
+ 
+ 
+-	if (debug_pagealloc_enabled() || __map_without_bats) {
++	if (debug_pagealloc_enabled_or_kfence() || __map_without_bats) {
+ 		pr_debug_once("Read-Write memory mapped without BATs\n");
+ 		if (base >= border)
+ 			return base;
+diff --git a/arch/powerpc/mm/fault.c b/arch/powerpc/mm/fault.c
+index bb368257b55c..bea13682c909 100644
+--- a/arch/powerpc/mm/fault.c
++++ b/arch/powerpc/mm/fault.c
+@@ -32,6 +32,7 @@
+ #include <linux/context_tracking.h>
+ #include <linux/hugetlb.h>
+ #include <linux/uaccess.h>
++#include <linux/kfence.h>
+ 
+ #include <asm/firmware.h>
+ #include <asm/interrupt.h>
+@@ -418,8 +419,12 @@ static int ___do_page_fault(struct pt_regs *regs, unsigned long address,
+ 	 * take a page fault to a kernel address or a page fault to a user
+ 	 * address outside of dedicated places
+ 	 */
+-	if (unlikely(!is_user && bad_kernel_fault(regs, error_code, address, is_write)))
++	if (unlikely(!is_user && bad_kernel_fault(regs, error_code, address, is_write))) {
++		if (kfence_handle_page_fault(address, is_write, regs))
++			return 0;
++
+ 		return SIGSEGV;
++	}
+ 
+ 	/*
+ 	 * If we're in an interrupt, have no user context or are running
+diff --git a/arch/powerpc/mm/init_32.c b/arch/powerpc/mm/init_32.c
+index 02c7db4087cb..3d690be48e84 100644
+--- a/arch/powerpc/mm/init_32.c
++++ b/arch/powerpc/mm/init_32.c
+@@ -97,6 +97,9 @@ static void __init MMU_setup(void)
+ 	if (IS_ENABLED(CONFIG_PPC_8xx))
+ 		return;
+ 
++	if (IS_ENABLED(CONFIG_KFENCE))
++		__map_without_ltlbs = 1;
++
+ 	if (debug_pagealloc_enabled())
+ 		__map_without_ltlbs = 1;
+ 
+diff --git a/arch/powerpc/mm/mmu_decl.h b/arch/powerpc/mm/mmu_decl.h
+index 998810e68562..7dac910c0b21 100644
+--- a/arch/powerpc/mm/mmu_decl.h
++++ b/arch/powerpc/mm/mmu_decl.h
+@@ -185,3 +185,8 @@ void ptdump_check_wx(void);
+ #else
+ static inline void ptdump_check_wx(void) { }
+ #endif
++
++static inline bool debug_pagealloc_enabled_or_kfence(void)
++{
++	return IS_ENABLED(CONFIG_KFENCE) || debug_pagealloc_enabled();
++}
+diff --git a/arch/powerpc/mm/nohash/8xx.c b/arch/powerpc/mm/nohash/8xx.c
+index 19a3eec1d8c5..71bfdbedacee 100644
+--- a/arch/powerpc/mm/nohash/8xx.c
++++ b/arch/powerpc/mm/nohash/8xx.c
+@@ -149,7 +149,7 @@ unsigned long __init mmu_mapin_ram(unsigned long base, unsigned long top)
+ {
+ 	unsigned long etext8 = ALIGN(__pa(_etext), SZ_8M);
+ 	unsigned long sinittext = __pa(_sinittext);
+-	bool strict_boundary = strict_kernel_rwx_enabled() || debug_pagealloc_enabled();
++	bool strict_boundary = strict_kernel_rwx_enabled() || debug_pagealloc_enabled_or_kfence();
+ 	unsigned long boundary = strict_boundary ? sinittext : etext8;
+ 	unsigned long einittext8 = ALIGN(__pa(_einittext), SZ_8M);
+ 
+@@ -161,7 +161,7 @@ unsigned long __init mmu_mapin_ram(unsigned long base, unsigned long top)
+ 		return 0;
+ 
+ 	mmu_mapin_ram_chunk(0, boundary, PAGE_KERNEL_TEXT, true);
+-	if (debug_pagealloc_enabled()) {
++	if (debug_pagealloc_enabled_or_kfence()) {
+ 		top = boundary;
+ 	} else {
+ 		mmu_mapin_ram_chunk(boundary, einittext8, PAGE_KERNEL_TEXT, true);
+-- 
+2.25.0
+
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/8dfe1bd2abde26337c1d8c1ad0acfcc82185e0d5.1614868445.git.christophe.leroy%40csgroup.eu.
