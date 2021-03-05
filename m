@@ -1,132 +1,134 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBB7PMQ6BAMGQEU6WQOLA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCR5PSMFZYORBW5VRCBAMGQE35AA6HA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x439.google.com (mail-pf1-x439.google.com [IPv6:2607:f8b0:4864:20::439])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8860132E474
-	for <lists+kasan-dev@lfdr.de>; Fri,  5 Mar 2021 10:14:38 +0100 (CET)
-Received: by mail-pf1-x439.google.com with SMTP id 7sf1025266pfn.4
-        for <lists+kasan-dev@lfdr.de>; Fri, 05 Mar 2021 01:14:38 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1614935677; cv=pass;
+Received: from mail-yb1-xb3b.google.com (mail-yb1-xb3b.google.com [IPv6:2607:f8b0:4864:20::b3b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 82A6432E769
+	for <lists+kasan-dev@lfdr.de>; Fri,  5 Mar 2021 12:49:48 +0100 (CET)
+Received: by mail-yb1-xb3b.google.com with SMTP id n10sf2151367ybb.12
+        for <lists+kasan-dev@lfdr.de>; Fri, 05 Mar 2021 03:49:48 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1614944987; cv=pass;
         d=google.com; s=arc-20160816;
-        b=FKHaH1z8foo8ZEF0oOj8fMwx1HofQNbFhqPfNfEherpTT8vsLg1XzTeRIBf/q4mIuL
-         WjzabL+Ak56+Phf4zL6EZRpz0fDdG81LLWnovBsje3sJr15jDDX/RQmF4Nt/nqTchZZ0
-         Q/puoKLVCc8tPnMWmLM5wR4cwTkrYeS1uAPjlf7RzDm9/Zc8EHBn3I1oYeH3VOQvAfO+
-         c4WgR2GpaSWi/2gxd3YeAtDR4VrASNCSPAZ70EA0cioGWBY8+2TlHoHX+ioZUosBqnXP
-         UrV1ohq4SjNaW4Cu394Ajg+nySM/yYJaIdf3QWMT4qwRxRmH2+E4z6c7YW4Rz5hRCIT8
-         FUjg==
+        b=xYSiP2sKRZjhXhPlDYNhjK3DNxRNT/Eo4EjAjoZOWKErrYivwHLnj+6Rxhbq86M3k0
+         CuKllPKJeF/TToI/Jw4o4oLMXiECEewYLqqbgniCd47G/MX2TiaFTe9Yb8qs3yYezSGw
+         82R+iv4Smjn3+W9EmiGkoTR2+zlU41IOw14vG0mrvJCel/gMxLEV930f4dkD7PMAR/M/
+         0kUlIvwNl5lXPbXqAxNmIB1oKeMpp6soKpNcOGf6PCopx9Men95xgg0YB4PiuXirvyPT
+         PknEvpcJbYBEMBd9ho7XohBV5c4caeXyDh5Zycxlzsqo6Ny2GJ5obqLb7tcb9kXEoc9J
+         z0wg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
-         :cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=UbsyisQ0xeP1W2V+Apc4eGJ3MI2nLrhKINwDsHCdH1g=;
-        b=HtYYQrV5FdOzr2mQzjE20f4GyWltaXvLrcy6W5Py60lZdI0P/CgIqtiVVcA0uHehHA
-         R6OxSutPIJpDQLkODsTGdr5LVy7PtTdotk6e/jo2OJxY8HO8Juhb/GIo2WQzQwJKEgc5
-         3GrQGX2cRLa9UMhwoSg5uxhoXMKeRvn5IqtbtnQTd//3tN6TUMbTvwmWRP5Xzbe3eqlO
-         zbsK6rQwvCsxGaHB6GtoasE4DB9fFHMS+u3xTUxCSjtvAuhhFligedPz0v0n9n6bzeeJ
-         x96AQcn8BNY0Asn2+u+0vcyo3vfAidrfyHhabIsMKjtsn0juG8naH3/ovP6j1udcf91z
-         ACeg==
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :references:in-reply-to:subject:cc:to:from:sender:dkim-signature;
+        bh=KBrgEygNN0KolqZze2+3682UWElQ6Bopzf0bIqYrBl4=;
+        b=CxTtwynaYaR2PA3YISapw6ZRWpEgdi+z727weObNa3RTJ6f/DrIthnguOf+VprwgkH
+         9SUFMKVap1ScR/v+ueH34CJo4iqOXCS2uU7wOYCURBVnzthdvCxZswMf/ujsj/4aDz6Z
+         w3bENU57UPt4QSSqpxgW+xkXc5BDyUghACLGIVzyvjoNj0Xl+vWvPL778ye2LCTlUq8i
+         eCMG5xk9hRcP2o7STfuzHj8rGv3Lhm0kWkpmSAkoWTHlor3A0Fq+EZb4paJ+T4VzUWyP
+         BOz1Aj4kp9+yzQttgWNuxEgI1/erFqYqmqCWaRtwDXoLEusob2U8+l/xLruan3Hzbh35
+         USfg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=nZ2pVXGc;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::32d as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@ellerman.id.au header.s=201909 header.b=iqqfOFNX;
+       spf=pass (google.com: domain of mpe@ellerman.id.au designates 2401:3900:2:1::2 as permitted sender) smtp.mailfrom=mpe@ellerman.id.au
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:list-post:list-help:list-archive:list-subscribe
-         :list-unsubscribe;
-        bh=UbsyisQ0xeP1W2V+Apc4eGJ3MI2nLrhKINwDsHCdH1g=;
-        b=M3EnTlNkKNbOKc/dbBiwi8olw6dW9b9iBWEDUZW0hMOzPMaZkcpKPYdgxdTk6ou0dM
-         9OqyWxS4ofVoPfuKKOeEvpqwbxKbKqgJJhVwTkdbwUhURIQH/9xc/kEHQDNAxt+65qa6
-         tE/NVyOBvYooXhiE+wJg9BpW0oDBCQ0rnJxmbl+tzC/8lxT3hER8s0Ia71qT0CclZgax
-         o+sMbIHE3wyGhfGkV1DkzCrtW1OX7Ew29vFxZXUkb5qyZyHNjavFwpHYWNDsv/GfE+lC
-         uu6aQ+G/Myp++/2JcqJhA2r6l8xCeHMf3FJNLJ0OePBLYx5FeQyKPdEwkByEqzTtpZYz
-         wGjA==
+        h=sender:from:to:cc:subject:in-reply-to:references:date:message-id
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=KBrgEygNN0KolqZze2+3682UWElQ6Bopzf0bIqYrBl4=;
+        b=ke0JagX5c2LOeLplFtQnA0nlXwWRMJAViyM1z2/0GKwDp5+kw13WMykC21pSC1CONv
+         RSv9h93Qv/zgoYmxnfZWYblN24xag+5tqfBXSDfMfrR9prtS8QPPeAEv/tgSk/3khQLw
+         K67Gf3o4DrdK8OsCegI0TDWx+d22HN0Gz4bafiqniEC97m19yqZ2OB7/Btxa9RTmAK+p
+         tVZw/X3TzQU22++1q6jAvbQWGGtHfmQxDunm4GYuv2fp3swh56qFCYzRTfrcIF49aSfG
+         KYx9ZjnxRBigMsiyaARkmeJhN9EHKjTpMFJ1+IwA1Jm7T89HQ/dBQc+ickZ5l4XsBimo
+         83RQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding
-         :x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=UbsyisQ0xeP1W2V+Apc4eGJ3MI2nLrhKINwDsHCdH1g=;
-        b=sFAjSmmlK/4OsPpeOoE0/UYqU0mxmg46dXOhsCwQJA+oO2gghnYQcdjm3U54rccYNO
-         eA1iP7mjHuX1zEUyDZ4M369qOX2QNTqvEJoVOQUHDHPgYnfLlnWSi/5LH7DdIQ9PFbwv
-         cYo42UqwrVPbC1wVM8i2LhV3VTDe2DOx+dgMr8z3LsBVz4A6kLXitPgnLf1RabqFlWfp
-         casxTHfC0deDeNFotj3x058VIN9oVuU0OdMYZQmOwiSGbQSMi87scIvwDz//oQZpYiso
-         woVgqUHx5RUMym4lFYkNU/oJhnPrCZEj79iyQeIqqS4l8GSZnECfO9EllVYxiRVlbqsA
-         Mnbw==
-X-Gm-Message-State: AOAM532M7kpVrq395vLMo3n4K3PjIKE5AeJ7qvWEGORa/mn1PG0RILN0
-	tI2dNtf1xu4hZPIK3NofCtA=
-X-Google-Smtp-Source: ABdhPJxhprsS39AVAftYBXkplEW+KfIoz9htMPQP/e56hOjmBaA7usgL4erb1+vjAMHMj1yMMhMUjQ==
-X-Received: by 2002:a17:90a:4598:: with SMTP id v24mr9391945pjg.102.1614935677085;
-        Fri, 05 Mar 2021 01:14:37 -0800 (PST)
+        h=sender:x-gm-message-state:from:to:cc:subject:in-reply-to:references
+         :date:message-id:mime-version:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=KBrgEygNN0KolqZze2+3682UWElQ6Bopzf0bIqYrBl4=;
+        b=SFT5TeJysIB8L6vEL39seobP9YGoQS6ZWru11YdYEQeIPACLjJJ6OgmhPnQRR3iHHA
+         4yp+ivAUwiet1wuruWFDwQRoZe05TpuiHXKlW7CPsXrqI2k5cS6Q6AHTJtQF8vC9E08m
+         zY7jsfELuFY5Nv4aXuMs4yVadcIPjfx9YQXs4E0V8mHK5B+PjSw0BBbSETFhqiETDv/Z
+         Xp9aGM1ubhyxG5tNG3CC2O5xW9VC6J4ybNyIUiNKRofiCkRueXxx9K5qDRJSnxVb40NM
+         iiXcbKXPBoM3gYhDvs8O0mk7mPbfy/CzfpgnTjgcckfn5qfheWe6NecghVPk/09605TS
+         iz4A==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM531PECn6dNC0rVfMKc5We4NK5r6TwX+R/10Y1OuU+T6vReokXNyp
+	CVUNH7/Av5seCYBG3XKCkDc=
+X-Google-Smtp-Source: ABdhPJwWnlVMsDewtVjcOF6jXRXDn7Z4NBq93NCj9WX54obRmSLK75KhkWt5PfmgdhbGRIJezyS7tw==
+X-Received: by 2002:a25:7456:: with SMTP id p83mr13469401ybc.299.1614944987579;
+        Fri, 05 Mar 2021 03:49:47 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a65:4d43:: with SMTP id j3ls3601112pgt.1.gmail; Fri, 05 Mar
- 2021 01:14:36 -0800 (PST)
-X-Received: by 2002:a65:5806:: with SMTP id g6mr7345053pgr.112.1614935676515;
-        Fri, 05 Mar 2021 01:14:36 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1614935676; cv=none;
+Received: by 2002:a25:7343:: with SMTP id o64ls4557710ybc.8.gmail; Fri, 05 Mar
+ 2021 03:49:47 -0800 (PST)
+X-Received: by 2002:a25:2d6a:: with SMTP id s42mr13585167ybe.376.1614944986947;
+        Fri, 05 Mar 2021 03:49:46 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1614944986; cv=none;
         d=google.com; s=arc-20160816;
-        b=VLLuiJwVlmSwa3ms2mS8Mq132M1C5ancNtfq35VQZ5x72Kwb1trFXB85Z6oSGcSQKn
-         PUVpIhSOQBMxBuNtjaABNM5uR7aDyENqFf5+KXfeBjWwHbQC8iwrp4p0JVeiZzJaclN0
-         3z9JE9AqfvbxGZ9pf5zXdWpYquACOOmCETBqS5s5aexcfY/OPxkGB5dJw99ZUi+n/u0r
-         BxM4bkIwZbbHWhBTZE6zd2/mEmA32OlmY8sYZXQe1f2phqBwCELViDUpIUh/wk4+fRIp
-         2Zxss97YJ6vq8tzNoWOPvqEfQbUsNzORL5gI+ObqEmnsOiF7P1izb4dXB3Z67BAP4+JI
-         QmDQ==
+        b=BBpNURG1Sz84pfzulKFXLguIKnCbICSHVjv/kYsEjXXoY7nt1Bz3aCBbjs+9ErurbN
+         aFsL6fVENxwtpAQfotyBwGj56bdI7Bl7Fp+xrZyNqy10zV9dSFeFNcFvqSH2LFXzt28R
+         oJ3fsubtuFITwo9NL5lVx+oORZcye9WEx7MOLV8pbP5AO+xDsQ34LECjYOdzigmJbR4u
+         F5tVbnLXL5duTXBmA686ZHqxAJmOXS2nut1TaqFCuLbllBLkiZGC0uCV6gZzrmT8ZLkT
+         ILmI8IEJAfJVtp6loXEj4fr5fZi/Flp/YF060H/so+WUuIftlO5PUS6/7mjQCNGJqmZN
+         GtAw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=NPj0KxMXFfRe8+xSa+Go2DD4qn2EGEmIs7ZK90LXWyQ=;
-        b=M7Oom/6q4whKZn0C4ddLVxuu7RkcUSnBM6MtPpSbSbzbtAn8uuRztsLZs69mgLw8DS
-         mug6sjYRToZp+obiIZ/Pj72wsaANlsYXKA64ZmbPf6K7T/ign4o1lMkaYfMUBPVeObay
-         lp5Y1medfTh2FaN9pGmL7hk8px3VIe5RHwb65+WkzmUhB0BChyfNfUWMab52mTTRSkDm
-         NE/yqGUdLRKOqZ0kVV/Bv94RsgH7bCPBA6okrveE75f149x+b/AvSNuCwN0lKoCWH8Cy
-         5gNFLgGO7ZxewkkIDM3TJIf7O/TeFHMCCctzUfhhvT4qvuLge0+7hEn5N3+9wN4N+T0n
-         /Mmg==
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:dkim-signature;
+        bh=MFuEr/zpCREmU8rWGDeBRzuATbhdbCM1oGMnXg6xVJA=;
+        b=01JtW/1YSIK01vYrgeMrWrMZAjZl9OagLr6T7foSsz3jQOh+uJlaOSwah2iD4ktGX1
+         2cxsN2/iKRHvFXJ/pib56A9T5GfnX1x0ORwvxEGzh3JMTpXpzBuqMB4Cz1bI+drPbdUW
+         sY/xuXxNZ+//PHco1oyY+i17/xN1AxVMpW8qH7Ozu/n8neN+8LneB6XFYl1rIY9DXZjv
+         a7OfLWNssiGC1pDzK3lyuM7F4N5Vw1QOFVNTbyhJFoLft/v38Ra9TZGG6cBS0J5rTW/f
+         Uf/d/UtoE1OIfD/BO1I64xjsWKCB32podlsLhEeWYOXUutJCqAC9w559OtAQCxez+D9f
+         Ucaw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=nZ2pVXGc;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::32d as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com. [2607:f8b0:4864:20::32d])
-        by gmr-mx.google.com with ESMTPS id d2si126919pfr.4.2021.03.05.01.14.36
+       dkim=pass header.i=@ellerman.id.au header.s=201909 header.b=iqqfOFNX;
+       spf=pass (google.com: domain of mpe@ellerman.id.au designates 2401:3900:2:1::2 as permitted sender) smtp.mailfrom=mpe@ellerman.id.au
+Received: from ozlabs.org (ozlabs.org. [2401:3900:2:1::2])
+        by gmr-mx.google.com with ESMTPS id x23si69739ybd.1.2021.03.05.03.49.46
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 05 Mar 2021 01:14:36 -0800 (PST)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::32d as permitted sender) client-ip=2607:f8b0:4864:20::32d;
-Received: by mail-ot1-x32d.google.com with SMTP id b8so1136937oti.7
-        for <kasan-dev@googlegroups.com>; Fri, 05 Mar 2021 01:14:36 -0800 (PST)
-X-Received: by 2002:a9d:7f11:: with SMTP id j17mr7316937otq.251.1614935675615;
- Fri, 05 Mar 2021 01:14:35 -0800 (PST)
-MIME-Version: 1.0
-References: <CANpmjNPGj4C2rr2FbSD+FC-GnWUvJrtdLyX5TYpJE_Um8CGu1Q@mail.gmail.com>
- <08a96c5d-4ae7-03b4-208f-956226dee6bb@csgroup.eu> <CANpmjNPYEmLtQEu5G=zJLUzOBaGoqNKwLyipDCxvytdKDKb7mg@mail.gmail.com>
- <ad61cb3a-2b4a-3754-5761-832a1dd0c34e@csgroup.eu> <CANpmjNOnVzei7frKcMzMHxaDXh5NvTA-Wpa29C2YC1GUxyKfhQ@mail.gmail.com>
- <f036c53d-7e81-763c-47f4-6024c6c5f058@csgroup.eu> <CANpmjNMn_CUrgeSqBgiKx4+J8a+XcxkaLPWoDMUvUEXk8+-jxg@mail.gmail.com>
- <7270e1cc-bb6b-99ee-0043-08a027b8d83a@csgroup.eu> <YEDXJ5JNkgvDFehc@elver.google.com>
- <874khqry78.fsf@mpe.ellerman.id.au> <YEHiq1ALdPn2crvP@elver.google.com> <f6e47f4f-6953-6584-f023-8b9c22d6974e@csgroup.eu>
-In-Reply-To: <f6e47f4f-6953-6584-f023-8b9c22d6974e@csgroup.eu>
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Fri, 5 Mar 2021 10:14:23 +0100
-Message-ID: <CANpmjNM9o1s4O4v2T9HUohPdCDJzWcaC5KDrt_7BSVdTUQWagw@mail.gmail.com>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 Mar 2021 03:49:46 -0800 (PST)
+Received-SPF: pass (google.com: domain of mpe@ellerman.id.au designates 2401:3900:2:1::2 as permitted sender) client-ip=2401:3900:2:1::2;
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.ozlabs.org (Postfix) with ESMTPSA id 4DsQy96jkXz9sWL;
+	Fri,  5 Mar 2021 22:49:37 +1100 (AEDT)
+From: Michael Ellerman <mpe@ellerman.id.au>
+To: Marco Elver <elver@google.com>, Christophe Leroy
+ <christophe.leroy@csgroup.eu>
+Cc: Alexander Potapenko <glider@google.com>, Benjamin Herrenschmidt
+ <benh@kernel.crashing.org>, Paul Mackerras <paulus@samba.org>, Dmitry
+ Vyukov <dvyukov@google.com>, LKML <linux-kernel@vger.kernel.org>,
+ linuxppc-dev@lists.ozlabs.org, kasan-dev <kasan-dev@googlegroups.com>
 Subject: Re: [RFC PATCH v1] powerpc: Enable KFENCE for PPC32
-To: Christophe Leroy <christophe.leroy@csgroup.eu>
-Cc: Michael Ellerman <mpe@ellerman.id.au>, Alexander Potapenko <glider@google.com>, 
-	Benjamin Herrenschmidt <benh@kernel.crashing.org>, Paul Mackerras <paulus@samba.org>, 
-	Dmitry Vyukov <dvyukov@google.com>, LKML <linux-kernel@vger.kernel.org>, 
-	linuxppc-dev@lists.ozlabs.org, kasan-dev <kasan-dev@googlegroups.com>
+In-Reply-To: <CANpmjNM9o1s4O4v2T9HUohPdCDJzWcaC5KDrt_7BSVdTUQWagw@mail.gmail.com>
+References: <CANpmjNPGj4C2rr2FbSD+FC-GnWUvJrtdLyX5TYpJE_Um8CGu1Q@mail.gmail.com>
+ <08a96c5d-4ae7-03b4-208f-956226dee6bb@csgroup.eu>
+ <CANpmjNPYEmLtQEu5G=zJLUzOBaGoqNKwLyipDCxvytdKDKb7mg@mail.gmail.com>
+ <ad61cb3a-2b4a-3754-5761-832a1dd0c34e@csgroup.eu>
+ <CANpmjNOnVzei7frKcMzMHxaDXh5NvTA-Wpa29C2YC1GUxyKfhQ@mail.gmail.com>
+ <f036c53d-7e81-763c-47f4-6024c6c5f058@csgroup.eu>
+ <CANpmjNMn_CUrgeSqBgiKx4+J8a+XcxkaLPWoDMUvUEXk8+-jxg@mail.gmail.com>
+ <7270e1cc-bb6b-99ee-0043-08a027b8d83a@csgroup.eu>
+ <YEDXJ5JNkgvDFehc@elver.google.com> <874khqry78.fsf@mpe.ellerman.id.au>
+ <YEHiq1ALdPn2crvP@elver.google.com>
+ <f6e47f4f-6953-6584-f023-8b9c22d6974e@csgroup.eu>
+ <CANpmjNM9o1s4O4v2T9HUohPdCDJzWcaC5KDrt_7BSVdTUQWagw@mail.gmail.com>
+Date: Fri, 05 Mar 2021 22:49:36 +1100
+Message-ID: <87tupprfan.fsf@mpe.ellerman.id.au>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: elver@google.com
+X-Original-Sender: mpe@ellerman.id.au
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=nZ2pVXGc;       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::32d as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+ header.i=@ellerman.id.au header.s=201909 header.b=iqqfOFNX;       spf=pass
+ (google.com: domain of mpe@ellerman.id.au designates 2401:3900:2:1::2 as
+ permitted sender) smtp.mailfrom=mpe@ellerman.id.au
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -139,180 +141,32 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, 5 Mar 2021 at 09:23, Christophe Leroy
-<christophe.leroy@csgroup.eu> wrote:
+Marco Elver <elver@google.com> writes:
+...
 >
+> The choice is between:
 >
+> 1. ARCH_FUNC_PREFIX (as a matter of fact, the ARCH_FUNC_PREFIX patch
+> is already in -mm). Perhaps we could optimize it further, by checking
+> ARCH_FUNC_PREFIX in buf, and advancing buf like you propose, but I'm
+> not sure it's worth worrying about.
 >
-> Le 05/03/2021 =C3=A0 08:50, Marco Elver a =C3=A9crit :
-> > On Fri, Mar 05, 2021 at 04:01PM +1100, Michael Ellerman wrote:
-> >> Marco Elver <elver@google.com> writes:
-> >>> On Thu, Mar 04, 2021 at 12:48PM +0100, Christophe Leroy wrote:
-> >>>> Le 04/03/2021 =C3=A0 12:31, Marco Elver a =C3=A9crit :
-> >>>>> On Thu, 4 Mar 2021 at 12:23, Christophe Leroy
-> >>>>> <christophe.leroy@csgroup.eu> wrote:
-> >>>>>> Le 03/03/2021 =C3=A0 11:56, Marco Elver a =C3=A9crit :
-> >>>>>>>
-> >>>>>>> Somewhat tangentially, I also note that e.g. show_regs(regs) (whi=
-ch
-> >>>>>>> was printed along the KFENCE report above) didn't include the top
-> >>>>>>> frame in the "Call Trace", so this assumption is definitely not
-> >>>>>>> isolated to KFENCE.
-> >>>>>>>
-> >>>>>>
-> >>>>>> Now, I have tested PPC64 (with the patch I sent yesterday to modif=
-y save_stack_trace_regs()
-> >>>>>> applied), and I get many failures. Any idea ?
-> >>>>>>
-> >>>>>> [   17.653751][   T58] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D
-> >>>>>> [   17.654379][   T58] BUG: KFENCE: invalid free in .kfence_guarde=
-d_free+0x2e4/0x530
-> >>>>>> [   17.654379][   T58]
-> >>>>>> [   17.654831][   T58] Invalid free of 0xc00000003c9c0000 (in kfen=
-ce-#77):
-> >>>>>> [   17.655358][   T58]  .kfence_guarded_free+0x2e4/0x530
-> >>>>>> [   17.655775][   T58]  .__slab_free+0x320/0x5a0
-> >>>>>> [   17.656039][   T58]  .test_double_free+0xe0/0x198
-> >>>>>> [   17.656308][   T58]  .kunit_try_run_case+0x80/0x110
-> >>>>>> [   17.656523][   T58]  .kunit_generic_run_threadfn_adapter+0x38/0=
-x50
-> >>>>>> [   17.657161][   T58]  .kthread+0x18c/0x1a0
-> >>>>>> [   17.659148][   T58]  .ret_from_kernel_thread+0x58/0x70
-> >>>>>> [   17.659869][   T58]
-> >>> [...]
-> >>>>>
-> >>>>> Looks like something is prepending '.' to function names. We expect
-> >>>>> the function name to appear as-is, e.g. "kfence_guarded_free",
-> >>>>> "test_double_free", etc.
-> >>>>>
-> >>>>> Is there something special on ppc64, where the '.' is some conventi=
-on?
-> >>>>>
-> >>>>
-> >>>> I think so, see https://refspecs.linuxfoundation.org/ELF/ppc64/PPC-e=
-lf64abi.html#FUNC-DES
-> >>>>
-> >>>> Also see commit https://github.com/linuxppc/linux/commit/02424d896
-> >>>
-> >>> Thanks -- could you try the below patch? You'll need to define
-> >>> ARCH_FUNC_PREFIX accordingly.
-> >>>
-> >>> We think, since there are only very few architectures that add a pref=
-ix,
-> >>> requiring <asm/kfence.h> to define something like ARCH_FUNC_PREFIX is
-> >>> the simplest option. Let me know if this works for you.
-> >>>
-> >>> There an alternative option, which is to dynamically figure out the
-> >>> prefix, but if this simpler option is fine with you, we'd prefer it.
-> >>
-> >> We have rediscovered this problem in basically every tracing / debuggi=
-ng
-> >> feature added in the last 20 years :)
-> >>
-> >> I think the simplest solution is the one tools/perf/util/symbol.c uses=
-,
-> >> which is to just skip a leading '.'.
-> >>
-> >> Does that work?
-> >>
-> >> diff --git a/mm/kfence/report.c b/mm/kfence/report.c
-> >> index ab83d5a59bb1..67b49dc54b38 100644
-> >> --- a/mm/kfence/report.c
-> >> +++ b/mm/kfence/report.c
-> >> @@ -67,6 +67,9 @@ static int get_stack_skipnr(const unsigned long stac=
-k_entries[], int num_entries
-> >>      for (skipnr =3D 0; skipnr < num_entries; skipnr++) {
-> >>              int len =3D scnprintf(buf, sizeof(buf), "%ps", (void *)st=
-ack_entries[skipnr]);
-> >>
-> >> +            if (buf[0] =3D=3D '.')
-> >> +                    buf++;
-> >> +
-> >
-> > Unfortunately this does not work, since buf is an array. We'd need an
-> > offset, and it should be determined outside the loop. I had a solution
-> > like this, but it turned out quite complex (see below). And since most
-> > architectures do not require this, decided that the safest option is to
-> > use the macro approach with ARCH_FUNC_PREFIX, for which Christophe
-> > already prepared a patch and tested:
-> > https://lore.kernel.org/linux-mm/20210304144000.1148590-1-elver@google.=
-com/
-> > https://lkml.kernel.org/r/afaec81a551ef15345cb7d7563b3fac3d7041c3a.1614=
-868445.git.christophe.leroy@csgroup.eu
-> >
-> > Since KFENCE requires <asm/kfence.h> anyway, we'd prefer this approach
-> > (vs.  dynamically detecting).
-> >
-> > Thanks,
-> > -- Marco
-> >
+> 2. The dynamic solution that I proposed that does not use a hard-coded
+> '.' (or some variation thereof).
 >
-> What about
+> Please tell me which solution you prefer, 1 or 2 -- I'd like to stop
+> bikeshedding here. If there's a compelling argument for hard-coding
+> the '.' in non-arch code, please clarify, but otherwise I'd like to
+> keep arch-specific things out of generic code.
 
-Sure something like that would work. But I explicitly did *not* want
-to hard-code the '.' in non-arch code.
+It's your choice, I was just trying to minimise the size of the wart you
+have to carry in kfence code to deal with it.
 
-The choice is between:
+The ARCH_FUNC_PREFIX solution is fine by me.
 
-1. ARCH_FUNC_PREFIX (as a matter of fact, the ARCH_FUNC_PREFIX patch
-is already in -mm). Perhaps we could optimize it further, by checking
-ARCH_FUNC_PREFIX in buf, and advancing buf like you propose, but I'm
-not sure it's worth worrying about.
+cheers
 
-2. The dynamic solution that I proposed that does not use a hard-coded
-'.' (or some variation thereof).
-
-Please tell me which solution you prefer, 1 or 2 -- I'd like to stop
-bikeshedding here. If there's a compelling argument for hard-coding
-the '.' in non-arch code, please clarify, but otherwise I'd like to
-keep arch-specific things out of generic code.
-
-Thanks.
-
-> diff --git a/mm/kfence/report.c b/mm/kfence/report.c
-> index 519f037720f5..5e196625fb34 100644
-> --- a/mm/kfence/report.c
-> +++ b/mm/kfence/report.c
-> @@ -43,7 +43,7 @@ static void seq_con_printf(struct seq_file *seq, const =
-char *fmt, ...)
->   static int get_stack_skipnr(const unsigned long stack_entries[], int nu=
-m_entries,
->                             const enum kfence_error_type *type)
->   {
-> -       char buf[64];
-> +       char _buf[64];
->         int skipnr, fallback =3D 0;
->
->         if (type) {
-> @@ -65,7 +65,11 @@ static int get_stack_skipnr(const unsigned long stack_=
-entries[], int num_entries
->         }
->
->         for (skipnr =3D 0; skipnr < num_entries; skipnr++) {
-> -               int len =3D scnprintf(buf, sizeof(buf), "%ps", (void *)st=
-ack_entries[skipnr]);
-> +               char *buf =3D _buf;
-> +               int len =3D scnprintf(_buf, sizeof(_buf), "%ps", (void *)=
-stack_entries[skipnr]);
-> +
-> +               if (_buf[0] =3D=3D '.')
-> +                       buf++, len--;
->
->                 if (str_has_prefix(buf, "kfence_") || str_has_prefix(buf,=
- "__kfence_") ||
->                     !strncmp(buf, "__slab_free", len)) {
-> ---
->
-> Christophe
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CANpmjNM9o1s4O4v2T9HUohPdCDJzWcaC5KDrt_7BSVdTUQWagw%40mail.gmail.=
-com.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/87tupprfan.fsf%40mpe.ellerman.id.au.
