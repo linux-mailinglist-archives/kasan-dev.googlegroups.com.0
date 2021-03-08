@@ -1,132 +1,143 @@
-Return-Path: <kasan-dev+bncBCOYZDMZ6UMRBFM3TGBAMGQEQA5OOBA@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBPU7TGBAMGQE4V3UWBQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qk1-x73d.google.com (mail-qk1-x73d.google.com [IPv6:2607:f8b0:4864:20::73d])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD179331321
-	for <lists+kasan-dev@lfdr.de>; Mon,  8 Mar 2021 17:15:18 +0100 (CET)
-Received: by mail-qk1-x73d.google.com with SMTP id y22sf2792943qkb.23
-        for <lists+kasan-dev@lfdr.de>; Mon, 08 Mar 2021 08:15:18 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1615220117; cv=pass;
+Received: from mail-lf1-x13d.google.com (mail-lf1-x13d.google.com [IPv6:2a00:1450:4864:20::13d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 83EE233134D
+	for <lists+kasan-dev@lfdr.de>; Mon,  8 Mar 2021 17:24:31 +0100 (CET)
+Received: by mail-lf1-x13d.google.com with SMTP id d11sf3535143lfe.1
+        for <lists+kasan-dev@lfdr.de>; Mon, 08 Mar 2021 08:24:31 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1615220671; cv=pass;
         d=google.com; s=arc-20160816;
-        b=QqLC6awrLK0E0CdWJUwOYtY/7nTLDJ5IxPmIznIU0tlMZlS9FAM7oAgxCii6IttRnw
-         r6CE3PFPi+cXu6ioEYh6/tyC4erlrH7QfeEJ2y7uCBiw4A9y5vyf/N5xWOolXrXf6a5M
-         r9xUI2umIkeUAfue1URJbNjWup+fdrVd1Lx66Zyc+qGFUTnOcx00wVap9N7wZBiQFTLf
-         RAdPleDLimzlgQnVenrvJLl46vCEKVtk/SyJBqn4zAarPzL4z1QnMvutmPfPchl/AwGF
-         yjLhMxsuFnZc8kK8DZwYyN8DN1vZNvSCaut+NzPNi7Q/CWzgrveWw9d4MXOxHe2vg9dT
-         O8dw==
+        b=03kfoHF33TRsUeClfcyEaD6La7qyRsEcsanhigQA1jJec/QPzlv84LOz9CLcd0zwWn
+         PASa5zcG5ha7VU3EX9l53XAZhu3m/vxR7VAT6zSmx+akdX24VGZcVzOdQURKT+a9E3Wa
+         GuX6ntb10Kkq+FxAHPpexw/skbO39aasYitQPLpXeZY6GcRv/B9TBm6j4Krh1JaUgAOz
+         XhNQroVqZqXiaPgypK8JpSE+a1Xa9/rdFQc7rjkbsX4WF0ALX9dieI70c+mE/xKPJ1O9
+         B+xHz+HhbJkXVc4q3jGWo8zSGAQEA9Pl36RKwJvfMTB5+5tWaseBdVcyL+uF87/W1SmK
+         enWQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=3BqtuMFzgXijAuDfrpZjACF/yGoF9YC6uxvQ1U70Ck4=;
-        b=m0DdE1ACb1vDtqSP2+aXWR2ViKceZN4h1t3fsMDvValxN0LnRiH//Igj9AZ0wl0Mfm
-         CPh4rtAl1n6ix3AtzNtRmtogdjpXpMfGOJ7P47Idid/FW5lnEUVKHOCIkaQdb9/mwDxF
-         j18OCecLDKM2lGs9kFDXb2FWhKve4m2JwXIycc3tfjn85O//70ljoA2LFMXYTGb81eIz
-         WCagByQDY4uvB5j01E9SQjb2wWbE+uUME0Hr7pAaKisLEzsKYmtCqY3P6wUldK5Mu9G3
-         IW3oMTCLQdsZOI9j2voCKcEclND+OnK4MM+K+ze9cjxbeQJnY2UG4/HW2MMa76i/gClH
-         m9DA==
+         :list-id:mailing-list:precedence:reply-to:user-agent:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:dkim-signature;
+        bh=pohEXmOGPhbJHuOc+Q942P01Ypwj1J140yeJ+h/cW6A=;
+        b=qWqhhpBExa0gl4ECVtDlzgkrKZinDVLbb8XNNiyJi7yCvlAn9EZo6s39ChcPLNeYkj
+         SHLDP5dIi6vlfr6Er+2CIELeVMXpdOVjnvuNO1mb4lMmFmZJb2H+xwxJNMbo+BKur68J
+         gYmijYWw10F6520ImQ85G7QE+OtWYxyTRnJ+T6/4MaSh8poAzIUbwd35mVeYafKzumEd
+         Orzwx3wE3u38YaegRmA9pOEHmCKobgXhuht6OWb/qZ0rOcy1uDX8UpGH63LVLA0B9NiR
+         uR1C6GhqNpI70fvBFWXgZaO1KG2xci4ucBj38VmhnUkHStepvRcvMgD5GIg2X/u5DrU0
+         0aEg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=vincenzo.frascino@arm.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
+       dkim=pass header.i=@google.com header.s=20161025 header.b=jD8zkG1K;
+       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::42a as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=3BqtuMFzgXijAuDfrpZjACF/yGoF9YC6uxvQ1U70Ck4=;
-        b=o932/snxwb4f9/RSieH7vrvKvcGs49/bgH7k7NdCMobWXmSbOcYUVBYKb6SF82poon
-         WW/ZH8F5c/yzXIbzi4WHVMpOM72JryZlpWOoxHhq+9LbcHkrOKAd6N0jRL2UoPNbvipp
-         r4hFB9Y1CWjAlg20F/58gsZSUL57LxQPZ6YPbBWBQ5fhpRL+7ppOKX1Y7CAwXbr6daYR
-         jjhlB5v5GFGFSkgpfzY8E5XW0jHkm2Yp+u8IRC7VZBMMBSCDk23W1gwXvb4aqLWRl17X
-         ZqLcDjzGcDueV3nMxFaSUk3rq6SarNdsEGTi+ifqNakyvsyzae7EBdGRmx7x7F9zFXHO
-         mIhQ==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:list-post:list-help:list-archive:list-subscribe
+         :list-unsubscribe;
+        bh=pohEXmOGPhbJHuOc+Q942P01Ypwj1J140yeJ+h/cW6A=;
+        b=nMo/w/wy0Y85nR4Mvf9TmwXGu4Zugyw8F3JzmMfo2RH6D6e2C28NI+2Tbk53EdI91F
+         tvPTsMbuVkfPsjgmSq6RgJbOVYRvBdzK9nYOFKmYe9VuxJs9YTW58ungaX2cSwgMsher
+         xpaxU9C3mrJpKY+mOUo+wK7bjWhU599mHZDOzBkhuD0ipNhKe+zpqvQSkmHaZDAE3xhb
+         vyzsxS9VW9sNmNeYJmUdoCc4WuunsYKaLAnRIVIcYFznUJnl8zvQrdT2+xffun86hGnG
+         r96m9JchJ+5ambHf7FXQiR/9iBLvWBJ32qAYHkFuAuBVWqyLe8pbdh68xP0ViHKZqjKc
+         aiWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :in-reply-to:references:mime-version:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=3BqtuMFzgXijAuDfrpZjACF/yGoF9YC6uxvQ1U70Ck4=;
-        b=Pk1MMgNzqSVn3PazzEiGZJDGmC3+yg08AiQIB5aj7xuFmX7Z/lcDqgra2UvTHUnA+N
-         Bks5HeUBc/UHR7MVsCG8eS6YTW4Kpei+zJd9K9tDCDV21Iao/pbFZ3njNR/ZgdldlCxA
-         oBDL2QSBNb9iRzox4Ywp2uP5QiMkBqIFQe05/CWR7cRiNt3jbi0lJdNup2maBxFFOYIA
-         boj2FrCzyHOkHXcx1S6GYzoFGbLAHeTaNzX1uQvsgtn7FT9y8XD+BMpBvDBJd+GJHdfM
-         Jy+mA1WoHDzGXBtl+NKLZ/wdcjeXGrQ556d+kF2MAZ74Q+V8itts4jITjdunGtDsczJU
-         OYGw==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM5338rZFCL9umsmMior9g5xwQ79huMInF910r5CXnV1tCIepilLWu
-	aFzvwnCNnGoUaF2nKlLRqGc=
-X-Google-Smtp-Source: ABdhPJyyWoQyWCN/PoWXZFn69lDwnpzVDGieRRbxagL/g/uFytuCduaQ8wwxr1ghujWJu34JHo3EPQ==
-X-Received: by 2002:a37:4947:: with SMTP id w68mr20930171qka.94.1615220117812;
-        Mon, 08 Mar 2021 08:15:17 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent
+         :x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=pohEXmOGPhbJHuOc+Q942P01Ypwj1J140yeJ+h/cW6A=;
+        b=hEPQRjF384FKqWweBe370Q8Pg2TpAxqJmYpxI/PedTgnfPZgZP5RsRBvvRtrU5zi9z
+         OyhaNEvu4ly08PUQQ1/OQj8EpOqvFbYDvW4xhQ0TQ3tv9BCVuB4gJfx8Vm7cLiuuOlRz
+         YlkJ19ngTgBsrgY46km0syCXPRu5Z9va0YhUzkSjJ/c9VGi0qBH33+wixJ/HtyYeHBgk
+         f0ueATjYmghmzM/2uHTL5DSn4ONxUsFfUqi95rcSRkQ0qNdFnbf2/UvdrpdkdXqWgDHh
+         cWqP5fPncYw5I6wMXwi3V8xXpEmzcDhDBrOFO89XWyeaXh+iKx0/SGaBzlHQ+TZxkK1v
+         z4gQ==
+X-Gm-Message-State: AOAM5310AVJ59tOLWhZNMdzsbyeQ9SJ/xiTgvG9V7IUXgsB7+CUYr+sW
+	PNO0v6iPRTcbzJlVuLfOnbE=
+X-Google-Smtp-Source: ABdhPJz8RuBJk5dkxEGkqxFYgMV7CjaJ6hlrRioQzhYjIBz2kpSLbjVGHKUm318d4aKtSRMfIgwV4Q==
+X-Received: by 2002:a2e:9204:: with SMTP id k4mr14240782ljg.203.1615220671115;
+        Mon, 08 Mar 2021 08:24:31 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a37:ef0f:: with SMTP id j15ls2689961qkk.5.gmail; Mon, 08 Mar
- 2021 08:15:17 -0800 (PST)
-X-Received: by 2002:a05:620a:220e:: with SMTP id m14mr22078957qkh.303.1615220117392;
-        Mon, 08 Mar 2021 08:15:17 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1615220117; cv=none;
+Received: by 2002:a05:6512:3993:: with SMTP id j19ls1076207lfu.3.gmail; Mon,
+ 08 Mar 2021 08:24:30 -0800 (PST)
+X-Received: by 2002:a19:5f0b:: with SMTP id t11mr14831674lfb.193.1615220669920;
+        Mon, 08 Mar 2021 08:24:29 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1615220669; cv=none;
         d=google.com; s=arc-20160816;
-        b=ZiXJC+henatBy0gmtb1kLJI6AnoI+ZwNO/l26roB5/cXBxArIGXfcycieeYJ5eVcbM
-         v/wg61iyU42G2jvYgTL25vUoecpuzoJ2mZsDxODyCxrioSw9J1e9qecyWBnVy9Un7GTl
-         KO6LB4ZMhB6KyOzmDQxGImUI5OXZYnmDoQBDG7q+Dzr/JDPHtbPJgKXe/0XBI+i+nSi8
-         Z0M0N8HVC2yTql+ogd9lxpvry8oMBSAJTLaXiouZy2m39PlXI3FizJVZuGZnw9Qk7AX9
-         fvF3hp9BLicmjh4GEu41AyprdSqG3y52+vXMHQk/Zg8+8y80UIT96kM7/rY+nukZt2iz
-         qp8A==
+        b=pNtF0hsEnEwz9HuApCpzFiWWgnoocNVFkBLToODdfWnpFUgIoUfZ1sr0TIzxeurXrl
+         xkAzeNG/TiDRXbGcRQnXZSyOhmH99H1GNUCW2zseMWgeysyk64b9HUUihPv+BFC9M/0y
+         0mN7XsLbcGfS1daxMS7Q9x0nSYxCG6MYxqv4xZgc7U8kZshQjOFTDtOhE8g64fWpe+B8
+         pkpBZE9mYoHO6s9bD3CKNGV1Wxb43PV6D5UZ8YHw8rIsxOxI/Y0eH70BQmsX9LGpX7Jd
+         mgqo8/8AvcbJwERtjzwpdE51k00gOUghKvNXXvrmGqTNTgbUcxPsT4wNir3IJV8HQCTC
+         26iw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from;
-        bh=T03MtvbpaPlQelBLOigL3a4Mq7YEU1PTkqsjk6/wW6g=;
-        b=KGtNHM8EiICcTM6DdicWIecb+E9UL0IkTlElhkcaEljunQM0GbvXIksjcA0FvhEtjO
-         NgvvD++eDrHngqLwfsTcjj/RvePy6crpryxFZnkcW2WDFD/3+9dErl6XOJSPTat/u3yo
-         /nSInPxUEihB2v9TEp9mtr1Y4EozhA73Ik//Gz8ABBI7da3cmbfpHkGOiLGiux18rjTq
-         5MTfB7RI7aZg3COaDa+ypnVkoVPyjlT+CGHgaOv0KgCB/P88gVaMPQ4umlrOXJXGUXm9
-         E+KIfhf5FjH2E99g/lsS+q3tyFvOy1rxaAO2zTenTuCELFgUeTVlxnJS+AuOGpcYfLpJ
-         GM9Q==
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:dkim-signature;
+        bh=IOyvlLCqYFrpnxgwF1LxML8x1YXFbGS+oZXfnAp6uWQ=;
+        b=QTlEnuOPB8rwessfJujRSrSv+7SYWNKT1wRXLDylaBNJOI8ugVuzRZwhkdtAOR8k4M
+         5AsJBGdRde12n+mOjx+4gknOgwyplc8IEYyTH6MhffIlo4wBCW09Squltr3gGqvsHjKq
+         zwrnK+VsfzPk1cywg1eOJISU3its7jn8k4BrFtWw2a8dyUSBFrEZ9pyIvCbPRg1NM284
+         IPHwdnuQAbvgAAsCUQTXniDJLGxO22bJSlwp+ITSw/6iI97lFfIsSnSC2PakH95IlTN1
+         eZfkyl7XQciAJkzt0x/zC2Swrs7yZB1WZ9UwhabPOwpR8b9tg04NNXNzr7/3S1S8PgEC
+         E0DQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=vincenzo.frascino@arm.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
-Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
-        by gmr-mx.google.com with ESMTP id j36si617932qtb.2.2021.03.08.08.15.17
-        for <kasan-dev@googlegroups.com>;
-        Mon, 08 Mar 2021 08:15:17 -0800 (PST)
-Received-SPF: pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BC3671042;
-	Mon,  8 Mar 2021 08:15:16 -0800 (PST)
-Received: from e119884-lin.cambridge.arm.com (e119884-lin.cambridge.arm.com [10.1.196.72])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D92963F73C;
-	Mon,  8 Mar 2021 08:15:09 -0800 (PST)
-From: Vincenzo Frascino <vincenzo.frascino@arm.com>
-To: linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	kasan-dev@googlegroups.com
-Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>,
+       dkim=pass header.i=@google.com header.s=20161025 header.b=jD8zkG1K;
+       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::42a as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com. [2a00:1450:4864:20::42a])
+        by gmr-mx.google.com with ESMTPS id 63si270508lfd.1.2021.03.08.08.24.29
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 08 Mar 2021 08:24:29 -0800 (PST)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::42a as permitted sender) client-ip=2a00:1450:4864:20::42a;
+Received: by mail-wr1-x42a.google.com with SMTP id b18so12094581wrn.6
+        for <kasan-dev@googlegroups.com>; Mon, 08 Mar 2021 08:24:29 -0800 (PST)
+X-Received: by 2002:a5d:47ab:: with SMTP id 11mr23754002wrb.153.1615220669148;
+        Mon, 08 Mar 2021 08:24:29 -0800 (PST)
+Received: from elver.google.com ([2a00:79e0:15:13:9d1d:b6a0:d116:531b])
+        by smtp.gmail.com with ESMTPSA id g5sm4195360wrq.30.2021.03.08.08.24.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Mar 2021 08:24:28 -0800 (PST)
+Date: Mon, 8 Mar 2021 17:24:22 +0100
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+To: Andrey Konovalov <andreyknvl@google.com>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Alexander Potapenko <glider@google.com>,
 	Andrew Morton <akpm@linux-foundation.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
+	Will Deacon <will.deacon@arm.com>,
 	Dmitry Vyukov <dvyukov@google.com>,
 	Andrey Ryabinin <aryabinin@virtuozzo.com>,
-	Alexander Potapenko <glider@google.com>,
-	Marco Elver <elver@google.com>,
+	Peter Collingbourne <pcc@google.com>,
 	Evgenii Stepanov <eugenis@google.com>,
 	Branislav Rankov <Branislav.Rankov@arm.com>,
-	Andrey Konovalov <andreyknvl@google.com>,
-	Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-Subject: [PATCH v14 8/8] kselftest/arm64: Verify that TCO is enabled in load_unaligned_zeropad()
-Date: Mon,  8 Mar 2021 16:14:34 +0000
-Message-Id: <20210308161434.33424-9-vincenzo.frascino@arm.com>
-X-Mailer: git-send-email 2.30.0
-In-Reply-To: <20210308161434.33424-1-vincenzo.frascino@arm.com>
-References: <20210308161434.33424-1-vincenzo.frascino@arm.com>
+	Kevin Brodsky <kevin.brodsky@arm.com>, kasan-dev@googlegroups.com,
+	linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 4/5] kasan, mm: integrate slab init_on_alloc with
+ HW_TAGS
+Message-ID: <YEZPttHc1Jw6ksYa@elver.google.com>
+References: <cover.1615218180.git.andreyknvl@google.com>
+ <027a5988eb8de20cee1595e65a754072fdfcdb1c.1615218180.git.andreyknvl@google.com>
 MIME-Version: 1.0
-X-Original-Sender: vincenzo.frascino@arm.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172
- as permitted sender) smtp.mailfrom=vincenzo.frascino@arm.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+In-Reply-To: <027a5988eb8de20cee1595e65a754072fdfcdb1c.1615218180.git.andreyknvl@google.com>
+User-Agent: Mutt/2.0.5 (2021-01-21)
+X-Original-Sender: elver@google.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@google.com header.s=20161025 header.b=jD8zkG1K;       spf=pass
+ (google.com: domain of elver@google.com designates 2a00:1450:4864:20::42a as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -139,132 +150,275 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-load_unaligned_zeropad() and __get/put_kernel_nofault() functions can
-read passed some buffer limits which may include some MTE granule with a
-different tag.
+On Mon, Mar 08, 2021 at 04:55PM +0100, Andrey Konovalov wrote:
+> This change uses the previously added memory initialization feature
+> of HW_TAGS KASAN routines for slab memory when init_on_alloc is enabled.
+> 
+> With this change, memory initialization memset() is no longer called
+> when both HW_TAGS KASAN and init_on_alloc are enabled. Instead, memory
+> is initialized in KASAN runtime.
+> 
+> The memory initialization memset() is moved into slab_post_alloc_hook()
+> that currently directly follows the initialization loop. A new argument
+> is added to slab_post_alloc_hook() that indicates whether to initialize
+> the memory or not.
 
-When MTE async mode is enable, the load operation crosses the boundaries
-and the next granule has a different tag the PE sets the TFSR_EL1.TF1
-bit as if an asynchronous tag fault is happened:
+This is a pretty intrusive change to the internal slab APIs. However, I
+think this is a positive cleanup, removing some code duplication, so I
+hope this is the right thing to do.
 
- ==================================================================
- BUG: KASAN: invalid-access
- Asynchronous mode enabled: no access details available
+> To avoid discrepancies with which memory gets initialized that can be
+> caused by future changes, both KASAN hook and initialization memset()
+> are put together and a warning comment is added.
+> 
+> Combining setting allocation tags with memory initialization improves
+> HW_TAGS KASAN performance when init_on_alloc is enabled.
+> 
+> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 
- CPU: 0 PID: 1 Comm: init Not tainted 5.12.0-rc1-ge1045c86620d-dirty #8
- Hardware name: FVP Base RevC (DT)
- Call trace:
-   dump_backtrace+0x0/0x1c0
-   show_stack+0x18/0x24
-   dump_stack+0xcc/0x14c
-   kasan_report_async+0x54/0x70
-   mte_check_tfsr_el1+0x48/0x4c
-   exit_to_user_mode+0x18/0x38
-   finish_ret_to_user+0x4/0x15c
- ==================================================================
+Reviewed-by: Marco Elver <elver@google.com>
 
-Verify that Tag Check Override (TCO) is enabled in these functions before
-the load and disable it afterwards to prevent this to happen.
+The code looks fine to me, but there are some non-obvious changes to the
+internal slab APIs, so I'd wait a bit more to see if we missed
+something.
 
-Note: The issue has been observed only with an MTE enabled userspace.
-
-Cc: Catalin Marinas <catalin.marinas@arm.com>
-Cc: Will Deacon <will@kernel.org>
-Reported-by: Branislav Rankov <Branislav.Rankov@arm.com>
-Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
----
- .../arm64/mte/check_read_beyond_buffer.c      | 78 +++++++++++++++++++
- 1 file changed, 78 insertions(+)
- create mode 100644 tools/testing/selftests/arm64/mte/check_read_beyond_buffer.c
-
-diff --git a/tools/testing/selftests/arm64/mte/check_read_beyond_buffer.c b/tools/testing/selftests/arm64/mte/check_read_beyond_buffer.c
-new file mode 100644
-index 000000000000..eb03cd52a58e
---- /dev/null
-+++ b/tools/testing/selftests/arm64/mte/check_read_beyond_buffer.c
-@@ -0,0 +1,78 @@
-+// SPDX-License-Identifier: GPL-2.0
-+// Copyright (C) 2020 ARM Limited
-+
-+#define _GNU_SOURCE
-+
-+#include <errno.h>
-+#include <fcntl.h>
-+#include <pthread.h>
-+#include <stdint.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <time.h>
-+#include <unistd.h>
-+#include <sys/auxv.h>
-+#include <sys/mman.h>
-+#include <sys/prctl.h>
-+#include <sys/types.h>
-+#include <sys/wait.h>
-+
-+#include "kselftest.h"
-+#include "mte_common_util.h"
-+#include "mte_def.h"
-+
-+#define NUM_DEVICES		8
-+
-+static char *dev[NUM_DEVICES] = {
-+	"/proc/cmdline",
-+	"/fstab.fvp",
-+	"/dev/null",
-+	"/proc/mounts",
-+	"/proc/filesystems",
-+	"/proc/cmdline",
-+	"/proc/device-tre", /* incorrect path */
-+	"",
-+};
-+
-+#define FAKE_PERMISSION		0x88000
-+#define MAX_DESCRIPTOR		0xffffffff
-+
-+int mte_read_beyond_buffer_test(void)
-+{
-+	int fd[NUM_DEVICES];
-+	unsigned int _desc, _dev;
-+
-+	for (_desc = 0; _desc <= MAX_DESCRIPTOR; _desc++) {
-+		for (_dev = 0; _dev < NUM_DEVICES; _dev++) {
-+#ifdef _TEST_DEBUG
-+			printf("[TEST]: openat(0x%x, %s, 0x%x)\n", _desc, dev[_dev], FAKE_PERMISSION);
-+#endif
-+
-+			fd[_dev] = openat(_desc, dev[_dev], FAKE_PERMISSION);
-+		}
-+
-+		for (_dev = 0; _dev <= NUM_DEVICES; _dev++)
-+			close(fd[_dev]);
-+	}
-+
-+	return KSFT_PASS;
-+}
-+
-+int main(int argc, char *argv[])
-+{
-+	int err;
-+
-+	err = mte_default_setup();
-+	if (err)
-+		return err;
-+
-+	ksft_set_plan(1);
-+
-+	evaluate_test(mte_read_beyond_buffer_test(),
-+		"Verify that TCO is enabled correctly if a read beyond buffer occurs\n");
-+
-+	mte_restore_setup();
-+	ksft_print_cnts();
-+
-+	return ksft_get_fail_cnt() == 0 ? KSFT_PASS : KSFT_FAIL;
-+}
--- 
-2.30.0
+> ---
+>  include/linux/kasan.h |  8 ++++----
+>  mm/kasan/common.c     |  4 ++--
+>  mm/slab.c             | 28 +++++++++++++---------------
+>  mm/slab.h             | 17 +++++++++++++----
+>  mm/slub.c             | 27 +++++++++++----------------
+>  5 files changed, 43 insertions(+), 41 deletions(-)
+> 
+> diff --git a/include/linux/kasan.h b/include/linux/kasan.h
+> index c89613caa8cf..85f2a8786606 100644
+> --- a/include/linux/kasan.h
+> +++ b/include/linux/kasan.h
+> @@ -226,12 +226,12 @@ static __always_inline void kasan_slab_free_mempool(void *ptr)
+>  }
+>  
+>  void * __must_check __kasan_slab_alloc(struct kmem_cache *s,
+> -				       void *object, gfp_t flags);
+> +				       void *object, gfp_t flags, bool init);
+>  static __always_inline void * __must_check kasan_slab_alloc(
+> -				struct kmem_cache *s, void *object, gfp_t flags)
+> +		struct kmem_cache *s, void *object, gfp_t flags, bool init)
+>  {
+>  	if (kasan_enabled())
+> -		return __kasan_slab_alloc(s, object, flags);
+> +		return __kasan_slab_alloc(s, object, flags, init);
+>  	return object;
+>  }
+>  
+> @@ -320,7 +320,7 @@ static inline bool kasan_slab_free(struct kmem_cache *s, void *object)
+>  static inline void kasan_kfree_large(void *ptr) {}
+>  static inline void kasan_slab_free_mempool(void *ptr) {}
+>  static inline void *kasan_slab_alloc(struct kmem_cache *s, void *object,
+> -				   gfp_t flags)
+> +				   gfp_t flags, bool init)
+>  {
+>  	return object;
+>  }
+> diff --git a/mm/kasan/common.c b/mm/kasan/common.c
+> index 6107c795611f..7ea747b18c26 100644
+> --- a/mm/kasan/common.c
+> +++ b/mm/kasan/common.c
+> @@ -428,7 +428,7 @@ static void set_alloc_info(struct kmem_cache *cache, void *object,
+>  }
+>  
+>  void * __must_check __kasan_slab_alloc(struct kmem_cache *cache,
+> -					void *object, gfp_t flags)
+> +					void *object, gfp_t flags, bool init)
+>  {
+>  	u8 tag;
+>  	void *tagged_object;
+> @@ -453,7 +453,7 @@ void * __must_check __kasan_slab_alloc(struct kmem_cache *cache,
+>  	 * Unpoison the whole object.
+>  	 * For kmalloc() allocations, kasan_kmalloc() will do precise poisoning.
+>  	 */
+> -	kasan_unpoison(tagged_object, cache->object_size, false);
+> +	kasan_unpoison(tagged_object, cache->object_size, init);
+>  
+>  	/* Save alloc info (if possible) for non-kmalloc() allocations. */
+>  	if (kasan_stack_collection_enabled())
+> diff --git a/mm/slab.c b/mm/slab.c
+> index 51fd424e0d6d..936dd686dec9 100644
+> --- a/mm/slab.c
+> +++ b/mm/slab.c
+> @@ -3216,6 +3216,7 @@ slab_alloc_node(struct kmem_cache *cachep, gfp_t flags, int nodeid, size_t orig_
+>  	void *ptr;
+>  	int slab_node = numa_mem_id();
+>  	struct obj_cgroup *objcg = NULL;
+> +	bool init = false;
+>  
+>  	flags &= gfp_allowed_mask;
+>  	cachep = slab_pre_alloc_hook(cachep, &objcg, 1, flags);
+> @@ -3254,12 +3255,10 @@ slab_alloc_node(struct kmem_cache *cachep, gfp_t flags, int nodeid, size_t orig_
+>    out:
+>  	local_irq_restore(save_flags);
+>  	ptr = cache_alloc_debugcheck_after(cachep, flags, ptr, caller);
+> -
+> -	if (unlikely(slab_want_init_on_alloc(flags, cachep)) && ptr)
+> -		memset(ptr, 0, cachep->object_size);
+> +	init = slab_want_init_on_alloc(flags, cachep);
+>  
+>  out_hooks:
+> -	slab_post_alloc_hook(cachep, objcg, flags, 1, &ptr);
+> +	slab_post_alloc_hook(cachep, objcg, flags, 1, &ptr, init);
+>  	return ptr;
+>  }
+>  
+> @@ -3301,6 +3300,7 @@ slab_alloc(struct kmem_cache *cachep, gfp_t flags, size_t orig_size, unsigned lo
+>  	unsigned long save_flags;
+>  	void *objp;
+>  	struct obj_cgroup *objcg = NULL;
+> +	bool init = false;
+>  
+>  	flags &= gfp_allowed_mask;
+>  	cachep = slab_pre_alloc_hook(cachep, &objcg, 1, flags);
+> @@ -3317,12 +3317,10 @@ slab_alloc(struct kmem_cache *cachep, gfp_t flags, size_t orig_size, unsigned lo
+>  	local_irq_restore(save_flags);
+>  	objp = cache_alloc_debugcheck_after(cachep, flags, objp, caller);
+>  	prefetchw(objp);
+> -
+> -	if (unlikely(slab_want_init_on_alloc(flags, cachep)) && objp)
+> -		memset(objp, 0, cachep->object_size);
+> +	init = slab_want_init_on_alloc(flags, cachep);
+>  
+>  out:
+> -	slab_post_alloc_hook(cachep, objcg, flags, 1, &objp);
+> +	slab_post_alloc_hook(cachep, objcg, flags, 1, &objp, init);
+>  	return objp;
+>  }
+>  
+> @@ -3542,18 +3540,18 @@ int kmem_cache_alloc_bulk(struct kmem_cache *s, gfp_t flags, size_t size,
+>  
+>  	cache_alloc_debugcheck_after_bulk(s, flags, size, p, _RET_IP_);
+>  
+> -	/* Clear memory outside IRQ disabled section */
+> -	if (unlikely(slab_want_init_on_alloc(flags, s)))
+> -		for (i = 0; i < size; i++)
+> -			memset(p[i], 0, s->object_size);
+> -
+> -	slab_post_alloc_hook(s, objcg, flags, size, p);
+> +	/*
+> +	 * memcg and kmem_cache debug support and memory initialization.
+> +	 * Done outside of the IRQ disabled section.
+> +	 */
+> +	slab_post_alloc_hook(s, objcg, flags, size, p,
+> +				slab_want_init_on_alloc(flags, s));
+>  	/* FIXME: Trace call missing. Christoph would like a bulk variant */
+>  	return size;
+>  error:
+>  	local_irq_enable();
+>  	cache_alloc_debugcheck_after_bulk(s, flags, i, p, _RET_IP_);
+> -	slab_post_alloc_hook(s, objcg, flags, i, p);
+> +	slab_post_alloc_hook(s, objcg, flags, i, p, false);
+>  	__kmem_cache_free_bulk(s, i, p);
+>  	return 0;
+>  }
+> diff --git a/mm/slab.h b/mm/slab.h
+> index 076582f58f68..c6f0e55a674a 100644
+> --- a/mm/slab.h
+> +++ b/mm/slab.h
+> @@ -506,15 +506,24 @@ static inline struct kmem_cache *slab_pre_alloc_hook(struct kmem_cache *s,
+>  }
+>  
+>  static inline void slab_post_alloc_hook(struct kmem_cache *s,
+> -					struct obj_cgroup *objcg,
+> -					gfp_t flags, size_t size, void **p)
+> +					struct obj_cgroup *objcg, gfp_t flags,
+> +					size_t size, void **p, bool init)
+>  {
+>  	size_t i;
+>  
+>  	flags &= gfp_allowed_mask;
+> +
+> +	/*
+> +	 * As memory initialization might be integrated into KASAN,
+> +	 * kasan_slab_alloc and initialization memset must be
+> +	 * kept together to avoid discrepancies in behavior.
+> +	 *
+> +	 * As p[i] might get tagged, memset and kmemleak hook come after KASAN.
+> +	 */
+>  	for (i = 0; i < size; i++) {
+> -		p[i] = kasan_slab_alloc(s, p[i], flags);
+> -		/* As p[i] might get tagged, call kmemleak hook after KASAN. */
+> +		p[i] = kasan_slab_alloc(s, p[i], flags, init);
+> +		if (p[i] && init && !kasan_has_integrated_init())
+> +			memset(p[i], 0, s->object_size);
+>  		kmemleak_alloc_recursive(p[i], s->object_size, 1,
+>  					 s->flags, flags);
+>  	}
+> diff --git a/mm/slub.c b/mm/slub.c
+> index e26c274b4657..f53df23760e3 100644
+> --- a/mm/slub.c
+> +++ b/mm/slub.c
+> @@ -2822,6 +2822,7 @@ static __always_inline void *slab_alloc_node(struct kmem_cache *s,
+>  	struct page *page;
+>  	unsigned long tid;
+>  	struct obj_cgroup *objcg = NULL;
+> +	bool init = false;
+>  
+>  	s = slab_pre_alloc_hook(s, &objcg, 1, gfpflags);
+>  	if (!s)
+> @@ -2899,12 +2900,10 @@ static __always_inline void *slab_alloc_node(struct kmem_cache *s,
+>  	}
+>  
+>  	maybe_wipe_obj_freeptr(s, object);
+> -
+> -	if (unlikely(slab_want_init_on_alloc(gfpflags, s)) && object)
+> -		memset(kasan_reset_tag(object), 0, s->object_size);
+> +	init = slab_want_init_on_alloc(gfpflags, s);
+>  
+>  out:
+> -	slab_post_alloc_hook(s, objcg, gfpflags, 1, &object);
+> +	slab_post_alloc_hook(s, objcg, gfpflags, 1, &object, init);
+>  
+>  	return object;
+>  }
+> @@ -3356,20 +3355,16 @@ int kmem_cache_alloc_bulk(struct kmem_cache *s, gfp_t flags, size_t size,
+>  	c->tid = next_tid(c->tid);
+>  	local_irq_enable();
+>  
+> -	/* Clear memory outside IRQ disabled fastpath loop */
+> -	if (unlikely(slab_want_init_on_alloc(flags, s))) {
+> -		int j;
+> -
+> -		for (j = 0; j < i; j++)
+> -			memset(kasan_reset_tag(p[j]), 0, s->object_size);
+> -	}
+> -
+> -	/* memcg and kmem_cache debug support */
+> -	slab_post_alloc_hook(s, objcg, flags, size, p);
+> +	/*
+> +	 * memcg and kmem_cache debug support and memory initialization.
+> +	 * Done outside of the IRQ disabled fastpath loop.
+> +	 */
+> +	slab_post_alloc_hook(s, objcg, flags, size, p,
+> +				slab_want_init_on_alloc(flags, s));
+>  	return i;
+>  error:
+>  	local_irq_enable();
+> -	slab_post_alloc_hook(s, objcg, flags, i, p);
+> +	slab_post_alloc_hook(s, objcg, flags, i, p, false);
+>  	__kmem_cache_free_bulk(s, i, p);
+>  	return 0;
+>  }
+> @@ -3579,7 +3574,7 @@ static void early_kmem_cache_node_alloc(int node)
+>  	init_object(kmem_cache_node, n, SLUB_RED_ACTIVE);
+>  	init_tracking(kmem_cache_node, n);
+>  #endif
+> -	n = kasan_slab_alloc(kmem_cache_node, n, GFP_KERNEL);
+> +	n = kasan_slab_alloc(kmem_cache_node, n, GFP_KERNEL, false);
+>  	page->freelist = get_freepointer(kmem_cache_node, n);
+>  	page->inuse = 1;
+>  	page->frozen = 0;
+> -- 
+> 2.30.1.766.gb4fecdf3b7-goog
+> 
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210308161434.33424-9-vincenzo.frascino%40arm.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YEZPttHc1Jw6ksYa%40elver.google.com.
