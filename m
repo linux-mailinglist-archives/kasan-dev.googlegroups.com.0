@@ -1,117 +1,123 @@
-Return-Path: <kasan-dev+bncBCMMJFFL5UDBBYF3T6BAMGQEADQOVHQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBD4LX4523YGBBK7DT6BAMGQE5SVX42I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33c.google.com (mail-wm1-x33c.google.com [IPv6:2a00:1450:4864:20::33c])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4CC0333024
-	for <lists+kasan-dev@lfdr.de>; Tue,  9 Mar 2021 21:43:12 +0100 (CET)
-Received: by mail-wm1-x33c.google.com with SMTP id v5sf1636023wml.9
-        for <lists+kasan-dev@lfdr.de>; Tue, 09 Mar 2021 12:43:12 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1615322592; cv=pass;
+Received: from mail-il1-x137.google.com (mail-il1-x137.google.com [IPv6:2607:f8b0:4864:20::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC0CB33315C
+	for <lists+kasan-dev@lfdr.de>; Tue,  9 Mar 2021 23:07:40 +0100 (CET)
+Received: by mail-il1-x137.google.com with SMTP id o7sf11330489ilt.5
+        for <lists+kasan-dev@lfdr.de>; Tue, 09 Mar 2021 14:07:40 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1615327659; cv=pass;
         d=google.com; s=arc-20160816;
-        b=TvgWmZxWOb9iOlPUEo4j4aZX1J0JtfhpetOdwMk5JsvuV7zWsSMQ/DD4XaIybVJbJt
-         3mfm1ZgaqZHkFaY7gzVqijpkerUaSEMmuSbW/4aTTDiitAQyCGn/7K9x/VEvOlBaGzmt
-         Lk6ZefoVKkVMPBeqzEFsT7RZpp0Ubj1WITG+8/QihbgKGWtF0LIPcELVUMuJ8kd3KD5n
-         GPu5eN2HoiCllZJVFNEvKaK+F9/cTni3BOYV1BrDLDthd+mk1LHdN9iwZWnmZHGFqX5m
-         ctiqRHgvdFAURW1hL/HLLj4tnw6HKPcncyhNlJyvCfkuioZGPPOUfnXRj9F2zmraDrL3
-         7a0w==
+        b=rBWwHV6OC3gBL3FdtFl4/okAaJHPYiWfHSFn6IBpkWmyOPUglX9QYEjjE6Pwu8r29w
+         QDB0s8EP8UfTuV54T2c8HrYKBCZ/MWVE8fR9R8gv7iMTZubpVZAOkNlUDg38wgfJEdEG
+         BxDRCczfTTnRDQAjyz4/8tIfC52B2l3IS5lFCg74enBNvuoPDTWip9sma5NBw5CHy6Os
+         cUjF2vno1zW68CSrTInK4rdKbqvj9upW75zJ6N8d4cU5Ro1xyL8R52mWWiLFqftBBCQw
+         UTiIgBS4lPjCkmSxBR0/6ByHMMqZTg+qrC0uKzEKdB59ILmEybeVdzRGW5wwS+cfOIMH
+         iBHA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:mime-version:dkim-signature;
-        bh=eXgSq4MGa2p7GF8R4r8Qw6zMlxOu5/b28Kj9OeYSu8Y=;
-        b=B9aE0EqdcV4ffso0nv25M0K/adO2NZKR+4G6LXPavbi335Hc17LL3k2qCSzV65GbKC
-         uyi6RxkMqI2vQ8FL3UXSU3EwCGMVa+zwDF2nKNl1pp6kiH9yNhYIqfIQqRcOUHaA84vA
-         9R4GxcoOUGsdRiAiZUAyI3NBAKY3pCoPBcVjPPCsOs49oTAfaW6JaoShJVfWPGkVZ+q3
-         5W8k/6sWCzQnF8dgzo8XnDvRtGrJY8KXcpIoM7JzVO+AqC6dezOIYI8pM/YgFQyFiOZK
-         8wu6JjVzI6kGqmTpgAvR0SuEeFlz9w5BVc9LCnQJhOMn/L+C2CqqyI0eQlNR3sugPMpm
-         0Ssw==
+         :list-id:mailing-list:precedence:user-agent:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:sender:dkim-signature;
+        bh=xWtvw//fppdHFI6hmgdVZS5V2XlFrZ1hFTjBVnkZr2E=;
+        b=Y3dKvep1R6pPFE5W5XyhM1/26ca7KcvA0wERg71kAy7eZPU0JoNuYXLze06QzqZdWp
+         TrYZ76BGIMNH5LSYevFwvJB76O1oSaFwnfVngPXdCs2CQRXRmjPKYNyEBCzfy8vQk8sn
+         suUcSep5Ib/wVLAvpj4nfxgzvEISe9/STC4eg0ZOCtMT9myjvhH20fG/D5s8ul7SGHcw
+         1pCeYPRUSAcwJ7P4br0gTg3ueBdRdHTP5Xyr/iZK0TZE9TuHoziClA1+teK3nv87O606
+         oAnfxLH8xSl+HNW0RMD1XkJ9rLqnfREsYEL50SDVXj2Hu4M+o+jMTs0YmrbrmoRMfpMP
+         6xXg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=lsdMpuNc;
-       spf=pass (google.com: domain of jhumphri@google.com designates 2a00:1450:4864:20::531 as permitted sender) smtp.mailfrom=jhumphri@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       spf=pass (google.com: domain of segher@kernel.crashing.org designates 63.228.1.57 as permitted sender) smtp.mailfrom=segher@kernel.crashing.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:list-post:list-help:list-archive:list-subscribe
-         :list-unsubscribe;
-        bh=eXgSq4MGa2p7GF8R4r8Qw6zMlxOu5/b28Kj9OeYSu8Y=;
-        b=lIds4GGvq1CzOaH5FGYLhaFe4lIH09bSsjypFkGWK0+Ct5ifCV0d2thZMqnbUfWLmU
-         YYGZFlb14wofRFlMSKolrFs8VBhmO3ve7Kbg1FKy0jz7GOvS/nLPcXhk0cpoN/rMvuTc
-         2VxNyre31n5F6dnZcnILI+pqsp/MrZpjpED8xUaj8aK4C8piniZ/1rZYYwNXP4xcMQie
-         hXqlbRMwSAxYda2fVguY5PTGLJE4jRUPvLrmnkr73Ki4go5ELRKfVXgF6BWDuitRxmdn
-         hIgIjvu+tmy7QPLANd7xHR4uWJw9RC+2ez5BHMuh4sZ7RbduxVLHWaN5LFpbQoAVFvTW
-         xm5Q==
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=xWtvw//fppdHFI6hmgdVZS5V2XlFrZ1hFTjBVnkZr2E=;
+        b=ocygkoi+fR1FpnDWKSas5Twp5lNp6bQVb18bJdV4fKwW3hJyOHQaDzf5lxxuquznr1
+         aaXujR7b6ekhLyAN/q14d4RSXi3uwpcXAMCxkjbAStQN47qzfGLGd2Vk4HiAC4nujkbR
+         m/L38FZ5vaQpo3h80Sccjs7CcmqsK7gyUrVRkT+JN+vRsOvLLFnGuT1k3JRdpDki/Xf8
+         DbQ1yiFXZDgIsVGz577gPD24D5XDeukhka2GP0nhMFV1OvE1H6ei0anuAxMnlSKAcyWU
+         qpuOlTTT2y8NP3yKcci8bEWogYqnueZ+6u0gwUeTS96+4ANBQzrvvIEm6BUCk5vHk86i
+         In1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc
-         :x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=eXgSq4MGa2p7GF8R4r8Qw6zMlxOu5/b28Kj9OeYSu8Y=;
-        b=m2u+pW783NO/os3eSEo7MLOGiMOFuaP0Q4fNQUBYqsHrSZLCMkZtVD6wmRutJD2073
-         3cK6n8xkPgnRluNgq9ahvPhi9s7MPl8tFH1Af7HbAa5pshXlUG91oIfDb9yJKu3mRxTV
-         OWQ2PAuGkpu1u+nI7QT61oHPQHyMqq1XHMR33bNewzPY2X1DPBkhgcnkZqarplnPRNdJ
-         xmRKfuc5nA05So5KoCtBmZgnvucAMXrSh8vtEWF4uN5AMqOp8Iv1bduEemVxIEWa8DvT
-         76SQGZgRFx15zRE19+aP7kHBGoTOr7Qqzt4vbXszSV6QJ+WYFY4aRvxI/+TYbH4EiDrQ
-         +gEw==
-X-Gm-Message-State: AOAM530mgFpwZx89Efv1Mn2VqnhUGTVkZJxavI3/lulKvRczppddKwn0
-	cm0uoh4geL7IoeOZ1bNIF9U=
-X-Google-Smtp-Source: ABdhPJwiPyWnhmp+kBpS4tX9BhKqs2GcFN7yADG9vAaKMOiG/eGCR3puD0Y4yisnVGkLvtrjQ02oZA==
-X-Received: by 2002:adf:d205:: with SMTP id j5mr20614454wrh.211.1615322592510;
-        Tue, 09 Mar 2021 12:43:12 -0800 (PST)
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=xWtvw//fppdHFI6hmgdVZS5V2XlFrZ1hFTjBVnkZr2E=;
+        b=iecc2xFJXDCzs2H3feK4m0XvD0yNrwAik2ZRbldhiVbUl86g7OD+brke8ZPt+2GHZy
+         iKm4lnp6JAgVcJZfy0+T0Ya8FjXpUJQUkcxSNDGu9bHhpVxVlYU+sg9e/WRLfYPP49Ks
+         wJkFkqS6fwj1gpjPnVtXLWBrJZC2trEOtzQ1nAKmDBr9+2h8kYwKJo6J2WEUFpwUUDoC
+         1eyh4yfhmfqkElR9atM5U9NSq1UpsNDGzdFvm9C1UJf2iyIZto6IV7gT/rfQW9BYgqhQ
+         0EaWm+UFXkwm7wJpMUWxYPwHRaW4cyFF9MNFDWPhEONiZTil/VnnbNxPoJIJZk6AtW3L
+         Dn7Q==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM530usXrP4OVJQbS1o59+T21Au/x8RUnn7Bz5ooDYRxn6EyB94Rx5
+	3K/muqGFYPPBaggoaKY7tIU=
+X-Google-Smtp-Source: ABdhPJxN+SZgdnHM8OOUyIHxxn9SQGtErcVr9nCxS1clWJQqxumHf5fq7deFXqmUpkqZ2vmZN0z34A==
+X-Received: by 2002:a92:c010:: with SMTP id q16mr286965ild.250.1615327659609;
+        Tue, 09 Mar 2021 14:07:39 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a1c:60c2:: with SMTP id u185ls2133764wmb.2.gmail; Tue, 09
- Mar 2021 12:43:11 -0800 (PST)
-X-Received: by 2002:a1c:7e45:: with SMTP id z66mr5971201wmc.126.1615322591661;
-        Tue, 09 Mar 2021 12:43:11 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1615322591; cv=none;
+Received: by 2002:a05:6638:3590:: with SMTP id v16ls382170jal.5.gmail; Tue, 09
+ Mar 2021 14:07:39 -0800 (PST)
+X-Received: by 2002:a02:a506:: with SMTP id e6mr243067jam.56.1615327659257;
+        Tue, 09 Mar 2021 14:07:39 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1615327659; cv=none;
         d=google.com; s=arc-20160816;
-        b=gtrG7vb27ViAagnYjsHAIMdGKZP4FRS4jFTGAUbfRlD/i4H9G/8GZKhKbuvQyQRuhP
-         ItFWNMd3BW+JI7xIZJrIHxHmt9jXVihrnKl6wAIsPq8ubTJ4YK4VHB+ek8m4PBG3ZVaI
-         qW8Q4rIvI6bG9knmO49I3sXsNt9NlDZBPL4nfY0wAN75OtkZQvaG6AEO9Ml1b25oVPEs
-         +2DYYVtYpgP+jH8BcQIlSu5JylQL9/LqA6HcTwjPgQatchy/TcCLJtViRzLL1RbL7POj
-         wgtrEJGQ7eq9/jH5qwTa0tbnZjbO2ptDc5AGQ5hQcY12r3t0q35CcXNBRnjIeOUDpMpf
-         TGrw==
+        b=oZgdbgfWAhdMWa2sIbkDYmgvgHb7QolqvfUbndEmtHI4PbNfEZ1zLPD8pCyciSPilp
+         M6jD9k+NLvqvGJnlRvbyBdU3MAT0vakHGChSJamTcpN4z4p37NC3VqHfPbtAjp5OyVtf
+         TJ58O6rkIdZhVGqSD+dfEoirLkoEssmS1oTV9wbOBsyHqt5FQAt/m1BEprqV7mDBxcC8
+         ZOzzVbiKnmyiOneRFlj6xRpRdsqdFECVQiB0Unh/2tMUgxZQ2KQCxHJ0gk+BVYhzjpAW
+         rFDdLsn1EDdnmgr3v2u4+C7svySjqtHtML+3cgL3zo54VG0Ln/nbCyNoNvZGgUxlJo2/
+         K92g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=8r0ViUjJmdnMr2I/n8DQniB5gALNh8NdQ56Ox2g0ag8=;
-        b=h4jrgeB0zGNjijZ67/hYYQCI4bNUrkwAktui2+KuzpULOVhT6c2tY8N9uH2z1F2n6Z
-         hSG3vx6Uen0wNvRnpjwjs8qPwMpwaUDyq5TMUT1sqrioOz3m0VqxWT0+Z5kxmV12Rs/r
-         NxJP67T8BVydxJaU8WbGT0qxCRkdtE8XaEwOd8LP8uFOb4nEPpCxCRkEmiy61DoKLhMm
-         Ptbcc11sch99/o9095oyEDxaUw/wBivlJCVs+wKB/hHRFqnOsqHJdSMO7qi3Nu24HIIN
-         gHuTobHX39GEx3W7k/pxP3BzR9EYukexh2yz88lZYdcUHh/jY1tv48VieitOGIDMrH9w
-         V+OQ==
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date;
+        bh=6SbblWsI6E//dvKpJssuzpDeCQZpyOq8LJ1RAIxvTc0=;
+        b=RuuCFR3GkXI55Mmo0vUfpFcXPIHJtJx8E0DBtcwUfh1wLgAmlrIzk2b9eKwAIQ6ZHZ
+         TgNT6j+NtxujcM+ZQi6jCRrn1idKcqIDTe/JLUm3AN4LVkpTB+A3YL6KihGfUHl/rDiV
+         Oos6mimTACcLMP2Q0K8/9kU/56RNCnRhg7WtO0fdeFKGYuUMoA/f9DqxdkdHmLFhHVEa
+         aldmqQYv5PtRcdEIR0/lON7df2dG4kUjZLJRZOUUWY3RD1U6iysGcC2FHsSMjW7FfYkM
+         CRRkE9dEx+0h+/kvQgWbU2vaMWuywbejgPyl3/RBjCPTwsGPDEzo9hS2xbCCDHqlqJll
+         d4RQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=lsdMpuNc;
-       spf=pass (google.com: domain of jhumphri@google.com designates 2a00:1450:4864:20::531 as permitted sender) smtp.mailfrom=jhumphri@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com. [2a00:1450:4864:20::531])
-        by gmr-mx.google.com with ESMTPS id p189si137115wmp.1.2021.03.09.12.43.11
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 09 Mar 2021 12:43:11 -0800 (PST)
-Received-SPF: pass (google.com: domain of jhumphri@google.com designates 2a00:1450:4864:20::531 as permitted sender) client-ip=2a00:1450:4864:20::531;
-Received: by mail-ed1-x531.google.com with SMTP id h10so23091744edl.6
-        for <kasan-dev@googlegroups.com>; Tue, 09 Mar 2021 12:43:11 -0800 (PST)
-X-Received: by 2002:aa7:d642:: with SMTP id v2mr6359329edr.257.1615322591107;
- Tue, 09 Mar 2021 12:43:11 -0800 (PST)
-MIME-Version: 1.0
-From: "'Jack Humphries' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Tue, 9 Mar 2021 12:43:00 -0800
-Message-ID: <CAAjQ+WqFdpaWOjjDxVTU7bFL=-w8zYvp1OM2EXCNY0WeGszppQ@mail.gmail.com>
-Subject: Open Source
-To: kasan-dev@googlegroups.com
-Cc: Paul Turner <pjt@google.com>
-Content-Type: multipart/alternative; boundary="0000000000003df84a05bd20996c"
-X-Original-Sender: jhumphri@google.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=lsdMpuNc;       spf=pass
- (google.com: domain of jhumphri@google.com designates 2a00:1450:4864:20::531
- as permitted sender) smtp.mailfrom=jhumphri@google.com;       dmarc=pass
- (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Jack Humphries <jhumphri@google.com>
-Reply-To: Jack Humphries <jhumphri@google.com>
+       spf=pass (google.com: domain of segher@kernel.crashing.org designates 63.228.1.57 as permitted sender) smtp.mailfrom=segher@kernel.crashing.org
+Received: from gate.crashing.org (gate.crashing.org. [63.228.1.57])
+        by gmr-mx.google.com with ESMTP id l15si66767ilh.0.2021.03.09.14.07.39
+        for <kasan-dev@googlegroups.com>;
+        Tue, 09 Mar 2021 14:07:39 -0800 (PST)
+Received-SPF: pass (google.com: domain of segher@kernel.crashing.org designates 63.228.1.57 as permitted sender) client-ip=63.228.1.57;
+Received: from gate.crashing.org (localhost.localdomain [127.0.0.1])
+	by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 129M5XDc030658;
+	Tue, 9 Mar 2021 16:05:34 -0600
+Received: (from segher@localhost)
+	by gate.crashing.org (8.14.1/8.14.1/Submit) id 129M5X7J030657;
+	Tue, 9 Mar 2021 16:05:33 -0600
+X-Authentication-Warning: gate.crashing.org: segher set sender to segher@kernel.crashing.org using -f
+Date: Tue, 9 Mar 2021 16:05:32 -0600
+From: Segher Boessenkool <segher@kernel.crashing.org>
+To: Mark Rutland <mark.rutland@arm.com>
+Cc: Marco Elver <elver@google.com>, Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+        broonie@kernel.org, Paul Mackerras <paulus@samba.org>,
+        kasan-dev <kasan-dev@googlegroups.com>, linuxppc-dev@lists.ozlabs.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v1] powerpc: Include running function as first entry in save_stack_trace() and friends
+Message-ID: <20210309220532.GI29191@gate.crashing.org>
+References: <e2e8728c4c4553bbac75a64b148e402183699c0c.1614780567.git.christophe.leroy@csgroup.eu> <CANpmjNOvgbUCf0QBs1J-mO0yEPuzcTMm7aS1JpPB-17_LabNHw@mail.gmail.com> <1802be3e-dc1a-52e0-1754-a40f0ea39658@csgroup.eu> <YD+o5QkCZN97mH8/@elver.google.com> <20210304145730.GC54534@C02TD0UTHF1T.local> <20210304215448.GU29191@gate.crashing.org> <20210309160505.GA4979@C02TD0UTHF1T.local>
+Mime-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+In-Reply-To: <20210309160505.GA4979@C02TD0UTHF1T.local>
+User-Agent: Mutt/1.4.2.3i
+X-Original-Sender: segher@kernel.crashing.org
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of segher@kernel.crashing.org designates 63.228.1.57 as
+ permitted sender) smtp.mailfrom=segher@kernel.crashing.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -124,51 +130,116 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
---0000000000003df84a05bd20996c
-Content-Type: text/plain; charset="UTF-8"
+Hi!
 
-Hi KASAN team,
+On Tue, Mar 09, 2021 at 04:05:23PM +0000, Mark Rutland wrote:
+> On Thu, Mar 04, 2021 at 03:54:48PM -0600, Segher Boessenkool wrote:
+> > On Thu, Mar 04, 2021 at 02:57:30PM +0000, Mark Rutland wrote:
+> > > It looks like GCC is happy to give us the function-entry-time FP if we use
+> > > __builtin_frame_address(1),
+> > 
+> > From the GCC manual:
+> >      Calling this function with a nonzero argument can have
+> >      unpredictable effects, including crashing the calling program.  As
+> >      a result, calls that are considered unsafe are diagnosed when the
+> >      '-Wframe-address' option is in effect.  Such calls should only be
+> >      made in debugging situations.
+> > 
+> > It *does* warn (the warning is in -Wall btw), on both powerpc and
+> > aarch64.  Furthermore, using this builtin causes lousy code (it forces
+> > the use of a frame pointer, which we normally try very hard to optimise
+> > away, for good reason).
+> > 
+> > And, that warning is not an idle warning.  Non-zero arguments to
+> > __builtin_frame_address can crash the program.  It won't on simpler
+> > functions, but there is no real definition of what a simpler function
+> > *is*.  It is meant for debugging, not for production use (this is also
+> > why no one has bothered to make it faster).
+> >
+> > On Power it should work, but on pretty much any other arch it won't.
+> 
+> I understand this is true generally, and cannot be relied upon in
+> portable code. However as you hint here for Power, I believe that on
+> arm64 __builtin_frame_address(1) shouldn't crash the program due to the
+> way frame records work on arm64, but I'll go check with some local
+> compiler folk. I agree that __builtin_frame_address(2) and beyond
+> certainly can, e.g.  by NULL dereference and similar.
 
-I am on the ghOSt team at Google. I have received approval to open-source
-our project. Our project contains both kernel code (in prodkernel) and
-userspace code (in google3).
+I still do not know the aarch64 ABI well enough.  If only I had time!
 
-I have questions about open-sourcing kernel code in particular (licensing
-headers, copybara, etc.). I know KASAN has open-sourced kernel code before.
-Is there someone I can connect with on your team to discuss?
+> For context, why do you think this would work on power specifically? I
+> wonder if our rationale is similar.
 
-Thanks,
-Jack
+On most 64-bit Power ABIs all stack frames are connected together as a
+linked list (which is updated atomically, importantly).  This makes it
+possible to always find all previous stack frames.
+
+> Are you aware of anything in particular that breaks using
+> __builtin_frame_address(1) in non-portable code, or is this just a
+> general sentiment of this not being a supported use-case?
+
+It is not supported, and trying to do it anyway can crash: it can use
+random stack contents as pointer!  Not really "random" of course, but
+where it thinks to find a pointer into the previous frame, which is not
+something it can rely on (unless the ABI guarantees it somehow).
+
+See gcc.gnu.org/PR60109 for example.
+
+> > > Unless we can get some strong guarantees from compiler folk such that we
+> > > can guarantee a specific function acts boundary for unwinding (and
+> > > doesn't itself get split, etc), the only reliable way I can think to
+> > > solve this requires an assembly trampoline. Whatever we do is liable to
+> > > need some invasive rework.
+> > 
+> > You cannot get such a guarantee, other than not letting the compiler
+> > see into the routine at all, like with assembler code (not inline asm,
+> > real assembler code).
+> 
+> If we cannot reliably ensure this then I'm happy to go write an assembly
+> trampoline to snapshot the state at a function call boundary (where our
+> procedure call standard mandates the state of the LR, FP, and frame
+> records pointed to by the FP).
+
+Is the frame pointer required?!
+
+> This'll require reworking a reasonable
+> amount of code cross-architecture, so I'll need to get some more
+> concrete justification (e.g. examples of things that can go wrong in
+> practice).
+
+Say you have a function that does dynamic stack allocation, then there
+is usually no way to find the previous stack frame (without function-
+specific knowledge).  So __builtin_frame_address cannot work (it knows
+nothing about frames further up).
+
+Dynamic stack allocation (alloca, or variable length automatic arrays)
+is just the most common and most convenient example; it is not the only
+case you have problems here.
+
+> > The real way forward is to bite the bullet and to no longer pretend you
+> > can do a full backtrace from just the stack contents.  You cannot.
+> 
+> I think what you mean here is that there's no reliable way to handle the
+> current/leaf function, right? If so I do agree.
+
+No, I meant what I said.
+
+There is the separate issue that you do not know where the return
+address (etc.) is stored in a function that has not yet done a call
+itself, sure.  You cannot assume anything the ABI does not tell you you
+can depend on.
+
+> Beyond that I believe that arm64's frame records should be sufficient.
+
+Do you have a simple linked list connecting all frames?  The aarch64 GCC
+port does not define anything special here (DYNAMIC_CHAIN_ADDRESS), so
+the default will be used: every frame pointer has to point to the
+previous one, no exceptions whatsoever.
+
+
+Segher
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAAjQ%2BWqFdpaWOjjDxVTU7bFL%3D-w8zYvp1OM2EXCNY0WeGszppQ%40mail.gmail.com.
-
---0000000000003df84a05bd20996c
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hi KASAN team,<div><br></div><div>I am on the ghOSt team a=
-t Google. I have received approval to open-source our project. Our project =
-contains both kernel code (in prodkernel) and userspace code (in google3).<=
-/div><div><br></div><div>I have questions about open-sourcing kernel code i=
-n particular (licensing headers, copybara, etc.). I know KASAN has open-sou=
-rced kernel code before. Is there someone I can connect=C2=A0with on your t=
-eam to discuss?</div><div><br></div><div>Thanks,</div><div>Jack</div></div>
-
-<p></p>
-
--- <br />
-You received this message because you are subscribed to the Google Groups &=
-quot;kasan-dev&quot; group.<br />
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
-+unsubscribe@googlegroups.com</a>.<br />
-To view this discussion on the web visit <a href=3D"https://groups.google.c=
-om/d/msgid/kasan-dev/CAAjQ%2BWqFdpaWOjjDxVTU7bFL%3D-w8zYvp1OM2EXCNY0WeGszpp=
-Q%40mail.gmail.com?utm_medium=3Demail&utm_source=3Dfooter">https://groups.g=
-oogle.com/d/msgid/kasan-dev/CAAjQ%2BWqFdpaWOjjDxVTU7bFL%3D-w8zYvp1OM2EXCNY0=
-WeGszppQ%40mail.gmail.com</a>.<br />
-
---0000000000003df84a05bd20996c--
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210309220532.GI29191%40gate.crashing.org.
