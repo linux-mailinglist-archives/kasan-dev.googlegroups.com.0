@@ -1,32 +1,32 @@
-Return-Path: <kasan-dev+bncBC24VNFHTMIBBXVQT2BAMGQEH2ZG3DI@googlegroups.com>
+Return-Path: <kasan-dev+bncBC24VNFHTMIBBINVT2BAMGQEFUJU6TQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pj1-x103b.google.com (mail-pj1-x103b.google.com [IPv6:2607:f8b0:4864:20::103b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 434A8332AEB
-	for <lists+kasan-dev@lfdr.de>; Tue,  9 Mar 2021 16:46:40 +0100 (CET)
-Received: by mail-pj1-x103b.google.com with SMTP id p18sf2286841pjo.8
-        for <lists+kasan-dev@lfdr.de>; Tue, 09 Mar 2021 07:46:40 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1615304799; cv=pass;
+Received: from mail-qk1-x739.google.com (mail-qk1-x739.google.com [IPv6:2607:f8b0:4864:20::739])
+	by mail.lfdr.de (Postfix) with ESMTPS id 36F34332B23
+	for <lists+kasan-dev@lfdr.de>; Tue,  9 Mar 2021 16:56:18 +0100 (CET)
+Received: by mail-qk1-x739.google.com with SMTP id o8sf10384320qkl.3
+        for <lists+kasan-dev@lfdr.de>; Tue, 09 Mar 2021 07:56:18 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1615305377; cv=pass;
         d=google.com; s=arc-20160816;
-        b=A1N5YyGY6Bw228YKpFY+VYT6ZbP+yCEDUOix67+HVf3P5LIXgkowXAZM1BIKRpqoaG
-         EjCPaDf4IJrvaLOMQ4lkpsytpGxKNZuIe6R/MSzcPw+OXEtXKoTHUG6bbygCta9B6XgH
-         0aT7JhSnrG+Avy1b8wBeOzo38Uoqnmwvbn+dGQU1fxqpYbHxxtBCFzlyGWwTFLkAPFUW
-         4NGNj8xY41A5CsqwTPrs8PauUOY3vqE1Gd4kLUu4gDzN+tvoG3Chir73JUSBqFNqSzwd
-         PcvnjetfQe5Hob2diJyQi8GC9coK0DYiBLvBBfvZZBEGJu7EmIGzvfRU3y4DNlT90nHi
-         yjwg==
+        b=jWYpJKAqHAyuuIlYzW+RUpyW/gNaeXSl8fsJu3bySbW4VF9rkQXu5swNPdTjFgiZTV
+         sMJ5arpxvyqdWws/CkP33kEQ/qh35o9w/tXDA4kA8qcY2LFiWnDwanfLJkTiIwhDgSQT
+         T+B+6kqt5M5kvuhAcbdQggfJ4FgxHKMSxgBXw4TSxmfu6ohqz9JmYrQhnNHynZbMvDdP
+         658PLQ7UHNsj3yOD8181GBbtK19ts85BjJTH358kFcRpy992viUQAE+sa7hYqdp5JV8f
+         HB3LLWYxGiPdgSxfx39MTnXFbdeZh/gMZRkjx8VJ+zxn4xWIIJDLrvp0F1HM3c53UA6P
+         Od4Q==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:auto-submitted
          :message-id:date:subject:to:from:sender:dkim-signature;
-        bh=QG97aufq3Peo64rp/ar6+Di0h+PLOf9Yp4MzSOr6i40=;
-        b=Pr7vJJ8wy7KWggmAZxFIUR351HiJX6C4AKAjHsUOURZNEM9ITVZbR4vE9gZD0BLj9d
-         xNuJisjBuDcUVDWE1bONYcic6SJmjW9WsAxF3+ZKVvhwLx8C1yPuL0FpBkQajnh+jA3S
-         5rXL9qL9Gj4FGrtO/AsT51BESmAPoSBRq1kda/kFeUlwDQSGjq85RDF14+Pz+QqqdwUB
-         bKu/7z2cioVWPMfSJRhqwpkjBIektjyjtdi6MbbUvYHprH2CGNw8+bJmY7INPeCAyEVt
-         O00PiF37hdmmvHiHzpJw33Mw6J1zJ9bs3nnP5NtdXj8ZW2y5HMAVz5kg/hdhUjycj/nj
-         OUtA==
+        bh=l7/9MQqBMDc0rmVPr5CIuBVd3d8dXL59xfy/WGiEnXc=;
+        b=rOjmufWxCXSqfpJpAT9+PjNi1Co074OuDEv6K6wqIulnk6f/UBLiPezbIAWU/bdc3U
+         hkGtl+IPDD+4lpTohClIZyTMSl/MACqD7gUot43t9zp5FH1BSveMosqlIQZxzj5FJFrB
+         JtrtwB14ohQdd7ngeRSM7Ik13wS8EWWzbOJhV8jCaIW+eVmGxDgRD2edbL1GiqbPzqWv
+         YFlQYv5nLd6UkKZFbeRZB04EUrdYkd/tj2e+yEgAoS7FURsA55QSBO5jWR+OH0f40m/c
+         l3I16CUkjLa+AzM+gqqgffu6zwEURlsDbravdvs1WUti2yo5SeS99zppJ0GsH1qTjSKN
+         /3Aw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=bL7SRt7u;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=oIku0BQd;
        spf=pass (google.com: domain of bugzilla-daemon@bugzilla.kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=bugzilla-daemon@bugzilla.kernel.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=QG97aufq3Peo64rp/ar6+Di0h+PLOf9Yp4MzSOr6i40=;
-        b=pZhNq6rgcm0QkBNLCBQrKrTbhydUzqoxDm8OHl0fFQ5CK47Q2XCTb7WdcWcEwjou4g
-         1dSuwrWheyEYuMKkZ+MCyw8STGHy7P6fMT5aBIYf5ol2E60uBxjJxYvlSCuGWMTSxJDY
-         U4QKHdRLmYgfTmdalJfyg4YdVyg7HNF1kyVM0MnYWc2sEuU9s5tEtSlDASuo5A+02l4f
-         Ja+V2Sp73AB1stJNkv9HxJbk5j/9yzWIb/lQWGd51E5vxHWMgV/6eSm7KOOLbMT58dCa
-         43oLyIT28VeCutG58f5sqWyK5SKzCXTxWYTVrJ2j74gVBDoHgX8UvodypCD9SAEcquho
-         up0g==
+        bh=l7/9MQqBMDc0rmVPr5CIuBVd3d8dXL59xfy/WGiEnXc=;
+        b=EFzKtJpGL+FnaXErGy3vyFcLSujMBLEcJ0t4V2VEyaRSnU/BiUpK7Y6DUQMI8i/ckH
+         D0g902DaRCNwwBTIT12uPVGRAtiMwIV7Xsx1zWWv0N3quHNu7TDsWMJwd6lPpzbQMt1b
+         pdEWWDsDlbB4OIgQ3mVhxI5R/BMX/f9xDyU+UbPj8T/U4zgvMPMxV3QT/3xckPmCbwD4
+         iZo0GMr4kUWXDCXIkBXxWRcrk02Yd9dm9+i1WzTz5/eJKg0M4k0vMLVABU1ZHQwt1aeH
+         IZad3EJkIxxpTIOPcxVAHU7JdNCvKFTqNKjnKnWQi751YFkGAKW5dAttPIUduuPv/fYG
+         Ca+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:from:to:subject:date:message-id
@@ -49,60 +49,60 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=QG97aufq3Peo64rp/ar6+Di0h+PLOf9Yp4MzSOr6i40=;
-        b=az5AeziggTz+mgtsMMnT6+0QyWIa9aDgwA28F4+Lg1twNg2MTDEKdNZivVzi+kc+K2
-         3wg8eRT02m6neooTXAQQTsg7Bu6BD2wFySnuYFSXZUuCm4hfFttQecIAFzSQYevGKlAw
-         3uLyPxavBl0w1vpvQjgDx3fyVyplZ1uJfKqyPbDKRhsqlAlXSVpfmcJ8LxDT+qTCNIDc
-         nBE2/zQbAu8vf1xr0NWMD1/WRKL0yeN6TQmWJav5PRZnOkLm/LneXjkKnl3mnmk3jBvs
-         aZ7Bf7Ubo5TfbGKFC02t8nEuH4QKTuG4cnEKqHcPKxIhY48QFCddigy++iudijjn5E6j
-         mlFg==
+        bh=l7/9MQqBMDc0rmVPr5CIuBVd3d8dXL59xfy/WGiEnXc=;
+        b=aAy/owUHRgMsXyqLnZf0Ie/+mrr7ELjVuQ8ago7yh2J6dgkEVySkyhTer69Q0wi0kM
+         u/8JkbsCXZik81TECqLTokT0RxqdZp0qUT8tSzVZXgWZWSjkIJ5E1ggI3295qwWB1Fuj
+         tt0YMZlnaoAdaG0o/9dTG0eRZf0FgkkYx6/jtFY1w640QemFW0iJqUTrd6IJ0Qmn9jaH
+         QMO3lZBfiFIsDb1TXUfeKSD/+9ym1LDIyGyXKaFWhhBUPzE0lk/965mNcWaR1TmeDGNg
+         6i55uIXpRoU4/th3VswtAJqDd6HaYZmvGqr1m9yyvfDcD1Uc+nV32UQtnI/LfMkUfp6a
+         ZYnA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM5303hM9Tr75bgtGrGKH5m0zkF+Hutlp/HMvwpbp7EhuFtIhwQt1W
-	GKt65HrAvljVCg/8c2CCq0k=
-X-Google-Smtp-Source: ABdhPJxsKk6Cjio8qHj09UwnFRY7WBTBdkuTAyQ5V0131m359CC0qaW6vaqbiYnKkjIm/ibNsfOBJQ==
-X-Received: by 2002:a62:aa0a:0:b029:1ef:fe5:b172 with SMTP id e10-20020a62aa0a0000b02901ef0fe5b172mr26130400pff.9.1615304798956;
-        Tue, 09 Mar 2021 07:46:38 -0800 (PST)
+X-Gm-Message-State: AOAM53345RHvAswCuLMH9uMEEsvzyibQ0k6IhJuJk0+ZBsYJHR376wcx
+	TusNBSd5z6s7+7VSuEDl4Lk=
+X-Google-Smtp-Source: ABdhPJwbfnkxJohldvzXnCkTN/4UxVnJzR8qxPjP7+MG2sQbhxplJuwEkap0OCpUMHqUl42d/3r+yA==
+X-Received: by 2002:a05:620a:4152:: with SMTP id k18mr25854896qko.446.1615305377365;
+        Tue, 09 Mar 2021 07:56:17 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a63:1b43:: with SMTP id b3ls6667580pgm.11.gmail; Tue, 09 Mar
- 2021 07:46:38 -0800 (PST)
-X-Received: by 2002:aa7:8d8a:0:b029:1f8:aa27:7203 with SMTP id i10-20020aa78d8a0000b02901f8aa277203mr6518505pfr.64.1615304798427;
-        Tue, 09 Mar 2021 07:46:38 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1615304798; cv=none;
+Received: by 2002:ad4:5501:: with SMTP id az1ls5368591qvb.11.gmail; Tue, 09
+ Mar 2021 07:56:17 -0800 (PST)
+X-Received: by 2002:a05:6214:1484:: with SMTP id bn4mr26827604qvb.8.1615305377003;
+        Tue, 09 Mar 2021 07:56:17 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1615305377; cv=none;
         d=google.com; s=arc-20160816;
-        b=bCb8cAagF8ZK4Sz/XmwK1RGltug0J1mw4wz3Q7Fd9LbfpjiG+wIYchR8cqfwi1OeCJ
-         fQplfWM24fFCyqRQ5y4Q30lj+rvnJ2pp5o5dK37ddTspo6vTItcpWX/k3ujqiaE21mUf
-         YbKhR2FJfgJ6WzMRS2uYSwXCvi3iMDjkAv+zubjJRfPBcLElmfieHgA7R2sk3kZZs73g
-         aBJudqfeSbUJRPbdBeakLF80lY/ALeKi26fbavrckjQ2rYcDz6ebR66OHfB84Jf6wu80
-         5bldjh3aok8+KXaTmyXpGFs4FGym+7WwShkhG5Jjuu+SVFkQGmQOOknLS1kyJtaNmPcp
-         ud2w==
+        b=HLuja9CPfFgX5uaVDHfIoCzM4RDfQZOdHmIqfRRPboZkLLOCUK7wZDoeEuLH4QqoZR
+         cCIgwAEC3pV0TYgtKr1sTeQlfPdX1Iog+xB8i7cZyJyciA1gMDRemybWLC5lpyCUag38
+         kWlpYWtT65a4a4aE60ZjWCzT65RvrAZ3bAgeehiLay0yoJDooNP4tPcwHweWrqX6Nj+n
+         JqRNG7gHVgEhi/d22Khh/jjWZIxeDjSwI/DIn0XY9Wdp1QgEZrwfLn3cpaV8B7XaEkS3
+         31iIeomc8q5mPdj6rAySZCPCaaFoK1ywnDgPZYp3+htcOaOWizKSQbcUwKOi07A0SBpF
+         ZSHw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=mime-version:auto-submitted:content-transfer-encoding:message-id
          :date:subject:to:from:dkim-signature;
-        bh=rPvJVWiDiEIM5wuVMWEnxzp8frpvnm4kbdPHcpWcjKk=;
-        b=PKpDNGOENTjkzdtzb9lFfe9ml8zVYuNWtQiJp2l3xYD9gJNSDcBgInbbkCA/BWdK2W
-         4GQkag8e8PSRK/4e3w23NPYy5aX5/K05toGHAuWSqcfN7+17mezeRNCC+VyP0nG2hiVF
-         3uSa97FDPk+FKUDQNKYoWLzYiyG8ou/LHH72gJ3ZDYIBDzcIs1223RIPSI7ozpyjq3Ew
-         yDl1MkLU1dVFKs4Dmli6UMEY0QgrKLYTLCkJS8c9Rp0rswRYXlEAY70VgywRtmZGLMaL
-         Vn2jkbVhMQ71EyBiBmZXM4aVreoRepc4ig6JAbiuIcIb9ATa3QCDsf59eyhwtKlXv5F6
-         PAcg==
+        bh=x8FFoj3IluSfmv079XiLbW++UWmZ0lPxA46obYschxs=;
+        b=rI0+GuE4ZL7YJ3039ZLjJhG3JZd52m31HS999AeU601BuA+9l3DLEhnMFtxUmoUnYv
+         zeUNPG1jdsfQp7X/+MdlDSMBF+GFv/+qLE+3ZUoI0mdJ2UJUgl+fBL3fplcWWmdxCBFE
+         VW+ZRssAqRJQe7/mHx6GspGqDyFYpVf39ZYkSXYL3UcA8MWqT0k4H9uRRKRCy5pemIu0
+         TVjVnfimhcEkr/2muxKrHbjJSgPYHhHE+oIQk4CkQ6gttiKa8wGe0HasZMr77/Zrk8O8
+         49W7EJqU/x8VG7bjyh4Ze8Sh2d3fXR3utiu6gF/3TNDWtzq1bN2kq4aAonfDA2MMCa9Z
+         XDfQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=bL7SRt7u;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=oIku0BQd;
        spf=pass (google.com: domain of bugzilla-daemon@bugzilla.kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=bugzilla-daemon@bugzilla.kernel.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id e4si1415348pge.1.2021.03.09.07.46.38
+        by gmr-mx.google.com with ESMTPS id w19si1080631qto.4.2021.03.09.07.56.16
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 09 Mar 2021 07:46:38 -0800 (PST)
+        Tue, 09 Mar 2021 07:56:16 -0800 (PST)
 Received-SPF: pass (google.com: domain of bugzilla-daemon@bugzilla.kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
-Received: by mail.kernel.org (Postfix) with ESMTPS id 0869A6523F
-	for <kasan-dev@googlegroups.com>; Tue,  9 Mar 2021 15:46:38 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id C0A4D65253
+	for <kasan-dev@googlegroups.com>; Tue,  9 Mar 2021 15:56:15 +0000 (UTC)
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
-	id E996465368; Tue,  9 Mar 2021 15:46:37 +0000 (UTC)
+	id B2FA665349; Tue,  9 Mar 2021 15:56:15 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: kasan-dev@googlegroups.com
-Subject: [Bug 212195] New: KASAN: mention used mode in init message
-Date: Tue, 09 Mar 2021 15:46:37 +0000
+Subject: [Bug 212197] New: KASAN: save mempool stack traces
+Date: Tue, 09 Mar 2021 15:56:15 +0000
 X-Bugzilla-Reason: CC
 X-Bugzilla-Type: new
 X-Bugzilla-Watch-Reason: None
@@ -120,14 +120,14 @@ X-Bugzilla-Flags:
 X-Bugzilla-Changed-Fields: bug_id short_desc product version
  cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
  priority component assigned_to reporter cc cf_regression
-Message-ID: <bug-212195-199747@https.bugzilla.kernel.org/>
+Message-ID: <bug-212197-199747@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
 X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-Original-Sender: bugzilla-daemon@bugzilla.kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=bL7SRt7u;       spf=pass
+ header.i=@kernel.org header.s=k20201202 header.b=oIku0BQd;       spf=pass
  (google.com: domain of bugzilla-daemon@bugzilla.kernel.org designates
  198.145.29.99 as permitted sender) smtp.mailfrom=bugzilla-daemon@bugzilla.kernel.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
@@ -143,10 +143,10 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=212195
+https://bugzilla.kernel.org/show_bug.cgi?id=212197
 
-            Bug ID: 212195
-           Summary: KASAN: mention used mode in init message
+            Bug ID: 212197
+           Summary: KASAN: save mempool stack traces
            Product: Memory Management
            Version: 2.5
     Kernel Version: upstream
@@ -162,13 +162,11 @@ https://bugzilla.kernel.org/show_bug.cgi?id=212195
                 CC: kasan-dev@googlegroups.com
         Regression: No
 
-As there are multiple KASAN modes that all work differently, it makes sense to
-mention the enabled mode in the "KernelAddressSanitizer initialized" message.
-Something like:
+Currently, KASAN poisons/unpoisons mempool allocations, but only saves alloc
+stack traces for mempool objects when the mempool is created. KASAN should save
+alloc stack traces properly.
 
-kasan: KernelAddressSanitizer initialized (generic)
-
-kasan: KernelAddressSanitizer initialized (hw-tags, mode=async, stacktrace=on)
+KASAN also needs tests for mempool.
 
 -- 
 You may reply to this email to add a comment.
@@ -179,4 +177,4 @@ You are on the CC list for the bug.
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/bug-212195-199747%40https.bugzilla.kernel.org/.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/bug-212197-199747%40https.bugzilla.kernel.org/.
