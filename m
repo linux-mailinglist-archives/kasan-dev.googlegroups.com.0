@@ -1,137 +1,136 @@
-Return-Path: <kasan-dev+bncBDAZZCVNSYPBB7NMT2BAMGQEZRTCLMQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBC24VNFHTMIBBHNPT2BAMGQE7FZA5NI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-io1-xd3a.google.com (mail-io1-xd3a.google.com [IPv6:2607:f8b0:4864:20::d3a])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFDC3332AAF
-	for <lists+kasan-dev@lfdr.de>; Tue,  9 Mar 2021 16:38:38 +0100 (CET)
-Received: by mail-io1-xd3a.google.com with SMTP id d8sf10474619ion.10
-        for <lists+kasan-dev@lfdr.de>; Tue, 09 Mar 2021 07:38:38 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1615304318; cv=pass;
+Received: from mail-qt1-x840.google.com (mail-qt1-x840.google.com [IPv6:2607:f8b0:4864:20::840])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7333B332ACE
+	for <lists+kasan-dev@lfdr.de>; Tue,  9 Mar 2021 16:43:26 +0100 (CET)
+Received: by mail-qt1-x840.google.com with SMTP id j2sf5293843qtv.10
+        for <lists+kasan-dev@lfdr.de>; Tue, 09 Mar 2021 07:43:26 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1615304605; cv=pass;
         d=google.com; s=arc-20160816;
-        b=1GgRxGQVIcllximKyCOZ3rT8cqiVG1xZ3VaYVqkcIhxO28kqGv8VG7XCx6/Sy8oTVh
-         2JzsgYm/6IMJo7l9xGLgX2y3baBjYjTyI4g+N39NXz4mVUebDTMsybDl219XbQvdi7pK
-         dn1wBf33xkyfk1ojvX8SU/smoiwsC2BFTcSMpqB0lPeESEOlZsKbUkV8p6MA2d5iWyDn
-         EvmnaJGLLcDupydTB/OFMemX+sexrRykeUAvBO/E+MdcwcapBcjOkbqcWNv3Lo20TyeI
-         7OHCpkBv+joPBQUU3JFlCoZ0lrXuQq72zTjqD5GnsLHelefKD69eq2vKWHvhFFnerIeu
-         yT6w==
+        b=A8QiWOBgK1NGQsedwpl1OyT+gltMF1xN+ud0Gik/mNu51bRzidqKcapIRxo5XyrjTL
+         MLM2nM+eI4PtspI8Sa0D80ZRde2kae0/+JztFDBiZKMhOq6qc7o+XFR+2vhlDXRX4eWM
+         XTJIZfU9yiT+NePV+jiCu1a4I67OjfF5xGDo0qJ86gySYbSqy+Vy3hHBF1QT6jzHQcO7
+         Pe9AXyYheRpEHhIircDrPJZ8N3IfNr/Wahyaxve84DakPkAgWa+g6IVG6tzN4ruEsnpn
+         lJFuRKQ5NGXDACuVobuN96M9pCrts/JkPGIhJKMm9uf7btAK6/66awpOGnthIgSK8G00
+         Mc7Q==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=KqKXfsVn30H3+naHj2CP9/+/f4/VQIW7M/YZVcc0QPs=;
-        b=dzQPyhnCcfaxTVRykwwOgh+IESKjoJ0HS0fhpvWEIH2fG4crM+lkQYlF2BFgm1fNEC
-         a6Xvupo85Umxdm7CgtEVXmHJ3oFU7mZABanS0uNz3ftuj/bj1apj1odK0D4a+Q87FjGW
-         5QIT+/qhccdfy0YyMp3rFIdWTFLsC/Sw0Fn28gM5x678LNVjt8rf1nZyRd/vfFNZXJzT
-         Fjs4AyPiEv2OvSpPMnO3VU5CIAMg8TuDmnpIZSogA0PKs5A/xTLxmZlBukvREp1xDhf3
-         U7IIPCWtki0seZlY3oFQ8MmkJurPbiRGL4TPwB2pMuR6wFGe0BB6mNEwS4Zt3AmavatE
-         HdtA==
+         :list-id:mailing-list:precedence:mime-version:auto-submitted
+         :message-id:date:subject:to:from:sender:dkim-signature;
+        bh=tkuaXsfEBvfJv761q1e5QX3nm6G0fcjJKAsaMHa/7P0=;
+        b=JtBatAmDceKVWRsq6WqzRStwd4HsQG1IGCLGc9+ys/1xoZWMfwI2Dgbdr50l+6lO0n
+         jYdHW0zoOXD8Wh/29ztzBG/7CmvsKAZ32UTtnHac6qEfFS1y4cT/HhSUEAK8TieUc0Mt
+         p0gKrSvg5JvXXUPKb5ZBwP6ScAMkyvWFrS0kVoxdgyR4RyEhYWCPXTFbfh4Vs5VLkykB
+         6QqvioGXVEfLKTSLoRx0cVG8xFJFq9SiU2MJ8gg3bhI6h+Xa9Fp9FykIBm0NuuavbFF6
+         gjoRkkShKujRtozJgk8tAocubaVaLXC1B5FY3zISWp4ZxFCdW/ILwBr8fHgR+vLi1aXs
+         QWVQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=UoqUOhWs;
-       spf=pass (google.com: domain of will@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=will@kernel.org;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=pH8YJvjk;
+       spf=pass (google.com: domain of bugzilla-daemon@bugzilla.kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=bugzilla-daemon@bugzilla.kernel.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+        h=sender:from:to:subject:date:message-id:auto-submitted:mime-version
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=KqKXfsVn30H3+naHj2CP9/+/f4/VQIW7M/YZVcc0QPs=;
-        b=Y/7nINXUmMv8EN5vwzdHindDYb1tFgdxoBo+UnADa7LDJyyXaOQz2ZtfQ+W2ymBzqa
-         rYkRkiKsw/VzbNgtS3nrRdmTOVlblSuDDg8qnHz981tQZ1eAVj/btf6b8buuXpFGNDn2
-         PjsFADVwsgf0h5SAFztFZ6ZduMG0LW/44+gZ6eGS52wT21QeD1opEauomBOzV8xuLjSR
-         uEQwrtmmFWTVFHTtzHjlnDTsDu6P7R4U/7+APSLGgNfZo5zpCD7t0bswixdXxGWZTMgS
-         417yFEbB8xnwDXDTbM9EL7OiREyLKrKztuvGOV/Gx+S33XQIoZ89l/oLx9jv2HnR60Ny
-         c7ng==
+        bh=tkuaXsfEBvfJv761q1e5QX3nm6G0fcjJKAsaMHa/7P0=;
+        b=jynpcpLR9VBKdUXEqbgywVdhYMtpoescX2S32jBfbSIttuJ7COzgZtH/7ZeoIag7Hb
+         1Ors81nbmABlbaRMyAAkLzpy1qxJVCtxVjf+yzo3N1JsavCTPYlBYmeVHTTE1UEdRonV
+         ARdzYaHHZfejRU+vzz8VXI5w+is6AJOmbhmCR6xAFdep1cldLlqPIM0n0ZyPoyZz1MWh
+         IK4BiRR7+qvzcDeM4RafTt1p3mLcWxg3m/caT0Awwkt4Ja97J6kJEfkgT02CKrFm4qC6
+         TKEVlZT2oIogiab6ZYYxF7Nni707aMFDMhgxKZ5zECj7RMlT51ABcGKV7ic2optrFcfF
+         uXVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :in-reply-to:references:mime-version:x-original-sender
+        h=sender:x-gm-message-state:from:to:subject:date:message-id
+         :auto-submitted:mime-version:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=KqKXfsVn30H3+naHj2CP9/+/f4/VQIW7M/YZVcc0QPs=;
-        b=sgKg4/cYPfIHaQeQ1qy8gg9bWMZr5vCLXE2bVaBq+Utgs+PNnCEHnrqfxdRfEpTsKS
-         mMG8tWVcL2M/t/p2TSAd+bz/wVJ+cWHy2HgZaeaBPboaynjv2wSvovMsg1rUAC1J8NBi
-         TYfIVDanRTwOE1mC4MTiQU617wz3J8Fh3Our7iSGwvVNbFHGPoHOTrWzps2moFdf9Iyv
-         lOedQZdPK2KCQwTCoETlM9ZDIVBSe6yC2CPej2gl3oK23dYSv2lHMcOXeGcuZKXSmtLP
-         Vqmo8Jw1zMjfZ3epeAsQIOIn8TtyVSdUlgaeG24XAdQSTqsgrAwqcXKGgRP5btGufVIU
-         drHA==
+        bh=tkuaXsfEBvfJv761q1e5QX3nm6G0fcjJKAsaMHa/7P0=;
+        b=kp3hevcPmFYvSL2rAq3qSNTasdJ/3NQpGkozuXDm9N8BvwetC3inXzJGZZGdh9ogoJ
+         mD5MmH89hImxrHNI+SOIDwk2ht43FKPvUL/2GtGMIugMS7q1Z+AzZNp95KiJQkxcsrQX
+         BsvyRiaHIf1FAujLCcDfnp0mZLpnVY0/8cgiY/e9QQeoxx4Rg5yY+w8IpaOww9cZDAVg
+         WhEiDrRlJ5dBuoamwM+5tJG6M5q8RUPAuq/RHzyDsD274XvFDyX7cnrbNz8K+ehAEodc
+         2py5WsDNl5BLTSpW4GYk2og2KKRNAaoOHu93TqnG44KeAJmokNz9H++1VKdYIzIvDOts
+         1PCw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM533ZRM3j03H8q7H7LiB9hOkDq4qwwjd76LJYrMvRN7pe71UQw2zo
-	wBAX734DSu2tCM0bxHMBCKo=
-X-Google-Smtp-Source: ABdhPJzahGk5w0WF24HPJ/mBaOMioGnACm1MVBRfEWceGLXLZu8D/zUbzi3SmkHCcealk4CriNhhew==
-X-Received: by 2002:a92:cd8b:: with SMTP id r11mr25074704ilb.161.1615304317949;
-        Tue, 09 Mar 2021 07:38:37 -0800 (PST)
+X-Gm-Message-State: AOAM531hXeIAXQeTXOZAuJaev71+FU3zCb/jpGO7K+fXdzglJv31yTCF
+	UARM+SXcOXG6bgKjO/OrE30=
+X-Google-Smtp-Source: ABdhPJwRkEfbINBnTJB9aJ06caRpEglFf9TjLW++vbUvi9375y4gTzl5RVKDwjxo8qr+I7AR9wI/7A==
+X-Received: by 2002:aed:38a6:: with SMTP id k35mr23264260qte.280.1615304605573;
+        Tue, 09 Mar 2021 07:43:25 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6e02:1032:: with SMTP id o18ls5293497ilj.5.gmail; Tue,
- 09 Mar 2021 07:38:37 -0800 (PST)
-X-Received: by 2002:a92:c04b:: with SMTP id o11mr23968699ilf.42.1615304317651;
-        Tue, 09 Mar 2021 07:38:37 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1615304317; cv=none;
+Received: by 2002:ac8:6b03:: with SMTP id w3ls5632200qts.11.gmail; Tue, 09 Mar
+ 2021 07:43:24 -0800 (PST)
+X-Received: by 2002:ac8:4406:: with SMTP id j6mr1250393qtn.180.1615304604882;
+        Tue, 09 Mar 2021 07:43:24 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1615304604; cv=none;
         d=google.com; s=arc-20160816;
-        b=eF/xkqnPajKsaexb1PTv/WKioTmZ+wtFChC59P52wv1xPjQsBoIocCvuCcR9/OYSDt
-         DSKkCF3JtLAeQsh+Pyz5vnOpfG1uY7dp+iiOCLNJcAgMjBMZpoKBuC9+ADeJikPbCyOy
-         61k8AOvL+7iB37jswei7sOvJwqB9xF62OQeVDt3X6TYdC8ey6fq/BTvn6jrg12BoO9rL
-         t1Jbz25ktpSRncaTAdQ0DKq8rHRI5Ll9JRpzrzZmcqBDK8lXIm3eBq7IjgLn4yWDKatq
-         7D1N7TlXPQQ64+hP/GkpksNeeGhHs1TpDvx62OZDWi7UKD3sy9Bg4/g1g00p/TzfNJ7K
-         +6yQ==
+        b=rn9BAnNRZ9DoAkffVBrqEUR9Vk35LqbA9z0xGD7wJZ8z23tJTknxK4oCZ+3PCMeSL6
+         pogUUm0bBQjkPoV3O3elQ9kgVvkKsW15qCZNxJkv4uKkKfQEHgAKrCCd1ubfQC7iNQw4
+         MXsr7zRPW7/12CSeIMirY/CZV0sPzMbh2chuX8M3N8eyxw4/4HfQgPTGACquAaZz1vyS
+         3gggxgkIqTH2JZl5iiTwVwwEs7ECeS76vNwCC0nTOWvFkpXI/OSBfKRRhJX1Hu5gTMhr
+         3S2IjSEIeKgNuuqRudqd12ICn7wgitPZg9apPX+oHuTcZMOmEIyjGce8kgGCYFla37Vq
+         jM8w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=dx/DvZd2TGCg9Zz3DkBqTmmABZsFFRcDIlIu3SslMt0=;
-        b=fLcAQ5R6TGgdhsRAs1tLCjw9KD/eiUe9i7CrrxXNUp2IoVowkOBvpmF9Azj+yuGB3R
-         +uClyhrYqA9v3ZaYHa4E+rqAVf+0t3BLfIrX1FCEstDyh/wIA3nK7C47McepJZgxfyKG
-         MBoeX1tdujSQNiHfIpDisZM6T6weLqiZYLEWiScr2WGYNjFDuQNDXG33dK7XYX04tIzP
-         1Hg3bkvj2v8EF2/Isa8sGTdzO2OFPSTWVPTrusufvU0t/YM67XZm3F5PWd7xf5fzb/HY
-         P1kqEurE+vQRS94RL2uQ6Tzuv/RgxDaBP8Cb/KcLIgpziR7ExpyDQMtCkrsmWe33QzgC
-         LXkg==
+        h=mime-version:auto-submitted:content-transfer-encoding:message-id
+         :date:subject:to:from:dkim-signature;
+        bh=dVHfrsPerYHZAvFBlZJL6Qe7Njc9W5gGQsS7qcAYKIE=;
+        b=hppb1JGPSv8Bw++txrAG+/VCH7gjjthhpMIkHDFaASXu5X+g3sEp+rIzruneo2J2O7
+         0gdH+eWLU/xM1vSuySrZFfQh3ISm+w5SXfZ6zE7Y62LSqeXDzcy48aVsFA2voXG885FS
+         9PY7V9b10vbLSXdVC7LXjV50uvnq4mw0hSW3Om51yu3FHQZUVOKA6KzWODiN8NC4rIEp
+         biu2RQB9uMlJRvtYK+nbIiy92DW3zXHI870nN927BnbIY/zh63md6A0nbTELxgz1lXm7
+         7rtKSwSfNTgPOFVo4jmJROYsFkV0HYHZAXx/c7Y7jlPHKBZnuLjxtu6/Laxbj7ahoM07
+         vcRw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=UoqUOhWs;
-       spf=pass (google.com: domain of will@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=will@kernel.org;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=pH8YJvjk;
+       spf=pass (google.com: domain of bugzilla-daemon@bugzilla.kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=bugzilla-daemon@bugzilla.kernel.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id d2si829459ila.5.2021.03.09.07.38.37
+        by gmr-mx.google.com with ESMTPS id g4si759972qtg.3.2021.03.09.07.43.24
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 09 Mar 2021 07:38:37 -0800 (PST)
-Received-SPF: pass (google.com: domain of will@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5EF3265238;
-	Tue,  9 Mar 2021 15:38:33 +0000 (UTC)
-From: Will Deacon <will@kernel.org>
-To: Catalin Marinas <catalin.marinas@arm.com>,
-	Andrey Konovalov <andreyknvl@google.com>,
-	Will Deacon <will.deacon@arm.com>
-Cc: kernel-team@android.com,
-	Will Deacon <will@kernel.org>,
-	Branislav Rankov <Branislav.Rankov@arm.com>,
-	Evgenii Stepanov <eugenis@google.com>,
-	Andrey Ryabinin <aryabinin@virtuozzo.com>,
-	linux-kernel@vger.kernel.org,
-	Marco Elver <elver@google.com>,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	Alexander Potapenko <glider@google.com>,
-	Kevin Brodsky <kevin.brodsky@arm.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	linux-arm-kernel@lists.infradead.org,
-	stable@vger.kernel.org,
-	linux-mm@kvack.org,
-	kasan-dev@googlegroups.com,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Peter Collingbourne <pcc@google.com>
-Subject: Re: [PATCH] arm64: kasan: fix page_alloc tagging with DEBUG_VIRTUAL
-Date: Tue,  9 Mar 2021 15:38:29 +0000
-Message-Id: <161529596129.3814589.13038514678630962150.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <4b55b35202706223d3118230701c6a59749d9b72.1615219501.git.andreyknvl@google.com>
-References: <4b55b35202706223d3118230701c6a59749d9b72.1615219501.git.andreyknvl@google.com>
-MIME-Version: 1.0
+        Tue, 09 Mar 2021 07:43:24 -0800 (PST)
+Received-SPF: pass (google.com: domain of bugzilla-daemon@bugzilla.kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
+Received: by mail.kernel.org (Postfix) with ESMTPS id 9B977651B2
+	for <kasan-dev@googlegroups.com>; Tue,  9 Mar 2021 15:43:23 +0000 (UTC)
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+	id 8793365349; Tue,  9 Mar 2021 15:43:23 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: kasan-dev@googlegroups.com
+Subject: [Bug 212193] New: KASAN: better invalid-free report header
+Date: Tue, 09 Mar 2021 15:43:23 +0000
+X-Bugzilla-Reason: CC
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Memory Management
+X-Bugzilla-Component: Sanitizers
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: andreyknvl@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: mm_sanitizers@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cc cf_regression
+Message-ID: <bug-212193-199747@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: will@kernel.org
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
+X-Original-Sender: bugzilla-daemon@bugzilla.kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=UoqUOhWs;       spf=pass
- (google.com: domain of will@kernel.org designates 198.145.29.99 as permitted
- sender) smtp.mailfrom=will@kernel.org;       dmarc=pass (p=NONE sp=NONE
- dis=NONE) header.from=kernel.org
+ header.i=@kernel.org header.s=k20201202 header.b=pH8YJvjk;       spf=pass
+ (google.com: domain of bugzilla-daemon@bugzilla.kernel.org designates
+ 198.145.29.99 as permitted sender) smtp.mailfrom=bugzilla-daemon@bugzilla.kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -144,28 +143,38 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, 8 Mar 2021 17:10:23 +0100, Andrey Konovalov wrote:
-> When CONFIG_DEBUG_VIRTUAL is enabled, the default page_to_virt() macro
-> implementation from include/linux/mm.h is used. That definition doesn't
-> account for KASAN tags, which leads to no tags on page_alloc allocations.
-> 
-> Provide an arm64-specific definition for page_to_virt() when
-> CONFIG_DEBUG_VIRTUAL is enabled that takes care of KASAN tags.
+https://bugzilla.kernel.org/show_bug.cgi?id=212193
 
-Applied to arm64 (for-next/fixes), thanks!
+            Bug ID: 212193
+           Summary: KASAN: better invalid-free report header
+           Product: Memory Management
+           Version: 2.5
+    Kernel Version: upstream
+          Hardware: All
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: Sanitizers
+          Assignee: mm_sanitizers@kernel-bugs.kernel.org
+          Reporter: andreyknvl@gmail.com
+                CC: kasan-dev@googlegroups.com
+        Regression: No
 
-[1/1] arm64: kasan: fix page_alloc tagging with DEBUG_VIRTUAL
-      https://git.kernel.org/arm64/c/86c83365ab76
+Currently, KASAN describes all invalid-free/double-free bugs as "double-free or
+invalid-free". This is redundant. KASAN should either use "invalid-free" for
+all of such bugs, or use "double-free" when a double-free is a more likely
+cause (the address that's being freed points to the start of an object) and use
+"invalid-free" otherwise.
 
-Cheers,
 -- 
-Will
+You may reply to this email to add a comment.
 
-https://fixes.arm64.dev
-https://next.arm64.dev
-https://will.arm64.dev
+You are receiving this mail because:
+You are on the CC list for the bug.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/161529596129.3814589.13038514678630962150.b4-ty%40kernel.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/bug-212193-199747%40https.bugzilla.kernel.org/.
