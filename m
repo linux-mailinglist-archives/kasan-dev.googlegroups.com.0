@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBB5GEUKBAMGQEZCUE2BI@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBB5WEUKBAMGQEX6CBDCY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-io1-xd40.google.com (mail-io1-xd40.google.com [IPv6:2607:f8b0:4864:20::d40])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B931333A40
-	for <lists+kasan-dev@lfdr.de>; Wed, 10 Mar 2021 11:41:57 +0100 (CET)
-Received: by mail-io1-xd40.google.com with SMTP id w8sf12480324iox.13
-        for <lists+kasan-dev@lfdr.de>; Wed, 10 Mar 2021 02:41:57 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1615372916; cv=pass;
+Received: from mail-il1-x137.google.com (mail-il1-x137.google.com [IPv6:2607:f8b0:4864:20::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 59BAE333A41
+	for <lists+kasan-dev@lfdr.de>; Wed, 10 Mar 2021 11:41:59 +0100 (CET)
+Received: by mail-il1-x137.google.com with SMTP id x11sf12523503ill.17
+        for <lists+kasan-dev@lfdr.de>; Wed, 10 Mar 2021 02:41:59 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1615372918; cv=pass;
         d=google.com; s=arc-20160816;
-        b=KU8jN0DDASY9a4vKwIQGwxWrBbm3Y7dHpPGWfmGzJnTMTf8QkXCO+EbEkWv+PtIVUi
-         bBaD2tegqxJl3aqeL8vKsXUBOSDyLyW3CnPvWIB6jn9LEVppQXzgl9QdD7ml1AOC9vqj
-         Aa7Oe9ZsVIfAB7klQyvf2NgBULv9lx9eHta5LIWkGoacPwD9XHou4e4BuchSTrrYdF0p
-         3QDMbU/lw8v59UsZ+szXhwpQ1Z1CEnFyWA46J9hvalMjI3R9mf7ioEznHnQ8TVIkotk3
-         1V95lp5tdJ1hRsQqA3laMnk94hW0+mSAQrTjlg9S0d1iVyYNgwu/4cc4vfNoU+9ArQS2
-         D2og==
+        b=KjLqbhpfO2KBPxz2eax5Dsv2yenMwJcC4yI2jZ6hvTlSbLFCd7az8qjyU7xYvx6+58
+         Oqw98rXk+/UPsnEmEjzA4CPvDmzNvHNlpD1yQXllzZ4J/AoVZZFeHYZwsnIWDoURMFtk
+         RlJ5QBGKTiOzie7jPFC9lnG2N1Ek+kT6EqR9TL6z5QLEvOq/g9ucKt6QPNt7H2WOhIzv
+         tl0rf6HIZsns8G0KcEixh9Gy90QHbnUKegWf8G+COX7p1r20rvFl7/ftHSDAnNoBYX1E
+         Ax2mH/dMTpMYZQtJAQqB0R9m43fQxEiGJnIpiUSsX5qj11RYzAl10Am86bpS5Mlkzmey
+         tiCg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
          :references:mime-version:message-id:in-reply-to:date:dkim-signature;
-        bh=lrQ/fIMQnr2ABXTaOKh25OXLzjE0YgAyD08Sg6E79YU=;
-        b=XBWpatTitVNOsTeGIavw2K7xMV27nN/1hoBNqEtrknlc361pshiDT995unMWo7W8x3
-         pofZHnPX1lca8P0l24EuO85eKJ87HE5nVM8/pqEW2hbHbtsMyP5oLdoLxKsyMD8oBGkJ
-         +wsJhG/FaEI6r4XTWz67aSulkqTO6a5g6r8WVze259/Em1QK5GxtfkgnYjjxxk+gnyVa
-         4Kr8xRxfS2uTHoGpFjWW48zoKAkZVp5n1wuVlvoyAMqlFPLOP6RH7HK3wodZE1pcVk+B
-         8Yndo4oNRKI5aFah3cynOgrp4Uf0qBG6I03UNucg5htd6bjeLhM7hEBhQ+BQlrYmH6qi
-         zpEw==
+        bh=en+oWAucX1oESxf1IYSvPbD2RXRo/gbPkGn2CBfcUfo=;
+        b=dH/cZONqMn5HjNyNMIAKsanGCQWQWbDCV6hJC6ie3n220o8wVlCzQMgCuIqOBprC0D
+         wXY7nMkGYlCjOwuZah7c18JlrA1+L6thWioq+QZc3GpJ16cUZcR3w80ZoVlGLFEnzPqB
+         r5zs8QyUAbjOqQAmfErBXVOJCDWAonhzmiDNBv2L7w4xP9TzJAxU8wvGntJ+/MCw+Co3
+         nFKJhNX3B8jHArvRom2GxWodQTTzPhYN4z4oZlmlA7nAdP1xKS8A8VC6dZZyoeJSxwuT
+         gKhksW0rxhmTKLrqIVuGu3wazNRCeexyljNTZhNUMkwpSdwmc383iad2LGI7YcWqyEit
+         boeg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b="N/u3p5qk";
-       spf=pass (google.com: domain of 3c6jiyaukceiipzivksskpi.gsqoewer-hizksskpikvsytw.gsq@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::f49 as permitted sender) smtp.mailfrom=3c6JIYAUKCeIIPZIVKSSKPI.GSQOEWER-HIZKSSKPIKVSYTW.GSQ@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=q1jQ16Yb;
+       spf=pass (google.com: domain of 3dajiyaukceqkrbkxmuumrk.iusqgygt-jkbmuumrkmxuavy.ius@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::749 as permitted sender) smtp.mailfrom=3daJIYAUKCeQKRbKXMUUMRK.IUSQGYGT-JKbMUUMRKMXUaVY.IUS@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=lrQ/fIMQnr2ABXTaOKh25OXLzjE0YgAyD08Sg6E79YU=;
-        b=Ul+uDiNusEVMYrRIwvkFZOUYDLlhqWTHHrvj2CuZGDmj+Pee9acZ8GeBfkSTkEOPNe
-         EFahh3qE+s75OdN/d7NasEMioaIpw8ZTz0iyHyRpMWy0QT1DmKOGVAqEbEc3b0VKS3kB
-         vxN1petCPeYdkl4gJSn89H+aMNQcZvkCYtWUcRxjUj2BjZxKjTfKJSjyCQk6Jlz5ait9
-         fZoSEigV+o9AtdjDgTzDU+9RqbFHKTvmTmw8G9gNkkTfh7j+oXg7tXHkgx5XxV6Qv2a+
-         eq0Em5tUGtJcaCTZvuD/il94rWoCHP1r+vhibaEJjPPkpUXcM2a55vOFMmHMZldK37mN
-         DdRA==
+        bh=en+oWAucX1oESxf1IYSvPbD2RXRo/gbPkGn2CBfcUfo=;
+        b=MDmyLNklr+Kbyj0cSHHfGgTVRFtW5xOEnQDJRbS2mve8WynT4TI0Z7LnWd6HnAtNI/
+         5FAzLV/bl5V+fgZ9Nddf8tLxgPwETtXJuwaJJlPVp9unOoZONwljCeBZScDKfr2Y7MXw
+         3mfgvc/yjJ3G2WT+MGLDbK3lNYm23o6fcCWWFR/pgmkgbaz6ciO38Jk2boDJ4VMCEiHl
+         l3DynPWHPG9lY93Nqn2aExAHs9mWu1+a62MMzAKgmp6ETl59vNj9myjUcaQO7LAHALSK
+         UxjenfP1NXF88A8CETLNMJ177y1UW1QWSKwIrSp2yAmclrNEvGt2B4H/toPEfjy2Lbag
+         +56w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
@@ -49,64 +49,63 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=lrQ/fIMQnr2ABXTaOKh25OXLzjE0YgAyD08Sg6E79YU=;
-        b=O/8lbaLb0gziZBHPv9abbnNOURp/BW7Tqm/kh1bH2MIrNAqeWvd06bCqPrNblbbsNs
-         /E00gI/cfdorWHuw9NsaSaFDAPnHZnDrcLoH/+q9hqlGb2J1G7A0jVETRgQ15yO+b+SQ
-         LMZVpbrJ6MXKbDfvJvhSfdBU+B0AFXYBOONd2r5rjXuu9vFnO6vUwbcrckMPS1tcdu3I
-         TSAXs6MnhhS0DDp1XSldmI/jzC6zXEwkeXvWQ/hGGNr/w3cQvKKJRpYzE453kYH7m91r
-         rfV2zYOwZbGHh7zQgaIiyXLaC41AruLWKEXrNMshNwABx5umfMp8hSs7v5YspeHa62TT
-         o+NQ==
-X-Gm-Message-State: AOAM533ILW1fj5qESsTXqecuO9o6bAJpn9lQ4U9XSOW2I6DY+baGj3ep
-	mxVKDX3dCPuD/r+0y7UOEvc=
-X-Google-Smtp-Source: ABdhPJyzFIRrDi3YUZLNwq2a0nsJzozLjHVqb/TTV8qwF5rWCsl1tKDx1/u4upbZLIVzDOh3Tn6uCA==
-X-Received: by 2002:a02:ec6:: with SMTP id 189mr2245678jae.91.1615372916395;
-        Wed, 10 Mar 2021 02:41:56 -0800 (PST)
+        bh=en+oWAucX1oESxf1IYSvPbD2RXRo/gbPkGn2CBfcUfo=;
+        b=nYEZdzlu2Z4A/qpckrjGR0k2uyUeOUjgUSk+yGN4AtEBtCi2q7kccB9yGDxZrctC/f
+         SFy6QIScRrHSmKl9MiJSGSD+fFvscPZOknQq5aPtMOgIem9gionJgJLqQLQCR2i/OxwO
+         MVBM1gqHbBdORpYs8a95WJDsR5xFzE2i9PHl7HwUck8HvlInqj+xRJq6Wm2iNt0PTWqM
+         be7EP3OUfwYHrUtMniDAX8zvPezeQSQf6tc0Q76tVxE3L9TiS7wFpe9PjfuOp9TYzZUP
+         hL9z4a/1F5q/k1h1/9GVlF65Cpwv82kmpnCDV5kYIBJYQPTKO5ICBBAefEPXlUsVlwDW
+         Adww==
+X-Gm-Message-State: AOAM532w9dher9lqwbG9ZzZIKk38PBW2AOGBDQWZ6Rq+dkAnsE/wZoh8
+	QYl7Prk/FscKKJ1NVqDmtqk=
+X-Google-Smtp-Source: ABdhPJwkFow6/caO+bISvoTdgD3KNrJ1ugEwyYa207HA9AUxW7pzfwE0W0ZXYVeDC1S7EjS0mLKONQ==
+X-Received: by 2002:a05:6638:2711:: with SMTP id m17mr2252506jav.115.1615372918450;
+        Wed, 10 Mar 2021 02:41:58 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6638:191b:: with SMTP id p27ls211629jal.4.gmail; Wed, 10
- Mar 2021 02:41:55 -0800 (PST)
-X-Received: by 2002:a02:ce8d:: with SMTP id y13mr2272691jaq.29.1615372915898;
-        Wed, 10 Mar 2021 02:41:55 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1615372915; cv=none;
+Received: by 2002:a92:da52:: with SMTP id p18ls398702ilq.11.gmail; Wed, 10 Mar
+ 2021 02:41:58 -0800 (PST)
+X-Received: by 2002:a05:6e02:20e4:: with SMTP id q4mr2157895ilv.197.1615372918048;
+        Wed, 10 Mar 2021 02:41:58 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1615372918; cv=none;
         d=google.com; s=arc-20160816;
-        b=WefBudB7Zw12M+9C6n4bi4C4nD+/sI7rnVoBKCS80s9XDDtTQ+FDivQP8aYuR5ym5+
-         0uPRYTTu2MH+fLU2sXOFnPF55zxo+pB2aG30r/G3kDYscnL+JUdRsyfKSiXdjRRSG2Vj
-         zpb9dYGUrgN+LNmGTfjM3D0tQ9U7BieCflIqmApvVsl3OsZjZz3bbC3LXUA72laqf5MC
-         qSgs7zCw5T6g/FG0ij6lyKv+O88q0nJLkrcEPfopplGElql6zQu9Guwm3Fx83WrTcirF
-         2v0Q3ELVfCgYtTxdYlZIhtzdsHfgLmSW6GhnZzU5Mz+ToFdo2lDR9FtCBlq5ZJciHDUB
-         NgyA==
+        b=ElcnxQv5GbR59MvJTyTnB9Lv6Vvq5FkVIDHS9FNRYliiYhvOfCnoMMrVqOvi1bIQbE
+         z/qQxFyu/oeN8lPh+9V5U5TDbM7m9AUlN1/jOfSO0swSNHTkOq8Zc0Ol1sTkrlBWV0hg
+         9Kdug4GQzEonD8bOCyHgRfJV8hHrG8w70u5gRiSNjXEyHIg1zS7mqEd+d9CJMswI2Cgh
+         8FNw81EsWdIK3OLMnwfqmg9OwpvJdDtVLTIJfqst4/O8Lr8NYLGKpLNb/7++Z0auBAri
+         +sJnR0BqrVv6LDMpifmQI/oV/ItcpTpHfGZmHVZh/mr1FXcDkv8dJ+4gwshMYaKowji8
+         k4eQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
          :date:dkim-signature;
-        bh=LX0emKbgsHYtGpYyL1x1FnLQ5ewlS0gEm+vlZ3nascQ=;
-        b=KvmI4gCBhOeuJxRxRM6D4fvW9qJq6yij7uC0si2QXJxincRgvP9YmdDzM7/eBjqJ15
-         Kp6pfLNqbOn+lEy0RN+HSTB5T6Zxr2vPAAOY8/GpnajH3OEo2fphoqquiHJtSDiTMO7m
-         zCuqKEBAoLe8PgmBqaGczcI/ZVfZCTYAvcXj3+R84rN8HYSAhCN9Eblxuqwfqo899sq6
-         axaTxoOq1lg2ELsBb3b+SniMiXBLOgdPvpbJpbDva4A2z7odK8JwIGvEZ9L5OZUD+TzI
-         V5fI0L2eIqQ6PEt0G7X6BfLhUTL6z9NDYHzfGBLHdv45x/+NTLNa6NJpVBJivCD3x5bj
-         JNfA==
+        bh=dOVfTFewU2OVBxfkqxI1NPon3rxqJk0MP/D8NHNSqQA=;
+        b=slVPoyCvpyI9xO6Enva9QXQ04GnS2BMldHsBDDtMPlpmfxbaIziYbE2GR01F4SpnxE
+         nBpX+oX0GZXk4s0BLpQrEEkkIG/1zhCjI/BO2gYV+JsTl4befUmZcR7BU+1ZdKnmuSI2
+         DPQn7cZ93r9Xaw3Euah12QPbtGMxDKKZrRjt86Z09YOXoX2RKXGkJTcIfGf0YcVTJdWZ
+         WgSVCDt3hIxJu0n4vO+4QERSufrdVlf5Aw+2X/LOaJpk4CeHaR5sSCgFpJaygoOcuQ9+
+         8fUbBbC7opij+hdK0VZzvXH7V2+Sn54ZizylhSHKIHQ1SpCRH8dOLTjTrq9O9wHWIHPl
+         34Xg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b="N/u3p5qk";
-       spf=pass (google.com: domain of 3c6jiyaukceiipzivksskpi.gsqoewer-hizksskpikvsytw.gsq@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::f49 as permitted sender) smtp.mailfrom=3c6JIYAUKCeIIPZIVKSSKPI.GSQOEWER-HIZKSSKPIKVSYTW.GSQ@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=q1jQ16Yb;
+       spf=pass (google.com: domain of 3dajiyaukceqkrbkxmuumrk.iusqgygt-jkbmuumrkmxuavy.ius@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::749 as permitted sender) smtp.mailfrom=3daJIYAUKCeQKRbKXMUUMRK.IUSQGYGT-JKbMUUMRKMXUaVY.IUS@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-qv1-xf49.google.com (mail-qv1-xf49.google.com. [2607:f8b0:4864:20::f49])
-        by gmr-mx.google.com with ESMTPS id r19si988127iov.3.2021.03.10.02.41.55
+Received: from mail-qk1-x749.google.com (mail-qk1-x749.google.com. [2607:f8b0:4864:20::749])
+        by gmr-mx.google.com with ESMTPS id p17si261591ilm.3.2021.03.10.02.41.58
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Mar 2021 02:41:55 -0800 (PST)
-Received-SPF: pass (google.com: domain of 3c6jiyaukceiipzivksskpi.gsqoewer-hizksskpikvsytw.gsq@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::f49 as permitted sender) client-ip=2607:f8b0:4864:20::f49;
-Received: by mail-qv1-xf49.google.com with SMTP id o14so12357304qvn.18
-        for <kasan-dev@googlegroups.com>; Wed, 10 Mar 2021 02:41:55 -0800 (PST)
+        Wed, 10 Mar 2021 02:41:58 -0800 (PST)
+Received-SPF: pass (google.com: domain of 3dajiyaukceqkrbkxmuumrk.iusqgygt-jkbmuumrkmxuavy.ius@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::749 as permitted sender) client-ip=2607:f8b0:4864:20::749;
+Received: by mail-qk1-x749.google.com with SMTP id o70so12371346qke.16
+        for <kasan-dev@googlegroups.com>; Wed, 10 Mar 2021 02:41:58 -0800 (PST)
 X-Received: from elver.muc.corp.google.com ([2a00:79e0:15:13:e995:ac0b:b57c:49a4])
- (user=elver job=sendgmr) by 2002:ad4:4d82:: with SMTP id cv2mr2356657qvb.6.1615372915311;
- Wed, 10 Mar 2021 02:41:55 -0800 (PST)
-Date: Wed, 10 Mar 2021 11:41:33 +0100
+ (user=elver job=sendgmr) by 2002:ad4:4991:: with SMTP id t17mr2036844qvx.33.1615372917507;
+ Wed, 10 Mar 2021 02:41:57 -0800 (PST)
+Date: Wed, 10 Mar 2021 11:41:34 +0100
 In-Reply-To: <20210310104139.679618-1-elver@google.com>
-Message-Id: <20210310104139.679618-3-elver@google.com>
+Message-Id: <20210310104139.679618-4-elver@google.com>
 Mime-Version: 1.0
 References: <20210310104139.679618-1-elver@google.com>
 X-Mailer: git-send-email 2.30.1.766.gb4fecdf3b7-goog
-Subject: [PATCH RFC v2 2/8] perf/core: Support only inheriting events if
- cloned with CLONE_THREAD
+Subject: [PATCH RFC v2 3/8] perf/core: Add support for event removal on exec
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
 To: elver@google.com, peterz@infradead.org, alexander.shishkin@linux.intel.com, 
 	acme@kernel.org, mingo@redhat.com, jolsa@redhat.com, mark.rutland@arm.com, 
@@ -120,9 +119,9 @@ Cc: glider@google.com, viro@zeniv.linux.org.uk, arnd@arndb.de,
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b="N/u3p5qk";       spf=pass
- (google.com: domain of 3c6jiyaukceiipzivksskpi.gsqoewer-hizksskpikvsytw.gsq@flex--elver.bounces.google.com
- designates 2607:f8b0:4864:20::f49 as permitted sender) smtp.mailfrom=3c6JIYAUKCeIIPZIVKSSKPI.GSQOEWER-HIZKSSKPIKVSYTW.GSQ@flex--elver.bounces.google.com;
+ header.i=@google.com header.s=20161025 header.b=q1jQ16Yb;       spf=pass
+ (google.com: domain of 3dajiyaukceqkrbkxmuumrk.iusqgygt-jkbmuumrkmxuavy.ius@flex--elver.bounces.google.com
+ designates 2607:f8b0:4864:20::749 as permitted sender) smtp.mailfrom=3daJIYAUKCeQKRbKXMUUMRK.IUSQGYGT-JKbMUUMRKMXUaVY.IUS@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Marco Elver <elver@google.com>
 Reply-To: Marco Elver <elver@google.com>
@@ -138,158 +137,110 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Adds bit perf_event_attr::inherit_thread, to restricting inheriting
-events only if the child was cloned with CLONE_THREAD.
+Adds bit perf_event_attr::remove_on_exec, to support removing an event
+from a task on exec.
 
 This option supports the case where an event is supposed to be
-process-wide only (including subthreads), but should not propagate
-beyond the current process's shared environment.
+process-wide only, and should not propagate beyond exec, to limit
+monitoring to the original process image only.
 
-Link: https://lore.kernel.org/lkml/YBvj6eJR%2FDY2TsEB@hirez.programming.kicks-ass.net/
-Suggested-by: Peter Zijlstra <peterz@infradead.org>
 Signed-off-by: Marco Elver <elver@google.com>
 ---
 v2:
 * Add patch to series.
 ---
- include/linux/perf_event.h      |  5 +++--
  include/uapi/linux/perf_event.h |  3 ++-
- kernel/events/core.c            | 21 ++++++++++++++-------
- kernel/fork.c                   |  2 +-
- 4 files changed, 20 insertions(+), 11 deletions(-)
+ kernel/events/core.c            | 45 +++++++++++++++++++++++++++++++++
+ 2 files changed, 47 insertions(+), 1 deletion(-)
 
-diff --git a/include/linux/perf_event.h b/include/linux/perf_event.h
-index fab42cfbd350..982ad61c653a 100644
---- a/include/linux/perf_event.h
-+++ b/include/linux/perf_event.h
-@@ -955,7 +955,7 @@ extern void __perf_event_task_sched_in(struct task_struct *prev,
- 				       struct task_struct *task);
- extern void __perf_event_task_sched_out(struct task_struct *prev,
- 					struct task_struct *next);
--extern int perf_event_init_task(struct task_struct *child);
-+extern int perf_event_init_task(struct task_struct *child, u64 clone_flags);
- extern void perf_event_exit_task(struct task_struct *child);
- extern void perf_event_free_task(struct task_struct *task);
- extern void perf_event_delayed_put(struct task_struct *task);
-@@ -1446,7 +1446,8 @@ perf_event_task_sched_in(struct task_struct *prev,
- static inline void
- perf_event_task_sched_out(struct task_struct *prev,
- 			  struct task_struct *next)			{ }
--static inline int perf_event_init_task(struct task_struct *child)	{ return 0; }
-+static inline int perf_event_init_task(struct task_struct *child,
-+				       u64 clone_flags)			{ return 0; }
- static inline void perf_event_exit_task(struct task_struct *child)	{ }
- static inline void perf_event_free_task(struct task_struct *task)	{ }
- static inline void perf_event_delayed_put(struct task_struct *task)	{ }
 diff --git a/include/uapi/linux/perf_event.h b/include/uapi/linux/perf_event.h
-index ad15e40d7f5d..813efb65fea8 100644
+index 813efb65fea8..8c5b9f5ad63f 100644
 --- a/include/uapi/linux/perf_event.h
 +++ b/include/uapi/linux/perf_event.h
-@@ -389,7 +389,8 @@ struct perf_event_attr {
- 				cgroup         :  1, /* include cgroup events */
+@@ -390,7 +390,8 @@ struct perf_event_attr {
  				text_poke      :  1, /* include text poke events */
  				build_id       :  1, /* use build id in mmap2 events */
--				__reserved_1   : 29;
-+				inherit_thread :  1, /* children only inherit if cloned with CLONE_THREAD */
-+				__reserved_1   : 28;
+ 				inherit_thread :  1, /* children only inherit if cloned with CLONE_THREAD */
+-				__reserved_1   : 28;
++				remove_on_exec :  1, /* event is removed from task on exec */
++				__reserved_1   : 27;
  
  	union {
  		__u32		wakeup_events;	  /* wakeup every n events */
 diff --git a/kernel/events/core.c b/kernel/events/core.c
-index bff498766065..a8382e6c907c 100644
+index a8382e6c907c..bc9e6e35e414 100644
 --- a/kernel/events/core.c
 +++ b/kernel/events/core.c
-@@ -11597,6 +11597,9 @@ static int perf_copy_attr(struct perf_event_attr __user *uattr,
- 	    (attr->sample_type & PERF_SAMPLE_WEIGHT_STRUCT))
+@@ -4195,6 +4195,46 @@ static void perf_event_enable_on_exec(int ctxn)
+ 		put_ctx(clone_ctx);
+ }
+ 
++static void perf_remove_from_owner(struct perf_event *event);
++static void perf_event_exit_event(struct perf_event *child_event,
++				  struct perf_event_context *child_ctx,
++				  struct task_struct *child);
++
++/*
++ * Removes all events from the current task that have been marked
++ * remove-on-exec, and feeds their values back to parent events.
++ */
++static void perf_event_remove_on_exec(void)
++{
++	int ctxn;
++
++	for_each_task_context_nr(ctxn) {
++		struct perf_event_context *ctx;
++		struct perf_event *event, *next;
++
++		ctx = perf_pin_task_context(current, ctxn);
++		if (!ctx)
++			continue;
++		mutex_lock(&ctx->mutex);
++
++		list_for_each_entry_safe(event, next, &ctx->event_list, event_entry) {
++			if (!event->attr.remove_on_exec)
++				continue;
++
++			if (!is_kernel_event(event))
++				perf_remove_from_owner(event);
++			perf_remove_from_context(event, DETACH_GROUP);
++			/*
++			 * Remove the event and feed back its values to the
++			 * parent event.
++			 */
++			perf_event_exit_event(event, ctx, current);
++		}
++		mutex_unlock(&ctx->mutex);
++		put_ctx(ctx);
++	}
++}
++
+ struct perf_read_data {
+ 	struct perf_event *event;
+ 	bool group;
+@@ -7519,6 +7559,8 @@ void perf_event_exec(void)
+ 				   true);
+ 	}
+ 	rcu_read_unlock();
++
++	perf_event_remove_on_exec();
+ }
+ 
+ struct remote_output {
+@@ -11600,6 +11642,9 @@ static int perf_copy_attr(struct perf_event_attr __user *uattr,
+ 	if (!attr->inherit && attr->inherit_thread)
  		return -EINVAL;
  
-+	if (!attr->inherit && attr->inherit_thread)
++	if (attr->remove_on_exec && attr->enable_on_exec)
 +		return -EINVAL;
 +
  out:
  	return ret;
  
-@@ -12820,12 +12823,13 @@ static int
- inherit_task_group(struct perf_event *event, struct task_struct *parent,
- 		   struct perf_event_context *parent_ctx,
- 		   struct task_struct *child, int ctxn,
--		   int *inherited_all)
-+		   u64 clone_flags, int *inherited_all)
- {
- 	int ret;
- 	struct perf_event_context *child_ctx;
- 
--	if (!event->attr.inherit) {
-+	if (!event->attr.inherit ||
-+	    (event->attr.inherit_thread && !(clone_flags & CLONE_THREAD))) {
- 		*inherited_all = 0;
- 		return 0;
- 	}
-@@ -12857,7 +12861,8 @@ inherit_task_group(struct perf_event *event, struct task_struct *parent,
- /*
-  * Initialize the perf_event context in task_struct
-  */
--static int perf_event_init_context(struct task_struct *child, int ctxn)
-+static int perf_event_init_context(struct task_struct *child, int ctxn,
-+				   u64 clone_flags)
- {
- 	struct perf_event_context *child_ctx, *parent_ctx;
- 	struct perf_event_context *cloned_ctx;
-@@ -12897,7 +12902,8 @@ static int perf_event_init_context(struct task_struct *child, int ctxn)
- 	 */
- 	perf_event_groups_for_each(event, &parent_ctx->pinned_groups) {
- 		ret = inherit_task_group(event, parent, parent_ctx,
--					 child, ctxn, &inherited_all);
-+					 child, ctxn, clone_flags,
-+					 &inherited_all);
- 		if (ret)
- 			goto out_unlock;
- 	}
-@@ -12913,7 +12919,8 @@ static int perf_event_init_context(struct task_struct *child, int ctxn)
- 
- 	perf_event_groups_for_each(event, &parent_ctx->flexible_groups) {
- 		ret = inherit_task_group(event, parent, parent_ctx,
--					 child, ctxn, &inherited_all);
-+					 child, ctxn, clone_flags,
-+					 &inherited_all);
- 		if (ret)
- 			goto out_unlock;
- 	}
-@@ -12955,7 +12962,7 @@ static int perf_event_init_context(struct task_struct *child, int ctxn)
- /*
-  * Initialize the perf_event context in task_struct
-  */
--int perf_event_init_task(struct task_struct *child)
-+int perf_event_init_task(struct task_struct *child, u64 clone_flags)
- {
- 	int ctxn, ret;
- 
-@@ -12964,7 +12971,7 @@ int perf_event_init_task(struct task_struct *child)
- 	INIT_LIST_HEAD(&child->perf_event_list);
- 
- 	for_each_task_context_nr(ctxn) {
--		ret = perf_event_init_context(child, ctxn);
-+		ret = perf_event_init_context(child, ctxn, clone_flags);
- 		if (ret) {
- 			perf_event_free_task(child);
- 			return ret;
-diff --git a/kernel/fork.c b/kernel/fork.c
-index d3171e8e88e5..d090366d1206 100644
---- a/kernel/fork.c
-+++ b/kernel/fork.c
-@@ -2070,7 +2070,7 @@ static __latent_entropy struct task_struct *copy_process(
- 	if (retval)
- 		goto bad_fork_cleanup_policy;
- 
--	retval = perf_event_init_task(p);
-+	retval = perf_event_init_task(p, clone_flags);
- 	if (retval)
- 		goto bad_fork_cleanup_policy;
- 	retval = audit_alloc(p);
 -- 
 2.30.1.766.gb4fecdf3b7-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210310104139.679618-3-elver%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210310104139.679618-4-elver%40google.com.
