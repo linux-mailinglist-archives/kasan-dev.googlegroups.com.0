@@ -1,138 +1,133 @@
-Return-Path: <kasan-dev+bncBDEKVJM7XAHRB4G6VCBAMGQE3NNY56Q@googlegroups.com>
+Return-Path: <kasan-dev+bncBCOYZDMZ6UMRBEHBVCBAMGQE6VMHXRY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33a.google.com (mail-wm1-x33a.google.com [IPv6:2a00:1450:4864:20::33a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 049BB33763C
-	for <lists+kasan-dev@lfdr.de>; Thu, 11 Mar 2021 15:55:45 +0100 (CET)
-Received: by mail-wm1-x33a.google.com with SMTP id 73sf4158355wma.3
-        for <lists+kasan-dev@lfdr.de>; Thu, 11 Mar 2021 06:55:45 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1615474544; cv=pass;
+Received: from mail-vs1-xe3a.google.com (mail-vs1-xe3a.google.com [IPv6:2607:f8b0:4864:20::e3a])
+	by mail.lfdr.de (Postfix) with ESMTPS id D31D733765A
+	for <lists+kasan-dev@lfdr.de>; Thu, 11 Mar 2021 16:00:33 +0100 (CET)
+Received: by mail-vs1-xe3a.google.com with SMTP id d3sf5909159vsc.21
+        for <lists+kasan-dev@lfdr.de>; Thu, 11 Mar 2021 07:00:33 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1615474833; cv=pass;
         d=google.com; s=arc-20160816;
-        b=YJjk3CwnRaA90v3MIo2hIxPkfPAvbSjl6SvIbGPmwwuv4oOumjasWdiHzZ6Dity5LS
-         +oLdK4skzekWSmmnnG5DGWLJFlvxkclmr1I0fskmp5N2U2Fv1vtvnctEieDoTwZ249EW
-         ExNGuOJmZlbogLD4NRZthNoLVCCZ08/+j3hQOO24PP6uJviXUAJSSuWqwiYwVxh+4Pau
-         p1SZU/R4w/8iQc0QJBZDAb8T8R9VKh2+n3875j9s+4agPIerLmr7ndEoJaAgr8HB4YVb
-         amRck6jpug8IO/G7UPUcD6+OeEcs95CjBf5ItYycnBgZgMYknk13+y70ZooSj7bSL34n
-         nj5w==
+        b=rajlm8ts9VrVAjejX88jTJ3NuLrjiEpEx2ppf+vaavVj+cn1TAONkuEuDDcNP8+Lem
+         odnhbJ+4Ytp54cSA07pfThHbwh+Bifg6bVbGaqIItjskxpBmTVKJHq7tIBWeec2bMmtL
+         F2jxOr34ot42tWdz7CqJZpK9Wq6rHtj2AdNHeXx6+o8UFmxh3Rb7c7fCu3tjne1Ji0gV
+         3Asi/ye/0dQnv1ZE3hivdaouscOsTzJXBlZP3vu8/UPMogNSG9e2uTE7Na/oanhg6l/u
+         S7hACmSNRfW6HOnhSUTttsS8oy4xYqnN/70M+jbtW/FhtZu4NUofDURYyCq8GAdPlGVe
+         NUHA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:sender:dkim-signature;
-        bh=PTgFEtX7SissoQdtCznv9bRMterCmNo/XaWYTzGV+x0=;
-        b=NUye6tKwFArzK1v8k4g/Mo/eAd4GZhPkr0VdTASXi8xxHeJmW1H7afkwXswYh0sVJc
-         ZdFNsgI7AZeiHggJr/yvRy2pArjL1VFSdZrh2sIvycArz3ybGxfKHMHEz/FHXKguE5N5
-         A7gRoCUflIGN98SVqweIrDPIaHM10TswAmEqeHmoneU+X8o2MRJAMQ0C5owpD36+7TfR
-         FG5FIcsjoO/n2bmRhI+DcrZ1dkH96d2eTuMBnaxMUutS/1rySjy47sGifQ8Zj4j5uR7J
-         FXQ2MeMi+eNV6zfyRBa1BoQakh/4lWRqi8OVqt1uQHT+AiOP3uBJK+KlwqVkcoLPm7Vh
-         jlvw==
+         :list-id:mailing-list:precedence:content-language:in-reply-to
+         :mime-version:user-agent:date:message-id:from:references:cc:to
+         :subject:sender:dkim-signature;
+        bh=/XHMvi1cIXeKGQ3U9C+R8d9b/KR0pak+MqZgbC6ebCE=;
+        b=MFU+Y+BgCOU3U1KARpwq+BnTiocDMLTbFBHjwVulnBjWaPYmSbL8a9AqSD+JbgLp0c
+         lPXlevyaMauR870XNitAV88vwNVE8yePWva3JbWdyrCLb9bI1obzV1XYZVOzUOMFge6U
+         cMJkRGN7u+XGa0PqmBtsX8HSegZhVDL9fA4KJt0GfyT1Dhv1SDrv2EuufQh2DSP+Wg6l
+         mBT3HRhzwItbz0V25U5pZ8GQSSjA+fdUKf9AeQnbSwIcIh5yuCRACOraNODsdSkN3KmY
+         ZAn0x42/gaLg9yBSNzqQFNpPtqUvPmr+tbH/EPHa4GWJZTwxj5tZqWspKsXs0OHKWBAn
+         Gscg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=neutral (google.com: 212.227.126.133 is neither permitted nor denied by best guess record for domain of arnd@arndb.de) smtp.mailfrom=arnd@arndb.de
+       spf=pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=vincenzo.frascino@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:mime-version:references:in-reply-to:from:date:message-id
-         :subject:to:cc:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=PTgFEtX7SissoQdtCznv9bRMterCmNo/XaWYTzGV+x0=;
-        b=av8DRJUhT3XeoMKF+IwoOqk6gmHmatdXxZmaJd/n2VwkmAoITr5OlXOXpPfKnpaPWd
-         VyPRKfXnspmSWZvYPcJtWMqmI4yYkhw74IKVLnBwftWUNtGe0qnj7w4MU99jiP9ETmWB
-         UOAUF6VLyLtaWCr3FwKr6ljGBMFd+Sm6FPLEYQoQLwgE9jqDTEG4VsX6B/omVG+Q/akP
-         hACM/0FMha+8yarkN0If7gPkcdCai9k4rf0GnnxmJlHRGdPe5sN3V5vI+kZlVmOYY132
-         cUR0CSwEGozXcGD2W+hr9mqU8QRE7KaTscfzvW3RHKNBSP2HksqVE+i74IxU2Ib+F7tz
-         B8oA==
+        h=sender:subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=/XHMvi1cIXeKGQ3U9C+R8d9b/KR0pak+MqZgbC6ebCE=;
+        b=KnOsw+CT+t11NlL6XYdf/CLSE0npFwamIs+mZxBghdMDt+vx5QC48j6WjY7bSZQZOS
+         9YAo6qhgp90j2srQMhF03mrOG+Z+b3RCB4rZeb9wVxt8jAAxRBuugO6huQOS5AGmGdT7
+         zV5rPK3k72ju57YXvj5sqVTrGwPiDtYp0dFey+A9Gg6ANPFRw/CnhLLrvJzENBnvqent
+         yZFcnmmkhIdwh74lqA4nuhzDbrR2filub3f8biYpch0ivm7Q8pOt69gauPGclVCSkGdJ
+         yz4NQRTmdHnuhWKHpxEpGLjN5HDwH/D4+H6HhOQDHrbOuFekevpS45qScn0UwVjvwsUv
+         7jiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
-         :date:message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=PTgFEtX7SissoQdtCznv9bRMterCmNo/XaWYTzGV+x0=;
-        b=d0ZV1uFlEdVwBm1bd0GHTMg3xmnY1iqKuii+xBIiK70j72D2qPJ/ApYjjq1EQ7DCcM
-         BUMFbY4EtPG8+0S0xTBACnDQ6y1L63cSGR1tNIOPVtdZguBTFTdmxxR87VQv9SDidlZw
-         3R5BGgscdlNyIWCvwIuzgKHyZp4dFIEQKZJwdcqsvfrB2ekbdZofbZlgQWVVbptbmejc
-         LgA2Gy2QIPW8r5YXJE47ieep12J+8MO3L3uATAZUUhEDc0HQbBblRyQcN0KKT80N4xjc
-         14U1AYsSQwpdhBthZlzNgHCSKqKWrYN5c4jyWdI+rFihbd9KOMmKHEjLA+KT6sN7onXj
-         V1EA==
+        h=sender:x-gm-message-state:subject:to:cc:references:from:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=/XHMvi1cIXeKGQ3U9C+R8d9b/KR0pak+MqZgbC6ebCE=;
+        b=Yb3cdRM6B6Q1QpOgCWmHe0bSFt8rBHBd02/cGX2SMS2A0q9WeBZXhq9IgxxGgES61L
+         bhBmLZ/kpy5IU3vjz/U3zfwhNFXK5EAU1xY0g9AyMecrKOiPCE7gPysc9X2FB48t7xGW
+         745lKORqYon1imnRaTxoUWPasN6xjcu+yRwHb1T/DINbqLyru8d5OibBzLcmbW2xmS8p
+         d3YTHwUjBagHuxEaXbu/oCLUKesfDtUA8n//6psNDa+AwUPNcE/SDMkYmU4DvPbwr159
+         Uhge1XfofbWxML7zUleQ4mb37PNyJcWj6ah0CRnu2RceSERlJv1TE9GmdFTlNWr2cPzE
+         kJvQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM5305Zbh9/upUqOhMUXvY1TR3cDkIkkT8hKtr+Whu3IKDiFzmMg2H
-	eDt3cQcBO3AJq6Xfss7jvp0=
-X-Google-Smtp-Source: ABdhPJw4OlUTM5vy2fQQN6phMBmqsJaAcnWZp9FZDtxCYJTV4bkmyMdDmeGZ0ZffdNd7ottrLJsdAA==
-X-Received: by 2002:a05:6000:10c5:: with SMTP id b5mr8979621wrx.347.1615474544726;
-        Thu, 11 Mar 2021 06:55:44 -0800 (PST)
+X-Gm-Message-State: AOAM533zYYMqtUxOhT1+2T5RUvbrjLffr4V8ykuEGMZtOjnXrUeKOGwq
+	BLf+yIiU15mIUqrQ/8OBwpo=
+X-Google-Smtp-Source: ABdhPJySHmrNMF98BN1cWRrpO5B0U0Iq6a7+LWckZVCMg9Pb2IgRo9Lr1KU83i4qKbYFC2T+O3uK6A==
+X-Received: by 2002:a1f:9851:: with SMTP id a78mr5045183vke.3.1615474832922;
+        Thu, 11 Mar 2021 07:00:32 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a5d:58f0:: with SMTP id f16ls6072148wrd.0.gmail; Thu, 11 Mar
- 2021 06:55:43 -0800 (PST)
-X-Received: by 2002:a5d:534e:: with SMTP id t14mr8989313wrv.202.1615474543940;
-        Thu, 11 Mar 2021 06:55:43 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1615474543; cv=none;
+Received: by 2002:a1f:a98e:: with SMTP id s136ls318333vke.4.gmail; Thu, 11 Mar
+ 2021 07:00:32 -0800 (PST)
+X-Received: by 2002:a1f:a692:: with SMTP id p140mr5087197vke.0.1615474832237;
+        Thu, 11 Mar 2021 07:00:32 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1615474832; cv=none;
         d=google.com; s=arc-20160816;
-        b=ad5F0fO3eOpy4D0imdpMPECSO7JF8x4GvadoBqfpXfmbu9x/5J6MyW7wTRDLrBvYcD
-         jdwiOZJfBTpl9fayKqUxF1fKv8+yJ4kUlOfKqUxDHlAEVLYMe3bcFS7N7Is5NoFNPZF9
-         JH6vtwrFMLNAs3y537IEbjy9TyooZGrFqIqQy1SgbUSrlAukGg3f8kddBEshzfhtwypx
-         Wk8nhY1D9qX6d9gXpLwkZcumtOQwUPJ0WQDV5WeGGCGFxfW59lALJZryhCud173xA/9X
-         /NTviKEWgM9ESOc00AjqhiFESfcJYj80f9fbkIBtCNDghq81ouOJM/i/cJkp3A14466l
-         9nzg==
+        b=mwJRJfEvFum2RuLiCTSOO/x0aC+XHQqWsMcxoXix1CkEgeXq3FDyV4HIwfWrtrpYXg
+         FFOwEneAFZ+5ryy59iP0rJui3QwBBKrhIqhtndWVP+QOozhbx7wbggAanbtlCY/YkO4Y
+         8pSuiLLuiasLWxVat7aXVnf/BfI9Qrxn/P5tKuLdX08ZN1eHNn/SB4cTDPeRVnE/TjkL
+         BM6FqyDlc7kk36BnKhR1e9mFfF2vrhh/w4fIoM/sxhl/w3V8F8LYFssVCoyGzgvmdFXZ
+         xy3XPvkcnHz2ZZz0MlKao3d4XTotSVOKnwq6MG5BCB4cuRHq6YLdqQIpXHkuZ7YE0sxC
+         6ukw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version;
-        bh=wHwGDt09HWEdIRuFrVwkqB8XvCJtvg043V/gaLO8G34=;
-        b=efsXVR/DjWlXOT4vOoI+f7XhuHYF32Y1XOAZ1V6inGWx5ZUP69AOzmPUFoFt2snhoD
-         PYwrdGjqGTT9mu1JieWWGUaJpSL9PBj6gWIY7t0IR2oFBiEkkLDShwmBnPJWRtWvcPma
-         VXPAyiFYnUtyqG2PdD9D7cAVVLuoEkuUBxSASdjZdSdLlfI9JFpHT9OWk8INfXV+Wkz/
-         NW/JAuPejW2J0HLOfb9aGbNTH32MoDTkyqc08z6tIhibwMpwPOehtsFGIZkQhQ64tVyh
-         x5IoiN4myKl3JTRYXFZjo9adXvHHYtxeaKkQt+fdJSWpl7Bs6Zp7Uw0I7KbtbEk5YXmn
-         1WGQ==
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject;
+        bh=081PurTBMgzBP171lVVAL8RjheMX6jwXSwN2UHeKqW4=;
+        b=I7o6Vw0bXt+0mwOqz4BH5MnBmRPNS5DRIAyYEBYGcHz5pxNA44VcLDWADF7cxCzyon
+         trqcDkYYKWwxhWiYEktphcmGubrugqtEekhpdWan2z2nTf7tKquwa4o/CFhpbWD4Je8M
+         d4g83nyjGJUM2KfBbIJj7L+bdke+oOOiJpM/jpvvhijHhHBwsyKqwmHn7hSUCgkqryQu
+         VYFOLRSvFmSitzqPQonUmmImnDhHOtwimx44Ey7yu+PeZa916CEmsoc5MMue4ZPc6CEI
+         XGY9vpYOg0XlS3dtb+YWqVToj6gqcHjNBmGwgI2hLOjTGIrCrb0hiVwtV7Vxo48xhZUl
+         ODCg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=neutral (google.com: 212.227.126.133 is neither permitted nor denied by best guess record for domain of arnd@arndb.de) smtp.mailfrom=arnd@arndb.de
-Received: from mout.kundenserver.de (mout.kundenserver.de. [212.227.126.133])
-        by gmr-mx.google.com with ESMTPS id q145si98472wme.1.2021.03.11.06.55.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Mar 2021 06:55:43 -0800 (PST)
-Received-SPF: neutral (google.com: 212.227.126.133 is neither permitted nor denied by best guess record for domain of arnd@arndb.de) client-ip=212.227.126.133;
-Received: from mail-ot1-f52.google.com ([209.85.210.52]) by
- mrelayeu.kundenserver.de (mreue009 [213.165.67.97]) with ESMTPSA (Nemesis) id
- 1MuUvS-1lbcQX1OpG-00rZxS; Thu, 11 Mar 2021 15:55:43 +0100
-Received: by mail-ot1-f52.google.com with SMTP id b8so1706096oti.7;
-        Thu, 11 Mar 2021 06:55:43 -0800 (PST)
-X-Received: by 2002:a9d:6341:: with SMTP id y1mr7186603otk.210.1615474542010;
- Thu, 11 Mar 2021 06:55:42 -0800 (PST)
+       spf=pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=vincenzo.frascino@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
+Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
+        by gmr-mx.google.com with ESMTP id d23si181626vsq.1.2021.03.11.07.00.31
+        for <kasan-dev@googlegroups.com>;
+        Thu, 11 Mar 2021 07:00:32 -0800 (PST)
+Received-SPF: pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4321C1FB;
+	Thu, 11 Mar 2021 07:00:31 -0800 (PST)
+Received: from [10.37.8.5] (unknown [10.37.8.5])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 54F7F3F70D;
+	Thu, 11 Mar 2021 07:00:28 -0800 (PST)
+Subject: Re: [PATCH v14 8/8] kselftest/arm64: Verify that TCO is enabled in
+ load_unaligned_zeropad()
+To: Catalin Marinas <catalin.marinas@arm.com>
+Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ kasan-dev@googlegroups.com, Andrew Morton <akpm@linux-foundation.org>,
+ Will Deacon <will@kernel.org>, Dmitry Vyukov <dvyukov@google.com>,
+ Andrey Ryabinin <aryabinin@virtuozzo.com>,
+ Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>,
+ Evgenii Stepanov <eugenis@google.com>,
+ Branislav Rankov <Branislav.Rankov@arm.com>,
+ Andrey Konovalov <andreyknvl@google.com>,
+ Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+References: <20210308161434.33424-1-vincenzo.frascino@arm.com>
+ <20210308161434.33424-9-vincenzo.frascino@arm.com>
+ <20210311132509.GB30821@arm.com>
+From: Vincenzo Frascino <vincenzo.frascino@arm.com>
+Message-ID: <bd403b9f-bb38-a456-b176-b6fefccb711f@arm.com>
+Date: Thu, 11 Mar 2021 15:00:26 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20210119123659.GJ1551@shell.armlinux.org.uk> <CACT4Y+YwiLTLcAVN7+Jp+D9VXkdTgYNpXiHfJejTANPSOpA3+A@mail.gmail.com>
- <20210119194827.GL1551@shell.armlinux.org.uk> <CACT4Y+YdJoNTqnBSELcEbcbVsKBtJfYUc7_GSXbUQfAJN3JyRg@mail.gmail.com>
- <CACRpkdYtGjkpnoJgOUO-goWFUpLDWaj+xuS67mFAK14T+KO7FQ@mail.gmail.com>
- <CACT4Y+aMn74-DZdDnUWfkTyWfuBeCn_dvzurSorn5ih_YMvXPA@mail.gmail.com>
- <CACRpkdZyfphxWqqLCHtaUqwB0eY18ZvRyUq6XYEMew=HQdzHkw@mail.gmail.com>
- <20210127101911.GL1551@shell.armlinux.org.uk> <CACT4Y+YhTGWNcZxe+W+kY4QP9m=Z8iaR5u6-hkQvjvqN4VD1Sw@mail.gmail.com>
- <CACRpkda1pJpMif6Xt2JHseYQP6NWDmwwgm9pVCPnSAoeARTT9Q@mail.gmail.com> <20210311140904.GJ1463@shell.armlinux.org.uk>
-In-Reply-To: <20210311140904.GJ1463@shell.armlinux.org.uk>
-From: Arnd Bergmann <arnd@arndb.de>
-Date: Thu, 11 Mar 2021 15:55:25 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a2JkcvH=113FhWxwSFqDZmPu_hKZeF+y6k-wf-ooWYj-w@mail.gmail.com>
-Message-ID: <CAK8P3a2JkcvH=113FhWxwSFqDZmPu_hKZeF+y6k-wf-ooWYj-w@mail.gmail.com>
-Subject: Re: Arm + KASAN + syzbot
-To: Russell King - ARM Linux admin <linux@armlinux.org.uk>
-Cc: Linus Walleij <linus.walleij@linaro.org>, Dmitry Vyukov <dvyukov@google.com>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, syzkaller <syzkaller@googlegroups.com>, 
-	kasan-dev <kasan-dev@googlegroups.com>, Hailong Liu <liu.hailong6@zte.com.cn>, 
-	Linux ARM <linux-arm-kernel@lists.infradead.org>
+In-Reply-To: <20210311132509.GB30821@arm.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:Pt+D80bGZR/8NOp0hBq2OafGrnmjoJ5cwpLVLBiqirT24+M5v9J
- 2JZWs5YC+xtobEGCFSr4haLi9d8kR2XSMYqyeoZEfhTi32ghSm/OullsAIcuqbyfjj4dfZE
- 5AkDS7Ti1KEBcCVv6o+mqXVhTALtVk04an2lWDQZVhrCc2CxpZYgiQZLKlGQXS7bUNtc9O2
- 9oHzkOTv1ubzdlXCkVdUA==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:3FA9lgG/RIQ=:YZ6wlkqZf8v1RTKdvgaVsS
- y4/5Cd9o25JD0yRKEarBdJbPq1aa8meiRSiTu7d8vNhMfHPljQQqGg4NHaDhoAoru2wfoSI6v
- sxUNq/NlHLyd2Ls0PeOsA6YlLuK1yIKGn2Y/wCXruh/N6r/tTJ3QDRfsKiOwlXekYQS+nxiPx
- SE8V9VwJJXLcV6Z0URwg5DdM2bb0t/oQRSkIDx5bFt2vLgXiKmtKn630SIvt4FWojWYUx986A
- kJ25PZviid9dTmcofXkgefyNCb2hIiyf9xDKZsQ9XJa4P4CYmmSoddsWy41b5DYSNtMFlpFC8
- /MtAkPy+lkhV2xekQ2KuQrVdLReXtM7yDCfBnmU0Fp8CF4KeO+bxtKDXVAt2OQlH0WfiTrjnl
- FEVEtPnnBZrz9GXHjJvenaKXddrgggUKKd0qG6nTQQ1bEPw9Yv0g4/4q1aXUS
-X-Original-Sender: arnd@arndb.de
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=neutral
- (google.com: 212.227.126.133 is neither permitted nor denied by best guess
- record for domain of arnd@arndb.de) smtp.mailfrom=arnd@arndb.de
+Content-Language: en-US
+X-Original-Sender: vincenzo.frascino@arm.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172
+ as permitted sender) smtp.mailfrom=vincenzo.frascino@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -145,41 +140,67 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Mar 11, 2021 at 3:09 PM Russell King - ARM Linux admin
-<linux@armlinux.org.uk> wrote:
-> On Thu, Mar 11, 2021 at 02:55:54PM +0100, Linus Walleij wrote:
-> > On Thu, Mar 11, 2021 at 11:54 AM Dmitry Vyukov <dvyukov@google.com> wrote:
-> > > The instance has KASAN disabled because Go binaries don't run on KASAN kernel:
-> > > https://lore.kernel.org/linux-arm-kernel/CACT4Y+YdJoNTqnBSELcEbcbVsKBtJfYUc7_GSXbUQfAJN3JyRg@mail.gmail.com/
-> >
-> > I am still puzzled by this, but I still have the open question about how much
-> > memory the Go runtime really use. I am suspecting quite a lot, and the
-> > ARM32 instance isn't on par with any contemporary server or desktop
-> > when it comes to memory, it has ~2GB for a userspace program, after
-> > that bad things will happen: the machine will start thrashing.
+On 3/11/21 1:25 PM, Catalin Marinas wrote:
+> On Mon, Mar 08, 2021 at 04:14:34PM +0000, Vincenzo Frascino wrote:
+>> load_unaligned_zeropad() and __get/put_kernel_nofault() functions can
+>> read passed some buffer limits which may include some MTE granule with a
+>> different tag.
+>>
+>> When MTE async mode is enable, the load operation crosses the boundaries
+>> and the next granule has a different tag the PE sets the TFSR_EL1.TF1
+>> bit as if an asynchronous tag fault is happened:
+>>
+>>  ==================================================================
+>>  BUG: KASAN: invalid-access
+>>  Asynchronous mode enabled: no access details available
+>>
+>>  CPU: 0 PID: 1 Comm: init Not tainted 5.12.0-rc1-ge1045c86620d-dirty #8
+>>  Hardware name: FVP Base RevC (DT)
+>>  Call trace:
+>>    dump_backtrace+0x0/0x1c0
+>>    show_stack+0x18/0x24
+>>    dump_stack+0xcc/0x14c
+>>    kasan_report_async+0x54/0x70
+>>    mte_check_tfsr_el1+0x48/0x4c
+>>    exit_to_user_mode+0x18/0x38
+>>    finish_ret_to_user+0x4/0x15c
+>>  ==================================================================
+>>
+>> Verify that Tag Check Override (TCO) is enabled in these functions before
+>> the load and disable it afterwards to prevent this to happen.
+>>
+>> Note: The issue has been observed only with an MTE enabled userspace.
+> 
+> The above bug is all about kernel buffers. While userspace can trigger
+> the relevant code paths, it should not matter whether the user has MTE
+> enabled or not. Can you please confirm that you can still triggered the
+> fault with kernel-mode MTE but non-MTE user-space? If not, we may have a
+> bug somewhere as the two are unrelated: load_unaligned_zeropad() only
+> acts on kernel buffers and are subject to the kernel MTE tag check fault
+> mode.
 >
-> I believe grafana is a Go binary - I run this in a VM with only 1G
-> of memory and no swap along with apache. It's happy enough.
->
-> USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
-> grafana   1122  0.0  5.9 920344 60484 ?        Ssl  Feb18  28:31 /usr/sbin/grafana-server --config=/etc/grafana/grafana.ini ...
->
-> So, I suspect it's basically KASAN upsetting Go somehow that then
-> causes the memory usage to spiral out of control.
 
-I found a bug report about someone complaining that Go reserves a lot of
-virtual address space, and that this breaks an application that works
-with VMSPLIT_3G
-when changing to VMSPLIT_2G
+I retried and you are right, it does not matter if it is a MTE or non-MTE
+user-space. The issue seems to be that this test does not trigger the problem
+all the times which probably lead me to the wrong conclusions.
 
-https://github.com/golang/go/issues/35677
+> I don't think we should have a user-space selftest for this. The bug is
+> not about a user-kernel interface, so an in-kernel test is more
+> appropriate. Could we instead add this to the kasan tests and calling
+> load_unaligned_zeropad() and other functions directly?
+> 
 
-If KASAN limits the address space available to user space, there might be
-a related issue, even when there is still physical memory available.
+I agree with you we should abandon this strategy of triggering the issue due to
+my comment above. I will investigate the option of having a kasan test and try
+to come up with one that calls the relevant functions directly. I would prefer
+though, since the rest of the series is almost ready, to post it in a future
+series. What do you think?
 
-       Arnd
+-- 
+Regards,
+Vincenzo
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAK8P3a2JkcvH%3D113FhWxwSFqDZmPu_hKZeF%2By6k-wf-ooWYj-w%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/bd403b9f-bb38-a456-b176-b6fefccb711f%40arm.com.
