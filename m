@@ -1,148 +1,130 @@
-Return-Path: <kasan-dev+bncBC33FCGW2EDRBT4AXKBAMGQE3LGNCHI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDGPTM5BQUDRBJX7XKBAMGQE6VREOKA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x23b.google.com (mail-lj1-x23b.google.com [IPv6:2a00:1450:4864:20::23b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B4AC33A834
-	for <lists+kasan-dev@lfdr.de>; Sun, 14 Mar 2021 22:29:52 +0100 (CET)
-Received: by mail-lj1-x23b.google.com with SMTP id 74sf11737174ljj.3
-        for <lists+kasan-dev@lfdr.de>; Sun, 14 Mar 2021 14:29:52 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1615757391; cv=pass;
+Received: from mail-pg1-x53f.google.com (mail-pg1-x53f.google.com [IPv6:2607:f8b0:4864:20::53f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FBD833A981
+	for <lists+kasan-dev@lfdr.de>; Mon, 15 Mar 2021 03:00:08 +0100 (CET)
+Received: by mail-pg1-x53f.google.com with SMTP id m5sf8861887pgp.13
+        for <lists+kasan-dev@lfdr.de>; Sun, 14 Mar 2021 19:00:08 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1615773606; cv=pass;
         d=google.com; s=arc-20160816;
-        b=bfU4KNjEmpNiKxKZB32VFbGBzubYRBha4nbX3wmLniz9RWLrtP2lHPM7qA4qndCaJs
-         b5llruds/CgDZdfCz/WJUTq/PXvDTFJMELb9CMjDxl0QJ6MpqwuPeR8yz7W7GpVN7uB+
-         J8vA2m6aYU+u7MFflppx5P8Fxi/HBOqtgRxuKmeDoByCyqqQ+vlrhl77+SsA/84MoHcC
-         ksZuWkRARC5ut4a12+KU0hAVjCyiDSVycCqjMzEFVui4Bss5X806OhBbFHiUY7mqrUV/
-         BwJT6e2bAGnBYmA7jHFLpXAnbzPHJ8Ii6mNBfEhLw67onVQa75aTgc96r3OKFRIRt8DF
-         InZw==
+        b=K7Ca55v2I0YQNWcnSwNTGkXuyDQpzvxVUkz98dVWinspE6pmueQJIU6mb5Ox26kwhL
+         a6+mTsQowLiMejxijfSCQ/nMz3A7Exhw0HEzjHbIzVhd4xjkSTZCokL5uBuNmp5x0+1n
+         PoTKiv0EMkokekqj95IWtHfE4MiBFewj5Ee0dplGD5BQntDdOKDgO5MWUFnVdGBWUNv+
+         XJD5rjfky+PcT0DTjexwb6G5RIni1HkgFMd3o4mbL21yWaJIKaAcVvzCrxxFiLHC08vd
+         QxDoYkLoR2l3C4IT1OaQs1B9e6TWMve4lLwM2xsLeMG8XggLjTE8QsFTIQoKy6tUoCLI
+         yMcA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-language:in-reply-to
-         :mime-version:user-agent:date:message-id:from:references:cc:to
-         :subject:sender:dkim-signature;
-        bh=FRhyiAbUCQ/i+3KZFu8fASEh9KgXthF2aqrH5J2fjeM=;
-        b=v5I12WnOByQZ7rJSR8LCyLGVZZ8wGOilGaJJpHqlu7PhqSEr9R1WNWey37SYG4r/x9
-         51t1fQFiDpAIyILPd26zYQwAYtcoAEd3GkN/qUctENr0ge6QU1ELIh7WucF2zy15tPbu
-         +qWeL9mDbiIoqY19BVpiiW/toxdrOThMQCD1740bDmetv6k2FkkmA/JYf3Uxr2Ai1e1G
-         BOb93n5eE5hCSMhy/XWCJsPq7UMZNkCPNWReXnQaBUnC6N/YSksINhbK+eidOkaVNYlg
-         8Q3gdlIyC4bJoOs7cMXTDA1QQudKnzjtk7QiwhjxhxR+ybxY3OEH9ECeAAGlasvzPH2Q
-         e4PQ==
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :subject:cc:to:from:sender:dkim-signature;
+        bh=BiebSyodWtIyfqW+2J6NZLt20ZDt9kQA7QpEg5fdiKU=;
+        b=za1kcQ9m4XCBjb3uQjnSSVlekd+h9bsmqVTafodRNCJ0LQEZrkDWWS8d7jU+3HQDUv
+         GwPZbymCYpN4IIjlKPYaIJaaH2HOabiwN8b7iAat3k6th2MsiVn/tn0fiBdWPxApBwUM
+         2YjUb+1PlshNBonsmXE9SgrUOa0CMgzXKEoAhAY4qY7nGOVuE7qt9wM9ZIPh8bjlDHPD
+         36C7aXI3z4jJZwEE5BNlLmhWam74ga5/vOjDJlDhHLcZl+aBdDmmud7DQ75PDLv01Slq
+         nFN8voDqz8sMyJ/2zLzgcmSy9w5R8+6CpYnLRD9aLDPt8w1EYPYEwlRjngXS3/rlfEA1
+         xbDg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@alexander-lochmann.de header.s=key2 header.b=QzHTLq7Y;
-       spf=pass (google.com: domain of info@alexander-lochmann.de designates 188.68.63.166 as permitted sender) smtp.mailfrom=info@alexander-lochmann.de
+       spf=pass (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.184 as permitted sender) smtp.mailfrom=walter-zh.wu@mediatek.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=FRhyiAbUCQ/i+3KZFu8fASEh9KgXthF2aqrH5J2fjeM=;
-        b=MRIE1+QpBGpeOjt6uboXjJH3v0fCovfhzHl9I5iW9kkZdZJpdJYL5Ny/dvWrzFJaNl
-         7GcdSZoDOXvquwcvKLOaHxMszgwJntTLkXuybx+1KL+MVQX/7sjV+UTU1GErxh20qAYO
-         SAvtj2IMXfyrKjTfZiV4k3rtOhbRUB8bOMKbxSF68owET6sHch2AKTB1In8ju+ICvt/K
-         WvK6i2XGP6z9bD9PWoWpCh99Qlczk5M6NVdCLgJd47zJ7357X7zVqoACf7hJiV8sQ+Q6
-         ihBMpbD+Fa6tHJhnp0xD+KxMtP6mKZKrbXRdtlJBLoEZMMaAH05s8Bz5aoVTgm4vd5Iy
-         HIiw==
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=BiebSyodWtIyfqW+2J6NZLt20ZDt9kQA7QpEg5fdiKU=;
+        b=mX+IhQF9hDrtQLgzPY3NEfd7UqDOsVj2/zsj2AuyPGuLYMm7KrC+Jhh2S35cbgsSV3
+         RUN9a0xGVeycb3ByUdjuFxUfCAh2vEIsdE9H3fClUuxvLPmN9hyz3U1z+5WdcwvTx03j
+         oTyzLFYvZft3bUFBARB9wcdymAOcG2IgK2w+WB1ZTNqGRkF2Vz1hpFeOm0gCYoLoaXw4
+         JaApRuNH1+AW0kTnGcribFhVsoN8q7HbKKeZms5BM7XbWPBFwr4Flpdbt1gunsACwgEF
+         IAwews9VhTYpZKnJ09GjVbv4qIj1ATOCD6U7Yi61MCpHRdd85my7qkbGUCiI0bWHW+Tl
+         7KcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=FRhyiAbUCQ/i+3KZFu8fASEh9KgXthF2aqrH5J2fjeM=;
-        b=PimsYeVsNv74Og9TV/vRGvzwF4UetPYVC6jNSorim9XSA2aAV5DniExdnTAKFG6p3e
-         chsILwtkdnttc9uZKy4omVXiJVOGngCDF1HU4s46Hlh00bqBKabc99gAMfo1j60nrDZW
-         5drQDMKKSM3f4xMzzZFGw0Sue4CT2xi1goGDlOOhY5i7E7cTRvvcBHxVwmP5YY45Z6vr
-         x5bDNKxC6lqr9/ogI6jz46yu3RQmobT3Bm1cIy//4fBWaga8HOWoMREF1opQMK4cmEkZ
-         Bclr5y4cC6Ye+mpk0NSGNj/rO1d4HR3BXmOf/5nF6XKO8v72nxsDQq0OB7zYw7tI3/Eh
-         Q3tw==
+        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=BiebSyodWtIyfqW+2J6NZLt20ZDt9kQA7QpEg5fdiKU=;
+        b=LSSfOTOcTDrIHPqAPJjOrN30t/P9RLXl5Eg0P/uNRetnXB8Dgpa0OKwPxgSoqmfXfd
+         8vmsUlA4BbBmHWXrJiLtnABgipgZFCoaBvCoNpn5bYtNdUXM8N3T1s2Ukjcr6MtI6st9
+         8zmQEEMWhKhi1GDPwa8f73o7LgRvxxD3Zq5VF7uHHvDvuM1rsWDX4WSv9DIME2DROV5j
+         KQmDIRTY+P9VznAtvfC5x3NRQVn04fVTJb62POJIgDpUPfpT+PTsDddGGnbJ8YIod8Pe
+         jHA1/Gcrp3Od49iNiDt1V36eVD8n/qVBchclbnuYsphTOWCUwO3gdtjwH7iFgbgJ+7w7
+         VFQg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM531hJV2rIiUDedytyEWaa+5QlH2+MmdcwvGnbq8vv36rMKXCHs7A
-	r71dtfFaYYfs2e3EwRsw1qE=
-X-Google-Smtp-Source: ABdhPJyvCBYH9GG9OIlkl/pNgc2v5D9FYuqfHtNRoxvffAFQYwssO3Xj3PEeqom/hd3TlPAXY6y4zg==
-X-Received: by 2002:a05:6512:1085:: with SMTP id j5mr6335108lfg.592.1615757391675;
-        Sun, 14 Mar 2021 14:29:51 -0700 (PDT)
+X-Gm-Message-State: AOAM531IA/NacMGFC+wfNO+/CicMpql/V4v04SYqtHExdKE1+57GFl8K
+	ZiGEe4wpbtq3CwZtbyypd1c=
+X-Google-Smtp-Source: ABdhPJw6PN9ZUThi1nQHEueGmst5Mj8gBz+Brk4tuuuk3iuWfLZdj4axBrqJewDbqT7VcuVctmM4Eg==
+X-Received: by 2002:a17:90a:e516:: with SMTP id t22mr10375170pjy.39.1615773606847;
+        Sun, 14 Mar 2021 19:00:06 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a19:e86:: with SMTP id 128ls1933602lfo.0.gmail; Sun, 14 Mar
- 2021 14:29:50 -0700 (PDT)
-X-Received: by 2002:a05:6512:39c2:: with SMTP id k2mr5754031lfu.69.1615757390655;
-        Sun, 14 Mar 2021 14:29:50 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1615757390; cv=none;
+Received: by 2002:a62:8241:: with SMTP id w62ls2186869pfd.8.gmail; Sun, 14 Mar
+ 2021 19:00:06 -0700 (PDT)
+X-Received: by 2002:a62:e502:0:b029:1e4:d7c3:5c59 with SMTP id n2-20020a62e5020000b02901e4d7c35c59mr8325073pff.51.1615773606214;
+        Sun, 14 Mar 2021 19:00:06 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1615773606; cv=none;
         d=google.com; s=arc-20160816;
-        b=GefubMKmziitYQ8cVZPIqfRGyepD2q6OLg+8JGvAAh20qEL6LVuDcOWE2rd2Fd9TGh
-         CMQOANzAIWIufCo1v662eBNE/P8/SWjO1WRwly0JMFiNLPJZxQNXAHDqeBWrU/V671Br
-         19nzaxebQh7HKNtgeCd9F22ndBsRW2q8He64xEIPz1Ao32wTsYnqYdoNrnk58btGigbv
-         RAZN0pdglRVlcnPiPPstuBxTIHGelC+zwc94QeQeQCbJGYMa4gwsmJudUroa8IAbk7e7
-         R3dqysLSPwaM6n+6T2WYF52l1CvKEgQmAaw/AhWsesIxJa2x47t4ki6vnkHS/FTl7/yC
-         Elew==
+        b=Zd6/ZhHfBvkybVp2VQlVxtAYn11PM5/84EUTmWMo9L2GzGzwCJYcXfKmUBY4A+l20d
+         NI6e76knwuSNHkwB+XiKx9WRzQO48Es/evltZn5Glrn9dWCTrN//HkhDnIl6TZkNG/ff
+         BqqX2RnNAL6WXwIkf96zyxOSmvApiNV17lUXpHfUaIZN5ktRIJm2X57bieAbS5tc0ivd
+         ColQqldCJUSqkX/qZZCMTZ8M0dqf1rwlTV63Vt9zCXc+tZutDmzgdIOuewyk27TUN45o
+         o3XHwcL3SeX4JGI9aLj4bUupL/m42a3iZW1Ge0onAuPZOASOKDnSKnlQyx0DbuKJN4St
+         v36w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject
-         :dkim-signature;
-        bh=tKkENpQ1VaGGolGjWP383V/ZruoBe9AWt7yWYqDfjdI=;
-        b=UBKsErLsDB7JeJ4sYbqsHOMTBFmSl3tCOjgFQcGAqCb9bRPUNyFukRZPcloyrLow6i
-         Rxfc7Hyco76E3pFV8AxdYoqJVehoiKNTkdkIWu1drqZ/f1dxVeGL9CdadeZrvzYoccx6
-         kjS3U/fMzlsIWeWts42HU2GOD7wEZN1zdf1TYv7dI96X6hhw+wVNZ7YYZBuWvTV22/Z+
-         ywz/i7OPvlAbL178H0Bzto01UGr5MNVTjzwAE0k5GoUEnVuI57/2nmiArPJPMiFFm/3Z
-         tYPtwWYRyzvBeO3bDsW+VTD3MLLDWvKe79MwWm1FOxTpAVY3bmq4G01s0aXY/p54H649
-         JHCg==
+        h=mime-version:message-id:date:subject:cc:to:from;
+        bh=5HfCD3O2tXZgP2r108py205iuF9RiYwviVCRWNaol3Y=;
+        b=06Xz5dF4VxH55MRO4okwPf8wl6hqzl1KjA2HQyBYt33G1sbcoz8tTVXuxbPiaef4Rh
+         A06x+zaCMW5yYcnbLOrOEM+0rvhSg4Q0EOYQ4a0TLqtOYh2hIVA543xKnuWEnWTG724t
+         87m00yX3H55rq+BuIJDFpspPZM2iZNnIShefDDcR8rV0MZT9QA01Ls6GZQDYZgM5dm+F
+         ZX98jWUhfj/X+fB+6hm/0t1cNXdCdiVixBHTbL0hvFO+CXaTPusYYTqrPNTgGDx3/dJG
+         HKBZVXYIMZ20QuwM2+bGP/SV1cpUpz6VVq7ol5G+wLi97EGzQL/X7FakwRB5bvwWSChc
+         eT+w==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@alexander-lochmann.de header.s=key2 header.b=QzHTLq7Y;
-       spf=pass (google.com: domain of info@alexander-lochmann.de designates 188.68.63.166 as permitted sender) smtp.mailfrom=info@alexander-lochmann.de
-Received: from relay.yourmailgateway.de (relay.yourmailgateway.de. [188.68.63.166])
-        by gmr-mx.google.com with ESMTPS id j12si382586lfg.8.2021.03.14.14.29.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 Mar 2021 14:29:50 -0700 (PDT)
-Received-SPF: pass (google.com: domain of info@alexander-lochmann.de designates 188.68.63.166 as permitted sender) client-ip=188.68.63.166;
-Received: from mors-relay-8202.netcup.net (localhost [127.0.0.1])
-	by mors-relay-8202.netcup.net (Postfix) with ESMTPS id 4DzCPT4ttsz4cKj;
-	Sun, 14 Mar 2021 22:29:49 +0100 (CET)
-Received: from policy01-mors.netcup.net (unknown [46.38.225.35])
-	by mors-relay-8202.netcup.net (Postfix) with ESMTPS id 4DzCPT4HzXz4cKD;
-	Sun, 14 Mar 2021 22:29:49 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at policy01-mors.netcup.net
-X-Spam-Flag: NO
-X-Spam-Score: -2.901
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.901 required=6.31 tests=[ALL_TRUSTED=-1,
-	BAYES_00=-1.9, SPF_PASS=-0.001] autolearn=ham autolearn_force=no
-Received: from mx2e12.netcup.net (unknown [10.243.12.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by policy01-mors.netcup.net (Postfix) with ESMTPS id 4DzCPS00BLz8tGF;
-	Sun, 14 Mar 2021 22:29:47 +0100 (CET)
-Received: from [IPv6:2003:ed:7f1a:8ff0:bc4f:7872:30f9:5dc9] (p200300ed7f1a8ff0bc4f787230f95dc9.dip0.t-ipconnect.de [IPv6:2003:ed:7f1a:8ff0:bc4f:7872:30f9:5dc9])
-	by mx2e12.netcup.net (Postfix) with ESMTPSA id 2C6D1A0792;
-	Sun, 14 Mar 2021 22:29:46 +0100 (CET)
-Received-SPF: pass (mx2e12: connection is authenticated)
-Subject: Re: [PATCH] KCOV: Introduced tracing unique covered PCs
-To: Dmitry Vyukov <dvyukov@google.com>
-Cc: Andrey Konovalov <andreyknvl@google.com>, Jonathan Corbet
- <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
- Wei Yongjun <weiyongjun1@huawei.com>,
- Maciej Grochowski <maciej.grochowski@pm.me>,
- kasan-dev <kasan-dev@googlegroups.com>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- LKML <linux-kernel@vger.kernel.org>, syzkaller <syzkaller@googlegroups.com>
-References: <20210211080716.80982-1-info@alexander-lochmann.de>
- <CACT4Y+YwRE=YNQYmQ=7RWde33830YOYr5pEAoYbrofY2JG43MA@mail.gmail.com>
-From: Alexander Lochmann <info@alexander-lochmann.de>
-Message-ID: <01a9177f-bfd5-251a-758f-d3c68bafd0cf@alexander-lochmann.de>
-Date: Sun, 14 Mar 2021 22:29:45 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+       spf=pass (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.184 as permitted sender) smtp.mailfrom=walter-zh.wu@mediatek.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
+Received: from mailgw02.mediatek.com ([210.61.82.184])
+        by gmr-mx.google.com with ESMTP id d2si713079pfr.4.2021.03.14.19.00.05
+        for <kasan-dev@googlegroups.com>;
+        Sun, 14 Mar 2021 19:00:06 -0700 (PDT)
+Received-SPF: pass (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.184 as permitted sender) client-ip=210.61.82.184;
+X-UUID: ac1356e0c116491abcf4e1cd36c396f8-20210315
+X-UUID: ac1356e0c116491abcf4e1cd36c396f8-20210315
+Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw02.mediatek.com
+	(envelope-from <walter-zh.wu@mediatek.com>)
+	(Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+	with ESMTP id 1286494231; Mon, 15 Mar 2021 10:00:02 +0800
+Received: from mtkcas07.mediatek.inc (172.21.101.84) by
+ mtkmbs01n2.mediatek.inc (172.21.101.79) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Mon, 15 Mar 2021 09:59:46 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas07.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Mon, 15 Mar 2021 09:59:46 +0800
+From: Walter Wu <walter-zh.wu@mediatek.com>
+To: Andrey Ryabinin <ryabinin.a.a@gmail.com>, Alexander Potapenko
+	<glider@google.com>, Dmitry Vyukov <dvyukov@google.com>, Matthias Brugger
+	<matthias.bgg@gmail.com>, Andrey Konovalov <andreyknvl@google.com>, "Andrew
+ Morton" <akpm@linux-foundation.org>, Jens Axboe <axboe@kernel.dk>, "Oleg
+ Nesterov" <oleg@redhat.com>
+CC: <kasan-dev@googlegroups.com>, <linux-mm@kvack.org>,
+	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	wsd_upstream <wsd_upstream@mediatek.com>,
+	<linux-mediatek@lists.infradead.org>, Walter Wu <walter-zh.wu@mediatek.com>
+Subject: [PATCH] task_work: kasan: record task_work_add() call stack
+Date: Mon, 15 Mar 2021 09:59:40 +0800
+Message-ID: <20210315015940.11788-1-walter-zh.wu@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-In-Reply-To: <CACT4Y+YwRE=YNQYmQ=7RWde33830YOYr5pEAoYbrofY2JG43MA@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Language: de-DE
-X-PPP-Message-ID: <161575738654.15961.2097524548515925129@mx2e12.netcup.net>
-X-PPP-Vhost: alexander-lochmann.de
-X-NC-CID: JmTQRHjKDd5kGOW4U22LAUruP+XW8WLQK9Pb1HY7IfAcDGn68gXTIGqh
-X-Original-Sender: info@alexander-lochmann.de
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@alexander-lochmann.de header.s=key2 header.b=QzHTLq7Y;
-       spf=pass (google.com: domain of info@alexander-lochmann.de designates
- 188.68.63.166 as permitted sender) smtp.mailfrom=info@alexander-lochmann.de
+X-TM-SNTS-SMTP: 9DA2466084124075C1C17447C85E61ECA4CB0544570674D733F2D6BE08A8DDD32000:8
+X-MTK: N
+X-Original-Sender: walter-zh.wu@mediatek.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.184 as
+ permitted sender) smtp.mailfrom=walter-zh.wu@mediatek.com;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -155,103 +137,65 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
+Why record task_work_add() call stack?
+Syzbot reports many use-after-free issues for task_work, see [1].
+After see the free stack and the current auxiliary stack, we think
+they are useless, we don't know where register the work, this work
+may be the free call stack, so that we miss the root cause and
+don't solve the use-after-free.
 
+Add task_work_add() call stack into KASAN auxiliary stack in
+order to improve KASAN report. It is useful for programmers
+to solve use-after-free issues.
 
-On 12.02.21 13:54, Dmitry Vyukov wrote:
-> 
-> I think we could make KCOV_IN_CTXSW sign bit and then express the check as:
-> 
-> void foo2(unsigned mode) {
->   if (((int)(mode & 0x8000000a)) > 0)
->     foo();
-> }
-> 
-> 0000000000000020 <foo2>:
->   20: 81 e7 0a 00 00 80    and    $0x8000000a,%edi
->   26: 7f 08                jg     30 <foo2+0x10>
->   28: c3                    retq
-> 
-So ((int)(mode & (KCOV_IN_CTXSW | needed_mode))) > 0?
-> 
-> 
-> 
->>  }
->>
->>  static notrace unsigned long canonicalize_ip(unsigned long ip)
->> @@ -191,18 +192,26 @@ void notrace __sanitizer_cov_trace_pc(void)
->>         struct task_struct *t;
->>         unsigned long *area;
->>         unsigned long ip = canonicalize_ip(_RET_IP_);
->> -       unsigned long pos;
->> +       unsigned long pos, idx;
->>
->>         t = current;
->> -       if (!check_kcov_mode(KCOV_MODE_TRACE_PC, t))
->> +       if (!check_kcov_mode(KCOV_MODE_TRACE_PC | KCOV_MODE_UNIQUE_PC, t))
->>                 return;
->>
->>         area = t->kcov_area;
->> -       /* The first 64-bit word is the number of subsequent PCs. */
->> -       pos = READ_ONCE(area[0]) + 1;
->> -       if (likely(pos < t->kcov_size)) {
->> -               area[pos] = ip;
->> -               WRITE_ONCE(area[0], pos);
->> +       if (likely(t->kcov_mode == KCOV_MODE_TRACE_PC)) {
-> 
-> Does this introduce an additional real of t->kcov_mode?
-> If yes, please reuse the value read in check_kcov_mode.
-Okay. How do I get that value from check_kcov_mode() to the caller?
-Shall I add an additional parameter to check_kcov_mode()?
-> 
-> 
->> +               /* The first 64-bit word is the number of subsequent PCs. */
->> +               pos = READ_ONCE(area[0]) + 1;
->> +               if (likely(pos < t->kcov_size)) {
->> +                       area[pos] = ip;
->> +                       WRITE_ONCE(area[0], pos);
->> +               }
->> +       } else {
->> +               idx = (ip - canonicalize_ip((unsigned long)&_stext)) / 4;
->> +               pos = idx % BITS_PER_LONG;
->> +               idx /= BITS_PER_LONG;
->> +               if (likely(idx < t->kcov_size))
->> +                       WRITE_ONCE(area[idx], READ_ONCE(area[idx]) | 1L << pos);
->>         }
->>  }
->>  EXPORT_SYMBOL(__sanitizer_cov_trace_pc);
->> @@ -474,6 +483,7 @@ static int kcov_mmap(struct file *filep, struct vm_area_struct *vma)
->>                 goto exit;
->>         }
->>         if (!kcov->area) {
->> +               kcov_debug("mmap(): Allocating 0x%lx bytes\n", size);
->>                 kcov->area = area;
->>                 vma->vm_flags |= VM_DONTEXPAND;
->>                 spin_unlock_irqrestore(&kcov->lock, flags);
->> @@ -515,6 +525,8 @@ static int kcov_get_mode(unsigned long arg)
->>  {
->>         if (arg == KCOV_TRACE_PC)
->>                 return KCOV_MODE_TRACE_PC;
->> +       else if (arg == KCOV_UNIQUE_PC)
->> +               return KCOV_MODE_UNIQUE_PC;
-> 
-> As far as I understand, users can first do KCOV_INIT_UNIQUE and then
-> enable KCOV_TRACE_PC, or vice versa.
-> It looks somewhat strange. Is it intentional? 
-I'll fix that.
-It's not possible to
-> specify buffer size for KCOV_INIT_UNIQUE, so most likely the buffer
-> will be either too large or too small for a trace.
-No, the buffer will be calculated by KCOV_INIT_UNIQUE based on the size
-of the text segment.
+[1]: https://groups.google.com/g/syzkaller-bugs/search?q=kasan%20use-after-free%20task_work_run
 
-- Alex
+Signed-off-by: Walter Wu <walter-zh.wu@mediatek.com>
+Suggested-by: Dmitry Vyukov <dvyukov@google.com>
+Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>
+Cc: Dmitry Vyukov <dvyukov@google.com>
+Cc: Andrey Konovalov <andreyknvl@google.com>
+Cc: Alexander Potapenko <glider@google.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Matthias Brugger <matthias.bgg@gmail.com>
+Cc: Jens Axboe <axboe@kernel.dk>
+Cc: Oleg Nesterov <oleg@redhat.com>
+---
+ kernel/task_work.c | 3 +++
+ mm/kasan/kasan.h   | 2 +-
+ 2 files changed, 4 insertions(+), 1 deletion(-)
 
+diff --git a/kernel/task_work.c b/kernel/task_work.c
+index 9cde961875c0..f255294377da 100644
+--- a/kernel/task_work.c
++++ b/kernel/task_work.c
+@@ -55,6 +55,9 @@ int task_work_add(struct task_struct *task, struct callback_head *work,
+ 		break;
+ 	}
+ 
++	/* record the work call stack in order to print it in KASAN reports */
++	kasan_record_aux_stack(work);
++
+ 	return 0;
+ }
+ 
+diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
+index 3436c6bf7c0c..d300fe9415bd 100644
+--- a/mm/kasan/kasan.h
++++ b/mm/kasan/kasan.h
+@@ -146,7 +146,7 @@ struct kasan_alloc_meta {
+ 	struct kasan_track alloc_track;
+ #ifdef CONFIG_KASAN_GENERIC
+ 	/*
+-	 * call_rcu() call stack is stored into struct kasan_alloc_meta.
++	 * Auxiliary stack is stored into struct kasan_alloc_meta.
+ 	 * The free stack is stored into struct kasan_free_meta.
+ 	 */
+ 	depot_stack_handle_t aux_stack[2];
 -- 
-Alexander Lochmann                PGP key: 0xBC3EF6FD
-Heiliger Weg 72                   phone:  +49.231.28053964
-D-44141 Dortmund                  mobile: +49.151.15738323
+2.18.0
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/01a9177f-bfd5-251a-758f-d3c68bafd0cf%40alexander-lochmann.de.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210315015940.11788-1-walter-zh.wu%40mediatek.com.
