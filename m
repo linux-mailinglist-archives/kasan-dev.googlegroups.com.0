@@ -1,30 +1,30 @@
-Return-Path: <kasan-dev+bncBCOYZDMZ6UMRBL56XWBAMGQEQUQ7QDI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCOYZDMZ6UMRBMN6XWBAMGQETTPEPZA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x43d.google.com (mail-pf1-x43d.google.com [IPv6:2607:f8b0:4864:20::43d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 296F233B3BA
+Received: from mail-pj1-x103f.google.com (mail-pj1-x103f.google.com [IPv6:2607:f8b0:4864:20::103f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9314933B3BB
 	for <lists+kasan-dev@lfdr.de>; Mon, 15 Mar 2021 14:20:50 +0100 (CET)
-Received: by mail-pf1-x43d.google.com with SMTP id v6sf18248842pff.5
+Received: by mail-pj1-x103f.google.com with SMTP id co15sf13527762pjb.4
         for <lists+kasan-dev@lfdr.de>; Mon, 15 Mar 2021 06:20:50 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1615814448; cv=pass;
+ARC-Seal: i=2; a=rsa-sha256; t=1615814449; cv=pass;
         d=google.com; s=arc-20160816;
-        b=mz5TJyERc5Ef7Ix3zqWPzqfte5ASBL2a1jYSh7oR3aw29lM9GBAqfDXHSWaNagsdWQ
-         y3C8LfDA+DtzKYyExIUCdU+r0B0Wxso2S1wivCFxlPf23KRIB7iVHQUnz24NDdkFlt0A
-         hQPVtxRIsrmKh0EzxwCOkLXfGbq1EmdRvfDvAvOysy3gZ3ZzNtTAQ0vmWlNS0G5Bi4fo
-         F59cNdMobaDn2H5Q9mf16GDD6G2GIwpX8nDhJmO4Pz3tRCiWHn60qHat7Hg33WD32zXx
-         PmNMkQClfQ3+tA7ImGtGTa5pcgL1b1NglHkJZLkUc99Rrj1ZUHLUMMnQIpNhSFcnEK5E
-         rNEQ==
+        b=GXC7ZNW60pszFrxpgqzMT/RB4D4IovRN++nJvcUnUJTiIoxZIrw/I9xTS0Ya1O/yvY
+         LUc6oqM0EjeS9qSxb2uAdpJV5Y47cmU+GeBl5ECnA/dEc8d+LllwvJouzYWje8RpsmGt
+         8zNvxl1prnMbAD8a03IYj9ZieeiO13YNcoXiztMf2u09ofc/mZI3HB+rBu8ynOqb9m4A
+         wirafullbXxnQDGi/vVGVdC+A6PXx87hx32cX30ovcSIvwYkI/FP/jJ67KSad5dKEkbd
+         ZqT0w/NInKz7D7XsEchHF1yyG7ooSo2QK5MPBwlA+0Fh71OrZBSD778fgmqUHkMYG7vV
+         M9NQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=I/BlHYunlcixMKPpIkSq8/Lx6FJemoJQ5aBZ7G5n0RA=;
-        b=bPWlRWggHsXZCPlvwAk2bAH1kjUWpdhDJKvTbaKFaRvl2RhUrduEtzjv1U5ZQrsZch
-         top6vuTQT6mxUe/56qFPvf8OGtaVmHrbCHZIEFrwh6EPxX/rS7126/F+Q2UYSIXdcw/s
-         HGfpIfqMLefORje+zu8IDES0eHDM2H+OiwQvQ/daAGxngZt4gxEaqUMp55bGcNeRkNAU
-         6bXP+rVuXRGDdmyi+b97gBmTuvcC36fu1oYfZw0Qqo7XYlp7mUUa/3/bBZWRkUJFq6ZK
-         3gSOVKhS9KmNGTlm09ZYRGcP2TSShw30r3WD47no3nCp2e6IgAB3hbxxZA+rGGJAm9Hf
-         h2jA==
+        bh=Ux+Mj4IBWaAeyBTT9uJGC/fMin+VX7zYJMHPhkufzww=;
+        b=lxd0SsrUhL3uLA6swRQwonvbAZshKPsIthKqSjVStc2rYhPsdVrNHPQc1TQPTz835G
+         a6PC14UWPukHypLE0Rlc9vZevK9HgF7LA3AYyDUCqR+FwZfNNn5IlCJOMJziv01+wZYc
+         Qxu/kweNrZrYXF8cmLYdeH2jCo8dcFc1R8VZg1W6X/WaOaNjYQeGVUX2Hh2CQJ5T8M0T
+         yxLtQ6/7fMJtiiRn/6AhQKpvfFXdfSdReOeo7vMwa7wbjRhgPscFLqlgBRDEhQVSm29h
+         0DIFN3HVh1k9dLx1NyKRWnrF3S7hn6Lo+ejrh410LWLUjZ++hVxZbbXrefrIlm4OYj75
+         OvuQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
        spf=pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=vincenzo.frascino@arm.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
@@ -34,13 +34,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :mime-version:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=I/BlHYunlcixMKPpIkSq8/Lx6FJemoJQ5aBZ7G5n0RA=;
-        b=jeU/Rd/o74WEiXGCwZ46JBwkgzhKUx2alcgPj+USh70sr4LRFftkCbIiVqey0UdSYb
-         /nwrSx1NDOinUYXqzIYPp/V1NxQeFvhvoY1uRcCu8MAv1VdYP+6hSasEIqxl8EL14QW4
-         MQmVus+BGqxLVF1GC7C/QcOzCqbZP5wgsSriKj3GmwsuLv8f8KqZC865HjWhm6cThTIt
-         SMAvbNkf65hqR597wcVUbPDhVFscyj1x8j8pQqHsHDEs3rVoE/RGNb+DZXsYcLDHu5xk
-         +aFzB0AYus/YRGAX0Ci/KMpxIBFPkqYMOgl0mqtwnNetln3flmbZ1Wgg/Uh3COxVMtFN
-         jkDA==
+        bh=Ux+Mj4IBWaAeyBTT9uJGC/fMin+VX7zYJMHPhkufzww=;
+        b=ZrIPbgM/F9W0+h/7nRRhByL6J3LlKQjh/5M84ShgWuhsz1On/IK4xlrOcxxcSOaNMf
+         VGcRX1F3ob0GwjmVBOLStbOuRSkB02o6UMAo3dRAscqwya+APfNafn7hHx/WjCXBLg4f
+         IVBA9AU3DFQeEjI6bohDFc4pqpHmQnc7Di5zRABIXFj1LPdVAthP5EUc2x+rov2my+f7
+         U5oy9UKxtdlUPNi1wlqIexuwkjcuqSIfMvfTCeCmxGCBFLof1GudZMaTT6PV3EDn0H0b
+         kG3JAkiGQzbdjjak7uTDP7cx9eFCQRT0M3LUZ34NJINDQAXKOgDXlGeHk5A78FQWG8IG
+         wzDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
@@ -48,56 +48,56 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=I/BlHYunlcixMKPpIkSq8/Lx6FJemoJQ5aBZ7G5n0RA=;
-        b=pkmVwe/vIfi6KC86Gfw6GnUjDzLTw/Y39wlrnERQaX/M270upkeOPvu/E/AzhHxdmh
-         nx7hJoTtk5Aj8XZ7Ec5uip23dQDO77EOnurQmpwIspoekMs+X9lfb+GMZ0jGGPGh083u
-         HwN62RYmUMEIG/oN1U6y/aBBHndWmSg3HMOrpCjmbCySvXU9I2pLNCBdpag9gfCEfZWe
-         sWXH4WPiEYIbauGced1Z1hp7tXKsQeYcfPreEeqI3bIc5WhPcVZ1AK0nKY3l25m6RoLR
-         wIm1fwyGtGoTi1UTyD/3cZhWqAuUMqhGy3IxOriY2/qr752JYQja4haYfY0EZbBgAg26
-         lpWQ==
+        bh=Ux+Mj4IBWaAeyBTT9uJGC/fMin+VX7zYJMHPhkufzww=;
+        b=dIOhemIVfayEXwR030+gnPsImJqcPmI0bqVTHvbv1iG7nHGVfatGhStYZMoo8VrJzw
+         XmqsLB59DKMSXI/xAWdM2Fpqt3MyaxcGm/WbUkK+IyrPMXShV3VRdjwOy6uT1Z5IEvI8
+         oO219jKipMGJfIzQx/3Vg8/4uis3GBOyMSQbzVaiuKEutiLAw3iqbRacSYg6lNuwagrP
+         xcRHxc2G2ibAMwLNyalOzomjR73Eft16b/qEsPhz6KmpKA9h3jSukAgEoKxGdBM7ONf+
+         pJVhngewo8yGODvyAsmG5YfojKqL8+tnXXw9tzLwyozFwmzCTPkUpC1KvbfD2teURKrz
+         aLdg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM533vrznySVrnluup14AmodtAOTDT61zBZxIwfjNJp6YmZO8CFscY
-	Ok3UqBg2bw1WYEGfPh0ckoU=
-X-Google-Smtp-Source: ABdhPJxka4EQSi4k5AzSsxWuaDKI5uVqVyBhkG7jw+6h0tqRWOAjok7eJaWBekDJYWPcoOlwSFA8zA==
-X-Received: by 2002:a63:5b03:: with SMTP id p3mr22621383pgb.27.1615814447517;
-        Mon, 15 Mar 2021 06:20:47 -0700 (PDT)
+X-Gm-Message-State: AOAM530/8DQoo8FlYzJFKMhuE4sGWq12WQ7uIBJWcxNhYER+oCU8Kesx
+	SJRkUSZ+3uE6flJcCvy7rBo=
+X-Google-Smtp-Source: ABdhPJyCBWmsYD2u/R33CQ4iFtp0Mnt9mmLPYIONfqpQ7e6j8ZhRDI22k5KOl2o8yco825botUs6jA==
+X-Received: by 2002:a63:fc12:: with SMTP id j18mr22961391pgi.334.1615814449151;
+        Mon, 15 Mar 2021 06:20:49 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:902:eb43:: with SMTP id i3ls8778142pli.7.gmail; Mon, 15
- Mar 2021 06:20:47 -0700 (PDT)
-X-Received: by 2002:a17:902:dcd4:b029:e6:5398:609f with SMTP id t20-20020a170902dcd4b02900e65398609fmr5047980pll.58.1615814447012;
-        Mon, 15 Mar 2021 06:20:47 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1615814447; cv=none;
+Received: by 2002:a17:902:c40a:: with SMTP id k10ls8788126plk.2.gmail; Mon, 15
+ Mar 2021 06:20:48 -0700 (PDT)
+X-Received: by 2002:a17:902:ea0e:b029:e4:81d4:ddae with SMTP id s14-20020a170902ea0eb02900e481d4ddaemr11753937plg.12.1615814448646;
+        Mon, 15 Mar 2021 06:20:48 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1615814448; cv=none;
         d=google.com; s=arc-20160816;
-        b=UQUUTYdcbApUieZMgjWnLcZppQ/nVOO1omyX0rhb0lZrKkUMbd++irf8E43NPzg3CA
-         xDU84GHGcFvWy7XgKtHd7vAQ+7Puz/31vOVocT7bT3uQEO1DcrvCEudb0nIiELK1rup5
-         7xf6AqpugIaT+C3G/ISXiAE6fCccgdkPTsbvnopxmahx1Pjk8gmel4TgFO+Mwe7EzBsM
-         Nf6J1COCgi8wHGMNbUxwuaYh3XXnR3M8NSKeoj9kvBRcsomSi/IlLfQUzGf/7YXGONjp
-         ZgVvNAS2TMAiuojbK2S+8HGcGBbg/MHpHGlxHVbFQDXu6fW9H6ykPDG/WdlDLN2HbuXW
-         GUdw==
+        b=OUmfOu89363QTT6ajL8MFS1I1P/pgNbwOLYCIbXdrcaXrM5YJ8Dk5isPQ9x2tTEffk
+         N1uIKLe6Kyewa33+yTFrhOn50j87zvBWdmpeoKjFQxJj0pwK8qwYw9GHb7bAkhEBedzM
+         scCW1n6W6tq07/tjCIGtnI6nrrHTWhJEY7Z8Y6cD+xNtNTfhqP3Z4oyk74UF3yvNmYYD
+         l5Cx8Em8xqKlOeSSTu8FY5xrvloyEHNkXpd9MEgyDZFHL2L6tPAqPYEQ7yEGRZNZy1iW
+         kgso3qQcV8uZ8DEEsyPdjXj49ArkR5MFYWKni4NDTudwLGxE7VvuUmAIiC35UG7wXT2x
+         EqRA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from;
-        bh=57zkMzGm47USvK+Sjko7JpM8wOejFzrsvvPjyxCaC+g=;
-        b=aR3o8Z+ATz3UuZOlvM8n850pQrxyYsxWKCPcgnE0qFd2Cog9raUdfMdvtkSeHr3m9F
-         WYSwb5gon/+me6Vzy05oKxt5JVvepvtty5WtY1ufN4oLcI8CRly0Oj4NvMd5jou8s4ES
-         zcm4bcxFJKIvahDEnwP3ca/uZEptFHa+1hVt01BAVWtBT2nbw2lH8Kb1VCbECDDC/2nu
-         oqwnokJuOyoWB51NuipvUfn5QZFle7eJQ3lPZqDZL+3maLts/MMNp57eAnMlI4Tyw2NC
-         pjs2VhqKm0tuH5dhvEA4ayWbzXe65vLEf3P1oQk62EzAvyU3YJciZzEc57sjpeqgDU/Z
-         de4Q==
+        bh=1RUn9XsiCZQZBMrQyuEq12BxdzA02gh1Z+IYuqP+bfQ=;
+        b=ra0z/nSYZ6alMUVGRi1/JX6KBKuY5PggHydI8wLMXSG/A6KBg2IY2IMNeQIO4l+YSb
+         8yfLd6Sz7ftU/W4ng8eHBARbVrdKCUxeBWS9YVFSvAIIcHldDNm6Ui77uKsKGi7SyO8D
+         8fVOAy5Xz2FfbMBD8R5sVa+mStAPYAOk+Mnrzsj8HBLih7qkTt0wfwvtXeIe2id9vRtA
+         KnzJMX/vlLt/ZJf6/niCglxEsfyWKaG/cWIuwVzHiYzidjuPh5Y1pyDWH5vJad1RpErS
+         dvjrhzWtTUeSAwmlSoVPcbs1NqzTeyK74y68OAhSVe+v5xjkzngha6xFnCfcF+RaxzZh
+         uRFg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
        spf=pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=vincenzo.frascino@arm.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
-        by gmr-mx.google.com with ESMTP id h7si860583plr.3.2021.03.15.06.20.46
+        by gmr-mx.google.com with ESMTP id r7si1621582pjp.3.2021.03.15.06.20.48
         for <kasan-dev@googlegroups.com>;
-        Mon, 15 Mar 2021 06:20:47 -0700 (PDT)
+        Mon, 15 Mar 2021 06:20:48 -0700 (PDT)
 Received-SPF: pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 102BE143D;
-	Mon, 15 Mar 2021 06:20:46 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 268641474;
+	Mon, 15 Mar 2021 06:20:48 -0700 (PDT)
 Received: from e119884-lin.cambridge.arm.com (e119884-lin.cambridge.arm.com [10.1.196.72])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2CFEB3F792;
-	Mon, 15 Mar 2021 06:20:44 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 44B5B3F792;
+	Mon, 15 Mar 2021 06:20:46 -0700 (PDT)
 From: Vincenzo Frascino <vincenzo.frascino@arm.com>
 To: linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
@@ -114,9 +114,9 @@ Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>,
 	Branislav Rankov <Branislav.Rankov@arm.com>,
 	Andrey Konovalov <andreyknvl@google.com>,
 	Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-Subject: [PATCH v16 8/9] arm64: mte: Report async tag faults before suspend
-Date: Mon, 15 Mar 2021 13:20:18 +0000
-Message-Id: <20210315132019.33202-9-vincenzo.frascino@arm.com>
+Subject: [PATCH v16 9/9] kasan, arm64: tests supports for HW_TAGS async mode
+Date: Mon, 15 Mar 2021 13:20:19 +0000
+Message-Id: <20210315132019.33202-10-vincenzo.frascino@arm.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210315132019.33202-1-vincenzo.frascino@arm.com>
 References: <20210315132019.33202-1-vincenzo.frascino@arm.com>
@@ -139,97 +139,157 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-When MTE async mode is enabled TFSR_EL1 contains the accumulative
-asynchronous tag check faults for EL1 and EL0.
+From: Andrey Konovalov <andreyknvl@google.com>
 
-During the suspend/resume operations the firmware might perform some
-operations that could change the state of the register resulting in
-a spurious tag check fault report.
+This change adds KASAN-KUnit tests support for the async HW_TAGS mode.
 
-Report asynchronous tag faults before suspend and clear the TFSR_EL1
-register after resume to prevent this to happen.
+In async mode, tag fault aren't being generated synchronously when a
+bad access happens, but are instead explicitly checked for by the kernel.
 
-Cc: Catalin Marinas <catalin.marinas@arm.com>
-Cc: Will Deacon <will@kernel.org>
-Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
-Reviewed-by: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+As each KASAN-KUnit test expect a fault to happen before the test is over,
+check for faults as a part of the test handler.
+
+Acked-by: Catalin Marinas <catalin.marinas@arm.com>
 Acked-by: Andrey Konovalov <andreyknvl@google.com>
 Tested-by: Andrey Konovalov <andreyknvl@google.com>
+Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
 ---
- arch/arm64/include/asm/mte.h |  4 ++++
- arch/arm64/kernel/mte.c      | 16 ++++++++++++++++
- arch/arm64/kernel/suspend.c  |  3 +++
- 3 files changed, 23 insertions(+)
+ arch/arm64/include/asm/memory.h |  1 +
+ lib/test_kasan.c                | 17 +++++++++++------
+ mm/kasan/hw_tags.c              |  6 ++++++
+ mm/kasan/kasan.h                |  6 ++++++
+ mm/kasan/report.c               |  5 +++++
+ 5 files changed, 29 insertions(+), 6 deletions(-)
 
-diff --git a/arch/arm64/include/asm/mte.h b/arch/arm64/include/asm/mte.h
-index 9a929620ca5d..a38abc15186c 100644
---- a/arch/arm64/include/asm/mte.h
-+++ b/arch/arm64/include/asm/mte.h
-@@ -41,6 +41,7 @@ void mte_sync_tags(pte_t *ptep, pte_t pte);
- void mte_copy_page_tags(void *kto, const void *kfrom);
- void flush_mte_state(void);
- void mte_thread_switch(struct task_struct *next);
-+void mte_suspend_enter(void);
- void mte_suspend_exit(void);
- long set_mte_ctrl(struct task_struct *task, unsigned long arg);
- long get_mte_ctrl(struct task_struct *task);
-@@ -66,6 +67,9 @@ static inline void flush_mte_state(void)
- static inline void mte_thread_switch(struct task_struct *next)
- {
+diff --git a/arch/arm64/include/asm/memory.h b/arch/arm64/include/asm/memory.h
+index a07923eb33c5..7d0fd4f36e23 100644
+--- a/arch/arm64/include/asm/memory.h
++++ b/arch/arm64/include/asm/memory.h
+@@ -246,6 +246,7 @@ static inline const void *__tag_set(const void *addr, u8 tag)
+ #define arch_enable_tagging_sync()		mte_enable_kernel_sync()
+ #define arch_enable_tagging_async()		mte_enable_kernel_async()
+ #define arch_set_tagging_report_once(state)	mte_set_report_once(state)
++#define arch_force_async_tag_fault()		mte_check_tfsr_exit()
+ #define arch_init_tags(max_tag)			mte_init_tags(max_tag)
+ #define arch_get_random_tag()			mte_get_random_tag()
+ #define arch_get_mem_tag(addr)			mte_get_mem_tag(addr)
+diff --git a/lib/test_kasan.c b/lib/test_kasan.c
+index 929fbe06b154..0882d6c17e62 100644
+--- a/lib/test_kasan.c
++++ b/lib/test_kasan.c
+@@ -69,10 +69,10 @@ static void kasan_test_exit(struct kunit *test)
+  * resource named "kasan_data". Do not use this name for KUnit resources
+  * outside of KASAN tests.
+  *
+- * For hardware tag-based KASAN, when a tag fault happens, tag checking is
+- * normally auto-disabled. When this happens, this test handler reenables
+- * tag checking. As tag checking can be only disabled or enabled per CPU, this
+- * handler disables migration (preemption).
++ * For hardware tag-based KASAN in sync mode, when a tag fault happens, tag
++ * checking is auto-disabled. When this happens, this test handler reenables
++ * tag checking. As tag checking can be only disabled or enabled per CPU,
++ * this handler disables migration (preemption).
+  *
+  * Since the compiler doesn't see that the expression can change the fail_data
+  * fields, it can reorder or optimize away the accesses to those fields.
+@@ -80,7 +80,8 @@ static void kasan_test_exit(struct kunit *test)
+  * expression to prevent that.
+  */
+ #define KUNIT_EXPECT_KASAN_FAIL(test, expression) do {		\
+-	if (IS_ENABLED(CONFIG_KASAN_HW_TAGS))			\
++	if (IS_ENABLED(CONFIG_KASAN_HW_TAGS) &&			\
++	    !kasan_async_mode_enabled())			\
+ 		migrate_disable();				\
+ 	WRITE_ONCE(fail_data.report_expected, true);		\
+ 	WRITE_ONCE(fail_data.report_found, false);		\
+@@ -92,10 +93,14 @@ static void kasan_test_exit(struct kunit *test)
+ 	barrier();						\
+ 	expression;						\
+ 	barrier();						\
++	if (kasan_async_mode_enabled())				\
++		kasan_force_async_fault();			\
++	barrier();						\
+ 	KUNIT_EXPECT_EQ(test,					\
+ 			READ_ONCE(fail_data.report_expected),	\
+ 			READ_ONCE(fail_data.report_found));	\
+-	if (IS_ENABLED(CONFIG_KASAN_HW_TAGS)) {			\
++	if (IS_ENABLED(CONFIG_KASAN_HW_TAGS) &&			\
++	    !kasan_async_mode_enabled()) {			\
+ 		if (READ_ONCE(fail_data.report_found))		\
+ 			kasan_enable_tagging_sync();		\
+ 		migrate_enable();				\
+diff --git a/mm/kasan/hw_tags.c b/mm/kasan/hw_tags.c
+index 1df4ce803861..4004388b4e4b 100644
+--- a/mm/kasan/hw_tags.c
++++ b/mm/kasan/hw_tags.c
+@@ -252,4 +252,10 @@ void kasan_enable_tagging_sync(void)
  }
-+static inline void mte_suspend_enter(void)
-+{
-+}
- static inline void mte_suspend_exit(void)
- {
- }
-diff --git a/arch/arm64/kernel/mte.c b/arch/arm64/kernel/mte.c
-index b6336fbe4c14..820bad94870e 100644
---- a/arch/arm64/kernel/mte.c
-+++ b/arch/arm64/kernel/mte.c
-@@ -265,6 +265,22 @@ void mte_thread_switch(struct task_struct *next)
- 	mte_check_tfsr_el1();
- }
+ EXPORT_SYMBOL_GPL(kasan_enable_tagging_sync);
  
-+void mte_suspend_enter(void)
++void kasan_force_async_fault(void)
 +{
-+	if (!system_supports_mte())
-+		return;
-+
-+	/*
-+	 * The barriers are required to guarantee that the indirect writes
-+	 * to TFSR_EL1 are synchronized before we report the state.
-+	 */
-+	dsb(nsh);
-+	isb();
-+
-+	/* Report SYS_TFSR_EL1 before suspend entry */
-+	mte_check_tfsr_el1();
++	hw_force_async_tag_fault();
 +}
++EXPORT_SYMBOL_GPL(kasan_force_async_fault);
 +
- void mte_suspend_exit(void)
+ #endif
+diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
+index 56b155ddaf30..f34253e29b4a 100644
+--- a/mm/kasan/kasan.h
++++ b/mm/kasan/kasan.h
+@@ -304,6 +304,9 @@ static inline const void *arch_kasan_set_tag(const void *addr, u8 tag)
+ #ifndef arch_set_tagging_report_once
+ #define arch_set_tagging_report_once(state)
+ #endif
++#ifndef arch_force_async_tag_fault
++#define arch_force_async_tag_fault()
++#endif
+ #ifndef arch_get_random_tag
+ #define arch_get_random_tag()	(0xFF)
+ #endif
+@@ -318,6 +321,7 @@ static inline const void *arch_kasan_set_tag(const void *addr, u8 tag)
+ #define hw_enable_tagging_async()		arch_enable_tagging_async()
+ #define hw_init_tags(max_tag)			arch_init_tags(max_tag)
+ #define hw_set_tagging_report_once(state)	arch_set_tagging_report_once(state)
++#define hw_force_async_tag_fault()		arch_force_async_tag_fault()
+ #define hw_get_random_tag()			arch_get_random_tag()
+ #define hw_get_mem_tag(addr)			arch_get_mem_tag(addr)
+ #define hw_set_mem_tag_range(addr, size, tag, init) \
+@@ -335,11 +339,13 @@ static inline const void *arch_kasan_set_tag(const void *addr, u8 tag)
+ 
+ void kasan_set_tagging_report_once(bool state);
+ void kasan_enable_tagging_sync(void);
++void kasan_force_async_fault(void);
+ 
+ #else /* CONFIG_KASAN_HW_TAGS || CONFIG_KASAN_KUNIT_TEST */
+ 
+ static inline void kasan_set_tagging_report_once(bool state) { }
+ static inline void kasan_enable_tagging_sync(void) { }
++static inline void kasan_force_async_fault(void) { }
+ 
+ #endif /* CONFIG_KASAN_HW_TAGS || CONFIG_KASAN_KUNIT_TEST */
+ 
+diff --git a/mm/kasan/report.c b/mm/kasan/report.c
+index 8b0843a2cdd7..14bd51ea2348 100644
+--- a/mm/kasan/report.c
++++ b/mm/kasan/report.c
+@@ -366,6 +366,11 @@ void kasan_report_async(void)
  {
- 	if (!system_supports_mte())
-diff --git a/arch/arm64/kernel/suspend.c b/arch/arm64/kernel/suspend.c
-index d7564891ffe1..6fdc8292b4f5 100644
---- a/arch/arm64/kernel/suspend.c
-+++ b/arch/arm64/kernel/suspend.c
-@@ -91,6 +91,9 @@ int cpu_suspend(unsigned long arg, int (*fn)(unsigned long))
  	unsigned long flags;
- 	struct sleep_stack_data state;
  
-+	/* Report any MTE async fault before going to suspend */
-+	mte_suspend_enter();
++#if IS_ENABLED(CONFIG_KUNIT)
++	if (current->kunit_test)
++		kasan_update_kunit_status(current->kunit_test);
++#endif /* IS_ENABLED(CONFIG_KUNIT) */
 +
- 	/*
- 	 * From this point debug exceptions are disabled to prevent
- 	 * updates to mdscr register (saved and restored along with
+ 	start_report(&flags);
+ 	pr_err("BUG: KASAN: invalid-access\n");
+ 	pr_err("Asynchronous mode enabled: no access details available\n");
 -- 
 2.30.2
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210315132019.33202-9-vincenzo.frascino%40arm.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210315132019.33202-10-vincenzo.frascino%40arm.com.
