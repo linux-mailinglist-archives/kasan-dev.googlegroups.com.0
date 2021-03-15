@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBCMIZB7QWENRBMELXSBAMGQE3TUQMVY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCMIZB7QWENRBYUPXSBAMGQEHLN7UBY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pl1-x63e.google.com (mail-pl1-x63e.google.com [IPv6:2607:f8b0:4864:20::63e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5329F33ABDB
-	for <lists+kasan-dev@lfdr.de>; Mon, 15 Mar 2021 07:58:58 +0100 (CET)
-Received: by mail-pl1-x63e.google.com with SMTP id g7sf16082170pll.11
-        for <lists+kasan-dev@lfdr.de>; Sun, 14 Mar 2021 23:58:58 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1615791536; cv=pass;
+Received: from mail-pg1-x537.google.com (mail-pg1-x537.google.com [IPv6:2607:f8b0:4864:20::537])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F33233ABFF
+	for <lists+kasan-dev@lfdr.de>; Mon, 15 Mar 2021 08:08:19 +0100 (CET)
+Received: by mail-pg1-x537.google.com with SMTP id m14sf16599661pgr.9
+        for <lists+kasan-dev@lfdr.de>; Mon, 15 Mar 2021 00:08:19 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1615792098; cv=pass;
         d=google.com; s=arc-20160816;
-        b=YUHJqyPxOFlHR6n/azT7H24aQyZowjav4RH8685cZjeiV3ZwL1IFvjG+WD0fk6N9oP
-         WoAAXSE75qrhCWUfiAiUeZW44NmuB9lYZhQCAvzejjRCcARvo0Ocu8EX2fwXtR0pOHYa
-         CUvNFB0tUYt4XDvzXO6j89lv5AJIQ/0FIP6RjgFTAoGbCtxFDBCSkLU4F2USTaCz20wg
-         srY8cjHFluCl0XjmGfCAMLjUyyb9UAWWDpeCHTw+vJaqG2QRRm55QNrTmVh9GJmW9jm/
-         wRYhrgFBI/vsGW0B5wsowMNv1nfusP2rjacUtWKLm2U4Vo0gRcwcVNfo6MhuNDfmwHjE
-         2FBQ==
+        b=vO3KJUzi6LVzjWepGfxc2wLcj2x9//S3onukq9FQVvPlp0WRk1169hh2CJ141gFxxK
+         02WbIRjB+LK4hvgSE14lxFQZ0ClZjmJXnLAXqHx9Y9RYb+s0m/V/aEwb/YK/zxbdJ+II
+         8ZaY+3eRzrkvj5rhsNn1QDSY7CgqvQ9gxWPOzjSQHUsLXAJVypV138aqqe8i4hJus/Wv
+         9OSr0E5+y2HZs9vn0adVFg31ckc4SuQ51v5LecBsGEPhRbkX8ziai7pbuNUTXBVCKJmn
+         /A4CVleDAnpii/muqILK8eThWvZ6pqXXAD7pXFX40jKbZUveTdRrXquqo3EmRJS/ry82
+         KD7A==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=iSvijD7f4kZpIeVfAwe/RpxOaQr3WWxsTWJ4jAxhdbU=;
-        b=XBiQhFtktfwltIVm217Wll0R/XFrxIKRXrQkChshNMu/OFpvNbHkzUv33g96TvBRQp
-         6qIYB8dQTEooZ/Tyiu716OMPsn1Ll02DjGXTeyEK9KbN5afoFCZlFd1aFa88ayB5sywz
-         +rKc4C8SylSVEpSfM0FA64YcB9FDJ28OjszVPpKRvRqKtp0t9kQWbailPpNuYXxUgAym
-         +irdnAUf0GqgljaJBzCJpiBMhzKE2QSJoit8h7jKtGGSbL8kmOWqmMDQSzyvOSyka6H6
-         eTt5dE629Gei3y3yFaVLQwEv/SqK26lFeLp2T5NsG9doFPKVuZWQezkWUfVyF9QsZWzA
-         DzsA==
+        bh=tIxhyvHLFQUHTNr03w5XuAcP2lkt8scl7ZGxHOqA6i4=;
+        b=ujzRxeeTFxlXKYVjyD+8sPvOmsytb37+QgEPLi8Q5MJSr3LcUR5hd3w8MYpL1DQ77u
+         SVokDtMWOH0DgzQ+OAdxyPz72YEbczgYe8USITm6yQLeuuAH2G8krcoSTCcmw+xSIzNn
+         gfban/nkZApGon6C8zvEZMm2gwINCzDRds5zTWDu01ObZdTSSZNOl2pgpF5fNjYINw5v
+         aPsox/7nByMSPy4kjOAo2bf71GPjXZ+1LCjeJVTbDb8lPRJmCeg9UCbrUp5KSXVGgt3U
+         ojJDmgvgRaAcjRxd5j0n9EDCKCggOkdC2dq+8nITZF8YaZRy7Ol2t/8BVVrcPxoHK3qI
+         f5IA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=QdhmEyhc;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::833 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=KEfEimh9;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::735 as permitted sender) smtp.mailfrom=dvyukov@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=iSvijD7f4kZpIeVfAwe/RpxOaQr3WWxsTWJ4jAxhdbU=;
-        b=YTvtBWJYLfHUE6vkdNVEiA40XaPujjDg9eZgLIietEMypSKeFxy4oIRuuXQxA828Mk
-         InN3AT4IRWF3COPP42vOVr1asDlFJH1B41aUgrSTWbs3bHo8fu99z4QwJCN2MpNYsvPj
-         Tf68XPuNFpDpU09qN4fXp7DJpnPSSPSNJTxlArNJPpl7uocUp8hNgXA0L01WYRHYLij+
-         XFbvzIMWggJ8L4vgP3DalHoH68ZzxlCRLDyM5OWY1eT31SUDfCDXT2e8/vXWzw6B6bKl
-         oCksT9wI26gNGXyeoT2x/TWNfx3uko/EOMRw67nr5nE57m9bvSW4hEaxKwbGJapUTHVx
-         j53Q==
+        bh=tIxhyvHLFQUHTNr03w5XuAcP2lkt8scl7ZGxHOqA6i4=;
+        b=qHd7LyMxYBuxL3TZCevforcisL3nQuV/hSJbnrpyawhiw2KTx56qVHs2OYFRxgkEJs
+         iXOsboPuJ1HAiCaujhy1gEEhrQ9oYGf5yuTVGrxY1XsF2MFfldPwpUH4TzmIveXX3e5m
+         uRRfjbU6WuD9NR+vuulYZkid7tU8IAwrXAQA0lrOMsK59yGtJLGDhp1/+jAXwBkZ5V+i
+         KkxSHxw+NB+FPR0MFtQAU91pOApYmKATyFE5qtKSJKdP5NJ26Mms3WK9gkaEAp05znd3
+         IxiuhWB5iTAeQYm5oz2xMIB1cugR+eqttwQidCfAreN6eICIyw7b2VE/lCePqNq69o5E
+         yljQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
@@ -49,75 +49,73 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=iSvijD7f4kZpIeVfAwe/RpxOaQr3WWxsTWJ4jAxhdbU=;
-        b=RGl0IfLnO+SUDOuQAgS16ac0eBkOPezQ/v0WHwP2uF7ZJPv5L6LwcL1HR3iRkihozL
-         h3bSOgxoPbo7vBb047cb12ibltiAn1uKa+uYAVqqXjTA6hm7jRIUYHzSkTjwIx8F6Zek
-         /iDzQUz8ynkcF1vOwBxTwxWAl3qlu8u+dnvzbNLIgJrQv7cbzfKOsFM9LqUre/rP6zNU
-         /fDGApm+OZwL8/X76Ew5M45mF68Re+6PV1q61iBWdJhL2xhpkNRJCDqpo29SYVss9Aa8
-         e1VuO0+IDeyya5XTZRIqhKrKCFi9w5YWw/iiU801IYXAVo2HFcgajt0lvZNXxsq9WBnS
-         cPoQ==
-X-Gm-Message-State: AOAM5337IEQisCBslaqoMGtwZT+HRCu8k/gPMnVcH+ze5WJNP3jIFmir
-	x3WqOpz6zr7r0/Mb12xEw5I=
-X-Google-Smtp-Source: ABdhPJy2EcnA9CvvUgpnX2+MUs10IYj8XTrJFRcbME6Vjmm1OYBn6Nvp9WoOUXxFlbT95Ex2iyROCA==
-X-Received: by 2002:a17:902:dac2:b029:e6:30a6:4c06 with SMTP id q2-20020a170902dac2b02900e630a64c06mr10250048plx.65.1615791536767;
-        Sun, 14 Mar 2021 23:58:56 -0700 (PDT)
+        bh=tIxhyvHLFQUHTNr03w5XuAcP2lkt8scl7ZGxHOqA6i4=;
+        b=q9mgrxmJ0/1XkZ2QLZs3jX0kuoPMwO2dOS1OkEzmLaWHlpnuP+Xz69ULNsb5Sq/red
+         bG5ZnUEkrhpxcsqfi5+LJCeGfoU5GGF0fI3zzGVPLIo4VscAbLtJYt9KTAFKdanEoBkY
+         JvloADl0n2LepoWd+OuzRDAmEbFGH76VBLr5+ffmq5EyqAJfH8ZxY7hYb45WlC7XbgPP
+         kXGxVZpGxXiVy6/5spv1T9Q7csf6LJZLJFRX8SUB+NSKNKtkZeP6fy5wAEObSDSGTvX8
+         wakxK5ukenFiC2VALataS70hmrv9qEDJt2tIsNfxyPjMNWicXFPdFiTR/yR2II54vK6y
+         o2Yg==
+X-Gm-Message-State: AOAM5329ljwEEVnyi3I4D5I+dgoiHQUZrrosXfg7Jp7IOUMQCDRzSxjX
+	MEsDfOyiRD59m3E1jSxd2d0=
+X-Google-Smtp-Source: ABdhPJz/N7w5ZZIoA6gxctafWo13bsbeIVaKmPzZ9OkwT78wr7+/COSyCzl4YFwcW0jReh2A99Uk8A==
+X-Received: by 2002:aa7:9521:0:b029:1f1:b27f:1a43 with SMTP id c1-20020aa795210000b02901f1b27f1a43mr9223758pfp.4.1615792098220;
+        Mon, 15 Mar 2021 00:08:18 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:902:da86:: with SMTP id j6ls8262235plx.8.gmail; Sun, 14
- Mar 2021 23:58:56 -0700 (PDT)
-X-Received: by 2002:a17:90a:55ca:: with SMTP id o10mr10968161pjm.173.1615791536275;
-        Sun, 14 Mar 2021 23:58:56 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1615791536; cv=none;
+Received: by 2002:a17:902:c40a:: with SMTP id k10ls8287224plk.2.gmail; Mon, 15
+ Mar 2021 00:08:17 -0700 (PDT)
+X-Received: by 2002:a17:902:ee95:b029:e5:e2c7:5f76 with SMTP id a21-20020a170902ee95b02900e5e2c75f76mr10313745pld.25.1615792097755;
+        Mon, 15 Mar 2021 00:08:17 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1615792097; cv=none;
         d=google.com; s=arc-20160816;
-        b=kVQnbN6ZmrFHQEryxRqT6n/cRd3a8m2CgHpwkCVodtgNVcaLgZGriJ5WeC/NrawlRU
-         sKH2p3JKesR8HI1V2Qyg3WsR7LPk0BRuzXYrV8+mtiNG08W6oIHOgittd1oV+qPFX8Jz
-         X0k+bphyWCVX86L4g5VPabAY0ygTGI05R6+uG2vjZvqFJj5m+FN8wjFEp3xLXAbw3Rln
-         p0k8zzSuodI+U33MOhE+qce76HH9+kQIO8kU1tRfqKYWRHmhi7zYMwQVhjgvu+OTWA7B
-         G2zZLQmD1bZUwCSYWpexPwZokAn4rUaKAFJEbGHCLfzblp/ws+mW/OoQkCAEzjPCRkm8
-         2jJQ==
+        b=a0x2HphRQNjM8hJIZ+wBNNEbsoj8udi4h9c+cH3EJmqjawQl2vBg5+GNJD2E/CESL6
+         3hQxOsjZz3MpoWi64WPo5kZv0mh2Yty/G/urTSczVBnEkchV/Zng0fc3q/a+edblZI0L
+         2fhqVcpzgHtnvniPTjJarAJPjX7vlrFUiHEdnKn6byP8nYhwnlXob8jdyUssR+1inouO
+         Rs7FpF670Koiy7rV0zuRpya3jjj1jJH0HzYVA2i/Fh89+1Z9lCB2iPveugp9V5dw7KmU
+         AYO0o2GkLy5mEex+vlv9V/ui0cQ9FLm0Hqo/WbRqnvGGiiiX7re7hwiKq4f1Svh1xADL
+         8Vew==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=IU5V4mabE/n2VCRh3kSmfdhuEAACW74e/YNmNcSi3W8=;
-        b=GirwX/YP0taPMxsCyQwIDfZbUE0DdNdtW4XurCBQOZyMvVoBy0N5uZmuXc1Tb4Bblk
-         KHeivh4m6qQsx2BrK4knaaMQhXndCBDC45fKYdqhdiFAqFZeBdnbo2GG74zpR/ntI00V
-         folgCwwq6KavGJy08MKLTwYbcdt4buOR9RAdlctj19qWMejhg2JcYRRKDL7Q0JYyXf/s
-         2YYTb2L+UVD3hAxUzChJx9VDOmCyDKtAS5BC+L65VQhcssorrRZUyKxhnijgvTKreSJm
-         QZahdVwZkjxUgx/wqcWH+ZScUlRt07MnDUd5pvUaPTznaNA4j5BzTYlQDvKd4v3IikiR
-         RNQg==
+        bh=f1GxjtXWQ8Nd14Ufajvp9SrNLduuTL53iMB054m6SMU=;
+        b=mdK9qCA0N77uO+RJ5ayWpGBI7bDqVawYl7jEKAhTU3tlzBuP4N0kF3KTIkT3EQj2B/
+         eiH6jxjoPmdKrIdeeDR6nFhsq7wr8htK3ezZke8gQgD4OTy2xtExzVwPJk6JtcOgLTlt
+         fBFGNQ5tZ9piCRmQC/leHVujwGiDtOPkOeifGwSWuumHi7OiCABgTb2GMSnFeOSKO3cm
+         Cjp4BWpilo5XUHuQI2yg0omvauRcKoCB4oYstfsdcpAJMGkZZYvwFYWpiq55in+Sb3Xo
+         PG2X/VPgp+S/TRPfPf1+S7/XbrEgLphoVJof7sLR3x8m4DLEKlv7XIg8rNo5eFZ4e9dt
+         4WGQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=QdhmEyhc;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::833 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=KEfEimh9;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::735 as permitted sender) smtp.mailfrom=dvyukov@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-qt1-x833.google.com (mail-qt1-x833.google.com. [2607:f8b0:4864:20::833])
-        by gmr-mx.google.com with ESMTPS id ft8si1235534pjb.0.2021.03.14.23.58.56
+Received: from mail-qk1-x735.google.com (mail-qk1-x735.google.com. [2607:f8b0:4864:20::735])
+        by gmr-mx.google.com with ESMTPS id md20si1283774pjb.1.2021.03.15.00.08.17
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 14 Mar 2021 23:58:56 -0700 (PDT)
-Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::833 as permitted sender) client-ip=2607:f8b0:4864:20::833;
-Received: by mail-qt1-x833.google.com with SMTP id 73so8409911qtg.13
-        for <kasan-dev@googlegroups.com>; Sun, 14 Mar 2021 23:58:56 -0700 (PDT)
-X-Received: by 2002:ac8:7318:: with SMTP id x24mr21525417qto.67.1615791535245;
- Sun, 14 Mar 2021 23:58:55 -0700 (PDT)
+        Mon, 15 Mar 2021 00:08:17 -0700 (PDT)
+Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::735 as permitted sender) client-ip=2607:f8b0:4864:20::735;
+Received: by mail-qk1-x735.google.com with SMTP id x10so30700223qkm.8
+        for <kasan-dev@googlegroups.com>; Mon, 15 Mar 2021 00:08:17 -0700 (PDT)
+X-Received: by 2002:a05:620a:410f:: with SMTP id j15mr24039751qko.424.1615792097213;
+ Mon, 15 Mar 2021 00:08:17 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210315015940.11788-1-walter-zh.wu@mediatek.com>
-In-Reply-To: <20210315015940.11788-1-walter-zh.wu@mediatek.com>
+References: <0000000000009c21de05ba6849e7@google.com>
+In-Reply-To: <0000000000009c21de05ba6849e7@google.com>
 From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Mon, 15 Mar 2021 07:58:44 +0100
-Message-ID: <CACT4Y+YrFeRQkw+M8rpOF5169LFn9+puL3Dh1Kk1AOoKV-nyrQ@mail.gmail.com>
-Subject: Re: [PATCH] task_work: kasan: record task_work_add() call stack
-To: Walter Wu <walter-zh.wu@mediatek.com>
-Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>, Alexander Potapenko <glider@google.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, Andrey Konovalov <andreyknvl@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Jens Axboe <axboe@kernel.dk>, 
-	Oleg Nesterov <oleg@redhat.com>, kasan-dev <kasan-dev@googlegroups.com>, 
-	Linux-MM <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>, 
-	Linux ARM <linux-arm-kernel@lists.infradead.org>, 
-	wsd_upstream <wsd_upstream@mediatek.com>, linux-mediatek@lists.infradead.org
+Date: Mon, 15 Mar 2021 08:08:06 +0100
+Message-ID: <CACT4Y+ZjVc+_fg+Ggx8zRWSGqzf4gmZcngBXLf_R4F-GKU4a9A@mail.gmail.com>
+Subject: Re: kernel BUG in memory_bm_free
+To: syzbot <syzbot+5ecbe63baca437585bd4@syzkaller.appspotmail.com>
+Cc: Len Brown <len.brown@intel.com>, LKML <linux-kernel@vger.kernel.org>, 
+	linux-pm@vger.kernel.org, "Rafael J. Wysocki" <rjw@rjwysocki.net>, 
+	syzkaller-bugs <syzkaller-bugs@googlegroups.com>, kasan-dev <kasan-dev@googlegroups.com>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, 
+	Andrey Konovalov <andreyknvl@google.com>, Pavel Machek <pavel@ucw.cz>
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: dvyukov@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=QdhmEyhc;       spf=pass
- (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::833
+ header.i=@google.com header.s=20161025 header.b=KEfEimh9;       spf=pass
+ (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::735
  as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
  (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Dmitry Vyukov <dvyukov@google.com>
@@ -134,75 +132,83 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, Mar 15, 2021 at 3:00 AM Walter Wu <walter-zh.wu@mediatek.com> wrote:
+On Wed, Feb 3, 2021 at 6:59 AM syzbot
+<syzbot+5ecbe63baca437585bd4@syzkaller.appspotmail.com> wrote:
 >
-> Why record task_work_add() call stack?
-> Syzbot reports many use-after-free issues for task_work, see [1].
-> After see the free stack and the current auxiliary stack, we think
-> they are useless, we don't know where register the work, this work
-> may be the free call stack, so that we miss the root cause and
-> don't solve the use-after-free.
+> Hello,
 >
-> Add task_work_add() call stack into KASAN auxiliary stack in
-> order to improve KASAN report. It is useful for programmers
-> to solve use-after-free issues.
+> syzbot found the following issue on:
 >
-> [1]: https://groups.google.com/g/syzkaller-bugs/search?q=kasan%20use-after-free%20task_work_run
+> HEAD commit:    3aaf0a27 Merge tag 'clang-format-for-linux-v5.11-rc7' of g..
+> git tree:       upstream
+> console output: https://syzkaller.appspot.com/x/log.txt?x=17ef6108d00000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=10152c2ea16351e7
+> dashboard link: https://syzkaller.appspot.com/bug?extid=5ecbe63baca437585bd4
+> userspace arch: arm64
 >
-> Signed-off-by: Walter Wu <walter-zh.wu@mediatek.com>
-> Suggested-by: Dmitry Vyukov <dvyukov@google.com>
-> Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>
-> Cc: Dmitry Vyukov <dvyukov@google.com>
-> Cc: Andrey Konovalov <andreyknvl@google.com>
-> Cc: Alexander Potapenko <glider@google.com>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Matthias Brugger <matthias.bgg@gmail.com>
-> Cc: Jens Axboe <axboe@kernel.dk>
-> Cc: Oleg Nesterov <oleg@redhat.com>
+> Unfortunately, I don't have any reproducer for this issue yet.
+>
+> IMPORTANT: if you fix the issue, please add the following tag to the commit:
+> Reported-by: syzbot+5ecbe63baca437585bd4@syzkaller.appspotmail.com
+
+The BUG is:
+BUG_ON(!virt_addr_valid(addr));
+
+#syz fix: arm64: Do not pass tagged addresses to __is_lm_address()
+
+> ------------[ cut here ]------------
+> kernel BUG at kernel/power/snapshot.c:257!
+> Internal error: Oops - BUG: 0 [#1] PREEMPT SMP
+> Modules linked in:
+> CPU: 1 PID: 2394 Comm: syz-executor.0 Not tainted 5.11.0-rc6-syzkaller-00055-g3aaf0a27ffc2 #0
+> Hardware name: linux,dummy-virt (DT)
+> pstate: 20400009 (nzCv daif +PAN -UAO -TCO BTYPE=--)
+> pc : free_image_page kernel/power/snapshot.c:257 [inline]
+> pc : free_image_page kernel/power/snapshot.c:253 [inline]
+> pc : free_list_of_pages kernel/power/snapshot.c:274 [inline]
+> pc : memory_bm_free+0x260/0x320 kernel/power/snapshot.c:726
+> lr : free_basic_memory_bitmaps+0x3c/0x90 kernel/power/snapshot.c:1173
+> sp : ffff8000163dbc50
+> x29: ffff8000163dbc50 x28: f4ff000025204070
+> x27: ffff800012d4c000 x26: f4ff000025204008
+> x25: f5ff00002827c700 x24: ffff800012d4c000
+> x23: 00007fffffffffff x22: f4ff000025204018
+> x21: 0000000000000001 x20: ffff800013b576d0
+> x19: f5ff00002827c700 x18: 0000000000000000
+> x17: 0000000000000000 x16: 0000000000000000
+> x15: 0000000000000000 x14: 0000000000000000
+> x13: 0000000000000000 x12: 0000000000000000
+> x11: 0000000000000000 x10: 0000000000000000
+> x9 : fcff000025205400 x8 : 0000000000000002
+> x7 : f6ff000025205000 x6 : 00000000000001ff
+> x5 : 0000000000000000 x4 : 0000000000000000
+> x3 : ffff800013b576d0 x2 : f4ff00002517e000
+> x1 : 0000000000000001 x0 : 0b0000002517e000
+> Call trace:
+>  free_image_page kernel/power/snapshot.c:257 [inline]
+>  free_list_of_pages kernel/power/snapshot.c:274 [inline]
+>  memory_bm_free+0x260/0x320 kernel/power/snapshot.c:726
+>  free_basic_memory_bitmaps+0x3c/0x90 kernel/power/snapshot.c:1173
+>  snapshot_release+0x74/0x90 kernel/power/user.c:120
+>  __fput+0x78/0x230 fs/file_table.c:280
+>  ____fput+0x10/0x20 fs/file_table.c:313
+>  task_work_run+0x80/0x160 kernel/task_work.c:140
+>  tracehook_notify_resume include/linux/tracehook.h:189 [inline]
+>  do_notify_resume+0x20c/0x13e0 arch/arm64/kernel/signal.c:939
+>  work_pending+0xc/0x3d4
+> Code: cb000260 d34cfc00 97fcf6fe 35fffc20 (d4210000)
+> ---[ end trace 174c294156b0dfb3 ]---
+>
+>
 > ---
->  kernel/task_work.c | 3 +++
->  mm/kasan/kasan.h   | 2 +-
->  2 files changed, 4 insertions(+), 1 deletion(-)
+> This report is generated by a bot. It may contain errors.
+> See https://goo.gl/tpsmEJ for more information about syzbot.
+> syzbot engineers can be reached at syzkaller@googlegroups.com.
 >
-> diff --git a/kernel/task_work.c b/kernel/task_work.c
-> index 9cde961875c0..f255294377da 100644
-> --- a/kernel/task_work.c
-> +++ b/kernel/task_work.c
-> @@ -55,6 +55,9 @@ int task_work_add(struct task_struct *task, struct callback_head *work,
->                 break;
->         }
->
-> +       /* record the work call stack in order to print it in KASAN reports */
-> +       kasan_record_aux_stack(work);
-
-I think this call should be done _before_ we actually queue the work,
-because this function may operate on non-current task.
-Consider, we queue the work, the other task already executes it and
-triggers use-after-free, now only now we record the stack.
-Moreover, I think we can trigger use-after-free here ourselves while
-recording the aux stack. We queued the work, and the work can cause
-own free, so it's not necessary live by now.
-
->         return 0;
->  }
->
-> diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
-> index 3436c6bf7c0c..d300fe9415bd 100644
-> --- a/mm/kasan/kasan.h
-> +++ b/mm/kasan/kasan.h
-> @@ -146,7 +146,7 @@ struct kasan_alloc_meta {
->         struct kasan_track alloc_track;
->  #ifdef CONFIG_KASAN_GENERIC
->         /*
-> -        * call_rcu() call stack is stored into struct kasan_alloc_meta.
-> +        * Auxiliary stack is stored into struct kasan_alloc_meta.
->          * The free stack is stored into struct kasan_free_meta.
->          */
->         depot_stack_handle_t aux_stack[2];
-> --
-> 2.18.0
+> syzbot will keep track of this issue. See:
+> https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BYrFeRQkw%2BM8rpOF5169LFn9%2BpuL3Dh1Kk1AOoKV-nyrQ%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BZjVc%2B_fg%2BGgx8zRWSGqzf4gmZcngBXLf_R4F-GKU4a9A%40mail.gmail.com.
