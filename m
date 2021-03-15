@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBCMIZB7QWENRBYUPXSBAMGQEHLN7UBY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCMIZB7QWENRBNNJXSBAMGQEN4AU3DY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pg1-x537.google.com (mail-pg1-x537.google.com [IPv6:2607:f8b0:4864:20::537])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F33233ABFF
-	for <lists+kasan-dev@lfdr.de>; Mon, 15 Mar 2021 08:08:19 +0100 (CET)
-Received: by mail-pg1-x537.google.com with SMTP id m14sf16599661pgr.9
-        for <lists+kasan-dev@lfdr.de>; Mon, 15 Mar 2021 00:08:19 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1615792098; cv=pass;
+Received: from mail-vs1-xe3c.google.com (mail-vs1-xe3c.google.com [IPv6:2607:f8b0:4864:20::e3c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1389B33ACF1
+	for <lists+kasan-dev@lfdr.de>; Mon, 15 Mar 2021 09:03:02 +0100 (CET)
+Received: by mail-vs1-xe3c.google.com with SMTP id g126sf1552071vsg.17
+        for <lists+kasan-dev@lfdr.de>; Mon, 15 Mar 2021 01:03:02 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1615795381; cv=pass;
         d=google.com; s=arc-20160816;
-        b=vO3KJUzi6LVzjWepGfxc2wLcj2x9//S3onukq9FQVvPlp0WRk1169hh2CJ141gFxxK
-         02WbIRjB+LK4hvgSE14lxFQZ0ClZjmJXnLAXqHx9Y9RYb+s0m/V/aEwb/YK/zxbdJ+II
-         8ZaY+3eRzrkvj5rhsNn1QDSY7CgqvQ9gxWPOzjSQHUsLXAJVypV138aqqe8i4hJus/Wv
-         9OSr0E5+y2HZs9vn0adVFg31ckc4SuQ51v5LecBsGEPhRbkX8ziai7pbuNUTXBVCKJmn
-         /A4CVleDAnpii/muqILK8eThWvZ6pqXXAD7pXFX40jKbZUveTdRrXquqo3EmRJS/ry82
-         KD7A==
+        b=CKIcHJDtF1P6DkvGDZpDhn2Re2gu5jpqN+5DsSeuAbh+XBZCvLGcQ+LN45XtB+3/Ao
+         s5MJ8CTFclML2AJ/VJe+/NQzGa1UMcjL6f2pp7F79rYlU9nGOLOuiK4Apao1tSb/lQmg
+         kJcPvAjxZLlQR6pCCzQXG3S9+apbiqW3wCcOUFTcNCpaLfHh4O7rQjnneUqsCpGCS8Fw
+         kLz/P8iT06Ve/uiRKCdHaPVt3E9mS9Ew6rNNX1dWVIjBv4Tia2fxBWdi6njLgKhFK+CT
+         2NbzAd0qZiQA3OE3rVLAa8FLifKdvVlI2yi6DM7DULAfO5EWL6sjtoxCyYWeTkL1xdZE
+         fE8w==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=tIxhyvHLFQUHTNr03w5XuAcP2lkt8scl7ZGxHOqA6i4=;
-        b=ujzRxeeTFxlXKYVjyD+8sPvOmsytb37+QgEPLi8Q5MJSr3LcUR5hd3w8MYpL1DQ77u
-         SVokDtMWOH0DgzQ+OAdxyPz72YEbczgYe8USITm6yQLeuuAH2G8krcoSTCcmw+xSIzNn
-         gfban/nkZApGon6C8zvEZMm2gwINCzDRds5zTWDu01ObZdTSSZNOl2pgpF5fNjYINw5v
-         aPsox/7nByMSPy4kjOAo2bf71GPjXZ+1LCjeJVTbDb8lPRJmCeg9UCbrUp5KSXVGgt3U
-         ojJDmgvgRaAcjRxd5j0n9EDCKCggOkdC2dq+8nITZF8YaZRy7Ol2t/8BVVrcPxoHK3qI
-         f5IA==
+        bh=CYHRa7TBXKvhJlfG3+bCkX2ZXOXyttkyoNJPsGnZIYA=;
+        b=vqmMsHlLgHy7kxh7zkttdnBPLGLcUY/tY58W5cjVSHfZCyj9Kk5gml6PByQGJlTh6y
+         044tJZ8GQi1WUFU8+ox6AXe/owXwEHRgV9LOxYVESas/PxJ6wjWI16IRY7amPrm0YUVD
+         iLmj2/z4+M0W2/vmkTh9hdLCF/Ah8FoPn3y3vchmfQgUN4zceYHlizmWo7oxdbYTTilY
+         5hUmokjIAKy0t8Nq9EAv5N87PNBMFQ59yQux7VUpkAh/TC9QgtAQpaeNJ24fhPrcKMCP
+         L42hFpmX5KpNns4kf/VAUUWZtNWq6DpEBORi02ODw7Cymz7OjgH/QyQP85zrR4Yv5cy+
+         Xi9g==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=KEfEimh9;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::735 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b="eNoy/sAs";
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::f2b as permitted sender) smtp.mailfrom=dvyukov@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=tIxhyvHLFQUHTNr03w5XuAcP2lkt8scl7ZGxHOqA6i4=;
-        b=qHd7LyMxYBuxL3TZCevforcisL3nQuV/hSJbnrpyawhiw2KTx56qVHs2OYFRxgkEJs
-         iXOsboPuJ1HAiCaujhy1gEEhrQ9oYGf5yuTVGrxY1XsF2MFfldPwpUH4TzmIveXX3e5m
-         uRRfjbU6WuD9NR+vuulYZkid7tU8IAwrXAQA0lrOMsK59yGtJLGDhp1/+jAXwBkZ5V+i
-         KkxSHxw+NB+FPR0MFtQAU91pOApYmKATyFE5qtKSJKdP5NJ26Mms3WK9gkaEAp05znd3
-         IxiuhWB5iTAeQYm5oz2xMIB1cugR+eqttwQidCfAreN6eICIyw7b2VE/lCePqNq69o5E
-         yljQ==
+        bh=CYHRa7TBXKvhJlfG3+bCkX2ZXOXyttkyoNJPsGnZIYA=;
+        b=nyfHqqcRmqGiih66AawW13WScNO3226VJANa0dVKS3gGE+eeYPnbfeBc6jgvBflOQQ
+         HSHXPDcoDrCwC52miNhj7550wvjW/kMrsMYTiV6bVOnvUCIFrxalPjbXI+6BdBvzOQbE
+         YVCBSrN6ONj8855Qvs3c1I8CXZvbu0q8i3zhMSE9xwqZNVA64yYSMJ274FZZHpDxVeQe
+         kXUAnZirgvbBmcNJQJ3337xUYquWmc79ce7lCUNAEozhZrj8CQHWXLe3Misd0jsLrLa6
+         6qnD8SFif9vrfUEzdd52e6RHs/RMGGewKC5kPTPz8gn5HcPinO9y6T3x+MDbe2TutpGc
+         ZZdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
@@ -49,73 +49,74 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=tIxhyvHLFQUHTNr03w5XuAcP2lkt8scl7ZGxHOqA6i4=;
-        b=q9mgrxmJ0/1XkZ2QLZs3jX0kuoPMwO2dOS1OkEzmLaWHlpnuP+Xz69ULNsb5Sq/red
-         bG5ZnUEkrhpxcsqfi5+LJCeGfoU5GGF0fI3zzGVPLIo4VscAbLtJYt9KTAFKdanEoBkY
-         JvloADl0n2LepoWd+OuzRDAmEbFGH76VBLr5+ffmq5EyqAJfH8ZxY7hYb45WlC7XbgPP
-         kXGxVZpGxXiVy6/5spv1T9Q7csf6LJZLJFRX8SUB+NSKNKtkZeP6fy5wAEObSDSGTvX8
-         wakxK5ukenFiC2VALataS70hmrv9qEDJt2tIsNfxyPjMNWicXFPdFiTR/yR2II54vK6y
-         o2Yg==
-X-Gm-Message-State: AOAM5329ljwEEVnyi3I4D5I+dgoiHQUZrrosXfg7Jp7IOUMQCDRzSxjX
-	MEsDfOyiRD59m3E1jSxd2d0=
-X-Google-Smtp-Source: ABdhPJz/N7w5ZZIoA6gxctafWo13bsbeIVaKmPzZ9OkwT78wr7+/COSyCzl4YFwcW0jReh2A99Uk8A==
-X-Received: by 2002:aa7:9521:0:b029:1f1:b27f:1a43 with SMTP id c1-20020aa795210000b02901f1b27f1a43mr9223758pfp.4.1615792098220;
-        Mon, 15 Mar 2021 00:08:18 -0700 (PDT)
+        bh=CYHRa7TBXKvhJlfG3+bCkX2ZXOXyttkyoNJPsGnZIYA=;
+        b=jU2PRgrO/0I113VIePUEUH5TXNumBnbs1AkYuGOhypeIE8tmP0TdoL0MxgE4Oufmmq
+         6l1FpmXZXrSBwkVd64W1E34ZMMjGlPG8Bx+Qz6DcZSK+Kny738tQKFVpVdZhxMs0Q0WI
+         EecdXI5/9eJpHWe6DcZScPnXI77YawtpGo1bqkprtGzvnFQxczlkrx03GAK5sWrOI81t
+         nC1QlSfoIC/PxGnXXsRVHp/jEqTPLhVYCVdGNTot722uSXP3dlWQEcCldXvtGpu3vnsR
+         Mr89gu6Xwi82cDh/LIBXRaSRk+jgq8R+fSZYG65+n8gJeuW7j0IFbWQyUhKFt2dTrEUd
+         lO+Q==
+X-Gm-Message-State: AOAM531b7aIIJl2XrS036pQrc0yX+MheRsK77lwG9ei2D8OLkwaC3rx9
+	uKhsTWxQDTWlCyPxv2wOqbs=
+X-Google-Smtp-Source: ABdhPJxnp+gGBrVHeS+yOoPwmp8AMelxvnbTulOWTaNRI7lM49K+KIIm15pXL6PuoEAK4g8TCY/KuQ==
+X-Received: by 2002:a67:794b:: with SMTP id u72mr3769703vsc.16.1615795381116;
+        Mon, 15 Mar 2021 01:03:01 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:902:c40a:: with SMTP id k10ls8287224plk.2.gmail; Mon, 15
- Mar 2021 00:08:17 -0700 (PDT)
-X-Received: by 2002:a17:902:ee95:b029:e5:e2c7:5f76 with SMTP id a21-20020a170902ee95b02900e5e2c75f76mr10313745pld.25.1615792097755;
-        Mon, 15 Mar 2021 00:08:17 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1615792097; cv=none;
+Received: by 2002:a05:6102:525:: with SMTP id m5ls1870529vsa.3.gmail; Mon, 15
+ Mar 2021 01:03:00 -0700 (PDT)
+X-Received: by 2002:a05:6102:208:: with SMTP id z8mr4272256vsp.2.1615795380607;
+        Mon, 15 Mar 2021 01:03:00 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1615795380; cv=none;
         d=google.com; s=arc-20160816;
-        b=a0x2HphRQNjM8hJIZ+wBNNEbsoj8udi4h9c+cH3EJmqjawQl2vBg5+GNJD2E/CESL6
-         3hQxOsjZz3MpoWi64WPo5kZv0mh2Yty/G/urTSczVBnEkchV/Zng0fc3q/a+edblZI0L
-         2fhqVcpzgHtnvniPTjJarAJPjX7vlrFUiHEdnKn6byP8nYhwnlXob8jdyUssR+1inouO
-         Rs7FpF670Koiy7rV0zuRpya3jjj1jJH0HzYVA2i/Fh89+1Z9lCB2iPveugp9V5dw7KmU
-         AYO0o2GkLy5mEex+vlv9V/ui0cQ9FLm0Hqo/WbRqnvGGiiiX7re7hwiKq4f1Svh1xADL
-         8Vew==
+        b=UW/W5XouorTC58k5x81QqKaDChMCraN+HLBuKRnPY5IxYWlRzk3TwCEbfa5ERNKFns
+         JIgCUe1a/9K7D5Iorp3ngHHOGMBniqxXsO4HrXs6cVl6orhoDmVeUc4mwcqpi054XOEh
+         QEZb/TAtN6v+UIyHVdYRKLVteQbQhxoCfSAyfaPEZWAsKxRq0Tu6OA+wgfJxVrKXYK0y
+         lawcVe02SohlGsTtp2E6lvHBeoy8PqSOOaPSDOTNl1/AGv47mvc3mAcuJHO28FXMcMyx
+         zbQE/t952Q+r/ObX5PJJSSIGZ7RkEtTAPVtZDem1Iezmh34uk2XlHna122Y/7JQXadae
+         rcXQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=f1GxjtXWQ8Nd14Ufajvp9SrNLduuTL53iMB054m6SMU=;
-        b=mdK9qCA0N77uO+RJ5ayWpGBI7bDqVawYl7jEKAhTU3tlzBuP4N0kF3KTIkT3EQj2B/
-         eiH6jxjoPmdKrIdeeDR6nFhsq7wr8htK3ezZke8gQgD4OTy2xtExzVwPJk6JtcOgLTlt
-         fBFGNQ5tZ9piCRmQC/leHVujwGiDtOPkOeifGwSWuumHi7OiCABgTb2GMSnFeOSKO3cm
-         Cjp4BWpilo5XUHuQI2yg0omvauRcKoCB4oYstfsdcpAJMGkZZYvwFYWpiq55in+Sb3Xo
-         PG2X/VPgp+S/TRPfPf1+S7/XbrEgLphoVJof7sLR3x8m4DLEKlv7XIg8rNo5eFZ4e9dt
-         4WGQ==
+        bh=KtsjY55Jb9isqHKR/wLdGTjwveZYY37X0uZAq2FcZYY=;
+        b=ELUxiwN7Z6lrsy5mCHgDvSaXK9RO2ss7Ycr//qBB6+ybaaFfJyGUbjynp3day5iPXa
+         FBbEso4TgLOleOlMtEYsEAArfzyw9zj2sykJHb2ZkiY9oDRdsuSOMNkgIiUMws+pIRgE
+         VHh2rc1uU53ZyxxyFMHw+2S1EsPZY+PGzNGIOSQfhujBBxgOB4V3jmhpPBUIwDo+DZjL
+         wXoyinDwaKHrAH85mJUnrS4zrhY6K+LjWhR5S2N5gofesZ/+viBZ2MsyJuy0w9dkqZur
+         vyoLu/hZ+iXR4ZWXpzGO/GMDZSF1/NAvb2iHWFCBYAJo76buTRLE4vq7NaS8wB7sbrhp
+         8fGA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=KEfEimh9;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::735 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b="eNoy/sAs";
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::f2b as permitted sender) smtp.mailfrom=dvyukov@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-qk1-x735.google.com (mail-qk1-x735.google.com. [2607:f8b0:4864:20::735])
-        by gmr-mx.google.com with ESMTPS id md20si1283774pjb.1.2021.03.15.00.08.17
+Received: from mail-qv1-xf2b.google.com (mail-qv1-xf2b.google.com. [2607:f8b0:4864:20::f2b])
+        by gmr-mx.google.com with ESMTPS id n3si905511uad.0.2021.03.15.01.03.00
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 15 Mar 2021 00:08:17 -0700 (PDT)
-Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::735 as permitted sender) client-ip=2607:f8b0:4864:20::735;
-Received: by mail-qk1-x735.google.com with SMTP id x10so30700223qkm.8
-        for <kasan-dev@googlegroups.com>; Mon, 15 Mar 2021 00:08:17 -0700 (PDT)
-X-Received: by 2002:a05:620a:410f:: with SMTP id j15mr24039751qko.424.1615792097213;
- Mon, 15 Mar 2021 00:08:17 -0700 (PDT)
+        Mon, 15 Mar 2021 01:03:00 -0700 (PDT)
+Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::f2b as permitted sender) client-ip=2607:f8b0:4864:20::f2b;
+Received: by mail-qv1-xf2b.google.com with SMTP id by2so7338598qvb.11
+        for <kasan-dev@googlegroups.com>; Mon, 15 Mar 2021 01:03:00 -0700 (PDT)
+X-Received: by 2002:ad4:50d0:: with SMTP id e16mr23756584qvq.37.1615795379822;
+ Mon, 15 Mar 2021 01:02:59 -0700 (PDT)
 MIME-Version: 1.0
-References: <0000000000009c21de05ba6849e7@google.com>
-In-Reply-To: <0000000000009c21de05ba6849e7@google.com>
+References: <20210211080716.80982-1-info@alexander-lochmann.de>
+ <CACT4Y+YwRE=YNQYmQ=7RWde33830YOYr5pEAoYbrofY2JG43MA@mail.gmail.com> <01a9177f-bfd5-251a-758f-d3c68bafd0cf@alexander-lochmann.de>
+In-Reply-To: <01a9177f-bfd5-251a-758f-d3c68bafd0cf@alexander-lochmann.de>
 From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Mon, 15 Mar 2021 08:08:06 +0100
-Message-ID: <CACT4Y+ZjVc+_fg+Ggx8zRWSGqzf4gmZcngBXLf_R4F-GKU4a9A@mail.gmail.com>
-Subject: Re: kernel BUG in memory_bm_free
-To: syzbot <syzbot+5ecbe63baca437585bd4@syzkaller.appspotmail.com>
-Cc: Len Brown <len.brown@intel.com>, LKML <linux-kernel@vger.kernel.org>, 
-	linux-pm@vger.kernel.org, "Rafael J. Wysocki" <rjw@rjwysocki.net>, 
-	syzkaller-bugs <syzkaller-bugs@googlegroups.com>, kasan-dev <kasan-dev@googlegroups.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, 
-	Andrey Konovalov <andreyknvl@google.com>, Pavel Machek <pavel@ucw.cz>
+Date: Mon, 15 Mar 2021 09:02:48 +0100
+Message-ID: <CACT4Y+ZPX43ihuL0TCiCY-ZNa4RmfwuieLb1XUDJEa4tELsUsQ@mail.gmail.com>
+Subject: Re: [PATCH] KCOV: Introduced tracing unique covered PCs
+To: Alexander Lochmann <info@alexander-lochmann.de>
+Cc: Andrey Konovalov <andreyknvl@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Andrew Morton <akpm@linux-foundation.org>, Wei Yongjun <weiyongjun1@huawei.com>, 
+	Maciej Grochowski <maciej.grochowski@pm.me>, kasan-dev <kasan-dev@googlegroups.com>, 
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
+	syzkaller <syzkaller@googlegroups.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: dvyukov@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=KEfEimh9;       spf=pass
- (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::735
+ header.i=@google.com header.s=20161025 header.b="eNoy/sAs";       spf=pass
+ (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::f2b
  as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
  (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Dmitry Vyukov <dvyukov@google.com>
@@ -132,83 +133,109 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Feb 3, 2021 at 6:59 AM syzbot
-<syzbot+5ecbe63baca437585bd4@syzkaller.appspotmail.com> wrote:
->
-> Hello,
->
-> syzbot found the following issue on:
->
-> HEAD commit:    3aaf0a27 Merge tag 'clang-format-for-linux-v5.11-rc7' of g..
-> git tree:       upstream
-> console output: https://syzkaller.appspot.com/x/log.txt?x=17ef6108d00000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=10152c2ea16351e7
-> dashboard link: https://syzkaller.appspot.com/bug?extid=5ecbe63baca437585bd4
-> userspace arch: arm64
->
-> Unfortunately, I don't have any reproducer for this issue yet.
->
-> IMPORTANT: if you fix the issue, please add the following tag to the commit:
-> Reported-by: syzbot+5ecbe63baca437585bd4@syzkaller.appspotmail.com
+On Sun, Mar 14, 2021 at 10:29 PM Alexander Lochmann
+<info@alexander-lochmann.de> wrote:
+> On 12.02.21 13:54, Dmitry Vyukov wrote:
+> >
+> > I think we could make KCOV_IN_CTXSW sign bit and then express the check as:
+> >
+> > void foo2(unsigned mode) {
+> >   if (((int)(mode & 0x8000000a)) > 0)
+> >     foo();
+> > }
+> >
+> > 0000000000000020 <foo2>:
+> >   20: 81 e7 0a 00 00 80    and    $0x8000000a,%edi
+> >   26: 7f 08                jg     30 <foo2+0x10>
+> >   28: c3                    retq
+> >
+> So ((int)(mode & (KCOV_IN_CTXSW | needed_mode))) > 0?
 
-The BUG is:
-BUG_ON(!virt_addr_valid(addr));
+Frankly I lost all context now. If it results in optimal code, then, yes.
 
-#syz fix: arm64: Do not pass tagged addresses to __is_lm_address()
+> >>  }
+> >>
+> >>  static notrace unsigned long canonicalize_ip(unsigned long ip)
+> >> @@ -191,18 +192,26 @@ void notrace __sanitizer_cov_trace_pc(void)
+> >>         struct task_struct *t;
+> >>         unsigned long *area;
+> >>         unsigned long ip = canonicalize_ip(_RET_IP_);
+> >> -       unsigned long pos;
+> >> +       unsigned long pos, idx;
+> >>
+> >>         t = current;
+> >> -       if (!check_kcov_mode(KCOV_MODE_TRACE_PC, t))
+> >> +       if (!check_kcov_mode(KCOV_MODE_TRACE_PC | KCOV_MODE_UNIQUE_PC, t))
+> >>                 return;
+> >>
+> >>         area = t->kcov_area;
+> >> -       /* The first 64-bit word is the number of subsequent PCs. */
+> >> -       pos = READ_ONCE(area[0]) + 1;
+> >> -       if (likely(pos < t->kcov_size)) {
+> >> -               area[pos] = ip;
+> >> -               WRITE_ONCE(area[0], pos);
+> >> +       if (likely(t->kcov_mode == KCOV_MODE_TRACE_PC)) {
+> >
+> > Does this introduce an additional real of t->kcov_mode?
+> > If yes, please reuse the value read in check_kcov_mode.
+> Okay. How do I get that value from check_kcov_mode() to the caller?
+> Shall I add an additional parameter to check_kcov_mode()?
 
-> ------------[ cut here ]------------
-> kernel BUG at kernel/power/snapshot.c:257!
-> Internal error: Oops - BUG: 0 [#1] PREEMPT SMP
-> Modules linked in:
-> CPU: 1 PID: 2394 Comm: syz-executor.0 Not tainted 5.11.0-rc6-syzkaller-00055-g3aaf0a27ffc2 #0
-> Hardware name: linux,dummy-virt (DT)
-> pstate: 20400009 (nzCv daif +PAN -UAO -TCO BTYPE=--)
-> pc : free_image_page kernel/power/snapshot.c:257 [inline]
-> pc : free_image_page kernel/power/snapshot.c:253 [inline]
-> pc : free_list_of_pages kernel/power/snapshot.c:274 [inline]
-> pc : memory_bm_free+0x260/0x320 kernel/power/snapshot.c:726
-> lr : free_basic_memory_bitmaps+0x3c/0x90 kernel/power/snapshot.c:1173
-> sp : ffff8000163dbc50
-> x29: ffff8000163dbc50 x28: f4ff000025204070
-> x27: ffff800012d4c000 x26: f4ff000025204008
-> x25: f5ff00002827c700 x24: ffff800012d4c000
-> x23: 00007fffffffffff x22: f4ff000025204018
-> x21: 0000000000000001 x20: ffff800013b576d0
-> x19: f5ff00002827c700 x18: 0000000000000000
-> x17: 0000000000000000 x16: 0000000000000000
-> x15: 0000000000000000 x14: 0000000000000000
-> x13: 0000000000000000 x12: 0000000000000000
-> x11: 0000000000000000 x10: 0000000000000000
-> x9 : fcff000025205400 x8 : 0000000000000002
-> x7 : f6ff000025205000 x6 : 00000000000001ff
-> x5 : 0000000000000000 x4 : 0000000000000000
-> x3 : ffff800013b576d0 x2 : f4ff00002517e000
-> x1 : 0000000000000001 x0 : 0b0000002517e000
-> Call trace:
->  free_image_page kernel/power/snapshot.c:257 [inline]
->  free_list_of_pages kernel/power/snapshot.c:274 [inline]
->  memory_bm_free+0x260/0x320 kernel/power/snapshot.c:726
->  free_basic_memory_bitmaps+0x3c/0x90 kernel/power/snapshot.c:1173
->  snapshot_release+0x74/0x90 kernel/power/user.c:120
->  __fput+0x78/0x230 fs/file_table.c:280
->  ____fput+0x10/0x20 fs/file_table.c:313
->  task_work_run+0x80/0x160 kernel/task_work.c:140
->  tracehook_notify_resume include/linux/tracehook.h:189 [inline]
->  do_notify_resume+0x20c/0x13e0 arch/arm64/kernel/signal.c:939
->  work_pending+0xc/0x3d4
-> Code: cb000260 d34cfc00 97fcf6fe 35fffc20 (d4210000)
-> ---[ end trace 174c294156b0dfb3 ]---
+Yes, I would try to add an additional pointer parameter for mode. I
+think after inlining the compiler should be able to regestrize it.
+
+> >> +               /* The first 64-bit word is the number of subsequent PCs. */
+> >> +               pos = READ_ONCE(area[0]) + 1;
+> >> +               if (likely(pos < t->kcov_size)) {
+> >> +                       area[pos] = ip;
+> >> +                       WRITE_ONCE(area[0], pos);
+> >> +               }
+> >> +       } else {
+> >> +               idx = (ip - canonicalize_ip((unsigned long)&_stext)) / 4;
+> >> +               pos = idx % BITS_PER_LONG;
+> >> +               idx /= BITS_PER_LONG;
+> >> +               if (likely(idx < t->kcov_size))
+> >> +                       WRITE_ONCE(area[idx], READ_ONCE(area[idx]) | 1L << pos);
+> >>         }
+> >>  }
+> >>  EXPORT_SYMBOL(__sanitizer_cov_trace_pc);
+> >> @@ -474,6 +483,7 @@ static int kcov_mmap(struct file *filep, struct vm_area_struct *vma)
+> >>                 goto exit;
+> >>         }
+> >>         if (!kcov->area) {
+> >> +               kcov_debug("mmap(): Allocating 0x%lx bytes\n", size);
+> >>                 kcov->area = area;
+> >>                 vma->vm_flags |= VM_DONTEXPAND;
+> >>                 spin_unlock_irqrestore(&kcov->lock, flags);
+> >> @@ -515,6 +525,8 @@ static int kcov_get_mode(unsigned long arg)
+> >>  {
+> >>         if (arg == KCOV_TRACE_PC)
+> >>                 return KCOV_MODE_TRACE_PC;
+> >> +       else if (arg == KCOV_UNIQUE_PC)
+> >> +               return KCOV_MODE_UNIQUE_PC;
+> >
+> > As far as I understand, users can first do KCOV_INIT_UNIQUE and then
+> > enable KCOV_TRACE_PC, or vice versa.
+> > It looks somewhat strange. Is it intentional?
+> I'll fix that.
+> It's not possible to
+> > specify buffer size for KCOV_INIT_UNIQUE, so most likely the buffer
+> > will be either too large or too small for a trace.
+> No, the buffer will be calculated by KCOV_INIT_UNIQUE based on the size
+> of the text segment.
+
+Yes, which will be either too large or too small for KCOV_TRACE_PC
+enabled later.
+
+
+> - Alex
 >
->
-> ---
-> This report is generated by a bot. It may contain errors.
-> See https://goo.gl/tpsmEJ for more information about syzbot.
-> syzbot engineers can be reached at syzkaller@googlegroups.com.
->
-> syzbot will keep track of this issue. See:
-> https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+> --
+> Alexander Lochmann                PGP key: 0xBC3EF6FD
+> Heiliger Weg 72                   phone:  +49.231.28053964
+> D-44141 Dortmund                  mobile: +49.151.15738323
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BZjVc%2B_fg%2BGgx8zRWSGqzf4gmZcngBXLf_R4F-GKU4a9A%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BZPX43ihuL0TCiCY-ZNa4RmfwuieLb1XUDJEa4tELsUsQ%40mail.gmail.com.
