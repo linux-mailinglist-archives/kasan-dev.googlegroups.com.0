@@ -1,129 +1,127 @@
-Return-Path: <kasan-dev+bncBDGPTM5BQUDRBA5XYCBAMGQEUQDKFOQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCMIZB7QWENRBDFDYGBAMGQEGOCU6II@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yb1-xb3c.google.com (mail-yb1-xb3c.google.com [IPv6:2607:f8b0:4864:20::b3c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28C9A33CB92
-	for <lists+kasan-dev@lfdr.de>; Tue, 16 Mar 2021 03:44:21 +0100 (CET)
-Received: by mail-yb1-xb3c.google.com with SMTP id q77sf40585707ybq.0
-        for <lists+kasan-dev@lfdr.de>; Mon, 15 Mar 2021 19:44:21 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1615862660; cv=pass;
+Received: from mail-vs1-xe3a.google.com (mail-vs1-xe3a.google.com [IPv6:2607:f8b0:4864:20::e3a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2ED7233CDFB
+	for <lists+kasan-dev@lfdr.de>; Tue, 16 Mar 2021 07:34:53 +0100 (CET)
+Received: by mail-vs1-xe3a.google.com with SMTP id g21sf1171330vso.20
+        for <lists+kasan-dev@lfdr.de>; Mon, 15 Mar 2021 23:34:53 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1615876492; cv=pass;
         d=google.com; s=arc-20160816;
-        b=Hig8FSXhFPa2UnLUGneZJd1QT2unzRPkFPnWAPFSfyE7ggZkjonVSVo+DZRO7oqUrJ
-         c1uCcD/Grt6j5OXYZbOsBZGiqndIS58vnPohwR/NWLws/43zf5m3E0WKx5eWdixgIr0e
-         XlnGyCjVhcgD41s5LlOixdTnvQ6hFOxltuedC53ex+HStI+dc0hFE72JCV52DgCe5iGU
-         F9ccsbExPvJkTEW6LvWrr2UMNfM6lOvgFsi0JHSD7SmXZwTzTuv6uBtkoVpUo460tuEP
-         1idyXcGvK4S3FKHgL8FxxobwyUcC70kOFRu/uigvkNHx+Lkpo1IP0qHbidNO97g7W6Vn
-         TTsA==
+        b=tDIBhPd7Q5I63/wSpXhUYzJ7U3DPK/M8Sg1BdHZ50hgzeElYW/se4n4JRDMJdDl7O5
+         jO/v9n/EH5WH5viID2XtVSElt7fM/Qa6yd2qq1JwZ41nevmJk+aK2RK6EVRF2XpaFXmG
+         GUJjwmK6whXX1msePRyOLnwXK3aFU69LmcnpIcdFsyY+8X3tiKmrLieW00Krk3JlWUN+
+         jjcTJU6YyU7fU2llVEgXHmxM4sQt9zbkCKM+iRMxfWIZQxJw8bAK1WxiawASegd5PWdV
+         OlL4N3tt7yiMvbK1DpePXe5yXJAGSMMRnM5eE+1zMjapUOhLROsE8c7FDAWc9WFO+3AA
+         /ZKQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:message-id:date
-         :subject:cc:to:from:sender:dkim-signature;
-        bh=WMTy2dBvJWl1lFo7dPVLa6YB0SYYL7EXFlDsZ6LsLOo=;
-        b=JH7BaCOXAl6JrB0m1DohMoLQoKPcO9BtbXRiHXTtB9V1yVGmh9i3Eib6SRNqVO7ibt
-         RiRIIbjOyXOiajruoCkzx2uiibklWYoOFbOIrdLJwsx8XB3iIgA8qv7kGvKVJgIP55eK
-         r/HnuLfaGBU1WuQ1jlN5qslOfbYgaY0UInX47ViZSuUKY6xu18mPuakipPhGB2OuuL6+
-         SK/53U/ZJ85CITYsvfqydAeceiTuEoDmdjgegosmL68UckfequtUOtYPbajDUOq/njg7
-         jx1MWojoQHK2OkNqKGxeV6h1y9oOhjE4hbJf+Sr6oxtY4D5koBZh6v9sA+PrQYHf7xS5
-         SUag==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=LQM5X5Q4CtUCl6EJ9V9tFvisTSaZT5mR4d6svW+QFGA=;
+        b=uaWN6x6ErJwuTFMrk2ewg4M2t6ZF2TM4haDX7jKqH2qQkbxtO+ClKWEPOneWek8z6T
+         QsVaongpryvF6WMB7NEwNcCBuEn9cws2wQddczSxQm6Zn5GUoJlSlD2S/Hz2EK5LNF8+
+         pS9oVW2byeEM5pQ3gS9rtt1sdd2dP7XAsHLrijkDLWgTuajGpHxFWcydcGum4QXnCj4V
+         sJ8YjE1hq7TWgMcbDLUxWiwMJTwhesKlu4sp4rhe0uWKh/FpLHr/mvEE67zaEL8E9Ix+
+         taGYFk+0rMwofIDLpxmqae6tUI/QabEVRTGPmIYzjOulvKPSCLUtX2FQvpVjC6V1f7Ks
+         4Hmg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.183 as permitted sender) smtp.mailfrom=walter-zh.wu@mediatek.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
+       dkim=pass header.i=@google.com header.s=20161025 header.b=s+uLqyFr;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::f36 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id:mime-version
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=WMTy2dBvJWl1lFo7dPVLa6YB0SYYL7EXFlDsZ6LsLOo=;
-        b=Q8Q7vY84RQFvkFZSeKiqd4zC+07z4Dh3eh2C5yyUNkBVlmSIGVJkbNHWez0VCbH1kn
-         vICAE/QgGgJMlGLJTKP8FHdrb7U71tX8s1XDJkQXgCnC/c6gAGGdO/YxR4I9UEPJkdXm
-         7XlouY+2wBMSwB2BejyLs9Rjo1uAeB3gPYJeb7xQLz+KTBHqhkyNKpt0TfVZLqhqXGgO
-         1pStIgnW6OCDE9NULHnoqif82/+dsCLlycmecpJpZlFuYPK0hbiIv4iYoMrkHBDyFQ6Y
-         9r/aLpfvKoQQPCiyLHrR9VMl9awEZK+Wzk/qabmxAKsSIwISfnk9gXrmc8HUCvpVX0sh
-         lQMA==
+        bh=LQM5X5Q4CtUCl6EJ9V9tFvisTSaZT5mR4d6svW+QFGA=;
+        b=kvfE0MnK7EawbRM4rH4taGgQlAeo11mSrgfUF0ppUAk7FAn/DFaBKugvTiowEDp4+z
+         dT5RRfyrfV+tAkWzc4Uxy1s8nyP9li215qkwaYWnm9W4BXaP5jAUp18+OW419F20KUWl
+         3fVen5lD4jlDqHt38+8EIuN5iMCfJlCuN0rZCTc0zLPYK3Xdma9zVj3S3yYPnaJpWb7S
+         DFK3fZ/MszStOmEz4dFNkPoY4p60yl35w+F4xh3bq+tRJiOT9wZGiqZuk9KZCHkRYm3j
+         nJd6LEMAor6pHEX3Tf8j2YVHCqXUBqAguBNdk4Xxz5w9iIAzQ1+Mm2cVclJy01pkIxSy
+         B/aA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :mime-version:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=WMTy2dBvJWl1lFo7dPVLa6YB0SYYL7EXFlDsZ6LsLOo=;
-        b=rh2obHKLjWUxWy7UBnkKb7aKH0YP5smJChsMASrXj4D6fxH3dPN/bfnwppoTV+VG/N
-         xbr100ekW8bzVGS8h5eVhaKtPWc1Pvi0jYd5dBfa/Ix3xhy/sTPy7MJJFpDVoToRAir4
-         hvSM95F+8YlWWT6LpjMjtoqCLZ5wrtRaHc8yTrT4yaHtGvpuUp89ZLq54sPlGJVV8rw0
-         7+MSTQsWTYiBxPossEji/cE3qN2mPBUKZjXR+WSVrMDpMBKB/twa5J9h80q6aBz3kPUz
-         ebg4YZfBG33rhba+nnNdh8O4JGdOv1dsF+2r6Q/9VPbss1ZDNpLPm4zF8spJWGpUgva4
-         JYNw==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM531jx97b0UuiCzhzEDl2dNLkLuaWfx1JlG/yTfmZXt6C/WK7/eZo
-	bhs+OnYiHhifNxQd1UeBx5k=
-X-Google-Smtp-Source: ABdhPJxGbOIKW7HczcyFzPrD58Rqm/QzmrNu4raY+KIk2T2R+4l5GEnmECerXK93wedtUZvXcmv2oA==
-X-Received: by 2002:a25:74cb:: with SMTP id p194mr640959ybc.347.1615862660015;
-        Mon, 15 Mar 2021 19:44:20 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=LQM5X5Q4CtUCl6EJ9V9tFvisTSaZT5mR4d6svW+QFGA=;
+        b=W+qUZSKlroCt/QTaajhUamxncwNPBVlHlZ3sjGJMQZzgHLTfemDpINNblwRnstqEFi
+         h0A2QODs386hb+QQtt23RlMOk+zqbZ/eK/X0u3DjxGm4fYw37/LEoY1IH6x4NQ/UYrsp
+         LJ8qjwsFy0t14Tiw1s1RrGTgE/w2aYwouyGJmn9aP6SlkJeTs2rpY2z8PwzvBUkWnd4B
+         QwWe7ln7qlna9Y6S7o5aWFg7BzOq4Nr3rQfr4LTQtctRe5jphhmF2xuHGiAq+jDoGM1c
+         f4vY/DhiNeEhllv6JodAEAfPAANFcTCPVb4R5EiOLj2rWHRO7SDbbAOW9nHoU0TjKRpR
+         Cy4g==
+X-Gm-Message-State: AOAM533QVHk8O9kU1kHzrwTUU3LA4LMAAhYf4YuxEJM+SEbPDU4ucZ/J
+	a/kV2NOQvHcHkgYEWaiJnUE=
+X-Google-Smtp-Source: ABdhPJw8nSqm/WVAQiFB/9DICtdoGh3odfq0QNc92VBke0jFfJRbL9SptuiwTEF9bGrFRfpSVDryvg==
+X-Received: by 2002:a05:6102:215a:: with SMTP id h26mr16295683vsg.15.1615876492277;
+        Mon, 15 Mar 2021 23:34:52 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a25:d907:: with SMTP id q7ls1361029ybg.3.gmail; Mon, 15 Mar
- 2021 19:44:19 -0700 (PDT)
-X-Received: by 2002:a25:686:: with SMTP id 128mr3856648ybg.258.1615862659512;
-        Mon, 15 Mar 2021 19:44:19 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1615862659; cv=none;
+Received: by 2002:ab0:5e9d:: with SMTP id y29ls1444468uag.9.gmail; Mon, 15 Mar
+ 2021 23:34:51 -0700 (PDT)
+X-Received: by 2002:ab0:3b01:: with SMTP id n1mr6825194uaw.136.1615876491622;
+        Mon, 15 Mar 2021 23:34:51 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1615876491; cv=none;
         d=google.com; s=arc-20160816;
-        b=Z/Ej+WBou3PIRWHMNHNg7JPRTocuUaFIFnIH+rqZqT8yuZ6qoWX0Hygu/YQgjmg7Cw
-         r46mKk/gd4ZIi3g9KZUiKTbe1F6YA+sW77GSXHqOV11FaFPMEjRG2H6KxxDswte3Ozs8
-         K2xFJJDmHr+reF9QP+Z4uaXt1dcfAyWYQTeuvWkY5TTIH9HkXJk2A2OeXSQg2BBEdFxJ
-         fSt/OlxSLtkbg4OuxwH8aGl2aKz9m9AUWHLPkQRHhl1m8tFtpU3Um4/ImjPEzgfm36m3
-         ht18jJjMMkD/SMqQCm/smi/uxCvBs0T+Usl3d/2q/7SR1BQArZDjlqconnMyYbKSRapb
-         ow7g==
+        b=rPI5kDD9ppbi2qqMZU0K0oeoklHBmOqnMM5fA0QqWWUzoIB7jvutDg1snG4asZrvWe
+         DbgesmNmUrAWsk5NuPm+LbTc1ahdwHXSNmDSnV29cj3NVNcgNIrp9dCmoG8sZ5NUKu8o
+         vduKPI48CWRgR836ahQX17b6XUDg5WTtyEhLNwDiiqPStBQRGo3E9M8MBUC9CcBOhzpK
+         IaFmM2J42C2SKHpHxUYFC2C0LHDB9AzZp5kk8AFrDo+xHqE7Ho6oltxR/1mdeLQNeQD3
+         NA1b8dln+lXQmW/9/KsXSyFaOdHXl9pUeXd9K4+I9ACnSiyjud1Iob5jSXJuxUsp/gov
+         yhiA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=mime-version:message-id:date:subject:cc:to:from;
-        bh=KyOzZxvo9bBLo0Mrm5XRySVJWLgFDT8L9S2FjYYN7Uc=;
-        b=MUbB6ES1gE47K1W83p3hEZbP8vna0vS+z2yBJd7EcT3wL6iu/JokQLSav7177MK1gH
-         TAi+F9rapphXG2UzZHCNrCsrc+s0y6kty+u1GzI/HuAgaDDgwmKt1/9nO7fFs/e9m9jd
-         FOannaNw05vl46/xCxNz2VmB160rZSciFxqyzHnRGedoyMaGmbP7r4EE7nVlFO4LxtLx
-         9DSn5yzA3kE8w5dMtrQCOUNmvxNbw0jtzZWt4jyCNT+z32VX2BUhBHWcwlaeDcopRNtB
-         Hu4E6hiJ99zTZ88ywFFzJOtF5znvuk33cIZqucXD0sXvySI90xFUpiDH/KOfFmSyExut
-         cHnQ==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=SByyMFSlLntBAm8fHgqN+CmCCGC2J92yQYTbduz/8F4=;
+        b=fDWwEKLNu1k9fBNM0raPPE6mJWFeNFo3QKUt0ykAuVx4e8idqo+/ZX2QhiNa/jVbI3
+         jWA5SN7gQCYwhNNfs4NfpZ1CL2zEecbQ0EjvkVOtwOP7pgz3fcAHPX4Pv0Nj0aSyQzSW
+         FkFHZBi4b4g6BF1NT5Hg4YigPvA8Kg1rSilIgQ4M2ryFmiLf0oVrSYIDIooPz/HjgZGv
+         mxQY1QbfZ47dHIOXPkUvnZ99/r6TZdUbI+GXSTFrbcg3nXcm5nqvRGBSt6dtRheFeFFf
+         4fA2mK0tDQn5WTzoK7xBjO2Yr+j2zD2iB5TYY8ppAbOQqw3LaigZzfDcHcbBrbjKPVJ2
+         qERg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.183 as permitted sender) smtp.mailfrom=walter-zh.wu@mediatek.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
-Received: from mailgw01.mediatek.com ([210.61.82.183])
-        by gmr-mx.google.com with ESMTP id l14si1122943ybp.4.2021.03.15.19.44.18
-        for <kasan-dev@googlegroups.com>;
-        Mon, 15 Mar 2021 19:44:19 -0700 (PDT)
-Received-SPF: pass (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.183 as permitted sender) client-ip=210.61.82.183;
-X-UUID: c747895dedf149ee8043bffd5a27bc42-20210316
-X-UUID: c747895dedf149ee8043bffd5a27bc42-20210316
-Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw01.mediatek.com
-	(envelope-from <walter-zh.wu@mediatek.com>)
-	(Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-	with ESMTP id 859541587; Tue, 16 Mar 2021 10:44:12 +0800
-Received: from mtkcas07.mediatek.inc (172.21.101.84) by
- mtkmbs01n1.mediatek.inc (172.21.101.68) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Tue, 16 Mar 2021 10:44:11 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas07.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 16 Mar 2021 10:44:11 +0800
-From: Walter Wu <walter-zh.wu@mediatek.com>
-To: Andrey Ryabinin <ryabinin.a.a@gmail.com>, Alexander Potapenko
-	<glider@google.com>, Dmitry Vyukov <dvyukov@google.com>, Matthias Brugger
-	<matthias.bgg@gmail.com>, Andrey Konovalov <andreyknvl@google.com>, Andrew
- Morton <akpm@linux-foundation.org>, Jens Axboe <axboe@kernel.dk>, Oleg
- Nesterov <oleg@redhat.com>
-CC: <kasan-dev@googlegroups.com>, <linux-mm@kvack.org>,
-	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	wsd_upstream <wsd_upstream@mediatek.com>,
-	<linux-mediatek@lists.infradead.org>, Walter Wu <walter-zh.wu@mediatek.com>
-Subject: [PATCH v2] task_work: kasan: record task_work_add() call stack
-Date: Tue, 16 Mar 2021 10:44:10 +0800
-Message-ID: <20210316024410.19967-1-walter-zh.wu@mediatek.com>
-X-Mailer: git-send-email 2.18.0
+       dkim=pass header.i=@google.com header.s=20161025 header.b=s+uLqyFr;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::f36 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-qv1-xf36.google.com (mail-qv1-xf36.google.com. [2607:f8b0:4864:20::f36])
+        by gmr-mx.google.com with ESMTPS id d23si912676vsq.1.2021.03.15.23.34.51
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 15 Mar 2021 23:34:51 -0700 (PDT)
+Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::f36 as permitted sender) client-ip=2607:f8b0:4864:20::f36;
+Received: by mail-qv1-xf36.google.com with SMTP id o19so3048349qvu.0
+        for <kasan-dev@googlegroups.com>; Mon, 15 Mar 2021 23:34:51 -0700 (PDT)
+X-Received: by 2002:a0c:8304:: with SMTP id j4mr14226424qva.18.1615876491060;
+ Mon, 15 Mar 2021 23:34:51 -0700 (PDT)
 MIME-Version: 1.0
+References: <20210316024410.19967-1-walter-zh.wu@mediatek.com>
+In-Reply-To: <20210316024410.19967-1-walter-zh.wu@mediatek.com>
+From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Tue, 16 Mar 2021 07:34:39 +0100
+Message-ID: <CACT4Y+aMKH24F6DO=iKX0jDmxm4MCuJkA-OTkmgbfDm73LLKhQ@mail.gmail.com>
+Subject: Re: [PATCH v2] task_work: kasan: record task_work_add() call stack
+To: Walter Wu <walter-zh.wu@mediatek.com>
+Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>, Alexander Potapenko <glider@google.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, Andrey Konovalov <andreyknvl@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Jens Axboe <axboe@kernel.dk>, 
+	Oleg Nesterov <oleg@redhat.com>, kasan-dev <kasan-dev@googlegroups.com>, 
+	Linux-MM <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>, 
+	Linux ARM <linux-arm-kernel@lists.infradead.org>, 
+	wsd_upstream <wsd_upstream@mediatek.com>, linux-mediatek@lists.infradead.org
 Content-Type: text/plain; charset="UTF-8"
-X-MTK: N
-X-Original-Sender: walter-zh.wu@mediatek.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of walter-zh.wu@mediatek.com designates 210.61.82.183 as
- permitted sender) smtp.mailfrom=walter-zh.wu@mediatek.com;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
+X-Original-Sender: dvyukov@google.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@google.com header.s=20161025 header.b=s+uLqyFr;       spf=pass
+ (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::f36
+ as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
+ (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Dmitry Vyukov <dvyukov@google.com>
+Reply-To: Dmitry Vyukov <dvyukov@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -136,70 +134,79 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Why record task_work_add() call stack?
-Syzbot reports many use-after-free issues for task_work, see [1].
-After see the free stack and the current auxiliary stack, we think
-they are useless, we don't know where register the work, this work
-may be the free call stack, so that we miss the root cause and
-don't solve the use-after-free.
+On Tue, Mar 16, 2021 at 3:44 AM Walter Wu <walter-zh.wu@mediatek.com> wrote:
+>
+> Why record task_work_add() call stack?
+> Syzbot reports many use-after-free issues for task_work, see [1].
+> After see the free stack and the current auxiliary stack, we think
+> they are useless, we don't know where register the work, this work
+> may be the free call stack, so that we miss the root cause and
+> don't solve the use-after-free.
+>
+> Add task_work_add() call stack into KASAN auxiliary stack in
+> order to improve KASAN report. It is useful for programmers
+> to solve use-after-free issues.
+>
+> [1]: https://groups.google.com/g/syzkaller-bugs/search?q=kasan%20use-after-free%20task_work_run
+>
+> Signed-off-by: Walter Wu <walter-zh.wu@mediatek.com>
+> Suggested-by: Dmitry Vyukov <dvyukov@google.com>
+> Cc: Andrey Konovalov <andreyknvl@google.com>
+> Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>
+> Cc: Dmitry Vyukov <dvyukov@google.com>
+> Cc: Alexander Potapenko <glider@google.com>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Matthias Brugger <matthias.bgg@gmail.com>
+> Cc: Jens Axboe <axboe@kernel.dk>
+> Cc: Oleg Nesterov <oleg@redhat.com>
+> ---
+>
+> v2: Fix kasan_record_aux_stack() calling sequence issue.
+>     Thanks for Dmitry's suggestion
 
-Add task_work_add() call stack into KASAN auxiliary stack in
-order to improve KASAN report. It is useful for programmers
-to solve use-after-free issues.
+Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
 
-[1]: https://groups.google.com/g/syzkaller-bugs/search?q=kasan%20use-after-free%20task_work_run
-
-Signed-off-by: Walter Wu <walter-zh.wu@mediatek.com>
-Suggested-by: Dmitry Vyukov <dvyukov@google.com>
-Cc: Andrey Konovalov <andreyknvl@google.com>
-Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>
-Cc: Dmitry Vyukov <dvyukov@google.com>
-Cc: Alexander Potapenko <glider@google.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Matthias Brugger <matthias.bgg@gmail.com>
-Cc: Jens Axboe <axboe@kernel.dk>
-Cc: Oleg Nesterov <oleg@redhat.com>
----
-
-v2: Fix kasan_record_aux_stack() calling sequence issue.
-    Thanks for Dmitry's suggestion
-
----
- kernel/task_work.c | 3 +++
- mm/kasan/kasan.h   | 2 +-
- 2 files changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/kernel/task_work.c b/kernel/task_work.c
-index 9cde961875c0..3d4852891fa8 100644
---- a/kernel/task_work.c
-+++ b/kernel/task_work.c
-@@ -34,6 +34,9 @@ int task_work_add(struct task_struct *task, struct callback_head *work,
- {
- 	struct callback_head *head;
- 
-+	/* record the work call stack in order to print it in KASAN reports */
-+	kasan_record_aux_stack(work);
-+
- 	do {
- 		head = READ_ONCE(task->task_works);
- 		if (unlikely(head == &work_exited))
-diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
-index 3436c6bf7c0c..e4629a971a3c 100644
---- a/mm/kasan/kasan.h
-+++ b/mm/kasan/kasan.h
-@@ -146,7 +146,7 @@ struct kasan_alloc_meta {
- 	struct kasan_track alloc_track;
- #ifdef CONFIG_KASAN_GENERIC
- 	/*
--	 * call_rcu() call stack is stored into struct kasan_alloc_meta.
-+	 * The auxiliary stack is stored into struct kasan_alloc_meta.
- 	 * The free stack is stored into struct kasan_free_meta.
- 	 */
- 	depot_stack_handle_t aux_stack[2];
--- 
-2.18.0
+> ---
+>  kernel/task_work.c | 3 +++
+>  mm/kasan/kasan.h   | 2 +-
+>  2 files changed, 4 insertions(+), 1 deletion(-)
+>
+> diff --git a/kernel/task_work.c b/kernel/task_work.c
+> index 9cde961875c0..3d4852891fa8 100644
+> --- a/kernel/task_work.c
+> +++ b/kernel/task_work.c
+> @@ -34,6 +34,9 @@ int task_work_add(struct task_struct *task, struct callback_head *work,
+>  {
+>         struct callback_head *head;
+>
+> +       /* record the work call stack in order to print it in KASAN reports */
+> +       kasan_record_aux_stack(work);
+> +
+>         do {
+>                 head = READ_ONCE(task->task_works);
+>                 if (unlikely(head == &work_exited))
+> diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
+> index 3436c6bf7c0c..e4629a971a3c 100644
+> --- a/mm/kasan/kasan.h
+> +++ b/mm/kasan/kasan.h
+> @@ -146,7 +146,7 @@ struct kasan_alloc_meta {
+>         struct kasan_track alloc_track;
+>  #ifdef CONFIG_KASAN_GENERIC
+>         /*
+> -        * call_rcu() call stack is stored into struct kasan_alloc_meta.
+> +        * The auxiliary stack is stored into struct kasan_alloc_meta.
+>          * The free stack is stored into struct kasan_free_meta.
+>          */
+>         depot_stack_handle_t aux_stack[2];
+> --
+> 2.18.0
+>
+> --
+> You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210316024410.19967-1-walter-zh.wu%40mediatek.com.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210316024410.19967-1-walter-zh.wu%40mediatek.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BaMKH24F6DO%3DiKX0jDmxm4MCuJkA-OTkmgbfDm73LLKhQ%40mail.gmail.com.
