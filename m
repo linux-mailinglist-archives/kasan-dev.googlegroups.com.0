@@ -1,48 +1,47 @@
-Return-Path: <kasan-dev+bncBD66N3MZ6ALRB7PBYOBAMGQEP6CWD7Q@googlegroups.com>
+Return-Path: <kasan-dev+bncBDDL3KWR4EBRBP7NYOBAMGQEQR7JLOA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x440.google.com (mail-pf1-x440.google.com [IPv6:2607:f8b0:4864:20::440])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF3C333DB8A
-	for <lists+kasan-dev@lfdr.de>; Tue, 16 Mar 2021 18:55:10 +0100 (CET)
-Received: by mail-pf1-x440.google.com with SMTP id x8sf20621199pfm.9
-        for <lists+kasan-dev@lfdr.de>; Tue, 16 Mar 2021 10:55:10 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1615917309; cv=pass;
+Received: from mail-qv1-xf3b.google.com (mail-qv1-xf3b.google.com [IPv6:2607:f8b0:4864:20::f3b])
+	by mail.lfdr.de (Postfix) with ESMTPS id F186133DC71
+	for <lists+kasan-dev@lfdr.de>; Tue, 16 Mar 2021 19:19:44 +0100 (CET)
+Received: by mail-qv1-xf3b.google.com with SMTP id u8sf25919566qvm.5
+        for <lists+kasan-dev@lfdr.de>; Tue, 16 Mar 2021 11:19:44 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1615918784; cv=pass;
         d=google.com; s=arc-20160816;
-        b=dJcnT6kf2fJghvF8lzZ49y0sVqXcH7NBdIUNc5eJVLKZE08plFo0dgYhOq5qpMh2LX
-         dqIzRNkwSdm6Vmg2cZkPwNUhft5BairxtxYq7fZYNi1qG1qTuPSj/X6NJHgIqa7Ec1AG
-         1rKe1w+4oZK5Ly5bT6jWWZXm3w4l42wMwWxlfqIzySUdcWORfByNW/pRvmgfhIRm2YMU
-         rxRuDdiswsAUSfUfgioN8FPvLAQSZZaFRGL52PYQkjhc+shfbhKa4my0B6Mz5wzIgvLL
-         dPoE0IiOsLJRyBD+u+tpGsvUg2heQa1DcjF/wYWCjwhbpWv3tEhfWGpWq2pwDl8lRh64
-         r5ig==
+        b=kJVNzNgyiouHzIyfa2o1mkihe5tZgOnWGP7emnf9R94ebSM/qjUmZqBqJgC0IJEN3Z
+         HQAmsI1K9qSzg6Rp4oNEy8+eIjGTYtqfg6Ymfer28caklUuuFNRsLMaIMY6do6eDetwG
+         56pyQPlpBf91lMiC+r0Jz55Y792sNMM5OYdjvxoWnSNCclSbOiywziqNLVVq5kUFYbtZ
+         Tk2hJhWoJJxHEJM6UfvLMdE7iU7kmId0Z7oJaZ97qaIKVM46OT/FqoRsvaLZYwiJqCGw
+         TaPgIRxwurZMvtj+qnuTbrTmXe7mM+Z7BKbYvVuNO235+xoifX+r9PjH0kQc6wwH42FC
+         YTlA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:user-agent:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:sender:dkim-signature;
-        bh=ONeDdb5RjojMSEZTagPYM3yDVQQX5oRbKbhEeDgwvW4=;
-        b=Vhj6QRPmkccmygVevZ65gNdTQWP6dQRlSeC7CZzwYFdA+0BOtlLrMuxlhTJ9mdrm0f
-         uV17MTJG2CYCyNEzoRJSKPBrlFpLAh92S6ZywXG7FxEmkmOU2zDtbQqOAP2YXfpK9NVc
-         6GUVKwveySfIJTGjaB7R81ksXGOE/aD9RPfQWaGk/WAfCtmYJNoZR16kqu5ifV5LyteP
-         TyXItyf91oBXiFwd4x2/orWviiMKi3bM7JFr7Fylv3Nln5RakbXBWi5Vg+drY6yLeBAg
-         QEKNGih/Zprc6HiFnYcHh3cyWjRTaPo9LOyodl6zXiP1dV34TyO1VLE4XiPRqTaZxsiJ
-         ya7w==
+        bh=gsE6T9qvLbdh1vlK3aOzi+MAdNv8XMJTR9XGrFL/BjE=;
+        b=eL1XnmWSJaoIY9aFQ/bpLpYkn9UeM756XyFIF8HCAKTr/B2CoqySLkkdVH9i27fm4W
+         BWRJTaUbgGUza5vmoj00vHr8tT0srlDdbdYPsiIZ8AIG/I2G0iXShY8VaK/pNik6OxV0
+         yVAFNoPHLemj3J3zPRfJVCqc4mTwygyBrt0iETYoX21UXYDHH1b0TDaJGuwa6GTUlfLo
+         o4TjUvz6JXRFR22dkpXuPI3i5fjKii7z0E12y4CBFTtxSookGwu27xcy443nSQ1boE5n
+         e2Kx/Sq/zXI0QNL+nyRzbEjPneXINwE61JUNVHqp4aQO8RBRepG16HhG3JSCRp28bsXb
+         2esQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=dRepZzYg;
-       spf=pass (google.com: domain of oleg@redhat.com designates 216.205.24.124 as permitted sender) smtp.mailfrom=oleg@redhat.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
+       spf=pass (google.com: domain of cmarinas@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=cmarinas@kernel.org;
+       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=arm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
         h=sender:date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=ONeDdb5RjojMSEZTagPYM3yDVQQX5oRbKbhEeDgwvW4=;
-        b=n1At0PoKd7JCnCg+VbDYCuanqUlRdHw51CnyTcfqE63VypxEhJvCB2+RL/iEJn5YKc
-         1tCBxswDqcBNMwaDvc+lXlgNRf7WNjvXGzNr4frjEdw8xCnc9tcIxkQkGP/TUv9pUxDL
-         n8nueuzCoXklDhRjzEmgHVk5iUb6TVr4Ozgqc9PkcDeNnnqf7qzGRdHVPVttmtO5Atxc
-         hFRoxlmmxqyDy3l9rSpZAoXK7EmmXEnlm7PxU9erm6cnZyPsV/h5Y4FX2b80j3dZj2ew
-         JTtWnWJ+UQtIvnPuTVCyz1m3asqxCIb3z15xZoe5H0qtDknPE7c8dwheS1Ruo9vblgH3
-         mYug==
+        bh=gsE6T9qvLbdh1vlK3aOzi+MAdNv8XMJTR9XGrFL/BjE=;
+        b=A10UUna3fLYa0N5YmaAatsr1B+JZbEhBRSKeRz2NKUhf+O56SnebIAAu/DokIBgwf5
+         65KchpVVxiFxptxKp4aIq6vxVI2AAwQjWW1dMJQpEGWdfe93+4MOdxUs2x80ZrLnqaGi
+         xTH9Rm+4h1t69fcsuB+mzfqnLMb3KGi7j8UhhrGdiXwR4oVovL28i0WivL6V/iz0KrWE
+         p2wt6+tsYi9Q+W4pVUL88WkSiYF1b13lLIBz1TIw4PGjSlTHhthxGT4PrKf2gCE+/B4+
+         aF3pkPDj1zhLzybNWP55IG4BTBYmcBubOS3i9ZUiIu4ydxhtSVN6c/f2ralGzbHHid3L
+         StYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
@@ -50,95 +49,76 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=ONeDdb5RjojMSEZTagPYM3yDVQQX5oRbKbhEeDgwvW4=;
-        b=WxYpT/ndsW+fl22Pm2jl9jkyRENnYZ3QycGABSCzfy1o/Hg2qHLX+izD8KgW1fmgaD
-         s4IMbrcgc2VEww9wzcH6pdAVttWVxDsmF/uV41uTWcvtFH1MdMYodDsB0QgHUlgtUo1k
-         uNgBVwMA3Dmc6DCY25nyWzYo/8Qq6V8TaENHfVD9roGdexem3E+hUpx8AmgKDDOYpuYL
-         drSlcz+GZUg7EOgcx3VAE21+k6LTWAbo/t/ruohqYi4Ex5KvXtMxcFjeZas49p9yPrJ8
-         LMKStrOp2IBE4pG5Ap61jBU+7hZQZ6tEGQosjGVPbhy16f1XkbhHpHW7coYINg+WaUWG
-         t37w==
+        bh=gsE6T9qvLbdh1vlK3aOzi+MAdNv8XMJTR9XGrFL/BjE=;
+        b=bjbnQfpS5NmkIPQRxZ7080gy6o7zf+ib+vKUACG1SEJTTovch87NGeJ0Ji4CRDOuP2
+         HlV6tk2lg/6Ksm/gWKDd2KOcDGzzTzdagJAIs1sutDU15r0fk1glVtUWKaRPDu+/t8g2
+         dnK8RF99+NKt5CEWcTZZKvBkB74ZqZo21xiIoXdphJY4CbFjzXqRi1gO0KrOtv9k3vwM
+         a+T6FpKErLRWvaaGSmeKODcMhlnwWMNMBXzDxnbseakgoRjx8GaQgZk9HqUqc9uq4HPo
+         cqAl+osnqJIP1XIVNrwOsIwoqTi+8KweQNte1Mbk8iSUOFCv46KEFQWQadlJocDZUNQm
+         5M4Q==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM532lItvEO1RGHnSEnaqACWDT1ZayyIWikx8AttdpO2W8ghag8AH8
-	Cj0va6aPLpox2GL4mLYakWg=
-X-Google-Smtp-Source: ABdhPJwizMC5P6tnP7rD5cLi6jroefbvggHlPokp0dJzEcvMcI5Yu1wsZbpwGbPLrFq+0+1YuTBMdQ==
-X-Received: by 2002:a63:5c3:: with SMTP id 186mr706609pgf.173.1615917309593;
-        Tue, 16 Mar 2021 10:55:09 -0700 (PDT)
+X-Gm-Message-State: AOAM531wi+uAl8Y6ygLV0P3qfezXXPrrvOBqkhoUtzfpCuP+fi8eH8Ru
+	PlXAKxvijKEfhe2MpqMHmi8=
+X-Google-Smtp-Source: ABdhPJyR0WCp1dnmULFku1ksy3rOLwyvs7BbbTBhQykv6x9x8+Z24ByM3FHmy2I4C84Xrt4zhU2M9Q==
+X-Received: by 2002:a05:620a:14f:: with SMTP id e15mr313783qkn.315.1615918784059;
+        Tue, 16 Mar 2021 11:19:44 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:903:31cc:: with SMTP id v12ls10828108ple.9.gmail; Tue,
- 16 Mar 2021 10:55:09 -0700 (PDT)
-X-Received: by 2002:a17:90a:be09:: with SMTP id a9mr211850pjs.219.1615917309022;
-        Tue, 16 Mar 2021 10:55:09 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1615917309; cv=none;
+Received: by 2002:a0c:df0a:: with SMTP id g10ls3210103qvl.0.gmail; Tue, 16 Mar
+ 2021 11:19:43 -0700 (PDT)
+X-Received: by 2002:a05:6214:b04:: with SMTP id u4mr764152qvj.0.1615918783613;
+        Tue, 16 Mar 2021 11:19:43 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1615918783; cv=none;
         d=google.com; s=arc-20160816;
-        b=W75IqiH1urJxag1O2T9FUdK1yxZNl2FFtDOL+vg0tg5ScBoCh5gyO80egPn7Qrsb4v
-         QKKbRYNErKoTAho6R4OcomLwIidlJ9DVL2si2Csy/9FA8lwEKMbSQ/5Lsinv35RI1NEO
-         2TerhfWmlsw8jXw86z/B3C66CcdP8L/iv97L8/9Z1UfBYvgatN/pbg1TyUmacqERAJbr
-         fpw97NTpMMHsKB3ZWxPfN9yo+dilxRrk4q3FHPs3WyQKYblDOvUJSPHxLd5TdI9hdy/G
-         YKiS1ogjEjXOa2xnlqWUti0uF1F2i0EVX77RiYSy+mv4d6W3s8RM8fFCpmmJo+6Ct8ry
-         ajGg==
+        b=Bhfha6PmidHJTqCHFplBuOKVBSEhmzdnJcoGSe5QTQGghwNN3TN0MDJID8EsIt5QEr
+         LEtgVYBSiITPrmnzg8X+JAJEW2nznjiH1IOUUrd604pkujx/fWo86SchxbcuIuRsobOc
+         YKnmHhOJjZOK4BqjrWNw4iz2jPP7n4i/GNPGLmlYnTD3kDNr1Bb7YYaqjIS3BPjqKCT2
+         sSgZNjDVfiVoiN7kqfGV7BStzsEiWgABhoOWaWuAC4M5wan+fZc9g9AAdm4nI6IuNFf0
+         sxttTzmUbyjzVyG7KIzQwmTlYnIfOxr0fc3ZtPb4xtEJGyZxmiGOW7qAQ8pOrReebDhH
+         h/Pw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:dkim-signature;
-        bh=et+8M4fnfpbY0GeGG05MXy/pGLb3+RZRFKGCfdaC3Sc=;
-        b=Ru2zvOkQFyvnJ5XYOvmhpcu5Udi4qCINh86LMBnS84zfgeHMD8/2Pd0h0IMbHrvbNk
-         Jczj6FbRYo+WxuGX2cxoY7Bov28BfoaUUuyjBv0qkUV43dLzgbCCQXwIol5wiuWZ3epy
-         7ol6vLVPWbtlgxh/W0EuBiyiFzGsO+bmhuSMYS54ZeA3wuCrNNkX6B1hELQgElKOhgdU
-         zIYg3ugctrOMjYsUdNZp7iC2uaw3lTQo/YE7bYMpdwf2Qxm+yywmpGymtZ+yVWjST1gS
-         0r/zD5XoufgZp1s4fmzokGLymjc67u9DbIwai4hVDPhA5popQBZn/2vUmKBvqp/5HmIy
-         6glw==
+         :message-id:subject:cc:to:from:date;
+        bh=36fxbzPMyXQRevZ78mkLaAbwL23cAdf1nDlC9TpFyn0=;
+        b=DSauadkzxav3M6VUT3so9jaEWfCax/uZ7PrzbwQF0rvcJh6a/Pc1HCTQ/kPAqLE4nv
+         8cqSmFMTPKgnKnzBY38bKWDKoiW7kCYCg3WCx0kEje0rH5mCh0v2n9e43h05YuUrSixv
+         WgkgsJZmkIycaYyRPfhr/aKNwijCcVYum5+qZ3t1/lLEEQettJIVjZa1nXfkHZltbup4
+         R+bSluF8Mm7KJoDRPwlgZ9Iqh4HWF5iS55Jr3izGqMEIxWCUprNiA2nczxcKvBuXMxOa
+         ABL9AzM73D916TqJbhGsvRRUpO1IO8GU58I0uLRO1DXoiDTbfOpVMuiLGftKoAMahm8T
+         0aug==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=dRepZzYg;
-       spf=pass (google.com: domain of oleg@redhat.com designates 216.205.24.124 as permitted sender) smtp.mailfrom=oleg@redhat.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com. [216.205.24.124])
-        by gmr-mx.google.com with ESMTPS id e4si1519205pge.1.2021.03.16.10.55.08
+       spf=pass (google.com: domain of cmarinas@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=cmarinas@kernel.org;
+       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=arm.com
+Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
+        by gmr-mx.google.com with ESMTPS id g4si731252qtg.3.2021.03.16.11.19.43
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 16 Mar 2021 10:55:09 -0700 (PDT)
-Received-SPF: pass (google.com: domain of oleg@redhat.com designates 216.205.24.124 as permitted sender) client-ip=216.205.24.124;
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-525-X_-hKvDyOCOief-DATOHdQ-1; Tue, 16 Mar 2021 13:55:03 -0400
-X-MC-Unique: X_-hKvDyOCOief-DATOHdQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2E413760C7;
-	Tue, 16 Mar 2021 17:55:01 +0000 (UTC)
-Received: from dhcp-27-174.brq.redhat.com (unknown [10.40.192.135])
-	by smtp.corp.redhat.com (Postfix) with SMTP id 744255D9C0;
-	Tue, 16 Mar 2021 17:54:57 +0000 (UTC)
-Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
-	oleg@redhat.com; Tue, 16 Mar 2021 18:55:00 +0100 (CET)
-Date: Tue, 16 Mar 2021 18:54:56 +0100
-From: Oleg Nesterov <oleg@redhat.com>
-To: Walter Wu <walter-zh.wu@mediatek.com>
-Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+        Tue, 16 Mar 2021 11:19:43 -0700 (PDT)
+Received-SPF: pass (google.com: domain of cmarinas@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id F09A165116;
+	Tue, 16 Mar 2021 18:19:40 +0000 (UTC)
+Date: Tue, 16 Mar 2021 18:19:38 +0000
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: Marco Elver <elver@google.com>
+Cc: Luis Henriques <lhenriques@suse.de>,
 	Alexander Potapenko <glider@google.com>,
 	Dmitry Vyukov <dvyukov@google.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Andrey Konovalov <andreyknvl@google.com>,
 	Andrew Morton <akpm@linux-foundation.org>,
-	Jens Axboe <axboe@kernel.dk>, kasan-dev@googlegroups.com,
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	wsd_upstream <wsd_upstream@mediatek.com>,
-	linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH v2] task_work: kasan: record task_work_add() call stack
-Message-ID: <20210316175455.GA25881@redhat.com>
-References: <20210316024410.19967-1-walter-zh.wu@mediatek.com>
+	kasan-dev@googlegroups.com, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: Issue with kfence and kmemleak
+Message-ID: <20210316181938.GA28565@arm.com>
+References: <YFDf6iKH1p/jGnM0@suse.de>
+ <YFDrGL45JxFHyajD@elver.google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <20210316024410.19967-1-walter-zh.wu@mediatek.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Original-Sender: oleg@redhat.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@redhat.com header.s=mimecast20190719 header.b=dRepZzYg;
-       spf=pass (google.com: domain of oleg@redhat.com designates
- 216.205.24.124 as permitted sender) smtp.mailfrom=oleg@redhat.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
+In-Reply-To: <YFDrGL45JxFHyajD@elver.google.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Original-Sender: catalin.marinas@arm.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of cmarinas@kernel.org designates 198.145.29.99 as
+ permitted sender) smtp.mailfrom=cmarinas@kernel.org;       dmarc=fail (p=NONE
+ sp=NONE dis=NONE) header.from=arm.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -151,24 +131,100 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 03/16, Walter Wu wrote:
->
-> --- a/kernel/task_work.c
-> +++ b/kernel/task_work.c
-> @@ -34,6 +34,9 @@ int task_work_add(struct task_struct *task, struct callback_head *work,
->  {
->  	struct callback_head *head;
->
-> +	/* record the work call stack in order to print it in KASAN reports */
-> +	kasan_record_aux_stack(work);
-> +
->  	do {
->  		head = READ_ONCE(task->task_works);
->  		if (unlikely(head == &work_exited))
+On Tue, Mar 16, 2021 at 06:30:00PM +0100, Marco Elver wrote:
+> On Tue, Mar 16, 2021 at 04:42PM +0000, Luis Henriques wrote:
+> > This is probably a known issue, but just in case: looks like it's not
+> > possible to use kmemleak when kfence is enabled:
+> > 
+> > [    0.272136] kmemleak: Cannot insert 0xffff888236e02f00 into the object search tree (overlaps existing)
+> > [    0.272136] CPU: 0 PID: 8 Comm: kthreadd Not tainted 5.12.0-rc3+ #92
+> > [    0.272136] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.14.0-0-g155821a-rebuilt.opensuse.org 04/01/2014
+> > [    0.272136] Call Trace:
+> > [    0.272136]  dump_stack+0x6d/0x89
+> > [    0.272136]  create_object.isra.0.cold+0x40/0x62
+> > [    0.272136]  ? process_one_work+0x5a0/0x5a0
+> > [    0.272136]  ? process_one_work+0x5a0/0x5a0
+> > [    0.272136]  kmem_cache_alloc_trace+0x110/0x2f0
+> > [    0.272136]  ? process_one_work+0x5a0/0x5a0
+> > [    0.272136]  kthread+0x3f/0x150
+> > [    0.272136]  ? lockdep_hardirqs_on_prepare+0xd4/0x170
+> > [    0.272136]  ? __kthread_bind_mask+0x60/0x60
+> > [    0.272136]  ret_from_fork+0x22/0x30
+> > [    0.272136] kmemleak: Kernel memory leak detector disabled
+> > [    0.272136] kmemleak: Object 0xffff888236e00000 (size 2097152):
+> > [    0.272136] kmemleak:   comm "swapper", pid 0, jiffies 4294892296
+> > [    0.272136] kmemleak:   min_count = 0
+> > [    0.272136] kmemleak:   count = 0
+> > [    0.272136] kmemleak:   flags = 0x1
+> > [    0.272136] kmemleak:   checksum = 0
+> > [    0.272136] kmemleak:   backtrace:
+> > [    0.272136]      memblock_alloc_internal+0x6d/0xb0
+> > [    0.272136]      memblock_alloc_try_nid+0x6c/0x8a
+> > [    0.272136]      kfence_alloc_pool+0x26/0x3f
+> > [    0.272136]      start_kernel+0x242/0x548
+> > [    0.272136]      secondary_startup_64_no_verify+0xb0/0xbb
+> > 
+> > I've tried the hack below but it didn't really helped.  Obviously I don't
+> > really understand what's going on ;-)  But I think the reason for this
+> > patch not working as (I) expected is because kfence is initialised
+> > *before* kmemleak.
+> > 
+> > diff --git a/mm/kfence/core.c b/mm/kfence/core.c
+> > index 3b8ec938470a..b4ffd7695268 100644
+> > --- a/mm/kfence/core.c
+> > +++ b/mm/kfence/core.c
+> > @@ -631,6 +631,9 @@ void __init kfence_alloc_pool(void)
+> >  
+> >  	if (!__kfence_pool)
+> >  		pr_err("failed to allocate pool\n");
+> > +	kmemleak_no_scan(__kfence_pool);
+> >  }
+> 
+> Can you try the below patch?
+> 
+> Thanks,
+> -- Marco
+> 
+> ------ >8 ------
+> 
+> diff --git a/mm/kfence/core.c b/mm/kfence/core.c
+> index f7106f28443d..5891019721f6 100644
+> --- a/mm/kfence/core.c
+> +++ b/mm/kfence/core.c
+> @@ -12,6 +12,7 @@
+>  #include <linux/debugfs.h>
+>  #include <linux/kcsan-checks.h>
+>  #include <linux/kfence.h>
+> +#include <linux/kmemleak.h>
+>  #include <linux/list.h>
+>  #include <linux/lockdep.h>
+>  #include <linux/memblock.h>
+> @@ -481,6 +482,13 @@ static bool __init kfence_init_pool(void)
+>  		addr += 2 * PAGE_SIZE;
+>  	}
+>  
+> +	/*
+> +	 * The pool is live and will never be deallocated from this point on;
+> +	 * tell kmemleak this is now free memory, so that later allocations can
+> +	 * correctly be tracked.
+> +	 */
+> +	kmemleak_free_part_phys(__pa(__kfence_pool), KFENCE_POOL_SIZE);
 
-Acked-by: Oleg Nesterov <oleg@redhat.com>
+I presume this pool does not refer any objects that are only tracked
+through pool pointers.
+
+kmemleak_free() (or *_free_part) should work, no need for the _phys
+variant (which converts it back with __va).
+
+Since we normally use kmemleak_ignore() (or no_scan) for objects we
+don't care about, I'd expand the comment that this object needs to be
+removed from the kmemleak object tree as it will overlap with subsequent
+allocations handled by kfence which return pointers within this range.
+
+-- 
+Catalin
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210316175455.GA25881%40redhat.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210316181938.GA28565%40arm.com.
