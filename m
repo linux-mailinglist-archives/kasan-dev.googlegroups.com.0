@@ -1,144 +1,133 @@
-Return-Path: <kasan-dev+bncBDLKPY4HVQKBBJ62YGBAMGQE7A7M7WY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCOYZDMZ6UMRBHUGYKBAMGQE7CNB5AQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wr1-x43c.google.com (mail-wr1-x43c.google.com [IPv6:2a00:1450:4864:20::43c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D72533CFE7
-	for <lists+kasan-dev@lfdr.de>; Tue, 16 Mar 2021 09:32:40 +0100 (CET)
-Received: by mail-wr1-x43c.google.com with SMTP id h30sf16355709wrh.10
-        for <lists+kasan-dev@lfdr.de>; Tue, 16 Mar 2021 01:32:40 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1615883560; cv=pass;
+Received: from mail-io1-xd3b.google.com (mail-io1-xd3b.google.com [IPv6:2607:f8b0:4864:20::d3b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FEEA33D15F
+	for <lists+kasan-dev@lfdr.de>; Tue, 16 Mar 2021 11:06:24 +0100 (CET)
+Received: by mail-io1-xd3b.google.com with SMTP id v5sf22849232ioq.19
+        for <lists+kasan-dev@lfdr.de>; Tue, 16 Mar 2021 03:06:24 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1615889182; cv=pass;
         d=google.com; s=arc-20160816;
-        b=hwFCX5n29ABb/yAgRC4QdQbO0r+0jWrGDSXiQvaStj5k9mnm4cDTadTDkpRCes4c6G
-         Tx0g7yL8fGEY75qoC+DQKAqc8vW1EghIEiz+j7dy7J6bR/A8TZ81z7PXcOoAXCMKnZnr
-         DT9ycL4hUSYKdqfsjlzl25YQ5nnYFPsyuoy8YcExKLvG1OpR8OW5njirWRBRWBRQ5wik
-         q4cpe7yp8KfUQZyfEfvY2yi6qw8f9k8JVm/ZovfHMPHZERuD6rvBUsxq8DPd5fNmnc9k
-         I2pwEldfDiJNrtBtAwEt13DFhXGbAzygx3ig5Km4Xi+fykyJClIrx0uCdkBPrP18C/RA
-         jBMQ==
+        b=NDu2KRwYMMtNfAk9msQT9hZWKUs2udzfVFX72PrSSXtrnbwVWF5lu8fG2cj2nuLjDO
+         N0lVB8XrrGwUFv64NF+oHnYyv97LpAb/CKkW/RtLxpZ5wQgRm7j4AbyoD+P8aqkoJQ4z
+         tfagXej+dzkmRcLepNbRlFkO2DjSnS18ViELKFBYOmM8Pl8RhzM3tQAE/hz4QtKIuNLJ
+         GA/RoR4FjH7RoaqPJ2/1LQiLD1fLrHyLESJwGCBbJI0agLPveFFC7ogNKa5cvopv2MWp
+         pwSBy8vv5tt1dsFlXHJmrTM06OJlSTylf2tHofxWvmQUVdPHMWjav07uAWz+KHCZzdF5
+         QTJg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding
-         :content-language:in-reply-to:mime-version:user-agent:date
-         :message-id:from:references:cc:to:subject:sender:dkim-signature;
-        bh=4U7BxUlzEyNGAnVynxycWkHlsoB3KpqMVQyczTFU3J4=;
-        b=n4h1TisxmW971T7dfcWst27GbZDtTsQjiMSOwVSRKaPeexTo0SMXstSWvWacrUa02V
-         ZyzUI2jUFnCAHy4GMLZTpTp5aJr1bKUwtXLxkg6OyTSx/SIiYA4GSkz98AR2hhxCAQE7
-         +PQd+uJMc6bemabhmdaLmdjOxK2/N0Wxjx4zBcyqKOclnLQWAqK1Z7UtMuJhS5zI18H/
-         oXpnOFr4FS8eJpXbbgbLG9LxXgAPvg0+twxWSL9JA2qYWuNCQr5bL2b7XVpSrdaCnHPi
-         WU33MaN7osZRRvoTSqL6vJpKNNCDuiW+7OCMjTL0Lqr+8IEoKEK16vjdVl8iPj840dg4
-         lHGw==
+         :list-id:mailing-list:precedence:content-language:in-reply-to
+         :mime-version:user-agent:date:message-id:from:references:cc:to
+         :subject:sender:dkim-signature;
+        bh=16giEW1Ncwiwnq2zXDatXiAlr6F+hSR74Graa01p5dU=;
+        b=mgGVeH6vL5Z44WB+IypYpAP/FkeuSu32ZNAWdcJZ3u/ABcXbf9fYaLf3wNqx8m++fs
+         tgiTJ9Kl/A6Tl/gKo7LPjoW6TFaGhQ1krPLnys2WjbiIRtuK/XaM32U67P0ptNekRNMg
+         wJwV2Fg3jj/ehpKWM2Zo2O4mPssipa4Q9jaBLlt9L7OKm46qkm9X5q+GAa+n6xXl1+/t
+         gtP6wuN0Kf8Q9H+zLgzWDKz6xm46FaF08utInole88DL04LZfOJ+Q6/DC7LEVZ7uX008
+         izpDY/EQt0uPNM2Utam2L078Gn2MIoJm30HbpHmTjbV0ymjV37YQp1RDzz4k6UdHWuAu
+         EIQw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of christophe.leroy@csgroup.eu designates 93.17.236.30 as permitted sender) smtp.mailfrom=christophe.leroy@csgroup.eu
+       spf=pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=vincenzo.frascino@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
         h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=4U7BxUlzEyNGAnVynxycWkHlsoB3KpqMVQyczTFU3J4=;
-        b=r6oS2wr24JHbn7UXo8Aj0Q85uNXhqAMxdP49GY7Ys+0um7mCxRYKYo02ji+k9P+tNU
-         KDGQMIGXmPcNDUMZTlu0T6vjxReRfDw8ON2TqMkVr2tCRoTZv3w0kkqxiL9mMXJ+Ouuj
-         IFQ6afaG+0BFQPMlrWbZCbfkY24had09oIo03szTlrwLxsGsQ7cBPakjtTqTLTxE271p
-         X5Bi1dIjCxk9a2gEN9/374+3V1aQHeg0j50O1qqNXv/3KCZXuq6ymRm1DvX0+v2WoxZq
-         fVGiFFofgVVhziS2VcU0j4/VrnSLTSkkQHddvtHr9b6pLCPmIuz6uUjvDgFwgD0W0+Xq
-         Aj3w==
+         :mime-version:in-reply-to:content-language:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=16giEW1Ncwiwnq2zXDatXiAlr6F+hSR74Graa01p5dU=;
+        b=cP+iGEcJjS7jsSqaOGlbjnIRqCyojseHtE8iB96di6836Y/RDzPe6TEH/jpk+MdOlE
+         d5OH86Q/Oz4p828P+NT58FhRQEb7N/8GJroxh4A9Pj4Lmw8DcsjiMJhJI4ER72oqlic9
+         i1xTR/TYioAnAeHkXHZVzRnYODD5eCVwkdKKyx+/5mxOJV00HX8otA0ncRVjynjcWAbR
+         HlZclp9F/T24tNLuNGaUYLr2CAweqUdS6gZa9E4W0U6rtaJYkcuHixrt3hd0zdFDbk+M
+         E4uvPmD1mkPj+udXAfm0SzlmwKpPcw1sXIBaVEcNJktQ4T+H1+3VXoxLqyiIEEj8T6zW
+         OAtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:subject:to:cc:references:from:message-id
          :date:user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=4U7BxUlzEyNGAnVynxycWkHlsoB3KpqMVQyczTFU3J4=;
-        b=keM6Wi3BlxZU7gxUAhGt2La5odnwxM7p4vdzZ6POVz7OxoKYO8QjjXIKeY2rudoNpw
-         +IiLBtnViFaVEfWeO2jhyp0XZ8N0jiYLFEiya4TSsN68UvyDtL4hP89ZS1OZIKq4l6FC
-         ekw8OxvNfPol8jrDJwSVpMcVwBiLy7JOBVsDhfctO5qVSYpdwX+O46MqCC0D6m/lbX8Z
-         bMfNG5J21coRkqGcM1gmZMefaeFJDBRfEOrqiL8QmD96H1avELNZpjso6Vk+r/qcJs1b
-         984frubJvShTIiIxNZYzAPf8Hojq9eCiovvmiVwoM9XUB4FfF4dDduc/cqUa4czENcN9
-         2C7A==
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=16giEW1Ncwiwnq2zXDatXiAlr6F+hSR74Graa01p5dU=;
+        b=edLcljDLJTEd4RjnzveQiMa4NzjFGkU6KDb2EjYUuSGUGSMfrhNcbNWhWE4MDv1UPp
+         GhjAwHNQeeX3h4XWqflKCVHlFxxPI1rqPBLfYfbd1XTcLV/vb/TVZkBKDoOMLwLAW2OV
+         VeMPW78UXZC37TndeLjM1mNLzBTOtgfkf3d2gk4Zwyawl70BG9ba1UFvUxUHg9Ay3/VI
+         +iPLfRBuoPtZKFBiUi/kD/NhCkRKOEmvnQXMuQDiZFRjlsxPg5wK392E0FF7dVuGM7hl
+         gdGs4WPaEj7UkhwSUmf4hLfZSYTp3ONw/pD5LimWt1v4kx+ohOUjhWrBDIFncphRQfWV
+         86vA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM530R239rWrRFp2yU7VYqYsT+6mjQPBo0P00d6xqc/txubCeh84kL
-	oxll1ZTTbOg8yNHCMbfFLzg=
-X-Google-Smtp-Source: ABdhPJyLqiND0SYMIvbyhx9jw2l1TqyG1gXWrd6PUoHFMa52nbtSy9mKf9Iq7YQhcweNxQACrHtjXQ==
-X-Received: by 2002:adf:db4c:: with SMTP id f12mr3550754wrj.93.1615883559888;
-        Tue, 16 Mar 2021 01:32:39 -0700 (PDT)
+X-Gm-Message-State: AOAM531a61/3K4pbcIkTxNdNXY1G2SNS5hTp51lFL6SAMI3Rv9XQXzLg
+	JQwr6qSyMAyT79LkEOv9YK8=
+X-Google-Smtp-Source: ABdhPJzkhSL8W+Z/g6NeVP5shbyocMlup40lr+9YfsrVbeG2ODdWCaNy0ZU4/A3GcKgv9hIY6XT7OA==
+X-Received: by 2002:a05:6e02:802:: with SMTP id u2mr2916140ilm.298.1615889182472;
+        Tue, 16 Mar 2021 03:06:22 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:600c:1546:: with SMTP id f6ls1452271wmg.3.canary-gmail;
- Tue, 16 Mar 2021 01:32:39 -0700 (PDT)
-X-Received: by 2002:a1c:7fc9:: with SMTP id a192mr3420226wmd.15.1615883559076;
-        Tue, 16 Mar 2021 01:32:39 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1615883559; cv=none;
+Received: by 2002:a05:6e02:692:: with SMTP id o18ls4303314ils.0.gmail; Tue, 16
+ Mar 2021 03:06:22 -0700 (PDT)
+X-Received: by 2002:a05:6e02:1b8e:: with SMTP id h14mr3125318ili.300.1615889182169;
+        Tue, 16 Mar 2021 03:06:22 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1615889182; cv=none;
         d=google.com; s=arc-20160816;
-        b=rR7yNP43BgD/ht6WGlAVU1mv4VrtT7O83NfQ+rIe3hn9sicV5qrJqpMGAhou6hHB0q
-         9dtX0FwNeEIHzkjHyd7PKlv9mhy85ablT6+T33FWheMSsqKm34kJFFyZuHULI7VtcZ7T
-         jz7jLHA0R78JKzE5NVWkBFNFxb0pPjHYixP93fQkBfRq8qgGZqXcz/nIBE+/fA9CYSl1
-         3/nXZ0JQ7KbwCX5UiLtD0NsDR7Z/jx1CSCR8Vq/qwKbpSWrHIpY2MUsIeVumUw7a7SYZ
-         bZ3x2/qC3xXB/UIOleF2KJn+aYW2lZ9DZx4TSmfxiTymlsZcUZlXwpouh94EW54STA0c
-         9ZgA==
+        b=z1k1dFtBYhTQAAia4zaEid7Xbj+nZaXDMHlmI+Ayb15HOx+vrhU1EG5iqGHadhiICC
+         328Ak4vLaB77zGq5+e8okodhoOed8FIIeRgtqxsrSro40IcNxaJXAc3Lu/T/F1U53Klq
+         TYoIsb95PWpKNjRVihLJAXxpOAsFpiyx9cBPMymliMklzP4rOHwcriKNeLZzFOKhwShW
+         L6gjmq7YnOFcRh0f9/eduja7MfBofaxITqjdlcngydOYyRvBEPAqfwgsaBloqCp9hwg9
+         rFDcqVF2JkHcUl22pI627XVLHxwtnbLyL7ilBxM2qqz/fm3enxINeWxmCw6cF+zVTkG/
+         mCUw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:content-language:in-reply-to:mime-version
          :user-agent:date:message-id:from:references:cc:to:subject;
-        bh=dakvnM85NLOgwPHhk/GAs2gr3/rtNx7+zqP36xIqwGw=;
-        b=UOTxinESAtybr0Xwtrc9fQAzF2sHUxkue1UzCK7ELneAnifDC8yVfVuudJOAz9Owl5
-         9+pZTAdsPy176YRuGM0rKeUAqJQrC4vRwFtaEMWKFWYERiDhb6t9tGMmycJX8Pg6XCZM
-         0BNO5qDOKAcAhdr9RCIDfpQ6jQ6evqyY+1pTPRYfGx1iuAcS/C4kVx0QrAeNnoDFbbx2
-         ZB2MnMvVZcOKbF6Q2syzjmKRq1JHtsu/DQmzs+UkRQ6089Jz3qXRyEriPNNsjGkJ4RRO
-         tGRpTTe0L1Blwh8IhLyVny5s3Nkei2cdKDK6UglEDf/D5gPZZs/06u6eOrPm7+02E1ZK
-         3uJA==
+        bh=/Ead4NYAgZlcXhv3c1RbUzthtg90m6Gv+G3I6l3FY48=;
+        b=NDvab4+tDUgen/8R7omLKWJwk+/jbwd+0UqOCDgDuC5pUXqRxj2HG2JuuwPfZh7Mw3
+         iSo9+7YHzW2Mc4/2x/84Ft38OIzRRdLYPiOXLjZd9EQjE1amwzhA+5p5fggmVm/UpRfT
+         cJhcOEaYgfH5NySC2+3Rc0oU8snkK0SXzco5CpDvudmN7UheMSvuAm79kBfuZpPHh3Po
+         RWptrl+tYjZ7hMbi1uUTAz2vTbMMsY7N+rrkxjCj5yzdtz3B3e42dcsLpj57b6YGRs+y
+         z8cd/XSQGtEkwXSb4tqI4y1D2LU7eL927JlmkXyBBE7t0hTFnE7SeBKKnqMCzsSCdH3z
+         OUiA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of christophe.leroy@csgroup.eu designates 93.17.236.30 as permitted sender) smtp.mailfrom=christophe.leroy@csgroup.eu
-Received: from pegase1.c-s.fr (pegase1.c-s.fr. [93.17.236.30])
-        by gmr-mx.google.com with ESMTPS id b6si953759wmc.2.2021.03.16.01.32.38
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 16 Mar 2021 01:32:39 -0700 (PDT)
-Received-SPF: pass (google.com: domain of christophe.leroy@csgroup.eu designates 93.17.236.30 as permitted sender) client-ip=93.17.236.30;
-Received: from localhost (mailhub1-int [192.168.12.234])
-	by localhost (Postfix) with ESMTP id 4F063n3w10z9v02D;
-	Tue, 16 Mar 2021 09:32:37 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at c-s.fr
-Received: from pegase1.c-s.fr ([192.168.12.234])
-	by localhost (pegase1.c-s.fr [192.168.12.234]) (amavisd-new, port 10024)
-	with ESMTP id l5wHRkQBPkSS; Tue, 16 Mar 2021 09:32:37 +0100 (CET)
-Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
-	by pegase1.c-s.fr (Postfix) with ESMTP id 4F063n0rlPz9v02C;
-	Tue, 16 Mar 2021 09:32:37 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by messagerie.si.c-s.fr (Postfix) with ESMTP id E4E128B789;
-	Tue, 16 Mar 2021 09:32:37 +0100 (CET)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from messagerie.si.c-s.fr ([127.0.0.1])
-	by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
-	with ESMTP id jhvqrq-uzdBC; Tue, 16 Mar 2021 09:32:37 +0100 (CET)
-Received: from [192.168.4.90] (unknown [192.168.4.90])
-	by messagerie.si.c-s.fr (Postfix) with ESMTP id 3ADBD8B782;
-	Tue, 16 Mar 2021 09:32:37 +0100 (CET)
-Subject: Re: [PATCH mm] kfence: fix printk format for ptrdiff_t
-To: Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>,
- Segher Boessenkool <segher@kernel.crashing.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- Dmitriy Vyukov <dvyukov@google.com>, Andrey Konovalov
- <andreyknvl@google.com>, Jann Horn <jannh@google.com>,
- LKML <linux-kernel@vger.kernel.org>,
- Linux Memory Management List <linux-mm@kvack.org>,
- kasan-dev <kasan-dev@googlegroups.com>
-References: <20210303121157.3430807-1-elver@google.com>
- <CAG_fn=W-jmnMWO24ZKdkR13K0h_0vfR=ceCVSrYOCCmDsHUxkQ@mail.gmail.com>
-From: Christophe Leroy <christophe.leroy@csgroup.eu>
-Message-ID: <c1fea2e6-4acf-1fff-07ff-1b430169f22f@csgroup.eu>
-Date: Tue, 16 Mar 2021 09:32:32 +0100
-User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+       spf=pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=vincenzo.frascino@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
+Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
+        by gmr-mx.google.com with ESMTP id w1si848113ilh.2.2021.03.16.03.06.22
+        for <kasan-dev@googlegroups.com>;
+        Tue, 16 Mar 2021 03:06:22 -0700 (PDT)
+Received-SPF: pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 92DE3D6E;
+	Tue, 16 Mar 2021 03:06:21 -0700 (PDT)
+Received: from [10.37.8.5] (unknown [10.37.8.5])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8BCF73F70D;
+	Tue, 16 Mar 2021 03:06:19 -0700 (PDT)
+Subject: Re: [PATCH v16 6/9] arm64: mte: Conditionally compile
+ mte_enable_kernel_*()
+To: Catalin Marinas <catalin.marinas@arm.com>
+Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ kasan-dev@googlegroups.com, Andrew Morton <akpm@linux-foundation.org>,
+ Will Deacon <will@kernel.org>, Dmitry Vyukov <dvyukov@google.com>,
+ Andrey Ryabinin <aryabinin@virtuozzo.com>,
+ Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>,
+ Evgenii Stepanov <eugenis@google.com>,
+ Branislav Rankov <Branislav.Rankov@arm.com>,
+ Andrey Konovalov <andreyknvl@gmail.com>,
+ Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+References: <20210315132019.33202-1-vincenzo.frascino@arm.com>
+ <20210315132019.33202-7-vincenzo.frascino@arm.com>
+ <20210315184152.GC22897@arm.com>
+From: Vincenzo Frascino <vincenzo.frascino@arm.com>
+Message-ID: <3f0b916b-efa5-ad35-b838-34f1edf2ba3a@arm.com>
+Date: Tue, 16 Mar 2021 10:06:18 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <CAG_fn=W-jmnMWO24ZKdkR13K0h_0vfR=ceCVSrYOCCmDsHUxkQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Language: fr
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: christophe.leroy@csgroup.eu
+In-Reply-To: <20210315184152.GC22897@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Language: en-US
+X-Original-Sender: vincenzo.frascino@arm.com
 X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of christophe.leroy@csgroup.eu designates 93.17.236.30 as
- permitted sender) smtp.mailfrom=christophe.leroy@csgroup.eu
+ (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172
+ as permitted sender) smtp.mailfrom=vincenzo.frascino@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -151,104 +140,30 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-+segher
 
-Le 03/03/2021 =C3=A0 13:27, Alexander Potapenko a =C3=A9crit=C2=A0:
-> On Wed, Mar 3, 2021 at 1:12 PM Marco Elver <elver@google.com> wrote:
+
+On 3/15/21 6:41 PM, Catalin Marinas wrote:
+> On Mon, Mar 15, 2021 at 01:20:16PM +0000, Vincenzo Frascino wrote:
+>> mte_enable_kernel_*() are not needed if KASAN_HW is disabled.
 >>
->> Use %td for ptrdiff_t.
+>> Add ash defines around the functions to conditionally compile the
+>> functions.
 >>
->> Link: https://lkml.kernel.org/r/3abbe4c9-16ad-c168-a90f-087978ccd8f7@csg=
-roup.eu
->> Reported-by: Christophe Leroy <christophe.leroy@csgroup.eu>
->> Signed-off-by: Marco Elver <elver@google.com>
-> Reviewed-by: Alexander Potapenko <glider@google.com>
->=20
+>> Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
+> 
+> Acked-by: Catalin Marinas <catalin.marinas@arm.com>
+> 
+> (BTW, Andrey now has a different email address; use the one in the
+> MAINTAINERS file)
+> 
 
-Still a problem.
+I did not notice the change, sorry. Than you for updating the address.
 
-I don't understand, gcc bug ?
+-- 
+Regards,
+Vincenzo
 
-The offending argument is 'const ptrdiff_t object_index'
-
-We have:
-
-arch/powerpc/include/uapi/asm/posix_types.h:typedef long		__kernel_ptrdiff_=
-t;
-include/linux/types.h:typedef __kernel_ptrdiff_t	ptrdiff_t;
-
-And get:
-
-   CC      mm/kfence/report.o
-In file included from ./include/linux/printk.h:7,
-                  from ./include/linux/kernel.h:16,
-                  from mm/kfence/report.c:10:
-mm/kfence/report.c: In function 'kfence_report_error':
-./include/linux/kern_levels.h:5:18: warning: format '%td' expects argument =
-of type 'ptrdiff_t', but=20
-argument 6 has type 'long int' [-Wformat=3D]
-     5 | #define KERN_SOH "\001"  /* ASCII Start Of Header */
-       |                  ^~~~~~
-./include/linux/kern_levels.h:11:18: note: in expansion of macro 'KERN_SOH'
-    11 | #define KERN_ERR KERN_SOH "3" /* error conditions */
-       |                  ^~~~~~~~
-./include/linux/printk.h:343:9: note: in expansion of macro 'KERN_ERR'
-   343 |  printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
-       |         ^~~~~~~~
-mm/kfence/report.c:213:3: note: in expansion of macro 'pr_err'
-   213 |   pr_err("Out-of-bounds %s at 0x%p (%luB %s of kfence-#%td):\n",
-       |   ^~~~~~
-./include/linux/kern_levels.h:5:18: warning: format '%td' expects argument =
-of type 'ptrdiff_t', but=20
-argument 4 has type 'long int' [-Wformat=3D]
-     5 | #define KERN_SOH "\001"  /* ASCII Start Of Header */
-       |                  ^~~~~~
-./include/linux/kern_levels.h:11:18: note: in expansion of macro 'KERN_SOH'
-    11 | #define KERN_ERR KERN_SOH "3" /* error conditions */
-       |                  ^~~~~~~~
-./include/linux/printk.h:343:9: note: in expansion of macro 'KERN_ERR'
-   343 |  printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
-       |         ^~~~~~~~
-mm/kfence/report.c:222:3: note: in expansion of macro 'pr_err'
-   222 |   pr_err("Use-after-free %s at 0x%p (in kfence-#%td):\n",
-       |   ^~~~~~
-./include/linux/kern_levels.h:5:18: warning: format '%td' expects argument =
-of type 'ptrdiff_t', but=20
-argument 2 has type 'long int' [-Wformat=3D]
-     5 | #define KERN_SOH "\001"  /* ASCII Start Of Header */
-       |                  ^~~~~~
-./include/linux/kern_levels.h:24:19: note: in expansion of macro 'KERN_SOH'
-    24 | #define KERN_CONT KERN_SOH "c"
-       |                   ^~~~~~~~
-./include/linux/printk.h:385:9: note: in expansion of macro 'KERN_CONT'
-   385 |  printk(KERN_CONT fmt, ##__VA_ARGS__)
-       |         ^~~~~~~~~
-mm/kfence/report.c:229:3: note: in expansion of macro 'pr_cont'
-   229 |   pr_cont(" (in kfence-#%td):\n", object_index);
-       |   ^~~~~~~
-./include/linux/kern_levels.h:5:18: warning: format '%td' expects argument =
-of type 'ptrdiff_t', but=20
-argument 3 has type 'long int' [-Wformat=3D]
-     5 | #define KERN_SOH "\001"  /* ASCII Start Of Header */
-       |                  ^~~~~~
-./include/linux/kern_levels.h:11:18: note: in expansion of macro 'KERN_SOH'
-    11 | #define KERN_ERR KERN_SOH "3" /* error conditions */
-       |                  ^~~~~~~~
-./include/linux/printk.h:343:9: note: in expansion of macro 'KERN_ERR'
-   343 |  printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
-       |         ^~~~~~~~
-mm/kfence/report.c:239:3: note: in expansion of macro 'pr_err'
-   239 |   pr_err("Invalid free of 0x%p (in kfence-#%td):\n", (void *)addre=
-ss,
-       |   ^~~~~~
-
-
-Christophe
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/c1fea2e6-4acf-1fff-07ff-1b430169f22f%40csgroup.eu.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/3f0b916b-efa5-ad35-b838-34f1edf2ba3a%40arm.com.
