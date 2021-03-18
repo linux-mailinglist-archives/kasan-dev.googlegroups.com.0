@@ -1,151 +1,128 @@
-Return-Path: <kasan-dev+bncBDLKPY4HVQKBBKV7ZSBAMGQENL55FPY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDDL3KWR4EBRBTWEZ2BAMGQEM6JIVYI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x237.google.com (mail-lj1-x237.google.com [IPv6:2a00:1450:4864:20::237])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CDA8340239
-	for <lists+kasan-dev@lfdr.de>; Thu, 18 Mar 2021 10:38:51 +0100 (CET)
-Received: by mail-lj1-x237.google.com with SMTP id d16sf16093170lja.12
-        for <lists+kasan-dev@lfdr.de>; Thu, 18 Mar 2021 02:38:51 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1616060330; cv=pass;
+Received: from mail-ua1-x93c.google.com (mail-ua1-x93c.google.com [IPv6:2607:f8b0:4864:20::93c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DB2B340D94
+	for <lists+kasan-dev@lfdr.de>; Thu, 18 Mar 2021 19:56:15 +0100 (CET)
+Received: by mail-ua1-x93c.google.com with SMTP id 41sf5800650uag.11
+        for <lists+kasan-dev@lfdr.de>; Thu, 18 Mar 2021 11:56:15 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1616093774; cv=pass;
         d=google.com; s=arc-20160816;
-        b=LzShFuuHQMLOUTeCBOV/9gA32BLNbV4ejtng8ZSQyU5PEf1ZnIJ7o845JGkobO/OO1
-         flTi72u3JOQQkLuGXjiDvlayyVGKLX52oDUFIvWWm3zYWJN005Uchzr0Yul8tqKFMhHz
-         qbc/VIF8HB8pfASC82kR5/auSu+B1LYFXitU81RrTtuxDIoCefjnXS4Z/Q9+WS1RxRua
-         uDtaTflMkoamwEFC1LtG0GudZ4WCqjfVmeFh19vxFGpZJms0KRqGGnF4nMbI8hzJv2R0
-         J3SB9trO2Dq5pfd+//zz6WvhZ6C8hDo62nhg1jAY/HOoDN3/WQ/FE5PPaUEKb9mNxh5J
-         NRzg==
+        b=KzqrivD024kNkKzHacyutu7czPXBR7TnDKFZdNdokUW7XN8Bx/EfsG9ca2IMBHjyeQ
+         4EtDmLHA275BcHXj/4CJxlFJ2ZxRLqnJz25kJOFCDrhz7LftIEozauOTHSJ1GRT1x9Mw
+         +X3yEuh0oCAZlcKNP5fjKshq9gNMJoek1xw2O+qFCc8+RzeNII9RVFKDeBBQRO7x8Ezi
+         KeLFICPw3EkBU+xDiTrUBTp5ROiWzdkFB6yEJ2KeliHfYu8SjiJlrpUqXeLsEZ0+ueNe
+         U5UXhis5Z44cmcvFuVGzajHX/rDYeeKY0LR1Bgh3vItpAKRohC93ngsiaN7pa+zm+fi2
+         +I3g==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding
-         :content-language:in-reply-to:mime-version:user-agent:date
-         :message-id:from:references:cc:to:subject:sender:dkim-signature;
-        bh=/0HeIvuPxlaNH4QRLZX78jdrHz4E6wLQBr1BXnYweEQ=;
-        b=eAVIIKIVoH371zHFV1qSoZ4Z0W3xuQd4/dhzOPQDXil69gqR9Dwf5YaISirT5XfoLk
-         XsbauTJwet46biUi9M4hv8EqeKUN7+He19bSz1HjocT1g3RoZHmIwx7YcCSOj/M2+3cu
-         xWahAH1AL5vHSwFMPU+50vQ20Fck0NmU2jaLxMBxEbayh1T5pCUY1mD5pKrXGn7f6Myf
-         ifQizZN4DPO6cfjqHMMqaiAa8Z6q/+6DU3t23j/hmhUjQ8QimUhCoMLBhevlUgVGHO/E
-         r9kGde1l6EkK4X/S4HVte+2aAQOqW0OUTbQYUkYnixPB8MPSMdMvfId+IhAGjMFD8fLl
-         ZFoQ==
+         :list-id:mailing-list:precedence:user-agent:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:sender:dkim-signature;
+        bh=uioEBRzZdWRmT6wZ69Qa+KVT+RbrHjOcBIrkJmjp1S8=;
+        b=G1x1NEpIufBuO8V9Aea5hawElcwCdupuvYAHxD0Q3Bz4QQAdIILyYSPA/nuUPwEiK3
+         drGuN+zbKoy5L/8dYCmpyv9uMVVjrkNJ/o19cWvtWlSa93qTy9Dqo4T8aY5N7BnZRSrF
+         +quDPDUXVGg3PqZ6SbReEwDd+rf2xccB8s02qXgfkPU0litaEnhaGWYsc7F5Qz9NTpc+
+         4neggWs35zL0cFnWvVjWcYY2M2iVXZ4PANcUPJsDNf3XJUjBEfYD+ST+A3PT0JyeMl0P
+         45OaJuVc7sTB0i9A0ezzVZZ7L7hcpNKfzFiASAMRpWXFjObu5+X2IYMKAkyOVikc8ifo
+         2YpA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of christophe.leroy@csgroup.eu designates 93.17.236.30 as permitted sender) smtp.mailfrom=christophe.leroy@csgroup.eu
+       spf=pass (google.com: domain of cmarinas@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=cmarinas@kernel.org;
+       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=arm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=/0HeIvuPxlaNH4QRLZX78jdrHz4E6wLQBr1BXnYweEQ=;
-        b=e3fDyp6/ZgTMu93EdGgj9Sy4ny3qE3LHOi242FjN2s9Ekir3RnihyHAe/kBCpMbS7R
-         6XfZufhuhU340dXzm+fIRKgr5S8KVBHHXAdjT9aJJpv//HnJJ1KdumhK64aor3uoaTJV
-         8ryEVAvnXai0rIjcichWKWfxezj/w/CkreqIOSWpGj+mQNJgfIcCv7wHtjvVaRL0FTRa
-         QdJcrNYcrEVIO7TVWfrgdjxQQF7NRK7WDx8Nvo2VKer0mr+EFyoJ3COTwkTFbeosCvco
-         TvVCJlCG85VP3bc80KKu+C/Mqq64cP/BDaHHYRH5jie6TcAGKkysPrNf4J0czHubtpeD
-         B5lQ==
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=uioEBRzZdWRmT6wZ69Qa+KVT+RbrHjOcBIrkJmjp1S8=;
+        b=L9Fc1zgOS0s3qOw8nUT6QY9mC/oQ1iciPSu8Ibksgmx0YbHVYH1IsJ6iCchDv9h7rP
+         UWLazi7ShDnFikt4Dwe23bFwRJOH34FUgCHgy5j2w167O+/kdKlv7aM6kpymncxbcGVf
+         S9wBNrGUM9q9HsmTymHA/6YygxGHd9GfRCv1tuVH+Xngsc+rchIIajm7ECGgIPbxcpfc
+         qsRINeQPkvwuSopUWpGUdhVAh8bqSpDigfYyRa1+S6AXj6Pogy74KwolYDYii6wCvArK
+         O/P5c0n9sjCV4QwpsyOeM5EXUnd7QXxvW/WibhtnEaiU21q6yWIIwzN2yzmGtC/m9N28
+         /g+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=/0HeIvuPxlaNH4QRLZX78jdrHz4E6wLQBr1BXnYweEQ=;
-        b=fS5OgUFBQ/qDFjdds1LZtovNMufCF7c2U/ATLoHEUuG/afGPI3Gcym7tN1JbRqW6JQ
-         vMB19Wffg9kD07LIFSmNvkI1Hqe2+Mrv8R9upk29jph4WBfrIf9nSc2w3GJAumyWFZpf
-         NOf03Yyk6AV78QIXh+gcT0jrTD1zpU/sU/rLajgsUJ/vtXpuF6/jT1hDLnTj6Mnu889v
-         DJepYwbXZriDQGUlG3iXc1FwCv26n2t9rTd/cymdFtQ4lbiCmzMg0AZZENMuWYRKW1qp
-         wzlA9Wl5BevRYHC19goDJ5vjXPAxQ+g0wprQjlZyl50cMI2Hh32bqe+rG2GRozAZleN7
-         +9QQ==
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=uioEBRzZdWRmT6wZ69Qa+KVT+RbrHjOcBIrkJmjp1S8=;
+        b=Ly82Lzz4MDwkgnorXeRRZlMx3pKtbGwm6/JtF3LGnnE78z63nGS+ZhxAK/0GRk8Syg
+         t4To24gMo7DdPh+GRZBigXY3LvdW/uYvYxjGBmrzXwFaNNnTmVekELODgXl7tXoNLl3l
+         7P3INorKG1ibALCjVYycvm80QQMvGz0X/mqEGbqMS0ILQ+CK5ur+i8uPfAgx0XYA1rlX
+         /0a/auFF6fls9r03tPbMB+N6hdkOv2gxzBEDG28RWFn0N7Cqyd8KDep6YFf7B0fl8VWK
+         w8226QRtSei4ijUXvjeHj19305mDubIlwp+EsvRsxolHQoweir3yScy/Zmr99FF68X2F
+         bq5A==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM530Htc4nPksEoHwTxSyHLMri5I0IN/wgvQ09y6c5cV3TPvMLrTjG
-	E+gWhrBl0aW+1NW6rnB2Wlc=
-X-Google-Smtp-Source: ABdhPJxj0xCv3+71ETKyZ9yfp/cIPOykQtL1KsHnOhFsLjyNHuW+BFosdZ662BftDlxHiadCz/yiKw==
-X-Received: by 2002:a05:6512:11cc:: with SMTP id h12mr1336272lfr.567.1616060330669;
-        Thu, 18 Mar 2021 02:38:50 -0700 (PDT)
+X-Gm-Message-State: AOAM533W2IbIIJweToT/QZWbdeACmglBoeDWEDNXC1YEfH5LuxceYTvu
+	FaXjyc59fFCeUp9Ly7tbMxE=
+X-Google-Smtp-Source: ABdhPJxiKyoucLI0YTy8uditMR0qwrzMKS3yuRgz3Z5BPh4dyPyNF03RTXVyIBG7sMPs+g7ENnAR9A==
+X-Received: by 2002:ab0:1327:: with SMTP id g36mr3345251uae.16.1616093774191;
+        Thu, 18 Mar 2021 11:56:14 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a2e:bc23:: with SMTP id b35ls199173ljf.7.gmail; Thu, 18 Mar
- 2021 02:38:49 -0700 (PDT)
-X-Received: by 2002:a2e:88cc:: with SMTP id a12mr4722237ljk.402.1616060329397;
-        Thu, 18 Mar 2021 02:38:49 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1616060329; cv=none;
+Received: by 2002:a9f:2e10:: with SMTP id t16ls237794uaj.5.gmail; Thu, 18 Mar
+ 2021 11:56:13 -0700 (PDT)
+X-Received: by 2002:a9f:35a1:: with SMTP id t30mr3443145uad.106.1616093773599;
+        Thu, 18 Mar 2021 11:56:13 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1616093773; cv=none;
         d=google.com; s=arc-20160816;
-        b=orFtaEV8qz6GX/kJwnrHwq+BpwSTzOToDgX5xkhCcv8gQPN6yxbaVkjwYuMyHycGJ+
-         QmJbwKh/RtFgSWnSjmnb6/2BJ+JJ8mdaJwt2M0BhDdmtCp6jpLWYFDa5vXIgJor/3Oy1
-         a+2rne8u12g5sz9z0OlyCeLSs71PRQ7UwuIYJXUh17Dzu2rZfUSdvLWDtrlabdOYUTpL
-         NE0iInVWgGhqOGxmlwhuMpWEs32ecc+EB8a4jIjAcqoVbFy4dEm8DjSguknhH+FzjxbN
-         bKNpu36lX3Cf8TjZKl5B9gEXdjtpvM8J4Cn0VYbM+RewKlU8JxjgDbjJ4vkfsd9Ch5YR
-         odjw==
+        b=nzUiB0bYWIALiJchGvCSuIVk6zKDQ6Te3PPb629xSUeg5gs5hoPGkPu/NrhEuh8NX/
+         4Q3J4s8U7P9OzhPMm19htAGj+Ef7mz63VljqkOGTQpQvjQolQTNOvQ4Tp0MzBvaAWpOi
+         keKrYNeE2Q56qXJvG4m91aaljUg6J8/f+gTLUgnwBioinXoYV3z6/++LJND2WcpJOJSC
+         2/aqv8KOG7vCm1hPj9tuOKISzRSTewB1me48iKeOkrAVVD0CFlkywrx8F8BS9G4MrAYH
+         8QjPKwk07aKrtUAGtUmFaE82XodbsF8//Kz/Rb4GxZtt4UWD2LHaCPdwhK8v9NCAZDJ1
+         cuTg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject;
-        bh=9UaQ/q9qxJhPNgHrYAwfdQCEMy+e3tMoj2NQfRnvREc=;
-        b=QwzwSATE/zWdTJxltJXLTbEwB57hlfLGMKDJjzgAkNGL+vrSCJLQj0+Ff2GJBN0tGG
-         Yd9FkKqTrh2AWXP1tgKWLnv5PC1FiFqJRC+dnd8MeLkRZbcUtLVnoOygMD17ExURFzOO
-         BoJh5BbOhZtW8m0X2bu1PmAt7koF4vaZ4w6Icthpfm8rdujeflk+mOtitZ2mSv/84ous
-         u5J7DEvqp1EuCzBJFNuM+Dg5Egrrai28vfSiVyRFrRKxhyzAXDACOfDeCVoUpIV3e+fV
-         HZ2dUlhIpSNTIQkLlMXqsVnm5HE9wydmpFlxU6gCJ/9qhtpb4t1imDfVND4uEQMsjPlG
-         mpVA==
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date;
+        bh=or4u0oaBIK7/3Vls+HaViVRYBlgFy0iiFSLmIeBLeyo=;
+        b=KIPVVt9runsGflvEq44qeySjmK0ZDdb7lF17lsx/cGN7fiofzdkZMNOdbox43T6ZIb
+         rUqz2b+4SWcXU2ehRy26TeQ77Jruxuam+KOZsEU5mNQc5QsNZWkzcq91SrCrGT7vZ/aa
+         awY740IUny6izlTJiTgiMlJnNM0VRQ878xhLt5HN5AdB9NkzCsg5zutc5lA8C72raQCO
+         NeiXztFvHYJomPrqr57/rEa93lbB+7p0eYg4Fh2U54tKRO5QrnzH/RUeAPuADeXR7GMK
+         76OjEjFUGuUEgKd4ktLQbx+MGnbT8o7OWLigbLk7Ro49v71+2uwt6sOe94iFKwp/WooS
+         wEHg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of christophe.leroy@csgroup.eu designates 93.17.236.30 as permitted sender) smtp.mailfrom=christophe.leroy@csgroup.eu
-Received: from pegase1.c-s.fr (pegase1.c-s.fr. [93.17.236.30])
-        by gmr-mx.google.com with ESMTPS id o10si81733lfg.12.2021.03.18.02.38.49
+       spf=pass (google.com: domain of cmarinas@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=cmarinas@kernel.org;
+       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=arm.com
+Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
+        by gmr-mx.google.com with ESMTPS id j11si178174vsi.0.2021.03.18.11.56.13
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 18 Mar 2021 02:38:49 -0700 (PDT)
-Received-SPF: pass (google.com: domain of christophe.leroy@csgroup.eu designates 93.17.236.30 as permitted sender) client-ip=93.17.236.30;
-Received: from localhost (mailhub1-int [192.168.12.234])
-	by localhost (Postfix) with ESMTP id 4F1MRB6KJyz9twcf;
-	Thu, 18 Mar 2021 10:38:46 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at c-s.fr
-Received: from pegase1.c-s.fr ([192.168.12.234])
-	by localhost (pegase1.c-s.fr [192.168.12.234]) (amavisd-new, port 10024)
-	with ESMTP id Y-YcfSLncL4O; Thu, 18 Mar 2021 10:38:46 +0100 (CET)
-Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
-	by pegase1.c-s.fr (Postfix) with ESMTP id 4F1MRB4pdHz9twcd;
-	Thu, 18 Mar 2021 10:38:46 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by messagerie.si.c-s.fr (Postfix) with ESMTP id BEB3E8B8C9;
-	Thu, 18 Mar 2021 10:38:47 +0100 (CET)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from messagerie.si.c-s.fr ([127.0.0.1])
-	by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
-	with ESMTP id feJZioXZgfgZ; Thu, 18 Mar 2021 10:38:47 +0100 (CET)
-Received: from [192.168.4.90] (unknown [192.168.4.90])
-	by messagerie.si.c-s.fr (Postfix) with ESMTP id 1693B8B881;
-	Thu, 18 Mar 2021 10:38:47 +0100 (CET)
-Subject: Re: [PATCH mm] kfence: fix printk format for ptrdiff_t
-To: David Laight <David.Laight@ACULAB.COM>,
- Segher Boessenkool <segher@kernel.crashing.org>
-Cc: Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Dmitriy Vyukov <dvyukov@google.com>, Andrey Konovalov
- <andreyknvl@google.com>, Jann Horn <jannh@google.com>,
- LKML <linux-kernel@vger.kernel.org>,
- Linux Memory Management List <linux-mm@kvack.org>,
- kasan-dev <kasan-dev@googlegroups.com>
-References: <20210303121157.3430807-1-elver@google.com>
- <CAG_fn=W-jmnMWO24ZKdkR13K0h_0vfR=ceCVSrYOCCmDsHUxkQ@mail.gmail.com>
- <c1fea2e6-4acf-1fff-07ff-1b430169f22f@csgroup.eu>
- <20210316153320.GF16691@gate.crashing.org>
- <3f624e5b-567d-70f9-322f-e721b2df508b@csgroup.eu>
- <6d4b370dc76543f2ba8ad7c6dcdfc7af@AcuMS.aculab.com>
- <001a139e-d4fa-2fd7-348f-173392210dfd@csgroup.eu>
- <4f7becfe2b6e4263be83b5ee461b5732@AcuMS.aculab.com>
-From: Christophe Leroy <christophe.leroy@csgroup.eu>
-Message-ID: <e4577151-bc73-5033-a9ed-114dd0c1aaaf@csgroup.eu>
-Date: Thu, 18 Mar 2021 10:38:43 +0100
-User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 18 Mar 2021 11:56:13 -0700 (PDT)
+Received-SPF: pass (google.com: domain of cmarinas@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0547864E64;
+	Thu, 18 Mar 2021 18:56:09 +0000 (UTC)
+Date: Thu, 18 Mar 2021 18:56:07 +0000
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	kasan-dev@googlegroups.com, Will Deacon <will@kernel.org>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Andrey Ryabinin <aryabinin@virtuozzo.com>,
+	Alexander Potapenko <glider@google.com>,
+	Marco Elver <elver@google.com>,
+	Evgenii Stepanov <eugenis@google.com>,
+	Branislav Rankov <Branislav.Rankov@arm.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+Subject: Re: [PATCH v16 0/9] arm64: ARMv8.5-A: MTE: Add async mode support
+Message-ID: <20210318185607.GD10758@arm.com>
+References: <20210315132019.33202-1-vincenzo.frascino@arm.com>
 MIME-Version: 1.0
-In-Reply-To: <4f7becfe2b6e4263be83b5ee461b5732@AcuMS.aculab.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Language: fr
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: christophe.leroy@csgroup.eu
+Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+In-Reply-To: <20210315132019.33202-1-vincenzo.frascino@arm.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Original-Sender: catalin.marinas@arm.com
 X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of christophe.leroy@csgroup.eu designates 93.17.236.30 as
- permitted sender) smtp.mailfrom=christophe.leroy@csgroup.eu
+ (google.com: domain of cmarinas@kernel.org designates 198.145.29.99 as
+ permitted sender) smtp.mailfrom=cmarinas@kernel.org;       dmarc=fail (p=NONE
+ sp=NONE dis=NONE) header.from=arm.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -158,79 +135,50 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
+On Mon, Mar 15, 2021 at 01:20:10PM +0000, Vincenzo Frascino wrote:
+> This patchset implements the asynchronous mode support for ARMv8.5-A
+> Memory Tagging Extension (MTE), which is a debugging feature that allows
+> to detect with the help of the architecture the C and C++ programmatic
+> memory errors like buffer overflow, use-after-free, use-after-return, etc.
+> 
+> MTE is built on top of the AArch64 v8.0 virtual address tagging TBI
+> (Top Byte Ignore) feature and allows a task to set a 4 bit tag on any
+> subset of its address space that is multiple of a 16 bytes granule. MTE
+> is based on a lock-key mechanism where the lock is the tag associated to
+> the physical memory and the key is the tag associated to the virtual
+> address.
+> When MTE is enabled and tags are set for ranges of address space of a task,
+> the PE will compare the tag related to the physical memory with the tag
+> related to the virtual address (tag check operation). Access to the memory
+> is granted only if the two tags match. In case of mismatch the PE will raise
+> an exception.
+> 
+> The exception can be handled synchronously or asynchronously. When the
+> asynchronous mode is enabled:
+>   - Upon fault the PE updates the TFSR_EL1 register.
+>   - The kernel detects the change during one of the following:
+>     - Context switching
+>     - Return to user/EL0
+>     - Kernel entry from EL1
+>     - Kernel exit to EL1
+>   - If the register has been updated by the PE the kernel clears it and
+>     reports the error.
+> 
+> The series is based on linux-next/akpm.
 
+Andrew, could you please pick these patches up via the mm tree? They
+depend on kasan patches already queued.
 
-Le 18/03/2021 =C3=A0 10:14, David Laight a =C3=A9crit=C2=A0:
-> From: Christophe Leroy
->> Sent: 17 March 2021 17:35
->>
->> Le 17/03/2021 =C3=A0 13:51, David Laight a =C3=A9crit=C2=A0:
->>> From: Christophe Leroy
->>>> Sent: 16 March 2021 15:41
->>> ...
->>>>>> include/linux/types.h:typedef __kernel_ptrdiff_t	ptrdiff_t;
->>>>>>
->>>>>> And get:
->>>>>>
->>>>>>      CC      mm/kfence/report.o
->>>>>> In file included from ./include/linux/printk.h:7,
->>>>>>                     from ./include/linux/kernel.h:16,
->>>>>>                     from mm/kfence/report.c:10:
->>>>>> mm/kfence/report.c: In function 'kfence_report_error':
->>>>>> ./include/linux/kern_levels.h:5:18: warning: format '%td' expects ar=
-gument
->>>>>> of type 'ptrdiff_t', but argument 6 has type 'long int' [-Wformat=3D=
-]
->>>>>
->>>>> This is declared as
->>>>>            const ptrdiff_t object_index =3D meta ? meta - kfence_meta=
-data : -1;
->>>>> so maybe something with that goes wrong?  What happens if you delete =
-the
->>>>> (useless) "const" here?
->>>
->>> The obvious thing to try is changing it to 'int'.
->>> That will break 64bit builds, but if it fixes the 32bit one
->>> it will tell you what type gcc is expecting.
->>>
->>
->> Yes, if defining 'object_index' as int, gcc is happy.
->> If removing the powerpc re-definition of ptrdiff_t typedef in
->> https://elixir.bootlin.com/linux/v5.12-rc3/source/arch/powerpc/include/u=
-api/asm/posix_types.h , it
->> works great as well.
->>
->> So seems like gcc doesn't take into account the typedef behind ptrdiff_t=
-, it just expects it to be
->> int on 32 bits ?
->=20
-> gcc never cares how ptrdiff_t (or any of the related types) is defined
-> it requires int or long for the format depending on the architecture.
-> The error message will say ptrdiff_t or size_t (etc) - but that is just
-> in the error message.
->=20
-> So the ppc32 uapi definition of __kernel_ptrdiff_t is wrong.
-> However it is probably set in stone.
->=20
+Andrey, all the kasan patches have your acked-by with the google.com
+address and you've been cc'ed on that. You may want to update the
+.mailmap file in the kernel.
 
-Yes it seems to be wrong. It was changed by commit d27dfd3887 ("Import pre2=
-.0.8"), so that's long=20
-time ago. Before that it was an 'int' for ppc32.
+Thanks.
 
-gcc provides ptrdiff_t in stddef.h via __PTRDIFF_TYPE__
-gcc defined __PTRDIFF_TYPE__ as 'int' at build time.
+-- 
+Catalin
 
-Should we fix it in arch/powerpc/include/uapi/asm/posix_types.h ? Anyway 'l=
-ong' and 'int' makes no=20
-functionnal difference on 32 bits so there should be no impact for users if=
- any.
-
-Christophe
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/e4577151-bc73-5033-a9ed-114dd0c1aaaf%40csgroup.eu.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210318185607.GD10758%40arm.com.
