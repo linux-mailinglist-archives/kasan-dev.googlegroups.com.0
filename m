@@ -1,46 +1,46 @@
-Return-Path: <kasan-dev+bncBDQ27FVWWUFRBEPQ2KBAMGQECOVUR2A@googlegroups.com>
+Return-Path: <kasan-dev+bncBDQ27FVWWUFRBFPQ2KBAMGQE65RCV7A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
 Received: from mail-pj1-x1038.google.com (mail-pj1-x1038.google.com [IPv6:2607:f8b0:4864:20::1038])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB7E9341FCC
-	for <lists+kasan-dev@lfdr.de>; Fri, 19 Mar 2021 15:41:22 +0100 (CET)
-Received: by mail-pj1-x1038.google.com with SMTP id b13sf11219573pjq.7
-        for <lists+kasan-dev@lfdr.de>; Fri, 19 Mar 2021 07:41:22 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1616164881; cv=pass;
+	by mail.lfdr.de (Postfix) with ESMTPS id 69080341FCD
+	for <lists+kasan-dev@lfdr.de>; Fri, 19 Mar 2021 15:41:26 +0100 (CET)
+Received: by mail-pj1-x1038.google.com with SMTP id i9sf16935292pjz.4
+        for <lists+kasan-dev@lfdr.de>; Fri, 19 Mar 2021 07:41:26 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1616164885; cv=pass;
         d=google.com; s=arc-20160816;
-        b=jLHTiPk2wltHbUdaLdBd8XJTjQ33qeGZR0qQRGiwIFPX8EbD1PF64bsdDg/LdGipSU
-         WtRv5Oan7fbEzrxPnI14MOx4kHW4yOQ8z0ct5p3Mo0E9T6gz47fwHppHN22Cm3tiM87P
-         noWN8hA+W/g7WVbChgGAegOI8v977OTkI2hdFzl3afCBMsJnnsbUeKFxJRdqvyNTkgzR
-         yWj4YfOMJ3c0HnzEAKlOI5455zUP0V3qhnnzfUHuRG1BkI8qfIxVEAnzteAZHfvuVgES
-         aeuvcXgKu4opsEu7/TsJ19py8X0GOPxH1XegkNos8u4twO14VZ/C8D88Y3NjvwC8WWua
-         VI7A==
+        b=orXUJUiK6p4dBifJr5HT04Ah2ADz2cM3DmyqvIxhr+fdG2ooxbLCpk1clc2jFLh3pv
+         QhmsK+LTsHB+hFkDAw4IPLgCmPknyUpJkPqLv3yBBbMAhCOXBKrBdxDIO36sK7EFxNzj
+         75FIbICY7BgFUn+mrp4HuPyrxJC3g7EF0aqTFkXD76jKiNFoIwp5Ta9Yxlvf5m6PHqd9
+         7Lkv4udchf/b7epwot65CTHlmLWsB9sKTlEZ9vB5IO8VYEh/5VwuHnhOu82cVp+zFv0/
+         xtXJc0qBb3VL/nPcAz1GkLg/70Urz0Dls/6sP1XPeqV9yHMDTnhOKhi1kRAw9JTz1ps1
+         Blew==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=dTsJvgwqbzyrxhZr96o43hTkZYPScrkR+OXSIUJ8BSg=;
-        b=dsyIOahGOpcSA9ONQDP36cvmPvtm7GGW7MtP+KjWxhMls2bR/l/9a5O3y0Q6QqfY+Q
-         aiqDr4C0YxLwT+JRaM/W/sZeKp43tHuy4UngQnrtmjgRTu2+RU8jMMGdw5xRXUmQrJxH
-         0Q7AsV+gJDvpt6hPkHK7tBdf18ov6bLaRvTZWq4Pnfs8VwrZJ5d8dknLlotp4r9bKvzg
-         VFilJC+CLQwDE/QsXm2TaPi1gw41EDpXlsr1+P/xpeHaS94RIwo9p21Wz+6zAK4o8xl6
-         EqcNydkG/fmzId/3n9hQ0bK2KHu1zp4weeUb1yPgwaMZF7+9cbKwdbM4UP6xf0xA/wzD
-         Sk2A==
+        bh=lkxl77viLIzbHvXPY37smvX85wWqRf9lno7IsjVD57k=;
+        b=dtSyyEtZxWC++2Sh3fJiZ+UFRoN4l+6jkc2ynkRUL2Tn/boUl0z52truM28r1NVfvD
+         BxXL3LiexPRLjpze+4o49gZHEbtTptg+Q6Ou9faySlm67oVJ66TKlIJc8MWW6NaPFfDQ
+         Gq7cfAxLzkAoE6XGVp6Uig0xZgbuTHwvZe8WvnWIv2gPJQNsUXJIU/i94T3BI4KWYTye
+         JKvb2YFzyQhoeBEhZEMFw37Yqohd5fCbMo0aQz89hvfUXmcj+J53w11A/j6qP0IFiay1
+         b432FutH6yXgU8vCb13c8/fcniMR1Drdi+LayQQxtoCVqRW0chfPw/XU3xV8jhmunVXB
+         20Kw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@axtens.net header.s=google header.b=Kcj5V4JO;
-       spf=pass (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::102c as permitted sender) smtp.mailfrom=dja@axtens.net
+       dkim=pass header.i=@axtens.net header.s=google header.b=Pp9i5eXC;
+       spf=pass (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::52d as permitted sender) smtp.mailfrom=dja@axtens.net
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
         h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=dTsJvgwqbzyrxhZr96o43hTkZYPScrkR+OXSIUJ8BSg=;
-        b=CX6aWr5igkICX8QQ9TJ+PDpXWr4FIaEJpGA/pPBiRKrh0HeStsik4uOV4l10oJHsGW
-         0HnPNBvwNm9blh1zUM7+0qy+eu4hBEJ4qkQZ6AseaQVtyiRlmOyPMWpJsMbbsCD2R2KX
-         HB7fgjojIXdSRHS2BdjlXkTtF4rQatCygx5WbbIcxmxAUOCcK+M/ukjtXwA6ALoivfEp
-         aYnSJXm7AsdAOoTSnaCsa+4wp5TOCBQvkJBPcHy78498DwiyXC76lcIf39eBhNXveyut
-         h92prTdJlpcgmHs7BjyG313Ux5C0WgjzX84XjMJV1BOpzyt+2DypJ81Rk6EmKDUqFr1B
-         duFQ==
+        bh=lkxl77viLIzbHvXPY37smvX85wWqRf9lno7IsjVD57k=;
+        b=FR+e0ktkGcBvZGkuwIuJIJceyPZKRZssvHfCuX74obydkdkeadLSpFx64SZ5y0xOm8
+         5mf63SheJjVgaNpfddMRjlR/BzNTiYaNJcvSOhM787A6Yg+flPqd6pFJoIMj2X+lWMZT
+         EO6MsfFb+8GBBveqNOfYUWtiZCIwyAJYhnsXiwsqyDaaMMN3LDZb+gfpURP+pUPY8vXe
+         6yMgeOQa82o/48vH5Lq6HcYlmJR+to2SP8E0xCLv6nldXyyPlnG5ToWkNVJYNYJiWeTv
+         XPJH+iJpaMHjFgcOVHgLxhwRJSZTWNY+mEqSuxO6giMdyHI22lkcbN1ubG/hX3ZADshy
+         CtQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
@@ -48,59 +48,59 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=dTsJvgwqbzyrxhZr96o43hTkZYPScrkR+OXSIUJ8BSg=;
-        b=AOomLZ4CC9yggLdECGoa1sLRcG5dxySaap/w88lbq7aKoSQaXGpG507y4WmyosV0Il
-         lYPI/8I2auNNs8i35z7TIvzv2yv6gWAhIgTLtYimgKL1P7fLb7JIBp8b5UjjM0Steao/
-         1xCyZ0W8gqaWTh/mURp2/3dWmsqXABxpnsi16xIEDYIgPb85k0OACPBMqGcXLylxwotV
-         0VqdD/VhnCu2nkffsQxZEPvIHQD/wAOOP+yUPn8B2/LknTetPGnjtQNT4i2AMm/fi4wb
-         JQUnHEKkhkS4np5kFWZsZWCmW2gf1/4+p2r202YhrGVQziQpY4FrLBmpt0MGjy4IQzXF
-         g2Eg==
+        bh=lkxl77viLIzbHvXPY37smvX85wWqRf9lno7IsjVD57k=;
+        b=p7Il7A87j6MC4yrlyjkxMidl3iSvE7dVyQjyP4SY8VLd5CP5Yaazj4m25tsiVXHd9G
+         w7BUOpknAQArDFdBNK7qT3DevlAfBCT7mWvX6eG5+8arrTCcW39poTT1k+ffPBoUkdzS
+         ps3Gb0mvE2zUhWaBF69t9dfBTEQHBperG/KP0MQkwmMJs4e47FF5hSzJYC5UH39nSRQF
+         kjgsFZan79uBPdVIW2B80xl9An5Xt4BR8Ce/PDkaExL0VQyqrhnaepKheFyddH94u2G+
+         of9zmIG80pX+wbSmz0kAlTT9D/T4hbjGkYKq5Bmu7wz/HOOfm8q8RBPH+QGvpTV4N3Za
+         zpxw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM530kQ2GVRaNmYoFsODeXWL6d++FzlTwKWPzvdITaN91DonNcdFOh
-	0pSoeSgt5ByPFYhJp8K16Cw=
-X-Google-Smtp-Source: ABdhPJyD8fl3JRSuAqaaa7jmv20cUIuJDJnXVDxRHIpL4I8HZl/I1069GQdn7iFFRBmZw6fPzViZ/w==
-X-Received: by 2002:a62:cd8d:0:b029:20a:7b41:d1e0 with SMTP id o135-20020a62cd8d0000b029020a7b41d1e0mr9623951pfg.38.1616164881233;
-        Fri, 19 Mar 2021 07:41:21 -0700 (PDT)
+X-Gm-Message-State: AOAM531zgg8kGI/jtalcMsTp6nbbUc5Gh+PLJ4TDe5APp1YTNlK8e1tO
+	p0GhliU7hc1JWEdGbziDmzA=
+X-Google-Smtp-Source: ABdhPJzWN/00OU3eGVTt9OBvM5kxe1zt8/Ofqskff+PmCkPuPd6uU6aeK/RnB+2++PA9SVVvZJ3htQ==
+X-Received: by 2002:a17:90a:e556:: with SMTP id ei22mr9924114pjb.214.1616164885167;
+        Fri, 19 Mar 2021 07:41:25 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a65:4d43:: with SMTP id j3ls2052786pgt.1.gmail; Fri, 19 Mar
- 2021 07:41:20 -0700 (PDT)
-X-Received: by 2002:a63:5020:: with SMTP id e32mr3694230pgb.357.1616164880699;
-        Fri, 19 Mar 2021 07:41:20 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1616164880; cv=none;
+Received: by 2002:a17:903:2286:: with SMTP id b6ls3027167plh.11.gmail; Fri, 19
+ Mar 2021 07:41:24 -0700 (PDT)
+X-Received: by 2002:a17:902:bd87:b029:e6:4c27:e037 with SMTP id q7-20020a170902bd87b02900e64c27e037mr14645102pls.29.1616164884598;
+        Fri, 19 Mar 2021 07:41:24 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1616164884; cv=none;
         d=google.com; s=arc-20160816;
-        b=sDkHsEND24HegHUZBTX1JuIwKFCyjUrUQMXWG6BLGzxDDqXqvwVsVMxh6cDutacbvf
-         aDr0X7wdOBBom4woL1vrdkfV/HjLKujVYdNrgg3iLQtXMU9l86OMoiDv9pGiiVLfOYXU
-         qY8m0Zr5/3bD8CnxGTtNvdPoIv3FRgywmW2gI3ypI9KgA2q6RFfxS0xAfVXTaguJHded
-         pQPZNxfj0HBIlTjouhU4SY3zaU8WRc6yKNLDm9cmrD/W8PtNalOGxOHthjuxIllbb8ed
-         F5qRx6A8iSFFcMNmzD00w9Q6Lfv2uv6wlORsL65oDJsGNWxgptN3qpIsBbwS7oUAJ6Eb
-         1zpw==
+        b=oILoRHhBAzuy1TcFQZh2ymhe5ucVhrNGc5FRA7Q/66Ht5PUYkmOLTDdk+piQJnVynx
+         bSRn+dFIvft16PoqyKQ8TYiFo7rZE6bxiu5XbDUFFW4zSLLJBlN+hy3Mgj4hJm1KFXgC
+         25jgxcpKuncCCozq5QJu/4udjfSQn0A6u4bMNw6X3ANaLkp4W3uixar2HzuhDGbqNjd1
+         dN4PiMHJkgJHtXgOAnhXXN6/13EzhRzz3qdf3A219cic4R5c1yZvrHtKGmbtlzFy9cEZ
+         TL9H7WakzkEAjRFfJdx/6MJnkv+RLdNqmz6Bld6KHp4F9QJgusNptEF9eTXsHdA2eBlF
+         /NBQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=dCC3AVfnj1w2eD4KT8qv23tgUysFvODW8V6tvYzpnj0=;
-        b=LrBKtt0rVjbIoJy6rDFbsRWD/kXsKizvdPEadmy1aO6PRup6xVxvlYxJoUaFeM39XQ
-         MuLDzjhlzQYiTSXk/ajCpVmX8vpCY2CLxMQvXstlOxq+FyGkd2VW47t+C5gElsiu+pjV
-         Os4nYxTUT/W2h/OYpatdqJg2BTGvt/XBleyNwJHf4o+nW9gpQzDUKJTsVdTMlofOLk/q
-         4fK5DjDg3CjrA7EfQMwPkFiV7yIcq876bO3ITsv9da7YO0TmlJsjY+j7TxhrvThAcgMV
-         SgUe29/JMjfS/AwDFonMxo1w3QPD7hbC8lHeCnht/Cx+R9pppwy8DNgV4Z9ZLz2n6Fxs
-         8/Ww==
+        bh=Yq2AQYTBwcMSkk50BfF3YUyk3WvoM0RKP8OIdZyLogM=;
+        b=lNQkR5A35yGpc004YULh6JdJEa89XizklX9qGjrjWemqx1RoWMUkM+tiW5ctBebB5P
+         mw6d3kJ8gd+Hf7mc2mubMBgizDEuSJet75ZMIIvLDeoYtsM5KgOMe1ffwYKoZEJ2Sub8
+         aOKVj7XDGS0USvhTA/RrOGrMCnm3hbeQfevMaxLMXzJ2MCnjduj/e5gkp/GbKtj0QPwL
+         c/znvcV+DXQrxJtOFFicLsP0vTSwbFJuSZe+x8cms3cIZvOKlLLS+M4Kb7iCw288CYpi
+         s5Me2O4TB2IV/KfPFkHMquBe45WtGdKANjjIXMf+cyy9oO1CnfaKS07zvSMy1wmpZe3t
+         sAzw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@axtens.net header.s=google header.b=Kcj5V4JO;
-       spf=pass (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::102c as permitted sender) smtp.mailfrom=dja@axtens.net
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com. [2607:f8b0:4864:20::102c])
-        by gmr-mx.google.com with ESMTPS id t5si360741pgv.4.2021.03.19.07.41.20
+       dkim=pass header.i=@axtens.net header.s=google header.b=Pp9i5eXC;
+       spf=pass (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::52d as permitted sender) smtp.mailfrom=dja@axtens.net
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com. [2607:f8b0:4864:20::52d])
+        by gmr-mx.google.com with ESMTPS id t5si360781pgv.4.2021.03.19.07.41.24
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 19 Mar 2021 07:41:20 -0700 (PDT)
-Received-SPF: pass (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::102c as permitted sender) client-ip=2607:f8b0:4864:20::102c;
-Received: by mail-pj1-x102c.google.com with SMTP id kk2-20020a17090b4a02b02900c777aa746fso4954928pjb.3
-        for <kasan-dev@googlegroups.com>; Fri, 19 Mar 2021 07:41:20 -0700 (PDT)
-X-Received: by 2002:a17:902:ac93:b029:e6:548b:d61 with SMTP id h19-20020a170902ac93b02900e6548b0d61mr14570825plr.80.1616164880480;
-        Fri, 19 Mar 2021 07:41:20 -0700 (PDT)
+        Fri, 19 Mar 2021 07:41:24 -0700 (PDT)
+Received-SPF: pass (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::52d as permitted sender) client-ip=2607:f8b0:4864:20::52d;
+Received: by mail-pg1-x52d.google.com with SMTP id m7so3815083pgj.8
+        for <kasan-dev@googlegroups.com>; Fri, 19 Mar 2021 07:41:24 -0700 (PDT)
+X-Received: by 2002:aa7:92c7:0:b029:1ee:75b2:2dab with SMTP id k7-20020aa792c70000b02901ee75b22dabmr9622789pfa.61.1616164884381;
+        Fri, 19 Mar 2021 07:41:24 -0700 (PDT)
 Received: from localhost (2001-44b8-111e-5c00-674e-5c6f-efc9-136d.static.ipv6.internode.on.net. [2001:44b8:111e:5c00:674e:5c6f:efc9:136d])
-        by smtp.gmail.com with ESMTPSA id o197sm5984619pfd.42.2021.03.19.07.41.19
+        by smtp.gmail.com with ESMTPSA id y29sm6058594pfp.206.2021.03.19.07.41.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Mar 2021 07:41:20 -0700 (PDT)
+        Fri, 19 Mar 2021 07:41:24 -0700 (PDT)
 From: Daniel Axtens <dja@axtens.net>
 To: linux-kernel@vger.kernel.org,
 	linux-mm@kvack.org,
@@ -110,17 +110,17 @@ To: linux-kernel@vger.kernel.org,
 	aneesh.kumar@linux.ibm.com,
 	bsingharora@gmail.com
 Cc: Daniel Axtens <dja@axtens.net>
-Subject: [PATCH v11 4/6] kasan: Document support on 32-bit powerpc
-Date: Sat, 20 Mar 2021 01:40:56 +1100
-Message-Id: <20210319144058.772525-5-dja@axtens.net>
+Subject: [PATCH v11 5/6] powerpc/mm/kasan: rename kasan_init_32.c to init_32.c
+Date: Sat, 20 Mar 2021 01:40:57 +1100
+Message-Id: <20210319144058.772525-6-dja@axtens.net>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210319144058.772525-1-dja@axtens.net>
 References: <20210319144058.772525-1-dja@axtens.net>
 MIME-Version: 1.0
 X-Original-Sender: dja@axtens.net
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@axtens.net header.s=google header.b=Kcj5V4JO;       spf=pass
- (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::102c as
+ header.i=@axtens.net header.s=google header.b=Pp9i5eXC;       spf=pass
+ (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::52d as
  permitted sender) smtp.mailfrom=dja@axtens.net
 Content-Type: text/plain; charset="UTF-8"
 Precedence: list
@@ -135,65 +135,37 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-KASAN is supported on 32-bit powerpc and the docs should reflect this.
+kasan is already implied by the directory name, we don't need to
+repeat it.
 
 Suggested-by: Christophe Leroy <christophe.leroy@csgroup.eu>
-Reviewed-by: Christophe Leroy <christophe.leroy@csgroup.eu>
 Signed-off-by: Daniel Axtens <dja@axtens.net>
 ---
- Documentation/dev-tools/kasan.rst |  8 ++++++--
- Documentation/powerpc/kasan.txt   | 12 ++++++++++++
- 2 files changed, 18 insertions(+), 2 deletions(-)
- create mode 100644 Documentation/powerpc/kasan.txt
+ arch/powerpc/mm/kasan/Makefile                       | 2 +-
+ arch/powerpc/mm/kasan/{kasan_init_32.c => init_32.c} | 0
+ 2 files changed, 1 insertion(+), 1 deletion(-)
+ rename arch/powerpc/mm/kasan/{kasan_init_32.c => init_32.c} (100%)
 
-diff --git a/Documentation/dev-tools/kasan.rst b/Documentation/dev-tools/kasan.rst
-index a8c3e0cff88d..2cfd5d9068c0 100644
---- a/Documentation/dev-tools/kasan.rst
-+++ b/Documentation/dev-tools/kasan.rst
-@@ -36,7 +36,8 @@ Both software KASAN modes work with SLUB and SLAB memory allocators,
- while the hardware tag-based KASAN currently only supports SLUB.
+diff --git a/arch/powerpc/mm/kasan/Makefile b/arch/powerpc/mm/kasan/Makefile
+index bb1a5408b86b..42fb628a44fd 100644
+--- a/arch/powerpc/mm/kasan/Makefile
++++ b/arch/powerpc/mm/kasan/Makefile
+@@ -2,6 +2,6 @@
  
- Currently, generic KASAN is supported for the x86_64, arm, arm64, xtensa, s390,
--and riscv architectures, and tag-based KASAN modes are supported only for arm64.
-+and riscv architectures. It is also supported on 32-bit powerpc kernels.
-+Tag-based KASAN modes are supported only for arm64.
+ KASAN_SANITIZE := n
  
- Usage
- -----
-@@ -334,7 +335,10 @@ CONFIG_KASAN_VMALLOC
- 
- With ``CONFIG_KASAN_VMALLOC``, KASAN can cover vmalloc space at the
- cost of greater memory usage. Currently, this is supported on x86,
--riscv, s390, and powerpc.
-+riscv, s390, and 32-bit powerpc.
-+
-+It is optional, except on 32-bit powerpc kernels with module support,
-+where it is required.
- 
- This works by hooking into vmalloc and vmap and dynamically
- allocating real shadow memory to back the mappings.
-diff --git a/Documentation/powerpc/kasan.txt b/Documentation/powerpc/kasan.txt
-new file mode 100644
-index 000000000000..26bb0e8bb18c
---- /dev/null
-+++ b/Documentation/powerpc/kasan.txt
-@@ -0,0 +1,12 @@
-+KASAN is supported on powerpc on 32-bit only.
-+
-+32 bit support
-+==============
-+
-+KASAN is supported on both hash and nohash MMUs on 32-bit.
-+
-+The shadow area sits at the top of the kernel virtual memory space above the
-+fixmap area and occupies one eighth of the total kernel virtual memory space.
-+
-+Instrumentation of the vmalloc area is optional, unless built with modules,
-+in which case it is required.
+-obj-$(CONFIG_PPC32)           += kasan_init_32.o
++obj-$(CONFIG_PPC32)           += init_32.o
+ obj-$(CONFIG_PPC_8xx)		+= 8xx.o
+ obj-$(CONFIG_PPC_BOOK3S_32)	+= book3s_32.o
+diff --git a/arch/powerpc/mm/kasan/kasan_init_32.c b/arch/powerpc/mm/kasan/init_32.c
+similarity index 100%
+rename from arch/powerpc/mm/kasan/kasan_init_32.c
+rename to arch/powerpc/mm/kasan/init_32.c
 -- 
 2.27.0
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210319144058.772525-5-dja%40axtens.net.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210319144058.772525-6-dja%40axtens.net.
