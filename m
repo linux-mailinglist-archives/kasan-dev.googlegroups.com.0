@@ -1,129 +1,137 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBMXS42BAMGQE56K6P3Y@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBB4PU42BAMGQEWUWBETY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pg1-x538.google.com (mail-pg1-x538.google.com [IPv6:2607:f8b0:4864:20::538])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60848345B44
-	for <lists+kasan-dev@lfdr.de>; Tue, 23 Mar 2021 10:47:31 +0100 (CET)
-Received: by mail-pg1-x538.google.com with SMTP id m14sf1414236pgr.9
-        for <lists+kasan-dev@lfdr.de>; Tue, 23 Mar 2021 02:47:31 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1616492850; cv=pass;
+Received: from mail-lj1-x237.google.com (mail-lj1-x237.google.com [IPv6:2a00:1450:4864:20::237])
+	by mail.lfdr.de (Postfix) with ESMTPS id C0C58345B63
+	for <lists+kasan-dev@lfdr.de>; Tue, 23 Mar 2021 10:52:49 +0100 (CET)
+Received: by mail-lj1-x237.google.com with SMTP id a22sf1129998ljq.4
+        for <lists+kasan-dev@lfdr.de>; Tue, 23 Mar 2021 02:52:49 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1616493169; cv=pass;
         d=google.com; s=arc-20160816;
-        b=T5T+Dv3lEeq7EbSfmpGYW3oIOJdCTYCGHSqYUDBP2fwu5+sjfjxzPP+na+pZEKx2kO
-         rohmtY7FJfGKG2Pv83Ylmfwy+eIrTlDEi+gj9mMZiFM1iY6q/CPK9VMCAGSo7R3Q1n1G
-         VuwZNrECVeG61oVqegd3TjwPVWsBBR+GP0jXf9SFoQc7hIFAN8mb6mLtJpmvs5mTfCAy
-         0Ea3/ayb9B3TXaaNv6H8Xe6fWa14Pd+fGwEfxlXODQfwKMKKJsUWdjFY3lD5wZOqHpG7
-         7cSLk5hcX4Nuga3XY7LKOGEVoQTtXnQF2AOOhyfIoAfHi3My5s5xNdUN4K/uVImR7nmV
-         7AUQ==
+        b=vCQ0Js0ElIdypaMDg/OV+Cwy2EBjCOoPRNT6yAH2pVafa1609cT1BWQ4gWA0dFO+9R
+         H6Ij460EpsozfNzJK7yAIKFjXOqm/VQ80075MygW1gS3YOQsj0kBqBBDRcksylvuTQMs
+         TIs8XiEyxV+IHXB1uT303bGrAJ++u3Yi9sYzCB5A+TiJ1+IuF65V6pQJT7nQxEhldRT7
+         Tiao3O472aQq1dkZEULbuph1vgm3Dgf8BLyIRHsl4zLD+sJKdS0PLxvTdtooRpFLesmQ
+         2qfVqcYWmSeyexTRBmflyC7N/tlBU60hIei9MqquuRj9slHyi8ooWwQ3/NWYdO0HKVgp
+         jB7Q==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=oU2qWOP5FiF0PmOdP4nvn4ZRMjnJ1vhTkyVgOtEKHnc=;
-        b=lLBuIkbOiApK41wknZ3BEMgwjAeNewJCDrLvj4he9B+0I9FXkDcymkgPEHxyZo1SZu
-         YaxXh+NyqYlM7Ap3NMIiKl3swEz88Iytr4vtxjy8iIKEIQ6NAhbAaosKrF4jHMrYRQIx
-         B7MitcOKQzCD1rYSMiN5IzDmzzIfssKnzmZWM2IEVVLxECRt4ktSEiXrc896pplKQtBJ
-         dE6NVpzycuwrRjlEVi9WHCG//EWUFJqKbLkH1sMEKL8Mpbxs3S1+vR27o8/7I/qjcrBu
-         LEOjY1bNOut55Mz5l5WABsskN0ecjGHDB/uBFDUEDAjqs2YMQHiqHoo7b3wZMz6l8tJ3
-         1ykw==
+         :list-id:mailing-list:precedence:reply-to:user-agent:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:dkim-signature;
+        bh=uNbl31zEkK9Ts5ovxfaLPoFCrM7lGIMn2odLyqMhDno=;
+        b=JMHiAvEfkyR5AgtIBmeZL73iNznv9sBG5XQVQBLBNsQ7WWoscFiGwzDxw/d4dJYAeC
+         ZRZkZVzIZQoGPA8BtXymFYzEY6GkM+KdN04EdJLxkKrEF+6MyiwQBb0427oK9eT1pdQE
+         Li5yIed7e6RoitUyFwpJDTXSsYbjri09nkXv+AxWqz6cP+Ovr8PA4pNag74WtsRJ6TgH
+         XmT+OzAviGpO5NTQSVZ6jW7aVDQ7nRhjmzIKtl+W36gL6CRObT45hyQcV5T/h0FSZEaC
+         UvpVIP5e7NvQfT2hkjn8TaYmuVh0PKkJYYRJQdZO1h6rAJgyS/Qj0aWFBNwewxRrWDVp
+         vMtg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=c83oOIai;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::333 as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b="nm5ohOy/";
+       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::329 as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=oU2qWOP5FiF0PmOdP4nvn4ZRMjnJ1vhTkyVgOtEKHnc=;
-        b=oSFWAHnSdoNpjlxMgSCqm1Fjk/LD8ik5IZAgTFBGARluai5ng4nIDQIa7egMUoc1Mk
-         jzaxmUQicclNqXU/BkypBl44sbcGfs9hJos27HFeM5A9YKS6ltsizi4jbPupGQ5yFiTA
-         C+tl/ShEu4hHG86KkqPOWILBIJpPOHKSa0dy5gA8VXfNaWa1cfJH+bEFNJGO4RhzKFqR
-         JZ7ExWxMnaegAjA5zx3A532wVgatxl2n+3C/5XsLUrFCw7deTV2/ckN/1jrjk2UWtr6S
-         BLcFH8U4TVLG6doe7pTeqyRKBH1g8+EI+8ANTMXUlFSg/CPXZs0eMg9Ti451qZbe3H6s
-         URsg==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:list-post:list-help:list-archive:list-subscribe
+         :list-unsubscribe;
+        bh=uNbl31zEkK9Ts5ovxfaLPoFCrM7lGIMn2odLyqMhDno=;
+        b=say/3BlDwnkkm8WbiE9jwRHQp7YcJ2K0wwjj5mI3VsRk67OdcWSzNqHhB/7EY68DoT
+         kvhs1Yk4vyq0iTtXKThuefgHibeZCIGlvhVK6vkhreQXwms8hLYOU4FSdydGt1XojiiB
+         2pcjBoAq+XyePxMAMEmXm5ET3MB28JHXIgOL8Zauraa7ir0AmKmZkk54HAmhfmYHUD3O
+         PI2e4aybxfJrKrSbnecbwJexqSdIVi2deZw0ifSV3bkac42wFmstoMUe0D2BwKD77njl
+         tvo/mzJWQpSWRBdEjS0F0cN7YjcevmL0ZlUWGpP9yPdzKOOlRFvG3qMJcVwfkE6ZDuWA
+         3gdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=oU2qWOP5FiF0PmOdP4nvn4ZRMjnJ1vhTkyVgOtEKHnc=;
-        b=MgAQGrzAmaRSAdRE1D0+wEfLaf4LthXcPwRuCiaakMWFw1jWMg8E37Oej0GeJoHNEv
-         JCqjixuN1JVY/v9FKu5jQ/QinBtXEI5vwVV5ojZ8cetQovVMB1f88rHfB5EhLBkx5/2j
-         DpiclhxIhTFea2HDHca5cxRtZyq7ElUBtpiqhb41NAR8PAi6azXD2K2bpqF25GSzprWB
-         QcQuwlYerF2tEetW8pas21AoXA7zdyYsMmuPdXNfNkexHX2j3CyT/NE0e91PlrmG/4Ya
-         OVI8F7pHyE5wLWYIWx4PHyjSihER3qH6K+ssKi6Cl1dca8C36tAJJWRD5Lo76TWhAW6U
-         7L+g==
-X-Gm-Message-State: AOAM532kxJ6adRU+D2OcVOlmg5GZ3Vh5kjmmG3IklobUjsbvpV7cofUT
-	XqwWZVEyb2oPn6GAscPNo7I=
-X-Google-Smtp-Source: ABdhPJz2PAI0+q1gbSdTq3gxXn71sNa2AWSpsEE3kdbNhoMHEdDPqAwgpHLKtorErrsAlN35J2GhRA==
-X-Received: by 2002:a63:fa4c:: with SMTP id g12mr3291124pgk.205.1616492850108;
-        Tue, 23 Mar 2021 02:47:30 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent
+         :x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=uNbl31zEkK9Ts5ovxfaLPoFCrM7lGIMn2odLyqMhDno=;
+        b=IiUybemlPoLUulvUkljxHTTibFXJ2O5nVKxaV/wgdYFoHZAY/cwlbe3nuRZvg0PinC
+         mYd3IoeuLevGHch4q1xTyCs+BmaH0sa4nuY+R5Z5HXMOjMPRcuayZqQrFfvLTvEGNPtA
+         yVcRgY21GFsntvXSqS8nF2ilDWzcQOySm/eUiMlycNOYDj535qSrbXlqZ4/xTrzdi8UF
+         RoO/V7IS+IX3NkjoHlsl2gIeywqL+EHOZ1zs2mJ1tDhQtz51JPAu6HAGk19jGKYyizRS
+         mocwkeBo+3jK36SN8Xfk77bd0bvBz8keHgQJHrtvjSH/syaTyd1rCOVssDOz5I1JSxId
+         mN2A==
+X-Gm-Message-State: AOAM532winbDJYWb/LM8PqIbiFU+bjMiw7Zp8UIF15nfmkdCrn/Vw+vs
+	Xfd0wvTVbl3sBwXzrkVP1oY=
+X-Google-Smtp-Source: ABdhPJxRq4HCO1Y1x8F5V+jRBjri5kWllYS4Wg37Rys/Aqy2vEIDEYs+H+miwtJ0mkiC9fenlwdXJQ==
+X-Received: by 2002:a05:651c:1055:: with SMTP id x21mr2535565ljm.275.1616493169314;
+        Tue, 23 Mar 2021 02:52:49 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:aa7:9acd:: with SMTP id x13ls3488575pfp.1.gmail; Tue, 23 Mar
- 2021 02:47:26 -0700 (PDT)
-X-Received: by 2002:a63:2318:: with SMTP id j24mr3438017pgj.134.1616492846756;
-        Tue, 23 Mar 2021 02:47:26 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1616492846; cv=none;
+Received: by 2002:a2e:9a48:: with SMTP id k8ls3008943ljj.10.gmail; Tue, 23 Mar
+ 2021 02:52:48 -0700 (PDT)
+X-Received: by 2002:a2e:8e28:: with SMTP id r8mr2703565ljk.156.1616493168157;
+        Tue, 23 Mar 2021 02:52:48 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1616493168; cv=none;
         d=google.com; s=arc-20160816;
-        b=boE2lFqVY8qW3c71leul/DDRep/8Rh40atLrXVht84DV0RWNjvRa1zYCjIH2Mu5wY1
-         UBRxNtWwgnTv6ChiP9ScHKSzswCi/dVb4k0YXUXrc5K9zjja9vu3ElMs50LZxFopBa5K
-         XO4CYXzoPkCrD+6qrBMIzqFxG/Rfti5uCMNjOGWHLuZpfUXMDVY/e/aUK6QUgE4N8KQN
-         8kQ/AxJIbf9ehXCRZTmPvTlwbz5V0+zVLHKX8SrEErM6RmKvUHD2uvhJFIFBHDeZl3c+
-         4xhMgF/sUSs9KPgn3/x2/axAo+31D/h4dEZFsuPuvgtG0uzJz8DUsfsu83XWXLDlwqyz
-         SkKg==
+        b=xL3e4pGr2IofWQCJ4qF30sPWkfC0eeJ8WLxXWAeMlv91DYtUhSSkngIYHTgVcxbkMl
+         XskgZNK+n8sXlLoa1dpZ5danep0klso/mZMVLUxyzBLTN+3I3Xkg/Xo4KuAXhdsf8JbI
+         6wElcwoRs/1kj0cYx9hAtvl6sXEKLGKaGqvGwTANvZBlpxUsZX6N6bn45AuTaZ3tdeap
+         QyMNDofNLP3+RBGIukEpw8msVhO+ySZIrKOFvG+CzpxH/TA8DQWNbckG0UXDmea7benS
+         MBfa/Z5JzU1VbTElKattiIbPCTaS7Yh0KqBAoMDImI8xzfEMvwz3GHvV9julDZ9MZthr
+         c+Uw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=hgweAXsQTwePYGvzySvRrmFVPab8jCtXeq0art5Xlzk=;
-        b=b5v1YZatn4O4J9QtTYrpPjySxu9fbuuJaUdHfg6Nz3d4y6rSY5ekq496XOxAykIVIg
-         2rmf8eURClAFd1UD8FhrZSQ+EccgKkQTNA8FgS/8nf1AsTO0t8jFCPIH/WJbZ5+5/VDx
-         i2gSBopFCxDqxwb7axXMiqzuzYYGlGCuSBTMFn3W1U7GLCapzj0XCbhpg4A286U3Ykdf
-         Q8Sem/zOjjHae/neDA012wFQHe/DsT3g7N8mDxVaoIXa7k4RznD0EsZrilNK4JWQvK80
-         dKg+67De1LcFiZdUJTq8Yhdh9pm214+GkFAyRfFvqYM9ieme8Erv8aSPrB6pvmcCF7qj
-         9cIA==
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:dkim-signature;
+        bh=NpSzRKLiXLe6KNJ61EsuxfhUG16pLqYRTekTKu3oBUc=;
+        b=kQJ3jKFQsh35VU5JHcO1s3oaMN/t2UgoyeS9ihAhOjVWnrWx4F43pZ81TqRotghafw
+         Ycz4F2tJu7gDB/SL0yYKCYDDsLGdpyHBS40oxthZzwmsXf+MUCFTbEtjReh7QWcCRbIo
+         ciXMiFa7uQOFNyqFsjL4DUdYM/XPIWWR/SfAzW6KHwne+IL94671qVtb56ZmxGejySfo
+         jyJtKDG3omYnpwWuRzIfHWNuVZ5pjE6hTxdvcjifTgpNcIZByZmk2dg7kyOLfQUZ629K
+         vvhdbposTDy4zb/xYeyZ6rwCCY8M8ag7Z6bGQ5ovZ/EnEZMacgzCOuHlZO6GHu3J+7Kd
+         2XUQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=c83oOIai;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::333 as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b="nm5ohOy/";
+       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::329 as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-ot1-x333.google.com (mail-ot1-x333.google.com. [2607:f8b0:4864:20::333])
-        by gmr-mx.google.com with ESMTPS id y11si130297pju.3.2021.03.23.02.47.26
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com. [2a00:1450:4864:20::329])
+        by gmr-mx.google.com with ESMTPS id a10si639406lfs.11.2021.03.23.02.52.48
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 23 Mar 2021 02:47:26 -0700 (PDT)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::333 as permitted sender) client-ip=2607:f8b0:4864:20::333;
-Received: by mail-ot1-x333.google.com with SMTP id w21-20020a9d63950000b02901ce7b8c45b4so18857380otk.5
-        for <kasan-dev@googlegroups.com>; Tue, 23 Mar 2021 02:47:26 -0700 (PDT)
-X-Received: by 2002:a05:6830:148c:: with SMTP id s12mr3724534otq.251.1616492846280;
- Tue, 23 Mar 2021 02:47:26 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210310104139.679618-1-elver@google.com> <20210310104139.679618-9-elver@google.com>
- <YFiamKX+xYH2HJ4E@elver.google.com> <CAP-5=fW8NnLFbnK8UwLuYFzkwk6Yjvxv=LdOpE8qgXbyL6=CCg@mail.gmail.com>
-In-Reply-To: <CAP-5=fW8NnLFbnK8UwLuYFzkwk6Yjvxv=LdOpE8qgXbyL6=CCg@mail.gmail.com>
+        Tue, 23 Mar 2021 02:52:48 -0700 (PDT)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::329 as permitted sender) client-ip=2a00:1450:4864:20::329;
+Received: by mail-wm1-x329.google.com with SMTP id 12so10669908wmf.5
+        for <kasan-dev@googlegroups.com>; Tue, 23 Mar 2021 02:52:48 -0700 (PDT)
+X-Received: by 2002:a1c:b687:: with SMTP id g129mr2555707wmf.165.1616493167647;
+        Tue, 23 Mar 2021 02:52:47 -0700 (PDT)
+Received: from elver.google.com ([2a00:79e0:15:13:4cfd:1405:ab5d:85f8])
+        by smtp.gmail.com with ESMTPSA id c9sm22669184wrr.78.2021.03.23.02.52.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Mar 2021 02:52:46 -0700 (PDT)
+Date: Tue, 23 Mar 2021 10:52:41 +0100
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Tue, 23 Mar 2021 10:47:13 +0100
-Message-ID: <CANpmjNN6_jO5vK8fteJ7bEi1gM6Ho2kZxSq9avocM3A5TyFL=g@mail.gmail.com>
-Subject: Re: [PATCH RFC v2 8/8] selftests/perf: Add kselftest for remove_on_exec
-To: Ian Rogers <irogers@google.com>
-Cc: Peter Zijlstra <peterz@infradead.org>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Ingo Molnar <mingo@redhat.com>, Jiri Olsa <jolsa@redhat.com>, 
-	Mark Rutland <mark.rutland@arm.com>, Namhyung Kim <namhyung@kernel.org>, 
-	Thomas Gleixner <tglx@linutronix.de>, Alexander Potapenko <glider@google.com>, 
-	Al Viro <viro@zeniv.linux.org.uk>, Arnd Bergmann <arnd@arndb.de>, 
-	Christian Brauner <christian@brauner.io>, Dmitry Vyukov <dvyukov@google.com>, Jann Horn <jannh@google.com>, 
-	Jens Axboe <axboe@kernel.dk>, Matt Morehouse <mascasa@google.com>, 
-	Peter Collingbourne <pcc@google.com>, kasan-dev <kasan-dev@googlegroups.com>, 
-	linux-arch <linux-arch@vger.kernel.org>, linux-fsdevel <linux-fsdevel@vger.kernel.org>, 
-	LKML <linux-kernel@vger.kernel.org>, x86 <x86@kernel.org>, 
-	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>, Vince Weaver <vincent.weaver@maine.edu>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: alexander.shishkin@linux.intel.com, acme@kernel.org, mingo@redhat.com,
+	jolsa@redhat.com, mark.rutland@arm.com, namhyung@kernel.org,
+	tglx@linutronix.de, glider@google.com, viro@zeniv.linux.org.uk,
+	arnd@arndb.de, christian@brauner.io, dvyukov@google.com,
+	jannh@google.com, axboe@kernel.dk, mascasa@google.com,
+	pcc@google.com, irogers@google.com, kasan-dev@googlegroups.com,
+	linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, x86@kernel.org,
+	linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH RFC v2 8/8] selftests/perf: Add kselftest for
+ remove_on_exec
+Message-ID: <YFm6aakSRlF2nWtu@elver.google.com>
+References: <20210310104139.679618-1-elver@google.com>
+ <20210310104139.679618-9-elver@google.com>
+ <YFiamKX+xYH2HJ4E@elver.google.com>
+ <YFjI5qU0z3Q7J/jF@hirez.programming.kicks-ass.net>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+In-Reply-To: <YFjI5qU0z3Q7J/jF@hirez.programming.kicks-ass.net>
+User-Agent: Mutt/2.0.5 (2021-01-21)
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=c83oOIai;       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::333 as
+ header.i=@google.com header.s=20161025 header.b="nm5ohOy/";       spf=pass
+ (google.com: domain of elver@google.com designates 2a00:1450:4864:20::329 as
  permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
  sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Marco Elver <elver@google.com>
@@ -140,72 +148,253 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, 23 Mar 2021 at 04:10, Ian Rogers <irogers@google.com> wrote:
-> On Mon, Mar 22, 2021 at 6:24 AM Marco Elver <elver@google.com> wrote:
-> > On Wed, Mar 10, 2021 at 11:41AM +0100, Marco Elver wrote:
-> > > Add kselftest to test that remove_on_exec removes inherited events from
-> > > child tasks.
-> > >
-> > > Signed-off-by: Marco Elver <elver@google.com>
-> >
+On Mon, Mar 22, 2021 at 05:42PM +0100, Peter Zijlstra wrote:
+> On Mon, Mar 22, 2021 at 02:24:40PM +0100, Marco Elver wrote:
 > > To make compatible with more recent libc, we'll need to fixup the tests
 > > with the below.
-> >
-> > Also, I've seen that tools/perf/tests exists, however it seems to be
-> > primarily about perf-tool related tests. Is this correct?
-> >
-> > I'd propose to keep these purely kernel ABI related tests separate, and
-> > that way we can also make use of the kselftests framework which will
-> > also integrate into various CI systems such as kernelci.org.
->
-> Perhaps there is a way to have both? Having the perf tool spot an
-> errant kernel feels like a feature. There are also
-> tools/lib/perf/tests and Vince Weaver's tests [1]. It is possible to
-> run standalone tests from within perf test by having them be executed
-> by a shell test.
+> 
+> OK, that reprodiced things here, thanks!
+> 
+> The below seems to not explode instantly.... it still has the
+> alternative version in as well (and I think it might even work too, but
+> the one I left in seems simpler).
 
-Thanks for the pointers. Sure, I'd support more additional tests.
+Thanks! Unfortunately neither version worked if I tortured it a little
+with this:
 
-But I had another look and it seems the tests in
-tools/{perf,lib/perf}/tests do focus on perf-tool or the library
-respectively, so adding kernel ABI tests there feels wrong. (If
-perf-tool somehow finds use for sigtrap, or remove_on_exec, then
-having a perf-tool specific test for those would make sense again.)
+	for x in {1..1000}; do ( tools/testing/selftests/perf_events/remove_on_exec & ); done
 
-The tests at [1] do seem relevant, and its test strategy seems more
-extensive, including testing older kernels. Unfortunately it is
-out-of-tree, but that's probably because it was started before
-kselftest came into existence. But there are probably things that [1]
-contains that are not appropriate in-tree.
+Which resulted in the 2 warnings:
 
-It's all a bit confusing.
+	WARNING: CPU: 1 PID: 795 at kernel/events/core.c:242 event_function+0xf3/0x100
+	WARNING: CPU: 1 PID: 795 at kernel/events/core.c:247 event_function+0xef/0x100
 
-Going forward, if you insist on tests being also added to [1], we can
-perhaps mirror some of the kselftest tests there. There's also a
-logistical problem with the tests added here, because the tests
-require an up-to-date siginfo_t, and they use the kernel's
-<asm/siginfo.h> with some trickery. Until libc's siginfo_t is updated,
-it probably doesn't make sense to add these tests to [1].
+with efs->func==__perf_event_enable. I believe it's sufficient to add
 
-The other question is, would it be possible to also copy some of the
-tests in [1] and convert to kselftest, so that they live in-tree and
-are tested regularly (CI, ...)?
+	mutex_lock(&parent_event->child_mutex);
+	list_del_init(&event->child_list);
+	mutex_unlock(&parent_event->child_mutex);
 
-Because I'd much prefer in-tree tests with little boilerplate, that
-are structured with parsable output; in the kernel we have the
-kselftest framework for tests with a user space component, and KUnit
-for pure in-kernel tests.
+right before removing from context. With the version I have now (below
+for completeness), extended torture with the above test results in no
+more warnings and the test also passes.
+
+
+I'd be happy to send a non-RFC v3 with all that squashed in. I'd need
+your Signed-off-by for the diff you sent to proceed (and add your
+Co-developed-by).
 
 Thanks,
 -- Marco
 
-> Thanks,
-> Ian
->
-> [1] https://github.com/deater/perf_event_tests
-[...]
+------ >8 ------
+
+diff --git a/kernel/events/core.c b/kernel/events/core.c
+index aa47e111435e..cea7c88fe131 100644
+--- a/kernel/events/core.c
++++ b/kernel/events/core.c
+@@ -2165,8 +2165,9 @@ static void perf_group_detach(struct perf_event *event)
+ 	 * If this is a sibling, remove it from its group.
+ 	 */
+ 	if (leader != event) {
++		leader->nr_siblings--;
+ 		list_del_init(&event->sibling_list);
+-		event->group_leader->nr_siblings--;
++		event->group_leader = event;
+ 		goto out;
+ 	}
+ 
+@@ -2180,8 +2181,9 @@ static void perf_group_detach(struct perf_event *event)
+ 		if (sibling->event_caps & PERF_EV_CAP_SIBLING)
+ 			perf_remove_sibling_event(sibling);
+ 
+-		sibling->group_leader = sibling;
++		leader->nr_siblings--;
+ 		list_del_init(&sibling->sibling_list);
++		sibling->group_leader = sibling;
+ 
+ 		/* Inherit group flags from the previous leader */
+ 		sibling->group_caps = event->group_caps;
+@@ -2358,10 +2360,19 @@ __perf_remove_from_context(struct perf_event *event,
+ static void perf_remove_from_context(struct perf_event *event, unsigned long flags)
+ {
+ 	struct perf_event_context *ctx = event->ctx;
++	bool remove;
+ 
+ 	lockdep_assert_held(&ctx->mutex);
+ 
+-	event_function_call(event, __perf_remove_from_context, (void *)flags);
++	/*
++	 * There is concurrency vs remove_on_exec().
++	 */
++	raw_spin_lock_irq(&ctx->lock);
++	remove = (event->attach_state & PERF_ATTACH_CONTEXT);
++	raw_spin_unlock_irq(&ctx->lock);
++
++	if (remove)
++		event_function_call(event, __perf_remove_from_context, (void *)flags);
+ 
+ 	/*
+ 	 * The above event_function_call() can NO-OP when it hits
+@@ -4198,41 +4209,68 @@ static void perf_event_enable_on_exec(int ctxn)
+ static void perf_remove_from_owner(struct perf_event *event);
+ static void perf_event_exit_event(struct perf_event *child_event,
+ 				  struct perf_event_context *child_ctx,
+-				  struct task_struct *child);
++				  struct task_struct *child,
++				  bool removed);
+ 
+ /*
+  * Removes all events from the current task that have been marked
+  * remove-on-exec, and feeds their values back to parent events.
+  */
+-static void perf_event_remove_on_exec(void)
++static void perf_event_remove_on_exec(int ctxn)
+ {
+-	int ctxn;
++	struct perf_event_context *ctx, *clone_ctx = NULL;
++	struct perf_event *event, *next;
++	LIST_HEAD(free_list);
++	unsigned long flags;
++	bool modified = false;
+ 
+-	for_each_task_context_nr(ctxn) {
+-		struct perf_event_context *ctx;
+-		struct perf_event *event, *next;
++	ctx = perf_pin_task_context(current, ctxn);
++	if (!ctx)
++		return;
+ 
+-		ctx = perf_pin_task_context(current, ctxn);
+-		if (!ctx)
++	mutex_lock(&ctx->mutex);
++
++	if (WARN_ON_ONCE(ctx->task != current))
++		goto unlock;
++
++	list_for_each_entry_safe(event, next, &ctx->event_list, event_entry) {
++		struct perf_event *parent_event = event->parent;
++
++		if (!event->attr.remove_on_exec)
+ 			continue;
+-		mutex_lock(&ctx->mutex);
+ 
+-		list_for_each_entry_safe(event, next, &ctx->event_list, event_entry) {
+-			if (!event->attr.remove_on_exec)
+-				continue;
++		if (!is_kernel_event(event))
++			perf_remove_from_owner(event);
+ 
+-			if (!is_kernel_event(event))
+-				perf_remove_from_owner(event);
+-			perf_remove_from_context(event, DETACH_GROUP);
++		modified = true;
++
++		if (parent_event) {
+ 			/*
+-			 * Remove the event and feed back its values to the
+-			 * parent event.
++			 * Remove event from parent, to avoid race where the
++			 * parent concurrently iterates through its children to
++			 * enable, disable, or otherwise modify an event.
+ 			 */
+-			perf_event_exit_event(event, ctx, current);
++			mutex_lock(&parent_event->child_mutex);
++			list_del_init(&event->child_list);
++			mutex_unlock(&parent_event->child_mutex);
+ 		}
+-		mutex_unlock(&ctx->mutex);
+-		put_ctx(ctx);
++
++		perf_remove_from_context(event, !!event->parent * DETACH_GROUP);
++		perf_event_exit_event(event, ctx, current, true);
+ 	}
++
++	raw_spin_lock_irqsave(&ctx->lock, flags);
++	if (modified)
++		clone_ctx = unclone_ctx(ctx);
++	--ctx->pin_count;
++	raw_spin_unlock_irqrestore(&ctx->lock, flags);
++
++unlock:
++	mutex_unlock(&ctx->mutex);
++
++	put_ctx(ctx);
++	if (clone_ctx)
++		put_ctx(clone_ctx);
+ }
+ 
+ struct perf_read_data {
+@@ -7581,20 +7619,18 @@ void perf_event_exec(void)
+ 	struct perf_event_context *ctx;
+ 	int ctxn;
+ 
+-	rcu_read_lock();
+ 	for_each_task_context_nr(ctxn) {
+-		ctx = current->perf_event_ctxp[ctxn];
+-		if (!ctx)
+-			continue;
+-
+ 		perf_event_enable_on_exec(ctxn);
++		perf_event_remove_on_exec(ctxn);
+ 
+-		perf_iterate_ctx(ctx, perf_event_addr_filters_exec, NULL,
+-				   true);
++		rcu_read_lock();
++		ctx = rcu_dereference(current->perf_event_ctxp[ctxn]);
++		if (ctx) {
++			perf_iterate_ctx(ctx, perf_event_addr_filters_exec,
++					 NULL, true);
++		}
++		rcu_read_unlock();
+ 	}
+-	rcu_read_unlock();
+-
+-	perf_event_remove_on_exec();
+ }
+ 
+ struct remote_output {
+@@ -12472,7 +12508,7 @@ static void sync_child_event(struct perf_event *child_event,
+ static void
+ perf_event_exit_event(struct perf_event *child_event,
+ 		      struct perf_event_context *child_ctx,
+-		      struct task_struct *child)
++		      struct task_struct *child, bool removed)
+ {
+ 	struct perf_event *parent_event = child_event->parent;
+ 
+@@ -12489,12 +12525,15 @@ perf_event_exit_event(struct perf_event *child_event,
+ 	 * and being thorough is better.
+ 	 */
+ 	raw_spin_lock_irq(&child_ctx->lock);
+-	WARN_ON_ONCE(child_ctx->is_active);
++	if (!removed) {
++		WARN_ON_ONCE(child_ctx->is_active);
+ 
+-	if (parent_event)
+-		perf_group_detach(child_event);
+-	list_del_event(child_event, child_ctx);
+-	perf_event_set_state(child_event, PERF_EVENT_STATE_EXIT); /* is_event_hup() */
++		if (parent_event)
++			perf_group_detach(child_event);
++		list_del_event(child_event, child_ctx);
++	}
++	if (child_event->state >= PERF_EVENT_STATE_EXIT)
++		perf_event_set_state(child_event, PERF_EVENT_STATE_EXIT); /* is_event_hup() */
+ 	raw_spin_unlock_irq(&child_ctx->lock);
+ 
+ 	/*
+@@ -12580,7 +12619,7 @@ static void perf_event_exit_task_context(struct task_struct *child, int ctxn)
+ 	perf_event_task(child, child_ctx, 0);
+ 
+ 	list_for_each_entry_safe(child_event, next, &child_ctx->event_list, event_entry)
+-		perf_event_exit_event(child_event, child_ctx, child);
++		perf_event_exit_event(child_event, child_ctx, child, false);
+ 
+ 	mutex_unlock(&child_ctx->mutex);
+ 
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNN6_jO5vK8fteJ7bEi1gM6Ho2kZxSq9avocM3A5TyFL%3Dg%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YFm6aakSRlF2nWtu%40elver.google.com.
