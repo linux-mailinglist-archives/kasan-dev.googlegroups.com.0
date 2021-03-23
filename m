@@ -1,133 +1,128 @@
-Return-Path: <kasan-dev+bncBCAP7WGUVIKBB34G5CBAMGQEU2NMMUQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDX4HWEMTEBRBYMI5CBAMGQE5FQ23SA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pj1-x103f.google.com (mail-pj1-x103f.google.com [IPv6:2607:f8b0:4864:20::103f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3683734623E
-	for <lists+kasan-dev@lfdr.de>; Tue, 23 Mar 2021 16:04:17 +0100 (CET)
-Received: by mail-pj1-x103f.google.com with SMTP id z21sf2284550pjr.9
-        for <lists+kasan-dev@lfdr.de>; Tue, 23 Mar 2021 08:04:17 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1616511856; cv=pass;
+Received: from mail-ot1-x33d.google.com (mail-ot1-x33d.google.com [IPv6:2607:f8b0:4864:20::33d])
+	by mail.lfdr.de (Postfix) with ESMTPS id EDCA534625B
+	for <lists+kasan-dev@lfdr.de>; Tue, 23 Mar 2021 16:08:18 +0100 (CET)
+Received: by mail-ot1-x33d.google.com with SMTP id c6sf1255255otl.14
+        for <lists+kasan-dev@lfdr.de>; Tue, 23 Mar 2021 08:08:18 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1616512098; cv=pass;
         d=google.com; s=arc-20160816;
-        b=UedBqVzlcDLF/IXdtEHSoRMXzyjBN6/7V1Gi84KfwkrQxrx9KbCvESzkKsApx0bF/m
-         VY1rSujzMkKEZg44sT/FMKAJ9SV88TeYvkYeWK2uBi/Ymcq0ynKmprMcyIRNvr/0wnQz
-         QZcQnt3ZIRQEUrtF7u6A1jqb3LuAtSs+6n6xIPeprM3jXKKT4d4Vs3ue2/T0sZOd3V1e
-         YgDgd9UBvFQtyS43uMlTp0AMPllSovD1v/mo54xpWt9V92QoZNL7SpRnTA06PdXZNbpp
-         43BwqeGBd2xNpEKAXkvZxQOveiyeZixXnYeFt2Z3bqGfX9+XYAUb3YoqtVkVpArbw3D/
-         6lmQ==
+        b=nvO9PtX7+iXetmyrxPyok7hSZpbSoYcN6a0X63/DoCm049pqKDzdkBL1/FgafcP1nJ
+         Lzchj7/UxMD9hpxteWZseIhwmd2s6F6PaR8tBr+lX5R9VRGZNZNQKl3rVGywFnV78KiT
+         UP+j/EFBmKVYLZ0gDnRQNl+7gkAIvtdqozBAGVuu0CIAKLJZu3bNa5kRaF9IC8PnCMZr
+         IzLpT3nMO+jH0vau56Eju1TlmIrAGInPrNZH/zgEoX+cO2k/Pf/DCz04/BMbQqPaquzn
+         hSZv7cph0glJU+GzWcDTY4oiaJvSmZJM4OMLcytqhtBc1lHhAyM5JVrjbu7v2PT633Yj
+         /f7w==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-language:in-reply-to
-         :mime-version:user-agent:date:message-id:from:references:cc:to
-         :subject:sender:dkim-signature;
-        bh=U8shdoPMBw1YUh8kiLbRIh9zptdJM0VRStZP5KOSwao=;
-        b=D56VmeroZtgUieLftUykwujS9emsr6trWn7w0WHHmjdR+1OAR0ehTtVhaUBjUN4TJS
-         qdC/uPd0MlYj+4vo6bqcNQl4ZUhEPq/wGOrP2eYAudmjbPFYRy+XD9Es2lNEUwQX8YjF
-         nIq7QsZXglB3P2O28uUhRzHlGJgDFP7+VGoR18lOG41LHLXMBX/14/YzBX5IYR14En5n
-         B4kVQiHCtAp3RSKt6XR/sQ7AzN5rRlLy0NKhNZzneMjbYJMSjVReIGYLUNb9i+IGr+nU
-         G6kiRlIqYLkZN/s4a11o8psAhQjjSQa18wVDGLtBCGrX0GrDdKOPPalcMzkv54wSS2Hc
-         AQ8g==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=ByiJo2JGB3PEfm3fsG59LFOUlNmpyMKX5E/3zNqHDIY=;
+        b=McCiClB2MVFiD0izUCBto/jvgv9KFbm8cUgtP04Sn8cU1jlYSqRtzkt6V2KTDu1vRq
+         Jm1c58TbUw7//coXcCUKmmjIM4lcyjYRcEq/phZaqvk3uHov/ooIrwHWNWCP+A6pv8JB
+         IkzrmRP/GxdC5IqZkHUTVU2tPKsXxkqXiDm/DSSrVZGIBoA0J48GXew+gDo/LKzalVgU
+         rAvV/pcKKXv3wxGh5vZT/Q8YOHelv8lC5VSMiAXpiZF9Hifis2KxM0z/P4Mp6U771607
+         8oZ2AVu3aG3QJhRIB5rd5GwbxrdNypNPn8+Y8yD2tAFoVc0f1yaMRBV8T/qsirdA0Deh
+         dvdw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: best guess record for domain of penguin-kernel@i-love.sakura.ne.jp designates 202.181.97.72 as permitted sender) smtp.mailfrom=penguin-kernel@i-love.sakura.ne.jp
+       dkim=pass header.i=@google.com header.s=20161025 header.b=JlfWnvho;
+       spf=pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::1035 as permitted sender) smtp.mailfrom=andreyknvl@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=U8shdoPMBw1YUh8kiLbRIh9zptdJM0VRStZP5KOSwao=;
-        b=kpnxmxb+7O0un/cOSOJ2VLbtdidk+XKrqKkF48Gg6TthHW/LuSm9dwOyeSSbjgmq3G
-         wyPKLciAaBaFjh1SLBLHkFyGtHwUEbxW7Hrml8yD7OLYzqXf0f82ooE15JTUFfI6ekM2
-         0JbQNoFrWq9bHzCeUHyzNKOBb7PSS72ARtgRogGczDWQdwHaS1tTrzlEoUfjWP65fR7M
-         FkflNjTyCTm5t5zh1BJDLv8SgCZFhP9d3Zzj5NE8V3JmHMBi+FiTDD54YgPUlMPSrI2h
-         9UoXSly6vl+MG0s7H7MmOQuVvYEr+ybCvO/oTPuJPi0/jDL8L9gq4i4UAIYHYI0M3NBM
-         YE8Q==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=ByiJo2JGB3PEfm3fsG59LFOUlNmpyMKX5E/3zNqHDIY=;
+        b=DHw7uWWIeGecVuco0taKPoDs9elqAChBP3tVvEf8BhkyTKaJL2wx/zSAGqVMfcd+8y
+         tAyRaaI3sicVOdZJV8xCW6eQo8dYgWCCvCknV7BGsm2PfmP1JUuFk3MDpwL04NDhpiR6
+         fsZ0V32/vPwsSPf+UnjshcWsZktKh40CG4BDULOcb9DoZZ0wjVHfF/neV4wpQsBKg2cB
+         6w8dgE35OPWR0FPrpmmifFcGEj/m/gTnIbD4VQnLZgn++RYqpdqkkewqJzrurhbJbb9S
+         HnS29yWKBVmhOxZMFxYSW3ARn0LruMMpwqurnW6wR71a061xRYc/NaGKxrO+dx0MXRUl
+         +T2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=U8shdoPMBw1YUh8kiLbRIh9zptdJM0VRStZP5KOSwao=;
-        b=UeZSLiyvWFVpEobDyZp15F/cMUclwwYvoYH/DO7ynDlyJjSSSWz5vhKbMU87tiBvlS
-         FeNsnQLvEMh6BhRkyT7NiwZVXAR+L7dePFyXcAWKr0WnFBZz/btyiPQIU7DE9rLOJzHq
-         m+9C1oOrVostkyw2zMtrNHUuwl8bgJMpvwDqspkhGzRJillbtgm9O9SzV05o/kFyREDm
-         8fYpp5OLyTdpFN59vvQ27ELj3t3WKaFqb5LI5aGNfpHZiGUTxkG0DBdlqrPp5PMmp1oy
-         YTlT0gT7DM52wkwlym7py6bpHTKSFR/HTb2iXGGqby6BVLZfgUzh1dyunRJm8OUAqYWB
-         r1Tg==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM532tN+p2kxEhqgamj9BkjU3dkjAa/bGtmIPIWBHDXE429m0NfRqM
-	k9KLyosCqWeEsr/iYmLYgGc=
-X-Google-Smtp-Source: ABdhPJz+nxOdj87xaYIEmHyQSuarbbRSdlU88hZj4ySlF2ik5dFaIkH6O90g+i4tUEZLv8p8cHm3LQ==
-X-Received: by 2002:a17:90a:f184:: with SMTP id bv4mr4746721pjb.43.1616511855897;
-        Tue, 23 Mar 2021 08:04:15 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=ByiJo2JGB3PEfm3fsG59LFOUlNmpyMKX5E/3zNqHDIY=;
+        b=cCgMlupgBgdXfXc+U6MeHRwgUIGU4YX4n41lbNhhcNTR+m0YxCKjhE5S3OhZvLN6Io
+         /hVl0IJrqCMGbZCYJt/4tVBghO8PU2K6MD8qNx9+xQU5n3jZ4CfqCdql1mRCxrauk7rj
+         FJysg/99rLo4gf0FJfBnBiHMMctwsgnc8PiKYtZ1bYCDre5pwFGi2eCHyI68aTg+2o1x
+         fBuGOlZo7ggKvzlwKOUe9bpPbeaIb2WF0oOaS1u/dC50o4WpHKJdQkxSjFjtBEEV5Xt8
+         DFDU9iFlJsSHN+UBzxG3Ufl57FotUw6nM88EppVuSuo2nLVR03qQHRZRjY61UUShOLZF
+         SD7A==
+X-Gm-Message-State: AOAM531+DcfLs7EiZqYKjI7nVpOfHaR0Z1M6pTPbd7mf/QseT4llfOXd
+	w1524LWL2KUvY4t488ZUfco=
+X-Google-Smtp-Source: ABdhPJwECEz5VJM3XXazECKjy1KWqb9BvcNaK3W8RrVL925m8/lDOsSeO0u1O5nCNNlfM9lKgnVZcg==
+X-Received: by 2002:a9d:6481:: with SMTP id g1mr4651070otl.303.1616512097962;
+        Tue, 23 Mar 2021 08:08:17 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a65:4d43:: with SMTP id j3ls5670758pgt.1.gmail; Tue, 23 Mar
- 2021 08:04:15 -0700 (PDT)
-X-Received: by 2002:a63:4845:: with SMTP id x5mr4180792pgk.315.1616511855360;
-        Tue, 23 Mar 2021 08:04:15 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1616511855; cv=none;
+Received: by 2002:a4a:a403:: with SMTP id v3ls992134ool.6.gmail; Tue, 23 Mar
+ 2021 08:08:17 -0700 (PDT)
+X-Received: by 2002:a4a:e8d1:: with SMTP id h17mr4222865ooe.20.1616512097641;
+        Tue, 23 Mar 2021 08:08:17 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1616512097; cv=none;
         d=google.com; s=arc-20160816;
-        b=zaAX9X6l2WSxm9YB27vsCopZt0BuaKhCLpJeJiHSAZgL34eVxb5Xlwf7ixnzj85m3x
-         uvOXn6ASdJxmEZqoYyUxJsrHjP9OoeZbSpS7a1vt3EInd2QwVreuH3yO3UYNETbFdK1H
-         ugi9/hs9gkf3ng+7D9a882Mrco6a5ys9RtYZLzGhQZ+OKlir0tvfa8HzeavXbM7f4taG
-         ua70g5ybagtQC04/d2cYEEsiYuQexPX5URVzC670D9+HeKwSa58t7q2iNHBAuJGP1kx0
-         B+4u2wQ0a62zZng0v0RAxtqumHT27GdThts0PLLVPO7r4FqeC1Zozr+B+YzwAL1xV3WW
-         /N/Q==
+        b=Wwd59QOzfCS8WMvDYlHDaamCdgpQqk9cYMM0PMuVuK1SJ08Ns5jBivD64JHZYeD+yz
+         1f2MvpRqHXPVDfjjPt0IywMlX7jc7A/Ai2ep1tTfQUQH1py+bP/JU/18atOGJKyCJHzg
+         POmvqA01y0NwXlAWzHJ48zjcOIS1OxZl/M/sbwCb8LflaRPeiOWKBolZxauphMKSGHva
+         KgICupHaWjlkqLN20IkByUFBgHxbR4T4WRsikBkL627ZW7CIyODmv5nxBIu16w+ZyY55
+         vBSXDAcD1ClPLxGWq4gJxgE8TYY5xu6fLncrWqA+j/nCfkgj5upGXenqxJE6UCRyKkjm
+         sy3A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject;
-        bh=Akj1qwM5IWxi7OugIJR4G/7qT/LOkV7Tlq/xgqHmzbg=;
-        b=i5p2khZoVT1cLFAYKeEdWt4JUxaWEiypx1tgfw7iVWzspnZspaB1QygZzePONwO4hY
-         y+7raNHteMrNfFf7GAUQmiqRsJ5iiSEN/S8nObwlGIft1CcfRwUowAvIzUxw6NfZN+Sk
-         xjtN7J8jFII1/HtsZyIvjjn0JjLtAJlaFfV0iDPVFg0sg/jtuJpIYHGP4TIsBmBanu/u
-         AURPuQmw083IlG3b8eWCJ0LUc2uRVKVM2pW1dDWkXeXJ5GKEKYWi2IokfYypaYmO2GqN
-         NVLZFUtLxNdjryyhYe4I+CamaOlZtQWjXQ+p0hpn+b7N2Fg7TG0t9JV7x4FveknxzU/P
-         mCIw==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=B/0oH/sIKlTyqEM5+DPElcup5AqdVgWb/d4FeBXrA9I=;
+        b=cob8COUQTl0t8xky9VXkKSq6ya+lsf9LmZ7d0FO6niFSlPdu/Vglp8dtYRqObxLBsb
+         HiEUIPVk9FGa9Q42AP4qmxRCSV/9ZqXjZX6JR5TBO9cAMlE56vYVYk5ty5QM4EOnOYuL
+         f0ZGsZ1FRG6athn1D2UFGW2SSDikPSKU7AA+goPe6ueGDM0iKdm/WykBAjHdOD77YkRW
+         8Nl06Ty94UZsDoacgcFKLk3DAEYOpbqN8KxV2fw5f0v6FpoN6tBWOxStki6mKdpEId2M
+         kBPlPccK+NBClF7mmu0TE+LgVH8UehqyyBcLDUsU9JnGU5LxX9MKGch60AuCYOIjhczK
+         F5Yw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: best guess record for domain of penguin-kernel@i-love.sakura.ne.jp designates 202.181.97.72 as permitted sender) smtp.mailfrom=penguin-kernel@i-love.sakura.ne.jp
-Received: from www262.sakura.ne.jp (www262.sakura.ne.jp. [202.181.97.72])
-        by gmr-mx.google.com with ESMTPS id c3si217132pls.0.2021.03.23.08.04.14
+       dkim=pass header.i=@google.com header.s=20161025 header.b=JlfWnvho;
+       spf=pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::1035 as permitted sender) smtp.mailfrom=andreyknvl@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com. [2607:f8b0:4864:20::1035])
+        by gmr-mx.google.com with ESMTPS id f2si1460073oob.2.2021.03.23.08.08.17
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 23 Mar 2021 08:04:15 -0700 (PDT)
-Received-SPF: pass (google.com: best guess record for domain of penguin-kernel@i-love.sakura.ne.jp designates 202.181.97.72 as permitted sender) client-ip=202.181.97.72;
-Received: from fsav104.sakura.ne.jp (fsav104.sakura.ne.jp [27.133.134.231])
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 12NF49vn052069;
-	Wed, 24 Mar 2021 00:04:09 +0900 (JST)
-	(envelope-from penguin-kernel@i-love.sakura.ne.jp)
-Received: from www262.sakura.ne.jp (202.181.97.72)
- by fsav104.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav104.sakura.ne.jp);
- Wed, 24 Mar 2021 00:04:09 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav104.sakura.ne.jp)
-Received: from [192.168.1.9] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
-	(authenticated bits=0)
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 12NF48RW052065
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
-	Wed, 24 Mar 2021 00:04:09 +0900 (JST)
-	(envelope-from penguin-kernel@i-love.sakura.ne.jp)
-Subject: Re: [5.12-rc4] int3 problem at kfence_alloc() when allocating memory.
-To: Marco Elver <elver@google.com>
-Cc: kasan-dev <kasan-dev@googlegroups.com>,
-        Alexander Potapenko <glider@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>
-References: <ebe1d0bd-39fe-d7a0-9dcc-d8e70895a078@i-love.sakura.ne.jp>
- <CANpmjNM60W4nYEYCEt9SJ9f4L194WEk_ORey8s+DbgnokJZ53g@mail.gmail.com>
- <YFnmayHmYcrNk3V+@elver.google.com>
- <CANpmjNM5xCWXdErqv4btAL2yvqVpWWXcjG6659hNy_NBQ0YdaA@mail.gmail.com>
-From: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-Message-ID: <7e26707c-0f08-7c1d-250e-a9004e804085@i-love.sakura.ne.jp>
-Date: Wed, 24 Mar 2021 00:04:07 +0900
-User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 23 Mar 2021 08:08:17 -0700 (PDT)
+Received-SPF: pass (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::1035 as permitted sender) client-ip=2607:f8b0:4864:20::1035;
+Received: by mail-pj1-x1035.google.com with SMTP id mz6-20020a17090b3786b02900c16cb41d63so10254439pjb.2
+        for <kasan-dev@googlegroups.com>; Tue, 23 Mar 2021 08:08:17 -0700 (PDT)
+X-Received: by 2002:a17:90a:8c08:: with SMTP id a8mr5052138pjo.136.1616512097128;
+ Tue, 23 Mar 2021 08:08:17 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CANpmjNM5xCWXdErqv4btAL2yvqVpWWXcjG6659hNy_NBQ0YdaA@mail.gmail.com>
+References: <20210315132019.33202-1-vincenzo.frascino@arm.com> <20210318185607.GD10758@arm.com>
+In-Reply-To: <20210318185607.GD10758@arm.com>
+From: "'Andrey Konovalov' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Tue, 23 Mar 2021 16:08:05 +0100
+Message-ID: <CAAeHK+w+pHtKNwxz5Scdp9_48jmSLfeBqBGqKQT+-aFO486GzA@mail.gmail.com>
+Subject: Re: [PATCH v16 0/9] arm64: ARMv8.5-A: MTE: Add async mode support
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>, 
+	Linux ARM <linux-arm-kernel@lists.infradead.org>, LKML <linux-kernel@vger.kernel.org>, 
+	kasan-dev <kasan-dev@googlegroups.com>, Will Deacon <will@kernel.org>, 
+	Dmitry Vyukov <dvyukov@google.com>, Andrey Ryabinin <aryabinin@virtuozzo.com>, 
+	Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>, 
+	Evgenii Stepanov <eugenis@google.com>, Branislav Rankov <Branislav.Rankov@arm.com>, 
+	Andrey Konovalov <andreyknvl@gmail.com>, Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>, 
+	Catalin Marinas <catalin.marinas@arm.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Language: en-US
-X-Original-Sender: penguin-kernel@i-love.sakura.ne.jp
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: best guess record for domain of penguin-kernel@i-love.sakura.ne.jp
- designates 202.181.97.72 as permitted sender) smtp.mailfrom=penguin-kernel@i-love.sakura.ne.jp
+X-Original-Sender: andreyknvl@google.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@google.com header.s=20161025 header.b=JlfWnvho;       spf=pass
+ (google.com: domain of andreyknvl@google.com designates 2607:f8b0:4864:20::1035
+ as permitted sender) smtp.mailfrom=andreyknvl@google.com;       dmarc=pass
+ (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Andrey Konovalov <andreyknvl@google.com>
+Reply-To: Andrey Konovalov <andreyknvl@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -140,13 +135,51 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 2021/03/23 23:46, Marco Elver wrote:
-> I reported https://bugs.launchpad.net/qemu/+bug/1920934 -- probably
-> not much else we can do for now.
+On Thu, Mar 18, 2021 at 7:56 PM Catalin Marinas <catalin.marinas@arm.com> wrote:
+>
+> On Mon, Mar 15, 2021 at 01:20:10PM +0000, Vincenzo Frascino wrote:
+> > This patchset implements the asynchronous mode support for ARMv8.5-A
+> > Memory Tagging Extension (MTE), which is a debugging feature that allows
+> > to detect with the help of the architecture the C and C++ programmatic
+> > memory errors like buffer overflow, use-after-free, use-after-return, etc.
+> >
+> > MTE is built on top of the AArch64 v8.0 virtual address tagging TBI
+> > (Top Byte Ignore) feature and allows a task to set a 4 bit tag on any
+> > subset of its address space that is multiple of a 16 bytes granule. MTE
+> > is based on a lock-key mechanism where the lock is the tag associated to
+> > the physical memory and the key is the tag associated to the virtual
+> > address.
+> > When MTE is enabled and tags are set for ranges of address space of a task,
+> > the PE will compare the tag related to the physical memory with the tag
+> > related to the virtual address (tag check operation). Access to the memory
+> > is granted only if the two tags match. In case of mismatch the PE will raise
+> > an exception.
+> >
+> > The exception can be handled synchronously or asynchronously. When the
+> > asynchronous mode is enabled:
+> >   - Upon fault the PE updates the TFSR_EL1 register.
+> >   - The kernel detects the change during one of the following:
+> >     - Context switching
+> >     - Return to user/EL0
+> >     - Kernel entry from EL1
+> >     - Kernel exit to EL1
+> >   - If the register has been updated by the PE the kernel clears it and
+> >     reports the error.
+> >
+> > The series is based on linux-next/akpm.
+>
+> Andrew, could you please pick these patches up via the mm tree? They
+> depend on kasan patches already queued.
 
-I see. Thank you for debugging.
+Hi Andrew,
+
+Looks like these patches have reached a stable state.
+
+Could you please pick them up into mm targeting 5.13?
+
+Thanks!
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/7e26707c-0f08-7c1d-250e-a9004e804085%40i-love.sakura.ne.jp.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAAeHK%2Bw%2BpHtKNwxz5Scdp9_48jmSLfeBqBGqKQT%2B-aFO486GzA%40mail.gmail.com.
