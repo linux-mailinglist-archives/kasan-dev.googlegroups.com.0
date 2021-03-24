@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBM6D5SBAMGQEXCB45CI@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBNWD5SBAMGQEDV7H5WQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ot1-x33d.google.com (mail-ot1-x33d.google.com [IPv6:2607:f8b0:4864:20::33d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EAC5347716
-	for <lists+kasan-dev@lfdr.de>; Wed, 24 Mar 2021 12:25:40 +0100 (CET)
-Received: by mail-ot1-x33d.google.com with SMTP id 13sf1114355otu.22
-        for <lists+kasan-dev@lfdr.de>; Wed, 24 Mar 2021 04:25:40 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1616585139; cv=pass;
+Received: from mail-lj1-x238.google.com (mail-lj1-x238.google.com [IPv6:2a00:1450:4864:20::238])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8CC5347717
+	for <lists+kasan-dev@lfdr.de>; Wed, 24 Mar 2021 12:25:42 +0100 (CET)
+Received: by mail-lj1-x238.google.com with SMTP id r12sf1036154ljp.22
+        for <lists+kasan-dev@lfdr.de>; Wed, 24 Mar 2021 04:25:42 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1616585142; cv=pass;
         d=google.com; s=arc-20160816;
-        b=F7XTQWB0UZGVPTqMELsJ9qxpRDSZpchmhYk7U+qbZkB7/W8HqfbCWPvWuA8b8xSwR/
-         O5NKCzp9kVkkvOamj0lxa6sWMgq4cOjpRiblPcDBtFb257CmcjjDItpEBHYoSp6ZaUfD
-         rvbeik7SJhlmddTvUeNNDzC27F9Q34xMcrpfG6Dv3gKas9iMjA87M6TZiwkKYtv0InBP
-         +qj5OIupRS4cJQlBLWyR27yCD/WgkePoHgQ091A0GAbfpF3kRIU1POR5M6yBojZ3bvLP
-         a4U2eyJesskgIwZk3JpD+8upfYWGcAdzsgbRiDIY66ehjb8RYtgydEPs/Awa5lrKajQs
-         I5hQ==
+        b=q1zXM4tcATc5JO2lmeW/sp5st844HuRYvgKXFPYcIIuk4II8nC0xKTMgHccv0M+rRu
+         6bMVjIpuVqH7VisxY35hVPtYa+QaeMeFPwtnQ+z8daWDaLrdFzEffTF6KIadDqK7Hf8y
+         1o/UQXzEMEo85JV2ePUSAn8/Yo/kGNIm4PX+k71wwAauWlriY75Awy4ZXwiURzgs/nvP
+         hFN4Xw2jCumP1y4X1WwHNMjCmsjtfclfUnZSQg9DDbfo8iypxY7I7k9hHL/VR4qyA2RN
+         fVmf8Iqs7VN3+ot+dgFkO1LfFxSBpSq/djSyY/MqZ6nstKkuIcV7n98KjLvmCOzkfAUx
+         6HHw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
          :references:mime-version:message-id:in-reply-to:date:dkim-signature;
-        bh=kZh0nVRHq49G6UHd15YAm+XZ/WlGNa93v1PJeLx0HFM=;
-        b=BmvHzEtnuy2XDCl+ckAI89LKQuIxF17ekeaTesOItEBjVkZe4+ldHmOVOSIaZ8cxQI
-         PXuREhJNT+ycPQT7UW7kh03Np7opKfxXU6mFBJcUbFO1A2aqvKtFb3bHDo8uLJkuY7h2
-         8ZHka2P3AaqO5TE07ImKCW6nq0xPiStbrJ9EvItnlDPBFy1LB9//jCedjb6NUL3+It3J
-         jp3CDSXRvtnlOi3R41DLWcB4VOEkCAs+BN3yNVDTt+GoBf2R/OIkc0QhnCE9YVHGmotB
-         o9xBY3hwoFn14rJ4f+VxAsBqLbh+71kgK6MXWtILsz/O8+q8b12zaKzADpYWGPsntfoy
-         Z2Ig==
+        bh=bARvidSZg7zCSrAkFjljBUM2NcIhsXszZ8toj06iXJ4=;
+        b=kYv6L4jryp3PHJ6qRkTXmPMR/62YH0lwQgoZh1lzBgYRo3ZdkaoEDaZZQSIXyBcpUt
+         PSc9gbFfRwZBYsNOJEgJc5mSVmlNrM0K5tqgxHw4doa68gbW7/MfzJeV2nJuV87eElvg
+         Tn5yaiIlN7SWbZuCCs7AOFitnDs6uNpTBKy9JQXB67lXqU6qKBK7U6rCh5Nhte1oBPiN
+         RIXVEEIxzBznUMdy7XggmMkJceygXsK6USXphZ8LyjLA2O4F/hPB+Cu8/P6zYHLkqBXP
+         b+zQsQQYeacZ8zFmZypq1JRcmleQqzryDuIxl3/SMA2DyVZ3Gy8XlrwIKEdFUEnAEXOZ
+         a3YA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=Py8NGJoF;
-       spf=pass (google.com: domain of 3sifbyaukcwsnuenapxxpun.lxvtjbjw-mnepxxpunpaxdyb.lxv@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::749 as permitted sender) smtp.mailfrom=3siFbYAUKCWsNUeNaPXXPUN.LXVTJbJW-MNePXXPUNPaXdYb.LXV@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=GvCabDdv;
+       spf=pass (google.com: domain of 3tcfbyaukcw0pwgpcrzzrwp.nzxvldly-opgrzzrwprczfad.nzx@flex--elver.bounces.google.com designates 2a00:1450:4864:20::349 as permitted sender) smtp.mailfrom=3tCFbYAUKCW0PWgPcRZZRWP.NZXVLdLY-OPgRZZRWPRcZfad.NZX@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=kZh0nVRHq49G6UHd15YAm+XZ/WlGNa93v1PJeLx0HFM=;
-        b=OAH6IoE6jxwZx264M35n6vucgDHcgWHoU1jjjRUmZ6a9YGmh6JcKY4PPhldEMh6A9J
-         rBuaRXUI41NFD3QlCktJpGI2QfCcAWkBpu2gnpDHEKCvKewSFDskSKmqq1PD+8ICvuE2
-         mvNC80q7NHiPJwbD8Cmooz+YqZRpmLj6IBtN6bxFu5gl5z0fTVRwm7OTjc6CucGy6QvM
-         9Ohrfycc6m36nDQdAI1kbTUe3s8tk2P+vW+qnrVgGraeHxVXDCIcdhhEfxO2rm5vvZ5n
-         jR6wA1TL+zsMcz3i1+9pafXOG1k1CfgorloEzqCik+BHux3yy0ceUKmoNdEIHwY+Salt
-         1gkA==
+        bh=bARvidSZg7zCSrAkFjljBUM2NcIhsXszZ8toj06iXJ4=;
+        b=OmYwFRfFFHxSIdBBsQUuEH8zR1OuzBT9Z21zie75zHZSrWGKI8XAJ4LrJg0h/zmI4V
+         VtsAU/4UttLhGTwWY0yBQtOb4D0fJNqDnArAxDDNyYvpLl5yiVwNKJWU48Ftcwyq9pv7
+         0lAYSMw0YTLDNbN43en/62ijBmzjPtTb8SeQh7XLoSXe+OzQ7XdDEcYkdXBiKgYojczU
+         FcLUhv0aI2MzX4xevuE0Ih1UZ4//rYdybyjZ2FDFriE+1CH8U1UgdUT/+R+31X3hhu34
+         DVlObnVdhwB+/Jcl5KwMShKEEK788Sz7eGAPRT7TMRSZIPtzDBI0WUrvGPiE8cd69gzf
+         N4mA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
@@ -49,64 +49,63 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=kZh0nVRHq49G6UHd15YAm+XZ/WlGNa93v1PJeLx0HFM=;
-        b=rl+vDBXpjJva+2NL0IA0o9fTX7CGGR9rqhuAvSUeQDIwQYbRzTDuI2OjjKQlnN0UHm
-         VHPiKfjCTPHcEsb94lqOGz/eW3jLjuFAHiZ+XSgi4XQEh4X6RwycyH8wWeGYU56dB71p
-         9aaPONAsSVdEXaug6AAg5jZ2nGINZYxex+WSzajqhNpipP6LtU3oeRBgTocGeWKbBMv3
-         zLxmoF8NMov5dAHI4NUe01b3vBq0SOSsF3PTkvSA7nmHbhDQ/c93+IxGI8I9iNwDXbA3
-         KnFSxwVLZNDlFJ8VoH8deyZ28HiBJ1WsquZxY5U3RfbQw9xGd0ZLhlthCldg6xNepd8x
-         8CKQ==
-X-Gm-Message-State: AOAM533ugYQLFLZEMmsHmcKQw0KaEjWQKvN5IgWKJoQmZKpAXd+4TRFC
-	1cK3ooocXjrdsnzuFxum/ow=
-X-Google-Smtp-Source: ABdhPJydmlVcwL2uKLkeFYUHTCeUyRJEHde2bLBmT/QUM4+jKpnCb9pGNb0koQOAL5vFgujvOltKkA==
-X-Received: by 2002:a4a:d1da:: with SMTP id a26mr2457190oos.58.1616585139239;
-        Wed, 24 Mar 2021 04:25:39 -0700 (PDT)
+        bh=bARvidSZg7zCSrAkFjljBUM2NcIhsXszZ8toj06iXJ4=;
+        b=r1ReaHtKYhl2h0aJLGdMVEsvYzW6oIgTXgwJvOEkG7NQnVvUH1Y7SLg6BJoEa4fcJz
+         ZoRQzy5lBwEbRHcjq4V7xC9aea7z6It+5kI2keNLHwbv/en44maQM/oPGk1U4+lAgrXd
+         WtmmFZgdygBqi+S55l+uKQj4oYZvoIS0Gx/83KwxTHAUuFMKt7gj/L/YkoeYGaA2jIFZ
+         QsSDl5Y/bkqCWVcStZH2lQ3OZMj+jkFugq27xitHZTYj7emsOqQy9ZaucWwVKb8pevVi
+         D7Oftc9kiAUfMwoYpmWkKSVEBl+2XbniDUqlQbuBolyOyP5nTLtEGxhmW+yf3GjM1+LL
+         hFdQ==
+X-Gm-Message-State: AOAM53259PUr5RW+EDYLm8jIiKNHPxwdCHVcAyNk4efjjRmcx8WkNfhJ
+	ZlTrzPd8xtQMljISr6sxbqM=
+X-Google-Smtp-Source: ABdhPJx9huArj6Hr5D/AOR9/6jfHI70XxgUN9L5XVWR2w7s4f4y4uMFthzy2mDSxfA2YiVY7nDrKYQ==
+X-Received: by 2002:a19:4911:: with SMTP id w17mr1601696lfa.361.1616585142313;
+        Wed, 24 Mar 2021 04:25:42 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a4a:ead1:: with SMTP id s17ls121414ooh.9.gmail; Wed, 24 Mar
- 2021 04:25:38 -0700 (PDT)
-X-Received: by 2002:a4a:d24c:: with SMTP id e12mr2439200oos.73.1616585138838;
-        Wed, 24 Mar 2021 04:25:38 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1616585138; cv=none;
+Received: by 2002:ac2:58f8:: with SMTP id v24ls1324160lfo.2.gmail; Wed, 24 Mar
+ 2021 04:25:41 -0700 (PDT)
+X-Received: by 2002:ac2:4883:: with SMTP id x3mr1636039lfc.419.1616585141118;
+        Wed, 24 Mar 2021 04:25:41 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1616585141; cv=none;
         d=google.com; s=arc-20160816;
-        b=bZJI09iwegoGqqwySB8HUb65/1nnHBdna6Iy6V+yOCot36WcGW5srsvclmkvNQMauD
-         qAD7Ir8U7kjvxRN3Cw248vtbEGpY4kmJb0ZkCycuyjT/Np7Rc/HtDwmib0lGaqkL2CmD
-         jFur9aCXbNonepDGaCIJ4z6G7kTqdPRRjlz1Z6hjhoxeRknLeaQSFbwgaBJLrU1Vzn0p
-         5IYNSnY5uvedSy5beqqU1qza2z+bCkaQszU/9btPDWizcJaZ+nfBcVBT4OGL59ir56xE
-         VzN2XYpmfJoS3CSKyCzHxuZmW5PSwPfNDvU+DSY4mD8tYfjmmrkl6+X1f/kx4vmHD6eD
-         hz4g==
+        b=cMaGSj5drC4ixor6d52I0CvUuPmd0g4L3qgm+GcEBjbxiY/1zvJRvuVjMJmOMtTJ+C
+         u+YLqZA0Wgk5S8qZel94GwWB3V2x2o7hmADywSqPQCA26ValDX5QdX4oIxCN9pt9axIV
+         ZxVFmspnmbgKKMs3gIEjHICp8xiZRaxHk06/fl/vet8OipRmzBPWgKoR0dJVe1+yqTjy
+         n5EzG4YNDfwvYOzWp7t8xEQNQCgkcaORfCKEAENn3b+5YigmxdTeRb2ULD4cMRH6/cI2
+         wr1i2cwUASqTNF1C1eN3X+3NskinpB+W7Px9mxH9Op9LgYj1loP839x7pHq4enyI39JL
+         VTLw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
          :date:dkim-signature;
-        bh=HS48mvwd8rP5r5QtY6Nl7hL+mujJTvxqfvePWFa/JD8=;
-        b=HoJsLObY5NV4YkaHfJBxlgOenebquSqxqPuC6gat8mynLVVAS7tX52LcPUVgdy3IyH
-         SllZYZtp16ap2AeH1cw20DwBuwQl2gHOoRnsdnd+Fh4HMWJ1FXiRYFCk/jZRVA9RZrzZ
-         3dN755R/yLyCySfTqErAXi/J57yupCZxALGYtPCROd5QNN+r/HjsKSe2+9AVnaum4YPw
-         QSAW9qnDz25+VKNZKzcmUPCUdUiUTBfWgrMhuHdqr7Uj316RjT1zDRVZ9A11hDGq2kQO
-         YDt4ht5UUEoPoJZX59bFrrl0BmwmK+43BWyojM2iT7VPVKABWEnNAgTKk5JryxN/Nzxt
-         67ZA==
+        bh=fK7o5DleNnJqQibEJC4DcBiUyuf/i/piGlRFLNZN3Fs=;
+        b=dRzO6JsrSGz0VE+ahMYkccXdLdGT/sZpyyS8A2IWGEOK8tVLfIXs2lUfnI5qYY1i8R
+         Kx1rrrxz5UH4noU7OT7Q6XvZG1SSDKV1haBB3LKaE/qVoV9VhhK72qkmrwcnnX9/yBva
+         hypW382SFMSQMhejCD+UtalqDxwQt0pn8U5bmWDbsOCthINkdyKEeGLvjppFok/Ym5gB
+         RSxE4DPK58OLkP79TkEYbuESkyvo48Ifk1JbjB9uWSg2fhVb6vhlxWTbb1nRdV+t40MD
+         hFki79rDuHa1l8RuHSuW4WmtTjv6gyWgS8wlkcS5eTdWEUNVCovycT3htScTn9nXQBWo
+         z5fw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=Py8NGJoF;
-       spf=pass (google.com: domain of 3sifbyaukcwsnuenapxxpun.lxvtjbjw-mnepxxpunpaxdyb.lxv@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::749 as permitted sender) smtp.mailfrom=3siFbYAUKCWsNUeNaPXXPUN.LXVTJbJW-MNePXXPUNPaXdYb.LXV@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=GvCabDdv;
+       spf=pass (google.com: domain of 3tcfbyaukcw0pwgpcrzzrwp.nzxvldly-opgrzzrwprczfad.nzx@flex--elver.bounces.google.com designates 2a00:1450:4864:20::349 as permitted sender) smtp.mailfrom=3tCFbYAUKCW0PWgPcRZZRWP.NZXVLdLY-OPgRZZRWPRcZfad.NZX@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-qk1-x749.google.com (mail-qk1-x749.google.com. [2607:f8b0:4864:20::749])
-        by gmr-mx.google.com with ESMTPS id y26si116410ooy.1.2021.03.24.04.25.38
+Received: from mail-wm1-x349.google.com (mail-wm1-x349.google.com. [2a00:1450:4864:20::349])
+        by gmr-mx.google.com with ESMTPS id v3si90314lfd.4.2021.03.24.04.25.41
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 24 Mar 2021 04:25:38 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 3sifbyaukcwsnuenapxxpun.lxvtjbjw-mnepxxpunpaxdyb.lxv@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::749 as permitted sender) client-ip=2607:f8b0:4864:20::749;
-Received: by mail-qk1-x749.google.com with SMTP id j14so1333701qka.7
-        for <kasan-dev@googlegroups.com>; Wed, 24 Mar 2021 04:25:38 -0700 (PDT)
+        Wed, 24 Mar 2021 04:25:41 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 3tcfbyaukcw0pwgpcrzzrwp.nzxvldly-opgrzzrwprczfad.nzx@flex--elver.bounces.google.com designates 2a00:1450:4864:20::349 as permitted sender) client-ip=2a00:1450:4864:20::349;
+Received: by mail-wm1-x349.google.com with SMTP id a63so306463wmd.8
+        for <kasan-dev@googlegroups.com>; Wed, 24 Mar 2021 04:25:41 -0700 (PDT)
 X-Received: from elver.muc.corp.google.com ([2a00:79e0:15:13:6489:b3f0:4af:af0])
- (user=elver job=sendgmr) by 2002:a0c:bf12:: with SMTP id m18mr2542326qvi.40.1616585138327;
- Wed, 24 Mar 2021 04:25:38 -0700 (PDT)
-Date: Wed, 24 Mar 2021 12:25:00 +0100
+ (user=elver job=sendgmr) by 2002:a7b:c24e:: with SMTP id b14mr2415183wmj.73.1616585140432;
+ Wed, 24 Mar 2021 04:25:40 -0700 (PDT)
+Date: Wed, 24 Mar 2021 12:25:01 +0100
 In-Reply-To: <20210324112503.623833-1-elver@google.com>
-Message-Id: <20210324112503.623833-9-elver@google.com>
+Message-Id: <20210324112503.623833-10-elver@google.com>
 Mime-Version: 1.0
 References: <20210324112503.623833-1-elver@google.com>
 X-Mailer: git-send-email 2.31.0.291.g576ba9dcdaf-goog
-Subject: [PATCH v3 08/11] selftests/perf_events: Add kselftest for
- process-wide sigtrap handling
+Subject: [PATCH v3 09/11] selftests/perf_events: Add kselftest for remove_on_exec
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
 To: elver@google.com, peterz@infradead.org, alexander.shishkin@linux.intel.com, 
 	acme@kernel.org, mingo@redhat.com, jolsa@redhat.com, mark.rutland@arm.com, 
@@ -120,9 +119,9 @@ Cc: glider@google.com, viro@zeniv.linux.org.uk, arnd@arndb.de,
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=Py8NGJoF;       spf=pass
- (google.com: domain of 3sifbyaukcwsnuenapxxpun.lxvtjbjw-mnepxxpunpaxdyb.lxv@flex--elver.bounces.google.com
- designates 2607:f8b0:4864:20::749 as permitted sender) smtp.mailfrom=3siFbYAUKCWsNUeNaPXXPUN.LXVTJbJW-MNePXXPUNPaXdYb.LXV@flex--elver.bounces.google.com;
+ header.i=@google.com header.s=20161025 header.b=GvCabDdv;       spf=pass
+ (google.com: domain of 3tcfbyaukcw0pwgpcrzzrwp.nzxvldly-opgrzzrwprczfad.nzx@flex--elver.bounces.google.com
+ designates 2a00:1450:4864:20::349 as permitted sender) smtp.mailfrom=3tCFbYAUKCW0PWgPcRZZRWP.NZXVLdLY-OPgRZZRWPRcZfad.NZX@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Marco Elver <elver@google.com>
 Reply-To: Marco Elver <elver@google.com>
@@ -138,16 +137,8 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Add a kselftest for testing process-wide perf events with synchronous
-SIGTRAP on events (using breakpoints). In particular, we want to test
-that changes to the event propagate to all children, and the SIGTRAPs
-are in fact synchronously sent to the thread where the event occurred.
-
-Note: The "signal_stress" test case is also added later in the series to
-perf tool's built-in tests. The test here is more elaborate in that
-respect, which on one hand avoids bloating the perf tool unnecessarily,
-but we also benefit from structured tests with TAP-compliant output that
-the kselftest framework provides.
+Add kselftest to test that remove_on_exec removes inherited events from
+child tasks.
 
 Signed-off-by: Marco Elver <elver@google.com>
 ---
@@ -155,63 +146,42 @@ v3:
 * Fix for latest libc signal.h.
 
 v2:
-* Patch added to series.
+* Add patch to series.
 ---
- .../testing/selftests/perf_events/.gitignore  |   2 +
- tools/testing/selftests/perf_events/Makefile  |   6 +
- tools/testing/selftests/perf_events/config    |   1 +
- tools/testing/selftests/perf_events/settings  |   1 +
- .../selftests/perf_events/sigtrap_threads.c   | 206 ++++++++++++++++++
- 5 files changed, 216 insertions(+)
- create mode 100644 tools/testing/selftests/perf_events/.gitignore
- create mode 100644 tools/testing/selftests/perf_events/Makefile
- create mode 100644 tools/testing/selftests/perf_events/config
- create mode 100644 tools/testing/selftests/perf_events/settings
- create mode 100644 tools/testing/selftests/perf_events/sigtrap_threads.c
+ .../testing/selftests/perf_events/.gitignore  |   1 +
+ tools/testing/selftests/perf_events/Makefile  |   2 +-
+ .../selftests/perf_events/remove_on_exec.c    | 260 ++++++++++++++++++
+ 3 files changed, 262 insertions(+), 1 deletion(-)
+ create mode 100644 tools/testing/selftests/perf_events/remove_on_exec.c
 
 diff --git a/tools/testing/selftests/perf_events/.gitignore b/tools/testing/selftests/perf_events/.gitignore
-new file mode 100644
-index 000000000000..4dc43e1bd79c
---- /dev/null
+index 4dc43e1bd79c..790c47001e77 100644
+--- a/tools/testing/selftests/perf_events/.gitignore
 +++ b/tools/testing/selftests/perf_events/.gitignore
-@@ -0,0 +1,2 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+sigtrap_threads
+@@ -1,2 +1,3 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ sigtrap_threads
++remove_on_exec
 diff --git a/tools/testing/selftests/perf_events/Makefile b/tools/testing/selftests/perf_events/Makefile
-new file mode 100644
-index 000000000000..973a2c39ca83
---- /dev/null
+index 973a2c39ca83..fcafa5f0d34c 100644
+--- a/tools/testing/selftests/perf_events/Makefile
 +++ b/tools/testing/selftests/perf_events/Makefile
-@@ -0,0 +1,6 @@
-+# SPDX-License-Identifier: GPL-2.0
-+CFLAGS += -Wl,-no-as-needed -Wall -I../../../../usr/include
-+LDFLAGS += -lpthread
-+
-+TEST_GEN_PROGS := sigtrap_threads
-+include ../lib.mk
-diff --git a/tools/testing/selftests/perf_events/config b/tools/testing/selftests/perf_events/config
+@@ -2,5 +2,5 @@
+ CFLAGS += -Wl,-no-as-needed -Wall -I../../../../usr/include
+ LDFLAGS += -lpthread
+ 
+-TEST_GEN_PROGS := sigtrap_threads
++TEST_GEN_PROGS := sigtrap_threads remove_on_exec
+ include ../lib.mk
+diff --git a/tools/testing/selftests/perf_events/remove_on_exec.c b/tools/testing/selftests/perf_events/remove_on_exec.c
 new file mode 100644
-index 000000000000..ba58ff2203e4
+index 000000000000..5814611a1dc7
 --- /dev/null
-+++ b/tools/testing/selftests/perf_events/config
-@@ -0,0 +1 @@
-+CONFIG_PERF_EVENTS=y
-diff --git a/tools/testing/selftests/perf_events/settings b/tools/testing/selftests/perf_events/settings
-new file mode 100644
-index 000000000000..6091b45d226b
---- /dev/null
-+++ b/tools/testing/selftests/perf_events/settings
-@@ -0,0 +1 @@
-+timeout=120
-diff --git a/tools/testing/selftests/perf_events/sigtrap_threads.c b/tools/testing/selftests/perf_events/sigtrap_threads.c
-new file mode 100644
-index 000000000000..398717e2991a
---- /dev/null
-+++ b/tools/testing/selftests/perf_events/sigtrap_threads.c
-@@ -0,0 +1,206 @@
++++ b/tools/testing/selftests/perf_events/remove_on_exec.c
+@@ -0,0 +1,260 @@
 +// SPDX-License-Identifier: GPL-2.0
 +/*
-+ * Test for perf events with SIGTRAP across all threads.
++ * Test for remove_on_exec.
 + *
 + * Copyright (C) 2021, Google LLC.
 + */
@@ -234,7 +204,6 @@ index 000000000000..398717e2991a
 +#include <stddef.h>
 +#include <stdint.h>
 +#include <stdio.h>
-+#include <linux/hw_breakpoint.h>
 +#include <linux/perf_event.h>
 +#include <pthread.h>
 +#include <signal.h>
@@ -244,30 +213,26 @@ index 000000000000..398717e2991a
 +
 +#include "../kselftest_harness.h"
 +
-+#define NUM_THREADS 5
++static volatile int signal_count;
 +
-+/* Data shared between test body, threads, and signal handler. */
-+static struct {
-+	int tids_want_signal;		/* Which threads still want a signal. */
-+	int signal_count;		/* Sanity check number of signals received. */
-+	volatile int iterate_on;	/* Variable to set breakpoint on. */
-+	siginfo_t first_siginfo;	/* First observed siginfo_t. */
-+} ctx;
-+
-+static struct perf_event_attr make_event_attr(bool enabled, volatile void *addr)
++static struct perf_event_attr make_event_attr(void)
 +{
 +	struct perf_event_attr attr = {
-+		.type		= PERF_TYPE_BREAKPOINT,
++		.type		= PERF_TYPE_HARDWARE,
 +		.size		= sizeof(attr),
-+		.sample_period	= 1,
-+		.disabled	= !enabled,
-+		.bp_addr	= (long)addr,
-+		.bp_type	= HW_BREAKPOINT_RW,
-+		.bp_len		= HW_BREAKPOINT_LEN_1,
-+		.inherit	= 1, /* Children inherit events ... */
-+		.inherit_thread = 1, /* ... but only cloned with CLONE_THREAD. */
-+		.remove_on_exec = 1, /* Required by sigtrap. */
-+		.sigtrap	= 1, /* Request synchronous SIGTRAP on event. */
++		.config		= PERF_COUNT_HW_INSTRUCTIONS,
++		.sample_period	= 1000,
++		.exclude_kernel = 1,
++		.exclude_hv	= 1,
++		.disabled	= 1,
++		.inherit	= 1,
++		/*
++		 * Children normally retain their inherited event on exec; with
++		 * remove_on_exec, we'll remove their event, but the parent and
++		 * any other non-exec'd children will keep their events.
++		 */
++		.remove_on_exec = 1,
++		.sigtrap	= 1,
 +	};
 +	return attr;
 +}
@@ -279,49 +244,21 @@ index 000000000000..398717e2991a
 +		return;
 +	}
 +
-+	/*
-+	 * The data in siginfo_t we're interested in should all be the same
-+	 * across threads.
-+	 */
-+	if (!__atomic_fetch_add(&ctx.signal_count, 1, __ATOMIC_RELAXED))
-+		ctx.first_siginfo = *info;
-+	__atomic_fetch_sub(&ctx.tids_want_signal, syscall(__NR_gettid), __ATOMIC_RELAXED);
++	signal_count++;
 +}
 +
-+static void *test_thread(void *arg)
-+{
-+	pthread_barrier_t *barrier = (pthread_barrier_t *)arg;
-+	pid_t tid = syscall(__NR_gettid);
-+	int iter;
-+	int i;
-+
-+	pthread_barrier_wait(barrier);
-+
-+	__atomic_fetch_add(&ctx.tids_want_signal, tid, __ATOMIC_RELAXED);
-+	iter = ctx.iterate_on; /* read */
-+	for (i = 0; i < iter - 1; i++) {
-+		__atomic_fetch_add(&ctx.tids_want_signal, tid, __ATOMIC_RELAXED);
-+		ctx.iterate_on = iter; /* idempotent write */
-+	}
-+
-+	return NULL;
-+}
-+
-+FIXTURE(sigtrap_threads)
++FIXTURE(remove_on_exec)
 +{
 +	struct sigaction oldact;
-+	pthread_t threads[NUM_THREADS];
-+	pthread_barrier_t barrier;
 +	int fd;
 +};
 +
-+FIXTURE_SETUP(sigtrap_threads)
++FIXTURE_SETUP(remove_on_exec)
 +{
-+	struct perf_event_attr attr = make_event_attr(false, &ctx.iterate_on);
++	struct perf_event_attr attr = make_event_attr();
 +	struct sigaction action = {};
-+	int i;
 +
-+	memset(&ctx, 0, sizeof(ctx));
++	signal_count = 0;
 +
 +	/* Initialize sigtrap handler. */
 +	action.sa_flags = SA_SIGINFO | SA_NODEFER;
@@ -332,93 +269,180 @@ index 000000000000..398717e2991a
 +	/* Initialize perf event. */
 +	self->fd = syscall(__NR_perf_event_open, &attr, 0, -1, -1, PERF_FLAG_FD_CLOEXEC);
 +	ASSERT_NE(self->fd, -1);
-+
-+	/* Spawn threads inheriting perf event. */
-+	pthread_barrier_init(&self->barrier, NULL, NUM_THREADS + 1);
-+	for (i = 0; i < NUM_THREADS; i++)
-+		ASSERT_EQ(pthread_create(&self->threads[i], NULL, test_thread, &self->barrier), 0);
 +}
 +
-+FIXTURE_TEARDOWN(sigtrap_threads)
++FIXTURE_TEARDOWN(remove_on_exec)
 +{
-+	pthread_barrier_destroy(&self->barrier);
 +	close(self->fd);
 +	sigaction(SIGTRAP, &self->oldact, NULL);
 +}
 +
-+static void run_test_threads(struct __test_metadata *_metadata,
-+			     FIXTURE_DATA(sigtrap_threads) *self)
++/* Verify event propagates to fork'd child. */
++TEST_F(remove_on_exec, fork_only)
 +{
-+	int i;
++	int status;
++	pid_t pid = fork();
 +
-+	pthread_barrier_wait(&self->barrier);
-+	for (i = 0; i < NUM_THREADS; i++)
-+		ASSERT_EQ(pthread_join(self->threads[i], NULL), 0);
++	if (pid == 0) {
++		ASSERT_EQ(signal_count, 0);
++		ASSERT_EQ(ioctl(self->fd, PERF_EVENT_IOC_ENABLE, 0), 0);
++		while (!signal_count);
++		_exit(42);
++	}
++
++	while (!signal_count); /* Child enables event. */
++	EXPECT_EQ(waitpid(pid, &status, 0), pid);
++	EXPECT_EQ(WEXITSTATUS(status), 42);
 +}
 +
-+TEST_F(sigtrap_threads, remain_disabled)
++/*
++ * Verify that event does _not_ propagate to fork+exec'd child; event enabled
++ * after fork+exec.
++ */
++TEST_F(remove_on_exec, fork_exec_then_enable)
 +{
-+	run_test_threads(_metadata, self);
-+	EXPECT_EQ(ctx.signal_count, 0);
-+	EXPECT_NE(ctx.tids_want_signal, 0);
-+}
++	pid_t pid_exec, pid_only_fork;
++	int pipefd[2];
++	int tmp;
 +
-+TEST_F(sigtrap_threads, enable_event)
-+{
++	/*
++	 * Non-exec child, to ensure exec does not affect inherited events of
++	 * other children.
++	 */
++	pid_only_fork = fork();
++	if (pid_only_fork == 0) {
++		/* Block until parent enables event. */
++		while (!signal_count);
++		_exit(42);
++	}
++
++	ASSERT_NE(pipe(pipefd), -1);
++	pid_exec = fork();
++	if (pid_exec == 0) {
++		ASSERT_NE(dup2(pipefd[1], STDOUT_FILENO), -1);
++		close(pipefd[0]);
++		execl("/proc/self/exe", "exec_child", NULL);
++		_exit((perror("exec failed"), 1));
++	}
++	close(pipefd[1]);
++
++	ASSERT_EQ(waitpid(pid_exec, &tmp, WNOHANG), 0); /* Child is running. */
++	/* Wait for exec'd child to start spinning. */
++	EXPECT_EQ(read(pipefd[0], &tmp, sizeof(int)), sizeof(int));
++	EXPECT_EQ(tmp, 42);
++	close(pipefd[0]);
++	/* Now we can enable the event, knowing the child is doing work. */
 +	EXPECT_EQ(ioctl(self->fd, PERF_EVENT_IOC_ENABLE, 0), 0);
-+	run_test_threads(_metadata, self);
++	/* If the event propagated to the exec'd child, it will exit normally... */
++	usleep(100000); /* ... give time for event to trigger (in case of bug). */
++	EXPECT_EQ(waitpid(pid_exec, &tmp, WNOHANG), 0); /* Should still be running. */
++	EXPECT_EQ(kill(pid_exec, SIGKILL), 0);
 +
-+	EXPECT_EQ(ctx.signal_count, NUM_THREADS);
-+	EXPECT_EQ(ctx.tids_want_signal, 0);
-+	EXPECT_EQ(ctx.first_siginfo.si_addr, &ctx.iterate_on);
-+	EXPECT_EQ(ctx.first_siginfo.si_errno, PERF_TYPE_BREAKPOINT);
-+	EXPECT_EQ(ctx.first_siginfo.si_perf, (HW_BREAKPOINT_LEN_1 << 16) | HW_BREAKPOINT_RW);
-+
-+	/* Check enabled for parent. */
-+	ctx.iterate_on = 0;
-+	EXPECT_EQ(ctx.signal_count, NUM_THREADS + 1);
++	/* Verify removal from child did not affect this task's event. */
++	tmp = signal_count;
++	while (signal_count == tmp); /* Should not hang! */
++	/* Nor should it have affected the first child. */
++	EXPECT_EQ(waitpid(pid_only_fork, &tmp, 0), pid_only_fork);
++	EXPECT_EQ(WEXITSTATUS(tmp), 42);
 +}
 +
-+/* Test that modification propagates to all inherited events. */
-+TEST_F(sigtrap_threads, modify_and_enable_event)
++/*
++ * Verify that event does _not_ propagate to fork+exec'd child; event enabled
++ * before fork+exec.
++ */
++TEST_F(remove_on_exec, enable_then_fork_exec)
 +{
-+	struct perf_event_attr new_attr = make_event_attr(true, &ctx.iterate_on);
-+
-+	EXPECT_EQ(ioctl(self->fd, PERF_EVENT_IOC_MODIFY_ATTRIBUTES, &new_attr), 0);
-+	run_test_threads(_metadata, self);
-+
-+	EXPECT_EQ(ctx.signal_count, NUM_THREADS);
-+	EXPECT_EQ(ctx.tids_want_signal, 0);
-+	EXPECT_EQ(ctx.first_siginfo.si_addr, &ctx.iterate_on);
-+	EXPECT_EQ(ctx.first_siginfo.si_errno, PERF_TYPE_BREAKPOINT);
-+	EXPECT_EQ(ctx.first_siginfo.si_perf, (HW_BREAKPOINT_LEN_1 << 16) | HW_BREAKPOINT_RW);
-+
-+	/* Check enabled for parent. */
-+	ctx.iterate_on = 0;
-+	EXPECT_EQ(ctx.signal_count, NUM_THREADS + 1);
-+}
-+
-+/* Stress test event + signal handling. */
-+TEST_F(sigtrap_threads, signal_stress)
-+{
-+	ctx.iterate_on = 3000;
++	pid_t pid_exec;
++	int tmp;
 +
 +	EXPECT_EQ(ioctl(self->fd, PERF_EVENT_IOC_ENABLE, 0), 0);
-+	run_test_threads(_metadata, self);
-+	EXPECT_EQ(ioctl(self->fd, PERF_EVENT_IOC_DISABLE, 0), 0);
 +
-+	EXPECT_EQ(ctx.signal_count, NUM_THREADS * ctx.iterate_on);
-+	EXPECT_EQ(ctx.tids_want_signal, 0);
-+	EXPECT_EQ(ctx.first_siginfo.si_addr, &ctx.iterate_on);
-+	EXPECT_EQ(ctx.first_siginfo.si_errno, PERF_TYPE_BREAKPOINT);
-+	EXPECT_EQ(ctx.first_siginfo.si_perf, (HW_BREAKPOINT_LEN_1 << 16) | HW_BREAKPOINT_RW);
++	pid_exec = fork();
++	if (pid_exec == 0) {
++		execl("/proc/self/exe", "exec_child", NULL);
++		_exit((perror("exec failed"), 1));
++	}
++
++	/*
++	 * The child may exit abnormally at any time if the event propagated and
++	 * a SIGTRAP is sent before the handler was set up.
++	 */
++	usleep(100000); /* ... give time for event to trigger (in case of bug). */
++	EXPECT_EQ(waitpid(pid_exec, &tmp, WNOHANG), 0); /* Should still be running. */
++	EXPECT_EQ(kill(pid_exec, SIGKILL), 0);
++
++	/* Verify removal from child did not affect this task's event. */
++	tmp = signal_count;
++	while (signal_count == tmp); /* Should not hang! */
 +}
 +
++TEST_F(remove_on_exec, exec_stress)
++{
++	pid_t pids[30];
++	int i, tmp;
++
++	for (i = 0; i < sizeof(pids) / sizeof(pids[0]); i++) {
++		pids[i] = fork();
++		if (pids[i] == 0) {
++			execl("/proc/self/exe", "exec_child", NULL);
++			_exit((perror("exec failed"), 1));
++		}
++
++		/* Some forked with event disabled, rest with enabled. */
++		if (i > 10)
++			EXPECT_EQ(ioctl(self->fd, PERF_EVENT_IOC_ENABLE, 0), 0);
++	}
++
++	usleep(100000); /* ... give time for event to trigger (in case of bug). */
++
++	for (i = 0; i < sizeof(pids) / sizeof(pids[0]); i++) {
++		/* All children should still be running. */
++		EXPECT_EQ(waitpid(pids[i], &tmp, WNOHANG), 0);
++		EXPECT_EQ(kill(pids[i], SIGKILL), 0);
++	}
++
++	/* Verify event is still alive. */
++	tmp = signal_count;
++	while (signal_count == tmp);
++}
++
++/* For exec'd child. */
++static void exec_child(void)
++{
++	struct sigaction action = {};
++	const int val = 42;
++
++	/* Set up sigtrap handler in case we erroneously receive a trap. */
++	action.sa_flags = SA_SIGINFO | SA_NODEFER;
++	action.sa_sigaction = sigtrap_handler;
++	sigemptyset(&action.sa_mask);
++	if (sigaction(SIGTRAP, &action, NULL))
++		_exit((perror("sigaction failed"), 1));
++
++	/* Signal parent that we're starting to spin. */
++	if (write(STDOUT_FILENO, &val, sizeof(int)) == -1)
++		_exit((perror("write failed"), 1));
++
++	/* Should hang here until killed. */
++	while (!signal_count);
++}
++
++#define main test_main
 +TEST_HARNESS_MAIN
++#undef main
++int main(int argc, char *argv[])
++{
++	if (!strcmp(argv[0], "exec_child")) {
++		exec_child();
++		return 1;
++	}
++
++	return test_main(argc, argv);
++}
 -- 
 2.31.0.291.g576ba9dcdaf-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210324112503.623833-9-elver%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210324112503.623833-10-elver%40google.com.
