@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBK6D5SBAMGQESTVBTQY@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBLGD5SBAMGQEAODFTHI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pg1-x53f.google.com (mail-pg1-x53f.google.com [IPv6:2607:f8b0:4864:20::53f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5803E347710
-	for <lists+kasan-dev@lfdr.de>; Wed, 24 Mar 2021 12:25:32 +0100 (CET)
-Received: by mail-pg1-x53f.google.com with SMTP id k21sf1330056pgg.17
-        for <lists+kasan-dev@lfdr.de>; Wed, 24 Mar 2021 04:25:32 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1616585131; cv=pass;
+Received: from mail-qv1-xf3d.google.com (mail-qv1-xf3d.google.com [IPv6:2607:f8b0:4864:20::f3d])
+	by mail.lfdr.de (Postfix) with ESMTPS id AEFDA347711
+	for <lists+kasan-dev@lfdr.de>; Wed, 24 Mar 2021 12:25:33 +0100 (CET)
+Received: by mail-qv1-xf3d.google.com with SMTP id x20sf1105324qvd.21
+        for <lists+kasan-dev@lfdr.de>; Wed, 24 Mar 2021 04:25:33 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1616585132; cv=pass;
         d=google.com; s=arc-20160816;
-        b=qs/ByYAuCXjB0bzZ4NWrJbp1OXFTUW9Jyptgre+w3HbrLdGnfd9uAwUR5WgkEd2Ipj
-         eW533U7a4bYapH9OXSML//Dsupv+Y7tX/3aGBpL3ZDP7DkJYWvGRjZaFFsA1tLtx7dag
-         gT4cdAFSqxsjADeIgpV4zYa3iRsCShJG5rM5XwU0XTN6EHeWCODfwfaSd1k3Cvh5L0nj
-         wG2gJB1hPp8oze7vHwqWxEx/l03w6nCPHvTWp1fAKSUFQvE3eD3Cv53qUix+AF5EwIkL
-         k7ZsczyoT5v2VHbH/sMoO3GWaOilLHs9q0ZAJYgliyce6xYDnONEnyAsp+dVC4QyR6jz
-         Q/Sg==
+        b=WSTFwK7RKpEmJtRYVjJJlvE7PTAQktq5DuVJu8fPKv3Sc7ulCDrSIVF4bI5STZ/F/d
+         SdPnoEN1Vlzgg/HvYefqg6gPzyq3IfxmuG4D+n5VfGvj9rJWaYoLhBFDIS9AVOpyBoMC
+         hh7MgvaQJ+wzZc1AN8TQ2xfOJE9TNUWr2azkbquBaRQueW6GHstUtx7ae63kQq2XO57k
+         tTRErhsW1Y9IT2Eq8zwrsJNBB9bYVkSlSrX0LX1Q7BrfuT25XlS9VIzEszkFC7v08Q2a
+         mvqPHe9X7NG+rTgAwjOvj8bSF5i+3T1QYfqo/KZ0Ysx/L9OyS6DGADuvMGyMwVGLGcXe
+         mJZA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
          :references:mime-version:message-id:in-reply-to:date:dkim-signature;
-        bh=OFcNFa0t+YM7gNNDlSSBgV8ymcWJBP0I3qWpc8iwNHQ=;
-        b=fhyLZrxbF2rb2QDGg6gf/0JykeoRmLdee2pPPlKVYfhTaj0hRR7SQZc+YM43Cgl4wx
-         joD1thtSKdgw2cWur/VCfiii2p9q0OWfz8Z/9CQ1SEiX/035CInK3yQhq9RNK2xYgia+
-         cimLQmNiFcv2N1S1mbCn0iqvtMh0ol+rTJmqVOVmLxxBo3TXWbcpXe6BdePAgONzXQrY
-         S0PrSZiG95fDBcwuYP3u34MjbRAOYGCPS6qRNf08XRrbGerZ1hgwLk5+5V/zi3S3dhX7
-         IJTqeLr3dRfl9+PI9gNL88TuOfNR9b5vij2wIjRvYrxUPUistS8b1eosNOpnnZD6J4F1
-         5EMQ==
+        bh=wsW4KxF7xKZBVFVEOdgyhaGCofjg8QSgdY7Klb0sDOo=;
+        b=isVrfS6uonpaPfD3Jj9kaCK+cQ/geAmsd37/bHNdLgx5nyeVvM24yqWLDyfRhSnRYc
+         Jjl1tcskdVQxmNqhaRG5woy4eNW+VnVdO6DbivRWa4ZI9ltziz2YOXYIIsHOScLy5I8y
+         NzhnAUuy8otelaRopMVOm+IquMGMFieDfBoYz+06rMB9XtoQmgITpAugGfECIDRyaRbf
+         QcmpZrMsw2+QEl4hWFwbl68XLzEJ37E3bOFe5Jg+VpHRVlQsuV3pX82cILI5LtLoftM7
+         PrL9dVFBbjYfPUuQU9Ylt4OXVs1EjY+3jBsEtwvBvMxoVXhiG+oZOXK/8wDtaDyWHEV/
+         VgaA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b="HP/OpHnG";
-       spf=pass (google.com: domain of 3qsfbyaukcwielvergoogle.comkasan-devgooglegroups.com@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::849 as permitted sender) smtp.mailfrom=3qSFbYAUKCWIELVERGOOGLE.COMKASAN-DEVGOOGLEGROUPS.COM@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=S2DUvLHr;
+       spf=pass (google.com: domain of 3qyfbyaukcwqgnxgtiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::74a as permitted sender) smtp.mailfrom=3qyFbYAUKCWQGNXGTIQQING.EQOMCUCP-FGXIQQINGITQWRU.EQO@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=OFcNFa0t+YM7gNNDlSSBgV8ymcWJBP0I3qWpc8iwNHQ=;
-        b=FojY7WzTfm+651LmywkH/TWbOd0FofT4jklM7qRi0zmD8LdPTYOOCh7gaJUGBSE4ca
-         uLmqMpOIJm85EARWSdWhrCIQvXkFT4AsSJgXZN7n4UcEJIVPr/yQrKrMjgV5u/G5xY2/
-         thksA1r8c1XfWJ02UJq/TxfbSa3l823Ux5QgweKTwmWst6i/lR1eDax7oY0dFwCO7jtr
-         C6eIhpsXIz2LmNN6qu8TtEjKU4/zfXAT8F89pDCUuGBsibez6XDIwFcPGNCZqek83jBZ
-         qeZC3KhG4mSXMr8j0xAIRajcM+Bhvc/umDKmkVgv3A3wSQr4twUObBi+v+d6QGVzLOLT
-         9Www==
+        bh=wsW4KxF7xKZBVFVEOdgyhaGCofjg8QSgdY7Klb0sDOo=;
+        b=mtrHeWx9FfyfrjwHaGAURz2EoSXGdmh74Rqrjf5e/Yw/V/CnBVSRtJ4uq+p/aft1d5
+         7qLZrguZVWiZdXJI12jTd1F52/AzxwrhnNFt+D1wQ7a4vOWrZ6Fvu1K/MErR+zs42Rph
+         GQyz5I5Rmuh9No3Rvu/nJ48XfxEDja53z1vZO+n2Hratz/Y47FhKmbOfeBqv0YhjKJvL
+         /80ftrwdow7JiJTLE2jGuRsfM3n1dHbHm85BbJ1S3j09Ks5Rmeba8rKW40/DzpZDXw1P
+         A1b6Gzrxnej9fntesnF+ktPVuxOmtkTAWyRzD++mB1XjMraXFFcsOFo37KfSfmPZC2RB
+         121Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
@@ -49,63 +49,63 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=OFcNFa0t+YM7gNNDlSSBgV8ymcWJBP0I3qWpc8iwNHQ=;
-        b=YiuFHBLhKmlKyX/4xtQrCxCKYbnxC2LcwlfIyMLH1rvVmpfJygUYdk6TaHbFJZgUmV
-         tVkaQErJMp9WCxCWohAv8eRLWaHmoEVp+EIawaV20ndOMIXMLjnWfX+yx5xgpjsnLeUr
-         ILdn2mbc6BiNzbx3YVxemyUWPL1MQQNjKrVe52VXtoeDgUhdZoTfYzgCQ4h5Q/eBSGvX
-         gvk4tV9IGSGsZbEY+Qjkw1vQ9dfNsrzysTLr+AMsrclHHUSJ5aklsAskfcuEmf+9PH6n
-         w+xvo6ARpSwKPxDE6Dg2wdLVYdvI0PTcAeI4rQLEehX9+BjjzNzVP1qK2ddF7NUjQvYL
-         J56Q==
-X-Gm-Message-State: AOAM533QSWY8xK3+DnppuVdMrOlJf25IAJ2Uu1jDx1ZSYCVSwiNDxNOc
-	8wqwqkVvsByaKX0Hlpes6ik=
-X-Google-Smtp-Source: ABdhPJyaxgvOPdIaFXEcVnNI6glEx78a1SD1fXdER8sZ0p0q3ZobyAZsPJ2lbujewEV2257YAT3IjA==
-X-Received: by 2002:a17:90a:7186:: with SMTP id i6mr3107609pjk.191.1616585131091;
-        Wed, 24 Mar 2021 04:25:31 -0700 (PDT)
+        bh=wsW4KxF7xKZBVFVEOdgyhaGCofjg8QSgdY7Klb0sDOo=;
+        b=Fe9qx60nNbEqzfNXJoyhZ6CAJDzBm39P7kkI2HAqIGKJWGJ7AFX+0QbYyityCCRh+C
+         TP/maoSRuYL8ytrlVqYnI/HSAdQSOLbU1kCTxNIiBYdaKatj1Z8MAKZmc7LG/Y0axoMx
+         eG2Q9lSsMmtYboVbIyBLPKa44nZ2t/z2IAtvdURLx9NYFUayB47TjCuVgtesqxXoT+EZ
+         D4/M4GJV/dUFrYEFTsDt+gkpKkbMvQwSa83TPEEgMFlqlT/QNvkCfXlKWgJEqSi5KZVT
+         F7YWjdXeoR9Ruavh/xiR9GcOBF7BjK94yS6atSqDb5Jg7lT8JjWrd/eU2QGeI26iAoqT
+         k7Tw==
+X-Gm-Message-State: AOAM530ubH0iYErhkZNvHb5eCQvLBjHNvM8QJeyA8kdejahc2QHsmSUz
+	T+S0/DFW+Qjh2OpAVNjfDiA=
+X-Google-Smtp-Source: ABdhPJwnx2Z4VLoXPEP9izVda5Ar19h1WVJf36Rgfyj7hP1AShv+dTCBqbBdt5nqadz1o68FcR5oOg==
+X-Received: by 2002:ad4:4431:: with SMTP id e17mr2503940qvt.37.1616585132602;
+        Wed, 24 Mar 2021 04:25:32 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:90a:1382:: with SMTP id i2ls1075773pja.1.canary-gmail;
- Wed, 24 Mar 2021 04:25:30 -0700 (PDT)
-X-Received: by 2002:a17:902:eb4a:b029:e5:e7d0:5aa with SMTP id i10-20020a170902eb4ab02900e5e7d005aamr3134397pli.3.1616585130463;
-        Wed, 24 Mar 2021 04:25:30 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1616585130; cv=none;
+Received: by 2002:ac8:4f10:: with SMTP id b16ls617474qte.7.gmail; Wed, 24 Mar
+ 2021 04:25:32 -0700 (PDT)
+X-Received: by 2002:ac8:695a:: with SMTP id n26mr2477392qtr.20.1616585132124;
+        Wed, 24 Mar 2021 04:25:32 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1616585132; cv=none;
         d=google.com; s=arc-20160816;
-        b=emP+rhKBmDXCH/9F4d/oe2KeLxzboCo8cHWnLS4yLx/ICjw1o31YEXPCAon6k9zAlK
-         X2/FTwqEgeDos72YrihJnQvMSgg1fFcTblzjG7NQ50eskYzfR1zoJps5unUBwvpa8STI
-         b+R4Fxd2py9Fu97Gt3CAjIeZpxQ33QqUd8+zDmFyMTTC9lkB2vDalV61dFA49Zda9O1K
-         lUbshIxctrF47IzdBXIVGgtx+S3aRASLUmUPhL7W9uyHGacotnN4pMyqv22QwPMZ/HiH
-         AvkL6boM+r14vZDsuvoiJp72XWjYLo5x+3luH8D/E2ZRUaE9rHujIuPzqRLfxCA0iQLv
-         /vtQ==
+        b=lseH96GbjA/Juzn2dx7+BvZt7eyBFFnX/1jlIKEHshoEzoiC2iXXKRKtayeTcE6DKu
+         jakQGmN7VKfElmwHebGujzUTOWHGEhLEq7xYs3uZAJBX7ioQcPa0hN5wZmX+2mQA945i
+         GGFFy0CPOMQpxLKERya0fshc9Aq8clr7ZEOfFZwvVb2pTUQDuZEShsN2cvjUolIoin5k
+         drFQq08VD1+rEPjGWzzqtypzp14WMqnyVj+ArsImVCK3ph9FvyoupOlI37bxdRfrirzf
+         oKhvDIsXuSJw0LtXI8LrYH76yUORJyUUoKpbs/3BDXvQSwwvrgG2Oib+g/S7+WJqS9BS
+         IpMA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
          :date:dkim-signature;
-        bh=LX/BpTku7Mw/ygEVGiq+Ue/R3uDPIzOnmcdooJRuOrg=;
-        b=t/6zpL4+fBuFiVF0Rx/jEjn/dDhINfUGVjiwgxmW1IEoQ4xSvqCnv5dxR06ZBCT7Ll
-         ZfEqlXyA2gdGawCX8udn5rXPI7+xdJhr2PehvItR3ABEq/jMnwlPN5ORoaUvn765+52v
-         QKWBJmxUPLWHR8HKfSBbri/gV4MiLhgKQv9kyRUJlWzqqLxKmOV3OoQKKYtWAVL0iHOY
-         /dhEBh8pDM0AOlwNXSEbhdBD4YKqYK44oKY/KKAvkh8n4+yaDyOF3AjBBQWWr8ZhXyQW
-         S6THrTQCIO2m4NWwTg7Py6wWI8b803t6x1eUlbK/dAc7YoVUAF3L74+U/GQVS3yFhZqO
-         QPvQ==
+        bh=b4Q2ZglVTkOzHkjXlOYZwcAGDS9zw6a0ARZ6VBAohd0=;
+        b=jHghkJlYiFP2Mxz4cZ06FbEpjnDfBo77tzqYjngScCMp8zmJ7yYzDihEHVMOFc4fEX
+         9n995BfJylai0zTVC925HbBJIHCqo3IQX+zrYC7S+kua9tNuu0LzKkS0k1JtvdmyT/I/
+         /aZ4uW7FZpIN5abSju8xE2CjluSCssIlAv7M9LlvnHlloodMdHXyHsRF/WkfU50DDrMu
+         IZcTT+YO/O6QNJLHE//cFdUlzCr0oTFWtxno4Q5QnUBSSjuX/IJRHRRKPz9q3q+GRl1m
+         ULC3oJoLK6mcLClpUDxUi3SOgEU4IPPOkCNTngfNPiILipvG+KN2NWfDNsAFxuMOtrWy
+         MSbw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b="HP/OpHnG";
-       spf=pass (google.com: domain of 3qsfbyaukcwielvergoogle.comkasan-devgooglegroups.com@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::849 as permitted sender) smtp.mailfrom=3qSFbYAUKCWIELVERGOOGLE.COMKASAN-DEVGOOGLEGROUPS.COM@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=S2DUvLHr;
+       spf=pass (google.com: domain of 3qyfbyaukcwqgnxgtiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::74a as permitted sender) smtp.mailfrom=3qyFbYAUKCWQGNXGTIQQING.EQOMCUCP-FGXIQQINGITQWRU.EQO@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-qt1-x849.google.com (mail-qt1-x849.google.com. [2607:f8b0:4864:20::849])
-        by gmr-mx.google.com with ESMTPS id y11si117130pju.3.2021.03.24.04.25.30
+Received: from mail-qk1-x74a.google.com (mail-qk1-x74a.google.com. [2607:f8b0:4864:20::74a])
+        by gmr-mx.google.com with ESMTPS id b4si140056qkh.2.2021.03.24.04.25.32
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 24 Mar 2021 04:25:30 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 3qsfbyaukcwielvergoogle.comkasan-devgooglegroups.com@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::849 as permitted sender) client-ip=2607:f8b0:4864:20::849;
-Received: by mail-qt1-x849.google.com with SMTP id p10so958239qtq.12
-        for <kasan-dev@googlegroups.com>; Wed, 24 Mar 2021 04:25:30 -0700 (PDT)
+        Wed, 24 Mar 2021 04:25:32 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 3qyfbyaukcwqgnxgtiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::74a as permitted sender) client-ip=2607:f8b0:4864:20::74a;
+Received: by mail-qk1-x74a.google.com with SMTP id 130so1353096qkm.0
+        for <kasan-dev@googlegroups.com>; Wed, 24 Mar 2021 04:25:32 -0700 (PDT)
 X-Received: from elver.muc.corp.google.com ([2a00:79e0:15:13:6489:b3f0:4af:af0])
- (user=elver job=sendgmr) by 2002:a0c:a5a5:: with SMTP id z34mr2625271qvz.4.1616585129586;
- Wed, 24 Mar 2021 04:25:29 -0700 (PDT)
-Date: Wed, 24 Mar 2021 12:24:56 +0100
+ (user=elver job=sendgmr) by 2002:ad4:540a:: with SMTP id f10mr2342906qvt.26.1616585131695;
+ Wed, 24 Mar 2021 04:25:31 -0700 (PDT)
+Date: Wed, 24 Mar 2021 12:24:57 +0100
 In-Reply-To: <20210324112503.623833-1-elver@google.com>
-Message-Id: <20210324112503.623833-5-elver@google.com>
+Message-Id: <20210324112503.623833-6-elver@google.com>
 Mime-Version: 1.0
 References: <20210324112503.623833-1-elver@google.com>
 X-Mailer: git-send-email 2.31.0.291.g576ba9dcdaf-goog
-Subject: [PATCH v3 04/11] perf: Add support for event removal on exec
+Subject: [PATCH v3 05/11] signal: Introduce TRAP_PERF si_code and si_perf to siginfo
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
 To: elver@google.com, peterz@infradead.org, alexander.shishkin@linux.intel.com, 
 	acme@kernel.org, mingo@redhat.com, jolsa@redhat.com, mark.rutland@arm.com, 
@@ -115,13 +115,13 @@ Cc: glider@google.com, viro@zeniv.linux.org.uk, arnd@arndb.de,
 	mascasa@google.com, pcc@google.com, irogers@google.com, 
 	kasan-dev@googlegroups.com, linux-arch@vger.kernel.org, 
 	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, x86@kernel.org, 
-	linux-kselftest@vger.kernel.org
+	linux-kselftest@vger.kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b="HP/OpHnG";       spf=pass
- (google.com: domain of 3qsfbyaukcwielvergoogle.comkasan-devgooglegroups.com@flex--elver.bounces.google.com
- designates 2607:f8b0:4864:20::849 as permitted sender) smtp.mailfrom=3qSFbYAUKCWIELVERGOOGLE.COMKASAN-DEVGOOGLEGROUPS.COM@flex--elver.bounces.google.com;
+ header.i=@google.com header.s=20161025 header.b=S2DUvLHr;       spf=pass
+ (google.com: domain of 3qyfbyaukcwqgnxgtiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--elver.bounces.google.com
+ designates 2607:f8b0:4864:20::74a as permitted sender) smtp.mailfrom=3qyFbYAUKCWQGNXGTIQQING.EQOMCUCP-FGXIQQINGITQWRU.EQO@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Marco Elver <elver@google.com>
 Reply-To: Marco Elver <elver@google.com>
@@ -137,146 +137,208 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Adds bit perf_event_attr::remove_on_exec, to support removing an event
-from a task on exec.
+Introduces the TRAP_PERF si_code, and associated siginfo_t field
+si_perf. These will be used by the perf event subsystem to send signals
+(if requested) to the task where an event occurred.
 
-This option supports the case where an event is supposed to be
-process-wide only, and should not propagate beyond exec, to limit
-monitoring to the original process image only.
-
-Suggested-by: Peter Zijlstra <peterz@infradead.org>
+Acked-by: Geert Uytterhoeven <geert@linux-m68k.org> # m68k
+Acked-by: Arnd Bergmann <arnd@arndb.de> # asm-generic
 Signed-off-by: Marco Elver <elver@google.com>
 ---
-v3:
-* Rework based on Peter's "perf: Rework perf_event_exit_event()" added
-  to the beginning of the series. Intermediate attempts between v2 and
-  this v3 can be found here:
-	  https://lkml.kernel.org/r/YFm6aakSRlF2nWtu@elver.google.com
+ arch/m68k/kernel/signal.c          |  3 +++
+ arch/x86/kernel/signal_compat.c    |  5 ++++-
+ fs/signalfd.c                      |  4 ++++
+ include/linux/compat.h             |  2 ++
+ include/linux/signal.h             |  1 +
+ include/uapi/asm-generic/siginfo.h |  6 +++++-
+ include/uapi/linux/signalfd.h      |  4 +++-
+ kernel/signal.c                    | 11 +++++++++++
+ 8 files changed, 33 insertions(+), 3 deletions(-)
 
-v2:
-* Add patch to series.
----
- include/uapi/linux/perf_event.h |  3 +-
- kernel/events/core.c            | 70 +++++++++++++++++++++++++++++----
- 2 files changed, 64 insertions(+), 9 deletions(-)
-
-diff --git a/include/uapi/linux/perf_event.h b/include/uapi/linux/perf_event.h
-index 813efb65fea8..8c5b9f5ad63f 100644
---- a/include/uapi/linux/perf_event.h
-+++ b/include/uapi/linux/perf_event.h
-@@ -390,7 +390,8 @@ struct perf_event_attr {
- 				text_poke      :  1, /* include text poke events */
- 				build_id       :  1, /* use build id in mmap2 events */
- 				inherit_thread :  1, /* children only inherit if cloned with CLONE_THREAD */
--				__reserved_1   : 28;
-+				remove_on_exec :  1, /* event is removed from task on exec */
-+				__reserved_1   : 27;
+diff --git a/arch/m68k/kernel/signal.c b/arch/m68k/kernel/signal.c
+index 349570f16a78..a4b7ee1df211 100644
+--- a/arch/m68k/kernel/signal.c
++++ b/arch/m68k/kernel/signal.c
+@@ -622,6 +622,9 @@ static inline void siginfo_build_tests(void)
+ 	/* _sigfault._addr_pkey */
+ 	BUILD_BUG_ON(offsetof(siginfo_t, si_pkey) != 0x12);
  
- 	union {
- 		__u32		wakeup_events;	  /* wakeup every n events */
-diff --git a/kernel/events/core.c b/kernel/events/core.c
-index 224cbcf6125a..b6434697c516 100644
---- a/kernel/events/core.c
-+++ b/kernel/events/core.c
-@@ -4247,6 +4247,57 @@ static void perf_event_enable_on_exec(int ctxn)
- 		put_ctx(clone_ctx);
- }
++	/* _sigfault._perf */
++	BUILD_BUG_ON(offsetof(siginfo_t, si_perf) != 0x10);
++
+ 	/* _sigpoll */
+ 	BUILD_BUG_ON(offsetof(siginfo_t, si_band)   != 0x0c);
+ 	BUILD_BUG_ON(offsetof(siginfo_t, si_fd)     != 0x10);
+diff --git a/arch/x86/kernel/signal_compat.c b/arch/x86/kernel/signal_compat.c
+index a5330ff498f0..0e5d0a7e203b 100644
+--- a/arch/x86/kernel/signal_compat.c
++++ b/arch/x86/kernel/signal_compat.c
+@@ -29,7 +29,7 @@ static inline void signal_compat_build_tests(void)
+ 	BUILD_BUG_ON(NSIGFPE  != 15);
+ 	BUILD_BUG_ON(NSIGSEGV != 9);
+ 	BUILD_BUG_ON(NSIGBUS  != 5);
+-	BUILD_BUG_ON(NSIGTRAP != 5);
++	BUILD_BUG_ON(NSIGTRAP != 6);
+ 	BUILD_BUG_ON(NSIGCHLD != 6);
+ 	BUILD_BUG_ON(NSIGSYS  != 2);
  
-+static void perf_remove_from_owner(struct perf_event *event);
-+static void perf_event_exit_event(struct perf_event *event,
-+				  struct perf_event_context *ctx);
-+
-+/*
-+ * Removes all events from the current task that have been marked
-+ * remove-on-exec, and feeds their values back to parent events.
-+ */
-+static void perf_event_remove_on_exec(int ctxn)
-+{
-+	struct perf_event_context *ctx, *clone_ctx = NULL;
-+	struct perf_event *event, *next;
-+	LIST_HEAD(free_list);
-+	unsigned long flags;
-+	bool modified = false;
-+
-+	ctx = perf_pin_task_context(current, ctxn);
-+	if (!ctx)
-+		return;
-+
-+	mutex_lock(&ctx->mutex);
-+
-+	if (WARN_ON_ONCE(ctx->task != current))
-+		goto unlock;
-+
-+	list_for_each_entry_safe(event, next, &ctx->event_list, event_entry) {
-+		if (!event->attr.remove_on_exec)
-+			continue;
-+
-+		if (!is_kernel_event(event))
-+			perf_remove_from_owner(event);
-+
-+		modified = true;
-+
-+		perf_event_exit_event(event, ctx);
-+	}
-+
-+	raw_spin_lock_irqsave(&ctx->lock, flags);
-+	if (modified)
-+		clone_ctx = unclone_ctx(ctx);
-+	--ctx->pin_count;
-+	raw_spin_unlock_irqrestore(&ctx->lock, flags);
-+
-+unlock:
-+	mutex_unlock(&ctx->mutex);
-+
-+	put_ctx(ctx);
-+	if (clone_ctx)
-+		put_ctx(clone_ctx);
-+}
-+
- struct perf_read_data {
- 	struct perf_event *event;
- 	bool group;
-@@ -7559,18 +7610,18 @@ void perf_event_exec(void)
- 	struct perf_event_context *ctx;
- 	int ctxn;
+@@ -138,6 +138,9 @@ static inline void signal_compat_build_tests(void)
+ 	BUILD_BUG_ON(offsetof(siginfo_t, si_pkey) != 0x20);
+ 	BUILD_BUG_ON(offsetof(compat_siginfo_t, si_pkey) != 0x14);
  
--	rcu_read_lock();
- 	for_each_task_context_nr(ctxn) {
--		ctx = current->perf_event_ctxp[ctxn];
--		if (!ctx)
--			continue;
--
- 		perf_event_enable_on_exec(ctxn);
-+		perf_event_remove_on_exec(ctxn);
- 
--		perf_iterate_ctx(ctx, perf_event_addr_filters_exec, NULL,
--				   true);
-+		rcu_read_lock();
-+		ctx = rcu_dereference(current->perf_event_ctxp[ctxn]);
-+		if (ctx) {
-+			perf_iterate_ctx(ctx, perf_event_addr_filters_exec,
-+					 NULL, true);
-+		}
-+		rcu_read_unlock();
- 	}
--	rcu_read_unlock();
- }
- 
- struct remote_output {
-@@ -11652,6 +11703,9 @@ static int perf_copy_attr(struct perf_event_attr __user *uattr,
- 	if (!attr->inherit && attr->inherit_thread)
- 		return -EINVAL;
- 
-+	if (attr->remove_on_exec && attr->enable_on_exec)
-+		return -EINVAL;
++	BUILD_BUG_ON(offsetof(siginfo_t, si_perf) != 0x18);
++	BUILD_BUG_ON(offsetof(compat_siginfo_t, si_perf) != 0x10);
 +
- out:
- 	return ret;
+ 	CHECK_CSI_OFFSET(_sigpoll);
+ 	CHECK_CSI_SIZE  (_sigpoll, 2*sizeof(int));
+ 	CHECK_SI_SIZE   (_sigpoll, 4*sizeof(int));
+diff --git a/fs/signalfd.c b/fs/signalfd.c
+index 456046e15873..040a1142915f 100644
+--- a/fs/signalfd.c
++++ b/fs/signalfd.c
+@@ -134,6 +134,10 @@ static int signalfd_copyinfo(struct signalfd_siginfo __user *uinfo,
+ #endif
+ 		new.ssi_addr_lsb = (short) kinfo->si_addr_lsb;
+ 		break;
++	case SIL_PERF_EVENT:
++		new.ssi_addr = (long) kinfo->si_addr;
++		new.ssi_perf = kinfo->si_perf;
++		break;
+ 	case SIL_CHLD:
+ 		new.ssi_pid    = kinfo->si_pid;
+ 		new.ssi_uid    = kinfo->si_uid;
+diff --git a/include/linux/compat.h b/include/linux/compat.h
+index 6e65be753603..c8821d966812 100644
+--- a/include/linux/compat.h
++++ b/include/linux/compat.h
+@@ -236,6 +236,8 @@ typedef struct compat_siginfo {
+ 					char _dummy_pkey[__COMPAT_ADDR_BND_PKEY_PAD];
+ 					u32 _pkey;
+ 				} _addr_pkey;
++				/* used when si_code=TRAP_PERF */
++				compat_u64 _perf;
+ 			};
+ 		} _sigfault;
  
+diff --git a/include/linux/signal.h b/include/linux/signal.h
+index 205526c4003a..1e98548d7cf6 100644
+--- a/include/linux/signal.h
++++ b/include/linux/signal.h
+@@ -43,6 +43,7 @@ enum siginfo_layout {
+ 	SIL_FAULT_MCEERR,
+ 	SIL_FAULT_BNDERR,
+ 	SIL_FAULT_PKUERR,
++	SIL_PERF_EVENT,
+ 	SIL_CHLD,
+ 	SIL_RT,
+ 	SIL_SYS,
+diff --git a/include/uapi/asm-generic/siginfo.h b/include/uapi/asm-generic/siginfo.h
+index d2597000407a..d0bb9125c853 100644
+--- a/include/uapi/asm-generic/siginfo.h
++++ b/include/uapi/asm-generic/siginfo.h
+@@ -91,6 +91,8 @@ union __sifields {
+ 				char _dummy_pkey[__ADDR_BND_PKEY_PAD];
+ 				__u32 _pkey;
+ 			} _addr_pkey;
++			/* used when si_code=TRAP_PERF */
++			__u64 _perf;
+ 		};
+ 	} _sigfault;
+ 
+@@ -155,6 +157,7 @@ typedef struct siginfo {
+ #define si_lower	_sifields._sigfault._addr_bnd._lower
+ #define si_upper	_sifields._sigfault._addr_bnd._upper
+ #define si_pkey		_sifields._sigfault._addr_pkey._pkey
++#define si_perf		_sifields._sigfault._perf
+ #define si_band		_sifields._sigpoll._band
+ #define si_fd		_sifields._sigpoll._fd
+ #define si_call_addr	_sifields._sigsys._call_addr
+@@ -253,7 +256,8 @@ typedef struct siginfo {
+ #define TRAP_BRANCH     3	/* process taken branch trap */
+ #define TRAP_HWBKPT     4	/* hardware breakpoint/watchpoint */
+ #define TRAP_UNK	5	/* undiagnosed trap */
+-#define NSIGTRAP	5
++#define TRAP_PERF	6	/* perf event with sigtrap=1 */
++#define NSIGTRAP	6
+ 
+ /*
+  * There is an additional set of SIGTRAP si_codes used by ptrace
+diff --git a/include/uapi/linux/signalfd.h b/include/uapi/linux/signalfd.h
+index 83429a05b698..7e333042c7e3 100644
+--- a/include/uapi/linux/signalfd.h
++++ b/include/uapi/linux/signalfd.h
+@@ -39,6 +39,8 @@ struct signalfd_siginfo {
+ 	__s32 ssi_syscall;
+ 	__u64 ssi_call_addr;
+ 	__u32 ssi_arch;
++	__u32 __pad3;
++	__u64 ssi_perf;
+ 
+ 	/*
+ 	 * Pad strcture to 128 bytes. Remember to update the
+@@ -49,7 +51,7 @@ struct signalfd_siginfo {
+ 	 * comes out of a read(2) and we really don't want to have
+ 	 * a compat on read(2).
+ 	 */
+-	__u8 __pad[28];
++	__u8 __pad[16];
+ };
+ 
+ 
+diff --git a/kernel/signal.c b/kernel/signal.c
+index f2a1b898da29..f9351217d391 100644
+--- a/kernel/signal.c
++++ b/kernel/signal.c
+@@ -1203,6 +1203,7 @@ static inline bool has_si_pid_and_uid(struct kernel_siginfo *info)
+ 	case SIL_FAULT_MCEERR:
+ 	case SIL_FAULT_BNDERR:
+ 	case SIL_FAULT_PKUERR:
++	case SIL_PERF_EVENT:
+ 	case SIL_SYS:
+ 		ret = false;
+ 		break;
+@@ -2535,6 +2536,7 @@ static void hide_si_addr_tag_bits(struct ksignal *ksig)
+ 	case SIL_FAULT_MCEERR:
+ 	case SIL_FAULT_BNDERR:
+ 	case SIL_FAULT_PKUERR:
++	case SIL_PERF_EVENT:
+ 		ksig->info.si_addr = arch_untagged_si_addr(
+ 			ksig->info.si_addr, ksig->sig, ksig->info.si_code);
+ 		break;
+@@ -3337,6 +3339,10 @@ void copy_siginfo_to_external32(struct compat_siginfo *to,
+ #endif
+ 		to->si_pkey = from->si_pkey;
+ 		break;
++	case SIL_PERF_EVENT:
++		to->si_addr = ptr_to_compat(from->si_addr);
++		to->si_perf = from->si_perf;
++		break;
+ 	case SIL_CHLD:
+ 		to->si_pid = from->si_pid;
+ 		to->si_uid = from->si_uid;
+@@ -3417,6 +3423,10 @@ static int post_copy_siginfo_from_user32(kernel_siginfo_t *to,
+ #endif
+ 		to->si_pkey = from->si_pkey;
+ 		break;
++	case SIL_PERF_EVENT:
++		to->si_addr = compat_ptr(from->si_addr);
++		to->si_perf = from->si_perf;
++		break;
+ 	case SIL_CHLD:
+ 		to->si_pid    = from->si_pid;
+ 		to->si_uid    = from->si_uid;
+@@ -4597,6 +4607,7 @@ static inline void siginfo_buildtime_checks(void)
+ 	CHECK_OFFSET(si_lower);
+ 	CHECK_OFFSET(si_upper);
+ 	CHECK_OFFSET(si_pkey);
++	CHECK_OFFSET(si_perf);
+ 
+ 	/* sigpoll */
+ 	CHECK_OFFSET(si_band);
 -- 
 2.31.0.291.g576ba9dcdaf-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210324112503.623833-5-elver%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210324112503.623833-6-elver%40google.com.
