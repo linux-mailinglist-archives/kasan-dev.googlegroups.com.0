@@ -1,127 +1,151 @@
-Return-Path: <kasan-dev+bncBAABBSUUQWBQMGQEZ7N74IQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDSPNHNP2AORBZ7LQ2BQMGQES6DCAIY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x43e.google.com (mail-pf1-x43e.google.com [IPv6:2607:f8b0:4864:20::43e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98C9434C238
-	for <lists+kasan-dev@lfdr.de>; Mon, 29 Mar 2021 05:32:27 +0200 (CEST)
-Received: by mail-pf1-x43e.google.com with SMTP id 13sf3503959pfx.21
-        for <lists+kasan-dev@lfdr.de>; Sun, 28 Mar 2021 20:32:27 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1616988746; cv=pass;
+Received: from mail-pl1-x639.google.com (mail-pl1-x639.google.com [IPv6:2607:f8b0:4864:20::639])
+	by mail.lfdr.de (Postfix) with ESMTPS id D322D34CE84
+	for <lists+kasan-dev@lfdr.de>; Mon, 29 Mar 2021 13:11:36 +0200 (CEST)
+Received: by mail-pl1-x639.google.com with SMTP id g7sf5360924pll.11
+        for <lists+kasan-dev@lfdr.de>; Mon, 29 Mar 2021 04:11:36 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1617016295; cv=pass;
         d=google.com; s=arc-20160816;
-        b=osM7NDLP31Ijtn6oSXdEGgNF2rEB+CUgHWbh8ICONtB/K0axPhNFIzGR48yB+BFh7y
-         rhq+rMY8KJsiUIHltjzWwRkH73eBPoSjQsqpudy8yKqYaWSKREgbEp7SVsbwbPRVTdMd
-         Lxug8WKt9/+OE/TK8yB6IvE4MHStuvzKk0jDGR7dsQ+Dv1gZzJQ+dl/pwj2NizRVHQJ9
-         KlQ+Xvg7HkTru4qA23luvpNL737yxLteSjTyVFtHVJxkn0XMZ2My6XpZX8LOPNBN5Ngz
-         U+jnKtN6Adc2GrOnw1HSyic5ZlJQpZTZcfsY0nG6AfgAxOT5g0OH21p/bJD+nV71ripk
-         z6Cg==
+        b=o1HmmX7A3wlhFAQs8oNbCXpda5djVo55fxI70dBD6Toool48fCkrFX9eueLEI5MYJY
+         DPkSMRpz+MhvDVCdGz+hzNYIVMRff+jr98BdYVoDFnBhP4UGnalU8n/R/YrBJWde00AH
+         4Zr9UlYL3TYHF5ikGCFVtx5JcRYx4cIOazTSnlhnoliZX3A971J7PSQKX9HJBWj3sS+j
+         zE6rgntAdKzxWGph9OGDgVYEtcKYn/qDPGfFM4tXghiH0aT6lUMNMiveVKrlIbNmMoBD
+         bj13Ln6gY8BXs08CaDHKIy0zZJzhvQGL5K/aEIYWQdKKjqM4QFdKS+ka9AJNasNbMQwx
+         rAgQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:mime-version:user-agent
-         :date:message-id:from:cc:references:to:subject:sender:dkim-signature;
-        bh=GMkavHwU2+WqxDBGi9iQ/NYdZMYEfsDD/HKzmQ2X6VU=;
-        b=codiikSIk7Ax9qHqWDetOZo8jSc6T3hBuARPYRpZNMXmKV43bWiDb7zCXguMiBh28o
-         e1S+hzl1XhWx78Oqv62w4f3PxNmYWDS69DsmX5yypgcfv/5QrkN990WBFow49oRzZas+
-         3zQmq5pXYsBliWlk28Nku3+zwe6PpU1nmQVr95Khb8W1ocV74ryg9zgnoGthTbgxcreF
-         l4rHx6OdIrIwl3mxvTVWE/ix2v3aVfLIvqp1duS+zz/4T/jRjOlyv4X6uS1N2HKsEXT5
-         35HF0fnyaEMn7FcfOptzpWj48PygqF/tVkWEZ6ojLJtOIh5Knmi2KWICn/3QOp5fiJal
-         R+GQ==
+         :list-id:mailing-list:precedence:mime-version:dlp-version
+         :dlp-reaction:dlp-product:content-language:accept-language
+         :in-reply-to:references:message-id:date:thread-index:thread-topic
+         :subject:to:from:ironport-sdr:ironport-sdr:sender:dkim-signature;
+        bh=WRyy5yebkGdEzx77RcBBozWMQYtjJfcbDq46nSYwX90=;
+        b=sI8HefNSyJWYUj3rWowM1r1O7nTf3z8BjXqZfwXt5ebQjQeJhhtmUf9sHfLLbjXa3e
+         FGeSyYfW5ZfZme1jwKgEpAmegifOKMfVLnFCyfV056PVpaJc5wP9EDyOoi4mb5Td/G7/
+         FCOSEFKdTSVr7FijunlJj17vy9O+fMNtEWsZ8d7/+JIsOCYtvQFh2AD815E1VCpcrVb2
+         J/R9kGERb1fBsAynJTEwnSdJQ+6Q/xXLrbZHubPeTNsz8uusxrBStL1F3hw2ayeoXrGd
+         RtYR/izFUtZ9jr/yv1Mw9EL0yfNX/fLAz/1n7l//CiV94w+KZmVye0LYt3kVC6i636rA
+         vp3w==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of liushixin2@huawei.com designates 45.249.212.191 as permitted sender) smtp.mailfrom=liushixin2@huawei.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=huawei.com
+       spf=pass (google.com: domain of tomi.p.sarvela@intel.com designates 192.55.52.93 as permitted sender) smtp.mailfrom=tomi.p.sarvela@intel.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:subject:to:references:cc:from:message-id:date:user-agent
-         :mime-version:in-reply-to:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=GMkavHwU2+WqxDBGi9iQ/NYdZMYEfsDD/HKzmQ2X6VU=;
-        b=rTGgEoNpJtxrBAIi21UguDuuno0wdg4bV8A26mrGFmS5PqPVowN51T6SJpgg2qQNPr
-         XfUFph890cEwUBDlQGZrEtPRCFD3uqekTRt2aWjBdNttqLEQqqOXoqV00vYbuMRcuSaH
-         l2ELFLvTtrqwAQqc0oyLauYSW/RV3E3wQyh47YNVZ1uXlfCES0W1NvAOltpP3yKgzJ6w
-         f7BA583Xi6U9sSJekkJgJ4uc5Uelzpub9ay9ZYQrk1D2POXtSwiuuTqXGeOzl8mBCQIx
-         FJ7uN2bFLOT4//YjcB8HsSy28lHO5Na84p6s50chbWHRiVqAVI6kCSMxsOtaWn8uYFRa
-         3j6g==
+        h=sender:ironport-sdr:ironport-sdr:from:to:subject:thread-topic
+         :thread-index:date:message-id:references:in-reply-to:accept-language
+         :content-language:dlp-product:dlp-reaction:dlp-version:mime-version
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=WRyy5yebkGdEzx77RcBBozWMQYtjJfcbDq46nSYwX90=;
+        b=IMebHsn7+pXMqbA13EbrTLylM2mk83s+TfLvo2m51nvyq5JEYvLmP4R4BA/jw5ltjQ
+         HTI5nNDjZTEQvABFABSpJxugahVwsJpeNsvDhgAgEWs7O3gk/Mr6tIFLgJdQFc56WMf4
+         4IdW7CwZvPBzS+AJRqMCc5nH1lpm6prZH0RN7rsMFn2lfZKph9hW04xQP7NOhmRHQ2RU
+         JYMS1sc48eFlo5TN4Fce8pGZk8nA2zxVHVvL61ewgimp/OU2Ks3tSuLspcob47YDVVIi
+         jF9cq1epkPwF3se0xdiqUfP61ohG+IT6LU93NRs50jRusvbG8Co6raqgqKciPXsqaIaa
+         JMkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:subject:to:references:cc:from:message-id
-         :date:user-agent:mime-version:in-reply-to:x-original-sender
+        h=sender:x-gm-message-state:ironport-sdr:ironport-sdr:from:to:subject
+         :thread-topic:thread-index:date:message-id:references:in-reply-to
+         :accept-language:content-language:dlp-product:dlp-reaction
+         :dlp-version:mime-version:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=GMkavHwU2+WqxDBGi9iQ/NYdZMYEfsDD/HKzmQ2X6VU=;
-        b=rU7pkcCLUWMhGE8lunKRtyGArGY88awHZ3bXrVLBkJioAlpaoi0bQWaVfUoAPou+Ck
-         o2218Z1l9rseXxYqWW3VDByIfAlnaE59iZnz0x33IGyIKcpzHSt5g8dHHmBqOy1CUns8
-         reNKLXi8iZX2KY00bBL4oeor3aNcH1Oy86eQ3mYkbBQQZ612u701jSsVZE1G7AO5vDJk
-         skRRX/PrFlHJeJd6YoZYlx/Iu2KoSLvH0mNEK3a+pa9jxHT+x6stjesMZ8y/Ro+zuG89
-         ltapVmpk37a/kFeXTC94FNrScf7i8289EaA/urvMzIFDln3mZEmwVCkqP29hKirqr9mS
-         K93w==
+        bh=WRyy5yebkGdEzx77RcBBozWMQYtjJfcbDq46nSYwX90=;
+        b=DWPTxA6PZaM0UU5e3Kg5UB6wPhAb+Hfmpy+/jEa4Lr4ChgGM208Tbfe0+c2fW7lOKf
+         vh1xJoqRrU2Q8qAB/IJ4BK0MA/GiYT5tq9XYZpsKbdPu5sc7F2Yofv+cj8UOZlR8JxN/
+         NHtDhVetVInk1wsOglHQr6O8DyWT5u5nmbvONRNzRmYPoX9VgwKhrUp4A7KnJ2I3+fkZ
+         KjIVKZJezN2aFllO9w/ko3bHtieXqro77Rq8+bwKUVbJkTfcSYwzEhmvEEEGDGAwJeQ+
+         7mQZ5ZVgvSVqEMQcTYbvw7UyL/OmwwRJ8ehTWb1j2pcXtxts0dKEgHD/8PODixZuzPDL
+         7tNQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM532dnPFoUOxZL/Z66glJ7cNAkHyDj5iiICWVz3EGlPFEou50Gmr6
-	cgDzRXBvEMOBqh50fsJANns=
-X-Google-Smtp-Source: ABdhPJyYkA4vq1oQcOrEwuPwFDL2jbJtnMRm6BpMGvUzN7xpY83l1c5rWULANLVuvBwjz4kdB4J3qg==
-X-Received: by 2002:a17:902:c20d:b029:e7:3266:6d4e with SMTP id 13-20020a170902c20db02900e732666d4emr14565440pll.54.1616988746373;
-        Sun, 28 Mar 2021 20:32:26 -0700 (PDT)
+X-Gm-Message-State: AOAM533PYflw6NNKZdvpHNAWjnAMjxg0NJK4MQBTVQr+pgJf5mNosDs+
+	iFaNBknTjkU9ylb6LEWGKZo=
+X-Google-Smtp-Source: ABdhPJzeeHwzlH1Ac4v9kLE4AAyfYoP4lEzRkZ+l7oCeJ/veaGga+8qqlrkQ5a6IXjPBzMiLVAcDYQ==
+X-Received: by 2002:a17:90a:20c:: with SMTP id c12mr25563758pjc.224.1617016295323;
+        Mon, 29 Mar 2021 04:11:35 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:90b:1057:: with SMTP id gq23ls7397336pjb.0.gmail; Sun,
- 28 Mar 2021 20:32:25 -0700 (PDT)
-X-Received: by 2002:a17:90a:c588:: with SMTP id l8mr24152641pjt.120.1616988745790;
-        Sun, 28 Mar 2021 20:32:25 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1616988745; cv=none;
+Received: by 2002:a63:5f88:: with SMTP id t130ls2974895pgb.7.gmail; Mon, 29
+ Mar 2021 04:11:34 -0700 (PDT)
+X-Received: by 2002:a05:6a00:162c:b029:22b:4491:d63a with SMTP id e12-20020a056a00162cb029022b4491d63amr1254281pfc.28.1617016294641;
+        Mon, 29 Mar 2021 04:11:34 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1617016294; cv=none;
         d=google.com; s=arc-20160816;
-        b=c5rlmujBOE4oHyv/zxr/e/jjd8IwLd9AM58ksnSoqdjmzCZFiQ/bMIX+FFSeP2uz2W
-         GcbFh9hejMRwaU2SCW+1qZv8tnLTqs0ch71oBQso+PelOPlQ/Ko5dkilpr5FtQ8xO32Y
-         XxfCs/+j/cWLAapLb0HixHJ+eku43QDcy2lkS0A+IB5oXDhLDaAjqdEtNiar6IFzSVw9
-         hfCPtUVv71WwtVu+BHW7IMxQ8eS2tJcqZwkqgW/DR1jzSkfpZex0X0dmrwVRHbfRsl2G
-         KYInFUlyX/v1gmNc9DAyu3ATnMD91Hyyz9zQjUoDdBsVHdYvoHj8f7jeQ0IGjQ8idJym
-         sz1A==
+        b=mcc0XgR+ydSDoYC5EktRpWmVefllxcc3GomcKykH0iNHahAbPwsFrOweIhdXWvn/ky
+         YxyfA7RNEXyNhPqza3NGlna28nctLmSB7rreidX6yCx4dY0dX7Il00QZfVHPIrtNh0z3
+         HvIYRpo19Vr1uD8Q4v29Cmz9QcqGays9z5r1XArQbttK//i9YCFNMneD8lRA/L8a0sxj
+         8AGo+hwJ/sAyWyW9MEn99CgbkWg5wdNR+BW8BJLw+4Qn5S00IeV6XAEI1IF+wyDAazfR
+         qpJVPsGNaHhE9xteNy6EzZFGfb8EkAy3P1IQwwQQZIKzs/3fFKzwAF+YTC4a3h1dARJJ
+         lzUg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:in-reply-to:mime-version:user-agent:date
-         :message-id:from:cc:references:to:subject;
-        bh=P3CpQYV6eiGEQuJfWfsgkjN8kjssxlj7g5c55rhh5xY=;
-        b=Eb37SXE8HVFepgDfkaKIQ4wFocqvRULnMf01oZjeOHyR2fUrvDa9XDW8OiD1sT8miU
-         H3e0HP1gb/Ul/6ANID979Zevk6X7g1JG0EEFZrn73OSLpIM361A+x0c8u6jynfg051qS
-         tg4RhpQOybP3UtNjvTu1bs2nFy0mNsoyZBNLn8q12Kc42HXe+i0INILUywiwbp6xESmh
-         0tmnowSOrdT1voPmJUwoRgkx+uW9WdjHdf/+blUv6g5+rLOSPrPxJKCgKmxqcpAhDeLk
-         82fjwjvZ7IQexjoZfdHw6B0EqTJ5SJtC/ULeCJGA6pNectXO69YJWz54/L/sUlkmGaY+
-         zxoA==
+        h=mime-version:content-transfer-encoding:dlp-version:dlp-reaction
+         :dlp-product:content-language:accept-language:in-reply-to:references
+         :message-id:date:thread-index:thread-topic:subject:to:from
+         :ironport-sdr:ironport-sdr;
+        bh=/jFtTSwBJGcFsAAZ4c9ktV726lW7tiod+zJwLMV+5pU=;
+        b=t/utrx0rII9fzWKEQ5Tr2EJfBCTcBOSfIxs5VwoFqxAh0U4Ir2b24oEw8t8xgflOf4
+         uEcLvhL05kaVeGk6txBxpH2ass4nvMeUSsmYcpUgWsp1CbCWK0Ud5MC8UF87aA7uGWPo
+         xIAd7wNObDoPr/yjWAyokVc0l0G81Cr5fdHMdNehs7OVw9AyEBk+zpgajvQ6TDEj9CAC
+         Pls7nCF39eLSblC56cSKJPvkpuisJq+DiO7iA40a55MtqApHDq9q/xE0nQjvi4UaboNI
+         krRuCExbsWF1qorjXWX9lwPy6W4CaIS6S1cGkg8CF02wzqErh5J5gOYoLQxQPBjA8VWO
+         tDEg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of liushixin2@huawei.com designates 45.249.212.191 as permitted sender) smtp.mailfrom=liushixin2@huawei.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=huawei.com
-Received: from szxga05-in.huawei.com (szxga05-in.huawei.com. [45.249.212.191])
-        by gmr-mx.google.com with ESMTPS id h7si1022412plr.3.2021.03.28.20.32.25
+       spf=pass (google.com: domain of tomi.p.sarvela@intel.com designates 192.55.52.93 as permitted sender) smtp.mailfrom=tomi.p.sarvela@intel.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
+Received: from mga11.intel.com (mga11.intel.com. [192.55.52.93])
+        by gmr-mx.google.com with ESMTPS id 145si892121pfb.0.2021.03.29.04.11.34
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 28 Mar 2021 20:32:25 -0700 (PDT)
-Received-SPF: pass (google.com: domain of liushixin2@huawei.com designates 45.249.212.191 as permitted sender) client-ip=45.249.212.191;
-Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.60])
-	by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4F7yjm0dqQzNr5m;
-	Mon, 29 Mar 2021 11:29:16 +0800 (CST)
-Received: from [10.174.177.208] (10.174.177.208) by
- DGGEMS414-HUB.china.huawei.com (10.3.19.214) with Microsoft SMTP Server id
- 14.3.498.0; Mon, 29 Mar 2021 11:31:51 +0800
-Subject: Re: [PATCH] arm: 9016/2: Make symbol 'tmp_pmd_table' static
-To: Russell King - ARM Linux admin <linux@armlinux.org.uk>
-References: <20210327083018.1922539-1-liushixin2@huawei.com>
- <20210327102012.GT1463@shell.armlinux.org.uk>
-CC: Andrey Ryabinin <ryabinin.a.a@gmail.com>, Alexander Potapenko
-	<glider@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov
-	<dvyukov@google.com>, <kasan-dev@googlegroups.com>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
-From: Liu Shixin <liushixin2@huawei.com>
-Message-ID: <8578f96b-1a86-27a9-86a4-ed97c90b4892@huawei.com>
-Date: Mon, 29 Mar 2021 11:31:51 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
- Thunderbird/45.7.1
-MIME-Version: 1.0
-In-Reply-To: <20210327102012.GT1463@shell.armlinux.org.uk>
+        Mon, 29 Mar 2021 04:11:34 -0700 (PDT)
+Received-SPF: pass (google.com: domain of tomi.p.sarvela@intel.com designates 192.55.52.93 as permitted sender) client-ip=192.55.52.93;
+IronPort-SDR: MlQTKcW6O82zcuFFZKC6jJhLwdZOVIGvhNY2WUQXHo+siVqGkCfoRRlfdmduFQHv9wsj5e0iQE
+ Y4AhrMOMlj/g==
+X-IronPort-AV: E=McAfee;i="6000,8403,9937"; a="188260210"
+X-IronPort-AV: E=Sophos;i="5.81,287,1610438400"; 
+   d="scan'208";a="188260210"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2021 04:11:33 -0700
+IronPort-SDR: RRXnJ66ehj1dBrVWsl3w0XjdavaXRxJevZHXUgBDyLrTTN81FojZXdzaxDNEt+uyP6KpY7m+nL
+ G2gPSwoPqapg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,287,1610438400"; 
+   d="scan'208";a="411026403"
+Received: from irsmsx605.ger.corp.intel.com ([163.33.146.138])
+  by fmsmga008.fm.intel.com with ESMTP; 29 Mar 2021 04:11:33 -0700
+Received: from irsmsx601.ger.corp.intel.com (163.33.146.7) by
+ IRSMSX605.ger.corp.intel.com (163.33.146.138) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Mon, 29 Mar 2021 12:11:30 +0100
+Received: from irsmsx601.ger.corp.intel.com ([163.33.146.7]) by
+ irsmsx601.ger.corp.intel.com ([163.33.146.7]) with mapi id 15.01.2106.013;
+ Mon, 29 Mar 2021 12:11:30 +0100
+From: "Sarvela, Tomi P" <tomi.p.sarvela@intel.com>
+To: "kasan-dev@googlegroups.com" <kasan-dev@googlegroups.com>
+Subject: I915 CI-run with kfence enabled, issues found
+Thread-Topic: I915 CI-run with kfence enabled, issues found
+Thread-Index: Adckhav6PxBy9k/qTMmPKcbQ7bz5OQABgfQA
+Date: Mon, 29 Mar 2021 11:11:30 +0000
+Message-ID: <66f453a79f2541d4b05bcd933204f1c9@intel.com>
+References: <d60bba0e6f354cbdbd0ae16314edeb9a@intel.com>
+In-Reply-To: <d60bba0e6f354cbdbd0ae16314edeb9a@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+dlp-version: 11.6.0.76
+x-originating-ip: [163.33.253.164]
 Content-Type: text/plain; charset="UTF-8"
-X-Originating-IP: [10.174.177.208]
-X-CFilter-Loop: Reflected
-X-Original-Sender: liushixin2@huawei.com
+MIME-Version: 1.0
+X-Original-Sender: tomi.p.sarvela@intel.com
 X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of liushixin2@huawei.com designates 45.249.212.191 as
- permitted sender) smtp.mailfrom=liushixin2@huawei.com;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=huawei.com
+ (google.com: domain of tomi.p.sarvela@intel.com designates 192.55.52.93 as
+ permitted sender) smtp.mailfrom=tomi.p.sarvela@intel.com;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=intel.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -134,51 +158,65 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-I'm sorry for making such a stupid mistake. There was only one patch committed before(5615f69bc209 "ARM: 9016/2: Initialize the mapping of KASan shadow memory"), and I used the same subject by mistake.
+Hello,
 
-Thanks for your correction, I will revise the subject and resend it. How about using "arm: mm: kasan_init" in the subject?
+I'm Tomi Sarvela, maintainer and original creator of linux i915-CI:
+https://intel-gfx-ci.01.org/
 
+I got a hint from Martin Peres about kfence functionality in kernel, and it looked
+something we'd like to enable in future CI runs so I made a trial run on DRM-Tip.
+We've had regular KASAN-enabled runs, so the expectation was that there
+wouldn't be too many new problems exposed.
 
-On 2021/3/27 18:20, Russell King - ARM Linux admin wrote:
-> Why do you have 9016/2 in the subject line? That's an identifier from
-> the patch system which shouldn't be in the subject line.
->
-> If you want to refer to something already committed, please do so via
-> the sha1 git hash and quote the first line of the commit description
-> within ("...") in the body of your commit description.
->
-> Thanks.
->
-> On Sat, Mar 27, 2021 at 04:30:18PM +0800, Shixin Liu wrote:
->> Symbol 'tmp_pmd_table' is not used outside of kasan_init.c and only used
->> when CONFIG_ARM_LPAE enabled. So marks it static and add it into CONFIG_ARM_LPAE.
->>
->> Signed-off-by: Shixin Liu <liushixin2@huawei.com>
->> ---
->>  arch/arm/mm/kasan_init.c | 4 +++-
->>  1 file changed, 3 insertions(+), 1 deletion(-)
->>
->> diff --git a/arch/arm/mm/kasan_init.c b/arch/arm/mm/kasan_init.c
->> index 9c348042a724..3a06d3b51f97 100644
->> --- a/arch/arm/mm/kasan_init.c
->> +++ b/arch/arm/mm/kasan_init.c
->> @@ -27,7 +27,9 @@
->>  
->>  static pgd_t tmp_pgd_table[PTRS_PER_PGD] __initdata __aligned(PGD_SIZE);
->>  
->> -pmd_t tmp_pmd_table[PTRS_PER_PMD] __page_aligned_bss;
->> +#ifdef CONFIG_ARM_LPAE
->> +static pmd_t tmp_pmd_table[PTRS_PER_PMD] __page_aligned_bss;
->> +#endif
->>  
->>  static __init void *kasan_alloc_block(size_t size)
->>  {
->> -- 
->> 2.25.1
->>
->>
+On this run two issues were found, where one is clearly kernel (GUC) issue,
+but another looked a lot like kfence issue on old platforms. Affected
+were IVB, SNB and ILK, with bug signature being:
+
+<3> [31.556004] BUG: using smp_processor_id() in preemptible [00000000] code: ...
+<4> [31.556070] caller is invalidate_user_asid+0x13/0x50
+
+I'm not a kernel developer myself, so I can't make hard assertions
+where the issue originates. In comparison to kernel without kfence,
+it looks like the newly enabled code is the cause because the
+"BUG: KFENCE" signature is missing from the trace
+
+Can someone take a look at the traces and verify if the kfence issue
+exists and is not related to the rest of the kernel? 
+
+If there is an issue tracker, I can add this information there.
+
+Example traces:
+https://intel-gfx-ci.01.org/tree/drm-tip/kfence_1/fi-ivb-3770/igt@gem_ctx_create@basic-files.html
+
+https://intel-gfx-ci.01.org/tree/drm-tip/kfence_1/fi-snb-2520m/igt@gem_ctx_create@basic-files.html
+
+https://intel-gfx-ci.01.org/tree/drm-tip/kfence_1/fi-ilk-650/igt@gem_exec_create@basic.html
+
+Kfence-exposed possible GUC issue:
+https://intel-gfx-ci.01.org/tree/drm-tip/kfence_1/fi-kbl-guc/igt@kms_addfb_basic@addfb25-modifier-no-flag.html
+
+All results can be seen at:
+https://intel-gfx-ci.01.org/tree/drm-tip/kfence_1/index.html
+
+CI_DRM_9910 is recent DRM-Tip commit without -rc5 pulled in yet.
+kfence_1 is same commit with kfence defaults turned on:
+
+< # CONFIG_KFENCE is not set
+---
+> CONFIG_KFENCE=y
+> CONFIG_KFENCE_STATIC_KEYS=y
+> CONFIG_KFENCE_SAMPLE_INTERVAL=100
+> CONFIG_KFENCE_NUM_OBJECTS=255
+> CONFIG_KFENCE_STRESS_TEST_FAULTS=0
+
+Best Regards,
+
+Tomi Sarvela
+
+--
+Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/8578f96b-1a86-27a9-86a4-ed97c90b4892%40huawei.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/66f453a79f2541d4b05bcd933204f1c9%40intel.com.
