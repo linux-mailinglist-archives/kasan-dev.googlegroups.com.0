@@ -1,151 +1,137 @@
-Return-Path: <kasan-dev+bncBDSPNHNP2AORBZ7LQ2BQMGQES6DCAIY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCV5TUXXRUIBBC76Q2BQMGQEDRPJHWQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pl1-x639.google.com (mail-pl1-x639.google.com [IPv6:2607:f8b0:4864:20::639])
-	by mail.lfdr.de (Postfix) with ESMTPS id D322D34CE84
-	for <lists+kasan-dev@lfdr.de>; Mon, 29 Mar 2021 13:11:36 +0200 (CEST)
-Received: by mail-pl1-x639.google.com with SMTP id g7sf5360924pll.11
-        for <lists+kasan-dev@lfdr.de>; Mon, 29 Mar 2021 04:11:36 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1617016295; cv=pass;
+Received: from mail-lf1-x138.google.com (mail-lf1-x138.google.com [IPv6:2a00:1450:4864:20::138])
+	by mail.lfdr.de (Postfix) with ESMTPS id F097534CF5C
+	for <lists+kasan-dev@lfdr.de>; Mon, 29 Mar 2021 13:50:35 +0200 (CEST)
+Received: by mail-lf1-x138.google.com with SMTP id j3sf4222440lfe.13
+        for <lists+kasan-dev@lfdr.de>; Mon, 29 Mar 2021 04:50:35 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1617018635; cv=pass;
         d=google.com; s=arc-20160816;
-        b=o1HmmX7A3wlhFAQs8oNbCXpda5djVo55fxI70dBD6Toool48fCkrFX9eueLEI5MYJY
-         DPkSMRpz+MhvDVCdGz+hzNYIVMRff+jr98BdYVoDFnBhP4UGnalU8n/R/YrBJWde00AH
-         4Zr9UlYL3TYHF5ikGCFVtx5JcRYx4cIOazTSnlhnoliZX3A971J7PSQKX9HJBWj3sS+j
-         zE6rgntAdKzxWGph9OGDgVYEtcKYn/qDPGfFM4tXghiH0aT6lUMNMiveVKrlIbNmMoBD
-         bj13Ln6gY8BXs08CaDHKIy0zZJzhvQGL5K/aEIYWQdKKjqM4QFdKS+ka9AJNasNbMQwx
-         rAgQ==
+        b=nz8Rpn/0jdm7NUH/10hfwk12apKKaeQtU3GuI7rjks7e3mCPpwg+/eFTrJ9l3ydsn8
+         9nIuWp8wk7nuwlvU9mw0UnsIZRiLEPr8l+WauLY5sc66AbHMNPCWfrCm85NKyp6BMDpI
+         RXiplyxQto6LYFFsrjvj955t3i+7S9WIBBZqqjI382qnvjvyZrMbAXCFLqndFPKCKuuI
+         Tk4s1cgQ1KIUfr9KXV1KNm1Jihf2fU86kla9iryxOf035aaPT81RczvPCphjbRjWWSEF
+         nQwIfASzszohupiC58WC2+Q2AbCvlPh5pgP7yJiDMwIa/nfodWUolEXpTsjeBuY/yp7Y
+         JxUg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:dlp-version
-         :dlp-reaction:dlp-product:content-language:accept-language
-         :in-reply-to:references:message-id:date:thread-index:thread-topic
-         :subject:to:from:ironport-sdr:ironport-sdr:sender:dkim-signature;
-        bh=WRyy5yebkGdEzx77RcBBozWMQYtjJfcbDq46nSYwX90=;
-        b=sI8HefNSyJWYUj3rWowM1r1O7nTf3z8BjXqZfwXt5ebQjQeJhhtmUf9sHfLLbjXa3e
-         FGeSyYfW5ZfZme1jwKgEpAmegifOKMfVLnFCyfV056PVpaJc5wP9EDyOoi4mb5Td/G7/
-         FCOSEFKdTSVr7FijunlJj17vy9O+fMNtEWsZ8d7/+JIsOCYtvQFh2AD815E1VCpcrVb2
-         J/R9kGERb1fBsAynJTEwnSdJQ+6Q/xXLrbZHubPeTNsz8uusxrBStL1F3hw2ayeoXrGd
-         RtYR/izFUtZ9jr/yv1Mw9EL0yfNX/fLAz/1n7l//CiV94w+KZmVye0LYt3kVC6i636rA
-         vp3w==
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature;
+        bh=l41CS4B5ocI28ToicNF0VJrFZvn8da0lVc1IliKg+fA=;
+        b=bG3G+yF4gbEJJk1Uhw9hspnKDMmlAVTzGIZBzM11d0APFujhBISVU+gOuFjRojfnt9
+         MpGwjAh5jk/HwguL7SzQ9fWRQO+RLXjD/AtYVi2WUcrvl4k0WJiBCEGHrlB+qMK5FjlY
+         aQdDX99VIMrclPbGRmG5eI2hNnei01OF1NctjOAHOi4cDkcQ+n6BefEH20CgqG7drFCp
+         ksEHAn7g0b1D/GpIcSS6ZzTI02rUmQqEXfcr3swGh1KlqHJU3bal+hmPlfE9F3h/0NeM
+         VjWVKLuZUvLbb80CnfKAVdLJUDdRgq2muFZlZ2FWKFQwd+v55GB39CbE5VHB8Kef5Tuc
+         9u5Q==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of tomi.p.sarvela@intel.com designates 192.55.52.93 as permitted sender) smtp.mailfrom=tomi.p.sarvela@intel.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
+       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b=d1jazCfp;
+       spf=temperror (google.com: error in processing during lookup of peterz@infradead.org: DNS error) smtp.mailfrom=peterz@infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:ironport-sdr:ironport-sdr:from:to:subject:thread-topic
-         :thread-index:date:message-id:references:in-reply-to:accept-language
-         :content-language:dlp-product:dlp-reaction:dlp-version:mime-version
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=WRyy5yebkGdEzx77RcBBozWMQYtjJfcbDq46nSYwX90=;
-        b=IMebHsn7+pXMqbA13EbrTLylM2mk83s+TfLvo2m51nvyq5JEYvLmP4R4BA/jw5ltjQ
-         HTI5nNDjZTEQvABFABSpJxugahVwsJpeNsvDhgAgEWs7O3gk/Mr6tIFLgJdQFc56WMf4
-         4IdW7CwZvPBzS+AJRqMCc5nH1lpm6prZH0RN7rsMFn2lfZKph9hW04xQP7NOhmRHQ2RU
-         JYMS1sc48eFlo5TN4Fce8pGZk8nA2zxVHVvL61ewgimp/OU2Ks3tSuLspcob47YDVVIi
-         jF9cq1epkPwF3se0xdiqUfP61ohG+IT6LU93NRs50jRusvbG8Co6raqgqKciPXsqaIaa
-         JMkg==
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=l41CS4B5ocI28ToicNF0VJrFZvn8da0lVc1IliKg+fA=;
+        b=rUrcH+oh3A69x7tuYycpXJtHNZp5ABubAtGsRJLwHjlQtzTu7C0bj0cqECSFMX/rcN
+         8cKce95mwVOIPqpJOnf+/g7iNwZzaTIcPNyPBwNH26OdFt8gCBmbL1Cv2zvvSh5daVrO
+         ZFYBArTsbJjTW0vw1YHCOaudoQZYK4PKajriOCZ6g2zZuXfqpfd4weYjFQ6hM6IYQ2wX
+         MgGFkXKh56/wftUK+jhBPpObeD7d/2Cmx+RuZmMyPXytBryctBSEpzrRVO8bLIw2AV1Z
+         uXaDEfn0dDNzrxJLZMubyA5d95nWzZm36gG6rmhbv+CjaZeuDj/opuHJOmSMgERAvjeU
+         KYnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:ironport-sdr:ironport-sdr:from:to:subject
-         :thread-topic:thread-index:date:message-id:references:in-reply-to
-         :accept-language:content-language:dlp-product:dlp-reaction
-         :dlp-version:mime-version:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=WRyy5yebkGdEzx77RcBBozWMQYtjJfcbDq46nSYwX90=;
-        b=DWPTxA6PZaM0UU5e3Kg5UB6wPhAb+Hfmpy+/jEa4Lr4ChgGM208Tbfe0+c2fW7lOKf
-         vh1xJoqRrU2Q8qAB/IJ4BK0MA/GiYT5tq9XYZpsKbdPu5sc7F2Yofv+cj8UOZlR8JxN/
-         NHtDhVetVInk1wsOglHQr6O8DyWT5u5nmbvONRNzRmYPoX9VgwKhrUp4A7KnJ2I3+fkZ
-         KjIVKZJezN2aFllO9w/ko3bHtieXqro77Rq8+bwKUVbJkTfcSYwzEhmvEEEGDGAwJeQ+
-         7mQZ5ZVgvSVqEMQcTYbvw7UyL/OmwwRJ8ehTWb1j2pcXtxts0dKEgHD/8PODixZuzPDL
-         7tNQ==
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=l41CS4B5ocI28ToicNF0VJrFZvn8da0lVc1IliKg+fA=;
+        b=WcYP8wOrcVHMQCgbzLcX/asclkUW8ZtbhquCTQ+X/gmI44QurcMlBmNZkoCLcV2Sp9
+         apP06Eyt1Aqmm+asp/OO4uIliow2nFcZytqvBAyy9uSwEaFO//KNDXkFzDHWT48lKXTA
+         l4Esrzwf4Yi3V2cPqQYNiJlReeYOu7sjlmK1Yb8+KUuPZjuRX4xYp9XamLrKW3jyHgEO
+         J5pbvOtmwDlu22oWI9jVBiYf/ngRza6T+6cBQ/hW8v7Xf9srcdQgB4+upiBCjR+VMx/J
+         1jPpMJP9ZbL8ubA9ZAlHzJoOYYNr6RfAqvINPQ/Psaz+kutleauj15bfve+/2wht0inr
+         V87g==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM533PYflw6NNKZdvpHNAWjnAMjxg0NJK4MQBTVQr+pgJf5mNosDs+
-	iFaNBknTjkU9ylb6LEWGKZo=
-X-Google-Smtp-Source: ABdhPJzeeHwzlH1Ac4v9kLE4AAyfYoP4lEzRkZ+l7oCeJ/veaGga+8qqlrkQ5a6IXjPBzMiLVAcDYQ==
-X-Received: by 2002:a17:90a:20c:: with SMTP id c12mr25563758pjc.224.1617016295323;
-        Mon, 29 Mar 2021 04:11:35 -0700 (PDT)
+X-Gm-Message-State: AOAM532Rht8ab3COp0/9L8UlNljkqupffZRGbcL9pv4RhXXHPtGUfOCr
+	WBtwIOm/Q3P70/atWwxtAHs=
+X-Google-Smtp-Source: ABdhPJzI93LKtnle6g9hfbNsuVcw6ZXBIJcC3JRKA1CaiywCuUihNVBkulSDR5NncDEwsruq2VAqMA==
+X-Received: by 2002:a05:6512:3e20:: with SMTP id i32mr16518835lfv.257.1617018635479;
+        Mon, 29 Mar 2021 04:50:35 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a63:5f88:: with SMTP id t130ls2974895pgb.7.gmail; Mon, 29
- Mar 2021 04:11:34 -0700 (PDT)
-X-Received: by 2002:a05:6a00:162c:b029:22b:4491:d63a with SMTP id e12-20020a056a00162cb029022b4491d63amr1254281pfc.28.1617016294641;
-        Mon, 29 Mar 2021 04:11:34 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1617016294; cv=none;
+Received: by 2002:a2e:bc23:: with SMTP id b35ls3107854ljf.7.gmail; Mon, 29 Mar
+ 2021 04:50:34 -0700 (PDT)
+X-Received: by 2002:a05:651c:1117:: with SMTP id d23mr11963768ljo.220.1617018634322;
+        Mon, 29 Mar 2021 04:50:34 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1617018634; cv=none;
         d=google.com; s=arc-20160816;
-        b=mcc0XgR+ydSDoYC5EktRpWmVefllxcc3GomcKykH0iNHahAbPwsFrOweIhdXWvn/ky
-         YxyfA7RNEXyNhPqza3NGlna28nctLmSB7rreidX6yCx4dY0dX7Il00QZfVHPIrtNh0z3
-         HvIYRpo19Vr1uD8Q4v29Cmz9QcqGays9z5r1XArQbttK//i9YCFNMneD8lRA/L8a0sxj
-         8AGo+hwJ/sAyWyW9MEn99CgbkWg5wdNR+BW8BJLw+4Qn5S00IeV6XAEI1IF+wyDAazfR
-         qpJVPsGNaHhE9xteNy6EzZFGfb8EkAy3P1IQwwQQZIKzs/3fFKzwAF+YTC4a3h1dARJJ
-         lzUg==
+        b=FHfypk3kYd7Nt57u89gkxxWgM0+WWABarshzh+ebYsEpER0i0jTynmKBUtN64ooSSX
+         Coa+grUWiqLAlS+sE7qxjHUSlaN3lDlTfi6XHxmrdfwlxyWVA1yQCAM7Tr13Q8iuO1U2
+         YCz+lNRGnmBkvFLgWL4fhob40FYw+0wS9hdViATzIg6/dwVg2Ls6c1Qd8X9o3MyObAx2
+         sAQiU52wIzBvLQBrSL6E/EWpgydzMX1TvU3brevBhuXR4r4fev2zRRSfGRyaUCU8OohX
+         GqUD0xOOKadcHjPHCn1+EoJRlrt+sosrePzsMtguT9dmkiV/rTQX2gmIhmjN67hys+uF
+         XAag==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=mime-version:content-transfer-encoding:dlp-version:dlp-reaction
-         :dlp-product:content-language:accept-language:in-reply-to:references
-         :message-id:date:thread-index:thread-topic:subject:to:from
-         :ironport-sdr:ironport-sdr;
-        bh=/jFtTSwBJGcFsAAZ4c9ktV726lW7tiod+zJwLMV+5pU=;
-        b=t/utrx0rII9fzWKEQ5Tr2EJfBCTcBOSfIxs5VwoFqxAh0U4Ir2b24oEw8t8xgflOf4
-         uEcLvhL05kaVeGk6txBxpH2ass4nvMeUSsmYcpUgWsp1CbCWK0Ud5MC8UF87aA7uGWPo
-         xIAd7wNObDoPr/yjWAyokVc0l0G81Cr5fdHMdNehs7OVw9AyEBk+zpgajvQ6TDEj9CAC
-         Pls7nCF39eLSblC56cSKJPvkpuisJq+DiO7iA40a55MtqApHDq9q/xE0nQjvi4UaboNI
-         krRuCExbsWF1qorjXWX9lwPy6W4CaIS6S1cGkg8CF02wzqErh5J5gOYoLQxQPBjA8VWO
-         tDEg==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:dkim-signature;
+        bh=7UpbfvkQlofjez1TPOd4UNQFXQ8qN4tvk7VAKOS6IdU=;
+        b=zVW9ZwspWa+LmNBnBJubeE+KeZtxuvvVqJZ9tPRLNI3sNevTW2Hky7BKipKpoAeKud
+         avVlV6iApD6yxNtP5KDjR2KIwzY+5/o1IcQdRuZVFqs/1OlCil5EFRKQD8IpPZvxfUdD
+         GVV8vJoGTejHSHhlfmhi0egmVEPBmq3gCv573KKQ57/pdk1FPSbVzO8aZoldhshg7LLG
+         z2m3ZQbegxY3f0Pu9qg5TyI5ZJh/P5mZtWLOOiQogxtJoz9mowW0ONuqZ1wpCzZwHuit
+         +BVr9I7NzPGPBh2enZN3XafzRYkdUlo4Q+Y1uarEPoRwI4NtN7BzwGh7QIksWlx2723L
+         mVlw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of tomi.p.sarvela@intel.com designates 192.55.52.93 as permitted sender) smtp.mailfrom=tomi.p.sarvela@intel.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
-Received: from mga11.intel.com (mga11.intel.com. [192.55.52.93])
-        by gmr-mx.google.com with ESMTPS id 145si892121pfb.0.2021.03.29.04.11.34
+       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b=d1jazCfp;
+       spf=temperror (google.com: error in processing during lookup of peterz@infradead.org: DNS error) smtp.mailfrom=peterz@infradead.org
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by gmr-mx.google.com with ESMTPS id f21si734223ljg.6.2021.03.29.04.50.30
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 29 Mar 2021 04:11:34 -0700 (PDT)
-Received-SPF: pass (google.com: domain of tomi.p.sarvela@intel.com designates 192.55.52.93 as permitted sender) client-ip=192.55.52.93;
-IronPort-SDR: MlQTKcW6O82zcuFFZKC6jJhLwdZOVIGvhNY2WUQXHo+siVqGkCfoRRlfdmduFQHv9wsj5e0iQE
- Y4AhrMOMlj/g==
-X-IronPort-AV: E=McAfee;i="6000,8403,9937"; a="188260210"
-X-IronPort-AV: E=Sophos;i="5.81,287,1610438400"; 
-   d="scan'208";a="188260210"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2021 04:11:33 -0700
-IronPort-SDR: RRXnJ66ehj1dBrVWsl3w0XjdavaXRxJevZHXUgBDyLrTTN81FojZXdzaxDNEt+uyP6KpY7m+nL
- G2gPSwoPqapg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,287,1610438400"; 
-   d="scan'208";a="411026403"
-Received: from irsmsx605.ger.corp.intel.com ([163.33.146.138])
-  by fmsmga008.fm.intel.com with ESMTP; 29 Mar 2021 04:11:33 -0700
-Received: from irsmsx601.ger.corp.intel.com (163.33.146.7) by
- IRSMSX605.ger.corp.intel.com (163.33.146.138) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Mon, 29 Mar 2021 12:11:30 +0100
-Received: from irsmsx601.ger.corp.intel.com ([163.33.146.7]) by
- irsmsx601.ger.corp.intel.com ([163.33.146.7]) with mapi id 15.01.2106.013;
- Mon, 29 Mar 2021 12:11:30 +0100
-From: "Sarvela, Tomi P" <tomi.p.sarvela@intel.com>
-To: "kasan-dev@googlegroups.com" <kasan-dev@googlegroups.com>
-Subject: I915 CI-run with kfence enabled, issues found
-Thread-Topic: I915 CI-run with kfence enabled, issues found
-Thread-Index: Adckhav6PxBy9k/qTMmPKcbQ7bz5OQABgfQA
-Date: Mon, 29 Mar 2021 11:11:30 +0000
-Message-ID: <66f453a79f2541d4b05bcd933204f1c9@intel.com>
-References: <d60bba0e6f354cbdbd0ae16314edeb9a@intel.com>
-In-Reply-To: <d60bba0e6f354cbdbd0ae16314edeb9a@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-dlp-version: 11.6.0.76
-x-originating-ip: [163.33.253.164]
-Content-Type: text/plain; charset="UTF-8"
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Mar 2021 04:50:30 -0700 (PDT)
+Received-SPF: temperror (google.com: error in processing during lookup of peterz@infradead.org: DNS error) client-ip=2001:8b0:10b:1:d65d:64ff:fe57:4e05;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
+	id 1lQqPU-000cyZ-G1; Mon, 29 Mar 2021 11:50:20 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(Client did not present a certificate)
+	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 2D0E3305CC3;
+	Mon, 29 Mar 2021 13:50:19 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 0EFE92071A3DD; Mon, 29 Mar 2021 13:50:19 +0200 (CEST)
+Date: Mon, 29 Mar 2021 13:50:18 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: Marco Elver <elver@google.com>
+Cc: alexander.shishkin@linux.intel.com, acme@kernel.org, mingo@redhat.com,
+	jolsa@redhat.com, mark.rutland@arm.com, namhyung@kernel.org,
+	tglx@linutronix.de, glider@google.com, viro@zeniv.linux.org.uk,
+	arnd@arndb.de, christian@brauner.io, dvyukov@google.com,
+	jannh@google.com, axboe@kernel.dk, mascasa@google.com,
+	pcc@google.com, irogers@google.com, kasan-dev@googlegroups.com,
+	linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, x86@kernel.org,
+	linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v3 01/11] perf: Rework perf_event_exit_event()
+Message-ID: <YGG++nxhvVBSEphQ@hirez.programming.kicks-ass.net>
+References: <20210324112503.623833-1-elver@google.com>
+ <20210324112503.623833-2-elver@google.com>
+ <YFxjJam0ErVmk99i@elver.google.com>
+ <YFy3qI65dBfbsZ1z@elver.google.com>
+ <YFzgO0AhGFODmgc1@elver.google.com>
 MIME-Version: 1.0
-X-Original-Sender: tomi.p.sarvela@intel.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of tomi.p.sarvela@intel.com designates 192.55.52.93 as
- permitted sender) smtp.mailfrom=tomi.p.sarvela@intel.com;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=intel.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+In-Reply-To: <YFzgO0AhGFODmgc1@elver.google.com>
+X-Original-Sender: peterz@infradead.org
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@infradead.org header.s=desiato.20200630 header.b=d1jazCfp;
+       spf=temperror (google.com: error in processing during lookup of
+ peterz@infradead.org: DNS error) smtp.mailfrom=peterz@infradead.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -158,65 +144,31 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hello,
+On Thu, Mar 25, 2021 at 08:10:51PM +0100, Marco Elver wrote:
 
-I'm Tomi Sarvela, maintainer and original creator of linux i915-CI:
-https://intel-gfx-ci.01.org/
+> and therefore synthesized this fix on top:
+> 
+> diff --git a/kernel/events/core.c b/kernel/events/core.c
+> index 57de8d436efd..e77294c7e654 100644
+> --- a/kernel/events/core.c
+> +++ b/kernel/events/core.c
+> @@ -12400,7 +12400,7 @@ static void sync_child_event(struct perf_event *child_event)
+>  	if (child_event->attr.inherit_stat) {
+>  		struct task_struct *task = child_event->ctx->task;
+>  
+> -		if (task)
+> +		if (task && task != TASK_TOMBSTONE)
+>  			perf_event_read_event(child_event, task);
+>  	}
+>  
+> which fixes the problem. My guess is that the parent and child are both
+> racing to exit?
+> 
+> Does that make any sense?
 
-I got a hint from Martin Peres about kfence functionality in kernel, and it looked
-something we'd like to enable in future CI runs so I made a trial run on DRM-Tip.
-We've had regular KASAN-enabled runs, so the expectation was that there
-wouldn't be too many new problems exposed.
-
-On this run two issues were found, where one is clearly kernel (GUC) issue,
-but another looked a lot like kfence issue on old platforms. Affected
-were IVB, SNB and ILK, with bug signature being:
-
-<3> [31.556004] BUG: using smp_processor_id() in preemptible [00000000] code: ...
-<4> [31.556070] caller is invalidate_user_asid+0x13/0x50
-
-I'm not a kernel developer myself, so I can't make hard assertions
-where the issue originates. In comparison to kernel without kfence,
-it looks like the newly enabled code is the cause because the
-"BUG: KFENCE" signature is missing from the trace
-
-Can someone take a look at the traces and verify if the kfence issue
-exists and is not related to the rest of the kernel? 
-
-If there is an issue tracker, I can add this information there.
-
-Example traces:
-https://intel-gfx-ci.01.org/tree/drm-tip/kfence_1/fi-ivb-3770/igt@gem_ctx_create@basic-files.html
-
-https://intel-gfx-ci.01.org/tree/drm-tip/kfence_1/fi-snb-2520m/igt@gem_ctx_create@basic-files.html
-
-https://intel-gfx-ci.01.org/tree/drm-tip/kfence_1/fi-ilk-650/igt@gem_exec_create@basic.html
-
-Kfence-exposed possible GUC issue:
-https://intel-gfx-ci.01.org/tree/drm-tip/kfence_1/fi-kbl-guc/igt@kms_addfb_basic@addfb25-modifier-no-flag.html
-
-All results can be seen at:
-https://intel-gfx-ci.01.org/tree/drm-tip/kfence_1/index.html
-
-CI_DRM_9910 is recent DRM-Tip commit without -rc5 pulled in yet.
-kfence_1 is same commit with kfence defaults turned on:
-
-< # CONFIG_KFENCE is not set
----
-> CONFIG_KFENCE=y
-> CONFIG_KFENCE_STATIC_KEYS=y
-> CONFIG_KFENCE_SAMPLE_INTERVAL=100
-> CONFIG_KFENCE_NUM_OBJECTS=255
-> CONFIG_KFENCE_STRESS_TEST_FAULTS=0
-
-Best Regards,
-
-Tomi Sarvela
-
---
-Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Yes, I think it does. ACK
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/66f453a79f2541d4b05bcd933204f1c9%40intel.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YGG%2B%2BnxhvVBSEphQ%40hirez.programming.kicks-ass.net.
