@@ -1,32 +1,32 @@
-Return-Path: <kasan-dev+bncBAABBBNZRCBQMGQEDM5TXDQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBLNZRCBQMGQEIW3PFIQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pj1-x1039.google.com (mail-pj1-x1039.google.com [IPv6:2607:f8b0:4864:20::1039])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE93834D717
-	for <lists+kasan-dev@lfdr.de>; Mon, 29 Mar 2021 20:29:26 +0200 (CEST)
-Received: by mail-pj1-x1039.google.com with SMTP id o16sf170032pjy.9
-        for <lists+kasan-dev@lfdr.de>; Mon, 29 Mar 2021 11:29:26 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1617042565; cv=pass;
+Received: from mail-il1-x13c.google.com (mail-il1-x13c.google.com [IPv6:2607:f8b0:4864:20::13c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E4E134D71F
+	for <lists+kasan-dev@lfdr.de>; Mon, 29 Mar 2021 20:30:06 +0200 (CEST)
+Received: by mail-il1-x13c.google.com with SMTP id k12sf2595135ilo.20
+        for <lists+kasan-dev@lfdr.de>; Mon, 29 Mar 2021 11:30:06 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1617042605; cv=pass;
         d=google.com; s=arc-20160816;
-        b=rQJLsRSnaasZj4AGVRSBtTjnon7IzLIkR59h/ASxXbpiWnwl3ejYkVmrxI9+EyD4Ip
-         oc0BDI8krInhhelK0Qm5kBcQC2n99RQQDuMdKK5uzNazLG0H48KWG35Cryxz5MMs27oX
-         UIdNFaDx3orZw5gJHsH43r4ZaFHRCsx0gAvLx+VIMmqFX8SBMkVBSUDI5HoSRjpcE//S
-         ptLlkGHN8oRzGk3QAcUxBCEKGo1Q4+iY3ZCmcK5kiWmf3/yhxk1j/Ni+rtKp2hMF64Ae
-         az0h+TfCOAcUnVPSpHT21/eBr67JoznUIulse2xaPczGjw4KDQXD3lVvyIS2g9cP4/P3
-         kg3w==
+        b=1Aw1Bfm+9cFMILwPKQ4/w9rf+VajHQro2mwoB0b3T2LLWTadyq8sx1RheUCquPJCrO
+         5L2ivkWK89JHEd7l0Fvp2kdBFRcCuE/Ty4VRJZFQ0vysMycYCqxTCQSldeMCqCVXfEFU
+         LW4eEmkjo82W5pMneQ0aKIHdQcJON9ssehzv5wevmzQWJi9kYc+GqrsPKycwgkcYBPwi
+         eRGFQPU8y6ppVYQDOKoTiJLAsJ3hi0moHoZ07FBcKhgxz6fHXUtXFNKC5n14Oe7FncJf
+         PNMRR7Hoz1JtivJTo+uJ2u1ywzsu1KMMnHXvKynChlExZMiOxNg0uEfPLuK9FAOu/kjG
+         It2A==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:mime-version:references
          :in-reply-to:message-id:subject:cc:to:from:date:dkim-signature;
-        bh=HlF/8CXXW/SBUEsDGAsAuOHcAFV5oxgNGtOkYBh2tX8=;
-        b=0O7sSP8kskhe0RoIOiVAdcictBxzV0JFRIVxk4ZMqIuSHkDpnO1Q8CNLpZ4G1fw6G4
-         wAlVe5qiN1UWMrv4wVw980bqEkqTV9O1kNzelyr7wvvEaGD0Uqyt46HsyIVrLYAxMGcl
-         X3t8dH3lw4neV2BbYyf602phVgw3IU1VGVVg8TDuNtbAGp7oHKRjHhshMgiCNlIW89Cl
-         ANsFbdgpIsNevnK8gNOa/RajRk6ipfnLn7IhfavfxlUWWP3Z6OTOnUAXKiXrXM6EIxLf
-         QlWL1reaamaE+AHLu0/cj7XaNwnfwyhU8LnDB+Nm+F4UEUlbZY7i7yFIEPl2r1SxWlDH
-         eBmw==
+        bh=DEj8TEK/R6i9nhy1RXEr8UX6SrAbvbrqL6qSNEt0RoU=;
+        b=AiF1M+TbCKHjy5bHFhmaJLTSN655KuzhPGyjXu2g86z7DK+H/GJuJBG5NvfuqbAs8h
+         acdk8j/i/tncwTbLyHtolXNHXT+ppX0wpyDhKF4/nn2hSKcE0QTWvqZxiJijX2fUKupQ
+         uDtnzuhB7wss62CmPfph0Xoldb8CZp7mHT7idxX3gXTnipFPbn4NCUf0CDNm+2Y5AX8h
+         KU2+w4tNU+3N+H0OFcd2rjIu2qQVv0SZ+YUgPmDPi20Y8EtuM+3ZRY7EnEmx5+pGaSOT
+         XmRNqrGjcxANrd1oJ6anMJjZCw1qtGvhSzIjynRsbtl1SG0Vzb3C4BlLEtYUcnIzxmFB
+         RPdw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@mail.ustc.edu.cn header.s=dkim header.b="jtLZ/TQr";
+       dkim=pass header.i=@mail.ustc.edu.cn header.s=dkim header.b=kroUk+J7;
        spf=pass (google.com: domain of jszhang3@mail.ustc.edu.cn designates 202.38.64.46 as permitted sender) smtp.mailfrom=jszhang3@mail.ustc.edu.cn;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=mail.ustc.edu.cn
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :mime-version:x-original-sender:x-original-authentication-results
          :reply-to:precedence:mailing-list:list-id:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=HlF/8CXXW/SBUEsDGAsAuOHcAFV5oxgNGtOkYBh2tX8=;
-        b=I2nT5tWoJIa1gy6QuX9ovFFKoBeFPAyltGU7dTNQH+jRcpHb0yP0vrlRqCqwB6xA9A
-         2isBSolV9F9K5hjcDvqpvNK71IDQ1km6u9KAAlfs+Ce3UGx4cw53uTF+xjO0chpmO/z0
-         BSL/Cg4Rzwp4HaMwZSZFb02f4P/QhBotYLLa6Y/VitNP5z17rxKtJRcf1QacFp9Igg+V
-         n4MCcDnABVO0FedSmgMmfNx31PRSH7Lg08YZfvFCDuZB6I0Pq/7aZmsd8PYqmefN7Q8B
-         AsGj0iUXS4yOn9F2DRu0ZtVgp9K609HS1+1VLb7+OC6rSkOU+1jgEVrs1jJ9vJxRt77W
-         iy7Q==
+        bh=DEj8TEK/R6i9nhy1RXEr8UX6SrAbvbrqL6qSNEt0RoU=;
+        b=AFa38DBfzXjjUpmAlAFQhyXrrd+UKtEbWJIXFLjK57Wr3pZxLCeDCEWj2YojcorhQY
+         tKoYxMt1fnRmGpOC69wNAEPpuxLYKIPDh9aJ/qF/DzxAhXwU2SEVCh7M61wtVUlSBBqR
+         yOjo4EJmEjKYPXzrlSqGJdJjBq/I0BTIxu/85GkYJzMHXfJvLqcrvGFLEmtA/BgkVrTM
+         12ClpfjLMKmP0huEvato9Zx2GzTWL6PQkgGvMEREpc5WOsn1pDUSFLjJaiPe0NCjGSLU
+         FS6br46z1fQkGVgoJDBFYCrqQpCBsQoCcVhVMUpR2tfdzZKZUghg9iaWjYGO+fvwGz+5
+         RRJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
@@ -49,54 +49,54 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=HlF/8CXXW/SBUEsDGAsAuOHcAFV5oxgNGtOkYBh2tX8=;
-        b=pfMHHA+cC9WRMTqolVfA5XH3x8Tjc6x1wH14FyTkLzSS8fhuXa370abX5Ub4Rb32cn
-         +1bcf2/I+N2VRfsZ0HAAl8NcTeGAZz5tKzMKp4ECxilhNzAzyt3iNzjNfsIIokDs+HUE
-         WH+taDUMPKycOirA9zlM3jx62VnR70bkdkVXjJAxLTKVbmVRv72nPNY0uYTAP9mPi/Cy
-         ImZlhLtUwMNgEkaHhQ9sI4SZeifpX0/QXKD14/aGNsOA7kLWu4jMiMZjbMiKwBjAmKr4
-         VOIC9cDFbTXswrPfFfugK5Tf3IL90dJ5zGyCpvTay/i/7jUCBEtD4aVaDhR6hncrWQUK
-         rRWw==
-X-Gm-Message-State: AOAM532GAyTmVe+iFyUTsiRkx5gmj/g2kRQ7ZmqpQPc2fsVbyPOAMnkM
-	rb7E/2AXGfHU9zIcHwpCmVg=
-X-Google-Smtp-Source: ABdhPJxC0/lOOXjK0pXcj3MoZtRlOI21ua0p/zC8F2PcqaJ8eABY0TaGCRpjHXWm3im2JOaaB9SG6g==
-X-Received: by 2002:a17:902:d304:b029:e6:bab4:8df3 with SMTP id b4-20020a170902d304b02900e6bab48df3mr29519692plc.5.1617042565666;
-        Mon, 29 Mar 2021 11:29:25 -0700 (PDT)
+        bh=DEj8TEK/R6i9nhy1RXEr8UX6SrAbvbrqL6qSNEt0RoU=;
+        b=gtOs8TpNn5obHJ5ZXy6k0e84mKsVq/V9BPRayPWWEpUsMqigtjMCD+Ood1vCc/zajy
+         u4uoDKoXXijV6LCofzYmKSFeI06+bAtrKN51XqUhQWxB38BmoZhGkt3UmaA7v355Eyh1
+         i6v0Qe47f+ZwJgcUmsEjkASbu+rNP9A2UExZ4u4pYyWBEZHThzSKaxOrARRs+hrvT8xa
+         pOONYV2Uudyvf9HZL0mnwcPcYiEBE4WBh4RlCv7auGAsBuEbkmk+2MzzQvlQslgIRWXU
+         y9SbBBW8z8fH8nSTWNkzWD0CMfBbBypV3stOB89RqKAHkRop8MS6kz4WQ5ox1QGN1G/L
+         3/uQ==
+X-Gm-Message-State: AOAM532B50KYvAEylLarbWpJFxwXJQ/lm320sv/oPM5aDy6zegRkD+eq
+	qyZgQ708E5uXED8ILfB0/94=
+X-Google-Smtp-Source: ABdhPJytzSJL6nH/He12JpNnkVSZSbbGyTS+269O6wX9gU2XZAj01ffSt6kZ+96vZutyYVXd61HDdA==
+X-Received: by 2002:a05:6602:14cb:: with SMTP id b11mr21645516iow.175.1617042605474;
+        Mon, 29 Mar 2021 11:30:05 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:902:ce8f:: with SMTP id f15ls9393614plg.5.gmail; Mon, 29
- Mar 2021 11:29:25 -0700 (PDT)
-X-Received: by 2002:a17:902:b088:b029:e6:e1d8:20cc with SMTP id p8-20020a170902b088b02900e6e1d820ccmr29617629plr.27.1617042565266;
-        Mon, 29 Mar 2021 11:29:25 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1617042565; cv=none;
+Received: by 2002:a05:6638:3590:: with SMTP id v16ls2123578jal.5.gmail; Mon,
+ 29 Mar 2021 11:30:05 -0700 (PDT)
+X-Received: by 2002:a02:cb8f:: with SMTP id u15mr24642274jap.45.1617042605219;
+        Mon, 29 Mar 2021 11:30:05 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1617042605; cv=none;
         d=google.com; s=arc-20160816;
-        b=rdMjUlx3+wrmXRS+LjsoASxuAecH3hHDMugOCJcskIgtHbVyUyxMwGQHvpV2Bhxtkx
-         RYbY+V6vOC2JHtKyyUEjT7z9GtEmebh/Se18sCJDBqu4zpVODFvIsc078KYdM9sAorXf
-         QSxmLcvT5GZ6vX3f7nprMoKKvd3SmWb0c0ojZiXKKTEQbvoeZhgZ3ZVLlgi60UJ2OfMk
-         3+leGDPYSGSwBvZ86qcYz0O/v4ziVNZ4guaLegaT6m/cpMeSex5E4SGxC3mCgnroJ15k
-         1WpkLkvrza4DDdlYE/P9i7UElyHsn0/Kml9AaAJB4leEGJRN01yLi0KbXnZvfRs0i4tF
-         oazQ==
+        b=csptCiQgNgpUkmy4NkcpgqYEVeLILqvy8TNUsDpmPpQ3h/sTw7UAoe9VAwOZSyAZOk
+         RmWZUTDSU6LSJXUucFlVSAduRWuvJ9qMZ+6dHFkUgmotx67UjHTtc16X963PnRLbmIIX
+         Sf3eKsSDCNIdE3tCe1uydBee/VdE1cvp384T13n/p7FHaLloNo1Ez0vorL5pl9ZsEu/A
+         sq3jkcCxx45/3B/FhT/743pFysq9uc1YddzGAVuVAWeh9tEBTMZwIufmWBAN9zThgGdi
+         Zi6/c9ZOHigKHO4ko34IKsMIfTQZeQC8Hluzb3iU2wB0IeUKTk+fdOSMLO8PlzDiqDAq
+         qsvg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:subject:cc:to:from:date:dkim-signature;
-        bh=VCe4QmQLCwyArf7TfS2RTM//Ze/hAyVnYUNMw+5EuIc=;
-        b=w4wG10YTnWdl4TdSiVKRKbEmR4Gunzn5GUuPqlYPjiYhlyr7nhtv4C+5AmzgvmCSSU
-         4ZKbFay5GyptARQKSt4OuetHNIiR3kxM8Du7Byt1qS5+1wzQkZlnAvUtReR4i26/twdz
-         nSB9LmRkc0ARtITzMBgU3Knn/Hu4n+ll9hyL4BWSQ86vjTozsk/hMFYZQ1aH43OcKgaa
-         3OxKxkngujbGX0VDp8xH4q5qYAbt/GouVfCcFNMSjyvH8rdazQKLh4xV0nwbDjo2WUhL
-         IjYRZogr90San995LcNieIZxTW/4ckmUy0ifPtToriqbULHdwOh3q9uBKfb+W9kH9dxE
-         e6XA==
+        bh=MgvKzE3RWjWapRps+L/qSm8ZaZUnOBtKKGClBE5IhG0=;
+        b=hoRdgApbwf8KjME2v8PwSNwAhEttxx8R+keV5TTrfC8jmCnvD7uUJ5jqQSD2QWor0h
+         TXuR4u74xEd//q4XvzD4BdISug0oSY1TOwvCLThmiGR/k3ztb4qCwwXCyFHYIJxQ6Q9v
+         htcfBrfZyhslhq9FFlhWgThka+YDWt81kXMqNS0DJRY7kiC2SYVqWAeb4K5MpEpIit5T
+         qrik4LmlU8ryaxLw6DyHFzmMdHOm4qToY5LdLu2yOvZdBbwfoebGPKL8+5HULl7yOORu
+         y2vb5mka2qHeOUVV41xg1cmqhKGBFZHLuakhIEmdt7cbnkSeZSJa3qmYJ0/2C81ngQt9
+         9bxg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@mail.ustc.edu.cn header.s=dkim header.b="jtLZ/TQr";
+       dkim=pass header.i=@mail.ustc.edu.cn header.s=dkim header.b=kroUk+J7;
        spf=pass (google.com: domain of jszhang3@mail.ustc.edu.cn designates 202.38.64.46 as permitted sender) smtp.mailfrom=jszhang3@mail.ustc.edu.cn;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=mail.ustc.edu.cn
 Received: from ustc.edu.cn (smtp2.ustc.edu.cn. [202.38.64.46])
-        by gmr-mx.google.com with ESMTP id j6si8279pjg.0.2021.03.29.11.29.23
+        by gmr-mx.google.com with ESMTP id y4si1329826iln.3.2021.03.29.11.29.58
         for <kasan-dev@googlegroups.com>;
-        Mon, 29 Mar 2021 11:29:25 -0700 (PDT)
+        Mon, 29 Mar 2021 11:30:04 -0700 (PDT)
 Received-SPF: pass (google.com: domain of jszhang3@mail.ustc.edu.cn designates 202.38.64.46 as permitted sender) client-ip=202.38.64.46;
 Received: from xhacker (unknown [101.86.19.180])
-	by newmailweb.ustc.edu.cn (Coremail) with SMTP id LkAmygDX3Eh9HGJgUfVpAA--.35371S2;
-	Tue, 30 Mar 2021 02:29:18 +0800 (CST)
-Date: Tue, 30 Mar 2021 02:24:21 +0800
+	by newmailweb.ustc.edu.cn (Coremail) with SMTP id LkAmygDHzk6eHGJgFvZpAA--.41814S2;
+	Tue, 30 Mar 2021 02:29:50 +0800 (CST)
+Date: Tue, 30 Mar 2021 02:24:54 +0800
 From: "'Jisheng Zhang' via kasan-dev" <kasan-dev@googlegroups.com>
 To: Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
  <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, Andrey Ryabinin
@@ -110,33 +110,34 @@ To: Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
  <luke.r.nels@gmail.com>, Xi Wang <xi.wang@gmail.com>
 Cc: linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
  kasan-dev@googlegroups.com, netdev@vger.kernel.org, bpf@vger.kernel.org
-Subject: [PATCH 5/9] riscv: kprobes: Implement alloc_insn_page()
-Message-ID: <20210330022421.0ee61d0d@xhacker>
+Subject: [PATCH 6/9] riscv: bpf: Move bpf_jit_alloc_exec() and
+ bpf_jit_free_exec() to core
+Message-ID: <20210330022454.3d0feda2@xhacker>
 In-Reply-To: <20210330022144.150edc6e@xhacker>
 References: <20210330022144.150edc6e@xhacker>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-CM-TRANSID: LkAmygDX3Eh9HGJgUfVpAA--.35371S2
-X-Coremail-Antispam: 1UD129KBjvdXoW7GFyDGF45XF4kJrWxuw48WFg_yoWDGrb_C3
-	WxKry3WrWYkrWxWFyDKw4Sqrsak343KFykWr12yryUtr1DWr13Ka95WF45G3sYqr97JFyf
-	GrnxX3srWF42qjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUb4kYjsxI4VW3JwAYFVCjjxCrM7AC8VAFwI0_Xr0_Wr1l1xkIjI8I
-	6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM2
-	8CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0
-	cI8IcVCY1x0267AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4
-	vEx4A2jsIEc7CjxVAFwI0_Cr1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVAC
-	Y4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1q6rW5McIj6I8E87Iv67AKxVW8JV
-	WxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkI
-	wI1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxV
-	WUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r4a6rW5MIIYrxkI
-	7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r
-	4UJVWxJr1lIxAIcVCF04k26cxKx2IYs7xG6r4j6FyUMIIF0xvEx4A2jsIE14v26r4j6F4U
-	MIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJbIYCTnIWIevJa73UjIFyTuYvjxU4yv3UU
-	UUU
+X-CM-TRANSID: LkAmygDHzk6eHGJgFvZpAA--.41814S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7KFyftry5KF1fXw4fuw1kAFb_yoW8Cr1UpF
+	s7Cr13ArWvqw1xGryftay7WF1Yyrs5Wa1xWFWUuayrAanIqFW7Zw15Gw15XrZ8ZFyjgayF
+	krWYkr93Cw1kZ37anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUkKb7Iv0xC_Zr1lb4IE77IF4wAFF20E14v26ryj6rWUM7CY07I2
+	0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
+	A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xII
+	jxv20xvEc7CjxVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjc
+	xK6I8E87Iv6xkF7I0E14v26F4UJVW0owAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40E
+	FcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUtVWrXwAv7VC2z280aVAFwI0_Gr
+	0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY
+	04v7MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI
+	0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWrXwCIc40Y
+	0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x0267AKxV
+	W8Jr0_Cr1UMIIF0xvE42xK8VAvwI8IcIk0rVW8JVW3JwCI42IY6I8E87Iv67AKxVW8JVWx
+	JwCI42IY6I8E87Iv6xkF7I0E14v26r4UJVWxJrUvcSsGvfC2KfnxnUUI43ZEXa7IU8tKsU
+	UUUUU==
 X-CM-SenderInfo: xmv2xttqjtqzxdloh3xvwfhvlgxou0/
 X-Original-Sender: jszhang3@mail.ustc.edu.cn
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@mail.ustc.edu.cn header.s=dkim header.b="jtLZ/TQr";       spf=pass
+ header.i=@mail.ustc.edu.cn header.s=dkim header.b=kroUk+J7;       spf=pass
  (google.com: domain of jszhang3@mail.ustc.edu.cn designates 202.38.64.46 as
  permitted sender) smtp.mailfrom=jszhang3@mail.ustc.edu.cn;       dmarc=pass
  (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=mail.ustc.edu.cn
@@ -156,33 +157,59 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 From: Jisheng Zhang <jszhang@kernel.org>
 
-Allocate PAGE_KERNEL_READ_EXEC(read only, executable) page for kprobes
-insn page. This is to prepare for STRICT_MODULE_RWX.
+We will drop the executable permissions of the code pages from the
+mapping at allocation time soon. Move bpf_jit_alloc_exec() and
+bpf_jit_free_exec() to bpf_jit_core.c so that they can be shared by
+both RV64I and RV32I.
 
 Signed-off-by: Jisheng Zhang <jszhang@kernel.org>
 ---
- arch/riscv/kernel/probes/kprobes.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ arch/riscv/net/bpf_jit_comp64.c | 13 -------------
+ arch/riscv/net/bpf_jit_core.c   | 13 +++++++++++++
+ 2 files changed, 13 insertions(+), 13 deletions(-)
 
-diff --git a/arch/riscv/kernel/probes/kprobes.c b/arch/riscv/kernel/probes/kprobes.c
-index 7e2c78e2ca6b..8c1f7a30aeed 100644
---- a/arch/riscv/kernel/probes/kprobes.c
-+++ b/arch/riscv/kernel/probes/kprobes.c
-@@ -84,6 +84,14 @@ int __kprobes arch_prepare_kprobe(struct kprobe *p)
- 	return 0;
+diff --git a/arch/riscv/net/bpf_jit_comp64.c b/arch/riscv/net/bpf_jit_comp64.c
+index b44ff52f84a6..87e3bf5b9086 100644
+--- a/arch/riscv/net/bpf_jit_comp64.c
++++ b/arch/riscv/net/bpf_jit_comp64.c
+@@ -1148,16 +1148,3 @@ void bpf_jit_build_epilogue(struct rv_jit_context *ctx)
+ {
+ 	__build_epilogue(false, ctx);
  }
- 
-+void *alloc_insn_page(void)
+-
+-void *bpf_jit_alloc_exec(unsigned long size)
+-{
+-	return __vmalloc_node_range(size, PAGE_SIZE, BPF_JIT_REGION_START,
+-				    BPF_JIT_REGION_END, GFP_KERNEL,
+-				    PAGE_KERNEL_EXEC, 0, NUMA_NO_NODE,
+-				    __builtin_return_address(0));
+-}
+-
+-void bpf_jit_free_exec(void *addr)
+-{
+-	return vfree(addr);
+-}
+diff --git a/arch/riscv/net/bpf_jit_core.c b/arch/riscv/net/bpf_jit_core.c
+index 3630d447352c..d8da819290b7 100644
+--- a/arch/riscv/net/bpf_jit_core.c
++++ b/arch/riscv/net/bpf_jit_core.c
+@@ -164,3 +164,16 @@ struct bpf_prog *bpf_int_jit_compile(struct bpf_prog *prog)
+ 					   tmp : orig_prog);
+ 	return prog;
+ }
++
++void *bpf_jit_alloc_exec(unsigned long size)
 +{
-+	return  __vmalloc_node_range(PAGE_SIZE, 1, VMALLOC_START, VMALLOC_END,
-+				     GFP_KERNEL, PAGE_KERNEL_READ_EXEC,
-+				     VM_FLUSH_RESET_PERMS, NUMA_NO_NODE,
-+				     __builtin_return_address(0));
++	return __vmalloc_node_range(size, PAGE_SIZE, BPF_JIT_REGION_START,
++				    BPF_JIT_REGION_END, GFP_KERNEL,
++				    PAGE_KERNEL_EXEC, 0, NUMA_NO_NODE,
++				    __builtin_return_address(0));
 +}
 +
- /* install breakpoint in text */
- void __kprobes arch_arm_kprobe(struct kprobe *p)
- {
++void bpf_jit_free_exec(void *addr)
++{
++	return vfree(addr);
++}
 -- 
 2.31.0
 
@@ -190,4 +217,4 @@ index 7e2c78e2ca6b..8c1f7a30aeed 100644
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210330022421.0ee61d0d%40xhacker.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210330022454.3d0feda2%40xhacker.
