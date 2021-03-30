@@ -1,126 +1,123 @@
-Return-Path: <kasan-dev+bncBCR5PSMFZYORB3GQRGBQMGQEHPSNICY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCRKNY4WZECBBV7DRKBQMGQEDTNN42I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qt1-x839.google.com (mail-qt1-x839.google.com [IPv6:2607:f8b0:4864:20::839])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31BF234DCA3
-	for <lists+kasan-dev@lfdr.de>; Tue, 30 Mar 2021 01:53:18 +0200 (CEST)
-Received: by mail-qt1-x839.google.com with SMTP id c20sf8630060qtw.9
-        for <lists+kasan-dev@lfdr.de>; Mon, 29 Mar 2021 16:53:18 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1617061997; cv=pass;
+Received: from mail-pl1-x640.google.com (mail-pl1-x640.google.com [IPv6:2607:f8b0:4864:20::640])
+	by mail.lfdr.de (Postfix) with ESMTPS id C5B6334E087
+	for <lists+kasan-dev@lfdr.de>; Tue, 30 Mar 2021 07:06:32 +0200 (CEST)
+Received: by mail-pl1-x640.google.com with SMTP id h4sf6666289plf.3
+        for <lists+kasan-dev@lfdr.de>; Mon, 29 Mar 2021 22:06:32 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1617080791; cv=pass;
         d=google.com; s=arc-20160816;
-        b=SD4Eavkka7s21j9HZHypNCghvrBKsj8XqcgpUvkIT2qHGSXtKjs1uknacFTO3blDGF
-         JO1C5/A1IxjrxV0fB+S9aafp2bNhh2Vx9U2C1TGmMneZueqbt8rmBs6wviUYRm3WN6D1
-         zsB1ZwTOTSmR7lXOkNd99h9wuRw7nM8nZDs5hLfAtOJUTcjvU+dh51/0AfP+U2OXp7uf
-         IX7LzYmuq4WMjmE15+dkYtDztxEodRxV7BUZYZUus4GXgbqDQHa3WYqCQ5VK+XJGb6Xy
-         Blj8xdiqRrJZMVgA4HhKU5JCrncDz8o6nf7rjopAkvp9zrFZK+Kn+2kap3O3ilHls0b9
-         QT4w==
+        b=TVgOWwnyg4tmaiYFDhpcctitC9YUAn72crsZGfTZFxNn/LUy93j4jho+jhKeg0v+KE
+         C06EVswShDImVgRWtFOA3c36+NfA7tjr80zq/ibLErvCj3DatRnCgWpFomw2ycviMX7o
+         s/yCFgs0coaVWZyk0YLFP14RubAFCwf8SkQ4xFi59wC91MsfVU0oiBXMGG77t5kYPORI
+         WRoZTlhG1UgJmtX5ZTp0LMrK0iKT4R6ELRW4amkfeiYkugR3AeJscsR3y7T/ZGSIL6nA
+         VauCocpqZWPsHoLWPfSNEJmuxIWXlm5BVIFLYT6Gyl1/41jqnBcdHsKQ/97A2aVD45l3
+         7Byg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding
-         :mime-version:message-id:date:references:in-reply-to:subject:to:from
-         :sender:dkim-signature;
-        bh=oc84ATApbzKHtjPU1nqnz6r8aqDvQ7hT7gZE8Fo10ho=;
-        b=JfR87CyYGR33Og2fl52Cg98O7sD3MhFbOa0zrPsa0K40meNmNloQwiFHsNEoxOuri1
-         PL3qZF7UsNMccnEGpio2Ex1k7yQlyOk7IKaAfHeKs4LHrbFiOHNvlCcoDIHR6Pa8XSji
-         Q5gpudpTARfwYlJnA6/VrhxTQ53LoxYsl+W2XU5gj6Zb9A1PW3jEtAGrp8A9D8f6skQN
-         +vR6J4aeeeMXoCvZVJq+Ui8ZnUccpzY66SJoIcd4W7hrxSRA0nEmMbNZgpfYkhHB6jv0
-         mvN58TeW+I/7+ngZWiGVa0wbRRK8bxya6FDmwDkNlU+PxjZqYVVh79zGH6ZYCSPH9eh1
-         we1A==
+         :list-id:mailing-list:precedence:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:sender:dkim-signature;
+        bh=qY8QMazCKdLhYr2c9DBbQp11M9k0jh8sRC1ebNv/DUk=;
+        b=GDN8rRNziyvsSAjKzbtjhX4wG6OaQFG0LAK6r+IgODlvcDAeS2Ruwx+18mDkrKjGjb
+         BtjiaMkv4in0G2DE9T1BBiuDfEJEGxzXU0gbMXo5zhRuQbkTUxznVZY+SLjmHkvYUu3/
+         5YxWxRs6K/+M1gtxyk2PjzfDyRcanZFykQv1ij/o0szhQihltayoWX9VphPTrxwT8d9v
+         1UceOcQmnJzmjiL8LPhkkg0qtLirC4YcoPLzG++4w93+gY1vv4NAllsPODZPb8GtoFg4
+         EiZXhk8HaNDAuPoCYDmvwrSvgl0I00b9WwI4D3AB1clGWgMsAlZVyJOP+Ddcjz0GmALv
+         hpDA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@ellerman.id.au header.s=201909 header.b=fH44ZpLz;
-       spf=pass (google.com: domain of mpe@ellerman.id.au designates 2401:3900:2:1::2 as permitted sender) smtp.mailfrom=mpe@ellerman.id.au
+       dkim=pass header.i=@dabbelt-com.20150623.gappssmtp.com header.s=20150623 header.b=vm+D9PSK;
+       spf=pass (google.com: domain of palmer@dabbelt.com designates 2607:f8b0:4864:20::1030 as permitted sender) smtp.mailfrom=palmer@dabbelt.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:from:to:subject:in-reply-to:references:date:message-id
-         :mime-version:content-transfer-encoding:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=oc84ATApbzKHtjPU1nqnz6r8aqDvQ7hT7gZE8Fo10ho=;
-        b=m+GxyX/R3DNA8fehZoE9pkOZTJdAQ63a50y2X6T+nIcW0Pyk/ypMtvPRmL6yQZaZJC
-         v5xcOR4Hh31ML6UKsX9YczOvDb3jKkoeqZjQbWAVFtS+mEajnjet6V/X93V0lONAJL4z
-         7aEQT/AzWsKZseOAc6DlW0Rw31ZlZ+lcXKZw8vnNUdl/WM52WylFY/W8WRkxwSmJs53z
-         QRWwFlAsZoB2UVP3cDad2EJfskJDJ8yX5Zylk3ZxBgyQ+r3HB7gXoNpUEMyDJzLEvrDk
-         6wbUxWhyoah3FzuMrFYWP0BminE4eqKqFQBWZ+7mjRTsvs6gIyun3a3GPwmwlr2KilfZ
-         EtWg==
+        h=sender:date:subject:in-reply-to:cc:from:to:message-id:mime-version
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=qY8QMazCKdLhYr2c9DBbQp11M9k0jh8sRC1ebNv/DUk=;
+        b=UNpT20dPSpIBIARzQ/pw2De0g7rs5oees+0rG3+BBs8Bc4j0rJ++5p0sDA99/++6xt
+         M7WhYHbQivqwFwddfR0tUvQvQrHMuqu/6W8Qn6Q2adllR3RhdAc8ochbGnQGde2uEBBb
+         SbfLuf37hK8g8WJ790D+6XsX6X9++2z4mbEzYGZvwPghEf9Lv2U1uaQueBpInRiacfN6
+         IqxksucIyxUUpttrUKlVLVE6lZ2Ffx2VBRTa6fd/qyaL26Ka1+GDVQb1Fpga1JwBbzsv
+         KAEecGFAu2tZqFjupmiBg33BSUyNFauRP/BjukNxpgc6eTqiwXWCg1ysD5C0ejXE8FH4
+         XPpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:from:to:subject:in-reply-to:references
-         :date:message-id:mime-version:content-transfer-encoding
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=oc84ATApbzKHtjPU1nqnz6r8aqDvQ7hT7gZE8Fo10ho=;
-        b=rlZYY850HGu6g6Y+DqjiM3+Z8XAClxU3itUSa0zcN77SVLkFDhL7GJrC3g/z0qTAyH
-         8mJv7p0O3HJdmNP1Bg9J+p2YomrXZiAEHwJJmAN1J1YeKD2VIUhgMn9J2N8qaE4yduQr
-         P7eUAvcGO3X8DquyemAZwkBbt/2O1O9Cr7HVXcZP/rY1D6fAEM7lfS/6Od70XhXdB93a
-         hhFJEs4t7IaHtov91Xqi+BpvT4CXOyRihlhMLBmFWSD79Yok1hkFb3B6P4eX/5SYn7ad
-         P+FEPB07cRcskohbc4Dt/OVzkGLsw4A/Ls3gqp5kiGN/19z9moUO22ICyRriYQhVGNwi
-         xj6w==
+        h=sender:x-gm-message-state:date:subject:in-reply-to:cc:from:to
+         :message-id:mime-version:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=qY8QMazCKdLhYr2c9DBbQp11M9k0jh8sRC1ebNv/DUk=;
+        b=F8GNu5xvc2SM+6yP8cxSFeCDmd0V14fBd6ckCESjpm1u4Ijra4+vdP5X4KupnZgGxP
+         6SzsCi11AZOCRVW53vtfBmtdJ/mU8yD6QJVEIEjb0hixoKSm6hg6EzjgI/edg7IBNqF3
+         uWdDgKa70IRLMyNxymBvi8GvKP7fyCorvUPtbyfaI4kEKLitM1MODtMk9Brq0Ok8pDZP
+         djbneiuTMh9zVC9YYo10HVjy9uwLluaB3hWDtqjQpMdABiRNQcf0b1DeQpTZf7T1o8VG
+         Hju8VHlz009LpkeOGlPbbErQAz8H2vmBmdtgSUog7Avi7dgE9jHXnfj2VzFyerfEfEeT
+         G9xw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM5314i0xmLRd9DKLGpnlpW8gc8ga+7oi9j+EaA1DZaBBGIXk3FplV
-	qp802+doTAuMrCYYH4d4t+s=
-X-Google-Smtp-Source: ABdhPJyq7KPSVJ2CBQIJQN5Ckz6Re5gnUQ6KG6RekdmXmvPxMSlkbINFp7ZQzWe29kTctwCFI00WFw==
-X-Received: by 2002:a05:620a:e:: with SMTP id j14mr27233886qki.117.1617061997214;
-        Mon, 29 Mar 2021 16:53:17 -0700 (PDT)
+X-Gm-Message-State: AOAM533D/JU5T5S4sOiFLnL3UrrSsCBF/iF69sMmMA7tRPPDnT/TwGOX
+	J5O/V2RU70x2Xn7klI22W34=
+X-Google-Smtp-Source: ABdhPJz5uvCXgvAKDOY8MvPl+VSzVPDsstxAff12v9WADsZ8FREOYUE2NtLOzsnZHM1PZ3KrFdBnAQ==
+X-Received: by 2002:a17:903:31d7:b029:e7:1dfd:4213 with SMTP id v23-20020a17090331d7b02900e71dfd4213mr20166478ple.26.1617080791424;
+        Mon, 29 Mar 2021 22:06:31 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6214:c83:: with SMTP id r3ls4749990qvr.5.gmail; Mon, 29
- Mar 2021 16:53:16 -0700 (PDT)
-X-Received: by 2002:a0c:e1c7:: with SMTP id v7mr27595396qvl.30.1617061996462;
-        Mon, 29 Mar 2021 16:53:16 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1617061996; cv=none;
+Received: by 2002:a17:90a:bd8b:: with SMTP id z11ls899075pjr.1.gmail; Mon, 29
+ Mar 2021 22:06:31 -0700 (PDT)
+X-Received: by 2002:a17:902:edc2:b029:e4:3738:9b23 with SMTP id q2-20020a170902edc2b02900e437389b23mr31852398plk.37.1617080790901;
+        Mon, 29 Mar 2021 22:06:30 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1617080790; cv=none;
         d=google.com; s=arc-20160816;
-        b=VFLkfjxbFUIuhOKLpRKPK8++UEACutWYSReiXTS3VEVxtncHefvSwSKmQCZoV34fdl
-         DhzBLnD9y3XbpMNDVE4ypFiEHI7b4g1pQR3bNJzNGZfFSlrmoWuIZlaReUihjFcQ0DKu
-         mpPfoNGhjuU5aQW/aUYV9HXmW3zYoXUbkc6SAJOGp+mKR4SU3siaiu+50DBSJ3OJkZm5
-         l4SrQ8pp9ES+U0Duj4jwec3MQFlgIjdDB/mNWZ6fvhjzK1UEHVFaBZYCO/kmbTES6q43
-         gtwLrnE1j25jUN2/20yxbecTvYC7ZV+B8HXc55Hmn8Sj8xS+vvpwl/a2kyMZWnPZPLOt
-         L2sA==
+        b=TyBCn8p98YrxzwrgvPVG9KlfBE0Qa+8zHoVEcj3KchY4P3Rle6cEQ6KkfgZ0/qjiG8
+         P70bnhcr5dLVOQAaYvE2r++HB7BnGvlJmgcE7FrUnwMpnvoFHj8uIj5fQ5bvcA9Bek9r
+         T1mNfee8ilJbp0ODhTkdmTiyxUasxSUidPCqPoP7mO2ZsBrJTIU5nIK4gVdvSUY8ERW6
+         rmNK9WY/0/9gr1iEbTiV5ZOxMPKDbHwqwfu7Do3Tkw6Lx8LyekrDJEndPlEHTgUWeMC4
+         hU4vBKxza1sWjg1IKoX9OHbU9JZYH6RKJDqajMYahmInlYmNIvSjQkqdO1znr9XQx5gY
+         Ffeg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:message-id:date:references
-         :in-reply-to:subject:to:from:dkim-signature;
-        bh=1NEBkgMZRDaimfxw2YViqUmMFjvU7xQ9OgrCx+plfX0=;
-        b=PKsOdddB7nqfkXTAZxKNcNRspd1Pl2rAm4u4jmTNn5VZEg9py0VSBxB0Vei6J30JYF
-         i8BkapU+kM/Ka6WGcG1n7RTN92qxl8fgudtaNQFP+ZpTQ4js6VWj1i2FzmTKDfbXJSJ+
-         j/9Lbbpsqo9k5DXHnzqbC4Ew3f+ctR1710tNH6RvAmLrU9MHwIwnHRYxWPD6Y7MeU2sB
-         90X3KAQR9Zum93Q6ILHccfUPLzxmXLou1dJDFupMC0e4j9fnHUx/+GyR84cfDWCp/8ox
-         1qq8dNCfS6/U/44uNQl6uCRzkhNZJ0pG0AUDw79RyR12ffjbu12xfalvwQb/beLZh4Xi
-         zBGg==
+        h=content-transfer-encoding:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:dkim-signature;
+        bh=vUHPJZsD1HsjvzEusIUyaB/CqNpQTfUUNzEFAb1GBPs=;
+        b=xg2twg6lgtxUh/TUVnOEvnY9wVFVwvOt/6nTwwAaQbvQV/UkwloanpZk/s42mPMfCs
+         DKx6acab8NwftNMC85+06cv7ln/eZ38cNKIXeoO5+PLu1PN0VVHpfNQusbXrbt5FM5uo
+         tp4XKht0GCf3lLpGbEb3f9qQsJxoG3YmUQ0DV8/wAoQhAhBeQZCBiySvADMZR2qOnQsE
+         reznXfcrs1J/WesS0SEYHzW7AbxqQ1+eyS+S7OM1yn4ASVZR/jpaS4HEvUcCig8ERmaQ
+         HceoM7juln7nfBC0BRqCLpINpUk8EePUs7ncMgWCUDam+fwVoiIGztvEJbBvdk3S/wxT
+         vYrw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@ellerman.id.au header.s=201909 header.b=fH44ZpLz;
-       spf=pass (google.com: domain of mpe@ellerman.id.au designates 2401:3900:2:1::2 as permitted sender) smtp.mailfrom=mpe@ellerman.id.au
-Received: from ozlabs.org (bilbo.ozlabs.org. [2401:3900:2:1::2])
-        by gmr-mx.google.com with ESMTPS id n9si915668qkg.0.2021.03.29.16.53.15
+       dkim=pass header.i=@dabbelt-com.20150623.gappssmtp.com header.s=20150623 header.b=vm+D9PSK;
+       spf=pass (google.com: domain of palmer@dabbelt.com designates 2607:f8b0:4864:20::1030 as permitted sender) smtp.mailfrom=palmer@dabbelt.com
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com. [2607:f8b0:4864:20::1030])
+        by gmr-mx.google.com with ESMTPS id e200si803774pfh.3.2021.03.29.22.06.30
         for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 29 Mar 2021 22:06:30 -0700 (PDT)
+Received-SPF: pass (google.com: domain of palmer@dabbelt.com designates 2607:f8b0:4864:20::1030 as permitted sender) client-ip=2607:f8b0:4864:20::1030;
+Received: by mail-pj1-x1030.google.com with SMTP id il9-20020a17090b1649b0290114bcb0d6c2so8852977pjb.0
+        for <kasan-dev@googlegroups.com>; Mon, 29 Mar 2021 22:06:30 -0700 (PDT)
+X-Received: by 2002:a17:90b:16cd:: with SMTP id iy13mr2671264pjb.46.1617080790431;
+        Mon, 29 Mar 2021 22:06:30 -0700 (PDT)
+Received: from localhost (76-210-143-223.lightspeed.sntcca.sbcglobal.net. [76.210.143.223])
+        by smtp.gmail.com with ESMTPSA id i14sm1341926pjh.17.2021.03.29.22.06.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Mar 2021 16:53:16 -0700 (PDT)
-Received-SPF: pass (google.com: domain of mpe@ellerman.id.au designates 2401:3900:2:1::2 as permitted sender) client-ip=2401:3900:2:1::2;
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail.ozlabs.org (Postfix) with ESMTPSA id 4F8Tsy0BpZz9sWT;
-	Tue, 30 Mar 2021 10:53:09 +1100 (AEDT)
-From: Michael Ellerman <mpe@ellerman.id.au>
-To: Christophe Leroy <christophe.leroy@csgroup.eu>, Daniel Axtens
- <dja@axtens.net>, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linuxppc-dev@lists.ozlabs.org, kasan-dev@googlegroups.com,
- aneesh.kumar@linux.ibm.com, bsingharora@gmail.com
-Subject: Re: [PATCH v11 0/6] KASAN for powerpc64 radix
-In-Reply-To: <a5e1d7c5-3ebc-283c-2c9d-55d36d03cf48@csgroup.eu>
-References: <20210319144058.772525-1-dja@axtens.net>
- <5a3b5952-b31f-42bf-eaf4-ea24444f8df6@csgroup.eu>
- <87ft0mbr6r.fsf@dja-thinkpad.axtens.net>
- <a5e1d7c5-3ebc-283c-2c9d-55d36d03cf48@csgroup.eu>
-Date: Tue, 30 Mar 2021 10:53:05 +1100
-Message-ID: <87wntpfrfi.fsf@mpe.ellerman.id.au>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: mpe@ellerman.id.au
+        Mon, 29 Mar 2021 22:06:30 -0700 (PDT)
+Date: Mon, 29 Mar 2021 22:06:30 -0700 (PDT)
+Subject: Re: [PATCH v3 2/2] riscv: Cleanup KASAN_VMALLOC support
+In-Reply-To: <20210313084505.16132-3-alex@ghiti.fr>
+CC: Paul Walmsley <paul.walmsley@sifive.com>, aou@eecs.berkeley.edu,
+  nylon7@andestech.com, nickhu@andestech.com, aryabinin@virtuozzo.com, glider@google.com,
+  dvyukov@google.com, linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+  kasan-dev@googlegroups.com, alex@ghiti.fr
+From: Palmer Dabbelt <palmer@dabbelt.com>
+To: alex@ghiti.fr
+Message-ID: <mhng-1a492a0c-049e-495e-8258-7513a4fa967a@palmerdabbelt-glaptop>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-Original-Sender: palmer@dabbelt.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@ellerman.id.au header.s=201909 header.b=fH44ZpLz;       spf=pass
- (google.com: domain of mpe@ellerman.id.au designates 2401:3900:2:1::2 as
- permitted sender) smtp.mailfrom=mpe@ellerman.id.au
+ header.i=@dabbelt-com.20150623.gappssmtp.com header.s=20150623
+ header.b=vm+D9PSK;       spf=pass (google.com: domain of palmer@dabbelt.com
+ designates 2607:f8b0:4864:20::1030 as permitted sender) smtp.mailfrom=palmer@dabbelt.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -133,148 +130,106 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Christophe Leroy <christophe.leroy@csgroup.eu> writes:
-> Le 23/03/2021 =C3=A0 02:21, Daniel Axtens a =C3=A9crit=C2=A0:
->> Hi Christophe,
->>=20
->>> In the discussion we had long time ago,
->>> https://patchwork.ozlabs.org/project/linuxppc-dev/patch/20190806233827.=
-16454-5-dja@axtens.net/#2321067
->>> , I challenged you on why it was not possible to implement things the s=
-ame way as other
->>> architectures, in extenso with an early mapping.
->>>
->>> Your first answer was that too many things were done in real mode at st=
-artup. After some discussion
->>> you said that finally there was not that much things at startup but the=
- issue was KVM.
->>>
->>> Now you say that instrumentation on KVM is fully disabled.
->>>
->>> So my question is, if KVM is not a problem anymore, why not go the stan=
-dard way with an early shadow
->>> ? Then you could also support inline instrumentation.
->>=20
->> Fair enough, I've had some trouble both understanding the problem myself
->> and clearly articulating it. Let me try again.
->>=20
->> We need translations on to access the shadow area.
->>=20
->> We reach setup_64.c::early_setup() with translations off. At this point
->> we don't know what MMU we're running under, or our CPU features.
+On Sat, 13 Mar 2021 00:45:05 PST (-0800), alex@ghiti.fr wrote:
+> When KASAN vmalloc region is populated, there is no userspace process and
+> the page table in use is swapper_pg_dir, so there is no need to read
+> SATP. Then we can use the same scheme used by kasan_populate_p*d
+> functions to go through the page table, which harmonizes the code.
 >
-> What do you need to know ? Whether it is Hash or Radix, or
-> more/different details ?
-
-Yes, as well as some other details like SLB size, supported segment &
-page sizes, possibly the CPU version for workarounds, various other
-device tree things.
-
-You also need to know if you're bare metal or in a guest, or on a PS3 ...
-
-> IIUC, today we only support KASAN on Radix. Would it make sense to say th=
-at a kernel built with=20
-> KASAN can only run on processors having Radix capacility ? Then select CO=
-NFIG_PPC_RADIX_MMU_DEFAULT=20
-> when KASAN is set, and accept that the kernel crashes if Radix is not ava=
-ilable ?
-
-I would rather not. We already have some options like that
-(EARLY_DEBUG), and they have caused people to waste time debugging
-crashes over the years that turned out to just due to the wrong CONFIG
-selected.
-
->> To determine our MMU and CPU features, early_setup() calls functions
->> (dt_cpu_ftrs_init, early_init_devtree) that call out to generic code
->> like of_scan_flat_dt. We need to do this before we turn on translations
->> because we can't set up the MMU until we know what MMU we have.
->>=20
->> So this puts us in a bind:
->>=20
->>   - We can't set up an early shadow until we have translations on, which
->>     requires that the MMU is set up.
->>=20
->>   - We can't set up an MMU until we call out to generic code for FDT
->>     parsing.
->>=20
->> So there will be calls to generic FDT parsing code that happen before th=
-e
->> early shadow is set up.
+> In addition, make use of set_pgd that goes through all unused page table
+> levels, contrary to p*d_populate functions, which makes this function work
+> whatever the number of page table levels.
 >
-> I see some logic in kernel/prom_init.c for detecting MMU. Can we get the =
-information from there in=20
-> order to setup the MMU ?
-
-You could find some of the information, but you'd need to stash it
-somewhere (like the flat device tree :P) because you can't turn the MMU
-on until we shutdown open firmware.
-
-That also doesn't help you on bare metal where we don't use prom_init.
-
->> The setup code also prints a bunch of information about the platform
->> with printk() while translations are off, so it wouldn't even be enough
->> to disable instrumentation for bits of the generic DT code on ppc64.
+> Signed-off-by: Alexandre Ghiti <alex@ghiti.fr>
+> Reviewed-by: Palmer Dabbelt <palmerdabbelt@google.com>
+> ---
+>  arch/riscv/mm/kasan_init.c | 59 ++++++++++++--------------------------
+>  1 file changed, 18 insertions(+), 41 deletions(-)
 >
-> I'm sure the printk() stuff can be avoided or delayed without much proble=
-ms, I guess the main=20
-> problem is the DT code, isn't it ?
-
-We spent many years making printk() work for early boot messages,
-because it has the nice property of being persisted in dmesg.
-
-But possibly we could come up with some workaround for that.
-
-Disabling KASAN for the flat DT code seems like it wouldn't be a huge
-loss, most (all?) of that code should only run at boot anyway.
-
-But we also have code spread out in various files that would need to be
-built without KASAN. See eg. everything called by of_scan_flat_dt(),
-mmu_early_init_devtree(), pseries_probe_fw_features()
-pkey_early_init_devtree() etc.
-
-Because we can only disable KASAN per-file that would require quite a
-bit of code movement and related churn.
-
-> As far as I can see the code only use udbg_printf() before MMU is on, and=
- this could be simply=20
-> skipped when KASAN is selected, I see no situation where you need early p=
-rintk together with KASAN.
-
-We definitely use printk() before the MMU is on.
-
->> Does that make sense? If you can figure out how to 'square the circle'
->> here I'm all ears.
+> diff --git a/arch/riscv/mm/kasan_init.c b/arch/riscv/mm/kasan_init.c
+> index 57bf4ae09361..c16178918239 100644
+> --- a/arch/riscv/mm/kasan_init.c
+> +++ b/arch/riscv/mm/kasan_init.c
+> @@ -11,18 +11,6 @@
+>  #include <asm/fixmap.h>
+>  #include <asm/pgalloc.h>
 >
-> Yes it is a lot more clear now, thanks you. Gave a few ideas above,
-> does it help ?
+> -static __init void *early_alloc(size_t size, int node)
+> -{
+> -	void *ptr = memblock_alloc_try_nid(size, size,
+> -		__pa(MAX_DMA_ADDRESS), MEMBLOCK_ALLOC_ACCESSIBLE, node);
+> -
+> -	if (!ptr)
+> -		panic("%pS: Failed to allocate %zu bytes align=%zx nid=%d from=%llx\n",
+> -			__func__, size, size, node, (u64)__pa(MAX_DMA_ADDRESS));
+> -
+> -	return ptr;
+> -}
+> -
+>  extern pgd_t early_pg_dir[PTRS_PER_PGD];
+>  asmlinkage void __init kasan_early_init(void)
+>  {
+> @@ -155,38 +143,27 @@ static void __init kasan_populate(void *start, void *end)
+>  	memset(start, KASAN_SHADOW_INIT, end - start);
+>  }
+>
+> -void __init kasan_shallow_populate(void *start, void *end)
+> +static void __init kasan_shallow_populate_pgd(unsigned long vaddr, unsigned long end)
+>  {
+> -	unsigned long vaddr = (unsigned long)start & PAGE_MASK;
+> -	unsigned long vend = PAGE_ALIGN((unsigned long)end);
+> -	unsigned long pfn;
+> -	int index;
+> +	unsigned long next;
+>  	void *p;
+> -	pud_t *pud_dir, *pud_k;
+> -	pgd_t *pgd_dir, *pgd_k;
+> -	p4d_t *p4d_dir, *p4d_k;
+> -
+> -	while (vaddr < vend) {
+> -		index = pgd_index(vaddr);
+> -		pfn = csr_read(CSR_SATP) & SATP_PPN;
+> -		pgd_dir = (pgd_t *)pfn_to_virt(pfn) + index;
+> -		pgd_k = init_mm.pgd + index;
+> -		pgd_dir = pgd_offset_k(vaddr);
+> -		set_pgd(pgd_dir, *pgd_k);
+> -
+> -		p4d_dir = p4d_offset(pgd_dir, vaddr);
+> -		p4d_k  = p4d_offset(pgd_k, vaddr);
+> -
+> -		vaddr = (vaddr + PUD_SIZE) & PUD_MASK;
+> -		pud_dir = pud_offset(p4d_dir, vaddr);
+> -		pud_k = pud_offset(p4d_k, vaddr);
+> -
+> -		if (pud_present(*pud_dir)) {
+> -			p = early_alloc(PAGE_SIZE, NUMA_NO_NODE);
+> -			pud_populate(&init_mm, pud_dir, p);
+> +	pgd_t *pgd_k = pgd_offset_k(vaddr);
+> +
+> +	do {
+> +		next = pgd_addr_end(vaddr, end);
+> +		if (pgd_page_vaddr(*pgd_k) == (unsigned long)lm_alias(kasan_early_shadow_pmd)) {
+> +			p = memblock_alloc(PAGE_SIZE, PAGE_SIZE);
+> +			set_pgd(pgd_k, pfn_pgd(PFN_DOWN(__pa(p)), PAGE_TABLE));
+>  		}
+> -		vaddr += PAGE_SIZE;
+> -	}
+> +	} while (pgd_k++, vaddr = next, vaddr != end);
+> +}
+> +
+> +static void __init kasan_shallow_populate(void *start, void *end)
+> +{
+> +	unsigned long vaddr = (unsigned long)start & PAGE_MASK;
+> +	unsigned long vend = PAGE_ALIGN((unsigned long)end);
+> +
+> +	kasan_shallow_populate_pgd(vaddr, vend);
+>
+>  	local_flush_tlb_all();
+>  }
 
-A little? :)
+Thanks, this is on for-next.
 
-It's possible we could do slightly less of the current boot sequence
-before turning the MMU on. But we would still need to scan the flat
-device tree, so all that code would be implicated either way.
-
-We could also rearrange the early boot code to put bits in separate
-files so they can be built without KASAN, but like I said above that
-would be a lot of churn.
-
-I don't see a way to fix printk() though, other than not using it during
-early boot. Maybe that's OK but it feels like a bit of a backward step.
-
-There's also other issues, like if we WARN during early boot that causes
-a program check and that runs all sorts of code, some of which would
-have KASAN enabled.
-
-So I don't see an easy path to enabling inline instrumentation. It's
-obviously possible, but I don't think it's something we can get done in
-any reasonable time frame.
-
-cheers
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/87wntpfrfi.fsf%40mpe.ellerman.id.au.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/mhng-1a492a0c-049e-495e-8258-7513a4fa967a%40palmerdabbelt-glaptop.
