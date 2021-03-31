@@ -1,32 +1,32 @@
-Return-Path: <kasan-dev+bncBAABBXWHSKBQMGQERXEHSHQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABB76HSKBQMGQE44QNYRY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pj1-x1040.google.com (mail-pj1-x1040.google.com [IPv6:2607:f8b0:4864:20::1040])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AC65350485
-	for <lists+kasan-dev@lfdr.de>; Wed, 31 Mar 2021 18:31:27 +0200 (CEST)
-Received: by mail-pj1-x1040.google.com with SMTP id lj2sf1576335pjb.1
-        for <lists+kasan-dev@lfdr.de>; Wed, 31 Mar 2021 09:31:27 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1617208286; cv=pass;
+Received: from mail-io1-xd37.google.com (mail-io1-xd37.google.com [IPv6:2607:f8b0:4864:20::d37])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0164635048A
+	for <lists+kasan-dev@lfdr.de>; Wed, 31 Mar 2021 18:32:01 +0200 (CEST)
+Received: by mail-io1-xd37.google.com with SMTP id s6sf1900419iom.21
+        for <lists+kasan-dev@lfdr.de>; Wed, 31 Mar 2021 09:32:00 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1617208319; cv=pass;
         d=google.com; s=arc-20160816;
-        b=qxT4XaEK8039OEq6PQH4/UrTUAPQPMHdNsX+zIQh/EGHI0HHfcmlNDK4cakgD2Pc/j
-         Q/GXGGH0V04YhafMJtm3TAYOKmVYMOmwFKKKlObNApRL+sktU6774uvFpj5IwnTq3oKd
-         spk6BqgRBThXwPY9yyL9SEPdcUOwUjkx2fj9X/6QQgp8HOnCFvLmFnsBNbKKKkuZUU5x
-         H4Q0Wnfw94G5T82VfAMlNA9iRlQP5CKduM/KCXYcSdqcCjUBZDzfyQ60FYEKsMM9MfYC
-         6jG9r50a+3Myh6EQmaRXSyjyY3ktNs00/e09HbvjISXOHXBzn04a1eoqOxHc9pwP8kOp
-         WRog==
+        b=gdrx49Gov/4koTGyQRToLgayHCMRs8foEu+WMRZ9+Ov5L6/ZUER/PN/sT5BvqK1pUO
+         cpqD7ObX7DphK/fxAHkuGVVgd9nHt4pchlsjlEQOkKLtXA4Cb0wyeVp5XtAAmrH2WIuz
+         PwYi0HRmR1zOVOaeIbFWOCOwtnkgYXcxjdbr3xWcRRpiw4A4roxlbQO6ol/+zc44RQpr
+         BhJr/VwFbAmCnflo9tqsVA8vwdakkGdOeoY3kLCaBdC7FaWyuHysd8O8FZK3Mk0gchEO
+         aFy0vGCr+dJRQMAq7rPeB6YrHr7+Bey0AdlPL22q9Mgo2DqgjJDt20iLbb0YU3e6scKz
+         s59Q==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:mime-version:references
          :in-reply-to:message-id:subject:cc:to:from:date:dkim-signature;
-        bh=yrcHBwXDs3YUgMeLYMoAQut6p0l/pQ6yjRKDjrm1rGk=;
-        b=pC/b53d7zE6OFMSsghbh+Jiw6Xp+NDAOTWZqW617NYxSO2zXBHHTZLaYJgf8mWoCcQ
-         TXzaHPveWp37U/xBGvbWAJv3hhUaaK0CZvuPJDu1i4ptfqPlJdo3pVSZRkfHMITBIrkv
-         tn8JDUqhk/Rez9Ux7JjT0AI+0fdJSEgMm/AgUEA9LukU/tVak2tX3CThthaqNQSkXu2g
-         HAy4y4MmOAljtKquSQ/V/+S9B98mjI7gsNebSe9+wwUzFO4let/SumY0TJp0lWQqsCvt
-         4ifTj9hebiOqVLVFggbNT2fNjhuTuEWmYnrXkktJxeiIzj6du8fssr1Cvabi6S9rJANO
-         dxZg==
+        bh=JG1eXFDzWh1K1dJiaZ331pEjgjcBGc/iDI1UMw5RyoQ=;
+        b=eznHsMz/Xb/6J2Sm8/9qiHpLe94Ql9lZjvG1NpoKhLTT2NqLVWR5wYfjmFe107lOUP
+         2/c/TqgzvHnms9bh5NV9Bi2aSwlsQKTSXUxhWoCowXBLxRu7cZjaPnU6dc59ZVvYWm0H
+         XIvxto3V4/nIUZPCGSGBfXTcUW8pA9QDpNu0JVufYgUu5ahpkubDh3RoFIKCLx7RNmY5
+         qPgMy20okv7QP+2G3aNZMNnQpomjnxAC6iSSZ7aR4UcYoyOTg01+0YfATQkiY2XqXZQR
+         j48mKGPxn8prfg+08/c0A9Rd2dX6ldvt1jrv5bEO+fppTrfWkdaib+6ynXtbdkojEbXa
+         tb5w==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@mail.ustc.edu.cn header.s=dkim header.b=RpJibMn2;
+       dkim=pass header.i=@mail.ustc.edu.cn header.s=dkim header.b="Xo6Hhyt/";
        spf=pass (google.com: domain of jszhang3@mail.ustc.edu.cn designates 202.38.64.46 as permitted sender) smtp.mailfrom=jszhang3@mail.ustc.edu.cn;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=mail.ustc.edu.cn
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :mime-version:x-original-sender:x-original-authentication-results
          :reply-to:precedence:mailing-list:list-id:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=yrcHBwXDs3YUgMeLYMoAQut6p0l/pQ6yjRKDjrm1rGk=;
-        b=n7X03YEwyZokcsr+OBw4czTWsYBjiNfarO8K/BXMEfLaQPnGhKr+FbhpNyrN2DgpKg
-         QaLxvbX7YY8dlBdkQVXn16zQU9n12nltYl/LaiJMg2SnY6J8zL98zshZXSlPPJQEt3mr
-         RL2/xK7gK+notFJamozs5UpV/sUrlzEBqAYSLAgGq2XhAkgebVRqu3CANuxgpewrhlJU
-         yDxDu2wIfM+WHnyOS6ZlWYsMoXE3Ez+Q+bbR0aZFNEL/fRjc3BuoY4b8ssalaVCRLF9r
-         rbdtVqFC/ClvjpURh0aS8OAbv0kgfUWzc6yHKxW6Y7rzZIUH1aZNd/jVN/4JdISnF8AK
-         Flsg==
+        bh=JG1eXFDzWh1K1dJiaZ331pEjgjcBGc/iDI1UMw5RyoQ=;
+        b=WwsnYXffPlZFPRu8liuN0ayJTmNEgmOi/oaiKDJN36GzNUkh6qaBvKsgIiSdqTqjQd
+         RJx6n56qn0AIC2MVx+zw6+maCNpVascR77zjGgAHPZoe6oEphtkp2MLmFH3s94QMjwr3
+         XTy4jz+nG0MjdqgJoY4AI0hINDHkMxRYvzUC3GEyBEE84L+lbXN0n8CBDcchcOaPu4Ne
+         sJf0gXA6YMd0am3+EbZuxFkPgNF+SYwW29+dqUrBR0BTnR6TkQvroEWC4HRp/HPlTHYH
+         65Xmd1ERK8KQjaHWUE6aEBg0h5n9KI3Cr9y0B+0OMEmuIqtMTie8zTpgHYi/NxYC3iVD
+         hiBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
@@ -49,54 +49,54 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=yrcHBwXDs3YUgMeLYMoAQut6p0l/pQ6yjRKDjrm1rGk=;
-        b=T6537EfK8d1b/PSJtshBXgao+raSOx9xf5h50PWO9apsweLCE8JVH7AuNw5FH/8D3M
-         C4SfuU2NYmni0lcvAI0Ous5SCupfX6W6H0aPYplUvHyygLFyM8UFfrCxaOf4IIgTjfi+
-         8dYBshzaN4FrZx0PtDDKeiE44AO5vxyRqG6IpQ7OXonZwZWjA4BbL8igvL1epFMVcIXB
-         v2wzyO3Qtu52PWt+7sV+KJEmP5UvQCKuCymFiT7v9geMdQDIvSfHc8S2XWrxwsPFhubJ
-         lqUZ2o5iUOrAYOQPugubG4XzBfn9wXTwtQQn/G4rzbpdlAa8GUGaQV88Otg3eYOLkCn/
-         u1tA==
-X-Gm-Message-State: AOAM530KMre3qkXHJ9CLkEOScOpKvAT4A+mokRCja/S507XJX0PN8cBI
-	W7IY3k1Ya/BqU3lST95GiRc=
-X-Google-Smtp-Source: ABdhPJy/JixugalB3sJGkpw4mGqUiGon0cZFZULS6NIUMMUJYjXCiwuiRpUgL1FU4wkvjq6soFNrQg==
-X-Received: by 2002:a17:90a:8908:: with SMTP id u8mr4151487pjn.135.1617208286086;
-        Wed, 31 Mar 2021 09:31:26 -0700 (PDT)
+        bh=JG1eXFDzWh1K1dJiaZ331pEjgjcBGc/iDI1UMw5RyoQ=;
+        b=amAQBd2kCFz4zEreg0XgdgM1eQzMQ0deQqaUWKHNEcz6Teu3ls0YIOjUP7wPfG4PBb
+         AWUc24kpgHwi+k43CbfaQQevA1puNQ+RK/+4+6xGvo2OFZgZt/giKwg9J42k0qva2Dqh
+         D54Z/CK/Vs000ZpVBKY6umBPRYQ3Oa2BHsEkFz9ctyeQFibT8+iD6faLO8GgH71JVOpA
+         bboDujTnx4VjGTNJXRS3jPLaS3qxvhOg+zcfPFV38mCNJ6SvA9+faTA9G63EamYsUcSg
+         bZ31JcFF/DBeDh7wslp9V7whPvKboCKXXOcN7jnPSRK5cq/xmZurIncBBmFLvK9xoscL
+         PZWQ==
+X-Gm-Message-State: AOAM530a3xOy9nINaNToaOLpyq7dx8Z+11RmflgT2kpbREui9FKdGO84
+	IrgINUILh4qedHnYHHcX8Gg=
+X-Google-Smtp-Source: ABdhPJxwhIzIjRMgRb1pjTxBVl9Lku5acX0pzDeIog+AUKqxitSgBF2oz0tP005lmb09ZW12veAmcw==
+X-Received: by 2002:a92:de01:: with SMTP id x1mr3274971ilm.109.1617208319726;
+        Wed, 31 Mar 2021 09:31:59 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a62:7f10:: with SMTP id a16ls1142777pfd.7.gmail; Wed, 31 Mar
- 2021 09:31:25 -0700 (PDT)
-X-Received: by 2002:a63:3ca:: with SMTP id 193mr4005841pgd.274.1617208285685;
-        Wed, 31 Mar 2021 09:31:25 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1617208285; cv=none;
+Received: by 2002:a05:6e02:1a08:: with SMTP id s8ls601563ild.1.gmail; Wed, 31
+ Mar 2021 09:31:58 -0700 (PDT)
+X-Received: by 2002:a92:b05:: with SMTP id b5mr3329489ilf.240.1617208318790;
+        Wed, 31 Mar 2021 09:31:58 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1617208318; cv=none;
         d=google.com; s=arc-20160816;
-        b=I99C4bfbAq29zBHxeoBHM0fP1jAHNmZeHg4Tv+acVP/5gHlMWoeAScpOfUi69MZMz6
-         85GbvlPJFhX9B0OPEkSS4/ZgDrDbJU8Dp7jBYRznu8XpvWg1BcQmr+ILKd/c1KhktcGH
-         4l/6Ylv7BgmQ3/qQJsWa6wD3CWxp60bMnhXaaZsXIkKT7Io+yjXBSfrOLklh2reWsrg4
-         q55hryLIIsEQLsHmn4cAPem5uGa0Ll4dHhHjQzIiGEHWtj2IdWzH83KPpfzlNUSCVoUK
-         8Dbz8PoA65kVMkFl+cFfE29oMqvKvD5e6JLdO/+TLCEie7gLeWLskobBMeDeOoJXG2Eu
-         ldVQ==
+        b=USkP1urwBELtJCGNTzJvBsdKcn05eD3Oowwm7VfEo810MeMkvu6X38VIk9l6O+ajPm
+         7e6XOmxWJIoDhgIlzK4bZ7tDPcjP5r41QKil+TDPMAdgKaSVxKZvuS1xguAQyrv0kWPP
+         nJxMnzzTIL8nEjsy0w/SktP6MVVzn83Tl5eRKNBMF78lSx+owx0jd9cAW3Cx1ATeUzEP
+         kntrT221g+YwS6Z42eNZzVLmwvvjKSHk78gbEdpBG8OEJX9U3fxyWUwLbZ3GsJBIthQX
+         3CCLbwuvIl0pDGF9NAQOJFG5ucXdVClt0/nxSX6w47/P0Cc0iv35z5RAdas/35dDZtwf
+         l/RA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:subject:cc:to:from:date:dkim-signature;
-        bh=Ikp7PZAuK4fo1XgsXlr4Y+BaLjbJ/cSgtNEE/K8IQMY=;
-        b=Ws9mFx8f+QBDskopkOj+QGyUl2s/aumOc/PniRYYnCBzyBOEk4/sC+9FZdlZkGQ3go
-         4qBz0iEZQzZwwszcXJK/VfSKMrWRpA3QChHMPmGb9l2b0h0BjIykYvcQ/NPejvN08l93
-         6EGASgWMSiIX9+BoqBJWYOqPzcGX1j4HwbrX4i4H158SU8lIsqaCIiVpcRj2XQKk5HPr
-         GjGhcwtNENCSTZ32iCO6alzvfpDbk15qem8ftOOLVlQ2C7/VRZ3R0Mf2UKjvFqyihgLD
-         yqyy2w3UtFyrT5ECzArh2CJrRCIElgzcF/YuFmsLEttojLkbbwWBQHqw71qvlHKoAith
-         D+ig==
+        bh=X3JnzAWB/wP2byqIVYcRzkGaaPhYaCeo9nv6lfgBPe0=;
+        b=ETpGm4tbQ4p4d1aNgpN6XGTQ+to8oetrRgtbHbF+cdm+ShqnSw7oysYcarE5a8wG8i
+         ipXgRTAZaYAtnlzo67bFKQZsVDabydQm8cfzFRmp6s4WAogK4ZvHHdQFEpdmpUkOcncL
+         Q9GsZ74TUO+JPcNvz1GDePlh4Uwr5k7G2Iv3qMiFhA/qw/PxWXg2JURbLksrq7TbAj3T
+         4YoyN94hLlrICcV6H+mQsmCUD4C/bbR8RTz0rUoz3zkgTozzOpFmxKVl8c9PA68ZDEBJ
+         lussTaedQq0ve7nb4Fl8As5GgwMdgXi0TufSxGl0Goh5LYTq8a60Ac6EbwqtASgwPoAI
+         2RGw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@mail.ustc.edu.cn header.s=dkim header.b=RpJibMn2;
+       dkim=pass header.i=@mail.ustc.edu.cn header.s=dkim header.b="Xo6Hhyt/";
        spf=pass (google.com: domain of jszhang3@mail.ustc.edu.cn designates 202.38.64.46 as permitted sender) smtp.mailfrom=jszhang3@mail.ustc.edu.cn;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=mail.ustc.edu.cn
 Received: from ustc.edu.cn (smtp2.ustc.edu.cn. [202.38.64.46])
-        by gmr-mx.google.com with ESMTP id m9si232251pgr.3.2021.03.31.09.31.24
+        by gmr-mx.google.com with ESMTP id i2si169651iov.2.2021.03.31.09.31.56
         for <kasan-dev@googlegroups.com>;
-        Wed, 31 Mar 2021 09:31:25 -0700 (PDT)
+        Wed, 31 Mar 2021 09:31:58 -0700 (PDT)
 Received-SPF: pass (google.com: domain of jszhang3@mail.ustc.edu.cn designates 202.38.64.46 as permitted sender) client-ip=202.38.64.46;
 Received: from xhacker (unknown [101.86.19.180])
-	by newmailweb.ustc.edu.cn (Coremail) with SMTP id LkAmygCXOpnWo2Rgs7x6AA--.15943S2;
-	Thu, 01 Apr 2021 00:31:18 +0800 (CST)
-Date: Thu, 1 Apr 2021 00:26:21 +0800
+	by newmailweb.ustc.edu.cn (Coremail) with SMTP id LkAmygDX30v0o2RgKr16AA--.16474S2;
+	Thu, 01 Apr 2021 00:31:48 +0800 (CST)
+Date: Thu, 1 Apr 2021 00:26:51 +0800
 From: "'Jisheng Zhang' via kasan-dev" <kasan-dev@googlegroups.com>
 To: Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt 
  <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, Andrey Ryabinin 
@@ -110,33 +110,33 @@ To: Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
  <xi.wang@gmail.com>
 Cc: linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
  kasan-dev@googlegroups.com, netdev@vger.kernel.org, bpf@vger.kernel.org
-Subject: [PATCH v2 3/9] riscv: Constify sys_call_table
-Message-ID: <20210401002621.409624ee@xhacker>
+Subject: [PATCH v2 4/9] riscv: Constify sbi_ipi_ops
+Message-ID: <20210401002651.1da9087e@xhacker>
 In-Reply-To: <20210401002442.2fe56b88@xhacker>
 References: <20210401002442.2fe56b88@xhacker>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-CM-TRANSID: LkAmygCXOpnWo2Rgs7x6AA--.15943S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7KFyxuF4kuF1rWw17ZFyrJFb_yoW8GrWxpr
-	sxC34kKr95WF18CFyakFyxuryxJ3Z8W34agr1qkan8Cw13trZ8tws0ga4ayFyDGFZrWrW0
-	gF4I9r90kr48XFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUkGb7Iv0xC_Zr1lb4IE77IF4wAFF20E14v26ryj6rWUM7CY07I2
+X-CM-TRANSID: LkAmygDX30v0o2RgKr16AA--.16474S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7KFyxuF4kuF1rWw17ZFyrJFb_yoW8tw1kpw
+	4UCr45CFWrGFn7Ga43tFWku3y3K3ZrWwnIy34Yka45JFnIqrWUAan0qw12vwn8GFyDuFyS
+	9r4rCrZ0vF1UAFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUkEb7Iv0xC_Zr1lb4IE77IF4wAFF20E14v26ryj6rWUM7CY07I2
 	0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
 	A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xII
-	jxv20xvEc7CjxVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26F4j6r4UJwA2z4x0Y4
-	vEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40E
-	FcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUXVWUAwAv7VC2z280aVAFwI0_Jr
-	0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY
-	04v7MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI
-	0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWrXwCIc40Y
-	0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxV
-	WxJVW8Jr1lIxAIcVCF04k26cxKx2IYs7xG6r4j6FyUMIIF0xvEx4A2jsIE14v26r1j6r4U
-	MIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07jndbbUUU
-	UU=
+	jxv20xvEc7CjxVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjc
+	xK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG
+	64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JF0_Jw1lYx0Ex4A2jsIE14v26r
+	1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwACI402YVCY1x02628vn2kI
+	c2xKxwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14
+	v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_GFv_WrylIxkG
+	c2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI
+	0_Gr1j6F4UJwCI42IY6xAIw20EY4v20xvaj40_Gr0_Zr1lIxAIcVC2z280aVAFwI0_Jr0_
+	Gr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf9x07je7K
+	sUUUUU=
 X-CM-SenderInfo: xmv2xttqjtqzxdloh3xvwfhvlgxou0/
 X-Original-Sender: jszhang3@mail.ustc.edu.cn
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@mail.ustc.edu.cn header.s=dkim header.b=RpJibMn2;       spf=pass
+ header.i=@mail.ustc.edu.cn header.s=dkim header.b="Xo6Hhyt/";       spf=pass
  (google.com: domain of jszhang3@mail.ustc.edu.cn designates 202.38.64.46 as
  permitted sender) smtp.mailfrom=jszhang3@mail.ustc.edu.cn;       dmarc=pass
  (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=mail.ustc.edu.cn
@@ -156,42 +156,68 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 From: Jisheng Zhang <jszhang@kernel.org>
 
-Constify the sys_call_table so that it will be placed in the .rodata
-section. This will cause attempts to modify the table to fail when
-strict page permissions are in place.
+Constify the sbi_ipi_ops so that it will be placed in the .rodata
+section. This will cause attempts to modify it to fail when strict
+page permissions are in place.
 
 Signed-off-by: Jisheng Zhang <jszhang@kernel.org>
 ---
- arch/riscv/include/asm/syscall.h  | 2 +-
- arch/riscv/kernel/syscall_table.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ arch/riscv/include/asm/smp.h | 4 ++--
+ arch/riscv/kernel/sbi.c      | 2 +-
+ arch/riscv/kernel/smp.c      | 4 ++--
+ 3 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/arch/riscv/include/asm/syscall.h b/arch/riscv/include/asm/syscall.h
-index 49350c8bd7b0..b933b1583c9f 100644
---- a/arch/riscv/include/asm/syscall.h
-+++ b/arch/riscv/include/asm/syscall.h
-@@ -15,7 +15,7 @@
- #include <linux/err.h>
+diff --git a/arch/riscv/include/asm/smp.h b/arch/riscv/include/asm/smp.h
+index df1f7c4cd433..a7d2811f3536 100644
+--- a/arch/riscv/include/asm/smp.h
++++ b/arch/riscv/include/asm/smp.h
+@@ -46,7 +46,7 @@ int riscv_hartid_to_cpuid(int hartid);
+ void riscv_cpuid_to_hartid_mask(const struct cpumask *in, struct cpumask *out);
  
- /* The array of function pointers for syscalls. */
--extern void *sys_call_table[];
-+extern void * const sys_call_table[];
+ /* Set custom IPI operations */
+-void riscv_set_ipi_ops(struct riscv_ipi_ops *ops);
++void riscv_set_ipi_ops(const struct riscv_ipi_ops *ops);
  
- /*
-  * Only the low 32 bits of orig_r0 are meaningful, so we return int.
-diff --git a/arch/riscv/kernel/syscall_table.c b/arch/riscv/kernel/syscall_table.c
-index f1ead9df96ca..a63c667c27b3 100644
---- a/arch/riscv/kernel/syscall_table.c
-+++ b/arch/riscv/kernel/syscall_table.c
-@@ -13,7 +13,7 @@
- #undef __SYSCALL
- #define __SYSCALL(nr, call)	[nr] = (call),
+ /* Clear IPI for current CPU */
+ void riscv_clear_ipi(void);
+@@ -92,7 +92,7 @@ static inline void riscv_cpuid_to_hartid_mask(const struct cpumask *in,
+ 	cpumask_set_cpu(boot_cpu_hartid, out);
+ }
  
--void *sys_call_table[__NR_syscalls] = {
-+void * const sys_call_table[__NR_syscalls] = {
- 	[0 ... __NR_syscalls - 1] = sys_ni_syscall,
- #include <asm/unistd.h>
+-static inline void riscv_set_ipi_ops(struct riscv_ipi_ops *ops)
++static inline void riscv_set_ipi_ops(const struct riscv_ipi_ops *ops)
+ {
+ }
+ 
+diff --git a/arch/riscv/kernel/sbi.c b/arch/riscv/kernel/sbi.c
+index cbd94a72eaa7..cb848e80865e 100644
+--- a/arch/riscv/kernel/sbi.c
++++ b/arch/riscv/kernel/sbi.c
+@@ -556,7 +556,7 @@ static void sbi_send_cpumask_ipi(const struct cpumask *target)
+ 	sbi_send_ipi(cpumask_bits(&hartid_mask));
+ }
+ 
+-static struct riscv_ipi_ops sbi_ipi_ops = {
++static const struct riscv_ipi_ops sbi_ipi_ops = {
+ 	.ipi_inject = sbi_send_cpumask_ipi
  };
+ 
+diff --git a/arch/riscv/kernel/smp.c b/arch/riscv/kernel/smp.c
+index 504284d49135..e035124f06dc 100644
+--- a/arch/riscv/kernel/smp.c
++++ b/arch/riscv/kernel/smp.c
+@@ -85,9 +85,9 @@ static void ipi_stop(void)
+ 		wait_for_interrupt();
+ }
+ 
+-static struct riscv_ipi_ops *ipi_ops __ro_after_init;
++static const struct riscv_ipi_ops *ipi_ops __ro_after_init;
+ 
+-void riscv_set_ipi_ops(struct riscv_ipi_ops *ops)
++void riscv_set_ipi_ops(const struct riscv_ipi_ops *ops)
+ {
+ 	ipi_ops = ops;
+ }
 -- 
 2.31.0
 
@@ -199,4 +225,4 @@ index f1ead9df96ca..a63c667c27b3 100644
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210401002621.409624ee%40xhacker.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210401002651.1da9087e%40xhacker.
