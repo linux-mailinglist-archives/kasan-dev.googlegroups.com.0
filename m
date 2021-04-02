@@ -1,46 +1,46 @@
-Return-Path: <kasan-dev+bncBDFJHU6GRMBBBLVRTKBQMGQE3STL2AY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDFJHU6GRMBBBCNSTKBQMGQEGIHGIQQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x23e.google.com (mail-lj1-x23e.google.com [IPv6:2a00:1450:4864:20::23e])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0B6E3525F0
-	for <lists+kasan-dev@lfdr.de>; Fri,  2 Apr 2021 06:08:15 +0200 (CEST)
-Received: by mail-lj1-x23e.google.com with SMTP id i26sf2657705ljn.13
-        for <lists+kasan-dev@lfdr.de>; Thu, 01 Apr 2021 21:08:15 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1617336495; cv=pass;
+Received: from mail-lf1-x13b.google.com (mail-lf1-x13b.google.com [IPv6:2a00:1450:4864:20::13b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 293A73525F5
+	for <lists+kasan-dev@lfdr.de>; Fri,  2 Apr 2021 06:09:46 +0200 (CEST)
+Received: by mail-lf1-x13b.google.com with SMTP id v16sf2948139lfg.10
+        for <lists+kasan-dev@lfdr.de>; Thu, 01 Apr 2021 21:09:46 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1617336585; cv=pass;
         d=google.com; s=arc-20160816;
-        b=cTWHkPzEEUPT0VoXsYIxBJkudYpvjYPNmIeTy/FkST2taGXvjnL/9VeJDVavuy3A5+
-         RMw9FtI0gVoOZtPv4tN9oPdPSXqIbG3OxgMLd3P53q0YIKxtLHFMQ0Szy1g3aq+UpP3a
-         btcXI+wdbV0+Tp1n8rNS8Y/ieQSs4g8AuhgwV09lgq1Kgs7bI5Hg+A6/xbIbQk4Syjzg
-         GCmXPMgt6TzEiuKsThgf/BnnocnLlGTAAxBvufC8KAiTprR/sNGRG8T8Bys8egrIKcJh
-         +VcWaKQrpAgE3WD2/ro6jbRgHjbDn5GvaFw27crpvCXh6VXlXl2OSiEAJVFYMJKfJ3lU
-         k13Q==
+        b=a7N7/IePkWSCeuJGn0DGBeWh8Rf8c2cteHfZJzioeMnZR5xf/T/RlRDl8aiI83v1XK
+         zFVUj6LlImq+ZNA1m6a0AuJJciWJebsxd3gTQpiCA2/8r4aDf9xeYy6ZoTuOL5JOpyIW
+         4JbH+yk1lqlSHY+3E87UlGzmzSOf7N7GCjK5NnySNyMhgSX8CjHySNEHqgGZ+DNijVw3
+         qrNFtYAZxcXd5EUT+5VN8F0KLuuTALwCE7rR7XYffCf3KT5Y/VKDxwkfK+xpGOrBZsLP
+         9KCMtcMhm8uQMx6ztG8BUuu75qDPd96tI3VAS3RQF9Z3JP5CeGYe4RVEBMVIJh7Bi7Tz
+         THkg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:sender:dkim-signature;
-        bh=HJ1bBNcJ8fE4RQNk5auC+nn670mHxx4WcDic7+cNdpg=;
-        b=QwDBaHWHHtlE66I8qXuXGYxA78JDEfHrBpxH/tuorWkD1BFr0s4GA+JQi3FqPG3oJn
-         yei1NXpeKJV8NgO6TFF58yFvHnkUltFRmd8P8oPUTbnTIO2gqhPSw9iOKzHBAiHoRlub
-         l5upwbIM1JNXYTg4t60bbMjECUT54uyzgjqDgGBzE63yrzc9Z/NOw/fUnyPGtUvi7uTo
-         bfyn7m0bvZOsM4aDQdiiamgtHv++7RLBfpzJJLBI1bq4NpeuRgpjlqybaDg6iGwMbhkx
-         b4hFPyzfBSQH5wOShEMiXNxmqVrok9YFUMizs5REaK/hqVpQ/K4tV/v1aCVEWiRvprUC
-         wBvA==
+        bh=liMLg1AoVjxFTgXX1YkadK18WL6rtZMitvAhKB/E0iM=;
+        b=Zhg8KnfWK9MSaN8y0TvZUC7+nD/pJJOHklqUN4mZ32wHEsT7vGBwP4YxqDebGcaNUR
+         6aRPfZBG8+giNOM0yJpWGEd/a95lnMbK+3dE0sAfEdh8gYArg5eN375vArQg+iVhqGEB
+         2vy4aGeZy5ccyoxSf7+8QWrCpgI7lbaP5h6uKv7umVWPkVRGkelLm9/Qfuhzvhv7mDUs
+         sFg4zawJdWWcXG1mdALPafsFrTF2ktPO3DLMKilCMNfsnH+BzTZz7hbpJE02RfDlOpOW
+         WbsuowTSB+FrP+EaBuuCG6PV/sXUTd8httHzcg1+m1A4kcrgimtdm3+nnWzITOM9v621
+         y24w==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@brainfault-org.20150623.gappssmtp.com header.s=20150623 header.b=uO9cVaFb;
-       spf=neutral (google.com: 2a00:1450:4864:20::336 is neither permitted nor denied by best guess record for domain of anup@brainfault.org) smtp.mailfrom=anup@brainfault.org
+       dkim=pass header.i=@brainfault-org.20150623.gappssmtp.com header.s=20150623 header.b=JbBObYJH;
+       spf=neutral (google.com: 2a00:1450:4864:20::42c is neither permitted nor denied by best guess record for domain of anup@brainfault.org) smtp.mailfrom=anup@brainfault.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
         h=sender:mime-version:references:in-reply-to:from:date:message-id
          :subject:to:cc:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=HJ1bBNcJ8fE4RQNk5auC+nn670mHxx4WcDic7+cNdpg=;
-        b=jiIJGvJ5/bUVpcp62BNobZjEnkPG8xeHToFCzDB/bQEnqq9nbs4meSn58XSWj31Eda
-         qbOvICRHFnEvR9uYpJjjsyHdqrzyyeqThnDR8s+kXJE/yRBq+ZIJBnBxNX7mYdEYdLa0
-         VJ+wTmuXjFQ3NZCDmV8Y2hiFelQpRpvKsSxfuvpCxjAkIN5SEm0jsc5qKlEBeRGCqqoF
-         q6ZMKzn3jXArETX3/NctJytZG6/POYEvaRue+jMgjBZl712lI2AHmutspioFvVgp47kY
-         XdAz/kx20h39BkR428zy2e0BKjmjS6xhYwHVHvFUjonfV88SLarH8D+LgEpfoFm4/DUs
-         r+MQ==
+        bh=liMLg1AoVjxFTgXX1YkadK18WL6rtZMitvAhKB/E0iM=;
+        b=bQFSsQhXt+FGl023Da+WzXUqtrU1KUprC0/VOiv2TYp2/sp8DuEEaQIEK0zkArv5iv
+         f8X5t0WTrOdS/5IPOWw7NQbYc6raSrql8L8KuZ7UxRes4rjomU7CKn8Sze9e5kf+7saQ
+         /Ap7QZBoqirhtEqx5WLKo5Jd6abZYYGX1W3HL1Q96mwX0r+3jYVzKHyWTB/CMMmVGJbL
+         puzRbm5K7CS2GnJa8JQy/OJYI8ar8J9/6QEbaciMD0Qrqx8Tze0DKSmC0dWafGmFYiQZ
+         0k7+UkXdvBO1wRl+778/xTnTOdkCPCq/GyAkFW48gAX+5c81ww6muULJXpDdHy++pjig
+         ff+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
@@ -48,62 +48,62 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=HJ1bBNcJ8fE4RQNk5auC+nn670mHxx4WcDic7+cNdpg=;
-        b=C6z/bxM/u2cmTQp6cxSDoFunnq13o8eHQ7Jo4pcpzU4T60dNZaBNgMQaeca16Kb2w9
-         F/c/b6nzv8XG2JZ9brKf8CeaJXqaWhMoV320N9DP8oYFFybpBzmLf9Cyi9dILfQMkwSW
-         pDCCr3nNkaW5CKRnQB08xZXAkj27pi/MFC5F7Z6ZBwEY39LrcKK6hKTUnx1mUVOMq7bf
-         bRmUHuWeXXGZTXoxWudxaQ39XZxl5yohEZFSPb03SYse+CIZ8JySYp7HLHTWOne/7urn
-         phopCXuLh29dJaVS+qxAhYdQS2VLcQkaE2YDmfaQgnMSSnOjJFvC2HyyWBuu/tNMvyj9
-         CS/g==
+        bh=liMLg1AoVjxFTgXX1YkadK18WL6rtZMitvAhKB/E0iM=;
+        b=tUAQIPZRIymCqLkUQXlaCTHZ1qb27a/xhxbUHOAZ2JzbSo39kYOOl4zYHTc+sI9wA7
+         Z20d36a/4s89HnfN860vRThO4l/uCIquSdHnR0Yw58EsYuI9ICzeecmQllo74TX7AGgH
+         VTTcrblUBXk+j1RO4HcWZWYg9/Pw6OX123xcgq0/fZYjcHv5a05t+L+6xr88zxQ/2GSh
+         buYSaNNdimHx6qKhRziCEosXlalVNV6/Ot+T7iEvcMikbW27R/4xHXRJMMB41LEuIA0p
+         KMswQzdCe41+IqOACEJHUsDCOai+OSdJDegbDCqU0RLndezH4EJivdY017Int0+eNGYB
+         7JDg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM530CnIw7eK8/QesnXKnxw4Gb2vh5o0kQ+JIOapxCN6RytpXpoLg0
-	FayJ6MCGdYYlPevkklYSYxI=
-X-Google-Smtp-Source: ABdhPJwZHKU6xESUSXiGI9KvsT812Z09Unf0S+KTk/DsI1Qt2Bp8ph9fUcAsVAzXXGa8dCP82TUf6Q==
-X-Received: by 2002:a2e:9151:: with SMTP id q17mr7081933ljg.107.1617336495185;
-        Thu, 01 Apr 2021 21:08:15 -0700 (PDT)
+X-Gm-Message-State: AOAM531OIxUv7QTiT5ONp5MONklKsgGXbM/VGrIcgehWEWNzvisvbVGa
+	SRqmSN5jkf5D+g4k4ELigTQ=
+X-Google-Smtp-Source: ABdhPJyfDrhhABwk0Qlec+1bv6hneW04SkTJg+sWp0tK74jc006lldZybgBE4cCoALOhSRVCxgv4/w==
+X-Received: by 2002:a2e:8087:: with SMTP id i7mr7456920ljg.178.1617336585631;
+        Thu, 01 Apr 2021 21:09:45 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:651c:2050:: with SMTP id t16ls1760366ljo.4.gmail; Thu,
- 01 Apr 2021 21:08:14 -0700 (PDT)
-X-Received: by 2002:a2e:b817:: with SMTP id u23mr6969300ljo.44.1617336494123;
-        Thu, 01 Apr 2021 21:08:14 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1617336494; cv=none;
+Received: by 2002:a05:6512:6c2:: with SMTP id u2ls90373lff.3.gmail; Thu, 01
+ Apr 2021 21:09:44 -0700 (PDT)
+X-Received: by 2002:ac2:5932:: with SMTP id v18mr7696106lfi.659.1617336584419;
+        Thu, 01 Apr 2021 21:09:44 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1617336584; cv=none;
         d=google.com; s=arc-20160816;
-        b=HL4P3ldOHZWT3pm6jQwHj0nEAukxUdouOWs/mSv52jRvvpjdBkB0iPOQZZjU0hgtwI
-         FR2iFdrVlYfZ4da1x/lSwISJAphKj9VAnwHySfKptGJ+U++PB4L+iX0PFxoYU06L55aO
-         5+Ny7ytnwB3fTe8X7/O1YQQ3DcFWtHiu2OD9mYgLjoQmndB2VHkigN0tIaTk9MUkXNtP
-         yAXmZorQLT1g8/SkrcYocXSWS54IPUQx3eZMn7yDBh7T0ll1U1P+vRNvINlW7LlyGt9A
-         OO5pnRRtAvzZxgrsKmBxpaLWfG3K6fJI9UWXfh9soWjkJqjqFnYA2uRnD/dwsuqmoibM
-         XtaQ==
+        b=O5idtumi36qxIUCEksnSDlBZQIhIHgCEN7UvslHY8ljWfBZ1YLHyBxVf9J2i/hXAxi
+         u6pP0ALCtQ6dP9fsFmS42gH+M9qXnFKSJXoMrNNcbY/f9HlQaQypOznDzQmqSXnAP4cn
+         ICV/S24rl1LpkjZIYKGqnR6/g3dF5uq3PRIFnGmFR5HFTDPCPjQoNp/8ArrIM+s7Qp+8
+         y/sALKeEquBSwG4HTPs+35GbYlz3z7Z+NtvlADZo6l/Evkgo+2d+Y1yv7KV7mWCx3HLL
+         BvfqxeldCTqz8MS8rr05vo4aQD5F9DVjRqIuVWUuPAqksHh0tMGjHHmWmRyPdNl1QE8p
+         UMcQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=r29s2NuB4h8xDuoc4V2TUkw3k2SQOmwLpoFzxMpsSfU=;
-        b=KiTjO7tHfY/k0av/dJij3P+yyVWRHVaUe2EZC0gI6qocEab4ol56qit/oDt1GeF8BY
-         q/eMpUSILhxTbh5BspIxV5DPkaBd72qM0m1tC5KKkUnmFxHVpPgiWvJef4UW5lkiIlzz
-         DihHAQn0y/kjpQ0WvX60sDmlN9OPeUIZ1/I3yYYruHlb5D9/ysdIqZ0PWidtQWl8O6F3
-         qKImjExu3vYELZPrNQCYbgnGNK5W+F1uNwhXFumaKZ0dsfIz5afosyHgG5lMJvtENc5J
-         cNiy7QABKIK1/DINAMRNQx6L4nVtppfT888oolmtv//jFmaJsAIthaDgbCyb9tOZ2wEm
-         fWdQ==
+        bh=meCY3g4ZddcaVFsiixJeKxINO9meMOC/HmZiu7pSnis=;
+        b=eRaV7gM7woWuzzdqGXMFNhgI8IZszNu2wQd63UsdPQLSM/YG06czCzg2hfeRneTLYU
+         /FAlPRwdGUhauePjG7/YjISDWDHkoF0DcPRHs0RZdnq0w73pPwdTA7x+rIG/J5QBOaV5
+         SPd4MVwezXc/6ORqRkkAsL7jgtV66l/3L6RFFga4zEyRS3Mc/iZyjgKg4xdsftujOJFT
+         p+m9KKzMur8rKSvU07AQ3sgr5etOKSt7Nl91NGgc5JMBP53Ey2b+xH0Ea+/x/ufU4eB9
+         JBBJPZTrrMTbsBi5nWpabmoWqig92EbXtRDDxbh9gjf3EreF3UtqwML8iXKhoxOBcYoQ
+         G5RQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@brainfault-org.20150623.gappssmtp.com header.s=20150623 header.b=uO9cVaFb;
-       spf=neutral (google.com: 2a00:1450:4864:20::336 is neither permitted nor denied by best guess record for domain of anup@brainfault.org) smtp.mailfrom=anup@brainfault.org
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com. [2a00:1450:4864:20::336])
-        by gmr-mx.google.com with ESMTPS id v203si567123lfa.10.2021.04.01.21.08.14
+       dkim=pass header.i=@brainfault-org.20150623.gappssmtp.com header.s=20150623 header.b=JbBObYJH;
+       spf=neutral (google.com: 2a00:1450:4864:20::42c is neither permitted nor denied by best guess record for domain of anup@brainfault.org) smtp.mailfrom=anup@brainfault.org
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com. [2a00:1450:4864:20::42c])
+        by gmr-mx.google.com with ESMTPS id n13si596855lfi.5.2021.04.01.21.09.44
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 01 Apr 2021 21:08:14 -0700 (PDT)
-Received-SPF: neutral (google.com: 2a00:1450:4864:20::336 is neither permitted nor denied by best guess record for domain of anup@brainfault.org) client-ip=2a00:1450:4864:20::336;
-Received: by mail-wm1-x336.google.com with SMTP id y124-20020a1c32820000b029010c93864955so3748723wmy.5
-        for <kasan-dev@googlegroups.com>; Thu, 01 Apr 2021 21:08:13 -0700 (PDT)
-X-Received: by 2002:a05:600c:9:: with SMTP id g9mr11022806wmc.134.1617336493632;
- Thu, 01 Apr 2021 21:08:13 -0700 (PDT)
+        Thu, 01 Apr 2021 21:09:44 -0700 (PDT)
+Received-SPF: neutral (google.com: 2a00:1450:4864:20::42c is neither permitted nor denied by best guess record for domain of anup@brainfault.org) client-ip=2a00:1450:4864:20::42c;
+Received: by mail-wr1-x42c.google.com with SMTP id j9so3650587wrx.12
+        for <kasan-dev@googlegroups.com>; Thu, 01 Apr 2021 21:09:44 -0700 (PDT)
+X-Received: by 2002:adf:9544:: with SMTP id 62mr12946985wrs.128.1617336583795;
+ Thu, 01 Apr 2021 21:09:43 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210401002442.2fe56b88@xhacker> <20210401002518.5cf48e91@xhacker>
-In-Reply-To: <20210401002518.5cf48e91@xhacker>
+References: <20210401002442.2fe56b88@xhacker> <20210401002551.0ddbacf9@xhacker>
+In-Reply-To: <20210401002551.0ddbacf9@xhacker>
 From: Anup Patel <anup@brainfault.org>
-Date: Fri, 2 Apr 2021 09:38:02 +0530
-Message-ID: <CAAhSdy0CgxZj14Jx62CS=gRVzZs9c9NUysWi1iTTZ3BJvAOjPQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/9] riscv: add __init section marker to some functions
+Date: Fri, 2 Apr 2021 09:39:32 +0530
+Message-ID: <CAAhSdy0N427hw6sK5NEbrs_bb2N9y6aDOrCLO+mcpysLvaaoPQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/9] riscv: Mark some global variables __ro_after_init
 To: Jisheng Zhang <jszhang3@mail.ustc.edu.cn>
 Cc: Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
 	Albert Ou <aou@eecs.berkeley.edu>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, 
@@ -120,7 +120,7 @@ Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: anup@brainfault.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
  header.i=@brainfault-org.20150623.gappssmtp.com header.s=20150623
- header.b=uO9cVaFb;       spf=neutral (google.com: 2a00:1450:4864:20::336 is
+ header.b=JbBObYJH;       spf=neutral (google.com: 2a00:1450:4864:20::42c is
  neither permitted nor denied by best guess record for domain of
  anup@brainfault.org) smtp.mailfrom=anup@brainfault.org
 Precedence: list
@@ -135,113 +135,123 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Mar 31, 2021 at 10:00 PM Jisheng Zhang
+On Wed, Mar 31, 2021 at 10:01 PM Jisheng Zhang
 <jszhang3@mail.ustc.edu.cn> wrote:
 >
 > From: Jisheng Zhang <jszhang@kernel.org>
 >
-> They are not needed after booting, so mark them as __init to move them
-> to the __init section.
+> All of these are never modified after init, so they can be
+> __ro_after_init.
 >
 > Signed-off-by: Jisheng Zhang <jszhang@kernel.org>
+
+Looks good to me.
+
+Reviewed-by: Anup Patel <anup@brainfault.org>
+
+Regards,
+Anup
+
 > ---
->  arch/riscv/kernel/traps.c  | 2 +-
->  arch/riscv/mm/init.c       | 6 +++---
->  arch/riscv/mm/kasan_init.c | 6 +++---
->  arch/riscv/mm/ptdump.c     | 2 +-
->  4 files changed, 8 insertions(+), 8 deletions(-)
+>  arch/riscv/kernel/sbi.c  | 8 ++++----
+>  arch/riscv/kernel/smp.c  | 4 ++--
+>  arch/riscv/kernel/time.c | 2 +-
+>  arch/riscv/kernel/vdso.c | 4 ++--
+>  arch/riscv/mm/init.c     | 6 +++---
+>  5 files changed, 12 insertions(+), 12 deletions(-)
 >
-> diff --git a/arch/riscv/kernel/traps.c b/arch/riscv/kernel/traps.c
-> index 1357abf79570..07fdded10c21 100644
-> --- a/arch/riscv/kernel/traps.c
-> +++ b/arch/riscv/kernel/traps.c
-> @@ -197,6 +197,6 @@ int is_valid_bugaddr(unsigned long pc)
->  #endif /* CONFIG_GENERIC_BUG */
+> diff --git a/arch/riscv/kernel/sbi.c b/arch/riscv/kernel/sbi.c
+> index d3bf756321a5..cbd94a72eaa7 100644
+> --- a/arch/riscv/kernel/sbi.c
+> +++ b/arch/riscv/kernel/sbi.c
+> @@ -11,14 +11,14 @@
+>  #include <asm/smp.h>
 >
->  /* stvec & scratch is already set from head.S */
-> -void trap_init(void)
-> +void __init trap_init(void)
->  {
+>  /* default SBI version is 0.1 */
+> -unsigned long sbi_spec_version = SBI_SPEC_VERSION_DEFAULT;
+> +unsigned long sbi_spec_version __ro_after_init = SBI_SPEC_VERSION_DEFAULT;
+>  EXPORT_SYMBOL(sbi_spec_version);
+>
+> -static void (*__sbi_set_timer)(uint64_t stime);
+> -static int (*__sbi_send_ipi)(const unsigned long *hart_mask);
+> +static void (*__sbi_set_timer)(uint64_t stime) __ro_after_init;
+> +static int (*__sbi_send_ipi)(const unsigned long *hart_mask) __ro_after_init;
+>  static int (*__sbi_rfence)(int fid, const unsigned long *hart_mask,
+>                            unsigned long start, unsigned long size,
+> -                          unsigned long arg4, unsigned long arg5);
+> +                          unsigned long arg4, unsigned long arg5) __ro_after_init;
+>
+>  struct sbiret sbi_ecall(int ext, int fid, unsigned long arg0,
+>                         unsigned long arg1, unsigned long arg2,
+> diff --git a/arch/riscv/kernel/smp.c b/arch/riscv/kernel/smp.c
+> index ea028d9e0d24..504284d49135 100644
+> --- a/arch/riscv/kernel/smp.c
+> +++ b/arch/riscv/kernel/smp.c
+> @@ -30,7 +30,7 @@ enum ipi_message_type {
+>         IPI_MAX
+>  };
+>
+> -unsigned long __cpuid_to_hartid_map[NR_CPUS] = {
+> +unsigned long __cpuid_to_hartid_map[NR_CPUS] __ro_after_init = {
+>         [0 ... NR_CPUS-1] = INVALID_HARTID
+>  };
+>
+> @@ -85,7 +85,7 @@ static void ipi_stop(void)
+>                 wait_for_interrupt();
 >  }
-
-The trap_init() is unused currently so you can drop this change
-and remove trap_init() as a separate patch.
-
+>
+> -static struct riscv_ipi_ops *ipi_ops;
+> +static struct riscv_ipi_ops *ipi_ops __ro_after_init;
+>
+>  void riscv_set_ipi_ops(struct riscv_ipi_ops *ops)
+>  {
+> diff --git a/arch/riscv/kernel/time.c b/arch/riscv/kernel/time.c
+> index 1b432264f7ef..8217b0f67c6c 100644
+> --- a/arch/riscv/kernel/time.c
+> +++ b/arch/riscv/kernel/time.c
+> @@ -11,7 +11,7 @@
+>  #include <asm/processor.h>
+>  #include <asm/timex.h>
+>
+> -unsigned long riscv_timebase;
+> +unsigned long riscv_timebase __ro_after_init;
+>  EXPORT_SYMBOL_GPL(riscv_timebase);
+>
+>  void __init time_init(void)
+> diff --git a/arch/riscv/kernel/vdso.c b/arch/riscv/kernel/vdso.c
+> index 3f1d35e7c98a..25a3b8849599 100644
+> --- a/arch/riscv/kernel/vdso.c
+> +++ b/arch/riscv/kernel/vdso.c
+> @@ -20,8 +20,8 @@
+>
+>  extern char vdso_start[], vdso_end[];
+>
+> -static unsigned int vdso_pages;
+> -static struct page **vdso_pagelist;
+> +static unsigned int vdso_pages __ro_after_init;
+> +static struct page **vdso_pagelist __ro_after_init;
+>
+>  /*
+>   * The vDSO data page.
 > diff --git a/arch/riscv/mm/init.c b/arch/riscv/mm/init.c
-> index 067583ab1bd7..76bf2de8aa59 100644
+> index 76bf2de8aa59..719ec72ef069 100644
 > --- a/arch/riscv/mm/init.c
 > +++ b/arch/riscv/mm/init.c
-> @@ -57,7 +57,7 @@ static void __init zone_sizes_init(void)
->         free_area_init(max_zone_pfns);
+> @@ -149,11 +149,11 @@ void __init setup_bootmem(void)
 >  }
 >
-> -static void setup_zero_page(void)
-> +static void __init setup_zero_page(void)
->  {
->         memset((void *)empty_zero_page, 0, PAGE_SIZE);
->  }
-> @@ -75,7 +75,7 @@ static inline void print_mlm(char *name, unsigned long b, unsigned long t)
->                   (((t) - (b)) >> 20));
->  }
+>  #ifdef CONFIG_MMU
+> -static struct pt_alloc_ops pt_ops;
+> +static struct pt_alloc_ops pt_ops __ro_after_init;
 >
-> -static void print_vm_layout(void)
-> +static void __init print_vm_layout(void)
->  {
->         pr_notice("Virtual kernel memory layout:\n");
->         print_mlk("fixmap", (unsigned long)FIXADDR_START,
-> @@ -557,7 +557,7 @@ static inline void setup_vm_final(void)
->  #endif /* CONFIG_MMU */
+> -unsigned long va_pa_offset;
+> +unsigned long va_pa_offset __ro_after_init;
+>  EXPORT_SYMBOL(va_pa_offset);
+> -unsigned long pfn_base;
+> +unsigned long pfn_base __ro_after_init;
+>  EXPORT_SYMBOL(pfn_base);
 >
->  #ifdef CONFIG_STRICT_KERNEL_RWX
-> -void protect_kernel_text_data(void)
-> +void __init protect_kernel_text_data(void)
->  {
->         unsigned long text_start = (unsigned long)_start;
->         unsigned long init_text_start = (unsigned long)__init_text_begin;
-> diff --git a/arch/riscv/mm/kasan_init.c b/arch/riscv/mm/kasan_init.c
-> index 4f85c6d0ddf8..e1d041ac1534 100644
-> --- a/arch/riscv/mm/kasan_init.c
-> +++ b/arch/riscv/mm/kasan_init.c
-> @@ -60,7 +60,7 @@ asmlinkage void __init kasan_early_init(void)
->         local_flush_tlb_all();
->  }
->
-> -static void kasan_populate_pte(pmd_t *pmd, unsigned long vaddr, unsigned long end)
-> +static void __init kasan_populate_pte(pmd_t *pmd, unsigned long vaddr, unsigned long end)
->  {
->         phys_addr_t phys_addr;
->         pte_t *ptep, *base_pte;
-> @@ -82,7 +82,7 @@ static void kasan_populate_pte(pmd_t *pmd, unsigned long vaddr, unsigned long en
->         set_pmd(pmd, pfn_pmd(PFN_DOWN(__pa(base_pte)), PAGE_TABLE));
->  }
->
-> -static void kasan_populate_pmd(pgd_t *pgd, unsigned long vaddr, unsigned long end)
-> +static void __init kasan_populate_pmd(pgd_t *pgd, unsigned long vaddr, unsigned long end)
->  {
->         phys_addr_t phys_addr;
->         pmd_t *pmdp, *base_pmd;
-> @@ -117,7 +117,7 @@ static void kasan_populate_pmd(pgd_t *pgd, unsigned long vaddr, unsigned long en
->         set_pgd(pgd, pfn_pgd(PFN_DOWN(__pa(base_pmd)), PAGE_TABLE));
->  }
->
-> -static void kasan_populate_pgd(unsigned long vaddr, unsigned long end)
-> +static void __init kasan_populate_pgd(unsigned long vaddr, unsigned long end)
->  {
->         phys_addr_t phys_addr;
->         pgd_t *pgdp = pgd_offset_k(vaddr);
-> diff --git a/arch/riscv/mm/ptdump.c b/arch/riscv/mm/ptdump.c
-> index ace74dec7492..3b7b6e4d025e 100644
-> --- a/arch/riscv/mm/ptdump.c
-> +++ b/arch/riscv/mm/ptdump.c
-> @@ -331,7 +331,7 @@ static int ptdump_show(struct seq_file *m, void *v)
->
->  DEFINE_SHOW_ATTRIBUTE(ptdump);
->
-> -static int ptdump_init(void)
-> +static int __init ptdump_init(void)
->  {
->         unsigned int i, j;
->
+>  pgd_t swapper_pg_dir[PTRS_PER_PGD] __page_aligned_bss;
 > --
 > 2.31.0
 >
@@ -252,14 +262,7 @@ and remove trap_init() as a separate patch.
 > linux-riscv@lists.infradead.org
 > http://lists.infradead.org/mailman/listinfo/linux-riscv
 
-Apart from above, looks good to me.
-
-Reviewed-by: Anup Patel <anup@brainfault.org>
-
-Regards,
-Anup
-
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAAhSdy0CgxZj14Jx62CS%3DgRVzZs9c9NUysWi1iTTZ3BJvAOjPQ%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAAhSdy0N427hw6sK5NEbrs_bb2N9y6aDOrCLO%2BmcpysLvaaoPQ%40mail.gmail.com.
