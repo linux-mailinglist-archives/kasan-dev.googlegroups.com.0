@@ -1,46 +1,46 @@
-Return-Path: <kasan-dev+bncBDFJHU6GRMBBBCNSTKBQMGQEGIHGIQQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDFJHU6GRMBBBYNSTKBQMGQES3NBDRY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13b.google.com (mail-lf1-x13b.google.com [IPv6:2a00:1450:4864:20::13b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 293A73525F5
-	for <lists+kasan-dev@lfdr.de>; Fri,  2 Apr 2021 06:09:46 +0200 (CEST)
-Received: by mail-lf1-x13b.google.com with SMTP id v16sf2948139lfg.10
-        for <lists+kasan-dev@lfdr.de>; Thu, 01 Apr 2021 21:09:46 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1617336585; cv=pass;
+Received: from mail-ed1-x53e.google.com (mail-ed1-x53e.google.com [IPv6:2a00:1450:4864:20::53e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 994CC3525F9
+	for <lists+kasan-dev@lfdr.de>; Fri,  2 Apr 2021 06:11:13 +0200 (CEST)
+Received: by mail-ed1-x53e.google.com with SMTP id bm8sf3985167edb.4
+        for <lists+kasan-dev@lfdr.de>; Thu, 01 Apr 2021 21:11:13 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1617336673; cv=pass;
         d=google.com; s=arc-20160816;
-        b=a7N7/IePkWSCeuJGn0DGBeWh8Rf8c2cteHfZJzioeMnZR5xf/T/RlRDl8aiI83v1XK
-         zFVUj6LlImq+ZNA1m6a0AuJJciWJebsxd3gTQpiCA2/8r4aDf9xeYy6ZoTuOL5JOpyIW
-         4JbH+yk1lqlSHY+3E87UlGzmzSOf7N7GCjK5NnySNyMhgSX8CjHySNEHqgGZ+DNijVw3
-         qrNFtYAZxcXd5EUT+5VN8F0KLuuTALwCE7rR7XYffCf3KT5Y/VKDxwkfK+xpGOrBZsLP
-         9KCMtcMhm8uQMx6ztG8BUuu75qDPd96tI3VAS3RQF9Z3JP5CeGYe4RVEBMVIJh7Bi7Tz
-         THkg==
+        b=E7/LFQL8maxhHWs7MgoLddkRcVeoNE3NfjXJ7A5DQu4DJFiCgrb9J9/GDQYSNUmh6Z
+         eDj45reKfYh8LoZBWAhaaf166U1bdZp8Kyoti66wayKabZRtYp6vNp/Q3gW8Wg2jwQwl
+         AQFBWTHDlO/6XfAvOQXsXSJZwtkZ0w5vClccw5fLx0RDPKgEdWhoq1p6nfTkA+5keKd5
+         Ea6Xv2yuP6Yum8q36kLmMr9/BQEE4mVnIOX6bTbgmCZweI+nTDU/rgJ5s0tDe6iiKBFJ
+         0JTy1QVrX2y/z5Sn+WMeS67gS6u4bqs+HAAdqFQ7Xz2Np3DeoM5FBxLPO0xkvjLC9id2
+         Ne2A==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:sender:dkim-signature;
-        bh=liMLg1AoVjxFTgXX1YkadK18WL6rtZMitvAhKB/E0iM=;
-        b=Zhg8KnfWK9MSaN8y0TvZUC7+nD/pJJOHklqUN4mZ32wHEsT7vGBwP4YxqDebGcaNUR
-         6aRPfZBG8+giNOM0yJpWGEd/a95lnMbK+3dE0sAfEdh8gYArg5eN375vArQg+iVhqGEB
-         2vy4aGeZy5ccyoxSf7+8QWrCpgI7lbaP5h6uKv7umVWPkVRGkelLm9/Qfuhzvhv7mDUs
-         sFg4zawJdWWcXG1mdALPafsFrTF2ktPO3DLMKilCMNfsnH+BzTZz7hbpJE02RfDlOpOW
-         WbsuowTSB+FrP+EaBuuCG6PV/sXUTd8httHzcg1+m1A4kcrgimtdm3+nnWzITOM9v621
-         y24w==
+        bh=qgbxw4OMMlnjNoUIDS1FcqAKQndoT2okQBmVyHYrCes=;
+        b=I/lsv6Ztk4Q/6SIi2FW2Jp9jdJSKreQ2tJ22Aquy8BfjshAUPhKaxx79R1i6pU6rKl
+         M0mLW5rx7V5w/Xf7nuIeUguIzhDxKZPiPl1H8Cu18oHGq1tFPzXPtFgo4Xo95/QM9aDa
+         w/THrPWVRgsf/s1xDkHNqwBwrdG8GW5uxeqnepE1VXNx4U8mXNs+V4U/yPzAVU3nQGAi
+         wiYaXJZrNA72zkUoj16GcP+NLmvtYJuDoeDsFJfNsBzokA55NTMJVhke9nhKzaSVNoL/
+         6lZWIuNNHMxRtJF+eGQCw/pi0SbLeYruiQz/V3jSFddmy6hfxxkkBj8Z5J4J8bt4zXd1
+         VWQA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@brainfault-org.20150623.gappssmtp.com header.s=20150623 header.b=JbBObYJH;
-       spf=neutral (google.com: 2a00:1450:4864:20::42c is neither permitted nor denied by best guess record for domain of anup@brainfault.org) smtp.mailfrom=anup@brainfault.org
+       dkim=pass header.i=@brainfault-org.20150623.gappssmtp.com header.s=20150623 header.b=lp64j9zq;
+       spf=neutral (google.com: 2a00:1450:4864:20::434 is neither permitted nor denied by best guess record for domain of anup@brainfault.org) smtp.mailfrom=anup@brainfault.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
         h=sender:mime-version:references:in-reply-to:from:date:message-id
          :subject:to:cc:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=liMLg1AoVjxFTgXX1YkadK18WL6rtZMitvAhKB/E0iM=;
-        b=bQFSsQhXt+FGl023Da+WzXUqtrU1KUprC0/VOiv2TYp2/sp8DuEEaQIEK0zkArv5iv
-         f8X5t0WTrOdS/5IPOWw7NQbYc6raSrql8L8KuZ7UxRes4rjomU7CKn8Sze9e5kf+7saQ
-         /Ap7QZBoqirhtEqx5WLKo5Jd6abZYYGX1W3HL1Q96mwX0r+3jYVzKHyWTB/CMMmVGJbL
-         puzRbm5K7CS2GnJa8JQy/OJYI8ar8J9/6QEbaciMD0Qrqx8Tze0DKSmC0dWafGmFYiQZ
-         0k7+UkXdvBO1wRl+778/xTnTOdkCPCq/GyAkFW48gAX+5c81ww6muULJXpDdHy++pjig
-         ff+g==
+        bh=qgbxw4OMMlnjNoUIDS1FcqAKQndoT2okQBmVyHYrCes=;
+        b=CmDJcZtT368KyHl8tl/AmYJeGvwh6qmH2HAkb6MZMMQpTyXaWnZPfu0W8UITTIjTKH
+         PRfAbUAKUN1kBE91ExBKCStCn05NqMrAuZnYxCM2R2GeQJD1R1p3VqCF5OsmmmkY8q8F
+         WQJ6gEu6AGvCubGDBnSrBQrcE6QauZReRFgv5z7NRAi+YHH2a0zUMsz4vXv0vyjKBk6Z
+         EGhNScuvlIUVh+6CEyU1J+ljBStm71GZboo+T5N5KOOFwWXuEn0/FJ24gw9ICSWhxOhv
+         qnVY/EIB+/Vxe8VkDAgUEZp6a8a6sEb8yjjLna+YAHrBIxmeIsPl0q/MPa0RduV29i2k
+         VYLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
@@ -48,62 +48,62 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=liMLg1AoVjxFTgXX1YkadK18WL6rtZMitvAhKB/E0iM=;
-        b=tUAQIPZRIymCqLkUQXlaCTHZ1qb27a/xhxbUHOAZ2JzbSo39kYOOl4zYHTc+sI9wA7
-         Z20d36a/4s89HnfN860vRThO4l/uCIquSdHnR0Yw58EsYuI9ICzeecmQllo74TX7AGgH
-         VTTcrblUBXk+j1RO4HcWZWYg9/Pw6OX123xcgq0/fZYjcHv5a05t+L+6xr88zxQ/2GSh
-         buYSaNNdimHx6qKhRziCEosXlalVNV6/Ot+T7iEvcMikbW27R/4xHXRJMMB41LEuIA0p
-         KMswQzdCe41+IqOACEJHUsDCOai+OSdJDegbDCqU0RLndezH4EJivdY017Int0+eNGYB
-         7JDg==
+        bh=qgbxw4OMMlnjNoUIDS1FcqAKQndoT2okQBmVyHYrCes=;
+        b=oJ4UlZhSy6oTfYfV6c9atwMR1rnmrJmKUZWEIaGJadCgAxyx37r5MW07fIvo1JyMwr
+         hL+7mFNYMrqh+QcgsJdFcDUk9OTYPmXJ2p/VIhfvINrsV0KrVVeKUTIBIiwPZak3hO8C
+         LJblE3ztbMTxlbcDaOtteCLOIOxbDP8JN2HQZdcJCyfW+fK5oFT4uMIPB3Lz6T4T+oSU
+         g8bLLDiGidv6YHLTjNSsE8ITUw1vuPKVPpl4kb9APWrFZ9UuineXsOspqRIWX/R/TrVx
+         9mIso44ItVLlIG5oqMWCbOSXzCH7BU79tUbSjXTyZE6SNasJZEFGzHiUMk2Ye89HRvBP
+         mDGg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM531OIxUv7QTiT5ONp5MONklKsgGXbM/VGrIcgehWEWNzvisvbVGa
-	SRqmSN5jkf5D+g4k4ELigTQ=
-X-Google-Smtp-Source: ABdhPJyfDrhhABwk0Qlec+1bv6hneW04SkTJg+sWp0tK74jc006lldZybgBE4cCoALOhSRVCxgv4/w==
-X-Received: by 2002:a2e:8087:: with SMTP id i7mr7456920ljg.178.1617336585631;
-        Thu, 01 Apr 2021 21:09:45 -0700 (PDT)
+X-Gm-Message-State: AOAM5320mI+KaLvXlmdQ+aCdX0UdeaZbUqMZNMW4UILd9GFS8M9Xh3Lx
+	Y2BVAgDPlmVkzS3gqVWpldU=
+X-Google-Smtp-Source: ABdhPJz+vzT3FA9VYJHEOq4muiKnzM0cKRgj6GXlUbDXHi9cKBg1tPt6DwTCP2Enm4kIHlb7iBA/9g==
+X-Received: by 2002:a17:906:4a50:: with SMTP id a16mr12420003ejv.256.1617336673300;
+        Thu, 01 Apr 2021 21:11:13 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:6c2:: with SMTP id u2ls90373lff.3.gmail; Thu, 01
- Apr 2021 21:09:44 -0700 (PDT)
-X-Received: by 2002:ac2:5932:: with SMTP id v18mr7696106lfi.659.1617336584419;
-        Thu, 01 Apr 2021 21:09:44 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1617336584; cv=none;
+Received: by 2002:a05:6402:3592:: with SMTP id y18ls282263edc.0.gmail; Thu, 01
+ Apr 2021 21:11:12 -0700 (PDT)
+X-Received: by 2002:a05:6402:1649:: with SMTP id s9mr13441834edx.177.1617336672449;
+        Thu, 01 Apr 2021 21:11:12 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1617336672; cv=none;
         d=google.com; s=arc-20160816;
-        b=O5idtumi36qxIUCEksnSDlBZQIhIHgCEN7UvslHY8ljWfBZ1YLHyBxVf9J2i/hXAxi
-         u6pP0ALCtQ6dP9fsFmS42gH+M9qXnFKSJXoMrNNcbY/f9HlQaQypOznDzQmqSXnAP4cn
-         ICV/S24rl1LpkjZIYKGqnR6/g3dF5uq3PRIFnGmFR5HFTDPCPjQoNp/8ArrIM+s7Qp+8
-         y/sALKeEquBSwG4HTPs+35GbYlz3z7Z+NtvlADZo6l/Evkgo+2d+Y1yv7KV7mWCx3HLL
-         BvfqxeldCTqz8MS8rr05vo4aQD5F9DVjRqIuVWUuPAqksHh0tMGjHHmWmRyPdNl1QE8p
-         UMcQ==
+        b=0DHT3VkwII9ZtyxnvOQuLScp0L1nXHzXgukVZr4RylLtci6vLUTGFAZW5rj6/zww9C
+         5EHru5MhUKhqXtO9r6JJ9S0P/uWiGpQovcNM8Jaeo5jVfioW3LrB3BNp6XvlxGTcFgZs
+         MA4326Vw7Laq/PYc03LEyvc5chnJxnselCDBuQRbrYBjhPbz+GqoK8h2XyL1H9Hkm4lM
+         9huHeJQS5M1FB83lwPv6f4IBoq04jznqK6WkQ3eZ/0kd6JHC22eTz35wlVPl+O9S8LUZ
+         e0VRSWCUoFgRNSXCqCJZ14BeVTgVk2gIojZuK9bOwPtkxo375cFcube76xeS5Z7d4NP9
+         u38g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=meCY3g4ZddcaVFsiixJeKxINO9meMOC/HmZiu7pSnis=;
-        b=eRaV7gM7woWuzzdqGXMFNhgI8IZszNu2wQd63UsdPQLSM/YG06czCzg2hfeRneTLYU
-         /FAlPRwdGUhauePjG7/YjISDWDHkoF0DcPRHs0RZdnq0w73pPwdTA7x+rIG/J5QBOaV5
-         SPd4MVwezXc/6ORqRkkAsL7jgtV66l/3L6RFFga4zEyRS3Mc/iZyjgKg4xdsftujOJFT
-         p+m9KKzMur8rKSvU07AQ3sgr5etOKSt7Nl91NGgc5JMBP53Ey2b+xH0Ea+/x/ufU4eB9
-         JBBJPZTrrMTbsBi5nWpabmoWqig92EbXtRDDxbh9gjf3EreF3UtqwML8iXKhoxOBcYoQ
-         G5RQ==
+        bh=QCaXwDV10dhKrn8kJuleYfg1EWrPXQo+wqW+nmg1Iys=;
+        b=S6+ci8NAzkklOShRDI+aIE1Y9TEBxEIYKVlYtBDd7F+/aa4GvOFhrBtMnmoitnpmFD
+         9Apl4BI/kTXzwdpmnhvVwO5MDFUItQzMVrMGCEvRNo43nR2p+c3BFwgFlVSH/gzB8i85
+         2yXwACrI+FwsotyAiNJcRamltybsfkrzTtpl/K4+pLHPW3FoNgpNqipAv5jjJkPf9GJn
+         S142MiJrHsfnXVTr7DT4H5BBLI3biW3pm/h+YSYFoWD0k8ithW7oUbNLVuuGygl9orWL
+         pcA3irVt9wokPYCpcc0XuK6JjYh3tTxGSpZvci1Vxd2qX1HopGlloaiRkPYttjDKrR9G
+         2O9A==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@brainfault-org.20150623.gappssmtp.com header.s=20150623 header.b=JbBObYJH;
-       spf=neutral (google.com: 2a00:1450:4864:20::42c is neither permitted nor denied by best guess record for domain of anup@brainfault.org) smtp.mailfrom=anup@brainfault.org
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com. [2a00:1450:4864:20::42c])
-        by gmr-mx.google.com with ESMTPS id n13si596855lfi.5.2021.04.01.21.09.44
+       dkim=pass header.i=@brainfault-org.20150623.gappssmtp.com header.s=20150623 header.b=lp64j9zq;
+       spf=neutral (google.com: 2a00:1450:4864:20::434 is neither permitted nor denied by best guess record for domain of anup@brainfault.org) smtp.mailfrom=anup@brainfault.org
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com. [2a00:1450:4864:20::434])
+        by gmr-mx.google.com with ESMTPS id m18si528886edd.5.2021.04.01.21.11.12
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 01 Apr 2021 21:09:44 -0700 (PDT)
-Received-SPF: neutral (google.com: 2a00:1450:4864:20::42c is neither permitted nor denied by best guess record for domain of anup@brainfault.org) client-ip=2a00:1450:4864:20::42c;
-Received: by mail-wr1-x42c.google.com with SMTP id j9so3650587wrx.12
-        for <kasan-dev@googlegroups.com>; Thu, 01 Apr 2021 21:09:44 -0700 (PDT)
-X-Received: by 2002:adf:9544:: with SMTP id 62mr12946985wrs.128.1617336583795;
- Thu, 01 Apr 2021 21:09:43 -0700 (PDT)
+        Thu, 01 Apr 2021 21:11:12 -0700 (PDT)
+Received-SPF: neutral (google.com: 2a00:1450:4864:20::434 is neither permitted nor denied by best guess record for domain of anup@brainfault.org) client-ip=2a00:1450:4864:20::434;
+Received: by mail-wr1-x434.google.com with SMTP id v11so3657541wro.7
+        for <kasan-dev@googlegroups.com>; Thu, 01 Apr 2021 21:11:12 -0700 (PDT)
+X-Received: by 2002:a05:6000:c7:: with SMTP id q7mr13166768wrx.356.1617336672119;
+ Thu, 01 Apr 2021 21:11:12 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210401002442.2fe56b88@xhacker> <20210401002551.0ddbacf9@xhacker>
-In-Reply-To: <20210401002551.0ddbacf9@xhacker>
+References: <20210401002442.2fe56b88@xhacker> <20210401002621.409624ee@xhacker>
+In-Reply-To: <20210401002621.409624ee@xhacker>
 From: Anup Patel <anup@brainfault.org>
-Date: Fri, 2 Apr 2021 09:39:32 +0530
-Message-ID: <CAAhSdy0N427hw6sK5NEbrs_bb2N9y6aDOrCLO+mcpysLvaaoPQ@mail.gmail.com>
-Subject: Re: [PATCH v2 2/9] riscv: Mark some global variables __ro_after_init
+Date: Fri, 2 Apr 2021 09:41:00 +0530
+Message-ID: <CAAhSdy3-n7ASkPXN=UsQW72gY5JH-J3Rf7W6kfUxXV6Zdb5hDg@mail.gmail.com>
+Subject: Re: [PATCH v2 3/9] riscv: Constify sys_call_table
 To: Jisheng Zhang <jszhang3@mail.ustc.edu.cn>
 Cc: Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
 	Albert Ou <aou@eecs.berkeley.edu>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, 
@@ -120,7 +120,7 @@ Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: anup@brainfault.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
  header.i=@brainfault-org.20150623.gappssmtp.com header.s=20150623
- header.b=JbBObYJH;       spf=neutral (google.com: 2a00:1450:4864:20::42c is
+ header.b=lp64j9zq;       spf=neutral (google.com: 2a00:1450:4864:20::434 is
  neither permitted nor denied by best guess record for domain of
  anup@brainfault.org) smtp.mailfrom=anup@brainfault.org
 Precedence: list
@@ -140,8 +140,9 @@ On Wed, Mar 31, 2021 at 10:01 PM Jisheng Zhang
 >
 > From: Jisheng Zhang <jszhang@kernel.org>
 >
-> All of these are never modified after init, so they can be
-> __ro_after_init.
+> Constify the sys_call_table so that it will be placed in the .rodata
+> section. This will cause attempts to modify the table to fail when
+> strict page permissions are in place.
 >
 > Signed-off-by: Jisheng Zhang <jszhang@kernel.org>
 
@@ -153,105 +154,36 @@ Regards,
 Anup
 
 > ---
->  arch/riscv/kernel/sbi.c  | 8 ++++----
->  arch/riscv/kernel/smp.c  | 4 ++--
->  arch/riscv/kernel/time.c | 2 +-
->  arch/riscv/kernel/vdso.c | 4 ++--
->  arch/riscv/mm/init.c     | 6 +++---
->  5 files changed, 12 insertions(+), 12 deletions(-)
+>  arch/riscv/include/asm/syscall.h  | 2 +-
+>  arch/riscv/kernel/syscall_table.c | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/arch/riscv/kernel/sbi.c b/arch/riscv/kernel/sbi.c
-> index d3bf756321a5..cbd94a72eaa7 100644
-> --- a/arch/riscv/kernel/sbi.c
-> +++ b/arch/riscv/kernel/sbi.c
-> @@ -11,14 +11,14 @@
->  #include <asm/smp.h>
+> diff --git a/arch/riscv/include/asm/syscall.h b/arch/riscv/include/asm/syscall.h
+> index 49350c8bd7b0..b933b1583c9f 100644
+> --- a/arch/riscv/include/asm/syscall.h
+> +++ b/arch/riscv/include/asm/syscall.h
+> @@ -15,7 +15,7 @@
+>  #include <linux/err.h>
 >
->  /* default SBI version is 0.1 */
-> -unsigned long sbi_spec_version = SBI_SPEC_VERSION_DEFAULT;
-> +unsigned long sbi_spec_version __ro_after_init = SBI_SPEC_VERSION_DEFAULT;
->  EXPORT_SYMBOL(sbi_spec_version);
->
-> -static void (*__sbi_set_timer)(uint64_t stime);
-> -static int (*__sbi_send_ipi)(const unsigned long *hart_mask);
-> +static void (*__sbi_set_timer)(uint64_t stime) __ro_after_init;
-> +static int (*__sbi_send_ipi)(const unsigned long *hart_mask) __ro_after_init;
->  static int (*__sbi_rfence)(int fid, const unsigned long *hart_mask,
->                            unsigned long start, unsigned long size,
-> -                          unsigned long arg4, unsigned long arg5);
-> +                          unsigned long arg4, unsigned long arg5) __ro_after_init;
->
->  struct sbiret sbi_ecall(int ext, int fid, unsigned long arg0,
->                         unsigned long arg1, unsigned long arg2,
-> diff --git a/arch/riscv/kernel/smp.c b/arch/riscv/kernel/smp.c
-> index ea028d9e0d24..504284d49135 100644
-> --- a/arch/riscv/kernel/smp.c
-> +++ b/arch/riscv/kernel/smp.c
-> @@ -30,7 +30,7 @@ enum ipi_message_type {
->         IPI_MAX
->  };
->
-> -unsigned long __cpuid_to_hartid_map[NR_CPUS] = {
-> +unsigned long __cpuid_to_hartid_map[NR_CPUS] __ro_after_init = {
->         [0 ... NR_CPUS-1] = INVALID_HARTID
->  };
->
-> @@ -85,7 +85,7 @@ static void ipi_stop(void)
->                 wait_for_interrupt();
->  }
->
-> -static struct riscv_ipi_ops *ipi_ops;
-> +static struct riscv_ipi_ops *ipi_ops __ro_after_init;
->
->  void riscv_set_ipi_ops(struct riscv_ipi_ops *ops)
->  {
-> diff --git a/arch/riscv/kernel/time.c b/arch/riscv/kernel/time.c
-> index 1b432264f7ef..8217b0f67c6c 100644
-> --- a/arch/riscv/kernel/time.c
-> +++ b/arch/riscv/kernel/time.c
-> @@ -11,7 +11,7 @@
->  #include <asm/processor.h>
->  #include <asm/timex.h>
->
-> -unsigned long riscv_timebase;
-> +unsigned long riscv_timebase __ro_after_init;
->  EXPORT_SYMBOL_GPL(riscv_timebase);
->
->  void __init time_init(void)
-> diff --git a/arch/riscv/kernel/vdso.c b/arch/riscv/kernel/vdso.c
-> index 3f1d35e7c98a..25a3b8849599 100644
-> --- a/arch/riscv/kernel/vdso.c
-> +++ b/arch/riscv/kernel/vdso.c
-> @@ -20,8 +20,8 @@
->
->  extern char vdso_start[], vdso_end[];
->
-> -static unsigned int vdso_pages;
-> -static struct page **vdso_pagelist;
-> +static unsigned int vdso_pages __ro_after_init;
-> +static struct page **vdso_pagelist __ro_after_init;
+>  /* The array of function pointers for syscalls. */
+> -extern void *sys_call_table[];
+> +extern void * const sys_call_table[];
 >
 >  /*
->   * The vDSO data page.
-> diff --git a/arch/riscv/mm/init.c b/arch/riscv/mm/init.c
-> index 76bf2de8aa59..719ec72ef069 100644
-> --- a/arch/riscv/mm/init.c
-> +++ b/arch/riscv/mm/init.c
-> @@ -149,11 +149,11 @@ void __init setup_bootmem(void)
->  }
+>   * Only the low 32 bits of orig_r0 are meaningful, so we return int.
+> diff --git a/arch/riscv/kernel/syscall_table.c b/arch/riscv/kernel/syscall_table.c
+> index f1ead9df96ca..a63c667c27b3 100644
+> --- a/arch/riscv/kernel/syscall_table.c
+> +++ b/arch/riscv/kernel/syscall_table.c
+> @@ -13,7 +13,7 @@
+>  #undef __SYSCALL
+>  #define __SYSCALL(nr, call)    [nr] = (call),
 >
->  #ifdef CONFIG_MMU
-> -static struct pt_alloc_ops pt_ops;
-> +static struct pt_alloc_ops pt_ops __ro_after_init;
->
-> -unsigned long va_pa_offset;
-> +unsigned long va_pa_offset __ro_after_init;
->  EXPORT_SYMBOL(va_pa_offset);
-> -unsigned long pfn_base;
-> +unsigned long pfn_base __ro_after_init;
->  EXPORT_SYMBOL(pfn_base);
->
->  pgd_t swapper_pg_dir[PTRS_PER_PGD] __page_aligned_bss;
+> -void *sys_call_table[__NR_syscalls] = {
+> +void * const sys_call_table[__NR_syscalls] = {
+>         [0 ... __NR_syscalls - 1] = sys_ni_syscall,
+>  #include <asm/unistd.h>
+>  };
 > --
 > 2.31.0
 >
@@ -265,4 +197,4 @@ Anup
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAAhSdy0N427hw6sK5NEbrs_bb2N9y6aDOrCLO%2BmcpysLvaaoPQ%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAAhSdy3-n7ASkPXN%3DUsQW72gY5JH-J3Rf7W6kfUxXV6Zdb5hDg%40mail.gmail.com.
