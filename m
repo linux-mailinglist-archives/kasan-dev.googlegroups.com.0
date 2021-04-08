@@ -1,130 +1,120 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBV5ZXOBQMGQE64MVPPI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCOYZDMZ6UMRBLVKXSBQMGQEPGLXTVI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x138.google.com (mail-lf1-x138.google.com [IPv6:2a00:1450:4864:20::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1C0A3580D2
-	for <lists+kasan-dev@lfdr.de>; Thu,  8 Apr 2021 12:37:11 +0200 (CEST)
-Received: by mail-lf1-x138.google.com with SMTP id c12sf668872lfm.4
-        for <lists+kasan-dev@lfdr.de>; Thu, 08 Apr 2021 03:37:11 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1617878231; cv=pass;
+Received: from mail-pf1-x43c.google.com (mail-pf1-x43c.google.com [IPv6:2607:f8b0:4864:20::43c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DB89358743
+	for <lists+kasan-dev@lfdr.de>; Thu,  8 Apr 2021 16:37:36 +0200 (CEST)
+Received: by mail-pf1-x43c.google.com with SMTP id p24sf1345696pff.8
+        for <lists+kasan-dev@lfdr.de>; Thu, 08 Apr 2021 07:37:36 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1617892654; cv=pass;
         d=google.com; s=arc-20160816;
-        b=wPtLDoU0T8GrJbt+FqsB9moEq1jqUZj/bfuUwsOl8/exaLx0fCrR7Rk54ow0yC/zr8
-         Eg2AMrLuQN1c0FpX4Cp2sBIEq7spIe10j+/rRLPPG123/s5GbkEePPYxspllEGHmWfPD
-         L46lqQy9TRFN5fgLcOCH2s99hHyg/EedMqSYhfboh0R8v8ISxqaz7EBZxg7Y7GbhXKXo
-         6yL0aKLm2pTnkggwH6SMcBVoBu1m/eEM6WNr0G061HUu7lncHCe20cyj9JC/wBqyrjJN
-         7EQBAk18aWfx4qgjhV3m5yjDW4XAXloBh4pKMHQ/+dF3TMGg9B6ejH5mVkA69LTW77kz
-         B1fg==
+        b=NCjXSwIj71QOBLsSQSr6Uq9mPjvgwB9+jzMTRAkhBx4kobKr9+83rOSuqmqRtWRfLY
+         4QhEdYc4yVgQP5hOs13RwTRK6JBypQwxwyVQFgx2SQMpm7AqBQ5G+IxIK1ZJNrYUq4VQ
+         v90ml4wEdPU9ByjgGXhe2VDLY5aYqB+bfqBFl729wfCy7stUbkeWl6dU/LE93UxoPIhK
+         TOHlXwfRFaOItQWn5t//vTSt/zt5Ozx6gw45ZlkFXa93xJPemom+aIUaivyMBqSRqLeD
+         VOtL3ekrimkFvbqt3qN1bUWsoQauWHYHRAsGlIm30kLNcVE20Q94l/DCp+j/8am3anO8
+         Uilg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
-         :references:mime-version:message-id:in-reply-to:date:dkim-signature;
-        bh=vPz3dTFb0geYbLqfzlEy+0PIKPwi6fUvInVxWegCq2M=;
-        b=JOUm2AUL+MntgF0l1EAwDO7xKMxrCzFPik8vlDH7wnk8qaqtJVQvmRzXxLpR0X5izB
-         cyqrlx2lMWhZVesFJ6XzT1n1r3s4/HJ53Y1r0wWlSYze7aEMVPEAsInwl4s7VbUlIz7i
-         Kev8TjbpKFTXEZ2dzMl5OAo2C47iC2by2BYs3LMMa+pvvWOJxcvONPVrQlBI977yIDoY
-         HnlB4kjnXoSS7GI1PMKjvShgX7Y/7NbA63uTsFYpb/97FXsq0XU4upn2N/TN03rE7Giv
-         rCbKUOT0q2OQahgGP9uXdJKAojkNLnhQtY44n20KZScOaMfIvz7doBqCV/b2z8lL8cyn
-         FsNQ==
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :subject:cc:to:from:sender:dkim-signature;
+        bh=OSNo51feCuFj92ld7hFh9G+Odf9OMcQBr11Hm9W085I=;
+        b=ZBK4pXCp6sy+uAo1Vb81it/qazHv8YiOHdpwxv0s0cnrSekwNJjGZNI0hfZvx0Yc1W
+         zR3e2EWGosoYowvsb4K4h/6Mv20VfY/beTQC47UNu+y7gGUHJ1kYHNf8t/2H0XHt7MBD
+         KQ9sMu9mepL9VUpgU+/MEB+Awyph04OmJV3nXZXr5u5YEW88q63w5srf6bcEo7TqZ5sy
+         G3aaddOz2SY/wHx/MFcRYw4WOskvmamGBWrQmdZkMeQQpcG31Tqk4r+He0cvFx221+0G
+         cVzL4XkrS4+CmOk3Bs1o0zNlQhZbT2J6ZQnOXRjcRHJ7mlexrS80GFhxU7joX8nG9sq6
+         3izw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=Abilg05W;
-       spf=pass (google.com: domain of 31dxuyaukcvq07h0d2aa270.ya86wew9-z0h2aa2702dagbe.ya8@flex--elver.bounces.google.com designates 2a00:1450:4864:20::64a as permitted sender) smtp.mailfrom=31dxuYAUKCVQ07H0D2AA270.yA86wEw9-z0H2AA2702DAGBE.yA8@flex--elver.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       spf=pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=vincenzo.frascino@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=vPz3dTFb0geYbLqfzlEy+0PIKPwi6fUvInVxWegCq2M=;
-        b=KQYkhOms7ujKoSET6xWswUWVPBGRtn2fbBdv/MP/6Nz9LXk7yTD7FQ3ji4FC64/K5L
-         Fz0H9fqpTZlvwSByhoC9VRE1dQFo7Snl4Pg+3uzsyFJ8IkK2f6jrQCrkW6CTd1EH+Xmm
-         IkULA87zw1X5lJHGACkU1LFZGVM+TX+cHiYHrkbxYwPGt7w5Rr5CHKenzkyS2ja+rPg5
-         7L6NuD8BinIeGZuAjJ7cQOx2FZ/d/zxQMeGx8czxtfcNbEBM0Q/GJEu2TrCuOjtPpDBz
-         bctwvxrpUlWI99R9Zy20oqX7BKldeWdu0yTSg6QPhd57MFNkVFCiXyzK5Cl/vKrrFmVi
-         btMw==
+        bh=OSNo51feCuFj92ld7hFh9G+Odf9OMcQBr11Hm9W085I=;
+        b=Lq7lcYhK/PKwBpSGZV/02FYXCrb9H4yP/Y0NGcQcZ4lCyn9pCvMWs2jcl9FJPHS0Jb
+         eT6RKzS+WT5+SK/afl0jw/KOXtYyu/TwF+8sgAIZlkL6eejEQWlj6LpQXT0PhCKw7ErC
+         DHcw5/8m1e9S9NQlRiH5hQnhK6gu1onvjrIi6f9xEyNwK3wk7EMkfnie9E+KUlsFrhuy
+         ub+BEqna4kpmhQeZKqDemygDCYTtd9ScETJSZhqTvPwfXh2ULo6QvdJF/wQujK2OukLa
+         LSqqJLlS2UeG8AYh9Wf4U284fHKASnFpnbxdzpFuRA5ENsVqgO3wzCHo+UOUXkFQxpZ7
+         JfkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=vPz3dTFb0geYbLqfzlEy+0PIKPwi6fUvInVxWegCq2M=;
-        b=hzikSdtHZSzEEvyN7IIl8DVm9yR5T9OoIX+OVSVmQNU5bRgfZR3rKX7jSiwcD2ZpDz
-         pnbpsTuFIYVtZbBtFmFZ4Tq5opVP0cag/W7xwx8VI6orF89hmhAmXaRMpmIevBdBgckK
-         Ufq1e+MQSAyZdZkSNw7vbtSaIpX3f0EyVUQK/vqc46eNLfVb+/mHn4qU0nBJ3rQN7U0h
-         XBOCkyTRHqa5XlFYsYk8g+44HsOVsB3yvSNSAs/GgJfSYOKdDkZjB4ow2Jkn1Og+Od7N
-         bdxRWgVWf5vS1jG3x+QSP3408uPo4Xhpw8jsJFtsvcreWPwFk3XjZBamRfs06SAgJIdl
-         akQQ==
-X-Gm-Message-State: AOAM530WIvmhmlXfZGOMYYRs6ogzai193YA24rXFk8y8hewXDYYskTSH
-	o89scGUDIYNt0JzPKJfnckM=
-X-Google-Smtp-Source: ABdhPJz0mJ5AoOceYMZgEx9C5vvG6h7ohIhflY87cD7tRuVjI6FVUZFHqajiKD2Pn8LomHaIkUU3Uw==
-X-Received: by 2002:ac2:43a3:: with SMTP id t3mr5591262lfl.340.1617878231594;
-        Thu, 08 Apr 2021 03:37:11 -0700 (PDT)
+        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=OSNo51feCuFj92ld7hFh9G+Odf9OMcQBr11Hm9W085I=;
+        b=kdY60a57q3qqbCDLIVTT0cq6ALdHaydPsWSE9Bm6prd5HfUttyGVBWzYfTH7jCg85W
+         Ek7YhxF5sstfOzY38YinXy8YLBLPa4orACn3CqdyJ0Mlcp/9biotElhKF38Q3RRHWqm9
+         U1Z2QX+tY076YykyjvW/1dTI1VnOHwkw462COdei1oKkavrki381BQ0n7kbBZys4tUjS
+         QrQH2Ty833xG4nZQ2yMH3bZR43EYrT2503hcejUfWYuKBRp+4ouEAxxqaBg9y6pz7BFj
+         UKe5L5maHV7DN5h4fQPZtWUKrdyRpMXfDkhwqpK1R87T+WkrZBeRjkcXYT3nPGix928C
+         cMhw==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM531VY+A0mvk7FJdX7JA13QpV/obgTwCpmTrIdKeCbvmrg84GWCUd
+	oVHX5FFt3xCkLijulPFC2/0=
+X-Google-Smtp-Source: ABdhPJxwwPvgHHB08MJv9DMsNT4ZKpIn08mpltrl13Zg7ucMEtDyJ7IvcOjF8CEO7T2KS+YhF0fgFw==
+X-Received: by 2002:aa7:9190:0:b029:22d:6789:cc83 with SMTP id x16-20020aa791900000b029022d6789cc83mr7884286pfa.9.1617892654564;
+        Thu, 08 Apr 2021 07:37:34 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:3d16:: with SMTP id d22ls4507076lfv.1.gmail; Thu,
- 08 Apr 2021 03:37:10 -0700 (PDT)
-X-Received: by 2002:a05:6512:3ca0:: with SMTP id h32mr5889147lfv.184.1617878230381;
-        Thu, 08 Apr 2021 03:37:10 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1617878230; cv=none;
+Received: by 2002:a62:547:: with SMTP id 68ls2192807pff.7.gmail; Thu, 08 Apr
+ 2021 07:37:34 -0700 (PDT)
+X-Received: by 2002:a62:e119:0:b029:245:8e0:820 with SMTP id q25-20020a62e1190000b029024508e00820mr2230898pfh.4.1617892654038;
+        Thu, 08 Apr 2021 07:37:34 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1617892654; cv=none;
         d=google.com; s=arc-20160816;
-        b=QBQEBh6GCBX/D98r85xoLUVDlmq3fJdhSGV5V1URBhaYsQkkTT/4GEHSycoBQg/MW4
-         CL/joPfYA+dHCnOxvPwt5JvvdTAPKaEl6grCY9g92UQv+OO4sOGs3xL6FgzIzc/gPQMS
-         lJMZDgf93HzcXVZV33IrMmsE4th2YJ4vG/va48kUhR+F21WgwwbuItehy5p+QhZIBFEh
-         ojMKibtdncSKktkWvHH7kkL2wFm8AtAJw7KOSIWIjGc+IYuTnxVVGK+Mlm4qOmelW5rM
-         ZU5Dq2FcW6CA3miOkSV/JMTgPbHy3IhwE4DxPVG/okZ3EWanw58E4TYhSm8tdBCXRIBv
-         JHVQ==
+        b=JM+Sa9BU29niUM5xPnkUoysaX6jmmkskjgH5Eidk/dIo1EFTJvo1b88d6qhoWGx+c2
+         JTeJ3BBP7A3cnvw2sYPNML4/l9dvTVA7Qp0gQrqm6ZVcVfDKKB8q+nNEUiDttLvKXDo2
+         9MW6YaowAvLBlCtAWA7I98fRTUy6z5MkAmh1894rwmKLzZYnUNbvG3cahy+F3era+LZy
+         gkfazxoe3yCp1UAndAYLPmI+Zv2n/7kg+dmOsfNBAiaAsJKV0JwOJnVXkvFhjN+Lh0+K
+         qABQ1EY7iZ3orESRZsOfpBqMV9p2yO4G5szpmt4CJQTtJSBq86hceOTBKlfocODL4ZwD
+         NhAw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
-         :date:dkim-signature;
-        bh=BCBGbOGg89seqk0GJ8e7eMRxQa1aJCiARfAN/gtOasU=;
-        b=EP5gYEcHoyNRxgDd7VhojLbEr80JU7Yttte6rxGCJTUhPlg9R8uuX3t1+JmU9GcS0q
-         XPNezKPdLaYV/tKQloxmkikSEMPDKvRBrRk+PiMwWsch0iQ2Plninsmq1Ez18fcAQJBd
-         PNKzbQzVj7Ghjj10eLKcV6BYnAHoXz16u5lKNcvEkAio/iMEUZ7iZ03cqhHT4umxAwGG
-         iFs0jR3BMr7E4R2aAvlrz4n33jWcCOlQICX4JiNBN6Jrv6c4qnZN2cBKXQTynQ/4tuK5
-         hjuDtS9WKw+dn198fZsTV3qfl7i9T+QrhVbg/hdirJQNQhXnK8CZFR9iJnQ0cwCTTkRg
-         biCA==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from;
+        bh=ygOKIh6vshx9O9riO9+7p96cTNfbt3ai6WSDPefQmrw=;
+        b=mACTvjg1wJE1Ucy1dyQeMbRGRsgVT7c9O+iJwu4HNAiISHYEpYHomRAHhXp0DAFqhk
+         vaHFmtFWsWx0wUBbWoTFG0Hr/GO7dVDzxU4qNsDdUH1MVHMH6rF/L3UvUvTfC/6QbqJl
+         AbbFMLGhiW7YrzN3VDByi0cwdHjeLV8Glyv7pQjbEG8VGeN9C9pyrDBwS21b6SF0jzOU
+         HKn3F+B9PpEMv5KsbMamY7xpp81lpRP9cSslCsqIwmeMjHr7MUyd2GFygqNfP+pJkVot
+         Ic6tmO+9Qy/csvgGYLLRUlVq4mljY/zFf7sywaXc72wto+IS0HSdCEvDjLE3bbeHXo86
+         gOoA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=Abilg05W;
-       spf=pass (google.com: domain of 31dxuyaukcvq07h0d2aa270.ya86wew9-z0h2aa2702dagbe.ya8@flex--elver.bounces.google.com designates 2a00:1450:4864:20::64a as permitted sender) smtp.mailfrom=31dxuYAUKCVQ07H0D2AA270.yA86wEw9-z0H2AA2702DAGBE.yA8@flex--elver.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-ej1-x64a.google.com (mail-ej1-x64a.google.com. [2a00:1450:4864:20::64a])
-        by gmr-mx.google.com with ESMTPS id z3si519749lfu.12.2021.04.08.03.37.10
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 08 Apr 2021 03:37:10 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 31dxuyaukcvq07h0d2aa270.ya86wew9-z0h2aa2702dagbe.ya8@flex--elver.bounces.google.com designates 2a00:1450:4864:20::64a as permitted sender) client-ip=2a00:1450:4864:20::64a;
-Received: by mail-ej1-x64a.google.com with SMTP id d25so198516ejb.14
-        for <kasan-dev@googlegroups.com>; Thu, 08 Apr 2021 03:37:10 -0700 (PDT)
-X-Received: from elver.muc.corp.google.com ([2a00:79e0:15:13:9038:bbd3:4a12:abda])
- (user=elver job=sendgmr) by 2002:a17:906:ce4e:: with SMTP id
- se14mr9777476ejb.54.1617878229875; Thu, 08 Apr 2021 03:37:09 -0700 (PDT)
-Date: Thu,  8 Apr 2021 12:36:05 +0200
-In-Reply-To: <20210408103605.1676875-1-elver@google.com>
-Message-Id: <20210408103605.1676875-11-elver@google.com>
-Mime-Version: 1.0
-References: <20210408103605.1676875-1-elver@google.com>
-X-Mailer: git-send-email 2.31.0.208.g409f899ff0-goog
-Subject: [PATCH v4 10/10] perf test: Add basic stress test for sigtrap handling
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-To: elver@google.com, peterz@infradead.org, alexander.shishkin@linux.intel.com, 
-	acme@kernel.org, mingo@redhat.com, jolsa@redhat.com, mark.rutland@arm.com, 
-	namhyung@kernel.org, tglx@linutronix.de
-Cc: glider@google.com, viro@zeniv.linux.org.uk, arnd@arndb.de, 
-	christian@brauner.io, dvyukov@google.com, jannh@google.com, axboe@kernel.dk, 
-	mascasa@google.com, pcc@google.com, irogers@google.com, oleg@redhat.com, 
-	kasan-dev@googlegroups.com, linux-arch@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, x86@kernel.org, 
-	linux-kselftest@vger.kernel.org
+       spf=pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=vincenzo.frascino@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
+Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
+        by gmr-mx.google.com with ESMTP id j6si463625pjg.0.2021.04.08.07.37.33
+        for <kasan-dev@googlegroups.com>;
+        Thu, 08 Apr 2021 07:37:34 -0700 (PDT)
+Received-SPF: pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 08229D6E;
+	Thu,  8 Apr 2021 07:37:33 -0700 (PDT)
+Received: from e119884-lin.cambridge.arm.com (e119884-lin.cambridge.arm.com [10.1.196.72])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1F32A3F694;
+	Thu,  8 Apr 2021 07:37:32 -0700 (PDT)
+From: Vincenzo Frascino <vincenzo.frascino@arm.com>
+To: linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	kasan-dev@googlegroups.com
+Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>
+Subject: [PATCH] arm64: mte: Move MTE TCF0 check in entry-common
+Date: Thu,  8 Apr 2021 15:37:23 +0100
+Message-Id: <20210408143723.13024-1-vincenzo.frascino@arm.com>
+X-Mailer: git-send-email 2.30.2
+MIME-Version: 1.0
+X-Original-Sender: vincenzo.frascino@arm.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172
+ as permitted sender) smtp.mailfrom=vincenzo.frascino@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=Abilg05W;       spf=pass
- (google.com: domain of 31dxuyaukcvq07h0d2aa270.ya86wew9-z0h2aa2702dagbe.ya8@flex--elver.bounces.google.com
- designates 2a00:1450:4864:20::64a as permitted sender) smtp.mailfrom=31dxuYAUKCVQ07H0D2AA270.yA86wEw9-z0H2AA2702DAGBE.yA8@flex--elver.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -137,228 +127,177 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Add basic stress test for sigtrap handling as a perf tool built-in test.
-This allows sanity checking the basic sigtrap functionality from within
-the perf tool.
+The check_mte_async_tcf macro sets the TIF flag non-atomically. This can
+race with another CPU doing a set_tsk_thread_flag() and the flag can be
+lost in the process.
 
-Note: A more elaborate kselftest version of this test can also be found
-in tools/testing/selftests/perf_events/sigtrap_threads.c.
+Move the tcf0 check to enter_from_user_mode() and clear tcf0 in
+exit_to_user_mode() to address the problem.
 
-Signed-off-by: Marco Elver <elver@google.com>
+Note: Moving the check in entry-common allows to use set_thread_flag()
+which is safe.
+
+Fixes: 637ec831ea4f ("arm64: mte: Handle synchronous and asynchronous
+tag check faults")
+Cc: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Will Deacon <will@kernel.org>
+Reported-by: Will Deacon <will@kernel.org>
+Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
 ---
-v4:
-* Update for new perf_event_attr::sig_data / si_perf handling.
+ arch/arm64/include/asm/mte.h     |  8 ++++++++
+ arch/arm64/kernel/entry-common.c |  6 ++++++
+ arch/arm64/kernel/entry.S        | 30 ------------------------------
+ arch/arm64/kernel/mte.c          | 25 +++++++++++++++++++++++--
+ 4 files changed, 37 insertions(+), 32 deletions(-)
 
-v3:
-* Added to series (per suggestion from Ian Rogers).
----
- tools/perf/tests/Build          |   1 +
- tools/perf/tests/builtin-test.c |   5 ++
- tools/perf/tests/sigtrap.c      | 150 ++++++++++++++++++++++++++++++++
- tools/perf/tests/tests.h        |   1 +
- 4 files changed, 157 insertions(+)
- create mode 100644 tools/perf/tests/sigtrap.c
-
-diff --git a/tools/perf/tests/Build b/tools/perf/tests/Build
-index 650aec19d490..a429c7a02b37 100644
---- a/tools/perf/tests/Build
-+++ b/tools/perf/tests/Build
-@@ -64,6 +64,7 @@ perf-y += parse-metric.o
- perf-y += pe-file-parsing.o
- perf-y += expand-cgroup.o
- perf-y += perf-time-to-tsc.o
-+perf-y += sigtrap.o
+diff --git a/arch/arm64/include/asm/mte.h b/arch/arm64/include/asm/mte.h
+index 9b557a457f24..188f778c6f7b 100644
+--- a/arch/arm64/include/asm/mte.h
++++ b/arch/arm64/include/asm/mte.h
+@@ -31,6 +31,8 @@ void mte_invalidate_tags(int type, pgoff_t offset);
+ void mte_invalidate_tags_area(int type);
+ void *mte_allocate_tag_storage(void);
+ void mte_free_tag_storage(char *storage);
++void check_mte_async_tcf0(void);
++void clear_mte_async_tcf0(void);
  
- $(OUTPUT)tests/llvm-src-base.c: tests/bpf-script-example.c tests/Build
- 	$(call rule_mkdir)
-diff --git a/tools/perf/tests/builtin-test.c b/tools/perf/tests/builtin-test.c
-index c4b888f18e9c..28a1cb5eaa77 100644
---- a/tools/perf/tests/builtin-test.c
-+++ b/tools/perf/tests/builtin-test.c
-@@ -359,6 +359,11 @@ static struct test generic_tests[] = {
- 		.func = test__perf_time_to_tsc,
- 		.is_supported = test__tsc_is_supported,
- 	},
-+	{
-+		.desc = "Sigtrap support",
-+		.func = test__sigtrap,
-+		.is_supported = test__wp_is_supported, /* uses wp for test */
-+	},
- 	{
- 		.func = NULL,
- 	},
-diff --git a/tools/perf/tests/sigtrap.c b/tools/perf/tests/sigtrap.c
-new file mode 100644
-index 000000000000..c367cc2f64d5
---- /dev/null
-+++ b/tools/perf/tests/sigtrap.c
-@@ -0,0 +1,150 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Basic test for sigtrap support.
-+ *
-+ * Copyright (C) 2021, Google LLC.
-+ */
-+
-+#include <stdint.h>
-+#include <stdlib.h>
-+#include <linux/hw_breakpoint.h>
-+#include <pthread.h>
-+#include <signal.h>
-+#include <sys/ioctl.h>
-+#include <sys/syscall.h>
-+#include <unistd.h>
-+
-+#include "cloexec.h"
-+#include "debug.h"
-+#include "event.h"
-+#include "tests.h"
-+#include "../perf-sys.h"
-+
-+#define NUM_THREADS 5
-+
-+static struct {
-+	int tids_want_signal;		/* Which threads still want a signal. */
-+	int signal_count;		/* Sanity check number of signals received. */
-+	volatile int iterate_on;	/* Variable to set breakpoint on. */
-+	siginfo_t first_siginfo;	/* First observed siginfo_t. */
-+} ctx;
-+
-+#define TEST_SIG_DATA (~(uint64_t)(&ctx.iterate_on))
-+
-+static struct perf_event_attr make_event_attr(void)
-+{
-+	struct perf_event_attr attr = {
-+		.type		= PERF_TYPE_BREAKPOINT,
-+		.size		= sizeof(attr),
-+		.sample_period	= 1,
-+		.disabled	= 1,
-+		.bp_addr	= (unsigned long)&ctx.iterate_on,
-+		.bp_type	= HW_BREAKPOINT_RW,
-+		.bp_len		= HW_BREAKPOINT_LEN_1,
-+		.inherit	= 1, /* Children inherit events ... */
-+		.inherit_thread = 1, /* ... but only cloned with CLONE_THREAD. */
-+		.remove_on_exec = 1, /* Required by sigtrap. */
-+		.sigtrap	= 1, /* Request synchronous SIGTRAP on event. */
-+		.sig_data	= TEST_SIG_DATA,
-+	};
-+	return attr;
-+}
-+
-+static void
-+sigtrap_handler(int signum __maybe_unused, siginfo_t *info, void *ucontext __maybe_unused)
-+{
-+	if (!__atomic_fetch_add(&ctx.signal_count, 1, __ATOMIC_RELAXED))
-+		ctx.first_siginfo = *info;
-+	__atomic_fetch_sub(&ctx.tids_want_signal, syscall(SYS_gettid), __ATOMIC_RELAXED);
-+}
-+
-+static void *test_thread(void *arg)
-+{
-+	pthread_barrier_t *barrier = (pthread_barrier_t *)arg;
-+	pid_t tid = syscall(SYS_gettid);
-+	int i;
-+
-+	pthread_barrier_wait(barrier);
-+
-+	__atomic_fetch_add(&ctx.tids_want_signal, tid, __ATOMIC_RELAXED);
-+	for (i = 0; i < ctx.iterate_on - 1; i++)
-+		__atomic_fetch_add(&ctx.tids_want_signal, tid, __ATOMIC_RELAXED);
-+
-+	return NULL;
-+}
-+
-+static int run_test_threads(pthread_t *threads, pthread_barrier_t *barrier)
-+{
-+	int i;
-+
-+	pthread_barrier_wait(barrier);
-+	for (i = 0; i < NUM_THREADS; i++)
-+		TEST_ASSERT_EQUAL("pthread_join() failed", pthread_join(threads[i], NULL), 0);
-+
-+	return TEST_OK;
-+}
-+
-+static int run_stress_test(int fd, pthread_t *threads, pthread_barrier_t *barrier)
-+{
-+	int ret;
-+
-+	ctx.iterate_on = 3000;
-+
-+	TEST_ASSERT_EQUAL("misfired signal?", ctx.signal_count, 0);
-+	TEST_ASSERT_EQUAL("enable failed", ioctl(fd, PERF_EVENT_IOC_ENABLE, 0), 0);
-+	ret = run_test_threads(threads, barrier);
-+	TEST_ASSERT_EQUAL("disable failed", ioctl(fd, PERF_EVENT_IOC_DISABLE, 0), 0);
-+
-+	TEST_ASSERT_EQUAL("unexpected sigtraps", ctx.signal_count, NUM_THREADS * ctx.iterate_on);
-+	TEST_ASSERT_EQUAL("missing signals or incorrectly delivered", ctx.tids_want_signal, 0);
-+	TEST_ASSERT_VAL("unexpected si_addr", ctx.first_siginfo.si_addr == &ctx.iterate_on);
-+	TEST_ASSERT_EQUAL("unexpected si_errno", ctx.first_siginfo.si_errno, PERF_TYPE_BREAKPOINT);
-+#if 0 /* FIXME: test build and enable when libc's signal.h has si_perf. */
-+	TEST_ASSERT_VAL("unexpected si_perf", ctx.first_siginfo.si_perf == TEST_SIG_DATA);
-+#endif
-+
-+	return ret;
-+}
-+
-+int test__sigtrap(struct test *test __maybe_unused, int subtest __maybe_unused)
-+{
-+	struct perf_event_attr attr = make_event_attr();
-+	struct sigaction action = {};
-+	struct sigaction oldact;
-+	pthread_t threads[NUM_THREADS];
-+	pthread_barrier_t barrier;
-+	int i, fd, ret = TEST_FAIL;
-+
-+	pthread_barrier_init(&barrier, NULL, NUM_THREADS + 1);
-+
-+	action.sa_flags = SA_SIGINFO | SA_NODEFER;
-+	action.sa_sigaction = sigtrap_handler;
-+	sigemptyset(&action.sa_mask);
-+	if (sigaction(SIGTRAP, &action, &oldact)) {
-+		pr_debug("FAILED sigaction()\n");
-+		goto out;
-+	}
-+
-+	fd = sys_perf_event_open(&attr, 0, -1, -1, perf_event_open_cloexec_flag());
-+	if (fd < 0) {
-+		pr_debug("FAILED sys_perf_event_open()\n");
-+		goto out_restore_sigaction;
-+	}
-+
-+	for (i = 0; i < NUM_THREADS; i++) {
-+		if (pthread_create(&threads[i], NULL, test_thread, &barrier)) {
-+			pr_debug("FAILED pthread_create()");
-+			goto out_close_perf_event;
-+		}
-+	}
-+
-+	ret = run_stress_test(fd, threads, &barrier);
-+
-+out_close_perf_event:
-+	close(fd);
-+out_restore_sigaction:
-+	sigaction(SIGTRAP, &oldact, NULL);
-+out:
-+	pthread_barrier_destroy(&barrier);
-+	return ret;
-+}
-diff --git a/tools/perf/tests/tests.h b/tools/perf/tests/tests.h
-index b85f005308a3..c3f2e2ecbfd6 100644
---- a/tools/perf/tests/tests.h
-+++ b/tools/perf/tests/tests.h
-@@ -127,6 +127,7 @@ int test__parse_metric(struct test *test, int subtest);
- int test__pe_file_parsing(struct test *test, int subtest);
- int test__expand_cgroup_events(struct test *test, int subtest);
- int test__perf_time_to_tsc(struct test *test, int subtest);
-+int test__sigtrap(struct test *test, int subtest);
+ #ifdef CONFIG_ARM64_MTE
  
- bool test__bp_signal_is_supported(void);
- bool test__bp_account_is_supported(void);
+@@ -83,6 +85,12 @@ static inline int mte_ptrace_copy_tags(struct task_struct *child,
+ {
+ 	return -EIO;
+ }
++void check_mte_async_tcf0(void)
++{
++}
++void clear_mte_async_tcf0(void)
++{
++}
+ 
+ static inline void mte_assign_mem_tag_range(void *addr, size_t size)
+ {
+diff --git a/arch/arm64/kernel/entry-common.c b/arch/arm64/kernel/entry-common.c
+index 9d3588450473..837d3624a1d5 100644
+--- a/arch/arm64/kernel/entry-common.c
++++ b/arch/arm64/kernel/entry-common.c
+@@ -289,10 +289,16 @@ asmlinkage void noinstr enter_from_user_mode(void)
+ 	CT_WARN_ON(ct_state() != CONTEXT_USER);
+ 	user_exit_irqoff();
+ 	trace_hardirqs_off_finish();
++
++	/* Check for asynchronous tag check faults in user space */
++	check_mte_async_tcf0();
+ }
+ 
+ asmlinkage void noinstr exit_to_user_mode(void)
+ {
++	/* Ignore asynchronous tag check faults in the uaccess routines */
++	clear_mte_async_tcf0();
++
+ 	trace_hardirqs_on_prepare();
+ 	lockdep_hardirqs_on_prepare(CALLER_ADDR0);
+ 	user_enter_irqoff();
+diff --git a/arch/arm64/kernel/entry.S b/arch/arm64/kernel/entry.S
+index a31a0a713c85..fafd74ae5021 100644
+--- a/arch/arm64/kernel/entry.S
++++ b/arch/arm64/kernel/entry.S
+@@ -147,32 +147,6 @@ alternative_cb_end
+ .L__asm_ssbd_skip\@:
+ 	.endm
+ 
+-	/* Check for MTE asynchronous tag check faults */
+-	.macro check_mte_async_tcf, flgs, tmp
+-#ifdef CONFIG_ARM64_MTE
+-alternative_if_not ARM64_MTE
+-	b	1f
+-alternative_else_nop_endif
+-	mrs_s	\tmp, SYS_TFSRE0_EL1
+-	tbz	\tmp, #SYS_TFSR_EL1_TF0_SHIFT, 1f
+-	/* Asynchronous TCF occurred for TTBR0 access, set the TI flag */
+-	orr	\flgs, \flgs, #_TIF_MTE_ASYNC_FAULT
+-	str	\flgs, [tsk, #TSK_TI_FLAGS]
+-	msr_s	SYS_TFSRE0_EL1, xzr
+-1:
+-#endif
+-	.endm
+-
+-	/* Clear the MTE asynchronous tag check faults */
+-	.macro clear_mte_async_tcf
+-#ifdef CONFIG_ARM64_MTE
+-alternative_if ARM64_MTE
+-	dsb	ish
+-	msr_s	SYS_TFSRE0_EL1, xzr
+-alternative_else_nop_endif
+-#endif
+-	.endm
+-
+ 	.macro mte_set_gcr, tmp, tmp2
+ #ifdef CONFIG_ARM64_MTE
+ 	/*
+@@ -243,8 +217,6 @@ alternative_else_nop_endif
+ 	ldr	x19, [tsk, #TSK_TI_FLAGS]
+ 	disable_step_tsk x19, x20
+ 
+-	/* Check for asynchronous tag check faults in user space */
+-	check_mte_async_tcf x19, x22
+ 	apply_ssbd 1, x22, x23
+ 
+ 	ptrauth_keys_install_kernel tsk, x20, x22, x23
+@@ -775,8 +747,6 @@ SYM_CODE_START_LOCAL(ret_to_user)
+ 	cbnz	x2, work_pending
+ finish_ret_to_user:
+ 	user_enter_irqoff
+-	/* Ignore asynchronous tag check faults in the uaccess routines */
+-	clear_mte_async_tcf
+ 	enable_step_tsk x19, x2
+ #ifdef CONFIG_GCC_PLUGIN_STACKLEAK
+ 	bl	stackleak_erase
+diff --git a/arch/arm64/kernel/mte.c b/arch/arm64/kernel/mte.c
+index b3c70a612c7a..e759b0eca47e 100644
+--- a/arch/arm64/kernel/mte.c
++++ b/arch/arm64/kernel/mte.c
+@@ -166,14 +166,35 @@ static void set_gcr_el1_excl(u64 excl)
+ 	 */
+ }
+ 
++void check_mte_async_tcf0(void)
++{
++	/*
++	 * dsb(ish) is not required before the register read
++	 * because the TFSRE0_EL1 is automatically synchronized
++	 * by the hardware on exception entry as SCTLR_EL1.ITFSB
++	 * is set.
++	 */
++	u64 tcf0 = read_sysreg_s(SYS_TFSRE0_EL1);
++
++	if (tcf0 & SYS_TFSR_EL1_TF0)
++		set_thread_flag(TIF_MTE_ASYNC_FAULT);
++
++	write_sysreg_s(0, SYS_TFSRE0_EL1);
++}
++
++void clear_mte_async_tcf0(void)
++{
++	dsb(ish);
++	write_sysreg_s(0, SYS_TFSRE0_EL1);
++}
++
+ void flush_mte_state(void)
+ {
+ 	if (!system_supports_mte())
+ 		return;
+ 
+ 	/* clear any pending asynchronous tag fault */
+-	dsb(ish);
+-	write_sysreg_s(0, SYS_TFSRE0_EL1);
++	clear_mte_async_tcf0();
+ 	clear_thread_flag(TIF_MTE_ASYNC_FAULT);
+ 	/* disable tag checking */
+ 	set_sctlr_el1_tcf0(SCTLR_EL1_TCF0_NONE);
 -- 
-2.31.0.208.g409f899ff0-goog
+2.30.2
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210408103605.1676875-11-elver%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210408143723.13024-1-vincenzo.frascino%40arm.com.
