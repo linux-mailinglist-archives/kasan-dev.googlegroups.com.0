@@ -1,129 +1,120 @@
-Return-Path: <kasan-dev+bncBC447XVYUEMRBOXDX6BQMGQEUV4BGBY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCOYZDMZ6UMRBK6UYCBQMGQEWAO7NXY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33c.google.com (mail-wm1-x33c.google.com [IPv6:2a00:1450:4864:20::33c])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5C4635954F
-	for <lists+kasan-dev@lfdr.de>; Fri,  9 Apr 2021 08:18:34 +0200 (CEST)
-Received: by mail-wm1-x33c.google.com with SMTP id y26-20020a05600c365ab0290119a06834efsf247827wmq.7
-        for <lists+kasan-dev@lfdr.de>; Thu, 08 Apr 2021 23:18:34 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1617949114; cv=pass;
+Received: from mail-ot1-x337.google.com (mail-ot1-x337.google.com [IPv6:2607:f8b0:4864:20::337])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE638359BD0
+	for <lists+kasan-dev@lfdr.de>; Fri,  9 Apr 2021 12:19:24 +0200 (CEST)
+Received: by mail-ot1-x337.google.com with SMTP id l10sf2432000otd.16
+        for <lists+kasan-dev@lfdr.de>; Fri, 09 Apr 2021 03:19:24 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1617963563; cv=pass;
         d=google.com; s=arc-20160816;
-        b=uE/PQzLn8Ey6wBwmfmbF+eJM1Jv4v5JmzM8Vem76JF2mLYSkjBk8WlcSWU4vqRl36c
-         9pXPpse1U7DtDGeSiiaEANOomY/UoL58R7/lYlDmgwyhdWuxjHaoq8jxc/VmtKJ0opsu
-         fuwOQAcy4XLoEcknwC+8YO5Q0PaIDB+Nzi0gMZX8Cwy5FMiH5g8Vec7QxGtAMGfxI1m1
-         +MiVrfbRJPOqT8lySOtXQLk4blP9Ucf3XE8JLi7+xG6sPcw9n7ZiOL+dNUXsKbmn41Za
-         d+mHfBuHjVmgzAB3g7VeEhYWaCUAnl/zNNQw2ayJ/eTVB952M1jg/o9Rqkev3QAz98tZ
-         8tzQ==
+        b=kPy6cBWPKJGAN3A1vmoFoPYzRLkYWtrTmfOLs5q6vzUCpVEqIYeirHER0ITEVJok7W
+         B7xihCCfD+ZfWfLWWTiGWA3LR5IszHWwzrYwjR0lEb4B4+RJusP4MK+JytRZUILq98PH
+         EorfTrm1jQPYJfdV4f5zcYdNoqev4JfNSuuqb4/FWQ0miMnDoJfNNsmS0/a2siIwtU2g
+         IP+tVgXeY31QHhPUa6x/M5IRbqdXZCBA3dEjUJ7/tdyuD86ghNTrxNs8IOKS7CSc/lMM
+         BVY0coJwI/45dhuKJjCfPqgFNjVpP+hP1LfJodyeLIXPZK8YYhEqIQdQfsNuh0nUg++p
+         n7ew==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=VvmtairZKk9Zf1xjF5CcFd86kJJ8n00fsGEwymJSj9c=;
-        b=0xfd+N4WCMjACezZ90jFhyWa2SD9gC7yMH7MqywmxkNtEtRFO6QmJYnQiFbKoIzDaf
-         9UzKFhTn7z2jvO6/vMj3n2TFYHNa0NZGhhhBOLHaEfusjNCKpa324Z1ZYqKfT41lI5K+
-         LEfJV7KTQL5NGSqFp3IvCc0ItR6rHKYt8vi0H5VFqli3M4n22yJzp6r2Gm6mNGVEwW5y
-         ZXQv/4ugpr6TfRHuugAdFFQJnxEb13yEgpJmUgbK8oMGV/vUAF/8wfk6Eddpt7nsFxza
-         NUsU6IOQdGaFkqgY6aFn7G2WacczP+Yc57Ayrhp0z7NS/3DpSovbM1MVu37fSoDahro2
-         pq9g==
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :subject:cc:to:from:sender:dkim-signature;
+        bh=vzs9Wcg77g5kqY0VOFFAID/V0UM7xbFqbvFZLV54+K0=;
+        b=nZ5HSFlA4e64eomPA96dAY5DagndWkN8SJYCvytncXKZ60cjQ5/g6qAfBnyZmDJ7HI
+         REPEvmIZ7L30TywmUBy2bMM01dYf3R+fz0ihyTA54+NefVMJHkBv1jBUqk2p0CZQFtAM
+         NHEzjHwQen3KyrrDk3M6tqwzP4AttmQbGyysDqWDOEIKcP2ZxThIsh8bzbJ2I2lJorw0
+         jTSfjOET2VsquHqcPN8iudIHNe3l8cOXMD9dLSqoEcWi2s4eDrrA9Ko5Lz2+AocekT42
+         nM8fIrjA+a2gZ8cn5QSxYgzZ+LyESO81vXo3G8L5YX3z3WFkO6HQBoP24l9sU5+txhK3
+         TB+w==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=neutral (google.com: 217.70.183.199 is neither permitted nor denied by best guess record for domain of alex@ghiti.fr) smtp.mailfrom=alex@ghiti.fr
+       spf=pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=vincenzo.frascino@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=VvmtairZKk9Zf1xjF5CcFd86kJJ8n00fsGEwymJSj9c=;
-        b=hPkBwdfRtdSiB3Vp9qrx4rCXrkt92ZtPRo4FzZPvt7cAQCnwn9tLF9WP7r04iHOTkX
-         gpIbZ6haV/8A+M4XA+1+E6iMPC52cJ6Uko+GFsywYK8jukfLnVh6l2dOA+8lyL6dMboG
-         sjWIISmf3nLNKf/ryzJiuUIq3fHwjbtDNlB9r4naShViaeftaHnc0iVfKPvRuctUTW4j
-         IC0hRVgSdEixu6g4+ju1Z7xXK6Ytf9s/xg9/CN//y0qo1OSR8QWxbPbbMWyuLTm1YNvc
-         DJhTkCU1MgVbRXe9t4Iit2QBBf/hUh3in00BdWfd+AFc3arP+vSQ1FwBvjq8+esXHM5K
-         f3rg==
+        bh=vzs9Wcg77g5kqY0VOFFAID/V0UM7xbFqbvFZLV54+K0=;
+        b=LvR3CWD0AypTEAlBCszAcbhAdqHVoi9Q7kN/KYIE/LmWLENWp8WAVgknjygeY66PLC
+         dWo9L5e2nYdPDHLfyRbuTLB/gcmSjjnE8JdEVd/+E5B/WYZVgbWmYwfwKH8WcIpG+ZmJ
+         GU7CfeBG4Xv8dpdofBSk6ZGakm2yyWXmruLgsjaB1z9Y5H4hYO20+zHecidDbgQnGnx0
+         xF6hxdpCHKs7gej1FaW8NymuRoOc6ZW5rD9hWWTtQI+k64iw55Tg0hft/htYuMGal+b6
+         cBUIZTahqxyiL0aahZUEn/j2f+iTYPTRCkkWtU86ddI9HBr0JZfdAR+iQUQi5rxC4qNN
+         wo1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :in-reply-to:references:mime-version:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=VvmtairZKk9Zf1xjF5CcFd86kJJ8n00fsGEwymJSj9c=;
-        b=PIoZHENRsxfbI5Hri7dgda88BX2+S60NByivEre1TYYNJ/F75lAdi0oul55LaIJowy
-         PNXeIaeL63+RHphvZEjUhqD2fyt5HAm+T1Y8z/ju0ypR4mqFMMetNLXdXYKi59MwZeYV
-         Uwr0UEpu+6zpkhKPZkW1HK7N4B2jxbSmoE/3G1VBdPxeCgmvRkAqmlgzXAHHfIMAdAa/
-         h84EcY5uqERGQzmrcNrUDKPc8HY4clX1uqdBZSLqZwZXnqs+QOS+G3ZgI2QZuZLFRW/L
-         MGSNKS37tkSr+Cto++zUh+Vooig300fETw7bUtokAAAhtorTXuhP60JZw/FbCyqeeCD1
-         f3Eg==
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=vzs9Wcg77g5kqY0VOFFAID/V0UM7xbFqbvFZLV54+K0=;
+        b=lq48KhqEdVXnkk0wkG5K65z2gWEt5kYM9BNsdAToKFexPooHj4qx3PGjx0Fj7SPhzU
+         PazKfCpVrCP1EPZMMGV7FR4JxUmImKf4i3+h/Yg8a7+1H2drs70OGvl6lpvTDOUtjPVk
+         sSVgDNAH5sCaboLHPyB1267BKS/L6fyHfbhAR4jrUnFLKxju+ll8UqztY/nQJxY9vfV7
+         YkL1x2349t7poDKPGTKV9z1ZzVLQhhllca2rGC3ba/+bJb+nCq0pQnlydgbhN1NCEylF
+         KrMxHj+Um+PrzF0atA6R4Gol1lyOQQUckgd5eKoZKQTyne2Qg6pmYLg9JgjCH/8sZ1ru
+         5tlg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM532ZP0/jjq9YEeGD5duEieKMw7D6T1ZXjSpU6QCYYwkBrTeqB2s4
-	UYAKwYC9lVxSYYu3IZzTWKk=
-X-Google-Smtp-Source: ABdhPJxgQGlYoKtWkn2iuJmM7oAIvuNRURCqXELtvidxUILHaqCW1XFruuO48DRS7gP4Tx4+lgyPUw==
-X-Received: by 2002:a05:6000:cd:: with SMTP id q13mr15933800wrx.346.1617949114415;
-        Thu, 08 Apr 2021 23:18:34 -0700 (PDT)
+X-Gm-Message-State: AOAM533MxzHMLVEU39pRJAgU3Izgm6Q3ayt3wZD1y14cI7v18UBCRBqM
+	asBvvcD35bVxm2ZyLGuRhMU=
+X-Google-Smtp-Source: ABdhPJykugy7vXrnHD1FHq4/YPMHgKpbFm1BEbO5/5l5Ez7l0rmOYEt9junvm/hs7bIxpjg3UlmavA==
+X-Received: by 2002:a9d:7999:: with SMTP id h25mr11582674otm.39.1617963563759;
+        Fri, 09 Apr 2021 03:19:23 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a1c:6204:: with SMTP id w4ls3590873wmb.2.gmail; Thu, 08 Apr
- 2021 23:18:33 -0700 (PDT)
-X-Received: by 2002:a05:600c:1548:: with SMTP id f8mr12236395wmg.81.1617949113540;
-        Thu, 08 Apr 2021 23:18:33 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1617949113; cv=none;
+Received: by 2002:a05:6808:1146:: with SMTP id u6ls1802713oiu.9.gmail; Fri, 09
+ Apr 2021 03:19:23 -0700 (PDT)
+X-Received: by 2002:a05:6808:907:: with SMTP id w7mr9325928oih.148.1617963563379;
+        Fri, 09 Apr 2021 03:19:23 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1617963563; cv=none;
         d=google.com; s=arc-20160816;
-        b=ko8MDhHUfhA5Q6/DxnUiHqaYjb+AQZTo4ZM6xCKsXnz6BA+u8HCY0IJpjlz14Ai0SN
-         /bWI6NlUjF9OCgiF+PhW0rSnE5+2+CfaCUSDwYmAzxYSGEv/06SptolxFA7SAwn5R0jm
-         SoVT45evmKf1SBlvua63sgrB20d3Y0tHTYZUx3Ppyqby/FAd7wNLSBvV5jt6e3nJtLma
-         Hzslik86P/psIZii8qCMGxNmiyHQ+l0DCHw3mfbIaUz50JbkJ/Lp8O+/VsCzqzI4Xk3L
-         ES77wIYsRdC8Yfp4bgslEeGB0vOJx1CbGAx47DNgt7vO2JjdhInYHoMfcm1A164I1YNr
-         W16Q==
+        b=GINgvUYrXPJ9rB9bSSg+ItoShfX5uN0ZyDRNYtE7FL7w8AoNNCrHr7RTBchhyv5PZk
+         uE6dS6nVfC8ZQK4JeYptPgT39HYpDd0E5KAUxCvjF47RoTpx8Ondx2YqzzeAAuqYDuu1
+         28JuvVHOQIYhgx3JBib3HeRiQlthxq/tEZV54/EvQ4Saz2dtIAnDXg7x5uq8khDEcYL8
+         nDJrPC+Kg7n4b4Xb6ht7tVHDEzf85Bu68kgodlnzMT0zWntYO4f422zAcDxcB/Hbhzer
+         hFl8buwLv7zKLe4FpSiB/24LhGCeLc4ftQfPLHPCy690tl2IHup7LdQg92xlrSYP45dE
+         f7Hw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from;
-        bh=GvHEX5VJhNaodtmCmmex+400p92Ha0iQXYt+g3GclD8=;
-        b=ZGEeIUxw4TYh5AcZqJb5gyAITKGkDbqaftpYQBFDeR8+FbTDLc2qJUNvQWqdXtH0Ts
-         PzXlt+Lx8+yFatntH6KKpGESxk9ivOAg9zKiwWQVEGHjJWViphlrI8+3MbiWMKNzzICT
-         DmYx5QKdH84RtRE1tGurY/Xa04+PpkFc19W1G0P1qYFiS1LERV5UIqKzlJG/FlTxpQkR
-         2tTi2J9Tjj2WSJu4UO9Yit44wYMr+AZmNA+Vyl9YukWOmIJqUiqG/2y1Ms3Sr0JNlJoc
-         xnYpzsD9qfTeeTI5dHFfcT9C75z4vZWQHR0QkFqvOWuEJ9sgQL8G8jdUIE6vOz93IJ7i
-         6FwQ==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from;
+        bh=RUl0hqk8phlOswXsP3DMDTpP83YLN0PyKfQ0Njnu/k4=;
+        b=LZBlC2JB7RAN84pwTyXya850OaSQyeL9ObIu8UbTXU2oFhYtjXcW2raKPX+NkRZPLM
+         QB52tSKXn/5PKbCgwVnaI0vV+GcGSvyeiTp4Fi5+5/nJgIS3YEpAfwv846TaNXASyTkE
+         5smsZDtahohntej8sZ/7Wv2hzdivMhK77Gnl9Y64P/mjUkUmLiW/PSyyWstX8CFmKMAB
+         uha45mU3c3L8/+w6t1hTzKyUbbs8QIQ5LgM07vRyklqMycI5MwWUhAv6z7r4y5/TYuP+
+         qg99S/dJnyTvT1oj+Bv2kw0W4WjiTiCQlWFo/A/Yr4Q7rOPhmi6ka5LerICXQwgtmdY0
+         WZeQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=neutral (google.com: 217.70.183.199 is neither permitted nor denied by best guess record for domain of alex@ghiti.fr) smtp.mailfrom=alex@ghiti.fr
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net. [217.70.183.199])
-        by gmr-mx.google.com with ESMTPS id w2si822179wmb.4.2021.04.08.23.18.33
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 08 Apr 2021 23:18:33 -0700 (PDT)
-Received-SPF: neutral (google.com: 217.70.183.199 is neither permitted nor denied by best guess record for domain of alex@ghiti.fr) client-ip=217.70.183.199;
-X-Originating-IP: 81.185.169.105
-Received: from localhost.localdomain (105.169.185.81.rev.sfr.net [81.185.169.105])
-	(Authenticated sender: alex@ghiti.fr)
-	by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id BFF84FF803;
-	Fri,  9 Apr 2021 06:18:28 +0000 (UTC)
-From: Alexandre Ghiti <alex@ghiti.fr>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Andrey Ryabinin <aryabinin@virtuozzo.com>,
-	Alexander Potapenko <glider@google.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	linux-doc@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
+       spf=pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=vincenzo.frascino@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
+Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
+        by gmr-mx.google.com with ESMTP id f10si44060oti.1.2021.04.09.03.19.23
+        for <kasan-dev@googlegroups.com>;
+        Fri, 09 Apr 2021 03:19:23 -0700 (PDT)
+Received-SPF: pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B3EF11FB;
+	Fri,  9 Apr 2021 03:19:17 -0700 (PDT)
+Received: from e119884-lin.cambridge.arm.com (e119884-lin.cambridge.arm.com [10.1.196.72])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AD8B63F73D;
+	Fri,  9 Apr 2021 03:19:16 -0700 (PDT)
+From: Vincenzo Frascino <vincenzo.frascino@arm.com>
+To: linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
-	kasan-dev@googlegroups.com,
-	linux-arch@vger.kernel.org,
-	linux-mm@kvack.org
-Cc: Alexandre Ghiti <alex@ghiti.fr>,
-	Anup Patel <anup@brainfault.org>
-Subject: [PATCH v4 3/3] riscv: Prepare ptdump for vm layout dynamic addresses
-Date: Fri,  9 Apr 2021 02:15:00 -0400
-Message-Id: <20210409061500.14673-4-alex@ghiti.fr>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210409061500.14673-1-alex@ghiti.fr>
-References: <20210409061500.14673-1-alex@ghiti.fr>
+	kasan-dev@googlegroups.com
+Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	stable@vger.kernel.org
+Subject: [PATCH v2] arm64: mte: Move MTE TCF0 check in entry-common
+Date: Fri,  9 Apr 2021 11:19:02 +0100
+Message-Id: <20210409101902.2800-1-vincenzo.frascino@arm.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-X-Original-Sender: alex@ghiti.fr
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=neutral
- (google.com: 217.70.183.199 is neither permitted nor denied by best guess
- record for domain of alex@ghiti.fr) smtp.mailfrom=alex@ghiti.fr
+X-Original-Sender: vincenzo.frascino@arm.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172
+ as permitted sender) smtp.mailfrom=vincenzo.frascino@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
@@ -137,120 +128,201 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-This is a preparatory patch for sv48 support that will introduce
-dynamic PAGE_OFFSET.
+The check_mte_async_tcf macro sets the TIF flag non-atomically. This can
+race with another CPU doing a set_tsk_thread_flag() and all the other flags
+can be lost in the process.
 
-Dynamic PAGE_OFFSET implies that all zones (vmalloc, vmemmap, fixaddr...)
-whose addresses depend on PAGE_OFFSET become dynamic and can't be used
-to statically initialize the array used by ptdump to identify the
-different zones of the vm layout.
+Move the tcf0 check to enter_from_user_mode() and clear tcf0 in
+exit_to_user_mode() to address the problem.
 
-Signed-off-by: Alexandre Ghiti <alex@ghiti.fr>
-Reviewed-by: Anup Patel <anup@brainfault.org>
+Note: Moving the check in entry-common allows to use set_thread_flag()
+which is safe.
+
+Fixes: 637ec831ea4f ("arm64: mte: Handle synchronous and asynchronous tag check faults")
+Cc: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Will Deacon <will@kernel.org>
+Cc: stable@vger.kernel.org
+Reported-by: Will Deacon <will@kernel.org>
+Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
 ---
- arch/riscv/mm/ptdump.c | 67 ++++++++++++++++++++++++++++++++++--------
- 1 file changed, 55 insertions(+), 12 deletions(-)
+ arch/arm64/include/asm/mte.h     |  8 ++++++++
+ arch/arm64/kernel/entry-common.c |  6 ++++++
+ arch/arm64/kernel/entry.S        | 34 --------------------------------
+ arch/arm64/kernel/mte.c          | 33 +++++++++++++++++++++++++++++--
+ 4 files changed, 45 insertions(+), 36 deletions(-)
 
-diff --git a/arch/riscv/mm/ptdump.c b/arch/riscv/mm/ptdump.c
-index ace74dec7492..aa1b3bce61ab 100644
---- a/arch/riscv/mm/ptdump.c
-+++ b/arch/riscv/mm/ptdump.c
-@@ -58,29 +58,52 @@ struct ptd_mm_info {
- 	unsigned long end;
- };
+diff --git a/arch/arm64/include/asm/mte.h b/arch/arm64/include/asm/mte.h
+index 9b557a457f24..2ecb2156dac1 100644
+--- a/arch/arm64/include/asm/mte.h
++++ b/arch/arm64/include/asm/mte.h
+@@ -31,6 +31,8 @@ void mte_invalidate_tags(int type, pgoff_t offset);
+ void mte_invalidate_tags_area(int type);
+ void *mte_allocate_tag_storage(void);
+ void mte_free_tag_storage(char *storage);
++void noinstr check_mte_async_tcf0(void);
++void noinstr clear_mte_async_tcf0(void);
  
-+enum address_markers_idx {
-+#ifdef CONFIG_KASAN
-+	KASAN_SHADOW_START_NR,
-+	KASAN_SHADOW_END_NR,
-+#endif
-+	FIXMAP_START_NR,
-+	FIXMAP_END_NR,
-+	PCI_IO_START_NR,
-+	PCI_IO_END_NR,
-+#ifdef CONFIG_SPARSEMEM_VMEMMAP
-+	VMEMMAP_START_NR,
-+	VMEMMAP_END_NR,
-+#endif
-+	VMALLOC_START_NR,
-+	VMALLOC_END_NR,
-+	PAGE_OFFSET_NR,
-+	MODULES_MAPPING_NR,
-+	KERNEL_MAPPING_NR,
-+	END_OF_SPACE_NR
-+};
-+
- static struct addr_marker address_markers[] = {
- #ifdef CONFIG_KASAN
--	{KASAN_SHADOW_START,	"Kasan shadow start"},
--	{KASAN_SHADOW_END,	"Kasan shadow end"},
-+	{0, "Kasan shadow start"},
-+	{0, "Kasan shadow end"},
- #endif
--	{FIXADDR_START,		"Fixmap start"},
--	{FIXADDR_TOP,		"Fixmap end"},
--	{PCI_IO_START,		"PCI I/O start"},
--	{PCI_IO_END,		"PCI I/O end"},
-+	{0, "Fixmap start"},
-+	{0, "Fixmap end"},
-+	{0, "PCI I/O start"},
-+	{0, "PCI I/O end"},
- #ifdef CONFIG_SPARSEMEM_VMEMMAP
--	{VMEMMAP_START,		"vmemmap start"},
--	{VMEMMAP_END,		"vmemmap end"},
-+	{0, "vmemmap start"},
-+	{0, "vmemmap end"},
- #endif
--	{VMALLOC_START,		"vmalloc() area"},
--	{VMALLOC_END,		"vmalloc() end"},
--	{PAGE_OFFSET,		"Linear mapping"},
-+	{0, "vmalloc() area"},
-+	{0, "vmalloc() end"},
-+	{0, "Linear mapping"},
-+	{0, "Modules mapping"},
-+	{0, "Kernel mapping (kernel, BPF)"},
- 	{-1, NULL},
- };
+ #ifdef CONFIG_ARM64_MTE
  
- static struct ptd_mm_info kernel_ptd_info = {
- 	.mm		= &init_mm,
- 	.markers	= address_markers,
--	.base_addr	= KERN_VIRT_START,
-+	.base_addr	= 0,
- 	.end		= ULONG_MAX,
- };
- 
-@@ -335,6 +358,26 @@ static int ptdump_init(void)
+@@ -83,6 +85,12 @@ static inline int mte_ptrace_copy_tags(struct task_struct *child,
  {
- 	unsigned int i, j;
+ 	return -EIO;
+ }
++static inline void check_mte_async_tcf0(void)
++{
++}
++static inline void clear_mte_async_tcf0(void)
++{
++}
  
-+#ifdef CONFIG_KASAN
-+	address_markers[KASAN_SHADOW_START_NR].start_address = KASAN_SHADOW_START;
-+	address_markers[KASAN_SHADOW_END_NR].start_address = KASAN_SHADOW_END;
-+#endif
-+	address_markers[FIXMAP_START_NR].start_address = FIXADDR_START;
-+	address_markers[FIXMAP_END_NR].start_address = FIXADDR_TOP;
-+	address_markers[PCI_IO_START_NR].start_address = PCI_IO_START;
-+	address_markers[PCI_IO_END_NR].start_address = PCI_IO_END;
-+#ifdef CONFIG_SPARSEMEM_VMEMMAP
-+	address_markers[VMEMMAP_START_NR].start_address = VMEMMAP_START;
-+	address_markers[VMEMMAP_END_NR].start_address = VMEMMAP_END;
-+#endif
-+	address_markers[VMALLOC_START_NR].start_address = VMALLOC_START;
-+	address_markers[VMALLOC_END_NR].start_address = VMALLOC_END;
-+	address_markers[PAGE_OFFSET_NR].start_address = PAGE_OFFSET;
-+	address_markers[MODULES_MAPPING_NR].start_address = MODULES_VADDR;
-+	address_markers[KERNEL_MAPPING_NR].start_address = kernel_virt_addr;
+ static inline void mte_assign_mem_tag_range(void *addr, size_t size)
+ {
+diff --git a/arch/arm64/kernel/entry-common.c b/arch/arm64/kernel/entry-common.c
+index 9d3588450473..837d3624a1d5 100644
+--- a/arch/arm64/kernel/entry-common.c
++++ b/arch/arm64/kernel/entry-common.c
+@@ -289,10 +289,16 @@ asmlinkage void noinstr enter_from_user_mode(void)
+ 	CT_WARN_ON(ct_state() != CONTEXT_USER);
+ 	user_exit_irqoff();
+ 	trace_hardirqs_off_finish();
 +
-+	kernel_ptd_info.base_addr = KERN_VIRT_START;
++	/* Check for asynchronous tag check faults in user space */
++	check_mte_async_tcf0();
+ }
+ 
+ asmlinkage void noinstr exit_to_user_mode(void)
+ {
++	/* Ignore asynchronous tag check faults in the uaccess routines */
++	clear_mte_async_tcf0();
 +
- 	for (i = 0; i < ARRAY_SIZE(pg_level); i++)
- 		for (j = 0; j < ARRAY_SIZE(pte_bits); j++)
- 			pg_level[i].mask |= pte_bits[j].mask;
+ 	trace_hardirqs_on_prepare();
+ 	lockdep_hardirqs_on_prepare(CALLER_ADDR0);
+ 	user_enter_irqoff();
+diff --git a/arch/arm64/kernel/entry.S b/arch/arm64/kernel/entry.S
+index a31a0a713c85..fb57df0d453f 100644
+--- a/arch/arm64/kernel/entry.S
++++ b/arch/arm64/kernel/entry.S
+@@ -34,15 +34,11 @@
+  * user and kernel mode.
+  */
+ 	.macro user_exit_irqoff
+-#if defined(CONFIG_CONTEXT_TRACKING) || defined(CONFIG_TRACE_IRQFLAGS)
+ 	bl	enter_from_user_mode
+-#endif
+ 	.endm
+ 
+ 	.macro user_enter_irqoff
+-#if defined(CONFIG_CONTEXT_TRACKING) || defined(CONFIG_TRACE_IRQFLAGS)
+ 	bl	exit_to_user_mode
+-#endif
+ 	.endm
+ 
+ 	.macro	clear_gp_regs
+@@ -147,32 +143,6 @@ alternative_cb_end
+ .L__asm_ssbd_skip\@:
+ 	.endm
+ 
+-	/* Check for MTE asynchronous tag check faults */
+-	.macro check_mte_async_tcf, flgs, tmp
+-#ifdef CONFIG_ARM64_MTE
+-alternative_if_not ARM64_MTE
+-	b	1f
+-alternative_else_nop_endif
+-	mrs_s	\tmp, SYS_TFSRE0_EL1
+-	tbz	\tmp, #SYS_TFSR_EL1_TF0_SHIFT, 1f
+-	/* Asynchronous TCF occurred for TTBR0 access, set the TI flag */
+-	orr	\flgs, \flgs, #_TIF_MTE_ASYNC_FAULT
+-	str	\flgs, [tsk, #TSK_TI_FLAGS]
+-	msr_s	SYS_TFSRE0_EL1, xzr
+-1:
+-#endif
+-	.endm
+-
+-	/* Clear the MTE asynchronous tag check faults */
+-	.macro clear_mte_async_tcf
+-#ifdef CONFIG_ARM64_MTE
+-alternative_if ARM64_MTE
+-	dsb	ish
+-	msr_s	SYS_TFSRE0_EL1, xzr
+-alternative_else_nop_endif
+-#endif
+-	.endm
+-
+ 	.macro mte_set_gcr, tmp, tmp2
+ #ifdef CONFIG_ARM64_MTE
+ 	/*
+@@ -243,8 +213,6 @@ alternative_else_nop_endif
+ 	ldr	x19, [tsk, #TSK_TI_FLAGS]
+ 	disable_step_tsk x19, x20
+ 
+-	/* Check for asynchronous tag check faults in user space */
+-	check_mte_async_tcf x19, x22
+ 	apply_ssbd 1, x22, x23
+ 
+ 	ptrauth_keys_install_kernel tsk, x20, x22, x23
+@@ -775,8 +743,6 @@ SYM_CODE_START_LOCAL(ret_to_user)
+ 	cbnz	x2, work_pending
+ finish_ret_to_user:
+ 	user_enter_irqoff
+-	/* Ignore asynchronous tag check faults in the uaccess routines */
+-	clear_mte_async_tcf
+ 	enable_step_tsk x19, x2
+ #ifdef CONFIG_GCC_PLUGIN_STACKLEAK
+ 	bl	stackleak_erase
+diff --git a/arch/arm64/kernel/mte.c b/arch/arm64/kernel/mte.c
+index b3c70a612c7a..84a942c25870 100644
+--- a/arch/arm64/kernel/mte.c
++++ b/arch/arm64/kernel/mte.c
+@@ -166,14 +166,43 @@ static void set_gcr_el1_excl(u64 excl)
+ 	 */
+ }
+ 
+-void flush_mte_state(void)
++void noinstr check_mte_async_tcf0(void)
++{
++	u64 tcf0;
++
++	if (!system_supports_mte())
++		return;
++
++	/*
++	 * dsb(ish) is not required before the register read
++	 * because the TFSRE0_EL1 is automatically synchronized
++	 * by the hardware on exception entry as SCTLR_EL1.ITFSB
++	 * is set.
++	 */
++	tcf0 = read_sysreg_s(SYS_TFSRE0_EL1);
++
++	if (tcf0 & SYS_TFSR_EL1_TF0)
++		set_thread_flag(TIF_MTE_ASYNC_FAULT);
++
++	write_sysreg_s(0, SYS_TFSRE0_EL1);
++}
++
++void noinstr clear_mte_async_tcf0(void)
+ {
+ 	if (!system_supports_mte())
+ 		return;
+ 
+-	/* clear any pending asynchronous tag fault */
+ 	dsb(ish);
+ 	write_sysreg_s(0, SYS_TFSRE0_EL1);
++}
++
++void flush_mte_state(void)
++{
++	if (!system_supports_mte())
++		return;
++
++	/* clear any pending asynchronous tag fault */
++	clear_mte_async_tcf0();
+ 	clear_thread_flag(TIF_MTE_ASYNC_FAULT);
+ 	/* disable tag checking */
+ 	set_sctlr_el1_tcf0(SCTLR_EL1_TCF0_NONE);
 -- 
-2.20.1
+2.30.2
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210409061500.14673-4-alex%40ghiti.fr.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210409101902.2800-1-vincenzo.frascino%40arm.com.
