@@ -1,120 +1,125 @@
-Return-Path: <kasan-dev+bncBDDL3KWR4EBRBOUJXWBQMGQEROJWYJQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBC447XVYUEMRB5XBX6BQMGQED43SS2I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oi1-x23b.google.com (mail-oi1-x23b.google.com [IPv6:2607:f8b0:4864:20::23b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A210358BD5
-	for <lists+kasan-dev@lfdr.de>; Thu,  8 Apr 2021 20:00:28 +0200 (CEST)
-Received: by mail-oi1-x23b.google.com with SMTP id m189sf804085oib.20
-        for <lists+kasan-dev@lfdr.de>; Thu, 08 Apr 2021 11:00:28 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1617904827; cv=pass;
+Received: from mail-lj1-x23a.google.com (mail-lj1-x23a.google.com [IPv6:2a00:1450:4864:20::23a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55025359538
+	for <lists+kasan-dev@lfdr.de>; Fri,  9 Apr 2021 08:15:19 +0200 (CEST)
+Received: by mail-lj1-x23a.google.com with SMTP id w13sf804210ljd.2
+        for <lists+kasan-dev@lfdr.de>; Thu, 08 Apr 2021 23:15:19 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1617948918; cv=pass;
         d=google.com; s=arc-20160816;
-        b=xEd6n7pZO2Il28++pqh1r9WXbm2iAef286bR1fVhF/KLftDqDxEOtpt6RueBkGzlxO
-         xb1+5nDNbRsYq9zZ36Iv3Du6B8PtB5MuFiRjnjb14cqT9I0VAiDtdA9bpE8ksBTBLYxw
-         TZ5JAMmQ8OF+lPvrJYkHUmVFDB7wSV17ECjl6v5+8F/TqESw9/wWXSgQ/m2L3FUwQxOq
-         RdPtAK6jOV9vNa0xKkA1RTDvqCxlX4by2Bja/oZy3ASVcoetNG9Jv/F+tTp8GSp14QaM
-         qxdf49UYeJCx6qozi4oMSN+7ImUB9+OxmYDMbPeofQWJHM1Ly/i+MrdlJ74k0/duRynK
-         gFVA==
+        b=AvUYwrWuEyBC8OrPSnw1KWijbcrOmQD8uOsZV/ulgPsGP54YVUU1eZY78KcV5LUxbM
+         oDVOWX9kctglLW16FNeVnZYXqegbqfWPTlT59/RrTRmSpTGmzL3D9KEawiYchMHs+GEx
+         47ON7h27rbQ9s1ogBxXWT7d+roAwDyDnJ4yiPxhIS/Yx1gBNVdOInZgOrjNDo0T83TNU
+         Xxmciw6enW2zyDJxCXI2zIE/Nu9JTHkAp2AvN5GVj53+eMS+YMroJY1cCLJpRi3i/SpG
+         9raXT23kvzE7Sec9xI6NerSD1QJ2fT83nyETBajdera+Xs/0287RxkHRFFVIuyIv9M5v
+         KqsA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=qfFWgy8FaozciftgBVGWEDUZsFHGrOlTt/Nnz4EPIYU=;
-        b=DTKe6cSj0ClvOI/ZLgeCbOKbF7qRPM7Pr7N8jWAelRLhMrbQiJerBjXLXiUSYrQkeA
-         YFMyCzFKguVLK5CEK61jebFVolR3fSHz1Nv8NVztYiYcEdYB8xMViVIyMVUan6Chuiqo
-         egGBjgoutBzSwGhuuRi7boqwfzXHU0LQVi5GduqQJnhhAT9uM5N3MTkaB56kvHo7qPPv
-         Ha5UufzSEB7EA8CPdTtdImyPOK3K7PD4hoOiHiM0lyyxR/I2Z8Le00/r6ucMy3W2cMAI
-         oRxGsKZHNlST53bKlirQf9c0jKwo31370Z7CunLGrCFonnOaLup36xWb2Hz4L3gHFY0d
-         clLg==
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :subject:cc:to:from:sender:dkim-signature;
+        bh=YshyOubZC/SdcIRvzc2yy7XzDViANwh1ViSjRkZcIAI=;
+        b=rlErONBIcLYtm1E0rREG4I3ibjNOtss9IzboUdvYCSx1P2RyGNCKUTK7PbTGEFT7ge
+         TpWL8HCeb5FJtbQ11SssqHwyvuAKHJjU1t0DCy1/fUYJsDuVf+GX0udfoOwS2Zc/3Nko
+         eSthZed7jm1aOsqq2EsNKqlzvq+DSpF+ZYAHbqoTBGBdV2XnslafUiDkyBOKeoNkJ3iL
+         gJysbzcA9aBDLTm5egVAgEDljs9oS14sPPJDW+xjAQwvzrVCJ4Idkk6BUPc5y0kcrgAE
+         NJNHj+uM67p/kVkas4shGbS8TzJCdLPLPUs9/0b6zevwoTMky5pjW5iQPyPJ6J0hsH/D
+         E+Fw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of cmarinas@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=cmarinas@kernel.org;
-       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=arm.com
+       spf=neutral (google.com: 217.70.178.231 is neither permitted nor denied by best guess record for domain of alex@ghiti.fr) smtp.mailfrom=alex@ghiti.fr
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=qfFWgy8FaozciftgBVGWEDUZsFHGrOlTt/Nnz4EPIYU=;
-        b=qddyTySFirNlst/bpnPRS35YFPwsE6Bsmt2uzaT22Rr5KJbIzTrgFDnDtEZzfMh0qs
-         gG6PfWNKsJT6GHM+lWEFDNPGJSWETqQiLQDojzYilCTh0+Wshs7sRbwmZYWZUcxL7Cnh
-         q0OktMqeMPBlGb7qc679Xfo6b4c7EBJOs7dzddd15s19ZWf58kPu77wtNOob3PYacLLK
-         zJoyijlDrRuvYM/9qX1c5R96uVRKYNgDWZbSXxpfsqlaDkm4GGmcymm32jVs6C8zsZ4w
-         uVFehGZ+pi4QmRWkF1vufKZCHYlzjnfOOoT7C+rB2ZtJeZNjoQChwXUJH7OpVLkA2uck
-         eS/A==
+        bh=YshyOubZC/SdcIRvzc2yy7XzDViANwh1ViSjRkZcIAI=;
+        b=TuWn6+uqQsHVQMG6ZVqOM501iDAeUqQOL4GOKiyZd5nG76C9BT3hz/mXgrx8rMxP94
+         fW2jIipwGqKptvsu4qqognZtthKdrDVH0NypdpiP0miQ+FiP4cTYaDWUx70tDmjbCLjP
+         qep2pEEq6CCyp+9VmStpzCP4H/D16FQf14QYlCnyceSh8AQMLgiclPP4qfKgNWOwC1QL
+         2MLY4vHLY4MOkq3VW70S0xwAF/2uiLig0ZgqbKs42K2bbUbEGNGnOy6y+E6DFmglh/ci
+         U6PYwWmwJH2qqYP3nh+fmQcPYK1qArbHJ7SKhbRe5aZJELbAUsguiVvkXAng31j0UEoD
+         x2Cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :in-reply-to:references:mime-version:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=qfFWgy8FaozciftgBVGWEDUZsFHGrOlTt/Nnz4EPIYU=;
-        b=c/tASojHtgzs6jQQIexlCnu4zbI8Vw+uJxk/X6yptdt36FyyNAAIHe/F9I7UnhKN9X
-         1TRNNzMoDRHUDOGHNHPjolloWFo2A5ifhFMtRh4o7TJPpnANFP1e1Jy3qohtLZkfDBbr
-         jxnXedk8/0LaaRQ0S2wMDVP7bYGBCeQu9ltX+h/k0eaGbcDP1H5UpAyVteO917oUNf3x
-         EAsMi8uMoKFOh/yP6/6Njd2G/Lwesd/V22/IP4QnkO7hXTh9KDFTcuXgMR9+tpGiTpTQ
-         i3lolFdPDFi7XRniI9tRUpSXd+3o5gNlwvqVXtUnJPamLA2q54ZYR70fMEHQsgIQOgzS
-         VPXA==
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=YshyOubZC/SdcIRvzc2yy7XzDViANwh1ViSjRkZcIAI=;
+        b=eBNE3IziRmREF2ccmIIm2E+9EVJBE/oMOY921ygas4KX7gogmkO28+TKcFfcqq3th+
+         Jf6e3KE7AJ7pza5pCt8d4H8irYd1r+uk2eAXPBSdr060HzvNCn/9OJreryvKRTbpXW+c
+         ASHJ2I/NBGNgJonwZEyefBCOauU8iSx2EBZz8JCMgHnwvlQCRi6qEdqllwEpW6zY8b09
+         XBkvqlW1sRIVmUtvqMWfp6QVmcPrIu8KPDdDsYQvLwSJmRs4ra63sKvVQencZ8P21qyx
+         P+6dtxUIHTZTtYJEL93GpKQ3tHfKoDFNmlJH4ltfN/OPLMXlkxYyfecHicIWJquZLsmO
+         m6bg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM533yQWec65qU4DS661irjd/bds6kNELQjzUl2jmNI82eRuj3ida6
-	0Fk1tLL0PPvoFtFJaZwxV/4=
-X-Google-Smtp-Source: ABdhPJzsWjiCsQlvUvWySpcM0CEbf/hlwoqwQA45GyBhDyfYffnsKx61hfByOpBwiOgpNm/kSbNOew==
-X-Received: by 2002:a54:409a:: with SMTP id i26mr7077149oii.41.1617904826930;
-        Thu, 08 Apr 2021 11:00:26 -0700 (PDT)
+X-Gm-Message-State: AOAM530y9mSEPdtlQ1z/1+iSDCVkNmawmCk5TsUgLODKfgEhqfhA2RAP
+	t7CJ14PbuNNaGNb/EYrmHb8=
+X-Google-Smtp-Source: ABdhPJysGBdRBzYSpgTreF4p2dLGFmDzQirD+Prjl0sOydpzkzSm1b0vBkmHOQqjiQTKbne5a1ZYGQ==
+X-Received: by 2002:a19:f518:: with SMTP id j24mr1636162lfb.225.1617948918775;
+        Thu, 08 Apr 2021 23:15:18 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a4a:95c7:: with SMTP id p7ls388454ooi.0.gmail; Thu, 08 Apr
- 2021 11:00:25 -0700 (PDT)
-X-Received: by 2002:a4a:304a:: with SMTP id z10mr8638321ooz.26.1617904825201;
-        Thu, 08 Apr 2021 11:00:25 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1617904825; cv=none;
+Received: by 2002:a2e:8503:: with SMTP id j3ls1861814lji.6.gmail; Thu, 08 Apr
+ 2021 23:15:17 -0700 (PDT)
+X-Received: by 2002:a2e:8591:: with SMTP id b17mr8306821lji.230.1617948917793;
+        Thu, 08 Apr 2021 23:15:17 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1617948917; cv=none;
         d=google.com; s=arc-20160816;
-        b=O8GYuJOiPi5iUgz37rPMfhCw+z07d48hXFSN5RaiOR/HLBEDCUNalT27mFA0jAkqoE
-         7oy1cCDj7ULiht9moElwVMNGZen/KZ1GP2iKdIpTNTDljqTVkrnLRjZukwTmICMlCf7N
-         sUQVf04EjOPLGH0T0tqdmPAb6LPPkOXpEIsL/nWRlABy8ZN64j7Bo34vP23XIPFzTTjX
-         4W7bw2bSmnNRiqoPb+JjGXUXq/q5qqAk4qjoXSekEoWh3mPCgokUdnswDPi8hOygtEcv
-         10VyK5dj/p58DR8ybyMCQ55B+hD/C1bi+1tIGxy2PSCoy7YVz7Oeg7TeRJbfMhtqSM7I
-         RgXA==
+        b=y5d/TrNuIi2IMvfkbyY2nd7RoEARWgqXU9ETu6zqkRN47pGaZhOfTI8nibAz4oLq2X
+         3jaSLSpEhlrnqckqEOTQI85S+77LMlsXKsOWvisBGz+Hhx731K4+REUJ4cQUjPxW5Uz6
+         NMgMQYWPk4cO29rN4r69LA5ZT6EeM8osYPwDczb9gWcTxHdWtGyHycbuo1AY3PlFxMjC
+         AP6kO3+Ugg71OyYkCbzflAcxFFmHr0sjdSps7K5HUHo0nDvg7BCL9Yr3ZRBT3X3klctT
+         joEFJxVt6sGIWFZGCVJV2IQqBmpmX0rTyGl7N/08ub3N2nOiLHzyKoQHdJ1vhnXPRIQG
+         0nnw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from;
-        bh=q+95Sqr1L9TWZz2QGJV4MwPUlxnHtrFoKqf0U9Q/DTo=;
-        b=pyX6tX6ogtD4CUu5OTXY3897ZpG116RWXkLYcoNaXHk3+dR1mqbkCCX3EBG0Rml6YP
-         0e+FgXbWsEP/6xaNJP16Zny4guvbAk8L4BwqsO8fDPULvn140uog3k4EREu2nkjNJpEC
-         RP4VC4rO7Kj3o4hJzIaboe9owVVEqiQsYG7575nP9og/76ACY7xrxZ90lvXio7rkW45s
-         3Kmx9FyU7y1poIsFRT1uwj9wkIpk2t2eWsX+6KFc7VhMdAfv2ffmt6ywpIeNgZMy4sqS
-         s73dqXSZq7EQJ8kzLm0uNuuogDmbUXDJjUmdfOvFuYRz547/kTOP3muE4S/UTKeGw5HG
-         GOEw==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from;
+        bh=t1XDqrfettaMHMldrJ1+jyYUR3sNWfGpqVm046M5KdA=;
+        b=gNG25w5tDhOm1lA+dDlHzTQK3HFoYDTDoy/iZZwWX44CfCkalkfahlkULiWr4yUy7J
+         zYn48kyU/dFpCBHbtYYMc2YRpzMNRuAL5Fbb6RvjGqnuxlAwubB7TgvnUDZQgJFIGn1k
+         1YX2sxsMksapEOs+xTN04ZMTwybjTiF/HTX3F4C9oWrbo+1jKMaQCKnsrd9IWxc+iAUV
+         0kDfvT7mV0CHKfyX3A4oGVybPspaXaB1QTF8B6c0DzHjfKqxc7URZK08djrx5N85JEaH
+         ZqSsCLhmf0FJRrp1V1lqYDReGWlNSzcsMrW/i/U47y8FTzcvCw+CUE0AMYdjyNs+JRIx
+         66Sw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of cmarinas@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=cmarinas@kernel.org;
-       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=arm.com
-Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id a4si4131oiw.5.2021.04.08.11.00.25
+       spf=neutral (google.com: 217.70.178.231 is neither permitted nor denied by best guess record for domain of alex@ghiti.fr) smtp.mailfrom=alex@ghiti.fr
+Received: from relay11.mail.gandi.net (relay11.mail.gandi.net. [217.70.178.231])
+        by gmr-mx.google.com with ESMTPS id 63si126243lfd.1.2021.04.08.23.15.17
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 08 Apr 2021 11:00:25 -0700 (PDT)
-Received-SPF: pass (google.com: domain of cmarinas@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 25CB3610C8;
-	Thu,  8 Apr 2021 18:00:23 +0000 (UTC)
-From: Catalin Marinas <catalin.marinas@arm.com>
-To: Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 08 Apr 2021 23:15:17 -0700 (PDT)
+Received-SPF: neutral (google.com: 217.70.178.231 is neither permitted nor denied by best guess record for domain of alex@ghiti.fr) client-ip=217.70.178.231;
+Received: from localhost.localdomain (105.169.185.81.rev.sfr.net [81.185.169.105])
+	(Authenticated sender: alex@ghiti.fr)
+	by relay11.mail.gandi.net (Postfix) with ESMTPSA id 8D27D10000B;
+	Fri,  9 Apr 2021 06:15:12 +0000 (UTC)
+From: Alexandre Ghiti <alex@ghiti.fr>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Andrey Ryabinin <aryabinin@virtuozzo.com>,
+	Alexander Potapenko <glider@google.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	linux-doc@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	kasan-dev@googlegroups.com
-Cc: Will Deacon <will@kernel.org>,
-	Derrick McKee <derrick.mckee@gmail.com>
-Subject: Re: [PATCH] arm64: mte: Remove unused mte_assign_mem_tag_range()
-Date: Thu,  8 Apr 2021 19:00:21 +0100
-Message-Id: <161790479237.12189.16889750597145288261.b4-ty@arm.com>
+	kasan-dev@googlegroups.com,
+	linux-arch@vger.kernel.org,
+	linux-mm@kvack.org
+Cc: Alexandre Ghiti <alex@ghiti.fr>
+Subject: [PATCH v4 0/3] Move kernel mapping outside the linear mapping
+Date: Fri,  9 Apr 2021 02:14:57 -0400
+Message-Id: <20210409061500.14673-1-alex@ghiti.fr>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210407133817.23053-1-vincenzo.frascino@arm.com>
-References: <20210407133817.23053-1-vincenzo.frascino@arm.com>
 MIME-Version: 1.0
+X-Original-Sender: alex@ghiti.fr
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=neutral
+ (google.com: 217.70.178.231 is neither permitted nor denied by best guess
+ record for domain of alex@ghiti.fr) smtp.mailfrom=alex@ghiti.fr
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: catalin.marinas@arm.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of cmarinas@kernel.org designates 198.145.29.99 as
- permitted sender) smtp.mailfrom=cmarinas@kernel.org;       dmarc=fail (p=NONE
- sp=NONE dis=NONE) header.from=arm.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -127,24 +132,76 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, 7 Apr 2021 14:38:17 +0100, Vincenzo Frascino wrote:
-> mte_assign_mem_tag_range() was added in commit 85f49cae4dfc
-> ("arm64: mte: add in-kernel MTE helpers") in 5.11 but moved out of
-> mte.S by commit 2cb34276427a ("arm64: kasan: simplify and inline
-> MTE functions") in 5.12 and renamed to mte_set_mem_tag_range().
-> 2cb34276427a did not delete the old function prototypes in mte.h.
-> 
-> Remove the unused prototype from mte.h.
+I decided to split sv48 support in small series to ease the review.
 
-Applied to arm64 (for-next/misc), thanks!
+This patchset pushes the kernel mapping (modules and BPF too) to the last
+4GB of the 64bit address space, this allows to:
+- implement relocatable kernel (that will come later in another
+  patchset) that requires to move the kernel mapping out of the linear
+  mapping to avoid to copy the kernel at a different physical address.
+- have a single kernel that is not relocatable (and then that avoids the
+  performance penalty imposed by PIC kernel) for both sv39 and sv48.
 
-[1/1] arm64: mte: Remove unused mte_assign_mem_tag_range()
-      https://git.kernel.org/arm64/c/df652a16a657
+The first patch implements this behaviour, the second patch introduces a
+documentation that describes the virtual address space layout of the 64bit
+kernel and the last patch is taken from my sv48 series where I simply added
+the dump of the modules/kernel/BPF mapping.
+
+I removed the Reviewed-by on the first patch since it changed enough from
+last time and deserves a second look.
+
+Changes in v4:
+- Fix BUILTIN_DTB since we used __va to obtain the virtual address of the
+  builtin DTB which returns a linear mapping address, and then we use
+  this address before setup_vm_final installs the linear mapping: this
+  is not possible anymore since the kernel does not lie inside the
+  linear mapping anymore.
+
+Changes in v3:
+- Fix broken nommu build as reported by kernel test robot by protecting
+  the kernel mapping only in 64BIT and MMU configs, by reverting the
+  introduction of load_sz_pmd and by not exporting load_sz/load_pa anymore
+  since they were not initialized in nommu config. 
+
+Changes in v2:
+- Fix documentation about direct mapping size which is 124GB instead
+  of 126GB.
+- Fix SPDX missing header in documentation.
+- Fix another checkpatch warning about EXPORT_SYMBOL which was not
+  directly below variable declaration.
+
+Alexandre Ghiti (3):
+  riscv: Move kernel mapping outside of linear mapping
+  Documentation: riscv: Add documentation that describes the VM layout
+  riscv: Prepare ptdump for vm layout dynamic addresses
+
+Alexandre Ghiti (3):
+  riscv: Move kernel mapping outside of linear mapping
+  Documentation: riscv: Add documentation that describes the VM layout
+  riscv: Prepare ptdump for vm layout dynamic addresses
+
+ Documentation/riscv/index.rst       |  1 +
+ Documentation/riscv/vm-layout.rst   | 63 +++++++++++++++++++++
+ arch/riscv/boot/loader.lds.S        |  3 +-
+ arch/riscv/include/asm/page.h       | 17 +++++-
+ arch/riscv/include/asm/pgtable.h    | 37 ++++++++----
+ arch/riscv/include/asm/set_memory.h |  1 +
+ arch/riscv/kernel/head.S            |  3 +-
+ arch/riscv/kernel/module.c          |  6 +-
+ arch/riscv/kernel/setup.c           |  5 ++
+ arch/riscv/kernel/vmlinux.lds.S     |  3 +-
+ arch/riscv/mm/fault.c               | 13 +++++
+ arch/riscv/mm/init.c                | 87 ++++++++++++++++++++++-------
+ arch/riscv/mm/kasan_init.c          |  9 +++
+ arch/riscv/mm/physaddr.c            |  2 +-
+ arch/riscv/mm/ptdump.c              | 67 ++++++++++++++++++----
+ 15 files changed, 265 insertions(+), 52 deletions(-)
+ create mode 100644 Documentation/riscv/vm-layout.rst
 
 -- 
-Catalin
+2.20.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/161790479237.12189.16889750597145288261.b4-ty%40arm.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210409061500.14673-1-alex%40ghiti.fr.
