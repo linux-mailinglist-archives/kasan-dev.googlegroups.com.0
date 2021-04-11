@@ -1,129 +1,127 @@
-Return-Path: <kasan-dev+bncBC447XVYUEMRBEWPZSBQMGQEQCL2OAA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCT4XGV33UIBBKHEZWBQMGQEDIPTYCA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wr1-x437.google.com (mail-wr1-x437.google.com [IPv6:2a00:1450:4864:20::437])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDD4F35B629
-	for <lists+kasan-dev@lfdr.de>; Sun, 11 Apr 2021 18:45:06 +0200 (CEST)
-Received: by mail-wr1-x437.google.com with SMTP id a6sf4924744wro.15
-        for <lists+kasan-dev@lfdr.de>; Sun, 11 Apr 2021 09:45:06 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1618159506; cv=pass;
+Received: from mail-oi1-x23b.google.com (mail-oi1-x23b.google.com [IPv6:2607:f8b0:4864:20::23b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4686B35B71A
+	for <lists+kasan-dev@lfdr.de>; Mon, 12 Apr 2021 00:03:22 +0200 (CEST)
+Received: by mail-oi1-x23b.google.com with SMTP id l197-20020acad4ce0000b02901593d7ecdd7sf2096272oig.19
+        for <lists+kasan-dev@lfdr.de>; Sun, 11 Apr 2021 15:03:22 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1618178601; cv=pass;
         d=google.com; s=arc-20160816;
-        b=ZeHkg8pXnjGbSjEzUFgvtBoJ1QWMsI76PbGfCBpOLREIO6XN5vFNgU6w5BKXUz0SFy
-         cjTaSWzC4Q238ysO4++sIvBnt6tlM/rShif0WGt0Hj3oeF6kj86hWWERLL7DjysiNyIu
-         l0s0Eb5w4+hkS4m5NwwBeX8EqFurWGrGb5qE0dc6DcA5PJfcXzPAIW7h6Xxgk5sjPH5y
-         aqU23K6c5C/Vgq2fnprXg5iiqsLtbyeQt2F3g+PqVL+75s1ADYfK6qRVxXKCoMFknlXa
-         ePx6FcCZ93VgGYbsQaPOCu81IH6yQHPvOAEpkyhoBeT/H4LUxJ4E6MRNntynPaqvuNb/
-         Lojg==
+        b=SOddDU0XV00zN+P5b0Tgsbvxh3p6s+HFN6n2J/7GYxErs4h8t3W3vFDrXssX+FT4Uj
+         g5k+ZyXxm/dtoPrieWus34Q5jurUcsrTmqOYAi0/UU95ncMQ2mDRwJd2usS+VX6Bqq/S
+         LjEOX9rfczJq93NTDOD3Ig7FXMEpnIQVVy23n57DaMCpC1njxYxtdfGBp0379/95kPQ9
+         YADlbxenGZPM1UOBKipnApK4oOV2aZVYRE2/vIW13N0BCxBqRrzaa47KOSMR4bHinH1z
+         eafd+2XXes6qU0TVLk60rpLNkzMnktcdtTLsOSAgSvJT2Jwct2MeTJo/Q9/+z8yPjsVY
+         wXKA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=rC9IU3w95bx7aZ3KU/j2EMuPR4PalmiJKPEGWiKxcbs=;
-        b=q0LDC0mBIBJzEd+uqn4RMoQDfBOcgz+xrSNgxrWcJ6JWhWRljSf7HyCZX9qkqgTGlm
-         87EEGABACo8+3fBVQ3kNsuFMz10xCB+MKQHxelb1W1FX12qJ5ev/MCpSxlT6LpbZd4Qa
-         B+tx8+mNOZPygEf8sOwRZqcX9ZJJsfLxzcY5qgFJb0EO1/MqDegj0GOSYQd4GRIBz2vJ
-         1r8pxoZ685Rwfht9hO0jZGvbEpOaYdzb82ruvquDNvzMRcHMYZNKraBx1e8Sd2BLcQtI
-         VaQmiGeNfBfAUMt+AL5eCxr8niLm/cKL11n0wJ/bOM96o+woFGquaO8Ke81AVZNslhHw
-         XCuQ==
+         :message-id:subject:cc:to:from:date:sender:dkim-signature;
+        bh=GSOI36x0l9nPNlWeLozpJzOOWubiWBOB9MwElh4bUro=;
+        b=nKd6OkvF/5AWX1/KC4yWpvtwNVytQKKbeGXB+mg2bv1ok2OZkfdj6WjuFfR3DDm8gB
+         XDhCqfTeCGKd7mxVO4g8Lse2esxn76RJNgNeYapziJCSXbfQ3ECXLm0QC6sBt06PzhZx
+         PKPcJNztB13HkPjsN4QW70VVARch3tAvbxbLAZwQlayX9dvVkjMMknToRLpKaQiEQkKy
+         OtCYI0EXiIE/XJ5ecdsUXtGUnlILet/CKPuiKA5dsS1vRYIGIGTmJmKEDzpdCOSIvV4q
+         BXLVhpngsl4Kqo6fdPuD0K8LdLlBOtreD8E4Vkk+MNcsQMA+T2COss5eSha0SITg/5H9
+         cNbg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=neutral (google.com: 217.70.178.231 is neither permitted nor denied by best guess record for domain of alex@ghiti.fr) smtp.mailfrom=alex@ghiti.fr
+       dkim=pass header.i=@linux-foundation.org header.s=korg header.b=ASNK5lYW;
+       spf=pass (google.com: domain of akpm@linux-foundation.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+        h=sender:date:from:to:cc:subject:message-id:in-reply-to:references
          :mime-version:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=rC9IU3w95bx7aZ3KU/j2EMuPR4PalmiJKPEGWiKxcbs=;
-        b=CLDuzPousz4jJEGvoiVGuJVu8GONyy7o7UYBpVRy70sq+l5sfyCOQIqaljxGMYmvlD
-         ooFa6I1noYAejDE9IFSvW3ZX4B4hOSXo75OJpNyzp8WGLcvlR17tNHyd6chKvJZR57pJ
-         K7YA0A87XJFhpqrcVtsL1/+ldrOoR0w0A9LeFw8xo2NUAall41O5DhHxdOH1Wnd83Yam
-         vJzAEnoMjmSa5/KjbWQ9+kLNOwD7EvI7aCa40lHLFF2ioCwFhbTEOJoMbqQLxHhePA1E
-         YjGkDjqBiZdMQT7zlYrHecm9NEihRUQPVo3PnV8G4A1VCvA3TbAuniH3z3FhcUfLS9ET
-         tiAA==
+        bh=GSOI36x0l9nPNlWeLozpJzOOWubiWBOB9MwElh4bUro=;
+        b=WASkbMPPoixYaUb21bpR88IPDRvhDmvJBmJ8+m8DclsZZew1hKKitKOJilV303r4QB
+         IIjDJQ5F6Jav2/6/GYOp9hNn/QEotjG8RpNGomCxgf8JTvlrKl6e1t7TgqrXyPuaiDJE
+         R140CVKd4KkJjmXTIoTS6l3hSoonkEpEmu0Smmd5leqmkSRxbVG26QqpM/e55JuWIapw
+         8suFD0P7ZYv2w3FXZ97D8+67boYNVJVXcD9eD1OhS71Sux3j/cORXOLm6sEVNcASaBr6
+         rNisTUTa5H1oEyIMjKz7zIjFypQVlC8R3cf6K8F6iaXYbJijRSsQRARWjEksCECgbkhQ
+         bZGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
          :in-reply-to:references:mime-version:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=rC9IU3w95bx7aZ3KU/j2EMuPR4PalmiJKPEGWiKxcbs=;
-        b=onr/vsqIzhjUD1QZCjk+ibb8HRSg5G5HaAlascerYwoSFN3cSxTQMHtzHl0ijSMc1k
-         GWcJD0N2YyEL9Q5vjO74YEoWlM/vCAuRLoqoT8bsI7eaaTIDD57BCyF9LZ4hJJePHTfH
-         +VSXnbZJACUZaNT8qjGUk+QFTsaxcvzt92i0VWS0n4xxN1GtkEw5rWvZ3GX6fjhbgGPf
-         b9VQyDFVMrEfPY3lkUh/PSfAq2bop7zkcSOlgqGSxBYIdgTfs5mtkbsaJHzSEiqCWozc
-         EKrVj7LgVudSnJlEk0Zjkgjt7hphj5Hy62HKkDvUCJM60vQQUQBHzKo77hZ5vupFyRBQ
-         rW9Q==
+        bh=GSOI36x0l9nPNlWeLozpJzOOWubiWBOB9MwElh4bUro=;
+        b=AXFto2ldZi5iGGu/T59g+CmfhfLoHcjI/rEkZYlEXQaHzy7tg4xDxG6d5LuKXymf7x
+         Vi1J+NuSdMAMJ/UpEJsDsJNtoYmqcS3NC7UObPun+7PkippWgCVjCqptYYqiPdMOfSqI
+         eTgyqEcB1QRXvwu/CxrrecZG54nYhGgiiRxPONlUYsO+3PNc5w/pYqISHhzGrvM+lj32
+         iwHZ81mx0GC5LSDj0ZICCILlfr5ZqJIJK7K2TXPNfIpWBYK0IXRICCKaX3zRZMCZQuI/
+         v8zdR2OvYgwhQLr0QvynM9j+YtFbnP8x/bNKundMWOoav2MYvfJDWKizXsLwxY3uVhAx
+         WsVw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM531b0x6+kTaCitFo1CqM/u2bcB8B5PspbqB0oRH/c6aEJzxk9Ta8
-	yb/6wbIIxw6/x32I9RcFGGc=
-X-Google-Smtp-Source: ABdhPJwiv50VHg0ZlK+4/QsSSPYNQxBIiuFIhQSug00cU3p0xO/3FbKxenocAktlbyuBkfSa7qshow==
-X-Received: by 2002:a5d:5609:: with SMTP id l9mr27195650wrv.190.1618159506615;
-        Sun, 11 Apr 2021 09:45:06 -0700 (PDT)
+X-Gm-Message-State: AOAM5335trs1hpAC6jeYGuCGbv2TiL9WdX1sSjVPHfuyeMaDmwwzGymp
+	aiP9vvR7OCE0j0Zz1qxiNaM=
+X-Google-Smtp-Source: ABdhPJxwjHcbetpBhgSgp3uJhUay8KVq0wbeAsntR2t3C586SJDSLSxqfycquvjJR2dTedl2Z/TBow==
+X-Received: by 2002:aca:f18:: with SMTP id 24mr952043oip.76.1618178600969;
+        Sun, 11 Apr 2021 15:03:20 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:600c:9a6:: with SMTP id w38ls1559990wmp.2.gmail; Sun, 11
- Apr 2021 09:45:05 -0700 (PDT)
-X-Received: by 2002:a1c:7e45:: with SMTP id z66mr22750733wmc.126.1618159505857;
-        Sun, 11 Apr 2021 09:45:05 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1618159505; cv=none;
+Received: by 2002:aca:480d:: with SMTP id v13ls1389849oia.5.gmail; Sun, 11 Apr
+ 2021 15:03:20 -0700 (PDT)
+X-Received: by 2002:aca:d941:: with SMTP id q62mr17468675oig.119.1618178600460;
+        Sun, 11 Apr 2021 15:03:20 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1618178600; cv=none;
         d=google.com; s=arc-20160816;
-        b=ShgiQEKJ+a0YhMDg/Slr1FYzbMg3R5+D2pKZXCcxQLYGisW8XnQX2ELRXjD5v2R2ra
-         ZJDHzqTexsq4Xvgc1EPnSrm6jtJqRwl2EsqmFNMdWtORPQzVQxtYEdK6sHu+1UBNf60a
-         2c5VK0ACEdOuYTOdMWlD0vkqL/ppOXsNHw6OmFw55hJwnyw6QcTrD15vDrXyXPMzI91N
-         sgfxTJEc3CmgdAEzBHgeuW3fSBwlZqurGiD13x345TB1KhhR5x1Z/MLbYfgxlnnzNsZB
-         IOYd+rcONQi4hXfirOwvz65BJqmXJKs0ffW3cLO6N3ar99H1O8geQQMUHC1n1ZTq1zw9
-         L3hg==
+        b=qV+/1GPf4D0RyoB8l8mKTgyOOUZkTy8fiS2npMIsZN7V/ILwlCZhm29eEpREI1biJr
+         cgOibqtob6eafoF4XN5x361AMlcY+j8rioHkv+8RZlqLImtkrapsgKGB4A/7qbXXa3HG
+         I88k+zGw83ibYUylErEfcYolvG++v6l30e16gKap7Npn5c/ynq/DkSDLs2DqVoEC9U+b
+         LmwBbAtBVVGJmX5dEvM1SoUZS5LNna3sAokiJsEgEzZVm+IwfnfgmRUXpnmYv4MZSzIO
+         odWvVo+xSyo6Twyzo76ERLJ92Uz7DQ570MAE41OirNqEiqD/+oVYzaGsODWqmcj1tPTC
+         dXZw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from;
-        bh=SPxB88xAvzBOgb85DqnMbdC5D3pf52ZTNxFcXGYoVbk=;
-        b=NXY2R9fA+ZXzhgXyhx55UpThMOCygCnDZTaLSwevz9FmkXNdP141GCKas5V2vreym6
-         Nz0F6BtsFXWw0UPy6J7v3trfyOk5D/6WpA3eQGnmeeDOv7DD0fEtoBfQoMXco/HtwDGA
-         3b+efvdtkFWnBOpQWi6Qe8ducelo38ONwDvLP5zlp5uIbWdK9+5vGSOZT4Jo8KKDw+tQ
-         ncgrrXiVR/GPKBDBrTuCAkz0wfwZWPzkEGMwAyrP9qEXTcOEzZL4g8JleNpdO50CPGMN
-         mzDquFP/SDt5ENnaij9vhdI7PztF+kTwyxZxeAB64Bf+ZpmCt9bIntfLLA9UOoKZntI0
-         vuBw==
+         :message-id:subject:cc:to:from:date:dkim-signature;
+        bh=pKgbfkgJ+Io7T9BvlIxsRcKSeSgsnh/PrgYOrtYRPyE=;
+        b=x6JOqxwFgvui6RT1WofCq+6lF3vRjrNgmMjx4PKN55x40UzihiuxZfbewDSAYlzxfX
+         JhRwL8nXFPhqb2Hx9nmwKsIUaffnEW2b0GoUgJVwkMFS+RtwlLpFfuyWrNsLCS3wYLyI
+         Prj+t6YTibr0A59dJRbOKBZj1EnA58Uh5bwmbk+B/ukY1r7Jlvc6AFnxOmIOpqD3qfLN
+         YCERZR6HSkxUQAhKuXc+2dNj4bSwb1m8z7dxNiqXUIUGycimbJpdrL2rKjJl6T/VmAi3
+         UqC9zq3ASiWYxRDvq+SoGH3cplhLcdZVpNIln/Ie5HCUd7sbLbo2ch6KlUvuR89ELsZU
+         2WkQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=neutral (google.com: 217.70.178.231 is neither permitted nor denied by best guess record for domain of alex@ghiti.fr) smtp.mailfrom=alex@ghiti.fr
-Received: from relay11.mail.gandi.net (relay11.mail.gandi.net. [217.70.178.231])
-        by gmr-mx.google.com with ESMTPS id x16si95547wmi.1.2021.04.11.09.45.05
+       dkim=pass header.i=@linux-foundation.org header.s=korg header.b=ASNK5lYW;
+       spf=pass (google.com: domain of akpm@linux-foundation.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
+Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
+        by gmr-mx.google.com with ESMTPS id 6si477335ooy.1.2021.04.11.15.03.20
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Sun, 11 Apr 2021 09:45:05 -0700 (PDT)
-Received-SPF: neutral (google.com: 217.70.178.231 is neither permitted nor denied by best guess record for domain of alex@ghiti.fr) client-ip=217.70.178.231;
-Received: from debian.home (lfbn-lyo-1-457-219.w2-7.abo.wanadoo.fr [2.7.49.219])
-	(Authenticated sender: alex@ghiti.fr)
-	by relay11.mail.gandi.net (Postfix) with ESMTPSA id A5A4D100007;
-	Sun, 11 Apr 2021 16:45:01 +0000 (UTC)
-From: Alexandre Ghiti <alex@ghiti.fr>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Andrey Ryabinin <aryabinin@virtuozzo.com>,
-	Alexander Potapenko <glider@google.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	linux-doc@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	kasan-dev@googlegroups.com,
-	linux-arch@vger.kernel.org,
-	linux-mm@kvack.org
-Cc: Alexandre Ghiti <alex@ghiti.fr>,
-	Anup Patel <anup@brainfault.org>
-Subject: [PATCH v5 3/3] riscv: Prepare ptdump for vm layout dynamic addresses
-Date: Sun, 11 Apr 2021 12:41:46 -0400
-Message-Id: <20210411164146.20232-4-alex@ghiti.fr>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210411164146.20232-1-alex@ghiti.fr>
-References: <20210411164146.20232-1-alex@ghiti.fr>
-MIME-Version: 1.0
-X-Original-Sender: alex@ghiti.fr
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=neutral
- (google.com: 217.70.178.231 is neither permitted nor denied by best guess
- record for domain of alex@ghiti.fr) smtp.mailfrom=alex@ghiti.fr
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 11 Apr 2021 15:03:20 -0700 (PDT)
+Received-SPF: pass (google.com: domain of akpm@linux-foundation.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id CE6AD610CB;
+	Sun, 11 Apr 2021 22:03:18 +0000 (UTC)
+Date: Sun, 11 Apr 2021 15:03:16 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Andrey Konovalov <andreyknvl@google.com>, Andrey Ryabinin
+ <ryabinin.a.a@gmail.com>, Alexander Potapenko <glider@google.com>, Dmitry
+ Vyukov <dvyukov@google.com>, Nathan Chancellor <natechancellor@gmail.com>,
+ Arnd Bergmann <arnd@arndb.de>, kasan-dev <kasan-dev@googlegroups.com>,
+ Linux Memory Management List <linux-mm@kvack.org>, LKML
+ <linux-kernel@vger.kernel.org>, Linux ARM
+ <linux-arm-kernel@lists.infradead.org>, wsd_upstream
+ <wsd_upstream@mediatek.com>, "moderated list:ARM/Mediatek SoC..."
+ <linux-mediatek@lists.infradead.org>, Walter Wu <walter-zh.wu@mediatek.com>
+Subject: Re: [PATCH v4] kasan: remove redundant config option
+Message-Id: <20210411150316.d60aa0b5174adf2370538809@linux-foundation.org>
+In-Reply-To: <20210411105332.GA23778@arm.com>
+References: <20210226012531.29231-1-walter-zh.wu@mediatek.com>
+	<CAAeHK+zyv1=kXtKAynnJN-77dwmPG4TXpJOLv_3W0nxXe5NjXA@mail.gmail.com>
+	<20210330223637.f3c73a78c64587e615d26766@linux-foundation.org>
+	<20210411105332.GA23778@arm.com>
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: akpm@linux-foundation.org
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@linux-foundation.org header.s=korg header.b=ASNK5lYW;
+       spf=pass (google.com: domain of akpm@linux-foundation.org designates
+ 198.145.29.99 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -136,126 +134,42 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-This is a preparatory patch for sv48 support that will introduce
-dynamic PAGE_OFFSET.
+On Sun, 11 Apr 2021 11:53:33 +0100 Catalin Marinas <catalin.marinas@arm.com> wrote:
 
-Dynamic PAGE_OFFSET implies that all zones (vmalloc, vmemmap, fixaddr...)
-whose addresses depend on PAGE_OFFSET become dynamic and can't be used
-to statically initialize the array used by ptdump to identify the
-different zones of the vm layout.
+> Hi Andrew,
+> 
+> On Tue, Mar 30, 2021 at 10:36:37PM -0700, Andrew Morton wrote:
+> > On Mon, 29 Mar 2021 16:54:26 +0200 Andrey Konovalov <andreyknvl@google.com> wrote:
+> > > Looks like my patch "kasan: fix KASAN_STACK dependency for HW_TAGS"
+> > > that was merged into 5.12-rc causes a build time warning:
+> > > 
+> > > include/linux/kasan.h:333:30: warning: 'CONFIG_KASAN_STACK' is not
+> > > defined, evaluates to 0 [-Wundef]
+> > > #if defined(CONFIG_KASAN) && CONFIG_KASAN_STACK
+> > > 
+> > > The fix for it would either be reverting the patch (which would leave
+> > > the initial issue unfixed) or applying this "kasan: remove redundant
+> > > config option" patch.
+> > > 
+> > > Would it be possible to send this patch (with the fix-up you have in
+> > > mm) for the next 5.12-rc?
+> > > 
+> > > Here are the required tags:
+> > > 
+> > > Fixes: d9b571c885a8 ("kasan: fix KASAN_STACK dependency for HW_TAGS")
+> > > Cc: stable@vger.kernel.org
+> > 
+> > Got it, thanks.  I updated the changelog to mention the warning fix and
+> > moved these ahead for a -rc merge.
+> 
+> Is there a chance this patch makes it into 5.12? I still get the warning
+> with the latest Linus' tree (v5.12-rc6-408-g52e44129fba5) when enabling
+> KASAN_HW_TAGS.
 
-Signed-off-by: Alexandre Ghiti <alex@ghiti.fr>
-Reviewed-by: Anup Patel <anup@brainfault.org>
----
- arch/riscv/mm/ptdump.c | 73 +++++++++++++++++++++++++++++++++++-------
- 1 file changed, 61 insertions(+), 12 deletions(-)
-
-diff --git a/arch/riscv/mm/ptdump.c b/arch/riscv/mm/ptdump.c
-index ace74dec7492..0aba4421115c 100644
---- a/arch/riscv/mm/ptdump.c
-+++ b/arch/riscv/mm/ptdump.c
-@@ -58,29 +58,56 @@ struct ptd_mm_info {
- 	unsigned long end;
- };
- 
-+enum address_markers_idx {
-+#ifdef CONFIG_KASAN
-+	KASAN_SHADOW_START_NR,
-+	KASAN_SHADOW_END_NR,
-+#endif
-+	FIXMAP_START_NR,
-+	FIXMAP_END_NR,
-+	PCI_IO_START_NR,
-+	PCI_IO_END_NR,
-+#ifdef CONFIG_SPARSEMEM_VMEMMAP
-+	VMEMMAP_START_NR,
-+	VMEMMAP_END_NR,
-+#endif
-+	VMALLOC_START_NR,
-+	VMALLOC_END_NR,
-+	PAGE_OFFSET_NR,
-+#ifdef CONFIG_64BIT
-+	MODULES_MAPPING_NR,
-+#endif
-+	KERNEL_MAPPING_NR,
-+	END_OF_SPACE_NR
-+};
-+
- static struct addr_marker address_markers[] = {
- #ifdef CONFIG_KASAN
--	{KASAN_SHADOW_START,	"Kasan shadow start"},
--	{KASAN_SHADOW_END,	"Kasan shadow end"},
-+	{0, "Kasan shadow start"},
-+	{0, "Kasan shadow end"},
- #endif
--	{FIXADDR_START,		"Fixmap start"},
--	{FIXADDR_TOP,		"Fixmap end"},
--	{PCI_IO_START,		"PCI I/O start"},
--	{PCI_IO_END,		"PCI I/O end"},
-+	{0, "Fixmap start"},
-+	{0, "Fixmap end"},
-+	{0, "PCI I/O start"},
-+	{0, "PCI I/O end"},
- #ifdef CONFIG_SPARSEMEM_VMEMMAP
--	{VMEMMAP_START,		"vmemmap start"},
--	{VMEMMAP_END,		"vmemmap end"},
-+	{0, "vmemmap start"},
-+	{0, "vmemmap end"},
-+#endif
-+	{0, "vmalloc() area"},
-+	{0, "vmalloc() end"},
-+	{0, "Linear mapping"},
-+#ifdef CONFIG_64BIT
-+	{0, "Modules mapping"},
- #endif
--	{VMALLOC_START,		"vmalloc() area"},
--	{VMALLOC_END,		"vmalloc() end"},
--	{PAGE_OFFSET,		"Linear mapping"},
-+	{0, "Kernel mapping (kernel, BPF)"},
- 	{-1, NULL},
- };
- 
- static struct ptd_mm_info kernel_ptd_info = {
- 	.mm		= &init_mm,
- 	.markers	= address_markers,
--	.base_addr	= KERN_VIRT_START,
-+	.base_addr	= 0,
- 	.end		= ULONG_MAX,
- };
- 
-@@ -335,6 +362,28 @@ static int ptdump_init(void)
- {
- 	unsigned int i, j;
- 
-+#ifdef CONFIG_KASAN
-+	address_markers[KASAN_SHADOW_START_NR].start_address = KASAN_SHADOW_START;
-+	address_markers[KASAN_SHADOW_END_NR].start_address = KASAN_SHADOW_END;
-+#endif
-+	address_markers[FIXMAP_START_NR].start_address = FIXADDR_START;
-+	address_markers[FIXMAP_END_NR].start_address = FIXADDR_TOP;
-+	address_markers[PCI_IO_START_NR].start_address = PCI_IO_START;
-+	address_markers[PCI_IO_END_NR].start_address = PCI_IO_END;
-+#ifdef CONFIG_SPARSEMEM_VMEMMAP
-+	address_markers[VMEMMAP_START_NR].start_address = VMEMMAP_START;
-+	address_markers[VMEMMAP_END_NR].start_address = VMEMMAP_END;
-+#endif
-+	address_markers[VMALLOC_START_NR].start_address = VMALLOC_START;
-+	address_markers[VMALLOC_END_NR].start_address = VMALLOC_END;
-+	address_markers[PAGE_OFFSET_NR].start_address = PAGE_OFFSET;
-+#ifdef CONFIG_64BIT
-+	address_markers[MODULES_MAPPING_NR].start_address = MODULES_VADDR;
-+#endif
-+	address_markers[KERNEL_MAPPING_NR].start_address = kernel_virt_addr;
-+
-+	kernel_ptd_info.base_addr = KERN_VIRT_START;
-+
- 	for (i = 0; i < ARRAY_SIZE(pg_level); i++)
- 		for (j = 0; j < ARRAY_SIZE(pte_bits); j++)
- 			pg_level[i].mask |= pte_bits[j].mask;
--- 
-2.20.1
+Trying.   We're still awaiting a tested fix for
+https://lkml.kernel.org/r/CA+fCnZf1ABrQg0dsxtoZa9zM1BSbLYq_Xbu+xi9cv8WAZxdC2g@mail.gmail.com
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210411164146.20232-4-alex%40ghiti.fr.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210411150316.d60aa0b5174adf2370538809%40linux-foundation.org.
