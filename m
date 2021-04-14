@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBB7FD3OBQMGQERKC64CQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBB75D3OBQMGQEWVTQX4A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qt1-x83f.google.com (mail-qt1-x83f.google.com [IPv6:2607:f8b0:4864:20::83f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CF8E35F26F
-	for <lists+kasan-dev@lfdr.de>; Wed, 14 Apr 2021 13:29:01 +0200 (CEST)
-Received: by mail-qt1-x83f.google.com with SMTP id o17-20020ac869910000b02901a7c59f1c14sf1666737qtq.13
-        for <lists+kasan-dev@lfdr.de>; Wed, 14 Apr 2021 04:29:01 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1618399740; cv=pass;
+Received: from mail-wr1-x43a.google.com (mail-wr1-x43a.google.com [IPv6:2a00:1450:4864:20::43a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EDCA35F271
+	for <lists+kasan-dev@lfdr.de>; Wed, 14 Apr 2021 13:29:03 +0200 (CEST)
+Received: by mail-wr1-x43a.google.com with SMTP id c15-20020a5d63cf0000b02900ffc164a0ccsf930338wrw.13
+        for <lists+kasan-dev@lfdr.de>; Wed, 14 Apr 2021 04:29:03 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1618399743; cv=pass;
         d=google.com; s=arc-20160816;
-        b=qe6sGbZoCX27ErMjcl1Nf7VPUpd31Vd8GMXzVLHYq81PfVp22/SHPX5dKhMrbQLzg5
-         pmuUFbYGTJolC2G0Y6rTi/2V9MJJEOPHlQgnGe2+tzkEO3Wta63uw0it2DqyJRTD1ANY
-         b4Ou/XF3l6amt/TBs/64hEd21BeOeF/NuzzvZtHB9mIVw23HKeF+SoZ9gVoU+q0LBWDs
-         4fbGQxVnrcJAYCR0Ek4d43fdVkOFn0Dkjml5nX+49IsH414JcedyCI97kxGx8OvcKUA6
-         UUoIjgeLV2jvF3qcsoU2h50l+ikFMEVaBIyDqM4mKz352EH4S7F+JufaG6JZ7TYfZ9G+
-         UuHA==
+        b=BLXpDuT7tVfbqY1hrQTHhRfvZzPb4uxk53M03C/9l5Z+VLZdaKiiw14OHdIYR210wE
+         0XddWHtW7f1UVv6+ZRk07m8bnkB/XdzNcB7boQmWlmaJEpXQ4H8NuwOZPjD5q3wkeN1Y
+         XpUTp9chtNfU844npVjj3RMdvp36vJq/5Fukw6Na7szy3GHTN4BrXWSgVj7gYSkTYXvo
+         umgCsqqoZSFB6fBXustsGxRpIhNQZTMydqurQca/fD61/sirg+oQoOypznaE7xMtTQIN
+         ktrU9b1HMT6gVVo63HVlosfSr0/+mFWgSV2VYH8f/H5qPnlJm1aZmVuVfNqw5xgFV8Nb
+         4NHw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
          :references:mime-version:message-id:in-reply-to:date:dkim-signature;
-        bh=IqqN9EqYypSsMfBH3B85KevHc0GAzoADmiC+96Cc1j4=;
-        b=P82xBxtQM/B1QTJv9fCDZWT2SIlM/W9MiRDpGZmhotHa6P9qWagj3zuqb1VUVDBN7v
-         /vkvHdPC6c1uEjWszelgBD1jbpEpwI3GuzBqQEfTzIfsG4AiD06bXl9ySzQzli2XAUmG
-         oavgCUZu6D7FuMffbKKXtNQQaZvLQYn73cIE5Ao4kNGPCjCmqtFOzJFjryIpGdrPOMRS
-         Ram6+vH3ukVTD3h9uf9naW048dwu4eIZIOesWkFX5WxgUyUm1Uq52c2dc40GnH3GDWS+
-         9DOxJIlc4JiXpr7tilooGg7P0boPqR0a2OgaLzKAgmmKGlcygyHVvJTvI5VgHtmYIAhQ
-         PCVQ==
+        bh=xztgQHQr7dNBIfedHLpGnM1170XeLdWRCnoGKC+wvG4=;
+        b=ZdvRKd2W2Fuj7+GJmTvKtzkdX/SKDwRNvZsXX+tFwz2dAaofJjN2cClRYASKv3hwCA
+         4XEYa+OUWcii3i4UlFkgdlWjrWkcBZernH2PPdYxqokJuyW8g5kInFVodWhwo1wPnEXd
+         sNplVV7p938VTtKtRGh2gQ8E6Y9gVJkANFTNrL04mdzmKk64acOcTR4e/Sxpyv0VroGV
+         0Ywd+YEPi2N0FkmqBkxVQELe+h+D2HdHWkSts6BSNqFfJRnMB35KuC4t6vaGLsYQHoXm
+         JkT0LD/nFXi7rsUN0tbrCQqfjXZXd/X9zSXNeZ2JFAbP1W7n/2CyX8e++3d+CpuMUqfO
+         mCeQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=Ui+ywIIo;
-       spf=pass (google.com: domain of 3-9f2yaukcyqmt3mzowwotm.kwusi0iv-lm3owwotmozw2x0.kwu@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::849 as permitted sender) smtp.mailfrom=3-9F2YAUKCYQmt3mzowwotm.kwusi0iv-lm3owwotmozw2x0.kwu@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b="Ou/B/TmT";
+       spf=pass (google.com: domain of 3_df2yaukcyyov5o1qyyqvo.mywuk2kx-no5qyyqvoq1y4z2.myw@flex--elver.bounces.google.com designates 2a00:1450:4864:20::54a as permitted sender) smtp.mailfrom=3_dF2YAUKCYYov5o1qyyqvo.mywuk2kx-no5qyyqvoq1y4z2.myw@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=IqqN9EqYypSsMfBH3B85KevHc0GAzoADmiC+96Cc1j4=;
-        b=EY9BnpgMEjtwcmS911wtGc2y6i2o6L/YfMPwHgNjohgodWVTAdj8htxkjYCzHS6dIR
-         OrZ9aD5vmMF2Hyoa8kzTmpl+mIlGEQAdxTzmrIRLIm/ancfzCJNRmuOSIBYwaDsPIgci
-         wA0OhboBTl2L2Xo0DhGlFdZ9nkcEo6+q7BBhjlx4KWSu3MUqEL5uYI8/lYrbeIDceVLm
-         ZKEhAPR5GkWkRjg3+aF6Z05uXlD7jMS+yG8bwhZ+rKn07ePyUiKQa1AVDhNp33AmiVQK
-         P4Y7Vq6vJupT+uI3MnEm/UqE8taRB0WxJIurq02Ayf9i7ipk7s7EwF+XM0YCS3HoJRhg
-         4S6A==
+        bh=xztgQHQr7dNBIfedHLpGnM1170XeLdWRCnoGKC+wvG4=;
+        b=g6Nfnj/KEHSMECCCYub+hQz6hGFbRMkYefZyDuoKRpvmQ6pp4Mnfz4BXAh4NKWqlD1
+         bigpI7JWAetuDL//RPvYeCcwnQgNNir3E6T6weCWHixvuyebs8JiBttQbVnedZT2h9eI
+         uBKFqqq6Wv/3Al2sz6z90xz6IXyEpyrfFl7LUF7OHyrEVhZrI8NiPCcX3S/lRhfGArof
+         k0OLj0FXtols5v1M1bYhM8Wzu/RwChg+cbjDhcjBOd+xXoOABDhQoovjJaSR/2vIcC/i
+         3fcV2sAp/VRwZX4s+2Vqj/Izw8YC3uIbqkxlR4vnEcBiuigXNWqpr2hymaDEgWc/y5Yu
+         Ct0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
@@ -49,63 +49,63 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=IqqN9EqYypSsMfBH3B85KevHc0GAzoADmiC+96Cc1j4=;
-        b=mPAtDA6dNM0i6fyndupy7cNcJ4vHytoSG3PBMecM9FXWuHLP2lrz+0UJovznHTM0ZP
-         6wgtxvUOHGA6vYjqNaE+84sRELVrJPGz+amiGoDDjVYMhn1zwlHO1tM8EFPoAt3cFivp
-         RWuxBgLOiYPNvO0ToB8VwC3NveA142VHXVpGqhbr755poXYHuSvD/nqq3nkZ+8YYdHs9
-         tkklgtzUD0luKPxPaJ6FE8pfK3IGH+3G2AU/gxF+rKDcunRFfTmzcAEN+jJp+Mb3FC/G
-         /hGHc68YnzRerhVKT+OzhC6lcYoruKGosEQh0O1a6rT3psHL95XwLsklKfk30Dh6PEXO
-         RMZw==
-X-Gm-Message-State: AOAM533a/sx8ZdTCa0fvyFJG6chL7HqYz/G1gKf/+Lb9ZVp618sNA9rm
-	RCpIjBt9ztBHtxO5kEwofM4=
-X-Google-Smtp-Source: ABdhPJwxmJrJaDYP1DunZ0z1HUkiICGgrfWu1syhrjOIpB8AO4EShHOWAe8w80yXV9TzDXdRr/U+yg==
-X-Received: by 2002:a37:9fd0:: with SMTP id i199mr18865583qke.264.1618399740423;
-        Wed, 14 Apr 2021 04:29:00 -0700 (PDT)
+        bh=xztgQHQr7dNBIfedHLpGnM1170XeLdWRCnoGKC+wvG4=;
+        b=D7as/BqZfOo25Oj4V9VkB4jxGjn9O5wk39rwXXz4W2F3yAS1XN41u0PMdbpreqjVHF
+         pklRt5BEp1VjVwk+YjjJWicvQ6/s7H7+iD/MSiX5SSTKzmB2sXZEBeAgFlF3pg/QUoIm
+         xda35fDgxFLc2CiUy67mJNQ+hAJSSSZW3heYNIOX1831+8X5ya1MewAp4GIZRs2B1MJt
+         ZLN++ADUo2itjDmZWscChtgvFvxIkqOtDA+WDVrhm5wCf5NyQ/70fC+nD+8HGjsznhCA
+         /DKv6RCoi7IA5wkT/AlnW07QS871xeH0ADZcb5YQqZ+Tv2+/PDZQS+BNNFlBX4S31Qzs
+         iZGQ==
+X-Gm-Message-State: AOAM531lb/Mo3aNlTteOHEAva6ZPv0iYP3FG0hrbDc/a44ODC8W3CIaF
+	WVPFaoXJ93S2p4je6wS1kVY=
+X-Google-Smtp-Source: ABdhPJxYeLkgU0gNWQNXkN80QCaQtds0gbip9tv4BmwusDta798dY6KaTncoxMVRCUA2n+hJCP4zGw==
+X-Received: by 2002:a7b:cb04:: with SMTP id u4mr2536726wmj.122.1618399743178;
+        Wed, 14 Apr 2021 04:29:03 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6214:1046:: with SMTP id l6ls501944qvr.3.gmail; Wed, 14
- Apr 2021 04:29:00 -0700 (PDT)
-X-Received: by 2002:a05:6214:2628:: with SMTP id gv8mr37869561qvb.19.1618399739959;
-        Wed, 14 Apr 2021 04:28:59 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1618399739; cv=none;
+Received: by 2002:a1c:24d4:: with SMTP id k203ls980121wmk.0.canary-gmail; Wed,
+ 14 Apr 2021 04:29:02 -0700 (PDT)
+X-Received: by 2002:a1c:2b05:: with SMTP id r5mr2480905wmr.107.1618399742212;
+        Wed, 14 Apr 2021 04:29:02 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1618399742; cv=none;
         d=google.com; s=arc-20160816;
-        b=h+blDYss0D+BlnHflCYRoCXX96UawhPYSCWwKYwvg6tIHDjjCpybIJaAO2xbYHI/Du
-         zlTYjpWlBcI352uKV4dEcM+ixaw7t81sFS9ECTnZj1++qWQkUgEg2iwewes3qtQ8/pze
-         6v1UjunhW/C9BdZMuQ7BXu3nqutfjiPStoWD6RJXCib0xhZ1+PirslqMYEC7uohh0x7b
-         VF33YYxVQE9xl3iiqp62Fv9ZC6wViGxRSyDAcMO+Za0doy1Cm/CNS8nUDEuXBNY6eGPA
-         jBD38b0oBzx01eqdOcR2pwK1J8ZJlUvaEcxF8qL5rCJAjFmR0kcYzI20V1x56oB1F9+z
-         FKuw==
+        b=WCdhb72zT6lWHkJSPSmLxYS/gKwDTtXMP31RFhU0j0CYCwxQdQq+/nxr8Y3pxYQNd3
+         baJGH9gDD5G5v/RlQjDDjTL6zHgeLDB6xQ/8z9PXvx8NnSZTHNiwNPd1ETDLzX9Jl6OG
+         69E9GiSrA40vD4BBJOlFI4D3DqP4nrewpmXXYL3xZymYh0e87rF4reh5WIbd5lxyqVfH
+         H/KbWVfE1uUxLH9QWfhQQ102ntdKlu5jIHsdpZGzGLE53OQxfhSA3s6J3P9lnn7gZV7Z
+         cY85f1nsMrQ5cB/ziIQgbkA8WUgmHVnlG4PpmsKcCL9dRad/1ONhKzPkGCi40W47FX1t
+         4HJQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
          :date:dkim-signature;
-        bh=2hPM+SGX2bso2P06MksOdn7k4SylcbKetGkN5XP9cNQ=;
-        b=VNcdVOnPAxn7+2Lpgem5AlAaMPLyWxc5HNyXX5BpQsP3HFSeoV8FFxjbyWg24CcNZw
-         z3vZoiIvtI5a9HIHTzQg60cR+gxREcjBEsBvU7oBr4qHplZ/kI2MRxeS9NJsAQVWpwNz
-         O6oKWRYRssu9e70zN0UhlFDJJSCs9KgQSXDrdCEir3SYzz+8+F3l15OQyafkZRXVmml/
-         w9I6f0SaEXn9gAc/uJnzVjORZmtnBrMN4R09M8/yzjRGr7H0Qw2vXo9n2ucYqfJPBSxT
-         1krtuB+CmAIG6NIjACZfh4MoU1+thf0b+JnmDVHz1ECCGpX8cPRfH7gGF3/drl05oZeL
-         wkgg==
+        bh=ynSDj0gr7BYAa8rgkGogbZ/dJW9wUhiWNxksecLrupI=;
+        b=eSXejYHysT2J+51GxXiiTTIBH3lBZyRA4Dv0aR1lOxXgcVsJf4OabR7Kj5LzoLFtun
+         iv/HBsxsLNK1TRceeb7SfJY8kjgIztojGO4/IhB7tdxviE3t5uR+gTQabw2hkUrNiuwx
+         9wEeMb0zIBIl+FkC3Yh8S04pj3XCDZwpHYsaJCCUwtloeu/iHQNRx/9ufwn1CDsAPl0+
+         pBReMlW1JodHe7cETtRDzPvxSQ4hzvf5Zw6yDv0Rm+H3/0wD1XK/0QNjNp8OmYyfAV74
+         fT2Fw029uo+ZZd6nZYjzzDodVdwUVUoRq6xuHJ2jdwgEIG/zcnlbUtSiskD+W//eJFEX
+         YDXg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=Ui+ywIIo;
-       spf=pass (google.com: domain of 3-9f2yaukcyqmt3mzowwotm.kwusi0iv-lm3owwotmozw2x0.kwu@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::849 as permitted sender) smtp.mailfrom=3-9F2YAUKCYQmt3mzowwotm.kwusi0iv-lm3owwotmozw2x0.kwu@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b="Ou/B/TmT";
+       spf=pass (google.com: domain of 3_df2yaukcyyov5o1qyyqvo.mywuk2kx-no5qyyqvoq1y4z2.myw@flex--elver.bounces.google.com designates 2a00:1450:4864:20::54a as permitted sender) smtp.mailfrom=3_dF2YAUKCYYov5o1qyyqvo.mywuk2kx-no5qyyqvoq1y4z2.myw@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-qt1-x849.google.com (mail-qt1-x849.google.com. [2607:f8b0:4864:20::849])
-        by gmr-mx.google.com with ESMTPS id z143si475382qkb.6.2021.04.14.04.28.59
+Received: from mail-ed1-x54a.google.com (mail-ed1-x54a.google.com. [2a00:1450:4864:20::54a])
+        by gmr-mx.google.com with ESMTPS id e17si192134wrx.1.2021.04.14.04.29.02
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 14 Apr 2021 04:28:59 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 3-9f2yaukcyqmt3mzowwotm.kwusi0iv-lm3owwotmozw2x0.kwu@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::849 as permitted sender) client-ip=2607:f8b0:4864:20::849;
-Received: by mail-qt1-x849.google.com with SMTP id s20-20020ac85cd40000b029019d65c35b39so1664469qta.19
-        for <kasan-dev@googlegroups.com>; Wed, 14 Apr 2021 04:28:59 -0700 (PDT)
+        Wed, 14 Apr 2021 04:29:02 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 3_df2yaukcyyov5o1qyyqvo.mywuk2kx-no5qyyqvoq1y4z2.myw@flex--elver.bounces.google.com designates 2a00:1450:4864:20::54a as permitted sender) client-ip=2a00:1450:4864:20::54a;
+Received: by mail-ed1-x54a.google.com with SMTP id i5-20020aa7dd050000b02903830cafa575so1741403edv.6
+        for <kasan-dev@googlegroups.com>; Wed, 14 Apr 2021 04:29:02 -0700 (PDT)
 X-Received: from elver.muc.corp.google.com ([2a00:79e0:15:13:4051:8ddb:9de4:c1bb])
- (user=elver job=sendgmr) by 2002:a05:6214:223:: with SMTP id
- j3mr37761745qvt.9.1618399739655; Wed, 14 Apr 2021 04:28:59 -0700 (PDT)
-Date: Wed, 14 Apr 2021 13:28:23 +0200
+ (user=elver job=sendgmr) by 2002:a17:906:3d62:: with SMTP id
+ r2mr36491433ejf.488.1618399741876; Wed, 14 Apr 2021 04:29:01 -0700 (PDT)
+Date: Wed, 14 Apr 2021 13:28:24 +0200
 In-Reply-To: <20210414112825.3008667-1-elver@google.com>
-Message-Id: <20210414112825.3008667-8-elver@google.com>
+Message-Id: <20210414112825.3008667-9-elver@google.com>
 Mime-Version: 1.0
 References: <20210414112825.3008667-1-elver@google.com>
 X-Mailer: git-send-email 2.31.1.295.g9ea45b61b8-goog
-Subject: [PATCH 7/9] kcsan: Remove kcsan_report_type
+Subject: [PATCH 8/9] kcsan: Report observed value changes
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
 To: elver@google.com, paulmck@kernel.org
 Cc: mark.rutland@arm.com, will@kernel.org, dvyukov@google.com, 
@@ -114,9 +114,9 @@ Cc: mark.rutland@arm.com, will@kernel.org, dvyukov@google.com,
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=Ui+ywIIo;       spf=pass
- (google.com: domain of 3-9f2yaukcyqmt3mzowwotm.kwusi0iv-lm3owwotmozw2x0.kwu@flex--elver.bounces.google.com
- designates 2607:f8b0:4864:20::849 as permitted sender) smtp.mailfrom=3-9F2YAUKCYQmt3mzowwotm.kwusi0iv-lm3owwotmozw2x0.kwu@flex--elver.bounces.google.com;
+ header.i=@google.com header.s=20161025 header.b="Ou/B/TmT";       spf=pass
+ (google.com: domain of 3_df2yaukcyyov5o1qyyqvo.mywuk2kx-no5qyyqvoq1y4z2.myw@flex--elver.bounces.google.com
+ designates 2a00:1450:4864:20::54a as permitted sender) smtp.mailfrom=3_dF2YAUKCYYov5o1qyyqvo.mywuk2kx-no5qyyqvoq1y4z2.myw@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Marco Elver <elver@google.com>
 Reply-To: Marco Elver <elver@google.com>
@@ -134,164 +134,176 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 From: Mark Rutland <mark.rutland@arm.com>
 
-Now that the reporting code has been refactored, it's clear by
-construction that print_report() can only be passed
-KCSAN_REPORT_RACE_SIGNAL or KCSAN_REPORT_RACE_UNKNOWN_ORIGIN, and these
-can also be distinguished by the presence of `other_info`.
+When a thread detects that a memory location was modified without its
+watchpoint being hit, the report notes that a change was detected, but
+does not provide concrete values for the change. Knowing the concrete
+values can be very helpful in tracking down any racy writers (e.g. as
+specific values may only be written in some portions of code, or under
+certain conditions).
 
-Let's simplify things and remove the report type enum, and instead let's
-check `other_info` to distinguish these cases. This allows us to remove
-code for cases which are impossible and generally makes the code simpler.
+When we detect a modification, let's report the concrete old/new values,
+along with the access's mask of relevant bits (and which relevant bits
+were modified). This can make it easier to identify potential racy
+writers. As the snapshots are at most 8 bytes, we can only report values
+for acceses up to this size, but this appears to cater for the common
+case.
 
-There should be no functional change as a result of this patch.
+When we detect a race via a watchpoint, we may or may not have concrete
+values for the modification. To be helpful, let's attempt to log them
+when we do as they can be ignored where irrelevant.
+
+The resulting reports appears as follows, with values zero-padded to the
+access width:
+
+| ==================================================================
+| BUG: KCSAN: data-race in el0_svc_common+0x34/0x25c arch/arm64/kernel/syscall.c:96
+|
+| race at unknown origin, with read to 0xffff00007ae6aa00 of 8 bytes by task 223 on cpu 1:
+|  el0_svc_common+0x34/0x25c arch/arm64/kernel/syscall.c:96
+|  do_el0_svc+0x48/0xec arch/arm64/kernel/syscall.c:178
+|  el0_svc arch/arm64/kernel/entry-common.c:226 [inline]
+|  el0_sync_handler+0x1a4/0x390 arch/arm64/kernel/entry-common.c:236
+|  el0_sync+0x140/0x180 arch/arm64/kernel/entry.S:674
+|
+| value changed: 0x0000000000000000 -> 0x0000000000000002
+|
+| Reported by Kernel Concurrency Sanitizer on:
+| CPU: 1 PID: 223 Comm: syz-executor.1 Not tainted 5.8.0-rc3-00094-ga73f923ecc8e-dirty #3
+| Hardware name: linux,dummy-virt (DT)
+| ==================================================================
+
+If an access mask is set, it is shown underneath the "value changed"
+line as "bits changed: 0x<bits changed> with mask 0x<non-zero mask>".
 
 Signed-off-by: Mark Rutland <mark.rutland@arm.com>
-[ elver@google.com: add updated comments to kcsan_report_*() functions ]
+[ elver@google.com: align "value changed" and "bits changed" lines,
+  which required massaging the message; do not print bits+mask if no
+  mask set. ]
 Signed-off-by: Marco Elver <elver@google.com>
 ---
- kernel/kcsan/kcsan.h  | 33 +++++++++++++--------------------
- kernel/kcsan/report.c | 29 +++++++----------------------
- 2 files changed, 20 insertions(+), 42 deletions(-)
+ kernel/kcsan/core.c   |  5 +++--
+ kernel/kcsan/kcsan.h  |  6 ++++--
+ kernel/kcsan/report.c | 31 ++++++++++++++++++++++++++-----
+ 3 files changed, 33 insertions(+), 9 deletions(-)
 
+diff --git a/kernel/kcsan/core.c b/kernel/kcsan/core.c
+index 6fe1513e1e6a..26709ea65c71 100644
+--- a/kernel/kcsan/core.c
++++ b/kernel/kcsan/core.c
+@@ -557,7 +557,8 @@ kcsan_setup_watchpoint(const volatile void *ptr, size_t size, int type)
+ 			atomic_long_inc(&kcsan_counters[KCSAN_COUNTER_ASSERT_FAILURES]);
+ 
+ 		kcsan_report_known_origin(ptr, size, type, value_change,
+-					  watchpoint - watchpoints);
++					  watchpoint - watchpoints,
++					  old, new, access_mask);
+ 	} else if (value_change == KCSAN_VALUE_CHANGE_TRUE) {
+ 		/* Inferring a race, since the value should not have changed. */
+ 
+@@ -566,7 +567,7 @@ kcsan_setup_watchpoint(const volatile void *ptr, size_t size, int type)
+ 			atomic_long_inc(&kcsan_counters[KCSAN_COUNTER_ASSERT_FAILURES]);
+ 
+ 		if (IS_ENABLED(CONFIG_KCSAN_REPORT_RACE_UNKNOWN_ORIGIN) || is_assert)
+-			kcsan_report_unknown_origin(ptr, size, type);
++			kcsan_report_unknown_origin(ptr, size, type, old, new, access_mask);
+ 	}
+ 
+ 	/*
 diff --git a/kernel/kcsan/kcsan.h b/kernel/kcsan/kcsan.h
-index 2ee43fd5d6a4..572f119a19eb 100644
+index 572f119a19eb..f36e25c497ed 100644
 --- a/kernel/kcsan/kcsan.h
 +++ b/kernel/kcsan/kcsan.h
-@@ -116,32 +116,25 @@ enum kcsan_value_change {
- 	KCSAN_VALUE_CHANGE_TRUE,
- };
- 
--enum kcsan_report_type {
--	/*
--	 * The thread that set up the watchpoint and briefly stalled was
--	 * signalled that another thread triggered the watchpoint.
--	 */
--	KCSAN_REPORT_RACE_SIGNAL,
--
--	/*
--	 * A thread found and consumed a matching watchpoint.
--	 */
--	KCSAN_REPORT_CONSUMED_WATCHPOINT,
--
--	/*
--	 * No other thread was observed to race with the access, but the data
--	 * value before and after the stall differs.
--	 */
--	KCSAN_REPORT_RACE_UNKNOWN_ORIGIN,
--};
--
- /*
-- * Notify the report code that a race occurred.
-+ * The calling thread hit and consumed a watchpoint: set the access information
-+ * to be consumed by the reporting thread. No report is printed yet.
+@@ -129,12 +129,14 @@ void kcsan_report_set_info(const volatile void *ptr, size_t size, int access_typ
+  * thread.
   */
- void kcsan_report_set_info(const volatile void *ptr, size_t size, int access_type,
- 			   int watchpoint_idx);
-+
-+/*
-+ * The calling thread observed that the watchpoint it set up was hit and
-+ * consumed: print the full report based on information set by the racing
-+ * thread.
-+ */
  void kcsan_report_known_origin(const volatile void *ptr, size_t size, int access_type,
- 			       enum kcsan_value_change value_change, int watchpoint_idx);
-+
-+/*
-+ * No other thread was observed to race with the access, but the data value
-+ * before and after the stall differs. Reports a race of "unknown origin".
-+ */
- void kcsan_report_unknown_origin(const volatile void *ptr, size_t size, int access_type);
+-			       enum kcsan_value_change value_change, int watchpoint_idx);
++			       enum kcsan_value_change value_change, int watchpoint_idx,
++			       u64 old, u64 new, u64 mask);
+ 
+ /*
+  * No other thread was observed to race with the access, but the data value
+  * before and after the stall differs. Reports a race of "unknown origin".
+  */
+-void kcsan_report_unknown_origin(const volatile void *ptr, size_t size, int access_type);
++void kcsan_report_unknown_origin(const volatile void *ptr, size_t size, int access_type,
++				 u64 old, u64 new, u64 mask);
  
  #endif /* _KERNEL_KCSAN_KCSAN_H */
 diff --git a/kernel/kcsan/report.c b/kernel/kcsan/report.c
-index ba924f110c95..50cee2357885 100644
+index 50cee2357885..e37e4386f86d 100644
 --- a/kernel/kcsan/report.c
 +++ b/kernel/kcsan/report.c
-@@ -326,7 +326,6 @@ static void print_verbose_info(struct task_struct *task)
- }
+@@ -327,7 +327,8 @@ static void print_verbose_info(struct task_struct *task)
  
  static void print_report(enum kcsan_value_change value_change,
--			 enum kcsan_report_type type,
  			 const struct access_info *ai,
- 			 const struct other_info *other_info)
+-			 const struct other_info *other_info)
++			 const struct other_info *other_info,
++			 u64 old, u64 new, u64 mask)
  {
-@@ -343,7 +342,7 @@ static void print_report(enum kcsan_value_change value_change,
- 	if (skip_report(KCSAN_VALUE_CHANGE_TRUE, stack_entries[skipnr]))
- 		return;
+ 	unsigned long stack_entries[NUM_STACK_ENTRIES] = { 0 };
+ 	int num_stack_entries = stack_trace_save(stack_entries, NUM_STACK_ENTRIES, 1);
+@@ -407,6 +408,24 @@ static void print_report(enum kcsan_value_change value_change,
+ 	if (IS_ENABLED(CONFIG_KCSAN_VERBOSE))
+ 		print_verbose_info(current);
  
--	if (type == KCSAN_REPORT_RACE_SIGNAL) {
-+	if (other_info) {
- 		other_skipnr = get_stack_skipnr(other_info->stack_entries,
- 						other_info->num_stack_entries);
- 		other_frame = other_info->stack_entries[other_skipnr];
-@@ -358,8 +357,7 @@ static void print_report(enum kcsan_value_change value_change,
- 
- 	/* Print report header. */
- 	pr_err("==================================================================\n");
--	switch (type) {
--	case KCSAN_REPORT_RACE_SIGNAL: {
-+	if (other_info) {
- 		int cmp;
- 
- 		/*
-@@ -371,22 +369,15 @@ static void print_report(enum kcsan_value_change value_change,
- 		       get_bug_type(ai->access_type | other_info->ai.access_type),
- 		       (void *)(cmp < 0 ? other_frame : this_frame),
- 		       (void *)(cmp < 0 ? this_frame : other_frame));
--	} break;
--
--	case KCSAN_REPORT_RACE_UNKNOWN_ORIGIN:
-+	} else {
- 		pr_err("BUG: KCSAN: %s in %pS\n", get_bug_type(ai->access_type),
- 		       (void *)this_frame);
--		break;
--
--	default:
--		BUG();
- 	}
- 
++	/* Print observed value change. */
++	if (ai->size <= 8) {
++		int hex_len = ai->size * 2;
++		u64 diff = old ^ new;
++
++		if (mask)
++			diff &= mask;
++		if (diff) {
++			pr_err("\n");
++			pr_err("value changed: 0x%0*llx -> 0x%0*llx\n",
++			       hex_len, old, hex_len, new);
++			if (mask) {
++				pr_err(" bits changed: 0x%0*llx with mask 0x%0*llx\n",
++				       hex_len, diff, hex_len, mask);
++			}
++		}
++	}
++
+ 	/* Print report footer. */
  	pr_err("\n");
+ 	pr_err("Reported by Kernel Concurrency Sanitizer on:\n");
+@@ -584,7 +603,8 @@ void kcsan_report_set_info(const volatile void *ptr, size_t size, int access_typ
+ }
  
- 	/* Print information about the racing accesses. */
--	switch (type) {
--	case KCSAN_REPORT_RACE_SIGNAL:
-+	if (other_info) {
- 		pr_err("%s to 0x%px of %zu bytes by %s on cpu %i:\n",
- 		       get_access_type(other_info->ai.access_type), other_info->ai.ptr,
- 		       other_info->ai.size, get_thread_desc(other_info->ai.task_pid),
-@@ -404,16 +395,10 @@ static void print_report(enum kcsan_value_change value_change,
- 		pr_err("%s to 0x%px of %zu bytes by %s on cpu %i:\n",
- 		       get_access_type(ai->access_type), ai->ptr, ai->size,
- 		       get_thread_desc(ai->task_pid), ai->cpu_id);
--		break;
--
--	case KCSAN_REPORT_RACE_UNKNOWN_ORIGIN:
-+	} else {
- 		pr_err("race at unknown origin, with %s to 0x%px of %zu bytes by %s on cpu %i:\n",
- 		       get_access_type(ai->access_type), ai->ptr, ai->size,
- 		       get_thread_desc(ai->task_pid), ai->cpu_id);
--		break;
--
--	default:
--		BUG();
- 	}
- 	/* Print stack trace of this thread. */
- 	stack_trace_print(stack_entries + skipnr, num_stack_entries - skipnr,
-@@ -623,7 +608,7 @@ void kcsan_report_known_origin(const volatile void *ptr, size_t size, int access
+ void kcsan_report_known_origin(const volatile void *ptr, size_t size, int access_type,
+-			       enum kcsan_value_change value_change, int watchpoint_idx)
++			       enum kcsan_value_change value_change, int watchpoint_idx,
++			       u64 old, u64 new, u64 mask)
+ {
+ 	const struct access_info ai = prepare_access_info(ptr, size, access_type);
+ 	struct other_info *other_info = &other_infos[watchpoint_idx];
+@@ -608,7 +628,7 @@ void kcsan_report_known_origin(const volatile void *ptr, size_t size, int access
  	 * be done once we know the full stack trace in print_report().
  	 */
  	if (value_change != KCSAN_VALUE_CHANGE_FALSE)
--		print_report(value_change, KCSAN_REPORT_RACE_SIGNAL, &ai, other_info);
-+		print_report(value_change, &ai, other_info);
+-		print_report(value_change, &ai, other_info);
++		print_report(value_change, &ai, other_info, old, new, mask);
  
  	release_report(&flags, other_info);
  out:
-@@ -640,7 +625,7 @@ void kcsan_report_unknown_origin(const volatile void *ptr, size_t size, int acce
+@@ -616,7 +636,8 @@ void kcsan_report_known_origin(const volatile void *ptr, size_t size, int access
+ 	kcsan_enable_current();
+ }
+ 
+-void kcsan_report_unknown_origin(const volatile void *ptr, size_t size, int access_type)
++void kcsan_report_unknown_origin(const volatile void *ptr, size_t size, int access_type,
++				 u64 old, u64 new, u64 mask)
+ {
+ 	const struct access_info ai = prepare_access_info(ptr, size, access_type);
+ 	unsigned long flags;
+@@ -625,7 +646,7 @@ void kcsan_report_unknown_origin(const volatile void *ptr, size_t size, int acce
  	lockdep_off(); /* See kcsan_report_known_origin(). */
  
  	raw_spin_lock_irqsave(&report_lock, flags);
--	print_report(KCSAN_VALUE_CHANGE_TRUE, KCSAN_REPORT_RACE_UNKNOWN_ORIGIN, &ai, NULL);
-+	print_report(KCSAN_VALUE_CHANGE_TRUE, &ai, NULL);
+-	print_report(KCSAN_VALUE_CHANGE_TRUE, &ai, NULL);
++	print_report(KCSAN_VALUE_CHANGE_TRUE, &ai, NULL, old, new, mask);
  	raw_spin_unlock_irqrestore(&report_lock, flags);
  
  	lockdep_on();
@@ -301,4 +313,4 @@ index ba924f110c95..50cee2357885 100644
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210414112825.3008667-8-elver%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210414112825.3008667-9-elver%40google.com.
