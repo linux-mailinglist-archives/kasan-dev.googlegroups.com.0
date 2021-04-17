@@ -1,121 +1,125 @@
-Return-Path: <kasan-dev+bncBCMIZB7QWENRBT7Q5KBQMGQEIIWTSZI@googlegroups.com>
+Return-Path: <kasan-dev+bncBC447XVYUEMRBPNS5SBQMGQEFQLOQTQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qv1-xf3b.google.com (mail-qv1-xf3b.google.com [IPv6:2607:f8b0:4864:20::f3b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07180362F38
-	for <lists+kasan-dev@lfdr.de>; Sat, 17 Apr 2021 12:28:33 +0200 (CEST)
-Received: by mail-qv1-xf3b.google.com with SMTP id i12-20020a0cf38c0000b02901a283706bc1sf3000626qvk.2
-        for <lists+kasan-dev@lfdr.de>; Sat, 17 Apr 2021 03:28:32 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1618655312; cv=pass;
+Received: from mail-wr1-x439.google.com (mail-wr1-x439.google.com [IPv6:2a00:1450:4864:20::439])
+	by mail.lfdr.de (Postfix) with ESMTPS id E2A9936315A
+	for <lists+kasan-dev@lfdr.de>; Sat, 17 Apr 2021 19:22:07 +0200 (CEST)
+Received: by mail-wr1-x439.google.com with SMTP id h3-20020adfa4c30000b02901027da44a81sf6260942wrb.19
+        for <lists+kasan-dev@lfdr.de>; Sat, 17 Apr 2021 10:22:07 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1618680125; cv=pass;
         d=google.com; s=arc-20160816;
-        b=JhGL9pSY23CzAJ1rkW+wekoSeIoj26InOthvNxe+XcGjW3UchlkHtojAYhj2ArC8E0
-         rdfEY/uCAtqlg0ZEIcu50nTVrlgjgp/Q7AkUjJZONUjCDThqqlcKqP0L96GIYIY6Bfr3
-         KBB71ycVDnqRROy6ltKpOH/7NipTM68pBJDNhba0pdbjRPblM+B0uemrmlmk2zUkN29t
-         Nx3OCT1qWudZj14dTn+qxo9i3/3TCPcAjxcP20u2iXBWN5XT4RbSuDDIOjLKzF6/9Yl4
-         T2CA/5hE4IcWxvtJntP7mLDlqtL4R63iXAi0U11VX0Uq6dPY5vOvSQFaClEzxc2VvuKP
-         G46Q==
+        b=N3iIKn2uCWrL/k7iMadlXrlYeMrSVDMr4wZaDV2kSzPM2dOeQIXfGSTdFwPNQWFsEW
+         29warj4mT+m3guncSOeMsP9U9KjwuaMtZedrGeSxEy5d3YDeI61P19sJ9Mj0jmpgK7Jf
+         eNOE65VflvHiTEVWZPZJB8WhovFOzqUHTJ9JffBFkoI1YLCtisYcjm5ZM+KTns7BL7Fv
+         CdNC1OGXCxQ4UQ614krUJCKv4DoxO5nuRTX8FqZmRwjf0KLddZTfEQViIseNEVohplzg
+         ajzmFMJ2J4C4K/bDwXHXYgZTyh9JY+Hkon2vvMA5wVWQPz8JsL/KE9wk92AayQM7J2mt
+         2B6Q==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=fwTy2Rzvu7g7zk4EUA8DDdyalfkMrUQdLr0sTOUEYKM=;
-        b=RzSvZFJ/rY0jhssf2itPsNBTXksxMhMvxMTa1qXTd76gHco1XRansQwCcn6SLtAl6W
-         pW6b465j1u8+sZo2y6DFz3HUjuoox2qyseBqNGTmCpyVQTh/osgN7qAkAAicim0FAZ09
-         onzZe+zRhchFZ7FC1+NY+ezRZeIn2ZrjCG/jcr3CI9xbReN0nLR+IV0gsebiJ2EP18Jx
-         TE8yk/bC3il+UsuKRCY7W7JpnBDaam+EkWsfX00rlekdtpKS9RQUa2nO29NKWWuOQ2cy
-         vVjw8b9q+yJG20WwlccyobG8niPCpYz/XTGPNO5HBNYraFjniVhW22oACN+2ZW872rYB
-         vPCA==
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :subject:cc:to:from:sender:dkim-signature;
+        bh=NyHQlJsRW/wtY7Cp+lc3aQmot7SiE06qZ2FYYJmkxgY=;
+        b=Bdu7KOukJeZfatzWkxJWdZ5EW5+WyIxyNESSxXceDrNXHguxd4ASvYVin01foc3unw
+         dOl/HW285ZnJ36RxdjDHk1GMLSS36VbMNEs64UVE4Y1Q1+N0++Nb3BsfkLvq+jkhLCGL
+         m5uxtpaN/QecWVYwNK3L3MtJdHwNXoEX3TZ5IxMyFWW6r1TSBP0z5t++sL2RPt6MTNwn
+         gXmJM7zb5SAM0saMXmLWj4yRiQ+vt373IylEOfx5fmfcUBnP3gGb9e5aS0I+UbBXrNxu
+         TOAkLiEFwIUXtwAYd/DN23wDLpE82EebWIwN64DX4O4YLcaz8kW9ylHjhlUlhsTJrZk4
+         Q/Cg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=kYcqBFfK;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::736 as permitted sender) smtp.mailfrom=dvyukov@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       spf=neutral (google.com: 217.70.178.231 is neither permitted nor denied by best guess record for domain of alex@ghiti.fr) smtp.mailfrom=alex@ghiti.fr
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=fwTy2Rzvu7g7zk4EUA8DDdyalfkMrUQdLr0sTOUEYKM=;
-        b=QvFf1boJsUvNmtVHoszEa185RAM3wYWVUOijTqXtGhKlMMyEhkg7gh5THASsNLyJ/s
-         iegnL926lZots5ERNbYpleQDoDcpyzuGQsCiQgOzvgXLuKOQ1p9cwvaTwRCjeZTKVnxZ
-         r02UOjrkFRRUCgHn/FndY+q7SCcOoYXlHNjA3Y1zQmqSXwpfbKrNnwgEfLGg9MyBPNPc
-         GkT98C9zPLsI3cDS7TN9Z+uZqmoep/lJ7uXHMwAeIweSM56PtA45YpmEGVtA5lHcrwuY
-         gZxMrQn+Q+ijLkZeya5gXn0aw0W7Ni2ki1IEbAyHvZJ60Qs8jI2YxBYqlUF2GOWt9mNI
-         qOLw==
+        bh=NyHQlJsRW/wtY7Cp+lc3aQmot7SiE06qZ2FYYJmkxgY=;
+        b=WK6ecQW84aDZNpv0S4buyWMdv5ihenOMoATn9xVVbhHyr8Nbh+poAGL49MzQPYa13B
+         2vzDz1qINnx07WOcCET3QxopI7QFuQtRPB1ywY4wTItbvxS95SHi9LiT0DuzOrfXArZP
+         h/Vpb1xXqj44Yu/+qLaHkbH5GHwBaVTyDZQtZ6NHo3WBLSJGIkK1Es9n9FBt8zUT00S5
+         MNEJItKlamgf0B62aC882lzGWpLCbROnKOO1/+2WzWdYIpcGJ1h4WBafaBOuc6eWHwur
+         G9O31G8CTCIThe3Adxi72ltccrXQjtyVaIz8qmuFaKah3Uh7Wh7ARo/AA1yBnBBzLb+l
+         8VGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=fwTy2Rzvu7g7zk4EUA8DDdyalfkMrUQdLr0sTOUEYKM=;
-        b=lWYhAmetpuVYQtoeLHoxTA0Lr/Qog4zgdFOcIa9MqH9DNl9PmF1HfPE+7qsgXSFiT5
-         A9x2ciX7AlJFvp7SvSgWvGsrPkCB9CVntYE+o+n9RAWtnoHX9cQ/oCZt85Yc2CDFlgLn
-         agiOdq6J+yNRv6Rw+D8oD9loQEpEHDcf30b1GLYmHdghHHzM7gEE8uFCsC4rbceVl3Zs
-         gkpfXf565KMro5q1xLhPFmC+N+rQMXApLExbd6dOgu/awdDGuwBK0w+4ypH9H1qfEW+z
-         xcVNeYiERuDum9mUbMgDdL+TbClWx8nE8GWu+H3kK5uarsdGKkjBTF8bIBhaNTnvAD/o
-         lyrA==
-X-Gm-Message-State: AOAM533mxdzMT8yXU/0WbAU5QA1bHnliPrV5qjRbkoWq6u9nGN1Xd9Yt
-	mbLLsPvpymSq5hgG52VJL70=
-X-Google-Smtp-Source: ABdhPJymwRoUokUOpXkJzU4nUOkfR7si0U0yicpuLPWINbrQINd4voZTo/1NfJUpJCLI3DZORN8sNQ==
-X-Received: by 2002:ad4:522b:: with SMTP id r11mr12797888qvq.6.1618655312005;
-        Sat, 17 Apr 2021 03:28:32 -0700 (PDT)
+        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=NyHQlJsRW/wtY7Cp+lc3aQmot7SiE06qZ2FYYJmkxgY=;
+        b=MOKTeRfgtgcSZyOmKNyiU1paGR9LcI+FIBi6Psa2DUNvm4V8O4qolQJyyHPQx+SFl7
+         LlbsTRQ02U6tu8kCKhEZSW2AdTz1uxc64/+mrZ/tFAWDqF4nZiINHgsgVAZ8gDK+N/0u
+         PL136eN6M6gveRoHcSiNJ7ZPl23hCQhUZ6sYugZHmWJeH0x/DpAdZ98ZUV/BAgCWxNAA
+         QjS9bHlhjWKPHbWhTkP5Yn+tTApZBufVBNAXpdFu9PFj7R5xDtacgFCSC6Dum8WlPixc
+         SZuydac3PYikMEckXyti+G5YUryRw32r4ZQim7UxFPaLRu5qRKc7F6q7DuMs8txlT6Uj
+         R7NA==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM532f8j93eMB8vjvyHRsitFMcNq+1vFp1Cff2EuxuQW0o7uZEIALI
+	I/61D1OPWcjPulv51YZbHy4=
+X-Google-Smtp-Source: ABdhPJwIAxQBvIKUrK5+iW+XIto1dZ+XcF8KtSospQBpeDvqcDCGEUMGF3RAEjaJQMSFyZWrtwMWFQ==
+X-Received: by 2002:adf:d1ce:: with SMTP id b14mr5275052wrd.159.1618680125705;
+        Sat, 17 Apr 2021 10:22:05 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:620a:28c8:: with SMTP id l8ls6521543qkp.2.gmail; Sat, 17
- Apr 2021 03:28:31 -0700 (PDT)
-X-Received: by 2002:a37:65c1:: with SMTP id z184mr3304591qkb.431.1618655311599;
-        Sat, 17 Apr 2021 03:28:31 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1618655311; cv=none;
+Received: by 2002:a1c:c205:: with SMTP id s5ls5841852wmf.3.canary-gmail; Sat,
+ 17 Apr 2021 10:22:04 -0700 (PDT)
+X-Received: by 2002:a05:600c:17c3:: with SMTP id y3mr13682428wmo.185.1618680124788;
+        Sat, 17 Apr 2021 10:22:04 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1618680124; cv=none;
         d=google.com; s=arc-20160816;
-        b=H0q9AMVWM6Xc/lQ17Z3JINxqlJpOivS1+/AlZ304okZeaJVs6c1YMbPNjNwd6fOYLC
-         9E93BG9KVl43HNUfBtTLCcRO2buEqkUhtubArUgYT6Xh2iGJOcKj4XEJuwoCBYvVlb/e
-         lH7A+x+U34gxVngxgXXmQLw2O15Iv/r3qldnUIAa4F+CUeALE8IWdMmZ0ndmzjBVjPTx
-         tv2wavVjrOC+QBpvE78fQz68PsoRIo31tAg0RzKqHC6t+XE0LRkOlCfvmRhAnnj4Q+Mi
-         y2bQhP7JmZ5WX6F+4HvYzheOwEdnrpkmHu8SIb3K3K0DdpQbV9zJCFgab2j6D28nniag
-         M/2A==
+        b=GXYsGVTEyBPORaZ3p2ZmgeWlbdffJpOTlTirnJlWZ4zH2rY/FS5rhYBiFaomjXn737
+         9AR7kgRJsfr5CzLLkfFKVrLYTfAVGGQAVOqN1H7Bicll3KoQmtBjom5p2QspGXHpVtwh
+         WUJTeWGPV0hpcAMEbSUS7uaiomnvdgf+GTMHlT4W0DhsbPOsuULCFeYHo13tAhTityM0
+         jmLBIoT6seO34qbZUavgb2b/DhnSysKtGzxwLE9ysTi0PBtIFbcZzCM1xr+boOVQ8Twq
+         UbatcI6CCfzxDv0reZIU2GOB7ER7EdIC7gFJg/LMfI+q6kkiZTFLR9JeXCL1qPZ1d9lh
+         mawA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=Whd9O2gSic3eS9cVfE6rnRrtSx2z1faJ3q+diFSdkJE=;
-        b=Nw9JjD5XnWJW9O7/3dYxDF4SA3uMYdIecDK9iU92Gtwe3TEWNcuuFb7HbL8KUVJH12
-         88yqrA6cVBjz8CQXqPnjjJnL5R3J5tZ+iMJO84tbdZxWLSUQCRnoggwcjEKm07j55+Kp
-         LmXOOzwA/xfZJRC6m8keOlgOTWNOb3PEBFBUJXDAisAIdcKQVHMJW89g3wkMUdA4yxUC
-         odzsId/DRZTDGv7dsSEfhoN/dJjz81FjgQR7VpUwVsOxqLzFBgvF/LyaMo5MlQc2YGs9
-         pnRjF64VVvd0H3ky2wtq4ET2SxBS/+DdIPOzMwGoGWtpp4MlG2h1vNsptBerPyBABp5q
-         fJFQ==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from;
+        bh=nbQqbZA5sAvHxnWJW0raOTKk398HGn3qUNCGAdQF63Y=;
+        b=Efsg0wisrrkGLC7huZp2YXMqZQrcSVTXHxAbRPjdseVLy7qmGGk7l/ow/IdVu61bAN
+         tt07kvhBcFXP6q2NKXUwapXkA58nfBrs4phS6nWb8EF8ImsR33t0TBO3WgYRlnsoWAdQ
+         /eqV7KGZx+0a1RaNEJQvYhUCXkFz8cKsR/UkKhh08tr15vnK9SZsJyD6AJIC3dSc0lJM
+         wCe8s7UHPc3Eclx4Jt6gEw6ieOAQpHslqakcknbxi6V2aKSYiRKdskX0Ws0icF5sAPy8
+         bVLYX4BcENmeurldoKg5wYIdnzWbH0OCmMHpjVxYwtCEMgmT9ZuPgnmhnQ7cqGx4vU4l
+         JuDQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=kYcqBFfK;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::736 as permitted sender) smtp.mailfrom=dvyukov@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-qk1-x736.google.com (mail-qk1-x736.google.com. [2607:f8b0:4864:20::736])
-        by gmr-mx.google.com with ESMTPS id 22si626872qkb.5.2021.04.17.03.28.31
+       spf=neutral (google.com: 217.70.178.231 is neither permitted nor denied by best guess record for domain of alex@ghiti.fr) smtp.mailfrom=alex@ghiti.fr
+Received: from relay11.mail.gandi.net (relay11.mail.gandi.net. [217.70.178.231])
+        by gmr-mx.google.com with ESMTPS id s141si758393wme.2.2021.04.17.10.22.04
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 17 Apr 2021 03:28:31 -0700 (PDT)
-Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::736 as permitted sender) client-ip=2607:f8b0:4864:20::736;
-Received: by mail-qk1-x736.google.com with SMTP id x11so31380665qkp.11
-        for <kasan-dev@googlegroups.com>; Sat, 17 Apr 2021 03:28:31 -0700 (PDT)
-X-Received: by 2002:a37:a854:: with SMTP id r81mr2245601qke.350.1618655311147;
- Sat, 17 Apr 2021 03:28:31 -0700 (PDT)
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Sat, 17 Apr 2021 10:22:04 -0700 (PDT)
+Received-SPF: neutral (google.com: 217.70.178.231 is neither permitted nor denied by best guess record for domain of alex@ghiti.fr) client-ip=217.70.178.231;
+Received: from debian.home (lfbn-lyo-1-457-219.w2-7.abo.wanadoo.fr [2.7.49.219])
+	(Authenticated sender: alex@ghiti.fr)
+	by relay11.mail.gandi.net (Postfix) with ESMTPSA id 0A91C100004;
+	Sat, 17 Apr 2021 17:22:00 +0000 (UTC)
+From: Alexandre Ghiti <alex@ghiti.fr>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Andrey Ryabinin <aryabinin@virtuozzo.com>,
+	Alexander Potapenko <glider@google.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	linux-doc@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	kasan-dev@googlegroups.com,
+	linux-arch@vger.kernel.org,
+	linux-mm@kvack.org
+Cc: Alexandre Ghiti <alex@ghiti.fr>
+Subject: [PATCH] riscv: Fix 32b kernel caused by 64b kernel mapping moving outside linear mapping
+Date: Sat, 17 Apr 2021 13:21:59 -0400
+Message-Id: <20210417172159.32085-1-alex@ghiti.fr>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <0faf889d-ac2d-413f-826e-6c2f5bf5aaf2n@googlegroups.com>
-In-Reply-To: <0faf889d-ac2d-413f-826e-6c2f5bf5aaf2n@googlegroups.com>
-From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Sat, 17 Apr 2021 12:28:19 +0200
-Message-ID: <CACT4Y+ZHyat_KE+yQ5z7xpF+RfW39tbpYS6t=9A82dvbZcuuKQ@mail.gmail.com>
-Subject: Re: Regarding using the KASAN for other OS Kernel testing other that LInux
-To: Tareq Nazir <tareq97@gmail.com>
-Cc: kasan-dev <kasan-dev@googlegroups.com>
+X-Original-Sender: alex@ghiti.fr
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=neutral
+ (google.com: 217.70.178.231 is neither permitted nor denied by best guess
+ record for domain of alex@ghiti.fr) smtp.mailfrom=alex@ghiti.fr
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: dvyukov@google.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=kYcqBFfK;       spf=pass
- (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::736
- as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
- (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Dmitry Vyukov <dvyukov@google.com>
-Reply-To: Dmitry Vyukov <dvyukov@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -128,22 +132,182 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, Apr 16, 2021 at 9:50 PM Tareq Nazir <tareq97@gmail.com> wrote:
->
-> Hi,
->
-> Would like to know if I can use KASAN to find bugs of other open source Real time operating systems other than linux kernels.
+Fix multiple leftovers when moving the kernel mapping outside the linear
+mapping for 64b kernel that left the 32b kernel unusable.
 
-Hi Tareq,
+Fixes: 4b67f48da707 ("riscv: Move kernel mapping outside of linear mapping")
+Signed-off-by: Alexandre Ghiti <alex@ghiti.fr>
+---
+ arch/riscv/include/asm/page.h    |  9 +++++++++
+ arch/riscv/include/asm/pgtable.h | 16 ++++++++++++----
+ arch/riscv/mm/init.c             | 25 ++++++++++++++++++++++++-
+ 3 files changed, 45 insertions(+), 5 deletions(-)
 
-The Linux KASAN itself is part of the Linux kernel codebase and is
-highly integrated into the code base, it's not separate and something
-directly reusable. Think of, say, Linux TCP/IP stack implementation.
-However, the idea, algorithm and compiler instrumentation is perfectly
-reusable and KASAN is ported to several BSDs and Fuchsia kernels at
-least.
+diff --git a/arch/riscv/include/asm/page.h b/arch/riscv/include/asm/page.h
+index 22cfb2be60dc..f64b61296c0c 100644
+--- a/arch/riscv/include/asm/page.h
++++ b/arch/riscv/include/asm/page.h
+@@ -90,15 +90,20 @@ typedef struct page *pgtable_t;
+ 
+ #ifdef CONFIG_MMU
+ extern unsigned long va_pa_offset;
++#ifdef CONFIG_64BIT
+ extern unsigned long va_kernel_pa_offset;
++#endif
+ extern unsigned long pfn_base;
+ #define ARCH_PFN_OFFSET		(pfn_base)
+ #else
+ #define va_pa_offset		0
++#ifdef CONFIG_64BIT
+ #define va_kernel_pa_offset	0
++#endif
+ #define ARCH_PFN_OFFSET		(PAGE_OFFSET >> PAGE_SHIFT)
+ #endif /* CONFIG_MMU */
+ 
++#ifdef CONFIG_64BIT
+ extern unsigned long kernel_virt_addr;
+ 
+ #define linear_mapping_pa_to_va(x)	((void *)((unsigned long)(x) + va_pa_offset))
+@@ -112,6 +117,10 @@ extern unsigned long kernel_virt_addr;
+ 	(_x < kernel_virt_addr) ?						\
+ 		linear_mapping_va_to_pa(_x) : kernel_mapping_va_to_pa(_x);	\
+ 	})
++#else
++#define __pa_to_va_nodebug(x)  ((void *)((unsigned long) (x) + va_pa_offset))
++#define __va_to_pa_nodebug(x)  ((unsigned long)(x) - va_pa_offset)
++#endif
+ 
+ #ifdef CONFIG_DEBUG_VIRTUAL
+ extern phys_addr_t __virt_to_phys(unsigned long x);
+diff --git a/arch/riscv/include/asm/pgtable.h b/arch/riscv/include/asm/pgtable.h
+index 80e63a93e903..5afda75cc2c3 100644
+--- a/arch/riscv/include/asm/pgtable.h
++++ b/arch/riscv/include/asm/pgtable.h
+@@ -16,19 +16,27 @@
+ #else
+ 
+ #define ADDRESS_SPACE_END	(UL(-1))
+-/*
+- * Leave 2GB for kernel and BPF at the end of the address space
+- */
++
++#ifdef CONFIG_64BIT
++/* Leave 2GB for kernel and BPF at the end of the address space */
+ #define KERNEL_LINK_ADDR	(ADDRESS_SPACE_END - SZ_2G + 1)
++#else
++#define KERNEL_LINK_ADDR	PAGE_OFFSET
++#endif
+ 
+ #define VMALLOC_SIZE     (KERN_VIRT_SIZE >> 1)
+ #define VMALLOC_END      (PAGE_OFFSET - 1)
+ #define VMALLOC_START    (PAGE_OFFSET - VMALLOC_SIZE)
+ 
+-/* KASLR should leave at least 128MB for BPF after the kernel */
+ #define BPF_JIT_REGION_SIZE	(SZ_128M)
++#ifdef CONFIG_64BIT
++/* KASLR should leave at least 128MB for BPF after the kernel */
+ #define BPF_JIT_REGION_START	PFN_ALIGN((unsigned long)&_end)
+ #define BPF_JIT_REGION_END	(BPF_JIT_REGION_START + BPF_JIT_REGION_SIZE)
++#else
++#define BPF_JIT_REGION_START	(PAGE_OFFSET - BPF_JIT_REGION_SIZE)
++#define BPF_JIT_REGION_END	(VMALLOC_END)
++#endif
+ 
+ /* Modules always live before the kernel */
+ #ifdef CONFIG_64BIT
+diff --git a/arch/riscv/mm/init.c b/arch/riscv/mm/init.c
+index 093f3a96ecfc..dc9b988e0778 100644
+--- a/arch/riscv/mm/init.c
++++ b/arch/riscv/mm/init.c
+@@ -91,8 +91,10 @@ static void print_vm_layout(void)
+ 		  (unsigned long)VMALLOC_END);
+ 	print_mlm("lowmem", (unsigned long)PAGE_OFFSET,
+ 		  (unsigned long)high_memory);
++#ifdef CONFIG_64BIT
+ 	print_mlm("kernel", (unsigned long)KERNEL_LINK_ADDR,
+ 		  (unsigned long)ADDRESS_SPACE_END);
++#endif
+ }
+ #else
+ static void print_vm_layout(void) { }
+@@ -165,9 +167,11 @@ static struct pt_alloc_ops pt_ops;
+ /* Offset between linear mapping virtual address and kernel load address */
+ unsigned long va_pa_offset;
+ EXPORT_SYMBOL(va_pa_offset);
++#ifdef CONFIG_64BIT
+ /* Offset between kernel mapping virtual address and kernel load address */
+ unsigned long va_kernel_pa_offset;
+ EXPORT_SYMBOL(va_kernel_pa_offset);
++#endif
+ unsigned long pfn_base;
+ EXPORT_SYMBOL(pfn_base);
+ 
+@@ -410,7 +414,9 @@ asmlinkage void __init setup_vm(uintptr_t dtb_pa)
+ 	load_sz = (uintptr_t)(&_end) - load_pa;
+ 
+ 	va_pa_offset = PAGE_OFFSET - load_pa;
++#ifdef CONFIG_64BIT
+ 	va_kernel_pa_offset = kernel_virt_addr - load_pa;
++#endif
+ 
+ 	pfn_base = PFN_DOWN(load_pa);
+ 
+@@ -469,12 +475,16 @@ asmlinkage void __init setup_vm(uintptr_t dtb_pa)
+ 			   pa + PMD_SIZE, PMD_SIZE, PAGE_KERNEL);
+ 	dtb_early_va = (void *)DTB_EARLY_BASE_VA + (dtb_pa & (PMD_SIZE - 1));
+ #else /* CONFIG_BUILTIN_DTB */
++#ifdef CONFIG_64BIT
+ 	/*
+ 	 * __va can't be used since it would return a linear mapping address
+ 	 * whereas dtb_early_va will be used before setup_vm_final installs
+ 	 * the linear mapping.
+ 	 */
+ 	dtb_early_va = kernel_mapping_pa_to_va(dtb_pa);
++#else
++	dtb_early_va = __va(dtb_pa);
++#endif /* CONFIG_64BIT */
+ #endif /* CONFIG_BUILTIN_DTB */
+ #else
+ #ifndef CONFIG_BUILTIN_DTB
+@@ -486,7 +496,11 @@ asmlinkage void __init setup_vm(uintptr_t dtb_pa)
+ 			   pa + PGDIR_SIZE, PGDIR_SIZE, PAGE_KERNEL);
+ 	dtb_early_va = (void *)DTB_EARLY_BASE_VA + (dtb_pa & (PGDIR_SIZE - 1));
+ #else /* CONFIG_BUILTIN_DTB */
++#ifdef CONFIG_64BIT
+ 	dtb_early_va = kernel_mapping_pa_to_va(dtb_pa);
++#else
++	dtb_early_va = __va(dtb_pa);
++#endif /* CONFIG_64BIT */
+ #endif /* CONFIG_BUILTIN_DTB */
+ #endif
+ 	dtb_early_pa = dtb_pa;
+@@ -571,12 +585,21 @@ static void __init setup_vm_final(void)
+ 		for (pa = start; pa < end; pa += map_size) {
+ 			va = (uintptr_t)__va(pa);
+ 			create_pgd_mapping(swapper_pg_dir, va, pa,
+-					   map_size, PAGE_KERNEL);
++					   map_size,
++#ifdef CONFIG_64BIT
++					   PAGE_KERNEL
++#else
++					   PAGE_KERNEL_EXEC
++#endif
++					);
++
+ 		}
+ 	}
+ 
++#ifdef CONFIG_64BIT
+ 	/* Map the kernel */
+ 	create_kernel_page_table(swapper_pg_dir, PMD_SIZE);
++#endif
+ 
+ 	/* Clear fixmap PTE and PMD mappings */
+ 	clear_fixmap(FIX_PTE);
+-- 
+2.20.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BZHyat_KE%2ByQ5z7xpF%2BRfW39tbpYS6t%3D9A82dvbZcuuKQ%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210417172159.32085-1-alex%40ghiti.fr.
