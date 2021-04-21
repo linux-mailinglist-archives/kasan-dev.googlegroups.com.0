@@ -1,132 +1,133 @@
-Return-Path: <kasan-dev+bncBDG6PF6SSYDRBYUI76BQMGQEEPQI3DA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDG6PF6SSYDRBP5L76BQMGQE5GYGJCI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wr1-x437.google.com (mail-wr1-x437.google.com [IPv6:2a00:1450:4864:20::437])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33BB3366551
-	for <lists+kasan-dev@lfdr.de>; Wed, 21 Apr 2021 08:21:23 +0200 (CEST)
-Received: by mail-wr1-x437.google.com with SMTP id j16-20020adfd2100000b02901022328749esf12118607wrh.4
-        for <lists+kasan-dev@lfdr.de>; Tue, 20 Apr 2021 23:21:23 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1618986083; cv=pass;
+Received: from mail-ed1-x540.google.com (mail-ed1-x540.google.com [IPv6:2a00:1450:4864:20::540])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4036E36664A
+	for <lists+kasan-dev@lfdr.de>; Wed, 21 Apr 2021 09:35:28 +0200 (CEST)
+Received: by mail-ed1-x540.google.com with SMTP id w14-20020aa7da4e0000b02903834aeed684sf12775537eds.13
+        for <lists+kasan-dev@lfdr.de>; Wed, 21 Apr 2021 00:35:28 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1618990528; cv=pass;
         d=google.com; s=arc-20160816;
-        b=tXmW23VyWlNk0oL51UFbSkyIP2xq6hnaPrFnWbvK7TDt9tHeZWLPbo2c7kaBvpfo2F
-         Fz2W6zQKFoil47hfPxZRpFw2QTV3EQahjoV8rXKXKKkEPCqqw0tOhKVwoU9a276IvsJm
-         CTkcSIJvMRexxTBUV40PBHaLlkwWpq3oKyUTpbY0ILsL0whrnSR6yg/QnntanknFdirg
-         Ot1H2DIy4JJOdsemZa/6V4UyTz8fo+WzUG4mnCeX8DYt9mIRR+d4984GWr3bpW4y/Gyw
-         u0HIlBbUs7ipt9q1GFz0ogAIDwnuObGRrTtluH1wfyTB6cQk2Cp4tBzFfquFG1bWmhHV
-         vZUA==
+        b=YJw8iMH4iGisVfmhD5owSRCxmIo6bElTowxvEc2fUm/Msl790RkOP6jCFbhj+qrXfc
+         qI85aYWlQXigraboLlTajrI0au4VQL8joQkErLjYAaH1sEWaqTSpt3KIR0cWyQUFsQoP
+         rrhr9xmo7pU/06fXFYOMNGa5C2muUAqrkj3qU+WL7UJn74TfqkEYcuDb6nranBhdQW70
+         nB6hfSsrMCTm7lmx090BMWU/uaxOluKCyjZfrZCilX2YFoSeZDPBF42+V+KdBsfgYQNw
+         PjKlmdcnHvkyg0eWG6UXqYt1TE12mKT0HqTMqaNEvfdkbRBb9XWtvAbHV6U1dZkiJRJn
+         +WyA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:references:cms-type
          :content-language:in-reply-to:mime-version:user-agent:date
-         :message-id:from:cc:to:subject:dkim-filter:sender:dkim-signature;
-        bh=4L1nvEXBSM4HnHzOZ9hgFlJHRQDm74rP6CwFviDqO9k=;
-        b=vgRzCVkDV1JPigPWj2BdboZi3Ze+EjHhGrvVzSIJp44djyqowyPVqv7qW9PCBzbcUM
-         ObbsPyVTy1IJqkEO2lFwz2m1V4INzbA07pQ9R31GvYnKUXWorD9z+WyHvvaq81n2p4fB
-         rK0ux5DKxa2nF/8TPdhbFQvNFKOUnNR3ZOFjA5g82jKTsqvXM/W2khlxVDGuuLqEdHmW
-         vZlFKA7gJyVCjUCEeWn9fLT67x8BZeU9IPyh81BLZBAxJjBFkIGBAKiU0UspQeGBoFJu
-         tmmHSvcUzXcjUeRbGue+UvfKA1+JvMIoAtATY3RWKgPZMwoMD8ti6TaDa+TH4yOq4HDG
-         CN8g==
+         :message-id:cc:to:from:subject:dkim-filter:sender:dkim-signature;
+        bh=/j3eyRWRk3SOmYd3t3MHHl+mAxW9ElfeHMZ0+f0iebE=;
+        b=EE6xrrrhsARY0BXqDluszPL1EGuTUIgB8Y1v9rmJDkQXyBsyay0C75Z2mvTnhxqKw9
+         RyfO/b/s0lYK1a3Rvvt6hakzT3vNMt4hq/haGwNpq7tG8bQUsPGyMoFkQ2EeNWIrj7iP
+         eL3lY2hucoNvPgYQ/pudBrI4u9AGRi8k/UGFVjcsOvwdVu1ofheNuZ4stvaF/mCsPj8t
+         3NyAPsMtPh6dcHkZpGfSv+EuOBUvUL/w+gQ2xDNg0Ksr0xNcRjQY8vFF+E5rFXLVajM5
+         7UQjAOUc7oQ9DkkisL6GrFq5MweFVzyyIypxPIQ7Cx02e6l6XiP3cxICv08yCRDGwfG0
+         LZdw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@samsung.com header.s=mail20170921 header.b=UUhU0njs;
+       dkim=pass header.i=@samsung.com header.s=mail20170921 header.b="p3g/qabO";
        spf=pass (google.com: domain of m.szyprowski@samsung.com designates 210.118.77.12 as permitted sender) smtp.mailfrom=m.szyprowski@samsung.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=samsung.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:dkim-filter:subject:to:cc:from:message-id:date:user-agent
+        h=sender:dkim-filter:subject:from:to:cc:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:cms-type:references
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=4L1nvEXBSM4HnHzOZ9hgFlJHRQDm74rP6CwFviDqO9k=;
-        b=e34y3EZv6+crEnr19ReTpTFy1Ccdhr+2W9F+5OYXqo8+amSF3q6870Rjo+b5IcJwGv
-         i2JJYIL0o/e74ltJ/wkoB0ljbUZdl8xzo0WO8bwpB37ZVRqoyTin8ZqB1jl0OwlCbcUF
-         mPEKIPkhy4OeqeG07l5iH5KrHaBclTOoNkjq5nHA71GPv3IYVIe7Oz8Vo1NAvCxYLraC
-         /DuIRvtBYor2CLUBCrUxjR+fI5TYhx57eiBwHBrAS9PHuprV31QTqJ/YBVQs784szeY+
-         eN2hGlFEJAkF0PwnbSckGZsnhkflGyWuD+8XQBQDa1CbWkogj9fw7V30TdI6vYss/Nve
-         7WZg==
+        bh=/j3eyRWRk3SOmYd3t3MHHl+mAxW9ElfeHMZ0+f0iebE=;
+        b=F0cVv3BXSITbdgEFeBpnE814QHc2qQZjR2sXArav4+49mxrImnQZDa1FlVSKD3F1PO
+         W/YdQsrx1xrWp0seM+38bYgxs3uzxG+L30TdSochNn0icCIfEN+Ly8vUAT40ytzmbUGq
+         G6AJJS2tXD+93Z/VGVkbnIxHV8BiPMvU9tG3gFzje1PouiuMjXnvAC573vBECX9sZulZ
+         KCnf5gTVO6olPtoGWBmD7J6xCrJvgYdlITD8zCRWc1ukH+/eVvp+mBJ3D4HUtz6ZD9Nr
+         x3J5oFKIXsAtZwarvLxFuUa8zzL0t9HQIfp2FZqU9E5UP1illkUJSZET4kCpJqIFi36y
+         A4tQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:dkim-filter:subject:to:cc:from:message-id
+        h=sender:x-gm-message-state:dkim-filter:subject:from:to:cc:message-id
          :date:user-agent:mime-version:in-reply-to:content-language:cms-type
          :references:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
          :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=4L1nvEXBSM4HnHzOZ9hgFlJHRQDm74rP6CwFviDqO9k=;
-        b=uk25fpGZWoPdmOGSqGNhkmBFz9Bw5GHBBuzjCxnzScBDFRiBkWXuqA1t4MZ0fEQW/0
-         VIvc92CHlCAw+RgDalQ6TYQWs3sR72I/Ja4xgZ3Sx8l6JIf+GGUIQRzohSAUTWhID1vK
-         v4zIJonUEofHiS/zMSN/3kmQTbn9tj2EMh4FrCfmqeHkFuZW1Tb9YLI3hMLZ2U/qSHVU
-         W0Go7eaVeMjr3oJWr4aWOeFMx8G4qv7l4lkgkAPTsX3trfoVLsYT4cES6K+s5/BcRFt/
-         gP4yNaJQUsg9pVIUIh+n6CuOtEsQrF3DHTYDrLPi8sXYGtB7/ywPy5Z8/9CAw/axQIi9
-         QmwQ==
+        bh=/j3eyRWRk3SOmYd3t3MHHl+mAxW9ElfeHMZ0+f0iebE=;
+        b=QogZn94M5SDuFDqDYil/U6lBmZ7TCx5bL/eredM2uQwKu23rBdl/zZ8PRnTcofzaLS
+         bLj9w9KV/94sMT5eD9UoZzhBHhemmieT66qsUkF4Nz1d+bC8BuGd/OoZ4ZfjpjcD9KKR
+         TzFS+c3xflQu/+iZQPvT2fjfmA2bEybQrjpdfRgDhtIzxm8RhrrJWh/Z1BpI2z5gCYVT
+         rFGtsHeed3woRCTFYjIIMcOXqoYZSQxo59JeOOonTigd4nyMfcxMwJ9bN40qPMB6FQ95
+         Qj65FTrXe++VOeUa01V9qsKnWYSrPAntKixy8gcXT0VocyIhug2VFpR5eL3sJ7Ymdp2H
+         9KrQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM531C0vJlSdjhThXi9jjIscXO/PhGcDno+jJsoTm9UkIUaPJ18rLr
-	QpqwiJwojLTbKwxbzWdVjuM=
-X-Google-Smtp-Source: ABdhPJwHPJFZTFnvkBu9x6aZYUW5cUnyNB8l6n/VqwvCoWzcpZaI4R5POXGE6wLu79Ku7taqgeA21A==
-X-Received: by 2002:a5d:46c7:: with SMTP id g7mr24818249wrs.330.1618986082955;
-        Tue, 20 Apr 2021 23:21:22 -0700 (PDT)
+X-Gm-Message-State: AOAM5322BlLS89yB8eUWMA7SaaBH9OgOG6lT1Zf/yrSs8MlaSP1rpMeb
+	vrbopqIqp/KNeM6fVyXCs8Q=
+X-Google-Smtp-Source: ABdhPJz/gaR1KBEcWVeoTT1ECLbNDXW+aslZ859Hrh5ZfGPDsdetLTIMKLmL8ODi55FerONGUKeAwg==
+X-Received: by 2002:a17:906:b2d8:: with SMTP id cf24mr31545302ejb.305.1618990528050;
+        Wed, 21 Apr 2021 00:35:28 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:adf:fb47:: with SMTP id c7ls1451818wrs.0.gmail; Tue, 20 Apr
- 2021 23:21:21 -0700 (PDT)
-X-Received: by 2002:adf:ea84:: with SMTP id s4mr25137999wrm.142.1618986081847;
-        Tue, 20 Apr 2021 23:21:21 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1618986081; cv=none;
+Received: by 2002:a17:906:e085:: with SMTP id gh5ls670678ejb.6.gmail; Wed, 21
+ Apr 2021 00:35:27 -0700 (PDT)
+X-Received: by 2002:a17:906:a20b:: with SMTP id r11mr11669417ejy.323.1618990527027;
+        Wed, 21 Apr 2021 00:35:27 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1618990527; cv=none;
         d=google.com; s=arc-20160816;
-        b=pgrVourEti9wi35ArfYgR97JNuhNuf1Kub4pJRDxWT3YOp+29vGDL8UaUP+aex8iIC
-         bfgIW0l1uCUk6lvOk6MVL96KRkj5h3AYR8KfwxSNylKuiy+AsV9owNx5gH2A+an7Zu7S
-         5k+wEjyexWqXfU1LaK7kCod/IIYTLxLoYJgS5pq3E5vb7JxvSGfKK9M17aov62phqBu3
-         2H9ygw61dMt5fc64YkOY/78DAsckIHudIBFLEwoAdmPZe47eO4F0mlry5DkMUCnmO4qf
-         SLxaplnvM0wKMTkbQQY72DiJQRqlEJiJ4uKHqhI9jPt7JGWFztehAfbCmyiDRWCMYOf/
-         OBBA==
+        b=Hy3XeoAz3OKcHg6lt+VIK28IZvTOEgf7tYFIOSFEqHQtNDRoXD+5dTuBtjo+E92JWl
+         x49mO/jTauaCOjBEP6XQHuicrFuKDo0FetzUxyfJJZT816DgR2qsg73DL/epalq5slAu
+         ULMUnscXUTJut/ETKssBbzzwB3bLvQdntOfWrdXPbKnJjVxyCjpiRc72CLQnd86asFH6
+         xzeD9RjS8r32ntl3HhqxUkshClpvCm63QGCwxXcfm0x1poObz4lD53lY+KpUt5d7PTpr
+         KnTrjzTbfUmaBvZKO8A0NlazJTfncdaBt6F05Dpe9sQUBGKPWuZE00xLs67tVpCynz0/
+         kYlQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=references:cms-type:content-language:content-transfer-encoding
-         :in-reply-to:mime-version:user-agent:date:message-id:from:cc:to
+         :in-reply-to:mime-version:user-agent:date:message-id:cc:to:from
          :subject:dkim-signature:dkim-filter;
-        bh=nb+w+rdoA28nzc3PiQQASg827+Bh4VZL105LUhlZJgw=;
-        b=Wr6uZ3HkIeJBh9cQZ1aaWHi1diqhZYsXdsv7cWggZV7gzs+Jwh0jVL6hNO1bmcx6zw
-         4GVa9ZmxMB4SLvL+DIcnxzMcYoufi66ZwrESFeTL764h5wfXqcGLW30n6IJx0X89NQaX
-         0gN215vl1s/GW+/C64wYTTJP5yF4tCqsEb4NdW+qLW0f9RVtq7l2bEYOUOHoJyiLXRNB
-         5CwyJRcjIxLdDmwHjdD0TaGMlCnciZr9APMIDlAI37ZXaRNU8bIeuognRLlY0Ru8zauK
-         mo42zJluCYZaB7TI4zCVE7TVHPVVvSirpLu64F3fhc2GiOFJMH2pT95QzoDXVZA+HHzR
-         zUXA==
+        bh=iNC2JGm8JQHaUP5EaOW6wGw0f6laDFIqRjY1Uqk+010=;
+        b=KYA+TxHB0x5tMXCvAJDweCA83gjvOUYWt9aA7Vj5kBqet/vyoMYYTSSQuBgKuPNWK2
+         JoA+x3XRzw+KoUADc5muz83z+orjo+kjMOPAEl/3wvuh41JqVURyU7NjT/ypEuwkL7j2
+         qioZw7sKvv2OS5U30opR4HGuBm2anKXbDURnzQZH0xhLh218fp36y8aQV5GxwX3DdNli
+         J7SMbAFelUPhuZb515eLDUIppeIXbsLRG0dPg6BTK0I8rEnHF5UiH9oksxzKN1hVHxHI
+         Kn9GB7sAUGCxOtHshNtpQO/jVxyX2Bp+9TaVB4kddEasC4/3M0G2I2tRBx3Sj0DfRF+Z
+         EeLA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@samsung.com header.s=mail20170921 header.b=UUhU0njs;
+       dkim=pass header.i=@samsung.com header.s=mail20170921 header.b="p3g/qabO";
        spf=pass (google.com: domain of m.szyprowski@samsung.com designates 210.118.77.12 as permitted sender) smtp.mailfrom=m.szyprowski@samsung.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=samsung.com
 Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com. [210.118.77.12])
-        by gmr-mx.google.com with ESMTPS id s8si169649wrn.5.2021.04.20.23.21.21
+        by gmr-mx.google.com with ESMTPS id m18si91861edd.5.2021.04.21.00.35.26
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 20 Apr 2021 23:21:21 -0700 (PDT)
+        Wed, 21 Apr 2021 00:35:26 -0700 (PDT)
 Received-SPF: pass (google.com: domain of m.szyprowski@samsung.com designates 210.118.77.12 as permitted sender) client-ip=210.118.77.12;
 Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
-	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20210421062121euoutp020e62cc0445bd99e0eebbc1457460af6e~3y0NvYI483244632446euoutp02g
-	for <kasan-dev@googlegroups.com>; Wed, 21 Apr 2021 06:21:21 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20210421062121euoutp020e62cc0445bd99e0eebbc1457460af6e~3y0NvYI483244632446euoutp02g
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
-	eucas1p1.samsung.com (KnoxPortal) with ESMTP id
-	20210421062120eucas1p1a984a46f643e04b5eac4c5ef62b11893~3y0M_791a2067720677eucas1p1I;
-	Wed, 21 Apr 2021 06:21:20 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
-	eusmges3new.samsung.com (EUCPMTA) with SMTP id 96.B7.09439.064CF706; Wed, 21
-	Apr 2021 07:21:20 +0100 (BST)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20210421073526euoutp02cc85cd3a43f5282653e5393f05e62569~3z05UUQy31505415054euoutp02h
+	for <kasan-dev@googlegroups.com>; Wed, 21 Apr 2021 07:35:26 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20210421073526euoutp02cc85cd3a43f5282653e5393f05e62569~3z05UUQy31505415054euoutp02h
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+	eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+	20210421073525eucas1p20a9f991a5acec3b37967fcdb969dcaa8~3z0423X791121811218eucas1p2N;
+	Wed, 21 Apr 2021 07:35:25 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+	eusmges1new.samsung.com (EUCPMTA) with SMTP id 30.05.09452.DB5DF706; Wed, 21
+	Apr 2021 08:35:25 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
 	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
-	20210421062120eucas1p2fb703eea4e1f49cad8352006e4719b08~3y0MciFZe1443814438eucas1p26;
-	Wed, 21 Apr 2021 06:21:20 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
-	eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20210421062120eusmtrp26887e0b9ba14980efdf2d7c12325b2fe~3y0MbcH_U1307613076eusmtrp2h;
-	Wed, 21 Apr 2021 06:21:20 +0000 (GMT)
-X-AuditID: cbfec7f5-c03ff700000024df-db-607fc4604d36
+	20210421073525eucas1p2de039236195308aa06fdee8b77fe01c7~3z04M84bi0689506895eucas1p2Z;
+	Wed, 21 Apr 2021 07:35:25 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+	eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+	20210421073525eusmtrp18822b2b5a245e7875a4a08a4bb655afb~3z04LUbIY3012430124eusmtrp1e;
+	Wed, 21 Apr 2021 07:35:25 +0000 (GMT)
+X-AuditID: cbfec7f2-a9fff700000024ec-91-607fd5bd2d9f
 Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
-	eusmgms2.samsung.com (EUCPMTA) with SMTP id 77.C2.08696.F54CF706; Wed, 21
-	Apr 2021 07:21:20 +0100 (BST)
+	eusmgms1.samsung.com (EUCPMTA) with SMTP id A8.32.08705.CB5DF706; Wed, 21
+	Apr 2021 08:35:24 +0100 (BST)
 Received: from [106.210.134.192] (unknown [106.210.134.192]) by
 	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20210421062118eusmtip2f32d361770b68568e27779490831dcfc~3y0K36h5_2431324313eusmtip2f;
-	Wed, 21 Apr 2021 06:21:18 +0000 (GMT)
+	20210421073523eusmtip246be203a67bd3d460f00b7af00eb9498~3z02pxT2U0194101941eusmtip2x;
+	Wed, 21 Apr 2021 07:35:23 +0000 (GMT)
 Subject: Re: [PATCH v4 05/10] signal: Introduce TRAP_PERF si_code and
  si_perf to siginfo
+From: Marek Szyprowski <m.szyprowski@samsung.com>
 To: Marco Elver <elver@google.com>
 Cc: Peter Zijlstra <peterz@infradead.org>, Alexander Shishkin
 	<alexander.shishkin@linux.intel.com>, Arnaldo Carvalho de Melo
@@ -144,52 +145,51 @@ Cc: Peter Zijlstra <peterz@infradead.org>, Alexander Shishkin
 	<x86@kernel.org>, "open list:KERNEL SELFTEST FRAMEWORK"
 	<linux-kselftest@vger.kernel.org>, Geert Uytterhoeven
 	<geert@linux-m68k.org>, Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-Message-ID: <43f8a3bf-34c5-0fc9-c335-7f92eaf23022@samsung.com>
-Date: Wed, 21 Apr 2021 08:21:17 +0200
+Message-ID: <dccaa337-f3e5-08e4-fe40-a603811bb13e@samsung.com>
+Date: Wed, 21 Apr 2021 09:35:22 +0200
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0)
 	Gecko/20100101 Thunderbird/78.9.1
 MIME-Version: 1.0
-In-Reply-To: <CANpmjNM8wEJngK=J8Lt9npkZgrSWoRsqkdajErWEoY_=M1GW5A@mail.gmail.com>
+In-Reply-To: <43f8a3bf-34c5-0fc9-c335-7f92eaf23022@samsung.com>
 Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA01Se0xTZxzdd+/t7YUEvZQOvlhks07MXMCRLdsXdYRFltxNwsTMmMA2KeUG
-	2aCyljI1OFscXW2caBOhNDyqUyQ8BMqzhPerY0DHYwxlIAroBlnbNNRNYYxR7tj47/x+5/y+
-	c07yUbigjtxBJcvSWblMkiImvYmGvue2kPieC/Gvj+j3IN2DJhJpzfk8tKrv46Py6RwS1Riq
-	eEjt2I2uPtLwkWawkYeeTLZi6BtXK45M2W4+Gu0PQb1DqxgqfTKDIW3zUwK1tPYTaKy5gER5
-	U04S3Z4YwdB3nR08NNphwlBWST2B6tuzAcqZmiCR9dsODNWar+Pox1UrDz2rnuNFBDIVRRWA
-	WVnWA2a10IUzJrOSabnWTzK1pfuYsSElYy67RDIOm43PdHVrAVPUH8M428ZJ5kpdGWCWzEGM
-	ed6OHd0e630okU1JzmDl+8PjvU81dKrwtF6/M5WmPEIFZrbrgBcF6TfhbVMvTwe8KQFdCuCt
-	pm7gIQS0G8DZXAVHLAFYuDDH37xwj1QQHHEHQOeftzBucAHoUmt5HpUfHQu7bcO4BwtpMbTP
-	XcE9Ipwep6DW0o15CJIOgzq7jvRgHzocZruLNrwJeg9ssqs3HnqRToD3R9dwTuML+/PnCQ/2
-	omNgZ1Prxjs4/RJstBfgHA6Ak/PFG4kgbfGGswYzxuWOhK3DDwkO+8FFa92/fQLhmmXz4CKA
-	j2yVfG64DOBYlgFwqoNwyra8HpVat3gVVjXv59bvwsVqI+ZZQ3obvGf35UJsg/qGPJxb+0Ct
-	RsCpg6HRevc/287hUfwqEBu3VDNuqWPcUsf4v68JEGUggFUqUpNYxRsy9stQhSRVoZQlhUpP
-	p5rB+sce+Nv6tAmULrpCuwBGgS4AKVws9Jk5nxkv8EmUnD3Hyk+flCtTWEUXEFGEOMCnub7i
-	pIBOkqSzn7NsGivfZDHKa4cKi1t5ecIR/YXvpz0PQzSxkXWfZb1VjA8NFLruBe50YaK325R/
-	aQOcxwfOa4ODEqJ6hJWuT7pCWnLL5g72xFRVK6THJK+tia2TZw6VGKI7DkhF9pr34oqtqo8/
-	DLucQdwR/qBbKB9PiX529v3d03La9IdTld77a8TPJbq1c6PPf7p/LFq6NL2cZhZoEm4aMIfp
-	or4958ZaltcRdWLvTnfJK4lHr30V/LgKrAqdY22iE+/sqh3c6xD9cmnX4Upjvn/u7x/ETkT5
-	Wz7KjNx7OK+PlA1aVh6M8+tfSMo0nViJvdDoPxmhFo2og47EmR2/HahZaHk87nuDDW//XlqQ
-	HDXLZtz8ulxMKE5JwvbhcoXkH9fSTxdHBAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrGKsWRmVeSWpSXmKPExsVy+t/xe7oJR+oTDNrPMVt03dvBZtGxaSar
-	xd9Jx9gtVt/tZ7PYOGM9q0XjO2WLCQ/b2C3azmxntXh2ay+TRfvHvcwWC1q/sFtcOqlrcfTs
-	XyaLFc/uM1l07PrKYrFn70kWi8u75rBZTL/zns1i6fWLTBaLDx5gtbh0YAGTRdOyrSwWW/e3
-	Mlr037nOZnG89wCTxeZNU5ktzv89zmrxY8NjVgcZjzXz1jB6/P41idHj79yPzB4LNpV67Jl4
-	ks1j8wotj8tnSz02repk83h37hy7x6HDHYwe804Gerzfd5XNo2/LKkaPz5vkPDY9ecsUwB+l
-	Z1OUX1qSqpCRX1xiqxRtaGGkZ2hpoWdkYqlnaGwea2VkqqRvZ5OSmpNZllqkb5egl7HtYANz
-	wVHhirULprM0MN7n72Lk5JAQMJH4cnENC4gtJLCUUaJ3fS1EXEbi5LQGVghbWOLPtS62LkYu
-	oJr3jBJ71r9mA0kIC0RJXPr7jhnEFhFQknj7uI8ZpIhZ4CaHxJKdT5ggOrYySWw6/4IdpIpN
-	wFCi620XWDevgJ1E65d5jCA2i4CqxI63jWDrRAWSJO5dXskMUSMocXLmE7DzOAUCJQ7u2MsE
-	YjMLmEnM2/yQGcKWl9j+dg6ULS5x68l8pgmMQrOQtM9C0jILScssJC0LGFlWMYqklhbnpucW
-	G+kVJ+YWl+al6yXn525iBCaobcd+btnBuPLVR71DjEwcjIcYJTiYlUR479fWJAjxpiRWVqUW
-	5ccXleakFh9iNAX6ZyKzlGhyPjBF5pXEG5oZmBqamFkamFqaGSuJ85ocWRMvJJCeWJKanZpa
-	kFoE08fEwSnVwLT3i7mHpPEKxg1z7HzZ20UcnJ8WLOVbkhZyTk7+W5hE1uwZbm/MWOJ3FbO5
-	rumxS7+82E+jwuF+wQQx8ckRdX82vkvtPzAz1VTRez+D4jFbW+ZlkYJmKS4LT3/Ynrsx1iff
-	ZmXNBL3gfPEAwanN3A35l43s18r6f+PzWpVat0/4iKGHZhx3x1Zzt+JZfuEvHM5OKQ1iymIt
-	Prn5x+KPL4y15dk0/K6vTZZ38Dn+7rbnzW9xN3ZMiVj3Zb139K0JbeeSfzClzZWQUBZ7miza
-	HbaVJZit62qEW+KK277i4qfOCa5a9+K+/KmV+5I2Pdz0deqffeLRUkuVhFaYTDlydnKRqojZ
-	N1/Ff6JnN531UWIpzkg01GIuKk4EAPvESsjZAwAA
-X-CMS-MailID: 20210421062120eucas1p2fb703eea4e1f49cad8352006e4719b08
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Sf1DTZRzHe76/9mW59WViPKGH3TjlsAOCs3q0DrPr8uvZeXrdJe0qWPrl
+	R/LDbS7MREEOGjtAGZY6FFaRcIBuTRgymeIo1o4xYRyhHor8CAUb3FKLqFF++V7Ff6/P53l/
+	ns/7/dxD4zILFUFn5uzn1DnKLDklJmzdf1yPdQweSX3R+Es80t+5RCGd9TSJgoZuEWq6fYxC
+	350yk6hwJgodHy0RoRJPG4kmbzkw9HnAgSNT8SMR8rlj0Q+9QQw1TI5gSGd/TKAOh5tAA/Yz
+	FDo5PEuhb4f6MfTNtU4S+TpNGDp6rpVArVeLATo2PEQhV3knhi5av8DR9aCLRHOWcfL1VWxz
+	TTNg/5w3ADZ4NoCzJquW7ah0U+zFhnXsQK+WtTaWUuyM1ytinV06wNa4d7KzVwYptqKlEbAP
+	rZGsdcKP7XhGIX5tD5eV+Qmnjk9KFWfYH5tF+wLPHqgr9JEFoFWmBzQNmfXQdnmXHoTQMqYB
+	wAffhwr8CMDAiErghwBeufE8z7y8rsVB6IH4Sb8ewBablxSKAIBGmx7jVcsZBezy9uE8U0wC
+	1Pv1FM9hjBz6xytwfgBnBmmoa+/CeBcSJgnWTW/lNQSzBtbqRhZnVzAfwZu+vxdZwoRC9+kJ
+	gucQZhM8b6leZJxZDdv8Z3CBw+GtiVqMvx8yDjG8oG+nBNtvwlmbBxd4OZx2tYgEXgV7qsoI
+	YaAIwFHveZFQlAE4cPQUEFSvwmHvPMU7xZkYaLbHC+3NcNpixIRnlMIb/lDBhBQabCdxoS2B
+	uhKZoF4Lja4L/6291ufDjwO5cUk045I4xiVxjP/vNQGiEYRzWk12OqdJyOHy4jTKbI02Jz1u
+	d262FTz51D0Lrl8vgbPTgTgnwGjgBJDG5WGSkfxDqTLJHuWnBzl1bopam8VpnGAlTcjDJY3V
+	zSkyJl25n9vLcfs49b+nGB0SUYDFlN3TFm/vfvf3WOdYRFpUkssyNTbWbyi+vEnliWub8wdL
+	PRvUivIJhWohrRzr21ihWvP17uqt9o5sc9T7D642sFkKQ9Mbwe3RJulm2+3D7pdD31MHKsNS
+	0yT5PxbFSV/am/ccmL154C4WPBTTmxh/sMBXuEWFP61ySTMTa+/137Unj29smvlqWdGH3oQj
+	huCybXkxnE6x463IDlPrgm7ttrdH71cOVddUbdglVQ6l6NXGjM4TaOVfny3Q0Vni33qche84
+	B2elAVJW/zE5Wbrzqcj8OV1ybnR3Z45pYioEM5/rKR7ZEpZYn3zn5xXt65vJFzxTq39K+eDw
+	/dKM1C9fma+SE5oMZcI6XK1R/gNsDtkAQwQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrKKsWRmVeSWpSXmKPExsVy+t/xe7p7rtYnGPw+bGPRdW8Hm0XHppms
+	Fn8nHWO3WH23n81i44z1rBaN75QtJjxsY7doO7Od1eLZrb1MFu0f9zJbLGj9wm5x6aSuxdGz
+	f5ksVjy7z2TRsesri8WevSdZLC7vmsNmMf3OezaLpdcvMlksPniA1eLSgQVMFk3LtrJYbN3f
+	ymjRf+c6m8Xx3gNMFps3TWW2OP/3OKvFjw2PWR1kPNbMW8Po8fvXJEaPv3M/Mnss2FTqsWfi
+	STaPzSu0PC6fLfXYtKqTzePduXPsHocOdzB6zDsZ6PF+31U2j74tqxg9Pm+S89j05C1TAH+U
+	nk1RfmlJqkJGfnGJrVK0oYWRnqGlhZ6RiaWeobF5rJWRqZK+nU1Kak5mWWqRvl2CXsaur+vZ
+	Cz6KVSxpvMTawLhVqIuRk0NCwERiyZa9LCC2kMBSRomXhwIh4jISJ6c1sELYwhJ/rnWxdTFy
+	AdW8Z5R487CRHSQhLBAlcenvO2YQm03AUKLrLUgRJ4eIgJLE28d9zCANzAI3OSSW7HzCBNH9
+	ikli28qPQA4HB6+AncSSV54gDSwCqhLzO+6DDRIVSJK4d3klmM0rIChxcuYTsOs4Bewl1m6Y
+	DWYzC5hJzNv8kBnClpfY/nYOlC0ucevJfKYJjEKzkLTPQtIyC0nLLCQtCxhZVjGKpJYW56bn
+	FhvqFSfmFpfmpesl5+duYgSmp23Hfm7ewTjv1Ue9Q4xMHIyHGCU4mJVEeO/X1iQI8aYkVlal
+	FuXHF5XmpBYfYjQF+mcis5Rocj4wQeaVxBuaGZgamphZGphamhkrifNunbsmXkggPbEkNTs1
+	tSC1CKaPiYNTqoFpR83eJUpa2Zkrth3UFmJvi0o89WLNjLY3149aqCsXrnqX+ohhquiGI0k7
+	2R7GfBdmTi1J1ZFNuiI1pY9D3PJ+xcmnIU0HmNIaWounLbfcNMVO4oaPcvaR/Wwv303z0qg+
+	HVEXatT8oGDho+MOij2Pykz4v8vOfPH+k0dtulO+puoMGeFTUup+Dr6lDpOUL53x2LTOPJ/3
+	UCt32onLnqqpGV5HHhqLZxlq/bnt+ElgepnG/Lvv/7SI260+zCN66vIRhYlvDrgrfNeen33i
+	tU3Ng26eJ4aK77bMPnMjXJvL4cyr5YwGm7ySH99tuWnlxnRpkjjj2/aJ3YV6s/fIlb9+rnBv
+	pbPS1/rr0wr2PwlTYinOSDTUYi4qTgQAWVBtBtgDAAA=
+X-CMS-MailID: 20210421073525eucas1p2de039236195308aa06fdee8b77fe01c7
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="UTF-8"
 X-RootMTR: 20210420212618eucas1p102b427d1af9c682217dfe093f3eac3e8
@@ -201,12 +201,13 @@ References: <20210408103605.1676875-1-elver@google.com>
 	<20210408103605.1676875-6-elver@google.com>
 	<1fbf3429-42e5-0959-9a5c-91de80f02b6a@samsung.com>
 	<CANpmjNM8wEJngK=J8Lt9npkZgrSWoRsqkdajErWEoY_=M1GW5A@mail.gmail.com>
+	<43f8a3bf-34c5-0fc9-c335-7f92eaf23022@samsung.com>
 X-Original-Sender: m.szyprowski@samsung.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@samsung.com header.s=mail20170921 header.b=UUhU0njs;       spf=pass
- (google.com: domain of m.szyprowski@samsung.com designates 210.118.77.12 as
- permitted sender) smtp.mailfrom=m.szyprowski@samsung.com;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=samsung.com
+ header.i=@samsung.com header.s=mail20170921 header.b="p3g/qabO";
+       spf=pass (google.com: domain of m.szyprowski@samsung.com designates
+ 210.118.77.12 as permitted sender) smtp.mailfrom=m.szyprowski@samsung.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=samsung.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -219,55 +220,61 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hi,
-
-On 21.04.2021 00:42, Marco Elver wrote:
-> On Tue, 20 Apr 2021 at 23:26, Marek Szyprowski <m.szyprowski@samsung.com> wrote:
->> On 08.04.2021 12:36, Marco Elver wrote:
->>> Introduces the TRAP_PERF si_code, and associated siginfo_t field
->>> si_perf. These will be used by the perf event subsystem to send signals
->>> (if requested) to the task where an event occurred.
->>>
->>> Acked-by: Geert Uytterhoeven <geert@linux-m68k.org> # m68k
->>> Acked-by: Arnd Bergmann <arnd@arndb.de> # asm-generic
->>> Signed-off-by: Marco Elver <elver@google.com>
->> This patch landed in linux-next as commit fb6cc127e0b6 ("signal:
->> Introduce TRAP_PERF si_code and si_perf to siginfo"). It causes
->> regression on my test systems (arm 32bit and 64bit). Most systems fails
->> to boot in the given time frame. I've observed that there is a timeout
->> waiting for udev to populate /dev and then also during the network
->> interfaces configuration. Reverting this commit, together with
->> 97ba62b27867 ("perf: Add support for SIGTRAP on perf events") to let it
->> compile, on top of next-20210420 fixes the issue.
-> Thanks, this is weird for sure and nothing in particular stands out.
+On 21.04.2021 08:21, Marek Szyprowski wrote:
+> On 21.04.2021 00:42, Marco Elver wrote:
+>> On Tue, 20 Apr 2021 at 23:26, Marek Szyprowski 
+>> <m.szyprowski@samsung.com> wrote:
+>>> On 08.04.2021 12:36, Marco Elver wrote:
+>>>> Introduces the TRAP_PERF si_code, and associated siginfo_t field
+>>>> si_perf. These will be used by the perf event subsystem to send 
+>>>> signals
+>>>> (if requested) to the task where an event occurred.
+>>>>
+>>>> Acked-by: Geert Uytterhoeven <geert@linux-m68k.org> # m68k
+>>>> Acked-by: Arnd Bergmann <arnd@arndb.de> # asm-generic
+>>>> Signed-off-by: Marco Elver <elver@google.com>
+>>> This patch landed in linux-next as commit fb6cc127e0b6 ("signal:
+>>> Introduce TRAP_PERF si_code and si_perf to siginfo"). It causes
+>>> regression on my test systems (arm 32bit and 64bit). Most systems fails
+>>> to boot in the given time frame. I've observed that there is a timeout
+>>> waiting for udev to populate /dev and then also during the network
+>>> interfaces configuration. Reverting this commit, together with
+>>> 97ba62b27867 ("perf: Add support for SIGTRAP on perf events") to let it
+>>> compile, on top of next-20210420 fixes the issue.
+>> Thanks, this is weird for sure and nothing in particular stands out.
+>>
+>> I have questions:
+>> -- Can you please share your config?
 >
-> I have questions:
-> -- Can you please share your config?
+> This happens with standard multi_v7_defconfig (arm) or just defconfig 
+> for arm64.
+>
+>> -- Also, can you share how you run this? Can it be reproduced in qemu?
+> Nothing special. I just boot my test systems and see that they are 
+> waiting lots of time during the udev populating /dev and network 
+> interfaces configuration. I didn't try with qemu yet.
+>> -- How did you derive this patch to be at fault? Why not just
+>> 97ba62b27867, given you also need to revert it?
+> Well, I've just run my boot tests with automated 'git bisect' and that 
+> was its result. It was a bit late in the evening, so I didn't analyze 
+> it further, I've just posted a report about the issue I've found. It 
+> looks that bisecting pointed to a wrong commit somehow.
+>> If you are unsure which patch exactly it is, can you try just
+>> reverting 97ba62b27867 and see what happens?
+>
+> Indeed, this is a real faulty commit. Initially I've decided to revert 
+> it to let kernel compile (it uses some symbols introduced by this 
+> commit). Reverting only it on top of linux-next 20210420 also fixes 
+> the issue. I'm sorry for the noise in this thread. I hope we will find 
+> what really causes the issue.
 
-This happens with standard multi_v7_defconfig (arm) or just defconfig 
-for arm64.
-
-> -- Also, can you share how you run this? Can it be reproduced in qemu?
-Nothing special. I just boot my test systems and see that they are 
-waiting lots of time during the udev populating /dev and network 
-interfaces configuration. I didn't try with qemu yet.
-> -- How did you derive this patch to be at fault? Why not just
-> 97ba62b27867, given you also need to revert it?
-Well, I've just run my boot tests with automated 'git bisect' and that 
-was its result. It was a bit late in the evening, so I didn't analyze it 
-further, I've just posted a report about the issue I've found. It looks 
-that bisecting pointed to a wrong commit somehow.
-> If you are unsure which patch exactly it is, can you try just
-> reverting 97ba62b27867 and see what happens?
-
-Indeed, this is a real faulty commit. Initially I've decided to revert 
-it to let kernel compile (it uses some symbols introduced by this 
-commit). Reverting only it on top of linux-next 20210420 also fixes the 
-issue. I'm sorry for the noise in this thread. I hope we will find what 
-really causes the issue.
+This was a premature conclusion. It looks that during the test I've did 
+while writing that reply, the modules were not deployed properly and a 
+test board (RPi4) booted without modules. In that case the board booted 
+fine and there was no udev timeout. After deploying kernel modules, the 
+udev timeout is back.
 
 Best regards
-
 -- 
 Marek Szyprowski, PhD
 Samsung R&D Institute Poland
@@ -275,4 +282,4 @@ Samsung R&D Institute Poland
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/43f8a3bf-34c5-0fc9-c335-7f92eaf23022%40samsung.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/dccaa337-f3e5-08e4-fe40-a603811bb13e%40samsung.com.
