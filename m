@@ -1,193 +1,142 @@
-Return-Path: <kasan-dev+bncBCZLRWEX3ECRBMH7QCCAMGQEYILYIXY@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBSUBQGCAMGQES7YYKPI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x440.google.com (mail-pf1-x440.google.com [IPv6:2607:f8b0:4864:20::440])
-	by mail.lfdr.de (Postfix) with ESMTPS id A70E4366EC3
-	for <lists+kasan-dev@lfdr.de>; Wed, 21 Apr 2021 17:07:29 +0200 (CEST)
-Received: by mail-pf1-x440.google.com with SMTP id x9-20020a056a000bc9b02902599e77f7afsf8142818pfu.3
-        for <lists+kasan-dev@lfdr.de>; Wed, 21 Apr 2021 08:07:29 -0700 (PDT)
-ARC-Seal: i=3; a=rsa-sha256; t=1619017648; cv=pass;
+Received: from mail-pg1-x538.google.com (mail-pg1-x538.google.com [IPv6:2607:f8b0:4864:20::538])
+	by mail.lfdr.de (Postfix) with ESMTPS id AFFF2366ED5
+	for <lists+kasan-dev@lfdr.de>; Wed, 21 Apr 2021 17:12:11 +0200 (CEST)
+Received: by mail-pg1-x538.google.com with SMTP id b2-20020a6567c20000b02901fda3676f83sf10553396pgs.9
+        for <lists+kasan-dev@lfdr.de>; Wed, 21 Apr 2021 08:12:11 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1619017930; cv=pass;
         d=google.com; s=arc-20160816;
-        b=ZKo2nLxE1t64TMIUu4Y+wX/nXNPq7WITW/cEaiDSXb8sND+ztRg0En2zoAloixjBPg
-         WDP7qx5wrTk90CqLPf7/xDc363Lej/obwwwXCsgO26PxgyK7CPPQ/B3FmYPywxIa8vjr
-         VWYAsGeGLWPGgwbFXvvZrFDXTADpHWjmNNgxx/aFIDTjU6WS2YWIUaUZCTaMhWnAmLu5
-         apv330b/UnmyF+QQgwGeivwGGw6HrL33uvbxA9BBm3gUR8PUiHKENwxK8ZgQnH97o9Qp
-         mq3GcPRssG0uHVDY13J9O8Br9/Ln4tZmc0JMDS5oFzUIlVDRf6V1j9xjqjehz/2nMAQO
-         Hj7Q==
-ARC-Message-Signature: i=3; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        b=ibM4HPY6Q7dNHSEeV8czS51IuzYphd237N0Bh81XQemlDUeqZR3O5FJ0QUEaW4GK94
+         PlGgC2z5j0dfyXRfF93cT8woKUBkec7ihOVrVl/Tp4XnO4VmybaCUr4h3+XL9LJ27uVu
+         lFhGaLyvGk8bFX0TSEiNhQN2SWsqj3VGYhkuP9JVtLKkvRtGr8MbqwX3GrNNkD+8UyZ7
+         yTR+ivooiyE7n41zQgekORD3SeBcz2tsS5zVhDDskcImrRGFuC2CX2hTP0/+oyB5uqTZ
+         xcXzC7ByjrKHd49G857n1Qfu0sUkF0NEfLCcKX5yXYcQ34KW+kqznjd6Z3wRkC5jc9dq
+         nueA==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-language:in-reply-to
-         :mime-version:user-agent:date:message-id:from:references:cc:to
-         :subject:sender:dkim-signature;
-        bh=fpj/WvYgq4kAasDMsU+l4YTFBY4RfG9FlP0YTtXKth4=;
-        b=jDoYpOnaD30gFwlvwU3fwp4CtcQLKGReTQC6ZiumCP4K7aIiOM6wWTgiJC+ylMOSzH
-         +VCow1yUSZFTll9SmnQO3ecE7LlrFMfVK2758CB3kTlGsoKdEi0XT9t/KmJ8Fy9RuQTH
-         MZAeKeUP5Ej/irtTNBvkgN5Ht80B+t9oxcGPFrb6GCp79S4tf2Kht/lLXU8L+DsCceAI
-         AdHqu2earA67hY0Cjzi0DuhC7FJa7rehFsRSt2QURhCr6iTxAOHHt0NuZURh7u7fyXES
-         gJf+UqPwDXyUBt1uCcSKvpXcjmE0W6IOfjkTIwTUq4PYBpkt5NJwQtILUr8CzBJcOgP3
-         IwTA==
-ARC-Authentication-Results: i=3; gmr-mx.google.com;
-       dkim=pass header.i=@Nvidia.com header.s=selector2 header.b=QvibK0bQ;
-       arc=pass (i=1 spf=pass spfdomain=nvidia.com dmarc=pass fromdomain=nvidia.com);
-       spf=pass (google.com: domain of jonathanh@nvidia.com designates 40.107.75.75 as permitted sender) smtp.mailfrom=jonathanh@nvidia.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=nvidia.com
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=9SKjMSxXImnQZyxK08BtcKUUn9RXLRYEl5dzPqqpB88=;
+        b=f320ZdSrvLCJLk29FYsjDYpLjHwj+xFf6DfutSui6iB6PMWn2FdjzGrD4Hv+2/jvO3
+         QEQk17mTOiTIxhUlz9kXF09omqUaanRzxTAKNOVcgOinJ3vqKG4GGZkoNIxnA9YQ9FuI
+         Lvt7+GGz4xyOeuBozQF23TZLl3amD7dr9BOvFKij4+nNVu1oE9d3WrXrOo3OIKedpDVs
+         JZFvbNfskzvowC+oGuM1OdqgOBlrPa/OCB/gOdU7uPeB6KfTJESBa64h4SJUdLNTHzcF
+         yfXRaiMga8doBDUcoTeg9fs2b4KT5g7BnaCQBe6vP5SCj2Izkk5N1fAFwNSTMX1QiKRG
+         bZiw==
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=Vo5glLC6;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::c2c as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=fpj/WvYgq4kAasDMsU+l4YTFBY4RfG9FlP0YTtXKth4=;
-        b=g8QWrEyp/j+vn9MB3Rx7CfJ2IikQoB+8TuyR2XPiKaY/zO4b6QZTpbA78VfyTl3/R/
-         05INKJHM1BHgVbLppkbGr5LhdD6T+a3aeleuJsFWn/zw0dfIyedICAMF0+LHXyxSp1ph
-         RkwAOKBERsq/OZ9s6olC0N43JUts6MG6upe9mIDuTA/6ymiix5wKzpcAOqJY4glJ9wVv
-         sUd8jAxZihFMHMfKF6tvfI16Sp1hgMn6z7gRrijNFAEWpy5SbUTlLxTNHPx84j0Q9BSe
-         kHMoRpuQpVdKu+6QNt/JSdbBIkYjlu8Bo1en0PEGz1cYQrhPF+62PJudOepA2NhUr2Am
-         rDxg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=9SKjMSxXImnQZyxK08BtcKUUn9RXLRYEl5dzPqqpB88=;
+        b=aMOVochCp1Yy1vQ+1mDE5WLOxHgLVGXkKCethrVLEWxs4rNYMUHhSuvDYH+zFFNQ7I
+         vi3mDZYEwZpTXBI3vtsybV8ch8S5ilVW+zPu7SH3e0P+CX1ZjSh4U7EUm5Q4psIZSgSG
+         b8Z+b3e0PxSgA1+JyQX+9kjuwEYHuaX0Z2EqhGTvZiU8cZub3/R+lQokE3KouKbuya0S
+         TdQcOlFFroKBdyTy5TGoGBkFjuYPF9aSXFXrP1ufCE64epshMPpF03fjH6TqK29mqYw/
+         TB07rqHEQg9jHtWI1ffj6yZOoIPaRrjjEPWrev1zPwIi0iZWlQCaYZlOTqHWV9FyCMfz
+         BBbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=fpj/WvYgq4kAasDMsU+l4YTFBY4RfG9FlP0YTtXKth4=;
-        b=jtDRCjlg1ot9lg1FjNjIQG325xMilwn/0DMcnHYt/SqgFKUgHPXLz592z9LhHSw5Ux
-         uNVbOZ/+ummeLZ60+8UbR/LuhZc9Z0I8qfIjRnMTBFSTpqDy4ip7yO53EmAfR3QZI3ip
-         AANjA5MR3TGY0PCx6Etgue5QCQF1IduI1lF6BZXv/G2x/RpmeYTx5pO77YCvZRAKjA4u
-         KMT2zlnDrcTi+OTp2+uJvoH53h2dhAxIgXaaI9DCtw5EB2tRj6G0uyhGWCWLSZTZfCre
-         OtjOSKMtqpDfJ/gJZW0qKVL0lzM8sI417tJRlNM8Iau+xxu+b5wWCewjpIfTQnGegiUi
-         OHdA==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM532+0d/iA6pAZfodewNf8Tm7SzNsq4+SxogOljkyXm+otAA+ljN5
-	u49THto/hR5x7mcCJY/7TWo=
-X-Google-Smtp-Source: ABdhPJwuzXWo/hsPTvnGN4LPY1b48HyeTMQaiTi7FzKV1R1incDMBQ0mZxpk3rD7gvFDpTq001coXg==
-X-Received: by 2002:a17:90b:249:: with SMTP id fz9mr11330977pjb.167.1619017648330;
-        Wed, 21 Apr 2021 08:07:28 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=9SKjMSxXImnQZyxK08BtcKUUn9RXLRYEl5dzPqqpB88=;
+        b=kRSauglRahanjbAJscZyB0WTMXezXuepgzR5SN1I8fo/rOeVa4wlavmwQey7sntryc
+         bLr9GaFHihWPr4huyjsHu45+fKAoc6JkGiZ5XjnOPR9H8tsn17AW7H79eH5JZBo6CfWK
+         f2iHCiF16O85c0DM3YH7GgZF24AtuByKbnugH37vhFlC/0ItX9Gk2uWsll38frCgVlvy
+         Dl4RoIFmQGixbIkVxhKGKXRFr1ATRWusa4tkxQ2KCsTX6pSTNlgz8D5qTdrhuOaG0mbT
+         uSB1wHA0Ofrf/JeQawHtvB6Wogk5bRIS31u3HfEH4YtZnSOXOMceoNFZ7rQslluVY1X9
+         plLQ==
+X-Gm-Message-State: AOAM530sxHobTckzxnUm9NCAgvZ6FiwEWMCXUFJo+1ggKzgueqYjALHq
+	vgmnrDGk1yUz6SVg+zL6kYM=
+X-Google-Smtp-Source: ABdhPJwoPf6zuzMDBvEenJawk18L4W8dUJoEv7LKt3bbcaC8HFnovIVjgwt4eB57Bl7oKGgr9yWlfA==
+X-Received: by 2002:a17:90a:5885:: with SMTP id j5mr11885476pji.102.1619017930420;
+        Wed, 21 Apr 2021 08:12:10 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a62:79d5:: with SMTP id u204ls981399pfc.9.gmail; Wed, 21 Apr
- 2021 08:07:27 -0700 (PDT)
-X-Received: by 2002:a63:5322:: with SMTP id h34mr22575653pgb.182.1619017647680;
-        Wed, 21 Apr 2021 08:07:27 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1619017647; cv=pass;
+Received: by 2002:a63:1656:: with SMTP id 22ls1040892pgw.1.gmail; Wed, 21 Apr
+ 2021 08:12:09 -0700 (PDT)
+X-Received: by 2002:a63:1d5d:: with SMTP id d29mr10977675pgm.398.1619017929717;
+        Wed, 21 Apr 2021 08:12:09 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1619017929; cv=none;
         d=google.com; s=arc-20160816;
-        b=KyEQjJCRyLNmCEfikrbQSyRlXflqWLRt4Z9WqfS5yJd+b/XFH7nz5oKPrsw73VX+gO
-         aEhe4O2NRUiFUK86I372N1OWusT8zfh2xl7b1Gtw5vlaGKo3P9GtdoMtmvz9lxhwn/9Q
-         6DDbk94ee0zkCyk2nonmx3QCSy4smpGDrked5oyoaL6gDVzq9jwxMnv9OTzbQkW4ryuN
-         H6Cy18knuU+rChjv3e/yu19mq8iyWC5TV5IHlIY5Jq1awnegT7WNZg9KcQjpmPwVEerD
-         NfiSFrpl/vBACrFlkxXNfNUq11VeCcwmG75X49+XSpReGv69gzkY/1AQysq4AwKdlPsX
-         bMCg==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject
-         :dkim-signature;
-        bh=1Hz6XlcExdhxkeP7H5H8MIczXGLVYlD+EsooV8ep78o=;
-        b=IyokKmxZ/vDRhG/VLNveRLwgWOt3JBd9IdKMc6/tGxEdjQa/a6AuxBJFpmhRVrmFJk
-         Yo6Aa6svYknJ4/iH6rkkK2wD2uhbhTBZ+Wya778MV3ENOUcSBIshtjIv9WMbfb6SmDFt
-         +WGLnz9KwxTCQiPcGWdzS8Md4rK7YSaO23iB09Zdjmy7lTeNVidRH0cf4pZiXmDrBfmB
-         lGZBFf2M2+5qOe92PX7pOzVoSqHcKfA7xbUuLIlJdxl2sA0qPHuq3HQ0KJswxu3QhH76
-         00VO7d0/uQUbtr8w02Btfv62lgKP4BIFYqAICU0qi3R0cIu2HkevV624qP8W1z9Yw0Uw
-         9nng==
-ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@Nvidia.com header.s=selector2 header.b=QvibK0bQ;
-       arc=pass (i=1 spf=pass spfdomain=nvidia.com dmarc=pass fromdomain=nvidia.com);
-       spf=pass (google.com: domain of jonathanh@nvidia.com designates 40.107.75.75 as permitted sender) smtp.mailfrom=jonathanh@nvidia.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=nvidia.com
-Received: from NAM02-BL2-obe.outbound.protection.outlook.com (mail-eopbgr750075.outbound.protection.outlook.com. [40.107.75.75])
-        by gmr-mx.google.com with ESMTPS id p18si231901pgi.3.2021.04.21.08.07.27
+        b=i85WPzq7h3Ijh2E4EH8DarxRpYEsZsRWWg5QG5BkX3PcJ/G5hDLcGJPiQd0QDG4Hgm
+         fiACMkA5MMhNbPZoXmqqeL52gfqYDDunGyr/J9ivz81RCAVWzFTcAzNWmwniQBzQpxhK
+         YIfYPkWlNGUT24q7192iInS2hVl0PAnIteP0Ev9+xT+ukPH8plE7Nr7atL5mrd9tEXsY
+         SSfhiJL14NBYrxNh+cLdCZNRWIBZEbGhdW4LXtCWq2sCg7zQZoZG4hnaqcTaoC6+esmk
+         tCjrmzuzJYF9BEsmqiTnUvPcdatCkW5AyMCs7Obq6zkKKGu+nSSXnlOvMcM8icI7mTmL
+         Oy6Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=FEXEAgUao8/U1XoW751IUwiCrSmDVaqLIc6z62zqqMg=;
+        b=geSTAOGe5W+vbMu/qbt2yYZWHuPLL7F2Y4j1zwOtN3SFsZFubiQR1T8IE78AFnjpLe
+         f09BkIRon1H70LW2TxakG7pV3lx5Pgn2pG7BSGxSfWJSJRgFTFJa05FltzYRF+E/bY3/
+         Bq58taMRyQs4VPO68wsKo+bXhjR49ghHIKU5f8GjTTyx/1tLuNbGzl0UosOTJ57fPMh3
+         rFgkHDFElLGnc0X6e+Z3r6Ai4waAZZg5kstWZKMo2dFvXsvR3Eds5oJ2GMGlZE/TF34N
+         kvdb+8wT6s/BSWDvMobP7oRRJivV6aS/OnXQ5lp67pFB7v/2D64KXls7//e4AcaZaLZf
+         47Aw==
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=Vo5glLC6;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::c2c as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-oo1-xc2c.google.com (mail-oo1-xc2c.google.com. [2607:f8b0:4864:20::c2c])
+        by gmr-mx.google.com with ESMTPS id 7si209867pgj.1.2021.04.21.08.12.09
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 21 Apr 2021 08:07:27 -0700 (PDT)
-Received-SPF: pass (google.com: domain of jonathanh@nvidia.com designates 40.107.75.75 as permitted sender) client-ip=40.107.75.75;
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hodxI244DlnMlsd4U7em2E++AiS1m5luIMEOIhwG5G3yolHZZtucz9uQsDHVP8A/36AB4soPVuud29QDAAzzfVIw3GyyaTKZxEHhexKusp22nvl1RsNg8cH8E4iGQpEHshvXDaNg0qd61blzxUBB19lGFzAZBG1oUUbeJYJ17RoONA9HHetrQxAG3zE4v2/y3Hv1sKPHy+cm4FpzbQofE7Emoj5k4Uhwpgyz/nK+YhWe5nyAz1emiwfhzg0fz6kCj3PRG7cj1tjDvUKfT1yeh7f9GVccaf2DEj8BRqltxhapJjH1d43m8q3R3ydSjScJqxNYHoI5xY5Cji6WMJosWA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1Hz6XlcExdhxkeP7H5H8MIczXGLVYlD+EsooV8ep78o=;
- b=eeYhHVsgU+bG1hn4SwPDoTtS8xJ3vZubaljUxum792+0CTqoS1k1kkyF8bxX6nTNr6zioxh34UfA4UxlNmOM8QCXer9csIA+Z8cWNkMZld9sR7nHjIB8Aljg9eNn5OLrAZC4ULn9Vha4fiB65TJ3gMwlJr/Op4CdxnmUs46DrC26LDqATimykoEGjl27rP+U3ZRF90+nZdSmfTBCt8sE31v1U/ry0AeA5+Cye504g15gPytn7v+9GXxNkSE84hEA9BnGdc6RL56iw9jyeshdeC4XzJD+EC2ezbAyLLjxRg0uAvRybIDFPUq92L5/xZHhEgX+1BpUjHVUlyLRRkG1pg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.112.34) smtp.rcpttodomain=google.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-Received: from MWHPR20CA0048.namprd20.prod.outlook.com (2603:10b6:300:ed::34)
- by MWHPR12MB1519.namprd12.prod.outlook.com (2603:10b6:301:d::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.21; Wed, 21 Apr
- 2021 15:07:25 +0000
-Received: from CO1NAM11FT052.eop-nam11.prod.protection.outlook.com
- (2603:10b6:300:ed:cafe::1e) by MWHPR20CA0048.outlook.office365.com
- (2603:10b6:300:ed::34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.20 via Frontend
- Transport; Wed, 21 Apr 2021 15:07:25 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
- smtp.mailfrom=nvidia.com; google.com; dkim=none (message not signed)
- header.d=none;google.com; dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.112.34; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (216.228.112.34) by
- CO1NAM11FT052.mail.protection.outlook.com (10.13.174.225) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4065.21 via Frontend Transport; Wed, 21 Apr 2021 15:07:25 +0000
-Received: from [10.26.49.10] (172.20.145.6) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 21 Apr
- 2021 15:07:15 +0000
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 21 Apr 2021 08:12:09 -0700 (PDT)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::c2c as permitted sender) client-ip=2607:f8b0:4864:20::c2c;
+Received: by mail-oo1-xc2c.google.com with SMTP id m25-20020a4abc990000b02901ed4500e31dso2296933oop.1
+        for <kasan-dev@googlegroups.com>; Wed, 21 Apr 2021 08:12:09 -0700 (PDT)
+X-Received: by 2002:a4a:d80e:: with SMTP id f14mr18296328oov.54.1619017928732;
+ Wed, 21 Apr 2021 08:12:08 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210408103605.1676875-1-elver@google.com> <CGME20210420212618eucas1p102b427d1af9c682217dfe093f3eac3e8@eucas1p1.samsung.com>
+ <20210408103605.1676875-6-elver@google.com> <1fbf3429-42e5-0959-9a5c-91de80f02b6a@samsung.com>
+ <CANpmjNM8wEJngK=J8Lt9npkZgrSWoRsqkdajErWEoY_=M1GW5A@mail.gmail.com>
+ <43f8a3bf-34c5-0fc9-c335-7f92eaf23022@samsung.com> <dccaa337-f3e5-08e4-fe40-a603811bb13e@samsung.com>
+ <CANpmjNP6-yKpxHqYFiA8Up-ujBQaeP7xyq1BrsV-NqMjJ-uHAQ@mail.gmail.com>
+ <740077ce-efe1-b171-f807-bc5fd95a32ba@samsung.com> <f114ff4a-6612-0935-12ac-0e2ac18d896c@samsung.com>
+ <CANpmjNM6bQpc49teN-9qQhCXoJXaek5stFGR2kPwDroSFBc0fw@mail.gmail.com> <cf6ed5cd-3202-65ce-86bc-6f1eba1b7d17@samsung.com>
+In-Reply-To: <cf6ed5cd-3202-65ce-86bc-6f1eba1b7d17@samsung.com>
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Wed, 21 Apr 2021 17:11:57 +0200
+Message-ID: <CANpmjNPr_JtRC762ap8PQVmsFNY5YhHvOk0wNcPHq=ZQt-qxYg@mail.gmail.com>
 Subject: Re: [PATCH v4 05/10] signal: Introduce TRAP_PERF si_code and si_perf
  to siginfo
-To: Marco Elver <elver@google.com>, <peterz@infradead.org>,
-	<alexander.shishkin@linux.intel.com>, <acme@kernel.org>, <mingo@redhat.com>,
-	<jolsa@redhat.com>, <mark.rutland@arm.com>, <namhyung@kernel.org>,
-	<tglx@linutronix.de>
-CC: <glider@google.com>, <viro@zeniv.linux.org.uk>, <arnd@arndb.de>,
-	<christian@brauner.io>, <dvyukov@google.com>, <jannh@google.com>,
-	<axboe@kernel.dk>, <mascasa@google.com>, <pcc@google.com>,
-	<irogers@google.com>, <oleg@redhat.com>, <kasan-dev@googlegroups.com>,
-	<linux-arch@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <x86@kernel.org>,
-	<linux-kselftest@vger.kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>,
-	linux-tegra <linux-tegra@vger.kernel.org>
-References: <20210408103605.1676875-1-elver@google.com>
- <20210408103605.1676875-6-elver@google.com>
-From: Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <81254854-aa22-fab1-fc6f-22716b7c2732@nvidia.com>
-Date: Wed, 21 Apr 2021 16:07:13 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
-MIME-Version: 1.0
-In-Reply-To: <20210408103605.1676875-6-elver@google.com>
+To: Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Peter Zijlstra <peterz@infradead.org>, 
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+	Arnaldo Carvalho de Melo <acme@kernel.org>, Ingo Molnar <mingo@redhat.com>, Jiri Olsa <jolsa@redhat.com>, 
+	Mark Rutland <mark.rutland@arm.com>, Namhyung Kim <namhyung@kernel.org>, 
+	Thomas Gleixner <tglx@linutronix.de>, Alexander Potapenko <glider@google.com>, 
+	Al Viro <viro@zeniv.linux.org.uk>, Arnd Bergmann <arnd@arndb.de>, 
+	Christian Brauner <christian@brauner.io>, Dmitry Vyukov <dvyukov@google.com>, Jann Horn <jannh@google.com>, 
+	Jens Axboe <axboe@kernel.dk>, Matt Morehouse <mascasa@google.com>, 
+	Peter Collingbourne <pcc@google.com>, Ian Rogers <irogers@google.com>, Oleg Nesterov <oleg@redhat.com>, 
+	kasan-dev <kasan-dev@googlegroups.com>, linux-arch <linux-arch@vger.kernel.org>, 
+	linux-fsdevel <linux-fsdevel@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
+	"the arch/x86 maintainers" <x86@kernel.org>, 
+	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>, 
+	Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>, Linux ARM <linux-arm-kernel@lists.infradead.org>, 
+	linux-tegra@vger.kernel.org, jonathanh@nvidia.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Language: en-US
-X-Originating-IP: [172.20.145.6]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- HQMAIL107.nvidia.com (172.20.187.13)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ec883513-a740-4be9-fa1c-08d904d72c58
-X-MS-TrafficTypeDiagnostic: MWHPR12MB1519:
-X-Microsoft-Antispam-PRVS: <MWHPR12MB1519E77813E2DDEDC4D904C5D9479@MWHPR12MB1519.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1148;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ZoEHylcQurSelIXMAse60Pl6Vp6bWaXID/qD8iT4o2P7RDDj09dep7ybG0PGNTIPZtrO9bL8NPbghZ0enkUWyMBZHN91/+9n3JH8RjMdG0FpCQpYFunme/rAmMpWYWbpFgSVoLlp38AdziHzW+l++RuDY6RB+1NZNDrETm9xjiQskn+FvWbBj8tGw+awC08bZivrPCGC+N4yeGJ0nRtHW/jK7VZEd96vE1vusNKT2fFsXrIAvJ5+0hgJzCt0s3ethMw3JY+W2fpjSfxvUVI+XaNFFVZDHe/AgqpzSx/ujjyxX/hlP63lBz5WH84Y7nSKUF0hs0gksFl/oK/JeQjbNcPz4L97lbwW0md54jS6PlF1dc6X9gWV37D5ZBiS4RgxK4w4M05sU5b7Ve7RHZJeZHBUPvhHkmIAycLfi1SgP/yQ1kpZrDowPsp1LLvwso8WrtKUV29Z9oqHLO7JxPgKj5QoTeTDn8uDOdSLg3K+WSFpuul4IJcOPqfOEO2NLp6sR4jA50jUqBjNH8Zxf4rmb1BfuK9k7bzCnZCYm6JrX0qniphrEWqL2Jx8x2P307T3VACyCC7uL7hB2PIvqZ5G1OBZS4Iwykgb5GmrN8QtBtfXFC8J8oFbjpD3ZRqB7I/9wvT/Uqb9mnWRd+KMA/RWz0FsB6iAcEGpucyOox29HCw9x+jUK8+bKTotOMsG5PpWmaPK07XaTUFrDE7s6zKwqg==
-X-Forefront-Antispam-Report: CIP:216.228.112.34;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid03.nvidia.com;CAT:NONE;SFS:(4636009)(39860400002)(136003)(396003)(346002)(376002)(46966006)(36840700001)(5660300002)(53546011)(4326008)(316002)(36860700001)(82740400003)(4744005)(82310400003)(47076005)(86362001)(2616005)(7636003)(31696002)(478600001)(2906002)(70206006)(83380400001)(7416002)(8676002)(36756003)(356005)(8936002)(31686004)(70586007)(16526019)(426003)(26005)(16576012)(36906005)(110136005)(186003)(336012)(54906003)(43740500002)(2101003);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Apr 2021 15:07:25.7014
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ec883513-a740-4be9-fa1c-08d904d72c58
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.34];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT052.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR12MB1519
-X-Original-Sender: jonathanh@nvidia.com
+X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@Nvidia.com header.s=selector2 header.b=QvibK0bQ;       arc=pass
- (i=1 spf=pass spfdomain=nvidia.com dmarc=pass fromdomain=nvidia.com);
-       spf=pass (google.com: domain of jonathanh@nvidia.com designates
- 40.107.75.75 as permitted sender) smtp.mailfrom=jonathanh@nvidia.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=nvidia.com
+ header.i=@google.com header.s=20161025 header.b=Vo5glLC6;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::c2c as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -200,33 +149,126 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hello!
++Cc linux-arm-kernel
 
-On 08/04/2021 11:36, Marco Elver wrote:
-> Introduces the TRAP_PERF si_code, and associated siginfo_t field
-> si_perf. These will be used by the perf event subsystem to send signals
-> (if requested) to the task where an event occurred.
-> 
-> Acked-by: Geert Uytterhoeven <geert@linux-m68k.org> # m68k
-> Acked-by: Arnd Bergmann <arnd@arndb.de> # asm-generic
-> Signed-off-by: Marco Elver <elver@google.com>
+On Wed, 21 Apr 2021 at 15:19, Marek Szyprowski <m.szyprowski@samsung.com> wrote:
+>
+> Hi Marco,
+>
+> On 21.04.2021 13:03, Marco Elver wrote:
+> > On Wed, 21 Apr 2021 at 12:57, Marek Szyprowski <m.szyprowski@samsung.com> wrote:
+> >> On 21.04.2021 11:35, Marek Szyprowski wrote:
+> >>> On 21.04.2021 10:11, Marco Elver wrote:
+> >>>> On Wed, 21 Apr 2021 at 09:35, Marek Szyprowski
+> >>>> <m.szyprowski@samsung.com> wrote:
+> >>>>> On 21.04.2021 08:21, Marek Szyprowski wrote:
+> >>>>>> On 21.04.2021 00:42, Marco Elver wrote:
+> >>>>>>> On Tue, 20 Apr 2021 at 23:26, Marek Szyprowski
+> >>>>>>> <m.szyprowski@samsung.com> wrote:
+> >>>>>>>> On 08.04.2021 12:36, Marco Elver wrote:
+> >>>>>>>>> Introduces the TRAP_PERF si_code, and associated siginfo_t field
+> >>>>>>>>> si_perf. These will be used by the perf event subsystem to send
+> >>>>>>>>> signals
+> >>>>>>>>> (if requested) to the task where an event occurred.
+> >>>>>>>>>
+> >>>>>>>>> Acked-by: Geert Uytterhoeven <geert@linux-m68k.org> # m68k
+> >>>>>>>>> Acked-by: Arnd Bergmann <arnd@arndb.de> # asm-generic
+> >>>>>>>>> Signed-off-by: Marco Elver <elver@google.com>
+> >>>>>>>> This patch landed in linux-next as commit fb6cc127e0b6 ("signal:
+> >>>>>>>> Introduce TRAP_PERF si_code and si_perf to siginfo"). It causes
+> >>>>>>>> regression on my test systems (arm 32bit and 64bit). Most systems
+> >>>>>>>> fails
+> >>>>>>>> to boot in the given time frame. I've observed that there is a
+> >>>>>>>> timeout
+> >>>>>>>> waiting for udev to populate /dev and then also during the network
+> >>>>>>>> interfaces configuration. Reverting this commit, together with
+> >>>>>>>> 97ba62b27867 ("perf: Add support for SIGTRAP on perf events") to
+> >>>>>>>> let it
+> >>>>>>>> compile, on top of next-20210420 fixes the issue.
+> >>>>>>> Thanks, this is weird for sure and nothing in particular stands out.
+> >>>>>>>
+> >>>>>>> I have questions:
+> >>>>>>> -- Can you please share your config?
+> >>>>>> This happens with standard multi_v7_defconfig (arm) or just defconfig
+> >>>>>> for arm64.
+> >>>>>>
+> >>>>>>> -- Also, can you share how you run this? Can it be reproduced in
+> >>>>>>> qemu?
+> >>>>>> Nothing special. I just boot my test systems and see that they are
+> >>>>>> waiting lots of time during the udev populating /dev and network
+> >>>>>> interfaces configuration. I didn't try with qemu yet.
+> >>>>>>> -- How did you derive this patch to be at fault? Why not just
+> >>>>>>> 97ba62b27867, given you also need to revert it?
+> >>>>>> Well, I've just run my boot tests with automated 'git bisect' and that
+> >>>>>> was its result. It was a bit late in the evening, so I didn't analyze
+> >>>>>> it further, I've just posted a report about the issue I've found. It
+> >>>>>> looks that bisecting pointed to a wrong commit somehow.
+> >>>>>>> If you are unsure which patch exactly it is, can you try just
+> >>>>>>> reverting 97ba62b27867 and see what happens?
+> >>>>>> Indeed, this is a real faulty commit. Initially I've decided to revert
+> >>>>>> it to let kernel compile (it uses some symbols introduced by this
+> >>>>>> commit). Reverting only it on top of linux-next 20210420 also fixes
+> >>>>>> the issue. I'm sorry for the noise in this thread. I hope we will find
+> >>>>>> what really causes the issue.
+> >>>>> This was a premature conclusion. It looks that during the test I've did
+> >>>>> while writing that reply, the modules were not deployed properly and a
+> >>>>> test board (RPi4) booted without modules. In that case the board booted
+> >>>>> fine and there was no udev timeout. After deploying kernel modules, the
+> >>>>> udev timeout is back.
+> >>>> I'm confused now. Can you confirm that the problem is due to your
+> >>>> kernel modules, or do you think it's still due to 97ba62b27867? Or
+> >>>> fb6cc127e0b6 (this patch)?
+> >>> I don't use any custom kernel modules. I just deploy all modules that
+> >>> are being built from the given kernel defconfig (arm
+> >>> multi_v7_defconfig or arm64 default) and they are automatically loaded
+> >>> during the boot by udev. I've checked again and bisect was right. The
+> >>> kernel built from fb6cc127e0b6 suffers from the described issue, while
+> >>> the one build from the previous commit (2e498d0a74e5) works fine.
+> >> I've managed to reproduce this issue with qemu. I've compiled the kernel
+> >> for arm 32bit with multi_v7_defconfig and used some older Debian rootfs
+> >> image. The log and qemu parameters are here:
+> >> https://protect2.fireeye.com/v1/url?k=7cfc23a2-23671aa9-7cfda8ed-002590f5b904-dab7e2ec39dae1f9&q=1&e=36a5ed13-6ad5-430c-8f44-e95c4f0af5c3&u=https%3A%2F%2Fpaste.debian.net%2F1194526%2F
+> >>
+> >> Check the timestamp for the 'EXT4-fs (vda): re-mounted' message and
+> >> 'done (timeout)' status for the 'Waiting for /dev to be fully populated'
+> >> message. This happens only when kernel modules build from the
+> >> multi_v7_defconfig are deployed on the rootfs.
+> > Still hard to say what is going on and what is at fault. But being
+> > able to repro this in qemu helps debug quicker -- would you also be
+> > able to share the precise rootfs.img, i.e. upload it somewhere I can
+> > fetch it? And just to be sure, please also share your .config, as it
+> > might have compiler-version dependent configuration that might help
+> > repro (unlikely, but you never know).
+>
+> I've managed to reproduce this issue with a public Raspberry Pi OS Lite
+> rootfs image, even without deploying kernel modules:
+>
+> https://downloads.raspberrypi.org/raspios_lite_armhf/images/raspios_lite_armhf-2021-03-25/2021-03-04-raspios-buster-armhf-lite.zip
+>
+> # qemu-system-arm -M virt -smp 2 -m 512 -kernel zImage -append "earlycon
+> console=ttyAMA0 root=/dev/vda2 rw rootwait" -serial stdio -display none
+> -monitor null -device virtio-blk-device,drive=virtio-blk -drive
+> file=/tmp/2021-03-04-raspios-buster-armhf-lite.img,id=virtio-blk,if=none,format=raw
+> -netdev user,id=user -device virtio-net-device,netdev=user
+>
+> The above one doesn't boot if zImage z compiled from commit fb6cc127e0b6
+> and boots if compiled from 2e498d0a74e5. In both cases I've used default
+> arm/multi_v7_defconfig and
+> gcc-linaro-6.4.1-2017.11-x86_64_arm-linux-gnueabi toolchain.
 
+Yup, I've narrowed it down to the addition of "__u64 _perf" to
+siginfo_t. My guess is the __u64 causes a different alignment for a
+bunch of adjacent fields. It seems that x86 and m68k are the only ones
+that have compile-time tests for the offsets. Arm should probably add
+those -- I have added a bucket of static_assert() in
+arch/arm/kernel/signal.c and see that something's off.
 
-Since next-20210420 I have noticed a boot regression on all 32-bit Tegra
-that we are testing. Bisect is pointing to this commit and reverting
-this patch and patch 6/10 does resolve the issue.
+I'll hopefully have a fix in a day or so.
 
-Interestingly there is no apparent crash, but these systems just appear
-to hang silently after mounting the rootfs. If anyone has any thoughts
-let me know!
-
-Thanks
-Jon
-
--- 
-nvpublic
+Thanks,
+-- Marco
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/81254854-aa22-fab1-fc6f-22716b7c2732%40nvidia.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNPr_JtRC762ap8PQVmsFNY5YhHvOk0wNcPHq%3DZQt-qxYg%40mail.gmail.com.
