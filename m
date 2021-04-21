@@ -1,140 +1,139 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBEMNQCCAMGQE3IXZO5I@googlegroups.com>
+Return-Path: <kasan-dev+bncBDLKPY4HVQKBBM5VQCCAMGQEVQWDDGQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ot1-x33c.google.com (mail-ot1-x33c.google.com [IPv6:2607:f8b0:4864:20::33c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C28736699A
-	for <lists+kasan-dev@lfdr.de>; Wed, 21 Apr 2021 13:03:46 +0200 (CEST)
-Received: by mail-ot1-x33c.google.com with SMTP id h10-20020a9d554a0000b02901d8bed80c43sf13359105oti.22
-        for <lists+kasan-dev@lfdr.de>; Wed, 21 Apr 2021 04:03:46 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1619003025; cv=pass;
+Received: from mail-ed1-x53b.google.com (mail-ed1-x53b.google.com [IPv6:2a00:1450:4864:20::53b])
+	by mail.lfdr.de (Postfix) with ESMTPS id B81AC366ACE
+	for <lists+kasan-dev@lfdr.de>; Wed, 21 Apr 2021 14:29:39 +0200 (CEST)
+Received: by mail-ed1-x53b.google.com with SMTP id c15-20020a056402100fb029038518e5afc5sf7410978edu.18
+        for <lists+kasan-dev@lfdr.de>; Wed, 21 Apr 2021 05:29:39 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1619008179; cv=pass;
         d=google.com; s=arc-20160816;
-        b=jzNigU2eG932dbKS4nkb8hx3XWIVr67y4YUxG2g38VMSGE3gO0l4pfRiqT/i0Xp0Nh
-         VE8OgPM4YIMU/bJM96wgQT2M7KiYbGER6JGy3fH8TQBQU6Tsw/WdXFCbLyC6I8TUU0QU
-         Sfm0Vj+nBAHTetWhFdjkVnMz0Cnl5HHkmBJbHCTp8Oa4FSOgZjbKdTurIR4nbJxS4rad
-         eQoQBX8sn+Rq3aYAT4iMJcAqBFDLnfJ2AaLxSIC/S6qw9bT0PSs7pLCaAo/l0rUVAWQ6
-         JvK1GYKAJEmGmFMy7FJ2egEzXkGZfjP8xN6iIKQnHjhArZzhV6U9vB2236GFJs7nKmlC
-         BCuA==
+        b=Vxr6ytbmD7lACotXhb6t382AcYE/Xg6C4dWM+TWJZfnDdKHvMBMDLmnJZkvry3Xi71
+         VcYUNwh+/qNbvIHtGlc0wZRjEp/emxHjZ9t0Iw7wp5WNBjKugkLNf8pODw7tTSJWFjTw
+         c6fo2ZoWlqh3vEqATDWKkfHPSPOA+W0WiyoQ6vSeQ32oSByH2DSU1K8UAv5NchbC+2Qb
+         ShgGM5VWLwqBIUYA2BdVTjSiAyEs6rnoUUvYIMus6N4uuW28NY+v3xNBeymNMJob8dS3
+         dQK1NYOfXX6T2Mv+uMdVxX0656zK9H6XjehhDKBR+Y439ErGoTuoNJRRCdhgah7kmjJe
+         G0rw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=Z5B8bK/sVMD5DwVRYM7JCGSwlUGKcX2DyVoFDCtuoD4=;
-        b=ZMZn9ENSe1YuIVrc2B5dDeXh0fOKwrxAiE7mr4QBPujImsYHo03RFNFimlrUsTCmUf
-         JQBKIfCNWtQAEPAbk6kEpdZHYy84vXSPfLQz1cMNp2zr8mcX6sFsy5TnZGSesK1kN06/
-         Kki0W9newRWeX+4krXg8dt+Sy01Jkz3Ch8G0Q+fqh5tH1P4Ffb62i2cG2DAEzaJisthX
-         inqOx7ZoibRTROwd22sgiaYXBQ64w1pHTHhcMRorVa7zqfrHOpliO1f7+/d39dQi0lWp
-         NZAbIlY/05A42a8mKLnQhDUt4eFoq/smgVYYeGbyMmSoKkZAGVTBmwQOrpRjXIOhOBIr
-         1IrQ==
+         :list-id:mailing-list:precedence:content-transfer-encoding
+         :content-language:in-reply-to:mime-version:user-agent:date
+         :message-id:from:references:to:subject:sender:dkim-signature;
+        bh=FaU74k/JIArZ6JIVdVxDsmupGowNSrFVpfSPfTB3e7k=;
+        b=fbt0UZ6QXkdmqV3WB8+B+/rrhUsmePTSZ0BHUVytsI6pNHgy2BZKKS5WKqj7fJ/f2k
+         WJbEQ669jPSO+1dJi7JStAz9gBs0Uekuc7ta/EmSW1ERaReTykUpybsQjtcpKtu4vxAI
+         0bJoqr6kUvJmRBUN5Zll+GPslCWAvU7AwgcM/L6gjxIxjHRJfeFPMso3F3XGKfST9Rw5
+         f7od6nBwxEIazR/UOkdRkeU3VZu5Ct+CMG3yZYGX4I4AEBgFZD2duOnlik9n7ZnUs9F7
+         bmCJoepLPtQsX41MhogUOXifmWPJckHVvPPQvCeprkkC2YRTG1bb/N2TotmRzymgT8ts
+         mfAw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=T25LZuGf;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::22e as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       spf=pass (google.com: domain of christophe.leroy@csgroup.eu designates 93.17.236.30 as permitted sender) smtp.mailfrom=christophe.leroy@csgroup.eu
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+        h=sender:subject:to:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=Z5B8bK/sVMD5DwVRYM7JCGSwlUGKcX2DyVoFDCtuoD4=;
-        b=mPvsVy1MUXDEyZTLmx8+RhaXnzIr+fjPg7krOBwwH4oR56CPWvHFm82cycR3ZCvsce
-         yZ8H5E0wEZ2RXPvDeK1RPVhg+Vi4+RLjZdUrxOIJCCnx+ZlwRTOieEuzySIR+69E1ddO
-         /3bBasdDygcBQlyDS23DfZ3FOU7uOhLF4lUO9U08ScUxnDEqBm+pQij67KMg6fLidF0C
-         ccEJJnh6le5D4SQXnCHj15PJVlQvjv6uGub9zwoytVnhXAjjWW3tACuGh3iTwanmwOAf
-         YdJ1aGJwPcsRmN4Ckv6nsa90PAqN7L6Dl7MMu7/EM9G0Ff9eNVKkUAv6yKW1bbQs5s/a
-         WGVw==
+        bh=FaU74k/JIArZ6JIVdVxDsmupGowNSrFVpfSPfTB3e7k=;
+        b=DEGuB/OGGIVjFYVO0OmetQHVMruO+ha7UToW1tEJE4vEchddsH8D1FzjA1L4Rru9Ml
+         sJ3+4KSKIr6qzZ1vRou+QTkJU4r71xDneOUzzJHsENmmuCGDB2w2uquaHk+SfFau07sE
+         2O+8/qS3NgB+2mXvH9SceA4NkcQBLSRUPw/2Og6uyo0DPV3Qz7qdLchEmaOAcYmwrv6T
+         eMwLYsH0jLhKjQxZ7qLM197Kws9Qe4Ufmt/Fg4sAqhUvxj19s0jyaqU4JJ+KDKqFgciM
+         KNTUeyS2PJnDinV/3goxhWUc/I1ndGQxsXGzC277HXdfGtCEiu8TLBVHw1CxB4zPgi6M
+         oHLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+        h=sender:x-gm-message-state:subject:to:references:from:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=Z5B8bK/sVMD5DwVRYM7JCGSwlUGKcX2DyVoFDCtuoD4=;
-        b=iSK4+R9XQNjWEfaJyWRsEr4rZ2egH77i5b5n/n87kOudeC1Sagb7MMlbomZIX9vom8
-         /bLuE58KzFi8En/FUfY60Ez/22U8X47j2/2wkmH/ZfXbA2OIHc8XjzOLjstlLgwCG9qb
-         AvVSztQ3ySzEsMAp6VfXQW03CtS1fAqopTaqH4lgNDwoGW8mP8t6sDlAIiTijJOaJMvp
-         JxmF8CrrT997q33feobbTMhQhQHZkggOvwraiVcp+G5013P/rhn8Ej2t79WnS4fCGmt/
-         91rNSXUAmn00FtoHuP0Lie81uK5ahp28VxMI02+uzFtOB3rWG1ObfsxAZh4qrDNia/wk
-         +NLg==
-X-Gm-Message-State: AOAM532UlHk/dY4o3jobuzWmdfdPjB/sq6C5POF+IyA+QNGuAIr+r21F
-	wIZxxkrVw2NIgkH34GvT8fA=
-X-Google-Smtp-Source: ABdhPJz+ArqcsuxFVZIJyU2w8+R9cOVR7afVJaxHq3EDS2VI1aXs7Y71t4bZCiOwpZjbRNZYTRHMzQ==
-X-Received: by 2002:aca:b645:: with SMTP id g66mr6293719oif.64.1619003025191;
-        Wed, 21 Apr 2021 04:03:45 -0700 (PDT)
+        bh=FaU74k/JIArZ6JIVdVxDsmupGowNSrFVpfSPfTB3e7k=;
+        b=WqIMUZ3CE1ZGKYj5cZbK/ikwTIX8oXWXx5YI1uV33K9UjQofYShuwFAO/VUCxMe7Hx
+         x1CtxSoy8/WmIkktcXWOeDu95WSH57CFWb831r1dccGknND8e8DV1vUxM5YWeFBs4NGC
+         fQzQCVEuSfUBsphCGWjCvIzFDCKjYkqgsdx+YtiQ/c6jOTm5o+lT76Ps4ECx2ppCj7m0
+         2xcFmuRt9jYUML/XDTOvdUGK5+QB+cA48AHKwq5qOA35oBY9eM2qbMugwwapXHy1m6V+
+         v7YCYNIzKEy6wIndv0f8xa56xvtb46pwWYTl+6ARtMpDbQVpq/qSlmwe4TDjdq2QXydp
+         V2jA==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM530d5dQ1pSv1acsz7aV2TbLCFqMJ57IZwISxhUn1GRRE5OnwO7zg
+	i5d6i1X699/IGZVkl0EZFXM=
+X-Google-Smtp-Source: ABdhPJyBK/+8Ycto9f8VCh1G0uCz/evriqwrRa2Ojr6cEp8vgPw2ukK0+qht/YIv2um68vWQ6vRZ3A==
+X-Received: by 2002:aa7:c7da:: with SMTP id o26mr38212471eds.244.1619008179477;
+        Wed, 21 Apr 2021 05:29:39 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6830:605:: with SMTP id w5ls462059oti.8.gmail; Wed, 21
- Apr 2021 04:03:44 -0700 (PDT)
-X-Received: by 2002:a05:6830:18dc:: with SMTP id v28mr2133089ote.310.1619003024856;
-        Wed, 21 Apr 2021 04:03:44 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1619003024; cv=none;
+Received: by 2002:aa7:db59:: with SMTP id n25ls821225edt.1.gmail; Wed, 21 Apr
+ 2021 05:29:38 -0700 (PDT)
+X-Received: by 2002:a05:6402:42d1:: with SMTP id i17mr37197872edc.131.1619008178443;
+        Wed, 21 Apr 2021 05:29:38 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1619008178; cv=none;
         d=google.com; s=arc-20160816;
-        b=ibcLWiESjLee/NvMBvdqYVhneMp9KaAssESrZXWMGOH3wMZg1+XceElUErrFsgr8o6
-         0T2VszflOPkvwtXpoBim6S4vOvxNrarYluCjSupx5MImHpoaTIvkZyuukGjn4ZCLlKXl
-         ot+qMO4JqbDLBFDZAzRpjKGzcpHAa1v6G+rWx5fVJarNiAprq0laUo1NJN/VMVMbIELO
-         /xgYF6UYUv9x3KlX4bxiUABDzflt9zehRNpoGZ7TuuPOqy41dWEnP/K5xx2jeMouBG26
-         QPwvXDs60Ucib2sDGmGTt4piTOKdm8CW64jeELsTDb4NfdMYdprXmmCQTOIkeNZVMY3o
-         Ii5w==
+        b=m97Mc40+peuNV7KzoFt+3tLZQsuJmVvQbG7HMcapQXaJIlLNW77Ppk/kyWl5iFP4d4
+         gxtLAg+9gvlIr+sRzEaZeGf+sVxx5Tnq49y2EAaUUdFeF48y+cWm1xP8vdHRPaBquFC3
+         AWP4FP7T9s0gzhvJo3O2VLQYbRVGZHhv4pnG14f4lIOIorLMqyFE0pX8baNMrijMNSH0
+         QtrEicfRVlBCL3FsnYmnnBgtJ5EiYY6swjEaC4Q/91qDdO+y6Jrs7Vm9el3KetLsX9jP
+         W3eUm4GrroJvaLQZsWa6A74HajkIZroslZgXkjT0MVZWsTxaT4ve4E26jySUV2b1HYfv
+         1rSw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=VwvnjSj2op3l1hxnf84tZDl7adPmWlaJUCzqnfca75k=;
-        b=q5pgoPidPNElz/71Xjv1O5Zc7Yn7jCVv7Qsd4dv4DL7i0p931LCRjwG0dolUynOa8m
-         NVlNgug65i4TRMo7N+RFaAslRZS9BnsjUaitL3DbvU5WE/UwNw3oj8FqlsEqY14wV28V
-         Li5+6WAw/Hl5d3k8XSMrGe53BKNbb6q4Tg8hofNW/emRUjTl7qpaOl6TSTi/ij6L1nyI
-         bxbdyN8YRDv43OA6nWBpRInw4wbfMmzPKMPkcVQ7xU9Bj6/oy+Quko78Is+TeLGDlE4Y
-         bX2oz3K4rG9p99GAkqP8s/NxjOhR3Bz4+hIGMUslk4cyM+15EzUOcdi+u0sUkZPTO1jH
-         /jSg==
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:to:subject;
+        bh=Ebg34gZqNyLl2Jtmvw5d8C1DU8g7YMPTijvWmsomwEI=;
+        b=dkSYd/cPNLalflxCNvNKRigTiRZzkre5mNYKnlH9bhzKjn7ir26bsuiWgCZ3HtbxrN
+         CZmt5FULLPMMVF5/z4VBIUO3kKGZrOtFIROkNcgQXAFlk4dCKymKU10r8DygT8c12/Wb
+         n0OgYRpnNmaLkgiTnj0+sbyr4RFw2En4zmAgIB0Mpo2lc01fzjIcy6LuO/O/ZptLOMK8
+         auKUHHZ7D9vw4NaUto4r+WqnzLAcDBLIiN2F2PqqFBcfSqmFtHZraiGERDjDO4hKkUnt
+         yo5I6eF4oSiFAlMtF+KTUwkohqeI1TEty6YiMNQq5gVCwwAsM7GWll3bRkAzqpv9HkBD
+         Ks6g==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=T25LZuGf;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::22e as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com. [2607:f8b0:4864:20::22e])
-        by gmr-mx.google.com with ESMTPS id b17si198911ooq.2.2021.04.21.04.03.44
+       spf=pass (google.com: domain of christophe.leroy@csgroup.eu designates 93.17.236.30 as permitted sender) smtp.mailfrom=christophe.leroy@csgroup.eu
+Received: from pegase1.c-s.fr (pegase1.c-s.fr. [93.17.236.30])
+        by gmr-mx.google.com with ESMTPS id r21si230188ejo.0.2021.04.21.05.29.38
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 21 Apr 2021 04:03:44 -0700 (PDT)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::22e as permitted sender) client-ip=2607:f8b0:4864:20::22e;
-Received: by mail-oi1-x22e.google.com with SMTP id l17so10695517oil.11
-        for <kasan-dev@googlegroups.com>; Wed, 21 Apr 2021 04:03:44 -0700 (PDT)
-X-Received: by 2002:aca:44d6:: with SMTP id r205mr6376630oia.172.1619003024370;
- Wed, 21 Apr 2021 04:03:44 -0700 (PDT)
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 21 Apr 2021 05:29:38 -0700 (PDT)
+Received-SPF: pass (google.com: domain of christophe.leroy@csgroup.eu designates 93.17.236.30 as permitted sender) client-ip=93.17.236.30;
+Received: from localhost (mailhub1-int [192.168.12.234])
+	by localhost (Postfix) with ESMTP id 4FQKcc4dPYz9tvqS;
+	Wed, 21 Apr 2021 14:29:36 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at c-s.fr
+Received: from pegase1.c-s.fr ([192.168.12.234])
+	by localhost (pegase1.c-s.fr [192.168.12.234]) (amavisd-new, port 10024)
+	with ESMTP id CeELRF3p2Hho; Wed, 21 Apr 2021 14:29:36 +0200 (CEST)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+	by pegase1.c-s.fr (Postfix) with ESMTP id 4FQKcc3hDwz9tvq9;
+	Wed, 21 Apr 2021 14:29:36 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id D6FBC8B825;
+	Wed, 21 Apr 2021 14:29:37 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+	by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+	with ESMTP id T1yXWHZXlfsX; Wed, 21 Apr 2021 14:29:37 +0200 (CEST)
+Received: from [192.168.4.90] (unknown [192.168.4.90])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id 62B1F8B770;
+	Wed, 21 Apr 2021 14:29:37 +0200 (CEST)
+Subject: Re: [PATCH v11 6/6] powerpc: Book3S 64-bit outline-only KASAN support
+To: Daniel Axtens <dja@axtens.net>, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, linuxppc-dev@lists.ozlabs.org,
+ kasan-dev@googlegroups.com, aneesh.kumar@linux.ibm.com, bsingharora@gmail.com
+References: <20210319144058.772525-1-dja@axtens.net>
+ <20210319144058.772525-7-dja@axtens.net>
+From: Christophe Leroy <christophe.leroy@csgroup.eu>
+Message-ID: <fc849719-e2c0-bbcb-c58e-f4ff3e9c5f18@csgroup.eu>
+Date: Wed, 21 Apr 2021 14:29:38 +0200
+User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.9.1
 MIME-Version: 1.0
-References: <20210408103605.1676875-1-elver@google.com> <CGME20210420212618eucas1p102b427d1af9c682217dfe093f3eac3e8@eucas1p1.samsung.com>
- <20210408103605.1676875-6-elver@google.com> <1fbf3429-42e5-0959-9a5c-91de80f02b6a@samsung.com>
- <CANpmjNM8wEJngK=J8Lt9npkZgrSWoRsqkdajErWEoY_=M1GW5A@mail.gmail.com>
- <43f8a3bf-34c5-0fc9-c335-7f92eaf23022@samsung.com> <dccaa337-f3e5-08e4-fe40-a603811bb13e@samsung.com>
- <CANpmjNP6-yKpxHqYFiA8Up-ujBQaeP7xyq1BrsV-NqMjJ-uHAQ@mail.gmail.com>
- <740077ce-efe1-b171-f807-bc5fd95a32ba@samsung.com> <f114ff4a-6612-0935-12ac-0e2ac18d896c@samsung.com>
-In-Reply-To: <f114ff4a-6612-0935-12ac-0e2ac18d896c@samsung.com>
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Wed, 21 Apr 2021 13:03:32 +0200
-Message-ID: <CANpmjNM6bQpc49teN-9qQhCXoJXaek5stFGR2kPwDroSFBc0fw@mail.gmail.com>
-Subject: Re: [PATCH v4 05/10] signal: Introduce TRAP_PERF si_code and si_perf
- to siginfo
-To: Marek Szyprowski <m.szyprowski@samsung.com>
-Cc: Peter Zijlstra <peterz@infradead.org>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Ingo Molnar <mingo@redhat.com>, Jiri Olsa <jolsa@redhat.com>, 
-	Mark Rutland <mark.rutland@arm.com>, Namhyung Kim <namhyung@kernel.org>, 
-	Thomas Gleixner <tglx@linutronix.de>, Alexander Potapenko <glider@google.com>, 
-	Al Viro <viro@zeniv.linux.org.uk>, Arnd Bergmann <arnd@arndb.de>, 
-	Christian Brauner <christian@brauner.io>, Dmitry Vyukov <dvyukov@google.com>, Jann Horn <jannh@google.com>, 
-	Jens Axboe <axboe@kernel.dk>, Matt Morehouse <mascasa@google.com>, 
-	Peter Collingbourne <pcc@google.com>, Ian Rogers <irogers@google.com>, Oleg Nesterov <oleg@redhat.com>, 
-	kasan-dev <kasan-dev@googlegroups.com>, linux-arch <linux-arch@vger.kernel.org>, 
-	linux-fsdevel <linux-fsdevel@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
-	"the arch/x86 maintainers" <x86@kernel.org>, 
-	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>, 
-	Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=T25LZuGf;       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::22e as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+In-Reply-To: <20210319144058.772525-7-dja@axtens.net>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Language: fr
+Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: christophe.leroy@csgroup.eu
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of christophe.leroy@csgroup.eu designates 93.17.236.30 as
+ permitted sender) smtp.mailfrom=christophe.leroy@csgroup.eu
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -147,98 +146,63 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, 21 Apr 2021 at 12:57, Marek Szyprowski <m.szyprowski@samsung.com> wrote:
->
-> On 21.04.2021 11:35, Marek Szyprowski wrote:
-> > On 21.04.2021 10:11, Marco Elver wrote:
-> >> On Wed, 21 Apr 2021 at 09:35, Marek Szyprowski
-> >> <m.szyprowski@samsung.com> wrote:
-> >>> On 21.04.2021 08:21, Marek Szyprowski wrote:
-> >>>> On 21.04.2021 00:42, Marco Elver wrote:
-> >>>>> On Tue, 20 Apr 2021 at 23:26, Marek Szyprowski
-> >>>>> <m.szyprowski@samsung.com> wrote:
-> >>>>>> On 08.04.2021 12:36, Marco Elver wrote:
-> >>>>>>> Introduces the TRAP_PERF si_code, and associated siginfo_t field
-> >>>>>>> si_perf. These will be used by the perf event subsystem to send
-> >>>>>>> signals
-> >>>>>>> (if requested) to the task where an event occurred.
-> >>>>>>>
-> >>>>>>> Acked-by: Geert Uytterhoeven <geert@linux-m68k.org> # m68k
-> >>>>>>> Acked-by: Arnd Bergmann <arnd@arndb.de> # asm-generic
-> >>>>>>> Signed-off-by: Marco Elver <elver@google.com>
-> >>>>>> This patch landed in linux-next as commit fb6cc127e0b6 ("signal:
-> >>>>>> Introduce TRAP_PERF si_code and si_perf to siginfo"). It causes
-> >>>>>> regression on my test systems (arm 32bit and 64bit). Most systems
-> >>>>>> fails
-> >>>>>> to boot in the given time frame. I've observed that there is a
-> >>>>>> timeout
-> >>>>>> waiting for udev to populate /dev and then also during the network
-> >>>>>> interfaces configuration. Reverting this commit, together with
-> >>>>>> 97ba62b27867 ("perf: Add support for SIGTRAP on perf events") to
-> >>>>>> let it
-> >>>>>> compile, on top of next-20210420 fixes the issue.
-> >>>>> Thanks, this is weird for sure and nothing in particular stands out.
-> >>>>>
-> >>>>> I have questions:
-> >>>>> -- Can you please share your config?
-> >>>> This happens with standard multi_v7_defconfig (arm) or just defconfig
-> >>>> for arm64.
-> >>>>
-> >>>>> -- Also, can you share how you run this? Can it be reproduced in
-> >>>>> qemu?
-> >>>> Nothing special. I just boot my test systems and see that they are
-> >>>> waiting lots of time during the udev populating /dev and network
-> >>>> interfaces configuration. I didn't try with qemu yet.
-> >>>>> -- How did you derive this patch to be at fault? Why not just
-> >>>>> 97ba62b27867, given you also need to revert it?
-> >>>> Well, I've just run my boot tests with automated 'git bisect' and that
-> >>>> was its result. It was a bit late in the evening, so I didn't analyze
-> >>>> it further, I've just posted a report about the issue I've found. It
-> >>>> looks that bisecting pointed to a wrong commit somehow.
-> >>>>> If you are unsure which patch exactly it is, can you try just
-> >>>>> reverting 97ba62b27867 and see what happens?
-> >>>> Indeed, this is a real faulty commit. Initially I've decided to revert
-> >>>> it to let kernel compile (it uses some symbols introduced by this
-> >>>> commit). Reverting only it on top of linux-next 20210420 also fixes
-> >>>> the issue. I'm sorry for the noise in this thread. I hope we will find
-> >>>> what really causes the issue.
-> >>> This was a premature conclusion. It looks that during the test I've did
-> >>> while writing that reply, the modules were not deployed properly and a
-> >>> test board (RPi4) booted without modules. In that case the board booted
-> >>> fine and there was no udev timeout. After deploying kernel modules, the
-> >>> udev timeout is back.
-> >> I'm confused now. Can you confirm that the problem is due to your
-> >> kernel modules, or do you think it's still due to 97ba62b27867? Or
-> >> fb6cc127e0b6 (this patch)?
-> >
-> > I don't use any custom kernel modules. I just deploy all modules that
-> > are being built from the given kernel defconfig (arm
-> > multi_v7_defconfig or arm64 default) and they are automatically loaded
-> > during the boot by udev. I've checked again and bisect was right. The
-> > kernel built from fb6cc127e0b6 suffers from the described issue, while
-> > the one build from the previous commit (2e498d0a74e5) works fine.
->
-> I've managed to reproduce this issue with qemu. I've compiled the kernel
-> for arm 32bit with multi_v7_defconfig and used some older Debian rootfs
-> image. The log and qemu parameters are here:
-> https://paste.debian.net/1194526/
->
-> Check the timestamp for the 'EXT4-fs (vda): re-mounted' message and
-> 'done (timeout)' status for the 'Waiting for /dev to be fully populated'
-> message. This happens only when kernel modules build from the
-> multi_v7_defconfig are deployed on the rootfs.
 
-Still hard to say what is going on and what is at fault. But being
-able to repro this in qemu helps debug quicker -- would you also be
-able to share the precise rootfs.img, i.e. upload it somewhere I can
-fetch it? And just to be sure, please also share your .config, as it
-might have compiler-version dependent configuration that might help
-repro (unlikely, but you never know).
 
-Thanks,
--- Marco
+Le 19/03/2021 =C3=A0 15:40, Daniel Axtens a =C3=A9crit=C2=A0:
+> diff --git a/arch/powerpc/mm/ptdump/ptdump.c b/arch/powerpc/mm/ptdump/ptd=
+ump.c
+> index aca354fb670b..63672aa656e8 100644
+> --- a/arch/powerpc/mm/ptdump/ptdump.c
+> +++ b/arch/powerpc/mm/ptdump/ptdump.c
+> @@ -20,6 +20,7 @@
+>   #include <linux/seq_file.h>
+>   #include <asm/fixmap.h>
+>   #include <linux/const.h>
+> +#include <linux/kasan.h>
+>   #include <asm/page.h>
+>   #include <asm/hugetlb.h>
+>  =20
+> @@ -317,6 +318,23 @@ static void walk_pud(struct pg_state *st, p4d_t *p4d=
+, unsigned long start)
+>   	unsigned long addr;
+>   	unsigned int i;
+>  =20
+> +#if defined(CONFIG_KASAN) && defined(CONFIG_PPC_BOOK3S_64)
+> +	/*
+> +	 * On radix + KASAN, we want to check for the KASAN "early" shadow
+> +	 * which covers huge quantities of memory with the same set of
+> +	 * read-only PTEs. If it is, we want to note the first page (to see
+> +	 * the status change), and then note the last page. This gives us good
+> +	 * results without spending ages noting the exact same PTEs over 100s o=
+f
+> +	 * terabytes of memory.
+> +	 */
+> +	if (p4d_page(*p4d) =3D=3D virt_to_page(lm_alias(kasan_early_shadow_pud)=
+)) {
+> +		walk_pmd(st, pud, start);
+> +		addr =3D start + (PTRS_PER_PUD - 1) * PUD_SIZE;
+> +		walk_pmd(st, pud, addr);
+> +		return;
+> +	}
+> +#endif
+> +
+>   	for (i =3D 0; i < PTRS_PER_PUD; i++, pud++) {
+>   		addr =3D start + i * PUD_SIZE;
+>   		if (!pud_none(*pud) && !pud_is_leaf(*pud))
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNM6bQpc49teN-9qQhCXoJXaek5stFGR2kPwDroSFBc0fw%40mail.gmail.com.
+
+The above changes should not be necessary once PPC_PTDUMP is converted to G=
+ENERIC_PTDUMP.
+
+See https://patchwork.ozlabs.org/project/linuxppc-dev/list/?series=3D239795
+
+
+Christophe
+
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/fc849719-e2c0-bbcb-c58e-f4ff3e9c5f18%40csgroup.eu.
