@@ -1,138 +1,158 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBSUBQGCAMGQES7YYKPI@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBC5FQGCAMGQEO5RTTTA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pg1-x538.google.com (mail-pg1-x538.google.com [IPv6:2607:f8b0:4864:20::538])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFFF2366ED5
-	for <lists+kasan-dev@lfdr.de>; Wed, 21 Apr 2021 17:12:11 +0200 (CEST)
-Received: by mail-pg1-x538.google.com with SMTP id b2-20020a6567c20000b02901fda3676f83sf10553396pgs.9
-        for <lists+kasan-dev@lfdr.de>; Wed, 21 Apr 2021 08:12:11 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1619017930; cv=pass;
+Received: from mail-lf1-x13f.google.com (mail-lf1-x13f.google.com [IPv6:2a00:1450:4864:20::13f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C212367018
+	for <lists+kasan-dev@lfdr.de>; Wed, 21 Apr 2021 18:27:56 +0200 (CEST)
+Received: by mail-lf1-x13f.google.com with SMTP id j6-20020a05651231c6b02901abd14b042csf9049334lfe.0
+        for <lists+kasan-dev@lfdr.de>; Wed, 21 Apr 2021 09:27:56 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1619022475; cv=pass;
         d=google.com; s=arc-20160816;
-        b=ibM4HPY6Q7dNHSEeV8czS51IuzYphd237N0Bh81XQemlDUeqZR3O5FJ0QUEaW4GK94
-         PlGgC2z5j0dfyXRfF93cT8woKUBkec7ihOVrVl/Tp4XnO4VmybaCUr4h3+XL9LJ27uVu
-         lFhGaLyvGk8bFX0TSEiNhQN2SWsqj3VGYhkuP9JVtLKkvRtGr8MbqwX3GrNNkD+8UyZ7
-         yTR+ivooiyE7n41zQgekORD3SeBcz2tsS5zVhDDskcImrRGFuC2CX2hTP0/+oyB5uqTZ
-         xcXzC7ByjrKHd49G857n1Qfu0sUkF0NEfLCcKX5yXYcQ34KW+kqznjd6Z3wRkC5jc9dq
-         nueA==
+        b=cP8BOV9DoUiHNOm4Rj8c4ObtfEQkKKHcAMaBW/fKqww0Pz4ocsOEEvIst4L4mJVE28
+         mhF/Wemf69V03z91usJG6xy7oe+/eI7U+bjygjOg2KLeFmtu8VyIVoOkMQCOV+lMdjqA
+         d2kVuRdUtP4tfha5s65T9TIeCt7J3X5y9iUcOjeBVY4Dmqik2A82eKOh/IvA986dJcnX
+         ZySshAbfYLFl7PTOqrN0m6bbdEhfePQgjm4xQbDaibtTn65ohfCqzrFmyES/Crs438Aw
+         HcCr+RfCbxzZhcykvQdhbwremxZraVVsEk3tnr8sXCZRqqwNT0Iw3Z2TDjqWv635SfSv
+         P45g==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=9SKjMSxXImnQZyxK08BtcKUUn9RXLRYEl5dzPqqpB88=;
-        b=f320ZdSrvLCJLk29FYsjDYpLjHwj+xFf6DfutSui6iB6PMWn2FdjzGrD4Hv+2/jvO3
-         QEQk17mTOiTIxhUlz9kXF09omqUaanRzxTAKNOVcgOinJ3vqKG4GGZkoNIxnA9YQ9FuI
-         Lvt7+GGz4xyOeuBozQF23TZLl3amD7dr9BOvFKij4+nNVu1oE9d3WrXrOo3OIKedpDVs
-         JZFvbNfskzvowC+oGuM1OdqgOBlrPa/OCB/gOdU7uPeB6KfTJESBa64h4SJUdLNTHzcF
-         yfXRaiMga8doBDUcoTeg9fs2b4KT5g7BnaCQBe6vP5SCj2Izkk5N1fAFwNSTMX1QiKRG
-         bZiw==
+         :list-id:mailing-list:precedence:reply-to:user-agent:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:dkim-signature;
+        bh=OYPig0iNxZuvQc3pzJveVxAcPqkNO1eTbc4H7zg3OLA=;
+        b=wmTa8cIqwA3sYvrdBi7zM8uPMG/9mLTDnhMJDUoRgsM+8U9qeLkhLfIQVOpgXVkzuN
+         +TK5pp+abVyBnNP3YlwAtmlS7vZdAPINtojuqqa5ztwLyHumUTn4GYFXP9w/SHMcRKxe
+         w49b+u+0cP4vHeLUsuVOjG7HdOnTsMAyAEY4h1cszka80jH4devlYLl8ma53qKSRlGEJ
+         r8BmFvowfUAEjkDFLBn+8O1DjNSXXcgTKRLR+TQvm2b6c69me34tmkz6mAXx/KBJoJtj
+         2NXGCArJmljQ1hrpAI/YUv2yggNXtJge52Cn8cFr64gyDPo1lRqJF1BrJPGUc6ZyPcnH
+         0XXw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=Vo5glLC6;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::c2c as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=DXNQF6+X;
+       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::32e as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=9SKjMSxXImnQZyxK08BtcKUUn9RXLRYEl5dzPqqpB88=;
-        b=aMOVochCp1Yy1vQ+1mDE5WLOxHgLVGXkKCethrVLEWxs4rNYMUHhSuvDYH+zFFNQ7I
-         vi3mDZYEwZpTXBI3vtsybV8ch8S5ilVW+zPu7SH3e0P+CX1ZjSh4U7EUm5Q4psIZSgSG
-         b8Z+b3e0PxSgA1+JyQX+9kjuwEYHuaX0Z2EqhGTvZiU8cZub3/R+lQokE3KouKbuya0S
-         TdQcOlFFroKBdyTy5TGoGBkFjuYPF9aSXFXrP1ufCE64epshMPpF03fjH6TqK29mqYw/
-         TB07rqHEQg9jHtWI1ffj6yZOoIPaRrjjEPWrev1zPwIi0iZWlQCaYZlOTqHWV9FyCMfz
-         BBbw==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:list-post:list-help:list-archive:list-subscribe
+         :list-unsubscribe;
+        bh=OYPig0iNxZuvQc3pzJveVxAcPqkNO1eTbc4H7zg3OLA=;
+        b=Rmma01Fx9973PqNz/OzLc2OJkMTaMCz7I9flLAykiWkPSVOwGTFZ0ECANwmgll0FHo
+         pCSmoHt/tLNeADPIWgEHz9Q9CAeiCPUvXOrLXYnBMH9B7h0YX71EnI0J5cONohIz7UQA
+         2DPbrnRbNh+WGOGJoDQzjB9xsjYoOcZakiuzTXY6Rk+t4FGT37WLKKp0I1nDUVql1y+O
+         fLmE9NEz8cJmVqfDHnhJXzCoaXwtmOhNlduhvNVMKm2LINRV7Ps5f/jss66aG3dDxAWG
+         KSYX/XoozWwe+K4RJNVcpcXoz1L5PUUMYuZbdtXxILHy9JNvNqEJthUzaked4xZoQjfG
+         Dqng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=9SKjMSxXImnQZyxK08BtcKUUn9RXLRYEl5dzPqqpB88=;
-        b=kRSauglRahanjbAJscZyB0WTMXezXuepgzR5SN1I8fo/rOeVa4wlavmwQey7sntryc
-         bLr9GaFHihWPr4huyjsHu45+fKAoc6JkGiZ5XjnOPR9H8tsn17AW7H79eH5JZBo6CfWK
-         f2iHCiF16O85c0DM3YH7GgZF24AtuByKbnugH37vhFlC/0ItX9Gk2uWsll38frCgVlvy
-         Dl4RoIFmQGixbIkVxhKGKXRFr1ATRWusa4tkxQ2KCsTX6pSTNlgz8D5qTdrhuOaG0mbT
-         uSB1wHA0Ofrf/JeQawHtvB6Wogk5bRIS31u3HfEH4YtZnSOXOMceoNFZ7rQslluVY1X9
-         plLQ==
-X-Gm-Message-State: AOAM530sxHobTckzxnUm9NCAgvZ6FiwEWMCXUFJo+1ggKzgueqYjALHq
-	vgmnrDGk1yUz6SVg+zL6kYM=
-X-Google-Smtp-Source: ABdhPJwoPf6zuzMDBvEenJawk18L4W8dUJoEv7LKt3bbcaC8HFnovIVjgwt4eB57Bl7oKGgr9yWlfA==
-X-Received: by 2002:a17:90a:5885:: with SMTP id j5mr11885476pji.102.1619017930420;
-        Wed, 21 Apr 2021 08:12:10 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent
+         :x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=OYPig0iNxZuvQc3pzJveVxAcPqkNO1eTbc4H7zg3OLA=;
+        b=rnAaPk5ysHPqlxw3zp9Umf7vskCyRPG4rsIc412WxWQE+Pf7BNsQPuBTuylRcVWE+X
+         +9z9JAcjEu8gp1ETUdJ8yg0V2MmXkRikAPlHknjWhValp7JCdGxPkRLKusTiW8Hgi8vj
+         ULOqDBuFE6+JlBf4E125gqABbzahBjlYd/SY1LqMcHd5cY8eU9hWCQAvi6mn50WbQmVw
+         BpLDV/Zrz0ceLfRTYKIynlm8EcxNEDYXh5zkAHPm6MJFTE/fATDthIwc9HKRqHMT1r3r
+         RGBc770+u0PIMkqhkKJX8ambvVP9e0wxao8O3TqVfc8TjH8OiHBq1Y12NzOAafg0sJqM
+         9SPQ==
+X-Gm-Message-State: AOAM533oED0lYHYZg0n0/Pb3uIxCg4fJLqdDsaSYcxqH2OGBU1VwLk2s
+	f974ionMYSgLkTCyo9iIh/g=
+X-Google-Smtp-Source: ABdhPJy3f0Fm+tzAFjZm7xNAK5DMCO+Qxqrx+CmJsxMHBQFbhfmslByKo/DjW2GnTyIKg5bhflILsg==
+X-Received: by 2002:a2e:3c1a:: with SMTP id j26mr19173346lja.297.1619022475776;
+        Wed, 21 Apr 2021 09:27:55 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a63:1656:: with SMTP id 22ls1040892pgw.1.gmail; Wed, 21 Apr
- 2021 08:12:09 -0700 (PDT)
-X-Received: by 2002:a63:1d5d:: with SMTP id d29mr10977675pgm.398.1619017929717;
-        Wed, 21 Apr 2021 08:12:09 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1619017929; cv=none;
+Received: by 2002:a05:6512:6c2:: with SMTP id u2ls2127711lff.3.gmail; Wed, 21
+ Apr 2021 09:27:54 -0700 (PDT)
+X-Received: by 2002:ac2:54b5:: with SMTP id w21mr20133049lfk.427.1619022474367;
+        Wed, 21 Apr 2021 09:27:54 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1619022474; cv=none;
         d=google.com; s=arc-20160816;
-        b=i85WPzq7h3Ijh2E4EH8DarxRpYEsZsRWWg5QG5BkX3PcJ/G5hDLcGJPiQd0QDG4Hgm
-         fiACMkA5MMhNbPZoXmqqeL52gfqYDDunGyr/J9ivz81RCAVWzFTcAzNWmwniQBzQpxhK
-         YIfYPkWlNGUT24q7192iInS2hVl0PAnIteP0Ev9+xT+ukPH8plE7Nr7atL5mrd9tEXsY
-         SSfhiJL14NBYrxNh+cLdCZNRWIBZEbGhdW4LXtCWq2sCg7zQZoZG4hnaqcTaoC6+esmk
-         tCjrmzuzJYF9BEsmqiTnUvPcdatCkW5AyMCs7Obq6zkKKGu+nSSXnlOvMcM8icI7mTmL
-         Oy6Q==
+        b=IohCmK4JUmwzBYdkxMWI8pWqIvriyBlsVkJRGDtvNQE1gTQs/7pFsV2TGjyztN8AXB
+         8BxWqHaLIETIEdUTysgSC7rRxwdF7yiostB7JEhtvjHJCLbBwW+jBOSTgfeLNP3jGMdb
+         vu8YHqt/0NTh4DS6hT/hjxpZbi/uCJPsHvsgsq6YctpUuXKVKmk48bf9zWshh5QjJz0j
+         74ULEvF4qGB7qIpdAL3LcmqNi+ifg9aKQuWODGJL20C3NYGPE8HETwvrbAkH8qtIFv47
+         fsXk9jvszTVrdaoDUCUhz5tZLV7AE2sqjT3CtwtrXK+4umoGiBLIFDINfp9eQoQtKbUk
+         7JYg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=FEXEAgUao8/U1XoW751IUwiCrSmDVaqLIc6z62zqqMg=;
-        b=geSTAOGe5W+vbMu/qbt2yYZWHuPLL7F2Y4j1zwOtN3SFsZFubiQR1T8IE78AFnjpLe
-         f09BkIRon1H70LW2TxakG7pV3lx5Pgn2pG7BSGxSfWJSJRgFTFJa05FltzYRF+E/bY3/
-         Bq58taMRyQs4VPO68wsKo+bXhjR49ghHIKU5f8GjTTyx/1tLuNbGzl0UosOTJ57fPMh3
-         rFgkHDFElLGnc0X6e+Z3r6Ai4waAZZg5kstWZKMo2dFvXsvR3Eds5oJ2GMGlZE/TF34N
-         kvdb+8wT6s/BSWDvMobP7oRRJivV6aS/OnXQ5lp67pFB7v/2D64KXls7//e4AcaZaLZf
-         47Aw==
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:dkim-signature;
+        bh=SmfHH6hIJqwyK5X8i5q3Sks3m+nCGH0WqXp+KsNmUL8=;
+        b=IIvwowFRkoBvXPOdek0q5qmfpqlgnnA7bHXoOYSy6lZO07c3YUgjsnfutgvpkLWMC1
+         jSukdv3Ief7YXpHbdqp8ID4geshegzqIkCDC8l7RLqHB8sjxbe7xXL2Ug/IcBatNEnf7
+         9bHyQOeb9jfGOcjy4P4CYdj8VCG/Pbkt49Tv8Bb90DJoIzKY9cWg2T/EkeaYslyfaNJA
+         K3VtrtdjcMF7ewjmwWAoPcCCsAXVrjxGPj6UqlDSMaaKKGiY33K47iq5zRto20xWPLhT
+         Io8dV9iIK00Vga+dTo2gZKkp8Z5B5vpGC6BkbS6mUiXFGfAhU71lyCy+chcOuHkp8JQX
+         Awww==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=Vo5glLC6;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::c2c as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=DXNQF6+X;
+       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::32e as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-oo1-xc2c.google.com (mail-oo1-xc2c.google.com. [2607:f8b0:4864:20::c2c])
-        by gmr-mx.google.com with ESMTPS id 7si209867pgj.1.2021.04.21.08.12.09
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com. [2a00:1450:4864:20::32e])
+        by gmr-mx.google.com with ESMTPS id l11si193496lfg.13.2021.04.21.09.27.54
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 21 Apr 2021 08:12:09 -0700 (PDT)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::c2c as permitted sender) client-ip=2607:f8b0:4864:20::c2c;
-Received: by mail-oo1-xc2c.google.com with SMTP id m25-20020a4abc990000b02901ed4500e31dso2296933oop.1
-        for <kasan-dev@googlegroups.com>; Wed, 21 Apr 2021 08:12:09 -0700 (PDT)
-X-Received: by 2002:a4a:d80e:: with SMTP id f14mr18296328oov.54.1619017928732;
- Wed, 21 Apr 2021 08:12:08 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210408103605.1676875-1-elver@google.com> <CGME20210420212618eucas1p102b427d1af9c682217dfe093f3eac3e8@eucas1p1.samsung.com>
- <20210408103605.1676875-6-elver@google.com> <1fbf3429-42e5-0959-9a5c-91de80f02b6a@samsung.com>
- <CANpmjNM8wEJngK=J8Lt9npkZgrSWoRsqkdajErWEoY_=M1GW5A@mail.gmail.com>
- <43f8a3bf-34c5-0fc9-c335-7f92eaf23022@samsung.com> <dccaa337-f3e5-08e4-fe40-a603811bb13e@samsung.com>
- <CANpmjNP6-yKpxHqYFiA8Up-ujBQaeP7xyq1BrsV-NqMjJ-uHAQ@mail.gmail.com>
- <740077ce-efe1-b171-f807-bc5fd95a32ba@samsung.com> <f114ff4a-6612-0935-12ac-0e2ac18d896c@samsung.com>
- <CANpmjNM6bQpc49teN-9qQhCXoJXaek5stFGR2kPwDroSFBc0fw@mail.gmail.com> <cf6ed5cd-3202-65ce-86bc-6f1eba1b7d17@samsung.com>
-In-Reply-To: <cf6ed5cd-3202-65ce-86bc-6f1eba1b7d17@samsung.com>
+        Wed, 21 Apr 2021 09:27:54 -0700 (PDT)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::32e as permitted sender) client-ip=2a00:1450:4864:20::32e;
+Received: by mail-wm1-x32e.google.com with SMTP id o9-20020a1c41090000b029012c8dac9d47so1627832wma.1
+        for <kasan-dev@googlegroups.com>; Wed, 21 Apr 2021 09:27:54 -0700 (PDT)
+X-Received: by 2002:a1c:7f16:: with SMTP id a22mr10182034wmd.17.1619022473891;
+        Wed, 21 Apr 2021 09:27:53 -0700 (PDT)
+Received: from elver.google.com ([2a00:79e0:15:13:c552:ee7c:6a14:80cc])
+        by smtp.gmail.com with ESMTPSA id f23sm2803158wmf.37.2021.04.21.09.27.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Apr 2021 09:27:52 -0700 (PDT)
+Date: Wed, 21 Apr 2021 18:27:47 +0200
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Wed, 21 Apr 2021 17:11:57 +0200
-Message-ID: <CANpmjNPr_JtRC762ap8PQVmsFNY5YhHvOk0wNcPHq=ZQt-qxYg@mail.gmail.com>
+To: Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Peter Zijlstra <peterz@infradead.org>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>, Jiri Olsa <jolsa@redhat.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Alexander Potapenko <glider@google.com>,
+	Al Viro <viro@zeniv.linux.org.uk>, Arnd Bergmann <arnd@arndb.de>,
+	Christian Brauner <christian@brauner.io>,
+	Dmitry Vyukov <dvyukov@google.com>, Jann Horn <jannh@google.com>,
+	Jens Axboe <axboe@kernel.dk>, Matt Morehouse <mascasa@google.com>,
+	Peter Collingbourne <pcc@google.com>,
+	Ian Rogers <irogers@google.com>, Oleg Nesterov <oleg@redhat.com>,
+	kasan-dev <kasan-dev@googlegroups.com>,
+	linux-arch <linux-arch@vger.kernel.org>,
+	linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+	LKML <linux-kernel@vger.kernel.org>,
+	the arch/x86 maintainers <x86@kernel.org>,
+	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+	Linux ARM <linux-arm-kernel@lists.infradead.org>,
+	linux-tegra@vger.kernel.org, jonathanh@nvidia.com
 Subject: Re: [PATCH v4 05/10] signal: Introduce TRAP_PERF si_code and si_perf
  to siginfo
-To: Marek Szyprowski <m.szyprowski@samsung.com>
-Cc: Peter Zijlstra <peterz@infradead.org>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Ingo Molnar <mingo@redhat.com>, Jiri Olsa <jolsa@redhat.com>, 
-	Mark Rutland <mark.rutland@arm.com>, Namhyung Kim <namhyung@kernel.org>, 
-	Thomas Gleixner <tglx@linutronix.de>, Alexander Potapenko <glider@google.com>, 
-	Al Viro <viro@zeniv.linux.org.uk>, Arnd Bergmann <arnd@arndb.de>, 
-	Christian Brauner <christian@brauner.io>, Dmitry Vyukov <dvyukov@google.com>, Jann Horn <jannh@google.com>, 
-	Jens Axboe <axboe@kernel.dk>, Matt Morehouse <mascasa@google.com>, 
-	Peter Collingbourne <pcc@google.com>, Ian Rogers <irogers@google.com>, Oleg Nesterov <oleg@redhat.com>, 
-	kasan-dev <kasan-dev@googlegroups.com>, linux-arch <linux-arch@vger.kernel.org>, 
-	linux-fsdevel <linux-fsdevel@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
-	"the arch/x86 maintainers" <x86@kernel.org>, 
-	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>, 
-	Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>, Linux ARM <linux-arm-kernel@lists.infradead.org>, 
-	linux-tegra@vger.kernel.org, jonathanh@nvidia.com
+Message-ID: <YIBSg7Vi+U383dT7@elver.google.com>
+References: <1fbf3429-42e5-0959-9a5c-91de80f02b6a@samsung.com>
+ <CANpmjNM8wEJngK=J8Lt9npkZgrSWoRsqkdajErWEoY_=M1GW5A@mail.gmail.com>
+ <43f8a3bf-34c5-0fc9-c335-7f92eaf23022@samsung.com>
+ <dccaa337-f3e5-08e4-fe40-a603811bb13e@samsung.com>
+ <CANpmjNP6-yKpxHqYFiA8Up-ujBQaeP7xyq1BrsV-NqMjJ-uHAQ@mail.gmail.com>
+ <740077ce-efe1-b171-f807-bc5fd95a32ba@samsung.com>
+ <f114ff4a-6612-0935-12ac-0e2ac18d896c@samsung.com>
+ <CANpmjNM6bQpc49teN-9qQhCXoJXaek5stFGR2kPwDroSFBc0fw@mail.gmail.com>
+ <cf6ed5cd-3202-65ce-86bc-6f1eba1b7d17@samsung.com>
+ <CANpmjNPr_JtRC762ap8PQVmsFNY5YhHvOk0wNcPHq=ZQt-qxYg@mail.gmail.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+In-Reply-To: <CANpmjNPr_JtRC762ap8PQVmsFNY5YhHvOk0wNcPHq=ZQt-qxYg@mail.gmail.com>
+User-Agent: Mutt/2.0.5 (2021-01-21)
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=Vo5glLC6;       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::c2c as
+ header.i=@google.com header.s=20161025 header.b=DXNQF6+X;       spf=pass
+ (google.com: domain of elver@google.com designates 2a00:1450:4864:20::32e as
  permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
  sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Marco Elver <elver@google.com>
@@ -149,126 +169,116 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-+Cc linux-arm-kernel
+On Wed, Apr 21, 2021 at 05:11PM +0200, Marco Elver wrote:
+> +Cc linux-arm-kernel
+> 
+[...]
+> >
+> > I've managed to reproduce this issue with a public Raspberry Pi OS Lite
+> > rootfs image, even without deploying kernel modules:
+> >
+> > https://downloads.raspberrypi.org/raspios_lite_armhf/images/raspios_lite_armhf-2021-03-25/2021-03-04-raspios-buster-armhf-lite.zip
+> >
+> > # qemu-system-arm -M virt -smp 2 -m 512 -kernel zImage -append "earlycon
+> > console=ttyAMA0 root=/dev/vda2 rw rootwait" -serial stdio -display none
+> > -monitor null -device virtio-blk-device,drive=virtio-blk -drive
+> > file=/tmp/2021-03-04-raspios-buster-armhf-lite.img,id=virtio-blk,if=none,format=raw
+> > -netdev user,id=user -device virtio-net-device,netdev=user
+> >
+> > The above one doesn't boot if zImage z compiled from commit fb6cc127e0b6
+> > and boots if compiled from 2e498d0a74e5. In both cases I've used default
+> > arm/multi_v7_defconfig and
+> > gcc-linaro-6.4.1-2017.11-x86_64_arm-linux-gnueabi toolchain.
+> 
+> Yup, I've narrowed it down to the addition of "__u64 _perf" to
+> siginfo_t. My guess is the __u64 causes a different alignment for a
+> bunch of adjacent fields. It seems that x86 and m68k are the only ones
+> that have compile-time tests for the offsets. Arm should probably add
+> those -- I have added a bucket of static_assert() in
+> arch/arm/kernel/signal.c and see that something's off.
+> 
+> I'll hopefully have a fix in a day or so.
 
-On Wed, 21 Apr 2021 at 15:19, Marek Szyprowski <m.szyprowski@samsung.com> wrote:
->
-> Hi Marco,
->
-> On 21.04.2021 13:03, Marco Elver wrote:
-> > On Wed, 21 Apr 2021 at 12:57, Marek Szyprowski <m.szyprowski@samsung.com> wrote:
-> >> On 21.04.2021 11:35, Marek Szyprowski wrote:
-> >>> On 21.04.2021 10:11, Marco Elver wrote:
-> >>>> On Wed, 21 Apr 2021 at 09:35, Marek Szyprowski
-> >>>> <m.szyprowski@samsung.com> wrote:
-> >>>>> On 21.04.2021 08:21, Marek Szyprowski wrote:
-> >>>>>> On 21.04.2021 00:42, Marco Elver wrote:
-> >>>>>>> On Tue, 20 Apr 2021 at 23:26, Marek Szyprowski
-> >>>>>>> <m.szyprowski@samsung.com> wrote:
-> >>>>>>>> On 08.04.2021 12:36, Marco Elver wrote:
-> >>>>>>>>> Introduces the TRAP_PERF si_code, and associated siginfo_t field
-> >>>>>>>>> si_perf. These will be used by the perf event subsystem to send
-> >>>>>>>>> signals
-> >>>>>>>>> (if requested) to the task where an event occurred.
-> >>>>>>>>>
-> >>>>>>>>> Acked-by: Geert Uytterhoeven <geert@linux-m68k.org> # m68k
-> >>>>>>>>> Acked-by: Arnd Bergmann <arnd@arndb.de> # asm-generic
-> >>>>>>>>> Signed-off-by: Marco Elver <elver@google.com>
-> >>>>>>>> This patch landed in linux-next as commit fb6cc127e0b6 ("signal:
-> >>>>>>>> Introduce TRAP_PERF si_code and si_perf to siginfo"). It causes
-> >>>>>>>> regression on my test systems (arm 32bit and 64bit). Most systems
-> >>>>>>>> fails
-> >>>>>>>> to boot in the given time frame. I've observed that there is a
-> >>>>>>>> timeout
-> >>>>>>>> waiting for udev to populate /dev and then also during the network
-> >>>>>>>> interfaces configuration. Reverting this commit, together with
-> >>>>>>>> 97ba62b27867 ("perf: Add support for SIGTRAP on perf events") to
-> >>>>>>>> let it
-> >>>>>>>> compile, on top of next-20210420 fixes the issue.
-> >>>>>>> Thanks, this is weird for sure and nothing in particular stands out.
-> >>>>>>>
-> >>>>>>> I have questions:
-> >>>>>>> -- Can you please share your config?
-> >>>>>> This happens with standard multi_v7_defconfig (arm) or just defconfig
-> >>>>>> for arm64.
-> >>>>>>
-> >>>>>>> -- Also, can you share how you run this? Can it be reproduced in
-> >>>>>>> qemu?
-> >>>>>> Nothing special. I just boot my test systems and see that they are
-> >>>>>> waiting lots of time during the udev populating /dev and network
-> >>>>>> interfaces configuration. I didn't try with qemu yet.
-> >>>>>>> -- How did you derive this patch to be at fault? Why not just
-> >>>>>>> 97ba62b27867, given you also need to revert it?
-> >>>>>> Well, I've just run my boot tests with automated 'git bisect' and that
-> >>>>>> was its result. It was a bit late in the evening, so I didn't analyze
-> >>>>>> it further, I've just posted a report about the issue I've found. It
-> >>>>>> looks that bisecting pointed to a wrong commit somehow.
-> >>>>>>> If you are unsure which patch exactly it is, can you try just
-> >>>>>>> reverting 97ba62b27867 and see what happens?
-> >>>>>> Indeed, this is a real faulty commit. Initially I've decided to revert
-> >>>>>> it to let kernel compile (it uses some symbols introduced by this
-> >>>>>> commit). Reverting only it on top of linux-next 20210420 also fixes
-> >>>>>> the issue. I'm sorry for the noise in this thread. I hope we will find
-> >>>>>> what really causes the issue.
-> >>>>> This was a premature conclusion. It looks that during the test I've did
-> >>>>> while writing that reply, the modules were not deployed properly and a
-> >>>>> test board (RPi4) booted without modules. In that case the board booted
-> >>>>> fine and there was no udev timeout. After deploying kernel modules, the
-> >>>>> udev timeout is back.
-> >>>> I'm confused now. Can you confirm that the problem is due to your
-> >>>> kernel modules, or do you think it's still due to 97ba62b27867? Or
-> >>>> fb6cc127e0b6 (this patch)?
-> >>> I don't use any custom kernel modules. I just deploy all modules that
-> >>> are being built from the given kernel defconfig (arm
-> >>> multi_v7_defconfig or arm64 default) and they are automatically loaded
-> >>> during the boot by udev. I've checked again and bisect was right. The
-> >>> kernel built from fb6cc127e0b6 suffers from the described issue, while
-> >>> the one build from the previous commit (2e498d0a74e5) works fine.
-> >> I've managed to reproduce this issue with qemu. I've compiled the kernel
-> >> for arm 32bit with multi_v7_defconfig and used some older Debian rootfs
-> >> image. The log and qemu parameters are here:
-> >> https://protect2.fireeye.com/v1/url?k=7cfc23a2-23671aa9-7cfda8ed-002590f5b904-dab7e2ec39dae1f9&q=1&e=36a5ed13-6ad5-430c-8f44-e95c4f0af5c3&u=https%3A%2F%2Fpaste.debian.net%2F1194526%2F
-> >>
-> >> Check the timestamp for the 'EXT4-fs (vda): re-mounted' message and
-> >> 'done (timeout)' status for the 'Waiting for /dev to be fully populated'
-> >> message. This happens only when kernel modules build from the
-> >> multi_v7_defconfig are deployed on the rootfs.
-> > Still hard to say what is going on and what is at fault. But being
-> > able to repro this in qemu helps debug quicker -- would you also be
-> > able to share the precise rootfs.img, i.e. upload it somewhere I can
-> > fetch it? And just to be sure, please also share your .config, as it
-> > might have compiler-version dependent configuration that might help
-> > repro (unlikely, but you never know).
->
-> I've managed to reproduce this issue with a public Raspberry Pi OS Lite
-> rootfs image, even without deploying kernel modules:
->
-> https://downloads.raspberrypi.org/raspios_lite_armhf/images/raspios_lite_armhf-2021-03-25/2021-03-04-raspios-buster-armhf-lite.zip
->
-> # qemu-system-arm -M virt -smp 2 -m 512 -kernel zImage -append "earlycon
-> console=ttyAMA0 root=/dev/vda2 rw rootwait" -serial stdio -display none
-> -monitor null -device virtio-blk-device,drive=virtio-blk -drive
-> file=/tmp/2021-03-04-raspios-buster-armhf-lite.img,id=virtio-blk,if=none,format=raw
-> -netdev user,id=user -device virtio-net-device,netdev=user
->
-> The above one doesn't boot if zImage z compiled from commit fb6cc127e0b6
-> and boots if compiled from 2e498d0a74e5. In both cases I've used default
-> arm/multi_v7_defconfig and
-> gcc-linaro-6.4.1-2017.11-x86_64_arm-linux-gnueabi toolchain.
+Arm and compiler folks: are there some special alignment requirement for
+__u64 on arm 32-bit? (And if there is for arm64, please shout as well.)
 
-Yup, I've narrowed it down to the addition of "__u64 _perf" to
-siginfo_t. My guess is the __u64 causes a different alignment for a
-bunch of adjacent fields. It seems that x86 and m68k are the only ones
-that have compile-time tests for the offsets. Arm should probably add
-those -- I have added a bucket of static_assert() in
-arch/arm/kernel/signal.c and see that something's off.
+With the static-asserts below, the only thing that I can do to fix it is
+to completely remove the __u64. Padding it before or after with __u32
+just does not work. It seems that the use of __u64 shifts everything
+in __sifields by 4 bytes.
 
-I'll hopefully have a fix in a day or so.
+diff --git a/include/uapi/asm-generic/siginfo.h b/include/uapi/asm-generic/siginfo.h
+index d0bb9125c853..b02a4ac55938 100644
+--- a/include/uapi/asm-generic/siginfo.h
++++ b/include/uapi/asm-generic/siginfo.h
+@@ -92,7 +92,10 @@ union __sifields {
+ 				__u32 _pkey;
+ 			} _addr_pkey;
+ 			/* used when si_code=TRAP_PERF */
+-			__u64 _perf;
++			struct {
++				__u32 _perf1;
++				__u32 _perf2;
++			} _perf;
+ 		};
+ 	} _sigfault;
 
-Thanks,
--- Marco
+^^ works, but I'd hate to have to split this into 2 __u32 because it
+makes the whole design worse.
+
+What alignment trick do we have to do here to fix it for __u64?
+
+
+------ >8 ------
+
+diff --git a/arch/arm/kernel/signal.c b/arch/arm/kernel/signal.c
+index a3a38d0a4c85..6c558dc314c3 100644
+--- a/arch/arm/kernel/signal.c
++++ b/arch/arm/kernel/signal.c
+@@ -725,3 +725,41 @@ asmlinkage void do_rseq_syscall(struct pt_regs *regs)
+ 	rseq_syscall(regs);
+ }
+ #endif
++
++/*
++ * Compile-time tests for siginfo_t offsets. Changes to NSIG* likely come with
++ * new fields; new fields should be added below.
++ */
++static_assert(NSIGILL	== 11);
++static_assert(NSIGFPE	== 15);
++static_assert(NSIGSEGV	== 9);
++static_assert(NSIGBUS	== 5);
++static_assert(NSIGTRAP	== 6);
++static_assert(NSIGCHLD	== 6);
++static_assert(NSIGSYS	== 2);
++static_assert(offsetof(siginfo_t, si_signo)	== 0x00);
++static_assert(offsetof(siginfo_t, si_errno)	== 0x04);
++static_assert(offsetof(siginfo_t, si_code)	== 0x08);
++static_assert(offsetof(siginfo_t, si_pid)	== 0x0c);
++#if 0
++static_assert(offsetof(siginfo_t, si_uid)	== 0x10);
++static_assert(offsetof(siginfo_t, si_tid)	== 0x0c);
++static_assert(offsetof(siginfo_t, si_overrun)	== 0x10);
++static_assert(offsetof(siginfo_t, si_status)	== 0x14);
++static_assert(offsetof(siginfo_t, si_utime)	== 0x18);
++static_assert(offsetof(siginfo_t, si_stime)	== 0x1c);
++static_assert(offsetof(siginfo_t, si_value)	== 0x14);
++static_assert(offsetof(siginfo_t, si_int)	== 0x14);
++static_assert(offsetof(siginfo_t, si_ptr)	== 0x14);
++static_assert(offsetof(siginfo_t, si_addr)	== 0x0c);
++static_assert(offsetof(siginfo_t, si_addr_lsb)	== 0x10);
++static_assert(offsetof(siginfo_t, si_lower)	== 0x14);
++static_assert(offsetof(siginfo_t, si_upper)	== 0x18);
++static_assert(offsetof(siginfo_t, si_pkey)	== 0x14);
++static_assert(offsetof(siginfo_t, si_perf)	== 0x10);
++static_assert(offsetof(siginfo_t, si_band)	== 0x0c);
++static_assert(offsetof(siginfo_t, si_fd)	== 0x10);
++static_assert(offsetof(siginfo_t, si_call_addr)	== 0x0c);
++static_assert(offsetof(siginfo_t, si_syscall)	== 0x10);
++static_assert(offsetof(siginfo_t, si_arch)	== 0x14);
++#endif
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNPr_JtRC762ap8PQVmsFNY5YhHvOk0wNcPHq%3DZQt-qxYg%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YIBSg7Vi%2BU383dT7%40elver.google.com.
