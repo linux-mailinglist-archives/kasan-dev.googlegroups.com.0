@@ -1,212 +1,180 @@
-Return-Path: <kasan-dev+bncBCZLRWEX3ECRB57BQSCAMGQEOR7W4IA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDN6TT4BRQPRBM76QSCAMGQERIXCWUA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-vk1-xa40.google.com (mail-vk1-xa40.google.com [IPv6:2607:f8b0:4864:20::a40])
-	by mail.lfdr.de (Postfix) with ESMTPS id A11B1367C05
-	for <lists+kasan-dev@lfdr.de>; Thu, 22 Apr 2021 10:16:56 +0200 (CEST)
-Received: by mail-vk1-xa40.google.com with SMTP id b203-20020a1fb2d40000b02901c9714c9241sf7588100vkf.19
-        for <lists+kasan-dev@lfdr.de>; Thu, 22 Apr 2021 01:16:56 -0700 (PDT)
-ARC-Seal: i=3; a=rsa-sha256; t=1619079415; cv=pass;
+Received: from mail-pf1-x43c.google.com (mail-pf1-x43c.google.com [IPv6:2607:f8b0:4864:20::43c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E6D9367D8D
+	for <lists+kasan-dev@lfdr.de>; Thu, 22 Apr 2021 11:17:41 +0200 (CEST)
+Received: by mail-pf1-x43c.google.com with SMTP id 9-20020a056a000729b029025d0d3c2062sf7600805pfm.1
+        for <lists+kasan-dev@lfdr.de>; Thu, 22 Apr 2021 02:17:41 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1619083060; cv=pass;
         d=google.com; s=arc-20160816;
-        b=Z3X1ynnG0t76GtX8XvDzBD8/1ayA566FUZostWoeJUXnsTasrn/OQlAB3PCrmVeGmb
-         UiXNsAKykoQQJkJ2frPYLgcO+R4LIXmiMj7xanYBErx5D0it+mPxKJGQVMZ+1WxhMPZa
-         io4Z+p7KyGWauD+ERbykO/CJ8FWzmJZ66NOiUneIfc3CQnHSq5m/WphuZR+r6rEGlAFO
-         wMwsiD493pGrQPQNwXaj7fnjLCprvS9h9fYqCFw8uoALyvx1IZ2AlesVNhQJmYJIzUrY
-         R2ftev/DoPF/WcudStJQ7MAcJzO9Eq5vr6fCDCAyAxuHRG9JUeCoT0Sj251xp4B2wOPP
-         b46Q==
-ARC-Message-Signature: i=3; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        b=uDGczzuNbNcffvlnPbs7uLTNBnY4xOwuifFmTrdBruaSIv42fk+Zvf0TOVQdSjD+Z5
+         a1VYYDMu0o2OxxrUgJQUq8ZMsy3EmubWB3YRhMvv/kQln33YSvHmsrtSV0FreOPvZpti
+         waiMlWfD7F1eozkFdpvX6GUJAaxFwV2wnQqF2z9edKo4SIpPP3SogUKFig8Ps1ubGuRu
+         tTDr/n3TvJTJBAIVNBo00EMN+r4l/fJzmNXSYZuSxnxax4Dc7UorEBEsQoKN43zVqBDW
+         NHAA6HHWARMpeID+IcQAdFFOmemNLv/TwoSVi2Cou0vvJJLl4FLf0y7F5rohSKGAG1w9
+         UDqA==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-language:in-reply-to
-         :mime-version:user-agent:date:message-id:from:references:cc:to
-         :subject:sender:dkim-signature;
-        bh=dnEqHznXnr/ia51B9KEcYrLPJkAGYkfVOv4xYVZPfOs=;
-        b=lDovl3t9RP5rK2Lyr4rcU1ruNlf1fqjs69FAFHaunrOr9qOOhTB8+JJ/Itv1OaEOHK
-         oYYOlx6mZzb/OG6jKO1OR5rNEA9xa6lAak11TeMYNdQ+x7bT6Fnv40Ub5cg7hY+1hv3X
-         c6c9TsEiwCel4z3hv3mPkZ8ZusQvw78HwWSeayFnAuCALJ5EpLx5aThJIXTckc405rZv
-         IOWevoSVSs2LM0Ip94vTYkLpBtjwWcXZuIB5p/l7pvh8ckoMfoDq+qIk/O4VcOf97mFl
-         ESzYXHvH9C0hIRpgp+/jOfT1UwBtoFmAYPWjJOHNRRaPifIvf75Jct46b7kFkUy6YgRi
-         WW0w==
-ARC-Authentication-Results: i=3; gmr-mx.google.com;
-       dkim=pass header.i=@Nvidia.com header.s=selector2 header.b=eUWZMqLe;
-       arc=pass (i=1 spf=pass spfdomain=nvidia.com dmarc=pass fromdomain=nvidia.com);
-       spf=pass (google.com: domain of jonathanh@nvidia.com designates 40.107.223.55 as permitted sender) smtp.mailfrom=jonathanh@nvidia.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=nvidia.com
+         :list-id:mailing-list:precedence:references:cms-type:message-id:date
+         :subject:cc:to:from:dkim-filter:mime-version:sender:dkim-signature;
+        bh=yvtVT02ee81kVJZ00YtZ9hD71t6qBQqTC9lTgNiiNoc=;
+        b=ERePz4VizBxm2bURUB+cMvwfO3jPX8Z8Zsmh33DZpFsPBz2lu7l5I2whD63udcsNpH
+         2YaZBTLWcqJG3Cc3JGluYriAg6faG5IyhWow2JBVb//R7CPsLjbvgePPBk3j2w/+NjBo
+         G7gd03rLeNtWexdBOcgQ3g0Ur6HVbJYrwd8q3vuMtvENN8MVb/49WyclM0CYbe5QDObA
+         C3xWd+RrqFjexTJEM4LSbfixYTG/xcyVnNHhubFBIfbUY7G/Y31KFlPI3SKU+Gzanq3B
+         OAz+x8pUzQCd/Fz8X4l6CfFt0sccsiKd87X3HWZwZM5ydIptL9FEHqSbEXqAoOENvsWS
+         C+Tw==
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@samsung.com header.s=mail20170921 header.b=GrzuS8Ty;
+       spf=pass (google.com: domain of maninder1.s@samsung.com designates 203.254.224.24 as permitted sender) smtp.mailfrom=maninder1.s@samsung.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=samsung.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:x-original-sender
+        h=sender:mime-version:dkim-filter:from:to:cc:subject:date:message-id
+         :cms-type:references:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=dnEqHznXnr/ia51B9KEcYrLPJkAGYkfVOv4xYVZPfOs=;
-        b=Ov+1ata9QTQoyIscrdGXaDr/ga7TBUxhTyRGz2MD0yZ6TxASm5ZDGGWVRl4uNF5UFX
-         TYqMV2fMjbE6bXgZC6XQDO1UAGO+47M/Nrs+Rr7FanaQvAmWb3ZA+ql/VNt9RJ+Be2MB
-         sXLcAhY+8ztPXlcn4xqvNinM7T89/Yo1SxpatzYzAPBB+oWLFxjSCtOa6Rh2MB0QIAeC
-         2z6IP4b3orr0RWoK4LW+nU6CleyCf4WshizBJlGrD/xr7Aw3hRyqOpujWH1JD2W+piSV
-         rv46eNvA4U34Y8QLxWAxI/brK0cukTpwBJC9kuHnKHSLpnaivW2N6Xlcc2kF5bYJYrDX
-         4uSg==
+        bh=yvtVT02ee81kVJZ00YtZ9hD71t6qBQqTC9lTgNiiNoc=;
+        b=Vj9r/aRjlJW7MNw5P8Mh18T7HLodYcQxuXJzvuPpJTihS9/NuR/3eUSnIQIzmkd4hE
+         nQ3U20aKJNAusjcRZT3khq0KotF2+kpU6z5Y7I/kTciBPwnnv+mRFsloZfnMUamUi16/
+         xZo9i4QKOn4BZoV2L6m5Em+LsXwxzAZLevOMLypx7yLlmibSa6jfrV6UgZlUKsXl4M6c
+         9PlpAneaYm4qsGGVcDxTm23ST+WFcQ11ostBpddmkppF1ZrP0vubKNMoFUSvcdz8sPxd
+         zXT9+BwQ30mOeZb9bM75AUDakpoDj/nj/TWW1+ieyNyQ4Y8LVwK9n+8y09X9e6HBS/m0
+         g+aQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=dnEqHznXnr/ia51B9KEcYrLPJkAGYkfVOv4xYVZPfOs=;
-        b=sQAIAS2xebUFDg6rj7NWEnrif0Pn7pNJb2tjW4RabXK8h61HdI5h+zE/IN3/T0E2tG
-         Mv8xB+CSbuE5yQCge7EKTby0V2oknmMsMu7mtLf9wxySojbuJSh/Q6NOw7iREg90nKW8
-         x0bc9Ig7VzKIn55+7yU4ePFAE9VCEjTX6r03jHeMeg13SGDegqE6rZ2LY2w65xTLm8Oh
-         9mAAFA7MdtzfLhuGjQuW7iu1FtSXODV5BNuDXtCTpD70KsMB1lhPHBVZ/MMUZuBqUu3T
-         SVVdXHTmUPXeN8Tw/EuTat15RXCYm22D+6wsJuW1gYlYt21CYMhF4nRt5PPoArf6Jd7g
-         Ob8A==
+        h=sender:x-gm-message-state:mime-version:dkim-filter:from:to:cc
+         :subject:date:message-id:cms-type:references:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=yvtVT02ee81kVJZ00YtZ9hD71t6qBQqTC9lTgNiiNoc=;
+        b=fYEjT9VgZdB6ZPAkxfzd+HpFtW4hyNAPtrzRB1FqsoRO98Wm6AozzUTQXVIZqd773J
+         4Locm8Yp7STbi0clMR4PvfYLGTnd0Bfb0BU5vH2/FfuZyOW1yJMAVqzSiv5ke6kfW/Aw
+         KdwoePWwDL++ZVU/dUxWk+afBXHsVwIeufMb1eu/CwRKIE8FJU4pdALHBTIWtIq38Ajv
+         oqfKLtTpe+Kh1hzHrMRR8vSYk6jZsD9ot+M7i3ygdOxMiAhTvoZf29whgF9jxk1/cEPs
+         fBYgU08EWkIWAuWkoSqsJlC6pqSZfXMigLLds5Kgo6RKsJmfsKP1oVnO9wTFhOtOfuvl
+         wa5g==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM5307gd+JiuIJ5j6Nff7D1lzrW+dTsizdrXhzscpAWBvmSd9IJ6Sd
-	zU2SkUWpLsPQX3gM+agiHdQ=
-X-Google-Smtp-Source: ABdhPJx1gl8ATzsHBTl8eaMNx5YGZLT8VZy0lT1p7AIPCr5T1PaIrVOP4ru92s2abgUA/+1jVkWdyw==
-X-Received: by 2002:ac5:cde5:: with SMTP id v5mr1539612vkn.16.1619079415656;
-        Thu, 22 Apr 2021 01:16:55 -0700 (PDT)
+X-Gm-Message-State: AOAM5339BJEKUZQYg9tKDWt+Vf8M6UUiWPMeCNi9UbAKSYSMNiySBTp+
+	nvCdbh9zSxSxdX1BhrxPPY4=
+X-Google-Smtp-Source: ABdhPJzFHpPlfJhFFiuJCE7TpNUls6m72CXJRW9AcCOs7kbH4SnhgrWitDwxqaNTucYpdP67Oe7xlQ==
+X-Received: by 2002:a63:ed58:: with SMTP id m24mr2680692pgk.248.1619083059850;
+        Thu, 22 Apr 2021 02:17:39 -0700 (PDT)
+MIME-Version: 1.0
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ac5:c0d0:: with SMTP id b16ls369864vkk.3.gmail; Thu, 22 Apr
- 2021 01:16:55 -0700 (PDT)
-X-Received: by 2002:a1f:aa43:: with SMTP id t64mr1438936vke.22.1619079415095;
-        Thu, 22 Apr 2021 01:16:55 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1619079415; cv=pass;
+Received: by 2002:a17:90a:9d88:: with SMTP id k8ls3168182pjp.1.canary-gmail;
+ Thu, 22 Apr 2021 02:17:39 -0700 (PDT)
+X-Received: by 2002:a17:90a:1d4b:: with SMTP id u11mr16078079pju.74.1619083059180;
+        Thu, 22 Apr 2021 02:17:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1619083059; cv=none;
         d=google.com; s=arc-20160816;
-        b=daJ7myXzi/g43dwff+jGjl7Xl4flpoTBFkUUy+ONbO56nzY7iZvjKJ9oQMgBZOyuNF
-         oFFQI3yfpbUKQtaTjMAGgkNHutzyW6reTb8LzTDRDX2LUjUI5AbU6FmIsyhxHYoCBiQm
-         bGN1N3WQVtTY5AcIaIFVYfgJmr4SbM1Sxjq3vcDJYTywjCnmrNxXBmi/MnC3JLEYj1HP
-         1r9XhiUtu7W0kSaor5d4GvbwYRpDy+NZnxymq+6e4ko2hfig7kQuyP9UrfX91ARacBF2
-         5wbR2T+ds6Kom25N2I4d5gZBXlfSxBN4iJH5sGxD3BQqX7cOsil7OacTH0oSD2FTdRti
-         6rVg==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject
-         :dkim-signature;
-        bh=oq+qBPcPbTa5KykEfFLD4bbBZ35fuqzptm5NfiJmyi0=;
-        b=OtFo68nhu3pccXAPcpFRNUO3+P6VVzfY5ylmx6YbOtC/zVqyRtLLVfoTBPqRR7w4ud
-         igi1fWPtnnfzbnABO4W45S7+lo9B/hzmFIqtL3bhK/2NG7rLhJ6t2j5LurWUgOzl9/l4
-         lhEBZxyzD4ABzyFYG0dm+RO8wAh0HO6jGXDNaVvJO2xMlfnAl+hG4UaAaixnceGAKtP3
-         Z2Tm8EAxldF6/zF58S+N7EilHk7ygx30OQlkiOLcc1YHk+UOAmTutwSgnZnF0q/ExRFj
-         /r2+qn4AxJgfWCWeRwq9oKTAS8iT2OYB27KiIpjg0aK5V9DQLwXBvxww2oSORof42FuZ
-         D2hw==
-ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@Nvidia.com header.s=selector2 header.b=eUWZMqLe;
-       arc=pass (i=1 spf=pass spfdomain=nvidia.com dmarc=pass fromdomain=nvidia.com);
-       spf=pass (google.com: domain of jonathanh@nvidia.com designates 40.107.223.55 as permitted sender) smtp.mailfrom=jonathanh@nvidia.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=nvidia.com
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2055.outbound.protection.outlook.com. [40.107.223.55])
-        by gmr-mx.google.com with ESMTPS id a6si304057vkh.0.2021.04.22.01.16.54
+        b=dg0hYEj1PVyITGNWwpP6EY7bh32cjJ5lAgf7mfOrfG6iwLLtN+lMi046KxQaphd0Iv
+         VBkSWvucJlSKlXyasiJu/G1pruCY6ArHGT0UopAoJ0ALgLf6ZuMm5HpY0raNJ5+gr9mT
+         +AkSx2qANwx65vFc9RbOKmxwf1T1lJxsZ4RN6jUXVhiKPkuuRk8n42Wg3ItEX8pHJ1lo
+         xKDxsAbol1FR4jtrKcRLOjSrEDvz4yV2V81+bzhuSvo0PGdGGiFv0EznQoRaH8TThENX
+         f8qrbFLdlxN7MH3T5+yfD/BezCQHb1oM205kz8xwOdK3xkdNe5iaML6Ul3muiuTQZMji
+         XdHw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=references:cms-type:message-id:date:subject:cc:to:from
+         :dkim-signature:dkim-filter;
+        bh=moCMty+hy6GEde6fVkbpppPU9h4RXN6mG5YwWbMgjuc=;
+        b=pN8RHi+a3tpXikmsSw4xa7CjHOvI/PCDtQR1gS3K48qbV37mZh0npMSBanipKmVLzP
+         rxLLGdqfWwnzkcgH9+PBrxElCS+ylEQ7ocXGwCMXInuF/6j7UduO9EuvqzvsDLMF1D6l
+         VUgOm6tWA9/tS2u5r2aV7yueBii/Qb5sjWXed8Wf1fJDWMg1H0l24hklPsLplGZdTWXi
+         IBAXGiionlKCVbhny5jjr0eh5ZBhEEHypBAcUXHypKXDw9YdDyM6q6ctkOmdiPQ8siK5
+         wff3apjSzIoiXnTe5PwLxZV5HYAi6k6brLRQoSkPFxVvIPGLCwtpIIq+XKSLBPg1FYdy
+         cY2w==
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       dkim=pass header.i=@samsung.com header.s=mail20170921 header.b=GrzuS8Ty;
+       spf=pass (google.com: domain of maninder1.s@samsung.com designates 203.254.224.24 as permitted sender) smtp.mailfrom=maninder1.s@samsung.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=samsung.com
+Received: from mailout1.samsung.com (mailout1.samsung.com. [203.254.224.24])
+        by gmr-mx.google.com with ESMTPS id p18si437549pgi.3.2021.04.22.02.17.38
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 22 Apr 2021 01:16:55 -0700 (PDT)
-Received-SPF: pass (google.com: domain of jonathanh@nvidia.com designates 40.107.223.55 as permitted sender) client-ip=40.107.223.55;
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PbupAbkt1Y9WuGT9qOJS7lZlDGvSwcHclZd6M3Qsahz7bUbAVBnLNMKzyIucGnZYQ5jXz3VLB3ZaCwf+C0vbCCppTgPmePr4yfqlJQ9nNLi9SjfrQG4w6rOuuEzC/fuCpZwK/VIC+gpk0TABd07VSuDvz1Ga7OCNj/K9cUIOPmHt96i23hwxoAmOQljZ+/MG/yvdfqEbR2g903z9ePcUq3dWtNXOaEe+tbR+L1G7t4zkKHM5maTumj09xmXldxHd1JLJ4WEBYU3u7nTbmwd9xcbLgK8jOm0chq/6akis88YmNxZbe4kx2tcuH6kcPGYm/OriwndVmdkwr1PJGJIdiw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oq+qBPcPbTa5KykEfFLD4bbBZ35fuqzptm5NfiJmyi0=;
- b=WJtHEV2gau9O6MMfO6vZe3xIPTv9EFvOgZD5UOIFU1ijBy4fNpWLo1fpTWrNcBF39jEsogAeH1OyjWAZjNJxGMrvoIrzRACiV0Rw7Ih/uQagG0aDdcCcfm2J3jklqopMnu6cmTThY140FEDW9pOf/BISYP8GhxbXkz1JyU3i/yVCUQHgrMYUE14rvPbnIdmHFDM23mcpu55f/SbmaWWpacm+bcBK/MNvkKXXCm9ZMW1RNGOLlFuJm0ibsy6bEuDJ02KZbvN1q+2JpFTsJ84DF0Q9/S5d4ajQlKeG9V5zKXFDm9oqgWBWE9OFnRROpRhLGJ2bkutigzXVP+Rw0EUOMA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.112.34) smtp.rcpttodomain=google.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-Received: from MW4PR04CA0260.namprd04.prod.outlook.com (2603:10b6:303:88::25)
- by MN2PR12MB3758.namprd12.prod.outlook.com (2603:10b6:208:169::28) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.21; Thu, 22 Apr
- 2021 08:16:53 +0000
-Received: from CO1NAM11FT066.eop-nam11.prod.protection.outlook.com
- (2603:10b6:303:88:cafe::5b) by MW4PR04CA0260.outlook.office365.com
- (2603:10b6:303:88::25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.21 via Frontend
- Transport; Thu, 22 Apr 2021 08:16:52 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
- smtp.mailfrom=nvidia.com; google.com; dkim=none (message not signed)
- header.d=none;google.com; dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.112.34; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (216.228.112.34) by
- CO1NAM11FT066.mail.protection.outlook.com (10.13.175.18) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4065.21 via Frontend Transport; Thu, 22 Apr 2021 08:16:52 +0000
-Received: from [10.26.49.10] (172.20.145.6) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 22 Apr
- 2021 08:16:45 +0000
-Subject: Re: [PATCH v4 05/10] signal: Introduce TRAP_PERF si_code and si_perf
- to siginfo
-To: Marco Elver <elver@google.com>, Marek Szyprowski
-	<m.szyprowski@samsung.com>
-CC: Peter Zijlstra <peterz@infradead.org>, Alexander Shishkin
-	<alexander.shishkin@linux.intel.com>, Arnaldo Carvalho de Melo
-	<acme@kernel.org>, Ingo Molnar <mingo@redhat.com>, Jiri Olsa
-	<jolsa@redhat.com>, Mark Rutland <mark.rutland@arm.com>, Namhyung Kim
-	<namhyung@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, Alexander
- Potapenko <glider@google.com>, Al Viro <viro@zeniv.linux.org.uk>, Arnd
- Bergmann <arnd@arndb.de>, Christian Brauner <christian@brauner.io>, Dmitry
- Vyukov <dvyukov@google.com>, Jann Horn <jannh@google.com>, Jens Axboe
-	<axboe@kernel.dk>, Matt Morehouse <mascasa@google.com>, Peter Collingbourne
-	<pcc@google.com>, Ian Rogers <irogers@google.com>, Oleg Nesterov
-	<oleg@redhat.com>, kasan-dev <kasan-dev@googlegroups.com>, linux-arch
-	<linux-arch@vger.kernel.org>, linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-	LKML <linux-kernel@vger.kernel.org>, the arch/x86 maintainers
-	<x86@kernel.org>, "open list:KERNEL SELFTEST FRAMEWORK"
-	<linux-kselftest@vger.kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>,
-	Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>, Linux ARM
-	<linux-arm-kernel@lists.infradead.org>, <linux-tegra@vger.kernel.org>
-References: <CANpmjNM8wEJngK=J8Lt9npkZgrSWoRsqkdajErWEoY_=M1GW5A@mail.gmail.com>
- <43f8a3bf-34c5-0fc9-c335-7f92eaf23022@samsung.com>
- <dccaa337-f3e5-08e4-fe40-a603811bb13e@samsung.com>
- <CANpmjNP6-yKpxHqYFiA8Up-ujBQaeP7xyq1BrsV-NqMjJ-uHAQ@mail.gmail.com>
- <740077ce-efe1-b171-f807-bc5fd95a32ba@samsung.com>
- <f114ff4a-6612-0935-12ac-0e2ac18d896c@samsung.com>
- <CANpmjNM6bQpc49teN-9qQhCXoJXaek5stFGR2kPwDroSFBc0fw@mail.gmail.com>
- <cf6ed5cd-3202-65ce-86bc-6f1eba1b7d17@samsung.com>
- <CANpmjNPr_JtRC762ap8PQVmsFNY5YhHvOk0wNcPHq=ZQt-qxYg@mail.gmail.com>
- <YIBSg7Vi+U383dT7@elver.google.com>
- <CGME20210421182355eucas1p23b419002936ab5f1ffc25652135cc152@eucas1p2.samsung.com>
- <YIBtr2w/8KhOoiUA@elver.google.com>
- <dd99b921-3d79-a21f-8942-40fa5bf53190@samsung.com>
- <CANpmjNPbMOUd_Wh5aHGdH8WLrYpyBFUpwx6g3Kj2D6eevvaU8w@mail.gmail.com>
-From: Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <e590c4f6-ad6a-26a4-4f5f-9e6e63bfb15a@nvidia.com>
-Date: Thu, 22 Apr 2021 09:16:43 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
-MIME-Version: 1.0
-In-Reply-To: <CANpmjNPbMOUd_Wh5aHGdH8WLrYpyBFUpwx6g3Kj2D6eevvaU8w@mail.gmail.com>
+        Thu, 22 Apr 2021 02:17:39 -0700 (PDT)
+Received-SPF: pass (google.com: domain of maninder1.s@samsung.com designates 203.254.224.24 as permitted sender) client-ip=203.254.224.24;
+Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
+	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20210422091736epoutp01c115c39f6dcf1c71e3b5fd2e258a676b~4I3ZEfsII2606726067epoutp011
+	for <kasan-dev@googlegroups.com>; Thu, 22 Apr 2021 09:17:36 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20210422091736epoutp01c115c39f6dcf1c71e3b5fd2e258a676b~4I3ZEfsII2606726067epoutp011
+Received: from epsmges5p2new.samsung.com (unknown [182.195.42.74]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTP id
+	20210422091736epcas5p497e47c9e7301881621d406e8845adef0~4I3YtmWeD0245902459epcas5p4P;
+	Thu, 22 Apr 2021 09:17:36 +0000 (GMT)
+Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
+	epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	4C.23.09697.03F31806; Thu, 22 Apr 2021 18:17:36 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
+	20210422081531epcas5p23d6c72ebf28a23b2efc150d581319ffa~4IBLdfpKd2379523795epcas5p20;
+	Thu, 22 Apr 2021 08:15:31 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+	20210422081531epsmtrp1110f38b91c9cb4caea94b3bc85405947~4IBLcO7hJ2412924129epsmtrp1C;
+	Thu, 22 Apr 2021 08:15:31 +0000 (GMT)
+X-AuditID: b6c32a4a-64fff700000025e1-6a-60813f30f140
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	31.24.08637.3A031806; Thu, 22 Apr 2021 17:15:31 +0900 (KST)
+Received: from localhost.localdomain (unknown [107.109.224.44]) by
+	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20210422081529epsmtip221d1e82eb9ad9648c0a66f4c2673e534~4IBJfwv2f1502415024epsmtip2P;
+	Thu, 22 Apr 2021 08:15:29 +0000 (GMT)
+From: Maninder Singh <maninder1.s@samsung.com>
+To: ryabinin.a.a@gmail.com, glider@google.com, andreyknvl@gmail.com,
+	akpm@linux-foundation.org, dvyukov@google.com
+Cc: kasan-dev@googlegroups.com, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, a.sahrawat@samsung.com, Maninder Singh
+	<maninder1.s@samsung.com>, Vaneet Narang <v.narang@samsung.com>
+Subject: [PATCH 1/2] mm/kasan: avoid duplicate KASAN issues from reporting
+Date: Thu, 22 Apr 2021 13:45:16 +0530
+Message-Id: <1619079317-1131-1-git-send-email-maninder1.s@samsung.com>
+X-Mailer: git-send-email 2.7.4
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrOIsWRmVeSWpSXmKPExsWy7bCmlq6BfWOCwcqtohYXd6dazFm/hs3i
+	+8Tp7BYTHraxW7R/3MtsseLZfSaLy7vmsFncW/Of1eLw/DYWi+NbtzBbHDo5l9GB22PnrLvs
+	Hgs2lXrsmXiSzWPTp0nsHidm/Gbx6NuyitHj8ya5APYoLpuU1JzMstQifbsErow7PzrYCzrl
+	Ko5fP8PUwNgg2cXIySEhYCLxafMKxi5GLg4hgd2MEo9nPmaCcD4xSqyf94UZwvnGKPHoVwMb
+	TMvkLTPZIBJ7GSX2reqGcr4wSqyZ+pEdpIpNQE9i1a49LCC2iECJxIG+LSwgRcwCexglDp65
+	BZYQFvCS+Ph/CROIzSKgKtH8rB+smVfATeLB3E9Q6+Qkbp7rZIawr7FLbFogDWG7SOx9tIIF
+	whaWeHV8CzuELSXxsr+NHWSZhEA3o8TMOZeZIZzVjBKbXlxnhaiyl3jd3AC0mQPoJE2J9bv0
+	IcKyElNPrQM7iFmAT6L39xMmiDivxI55MLaqRMvNDVBjpCU+f/wIdYSHxIrfh8EOFRKIlfjc
+	3sE2gVF2FsKGBYyMqxglUwuKc9NTi00LjPJSy/WKE3OLS/PS9ZLzczcxgtOGltcOxocPPugd
+	YmTiYDzEKMHBrCTCu7a4IUGINyWxsiq1KD++qDQntfgQozQHi5I4r6BzdYKQQHpiSWp2ampB
+	ahFMlomDU6qBSZfr9+9NWz9dmn/DVDUwKTRn36IuP4ffJZsdTt3c2MN6+MSKqwsq6zdNmhK3
+	lu9U5UmlxHNiQn8KTdXO6RUK1jIL1t3Z+PiMX7nMPane4BV7ZeQn/A1+zLW2+/rFuqCDl/h0
+	mfe/m3bntKFc2K7eE9cOzZN/PulspvjRZ0Url0TYseda+SQdX/y3nfddt8221QKCugIrf3td
+	OXx30p6YENP8baxuYfw3/Htn/Z/ife2E7PublxvTvVOK75e88hHUUxPol1O/y5Pi7Xi67r/u
+	BLY9782mp5g8yM+Z3nxz+55s6cPK8kYtM79efHr+k5qAYwPrvhsfithXVDTkr5ofrqeheurq
+	BV35JY7Vyz/8WKDEUpyRaKjFXFScCADVhQsJigMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprFLMWRmVeSWpSXmKPExsWy7bCSvO5ig8YEg+nLhSwu7k61mLN+DZvF
+	94nT2S0mPGxjt2j/uJfZYsWz+0wWl3fNYbO4t+Y/q8Xh+W0sFse3bmG2OHRyLqMDt8fOWXfZ
+	PRZsKvXYM/Ekm8emT5PYPU7M+M3i0bdlFaPH501yAexRXDYpqTmZZalF+nYJXBl3fnSwF3TK
+	VRy/foapgbFBsouRk0NCwERi8paZbF2MXBxCArsZJT49m88KkZCW+PnvPQuELSyx8t9zdhBb
+	SOATo8Sh6SIgNpuAnsSqXXvAakQEqiSm/9rBBmIzCxxilOjdIQxiCwt4SXz8v4QJxGYRUJVo
+	ftYPNodXwE3iwdxPbBDz5SRunutknsDIs4CRYRWjZGpBcW56brFhgWFearlecWJucWleul5y
+	fu4mRnDwaWnuYNy+6oPeIUYmDkagXRzMSiK8a4sbEoR4UxIrq1KL8uOLSnNSiw8xSnOwKInz
+	Xug6GS8kkJ5YkpqdmlqQWgSTZeLglGpgsr1nulLOULMswFc+vWCWycHAtYeP85jnyU9Qvh9y
+	fcPDGzJVN19orGXpbxSbssyo/cNHRV+OTXNW2S7ZEcDzOrzvzm7BcAGLzEli9+75zhZ2P53f
+	tLC7PczOsWWlhbqwG/dfrooZ3QzivHZn14jo/vVdn+uhtfPmtS36fJ383KtqnEyN9SXMf3b7
+	NTLksnEa+T+U03P/y3FWrXr71R0T5lmxNBcYxk39WlbP7TVry6wzRbeOtE1wzwldpvRAozGt
+	J/b2qunOOdVTroncmxitU2Yfv/Hs7gCnRTfzDvc+N9oy2XFbcpnmqoYfixOWe3w6tik7fwr7
+	siUXt9075u8xN1w1deHNqs+9KSsdJWYqsRRnJBpqMRcVJwIAc/BDTK0CAAA=
+X-CMS-MailID: 20210422081531epcas5p23d6c72ebf28a23b2efc150d581319ffa
+X-Msg-Generator: CA
 Content-Type: text/plain; charset="UTF-8"
-Content-Language: en-US
-X-Originating-IP: [172.20.145.6]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- HQMAIL107.nvidia.com (172.20.187.13)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 46b2d5bf-fba0-49a2-bcdb-08d90566fc25
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3758:
-X-Microsoft-Antispam-PRVS: <MN2PR12MB3758BFD9334AFFC08B699A0CD9469@MN2PR12MB3758.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: nm5s+WgV7SQ8bBFfG1OlcKc4uJ8eghCmgsLVl90qOnH7vUoHUilS0KzakTQwzcepwt5ugpt55utCYrfBj/1Y8caAsOpqtF69hgQuFqbtkvXXOoya/gjp0VR9Fo72P5iNhXMqxGRTxi1vMLXtzxHYHkEe1oYToKMVExl8kCZAS/efyxYO4RqumzkN63dp6N6q/3Nnc2eE2VpdOylZJBnrDiJLIfNi6R30GodaE/UWY+yj5X9BT3Cv2slDjMSwsmlHZzcbR5nQ7ho6/Kn80NllfSBWVDBHRoCzj288AvgQ4gYaguKF+ZLmNnCHH9a++5d8vW892rLv6M3lLCcgQW/Vyas7DEUncHc6sn80YYBmOptNvwE3cGVDiz1aOxlW4LIif6T7WAs0gVO0cdawLjcuoHoyRXYyKQi+/BZ8CnCbwnO0P9VTHIP5ho9Wse+2lZWZRHEo38NOS+ImQI2Lzvk8fucnoYyypZbvGDXXEGtyIxkIIxTfqhC6TUveqoAs56j3HJ6m6sX+p1i3i1Rq9eCNKoLnanjUOiI3kZYQnU+sJnaiV790TwJy9J32EWuEi1reqf6a75CIfZjGHyTLx6qG8OeTCPCwpP0c/DCbqckI8BiIg6eueATDXyqg9ZNiL0B9k5qFe4SIhmZVFM27OV2a+JRGqiCqxNZHKYRIldNIXqgwf/kwdmwB7o5iHPYbp82L/VcQRak5K6V9BjLh/WrokNpemkKLx6wZgu/V0DHHTNbRd4UNxygJytVEFq98zeiFd9J+ns7urgpbOaX7dOyhEg==
-X-Forefront-Antispam-Report: CIP:216.228.112.34;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid03.nvidia.com;CAT:NONE;SFS:(4636009)(39860400002)(376002)(136003)(396003)(346002)(46966006)(36840700001)(5660300002)(86362001)(31686004)(7406005)(36906005)(7416002)(316002)(82310400003)(7636003)(82740400003)(83380400001)(31696002)(70586007)(70206006)(356005)(186003)(426003)(36756003)(8676002)(4326008)(47076005)(16526019)(966005)(36860700001)(53546011)(110136005)(478600001)(2906002)(54906003)(16576012)(2616005)(8936002)(26005)(336012)(43740500002);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Apr 2021 08:16:52.3701
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 46b2d5bf-fba0-49a2-bcdb-08d90566fc25
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.34];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT066.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3758
-X-Original-Sender: jonathanh@nvidia.com
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+X-CMS-RootMailID: 20210422081531epcas5p23d6c72ebf28a23b2efc150d581319ffa
+References: <CGME20210422081531epcas5p23d6c72ebf28a23b2efc150d581319ffa@epcas5p2.samsung.com>
+X-Original-Sender: maninder1.s@samsung.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@Nvidia.com header.s=selector2 header.b=eUWZMqLe;       arc=pass
- (i=1 spf=pass spfdomain=nvidia.com dmarc=pass fromdomain=nvidia.com);
-       spf=pass (google.com: domain of jonathanh@nvidia.com designates
- 40.107.223.55 as permitted sender) smtp.mailfrom=jonathanh@nvidia.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=nvidia.com
+ header.i=@samsung.com header.s=mail20170921 header.b=GrzuS8Ty;       spf=pass
+ (google.com: domain of maninder1.s@samsung.com designates 203.254.224.24 as
+ permitted sender) smtp.mailfrom=maninder1.s@samsung.com;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=samsung.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -219,46 +187,134 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
+when KASAN multishot is ON and some buggy code hits same code path
+of KASAN issue repetetively, it can flood logs on console.
 
-On 22/04/2021 07:47, Marco Elver wrote:
-> On Thu, 22 Apr 2021 at 08:12, Marek Szyprowski <m.szyprowski@samsung.com> wrote:
-> [...]
->>> So I think we just have to settle on 'unsigned long' here. On many
->>> architectures, like 32-bit Arm, the alignment of a structure is that of
->>> its largest member. This means that there is no portable way to add
->>> 64-bit integers to siginfo_t on 32-bit architectures.
->>>
->>> In the case of the si_perf field, word size is sufficient since the data
->>> it contains is user-defined. On 32-bit architectures, any excess bits of
->>> perf_event_attr::sig_data will therefore be truncated when copying into
->>> si_perf.
->>>
->>> Feel free to test the below if you have time, but the below lets me boot
->>> 32-bit arm which previously timed out. It also passes all the
->>> static_asserts() I added (will send those as separate patches).
->>>
->>> Once I'm convinced this passes all others tests too, I'll send a patch.
->>
->> This fixes the issue I've observed on my test systems. Feel free to add:
->>
->> Reported-by: Marek Szyprowski <m.szyprowski@samsung.com>
->>
->> Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
-> 
-> Thank you for testing! It's been sent:
-> https://lkml.kernel.org/r/20210422064437.3577327-1-elver@google.com
+Check for allocaton, free and backtrace path at time of KASAN error,
+if these are same then it is duplicate error and avoid these prints
+from KASAN.
 
+Co-developed-by: Vaneet Narang <v.narang@samsung.com>
+Signed-off-by: Vaneet Narang <v.narang@samsung.com>
+Signed-off-by: Maninder Singh <maninder1.s@samsung.com>
+---
+ mm/kasan/kasan.h  |  6 +++++
+ mm/kasan/report.c | 67 +++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 73 insertions(+)
 
-Thanks! This fixes the problem for Tegra as well. I have responded to
-the above patch with my tested-by.
-
-Cheers
-Jon
-
+diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
+index 78cf99247139..d14ccce246ba 100644
+--- a/mm/kasan/kasan.h
++++ b/mm/kasan/kasan.h
+@@ -102,6 +102,12 @@ struct kasan_access_info {
+ 	unsigned long ip;
+ };
+ 
++struct kasan_record {
++	depot_stack_handle_t	bt_handle;
++	depot_stack_handle_t	alloc_handle;
++	depot_stack_handle_t	free_handle;
++};
++
+ /* The layout of struct dictated by compiler */
+ struct kasan_source_location {
+ 	const char *filename;
+diff --git a/mm/kasan/report.c b/mm/kasan/report.c
+index 87b271206163..4576de76991b 100644
+--- a/mm/kasan/report.c
++++ b/mm/kasan/report.c
+@@ -39,6 +39,10 @@ static unsigned long kasan_flags;
+ #define KASAN_BIT_REPORTED	0
+ #define KASAN_BIT_MULTI_SHOT	1
+ 
++#define MAX_RECORDS		(200)
++static struct kasan_record kasan_records[MAX_RECORDS];
++static int stored_kasan_records;
++
+ bool kasan_save_enable_multi_shot(void)
+ {
+ 	return test_and_set_bit(KASAN_BIT_MULTI_SHOT, &kasan_flags);
+@@ -360,6 +364,65 @@ void kasan_report_invalid_free(void *object, unsigned long ip)
+ 	end_report(&flags, (unsigned long)object);
+ }
+ 
++/*
++ * @save_report()
++ *
++ * returns false if same record is already saved.
++ * returns true if its new record and saved in database of KASAN.
++ */
++static bool save_report(void *addr, struct kasan_access_info *info, u8 tag, unsigned long *flags)
++{
++	struct kasan_record record = {0};
++	depot_stack_handle_t bt_handle;
++	int i = 0;
++	const char *bug_type;
++	struct kasan_alloc_meta *alloc_meta;
++	struct kasan_track *free_track;
++	struct page *page;
++	bool ret = true;
++
++	kasan_disable_current();
++	spin_lock_irqsave(&report_lock, *flags);
++
++	bug_type = kasan_get_bug_type(info);
++	page = kasan_addr_to_page(addr);
++	bt_handle = kasan_save_stack(GFP_KERNEL);
++
++	if (page && PageSlab(page)) {
++		struct kmem_cache *cache = page->slab_cache;
++		void *object = nearest_obj(cache, page, addr);
++
++		alloc_meta = kasan_get_alloc_meta(cache, object);
++		free_track = kasan_get_free_track(cache, object, tag);
++		record.alloc_handle = alloc_meta->alloc_track.stack;
++		if (free_track)
++			record.free_handle = free_track->stack;
++	}
++
++	record.bt_handle = bt_handle;
++
++	for (i = 0; i < stored_kasan_records; i++) {
++		if (record.bt_handle != kasan_records[i].bt_handle)
++			continue;
++		if (record.alloc_handle != kasan_records[i].alloc_handle)
++			continue;
++		if (!strncmp("use-after-free", bug_type, 15) &&
++			(record.free_handle != kasan_records[i].free_handle))
++			continue;
++
++		ret = false;
++		goto done;
++	}
++
++	memcpy(&kasan_records[stored_kasan_records], &record, sizeof(struct kasan_record));
++	stored_kasan_records++;
++
++done:
++	spin_unlock_irqrestore(&report_lock, *flags);
++	kasan_enable_current();
++	return ret;
++}
++
+ static void __kasan_report(unsigned long addr, size_t size, bool is_write,
+ 				unsigned long ip)
+ {
+@@ -388,6 +451,10 @@ static void __kasan_report(unsigned long addr, size_t size, bool is_write,
+ 	info.is_write = is_write;
+ 	info.ip = ip;
+ 
++	if (addr_has_metadata(untagged_addr) &&
++		!save_report(untagged_addr, &info, get_tag(tagged_addr), &flags))
++		return;
++
+ 	start_report(&flags);
+ 
+ 	print_error_description(&info);
 -- 
-nvpublic
+2.17.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/e590c4f6-ad6a-26a4-4f5f-9e6e63bfb15a%40nvidia.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/1619079317-1131-1-git-send-email-maninder1.s%40samsung.com.
