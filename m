@@ -1,150 +1,126 @@
-Return-Path: <kasan-dev+bncBC27HSOJ44LBB74MQWCAMGQEAADC32A@googlegroups.com>
+Return-Path: <kasan-dev+bncBCMIZB7QWENRBS4RQWCAMGQE4LMK74I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x138.google.com (mail-lf1-x138.google.com [IPv6:2a00:1450:4864:20::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25EC5367E1C
-	for <lists+kasan-dev@lfdr.de>; Thu, 22 Apr 2021 11:48:48 +0200 (CEST)
-Received: by mail-lf1-x138.google.com with SMTP id r16-20020ac25f900000b02901ae74bbfd43sf3311608lfe.10
-        for <lists+kasan-dev@lfdr.de>; Thu, 22 Apr 2021 02:48:48 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1619084927; cv=pass;
+Received: from mail-pg1-x540.google.com (mail-pg1-x540.google.com [IPv6:2607:f8b0:4864:20::540])
+	by mail.lfdr.de (Postfix) with ESMTPS id A37AF367E33
+	for <lists+kasan-dev@lfdr.de>; Thu, 22 Apr 2021 11:58:36 +0200 (CEST)
+Received: by mail-pg1-x540.google.com with SMTP id r27-20020a63441b0000b02901e65403d377sf12150082pga.14
+        for <lists+kasan-dev@lfdr.de>; Thu, 22 Apr 2021 02:58:36 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1619085515; cv=pass;
         d=google.com; s=arc-20160816;
-        b=Jtf1m3RHEmYJIpkIVeugtkOSxg4R84xeRyU0ygMOpdw/sz+N5NDdDJsqrlGr89iN0r
-         inTm9b/mBiFAvAJ3a0qx9o99V3ZzFoPiMsWN6MGpfRi2CVsCwC6LigAk7l/1vzqxuu5I
-         a5KHEE/efyXZtr3cW7wJOLbCsqJZZ7nIShCqrV1fbhmVCKuhBZVgut5jtGeJ6P+EbcfH
-         jDeAyVG1/jPq6GjcckqwEpYvpN6sp/qYiSH5lp8oa02LvOZi1FAaS3cqwyMvRsqkF0I6
-         JXEaqWpGzpYy+anJIoEbpQnpRZpFcS9j6mrbeu+Krwnbe6FAygct8U7y4BKUsfl0Ee2/
-         5NnQ==
+        b=f60bge7/BhCs7eYc7tOPE+7xXx/IKJkLdqbhPJg+8wdB/y59dQSr9MTdhn/vlCG0M1
+         4bcvreUtTZIyBtT5zfNY3aVbRMjzJrJMJ6DXsjRHVBRrCw9KoZ4LAjwAJZ47sxYklydX
+         Ff1GpcUv/JoLGIwrQNJpvAhoYISo57rRtWhhNlnCsHWQWR7e0ixhtAqvgqb/AxtEByvE
+         imW9r9hnDQF1X5MJvIocFWwFwRs/4toz7GSuXD9UQ9/PFmZXNV1UI7oty4CUNzYlbcgZ
+         Fa1haiRGUHkyu8mUEDIt69FMYWD5wivi47d0zEg4dJIx02E20FAn0a4RCwv9LgwUprIW
+         In7A==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-language:mime-version
-         :accept-language:in-reply-to:references:message-id:date:thread-index
-         :thread-topic:subject:cc:to:from:sender:dkim-signature;
-        bh=2VWlyboGqFY3B7ybyMtOywMWbMmjk/0Zoq5pyGGh64M=;
-        b=jndlKJ6cSCbpdHqti4SnEy+OEzjE7qMDEGioYkDYI2YpBNbf4sG8LLTWo/WDr/Uure
-         U2rvBNWCjJU9njwGFPa3/s7viWhAdvEDbuuW89FhQzaZzprtEMvdw4ItEk98HSvmefIg
-         MNzqkZJDBafn+mO0mj3n6Rc7AdPj3PQmEf1tfWWsnFeOuaaNLgYh5kiis06stAlzWPI3
-         CTGOjzZyRCTNXSYNurpkvcbOy3qBNURrMFkqY2yrYZI4eFuFIV4CEmr19MYdJZBND76l
-         rFczuGtSA1Y2uM+2dbjUPdrtuEdCBy2nN+LScPq12VPifUotIwqrEz4PbKyDAH6031OW
-         bUng==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=KuLVMhxhYqx4RZYa4d1Yw+oGLqKq/U73QD5nXs3JckY=;
+        b=uTzaSo/4GAJAh9uOZJ5eJs9SrHXm3ij8h0gRJEvWYmAyymcga/8yPWU/Oq0pPIqtGc
+         cy545f9ss80+rkQvytWAYY2X72BvLQwYUTQRF1X55dxkQ+AujJUy2Pi12d74qJsDPKgQ
+         J+bzwsRWuyROGXtEXPt4JcJG4vQUBz3p+hOAlU/XyZ7l8ZJIKNZ5JMuadZ7cGHD/SeO/
+         jDz60Xy2HaL+nn8izYpFAysCUOcdyEAkxc9USVK2MXWDgOK5rvAU8k7li7Y4r+MUxJnT
+         Dg/72muaXwg0hPlaFkfdOm9FK/mULp9OvCTeli0ODyGq/CcJY6v+HacgnoL34IZ09j9f
+         58Yg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of david.laight@aculab.com designates 185.58.86.151 as permitted sender) smtp.mailfrom=david.laight@aculab.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=aculab.com
+       dkim=pass header.i=@google.com header.s=20161025 header.b=TYedG1fJ;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::82e as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:from:to:cc:subject:thread-topic:thread-index:date:message-id
-         :references:in-reply-to:accept-language:mime-version
-         :content-language:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=2VWlyboGqFY3B7ybyMtOywMWbMmjk/0Zoq5pyGGh64M=;
-        b=ONNdgsp9YwsKAF4BSVRuMG7Ab249+se56nNK/PzZpEX5tOndGpKhTEEFdGtZauL+ol
-         ZjGB2zrrQ3zcOxZjZ3EhsGAjIkbVjeVzgphHiNx18qicYDJNJ4+wOZaQHBXI2OIznCGt
-         KQJC+w/yMLUTc3inOygMv5HdP3Ut5phNw017cdbH9Ao8BEJ0/TqPO5o9YiQliwFOdD5z
-         T256a2xzPRMc3Ve0VC/FtoM+OX/LuxD8cpK2Ut7ITGPhJVK7gIg1VUWcSV3BBtsGmcUU
-         u2Jwi1nPyu9p5d5e9FzG2LqI4ljhrZWG7Y0/M1FMw9VMWOvWhDnUxrbZKeRRb9GDZDS3
-         VPZw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=KuLVMhxhYqx4RZYa4d1Yw+oGLqKq/U73QD5nXs3JckY=;
+        b=iiZy/yeu1xcxTbugx9jieBbkz6+Z3QYVTPTkSeFYHc5lDS0PWjGvwDDKx2nXpB/rRO
+         AkvrBR4DL1S9DaEGgKpL/YCSmesMtKeB+ovbod5EOm9M61hapVKAHd00ZWd1ex/S9Z2c
+         3V1HFzVbAdh9/Mn9A/kNRp/7BW+yQHlGX8nVLEoSwGpl5c0Ewdwb2Cy24Iay0fZN8snS
+         jkO4viCS7dOC46jWoNcYLmIY5mBx2joObohkT6zCX2roR2tQDL/f6FYiKVCsiyv90lOA
+         ZREzBu73FTrqM1W9aEvbxzaC4ajAq1Qx1prC124OfE6qwSmoNlZECAXlZEB2LTIL6Iwr
+         ZUPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:from:to:cc:subject:thread-topic
-         :thread-index:date:message-id:references:in-reply-to:accept-language
-         :mime-version:content-language:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=2VWlyboGqFY3B7ybyMtOywMWbMmjk/0Zoq5pyGGh64M=;
-        b=ER47yWRpYycgrW2Hjs0nwm4Ujaf++QJaRjbnE1KeAN1ifvOxytwml3lvratbwPSTfY
-         emT5HBXOyHJWey88Os0MdLJsULhabie3TvPzFAg+8nGjIXxZKChVkYMGk7wUeldSR5W/
-         wWIM2UYPp8lhqk60bmXCYN74MNev159rfhuCaRmHKbAZ3RjEWqTIxbtuBz/AROV0NAkS
-         fCyqQxehJohbebm1mJVhOxwedkC3VnRclvssnT9z2BbTXHkOuAwMUTpcM5FXVJeM6wDg
-         A9X6XACH062o2ZmAqEQRUlsvYyfg44E3cdqsJkn4jkm8YnVNUaNRCrC+yxiWQqI7x/+S
-         yU0A==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM530D6hiW8wbWyF8nLWHV4m7uYCDnVMPg2C/GGXfUwzqblotzSu1v
-	oyV3C+8pZ764gYDyo6B4/vs=
-X-Google-Smtp-Source: ABdhPJx183IMOz3+on4UorL5IN1QOB6JZ8uAjd5W9dh5kRCv6puqi4Zei3ri+oH6BbVg9l/m6zdY9w==
-X-Received: by 2002:ac2:5fa2:: with SMTP id s2mr1910736lfe.486.1619084927687;
-        Thu, 22 Apr 2021 02:48:47 -0700 (PDT)
+        bh=KuLVMhxhYqx4RZYa4d1Yw+oGLqKq/U73QD5nXs3JckY=;
+        b=muJ0SaRFb9nKX0Lf53RYR/FIVL7UCRVf5zSUxkWyQ2Bzopri8ePQbFAGUByA8hDUdh
+         Dka3sHot7Yql3YIn2PTUcEEphUe2Lw2sP5MoiV7Y0kLIapKv4Kb0QDP1MlRUHFuelzPq
+         SsWS7eUxD49tRjqdJABLyH6FWHy/II2AuGG9BnrnPsltn+Lh/L2tTjiOvB6tkBnohOo3
+         SVaC9pNAGHTyBxkMpxNFo34+cLXcBzo1jWDxF8b27gdXMn7K8Edi1TERrAl9HuEbTBvr
+         Y/70dyY5yZ1AZ3Y3Zzl35r03smezPlIqXIYuY+Zcw+lWqoV3sFgdf4cRwidkt/k3gJdj
+         qdpg==
+X-Gm-Message-State: AOAM530AlhSVwJt5T6yb0siN49SIrgp8Jh9l3zGo7+dFFa8ZFInX+V66
+	lLTRhn2XmcVBmsTR4tIh/UY=
+X-Google-Smtp-Source: ABdhPJwg4hk1IaL+tRtmrHmSNfMEdV0HiZS3N4T0l2uQGlL6yg0yMMrmbXuZecHEyfqLsbfrFFcu0w==
+X-Received: by 2002:a63:1d06:: with SMTP id d6mr2691790pgd.202.1619085515369;
+        Thu, 22 Apr 2021 02:58:35 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:6c2:: with SMTP id u2ls427879lff.3.gmail; Thu, 22
- Apr 2021 02:48:46 -0700 (PDT)
-X-Received: by 2002:a05:6512:308a:: with SMTP id z10mr1969013lfd.15.1619084926696;
-        Thu, 22 Apr 2021 02:48:46 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1619084926; cv=none;
+Received: by 2002:a62:79d5:: with SMTP id u204ls1997351pfc.9.gmail; Thu, 22
+ Apr 2021 02:58:34 -0700 (PDT)
+X-Received: by 2002:a63:4848:: with SMTP id x8mr2630887pgk.362.1619085514787;
+        Thu, 22 Apr 2021 02:58:34 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1619085514; cv=none;
         d=google.com; s=arc-20160816;
-        b=py0sZQ86NVn/l8vPqbgzE0s3FY0oeG6sP5iC7nexha7iEJ6RSqGmPxPy9MqmOpwZAw
-         TC88+Mn8tgOrssChbeT64u69wWBidRGzJxEJ07yBf0P/9IwUxqcYP09BpGPWOyPK3oB5
-         3N790Qb4+qTNbfQrwatI+JByGRfldJMQEMnxtYQ0Fchj61lXCwhx7nsXerE+DrA5Y5g4
-         Nco6CyiUlnZzVB7F3jfuSQNX8iMFs4RQSxi3mIr/kXtENctWU9tiBcY6OI+8BL+K92kh
-         r48+PylffaHZXIZ6qVmyZ/Odmd+2bL4zurib4qLfH7UHXSwGeSYCKXSiCDV7ibAffIv3
-         IPlA==
+        b=Y0WBg+yL+RDVRaRraBiE1JyJBDZsCzHjSxDtAnA8FOh1o1t3upECmo05rtOsC6fWwS
+         +KwpGSU3BGZlEseZInS1DNF2P+TdtCnetggSzvG+MgVc9QyJJC/vIXBNgY5ASwS9aZbR
+         K3bMpkd2hlzEBDqQkcLvRmsHN0ALqCGfPBFcU2MjeQEZr6ShwtnlWxLfuAuco7ZP9q9W
+         rC8oqOrPkaKn3maasUcGsgA203aDQ7yLUJTMXyxWVPaJaxm6QKBtv6Ntq5gTL2kuXRDd
+         WYSC2F+dBJUSUGxQTuZ2yiUCE+wlx627UwnmTaSUXqvaXm82PipeZ8QZEFB4S9NqZ59n
+         L9mg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:content-language:mime-version
-         :accept-language:in-reply-to:references:message-id:date:thread-index
-         :thread-topic:subject:cc:to:from;
-        bh=GPbXJZUIIy5QkB7NetoD10lzJtM9pJU7pxDLmpDJXMw=;
-        b=esUE9hA9JNTf7RjNsk++/QSwyDvb95yeFlFfN2dilE+IjAKCs9GDibqy/XuAzcuHPY
-         J4ASDbu0LmgMq2gVrAgRrYRvU+69L17KGsrAySKbz0OTra/jsBxRtasUng0qWRfKaoDt
-         XrFQ+RPu/jzdZpf4qPIoq3d7bQhORaU+sE8RraQwLi1rLLqCDhldoUH1Kj5mA37/ri8L
-         jfvaxQViq3udrqFKsqT6wnEpyWR+2bRFkYb3OiFY36Ebzsoi3SsjrnQSx3HnPlboq/+U
-         5H+G8FzTDpdQPCsIJg+OCPeHfeWuo+3gC9UZIDvHWI8m0OSxzmxPA8ZJad5yEPsWNqM6
-         ewdw==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=sVnJbmEkfxXnJEPDJlf6F38sWKPScLpz9CDnrIopbyM=;
+        b=ENb0c/kykkg0rhs/zBOkMWNyGcmQZHt4YjNXzKY3pFhMunl/Bl5WmyqjTtT4H+++1M
+         N7IXZsXHSooVK6WJwevS1LvPobnw4N7XyuwU+jRhbVvKiP3P3AgyF9cGsAJ88VQFWxKa
+         VfmFFb2o1UUHZLzUpYg8XZaYpGbOxEij1T8cHVR+X+F4cZhei6LKOAVXHrV24/NT1Wun
+         lvoBSTaXthcmXCSaZAATHJuyeqBjt/K0ankF5EO+Lw2MS5Y59p+bmK/2eBfSV/MwHeLk
+         1SIzeMEWiIPUE5wbMEITPedRDST0isypuRugolv6+l5c680Wqtuoog76nIdpgWVoAYl2
+         Oulg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of david.laight@aculab.com designates 185.58.86.151 as permitted sender) smtp.mailfrom=david.laight@aculab.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=aculab.com
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com. [185.58.86.151])
-        by gmr-mx.google.com with ESMTPS id r2si341798lji.7.2021.04.22.02.48.46
+       dkim=pass header.i=@google.com header.s=20161025 header.b=TYedG1fJ;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::82e as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-qt1-x82e.google.com (mail-qt1-x82e.google.com. [2607:f8b0:4864:20::82e])
+        by gmr-mx.google.com with ESMTPS id a8si342092plp.2.2021.04.22.02.58.34
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 22 Apr 2021 02:48:46 -0700 (PDT)
-Received-SPF: pass (google.com: domain of david.laight@aculab.com designates 185.58.86.151 as permitted sender) client-ip=185.58.86.151;
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) (Using
- TLS) by relay.mimecast.com with ESMTP id
- uk-mtapsc-3-u9EizjiyOa6oT5HDclJV4g-1; Thu, 22 Apr 2021 10:48:43 +0100
-X-MC-Unique: u9EizjiyOa6oT5HDclJV4g-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
- Server (TLS) id 15.0.1497.2; Thu, 22 Apr 2021 10:48:42 +0100
-Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
- AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
- 15.00.1497.015; Thu, 22 Apr 2021 10:48:42 +0100
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Marco Elver' <elver@google.com>, "peterz@infradead.org"
-	<peterz@infradead.org>, "mingo@redhat.com" <mingo@redhat.com>,
-	"tglx@linutronix.de" <tglx@linutronix.de>
-CC: "m.szyprowski@samsung.com" <m.szyprowski@samsung.com>,
-	"jonathanh@nvidia.com" <jonathanh@nvidia.com>, "dvyukov@google.com"
-	<dvyukov@google.com>, "glider@google.com" <glider@google.com>,
-	"arnd@arndb.de" <arnd@arndb.de>, "christian@brauner.io"
-	<christian@brauner.io>, "axboe@kernel.dk" <axboe@kernel.dk>, "pcc@google.com"
-	<pcc@google.com>, "oleg@redhat.com" <oleg@redhat.com>,
-	"kasan-dev@googlegroups.com" <kasan-dev@googlegroups.com>,
-	"linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
-Subject: RE: [PATCH tip 1/2] signal, perf: Fix siginfo_t by avoiding u64 on
- 32-bit architectures
-Thread-Topic: [PATCH tip 1/2] signal, perf: Fix siginfo_t by avoiding u64 on
- 32-bit architectures
-Thread-Index: AQHXN0MFjTlB/ZNe8Eu7kYRWV5A4q6rAQy8Q
-Date: Thu, 22 Apr 2021 09:48:42 +0000
-Message-ID: <d480a4f56d544fb98eb1cdd62f44ae91@AcuMS.aculab.com>
-References: <20210422064437.3577327-1-elver@google.com>
-In-Reply-To: <20210422064437.3577327-1-elver@google.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 22 Apr 2021 02:58:34 -0700 (PDT)
+Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::82e as permitted sender) client-ip=2607:f8b0:4864:20::82e;
+Received: by mail-qt1-x82e.google.com with SMTP id a18so9565744qtj.10
+        for <kasan-dev@googlegroups.com>; Thu, 22 Apr 2021 02:58:34 -0700 (PDT)
+X-Received: by 2002:ac8:5c92:: with SMTP id r18mr2284877qta.66.1619085513632;
+ Thu, 22 Apr 2021 02:58:33 -0700 (PDT)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
+References: <CGME20210422081531epcas5p23d6c72ebf28a23b2efc150d581319ffa@epcas5p2.samsung.com>
+ <1619079317-1131-1-git-send-email-maninder1.s@samsung.com>
+In-Reply-To: <1619079317-1131-1-git-send-email-maninder1.s@samsung.com>
+From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Thu, 22 Apr 2021 11:58:22 +0200
+Message-ID: <CACT4Y+azDLjbNH0A8_G-yG4qg964f-sGiBNvfatYuTk5aBu9aw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] mm/kasan: avoid duplicate KASAN issues from reporting
+To: Maninder Singh <maninder1.s@samsung.com>
+Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>, Alexander Potapenko <glider@google.com>, 
+	Andrey Konovalov <andreyknvl@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	kasan-dev <kasan-dev@googlegroups.com>, Linux-MM <linux-mm@kvack.org>, 
+	LKML <linux-kernel@vger.kernel.org>, AMIT SAHRAWAT <a.sahrawat@samsung.com>, 
+	Vaneet Narang <v.narang@samsung.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: david.laight@aculab.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of david.laight@aculab.com designates 185.58.86.151 as
- permitted sender) smtp.mailfrom=david.laight@aculab.com;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=aculab.com
+X-Original-Sender: dvyukov@google.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@google.com header.s=20161025 header.b=TYedG1fJ;       spf=pass
+ (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::82e
+ as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
+ (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Dmitry Vyukov <dvyukov@google.com>
+Reply-To: Dmitry Vyukov <dvyukov@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -157,116 +133,184 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-From: Marco Elver
-> Sent: 22 April 2021 07:45
-> 
-> On some architectures, like Arm, the alignment of a structure is that of
-> its largest member.
-
-That is true everywhere.
-(Apart from obscure ABI where structure have at least 4 byte alignment!)
-
-> This means that there is no portable way to add 64-bit integers to
-> siginfo_t on 32-bit architectures, because siginfo_t does not contain
-> any 64-bit integers on 32-bit architectures.
-
-Uh?
-
-The actual problem is that adding a 64-bit aligned item to the union
-forces the union to be 8 byte aligned and adds a 4 byte pad before it
-(and possibly another one at the end of the structure).
-
-> In the case of the si_perf field, word size is sufficient since there is
-> no exact requirement on size, given the data it contains is user-defined
-> via perf_event_attr::sig_data. On 32-bit architectures, any excess bits
-> of perf_event_attr::sig_data will therefore be truncated when copying
-> into si_perf.
-
-Is that right on BE architectures?
-
-> Since this field is intended to disambiguate events (e.g. encoding
-> relevant information if there are more events of the same type), 32 bits
-> should provide enough entropy to do so on 32-bit architectures.
-
-What is the size of the field used to supply the data?
-The size of the returned item really ought to match.
-
-Much as I hate __packed, you could add __packed to the
-definition of the structure member _perf.
-The compiler will remove the padding before it and will
-assume it has the alignment of the previous item.
-
-So it will never use byte accesses.
-
-	David
-
-> 
-> For 64-bit architectures, no change is intended.
-> 
-> Fixes: fb6cc127e0b6 ("signal: Introduce TRAP_PERF si_code and si_perf to siginfo")
-> Reported-by: Marek Szyprowski <m.szyprowski@samsung.com>
-> Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
-> Reported-by: Jon Hunter <jonathanh@nvidia.com>
-> Signed-off-by: Marco Elver <elver@google.com>
+On Thu, Apr 22, 2021 at 11:17 AM Maninder Singh <maninder1.s@samsung.com> wrote:
+>
+> when KASAN multishot is ON and some buggy code hits same code path
+> of KASAN issue repetetively, it can flood logs on console.
+>
+> Check for allocaton, free and backtrace path at time of KASAN error,
+> if these are same then it is duplicate error and avoid these prints
+> from KASAN.
+>
+> Co-developed-by: Vaneet Narang <v.narang@samsung.com>
+> Signed-off-by: Vaneet Narang <v.narang@samsung.com>
+> Signed-off-by: Maninder Singh <maninder1.s@samsung.com>
 > ---
-> 
-> Note: I added static_assert()s to verify the siginfo_t layout to
-> arch/arm and arch/arm64, which caught the problem. I'll send them
-> separately to arm&arm64 maintainers respectively.
-> ---
->  include/linux/compat.h                                | 2 +-
->  include/uapi/asm-generic/siginfo.h                    | 2 +-
->  tools/testing/selftests/perf_events/sigtrap_threads.c | 2 +-
->  3 files changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/include/linux/compat.h b/include/linux/compat.h
-> index c8821d966812..f0d2dd35d408 100644
-> --- a/include/linux/compat.h
-> +++ b/include/linux/compat.h
-> @@ -237,7 +237,7 @@ typedef struct compat_siginfo {
->  					u32 _pkey;
->  				} _addr_pkey;
->  				/* used when si_code=TRAP_PERF */
-> -				compat_u64 _perf;
-> +				compat_ulong_t _perf;
->  			};
->  		} _sigfault;
-> 
-> diff --git a/include/uapi/asm-generic/siginfo.h b/include/uapi/asm-generic/siginfo.h
-> index d0bb9125c853..03d6f6d2c1fe 100644
-> --- a/include/uapi/asm-generic/siginfo.h
-> +++ b/include/uapi/asm-generic/siginfo.h
-> @@ -92,7 +92,7 @@ union __sifields {
->  				__u32 _pkey;
->  			} _addr_pkey;
->  			/* used when si_code=TRAP_PERF */
-> -			__u64 _perf;
-> +			unsigned long _perf;
->  		};
->  	} _sigfault;
-> 
-> diff --git a/tools/testing/selftests/perf_events/sigtrap_threads.c
-> b/tools/testing/selftests/perf_events/sigtrap_threads.c
-> index 9c0fd442da60..78ddf5e11625 100644
-> --- a/tools/testing/selftests/perf_events/sigtrap_threads.c
-> +++ b/tools/testing/selftests/perf_events/sigtrap_threads.c
-> @@ -44,7 +44,7 @@ static struct {
->  } ctx;
-> 
->  /* Unique value to check si_perf is correctly set from perf_event_attr::sig_data. */
-> -#define TEST_SIG_DATA(addr) (~(uint64_t)(addr))
-> +#define TEST_SIG_DATA(addr) (~(unsigned long)(addr))
-> 
->  static struct perf_event_attr make_event_attr(bool enabled, volatile void *addr)
+>  mm/kasan/kasan.h  |  6 +++++
+>  mm/kasan/report.c | 67 +++++++++++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 73 insertions(+)
+>
+> diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
+> index 78cf99247139..d14ccce246ba 100644
+> --- a/mm/kasan/kasan.h
+> +++ b/mm/kasan/kasan.h
+> @@ -102,6 +102,12 @@ struct kasan_access_info {
+>         unsigned long ip;
+>  };
+>
+> +struct kasan_record {
+> +       depot_stack_handle_t    bt_handle;
+> +       depot_stack_handle_t    alloc_handle;
+> +       depot_stack_handle_t    free_handle;
+> +};
+
+Hi Maninder,
+
+There is no need to declare this in the header, it can be declared
+more locally in report.h.
+
+> +
+>  /* The layout of struct dictated by compiler */
+>  struct kasan_source_location {
+>         const char *filename;
+> diff --git a/mm/kasan/report.c b/mm/kasan/report.c
+> index 87b271206163..4576de76991b 100644
+> --- a/mm/kasan/report.c
+> +++ b/mm/kasan/report.c
+> @@ -39,6 +39,10 @@ static unsigned long kasan_flags;
+>  #define KASAN_BIT_REPORTED     0
+>  #define KASAN_BIT_MULTI_SHOT   1
+>
+> +#define MAX_RECORDS            (200)
+
+s/MAX_RECORDS/KASAN_MAX_RECORDS/
+
+> +static struct kasan_record kasan_records[MAX_RECORDS];
+
+Since all fields in kasan_record are stack handles, the code will be
+simpler and more uniform, if we store just an array of handles w/o
+distinguishing between alloc/free/access.
+
+> +static int stored_kasan_records;
+> +
+>  bool kasan_save_enable_multi_shot(void)
 >  {
-> --
-> 2.31.1.498.g6c1eba8ee3d-goog
+>         return test_and_set_bit(KASAN_BIT_MULTI_SHOT, &kasan_flags);
+> @@ -360,6 +364,65 @@ void kasan_report_invalid_free(void *object, unsigned long ip)
+>         end_report(&flags, (unsigned long)object);
+>  }
+>
+> +/*
+> + * @save_report()
+> + *
+> + * returns false if same record is already saved.
 
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-Registration No: 1397386 (Wales)
+s/same/the same/
+
+> + * returns true if its new record and saved in database of KASAN.
+
+s/its/it's/
+s/database/the database/
+
+> + */
+> +static bool save_report(void *addr, struct kasan_access_info *info, u8 tag, unsigned long *flags)
+> +{
+> +       struct kasan_record record = {0};
+> +       depot_stack_handle_t bt_handle;
+> +       int i = 0;
+> +       const char *bug_type;
+> +       struct kasan_alloc_meta *alloc_meta;
+> +       struct kasan_track *free_track;
+> +       struct page *page;
+> +       bool ret = true;
+> +
+> +       kasan_disable_current();
+> +       spin_lock_irqsave(&report_lock, *flags);
+
+Reusing the caller flags looks strange, do we need it?
+But also the very next function start_report() also does the same
+dance: kasan_disable_current/spin_lock_irqsave. It feels reasonable to
+lock once, check for dups and return early if it's a dup.
+
+> +       bug_type = kasan_get_bug_type(info);
+> +       page = kasan_addr_to_page(addr);
+> +       bt_handle = kasan_save_stack(GFP_KERNEL);
+
+ASsign directly to record.bt_handle.
+
+> +       if (page && PageSlab(page)) {
+> +               struct kmem_cache *cache = page->slab_cache;
+> +               void *object = nearest_obj(cache, page, addr);
+
+Since you already declare new var in this block, move
+alloc_meta/free_track here as well.
+
+> +
+> +               alloc_meta = kasan_get_alloc_meta(cache, object);
+> +               free_track = kasan_get_free_track(cache, object, tag);
+> +               record.alloc_handle = alloc_meta->alloc_track.stack;
+> +               if (free_track)
+> +                       record.free_handle = free_track->stack;
+> +       }
+> +
+> +       record.bt_handle = bt_handle;
+> +
+> +       for (i = 0; i < stored_kasan_records; i++) {
+> +               if (record.bt_handle != kasan_records[i].bt_handle)
+> +                       continue;
+> +               if (record.alloc_handle != kasan_records[i].alloc_handle)
+> +                       continue;
+> +               if (!strncmp("use-after-free", bug_type, 15) &&
+
+Comparing strings is unreliable and will break in future. Compare
+handle with 0 instead, you already assume that 0 handle is "no
+handle".
+
+> +                       (record.free_handle != kasan_records[i].free_handle))
+> +                       continue;
+> +
+> +               ret = false;
+> +               goto done;
+> +       }
+> +
+> +       memcpy(&kasan_records[stored_kasan_records], &record, sizeof(struct kasan_record));
+> +       stored_kasan_records++;
+
+I think you just introduced an out-of-bounds write into KASAN, check
+for MAX_RECORDS ;)
+
+
+> +
+> +done:
+> +       spin_unlock_irqrestore(&report_lock, *flags);
+> +       kasan_enable_current();
+> +       return ret;
+> +}
+> +
+>  static void __kasan_report(unsigned long addr, size_t size, bool is_write,
+>                                 unsigned long ip)
+>  {
+> @@ -388,6 +451,10 @@ static void __kasan_report(unsigned long addr, size_t size, bool is_write,
+>         info.is_write = is_write;
+>         info.ip = ip;
+>
+> +       if (addr_has_metadata(untagged_addr) &&
+
+Why addr_has_metadata check?
+The kernel will probably crash later anyway, but from point of view of
+this code, I don't see reasons to not dedup wild accesses.
+
+> +               !save_report(untagged_addr, &info, get_tag(tagged_addr), &flags))
+> +               return;
+> +
+>         start_report(&flags);
+>
+>         print_error_description(&info);
+> --
+> 2.17.1
+>
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/d480a4f56d544fb98eb1cdd62f44ae91%40AcuMS.aculab.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BazDLjbNH0A8_G-yG4qg964f-sGiBNvfatYuTk5aBu9aw%40mail.gmail.com.
