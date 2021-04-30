@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBCALX3WVYQORBEMTWKCAMGQEUWA5GEQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCALX3WVYQORBPUTWKCAMGQEGQ45BBY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qv1-xf3e.google.com (mail-qv1-xf3e.google.com [IPv6:2607:f8b0:4864:20::f3e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 027FA3703B3
-	for <lists+kasan-dev@lfdr.de>; Sat,  1 May 2021 00:49:55 +0200 (CEST)
-Received: by mail-qv1-xf3e.google.com with SMTP id b1-20020a0c9b010000b02901c4bcfbaa53sf1628999qve.19
-        for <lists+kasan-dev@lfdr.de>; Fri, 30 Apr 2021 15:49:54 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1619822994; cv=pass;
+Received: from mail-oi1-x239.google.com (mail-oi1-x239.google.com [IPv6:2607:f8b0:4864:20::239])
+	by mail.lfdr.de (Postfix) with ESMTPS id EBD453703BD
+	for <lists+kasan-dev@lfdr.de>; Sat,  1 May 2021 00:50:39 +0200 (CEST)
+Received: by mail-oi1-x239.google.com with SMTP id c3-20020a0568081383b029010231e3ec8csf29401402oiw.22
+        for <lists+kasan-dev@lfdr.de>; Fri, 30 Apr 2021 15:50:39 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1619823038; cv=pass;
         d=google.com; s=arc-20160816;
-        b=0m3wqQQBr8Rwlmjl9b0EVP2WAXgnj0rd6Q4+NCj8jvcMyZVhlpsuZu3MckMP0k7PIz
-         zl5tG/O1v4Xza2EuKi60j5K19KUTOWHlWJZESmM1/WiPJgYthJQVmvaKGEaBTsGeC5Pm
-         4SrXEwGy6iG46LBzS7QOnNKQLb3ssUXQo/2t/Z6SbCh60/UzPPwqCfqtftd0rGGQ4JwM
-         AtsItf/btKMWvMlPCIuhYFYYVBX6HVFyyxOPNzHZLj2k3yd/VholZmujmxqUHT7msXVJ
-         6pwqFN2rxVxF/zBeG9Q5se3VLaQbuI8/EhtEPFzLjPYk3W+U732INwvB5ywJtW9AQ/1+
-         s5Rg==
+        b=My/g2pvn7StXxQj/10xAG7tuTpOlQVKD/4uiahfVuT2FmrBszbmqMHAAJxyi+ELVdA
+         GLIvCEvqeR0iget9dhuI2GXUq9TnHOGWp3XmkCrnUs/GCajpdbefNElLpOQSdillHTEf
+         MXs4dUim2b2N4pmLOkYQ1bs3meZkMG7NNC8Nfs80U7tk1X/znjwtCPAvcKcEhqLJeUFj
+         m+t+N7ucikQeXx/iq3uogJDpTvOY+Mb9QFVO41jBiAUlm7jzCc1to1Tsb2VQXKIkP6Mz
+         IyiefBEAk7u83FzD0aTVDY3zM/0/7cj4gGlIwaaJxupQvfH4O7vYkmCJfrPh1eztKx4m
+         7VZg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:subject:mime-version:user-agent
          :message-id:in-reply-to:date:references:cc:to:from:sender
          :dkim-signature;
-        bh=sf2i0hHtHkXuj62T954WOkdJMMUpwNcuYACyg2AVDno=;
-        b=INud0iRIOmC/MD4SQLHJgTLT+MoVbARqk+nBxTt/Mh/l51PqQYlYfPmWi7i0gORYGe
-         YDRY0hlCw7YSCXKEtQ9ekpHqRXdI1jaExzrMz2AUv62B5ULAagnrXTsN2NMOmteY6CQb
-         6xNbfD7mMeA7+kD11jVlmn+KbmlRQSlSWt3IjHNhsoOApzTK58Vlniu64IBDtJe3YUZz
-         HJtISDhcNgpLb353Z9DaRJI/I6wvAvk8XjvbOqkY5GNyQ5oings5ETFvNmysPSKaZ+Mh
-         JVRpEyPQ73zYwQ409MWw+Zqn/IScu8ng/tJsM9PiBP+HuOBaU15qf0vwdN1mjf2Gj2ul
-         9aOQ==
+        bh=i7yQB8QefJBRyVwIvvCLQQvD6423yKhv4b9zB3f2mZk=;
+        b=NVKGp2ctYDHxSarXjZnE4Sk+yj3XVsLbDxLs4oS1IC03npI0B7pm6lgdf2cH3hKIPT
+         ad6WlKbbm0cOuIbXvFJIOqEcmNfFd0Ad8CdSvWHGdCZnakS9mtyNaUCqU9tf/sEFYri6
+         WSEW97nZ/Gzoln1F4K1vD8mN+A5zgwRTZ6DWj5exv3SMWpCJ0keNY2UuzY2lYvcTpr4R
+         eUcN0JFdSPidK3Pxb3HCPSJLDXNZaclk3xSH4x33myivfs+1lsEWI3PQ8kuo2IVyaHgt
+         7Ka47khT+lhLicshhxh/gU7HZpzvS6IWeoN39D5idLocohTh6LH+gd1avZWe7WNJE6rG
+         Lg2w==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of ebiederm@xmission.com designates 166.70.13.233 as permitted sender) smtp.mailfrom=ebiederm@xmission.com;
+       spf=pass (google.com: domain of ebiederm@xmission.com designates 166.70.13.232 as permitted sender) smtp.mailfrom=ebiederm@xmission.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=xmission.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :mime-version:subject:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=sf2i0hHtHkXuj62T954WOkdJMMUpwNcuYACyg2AVDno=;
-        b=BZ0caN3i0hrejJXu0I4xUWPhuXFWe1yNxQZ6tA+/yguzdqFXbqvplCZDnb+P4gQOEH
-         pqdzsUjrQWG6zbBt8/MYRxG/D/D8XVWXwd1zRc0KV3fAIYXpRjRKLRhN65mK5LRZvqad
-         zmO2wuFDGeN9rSPsgorBUNm5dyTLOZaeDUqxqRJB8gfUfH+WI7a+X1ikGAQg2RRgk6ZN
-         bvhh39cRJ7dFmjRyfg9lBmxNmrJPqwRaezrqhVNuSdJqaJCrPOfJ1zpm5JTc+nVVXCjK
-         WY78iKayAm0cGJHaGWUmXJoKg2r4zkh/KZj/gZxzpTSmcu8xGeGabUGWDsbyJhbW6sCR
-         Loxw==
+        bh=i7yQB8QefJBRyVwIvvCLQQvD6423yKhv4b9zB3f2mZk=;
+        b=KTL/l+5YzZTs0WR1lZlWuNntoYdZftY44Y2/nM8fyYV7MqrU6NJYFamRl3CIo+YBjR
+         D5m/DM+ISL1EE/18aBYLphZrkKzhVXj0/KQjozEnQx9DchCzo4OwW1EP/CfWfMyS8OLi
+         MwN/Dhou+UeAZXoWB7gqOXnLy3L69Hz37BAdxbYxdefi7MDYEbSGHkyb4cg5kQvQZ2Fz
+         iYSZ1RoHLSg+IzjiBvZ0ek+LhU233ZRv4gQRsd70XWFDsNb46OjKrl/L51bUIT40v8xa
+         9cyCDf6X+NK58vzl3eQkQWQQqv4iL0VivGHIZ4NIS505SoVRyIIe8Bvj6kwDIpUdsI4B
+         FzDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:from:to:cc:references:date:in-reply-to
@@ -49,61 +49,61 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=sf2i0hHtHkXuj62T954WOkdJMMUpwNcuYACyg2AVDno=;
-        b=IbNHaAcWo0L/d7GdwZ01s+8m6wDnWHfe0J44CynTXxDa/CpTKbTb16FD6i45BClb6X
-         OcBMiarIyzk+OGWo1tSa3bvcyVNDNu3f0OvImiv/EmreUacGA4vP0nTWIADL6S6uyRDr
-         hndT9EYE769+1CoWCGgqmI2t0iO/MOFP2IH+nmWfVir00D4dFwjK5G72GVkvoWX/9ZMr
-         oGjJiaPjtKLKUENMODl3YozhaVWjs5YFmknILE4hw/QCWOCGlU7Y3+sX4pOy9ZRnQfCD
-         4UbwZGibTOFJSVMGSx/puPZ0kT6vOf3MMUZwKgNdh7SRVydSU4zzKN5GKep2vNIRASUd
-         8RPQ==
+        bh=i7yQB8QefJBRyVwIvvCLQQvD6423yKhv4b9zB3f2mZk=;
+        b=mkLSu/AhG73+07qAG0tIeIdswIFQANZPGajvlp2ztn40MtDo3XU1+fZtwVNtwUrice
+         4vO4iqNS2F7FnvUU9COzuEx/jp7lVcSsFHEBFh733PfkdWMHXwMKYUgdmJzRiSoAPnHP
+         NiNW3vKdXpm01CRFOqnN52/RRvWvO+vVaMKTnj8L2jJVxhAq2QJnJuo22FcC09OxObQs
+         7ttwIcWo9meqDGGxuaa5QskGY/DgJQtiIbvQu8uIMAG/ojHXeE0oizjS5gmCyKmBgV/x
+         jbdi6xsjeZejdO00cr+SPlIV6ECMbWDP2qsY1Q46vLQCjiVoNDkZ2YGk7T/Ajl60lDs/
+         e/1Q==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM530BvZ467nYgzXnEbXJDUi9DoqnLGH+05GkzVdLJYlDu9Mvle/nY
-	ZxTwSvM03wjpKcKitYTr5+w=
-X-Google-Smtp-Source: ABdhPJzBt/iazc0oDERyKN5c5ePnN0BE1tVTMnvuMHOdST6jeZXVMniDHkcVtG5/ONwscovPwV7cWA==
-X-Received: by 2002:a37:9547:: with SMTP id x68mr7821052qkd.474.1619822993970;
-        Fri, 30 Apr 2021 15:49:53 -0700 (PDT)
+X-Gm-Message-State: AOAM531/CdJtrR955FKeqWp9uDcd8D+q1ikaXBJQyLoG/72kjkmagi+6
+	IUw2DlPAmcLrWPlXI8zmFnU=
+X-Google-Smtp-Source: ABdhPJwjAumX4ollzECVznWhqAXsjqwFLZzJWXWnjEFHzFJ3wdoOAqPkKM72Mmj/pA4k8pzKvJYMMQ==
+X-Received: by 2002:a9d:6a05:: with SMTP id g5mr5436173otn.232.1619823038596;
+        Fri, 30 Apr 2021 15:50:38 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a0c:e652:: with SMTP id c18ls2356885qvn.9.gmail; Fri, 30 Apr
- 2021 15:49:53 -0700 (PDT)
-X-Received: by 2002:a0c:9ae9:: with SMTP id k41mr8188321qvf.40.1619822993593;
-        Fri, 30 Apr 2021 15:49:53 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1619822993; cv=none;
+Received: by 2002:aca:fc51:: with SMTP id a78ls2234533oii.9.gmail; Fri, 30 Apr
+ 2021 15:50:38 -0700 (PDT)
+X-Received: by 2002:aca:5856:: with SMTP id m83mr5617952oib.105.1619823038243;
+        Fri, 30 Apr 2021 15:50:38 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1619823038; cv=none;
         d=google.com; s=arc-20160816;
-        b=xUMcx/RnRICsB4OIBIG6DlZO52CMDPkOBrER8RYuknkZUV34ogB9AmpPrGGrSdRcXA
-         ljByjWU4zv0tWP20vFuuEjdwPVju4bn4uP+FtdvmWtcrnHIm5TeCNTOCTEHQ+XXlR9X/
-         AXeHF1GIuqQh45akTLGguTrEm715P6aCXAwEd9UHq16rDzhQgr9cV+JQBVTTpScwddkv
-         vWjnxQMHi4gMpTHWXSPSih8npu7vEQrO4xtCFoMO4vFmXocIxsztjJVz3Nj7/COhr0rI
-         7TKDO4+0MuvM8+/SK4Yw0mAfHp+6cTfyKTTHQag2trXF2MgfnnkvtQ5Xvvjh2cBvReHS
-         xeHw==
+        b=R5YAMve6RrWelDsKjaGKqhVB4VjgCV1rkz5vAc7dPdi8DnRgLwEuwV4VMzt3RFO3b7
+         hZo+FOjHRrWoZe3fvLmes7p2a1BoVvRZEn2eb6w1bCX+YK/JpGP9O199j+m9iJ8mMQGC
+         38Xo4Yl48RJqh5urJVimSeoc6wr2/N0koPtEUlV6fCadD6nQ1BJ520pRdZ6Enfdmi/Vt
+         TsUYEk3e+Mn1Bz7pSKJFsLUW8y0dESTl9uZaQQn9Cs3FfD3jU2zMLC7Nybzg7Ze9Z3Mn
+         6SGEZbBCnkjLc0IbMFtyi0za+8eh2MFoXXhoZYC80l/m1ptyK6haM8RJ52bHV+Ypczq9
+         llHA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=subject:mime-version:user-agent:message-id:in-reply-to:date
          :references:cc:to:from;
-        bh=VPsKUXX+eMdF5gXemtftD/HiLoa5jxtxJtxijU0t9w0=;
-        b=MTxFI0vqh/CNj+u1uXlBONR0TN9LbMpE0CsFnmClojQv96lHIgEud1GHefLZcRCZ3B
-         PdGaMw2JOxF4UkchimUM0uJVnCcDBUAYEbW7GyBF5qnWzp+fyD3iJcRg8ph1uUyv455U
-         ZSKrjLPdiH0zVX5pP/LcmUwZLEks6UtS5vpzHD5kn01a7XeprPnfKGJAfqYJGytFhcAZ
-         aQ0hhZiceDwvgb9gyB3iWUIOBCAfnmlyULg6CHJBbKxZ6etET2Zbd88pnc7lB2tE1Q5Z
-         zP2XAFPG1rpZOj7gLmFCfAY7jCn9zR6Wu/Db5XrG7OLr9RDxmc0aSLqu1DPRcRPND1u7
-         UuJg==
+        bh=RuwAtl4T/BQEnhMUj7kO308PAG0hcg8LYi8JBgz3nGo=;
+        b=OOno9Mi/Cj8ofJSC7JgO1wHtrTDd28jyVR2NFKMiLW89gTqwdLXs1Z3dOB+YghfDis
+         RW9TLG1pwDNwEALIM6a7pWoSwfOl2Qw5RpaW3Kdps5Vz0K0RpZj8DQKBjQwtEaZoT3DO
+         KQ2GMg+lv0/fFAcNEoQR8wbBXA//d5vD+plGO7STX10r1ge0UpABOs8La5S/KWZMoBBO
+         xnUPa5toIDG0OTVgdTl+uPo4cnzRJFSQirm4pEwysAtYx4StgZA0X3+dPJzKYV3nO+3Q
+         ImHWpmqXqZUYEUcMF9cH2yuROU/2MvmM0VkZDsvdpDGKBO90hgfxWloFXZsmGg7TCUTL
+         K1Jg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of ebiederm@xmission.com designates 166.70.13.233 as permitted sender) smtp.mailfrom=ebiederm@xmission.com;
+       spf=pass (google.com: domain of ebiederm@xmission.com designates 166.70.13.232 as permitted sender) smtp.mailfrom=ebiederm@xmission.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=xmission.com
-Received: from out03.mta.xmission.com (out03.mta.xmission.com. [166.70.13.233])
-        by gmr-mx.google.com with ESMTPS id g22si715493qtx.4.2021.04.30.15.49.53
+Received: from out02.mta.xmission.com (out02.mta.xmission.com. [166.70.13.232])
+        by gmr-mx.google.com with ESMTPS id l20si483586otf.1.2021.04.30.15.50.38
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Apr 2021 15:49:53 -0700 (PDT)
-Received-SPF: pass (google.com: domain of ebiederm@xmission.com designates 166.70.13.233 as permitted sender) client-ip=166.70.13.233;
+        Fri, 30 Apr 2021 15:50:38 -0700 (PDT)
+Received-SPF: pass (google.com: domain of ebiederm@xmission.com designates 166.70.13.232 as permitted sender) client-ip=166.70.13.232;
 Received: from in01.mta.xmission.com ([166.70.13.51])
-	by out03.mta.xmission.com with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	by out02.mta.xmission.com with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
 	(Exim 4.93)
 	(envelope-from <ebiederm@xmission.com>)
-	id 1lcbxF-004Atp-LD; Fri, 30 Apr 2021 16:49:49 -0600
+	id 1lcby1-00CRJD-1J; Fri, 30 Apr 2021 16:50:37 -0600
 Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95] helo=fess.xmission.com)
 	by in01.mta.xmission.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.87)
 	(envelope-from <ebiederm@xmission.com>)
-	id 1lcbxF-00038q-0D; Fri, 30 Apr 2021 16:49:49 -0600
+	id 1lcby0-0003Er-5p; Fri, 30 Apr 2021 16:50:36 -0600
 From: ebiederm@xmission.com (Eric W. Biederman)
 To: Marco Elver <elver@google.com>
 Cc: Arnd Bergmann <arnd@arndb.de>,  Florian Weimer <fweimer@redhat.com>,  "David S. Miller" <davem@davemloft.net>,  Peter Zijlstra <peterz@infradead.org>,  Ingo Molnar <mingo@kernel.org>,  Thomas Gleixner <tglx@linutronix.de>,  Peter Collingbourne <pcc@google.com>,  Dmitry Vyukov <dvyukov@google.com>,  Alexander Potapenko <glider@google.com>,  sparclinux <sparclinux@vger.kernel.org>,  linux-arch <linux-arch@vger.kernel.org>,  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,  Linux API <linux-api@vger.kernel.org>,  kasan-dev <kasan-dev@googlegroups.com>
@@ -111,51 +111,53 @@ References: <YIpkvGrBFGlB5vNj@elver.google.com>
 	<m11rat9f85.fsf@fess.ebiederm.org>
 	<CAK8P3a0+uKYwL1NhY6Hvtieghba2hKYGD6hcKx5n8=4Gtt+pHA@mail.gmail.com>
 	<m15z031z0a.fsf@fess.ebiederm.org> <YIxVWkT03TqcJLY3@elver.google.com>
-Date: Fri, 30 Apr 2021 17:49:45 -0500
-In-Reply-To: <YIxVWkT03TqcJLY3@elver.google.com> (Marco Elver's message of
-	"Fri, 30 Apr 2021 21:07:06 +0200")
-Message-ID: <m1zgxfs7zq.fsf_-_@fess.ebiederm.org>
+	<m1zgxfs7zq.fsf_-_@fess.ebiederm.org>
+Date: Fri, 30 Apr 2021 17:50:32 -0500
+In-Reply-To: <m1zgxfs7zq.fsf_-_@fess.ebiederm.org> (Eric W. Biederman's
+	message of "Fri, 30 Apr 2021 17:49:45 -0500")
+Message-ID: <m1tunns7yf.fsf_-_@fess.ebiederm.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-XM-SPF: eid=1lcbxF-00038q-0D;;;mid=<m1zgxfs7zq.fsf_-_@fess.ebiederm.org>;;;hst=in01.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
-X-XM-AID: U2FsdGVkX194HKcbJ3hzROboO3aXmacGQftTa4VgQr0=
+X-XM-SPF: eid=1lcby0-0003Er-5p;;;mid=<m1tunns7yf.fsf_-_@fess.ebiederm.org>;;;hst=in01.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
+X-XM-AID: U2FsdGVkX1+Yarb9/ltgjgzGllxki6uzGX9RRVA0vaU=
 X-SA-Exim-Connect-IP: 68.227.160.95
 X-SA-Exim-Mail-From: ebiederm@xmission.com
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on sa07.xmission.com
-X-Spam-Level: **
-X-Spam-Status: No, score=2.7 required=8.0 tests=ALL_TRUSTED,BAYES_40,
-	DCC_CHECK_NEGATIVE,TR_Symld_Words,T_TooManySym_01,XMNoVowels,XMSubLong
-	autolearn=disabled version=3.4.2
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on sa03.xmission.com
+X-Spam-Level: ***
+X-Spam-Status: No, score=3.0 required=8.0 tests=ALL_TRUSTED,BAYES_50,
+	DCC_CHECK_NEGATIVE,T_TooManySym_01,T_XMDrugObfuBody_08,XMNoVowels,
+	XMSubLong autolearn=disabled version=3.4.2
+X-Spam-Virus: No
 X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-	* -0.0 BAYES_40 BODY: Bayes spam probability is 20 to 40%
-	*      [score: 0.2038]
+	*  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+	*      [score: 0.4938]
 	*  0.7 XMSubLong Long Subject
 	*  1.5 XMNoVowels Alpha-numberic number with no vowels
-	*  1.5 TR_Symld_Words too many words that have symbols inside
 	* -0.0 DCC_CHECK_NEGATIVE Not listed in DCC
-	*      [sa07 1397; Body=1 Fuz1=1 Fuz2=1]
+	*      [sa03 1397; Body=1 Fuz1=1 Fuz2=1]
 	*  0.0 T_TooManySym_01 4+ unique symbols in subject
-X-Spam-DCC: XMission; sa07 1397; Body=1 Fuz1=1 Fuz2=1
-X-Spam-Combo: **;Marco Elver <elver@google.com>
+	*  1.0 T_XMDrugObfuBody_08 obfuscated drug references
+X-Spam-DCC: XMission; sa03 1397; Body=1 Fuz1=1 Fuz2=1
+X-Spam-Combo: ***;Marco Elver <elver@google.com>
 X-Spam-Relay-Country: 
-X-Spam-Timing: total 317 ms - load_scoreonly_sql: 0.03 (0.0%),
-	signal_user_changed: 11 (3.3%), b_tie_ro: 9 (2.9%), parse: 0.77 (0.2%),
-	 extract_message_metadata: 2.4 (0.8%), get_uri_detail_list: 0.60
-	(0.2%), tests_pri_-1000: 4.2 (1.3%), tests_pri_-950: 1.24 (0.4%),
-	tests_pri_-900: 1.01 (0.3%), tests_pri_-90: 84 (26.5%), check_bayes:
-	83 (26.0%), b_tokenize: 6 (2.0%), b_tok_get_all: 6 (1.9%),
-	b_comp_prob: 1.54 (0.5%), b_tok_touch_all: 65 (20.5%), b_finish: 0.96
-	(0.3%), tests_pri_0: 183 (57.8%), check_dkim_signature: 0.53 (0.2%),
-	check_dkim_adsp: 2.6 (0.8%), poll_dns_idle: 0.48 (0.2%), tests_pri_10:
-	7 (2.3%), tests_pri_500: 14 (4.5%), rewrite_mail: 0.00 (0.0%)
-Subject: [RFC][PATCH 0/3] signal: Move si_trapno into the _si_fault union
+X-Spam-Timing: total 397 ms - load_scoreonly_sql: 0.04 (0.0%),
+	signal_user_changed: 4.6 (1.2%), b_tie_ro: 3.3 (0.8%), parse: 1.13
+	(0.3%), extract_message_metadata: 12 (2.9%), get_uri_detail_list: 2.3
+	(0.6%), tests_pri_-1000: 11 (2.8%), tests_pri_-950: 0.98 (0.2%),
+	tests_pri_-900: 0.83 (0.2%), tests_pri_-90: 64 (16.0%), check_bayes:
+	62 (15.7%), b_tokenize: 7 (1.8%), b_tok_get_all: 6 (1.6%),
+	b_comp_prob: 1.59 (0.4%), b_tok_touch_all: 45 (11.3%), b_finish: 0.68
+	(0.2%), tests_pri_0: 290 (73.1%), check_dkim_signature: 0.41 (0.1%),
+	check_dkim_adsp: 2.6 (0.7%), poll_dns_idle: 1.24 (0.3%), tests_pri_10:
+	2.5 (0.6%), tests_pri_500: 8 (1.9%), rewrite_mail: 0.00 (0.0%)
+Subject: [PATCH 1/3] siginfo: Move si_trapno inside the union inside _si_fault
 X-Spam-Flag: No
 X-SA-Exim-Version: 4.2.1 (built Thu, 05 May 2016 13:38:54 -0600)
 X-SA-Exim-Scanned: Yes (on in01.mta.xmission.com)
 X-Original-Sender: ebiederm@xmission.com
 X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of ebiederm@xmission.com designates 166.70.13.233 as
+ (google.com: domain of ebiederm@xmission.com designates 166.70.13.232 as
  permitted sender) smtp.mailfrom=ebiederm@xmission.com;       dmarc=pass
  (p=NONE sp=NONE dis=NONE) header.from=xmission.com
 Precedence: list
@@ -171,32 +173,79 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
  <https://groups.google.com/group/kasan-dev/subscribe>
 
 
-Eric W. Biederman (3):
-      siginfo: Move si_trapno inside the union inside _si_fault
-      signal: Implement SIL_FAULT_TRAPNO
-      signal: Use dedicated helpers to send signals with si_trapno set
+It turns out that linux uses si_trapno very sparingly, and as such it
+can be considered extra information for a very narrow selection of
+signals, rather than information that is present with every fault
+reported in siginfo.
 
- arch/alpha/kernel/osf_sys.c        |  2 +-
- arch/alpha/kernel/signal.c         |  4 +-
- arch/alpha/kernel/traps.c          | 24 ++++++------
- arch/alpha/mm/fault.c              |  4 +-
- arch/sparc/kernel/process_64.c     |  2 +-
- arch/sparc/kernel/sys_sparc_32.c   |  2 +-
- arch/sparc/kernel/sys_sparc_64.c   |  2 +-
- arch/sparc/kernel/traps_32.c       | 22 +++++------
- arch/sparc/kernel/traps_64.c       | 44 ++++++++++------------
- arch/sparc/kernel/unaligned_32.c   |  2 +-
- arch/sparc/mm/fault_32.c           |  2 +-
- arch/sparc/mm/fault_64.c           |  2 +-
- fs/signalfd.c                      |  7 +---
- include/linux/compat.h             |  4 +-
- include/linux/sched/signal.h       | 12 ++----
- include/linux/signal.h             |  1 +
- include/uapi/asm-generic/siginfo.h |  6 +--
- kernel/signal.c                    | 77 ++++++++++++++++++++++----------------
- 18 files changed, 107 insertions(+), 112 deletions(-)
+As such move si_trapno inside the union inside of _si_fault.  This
+results in no change in placement, and makes it eaiser to extend
+_si_fault in the future as this reduces the number of special cases.
+In particular with si_trapno included in the union it is no longer a
+concern that the union must be pointer alligned on most architectures
+because the union followes immediately after si_addr which is a
+pointer.
+
+Signed-off-by: "Eric W. Biederman" <ebiederm@xmission.com>
+---
+ include/linux/compat.h             | 4 +---
+ include/uapi/asm-generic/siginfo.h | 6 +-----
+ 2 files changed, 2 insertions(+), 8 deletions(-)
+
+diff --git a/include/linux/compat.h b/include/linux/compat.h
+index f0d2dd35d408..24462ed63af4 100644
+--- a/include/linux/compat.h
++++ b/include/linux/compat.h
+@@ -214,12 +214,10 @@ typedef struct compat_siginfo {
+ 		/* SIGILL, SIGFPE, SIGSEGV, SIGBUS, SIGTRAP, SIGEMT */
+ 		struct {
+ 			compat_uptr_t _addr;	/* faulting insn/memory ref. */
+-#ifdef __ARCH_SI_TRAPNO
+-			int _trapno;	/* TRAP # which caused the signal */
+-#endif
+ #define __COMPAT_ADDR_BND_PKEY_PAD  (__alignof__(compat_uptr_t) < sizeof(short) ? \
+ 				     sizeof(short) : __alignof__(compat_uptr_t))
+ 			union {
++				int _trapno;	/* TRAP # which caused the signal */
+ 				/*
+ 				 * used when si_code=BUS_MCEERR_AR or
+ 				 * used when si_code=BUS_MCEERR_AO
+diff --git a/include/uapi/asm-generic/siginfo.h b/include/uapi/asm-generic/siginfo.h
+index 03d6f6d2c1fe..2abdf1d19aad 100644
+--- a/include/uapi/asm-generic/siginfo.h
++++ b/include/uapi/asm-generic/siginfo.h
+@@ -63,9 +63,6 @@ union __sifields {
+ 	/* SIGILL, SIGFPE, SIGSEGV, SIGBUS, SIGTRAP, SIGEMT */
+ 	struct {
+ 		void __user *_addr; /* faulting insn/memory ref. */
+-#ifdef __ARCH_SI_TRAPNO
+-		int _trapno;	/* TRAP # which caused the signal */
+-#endif
+ #ifdef __ia64__
+ 		int _imm;		/* immediate value for "break" */
+ 		unsigned int _flags;	/* see ia64 si_flags */
+@@ -75,6 +72,7 @@ union __sifields {
+ #define __ADDR_BND_PKEY_PAD  (__alignof__(void *) < sizeof(short) ? \
+ 			      sizeof(short) : __alignof__(void *))
+ 		union {
++			int _trapno;	/* TRAP # which caused the signal */
+ 			/*
+ 			 * used when si_code=BUS_MCEERR_AR or
+ 			 * used when si_code=BUS_MCEERR_AO
+@@ -150,9 +148,7 @@ typedef struct siginfo {
+ #define si_int		_sifields._rt._sigval.sival_int
+ #define si_ptr		_sifields._rt._sigval.sival_ptr
+ #define si_addr		_sifields._sigfault._addr
+-#ifdef __ARCH_SI_TRAPNO
+ #define si_trapno	_sifields._sigfault._trapno
+-#endif
+ #define si_addr_lsb	_sifields._sigfault._addr_lsb
+ #define si_lower	_sifields._sigfault._addr_bnd._lower
+ #define si_upper	_sifields._sigfault._addr_bnd._upper
+-- 
+2.30.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/m1zgxfs7zq.fsf_-_%40fess.ebiederm.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/m1tunns7yf.fsf_-_%40fess.ebiederm.org.
