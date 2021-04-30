@@ -1,140 +1,149 @@
-Return-Path: <kasan-dev+bncBDEKVJM7XAHRBTVXVSCAMGQE7VZFX5I@googlegroups.com>
+Return-Path: <kasan-dev+bncBDN6TT4BRQPRBCFIV6CAMGQEKCM5W6A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x23a.google.com (mail-lj1-x23a.google.com [IPv6:2a00:1450:4864:20::23a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89C4836F146
-	for <lists+kasan-dev@lfdr.de>; Thu, 29 Apr 2021 22:49:19 +0200 (CEST)
-Received: by mail-lj1-x23a.google.com with SMTP id e15-20020a05651c038fb02900ba7bf7d589sf18209067ljp.20
-        for <lists+kasan-dev@lfdr.de>; Thu, 29 Apr 2021 13:49:19 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1619729359; cv=pass;
+Received: from mail-pg1-f187.google.com (mail-pg1-f187.google.com [209.85.215.187])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8269436F831
+	for <lists+kasan-dev@lfdr.de>; Fri, 30 Apr 2021 11:55:21 +0200 (CEST)
+Received: by mail-pg1-f187.google.com with SMTP id l25-20020a6357190000b02901f6df0d646esf24574867pgb.23
+        for <lists+kasan-dev@lfdr.de>; Fri, 30 Apr 2021 02:55:21 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1619776520; cv=pass;
         d=google.com; s=arc-20160816;
-        b=usqDrl8TN4YZ6jXbZF+QTjh05ZEwBrHRCr1JX1rV7LOTd8o1Hc0VaSt9K3rgtor0IW
-         9qgq27U7Gfw1olBmrONkaTwxAdVjkzSxx/VEn9Bx83j9v3gfW25jWDv1Bq3ScGE/zG+L
-         ysX53i3Z0NOzCAKQVokfkesLrawPS7QSx0Oix/eTphNuycOfwf6IWZ9maqwvbpsFu34T
-         8a2ilsmHdZK8TZEEhcuuLbNG85RsGarcbw9BlZ6x0dm9m36DwN/zibq3V6vfOWbaNyrF
-         RmA4Fn93m3R2/xBuikpInvqrH40dJLtyaPeuah4L9UCjr0JeXnN+v8kxWsdp6m1DhTMu
-         EDFQ==
+        b=n9MMtHIcRVVCkNVswUoqlyBxVGM/4HskAsbAztSnE0WLxONxQtJTx7d44Q7uKPCtG6
+         i37uCXFpOHl2nUt16h0HKNJF0wtR2nt1La3YloXCl5kZNm7AggSD+86ridCVHewt+tql
+         suD9FtRGiae8wrbR+ROXM8Ch+kFU68bomCV9diKmwWaV6oGVLDLnUVH+ItOxbIJWjBUq
+         8gjxI0OIL0h//g6q4eQKikbUrc5BIBIGuFbH/c4jou0TrGhtscYH+Yj0UyAXghcr0JJu
+         YqJskq6WxFxFmN+MP66xfi6NG1mqmfR8fhctm7+Db+5M9NULUXgBBN2mMK4o3QqpleBT
+         uZsg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:sender:dkim-signature;
-        bh=TG8qHB+GNZLICBT2xTlqCSM1h0f3YEjGVoq5JZ2d/6c=;
-        b=NOo+pVQNnc3PcPTgc9nYeo+nrpbbTaMnoewYshXN5OLOT20Fc7sL9tlHkH1u0An5iL
-         XBfApkhXr7QHaGz8QkVawzgvMyxMulehnh/hy46xai9vFY/wM/aJvZuwujx1NphjycCE
-         Nq4VcWbg1RfXkzK0+46Q60EiOgvPzBHZo7FgUsYRm4k040vzyKWwcWxNaAsemYEKAr5y
-         9it29CbPop9p23aFTJ7IpzC1VA8cetJu7L1/2+LEp41p8NKRxsSFoIXd2+mAI1TqOPoJ
-         qCwGIOQg9Y+KG5L9Tjye8w8R3Qy4eCE3RCq2U78NG1S2JszxsxbOwwpi9yrq+jI6VlHg
-         wxdg==
+         :list-id:mailing-list:precedence:references:cms-type
+         :content-transfer-encoding:date:message-id:cc:to:from:sender
+         :reply-to:subject:mime-version:dkim-filter;
+        bh=LrOt9am72tOLMtfpE6raTvQmuMq/ldaSr4kUtdZgPLw=;
+        b=msoXfyGrigICxMRL65RpJwB7O5xsKsvYpGMWrw/aJcDe2hiTzXZyqxcUEhpJecN316
+         wAvbdxuSliyS44L5/aMzrpCRoDpDlFuNvfPpiSV+9kXj41HabLStquHgeAfVpSe76VGq
+         sYLRjhFJycRCuVthnQHdMM9wXHNkOMJXR2aKp62o4ANsgkAfTHpflqY48Y8qn04J6ey1
+         GQ8r9PARlfWtRFTWPuGDPZC6xBFLxMAow9/Kczaoj8WNoWqyUy86rVazfrWBC2oGel8c
+         HV282kWBzeLnP7UCBsWQY9pp9+xuV8KAAm1kk3mx8SW7IuHp3jU7Bg5nOeem3fp5g/4M
+         r1yw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=neutral (google.com: 212.227.126.131 is neither permitted nor denied by best guess record for domain of arnd@arndb.de) smtp.mailfrom=arnd@arndb.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20161025;
-        h=sender:mime-version:references:in-reply-to:from:date:message-id
-         :subject:to:cc:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=TG8qHB+GNZLICBT2xTlqCSM1h0f3YEjGVoq5JZ2d/6c=;
-        b=phSr5O/4kws5PXPjIR73ZVN0bLpoEJm4I7EN54z0ns/HuXyHHvYxvZRkgFiq9IPEhl
-         0OCstmkndYIdEbkbjsqYIJ4vMZL7heVEsLgpd8DLnZt8OgxAPd00bM7I7HDXPPfUGOGq
-         EzIL/p4AINlFawhYB+FqdXbTLHOkfbaRtgVdQDFGtUn2LKinnGiP6rEuq5OBG1QZ9O+C
-         xnStdUsyuziXqbyAa+B1wa+RzQeF93s15xAzvIN5zRnx2IQG4vpv7O1hTTgU18xYP85I
-         canak0+11uYzOQaOdh6RJUIKDUT1SNWmrsiJqZFqbMfyE23m2v8AAgrbQqncfwHSnhMC
-         yYYg==
+       dkim=pass header.i=@samsung.com header.s=mail20170921 header.b=muRcI0Vr;
+       spf=pass (google.com: domain of maninder1.s@samsung.com designates 203.254.224.25 as permitted sender) smtp.mailfrom=maninder1.s@samsung.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=samsung.com
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
-         :date:message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=TG8qHB+GNZLICBT2xTlqCSM1h0f3YEjGVoq5JZ2d/6c=;
-        b=XBJQ2ivsYgS3jqHbvicVXlDl25+8CLTw0pMr/Wy3FzrkV5+/RO/j/lCa6e6gVQv+O5
-         8jsJcMpy8taDbVzuHjwckEkAPQ/ZEfwxOedsytSMg9kiq6bV6cF/o5O4jnacHepwkSge
-         KL4tpThCs5XrJms8okblc87G79EsgZusF9iC3KnP7J6FWaTvCHFlrcNfk1XtDjlfSloh
-         yrKZLodREcy4032wpBdT+ZwqoqHzJiqQ2E2glLs9GOaSuQ/U8r79ToO+Ye/tP4AFnNPZ
-         7Nnnao8gk1VZ6FIJMG554SUjjlW2JfhOdVlXGiz+0uA+gAdDrl/FO1yDU7+imAgOhCM2
-         H8BQ==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM532+tYQfsiLmCJeDdOuT6wLDBIcUswjaeNgnJW8XTwSUEJTWDWkJ
-	dezSgST+fDtFJDwjsxm9tXg=
-X-Google-Smtp-Source: ABdhPJyTZRqc6UQGnrl4csdZjuy8VGsUjcOTeJ4b0PowKzJuARwczKA6wB3LY2jX00ZKc/fRTrUnfA==
-X-Received: by 2002:a05:6512:3ce:: with SMTP id w14mr986113lfp.90.1619729359120;
-        Thu, 29 Apr 2021 13:49:19 -0700 (PDT)
+        h=x-gm-message-state:dkim-filter:mime-version:subject:reply-to:sender
+         :from:to:cc:message-id:date:content-transfer-encoding:cms-type
+         :references:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=LrOt9am72tOLMtfpE6raTvQmuMq/ldaSr4kUtdZgPLw=;
+        b=YNx3U4VLFInT2j0l29VMrm7FR0MJtxvnAKZZFchYa05ZEeVd2kKybroxBZly9iAnc0
+         wxzHEWsQFZnWGVOya/1l64KELQ6Y1yGOMh6iEsj9GqSzoNV110GVyYfAwCT3JJQ1dAfX
+         y7c04QXP4HfSymeGcufxe1a/Ix6Gzz2ERoNH0OKgcCDFxx7zEst1zJX0OtYapSFzjtH8
+         oR3cDQEpnGYcXxhvSaIVCTrWFBqURL2DhXmjNSGnBIcfge7UIQgYyBBr6hfefshAH70P
+         XvpQtF43ef6xbfbr3fCa20hs2bX2LmibXoEdViaXJP49iG0LzccEh2JrG8PdmZCF4C3w
+         KTcw==
+X-Gm-Message-State: AOAM533GlKLoIXIu6IvCjSjmcImWuAlTn0XoQFsykc/kcvAd1yECAq8B
+	Zeu2v66RhrPnEhWZUuulZ/Q=
+X-Google-Smtp-Source: ABdhPJz/z8r030eQcJYSxbsSFi9jm/yf1izXlkpSA53pSqlC7EqxRTPoYcxfDoBeyXMU657vp+4unQ==
+X-Received: by 2002:a63:4d50:: with SMTP id n16mr3815856pgl.237.1619776520074;
+        Fri, 30 Apr 2021 02:55:20 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a2e:bc14:: with SMTP id b20ls354686ljf.10.gmail; Thu, 29 Apr
- 2021 13:49:18 -0700 (PDT)
-X-Received: by 2002:a2e:921a:: with SMTP id k26mr1152010ljg.149.1619729358048;
-        Thu, 29 Apr 2021 13:49:18 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1619729358; cv=none;
+Received: by 2002:a17:90a:ba08:: with SMTP id s8ls2897163pjr.1.gmail; Fri, 30
+ Apr 2021 02:55:19 -0700 (PDT)
+X-Received: by 2002:a17:90b:208:: with SMTP id fy8mr4612319pjb.171.1619776519508;
+        Fri, 30 Apr 2021 02:55:19 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1619776519; cv=none;
         d=google.com; s=arc-20160816;
-        b=wtZFbGdQeyE9fnD7HPj/5t8zSxQIX4NQUGs+1mOkUzvx/4NAnJdZrgYQCcfxvW1hBZ
-         LJlsrB/AigvYuLbkTAVTI6kFQYF0kzwiIjK0dh+UioCxjO2W6U67FoiabFEXomEcZ4Dc
-         rKQamr7P9EdmENNdOlqalRIdtYLmhRPer+Eo0+bz/2nn0DZ6sin5He6xdNKf89a7LFP7
-         bWj8fh+F773FsxwTGMnlxqDpcy0t88MSwnvWNe5C7MiNJCNkR/EUt0Ggctr47fJhaskU
-         0orsUG64bYIdUMDL5dDEY7T68Ph0Cw+2kKERLod63NEWckG81G6uj+FVMvkub1j0SctU
-         3Rdg==
+        b=GtB4+WdkT7H5hLGIUWB/1F5N1OyR1c1e1tIByJQ6jvPTpmNNunlYgMjFbDRQTIOy4r
+         NTlAqApt3epEU+3BDARweS7eFe1UVGcRj9JCCh6u1MZ0DlyvJZAalD8rj+ceEQOeIDER
+         X3Wrz2iS7ziQnjbT8vtP+qL67/X8oPeUCNx4/EO4wOZIWMgCCEvOETOasfQVWGHHElAx
+         FBpYpdXP9e6pf99pGZjCO4BSElaFBBtUkEqReXVVslNmfbSR7ssC8149PipItLwx2/sC
+         tJfFkpZluWYlddyBPiYa86yaAp01kBCZNXUc+nB3JPgrauTR/P+LAByXDTkaPnhmqABG
+         2+RA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version;
-        bh=XPKr2OzxzEqAz4j8KYhUwNIVrgXX0dgHlgZCIhSjrP4=;
-        b=n+NbaaVmKCWNAPhwceKYvYAoa0OoNZW7PhpH/jXBF8obuN/fiBdjcxtlSieX9iYnyE
-         TTGqp8LHXtQQp3HCsa3ClTIVqoeU+3XbpD3U4VSPXdTf/uXxn3N4LIojtoTtpcoI/6ca
-         SaKT9SAEHpb0rxW8vi1W4y/pIITahUHNK8+aWLabsgxQ47ruxLwwCJw6yXhrkpiIa4x0
-         mFp3oaOQ70pSQaFUlOx+33rWKUV7daVyRyXFLav3qCDDF3Kf2+wn7RiXmnziHqxfiiuk
-         BbaOo0CUULpvDG2JcAZzZ/P40PVyijHe5xPLpnyeKbt1S51mxUn+/ysJOcd1hOgrY53d
-         GsDQ==
+        h=references:cms-type:content-transfer-encoding:date:message-id:cc:to
+         :from:sender:reply-to:subject:mime-version:dkim-signature
+         :dkim-filter;
+        bh=fUivehtV9wCVFy2W9j9sM9jB8QKWOyfVzPxQFHzU67E=;
+        b=fxkE5EPpfyi1RGCW3QusuBlBZvv3yN/4H4UlJr42bXuTJEhJdh3ovPCg6srR07wS17
+         itcHCOsoQcQ+ylkEMCyNUW4xgaIA9CxPQFUVwfXvt/9yytok8KGmMUJkryNK/4XX+z0D
+         wTU+ssOhbsbZSpJ3ijRcLO0m9/VCx86tV/dl/xS1Nm/eQC9LZQIxhsAWxgf3R8dL+ony
+         6DsYOZnVlF3ElMzsqdGPzUdJ4lSkHLrzNfXXTg/X/tXSn/VUAE3/XkDZNB5ThaIPDlZA
+         wwWwTxuMXV9FdGM9+8HRpvGYaqu4FnGEsSeVRb7PwTdHfliamvnG1pKICpvCAPJGF8nL
+         uq0Q==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=neutral (google.com: 212.227.126.131 is neither permitted nor denied by best guess record for domain of arnd@arndb.de) smtp.mailfrom=arnd@arndb.de
-Received: from mout.kundenserver.de (mout.kundenserver.de. [212.227.126.131])
-        by gmr-mx.google.com with ESMTPS id z33si57023lfu.12.2021.04.29.13.49.17
+       dkim=pass header.i=@samsung.com header.s=mail20170921 header.b=muRcI0Vr;
+       spf=pass (google.com: domain of maninder1.s@samsung.com designates 203.254.224.25 as permitted sender) smtp.mailfrom=maninder1.s@samsung.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=samsung.com
+Received: from mailout2.samsung.com (mailout2.samsung.com. [203.254.224.25])
+        by gmr-mx.google.com with ESMTPS id e20si460425pjp.0.2021.04.30.02.55.19
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Apr 2021 13:49:17 -0700 (PDT)
-Received-SPF: neutral (google.com: 212.227.126.131 is neither permitted nor denied by best guess record for domain of arnd@arndb.de) client-ip=212.227.126.131;
-Received: from mail-wm1-f44.google.com ([209.85.128.44]) by
- mrelayeu.kundenserver.de (mreue010 [213.165.67.97]) with ESMTPSA (Nemesis) id
- 1MXGak-1m5Rhb18pC-00YfoJ for <kasan-dev@googlegroups.com>; Thu, 29 Apr 2021
- 22:49:17 +0200
-Received: by mail-wm1-f44.google.com with SMTP id o26-20020a1c4d1a0000b0290146e1feccdaso809068wmh.0
-        for <kasan-dev@googlegroups.com>; Thu, 29 Apr 2021 13:49:17 -0700 (PDT)
-X-Received: by 2002:a7b:c4da:: with SMTP id g26mr2183043wmk.43.1619729356972;
- Thu, 29 Apr 2021 13:49:16 -0700 (PDT)
-MIME-Version: 1.0
-References: <YIpkvGrBFGlB5vNj@elver.google.com> <m11rat9f85.fsf@fess.ebiederm.org>
-In-Reply-To: <m11rat9f85.fsf@fess.ebiederm.org>
-From: Arnd Bergmann <arnd@arndb.de>
-Date: Thu, 29 Apr 2021 22:48:40 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a0+uKYwL1NhY6Hvtieghba2hKYGD6hcKx5n8=4Gtt+pHA@mail.gmail.com>
-Message-ID: <CAK8P3a0+uKYwL1NhY6Hvtieghba2hKYGD6hcKx5n8=4Gtt+pHA@mail.gmail.com>
-Subject: Re: siginfo_t ABI break on sparc64 from si_addr_lsb move 3y ago
-To: "Eric W. Biederman" <ebiederm@xmission.com>
-Cc: Marco Elver <elver@google.com>, Florian Weimer <fweimer@redhat.com>, 
-	"David S. Miller" <davem@davemloft.net>, Peter Zijlstra <peterz@infradead.org>, 
-	Ingo Molnar <mingo@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, 
-	Peter Collingbourne <pcc@google.com>, Dmitry Vyukov <dvyukov@google.com>, 
-	Alexander Potapenko <glider@google.com>, sparclinux <sparclinux@vger.kernel.org>, 
-	linux-arch <linux-arch@vger.kernel.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux API <linux-api@vger.kernel.org>, 
-	kasan-dev <kasan-dev@googlegroups.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 30 Apr 2021 02:55:19 -0700 (PDT)
+Received-SPF: pass (google.com: domain of maninder1.s@samsung.com designates 203.254.224.25 as permitted sender) client-ip=203.254.224.25;
+Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
+	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20210430095517epoutp022ae81a6c85d2ee17bf9b91b7bf143019~6mikWyfv53222232222epoutp02Z
+	for <kasan-dev@googlegroups.com>; Fri, 30 Apr 2021 09:55:17 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20210430095517epoutp022ae81a6c85d2ee17bf9b91b7bf143019~6mikWyfv53222232222epoutp02Z
+Received: from epsmges5p3new.samsung.com (unknown [182.195.42.75]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTP id
+	20210430095516epcas5p1012a62273f6134943e15153ab67ccb16~6mij3cG1L1593315933epcas5p1j;
+	Fri, 30 Apr 2021 09:55:16 +0000 (GMT)
+X-AuditID: b6c32a4b-7dfff7000000266b-4e-608bd4049782
+Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
+	epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	01.D1.09835.404DB806; Fri, 30 Apr 2021 18:55:16 +0900 (KST)
+Mime-Version: 1.0
+Subject: RE:[PATCH 1/2] mm/kasan: avoid duplicate KASAN issues from
+ reporting
+Reply-To: maninder1.s@samsung.com
+Sender: Maninder Singh <maninder1.s@samsung.com>
+From: Maninder Singh <maninder1.s@samsung.com>
+To: Dmitry Vyukov <dvyukov@google.com>
+CC: Andrey Ryabinin <ryabinin.a.a@gmail.com>, Alexander Potapenko
+	<glider@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, Andrew Morton
+	<akpm@linux-foundation.org>, kasan-dev <kasan-dev@googlegroups.com>,
+	Linux-MM <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>, AMIT
+	SAHRAWAT <a.sahrawat@samsung.com>, Vaneet Narang <v.narang@samsung.com>
+X-Priority: 3
+X-Content-Kind-Code: NORMAL
+X-Drm-Type: N,general
+X-Msg-Generator: Mail
+X-Msg-Type: PERSONAL
+X-Reply-Demand: N
+Message-ID: <20210430095305epcms5p3b2bc2e22983b70ef82feeaa8bb08e04b@epcms5p3>
+Date: Fri, 30 Apr 2021 15:23:05 +0530
+X-CMS-MailID: 20210430095305epcms5p3b2bc2e22983b70ef82feeaa8bb08e04b
+Content-Transfer-Encoding: base64
 Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:nhwgJwoQis991zuj1ZzDgJoABx2FGq+WUbHzY2d3dYZtp655e8Y
- V8UVmAUyIxqh37fq8tvQc5gfQapGdDW9biSy9cimslGTLUbTDKa6ihOkzmcf3Dfh4go/g3Q
- QZkTD6s548kHzNnvgEr+mz4SKuwNmk+uUiZ1xEy7g3thXGBlQQVOpcEwPFm5wl/w6P407ma
- lM7g4aigFXDHp8dw4Sd7g==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:qsbVtB6y8lM=:BGI0Gqezxnuk9GGezPOE5G
- B4yhHSTC/FfY8mN8oHJQzySXC5sXo+7ku0yIXlynW+XGr/46XoKGZdZ0ou8EOtH1IHukBV3fn
- lhcuGkqa9NG/79/CZOrSSUuQsi0YOOpe1lRuS+0uNs+br1n9V58u1snuSkto08GQSd4q1H8+O
- csBSt1VFM7KvQlpzgqKcFUd3UgT8hdcOh/9ACSfRuhqnTFC9EQfCxTmaDvIar830L0FCv7BdZ
- JRJmNk+Pc8YQT1adaxYxDSeiqYUns16EjFXRxUe/iZIsN+74CWGtkJpthl33eJxssqLyFbTvg
- tEBqHhnPGYET+rA3UA5CPTjKOjKjIsFnF2fK4p819tCvnyO6Y6uLLuWsbzrCJvdiauRFNpQIm
- WEGVoZ+AQyu/ES9Gnzv823v/R3SoiaGw0L/aYsuK+cVzPuyEOXXZymH8aMYqY0olhDUy7f/Jh
- GhvuV2Psi0Lg6V4rkVOoeV6Ebm7HQm2/v649DBVaVsA4xsX8JuCKPGfYbr4xN6Ou+PQXFgF61
- iZ8IKpswkT8kG0h7/5GFs0=
-X-Original-Sender: arnd@arndb.de
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=neutral
- (google.com: 212.227.126.131 is neither permitted nor denied by best guess
- record for domain of arnd@arndb.de) smtp.mailfrom=arnd@arndb.de
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprBKsWRmVeSWpSXmKPExsWy7bCmhi7Lle4Eg23PlS0u7k61mLN+DZvF
+	94nT2S0mPGxjt2j/uJfZYsWz+0wWl3fNYbO4t+Y/q8XxrVuYLQ6dnMvowOWxc9Zddo8Fm0o9
+	9kw8yeax6dMkdo8TM36zePRtWcXo8XmTXAB7FJdNSmpOZllqkb5dAlfGtLcZBeeyKs6t62Rt
+	YHyT3sXIySEhYCKx+Mshti5GLg4hgd2MEid3PGLqYuTg4BUQlPi7QxikRljAX+Lpsi3sILaQ
+	gKLEhRlrGEFKhAUMJH5t1QAJswnoSazatYcFxBYRUJNofN0DNpJZ4DWTxO22B+wQu3glZrQ/
+	ZYGwpSW2L9/KCGGLStxc/ZYdxn5/bD5UXESi9d5ZZghbUOLBz91QcRmJ1Zt7WUAWSAh0M0o8
+	/tEM1TyHUeLHEh8I21xi94Z5YMt4BXwlPk2cygZiswioSixa+4oVosZFYtWxI0wgNrOAtsSy
+	ha+ZQR5jFtCUWL9LH6JEVmLqqXVQJXwSvb+fMMH8smMejK0q0XJzAyvMX58/foT60UNixe/D
+	YCOFBAIl5vw1mMAoPwsRuLOQ7J2FsHcBI/MqRsnUguLc9NRi0wLjvNRyveLE3OLSvHS95Pzc
+	TYzgxKPlvYPx0YMPeocYmTgYDzFKcDArifD+XteZIMSbklhZlVqUH19UmpNafIhRmoNFSZxX
+	0Lk6QUggPbEkNTs1tSC1CCbLxMEp1cA0uaS8yfe/lwl719T9Aq69zxffLr3rxPed0VDtNcd0
+	/wI7y21X393QdHott+Ts/CwTh9VOWfyCm4X7Z9zyfBG9nWXfLT+zPSskfWYsrfjx03bR1tCZ
+	/WWcgZW+nUY1f9Yt0129XvXQw+StrfPM7PVdL4umzVM51mVbv9FVbgWr77aqu12fRJ9P9Vtw
+	leuN6buwYq+1LxhUZ5d2LW7V+lcYqddpEnEmSmZFdIj38gl1t+1mdQfcUSt12fn4hkhy1rK/
+	9YcaTk2fzcslNvcYpw1bo9RBZXaVv7OSTrO+sFvmWn+yvkDRY8nk5ODjqgfXvhG6+Kjv2pQw
+	WYYuvdw99kqHDnscenHM5sfUr+fEddcosRRnJBpqMRcVJwIAuW77BqsDAAA=
+X-CMS-RootMailID: 20210422081531epcas5p23d6c72ebf28a23b2efc150d581319ffa
+References: <CGME20210422081531epcas5p23d6c72ebf28a23b2efc150d581319ffa@epcms5p3>
+X-Original-Sender: maninder1.s@samsung.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@samsung.com header.s=mail20170921 header.b=muRcI0Vr;       spf=pass
+ (google.com: domain of maninder1.s@samsung.com designates 203.254.224.25 as
+ permitted sender) smtp.mailfrom=maninder1.s@samsung.com;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=samsung.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -147,71 +156,136 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Apr 29, 2021 at 7:23 PM Eric W. Biederman <ebiederm@xmission.com> wrote:
-
-> > Which option do you prefer? Are there better options?
->
-> Personally the most important thing to have is a single definition
-> shared by all architectures so that we consolidate testing.
->
-> A little piece of me cries a little whenever I see how badly we
-> implemented the POSIX design.  As specified by POSIX the fields can be
-> place in siginfo such that 32bit and 64bit share a common definition.
-> Unfortunately we did not addpadding after si_addr on 32bit to
-> accommodate a 64bit si_addr.
->
-> I find it unfortunate that we are adding yet another definition that
-> requires translation between 32bit and 64bit, but I am glad
-> that at least the translation is not architecture specific.  That common
-> definition is what has allowed this potential issue to be caught
-> and that makes me very happy to see.
->
-> Let's go with Option 3.
->
-> Confirm BUS_MCEERR_AR, BUS_MCEERR_AO, SEGV_BNDERR, SEGV_PKUERR are not
-> in use on any architecture that defines __ARCH_SI_TRAPNO, and then fixup
-> the userspace definitions of these fields.
->
-> To the kernel I would add some BUILD_BUG_ON's to whatever the best
-> maintained architecture (sparc64?) that implements __ARCH_SI_TRAPNO just
-> to confirm we don't create future regressions by accident.
->
-> I did a quick search and the architectures that define __ARCH_SI_TRAPNO
-> are sparc, mips, and alpha.  All have 64bit implementations.
-
-I think you (slightly) misread: mips has "#undef __ARCH_SI_TRAPNO", not
-"#define __ARCH_SI_TRAPNO". This means it's only sparc and
-alpha.
-
-I can see that the alpha instance was added to the kernel during linux-2.5,
-but never made it into the glibc or uclibc copy of the struct definition, and
-musl doesn't support alpha or sparc. Debian codesearch only turns up
-sparc (and BSD) references to si_trapno.
-
-> I did a quick search and the architectures that define __ARCH_SI_TRAPNO
-> are sparc, mips, and alpha.  All have 64bit implementations.  A further
-> quick search shows that none of those architectures have faults that
-> use BUS_MCEERR_AR, BUS_MCEERR_AO, SEGV_BNDERR, SEGV_PKUERR, nor do
-> they appear to use mm/memory-failure.c
->
-> So it doesn't look like we have an ABI regression to fix.
-
-Even better!
-
-So if sparc is the only user of _trapno and it uses none of the later
-fields in _sigfault, I wonder if we could take even more liberty at
-trying to have a slightly saner definition. Can you think of anything that
-might break if we put _trapno inside of the union along with _perf
-and _addr_lsb?
-
-I suppose in theory sparc64 or alpha might start using the other
-fields in the future, and an application might be compiled against
-mismatched headers, but that is unlikely and is already broken
-with the current headers.
-
-       Arnd
-
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAK8P3a0%2BuKYwL1NhY6Hvtieghba2hKYGD6hcKx5n8%3D4Gtt%2BpHA%40mail.gmail.com.
+SGnCoERtaXRyeSwNCsKgDQpTb3JyecKgZm9ywqBsYXRlwqByZXNwb25zZS4NCsKgDQo+wqAtLS3C
+oGEvbW0va2FzYW4va2FzYW4uaA0KPsKgKysrwqBiL21tL2thc2FuL2thc2FuLmgNCj7CoEBAwqAt
+MTAyLDbCoCsxMDIsMTLCoEBAwqBzdHJ1Y3TCoGthc2FuX2FjY2Vzc19pbmZvwqB7DQo+wqDCoMKg
+wqDCoMKgwqDCoMKgdW5zaWduZWTCoGxvbmfCoGlwOw0KPsKgwqB9Ow0KPg0KPj7CoCtzdHJ1Y3TC
+oGthc2FuX3JlY29yZMKgew0KPj7CoCvCoMKgwqDCoMKgwqDCoGRlcG90X3N0YWNrX2hhbmRsZV90
+wqDCoMKgwqBidF9oYW5kbGU7DQo+PsKgK8KgwqDCoMKgwqDCoMKgZGVwb3Rfc3RhY2tfaGFuZGxl
+X3TCoMKgwqDCoGFsbG9jX2hhbmRsZTsNCj4+wqArwqDCoMKgwqDCoMKgwqBkZXBvdF9zdGFja19o
+YW5kbGVfdMKgwqDCoMKgZnJlZV9oYW5kbGU7DQo+PsKgK307DQo+wqANCj5IacKgTWFuaW5kZXIs
+DQo+wqANCj5UaGVyZcKgaXPCoG5vwqBuZWVkwqB0b8KgZGVjbGFyZcKgdGhpc8KgaW7CoHRoZcKg
+aGVhZGVyLMKgaXTCoGNhbsKgYmXCoGRlY2xhcmVkDQo+bW9yZcKgbG9jYWxsecKgaW7CoHJlcG9y
+dC5oLg0KPsKgDQrCoA0KQWN0dWFswqB3ZcKgwqB3YW50ZWTCoHRvwqBzZW5kwqBib3RowqBwYXRj
+aGVzwqBpbsKgMcKgcGF0Y2gswqB0aGVuwqB3ZcKgdGhvdWdowqANCnRvwqBicmVha8KgaW7CoDLC
+oGlkZWFzwqBmb3LCoGJldHRlcsKgcmV2aWV3LMKgZmlyc3TCoG9uZcKgaXPCoHRvwqBnaXZlwqBp
+ZGVhDQpvZsKgcmVtb3ZlwqBkdXBsaWNhdGXCoEtBU0FOwqBlcnJvcnPCoGFuZMKgc2Vjb25kwqBp
+c8KgdG/CoHNhdmXCoEtBU0FOwqBtZXRhZGF0YS4NCmFuZMKgc3RydWN0dXJlwqB3YXPCoHJlcXVp
+cmVkwqBpbsKgb3RoZXLCoGZpbGVzwqBpbsKgc2Vjb25kwqBwYXRjaMKgc2/CoGl0wqB3YXPCoA0K
+ZGVjYWxyZWTCoGluwqBoZWFkZXINCsKgDQo+PsKgKw0KPj7CoMKgLyrCoFRoZcKgbGF5b3V0wqBv
+ZsKgc3RydWN0wqBkaWN0YXRlZMKgYnnCoGNvbXBpbGVywqAqLw0KPj7CoMKgc3RydWN0wqBrYXNh
+bl9zb3VyY2VfbG9jYXRpb27CoHsNCj4+wqDCoMKgwqDCoMKgwqDCoMKgY29uc3TCoGNoYXLCoCpm
+aWxlbmFtZTsNCj4+wqBkaWZmwqAtLWdpdMKgYS9tbS9rYXNhbi9yZXBvcnQuY8KgYi9tbS9rYXNh
+bi9yZXBvcnQuYw0KPj7CoGluZGV4wqA4N2IyNzEyMDYxNjMuLjQ1NzZkZTc2OTkxYsKgMTAwNjQ0
+DQo+PsKgLS0twqBhL21tL2thc2FuL3JlcG9ydC5jDQo+PsKgKysrwqBiL21tL2thc2FuL3JlcG9y
+dC5jDQo+PsKgQEDCoC0zOSw2wqArMzksMTDCoEBAwqBzdGF0aWPCoHVuc2lnbmVkwqBsb25nwqBr
+YXNhbl9mbGFnczsNCj4+wqDCoCNkZWZpbmXCoEtBU0FOX0JJVF9SRVBPUlRFRMKgwqDCoMKgwqAw
+DQo+PsKgwqAjZGVmaW5lwqBLQVNBTl9CSVRfTVVMVElfU0hPVMKgwqDCoDENCj4+DQo+PsKgKyNk
+ZWZpbmXCoE1BWF9SRUNPUkRTwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgKDIwMCkNCj7CoA0KPnMv
+TUFYX1JFQ09SRFMvS0FTQU5fTUFYX1JFQ09SRFMvDQrCoA0KT0sNCsKgDQo+PsKgK3N0YXRpY8Kg
+c3RydWN0wqBrYXNhbl9yZWNvcmTCoGthc2FuX3JlY29yZHNbTUFYX1JFQ09SRFNdOw0KPsKgDQo+
+U2luY2XCoGFsbMKgZmllbGRzwqBpbsKga2FzYW5fcmVjb3JkwqBhcmXCoHN0YWNrwqBoYW5kbGVz
+LMKgdGhlwqBjb2RlwqB3aWxswqBiZQ0KPnNpbXBsZXLCoGFuZMKgbW9yZcKgdW5pZm9ybSzCoGlm
+wqB3ZcKgc3RvcmXCoGp1c3TCoGFuwqBhcnJhecKgb2bCoGhhbmRsZXPCoHcvbw0KPmRpc3Rpbmd1
+aXNoaW5nwqBiZXR3ZWVuwqBhbGxvYy9mcmVlL2FjY2Vzcy4NCsKgDQpPa8KgZ290wqB5b3VywqBw
+b2ludC4NCsKgDQo+PsKgK3N0YXRpY8KgaW50wqBzdG9yZWRfa2FzYW5fcmVjb3JkczsNCj4+wqAr
+DQo+PsKgwqBib29swqBrYXNhbl9zYXZlX2VuYWJsZV9tdWx0aV9zaG90KHZvaWQpDQo+PsKgwqB7
+DQo+PsKgwqDCoMKgwqDCoMKgwqDCoHJldHVybsKgdGVzdF9hbmRfc2V0X2JpdChLQVNBTl9CSVRf
+TVVMVElfU0hPVCzCoCZrYXNhbl9mbGFncyk7DQo+PsKgQEDCoC0zNjAsNsKgKzM2NCw2NcKgQEDC
+oHZvaWTCoGthc2FuX3JlcG9ydF9pbnZhbGlkX2ZyZWUodm9pZMKgKm9iamVjdCzCoHVuc2lnbmVk
+wqBsb25nwqBpcCkNCj4+wqDCoMKgwqDCoMKgwqDCoMKgZW5kX3JlcG9ydCgmZmxhZ3MswqAodW5z
+aWduZWTCoGxvbmcpb2JqZWN0KTsNCj4+wqDCoH0NCj4+DQo+PsKgKy8qDQo+PsKgK8KgKsKgQHNh
+dmVfcmVwb3J0KCkNCj4+wqArwqAqDQo+PsKgK8KgKsKgcmV0dXJuc8KgZmFsc2XCoGlmwqBzYW1l
+wqByZWNvcmTCoGlzwqBhbHJlYWR5wqBzYXZlZC4NCj7CoA0KPnMvc2FtZS90aGXCoHNhbWUvDQo+
+wqANCj4+wqArwqAqwqByZXR1cm5zwqB0cnVlwqBpZsKgaXRzwqBuZXfCoHJlY29yZMKgYW5kwqBz
+YXZlZMKgaW7CoGRhdGFiYXNlwqBvZsKgS0FTQU4uDQo+wqANCj5zL2l0cy9pdCdzLw0KPnMvZGF0
+YWJhc2UvdGhlwqBkYXRhYmFzZS8NCsKgDQpvaw0KwqANCj4+wqArc3RhdGljwqBib29swqBzYXZl
+X3JlcG9ydCh2b2lkwqAqYWRkcizCoHN0cnVjdMKga2FzYW5fYWNjZXNzX2luZm/CoCppbmZvLMKg
+dTjCoHRhZyzCoHVuc2lnbmVkwqBsb25nwqAqZmxhZ3MpDQo+PsKgK3sNCj4+wqArwqDCoMKgwqDC
+oMKgwqBzdHJ1Y3TCoGthc2FuX3JlY29yZMKgcmVjb3JkwqA9wqB7MH07DQo+PsKgK8KgwqDCoMKg
+wqDCoMKgZGVwb3Rfc3RhY2tfaGFuZGxlX3TCoGJ0X2hhbmRsZTsNCj4+wqArwqDCoMKgwqDCoMKg
+wqBpbnTCoGnCoD3CoDA7DQo+PsKgK8KgwqDCoMKgwqDCoMKgY29uc3TCoGNoYXLCoCpidWdfdHlw
+ZTsNCj4+wqArwqDCoMKgwqDCoMKgwqBzdHJ1Y3TCoGthc2FuX2FsbG9jX21ldGHCoCphbGxvY19t
+ZXRhOw0KPj7CoCvCoMKgwqDCoMKgwqDCoHN0cnVjdMKga2FzYW5fdHJhY2vCoCpmcmVlX3RyYWNr
+Ow0KPj7CoCvCoMKgwqDCoMKgwqDCoHN0cnVjdMKgcGFnZcKgKnBhZ2U7DQo+PsKgK8KgwqDCoMKg
+wqDCoMKgYm9vbMKgcmV0wqA9wqB0cnVlOw0KPj7CoCsNCj4+wqArwqDCoMKgwqDCoMKgwqBrYXNh
+bl9kaXNhYmxlX2N1cnJlbnQoKTsNCj4+wqArwqDCoMKgwqDCoMKgwqBzcGluX2xvY2tfaXJxc2F2
+ZSgmcmVwb3J0X2xvY2sswqAqZmxhZ3MpOw0KPsKgDQo+UmV1c2luZ8KgdGhlwqBjYWxsZXLCoGZs
+YWdzwqBsb29rc8Kgc3RyYW5nZSzCoGRvwqB3ZcKgbmVlZMKgaXQ/DQo+QnV0wqBhbHNvwqB0aGXC
+oHZlcnnCoG5leHTCoGZ1bmN0aW9uwqBzdGFydF9yZXBvcnQoKcKgYWxzb8KgZG9lc8KgdGhlwqBz
+YW1lDQo+ZGFuY2U6wqBrYXNhbl9kaXNhYmxlX2N1cnJlbnQvc3Bpbl9sb2NrX2lycXNhdmUuwqBJ
+dMKgZmVlbHPCoHJlYXNvbmFibGXCoHRvDQo+bG9ja8Kgb25jZSzCoGNoZWNrwqBmb3LCoGR1cHPC
+oGFuZMKgcmV0dXJuwqBlYXJsecKgaWbCoGl0J3PCoGHCoGR1cC4NCsKgDQpvayzCoHdpbGzCoGNo
+ZWNrwqB0aGF0wqAoaWbCoG9ubHnCoGZpcnN0wqBwYXRjaMKgc2VlbXPCoHRvwqBiZcKgZ29vZMKg
+Zm9ywqBtYWlubGluZSkNCsKgDQo+PsKgK8KgwqDCoMKgwqDCoMKgYnVnX3R5cGXCoD3CoGthc2Fu
+X2dldF9idWdfdHlwZShpbmZvKTsNCj4+wqArwqDCoMKgwqDCoMKgwqBwYWdlwqA9wqBrYXNhbl9h
+ZGRyX3RvX3BhZ2UoYWRkcik7DQo+PsKgK8KgwqDCoMKgwqDCoMKgYnRfaGFuZGxlwqA9wqBrYXNh
+bl9zYXZlX3N0YWNrKEdGUF9LRVJORUwpOw0KPsKgDQrCoA0KT0sNCj7CoA0KPj7CoCvCoMKgwqDC
+oMKgwqDCoGlmwqAocGFnZcKgJibCoFBhZ2VTbGFiKHBhZ2UpKcKgew0KPj7CoCvCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqBzdHJ1Y3TCoGttZW1fY2FjaGXCoCpjYWNoZcKgPcKgcGFnZS0+
+c2xhYl9jYWNoZTsNCj4+wqArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgdm9pZMKgKm9i
+amVjdMKgPcKgbmVhcmVzdF9vYmooY2FjaGUswqBwYWdlLMKgYWRkcik7DQo+wqANCj5TaW5jZcKg
+eW91wqBhbHJlYWR5wqBkZWNsYXJlwqBuZXfCoHZhcsKgaW7CoHRoaXPCoGJsb2NrLMKgbW92ZQ0K
+PmFsbG9jX21ldGEvZnJlZV90cmFja8KgaGVyZcKgYXPCoHdlbGwuDQrCoA0Kb2sNCsKgDQo+PsKg
+K8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGFsbG9jX21ldGHCoD3CoGthc2FuX2dldF9h
+bGxvY19tZXRhKGNhY2hlLMKgb2JqZWN0KTsNCj4+wqArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgZnJlZV90cmFja8KgPcKga2FzYW5fZ2V0X2ZyZWVfdHJhY2soY2FjaGUswqBvYmplY3Qs
+wqB0YWcpOw0KPj7CoCvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqByZWNvcmQuYWxsb2Nf
+aGFuZGxlwqA9wqBhbGxvY19tZXRhLT5hbGxvY190cmFjay5zdGFjazsNCj4+wqArwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgaWbCoChmcmVlX3RyYWNrKQ0KPj7CoCvCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcmVjb3JkLmZyZWVfaGFuZGxlwqA9wqBm
+cmVlX3RyYWNrLT5zdGFjazsNCj4+wqArwqDCoMKgwqDCoMKgwqB9DQo+PsKgKw0KPj7CoCvCoMKg
+wqDCoMKgwqDCoHJlY29yZC5idF9oYW5kbGXCoD3CoGJ0X2hhbmRsZTsNCj4+wqArDQo+PsKgK8Kg
+wqDCoMKgwqDCoMKgZm9ywqAoacKgPcKgMDvCoGnCoDzCoHN0b3JlZF9rYXNhbl9yZWNvcmRzO8Kg
+aSsrKcKgew0KPj7CoCvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBpZsKgKHJlY29yZC5i
+dF9oYW5kbGXCoCE9wqBrYXNhbl9yZWNvcmRzW2ldLmJ0X2hhbmRsZSkNCj4+wqArwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGNvbnRpbnVlOw0KPj7CoCvCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBpZsKgKHJlY29yZC5hbGxvY19oYW5kbGXCoCE9wqBr
+YXNhbl9yZWNvcmRzW2ldLmFsbG9jX2hhbmRsZSkNCj4+wqArwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGNvbnRpbnVlOw0KPj7CoCvCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqBpZsKgKCFzdHJuY21wKCJ1c2UtYWZ0ZXItZnJlZSIswqBidWdfdHlwZSzC
+oDE1KcKgJiYNCj7CoA0KPkNvbXBhcmluZ8Kgc3RyaW5nc8KgaXPCoHVucmVsaWFibGXCoGFuZMKg
+d2lsbMKgYnJlYWvCoGluwqBmdXR1cmUuwqBDb21wYXJlDQo+aGFuZGxlwqB3aXRowqAwwqBpbnN0
+ZWFkLMKgeW91wqBhbHJlYWR5wqBhc3N1bWXCoHRoYXTCoDDCoGhhbmRsZcKgaXPCoCJubw0KPmhh
+bmRsZSIuDQrCoA0KT2vCoHdpbGzCoGNoZWNrwqB0aGF0wqBhbHNvDQrCoA0KPj7CoCvCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgKHJlY29yZC5mcmVlX2hhbmRs
+ZcKgIT3CoGthc2FuX3JlY29yZHNbaV0uZnJlZV9oYW5kbGUpKQ0KPj7CoCvCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgY29udGludWU7DQo+PsKgKw0KPj7CoCvC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqByZXTCoD3CoGZhbHNlOw0KPj7CoCvCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBnb3RvwqBkb25lOw0KPj7CoCvCoMKgwqDCoMKgwqDCoH0N
+Cj4+wqArDQo+PsKgK8KgwqDCoMKgwqDCoMKgbWVtY3B5KCZrYXNhbl9yZWNvcmRzW3N0b3JlZF9r
+YXNhbl9yZWNvcmRzXSzCoCZyZWNvcmQswqBzaXplb2Yoc3RydWN0wqBrYXNhbl9yZWNvcmQpKTsN
+Cj4+wqArwqDCoMKgwqDCoMKgwqBzdG9yZWRfa2FzYW5fcmVjb3JkcysrOw0KPsKgDQo+ScKgdGhp
+bmvCoHlvdcKganVzdMKgaW50cm9kdWNlZMKgYW7CoG91dC1vZi1ib3VuZHPCoHdyaXRlwqBpbnRv
+wqBLQVNBTizCoGNoZWNrDQo+Zm9ywqBNQVhfUkVDT1JEU8KgOykNCsKgDQrCoA0KOikswqBpdMKg
+d2FzwqB0YWtlbsKgY2FyZcKgaW7CoHNlY29uZMKgcGF0Y2jCoFsyLzJdDQrCoA0KPsKgDQo+PsKg
+Kw0KPj7CoCtkb25lOg0KPj7CoCvCoMKgwqDCoMKgwqDCoHNwaW5fdW5sb2NrX2lycXJlc3RvcmUo
+JnJlcG9ydF9sb2NrLMKgKmZsYWdzKTsNCj4+wqArwqDCoMKgwqDCoMKgwqBrYXNhbl9lbmFibGVf
+Y3VycmVudCgpOw0KPj7CoCvCoMKgwqDCoMKgwqDCoHJldHVybsKgcmV0Ow0KPj7CoCt9DQo+PsKg
+Kw0KPj7CoMKgc3RhdGljwqB2b2lkwqBfX2thc2FuX3JlcG9ydCh1bnNpZ25lZMKgbG9uZ8KgYWRk
+cizCoHNpemVfdMKgc2l6ZSzCoGJvb2zCoGlzX3dyaXRlLA0KPj7CoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqB1bnNpZ25lZMKg
+bG9uZ8KgaXApDQo+PsKgwqB7DQo+PsKgQEDCoC0zODgsNsKgKzQ1MSwxMMKgQEDCoHN0YXRpY8Kg
+dm9pZMKgX19rYXNhbl9yZXBvcnQodW5zaWduZWTCoGxvbmfCoGFkZHIswqBzaXplX3TCoHNpemUs
+wqBib29swqBpc193cml0ZSwNCj4+wqDCoMKgwqDCoMKgwqDCoMKgaW5mby5pc193cml0ZcKgPcKg
+aXNfd3JpdGU7DQo+PsKgwqDCoMKgwqDCoMKgwqDCoGluZm8uaXDCoD3CoGlwOw0KPj4NCj4+wqAr
+wqDCoMKgwqDCoMKgwqBpZsKgKGFkZHJfaGFzX21ldGFkYXRhKHVudGFnZ2VkX2FkZHIpwqAmJg0K
+PsKgDQo+V2h5wqBhZGRyX2hhc19tZXRhZGF0YcKgY2hlY2s/DQo+VGhlwqBrZXJuZWzCoHdpbGzC
+oHByb2JhYmx5wqBjcmFzaMKgbGF0ZXLCoGFueXdheSzCoGJ1dMKgZnJvbcKgcG9pbnTCoG9mwqB2
+aWV3wqBvZg0KPnRoaXPCoGNvZGUswqBJwqBkb24ndMKgc2VlwqByZWFzb25zwqB0b8Kgbm90wqBk
+ZWR1cMKgd2lsZMKgYWNjZXNzZXMuDQrCoA0KSnVzdMKgdG/CoGFsaWduwqB3aXRowqBjdXJyZW50
+wqBjb2RlLg0KwqANCsKgDQo+PsKgK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCFzYXZl
+X3JlcG9ydCh1bnRhZ2dlZF9hZGRyLMKgJmluZm8swqBnZXRfdGFnKHRhZ2dlZF9hZGRyKSzCoCZm
+bGFncykpDQo+PsKgK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJldHVybjsNCj4+wqAr
+DQo+PsKgwqDCoMKgwqDCoMKgwqDCoHN0YXJ0X3JlcG9ydCgmZmxhZ3MpOw0KPj4NCj4+wqDCoMKg
+wqDCoMKgwqDCoMKgcHJpbnRfZXJyb3JfZGVzY3JpcHRpb24oJmluZm8pOw0KPj7CoC0tDQo+PsKg
+Mi4xNy4xDQo+Pg0KwqANCknCoHdpbGzCoHJldmVydMKgb27CoG90aGVywqB0aHJlYWRzwqBhbHNv
+WzIvMl0swqBhbmTCoHRoZW7CoHBsZWFzZcKgbGV0wqBtZcKga25vdw0KaWbCoG9ubHnCoGZpcnN0
+wqBwYXRjaMKgY2FuwqBiZcKgZ29vZMKgZm9ywqBtYWlubGluZcKgDQrCoA0KwqANClRoYW5rcywN
+Ck1hbmluZGVywqBTaW5naA0KwqANCg0KLS0gCllvdSByZWNlaXZlZCB0aGlzIG1lc3NhZ2UgYmVj
+YXVzZSB5b3UgYXJlIHN1YnNjcmliZWQgdG8gdGhlIEdvb2dsZSBHcm91cHMgImthc2FuLWRldiIg
+Z3JvdXAuClRvIHVuc3Vic2NyaWJlIGZyb20gdGhpcyBncm91cCBhbmQgc3RvcCByZWNlaXZpbmcg
+ZW1haWxzIGZyb20gaXQsIHNlbmQgYW4gZW1haWwgdG8ga2FzYW4tZGV2K3Vuc3Vic2NyaWJlQGdv
+b2dsZWdyb3Vwcy5jb20uClRvIHZpZXcgdGhpcyBkaXNjdXNzaW9uIG9uIHRoZSB3ZWIgdmlzaXQg
+aHR0cHM6Ly9ncm91cHMuZ29vZ2xlLmNvbS9kL21zZ2lkL2thc2FuLWRldi8yMDIxMDQzMDA5NTMw
+NWVwY21zNXAzYjJiYzJlMjI5ODNiNzBlZjgyZmVlYWE4YmIwOGUwNGIlNDBlcGNtczVwMy4K
