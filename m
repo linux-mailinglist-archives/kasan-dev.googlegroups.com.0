@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBA65WSCAMGQEGHU5NNY@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBHW5WSCAMGQEZY4QQ2Y@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ot1-x33d.google.com (mail-ot1-x33d.google.com [IPv6:2607:f8b0:4864:20::33d])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD3E93706DA
-	for <lists+kasan-dev@lfdr.de>; Sat,  1 May 2021 12:33:40 +0200 (CEST)
-Received: by mail-ot1-x33d.google.com with SMTP id w10-20020a056830144ab02902a5baf885d0sf356744otp.15
-        for <lists+kasan-dev@lfdr.de>; Sat, 01 May 2021 03:33:40 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1619865219; cv=pass;
+Received: from mail-pf1-x43e.google.com (mail-pf1-x43e.google.com [IPv6:2607:f8b0:4864:20::43e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 47FCD3706DF
+	for <lists+kasan-dev@lfdr.de>; Sat,  1 May 2021 12:34:08 +0200 (CEST)
+Received: by mail-pf1-x43e.google.com with SMTP id o129-20020a6292870000b0290241fe341603sf867656pfd.14
+        for <lists+kasan-dev@lfdr.de>; Sat, 01 May 2021 03:34:08 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1619865246; cv=pass;
         d=google.com; s=arc-20160816;
-        b=hqk4ziVhqvEu1sb6L3iHRZYAHCUyOXkqjrmhJ7CfutfxiIdVDnJcxxmbzjLZuT+cb0
-         InST9Qh1xOLTQ+Ti5IdThMO2sVuQUV/GiWVPbVExtcS4a9aJWM/43awOPJbEH8w07xhC
-         NHzcaGztySH6958/aFsLQOGXJj7pjol8OH4ORKpgYVB79Mem3xfBOJ740Y+UKJF6+IKP
-         gDtrmNqvmI3wloaNYqvn0tCzQ9U0fz6qi++ahDTQr1YvNu8bnUgquC2UXJyJXvRhqE3U
-         CQ5dKaGVuQV1qwmv47YBKLFEMeBe8zjBNmFvDsHSnalbA8inUut2ZBFw89y5w0murAb3
-         v7+Q==
+        b=sYU58Hbs9JbZQ0mg74LxwPNDTQZQl6vZWQ4dy2eYwvnnGEfpv3GTI73MqqceW/DQu2
+         seLauP3rzoNTkXllXsFiHvgzm5aG5RKmz6/XmVG4k7PolmE4qPVFWEAFG7ho/eik37JD
+         oK3KRhyiipVYcRbFIJoaDhQxIPG2PUljaallwF3RjW3GZwUdmF1IwjrlCvv7ooxZ5lfy
+         8cBv+0Fqt0QeBNCnO16QzyiR+nIRRybhN5DdmI4Fs+9xttE6vCw/0MAvXyAdxf+vrjx9
+         sOlDftlVbLlUqt0+9BXLe6WLqsWAfoPrRnrHS62ICvZBHOeIjW4KTwtNZjtdSATNkfTV
+         y9Hg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=M+6T6zbXSkQlwecvV+gcDajMm+xFBJnqxn6sVMBCpCE=;
-        b=VfRWjHYTGKlGhhTl3WI2b/TIkzZnU5jNWilR0xiZmL7xjNfE+2br7xNs7NON1smT4F
-         T2W890zccUTyolH3PzgTK4e/lFACb5vrMO0G1aDwgPu5v7TOhLuSTWuFURGzlbYjO7Ka
-         YraBe+tWBvLT9BllXHyGHXXlb4PNARLbnuMUfbC/mPyw/FZ5SSpRI19bsz8tlhvRBS72
-         27ksUNar3GJpsd9+LrF6W7ll8eQBp7OmJMiSq1+YNqYaxOLqu073hWPaglORs83gcbP2
-         8IOX9+VlYCp91zObPD4vOcAE9VtSgN0sCQd7VCNefuoLUbncvltH7A2JrvCsDYiHpOe4
-         WRLA==
+        bh=8QFJdxHPF3CHVy1LLaAmtyloW4+eCzcKVQpAxKjgzB8=;
+        b=z2ktU6CI5nc9Nu7tE/h2I84HQcScZuzpri23nsUrTsH3LgpSH40TpEJxZhJSc0xTHp
+         CqyR0rMEbakXdNn4d6ogACdJUUCLbSUCdwrlv42SXNj1x0eT7Yt8eD9mqqrKHfiEwikl
+         J1e1oZ+H/EIuYrev2yenOJB0WBDRovmcAHivXaDvzOkTlFqEWEbHW3pnIvbzGt9YWIRP
+         mNJbr5Dgf+HqUk3MTEO0Fp+6wCXacisw+4SP2tcDhOTM2qFqiC+jy0KGVwzCZ/NRJOdf
+         WSCfn8tQq3HvOYI5XwyxkHeB5X6YsSqIZL5H7oNFRuzrBBZpWTJ45Ir25y5JAXECGmZU
+         Ibvw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=q3Ci9b94;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::32c as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b="UWGMH/nV";
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::32d as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=M+6T6zbXSkQlwecvV+gcDajMm+xFBJnqxn6sVMBCpCE=;
-        b=ksupp1tQ3rfa8CSr42JQd+Chnrodad582NMPC+8L8fr4+6aL+f6tXq52WRLlcQGh+Z
-         iQXvO8FDWW6L+vNUnQ1lR/IB7W6BezUQqBJcjgKVuJoTYlf+FszzcbqfAoXqjZTXCGyU
-         UsVnEKmmN5BTfonIv0faRj2g3sFzlL9FYRmVzB1+o9OlQFh2fknpuwgpN+jzyOwUzwhR
-         5KQr5y82RCnVbGMfo7BPB+H6mQDYJmzUlooLrVkAWZcfmH15VAtV1dGrzm0V11lVHazK
-         ygF2Dxxl6ze8fxhHI15aU9i0BmSXQzbCS2ZZeikNINcRpeN97fW8Iln0FXEszg4cV4hx
-         /0Kg==
+        bh=8QFJdxHPF3CHVy1LLaAmtyloW4+eCzcKVQpAxKjgzB8=;
+        b=AiAcglKCdqD5urco7DfJUv/YdWXXKX04iVKwyl3PLG/+9bp40gVtU2tVP1CI1W9zKR
+         0avd6WzR2WlCXBWTaYVqv2FPGTSN/OGOJzYaP/D2NNUKOwVj0uZ4LYo1e5FaEYSkj1CO
+         s7rpfnz+b4Y3x5kezJ8akWRZeFq4Z/3T94DMlDdg3BLptVC+PHm3It2mBbXAHVNG+11W
+         Kn+4OyZtnnfbWMab8fBaCLLhngGCG48mdoEI084D2qCH45nPcXT6JEnEMujpCQLqsJ2a
+         LUVGMGOc4yq/5bEaYcVcTsjgf6p3OIXubtaUMeujAvLRJF5636ILgUDgw9lbeWqe0lMB
+         cuxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
@@ -49,65 +49,66 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=M+6T6zbXSkQlwecvV+gcDajMm+xFBJnqxn6sVMBCpCE=;
-        b=g+ewdBJyuXz1EVmWFO0tgtplPVKSy987jEsRIgScNHw7D6HXIwRHnbeYU9GjHG4Yl7
-         9kUnnlGmLVxaUcnVK/JLxej+UtWdH0rTVuq3zzatfMuAOSPXmS2qsNu7cFkZMVvGk63n
-         dvVKeSVxjjKqZnoi59S4WII6obPZfekN6xllpLAt5WuK5C5JOux7yUcRCn//+LZjanAr
-         QZrwgHPcELqJPReAQZ+sdc0MNf4nO//JYKfanqwcbzS++Q1y451s0bV9AngxCq9dGv7q
-         ye5/mPwrkUyW7kUR+smVXR1a2PgFY7RIpvnFqNEIZjgV6QVlXSbjiREAYEt54EYrYhJg
-         UinQ==
-X-Gm-Message-State: AOAM531jCH1Q+aaYOu0eU+YHd4pRlnPZHVo8F6C3A0FPujtHhTE7zZFR
-	Or5Ai0Xp4lFPR0JXIkg1Gnw=
-X-Google-Smtp-Source: ABdhPJyZl7me5LzCdK9C4S5XrJQ3mCTgi/JfRYNxtKVC5rBhf5m07TwoKOrrzPSI/xbmVzm372WLVg==
-X-Received: by 2002:a4a:a223:: with SMTP id m35mr8027642ool.39.1619865219515;
-        Sat, 01 May 2021 03:33:39 -0700 (PDT)
+        bh=8QFJdxHPF3CHVy1LLaAmtyloW4+eCzcKVQpAxKjgzB8=;
+        b=ocRLyV5KDZg/43qMk6Oyji+V3ZnNlKaNAJGiw7P61t0ERnV6QEEdcgfpxgURZu22gb
+         aVV7VhK6yy9Dij6id4LDelk7AyC2dgxAYnhV4sZouuf8cdpF7DR2B9Ka2mRctdQglsi0
+         PxQq8xYhgNtS2mlWYsixFEQEpHAQtpF7qghtXrrV+wt0IzakcmZzmtZpGsg/+YJBFGUt
+         7ptsD9d4GnYq0mVkXiJn1dJRl8xTzMZQDq3kyqkfetsi5pecmG7pW6hW/QHuxoUFJ1YB
+         WXuSR2+Ph8JsMKcAIm/uGgNWAWNjeR/VSujOup15lbuqUWOrANG4MxHJJRFTU/hJj584
+         3YMA==
+X-Gm-Message-State: AOAM531XHyPZpDO5hZF4+RcVP543s42XFPaJsrrtVEeAuYNqRD2z5W4C
+	QqjW4FpWjJku8x7LKKdSGzU=
+X-Google-Smtp-Source: ABdhPJzPxqGgmlrMQ9h65JwcyMhWxLTgqy860dVqhGykCreek15i2R5wp+nVgfSxMINXbvfYVI/72Q==
+X-Received: by 2002:a17:90a:8c8b:: with SMTP id b11mr10019347pjo.236.1619865246625;
+        Sat, 01 May 2021 03:34:06 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6808:f0d:: with SMTP id m13ls2546549oiw.4.gmail; Sat, 01
- May 2021 03:33:39 -0700 (PDT)
-X-Received: by 2002:aca:af8d:: with SMTP id y135mr14179760oie.66.1619865219135;
-        Sat, 01 May 2021 03:33:39 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1619865219; cv=none;
+Received: by 2002:a63:df0d:: with SMTP id u13ls2932658pgg.2.gmail; Sat, 01 May
+ 2021 03:34:05 -0700 (PDT)
+X-Received: by 2002:a05:6a00:c8:b029:260:f25a:f2ef with SMTP id e8-20020a056a0000c8b0290260f25af2efmr9043032pfj.78.1619865245434;
+        Sat, 01 May 2021 03:34:05 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1619865245; cv=none;
         d=google.com; s=arc-20160816;
-        b=uGC/gGZT5VqI2AXE3DlTcVfXNuIINEmV1IyjYnjzU9k8BDAlw088IKYxxUfBrRrXwa
-         9m4EXcLi0FgRYtcF53/iHHbtEeetHRRUl3nadLgWELCkB4NiRrpwnymQca4dupmZJbr7
-         HU6UgraIjhTCh7sPUCTxiJP54Z7rDkJMhdheuM4sibJPfi1wVRP0dp/9aKUBn5qaGRFL
-         bWOOr+trcxPG4QGqnRDhe9kCDvvoO9oujI23Ig2CCdy+iU+DmEn2nH3KfNnGPg6/PV+A
-         d5o32v+HjnwiHsCwW+AK1F6N2a8nc05SZA+m+rITiRk2ykx13cgmfaC+sd2dBi3kDpzy
-         0ixA==
+        b=ED4maqMXAfZFlD+9VQqxaq+r86VMPJ+YQgwSVNcqLfRCDlyvKJ16Cqp4GqjPrM2/s2
+         E7GRa9muMohvYGGS8sFfh66eVtrK/Gf/9oen06r7cEs8CFrFBHw5eoZv+Njyld+p2/R9
+         W8LysaNgK/HUzMW2Y5wt6zbpKNVCPYhiBHT6moS3w0sv/PRW3a5ebvR4erpZfp7SxrKo
+         xKZyINinyYI3R+ZPhtn892HNBR9TaHs8rExfjxbQm7I2TQrnOeggZB4ulbq1Gtv1S7TI
+         IVADgNTpqWDVvQu5EA/frARnAa8Xou1Sv2tBrstQf0vmnEEwhriagS+9W7Xv6nEswZ4b
+         9e/A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=hdaqve5YvScbUJtoSM3sAOiUvwbsjnuFfVlCkD3R0H0=;
-        b=ImNNnJ1A3SAT0Eqh8UZgB165KaVbzGIIVTGjR/fEyxBGaCAEz/hcUgbtvTUXCPX7Ob
-         BXSvsssrRglqkYvggX7ZSIGmtebTzk39JbkoiERa+3KIwDZhpBaDFzWOn16XXQBarK1X
-         cJpyXbUErM/FICXPqrGDHxqLP8e1kWtkCe2fCHlab7Du4ZEmBBKKNd0udVnsTs2gA8Ub
-         jgh1oXB/zZKzYIbFhqMld2buRYkAkM6FrCDifSQJ+yTmo88B1tEBIFWiVRacIl82B8vr
-         Q9F9EG8bDjK7eDUfQkoDcqkCKSX8ddeS0mSW3uIi/DkSP+bQtlC44VKznXVFnR/OzHfT
-         vDpQ==
+        bh=jCan+6xptMFqGkbIIPn1nwIIm9+SRi9i6mWKGsgGhAU=;
+        b=F/eGl2OUuwN1HdOJ2s/uhq7phPub2uND2QsjiOVMZ/xiC8N4fnJDSk5pvsSPGx8+Tu
+         0sCZ8JjhsGRd/RN2vTDI+P3fTCd03z5HxMJmgpZ5oSCkj297qT8JXRHESvh55kbzV6HV
+         j+ep56euOZLukWFT+bvQ892E6rnNf7RCsa21iSFbFRwqspwh6X7eX+yojn/ThptQLJqR
+         K80SMtzFJkIaF/zUlI/9Ya88fpjWHvabgr/tXXlCn1WvfQDlJE4BJtqWYYExnKBv4kzb
+         DWRumSoCpH6JgHHDG7rSYRORCx2j434Lwwle9t1YMBmsrAiH+6WmrD9wCBR65FFrSEzP
+         tzjg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=q3Ci9b94;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::32c as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b="UWGMH/nV";
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::32d as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-ot1-x32c.google.com (mail-ot1-x32c.google.com. [2607:f8b0:4864:20::32c])
-        by gmr-mx.google.com with ESMTPS id w16si927501oov.0.2021.05.01.03.33.39
+Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com. [2607:f8b0:4864:20::32d])
+        by gmr-mx.google.com with ESMTPS id e10si814884pfc.0.2021.05.01.03.34.05
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 01 May 2021 03:33:39 -0700 (PDT)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::32c as permitted sender) client-ip=2607:f8b0:4864:20::32c;
-Received: by mail-ot1-x32c.google.com with SMTP id c36-20020a05683034a4b02902a5b84b1d12so433600otu.8
-        for <kasan-dev@googlegroups.com>; Sat, 01 May 2021 03:33:39 -0700 (PDT)
-X-Received: by 2002:a05:6830:410e:: with SMTP id w14mr5442391ott.251.1619865218745;
- Sat, 01 May 2021 03:33:38 -0700 (PDT)
+        Sat, 01 May 2021 03:34:05 -0700 (PDT)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::32d as permitted sender) client-ip=2607:f8b0:4864:20::32d;
+Received: by mail-ot1-x32d.google.com with SMTP id g4-20020a9d6b040000b029029debbbb3ecso804622otp.7
+        for <kasan-dev@googlegroups.com>; Sat, 01 May 2021 03:34:05 -0700 (PDT)
+X-Received: by 2002:a9d:60c8:: with SMTP id b8mr7228167otk.17.1619865244678;
+ Sat, 01 May 2021 03:34:04 -0700 (PDT)
 MIME-Version: 1.0
 References: <YIpkvGrBFGlB5vNj@elver.google.com> <m11rat9f85.fsf@fess.ebiederm.org>
  <CAK8P3a0+uKYwL1NhY6Hvtieghba2hKYGD6hcKx5n8=4Gtt+pHA@mail.gmail.com>
  <m15z031z0a.fsf@fess.ebiederm.org> <YIxVWkT03TqcJLY3@elver.google.com>
- <m1zgxfs7zq.fsf_-_@fess.ebiederm.org> <m1o8dvs7s7.fsf_-_@fess.ebiederm.org>
-In-Reply-To: <m1o8dvs7s7.fsf_-_@fess.ebiederm.org>
+ <m1zgxfs7zq.fsf_-_@fess.ebiederm.org> <m1eeers7q7.fsf_-_@fess.ebiederm.org>
+In-Reply-To: <m1eeers7q7.fsf_-_@fess.ebiederm.org>
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Sat, 1 May 2021 12:33:27 +0200
-Message-ID: <CANpmjNNhd+qAy7tPSu=08_y-BZiowKigVkOh6HnXsxhWYuFpJA@mail.gmail.com>
-Subject: Re: [PATCH 2/3] signal: Implement SIL_FAULT_TRAPNO
+Date: Sat, 1 May 2021 12:33:53 +0200
+Message-ID: <CANpmjNPztuttUqN3=Z4r7GPCyGu76CWNK-oYhxtByAx5OP_2rg@mail.gmail.com>
+Subject: Re: [PATCH 3/3] signal: Use dedicated helpers to send signals with
+ si_trapno set
 To: "Eric W. Biederman" <ebiederm@xmission.com>
 Cc: Arnd Bergmann <arnd@arndb.de>, Florian Weimer <fweimer@redhat.com>, 
 	"David S. Miller" <davem@davemloft.net>, Peter Zijlstra <peterz@infradead.org>, 
@@ -120,8 +121,8 @@ Cc: Arnd Bergmann <arnd@arndb.de>, Florian Weimer <fweimer@redhat.com>,
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=q3Ci9b94;       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::32c as
+ header.i=@google.com header.s=20161025 header.b="UWGMH/nV";       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::32d as
  permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
  sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Marco Elver <elver@google.com>
@@ -138,166 +139,85 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Sat, 1 May 2021 at 00:54, Eric W. Biederman <ebiederm@xmission.com> wrote:
+On Sat, 1 May 2021 at 00:55, Eric W. Biederman <ebiederm@xmission.com> wrote:
 >
-> Now that si_trapno is part of the union in _si_fault and available on
-> all architectures, add SIL_FAULT_TRAPNO and update siginfo_layout to
-> return SIL_FAULT_TRAPNO when si_trapno is actually used.
+> Now that si_trapno is no longer expected to be present for every fault
+> reported using siginfo on alpha and sparc remove the trapno parameter
+> from force_sig_fault, force_sig_fault_to_task and send_sig_fault.
 >
-> Update the code that uses siginfo_layout to deal with SIL_FAULT_TRAPNO
-> and have the same code ignore si_trapno in in all other cases.
+> Add two new helpers force_sig_fault_trapno and send_sig_fault_trapno
+> for those signals where trapno is expected to be set.
 >
 > Signed-off-by: "Eric W. Biederman" <ebiederm@xmission.com>
 > ---
->  fs/signalfd.c          |  7 ++-----
->  include/linux/signal.h |  1 +
->  kernel/signal.c        | 36 ++++++++++++++----------------------
->  3 files changed, 17 insertions(+), 27 deletions(-)
->
-> diff --git a/fs/signalfd.c b/fs/signalfd.c
-> index 040a1142915f..126c681a30e7 100644
-> --- a/fs/signalfd.c
-> +++ b/fs/signalfd.c
-> @@ -123,15 +123,12 @@ static int signalfd_copyinfo(struct signalfd_siginfo __user *uinfo,
->                  */
->         case SIL_FAULT:
->                 new.ssi_addr = (long) kinfo->si_addr;
-> -#ifdef __ARCH_SI_TRAPNO
-> +       case SIL_FAULT_TRAPNO:
-> +               new.ssi_addr = (long) kinfo->si_addr;
->                 new.ssi_trapno = kinfo->si_trapno;
-> -#endif
->                 break;
->         case SIL_FAULT_MCEERR:
->                 new.ssi_addr = (long) kinfo->si_addr;
-> -#ifdef __ARCH_SI_TRAPNO
-> -               new.ssi_trapno = kinfo->si_trapno;
-> -#endif
->                 new.ssi_addr_lsb = (short) kinfo->si_addr_lsb;
->                 break;
->         case SIL_PERF_EVENT:
-> diff --git a/include/linux/signal.h b/include/linux/signal.h
-> index 1e98548d7cf6..5160fd45e5ca 100644
-> --- a/include/linux/signal.h
-> +++ b/include/linux/signal.h
-> @@ -40,6 +40,7 @@ enum siginfo_layout {
->         SIL_TIMER,
->         SIL_POLL,
->         SIL_FAULT,
-> +       SIL_FAULT_TRAPNO,
->         SIL_FAULT_MCEERR,
->         SIL_FAULT_BNDERR,
->         SIL_FAULT_PKUERR,
-> diff --git a/kernel/signal.c b/kernel/signal.c
-> index c3017aa8024a..7b2d61cb7411 100644
-> --- a/kernel/signal.c
-> +++ b/kernel/signal.c
-> @@ -1194,6 +1194,7 @@ static inline bool has_si_pid_and_uid(struct kernel_siginfo *info)
->         case SIL_TIMER:
->         case SIL_POLL:
->         case SIL_FAULT:
-> +       case SIL_FAULT_TRAPNO:
->         case SIL_FAULT_MCEERR:
->         case SIL_FAULT_BNDERR:
->         case SIL_FAULT_PKUERR:
-> @@ -2527,6 +2528,7 @@ static void hide_si_addr_tag_bits(struct ksignal *ksig)
->  {
->         switch (siginfo_layout(ksig->sig, ksig->info.si_code)) {
->         case SIL_FAULT:
-> +       case SIL_FAULT_TRAPNO:
->         case SIL_FAULT_MCEERR:
->         case SIL_FAULT_BNDERR:
->         case SIL_FAULT_PKUERR:
-> @@ -3206,6 +3208,12 @@ enum siginfo_layout siginfo_layout(unsigned sig, int si_code)
->                         if ((sig == SIGBUS) &&
->                             (si_code >= BUS_MCEERR_AR) && (si_code <= BUS_MCEERR_AO))
->                                 layout = SIL_FAULT_MCEERR;
-> +                       else if (IS_ENABLED(ALPHA) &&
-> +                                ((sig == SIGFPE) ||
-> +                                 ((sig == SIGTRAP) && (si_code == TRAP_UNK))))
-> +                               layout = SIL_FAULT_TRAPNO;
-> +                       else if (IS_ENABLED(SPARC) && (sig == SIGILL) && (si_code == ILL_ILLTRP))
-> +                               layout = SIL_FAULT_TRAPNO;
+>  arch/alpha/kernel/osf_sys.c      |  2 +-
+>  arch/alpha/kernel/signal.c       |  4 +--
+>  arch/alpha/kernel/traps.c        | 24 ++++++++---------
+>  arch/alpha/mm/fault.c            |  4 +--
+>  arch/sparc/kernel/process_64.c   |  2 +-
+>  arch/sparc/kernel/sys_sparc_32.c |  2 +-
+>  arch/sparc/kernel/sys_sparc_64.c |  2 +-
+>  arch/sparc/kernel/traps_32.c     | 22 ++++++++--------
+>  arch/sparc/kernel/traps_64.c     | 44 ++++++++++++++------------------
+>  arch/sparc/kernel/unaligned_32.c |  2 +-
+>  arch/sparc/mm/fault_32.c         |  2 +-
+>  arch/sparc/mm/fault_64.c         |  2 +-
+>  include/linux/sched/signal.h     | 12 +++------
+>  kernel/signal.c                  | 41 +++++++++++++++++++++--------
+>  14 files changed, 88 insertions(+), 77 deletions(-)
 
-The breakage isn't apparent here, but in later patches. These need to
-become CONFIG_SPARC and CONFIG_ALPHA.
+This still breaks sparc64:
+
+> sparc64-linux-gnu-ld: arch/sparc/kernel/traps_64.o: in function `bad_trap':
+> (.text+0x2a4): undefined reference to `force_sig_fault_trapno'
+
+[...]
+> +#if IS_ENABLED(SPARC)
+
+This should be 'IS_ENABLED(CONFIG_SPARC)'.
+
+> +int force_sig_fault_trapno(int sig, int code, void __user *addr, int trapno)
+> +{
+> +       struct kernel_siginfo info;
+> +
+> +       clear_siginfo(&info);
+> +       info.si_signo = sig;
+> +       info.si_errno = 0;
+> +       info.si_code  = code;
+> +       info.si_addr  = addr;
+> +       info.si_trapno = trapno;
+> +       return force_sig_info(&info);
+> +}
+> +#endif
+> +
+> +#if IS_ENABLED(ALPHA)
+
+CONFIG_ALPHA
 
 
->                         else if ((sig == SIGSEGV) && (si_code == SEGV_BNDERR))
->                                 layout = SIL_FAULT_BNDERR;
->  #ifdef SEGV_PKUERR
-> @@ -3317,30 +3325,22 @@ void copy_siginfo_to_external32(struct compat_siginfo *to,
->                 break;
->         case SIL_FAULT:
->                 to->si_addr = ptr_to_compat(from->si_addr);
-> -#ifdef __ARCH_SI_TRAPNO
-> +               break;
-> +       case SIL_FAULT_TRAPNO:
-> +               to->si_addr = ptr_to_compat(from->si_addr);
->                 to->si_trapno = from->si_trapno;
-> -#endif
->                 break;
->         case SIL_FAULT_MCEERR:
->                 to->si_addr = ptr_to_compat(from->si_addr);
-> -#ifdef __ARCH_SI_TRAPNO
-> -               to->si_trapno = from->si_trapno;
-> -#endif
->                 to->si_addr_lsb = from->si_addr_lsb;
->                 break;
->         case SIL_FAULT_BNDERR:
->                 to->si_addr = ptr_to_compat(from->si_addr);
-> -#ifdef __ARCH_SI_TRAPNO
-> -               to->si_trapno = from->si_trapno;
-> -#endif
->                 to->si_lower = ptr_to_compat(from->si_lower);
->                 to->si_upper = ptr_to_compat(from->si_upper);
->                 break;
->         case SIL_FAULT_PKUERR:
->                 to->si_addr = ptr_to_compat(from->si_addr);
-> -#ifdef __ARCH_SI_TRAPNO
-> -               to->si_trapno = from->si_trapno;
-> -#endif
->                 to->si_pkey = from->si_pkey;
->                 break;
->         case SIL_PERF_EVENT:
-> @@ -3401,30 +3401,22 @@ static int post_copy_siginfo_from_user32(kernel_siginfo_t *to,
->                 break;
->         case SIL_FAULT:
->                 to->si_addr = compat_ptr(from->si_addr);
-> -#ifdef __ARCH_SI_TRAPNO
-> +               break;
-> +       case SIL_FAULT_TRAPNO:
-> +               to->si_addr = compat_ptr(from->si_addr);
->                 to->si_trapno = from->si_trapno;
-> -#endif
->                 break;
->         case SIL_FAULT_MCEERR:
->                 to->si_addr = compat_ptr(from->si_addr);
-> -#ifdef __ARCH_SI_TRAPNO
-> -               to->si_trapno = from->si_trapno;
-> -#endif
->                 to->si_addr_lsb = from->si_addr_lsb;
->                 break;
->         case SIL_FAULT_BNDERR:
->                 to->si_addr = compat_ptr(from->si_addr);
-> -#ifdef __ARCH_SI_TRAPNO
-> -               to->si_trapno = from->si_trapno;
-> -#endif
->                 to->si_lower = compat_ptr(from->si_lower);
->                 to->si_upper = compat_ptr(from->si_upper);
->                 break;
->         case SIL_FAULT_PKUERR:
->                 to->si_addr = compat_ptr(from->si_addr);
-> -#ifdef __ARCH_SI_TRAPNO
-> -               to->si_trapno = from->si_trapno;
-> -#endif
->                 to->si_pkey = from->si_pkey;
->                 break;
->         case SIL_PERF_EVENT:
+> +int send_sig_fault_trapno(int sig, int code, void __user *addr, int trapno,
+> +                         struct task_struct *t)
+> +{
+> +       struct kernel_siginfo info;
+> +
+> +       clear_siginfo(&info);
+> +       info.si_signo = sig;
+> +       info.si_errno = 0;
+> +       info.si_code  = code;
+> +       info.si_addr  = addr;
+> +       info.si_trapno = trapno;
+> +       return send_sig_info(info.si_signo, &info, t);
+> +}
+> +#endif
+> +
+>  /* For the crazy architectures that include trap information in
+>   * the errno field, instead of an actual errno value.
+>   */
 > --
 > 2.30.1
+>
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNNhd%2BqAy7tPSu%3D08_y-BZiowKigVkOh6HnXsxhWYuFpJA%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNPztuttUqN3%3DZ4r7GPCyGu76CWNK-oYhxtByAx5OP_2rg%40mail.gmail.com.
