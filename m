@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBREBW2CAMGQEGJ7KEMA@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBNMCW2CAMGQEST3KKDI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-vs1-xe3f.google.com (mail-vs1-xe3f.google.com [IPv6:2607:f8b0:4864:20::e3f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AC9A3707D5
-	for <lists+kasan-dev@lfdr.de>; Sat,  1 May 2021 18:24:37 +0200 (CEST)
-Received: by mail-vs1-xe3f.google.com with SMTP id s26-20020a67c39a0000b02902274964b0a0sf672144vsj.19
-        for <lists+kasan-dev@lfdr.de>; Sat, 01 May 2021 09:24:37 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1619886276; cv=pass;
+Received: from mail-ot1-x33e.google.com (mail-ot1-x33e.google.com [IPv6:2607:f8b0:4864:20::33e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A76C3707DB
+	for <lists+kasan-dev@lfdr.de>; Sat,  1 May 2021 18:26:30 +0200 (CEST)
+Received: by mail-ot1-x33e.google.com with SMTP id w6-20020a0568300786b0290297fb946e1asf1239372ots.4
+        for <lists+kasan-dev@lfdr.de>; Sat, 01 May 2021 09:26:30 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1619886389; cv=pass;
         d=google.com; s=arc-20160816;
-        b=RzjDACIevlzt0N4j3Es9RNxOBipH1DvMzTnPAq6aFcKPXJT9pwYIg56CLk1mmfdvsU
-         4FlSpLCkWj6L6ri7Rq1qcFKyitQuPoxEMkdfvD+uHU1YdFAo1frinhkXR6j0mfko5ZmR
-         cd1S1Sa9ETRgCMsz7tMzYIGwsh3qzJkJcwp6SSQqjyjl+wek480NDA9ezbSyGEqkIjGf
-         r9Z2+KwLBKMqQSOoEIlAvprGnA3lC4gOczST10zKJXpYy0cgzWP2aj9K73irrFRIbvTU
-         sFY54BPf3KzJdRLiUUsJpVZfDPzWJze3UeRyEH75vLAcLncwE2nJ0pl5zuO1YLYrankp
-         SSSg==
+        b=SgXiqD1Bk+OB+nb8TVGKsFGPhEvyWPiIZ1C00BL+Vi7n4WPTusFV4QbX1tuVLk7EMj
+         tagfUnMy5jDq4Tco+Z+N7qHg8N/QF/M7PfSb4wrcmXujLng7CCrIddEA1QyIw7O5P6Uj
+         I9LXGu476acFt4oHpp9YjcmEN1np1e8LN9MiYJj1WryyLGYwNZRgcH50lqIS+k+s8ZLj
+         t+Xg2Z2ng8qfJO2xF9c9inMuEy5FPPV6nmQDQozTUHdd3gz1Lu+o2y1eZk4pvBFQScE7
+         lEBFw8HT1NP1r3RIvQQCe4zZtal8HveC34OYobDJOG/4JrciUBuvbpTDBmwbFas+N057
+         vOWw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=OZE4QD9nUQyss5SrsmyZH55CKQbhSGXol52o9xS2PnU=;
-        b=kfOQii1ENjKshdEjI5IVMwQ3vdvRUOhqHxqxoBF7IEVzcPLUSXD4dNHdGzC69GhcSA
-         AMf38NB4bKztl4u+uqh3v6MxQMaWeX5/cbZ7OfqpttpdlVDbto9SE/Ypf7ZyHQiKjA1x
-         Wiqi0dZaOJrshmQ0fI17ISUv/4PfSTVqhWvvAVDD68C3VFC6vOXn4aykaSRoPtsMJxn6
-         dedOTAzS+glCsl46jv6IDFddTnJJYfSXUvKPUaGPtNgX3jHPBlrcyq6xWXxN0NZ4pd06
-         cPVoVUGyLSAnlX80hnWLtQ8xSZ4ejx1OxBXFyBYujnoM4d7g00bVoEXIJLD1hqVWpDe6
-         co8g==
+        bh=z3EeY3ClJMvh+DdA5S/Dk3gRXBbX8F1C4qIFyyyI1Hs=;
+        b=uczZ1Os/mYklCxPDLf8bSlB/JlBMraKloqP6xMepab9UYJnmX+sY2jHfQJFjIIP1M3
+         WnXHFDxrXBfWFr8ofY8R7SrzIuJ38cWOlDVAHjgk2s1Vauuw5Pk7c3/mz3NIp7qDpZen
+         JLPsWccLTWqegDF0MIoRYzuBZ3oLdsiIIGry1VGtlrNuEIgRhfn5qC9KOoezkBnoeziL
+         e8an31n4zUQsJuJAfpcDpKg9bKv+L6wpN+9UHRhla6M/SCLzqyrXPfjUrbOCvMohu34L
+         cT6vULaDIoAMRaNNhpEtnsffMTKOH62MjHiNZJEsBhTbo7TwHZVEzEzaxnQRDMV4NjJq
+         /yBA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b="eF/f5QKw";
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::32f as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=ZOy4ilx8;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::22c as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=OZE4QD9nUQyss5SrsmyZH55CKQbhSGXol52o9xS2PnU=;
-        b=Gt3qbtPxideB6w8r8f7Y+VFcPvYLRYTSD6pfIJWvd4ZLjLjwtV+cMZdVhHcAQo+Fdb
-         /bZgPwTxrIlCryxs6tjXR4vF2oQfGPj8T9IN0VOfEejNj0fnacfnzcUquivAEGh6ImgI
-         z5A2p47Py257Kj5kQtKK2/srOgTkHzpIJ0t4gXEZdI5nOzGuQHZYK4Fi7JDJAMHfwPjT
-         hrMa++5KZod1caTT7OHqZURAeN7lCYg72fZv/I7qQ+Klf2zRCLkfmd5bHF5XHQgozIBZ
-         0DsFL6lmMhNKIWYC+FUmI4Yzg8Q0L5T/JZY5TU24cjDd4lvQMBud/YgA2muQa7+iRgI5
-         qSxQ==
+        bh=z3EeY3ClJMvh+DdA5S/Dk3gRXBbX8F1C4qIFyyyI1Hs=;
+        b=lf8CuE1qcPDjMVVXwhNosLIcJolzSQy9xlBdh9bHWl7KeSYopX0bGOzTI5F+6DFWAe
+         iU+Djh4sq3zFUgQbvVG4n60OlERkz49vwHCWYeNaZ6f7vZJv8s/XDApPTQpxFGsuXyDN
+         VNrlbfMb/mom6ZGPQNfDXUCp5RrbO0qT6AkkSH6Jh8enX7Wgwi0ryEjxN1huVMiTe0dF
+         79RTqOXb4EnyIQwkE83o7mAvqaqQ4t7bQAAFPqyA98MOeDqGBx6O2T9v1agN7r1vxw+9
+         3e/WAf37tzD70i/4docxfdmxU3UN8xKrMkL2Ya/oa/mr0NKC4uVKXyAeTGEWCa2zzhdl
+         JkhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
@@ -49,65 +49,64 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=OZE4QD9nUQyss5SrsmyZH55CKQbhSGXol52o9xS2PnU=;
-        b=eb+kbOqT4NVCWoJm8qAKRK0n61SxDcNHJPiA/HWGlQuxxLzjnUu42l6R5y8tXRmp/w
-         97pp5WfmhCFCVXxHNgQnSi6WCa8zE4RbHSLdZkf+ph1zAvntDRF6dDQC4N/BcH4Dl3oE
-         /pn7yPUd5yqP3ikR6VzrnByCYZ+oNMUKZIdUJH35Opzos3genbhi7DYv4jJBE6Lev7ht
-         aV/885YhHJY6+nSyuDgqxEvpOu8svPI7Zqxo6w4ZFWxwqKjHhJlZtm7+pKNecNybodaj
-         vmbZ6a1SRk6XJ6wO+usgT0g3jgqQiqrIoByfL0zMJEd3Ybo+E/i0TZREtgpjF6kfd7/R
-         Nn+w==
-X-Gm-Message-State: AOAM5311KWP5WvwTHP19hvUEa56FAuxdXT41fyIKomEOUDy8IMBA9P/L
-	K0KeY6jfMdtF1qLkhsxrunI=
-X-Google-Smtp-Source: ABdhPJy6oPleZHBFXdep66fbUUzi7Mi6bHMLqmax+jO2BS9WVni27LY3RDAfjYc7IE9ogwc/2CGZZQ==
-X-Received: by 2002:a67:8745:: with SMTP id j66mr11721450vsd.18.1619886276595;
-        Sat, 01 May 2021 09:24:36 -0700 (PDT)
+        bh=z3EeY3ClJMvh+DdA5S/Dk3gRXBbX8F1C4qIFyyyI1Hs=;
+        b=XPP9qVjLjyhRkGuA7GgqYbw+THogsUME+FNnfknUO4Fxw3VGY4PaWBZWkpUzx5mll5
+         +lcSWtyLSE3Rrax/6FPwd5YbHMCIBiyf+QZBgIJvj8u1AGLE43Q+imlH0zCZRk6WItWG
+         +7n7hxpa7FLDA9DEHxw3NE0gFR3CbmaucVzczvAKeXvRhFIttKnGeONBwPq5M0kkyZ3Y
+         WpkZERBZi4pJPHphfDxek0hgoZGyQa0mU3TyppXk7YhZCApBqGqyZ2cmu2RFwavNa/HV
+         hOfQUPR1mpkDPoi+DooYXFeuD5fiZyh0qxSdqlGy4ORcFrdft6QS8eb6FM9eAITh7eNe
+         DyXw==
+X-Gm-Message-State: AOAM532Do+dlNnlT0Q8exvrTCqc3i0JpAKwKZqOQgDAOBqxVT5Mg7ad7
+	/ThrP9Z6mj0VZdbG0Vmml/0=
+X-Google-Smtp-Source: ABdhPJxhTVPI8m2NPXcPM+jigRGaYMBscVSIZMumz+XlSo8Opx0gTuJDdivvrJqFnpVS//gsPqjX5w==
+X-Received: by 2002:aca:1e16:: with SMTP id m22mr8150300oic.153.1619886389407;
+        Sat, 01 May 2021 09:26:29 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a67:de96:: with SMTP id r22ls275114vsk.7.gmail; Sat, 01 May
- 2021 09:24:36 -0700 (PDT)
-X-Received: by 2002:a67:7045:: with SMTP id l66mr7234157vsc.47.1619886276027;
-        Sat, 01 May 2021 09:24:36 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1619886276; cv=none;
+Received: by 2002:a05:6830:3488:: with SMTP id c8ls2615800otu.10.gmail; Sat,
+ 01 May 2021 09:26:29 -0700 (PDT)
+X-Received: by 2002:a05:6830:1398:: with SMTP id d24mr8114130otq.281.1619886389019;
+        Sat, 01 May 2021 09:26:29 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1619886389; cv=none;
         d=google.com; s=arc-20160816;
-        b=D8OG85wPISVu1eD5KJGhe52HUY4PXqdSppxgD3hBzGsUzBvZi4PGp3pJe4l4p+b7ou
-         btK02az1FlJSYKskr/0SlcBvCXvOdc94a1w7fceV76lS3wuIkcDDx/EEkNK6y+L8K1wh
-         oeFQGafUOtwofJNCxmoS/XyOSnrKDbm9vBBjqqnqA8Ic9xwpJIJiavdKUqShS/3tJ9Me
-         DK1bqAsVGl2p7pOuz1KvYlsGVVw6yTrIS2Qq+EUCRkv6dsoM5xny9WtnM1Ny/5nEKqac
-         8/CsBTChtrpcgOqkkWpnHfDSbaaO8cFYSoCWDE2c0GTqV/5qV1qNf1gmlSSfVjVG7gXy
-         sKdA==
+        b=fJOZH1Pdo0uy6Vz8bKf2Y9PVNgKsj3aajRQvksUuzP0IsUMnqmWwBJbD5nPlw4JDVK
+         mkOoOcSwbOkjUTzmJ1tizbNW5QcSJwC9TO8n1em4h0uvA5d5dxGJzYyu+i1fLKh/wMnu
+         FbZgHdnCbJexLzgFmrkM3ZwKxOv/0iRw0BFu3YtIytKTs5v8BISTQWhHc6/dBDZGxHKV
+         PAJEvs4YDbsmqTteAJhL1wouDAhqh38koc/u1djgtti7OKoE0GCnzTcyoruQCm2CRHgC
+         +3C9fqIOG7ulZ4e3+syyaIM3coxJ1bchgy06SxLERKBlIkENMgoxPSJNNnW+O5ED4Ozs
+         2LoA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=CyRw8Tn64/8GQf/qvRpik9Jpd4CoRgx2tUKy0Z4v2kk=;
-        b=liIono0Z8Z/qqvyq6CQ6xsK1HWYK67jRpqNMWepDlYdL2VdsjgMXAdIzxLihauXXGW
-         z1zV+oqH6Th7hSHmMg94TekVCpwsAWzL+bQ6e3MQ/9X/TMtBUu54zscuczc3YcDibEpY
-         V1uBHOElsRKlynZQF6MBYh8TOglGzb+ugZpEfE0wa6HNodcS17+Wqosg3zf4g9EE/gRr
-         VFD6IafysrOFm5ZO8/2UOJz9p3FVHVlljERiZI9WtoRh053XP+mH2DbAf7Y3L+YdUxX+
-         8tACPUx0sjlQy/O5vwAd6XLoiLwwoA/mHGuJ1rOhXH5go90wM8VO6dY4ArGswXJe7zW0
-         NDag==
+        bh=64NGINXN7ynqOlzs0BXPYhgqQOU3tvwvuitkM9gE7fk=;
+        b=NsSrLEL2dGIJcd2CIeSaNjTdyOSeNgL1Ia8ajQecvxKFjtMQZU3jM+x8GWwRt/grq+
+         kSrYMvXFz529vx/awUZrcYw6JSNS/nHw5iYANFTjlwXwXG664A4O3853phreGpXHo62b
+         CF36fEma/7OpIQMpqUKJ6opRvlECfzJFMHvO1e7ydkntqjQyObjuLkjDZVU+LkftMDdS
+         zkWf+zorzT+cEyoqB4vjfWJUKz7Ow/tu/SzsVJcLCroMoPhytg6+uVXabuGrNu0koqla
+         XjN71l/imdKfl4FNwSA6NvU/LIWPyNCqJxFvbRTUqswA4K9RRRDL09dPdXObOH0ilIWI
+         7m5A==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b="eF/f5QKw";
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::32f as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=ZOy4ilx8;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::22c as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com. [2607:f8b0:4864:20::32f])
-        by gmr-mx.google.com with ESMTPS id h7si760386uad.1.2021.05.01.09.24.36
+Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com. [2607:f8b0:4864:20::22c])
+        by gmr-mx.google.com with ESMTPS id f4si1081088otc.2.2021.05.01.09.26.29
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 01 May 2021 09:24:36 -0700 (PDT)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::32f as permitted sender) client-ip=2607:f8b0:4864:20::32f;
-Received: by mail-ot1-x32f.google.com with SMTP id n32-20020a9d1ea30000b02902a53d6ad4bdso1308193otn.3
-        for <kasan-dev@googlegroups.com>; Sat, 01 May 2021 09:24:35 -0700 (PDT)
-X-Received: by 2002:a9d:60c8:: with SMTP id b8mr8272179otk.17.1619886275343;
- Sat, 01 May 2021 09:24:35 -0700 (PDT)
+        Sat, 01 May 2021 09:26:29 -0700 (PDT)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::22c as permitted sender) client-ip=2607:f8b0:4864:20::22c;
+Received: by mail-oi1-x22c.google.com with SMTP id i81so1264675oif.6
+        for <kasan-dev@googlegroups.com>; Sat, 01 May 2021 09:26:29 -0700 (PDT)
+X-Received: by 2002:aca:408a:: with SMTP id n132mr8271992oia.70.1619886388654;
+ Sat, 01 May 2021 09:26:28 -0700 (PDT)
 MIME-Version: 1.0
 References: <YIpkvGrBFGlB5vNj@elver.google.com> <m11rat9f85.fsf@fess.ebiederm.org>
  <CAK8P3a0+uKYwL1NhY6Hvtieghba2hKYGD6hcKx5n8=4Gtt+pHA@mail.gmail.com>
  <m15z031z0a.fsf@fess.ebiederm.org> <YIxVWkT03TqcJLY3@elver.google.com>
- <m1zgxfs7zq.fsf_-_@fess.ebiederm.org> <m1r1irpc5v.fsf@fess.ebiederm.org>
- <CANpmjNNfiSgntiOzgMc5Y41KVAV_3VexdXCMADekbQEqSP3vqQ@mail.gmail.com> <m1czuapjpx.fsf@fess.ebiederm.org>
-In-Reply-To: <m1czuapjpx.fsf@fess.ebiederm.org>
+ <m1zgxfs7zq.fsf_-_@fess.ebiederm.org> <m1r1irpc5v.fsf@fess.ebiederm.org> <CANpmjNNfiSgntiOzgMc5Y41KVAV_3VexdXCMADekbQEqSP3vqQ@mail.gmail.com>
+In-Reply-To: <CANpmjNNfiSgntiOzgMc5Y41KVAV_3VexdXCMADekbQEqSP3vqQ@mail.gmail.com>
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Sat, 1 May 2021 18:24:24 +0200
-Message-ID: <CANpmjNNyifBNdpejc6ofT6+n6FtUw-Cap_z9Z9YCevd7Wf3JYQ@mail.gmail.com>
+Date: Sat, 1 May 2021 18:26:17 +0200
+Message-ID: <CANpmjNMtM7JyxTiA-QpEmqd0MuQ+uZTjfZ3+_r4D=rrGpFU8RA@mail.gmail.com>
 Subject: Re: [RFC][PATCH 0/3] signal: Move si_trapno into the _si_fault union
 To: "Eric W. Biederman" <ebiederm@xmission.com>
 Cc: Arnd Bergmann <arnd@arndb.de>, Florian Weimer <fweimer@redhat.com>, 
@@ -121,8 +120,8 @@ Cc: Arnd Bergmann <arnd@arndb.de>, Florian Weimer <fweimer@redhat.com>,
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b="eF/f5QKw";       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::32f as
+ header.i=@google.com header.s=20161025 header.b=ZOy4ilx8;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::22c as
  permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
  sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Marco Elver <elver@google.com>
@@ -139,52 +138,34 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Sat, 1 May 2021 at 17:17, Eric W. Biederman <ebiederm@xmission.com> wrote:
->
-> Marco Elver <elver@google.com> writes:
->
-> > On Sat, 1 May 2021 at 01:48, Eric W. Biederman <ebiederm@xmission.com> wrote:
-> >>
-> >> Well with 7 patches instead of 3 that was a little more than I thought
-> >> I was going to send.
-> >>
-> >> However that does demonstrate what I am thinking, and I think most of
-> >> the changes are reasonable at this point.
-> >>
-> >> I am very curious how synchronous this all is, because if this code
-> >> is truly synchronous updating signalfd to handle this class of signal
-> >> doesn't really make sense.
-> >>
-> >> If the code is not synchronous using force_sig is questionable.
-> >>
-> >> Eric W. Biederman (7):
-> >>       siginfo: Move si_trapno inside the union inside _si_fault
-> >>       signal: Implement SIL_FAULT_TRAPNO
-> >>       signal: Use dedicated helpers to send signals with si_trapno set
-> >>       signal: Remove __ARCH_SI_TRAPNO
-> >>       signal: Rename SIL_PERF_EVENT SIL_FAULT_PERF_EVENT for consistency
-> >>       signal: Factor force_sig_perf out of perf_sigtrap
-> >>       signal: Deliver all of the perf_data in si_perf
+On Sat, 1 May 2021 at 02:37, Marco Elver <elver@google.com> wrote:
+> On Sat, 1 May 2021 at 01:48, Eric W. Biederman <ebiederm@xmission.com> wrote:
 > >
-> > Thank you for doing this so quickly -- it looks much cleaner. I'll
-> > have a more detailed look next week and also run some tests myself.
+> > Well with 7 patches instead of 3 that was a little more than I thought
+> > I was going to send.
 > >
-> > At a first glance, you've broken our tests in
-> > tools/testing/selftests/perf_events/ -- needs a
-> > s/si_perf/si_perf.data/, s/si_errno/si_perf.type/
->
-> Yeah.  I figured I did, but I couldn't figure out where the tests were
-> and I didn't have a lot of time.  I just wanted to get this out so we
-> can do as much as reasonable before the ABI starts being actively used
-> by userspace and we can't change it.
+> > However that does demonstrate what I am thinking, and I think most of
+> > the changes are reasonable at this point.
+> >
+> > I am very curious how synchronous this all is, because if this code
+> > is truly synchronous updating signalfd to handle this class of signal
+> > doesn't really make sense.
 
-No worries, and agreed. I've run tools/testing/selftests/perf_events
-tests on x86-64 (native + 32-bit compat), and compile-tested x86-32,
-arm64, arm (with my static asserts), m68k, and sparc64. Some trivial
-breakages, note comments in other patches.
+Just a note on this: the reason for adding signalfd support was based
+on the comment at SIL_FAULT_PKUERR:
 
-With the trivial fixes this looks good to me. I'll happily retest v2
-when you send it.
+>                 /*
+>                   * Fall through to the SIL_FAULT case.  Both SIL_FAULT_BNDERR
+>                   * and SIL_FAULT_PKUERR are only generated by faults that
+>                   * deliver them synchronously to userspace.  In case someone
+>                   * injects one of these signals and signalfd catches it treat
+>                   * it as SIL_FAULT.
+>                   */
+
+The same would hold for SIL_FAULT_PERF_EVENT, where somebody injects
+(re-injects perhaps?) such an event. But otherwise, yes,
+non-synchronous handling of SIGTRAP/TRAP_PERF is pretty useless for
+almost all usecases I can think of.
 
 Thanks,
 -- Marco
@@ -192,4 +173,4 @@ Thanks,
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNNyifBNdpejc6ofT6%2Bn6FtUw-Cap_z9Z9YCevd7Wf3JYQ%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNMtM7JyxTiA-QpEmqd0MuQ%2BuZTjfZ3%2B_r4D%3DrrGpFU8RA%40mail.gmail.com.
