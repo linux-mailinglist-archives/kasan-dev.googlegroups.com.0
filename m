@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBCALX3WVYQORBEG6XOCAMGQEVRQYRKQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCALX3WVYQORBXXDXOCAMGQEO4KYEMQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pj1-x103b.google.com (mail-pj1-x103b.google.com [IPv6:2607:f8b0:4864:20::103b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70166370E77
-	for <lists+kasan-dev@lfdr.de>; Sun,  2 May 2021 20:27:30 +0200 (CEST)
-Received: by mail-pj1-x103b.google.com with SMTP id 11-20020a17090a194bb0290155426bcf44sf3339667pjh.4
-        for <lists+kasan-dev@lfdr.de>; Sun, 02 May 2021 11:27:30 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1619980049; cv=pass;
+Received: from mail-vs1-xe3a.google.com (mail-vs1-xe3a.google.com [IPv6:2607:f8b0:4864:20::e3a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 86680370E8E
+	for <lists+kasan-dev@lfdr.de>; Sun,  2 May 2021 20:39:27 +0200 (CEST)
+Received: by mail-vs1-xe3a.google.com with SMTP id d5-20020a67c1050000b02902228a77a0e6sf1783132vsj.7
+        for <lists+kasan-dev@lfdr.de>; Sun, 02 May 2021 11:39:27 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1619980766; cv=pass;
         d=google.com; s=arc-20160816;
-        b=hFQcUzo7vX80B1NNFa0IbiHS1VV04pVq519COOaeOiBqZjjHOCE7P56xZgQ0yKbaee
-         gL+C4NeSkv7PblctJQ8jccfVaK/q7jf8eD6mV1Dq4oHzEWm1BKv7AkOHt5j13RZvYLSD
-         nkoshhwlBGju+EQJAvwdfcXdQXKfsK8Gy32FmDuAr71xc0kLyOQza6VvC1cuzV0GRlS8
-         kyVgld+j2+l8P8ajlwp7UbSsCEKMPbR+qaAnGVDhZtaouy6lRked3FEgsQghU843O5Fb
-         2PtSDcJbapU82VE7e0sE3x+gWH+BJHT9I2YP6d0npjkMao99MoswJ4UA8iZllJErX3gO
-         VWkw==
+        b=rEGz53d4gwBE8SrWc0lB9Jyo3tCKqxTLzRdlnAQILZUEDcJYtulSLrBvKniszXKZt3
+         kXi4CIcW7kNoP0K7/fPw5Dm+80dU3V1st0N+nmFE8t8WCWPNNGS3Q5gHsRtHY1tRKzyM
+         kDVpi6Voj4NT4SnJCxKJCKE0JGKzXj4gQHzlDhnxGTeIazzFyXFECWxNhf3RPHx3Zsv/
+         73VpJqgw7tRKkWW5wKRtqzUvBaVHvuDDPHjgyY1+5KLpJSmwlQkq51ccSUcUq2ERwL5M
+         JIv/exLgSYONsw4ABcFVWcQbpuZHlrGks/BAjYfY3nv4ClbhF7Wq/lJiuBEzfmX67QpL
+         xEcA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:subject:mime-version:user-agent
          :message-id:in-reply-to:date:references:cc:to:from:sender
          :dkim-signature;
-        bh=0JXiEVYAeTCnvhdgWhkU7Gd/8yqdvxxE7+9ffAlBEQU=;
-        b=0ZjSWSJTBZ1Xwr4E29CNv2vA2Lx3dHTYOr3Q+CbCMB9MZVB/XQAkh2H/4YIk7ynyaf
-         MFXHRXCRh+6NEIXwNoJh+06UL1IUKhESl4LIugv42txGb3OjdIbkOJTgpzy2ULYvq+6V
-         ZX+ratOAsDSaSwvnlXWI6Z7UKmt6WWutMAr/x31sn7Gf+ZoNgxnVhOsGVPvuDk/IJeAT
-         BHRN5XivklE/HrmLz+MN1G0ABvDk79jJEoAdKtRlkmxhFUcXbwssx5lOOnuuOeniAfjs
-         f6Cz44IYTSd4qo3hl5nvxgDtjQE2mXodct9sBatgdYLuZ8xhc9jSgNqP+/1Rfl5zuwvA
-         p32Q==
+        bh=vAJiafxwgaCPmQBWxJb4qE00BXSG38865KYFH22i/vI=;
+        b=Mi+Io2uHQpSOyt3tgCgZuUh6Tw5H4F466R0XPo+M7MaU9ugup7QQYRyQ5aEbIBFIKf
+         5dAA6ex97K4RhK8al/0D7RpZdfiG3LXWepHPaKBcnyEIc/Ahe+S8UuzaOPd8/qwbFKds
+         ItHLITfGk6rDato5i26SBscjTjf91uc6kSb9qKgY2AI7yT/IVCw0JkVxYA0JIs2CaMl/
+         qgJOjgJ5S/WuEEcKWgE0JMErq90JGmu9S54285W5yutYaGRwI/a3H0zS6jDrrQrq4mM1
+         aqFUDLXahfKgLwLQ+c5I8/0o2fGujWivYH6rFS1MR/CXGCa+BVwi/+Y2Sq8nmlKbzzgJ
+         Z9+g==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of ebiederm@xmission.com designates 166.70.13.231 as permitted sender) smtp.mailfrom=ebiederm@xmission.com;
+       spf=pass (google.com: domain of ebiederm@xmission.com designates 166.70.13.232 as permitted sender) smtp.mailfrom=ebiederm@xmission.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=xmission.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :mime-version:subject:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=0JXiEVYAeTCnvhdgWhkU7Gd/8yqdvxxE7+9ffAlBEQU=;
-        b=FeGrEcnIFCyCL0Ldfc1kyt9Vsgq4eqqUKNSH+6MbkHm9o5vlnHWspDGLdO9WX/Pt0U
-         NRYzqy45Ls3qxDCljcCrQOnkrhA8Dd/Ob6sr/4IUCgPm4e4N14GYTTU00avvJ5QGyms0
-         xOKGAo8bcXI6vDuMnNDlS2WlBWnGZHNPEO2x+kQrCn1RAEprb5igHnT+4Ed6CoM2buzW
-         i4U5+VDEfqoypwuk+d38YYLDMkyVFBsuBrn6/EdWy2LmJVF1FBrF5tu1iF02nudi98/4
-         wK5jhE2S6zSbg+5esLmrbtV7w7bpeLQWXZzOYO0fDEJfE1hTgJKsIYs7lopJHMDbziTL
-         ZE6A==
+        bh=vAJiafxwgaCPmQBWxJb4qE00BXSG38865KYFH22i/vI=;
+        b=QP5UbuLdiE5Ur3WB3idTtwsF42NJqj01WKgLBT/RNzYNoN3w0smbDmHSj0iOgXq22C
+         0wVphrtyySaJkiavlykZzOuqKjSSvlfNydpThpocQYZohSC3ttasVIE3d24rJkNsLXp1
+         v4hmvgOqsqZQV+yDb9DkBRYPJMQWgsVhoiYogMUd7TmZZpZ7lgPCpW5tnOaPji+yyskL
+         Izmj40MF9VooSOiRY7zA+oe2QOkiRuTUf1MgGrlNlS+UCnDicRgTXf/1xAZcFwTiQhnw
+         ivAAZCE40RxM1WS92wjmGm6PHS/Zs1n90ytHf5+le/MTn8G4Y2C0WO9SYPDOfRs2NsOr
+         3SYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:from:to:cc:references:date:in-reply-to
@@ -49,61 +49,61 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=0JXiEVYAeTCnvhdgWhkU7Gd/8yqdvxxE7+9ffAlBEQU=;
-        b=P5O3fjXwaVycfsSc7pRB3fp55S2nDaTEIdqejDiqQxeDXJizhUZX2hpuFld5oqm1t2
-         j2XjCesxwPgulox1Y/Gr7bOeiXRKcqNan8LwyDzfXXioW1rUvDOn5Bo8k9FUdLZUIfL5
-         wRvzDTC00DSgwyMMC6Ihji1ZM7p6bFE39kWBQ/66/2rvFslDlXsE0aol35sdH3sTTe12
-         U37WEq/cKquyE/4tlDz50cNdTlCRg6RRKHNvV4z9A5WiQ1fcJ/a8CwLQk4gbEQ30C+j4
-         Hz26V7EhihcQDYpawPAjv+jMYVGTW70is3DtBsjJTbKfO6RGknDfKtwizsWRp31L2S2D
-         tHjw==
+        bh=vAJiafxwgaCPmQBWxJb4qE00BXSG38865KYFH22i/vI=;
+        b=Gyh7kLoDK4N/BHVArKMQX+twvIKnlcyg4lqv8Zn/vRyhqjCh6vxncL2efon9Tk9VPO
+         RCtWNARVGy7vze89GOwu9PrC55nHuYJ3zDCnarXOrw3cQDnFdQI7o/BWnB011TxCO2Rt
+         Tv5ftGCd6Dh8suByH1l+k+kD5R0UJwNzoK+uluRcCNS/eSQAhj6tLoCeO9XM4RNKgNEE
+         07qvgYDtEAUFesRgg61uNlh9NhwWaK8TrY99rJe3PvbiIV5bAQa49BVBMwt+CpJEpU7K
+         E70cn+9hKCXxcwxWAHtioh06piRDJ7n+dSxxCHXvl9GWnO8BPboW0Tgi6DVDFlkmC8pk
+         Zlmg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM533JGfDq3386B7OCYMJZb2wJ1k+jG1lco+IXmVHLdA22rFQs+OlN
-	KQ2RDiVOhAtuiBx1ON5jl2c=
-X-Google-Smtp-Source: ABdhPJxosDwyk8kL1iI7l+nPQB6dhXSuuDP6dvCCjzZBL57GeQFMTvSD1xmGJrHsILfYmCqPejTc5Q==
-X-Received: by 2002:a63:5160:: with SMTP id r32mr7432736pgl.83.1619980048108;
-        Sun, 02 May 2021 11:27:28 -0700 (PDT)
+X-Gm-Message-State: AOAM533ToAOlp9aq2NuOxD1dVj+EIemFy9uoYpllsFtuOQFde5Z7NhqC
+	1ZCcCFXRkMsSUXzehJ21oJM=
+X-Google-Smtp-Source: ABdhPJw5W3P4vHyu85E9GZfdjIFzrsgd98lUSHv2FzXAfC9jt38kDtkArNHbs1H3kdKraisSxqfeRw==
+X-Received: by 2002:a05:6102:22ef:: with SMTP id b15mr1347979vsh.35.1619980766478;
+        Sun, 02 May 2021 11:39:26 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:902:b710:: with SMTP id d16ls6518975pls.3.gmail; Sun, 02
- May 2021 11:27:27 -0700 (PDT)
-X-Received: by 2002:a17:90a:8b18:: with SMTP id y24mr16805642pjn.215.1619980047584;
-        Sun, 02 May 2021 11:27:27 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1619980047; cv=none;
+Received: by 2002:a1f:a74f:: with SMTP id q76ls908733vke.11.gmail; Sun, 02 May
+ 2021 11:39:26 -0700 (PDT)
+X-Received: by 2002:a1f:ae94:: with SMTP id x142mr11727584vke.12.1619980766021;
+        Sun, 02 May 2021 11:39:26 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1619980766; cv=none;
         d=google.com; s=arc-20160816;
-        b=pAZJTuzur6XbADq7KmU4NdhWzoCDqRkMpfbfRWRAq90ARWdbdBlVJ6nFyta9wKkab2
-         Wlv26Ymh44h638grxCqk4LrxYFYul+ppZUSFia/9O4LOkV+8NqayZqwGjkzb/ZixeM82
-         YXjGK3IpuArWWzo3uvBExxA0TGOzM6R6TwccAe1HNwMgt0EuuWjDZXjuvuo1Bg9fxZIr
-         KVWf9K1RPuzzTL3365TcjjDBR7iroIJtGBvPuGyuE7L9vwb/LIoLC9DEDZyvmSLyGtsF
-         KTUSzkhSUKIIGnH9XbB63FZN+cT13r0qhmnE75YEsqmoZw9G6SzLBTZ0n8lNNHieUJqi
-         yiNw==
+        b=i3fjinRAhEvoPLGs/f98++wMaKxSusXNxztOF55hfnbOW0r5SioMLe2NARpNpvvbc2
+         N3MEIk6N0DeGbJ8JFaK/1MOYipDZHKtJs6TgGO4uDlkaAe2jaLfb1EHtE2KPNDcpo3je
+         JN07Dew6B+FMvW/Vvu4vsKhcV5W4y0sKVHqfVp0Vk7uL0tNnT15AR5T0iS+qgr77Ja8K
+         pYtlQU+zFZdct+rO0JXhxma+GOcAoSkIm/hPvXy6+cG8GyxpTBPiXEzsmGEghe+XRbsU
+         UoTgSU3NQB0rCHrkarxMKc1HIGeK9kcqq/hCtVGu0sJnE/hjFKAo3J3A/pctYFcxDJ6c
+         mMMw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=subject:mime-version:user-agent:message-id:in-reply-to:date
          :references:cc:to:from;
-        bh=1AKTeZzqbDFUGxYviuzsOPuHohoaIIxN+/lbdZwTyOo=;
-        b=caiTFqtbIQkB+frIpQdiXh9MBhNkyYTLMTtIGu0bsGW/FKbatd9T3Re+o8bXyaJEI5
-         vVS20jns3kDZdS73bF6eUroyg4g6nHsAwIiSY+1hkJKgJDkcmptQ3QpFY9tQhviVGVQs
-         Imxfp6hUnxX6BlkLkYs0AtIHgJrkQpz9SaXIG7Y/10J3VGtffIrA5BVuWzbace1k6ufl
-         0+kzqkK2Sy2z6euWlSVt5cZgkerxuF+b0MsxSTETiT5dnj4jqT+wU3RhX0ZMMt3oSg8y
-         AZVaV0Nm/LTjD0VMGFbIaw37dK2W5tM5dht/vghmdO737m2/sVC+NulvX4NZ9GEZ4TNq
-         TxOg==
+        bh=PNFr8J1Y/723qBsFKm96Vn1BPUO0pk3/LctUj+Mi0to=;
+        b=Gu27H6SkoiJn6xpZr2iJln/ogPbz/Osc42EDSQ+SxY0AxZlRGEXiU6ns7fU4qSGKFr
+         NSNhurRAk9HNvuK3qjxzPEYoir5BdsX4gHa761eFbDT7xV5Flf3sI4qyLSczNyN/kJQE
+         H/siD/s0T0zoCmm5FkTHJrVZKOvlT4sE8m2xmxnXDO3FaCG4w4PNeevzN0pHJceSWg2n
+         EurjJv6+KndyTTcg/+7M83woY0MUmN4Jvl56ee909grOCAeeQA26ZuFA2I+UxI1c9Lhc
+         Tj2dHGLniiMpj50CGTNnJo1h0Dy5jFa4jW1X/CVu44epUsw1Irt9uUQrlHQ7oAAjaxFb
+         hscA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of ebiederm@xmission.com designates 166.70.13.231 as permitted sender) smtp.mailfrom=ebiederm@xmission.com;
+       spf=pass (google.com: domain of ebiederm@xmission.com designates 166.70.13.232 as permitted sender) smtp.mailfrom=ebiederm@xmission.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=xmission.com
-Received: from out01.mta.xmission.com (out01.mta.xmission.com. [166.70.13.231])
-        by gmr-mx.google.com with ESMTPS id z28si974063pgk.2.2021.05.02.11.27.27
+Received: from out02.mta.xmission.com (out02.mta.xmission.com. [166.70.13.232])
+        by gmr-mx.google.com with ESMTPS id m184si1182807vkg.5.2021.05.02.11.39.25
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 May 2021 11:27:27 -0700 (PDT)
-Received-SPF: pass (google.com: domain of ebiederm@xmission.com designates 166.70.13.231 as permitted sender) client-ip=166.70.13.231;
-Received: from in02.mta.xmission.com ([166.70.13.52])
-	by out01.mta.xmission.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        Sun, 02 May 2021 11:39:25 -0700 (PDT)
+Received-SPF: pass (google.com: domain of ebiederm@xmission.com designates 166.70.13.232 as permitted sender) client-ip=166.70.13.232;
+Received: from in01.mta.xmission.com ([166.70.13.51])
+	by out02.mta.xmission.com with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
 	(Exim 4.93)
 	(envelope-from <ebiederm@xmission.com>)
-	id 1ldGoQ-00FXga-HS; Sun, 02 May 2021 12:27:26 -0600
+	id 1ldGzy-00FCZQ-V6; Sun, 02 May 2021 12:39:23 -0600
 Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95] helo=fess.xmission.com)
-	by in02.mta.xmission.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.93)
+	by in01.mta.xmission.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.87)
 	(envelope-from <ebiederm@xmission.com>)
-	id 1ldGoP-00BO9w-MT; Sun, 02 May 2021 12:27:26 -0600
+	id 1ldGzx-0006hK-2a; Sun, 02 May 2021 12:39:22 -0600
 From: ebiederm@xmission.com (Eric W. Biederman)
 To: Marco Elver <elver@google.com>
 Cc: Arnd Bergmann <arnd@arndb.de>,  Florian Weimer <fweimer@redhat.com>,  "David S. Miller" <davem@davemloft.net>,  Peter Zijlstra <peterz@infradead.org>,  Ingo Molnar <mingo@kernel.org>,  Thomas Gleixner <tglx@linutronix.de>,  Peter Collingbourne <pcc@google.com>,  Dmitry Vyukov <dvyukov@google.com>,  Alexander Potapenko <glider@google.com>,  sparclinux <sparclinux@vger.kernel.org>,  linux-arch <linux-arch@vger.kernel.org>,  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,  Linux API <linux-api@vger.kernel.org>,  kasan-dev <kasan-dev@googlegroups.com>
@@ -112,53 +112,56 @@ References: <YIpkvGrBFGlB5vNj@elver.google.com>
 	<CAK8P3a0+uKYwL1NhY6Hvtieghba2hKYGD6hcKx5n8=4Gtt+pHA@mail.gmail.com>
 	<m15z031z0a.fsf@fess.ebiederm.org> <YIxVWkT03TqcJLY3@elver.google.com>
 	<m1zgxfs7zq.fsf_-_@fess.ebiederm.org>
-	<m1tunns7yf.fsf_-_@fess.ebiederm.org>
-	<CANpmjNOZj-jRfFH365znJGqDAwdXL4Z2QBuHOtdvN_uNJ8WBSA@mail.gmail.com>
-Date: Sun, 02 May 2021 13:27:21 -0500
-In-Reply-To: <CANpmjNOZj-jRfFH365znJGqDAwdXL4Z2QBuHOtdvN_uNJ8WBSA@mail.gmail.com>
-	(Marco Elver's message of "Sat, 1 May 2021 12:31:10 +0200")
-Message-ID: <m1czu9ng8m.fsf@fess.ebiederm.org>
+	<m11rarqqx2.fsf_-_@fess.ebiederm.org>
+	<CANpmjNNJ_MnNyD4R2+9i24E=9xPHKnwTh6zwWtBYkuAq1Xo6-w@mail.gmail.com>
+Date: Sun, 02 May 2021 13:39:16 -0500
+In-Reply-To: <CANpmjNNJ_MnNyD4R2+9i24E=9xPHKnwTh6zwWtBYkuAq1Xo6-w@mail.gmail.com>
+	(Marco Elver's message of "Sat, 1 May 2021 12:47:21 +0200")
+Message-ID: <m1wnshm14b.fsf@fess.ebiederm.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-XM-SPF: eid=1ldGoP-00BO9w-MT;;;mid=<m1czu9ng8m.fsf@fess.ebiederm.org>;;;hst=in02.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
-X-XM-AID: U2FsdGVkX1+I6HZ0cD4XvYQ+uzlALtJgYoOqGyYDPxk=
+X-XM-SPF: eid=1ldGzx-0006hK-2a;;;mid=<m1wnshm14b.fsf@fess.ebiederm.org>;;;hst=in01.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
+X-XM-AID: U2FsdGVkX1/61Mdwb7TuChJAy6IEn9kCmxkmOP4SzJw=
 X-SA-Exim-Connect-IP: 68.227.160.95
 X-SA-Exim-Mail-From: ebiederm@xmission.com
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on sa03.xmission.com
-X-Spam-Level: **
-X-Spam-Status: No, score=2.0 required=8.0 tests=ALL_TRUSTED,BAYES_50,
-	DCC_CHECK_NEGATIVE,T_TM2_M_HEADER_IN_MSG,T_TooManySym_01,XMNoVowels,
-	XMSubLong autolearn=disabled version=3.4.2
-X-Spam-Virus: No
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on sa07.xmission.com
+X-Spam-Level: ****
+X-Spam-Status: No, score=4.2 required=8.0 tests=ALL_TRUSTED,BAYES_50,
+	DCC_CHECK_NEGATIVE,LotsOfNums_01,T_TM2_M_HEADER_IN_MSG,T_TooManySym_01,
+	T_XMDrugObfuBody_08,XMNoVowels,XMSubLong autolearn=disabled
+	version=3.4.2
 X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
 	*  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-	*      [score: 0.4920]
+	*      [score: 0.4960]
 	*  0.7 XMSubLong Long Subject
 	*  1.5 XMNoVowels Alpha-numberic number with no vowels
 	*  0.0 T_TM2_M_HEADER_IN_MSG BODY: No description available.
+	*  1.2 LotsOfNums_01 BODY: Lots of long strings of numbers
 	* -0.0 DCC_CHECK_NEGATIVE Not listed in DCC
-	*      [sa03 1397; Body=1 Fuz1=1 Fuz2=1]
+	*      [sa07 1397; Body=1 Fuz1=1 Fuz2=1]
 	*  0.0 T_TooManySym_01 4+ unique symbols in subject
-X-Spam-DCC: XMission; sa03 1397; Body=1 Fuz1=1 Fuz2=1
-X-Spam-Combo: **;Marco Elver <elver@google.com>
+	*  1.0 T_XMDrugObfuBody_08 obfuscated drug references
+X-Spam-DCC: XMission; sa07 1397; Body=1 Fuz1=1 Fuz2=1
+X-Spam-Combo: ****;Marco Elver <elver@google.com>
 X-Spam-Relay-Country: 
-X-Spam-Timing: total 325 ms - load_scoreonly_sql: 0.03 (0.0%),
-	signal_user_changed: 4.4 (1.3%), b_tie_ro: 3.0 (0.9%), parse: 1.06
-	(0.3%), extract_message_metadata: 11 (3.3%), get_uri_detail_list: 1.98
-	(0.6%), tests_pri_-1000: 11 (3.4%), tests_pri_-950: 1.02 (0.3%),
-	tests_pri_-900: 0.83 (0.3%), tests_pri_-90: 52 (16.0%), check_bayes:
-	51 (15.6%), b_tokenize: 6 (1.8%), b_tok_get_all: 7 (2.2%),
-	b_comp_prob: 1.90 (0.6%), b_tok_touch_all: 33 (10.1%), b_finish: 0.72
-	(0.2%), tests_pri_0: 232 (71.3%), check_dkim_signature: 0.37 (0.1%),
-	check_dkim_adsp: 2.3 (0.7%), poll_dns_idle: 0.94 (0.3%), tests_pri_10:
-	2.7 (0.8%), tests_pri_500: 7 (2.2%), rewrite_mail: 0.00 (0.0%)
-Subject: Re: [PATCH 1/3] siginfo: Move si_trapno inside the union inside _si_fault
-X-SA-Exim-Version: 4.2.1 (built Sat, 08 Feb 2020 21:53:50 +0000)
-X-SA-Exim-Scanned: Yes (on in02.mta.xmission.com)
+X-Spam-Timing: total 591 ms - load_scoreonly_sql: 0.09 (0.0%),
+	signal_user_changed: 13 (2.1%), b_tie_ro: 11 (1.8%), parse: 1.61
+	(0.3%), extract_message_metadata: 16 (2.7%), get_uri_detail_list: 3.7
+	(0.6%), tests_pri_-1000: 14 (2.3%), tests_pri_-950: 1.44 (0.2%),
+	tests_pri_-900: 1.21 (0.2%), tests_pri_-90: 69 (11.7%), check_bayes:
+	68 (11.5%), b_tokenize: 13 (2.2%), b_tok_get_all: 11 (1.8%),
+	b_comp_prob: 2.8 (0.5%), b_tok_touch_all: 38 (6.4%), b_finish: 0.89
+	(0.1%), tests_pri_0: 448 (75.7%), check_dkim_signature: 0.71 (0.1%),
+	check_dkim_adsp: 2.5 (0.4%), poll_dns_idle: 0.70 (0.1%), tests_pri_10:
+	3.4 (0.6%), tests_pri_500: 20 (3.4%), rewrite_mail: 0.00 (0.0%)
+Subject: Re: [PATCH 7/3] signal: Deliver all of the perf_data in si_perf
+X-Spam-Flag: No
+X-SA-Exim-Version: 4.2.1 (built Thu, 05 May 2016 13:38:54 -0600)
+X-SA-Exim-Scanned: Yes (on in01.mta.xmission.com)
 X-Original-Sender: ebiederm@xmission.com
 X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of ebiederm@xmission.com designates 166.70.13.231 as
+ (google.com: domain of ebiederm@xmission.com designates 166.70.13.232 as
  permitted sender) smtp.mailfrom=ebiederm@xmission.com;       dmarc=pass
  (p=NONE sp=NONE dis=NONE) header.from=xmission.com
 Precedence: list
@@ -175,44 +178,163 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 Marco Elver <elver@google.com> writes:
 
-> On Sat, 1 May 2021 at 00:50, Eric W. Biederman <ebiederm@xmission.com> wrote:
+> On Sat, 1 May 2021 at 01:44, Eric W. Biederman <ebiederm@xmission.com> wrote:
 >>
->> It turns out that linux uses si_trapno very sparingly, and as such it
->> can be considered extra information for a very narrow selection of
->> signals, rather than information that is present with every fault
->> reported in siginfo.
+>> Don't abuse si_errno and deliver all of the perf data in si_perf.
 >>
->> As such move si_trapno inside the union inside of _si_fault.  This
->> results in no change in placement, and makes it eaiser to extend
->> _si_fault in the future as this reduces the number of special cases.
->> In particular with si_trapno included in the union it is no longer a
->> concern that the union must be pointer alligned on most architectures
->> because the union followes immediately after si_addr which is a
->> pointer.
->>
->
-> Maybe add "Link:
-> https://lkml.kernel.org/r/CAK8P3a0+uKYwL1NhY6Hvtieghba2hKYGD6hcKx5n8=4Gtt+pHA@mail.gmail.com"
->
 >> Signed-off-by: "Eric W. Biederman" <ebiederm@xmission.com>
+>> ---
 >
-> Acked-by: Marco Elver <elver@google.com>
+> Thank you for the fix, this looks cleaner.
 >
-> By no longer guarding it with __ARCH_SI_TRAPNO we run the risk that it
-> will be used by something else at some point. Is that intentional?
+> Just note that this patch needs to include updates to
+> tools/testing/selftests/perf_events. This should do it:
+>>  sed -i 's/si_perf/si_perf.data/g; s/si_errno/si_perf.type/g' tools/testing/selftests/perf_events/*.c
+>
+> Subject: s/perf_data/perf data/ ?
+>
+> For uapi, need to switch to __u32, see below.
 
-The motivation was letting the code be tested on other architectures.
+Good point.
 
-But once si_trapno falls inside the union instead of being present for
-every signal reporting a fault it doesn't really matter.
+The one thing that this doesn't do is give you a 64bit field
+on 32bit architectures.
 
-I think it would be poor taste but harmless to use si_trapno, mostly
-because defining a new entry in the union could be more specific and
-well defined.
+On 32bit builds the layout is:
+
+	int si_signo;
+	int si_errno;
+	int si_code;
+	void __user *_addr;
+        
+So I believe if the first 3 fields were moved into the _sifields union
+si_perf could define a 64bit field as it's first member and it would not
+break anything else.
+
+Given that the data field is 64bit that seems desirable.
 
 Eric
+
+
+>>  fs/signalfd.c                      |  3 ++-
+>>  include/linux/compat.h             |  5 ++++-
+>>  include/uapi/asm-generic/siginfo.h |  5 ++++-
+>>  include/uapi/linux/signalfd.h      |  4 ++--
+>>  kernel/signal.c                    | 18 +++++++++++-------
+>>  5 files changed, 23 insertions(+), 12 deletions(-)
+>>
+>> diff --git a/fs/signalfd.c b/fs/signalfd.c
+>> index 83130244f653..9686af56f073 100644
+>> --- a/fs/signalfd.c
+>> +++ b/fs/signalfd.c
+>> @@ -134,7 +134,8 @@ static int signalfd_copyinfo(struct signalfd_siginfo __user *uinfo,
+>>                 break;
+>>         case SIL_FAULT_PERF_EVENT:
+>>                 new.ssi_addr = (long) kinfo->si_addr;
+>> -               new.ssi_perf = kinfo->si_perf;
+>> +               new.ssi_perf_type = kinfo->si_perf.type;
+>> +               new.ssi_perf_data = kinfo->si_perf.data;
+>>                 break;
+>>         case SIL_CHLD:
+>>                 new.ssi_pid    = kinfo->si_pid;
+>> diff --git a/include/linux/compat.h b/include/linux/compat.h
+>> index 24462ed63af4..0726f9b3a57c 100644
+>> --- a/include/linux/compat.h
+>> +++ b/include/linux/compat.h
+>> @@ -235,7 +235,10 @@ typedef struct compat_siginfo {
+>>                                         u32 _pkey;
+>>                                 } _addr_pkey;
+>>                                 /* used when si_code=TRAP_PERF */
+>> -                               compat_ulong_t _perf;
+>> +                               struct {
+>> +                                       compat_ulong_t data;
+>> +                                       u32 type;
+>> +                               } _perf;
+>>                         };
+>>                 } _sigfault;
+>>
+>> diff --git a/include/uapi/asm-generic/siginfo.h b/include/uapi/asm-generic/siginfo.h
+>> index 2abdf1d19aad..19b6310021a3 100644
+>> --- a/include/uapi/asm-generic/siginfo.h
+>> +++ b/include/uapi/asm-generic/siginfo.h
+>> @@ -90,7 +90,10 @@ union __sifields {
+>>                                 __u32 _pkey;
+>>                         } _addr_pkey;
+>>                         /* used when si_code=TRAP_PERF */
+>> -                       unsigned long _perf;
+>> +                       struct {
+>> +                               unsigned long data;
+>> +                               u32 type;
+>
+> This needs to be __u32.
+>
+>
+>> +                       } _perf;
+>>                 };
+>>         } _sigfault;
+>>
+>> diff --git a/include/uapi/linux/signalfd.h b/include/uapi/linux/signalfd.h
+>> index 7e333042c7e3..e78dddf433fc 100644
+>> --- a/include/uapi/linux/signalfd.h
+>> +++ b/include/uapi/linux/signalfd.h
+>> @@ -39,8 +39,8 @@ struct signalfd_siginfo {
+>>         __s32 ssi_syscall;
+>>         __u64 ssi_call_addr;
+>>         __u32 ssi_arch;
+>> -       __u32 __pad3;
+>> -       __u64 ssi_perf;
+>> +       __u32 ssi_perf_type;
+>> +       __u64 ssi_perf_data;
+>>
+>>         /*
+>>          * Pad strcture to 128 bytes. Remember to update the
+>> diff --git a/kernel/signal.c b/kernel/signal.c
+>> index 5b1ad7f080ab..cb3574b7319c 100644
+>> --- a/kernel/signal.c
+>> +++ b/kernel/signal.c
+>> @@ -1758,11 +1758,13 @@ int force_sig_perf(void __user *pending_addr, u32 type, u64 sig_data)
+>>         struct kernel_siginfo info;
+>>
+>>         clear_siginfo(&info);
+>> -       info.si_signo = SIGTRAP;
+>> -       info.si_errno = type;
+>> -       info.si_code  = TRAP_PERF;
+>> -       info.si_addr  = pending_addr;
+>> -       info.si_perf  = sig_data;
+>> +       info.si_signo     = SIGTRAP;
+>> +       info.si_errno     = 0;
+>> +       info.si_code      = TRAP_PERF;
+>> +       info.si_addr      = pending_addr;
+>> +       info.si_perf.data = sig_data;
+>> +       info.si_perf.type = type;
+>> +
+>>         return force_sig_info(&info);
+>>  }
+>>
+>> @@ -3379,7 +3381,8 @@ void copy_siginfo_to_external32(struct compat_siginfo *to,
+>>                 break;
+>>         case SIL_FAULT_PERF_EVENT:
+>>                 to->si_addr = ptr_to_compat(from->si_addr);
+>> -               to->si_perf = from->si_perf;
+>> +               to->si_perf.data = from->si_perf.data;
+>> +               to->si_perf.type = from->si_perf.type;
+>>                 break;
+>>         case SIL_CHLD:
+>>                 to->si_pid = from->si_pid;
+>> @@ -3455,7 +3458,8 @@ static int post_copy_siginfo_from_user32(kernel_siginfo_t *to,
+>>                 break;
+>>         case SIL_FAULT_PERF_EVENT:
+>>                 to->si_addr = compat_ptr(from->si_addr);
+>> -               to->si_perf = from->si_perf;
+>> +               to->si_perf.data = from->si_perf.data;
+>> +               to->si_perf.type = from->si_perf.type;
+>>                 break;
+>>         case SIL_CHLD:
+>>                 to->si_pid    = from->si_pid;
+>> --
+>> 2.30.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/m1czu9ng8m.fsf%40fess.ebiederm.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/m1wnshm14b.fsf%40fess.ebiederm.org.
