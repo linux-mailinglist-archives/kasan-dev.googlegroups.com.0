@@ -1,170 +1,133 @@
-Return-Path: <kasan-dev+bncBCALX3WVYQORBS5CYGCAMGQEYVX5LNA@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBT5JYGCAMGQEYNSGUNI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ot1-x33f.google.com (mail-ot1-x33f.google.com [IPv6:2607:f8b0:4864:20::33f])
-	by mail.lfdr.de (Postfix) with ESMTPS id C540737209D
-	for <lists+kasan-dev@lfdr.de>; Mon,  3 May 2021 21:38:52 +0200 (CEST)
-Received: by mail-ot1-x33f.google.com with SMTP id w10-20020a056830144ab02902a5baf885d0sf4700928otp.15
-        for <lists+kasan-dev@lfdr.de>; Mon, 03 May 2021 12:38:52 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1620070731; cv=pass;
+Received: from mail-ot1-x33b.google.com (mail-ot1-x33b.google.com [IPv6:2607:f8b0:4864:20::33b])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1EA03720FB
+	for <lists+kasan-dev@lfdr.de>; Mon,  3 May 2021 21:53:52 +0200 (CEST)
+Received: by mail-ot1-x33b.google.com with SMTP id 75-20020a9d08d10000b02902a5bd8ddf7bsf4708600otf.20
+        for <lists+kasan-dev@lfdr.de>; Mon, 03 May 2021 12:53:52 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1620071631; cv=pass;
         d=google.com; s=arc-20160816;
-        b=uaeKj42VpVeiq+K0D7XdO571bUsD+qcSpFhTpYPwBC4S4wGuW65wuNThNPUhTLboM5
-         +AYGUKKeuqvXNzyKmQsvJde+jFH55YCMvwzn7mlpzHnL5hoazzWuPLkPcIhYO62qrRib
-         PxayvuS/DlCVAxpSZ2Bfeq6o39vRfnaGhpv7FMhEgp+VJb8YapvwR1jHszGXWpRN6B7S
-         QSbeZ4B4XeqOHbKqxrVoReKGBSB4I7HJuDIsT0BwUhipTArTmblaqejKCuaRgh/QGBb4
-         nOtjf2Wvw4B4a0oTv1sANNHFDKBUkdZBnsUdERNSJ5rjg1aIy+gYiURbsTGWvhWpKw0b
-         j5SQ==
+        b=QDQMcODTT9QlxIR/ROxJYDYIZlolxLz8w6v+X1mtO2TTQFClufHY54tN6MjiVCfck0
+         2mEKBtkoXyprwsWhRpCuUsOkYfYU6Zm+PY6DqwSyahh8xYRnIjUnIxICs3YUVQ1mNWM7
+         Scu+LrmXHzr+xUv74343Pl8W3DTgsB2FI7rM1mtUxCta+0zEUeN7gmnPJcxX+SgjZgkq
+         NU79pk9Gw5LkO3BLU4j4DhsnBh9NTo5T4/QD0DNAIfF+OZcgQ73EhF6BxsLmYYtJsgEu
+         SBGk1irSYDvIVPLbVdIjjSW9Hy77KZkZBH7Wa+XMPQTI34AXJAZ7USrk2TgXZbEpEWbH
+         AT5g==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:subject:mime-version:user-agent
-         :message-id:in-reply-to:date:references:cc:to:from:sender
-         :dkim-signature;
-        bh=W5Nh0nzQM5qBKYZG5j+qoqqQT4CD6edtUi9OQXF/gxQ=;
-        b=aStPkrL9jfXt2Xoim+co9tDGRdep0GWheDovYYT1Z9Eq8f+o7gHjIkZkCR1wdzniA3
-         IMQAp+sjqnSgOlVNtMMhsJIT0anmPP1bcgRV6/o0GkE+E4TK6rHySnndeOQ+FTo4p1o4
-         cide69SYK9A5Is76k+CRFUoEabFh0epdbePRPMpYSeoBgPZ7S6kbhuRD1Pt/SrFKU3ny
-         K9TLc2VoLrx+h3BGGbLHqR9sI8NymPw/1zXYa3BzCuSycZbn2tASLzsvbly7WfpchrVC
-         Zn8fDRKURXdZ1bZD4cWWMT2duG6T9XZ1iHkN7OvJ7NweSJhcwdtOYQu1gRLB8LIJZzEI
-         wsLw==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=WH+OQ23axa6Egus6l2hkd+iDez/NCYBDi+L4UclqYBk=;
+        b=UKOzTAP2wK7rLUCMhD/s/xYJKeuRoieps6owRToV/w6nZ3jUCQ4cpn8dsj4WjfZ3hT
+         v668+RYInV7gFpeE+irJFfBz1akhR9Dd8PraD5iglWM9KIi0QP3c+i8W3jy+A7L19IRp
+         HQFAG+0JkCSZHdXagVFvQBOMqG0Jl/+o2H2+05cKOK54GZ4ygd6R5EojTUSlOiVURFMj
+         bVSy00w0BQg8NM6EhdLoPKe8cE87mvltrz4kI2yYG+i6+DgkNokIkipi3lXgK5hB4Q5u
+         MUK5BUu8OgJKI1S16ZMc/H2AuwNEn7MUvEAS6uXXWp2i2az8noOlhdLG3s01M8s5hQIj
+         7n+Q==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of ebiederm@xmission.com designates 166.70.13.231 as permitted sender) smtp.mailfrom=ebiederm@xmission.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=xmission.com
+       dkim=pass header.i=@google.com header.s=20161025 header.b=CRqyGcRJ;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::230 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:from:to:cc:references:date:in-reply-to:message-id:user-agent
-         :mime-version:subject:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=W5Nh0nzQM5qBKYZG5j+qoqqQT4CD6edtUi9OQXF/gxQ=;
-        b=eVFI6zQVrbU+Bk9kKdHlOlsK4E5iAnekKyUJM1lhzoQNA1e8eqlt/aBCm8o6ru370l
-         I3WiRlmqomgsEcjTnSbvW20DF+xpUMvTWzkm+ST30VySFSddo4fc+3yQ+RDBIbjj58dM
-         9KImzgjuh6MOo8AYHfBK2QeBHgnYVAAWrgkRluUgbv7cpmDTsiDr/ZpoUw9SKwRIZ0lL
-         X016BSLxAFy/3p71EUReLfNTprPR4iU48lUs1enVJyNXM/hNCRyHIrifN3WT80EjmkV5
-         hdfcHri0WZ4GSz9XGGI5noGLVtujpXcFh5QUjDZx0R11wHgZ9TzUf+WfrdJ0aWzdTQ+v
-         GTcw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=WH+OQ23axa6Egus6l2hkd+iDez/NCYBDi+L4UclqYBk=;
+        b=UyP6RqCBj45gLXTY3fa3Ny7Qssg4/BnBpIEo4EO3HAPupXvpgs/9p3CG5ETvDnye8w
+         zWQoR9f9Up1i4h6LIQyeQXwoudvaVQhV4kMx254LmUgqfo3cqvdzmngowj22GvpIN4mg
+         zZmYKqcYi/kZvVaQnD9Jh4nRDVx8o3CLR0l8r8e6DoFYGy2W4FWfBtgMXz4m5WOCdniG
+         BFOD/ULH/tVSZ88IS9sbIAMCverHOk4JtlgtZaxPLcWc4zH6VttyPHkxP+bGN9QtN2ue
+         8Bb/YDUoTD8+2oAN88ZGF2twBUXjKrO3k2EyZSKWkKySlSbDpP/ST5eioYeWrm6p5bSN
+         sdyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:from:to:cc:references:date:in-reply-to
-         :message-id:user-agent:mime-version:subject:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=W5Nh0nzQM5qBKYZG5j+qoqqQT4CD6edtUi9OQXF/gxQ=;
-        b=BQaeliIjud/q4r//sapJyVVJVQcZ9EYk2D4Y3nU5NgTZzqbJwUQrt8+NhrQ3VHsmgD
-         zraeNJxw4JmQJcKr2e3E1cjfqpQRTRzIGzijvtCUbsOAvfletZEgiQbc3iJdtT06YLmg
-         7rWbSjbmpFUnW2uUpAL2Mqm6UeZXSApDT2kvc5FZ12JzOVj4VCEPCgx+C3ePIvA8n2GM
-         H8Kl4+4TGII21DGvoKotk//QGAh/dxU83MIoNF3RSwUUqhLS7SvXYUe5pcinYUF3w7Rh
-         SghGRt8I4KXCg6dUhcloTstKE2gXMd4gj5dw7BgBJjdtLBN2di2IVIiawlIiu0coJ6kC
-         92Wg==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM532zPRTBGXZHFuYS/5G+ChKKLX5tGaXiaHZVDzzRTgDFDMYkymTg
-	TjjCP3CWLUvj66Kycw4+iBA=
-X-Google-Smtp-Source: ABdhPJwKAtlz9BypAfhevov+w4OAqHoVmnFspMP9s9LfWI4Cpn/NtGSsxwv51ZY2lBVm+3kkU5BfPg==
-X-Received: by 2002:a9d:5f0c:: with SMTP id f12mr15878222oti.258.1620070731765;
-        Mon, 03 May 2021 12:38:51 -0700 (PDT)
+        bh=WH+OQ23axa6Egus6l2hkd+iDez/NCYBDi+L4UclqYBk=;
+        b=j3z7Cah6oglV6ZdVkbfKGGfPlepEjSq8kWViWQT7wUYM5z7kEEGA5WaC4C9SkOpzCx
+         cVytN1BVmQEw5b++pWmpp5wIj6X8heazNR9/1E5YtV9cRYBgzSfcxu3pXKi2SMtWCglQ
+         OfOja2TSaHA3QVrqTfW3oEi+uq89dQ1kCpczwzpNxLTxmSR6y3unKOLc6Z3xOCHd+N5w
+         1zxwjV0Zmuh/G9cHYOyrpGi6sHCDBUpEC0FPF7GMFaVP/AbXPeP4P4LfuRwUzxNSgN2D
+         Ycnl7/R1NVY762BUUFPSX+Ai+VoAs4O/hmk1+3lKXxVtFy/w8QCP1I49tof8kxrULlza
+         bKHg==
+X-Gm-Message-State: AOAM532Ve+EES83wvdenb2Ms8r3Z4xvbLrMY4+eTnYXExIfRmECs8j21
+	yq2Y4RfkcfRaI8FU0+DldFE=
+X-Google-Smtp-Source: ABdhPJytN6y2eMIDtWd4pRnZMSmRp6YkQup3hkRbjom9fmV73UEQAMDTrzmbZAU5hG8HADe+H8seHw==
+X-Received: by 2002:a05:6830:14d3:: with SMTP id t19mr15298508otq.95.1620071631791;
+        Mon, 03 May 2021 12:53:51 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:aca:1e0a:: with SMTP id m10ls4106527oic.7.gmail; Mon, 03 May
- 2021 12:38:51 -0700 (PDT)
-X-Received: by 2002:aca:44d6:: with SMTP id r205mr14693378oia.172.1620070731405;
-        Mon, 03 May 2021 12:38:51 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1620070731; cv=none;
+Received: by 2002:a05:6830:605:: with SMTP id w5ls4119630oti.8.gmail; Mon, 03
+ May 2021 12:53:51 -0700 (PDT)
+X-Received: by 2002:a05:6830:210a:: with SMTP id i10mr15822484otc.302.1620071631422;
+        Mon, 03 May 2021 12:53:51 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1620071631; cv=none;
         d=google.com; s=arc-20160816;
-        b=aldg5uciRZH75NE9u9r7X2/iT7rMGZVljumu7NZUh8T55qARvIs/J2PbPr9z6jIS3N
-         pZUiQybyXLKUnKTEbIoOJxA8dAGYwAn3O7u6TghmUlG4//WHk/7LXxqG+0DBxY03ya00
-         I+UTEkX5NKKDp88mV/yYiO1lzym+5hY08xblESB6pVmPNss0YzY4LUDJXQxS97KqAShs
-         WWl2RdxJlHAWdt9XC9lH+ii3W+waTA2FZovDEVZwJqgyS3ujG+BCWBQ97FreTanC3xiE
-         uPA3QoAmHPFDSyCbJAeePX2LlRGSWwR3J9oSqxnrxBvHQTiL7kotQKhwfkHOrHR0+zry
-         bVtA==
+        b=LMm8gbT7DqSBkxZntKHdkk77o3vn6TLOcO241MGXZ3w5F3SJw20sq8OERq2R34k12K
+         d3nOSOL/hGDC1oFuouqhM7mOl61JKv83WcchpRu5NXv+G89UwKS4zYo1ynmp1QFSTzoH
+         ZR+0moYl+qCAXGJVDVMo+kLrONAkvAhLQClzn9HwANheiGmnl7yDSkYMFkwmpFpsh5Lg
+         3hbWO28u8bXI1FTEYyhcMAoPHVn5eWe2A8RfHwIGuZncoyTPCmeTJznc79NiA/GuK8Pv
+         tc3HZ6VgzdOhgHFeT6JIiDxatJUYY1AlRMKSpa3GJ3sflNvMk+t2Av1nt46CD0+MJiJZ
+         lfdA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=subject:mime-version:user-agent:message-id:in-reply-to:date
-         :references:cc:to:from;
-        bh=K0os4gEvk+P0VHIpAO4J4iIRxe2N3GnHBBVat1Be//g=;
-        b=YNULX+nDAaNQxLS9jnDcYx95DZUuZ+p5w4bUSEEAxjh3EPEGgMr+CTmmobcOeeRFcO
-         FOlTlZVI2ads67DeQ8eP0unbtiaP0WFaRLsdETbLIkgJrYvwclS5T1DrGjqH+3fsyjsC
-         cGAA2uVHNtIRpLamsVBlkikgd3UirnUW2AOqtRC5BMc1W03/FYRwhLUzW5cwnoIt8O/M
-         GEXYOYTSZo59r2gKEVOuCGJhHP8810bTAkVWONmQLpqd8y6Q71OOarVdsuHfOnIpkPpH
-         hfLmAmGonPThPGapEZxUjyksJs+NuvuyCjcOzZJ03W0ZKbvTI78ZF7U7xRDnNKEw9Qrs
-         XCww==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=sL1cfgAwusROayggatCngmy+CDfZipZ8K0S97Q3yq6Q=;
+        b=0z+qNWJTKvU1ug6QNMkKNMO6KV/m6XT8TG5GMLkNkKW16swDY4CsjIU3ZMpaUEb1ej
+         aouxjrWcP0QZZKP11U1Xxtss1UwGDc+BEmco19aUq09VBce+MAD3a4KYTOVR5/AMJiss
+         XFeuJ+bHwarZfuDvyheV/bXMpl7vWHAgDBGdOu3ip5k8XXnyFRj5jGz3cjKFMcTv1QM/
+         A+onmHsMBn/s4/Jxcydi6OpX6mODjLMMLx6X9Xe90ubivHF3nRiij9O0Z9BvxaNNi4/z
+         vqX55HH6jNonu3bxjanmOFcz7shPzvpxZG6K5EaVyP+KkU78ax1B522R0NLnATlzMXwU
+         alXw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of ebiederm@xmission.com designates 166.70.13.231 as permitted sender) smtp.mailfrom=ebiederm@xmission.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=xmission.com
-Received: from out01.mta.xmission.com (out01.mta.xmission.com. [166.70.13.231])
-        by gmr-mx.google.com with ESMTPS id f4si59692otc.2.2021.05.03.12.38.51
+       dkim=pass header.i=@google.com header.s=20161025 header.b=CRqyGcRJ;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::230 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com. [2607:f8b0:4864:20::230])
+        by gmr-mx.google.com with ESMTPS id c4si52201oto.0.2021.05.03.12.53.51
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 May 2021 12:38:51 -0700 (PDT)
-Received-SPF: pass (google.com: domain of ebiederm@xmission.com designates 166.70.13.231 as permitted sender) client-ip=166.70.13.231;
-Received: from in02.mta.xmission.com ([166.70.13.52])
-	by out01.mta.xmission.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.93)
-	(envelope-from <ebiederm@xmission.com>)
-	id 1ldeP2-00HDI3-Qv; Mon, 03 May 2021 13:38:48 -0600
-Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95] helo=fess.xmission.com)
-	by in02.mta.xmission.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.93)
-	(envelope-from <ebiederm@xmission.com>)
-	id 1ldeOx-00DxKW-Li; Mon, 03 May 2021 13:38:48 -0600
-From: ebiederm@xmission.com (Eric W. Biederman)
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: Marco Elver <elver@google.com>,  Arnd Bergmann <arnd@arndb.de>,  Florian Weimer <fweimer@redhat.com>,  "David S. Miller" <davem@davemloft.net>,  Ingo Molnar <mingo@kernel.org>,  Thomas Gleixner <tglx@linutronix.de>,  Peter Collingbourne <pcc@google.com>,  Dmitry Vyukov <dvyukov@google.com>,  Alexander Potapenko <glider@google.com>,  sparclinux <sparclinux@vger.kernel.org>,  linux-arch <linux-arch@vger.kernel.org>,  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,  Linux API <linux-api@vger.kernel.org>,  kasan-dev <kasan-dev@googlegroups.com>
-References: <YIpkvGrBFGlB5vNj@elver.google.com>
-	<m11rat9f85.fsf@fess.ebiederm.org>
-	<CAK8P3a0+uKYwL1NhY6Hvtieghba2hKYGD6hcKx5n8=4Gtt+pHA@mail.gmail.com>
-	<m15z031z0a.fsf@fess.ebiederm.org> <YIxVWkT03TqcJLY3@elver.google.com>
-	<m1zgxfs7zq.fsf_-_@fess.ebiederm.org>
-	<m11rarqqx2.fsf_-_@fess.ebiederm.org>
-	<CANpmjNNJ_MnNyD4R2+9i24E=9xPHKnwTh6zwWtBYkuAq1Xo6-w@mail.gmail.com>
-	<m1wnshm14b.fsf@fess.ebiederm.org>
-	<YI/wJSwQitisM8Xf@hirez.programming.kicks-ass.net>
-Date: Mon, 03 May 2021 14:38:39 -0500
-In-Reply-To: <YI/wJSwQitisM8Xf@hirez.programming.kicks-ass.net> (Peter
-	Zijlstra's message of "Mon, 3 May 2021 14:44:21 +0200")
-Message-ID: <m1sg33ip4w.fsf@fess.ebiederm.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 03 May 2021 12:53:51 -0700 (PDT)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::230 as permitted sender) client-ip=2607:f8b0:4864:20::230;
+Received: by mail-oi1-x230.google.com with SMTP id m13so6511811oiw.13
+        for <kasan-dev@googlegroups.com>; Mon, 03 May 2021 12:53:51 -0700 (PDT)
+X-Received: by 2002:aca:bb06:: with SMTP id l6mr14657198oif.121.1620071630990;
+ Mon, 03 May 2021 12:53:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-X-XM-SPF: eid=1ldeOx-00DxKW-Li;;;mid=<m1sg33ip4w.fsf@fess.ebiederm.org>;;;hst=in02.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
-X-XM-AID: U2FsdGVkX193P6Zs47y9HH8Pk31Hd8htHGyDNhcJWFA=
-X-SA-Exim-Connect-IP: 68.227.160.95
-X-SA-Exim-Mail-From: ebiederm@xmission.com
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on sa06.xmission.com
-X-Spam-Level: **
-X-Spam-Status: No, score=2.2 required=8.0 tests=ALL_TRUSTED,BAYES_20,
-	DCC_CHECK_NEGATIVE,T_TM2_M_HEADER_IN_MSG,T_TooManySym_01,
-	T_XMDrugObfuBody_08,XMNoVowels,XMSubLong autolearn=disabled
-	version=3.4.2
-X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-	* -0.0 BAYES_20 BODY: Bayes spam probability is 5 to 20%
-	*      [score: 0.1431]
-	*  1.5 XMNoVowels Alpha-numberic number with no vowels
-	*  0.7 XMSubLong Long Subject
-	*  0.0 T_TM2_M_HEADER_IN_MSG BODY: No description available.
-	* -0.0 DCC_CHECK_NEGATIVE Not listed in DCC
-	*      [sa06 1397; Body=1 Fuz1=1 Fuz2=1]
-	*  1.0 T_XMDrugObfuBody_08 obfuscated drug references
-	*  0.0 T_TooManySym_01 4+ unique symbols in subject
-X-Spam-DCC: XMission; sa06 1397; Body=1 Fuz1=1 Fuz2=1
-X-Spam-Combo: **;Peter Zijlstra <peterz@infradead.org>
-X-Spam-Relay-Country: 
-X-Spam-Timing: total 4529 ms - load_scoreonly_sql: 0.04 (0.0%),
-	signal_user_changed: 12 (0.3%), b_tie_ro: 10 (0.2%), parse: 1.07
-	(0.0%), extract_message_metadata: 23 (0.5%), get_uri_detail_list: 1.11
-	(0.0%), tests_pri_-1000: 9 (0.2%), tests_pri_-950: 1.95 (0.0%),
-	tests_pri_-900: 1.46 (0.0%), tests_pri_-90: 78 (1.7%), check_bayes: 76
-	(1.7%), b_tokenize: 9 (0.2%), b_tok_get_all: 8 (0.2%), b_comp_prob:
-	2.9 (0.1%), b_tok_touch_all: 52 (1.1%), b_finish: 1.48 (0.0%),
-	tests_pri_0: 319 (7.1%), check_dkim_signature: 0.92 (0.0%),
-	check_dkim_adsp: 2.4 (0.1%), poll_dns_idle: 4052 (89.5%),
-	tests_pri_10: 3.0 (0.1%), tests_pri_500: 4074 (90.0%), rewrite_mail:
-	0.00 (0.0%)
+References: <YIpkvGrBFGlB5vNj@elver.google.com> <m11rat9f85.fsf@fess.ebiederm.org>
+ <CAK8P3a0+uKYwL1NhY6Hvtieghba2hKYGD6hcKx5n8=4Gtt+pHA@mail.gmail.com>
+ <m15z031z0a.fsf@fess.ebiederm.org> <YIxVWkT03TqcJLY3@elver.google.com>
+ <m1zgxfs7zq.fsf_-_@fess.ebiederm.org> <m11rarqqx2.fsf_-_@fess.ebiederm.org>
+ <CANpmjNNJ_MnNyD4R2+9i24E=9xPHKnwTh6zwWtBYkuAq1Xo6-w@mail.gmail.com>
+ <m1wnshm14b.fsf@fess.ebiederm.org> <YI/wJSwQitisM8Xf@hirez.programming.kicks-ass.net>
+ <m1sg33ip4w.fsf@fess.ebiederm.org>
+In-Reply-To: <m1sg33ip4w.fsf@fess.ebiederm.org>
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Mon, 3 May 2021 21:53:39 +0200
+Message-ID: <CANpmjNNyvOFyEDLPKuGn-pjFTMfLCOBHOQrMocLVpdEG47Ge3A@mail.gmail.com>
 Subject: Re: [PATCH 7/3] signal: Deliver all of the perf_data in si_perf
-X-SA-Exim-Version: 4.2.1 (built Sat, 08 Feb 2020 21:53:50 +0000)
-X-SA-Exim-Scanned: Yes (on in02.mta.xmission.com)
-X-Original-Sender: ebiederm@xmission.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of ebiederm@xmission.com designates 166.70.13.231 as
- permitted sender) smtp.mailfrom=ebiederm@xmission.com;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=xmission.com
+To: "Eric W. Biederman" <ebiederm@xmission.com>
+Cc: Peter Zijlstra <peterz@infradead.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Florian Weimer <fweimer@redhat.com>, "David S. Miller" <davem@davemloft.net>, Ingo Molnar <mingo@kernel.org>, 
+	Thomas Gleixner <tglx@linutronix.de>, Peter Collingbourne <pcc@google.com>, Dmitry Vyukov <dvyukov@google.com>, 
+	Alexander Potapenko <glider@google.com>, sparclinux <sparclinux@vger.kernel.org>, 
+	linux-arch <linux-arch@vger.kernel.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux API <linux-api@vger.kernel.org>, 
+	kasan-dev <kasan-dev@googlegroups.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: elver@google.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@google.com header.s=20161025 header.b=CRqyGcRJ;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::230 as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -177,41 +140,47 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Peter Zijlstra <peterz@infradead.org> writes:
-
-> On Sun, May 02, 2021 at 01:39:16PM -0500, Eric W. Biederman wrote:
+On Mon, 3 May 2021 at 21:38, Eric W. Biederman <ebiederm@xmission.com> wrote:
+> Peter Zijlstra <peterz@infradead.org> writes:
 >
->> The one thing that this doesn't do is give you a 64bit field
->> on 32bit architectures.
->> 
->> On 32bit builds the layout is:
->> 
->> 	int si_signo;
->> 	int si_errno;
->> 	int si_code;
->> 	void __user *_addr;
->>         
->> So I believe if the first 3 fields were moved into the _sifields union
->> si_perf could define a 64bit field as it's first member and it would not
->> break anything else.
->> 
->> Given that the data field is 64bit that seems desirable.
+> > On Sun, May 02, 2021 at 01:39:16PM -0500, Eric W. Biederman wrote:
+> >
+> >> The one thing that this doesn't do is give you a 64bit field
+> >> on 32bit architectures.
+> >>
+> >> On 32bit builds the layout is:
+> >>
+> >>      int si_signo;
+> >>      int si_errno;
+> >>      int si_code;
+> >>      void __user *_addr;
+> >>
+> >> So I believe if the first 3 fields were moved into the _sifields union
+> >> si_perf could define a 64bit field as it's first member and it would not
+> >> break anything else.
+> >>
+> >> Given that the data field is 64bit that seems desirable.
+> >
+> > The data field is fundamentally an address, it is internally a u64
+> > because the perf ring buffer has u64 alignment and it saves on compat
+> > crap etc.
+> >
+> > So for the 32bit/compat case the high bits will always be 0 and
+> > truncating into an unsigned long is fine.
 >
-> The data field is fundamentally an address, it is internally a u64
-> because the perf ring buffer has u64 alignment and it saves on compat
-> crap etc.
+> I see why it is fine to truncate the data field into an unsigned long.
 >
-> So for the 32bit/compat case the high bits will always be 0 and
-> truncating into an unsigned long is fine.
+> Other than technical difficulties in extending siginfo_t is there any
+> reason not to define data as a __u64?
 
-I see why it is fine to truncate the data field into an unsigned long.
+No -- like I pointed at earlier, si_perf used to be __u64, but we
+can't because of the siginfo_t limitation. What we have now is fine,
+and not worth dwelling over given siginfo limitations.
 
-Other than technical difficulties in extending siginfo_t is there any
-reason not to define data as a __u64?
-
-Eric
+Thanks,
+-- Marco
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/m1sg33ip4w.fsf%40fess.ebiederm.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNNyvOFyEDLPKuGn-pjFTMfLCOBHOQrMocLVpdEG47Ge3A%40mail.gmail.com.
