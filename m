@@ -1,148 +1,140 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBB7VSYSCAMGQE3AWIDCQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCV4DBW44YLRB56SYWCAMGQEQI3FUHI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x23c.google.com (mail-lj1-x23c.google.com [IPv6:2a00:1450:4864:20::23c])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF76D372852
-	for <lists+kasan-dev@lfdr.de>; Tue,  4 May 2021 11:53:02 +0200 (CEST)
-Received: by mail-lj1-x23c.google.com with SMTP id v4-20020a2e96040000b02900ce9d1504b5sf3549445ljh.16
-        for <lists+kasan-dev@lfdr.de>; Tue, 04 May 2021 02:53:02 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1620121982; cv=pass;
+Received: from mail-pg1-x53b.google.com (mail-pg1-x53b.google.com [IPv6:2607:f8b0:4864:20::53b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5757E372D02
+	for <lists+kasan-dev@lfdr.de>; Tue,  4 May 2021 17:34:17 +0200 (CEST)
+Received: by mail-pg1-x53b.google.com with SMTP id m36-20020a634c640000b02901fbb60ec3a6sf5399805pgl.15
+        for <lists+kasan-dev@lfdr.de>; Tue, 04 May 2021 08:34:17 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1620142455; cv=pass;
         d=google.com; s=arc-20160816;
-        b=Qo7fw3mwtC3XuFO8SkNyCe27msNhJfx0Z4y/i7fMkxwKRz6VqgwtCTQy7avMEzypmU
-         7dF+i8fCjK5VM1KZba0xsd2IehHTGHx9IcTS7oLdocbiBBKU9LsVEVMA1BVR6hQNAJa1
-         6pGThlEippYJgKk4OFBb0iphJg6Mru2Y+Xb+N81YbufPsu5fMlfj21pHvc6gp3N+Xjn3
-         IwB16F9ocUv6wZ+SaDieObRLAwzVP1C2c5jOhHAqVkoarC1BjhQPc/9pjAZiybXovokk
-         vIGApKEV3ByiZ9UNG3Q8iH+o+LBqGdE0oXJo9dvdNH1Bi+H0UHNThbsvWYT8xMpfQXUa
-         tE1w==
+        b=WR9lYG/PFv/3BD3nOnnPSDH7mi1d1ki2+KnzTKyYBWKePtNmNtzMXi2r9j2nvXAOba
+         9DGuubyZGrKfcQA+77icqRdwKI1PTQy0Wobu6+xZeLNOcLLElkZyD9XV3gTyAIPJksHX
+         jMmx60I6aGozpgaAmaYOuxnsUyg2L51cgPw1UIkMjrw4L+na2O0k3obGmaKLEb/iOFMe
+         cQUs1CJgpBBBIvY3lpwQmpXB6Mr+CqOgQSw9eDCw2eKhNXSWTultO1eG4TQxHS/eZ5aF
+         kaa3sf+1L8qpxaKI4QSSEWyBkc4W7y7mT3DVKgK9vHWZo/ehp7fMw/jcNo1ZO7AfJC0c
+         ZsiA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:user-agent:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:dkim-signature;
-        bh=xyirRCAHSuv1y6dT1U4THXHKLOFNYIIMpSxVE9bjkJc=;
-        b=ZZA3jS28tkx7lgR8N/1NjWV/9pWrpgpzpLwdJsrdvQ9teXYHTTHVHHFTDuzh2mT9g8
-         YOOybXUA0xSu+ka+shpSErKi731iXoNnoFAjUl6cX0EZbCD2RsocabpLV9sjvN7SQQir
-         FMP+XzAFPayQrw8r42uTNoLzoxNrnC+G7bnocl719WCUO+B+3pwbsBnyy+u7MsYdiJGn
-         SLOfACM4umLBywyn44R/NWn+JFbCD9GuT5subxjllncqd3BCoeXLXtioF/u3+TMMVqTJ
-         FWDwqMrss2WNXkhdA4mEOAtQf3RjHGcSpeohpmqxSrXTq1H0FbVUo0THyCkmLyXl65F5
-         C2bQ==
+         :list-id:mailing-list:precedence:content-language:in-reply-to
+         :mime-version:user-agent:date:message-id:from:references:cc:to
+         :subject:ironport-sdr:ironport-sdr:sender:dkim-signature;
+        bh=dGxCn2uI97gVWf3b/Lf8t0XdZzTA10Rk7F9FymzA7q8=;
+        b=DKHKUe5VGCUyErRYahn3w90gXY0TT7rL9Xr4BsGHu8TBxufDd6v2V1PhbSCMG18lyD
+         2jp1yzZ2ej45mjWrcY58mAuvsznKdjuTJWBRPK3amkYAD7wad/UBZbs4Lrr2yIfdcmzU
+         UfnN4QG21wNfkLzRgAQCRcRvQVbOd2Vkj/v0LiRkKH2nTAf1NilPQy7y0V+QagYoDF2Y
+         mW/bd8Hi/Mi9vDQn0qBlQRSbrK+veVHZt+qAkQIPiIvcxKqFVC5XfowM5Odi0CMc7IAU
+         SIQkg+WOJknBwwrHIdwj5nCCDdCAkLcjv6/nFId3+LgsdL7KPmATAdfqQMkaNALWLh6X
+         3Q5Q==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=FjfNrm6c;
-       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::32f as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       spf=pass (google.com: best guess record for domain of ak@linux.intel.com designates 192.55.52.151 as permitted sender) smtp.mailfrom=ak@linux.intel.com;
+       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:list-post:list-help:list-archive:list-subscribe
-         :list-unsubscribe;
-        bh=xyirRCAHSuv1y6dT1U4THXHKLOFNYIIMpSxVE9bjkJc=;
-        b=JCGcVJqpPv4R2QTV4f06/c4HlIHkaTwohVT6nZKfBWQEHT0esra7BGY3MdMIoM5UQR
-         12DRClJPdBt8wmliENOps4SGsKE2ivHpY1zj5nV4JOrtNenZPX7crML31NW5W49Q+Ydt
-         FXbxAf5bsZ/tM7VQNrjaH0PA503gkQRSFhzjpiSLB5YsEP2/qzxFk3lwBJb3TpN0P863
-         8zpw6yEKuHt+g9eoHVfE6KJKoKAfnWVht90jkgXt8GhmlhkMN+LGB4/b4vmvMZ9ITEd7
-         PEgNb8cvPdIQdhABRMRZEcjjqKhJ4cMMjbkiNSqKHzeXdbeDiQ5BeyVUin4xhCKxJgT+
-         FNRw==
+        h=sender:ironport-sdr:ironport-sdr:subject:to:cc:references:from
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=dGxCn2uI97gVWf3b/Lf8t0XdZzTA10Rk7F9FymzA7q8=;
+        b=Uz2LtZbi9+cu6DB09W1yqmcWC/HOlvlASAvNXaUN26Rgj51MPUjna3RBuVc1ByPR46
+         9ln66NSyv5sMTZgRPdeAC9h24eH8jhXPFVXSAxcu6woRlrO7dvZxAzNtLsOZ243cCVrY
+         wxU5lO3ZUy8H5WZ6PsPuSEUxfPyVxakP9jutD8KDGoppIg6NK+quecdNQy8edzb/gOiz
+         0NyyD+/iVkwn3E5kqz4fn5HHRS8uRwm/OaSgkx48pi4YLiAV8wkjfPGHOuFJ9K4Y4mrF
+         8dz7/yEqdoVy09EP9VPHM8TdEg15dWaxjKmou4NF2GGgj76rOtpQQXSZfTczwrU7T8+N
+         VF7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent
-         :x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=xyirRCAHSuv1y6dT1U4THXHKLOFNYIIMpSxVE9bjkJc=;
-        b=VZL9mazGsz2SDUYbvbK27DTgmnYuu0VB27CZAx2RknydxOu+ypzdiPcjnjFcup6vsT
-         PGmRGg/6d3bKn5xJdLZQv9SzG6pVLsYuXFRzVB1QVcmEUCarL+tC6xMYSdyQWlLiM7Bv
-         qvFaCDzEnhIUBRM+Fm7DygA9oAW8R1BjDh3ocQEakIhl0ofdfdh012aYf7dmyMXx4Xv6
-         BLPXXEhxPoHMAEf/4XyaN0qOjDhZgVtWlEe9i3wvZQARU9fEPhFEO59d7k6zN7ND3K1h
-         O/EFx97Hgm9JRIXrU9JXqUba3d6UeuMIGougd9n5KDt5e+SPiJzNkyRykhkDLCeXpkcE
-         abvg==
-X-Gm-Message-State: AOAM531Xv/nnQYkisYuoflm+bXlPprfX1Cqcrzf78hG/s8tELn5UjW4f
-	8a/IPYjcXZT9wb/vGS9NaWc=
-X-Google-Smtp-Source: ABdhPJzCAbHkcZ0AzXakBzIds0+yXOW51U7aTi2xi+95Dyh3KUw6wzzDqYu6i0ZqlvxO0YtrKTv9bw==
-X-Received: by 2002:a05:6512:1192:: with SMTP id g18mr10764516lfr.659.1620121982313;
-        Tue, 04 May 2021 02:53:02 -0700 (PDT)
+        h=sender:x-gm-message-state:ironport-sdr:ironport-sdr:subject:to:cc
+         :references:from:message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=dGxCn2uI97gVWf3b/Lf8t0XdZzTA10Rk7F9FymzA7q8=;
+        b=LsMmdFC7h/e9qyCd2I3ld87x/5qQw5+FAwIDsD0wbrsl2YXyJp6wvoeWnuZxTFkB/K
+         +pUL++PspaY/TWXHRXamy4v+FNcLEiAm9Xf1UDkeNL0zLeWobATk2M9nkE4wcofsTElG
+         Wh5kn3Erqufc8/fTdKHE6auO7Ant5Jgp9qyhvCWoMjNxPsHDaEAwwp0E7fiFoUq6P2uu
+         uqlCQ60V1BpMXBZnMqo/y3pfbtDIn5/WuLN9rBtP9Mo40UhEcco7ZE3i82tx5mP1HeKS
+         mr8MlTzZpSqBwjohZrVfzCtpcFd3WrYbi5JC0HNl6S5/1PAMUYmJgRK7U4WuuWJxpQQ1
+         38Ig==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM533i15kWn4TRjeKD/OgwaJs81Lg/vizaEQ09DRzgcx3OBchKcWny
+	PiCzR7wMOCC5HsYqgfBbhck=
+X-Google-Smtp-Source: ABdhPJw/H77nWZqFK7iNkejmA55+DXPgnRlpGju2YPLzhOILLiAT+McU6mS/XZaxeH0tKVG2v7//tg==
+X-Received: by 2002:a17:90a:fd95:: with SMTP id cx21mr5665257pjb.137.1620142455701;
+        Tue, 04 May 2021 08:34:15 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a2e:bc14:: with SMTP id b20ls2928004ljf.10.gmail; Tue, 04
- May 2021 02:53:01 -0700 (PDT)
-X-Received: by 2002:a05:651c:33a:: with SMTP id b26mr16731120ljp.220.1620121981171;
-        Tue, 04 May 2021 02:53:01 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1620121981; cv=none;
+Received: by 2002:a05:6a00:8d0:: with SMTP id s16ls6971632pfu.3.gmail; Tue, 04
+ May 2021 08:34:15 -0700 (PDT)
+X-Received: by 2002:a05:6a00:ccc:b029:276:93c:6a1d with SMTP id b12-20020a056a000cccb0290276093c6a1dmr24213392pfv.58.1620142455170;
+        Tue, 04 May 2021 08:34:15 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1620142455; cv=none;
         d=google.com; s=arc-20160816;
-        b=YiWXldXxO0f+fl0/kcp0seyybU0lHSDxzVWzJTav01OpYgFXyrrMHTfu3P+TQKpjd6
-         Bftd/za+12cv8gMF0aOnz4kQBklTCbFt/0fcPRiGra20Yx5C+Xi1IKVBhm0jBZZwqufU
-         C8kIfINy+x/gyU4OihXZFN/TAN0+3v67TM+kw6eacHS0Jiy5/DZg2IIXAQVf6YJaI5rk
-         u/pr/EVgJ2GtJBwGxGZ7b1xr6dPeoHdTKruMU4wkBfVi5ykToVhic0HRF0E0bk+cRXQ/
-         tbiCjAjQ3mo/MRT7mMblPZgrSCNR7QpxpknTVUm0mKdc/Cthu28YJZdC/hvFcXSXH88v
-         bBxQ==
+        b=vGiH4lBTPYKzWLIx6TgUcm8WYbgDT/WMyo/MgWQBqg4l3s8/sft7TWslyX5+NH+w0R
+         gBvMb0sMjpYf9FL8bvTOwdnQTsVSBsUGcYz1MNr847h6++OUx06dbeHZx/H78iAYNDrh
+         z4SRqHBXmILvE06Ms3sSsygqb5WrwioBMc/17jcPSSyzShIbT0KZ/LQpuCKA7PASysXA
+         1NbKC8162tEJajGxRVQjJKeNCrEczbjlFCqW9RexkkpB8XWI1KmMAeEHsygPFtS8mi8X
+         pZjVSe7uOqO27Fth5x8ZzLuevm0qgkuplCfCfFY0b3fOMnl0tH3aJWSpNm6tqkOKGgSb
+         awwA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:dkim-signature;
-        bh=nbYaFoj0a2opBaBQYBBRmlSUUXl+1Qvyp4TrOePSvwA=;
-        b=E6vcujFKJSKZTFRtGC+/WrystzTwnFDeZzt3fKd3VQFceNesPYwRjOue4BHR1WNi3n
-         OT1r19d4q9g89Uz6wKAkyCM0ebFSRdHNkt0reWMaSnelqdin7X/9o2AjGXfsKVVFcVQ8
-         DTNQ6uPsXaGd0bdPO2MgF37W4WDDqMXBW0pv5999opDykPGOKCipNr1b7hqP8QAUWAjQ
-         yWXoU8GIBchC5HNxEN3zHXepfZjxHU9DzgHaJ6molx3eNVnxE5q7/JSi0D/q+n2Cg7DQ
-         8gP6GEQm0DNh3uJP+s7Gc8LM2NhM3MASTJzX5DAwdyoeOfSfteIryJ7nQJRoKn2+tcmu
-         lO7w==
+        h=content-language:content-transfer-encoding:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject
+         :ironport-sdr:ironport-sdr;
+        bh=mwRenKfGJJHfnAoX0BXRpZhEKJBEZaUP54rKTetvENA=;
+        b=Y0PMyXZY8injJncVKtRqNYzvoPk7Be0vPZaS7W0obyXWUsE7x2lSbEzz4ZHYhUZtdO
+         kU6gSSPIa1q7/a8aepL+4v6bUucLGBIf+8HfeG9zHuvT0t3RCA4K3Q/S4IBAE4iFCP3x
+         ZAmN8mtxb306klYAueKV9hcg7K5kJ4M8mcx7Cp454Ai4JsHnxoWMYrvuLCVZxc+zxmK7
+         QyoeDRpJYgDcITAZn36ystj8P4OFgJ4Dh8Ko04LUZCTrIZjdJEifjDmKdE0w6zw5tUX2
+         iejAvmlF1f0Bb/eTwqGqXVYU3Owi6uV1cK2lRtUgEXFm2f4hzNmU73WKefp53tp+VLao
+         wApA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=FjfNrm6c;
-       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::32f as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com. [2a00:1450:4864:20::32f])
-        by gmr-mx.google.com with ESMTPS id j7si174228ljc.6.2021.05.04.02.53.01
+       spf=pass (google.com: best guess record for domain of ak@linux.intel.com designates 192.55.52.151 as permitted sender) smtp.mailfrom=ak@linux.intel.com;
+       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=intel.com
+Received: from mga17.intel.com (mga17.intel.com. [192.55.52.151])
+        by gmr-mx.google.com with ESMTPS id t19si344821pjq.3.2021.05.04.08.34.15
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 May 2021 02:53:01 -0700 (PDT)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::32f as permitted sender) client-ip=2a00:1450:4864:20::32f;
-Received: by mail-wm1-x32f.google.com with SMTP id s5-20020a7bc0c50000b0290147d0c21c51so939310wmh.4
-        for <kasan-dev@googlegroups.com>; Tue, 04 May 2021 02:53:01 -0700 (PDT)
-X-Received: by 2002:a1c:b087:: with SMTP id z129mr2922551wme.67.1620121980472;
-        Tue, 04 May 2021 02:53:00 -0700 (PDT)
-Received: from elver.google.com ([2a00:79e0:15:13:fd3e:f300:5aa9:4169])
-        by smtp.gmail.com with ESMTPSA id p5sm2107257wma.45.2021.05.04.02.52.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 May 2021 02:52:59 -0700 (PDT)
-Date: Tue, 4 May 2021 11:52:54 +0200
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-To: "Eric W. Biederman" <ebiederm@xmission.com>,
-	Peter Collingbourne <pcc@google.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, Florian Weimer <fweimer@redhat.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Alexander Potapenko <glider@google.com>,
-	sparclinux <sparclinux@vger.kernel.org>,
-	linux-arch <linux-arch@vger.kernel.org>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux API <linux-api@vger.kernel.org>,
-	kasan-dev <kasan-dev@googlegroups.com>
-Subject: Re: [PATCH 10/12] signal: Redefine signinfo so 64bit fields are
- possible
-Message-ID: <YJEZdhe6JGFNYlum@elver.google.com>
-References: <m14kfjh8et.fsf_-_@fess.ebiederm.org>
- <20210503203814.25487-1-ebiederm@xmission.com>
- <20210503203814.25487-10-ebiederm@xmission.com>
- <m1o8drfs1m.fsf@fess.ebiederm.org>
- <CANpmjNNOK6Mkxkjx5nD-t-yPQ-oYtaW5Xui=hi3kpY_-Y0=2JA@mail.gmail.com>
- <m1lf8vb1w8.fsf@fess.ebiederm.org>
- <CAMn1gO7+wMzHoGtp2t3=jJxRmPAGEbhnUDFLQQ0vFXZ2NP8stg@mail.gmail.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 04 May 2021 08:34:15 -0700 (PDT)
+Received-SPF: pass (google.com: best guess record for domain of ak@linux.intel.com designates 192.55.52.151 as permitted sender) client-ip=192.55.52.151;
+IronPort-SDR: I8GEop+WdGjtQ+o+JAV3WuETQ29v13ERco+V5iB082PS7oLG89kZnTSZxwjCWJHSMgwt0qQ75A
+ rG7K0gJWXw1Q==
+X-IronPort-AV: E=McAfee;i="6200,9189,9974"; a="178218869"
+X-IronPort-AV: E=Sophos;i="5.82,272,1613462400"; 
+   d="scan'208";a="178218869"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2021 08:34:14 -0700
+IronPort-SDR: KulzZHe3YtLAXjSxtUelZ9opEwFO35+T05pzWl2uTlqinDA3g9oZjpQ2dAIs4byJZf/Ps938c7
+ Y9T5F6dxvtNA==
+X-IronPort-AV: E=Sophos;i="5.82,272,1613462400"; 
+   d="scan'208";a="463271730"
+Received: from akleen-mobl1.amr.corp.intel.com (HELO [10.209.47.237]) ([10.209.47.237])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2021 08:34:13 -0700
+Subject: Re: [PATCH] stackdepot: Use a raw spinlock in stack depot
+To: Dmitry Vyukov <dvyukov@google.com>
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+ Alexander Potapenko <glider@google.com>,
+ Andrey Konovalov <andreyknvl@gmail.com>,
+ Peter Zijlstra <peterz@infradead.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ kasan-dev <kasan-dev@googlegroups.com>
+References: <20210504024358.894950-1-ak@linux.intel.com>
+ <CACT4Y+a5g5JeLJFPJEUxPFbMLXGkYEAJkK3MBctnn7UA-iTkXA@mail.gmail.com>
+From: Andi Kleen <ak@linux.intel.com>
+Message-ID: <77634a8e-74ab-4e95-530e-c2c46db8baa7@linux.intel.com>
+Date: Tue, 4 May 2021 08:34:13 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <CAMn1gO7+wMzHoGtp2t3=jJxRmPAGEbhnUDFLQQ0vFXZ2NP8stg@mail.gmail.com>
-User-Agent: Mutt/2.0.5 (2021-01-21)
-X-Original-Sender: elver@google.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=FjfNrm6c;       spf=pass
- (google.com: domain of elver@google.com designates 2a00:1450:4864:20::32f as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+In-Reply-To: <CACT4Y+a5g5JeLJFPJEUxPFbMLXGkYEAJkK3MBctnn7UA-iTkXA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Language: en-US
+X-Original-Sender: ak@linux.intel.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: best guess record for domain of ak@linux.intel.com designates
+ 192.55.52.151 as permitted sender) smtp.mailfrom=ak@linux.intel.com;
+       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=intel.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -155,135 +147,44 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, May 03, 2021 at 09:03PM -0700, Peter Collingbourne wrote:
-> On Mon, May 3, 2021 at 8:42 PM Eric W. Biederman <ebiederm@xmission.com> wrote:
-> > Marco Elver <elver@google.com> writes:
-> > > On Mon, 3 May 2021 at 23:04, Eric W. Biederman <ebiederm@xmission.com> wrote:
-> > >> "Eric W. Beiderman" <ebiederm@xmission.com> writes:
-> > >> > From: "Eric W. Biederman" <ebiederm@xmission.com>
-> > >> >
-> > >> > The si_perf code really wants to add a u64 field.  This change enables
-> > >> > that by reorganizing the definition of siginfo_t, so that a 64bit
-> > >> > field can be added without increasing the alignment of other fields.
-> > >
-> > > If you can, it'd be good to have an explanation for this, because it's
-> > > not at all obvious -- some future archeologist will wonder how we ever
-> > > came up with this definition of siginfo...
-> > >
-> > > (I see the trick here is that before the union would have changed
-> > > alignment, introducing padding after the 3 ints -- but now because the
-> > > 3 ints are inside the union the union's padding no longer adds padding
-> > > for these ints.  Perhaps you can explain it better than I can. Also
-> > > see below.)
-> >
-> > Yes.  The big idea is adding a 64bit field into the second union
-> > in the _sigfault case will increase the alignment of that second
-> > union to 64bit.
-> >
-> > In the 64bit case the alignment is already 64bit so it is not an
-> > issue.
-> >
-> > In the 32bit case there are 3 ints followed by a pointer.  When the
-> > 64bit member is added the alignment of _segfault becomes 64bit.  That
-> > 64bit alignment after 3 ints changes the location of the 32bit pointer.
-> >
-> > By moving the 3 preceding ints into _segfault that does not happen.
-> >
-> >
-> >
-> > There remains one very subtle issue that I think isn't a problem
-> > but I would appreciate someone else double checking me.
-> >
-> >
-> > The old definition of siginfo_t on 32bit almost certainly had 32bit
-> > alignment.  With the addition of a 64bit member siginfo_t gains 64bit
-> > alignment.  This difference only matters if the 64bit field is accessed.
-> > Accessing a 64bit field with 32bit alignment will cause unaligned access
-> > exceptions on some (most?) architectures.
-> >
-> > For the 64bit field to be accessed the code needs to be recompiled with
-> > the new headers.  Which implies that when everything is recompiled
-> > siginfo_t will become 64bit aligned.
-> >
-> >
-> > So the change should be safe unless someone is casting something with
-> > 32bit alignment into siginfo_t.
-> 
-> How about if someone has a field of type siginfo_t as an element of a
-> struct? For example:
-> 
-> struct foo {
->   int x;
->   siginfo_t y;
-> };
-> 
-> With this change wouldn't the y field move from offset 4 to offset 8?
 
-This is a problem if such a struct is part of the ABI -- in the kernel I
-found these that might be problematic:
+> So why is this a false positive that we just need to silence?
+> I see LOCKDEP is saying we are doing something wrong, and your
+> description just describes how we are doing something wrong :)
+> If this is a special false positive case, it would be good to have a
+> comment on DEFINE_RAW_SPINLOCK explaining why we are using it.
+>
+> I wonder why we never saw this on syzbot. Is it an RT kernel or some
+> other special config?
 
-| arch/csky/kernel/signal.c:struct rt_sigframe {
-| arch/csky/kernel/signal.c-	/*
-| arch/csky/kernel/signal.c-	 * pad[3] is compatible with the same struct defined in
-| arch/csky/kernel/signal.c-	 * gcc/libgcc/config/csky/linux-unwind.h
-| arch/csky/kernel/signal.c-	 */
-| arch/csky/kernel/signal.c-	int pad[3];
-| arch/csky/kernel/signal.c-	struct siginfo info;
-| arch/csky/kernel/signal.c-	struct ucontext uc;
-| arch/csky/kernel/signal.c-};
-| [...]
-| arch/parisc/include/asm/rt_sigframe.h-#define SIGRETURN_TRAMP 4
-| arch/parisc/include/asm/rt_sigframe.h-#define SIGRESTARTBLOCK_TRAMP 5 
-| arch/parisc/include/asm/rt_sigframe.h-#define TRAMP_SIZE (SIGRETURN_TRAMP + SIGRESTARTBLOCK_TRAMP)
-| arch/parisc/include/asm/rt_sigframe.h-
-| arch/parisc/include/asm/rt_sigframe.h:struct rt_sigframe {
-| arch/parisc/include/asm/rt_sigframe.h-	/* XXX: Must match trampoline size in arch/parisc/kernel/signal.c 
-| arch/parisc/include/asm/rt_sigframe.h-	        Secondary to that it must protect the ERESTART_RESTARTBLOCK
-| arch/parisc/include/asm/rt_sigframe.h-		trampoline we left on the stack (we were bad and didn't 
-| arch/parisc/include/asm/rt_sigframe.h-		change sp so we could run really fast.) */
-| arch/parisc/include/asm/rt_sigframe.h-	unsigned int tramp[TRAMP_SIZE];
-| arch/parisc/include/asm/rt_sigframe.h-	struct siginfo info;
-| [..]
-| arch/parisc/kernel/signal32.h-#define COMPAT_SIGRETURN_TRAMP 4
-| arch/parisc/kernel/signal32.h-#define COMPAT_SIGRESTARTBLOCK_TRAMP 5
-| arch/parisc/kernel/signal32.h-#define COMPAT_TRAMP_SIZE (COMPAT_SIGRETURN_TRAMP + \
-| arch/parisc/kernel/signal32.h-				COMPAT_SIGRESTARTBLOCK_TRAMP)
-| arch/parisc/kernel/signal32.h-
-| arch/parisc/kernel/signal32.h:struct compat_rt_sigframe {
-| arch/parisc/kernel/signal32.h-        /* XXX: Must match trampoline size in arch/parisc/kernel/signal.c
-| arch/parisc/kernel/signal32.h-                Secondary to that it must protect the ERESTART_RESTARTBLOCK
-| arch/parisc/kernel/signal32.h-                trampoline we left on the stack (we were bad and didn't
-| arch/parisc/kernel/signal32.h-                change sp so we could run really fast.) */
-| arch/parisc/kernel/signal32.h-        compat_uint_t tramp[COMPAT_TRAMP_SIZE];
-| arch/parisc/kernel/signal32.h-        compat_siginfo_t info;
+This happened in a special configuration that triggered ACPI errors at 
+boot time.
 
-Adding these static asserts to parisc shows the problem:
+It's probably not something that is normally executed, as well as syzbot is
 
-| diff --git a/arch/parisc/kernel/signal.c b/arch/parisc/kernel/signal.c
-| index fb1e94a3982b..0be582fb81be 100644
-| --- a/arch/parisc/kernel/signal.c
-| +++ b/arch/parisc/kernel/signal.c
-| @@ -610,3 +610,6 @@ void do_notify_resume(struct pt_regs *regs, long in_syscall)
-|  	if (test_thread_flag(TIF_NOTIFY_RESUME))
-|  		tracehook_notify_resume(regs);
-|  }
-| +
-| +static_assert(sizeof(unsigned long) == 4); // 32 bit build
-| +static_assert(offsetof(struct rt_sigframe, info) == 9 * 4);
+probably not exercising bootup anyways.
 
-This passes without the siginfo rework in this patch. With it:
+> A similar issue was discussed recently for RT kernel:
+> https://groups.google.com/g/kasan-dev/c/MyHh8ov-ciU/m/nahiuqFLAQAJ
+> And I think it may be fixable in the same way -- make stackdepot not
+> allocate in contexts where it's not OK to allocate.
 
-| ./include/linux/build_bug.h:78:41: error: static assertion failed: "offsetof(struct rt_sigframe, info) == 9 * 4"
 
-As sad as it is, I don't think we can have our cake and eat it, too. :-(
+Yes that's a good idea. I've seen also other errors about the allocator 
+triggered
 
-Unless you see why this is fine, I think we need to drop this patch and
-go back to the simpler version you had.
+by stack depot being in the wrong context. Probably doing that would be 
+the right
 
-Thanks,
--- Marco
+fix. But I actually tried to switch depot to GFP_ATOMIC allocations 
+(from GFP_NOWAIT),
+
+but it didn't help, so I'm not fully sure what needs to be changed.
+
+-Andi
+
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YJEZdhe6JGFNYlum%40elver.google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/77634a8e-74ab-4e95-530e-c2c46db8baa7%40linux.intel.com.
