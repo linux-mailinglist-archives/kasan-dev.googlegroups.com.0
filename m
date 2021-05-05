@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBB65KZOCAMGQESNIUYBQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBB6NKZOCAMGQEWJBMGJI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qk1-x73f.google.com (mail-qk1-x73f.google.com [IPv6:2607:f8b0:4864:20::73f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64E6F37437A
-	for <lists+kasan-dev@lfdr.de>; Wed,  5 May 2021 19:27:24 +0200 (CEST)
-Received: by mail-qk1-x73f.google.com with SMTP id d201-20020ae9efd20000b02902e9e9d8d9dcsf1644772qkg.10
-        for <lists+kasan-dev@lfdr.de>; Wed, 05 May 2021 10:27:24 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1620235643; cv=pass;
+Received: from mail-il1-x137.google.com (mail-il1-x137.google.com [IPv6:2607:f8b0:4864:20::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CB0B374379
+	for <lists+kasan-dev@lfdr.de>; Wed,  5 May 2021 19:27:22 +0200 (CEST)
+Received: by mail-il1-x137.google.com with SMTP id f12-20020a056e0204ccb02901613aa15edfsf2175231ils.5
+        for <lists+kasan-dev@lfdr.de>; Wed, 05 May 2021 10:27:22 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1620235641; cv=pass;
         d=google.com; s=arc-20160816;
-        b=j2urqeiRw0VJUAwFmaa0noT7FwLgC+dsuoaKv1g+d9AwGBkknWHLEzP2JHQrz+gP67
-         UmvenIAC7UIIovz8sfoR3dYoJhMlz2ITHG7d4ma/tjIkhT2nVKxL3O8V6kDOL4C1da2M
-         AyXV5lrVKdv74d97j3ctUbEL5Xf2SmQh53r9r6JHJZQn20MFCVohGGYA5g8jZq6KEMu2
-         7Wi7lYcP4MIopwzP6BpCM948png+YILvgg+cQdRrRU2d8PFDRMIibtVcUbzk9kIwwR2v
-         bM8VscimZyFR0mtrnMLBgrtPANYnxw+wMKTZVxgUcEAMwcN32CAidQtAUr85QqNXXKMa
-         ITGQ==
+        b=skGrW+sdOhtbbyLePaN2ioOifnbyseVMAhzQvR/qaBsq8N0bKalro7KQ3D9pCh2izX
+         lDz3zkjIx1Z2bVJKudCaoOc/7jtnQFJTWP27Ee6iwmUMOyPMaZDxNpM8ofm89wIrjakh
+         JZy8EviSeMvRdNVI6gGQfgQVs/o2dmpG3Cmjxl55iohFSi8rcdWwIAsCDAlIdX4w/dVD
+         omVisWyKCity8AQ+vJhBMRGXkPTLYfY5asuZ0RnPZkZuWfAPWIl4fXrQx7ZZfbmQYEsG
+         cdYMg7kwjnmebHQ5Aa0Yca4qTS5F1DxGQXilOYSsMmagtSBfUzGoS8rvZ4BPyxsJwCxb
+         hFDA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=xhb4bGpYyd1+mniaNIqkQxi3BNyUHGUzeja9aaPmAM4=;
-        b=DPK9bkilUVeaJEEGjjPb5cO9LTg2daxGo7WpdoGLnErzzVgn3F9S4xwGmXw1mmDgQI
-         E7ed4aO/0449I/V8FPzq+zlwKcIhP+2ctU/aw5HHnkThXIFBLfsJO+C07PZmo5LGE4HY
-         LX6YjVu5F7vqAQTj3+gCZwYdL+GTm2YK+8qSCkpN2lhI95CFveFn57z2BU/tuu3zKZjS
-         xbp/QQ+wHoqYFkuLWoVIWtJXFyJXgXsWSzbQ96moQclyhyp+E6RE+Yq56wraQAXyU0tu
-         BYIm9XiEz1/aWDgM9FgD+LJbjnpn01j1d1O91OJSmED7RKCNlE5gpxonyrxo01SLwXSH
-         ga4A==
+        bh=MA+pku89KqkOLEhs0b8bbXz22Z7zyxlb4GiqIIcQVmM=;
+        b=gbRorhEZdTlwfkOESJ1WVAWBhuuHOOQIQOj5AbRm4Y/twmWkiqEWLEeQjekcVAZIkt
+         3OrXfU6DV3C+XA1B1KRQlDGusN7hUsO7htQx7p7+YA6MNxBqoFMX/A7NdnWCA2JeE+Ig
+         go6tcu3oDfl4s8gMYonCPeeQGWBdqxLAN0BEZ5hS+y9jqxekSjA9EvLVmTBGZl+UWeeV
+         +tm6VTSE8xGRJg6QUslr4RTNmm0zs4U6sXpjEmN1J6LYOtdtgvl2PUcAOmT1WOWAssYG
+         Y6Mql7xc6Jbq59bxZ9G398vyPAq0/WL34ckh0OXug2kAgWk1Vt5fDExKDuKMQ0eqETJ2
+         NG2Q==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b="EcCh/rMi";
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::329 as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=Esk6Xw2g;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::333 as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=xhb4bGpYyd1+mniaNIqkQxi3BNyUHGUzeja9aaPmAM4=;
-        b=dTEOZiMm/9ej2sjUnfIVXk/y8qAbLpEkp2LjC2XeyyitdZjAyocLHk16e3elfQkZe+
-         uRWjqIARCjC3nZXbi2qVxX38uapFbUVIcZh/DPmIeNmBezxNQxjGUz38KqGcqQmx9eh3
-         cz9/ZFpu2xyroGtmjGsSDRb85rsN2EznAtdE5Fw+mrjGk5M45n/WXAOD1qKC042M0pf6
-         1+oTaYzYqBEAncBsQ+FOYhvV3hJxOdTCndBc4hRzxJtsBfpbYKeqWyqzzfTbt7omS0e0
-         cALum5tMST7jKNLc2hKntIBmlY7GULCXr/Tr1+kr7LyGUB1hRPDGCMWQWoXl3MtK5A3D
-         0n0A==
+        bh=MA+pku89KqkOLEhs0b8bbXz22Z7zyxlb4GiqIIcQVmM=;
+        b=sIs1ofxrz4Zi2OwTVq3Q639pixP8VP+KIva/r2AlqcO5r9CsBB86lcI9suoyUTOP64
+         SLoI5daFywY6iMnmFsDtL0cpHtUG3euaCIhcqZHT7vEl9jyjMkH2DOfIE1ngNaGzZ/dw
+         h8Gdb+5y/3dRHDnpGvxgYoKxlb5xVeRO/WHB9t78KGuVkmjYoWcMyXLuU7BqpM7/trOw
+         9pfVqyMP/uKEHqTbBGp335bQzJNXtYTN6ErUVms0TDcJBokrYccb2LgMRmfiH/LDlj0k
+         KELaVBJIcT3cNig/OJoCWyirqcEVQMlJYR0BM/plv9Jt/bYil7vOfubFP57g2kcpH61Q
+         zU5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
@@ -49,64 +49,63 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=xhb4bGpYyd1+mniaNIqkQxi3BNyUHGUzeja9aaPmAM4=;
-        b=Cem3iFBOMkB5K+zoHnes0zDztaorsWbJWbWjLJSPDpGs3KLgsdHKpHNNh3Sbh6GPyw
-         W/SVK1QoEN0H4Hz1G+5dG6YSgT1zslc3ZbdcWLDH/xZGz6sh5s/4cZIiLjch2qjLSMno
-         udYBh6trldeEj7t6wZg7YzpPN+witIEqVh8YNbnk4AXWcoxeK8QiQKS2kkH/pnX3/2E1
-         9j4qQ/EtqsD9GeNrPMju6dkZBy+rEwc9AEKOxXE1YiBvcoss9K3B//poGWV5hkNp/xaz
-         ho+LCGky1NG5jBsXDx3x4wIZ1puyoRiGGS0NSmwZmQ3Dwsa3N/USXpT5JsTVmqpmQ/SM
-         37qQ==
-X-Gm-Message-State: AOAM531BnzGHw5vDb6sU6JbcfMOWRRuCtd8DHGtBTTWdJCWEjuxTLrtF
-	rx03Xw/pyFo6BH1SertKp94=
-X-Google-Smtp-Source: ABdhPJxXoIpdPtxs+Qe6oLqXao5D8ljzt1z5AixuK5dRywNNHGV9tlvnRtwOA6fDqSDWyrjfopXFbg==
-X-Received: by 2002:a05:620a:1344:: with SMTP id c4mr7583707qkl.489.1620235643550;
-        Wed, 05 May 2021 10:27:23 -0700 (PDT)
+        bh=MA+pku89KqkOLEhs0b8bbXz22Z7zyxlb4GiqIIcQVmM=;
+        b=k8ksLRAcr92dRUvbS58KcriAthJUigbZ2KPacJRcIy/iqo+boAL0cnpmxOoEm7ElN0
+         rzgF4UBbxOLNT7flbHPn4fz2sB1JVn70w5GFV5XEJwo49HenRKzxWhOVjw6k8rDpM4MC
+         Y4T39OGB7AAqWQFZ9sXMeiLynu4fRTHMIvV3ZbJucUi6xwNPkolz0K0Y7BjSTb7qix5q
+         uWotkOqz8nDHP/RfgDLXWHRZLgLlGxelukp1Rg8rS6c7hjCqPyuUAkSns/r2ZcAlwgBC
+         QL25BRzHtGVufkcfF89Vn/fI4fjgbY1ZpE2aD1KgLssmphm69G6cI1VhIfKuGmJ21l1R
+         rz7w==
+X-Gm-Message-State: AOAM5329OMssar6xlcEsb22sFa/0ruaFe8kfm7qQ6lCzwvDae0nW6GUy
+	9sysJ0NMX8EFBAUoY2jTuCI=
+X-Google-Smtp-Source: ABdhPJxX+YyR87TYbvt1n6y0CoNJMvQGsDnf4SfDMxHWdtvo0fnywYTQndF8h2z1bUq1tJakdkRYcA==
+X-Received: by 2002:a05:6638:1650:: with SMTP id a16mr29456359jat.23.1620235641625;
+        Wed, 05 May 2021 10:27:21 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ad4:4d44:: with SMTP id m4ls5073190qvm.1.gmail; Wed, 05 May
- 2021 10:27:23 -0700 (PDT)
-X-Received: by 2002:ad4:4441:: with SMTP id l1mr6638qvt.1.1620235643075;
-        Wed, 05 May 2021 10:27:23 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1620235643; cv=none;
+Received: by 2002:a02:7083:: with SMTP id f125ls1469681jac.7.gmail; Wed, 05
+ May 2021 10:27:21 -0700 (PDT)
+X-Received: by 2002:a02:ce9a:: with SMTP id y26mr19763481jaq.8.1620235641103;
+        Wed, 05 May 2021 10:27:21 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1620235641; cv=none;
         d=google.com; s=arc-20160816;
-        b=a3uczBtT+TIghlwDcZHKs74OAz0xhXKQAGpn1dscB3A46LBbYlN77TYw5wj9SFFGys
-         uiTsJrQNAwtJMrMi2XECkJC1ABwHXYvNESgE+DB+t4DiszxsiIBelgdHkzphEtkez4vh
-         TrzM6Limi8iqnFUYLTTM+sFgi0K56y8GwXxdyZv97nz7S4ChM5iLw0I6i54TMjZS9hZd
-         70VI0Gh26mnTOpK5eFL79PA7H1tewg7NHJxIum5xrdpKq+VdoNSQAO0EdFVub2sv0pft
-         6yFHhJlU8u+hbTKx46faunPe5O+nncz7EkWndnreKGLK2U7aT8bhFi0RN7vnq6qzM8D0
-         qsew==
+        b=uWfj1uI9ioQvphO/p99Pb7PXeAG1TvpY7NnNRd0BGRDK60EEhsmx8EQ7/Aa8TdaBlH
+         NdPnQZN8C21QZ58/APFau7JTQ8t53A3yXo2PB6yVe7VE8a6nSIa75AOmef0+mBqLCDiZ
+         lfDsmbr6FA/9S4ec6jpTdI+KM++u3SnPyEezU3yogqQZ1ZzRgTO2ZvNBx07RTfxcKTbU
+         5QxQ7Frwq3LWGDJVhvr1WojQ2vCmzkV6ZaPSMWUWiCsi+v5q/YPhmJQlBJeUY/BdfF9V
+         fhqyrFzYjlma4+zr5hx7OyY4rQXcE2If5eOOGXIF5V6ILGMLaW9WxTZvfO4hahJ0DtIK
+         tMTA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=M03sKOxWmfO4zIIvVJvRTj0HkcVDUTsP1sbeJa/EAZM=;
-        b=PZIM5xQuq3UHoIpvPgRaM8hP8KwEOnmAQ4ndBmdJRuPpChjRSuyzo4d1qOvYZjOFmw
-         pEnVCAgcU9JMQ9cEB3NE9HpJLTlvenbMYiQtOEJaouLjVUPZLoeHdk+GRd33q1Fd7mxm
-         Gmy7csFsBxImVhjx1yDwf2WgpTEq+7kXEXC0RgVNpMkT8+nZsZuLPlkQxjTcnN2Hs7LK
-         F/CvlGqG5+HibOgnzhPQM3sBS8mTOZZoCQIO6NGzuqup4LDKJYgocz+P7qhvnn20FehJ
-         HlwfcqCZ7X2MP5ZidM1q8mUJF4ifiFk+UmROj7SvtdMXe+IQqW8dbmLu8KSLnzwRDzuB
-         Wqqw==
+        bh=7JIG5LLXWdpg9zojMMRRLnT8KwKVn0+Fa9SXUYjSITY=;
+        b=XCkTHsZI42It8i78QfzLWlxJjRx8nOujQSHemlehmWKmKPwvGmxawnInIZs/6Iaq1G
+         4EI2Kqsvay5TH3QKk6Lk6UZnu3Y+SOVY8aC8cP62xLEzq3TibRkDqTEYTcG5URiOOUh4
+         I8O3w9ceGwc/m+zo3Yl+VW/cebfHW9Dxln8SwmkercQKw3lIDch1YXzSNOV9o9PghUTA
+         dLZaFeXxc5TeY2wWgkTBlHHgIxPyU7TaULDsE7L7EKFXUqPoPTobpy0lbuv8zeSbFH/s
+         nZSq47liTeCxp1xqYhheuTJL7EScMCyhcP+sIiFMjIrZRpqTl1m3satI6p7l8QIPGSuo
+         1K6w==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b="EcCh/rMi";
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::329 as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=Esk6Xw2g;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::333 as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com. [2607:f8b0:4864:20::329])
-        by gmr-mx.google.com with ESMTPS id c26si6629qtq.1.2021.05.05.10.27.23
+Received: from mail-ot1-x333.google.com (mail-ot1-x333.google.com. [2607:f8b0:4864:20::333])
+        by gmr-mx.google.com with ESMTPS id s14si658939ilu.3.2021.05.05.10.27.21
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 05 May 2021 10:27:23 -0700 (PDT)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::329 as permitted sender) client-ip=2607:f8b0:4864:20::329;
-Received: by mail-ot1-x329.google.com with SMTP id q7-20020a9d57870000b02902a5c2bd8c17so2399160oth.5
-        for <kasan-dev@googlegroups.com>; Wed, 05 May 2021 10:27:23 -0700 (PDT)
-X-Received: by 2002:a05:6830:410e:: with SMTP id w14mr23870964ott.251.1620235642416;
- Wed, 05 May 2021 10:27:22 -0700 (PDT)
+        Wed, 05 May 2021 10:27:21 -0700 (PDT)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::333 as permitted sender) client-ip=2607:f8b0:4864:20::333;
+Received: by mail-ot1-x333.google.com with SMTP id g4-20020a9d6b040000b029029debbbb3ecso2380095otp.7
+        for <kasan-dev@googlegroups.com>; Wed, 05 May 2021 10:27:21 -0700 (PDT)
+X-Received: by 2002:a9d:1ea9:: with SMTP id n38mr25558136otn.233.1620235640677;
+ Wed, 05 May 2021 10:27:20 -0700 (PDT)
 MIME-Version: 1.0
 References: <m1tuni8ano.fsf_-_@fess.ebiederm.org> <20210505141101.11519-1-ebiederm@xmission.com>
- <20210505141101.11519-9-ebiederm@xmission.com>
-In-Reply-To: <20210505141101.11519-9-ebiederm@xmission.com>
+ <20210505141101.11519-10-ebiederm@xmission.com>
+In-Reply-To: <20210505141101.11519-10-ebiederm@xmission.com>
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
 Date: Wed, 5 May 2021 19:26:00 +0200
-Message-ID: <CANpmjNPmPWymJ9ZsQWys9wC3okt5M5fj7edp7ejk8RpTTMsxew@mail.gmail.com>
-Subject: Re: [PATCH v3 09/12] signal: Rename SIL_PERF_EVENT
- SIL_FAULT_PERF_EVENT for consistency
+Message-ID: <CANpmjNPS_mCs3_5boGrVwnUmC4szG8dudvPqjAMcrM7JSYWvLw@mail.gmail.com>
+Subject: Re: [PATCH v3 10/12] signal: Factor force_sig_perf out of perf_sigtrap
 To: "Eric W. Beiderman" <ebiederm@xmission.com>
 Cc: Arnd Bergmann <arnd@arndb.de>, Florian Weimer <fweimer@redhat.com>, 
 	"David S. Miller" <davem@davemloft.net>, Peter Zijlstra <peterz@infradead.org>, 
@@ -119,8 +118,8 @@ Cc: Arnd Bergmann <arnd@arndb.de>, Florian Weimer <fweimer@redhat.com>,
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b="EcCh/rMi";       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::329 as
+ header.i=@google.com header.s=20161025 header.b=Esk6Xw2g;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::333 as
  permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
  sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Marco Elver <elver@google.com>
@@ -140,107 +139,90 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 On Wed, 5 May 2021 at 16:11, Eric W. Beiderman <ebiederm@xmission.com> wrote:
 > From: "Eric W. Biederman" <ebiederm@xmission.com>
 >
-> It helps to know which part of the siginfo structure the siginfo_layout
-> value is talking about.
+> Separate generating the signal from deciding it needs to be sent.
 >
-> v1: https://lkml.kernel.org/r/m18s4zs7nu.fsf_-_@fess.ebiederm.org
-> Acked-by: Marco Elver <elver@google.com>
-> Signed-off-by: Eric W. Biederman <ebiederm@xmission.com>
+> v1: https://lkml.kernel.org/r/m17dkjqqxz.fsf_-_@fess.ebiederm.org
+> Signed-off-by: "Eric W. Biederman" <ebiederm@xmission.com>
 
 Reviewed-by: Marco Elver <elver@google.com>
 
 
-
 > ---
->  fs/signalfd.c          |  2 +-
->  include/linux/signal.h |  2 +-
->  kernel/signal.c        | 10 +++++-----
->  3 files changed, 7 insertions(+), 7 deletions(-)
+>  include/linux/sched/signal.h |  1 +
+>  kernel/events/core.c         | 11 ++---------
+>  kernel/signal.c              | 13 +++++++++++++
+>  3 files changed, 16 insertions(+), 9 deletions(-)
 >
-> diff --git a/fs/signalfd.c b/fs/signalfd.c
-> index e87e59581653..83130244f653 100644
-> --- a/fs/signalfd.c
-> +++ b/fs/signalfd.c
-> @@ -132,7 +132,7 @@ static int signalfd_copyinfo(struct signalfd_siginfo __user *uinfo,
->                 new.ssi_addr = (long) kinfo->si_addr;
->                 new.ssi_addr_lsb = (short) kinfo->si_addr_lsb;
->                 break;
-> -       case SIL_PERF_EVENT:
-> +       case SIL_FAULT_PERF_EVENT:
->                 new.ssi_addr = (long) kinfo->si_addr;
->                 new.ssi_perf = kinfo->si_perf;
->                 break;
-> diff --git a/include/linux/signal.h b/include/linux/signal.h
-> index 5160fd45e5ca..ed896d790e46 100644
-> --- a/include/linux/signal.h
-> +++ b/include/linux/signal.h
-> @@ -44,7 +44,7 @@ enum siginfo_layout {
->         SIL_FAULT_MCEERR,
->         SIL_FAULT_BNDERR,
->         SIL_FAULT_PKUERR,
-> -       SIL_PERF_EVENT,
-> +       SIL_FAULT_PERF_EVENT,
->         SIL_CHLD,
->         SIL_RT,
->         SIL_SYS,
+> diff --git a/include/linux/sched/signal.h b/include/linux/sched/signal.h
+> index 7daa425f3055..1e2f61a1a512 100644
+> --- a/include/linux/sched/signal.h
+> +++ b/include/linux/sched/signal.h
+> @@ -318,6 +318,7 @@ int send_sig_mceerr(int code, void __user *, short, struct task_struct *);
+>
+>  int force_sig_bnderr(void __user *addr, void __user *lower, void __user *upper);
+>  int force_sig_pkuerr(void __user *addr, u32 pkey);
+> +int force_sig_perf(void __user *addr, u32 type, u64 sig_data);
+>
+>  int force_sig_fault_trapno(int sig, int code, void __user *addr, int trapno);
+>  int send_sig_fault_trapno(int sig, int code, void __user *addr, int trapno,
+> diff --git a/kernel/events/core.c b/kernel/events/core.c
+> index 928b166d888e..48ea8863183b 100644
+> --- a/kernel/events/core.c
+> +++ b/kernel/events/core.c
+> @@ -6394,8 +6394,6 @@ void perf_event_wakeup(struct perf_event *event)
+>
+>  static void perf_sigtrap(struct perf_event *event)
+>  {
+> -       struct kernel_siginfo info;
+> -
+>         /*
+>          * We'd expect this to only occur if the irq_work is delayed and either
+>          * ctx->task or current has changed in the meantime. This can be the
+> @@ -6410,13 +6408,8 @@ static void perf_sigtrap(struct perf_event *event)
+>         if (current->flags & PF_EXITING)
+>                 return;
+>
+> -       clear_siginfo(&info);
+> -       info.si_signo = SIGTRAP;
+> -       info.si_code = TRAP_PERF;
+> -       info.si_errno = event->attr.type;
+> -       info.si_perf = event->attr.sig_data;
+> -       info.si_addr = (void __user *)event->pending_addr;
+> -       force_sig_info(&info);
+> +       force_sig_perf((void __user *)event->pending_addr,
+> +                      event->attr.type, event->attr.sig_data);
+>  }
+>
+>  static void perf_pending_event_disable(struct perf_event *event)
 > diff --git a/kernel/signal.c b/kernel/signal.c
-> index 7eaa8d84db4c..697c5fe58db8 100644
+> index 697c5fe58db8..49560ceac048 100644
 > --- a/kernel/signal.c
 > +++ b/kernel/signal.c
-> @@ -1198,7 +1198,7 @@ static inline bool has_si_pid_and_uid(struct kernel_siginfo *info)
->         case SIL_FAULT_MCEERR:
->         case SIL_FAULT_BNDERR:
->         case SIL_FAULT_PKUERR:
-> -       case SIL_PERF_EVENT:
-> +       case SIL_FAULT_PERF_EVENT:
->         case SIL_SYS:
->                 ret = false;
->                 break;
-> @@ -2553,7 +2553,7 @@ static void hide_si_addr_tag_bits(struct ksignal *ksig)
->         case SIL_FAULT_MCEERR:
->         case SIL_FAULT_BNDERR:
->         case SIL_FAULT_PKUERR:
-> -       case SIL_PERF_EVENT:
-> +       case SIL_FAULT_PERF_EVENT:
->                 ksig->info.si_addr = arch_untagged_si_addr(
->                         ksig->info.si_addr, ksig->sig, ksig->info.si_code);
->                 break;
-> @@ -3243,7 +3243,7 @@ enum siginfo_layout siginfo_layout(unsigned sig, int si_code)
->                                 layout = SIL_FAULT_PKUERR;
+> @@ -1753,6 +1753,19 @@ int force_sig_pkuerr(void __user *addr, u32 pkey)
+>  }
 >  #endif
->                         else if ((sig == SIGTRAP) && (si_code == TRAP_PERF))
-> -                               layout = SIL_PERF_EVENT;
-> +                               layout = SIL_FAULT_PERF_EVENT;
->                 }
->                 else if (si_code <= NSIGPOLL)
->                         layout = SIL_POLL;
-> @@ -3365,7 +3365,7 @@ void copy_siginfo_to_external32(struct compat_siginfo *to,
->                 to->si_addr = ptr_to_compat(from->si_addr);
->                 to->si_pkey = from->si_pkey;
->                 break;
-> -       case SIL_PERF_EVENT:
-> +       case SIL_FAULT_PERF_EVENT:
->                 to->si_addr = ptr_to_compat(from->si_addr);
->                 to->si_perf = from->si_perf;
->                 break;
-> @@ -3441,7 +3441,7 @@ static int post_copy_siginfo_from_user32(kernel_siginfo_t *to,
->                 to->si_addr = compat_ptr(from->si_addr);
->                 to->si_pkey = from->si_pkey;
->                 break;
-> -       case SIL_PERF_EVENT:
-> +       case SIL_FAULT_PERF_EVENT:
->                 to->si_addr = compat_ptr(from->si_addr);
->                 to->si_perf = from->si_perf;
->                 break;
+>
+> +int force_sig_perf(void __user *addr, u32 type, u64 sig_data)
+> +{
+> +       struct kernel_siginfo info;
+> +
+> +       clear_siginfo(&info);
+> +       info.si_signo = SIGTRAP;
+> +       info.si_errno = type;
+> +       info.si_code  = TRAP_PERF;
+> +       info.si_addr  = addr;
+> +       info.si_perf  = sig_data;
+> +       return force_sig_info(&info);
+> +}
+> +
+>  #if IS_ENABLED(CONFIG_SPARC)
+>  int force_sig_fault_trapno(int sig, int code, void __user *addr, int trapno)
+>  {
 > --
 > 2.30.1
 >
-> --
-> You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210505141101.11519-9-ebiederm%40xmission.com.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNPmPWymJ9ZsQWys9wC3okt5M5fj7edp7ejk8RpTTMsxew%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNPS_mCs3_5boGrVwnUmC4szG8dudvPqjAMcrM7JSYWvLw%40mail.gmail.com.
