@@ -1,71 +1,123 @@
-Return-Path: <kasan-dev+bncBCH2LVN35IARB36B3OCAMGQEXI3C3UI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDE6RCFOWIARBKX236CAMGQETGJBHFA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oi1-x23d.google.com (mail-oi1-x23d.google.com [IPv6:2607:f8b0:4864:20::23d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42DCC3773C1
-	for <lists+kasan-dev@lfdr.de>; Sat,  8 May 2021 21:05:21 +0200 (CEST)
-Received: by mail-oi1-x23d.google.com with SMTP id x6-20020acae0060000b02901e5030d8682sf6669664oig.19
-        for <lists+kasan-dev@lfdr.de>; Sat, 08 May 2021 12:05:21 -0700 (PDT)
+Received: from mail-lj1-x23f.google.com (mail-lj1-x23f.google.com [IPv6:2a00:1450:4864:20::23f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 98465377739
+	for <lists+kasan-dev@lfdr.de>; Sun,  9 May 2021 17:18:03 +0200 (CEST)
+Received: by mail-lj1-x23f.google.com with SMTP id b44-20020a05651c0b2cb02900ec3242ba00sf266075ljr.17
+        for <lists+kasan-dev@lfdr.de>; Sun, 09 May 2021 08:18:03 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1620573483; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=xUzN5ZWvBNfBEI76gqGlB6NpvG6bJoTBSb4NIcQXJ+b3U952NflFXFSGH9L0El/QJs
+         VHS82HY/KWEccrZxbPotutiUhR0eKg7LE6FUcBrpJDhI8ODzGQ+nybIGIO+p6Wl3S5SH
+         clmFWKDjPgpre9sn0RmK6Y6fTFOyEsWJBmCT9BP35joOm18Ch9hINeDdeAfcqaM1IUhd
+         K82x+Nkv7avkpM7Vo6ItcZpqfouYIXEDKwA6LqJ6919uh3WJcbFusVc3zvREh9dbsfZ4
+         1CtbNUaf1yBxt5iOHTJgAcazHwswK0liKDwQJuV+4DazTguBDyr3Puncbkv7vAceqct3
+         IbrA==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:sender:dkim-signature;
+        bh=NDopkT8ZeGT7t4eiJ1qhUIf7Bgxpt3EKz5JnZc0ddBA=;
+        b=f2wbRUh2aQwIBrA3HTyOJ4Z1Wlduo81fYfAXvPTeuGDD2zoiPKiW3LvHmIazuib5gc
+         V26rNNDG/EC6kMvuOoD2nByz5eVYdzcBY8hc0yT3CbwPXvPzJp+EaVDKMymPMaek3ZXW
+         zqkTxs3K9KjgWh0v8A0E1z++zHQckx+OtmO0pxVyYgCyrIQ/OvQxcjMP+TqZtAmrpA6j
+         L+NmBgTLDEBOE15IQpkWSPOCMso6k1aVsbTOZBUtdfBe9B4UYZnDoHnfAEzL43R4vMGW
+         7H9w97pNsOeqh48SHYojXD6l1HD3+1SpQddAnL4hjavVhpF0hZAjczspdwKJMUpfg3PN
+         hi2g==
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@linaro.org header.s=google header.b=gHXnKu7A;
+       spf=pass (google.com: domain of linus.walleij@linaro.org designates 2a00:1450:4864:20::129 as permitted sender) smtp.mailfrom=linus.walleij@linaro.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:date:from:to:message-id:in-reply-to:references:subject
-         :mime-version:x-original-sender:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=Q8ayO5nKG9QmXGmYeoojG+1j0fuuGpIACD6TPWedLI4=;
-        b=UMGytf9lhP36AQ80r923r3nGWu/vZGIBEZ+odTSGrTCVFiVAikKexDXQNVv+jlCBbj
-         RMiOiTGgkWOTarNKuUsWkykkWPKFbM7GCm3JkdOrHWVGBjRIxyiMwZwr3bYQXVZ89/IO
-         G8pf62mgnNTlo6BCUDgldG1MWzUf5Ma3OwpWSpJ/T3HMHY43lW4sqmQ+wO1lMYaBB0/5
-         zu+cQoUHfYC0C8R9cArn5I+qyriQA16KMMe/H7JnB+M3SP866doiAp/CrdKh7lr82UUT
-         0Bo+QxhkgiJUubn5+c+16asQqQjW+ttQVJqGP7CRKW7ZW9s5YfndPBx8/c2eFmYSNkkc
-         81nA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:message-id:in-reply-to:references:subject:mime-version
-         :x-original-sender:precedence:mailing-list:list-id:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=Q8ayO5nKG9QmXGmYeoojG+1j0fuuGpIACD6TPWedLI4=;
-        b=Qph8AI8SleJNT+KjBc8XN0wsJcyOJBpb9EfNe6NEE4DhqhxYVAHA2aVgS9lQU359bd
-         R+ht/SHNrY2ay1a1rPJUQhkeKeRYiRzDiKVQn6prYiYGaWMXoc/mLhD1hHRHHqCHiJdU
-         sxlh8c6t+6MaSnGlvLcdNby+d0FaVNw+M4NAQ=
+        h=sender:mime-version:references:in-reply-to:from:date:message-id
+         :subject:to:cc:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=NDopkT8ZeGT7t4eiJ1qhUIf7Bgxpt3EKz5JnZc0ddBA=;
+        b=Mm3PGtMq+gJmNrwkgzZTxy82G1PYsfK5WcF2yIltwVWymhQXpgoXvpc+17STduaOqZ
+         qR6sJlCttvfung0Sqv01MK61ioxDs+Q1UcuxgOCvmZnikNKFRF8hWR6YReM1HHSWxx5c
+         ZZowyvGT/NomLBvIiPBWxCliN6//AKTSvpav/Ivx9GuzEF+B6Ye13fFQtSAo3Xblhq2s
+         ImJ2iL+JXqT0sYFIYSJE/o0AO4aLONMLow4mLgXNiP371D5YHzFtISMHnRN/vNxqp0eV
+         XfoLouoUhOkXd4967er+t6qVQFHq3AnhcgcH6N38mfFVUyCTWHiQuCSvc5ZgA4cCl7L9
+         jfNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:date:from:to:message-id:in-reply-to
-         :references:subject:mime-version:x-original-sender:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=Q8ayO5nKG9QmXGmYeoojG+1j0fuuGpIACD6TPWedLI4=;
-        b=f9+bRfymKK/cW6A498l21jwLZ2VCW58tJZzj/Z5HaOZfibJ8O2yw/FCAebGl/nNTzz
-         7jzCU6kn6Lc8kheUMJzwZUFPrQsj/6glYTLUbO5UIwQd3FCtmry614mCuQ9RUnvJT02y
-         +lfsJOTz9nRHEwrKi0M3OApTASYH+qg4ZGtVpdEIZ/stAWK8nw/unfoSa5t+UZ/QXwHw
-         Q5SjI9rvVYLFSgUroEQpSOLSgKP2C/C4MJZXQOegJRvIBY0iC3MlBZkDZ+f5wOzjDfaf
-         8w3sE/G0ciFJ1Lt9qVtYnS84MWNTr5DsU3YjTZQob3++BiqNFwdXnh7oOgw+wJRfyExZ
-         Xg2Q==
+        h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
+         :date:message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=NDopkT8ZeGT7t4eiJ1qhUIf7Bgxpt3EKz5JnZc0ddBA=;
+        b=fPXm2ZOV9w5QXyv2b8ADR+8U0ldxLIKAJwJzlnsCuQftubf6gy6g1AwM6O7Kai2xiD
+         7AAhAjcpgbHNjl6bXgA69IqnTWpSI5ZYC6CQtSd0qlBNOxVT82ecJIiSO6/Gmhd8J0JC
+         xDfu257v9+X0U5xyRv9eIeTqLTgbI7J4Ly0OxUbtJWdDCT+gJ+Lzvjepo772GrK7bz4F
+         faJMpirnT07tee785QeoPVirJFctmGSM0roRWj9f4MDC9k3J2x8b5P0Fz2GTLyEyBwn2
+         lk9lEWMY6rdqifUdZhBU0h6g4JohEU5e1744dd96hKOatXQgy2Nn/XYveyH7QwqOUaS8
+         8W5A==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM531FcppKK/NAj/Uv/ILoI++kktVmm5bOrjz+K+Tm7QJcVXUudtWG
-	Ki1G+yyHw0Zk4Vf3UEP/w8s=
-X-Google-Smtp-Source: ABdhPJy19JK0o6/t4ToFSUB8FhdIcIwYfw9m0lcJWnMcoRsIWTKdJYwybmhnT4nxF7LfC+wThyUs5Q==
-X-Received: by 2002:a9d:7b57:: with SMTP id f23mr13574425oto.150.1620500720025;
-        Sat, 08 May 2021 12:05:20 -0700 (PDT)
+X-Gm-Message-State: AOAM530oAhWRk9dZPJZbgRgdPp70wY2do3S8DEHV3bALFqcvfgzZ6ufR
+	KkUurE4t7nQU2sNiuJfKphM=
+X-Google-Smtp-Source: ABdhPJyO3iiKt1JlHyNEh1vezi6yAEDPUxZp21Sj4PmsHDQFKrv0wCjoE4ZxIMfwciAN6+S45QvZCw==
+X-Received: by 2002:a05:6512:224c:: with SMTP id i12mr13296890lfu.643.1620573483158;
+        Sun, 09 May 2021 08:18:03 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a9d:103:: with SMTP id 3ls2120016otu.1.gmail; Sat, 08 May
- 2021 12:05:19 -0700 (PDT)
-X-Received: by 2002:a9d:2ae1:: with SMTP id e88mr13112885otb.265.1620500719531;
-        Sat, 08 May 2021 12:05:19 -0700 (PDT)
-Date: Sat, 8 May 2021 12:05:18 -0700 (PDT)
-From: Venkatesh Srinivas <venkateshs@chromium.org>
-To: kasan-dev <kasan-dev@googlegroups.com>
-Message-Id: <20640839-4e3d-4284-ae20-4cc7d45dd2acn@googlegroups.com>
-In-Reply-To: <CACT4Y+Z-YdwcML7+JVOWNQ=38MqRzGkS47hKo4Qhqt6t7ZGHyQ@mail.gmail.com>
-References: <0faf889d-ac2d-413f-826e-6c2f5bf5aaf2n@googlegroups.com>
- <CACT4Y+ZHyat_KE+yQ5z7xpF+RfW39tbpYS6t=9A82dvbZcuuKQ@mail.gmail.com>
- <CAHUigpxrNQYOBoRGWZqYaKEoUDH1mkPw9pyW0iPdLSU9T+r4OQ@mail.gmail.com>
- <CACT4Y+Z-YdwcML7+JVOWNQ=38MqRzGkS47hKo4Qhqt6t7ZGHyQ@mail.gmail.com>
-Subject: Re: Regarding using the KASAN for other OS Kernel testing other
- that LInux
+Received: by 2002:a2e:6c0b:: with SMTP id h11ls2465831ljc.3.gmail; Sun, 09 May
+ 2021 08:18:01 -0700 (PDT)
+X-Received: by 2002:a2e:b055:: with SMTP id d21mr16817825ljl.27.1620573481828;
+        Sun, 09 May 2021 08:18:01 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1620573481; cv=none;
+        d=google.com; s=arc-20160816;
+        b=GTW8BZEiWY9V0H/ywJ9AoozyaCnz9iMPu3qIORgDqMnavqzdsBaqmJu4+Zao4Ue4iC
+         9AYm1b8Ghs5CibTNL6xK8yu5V5yTBUw+GPQAlfoKR6tQGFKzloAonSNVG4li2LrYWGYk
+         idLpuIdvsdiWr64Xb+M18D5CCrBomVB7vhcgs22sSwGNOtC1wolPEb47k9MAO5Vn/CpG
+         9XAv5RXw86oJFfxj+yisoPCtTu9GnDyUXS6k21/Iv78M3qhUNfgZEdMK7qHUHILjvVCR
+         S60fm2gKRFfKjH1O2TKfMoSpV0Arpa8wNV24gL1d+ZAsXmSpDgz+rTqxntfxE3jA8WZA
+         NldA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=T2n/1WwJTS3CsHkemEMlwQOIwzDpqt4PBSfYeUOZJbs=;
+        b=CiROZS6Sre9CRYro5IRrvz1x2tUArsVMWa5ZtSUCaiAilYHU+vUN2MhdYghDztr5Qa
+         BWYmJ5UjK3RztGRYt3sK3S5VarcGNWkZgmmmxMnopxduWE2eF3/q998dIP9Cc1nNzs9Z
+         x1BYPvemWwNYHqTss7RBhT4pJPkhR9TE21dwTapPkw2fJKVXL1vXy1jFqDiRP6p1OWae
+         dE54ygR9MhdmzR6zfHyjMLdrlhFEQBSv28IK0dKx/vpnAoJjZY3CsKTj9Sds+u8kMniE
+         jDRQOWPHASYqFBVwEQ9tGKfIUf+L6waH+Tyr8+g1iFeXbUA13AE2JaGUCrz6Cf+2i4yF
+         Dmww==
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       dkim=pass header.i=@linaro.org header.s=google header.b=gHXnKu7A;
+       spf=pass (google.com: domain of linus.walleij@linaro.org designates 2a00:1450:4864:20::129 as permitted sender) smtp.mailfrom=linus.walleij@linaro.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com. [2a00:1450:4864:20::129])
+        by gmr-mx.google.com with ESMTPS id b2si470464ljf.0.2021.05.09.08.18.01
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 09 May 2021 08:18:01 -0700 (PDT)
+Received-SPF: pass (google.com: domain of linus.walleij@linaro.org designates 2a00:1450:4864:20::129 as permitted sender) client-ip=2a00:1450:4864:20::129;
+Received: by mail-lf1-x129.google.com with SMTP id z13so19710219lft.1
+        for <kasan-dev@googlegroups.com>; Sun, 09 May 2021 08:18:01 -0700 (PDT)
+X-Received: by 2002:a19:6755:: with SMTP id e21mr14308817lfj.29.1620573481273;
+ Sun, 09 May 2021 08:18:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/mixed; 
-	boundary="----=_Part_3704_364947294.1620500718951"
-X-Original-Sender: venkateshs@chromium.org
+References: <202105091112.F5rmd4By-lkp@intel.com> <20210509122227.GH1336@shell.armlinux.org.uk>
+In-Reply-To: <20210509122227.GH1336@shell.armlinux.org.uk>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Sun, 9 May 2021 17:17:49 +0200
+Message-ID: <CACRpkdaNVg9zgaDN0JG+Z8dMMk+0fdpYHwGMHS-FKUG9MZAb4w@mail.gmail.com>
+Subject: Re: arch/arm/boot/compressed/decompress.c:50: warning: "memmove" redefined
+To: Russell King - ARM Linux admin <linux@armlinux.org.uk>, kasan-dev <kasan-dev@googlegroups.com>, 
+	Andrey Ryabinin <aryabinin@virtuozzo.com>, Dmitry Vyukov <dvyukov@google.com>
+Cc: Ard Biesheuvel <ardb@kernel.org>, Abbott Liu <liuwenliang@huawei.com>, 
+	Florian Fainelli <f.fainelli@gmail.com>, kernel test robot <lkp@intel.com>, kbuild-all@lists.01.org, 
+	linux-kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: linus.walleij@linaro.org
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@linaro.org header.s=google header.b=gHXnKu7A;       spf=pass
+ (google.com: domain of linus.walleij@linaro.org designates
+ 2a00:1450:4864:20::129 as permitted sender) smtp.mailfrom=linus.walleij@linaro.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -78,81 +130,104 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-------=_Part_3704_364947294.1620500718951
-Content-Type: multipart/alternative; 
-	boundary="----=_Part_3705_339947659.1620500718951"
+OK, paging in the KSan mailing list and key people.
 
-------=_Part_3705_339947659.1620500718951
-Content-Type: text/plain; charset="UTF-8"
+Certainly this problem must be the same on all platforms
+using an XZ-compressed kernel and not just Arm?
 
-On Monday, April 19, 2021 at 12:09:15 AM UTC-7 Dmitry Vyukov wrote:
+What I wonder is why the other platforms that use
+XZ compression don't redefine memmove and
+memcpy in their decompress.c clause for XZ?
 
-> On Sat, Apr 17, 2021 at 10:27 PM Tareq Nazir <tar...@gmail.com> wrote: 
-> > 
-> > Dear Dmitry Vyukov, 
-> > 
-> > Thanks for the reply, 
-> > 
-> > I have few questions as listed below 
-> > 
-> > 1 ) I would like to know if there is any open source repo that has 
-> adapted KASAN for running it on the BSDs or Fuchsia kernels. 
+Can we just delete these two lines?
+#define memmove memmove
+#define memcpy memcpy
+
+Imre?
+
+I can test some platforms without these defines later
+tonight and see what happens.
+
+Yours,
+Linus Walleij
+
+On Sun, May 9, 2021 at 2:22 PM Russell King - ARM Linux admin
+<linux@armlinux.org.uk> wrote:
 >
-> There should be. BSDs and Fuchsia are open-source. I don't have links 
-> ready. But it should be possible to find.
+> Maybe the KASan folk can look into this, it isn't obvious how to fix
+> this, since XZ needs memcpy/memmove #defined to avoid using its own
+> version. Having KASan override these with a #define is all very well,
+> but it makes the behaviour of lib/decompress_unxz.c indeterminant if
+> we get rid of the definitions the XZ support added.
 >
-
-For Fuchsia --- 
-https://fuchsia.googlesource.com/fuchsia/+/refs/heads/main/zircon/kernel/lib/instrumentation/asan/README.md 
-
-HTH,
--- vs;
+> On Sun, May 09, 2021 at 11:32:17AM +0800, kernel test robot wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> > head:   b741596468b010af2846b75f5e75a842ce344a6e
+> > commit: 421015713b306e47af95d4d61cdfbd96d462e4cb ARM: 9017/2: Enable KASan for ARM
+> > date:   6 months ago
+> > config: arm-randconfig-r015-20210509 (attached as .config)
+> > compiler: arm-linux-gnueabi-gcc (GCC) 9.3.0
+> > reproduce (this is a W=1 build):
+> >         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+> >         chmod +x ~/bin/make.cross
+> >         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=421015713b306e47af95d4d61cdfbd96d462e4cb
+> >         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+> >         git fetch --no-tags linus master
+> >         git checkout 421015713b306e47af95d4d61cdfbd96d462e4cb
+> >         # save the attached .config to linux build tree
+> >         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-9.3.0 make.cross W=1 ARCH=arm
+> >
+> > If you fix the issue, kindly add following tag as appropriate
+> > Reported-by: kernel test robot <lkp@intel.com>
+> >
+> > All warnings (new ones prefixed by >>):
+> >
+> > >> arch/arm/boot/compressed/decompress.c:50: warning: "memmove" redefined
+> >       50 | #define memmove memmove
+> >          |
+> >    In file included from arch/arm/boot/compressed/decompress.c:8:
+> >    arch/arm/include/asm/string.h:59: note: this is the location of the previous definition
+> >       59 | #define memmove(dst, src, len) __memmove(dst, src, len)
+> >          |
+> >    arch/arm/boot/compressed/decompress.c:51: warning: "memcpy" redefined
+> >       51 | #define memcpy memcpy
+> >          |
+> >    In file included from arch/arm/boot/compressed/decompress.c:8:
+> >    arch/arm/include/asm/string.h:58: note: this is the location of the previous definition
+> >       58 | #define memcpy(dst, src, len) __memcpy(dst, src, len)
+> >          |
+> >    arch/arm/boot/compressed/decompress.c:59:5: warning: no previous prototype for 'do_decompress' [-Wmissing-prototypes]
+> >       59 | int do_decompress(u8 *input, int len, u8 *output, void (*error)(char *x))
+> >          |     ^~~~~~~~~~~~~
+> >
+> >
+> > vim +/memmove +50 arch/arm/boot/compressed/decompress.c
+> >
+> > 6e8699f7d68589 Albin Tonnerre 2010-04-03  48
+> > a7f464f3db93ae Imre Kaloz     2012-01-26  49  #ifdef CONFIG_KERNEL_XZ
+> > a7f464f3db93ae Imre Kaloz     2012-01-26 @50  #define memmove memmove
+> > a7f464f3db93ae Imre Kaloz     2012-01-26  51  #define memcpy memcpy
+> > a7f464f3db93ae Imre Kaloz     2012-01-26  52  #include "../../../../lib/decompress_unxz.c"
+> > a7f464f3db93ae Imre Kaloz     2012-01-26  53  #endif
+> > a7f464f3db93ae Imre Kaloz     2012-01-26  54
+> >
+> > :::::: The code at line 50 was first introduced by commit
+> > :::::: a7f464f3db93ae5492bee6f6e48939fd8a45fa99 ARM: 7001/2: Wire up support for the XZ decompressor
+> >
+> > :::::: TO: Imre Kaloz <kaloz@openwrt.org>
+> > :::::: CC: Russell King <rmk+kernel@arm.linux.org.uk>
+> >
+> > ---
+> > 0-DAY CI Kernel Test Service, Intel Corporation
+> > https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+>
+>
+>
+> --
+> RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+> FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20640839-4e3d-4284-ae20-4cc7d45dd2acn%40googlegroups.com.
-
-------=_Part_3705_339947659.1620500718951
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div class=3D"gmail_quote"><div dir=3D"auto" class=3D"gmail_attr">On Monday=
-, April 19, 2021 at 12:09:15 AM UTC-7 Dmitry Vyukov wrote:<br></div><blockq=
-uote class=3D"gmail_quote" style=3D"margin: 0 0 0 0.8ex; border-left: 1px s=
-olid rgb(204, 204, 204); padding-left: 1ex;">On Sat, Apr 17, 2021 at 10:27 =
-PM Tareq Nazir &lt;<a href=3D"" data-email-masked=3D"" rel=3D"nofollow">tar=
-...@gmail.com</a>&gt; wrote:
-<br>&gt;
-<br>&gt; Dear Dmitry Vyukov,
-<br>&gt;
-<br>&gt; Thanks for the reply,
-<br>&gt;
-<br>&gt; I have few questions as listed below
-<br>&gt;
-<br>&gt; 1 ) I would like to know if there is any open source repo that has=
- adapted KASAN for running it on the BSDs or Fuchsia kernels.
-<br>
-<br>There should be. BSDs and Fuchsia are open-source. I don't have links
-<br>ready. But it should be possible to find.<br></blockquote><div><br></di=
-v><div>For Fuchsia --- https://fuchsia.googlesource.com/fuchsia/+/refs/head=
-s/main/zircon/kernel/lib/instrumentation/asan/README.md&nbsp;</div><div><br=
-></div><div>HTH,</div><div>-- vs;</div></div>
-
-<p></p>
-
--- <br />
-You received this message because you are subscribed to the Google Groups &=
-quot;kasan-dev&quot; group.<br />
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
-+unsubscribe@googlegroups.com</a>.<br />
-To view this discussion on the web visit <a href=3D"https://groups.google.c=
-om/d/msgid/kasan-dev/20640839-4e3d-4284-ae20-4cc7d45dd2acn%40googlegroups.c=
-om?utm_medium=3Demail&utm_source=3Dfooter">https://groups.google.com/d/msgi=
-d/kasan-dev/20640839-4e3d-4284-ae20-4cc7d45dd2acn%40googlegroups.com</a>.<b=
-r />
-
-------=_Part_3705_339947659.1620500718951--
-
-------=_Part_3704_364947294.1620500718951--
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACRpkdaNVg9zgaDN0JG%2BZ8dMMk%2B0fdpYHwGMHS-FKUG9MZAb4w%40mail.gmail.com.
