@@ -1,130 +1,126 @@
-Return-Path: <kasan-dev+bncBCJZRXGY5YJBBGFE5SCAMGQE3XAFTEY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCGJZ5PL74JRBXPG6CCAMGQEMZ5CFWQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-il1-x13c.google.com (mail-il1-x13c.google.com [IPv6:2607:f8b0:4864:20::13c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97CC737B277
-	for <lists+kasan-dev@lfdr.de>; Wed, 12 May 2021 01:24:09 +0200 (CEST)
-Received: by mail-il1-x13c.google.com with SMTP id h8-20020a92c2680000b02901646ecac1e5sf17972383ild.20
-        for <lists+kasan-dev@lfdr.de>; Tue, 11 May 2021 16:24:09 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1620775448; cv=pass;
+Received: from mail-lj1-x23c.google.com (mail-lj1-x23c.google.com [IPv6:2a00:1450:4864:20::23c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3197B37D40C
+	for <lists+kasan-dev@lfdr.de>; Wed, 12 May 2021 21:58:22 +0200 (CEST)
+Received: by mail-lj1-x23c.google.com with SMTP id v15-20020a2e7a0f0000b02900da3de76cfdsf13103425ljc.22
+        for <lists+kasan-dev@lfdr.de>; Wed, 12 May 2021 12:58:22 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1620849501; cv=pass;
         d=google.com; s=arc-20160816;
-        b=Fd5f85iANS0Uf2KA/vFuilVFMsru0BVS/zGfzHO8Rm14wiyKMppNjRy8ENcE3AGuEP
-         nKn0j+ohhVGbNzXr5B71+GTb+874Wjj4NljeaOUzOqv+mApdMX3PcLePIgitFVQdhh44
-         gO4e38OFkYajt+/xkB2lpvrBBm4udiSrjdj2ENjpBFmPP7XorYHyB9BxRlWzTfV7+j7q
-         iNI3i0Jah/+NUdk/GLBme1fmXNZ6/LR0wLlLOfrSaJbKzWjT96Nm7/IgPvKJTD9FtB9P
-         KEbcg3QnkXXk6/UCG3T8VYZw6b0qp5Ltq2JiwiT49wmdkG7ipB2DnNrwAVU504YO4wS9
-         ZiKg==
+        b=SZdSFOYzSulPfkOwezbgbzAivztfYNjTXQcoc6Xu5OJECeX2M3Js/PaD5d4gELInSl
+         K9flbp+ba1+KdwobGmnRGocIrQDn/f7Vts8281VYy9Nk+MM22j7syd83+MOMoUgLYywr
+         meemss+l+asv6GlOq9Q9Hdvs4cHFAhN+K/H8dfWlt78e872xFAAFB17FEyH39q3exX9g
+         KcWz2djenLFWyh/xn/8AQvXQzq0JNcwOUotygkAGU9da9uZixyZ1kgH1evGUj2b/1izC
+         rSnNePlyL3ee69CLwyxRVJxS90W8tOmxWBh8ZtCGpqaWkcild+ZyjyEeeFluaYZoS2kI
+         h27Q==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=B6RdrMg2RlSYnQNqVIcWPINIbrMjKy0veE9nIF5Vl8E=;
-        b=E3QUQS2LzZdztjjEiiVZfbQHgon/yL4qx6gz4FmrE817LxZyRFMBfhsMH9w0hW+b0S
-         EoJYlkQFZEa1v2wsijxYlLzvOHD3GHmqIuw+31p/nnsG1YRuHvxAde71MciKXoJctPuK
-         qSI2b5ixsbI+ZBFccawg3aAk+7Efpfn7/rjFZ06BFR0F7mJAJFWXh4dZ+lu4WvieYyY+
-         kVlLsOIoGAFDeaZMAuaahp/XZONzZ7qlqn8KzpBB2dALfBosVyOuW5kkxtg4+2iX/PDx
-         Cd4yisFtpZlxEKlmDQXb9ZPyb8y7LDx/ngcOl4JIUxnyuN9c9TbpIxL6ofm/6PBzeiW6
-         LLrg==
+         :list-id:mailing-list:precedence:content-language
+         :content-transfer-encoding:mime-version:user-agent:date:message-id
+         :cc:to:subject:from:sender:dkim-signature;
+        bh=9Yr3wFFVCiiJ1+csOSVhkQb+lus7udf4M0cJiOCBXY4=;
+        b=CcnJ+CJE+2eIVNHRPPEJKrgmPSMRVXcbWpEbLJm5PxnvFU4RyFMqI6vNu7c9AJtHHI
+         SrMZGhlGR+a+L0IO/3g+lgdAutNRIxlC0kGKYvE3vLcS5pUG8z4OYjYNa8NentTehY+B
+         vU7BYIdTHWxhdwq+E6R1h5wQNvHYZCqQ58nmAdjKaroKzAJNYjjD93OpkIOt2Gydhhbm
+         cBQrYYMuQEOten8wUox6w4cTHQbAgeU4nLpGizXdwU5wpWBgb1x7DoeeQwmbvjC8m3Rq
+         gBLsj/qvrKVx5mOP+mMIIzxkFLqNCL1NFZIWA92B91hpNNAlQuHayRoC2ORvw1ygVMx2
+         qyWQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=tDIr4JWH;
-       spf=pass (google.com: domain of srs0=6jxx=kg=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=6JXx=KG=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       dkim=pass header.i=@colorfullife-com.20150623.gappssmtp.com header.s=20150623 header.b=IWDJpmN7;
+       spf=pass (google.com: domain of manfred@colorfullife.com designates 2a00:1450:4864:20::634 as permitted sender) smtp.mailfrom=manfred@colorfullife.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=B6RdrMg2RlSYnQNqVIcWPINIbrMjKy0veE9nIF5Vl8E=;
-        b=djO6u9Ygp6z4M0UInce2EFumjGdbyx5uyXkbTc/zqj/ADYjXDIfac3lNuNTXBXJvYx
-         TFsXaibcfX8lyLxKIxdh5SP+Y7aJG/T770npJmOQJeFfEC9vuqYBoUKPVoMEFVUu37QZ
-         mlAuZ/CaqIMr7gPRylXyX7iRQzkLs1iV/fNbev/So9/eSoRbDqYKbJz+7NQfK7OJjxxF
-         ZknE5cORWl2rO2R/N3l87y7bJAzd4NbmpJq/DkO8I6s5LHKnmjsYHYHXcL3o6CNTBGrY
-         yDv+7nGuVl0TcggXk+HQT7WkOxV1IjmxU5rTEX4onzTCkifVUqRLqAQ66wsAymcWfet7
-         bdVQ==
+        h=sender:from:subject:to:cc:message-id:date:user-agent:mime-version
+         :content-transfer-encoding:content-language:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=9Yr3wFFVCiiJ1+csOSVhkQb+lus7udf4M0cJiOCBXY4=;
+        b=Bm1O71DBazryVCOSzbdFXfRqYnbLb+x/WgRfW3PHXzbYFOPQXFn2+s43cvZl+9w//L
+         IWtNJD9MnoPcu6uNlxNm3w1CZ56xj5K1bdIodtMXY0YkhiZ9e8H3FCcozcpulRQBEwfr
+         YgrO8aXqAwb6q9grXawG4d9Jl9VjphCCg3mGqpTAoPs7HHh/OY56YXNARgqRU5eQZHO0
+         6aMVHaOIU7evWEtq7mRKj0bEMbzyV/5BZNJM3V62UtljvIw3g1WBFdUHavLlQR5OL0RO
+         rFRh0AeININe9IcxK9hRIPJ37YKW4r3joztelmU03+gb18/LYALB0oFCGATHcjq3cUhd
+         APzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :in-reply-to:references:mime-version:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=B6RdrMg2RlSYnQNqVIcWPINIbrMjKy0veE9nIF5Vl8E=;
-        b=Mny/ruNCERVR96BZnb/TrMeZS8cmGONk+UvaZ/h36fZ2qCFkb8HdeoFKR5g4lZ0BBW
-         tgWbJEEtMi28wrYxBoBfFdsCi5qFKc19sgZDWL2rlA9ar7OsypMTCzKfjvqvVowVFuRa
-         W9sgu5rfoSNw7xCNdJAxwWr01SNnEQcLjX5s5ODhcxAgLm4n8W/whRHdFPPZklSNeBL4
-         y2JaZLOqG0bfqwWxQsMmPELvA9Vf/B6OA60rXzIREJbk7SJC37a7MkwcrF/dQZ4IwPBN
-         zjDDVoiFf1mDPZF9htTfvl+/tyVLontlqMIwAlFI84AQFx6S2dW16bU80bIZ+c3O1w3q
-         xyaA==
+        h=sender:x-gm-message-state:from:subject:to:cc:message-id:date
+         :user-agent:mime-version:content-transfer-encoding:content-language
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=9Yr3wFFVCiiJ1+csOSVhkQb+lus7udf4M0cJiOCBXY4=;
+        b=e4L+ni1E1uj4LrgOkKjU7NYzs3BaEtJM0M+vzSHYy7sqUW/nXcenR3PIAGQWr7zlW5
+         4FBzpXhn8NS4PFUO/AW2gbfdV1cKC2MTH2NPqaUu6dZDq01h8eIj9132M7i1I0vIJSl5
+         fpR/jS0naRmiayqI+0mRXjFc07DqvIJztXnMidmsWIwpON+8HML1bNpaEkUOMPg9tv2J
+         UQk4NvsKoLwiTSiAGGz5FZuJ6ivK9HW+4G+y3JQm6q/kxbuDKEtSnwUB2ivV3bpURzFL
+         d+w/cqgAjrjCRV2XNa3czPEd97mbjT8SkTrY4sS1NJyNSyM1h2S6LivyOnNRxK5vWwli
+         Qapg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM533lBXbHvE0DKxLL5ZplITbmsFHfhcgmWiB4zYfGAR0nDZWwgwiP
-	iaV2pz9k/9IgrF15fnwEyMI=
-X-Google-Smtp-Source: ABdhPJxbAiHXmmjSJTQMFY/Ja3D47rppEfkqAgnBAE6zozdcVtCtoTzU+ZMsQjDk2dKHMo6XFBlaMw==
-X-Received: by 2002:a92:de05:: with SMTP id x5mr28593744ilm.156.1620775448651;
-        Tue, 11 May 2021 16:24:08 -0700 (PDT)
+X-Gm-Message-State: AOAM533Lw8DkDMkE2+UuPhK2hKNMKKbbq5p9vI5AAlaz/qzNeT950ByU
+	nITLx3BNTfzycJ5W4/8fd1g=
+X-Google-Smtp-Source: ABdhPJxgn+Ipj1E0Ue5+q/ozqBYWXXCs5Hjr3HUDPEeuKAM5rJivoS3QdR/XlLqAc8z8AddWihaMmQ==
+X-Received: by 2002:ac2:58e7:: with SMTP id v7mr26671105lfo.505.1620849501756;
+        Wed, 12 May 2021 12:58:21 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a02:7303:: with SMTP id y3ls55355jab.9.gmail; Tue, 11 May
- 2021 16:24:08 -0700 (PDT)
-X-Received: by 2002:a02:878c:: with SMTP id t12mr28602963jai.59.1620775448383;
-        Tue, 11 May 2021 16:24:08 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1620775448; cv=none;
+Received: by 2002:ac2:5592:: with SMTP id v18ls2292803lfg.0.gmail; Wed, 12 May
+ 2021 12:58:20 -0700 (PDT)
+X-Received: by 2002:a05:6512:3f08:: with SMTP id y8mr26366170lfa.657.1620849500493;
+        Wed, 12 May 2021 12:58:20 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1620849500; cv=none;
         d=google.com; s=arc-20160816;
-        b=tmLkx26HGjZhdu4Xcv0nJ8w7y8XX5KDA0qsNmTS+kAqXrGNP1eVIK+UOUdUDyEMNuG
-         vCYpFIx1Lr6IExq3WAlVLm+9eS/YmUF+suUObr5D0piiw2DTWyiXu10tev5n5hXtCM4F
-         j5wQp8XOzHXHW7a+1+E13J4XjqNuIFTKExtBJfI5mNNKJB5mJmv1P4aZHk352SiUv/C4
-         38URtKg30F8mNyOM3sQ/1rxj9CZ3xGO1zju5o30OAGVqgyGqmhqfW2GL56xIFgKvUYjW
-         Q46LTilSrXv8zfI45wUvQHNjg07sg31//kDWnTgOPGHTCCNDp3TtEM8YDwi9Rnl4jjBa
-         jPKA==
+        b=iJKVln2KtN+1w4dBAnV517WbgdIuB3UqUrPpr6ImePz+ZRdtKpAg2nbtP9UgDQsgeA
+         uayCpKseIpa2zVC2btrH+rDyIDlZb4uOVVRw4P8QF/YmnPOtUOSTQ/ToOIgLBgNWoftm
+         +AHF17ENqEQ3uh30ELI1XcObd0B5xSoPllJ2vYT7lhjFMdfvG2hjvGRLjzBQtyn9OxYQ
+         yzEf8jRN85wfDCbRHor6yB5QOB64iqmh2OpuDuw2uwkMAR2afzl7muGwy426bnt0+AAa
+         RREcJa6G5xmdYslAhieMnzMzawcKMq07U8S2oUDciZUm5IGmjqwdbocbnQUamaNZFh+z
+         CGdA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=lr1xxAMohpXDjBZCP9VjhU21lShEPNCBRmlKff5WngQ=;
-        b=zKZi5crE2wStLSa+Qhmm1gcUh1kKiZEeTJhRBOkzn/27RB/9GnQQiFaPXNN8Otk/ra
-         hBRHni7cI3Ph71as+Uh5Nymg5kDEHxVIR2UFqxoIWZ6OIq7NzPM260GN1b/B2p7ihUPT
-         SBhRYBHXjBhvaW7ASCosR/fLHdsPK3/FhDLMUJ2gD859diz8/JjEa20dvJMd6HrvAABB
-         BLS/M+JNdBCUqGGo8P7Y57xtL+EaUgV2myJz0e2uE4zNH+l2leJOYOByBjPfQJY+gJfc
-         eVe2iYp2nNqu+/pFhPvWZj7Puu9Md8j6MW3qb3yvsPJcKZwzA11lEqiTDOEKUq6Ghq6q
-         In4A==
+        h=content-language:content-transfer-encoding:mime-version:user-agent
+         :date:message-id:cc:to:subject:from:dkim-signature;
+        bh=8raSgKhFeTJ6tUvtJ5IG4FsvccJ6867i6cPal0zUCUk=;
+        b=AqL+DHyiKUmMG78wBfscoTGN+v6AXKvCH42K6A+Q/Fsg31endNqTNrVEB1//GzSkU8
+         mnQ/UbwWfMlxtrq0x+9ccSUbZCxCy7f/PY/79KvRgUsYcptqWURVTfBbjK9XjackBpDu
+         bDte0+VGVj0eDyKWXapmDYLID6cha9aHw/6QarVNOmaL2mqFMMpPUKni6P1xgByJGKto
+         ifHiPMhSAnnAlOmKA9IGuroG+GrPkRCamhWpQovoDviAvjhx/kHqCnz0uiUVODomiMp6
+         NtDu9FQSItMJ+kqfkU85q4tki+k9YzmuwnP0mAW3eIPYVUCSbUai25HmqVuwv5/WuD6u
+         LwYg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=tDIr4JWH;
-       spf=pass (google.com: domain of srs0=6jxx=kg=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=6JXx=KG=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id h2si303082ila.4.2021.05.11.16.24.08
+       dkim=pass header.i=@colorfullife-com.20150623.gappssmtp.com header.s=20150623 header.b=IWDJpmN7;
+       spf=pass (google.com: domain of manfred@colorfullife.com designates 2a00:1450:4864:20::634 as permitted sender) smtp.mailfrom=manfred@colorfullife.com
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com. [2a00:1450:4864:20::634])
+        by gmr-mx.google.com with ESMTPS id c6si23444ljf.3.2021.05.12.12.58.20
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 11 May 2021 16:24:08 -0700 (PDT)
-Received-SPF: pass (google.com: domain of srs0=6jxx=kg=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 53DAA61937;
-	Tue, 11 May 2021 23:24:07 +0000 (UTC)
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id ABD925C0DEA; Tue, 11 May 2021 16:24:06 -0700 (PDT)
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	kasan-dev@googlegroups.com,
-	kernel-team@fb.com,
-	mingo@kernel.org
-Cc: elver@google.com,
-	andreyknvl@google.com,
-	glider@google.com,
-	dvyukov@google.com,
-	cai@lca.pw,
-	boqun.feng@gmail.com,
-	"Paul E . McKenney" <paulmck@kernel.org>
-Subject: [PATCH tip/core/rcu 10/10] kcsan: Document "value changed" line
-Date: Tue, 11 May 2021 16:24:01 -0700
-Message-Id: <20210511232401.2896217-10-paulmck@kernel.org>
-X-Mailer: git-send-email 2.31.1.189.g2e36527f23
-In-Reply-To: <20210511231149.GA2895263@paulmck-ThinkPad-P17-Gen-1>
-References: <20210511231149.GA2895263@paulmck-ThinkPad-P17-Gen-1>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 12 May 2021 12:58:20 -0700 (PDT)
+Received-SPF: pass (google.com: domain of manfred@colorfullife.com designates 2a00:1450:4864:20::634 as permitted sender) client-ip=2a00:1450:4864:20::634;
+Received: by mail-ej1-x634.google.com with SMTP id w3so36779827ejc.4
+        for <kasan-dev@googlegroups.com>; Wed, 12 May 2021 12:58:20 -0700 (PDT)
+X-Received: by 2002:a17:906:e105:: with SMTP id gj5mr40783554ejb.388.1620849499924;
+        Wed, 12 May 2021 12:58:19 -0700 (PDT)
+Received: from localhost.localdomain (p200300d997048700813060682b44a2a4.dip0.t-ipconnect.de. [2003:d9:9704:8700:8130:6068:2b44:a2a4])
+        by smtp.googlemail.com with ESMTPSA id r17sm623181edo.48.2021.05.12.12.58.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 12 May 2021 12:58:19 -0700 (PDT)
+From: Manfred Spraul <manfred@colorfullife.com>
+Subject: ipc/sem, ipc/msg, ipc/mqueue.c kcsan questions
+To: kasan-dev <kasan-dev@googlegroups.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "Paul E. McKenney" <paulmck@kernel.org>
+Cc: Davidlohr Bueso <dbueso@suse.de>, 1vier1@web.de
+Message-ID: <a9b36c77-dc42-4ab2-9740-f27b191dd403@colorfullife.com>
+Date: Wed, 12 May 2021 21:58:18 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-X-Original-Sender: paulmck@kernel.org
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: base64
+Content-Language: en-US
+X-Original-Sender: manfred@colorfullife.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=tDIr4JWH;       spf=pass
- (google.com: domain of srs0=6jxx=kg=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org
- designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=6JXx=KG=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Content-Type: text/plain; charset="UTF-8"
+ header.i=@colorfullife-com.20150623.gappssmtp.com header.s=20150623
+ header.b=IWDJpmN7;       spf=pass (google.com: domain of manfred@colorfullife.com
+ designates 2a00:1450:4864:20::634 as permitted sender) smtp.mailfrom=manfred@colorfullife.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -137,137 +133,76 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-From: Marco Elver <elver@google.com>
-
-Update the example reports based on the latest reports generated by
-kcsan_test module, which now include the "value changed" line. Add a
-brief description of the "value changed" line.
-
-Signed-off-by: Marco Elver <elver@google.com>
-Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
----
- Documentation/dev-tools/kcsan.rst | 88 ++++++++++++-------------------
- 1 file changed, 35 insertions(+), 53 deletions(-)
-
-diff --git a/Documentation/dev-tools/kcsan.rst b/Documentation/dev-tools/kcsan.rst
-index 80894664a44c..d1efd9cef6a2 100644
---- a/Documentation/dev-tools/kcsan.rst
-+++ b/Documentation/dev-tools/kcsan.rst
-@@ -27,75 +27,57 @@ Error reports
- A typical data race report looks like this::
- 
-     ==================================================================
--    BUG: KCSAN: data-race in generic_permission / kernfs_refresh_inode
--
--    write to 0xffff8fee4c40700c of 4 bytes by task 175 on cpu 4:
--     kernfs_refresh_inode+0x70/0x170
--     kernfs_iop_permission+0x4f/0x90
--     inode_permission+0x190/0x200
--     link_path_walk.part.0+0x503/0x8e0
--     path_lookupat.isra.0+0x69/0x4d0
--     filename_lookup+0x136/0x280
--     user_path_at_empty+0x47/0x60
--     vfs_statx+0x9b/0x130
--     __do_sys_newlstat+0x50/0xb0
--     __x64_sys_newlstat+0x37/0x50
--     do_syscall_64+0x85/0x260
--     entry_SYSCALL_64_after_hwframe+0x44/0xa9
--
--    read to 0xffff8fee4c40700c of 4 bytes by task 166 on cpu 6:
--     generic_permission+0x5b/0x2a0
--     kernfs_iop_permission+0x66/0x90
--     inode_permission+0x190/0x200
--     link_path_walk.part.0+0x503/0x8e0
--     path_lookupat.isra.0+0x69/0x4d0
--     filename_lookup+0x136/0x280
--     user_path_at_empty+0x47/0x60
--     do_faccessat+0x11a/0x390
--     __x64_sys_access+0x3c/0x50
--     do_syscall_64+0x85/0x260
--     entry_SYSCALL_64_after_hwframe+0x44/0xa9
-+    BUG: KCSAN: data-race in test_kernel_read / test_kernel_write
-+
-+    write to 0xffffffffc009a628 of 8 bytes by task 487 on cpu 0:
-+     test_kernel_write+0x1d/0x30
-+     access_thread+0x89/0xd0
-+     kthread+0x23e/0x260
-+     ret_from_fork+0x22/0x30
-+
-+    read to 0xffffffffc009a628 of 8 bytes by task 488 on cpu 6:
-+     test_kernel_read+0x10/0x20
-+     access_thread+0x89/0xd0
-+     kthread+0x23e/0x260
-+     ret_from_fork+0x22/0x30
-+
-+    value changed: 0x00000000000009a6 -> 0x00000000000009b2
- 
-     Reported by Kernel Concurrency Sanitizer on:
--    CPU: 6 PID: 166 Comm: systemd-journal Not tainted 5.3.0-rc7+ #1
--    Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.12.0-1 04/01/2014
-+    CPU: 6 PID: 488 Comm: access_thread Not tainted 5.12.0-rc2+ #1
-+    Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.14.0-2 04/01/2014
-     ==================================================================
- 
- The header of the report provides a short summary of the functions involved in
- the race. It is followed by the access types and stack traces of the 2 threads
--involved in the data race.
-+involved in the data race. If KCSAN also observed a value change, the observed
-+old value and new value are shown on the "value changed" line respectively.
- 
- The other less common type of data race report looks like this::
- 
-     ==================================================================
--    BUG: KCSAN: data-race in e1000_clean_rx_irq+0x551/0xb10
--
--    race at unknown origin, with read to 0xffff933db8a2ae6c of 1 bytes by interrupt on cpu 0:
--     e1000_clean_rx_irq+0x551/0xb10
--     e1000_clean+0x533/0xda0
--     net_rx_action+0x329/0x900
--     __do_softirq+0xdb/0x2db
--     irq_exit+0x9b/0xa0
--     do_IRQ+0x9c/0xf0
--     ret_from_intr+0x0/0x18
--     default_idle+0x3f/0x220
--     arch_cpu_idle+0x21/0x30
--     do_idle+0x1df/0x230
--     cpu_startup_entry+0x14/0x20
--     rest_init+0xc5/0xcb
--     arch_call_rest_init+0x13/0x2b
--     start_kernel+0x6db/0x700
-+    BUG: KCSAN: data-race in test_kernel_rmw_array+0x71/0xd0
-+
-+    race at unknown origin, with read to 0xffffffffc009bdb0 of 8 bytes by task 515 on cpu 2:
-+     test_kernel_rmw_array+0x71/0xd0
-+     access_thread+0x89/0xd0
-+     kthread+0x23e/0x260
-+     ret_from_fork+0x22/0x30
-+
-+    value changed: 0x0000000000002328 -> 0x0000000000002329
- 
-     Reported by Kernel Concurrency Sanitizer on:
--    CPU: 0 PID: 0 Comm: swapper/0 Not tainted 5.3.0-rc7+ #2
--    Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.12.0-1 04/01/2014
-+    CPU: 2 PID: 515 Comm: access_thread Not tainted 5.12.0-rc2+ #1
-+    Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.14.0-2 04/01/2014
-     ==================================================================
- 
- This report is generated where it was not possible to determine the other
- racing thread, but a race was inferred due to the data value of the watched
--memory location having changed. These can occur either due to missing
--instrumentation or e.g. DMA accesses. These reports will only be generated if
--``CONFIG_KCSAN_REPORT_RACE_UNKNOWN_ORIGIN=y`` (selected by default).
-+memory location having changed. These reports always show a "value changed"
-+line. A common reason for reports of this type are missing instrumentation in
-+the racing thread, but could also occur due to e.g. DMA accesses. Such reports
-+are shown only if ``CONFIG_KCSAN_REPORT_RACE_UNKNOWN_ORIGIN=y``, which is
-+enabled by default.
- 
- Selective analysis
- ~~~~~~~~~~~~~~~~~~
--- 
-2.31.1.189.g2e36527f23
-
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210511232401.2896217-10-paulmck%40kernel.org.
+SGksDQoNCkkgZ290IGEgcmVwb3J0IGZyb20ga2NzYW4gZm9yIHNlbV9sb2NrKCkvc2VtX3VubG9j
+aygpLCBidXQgSSdtIGZhaXJseSANCmNlcnRhaW4gdGhhdCB0aGlzIGlzIGEgZmFsc2UgcG9zaXRp
+dmU6DQoNCj4gW8KgIDE4NC4zNDQ5NjBdIEJVRzogS0NTQU46IGRhdGEtcmFjZSBpbiBzZW1fbG9j
+ayAvIHNlbV91bmxvY2sucGFydC4wDQo+IFvCoCAxODQuMzYwNDM3XQ0KPiBbwqAgMTg0LjM3NTQ0
+M10gd3JpdGUgdG8gMHhmZmZmODg4MTAyMmZkNmMwIG9mIDQgYnl0ZXMgYnkgdGFzayAxMTI4IG9u
+IA0KPiBjcHUgMDoNCj4gW8KgIDE4NC4zOTExOTJdwqAgc2VtX3VubG9jay5wYXJ0LjArMHhmYS8w
+eDExOA0KMDAwMDAwMDAwMDAwMTM3MSA8c2VtX3VubG9jay5wYXJ0LjA+Og0Kc3RhdGljIGlubGlu
+ZSB2b2lkIHNlbV91bmxvY2soc3RydWN0IHNlbV9hcnJheSAqc21hLCBpbnQgbG9ja251bSkNCiDC
+oMKgwqAgMTQ2NDrCoMKgwqDCoMKgwqAgZWIgMGbCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqAgam1wwqDCoMKgIDE0NzUgDQo8c2VtX3VubG9jay5wYXJ0LjArMHgxMDQ+DQogwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHNtYS0+dXNlX2dsb2JhbF9sb2NrLS07DQogwqDC
+oMKgIDE0NjY6wqDCoMKgwqDCoMKgIGU4IDAwIDAwIDAwIDAwwqDCoMKgwqDCoMKgwqDCoMKgIGNh
+bGxxwqAgMTQ2YiANCjxzZW1fdW5sb2NrLnBhcnQuMCsweGZhPg0KIMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgMTQ2NzogUl9YODZfNjRfUExUMzLCoMKgwqAg
+X190c2FuX3dyaXRlNC0weDQNCiDCoMKgwqAgMTQ2YjrCoMKgwqDCoMKgwqAgNDEgZmYgY2PCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZGVjwqDCoMKgICVyMTJkDQoNCj4gW8KgIDE4NC40
+MDY2OTNdwqAgZG9fc2VtdGltZWRvcCsweDY5MC8weGFiMw0KPiBbwqAgMTg0LjQyMjAzMl3CoCBf
+X3g2NF9zeXNfc2Vtb3ArMHgzZS8weDQzDQo+IFvCoCAxODQuNDM3MTgwXcKgIGRvX3N5c2NhbGxf
+NjQrMHg5ZS8weGI1DQo+IFvCoCAxODQuNDUyMTI1XcKgIGVudHJ5X1NZU0NBTExfNjRfYWZ0ZXJf
+aHdmcmFtZSsweDQ0LzB4YWUNCj4gW8KgIDE4NC40NjcyNjldDQo+IFvCoCAxODQuNDgyMjE1XSBy
+ZWFkIHRvIDB4ZmZmZjg4ODEwMjJmZDZjMCBvZiA0IGJ5dGVzIGJ5IHRhc2sgMTEyOSBvbiANCj4g
+Y3B1IDI6DQo+IFvCoCAxODQuNDk3NzUwXcKgIHNlbV9sb2NrKzB4NTkvMHhlMA0KMDAwMDAwMDAw
+MDAwMWJiYyA8c2VtX2xvY2s+Og0KIMKgwqDCoMKgwqDCoMKgIGlmICghc21hLT51c2VfZ2xvYmFs
+X2xvY2spIHsNCiDCoMKgwqAgMWMwYTrCoMKgwqDCoMKgwqAgNGMgODkgZWbCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqAgbW92wqDCoMKgICVyMTMsJXJkaQ0KIMKgwqDCoMKgwqDCoMKgIGlk
+eCA9IGFycmF5X2luZGV4X25vc3BlYyhzb3BzLT5zZW1fbnVtLCBzbWEtPnNlbV9uc2Vtcyk7DQog
+wqDCoMKgIDFjMGQ6wqDCoMKgwqDCoMKgIDBmIGI3IGRiwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgIG1vdnp3bCAlYngsJWVieA0KIMKgwqDCoMKgwqDCoMKgIGlmICghc21hLT51c2VfZ2xv
+YmFsX2xvY2spIHsNCiDCoMKgwqAgMWMxMDrCoMKgwqDCoMKgwqAgZTggMDAgMDAgMDAgMDDCoMKg
+wqDCoMKgwqDCoMKgwqAgY2FsbHHCoCAxYzE1IDxzZW1fbG9jaysweDU5Pg0KIMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgMWMxMTogUl9YODZfNjRfUExUMzLC
+oMKgwqAgX190c2FuX3JlYWQ0LTB4NA0KDQo+IFvCoCAxODQuNTEzMTIxXcKgIGRvX3NlbXRpbWVk
+b3ArMHg0ZjYvMHhhYjMNCj4gW8KgIDE4NC41Mjg0MjddwqAgX194NjRfc3lzX3NlbW9wKzB4M2Uv
+MHg0Mw0KPiBbwqAgMTg0LjU0MzU0MF3CoCBkb19zeXNjYWxsXzY0KzB4OWUvMHhiNQ0KPiBbwqAg
+MTg0LjU1ODQ3M13CoCBlbnRyeV9TWVNDQUxMXzY0X2FmdGVyX2h3ZnJhbWUrMHg0NC8weGFlDQoN
+Cg0Kc21hLT51c2VfZ2xvYmFsX2xvY2sgaXMgZXZhbHVhdGVkIGluIHNlbV9sb2NrKCkgdHdpY2U6
+DQoNCj4gwqDCoMKgwqDCoMKgIC8qDQo+IMKgwqDCoMKgwqDCoMKgwqAgKiBJbml0aWFsIGNoZWNr
+IGZvciB1c2VfZ2xvYmFsX2xvY2suIEp1c3QgYW4gb3B0aW1pemF0aW9uLA0KPiDCoMKgwqDCoMKg
+wqDCoMKgICogbm8gbG9ja2luZywgbm8gbWVtb3J5IGJhcnJpZXIuDQo+IMKgwqDCoMKgwqDCoMKg
+wqAgKi8NCj4gwqDCoMKgwqDCoMKgwqAgaWYgKCFzbWEtPnVzZV9nbG9iYWxfbG9jaykgew0KQm90
+aCBzaWRlcyBvZiB0aGUgaWYtY2xhdXNlIGhhbmRsZSBwb3NzaWJsZSBkYXRhIHJhY2VzLg0KDQpJ
+cw0KDQogwqDCoMKgIGlmICghZGF0YV9yYWNlKHNtYS0+dXNlX2dsb2JhbF9sb2NrKSkgew0KDQp0
+aGUgY29ycmVjdCB0aGluZyB0byBzdXBwcmVzcyB0aGUgd2FybmluZz8NCg0KPiDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqAgLyoNCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqAgKiBJdCBhcHBlYXJzIHRoYXQgbm8gY29tcGxleCBvcGVyYXRpb24gaXMgYXJvdW5kLg0KPiDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAqIEFjcXVpcmUgdGhlIHBlci1zZW1hcGhv
+cmUgbG9jay4NCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgKi8NCj4gwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHNwaW5fbG9jaygmc2VtLT5sb2NrKTsNCj4NCj4gwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIC8qIHNlZSBTRU1fQkFSUklFUl8xIGZvciBwdXJw
+b3NlL3BhaXJpbmcgKi8NCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGlmICghc21w
+X2xvYWRfYWNxdWlyZSgmc21hLT51c2VfZ2xvYmFsX2xvY2spKSB7DQpIZXJlIEkgd291bGQgbmVl
+ZCBhZHZpc2U6IFRoZSBjb2RlIG9ubHkgY2hlY2tzIGZvciB6ZXJvIC8gbm9uLXplcm8uDQoNClRo
+aXMgcGFpcnMgd2l0aCBjb21wbGV4bW9kZV90cnlsZWF2ZSgpOg0KDQo+IMKgwqDCoMKgwqDCoMKg
+IGlmIChzbWEtPnVzZV9nbG9iYWxfbG9jayA9PSAxKSB7DQo+DQo+IMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoCAvKiBTZWUgU0VNX0JBUlJJRVJfMSBmb3IgcHVycG9zZS9wYWlyaW5nICov
+DQo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBzbXBfc3RvcmVfcmVsZWFzZSgmc21h
+LT51c2VfZ2xvYmFsX2xvY2ssIDApOw0KPiDCoMKgwqDCoMKgwqDCoCB9IGVsc2Ugew0KPiDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgc21hLT51c2VfZ2xvYmFsX2xvY2stLTsNCj4gwqDC
+oMKgwqDCoMKgwqAgfQ0KDQpJZiB1c2VfZ2xvYmFsX2xvY2sgaXMgcmVkdWNlZCBmcm9tIGUuZy4g
+NiB0byA1LCBpdCBpcyB1bmRlZmluZWQgaWYgYSANCmNvbmN1cnJlbnQgcmVhZGVyIHNlZXMgNiBv
+ciA1LiBCdXQgaXQgZG9lc24ndCBtYXR0ZXIsIGFzIGJvdGggdmFsdWVzIGFyZSANCm5vbi16ZXJv
+Lg0KDQpUaGUgY2hhbmdlIHRvIDAgaXMgcHJvdGVjdGVkLg0KDQpXaGF0IGlzIHRoZSByaWdodCB3
+YXkgdG8gcHJldmVudCBmYWxzZSBwb3NpdGl2ZXMgZnJvbSBrY3Nhbj8NCg0KQXMgMm5kIHF1ZXN0
+aW9uOg0KDQpuZXQvbmV0ZmlsdGVyL25mX2Nvbm50cmFja19jb3JlLmMsIG5mX2Nvbm50cmFja19h
+bGxfbG9jaygpOg0KDQpJcyBhIGRhdGFfcmFjZSgpIG5lZWRlZCBhcm91bmQgIm5mX2Nvbm50cmFj
+a19sb2Nrc19hbGwgPSB0cnVlOyI/DQoNCi0tDQoNCiDCoMKgwqAgTWFuZnJlZA0KDQotLSAKWW91
+IHJlY2VpdmVkIHRoaXMgbWVzc2FnZSBiZWNhdXNlIHlvdSBhcmUgc3Vic2NyaWJlZCB0byB0aGUg
+R29vZ2xlIEdyb3VwcyAia2FzYW4tZGV2IiBncm91cC4KVG8gdW5zdWJzY3JpYmUgZnJvbSB0aGlz
+IGdyb3VwIGFuZCBzdG9wIHJlY2VpdmluZyBlbWFpbHMgZnJvbSBpdCwgc2VuZCBhbiBlbWFpbCB0
+byBrYXNhbi1kZXYrdW5zdWJzY3JpYmVAZ29vZ2xlZ3JvdXBzLmNvbS4KVG8gdmlldyB0aGlzIGRp
+c2N1c3Npb24gb24gdGhlIHdlYiB2aXNpdCBodHRwczovL2dyb3Vwcy5nb29nbGUuY29tL2QvbXNn
+aWQva2FzYW4tZGV2L2E5YjM2Yzc3LWRjNDItNGFiMi05NzQwLWYyN2IxOTFkZDQwMyU0MGNvbG9y
+ZnVsbGlmZS5jb20uCg==
