@@ -1,128 +1,129 @@
-Return-Path: <kasan-dev+bncBCJZRXGY5YJBBWVC7OCAMGQEA4OSBWQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBD4NDKWHQYDRBW5S7OCAMGQED7OVUXQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-il1-x13e.google.com (mail-il1-x13e.google.com [IPv6:2607:f8b0:4864:20::13e])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA9103810F3
-	for <lists+kasan-dev@lfdr.de>; Fri, 14 May 2021 21:36:59 +0200 (CEST)
-Received: by mail-il1-x13e.google.com with SMTP id a6-20020a056e021206b02901a532cdf439sf648863ilq.16
-        for <lists+kasan-dev@lfdr.de>; Fri, 14 May 2021 12:36:59 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1621021018; cv=pass;
+Received: from mail-pf1-x43d.google.com (mail-pf1-x43d.google.com [IPv6:2607:f8b0:4864:20::43d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 282B0381178
+	for <lists+kasan-dev@lfdr.de>; Fri, 14 May 2021 22:11:09 +0200 (CEST)
+Received: by mail-pf1-x43d.google.com with SMTP id q11-20020aa7842b0000b029028ed2e63c85sf390365pfn.15
+        for <lists+kasan-dev@lfdr.de>; Fri, 14 May 2021 13:11:09 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1621023068; cv=pass;
         d=google.com; s=arc-20160816;
-        b=WdriGKdQBnMi0p0s+c5qf2LM3BmJItyr6mQUtWMyiQYXgv5UvaNxZ40veQ52yEv7Tb
-         VIzWUOisYZ7y6QkDZ1OfQ3Ky7HXuEEJzSKfvk3E3s13YAqgDOZns/Pi+aUR44a0VIt/z
-         nQZ+ImmGQP1KNvZ8aPBQogvslJE5dE9wueRkI8krL7pefFukK9Y9Q0gZr3RGlMFQduni
-         YX0Z3kT8cS+LTae/kKU7+YqPTflwm/YGWeMSbOxuP0GKZSKUvaWPD1gpgcnI6tIQCDY2
-         HRrCiRYfI6RY91wZ+zvfb7tBU3C2VXUXxybP6gP55oAE7+ENmRJSnf24GrCyQTxAm+Lk
-         bdVw==
+        b=exi/kAqWPeMscoZvFBxEvvKEZX0sHv1RNrbdIfm05XOKJy2Jl1TFt31NhDMaPbvE8j
+         sQfVLqAmdkNqxGL3GwzeGJlf9Q0s2XqYEPkbYG6jLvqF67npjgv+gO+S/Wirh59ODeSl
+         4elD87QXinX+OofXMSm4xw0d5zSJLgyeCJQxEtZvf64RzkfHc0PaNOzDZ54FDqS1OnbD
+         /Mw+4iraEsZ2Qanis2gj1hhOm4JCw7QiB5X4qX6uM75LWZvxvTkfuUqw/Wjaq20Qycyj
+         JIw7FnA4GwKSlT1Q1+mmIHsmw4qsgy6QyAV+H2QDnF3JahnmG4KcTTTnpLKD63jpdZtC
+         6dbg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:reply-to:message-id:subject:cc:to:from:date
-         :sender:dkim-signature;
-        bh=b5qFsgJN5d0kHlUCJBqArymycYLq4ZAVNYErURWzqmw=;
-        b=OaJmUxUZUNJNg4+RDfJIEptntQ70IhR3/bLMjbyGY5OK87uQz7U4ZKnU8TjKd7JTgx
-         zngO93M2kwt7q/+zOu7BQXG3Cd/a6h8W7Ak3AUIY9ykxR3wHO89qvOJGgdGq8b9zeaqE
-         T68gc2kzbkarKKbHBHsMBUgRkFdqqswAET158Gqpzi2M9MOfiZa7Sib30YUeaMgTbGpp
-         MPpnZ+LGcN2HWNLSp9pLNahlQ9+bRN6kLUtA0EBbKO4XtpDo6J4Ta2UCavdLFJ/+jZ6P
-         xITW4326qLNXBE7Oeu1IsrHV2oVV7nIb16wUr77pEvMT2eyKd3Ht53KPYrME/p2cg47T
-         RpCw==
+         :list-id:mailing-list:precedence:content-language:in-reply-to
+         :mime-version:user-agent:date:message-id:from:references:cc:to
+         :subject:sender:dkim-signature;
+        bh=ocKDHpxK9y95CXn76CKg3OIDxaAIryCPFpqplvA/NJ4=;
+        b=jKjVzuJnkDkwMZT2B2JpKk5Bk4kyNxH+VhDNeX0S8wlIouPUwWjOx5DjqaE1bClZYK
+         8RKWsm0J9zdCNKqAPmPQSrka7hWnPLl766pH8RHnfYBlwier8JzRn4c3GciJdbNtT2KB
+         6MQNgYLMJkH195vi7ef9BEGo4Uqsg0TX6IOUlSz9SeAjscRcrof34PyBJP+2f3HIA68J
+         t+GO9s+H1hZJ5E7VX14Qv/Gxufq86CR1U9WCed84LgUbWC7xLVHJY9lsq1QJNvxXysAZ
+         E2eNBcssIN3X0qazrQyg3K0zj5x7+cqY2n4Ab0oaIOgiFE8XlF3i8VHm5/4fn7OEHyvA
+         U2aQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=Nw1yr7gm;
-       spf=pass (google.com: domain of srs0=/njc=kj=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=/nJc=KJ=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=CE+KCPG3;
+       spf=pass (google.com: domain of nathan@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=nathan@kernel.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:reply-to:references
-         :mime-version:content-disposition:in-reply-to:x-original-sender
+        h=sender:subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=b5qFsgJN5d0kHlUCJBqArymycYLq4ZAVNYErURWzqmw=;
-        b=ZHNDak37R7X6mfwK6O++kYpq6XxbkfLShcNyf0TgFUg1XcLmViyXR6LwRMIimUfFqg
-         aDsBSa5dgrOyL3P4IV2jggrMBKMJkxxog75QEutOfLN4+Aavrug4wg4TInVOohYUDdwB
-         X3rN/EFtTlfxNuH7ruS4bDec13MrR6/j0NcgI2Av8YainUICy1ObCQtoZFcc7wd2vqFV
-         ZWLMPntcbOqSrLTPuVoP31dbovvBadK0H2mzgEaiI8LEPoJaCqk8OH70MIBZ256fDfV5
-         swdJYmP8dL0jj6hWpgvGA4CJsAus2w5IJ1oSfkQVf58W5Fc17l9YAYYRhfXU9e9cx7et
-         ad5g==
+        bh=ocKDHpxK9y95CXn76CKg3OIDxaAIryCPFpqplvA/NJ4=;
+        b=R1iRr+3lOYD5sz9o5cIfWlFMdAlx7slKzncVk1YPah0XyxnwrA+Z0vN8pEFxWceWct
+         7Nmwzp+/iBjqnRfLapV+wR/rsIdRe/gzEi1sd39V+BcR2teprnXs+sU99mlcm/4Hgvp8
+         hbzM0TfGBllesJ8Z7v1dugmC9ONUARfw3fIPvIwlwYfURinM6faqXvclVnUTIWRc4SNw
+         O7AHtDmxyWGlGkAENCcz3zG1t1Sx60HDUOL3C/LTWXk9ZqqHHS9aEIOvj2Wm8Mnng5SJ
+         /n+uGCvu1tMwhdOfLAKVGZwsgvk5SsqcZvdlMvS69EPoaMdEb//afl1Sxz10nTc/z1Va
+         nzng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :reply-to:references:mime-version:content-disposition:in-reply-to
+        h=sender:x-gm-message-state:subject:to:cc:references:from:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=b5qFsgJN5d0kHlUCJBqArymycYLq4ZAVNYErURWzqmw=;
-        b=ZTUFtwsm9F1+TRLL7a2MB9zGeML53RHaUlEQnijwEnhQWPPv2KfYpaBmS053uGs4S4
-         E5ZxTF0lQWXtpYBB0akRR3lr83k2nWj1Z/dkLmOJoMKi/xIFVFK3bqZWnd9eETqHnDwN
-         srzCDcztiQ6W4j72nC5qbWNN4lHYila0wpOZHoMMZQxIabsRi9ySMWfIMK4iZyUAsA2j
-         cqymcPIIPKgxytbKcp8sWG9FfJyWj3tKy8P+8srygBXo4lH05voX8lpKkrTnAN5o4fe0
-         iuGD4HRKUuz5oj4gpBKvfwXGd+GGffOpjTJUulf4r/3yVAF/5ww8VTUDWWnheFbhxn+5
-         eZ/w==
+        bh=ocKDHpxK9y95CXn76CKg3OIDxaAIryCPFpqplvA/NJ4=;
+        b=iWMjMTplHJIInIPNEuvSOCGjdSQKxC3lTZGGcXXTrxbx9ar43UlCaSrMQktYOoYoAY
+         hjpNEhyMtWpHZ7/j+2dcF1UCRTNjXzn9eCHZInoQKkoDASnTdw/ULQzuumHvlhwkZyTF
+         sw9+vkX6mPIOkoIuoQ7/xEZI1JChPvLI95BVPU3odOcKPFsB7Fnr9I/estu0hZTZ6gM4
+         evF7dzIwamt2SOq28Ec6Y88Vj069uCOy8SoOTokA7kU1Ht+Kgo1AcQfv6BcnAvyMwHMe
+         TWP2CfLNnRlF3DxVm8rU13oItOEVNHUaEMaZ7BPtOH1OYfvUFYpHOjTzk/WLv5S2XOoE
+         UZUw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM530UgbCwZlQzfQIMkJkPAZKga2LGKTzLX1Xi16vcQXRVRwkG5C4V
-	pEyPjpsmKcPUj8uS54sYIKY=
-X-Google-Smtp-Source: ABdhPJz0VbV0Me2br1J863ALQcgCOO4xydWfUW/l8CjNMDhXZIxxxSN7TXr8uc3cA1tgu46oZDK+PQ==
-X-Received: by 2002:a92:cc02:: with SMTP id s2mr41267163ilp.101.1621021018539;
-        Fri, 14 May 2021 12:36:58 -0700 (PDT)
+X-Gm-Message-State: AOAM5307II68cd3ahUfhyTT2QTuRDNVgsx9TKlaHnXsTi6XyGRKpuUtr
+	QpNBZeVXl6V8jND0+HAiEKQ=
+X-Google-Smtp-Source: ABdhPJxjUks098jNqRVhuTRu+WrISdgyd4jReNrxyICNQAlL+AyWT9BSAeuUcf5KE9EYCgeMBk/27g==
+X-Received: by 2002:a62:1d0f:0:b029:2d5:3ec2:feb8 with SMTP id d15-20020a621d0f0000b02902d53ec2feb8mr5626915pfd.19.1621023067904;
+        Fri, 14 May 2021 13:11:07 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6e02:4a3:: with SMTP id e3ls2504053ils.5.gmail; Fri, 14
- May 2021 12:36:58 -0700 (PDT)
-X-Received: by 2002:a05:6e02:684:: with SMTP id o4mr14258337ils.149.1621021017993;
-        Fri, 14 May 2021 12:36:57 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1621021017; cv=none;
+Received: by 2002:a17:902:ea8d:: with SMTP id x13ls5473313plb.2.gmail; Fri, 14
+ May 2021 13:11:07 -0700 (PDT)
+X-Received: by 2002:a17:90b:1486:: with SMTP id js6mr54148731pjb.210.1621023067319;
+        Fri, 14 May 2021 13:11:07 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1621023067; cv=none;
         d=google.com; s=arc-20160816;
-        b=q2rEvTz/KLCUu6/+EThapelKyBKt7qOsO1RUJihDeqAXWIqaX+WG6KYUsLF8mn2PsW
-         E3yqLYrqTv8SO19BNNaOpK3C6is90q8Tbtou5yoiLzvQeZAPK/I57vvqQKtVj/UYz+Vj
-         VRPda2xSqz4cMJhrGFV7wy3w5Yot/aGXRMzig4XHidUxGxsR95qlTiFZOC1a0WIyot8S
-         Om+U6aCGVPG0XOmQTU8Cs4gv/atzv5H7nclOF2LACS5hh3GWeyhgdtWRyywA/5iuwE7y
-         dVvXCGk9nzOKdRGPAPL8FtK/08vP3CxzSxtgRYIma+kzdCaqcW4fcjN3KGIlOx/PDeLG
-         9+wA==
+        b=vnrg1TTgjvcOf3Tnop82gdfzjWygz0UDTJK4dskCQDCTh192/XAAGnkpj7roHbZtRb
+         4x3Q5twyrgttMijFo1TWaNaVveyphcNQA3Ng8R9xdLLazK/TMVpyQzp98BxAt0inY2gz
+         xs/1DpgJ6Bva8XOkLgCVul0WmS3vDaQeV7EDNlTAvxbXWkQaGbUQ/mUom1Oayqbxuw1P
+         j4Q/MfiX/w4c3KWcy2DjMFIDy8Z+twAyRMHQSOPI1Nf9ykbQhYp6cDWiC6/zyH9tfd72
+         OeswnDMEVALI5EuA7uw88j1Qqy7CvdqPFAaSHmfM6+b1MMnHTkMYMZjmC+8hY60Qh79o
+         VqJg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:reply-to
-         :message-id:subject:cc:to:from:date:dkim-signature;
-        bh=BuSk93p/Y6Y2CEWVCz7dqF1P83kLBzvJOTXHq1YUWec=;
-        b=SmKSJcMKuFBvQpdgJXBfmqPxvwuVzdoGsUnA0fiyo+IoMlCL2xN7Y54vfKtBP5KNBC
-         +3nK93jikHMlk+rLeMRCGA14TcymAaKNKxQAFeMwloDxehQXqFqmf8FpXx3q4lCJ2VSj
-         IGrl4/LyyU07j9nagpx2DVd0ktCh2csNQPbYTHuw80r3awpuHCaiS44dYScW8nQOhD5/
-         LFkI37wpv41bUOG/zTL0TtwcP7jph+l+RXnkoPzarV7+W3Mpaf5k20nxDkR8Pxt+A7f9
-         W9ywRORxCNA6FT2RRUWYj9o2O315ZaPSwC99zK0zn+YThUCBV1CGfsaUgCjCza02SRy/
-         +5EQ==
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject
+         :dkim-signature;
+        bh=InUJSC3uUs6UlgrpIzr6BCEqZZ5gt6IQ/2V4QtFRIUk=;
+        b=vnGihXysT1hRPTr+p3U3fHGIHGPLKOEooFCv7UhgO4puk0Khib9i5TJfOSnvtg82Wv
+         on4fUHQ5kFjPUOQMsGD1lJCMqTiMuiBmSc+GW4ucxPbEE4x41z3cvYLoq4BnY1NZ8m0e
+         FDa795NYNbem+fqrq0TfIFThHnAY3Q72zgX49IF/rfwFgIKn0xMeUFnX1UYzZUIwLx2f
+         3rrQsJyBywSaFvyw5zMZ0bt/Aezqi+7VJiIAi+vc988fZRnaZTmDSjMXjr+oSYKo/35K
+         eO7E/BgTohtqymc4UnGbOEq2U9YVmZwgIBBwzSeyPDNMOyFwJxYEqCWua3eQXywdCf2c
+         8kiA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=Nw1yr7gm;
-       spf=pass (google.com: domain of srs0=/njc=kj=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=/nJc=KJ=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=CE+KCPG3;
+       spf=pass (google.com: domain of nathan@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=nathan@kernel.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id r20si294721ilj.3.2021.05.14.12.36.57
+        by gmr-mx.google.com with ESMTPS id n2si47625pfv.6.2021.05.14.13.11.07
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 14 May 2021 12:36:57 -0700 (PDT)
-Received-SPF: pass (google.com: domain of srs0=/njc=kj=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3A854610F7;
-	Fri, 14 May 2021 19:36:57 +0000 (UTC)
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id 0AE945C02A5; Fri, 14 May 2021 12:36:57 -0700 (PDT)
-Date: Fri, 14 May 2021 12:36:57 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Arnd Bergmann <arnd@kernel.org>, Marco Elver <elver@google.com>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Arnd Bergmann <arnd@arndb.de>, Dmitry Vyukov <dvyukov@google.com>,
-	kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org,
-	clang-built-linux@googlegroups.com
+        Fri, 14 May 2021 13:11:07 -0700 (PDT)
+Received-SPF: pass (google.com: domain of nathan@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 78928613BB;
+	Fri, 14 May 2021 20:11:06 +0000 (UTC)
 Subject: Re: [PATCH] kcsan: fix debugfs initcall return type
-Message-ID: <20210514193657.GM975577@paulmck-ThinkPad-P17-Gen-1>
-Reply-To: paulmck@kernel.org
+To: paulmck@kernel.org
+Cc: Arnd Bergmann <arnd@kernel.org>, Marco Elver <elver@google.com>,
+ Nick Desaulniers <ndesaulniers@google.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Arnd Bergmann <arnd@arndb.de>, Dmitry Vyukov <dvyukov@google.com>,
+ kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org,
+ clang-built-linux@googlegroups.com
 References: <20210514140015.2944744-1-arnd@kernel.org>
  <0ad11966-b286-395e-e9ca-e278de6ef872@kernel.org>
+ <20210514193657.GM975577@paulmck-ThinkPad-P17-Gen-1>
+From: Nathan Chancellor <nathan@kernel.org>
+Message-ID: <534d9b03-6fb2-627a-399d-36e7127e19ff@kernel.org>
+Date: Fri, 14 May 2021 13:11:05 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <0ad11966-b286-395e-e9ca-e278de6ef872@kernel.org>
-X-Original-Sender: paulmck@kernel.org
+In-Reply-To: <20210514193657.GM975577@paulmck-ThinkPad-P17-Gen-1>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Language: en-US
+X-Original-Sender: nathan@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=Nw1yr7gm;       spf=pass
- (google.com: domain of srs0=/njc=kj=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org
- designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=/nJc=KJ=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+ header.i=@kernel.org header.s=k20201202 header.b=CE+KCPG3;       spf=pass
+ (google.com: domain of nathan@kernel.org designates 198.145.29.99 as
+ permitted sender) smtp.mailfrom=nathan@kernel.org;       dmarc=pass (p=NONE
+ sp=NONE dis=NONE) header.from=kernel.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -135,63 +136,55 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, May 14, 2021 at 11:29:18AM -0700, Nathan Chancellor wrote:
-> On 5/14/2021 7:00 AM, Arnd Bergmann wrote:
-> > From: Arnd Bergmann <arnd@arndb.de>
-> > 
-> > clang points out that an initcall funciton should return an 'int':
-> > 
-> > kernel/kcsan/debugfs.c:274:15: error: returning 'void' from a function with incompatible result type 'int'
-> > late_initcall(kcsan_debugfs_init);
-> > ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
-> > include/linux/init.h:292:46: note: expanded from macro 'late_initcall'
-> >   #define late_initcall(fn)               __define_initcall(fn, 7)
-> > 
-> > Fixes: e36299efe7d7 ("kcsan, debugfs: Move debugfs file creation out of early init")
-> > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+Hi Paul,
+
+On 5/14/2021 12:36 PM, Paul E. McKenney wrote:
+> On Fri, May 14, 2021 at 11:29:18AM -0700, Nathan Chancellor wrote:
+>> On 5/14/2021 7:00 AM, Arnd Bergmann wrote:
+>>> From: Arnd Bergmann <arnd@arndb.de>
+>>>
+>>> clang points out that an initcall funciton should return an 'int':
+>>>
+>>> kernel/kcsan/debugfs.c:274:15: error: returning 'void' from a function with incompatible result type 'int'
+>>> late_initcall(kcsan_debugfs_init);
+>>> ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
+>>> include/linux/init.h:292:46: note: expanded from macro 'late_initcall'
+>>>    #define late_initcall(fn)               __define_initcall(fn, 7)
+>>>
+>>> Fixes: e36299efe7d7 ("kcsan, debugfs: Move debugfs file creation out of early init")
+>>> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+>>
+>> For the record, this requires CONFIG_LTO_CLANG to be visible.
+>>
+>> Reviewed-by: Nathan Chancellor <nathan@kernel.org>
 > 
-> For the record, this requires CONFIG_LTO_CLANG to be visible.
+> Queued with the three Reviewed-by tags, thank you all!
 > 
-> Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+> Nathan, I lost the thread on exactly what it is that requires that
+> CONFIG_LTO_CLANG be visible.  A naive reader might conclude that the
+> compiler diagnostic does not appear unless CONFIG_LTO_CLANG=y, but
+> that would be surprising (and yes, I have been surprised many times).
+> If you are suggesting that the commit log be upgraded, could you please
+> supply suggested wording?
 
-Queued with the three Reviewed-by tags, thank you all!
+You can see my response to Marco here:
 
-Nathan, I lost the thread on exactly what it is that requires that
-CONFIG_LTO_CLANG be visible.  A naive reader might conclude that the
-compiler diagnostic does not appear unless CONFIG_LTO_CLANG=y, but
-that would be surprising (and yes, I have been surprised many times).
-If you are suggesting that the commit log be upgraded, could you please
-supply suggested wording?
+https://lore.kernel.org/r/ad7fa126-f371-5a24-1d80-27fe8f655b05@kernel.org/
 
-Once this is nailed down (or by Wednesday if I hear no more), I will
-rebase it to the bottom of the current kcsan stack, let it soak in -next
-for a couple of days, then send to Linus as a fix for a regression.
-Hopefully some time next week.
+Maybe some improved wording might look like
 
-							Thanx, Paul
+clang with CONFIG_LTO_CLANG points out that an initcall function should 
+return an 'int' due to the changes made to the initcall macros in commit 
+3578ad11f3fb ("init: lto: fix PREL32 relocations"):
 
-> > ---
-> >   kernel/kcsan/debugfs.c | 3 ++-
-> >   1 file changed, 2 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/kernel/kcsan/debugfs.c b/kernel/kcsan/debugfs.c
-> > index c1dd02f3be8b..e65de172ccf7 100644
-> > --- a/kernel/kcsan/debugfs.c
-> > +++ b/kernel/kcsan/debugfs.c
-> > @@ -266,9 +266,10 @@ static const struct file_operations debugfs_ops =
-> >   	.release = single_release
-> >   };
-> > -static void __init kcsan_debugfs_init(void)
-> > +static int __init kcsan_debugfs_init(void)
-> >   {
-> >   	debugfs_create_file("kcsan", 0644, NULL, NULL, &debugfs_ops);
-> > +	return 0;
-> >   }
-> >   late_initcall(kcsan_debugfs_init);
-> > 
-> 
+...
+
+Arnd, do you have any objections?
+
+Cheers,
+Nathan
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210514193657.GM975577%40paulmck-ThinkPad-P17-Gen-1.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/534d9b03-6fb2-627a-399d-36e7127e19ff%40kernel.org.
