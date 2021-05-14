@@ -1,140 +1,128 @@
-Return-Path: <kasan-dev+bncBC3ZPIWN3EFBBPE27OCAMGQENGVZYMY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCJZRXGY5YJBBWVC7OCAMGQEA4OSBWQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x240.google.com (mail-lj1-x240.google.com [IPv6:2a00:1450:4864:20::240])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1117381061
-	for <lists+kasan-dev@lfdr.de>; Fri, 14 May 2021 21:19:24 +0200 (CEST)
-Received: by mail-lj1-x240.google.com with SMTP id b35-20020a2ebc230000b02900e586a5ceaesf13931840ljf.13
-        for <lists+kasan-dev@lfdr.de>; Fri, 14 May 2021 12:19:24 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1621019964; cv=pass;
+Received: from mail-il1-x13e.google.com (mail-il1-x13e.google.com [IPv6:2607:f8b0:4864:20::13e])
+	by mail.lfdr.de (Postfix) with ESMTPS id BA9103810F3
+	for <lists+kasan-dev@lfdr.de>; Fri, 14 May 2021 21:36:59 +0200 (CEST)
+Received: by mail-il1-x13e.google.com with SMTP id a6-20020a056e021206b02901a532cdf439sf648863ilq.16
+        for <lists+kasan-dev@lfdr.de>; Fri, 14 May 2021 12:36:59 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1621021018; cv=pass;
         d=google.com; s=arc-20160816;
-        b=GVIIOgh9SAlT0jpqj5S0yFsmnUWteJdWYhjNJZ9alpjBLSkFczKDsMOEmx+UKd5t/0
-         8OxHp6zT3vZCCkBNrwiyBJ436VsMeEtSk+2ThykxiNL0UBLP2nuSLzJLfWZWZ7Es1qoV
-         aMLyL+5VOlBZri7S1rFvlrmz20oCOy4tTviyn9I3jvSiYIvz6admCVKF5CZLMnh+yUP7
-         jQ73SKQy8og0E5Rrh1PMSNHASJ2YavmACJfY6F7afQxw0YENDQe9azwQgae4CyacLSxt
-         MKacRo67Q79eCAKUtSoPfeO+Qvyoe5CBRaU0zW1u4G4+eHz09SlYqted9d2ge4/Tx2XG
-         OM9Q==
+        b=WdriGKdQBnMi0p0s+c5qf2LM3BmJItyr6mQUtWMyiQYXgv5UvaNxZ40veQ52yEv7Tb
+         VIzWUOisYZ7y6QkDZ1OfQ3Ky7HXuEEJzSKfvk3E3s13YAqgDOZns/Pi+aUR44a0VIt/z
+         nQZ+ImmGQP1KNvZ8aPBQogvslJE5dE9wueRkI8krL7pefFukK9Y9Q0gZr3RGlMFQduni
+         YX0Z3kT8cS+LTae/kKU7+YqPTflwm/YGWeMSbOxuP0GKZSKUvaWPD1gpgcnI6tIQCDY2
+         HRrCiRYfI6RY91wZ+zvfb7tBU3C2VXUXxybP6gP55oAE7+ENmRJSnf24GrCyQTxAm+Lk
+         bdVw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:sender:dkim-signature;
-        bh=WXCO1lZkiBfXBm/tfqp182Af54Qgnkulhuf0wQV64Qw=;
-        b=Drt5d0SzWVq/DU4Rbhp7o1KNpQWYEEbFc4KyDcfJ3pE4H3DrBPnkIYjueDlHKvApHg
-         pn8b0ySl3+y/C5tI/jc0b7wjov85Hw4EOicFk0Xh6XibCynnCDDu4yRuDmVI/uaW0euc
-         8rLIToJltrO9yMoCffkyri0TNgJtWRS7JGWVNSM0NzBhwH5ags6BWquQkucwYeOfztSZ
-         cSGkP4NH/J9jOUfNDgS2J/VX6GXauUHFEQORQn3wJ2/J0TkSLCu31OAaUeEy6amEu0nT
-         K8qTWrJQu4Mp32dxRxeHtI3iAojZsex3OkzT9Sn49IgYAr7fI2/IJdsy3uUWqWFydLqI
-         E0GA==
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:reply-to:message-id:subject:cc:to:from:date
+         :sender:dkim-signature;
+        bh=b5qFsgJN5d0kHlUCJBqArymycYLq4ZAVNYErURWzqmw=;
+        b=OaJmUxUZUNJNg4+RDfJIEptntQ70IhR3/bLMjbyGY5OK87uQz7U4ZKnU8TjKd7JTgx
+         zngO93M2kwt7q/+zOu7BQXG3Cd/a6h8W7Ak3AUIY9ykxR3wHO89qvOJGgdGq8b9zeaqE
+         T68gc2kzbkarKKbHBHsMBUgRkFdqqswAET158Gqpzi2M9MOfiZa7Sib30YUeaMgTbGpp
+         MPpnZ+LGcN2HWNLSp9pLNahlQ9+bRN6kLUtA0EBbKO4XtpDo6J4Ta2UCavdLFJ/+jZ6P
+         xITW4326qLNXBE7Oeu1IsrHV2oVV7nIb16wUr77pEvMT2eyKd3Ht53KPYrME/p2cg47T
+         RpCw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linux-foundation.org header.s=google header.b=FHhNFP0H;
-       spf=pass (google.com: domain of torvalds@linuxfoundation.org designates 2a00:1450:4864:20::229 as permitted sender) smtp.mailfrom=torvalds@linuxfoundation.org
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=Nw1yr7gm;
+       spf=pass (google.com: domain of srs0=/njc=kj=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=/nJc=KJ=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:mime-version:references:in-reply-to:from:date:message-id
-         :subject:to:cc:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=WXCO1lZkiBfXBm/tfqp182Af54Qgnkulhuf0wQV64Qw=;
-        b=kcJy3sbRS2RZyqPAmbfTVk7uuUmF1LyKbeshhAP/TPKsS0ck+H/v0wBO5JT1Pf/HEP
-         DXUzjynyDqI0fnPPnA1lvgAEubT/a15EviZIrdMSGP3XrG7EhZOgjorIURNgQbHI9C1E
-         i+EH2bi0bsGE3HAja83qXozMcIV6KXdh1yLBXBB/vQiSbSxJVEK+W7DhxueSyCbmtqVk
-         0Snp3W5zYV38WAOWp3/iNtsqGJLmLEkWG4dCThoj+L83RtuCLOBeq3i2wVRTSwSK1MRx
-         vEMID6ugNYTqQqb4779zAAKsWdjFkQdZa41M9hYJNQNp1xaPdV5Kq6975HrKOzDg3uHE
-         OWjw==
+        h=sender:date:from:to:cc:subject:message-id:reply-to:references
+         :mime-version:content-disposition:in-reply-to:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=b5qFsgJN5d0kHlUCJBqArymycYLq4ZAVNYErURWzqmw=;
+        b=ZHNDak37R7X6mfwK6O++kYpq6XxbkfLShcNyf0TgFUg1XcLmViyXR6LwRMIimUfFqg
+         aDsBSa5dgrOyL3P4IV2jggrMBKMJkxxog75QEutOfLN4+Aavrug4wg4TInVOohYUDdwB
+         X3rN/EFtTlfxNuH7ruS4bDec13MrR6/j0NcgI2Av8YainUICy1ObCQtoZFcc7wd2vqFV
+         ZWLMPntcbOqSrLTPuVoP31dbovvBadK0H2mzgEaiI8LEPoJaCqk8OH70MIBZ256fDfV5
+         swdJYmP8dL0jj6hWpgvGA4CJsAus2w5IJ1oSfkQVf58W5Fc17l9YAYYRhfXU9e9cx7et
+         ad5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
-         :date:message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=WXCO1lZkiBfXBm/tfqp182Af54Qgnkulhuf0wQV64Qw=;
-        b=b1FyQ8+eiRodwuOpz770wLBmc0p4Z33b0U66RHY3D+xQ0DpdMKhr+rl00uvT8qrwK3
-         5oOwbBbC8GaCTNDX0iIRj2nkzPWU12Q2SfJfeemf/Waw3vhPhSATKxWId0ZWP9/N/PLF
-         gTWpPad7+aJEt7x3saVaeIjHhJbXFbQQpKxc4cx4FDxG4x9xBMLBL81N3nRk//w8a0CP
-         iNTCn4ym4y8MEvRkIvdv6Wmoo66bGIeFRz7jIV4H51nMV0fII6cpy+ZAyiI/6VTvrtsC
-         ADPVOYe9GxVTPVE9Y9yMVlVCFlr+gYncbw03rRhzAe5XOVUTe/EYVekvNAfTeuEx9l10
-         WbzA==
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :reply-to:references:mime-version:content-disposition:in-reply-to
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=b5qFsgJN5d0kHlUCJBqArymycYLq4ZAVNYErURWzqmw=;
+        b=ZTUFtwsm9F1+TRLL7a2MB9zGeML53RHaUlEQnijwEnhQWPPv2KfYpaBmS053uGs4S4
+         E5ZxTF0lQWXtpYBB0akRR3lr83k2nWj1Z/dkLmOJoMKi/xIFVFK3bqZWnd9eETqHnDwN
+         srzCDcztiQ6W4j72nC5qbWNN4lHYila0wpOZHoMMZQxIabsRi9ySMWfIMK4iZyUAsA2j
+         cqymcPIIPKgxytbKcp8sWG9FfJyWj3tKy8P+8srygBXo4lH05voX8lpKkrTnAN5o4fe0
+         iuGD4HRKUuz5oj4gpBKvfwXGd+GGffOpjTJUulf4r/3yVAF/5ww8VTUDWWnheFbhxn+5
+         eZ/w==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM533lgxl0uibZ4vTTSRVowdVgS4+0+TY81XyTI3vh+YLJuXi4jicZ
-	qBTnjyEezIupmx7SRhXJcD0=
-X-Google-Smtp-Source: ABdhPJwtsKAkAK5zNeMiTtLUW0i4q6mOHU623HarRlazLKTgmSrSIoyJ31TJvDLbTJweyQWTNo/miA==
-X-Received: by 2002:a05:651c:102e:: with SMTP id w14mr40557583ljm.238.1621019964530;
-        Fri, 14 May 2021 12:19:24 -0700 (PDT)
+X-Gm-Message-State: AOAM530UgbCwZlQzfQIMkJkPAZKga2LGKTzLX1Xi16vcQXRVRwkG5C4V
+	pEyPjpsmKcPUj8uS54sYIKY=
+X-Google-Smtp-Source: ABdhPJz0VbV0Me2br1J863ALQcgCOO4xydWfUW/l8CjNMDhXZIxxxSN7TXr8uc3cA1tgu46oZDK+PQ==
+X-Received: by 2002:a92:cc02:: with SMTP id s2mr41267163ilp.101.1621021018539;
+        Fri, 14 May 2021 12:36:58 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:6c2:: with SMTP id u2ls177782lff.3.gmail; Fri, 14
- May 2021 12:19:23 -0700 (PDT)
-X-Received: by 2002:a19:c710:: with SMTP id x16mr879288lff.533.1621019963349;
-        Fri, 14 May 2021 12:19:23 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1621019963; cv=none;
+Received: by 2002:a05:6e02:4a3:: with SMTP id e3ls2504053ils.5.gmail; Fri, 14
+ May 2021 12:36:58 -0700 (PDT)
+X-Received: by 2002:a05:6e02:684:: with SMTP id o4mr14258337ils.149.1621021017993;
+        Fri, 14 May 2021 12:36:57 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1621021017; cv=none;
         d=google.com; s=arc-20160816;
-        b=fmk9Hle6No+apvD3sfT3PkPzCm3K9/KeRw3Odfz9JqOcYjj2Vv/ubZ9PHZievCqVDP
-         Pz1ESWB/pyeG/YPy/Ro7hFjZeKonAGbSqKhLg1dRgCW6bu1mQ0uKo9aiuaqze4gR1mKw
-         WjIEqh8/iC4DlxWvfxNZJvPFewR1uKjh0SnNBqJrgAYZnVAtuM3560QsbLfyyd2CEzci
-         fDM2WZf/75PYH0pgh6/aeXzhLyfRXglPgybp8CLhitbgm0QPbv6MKa8fT8dlXzPQW1MY
-         NedxxBD+uhTHoCjNstSCPKwLV5lsVWfJUOhzbrc+D16bnGuswFHBkm+u/7AS7h7W8siC
-         2PDQ==
+        b=q2rEvTz/KLCUu6/+EThapelKyBKt7qOsO1RUJihDeqAXWIqaX+WG6KYUsLF8mn2PsW
+         E3yqLYrqTv8SO19BNNaOpK3C6is90q8Tbtou5yoiLzvQeZAPK/I57vvqQKtVj/UYz+Vj
+         VRPda2xSqz4cMJhrGFV7wy3w5Yot/aGXRMzig4XHidUxGxsR95qlTiFZOC1a0WIyot8S
+         Om+U6aCGVPG0XOmQTU8Cs4gv/atzv5H7nclOF2LACS5hh3GWeyhgdtWRyywA/5iuwE7y
+         dVvXCGk9nzOKdRGPAPL8FtK/08vP3CxzSxtgRYIma+kzdCaqcW4fcjN3KGIlOx/PDeLG
+         9+wA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=WHGE/SI1tO0CAdU9DspiMRu/IcggidAjeljmucgj+1U=;
-        b=CGLTr4wwJyjNxuJws4s6OVrJ2YkzaJJlzOlrFPbBe1eabIwlwYD006W+KmKcFnhhX7
-         3D4pAqOju9Q816rMLruOA+MXYQ7mmXbQsK2RgoydMRilpXjkA/na7QDAGRTUzh3+QPWp
-         QcapR/zbTjz4j1dUL2vzXTLzjy1ZGvWpjDqLsSKTUJFfEszZValATBW/8wOy20XU4rxr
-         VTHWaPMIaw8U3+wM0terK/1LWQ52wi8B0g+Kks1ut77qX4Srm/owIKPh6amPYK1HfliN
-         6ie3Ljkkj7T/ymNBcZtA8OfrHtInI6B4Qcxr6TYpj27FDBbZtZzLsgeoXzePWny7zJrP
-         8TuA==
+        h=in-reply-to:content-disposition:mime-version:references:reply-to
+         :message-id:subject:cc:to:from:date:dkim-signature;
+        bh=BuSk93p/Y6Y2CEWVCz7dqF1P83kLBzvJOTXHq1YUWec=;
+        b=SmKSJcMKuFBvQpdgJXBfmqPxvwuVzdoGsUnA0fiyo+IoMlCL2xN7Y54vfKtBP5KNBC
+         +3nK93jikHMlk+rLeMRCGA14TcymAaKNKxQAFeMwloDxehQXqFqmf8FpXx3q4lCJ2VSj
+         IGrl4/LyyU07j9nagpx2DVd0ktCh2csNQPbYTHuw80r3awpuHCaiS44dYScW8nQOhD5/
+         LFkI37wpv41bUOG/zTL0TtwcP7jph+l+RXnkoPzarV7+W3Mpaf5k20nxDkR8Pxt+A7f9
+         W9ywRORxCNA6FT2RRUWYj9o2O315ZaPSwC99zK0zn+YThUCBV1CGfsaUgCjCza02SRy/
+         +5EQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linux-foundation.org header.s=google header.b=FHhNFP0H;
-       spf=pass (google.com: domain of torvalds@linuxfoundation.org designates 2a00:1450:4864:20::229 as permitted sender) smtp.mailfrom=torvalds@linuxfoundation.org
-Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com. [2a00:1450:4864:20::229])
-        by gmr-mx.google.com with ESMTPS id g25si277659lfb.10.2021.05.14.12.19.23
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 May 2021 12:19:23 -0700 (PDT)
-Received-SPF: pass (google.com: domain of torvalds@linuxfoundation.org designates 2a00:1450:4864:20::229 as permitted sender) client-ip=2a00:1450:4864:20::229;
-Received: by mail-lj1-x229.google.com with SMTP id 131so13673606ljj.3
-        for <kasan-dev@googlegroups.com>; Fri, 14 May 2021 12:19:23 -0700 (PDT)
-X-Received: by 2002:a2e:8053:: with SMTP id p19mr39273548ljg.312.1621019962865;
-        Fri, 14 May 2021 12:19:22 -0700 (PDT)
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com. [209.85.167.42])
-        by smtp.gmail.com with ESMTPSA id f14sm1361674ljm.55.2021.05.14.12.19.22
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 May 2021 12:19:22 -0700 (PDT)
-Received: by mail-lf1-f42.google.com with SMTP id r5so27307413lfr.5
-        for <kasan-dev@googlegroups.com>; Fri, 14 May 2021 12:19:22 -0700 (PDT)
-X-Received: by 2002:a2e:22c4:: with SMTP id i187mr38227020lji.465.1621019658636;
- Fri, 14 May 2021 12:14:18 -0700 (PDT)
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=Nw1yr7gm;
+       spf=pass (google.com: domain of srs0=/njc=kj=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=/nJc=KJ=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
+        by gmr-mx.google.com with ESMTPS id r20si294721ilj.3.2021.05.14.12.36.57
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 14 May 2021 12:36:57 -0700 (PDT)
+Received-SPF: pass (google.com: domain of srs0=/njc=kj=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3A854610F7;
+	Fri, 14 May 2021 19:36:57 +0000 (UTC)
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id 0AE945C02A5; Fri, 14 May 2021 12:36:57 -0700 (PDT)
+Date: Fri, 14 May 2021 12:36:57 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Arnd Bergmann <arnd@kernel.org>, Marco Elver <elver@google.com>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Arnd Bergmann <arnd@arndb.de>, Dmitry Vyukov <dvyukov@google.com>,
+	kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org,
+	clang-built-linux@googlegroups.com
+Subject: Re: [PATCH] kcsan: fix debugfs initcall return type
+Message-ID: <20210514193657.GM975577@paulmck-ThinkPad-P17-Gen-1>
+Reply-To: paulmck@kernel.org
+References: <20210514140015.2944744-1-arnd@kernel.org>
+ <0ad11966-b286-395e-e9ca-e278de6ef872@kernel.org>
 MIME-Version: 1.0
-References: <YIpkvGrBFGlB5vNj@elver.google.com> <m11rat9f85.fsf@fess.ebiederm.org>
- <CAK8P3a0+uKYwL1NhY6Hvtieghba2hKYGD6hcKx5n8=4Gtt+pHA@mail.gmail.com>
- <m15z031z0a.fsf@fess.ebiederm.org> <YIxVWkT03TqcJLY3@elver.google.com>
- <m1zgxfs7zq.fsf_-_@fess.ebiederm.org> <m1r1irpc5v.fsf@fess.ebiederm.org>
- <CANpmjNNfiSgntiOzgMc5Y41KVAV_3VexdXCMADekbQEqSP3vqQ@mail.gmail.com>
- <m1czuapjpx.fsf@fess.ebiederm.org> <CANpmjNNyifBNdpejc6ofT6+n6FtUw-Cap_z9Z9YCevd7Wf3JYQ@mail.gmail.com>
- <m14kfjh8et.fsf_-_@fess.ebiederm.org> <m1tuni8ano.fsf_-_@fess.ebiederm.org> <m1a6oxewym.fsf_-_@fess.ebiederm.org>
-In-Reply-To: <m1a6oxewym.fsf_-_@fess.ebiederm.org>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Fri, 14 May 2021 12:14:02 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wikDD+gCUECg9NZAVSV6W_FUdyZFHzK4isfrwES_+sH-w@mail.gmail.com>
-Message-ID: <CAHk-=wikDD+gCUECg9NZAVSV6W_FUdyZFHzK4isfrwES_+sH-w@mail.gmail.com>
-Subject: Re: [GIT PULL] siginfo: ABI fixes for v5.13-rc2
-To: "Eric W. Biederman" <ebiederm@xmission.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, Florian Weimer <fweimer@redhat.com>, 
-	"David S. Miller" <davem@davemloft.net>, Peter Zijlstra <peterz@infradead.org>, 
-	Ingo Molnar <mingo@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, 
-	Peter Collingbourne <pcc@google.com>, Dmitry Vyukov <dvyukov@google.com>, 
-	Alexander Potapenko <glider@google.com>, sparclinux <sparclinux@vger.kernel.org>, 
-	linux-arch <linux-arch@vger.kernel.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux API <linux-api@vger.kernel.org>, 
-	kasan-dev <kasan-dev@googlegroups.com>, Marco Elver <elver@google.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: torvalds@linux-foundation.org
+Content-Disposition: inline
+In-Reply-To: <0ad11966-b286-395e-e9ca-e278de6ef872@kernel.org>
+X-Original-Sender: paulmck@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linux-foundation.org header.s=google header.b=FHhNFP0H;
-       spf=pass (google.com: domain of torvalds@linuxfoundation.org designates
- 2a00:1450:4864:20::229 as permitted sender) smtp.mailfrom=torvalds@linuxfoundation.org
+ header.i=@kernel.org header.s=k20201202 header.b=Nw1yr7gm;       spf=pass
+ (google.com: domain of srs0=/njc=kj=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org
+ designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=/nJc=KJ=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -147,45 +135,63 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, May 13, 2021 at 9:55 PM Eric W. Biederman <ebiederm@xmission.com> wrote:
->
-> Please pull the for-v5.13-rc2 branch from the git tree:
+On Fri, May 14, 2021 at 11:29:18AM -0700, Nathan Chancellor wrote:
+> On 5/14/2021 7:00 AM, Arnd Bergmann wrote:
+> > From: Arnd Bergmann <arnd@arndb.de>
+> > 
+> > clang points out that an initcall funciton should return an 'int':
+> > 
+> > kernel/kcsan/debugfs.c:274:15: error: returning 'void' from a function with incompatible result type 'int'
+> > late_initcall(kcsan_debugfs_init);
+> > ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
+> > include/linux/init.h:292:46: note: expanded from macro 'late_initcall'
+> >   #define late_initcall(fn)               __define_initcall(fn, 7)
+> > 
+> > Fixes: e36299efe7d7 ("kcsan, debugfs: Move debugfs file creation out of early init")
+> > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> 
+> For the record, this requires CONFIG_LTO_CLANG to be visible.
+> 
+> Reviewed-by: Nathan Chancellor <nathan@kernel.org>
 
-I really don't like this tree.
+Queued with the three Reviewed-by tags, thank you all!
 
-The immediate cause for "no" is the silly
+Nathan, I lost the thread on exactly what it is that requires that
+CONFIG_LTO_CLANG be visible.  A naive reader might conclude that the
+compiler diagnostic does not appear unless CONFIG_LTO_CLANG=y, but
+that would be surprising (and yes, I have been surprised many times).
+If you are suggesting that the commit log be upgraded, could you please
+supply suggested wording?
 
- #if IS_ENABLED(CONFIG_SPARC)
+Once this is nailed down (or by Wednesday if I hear no more), I will
+rebase it to the bottom of the current kcsan stack, let it soak in -next
+for a couple of days, then send to Linus as a fix for a regression.
+Hopefully some time next week.
 
-and
+							Thanx, Paul
 
- #if IS_ENABLED(CONFIG_ALPHA)
-
-code in kernel/signal.c. It has absolutely zero business being there,
-when those architectures have a perfectly fine arch/*/kernel/signal.c
-file where that code would make much more sense *WITHOUT* any odd
-preprocessor games.
-
-But there are other oddities too, like the new
-
-    send_sig_fault_trapno(SIGFPE, si_code, (void __user *) regs->pc,
-0, current);
-
-in the alpha code, which fundamentally seems bogus: using
-send_sig_fault_trapno() with a '0' for trapno seems entirely
-incorrect, since the *ONLY* point of that function is to set si_trapno
-to something non-zero.
-
-So it would seem that a plain send_sig_fault() without that 0 would be
-the right thing to do.
-
-This also mixes in a lot of other stuff than just the fixes. Which
-would have been ok during the merge window, but I'm definitely not
-happy about it now.
-
-             Linus
+> > ---
+> >   kernel/kcsan/debugfs.c | 3 ++-
+> >   1 file changed, 2 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/kernel/kcsan/debugfs.c b/kernel/kcsan/debugfs.c
+> > index c1dd02f3be8b..e65de172ccf7 100644
+> > --- a/kernel/kcsan/debugfs.c
+> > +++ b/kernel/kcsan/debugfs.c
+> > @@ -266,9 +266,10 @@ static const struct file_operations debugfs_ops =
+> >   	.release = single_release
+> >   };
+> > -static void __init kcsan_debugfs_init(void)
+> > +static int __init kcsan_debugfs_init(void)
+> >   {
+> >   	debugfs_create_file("kcsan", 0644, NULL, NULL, &debugfs_ops);
+> > +	return 0;
+> >   }
+> >   late_initcall(kcsan_debugfs_init);
+> > 
+> 
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAHk-%3DwikDD%2BgCUECg9NZAVSV6W_FUdyZFHzK4isfrwES_%2BsH-w%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210514193657.GM975577%40paulmck-ThinkPad-P17-Gen-1.
