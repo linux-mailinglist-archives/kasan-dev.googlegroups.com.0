@@ -1,131 +1,127 @@
-Return-Path: <kasan-dev+bncBCJZRXGY5YJBBKEK7OCAMGQET5UMR3Q@googlegroups.com>
+Return-Path: <kasan-dev+bncBCJZRXGY5YJBBMEL7OCAMGQEVRVGISQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oo1-xc3d.google.com (mail-oo1-xc3d.google.com [IPv6:2607:f8b0:4864:20::c3d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BCD6380FF9
-	for <lists+kasan-dev@lfdr.de>; Fri, 14 May 2021 20:44:57 +0200 (CEST)
-Received: by mail-oo1-xc3d.google.com with SMTP id b3-20020a4ab4830000b029020d5d68e38dsf150859ooo.21
-        for <lists+kasan-dev@lfdr.de>; Fri, 14 May 2021 11:44:57 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1621017896; cv=pass;
+Received: from mail-pf1-x438.google.com (mail-pf1-x438.google.com [IPv6:2607:f8b0:4864:20::438])
+	by mail.lfdr.de (Postfix) with ESMTPS id 269EA380FFC
+	for <lists+kasan-dev@lfdr.de>; Fri, 14 May 2021 20:47:14 +0200 (CEST)
+Received: by mail-pf1-x438.google.com with SMTP id g14-20020a056a00078eb02902d7e2fb2c06sf117423pfu.13
+        for <lists+kasan-dev@lfdr.de>; Fri, 14 May 2021 11:47:14 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1621018033; cv=pass;
         d=google.com; s=arc-20160816;
-        b=SUzjbD2KmNT+1fb5smraVestbqynt5kYG26xRgsQskic3I3Hkpa3BMLTg33naunrey
-         O+XaR/H4iGq987Es/TPFQ8lCCMOaWWKEwTFSfgp3dnzuRVLF/72T/a9HxetLH8PvLngj
-         OVBT9HKonz2OnFcGL5F8RicdMYut19RZfNvXT8hq7RpXpygwm8QStDjDy92W27/EMCdQ
-         0JyxI/gfEzjMtLTZmmEXpr2ZF4XYI/H68daGEr7W+C+HyS7vQxh+A7aH03KVUZ5Kkzmo
-         OTm0XVUE++ILeX4fZaNVl7kYVotyVdfqfSCqwgfhNh1OPZ773MqAkQVzvuZSc+WLHfeX
-         l1xQ==
+        b=y+DcdHXG8KS/A6jB26OTIhxcYrvhkeqVGV6t/amTBtLDb/zrvnLTSsapyanImWI/c+
+         iEQj9+BRAznHrXx7v+d/yWRhlepHVRPvgdlcFjmRsWRUKid38BRrTHRblLAlB9asQjdI
+         E0j3KaFIIoTVEN6sFxWBloQn/Fopl/Ztb113ocpBYM2MdXLaJ+1+HQwwLfiqCqNkxosW
+         pleELE3kGFT7hA8Ep/n5bPIKxEF9nxmchGudDMFk+hToDrwhmXxO7hmguIbn9V4Ut78U
+         fCI4myieAc0cwSp1wCJ0bmSEdJ3g9JFP6kdzfukcGI1BK0fQPwUD5tnLNRNo+QvfMy1r
+         7vqg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to
-         :content-transfer-encoding:content-disposition:mime-version
-         :references:reply-to:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=Ex8y252ZQq8mHMR5H1GHxOzf5ptFgaQIm/7fzz7BALM=;
-        b=kGwencXeegTrU68lPrxZgsPwxXrLSWfGxqGiwR9GhZq9JQc13UtV4ZRgDaj4wsLweX
-         C8mfW8sJwYZUxJPPuH46VSoYJ+Mk77ztl7YDvaZ4pl7QqOgAqtTtpguLxcjJqjntUqnN
-         w0nxLzmtUfYrAVPd4hKP1Wi+bAZy2BOmLNFZVKrJmEMqy2piXopH/VtqWdvR0p6Zh9QH
-         auXs3l1NDN4md0JWYeDBLqWq0eIqdX4PnodmI7x27bvtA4P8kNzSblirZ68sN8egSThz
-         Jgm9xCLlVOsf0Wdb3VGlnI77csHk0pGBbC7grqHpn2V4iZ3u92XrepAod2uEUo2k9iqM
-         K2BQ==
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:reply-to:message-id:subject:cc:to:from:date
+         :sender:dkim-signature;
+        bh=ISL3ueocusNeGd8nzOURVluq0iz1R6J7vmUsEFSX6pA=;
+        b=XctqZMD0yY1L8BKaHYi3wUL0T5rwIUlJI2LIKcbi2MkFm4bcDfC+7Js00UDCerLMc5
+         pOa66rb5fybfXK4pAheZ87CSnZmvYxcCvP4fed0Z8UnjedI1qO8zoZcIo3XKSHEUJk4y
+         fksTeBLN/D4lmmFbf/NNBuLIPm6pHd+9qqn7cppBr2/3nfz6Z+LFDaEN0VvhQMvelYMI
+         Kt9WhKyJcB0I2+DNdacW/QW2/Wo4dW9lPA4pBoYBblLR9tLYO+vuIFAm3f/6hgMyhCh0
+         xyR9cdW53cdU7cKyBJcDzl6BrpnT759cpUehljULzif/2lr2z4iA8YJXXZJIE/wktCFB
+         jWMw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=L9B0QIsH;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=DpoTAYYO;
        spf=pass (google.com: domain of srs0=/njc=kj=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=/nJc=KJ=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
         h=sender:date:from:to:cc:subject:message-id:reply-to:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=Ex8y252ZQq8mHMR5H1GHxOzf5ptFgaQIm/7fzz7BALM=;
-        b=d+GmXX2a43HU2IHGxu2vcVD6I8gNU5VHsryAV39Y5r699HfbswyhsVsk3JIa0ERhFO
-         +e4x9GocloUFVVpIb+YaHy0DNt7X+AXNULxTBwE29Ua3xS8CkokCXgodcgpMIk/FsfSd
-         2LXSMR0SqPB/XibjQW+twTTByKOgCkPb9Czib4j4qm4vRzPqx3kPnEcLnB2syZt28EWr
-         z5ghRiu2IVLfRw8ojlulkwXx7r+bZXNX7ZStkY6NB+woZAV6l9DDBgCFXsVihReBJ5wF
-         BE323iEGreCLQcmKVGncX4pXaDfyYt9eRrae9NYZgRRsxlc8XfsZ9xARytH56X4qrQmQ
-         wVvg==
+         :mime-version:content-disposition:in-reply-to:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=ISL3ueocusNeGd8nzOURVluq0iz1R6J7vmUsEFSX6pA=;
+        b=RNEM3eMVTV/uZwfZwLMFKfJBe9EXJYtLw5IAiwo+Im+9yBiVIM181jJV4vqWm3Ckw1
+         K2Ycz7Q7a1DJmSb4eXzSGQcRUSdTHjL4s/aESAs49GK8SGpU/pHrNXkjebJ0dadZKUbS
+         bpJNV+SuJwSblpmQwbl+o14eqpzEzYC2/3QkccoujqWt+fplwbh2ZylhW+0SUgO3U0M7
+         0EY7NJ6DarGqbBdmRZAuFohXRuF32mLZN6KhiqS59VRHGhMFQpq7QObp9i6fUMwWV7Y7
+         jS1h56TTm7QOFeXJuYzbzgfpkEWMeX5Yim3LRpCtvUROLvPA2YGCtO4nqngzBxtHo0l4
+         CTuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :reply-to:references:mime-version:content-disposition
-         :content-transfer-encoding:in-reply-to:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=Ex8y252ZQq8mHMR5H1GHxOzf5ptFgaQIm/7fzz7BALM=;
-        b=otCv4im3Sha325LLukkF5akD0OGnC8bkycM420w/yCe09lV5pUDeq7pmvtrD8hSw6x
-         bIJvlN1SevrLI2IFi8gULH6sobxYwKcrUaLJMtlQaJqA4gySMcgKXC5d5gLbWHDFGcbm
-         lIl7CPgLqOZQqFIdHq5VMmimChlvCFfSIUIm1r+oMjnr8OzRfrfzpangeI6Wm9xYv4NG
-         Y8DLj+cIAiyO2f2i93XggRmew/PzZxnyp9M0gYqFCvkKOLaGStPThqxGODGa0tGwBtv1
-         bpigEi3c7KGxeGnFW3Q/FG0F2lTXWO4alpohhdse9w8MFcMLKaEqmSLwiKWRg4BvG3AJ
-         ZWUA==
+         :reply-to:references:mime-version:content-disposition:in-reply-to
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=ISL3ueocusNeGd8nzOURVluq0iz1R6J7vmUsEFSX6pA=;
+        b=G/6hKA/9X5k7CG+ihjjeRCVdLZtXC8iQPMCAXo/E+FhVg9+yPkd7hLsV3cRz03wCWU
+         uJ4wZKKwaHSSEZRfsKVGsJxgFdUS+hGJDFsU/mncrkOlsceTO3p7dAJLBBbQf16w4uOv
+         1QW3oiYflBMDRw7wxBhmHbnnGLg4Bap6CPGT5Osos5lo/J/vOEz5UDHOD0dMNDNO/9/t
+         Ezk/f2DG0KOEbLINKUHaR+BcS3gW7yKmB1OuVS7FvuhaKdeqFbcfG7Y345PgA0JgjdxU
+         Dybq5aRxRHG1w7pzM/CWHJs/OBik4KceI1dS0lrihvsrJr9INzziqHGboz7aep95rMp9
+         tglA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM530ejov7UWgzXxsDEBlT8leKJ6kAkcESXb9GKbn5VBf6v2hkEvvy
-	+zhca/lok09rBRgHk43czDg=
-X-Google-Smtp-Source: ABdhPJzo8gOX5Br2EuOmyZruZ02LKgdDkA8HtpTFlZwj+GUoyfa+Gyjmd/BV999C/+X+vMzHdYKr6Q==
-X-Received: by 2002:a4a:8706:: with SMTP id z6mr19923071ooh.41.1621017896381;
-        Fri, 14 May 2021 11:44:56 -0700 (PDT)
+X-Gm-Message-State: AOAM5324l12+5rliGe/BePAaAnRE+jwN3TyxTHgDfMnz39cXMA320kN1
+	yrN99P2GrihpLYcjP0hk+/4=
+X-Google-Smtp-Source: ABdhPJx/sBctNTLG7tCeJddtPN/oCmN6wF+9Y90xAt+gmZumHZRZu5ijlShKJ793M2EdtBiFyXsIzA==
+X-Received: by 2002:a62:65c7:0:b029:278:e19f:f838 with SMTP id z190-20020a6265c70000b0290278e19ff838mr47456562pfb.64.1621018032874;
+        Fri, 14 May 2021 11:47:12 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a9d:a6f:: with SMTP id 102ls2818125otg.8.gmail; Fri, 14 May
- 2021 11:44:56 -0700 (PDT)
-X-Received: by 2002:a9d:2271:: with SMTP id o104mr40510569ota.201.1621017895983;
-        Fri, 14 May 2021 11:44:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1621017895; cv=none;
+Received: by 2002:a05:6a00:24d5:: with SMTP id d21ls605764pfv.1.gmail; Fri, 14
+ May 2021 11:47:12 -0700 (PDT)
+X-Received: by 2002:a63:3444:: with SMTP id b65mr123012pga.185.1621018032334;
+        Fri, 14 May 2021 11:47:12 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1621018032; cv=none;
         d=google.com; s=arc-20160816;
-        b=Jaity89J7R9aVcr91CQIL486Cqa+UcZVZRp8s90TKyfKpIaPgfG+4HYjs9LgIZkWX7
-         SXrqD5nqLvxzRD1EDLGPy9KUNk0rhexJfFPlK1BThM3MKnQxchfZRT/5gItGhqU9TVVI
-         hAHBUFneQ0vDFCTX0XFG7kjJvwRe8nYfEn7MWjDyNZldg3O+FyuNhyxCFsn4Irvys/+L
-         oJ3HZCPr2cFQ8tAfDp+AACxhJjmbKEQxkCvlOZanjD3X0NVz4cxKovwXHmdx3UMA6tGr
-         mE7PcNjPwGcJdkbmLL7G52wVZo2feuuo4Xq/Y8tdmMNpwmWRP6RTfLyEnEs+b1/VMEnC
-         tHXQ==
+        b=0E5uPU41Ayi9wB6Yqeuqn8GRlNZsbj2dEIPGaL3hF6IpuNB/V1DAn/4Qx65w8GQhoN
+         4Lzsi0rOcC2Fj5hFb4oUlMGvwTm52qTE+Pin4w5pgunORmW4uGMJ9dLlrVVSznFVfIbQ
+         aPuE0E5j/DnrIjM1qQ+w8LyZCOtC4nLGXLP52GY3xaTR0Sx+VNX/0MCptj9yh9tJy+22
+         M63AhEiiAMeOsPHnDzTrY9NtsR2+kKnkA1b+E287/rRwCRt+ndoEw5U5G1fKFOEveaZw
+         kYS2a9GUeihDTWEoU8S98h7A4Vym47p0uPsp6igbOCpdxI46T98zq+aCL6VWIu9g53vQ
+         p5TQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:reply-to:message-id:subject:cc:to:from:date
-         :dkim-signature;
-        bh=G9/YH7HyrOnJuePuWbrF8iSWbzURph3OkKshKeXvwvg=;
-        b=iiLpc0pUoGx82r3rVCU5UmKgExrGXAA1StjxM47b2PIEwBkNr7sDVyGoPFGuh/wf/D
-         cLVWSXFTUoRMNe+J24+lKo+jFF0kziQlRcBFRSg/DcODNeb/QFVJoQukjY/WADSyfI/Q
-         BBssN/BuKstBxtSue74naGbZdjsELAF+NEwOCLNkWipMy15qB/aF29+UHytyWD95kHud
-         0j5WrjK5x3af18H/4MsRUmfkJznCcQbEw1ZS6RhdfZ5XqejEcKbHNNJfw4Gn4Ob6g7UC
-         UFoA8YlgBn9rmGRW8ucN0ZU5bCRZZisZxN/1tBcIaRozgXlPCbuLMqoPxuvQUxNabRPV
-         8aPg==
+        h=in-reply-to:content-disposition:mime-version:references:reply-to
+         :message-id:subject:cc:to:from:date:dkim-signature;
+        bh=bdUdpaEiz+YytJHN4bYm3ZadOlXgkbMx08f2dYDPoPU=;
+        b=1KT/CeEEYZWJw9hDbEEIi3pz7mxrEIT5wM01D5B3P6aT84rSmnUzv376UZk2EohEMB
+         M4IxDwtQk9fbPeSNGxJz2EYVUcCQsUSgkmfJ2J6fPLyfb//UC1mlwoj00QOu6KL9o1X0
+         e+OalOZl+JCyyOJ7UVsQvIR08ggul6nWOOa24fF1BxbVupdu9N5SWcioOTKZugTucl0y
+         ClWoXfsdUevh0gvgP+FPkrpHPOmcHour8DZSYerFFBTWbax5p7oxug1504AajWYqoobs
+         TBc3T2AWeH0gH1olhiL/W6yVO5MDEOjkZjeiuZ96hGzNtalOrawTvN7z3atoYNOjBE3z
+         tyfA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=L9B0QIsH;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=DpoTAYYO;
        spf=pass (google.com: domain of srs0=/njc=kj=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=/nJc=KJ=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id x16si682636otr.5.2021.05.14.11.44.55
+        by gmr-mx.google.com with ESMTPS id b9si815390pfd.3.2021.05.14.11.47.12
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 14 May 2021 11:44:55 -0700 (PDT)
+        Fri, 14 May 2021 11:47:12 -0700 (PDT)
 Received-SPF: pass (google.com: domain of srs0=/njc=kj=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3EEFF61177;
-	Fri, 14 May 2021 18:44:55 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0A05B613C8;
+	Fri, 14 May 2021 18:47:12 +0000 (UTC)
 Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id 0DB735C02A5; Fri, 14 May 2021 11:44:55 -0700 (PDT)
-Date: Fri, 14 May 2021 11:44:55 -0700
+	id C88BF5C02A5; Fri, 14 May 2021 11:47:11 -0700 (PDT)
+Date: Fri, 14 May 2021 11:47:11 -0700
 From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Manfred Spraul <manfred@colorfullife.com>
-Cc: kasan-dev <kasan-dev@googlegroups.com>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+To: Hillf Danton <hdanton@sina.com>
+Cc: Manfred Spraul <manfred@colorfullife.com>,
+	kasan-dev <kasan-dev@googlegroups.com>,
+	LKML <linux-kernel@vger.kernel.org>,
 	Davidlohr Bueso <dbueso@suse.de>, 1vier1@web.de
 Subject: Re: ipc/sem, ipc/msg, ipc/mqueue.c kcsan questions
-Message-ID: <20210514184455.GJ975577@paulmck-ThinkPad-P17-Gen-1>
+Message-ID: <20210514184711.GK975577@paulmck-ThinkPad-P17-Gen-1>
 Reply-To: paulmck@kernel.org
 References: <a9b36c77-dc42-4ab2-9740-f27b191dd403@colorfullife.com>
  <20210512201743.GW975577@paulmck-ThinkPad-P17-Gen-1>
  <343390da-2307-442e-8073-d1e779c85eeb@colorfullife.com>
  <20210513190201.GE975577@paulmck-ThinkPad-P17-Gen-1>
- <9c9739ec-1273-5137-7b6d-00a27a22ffca@colorfullife.com>
+ <20210514082918.971-1-hdanton@sina.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <9c9739ec-1273-5137-7b6d-00a27a22ffca@colorfullife.com>
+In-Reply-To: <20210514082918.971-1-hdanton@sina.com>
 X-Original-Sender: paulmck@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=L9B0QIsH;       spf=pass
+ header.i=@kernel.org header.s=k20201202 header.b=DpoTAYYO;       spf=pass
  (google.com: domain of srs0=/njc=kj=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org
  designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=/nJc=KJ=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
@@ -141,224 +137,248 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, May 14, 2021 at 07:41:02AM +0200, Manfred Spraul wrote:
-> On 5/13/21 9:02 PM, Paul E. McKenney wrote:
-> > On Thu, May 13, 2021 at 08:10:51AM +0200, Manfred Spraul wrote:
-> > > Hi Paul,
-> > >=20
-> > > On 5/12/21 10:17 PM, Paul E. McKenney wrote:
-> > > [...]
-> > > > 	int foo;
-> > > > 	DEFINE_RWLOCK(foo_rwlock);
-> > > >=20
-> > > > 	void update_foo(int newval)
-> > > > 	{
-> > > > 		write_lock(&foo_rwlock);
-> > > > 		foo =3D newval;
-> > > > 		do_something(newval);
-> > > > 		write_unlock(&foo_rwlock);
-> > > > 	}
-> > > >=20
-> > > > 	int read_foo(void)
-> > > > 	{
-> > > > 		int ret;
-> > > >=20
-> > > > 		read_lock(&foo_rwlock);
-> > > > 		do_something_else();
-> > > > 		ret =3D foo;
-> > > > 		read_unlock(&foo_rwlock);
-> > > > 		return ret;
-> > > > 	}
-> > > >=20
-> > > > 	int read_foo_diagnostic(void)
-> > > > 	{
-> > > > 		return data_race(foo);
-> > > > 	}
-> > > The text didn't help, the example has helped:
-> > >=20
-> > > It was not clear to me if I have to use data_race() both on the read =
-and the
-> > > write side, or only on one side.
-> > >=20
-> > > Based on this example: plain C may be paired with data_race(), there =
-is no
-> > > need to mark both sides.
-> > Actually, you just demonstrated that this example is quite misleading.
-> > That data_race() works only because the read is for diagnostic
-> > purposes.  I am queuing a commit with your Reported-by that makes
-> > read_foo_diagnostic() just do a pr_info(), like this:
-> >=20
-> > 	void read_foo_diagnostic(void)
-> > 	{
-> > 		pr_info("Current value of foo: %d\n", data_race(foo));
-> > 	}
-> >=20
-> > So thank you for that!
->=20
-> I would not like this change at all.
-> Assume you chase a rare bug, and notice an odd pr_info() output.
-> It will take you really long until you figure out that a data_race() misl=
-ead
-> you.
-> Thus for a pr_info(), I would consider READ_ONCE() as the correct thing.
+On Fri, May 14, 2021 at 04:29:18PM +0800, Hillf Danton wrote:
+> On Thu, 13 May 2021 15:01:27 Paul E. McKenney wrote:
+> >On Thu, May 13, 2021 at 12:02:01PM -0700, Paul E. McKenney wrote:
+> >> On Thu, May 13, 2021 at 08:10:51AM +0200, Manfred Spraul wrote:
+> >> > Hi Paul,
+> >> > 
+> >> > On 5/12/21 10:17 PM, Paul E. McKenney wrote:
+> >> > > On Wed, May 12, 2021 at 09:58:18PM +0200, Manfred Spraul wrote:
+> >> > > > [...]
+> >> > > > sma->use_global_lock is evaluated in sem_lock() twice:
+> >> > > > 
+> >> > > > >  ?????? /*
+> >> > > > >  ???????? * Initial check for use_global_lock. Just an optimization,
+> >> > > > >  ???????? * no locking, no memory barrier.
+> >> > > > >  ???????? */
+> >> > > > >  ??????? if (!sma->use_global_lock) {
+> >> > > > Both sides of the if-clause handle possible data races.
+> >> > > > 
+> >> > > > Is
+> >> > > > 
+> >> > > >  ??? if (!data_race(sma->use_global_lock)) {
+> >> > > > 
+> >> > > > the correct thing to suppress the warning?
+> >> > > Most likely READ_ONCE() rather than data_race(), but please see
+> >> > > the end of this message.
+> >> > 
+> >> > Based on the document, I would say data_race() is sufficient:
+> >> > 
+> >> > I have replaced the code with "if (jiffies %2)", and it runs fine.
+> >> 
+> >> OK, but please note that "jiffies" is marked volatile, which prevents the
+> >> compiler from fusing loads.  You just happen to be OK in this particular
+> >> case, as described below.  Use of the "jiffies_64" non-volatile synonym
+> >> for "jiffies" is better for this sort of checking.  But even so, just
+> >> because a particular version of a particular compiler refrains from
+> >> fusing loads in a particular situation does not mean that all future
+> >> versions of all future compilers will behave so nicely.
+> >> 
+> >> Again, you are OK in this particular situation, as described below.
+> >> 
+> >> > Thus I don't see which evil things a compiler could do, ... .
+> >> 
+> >> Fair enough, and your example is covered by the section "Reads Feeding
+> >> Into Error-Tolerant Heuristics".  The worst that the compiler can do is
+> >> to force an unnecessary acquisition of the global lock.
+> >> 
+> >> This cannot cause incorrect execution, but could results in poor
+> >> scalability.  This could be a problem is load fusing were possible, that
+> >> is, if successes calls to this function were inlined and the compiler
+> >> just reused the value initially loaded.
+> >> 
+> >> The reason that load fusing cannot happen in this case is that the
+> >> load is immediately followed by a lock acquisition, which implies a
+> >> barrier(), which prevents the compiler from fusing loads on opposite
+> >> sides of that barrier().
+> >> 
+> >> > [...]
+> >> > 
+> >> > Does tools/memory-model/Documentation/access-marking.txt, shown below,
+> >> > > help?
+> >> > > 
+> >> > [...]
+> >> > > 	int foo;
+> >> > > 	DEFINE_RWLOCK(foo_rwlock);
+> >> > > 
+> >> > > 	void update_foo(int newval)
+> >> > > 	{
+> >> > > 		write_lock(&foo_rwlock);
+> >> > > 		foo = newval;
+> >> > > 		do_something(newval);
+> >> > > 		write_unlock(&foo_rwlock);
+> >> > > 	}
+> >> > > 
+> >> > > 	int read_foo(void)
+> >> > > 	{
+> >> > > 		int ret;
+> >> > > 
+> >> > > 		read_lock(&foo_rwlock);
+> >> > > 		do_something_else();
+> >> > > 		ret = foo;
+> >> > > 		read_unlock(&foo_rwlock);
+> >> > > 		return ret;
+> >> > > 	}
+> >> > > 
+> >> > > 	int read_foo_diagnostic(void)
+> >> > > 	{
+> >> > > 		return data_race(foo);
+> >> > > 	}
+> >> > 
+> >> > The text didn't help, the example has helped:
+> >> > 
+> >> > It was not clear to me if I have to use data_race() both on the read and the
+> >> > write side, or only on one side.
+> >> > 
+> >> > Based on this example: plain C may be paired with data_race(), there is no
+> >> > need to mark both sides.
+> >> 
+> >> Actually, you just demonstrated that this example is quite misleading.
+> >> That data_race() works only because the read is for diagnostic
+> >> purposes.  I am queuing a commit with your Reported-by that makes
+> >> read_foo_diagnostic() just do a pr_info(), like this:
+> >> 
+> >> 	void read_foo_diagnostic(void)
+> >> 	{
+> >> 		pr_info("Current value of foo: %d\n", data_race(foo));
+> >> 	}
+> >> 
+> >> So thank you for that!
+> >
+> >And please see below for an example better illustrating your use case.
+> >Anything messed up or missing?
+> >
+> >							Thanx, Paul
+> >
+> >------------------------------------------------------------------------
+> >
+> >commit b4287410ee93109501defc4695ccc29144e8f3a3
+> >Author: Paul E. McKenney <paulmck@kernel.org>
+> >Date:   Thu May 13 14:54:58 2021 -0700
+> >
+> >    tools/memory-model: Add example for heuristic lockless reads
+> >    
+> >    This commit adds example code for heuristic lockless reads, based loosely
+> >    on the sem_lock() and sem_unlock() functions.
+> >    
+> >    Reported-by: Manfred Spraul <manfred@colorfullife.com>
+> >    Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
+> >
+> >diff --git a/tools/memory-model/Documentation/access-marking.txt b/tools/memory-model/Documentation/access-marking.txt
+> >index 58bff2619876..e4a20ebf565d 100644
+> >--- a/tools/memory-model/Documentation/access-marking.txt
+> >+++ b/tools/memory-model/Documentation/access-marking.txt
+> >@@ -319,6 +319,98 @@ of the ASSERT_EXCLUSIVE_WRITER() is to allow KCSAN to check for a buggy
+> > concurrent lockless write.
+> > 
+> > 
+> >+Lock-Protected Writes With Heuristic Lockless Reads
+> >+---------------------------------------------------
+> >+
+> >+For another example, suppose that the code can normally make use of
+> >+a per-data-structure lock, but there are times when a global lock is
+> >+required.  These times are indicated via a global flag.  The code might
+> >+look as follows, and is based loosely on sem_lock() and sem_unlock():
+> >+
+> >+	bool global_flag;
+> >+	DEFINE_SPINLOCK(global_lock);
+> >+	struct foo {
+> >+		spinlock_t f_lock;
+> >+		int f_data;
+> >+	};
+> >+
+> >+	/* All foo structures are in the following array. */
+> >+	int nfoo;
+> >+	struct foo *foo_array;
+> >+
+> >+	void do_something_locked(struct foo *fp)
+> >+	{
+> >+		/* IMPORTANT: Heuristic plus spin_lock()! */
+> >+		if (!data_race(global_flag)) {
+> >+			spin_lock(&fp->f_lock);
+> >+			if (!smp_load_acquire(&global_flag)) {
+> >+				do_something(fp);
+> >+				spin_unlock(&fp->f_lock);
+> >+				return;
+> >+			}
+> >+			spin_unlock(&fp->f_lock);
+> >+		}
+> >+		spin_lock(&global_flag);
+> >+		/* Lock held, thus global flag cannot change. */
+> >+		if (!global_flag) {
+> >+			spin_lock(&fp->f_lock);
+> >+			spin_unlock(&global_flag);
+> >+		}
+> >+		do_something(fp);
+> >+		if (global_flag)
+> 
+> The global flag may change without global lock held - we will likely have the
+> wrong lock released if we can see the change.
 
-It depends, but I agree with a general preference for READ_ONCE() over
-data_race().
-
-However, for some types of concurrency designs, using a READ_ONCE()
-can make it more difficult to enlist KCSAN's help.  For example, if this
-variable is read or written only while holding a particular lock, so that
-read_foo_diagnostic() is the only lockless read, then using READ_ONCE()
-adds a concurrent read.  In RCU, the updates would now need WRITE_ONCE(),
-which would cause KCSAN to fail to detect a buggy lockless WRITE_ONCE().
-If data_race() is used, then adding a buggy lockless WRITE_ONCE() will
-cause KCSAN to complain.
-
-Of course, you would be quite correct to say that this must be balanced
-against the possibility of a messed-up pr_info() due to compiler mischief.
-Tradeoffs, tradeoffs!  ;-)
-
-I should document this tradeoff, shouldn't I?
-
-> What about something like the attached change?
->=20
-> --
->=20
-> =C2=A0=C2=A0=C2=A0 Manfred
->=20
->=20
-
-> diff --git a/tools/memory-model/Documentation/access-marking.txt b/tools/=
-memory-model/Documentation/access-marking.txt
-> index 1ab189f51f55..588326b60834 100644
-> --- a/tools/memory-model/Documentation/access-marking.txt
-> +++ b/tools/memory-model/Documentation/access-marking.txt
-> @@ -68,6 +68,11 @@ READ_ONCE() and WRITE_ONCE():
-> =20
->  4.	Writes setting values that feed into error-tolerant heuristics.
-> =20
-> +In theory, plain C-language loads can also be used for these use cases.
-> +However, in practice this will have the disadvantage of causing KCSAN
-> +to generate false positives because KCSAN will have no way of knowing
-> +that the resulting data race was intentional.
-> +
-> =20
->  Data-Racy Reads for Approximate Diagnostics
-> =20
-> @@ -86,11 +91,6 @@ that fail to exclude the updates.  In this case, it is=
- important to use
->  data_race() for the diagnostic reads because otherwise KCSAN would give
->  false-positive warnings about these diagnostic reads.
-> =20
-> -In theory, plain C-language loads can also be used for this use case.
-> -However, in practice this will have the disadvantage of causing KCSAN
-> -to generate false positives because KCSAN will have no way of knowing
-> -that the resulting data race was intentional.
-> -
-> =20
->  Data-Racy Reads That Are Checked Against Marked Reload
-> =20
-> @@ -110,11 +110,6 @@ that provides the compiler much less scope for misch=
-ievous optimizations.
->  Capturing the return value from cmpxchg() also saves a memory reference
->  in many cases.
-> =20
-> -In theory, plain C-language loads can also be used for this use case.
-> -However, in practice this will have the disadvantage of causing KCSAN
-> -to generate false positives because KCSAN will have no way of knowing
-> -that the resulting data race was intentional.
-
-Normally, I would be completely in favor of your suggestion to give
-this advice only once.  But in this case, there are likely to be people
-reading just the part of the document that they think applies to their
-situation.  So it is necessary to replicate the reminder into all the
-sections.
-
-That said, I do applaud your approach of reading the whole thing.  That
-of course gets you a much more complete understanding of the situation,
-and gets me more feedback.  ;-)
-
->  Reads Feeding Into Error-Tolerant Heuristics
-> =20
-> @@ -125,11 +120,9 @@ that data_race() loads are subject to load fusing, w=
-hich can result in
->  consistent errors, which in turn are quite capable of breaking heuristic=
-s.
->  Therefore use of data_race() should be limited to cases where some other
->  code (such as a barrier() call) will force the occasional reload.
-> -
-> -In theory, plain C-language loads can also be used for this use case.
-> -However, in practice this will have the disadvantage of causing KCSAN
-> -to generate false positives because KCSAN will have no way of knowing
-> -that the resulting data race was intentional.
-> +The heuristics must be able to handle any error. If the heuristics are
-> +only able to handle old and new values, then WRITE_ONCE()/READ_ONCE()
-> +must be used.
-
-Excellent addition!  I have applied the commit shown below with your
-Signed-off-by.  Please let me know if you would like me to take some other
-course of action.  And also please let me know if I messed something up.
-
->  Writes Setting Values Feeding Into Error-Tolerant Heuristics
-> @@ -142,11 +135,8 @@ due to compiler-mangled reads, it can also tolerate =
-the occasional
->  compiler-mangled write, at least assuming that the proper value is in
->  place once the write completes.
-> =20
-> -Plain C-language stores can also be used for this use case.  However,
-> -in kernels built with CONFIG_KCSAN_ASSUME_PLAIN_WRITES_ATOMIC=3Dn, this
-> -will have the disadvantage of causing KCSAN to generate false positives
-> -because KCSAN will have no way of knowing that the resulting data race
-> -was intentional.
-> +Note that KCSAN will only detect mangled writes in kernels built with
-> +CONFIG_KCSAN_ASSUME_PLAIN_WRITES_ATOMIC=3Dn.
-
-And the same point on needing to say this more than once.
+Right you are!  I am adding a local variable to address this, thank you!
 
 							Thanx, Paul
 
-------------------------------------------------------------------------
+> >+			spin_unlock(&global_flag);
+> >+		else
+> >+			spin_lock(&fp->f_lock);
+> >+	}
+> >+
+> >+	void begin_global(void)
+> >+	{
+> >+		int i;
+> >+
+> >+		spin_lock(&global_flag);
+> >+		WRITE_ONCE(global_flag, true);
+> >+		for (i = 0; i < nfoo; i++) {
+> >+			/* Wait for pre-existing local locks. */
+> >+			spin_lock(&fp->f_lock);
+> >+			spin_unlock(&fp->f_lock);
+> >+		}
+> >+		spin_unlock(&global_flag);
+> >+	}
+> >+
+> >+	void end_global(void)
+> >+	{
+> >+		spin_lock(&global_flag);
+> >+		smp_store_release(&global_flag, false);
+> >+		/* Pre-existing global lock acquisitions will recheck. */
+> >+		spin_unlock(&global_flag);
+> >+	}
+> >+
+> >+All code paths leading from the do_something_locked() function's first
+> >+read from global_flag acquire a lock, so endless load fusing cannot
+> >+happen.
+> >+
+> >+If the value read from global_flag is true, then global_flag is rechecked
+> >+while holding global_lock, which prevents global_flag from changing.
+> >+If this recheck finds that global_flag is now false, the acquisition
+> >+of ->f_lock prior to the release of global_lock will result in any subsequent
+> >+begin_global() invocation waiting to acquire ->f_lock.
+> >+
+> >+On the other hand, if the value read from global_flag is false, then
+> >+global_flag, then rechecking under ->f_lock combined with synchronization
+> >+with begin_global() guarantees than any erroneous read will cause the
+> >+do_something_locked() function's first do_something() invocation to happen
+> >+before begin_global() returns.  The combination of the smp_load_acquire()
+> >+in do_something_locked() and the smp_store_release() in end_global()
+> >+guarantees that either the do_something_locked() function's first
+> >+do_something() invocation happens after the call to end_global() or that
+> >+do_something_locked() acquires global_lock() and rechecks under the lock.
+> >+
+> >+For this to work, only those foo structures in foo_array[] may be
+> >+passed to do_something_locked().  The reason for this is that the
+> >+synchronization with begin_global() relies on momentarily locking each
+> >+and every foo structure.
+> >+
+> >+
+> > Lockless Reads and Writes
+> > -------------------------
+> > 
+> >
 
-commit 48db6caa1d32c39e7405df3940f9f7ba07ed0527
-Author: Manfred Spraul <manfred@colorfullife.com>
-Date:   Fri May 14 11:40:06 2021 -0700
-
-    tools/memory-model: Heuristics using data_race() must handle all values
-   =20
-    Data loaded for use by some sorts of heuristics can tolerate the
-    occasional erroneous value.  In this case the loads may use data_race()
-    to give the compiler full freedom to optimize while also informing KCSA=
-N
-    of the intent.  However, for this to work, the heuristic needs to be
-    able to tolerate any erroneous value that could possibly arise.  This
-    commit therefore adds a paragraph spelling this out.
-   =20
-    Signed-off-by: Manfred Spraul <manfred@colorfullife.com>
-    Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
-
-diff --git a/tools/memory-model/Documentation/access-marking.txt b/tools/me=
-mory-model/Documentation/access-marking.txt
-index e4a20ebf565d..22ecadec4894 100644
---- a/tools/memory-model/Documentation/access-marking.txt
-+++ b/tools/memory-model/Documentation/access-marking.txt
-@@ -126,6 +126,11 @@ consistent errors, which in turn are quite capable of =
-breaking heuristics.
- Therefore use of data_race() should be limited to cases where some other
- code (such as a barrier() call) will force the occasional reload.
-=20
-+Note that this use case requires that the heuristic be able to handle
-+any possible error.  In contrast, if the heuristics might be fatally
-+confused by one or more of the possible erroneous values, use READ_ONCE()
-+instead of data_race().
-+
- In theory, plain C-language loads can also be used for this use case.
- However, in practice this will have the disadvantage of causing KCSAN
- to generate false positives because KCSAN will have no way of knowing
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/20210514184455.GJ975577%40paulmck-ThinkPad-P17-Gen-1.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210514184711.GK975577%40paulmck-ThinkPad-P17-Gen-1.
