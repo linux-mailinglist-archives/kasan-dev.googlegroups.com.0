@@ -1,168 +1,122 @@
-Return-Path: <kasan-dev+bncBCALX3WVYQORB5MXRKCQMGQENYWIYUQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCMIZB7QWENRB7M2RKCQMGQE7D2HJLY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x437.google.com (mail-pf1-x437.google.com [IPv6:2607:f8b0:4864:20::437])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AAF0383610
-	for <lists+kasan-dev@lfdr.de>; Mon, 17 May 2021 17:29:59 +0200 (CEST)
-Received: by mail-pf1-x437.google.com with SMTP id j1-20020a6280010000b02902d9500b603fsf3350816pfd.16
-        for <lists+kasan-dev@lfdr.de>; Mon, 17 May 2021 08:29:58 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1621265397; cv=pass;
+Received: from mail-oi1-x237.google.com (mail-oi1-x237.google.com [IPv6:2607:f8b0:4864:20::237])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C1473836C2
+	for <lists+kasan-dev@lfdr.de>; Mon, 17 May 2021 17:36:31 +0200 (CEST)
+Received: by mail-oi1-x237.google.com with SMTP id x10-20020a54400a0000b02901e9af7e39cbsf1560302oie.22
+        for <lists+kasan-dev@lfdr.de>; Mon, 17 May 2021 08:36:30 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1621265790; cv=pass;
         d=google.com; s=arc-20160816;
-        b=GUKPLKi5aOZCcG2WeffwgLJpiXVvY/pW9UTPpecjXHDHJR5d9bVdyWY9p0R0+HXvHW
-         NCxWHgM0RevmVVeEHVPmZRrCJp7ScupaPpfTMmLsgpyxDpBD4Xu3SeMoTeMm9IQRlkpv
-         AEurBkrZv2k9I3T6nEfI2BqTbWVBEocBWb1CXBoTiA5sv1Fc5kEdHP/xTctTvVya1kAQ
-         fQ4MBHTN9spT8sK3XEPqYLvjgA4+DA25vIxoSubnLM6cvTQ53pINl0bpmj47ZTPPQe67
-         0AnD5fyGGM4uSHye3w2XJcZ1oyyzJB1yLwlb39oQljYcXkDc258b5LdoxPg3mVywFvcs
-         WvXw==
+        b=nDpw9u4M+6VgI+l6I6C2rB8Ia0Bmv+tEATT+cqCKyVR1KcHZlIqpUW1orFse9zYPJR
+         gsgiJXCoCpeaFLKt+94CCamIL1LpxDjmquFA1okGD5Xw4LlSagp3LLjzMBCkw98G+k4+
+         iLJ0yU2iBmhmYB3F2ncEtzmu+SDlT/ef1AG/rxgUe04/fpKh7f36eAJqjjpU5zg45nYP
+         Ejp6rQtBalB1w0lFL8Y9/x+lPfa+RyHCAF2cf8dYgj5/3lnHwfDxPu5CT/IcYRCbxmIM
+         wUpsdiiN7NdL/7en2WN1kKPlMKlXIqwQLUKrMU7RQCCZzWj16s6P7jquhTeRcp7VTUKO
+         eJog==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:subject:mime-version:user-agent
-         :message-id:in-reply-to:date:references:cc:to:from:sender
-         :dkim-signature;
-        bh=s638DPNbJETga7UGF2trkxWkIonf7fhnt0Z6R/pdi1M=;
-        b=a9ekzNrSWZnQ5QRs+CmYI0DnMgM2kNcDC1+2Vr7st0ZtDkxeoEW/jWJxxd9fBvxS2U
-         TmbTqLXePNSWZta/8+ZOblt+QHg4133DKNxFtyrS7/HYQWJr72mQ2QnOLJDK87XY3uQ6
-         NnmeRUpNYYykDB40fXml0HMUThAxp6Ho4g9F4Ssn6ZdsuzTXHcg/ZBRWzMLKRLmzvkCC
-         vgnfUoX+0k6UqtYgJtKcbFRZSB6nWJv1+m3QgohHDZ8ymDPouFifh32NiLaThPbWTxcB
-         3cW0xHwcBsFsGh+nNK4iqZ7NL8VeaOhbrtYoa89fvgZiec5KE5UgpnHIj8ynbDYBx66A
-         ACZg==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=U/++5jFxJsWfB75vPZ+Km+Twbq+odPuknuJ4LepeBe8=;
+        b=IMs78x9wiIaCP7kl66r+8yPZ5rwMZ/xW7T12TIDX+kyRA1ifRV9YZCQS7D3sr7GmbV
+         n/VPcO7NX2sxfVrrj9sYt9maZdhgn8z/pHx3SoMDRMDUY00gjy9B0HM981T3QSFsS5hm
+         81yXF42tk7uuKH+a5Vj4bdT3wlrm94kMK5974hYqzkV4GOx3jt7VTZ/5VNRm6NkUH5eb
+         GAqViqzGGqn6JOpkynzMaaNKi8u67tlG93+yNhyHvI/vLDqJNhm5H5rKgScXefMjKAMN
+         cSIt6mlUR+VGYg+XlDLG6eSRSjFky1IWN6UfOlRb+VBWi7U4Fr6oP6PqW2m9lEoSdoPQ
+         Cwvg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of ebiederm@xmission.com designates 166.70.13.233 as permitted sender) smtp.mailfrom=ebiederm@xmission.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=xmission.com
+       dkim=pass header.i=@google.com header.s=20161025 header.b=MjSBQFoB;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::734 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:from:to:cc:references:date:in-reply-to:message-id:user-agent
-         :mime-version:subject:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=s638DPNbJETga7UGF2trkxWkIonf7fhnt0Z6R/pdi1M=;
-        b=sj/3pQizu4qr+C4pGFBT+7uMCmZu3uhAmN5o70ryMCDH0pLW7FUMlSYdEDrPv1I10J
-         mCYJZdGFw+TP0aIQp2PkR59ePlfkSTCsNYmD3Oat4G1mAeHNs/YSxsaKydpDviqMBfAs
-         idudLRMYjIlOJNjVhQRz+e8XnRSSOvpS3RZdJTXoKF/5nNNpLFEq/7Y/6vyevy7D4jTC
-         mKq/objvBX/yMoQv+6CsAhCV/p1PNJOBWnzWeM/bXGmDxAfwT9t5J/fAwQVjMVPDf/e4
-         y63XVAnxglM2z4w3hVnHNSbOwBRmIomvrt1xQfzIfXMWO/L0WU+AvHfi6dRzdKxw4Nuv
-         s2gQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=U/++5jFxJsWfB75vPZ+Km+Twbq+odPuknuJ4LepeBe8=;
+        b=qUCa1U2OI1ANJ5JnGluUt3cUL6JQVnvCQmlG/7BGUoPD7h7z0aEr5Q7hpaSSXTqqaj
+         f063kVnLLPz2SWkS2+ETM/PrQMnZBU6eYzRB9iIDLs1lKOIfR1NHyFYpSC2a6QbI79MB
+         IfKqdWwnAFPxdhFUucLwz9JS6p5lfVBapFnh/xXnE7WzBxLtPQWq+uPrSqL+WnJveKHg
+         TI43ZoxTXqqBpo7d855CzWOZtolgtunk+Q2d8c3xiVDPom1QMnvneYIzR6zUbZA2x7NP
+         k5W5eqEj7B+HC7au8HGeignDxLo7qJicWKo/Y4caA62X4zk2QYAqG8DbffbMfKirepJm
+         P0qA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:from:to:cc:references:date:in-reply-to
-         :message-id:user-agent:mime-version:subject:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=s638DPNbJETga7UGF2trkxWkIonf7fhnt0Z6R/pdi1M=;
-        b=ZvbLW9UgXTdZEzkRIj8M3yQT1wZZ/RXFeHgO0UzACFYeR1TpkEgzOWiw2AqV4r3jdP
-         RdespO5ZcOcF7uLdddH9Qlfawrz0r4r8IM8V6hoX28cQhDRWOKxXfLnYbvzEDOVil0vQ
-         72M4mlpfCQY35MDNPuiyWxpsDermyOcYrR430IuszVQPNcxBysA4KIbMr8LidyqzW7PN
-         eFp9eRo5Eu12UHvhLt9e05fFnILbRyADwPwsfwH3oL6NqvOfeQJG2SpbdWfXabZiLI2K
-         l/9jULGn8eO97eSp2bE+oioNV42hlOe8ODMOg90m5UHhKzAjNtkKxgVFktM1toZvFJQ8
-         5qnA==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM533f4VCQRYP198TzfvoUD+Hl1lAsWPcA5oOvU4mBTuuu43NptrHs
-	+jUXe0ULvFvAmNlA6vGDxPQ=
-X-Google-Smtp-Source: ABdhPJy9iPbferCEoW9H+mNwTcbk0kLvp6s15SaIqVkiSvSvZ4vQO8A/q/T6OIZhRjhsS6Hymg9ahg==
-X-Received: by 2002:a17:90a:288:: with SMTP id w8mr27138pja.111.1621265397741;
-        Mon, 17 May 2021 08:29:57 -0700 (PDT)
+        bh=U/++5jFxJsWfB75vPZ+Km+Twbq+odPuknuJ4LepeBe8=;
+        b=VSr/gayV/ZKdj71x4rzJI4ci6xxDyxdZeLDQwd6NP9H2EWP751qoFWrv0WXhT2LIlr
+         i/mQbthZ4ph3bAdun2I+MVKZ19g9fxdg90ui9KOBZMlfXA192jymS5VFPgIweQRld52k
+         vU74Wd/34pQTbRhGWvUdeF7UxIzhzeRm4Ndj4f5Ltp9bgM8V6O39B0Gdt5PKpsw1b/NR
+         j34v9RlT3y3+yHhnm+IbGJY1rzjpzYDikSkKZX3mU0gYMMNQnWBmVRZZtuhdp/I2GhAL
+         1QeQN1nLF0y+FneqQ5S9Tq16ib7OTpkggPMDWLYFgbkjL33hnw/aST1hOq0BAkG83ZVO
+         6hWw==
+X-Gm-Message-State: AOAM533c/tRiwm8M0gLlv/wII4GQnR/X2N1TqzMttRABKyUF14jEHNCo
+	reyQSR6RbNV2qGrEk36ey9U=
+X-Google-Smtp-Source: ABdhPJxrk/kVkerI+lrBercGg4jE10L4t8qeIBIsMfol62VNS3pzjKEby6ONKeimBsyOBdteGDYVpg==
+X-Received: by 2002:a05:6830:1bd8:: with SMTP id v24mr129746ota.203.1621265789872;
+        Mon, 17 May 2021 08:36:29 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:aa7:91ce:: with SMTP id z14ls4577795pfa.5.gmail; Mon, 17 May
- 2021 08:29:57 -0700 (PDT)
-X-Received: by 2002:a05:6a00:1a90:b029:2dd:dd7a:bd7d with SMTP id e16-20020a056a001a90b02902dddd7abd7dmr342887pfv.34.1621265397169;
-        Mon, 17 May 2021 08:29:57 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1621265397; cv=none;
+Received: by 2002:aca:b102:: with SMTP id a2ls4514362oif.5.gmail; Mon, 17 May
+ 2021 08:36:29 -0700 (PDT)
+X-Received: by 2002:aca:ab16:: with SMTP id u22mr303654oie.122.1621265789505;
+        Mon, 17 May 2021 08:36:29 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1621265789; cv=none;
         d=google.com; s=arc-20160816;
-        b=Qe86fdgNQt16/oxfsecqUL0Y6v/bHvtKshH33K81bjL4OEN1KaLvhdGijtPQGTEZJk
-         PzoOYDRYUMMgMoQRz+XzbGqWf8De+dJ6Wk5n2yFIeAaXgrb4JKfWW4hb2dhtQ7ERirMV
-         CRnqKibNSR6ztNZEnvXMDUh9/tcKstb6X4jMLnGkHOaIH+AKHInGWN8czd12YuMaDcxe
-         LlQ5lZ9wsD00nllc6WCTrKMo80XR8JKWoWTgaKsBSDqSGIzsJXC98BCG3Y5tcNwizh6T
-         qNThOhUI5DGVO/MmYh/qXJXxUcMSj7G7eN9cabAUVSLU2tBkOGKScEkyXuiMdiKbnu3t
-         JnKw==
+        b=Dxcn8e/xeltwWLMTjKbNdJl05Q+MZX/0nNKgzbJQkLxlngh9lElF1tiRhSqEgr6osK
+         Gslqd0i4xnVCimNO/aGhP3I6C3C/M/XBeAHcLBm6pHNR+BDXYP0IbKjKm4aYXQTZLaLR
+         CwAGlL5RPBMqps4dEM6DhVypdBbAbZl3HEyRHhOUWvzSxRM3vM/6i4OZ3Mnlx7vIv03b
+         Rxn6CZmOdNYznl8AmKZ0he43hT8CFRpwfjtttpRSRO+v4+IZ430EKCQVHvO4FbYqw60A
+         69rqQM/zv3Ub4wJTtiFQt5UK12MbFgS0Io5lBHBxWFFVbYOmMUmDO/kGL9Uimn16vGBQ
+         1UGQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=subject:mime-version:user-agent:message-id:in-reply-to:date
-         :references:cc:to:from;
-        bh=ZwzPqDuP/RwbgdtrX3YBmhRF85u1fmwo/hNniAazYMw=;
-        b=xM9qUzwNpetAhCpHouezFFOJLkBnhE0FWxBri8KVConcfL4r7SvE+TqjyeTbBG1IC1
-         snLLddLjzFsWPwVGnS7RpCTtDjFIatWsUwhlu46xhtiCf9FDU8YVl6XjGchN0QsyZT8R
-         OCvb2y4GYzzsuLh7r6aU9HsjBdi38ILtmMPUzZJ8/9+Z/BpX0xX9qAL+HSC43H/27Ru+
-         X5ehxIYHTgl2dMqDbNyH3KNN8unxmgWSQypHCqXRl/OVyWYBfTL5fWSf/45/vDyaFGXr
-         xy5SUAEJvWs8TvIdngBqYbElAa4/mS4/umkBh5T+/PyeuH8KlvVHECnVhx8tPvcel+4j
-         ZavA==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=wo/BszmbLtrqpPjGX8twK3gws7qjQnw3qx7Ups7SP7A=;
+        b=yj+OK6nSGO2dYWtsN9NrKdUyUhgqyQ4C17y8mHpCySVLcMQttYaZXlXmaYkRmKDdSI
+         kpifcVUarcqAsMJUhsXViKpAmbxzF/LzSFMq9kGGJaQ/jOYngT3PlKJnfuBMgi2xRlGK
+         pqgGy3QPGYmD0aq/2KfFjE2TaTY3YSJ5IMMDxERMcbHX+HApreRGj98eCZcaYEV0LDrd
+         ZC3gIuSiZcHwdWykittXMJOfp+Ve0VYwi3n03W78de/QSn8cP2/xlso5FWRBgkV0PLUQ
+         TeH01c/hOhB+Q1DVxxxgYUeI0mntu7aQq1wpmPZWzUcECZipl5pAkFJd+AbRAVqMU+9+
+         tfsQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of ebiederm@xmission.com designates 166.70.13.233 as permitted sender) smtp.mailfrom=ebiederm@xmission.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=xmission.com
-Received: from out03.mta.xmission.com (out03.mta.xmission.com. [166.70.13.233])
-        by gmr-mx.google.com with ESMTPS id o15si1199828pgu.4.2021.05.17.08.29.57
+       dkim=pass header.i=@google.com header.s=20161025 header.b=MjSBQFoB;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::734 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com. [2607:f8b0:4864:20::734])
+        by gmr-mx.google.com with ESMTPS id l81si694903oig.0.2021.05.17.08.36.29
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 May 2021 08:29:57 -0700 (PDT)
-Received-SPF: pass (google.com: domain of ebiederm@xmission.com designates 166.70.13.233 as permitted sender) client-ip=166.70.13.233;
-Received: from in02.mta.xmission.com ([166.70.13.52])
-	by out03.mta.xmission.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.93)
-	(envelope-from <ebiederm@xmission.com>)
-	id 1lifBk-0003MZ-KS; Mon, 17 May 2021 09:29:48 -0600
-Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95] helo=fess.xmission.com)
-	by in02.mta.xmission.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.93)
-	(envelope-from <ebiederm@xmission.com>)
-	id 1lifBj-00BZOl-IR; Mon, 17 May 2021 09:29:48 -0600
-From: ebiederm@xmission.com (Eric W. Biederman)
-To: Ingo Molnar <mingo@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,  Arnd Bergmann <arnd@arndb.de>,  Florian Weimer <fweimer@redhat.com>,  "David S. Miller" <davem@davemloft.net>,  Peter Zijlstra <peterz@infradead.org>,  Thomas Gleixner <tglx@linutronix.de>,  Peter Collingbourne <pcc@google.com>,  Dmitry Vyukov <dvyukov@google.com>,  Alexander Potapenko <glider@google.com>,  sparclinux <sparclinux@vger.kernel.org>,  linux-arch <linux-arch@vger.kernel.org>,  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,  Linux API <linux-api@vger.kernel.org>,  kasan-dev <kasan-dev@googlegroups.com>,  Marco Elver <elver@google.com>
-References: <m15z031z0a.fsf@fess.ebiederm.org>
-	<YIxVWkT03TqcJLY3@elver.google.com>
-	<m1zgxfs7zq.fsf_-_@fess.ebiederm.org>
-	<m1r1irpc5v.fsf@fess.ebiederm.org>
-	<CANpmjNNfiSgntiOzgMc5Y41KVAV_3VexdXCMADekbQEqSP3vqQ@mail.gmail.com>
-	<m1czuapjpx.fsf@fess.ebiederm.org>
-	<CANpmjNNyifBNdpejc6ofT6+n6FtUw-Cap_z9Z9YCevd7Wf3JYQ@mail.gmail.com>
-	<m14kfjh8et.fsf_-_@fess.ebiederm.org>
-	<m1tuni8ano.fsf_-_@fess.ebiederm.org>
-	<m1a6oxewym.fsf_-_@fess.ebiederm.org> <YKDMWXj2YDkDy1DG@gmail.com>
-Date: Mon, 17 May 2021 10:29:39 -0500
-In-Reply-To: <YKDMWXj2YDkDy1DG@gmail.com> (Ingo Molnar's message of "Sun, 16
-	May 2021 09:40:09 +0200")
-Message-ID: <m1wnrx750c.fsf@fess.ebiederm.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 17 May 2021 08:36:29 -0700 (PDT)
+Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::734 as permitted sender) client-ip=2607:f8b0:4864:20::734;
+Received: by mail-qk1-x734.google.com with SMTP id i67so6141925qkc.4
+        for <kasan-dev@googlegroups.com>; Mon, 17 May 2021 08:36:29 -0700 (PDT)
+X-Received: by 2002:ae9:e850:: with SMTP id a77mr446736qkg.424.1621265788578;
+ Mon, 17 May 2021 08:36:28 -0700 (PDT)
 MIME-Version: 1.0
+References: <20210512181836.GA3445257@paulmck-ThinkPad-P17-Gen-1>
+In-Reply-To: <20210512181836.GA3445257@paulmck-ThinkPad-P17-Gen-1>
+From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Mon, 17 May 2021 17:36:16 +0200
+Message-ID: <CACT4Y+Z+7qPaanHNQc4nZ-mCfbqm8B0uiG7OtsgdB34ER-vDYA@mail.gmail.com>
+Subject: Re: "Learning-based Controlled Concurrency Testing"
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: syzkaller <syzkaller@googlegroups.com>, Marco Elver <elver@google.com>, 
+	kasan-dev <kasan-dev@googlegroups.com>
 Content-Type: text/plain; charset="UTF-8"
-X-XM-SPF: eid=1lifBj-00BZOl-IR;;;mid=<m1wnrx750c.fsf@fess.ebiederm.org>;;;hst=in02.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
-X-XM-AID: U2FsdGVkX199lR/IyLLJ1RHiRf25MlrgYHNCCIjDaII=
-X-SA-Exim-Connect-IP: 68.227.160.95
-X-SA-Exim-Mail-From: ebiederm@xmission.com
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on sa08.xmission.com
-X-Spam-Level: **
-X-Spam-Status: No, score=2.1 required=8.0 tests=ALL_TRUSTED,BAYES_50,
-	DCC_CHECK_NEGATIVE,T_TM2_M_HEADER_IN_MSG,T_TooManySym_01,
-	XMSubMetaSxObfu_03,XMSubMetaSx_00 autolearn=disabled version=3.4.2
-X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-	*  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-	*      [score: 0.4536]
-	*  0.0 T_TM2_M_HEADER_IN_MSG BODY: No description available.
-	* -0.0 DCC_CHECK_NEGATIVE Not listed in DCC
-	*      [sa08 1397; Body=1 Fuz1=1 Fuz2=1]
-	*  0.0 T_TooManySym_01 4+ unique symbols in subject
-	*  1.2 XMSubMetaSxObfu_03 Obfuscated Sexy Noun-People
-	*  1.0 XMSubMetaSx_00 1+ Sexy Words
-X-Spam-DCC: XMission; sa08 1397; Body=1 Fuz1=1 Fuz2=1
-X-Spam-Combo: **;Ingo Molnar <mingo@kernel.org>
-X-Spam-Relay-Country: 
-X-Spam-Timing: total 436 ms - load_scoreonly_sql: 0.05 (0.0%),
-	signal_user_changed: 13 (3.1%), b_tie_ro: 11 (2.6%), parse: 0.96
-	(0.2%), extract_message_metadata: 15 (3.5%), get_uri_detail_list: 1.38
-	(0.3%), tests_pri_-1000: 14 (3.2%), tests_pri_-950: 1.66 (0.4%),
-	tests_pri_-900: 1.18 (0.3%), tests_pri_-90: 64 (14.6%), check_bayes:
-	62 (14.1%), b_tokenize: 7 (1.6%), b_tok_get_all: 8 (1.9%),
-	b_comp_prob: 2.9 (0.7%), b_tok_touch_all: 38 (8.8%), b_finish: 1.21
-	(0.3%), tests_pri_0: 313 (71.8%), check_dkim_signature: 0.71 (0.2%),
-	check_dkim_adsp: 2.8 (0.6%), poll_dns_idle: 1.10 (0.3%), tests_pri_10:
-	2.2 (0.5%), tests_pri_500: 7 (1.7%), rewrite_mail: 0.00 (0.0%)
-Subject: Re: [GIT PULL] siginfo: ABI fixes for v5.13-rc2
-X-SA-Exim-Version: 4.2.1 (built Sat, 08 Feb 2020 21:53:50 +0000)
-X-SA-Exim-Scanned: Yes (on in02.mta.xmission.com)
-X-Original-Sender: ebiederm@xmission.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of ebiederm@xmission.com designates 166.70.13.233 as
- permitted sender) smtp.mailfrom=ebiederm@xmission.com;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=xmission.com
+X-Original-Sender: dvyukov@google.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@google.com header.s=20161025 header.b=MjSBQFoB;       spf=pass
+ (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::734
+ as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
+ (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Dmitry Vyukov <dvyukov@google.com>
+Reply-To: Dmitry Vyukov <dvyukov@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -175,42 +129,73 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Ingo Molnar <mingo@kernel.org> writes:
-
-> * Eric W. Biederman <ebiederm@xmission.com> wrote:
+On Wed, May 12, 2021 at 8:18 PM Paul E. McKenney <paulmck@kernel.org> wrote:
 >
->> Looking deeper it was discovered that si_trapno is used for only
->> a few select signals on alpha and sparc, and that none of the
->> other _sigfault fields past si_addr are used at all.  Which means
->> technically no regression on alpha and sparc.
+> Hello, Dmitry!
 >
-> If there's no functional regression on any platform, could much of this 
-> wait until v5.14, or do we want some of these cleanups right now?
+> On the perhaps-unlikely off-chance that this is useful new news, there
+> is a paper by Mukherjee et al. entitled "Learning-based Controlled
+> Concurrency Testing" that suggests use of an augmented coverage state
+> as a goal driving random testing.  The meat of this discussion is on
+> the eighth page, the one labeled as "230:8".
 >
-> The fixes seem to be for long-existing bugs, not fresh regressions, AFAICS. 
-> The asserts & cleanups are useful, but not regression fixes.
+> This builds on tools such as American Fuzzy Lop (AFL) that use straight
+> coverage as a testing goal by adding carefully abstracted concurrency
+> state, such as which locks are held and which threads are blocked/spinning
+> on which lock.  This of course does not help for lockless algorithms,
+> but there are plenty of bugs involving straight locking.
 >
-> I.e. this is a bit scary:
-
-The new ABI for SIGTRAP TRAP perf that came in the merge window is
-broken and wrong.  We need to revert/disable the new SIGTRAP TRAP_PERF
-or have a fix before v5.13.
-
-The issue is old crap getting in the way of a new addition.  I think I
-might see a smaller code change on how to get to something compatible
-with this.
-
->>  32 files changed, 377 insertions(+), 163 deletions(-)
+> Thoughts?
 >
-> at -rc2 time.
+>                                                         Thanx, Paul
 
-The additions are all tests to make certain everything is fine.
-The actual code change without the assertions (tests) is essentially
-a wash.
 
-Eric
++syzkaller, kasan-dev
+
+Hi Paul,
+
+Thanks for notifying me, I wasn't aware of this work.
+
+FTR here is a link to the paper I found:
+https://www.microsoft.com/en-us/research/uploads/prod/2019/12/QL-OOPSLA-2020.pdf
+
+That's an interesting approach. Initially how they obtain the program
+"state" and calculate the reward, but the "default observation" thing
+answered my question.
+I think such approaches may be useful for the SPIN-territory where we
+verify a reasonably local and isolated algorithm, e.g. RAFT
+verification they used for benchmarking.
+But if we take, say, whole Linux kernel then such approaches become
+somewhat fragile, inefficient and impractical, e.g. capturing all
+tasks and mutexes may be impractical and inefficient (state
+explosion), or controlling all sources of non-determinism may be
+infeasible. And at the same time it's unnecessary because we still
+don't have even the most basic implementation, the random scheduler,
+which is not even what they are trying to improve on, it's several
+steps back.
+I would start with a random scheduler, maybe with few simple
+heuristics. That should be simple and robust and I am sure it will
+give us enough low hanging fruits to keep us busy for a prolonged
+period of time :) Here are tracking issues for that:
+https://bugzilla.kernel.org/show_bug.cgi?id=209219
+https://github.com/google/syzkaller/issues/1891
+
+Maybe you did not mean Linux kernel at all, I don't know. For
+something like RCU verification (like what you did with SPIN) it's
+definitely more suitable.
+Interestingly, if we have a notion of "state" we can use
+coverage-guided fuzzing techniques as well. Though, I don't see it
+mentioned in the text explicitly. But you mentioned AFL, did you see
+this mentioned in the paper?
+They set a goal of maximizing state coverage, but they don't seem to
+preserve a "corpus" of schedules that give maximum coverage. If we do
+this, we can mutate schedules in the corpus, splice them, or prime the
+corpus with context-bound schedules (see CHESS, another seminal paper
+MS research). Generally, the more technique we include into the same
+feedback loop, the better, because they all start helping each other
+progress deeper.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/m1wnrx750c.fsf%40fess.ebiederm.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BZ%2B7qPaanHNQc4nZ-mCfbqm8B0uiG7OtsgdB34ER-vDYA%40mail.gmail.com.
