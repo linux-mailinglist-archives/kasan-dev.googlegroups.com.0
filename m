@@ -1,125 +1,168 @@
-Return-Path: <kasan-dev+bncBCJZRXGY5YJBBI6GQ2CQMGQEZQDZKJA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCALX3WVYQORB5MXRKCQMGQENYWIYUQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pj1-x1040.google.com (mail-pj1-x1040.google.com [IPv6:2607:f8b0:4864:20::1040])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9AD43821D4
-	for <lists+kasan-dev@lfdr.de>; Mon, 17 May 2021 00:56:37 +0200 (CEST)
-Received: by mail-pj1-x1040.google.com with SMTP id h23-20020a17090aa897b029015cc61ef388sf2116311pjq.9
-        for <lists+kasan-dev@lfdr.de>; Sun, 16 May 2021 15:56:37 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1621205796; cv=pass;
+Received: from mail-pf1-x437.google.com (mail-pf1-x437.google.com [IPv6:2607:f8b0:4864:20::437])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AAF0383610
+	for <lists+kasan-dev@lfdr.de>; Mon, 17 May 2021 17:29:59 +0200 (CEST)
+Received: by mail-pf1-x437.google.com with SMTP id j1-20020a6280010000b02902d9500b603fsf3350816pfd.16
+        for <lists+kasan-dev@lfdr.de>; Mon, 17 May 2021 08:29:58 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1621265397; cv=pass;
         d=google.com; s=arc-20160816;
-        b=UwBHtmiOlZu4iuOKYnfU2dCsX5rN7EAPcyEO+wf84YawZyhA6e3FInZKO6Zw6LkuuI
-         u5hHJWN74iNCjz9RQ5nz0X5KJIRWH1HJAaYhHb13/qPrFSIDc9Od54qb5qhwtWaPBaZK
-         xL+MnQtOMfOrpRneyxkUkYuhwzpfXu5GMz3KbRdKS6wDPCSFuMclgisIz/KanrpjHD2k
-         PswKnv9bH5Pqi4xcXjpUqNEpW2NvwCXjFuYIG2RlmUC7EyO2R62j9f25LQE8xU+whH9S
-         iR4IJZvfiZDXdFY1WiXMamjVAsLinr0Wit54R3/55ikaN9R/Gev6hAqaG7qu1h47LZ9f
-         Z6Bg==
+        b=GUKPLKi5aOZCcG2WeffwgLJpiXVvY/pW9UTPpecjXHDHJR5d9bVdyWY9p0R0+HXvHW
+         NCxWHgM0RevmVVeEHVPmZRrCJp7ScupaPpfTMmLsgpyxDpBD4Xu3SeMoTeMm9IQRlkpv
+         AEurBkrZv2k9I3T6nEfI2BqTbWVBEocBWb1CXBoTiA5sv1Fc5kEdHP/xTctTvVya1kAQ
+         fQ4MBHTN9spT8sK3XEPqYLvjgA4+DA25vIxoSubnLM6cvTQ53pINl0bpmj47ZTPPQe67
+         0AnD5fyGGM4uSHye3w2XJcZ1oyyzJB1yLwlb39oQljYcXkDc258b5LdoxPg3mVywFvcs
+         WvXw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:reply-to:message-id:subject:cc:to:from:date
-         :sender:dkim-signature;
-        bh=9B+h9bxkmZaVwny7bBpUSlcDYa2V1VQqDkyfdm7oamY=;
-        b=mgEal2UYgQBMafpK21+qr5ApNcbBck1yY0cSXUp+3BDDH7Rb+jyRwJIfvrCh5pwaQk
-         fRAxwTR6Q0Y9puj7mz4Y2X3tj5zWuNFOCgX0yodwnkWkMNFggL0tVxKns95leCJaJwJR
-         vnwF19NDbJKkcfSD6ugNDg+UU+OYpt2NbOqOwbZvkn/I/tjDO0cBwhMWGNr9fvnqN+oG
-         LZUZIannE+1++7HIFBogX51jKBRD8XFgjNv7XHAqRRnlsbHwGgkzvQ7O4M2qSvlSY5Yj
-         EYre3O0SXg4hprc75hfOG9I5DUX2HE8FlTwBMCRtCeJdlZIYYzfGI4ztFfs0KVfw8Ahu
-         ZVvA==
+         :list-id:mailing-list:precedence:subject:mime-version:user-agent
+         :message-id:in-reply-to:date:references:cc:to:from:sender
+         :dkim-signature;
+        bh=s638DPNbJETga7UGF2trkxWkIonf7fhnt0Z6R/pdi1M=;
+        b=a9ekzNrSWZnQ5QRs+CmYI0DnMgM2kNcDC1+2Vr7st0ZtDkxeoEW/jWJxxd9fBvxS2U
+         TmbTqLXePNSWZta/8+ZOblt+QHg4133DKNxFtyrS7/HYQWJr72mQ2QnOLJDK87XY3uQ6
+         NnmeRUpNYYykDB40fXml0HMUThAxp6Ho4g9F4Ssn6ZdsuzTXHcg/ZBRWzMLKRLmzvkCC
+         vgnfUoX+0k6UqtYgJtKcbFRZSB6nWJv1+m3QgohHDZ8ymDPouFifh32NiLaThPbWTxcB
+         3cW0xHwcBsFsGh+nNK4iqZ7NL8VeaOhbrtYoa89fvgZiec5KE5UgpnHIj8ynbDYBx66A
+         ACZg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=nUwedLk8;
-       spf=pass (google.com: domain of srs0=xrg5=kl=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=XRG5=KL=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       spf=pass (google.com: domain of ebiederm@xmission.com designates 166.70.13.233 as permitted sender) smtp.mailfrom=ebiederm@xmission.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=xmission.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:reply-to:references
-         :mime-version:content-disposition:in-reply-to:x-original-sender
+        h=sender:from:to:cc:references:date:in-reply-to:message-id:user-agent
+         :mime-version:subject:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=9B+h9bxkmZaVwny7bBpUSlcDYa2V1VQqDkyfdm7oamY=;
-        b=bcvNyVz0iD860yn2t1HORpEVaYj8dWVD5pOSwQDGl22fqxUQHO9sVYC7z6W9iqVPGk
-         bbyaruaT94NzJLrVTIS9lO61h84EaWV++0RP5CwaLX2uqQ/LZ2OcA39ZnLfk124GPj+2
-         lWhx12dj9p9L3dDLiNkxb2StklJqMFHhDlDcvIRPakR7TzWtGPE3tBUOZFiCoX8MaQ6c
-         CTDAFkB/j2yf5AX4Jv87IIi+4qV6TM++58iciLLxETD7b+GsKWdGcYdymrppXWOVElwa
-         Y/bjx0rrNED5LYsRBftc7PU312M2v0Hl3017hbFjQiLyO0egX+Keq5Wkf+49SdHE/Lhv
-         Xdmg==
+        bh=s638DPNbJETga7UGF2trkxWkIonf7fhnt0Z6R/pdi1M=;
+        b=sj/3pQizu4qr+C4pGFBT+7uMCmZu3uhAmN5o70ryMCDH0pLW7FUMlSYdEDrPv1I10J
+         mCYJZdGFw+TP0aIQp2PkR59ePlfkSTCsNYmD3Oat4G1mAeHNs/YSxsaKydpDviqMBfAs
+         idudLRMYjIlOJNjVhQRz+e8XnRSSOvpS3RZdJTXoKF/5nNNpLFEq/7Y/6vyevy7D4jTC
+         mKq/objvBX/yMoQv+6CsAhCV/p1PNJOBWnzWeM/bXGmDxAfwT9t5J/fAwQVjMVPDf/e4
+         y63XVAnxglM2z4w3hVnHNSbOwBRmIomvrt1xQfzIfXMWO/L0WU+AvHfi6dRzdKxw4Nuv
+         s2gQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :reply-to:references:mime-version:content-disposition:in-reply-to
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=9B+h9bxkmZaVwny7bBpUSlcDYa2V1VQqDkyfdm7oamY=;
-        b=fw2l8C2BFfM8wr8NYKsfMIdvS79iXPJcwld3ZO2fp7giCf81n+wctMk7zXfcjS3HXc
-         oUYT6djtV4ogtURcKKtBF4QvZH2m4AZ1KWtzP+aOIxBVgw3goXZ0qvJpTe+u2wEh6NuF
-         gvbHqfzLDJIruqbbuyzWI0keM2nHSMjEHQbi4d2F8lla8WS85pc6nfB0P/yT86Z6FcDe
-         f7CcYOdBYrakW5mXrIbRa/fqrehipGyLU0Bwlc9E+oSPIZY/9OnBgRKHi+oUs2x8tFUV
-         VH8op+zkBLoEiksJE7u+LWZQISJTI76e+9GtD3D2PxPIYa2RYyVJ/MEQUSO7bT7DCIKw
-         v5rQ==
+        h=sender:x-gm-message-state:from:to:cc:references:date:in-reply-to
+         :message-id:user-agent:mime-version:subject:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=s638DPNbJETga7UGF2trkxWkIonf7fhnt0Z6R/pdi1M=;
+        b=ZvbLW9UgXTdZEzkRIj8M3yQT1wZZ/RXFeHgO0UzACFYeR1TpkEgzOWiw2AqV4r3jdP
+         RdespO5ZcOcF7uLdddH9Qlfawrz0r4r8IM8V6hoX28cQhDRWOKxXfLnYbvzEDOVil0vQ
+         72M4mlpfCQY35MDNPuiyWxpsDermyOcYrR430IuszVQPNcxBysA4KIbMr8LidyqzW7PN
+         eFp9eRo5Eu12UHvhLt9e05fFnILbRyADwPwsfwH3oL6NqvOfeQJG2SpbdWfXabZiLI2K
+         l/9jULGn8eO97eSp2bE+oioNV42hlOe8ODMOg90m5UHhKzAjNtkKxgVFktM1toZvFJQ8
+         5qnA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM530PrLWGzhsPElsiTwezr05j3JDUNTlC6fGpU/GpuP9HhKpebwFJ
-	4+6mAfG0jlLcYesTja6GtbQ=
-X-Google-Smtp-Source: ABdhPJwfkf/HiMmdSZiDvLtGZfWv7Fi8wGPA4ouGCC8IVvy7DwSCYHIATOcvXFjh0SLJ/CCi/UJCXg==
-X-Received: by 2002:a17:90b:201:: with SMTP id fy1mr7235386pjb.119.1621205796030;
-        Sun, 16 May 2021 15:56:36 -0700 (PDT)
+X-Gm-Message-State: AOAM533f4VCQRYP198TzfvoUD+Hl1lAsWPcA5oOvU4mBTuuu43NptrHs
+	+jUXe0ULvFvAmNlA6vGDxPQ=
+X-Google-Smtp-Source: ABdhPJy9iPbferCEoW9H+mNwTcbk0kLvp6s15SaIqVkiSvSvZ4vQO8A/q/T6OIZhRjhsS6Hymg9ahg==
+X-Received: by 2002:a17:90a:288:: with SMTP id w8mr27138pja.111.1621265397741;
+        Mon, 17 May 2021 08:29:57 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a65:4145:: with SMTP id x5ls6752127pgp.4.gmail; Sun, 16 May
- 2021 15:56:35 -0700 (PDT)
-X-Received: by 2002:a63:5b5b:: with SMTP id l27mr11234271pgm.55.1621205795511;
-        Sun, 16 May 2021 15:56:35 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1621205795; cv=none;
+Received: by 2002:aa7:91ce:: with SMTP id z14ls4577795pfa.5.gmail; Mon, 17 May
+ 2021 08:29:57 -0700 (PDT)
+X-Received: by 2002:a05:6a00:1a90:b029:2dd:dd7a:bd7d with SMTP id e16-20020a056a001a90b02902dddd7abd7dmr342887pfv.34.1621265397169;
+        Mon, 17 May 2021 08:29:57 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1621265397; cv=none;
         d=google.com; s=arc-20160816;
-        b=kY74rH81Qd+AQuWVJ4IHXEnjdyeLpISmPO4zhEGiXFdQ7Tewlg18WM0IwbFCChe/Hp
-         jENLSvvsW5Vu1LgI64/Au6ULLHYkeSyCyMX8mKfB4jwPUM1kS5RTw1ruUc8oj07/mEhW
-         UYrzcH67tXaVvnRypjTkscZgO1teCbOpr647g30vOTpGfFV81Tq9tbmOI+0dVd359U6D
-         nRQTR+XZMiCTwGsJOFEU204yzrvS9XHan22YwnqL8RhVJXEu0uR0jGuT2BBj2zQg/eHD
-         mXGnZDs7yuFCbtuI9d4CGl3DFKGUzVrbP5mbx7UWFvW4oes/4JR6Z3MyQXtA/10ih07y
-         dsIw==
+        b=Qe86fdgNQt16/oxfsecqUL0Y6v/bHvtKshH33K81bjL4OEN1KaLvhdGijtPQGTEZJk
+         PzoOYDRYUMMgMoQRz+XzbGqWf8De+dJ6Wk5n2yFIeAaXgrb4JKfWW4hb2dhtQ7ERirMV
+         CRnqKibNSR6ztNZEnvXMDUh9/tcKstb6X4jMLnGkHOaIH+AKHInGWN8czd12YuMaDcxe
+         LlQ5lZ9wsD00nllc6WCTrKMo80XR8JKWoWTgaKsBSDqSGIzsJXC98BCG3Y5tcNwizh6T
+         qNThOhUI5DGVO/MmYh/qXJXxUcMSj7G7eN9cabAUVSLU2tBkOGKScEkyXuiMdiKbnu3t
+         JnKw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:reply-to
-         :message-id:subject:cc:to:from:date:dkim-signature;
-        bh=jPkRzYasN+NjcGWFAsr95mEkpapBXxh4sMpBei7GGwA=;
-        b=FfxCF0sbMhNPOVbVHXZ1PdBqFAYieGwk9+m46pDcA0sfAxwefqM8gM1GNwmQ5n87kj
-         A85R55GIMsJ2pkwJdeFjkuIdQZQTBIAFTzYsZOh2hAKtGvPELyF+3GL8S14Id1akuukg
-         3BP244+n2OcdqkORfJwzN7K4G+cGzDugwUT5JuHiz2dfUaj5R7hr/XVsDfHuAtXVxh+E
-         HSH9DxX1XClROCSUsstZjKkVt9IBI88IE6VDxwj3w/ZPZMHZBqLgXYqZeUeGx/OrdPBF
-         WVGfyh5eY7infeYloOoH5VVQIaHvce2KgvZB3imK4UK/NpRqNtoxJ5G8p8GPX8l/f0cV
-         rEWA==
+        h=subject:mime-version:user-agent:message-id:in-reply-to:date
+         :references:cc:to:from;
+        bh=ZwzPqDuP/RwbgdtrX3YBmhRF85u1fmwo/hNniAazYMw=;
+        b=xM9qUzwNpetAhCpHouezFFOJLkBnhE0FWxBri8KVConcfL4r7SvE+TqjyeTbBG1IC1
+         snLLddLjzFsWPwVGnS7RpCTtDjFIatWsUwhlu46xhtiCf9FDU8YVl6XjGchN0QsyZT8R
+         OCvb2y4GYzzsuLh7r6aU9HsjBdi38ILtmMPUzZJ8/9+Z/BpX0xX9qAL+HSC43H/27Ru+
+         X5ehxIYHTgl2dMqDbNyH3KNN8unxmgWSQypHCqXRl/OVyWYBfTL5fWSf/45/vDyaFGXr
+         xy5SUAEJvWs8TvIdngBqYbElAa4/mS4/umkBh5T+/PyeuH8KlvVHECnVhx8tPvcel+4j
+         ZavA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=nUwedLk8;
-       spf=pass (google.com: domain of srs0=xrg5=kl=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=XRG5=KL=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id jf17si254236pjb.3.2021.05.16.15.56.35
+       spf=pass (google.com: domain of ebiederm@xmission.com designates 166.70.13.233 as permitted sender) smtp.mailfrom=ebiederm@xmission.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=xmission.com
+Received: from out03.mta.xmission.com (out03.mta.xmission.com. [166.70.13.233])
+        by gmr-mx.google.com with ESMTPS id o15si1199828pgu.4.2021.05.17.08.29.57
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 16 May 2021 15:56:35 -0700 (PDT)
-Received-SPF: pass (google.com: domain of srs0=xrg5=kl=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3758E61073;
-	Sun, 16 May 2021 22:56:35 +0000 (UTC)
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id 00F815C03A8; Sun, 16 May 2021 15:56:34 -0700 (PDT)
-Date: Sun, 16 May 2021 15:56:34 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Marco Elver <elver@google.com>
-Cc: Dmitry Vyukov <dvyukov@google.com>,
-	kasan-dev <kasan-dev@googlegroups.com>
-Subject: Re: Fw: Re: ipc/sem, ipc/msg, ipc/mqueue.c kcsan questions
-Message-ID: <20210516225634.GC4441@paulmck-ThinkPad-P17-Gen-1>
-Reply-To: paulmck@kernel.org
-References: <20210516155251.GA3952724@paulmck-ThinkPad-P17-Gen-1>
- <CANpmjNNd1uybRcxuG6m6vMKjuAMTWzRywo5PwcUU8nUxtu8BZA@mail.gmail.com>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 May 2021 08:29:57 -0700 (PDT)
+Received-SPF: pass (google.com: domain of ebiederm@xmission.com designates 166.70.13.233 as permitted sender) client-ip=166.70.13.233;
+Received: from in02.mta.xmission.com ([166.70.13.52])
+	by out03.mta.xmission.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.93)
+	(envelope-from <ebiederm@xmission.com>)
+	id 1lifBk-0003MZ-KS; Mon, 17 May 2021 09:29:48 -0600
+Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95] helo=fess.xmission.com)
+	by in02.mta.xmission.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.93)
+	(envelope-from <ebiederm@xmission.com>)
+	id 1lifBj-00BZOl-IR; Mon, 17 May 2021 09:29:48 -0600
+From: ebiederm@xmission.com (Eric W. Biederman)
+To: Ingo Molnar <mingo@kernel.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,  Arnd Bergmann <arnd@arndb.de>,  Florian Weimer <fweimer@redhat.com>,  "David S. Miller" <davem@davemloft.net>,  Peter Zijlstra <peterz@infradead.org>,  Thomas Gleixner <tglx@linutronix.de>,  Peter Collingbourne <pcc@google.com>,  Dmitry Vyukov <dvyukov@google.com>,  Alexander Potapenko <glider@google.com>,  sparclinux <sparclinux@vger.kernel.org>,  linux-arch <linux-arch@vger.kernel.org>,  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,  Linux API <linux-api@vger.kernel.org>,  kasan-dev <kasan-dev@googlegroups.com>,  Marco Elver <elver@google.com>
+References: <m15z031z0a.fsf@fess.ebiederm.org>
+	<YIxVWkT03TqcJLY3@elver.google.com>
+	<m1zgxfs7zq.fsf_-_@fess.ebiederm.org>
+	<m1r1irpc5v.fsf@fess.ebiederm.org>
+	<CANpmjNNfiSgntiOzgMc5Y41KVAV_3VexdXCMADekbQEqSP3vqQ@mail.gmail.com>
+	<m1czuapjpx.fsf@fess.ebiederm.org>
+	<CANpmjNNyifBNdpejc6ofT6+n6FtUw-Cap_z9Z9YCevd7Wf3JYQ@mail.gmail.com>
+	<m14kfjh8et.fsf_-_@fess.ebiederm.org>
+	<m1tuni8ano.fsf_-_@fess.ebiederm.org>
+	<m1a6oxewym.fsf_-_@fess.ebiederm.org> <YKDMWXj2YDkDy1DG@gmail.com>
+Date: Mon, 17 May 2021 10:29:39 -0500
+In-Reply-To: <YKDMWXj2YDkDy1DG@gmail.com> (Ingo Molnar's message of "Sun, 16
+	May 2021 09:40:09 +0200")
+Message-ID: <m1wnrx750c.fsf@fess.ebiederm.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <CANpmjNNd1uybRcxuG6m6vMKjuAMTWzRywo5PwcUU8nUxtu8BZA@mail.gmail.com>
-X-Original-Sender: paulmck@kernel.org
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=nUwedLk8;       spf=pass
- (google.com: domain of srs0=xrg5=kl=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org
- designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=XRG5=KL=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+X-XM-SPF: eid=1lifBj-00BZOl-IR;;;mid=<m1wnrx750c.fsf@fess.ebiederm.org>;;;hst=in02.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
+X-XM-AID: U2FsdGVkX199lR/IyLLJ1RHiRf25MlrgYHNCCIjDaII=
+X-SA-Exim-Connect-IP: 68.227.160.95
+X-SA-Exim-Mail-From: ebiederm@xmission.com
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on sa08.xmission.com
+X-Spam-Level: **
+X-Spam-Status: No, score=2.1 required=8.0 tests=ALL_TRUSTED,BAYES_50,
+	DCC_CHECK_NEGATIVE,T_TM2_M_HEADER_IN_MSG,T_TooManySym_01,
+	XMSubMetaSxObfu_03,XMSubMetaSx_00 autolearn=disabled version=3.4.2
+X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+	*  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+	*      [score: 0.4536]
+	*  0.0 T_TM2_M_HEADER_IN_MSG BODY: No description available.
+	* -0.0 DCC_CHECK_NEGATIVE Not listed in DCC
+	*      [sa08 1397; Body=1 Fuz1=1 Fuz2=1]
+	*  0.0 T_TooManySym_01 4+ unique symbols in subject
+	*  1.2 XMSubMetaSxObfu_03 Obfuscated Sexy Noun-People
+	*  1.0 XMSubMetaSx_00 1+ Sexy Words
+X-Spam-DCC: XMission; sa08 1397; Body=1 Fuz1=1 Fuz2=1
+X-Spam-Combo: **;Ingo Molnar <mingo@kernel.org>
+X-Spam-Relay-Country: 
+X-Spam-Timing: total 436 ms - load_scoreonly_sql: 0.05 (0.0%),
+	signal_user_changed: 13 (3.1%), b_tie_ro: 11 (2.6%), parse: 0.96
+	(0.2%), extract_message_metadata: 15 (3.5%), get_uri_detail_list: 1.38
+	(0.3%), tests_pri_-1000: 14 (3.2%), tests_pri_-950: 1.66 (0.4%),
+	tests_pri_-900: 1.18 (0.3%), tests_pri_-90: 64 (14.6%), check_bayes:
+	62 (14.1%), b_tokenize: 7 (1.6%), b_tok_get_all: 8 (1.9%),
+	b_comp_prob: 2.9 (0.7%), b_tok_touch_all: 38 (8.8%), b_finish: 1.21
+	(0.3%), tests_pri_0: 313 (71.8%), check_dkim_signature: 0.71 (0.2%),
+	check_dkim_adsp: 2.8 (0.6%), poll_dns_idle: 1.10 (0.3%), tests_pri_10:
+	2.2 (0.5%), tests_pri_500: 7 (1.7%), rewrite_mail: 0.00 (0.0%)
+Subject: Re: [GIT PULL] siginfo: ABI fixes for v5.13-rc2
+X-SA-Exim-Version: 4.2.1 (built Sat, 08 Feb 2020 21:53:50 +0000)
+X-SA-Exim-Scanned: Yes (on in02.mta.xmission.com)
+X-Original-Sender: ebiederm@xmission.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of ebiederm@xmission.com designates 166.70.13.233 as
+ permitted sender) smtp.mailfrom=ebiederm@xmission.com;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=xmission.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -132,210 +175,42 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Sun, May 16, 2021 at 06:31:43PM +0200, Marco Elver wrote:
-> On Sun, 16 May 2021 at 17:52, Paul E. McKenney <paulmck@kernel.org> wrote:
-> >
-> > [ Restricting to KCSAN people for this question. ]
-> >
-> > > On Fri, May 14, 2021 at 07:41:02AM +0200, Manfred Spraul wrote:
-> > > > On 5/13/21 9:02 PM, Paul E. McKenney wrote:
-> > > > > On Thu, May 13, 2021 at 08:10:51AM +0200, Manfred Spraul wrote:
-> >
-> > [ . . . ]
-> >
-> > > > > Actually, you just demonstrated that this example is quite misleading.
-> > > > > That data_race() works only because the read is for diagnostic
-> > > > > purposes.  I am queuing a commit with your Reported-by that makes
-> > > > > read_foo_diagnostic() just do a pr_info(), like this:
-> > > > >
-> > > > >   void read_foo_diagnostic(void)
-> > > > >   {
-> > > > >           pr_info("Current value of foo: %d\n", data_race(foo));
-> > > > >   }
-> > > > >
-> > > > > So thank you for that!
-> > > >
-> > > > I would not like this change at all.
-> > > > Assume you chase a rare bug, and notice an odd pr_info() output.
-> > > > It will take you really long until you figure out that a data_race() mislead
-> > > > you.
-> > > > Thus for a pr_info(), I would consider READ_ONCE() as the correct thing.
-> > >
-> > > It depends, but I agree with a general preference for READ_ONCE() over
-> > > data_race().
-> > >
-> > > However, for some types of concurrency designs, using a READ_ONCE()
-> > > can make it more difficult to enlist KCSAN's help.  For example, if this
-> > > variable is read or written only while holding a particular lock, so that
-> > > read_foo_diagnostic() is the only lockless read, then using READ_ONCE()
-> > > adds a concurrent read.  In RCU, the updates would now need WRITE_ONCE(),
-> > > which would cause KCSAN to fail to detect a buggy lockless WRITE_ONCE().
-> > > If data_race() is used, then adding a buggy lockless WRITE_ONCE() will
-> > > cause KCSAN to complain.
-> > >
-> > > Of course, you would be quite correct to say that this must be balanced
-> > > against the possibility of a messed-up pr_info() due to compiler mischief.
-> > > Tradeoffs, tradeoffs!  ;-)
-> >
-> > On the other hand, a few quick experiements with data_race(READ_ONCE(foo))
-> > lead me to believe that this would do what Manfred wants.  If so, I should
-> > add this possibility to the documentation:  Prevent destructive compiler
-> > optimizations while at the same time causing KCSAN to ignore the access.
-> >
-> > Or did I just get lucky?
-> 
-> Not luck, it does what you think it does.  There's also __no_kcsan
-> function attribute if one would like a whole function to be ignored,
-> which in the above read_foo_diagnostic() example might be nicer? But
-> of course that's not always possible.
+Ingo Molnar <mingo@kernel.org> writes:
 
-Very good, thank you!
+> * Eric W. Biederman <ebiederm@xmission.com> wrote:
+>
+>> Looking deeper it was discovered that si_trapno is used for only
+>> a few select signals on alpha and sparc, and that none of the
+>> other _sigfault fields past si_addr are used at all.  Which means
+>> technically no regression on alpha and sparc.
+>
+> If there's no functional regression on any platform, could much of this 
+> wait until v5.14, or do we want some of these cleanups right now?
+>
+> The fixes seem to be for long-existing bugs, not fresh regressions, AFAICS. 
+> The asserts & cleanups are useful, but not regression fixes.
+>
+> I.e. this is a bit scary:
 
-And also thank you for the reminder about __no_kcsan.  I should look
-at using this for some of RCU's diagnostic functions.
+The new ABI for SIGTRAP TRAP perf that came in the merge window is
+broken and wrong.  We need to revert/disable the new SIGTRAP TRAP_PERF
+or have a fix before v5.13.
 
-But some of them will have both diagnostic and non-diagnostic
-fetches from shared variables.  For read_foo_diagnostic(), perhaps
-I just show all three alternatives.
+The issue is old crap getting in the way of a new addition.  I think I
+might see a smaller code change on how to get to something compatible
+with this.
 
-							Thanx, Paul
+>>  32 files changed, 377 insertions(+), 163 deletions(-)
+>
+> at -rc2 time.
 
-> Thanks,
-> -- Marco
-> 
-> >                                                         Thanx, Paul
-> >
-> > > I should document this tradeoff, shouldn't I?
-> > >
-> > > > What about something like the attached change?
-> > > >
-> > > > --
-> > > >
-> > > >     Manfred
-> > > >
-> > > >
-> > >
-> > > > diff --git a/tools/memory-model/Documentation/access-marking.txt b/tools/memory-model/Documentation/access-marking.txt
-> > > > index 1ab189f51f55..588326b60834 100644
-> > > > --- a/tools/memory-model/Documentation/access-marking.txt
-> > > > +++ b/tools/memory-model/Documentation/access-marking.txt
-> > > > @@ -68,6 +68,11 @@ READ_ONCE() and WRITE_ONCE():
-> > > >
-> > > >  4. Writes setting values that feed into error-tolerant heuristics.
-> > > >
-> > > > +In theory, plain C-language loads can also be used for these use cases.
-> > > > +However, in practice this will have the disadvantage of causing KCSAN
-> > > > +to generate false positives because KCSAN will have no way of knowing
-> > > > +that the resulting data race was intentional.
-> > > > +
-> > > >
-> > > >  Data-Racy Reads for Approximate Diagnostics
-> > > >
-> > > > @@ -86,11 +91,6 @@ that fail to exclude the updates.  In this case, it is important to use
-> > > >  data_race() for the diagnostic reads because otherwise KCSAN would give
-> > > >  false-positive warnings about these diagnostic reads.
-> > > >
-> > > > -In theory, plain C-language loads can also be used for this use case.
-> > > > -However, in practice this will have the disadvantage of causing KCSAN
-> > > > -to generate false positives because KCSAN will have no way of knowing
-> > > > -that the resulting data race was intentional.
-> > > > -
-> > > >
-> > > >  Data-Racy Reads That Are Checked Against Marked Reload
-> > > >
-> > > > @@ -110,11 +110,6 @@ that provides the compiler much less scope for mischievous optimizations.
-> > > >  Capturing the return value from cmpxchg() also saves a memory reference
-> > > >  in many cases.
-> > > >
-> > > > -In theory, plain C-language loads can also be used for this use case.
-> > > > -However, in practice this will have the disadvantage of causing KCSAN
-> > > > -to generate false positives because KCSAN will have no way of knowing
-> > > > -that the resulting data race was intentional.
-> > >
-> > > Normally, I would be completely in favor of your suggestion to give
-> > > this advice only once.  But in this case, there are likely to be people
-> > > reading just the part of the document that they think applies to their
-> > > situation.  So it is necessary to replicate the reminder into all the
-> > > sections.
-> > >
-> > > That said, I do applaud your approach of reading the whole thing.  That
-> > > of course gets you a much more complete understanding of the situation,
-> > > and gets me more feedback.  ;-)
-> > >
-> > > >  Reads Feeding Into Error-Tolerant Heuristics
-> > > >
-> > > > @@ -125,11 +120,9 @@ that data_race() loads are subject to load fusing, which can result in
-> > > >  consistent errors, which in turn are quite capable of breaking heuristics.
-> > > >  Therefore use of data_race() should be limited to cases where some other
-> > > >  code (such as a barrier() call) will force the occasional reload.
-> > > > -
-> > > > -In theory, plain C-language loads can also be used for this use case.
-> > > > -However, in practice this will have the disadvantage of causing KCSAN
-> > > > -to generate false positives because KCSAN will have no way of knowing
-> > > > -that the resulting data race was intentional.
-> > > > +The heuristics must be able to handle any error. If the heuristics are
-> > > > +only able to handle old and new values, then WRITE_ONCE()/READ_ONCE()
-> > > > +must be used.
-> > >
-> > > Excellent addition!  I have applied the commit shown below with your
-> > > Signed-off-by.  Please let me know if you would like me to take some other
-> > > course of action.  And also please let me know if I messed something up.
-> > >
-> > > >  Writes Setting Values Feeding Into Error-Tolerant Heuristics
-> > > > @@ -142,11 +135,8 @@ due to compiler-mangled reads, it can also tolerate the occasional
-> > > >  compiler-mangled write, at least assuming that the proper value is in
-> > > >  place once the write completes.
-> > > >
-> > > > -Plain C-language stores can also be used for this use case.  However,
-> > > > -in kernels built with CONFIG_KCSAN_ASSUME_PLAIN_WRITES_ATOMIC=n, this
-> > > > -will have the disadvantage of causing KCSAN to generate false positives
-> > > > -because KCSAN will have no way of knowing that the resulting data race
-> > > > -was intentional.
-> > > > +Note that KCSAN will only detect mangled writes in kernels built with
-> > > > +CONFIG_KCSAN_ASSUME_PLAIN_WRITES_ATOMIC=n.
-> > >
-> > > And the same point on needing to say this more than once.
-> > >
-> > >                                                       Thanx, Paul
-> > >
-> > > ------------------------------------------------------------------------
-> > >
-> > > commit 48db6caa1d32c39e7405df3940f9f7ba07ed0527
-> > > Author: Manfred Spraul <manfred@colorfullife.com>
-> > > Date:   Fri May 14 11:40:06 2021 -0700
-> > >
-> > >     tools/memory-model: Heuristics using data_race() must handle all values
-> > >
-> > >     Data loaded for use by some sorts of heuristics can tolerate the
-> > >     occasional erroneous value.  In this case the loads may use data_race()
-> > >     to give the compiler full freedom to optimize while also informing KCSAN
-> > >     of the intent.  However, for this to work, the heuristic needs to be
-> > >     able to tolerate any erroneous value that could possibly arise.  This
-> > >     commit therefore adds a paragraph spelling this out.
-> > >
-> > >     Signed-off-by: Manfred Spraul <manfred@colorfullife.com>
-> > >     Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
-> > >
-> > > diff --git a/tools/memory-model/Documentation/access-marking.txt b/tools/memory-model/Documentation/access-marking.txt
-> > > index e4a20ebf565d..22ecadec4894 100644
-> > > --- a/tools/memory-model/Documentation/access-marking.txt
-> > > +++ b/tools/memory-model/Documentation/access-marking.txt
-> > > @@ -126,6 +126,11 @@ consistent errors, which in turn are quite capable of breaking heuristics.
-> > >  Therefore use of data_race() should be limited to cases where some other
-> > >  code (such as a barrier() call) will force the occasional reload.
-> > >
-> > > +Note that this use case requires that the heuristic be able to handle
-> > > +any possible error.  In contrast, if the heuristics might be fatally
-> > > +confused by one or more of the possible erroneous values, use READ_ONCE()
-> > > +instead of data_race().
-> > > +
-> > >  In theory, plain C-language loads can also be used for this use case.
-> > >  However, in practice this will have the disadvantage of causing KCSAN
-> > >  to generate false positives because KCSAN will have no way of knowing
-> > >
-> > > ----- End forwarded message -----
+The additions are all tests to make certain everything is fine.
+The actual code change without the assertions (tests) is essentially
+a wash.
+
+Eric
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210516225634.GC4441%40paulmck-ThinkPad-P17-Gen-1.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/m1wnrx750c.fsf%40fess.ebiederm.org.
