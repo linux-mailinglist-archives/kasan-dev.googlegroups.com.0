@@ -1,156 +1,136 @@
-Return-Path: <kasan-dev+bncBCWK3NXC5AIBBLHFRKCQMGQEBTSBHOQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCJZRXGY5YJBBX7JRKCQMGQEHHCIKIQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yb1-xb3a.google.com (mail-yb1-xb3a.google.com [IPv6:2607:f8b0:4864:20::b3a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3158E383C02
-	for <lists+kasan-dev@lfdr.de>; Mon, 17 May 2021 20:15:10 +0200 (CEST)
-Received: by mail-yb1-xb3a.google.com with SMTP id p140-20020a25d8920000b0290508c3296a35sf8489673ybg.8
-        for <lists+kasan-dev@lfdr.de>; Mon, 17 May 2021 11:15:10 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1621275309; cv=pass;
+Received: from mail-qk1-x73f.google.com (mail-qk1-x73f.google.com [IPv6:2607:f8b0:4864:20::73f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2908E383C2D
+	for <lists+kasan-dev@lfdr.de>; Mon, 17 May 2021 20:24:32 +0200 (CEST)
+Received: by mail-qk1-x73f.google.com with SMTP id s10-20020a05620a030ab02902e061a1661fsf5352068qkm.12
+        for <lists+kasan-dev@lfdr.de>; Mon, 17 May 2021 11:24:32 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1621275871; cv=pass;
         d=google.com; s=arc-20160816;
-        b=qj53oOPOAkq1KCSDWOI763iGr5CnrrkNeYN4ZNe39EhPUo+Ug/kJ/x/B8WWVwqiicX
-         sHGi1YJJMkLIYIL8V0RvVPytGD94UZFyBGYYCJkHRfdz0vZjLEYwvrpyGwzHJVsE1rnz
-         3TebaLh1HIkOqaHfkraksQWYEDLV0QE4ho2sFAH96aACv6xF4n5o7+bP+Ti7nqIST9Zt
-         Au2imj29SHloaZGhGPxB0nhf2YbCU2nQ8jPT8uhrgrcKJWv3SZ8fiiIVvKPcZyqC31r4
-         UCCrWafX+xjWG2HkgdBl7nOBLFP7xj/wosb0xirpjZYUh6JD0nWuL4SLr3mV6WU6+QP6
-         7gHw==
+        b=Ayma+tePd9s+qk1B2nLzwo8lfglDSgBr4XhhiKVx/NEOsSPU12DisjwoSdKDpUTA3o
+         PoI5MjoZBLZp3r6oBqlN0qSDq/yClQl9p9y3ZqLqFWvh6kw6xrI8RoyXTnbiScCxbuBt
+         Tdy0/WgMLMuT6mQFIbZZ2jsOpXKUvfM1C69ZfBCFcV9sFXAjSGRcROPJ49xM8oojAb44
+         qkUIfleleCvouWzkByP6q4PqGK/M0dGG6Licbh7ESPh3L6KYU8AeKxxKHQRXu8KynkYR
+         ns+ghf6DOzIefGXIX1DX45Oppwd0Ay2bgaClrDh40v5dnS5EIt9LRzHMSEE0Tp7FomI2
+         mzqw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-language:in-reply-to
-         :mime-version:user-agent:date:message-id:from:references:cc:to
-         :subject:sender:dkim-signature;
-        bh=sw2aBg1dLh9Xzh5ax8Kxg3vucVaw6XwIgss/0FAc4DM=;
-        b=u7Ib1oBM6DUfd27v8BwVoDfMZ5RpqFPYW84R4GUI66aYtLHEltALi/NSFI/r0jKt57
-         yTOG1nc+0jR1UO2bLEubU7HunVP4IZQ/vTFrV0gIIzDlFjvRzLxX3CU/pnrrJ6GG4136
-         6pLKk5WeCCw61fliFbfBnjIBFCvc7Dbm1FmfftpH8A7eRAILi0KJgmH1Ta74FFGtjzru
-         QFAP3p5LG/7NXLW9NnxDZrxKfCsUa2yl0iFBSXCEW+1cCTIfCl/CYgcFjIpWQiA+ndea
-         q8U1yM0+RIf0hGcLTjzHUObrffvLaPVw7DOwPiB3l1IIXuphvNVQXmeMj8C3T0UMuzo/
-         VGag==
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:reply-to:message-id:subject:cc:to:from:date
+         :sender:dkim-signature;
+        bh=xB6+3NmFjiwXaH/kJ7KyaUUjhBgXlRQPvX/l6bOxbH8=;
+        b=U7N4euMj64Aqnyby9xnW8TMFVaQgW9z2Qm7AQ6UbfePO3xpeHusweo0r/AiR65fz6x
+         utTGCJ3bPgEhJYleuBWmgI5Zq1jelonUA1RKoR3711mtRXk2Ig6vACTpYr9v7Twu1lot
+         IZ/CMLlS0usdpBmnIWXk/iZ+rM5bMCtU7NISEiJB5Le+M5qQKUraB5gsal2HClvxCyX4
+         fCOOUzwpNhMBm4wvb/69Ts1c5DPKqRY5T+C07oWwZ0nfx0QtSyRkENfmBNNZ3BimsdQ7
+         /CuvPNsrmu38PktWttvWFhkUtQv3d2rR7xi7vA+rH4HmX+8Ls1we42Igz/OygUjwXq7d
+         6ACw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@oracle.com header.s=corp-2020-01-29 header.b=MszFyo2A;
-       spf=pass (google.com: domain of vegard.nossum@oracle.com designates 141.146.126.79 as permitted sender) smtp.mailfrom=vegard.nossum@oracle.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=oracle.com
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b="WdgR/t2M";
+       spf=pass (google.com: domain of srs0=btmv=km=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=BtMV=KM=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:x-original-sender
+        h=sender:date:from:to:cc:subject:message-id:reply-to:references
+         :mime-version:content-disposition:in-reply-to:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=sw2aBg1dLh9Xzh5ax8Kxg3vucVaw6XwIgss/0FAc4DM=;
-        b=GbYanmcrccxqsQLLfkebUAviWRBKiIsAc5zHGBT5BOr7vpC7Fp6fk+g/Nj3AJMZA4f
-         t4nWffbPjPLoW1XMPtKZ3Ws5xwPRAww2VXXZsS9HxdyzvEidkOrYmStwp6axLfM4jqKr
-         yzwMQdwqAcaw0IcS38tomqS6mJVM1R+pCjsRkPQ0EN26HMqCkvRulvsvQqujtdfuRqxo
-         DzdrfyPG/xIF8RBocrP5fEtv6zray+pgQ81u9jTEoTKQ+Vwzf5naBZSIT2uSTgrBicth
-         QUd8766F0cdDNGzjf9Rg5L7vhKaqqLSDL9aodGmGa0ofmwmHJ/h4VjeECjEDZferTr1v
-         y6wg==
+        bh=xB6+3NmFjiwXaH/kJ7KyaUUjhBgXlRQPvX/l6bOxbH8=;
+        b=siOMTkGcURM8QB7wj1dWdlb0q9XdlurgpFHuANhKh63k8BE2K2TtTXj7r0WNQCScUl
+         B+Hutq1p0uKrRGVg+Mezm+ha42XWks+BCFcOK4BGWDKQi8qeL05MfLiTcLaEYIMWLGmH
+         AC1qQA3+P27227J6T9GrZTFK2y+xlu1FwmSnHnPI+dH2htTQ2Di85566tsF7JY0ehaaP
+         xgP33B6HZhD1t9utMt1GoFMv8LkjRbWio2hHqZ3qQ58Tgwyw5qQh2WDMeooz2J2kLxLl
+         7fc68JH9NlBwekZspz3sGntSDX7tkIGynMaYTmV6PfJDoDC6IXx7ds5HShV++hQNF1A6
+         IN2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :reply-to:references:mime-version:content-disposition:in-reply-to
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=sw2aBg1dLh9Xzh5ax8Kxg3vucVaw6XwIgss/0FAc4DM=;
-        b=Y9J/UP/ImBJ1gI7KZGSWMBosc0bTFDJT7g9exh+vx6QRTVn2uDMkAk6pnrttcFw19r
-         jLNAK5MxweXAMGXSoxekiSW8ZKydIGZlvfztC6Sv+0+DFNkP3sLXycYPq05sF8BooCQx
-         ZdiCL6dYw/Euw2G3BvayIzCE4sl2TShBlSCtQGnQgPRj4+EyVqLlonSpa8YG+xRwA1FW
-         hOlICTa+LjiHRw8LP6gFygFtvpur25d1hjhWuFEw73HQeM7d7i+hy8zngO4aETNTzhbl
-         8gLu3GOJO1yb6mzQCBRkIJqIJ5pdEz6TIyh2PdTryoQuTeg8UGqEP2b9Io8OJ1YeXlhy
-         qTYw==
+        bh=xB6+3NmFjiwXaH/kJ7KyaUUjhBgXlRQPvX/l6bOxbH8=;
+        b=EP4LGwlzgOEp80KPFQWTyYK8MFvE8B/TsFpPn8Sraj0C69b0FuFtCTjmR9eOVnXOi4
+         yk+V/ibrR5gnteVAg36j1L76bPd+HwUdZL+1D1y8Y9icpIv9DvJ8PzGDU5bhZcx8NQZI
+         Ey+8+PR4PJHshZSL16X0pG9SCNHkxPKqIiSgwHlYkDb6I7gS5gOGdL2oAxs3g7BQlmuL
+         02EsHiVaQ8ycKGOa/01S0lkGzHZJPSL1vXonMfsu+cv+zVdQAO+Yq11ZQj6vFXxTVzno
+         yclc4L2scSa2LkUO+xXMGYxOEfcH1rbUCr4b9VNPZPulkiNbj6Ob7dYeMp2V1NIYRrVZ
+         PPew==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM531fq1oHRNfpe4DAxQpuWq/eY5Uq5Bjy8oa97+9Cjflz5ld4L1yH
-	M28NwJj/i2nx+ba0wjo2+lQ=
-X-Google-Smtp-Source: ABdhPJws/OpGOJw+NxO+MxNiMgN2ruLw3YZRHYZh3mwF9XQ1Sz98QV2zzyr+AiClWiy7kEivVWB8RA==
-X-Received: by 2002:a25:be0c:: with SMTP id h12mr1672989ybk.29.1621275308977;
-        Mon, 17 May 2021 11:15:08 -0700 (PDT)
+X-Gm-Message-State: AOAM532UQ0oINjyk3YkhjcpdBpQHmZRsjCVKLEQ/8f2XFPATiZZMegdq
+	wvhzTzdtQBrJETXg2n3vPD4=
+X-Google-Smtp-Source: ABdhPJxVQh0b1NHU571Z9R4ogpkDSQbOTx0wFIl7CElv9hnmfxor1QE71CalcoEPpmKFFgfCZFHOvg==
+X-Received: by 2002:a0c:ea2e:: with SMTP id t14mr1030602qvp.40.1621275871189;
+        Mon, 17 May 2021 11:24:31 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a25:7bc7:: with SMTP id w190ls8612445ybc.2.gmail; Mon, 17
- May 2021 11:15:08 -0700 (PDT)
-X-Received: by 2002:a25:9982:: with SMTP id p2mr1637422ybo.457.1621275308544;
-        Mon, 17 May 2021 11:15:08 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1621275308; cv=none;
+Received: by 2002:a05:6214:90d:: with SMTP id dj13ls3933663qvb.11.gmail; Mon,
+ 17 May 2021 11:24:30 -0700 (PDT)
+X-Received: by 2002:a05:6214:18d:: with SMTP id q13mr1349759qvr.60.1621275870784;
+        Mon, 17 May 2021 11:24:30 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1621275870; cv=none;
         d=google.com; s=arc-20160816;
-        b=N4zM1QwwhnEJ8Lf4Py20h9JEYpwy/TqJ/CT+5AlRMdK9HyC/C9nUr3OP0Cd5S+rTbs
-         A8KxnkYEQ6HVMQHB9+vdFd/WQ4bNV3yK2HuGLhVNB3falEZ2xICSLgvk7ueY43SKrzBc
-         K8H3n2GyEkvRwaoP8SwqCaO4MN1OXQwORtnaOYZlvN0+5uB2B2TJoT80kX2LnaiSaErI
-         qhkwWYWV/U+Fw4dL7/+yrOo8w1g80XegYEF1G5MZIHYY5fVnUYYWPnSELrUAEII0INEj
-         EkZyGa4m7iXElPScaATURxTITQRlG/wbKMTsNDKGrpD41MaXPHyoGphE3hApPLak8QsI
-         y75w==
+        b=NydCSQjhjGxJnDm8uBxci3Pne+5mIxTOgajZB/Goij+p+5YUfx44uOjv5wjdS6xhg0
+         1ZbJLxvL3XfIV11DB/FCsNe29yOgXcxJ0eYTQtNJ0yF1cmyvJQfQWSGg2O9kC8PmGFjR
+         BC1kwNV5KyHD9hSG5esfq0zlqwHlh/0xQWRh8831jphlgPkF3tYCDLcDQPI4worEfmh6
+         pbrvthh4mmvAS6rle8iHVmqBsc8ayBew/38tcErkGepFKXcRREpqlwsZHaTSYZlSoSLe
+         Bj2dHbBVEtH+ERN7RN9t3SbkKQf2XyH8TBLyTHkJG7GW0qdtSMr2jyOQ5fmyzwz/Ti3O
+         w/Yg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject
-         :dkim-signature;
-        bh=LYLRdgK9/MrLRcKez2xEijp8HDa6c4HXQOuCebl2j4I=;
-        b=a+3obYbGtrKrCwSu83sWH3QBNkYGQC/4Vmn+Y5vjcJe9xQygwzr5VFi7bU293bpsNI
-         MxRvqof1oKPHSvoyRDDOV6VsxPagpl06dCpik4iNEc8LcRDBKkf2HXak4pSncuLNCiE0
-         yu24+Qo6sELJXt5QSbSB+vNvg/YX4xe8Qbh2OtS2ayisUfbthIe355s38qIhm3UUNrjo
-         SEaVwWDvS3yyVVxHrQmmJHncBZoIERFh8M9rhxyRhTJ9gVmpQZzcETPrmqNRUzaqOmM4
-         xbSSQkPaGvGflHXS4fPS8i1blVOWuY2SRLuONApq4YIiK4RDU9BMpq3GtTVTxE+9O0Az
-         iB+Q==
+        h=in-reply-to:content-disposition:mime-version:references:reply-to
+         :message-id:subject:cc:to:from:date:dkim-signature;
+        bh=2ChLCmCRjW4N24pxnrG3xchAhED4vI3Qc8c4bn/xBCw=;
+        b=P3j15UDsIIM1EWk9eD31jjYajJ0k7hZMQlqNTks/k54MqeR+TluPebxagLATo7r1GM
+         DQSo2bcaINeL/oweNUW3Aqy1uc8noRmV053oC+xgj34IsTcUjPshMDuX28jASZxRTdWF
+         tGUbL+ZMq0FaPwdfXXt/7RmnE+bjAC5L+EjVDq0G9fz+6nBFBqynNRqNcq+M3dzJJyb1
+         MMW/ePrEq9MLDbihqTVXfyfTUjaBz3670JXgYKoeQ5/j+wfRP5MWYvnMKFGqNhP6SaKV
+         tflVJmRagp4QhtwmBmwAx5jXqN7HOZw0+f0i62czETaZN9JjJDgcZuT6QskP8NFVW8/h
+         u1Gw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@oracle.com header.s=corp-2020-01-29 header.b=MszFyo2A;
-       spf=pass (google.com: domain of vegard.nossum@oracle.com designates 141.146.126.79 as permitted sender) smtp.mailfrom=vegard.nossum@oracle.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=oracle.com
-Received: from aserp2130.oracle.com (aserp2130.oracle.com. [141.146.126.79])
-        by gmr-mx.google.com with ESMTPS id l14si1290106ybp.4.2021.05.17.11.15.08
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 17 May 2021 11:15:08 -0700 (PDT)
-Received-SPF: pass (google.com: domain of vegard.nossum@oracle.com designates 141.146.126.79 as permitted sender) client-ip=141.146.126.79;
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
-	by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 14HIEJau031441;
-	Mon, 17 May 2021 18:15:06 GMT
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-	by aserp2130.oracle.com with ESMTP id 38j3tbc5ra-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 17 May 2021 18:15:06 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-	by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 14HIBps4137735;
-	Mon, 17 May 2021 18:15:06 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
-	by aserp3020.oracle.com with ESMTP id 38j646bp30-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 17 May 2021 18:15:06 +0000
-Received: from abhmp0007.oracle.com (abhmp0007.oracle.com [141.146.116.13])
-	by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 14HIF3CJ004559;
-	Mon, 17 May 2021 18:15:04 GMT
-Received: from [10.175.27.158] (/10.175.27.158)
-	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Mon, 17 May 2021 11:15:03 -0700
-Subject: Re: Re: "Learning-based Controlled Concurrency Testing"
-To: paulmck@kernel.org, Dmitry Vyukov <dvyukov@google.com>
-Cc: syzkaller <syzkaller@googlegroups.com>, Marco Elver <elver@google.com>,
-        kasan-dev <kasan-dev@googlegroups.com>
-References: <20210512181836.GA3445257@paulmck-ThinkPad-P17-Gen-1>
- <CACT4Y+Z+7qPaanHNQc4nZ-mCfbqm8B0uiG7OtsgdB34ER-vDYA@mail.gmail.com>
- <20210517164411.GH4441@paulmck-ThinkPad-P17-Gen-1>
-From: Vegard Nossum <vegard.nossum@oracle.com>
-Message-ID: <5650d220-9ca6-c456-ada3-f64a03007c26@oracle.com>
-Date: Mon, 17 May 2021 20:14:59 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b="WdgR/t2M";
+       spf=pass (google.com: domain of srs0=btmv=km=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=BtMV=KM=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
+        by gmr-mx.google.com with ESMTPS id x24si608335qkx.3.2021.05.17.11.24.30
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 17 May 2021 11:24:30 -0700 (PDT)
+Received-SPF: pass (google.com: domain of srs0=btmv=km=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A52D761004;
+	Mon, 17 May 2021 18:24:29 +0000 (UTC)
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id 5DF9B5C00C6; Mon, 17 May 2021 11:24:29 -0700 (PDT)
+Date: Mon, 17 May 2021 11:24:29 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc: Marco Elver <elver@google.com>, Arnd Bergmann <arnd@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	kasan-dev <kasan-dev@googlegroups.com>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	clang-built-linux <clang-built-linux@googlegroups.com>
+Subject: Re: [PATCH] kcsan: fix debugfs initcall return type
+Message-ID: <20210517182429.GK4441@paulmck-ThinkPad-P17-Gen-1>
+Reply-To: paulmck@kernel.org
+References: <20210514140015.2944744-1-arnd@kernel.org>
+ <0ad11966-b286-395e-e9ca-e278de6ef872@kernel.org>
+ <20210514193657.GM975577@paulmck-ThinkPad-P17-Gen-1>
+ <534d9b03-6fb2-627a-399d-36e7127e19ff@kernel.org>
+ <20210514201808.GO975577@paulmck-ThinkPad-P17-Gen-1>
+ <CAK8P3a3O=DPgsXZpBxz+cPEHAzGaW+64GBDM4BMzAZQ+5w6Dow@mail.gmail.com>
+ <YJ8BS9fs5qrtQIzg@elver.google.com>
+ <CANiq72ms+RzVGE7WQ9YC+uWyhQVB9P64abxhOJ20cmcc84_w4A@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210517164411.GH4441@paulmck-ThinkPad-P17-Gen-1>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Language: en-US
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9987 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 mlxscore=0 malwarescore=0
- bulkscore=0 mlxlogscore=999 phishscore=0 adultscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
- definitions=main-2105170126
-X-Proofpoint-ORIG-GUID: Q1C9tt0ids0LZtZY0dpmFeAzrYtSlaCX
-X-Proofpoint-GUID: Q1C9tt0ids0LZtZY0dpmFeAzrYtSlaCX
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9987 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 lowpriorityscore=0 malwarescore=0
- spamscore=0 priorityscore=1501 suspectscore=0 mlxlogscore=999 mlxscore=0
- impostorscore=0 adultscore=0 clxscore=1011 phishscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
- definitions=main-2105170127
-X-Original-Sender: vegard.nossum@oracle.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+In-Reply-To: <CANiq72ms+RzVGE7WQ9YC+uWyhQVB9P64abxhOJ20cmcc84_w4A@mail.gmail.com>
+X-Original-Sender: paulmck@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@oracle.com header.s=corp-2020-01-29 header.b=MszFyo2A;
-       spf=pass (google.com: domain of vegard.nossum@oracle.com designates
- 141.146.126.79 as permitted sender) smtp.mailfrom=vegard.nossum@oracle.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=oracle.com
+ header.i=@kernel.org header.s=k20201202 header.b="WdgR/t2M";       spf=pass
+ (google.com: domain of srs0=btmv=km=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org
+ designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=BtMV=KM=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -163,64 +143,24 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
+On Sat, May 15, 2021 at 04:19:45PM +0200, Miguel Ojeda wrote:
+> On Sat, May 15, 2021 at 1:01 AM 'Marco Elver' via Clang Built Linux
+> <clang-built-linux@googlegroups.com> wrote:
+> >
+> > FWIW, this prompted me to see if I can convince the compiler to complain
+> > in all configs. The below is what I came up with and will send once the
+> > fix here has landed. Need to check a few other config+arch combinations
+> > (allyesconfig with gcc on x86_64 is good).
+> 
+> +1 Works for LLVM=1 too (x86_64, small config).
+> 
+> Reviewed-by: Miguel Ojeda <ojeda@kernel.org>
 
-On 2021-05-17 18:44, Paul E. McKenney wrote:
-> My hope is that some very clever notion of "state" would allow
-> coverage-guided fuzzing techniques to be applied across the full kernel.
-> Here are a few not-so-clever notions I have thought of, in the hope that
-> they inspire some notion that is within the realm of sanity:
-> 
-> 1.	The current coverage state plus the number of locks held by the
-> 	current CPU/task.  This is not so clever because the PC value
-> 	normally implies the number of locks.
-> 
-> 	It might be possible to do a little bit better by using the
-> 	lockdep hash instead of the number of locks, which could help
-> 	with code that is protected by a lock selected by the caller.
-> 
-> 2.	#1 above, but the number of locks held globally, not just by
-> 	the current CPU/task.  This is not so clever because maintaining
-> 	the global number of locks held is quite expensive.
-> 
-> 3.	#2 above, but approximate the number of locks held.  The
-> 	question is whether there is an approximation that is
-> 	both efficient and useful to fuzzing.
-> 
-> 4.	Run lockdep and periodically stop all the CPUs to gather the
-> 	hashes of their current lock state plus PC.  The result is a set
-> 	of states, one for each pair of CPUs, consisting of the first
-> 	CPU's PC and both CPU's lockdep hash.  Combine this with the
-> 	usual PC-only state.
-> 
-> 	I could probably talk myself into believing that this one is
-> 	clever, but who knows?	One not-so-clever aspect is the size of
-> 	the state space, but perhaps bloom-filter techniques can help.
-> 
-> 5.	KCSAN-like techniques, but where marking accesses forgives
-> 	nothing.  No splats, but instead hash the "conflicting" accesses,
-> 	preferably abstracting with type information, and add this hash
-> 	to the notion of state.  This might not be so clever given how
-> 	huge the state space would be, but again, perhaps bloom-filter
-> 	techniques can help.
-> 
-> 6.	Your more-clever ideas here!
+I will applyon the next rebase, thank you!
 
-Somewhat tangential in the context of the paper posted (and probably
-less clever), and not based on state... but how about a new gcc plugin
-that records which struct members are being accessed? You could for
-example hash struct name + member name into a single number that can be
-recorded AFL-style in a fixed-size bitmap or kcov-style...
-
-The fundamental idea is to just ignore everything about locking and
-concurrent accesses -- if you have the data above you'll know which
-independent test cases are likely to *try* accessing the same data (but
-from different code paths), so if there's a race somewhere it might be
-triggered more easily if they're run concurrently.
-
-
-Vegard
+							Thanx, Paul
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/5650d220-9ca6-c456-ada3-f64a03007c26%40oracle.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210517182429.GK4441%40paulmck-ThinkPad-P17-Gen-1.
