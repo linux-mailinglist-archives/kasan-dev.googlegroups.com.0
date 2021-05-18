@@ -1,123 +1,170 @@
-Return-Path: <kasan-dev+bncBCJZXCHARQJRBCMFRSCQMGQEZP7AB5I@googlegroups.com>
+Return-Path: <kasan-dev+bncBCALX3WVYQORBNPRRSCQMGQEIDSKFAI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x43b.google.com (mail-pf1-x43b.google.com [IPv6:2607:f8b0:4864:20::43b])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBEEF386DF4
-	for <lists+kasan-dev@lfdr.de>; Tue, 18 May 2021 01:55:54 +0200 (CEST)
-Received: by mail-pf1-x43b.google.com with SMTP id g14-20020a056a00078eb02902d7e2fb2c06sf4757944pfu.13
-        for <lists+kasan-dev@lfdr.de>; Mon, 17 May 2021 16:55:54 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1621295753; cv=pass;
+Received: from mail-il1-x13e.google.com (mail-il1-x13e.google.com [IPv6:2607:f8b0:4864:20::13e])
+	by mail.lfdr.de (Postfix) with ESMTPS id A320F387055
+	for <lists+kasan-dev@lfdr.de>; Tue, 18 May 2021 05:47:02 +0200 (CEST)
+Received: by mail-il1-x13e.google.com with SMTP id g14-20020a926b0e0000b02901bb2deb9d71sf7939288ilc.6
+        for <lists+kasan-dev@lfdr.de>; Mon, 17 May 2021 20:47:02 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1621309621; cv=pass;
         d=google.com; s=arc-20160816;
-        b=lUMjA4x9eJ5fU8tuMqktFiRtIGG/fXfW+nJPDJDroLXbS5ggQ1NBs/t7yr0/J0hdbQ
-         bWuZZ6ZL82dyi54MaN8zpFcrR9VUYvjpLHmXq7B+7TKg/JD9Qs9r+saavghRG3ofOKmb
-         XQK9D9cRST166zUm6zrRNmtN7/L42hAqBwnCLiRMTz+NfQOBRCrZH/jvsRQ4xc/IajpH
-         SCcHA1GWpH+0iCx15bTyFSF36lULKy67Tqd+mvuHLVQlwLtOO10hmuXshyoLbAzc+Wd0
-         Bj6bK66pRIlHnIkbo8zEFmJ72BUlfvi5o/b5cS03+uLzbMKOooOIpQ60N1Gv0dW1RO5F
-         MuqQ==
+        b=rEghpqaRcEuANEgtdiph5h2AzhQK2eSdtqBgaXG82+F0O8ydyqiU9Ojhkj2lyfEklh
+         qV3FA5E1HyVOTU5Cgc1aql03UPBIw0NmfsaxmAvchItByS/Wixmb8zLMgV5DKeaIWJws
+         WdG+ZYKRE/RWx0KjBw1nl0YFRhiadaXK6mKtQbx2cnFh8FrLy86Jic9Tfc8dtrUOp0z5
+         OAIB+IA3LgNyBhQa82K7fB+5a9yEq0E7EFn/CrSUT7X8DuqA4bEwkW0k8/UGqSykJtKK
+         afqLLkatDVsLuMoPs5nAghm/gRCnYALeD4SILpQGRoiAVg3J2ffVJ+wzYqK/tpw8l0j1
+         Um8g==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:to:from:subject
-         :mime-version:message-id:date:dkim-signature;
-        bh=bhjmHV0CrXAMOCrPflL63ifJoO/2q53jGosjDIIEvIU=;
-        b=mFLgg7SJe0xguPDkt2qDy6RgTe/UUi8fSXEXlyoiud8v1sTUXyazQuGlrkVzFE+MTe
-         caaGAsop69O6K6qdvuhFHDfYBSLw7ISIU/7jTp+bJaIkDKZCzRTI/mpeMx3cH95NCWra
-         JQ9A8cVZQgbwKgGuFTx16EgrkB/4zU1b8TzxNdJi4GJEiNqCk/m20sQ4725pUVdXfyci
-         H5XiKe1ZwJWiSxIidzBpRxJmLfElOMXRN3SKh82zTyx2+OjKPeElXGHQxfPyE2sCY4bo
-         BLdWFMe1L94OkXHiW7lNQTvfoMqTn9C8XFvbqSHzg8VN769asIeECIDJF1pX7/4mLd8z
-         G/fA==
+         :list-id:mailing-list:precedence:subject:mime-version:user-agent
+         :message-id:in-reply-to:date:references:cc:to:from:sender
+         :dkim-signature;
+        bh=vPqeI5tWsDD3YEnvLsMc5a2/datmv4BBrIEp84lnYhQ=;
+        b=WfsVOExIt4znhOuxg37iMhZ5Ww1I+BPDeb25pCSQTvKLskRX4J7RxKYO4hYHOncmvG
+         oMOUIhI00vMpFGEwWOWON10zZc5NBamzMWLXvhnNKZllyje65hr32adRxBiHFAYxeJbC
+         qrHlOYXILqnMBg5Cmav+78IKt3NNcW6ZoNlzvWbK2yXYi+V2YrxyDjXcC27+mSWmZNlQ
+         ecvaJqio9GDYp/LAtUwDq4r/Om6QxS3EvT60WJj6uru6smMEaeSu+JtdaAfrmLQCs00e
+         2mDTAbGxnLi2sMpkI+3vbcDv3FDW7dcb/bmfUZQ6Az4JotjZ/UAyfwNIvzuaZ4K6i3uq
+         A/zg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=f7J+W6v+;
-       spf=pass (google.com: domain of 3iakjyackcsufvhfojthpphmf.dpnlbtbo-efwhpphmfhspvqt.dpn@flex--eugenis.bounces.google.com designates 2607:f8b0:4864:20::f4a as permitted sender) smtp.mailfrom=3iAKjYAcKCSUFVHFOJTHPPHMF.DPNLBTBO-EFWHPPHMFHSPVQT.DPN@flex--eugenis.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       spf=pass (google.com: domain of ebiederm@xmission.com designates 166.70.13.231 as permitted sender) smtp.mailfrom=ebiederm@xmission.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=xmission.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=date:message-id:mime-version:subject:from:to:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:list-post:list-help:list-archive:list-subscribe
-         :list-unsubscribe;
-        bh=bhjmHV0CrXAMOCrPflL63ifJoO/2q53jGosjDIIEvIU=;
-        b=BhWFgWcixeZaTjgpw6j7f1bBZNCwQ5CLcZbNhKh/pJvRSLDUaMAVBZlKiyvRbJnfno
-         +1gyCCTLiYcLiSAiaWyTkz6MZ1pRTbkMspAX+T8tlPRhcdceC1CcdDdh5+BN1Sqqwuvx
-         7a2l2fg9udTUdwctgiLQDc0JjQSPIcUHvR9e1GjecRD8QqwmzjinIAef6J8AS43d+32H
-         CM7IAgr6y4uEUmeZWamFwSkauNQFRqlr51nVM/CAj6SqhBaepRWI+LOqKxDHD9bqW6la
-         5yGI7N6oHXN8VD3lDW7BCwK2WSQ/q/oAbPTn5ppCTkln6kc9lgTUX2ys01Dps5LoffJL
-         exZg==
+        h=sender:from:to:cc:references:date:in-reply-to:message-id:user-agent
+         :mime-version:subject:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=vPqeI5tWsDD3YEnvLsMc5a2/datmv4BBrIEp84lnYhQ=;
+        b=CvDpZNMKHOpaWpDGVWAy9LDAVpdQsddrp0tXnXirNowt47TnpczSt1/lbvlxdfHm6b
+         p8ZHQJK399VQ40tnw4EEOY4vsksk6SpsL7thh+c7yDblupiilirKM9g/Es6P4gT3n/4H
+         EGfuiu+dH8kqJoJE5a/zBQCT8RzaUrO5+bM/fWVuWagRGL9iKEbGenwU7lFqtA75oEUk
+         gZ+MPqVMk7tFn2KLZ7ul8KOYrijq2tjEiIPSsOPP3zQ3Fg2J0BN1bUaN1SZMONBQLyMW
+         72gx/JFeow7rysBZj+t2NMxoRiKRMcPVyDAedPTkyToCN+AAgIoJLyywCm156zYI5glw
+         D1XQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to
-         :x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=bhjmHV0CrXAMOCrPflL63ifJoO/2q53jGosjDIIEvIU=;
-        b=ju326yqy2BkV3czlTfWz2R1VqBo0VQEkp1Sb366/tAiimk4F+ITPWngm7OhiSsSrCf
-         cYLU47hvrg7MMOtrIrusaehRURhNheUD1uZVC7dL7YYjwL18ASY8Y6F07z0a8qVSYmSC
-         SpSgUCKOgcreWGmUT7ETz3qv6Q+ent+SaNu2NJz7yj4/AqVVIvDIwJ8ykzREZpZBaOsN
-         C+kazcw46/88SMJouenIjTe+2pZ+p3fLpu7sQ5zMUTNuGHkzLl3H98HNN2X45NW2LtO0
-         vNXmxHl49AK75RHG0EdF2jTOdvMMb7HKh2ZY9LpUzztf49C3pJZsDg7yREvbE17VlOmd
-         5h3Q==
-X-Gm-Message-State: AOAM531agwQRaVJnq9kOe4pprN/3GaSkaaZTvUykuJFNTz8AYhhV/Kzi
-	jyqC6DEmkEHg9B5WPc+XuHA=
-X-Google-Smtp-Source: ABdhPJwWFunDBhsFHsG5qTCOsa0bjSKMAZS3coHtmblbozyrHdsndZMc1l3hU9Cyv/3ir8Gp8lBVRw==
-X-Received: by 2002:a63:7d12:: with SMTP id y18mr2033903pgc.130.1621295753653;
-        Mon, 17 May 2021 16:55:53 -0700 (PDT)
+        h=sender:x-gm-message-state:from:to:cc:references:date:in-reply-to
+         :message-id:user-agent:mime-version:subject:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=vPqeI5tWsDD3YEnvLsMc5a2/datmv4BBrIEp84lnYhQ=;
+        b=El2aJGBhPK2BRmXfmxv2WKhUvspyf6A0AX0qGKRNQRFMkbToasPuKmvjgIwR6WrHjw
+         rvldA1xWTrrb2yZPZrewvnDKThizPsMqzuO3p2JT8xA6w3aHr4lu4Mei/asWqpPuekJo
+         FOft0/1CcAjAQpSiA6VY3amG1ecJV8k8DfbKmUKULLeQmlM72IYmsTdCotuBHsVzhOD/
+         gz5YPdUYbRdOjpFWTnXABPq5VcllIuWS2ydhbmVlCqJ2obQmn0jf57ES9vEUSKI9W7+R
+         hfgXxeVgjX1kZwN1PjUg8STxxhJpnDfrp6WYwRTTf5liIaU/9TE7+nY5wnURU+cVUndR
+         dScQ==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM533ghrx1YnlxwkF2TsLB0/wcdrNnAHyI1vtUsFpJhVPC9rIZbKL0
+	+9GmM+RMJwoUBgn6VnYJ+7s=
+X-Google-Smtp-Source: ABdhPJxRA0CRNwCJ/Ln//WcJTnhLTPDL93g3EPMm0auCH4PkAC0wVACFudUJ4ZyQxWIdOA0fQKo0eg==
+X-Received: by 2002:a92:dacf:: with SMTP id o15mr2527203ilq.236.1621309621434;
+        Mon, 17 May 2021 20:47:01 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:90a:c401:: with SMTP id i1ls467291pjt.0.canary-gmail;
- Mon, 17 May 2021 16:55:53 -0700 (PDT)
-X-Received: by 2002:a17:902:dcce:b029:ef:339:fa6a with SMTP id t14-20020a170902dcceb02900ef0339fa6amr1228936pll.24.1621295753173;
-        Mon, 17 May 2021 16:55:53 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1621295753; cv=none;
+Received: by 2002:a02:c7d2:: with SMTP id s18ls1165909jao.2.gmail; Mon, 17 May
+ 2021 20:47:01 -0700 (PDT)
+X-Received: by 2002:a02:ca0d:: with SMTP id i13mr3264484jak.98.1621309620991;
+        Mon, 17 May 2021 20:47:00 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1621309620; cv=none;
         d=google.com; s=arc-20160816;
-        b=yIRa9lRD7u96T6k5KoShrNU3nM04OEImoXcmHvEc7LJHv8ZSv/v96v03XkLPKV+zIj
-         pOzhFmLMyxB6Xhw1P3CIfimK/W77PMpIIpzXu1b0bT4cwxU0UFFKkpBgUS/V53JKIg9e
-         JggIji1i+VnZfFgKcYq0ADhp6oGNP94MtGAiTY2sJl1mWuBka8kou8FYNnTOsnzKuPyI
-         UCXTY25O3ps0yx42zKz7CVr9LnzMM5yWAZ65I2rdUTWkCl1QStYEahNFLjlUDvuOLbbN
-         CrZOp3hxXpe8487Gw2qeF+AEdzyXG3tWX8NlYPvXZT4EGgZXMvewgLAG8EcfObOBkab7
-         WbzQ==
+        b=FmPyZKO97j51nQw2p8mSf9efrV1ruq9KqDUFQjRlnROxNYbYMXzxWLVpjbeNBcny2+
+         B97BscgYUu1C9KfXfChMD1fhn9bKE4+pLcJlqM3pERl0pHMHNDOaB8pxAZre5bMQ2tLs
+         oZsSpSNad3ANvn4/FpvAm3SzNhnNqkFVBQsr4vWebn0PDKYqlWRDm/W52qPIyIquS4Zf
+         +kh1Jlc9EaPFqRl8vhz+TKhj9+iC+UmnJY0zGQW+zkms2apIoidcDbU65vMTgvMgOja4
+         KUoLbNE2G/2mDTi+LDQhRaDTTfgD1y/xn+Y/ezV41HSrlpxVEp02WUoh1UiJ4rNpH9DH
+         6wIA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=to:from:subject:mime-version:message-id:date:dkim-signature;
-        bh=pJYdEWZccGedi7sOusNpe9uQTsCIvJdO8bX0ACEO4b0=;
-        b=l/wxj00bVJxsqO/ZlIhdodyV/eytfjqUSb7Sn/ErCgBRA1EhtN6B3/ETY4GZZGU52S
-         e3Fg0Zk1l4qxp2ZtkkejD2371oSwv91D+gBvIBww+Dds7eBvPitW/qC6Q2MAreN5moTu
-         fOJSpYQ11BxyYsPcIBY1fHB+YX7CA5bbbzHEEghjJc5RTb9MoltIHha4x9c6IRwTE5p7
-         egbGEBWGoW4c9OLJSdk9xQirGfHF+Q1oNLBSwl+6PEg36FSwN53NjF2MS1prOMFBP0hK
-         LNOCVGIf/zDq8NNkYzKXB1O6eJGi1tbgIXsREX9khrm8/fOOA0LYp2IJ2SI9AC+Xvhvl
-         TpaQ==
+        h=subject:mime-version:user-agent:message-id:in-reply-to:date
+         :references:cc:to:from;
+        bh=E7lpcPL4oN8ctxR6yRDvLm5glL8woT7S2Legk0iEQEM=;
+        b=s2iPnnZK8nmRAdrn/mehj67aMslD0rlQGnEEq/ewnhjlzUYEmqpqc7AWtXKlwRQRRc
+         nS6lvcTFQgM50C8G2+GXyCebTql1A0+4Q3KLj0oaqbJUm9cQBd/93fYy2brJYRTXj1FE
+         fBVvWvQTAHkt2ZIolQiYP4fid/C51iRDbjFH9xo/bz4ekbDzpYmejCpKZoikcUPVQg41
+         M9OppmRX8CRXna+jAmgVrzSkrgPuHRAzVqEjfJcgBs2Vt4TDvnr2X10a4JyxfDaQMsl/
+         T2p7Y0LvBvLIZC38695yI+/vx9LCC4bl7xmLOybgHuMX1LNb6HZHusj55+hs8/9zVeg4
+         qYbw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=f7J+W6v+;
-       spf=pass (google.com: domain of 3iakjyackcsufvhfojthpphmf.dpnlbtbo-efwhpphmfhspvqt.dpn@flex--eugenis.bounces.google.com designates 2607:f8b0:4864:20::f4a as permitted sender) smtp.mailfrom=3iAKjYAcKCSUFVHFOJTHPPHMF.DPNLBTBO-EFWHPPHMFHSPVQT.DPN@flex--eugenis.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-qv1-xf4a.google.com (mail-qv1-xf4a.google.com. [2607:f8b0:4864:20::f4a])
-        by gmr-mx.google.com with ESMTPS id z1si1294104pju.0.2021.05.17.16.55.53
+       spf=pass (google.com: domain of ebiederm@xmission.com designates 166.70.13.231 as permitted sender) smtp.mailfrom=ebiederm@xmission.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=xmission.com
+Received: from out01.mta.xmission.com (out01.mta.xmission.com. [166.70.13.231])
+        by gmr-mx.google.com with ESMTPS id l25si924838ioh.2.2021.05.17.20.47.00
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 May 2021 16:55:53 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 3iakjyackcsufvhfojthpphmf.dpnlbtbo-efwhpphmfhspvqt.dpn@flex--eugenis.bounces.google.com designates 2607:f8b0:4864:20::f4a as permitted sender) client-ip=2607:f8b0:4864:20::f4a;
-Received: by mail-qv1-xf4a.google.com with SMTP id w4-20020a0c8e440000b02901f0640ffdafso1138962qvb.13
-        for <kasan-dev@googlegroups.com>; Mon, 17 May 2021 16:55:53 -0700 (PDT)
-X-Received: from eugenis.svl.corp.google.com ([2620:15c:2ce:200:c60e:2f76:b979:5cae])
- (user=eugenis job=sendgmr) by 2002:a0c:e6c5:: with SMTP id
- l5mr2636123qvn.2.1621295752535; Mon, 17 May 2021 16:55:52 -0700 (PDT)
-Date: Mon, 17 May 2021 16:55:46 -0700
-Message-Id: <20210517235546.3038875-1-eugenis@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.31.1.751.gd2f1c929bd-goog
-Subject: [PATCH v3] kasan: speed up mte_set_mem_tag_range
-From: "'Evgenii Stepanov' via kasan-dev" <kasan-dev@googlegroups.com>
-To: Andrey Ryabinin <ryabinin.a.a@gmail.com>, Alexander Potapenko <glider@google.com>, 
-	Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Steven Price <steven.price@arm.com>, Peter Collingbourne <pcc@google.com>, 
-	Evgenii Stepanov <eugenis@google.com>, kasan-dev@googlegroups.com, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 May 2021 20:47:00 -0700 (PDT)
+Received-SPF: pass (google.com: domain of ebiederm@xmission.com designates 166.70.13.231 as permitted sender) client-ip=166.70.13.231;
+Received: from in02.mta.xmission.com ([166.70.13.52])
+	by out01.mta.xmission.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.93)
+	(envelope-from <ebiederm@xmission.com>)
+	id 1liqgi-00AIup-W9; Mon, 17 May 2021 21:46:38 -0600
+Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95] helo=fess.xmission.com)
+	by in02.mta.xmission.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.93)
+	(envelope-from <ebiederm@xmission.com>)
+	id 1liqgf-00DpMa-Cz; Mon, 17 May 2021 21:46:32 -0600
+From: ebiederm@xmission.com (Eric W. Biederman)
+To: Marco Elver <elver@google.com>
+Cc: Arnd Bergmann <arnd@arndb.de>,  Florian Weimer <fweimer@redhat.com>,  "David S. Miller" <davem@davemloft.net>,  Peter Zijlstra <peterz@infradead.org>,  Ingo Molnar <mingo@kernel.org>,  Thomas Gleixner <tglx@linutronix.de>,  Peter Collingbourne <pcc@google.com>,  Dmitry Vyukov <dvyukov@google.com>,  Alexander Potapenko <glider@google.com>,  sparclinux <sparclinux@vger.kernel.org>,  linux-arch <linux-arch@vger.kernel.org>,  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,  Linux API <linux-api@vger.kernel.org>,  kasan-dev <kasan-dev@googlegroups.com>
+References: <YIpkvGrBFGlB5vNj@elver.google.com>
+	<m11rat9f85.fsf@fess.ebiederm.org>
+	<CAK8P3a0+uKYwL1NhY6Hvtieghba2hKYGD6hcKx5n8=4Gtt+pHA@mail.gmail.com>
+	<m15z031z0a.fsf@fess.ebiederm.org> <YIxVWkT03TqcJLY3@elver.google.com>
+	<m1zgxfs7zq.fsf_-_@fess.ebiederm.org>
+	<m1r1irpc5v.fsf@fess.ebiederm.org>
+	<CANpmjNNfiSgntiOzgMc5Y41KVAV_3VexdXCMADekbQEqSP3vqQ@mail.gmail.com>
+	<m1czuapjpx.fsf@fess.ebiederm.org>
+	<CANpmjNNyifBNdpejc6ofT6+n6FtUw-Cap_z9Z9YCevd7Wf3JYQ@mail.gmail.com>
+	<m14kfjh8et.fsf_-_@fess.ebiederm.org>
+	<m1tuni8ano.fsf_-_@fess.ebiederm.org>
+	<m1a6ot5e2h.fsf_-_@fess.ebiederm.org>
+	<CANpmjNM6rzyTp_+myecf8_773HLWDyJDbxFM6rWvzfKTLkXbhQ@mail.gmail.com>
+Date: Mon, 17 May 2021 22:46:19 -0500
+In-Reply-To: <CANpmjNM6rzyTp_+myecf8_773HLWDyJDbxFM6rWvzfKTLkXbhQ@mail.gmail.com>
+	(Marco Elver's message of "Mon, 17 May 2021 22:53:20 +0200")
+Message-ID: <m1lf8c4sc4.fsf@fess.ebiederm.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: eugenis@google.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=f7J+W6v+;       spf=pass
- (google.com: domain of 3iakjyackcsufvhfojthpphmf.dpnlbtbo-efwhpphmfhspvqt.dpn@flex--eugenis.bounces.google.com
- designates 2607:f8b0:4864:20::f4a as permitted sender) smtp.mailfrom=3iAKjYAcKCSUFVHFOJTHPPHMF.DPNLBTBO-EFWHPPHMFHSPVQT.DPN@flex--eugenis.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Evgenii Stepanov <eugenis@google.com>
-Reply-To: Evgenii Stepanov <eugenis@google.com>
+X-XM-SPF: eid=1liqgf-00DpMa-Cz;;;mid=<m1lf8c4sc4.fsf@fess.ebiederm.org>;;;hst=in02.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
+X-XM-AID: U2FsdGVkX1+Pcm16K+cqYXv6QpoQzYfCpXsEiNIW9QY=
+X-SA-Exim-Connect-IP: 68.227.160.95
+X-SA-Exim-Mail-From: ebiederm@xmission.com
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on sa08.xmission.com
+X-Spam-Level: 
+X-Spam-Status: No, score=-0.6 required=8.0 tests=ALL_TRUSTED,BAYES_40,
+	DCC_CHECK_NEGATIVE,FVGT_m_MULTI_ODD,T_TM2_M_HEADER_IN_MSG,
+	T_TooManySym_01 autolearn=disabled version=3.4.2
+X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+	* -0.0 BAYES_40 BODY: Bayes spam probability is 20 to 40%
+	*      [score: 0.2579]
+	*  0.0 T_TM2_M_HEADER_IN_MSG BODY: No description available.
+	* -0.0 DCC_CHECK_NEGATIVE Not listed in DCC
+	*      [sa08 1397; Body=1 Fuz1=1 Fuz2=1]
+	*  0.0 T_TooManySym_01 4+ unique symbols in subject
+	*  0.4 FVGT_m_MULTI_ODD Contains multiple odd letter combinations
+X-Spam-DCC: XMission; sa08 1397; Body=1 Fuz1=1 Fuz2=1
+X-Spam-Combo: ;Marco Elver <elver@google.com>
+X-Spam-Relay-Country: 
+X-Spam-Timing: total 3037 ms - load_scoreonly_sql: 0.05 (0.0%),
+	signal_user_changed: 14 (0.5%), b_tie_ro: 12 (0.4%), parse: 1.43
+	(0.0%), extract_message_metadata: 14 (0.5%), get_uri_detail_list: 2.4
+	(0.1%), tests_pri_-1000: 12 (0.4%), tests_pri_-950: 1.38 (0.0%),
+	tests_pri_-900: 1.19 (0.0%), tests_pri_-90: 1552 (51.1%), check_bayes:
+	1550 (51.0%), b_tokenize: 8 (0.3%), b_tok_get_all: 12 (0.4%),
+	b_comp_prob: 3.1 (0.1%), b_tok_touch_all: 1521 (50.1%), b_finish: 1.57
+	(0.1%), tests_pri_0: 1423 (46.8%), check_dkim_signature: 0.50 (0.0%),
+	check_dkim_adsp: 152 (5.0%), poll_dns_idle: 149 (4.9%), tests_pri_10:
+	3.8 (0.1%), tests_pri_500: 11 (0.4%), rewrite_mail: 0.00 (0.0%)
+Subject: Re: [PATCH v4 0/5] siginfo: ABI fixes for TRAP_PERF
+X-SA-Exim-Version: 4.2.1 (built Sat, 08 Feb 2020 21:53:50 +0000)
+X-SA-Exim-Scanned: Yes (on in02.mta.xmission.com)
+X-Original-Sender: ebiederm@xmission.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of ebiederm@xmission.com designates 166.70.13.231 as
+ permitted sender) smtp.mailfrom=ebiederm@xmission.com;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=xmission.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -130,162 +177,76 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Use DC GVA / DC GZVA to speed up KASan memory tagging in HW tags mode.
+Marco Elver <elver@google.com> writes:
 
-The first cacheline is always tagged using STG/STZG even if the address is
-cacheline-aligned, as benchmarks show it is faster than a conditional
-branch.
+> On Mon, 17 May 2021 at 21:58, Eric W. Biederman <ebiederm@xmission.com> wrote:
+>>
+>> During the merge window an issue with si_perf and the siginfo ABI came
+>> up.  The alpha and sparc siginfo structure layout had changed with the
+>> addition of SIGTRAP TRAP_PERF and the new field si_perf.
+>>
+>> The reason only alpha and sparc were affected is that they are the
+>> only architectures that use si_trapno.
+>>
+>> Looking deeper it was discovered that si_trapno is used for only
+>> a few select signals on alpha and sparc, and that none of the
+>> other _sigfault fields past si_addr are used at all.  Which means
+>> technically no regression on alpha and sparc.
+>>
+>> While the alignment concerns might be dismissed the abuse of
+>> si_errno by SIGTRAP TRAP_PERF does have the potential to cause
+>> regressions in existing userspace.
+>>
+>> While we still have time before userspace starts using and depending on
+>> the new definition siginfo for SIGTRAP TRAP_PERF this set of changes
+>> cleans up siginfo_t.
+>>
+>> - The si_trapno field is demoted from magic alpha and sparc status and
+>>   made an ordinary union member of the _sigfault member of siginfo_t.
+>>   Without moving it of course.
+>>
+>> - si_perf is replaced with si_perf_data and si_perf_type ending the
+>>   abuse of si_errno.
+>>
+>> - Unnecessary additions to signalfd_siginfo are removed.
+>>
+>> v3: https://lkml.kernel.org/r/m1tuni8ano.fsf_-_@fess.ebiederm.org
+>> v2: https://lkml.kernel.org/r/m14kfjh8et.fsf_-_@fess.ebiederm.org
+>> v1: https://lkml.kernel.org/r/m1zgxfs7zq.fsf_-_@fess.ebiederm.org
+>>
+>> This version drops the tests and fine grained handling of si_trapno
+>> on alpha and sparc (replaced assuming si_trapno is valid for
+>> all but the faults that defined different data).
+>
+> And just to clarify, the rest of the series (including static-asserts)
+> for the next merge-window will be sent once this series is all sorted,
+> correct?
 
-Signed-off-by: Evgenii Stepanov <eugenis@google.com>
-Co-developed-by: Peter Collingbourne <pcc@google.com>
-Signed-off-by: Peter Collingbourne <pcc@google.com>
----
-Changelog since v1:
-- Added Co-developed-by.
+That is the plan.
 
-Changelog since v2:
-- Added Signed-off-by.
+I really wonder about alphas use of si_trapno, and alphas use send_sig
+instead of force_sig.  It could be worth looking into those as it
+has the potential to simplify the code.
 
- arch/arm64/include/asm/mte-kasan.h | 40 +------------------
- arch/arm64/lib/Makefile            |  2 +
- arch/arm64/lib/mte-kasan.S         | 63 ++++++++++++++++++++++++++++++
- 3 files changed, 66 insertions(+), 39 deletions(-)
- create mode 100644 arch/arm64/lib/mte-kasan.S
+>> Eric W. Biederman (5):
+>>       siginfo: Move si_trapno inside the union inside _si_fault
+>>       signal: Implement SIL_FAULT_TRAPNO
+>>       signal: Factor force_sig_perf out of perf_sigtrap
+>>       signal: Deliver all of the siginfo perf data in _perf
+>>       signalfd: Remove SIL_PERF_EVENT fields from signalfd_siginfo
+>
+> Looks good, thank you! I build-tested (defconfig -- x86_64, i386, arm,
+> arm64, m68k, sparc, alpha) this series together with a local patch to
+> pull in the static asserts from v3. Also re-ran perf_events kselftests
+> on x86_64 (native and 32bit compat).
 
-diff --git a/arch/arm64/include/asm/mte-kasan.h b/arch/arm64/include/asm/mte-kasan.h
-index ddd4d17cf9a0..e29a0e2ab35c 100644
---- a/arch/arm64/include/asm/mte-kasan.h
-+++ b/arch/arm64/include/asm/mte-kasan.h
-@@ -48,45 +48,7 @@ static inline u8 mte_get_random_tag(void)
- 	return mte_get_ptr_tag(addr);
- }
- 
--/*
-- * Assign allocation tags for a region of memory based on the pointer tag.
-- * Note: The address must be non-NULL and MTE_GRANULE_SIZE aligned and
-- * size must be non-zero and MTE_GRANULE_SIZE aligned.
-- */
--static inline void mte_set_mem_tag_range(void *addr, size_t size,
--						u8 tag, bool init)
--{
--	u64 curr, end;
--
--	if (!size)
--		return;
--
--	curr = (u64)__tag_set(addr, tag);
--	end = curr + size;
--
--	/*
--	 * 'asm volatile' is required to prevent the compiler to move
--	 * the statement outside of the loop.
--	 */
--	if (init) {
--		do {
--			asm volatile(__MTE_PREAMBLE "stzg %0, [%0]"
--				     :
--				     : "r" (curr)
--				     : "memory");
--			curr += MTE_GRANULE_SIZE;
--		} while (curr != end);
--	} else {
--		do {
--			asm volatile(__MTE_PREAMBLE "stg %0, [%0]"
--				     :
--				     : "r" (curr)
--				     : "memory");
--			curr += MTE_GRANULE_SIZE;
--		} while (curr != end);
--	}
--}
--
-+void mte_set_mem_tag_range(void *addr, size_t size, u8 tag, bool init);
- void mte_enable_kernel_sync(void);
- void mte_enable_kernel_async(void);
- void mte_init_tags(u64 max_tag);
-diff --git a/arch/arm64/lib/Makefile b/arch/arm64/lib/Makefile
-index d31e1169d9b8..c06ada79a437 100644
---- a/arch/arm64/lib/Makefile
-+++ b/arch/arm64/lib/Makefile
-@@ -18,3 +18,5 @@ obj-$(CONFIG_CRC32) += crc32.o
- obj-$(CONFIG_FUNCTION_ERROR_INJECTION) += error-inject.o
- 
- obj-$(CONFIG_ARM64_MTE) += mte.o
-+
-+obj-$(CONFIG_KASAN_HW_TAGS) += mte-kasan.o
-diff --git a/arch/arm64/lib/mte-kasan.S b/arch/arm64/lib/mte-kasan.S
-new file mode 100644
-index 000000000000..9f6975e2af60
---- /dev/null
-+++ b/arch/arm64/lib/mte-kasan.S
-@@ -0,0 +1,63 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Copyright (C) 2021 Google Inc.
-+ */
-+#include <linux/const.h>
-+#include <linux/linkage.h>
-+
-+#include <asm/mte-def.h>
-+
-+	.arch	armv8.5-a+memtag
-+
-+	.macro  __set_mem_tag_range, stg, gva, start, size, linesize, tmp1, tmp2, tmp3
-+	add	\tmp3, \start, \size
-+	cmp	\size, \linesize, lsl #1
-+	b.lt	.Lsmtr3_\@
-+
-+	sub	\tmp1, \linesize, #1
-+	bic	\tmp2, \tmp3, \tmp1
-+	orr	\tmp1, \start, \tmp1
-+
-+.Lsmtr1_\@:
-+	\stg	\start, [\start], #MTE_GRANULE_SIZE
-+	cmp	\start, \tmp1
-+	b.lt	.Lsmtr1_\@
-+
-+.Lsmtr2_\@:
-+	dc	\gva, \start
-+	add	\start, \start, \linesize
-+	cmp	\start, \tmp2
-+	b.lt	.Lsmtr2_\@
-+
-+.Lsmtr3_\@:
-+	cmp	\start, \tmp3
-+	b.ge	.Lsmtr4_\@
-+	\stg	\start, [\start], #MTE_GRANULE_SIZE
-+	b	.Lsmtr3_\@
-+.Lsmtr4_\@:
-+	.endm
-+
-+/*
-+ * Assign allocation tags for a region of memory based on the pointer tag.
-+ * Note: The address must be non-NULL and MTE_GRANULE_SIZE aligned and
-+ * size must be non-zero and MTE_GRANULE_SIZE aligned.
-+ *   x0 - start address
-+ *   x1 - region size
-+ *   x2 - tag
-+ *   x3 - bool init
-+ */
-+SYM_FUNC_START(mte_set_mem_tag_range)
-+	mrs	x4, dczid_el0
-+	and	w4, w4, #0xf
-+	mov	x5, #4
-+	lsl	x4, x5, x4
-+
-+	bfi	x0, x2, #56, #8
-+
-+	cbz	x3, .Lnoinit
-+	__set_mem_tag_range stzg, gzva, x0, x1, x4, x2, x3, x5
-+	ret
-+.Lnoinit:
-+	__set_mem_tag_range stg, gva, x0, x1, x4, x2, x3, x5
-+	ret
-+SYM_FUNC_END(mte_set_mem_tag_range)
--- 
-2.31.1.751.gd2f1c929bd-goog
+Thanks,
+
+Can I have your Tested-by?
+
+Eric
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210517235546.3038875-1-eugenis%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/m1lf8c4sc4.fsf%40fess.ebiederm.org.
