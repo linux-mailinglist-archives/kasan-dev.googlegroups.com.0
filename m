@@ -1,136 +1,124 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBP6ERWCQMGQECIWAR3A@googlegroups.com>
+Return-Path: <kasan-dev+bncBDDL3KWR4EBRBDX2R6CQMGQECQWGPEQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ot1-x33e.google.com (mail-ot1-x33e.google.com [IPv6:2607:f8b0:4864:20::33e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 996A8387260
-	for <lists+kasan-dev@lfdr.de>; Tue, 18 May 2021 08:44:16 +0200 (CEST)
-Received: by mail-ot1-x33e.google.com with SMTP id f7-20020a9d5e870000b02902f479dba730sf6381576otl.21
-        for <lists+kasan-dev@lfdr.de>; Mon, 17 May 2021 23:44:16 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1621320255; cv=pass;
+Received: from mail-pl1-x638.google.com (mail-pl1-x638.google.com [IPv6:2607:f8b0:4864:20::638])
+	by mail.lfdr.de (Postfix) with ESMTPS id A88A2387EA4
+	for <lists+kasan-dev@lfdr.de>; Tue, 18 May 2021 19:44:48 +0200 (CEST)
+Received: by mail-pl1-x638.google.com with SMTP id t2-20020a170902b202b02900ec9b8c34b6sf4215174plr.15
+        for <lists+kasan-dev@lfdr.de>; Tue, 18 May 2021 10:44:48 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1621359887; cv=pass;
         d=google.com; s=arc-20160816;
-        b=D7Cq6D11tH0cE+eToULfMYbW+DgfUTfBtAPTlWUcvFJpEtrqdRxHnxBZhSPnUzOc4j
-         ZtDL3yMu3KRmrbtWM/o8r0evGKRAlJ9AjrPjdo3/1fjdzeJZ6hWtIcQaVbRsNSLtcFxQ
-         IWNdaINeickW0Y53haieXSjzbmfWfsGN2exLyhE8dVaV/sOdvMX6OUx0Dq6O8hD+mwyA
-         HlQrWoSXteA/8jXIoTE1tNgE3vc5CDoMAFK0g6sHaFbJ7tu0ji/n2+xK+uNAvY8Fby4n
-         QDIDCvx0k4l3D4QIHh/COcE5Hytvt0RLgGnIRH/WcvELOcMjTkx8IOtGhp6oJtLaYD+l
-         ZCDw==
+        b=qP1AztmK4+saVfhcCC4fzVghyjLB4n2c8EX5k00/BUKNnku7DZG3ikdIcxbGVxhVWk
+         CTSUsAhH1xiJM7WKDkZyipR3ZvmGp8zGfYNpKrcX+EutHCyz1HaI5ADYZzznOBnZXumW
+         ++QIZSkUI1tY97QCnT4umdcJ/X2kjoEm8N9rI4bnIApH97xknHLfwNWqdO3neEYxFyYu
+         ScyioA0YVa4Gl2tL417IdAb4Bjv2JJSLEZM28Th7GJSCLjYKxXDTCO2AUV5lVx6ba6ht
+         6qQ+OSNQ6YWcZDLfnh3Kjrt6CaEq1Uzl6C/D4kMVQiDpDxd1L+fGF/X1qizibysXEudh
+         XJzA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=G9eCX0C7lFhA4vBhN9xOQfe0aD4zcKowD0etzNEym0Y=;
-        b=TzuRUHd2111vxdBnA0Mz64rvkjKvZOI0xEGJcqU4vG0fI6TYS5PoJd5RhwUnDyIXc6
-         squKjcc33PEZ96Rdjyxb3Xk+H2AceiRviJerl1+GhAWHpYgVIhcS1b1nqoZV3JXsFnm2
-         q7TtEAHhhx0SOpum1Iudg1rNA9zcnigzk54/Xze0zwYEOCC2JSfr+lafPOlYQgmN5EgP
-         /93l1kAUHMyqZxtuZ2GZZGkxgzYaU/iUdP9v0X7mDEk5xgEIFfcsoYI+9rM0fjS9tioz
-         MfCpni/PLC5Kl9W0bHhYIK/7s9DlIPMdCKTYH76/rmwpCOdr9BJ+L2j8QO9JffmDf6Zw
-         /cfw==
+         :list-id:mailing-list:precedence:user-agent:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:sender:dkim-signature;
+        bh=4gLdenzjjdnQZC+Bk39JL98am3ixKGA7sX+Gyy24ah4=;
+        b=fSpO5YvM7VWhE2MclyBIEe/UZA0aJLlRi/4ceXyQuWsixjX7QiSjJGTX7fg+MIBMFp
+         2dU8LxAbGRAEghBAIIRfJNSpmkqZzoQBUReY0o1RbPtxn5u7IeNH4vN3c+FirsYodMLU
+         wZZ/yJae8rUJVXG5SNheDGNuGu6ezpqreCMgEwSz5CO07iZi4sUpIOh1hflSmPCwWQ/K
+         FXAk+rxvBbELAq6b01N2r4iaRmzBOMJN2zpwWZXjjFtnnLlBbT/vKE7hsMcDs7lJwKJ5
+         pbBcdVqiSYOAzpEQueZGCbW6rzrBN1xVuvBXVwGB6QON0aFM+gMyI2OV8EAoWbwAAqMY
+         401g==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=XDBwjWcK;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::235 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       spf=pass (google.com: domain of cmarinas@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=cmarinas@kernel.org;
+       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=arm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=G9eCX0C7lFhA4vBhN9xOQfe0aD4zcKowD0etzNEym0Y=;
-        b=pQqEzkcs4oSD8DmxGbaGu9MWYllVsNSRKQwog5nUenCDwf4rmLu9glxWuuqhoD4wQE
-         +YY4XofdOnuCKKJZ0i72hCJWC9yCKYSZK2ou3m0+y5ehkAZQ3AmZv3FDyeXCw68wuSjj
-         0GoM1AtOILKz11J+0A1YUKCESv4f6Aide+gAQjBcFNIGxB2fdbC1mdxSA/lreEDYrgnf
-         j9De7YfFiHVYZt2Uqew8FaecH3ZA9/t+d9wwuG9YiDHRDStpqFPydr/UTMjt4Jg3JwRq
-         70hIGxfmDrkqSMKCwKvm7kx20FI6f6AyeOy12zu1fkudECn3haaFPUsE0hYXvGZIToY5
-         Ykhg==
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=4gLdenzjjdnQZC+Bk39JL98am3ixKGA7sX+Gyy24ah4=;
+        b=BzldsXrgElXgE3Ingr++SazyzvchOIDcN5zsPxPT4Fga1CJwlGu2wuKreyLBXXLweV
+         Tqp9m6DhgZX8Q437cv937UYivcnLdeMXyAjILOAEvqSuOk/1QjmA/PX1OGHYnmeX21PQ
+         DXkDYhHpGKLJQKeITLDah8TR2lq02TKoLEycbMfTI7Bvqwy3bQE/btx43JBtqP3k8Flb
+         lQC3p5oL8fbCuOIbHAqgKdllc4XZ9haoVszgKo3IldowiJdS/38eEqrF2EWicfkizuAa
+         vf4NOcdx/jYth5a0ACk9PF8ulV0mirAZFGpfpUAqupo+R65RFtJTCJnQjddBAY54iyXf
+         o6IA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=G9eCX0C7lFhA4vBhN9xOQfe0aD4zcKowD0etzNEym0Y=;
-        b=mP1hwQgqLpS0epZ5J8ABJO5oUsCQ0NtpNAoHYPzS6JqZ/1CEP72HTjsXLkRJLYFN1w
-         1Ji94VWngtgwWdNuEd2Lh8MBYhOuQAubqpx8fXVlufQNdcSRPd9GOUJaABu5R/5YFnGN
-         eOYC7pKZqGvSBPpOVY7XYaoq5ui0oXINoklItnbru8Oeqt+3qSunSbifuehXWJXSSwky
-         fDcJdo5hWLHe2Q+vdqVYOfKq0uXZgcaaluopZoteeJieqxdUFs2rJvK22Ju7S7YKL2x9
-         owMx7w2OKE3+BO3ZmpOo0l/bx0LofsGgjuL517vnJU+hGkyhmoewVRlSDh7t2ALeJpbs
-         viEg==
-X-Gm-Message-State: AOAM531mJeeSPHm3+kGEUF/WGwlZh2bIqks7N4rtNMVdlzs6mIBZNft/
-	61mG5rdjqbJFRPUq3138MEY=
-X-Google-Smtp-Source: ABdhPJxBB+kQr9EouqNUosSMic8siJd6s82OP5jJSlf03/Yvz17dZ7D//GbcHugSIAdcJL1PnC9yvg==
-X-Received: by 2002:a05:6830:1404:: with SMTP id v4mr2967792otp.209.1621320255362;
-        Mon, 17 May 2021 23:44:15 -0700 (PDT)
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=4gLdenzjjdnQZC+Bk39JL98am3ixKGA7sX+Gyy24ah4=;
+        b=fxmBHX/fvGnCIh8pQt2Ajhp++/n+K4J7UJRlhtzwWXxHoG5jTZWffHt4+wysbixodB
+         evPTu5DR/GPw4UOnmiEPyXxb8XtmbtC+8H1YHr9zKoadBxjE78DXvNvzuXYz1zUN3WWJ
+         a7S91bKbvSvl5amf2yuNpfrcy0qyfyUlZhc8gk5oW7NcL8oTMxi3u63Azi/J1oCio/sN
+         w8H/2vEHrb8htiUnmfASceDQA6nevAjEHmnx500hOLCV3PdGg7ARmfcrOqCYqWkhoGnc
+         qFB9cjey3p7z1PHUNUUUATPxPn5Rk95+vgFqMQfMmZAUV/0B01/Z7AEwnToknZ1F64qc
+         3iDQ==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM531VYHzqLCM7ic1fB12aJE6pm/5ndxSJNdCtuY6ZLOSMGVWAXmkK
+	qPUauhCCaq9+hJZklgd+DjA=
+X-Google-Smtp-Source: ABdhPJwbKkRUZMH3OtCHt1yfyvilSMkNnsWu/N4yvVLdI9XFyL6RzvimPUWFhTuMlkktAPGHLk9+Ug==
+X-Received: by 2002:a17:90a:cc05:: with SMTP id b5mr6728641pju.6.1621359887028;
+        Tue, 18 May 2021 10:44:47 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:aca:d487:: with SMTP id l129ls5077224oig.11.gmail; Mon, 17
- May 2021 23:44:15 -0700 (PDT)
-X-Received: by 2002:a05:6808:3ae:: with SMTP id n14mr2282909oie.153.1621320254996;
-        Mon, 17 May 2021 23:44:14 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1621320254; cv=none;
+Received: by 2002:a63:314b:: with SMTP id x72ls9633352pgx.0.gmail; Tue, 18 May
+ 2021 10:44:46 -0700 (PDT)
+X-Received: by 2002:aa7:87cd:0:b029:2dd:6873:513c with SMTP id i13-20020aa787cd0000b02902dd6873513cmr6310359pfo.71.1621359886403;
+        Tue, 18 May 2021 10:44:46 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1621359886; cv=none;
         d=google.com; s=arc-20160816;
-        b=TDM9rBKSVPzOqdcfnPRSjFkudytV1i7Ff7BPpKmnJKBubDqDN9eCR7tQA8f1iv/9jR
-         gDtloiG2GVmZDESvkaKRJh4oBfPg/KUGkWNdGf8h9yAb7O2mP8piH25D/NVlph2J1wjJ
-         M46Bq91ONXMzXwfCWH+7wHiilBVT17iU7GY1B7k4Vw9KgMV5cHZoUh2eqwQiIZXwXZfa
-         dUyojm34lPqnt9ZgdqbbWJlzs0zJlqnSPuhH7lK6hEAtuTh94dOKaqldL1a3fmCZ5QcK
-         H2dJgOs2H80YNin9cQKMvC/iUBpdBdd7lgVB/HdDs/Ry3BaWowo1UqSbC8HoM8xl/aJM
-         FFmg==
+        b=az+Jl/pQeqv8A/unJ3uyrCruiR3+JZ2M6YaQT/11Zc3eirpw1pO5ApSttYjZnHm+0F
+         i7aSaz2ORv126emnFNvG8qztnP7rKmx/ti0aHYIQsOQtSnF6T2i3WWixmpQ3tMAWFzFX
+         ZApz3J6ImQLI4JfS2oUIAbPArusdAmOgL+uhNk988pmjsbRt/yvW/7uUTrg/poO50bo6
+         babGR94Ag8DJDG/29HDrBcBW955SriYR7DUSHF+CmB+Cvq7NMHwM9WeuNtZuAk6lr4z5
+         8IZTIbSmvF5cZjTE//b4FU0y456sh6oMrTQ/SWNDNluPc073cP3enDyIzSop4TPJz1zD
+         190g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=Bcn5fb5DZjb4YtyFgvoiwHqnuY6hbdNmIIbEt5dAaVo=;
-        b=CsoeHovKfR1FifUoluC+sGcqvJGSCWIc9eBdrzQqwO5PBrsSlLJRMNfnIcaRnkotAY
-         E6jgwBM1M2F8bjKJbsQO8NMCygSFuB+p89xkDprcHwSvJWUg2YGqXN9IsEQUyozeMao4
-         eDXEBi3qIabF4lRHF59or7xkEncssIorKaidvXdcYsncz0T3q9wvm8kMKsPG8kxeP0Rr
-         8LOTFIg4OiJ9M06BSLX9F7iRwAvkiojKCnS7BJc7uGH4wsvadRvhz3JFDn1qKnh8QYQn
-         imXIDEHfeu1SArDr2opkVkArW0SYsvIy9rgtBDBOikHnTcztz7qWMYYe7F3yx4denHsH
-         lX5g==
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date;
+        bh=wuxPTrK9DOhkzhVCi+qYhkm91DwVqK/O8iAsvQU2f9w=;
+        b=mXj8mdMCX+UBUjz0rOQwNIs9+VGYGh165luTGHdNxZ7/bf03owprQ6KS2Toe0tMzyt
+         ZadXSf7oj0CA5W7pwRP/NsCqtUgGfvyQw58U23l1gW/A6KPnxYcckItcpaYJ6vlfNRE8
+         3yU+0/opHGKLDlXM0ov1Jq7OWd6HarorP8r0+/QC7S89B5njpWM/h14PCqJU75KE7ckW
+         gDCPPn7mxIsvn29JKa5GggnQjzG7g4sun6EdPRw2O1n/z/0E6w3K7g0rTztFIiaiaWIz
+         aT/Aj2he/6hne1/ZrCFqFFbDiQ871+fzCOhuAHZx6cRvB85ooFJqOGcBieeTTcG4ABmO
+         Ickw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=XDBwjWcK;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::235 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com. [2607:f8b0:4864:20::235])
-        by gmr-mx.google.com with ESMTPS id a10si80982oiw.5.2021.05.17.23.44.14
+       spf=pass (google.com: domain of cmarinas@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=cmarinas@kernel.org;
+       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=arm.com
+Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
+        by gmr-mx.google.com with ESMTPS id u24si1652012plq.4.2021.05.18.10.44.46
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 May 2021 23:44:14 -0700 (PDT)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::235 as permitted sender) client-ip=2607:f8b0:4864:20::235;
-Received: by mail-oi1-x235.google.com with SMTP id v22so8832942oic.2
-        for <kasan-dev@googlegroups.com>; Mon, 17 May 2021 23:44:14 -0700 (PDT)
-X-Received: by 2002:a05:6808:144f:: with SMTP id x15mr2779174oiv.172.1621320254598;
- Mon, 17 May 2021 23:44:14 -0700 (PDT)
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 18 May 2021 10:44:46 -0700 (PDT)
+Received-SPF: pass (google.com: domain of cmarinas@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4302A611AC;
+	Tue, 18 May 2021 17:44:44 +0000 (UTC)
+Date: Tue, 18 May 2021 18:44:41 +0100
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: Evgenii Stepanov <eugenis@google.com>
+Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Dmitry Vyukov <dvyukov@google.com>, Will Deacon <will@kernel.org>,
+	Steven Price <steven.price@arm.com>,
+	Peter Collingbourne <pcc@google.com>, kasan-dev@googlegroups.com,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] kasan: speed up mte_set_mem_tag_range
+Message-ID: <20210518174439.GA28491@arm.com>
+References: <20210517235546.3038875-1-eugenis@google.com>
 MIME-Version: 1.0
-References: <YIpkvGrBFGlB5vNj@elver.google.com> <m11rat9f85.fsf@fess.ebiederm.org>
- <CAK8P3a0+uKYwL1NhY6Hvtieghba2hKYGD6hcKx5n8=4Gtt+pHA@mail.gmail.com>
- <m15z031z0a.fsf@fess.ebiederm.org> <YIxVWkT03TqcJLY3@elver.google.com>
- <m1zgxfs7zq.fsf_-_@fess.ebiederm.org> <m1r1irpc5v.fsf@fess.ebiederm.org>
- <CANpmjNNfiSgntiOzgMc5Y41KVAV_3VexdXCMADekbQEqSP3vqQ@mail.gmail.com>
- <m1czuapjpx.fsf@fess.ebiederm.org> <CANpmjNNyifBNdpejc6ofT6+n6FtUw-Cap_z9Z9YCevd7Wf3JYQ@mail.gmail.com>
- <m14kfjh8et.fsf_-_@fess.ebiederm.org> <m1tuni8ano.fsf_-_@fess.ebiederm.org>
- <m1a6ot5e2h.fsf_-_@fess.ebiederm.org> <CANpmjNM6rzyTp_+myecf8_773HLWDyJDbxFM6rWvzfKTLkXbhQ@mail.gmail.com>
- <m1lf8c4sc4.fsf@fess.ebiederm.org>
-In-Reply-To: <m1lf8c4sc4.fsf@fess.ebiederm.org>
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Tue, 18 May 2021 08:44:03 +0200
-Message-ID: <CANpmjNOcZkC3YDSK8rA7yagRNBLCxyNRcUSKNbx69sR9PSW-2w@mail.gmail.com>
-Subject: Re: [PATCH v4 0/5] siginfo: ABI fixes for TRAP_PERF
-To: "Eric W. Biederman" <ebiederm@xmission.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, Florian Weimer <fweimer@redhat.com>, 
-	"David S. Miller" <davem@davemloft.net>, Peter Zijlstra <peterz@infradead.org>, 
-	Ingo Molnar <mingo@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, 
-	Peter Collingbourne <pcc@google.com>, Dmitry Vyukov <dvyukov@google.com>, 
-	Alexander Potapenko <glider@google.com>, sparclinux <sparclinux@vger.kernel.org>, 
-	linux-arch <linux-arch@vger.kernel.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux API <linux-api@vger.kernel.org>, 
-	kasan-dev <kasan-dev@googlegroups.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=XDBwjWcK;       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::235 as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+Content-Disposition: inline
+In-Reply-To: <20210517235546.3038875-1-eugenis@google.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Original-Sender: catalin.marinas@arm.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of cmarinas@kernel.org designates 198.145.29.99 as
+ permitted sender) smtp.mailfrom=cmarinas@kernel.org;       dmarc=fail (p=NONE
+ sp=NONE dis=NONE) header.from=arm.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -143,83 +131,110 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, 18 May 2021 at 05:47, Eric W. Biederman <ebiederm@xmission.com> wrote:
->
-> Marco Elver <elver@google.com> writes:
->
-> > On Mon, 17 May 2021 at 21:58, Eric W. Biederman <ebiederm@xmission.com> wrote:
-> >>
-> >> During the merge window an issue with si_perf and the siginfo ABI came
-> >> up.  The alpha and sparc siginfo structure layout had changed with the
-> >> addition of SIGTRAP TRAP_PERF and the new field si_perf.
-> >>
-> >> The reason only alpha and sparc were affected is that they are the
-> >> only architectures that use si_trapno.
-> >>
-> >> Looking deeper it was discovered that si_trapno is used for only
-> >> a few select signals on alpha and sparc, and that none of the
-> >> other _sigfault fields past si_addr are used at all.  Which means
-> >> technically no regression on alpha and sparc.
-> >>
-> >> While the alignment concerns might be dismissed the abuse of
-> >> si_errno by SIGTRAP TRAP_PERF does have the potential to cause
-> >> regressions in existing userspace.
-> >>
-> >> While we still have time before userspace starts using and depending on
-> >> the new definition siginfo for SIGTRAP TRAP_PERF this set of changes
-> >> cleans up siginfo_t.
-> >>
-> >> - The si_trapno field is demoted from magic alpha and sparc status and
-> >>   made an ordinary union member of the _sigfault member of siginfo_t.
-> >>   Without moving it of course.
-> >>
-> >> - si_perf is replaced with si_perf_data and si_perf_type ending the
-> >>   abuse of si_errno.
-> >>
-> >> - Unnecessary additions to signalfd_siginfo are removed.
-> >>
-> >> v3: https://lkml.kernel.org/r/m1tuni8ano.fsf_-_@fess.ebiederm.org
-> >> v2: https://lkml.kernel.org/r/m14kfjh8et.fsf_-_@fess.ebiederm.org
-> >> v1: https://lkml.kernel.org/r/m1zgxfs7zq.fsf_-_@fess.ebiederm.org
-> >>
-> >> This version drops the tests and fine grained handling of si_trapno
-> >> on alpha and sparc (replaced assuming si_trapno is valid for
-> >> all but the faults that defined different data).
-> >
-> > And just to clarify, the rest of the series (including static-asserts)
-> > for the next merge-window will be sent once this series is all sorted,
-> > correct?
->
-> That is the plan.
->
-> I really wonder about alphas use of si_trapno, and alphas use send_sig
-> instead of force_sig.  It could be worth looking into those as it
-> has the potential to simplify the code.
->
-> >> Eric W. Biederman (5):
-> >>       siginfo: Move si_trapno inside the union inside _si_fault
-> >>       signal: Implement SIL_FAULT_TRAPNO
-> >>       signal: Factor force_sig_perf out of perf_sigtrap
-> >>       signal: Deliver all of the siginfo perf data in _perf
-> >>       signalfd: Remove SIL_PERF_EVENT fields from signalfd_siginfo
-> >
-> > Looks good, thank you! I build-tested (defconfig -- x86_64, i386, arm,
-> > arm64, m68k, sparc, alpha) this series together with a local patch to
-> > pull in the static asserts from v3. Also re-ran perf_events kselftests
-> > on x86_64 (native and 32bit compat).
->
-> Thanks,
->
-> Can I have your Tested-by?
+On Mon, May 17, 2021 at 04:55:46PM -0700, Evgenii Stepanov wrote:
+> Use DC GVA / DC GZVA to speed up KASan memory tagging in HW tags mode.
+> 
+> The first cacheline is always tagged using STG/STZG even if the address is
+> cacheline-aligned, as benchmarks show it is faster than a conditional
+> branch.
+[...]
+> diff --git a/arch/arm64/include/asm/mte-kasan.h b/arch/arm64/include/asm/mte-kasan.h
+> index ddd4d17cf9a0..e29a0e2ab35c 100644
+> --- a/arch/arm64/include/asm/mte-kasan.h
+> +++ b/arch/arm64/include/asm/mte-kasan.h
+> @@ -48,45 +48,7 @@ static inline u8 mte_get_random_tag(void)
+>  	return mte_get_ptr_tag(addr);
+>  }
+>  
+> -/*
+> - * Assign allocation tags for a region of memory based on the pointer tag.
+> - * Note: The address must be non-NULL and MTE_GRANULE_SIZE aligned and
+> - * size must be non-zero and MTE_GRANULE_SIZE aligned.
+> - */
+> -static inline void mte_set_mem_tag_range(void *addr, size_t size,
+> -						u8 tag, bool init)
 
-Of course,
+With commit 2cb34276427a ("arm64: kasan: simplify and inline MTE
+functions") you wanted this inlined for performance. Does this not
+matter much that it's now out of line?
 
-  Tested-by: Marco Elver <elver@google.com>
+> diff --git a/arch/arm64/lib/Makefile b/arch/arm64/lib/Makefile
+> index d31e1169d9b8..c06ada79a437 100644
+> --- a/arch/arm64/lib/Makefile
+> +++ b/arch/arm64/lib/Makefile
+> @@ -18,3 +18,5 @@ obj-$(CONFIG_CRC32) += crc32.o
+>  obj-$(CONFIG_FUNCTION_ERROR_INJECTION) += error-inject.o
+>  
+>  obj-$(CONFIG_ARM64_MTE) += mte.o
+> +
+> +obj-$(CONFIG_KASAN_HW_TAGS) += mte-kasan.o
+> diff --git a/arch/arm64/lib/mte-kasan.S b/arch/arm64/lib/mte-kasan.S
+> new file mode 100644
+> index 000000000000..9f6975e2af60
+> --- /dev/null
+> +++ b/arch/arm64/lib/mte-kasan.S
+> @@ -0,0 +1,63 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Copyright (C) 2021 Google Inc.
+> + */
+> +#include <linux/const.h>
+> +#include <linux/linkage.h>
+> +
+> +#include <asm/mte-def.h>
+> +
+> +	.arch	armv8.5-a+memtag
+> +
+> +	.macro  __set_mem_tag_range, stg, gva, start, size, linesize, tmp1, tmp2, tmp3
+> +	add	\tmp3, \start, \size
+> +	cmp	\size, \linesize, lsl #1
+> +	b.lt	.Lsmtr3_\@
 
-Thanks,
--- Marco
+We could do with some comments here. Why the lsl #1? I think I get it
+but it would be good to make this more readable.
+
+It may be easier if you placed it in a file on its own (as it is now but
+with a less generic file name) and use a few .req instead of the tmpX.
+You can use the macro args only for the stg/gva.
+
+> +
+> +	sub	\tmp1, \linesize, #1
+> +	bic	\tmp2, \tmp3, \tmp1
+> +	orr	\tmp1, \start, \tmp1
+> +
+> +.Lsmtr1_\@:
+> +	\stg	\start, [\start], #MTE_GRANULE_SIZE
+> +	cmp	\start, \tmp1
+> +	b.lt	.Lsmtr1_\@
+> +
+> +.Lsmtr2_\@:
+> +	dc	\gva, \start
+> +	add	\start, \start, \linesize
+> +	cmp	\start, \tmp2
+> +	b.lt	.Lsmtr2_\@
+> +
+> +.Lsmtr3_\@:
+> +	cmp	\start, \tmp3
+> +	b.ge	.Lsmtr4_\@
+> +	\stg	\start, [\start], #MTE_GRANULE_SIZE
+> +	b	.Lsmtr3_\@
+> +.Lsmtr4_\@:
+> +	.endm
+
+If we want to get the best performance out of this, we should look at
+the memset implementation and do something similar. In principle it's
+not that far from a memzero, though depending on the microarchitecture
+it may behave slightly differently.
+
+Anyway, before that I wonder if we wrote all this in C + inline asm
+(three while loops or maybe two and some goto), what's the performance
+difference? It has the advantage of being easier to maintain even if we
+used some C macros to generate gva/gzva variants.
+
+-- 
+Catalin
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNOcZkC3YDSK8rA7yagRNBLCxyNRcUSKNbx69sR9PSW-2w%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210518174439.GA28491%40arm.com.
