@@ -1,170 +1,136 @@
-Return-Path: <kasan-dev+bncBCALX3WVYQORBNPRRSCQMGQEIDSKFAI@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBP6ERWCQMGQECIWAR3A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-il1-x13e.google.com (mail-il1-x13e.google.com [IPv6:2607:f8b0:4864:20::13e])
-	by mail.lfdr.de (Postfix) with ESMTPS id A320F387055
-	for <lists+kasan-dev@lfdr.de>; Tue, 18 May 2021 05:47:02 +0200 (CEST)
-Received: by mail-il1-x13e.google.com with SMTP id g14-20020a926b0e0000b02901bb2deb9d71sf7939288ilc.6
-        for <lists+kasan-dev@lfdr.de>; Mon, 17 May 2021 20:47:02 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1621309621; cv=pass;
+Received: from mail-ot1-x33e.google.com (mail-ot1-x33e.google.com [IPv6:2607:f8b0:4864:20::33e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 996A8387260
+	for <lists+kasan-dev@lfdr.de>; Tue, 18 May 2021 08:44:16 +0200 (CEST)
+Received: by mail-ot1-x33e.google.com with SMTP id f7-20020a9d5e870000b02902f479dba730sf6381576otl.21
+        for <lists+kasan-dev@lfdr.de>; Mon, 17 May 2021 23:44:16 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1621320255; cv=pass;
         d=google.com; s=arc-20160816;
-        b=rEghpqaRcEuANEgtdiph5h2AzhQK2eSdtqBgaXG82+F0O8ydyqiU9Ojhkj2lyfEklh
-         qV3FA5E1HyVOTU5Cgc1aql03UPBIw0NmfsaxmAvchItByS/Wixmb8zLMgV5DKeaIWJws
-         WdG+ZYKRE/RWx0KjBw1nl0YFRhiadaXK6mKtQbx2cnFh8FrLy86Jic9Tfc8dtrUOp0z5
-         OAIB+IA3LgNyBhQa82K7fB+5a9yEq0E7EFn/CrSUT7X8DuqA4bEwkW0k8/UGqSykJtKK
-         afqLLkatDVsLuMoPs5nAghm/gRCnYALeD4SILpQGRoiAVg3J2ffVJ+wzYqK/tpw8l0j1
-         Um8g==
+        b=D7Cq6D11tH0cE+eToULfMYbW+DgfUTfBtAPTlWUcvFJpEtrqdRxHnxBZhSPnUzOc4j
+         ZtDL3yMu3KRmrbtWM/o8r0evGKRAlJ9AjrPjdo3/1fjdzeJZ6hWtIcQaVbRsNSLtcFxQ
+         IWNdaINeickW0Y53haieXSjzbmfWfsGN2exLyhE8dVaV/sOdvMX6OUx0Dq6O8hD+mwyA
+         HlQrWoSXteA/8jXIoTE1tNgE3vc5CDoMAFK0g6sHaFbJ7tu0ji/n2+xK+uNAvY8Fby4n
+         QDIDCvx0k4l3D4QIHh/COcE5Hytvt0RLgGnIRH/WcvELOcMjTkx8IOtGhp6oJtLaYD+l
+         ZCDw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:subject:mime-version:user-agent
-         :message-id:in-reply-to:date:references:cc:to:from:sender
-         :dkim-signature;
-        bh=vPqeI5tWsDD3YEnvLsMc5a2/datmv4BBrIEp84lnYhQ=;
-        b=WfsVOExIt4znhOuxg37iMhZ5Ww1I+BPDeb25pCSQTvKLskRX4J7RxKYO4hYHOncmvG
-         oMOUIhI00vMpFGEwWOWON10zZc5NBamzMWLXvhnNKZllyje65hr32adRxBiHFAYxeJbC
-         qrHlOYXILqnMBg5Cmav+78IKt3NNcW6ZoNlzvWbK2yXYi+V2YrxyDjXcC27+mSWmZNlQ
-         ecvaJqio9GDYp/LAtUwDq4r/Om6QxS3EvT60WJj6uru6smMEaeSu+JtdaAfrmLQCs00e
-         2mDTAbGxnLi2sMpkI+3vbcDv3FDW7dcb/bmfUZQ6Az4JotjZ/UAyfwNIvzuaZ4K6i3uq
-         A/zg==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=G9eCX0C7lFhA4vBhN9xOQfe0aD4zcKowD0etzNEym0Y=;
+        b=TzuRUHd2111vxdBnA0Mz64rvkjKvZOI0xEGJcqU4vG0fI6TYS5PoJd5RhwUnDyIXc6
+         squKjcc33PEZ96Rdjyxb3Xk+H2AceiRviJerl1+GhAWHpYgVIhcS1b1nqoZV3JXsFnm2
+         q7TtEAHhhx0SOpum1Iudg1rNA9zcnigzk54/Xze0zwYEOCC2JSfr+lafPOlYQgmN5EgP
+         /93l1kAUHMyqZxtuZ2GZZGkxgzYaU/iUdP9v0X7mDEk5xgEIFfcsoYI+9rM0fjS9tioz
+         MfCpni/PLC5Kl9W0bHhYIK/7s9DlIPMdCKTYH76/rmwpCOdr9BJ+L2j8QO9JffmDf6Zw
+         /cfw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of ebiederm@xmission.com designates 166.70.13.231 as permitted sender) smtp.mailfrom=ebiederm@xmission.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=xmission.com
+       dkim=pass header.i=@google.com header.s=20161025 header.b=XDBwjWcK;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::235 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:from:to:cc:references:date:in-reply-to:message-id:user-agent
-         :mime-version:subject:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=vPqeI5tWsDD3YEnvLsMc5a2/datmv4BBrIEp84lnYhQ=;
-        b=CvDpZNMKHOpaWpDGVWAy9LDAVpdQsddrp0tXnXirNowt47TnpczSt1/lbvlxdfHm6b
-         p8ZHQJK399VQ40tnw4EEOY4vsksk6SpsL7thh+c7yDblupiilirKM9g/Es6P4gT3n/4H
-         EGfuiu+dH8kqJoJE5a/zBQCT8RzaUrO5+bM/fWVuWagRGL9iKEbGenwU7lFqtA75oEUk
-         gZ+MPqVMk7tFn2KLZ7ul8KOYrijq2tjEiIPSsOPP3zQ3Fg2J0BN1bUaN1SZMONBQLyMW
-         72gx/JFeow7rysBZj+t2NMxoRiKRMcPVyDAedPTkyToCN+AAgIoJLyywCm156zYI5glw
-         D1XQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=G9eCX0C7lFhA4vBhN9xOQfe0aD4zcKowD0etzNEym0Y=;
+        b=pQqEzkcs4oSD8DmxGbaGu9MWYllVsNSRKQwog5nUenCDwf4rmLu9glxWuuqhoD4wQE
+         +YY4XofdOnuCKKJZ0i72hCJWC9yCKYSZK2ou3m0+y5ehkAZQ3AmZv3FDyeXCw68wuSjj
+         0GoM1AtOILKz11J+0A1YUKCESv4f6Aide+gAQjBcFNIGxB2fdbC1mdxSA/lreEDYrgnf
+         j9De7YfFiHVYZt2Uqew8FaecH3ZA9/t+d9wwuG9YiDHRDStpqFPydr/UTMjt4Jg3JwRq
+         70hIGxfmDrkqSMKCwKvm7kx20FI6f6AyeOy12zu1fkudECn3haaFPUsE0hYXvGZIToY5
+         Ykhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:from:to:cc:references:date:in-reply-to
-         :message-id:user-agent:mime-version:subject:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=vPqeI5tWsDD3YEnvLsMc5a2/datmv4BBrIEp84lnYhQ=;
-        b=El2aJGBhPK2BRmXfmxv2WKhUvspyf6A0AX0qGKRNQRFMkbToasPuKmvjgIwR6WrHjw
-         rvldA1xWTrrb2yZPZrewvnDKThizPsMqzuO3p2JT8xA6w3aHr4lu4Mei/asWqpPuekJo
-         FOft0/1CcAjAQpSiA6VY3amG1ecJV8k8DfbKmUKULLeQmlM72IYmsTdCotuBHsVzhOD/
-         gz5YPdUYbRdOjpFWTnXABPq5VcllIuWS2ydhbmVlCqJ2obQmn0jf57ES9vEUSKI9W7+R
-         hfgXxeVgjX1kZwN1PjUg8STxxhJpnDfrp6WYwRTTf5liIaU/9TE7+nY5wnURU+cVUndR
-         dScQ==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM533ghrx1YnlxwkF2TsLB0/wcdrNnAHyI1vtUsFpJhVPC9rIZbKL0
-	+9GmM+RMJwoUBgn6VnYJ+7s=
-X-Google-Smtp-Source: ABdhPJxRA0CRNwCJ/Ln//WcJTnhLTPDL93g3EPMm0auCH4PkAC0wVACFudUJ4ZyQxWIdOA0fQKo0eg==
-X-Received: by 2002:a92:dacf:: with SMTP id o15mr2527203ilq.236.1621309621434;
-        Mon, 17 May 2021 20:47:01 -0700 (PDT)
+        bh=G9eCX0C7lFhA4vBhN9xOQfe0aD4zcKowD0etzNEym0Y=;
+        b=mP1hwQgqLpS0epZ5J8ABJO5oUsCQ0NtpNAoHYPzS6JqZ/1CEP72HTjsXLkRJLYFN1w
+         1Ji94VWngtgwWdNuEd2Lh8MBYhOuQAubqpx8fXVlufQNdcSRPd9GOUJaABu5R/5YFnGN
+         eOYC7pKZqGvSBPpOVY7XYaoq5ui0oXINoklItnbru8Oeqt+3qSunSbifuehXWJXSSwky
+         fDcJdo5hWLHe2Q+vdqVYOfKq0uXZgcaaluopZoteeJieqxdUFs2rJvK22Ju7S7YKL2x9
+         owMx7w2OKE3+BO3ZmpOo0l/bx0LofsGgjuL517vnJU+hGkyhmoewVRlSDh7t2ALeJpbs
+         viEg==
+X-Gm-Message-State: AOAM531mJeeSPHm3+kGEUF/WGwlZh2bIqks7N4rtNMVdlzs6mIBZNft/
+	61mG5rdjqbJFRPUq3138MEY=
+X-Google-Smtp-Source: ABdhPJxBB+kQr9EouqNUosSMic8siJd6s82OP5jJSlf03/Yvz17dZ7D//GbcHugSIAdcJL1PnC9yvg==
+X-Received: by 2002:a05:6830:1404:: with SMTP id v4mr2967792otp.209.1621320255362;
+        Mon, 17 May 2021 23:44:15 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a02:c7d2:: with SMTP id s18ls1165909jao.2.gmail; Mon, 17 May
- 2021 20:47:01 -0700 (PDT)
-X-Received: by 2002:a02:ca0d:: with SMTP id i13mr3264484jak.98.1621309620991;
-        Mon, 17 May 2021 20:47:00 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1621309620; cv=none;
+Received: by 2002:aca:d487:: with SMTP id l129ls5077224oig.11.gmail; Mon, 17
+ May 2021 23:44:15 -0700 (PDT)
+X-Received: by 2002:a05:6808:3ae:: with SMTP id n14mr2282909oie.153.1621320254996;
+        Mon, 17 May 2021 23:44:14 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1621320254; cv=none;
         d=google.com; s=arc-20160816;
-        b=FmPyZKO97j51nQw2p8mSf9efrV1ruq9KqDUFQjRlnROxNYbYMXzxWLVpjbeNBcny2+
-         B97BscgYUu1C9KfXfChMD1fhn9bKE4+pLcJlqM3pERl0pHMHNDOaB8pxAZre5bMQ2tLs
-         oZsSpSNad3ANvn4/FpvAm3SzNhnNqkFVBQsr4vWebn0PDKYqlWRDm/W52qPIyIquS4Zf
-         +kh1Jlc9EaPFqRl8vhz+TKhj9+iC+UmnJY0zGQW+zkms2apIoidcDbU65vMTgvMgOja4
-         KUoLbNE2G/2mDTi+LDQhRaDTTfgD1y/xn+Y/ezV41HSrlpxVEp02WUoh1UiJ4rNpH9DH
-         6wIA==
+        b=TDM9rBKSVPzOqdcfnPRSjFkudytV1i7Ff7BPpKmnJKBubDqDN9eCR7tQA8f1iv/9jR
+         gDtloiG2GVmZDESvkaKRJh4oBfPg/KUGkWNdGf8h9yAb7O2mP8piH25D/NVlph2J1wjJ
+         M46Bq91ONXMzXwfCWH+7wHiilBVT17iU7GY1B7k4Vw9KgMV5cHZoUh2eqwQiIZXwXZfa
+         dUyojm34lPqnt9ZgdqbbWJlzs0zJlqnSPuhH7lK6hEAtuTh94dOKaqldL1a3fmCZ5QcK
+         H2dJgOs2H80YNin9cQKMvC/iUBpdBdd7lgVB/HdDs/Ry3BaWowo1UqSbC8HoM8xl/aJM
+         FFmg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=subject:mime-version:user-agent:message-id:in-reply-to:date
-         :references:cc:to:from;
-        bh=E7lpcPL4oN8ctxR6yRDvLm5glL8woT7S2Legk0iEQEM=;
-        b=s2iPnnZK8nmRAdrn/mehj67aMslD0rlQGnEEq/ewnhjlzUYEmqpqc7AWtXKlwRQRRc
-         nS6lvcTFQgM50C8G2+GXyCebTql1A0+4Q3KLj0oaqbJUm9cQBd/93fYy2brJYRTXj1FE
-         fBVvWvQTAHkt2ZIolQiYP4fid/C51iRDbjFH9xo/bz4ekbDzpYmejCpKZoikcUPVQg41
-         M9OppmRX8CRXna+jAmgVrzSkrgPuHRAzVqEjfJcgBs2Vt4TDvnr2X10a4JyxfDaQMsl/
-         T2p7Y0LvBvLIZC38695yI+/vx9LCC4bl7xmLOybgHuMX1LNb6HZHusj55+hs8/9zVeg4
-         qYbw==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=Bcn5fb5DZjb4YtyFgvoiwHqnuY6hbdNmIIbEt5dAaVo=;
+        b=CsoeHovKfR1FifUoluC+sGcqvJGSCWIc9eBdrzQqwO5PBrsSlLJRMNfnIcaRnkotAY
+         E6jgwBM1M2F8bjKJbsQO8NMCygSFuB+p89xkDprcHwSvJWUg2YGqXN9IsEQUyozeMao4
+         eDXEBi3qIabF4lRHF59or7xkEncssIorKaidvXdcYsncz0T3q9wvm8kMKsPG8kxeP0Rr
+         8LOTFIg4OiJ9M06BSLX9F7iRwAvkiojKCnS7BJc7uGH4wsvadRvhz3JFDn1qKnh8QYQn
+         imXIDEHfeu1SArDr2opkVkArW0SYsvIy9rgtBDBOikHnTcztz7qWMYYe7F3yx4denHsH
+         lX5g==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of ebiederm@xmission.com designates 166.70.13.231 as permitted sender) smtp.mailfrom=ebiederm@xmission.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=xmission.com
-Received: from out01.mta.xmission.com (out01.mta.xmission.com. [166.70.13.231])
-        by gmr-mx.google.com with ESMTPS id l25si924838ioh.2.2021.05.17.20.47.00
+       dkim=pass header.i=@google.com header.s=20161025 header.b=XDBwjWcK;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::235 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com. [2607:f8b0:4864:20::235])
+        by gmr-mx.google.com with ESMTPS id a10si80982oiw.5.2021.05.17.23.44.14
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 May 2021 20:47:00 -0700 (PDT)
-Received-SPF: pass (google.com: domain of ebiederm@xmission.com designates 166.70.13.231 as permitted sender) client-ip=166.70.13.231;
-Received: from in02.mta.xmission.com ([166.70.13.52])
-	by out01.mta.xmission.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.93)
-	(envelope-from <ebiederm@xmission.com>)
-	id 1liqgi-00AIup-W9; Mon, 17 May 2021 21:46:38 -0600
-Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95] helo=fess.xmission.com)
-	by in02.mta.xmission.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.93)
-	(envelope-from <ebiederm@xmission.com>)
-	id 1liqgf-00DpMa-Cz; Mon, 17 May 2021 21:46:32 -0600
-From: ebiederm@xmission.com (Eric W. Biederman)
-To: Marco Elver <elver@google.com>
-Cc: Arnd Bergmann <arnd@arndb.de>,  Florian Weimer <fweimer@redhat.com>,  "David S. Miller" <davem@davemloft.net>,  Peter Zijlstra <peterz@infradead.org>,  Ingo Molnar <mingo@kernel.org>,  Thomas Gleixner <tglx@linutronix.de>,  Peter Collingbourne <pcc@google.com>,  Dmitry Vyukov <dvyukov@google.com>,  Alexander Potapenko <glider@google.com>,  sparclinux <sparclinux@vger.kernel.org>,  linux-arch <linux-arch@vger.kernel.org>,  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,  Linux API <linux-api@vger.kernel.org>,  kasan-dev <kasan-dev@googlegroups.com>
-References: <YIpkvGrBFGlB5vNj@elver.google.com>
-	<m11rat9f85.fsf@fess.ebiederm.org>
-	<CAK8P3a0+uKYwL1NhY6Hvtieghba2hKYGD6hcKx5n8=4Gtt+pHA@mail.gmail.com>
-	<m15z031z0a.fsf@fess.ebiederm.org> <YIxVWkT03TqcJLY3@elver.google.com>
-	<m1zgxfs7zq.fsf_-_@fess.ebiederm.org>
-	<m1r1irpc5v.fsf@fess.ebiederm.org>
-	<CANpmjNNfiSgntiOzgMc5Y41KVAV_3VexdXCMADekbQEqSP3vqQ@mail.gmail.com>
-	<m1czuapjpx.fsf@fess.ebiederm.org>
-	<CANpmjNNyifBNdpejc6ofT6+n6FtUw-Cap_z9Z9YCevd7Wf3JYQ@mail.gmail.com>
-	<m14kfjh8et.fsf_-_@fess.ebiederm.org>
-	<m1tuni8ano.fsf_-_@fess.ebiederm.org>
-	<m1a6ot5e2h.fsf_-_@fess.ebiederm.org>
-	<CANpmjNM6rzyTp_+myecf8_773HLWDyJDbxFM6rWvzfKTLkXbhQ@mail.gmail.com>
-Date: Mon, 17 May 2021 22:46:19 -0500
-In-Reply-To: <CANpmjNM6rzyTp_+myecf8_773HLWDyJDbxFM6rWvzfKTLkXbhQ@mail.gmail.com>
-	(Marco Elver's message of "Mon, 17 May 2021 22:53:20 +0200")
-Message-ID: <m1lf8c4sc4.fsf@fess.ebiederm.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 17 May 2021 23:44:14 -0700 (PDT)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::235 as permitted sender) client-ip=2607:f8b0:4864:20::235;
+Received: by mail-oi1-x235.google.com with SMTP id v22so8832942oic.2
+        for <kasan-dev@googlegroups.com>; Mon, 17 May 2021 23:44:14 -0700 (PDT)
+X-Received: by 2002:a05:6808:144f:: with SMTP id x15mr2779174oiv.172.1621320254598;
+ Mon, 17 May 2021 23:44:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-X-XM-SPF: eid=1liqgf-00DpMa-Cz;;;mid=<m1lf8c4sc4.fsf@fess.ebiederm.org>;;;hst=in02.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
-X-XM-AID: U2FsdGVkX1+Pcm16K+cqYXv6QpoQzYfCpXsEiNIW9QY=
-X-SA-Exim-Connect-IP: 68.227.160.95
-X-SA-Exim-Mail-From: ebiederm@xmission.com
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on sa08.xmission.com
-X-Spam-Level: 
-X-Spam-Status: No, score=-0.6 required=8.0 tests=ALL_TRUSTED,BAYES_40,
-	DCC_CHECK_NEGATIVE,FVGT_m_MULTI_ODD,T_TM2_M_HEADER_IN_MSG,
-	T_TooManySym_01 autolearn=disabled version=3.4.2
-X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-	* -0.0 BAYES_40 BODY: Bayes spam probability is 20 to 40%
-	*      [score: 0.2579]
-	*  0.0 T_TM2_M_HEADER_IN_MSG BODY: No description available.
-	* -0.0 DCC_CHECK_NEGATIVE Not listed in DCC
-	*      [sa08 1397; Body=1 Fuz1=1 Fuz2=1]
-	*  0.0 T_TooManySym_01 4+ unique symbols in subject
-	*  0.4 FVGT_m_MULTI_ODD Contains multiple odd letter combinations
-X-Spam-DCC: XMission; sa08 1397; Body=1 Fuz1=1 Fuz2=1
-X-Spam-Combo: ;Marco Elver <elver@google.com>
-X-Spam-Relay-Country: 
-X-Spam-Timing: total 3037 ms - load_scoreonly_sql: 0.05 (0.0%),
-	signal_user_changed: 14 (0.5%), b_tie_ro: 12 (0.4%), parse: 1.43
-	(0.0%), extract_message_metadata: 14 (0.5%), get_uri_detail_list: 2.4
-	(0.1%), tests_pri_-1000: 12 (0.4%), tests_pri_-950: 1.38 (0.0%),
-	tests_pri_-900: 1.19 (0.0%), tests_pri_-90: 1552 (51.1%), check_bayes:
-	1550 (51.0%), b_tokenize: 8 (0.3%), b_tok_get_all: 12 (0.4%),
-	b_comp_prob: 3.1 (0.1%), b_tok_touch_all: 1521 (50.1%), b_finish: 1.57
-	(0.1%), tests_pri_0: 1423 (46.8%), check_dkim_signature: 0.50 (0.0%),
-	check_dkim_adsp: 152 (5.0%), poll_dns_idle: 149 (4.9%), tests_pri_10:
-	3.8 (0.1%), tests_pri_500: 11 (0.4%), rewrite_mail: 0.00 (0.0%)
+References: <YIpkvGrBFGlB5vNj@elver.google.com> <m11rat9f85.fsf@fess.ebiederm.org>
+ <CAK8P3a0+uKYwL1NhY6Hvtieghba2hKYGD6hcKx5n8=4Gtt+pHA@mail.gmail.com>
+ <m15z031z0a.fsf@fess.ebiederm.org> <YIxVWkT03TqcJLY3@elver.google.com>
+ <m1zgxfs7zq.fsf_-_@fess.ebiederm.org> <m1r1irpc5v.fsf@fess.ebiederm.org>
+ <CANpmjNNfiSgntiOzgMc5Y41KVAV_3VexdXCMADekbQEqSP3vqQ@mail.gmail.com>
+ <m1czuapjpx.fsf@fess.ebiederm.org> <CANpmjNNyifBNdpejc6ofT6+n6FtUw-Cap_z9Z9YCevd7Wf3JYQ@mail.gmail.com>
+ <m14kfjh8et.fsf_-_@fess.ebiederm.org> <m1tuni8ano.fsf_-_@fess.ebiederm.org>
+ <m1a6ot5e2h.fsf_-_@fess.ebiederm.org> <CANpmjNM6rzyTp_+myecf8_773HLWDyJDbxFM6rWvzfKTLkXbhQ@mail.gmail.com>
+ <m1lf8c4sc4.fsf@fess.ebiederm.org>
+In-Reply-To: <m1lf8c4sc4.fsf@fess.ebiederm.org>
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Tue, 18 May 2021 08:44:03 +0200
+Message-ID: <CANpmjNOcZkC3YDSK8rA7yagRNBLCxyNRcUSKNbx69sR9PSW-2w@mail.gmail.com>
 Subject: Re: [PATCH v4 0/5] siginfo: ABI fixes for TRAP_PERF
-X-SA-Exim-Version: 4.2.1 (built Sat, 08 Feb 2020 21:53:50 +0000)
-X-SA-Exim-Scanned: Yes (on in02.mta.xmission.com)
-X-Original-Sender: ebiederm@xmission.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of ebiederm@xmission.com designates 166.70.13.231 as
- permitted sender) smtp.mailfrom=ebiederm@xmission.com;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=xmission.com
+To: "Eric W. Biederman" <ebiederm@xmission.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, Florian Weimer <fweimer@redhat.com>, 
+	"David S. Miller" <davem@davemloft.net>, Peter Zijlstra <peterz@infradead.org>, 
+	Ingo Molnar <mingo@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, 
+	Peter Collingbourne <pcc@google.com>, Dmitry Vyukov <dvyukov@google.com>, 
+	Alexander Potapenko <glider@google.com>, sparclinux <sparclinux@vger.kernel.org>, 
+	linux-arch <linux-arch@vger.kernel.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux API <linux-api@vger.kernel.org>, 
+	kasan-dev <kasan-dev@googlegroups.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: elver@google.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@google.com header.s=20161025 header.b=XDBwjWcK;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::235 as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -177,76 +143,83 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Marco Elver <elver@google.com> writes:
-
-> On Mon, 17 May 2021 at 21:58, Eric W. Biederman <ebiederm@xmission.com> wrote:
->>
->> During the merge window an issue with si_perf and the siginfo ABI came
->> up.  The alpha and sparc siginfo structure layout had changed with the
->> addition of SIGTRAP TRAP_PERF and the new field si_perf.
->>
->> The reason only alpha and sparc were affected is that they are the
->> only architectures that use si_trapno.
->>
->> Looking deeper it was discovered that si_trapno is used for only
->> a few select signals on alpha and sparc, and that none of the
->> other _sigfault fields past si_addr are used at all.  Which means
->> technically no regression on alpha and sparc.
->>
->> While the alignment concerns might be dismissed the abuse of
->> si_errno by SIGTRAP TRAP_PERF does have the potential to cause
->> regressions in existing userspace.
->>
->> While we still have time before userspace starts using and depending on
->> the new definition siginfo for SIGTRAP TRAP_PERF this set of changes
->> cleans up siginfo_t.
->>
->> - The si_trapno field is demoted from magic alpha and sparc status and
->>   made an ordinary union member of the _sigfault member of siginfo_t.
->>   Without moving it of course.
->>
->> - si_perf is replaced with si_perf_data and si_perf_type ending the
->>   abuse of si_errno.
->>
->> - Unnecessary additions to signalfd_siginfo are removed.
->>
->> v3: https://lkml.kernel.org/r/m1tuni8ano.fsf_-_@fess.ebiederm.org
->> v2: https://lkml.kernel.org/r/m14kfjh8et.fsf_-_@fess.ebiederm.org
->> v1: https://lkml.kernel.org/r/m1zgxfs7zq.fsf_-_@fess.ebiederm.org
->>
->> This version drops the tests and fine grained handling of si_trapno
->> on alpha and sparc (replaced assuming si_trapno is valid for
->> all but the faults that defined different data).
+On Tue, 18 May 2021 at 05:47, Eric W. Biederman <ebiederm@xmission.com> wrote:
 >
-> And just to clarify, the rest of the series (including static-asserts)
-> for the next merge-window will be sent once this series is all sorted,
-> correct?
-
-That is the plan.
-
-I really wonder about alphas use of si_trapno, and alphas use send_sig
-instead of force_sig.  It could be worth looking into those as it
-has the potential to simplify the code.
-
->> Eric W. Biederman (5):
->>       siginfo: Move si_trapno inside the union inside _si_fault
->>       signal: Implement SIL_FAULT_TRAPNO
->>       signal: Factor force_sig_perf out of perf_sigtrap
->>       signal: Deliver all of the siginfo perf data in _perf
->>       signalfd: Remove SIL_PERF_EVENT fields from signalfd_siginfo
+> Marco Elver <elver@google.com> writes:
 >
-> Looks good, thank you! I build-tested (defconfig -- x86_64, i386, arm,
-> arm64, m68k, sparc, alpha) this series together with a local patch to
-> pull in the static asserts from v3. Also re-ran perf_events kselftests
-> on x86_64 (native and 32bit compat).
+> > On Mon, 17 May 2021 at 21:58, Eric W. Biederman <ebiederm@xmission.com> wrote:
+> >>
+> >> During the merge window an issue with si_perf and the siginfo ABI came
+> >> up.  The alpha and sparc siginfo structure layout had changed with the
+> >> addition of SIGTRAP TRAP_PERF and the new field si_perf.
+> >>
+> >> The reason only alpha and sparc were affected is that they are the
+> >> only architectures that use si_trapno.
+> >>
+> >> Looking deeper it was discovered that si_trapno is used for only
+> >> a few select signals on alpha and sparc, and that none of the
+> >> other _sigfault fields past si_addr are used at all.  Which means
+> >> technically no regression on alpha and sparc.
+> >>
+> >> While the alignment concerns might be dismissed the abuse of
+> >> si_errno by SIGTRAP TRAP_PERF does have the potential to cause
+> >> regressions in existing userspace.
+> >>
+> >> While we still have time before userspace starts using and depending on
+> >> the new definition siginfo for SIGTRAP TRAP_PERF this set of changes
+> >> cleans up siginfo_t.
+> >>
+> >> - The si_trapno field is demoted from magic alpha and sparc status and
+> >>   made an ordinary union member of the _sigfault member of siginfo_t.
+> >>   Without moving it of course.
+> >>
+> >> - si_perf is replaced with si_perf_data and si_perf_type ending the
+> >>   abuse of si_errno.
+> >>
+> >> - Unnecessary additions to signalfd_siginfo are removed.
+> >>
+> >> v3: https://lkml.kernel.org/r/m1tuni8ano.fsf_-_@fess.ebiederm.org
+> >> v2: https://lkml.kernel.org/r/m14kfjh8et.fsf_-_@fess.ebiederm.org
+> >> v1: https://lkml.kernel.org/r/m1zgxfs7zq.fsf_-_@fess.ebiederm.org
+> >>
+> >> This version drops the tests and fine grained handling of si_trapno
+> >> on alpha and sparc (replaced assuming si_trapno is valid for
+> >> all but the faults that defined different data).
+> >
+> > And just to clarify, the rest of the series (including static-asserts)
+> > for the next merge-window will be sent once this series is all sorted,
+> > correct?
+>
+> That is the plan.
+>
+> I really wonder about alphas use of si_trapno, and alphas use send_sig
+> instead of force_sig.  It could be worth looking into those as it
+> has the potential to simplify the code.
+>
+> >> Eric W. Biederman (5):
+> >>       siginfo: Move si_trapno inside the union inside _si_fault
+> >>       signal: Implement SIL_FAULT_TRAPNO
+> >>       signal: Factor force_sig_perf out of perf_sigtrap
+> >>       signal: Deliver all of the siginfo perf data in _perf
+> >>       signalfd: Remove SIL_PERF_EVENT fields from signalfd_siginfo
+> >
+> > Looks good, thank you! I build-tested (defconfig -- x86_64, i386, arm,
+> > arm64, m68k, sparc, alpha) this series together with a local patch to
+> > pull in the static asserts from v3. Also re-ran perf_events kselftests
+> > on x86_64 (native and 32bit compat).
+>
+> Thanks,
+>
+> Can I have your Tested-by?
+
+Of course,
+
+  Tested-by: Marco Elver <elver@google.com>
 
 Thanks,
-
-Can I have your Tested-by?
-
-Eric
+-- Marco
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/m1lf8c4sc4.fsf%40fess.ebiederm.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNOcZkC3YDSK8rA7yagRNBLCxyNRcUSKNbx69sR9PSW-2w%40mail.gmail.com.
