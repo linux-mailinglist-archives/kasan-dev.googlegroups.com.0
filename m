@@ -1,125 +1,128 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBQFISOCQMGQEDSA2ZQY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDDL3KWR4EBRBLVKSWCQMGQE4NUA35I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oo1-xc3c.google.com (mail-oo1-xc3c.google.com [IPv6:2607:f8b0:4864:20::c3c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D184388A14
-	for <lists+kasan-dev@lfdr.de>; Wed, 19 May 2021 11:02:58 +0200 (CEST)
-Received: by mail-oo1-xc3c.google.com with SMTP id i11-20020a4a6f4b0000b02901ef8b6e92a6sf8671314oof.7
-        for <lists+kasan-dev@lfdr.de>; Wed, 19 May 2021 02:02:58 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1621414977; cv=pass;
+Received: from mail-il1-x13e.google.com (mail-il1-x13e.google.com [IPv6:2607:f8b0:4864:20::13e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6169D38951B
+	for <lists+kasan-dev@lfdr.de>; Wed, 19 May 2021 20:13:03 +0200 (CEST)
+Received: by mail-il1-x13e.google.com with SMTP id s15-20020a92cc0f0000b02901bd280c0102sf2600954ilp.17
+        for <lists+kasan-dev@lfdr.de>; Wed, 19 May 2021 11:13:03 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1621447982; cv=pass;
         d=google.com; s=arc-20160816;
-        b=04niGfVSd+74NteOF7Blw01q+pclZnStP8yo4GMo6kKOSvYBimjIG3srBUcJuElZSi
-         CM5JV+UxAhvDsjmCA1LR9teM4cFKzRSqMPZEZXRLCZq4V9incCvsUYPxrLDZqISYJcBX
-         tP2m0/DTTQ3KPQwE/ydEUYxdKeE9cQ5bbWHD6TIuUmFiGILP7qfzh5bSQRjf7QotqxvV
-         gSNZ0KwTMP466oHfIbr0ORE8oqBnpubv3Ri4/I7/pedGM4ACd8NLQf+sEn+soNoTwb5/
-         Y5gOptCohbjoLM+se4opAmv1PXnrXYcpfG3D6PYSOx/xxBwpGHQkPx+YcFL9TD5a67V+
-         k9Rg==
+        b=h2mcRF/g9cOT/FtdfZqocmG25RpJKtGCDZOjBLPg+sZZD8MDSErnxHtm1QsBj1F3VZ
+         KAQKoQ2loKyGW0IPgqgkO66SUngLDCIILy6/LP9gKTdWaSPJs+Q+VQjC2yTw50wEWe6j
+         gv5OJ8Bo3u69cLdfUOetIYssqhBkwY8CrH+YZmed+4C8NmWVor48qe/NJMrrgbqscFNw
+         TlSRSr8hEGCscfKMpjFH4p8kkwavUZ1DZC/4jqkgqNka1CluyGmawFMEsTEwV6y9T0YC
+         qZ8tZyho/d0kyAdpdm3ZJx5ViGqEXzWvYsbwtAjr6wmh+k2Wq4fxJ+KgNkvM3Tf7+191
+         0ZNA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=9bFg+OiKZow6eosaxulZE028Qcn/m8exZWucwvrefjE=;
-        b=Iw2yi88Iu+y+hG3aalbGV2xKmnqCsixwLzOHeTqqR/u2KZhseUDb9fSIvkjxBJQyNL
-         IAIbw/6TldrhAr4UYhd+xtrlwJIjMEro0wRR7Emzp3tfpIc5SRCfht3/nH04kbE8a+Ml
-         ECkeoZ/hL7hmWvOkFdJKtQForG9jUCbQ9qS8UUsY/PgsWUVFGtJfh9Jrw+F71X0WfMjK
-         WHMnd+dEwEjA2n2UBiv9g7ms6lDr8+Foe9CayQmvgnl8iYK2PGn1/OgIyexLOE/GMpmq
-         uqXe+6SnMResmH+uPlRAvCUgiMn5bu1c1rNrbC0yk1pnGiJbvm/UZHzomflOq4qRuor7
-         oY0Q==
+         :list-id:mailing-list:precedence:user-agent:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:sender:dkim-signature;
+        bh=7+JDPl2pxgpmR4iympR7CkBT8xgYg2fQDgu/YucaOU8=;
+        b=t45sRXI9hxrKXoJX7V6GufHbyEgEKLma5eCExF1UvP89QIyREONcTES6ZqfCjlDsJI
+         V2HPt+bhDCVn38V9ouKNFpZX/j9IHycO5o4mv4gF/AgjJ6KJIwlb+6QPwssjVE6Dc55L
+         caXK0UW3d7cL2z895fw9NtzdTYz4GbwBlXMaRDg/0OjJXNiRMuguWjTwmeSq4bYcnXr8
+         0cG8AXAAWsOXLGoM6C9deYTz9AXquRftqjg3VAdS2whX4X290nlh9wZIPUCRVdhJuyFJ
+         SIbfFQ+6tGyhiP8QIIdRrEPV/rcXIysnJ1EeZ3w/Zf3MbucX2xGVmaYT6Ksupt4WMQWe
+         CtCg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=C8EmKK0c;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::22b as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       spf=pass (google.com: domain of cmarinas@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=cmarinas@kernel.org;
+       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=arm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=9bFg+OiKZow6eosaxulZE028Qcn/m8exZWucwvrefjE=;
-        b=hv3E0bx5/jfMqptZv5c2Y7CqKEsQTjj5YAc7a2AuWo81qNWSp6Hi4964M3P8LEHc07
-         f9R/BwVoSSEgliaoFox/JI4+Vco7PNA0VoET497ncIiR95O1Jec8cYqCZG/mWV8dFK6s
-         k8tJ54od4LDFJoISPxD3f4DpeRF3CUVLHdnKo+mJBA+m6kZBgf/NZwlKuDtfBwyqRcwj
-         RvPmCZO4pdvwiI/ZZU8ZwO2TgGVPwViaf9xARwfNdoprz3u7T7785zBz0DIXlJNUd5MH
-         RkyaAzbumA4lCv/swteXz5Gqn0utP/WizhLNOE/gVgTE3Vjyo9vSQkO6Z+JIVppw0Yqk
-         EY0A==
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=7+JDPl2pxgpmR4iympR7CkBT8xgYg2fQDgu/YucaOU8=;
+        b=mkOlFAvkF2wAHm8mx88QNPvPh5mfohbDkI3OyD/pt+7hfBIbvliJSPIg0MNVl6hotx
+         QHfpe3mGIRql47z9/fZ7sQt6mBPpUZnyLzujdQd3++NUPmCeWwsmw51oij8UktJWm/E8
+         +ajhpETCaenD5Obh4nUI02SCsL/5HvMRN4lAfRyhWKNSfOVHAnqd0yZee7762goeQ0Wk
+         ZnBYQjGIleqVRhb/EDTlhCJsKJGtlxUIKi6aQ1G5FoN/C0uzyocoBmdMbFk2uVVU9s9c
+         N7d/WGbLJR5KwkrjkWi0RwuDBLIgD4K1awGFxR3cQuV1dB5dJuWJduiu7ZO0Qc5uVheN
+         Gg+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=9bFg+OiKZow6eosaxulZE028Qcn/m8exZWucwvrefjE=;
-        b=l201opH+WYIhdB+yjNKbgwIJKY4b4qt7fLRKBp1u3hWf1G5KxnJm5QtvdiOFOJW73G
-         LfrZf5XZH/MRxizNX57qutjHYaVblKdB6TMGiWOE1ROcimuASZo30EvTM6Ec+YbXAL0R
-         oEYWR6cRGJpMhwIiO29CgaWDjCRs29qQmHJ5iQM9D0GIbzTzXonRzwlV3egvR1yUgQ5c
-         veHIRnWpcOXfT7Nb1OxgzMkkLEqYKnm9SpRT9qdyemLxahzp1bRppD3H1lrilCpNUGEi
-         R0jQXOVhHhHOUOb81/jE45g5h9n0S4MEnoPhnnFKGRUBOrWkPIFewQpPz1hogZZAGc+H
-         yalA==
-X-Gm-Message-State: AOAM531m1CIw3xNuUFNT+0Zxj+psaQvmdMITS2corzg1RKvQlORf6M0n
-	jgd4jxrP2aq26ZUPeR1D5H8=
-X-Google-Smtp-Source: ABdhPJzAPgH3WjiP5IaxeTF5IudXgo8/vuna6SaUzLZNnYoFRElogihiYo1f/wMfIZgrRl4dr86Krw==
-X-Received: by 2002:a05:6830:1f52:: with SMTP id u18mr7868318oth.298.1621414976992;
-        Wed, 19 May 2021 02:02:56 -0700 (PDT)
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=7+JDPl2pxgpmR4iympR7CkBT8xgYg2fQDgu/YucaOU8=;
+        b=BukIN+TjvtLukWNDxOgo1iWtu4WJHAizoQ/hYi8m2N//WI4rtm8OcmfMGb1MQPfJHV
+         yHcKZVaYsNIzbYqfALNJ5bK5FgDSfJovPdUpkTo0dSmzxgRLdhdUACIsm/qnxAcIQfIS
+         jeH5SOFXnC5HG9oZta9pdJb9hOt0JMrJqVHsqjVfygdJ5x25ZVhzsIST3puiWUVPaFkd
+         yOnwWeLcFCnI4UedOA791DTtjSf4yMwWyFU0dB4FzmoxwrH1kkl86xvcLS+6iuaMKIC1
+         946JEo5kLnBXa+6uH34y+6D1EGcJtJE4MLBUOpRXQlhaPcQQaY2Ayh9wcknPdyhaJTdt
+         WmCw==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM533hYxOul1DmBQNoDzLKKMOSDhx5kXlBBY2/AuIfVs8l5CXcme/1
+	BB/wgJkdciI4vBJyAk35v+Q=
+X-Google-Smtp-Source: ABdhPJzHPNwZyMaW22x+bT2UJv8Z/GzIvTQ7ih1J20MM9AdYCOVRiEeGyXDhw4HDjm9VyynZfByOXw==
+X-Received: by 2002:a02:a10f:: with SMTP id f15mr245403jag.124.1621447982393;
+        Wed, 19 May 2021 11:13:02 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:aca:d487:: with SMTP id l129ls6233490oig.11.gmail; Wed, 19
- May 2021 02:02:56 -0700 (PDT)
-X-Received: by 2002:a54:4e81:: with SMTP id c1mr7618963oiy.119.1621414976608;
-        Wed, 19 May 2021 02:02:56 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1621414976; cv=none;
+Received: by 2002:a05:6602:1506:: with SMTP id g6ls16341iow.9.gmail; Wed, 19
+ May 2021 11:13:02 -0700 (PDT)
+X-Received: by 2002:a5e:9e4a:: with SMTP id j10mr847329ioq.52.1621447981965;
+        Wed, 19 May 2021 11:13:01 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1621447981; cv=none;
         d=google.com; s=arc-20160816;
-        b=M7FFe4V9tJKjIqbeA17RV3k83ZHFmuH3GFQEhS2mxjcETc6LeN60hwc0gGamqh6Rfk
-         YpNpctnbecX8oEdDYBfY3C+rMTcpobtrNgDiSgNOoDqGOMttYX66/Hj/OtwGSrOOvk1p
-         pEF7IaenUrk2CWQhjc4g4Rw6zJasJ7qM7Z1BAZVehYELxruwkbkyR5X8BkXN2Ed7tn5S
-         UrLtHCHvK2aBxUe2leB79ecQxi58eEatXo6tqw7ciutmgryrCOhiv4TskBk6i+gSFBAP
-         2a+ZkrYHTS8lfXXL2Po8VS7ob4BDjsD5gqiHmCvn1zDJBCsK9mZCsAf2RRdC7/7qaqgc
-         qYtQ==
+        b=pVtjJ4T7V/izHtm34o2wEnjYRUDxcAwHeyHhdeBSmXHh1eDVvM6Yu7w7BkmsuA5BXN
+         YeJw0hb1BLqURh3iUxJpXnUczoEUx0Al1lXXdytRuEcwLg48FZe1J+B8jE9ye78C8Uii
+         eh9Qz7+7btPVLA+2nrcWIJHLwWnHXkJeHiiASxMzcjdXkDWlnwlXBr2TZDdYa8LKbYeI
+         OLU+iWnebpf1N18p4XXAQz5KTYlyHlIKTCX7Nfhmb9l6BY8I1G/FuAk4NN/yRg0IkOjr
+         1P3aATck2OE2AY1DUJEdfthJDZBRQMPAbRRRlpYgHqO/Tce8bBExYYnvkAGyMMULrCKw
+         XAIA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=zVuRM5Cvw95EXFNT1B3YV+ow+Bdf9kLj0bSesSiCR4c=;
-        b=tyKZ4l/WCDmQmVl3GOs+wa7m82m0mFwGU31z/tST/AeObOMrltZGjKWshFUC0h58Pd
-         rBCuQdnY21VuQfFLSzUZ2ffdA9MWBnksYs7VMl7Sj8CCENkTBbVQ3e6QPjbXJAh6ZRpf
-         u3Iel0rWfc8BWbL9S3bmqlflvLW9U7MkesPUmIb2rCvTUaS6ol2QFOGDddqqpY0P1aEe
-         b2E+SL9KNW5DbrPWYZUm2xOoTFd0/qjYfKcHsOu7Js0gJaF8kYgxW3Dem1BD4bGp9goQ
-         WofJD40/oUnK9Bam2NUGQz6XFmkijjwQar3nUcs+qflfa6CbyC/RFKURdGNOfyoYa3KY
-         /APA==
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date;
+        bh=46gq6Y9W8CzFkwjoy9hWLKn2qwp7R+ob1Xtw/3ebtAo=;
+        b=OpwX5I8UBA5TAhfR16zjT1K9x2s9kNphpF4JLiJW3JChaLnuVdfZNLb0oCTUqfmTFN
+         MXj/j6OwgbuU+37ZQSpYUAU1LeZFhyVKPdBfzfut7T3kCrYeN/AB1MnXSMgC6Zq+d2bF
+         jwc11GFvn+C+/Vn8Xj90wxSJ5WQtRm58XJsCPxwKeKu6sj1U+ksrbLoRqIH/MplzymPc
+         PjInJI+iXjSTMwJwhhzyVhhQh0Ws4o5/kx6hlpcb66TpbkzMDYYdPAYXFUphalWbERUu
+         d7OlqtayAyE/LSj8intA54Jwbq1UEy3N4p4LJVlDiJ7MmPwHlOUdScBgbTMtSzlebE+q
+         w8mg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=C8EmKK0c;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::22b as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com. [2607:f8b0:4864:20::22b])
-        by gmr-mx.google.com with ESMTPS id 12si1706741oin.2.2021.05.19.02.02.56
+       spf=pass (google.com: domain of cmarinas@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=cmarinas@kernel.org;
+       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=arm.com
+Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
+        by gmr-mx.google.com with ESMTPS id z2si31569ilo.2.2021.05.19.11.13.01
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 19 May 2021 02:02:56 -0700 (PDT)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::22b as permitted sender) client-ip=2607:f8b0:4864:20::22b;
-Received: by mail-oi1-x22b.google.com with SMTP id w127so8658077oig.12
-        for <kasan-dev@googlegroups.com>; Wed, 19 May 2021 02:02:56 -0700 (PDT)
-X-Received: by 2002:a05:6808:f94:: with SMTP id o20mr7439091oiw.121.1621414976129;
- Wed, 19 May 2021 02:02:56 -0700 (PDT)
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 19 May 2021 11:13:01 -0700 (PDT)
+Received-SPF: pass (google.com: domain of cmarinas@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 91AD4611BF;
+	Wed, 19 May 2021 18:12:59 +0000 (UTC)
+Date: Wed, 19 May 2021 19:12:57 +0100
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: Peter Collingbourne <pcc@google.com>
+Cc: Evgenii Stepanov <eugenis@google.com>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Dmitry Vyukov <dvyukov@google.com>, Will Deacon <will@kernel.org>,
+	Steven Price <steven.price@arm.com>,
+	kasan-dev <kasan-dev@googlegroups.com>,
+	Linux ARM <linux-arm-kernel@lists.infradead.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v3] kasan: speed up mte_set_mem_tag_range
+Message-ID: <20210519181225.GF21619@arm.com>
+References: <20210517235546.3038875-1-eugenis@google.com>
+ <20210518174439.GA28491@arm.com>
+ <CAMn1gO5TmJZ4M4EyQ60VMc2-acUZSYkaB9M0C9kOv_dXQe54Ug@mail.gmail.com>
 MIME-Version: 1.0
-References: <20210512181836.GA3445257@paulmck-ThinkPad-P17-Gen-1>
- <CACT4Y+Z+7qPaanHNQc4nZ-mCfbqm8B0uiG7OtsgdB34ER-vDYA@mail.gmail.com>
- <20210517164411.GH4441@paulmck-ThinkPad-P17-Gen-1> <CANpmjNPbXmm9jQcquyrNGv4M4+KW_DgcrXHsgDtH=tYQ6=RU4Q@mail.gmail.com>
- <20210518204226.GR4441@paulmck-ThinkPad-P17-Gen-1>
-In-Reply-To: <20210518204226.GR4441@paulmck-ThinkPad-P17-Gen-1>
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Wed, 19 May 2021 11:02:43 +0200
-Message-ID: <CANpmjNN+nS1CAz=0vVdJLAr_N+zZxqp3nm5cxCCiP-SAx3uSyA@mail.gmail.com>
-Subject: Re: "Learning-based Controlled Concurrency Testing"
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: Dmitry Vyukov <dvyukov@google.com>, syzkaller <syzkaller@googlegroups.com>, 
-	kasan-dev <kasan-dev@googlegroups.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=C8EmKK0c;       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::22b as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+Content-Disposition: inline
+In-Reply-To: <CAMn1gO5TmJZ4M4EyQ60VMc2-acUZSYkaB9M0C9kOv_dXQe54Ug@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Original-Sender: catalin.marinas@arm.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of cmarinas@kernel.org designates 198.145.29.99 as
+ permitted sender) smtp.mailfrom=cmarinas@kernel.org;       dmarc=fail (p=NONE
+ sp=NONE dis=NONE) header.from=arm.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -132,73 +135,48 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, 18 May 2021 at 22:42, Paul E. McKenney <paulmck@kernel.org> wrote:
-[...]
-> > All the above sound like "functional coverage" to me, and could be
-> > implemented on top of a well-thought-out functional coverage API.
-> > Functional coverage is common in the hardware verification space to
-> > drive simulation and model checking; for example, functional coverage
-> > could be "buffer is full" vs just structural (code) coverage which
-> > cannot capture complex state properties like that easily.
-> >
-> > Similarly, you could then say things like "number of held locks" or
-> > even alluding to your example (5) above, "observed race on address
-> > range". In the end, with decent functional coverage abstractions,
-> > anything should hopefully be possible.
->
-> Those were in fact the lines along which I was thinking.
->
-> > I've been wondering if this could be something useful for the Linux
-> > kernel, but my guess has always been that it'd not be too-well
-> > received because people don't like to see strange annotations in their
-> > code. But maybe I'm wrong.
->
-> I agree that it is much easier to get people to use a tool that does not
-> require annotations.  In fact, it is best if it requires nothing at all
-> from them...
+On Tue, May 18, 2021 at 11:11:52AM -0700, Peter Collingbourne wrote:
+> On Tue, May 18, 2021 at 10:44 AM Catalin Marinas
+> <catalin.marinas@arm.com> wrote:
+> > If we want to get the best performance out of this, we should look at
+> > the memset implementation and do something similar. In principle it's
+> > not that far from a memzero, though depending on the microarchitecture
+> > it may behave slightly differently.
+> 
+> For Scudo I compared our storeTags implementation linked above against
+> __mtag_tag_zero_region from the arm-optimized-routines repository
+> (which I think is basically an improved version of that memset
+> implementation rewritten to use STG and DC GZVA), and our
+> implementation performed better on the hardware that we have access
+> to.
 
-While I'd like to see something like that, because it'd be beneficial
-to see properties of the code written down to document its behaviour
-better and at the same time machine checkable, like you say, if it
-requires additional effort, it's a difficult sell. (Although the same
-is true for all other efforts to improve reliability that require a
-departure from the "way it used to be done", be it data_race(), or
-even efforts introducing whole new programming languages to the
-kernel.)
+That's the advantage of having hardware early ;).
 
-> > My ideal abstractions I've been thinking of isn't just for coverage,
-> > but to also capture temporal properties (which should be inspired by
-> > something like LTL or such), on top of which you can also build
-> > coverage. Then we can specify things like "if I observe some state X,
-> > then eventually we observe state Y", and such logic can also just be
-> > used to define functional coverage of interest (again all this
-> > inspired by what's already done in hardware verification).
->
-> Promela/spin provides an LTL interface, but of course cannot handle
-> much of RCU, let alone of the entire kernel.  And LTL can be quite
-> useful.  But in a runtime system, how do you decide when "eventually"
-> has arrived?  The lockdep system does so by tracking entry to idle
-> and to userspace execution, along with exit from interrupt handlers.
-> Or did you have something else in mind?
+> > Anyway, before that I wonder if we wrote all this in C + inline asm
+> > (three while loops or maybe two and some goto), what's the performance
+> > difference? It has the advantage of being easier to maintain even if we
+> > used some C macros to generate gva/gzva variants.
+> 
+> I'm not sure I agree that it will be easier to maintain. Due to the
+> number of "unusual" instructions required here it seems more readable
+> to have the code in pure assembly than to require readers to switch
+> contexts between C and asm. If we did move it to inline asm then I
+> think it should basically be a large blob of asm like the Scudo code
+> that I linked.
 
-For coverage, one could simply await the transition to the "eventually
-state" indefinitely; once reached we have coverage.
+I was definitely not thinking of a big asm block, that's even less
+readable than separate .S file. It's more like adding dedicated macros
+for single STG or DC GVA uses and using them in while loops.
 
-But for verification, because unlike explicit state model checkers
-like Spin, we don't have the complete state and can't build an
-exhaustive state-graph, we'd have to approximate. And without knowing
-exactly what it is we're waiting for, the simplest option would be to
-just rely on a timeout, either part of the property or implicit. What
-the units of that timeout are I'm not sure, because a system might
-e.g. be put to sleep.
+Anyway, let's see a better commented .S implementation first. Given that
+tagging is very sensitive to the performance of this function, we'd
+probably benefit from a (few percent I suspect) perf improvement with
+the hand-coded assembly.
 
-Also see Dmitry's answer, where he has concerns adding more dimensions
-to coverage.
-
-Thanks,
--- Marco
+-- 
+Catalin
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNN%2BnS1CAz%3D0vVdJLAr_N%2BzZxqp3nm5cxCCiP-SAx3uSyA%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210519181225.GF21619%40arm.com.
